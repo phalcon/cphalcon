@@ -470,7 +470,7 @@ PHP_METHOD(Phalcon_Utils_Scws, get_result){
 		phalcon_array_update_string_double(&row, SL("idf"), (double) cur->idf, 0);
 		phalcon_array_update_string_string(&row, SL("attr"), SL(cur->attr), PH_COPY);
 
-		phalcon_array_append(&return_value, row, 0);
+		phalcon_array_append(&return_value, row, PH_COPY | PH_SEPARATE);
 		
 		cur = cur->next;
 	}
@@ -489,7 +489,7 @@ PHP_METHOD(Phalcon_Utils_Scws, get_result){
  */
 PHP_METHOD(Phalcon_Utils_Scws, get_tops){
 	
-	zval *limit, *options = NULL, *scws, *row;
+	zval *limit, *options = NULL, *scws, *row = NULL;
 	struct php_scws *ps;
 	scws_top_t top, cur;
 	long num = 10;
@@ -523,12 +523,12 @@ PHP_METHOD(Phalcon_Utils_Scws, get_tops){
 		PHALCON_INIT_NVAR(row);
 		array_init(row);
 
-		phalcon_array_update_string_string(&row, SL("word"), SL(cur->word), PH_COPY);
+		phalcon_array_update_string_string(&row, SL("word"), cur->word, strlen(cur->word), 0);
 		phalcon_array_update_string_long(&row, SL("times"), cur->times, 0);
 		phalcon_array_update_string_double(&row, SL("weight"), (double) cur->weight, 0);
-		phalcon_array_update_string_string(&row, SL("attr"), SL(cur->attr), PH_COPY);
+		phalcon_array_update_string_string(&row, SL("attr"), SL(cur->attr), 0);
 
-		phalcon_array_append(&return_value, row, 0);
+		phalcon_array_append(&return_value, row, PH_COPY | PH_SEPARATE);
 		
 		cur = cur->next;
 	}
@@ -579,7 +579,7 @@ PHP_METHOD(Phalcon_Utils_Scws, has_word){
  */
 PHP_METHOD(Phalcon_Utils_Scws, get_words){
 	
-	zval *options, *scws, *row;
+	zval *options, *scws, *row = NULL;
 	struct php_scws *ps;
 	scws_top_t top, cur;
 	char *attr = NULL;
@@ -606,12 +606,12 @@ PHP_METHOD(Phalcon_Utils_Scws, get_words){
 		PHALCON_INIT_NVAR(row);
 		array_init(row);
 
-		phalcon_array_update_string_string(&row, SL("word"), SL(cur->word), PH_COPY);
+		phalcon_array_update_string_string(&row, SL("word"), cur->word, strlen(cur->word), 0);
 		phalcon_array_update_string_long(&row, SL("times"), cur->times, 0);
 		phalcon_array_update_string_double(&row, SL("weight"), (double) cur->weight, 0);
-		phalcon_array_update_string_string(&row, SL("attr"), SL(cur->attr), PH_COPY);
+		phalcon_array_update_string_string(&row, SL("attr"), SL(cur->attr), 0);
 
-		phalcon_array_append(&return_value, row, 0);
+		phalcon_array_append(&return_value, row, PH_COPY | PH_SEPARATE);
 
 		cur = cur->next;
 	}
