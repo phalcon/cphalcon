@@ -291,7 +291,7 @@ PHP_METHOD(Phalcon_Escaper, escapeHtml){
 		return;
 	}
 
-	RETURN_CCTORW(text);
+	RETURN_ZVAL(text, 1, 0);
 }
 
 /**
@@ -318,7 +318,7 @@ PHP_METHOD(Phalcon_Escaper, escapeHtmlAttr){
 		return;
 	}
 
-	RETURN_CCTORW(attribute);
+	RETURN_ZVAL(attribute, 1, 0);
 }
 
 /**
@@ -349,7 +349,7 @@ PHP_METHOD(Phalcon_Escaper, escapeCss){
 		RETURN_MM();
 	}
 
-	RETURN_CCTORW(css);
+	RETURN_ZVAL(css, 1, 0);
 }
 
 /**
@@ -380,7 +380,7 @@ PHP_METHOD(Phalcon_Escaper, escapeJs){
 		RETURN_MM();
 	}
 
-	RETURN_CCTORW(js);
+	RETURN_ZVAL(js, 1, 0);
 }
 
 /**

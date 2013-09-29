@@ -203,10 +203,9 @@ PHP_METHOD(Phalcon_DI_Service, resolve){
 	 */
 	if (zend_is_true(shared)) {
 	
-		PHALCON_OBS_VAR(shared_instance);
-		phalcon_read_property_this(&shared_instance, this_ptr, SL("_sharedInstance"), PH_NOISY_CC);
+		shared_instance = phalcon_fetch_nproperty_this(this_ptr, SL("_sharedInstance"), PH_NOISY_CC);
 		if (Z_TYPE_P(shared_instance) != IS_NULL) {
-			RETURN_CCTOR(shared_instance);
+			RETURN_CTOR(shared_instance);
 		}
 	}
 	
@@ -282,7 +281,7 @@ PHP_METHOD(Phalcon_DI_Service, resolve){
 		phalcon_update_property_this(this_ptr, SL("_sharedInstance"), instance TSRMLS_CC);
 	}
 	
-	RETURN_CCTOR(instance);
+	RETURN_CTOR(instance);
 }
 
 /**
@@ -353,37 +352,30 @@ PHP_METHOD(Phalcon_DI_Service, getParameter){
 
 	zval *position, *definition, *arguments, *parameter;
 
-	PHALCON_MM_GROW();
-
-	phalcon_fetch_params(1, 1, 0, &position);
+	phalcon_fetch_params(0, 1, 0, &position);
 	
-	PHALCON_OBS_VAR(definition);
-	phalcon_read_property_this(&definition, this_ptr, SL("_definition"), PH_NOISY_CC);
+	definition = phalcon_fetch_nproperty_this(this_ptr, SL("_definition"), PH_NOISY_CC);
 	if (Z_TYPE_P(definition) != IS_ARRAY) { 
-		PHALCON_THROW_EXCEPTION_STR(phalcon_di_exception_ce, "Definition must be an array to obtain its parameters");
+		PHALCON_THROW_EXCEPTION_STRW(phalcon_di_exception_ce, "Definition must be an array to obtain its parameters");
 		return;
 	}
 	
 	if (Z_TYPE_P(position) != IS_LONG) {
-		PHALCON_THROW_EXCEPTION_STR(phalcon_di_exception_ce, "Position must be integer");
+		PHALCON_THROW_EXCEPTION_STRW(phalcon_di_exception_ce, "Position must be integer");
 		return;
 	}
 	
 	/** 
 	 * Update the parameter
 	 */
-	if (phalcon_array_isset_string(definition, SS("arguments"))) {
+	if (phalcon_array_isset_string_fetch(&arguments, definition, SS("arguments"))) {
 	
-		PHALCON_OBS_VAR(arguments);
-		phalcon_array_fetch_string(&arguments, definition, SL("arguments"), PH_NOISY);
-		if (phalcon_array_isset(arguments, position)) {
-			PHALCON_OBS_VAR(parameter);
-			phalcon_array_fetch(&parameter, arguments, position, PH_NOISY);
-			RETURN_CCTOR(parameter);
+		if (phalcon_array_isset_fetch(&parameter, arguments, position)) {
+			RETURN_ZVAL(parameter, 1, 0);
 		}
 	}
 	
-	RETURN_MM_NULL();
+	RETURN_NULL();
 }
 
 /**

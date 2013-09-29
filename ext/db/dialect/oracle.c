@@ -704,16 +704,16 @@ PHP_METHOD(Phalcon_Db_Dialect_Oracle, getSqlTable){
 			PHALCON_CPY_WRT(sql_table_alias, sql_schema);
 		}
 	
-		RETURN_CCTOR(sql_table_alias);
+		RETURN_CTOR(sql_table_alias);
 	}
 	
 	if (PHALCON_GLOBAL(db).escape_identifiers) {
 		PHALCON_INIT_NVAR(sql_table);
 		PHALCON_CONCAT_VVV(sql_table, escape_char, table, escape_char);
-		RETURN_CCTOR(sql_table);
+		RETURN_CTOR(sql_table);
 	}
 	
-	RETURN_CCTOR(table);
+	RETURN_CTOR(table);
 }
 
 /**
@@ -748,7 +748,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Oracle, limit){
 		RETURN_CTOR(sql_limit);
 	}
 
-	RETURN_CCTOR(sql_query);
+	RETURN_CTOR(sql_query);
 }
 
 /**

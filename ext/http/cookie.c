@@ -283,23 +283,23 @@ PHP_METHOD(Phalcon_Http_Cookie, getValue){
 				PHALCON_INIT_VAR(sanitized_value);
 				phalcon_call_method_p2(sanitized_value, filter, "sanitize", decrypted_value, filters);
 	
-				RETURN_CCTOR(sanitized_value);
+				RETURN_CTOR(sanitized_value);
 			}
 	
 			/** 
 			 * Return the value without filtering
 			 */
 	
-			RETURN_CCTOR(decrypted_value);
+			RETURN_CTOR(decrypted_value);
 		}
 	
-		RETURN_CCTOR(default_value);
+		RETURN_CTOR(default_value);
 	}
 	
 	PHALCON_OBS_NVAR(value);
 	phalcon_read_property_this(&value, this_ptr, SL("_value"), PH_NOISY_CC);
 	
-	RETURN_CCTOR(value);
+	RETURN_CTOR(value);
 }
 
 /**
@@ -647,7 +647,7 @@ PHP_METHOD(Phalcon_Http_Cookie, getExpiration){
 	PHALCON_OBS_VAR(expire);
 	phalcon_read_property_this(&expire, this_ptr, SL("_expire"), PH_NOISY_CC);
 	
-	RETURN_CCTOR(expire);
+	RETURN_CTOR(expire);
 }
 
 /**
@@ -695,7 +695,7 @@ PHP_METHOD(Phalcon_Http_Cookie, getPath){
 	PHALCON_OBS_VAR(path);
 	phalcon_read_property_this(&path, this_ptr, SL("_path"), PH_NOISY_CC);
 	
-	RETURN_CCTOR(path);
+	RETURN_CTOR(path);
 }
 
 /**
@@ -743,7 +743,7 @@ PHP_METHOD(Phalcon_Http_Cookie, getDomain){
 	PHALCON_OBS_VAR(domain);
 	phalcon_read_property_this(&domain, this_ptr, SL("_domain"), PH_NOISY_CC);
 	
-	RETURN_CCTOR(domain);
+	RETURN_CTOR(domain);
 }
 
 /**
@@ -791,7 +791,7 @@ PHP_METHOD(Phalcon_Http_Cookie, getSecure){
 	PHALCON_OBS_VAR(secure);
 	phalcon_read_property_this(&secure, this_ptr, SL("_secure"), PH_NOISY_CC);
 	
-	RETURN_CCTOR(secure);
+	RETURN_CTOR(secure);
 }
 
 /**
@@ -839,7 +839,7 @@ PHP_METHOD(Phalcon_Http_Cookie, getHttpOnly){
 	PHALCON_OBS_VAR(http_only);
 	phalcon_read_property_this(&http_only, this_ptr, SL("_httpOnly"), PH_NOISY_CC);
 	
-	RETURN_CCTOR(http_only);
+	RETURN_CTOR(http_only);
 }
 
 /**
@@ -849,17 +849,16 @@ PHP_METHOD(Phalcon_Http_Cookie, getHttpOnly){
  */
 PHP_METHOD(Phalcon_Http_Cookie, __toString){
 
-	zval *value = NULL;
+	zval *value;
 
 	PHALCON_MM_GROW();
 
-	PHALCON_OBS_VAR(value);
-	phalcon_read_property_this(&value, this_ptr, SL("_value"), PH_NOISY_CC);
+	value = phalcon_fetch_nproperty_this(this_ptr, SL("_value"), PH_NOISY_CC);
 	if (Z_TYPE_P(value) == IS_NULL) {
-		PHALCON_INIT_NVAR(value);
-		phalcon_call_method(value, this_ptr, "getvalue");
+		phalcon_return_call_method_p0(this_ptr, "getvalue");
+		RETURN_MM();
 	}
 	
-	RETURN_CCTOR(value);
+	RETURN_CTOR(value);
 }
 

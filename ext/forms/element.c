@@ -695,26 +695,24 @@ PHP_METHOD(Phalcon_Forms_Element, getValue){
  */
 PHP_METHOD(Phalcon_Forms_Element, getMessages){
 
-	zval *messages = NULL;
+	zval *messages;
 
 	PHALCON_MM_GROW();
 
 	/** 
 	 * Get the related form
 	 */
-	PHALCON_OBS_VAR(messages);
-	phalcon_read_property_this(&messages, this_ptr, SL("_messages"), PH_NOISY_CC);
+	messages = phalcon_fetch_nproperty_this(this_ptr, SL("_messages"), PH_NOISY_CC);
 	if (Z_TYPE_P(messages) == IS_OBJECT) {
-		RETURN_CCTOR(messages);
+		RETURN_CTOR(messages);
 	}
 	
-	PHALCON_INIT_NVAR(messages);
-	object_init_ex(messages, phalcon_validation_message_group_ce);
-	phalcon_call_method_noret(messages, "__construct");
+	object_init_ex(return_value, phalcon_validation_message_group_ce);
+	phalcon_call_method_noret(return_value, "__construct");
 	
-	phalcon_update_property_this(this_ptr, SL("_messages"), messages TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_messages"), return_value TSRMLS_CC);
 	
-	RETURN_CCTOR(messages);
+	PHALCON_MM_RESTORE();
 }
 
 /**

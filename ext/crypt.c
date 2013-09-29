@@ -431,7 +431,7 @@ PHP_METHOD(Phalcon_Crypt, encrypt){
 	if (!key || Z_TYPE_P(key) == IS_NULL) {
 		encrypt_key = phalcon_fetch_nproperty_this(this_ptr, SL("_key"), PH_NOISY_CC);
 	} else {
-		PHALCON_CPY_WRT(encrypt_key, key);
+		PHALCON_CPY_WRT_CTOR(encrypt_key, key);
 		if (Z_TYPE_P(encrypt_key) != IS_STRING) {
 			convert_to_string(encrypt_key);
 		}

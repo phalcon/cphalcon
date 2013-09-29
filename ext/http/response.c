@@ -216,23 +216,20 @@ PHP_METHOD(Phalcon_Http_Response, setHeaders){
  */
 PHP_METHOD(Phalcon_Http_Response, getHeaders){
 
-	zval *headers = NULL;
+	zval *headers;
 
-	PHALCON_MM_GROW();
-
-	PHALCON_OBS_VAR(headers);
-	phalcon_read_property_this(&headers, this_ptr, SL("_headers"), PH_NOISY_CC);
+	headers = phalcon_fetch_nproperty_this(this_ptr, SL("_headers"), PH_NOISY_CC);
 	if (Z_TYPE_P(headers) == IS_NULL) {
 		/** 
 		 * A Phalcon\Http\Response\Headers bag is temporary used to manage the headers
-		 * before sent them to the client
+		 * before sending them to the client
 		 */
-		PHALCON_INIT_NVAR(headers);
-		object_init_ex(headers, phalcon_http_response_headers_ce);
-		phalcon_update_property_this(this_ptr, SL("_headers"), headers TSRMLS_CC);
+		object_init_ex(return_value, phalcon_http_response_headers_ce);
+		phalcon_update_property_this(this_ptr, SL("_headers"), return_value TSRMLS_CC);
+		return;
 	}
 	
-	RETURN_CCTOR(headers);
+	RETURN_ZVAL(headers, 1, 0);
 }
 
 /**

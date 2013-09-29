@@ -325,7 +325,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, getOrCreateTransaction){
 				if (Z_TYPE_P(transaction) == IS_OBJECT) {
 					false_value = PHALCON_GLOBAL(z_false);
 					phalcon_call_method_p1_noret(transaction, "setisnewtransaction", false_value);
-					RETURN_CCTOR(transaction);
+					RETURN_CTOR(transaction);
 				}
 	
 				zend_hash_move_backwards_ex(ah0, &hp0);

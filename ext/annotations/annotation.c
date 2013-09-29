@@ -285,14 +285,7 @@ PHP_METHOD(Phalcon_Annotations_Annotation, getArgument){
 	
 	arguments = phalcon_fetch_nproperty_this(this_ptr, SL("_arguments"), PH_NOISY_CC);
 	if (phalcon_array_isset_fetch(&tmp, arguments, position)) {
-		Z_ADDREF_P(tmp);
-		if (return_value_ptr) {
-			zval_ptr_dtor(return_value_ptr);
-			*return_value_ptr = tmp;
-		}
-		else {
-			RETURN_ZVAL(tmp, 1, 0);
-		}
+		RETURN_ZVAL(tmp, 1, 0);
 	}
 }
 
