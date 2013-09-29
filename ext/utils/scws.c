@@ -70,8 +70,8 @@ static ZEND_RSRC_DTOR_FUNC(php_scws_dtor)
 
 		scws_free(ps->s);
 		
-		if (ps->zt != NULL) {
-			ZVAL_DELREF(x);
+		if (ps->zt) {
+			zval_ptr_dtor(ps->zt);
 			ps->zt = NULL;
 		}
 		efree(ps);
@@ -426,7 +426,12 @@ PHP_METHOD(Phalcon_Utils_Scws, send_text){
 
 	ZEND_FETCH_RESOURCE(ps, struct php_scws *, &scws, -1, PHALCON_SCWS_OBJECT_TAG, le_scws);
 
-	PHALCON_CPY_WRT_CTOR(ps->zt, text);
+	if (ps->zt) {
+		zval_ptr_dtor(ps->zt);
+	}
+
+	ALLOC_INIT_ZVAL(ps->zt);
+	ZVAL_ZVAL(ps->zt, text, 1, 0);
 
 	scws_send_text(ps->s, Z_STRVAL_P(ps->zt), Z_STRLEN_P(ps->zt));
 
@@ -459,9 +464,10 @@ PHP_METHOD(Phalcon_Utils_Scws, get_result){
 		PHALCON_INIT_NVAR(row);
 		array_init(row);
 
-		phalcon_array_update_string_string(&row, SL("word"), SL(cur->word), PH_COPY);
-		phalcon_array_update_string_long(&row, SL("times"), cur->times, 0);
-		phalcon_array_update_string_double(&row, SL("weight"), (double) cur->weight, 0);
+		phalcon_array_update_string_string(&row, SL("word"), ps->s->txt + cur->off, cur->len, PH_COPY);
+		phalcon_array_update_string_long(&row, SL("off"), cur->off, 0);
+		phalcon_array_update_string_long(&row, SL("len"), cur->len, 0);
+		phalcon_array_update_string_double(&row, SL("idf"), (double) cur->idf, 0);
 		phalcon_array_update_string_string(&row, SL("attr"), SL(cur->attr), PH_COPY);
 
 		phalcon_array_append(&return_value, row, 0);
