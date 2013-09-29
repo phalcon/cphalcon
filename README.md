@@ -69,7 +69,7 @@ if ($ret) {
 $scws = new Phalcon\Utils\Scws('utf8');
 $scws->set_dict("/var/www/dict.utf8.xdb");
 $scws->set_rule("/var/www/rule.utf8.ini");
-$scws->send_text("我是一个中国人,我会C++语言,我也有很多T恤衣服");
+$scws->send_text("I am a Chinese, I love peace, love life.");
 $tops = $scws->get_tops(5);
 $tmp = '';
 foreach($tops as $top) {
