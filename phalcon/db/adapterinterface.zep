@@ -429,21 +429,21 @@ interface AdapterInterface
      *
      * @return boolean
      */
-	public function begin();
+	public function begin(boolean nesting=true);
 
     /**
      * Rollbacks the active transaction in the connection
      *
      * @return boolean
      */
-	public function rollback();
+	public function rollback(boolean nesting=true);
 
     /**
      * Commits the active transaction in the connection
      *
      * @return boolean
      */
-	public function commit();
+	public function commit(boolean nesting=true);
 
 	/**
 	 * Checks whether connection is under database transaction

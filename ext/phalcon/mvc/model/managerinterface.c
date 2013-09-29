@@ -364,3 +364,12 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_ManagerInterface, missingMethod);
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_ManagerInterface, getLastQuery);
 
+/**
+ * Returns a relation by its alias
+ *
+ * @param string modelName
+ * @param string alias
+ * @return Phalcon\Mvc\Model\Relation
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_ManagerInterface, getRelationByAlias);
+

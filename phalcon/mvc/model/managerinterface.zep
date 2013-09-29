@@ -348,4 +348,13 @@ interface ManagerInterface
 	 */
 	public function getLastQuery();
 
+	/**
+	 * Returns a relation by its alias
+	 *
+	 * @param string modelName
+	 * @param string alias
+	 * @return Phalcon\Mvc\Model\Relation
+	 */
+	public function getRelationByAlias(string modelName, string alias);
+
 }

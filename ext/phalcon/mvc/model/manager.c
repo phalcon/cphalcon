@@ -625,3 +625,40 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getWriteConnectionService) {
 
 }
 
+/**
+ * Returns a relation by its alias
+ *
+ * @param string modelName
+ * @param string alias
+ * @return Phalcon\Mvc\Model\Relation
+ */
+PHP_METHOD(Phalcon_Mvc_Model_Manager, getRelationByAlias) {
+
+	zval *modelName_param = NULL, *alias_param = NULL, *aliases, *relation, *_0, *_1, *_2;
+	zval *modelName = NULL, *alias = NULL;
+
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 2, 0, &modelName_param, &alias_param);
+
+		zephir_get_strval(modelName, modelName_param);
+		zephir_get_strval(alias, alias_param);
+
+
+	ZEPHIR_OBS_VAR(aliases);
+	zephir_read_property_this(&aliases, this_ptr, SL("_aliases"), PH_NOISY_CC);
+	if ((Z_TYPE_P(aliases) == IS_ARRAY)) {
+		ZEPHIR_OBS_VAR(relation);
+		ZEPHIR_INIT_VAR(_0);
+		ZEPHIR_CONCAT_VS(_0, modelName, "$");
+		ZEPHIR_INIT_VAR(_1);
+		concat_function(_1, _0, alias TSRMLS_CC);
+		ZEPHIR_INIT_VAR(_2);
+		zephir_call_func_p1(_2, "strtolower", _1);
+		if (zephir_array_isset_fetch(&relation, aliases, _2 TSRMLS_CC)) {
+			RETURN_CCTOR(relation);
+		}
+	}
+	RETURN_MM_BOOL(0);
+
+}
+

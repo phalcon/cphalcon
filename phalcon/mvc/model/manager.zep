@@ -482,4 +482,23 @@ class Manager
 		return "db";
 	}
 
+	/**
+	 * Returns a relation by its alias
+	 *
+	 * @param string modelName
+	 * @param string alias
+	 * @return Phalcon\Mvc\Model\Relation
+	 */
+	public function getRelationByAlias(string modelName, string alias) -> <Phalcon\Mvc\Model\Relation>
+	{
+		var aliases, relation;
+		let aliases = this->_aliases;
+		if typeof aliases == "array" {
+			if fetch relation, aliases[strtolower(modelName . "$" . alias)] {
+				return relation;
+			}
+		}
+		return false;
+	}
+
 }

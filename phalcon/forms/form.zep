@@ -578,7 +578,7 @@ class Form extends Phalcon\Di\Injectable implements Countable, Iterator
 			/**
 			 * Check if the entity has a public property
 			 */
-			if fetch value, entity->name  {
+			if fetch value, entity->{name}  {
 				return value;
 			}
 		}
