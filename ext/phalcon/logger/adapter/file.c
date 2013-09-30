@@ -174,7 +174,6 @@ PHP_METHOD(Phalcon_Logger_Adapter_File, logInternal) {
 		time = zephir_get_intval(time_param);
 
 
-	ZEPHIR_OBS_VAR(fileHandler);
 	zephir_read_property_this(&fileHandler, this_ptr, SL("_fileHandler"), PH_NOISY_CC);
 	if (!(zephir_is_true(fileHandler))) {
 		ZEPHIR_THROW_EXCEPTION_STR(phalcon_logger_exception_ce, "Cannot send message to the log because it is invalid");
@@ -220,13 +219,11 @@ PHP_METHOD(Phalcon_Logger_Adapter_File, __wakeup) {
 
 	ZEPHIR_MM_GROW();
 
-	ZEPHIR_OBS_VAR(path);
 	zephir_read_property_this(&path, this_ptr, SL("_path"), PH_NOISY_CC);
 	if ((Z_TYPE_P(path) != IS_STRING)) {
 		ZEPHIR_THROW_EXCEPTION_STR(phalcon_logger_exception_ce, "Invalid data passed to Phalcon\\Logger\\Adapter\\File::__wakeup()");
 		return;
 	}
-	ZEPHIR_OBS_VAR(options);
 	zephir_read_property_this(&options, this_ptr, SL("_options"), PH_NOISY_CC);
 	ZEPHIR_OBS_VAR(mode);
 	if (!(zephir_array_isset_string_fetch(&mode, options, SS("mode") TSRMLS_CC))) {

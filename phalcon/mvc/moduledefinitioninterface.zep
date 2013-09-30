@@ -30,6 +30,7 @@ interface ModuleDefinitionInterface
 	/**
 	 * Registers an autoloader related to the module
 	 *
+	 * @param Phalcon\DiInterface dependencyInjector
 	 */
 	public function registerAutoloaders(<Phalcon\DiInterface> dependencyInjector=null);
 

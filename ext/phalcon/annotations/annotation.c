@@ -266,19 +266,16 @@ PHP_METHOD(Phalcon_Annotations_Annotation, getArgument) {
 	zval *position_param = NULL, *arguments;
 	int position;
 
-	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 0, &position_param);
+	zephir_fetch_params(0, 1, 0, &position_param);
 
 		position = zephir_get_intval(position_param);
 
 
-	ZEPHIR_OBS_VAR(arguments);
 	zephir_read_property_this(&arguments, this_ptr, SL("_arguments"), PH_NOISY_CC);
 	if (zephir_array_isset_long(arguments, position)) {
 		zephir_array_fetch_long(&return_value, arguments, position, PH_NOISY TSRMLS_CC);
-		RETURN_MM();
+		return;
 	}
-	ZEPHIR_MM_RESTORE();
 
 }
 
@@ -293,15 +290,13 @@ PHP_METHOD(Phalcon_Annotations_Annotation, hasArgument) {
 	zval *position_param = NULL, *arguments;
 	int position;
 
-	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 0, &position_param);
+	zephir_fetch_params(0, 1, 0, &position_param);
 
 		position = zephir_get_intval(position_param);
 
 
-	ZEPHIR_OBS_VAR(arguments);
 	zephir_read_property_this(&arguments, this_ptr, SL("_arguments"), PH_NOISY_CC);
-	RETURN_MM_BOOL(zephir_array_isset_long(arguments, position));
+	RETURN_BOOL(zephir_array_isset_long(arguments, position));
 
 }
 
@@ -322,7 +317,6 @@ PHP_METHOD(Phalcon_Annotations_Annotation, getNamedArgument) {
 		zephir_get_strval(name, name_param);
 
 
-	ZEPHIR_OBS_VAR(arguments);
 	zephir_read_property_this(&arguments, this_ptr, SL("_arguments"), PH_NOISY_CC);
 	ZEPHIR_OBS_VAR(argument);
 	if (zephir_array_isset_fetch(&argument, arguments, name TSRMLS_CC)) {

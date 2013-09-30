@@ -82,7 +82,6 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Php, render) {
 	ZEPHIR_INIT_VAR(status);
 	ZVAL_NULL(status);
 	if ((mustClean == 1)) {
-		ZEPHIR_OBS_VAR(view);
 		zephir_read_property_this(&view, this_ptr, SL("_view"), PH_NOISY_CC);
 		ZEPHIR_INIT_VAR(_0);
 		zephir_call_func(_0, "ob_get_contents");

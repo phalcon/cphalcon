@@ -194,7 +194,6 @@ PHP_METHOD(Phalcon_Mvc_Model, setEventsManager) {
 
 
 
-	ZEPHIR_OBS_VAR(modelsManager);
 	zephir_read_property_this(&modelsManager, this_ptr, SL("_modelsManager"), PH_NOISY_CC);
 	zephir_call_method_p2_noret(modelsManager, "setcustomeventsmanager", this_ptr, eventsManager);
 	ZEPHIR_MM_RESTORE();
@@ -212,7 +211,6 @@ PHP_METHOD(Phalcon_Mvc_Model, getEventsManager) {
 
 	ZEPHIR_MM_GROW();
 
-	ZEPHIR_OBS_VAR(modelsManager);
 	zephir_read_property_this(&modelsManager, this_ptr, SL("_modelsManager"), PH_NOISY_CC);
 	zephir_call_method_p1(return_value, modelsManager, "getcustomeventsmanager", this_ptr);
 	RETURN_MM();
@@ -340,7 +338,6 @@ PHP_METHOD(Phalcon_Mvc_Model, setSource) {
 		zephir_get_strval(source, source_param);
 
 
-	ZEPHIR_OBS_VAR(modelsManager);
 	zephir_read_property_this(&modelsManager, this_ptr, SL("_modelsManager"), PH_NOISY_CC);
 	zephir_call_method_p2_noret(modelsManager, "setmodelsource", this_ptr, source);
 	RETURN_THIS();
@@ -1762,16 +1759,14 @@ PHP_METHOD(Phalcon_Mvc_Model, validationHasFailed) {
 
 	zval *errorMessages;
 
-	ZEPHIR_MM_GROW();
 
-	ZEPHIR_OBS_VAR(errorMessages);
 	zephir_read_property_this(&errorMessages, this_ptr, SL("_errorMessages"), PH_NOISY_CC);
 	if ((Z_TYPE_P(errorMessages) == IS_ARRAY)) {
 		if (zephir_fast_count_int(errorMessages TSRMLS_CC)) {
-			RETURN_MM_BOOL(1);
+			RETURN_BOOL(1);
 		}
 	}
-	RETURN_MM_BOOL(0);
+	RETURN_BOOL(0);
 
 }
 
@@ -2058,7 +2053,6 @@ PHP_METHOD(Phalcon_Mvc_Model, _checkForeignKeysReverseRestrict) {
 
 	ZEPHIR_MM_GROW();
 
-	ZEPHIR_OBS_VAR(manager);
 	zephir_read_property_this(&manager, this_ptr, SL("_modelsManager"), PH_NOISY_CC);
 	ZEPHIR_INIT_VAR(relations);
 	zephir_call_method_p1(relations, manager, "gethasoneandhasmany", this_ptr);
@@ -2662,13 +2656,11 @@ PHP_METHOD(Phalcon_Mvc_Model, _doLowUpdate) {
 	array_init(values);
 	ZEPHIR_INIT_VAR(bindTypes);
 	array_init(bindTypes);
-	ZEPHIR_OBS_VAR(manager);
 	zephir_read_property_this(&manager, this_ptr, SL("_modelsManager"), PH_NOISY_CC);
 	ZEPHIR_INIT_VAR(_0);
 	zephir_call_method_p1(_0, manager, "isusingdynamicupdate", this_ptr);
 	useDynamicUpdate = (zephir_get_boolval(_0)) ? 1 : 0;
 	if (useDynamicUpdate) {
-		ZEPHIR_OBS_VAR(snapshot);
 		zephir_read_property_this(&snapshot, this_ptr, SL("_snapshot"), PH_NOISY_CC);
 		if ((Z_TYPE_P(snapshot) != IS_ARRAY)) {
 			useDynamicUpdate = 0;
@@ -2759,11 +2751,9 @@ PHP_METHOD(Phalcon_Mvc_Model, _doLowUpdate) {
 	if (!(zephir_fast_count_int(fields TSRMLS_CC))) {
 		RETURN_MM_BOOL(1);
 	}
-	ZEPHIR_OBS_VAR(uniqueKey);
 	zephir_read_property_this(&uniqueKey, this_ptr, SL("_uniqueKey"), PH_NOISY_CC);
 	ZEPHIR_OBS_VAR(uniqueParams);
 	zephir_read_property_this(&uniqueParams, this_ptr, SL("_uniqueParams"), PH_NOISY_CC);
-	ZEPHIR_OBS_VAR(uniqueTypes);
 	zephir_read_property_this(&uniqueTypes, this_ptr, SL("_uniqueTypes"), PH_NOISY_CC);
 	if ((Z_TYPE_P(uniqueParams) != IS_ARRAY)) {
 		ZEPHIR_INIT_VAR(primaryKeys);
@@ -3147,7 +3137,6 @@ PHP_METHOD(Phalcon_Mvc_Model, save) {
 	}
 	ZEPHIR_INIT_VAR(writeConnection);
 	zephir_call_method(writeConnection, this_ptr, "getwriteconnection");
-	ZEPHIR_OBS_VAR(related);
 	zephir_read_property_this(&related, this_ptr, SL("_related"), PH_NOISY_CC);
 	if ((Z_TYPE_P(related) == IS_ARRAY)) {
 		ZEPHIR_INIT_NVAR(_3);
@@ -3733,7 +3722,6 @@ PHP_METHOD(Phalcon_Mvc_Model, refresh) {
 		ZEPHIR_OBS_NVAR(uniqueKey);
 		zephir_read_property_this(&uniqueKey, this_ptr, SL("_uniqueKey"), PH_NOISY_CC);
 	}
-	ZEPHIR_OBS_VAR(uniqueParams);
 	zephir_read_property_this(&uniqueParams, this_ptr, SL("_uniqueParams"), PH_NOISY_CC);
 	if ((Z_TYPE_P(uniqueParams) != IS_ARRAY)) {
 		ZEPHIR_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "The record cannot be refreshed because it does not exist or is deleted");
@@ -4048,7 +4036,6 @@ PHP_METHOD(Phalcon_Mvc_Model, hasOne) {
 	}
 
 
-	ZEPHIR_OBS_VAR(manager);
 	zephir_read_property_this(&manager, this_ptr, SL("_modelsManager"), PH_NOISY_CC);
 	zephir_call_method_p5(return_value, manager, "addhasone", this_ptr, fields, referenceModel, referencedFields, options);
 	RETURN_MM();
@@ -4090,7 +4077,6 @@ PHP_METHOD(Phalcon_Mvc_Model, belongsTo) {
 	}
 
 
-	ZEPHIR_OBS_VAR(manager);
 	zephir_read_property_this(&manager, this_ptr, SL("_modelsManager"), PH_NOISY_CC);
 	zephir_call_method_p5(return_value, manager, "addbelongsto", this_ptr, fields, referenceModel, referencedFields, options);
 	RETURN_MM();
@@ -4134,7 +4120,6 @@ PHP_METHOD(Phalcon_Mvc_Model, hasMany) {
 	}
 
 
-	ZEPHIR_OBS_VAR(manager);
 	zephir_read_property_this(&manager, this_ptr, SL("_modelsManager"), PH_NOISY_CC);
 	zephir_call_method_p5(return_value, manager, "addhasmany", this_ptr, fields, referenceModel, referencedFields, options);
 	RETURN_MM();
@@ -4190,7 +4175,6 @@ PHP_METHOD(Phalcon_Mvc_Model, hasManyToMany) {
 	}
 
 
-	ZEPHIR_OBS_VAR(manager);
 	zephir_read_property_this(&manager, this_ptr, SL("_modelsManager"), PH_NOISY_CC);
 	zephir_call_method_p8(return_value, manager, "addhasmanytomany", this_ptr, fields, intermediateModel, intermediateFields, intermediateReferencedFields, referenceModel, referencedFields, options);
 	RETURN_MM();
@@ -4232,7 +4216,6 @@ PHP_METHOD(Phalcon_Mvc_Model, addBehavior) {
 
 
 
-	ZEPHIR_OBS_VAR(manager);
 	zephir_read_property_this(&manager, this_ptr, SL("_modelsManager"), PH_NOISY_CC);
 	zephir_call_method_p2_noret(manager, "addbehavior", this_ptr, behavior);
 	ZEPHIR_MM_RESTORE();
@@ -4269,7 +4252,6 @@ PHP_METHOD(Phalcon_Mvc_Model, keepSnapshots) {
 		keepSnapshot = zephir_get_boolval(keepSnapshot_param);
 
 
-	ZEPHIR_OBS_VAR(manager);
 	zephir_read_property_this(&manager, this_ptr, SL("_modelsManager"), PH_NOISY_CC);
 	zephir_call_method_p2_noret(manager, "keepsnapshots", this_ptr, (keepSnapshot ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false)));
 	ZEPHIR_MM_RESTORE();
@@ -4347,14 +4329,12 @@ PHP_METHOD(Phalcon_Mvc_Model, hasSnapshotData) {
 
 	zval *snapshot;
 
-	ZEPHIR_MM_GROW();
 
-	ZEPHIR_OBS_VAR(snapshot);
 	zephir_read_property_this(&snapshot, this_ptr, SL("_snapshot"), PH_NOISY_CC);
 	if ((Z_TYPE_P(snapshot) == IS_ARRAY)) {
-		RETURN_MM_BOOL(1);
+		RETURN_BOOL(1);
 	}
-	RETURN_MM_BOOL(0);
+	RETURN_BOOL(0);
 
 }
 
@@ -4390,7 +4370,6 @@ PHP_METHOD(Phalcon_Mvc_Model, hasChanged) {
 	}
 
 
-	ZEPHIR_OBS_VAR(snapshot);
 	zephir_read_property_this(&snapshot, this_ptr, SL("_snapshot"), PH_NOISY_CC);
 	if ((Z_TYPE_P(snapshot) != IS_ARRAY)) {
 		ZEPHIR_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "The record doesn't have a valid data snapshot");
@@ -4503,7 +4482,6 @@ PHP_METHOD(Phalcon_Mvc_Model, getChangedFields) {
 
 	ZEPHIR_MM_GROW();
 
-	ZEPHIR_OBS_VAR(snapshot);
 	zephir_read_property_this(&snapshot, this_ptr, SL("_snapshot"), PH_NOISY_CC);
 	if ((Z_TYPE_P(snapshot) != IS_ARRAY)) {
 		ZEPHIR_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "The record doesn't have a valid data snapshot");
@@ -4582,7 +4560,6 @@ PHP_METHOD(Phalcon_Mvc_Model, useDynamicUpdate) {
 		dynamicUpdate = zephir_get_boolval(dynamicUpdate_param);
 
 
-	ZEPHIR_OBS_VAR(manager);
 	zephir_read_property_this(&manager, this_ptr, SL("_modelsManager"), PH_NOISY_CC);
 	zephir_call_method_p2_noret(manager, "usedynamicupdate", this_ptr, (dynamicUpdate ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false)));
 	ZEPHIR_MM_RESTORE();
@@ -4610,7 +4587,6 @@ PHP_METHOD(Phalcon_Mvc_Model, getRelated) {
 	}
 
 
-	ZEPHIR_OBS_VAR(manager);
 	zephir_read_property_this(&manager, this_ptr, SL("_modelsManager"), PH_NOISY_CC);
 	ZEPHIR_INIT_VAR(className);
 	zephir_call_func_p1(className, "get_class", this_ptr);
@@ -4669,7 +4645,6 @@ PHP_METHOD(Phalcon_Mvc_Model, _getRelatedRecords) {
 		zephir_get_strval(method, method_param);
 
 
-	ZEPHIR_OBS_VAR(manager);
 	zephir_read_property_this(&manager, this_ptr, SL("_modelsManager"), PH_NOISY_CC);
 	ZEPHIR_INIT_VAR(relation);
 	ZVAL_BOOL(relation, 0);
@@ -4746,7 +4721,6 @@ PHP_METHOD(Phalcon_Mvc_Model, __call) {
 	if ((Z_TYPE_P(records) != IS_NULL)) {
 		RETURN_CCTOR(records);
 	}
-	ZEPHIR_OBS_VAR(modelsManager);
 	zephir_read_property_this(&modelsManager, this_ptr, SL("_modelsManager"), PH_NOISY_CC);
 	ZEPHIR_INIT_VAR(status);
 	zephir_call_method_p3(status, modelsManager, "missingmethod", this_ptr, method, arguments);

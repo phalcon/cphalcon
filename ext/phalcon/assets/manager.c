@@ -211,7 +211,6 @@ PHP_METHOD(Phalcon_Assets_Manager, addResourceByType) {
 		zephir_get_strval(type, type_param);
 
 
-	ZEPHIR_OBS_VAR(collections);
 	zephir_read_property_this(&collections, this_ptr, SL("_collections"), PH_NOISY_CC);
 	ZEPHIR_OBS_VAR(collection);
 	if (!(zephir_array_isset_fetch(&collection, collections, type TSRMLS_CC))) {
@@ -312,7 +311,6 @@ PHP_METHOD(Phalcon_Assets_Manager, get) {
 		zephir_get_strval(id, id_param);
 
 
-	ZEPHIR_OBS_VAR(collections);
 	zephir_read_property_this(&collections, this_ptr, SL("_collections"), PH_NOISY_CC);
 	ZEPHIR_OBS_VAR(collection);
 	if (!(zephir_array_isset_fetch(&collection, collections, id TSRMLS_CC))) {
@@ -342,7 +340,6 @@ PHP_METHOD(Phalcon_Assets_Manager, getCss) {
 
 	ZEPHIR_MM_GROW();
 
-	ZEPHIR_OBS_VAR(collections);
 	zephir_read_property_this(&collections, this_ptr, SL("_collections"), PH_NOISY_CC);
 	ZEPHIR_OBS_VAR(collection);
 	if (!(zephir_array_isset_string_fetch(&collection, collections, SS("css") TSRMLS_CC))) {
@@ -366,7 +363,6 @@ PHP_METHOD(Phalcon_Assets_Manager, getJs) {
 
 	ZEPHIR_MM_GROW();
 
-	ZEPHIR_OBS_VAR(collections);
 	zephir_read_property_this(&collections, this_ptr, SL("_collections"), PH_NOISY_CC);
 	ZEPHIR_OBS_VAR(collection);
 	if (!(zephir_array_isset_string_fetch(&collection, collections, SS("js") TSRMLS_CC))) {
@@ -396,7 +392,6 @@ PHP_METHOD(Phalcon_Assets_Manager, collection) {
 		zephir_get_strval(name, name_param);
 
 
-	ZEPHIR_OBS_VAR(collections);
 	zephir_read_property_this(&collections, this_ptr, SL("_collections"), PH_NOISY_CC);
 	ZEPHIR_OBS_VAR(collection);
 	if (!(zephir_array_isset_fetch(&collection, collections, name TSRMLS_CC))) {
@@ -424,7 +419,6 @@ PHP_METHOD(Phalcon_Assets_Manager, output) {
 
 
 
-	ZEPHIR_OBS_VAR(implicitOutput);
 	zephir_read_property_this(&implicitOutput, this_ptr, SL("_implicitOutput"), PH_NOISY_CC);
 	ZEPHIR_INIT_VAR(resources);
 	zephir_call_method(resources, collection, "getresources");
@@ -433,7 +427,6 @@ PHP_METHOD(Phalcon_Assets_Manager, output) {
 	ZEPHIR_INIT_VAR(prefix);
 	zephir_call_method(prefix, collection, "getprefix");
 	if ((Z_TYPE_P(filters) == IS_ARRAY)) {
-		ZEPHIR_OBS_VAR(options);
 		zephir_read_property_this(&options, this_ptr, SL("_options"), PH_NOISY_CC);
 		if ((Z_TYPE_P(options) == IS_ARRAY)) {
 			if (zephir_array_isset_string(options, SS("sourceBasePath"))) {

@@ -101,10 +101,8 @@ PHP_METHOD(Phalcon_Annotations_Reflection, getClassAnnotations) {
 
 	ZEPHIR_MM_GROW();
 
-	ZEPHIR_OBS_VAR(annotations);
 	zephir_read_property_this(&annotations, this_ptr, SL("_classAnnotations"), PH_NOISY_CC);
 	if ((Z_TYPE_P(annotations) != IS_OBJECT)) {
-		ZEPHIR_OBS_VAR(reflectionData);
 		zephir_read_property_this(&reflectionData, this_ptr, SL("_reflectionData"), PH_NOISY_CC);
 		ZEPHIR_OBS_VAR(reflectionClass);
 		if (zephir_array_isset_string_fetch(&reflectionClass, reflectionData, SS("class") TSRMLS_CC)) {
@@ -135,10 +133,8 @@ PHP_METHOD(Phalcon_Annotations_Reflection, getMethodsAnnotations) {
 
 	ZEPHIR_MM_GROW();
 
-	ZEPHIR_OBS_VAR(annotations);
 	zephir_read_property_this(&annotations, this_ptr, SL("_methodAnnotations"), PH_NOISY_CC);
 	if ((Z_TYPE_P(annotations) != IS_OBJECT)) {
-		ZEPHIR_OBS_VAR(reflectionData);
 		zephir_read_property_this(&reflectionData, this_ptr, SL("_reflectionData"), PH_NOISY_CC);
 		ZEPHIR_OBS_VAR(reflectionMethods);
 		if (zephir_array_isset_string_fetch(&reflectionMethods, reflectionData, SS("methods") TSRMLS_CC)) {
@@ -182,10 +178,8 @@ PHP_METHOD(Phalcon_Annotations_Reflection, getPropertiesAnnotations) {
 
 	ZEPHIR_MM_GROW();
 
-	ZEPHIR_OBS_VAR(annotations);
 	zephir_read_property_this(&annotations, this_ptr, SL("_propertyAnnotations"), PH_NOISY_CC);
 	if ((Z_TYPE_P(annotations) != IS_OBJECT)) {
-		ZEPHIR_OBS_VAR(reflectionData);
 		zephir_read_property_this(&reflectionData, this_ptr, SL("_reflectionData"), PH_NOISY_CC);
 		ZEPHIR_OBS_VAR(reflectionProperties);
 		if (zephir_array_isset_string_fetch(&reflectionProperties, reflectionData, SS("properties") TSRMLS_CC)) {

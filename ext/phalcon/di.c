@@ -208,7 +208,6 @@ PHP_METHOD(Phalcon_Di, attempt) {
 		ZEPHIR_THROW_EXCEPTION_STR(phalcon_di_exception_ce, "The service name must be a string");
 		return;
 	}
-	ZEPHIR_OBS_VAR(services);
 	zephir_read_property_this(&services, this_ptr, SL("_services"), PH_NOISY_CC);
 	if (!(zephir_array_isset(services, name))) {
 		ZEPHIR_INIT_VAR(service);
@@ -268,7 +267,6 @@ PHP_METHOD(Phalcon_Di, getRaw) {
 		ZEPHIR_THROW_EXCEPTION_STR(phalcon_di_exception_ce, "The service name must be a string");
 		return;
 	}
-	ZEPHIR_OBS_VAR(services);
 	zephir_read_property_this(&services, this_ptr, SL("_services"), PH_NOISY_CC);
 	if (zephir_array_isset(services, name)) {
 		ZEPHIR_OBS_VAR(service);
@@ -308,7 +306,6 @@ PHP_METHOD(Phalcon_Di, getService) {
 		ZEPHIR_THROW_EXCEPTION_STR(phalcon_di_exception_ce, "The service name must be a string");
 		return;
 	}
-	ZEPHIR_OBS_VAR(services);
 	zephir_read_property_this(&services, this_ptr, SL("_services"), PH_NOISY_CC);
 	ZEPHIR_OBS_VAR(service);
 	if (zephir_array_isset_fetch(&service, services, name TSRMLS_CC)) {
@@ -350,7 +347,6 @@ PHP_METHOD(Phalcon_Di, get) {
 		ZEPHIR_THROW_EXCEPTION_STR(phalcon_di_exception_ce, "The service name must be a string");
 		return;
 	}
-	ZEPHIR_OBS_VAR(services);
 	zephir_read_property_this(&services, this_ptr, SL("_services"), PH_NOISY_CC);
 	ZEPHIR_OBS_VAR(service);
 	if (zephir_array_isset_fetch(&service, services, name TSRMLS_CC)) {
@@ -422,7 +418,6 @@ PHP_METHOD(Phalcon_Di, getShared) {
 		ZEPHIR_THROW_EXCEPTION_STR(phalcon_di_exception_ce, "The service name must be a string");
 		return;
 	}
-	ZEPHIR_OBS_VAR(sharedInstances);
 	zephir_read_property_this(&sharedInstances, this_ptr, SL("_sharedInstances"), PH_NOISY_CC);
 	ZEPHIR_OBS_VAR(instance);
 	if (zephir_array_isset_fetch(&instance, sharedInstances, name TSRMLS_CC)) {
@@ -454,7 +449,6 @@ PHP_METHOD(Phalcon_Di, has) {
 		zephir_get_strval(name, name_param);
 
 
-	ZEPHIR_OBS_VAR(services);
 	zephir_read_property_this(&services, this_ptr, SL("_services"), PH_NOISY_CC);
 	RETURN_MM_BOOL(zephir_array_isset(services, name));
 
@@ -595,7 +589,6 @@ PHP_METHOD(Phalcon_Di, __call) {
 
 
 	if (zephir_start_with_str(method, SL("get"))) {
-		ZEPHIR_OBS_VAR(services);
 		zephir_read_property_this(&services, this_ptr, SL("_services"), PH_NOISY_CC);
 		ZEPHIR_SINIT_VAR(_0);
 		ZVAL_LONG(&_0, 3);

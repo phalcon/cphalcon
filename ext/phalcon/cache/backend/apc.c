@@ -12,9 +12,9 @@
 #include <Zend/zend_interfaces.h>
 
 #include "kernel/main.h"
-#include "kernel/memory.h"
 #include "kernel/object.h"
 #include "kernel/concat.h"
+#include "kernel/memory.h"
 #include "kernel/fcall.h"
 #include "kernel/operators.h"
 #include "kernel/exception.h"
@@ -89,7 +89,6 @@ PHP_METHOD(Phalcon_Cache_Backend_Apc, get) {
 	}
 
 
-	ZEPHIR_OBS_VAR(frontend);
 	zephir_read_property_this(&frontend, this_ptr, SL("_frontend"), PH_NOISY_CC);
 	ZEPHIR_OBS_VAR(_0);
 	zephir_read_property_this(&_0, this_ptr, SL("_prefix"), PH_NOISY_CC);
@@ -152,7 +151,6 @@ PHP_METHOD(Phalcon_Cache_Backend_Apc, save) {
 		ZEPHIR_THROW_EXCEPTION_STR(phalcon_cache_exception_ce, "The cache must be started first");
 		return;
 	}
-	ZEPHIR_OBS_VAR(frontend);
 	zephir_read_property_this(&frontend, this_ptr, SL("_frontend"), PH_NOISY_CC);
 	if ((Z_TYPE_P(content) == IS_NULL)) {
 		ZEPHIR_INIT_VAR(cachedContent);

@@ -128,7 +128,6 @@ PHP_METHOD(Phalcon_Cache_Frontend_Output, getLifetime) {
 
 	ZEPHIR_MM_GROW();
 
-	ZEPHIR_OBS_VAR(options);
 	zephir_read_property_this(&options, this_ptr, SL("_frontendOptions"), PH_NOISY_CC);
 	if ((Z_TYPE_P(options) == IS_ARRAY)) {
 		ZEPHIR_OBS_VAR(lifetime);

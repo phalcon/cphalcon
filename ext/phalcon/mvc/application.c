@@ -14,9 +14,9 @@
 #include "kernel/main.h"
 #include "kernel/object.h"
 #include "kernel/memory.h"
+#include "kernel/operators.h"
 #include "kernel/exception.h"
 #include "kernel/array.h"
-#include "kernel/operators.h"
 #include "kernel/fcall.h"
 #include "kernel/concat.h"
 
@@ -127,13 +127,17 @@ PHP_METHOD(Phalcon_Mvc_Application, __construct) {
  */
 PHP_METHOD(Phalcon_Mvc_Application, useImplicitView) {
 
-	zval *implicitView;
+	zval *implicitView_param = NULL, *_0;
+	zend_bool implicitView;
 
-	zephir_fetch_params(0, 1, 0, &implicitView);
+	zephir_fetch_params(0, 1, 0, &implicitView_param);
+
+		implicitView = zephir_get_boolval(implicitView_param);
 
 
-
-	zephir_update_property_this(this_ptr, SL("_implicitView"), implicitView TSRMLS_CC);
+	ZEPHIR_INIT_ZVAL_NREF(_0);
+	ZVAL_BOOL(_0, implicitView);
+	zephir_update_property_this(this_ptr, SL("_implicitView"), _0 TSRMLS_CC);
 	RETURN_THISW();
 
 }
@@ -180,7 +184,6 @@ PHP_METHOD(Phalcon_Mvc_Application, registerModules) {
 	if ((merge == 0)) {
 		zephir_update_property_this(this_ptr, SL("_modules"), modules TSRMLS_CC);
 	} else {
-		ZEPHIR_OBS_VAR(registeredModules);
 		zephir_read_property_this(&registeredModules, this_ptr, SL("_modules"), PH_NOISY_CC);
 		if ((Z_TYPE_P(registeredModules) == IS_ARRAY)) {
 			ZEPHIR_INIT_VAR(_0);
@@ -256,7 +259,6 @@ PHP_METHOD(Phalcon_Mvc_Application, handle) {
 	}
 
 
-	ZEPHIR_OBS_VAR(dependencyInjector);
 	zephir_read_property_this(&dependencyInjector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
 	if ((Z_TYPE_P(dependencyInjector) != IS_OBJECT)) {
 		ZEPHIR_THROW_EXCEPTION_STR(phalcon_mvc_application_exception_ce, "A dependency injection object is required to access internal services");
@@ -298,7 +300,6 @@ PHP_METHOD(Phalcon_Mvc_Application, handle) {
 				RETURN_MM_BOOL(0);
 			}
 		}
-		ZEPHIR_OBS_VAR(modules);
 		zephir_read_property_this(&modules, this_ptr, SL("_modules"), PH_NOISY_CC);
 		ZEPHIR_OBS_VAR(module);
 		if (!(zephir_array_isset_fetch(&module, modules, moduleName TSRMLS_CC))) {
@@ -370,7 +371,6 @@ PHP_METHOD(Phalcon_Mvc_Application, handle) {
 			zephir_call_method_p3_noret(eventsManager, "fire", _6, this_ptr, moduleObject);
 		}
 	}
-	ZEPHIR_OBS_VAR(implicitView);
 	zephir_read_property_this(&implicitView, this_ptr, SL("_implicitView"), PH_NOISY_CC);
 	if (ZEPHIR_IS_TRUE(implicitView)) {
 		ZEPHIR_INIT_NVAR(_1);

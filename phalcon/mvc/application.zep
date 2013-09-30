@@ -92,7 +92,7 @@ class Application extends Phalcon\Di\Injectable
 	 * @param boolean implicitView
 	 * @return Phalcon\Mvc\Application
 	 */
-	public function useImplicitView(implicitView) -> <Phalcon\Mvc\Application>
+	public function useImplicitView(boolean implicitView) -> <Phalcon\Mvc\Application>
 	{
 		let this->_implicitView = implicitView;
 		return this;

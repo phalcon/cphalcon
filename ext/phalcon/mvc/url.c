@@ -200,7 +200,6 @@ PHP_METHOD(Phalcon_Mvc_Url, getStaticBaseUri) {
 
 	ZEPHIR_MM_GROW();
 
-	ZEPHIR_OBS_VAR(staticBaseUri);
 	zephir_read_property_this(&staticBaseUri, this_ptr, SL("_staticBaseUri"), PH_NOISY_CC);
 	if ((Z_TYPE_P(staticBaseUri) != IS_NULL)) {
 		RETURN_CCTOR(staticBaseUri);
@@ -360,7 +359,6 @@ PHP_METHOD(Phalcon_Mvc_Url, getStatic) {
 	}
 
 
-	ZEPHIR_OBS_VAR(staticBaseUri);
 	zephir_read_property_this(&staticBaseUri, this_ptr, SL("_staticBaseUri"), PH_NOISY_CC);
 	if ((Z_TYPE_P(staticBaseUri) != IS_NULL)) {
 		concat_function(return_value, staticBaseUri, uri TSRMLS_CC);

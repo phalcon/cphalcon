@@ -102,7 +102,6 @@ PHP_METHOD(Phalcon_Validation_Message_Group, offsetGet) {
 		index = zephir_get_intval(index_param);
 
 
-	ZEPHIR_OBS_VAR(messages);
 	zephir_read_property_this(&messages, this_ptr, SL("_messages"), PH_NOISY_CC);
 	ZEPHIR_OBS_VAR(message);
 	if (zephir_array_isset_long_fetch(&message, messages, index TSRMLS_CC)) {
@@ -163,7 +162,6 @@ PHP_METHOD(Phalcon_Validation_Message_Group, offsetExists) {
 		zephir_get_strval(index, index_param);
 
 
-	ZEPHIR_OBS_VAR(messages);
 	zephir_read_property_this(&messages, this_ptr, SL("_messages"), PH_NOISY_CC);
 	RETURN_MM_BOOL(zephir_array_isset(messages, index));
 
@@ -182,16 +180,14 @@ PHP_METHOD(Phalcon_Validation_Message_Group, offsetUnset) {
 
 	zval *index, *messages;
 
-	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 0, &index);
+	zephir_fetch_params(0, 1, 0, &index);
 
 
 
-	ZEPHIR_OBS_VAR(messages);
 	zephir_read_property_this(&messages, this_ptr, SL("_messages"), PH_NOISY_CC);
 	if (zephir_array_isset(messages, index)) {
 	}
-	RETURN_MM_BOOL(0);
+	RETURN_BOOL(0);
 
 }
 
@@ -247,7 +243,6 @@ PHP_METHOD(Phalcon_Validation_Message_Group, appendMessages) {
 			return;
 		}
 	}
-	ZEPHIR_OBS_VAR(currentMessages);
 	zephir_read_property_this(&currentMessages, this_ptr, SL("_messages"), PH_NOISY_CC);
 	if ((Z_TYPE_P(messages) == IS_ARRAY)) {
 		if (ZEPHIR_IS_STRING(currentMessages, "array")) {
@@ -295,7 +290,6 @@ PHP_METHOD(Phalcon_Validation_Message_Group, filter) {
 
 	ZEPHIR_INIT_VAR(filtered);
 	array_init(filtered);
-	ZEPHIR_OBS_VAR(messages);
 	zephir_read_property_this(&messages, this_ptr, SL("_messages"), PH_NOISY_CC);
 	if ((Z_TYPE_P(messages) == IS_ARRAY)) {
 		zephir_is_iterable(messages, &_1, &_0, 0, 0);
@@ -357,7 +351,6 @@ PHP_METHOD(Phalcon_Validation_Message_Group, current) {
 
 	ZEPHIR_MM_GROW();
 
-	ZEPHIR_OBS_VAR(messages);
 	zephir_read_property_this(&messages, this_ptr, SL("_messages"), PH_NOISY_CC);
 	ZEPHIR_OBS_VAR(message);
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_position"), PH_NOISY_CC);
@@ -399,12 +392,10 @@ PHP_METHOD(Phalcon_Validation_Message_Group, valid) {
 
 	zval *messages, *_0;
 
-	ZEPHIR_MM_GROW();
 
-	ZEPHIR_OBS_VAR(messages);
 	zephir_read_property_this(&messages, this_ptr, SL("_messages"), PH_NOISY_CC);
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_position"), PH_NOISY_CC);
-	RETURN_MM_BOOL(zephir_array_isset(messages, _0));
+	RETURN_BOOL(zephir_array_isset(messages, _0));
 
 }
 

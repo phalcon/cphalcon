@@ -88,7 +88,6 @@ PHP_METHOD(Phalcon_Http_Response_Headers, get) {
 
 
 
-	ZEPHIR_OBS_VAR(headers);
 	zephir_read_property_this(&headers, this_ptr, SL("_headers"), PH_NOISY_CC);
 	ZEPHIR_OBS_VAR(headerValue);
 	if (zephir_array_isset_fetch(&headerValue, headers, name TSRMLS_CC)) {

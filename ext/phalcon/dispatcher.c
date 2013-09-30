@@ -408,13 +408,11 @@ PHP_METHOD(Phalcon_Dispatcher, getParam) {
 	}
 
 
-	ZEPHIR_OBS_VAR(params);
 	zephir_read_property_this(&params, this_ptr, SL("_params"), PH_NOISY_CC);
 	if (zephir_array_isset(params, param)) {
 		ZEPHIR_OBS_VAR(paramValue);
 		zephir_array_fetch(&paramValue, params, param, PH_NOISY TSRMLS_CC);
 		if ((Z_TYPE_P(filters) != IS_NULL)) {
-			ZEPHIR_OBS_VAR(dependencyInjector);
 			zephir_read_property_this(&dependencyInjector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
 			if ((Z_TYPE_P(dependencyInjector) != IS_OBJECT)) {
 				ZEPHIR_INIT_VAR(_0);
@@ -507,7 +505,7 @@ PHP_METHOD(Phalcon_Dispatcher, getReturnedValue) {
 PHP_METHOD(Phalcon_Dispatcher, dispatch) {
 
 	zend_function *_4 = NULL, *_5 = NULL, *_9 = NULL, *_11 = NULL, *_12 = NULL, *_14 = NULL, *_15 = NULL, *_16 = NULL, *_19 = NULL, *_21 = NULL, *_22 = NULL, *_23 = NULL, *_24 = NULL, *_27 = NULL, *_28 = NULL, *_29 = NULL;
-	zval *value, *handler = NULL, *dependencyInjector = NULL, *namespaceName = NULL, *handlerName = NULL, *actionName = NULL, *camelizedClass = NULL, *params = NULL, *eventsManager = NULL, *handlerSuffix, *actionSuffix, *handlerClass = NULL, *status = NULL, *actionMethod = NULL, *_0 = NULL, *_1 = NULL, *_2 = NULL, *_3, *_6, *_7 = NULL, *_8 = NULL, *_10 = NULL, *_13 = NULL, *_17 = NULL, *_18 = NULL, *_20, *_25 = NULL, *_26 = NULL;
+	zval *value, *handler = NULL, *dependencyInjector = NULL, *namespaceName = NULL, *handlerName = NULL, *actionName = NULL, *camelizedClass = NULL, *params, *eventsManager = NULL, *handlerSuffix, *actionSuffix, *handlerClass = NULL, *status = NULL, *actionMethod = NULL, *_0 = NULL, *_1 = NULL, *_2 = NULL, *_3, *_6, *_7 = NULL, *_8 = NULL, *_10 = NULL, *_13 = NULL, *_17 = NULL, *_18 = NULL, *_20, *_25 = NULL, *_26 = NULL;
 	int numberDispatches;
 	zend_bool hasService;
 
@@ -541,9 +539,7 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch) {
 	ZEPHIR_INIT_VAR(handler);
 	ZVAL_NULL(handler);
 	numberDispatches = 0;
-	ZEPHIR_OBS_VAR(handlerSuffix);
 	zephir_read_property_this(&handlerSuffix, this_ptr, SL("_handlerSuffix"), PH_NOISY_CC);
-	ZEPHIR_OBS_VAR(actionSuffix);
 	zephir_read_property_this(&actionSuffix, this_ptr, SL("_actionSuffix"), PH_NOISY_CC);
 	zephir_update_property_this(this_ptr, SL("_finished"), ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
 	while (1) {
@@ -659,7 +655,6 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch) {
 			break;
 		}
 		zephir_update_property_this(this_ptr, SL("_activeHandler"), handler TSRMLS_CC);
-		ZEPHIR_OBS_NVAR(params);
 		zephir_read_property_this(&params, this_ptr, SL("_params"), PH_NOISY_CC);
 		if ((Z_TYPE_P(params) != IS_ARRAY)) {
 			ZEPHIR_INIT_NVAR(_10);

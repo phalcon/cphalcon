@@ -97,7 +97,6 @@ PHP_METHOD(Phalcon_Validation_Validator, isSetOption) {
 		zephir_get_strval(key, key_param);
 
 
-	ZEPHIR_OBS_VAR(options);
 	zephir_read_property_this(&options, this_ptr, SL("_options"), PH_NOISY_CC);
 	if ((Z_TYPE_P(options) == IS_ARRAY)) {
 		RETURN_MM_BOOL(zephir_array_isset(options, key));
@@ -124,7 +123,6 @@ PHP_METHOD(Phalcon_Validation_Validator, getOption) {
 		zephir_get_strval(key, key_param);
 
 
-	ZEPHIR_OBS_VAR(options);
 	zephir_read_property_this(&options, this_ptr, SL("_options"), PH_NOISY_CC);
 	if ((Z_TYPE_P(options) == IS_ARRAY)) {
 		ZEPHIR_OBS_VAR(value);

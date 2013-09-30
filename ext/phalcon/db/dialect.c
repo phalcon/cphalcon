@@ -168,7 +168,6 @@ PHP_METHOD(Phalcon_Db_Dialect, getColumnList) {
 
 	ZEPHIR_INIT_VAR(strList);
 	array_init(strList);
-	ZEPHIR_OBS_VAR(escapeChar);
 	zephir_read_property_this(&escapeChar, this_ptr, SL("_escapeChar"), PH_NOISY_CC);
 	zephir_is_iterable(columnList, &_1, &_0, 0, 0);
 	for (

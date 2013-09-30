@@ -114,7 +114,6 @@ PHP_METHOD(Phalcon_Validation, validate) {
 	}
 
 
-	ZEPHIR_OBS_VAR(validators);
 	zephir_read_property_this(&validators, this_ptr, SL("_validators"), PH_NOISY_CC);
 	if ((Z_TYPE_P(validators) != IS_ARRAY)) {
 		ZEPHIR_THROW_EXCEPTION_STR(phalcon_validation_exception_ce, "There are no validators to validate");
@@ -250,7 +249,6 @@ PHP_METHOD(Phalcon_Validation, getFilters) {
 	}
 
 
-	ZEPHIR_OBS_VAR(filters);
 	zephir_read_property_this(&filters, this_ptr, SL("_filters"), PH_NOISY_CC);
 	if ((Z_TYPE_P(attribute) == IS_STRING)) {
 		ZEPHIR_OBS_VAR(attributeFilters);
@@ -314,7 +312,6 @@ PHP_METHOD(Phalcon_Validation, appendMessage) {
 
 
 
-	ZEPHIR_OBS_VAR(messages);
 	zephir_read_property_this(&messages, this_ptr, SL("_messages"), PH_NOISY_CC);
 	zephir_call_method_p1_noret(messages, "appendmessage", message);
 	RETURN_THIS();
@@ -370,7 +367,6 @@ PHP_METHOD(Phalcon_Validation, getValue) {
 		zephir_get_strval(attribute, attribute_param);
 
 
-	ZEPHIR_OBS_VAR(entity);
 	zephir_read_property_this(&entity, this_ptr, SL("_entity"), PH_NOISY_CC);
 	if ((Z_TYPE_P(entity) == IS_OBJECT)) {
 		ZEPHIR_INIT_VAR(method);
@@ -393,7 +389,6 @@ PHP_METHOD(Phalcon_Validation, getValue) {
 		}
 		RETURN_CCTOR(value);
 	}
-	ZEPHIR_OBS_VAR(data);
 	zephir_read_property_this(&data, this_ptr, SL("_data"), PH_NOISY_CC);
 	if ((Z_TYPE_P(data) != IS_ARRAY)) {
 		if ((Z_TYPE_P(data) != IS_OBJECT)) {
@@ -401,7 +396,6 @@ PHP_METHOD(Phalcon_Validation, getValue) {
 			return;
 		}
 	}
-	ZEPHIR_OBS_VAR(values);
 	zephir_read_property_this(&values, this_ptr, SL("_values"), PH_NOISY_CC);
 	ZEPHIR_OBS_NVAR(value);
 	if (zephir_array_isset_fetch(&value, values, attribute TSRMLS_CC)) {
@@ -423,7 +417,6 @@ PHP_METHOD(Phalcon_Validation, getValue) {
 		}
 	}
 	if ((Z_TYPE_P(value) != IS_NULL)) {
-		ZEPHIR_OBS_VAR(filters);
 		zephir_read_property_this(&filters, this_ptr, SL("_filters"), PH_NOISY_CC);
 		if ((Z_TYPE_P(filters) == IS_ARRAY)) {
 			ZEPHIR_OBS_VAR(fieldFilters);

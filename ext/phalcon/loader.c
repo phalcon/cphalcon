@@ -191,7 +191,6 @@ PHP_METHOD(Phalcon_Loader, registerNamespaces) {
 		return;
 	}
 	if (merge) {
-		ZEPHIR_OBS_VAR(currentNamespaces);
 		zephir_read_property_this(&currentNamespaces, this_ptr, SL("_namespaces"), PH_NOISY_CC);
 		if ((Z_TYPE_P(currentNamespaces) == IS_ARRAY)) {
 			ZEPHIR_INIT_VAR(_0);
@@ -246,7 +245,6 @@ PHP_METHOD(Phalcon_Loader, registerPrefixes) {
 		return;
 	}
 	if (merge) {
-		ZEPHIR_OBS_VAR(currentPrefixes);
 		zephir_read_property_this(&currentPrefixes, this_ptr, SL("_prefixes"), PH_NOISY_CC);
 		if ((Z_TYPE_P(currentPrefixes) == IS_ARRAY)) {
 			ZEPHIR_INIT_VAR(_0);
@@ -301,7 +299,6 @@ PHP_METHOD(Phalcon_Loader, registerDirs) {
 		return;
 	}
 	if (merge) {
-		ZEPHIR_OBS_VAR(currentDirectories);
 		zephir_read_property_this(&currentDirectories, this_ptr, SL("_directories"), PH_NOISY_CC);
 		if ((Z_TYPE_P(currentDirectories) == IS_ARRAY)) {
 			ZEPHIR_INIT_VAR(_0);
@@ -356,7 +353,6 @@ PHP_METHOD(Phalcon_Loader, registerClasses) {
 		return;
 	}
 	if (merge) {
-		ZEPHIR_OBS_VAR(currentClasses);
 		zephir_read_property_this(&currentClasses, this_ptr, SL("_classes"), PH_NOISY_CC);
 		if ((Z_TYPE_P(currentClasses) == IS_ARRAY)) {
 			ZEPHIR_INIT_VAR(_0);
@@ -395,7 +391,6 @@ PHP_METHOD(Phalcon_Loader, register) {
 
 	ZEPHIR_MM_GROW();
 
-	ZEPHIR_OBS_VAR(registered);
 	zephir_read_property_this(&registered, this_ptr, SL("_registered"), PH_NOISY_CC);
 	if (ZEPHIR_IS_FALSE(registered)) {
 		ZEPHIR_INIT_VAR(_0);
@@ -422,7 +417,6 @@ PHP_METHOD(Phalcon_Loader, unregister) {
 
 	ZEPHIR_MM_GROW();
 
-	ZEPHIR_OBS_VAR(registered);
 	zephir_read_property_this(&registered, this_ptr, SL("_registered"), PH_NOISY_CC);
 	if (ZEPHIR_IS_FALSE(registered)) {
 		ZEPHIR_INIT_VAR(_0);
