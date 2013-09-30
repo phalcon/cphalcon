@@ -202,7 +202,8 @@ PHP_METHOD(Phalcon_Mvc_Url, getStaticBaseUri) {
 
 	staticBaseUri = zephir_fetch_nproperty_this(this_ptr, SL("_staticBaseUri"), PH_NOISY_CC);
 	if ((Z_TYPE_P(staticBaseUri) != IS_NULL)) {
-		RETURN_CCTOR(staticBaseUri);
+		ZEPHIR_MM_RESTORE();
+		RETURN_ZVAL(staticBaseUri, 1, 0);
 	}
 	zephir_call_method(return_value, this_ptr, "getbaseuri");
 	RETURN_MM();

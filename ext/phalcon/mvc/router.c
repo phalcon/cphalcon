@@ -209,7 +209,8 @@ PHP_METHOD(Phalcon_Mvc_Router, getRewriteUri) {
 			zephir_call_func_p2(urlParts, "explode", &_1, url);
 			zephir_array_fetch_long(&realUri, urlParts, 0, PH_NOISY | PH_READONLY TSRMLS_CC);
 			if (!(zephir_is_true(realUri))) {
-				RETURN_CCTOR(realUri);
+				ZEPHIR_MM_RESTORE();
+				RETURN_ZVAL(realUri, 1, 0);
 			}
 		}
 	}

@@ -215,7 +215,8 @@ PHP_METHOD(Phalcon_Di_Service, resolve) {
 	if (zephir_is_true(shared)) {
 		sharedInstance = zephir_fetch_nproperty_this(this_ptr, SL("_sharedInstance"), PH_NOISY_CC);
 		if ((Z_TYPE_P(sharedInstance) != IS_NULL)) {
-			RETURN_CCTOR(sharedInstance);
+			ZEPHIR_MM_RESTORE();
+			RETURN_ZVAL(sharedInstance, 1, 0);
 		}
 	}
 	found = 1;

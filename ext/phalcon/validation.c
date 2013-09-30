@@ -255,7 +255,8 @@ PHP_METHOD(Phalcon_Validation, getFilters) {
 		}
 		RETURN_MM_NULL();
 	}
-	RETURN_CCTOR(filters);
+	ZEPHIR_MM_RESTORE();
+	RETURN_ZVAL(filters, 1, 0);
 
 }
 

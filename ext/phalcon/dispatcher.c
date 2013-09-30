@@ -428,7 +428,8 @@ PHP_METHOD(Phalcon_Dispatcher, getParam) {
 			zephir_call_method_p2(return_value, filter, "sanitize", paramValue, filters);
 			RETURN_MM();
 		} else {
-			RETURN_CCTOR(paramValue);
+			ZEPHIR_MM_RESTORE();
+			RETURN_ZVAL(paramValue, 1, 0);
 		}
 	}
 	RETURN_CCTOR(defaultValue);

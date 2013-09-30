@@ -481,7 +481,8 @@ PHP_METHOD(Phalcon_Forms_Form, getMessages) {
 			zephir_call_method_noret(return_value, "__construct");
 			RETURN_MM();
 		}
-		RETURN_CCTOR(messages);
+		ZEPHIR_MM_RESTORE();
+		RETURN_ZVAL(messages, 1, 0);
 	}
 	ZEPHIR_INIT_VAR(group);
 	object_init_ex(group, phalcon_validation_message_group_ce);

@@ -658,7 +658,7 @@ PHP_METHOD(Phalcon_Di, getDefault) {
 
 
 	_0 = zephir_fetch_static_property_ce(phalcon_di_ce , SL("_default") TSRMLS_CC);
-	RETURN_CCTORW(_0);
+	RETURN_ZVAL(_0, 1, 0);
 
 }
 

@@ -449,7 +449,7 @@ PHP_METHOD(Phalcon_Forms_Element, getAttributes) {
 		array_init(return_value);
 		return;
 	}
-	RETURN_CCTORW(attributes);
+	RETURN_ZVAL(attributes, 1, 0);
 
 }
 
