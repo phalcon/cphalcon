@@ -34,7 +34,7 @@ class Introspection
 	 * @param Phalcon\DiInterface dependencyInjector
 	 * @return array
 	 */
-	public function getMetaData(<Phalcon\Mvc\ModelInterfac> model, <Phalcon\DiInterface> dependencyInjector)
+	public function getMetaData(<Phalcon\Mvc\ModelInterface> model, <Phalcon\DiInterface> dependencyInjector)
 	{
 
 	}

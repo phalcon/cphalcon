@@ -35,7 +35,6 @@
  * Phalcon\Security\Exception
  *
  * Exceptions thrown in Phalcon\Security will use this class
- *
  */
 ZEPHIR_INIT_CLASS(Phalcon_Security_Exception) {
 

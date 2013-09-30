@@ -246,7 +246,7 @@ PHP_METHOD(Phalcon_Mvc_Application, getDefaultModule) {
 PHP_METHOD(Phalcon_Mvc_Application, handle) {
 
 	zend_bool returnedResponse;
-	zval *uri = NULL, *dependencyInjector, *eventsManager = NULL, *router = NULL, *dispatcher = NULL, *response = NULL, *view = NULL, *module, *modules, *moduleObject, *moduleName = NULL, *className = NULL, *path, *implicitView, *controller, *possibleResponse, *renderStatus = NULL, *_0, *_1 = NULL, *_2 = NULL, *_3 = NULL, *_4 = NULL, *_5 = NULL, *_6 = NULL, *_7, *_8;
+	zval *uri = NULL, *dependencyInjector, *eventsManager = NULL, *router = NULL, *dispatcher = NULL, *response = NULL, *view = NULL, *module, *modules, *moduleObject = NULL, *moduleName = NULL, *className = NULL, *path, *implicitView, *controller, *possibleResponse, *renderStatus = NULL, *_0, *_1 = NULL, *_2 = NULL, *_3 = NULL, *_4 = NULL, *_5 = NULL, *_6 = NULL, *_7, *_8;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 1, &uri);
@@ -347,8 +347,9 @@ PHP_METHOD(Phalcon_Mvc_Application, handle) {
 					}
 				}
 			}
-			ZEPHIR_INIT_BNVAR(moduleObject);
-			zephir_call_method_p1(moduleObject, dependencyInjector, "get", className);
+			ZEPHIR_INIT_NVAR(_5);
+			zephir_call_method_p1(_5, dependencyInjector, "get", className);
+			ZEPHIR_CPY_WRT(moduleObject, _5);
 			zephir_call_method_p1_noret(moduleObject, "registerautoloaders", dependencyInjector);
 			zephir_call_method_p1_noret(moduleObject, "registerservices", dependencyInjector);
 		} else {

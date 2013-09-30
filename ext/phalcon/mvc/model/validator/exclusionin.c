@@ -31,9 +31,34 @@
  |          Eduar Carvajal <eduar@phalconphp.com>                         |
  +------------------------------------------------------------------------+
  */
-ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_Validator_ExclusionIn) {
+/**
+ * Phalcon\Mvc\Model\Validator\ExclusionIn
+ *
+ * Check if a value is not included into a list of values
+ *
+ *<code>
+ *	use Phalcon\Mvc\Model\Validator\ExclusionIn as ExclusionInValidator;
+ *
+ *	class Subscriptors extends Phalcon\Mvc\Model
+ *	{
+ *
+ *		public function validation()
+ *		{
+ *			$this->validate(new ExclusionInValidator(array(
+ *				'field' => 'status',
+ *				'domain' => array('A', 'I')
+ *			)));
+ *			if ($this->validationHasFailed() == true) {
+ *				return false;
+ *			}
+ *		}
+ *
+ *	}
+ *</code>
+ */
+ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_Validator_Exclusionin) {
 
-	ZEPHIR_REGISTER_CLASS(Phalcon\\Mvc\\Model\\Validator, ExclusionIn, phalcon, mvc_model_validator_exclusionin, NULL, 0);
+	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Mvc\\Model\\Validator, Exclusionin, phalcon, mvc_model_validator_exclusionin, phalcon_mvc_model_validator_ce, NULL, 0);
 
 
 	return SUCCESS;

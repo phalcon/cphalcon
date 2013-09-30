@@ -31,9 +31,34 @@
  |          Eduar Carvajal <eduar@phalconphp.com>                         |
  +------------------------------------------------------------------------+
  */
+/**
+ * Phalcon\Mvc\Model\Validator\Numericality
+ *
+ * Allows to validate if a field has a valid numeric format
+ *
+ *<code>
+ *use Phalcon\Mvc\Model\Validator\Numericality as NumericalityValidator;
+ *
+ *class Products extends Phalcon\Mvc\Model
+ *{
+ *
+ *  public function validation()
+ *  {
+ *      $this->validate(new NumericalityValidator(array(
+ *          'field' => 'price'
+ *      )));
+ *      if ($this->validationHasFailed() == true) {
+ *          return false;
+ *      }
+ *  }
+ *
+ *}
+ *</code>
+ *
+ */
 ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_Validator_Numericality) {
 
-	ZEPHIR_REGISTER_CLASS(Phalcon\\Mvc\\Model\\Validator, Numericality, phalcon, mvc_model_validator_numericality, NULL, 0);
+	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Mvc\\Model\\Validator, Numericality, phalcon, mvc_model_validator_numericality, phalcon_mvc_model_validator_ce, NULL, 0);
 
 
 	return SUCCESS;

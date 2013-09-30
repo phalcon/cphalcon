@@ -19,4 +19,20 @@
 
 namespace Phalcon\Mvc\Model\Resultset;
 
-class Simple { }
+/**
+ * Phalcon\Mvc\Model\Resultset\Simple
+ *
+ * Simple resultsets only contains a complete objects
+ * This class builds every complete object as it is required
+ */
+class Simple extends Phalcon\Mvc\Model\Resultset
+	//implements Iterator, SeekableIterator, Countable, ArrayAccess, Serializable
+{
+
+	protected _model;
+
+	protected _columnMap;
+
+	protected _keepSnapshots = false;
+
+}

@@ -225,7 +225,7 @@ interface CriteriaInterface
 	 * @param array data
 	 * @return static
 	 */
-	public static function fromInput(dependencyInjector, modelName, data);
+	public static function fromInput(<Phalcon\DiInterfac> dependencyInjector, string modelName, data);
 
 	/**
 	 * Executes a find using the parameters built with the criteria

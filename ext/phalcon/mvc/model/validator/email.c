@@ -31,9 +31,34 @@
  |          Eduar Carvajal <eduar@phalconphp.com>                         |
  +------------------------------------------------------------------------+
  */
+/**
+ * Phalcon\Mvc\Model\Validator\Email
+ *
+ * Allows to validate if email fields has correct values
+ *
+ *<code>
+ *	use Phalcon\Mvc\Model\Validator\Email as EmailValidator;
+ *
+ *	class Subscriptors extends Phalcon\Mvc\Model
+ *	{
+ *
+ *		public function validation()
+ *		{
+ *			$this->validate(new EmailValidator(array(
+ *				'field' => 'electronic_mail'
+ *      	)));
+ *      	if ($this->validationHasFailed() == true) {
+ *				return false;
+ *      	}
+ *  	}
+ *
+ *	}
+ *</code>
+ *
+ */
 ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_Validator_Email) {
 
-	ZEPHIR_REGISTER_CLASS(Phalcon\\Mvc\\Model\\Validator, Email, phalcon, mvc_model_validator_email, NULL, 0);
+	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Mvc\\Model\\Validator, Email, phalcon, mvc_model_validator_email, phalcon_mvc_model_validator_ce, NULL, 0);
 
 
 	return SUCCESS;

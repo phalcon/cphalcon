@@ -12,6 +12,9 @@
 #include <Zend/zend_interfaces.h>
 
 #include "kernel/main.h"
+#include "kernel/fcall.h"
+#include "kernel/operators.h"
+#include "kernel/memory.h"
 
 
 /*
@@ -31,12 +34,51 @@
  |          Eduar Carvajal <eduar@phalconphp.com>                         |
  +------------------------------------------------------------------------+
  */
+/**
+ * Phalcon\Mvc\Model\Query\Lang
+ *
+ * PHQL is implemented as a parser (written in C) that translates syntax in
+ * that of the target RDBMS. It allows Phalcon to offer a unified SQL language to
+ * the developer, while internally doing all the work of translating PHQL
+ * instructions to the most optimal SQL instructions depending on the
+ * RDBMS type associated with a model.
+ *
+ * To achieve the highest performance possible, we wrote a parser that uses
+ * the same technology as SQLite. This technology provides a small in-memory
+ * parser with a very low memory footprint that is also thread-safe.
+ *
+ * <code>
+ * $intermediate = Phalcon\Mvc\Model\Query\Lang::parsePHQL("SELECT r.* FROM Robots r LIMIT 10");
+ * </code>
+ */
 ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_Query_Lang) {
 
-	ZEPHIR_REGISTER_CLASS(Phalcon\\Mvc\\Model\\Query, Lang, phalcon, mvc_model_query_lang, NULL, 0);
+	ZEPHIR_REGISTER_CLASS(Phalcon\\Mvc\\Model\\Query, Lang, phalcon, mvc_model_query_lang, phalcon_mvc_model_query_lang_method_entry, 0);
 
 
 	return SUCCESS;
+
+}
+
+/**
+ * Parses a PHQL statement returning an intermediate representation (IR)
+ *
+ * @param string phql
+ * @return string
+ */
+PHP_METHOD(Phalcon_Mvc_Model_Query_Lang, parsePHQL) {
+
+	zval *phql_param = NULL;
+	zval *phql = NULL;
+
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 1, 0, &phql_param);
+
+		zephir_get_strval(phql, phql_param);
+
+
+	zephir_call_func_p1(return_value, "phql_parse_phql", phql);
+	RETURN_MM();
 
 }
 

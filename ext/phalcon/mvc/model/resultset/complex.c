@@ -31,9 +31,15 @@
  |          Eduar Carvajal <eduar@phalconphp.com>                         |
  +------------------------------------------------------------------------+
  */
+/**
+ * Phalcon\Mvc\Model\Resultset\Complex
+ *
+ * Complex resultsets may include complete objects and scalar values.
+ * This class builds every complex row as it is required
+ */
 ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_Resultset_Complex) {
 
-	ZEPHIR_REGISTER_CLASS(Phalcon\\Mvc\\Model\\Resultset, Complex, phalcon, mvc_model_resultset_complex, NULL, 0);
+	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Mvc\\Model\\Resultset, Complex, phalcon, mvc_model_resultset_complex, phalcon_mvc_model_resultset_ce, NULL, 0);
 
 
 	return SUCCESS;

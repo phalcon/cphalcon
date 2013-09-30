@@ -272,7 +272,7 @@ class Application extends Phalcon\Di\Injectable
 					}
 				}
 
-				let moduleObject = dependencyInjector->get(className);
+				let moduleObject = <Phalcon\Mvc\ModuleDefinitionInterface> dependencyInjector->get(className);
 
 				/**
 				 * 'registerAutoloaders' and 'registerServices' are automatically called

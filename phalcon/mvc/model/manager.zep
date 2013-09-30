@@ -269,7 +269,7 @@ class Manager
 		 * Load it using an autoloader
 		 */
 		if class_exists(modelName) {
-			//return new {modelName}(this->_dependencyInjector, this);
+			return new {modelName}(this->_dependencyInjector, this);
 		}
 
 		/**

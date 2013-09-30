@@ -32,7 +32,7 @@ interface EngineInterface {
 	 * @param Phalcon\Mvc\ViewInterface view
 	 * @param Phalcon\DiInterface dependencyInjector
 	 */
-	public function __construct(view, dependencyInjector=null);
+	public function __construct(<Phalcon\Mvc\ViewInterface> view, <Phalcon\DiInterface> dependencyInjector=null);
 
 	/**
 	 * Returns cached ouput on another view stage
@@ -56,6 +56,6 @@ interface EngineInterface {
 	 * @param array params
 	 * @param boolean mustClean
 	 */
-	public function render(path, params, mustClean=false);
+	public function render(string path, params, mustClean=false);
 
 }

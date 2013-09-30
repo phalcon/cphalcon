@@ -273,8 +273,9 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getLastInitialized) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_Manager, load) {
 
+	zend_class_entry *_2;
 	zend_bool newInstance;
-	zval *modelName_param = NULL, *newInstance_param = NULL, *initialized, *model, *_0, *_1, *_2, *_3, *_4;
+	zval *modelName_param = NULL, *newInstance_param = NULL, *initialized, *model, *_0, *_1, *_3, *_4, *_5;
 	zval *modelName = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -302,15 +303,18 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, load) {
 	ZEPHIR_INIT_VAR(_1);
 	zephir_call_func_p1(_1, "class_exists", modelName);
 	if (zephir_is_true(_1)) {
+		_2 = zend_fetch_class(SL("modelName"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
+		object_init_ex(return_value, _2);
+		RETURN_MM();
 	}
-	ZEPHIR_INIT_VAR(_2);
-	object_init_ex(_2, phalcon_mvc_model_exception_ce);
 	ZEPHIR_INIT_VAR(_3);
-	ZEPHIR_CONCAT_SV(_3, "Model '", modelName);
+	object_init_ex(_3, phalcon_mvc_model_exception_ce);
 	ZEPHIR_INIT_VAR(_4);
-	ZEPHIR_CONCAT_VS(_4, _3, "' could not be loaded");
-	zephir_call_method_p1_noret(_2, "__construct", _4);
-	zephir_throw_exception(_2 TSRMLS_CC);
+	ZEPHIR_CONCAT_SV(_4, "Model '", modelName);
+	ZEPHIR_INIT_VAR(_5);
+	ZEPHIR_CONCAT_VS(_5, _4, "' could not be loaded");
+	zephir_call_method_p1_noret(_3, "__construct", _5);
+	zephir_throw_exception(_3 TSRMLS_CC);
 	ZEPHIR_MM_RESTORE();
 	return;
 
