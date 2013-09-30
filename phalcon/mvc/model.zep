@@ -1162,10 +1162,10 @@ abstract class Model //implements Phalcon\Mvc\ModelInterface, Phalcon\Mvc\Model\
 	 *
 	 * </code>
 	 *
-	 * @param array $parameters
+	 * @param array parameters
 	 * @return mixed
 	 */
-	public static function maximum($parameters=null)
+	public static function maximum(var parameters=null)
 	{
 		return self::_groupResult("MAX", "maximum", parameters);
 	}
@@ -1208,10 +1208,10 @@ abstract class Model //implements Phalcon\Mvc\ModelInterface, Phalcon\Mvc\Model\
 	 *
 	 * </code>
 	 *
-	 * @param array $parameters
+	 * @param array parameters
 	 * @return double
 	 */
-	public static function average(parameters=null)
+	public static function average(var parameters=null)
 	{
 		return self::_groupResult("AVG", "average", parameters);
 	}
@@ -1303,7 +1303,7 @@ abstract class Model //implements Phalcon\Mvc\ModelInterface, Phalcon\Mvc\Model\
 	 * }
 	 * </code>
 	 *
-	 * @param Phalcon\Mvc\Model\MessageInterface $message
+	 * @param Phalcon\Mvc\Model\MessageInterface message
 	 * @return Phalcon\Mvc\Model
 	 */
 	public function appendMessage(<Phalcon\Mvc\Model\MessageInterface> message) -> <Phalcon\Mvc\Model>
@@ -2019,12 +2019,14 @@ abstract class Model //implements Phalcon\Mvc\ModelInterface, Phalcon\Mvc\Model\
 	/**
 	 * Sends a pre-build INSERT SQL statement to the relational database system
 	 *
-	 * @param Phalcon\Mvc\Model\MetadataInterface $metaData
-	 * @param Phalcon\Db\AdapterInterface $connection
-	 * @param string $table
+	 * @param Phalcon\Mvc\Model\MetadataInterface metaData
+	 * @param Phalcon\Db\AdapterInterface connection
+	 * @param string|array table
+	 * @param boolean|string identityField
 	 * @return boolean
 	 */
-	protected function _doLowInsert($metaData, $connection, $table, $identityField)
+	protected function _doLowInsert(<Phalcon\Mvc\Model\MetadataInterface> metaData, <Phalcon\Db\AdapterInterface> connection,
+		table, identityField)
 	{
 		var bindSkip, fields, values, bindTypes, attributes, bindDataTypes, automaticAttributes,
 			field, columnMap, value, attributeField, success, bindType, defaultValue, sequenceName;
@@ -3281,7 +3283,7 @@ abstract class Model //implements Phalcon\Mvc\ModelInterface, Phalcon\Mvc\Model\
 	/**
 	 * Skips the current operation forcing a success state
 	 *
-	 * @param boolean $skip
+	 * @param boolean skip
 	 */
 	public function skipOperation(boolean skip)
 	{
@@ -3313,8 +3315,8 @@ abstract class Model //implements Phalcon\Mvc\ModelInterface, Phalcon\Mvc\Model\
 	 * 	$robot->writeAttribute('name', 'Rosey');
 	 * </code>
 	 *
-	 * @param string $attribute
-	 * @param mixed $value
+	 * @param string attribute
+	 * @param mixed value
 	 */
 	public function writeAttribute(string attribute, value)
 	{
@@ -3339,7 +3341,7 @@ abstract class Model //implements Phalcon\Mvc\ModelInterface, Phalcon\Mvc\Model\
 	 *}
 	 *</code>
 	 *
-	 * @param array $attributes
+	 * @param array attributes
 	 */
 	protected function skipAttributes(attributes)
 	{

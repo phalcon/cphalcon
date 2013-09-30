@@ -1448,7 +1448,7 @@ PHP_METHOD(Phalcon_Mvc_Model, sum) {
  *
  * </code>
  *
- * @param array $parameters
+ * @param array parameters
  * @return mixed
  */
 PHP_METHOD(Phalcon_Mvc_Model, maximum) {
@@ -1526,7 +1526,7 @@ PHP_METHOD(Phalcon_Mvc_Model, minimum) {
  *
  * </code>
  *
- * @param array $parameters
+ * @param array parameters
  * @return double
  */
 PHP_METHOD(Phalcon_Mvc_Model, average) {
@@ -1658,7 +1658,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _cancelOperation) {
  * }
  * </code>
  *
- * @param Phalcon\Mvc\Model\MessageInterface $message
+ * @param Phalcon\Mvc\Model\MessageInterface message
  * @return Phalcon\Mvc\Model
  */
 PHP_METHOD(Phalcon_Mvc_Model, appendMessage) {
@@ -2450,9 +2450,10 @@ PHP_METHOD(Phalcon_Mvc_Model, _postSave) {
 /**
  * Sends a pre-build INSERT SQL statement to the relational database system
  *
- * @param Phalcon\Mvc\Model\MetadataInterface $metaData
- * @param Phalcon\Db\AdapterInterface $connection
- * @param string $table
+ * @param Phalcon\Mvc\Model\MetadataInterface metaData
+ * @param Phalcon\Db\AdapterInterface connection
+ * @param string|array table
+ * @param boolean|string identityField
  * @return boolean
  */
 PHP_METHOD(Phalcon_Mvc_Model, _doLowInsert) {
@@ -3781,7 +3782,7 @@ PHP_METHOD(Phalcon_Mvc_Model, refresh) {
 /**
  * Skips the current operation forcing a success state
  *
- * @param boolean $skip
+ * @param boolean skip
  */
 PHP_METHOD(Phalcon_Mvc_Model, skipOperation) {
 
@@ -3834,8 +3835,8 @@ PHP_METHOD(Phalcon_Mvc_Model, readAttribute) {
  * 	$robot->writeAttribute('name', 'Rosey');
  * </code>
  *
- * @param string $attribute
- * @param mixed $value
+ * @param string attribute
+ * @param mixed value
  */
 PHP_METHOD(Phalcon_Mvc_Model, writeAttribute) {
 
@@ -3871,7 +3872,7 @@ PHP_METHOD(Phalcon_Mvc_Model, writeAttribute) {
  *}
  *</code>
  *
- * @param array $attributes
+ * @param array attributes
  */
 PHP_METHOD(Phalcon_Mvc_Model, skipAttributes) {
 
