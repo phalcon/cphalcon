@@ -1956,7 +1956,7 @@ PHP_METHOD(Phalcon_Mvc_Model, appendMessage){
  *  {
  * 		$this->validate('status', 'is_int');
  * 		$this->validate('status', array(
- *			is_int',
+ *			'is_int',
  *			'message' => 'status must be integer'
  *		));
  * 		$this->validate('status', array(
