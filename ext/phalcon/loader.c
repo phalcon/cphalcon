@@ -191,7 +191,7 @@ PHP_METHOD(Phalcon_Loader, registerNamespaces) {
 		return;
 	}
 	if (merge) {
-		zephir_read_property_this(&currentNamespaces, this_ptr, SL("_namespaces"), PH_NOISY_CC);
+		currentNamespaces = zephir_fetch_nproperty_this(this_ptr, SL("_namespaces"), PH_NOISY_CC);
 		if ((Z_TYPE_P(currentNamespaces) == IS_ARRAY)) {
 			ZEPHIR_INIT_VAR(_0);
 			zephir_fast_array_merge(_0, &(currentNamespaces), &(namespaces) TSRMLS_CC);
@@ -245,7 +245,7 @@ PHP_METHOD(Phalcon_Loader, registerPrefixes) {
 		return;
 	}
 	if (merge) {
-		zephir_read_property_this(&currentPrefixes, this_ptr, SL("_prefixes"), PH_NOISY_CC);
+		currentPrefixes = zephir_fetch_nproperty_this(this_ptr, SL("_prefixes"), PH_NOISY_CC);
 		if ((Z_TYPE_P(currentPrefixes) == IS_ARRAY)) {
 			ZEPHIR_INIT_VAR(_0);
 			zephir_fast_array_merge(_0, &(currentPrefixes), &(prefixes) TSRMLS_CC);
@@ -299,7 +299,7 @@ PHP_METHOD(Phalcon_Loader, registerDirs) {
 		return;
 	}
 	if (merge) {
-		zephir_read_property_this(&currentDirectories, this_ptr, SL("_directories"), PH_NOISY_CC);
+		currentDirectories = zephir_fetch_nproperty_this(this_ptr, SL("_directories"), PH_NOISY_CC);
 		if ((Z_TYPE_P(currentDirectories) == IS_ARRAY)) {
 			ZEPHIR_INIT_VAR(_0);
 			zephir_fast_array_merge(_0, &(currentDirectories), &(directories) TSRMLS_CC);
@@ -353,7 +353,7 @@ PHP_METHOD(Phalcon_Loader, registerClasses) {
 		return;
 	}
 	if (merge) {
-		zephir_read_property_this(&currentClasses, this_ptr, SL("_classes"), PH_NOISY_CC);
+		currentClasses = zephir_fetch_nproperty_this(this_ptr, SL("_classes"), PH_NOISY_CC);
 		if ((Z_TYPE_P(currentClasses) == IS_ARRAY)) {
 			ZEPHIR_INIT_VAR(_0);
 			zephir_fast_array_merge(_0, &(currentClasses), &(classes) TSRMLS_CC);
@@ -391,7 +391,7 @@ PHP_METHOD(Phalcon_Loader, register) {
 
 	ZEPHIR_MM_GROW();
 
-	zephir_read_property_this(&registered, this_ptr, SL("_registered"), PH_NOISY_CC);
+	registered = zephir_fetch_nproperty_this(this_ptr, SL("_registered"), PH_NOISY_CC);
 	if (ZEPHIR_IS_FALSE(registered)) {
 		ZEPHIR_INIT_VAR(_0);
 		array_init(_0);
@@ -417,7 +417,7 @@ PHP_METHOD(Phalcon_Loader, unregister) {
 
 	ZEPHIR_MM_GROW();
 
-	zephir_read_property_this(&registered, this_ptr, SL("_registered"), PH_NOISY_CC);
+	registered = zephir_fetch_nproperty_this(this_ptr, SL("_registered"), PH_NOISY_CC);
 	if (ZEPHIR_IS_FALSE(registered)) {
 		ZEPHIR_INIT_VAR(_0);
 		array_init(_0);

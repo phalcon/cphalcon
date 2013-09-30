@@ -749,7 +749,7 @@ PHP_METHOD(Phalcon_Db_Adapter, getColumnList) {
 
 
 
-	zephir_read_property_this(&dialect, this_ptr, SL("_dialect"), PH_NOISY_CC);
+	dialect = zephir_fetch_nproperty_this(this_ptr, SL("_dialect"), PH_NOISY_CC);
 	zephir_call_method_p1(return_value, dialect, "getcolumnlist", columnList);
 	RETURN_MM();
 
@@ -779,7 +779,7 @@ PHP_METHOD(Phalcon_Db_Adapter, limit) {
 		number = zephir_get_intval(number_param);
 
 
-	zephir_read_property_this(&dialect, this_ptr, SL("_dialect"), PH_NOISY_CC);
+	dialect = zephir_fetch_nproperty_this(this_ptr, SL("_dialect"), PH_NOISY_CC);
 	ZEPHIR_INIT_VAR(_0);
 	ZVAL_LONG(_0, number);
 	zephir_call_method_p2(return_value, dialect, "limit", sqlQuery, _0);
@@ -815,7 +815,7 @@ PHP_METHOD(Phalcon_Db_Adapter, tableExists) {
 	}
 
 
-	zephir_read_property_this(&dialect, this_ptr, SL("_dialect"), PH_NOISY_CC);
+	dialect = zephir_fetch_nproperty_this(this_ptr, SL("_dialect"), PH_NOISY_CC);
 	ZEPHIR_INIT_VAR(_0);
 	zephir_call_method_p2(_0, dialect, "tableexists", tableName, schemaName);
 	ZEPHIR_INIT_VAR(_1);
@@ -850,7 +850,7 @@ PHP_METHOD(Phalcon_Db_Adapter, viewExists) {
 	}
 
 
-	zephir_read_property_this(&dialect, this_ptr, SL("_dialect"), PH_NOISY_CC);
+	dialect = zephir_fetch_nproperty_this(this_ptr, SL("_dialect"), PH_NOISY_CC);
 	ZEPHIR_INIT_VAR(_0);
 	zephir_call_method_p2(_0, dialect, "viewexists", viewName, schemaName);
 	ZEPHIR_INIT_VAR(_1);
@@ -879,7 +879,7 @@ PHP_METHOD(Phalcon_Db_Adapter, forUpdate) {
 		zephir_get_strval(sqlQuery, sqlQuery_param);
 
 
-	zephir_read_property_this(&dialect, this_ptr, SL("_dialect"), PH_NOISY_CC);
+	dialect = zephir_fetch_nproperty_this(this_ptr, SL("_dialect"), PH_NOISY_CC);
 	zephir_call_method_p1(return_value, dialect, "forupdate", sqlQuery);
 	RETURN_MM();
 
@@ -902,7 +902,7 @@ PHP_METHOD(Phalcon_Db_Adapter, sharedLock) {
 		zephir_get_strval(sqlQuery, sqlQuery_param);
 
 
-	zephir_read_property_this(&dialect, this_ptr, SL("_dialect"), PH_NOISY_CC);
+	dialect = zephir_fetch_nproperty_this(this_ptr, SL("_dialect"), PH_NOISY_CC);
 	zephir_call_method_p1(return_value, dialect, "sharedlock", sqlQuery);
 	RETURN_MM();
 
@@ -949,7 +949,7 @@ PHP_METHOD(Phalcon_Db_Adapter, createTable) {
 		ZEPHIR_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "The table must contain at least one column");
 		return;
 	}
-	zephir_read_property_this(&dialect, this_ptr, SL("_dialect"), PH_NOISY_CC);
+	dialect = zephir_fetch_nproperty_this(this_ptr, SL("_dialect"), PH_NOISY_CC);
 	ZEPHIR_INIT_NVAR(_0);
 	zephir_call_method_p3(_0, dialect, "createtable", tableName, schemaName, definition);
 	zephir_call_method_p1(return_value, this_ptr, "execute", _0);
@@ -985,7 +985,7 @@ PHP_METHOD(Phalcon_Db_Adapter, dropTable) {
 	}
 
 
-	zephir_read_property_this(&dialect, this_ptr, SL("_dialect"), PH_NOISY_CC);
+	dialect = zephir_fetch_nproperty_this(this_ptr, SL("_dialect"), PH_NOISY_CC);
 	ZEPHIR_INIT_VAR(_0);
 	zephir_call_method_p3(_0, dialect, "droptable", tableName, schemaName, ifExists);
 	zephir_call_method_p1(return_value, this_ptr, "execute", _0);
@@ -1029,7 +1029,7 @@ PHP_METHOD(Phalcon_Db_Adapter, createView) {
 		ZEPHIR_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "The table must contain at least one column");
 		return;
 	}
-	zephir_read_property_this(&dialect, this_ptr, SL("_dialect"), PH_NOISY_CC);
+	dialect = zephir_fetch_nproperty_this(this_ptr, SL("_dialect"), PH_NOISY_CC);
 	ZEPHIR_INIT_NVAR(_0);
 	zephir_call_method_p3(_0, dialect, "createview", viewName, definition, schemaName);
 	zephir_call_method_p1(return_value, this_ptr, "execute", _0);
@@ -1060,7 +1060,7 @@ PHP_METHOD(Phalcon_Db_Adapter, dropView) {
 	}
 
 
-	zephir_read_property_this(&dialect, this_ptr, SL("_dialect"), PH_NOISY_CC);
+	dialect = zephir_fetch_nproperty_this(this_ptr, SL("_dialect"), PH_NOISY_CC);
 	ZEPHIR_INIT_VAR(_0);
 	zephir_call_method_p3(_0, dialect, "dropview", viewName, schemaName, ifExists);
 	zephir_call_method_p1(return_value, this_ptr, "execute", _0);
@@ -1085,7 +1085,7 @@ PHP_METHOD(Phalcon_Db_Adapter, addColumn) {
 
 
 
-	zephir_read_property_this(&dialect, this_ptr, SL("_dialect"), PH_NOISY_CC);
+	dialect = zephir_fetch_nproperty_this(this_ptr, SL("_dialect"), PH_NOISY_CC);
 	ZEPHIR_INIT_VAR(_0);
 	zephir_call_method_p3(_0, dialect, "addcolumn", tableName, schemaName, column);
 	zephir_call_method_p1(return_value, this_ptr, "execute", _0);
@@ -1110,7 +1110,7 @@ PHP_METHOD(Phalcon_Db_Adapter, modifyColumn) {
 
 
 
-	zephir_read_property_this(&dialect, this_ptr, SL("_dialect"), PH_NOISY_CC);
+	dialect = zephir_fetch_nproperty_this(this_ptr, SL("_dialect"), PH_NOISY_CC);
 	ZEPHIR_INIT_VAR(_0);
 	zephir_call_method_p3(_0, dialect, "modifycolumn", tableName, schemaName, column);
 	zephir_call_method_p1(return_value, this_ptr, "execute", _0);
@@ -1139,7 +1139,7 @@ PHP_METHOD(Phalcon_Db_Adapter, dropColumn) {
 		zephir_get_strval(columnName, columnName_param);
 
 
-	zephir_read_property_this(&dialect, this_ptr, SL("_dialect"), PH_NOISY_CC);
+	dialect = zephir_fetch_nproperty_this(this_ptr, SL("_dialect"), PH_NOISY_CC);
 	ZEPHIR_INIT_VAR(_0);
 	zephir_call_method_p3(_0, dialect, "dropcolumn", tableName, schemaName, columnName);
 	zephir_call_method_p1(return_value, this_ptr, "execute", _0);
@@ -1164,7 +1164,7 @@ PHP_METHOD(Phalcon_Db_Adapter, addIndex) {
 
 
 
-	zephir_read_property_this(&dialect, this_ptr, SL("_dialect"), PH_NOISY_CC);
+	dialect = zephir_fetch_nproperty_this(this_ptr, SL("_dialect"), PH_NOISY_CC);
 	ZEPHIR_INIT_VAR(_0);
 	zephir_call_method_p3(_0, dialect, "addindex", tableName, schemaName, index);
 	zephir_call_method_p1(return_value, this_ptr, "execute", _0);
@@ -1189,7 +1189,7 @@ PHP_METHOD(Phalcon_Db_Adapter, dropIndex) {
 
 
 
-	zephir_read_property_this(&dialect, this_ptr, SL("_dialect"), PH_NOISY_CC);
+	dialect = zephir_fetch_nproperty_this(this_ptr, SL("_dialect"), PH_NOISY_CC);
 	ZEPHIR_INIT_VAR(_0);
 	zephir_call_method_p3(_0, dialect, "dropindex", tableName, schemaName, indexName);
 	zephir_call_method_p1(return_value, this_ptr, "execute", _0);
@@ -1214,7 +1214,7 @@ PHP_METHOD(Phalcon_Db_Adapter, addPrimaryKey) {
 
 
 
-	zephir_read_property_this(&dialect, this_ptr, SL("_dialect"), PH_NOISY_CC);
+	dialect = zephir_fetch_nproperty_this(this_ptr, SL("_dialect"), PH_NOISY_CC);
 	ZEPHIR_INIT_VAR(_0);
 	zephir_call_method_p3(_0, dialect, "addprimarykey", tableName, schemaName, index);
 	zephir_call_method_p1(return_value, this_ptr, "execute", _0);
@@ -1238,7 +1238,7 @@ PHP_METHOD(Phalcon_Db_Adapter, dropPrimaryKey) {
 
 
 
-	zephir_read_property_this(&dialect, this_ptr, SL("_dialect"), PH_NOISY_CC);
+	dialect = zephir_fetch_nproperty_this(this_ptr, SL("_dialect"), PH_NOISY_CC);
 	ZEPHIR_INIT_VAR(_0);
 	zephir_call_method_p2(_0, dialect, "dropprimarykey", tableName, schemaName);
 	zephir_call_method_p1(return_value, this_ptr, "execute", _0);
@@ -1263,7 +1263,7 @@ PHP_METHOD(Phalcon_Db_Adapter, addForeignKey) {
 
 
 
-	zephir_read_property_this(&dialect, this_ptr, SL("_dialect"), PH_NOISY_CC);
+	dialect = zephir_fetch_nproperty_this(this_ptr, SL("_dialect"), PH_NOISY_CC);
 	ZEPHIR_INIT_VAR(_0);
 	zephir_call_method_p3(_0, dialect, "addforeignkey", tableName, schemaName, reference);
 	zephir_call_method_p1(return_value, this_ptr, "execute", _0);
@@ -1292,7 +1292,7 @@ PHP_METHOD(Phalcon_Db_Adapter, dropForeignKey) {
 		zephir_get_strval(referenceName, referenceName_param);
 
 
-	zephir_read_property_this(&dialect, this_ptr, SL("_dialect"), PH_NOISY_CC);
+	dialect = zephir_fetch_nproperty_this(this_ptr, SL("_dialect"), PH_NOISY_CC);
 	ZEPHIR_INIT_VAR(_0);
 	zephir_call_method_p3(_0, dialect, "dropforeignkey", tableName, schemaName, referenceName);
 	zephir_call_method_p1(return_value, this_ptr, "execute", _0);
@@ -1315,7 +1315,7 @@ PHP_METHOD(Phalcon_Db_Adapter, getColumnDefinition) {
 
 
 
-	zephir_read_property_this(&dialect, this_ptr, SL("_dialect"), PH_NOISY_CC);
+	dialect = zephir_fetch_nproperty_this(this_ptr, SL("_dialect"), PH_NOISY_CC);
 	zephir_call_method_p1(return_value, dialect, "getcolumndefinition", column);
 	RETURN_MM();
 
@@ -1345,7 +1345,7 @@ PHP_METHOD(Phalcon_Db_Adapter, listTables) {
 	}
 
 
-	zephir_read_property_this(&dialect, this_ptr, SL("_dialect"), PH_NOISY_CC);
+	dialect = zephir_fetch_nproperty_this(this_ptr, SL("_dialect"), PH_NOISY_CC);
 	ZEPHIR_INIT_VAR(allTables);
 	array_init(allTables);
 	ZEPHIR_INIT_VAR(_0);
@@ -1392,7 +1392,7 @@ PHP_METHOD(Phalcon_Db_Adapter, listViews) {
 	}
 
 
-	zephir_read_property_this(&dialect, this_ptr, SL("_dialect"), PH_NOISY_CC);
+	dialect = zephir_fetch_nproperty_this(this_ptr, SL("_dialect"), PH_NOISY_CC);
 	ZEPHIR_INIT_VAR(allTables);
 	array_init(allTables);
 	ZEPHIR_INIT_VAR(_0);
@@ -1443,7 +1443,7 @@ PHP_METHOD(Phalcon_Db_Adapter, describeIndexes) {
 	}
 
 
-	zephir_read_property_this(&dialect, this_ptr, SL("_dialect"), PH_NOISY_CC);
+	dialect = zephir_fetch_nproperty_this(this_ptr, SL("_dialect"), PH_NOISY_CC);
 	ZEPHIR_INIT_VAR(indexes);
 	array_init(indexes);
 	ZEPHIR_INIT_VAR(_0);
@@ -1515,7 +1515,7 @@ PHP_METHOD(Phalcon_Db_Adapter, describeReferences) {
 	}
 
 
-	zephir_read_property_this(&dialect, this_ptr, SL("_dialect"), PH_NOISY_CC);
+	dialect = zephir_fetch_nproperty_this(this_ptr, SL("_dialect"), PH_NOISY_CC);
 	ZEPHIR_INIT_VAR(emptyArr);
 	array_init(emptyArr);
 	ZEPHIR_INIT_VAR(references);
@@ -1603,7 +1603,7 @@ PHP_METHOD(Phalcon_Db_Adapter, tableOptions) {
 	}
 
 
-	zephir_read_property_this(&dialect, this_ptr, SL("_dialect"), PH_NOISY_CC);
+	dialect = zephir_fetch_nproperty_this(this_ptr, SL("_dialect"), PH_NOISY_CC);
 	ZEPHIR_INIT_VAR(sql);
 	zephir_call_method_p2(sql, dialect, "tableoptions", tableName, schemaName);
 	if (zephir_is_true(sql)) {
@@ -1636,7 +1636,7 @@ PHP_METHOD(Phalcon_Db_Adapter, createSavepoint) {
 		zephir_get_strval(name, name_param);
 
 
-	zephir_read_property_this(&dialect, this_ptr, SL("_dialect"), PH_NOISY_CC);
+	dialect = zephir_fetch_nproperty_this(this_ptr, SL("_dialect"), PH_NOISY_CC);
 	ZEPHIR_INIT_VAR(_0);
 	zephir_call_method(_0, dialect, "supportssavepoints");
 	if (!(zephir_is_true(_0))) {
@@ -1667,7 +1667,7 @@ PHP_METHOD(Phalcon_Db_Adapter, releaseSavepoint) {
 		zephir_get_strval(name, name_param);
 
 
-	zephir_read_property_this(&dialect, this_ptr, SL("_dialect"), PH_NOISY_CC);
+	dialect = zephir_fetch_nproperty_this(this_ptr, SL("_dialect"), PH_NOISY_CC);
 	ZEPHIR_INIT_VAR(_0);
 	zephir_call_method(_0, dialect, "supportssavepoints");
 	if (zephir_is_true(_0)) {
@@ -1703,7 +1703,7 @@ PHP_METHOD(Phalcon_Db_Adapter, rollbackSavepoint) {
 		zephir_get_strval(name, name_param);
 
 
-	zephir_read_property_this(&dialect, this_ptr, SL("_dialect"), PH_NOISY_CC);
+	dialect = zephir_fetch_nproperty_this(this_ptr, SL("_dialect"), PH_NOISY_CC);
 	ZEPHIR_INIT_VAR(_0);
 	zephir_call_method(_0, dialect, "supportssavepoints");
 	if (zephir_is_true(_0)) {
@@ -1737,7 +1737,7 @@ PHP_METHOD(Phalcon_Db_Adapter, setNestedTransactionsWithSavepoints) {
 		ZEPHIR_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "Nested transaction with savepoints behavior cannot be changed while a transaction is open");
 		return;
 	}
-	zephir_read_property_this(&dialect, this_ptr, SL("_dialect"), PH_NOISY_CC);
+	dialect = zephir_fetch_nproperty_this(this_ptr, SL("_dialect"), PH_NOISY_CC);
 	ZEPHIR_INIT_VAR(_1);
 	zephir_call_method(_1, dialect, "supportssavepoints");
 	if (!(zephir_is_true(_1))) {

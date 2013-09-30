@@ -408,12 +408,12 @@ PHP_METHOD(Phalcon_Dispatcher, getParam) {
 	}
 
 
-	zephir_read_property_this(&params, this_ptr, SL("_params"), PH_NOISY_CC);
+	params = zephir_fetch_nproperty_this(this_ptr, SL("_params"), PH_NOISY_CC);
 	if (zephir_array_isset(params, param)) {
 		ZEPHIR_OBS_VAR(paramValue);
 		zephir_array_fetch(&paramValue, params, param, PH_NOISY TSRMLS_CC);
 		if ((Z_TYPE_P(filters) != IS_NULL)) {
-			zephir_read_property_this(&dependencyInjector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
+			dependencyInjector = zephir_fetch_nproperty_this(this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
 			if ((Z_TYPE_P(dependencyInjector) != IS_OBJECT)) {
 				ZEPHIR_INIT_VAR(_0);
 				ZVAL_STRING(_0, "A dependency injection object is required to access the 'filter' service", 1);
@@ -539,8 +539,8 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch) {
 	ZEPHIR_INIT_VAR(handler);
 	ZVAL_NULL(handler);
 	numberDispatches = 0;
-	zephir_read_property_this(&handlerSuffix, this_ptr, SL("_handlerSuffix"), PH_NOISY_CC);
-	zephir_read_property_this(&actionSuffix, this_ptr, SL("_actionSuffix"), PH_NOISY_CC);
+	handlerSuffix = zephir_fetch_nproperty_this(this_ptr, SL("_handlerSuffix"), PH_NOISY_CC);
+	actionSuffix = zephir_fetch_nproperty_this(this_ptr, SL("_actionSuffix"), PH_NOISY_CC);
 	zephir_update_property_this(this_ptr, SL("_finished"), ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
 	while (1) {
 		_3 = zephir_fetch_nproperty_this(this_ptr, SL("_finished"), PH_NOISY_CC);
@@ -655,7 +655,7 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch) {
 			break;
 		}
 		zephir_update_property_this(this_ptr, SL("_activeHandler"), handler TSRMLS_CC);
-		zephir_read_property_this(&params, this_ptr, SL("_params"), PH_NOISY_CC);
+		params = zephir_fetch_nproperty_this(this_ptr, SL("_params"), PH_NOISY_CC);
 		if ((Z_TYPE_P(params) != IS_ARRAY)) {
 			ZEPHIR_INIT_NVAR(_10);
 			ZVAL_STRING(_10, "Action parameters must be an Array", 1);

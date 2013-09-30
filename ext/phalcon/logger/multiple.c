@@ -102,7 +102,7 @@ PHP_METHOD(Phalcon_Logger_Multiple, setFormatter) {
 
 
 
-	zephir_read_property_this(&loggers, this_ptr, SL("_loggers"), PH_NOISY_CC);
+	loggers = zephir_fetch_nproperty_this(this_ptr, SL("_loggers"), PH_NOISY_CC);
 	if ((Z_TYPE_P(loggers) == IS_ARRAY)) {
 		zephir_is_iterable(loggers, &_1, &_0, 0, 0);
 		for (
@@ -143,7 +143,7 @@ PHP_METHOD(Phalcon_Logger_Multiple, log) {
 	}
 
 
-	zephir_read_property_this(&loggers, this_ptr, SL("_loggers"), PH_NOISY_CC);
+	loggers = zephir_fetch_nproperty_this(this_ptr, SL("_loggers"), PH_NOISY_CC);
 	if ((Z_TYPE_P(loggers) == IS_ARRAY)) {
 		zephir_is_iterable(loggers, &_1, &_0, 0, 0);
 		for (

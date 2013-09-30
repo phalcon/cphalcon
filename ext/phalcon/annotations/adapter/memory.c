@@ -72,7 +72,7 @@ PHP_METHOD(Phalcon_Annotations_Adapter_Memory, read) {
 		zephir_get_strval(key, key_param);
 
 
-	zephir_read_property_this(&data, this_ptr, SL("_data"), PH_NOISY_CC);
+	data = zephir_fetch_nproperty_this(this_ptr, SL("_data"), PH_NOISY_CC);
 	ZEPHIR_INIT_VAR(lowercasedKey);
 	zephir_call_func_p1(lowercasedKey, "strtolower", key);
 	if (zephir_array_isset(data, lowercasedKey)) {

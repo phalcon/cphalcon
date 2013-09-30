@@ -207,7 +207,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, initialize) {
 
 	ZEPHIR_INIT_VAR(className);
 	zephir_call_func_p1(className, "get_class_lower", model);
-	zephir_read_property_this(&initialized, this_ptr, SL("_initialized"), PH_NOISY_CC);
+	initialized = zephir_fetch_nproperty_this(this_ptr, SL("_initialized"), PH_NOISY_CC);
 	if (zephir_array_isset(initialized, className)) {
 		RETURN_MM_BOOL(0);
 	}
@@ -243,7 +243,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, isInitialized) {
 
 
 
-	zephir_read_property_this(&initialized, this_ptr, SL("_initialized"), PH_NOISY_CC);
+	initialized = zephir_fetch_nproperty_this(this_ptr, SL("_initialized"), PH_NOISY_CC);
 	ZEPHIR_INIT_VAR(_0);
 	zephir_call_func_p1(_0, "strtolower", modelName);
 	RETURN_MM_BOOL(zephir_array_isset(initialized, _0));
@@ -287,7 +287,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, load) {
 	}
 
 
-	zephir_read_property_this(&initialized, this_ptr, SL("_initialized"), PH_NOISY_CC);
+	initialized = zephir_fetch_nproperty_this(this_ptr, SL("_initialized"), PH_NOISY_CC);
 	ZEPHIR_OBS_VAR(model);
 	ZEPHIR_INIT_VAR(_0);
 	zephir_call_func_p1(_0, "strtolower", modelName);
@@ -334,7 +334,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getModelSource) {
 
 	ZEPHIR_INIT_VAR(entityName);
 	zephir_call_func_p1(entityName, "get_class_lower", model);
-	zephir_read_property_this(&sources, this_ptr, SL("_sources"), PH_NOISY_CC);
+	sources = zephir_fetch_nproperty_this(this_ptr, SL("_sources"), PH_NOISY_CC);
 	if ((Z_TYPE_P(sources) == IS_ARRAY)) {
 		ZEPHIR_OBS_VAR(source);
 		if (zephir_array_isset_fetch(&source, sources, entityName TSRMLS_CC)) {
@@ -390,7 +390,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getModelSchema) {
 
 
 
-	zephir_read_property_this(&schemas, this_ptr, SL("_schemas"), PH_NOISY_CC);
+	schemas = zephir_fetch_nproperty_this(this_ptr, SL("_schemas"), PH_NOISY_CC);
 	if ((Z_TYPE_P(schemas) == IS_ARRAY)) {
 		ZEPHIR_OBS_VAR(schema);
 		ZEPHIR_INIT_VAR(_0);
@@ -489,7 +489,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getReadConnection) {
 
 
 
-	zephir_read_property_this(&connectionServices, this_ptr, SL("_readConnectionServices"), PH_NOISY_CC);
+	connectionServices = zephir_fetch_nproperty_this(this_ptr, SL("_readConnectionServices"), PH_NOISY_CC);
 	if ((Z_TYPE_P(connectionServices) == IS_ARRAY)) {
 		ZEPHIR_OBS_VAR(service);
 		ZEPHIR_INIT_VAR(_0);
@@ -537,7 +537,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getWriteConnection) {
 
 
 
-	zephir_read_property_this(&connectionServices, this_ptr, SL("_writeConnectionServices"), PH_NOISY_CC);
+	connectionServices = zephir_fetch_nproperty_this(this_ptr, SL("_writeConnectionServices"), PH_NOISY_CC);
 	if ((Z_TYPE_P(connectionServices) == IS_ARRAY)) {
 		ZEPHIR_OBS_VAR(service);
 		ZEPHIR_INIT_VAR(_0);
@@ -585,7 +585,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getReadConnectionService) {
 
 
 
-	zephir_read_property_this(&connectionServices, this_ptr, SL("_readConnectionServices"), PH_NOISY_CC);
+	connectionServices = zephir_fetch_nproperty_this(this_ptr, SL("_readConnectionServices"), PH_NOISY_CC);
 	if ((Z_TYPE_P(connectionServices) == IS_ARRAY)) {
 		ZEPHIR_OBS_VAR(connection);
 		ZEPHIR_INIT_VAR(_0);
@@ -613,7 +613,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getWriteConnectionService) {
 
 
 
-	zephir_read_property_this(&connectionServices, this_ptr, SL("_writeConnectionServices"), PH_NOISY_CC);
+	connectionServices = zephir_fetch_nproperty_this(this_ptr, SL("_writeConnectionServices"), PH_NOISY_CC);
 	if ((Z_TYPE_P(connectionServices) == IS_ARRAY)) {
 		ZEPHIR_OBS_VAR(connection);
 		ZEPHIR_INIT_VAR(_0);
@@ -645,7 +645,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getRelationByAlias) {
 		zephir_get_strval(alias, alias_param);
 
 
-	zephir_read_property_this(&aliases, this_ptr, SL("_aliases"), PH_NOISY_CC);
+	aliases = zephir_fetch_nproperty_this(this_ptr, SL("_aliases"), PH_NOISY_CC);
 	if ((Z_TYPE_P(aliases) == IS_ARRAY)) {
 		ZEPHIR_OBS_VAR(relation);
 		ZEPHIR_INIT_VAR(_0);

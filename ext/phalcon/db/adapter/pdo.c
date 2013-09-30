@@ -228,7 +228,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, prepare) {
 		zephir_get_strval(sqlStatement, sqlStatement_param);
 
 
-	zephir_read_property_this(&pdo, this_ptr, SL("_pdo"), PH_NOISY_CC);
+	pdo = zephir_fetch_nproperty_this(this_ptr, SL("_pdo"), PH_NOISY_CC);
 	zephir_call_method_p1(return_value, pdo, "prepare", sqlStatement);
 	RETURN_MM();
 
@@ -439,7 +439,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, execute) {
 	}
 	ZEPHIR_INIT_VAR(affectedRows);
 	ZVAL_LONG(affectedRows, 0);
-	zephir_read_property_this(&pdo, this_ptr, SL("_pdo"), PH_NOISY_CC);
+	pdo = zephir_fetch_nproperty_this(this_ptr, SL("_pdo"), PH_NOISY_CC);
 	if ((Z_TYPE_P(bindParams) == IS_ARRAY)) {
 		ZEPHIR_INIT_VAR(statement);
 		zephir_call_method_p1(statement, pdo, "prepare", sqlStatement);
@@ -493,7 +493,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, close) {
 	zval *pdo;
 
 
-	zephir_read_property_this(&pdo, this_ptr, SL("_pdo"), PH_NOISY_CC);
+	pdo = zephir_fetch_nproperty_this(this_ptr, SL("_pdo"), PH_NOISY_CC);
 	if ((Z_TYPE_P(pdo) == IS_OBJECT)) {
 		zephir_update_property_this(this_ptr, SL("_pdo"), ZEPHIR_GLOBAL(global_null) TSRMLS_CC);
 		RETURN_BOOL(1);
@@ -564,7 +564,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, escapeString) {
 		zephir_get_strval(str, str_param);
 
 
-	zephir_read_property_this(&pdo, this_ptr, SL("_pdo"), PH_NOISY_CC);
+	pdo = zephir_fetch_nproperty_this(this_ptr, SL("_pdo"), PH_NOISY_CC);
 	zephir_call_method_p1(return_value, pdo, "quote", str);
 	RETURN_MM();
 
@@ -600,7 +600,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, lastInsertId) {
 	}
 
 
-	zephir_read_property_this(&pdo, this_ptr, SL("_pdo"), PH_NOISY_CC);
+	pdo = zephir_fetch_nproperty_this(this_ptr, SL("_pdo"), PH_NOISY_CC);
 	if ((Z_TYPE_P(pdo) != IS_OBJECT)) {
 		RETURN_MM_BOOL(0);
 	}
@@ -630,11 +630,11 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, begin) {
 	}
 
 
-	zephir_read_property_this(&pdo, this_ptr, SL("_pdo"), PH_NOISY_CC);
+	pdo = zephir_fetch_nproperty_this(this_ptr, SL("_pdo"), PH_NOISY_CC);
 	if ((Z_TYPE_P(pdo) != IS_OBJECT)) {
 		RETURN_MM_BOOL(0);
 	}
-	zephir_read_property_this(&transactionLevel, this_ptr, SL("_transactionLevel"), PH_NOISY_CC);
+	transactionLevel = zephir_fetch_nproperty_this(this_ptr, SL("_transactionLevel"), PH_NOISY_CC);
 	if (ZEPHIR_IS_LONG(transactionLevel, 1)) {
 		ZEPHIR_OBS_VAR(_0);
 		zephir_read_property_this(&_0, this_ptr, SL("_eventsManager"), PH_NOISY_CC);
@@ -693,11 +693,11 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, rollback) {
 	}
 
 
-	zephir_read_property_this(&pdo, this_ptr, SL("_pdo"), PH_NOISY_CC);
+	pdo = zephir_fetch_nproperty_this(this_ptr, SL("_pdo"), PH_NOISY_CC);
 	if ((Z_TYPE_P(pdo) != IS_OBJECT)) {
 		RETURN_MM_BOOL(0);
 	}
-	zephir_read_property_this(&transactionLevel, this_ptr, SL("_transactionLevel"), PH_NOISY_CC);
+	transactionLevel = zephir_fetch_nproperty_this(this_ptr, SL("_transactionLevel"), PH_NOISY_CC);
 	if (!(zephir_is_true(transactionLevel))) {
 		ZEPHIR_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "There is no active transaction");
 		return;
@@ -762,11 +762,11 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, commit) {
 	}
 
 
-	zephir_read_property_this(&pdo, this_ptr, SL("_pdo"), PH_NOISY_CC);
+	pdo = zephir_fetch_nproperty_this(this_ptr, SL("_pdo"), PH_NOISY_CC);
 	if ((Z_TYPE_P(pdo) != IS_OBJECT)) {
 		RETURN_MM_BOOL(0);
 	}
-	zephir_read_property_this(&transactionLevel, this_ptr, SL("_transactionLevel"), PH_NOISY_CC);
+	transactionLevel = zephir_fetch_nproperty_this(this_ptr, SL("_transactionLevel"), PH_NOISY_CC);
 	if (!(zephir_is_true(transactionLevel))) {
 		ZEPHIR_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "There is no active transaction");
 		return;
@@ -838,7 +838,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, isUnderTransaction) {
 
 	ZEPHIR_MM_GROW();
 
-	zephir_read_property_this(&pdo, this_ptr, SL("_pdo"), PH_NOISY_CC);
+	pdo = zephir_fetch_nproperty_this(this_ptr, SL("_pdo"), PH_NOISY_CC);
 	if ((Z_TYPE_P(pdo) == IS_OBJECT)) {
 		zephir_call_method(return_value, pdo, "intransaction");
 		RETURN_MM();

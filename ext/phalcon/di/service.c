@@ -211,9 +211,9 @@ PHP_METHOD(Phalcon_Di_Service, resolve) {
 	}
 
 
-	zephir_read_property_this(&shared, this_ptr, SL("_shared"), PH_NOISY_CC);
+	shared = zephir_fetch_nproperty_this(this_ptr, SL("_shared"), PH_NOISY_CC);
 	if (zephir_is_true(shared)) {
-		zephir_read_property_this(&sharedInstance, this_ptr, SL("_sharedInstance"), PH_NOISY_CC);
+		sharedInstance = zephir_fetch_nproperty_this(this_ptr, SL("_sharedInstance"), PH_NOISY_CC);
 		if ((Z_TYPE_P(sharedInstance) != IS_NULL)) {
 			RETURN_CCTOR(sharedInstance);
 		}
@@ -221,7 +221,7 @@ PHP_METHOD(Phalcon_Di_Service, resolve) {
 	found = 1;
 	ZEPHIR_INIT_VAR(instance);
 	ZVAL_NULL(instance);
-	zephir_read_property_this(&definition, this_ptr, SL("_definition"), PH_NOISY_CC);
+	definition = zephir_fetch_nproperty_this(this_ptr, SL("_definition"), PH_NOISY_CC);
 	if ((Z_TYPE_P(definition) == IS_STRING)) {
 		ZEPHIR_INIT_VAR(_0);
 		zephir_call_func_p1(_0, "class_exists", definition);
@@ -349,7 +349,7 @@ PHP_METHOD(Phalcon_Di_Service, getParameter) {
 		position = zephir_get_intval(position_param);
 
 
-	zephir_read_property_this(&definition, this_ptr, SL("_definition"), PH_NOISY_CC);
+	definition = zephir_fetch_nproperty_this(this_ptr, SL("_definition"), PH_NOISY_CC);
 	if ((Z_TYPE_P(definition) != IS_ARRAY)) {
 		ZEPHIR_THROW_EXCEPTION_STR(phalcon_di_exception_ce, "Definition must be an array to obtain its parameters");
 		return;

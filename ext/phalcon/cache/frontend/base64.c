@@ -115,7 +115,7 @@ PHP_METHOD(Phalcon_Cache_Frontend_Base64, getLifetime) {
 
 	ZEPHIR_MM_GROW();
 
-	zephir_read_property_this(&options, this_ptr, SL("_frontendOptions"), PH_NOISY_CC);
+	options = zephir_fetch_nproperty_this(this_ptr, SL("_frontendOptions"), PH_NOISY_CC);
 	if ((Z_TYPE_P(options) == IS_ARRAY)) {
 		ZEPHIR_OBS_VAR(lifetime);
 		if (zephir_array_isset_string_fetch(&lifetime, options, SS("lifetime") TSRMLS_CC)) {

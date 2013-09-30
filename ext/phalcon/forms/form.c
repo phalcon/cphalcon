@@ -175,7 +175,7 @@ PHP_METHOD(Phalcon_Forms_Form, getUserOption) {
 	}
 
 
-	zephir_read_property_this(&options, this_ptr, SL("_options"), PH_NOISY_CC);
+	options = zephir_fetch_nproperty_this(this_ptr, SL("_options"), PH_NOISY_CC);
 	ZEPHIR_OBS_VAR(value);
 	if (zephir_array_isset_fetch(&value, options, option TSRMLS_CC)) {
 		RETURN_CCTOR(value);
@@ -290,7 +290,7 @@ PHP_METHOD(Phalcon_Forms_Form, bind) {
 		ZEPHIR_THROW_EXCEPTION_STR(phalcon_forms_exception_ce, "The data must be an array");
 		return;
 	}
-	zephir_read_property_this(&elements, this_ptr, SL("_elements"), PH_NOISY_CC);
+	elements = zephir_fetch_nproperty_this(this_ptr, SL("_elements"), PH_NOISY_CC);
 	if ((Z_TYPE_P(elements) != IS_ARRAY)) {
 		ZEPHIR_THROW_EXCEPTION_STR(phalcon_forms_exception_ce, "There are no elements in the form");
 		return;
@@ -373,7 +373,7 @@ PHP_METHOD(Phalcon_Forms_Form, isValid) {
 	}
 
 
-	zephir_read_property_this(&elements, this_ptr, SL("_elements"), PH_NOISY_CC);
+	elements = zephir_fetch_nproperty_this(this_ptr, SL("_elements"), PH_NOISY_CC);
 	if ((Z_TYPE_P(elements) != IS_ARRAY)) {
 		RETURN_MM_BOOL(1);
 	}
@@ -475,7 +475,7 @@ PHP_METHOD(Phalcon_Forms_Form, getMessages) {
 	}
 
 
-	zephir_read_property_this(&messages, this_ptr, SL("_messages"), PH_NOISY_CC);
+	messages = zephir_fetch_nproperty_this(this_ptr, SL("_messages"), PH_NOISY_CC);
 	if (byItemName) {
 		if ((Z_TYPE_P(messages) != IS_ARRAY)) {
 			object_init_ex(return_value, phalcon_validation_message_group_ce);
@@ -514,7 +514,7 @@ PHP_METHOD(Phalcon_Forms_Form, getMessagesFor) {
 
 
 
-	zephir_read_property_this(&messages, this_ptr, SL("_messages"), PH_NOISY_CC);
+	messages = zephir_fetch_nproperty_this(this_ptr, SL("_messages"), PH_NOISY_CC);
 	ZEPHIR_OBS_VAR(elementMessages);
 	if (zephir_array_isset_fetch(&elementMessages, messages, name TSRMLS_CC)) {
 		RETURN_CCTOR(elementMessages);
@@ -540,7 +540,7 @@ PHP_METHOD(Phalcon_Forms_Form, hasMessagesFor) {
 
 
 
-	zephir_read_property_this(&messages, this_ptr, SL("_messages"), PH_NOISY_CC);
+	messages = zephir_fetch_nproperty_this(this_ptr, SL("_messages"), PH_NOISY_CC);
 	RETURN_BOOL(zephir_array_isset(messages, name));
 
 }
@@ -593,7 +593,7 @@ PHP_METHOD(Phalcon_Forms_Form, render) {
 	}
 
 
-	zephir_read_property_this(&elements, this_ptr, SL("_elements"), PH_NOISY_CC);
+	elements = zephir_fetch_nproperty_this(this_ptr, SL("_elements"), PH_NOISY_CC);
 	if (!(zephir_array_isset(elements, name))) {
 		ZEPHIR_INIT_VAR(_0);
 		object_init_ex(_0, phalcon_forms_exception_ce);
@@ -630,7 +630,7 @@ PHP_METHOD(Phalcon_Forms_Form, get) {
 		zephir_get_strval(name, name_param);
 
 
-	zephir_read_property_this(&elements, this_ptr, SL("_elements"), PH_NOISY_CC);
+	elements = zephir_fetch_nproperty_this(this_ptr, SL("_elements"), PH_NOISY_CC);
 	ZEPHIR_OBS_VAR(element);
 	if (zephir_array_isset_fetch(&element, elements, name TSRMLS_CC)) {
 		RETURN_CCTOR(element);
@@ -665,7 +665,7 @@ PHP_METHOD(Phalcon_Forms_Form, label) {
 		zephir_get_strval(name, name_param);
 
 
-	zephir_read_property_this(&elements, this_ptr, SL("_elements"), PH_NOISY_CC);
+	elements = zephir_fetch_nproperty_this(this_ptr, SL("_elements"), PH_NOISY_CC);
 	ZEPHIR_OBS_VAR(element);
 	if (zephir_array_isset_fetch(&element, elements, name TSRMLS_CC)) {
 		zephir_call_method(return_value, element, "label");
@@ -701,7 +701,7 @@ PHP_METHOD(Phalcon_Forms_Form, getLabel) {
 		zephir_get_strval(name, name_param);
 
 
-	zephir_read_property_this(&elements, this_ptr, SL("_elements"), PH_NOISY_CC);
+	elements = zephir_fetch_nproperty_this(this_ptr, SL("_elements"), PH_NOISY_CC);
 	if (!(zephir_array_isset(elements, name))) {
 		ZEPHIR_INIT_VAR(_0);
 		object_init_ex(_0, phalcon_forms_exception_ce);
@@ -742,7 +742,7 @@ PHP_METHOD(Phalcon_Forms_Form, getValue) {
 		zephir_get_strval(name, name_param);
 
 
-	zephir_read_property_this(&entity, this_ptr, SL("_entity"), PH_NOISY_CC);
+	entity = zephir_fetch_nproperty_this(this_ptr, SL("_entity"), PH_NOISY_CC);
 	if ((Z_TYPE_P(entity) == IS_OBJECT)) {
 		ZEPHIR_INIT_VAR(method);
 		ZEPHIR_CONCAT_SV(method, "get", name);
@@ -755,7 +755,7 @@ PHP_METHOD(Phalcon_Forms_Form, getValue) {
 			RETURN_CCTOR(value);
 		}
 	}
-	zephir_read_property_this(&data, this_ptr, SL("_data"), PH_NOISY_CC);
+	data = zephir_fetch_nproperty_this(this_ptr, SL("_data"), PH_NOISY_CC);
 	if ((Z_TYPE_P(data) == IS_ARRAY)) {
 		ZEPHIR_OBS_NVAR(value);
 		if (zephir_array_isset_fetch(&value, data, name TSRMLS_CC)) {
@@ -783,7 +783,7 @@ PHP_METHOD(Phalcon_Forms_Form, has) {
 		zephir_get_strval(name, name_param);
 
 
-	zephir_read_property_this(&elements, this_ptr, SL("_elements"), PH_NOISY_CC);
+	elements = zephir_fetch_nproperty_this(this_ptr, SL("_elements"), PH_NOISY_CC);
 	RETURN_MM_BOOL(zephir_array_isset(elements, name));
 
 }
@@ -805,7 +805,7 @@ PHP_METHOD(Phalcon_Forms_Form, remove) {
 		zephir_get_strval(name, name_param);
 
 
-	zephir_read_property_this(&elements, this_ptr, SL("_elements"), PH_NOISY_CC);
+	elements = zephir_fetch_nproperty_this(this_ptr, SL("_elements"), PH_NOISY_CC);
 	if (zephir_array_isset(elements, name)) {
 		RETURN_MM_BOOL(1);
 	}
@@ -835,7 +835,7 @@ PHP_METHOD(Phalcon_Forms_Form, clear) {
 	}
 
 
-	zephir_read_property_this(&elements, this_ptr, SL("_elements"), PH_NOISY_CC);
+	elements = zephir_fetch_nproperty_this(this_ptr, SL("_elements"), PH_NOISY_CC);
 	if ((Z_TYPE_P(elements) == IS_ARRAY)) {
 		zephir_is_iterable(elements, &_1, &_0, 0, 0);
 		for (
@@ -906,7 +906,7 @@ PHP_METHOD(Phalcon_Forms_Form, current) {
 
 	ZEPHIR_MM_GROW();
 
-	zephir_read_property_this(&elements, this_ptr, SL("_elementsIndexed"), PH_NOISY_CC);
+	elements = zephir_fetch_nproperty_this(this_ptr, SL("_elementsIndexed"), PH_NOISY_CC);
 	ZEPHIR_OBS_VAR(element);
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_position"), PH_NOISY_CC);
 	if (zephir_array_isset_fetch(&element, elements, _0 TSRMLS_CC)) {
@@ -948,7 +948,7 @@ PHP_METHOD(Phalcon_Forms_Form, valid) {
 	zval *elements, *_0;
 
 
-	zephir_read_property_this(&elements, this_ptr, SL("_elementsIndexed"), PH_NOISY_CC);
+	elements = zephir_fetch_nproperty_this(this_ptr, SL("_elementsIndexed"), PH_NOISY_CC);
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_position"), PH_NOISY_CC);
 	RETURN_BOOL(zephir_array_isset(elements, _0));
 

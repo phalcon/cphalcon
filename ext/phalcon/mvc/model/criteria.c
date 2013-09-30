@@ -92,7 +92,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, getDI) {
 
 	ZEPHIR_MM_GROW();
 
-	zephir_read_property_this(&params, this_ptr, SL("_params"), PH_NOISY_CC);
+	params = zephir_fetch_nproperty_this(this_ptr, SL("_params"), PH_NOISY_CC);
 	ZEPHIR_OBS_VAR(dependencyInjector);
 	if (zephir_array_isset_string_fetch(&dependencyInjector, params, SS("di") TSRMLS_CC)) {
 		RETURN_CCTOR(dependencyInjector);

@@ -114,7 +114,7 @@ PHP_METHOD(Phalcon_Cache_Backend, start) {
 	zephir_call_method_p2(existingCache, this_ptr, "get", keyName, lifetime);
 	if ((Z_TYPE_P(existingCache) == IS_NULL)) {
 		fresh = 1;
-		zephir_read_property_this(&frontend, this_ptr, SL("_frontend"), PH_NOISY_CC);
+		frontend = zephir_fetch_nproperty_this(this_ptr, SL("_frontend"), PH_NOISY_CC);
 		zephir_call_method_noret(frontend, "start");
 	} else {
 		fresh = 0;
@@ -148,7 +148,7 @@ PHP_METHOD(Phalcon_Cache_Backend, stop) {
 
 
 	if (ZEPHIR_IS_TRUE(stopBuffer)) {
-		zephir_read_property_this(&frontend, this_ptr, SL("_frontend"), PH_NOISY_CC);
+		frontend = zephir_fetch_nproperty_this(this_ptr, SL("_frontend"), PH_NOISY_CC);
 		zephir_call_method_noret(frontend, "stop");
 	}
 	zephir_update_property_this(this_ptr, SL("_started"), ZEPHIR_GLOBAL(global_false) TSRMLS_CC);

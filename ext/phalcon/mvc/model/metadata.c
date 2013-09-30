@@ -103,7 +103,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, _initialize) {
 	ZEPHIR_INIT_VAR(className);
 	zephir_call_func_p1(className, "get_class", model);
 	if ((Z_TYPE_P(key) != IS_NULL)) {
-		zephir_read_property_this(&metaData, this_ptr, SL("_metaData"), PH_NOISY_CC);
+		metaData = zephir_fetch_nproperty_this(this_ptr, SL("_metaData"), PH_NOISY_CC);
 		if (!(zephir_array_isset(metaData, key))) {
 			ZEPHIR_INIT_VAR(prefixKey);
 			ZEPHIR_CONCAT_SV(prefixKey, "meta-", key);
@@ -277,7 +277,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, readMetaData) {
 	concat_function(_2, _1, schema TSRMLS_CC);
 	ZEPHIR_INIT_VAR(key);
 	concat_function(key, _2, source TSRMLS_CC);
-	zephir_read_property_this(&metaData, this_ptr, SL("_metaData"), PH_NOISY_CC);
+	metaData = zephir_fetch_nproperty_this(this_ptr, SL("_metaData"), PH_NOISY_CC);
 	if (!(zephir_array_isset(metaData, key))) {
 		zephir_call_method_p4_noret(this_ptr, "_initialize", model, key, source, schema);
 	}
@@ -318,7 +318,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, readMetaDataIndex) {
 	concat_function(_2, _1, schema TSRMLS_CC);
 	ZEPHIR_INIT_VAR(key);
 	concat_function(key, _2, source TSRMLS_CC);
-	zephir_read_property_this(&metaData, this_ptr, SL("_metaData"), PH_NOISY_CC);
+	metaData = zephir_fetch_nproperty_this(this_ptr, SL("_metaData"), PH_NOISY_CC);
 	if (!(zephir_array_isset(metaData, key))) {
 		zephir_call_method_p4_noret(this_ptr, "_initialize", model, key, source, schema);
 	}
@@ -364,7 +364,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, writeMetaDataIndex) {
 	concat_function(_2, _1, schema TSRMLS_CC);
 	ZEPHIR_INIT_VAR(key);
 	concat_function(key, _2, source TSRMLS_CC);
-	zephir_read_property_this(&metaData, this_ptr, SL("_metaData"), PH_NOISY_CC);
+	metaData = zephir_fetch_nproperty_this(this_ptr, SL("_metaData"), PH_NOISY_CC);
 	if (!(zephir_array_isset(metaData, key))) {
 		zephir_call_method_p4_noret(this_ptr, "_initialize", model, key, source, schema);
 	}
