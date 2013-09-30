@@ -898,8 +898,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, hasAttribute) {
 	} else {
 		ZEPHIR_INIT_VAR(metaData);
 		zephir_call_method_p1(metaData, this_ptr, "readmetadata", model);
-		ZEPHIR_OBS_VAR(dataTypes);
-		zephir_array_fetch_long(&dataTypes, metaData, 4, PH_NOISY TSRMLS_CC);
+		zephir_array_fetch_long(&dataTypes, metaData, 4, PH_NOISY | PH_READONLY TSRMLS_CC);
 		RETURN_MM_BOOL(zephir_array_isset(dataTypes, attribute));
 	}
 	RETURN_MM_BOOL(0);

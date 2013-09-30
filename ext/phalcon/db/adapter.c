@@ -1431,7 +1431,7 @@ PHP_METHOD(Phalcon_Db_Adapter, describeIndexes) {
 	zend_function *_10 = NULL;
 	HashTable *_4, *_7;
 	HashPosition _3, _6;
-	zval *table_param = NULL, *schema = NULL, *dialect, *indexes, *index = NULL, *keyName = NULL, *indexObjects, *name = NULL, *indexColumns = NULL, *_0, *_1, *_2 = NULL, **_5, **_8, *_9 = NULL;
+	zval *table_param = NULL, *schema = NULL, *dialect, *indexes, *index = NULL, *keyName, *indexObjects, *name = NULL, *indexColumns = NULL, *_0, *_1, *_2 = NULL, **_5, **_8, *_9 = NULL;
 	zval *table = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -1458,8 +1458,7 @@ PHP_METHOD(Phalcon_Db_Adapter, describeIndexes) {
 		; zend_hash_move_forward_ex(_4, &_3)
 	) {
 		ZEPHIR_GET_HVALUE(index, _5);
-		ZEPHIR_OBS_NVAR(keyName);
-		zephir_array_fetch_long(&keyName, index, 2, PH_NOISY TSRMLS_CC);
+		zephir_array_fetch_long(&keyName, index, 2, PH_NOISY | PH_READONLY TSRMLS_CC);
 		if (!(zephir_array_isset(indexes, keyName))) {
 			ZEPHIR_INIT_NVAR(_2);
 			array_init(_2);
@@ -1500,7 +1499,7 @@ PHP_METHOD(Phalcon_Db_Adapter, describeReferences) {
 	zend_function *_12 = NULL;
 	HashTable *_4, *_8;
 	HashPosition _3, _7;
-	zval *table_param = NULL, *schema_param = NULL, *dialect, *emptyArr, *references, *reference = NULL, *arrayReference = NULL, *constraintName = NULL, *referenceObjects, *name = NULL, *_0, *_1, *_2 = NULL, **_5, *_6 = NULL, **_9, *_10 = NULL, *_11 = NULL;
+	zval *table_param = NULL, *schema_param = NULL, *dialect, *emptyArr, *references, *reference = NULL, *arrayReference = NULL, *constraintName, *referenceObjects, *name = NULL, *_0, *_1, *_2 = NULL, **_5, *_6 = NULL, **_9, *_10 = NULL, *_11 = NULL;
 	zval *table = NULL, *schema = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -1532,8 +1531,7 @@ PHP_METHOD(Phalcon_Db_Adapter, describeReferences) {
 		; zend_hash_move_forward_ex(_4, &_3)
 	) {
 		ZEPHIR_GET_HVALUE(reference, _5);
-		ZEPHIR_OBS_NVAR(constraintName);
-		zephir_array_fetch_long(&constraintName, reference, 2, PH_NOISY TSRMLS_CC);
+		zephir_array_fetch_long(&constraintName, reference, 2, PH_NOISY | PH_READONLY TSRMLS_CC);
 		if (!(zephir_array_isset(references, constraintName))) {
 			ZEPHIR_INIT_NVAR(_2);
 			array_init(_2);

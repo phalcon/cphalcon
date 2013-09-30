@@ -275,7 +275,7 @@ PHP_METHOD(Phalcon_Forms_Form, bind) {
 	zend_function *_4 = NULL, *_5 = NULL, *_7 = NULL, *_8 = NULL;
 	HashTable *_1;
 	HashPosition _0;
-	zval *data, *entity, *whitelist = NULL, *elements, *filter = NULL, *key = NULL, *value = NULL, *element = NULL, *filters = NULL, *dependencyInjector = NULL, *filteredValue = NULL, *method = NULL, **_2, *_3 = NULL, *_6 = NULL;
+	zval *data, *entity, *whitelist = NULL, *elements, *filter = NULL, *key = NULL, *value = NULL, *element, *filters = NULL, *dependencyInjector = NULL, *filteredValue = NULL, *method = NULL, **_2, *_3 = NULL, *_6 = NULL;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 1, &data, &entity, &whitelist);
@@ -314,8 +314,7 @@ PHP_METHOD(Phalcon_Forms_Form, bind) {
 				continue;
 			}
 		}
-		ZEPHIR_OBS_NVAR(element);
-		zephir_array_fetch(&element, elements, key, PH_NOISY TSRMLS_CC);
+		zephir_array_fetch(&element, elements, key, PH_NOISY | PH_READONLY TSRMLS_CC);
 		ZEPHIR_INIT_NVAR(filters);
 		zephir_call_method_cache(filters, element, "getfilters", &_4);
 		if (zephir_is_true(filters)) {
@@ -606,8 +605,7 @@ PHP_METHOD(Phalcon_Forms_Form, render) {
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
-	ZEPHIR_OBS_VAR(element);
-	zephir_array_fetch(&element, elements, name, PH_NOISY TSRMLS_CC);
+	zephir_array_fetch(&element, elements, name, PH_NOISY | PH_READONLY TSRMLS_CC);
 	zephir_call_method_p1(return_value, element, "render", attributes);
 	RETURN_MM();
 
@@ -714,8 +712,7 @@ PHP_METHOD(Phalcon_Forms_Form, getLabel) {
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
-	ZEPHIR_OBS_VAR(element);
-	zephir_array_fetch(&element, elements, name, PH_NOISY TSRMLS_CC);
+	zephir_array_fetch(&element, elements, name, PH_NOISY | PH_READONLY TSRMLS_CC);
 	ZEPHIR_INIT_VAR(label);
 	zephir_call_method(label, element, "getlabel");
 	if (!(zephir_is_true(label))) {

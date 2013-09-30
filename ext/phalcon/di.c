@@ -269,8 +269,7 @@ PHP_METHOD(Phalcon_Di, getRaw) {
 	}
 	services = zephir_fetch_nproperty_this(this_ptr, SL("_services"), PH_NOISY_CC);
 	if (zephir_array_isset(services, name)) {
-		ZEPHIR_OBS_VAR(service);
-		zephir_array_fetch(&service, services, name, PH_NOISY TSRMLS_CC);
+		zephir_array_fetch(&service, services, name, PH_NOISY | PH_READONLY TSRMLS_CC);
 		zephir_call_method(return_value, service, "getdefinition");
 		RETURN_MM();
 	}

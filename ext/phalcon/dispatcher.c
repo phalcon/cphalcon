@@ -319,7 +319,7 @@ PHP_METHOD(Phalcon_Dispatcher, setActionName) {
 }
 
 /**
- * Gets the lastest dispatched action name
+ * Gets the latest dispatched action name
  *
  * @return string
  */
@@ -410,8 +410,7 @@ PHP_METHOD(Phalcon_Dispatcher, getParam) {
 
 	params = zephir_fetch_nproperty_this(this_ptr, SL("_params"), PH_NOISY_CC);
 	if (zephir_array_isset(params, param)) {
-		ZEPHIR_OBS_VAR(paramValue);
-		zephir_array_fetch(&paramValue, params, param, PH_NOISY TSRMLS_CC);
+		zephir_array_fetch(&paramValue, params, param, PH_NOISY | PH_READONLY TSRMLS_CC);
 		if ((Z_TYPE_P(filters) != IS_NULL)) {
 			dependencyInjector = zephir_fetch_nproperty_this(this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
 			if ((Z_TYPE_P(dependencyInjector) != IS_OBJECT)) {

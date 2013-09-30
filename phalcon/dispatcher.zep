@@ -215,7 +215,7 @@ abstract class Dispatcher implements Phalcon\DispatcherInterface, Phalcon\Di\Inj
 	}
 
 	/**
-	 * Gets the lastest dispatched action name
+	 * Gets the latest dispatched action name
 	 *
 	 * @return string
 	 */

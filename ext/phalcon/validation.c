@@ -101,7 +101,7 @@ PHP_METHOD(Phalcon_Validation, validate) {
 	zend_function *_4 = NULL, *_6 = NULL;
 	HashTable *_2;
 	HashPosition _1;
-	zval *data = NULL, *entity = NULL, *validators, *messages = NULL, *cancelOnFail, *scope = NULL, *attribute = NULL, *validator = NULL, *_0 = NULL, **_3, *_5 = NULL;
+	zval *data = NULL, *entity = NULL, *validators, *messages = NULL, *cancelOnFail, *scope = NULL, *attribute, *validator, *_0 = NULL, **_3, *_5 = NULL;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 2, &data, &entity);
@@ -150,10 +150,8 @@ PHP_METHOD(Phalcon_Validation, validate) {
 			ZEPHIR_THROW_EXCEPTION_STR(phalcon_validation_exception_ce, "The validator scope is not valid");
 			return;
 		}
-		ZEPHIR_OBS_NVAR(attribute);
-		zephir_array_fetch_long(&attribute, scope, 0, PH_NOISY TSRMLS_CC);
-		ZEPHIR_OBS_NVAR(validator);
-		zephir_array_fetch_long(&validator, scope, 1, PH_NOISY TSRMLS_CC);
+		zephir_array_fetch_long(&attribute, scope, 0, PH_NOISY | PH_READONLY TSRMLS_CC);
+		zephir_array_fetch_long(&validator, scope, 1, PH_NOISY | PH_READONLY TSRMLS_CC);
 		if ((Z_TYPE_P(validator) != IS_OBJECT)) {
 			ZEPHIR_THROW_EXCEPTION_STR(phalcon_validation_exception_ce, "One of the validators is not valid");
 			return;

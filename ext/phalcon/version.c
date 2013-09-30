@@ -104,16 +104,11 @@ PHP_METHOD(Phalcon_Version, get) {
 
 	ZEPHIR_INIT_VAR(version);
 	zephir_call_self(version, this_ptr, "_getversion");
-	ZEPHIR_OBS_VAR(major);
-	zephir_array_fetch_long(&major, version, 0, PH_NOISY TSRMLS_CC);
-	ZEPHIR_OBS_VAR(medium);
-	zephir_array_fetch_long(&medium, version, 1, PH_NOISY TSRMLS_CC);
-	ZEPHIR_OBS_VAR(minor);
-	zephir_array_fetch_long(&minor, version, 2, PH_NOISY TSRMLS_CC);
-	ZEPHIR_OBS_VAR(special);
-	zephir_array_fetch_long(&special, version, 3, PH_NOISY TSRMLS_CC);
-	ZEPHIR_OBS_VAR(specialNumber);
-	zephir_array_fetch_long(&specialNumber, version, 4, PH_NOISY TSRMLS_CC);
+	zephir_array_fetch_long(&major, version, 0, PH_NOISY | PH_READONLY TSRMLS_CC);
+	zephir_array_fetch_long(&medium, version, 1, PH_NOISY | PH_READONLY TSRMLS_CC);
+	zephir_array_fetch_long(&minor, version, 2, PH_NOISY | PH_READONLY TSRMLS_CC);
+	zephir_array_fetch_long(&special, version, 3, PH_NOISY | PH_READONLY TSRMLS_CC);
+	zephir_array_fetch_long(&specialNumber, version, 4, PH_NOISY | PH_READONLY TSRMLS_CC);
 	ZEPHIR_INIT_VAR(_0);
 	concat_function(_0, major, medium TSRMLS_CC);
 	ZEPHIR_INIT_VAR(_1);
@@ -164,16 +159,11 @@ PHP_METHOD(Phalcon_Version, getId) {
 
 	ZEPHIR_INIT_VAR(version);
 	zephir_call_self(version, this_ptr, "_getversion");
-	ZEPHIR_OBS_VAR(major);
-	zephir_array_fetch_long(&major, version, 0, PH_NOISY TSRMLS_CC);
-	ZEPHIR_OBS_VAR(medium);
-	zephir_array_fetch_long(&medium, version, 1, PH_NOISY TSRMLS_CC);
-	ZEPHIR_OBS_VAR(minor);
-	zephir_array_fetch_long(&minor, version, 2, PH_NOISY TSRMLS_CC);
-	ZEPHIR_OBS_VAR(special);
-	zephir_array_fetch_long(&special, version, 3, PH_NOISY TSRMLS_CC);
-	ZEPHIR_OBS_VAR(specialNumber);
-	zephir_array_fetch_long(&specialNumber, version, 4, PH_NOISY TSRMLS_CC);
+	zephir_array_fetch_long(&major, version, 0, PH_NOISY | PH_READONLY TSRMLS_CC);
+	zephir_array_fetch_long(&medium, version, 1, PH_NOISY | PH_READONLY TSRMLS_CC);
+	zephir_array_fetch_long(&minor, version, 2, PH_NOISY | PH_READONLY TSRMLS_CC);
+	zephir_array_fetch_long(&special, version, 3, PH_NOISY | PH_READONLY TSRMLS_CC);
+	zephir_array_fetch_long(&specialNumber, version, 4, PH_NOISY | PH_READONLY TSRMLS_CC);
 	ZEPHIR_SINIT_VAR(_0);
 	ZVAL_STRING(&_0, "%02s", 0);
 	ZEPHIR_INIT_VAR(_1);
