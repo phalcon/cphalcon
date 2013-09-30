@@ -113,6 +113,16 @@ PHP_METHOD(Phalcon_Logger_Adapter, setFormatter){
 }
 
 /**
+ * Returns the current transaction
+ *
+ * @return Phalcon\Logger\Adapter
+ */
+PHP_METHOD(Phalcon_Logger_Adapter, isTransaction){
+
+	RETURN_MEMBER(this_ptr, "_transaction");
+}
+
+/**
  * Starts a transaction
  *
  * @return Phalcon\Logger\Adapter

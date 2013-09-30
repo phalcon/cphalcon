@@ -24,6 +24,7 @@ PHALCON_INIT_CLASS(Phalcon_Logger_Adapter);
 PHP_METHOD(Phalcon_Logger_Adapter, setLogLevel);
 PHP_METHOD(Phalcon_Logger_Adapter, getLogLevel);
 PHP_METHOD(Phalcon_Logger_Adapter, setFormatter);
+PHP_METHOD(Phalcon_Logger_Adapter, isTransaction);
 PHP_METHOD(Phalcon_Logger_Adapter, begin);
 PHP_METHOD(Phalcon_Logger_Adapter, commit);
 PHP_METHOD(Phalcon_Logger_Adapter, rollback);
@@ -81,6 +82,7 @@ PHALCON_INIT_FUNCS(phalcon_logger_adapter_method_entry){
 	PHP_ME(Phalcon_Logger_Adapter, setLogLevel, arginfo_phalcon_logger_adapter_setloglevel, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Logger_Adapter, getLogLevel, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Logger_Adapter, setFormatter, arginfo_phalcon_logger_adapter_setformatter, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Logger_Adapter, isTransaction, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Logger_Adapter, begin, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Logger_Adapter, commit, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Logger_Adapter, rollback, NULL, ZEND_ACC_PUBLIC) 
