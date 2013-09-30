@@ -131,24 +131,23 @@ PHP_METHOD(Phalcon_Db_Profiler, startProfile) {
  */
 PHP_METHOD(Phalcon_Db_Profiler, stopProfile) {
 
-	zval *finalTime, *initialTime, *activeProfile = NULL, *_0, *_1, *_2, *_3;
+	zval *finalTime, *initialTime, *activeProfile = NULL, *_0, *_1, *_2;
 
 	ZEPHIR_MM_GROW();
 
 	ZEPHIR_INIT_VAR(finalTime);
 	zephir_call_func_p1(finalTime, "microtime", ZEPHIR_GLOBAL(global_true));
-	ZEPHIR_OBS_VAR(_0);
-	zephir_read_property_this(&_0, this_ptr, SL("_activeProfile"), PH_NOISY_CC);
+	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_activeProfile"), PH_NOISY_CC);
 	ZEPHIR_CPY_WRT(activeProfile, _0);
 	zephir_call_method_p1_noret(activeProfile, "setfinaltime", finalTime);
 	ZEPHIR_INIT_VAR(initialTime);
 	zephir_call_method(initialTime, activeProfile, "getinitialtime");
-	_1 = zephir_fetch_nproperty_this(this_ptr, SL("_totalSeconds"), PH_NOISY_CC);
+	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_totalSeconds"), PH_NOISY_CC);
+	ZEPHIR_INIT_VAR(_1);
+	sub_function(_1, finalTime, initialTime TSRMLS_CC);
 	ZEPHIR_INIT_VAR(_2);
-	sub_function(_2, finalTime, initialTime TSRMLS_CC);
-	ZEPHIR_INIT_VAR(_3);
-	zephir_add_function(_3, _1, _2 TSRMLS_CC);
-	zephir_update_property_this(this_ptr, SL("_totalSeconds"), _3 TSRMLS_CC);
+	zephir_add_function(_2, _0, _1 TSRMLS_CC);
+	zephir_update_property_this(this_ptr, SL("_totalSeconds"), _2 TSRMLS_CC);
 	zephir_update_property_array_append(this_ptr, SL("_allProfiles"), activeProfile TSRMLS_CC);
 	if ((zephir_method_exists_str(this_ptr, SS("afterendprofile") TSRMLS_CC) == SUCCESS)) {
 		zephir_call_method_p1_noret(this_ptr, "afterendprofile", activeProfile);

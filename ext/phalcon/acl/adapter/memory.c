@@ -738,8 +738,7 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, isAllowed) {
 	zephir_update_property_this(this_ptr, SL("_activeResource"), resource TSRMLS_CC);
 	zephir_update_property_this(this_ptr, SL("_activeAccess"), resource TSRMLS_CC);
 	accessList = zephir_fetch_nproperty_this(this_ptr, SL("_access"), PH_NOISY_CC);
-	ZEPHIR_OBS_VAR(_0);
-	zephir_read_property_this(&_0, this_ptr, SL("_eventsManager"), PH_NOISY_CC);
+	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_eventsManager"), PH_NOISY_CC);
 	ZEPHIR_CPY_WRT(eventsManager, _0);
 	//missing empty
 	if ((Z_TYPE_P(eventsManager) == IS_OBJECT)) {
