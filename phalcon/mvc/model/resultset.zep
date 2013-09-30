@@ -495,8 +495,8 @@ abstract class Resultset
 	 *		if ($robot->id < 3) {
 	 *			return $robot;
 	 *		}
-     *	});
-     *</code>
+	 *	});
+	 *</code>
 	 *
 	 * @param callback filter
 	 * @return Phalcon\Mvc\Model[]

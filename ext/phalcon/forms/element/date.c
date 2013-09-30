@@ -12,6 +12,7 @@
 #include <Zend/zend_interfaces.h>
 
 #include "kernel/main.h"
+#include "kernel/fcall.h"
 #include "kernel/memory.h"
 
 
@@ -41,6 +42,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Forms_Element_Date) {
 
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Forms\\Element, Date, phalcon, forms_element_date, phalcon_forms_element_ce, phalcon_forms_element_date_method_entry, 0);
 
+	zend_class_implements(phalcon_forms_element_date_ce TSRMLS_CC, 1, phalcon_forms_elementinterface_ce);
 
 	return SUCCESS;
 
@@ -64,6 +66,7 @@ PHP_METHOD(Phalcon_Forms_Element_Date, render) {
 	}
 
 
+	RETURN_MM();
 
 }
 

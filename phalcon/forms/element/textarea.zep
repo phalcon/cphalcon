@@ -19,7 +19,23 @@
 
 namespace Phalcon\Forms\Element;
 
-class Textarea
+/**
+ * Phalcon\Forms\Element\TextArea
+ *
+ * Component TEXTAREA for forms
+ */
+class TextArea extends Phalcon\Forms\Element implements Phalcon\Forms\ElementInterface
 {
+
+	/**
+	 * Renders the element widget
+	 *
+	 * @param array attributes
+	 * @return string
+	 */
+	public function render(attributes=null) -> string
+	{
+		return Phalcon\Tag::textArea(this->prepareAttributes(attributes));
+	}
 
 }

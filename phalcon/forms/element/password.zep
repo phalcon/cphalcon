@@ -19,7 +19,23 @@
 
 namespace Phalcon\Forms\Element;
 
-class Password
+/**
+ * Phalcon\Forms\Element\Password
+ *
+ * Component INPUT[type=password] for forms
+ */
+class Password extends Phalcon\Forms\Element implements Phalcon\Forms\ElementInterface
 {
+
+	/**
+	 * Renders the element widget returning html
+	 *
+	 * @param array $attributes
+	 * @return string
+	 */
+	public function render(attributes=null) -> string
+	{
+		return Phalcon\Tag::passwordField(this->prepareAttributes(attributes));
+	}
 
 }

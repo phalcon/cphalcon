@@ -19,7 +19,26 @@
 
 namespace Phalcon\Forms\Element;
 
-class Submit
-{
+
+/**
+ * Phalcon\Forms\Element\Submit
+ *
+ * Component INPUT[type=submit] for forms
+ */
+class Submit extends Phalcon\Forms\Element implements Phalcon\Forms\ElementInterface {
+
+	/**
+	 * Renders the element widget
+	 *
+	 * @param array attributes
+	 * @return string
+	 */
+	public function render($attributes=null) -> string
+	{
+		/**
+		 * Merged passed attributes with previously defined ones
+		 */
+		return Phalcon\Tag::submitButton(this->prepareAttributes(attributes));
+	}
 
 }

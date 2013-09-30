@@ -38,6 +38,9 @@
  |          Eduar Carvajal <eduar@phalconphp.com>                         |
  +------------------------------------------------------------------------+
  */
+/**
+ * Phalcon\Forms\Manager
+ */
 ZEPHIR_INIT_CLASS(Phalcon_Forms_Manager) {
 
 	ZEPHIR_REGISTER_CLASS(Phalcon\\Forms, Manager, phalcon, forms_manager, phalcon_forms_manager_method_entry, 0);

@@ -24,7 +24,7 @@ namespace Phalcon\Forms\Element;
  *
  * Component INPUT[type=date] for forms
  */
-class Date extends Phalcon\Forms\Element //implements Phalcon\Forms\ElementInterface
+class Date extends Phalcon\Forms\Element implements Phalcon\Forms\ElementInterface
 {
 
 	/**
@@ -33,8 +33,9 @@ class Date extends Phalcon\Forms\Element //implements Phalcon\Forms\ElementInter
 	 * @param array attributes
 	 * @return string
 	 */
-	public function render(attributes=null)
+	public function render(var attributes=null) -> string
 	{
+		return Phalcon\Tag::dateField(this->prepareAttributes(attributes));
 	}
 
 }

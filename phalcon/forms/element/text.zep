@@ -33,7 +33,7 @@ class Text extends Phalcon\Forms\Element implements Phalcon\Forms\ElementInterfa
 	 * @param array attributes
 	 * @return string
 	 */
-	public function render(attributes=null)
+	public function render(attributes=null) -> string
 	{
 		return Phalcon\Tag::textField(this->prepareAttributes(attributes));
 	}

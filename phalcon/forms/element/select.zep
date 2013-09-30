@@ -24,9 +24,70 @@ namespace Phalcon\Forms\Element;
  *
  * Component SELECT (choice) for forms
  */
-class Select extends Phalcon\Forms\Element //implements Phalcon\Forms\ElementInterface
-{
+class Select extends Phalcon\Forms\Element implements Phalcon\Forms\ElementInterface {
 
 	protected _optionsValues;
+
+	/**
+	 * Phalcon\Forms\Element constructor
+	 *
+	 * @param string name
+	 * @param object|array options
+	 * @param array attributes
+	 */
+	public function __construct(string name, options=null, attributes=null)
+	{
+		let this->_optionsValues = options;
+		parent::__construct(name, attributes);
+	}
+
+	/**
+	 * Set the choice's options
+	 *
+	 * @param array|object options
+	 * @return Phalcon\Forms\Element
+	 */
+	public function setOptions(var options) -> <Phalcon\Forms\Element>
+	{
+		let this->_optionsValues = options;
+		return this;
+	}
+
+	/**
+	 * Returns the choices' options
+	 *
+	 * @return array|object
+	 */
+	public function getOptions()
+	{
+		return this->_optionsValues;
+	}
+
+	/**
+	 * Adds an option to the current options
+	 *
+	 * @param array option
+	 * @return this
+	 */
+	public function addOption(var option) -> <Phalcon\Forms\Element>
+	{
+		let this->_optionsValues[] = option;
+		return this;
+	}
+
+	/**
+	 * Renders the element widget returning html
+	 *
+	 * @param array attributes
+	 * @return string
+	 */
+	public function render(attributes=null) -> string
+	{
+
+		/**
+		 * Merged passed attributes with previously defined ones
+		 */
+		return Phalcon\Tag\Select::selectField(this->prepareAttributes(attributes), this->_optionsValues);
+	}
 
 }

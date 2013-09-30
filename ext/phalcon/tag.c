@@ -480,6 +480,55 @@ PHP_METHOD(Phalcon_Tag, linkTo) {
 }
 
 /**
+ * Builds generic INPUT tags
+ *
+ * @param   string type
+ * @param	array parameters
+ * @param 	boolean asValue
+ * @return	string
+ */
+PHP_METHOD(Phalcon_Tag, _inputField) {
+
+	zend_bool asValue;
+	zval *type_param = NULL, *parameters, *asValue_param = NULL;
+	zval *type = NULL;
+
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 2, 1, &type_param, &parameters, &asValue_param);
+
+		zephir_get_strval(type, type_param);
+	if (!asValue_param) {
+		asValue = 0;
+	} else {
+		asValue = zephir_get_boolval(asValue_param);
+	}
+
+
+
+}
+
+/**
+ * Builds INPUT tags that implements the checked attribute
+ *
+ * @param   string type
+ * @param	array parameters
+ * @return	string
+ */
+PHP_METHOD(Phalcon_Tag, _inputFieldChecked) {
+
+	zval *type_param = NULL, *parameters;
+	zval *type = NULL;
+
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 2, 0, &type_param, &parameters);
+
+		zephir_get_strval(type, type_param);
+
+
+
+}
+
+/**
  * Builds a HTML input[type="text"] tag
  *
  * <code>
@@ -490,6 +539,375 @@ PHP_METHOD(Phalcon_Tag, linkTo) {
  * @return	string
  */
 PHP_METHOD(Phalcon_Tag, textField) {
+
+	zval *parameters, *_0;
+
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 1, 0, &parameters);
+
+
+
+	ZEPHIR_INIT_VAR(_0);
+	ZVAL_STRING(_0, "text", 1);
+	zephir_call_self_p2(return_value, this_ptr, "_inputfield", _0, parameters);
+	RETURN_MM();
+
+}
+
+/**
+ * Builds a HTML input[type="number"] tag
+ *
+ * <code>
+ *	echo Phalcon\Tag::numericField(array("price", "min" => "1", "max" => "5"));
+ * </code>
+ *
+ * @param	array parameters
+ * @return	string
+ */
+PHP_METHOD(Phalcon_Tag, numericField) {
+
+	zval *parameters, *_0;
+
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 1, 0, &parameters);
+
+
+
+	ZEPHIR_INIT_VAR(_0);
+	ZVAL_STRING(_0, "number", 1);
+	zephir_call_self_p2(return_value, this_ptr, "_inputfield", _0, parameters);
+	RETURN_MM();
+
+}
+
+/**
+ * Builds a HTML input[type="email"] tag
+ *
+ * <code>
+ *	echo Phalcon\Tag::emailField("email");
+ * </code>
+ *
+ * @param	array parameters
+ * @return	string
+ */
+PHP_METHOD(Phalcon_Tag, emailField) {
+
+	zval *parameters, *_0;
+
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 1, 0, &parameters);
+
+
+
+	ZEPHIR_INIT_VAR(_0);
+	ZVAL_STRING(_0, "email", 1);
+	zephir_call_self_p2(return_value, this_ptr, "_inputfield", _0, parameters);
+	RETURN_MM();
+
+}
+
+/**
+ * Builds a HTML input[type="date"] tag
+ *
+ * <code>
+ *	echo Phalcon\Tag::dateField(array("born", "value" => "14-12-1980"))
+ * </code>
+ *
+ * @param	array parameters
+ * @return	string
+ */
+PHP_METHOD(Phalcon_Tag, dateField) {
+
+	zval *parameters, *_0;
+
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 1, 0, &parameters);
+
+
+
+	ZEPHIR_INIT_VAR(_0);
+	ZVAL_STRING(_0, "date", 1);
+	zephir_call_self_p2(return_value, this_ptr, "_inputfield", _0, parameters);
+	RETURN_MM();
+
+}
+
+/**
+ * Builds a HTML input[type="password"] tag
+ *
+ *<code>
+ * echo Phalcon\Tag::passwordField(array("name", "size" => 30));
+ *</code>
+ *
+ * @param	array parameters
+ * @return	string
+ */
+PHP_METHOD(Phalcon_Tag, passwordField) {
+
+	zval *parameters, *_0;
+
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 1, 0, &parameters);
+
+
+
+	ZEPHIR_INIT_VAR(_0);
+	ZVAL_STRING(_0, "password", 1);
+	zephir_call_self_p2(return_value, this_ptr, "_inputfield", _0, parameters);
+	RETURN_MM();
+
+}
+
+/**
+ * Builds a HTML input[type="hidden"] tag
+ *
+ *<code>
+ * echo Phalcon\Tag::hiddenField(array("name", "value" => "mike"));
+ *</code>
+ *
+ * @param	array parameters
+ * @return	string
+ */
+PHP_METHOD(Phalcon_Tag, hiddenField) {
+
+	zval *parameters, *_0;
+
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 1, 0, &parameters);
+
+
+
+	ZEPHIR_INIT_VAR(_0);
+	ZVAL_STRING(_0, "hidden", 1);
+	zephir_call_self_p2(return_value, this_ptr, "_inputfield", _0, parameters);
+	RETURN_MM();
+
+}
+
+/**
+ * Builds a HTML input[type="file"] tag
+ *
+ *<code>
+ * echo Phalcon\Tag::fileField("file");
+ *</code>
+ *
+ * @param	array parameters
+ * @return	string
+ */
+PHP_METHOD(Phalcon_Tag, fileField) {
+
+	zval *parameters, *_0;
+
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 1, 0, &parameters);
+
+
+
+	ZEPHIR_INIT_VAR(_0);
+	ZVAL_STRING(_0, "file", 1);
+	zephir_call_self_p2(return_value, this_ptr, "_inputfield", _0, parameters);
+	RETURN_MM();
+
+}
+
+/**
+ * Builds a HTML input[type="check"] tag
+ *
+ *<code>
+ * echo Phalcon\Tag::checkField(array("terms", "value" => "Y"));
+ *</code>
+ *
+ * @param	array parameters
+ * @return	string
+ */
+PHP_METHOD(Phalcon_Tag, checkField) {
+
+	zval *parameters, *_0;
+
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 1, 0, &parameters);
+
+
+
+	ZEPHIR_INIT_VAR(_0);
+	ZVAL_STRING(_0, "checkbox", 1);
+	zephir_call_self_p2(return_value, this_ptr, "_inputfieldchecked", _0, parameters);
+	RETURN_MM();
+
+}
+
+/**
+ * Builds a HTML input[type="radio"] tag
+ *
+ *<code>
+ * echo Phalcon\Tag::radioField(array("wheather", "value" => "hot"))
+ *</code>
+ *
+ * Volt syntax:
+ *<code>
+ * {{ radio_field('Save') }}
+ *</code>
+ *
+ * @param	array parameters
+ * @return	string
+ */
+PHP_METHOD(Phalcon_Tag, radioField) {
+
+	zval *parameters, *_0;
+
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 1, 0, &parameters);
+
+
+
+	ZEPHIR_INIT_VAR(_0);
+	ZVAL_STRING(_0, "radio", 1);
+	zephir_call_self_p2(return_value, this_ptr, "_inputfieldchecked", _0, parameters);
+	RETURN_MM();
+
+}
+
+/**
+ * Builds a HTML input[type="image"] tag
+ *
+ *<code>
+ * echo Phalcon\Tag::imageInput(array("src" => "/img/button.png"));
+ *</code>
+ *
+ * Volt syntax:
+ *<code>
+ * {{ image_input('src': '/img/button.png') }}
+ *</code>
+ *
+ * @param	array parameters
+ * @return	string
+ */
+PHP_METHOD(Phalcon_Tag, imageInput) {
+
+	zval *parameters, *_0;
+
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 1, 0, &parameters);
+
+
+
+	ZEPHIR_INIT_VAR(_0);
+	ZVAL_STRING(_0, "image", 1);
+	zephir_call_self_p3(return_value, this_ptr, "_inputfield", _0, parameters, ZEPHIR_GLOBAL(global_true));
+	RETURN_MM();
+
+}
+
+/**
+ * Builds a HTML input[type="submit"] tag
+ *
+ *<code>
+ * echo Phalcon\Tag::submitButton("Save")
+ *</code>
+ *
+ * Volt syntax:
+ *<code>
+ * {{ submit_button('Save') }}
+ *</code>
+ *
+ * @param	array parameters
+ * @return	string
+ */
+PHP_METHOD(Phalcon_Tag, submitButton) {
+
+	zval *parameters, *_0;
+
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 1, 0, &parameters);
+
+
+
+	ZEPHIR_INIT_VAR(_0);
+	ZVAL_STRING(_0, "submit", 1);
+	zephir_call_self_p3(return_value, this_ptr, "_inputfield", _0, parameters, ZEPHIR_GLOBAL(global_true));
+	RETURN_MM();
+
+}
+
+/**
+ * Builds a HTML SELECT tag using a PHP array for options
+ *
+ *<code>
+ *	echo Phalcon\Tag::selectStatic("status", array("A" => "Active", "I" => "Inactive"))
+ *</code>
+ *
+ * @param	array parameters
+ * @param   array data
+ * @return	string
+ */
+PHP_METHOD(Phalcon_Tag, selectStatic) {
+
+	zval *parameters, *data = NULL;
+
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 1, 1, &parameters, &data);
+
+	if (!data) {
+		ZEPHIR_CPY_WRT(data, ZEPHIR_GLOBAL(global_null));
+	}
+
+
+	RETURN_MM();
+
+}
+
+/**
+ * Builds a HTML SELECT tag using a Phalcon\Mvc\Model resultset as options
+ *
+ *<code>
+ *	echo Phalcon\Tag::select(array(
+ *		"robotId",
+ *		Robots::find("type = 'mechanical'"),
+ *		"using" => array("id", "name")
+ * 	));
+ *</code>
+ *
+ * Volt syntax:
+ *<code>
+ * {{ select("robotId", robots, "using": ["id", "name"]) }}
+ *</code>
+ *
+ * @param	array $parameters
+ * @param   array $data
+ * @return	string
+ */
+PHP_METHOD(Phalcon_Tag, select) {
+
+	zval *parameters, *data = NULL;
+
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 1, 1, &parameters, &data);
+
+	if (!data) {
+		ZEPHIR_CPY_WRT(data, ZEPHIR_GLOBAL(global_null));
+	}
+
+
+	RETURN_MM();
+
+}
+
+/**
+ * Builds a HTML TEXTAREA tag
+ *
+ *<code>
+ * echo Phalcon\Tag::textArea(array("comments", "cols" => 10, "rows" => 4))
+ *</code>
+ *
+ * Volt syntax:
+ *<code>
+ * {{ text_area("comments", "cols": 10, "rows": 4) }}
+ *</code>
+ *
+ * @param	array $parameters
+ * @return	string
+ */
+PHP_METHOD(Phalcon_Tag, textArea) {
 
 	zval *parameters;
 

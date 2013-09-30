@@ -12,6 +12,8 @@
 #include <Zend/zend_interfaces.h>
 
 #include "kernel/main.h"
+#include "kernel/fcall.h"
+#include "kernel/memory.h"
 
 
 /*
@@ -31,12 +33,40 @@
  |          Eduar Carvajal <eduar@phalconphp.com>                         |
  +------------------------------------------------------------------------+
  */
+/**
+ * Phalcon\Forms\Element\Numeric
+ *
+ * Component INPUT[type=number] for forms
+ */
 ZEPHIR_INIT_CLASS(Phalcon_Forms_Element_Numeric) {
 
-	ZEPHIR_REGISTER_CLASS(Phalcon\\Forms\\Element, Numeric, phalcon, forms_element_numeric, NULL, 0);
+	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Forms\\Element, Numeric, phalcon, forms_element_numeric, phalcon_forms_element_ce, phalcon_forms_element_numeric_method_entry, 0);
 
+	zend_class_implements(phalcon_forms_element_numeric_ce TSRMLS_CC, 1, phalcon_forms_elementinterface_ce);
 
 	return SUCCESS;
+
+}
+
+/**
+ * Renders the element widget returning html
+ *
+ * @param array $attributes
+ * @return string
+ */
+PHP_METHOD(Phalcon_Forms_Element_Numeric, render) {
+
+	zval *attributes = NULL;
+
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 0, 1, &attributes);
+
+	if (!attributes) {
+		ZEPHIR_CPY_WRT(attributes, ZEPHIR_GLOBAL(global_null));
+	}
+
+
+	RETURN_MM();
 
 }
 

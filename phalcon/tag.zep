@@ -363,6 +363,30 @@ class Tag
 	}
 
 	/**
+	 * Builds generic INPUT tags
+	 *
+	 * @param   string type
+	 * @param	array parameters
+	 * @param 	boolean asValue
+	 * @return	string
+	 */
+	static protected function _inputField(string type, parameters, boolean asValue=false) -> string
+	{
+
+	}
+
+	/**
+	 * Builds INPUT tags that implements the checked attribute
+	 *
+	 * @param   string type
+	 * @param	array parameters
+	 * @return	string
+	 */
+	static protected function _inputFieldChecked(string type, parameters) -> string
+	{
+	}
+
+	/**
 	 * Builds a HTML input[type="text"] tag
 	 *
 	 * <code>
@@ -372,9 +396,234 @@ class Tag
 	 * @param	array parameters
 	 * @return	string
 	 */
-	static public function textField(parameters)
+	static public function textField(parameters) -> string
 	{
+		return self::_inputField("text", parameters);
+	}
 
+	/**
+	 * Builds a HTML input[type="number"] tag
+	 *
+	 * <code>
+	 *	echo Phalcon\Tag::numericField(array("price", "min" => "1", "max" => "5"));
+	 * </code>
+	 *
+	 * @param	array parameters
+	 * @return	string
+	 */
+	static public function numericField(parameters) -> string
+	{
+		return self::_inputField("number", parameters);
+	}
+
+	/**
+	 * Builds a HTML input[type="email"] tag
+	 *
+	 * <code>
+	 *	echo Phalcon\Tag::emailField("email");
+	 * </code>
+	 *
+	 * @param	array parameters
+	 * @return	string
+	 */
+	static public function emailField(parameters) -> string
+	{
+		return self::_inputField("email", parameters);
+	}
+
+	/**
+	 * Builds a HTML input[type="date"] tag
+	 *
+	 * <code>
+	 *	echo Phalcon\Tag::dateField(array("born", "value" => "14-12-1980"))
+	 * </code>
+	 *
+	 * @param	array parameters
+	 * @return	string
+	 */
+	static public function dateField(parameters) -> string
+	{
+		return self::_inputField("date", parameters);
+	}
+
+	/**
+	 * Builds a HTML input[type="password"] tag
+	 *
+	 *<code>
+	 * echo Phalcon\Tag::passwordField(array("name", "size" => 30));
+	 *</code>
+	 *
+	 * @param	array parameters
+	 * @return	string
+	 */
+	static public function passwordField(parameters) -> string
+	{
+		return self::_inputField("password", parameters);
+	}
+
+	/**
+	 * Builds a HTML input[type="hidden"] tag
+	 *
+	 *<code>
+	 * echo Phalcon\Tag::hiddenField(array("name", "value" => "mike"));
+	 *</code>
+	 *
+	 * @param	array parameters
+	 * @return	string
+	 */
+	static public function hiddenField(parameters) -> string
+	{
+		return self::_inputField("hidden", parameters);
+	}
+
+	/**
+	 * Builds a HTML input[type="file"] tag
+	 *
+	 *<code>
+	 * echo Phalcon\Tag::fileField("file");
+	 *</code>
+	 *
+	 * @param	array parameters
+	 * @return	string
+	 */
+	static public function fileField(parameters) -> string
+	{
+		return self::_inputField("file", parameters);
+	}
+
+	/**
+	 * Builds a HTML input[type="check"] tag
+	 *
+	 *<code>
+	 * echo Phalcon\Tag::checkField(array("terms", "value" => "Y"));
+	 *</code>
+	 *
+	 * @param	array parameters
+	 * @return	string
+	 */
+	static public function checkField(parameters) -> string
+	{
+		return self::_inputFieldChecked("checkbox", parameters);
+	}
+
+	/**
+	 * Builds a HTML input[type="radio"] tag
+	 *
+	 *<code>
+	 * echo Phalcon\Tag::radioField(array("wheather", "value" => "hot"))
+	 *</code>
+	 *
+	 * Volt syntax:
+	 *<code>
+	 * {{ radio_field('Save') }}
+	 *</code>
+	 *
+	 * @param	array parameters
+	 * @return	string
+	 */
+	static public function radioField(parameters) -> string
+	{
+		return self::_inputFieldChecked("radio", parameters);
+	}
+
+	/**
+	 * Builds a HTML input[type="image"] tag
+	 *
+	 *<code>
+	 * echo Phalcon\Tag::imageInput(array("src" => "/img/button.png"));
+	 *</code>
+	 *
+	 * Volt syntax:
+	 *<code>
+	 * {{ image_input('src': '/img/button.png') }}
+	 *</code>
+	 *
+	 * @param	array parameters
+	 * @return	string
+	 */
+	static public function imageInput(parameters) -> string
+	{
+		return self::_inputField("image", parameters, true);
+	}
+
+	/**
+	 * Builds a HTML input[type="submit"] tag
+	 *
+	 *<code>
+	 * echo Phalcon\Tag::submitButton("Save")
+	 *</code>
+	 *
+	 * Volt syntax:
+	 *<code>
+	 * {{ submit_button('Save') }}
+	 *</code>
+	 *
+	 * @param	array parameters
+	 * @return	string
+	 */
+	static public function submitButton(parameters) -> string
+	{
+		return self::_inputField("submit", parameters, true);
+	}
+
+	/**
+	 * Builds a HTML SELECT tag using a PHP array for options
+	 *
+	 *<code>
+	 *	echo Phalcon\Tag::selectStatic("status", array("A" => "Active", "I" => "Inactive"))
+	 *</code>
+	 *
+	 * @param	array parameters
+	 * @param   array data
+	 * @return	string
+	 */
+	public static function selectStatic(parameters, data=null) -> string
+	{
+		return Phalcon\Tag\Select::selectField(parameters, data);
+	}
+
+	/**
+	 * Builds a HTML SELECT tag using a Phalcon\Mvc\Model resultset as options
+	 *
+	 *<code>
+	 *	echo Phalcon\Tag::select(array(
+	 *		"robotId",
+	 *		Robots::find("type = 'mechanical'"),
+	 *		"using" => array("id", "name")
+	 * 	));
+	 *</code>
+     *
+	 * Volt syntax:
+	 *<code>
+	 * {{ select("robotId", robots, "using": ["id", "name"]) }}
+	 *</code>
+	 *
+	 * @param	array $parameters
+	 * @param   array $data
+	 * @return	string
+	 */
+	public static function select(parameters, data=null) -> string
+	{
+		return Phalcon\Tag\Select::selectField(parameters, data);
+	}
+
+	/**
+	 * Builds a HTML TEXTAREA tag
+	 *
+	 *<code>
+	 * echo Phalcon\Tag::textArea(array("comments", "cols" => 10, "rows" => 4))
+	 *</code>
+     *
+	 * Volt syntax:
+	 *<code>
+	 * {{ text_area("comments", "cols": 10, "rows": 4) }}
+	 *</code>
+	 *
+	 * @param	array $parameters
+	 * @return	string
+	 */
+	static public function textArea(parameters) -> string
+	{
 	}
 
 }

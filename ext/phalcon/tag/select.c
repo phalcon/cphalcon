@@ -12,6 +12,7 @@
 #include <Zend/zend_interfaces.h>
 
 #include "kernel/main.h"
+#include "kernel/memory.h"
 
 
 /*
@@ -31,12 +32,38 @@
  |          Eduar Carvajal <eduar@phalconphp.com>                         |
  +------------------------------------------------------------------------+
  */
+/**
+ * Phalcon\Tag\Select
+ *
+ * Generates a SELECT html tag using a static array of values or a Phalcon\Mvc\Model resultset
+ */
 ZEPHIR_INIT_CLASS(Phalcon_Tag_Select) {
 
-	ZEPHIR_REGISTER_CLASS(Phalcon\\Tag, Select, phalcon, tag_select, NULL, 0);
+	ZEPHIR_REGISTER_CLASS(Phalcon\\Tag, Select, phalcon, tag_select, phalcon_tag_select_method_entry, 0);
 
 
 	return SUCCESS;
+
+}
+
+/**
+ * Generates a SELECT tag
+ *
+ * @param array parameters
+ * @param array data
+ */
+PHP_METHOD(Phalcon_Tag_Select, selectField) {
+
+	zval *parameters, *data = NULL;
+
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 1, 1, &parameters, &data);
+
+	if (!data) {
+		ZEPHIR_CPY_WRT(data, ZEPHIR_GLOBAL(global_null));
+	}
+
+
 
 }
 

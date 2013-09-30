@@ -172,7 +172,7 @@ abstract class Element {
 	 * @param Phalcon\Validation\ValidatorInterface
 	 * @return Phalcon\Forms\ElementInterface
 	 */
-	public function addValidator(validator) -> <Phalcon\Forms\ElementInterface>
+	public function addValidator(<Phalcon\Validation\ValidatorInterface> validator) -> <Phalcon\Forms\ElementInterface>
 	{
 		if typeof validator != "object" {
 			throw new Phalcon\Forms\Exception("The validators parameter must be an object");
@@ -199,9 +199,9 @@ abstract class Element {
 	 * @param boolean useChecked
 	 * @return array
 	 */
-	public function prepareAttributes(attributes=null, useChecked=false)
+	public function prepareAttributes(attributes=null, boolean useChecked=false)
 	{
-		var value, name, widgetAttributes, mergedAttributes, 
+		var value, name, widgetAttributes, mergedAttributes,
 			defaultAttributes, currentValue;
 
 		let name = this->_name;

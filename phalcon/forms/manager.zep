@@ -19,6 +19,9 @@
 
 namespace Phalcon\Forms;
 
+/**
+ * Phalcon\Forms\Manager
+ */
 class Manager
 {
 

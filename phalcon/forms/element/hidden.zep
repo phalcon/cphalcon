@@ -19,7 +19,23 @@
 
 namespace Phalcon\Forms\Element;
 
-class Hidden
+/**
+ * Phalcon\Forms\Element\Hidden
+ *
+ * Component INPUT[type=hidden] for forms
+ */
+class Hidden extends Phalcon\Forms\Element implements Phalcon\Forms\ElementInterface
 {
+
+	/**
+	 * Renders the element widget returning html
+	 *
+	 * @param array attributes
+	 * @return string
+	 */
+	public function render(attributes=null) -> string
+	{
+		return Phalcon\Tag::hiddenField(this->prepareAttributes(attributes));
+	}
 
 }

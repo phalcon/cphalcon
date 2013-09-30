@@ -302,16 +302,19 @@ PHP_METHOD(Phalcon_Forms_Element, getValidators) {
  */
 PHP_METHOD(Phalcon_Forms_Element, prepareAttributes) {
 
-	zval *attributes = NULL, *useChecked = NULL, *value, *name, *widgetAttributes = NULL, *mergedAttributes = NULL, *defaultAttributes, *currentValue, *_0 = NULL;
+	zend_bool useChecked;
+	zval *attributes = NULL, *useChecked_param = NULL, *value, *name, *widgetAttributes = NULL, *mergedAttributes = NULL, *defaultAttributes, *currentValue, *_0 = NULL;
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 0, 2, &attributes, &useChecked);
+	zephir_fetch_params(1, 0, 2, &attributes, &useChecked_param);
 
 	if (!attributes) {
 		ZEPHIR_CPY_WRT(attributes, ZEPHIR_GLOBAL(global_null));
 	}
-	if (!useChecked) {
-		ZEPHIR_CPY_WRT(useChecked, ZEPHIR_GLOBAL(global_false));
+	if (!useChecked_param) {
+		useChecked = 0;
+	} else {
+		useChecked = zephir_get_boolval(useChecked_param);
 	}
 
 
@@ -335,7 +338,7 @@ PHP_METHOD(Phalcon_Forms_Element, prepareAttributes) {
 	ZEPHIR_INIT_VAR(value);
 	zephir_call_method(value, this_ptr, "getvalue");
 	if ((Z_TYPE_P(value) != IS_NULL)) {
-		if (zephir_is_true(useChecked)) {
+		if (useChecked) {
 			ZEPHIR_OBS_VAR(currentValue);
 			if (zephir_array_isset_string_fetch(&currentValue, mergedAttributes, SS("value") TSRMLS_CC)) {
 				if (ZEPHIR_IS_EQUAL(currentValue, value)) {
