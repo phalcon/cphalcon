@@ -12,6 +12,7 @@
 #include <Zend/zend_interfaces.h>
 
 #include "kernel/main.h"
+#include "kernel/memory.h"
 
 
 /*
@@ -31,12 +32,53 @@
  |          Eduar Carvajal <eduar@phalconphp.com>                         |
  +------------------------------------------------------------------------+
  */
+/**
+ * Phalcon\Mvc\Model\MetaData\Strategy\Instrospection
+ *
+ * Queries the table meta-data in order to instrospect the model's metadata
+ */
 ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_MetaData_Strategy_Introspection) {
 
-	ZEPHIR_REGISTER_CLASS(Phalcon\\Mvc\\Model\\MetaData\\Strategy, Introspection, phalcon, mvc_model_metadata_strategy_introspection, NULL, 0);
+	ZEPHIR_REGISTER_CLASS(Phalcon\\Mvc\\Model\\MetaData\\Strategy, Introspection, phalcon, mvc_model_metadata_strategy_introspection, phalcon_mvc_model_metadata_strategy_introspection_method_entry, 0);
 
 
 	return SUCCESS;
+
+}
+
+/**
+ * The meta-data is obtained by reading the column descriptions from the database information schema
+ *
+ * @param Phalcon\Mvc\ModelInterface model
+ * @param Phalcon\DiInterface dependencyInjector
+ * @return array
+ */
+PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Introspection, getMetaData) {
+
+	zval *model, *dependencyInjector;
+
+	zephir_fetch_params(0, 2, 0, &model, &dependencyInjector);
+
+
+
+
+}
+
+/**
+ * Read the model's column map, this can't be infered
+ *
+ * @param Phalcon\Mvc\ModelInterface model
+ * @param Phalcon\DiInterface dependencyInjector
+ * @return array
+ */
+PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Introspection, getColumnMaps) {
+
+	zval *model, *dependencyInjector;
+
+	zephir_fetch_params(0, 2, 0, &model, &dependencyInjector);
+
+
+
 
 }
 
