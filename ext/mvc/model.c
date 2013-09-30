@@ -1985,8 +1985,8 @@ PHP_METHOD(Phalcon_Mvc_Model, validate){
 
 	zval *validator, *options = NULL, *field_name = NULL, *value, *rules = NULL, *rule = NULL, *func_name = NULL, *params = NULL, *key = NULL, *param = NULL;
 	zval *bind_key, *status, *messages, *message = NULL, *tmp = NULL;
-	HashTable *ah0;
-	HashPosition hp0;
+	HashTable *ah0, *ah1;
+	HashPosition hp0, hp1;
 	zval **hd;
 
 	PHALCON_MM_GROW();
