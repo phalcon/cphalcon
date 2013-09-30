@@ -389,6 +389,9 @@ class ModelsTest extends PHPUnit_Framework_TestCase
 		$persona->refresh();
 		$this->assertEquals($personaData, $persona->toArray());
 
+		// Issue 1314
+		$parts = new Parts2();
+		$parts->save();
 	}
 
 	protected function _executeTestsRenamed($di)
