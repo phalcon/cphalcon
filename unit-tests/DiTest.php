@@ -57,6 +57,10 @@ class SomeComponent
 
 }
 
+class Service1242
+{
+}
+
 class DiTest extends PHPUnit_Framework_TestCase
 {
 
@@ -375,5 +379,20 @@ class DiTest extends PHPUnit_Framework_TestCase
 		$di = new Phalcon\DI\FactoryDefault();
 		$bag = $di->get('sessionBag', array('dummy'));
 		$this->assertTrue(true);
+	}
+
+	public function testIssue1242()
+	{
+		$di = new \Phalcon\Di();
+		$di->set('resolved', function() { return new Service1242(); });
+		$di->set('notresolved', function() { return new Service1242(); });
+
+		$this->assertFalse($di->getService('resolved')->isResolved());
+		$this->assertFalse($di->getService('notresolved')->isResolved());
+
+		$di->get('resolved');
+
+		$this->assertTrue($di->getService('resolved')->isResolved());
+		$this->assertFalse($di->getService('notresolved')->isResolved());
 	}
 }

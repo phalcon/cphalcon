@@ -51,6 +51,7 @@ PHALCON_INIT_FUNCS(phalcon_di_serviceinterface_method_entry){
 	PHP_ABSTRACT_ME(Phalcon_DI_ServiceInterface, isShared, NULL)
 	PHP_ABSTRACT_ME(Phalcon_DI_ServiceInterface, setDefinition, arginfo_phalcon_di_serviceinterface_setdefinition)
 	PHP_ABSTRACT_ME(Phalcon_DI_ServiceInterface, getDefinition, NULL)
+	PHP_ABSTRACT_ME(Phalcon_DI_ServiceInterface, isResolved, NULL)
 	PHP_ABSTRACT_ME(Phalcon_DI_ServiceInterface, resolve, arginfo_phalcon_di_serviceinterface_resolve)
 	ZEND_FENTRY(__set_state, NULL, arginfo_phalcon_di_serviceinterface___set_state, ZEND_ACC_STATIC|ZEND_ACC_ABSTRACT|ZEND_ACC_PUBLIC)
 	PHP_FE_END
