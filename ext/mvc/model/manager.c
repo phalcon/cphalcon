@@ -789,7 +789,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getWriteConnectionService){
 PHP_METHOD(Phalcon_Mvc_Model_Manager, notifyEvent){
 
 	zval *event_name, *model, *status = NULL, *behaviors, *entity_name = NULL;
-	zval *models_behaviors, *behavior = NULL, *events_manager;
+	zval *models_behaviors, *behavior = NULL, *events_manager, *mgr;
 	zval *fire_event_name = NULL, *custom_events_manager;
 	HashTable *ah0;
 	HashPosition hp0;
@@ -863,12 +863,15 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, notifyEvent){
 		PHALCON_INIT_NVAR(entity_name);
 		phalcon_get_class(entity_name, model, 1 TSRMLS_CC);
 		if (phalcon_array_isset(custom_events_manager, entity_name)) {
+
+			PHALCON_OBS_VAR(mgr);
+			phalcon_array_fetch(&mgr, custom_events_manager, entity_name, PH_NOISY);
 	
 			PHALCON_INIT_NVAR(fire_event_name);
 			PHALCON_CONCAT_SV(fire_event_name, "model:", event_name);
 	
 			PHALCON_INIT_NVAR(status);
-			phalcon_call_method_p2(status, custom_events_manager, "fire", fire_event_name, model);
+			phalcon_call_method_p2(status, mgr, "fire", fire_event_name, model);
 			if (PHALCON_IS_FALSE(status)) {
 				RETURN_CCTOR(status);
 			}
