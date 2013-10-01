@@ -31,6 +31,7 @@ PHP_METHOD(Phalcon_DI_Service, getDefinition);
 PHP_METHOD(Phalcon_DI_Service, resolve);
 PHP_METHOD(Phalcon_DI_Service, setParameter);
 PHP_METHOD(Phalcon_DI_Service, getParameter);
+PHP_METHOD(Phalcon_DI_Service, isResolved);
 PHP_METHOD(Phalcon_DI_Service, __set_state);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_di_service___construct, 0, 0, 2)
@@ -80,6 +81,7 @@ PHALCON_INIT_FUNCS(phalcon_di_service_method_entry){
 	PHP_ME(Phalcon_DI_Service, resolve, arginfo_phalcon_di_service_resolve, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_DI_Service, setParameter, arginfo_phalcon_di_service_setparameter, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_DI_Service, getParameter, arginfo_phalcon_di_service_getparameter, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_DI_Service, isResolved, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_DI_Service, __set_state, arginfo_phalcon_di_service___set_state, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC) 
 	PHP_FE_END
 };
