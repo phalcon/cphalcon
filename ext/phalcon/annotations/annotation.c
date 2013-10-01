@@ -264,19 +264,16 @@ PHP_METHOD(Phalcon_Annotations_Annotation, getArgument) {
 	zval *position_param = NULL, *arguments, *_0;
 	int position;
 
-	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 0, &position_param);
+	zephir_fetch_params(0, 1, 0, &position_param);
 
 		position = zephir_get_intval(position_param);
 
 
 	arguments = zephir_fetch_nproperty_this(this_ptr, SL("_arguments"), PH_NOISY_CC);
 	if (zephir_array_isset_long(arguments, position)) {
-		ZEPHIR_OBS_VAR(_0);
-		zephir_array_fetch_long(&_0, arguments, position, PH_NOISY TSRMLS_CC);
-		RETURN_CCTOR(_0);
+		zephir_array_fetch_long(&_0, arguments, position, PH_NOISY | PH_READONLY TSRMLS_CC);
+		RETURN_ZVAL(_0, 1, 0);
 	}
-	ZEPHIR_MM_RESTORE();
 
 }
 

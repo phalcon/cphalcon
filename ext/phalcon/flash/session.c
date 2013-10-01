@@ -218,9 +218,9 @@ PHP_METHOD(Phalcon_Flash_Session, getMessages) {
 		if ((Z_TYPE_P(type) == IS_STRING)) {
 			ZEPHIR_OBS_VAR(returnMessages);
 			if (zephir_array_isset_fetch(&returnMessages, messages, type TSRMLS_CC)) {
-				ZEPHIR_OBS_VAR(_0);
-				zephir_array_fetch(&_0, messages, type, PH_NOISY TSRMLS_CC);
-				RETURN_CCTOR(_0);
+				zephir_array_fetch(&_0, messages, type, PH_NOISY | PH_READONLY TSRMLS_CC);
+				ZEPHIR_MM_RESTORE();
+				RETURN_ZVAL(_0, 1, 0);
 			}
 		}
 		RETURN_CCTOR(messages);

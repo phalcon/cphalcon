@@ -440,9 +440,9 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, readColumnMapIndex) {
 		ZEPHIR_OBS_NVAR(columnMapModel);
 		zephir_array_fetch(&columnMapModel, columnMap, keyName, PH_NOISY TSRMLS_CC);
 	}
-	ZEPHIR_OBS_VAR(_0);
-	zephir_array_fetch_long(&_0, columnMapModel, index, PH_NOISY TSRMLS_CC);
-	RETURN_CCTOR(_0);
+	zephir_array_fetch_long(&_0, columnMapModel, index, PH_NOISY | PH_READONLY TSRMLS_CC);
+	ZEPHIR_MM_RESTORE();
+	RETURN_ZVAL(_0, 1, 0);
 
 }
 

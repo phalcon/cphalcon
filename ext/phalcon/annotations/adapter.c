@@ -121,9 +121,9 @@ PHP_METHOD(Phalcon_Annotations_Adapter, get) {
 	annotations = zephir_fetch_nproperty_this(this_ptr, SL("_annotations"), PH_NOISY_CC);
 	if ((Z_TYPE_P(annotations) == IS_ARRAY)) {
 		if (zephir_array_isset(annotations, realClassName)) {
-			ZEPHIR_OBS_VAR(_0);
-			zephir_array_fetch(&_0, annotations, realClassName, PH_NOISY TSRMLS_CC);
-			RETURN_CCTOR(_0);
+			zephir_array_fetch(&_0, annotations, realClassName, PH_NOISY | PH_READONLY TSRMLS_CC);
+			ZEPHIR_MM_RESTORE();
+			RETURN_ZVAL(_0, 1, 0);
 		}
 	}
 	ZEPHIR_INIT_VAR(classAnnotations);

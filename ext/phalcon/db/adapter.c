@@ -822,9 +822,9 @@ PHP_METHOD(Phalcon_Db_Adapter, tableExists) {
 	ZVAL_LONG(_1, 3);
 	ZEPHIR_INIT_VAR(num);
 	zephir_call_method_p2(num, this_ptr, "fetchone", _0, _1);
-	ZEPHIR_OBS_VAR(_2);
-	zephir_array_fetch_long(&_2, num, 0, PH_NOISY TSRMLS_CC);
-	RETURN_CCTOR(_2);
+	zephir_array_fetch_long(&_2, num, 0, PH_NOISY | PH_READONLY TSRMLS_CC);
+	ZEPHIR_MM_RESTORE();
+	RETURN_ZVAL(_2, 1, 0);
 
 }
 
@@ -858,9 +858,9 @@ PHP_METHOD(Phalcon_Db_Adapter, viewExists) {
 	ZVAL_LONG(_1, 3);
 	ZEPHIR_INIT_VAR(num);
 	zephir_call_method_p2(num, this_ptr, "fetchone", _0, _1);
-	ZEPHIR_OBS_VAR(_2);
-	zephir_array_fetch_long(&_2, num, 0, PH_NOISY TSRMLS_CC);
-	RETURN_CCTOR(_2);
+	zephir_array_fetch_long(&_2, num, 0, PH_NOISY | PH_READONLY TSRMLS_CC);
+	ZEPHIR_MM_RESTORE();
+	RETURN_ZVAL(_2, 1, 0);
 
 }
 
@@ -1609,9 +1609,9 @@ PHP_METHOD(Phalcon_Db_Adapter, tableOptions) {
 		ZVAL_LONG(_0, 3);
 		ZEPHIR_INIT_VAR(describe);
 		zephir_call_method_p2(describe, this_ptr, "fetchall", sql, _0);
-		ZEPHIR_OBS_VAR(_1);
-		zephir_array_fetch_long(&_1, describe, 0, PH_NOISY TSRMLS_CC);
-		RETURN_CCTOR(_1);
+		zephir_array_fetch_long(&_1, describe, 0, PH_NOISY | PH_READONLY TSRMLS_CC);
+		ZEPHIR_MM_RESTORE();
+		RETURN_ZVAL(_1, 1, 0);
 	}
 	array_init(return_value);
 	RETURN_MM();
