@@ -1214,8 +1214,8 @@ PHP_METHOD(Phalcon_Mvc_Model, _exists) {
 	if (zephir_is_true(schema)) {
 		ZEPHIR_INIT_NVAR(table);
 		array_init(table);
-		zephir_array_append(&table, schema, 0);
-		zephir_array_append(&table, source, 0);
+		zend_hash_next_index_insert(Z_ARRVAL_P(table), &schema, sizeof(zval *), NULL);
+		zend_hash_next_index_insert(Z_ARRVAL_P(table), &source, sizeof(zval *), NULL);
 	} else {
 		ZEPHIR_CPY_WRT(table, source);
 	}
@@ -1876,7 +1876,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _checkForeignKeysRestrict) {
 					ZVAL_STRING(&_19, " AND ", 0);
 					ZEPHIR_INIT_NVAR(_20);
 					zephir_call_func_p2(_20, "join", &_19, conditions);
-					zephir_array_append(&_18, _20, 0);
+					zend_hash_next_index_insert(Z_ARRVAL_P(_18), &_20, sizeof(zval *), NULL);
 					zephir_array_update_string(&_18, SL("bind"), &bindParams, PH_COPY | PH_SEPARATE);
 					zephir_call_method_p1_cache(_17, referencedModel, "count", &_21, _18);
 					if (!(zephir_is_true(_17))) {
@@ -2009,7 +2009,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _checkForeignKeysReverseCascade) {
 					ZVAL_STRING(&_18, " AND ", 0);
 					ZEPHIR_INIT_NVAR(_19);
 					zephir_call_func_p2(_19, "join", &_18, conditions);
-					zephir_array_append(&_17, _19, 0);
+					zend_hash_next_index_insert(Z_ARRVAL_P(_17), &_19, sizeof(zval *), NULL);
 					zephir_array_update_string(&_17, SL("bind"), &bindParams, PH_COPY | PH_SEPARATE);
 					ZEPHIR_INIT_NVAR(resulset);
 					zephir_call_method_p1_cache(resulset, referencedModel, "find", &_20, _17);
@@ -2113,7 +2113,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _checkForeignKeysReverseRestrict) {
 					ZVAL_STRING(&_17, " AND ", 0);
 					ZEPHIR_INIT_NVAR(_18);
 					zephir_call_func_p2(_18, "join", &_17, conditions);
-					zephir_array_append(&_16, _18, 0);
+					zend_hash_next_index_insert(Z_ARRVAL_P(_16), &_18, sizeof(zval *), NULL);
 					zephir_array_update_string(&_16, SL("bind"), &bindParams, PH_COPY | PH_SEPARATE);
 					zephir_call_method_p1_cache(_15, referencedModel, "count", &_19, _16);
 					if (zephir_is_true(_15)) {
@@ -2936,7 +2936,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _postSaveRelatedRecords) {
 			if ((Z_TYPE_P(record) == IS_OBJECT)) {
 				ZEPHIR_INIT_NVAR(relatedRecords);
 				array_init(relatedRecords);
-				zephir_array_append(&relatedRecords, record, 0);
+				zend_hash_next_index_insert(Z_ARRVAL_P(relatedRecords), &record, sizeof(zval *), NULL);
 			} else {
 				ZEPHIR_CPY_WRT(relatedRecords, record);
 			}
@@ -3138,8 +3138,8 @@ PHP_METHOD(Phalcon_Mvc_Model, save) {
 	if (zephir_is_true(schema)) {
 		ZEPHIR_INIT_VAR(table);
 		array_init(table);
-		zephir_array_append(&table, schema, 0);
-		zephir_array_append(&table, source, 0);
+		zend_hash_next_index_insert(Z_ARRVAL_P(table), &schema, sizeof(zval *), NULL);
+		zend_hash_next_index_insert(Z_ARRVAL_P(table), &source, sizeof(zval *), NULL);
 	} else {
 		ZEPHIR_CPY_WRT(table, source);
 	}
@@ -3330,7 +3330,7 @@ PHP_METHOD(Phalcon_Mvc_Model, create) {
 		array_init(_5);
 		ZEPHIR_INIT_VAR(_9);
 		object_init_ex(_9, phalcon_mvc_model_message_ce);
-		zephir_array_append(&_5, _9, 0);
+		zend_hash_next_index_insert(Z_ARRVAL_P(_5), &_9, sizeof(zval *), NULL);
 		zephir_update_property_this(this_ptr, SL("_errorMessages"), _5 TSRMLS_CC);
 		RETURN_MM_BOOL(0);
 	}
@@ -3450,7 +3450,7 @@ PHP_METHOD(Phalcon_Mvc_Model, update) {
 			array_init(_5);
 			ZEPHIR_INIT_VAR(_10);
 			object_init_ex(_10, phalcon_mvc_model_message_ce);
-			zephir_array_append(&_5, _10, 0);
+			zend_hash_next_index_insert(Z_ARRVAL_P(_5), &_10, sizeof(zval *), NULL);
 			zephir_update_property_this(this_ptr, SL("_errorMessages"), _5 TSRMLS_CC);
 			RETURN_MM_BOOL(0);
 		}
@@ -3611,8 +3611,8 @@ PHP_METHOD(Phalcon_Mvc_Model, delete) {
 	if (zephir_is_true(schema)) {
 		ZEPHIR_INIT_VAR(table);
 		array_init(table);
-		zephir_array_append(&table, schema, 0);
-		zephir_array_append(&table, source, 0);
+		zend_hash_next_index_insert(Z_ARRVAL_P(table), &schema, sizeof(zval *), NULL);
+		zend_hash_next_index_insert(Z_ARRVAL_P(table), &source, sizeof(zval *), NULL);
 	} else {
 		ZEPHIR_CPY_WRT(table, source);
 	}
@@ -3691,8 +3691,8 @@ PHP_METHOD(Phalcon_Mvc_Model, refresh) {
 	if (zephir_is_true(schema)) {
 		ZEPHIR_INIT_VAR(table);
 		array_init(table);
-		zephir_array_append(&table, schema, 0);
-		zephir_array_append(&table, source, 0);
+		zend_hash_next_index_insert(Z_ARRVAL_P(table), &schema, sizeof(zval *), NULL);
+		zend_hash_next_index_insert(Z_ARRVAL_P(table), &source, sizeof(zval *), NULL);
 	} else {
 		ZEPHIR_CPY_WRT(table, source);
 	}
@@ -3725,7 +3725,7 @@ PHP_METHOD(Phalcon_Mvc_Model, refresh) {
 		ZEPHIR_GET_HVALUE(attribute, _4);
 		ZEPHIR_INIT_NVAR(_5);
 		array_init(_5);
-		zephir_array_append(&_5, attribute, 0);
+		zend_hash_next_index_insert(Z_ARRVAL_P(_5), &attribute, sizeof(zval *), NULL);
 		zephir_array_append(&fields, _5, PH_SEPARATE);
 	}
 	ZEPHIR_INIT_VAR(dialect);
@@ -4596,16 +4596,16 @@ PHP_METHOD(Phalcon_Mvc_Model, getRelated) {
 	}
 	ZEPHIR_INIT_NVAR(_0);
 	array_init(_0);
-	zephir_array_append(&_0, manager, 0);
+	zend_hash_next_index_insert(Z_ARRVAL_P(_0), &manager, sizeof(zval *), NULL);
 	ZEPHIR_INIT_VAR(_5);
 	ZVAL_STRING(_5, "getRelationRecords", 1);
-	zephir_array_append(&_0, _5, 0);
+	zend_hash_next_index_insert(Z_ARRVAL_P(_0), &_5, sizeof(zval *), NULL);
 	ZEPHIR_INIT_BNVAR(_5);
 	array_init(_5);
-	zephir_array_append(&_5, relation, 0);
-	zephir_array_append(&_5, ZEPHIR_GLOBAL(global_null), 0);
-	zephir_array_append(&_5, this_ptr, 0);
-	zephir_array_append(&_5, arguments, 0);
+	zend_hash_next_index_insert(Z_ARRVAL_P(_5), &relation, sizeof(zval *), NULL);
+	zend_hash_next_index_insert(Z_ARRVAL_P(_5), &ZEPHIR_GLOBAL(global_null), sizeof(zval *), NULL);
+	zend_hash_next_index_insert(Z_ARRVAL_P(_5), &this_ptr, sizeof(zval *), NULL);
+	zend_hash_next_index_insert(Z_ARRVAL_P(_5), &arguments, sizeof(zval *), NULL);
 	zephir_call_func_p2(return_value, "call_user_func_array", _0, _5);
 	RETURN_MM();
 
@@ -4662,16 +4662,16 @@ PHP_METHOD(Phalcon_Mvc_Model, _getRelatedRecords) {
 		ZEPHIR_OBS_VAR(extraArgs);
 		ZEPHIR_INIT_NVAR(_1);
 		array_init(_1);
-		zephir_array_append(&_1, manager, 0);
+		zend_hash_next_index_insert(Z_ARRVAL_P(_1), &manager, sizeof(zval *), NULL);
 		ZEPHIR_INIT_NVAR(_2);
 		ZVAL_STRING(_2, "getRelationRecords", 1);
-		zephir_array_append(&_1, _2, 0);
+		zend_hash_next_index_insert(Z_ARRVAL_P(_1), &_2, sizeof(zval *), NULL);
 		ZEPHIR_INIT_NVAR(_2);
 		array_init(_2);
-		zephir_array_append(&_2, relation, 0);
-		zephir_array_append(&_2, queryMethod, 0);
-		zephir_array_append(&_2, this_ptr, 0);
-		zephir_array_append(&_2, extraArgs, 0);
+		zend_hash_next_index_insert(Z_ARRVAL_P(_2), &relation, sizeof(zval *), NULL);
+		zend_hash_next_index_insert(Z_ARRVAL_P(_2), &queryMethod, sizeof(zval *), NULL);
+		zend_hash_next_index_insert(Z_ARRVAL_P(_2), &this_ptr, sizeof(zval *), NULL);
+		zend_hash_next_index_insert(Z_ARRVAL_P(_2), &extraArgs, sizeof(zval *), NULL);
 		zephir_call_func_p2(return_value, "call_user_func_array", _1, _2);
 		RETURN_MM();
 	}
@@ -4927,16 +4927,16 @@ PHP_METHOD(Phalcon_Mvc_Model, __get) {
 	if ((Z_TYPE_P(relation) == IS_OBJECT)) {
 		ZEPHIR_INIT_VAR(_0);
 		array_init(_0);
-		zephir_array_append(&_0, manager, 0);
+		zend_hash_next_index_insert(Z_ARRVAL_P(_0), &manager, sizeof(zval *), NULL);
 		ZEPHIR_INIT_VAR(_1);
 		ZVAL_STRING(_1, "getRelationRecords", 1);
-		zephir_array_append(&_0, _1, 0);
+		zend_hash_next_index_insert(Z_ARRVAL_P(_0), &_1, sizeof(zval *), NULL);
 		ZEPHIR_INIT_NVAR(_1);
 		array_init(_1);
-		zephir_array_append(&_1, relation, 0);
-		zephir_array_append(&_1, ZEPHIR_GLOBAL(global_null), 0);
-		zephir_array_append(&_1, this_ptr, 0);
-		zephir_array_append(&_1, ZEPHIR_GLOBAL(global_null), 0);
+		zend_hash_next_index_insert(Z_ARRVAL_P(_1), &relation, sizeof(zval *), NULL);
+		zend_hash_next_index_insert(Z_ARRVAL_P(_1), &ZEPHIR_GLOBAL(global_null), sizeof(zval *), NULL);
+		zend_hash_next_index_insert(Z_ARRVAL_P(_1), &this_ptr, sizeof(zval *), NULL);
+		zend_hash_next_index_insert(Z_ARRVAL_P(_1), &ZEPHIR_GLOBAL(global_null), sizeof(zval *), NULL);
 		ZEPHIR_INIT_VAR(result);
 		zephir_call_func_p2(result, "call_user_func_array", _0, _1);
 		if ((Z_TYPE_P(result) == IS_OBJECT)) {

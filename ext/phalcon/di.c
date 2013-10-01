@@ -98,7 +98,7 @@ PHP_METHOD(Phalcon_Di, __construct) {
 
 	defaultDi = zephir_fetch_static_property_ce(phalcon_di_ce , SL("_default") TSRMLS_CC);
 	if (!(zephir_is_true(defaultDi))) {
-		zephir_update_static_property_ce(phalcon_di_ce, SL("_default"), this TSRMLS_CC);
+		zephir_update_static_property_ce(phalcon_di_ce, SL("_default"), this_ptr TSRMLS_CC);
 	}
 
 }

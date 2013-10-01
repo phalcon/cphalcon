@@ -70,19 +70,19 @@ PHP_METHOD(Phalcon_Version, _getVersion) {
 	array_init(return_value);
 	ZEPHIR_INIT_VAR(_0);
 	ZVAL_LONG(_0, 2);
-	zephir_array_append(&return_value, _0, 0);
+	zend_hash_next_index_insert(Z_ARRVAL_P(return_value), &_0, sizeof(zval *), NULL);
 	ZEPHIR_INIT_BNVAR(_0);
 	ZVAL_LONG(_0, 0);
-	zephir_array_append(&return_value, _0, 0);
+	zend_hash_next_index_insert(Z_ARRVAL_P(return_value), &_0, sizeof(zval *), NULL);
 	ZEPHIR_INIT_BNVAR(_0);
 	ZVAL_LONG(_0, 0);
-	zephir_array_append(&return_value, _0, 0);
+	zend_hash_next_index_insert(Z_ARRVAL_P(return_value), &_0, sizeof(zval *), NULL);
 	ZEPHIR_INIT_BNVAR(_0);
 	ZVAL_LONG(_0, 1);
-	zephir_array_append(&return_value, _0, 0);
+	zend_hash_next_index_insert(Z_ARRVAL_P(return_value), &_0, sizeof(zval *), NULL);
 	ZEPHIR_INIT_BNVAR(_0);
 	ZVAL_LONG(_0, 1);
-	zephir_array_append(&return_value, _0, 0);
+	zend_hash_next_index_insert(Z_ARRVAL_P(return_value), &_0, sizeof(zval *), NULL);
 	RETURN_MM();
 
 }

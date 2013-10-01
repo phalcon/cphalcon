@@ -738,8 +738,8 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch) {
 		}
 		ZEPHIR_INIT_NVAR(_9);
 		array_init(_9);
-		zephir_array_append(&_9, handler, 0);
-		zephir_array_append(&_9, actionMethod, 0);
+		zend_hash_next_index_insert(Z_ARRVAL_P(_9), &handler, sizeof(zval *), NULL);
+		zend_hash_next_index_insert(Z_ARRVAL_P(_9), &actionMethod, sizeof(zval *), NULL);
 		ZEPHIR_INIT_NVAR(_12);
 		zephir_call_func_p2(_12, "call_user_func_array", _9, params);
 		zephir_update_property_this(this_ptr, SL("_returnedValue"), _12 TSRMLS_CC);

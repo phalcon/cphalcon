@@ -77,7 +77,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, setDI) {
 
 
 
-	zephir_update_property_array_string(this_ptr, SL("_params"), "di", dependencyInjector TSRMLS_CC);
 
 }
 

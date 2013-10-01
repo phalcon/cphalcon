@@ -287,15 +287,14 @@ int zephir_call_method_vparams(zval *return_value, zval **return_value_ptr, zval
  */
 static int zephir_call_static_zval_str_func_vparams(zval *return_value, zval **return_value_ptr, zval *mixed_name, char *method_name, int method_len TSRMLS_DC, int param_count, va_list ap) {
 
-	zval **params_ptr, **params = NULL, *fn;
+	zval **params_ptr, **params = NULL, *fn, *mn;
 	zval *static_params[10];
 	int free_params = 0, i, status, caller_wants_result = 1;
 
 	if (!return_value) {
 		ALLOC_INIT_ZVAL(return_value);
 		caller_wants_result = 0;
-	}
-	else {
+	} else {
 		zephir_check_return_value(return_value);
 	}
 
@@ -304,7 +303,10 @@ static int zephir_call_static_zval_str_func_vparams(zval *return_value, zval **r
 	ALLOC_INIT_ZVAL(fn);
 	array_init_size(fn, 2);
 	add_next_index_zval(fn, mixed_name);
-	add_next_index_stringl(fn, method_name, method_len, 1);
+
+	ALLOC_INIT_ZVAL(mn);
+	ZVAL_STRINGL(mn, method_name, method_len, 0);
+	add_next_index_zval(fn, mn);
 
 	if (param_count < 0) {
 		params      = va_arg(ap, zval**);
@@ -312,7 +314,7 @@ static int zephir_call_static_zval_str_func_vparams(zval *return_value, zval **r
 		params_ptr  = params;
 	} else if (param_count > 0 && param_count <= 10) {
 		params_ptr = static_params;
-		for (i=0; i<param_count; ++i) {
+		for (i = 0; i < param_count; ++i) {
 			static_params[i] = va_arg(ap, zval*);
 		}
 	}
@@ -343,6 +345,12 @@ static int zephir_call_static_zval_str_func_vparams(zval *return_value, zval **r
 	}
 	else if (EG(exception)) {
 		status = FAILURE;
+	}
+
+	if (Z_REFCOUNT_P(mn) > 1) {
+		ZVAL_STRINGL(mn, method_name, method_len, 1);
+	} else {
+		ZVAL_NULL(mn);
 	}
 
 	zval_ptr_dtor(&fn);
