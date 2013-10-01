@@ -86,8 +86,7 @@ PHP_METHOD(Phalcon_Assets_Manager, __construct) {
  */
 PHP_METHOD(Phalcon_Assets_Manager, setOptions) {
 
-	zend_class_entry *_1;
-	zval *options, *_0, *_2;
+	zval *options, *_0, *_1;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &options);
@@ -96,11 +95,10 @@ PHP_METHOD(Phalcon_Assets_Manager, setOptions) {
 
 	if ((Z_TYPE_P(options) != IS_ARRAY)) {
 		ZEPHIR_INIT_VAR(_0);
-		_1 = zend_fetch_class(SL("\\Phalcon\\Assets\\Exception"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
-		object_init_ex(_0, _1);
-		ZEPHIR_INIT_VAR(_2);
-		ZVAL_STRING(_2, "Options must be an array", 1);
-		zephir_call_method_p1_noret(_0, "__construct", _2);
+		object_init_ex(_0, phalcon_assets_exception_ce);
+		ZEPHIR_INIT_VAR(_1);
+		ZVAL_STRING(_1, "Options must be an array", 1);
+		zephir_call_method_p1_noret(_0, "__construct", _1);
 		zephir_throw_exception(_0 TSRMLS_CC);
 		ZEPHIR_MM_RESTORE();
 		return;
@@ -161,8 +159,7 @@ PHP_METHOD(Phalcon_Assets_Manager, useImplicitOutput) {
  */
 PHP_METHOD(Phalcon_Assets_Manager, addCss) {
 
-	zend_class_entry *_1;
-	zval *path_param = NULL, *local = NULL, *filter = NULL, *attributes, *_0, *_2;
+	zval *path_param = NULL, *local = NULL, *filter = NULL, *attributes, *_0, *_1;
 	zval *path = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -178,12 +175,11 @@ PHP_METHOD(Phalcon_Assets_Manager, addCss) {
 
 
 	ZEPHIR_INIT_VAR(_0);
-	_1 = zend_fetch_class(SL("\\Phalcon\\Assets\\Resource\\Js"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
-	object_init_ex(_0, _1);
+	object_init_ex(_0, phalcon_assets_resource_js_ce);
 	zephir_call_method_p4_noret(_0, "__construct", path, local, filter, attributes);
-	ZEPHIR_INIT_VAR(_2);
-	ZVAL_STRING(_2, "css", 1);
-	zephir_call_method_p2_noret(this_ptr, "addresourcebytype", _2, _0);
+	ZEPHIR_INIT_VAR(_1);
+	ZVAL_STRING(_1, "css", 1);
+	zephir_call_method_p2_noret(this_ptr, "addresourcebytype", _1, _0);
 	ZEPHIR_MM_RESTORE();
 
 }
@@ -201,7 +197,6 @@ PHP_METHOD(Phalcon_Assets_Manager, addCss) {
  */
 PHP_METHOD(Phalcon_Assets_Manager, addResourceByType) {
 
-	zend_class_entry *_1;
 	zval *type_param = NULL, *resource, *collections, *collection, *_0;
 	zval *type = NULL;
 
@@ -215,8 +210,7 @@ PHP_METHOD(Phalcon_Assets_Manager, addResourceByType) {
 	ZEPHIR_OBS_VAR(collection);
 	if (!(zephir_array_isset_fetch(&collection, collections, type TSRMLS_CC))) {
 		ZEPHIR_INIT_VAR(_0);
-		_1 = zend_fetch_class(SL("\\Phalcon\\Assets\\Collection"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
-		object_init_ex(_0, _1);
+		object_init_ex(_0, phalcon_assets_collection_ce);
 		zephir_update_property_array(this_ptr, SL("_collections"), type, _0 TSRMLS_CC);
 	}
 	zephir_call_method_p1_noret(collection, "add", resource);
@@ -236,8 +230,7 @@ PHP_METHOD(Phalcon_Assets_Manager, addResourceByType) {
  */
 PHP_METHOD(Phalcon_Assets_Manager, addResource) {
 
-	zend_class_entry *_1;
-	zval *resource, *type, *_0, *_2;
+	zval *resource, *type, *_0, *_1;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &resource);
@@ -246,11 +239,10 @@ PHP_METHOD(Phalcon_Assets_Manager, addResource) {
 
 	if ((Z_TYPE_P(resource) != IS_OBJECT)) {
 		ZEPHIR_INIT_VAR(_0);
-		_1 = zend_fetch_class(SL("\\Phalcon\\Assets\\Exception"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
-		object_init_ex(_0, _1);
-		ZEPHIR_INIT_VAR(_2);
-		ZVAL_STRING(_2, "Resource must be an object", 1);
-		zephir_call_method_p1_noret(_0, "__construct", _2);
+		object_init_ex(_0, phalcon_assets_exception_ce);
+		ZEPHIR_INIT_VAR(_1);
+		ZVAL_STRING(_1, "Resource must be an object", 1);
+		zephir_call_method_p1_noret(_0, "__construct", _1);
 		zephir_throw_exception(_0 TSRMLS_CC);
 		ZEPHIR_MM_RESTORE();
 		return;
@@ -301,8 +293,7 @@ PHP_METHOD(Phalcon_Assets_Manager, set) {
  */
 PHP_METHOD(Phalcon_Assets_Manager, get) {
 
-	zend_class_entry *_1;
-	zval *id_param = NULL, *collections, *collection, *_0, *_2;
+	zval *id_param = NULL, *collections, *collection, *_0, *_1;
 	zval *id = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -315,11 +306,10 @@ PHP_METHOD(Phalcon_Assets_Manager, get) {
 	ZEPHIR_OBS_VAR(collection);
 	if (!(zephir_array_isset_fetch(&collection, collections, id TSRMLS_CC))) {
 		ZEPHIR_INIT_VAR(_0);
-		_1 = zend_fetch_class(SL("\\Phalcon\\Assets\\Exception"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
-		object_init_ex(_0, _1);
-		ZEPHIR_INIT_VAR(_2);
-		ZVAL_STRING(_2, "The collection does not exist in the manager", 1);
-		zephir_call_method_p1_noret(_0, "__construct", _2);
+		object_init_ex(_0, phalcon_assets_exception_ce);
+		ZEPHIR_INIT_VAR(_1);
+		ZVAL_STRING(_1, "The collection does not exist in the manager", 1);
+		zephir_call_method_p1_noret(_0, "__construct", _1);
 		zephir_throw_exception(_0 TSRMLS_CC);
 		ZEPHIR_MM_RESTORE();
 		return;
@@ -335,7 +325,6 @@ PHP_METHOD(Phalcon_Assets_Manager, get) {
  */
 PHP_METHOD(Phalcon_Assets_Manager, getCss) {
 
-	zend_class_entry *_0;
 	zval *collection, *collections;
 
 	ZEPHIR_MM_GROW();
@@ -343,8 +332,7 @@ PHP_METHOD(Phalcon_Assets_Manager, getCss) {
 	collections = zephir_fetch_nproperty_this(this_ptr, SL("_collections"), PH_NOISY_CC);
 	ZEPHIR_OBS_VAR(collection);
 	if (!(zephir_array_isset_string_fetch(&collection, collections, SS("css") TSRMLS_CC))) {
-		_0 = zend_fetch_class(SL("\\Phalcon\\Assets\\Collection"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
-		object_init_ex(return_value, _0);
+		object_init_ex(return_value, phalcon_assets_collection_ce);
 		RETURN_MM();
 	}
 	RETURN_CCTOR(collection);
@@ -358,7 +346,6 @@ PHP_METHOD(Phalcon_Assets_Manager, getCss) {
  */
 PHP_METHOD(Phalcon_Assets_Manager, getJs) {
 
-	zend_class_entry *_0;
 	zval *collections, *collection;
 
 	ZEPHIR_MM_GROW();
@@ -366,8 +353,7 @@ PHP_METHOD(Phalcon_Assets_Manager, getJs) {
 	collections = zephir_fetch_nproperty_this(this_ptr, SL("_collections"), PH_NOISY_CC);
 	ZEPHIR_OBS_VAR(collection);
 	if (!(zephir_array_isset_string_fetch(&collection, collections, SS("js") TSRMLS_CC))) {
-		_0 = zend_fetch_class(SL("\\Phalcon\\Assets\\Collection"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
-		object_init_ex(return_value, _0);
+		object_init_ex(return_value, phalcon_assets_collection_ce);
 		RETURN_MM();
 	}
 	RETURN_CCTOR(collection);
@@ -382,7 +368,6 @@ PHP_METHOD(Phalcon_Assets_Manager, getJs) {
  */
 PHP_METHOD(Phalcon_Assets_Manager, collection) {
 
-	zend_class_entry *_0;
 	zval *name_param = NULL, *collections, *collection;
 	zval *name = NULL;
 
@@ -396,8 +381,7 @@ PHP_METHOD(Phalcon_Assets_Manager, collection) {
 	ZEPHIR_OBS_VAR(collection);
 	if (!(zephir_array_isset_fetch(&collection, collections, name TSRMLS_CC))) {
 		ZEPHIR_INIT_BNVAR(collection);
-		_0 = zend_fetch_class(SL("\\Phalcon\\Assets\\Collection"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
-		object_init_ex(collection, _0);
+		object_init_ex(collection, phalcon_assets_collection_ce);
 		zephir_update_property_array(this_ptr, SL("_collections"), name, collection TSRMLS_CC);
 	}
 	RETURN_CCTOR(collection);
