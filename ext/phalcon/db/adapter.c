@@ -800,7 +800,7 @@ PHP_METHOD(Phalcon_Db_Adapter, limit) {
  */
 PHP_METHOD(Phalcon_Db_Adapter, tableExists) {
 
-	zval *tableName_param = NULL, *schemaName_param = NULL, *dialect, *num, *_0, *_1;
+	zval *tableName_param = NULL, *schemaName_param = NULL, *dialect, *num, *_0, *_1, *_2;
 	zval *tableName = NULL, *schemaName = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -822,8 +822,9 @@ PHP_METHOD(Phalcon_Db_Adapter, tableExists) {
 	ZVAL_LONG(_1, 3);
 	ZEPHIR_INIT_VAR(num);
 	zephir_call_method_p2(num, this_ptr, "fetchone", _0, _1);
-	zephir_array_fetch_long(&return_value, num, 0, PH_NOISY TSRMLS_CC);
-	RETURN_MM();
+	ZEPHIR_OBS_VAR(_2);
+	zephir_array_fetch_long(&_2, num, 0, PH_NOISY TSRMLS_CC);
+	RETURN_CCTOR(_2);
 
 }
 
@@ -840,7 +841,7 @@ PHP_METHOD(Phalcon_Db_Adapter, tableExists) {
  */
 PHP_METHOD(Phalcon_Db_Adapter, viewExists) {
 
-	zval *viewName, *schemaName = NULL, *dialect, *num, *_0, *_1;
+	zval *viewName, *schemaName = NULL, *dialect, *num, *_0, *_1, *_2;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 1, &viewName, &schemaName);
@@ -857,8 +858,9 @@ PHP_METHOD(Phalcon_Db_Adapter, viewExists) {
 	ZVAL_LONG(_1, 3);
 	ZEPHIR_INIT_VAR(num);
 	zephir_call_method_p2(num, this_ptr, "fetchone", _0, _1);
-	zephir_array_fetch_long(&return_value, num, 0, PH_NOISY TSRMLS_CC);
-	RETURN_MM();
+	ZEPHIR_OBS_VAR(_2);
+	zephir_array_fetch_long(&_2, num, 0, PH_NOISY TSRMLS_CC);
+	RETURN_CCTOR(_2);
 
 }
 
@@ -1589,7 +1591,7 @@ PHP_METHOD(Phalcon_Db_Adapter, describeReferences) {
  */
 PHP_METHOD(Phalcon_Db_Adapter, tableOptions) {
 
-	zval *tableName, *schemaName = NULL, *dialect, *describe, *sql, *_0;
+	zval *tableName, *schemaName = NULL, *dialect, *describe, *sql, *_0, *_1;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 1, &tableName, &schemaName);
@@ -1607,8 +1609,9 @@ PHP_METHOD(Phalcon_Db_Adapter, tableOptions) {
 		ZVAL_LONG(_0, 3);
 		ZEPHIR_INIT_VAR(describe);
 		zephir_call_method_p2(describe, this_ptr, "fetchall", sql, _0);
-		zephir_array_fetch_long(&return_value, describe, 0, PH_NOISY TSRMLS_CC);
-		RETURN_MM();
+		ZEPHIR_OBS_VAR(_1);
+		zephir_array_fetch_long(&_1, describe, 0, PH_NOISY TSRMLS_CC);
+		RETURN_CCTOR(_1);
 	}
 	array_init(return_value);
 	RETURN_MM();

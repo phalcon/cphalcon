@@ -105,7 +105,7 @@ PHP_METHOD(Phalcon_Annotations_Adapter, getReader) {
  */
 PHP_METHOD(Phalcon_Annotations_Adapter, get) {
 
-	zval *className, *annotations, *classAnnotations, *parsedAnnotations, *realClassName = NULL, *reader;
+	zval *className, *annotations, *classAnnotations, *parsedAnnotations, *realClassName = NULL, *reader, *_0;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &className);
@@ -121,8 +121,9 @@ PHP_METHOD(Phalcon_Annotations_Adapter, get) {
 	annotations = zephir_fetch_nproperty_this(this_ptr, SL("_annotations"), PH_NOISY_CC);
 	if ((Z_TYPE_P(annotations) == IS_ARRAY)) {
 		if (zephir_array_isset(annotations, realClassName)) {
-			zephir_array_fetch(&return_value, annotations, realClassName, PH_NOISY TSRMLS_CC);
-			RETURN_MM();
+			ZEPHIR_OBS_VAR(_0);
+			zephir_array_fetch(&_0, annotations, realClassName, PH_NOISY TSRMLS_CC);
+			RETURN_CCTOR(_0);
 		}
 	}
 	ZEPHIR_INIT_VAR(classAnnotations);
