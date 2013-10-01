@@ -357,7 +357,7 @@ PHP_METHOD(Phalcon_Validation, bind) {
  */
 PHP_METHOD(Phalcon_Validation, getValue) {
 
-	zval *attribute_param = NULL, *entity, *method, *value = NULL, *data, *values, *filters, *fieldFilters, *dependencyInjector, *filterService, *_0;
+	zval *attribute_param = NULL, *entity, *method, *value = NULL, *data, *values, *filters, *fieldFilters, *dependencyInjector = NULL, *filterService, *_0;
 	zval *attribute = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -424,6 +424,8 @@ PHP_METHOD(Phalcon_Validation, getValue) {
 					ZEPHIR_INIT_VAR(dependencyInjector);
 					zephir_call_method(dependencyInjector, this_ptr, "getdi");
 					if ((Z_TYPE_P(dependencyInjector) != IS_OBJECT)) {
+						ZEPHIR_INIT_NVAR(dependencyInjector);
+						zephir_call_static(dependencyInjector, "Phalcon\\Di", "getdefault");
 						if ((Z_TYPE_P(dependencyInjector) != IS_OBJECT)) {
 							ZEPHIR_THROW_EXCEPTION_STR(phalcon_validation_exception_ce, "A dependency injector is required to obtain the 'filter' service");
 							return;

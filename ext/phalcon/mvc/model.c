@@ -13,9 +13,9 @@
 
 #include "kernel/main.h"
 #include "kernel/fcall.h"
+#include "kernel/memory.h"
 #include "kernel/exception.h"
 #include "kernel/object.h"
-#include "kernel/memory.h"
 #include "kernel/operators.h"
 #include "kernel/hash.h"
 #include "kernel/array.h"
@@ -125,6 +125,8 @@ PHP_METHOD(Phalcon_Mvc_Model, __construct) {
 
 
 	if ((Z_TYPE_P(dependencyInjector) != IS_OBJECT)) {
+		ZEPHIR_INIT_NVAR(dependencyInjector);
+		zephir_call_static(dependencyInjector, "Phalcon\\Di", "getdefault");
 	}
 	if ((Z_TYPE_P(dependencyInjector) != IS_OBJECT)) {
 		ZEPHIR_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "A dependency injector container is required to obtain the services related to the ORM");
@@ -1053,6 +1055,8 @@ PHP_METHOD(Phalcon_Mvc_Model, query) {
 
 
 	if ((Z_TYPE_P(dependencyInjector) != IS_OBJECT)) {
+		ZEPHIR_INIT_NVAR(dependencyInjector);
+		zephir_call_static(dependencyInjector, "Phalcon\\Di", "getdefault");
 	}
 	ZEPHIR_INIT_VAR(criteria);
 	object_init_ex(criteria, phalcon_mvc_model_criteria_ce);
@@ -4870,7 +4874,7 @@ PHP_METHOD(Phalcon_Mvc_Model, __set) {
 
 
 	if ((Z_TYPE_P(value) == IS_OBJECT)) {
-		if (zephir_is_instance_of(value, SL("phalcon\mvc\modelinterface") TSRMLS_CC)) {
+		if (zephir_is_instance_of(value, SL("phalcon\\mvc\\modelinterface") TSRMLS_CC)) {
 			ZEPHIR_INIT_VAR(lowerProperty);
 			zephir_call_func_p1(lowerProperty, "strtolower", property);
 			zephir_update_property_zval_zval(this_ptr, lowerProperty, value TSRMLS_CC);
@@ -4937,7 +4941,7 @@ PHP_METHOD(Phalcon_Mvc_Model, __get) {
 		zephir_call_func_p2(result, "call_user_func_array", _0, _1);
 		if ((Z_TYPE_P(result) == IS_OBJECT)) {
 			zephir_update_property_zval_zval(this_ptr, lowerProperty, result TSRMLS_CC);
-			if (zephir_is_instance_of(result, SL("phalcon\mvc\modelinterface") TSRMLS_CC)) {
+			if (zephir_is_instance_of(result, SL("phalcon\\mvc\\modelinterface") TSRMLS_CC)) {
 				zephir_update_property_array(this_ptr, SL("_related"), lowerProperty, result TSRMLS_CC);
 			}
 		}
@@ -5040,6 +5044,8 @@ PHP_METHOD(Phalcon_Mvc_Model, unserialize) {
 		ZEPHIR_INIT_VAR(attributes);
 		zephir_call_func_p1(attributes, "unserialize", data);
 		if ((Z_TYPE_P(attributes) == IS_ARRAY)) {
+			ZEPHIR_INIT_VAR(dependencyInjector);
+			zephir_call_static(dependencyInjector, "Phalcon\\Di", "getdefault");
 			if ((Z_TYPE_P(dependencyInjector) != IS_OBJECT)) {
 				ZEPHIR_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "A dependency injector container is required to obtain the services related to the ORM");
 				return;

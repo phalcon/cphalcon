@@ -96,7 +96,7 @@ PHP_METHOD(Phalcon_Assets_Manager, setOptions) {
 
 	if ((Z_TYPE_P(options) != IS_ARRAY)) {
 		ZEPHIR_INIT_VAR(_0);
-		_1 = zend_fetch_class(SL("\Phalcon\Assets\Exception"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
+		_1 = zend_fetch_class(SL("\\Phalcon\\Assets\\Exception"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
 		object_init_ex(_0, _1);
 		ZEPHIR_INIT_VAR(_2);
 		ZVAL_STRING(_2, "Options must be an array", 1);
@@ -178,7 +178,7 @@ PHP_METHOD(Phalcon_Assets_Manager, addCss) {
 
 
 	ZEPHIR_INIT_VAR(_0);
-	_1 = zend_fetch_class(SL("\Phalcon\Assets\Resource\Js"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
+	_1 = zend_fetch_class(SL("\\Phalcon\\Assets\\Resource\\Js"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
 	object_init_ex(_0, _1);
 	zephir_call_method_p4_noret(_0, "__construct", path, local, filter, attributes);
 	ZEPHIR_INIT_VAR(_2);
@@ -215,7 +215,7 @@ PHP_METHOD(Phalcon_Assets_Manager, addResourceByType) {
 	ZEPHIR_OBS_VAR(collection);
 	if (!(zephir_array_isset_fetch(&collection, collections, type TSRMLS_CC))) {
 		ZEPHIR_INIT_VAR(_0);
-		_1 = zend_fetch_class(SL("\Phalcon\Assets\Collection"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
+		_1 = zend_fetch_class(SL("\\Phalcon\\Assets\\Collection"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
 		object_init_ex(_0, _1);
 		zephir_update_property_array(this_ptr, SL("_collections"), type, _0 TSRMLS_CC);
 	}
@@ -246,7 +246,7 @@ PHP_METHOD(Phalcon_Assets_Manager, addResource) {
 
 	if ((Z_TYPE_P(resource) != IS_OBJECT)) {
 		ZEPHIR_INIT_VAR(_0);
-		_1 = zend_fetch_class(SL("\Phalcon\Assets\Exception"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
+		_1 = zend_fetch_class(SL("\\Phalcon\\Assets\\Exception"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
 		object_init_ex(_0, _1);
 		ZEPHIR_INIT_VAR(_2);
 		ZVAL_STRING(_2, "Resource must be an object", 1);
@@ -315,7 +315,7 @@ PHP_METHOD(Phalcon_Assets_Manager, get) {
 	ZEPHIR_OBS_VAR(collection);
 	if (!(zephir_array_isset_fetch(&collection, collections, id TSRMLS_CC))) {
 		ZEPHIR_INIT_VAR(_0);
-		_1 = zend_fetch_class(SL("\Phalcon\Assets\Exception"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
+		_1 = zend_fetch_class(SL("\\Phalcon\\Assets\\Exception"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
 		object_init_ex(_0, _1);
 		ZEPHIR_INIT_VAR(_2);
 		ZVAL_STRING(_2, "The collection does not exist in the manager", 1);
@@ -343,7 +343,7 @@ PHP_METHOD(Phalcon_Assets_Manager, getCss) {
 	collections = zephir_fetch_nproperty_this(this_ptr, SL("_collections"), PH_NOISY_CC);
 	ZEPHIR_OBS_VAR(collection);
 	if (!(zephir_array_isset_string_fetch(&collection, collections, SS("css") TSRMLS_CC))) {
-		_0 = zend_fetch_class(SL("\Phalcon\Assets\Collection"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
+		_0 = zend_fetch_class(SL("\\Phalcon\\Assets\\Collection"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
 		object_init_ex(return_value, _0);
 		RETURN_MM();
 	}
@@ -366,7 +366,7 @@ PHP_METHOD(Phalcon_Assets_Manager, getJs) {
 	collections = zephir_fetch_nproperty_this(this_ptr, SL("_collections"), PH_NOISY_CC);
 	ZEPHIR_OBS_VAR(collection);
 	if (!(zephir_array_isset_string_fetch(&collection, collections, SS("js") TSRMLS_CC))) {
-		_0 = zend_fetch_class(SL("\Phalcon\Assets\Collection"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
+		_0 = zend_fetch_class(SL("\\Phalcon\\Assets\\Collection"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
 		object_init_ex(return_value, _0);
 		RETURN_MM();
 	}
@@ -396,7 +396,7 @@ PHP_METHOD(Phalcon_Assets_Manager, collection) {
 	ZEPHIR_OBS_VAR(collection);
 	if (!(zephir_array_isset_fetch(&collection, collections, name TSRMLS_CC))) {
 		ZEPHIR_INIT_BNVAR(collection);
-		_0 = zend_fetch_class(SL("\Phalcon\Assets\Collection"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
+		_0 = zend_fetch_class(SL("\\Phalcon\\Assets\\Collection"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
 		object_init_ex(collection, _0);
 		zephir_update_property_array(this_ptr, SL("_collections"), name, collection TSRMLS_CC);
 	}

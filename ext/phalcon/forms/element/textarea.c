@@ -56,7 +56,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Forms_Element_TextArea) {
  */
 PHP_METHOD(Phalcon_Forms_Element_TextArea, render) {
 
-	zval *attributes = NULL;
+	zval *attributes = NULL, *_0;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 1, &attributes);
@@ -66,6 +66,9 @@ PHP_METHOD(Phalcon_Forms_Element_TextArea, render) {
 	}
 
 
+	ZEPHIR_INIT_VAR(_0);
+	zephir_call_method_p1(_0, this_ptr, "prepareattributes", attributes);
+	zephir_call_static_p1(return_value, "Phalcon\\Tag", "textarea", _0);
 	RETURN_MM();
 
 }

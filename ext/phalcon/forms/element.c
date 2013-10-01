@@ -657,6 +657,7 @@ PHP_METHOD(Phalcon_Forms_Element, getValue) {
 	form = zephir_fetch_nproperty_this(this_ptr, SL("_form"), PH_NOISY_CC);
 	if ((Z_TYPE_P(form) == IS_OBJECT)) {
 		ZEPHIR_INIT_VAR(_0);
+		zephir_call_static_p1(_0, "Phalcon\\Tag", "hasvalue", name);
 		if (!(zephir_is_true(_0))) {
 			ZEPHIR_INIT_BNVAR(value);
 			zephir_call_method_p1(value, form, "getvalue", name);
@@ -766,8 +767,13 @@ PHP_METHOD(Phalcon_Forms_Element, appendMessage) {
  */
 PHP_METHOD(Phalcon_Forms_Element, clear) {
 
+	zval *_0;
 
-	RETURN_THISW();
+	ZEPHIR_MM_GROW();
+
+	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_name"), PH_NOISY_CC);
+	zephir_call_static_p2_noret("Phalcon\\Tag", "setdefault", _0, ZEPHIR_GLOBAL(global_null));
+	RETURN_THIS();
 
 }
 

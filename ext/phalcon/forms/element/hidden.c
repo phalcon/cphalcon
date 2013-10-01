@@ -56,7 +56,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Forms_Element_Hidden) {
  */
 PHP_METHOD(Phalcon_Forms_Element_Hidden, render) {
 
-	zval *attributes = NULL;
+	zval *attributes = NULL, *_0;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 1, &attributes);
@@ -66,6 +66,9 @@ PHP_METHOD(Phalcon_Forms_Element_Hidden, render) {
 	}
 
 
+	ZEPHIR_INIT_VAR(_0);
+	zephir_call_method_p1(_0, this_ptr, "prepareattributes", attributes);
+	zephir_call_static_p1(return_value, "Phalcon\\Tag", "hiddenfield", _0);
 	RETURN_MM();
 
 }

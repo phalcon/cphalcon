@@ -415,7 +415,7 @@ PHP_METHOD(Phalcon_Mvc_Application, handle) {
 	ZEPHIR_INIT_VAR(possibleResponse);
 	zephir_call_method(possibleResponse, dispatcher, "getreturnedvalue");
 	if ((Z_TYPE_P(possibleResponse) == IS_OBJECT)) {
-		returnedResponse = zephir_is_instance_of(possibleResponse, SL("phalcon\http\responseinterface") TSRMLS_CC);
+		returnedResponse = zephir_is_instance_of(possibleResponse, SL("phalcon\\http\\responseinterface") TSRMLS_CC);
 	} else {
 		returnedResponse = 0;
 	}

@@ -45,6 +45,8 @@ class Route
 
 	protected _beforeMatch;
 
+	protected static _uniqueId;
+
 	/**
 	 * Phalcon\Mvc\Router\Route constructor
 	 *

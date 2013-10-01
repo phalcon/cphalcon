@@ -13,8 +13,8 @@
 
 #include "kernel/main.h"
 #include "kernel/exception.h"
-#include "kernel/memory.h"
 #include "kernel/object.h"
+#include "kernel/memory.h"
 #include "kernel/fcall.h"
 #include "kernel/operators.h"
 #include "kernel/array.h"
@@ -91,7 +91,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Tag) {
  */
 PHP_METHOD(Phalcon_Tag, setDI) {
 
-	zval *dependencyInjector;
+	zval *dependencyInjector, *_0;
 
 	zephir_fetch_params(0, 1, 0, &dependencyInjector);
 
@@ -101,6 +101,7 @@ PHP_METHOD(Phalcon_Tag, setDI) {
 		ZEPHIR_THROW_EXCEPTION_STRW(phalcon_tag_exception_ce, "Parameter dependencyInjector must be an Object");
 		return;
 	}
+	zephir_update_static_property_ce(phalcon_tag_ce, SL("_dependencyInjector"), dependencyInjector TSRMLS_CC);
 
 }
 
@@ -126,7 +127,7 @@ PHP_METHOD(Phalcon_Tag, getDI) {
  */
 PHP_METHOD(Phalcon_Tag, getUrlService) {
 
-	zval *url = NULL, *dependencyInjector, *_0, *_1;
+	zval *url = NULL, *dependencyInjector, *_0, *_1, *_2;
 
 	ZEPHIR_MM_GROW();
 
@@ -134,6 +135,8 @@ PHP_METHOD(Phalcon_Tag, getUrlService) {
 	if ((Z_TYPE_P(url) != IS_OBJECT)) {
 		dependencyInjector = zephir_fetch_static_property_ce(phalcon_tag_ce , SL("_dependencyInjector") TSRMLS_CC);
 		if ((Z_TYPE_P(dependencyInjector) != IS_OBJECT)) {
+			ZEPHIR_INIT_VAR(dependencyInjector);
+			zephir_call_static(dependencyInjector, "Phalcon\\Di", "getdefault");
 		}
 		if ((Z_TYPE_P(dependencyInjector) != IS_OBJECT)) {
 			ZEPHIR_THROW_EXCEPTION_STR(phalcon_tag_exception_ce, "A dependency injector container is required to obtain the 'url' service");
@@ -144,6 +147,7 @@ PHP_METHOD(Phalcon_Tag, getUrlService) {
 		ZVAL_STRING(_1, "url", 1);
 		zephir_call_method_p1(_0, dependencyInjector, "getshared", _1);
 		ZEPHIR_CPY_WRT(url, _0);
+		zephir_update_static_property_ce(phalcon_tag_ce, SL("_urlService"), url TSRMLS_CC);
 	}
 	RETURN_CCTOR(url);
 
@@ -156,7 +160,7 @@ PHP_METHOD(Phalcon_Tag, getUrlService) {
  */
 PHP_METHOD(Phalcon_Tag, getEscaperService) {
 
-	zval *escaper = NULL, *dependencyInjector, *_0, *_1;
+	zval *escaper = NULL, *dependencyInjector, *_0, *_1, *_2;
 
 	ZEPHIR_MM_GROW();
 
@@ -164,6 +168,8 @@ PHP_METHOD(Phalcon_Tag, getEscaperService) {
 	if ((Z_TYPE_P(escaper) != IS_OBJECT)) {
 		dependencyInjector = zephir_fetch_static_property_ce(phalcon_tag_ce , SL("_dependencyInjector") TSRMLS_CC);
 		if ((Z_TYPE_P(dependencyInjector) != IS_OBJECT)) {
+			ZEPHIR_INIT_VAR(dependencyInjector);
+			zephir_call_static(dependencyInjector, "Phalcon\\Di", "getdefault");
 		}
 		if ((Z_TYPE_P(dependencyInjector) != IS_OBJECT)) {
 			ZEPHIR_THROW_EXCEPTION_STR(phalcon_tag_exception_ce, "A dependency injector container is required to obtain the 'escaper' service");
@@ -174,6 +180,7 @@ PHP_METHOD(Phalcon_Tag, getEscaperService) {
 		ZVAL_STRING(_1, "escaper", 1);
 		zephir_call_method_p1(_0, dependencyInjector, "getshared", _1);
 		ZEPHIR_CPY_WRT(escaper, _0);
+		zephir_update_static_property_ce(phalcon_tag_ce, SL("_escaperService"), escaper TSRMLS_CC);
 	}
 	RETURN_CCTOR(escaper);
 
@@ -186,7 +193,7 @@ PHP_METHOD(Phalcon_Tag, getEscaperService) {
  */
 PHP_METHOD(Phalcon_Tag, setAutoescape) {
 
-	zval *autoescape_param = NULL;
+	zval *autoescape_param = NULL, *_0, *_1;
 	zend_bool autoescape;
 
 	zephir_fetch_params(0, 1, 0, &autoescape_param);
@@ -194,6 +201,9 @@ PHP_METHOD(Phalcon_Tag, setAutoescape) {
 		autoescape = zephir_get_boolval(autoescape_param);
 
 
+	ZEPHIR_INIT_ZVAL_NREF(_1);
+	ZVAL_BOOL(_1, autoescape);
+	zephir_update_static_property_ce(phalcon_tag_ce, SL("_autoEscape"), _1 TSRMLS_CC);
 
 }
 
@@ -213,7 +223,7 @@ PHP_METHOD(Phalcon_Tag, setAutoescape) {
  */
 PHP_METHOD(Phalcon_Tag, setDefault) {
 
-	zval *id_param = NULL, *value;
+	zval *id_param = NULL, *value, *_0;
 	zval *id = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -247,7 +257,7 @@ PHP_METHOD(Phalcon_Tag, setDefault) {
  */
 PHP_METHOD(Phalcon_Tag, setDefaults) {
 
-	zval *values;
+	zval *values, *_0;
 
 	zephir_fetch_params(0, 1, 0, &values);
 
@@ -257,6 +267,7 @@ PHP_METHOD(Phalcon_Tag, setDefaults) {
 		ZEPHIR_THROW_EXCEPTION_STRW(phalcon_tag_exception_ce, "An array is required as default values");
 		return;
 	}
+	zephir_update_static_property_ce(phalcon_tag_ce, SL("_displayValues"), values TSRMLS_CC);
 
 }
 
@@ -365,22 +376,23 @@ PHP_METHOD(Phalcon_Tag, getValue) {
  */
 PHP_METHOD(Phalcon_Tag, resetInput) {
 
-	HashTable *_2;
-	HashPosition _1;
-	zval *key = NULL, *value = NULL, *_0, *_POST, **_3;
+	HashTable *_3;
+	HashPosition _2;
+	zval *key = NULL, *value = NULL, *_0, *_1, *_POST, **_4;
 
 	ZEPHIR_MM_GROW();
 
-	ZEPHIR_INIT_VAR(_0);
-	array_init(_0);
+	ZEPHIR_INIT_VAR(_1);
+	array_init(_1);
+	zephir_update_static_property_ce(phalcon_tag_ce, SL("_displayValues"), _1 TSRMLS_CC);
 	zephir_get_global(&_POST, SS("_POST") TSRMLS_CC);
-	zephir_is_iterable(_POST, &_2, &_1, 0, 0);
+	zephir_is_iterable(_POST, &_3, &_2, 0, 0);
 	for (
-		; zend_hash_get_current_data_ex(_2, (void**) &_3, &_1) == SUCCESS
-		; zend_hash_move_forward_ex(_2, &_1)
+		; zend_hash_get_current_data_ex(_3, (void**) &_4, &_2) == SUCCESS
+		; zend_hash_move_forward_ex(_3, &_2)
 	) {
-		ZEPHIR_GET_HMKEY(key, _2, _1);
-		ZEPHIR_GET_HVALUE(value, _3);
+		ZEPHIR_GET_HMKEY(key, _3, _2);
+		ZEPHIR_GET_HVALUE(value, _4);
 		zephir_array_unset(&_POST, key, PH_SEPARATE TSRMLS_CC);
 	}
 	ZEPHIR_MM_RESTORE();
@@ -852,6 +864,7 @@ PHP_METHOD(Phalcon_Tag, selectStatic) {
 	}
 
 
+	zephir_call_static_p2(return_value, "Phalcon\\Tag\\Select", "selectfield", parameters, data);
 	RETURN_MM();
 
 }
@@ -888,6 +901,7 @@ PHP_METHOD(Phalcon_Tag, select) {
 	}
 
 
+	zephir_call_static_p2(return_value, "Phalcon\\Tag\\Select", "selectfield", parameters, data);
 	RETURN_MM();
 
 }

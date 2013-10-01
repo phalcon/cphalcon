@@ -93,11 +93,12 @@ ZEPHIR_INIT_CLASS(Phalcon_Di) {
  */
 PHP_METHOD(Phalcon_Di, __construct) {
 
-	zval *defaultDi;
+	zval *defaultDi, *_0;
 
 
 	defaultDi = zephir_fetch_static_property_ce(phalcon_di_ce , SL("_default") TSRMLS_CC);
 	if (!(zephir_is_true(defaultDi))) {
+		zephir_update_static_property_ce(phalcon_di_ce, SL("_default"), this TSRMLS_CC);
 	}
 
 }
@@ -638,12 +639,13 @@ PHP_METHOD(Phalcon_Di, __call) {
  */
 PHP_METHOD(Phalcon_Di, setDefault) {
 
-	zval *dependencyInjector;
+	zval *dependencyInjector, *_0;
 
 	zephir_fetch_params(0, 1, 0, &dependencyInjector);
 
 
 
+	zephir_update_static_property_ce(phalcon_di_ce, SL("_default"), dependencyInjector TSRMLS_CC);
 
 }
 
@@ -667,7 +669,10 @@ PHP_METHOD(Phalcon_Di, getDefault) {
  */
 PHP_METHOD(Phalcon_Di, reset) {
 
+	zval *_0;
 
+
+	zephir_update_static_property_ce(phalcon_di_ce, SL("_default"), ZEPHIR_GLOBAL(global_null) TSRMLS_CC);
 
 }
 
