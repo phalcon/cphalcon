@@ -147,6 +147,7 @@ PHP_METHOD(Phalcon_Http_Request, get) {
 		if (zephir_array_isset_fetch(&value, request, name TSRMLS_CC)) {
 			if ((Z_TYPE_P(filters) != IS_NULL)) {
 				ZEPHIR_OBS_VAR(filter);
+				ZEPHIR_OBS_NVAR(filter);
 				zephir_read_property_this(&filter, this_ptr, SL("_filter"), PH_NOISY_CC);
 				if ((Z_TYPE_P(filter) != IS_OBJECT)) {
 					_0 = zephir_fetch_nproperty_this(this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
@@ -220,6 +221,7 @@ PHP_METHOD(Phalcon_Http_Request, getPost) {
 		if (zephir_array_isset_fetch(&value, post, name TSRMLS_CC)) {
 			if ((Z_TYPE_P(filters) != IS_NULL)) {
 				ZEPHIR_OBS_VAR(filter);
+				ZEPHIR_OBS_NVAR(filter);
 				zephir_read_property_this(&filter, this_ptr, SL("_filter"), PH_NOISY_CC);
 				if ((Z_TYPE_P(filter) != IS_OBJECT)) {
 					_0 = zephir_fetch_nproperty_this(this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
@@ -296,6 +298,7 @@ PHP_METHOD(Phalcon_Http_Request, getQuery) {
 		if (zephir_array_isset_fetch(&value, get, name TSRMLS_CC)) {
 			if ((Z_TYPE_P(filters) != IS_NULL)) {
 				ZEPHIR_OBS_VAR(filter);
+				ZEPHIR_OBS_NVAR(filter);
 				zephir_read_property_this(&filter, this_ptr, SL("_filter"), PH_NOISY_CC);
 				if ((Z_TYPE_P(filter) != IS_OBJECT)) {
 					_0 = zephir_fetch_nproperty_this(this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);

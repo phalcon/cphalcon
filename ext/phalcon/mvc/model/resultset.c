@@ -123,6 +123,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, rewind) {
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_type"), PH_NOISY_CC);
 	if (zephir_is_true(_0)) {
 		ZEPHIR_OBS_VAR(result);
+		ZEPHIR_OBS_NVAR(result);
 		zephir_read_property_this(&result, this_ptr, SL("_result"), PH_NOISY_CC);
 		if (!ZEPHIR_IS_FALSE(result)) {
 			_1 = zephir_fetch_nproperty_this(this_ptr, SL("_activeRow"), PH_NOISY_CC);
@@ -134,8 +135,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, rewind) {
 		}
 	} else {
 		ZEPHIR_OBS_VAR(rows);
+		ZEPHIR_OBS_NVAR(rows);
 		zephir_read_property_this(&rows, this_ptr, SL("_rows"), PH_NOISY_CC);
 		if ((Z_TYPE_P(rows) == IS_NULL)) {
+			ZEPHIR_OBS_NVAR(result);
 			ZEPHIR_OBS_NVAR(result);
 			zephir_read_property_this(&result, this_ptr, SL("_result"), PH_NOISY_CC);
 			if ((Z_TYPE_P(result) == IS_OBJECT)) {
@@ -178,6 +181,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, seek) {
 		_1 = zephir_fetch_nproperty_this(this_ptr, SL("_type"), PH_NOISY_CC);
 		if (zephir_is_true(_1)) {
 			ZEPHIR_OBS_VAR(result);
+			ZEPHIR_OBS_NVAR(result);
 			zephir_read_property_this(&result, this_ptr, SL("_result"), PH_NOISY_CC);
 			if (!ZEPHIR_IS_FALSE(result)) {
 				ZEPHIR_INIT_VAR(_2);
@@ -186,8 +190,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, seek) {
 			}
 		} else {
 			ZEPHIR_OBS_VAR(rows);
+			ZEPHIR_OBS_NVAR(rows);
 			zephir_read_property_this(&rows, this_ptr, SL("_rows"), PH_NOISY_CC);
 			if ((Z_TYPE_P(rows) == IS_NULL)) {
+				ZEPHIR_OBS_NVAR(result);
 				ZEPHIR_OBS_NVAR(result);
 				zephir_read_property_this(&result, this_ptr, SL("_result"), PH_NOISY_CC);
 				if ((Z_TYPE_P(result) == IS_OBJECT)) {
@@ -234,11 +240,12 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, seek) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_Resultset, count) {
 
-	zval *count, *result = NULL, *rows = NULL, *_0, *_1;
+	zval *count = NULL, *result = NULL, *rows = NULL, *_0, *_1;
 
 	ZEPHIR_MM_GROW();
 
 	ZEPHIR_OBS_VAR(count);
+	ZEPHIR_OBS_NVAR(count);
 	zephir_read_property_this(&count, this_ptr, SL("_count"), PH_NOISY_CC);
 	if ((Z_TYPE_P(count) == IS_NULL)) {
 		ZEPHIR_INIT_BNVAR(count);
@@ -246,6 +253,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, count) {
 		_0 = zephir_fetch_nproperty_this(this_ptr, SL("_type"), PH_NOISY_CC);
 		if (zephir_is_true(_0)) {
 			ZEPHIR_OBS_VAR(result);
+			ZEPHIR_OBS_NVAR(result);
 			zephir_read_property_this(&result, this_ptr, SL("_result"), PH_NOISY_CC);
 			if (!ZEPHIR_IS_FALSE(result)) {
 				ZEPHIR_INIT_VAR(_1);
@@ -255,8 +263,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, count) {
 			}
 		} else {
 			ZEPHIR_OBS_VAR(rows);
+			ZEPHIR_OBS_NVAR(rows);
 			zephir_read_property_this(&rows, this_ptr, SL("_rows"), PH_NOISY_CC);
 			if ((Z_TYPE_P(rows) == IS_NULL)) {
+				ZEPHIR_OBS_NVAR(result);
 				ZEPHIR_OBS_NVAR(result);
 				zephir_read_property_this(&result, this_ptr, SL("_result"), PH_NOISY_CC);
 				if ((Z_TYPE_P(result) == IS_OBJECT)) {

@@ -294,6 +294,7 @@ PHP_METHOD(Phalcon_Flash, outputMessage) {
 	zephir_read_property_this(&_0, this_ptr, SL("_automaticHtml"), PH_NOISY_CC);
 	automaticHtml = (zephir_get_boolval(_0)) ? 1 : 0;
 	if ((automaticHtml == 1)) {
+		ZEPHIR_OBS_VAR(classes);
 		classes = zephir_fetch_nproperty_this(this_ptr, SL("_cssClasses"), PH_NOISY_CC);
 		ZEPHIR_OBS_VAR(typeClasses);
 		if (zephir_array_isset_fetch(&typeClasses, classes, type TSRMLS_CC)) {

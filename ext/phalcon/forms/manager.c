@@ -102,6 +102,7 @@ PHP_METHOD(Phalcon_Forms_Manager, get) {
 		zephir_get_strval(name, name_param);
 
 
+	ZEPHIR_OBS_VAR(forms);
 	forms = zephir_fetch_nproperty_this(this_ptr, SL("_forms"), PH_NOISY_CC);
 	ZEPHIR_OBS_VAR(form);
 	if (!(zephir_array_isset_fetch(&form, forms, name TSRMLS_CC))) {
@@ -137,6 +138,7 @@ PHP_METHOD(Phalcon_Forms_Manager, has) {
 		zephir_get_strval(name, name_param);
 
 
+	ZEPHIR_OBS_VAR(forms);
 	forms = zephir_fetch_nproperty_this(this_ptr, SL("_forms"), PH_NOISY_CC);
 	RETURN_MM_BOOL(zephir_array_isset(forms, name));
 
