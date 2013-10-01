@@ -408,12 +408,10 @@ PHP_METHOD(Phalcon_Dispatcher, getParam) {
 	}
 
 
-	ZEPHIR_OBS_VAR(params);
 	params = zephir_fetch_nproperty_this(this_ptr, SL("_params"), PH_NOISY_CC);
 	if (zephir_array_isset(params, param)) {
 		zephir_array_fetch(&paramValue, params, param, PH_NOISY | PH_READONLY TSRMLS_CC);
 		if ((Z_TYPE_P(filters) != IS_NULL)) {
-			ZEPHIR_OBS_VAR(dependencyInjector);
 			dependencyInjector = zephir_fetch_nproperty_this(this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
 			if ((Z_TYPE_P(dependencyInjector) != IS_OBJECT)) {
 				ZEPHIR_INIT_VAR(_0);
@@ -507,7 +505,7 @@ PHP_METHOD(Phalcon_Dispatcher, getReturnedValue) {
 PHP_METHOD(Phalcon_Dispatcher, dispatch) {
 
 	zend_function *_3 = NULL, *_4 = NULL, *_8 = NULL, *_10 = NULL, *_11 = NULL, *_13 = NULL, *_14 = NULL, *_15 = NULL, *_18 = NULL, *_20 = NULL, *_21 = NULL, *_22 = NULL, *_23 = NULL, *_26 = NULL, *_27 = NULL, *_28 = NULL;
-	zval *value, *handler = NULL, *dependencyInjector = NULL, *namespaceName = NULL, *handlerName = NULL, *actionName = NULL, *camelizedClass = NULL, *params = NULL, *eventsManager = NULL, *handlerSuffix, *actionSuffix, *handlerClass = NULL, *status = NULL, *actionMethod = NULL, *_0, *_1 = NULL, *_2 = NULL, *_5, *_6 = NULL, *_7 = NULL, *_9 = NULL, *_12 = NULL, *_16 = NULL, *_17 = NULL, *_19, *_24 = NULL, *_25 = NULL;
+	zval *value, *handler = NULL, *dependencyInjector = NULL, *namespaceName = NULL, *handlerName = NULL, *actionName = NULL, *camelizedClass = NULL, *params, *eventsManager = NULL, *handlerSuffix, *actionSuffix, *handlerClass = NULL, *status = NULL, *actionMethod = NULL, *_0, *_1 = NULL, *_2 = NULL, *_5, *_6 = NULL, *_7 = NULL, *_9 = NULL, *_12 = NULL, *_16 = NULL, *_17 = NULL, *_19, *_24 = NULL, *_25 = NULL;
 	int numberDispatches;
 	zend_bool hasService;
 
@@ -539,9 +537,7 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch) {
 	ZEPHIR_INIT_VAR(handler);
 	ZVAL_NULL(handler);
 	numberDispatches = 0;
-	ZEPHIR_OBS_VAR(handlerSuffix);
 	handlerSuffix = zephir_fetch_nproperty_this(this_ptr, SL("_handlerSuffix"), PH_NOISY_CC);
-	ZEPHIR_OBS_VAR(actionSuffix);
 	actionSuffix = zephir_fetch_nproperty_this(this_ptr, SL("_actionSuffix"), PH_NOISY_CC);
 	zephir_update_property_this(this_ptr, SL("_finished"), ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
 	while (1) {
@@ -560,28 +556,22 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch) {
 		}
 		zephir_update_property_this(this_ptr, SL("_finished"), ZEPHIR_GLOBAL(global_true) TSRMLS_CC);
 		ZEPHIR_OBS_NVAR(namespaceName);
-		ZEPHIR_OBS_NVAR(namespaceName);
 		zephir_read_property_this(&namespaceName, this_ptr, SL("_namespaceName"), PH_NOISY_CC);
 		if (!(zephir_is_true(namespaceName))) {
-			ZEPHIR_OBS_NVAR(namespaceName);
 			ZEPHIR_OBS_NVAR(namespaceName);
 			zephir_read_property_this(&namespaceName, this_ptr, SL("_defaultNamespace"), PH_NOISY_CC);
 			zephir_update_property_this(this_ptr, SL("_namespaceName"), namespaceName TSRMLS_CC);
 		}
 		ZEPHIR_OBS_NVAR(handlerName);
-		ZEPHIR_OBS_NVAR(handlerName);
 		zephir_read_property_this(&handlerName, this_ptr, SL("_handlerName"), PH_NOISY_CC);
 		if (!(zephir_is_true(handlerName))) {
-			ZEPHIR_OBS_NVAR(handlerName);
 			ZEPHIR_OBS_NVAR(handlerName);
 			zephir_read_property_this(&handlerName, this_ptr, SL("_defaultHandler"), PH_NOISY_CC);
 			zephir_update_property_this(this_ptr, SL("_handlerName"), handlerName TSRMLS_CC);
 		}
 		ZEPHIR_OBS_NVAR(actionName);
-		ZEPHIR_OBS_NVAR(actionName);
 		zephir_read_property_this(&actionName, this_ptr, SL("_actionName"), PH_NOISY_CC);
 		if (!(zephir_is_true(actionName))) {
-			ZEPHIR_OBS_NVAR(actionName);
 			ZEPHIR_OBS_NVAR(actionName);
 			zephir_read_property_this(&actionName, this_ptr, SL("_defaultAction"), PH_NOISY_CC);
 			zephir_update_property_this(this_ptr, SL("_actionName"), actionName TSRMLS_CC);
@@ -663,7 +653,6 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch) {
 			break;
 		}
 		zephir_update_property_this(this_ptr, SL("_activeHandler"), handler TSRMLS_CC);
-		ZEPHIR_OBS_NVAR(params);
 		params = zephir_fetch_nproperty_this(this_ptr, SL("_params"), PH_NOISY_CC);
 		if ((Z_TYPE_P(params) != IS_ARRAY)) {
 			ZEPHIR_INIT_NVAR(_9);

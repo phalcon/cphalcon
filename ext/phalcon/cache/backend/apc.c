@@ -12,9 +12,9 @@
 #include <Zend/zend_interfaces.h>
 
 #include "kernel/main.h"
-#include "kernel/memory.h"
 #include "kernel/object.h"
 #include "kernel/concat.h"
+#include "kernel/memory.h"
 #include "kernel/fcall.h"
 #include "kernel/operators.h"
 #include "kernel/exception.h"
@@ -89,7 +89,6 @@ PHP_METHOD(Phalcon_Cache_Backend_Apc, get) {
 	}
 
 
-	ZEPHIR_OBS_VAR(frontend);
 	frontend = zephir_fetch_nproperty_this(this_ptr, SL("_frontend"), PH_NOISY_CC);
 	ZEPHIR_OBS_VAR(_0);
 	zephir_read_property_this(&_0, this_ptr, SL("_prefix"), PH_NOISY_CC);
@@ -146,14 +145,12 @@ PHP_METHOD(Phalcon_Cache_Backend_Apc, save) {
 		zephir_read_property_this(&_0, this_ptr, SL("_prefix"), PH_NOISY_CC);
 		ZEPHIR_INIT_VAR(_1);
 		ZEPHIR_CONCAT_SV(_1, "_PHCA", _0);
-		ZEPHIR_INIT_BNVAR(lastKey);
 		concat_function(lastKey, _1, keyName TSRMLS_CC);
 	}
 	if (!(zephir_is_true(lastKey))) {
 		ZEPHIR_THROW_EXCEPTION_STR(phalcon_cache_exception_ce, "The cache must be started first");
 		return;
 	}
-	ZEPHIR_OBS_VAR(frontend);
 	frontend = zephir_fetch_nproperty_this(this_ptr, SL("_frontend"), PH_NOISY_CC);
 	if ((Z_TYPE_P(content) == IS_NULL)) {
 		ZEPHIR_INIT_VAR(cachedContent);
@@ -164,7 +161,6 @@ PHP_METHOD(Phalcon_Cache_Backend_Apc, save) {
 	ZEPHIR_INIT_VAR(preparedContent);
 	zephir_call_method_p1(preparedContent, frontend, "beforestore", cachedContent);
 	if ((Z_TYPE_P(lifetime) == IS_NULL)) {
-		ZEPHIR_OBS_NVAR(lifetime);
 		ZEPHIR_OBS_NVAR(lifetime);
 		zephir_read_property_this(&lifetime, this_ptr, SL("_lastLifetime"), PH_NOISY_CC);
 		if ((Z_TYPE_P(lifetime) == IS_NULL)) {
@@ -267,7 +263,6 @@ PHP_METHOD(Phalcon_Cache_Backend_Apc, exists) {
 		zephir_read_property_this(&_0, this_ptr, SL("_prefix"), PH_NOISY_CC);
 		ZEPHIR_INIT_VAR(_1);
 		ZEPHIR_CONCAT_SV(_1, "_PHCA", _0);
-		ZEPHIR_INIT_BNVAR(lastKey);
 		concat_function(lastKey, _1, keyName TSRMLS_CC);
 	}
 	if (zephir_is_true(lastKey)) {

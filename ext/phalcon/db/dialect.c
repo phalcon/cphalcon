@@ -168,7 +168,6 @@ PHP_METHOD(Phalcon_Db_Dialect, getColumnList) {
 
 	ZEPHIR_INIT_VAR(strList);
 	array_init(strList);
-	ZEPHIR_OBS_VAR(escapeChar);
 	escapeChar = zephir_fetch_nproperty_this(this_ptr, SL("_escapeChar"), PH_NOISY_CC);
 	zephir_is_iterable(columnList, &_1, &_0, 0, 0);
 	for (
@@ -238,7 +237,7 @@ PHP_METHOD(Phalcon_Db_Dialect, getSqlExpression) {
 	}
 	if (ZEPHIR_IS_STRING(type, "qualified")) {
 		ZEPHIR_OBS_VAR(name);
-		zephir_array_fetch_string(&name, expression, SL("name"), PH_NOISY | PH_READONLY TSRMLS_CC);
+		zephir_array_fetch_string(&name, expression, SL("name"), PH_NOISY TSRMLS_CC);
 		ZEPHIR_INIT_BNVAR(_0);
 		ZVAL_STRING(_0, "db.escape_identifiers", 1);
 		ZEPHIR_INIT_VAR(_4);
@@ -329,7 +328,7 @@ PHP_METHOD(Phalcon_Db_Dialect, getSqlExpression) {
 	}
 	if (ZEPHIR_IS_STRING(type, "functionCall")) {
 		ZEPHIR_OBS_NVAR(name);
-		zephir_array_fetch_string(&name, expression, SL("name"), PH_NOISY | PH_READONLY TSRMLS_CC);
+		zephir_array_fetch_string(&name, expression, SL("name"), PH_NOISY TSRMLS_CC);
 		ZEPHIR_INIT_VAR(sqlArguments);
 		array_init(sqlArguments);
 		ZEPHIR_OBS_VAR(arguments);
@@ -575,11 +574,10 @@ PHP_METHOD(Phalcon_Db_Dialect, select) {
 	if (zephir_is_true(_1)) {
 		zephir_read_property_this(&escapeChar, this_ptr, SL("_escapeChar"), PH_NOISY_CC);
 	} else {
-		ZEPHIR_INIT_BNVAR(escapeChar);
 		ZVAL_NULL(escapeChar);
 	}
 	ZEPHIR_OBS_NVAR(columns);
-	zephir_array_fetch_string(&columns, definition, SL("columns"), PH_NOISY | PH_READONLY TSRMLS_CC);
+	zephir_array_fetch_string(&columns, definition, SL("columns"), PH_NOISY TSRMLS_CC);
 	if ((Z_TYPE_P(columns) == IS_ARRAY)) {
 		ZEPHIR_INIT_VAR(selectedColumns);
 		array_init(selectedColumns);

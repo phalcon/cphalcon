@@ -606,7 +606,6 @@ PHP_METHOD(Phalcon_Mvc_Router, handle) {
 		zephir_update_property_this(this_ptr, SL("_wasMatched"), ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
 	}
 	if (!(zephir_is_true(routeFound))) {
-		ZEPHIR_OBS_VAR(notFoundPaths);
 		notFoundPaths = zephir_fetch_nproperty_this(this_ptr, SL("_notFoundPaths"), PH_NOISY_CC);
 		if ((Z_TYPE_P(notFoundPaths) != IS_NULL)) {
 			ZEPHIR_CPY_WRT(parts, notFoundPaths);
@@ -975,7 +974,6 @@ PHP_METHOD(Phalcon_Mvc_Router, mount) {
 			zephir_call_method_p1_cache_noret(route, "sethostname", &_7, hostname);
 		}
 	}
-	ZEPHIR_OBS_VAR(routes);
 	routes = zephir_fetch_nproperty_this(this_ptr, SL("_routes"), PH_NOISY_CC);
 	if ((Z_TYPE_P(routes) == IS_ARRAY)) {
 		ZEPHIR_INIT_VAR(_8);

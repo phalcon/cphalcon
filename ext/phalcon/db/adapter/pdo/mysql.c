@@ -150,7 +150,6 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Mysql, describeColumns) {
 	}
 
 
-	ZEPHIR_OBS_VAR(dialect);
 	dialect = zephir_fetch_nproperty_this(this_ptr, SL("_dialect"), PH_NOISY_CC);
 	ZEPHIR_INIT_VAR(_0);
 	zephir_call_method_p2(_0, dialect, "describecolumns", table, schema);

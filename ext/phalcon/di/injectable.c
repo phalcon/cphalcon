@@ -96,12 +96,11 @@ PHP_METHOD(Phalcon_Di_Injectable, setDI) {
  */
 PHP_METHOD(Phalcon_Di_Injectable, getDI) {
 
-	zval *dependencyInjector = NULL;
+	zval *dependencyInjector;
 
 	ZEPHIR_MM_GROW();
 
 	ZEPHIR_OBS_VAR(dependencyInjector);
-	ZEPHIR_OBS_NVAR(dependencyInjector);
 	zephir_read_property_this(&dependencyInjector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
 	if ((Z_TYPE_P(dependencyInjector) != IS_OBJECT)) {
 	}

@@ -102,7 +102,6 @@ PHP_METHOD(Phalcon_Flash_Session, _getSessionMessages) {
 		remove = zephir_get_boolval(remove_param);
 
 
-	ZEPHIR_OBS_VAR(dependencyInjector);
 	dependencyInjector = zephir_fetch_nproperty_this(this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
 	if ((Z_TYPE_P(dependencyInjector) != IS_OBJECT)) {
 		ZEPHIR_THROW_EXCEPTION_STR(phalcon_flash_exception_ce, "A dependency injection container is required to access the 'session' service");
@@ -140,7 +139,6 @@ PHP_METHOD(Phalcon_Flash_Session, _setSessionMessages) {
 
 
 
-	ZEPHIR_OBS_VAR(dependencyInjector);
 	dependencyInjector = zephir_fetch_nproperty_this(this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
 	if ((Z_TYPE_P(dependencyInjector) != IS_OBJECT)) {
 		ZEPHIR_THROW_EXCEPTION_STR(phalcon_flash_exception_ce, "A dependency injection container is required to access the 'session' service");

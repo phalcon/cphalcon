@@ -245,7 +245,6 @@ PHP_METHOD(Phalcon_Cli_Console, handle) {
 	}
 
 
-	ZEPHIR_OBS_VAR(dependencyInjector);
 	dependencyInjector = zephir_fetch_nproperty_this(this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
 	if ((Z_TYPE_P(dependencyInjector) != IS_OBJECT)) {
 		ZEPHIR_THROW_EXCEPTION_STR(phalcon_cli_console_exception_ce, "A dependency injection object is required to access internal services");
@@ -271,7 +270,6 @@ PHP_METHOD(Phalcon_Cli_Console, handle) {
 				RETURN_MM_BOOL(0);
 			}
 		}
-		ZEPHIR_OBS_VAR(modules);
 		modules = zephir_fetch_nproperty_this(this_ptr, SL("_modules"), PH_NOISY_CC);
 		if (!(zephir_array_isset(modules, moduleName))) {
 			ZEPHIR_INIT_BNVAR(_2);

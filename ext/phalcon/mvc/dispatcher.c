@@ -170,7 +170,6 @@ PHP_METHOD(Phalcon_Mvc_Dispatcher, _throwDispatchException) {
 	}
 
 
-	ZEPHIR_OBS_VAR(dependencyInjector);
 	dependencyInjector = zephir_fetch_nproperty_this(this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
 	if ((Z_TYPE_P(dependencyInjector) != IS_OBJECT)) {
 		ZEPHIR_INIT_VAR(_0);
@@ -230,7 +229,6 @@ PHP_METHOD(Phalcon_Mvc_Dispatcher, _handleException) {
 
 
 
-	ZEPHIR_OBS_VAR(eventsManager);
 	eventsManager = zephir_fetch_nproperty_this(this_ptr, SL("_eventsManager"), PH_NOISY_CC);
 	if ((Z_TYPE_P(eventsManager) == IS_OBJECT)) {
 		ZEPHIR_INIT_VAR(_0);
