@@ -207,8 +207,7 @@ PHP_METHOD(Phalcon_Assets_Manager, addResourceByType) {
 
 
 	collections = zephir_fetch_nproperty_this(this_ptr, SL("_collections"), PH_NOISY_CC);
-	ZEPHIR_OBS_VAR(collection);
-	if (!(zephir_array_isset_fetch(&collection, collections, type TSRMLS_CC))) {
+	if (!(zephir_array_isset_fetch(&collection, collections, type, 1 TSRMLS_CC))) {
 		ZEPHIR_INIT_VAR(_0);
 		object_init_ex(_0, phalcon_assets_collection_ce);
 		zephir_update_property_array(this_ptr, SL("_collections"), type, _0 TSRMLS_CC);
@@ -303,8 +302,7 @@ PHP_METHOD(Phalcon_Assets_Manager, get) {
 
 
 	collections = zephir_fetch_nproperty_this(this_ptr, SL("_collections"), PH_NOISY_CC);
-	ZEPHIR_OBS_VAR(collection);
-	if (!(zephir_array_isset_fetch(&collection, collections, id TSRMLS_CC))) {
+	if (!(zephir_array_isset_fetch(&collection, collections, id, 1 TSRMLS_CC))) {
 		ZEPHIR_INIT_VAR(_0);
 		object_init_ex(_0, phalcon_assets_exception_ce);
 		ZEPHIR_INIT_VAR(_1);
@@ -314,7 +312,8 @@ PHP_METHOD(Phalcon_Assets_Manager, get) {
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
-	RETURN_CCTOR(collection);
+	ZEPHIR_MM_RESTORE();
+	RETURN_ZVAL(collection, 1, 0);
 
 }
 
@@ -327,15 +326,13 @@ PHP_METHOD(Phalcon_Assets_Manager, getCss) {
 
 	zval *collection, *collections;
 
-	ZEPHIR_MM_GROW();
 
 	collections = zephir_fetch_nproperty_this(this_ptr, SL("_collections"), PH_NOISY_CC);
-	ZEPHIR_OBS_VAR(collection);
-	if (!(zephir_array_isset_string_fetch(&collection, collections, SS("css") TSRMLS_CC))) {
+	if (!(zephir_array_isset_string_fetch(&collection, collections, SS("css"), 1 TSRMLS_CC))) {
 		object_init_ex(return_value, phalcon_assets_collection_ce);
-		RETURN_MM();
+		return;
 	}
-	RETURN_CCTOR(collection);
+	RETURN_ZVAL(collection, 1, 0);
 
 }
 
@@ -348,15 +345,13 @@ PHP_METHOD(Phalcon_Assets_Manager, getJs) {
 
 	zval *collections, *collection;
 
-	ZEPHIR_MM_GROW();
 
 	collections = zephir_fetch_nproperty_this(this_ptr, SL("_collections"), PH_NOISY_CC);
-	ZEPHIR_OBS_VAR(collection);
-	if (!(zephir_array_isset_string_fetch(&collection, collections, SS("js") TSRMLS_CC))) {
+	if (!(zephir_array_isset_string_fetch(&collection, collections, SS("js"), 1 TSRMLS_CC))) {
 		object_init_ex(return_value, phalcon_assets_collection_ce);
-		RETURN_MM();
+		return;
 	}
-	RETURN_CCTOR(collection);
+	RETURN_ZVAL(collection, 1, 0);
 
 }
 
@@ -379,7 +374,7 @@ PHP_METHOD(Phalcon_Assets_Manager, collection) {
 
 	collections = zephir_fetch_nproperty_this(this_ptr, SL("_collections"), PH_NOISY_CC);
 	ZEPHIR_OBS_VAR(collection);
-	if (!(zephir_array_isset_fetch(&collection, collections, name TSRMLS_CC))) {
+	if (!(zephir_array_isset_fetch(&collection, collections, name, 0 TSRMLS_CC))) {
 		ZEPHIR_INIT_BNVAR(collection);
 		object_init_ex(collection, phalcon_assets_collection_ce);
 		zephir_update_property_array(this_ptr, SL("_collections"), name, collection TSRMLS_CC);

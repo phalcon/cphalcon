@@ -300,8 +300,7 @@ PHP_METHOD(Phalcon_Mvc_Application, handle) {
 			}
 		}
 		modules = zephir_fetch_nproperty_this(this_ptr, SL("_modules"), PH_NOISY_CC);
-		ZEPHIR_OBS_VAR(module);
-		if (!(zephir_array_isset_fetch(&module, modules, moduleName TSRMLS_CC))) {
+		if (!(zephir_array_isset_fetch(&module, modules, moduleName, 1 TSRMLS_CC))) {
 			ZEPHIR_INIT_NVAR(_2);
 			object_init_ex(_2, phalcon_mvc_application_exception_ce);
 			ZEPHIR_INIT_VAR(_3);
@@ -321,12 +320,11 @@ PHP_METHOD(Phalcon_Mvc_Application, handle) {
 		}
 		if ((Z_TYPE_P(module) == IS_ARRAY)) {
 			ZEPHIR_OBS_VAR(className);
-			if (!(zephir_array_isset_string_fetch(&className, module, SS("className") TSRMLS_CC))) {
+			if (!(zephir_array_isset_string_fetch(&className, module, SS("className"), 0 TSRMLS_CC))) {
 				ZEPHIR_INIT_NVAR(className);
 				ZVAL_STRING(className, "Module", 1);
 			}
-			ZEPHIR_OBS_VAR(path);
-			if (zephir_array_isset_string_fetch(&path, module, SS("path") TSRMLS_CC)) {
+			if (zephir_array_isset_string_fetch(&path, module, SS("path"), 1 TSRMLS_CC)) {
 				ZEPHIR_INIT_NVAR(_2);
 				zephir_call_func_p2(_2, "class_exists", className, ZEPHIR_GLOBAL(global_false));
 				if (!(zephir_is_true(_2))) {

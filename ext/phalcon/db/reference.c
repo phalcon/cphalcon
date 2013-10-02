@@ -14,9 +14,9 @@
 #include "kernel/main.h"
 #include "kernel/object.h"
 #include "kernel/array.h"
-#include "kernel/memory.h"
 #include "kernel/exception.h"
 #include "kernel/operators.h"
+#include "kernel/memory.h"
 #include "kernel/fcall.h"
 
 
@@ -162,33 +162,28 @@ PHP_METHOD(Phalcon_Db_Reference, __construct) {
 
 
 	zephir_update_property_this(this_ptr, SL("_name"), name TSRMLS_CC);
-	ZEPHIR_OBS_VAR(referencedTable);
-	if (zephir_array_isset_string_fetch(&referencedTable, definition, SS("referencedTable") TSRMLS_CC)) {
+	if (zephir_array_isset_string_fetch(&referencedTable, definition, SS("referencedTable"), 1 TSRMLS_CC)) {
 		zephir_update_property_this(this_ptr, SL("_referencedTable"), referencedTable TSRMLS_CC);
 	} else {
 		ZEPHIR_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "Referenced table is required");
 		return;
 	}
-	ZEPHIR_OBS_VAR(columns);
-	if (zephir_array_isset_string_fetch(&columns, definition, SS("columns") TSRMLS_CC)) {
+	if (zephir_array_isset_string_fetch(&columns, definition, SS("columns"), 1 TSRMLS_CC)) {
 		zephir_update_property_this(this_ptr, SL("_columns"), columns TSRMLS_CC);
 	} else {
 		ZEPHIR_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "Foreign key columns are required");
 		return;
 	}
-	ZEPHIR_OBS_VAR(referencedColumns);
-	if (zephir_array_isset_string_fetch(&referencedColumns, definition, SS("referencedColumns") TSRMLS_CC)) {
+	if (zephir_array_isset_string_fetch(&referencedColumns, definition, SS("referencedColumns"), 1 TSRMLS_CC)) {
 		zephir_update_property_this(this_ptr, SL("_referencedColumns"), referencedColumns TSRMLS_CC);
 	} else {
 		ZEPHIR_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "Referenced columns of the foreign key are required");
 		return;
 	}
-	ZEPHIR_OBS_VAR(schema);
-	if (zephir_array_isset_string_fetch(&schema, definition, SS("schema") TSRMLS_CC)) {
+	if (zephir_array_isset_string_fetch(&schema, definition, SS("schema"), 1 TSRMLS_CC)) {
 		zephir_update_property_this(this_ptr, SL("_schemaName"), schema TSRMLS_CC);
 	}
-	ZEPHIR_OBS_VAR(referencedSchema);
-	if (zephir_array_isset_string_fetch(&referencedSchema, definition, SS("referencedSchema") TSRMLS_CC)) {
+	if (zephir_array_isset_string_fetch(&referencedSchema, definition, SS("referencedSchema"), 1 TSRMLS_CC)) {
 		zephir_update_property_this(this_ptr, SL("_referencedSchema"), referencedSchema TSRMLS_CC);
 	}
 	if ((zephir_fast_count_int(columns TSRMLS_CC) != zephir_fast_count_int(referencedColumns TSRMLS_CC))) {
@@ -214,15 +209,10 @@ PHP_METHOD(Phalcon_Db_Reference, __set_state) {
 
 
 
-	ZEPHIR_OBS_VAR(constraintName);
-	if (!(zephir_array_isset_string_fetch(&constraintName, data, SS("_name") TSRMLS_CC))) {
+	if (!(zephir_array_isset_string_fetch(&constraintName, data, SS("_name"), 1 TSRMLS_CC))) {
 		ZEPHIR_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "_name parameter is required");
 		return;
 	}
-	ZEPHIR_OBS_VAR(referencedSchema);
-	ZEPHIR_OBS_VAR(referencedTable);
-	ZEPHIR_OBS_VAR(columns);
-	ZEPHIR_OBS_VAR(referencedColumns);
 	object_init_ex(return_value, phalcon_db_reference_ce);
 	ZEPHIR_INIT_VAR(_0);
 	array_init(_0);

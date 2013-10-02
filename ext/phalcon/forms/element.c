@@ -335,8 +335,7 @@ PHP_METHOD(Phalcon_Forms_Element, prepareAttributes) {
 	zephir_call_method(value, this_ptr, "getvalue");
 	if ((Z_TYPE_P(value) != IS_NULL)) {
 		if (useChecked) {
-			ZEPHIR_OBS_VAR(currentValue);
-			if (zephir_array_isset_string_fetch(&currentValue, mergedAttributes, SS("value") TSRMLS_CC)) {
+			if (zephir_array_isset_string_fetch(&currentValue, mergedAttributes, SS("value"), 1 TSRMLS_CC)) {
 				if (ZEPHIR_IS_EQUAL(currentValue, value)) {
 					ZEPHIR_INIT_VAR(_0);
 					ZVAL_STRING(_0, "checked", 1);
@@ -403,9 +402,9 @@ PHP_METHOD(Phalcon_Forms_Element, getAttribute) {
 
 
 	attributes = zephir_fetch_nproperty_this(this_ptr, SL("_attributes"), PH_NOISY_CC);
-	ZEPHIR_OBS_VAR(value);
-	if (zephir_array_isset_fetch(&value, attributes, attribute TSRMLS_CC)) {
-		RETURN_CCTOR(value);
+	if (zephir_array_isset_fetch(&value, attributes, attribute, 1 TSRMLS_CC)) {
+		ZEPHIR_MM_RESTORE();
+		RETURN_ZVAL(value, 1, 0);
 	}
 	RETURN_CCTOR(defaultValue);
 
@@ -496,9 +495,9 @@ PHP_METHOD(Phalcon_Forms_Element, getUserOption) {
 
 
 	options = zephir_fetch_nproperty_this(this_ptr, SL("_options"), PH_NOISY_CC);
-	ZEPHIR_OBS_VAR(value);
-	if (zephir_array_isset_fetch(&value, options, option TSRMLS_CC)) {
-		RETURN_CCTOR(value);
+	if (zephir_array_isset_fetch(&value, options, option, 1 TSRMLS_CC)) {
+		ZEPHIR_MM_RESTORE();
+		RETURN_ZVAL(value, 1, 0);
 	}
 	RETURN_CCTOR(defaultValue);
 
@@ -582,7 +581,7 @@ PHP_METHOD(Phalcon_Forms_Element, label) {
 
 	attributes = zephir_fetch_nproperty_this(this_ptr, SL("_attributes"), PH_NOISY_CC);
 	ZEPHIR_OBS_VAR(name);
-	if (zephir_array_isset_string_fetch(&name, attributes, SS("id") TSRMLS_CC)) {
+	if (zephir_array_isset_string_fetch(&name, attributes, SS("id"), 0 TSRMLS_CC)) {
 		ZEPHIR_OBS_NVAR(name);
 		zephir_read_property_this(&name, this_ptr, SL("_name"), PH_NOISY_CC);
 	}

@@ -103,8 +103,7 @@ PHP_METHOD(Phalcon_Forms_Manager, get) {
 
 
 	forms = zephir_fetch_nproperty_this(this_ptr, SL("_forms"), PH_NOISY_CC);
-	ZEPHIR_OBS_VAR(form);
-	if (!(zephir_array_isset_fetch(&form, forms, name TSRMLS_CC))) {
+	if (!(zephir_array_isset_fetch(&form, forms, name, 1 TSRMLS_CC))) {
 		ZEPHIR_INIT_VAR(_0);
 		object_init_ex(_0, phalcon_forms_exception_ce);
 		ZEPHIR_INIT_VAR(_1);
@@ -116,7 +115,8 @@ PHP_METHOD(Phalcon_Forms_Manager, get) {
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
-	RETURN_CCTOR(form);
+	ZEPHIR_MM_RESTORE();
+	RETURN_ZVAL(form, 1, 0);
 
 }
 

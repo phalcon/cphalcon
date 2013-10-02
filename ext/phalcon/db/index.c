@@ -126,13 +126,11 @@ PHP_METHOD(Phalcon_Db_Index, __set_state) {
 
 
 
-	ZEPHIR_OBS_VAR(indexName);
-	if (!(zephir_array_isset_string_fetch(&indexName, data, SS("_indexName") TSRMLS_CC))) {
+	if (!(zephir_array_isset_string_fetch(&indexName, data, SS("_indexName"), 1 TSRMLS_CC))) {
 		ZEPHIR_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "_indexName parameter is required");
 		return;
 	}
-	ZEPHIR_OBS_VAR(columns);
-	if (!(zephir_array_isset_string_fetch(&columns, data, SS("_columns") TSRMLS_CC))) {
+	if (!(zephir_array_isset_string_fetch(&columns, data, SS("_columns"), 1 TSRMLS_CC))) {
 		ZEPHIR_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "_columns parameter is required");
 		return;
 	}

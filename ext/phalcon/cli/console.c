@@ -288,8 +288,7 @@ PHP_METHOD(Phalcon_Cli_Console, handle) {
 			ZEPHIR_THROW_EXCEPTION_STR(phalcon_cli_console_exception_ce, "Invalid module definition path");
 			return;
 		}
-		ZEPHIR_OBS_VAR(path);
-		if (zephir_array_isset_string_fetch(&path, module, SS("path") TSRMLS_CC)) {
+		if (zephir_array_isset_string_fetch(&path, module, SS("path"), 1 TSRMLS_CC)) {
 			ZEPHIR_INIT_BNVAR(_2);
 			zephir_call_func_p1(_2, "file_exists", path);
 			if (!(zephir_is_true(_2))) {
@@ -306,7 +305,7 @@ PHP_METHOD(Phalcon_Cli_Console, handle) {
 			}
 		}
 		ZEPHIR_OBS_VAR(className);
-		if (!(zephir_array_isset_string_fetch(&className, module, SS("className") TSRMLS_CC))) {
+		if (!(zephir_array_isset_string_fetch(&className, module, SS("className"), 0 TSRMLS_CC))) {
 			ZEPHIR_INIT_NVAR(className);
 			ZVAL_STRING(className, "Module", 1);
 		}

@@ -104,8 +104,7 @@ PHP_METHOD(Phalcon_Annotations_Reflection, getClassAnnotations) {
 	annotations = zephir_fetch_nproperty_this(this_ptr, SL("_classAnnotations"), PH_NOISY_CC);
 	if ((Z_TYPE_P(annotations) != IS_OBJECT)) {
 		reflectionData = zephir_fetch_nproperty_this(this_ptr, SL("_reflectionData"), PH_NOISY_CC);
-		ZEPHIR_OBS_VAR(reflectionClass);
-		if (zephir_array_isset_string_fetch(&reflectionClass, reflectionData, SS("class") TSRMLS_CC)) {
+		if (zephir_array_isset_string_fetch(&reflectionClass, reflectionData, SS("class"), 1 TSRMLS_CC)) {
 			ZEPHIR_INIT_VAR(collection);
 			object_init_ex(collection, phalcon_annotations_collection_ce);
 			zephir_call_method_p1_noret(collection, "__construct", reflectionClass);
@@ -137,8 +136,7 @@ PHP_METHOD(Phalcon_Annotations_Reflection, getMethodsAnnotations) {
 	annotations = zephir_fetch_nproperty_this(this_ptr, SL("_methodAnnotations"), PH_NOISY_CC);
 	if ((Z_TYPE_P(annotations) != IS_OBJECT)) {
 		reflectionData = zephir_fetch_nproperty_this(this_ptr, SL("_reflectionData"), PH_NOISY_CC);
-		ZEPHIR_OBS_VAR(reflectionMethods);
-		if (zephir_array_isset_string_fetch(&reflectionMethods, reflectionData, SS("methods") TSRMLS_CC)) {
+		if (zephir_array_isset_string_fetch(&reflectionMethods, reflectionData, SS("methods"), 1 TSRMLS_CC)) {
 			if (zephir_fast_count_int(reflectionMethods TSRMLS_CC)) {
 				ZEPHIR_INIT_VAR(collections);
 				array_init(collections);
@@ -183,8 +181,7 @@ PHP_METHOD(Phalcon_Annotations_Reflection, getPropertiesAnnotations) {
 	annotations = zephir_fetch_nproperty_this(this_ptr, SL("_propertyAnnotations"), PH_NOISY_CC);
 	if ((Z_TYPE_P(annotations) != IS_OBJECT)) {
 		reflectionData = zephir_fetch_nproperty_this(this_ptr, SL("_reflectionData"), PH_NOISY_CC);
-		ZEPHIR_OBS_VAR(reflectionProperties);
-		if (zephir_array_isset_string_fetch(&reflectionProperties, reflectionData, SS("properties") TSRMLS_CC)) {
+		if (zephir_array_isset_string_fetch(&reflectionProperties, reflectionData, SS("properties"), 1 TSRMLS_CC)) {
 			if (zephir_fast_count_int(reflectionProperties TSRMLS_CC)) {
 				ZEPHIR_INIT_VAR(collections);
 				array_init(collections);
@@ -239,8 +236,7 @@ PHP_METHOD(Phalcon_Annotations_Reflection, __set_state) {
 
 
 	if ((Z_TYPE_P(data) == IS_ARRAY)) {
-		ZEPHIR_OBS_VAR(reflectionData);
-		if (zephir_array_isset_string_fetch(&reflectionData, data, SS("_reflectionData") TSRMLS_CC)) {
+		if (zephir_array_isset_string_fetch(&reflectionData, data, SS("_reflectionData"), 1 TSRMLS_CC)) {
 			object_init_ex(return_value, phalcon_annotations_reflection_ce);
 			zephir_call_method_p1_noret(return_value, "__construct", reflectionData);
 			RETURN_MM();

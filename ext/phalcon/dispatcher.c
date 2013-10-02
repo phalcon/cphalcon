@@ -445,14 +445,11 @@ PHP_METHOD(Phalcon_Dispatcher, getActiveMethod) {
 
 	zval *_0, *_1;
 
-	ZEPHIR_MM_GROW();
 
-	ZEPHIR_OBS_VAR(_0);
-	zephir_read_property_this(&_0, this_ptr, SL("_actionName"), PH_NOISY_CC);
-	ZEPHIR_OBS_VAR(_1);
-	zephir_read_property_this(&_1, this_ptr, SL("_actionSuffix"), PH_NOISY_CC);
+	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_actionName"), PH_NOISY_CC);
+	_1 = zephir_fetch_nproperty_this(this_ptr, SL("_actionSuffix"), PH_NOISY_CC);
 	concat_function(return_value, _0, _1 TSRMLS_CC);
-	RETURN_MM();
+	return;
 
 }
 
@@ -806,25 +803,20 @@ PHP_METHOD(Phalcon_Dispatcher, forward) {
 		zephir_call_method_p1_noret(this_ptr, "_throwdispatchexception", _0);
 		RETURN_MM_NULL();
 	}
-	ZEPHIR_OBS_VAR(namespaceName);
-	if (zephir_array_isset_string_fetch(&namespaceName, forward, SS("namespace") TSRMLS_CC)) {
+	if (zephir_array_isset_string_fetch(&namespaceName, forward, SS("namespace"), 1 TSRMLS_CC)) {
 		zephir_update_property_this(this_ptr, SL("_namespaceName"), namespaceName TSRMLS_CC);
 	}
-	ZEPHIR_OBS_VAR(controllerName);
-	if (zephir_array_isset_string_fetch(&controllerName, forward, SS("controller") TSRMLS_CC)) {
+	if (zephir_array_isset_string_fetch(&controllerName, forward, SS("controller"), 1 TSRMLS_CC)) {
 		zephir_update_property_this(this_ptr, SL("_handlerName"), controllerName TSRMLS_CC);
 	} else {
-		ZEPHIR_OBS_VAR(taskName);
-		if (zephir_array_isset_string_fetch(&taskName, forward, SS("task") TSRMLS_CC)) {
+		if (zephir_array_isset_string_fetch(&taskName, forward, SS("task"), 1 TSRMLS_CC)) {
 			zephir_update_property_this(this_ptr, SL("_handlerName"), taskName TSRMLS_CC);
 		}
 	}
-	ZEPHIR_OBS_VAR(actionName);
-	if (zephir_array_isset_string_fetch(&actionName, forward, SS("action") TSRMLS_CC)) {
+	if (zephir_array_isset_string_fetch(&actionName, forward, SS("action"), 1 TSRMLS_CC)) {
 		zephir_update_property_this(this_ptr, SL("_actionName"), actionName TSRMLS_CC);
 	}
-	ZEPHIR_OBS_VAR(params);
-	if (zephir_array_isset_string_fetch(&params, forward, SS("params") TSRMLS_CC)) {
+	if (zephir_array_isset_string_fetch(&params, forward, SS("params"), 1 TSRMLS_CC)) {
 		zephir_update_property_this(this_ptr, SL("_params"), params TSRMLS_CC);
 	}
 	zephir_update_property_this(this_ptr, SL("_finished"), ZEPHIR_GLOBAL(global_false) TSRMLS_CC);

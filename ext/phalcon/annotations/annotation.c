@@ -15,8 +15,8 @@
 #include "kernel/exception.h"
 #include "kernel/array.h"
 #include "kernel/object.h"
-#include "kernel/memory.h"
 #include "kernel/fcall.h"
+#include "kernel/memory.h"
 #include "kernel/operators.h"
 #include "kernel/concat.h"
 
@@ -77,7 +77,7 @@ PHP_METHOD(Phalcon_Annotations_Annotation, __construct) {
 	zend_function *_5 = NULL;
 	HashTable *_2;
 	HashPosition _1;
-	zval *reflectionData, *name = NULL, *exprArguments, *argument = NULL, *resolvedArgument = NULL, *arguments = NULL, *_0, **_3, *_4;
+	zval *reflectionData, *name, *exprArguments, *argument = NULL, *resolvedArgument = NULL, *arguments = NULL, *_0, **_3, *_4;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &reflectionData);
@@ -90,8 +90,7 @@ PHP_METHOD(Phalcon_Annotations_Annotation, __construct) {
 	}
 	zephir_array_fetch_string(&_0, reflectionData, SL("name"), PH_NOISY | PH_READONLY TSRMLS_CC);
 	zephir_update_property_this(this_ptr, SL("_name"), _0 TSRMLS_CC);
-	ZEPHIR_OBS_VAR(exprArguments);
-	if (zephir_array_isset_string_fetch(&exprArguments, reflectionData, SS("arguments") TSRMLS_CC)) {
+	if (zephir_array_isset_string_fetch(&exprArguments, reflectionData, SS("arguments"), 1 TSRMLS_CC)) {
 		zephir_is_iterable(exprArguments, &_2, &_1, 0, 0);
 		for (
 			; zend_hash_get_current_data_ex(_2, (void**) &_3, &_1) == SUCCESS
@@ -101,8 +100,7 @@ PHP_METHOD(Phalcon_Annotations_Annotation, __construct) {
 			zephir_array_fetch_string(&_4, argument, SL("expr"), PH_NOISY | PH_READONLY TSRMLS_CC);
 			ZEPHIR_INIT_NVAR(resolvedArgument);
 			zephir_call_method_p1_cache(resolvedArgument, this_ptr, "getexpression", &_5, _4);
-			ZEPHIR_OBS_NVAR(name);
-			if (zephir_array_isset_string_fetch(&name, argument, SS("name") TSRMLS_CC)) {
+			if (zephir_array_isset_string_fetch(&name, argument, SS("name"), 1 TSRMLS_CC)) {
 				ZEPHIR_OBS_NVAR(arguments);
 				zephir_array_fetch(&arguments, name, resolvedArgument, PH_NOISY TSRMLS_CC);
 			} else {
@@ -139,7 +137,7 @@ PHP_METHOD(Phalcon_Annotations_Annotation, getExpression) {
 	zend_function *_5 = NULL;
 	HashTable *_2;
 	HashPosition _1;
-	zval *expr, *value = NULL, *item = NULL, *resolvedItem = NULL, *arrayValue = NULL, *name = NULL, *type, *_0, **_3, *_4, *_6, *_7, *_8;
+	zval *expr, *value = NULL, *item = NULL, *resolvedItem = NULL, *arrayValue = NULL, *name, *type, *_0, **_3, *_4, *_6, *_7, *_8;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &expr);
@@ -183,8 +181,7 @@ PHP_METHOD(Phalcon_Annotations_Annotation, getExpression) {
 				zephir_array_fetch_string(&_4, item, SL("expr"), PH_NOISY | PH_READONLY TSRMLS_CC);
 				ZEPHIR_INIT_NVAR(resolvedItem);
 				zephir_call_method_p1_cache(resolvedItem, this_ptr, "getexpression", &_5, _4);
-				ZEPHIR_OBS_NVAR(name);
-				if (zephir_array_isset_string_fetch(&name, item, SS("name") TSRMLS_CC)) {
+				if (zephir_array_isset_string_fetch(&name, item, SS("name"), 1 TSRMLS_CC)) {
 					ZEPHIR_OBS_NVAR(arrayValue);
 					zephir_array_fetch(&arrayValue, name, resolvedItem, PH_NOISY TSRMLS_CC);
 				} else {
@@ -316,9 +313,9 @@ PHP_METHOD(Phalcon_Annotations_Annotation, getNamedArgument) {
 
 
 	arguments = zephir_fetch_nproperty_this(this_ptr, SL("_arguments"), PH_NOISY_CC);
-	ZEPHIR_OBS_VAR(argument);
-	if (zephir_array_isset_fetch(&argument, arguments, name TSRMLS_CC)) {
-		RETURN_CCTOR(argument);
+	if (zephir_array_isset_fetch(&argument, arguments, name, 1 TSRMLS_CC)) {
+		ZEPHIR_MM_RESTORE();
+		RETURN_ZVAL(argument, 1, 0);
 	}
 	ZEPHIR_MM_RESTORE();
 

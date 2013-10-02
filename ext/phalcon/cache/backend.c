@@ -14,8 +14,8 @@
 #include "kernel/main.h"
 #include "kernel/exception.h"
 #include "kernel/array.h"
-#include "kernel/memory.h"
 #include "kernel/object.h"
+#include "kernel/memory.h"
 #include "kernel/fcall.h"
 #include "kernel/operators.h"
 
@@ -80,8 +80,7 @@ PHP_METHOD(Phalcon_Cache_Backend, __construct) {
 		ZEPHIR_THROW_EXCEPTION_STR(phalcon_cache_exception_ce, "Frontend must be an Object");
 		return;
 	}
-	ZEPHIR_OBS_VAR(prefix);
-	if (zephir_array_isset_string_fetch(&prefix, options, SS("prefix") TSRMLS_CC)) {
+	if (zephir_array_isset_string_fetch(&prefix, options, SS("prefix"), 1 TSRMLS_CC)) {
 		zephir_update_property_this(this_ptr, SL("_prefix"), prefix TSRMLS_CC);
 	}
 	zephir_update_property_this(this_ptr, SL("_frontend"), frontend TSRMLS_CC);

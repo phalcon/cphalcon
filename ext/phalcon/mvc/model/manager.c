@@ -287,14 +287,14 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, load) {
 
 
 	initialized = zephir_fetch_nproperty_this(this_ptr, SL("_initialized"), PH_NOISY_CC);
-	ZEPHIR_OBS_VAR(model);
 	ZEPHIR_INIT_VAR(_0);
 	zephir_call_func_p1(_0, "strtolower", modelName);
-	if (zephir_array_isset_fetch(&model, initialized, _0 TSRMLS_CC)) {
+	if (zephir_array_isset_fetch(&model, initialized, _0, 1 TSRMLS_CC)) {
 		if (newInstance) {
 			RETURN_MM_NULL();
 		}
-		RETURN_CCTOR(model);
+		ZEPHIR_MM_RESTORE();
+		RETURN_ZVAL(model, 1, 0);
 	}
 	ZEPHIR_INIT_VAR(_1);
 	zephir_call_func_p1(_1, "class_exists", modelName);
@@ -336,7 +336,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getModelSource) {
 	sources = zephir_fetch_nproperty_this(this_ptr, SL("_sources"), PH_NOISY_CC);
 	if ((Z_TYPE_P(sources) == IS_ARRAY)) {
 		ZEPHIR_OBS_VAR(source);
-		if (zephir_array_isset_fetch(&source, sources, entityName TSRMLS_CC)) {
+		if (zephir_array_isset_fetch(&source, sources, entityName, 0 TSRMLS_CC)) {
 			RETURN_CCTOR(source);
 		}
 	}
@@ -391,11 +391,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getModelSchema) {
 
 	schemas = zephir_fetch_nproperty_this(this_ptr, SL("_schemas"), PH_NOISY_CC);
 	if ((Z_TYPE_P(schemas) == IS_ARRAY)) {
-		ZEPHIR_OBS_VAR(schema);
 		ZEPHIR_INIT_VAR(_0);
 		zephir_call_func_p1(_0, "get_class_lower", model);
-		if (zephir_array_isset_fetch(&schema, schemas, _0 TSRMLS_CC)) {
-			RETURN_CCTOR(schema);
+		if (zephir_array_isset_fetch(&schema, schemas, _0, 1 TSRMLS_CC)) {
+			ZEPHIR_MM_RESTORE();
+			RETURN_ZVAL(schema, 1, 0);
 		}
 	}
 	RETURN_MM_NULL();
@@ -490,7 +490,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getReadConnection) {
 
 	connectionServices = zephir_fetch_nproperty_this(this_ptr, SL("_readConnectionServices"), PH_NOISY_CC);
 	if ((Z_TYPE_P(connectionServices) == IS_ARRAY)) {
-		ZEPHIR_OBS_VAR(service);
 		ZEPHIR_INIT_VAR(_0);
 		zephir_call_func_p1(_0, "get_class_lower", model);
 	}
@@ -537,7 +536,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getWriteConnection) {
 
 	connectionServices = zephir_fetch_nproperty_this(this_ptr, SL("_writeConnectionServices"), PH_NOISY_CC);
 	if ((Z_TYPE_P(connectionServices) == IS_ARRAY)) {
-		ZEPHIR_OBS_VAR(service);
 		ZEPHIR_INIT_VAR(_0);
 		zephir_call_func_p1(_0, "get_class_lower", model);
 	}
@@ -584,11 +582,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getReadConnectionService) {
 
 	connectionServices = zephir_fetch_nproperty_this(this_ptr, SL("_readConnectionServices"), PH_NOISY_CC);
 	if ((Z_TYPE_P(connectionServices) == IS_ARRAY)) {
-		ZEPHIR_OBS_VAR(connection);
 		ZEPHIR_INIT_VAR(_0);
 		zephir_call_func_p1(_0, "get_class_lower", model);
-		if (zephir_array_isset_fetch(&connection, connectionServices, _0 TSRMLS_CC)) {
-			RETURN_CCTOR(connection);
+		if (zephir_array_isset_fetch(&connection, connectionServices, _0, 1 TSRMLS_CC)) {
+			ZEPHIR_MM_RESTORE();
+			RETURN_ZVAL(connection, 1, 0);
 		}
 	}
 	RETURN_MM_STRING("db", 1);
@@ -612,11 +610,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getWriteConnectionService) {
 
 	connectionServices = zephir_fetch_nproperty_this(this_ptr, SL("_writeConnectionServices"), PH_NOISY_CC);
 	if ((Z_TYPE_P(connectionServices) == IS_ARRAY)) {
-		ZEPHIR_OBS_VAR(connection);
 		ZEPHIR_INIT_VAR(_0);
 		zephir_call_func_p1(_0, "get_class_lower", model);
-		if (zephir_array_isset_fetch(&connection, connectionServices, _0 TSRMLS_CC)) {
-			RETURN_CCTOR(connection);
+		if (zephir_array_isset_fetch(&connection, connectionServices, _0, 1 TSRMLS_CC)) {
+			ZEPHIR_MM_RESTORE();
+			RETURN_ZVAL(connection, 1, 0);
 		}
 	}
 	RETURN_MM_STRING("db", 1);
@@ -644,15 +642,15 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getRelationByAlias) {
 
 	aliases = zephir_fetch_nproperty_this(this_ptr, SL("_aliases"), PH_NOISY_CC);
 	if ((Z_TYPE_P(aliases) == IS_ARRAY)) {
-		ZEPHIR_OBS_VAR(relation);
 		ZEPHIR_INIT_VAR(_0);
 		ZEPHIR_CONCAT_VS(_0, modelName, "$");
 		ZEPHIR_INIT_VAR(_1);
 		concat_function(_1, _0, alias TSRMLS_CC);
 		ZEPHIR_INIT_VAR(_2);
 		zephir_call_func_p1(_2, "strtolower", _1);
-		if (zephir_array_isset_fetch(&relation, aliases, _2 TSRMLS_CC)) {
-			RETURN_CCTOR(relation);
+		if (zephir_array_isset_fetch(&relation, aliases, _2, 1 TSRMLS_CC)) {
+			ZEPHIR_MM_RESTORE();
+			RETURN_ZVAL(relation, 1, 0);
 		}
 	}
 	RETURN_MM_BOOL(0);

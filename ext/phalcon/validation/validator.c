@@ -125,9 +125,9 @@ PHP_METHOD(Phalcon_Validation_Validator, getOption) {
 
 	options = zephir_fetch_nproperty_this(this_ptr, SL("_options"), PH_NOISY_CC);
 	if ((Z_TYPE_P(options) == IS_ARRAY)) {
-		ZEPHIR_OBS_VAR(value);
-		if (zephir_array_isset_fetch(&value, options, key TSRMLS_CC)) {
-			RETURN_CCTOR(value);
+		if (zephir_array_isset_fetch(&value, options, key, 1 TSRMLS_CC)) {
+			ZEPHIR_MM_RESTORE();
+			RETURN_ZVAL(value, 1, 0);
 		}
 	}
 	RETURN_MM_NULL();

@@ -767,8 +767,7 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, isAllowed) {
 	}
 	if ((Z_TYPE_P(haveAccess) == IS_NULL)) {
 		roleInherits = zephir_fetch_nproperty_this(this_ptr, SL("_roleInherits"), PH_NOISY_CC);
-		ZEPHIR_OBS_VAR(inheritedRoles);
-		if (zephir_array_isset_fetch(&inheritedRoles, roleInherits, role TSRMLS_CC)) {
+		if (zephir_array_isset_fetch(&inheritedRoles, roleInherits, role, 1 TSRMLS_CC)) {
 			if ((Z_TYPE_P(inheritedRoles) == IS_ARRAY)) {
 				zephir_is_iterable(inheritedRoles, &_7, &_6, 0, 0);
 				for (

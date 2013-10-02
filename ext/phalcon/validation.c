@@ -249,9 +249,9 @@ PHP_METHOD(Phalcon_Validation, getFilters) {
 
 	filters = zephir_fetch_nproperty_this(this_ptr, SL("_filters"), PH_NOISY_CC);
 	if ((Z_TYPE_P(attribute) == IS_STRING)) {
-		ZEPHIR_OBS_VAR(attributeFilters);
-		if (zephir_array_isset_fetch(&attributeFilters, filters, attribute TSRMLS_CC)) {
-			RETURN_CCTOR(attributeFilters);
+		if (zephir_array_isset_fetch(&attributeFilters, filters, attribute, 1 TSRMLS_CC)) {
+			ZEPHIR_MM_RESTORE();
+			RETURN_ZVAL(attributeFilters, 1, 0);
 		}
 		RETURN_MM_NULL();
 	}
@@ -397,7 +397,7 @@ PHP_METHOD(Phalcon_Validation, getValue) {
 	}
 	values = zephir_fetch_nproperty_this(this_ptr, SL("_values"), PH_NOISY_CC);
 	ZEPHIR_OBS_NVAR(value);
-	if (zephir_array_isset_fetch(&value, values, attribute TSRMLS_CC)) {
+	if (zephir_array_isset_fetch(&value, values, attribute, 0 TSRMLS_CC)) {
 		RETURN_CCTOR(value);
 	}
 	ZEPHIR_INIT_NVAR(value);
@@ -418,8 +418,7 @@ PHP_METHOD(Phalcon_Validation, getValue) {
 	if ((Z_TYPE_P(value) != IS_NULL)) {
 		filters = zephir_fetch_nproperty_this(this_ptr, SL("_filters"), PH_NOISY_CC);
 		if ((Z_TYPE_P(filters) == IS_ARRAY)) {
-			ZEPHIR_OBS_VAR(fieldFilters);
-			if (zephir_array_isset_fetch(&fieldFilters, filters, attribute TSRMLS_CC)) {
+			if (zephir_array_isset_fetch(&fieldFilters, filters, attribute, 1 TSRMLS_CC)) {
 				if (zephir_is_true(fieldFilters)) {
 					ZEPHIR_INIT_VAR(dependencyInjector);
 					zephir_call_method(dependencyInjector, this_ptr, "getdi");

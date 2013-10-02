@@ -176,9 +176,9 @@ PHP_METHOD(Phalcon_Forms_Form, getUserOption) {
 
 
 	options = zephir_fetch_nproperty_this(this_ptr, SL("_options"), PH_NOISY_CC);
-	ZEPHIR_OBS_VAR(value);
-	if (zephir_array_isset_fetch(&value, options, option TSRMLS_CC)) {
-		RETURN_CCTOR(value);
+	if (zephir_array_isset_fetch(&value, options, option, 1 TSRMLS_CC)) {
+		ZEPHIR_MM_RESTORE();
+		RETURN_ZVAL(value, 1, 0);
 	}
 	RETURN_CCTOR(defaultValue);
 
@@ -515,9 +515,9 @@ PHP_METHOD(Phalcon_Forms_Form, getMessagesFor) {
 
 
 	messages = zephir_fetch_nproperty_this(this_ptr, SL("_messages"), PH_NOISY_CC);
-	ZEPHIR_OBS_VAR(elementMessages);
-	if (zephir_array_isset_fetch(&elementMessages, messages, name TSRMLS_CC)) {
-		RETURN_CCTOR(elementMessages);
+	if (zephir_array_isset_fetch(&elementMessages, messages, name, 1 TSRMLS_CC)) {
+		ZEPHIR_MM_RESTORE();
+		RETURN_ZVAL(elementMessages, 1, 0);
 	}
 	ZEPHIR_INIT_VAR(group);
 	object_init_ex(group, phalcon_validation_message_group_ce);
@@ -630,9 +630,9 @@ PHP_METHOD(Phalcon_Forms_Form, get) {
 
 
 	elements = zephir_fetch_nproperty_this(this_ptr, SL("_elements"), PH_NOISY_CC);
-	ZEPHIR_OBS_VAR(element);
-	if (zephir_array_isset_fetch(&element, elements, name TSRMLS_CC)) {
-		RETURN_CCTOR(element);
+	if (zephir_array_isset_fetch(&element, elements, name, 1 TSRMLS_CC)) {
+		ZEPHIR_MM_RESTORE();
+		RETURN_ZVAL(element, 1, 0);
 	}
 	ZEPHIR_INIT_VAR(_0);
 	object_init_ex(_0, phalcon_forms_exception_ce);
@@ -665,8 +665,7 @@ PHP_METHOD(Phalcon_Forms_Form, label) {
 
 
 	elements = zephir_fetch_nproperty_this(this_ptr, SL("_elements"), PH_NOISY_CC);
-	ZEPHIR_OBS_VAR(element);
-	if (zephir_array_isset_fetch(&element, elements, name TSRMLS_CC)) {
+	if (zephir_array_isset_fetch(&element, elements, name, 1 TSRMLS_CC)) {
 		zephir_call_method(return_value, element, "label");
 		RETURN_MM();
 	}
@@ -756,7 +755,7 @@ PHP_METHOD(Phalcon_Forms_Form, getValue) {
 	data = zephir_fetch_nproperty_this(this_ptr, SL("_data"), PH_NOISY_CC);
 	if ((Z_TYPE_P(data) == IS_ARRAY)) {
 		ZEPHIR_OBS_NVAR(value);
-		if (zephir_array_isset_fetch(&value, data, name TSRMLS_CC)) {
+		if (zephir_array_isset_fetch(&value, data, name, 0 TSRMLS_CC)) {
 			RETURN_CCTOR(value);
 		}
 	}
@@ -902,15 +901,13 @@ PHP_METHOD(Phalcon_Forms_Form, current) {
 
 	zval *elements, *element, *_0;
 
-	ZEPHIR_MM_GROW();
 
 	elements = zephir_fetch_nproperty_this(this_ptr, SL("_elementsIndexed"), PH_NOISY_CC);
-	ZEPHIR_OBS_VAR(element);
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_position"), PH_NOISY_CC);
-	if (zephir_array_isset_fetch(&element, elements, _0 TSRMLS_CC)) {
-		RETURN_CCTOR(element);
+	if (zephir_array_isset_fetch(&element, elements, _0, 1 TSRMLS_CC)) {
+		RETURN_ZVAL(element, 1, 0);
 	}
-	RETURN_MM_NULL();
+	RETURN_NULL();
 
 }
 

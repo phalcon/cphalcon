@@ -84,8 +84,7 @@ PHP_METHOD(Phalcon_Di_Service_Builder, _buildParameter) {
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
-	ZEPHIR_OBS_VAR(type);
-	if (!(zephir_array_isset_string_fetch(&type, argument, SS("type") TSRMLS_CC))) {
+	if (!(zephir_array_isset_string_fetch(&type, argument, SS("type"), 1 TSRMLS_CC))) {
 		ZEPHIR_INIT_NVAR(_0);
 		object_init_ex(_0, phalcon_di_exception_ce);
 		ZEPHIR_INIT_LNVAR(_1);
@@ -100,7 +99,7 @@ PHP_METHOD(Phalcon_Di_Service_Builder, _buildParameter) {
 	do {
 		if (ZEPHIR_IS_STRING(type, "service")) {
 			ZEPHIR_OBS_VAR(name);
-			if (!(zephir_array_isset_string_fetch(&name, argument, SS("name") TSRMLS_CC))) {
+			if (!(zephir_array_isset_string_fetch(&name, argument, SS("name"), 0 TSRMLS_CC))) {
 				ZEPHIR_INIT_NVAR(_0);
 				object_init_ex(_0, phalcon_di_exception_ce);
 				ZEPHIR_INIT_LNVAR(_1);
@@ -118,8 +117,7 @@ PHP_METHOD(Phalcon_Di_Service_Builder, _buildParameter) {
 			RETURN_MM();
 		}
 		if (ZEPHIR_IS_STRING(type, "parameter")) {
-			ZEPHIR_OBS_VAR(value);
-			if (!(zephir_array_isset_string_fetch(&value, argument, SS("value") TSRMLS_CC))) {
+			if (!(zephir_array_isset_string_fetch(&value, argument, SS("value"), 1 TSRMLS_CC))) {
 				ZEPHIR_INIT_NVAR(_0);
 				object_init_ex(_0, phalcon_di_exception_ce);
 				ZEPHIR_INIT_LNVAR(_1);
@@ -129,11 +127,12 @@ PHP_METHOD(Phalcon_Di_Service_Builder, _buildParameter) {
 				ZEPHIR_MM_RESTORE();
 				return;
 			}
-			RETURN_CCTOR(value);
+			ZEPHIR_MM_RESTORE();
+			RETURN_ZVAL(value, 1, 0);
 		}
 		if (ZEPHIR_IS_STRING(type, "instance")) {
 			ZEPHIR_OBS_NVAR(name);
-			if (!(zephir_array_isset_string_fetch(&name, argument, SS("className") TSRMLS_CC))) {
+			if (!(zephir_array_isset_string_fetch(&name, argument, SS("className"), 0 TSRMLS_CC))) {
 				ZEPHIR_INIT_NVAR(_0);
 				object_init_ex(_0, phalcon_di_exception_ce);
 				ZEPHIR_INIT_LNVAR(_1);
@@ -147,8 +146,7 @@ PHP_METHOD(Phalcon_Di_Service_Builder, _buildParameter) {
 				ZEPHIR_THROW_EXCEPTION_STR(phalcon_di_exception_ce, "The dependency injector container is not valid");
 				return;
 			}
-			ZEPHIR_OBS_VAR(instanceArguments);
-			if (zephir_array_isset_string_fetch(&instanceArguments, argument, SS("arguments") TSRMLS_CC)) {
+			if (zephir_array_isset_string_fetch(&instanceArguments, argument, SS("arguments"), 1 TSRMLS_CC)) {
 				zephir_call_method_p2(return_value, dependencyInjector, "get", name, instanceArguments);
 				RETURN_MM();
 			} else {
@@ -223,7 +221,7 @@ PHP_METHOD(Phalcon_Di_Service_Builder, build) {
 	zend_function *_5 = NULL, *_6 = NULL, *_7 = NULL, *_8 = NULL, *_12 = NULL, *_13 = NULL, *_14 = NULL, *_15 = NULL;
 	HashTable *_2, *_10;
 	HashPosition _1, _9;
-	zval *dependencyInjector, *definition, *parameters = NULL, *className, *arguments = NULL, *paramCalls = NULL, *methodPosition = NULL, *method = NULL, *methodName = NULL, *methodCall = NULL, *instance = NULL, *propertyPosition = NULL, *property = NULL, *propertyName = NULL, *propertyValue = NULL, *_0 = NULL, **_3, *_4 = NULL, **_11;
+	zval *dependencyInjector, *definition, *parameters = NULL, *className, *arguments = NULL, *paramCalls = NULL, *methodPosition = NULL, *method = NULL, *methodName, *methodCall = NULL, *instance = NULL, *propertyPosition = NULL, *property = NULL, *propertyName, *propertyValue, *_0 = NULL, **_3, *_4 = NULL, **_11;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 1, &dependencyInjector, &definition, &parameters);
@@ -237,8 +235,7 @@ PHP_METHOD(Phalcon_Di_Service_Builder, build) {
 		ZEPHIR_THROW_EXCEPTION_STR(phalcon_di_exception_ce, "The service definition must be an array");
 		return;
 	}
-	ZEPHIR_OBS_VAR(className);
-	if (!(zephir_array_isset_string_fetch(&className, definition, SS("className") TSRMLS_CC))) {
+	if (!(zephir_array_isset_string_fetch(&className, definition, SS("className"), 1 TSRMLS_CC))) {
 		ZEPHIR_THROW_EXCEPTION_STR(phalcon_di_exception_ce, "Invalid service definition. Missing 'className' parameter");
 		return;
 	}
@@ -256,7 +253,7 @@ PHP_METHOD(Phalcon_Di_Service_Builder, build) {
 	} else {
 		ZEPHIR_INIT_NVAR(instance);
 		ZEPHIR_OBS_VAR(arguments);
-		if (zephir_array_isset_string_fetch(&arguments, definition, SS("arguments") TSRMLS_CC)) {
+		if (zephir_array_isset_string_fetch(&arguments, definition, SS("arguments"), 0 TSRMLS_CC)) {
 			ZEPHIR_INIT_VAR(_0);
 			zephir_call_method_p2(_0, this_ptr, "_buildparameters", dependencyInjector, arguments);
 			if (zephir_create_instance_params(instance, className, _0 TSRMLS_CC) == FAILURE) {
@@ -269,7 +266,7 @@ PHP_METHOD(Phalcon_Di_Service_Builder, build) {
 		}
 	}
 	ZEPHIR_OBS_VAR(paramCalls);
-	if (zephir_array_isset_string_fetch(&paramCalls, definition, SS("calls") TSRMLS_CC)) {
+	if (zephir_array_isset_string_fetch(&paramCalls, definition, SS("calls"), 0 TSRMLS_CC)) {
 		if ((Z_TYPE_P(instance) != IS_OBJECT)) {
 			ZEPHIR_THROW_EXCEPTION_STR(phalcon_di_exception_ce, "The definition has setter injection parameters but the constructor didn't return an instance");
 			return;
@@ -295,8 +292,7 @@ PHP_METHOD(Phalcon_Di_Service_Builder, build) {
 				ZEPHIR_MM_RESTORE();
 				return;
 			}
-			ZEPHIR_OBS_NVAR(methodName);
-			if (!(zephir_array_isset_string_fetch(&methodName, method, SS("method") TSRMLS_CC))) {
+			if (!(zephir_array_isset_string_fetch(&methodName, method, SS("method"), 1 TSRMLS_CC))) {
 				ZEPHIR_INIT_NVAR(_0);
 				object_init_ex(_0, phalcon_di_exception_ce);
 				ZEPHIR_INIT_LNVAR(_4);
@@ -311,7 +307,7 @@ PHP_METHOD(Phalcon_Di_Service_Builder, build) {
 			zend_hash_next_index_insert(Z_ARRVAL_P(methodCall), &instance, sizeof(zval *), NULL);
 			zend_hash_next_index_insert(Z_ARRVAL_P(methodCall), &methodName, sizeof(zval *), NULL);
 			ZEPHIR_OBS_NVAR(arguments);
-			if (zephir_array_isset_string_fetch(&arguments, method, SS("arguments") TSRMLS_CC)) {
+			if (zephir_array_isset_string_fetch(&arguments, method, SS("arguments"), 0 TSRMLS_CC)) {
 				if ((Z_TYPE_P(arguments) != IS_ARRAY)) {
 					ZEPHIR_INIT_NVAR(_0);
 					object_init_ex(_0, phalcon_di_exception_ce);
@@ -333,7 +329,7 @@ PHP_METHOD(Phalcon_Di_Service_Builder, build) {
 		}
 	}
 	ZEPHIR_OBS_NVAR(paramCalls);
-	if (zephir_array_isset_string_fetch(&paramCalls, definition, SS("properties") TSRMLS_CC)) {
+	if (zephir_array_isset_string_fetch(&paramCalls, definition, SS("properties"), 0 TSRMLS_CC)) {
 		if ((Z_TYPE_P(instance) != IS_OBJECT)) {
 			ZEPHIR_THROW_EXCEPTION_STR(phalcon_di_exception_ce, "The definition has properties injection parameters but the constructor didn't return an instance");
 			return;
@@ -359,8 +355,7 @@ PHP_METHOD(Phalcon_Di_Service_Builder, build) {
 				ZEPHIR_MM_RESTORE();
 				return;
 			}
-			ZEPHIR_OBS_NVAR(propertyName);
-			if (!(zephir_array_isset_string_fetch(&propertyName, property, SS("name") TSRMLS_CC))) {
+			if (!(zephir_array_isset_string_fetch(&propertyName, property, SS("name"), 1 TSRMLS_CC))) {
 				ZEPHIR_INIT_NVAR(_0);
 				object_init_ex(_0, phalcon_di_exception_ce);
 				ZEPHIR_INIT_LNVAR(_4);
@@ -370,8 +365,7 @@ PHP_METHOD(Phalcon_Di_Service_Builder, build) {
 				ZEPHIR_MM_RESTORE();
 				return;
 			}
-			ZEPHIR_OBS_NVAR(propertyValue);
-			if (!(zephir_array_isset_string_fetch(&propertyValue, property, SS("value") TSRMLS_CC))) {
+			if (!(zephir_array_isset_string_fetch(&propertyValue, property, SS("value"), 1 TSRMLS_CC))) {
 				ZEPHIR_INIT_NVAR(_0);
 				object_init_ex(_0, phalcon_di_exception_ce);
 				ZEPHIR_INIT_LNVAR(_4);

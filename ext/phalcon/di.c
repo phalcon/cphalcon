@@ -307,9 +307,9 @@ PHP_METHOD(Phalcon_Di, getService) {
 		return;
 	}
 	services = zephir_fetch_nproperty_this(this_ptr, SL("_services"), PH_NOISY_CC);
-	ZEPHIR_OBS_VAR(service);
-	if (zephir_array_isset_fetch(&service, services, name TSRMLS_CC)) {
-		RETURN_CCTOR(service);
+	if (zephir_array_isset_fetch(&service, services, name, 1 TSRMLS_CC)) {
+		ZEPHIR_MM_RESTORE();
+		RETURN_ZVAL(service, 1, 0);
 	}
 	ZEPHIR_INIT_VAR(_0);
 	object_init_ex(_0, phalcon_di_exception_ce);
@@ -348,8 +348,7 @@ PHP_METHOD(Phalcon_Di, get) {
 		return;
 	}
 	services = zephir_fetch_nproperty_this(this_ptr, SL("_services"), PH_NOISY_CC);
-	ZEPHIR_OBS_VAR(service);
-	if (zephir_array_isset_fetch(&service, services, name TSRMLS_CC)) {
+	if (zephir_array_isset_fetch(&service, services, name, 1 TSRMLS_CC)) {
 		ZEPHIR_INIT_VAR(instance);
 		zephir_call_method_p2(instance, service, "resolve", parameters, this_ptr);
 	} else {
@@ -420,7 +419,7 @@ PHP_METHOD(Phalcon_Di, getShared) {
 	}
 	sharedInstances = zephir_fetch_nproperty_this(this_ptr, SL("_sharedInstances"), PH_NOISY_CC);
 	ZEPHIR_OBS_VAR(instance);
-	if (zephir_array_isset_fetch(&instance, sharedInstances, name TSRMLS_CC)) {
+	if (zephir_array_isset_fetch(&instance, sharedInstances, name, 0 TSRMLS_CC)) {
 		zephir_update_property_this(this_ptr, SL("_freshInstance"), ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
 	} else {
 		ZEPHIR_INIT_BNVAR(instance);
@@ -607,8 +606,7 @@ PHP_METHOD(Phalcon_Di, __call) {
 		}
 	}
 	if (zephir_start_with_str(method, SL("set"))) {
-		ZEPHIR_OBS_VAR(definition);
-		if (zephir_array_isset_long_fetch(&definition, arguments, 0 TSRMLS_CC)) {
+		if (zephir_array_isset_long_fetch(&definition, arguments, 0, 1 TSRMLS_CC)) {
 			ZEPHIR_SINIT_NVAR(_0);
 			ZVAL_LONG(&_0, 3);
 			ZEPHIR_INIT_NVAR(_1);

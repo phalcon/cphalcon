@@ -168,9 +168,8 @@ PHP_METHOD(Phalcon_Mvc_Url, getBaseUri) {
 	zephir_read_property_this(&baseUri, this_ptr, SL("_baseUri"), PH_NOISY_CC);
 	if ((Z_TYPE_P(baseUri) == IS_NULL)) {
 		ZEPHIR_INIT_VAR(uri);
-		ZEPHIR_OBS_VAR(phpSelf);
 		zephir_get_global(&_SERVER, SS("_SERVER") TSRMLS_CC);
-		if (zephir_array_isset_string_fetch(&phpSelf, _SERVER, SS("PHP_SELF") TSRMLS_CC)) {
+		if (zephir_array_isset_string_fetch(&phpSelf, _SERVER, SS("PHP_SELF"), 1 TSRMLS_CC)) {
 			zephir_call_func_p1(uri, "phalcon_get_uri", phpSelf);
 		} else {
 			ZVAL_NULL(uri);
@@ -290,8 +289,7 @@ PHP_METHOD(Phalcon_Mvc_Url, get) {
 	ZEPHIR_INIT_VAR(baseUri);
 	zephir_call_method(baseUri, this_ptr, "getbaseuri");
 	if ((Z_TYPE_P(uri) == IS_ARRAY)) {
-		ZEPHIR_OBS_VAR(routeName);
-		if (!(zephir_array_isset_string_fetch(&routeName, uri, SS("for") TSRMLS_CC))) {
+		if (!(zephir_array_isset_string_fetch(&routeName, uri, SS("for"), 1 TSRMLS_CC))) {
 			ZEPHIR_THROW_EXCEPTION_STR(phalcon_mvc_url_exception_ce, "It's necessary to define the route name with the parameter 'for'");
 			return;
 		}
@@ -388,8 +386,7 @@ PHP_METHOD(Phalcon_Mvc_Url, path) {
 	}
 
 
-	ZEPHIR_OBS_VAR(_0);
-	zephir_read_property_this(&_0, this_ptr, SL("_basePath"), PH_NOISY_CC);
+	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_basePath"), PH_NOISY_CC);
 	concat_function(return_value, _0, path TSRMLS_CC);
 	RETURN_MM();
 

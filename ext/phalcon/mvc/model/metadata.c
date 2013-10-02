@@ -396,7 +396,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, readColumnMap) {
 	ZEPHIR_OBS_VAR(columnMap);
 	zephir_read_property_this(&columnMap, this_ptr, SL("_columnMap"), PH_NOISY_CC);
 	ZEPHIR_OBS_VAR(data);
-	if (!(zephir_array_isset_fetch(&data, columnMap, keyName TSRMLS_CC))) {
+	if (!(zephir_array_isset_fetch(&data, columnMap, keyName, 0 TSRMLS_CC))) {
 		zephir_call_method_p4_noret(this_ptr, "_initialize", model, ZEPHIR_GLOBAL(global_null), ZEPHIR_GLOBAL(global_null), ZEPHIR_GLOBAL(global_null));
 		ZEPHIR_OBS_NVAR(columnMap);
 		zephir_read_property_this(&columnMap, this_ptr, SL("_columnMap"), PH_NOISY_CC);
@@ -433,7 +433,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, readColumnMapIndex) {
 	ZEPHIR_OBS_VAR(columnMap);
 	zephir_read_property_this(&columnMap, this_ptr, SL("_columnMap"), PH_NOISY_CC);
 	ZEPHIR_OBS_VAR(columnMapModel);
-	if (!(zephir_array_isset_fetch(&columnMapModel, columnMap, keyName TSRMLS_CC))) {
+	if (!(zephir_array_isset_fetch(&columnMapModel, columnMap, keyName, 0 TSRMLS_CC))) {
 		zephir_call_method_p4_noret(this_ptr, "_initialize", model, ZEPHIR_GLOBAL(global_null), ZEPHIR_GLOBAL(global_null), ZEPHIR_GLOBAL(global_null));
 		ZEPHIR_OBS_NVAR(columnMap);
 		zephir_read_property_this(&columnMap, this_ptr, SL("_columnMap"), PH_NOISY_CC);

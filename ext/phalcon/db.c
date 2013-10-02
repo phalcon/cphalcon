@@ -102,8 +102,7 @@ PHP_METHOD(Phalcon_Db, setup) {
 		ZEPHIR_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "Options must be an array");
 		return;
 	}
-	ZEPHIR_OBS_VAR(escapeIdentifiers);
-	if (zephir_array_isset_string_fetch(&escapeIdentifiers, options, SS("escapeSqlIdentifiers") TSRMLS_CC)) {
+	if (zephir_array_isset_string_fetch(&escapeIdentifiers, options, SS("escapeSqlIdentifiers"), 1 TSRMLS_CC)) {
 		ZEPHIR_INIT_VAR(_0);
 		ZVAL_STRING(_0, "db.escape_identifiers", 1);
 		zephir_call_func_p2_noret("globals_set", _0, escapeIdentifiers);

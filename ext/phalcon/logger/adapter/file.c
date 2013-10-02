@@ -99,7 +99,7 @@ PHP_METHOD(Phalcon_Logger_Adapter_File, __construct) {
 
 	if ((Z_TYPE_P(options) == IS_ARRAY)) {
 		ZEPHIR_OBS_VAR(mode);
-		if (zephir_array_isset_string_fetch(&mode, options, SS("mode") TSRMLS_CC)) {
+		if (zephir_array_isset_string_fetch(&mode, options, SS("mode"), 0 TSRMLS_CC)) {
 			if (zephir_memnstr_str(mode, SL("r"), "phalcon/logger/adapter/file.zep", 67)) {
 				ZEPHIR_THROW_EXCEPTION_STR(phalcon_logger_exception_ce, "Logger must be opened in append or write mode");
 				return;
@@ -226,7 +226,7 @@ PHP_METHOD(Phalcon_Logger_Adapter_File, __wakeup) {
 	}
 	options = zephir_fetch_nproperty_this(this_ptr, SL("_options"), PH_NOISY_CC);
 	ZEPHIR_OBS_VAR(mode);
-	if (!(zephir_array_isset_string_fetch(&mode, options, SS("mode") TSRMLS_CC))) {
+	if (!(zephir_array_isset_string_fetch(&mode, options, SS("mode"), 0 TSRMLS_CC))) {
 		ZEPHIR_INIT_BNVAR(mode);
 		ZVAL_STRING(mode, "ab", 1);
 	}

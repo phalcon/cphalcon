@@ -340,10 +340,10 @@ PHP_METHOD(Phalcon_Tag, getValue) {
 
 	displayValues = zephir_fetch_static_property_ce(phalcon_tag_ce , SL("_displayValues") TSRMLS_CC);
 	ZEPHIR_OBS_VAR(value);
-	if (!(zephir_array_isset_fetch(&value, displayValues, name TSRMLS_CC))) {
+	if (!(zephir_array_isset_fetch(&value, displayValues, name, 0 TSRMLS_CC))) {
 		ZEPHIR_OBS_NVAR(value);
 		zephir_get_global(&_POST, SS("_POST") TSRMLS_CC);
-		if (!(zephir_array_isset_fetch(&value, _POST, name TSRMLS_CC))) {
+		if (!(zephir_array_isset_fetch(&value, _POST, name, 0 TSRMLS_CC))) {
 			RETURN_MM_NULL();
 		}
 	}
@@ -356,8 +356,7 @@ PHP_METHOD(Phalcon_Tag, getValue) {
 			RETURN_MM();
 		}
 		if ((Z_TYPE_P(params) == IS_ARRAY)) {
-			ZEPHIR_OBS_VAR(autoescape);
-			if (zephir_array_isset_string_fetch(&autoescape, params, SS("escape") TSRMLS_CC)) {
+			if (zephir_array_isset_string_fetch(&autoescape, params, SS("escape"), 1 TSRMLS_CC)) {
 				if (zephir_is_true(autoescape)) {
 					ZEPHIR_INIT_NVAR(escaper);
 					zephir_call_self(escaper, this_ptr, "getescaperservice");
@@ -436,9 +435,9 @@ PHP_METHOD(Phalcon_Tag, linkTo) {
 		ZEPHIR_CPY_WRT(params, parameters);
 	}
 	ZEPHIR_OBS_VAR(action);
-	if (!(zephir_array_isset_long_fetch(&action, params, 0 TSRMLS_CC))) {
+	if (!(zephir_array_isset_long_fetch(&action, params, 0, 0 TSRMLS_CC))) {
 		ZEPHIR_OBS_NVAR(action);
-		if (!(zephir_array_isset_string_fetch(&action, params, SS("action") TSRMLS_CC))) {
+		if (!(zephir_array_isset_string_fetch(&action, params, SS("action"), 0 TSRMLS_CC))) {
 			ZEPHIR_INIT_BNVAR(action);
 			ZVAL_STRING(action, "", 1);
 		} else {
@@ -446,9 +445,9 @@ PHP_METHOD(Phalcon_Tag, linkTo) {
 		}
 	}
 	ZEPHIR_OBS_NVAR(text);
-	if (!(zephir_array_isset_long_fetch(&text, params, 1 TSRMLS_CC))) {
+	if (!(zephir_array_isset_long_fetch(&text, params, 1, 0 TSRMLS_CC))) {
 		ZEPHIR_OBS_NVAR(text);
-		if (!(zephir_array_isset_string_fetch(&text, params, SS("text") TSRMLS_CC))) {
+		if (!(zephir_array_isset_string_fetch(&text, params, SS("text"), 0 TSRMLS_CC))) {
 			ZEPHIR_INIT_BNVAR(text);
 			ZVAL_STRING(text, "", 1);
 		} else {

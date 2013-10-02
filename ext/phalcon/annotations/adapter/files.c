@@ -13,8 +13,8 @@
 
 #include "kernel/main.h"
 #include "kernel/array.h"
-#include "kernel/memory.h"
 #include "kernel/object.h"
+#include "kernel/memory.h"
 #include "kernel/concat.h"
 #include "kernel/fcall.h"
 #include "kernel/operators.h"
@@ -77,8 +77,7 @@ PHP_METHOD(Phalcon_Annotations_Adapter_Files, __construct) {
 
 
 	if ((Z_TYPE_P(options) != IS_ARRAY)) {
-		ZEPHIR_OBS_VAR(annotationsDir);
-		if (zephir_array_isset_string_fetch(&annotationsDir, options, SS("annotationsDir") TSRMLS_CC)) {
+		if (zephir_array_isset_string_fetch(&annotationsDir, options, SS("annotationsDir"), 1 TSRMLS_CC)) {
 			zephir_update_property_this(this_ptr, SL("_annotationsDir"), annotationsDir TSRMLS_CC);
 		}
 	}
@@ -103,8 +102,7 @@ PHP_METHOD(Phalcon_Annotations_Adapter_Files, read) {
 		zephir_get_strval(key, key_param);
 
 
-	ZEPHIR_OBS_VAR(_0);
-	zephir_read_property_this(&_0, this_ptr, SL("_annotationsDir"), PH_NOISY_CC);
+	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_annotationsDir"), PH_NOISY_CC);
 	ZEPHIR_INIT_VAR(_1);
 	ZVAL_STRING(_1, "_", 1);
 	ZEPHIR_INIT_VAR(_2);
@@ -139,8 +137,7 @@ PHP_METHOD(Phalcon_Annotations_Adapter_Files, write) {
 		zephir_get_strval(key, key_param);
 
 
-	ZEPHIR_OBS_VAR(_0);
-	zephir_read_property_this(&_0, this_ptr, SL("_annotationsDir"), PH_NOISY_CC);
+	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_annotationsDir"), PH_NOISY_CC);
 	ZEPHIR_INIT_VAR(_1);
 	ZVAL_STRING(_1, "_", 1);
 	ZEPHIR_INIT_VAR(_2);

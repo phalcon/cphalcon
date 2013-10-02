@@ -154,15 +154,13 @@ PHP_METHOD(Phalcon_Annotations_Collection, current) {
 
 	zval *annotation, *annotations, *_0;
 
-	ZEPHIR_MM_GROW();
 
 	annotations = zephir_fetch_nproperty_this(this_ptr, SL("_annotations"), PH_NOISY_CC);
-	ZEPHIR_OBS_VAR(annotation);
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_position"), PH_NOISY_CC);
-	if (zephir_array_isset_fetch(&annotation, annotations, _0 TSRMLS_CC)) {
-		RETURN_CCTOR(annotation);
+	if (zephir_array_isset_fetch(&annotation, annotations, _0, 1 TSRMLS_CC)) {
+		RETURN_ZVAL(annotation, 1, 0);
 	}
-	RETURN_MM_NULL();
+	RETURN_NULL();
 
 }
 
