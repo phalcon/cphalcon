@@ -240,6 +240,16 @@ PHP_METHOD(Phalcon_Mvc_View, setBasePath){
 }
 
 /**
+ * Return the current render level
+ *
+ * @return int
+ */
+PHP_METHOD(Phalcon_Mvc_View, getRenderLevel) {
+
+	RETURN_MEMBER(getThis(), "_renderLevel");
+}
+
+/**
  * Sets the render level for the view
  *
  * <code>
@@ -284,6 +294,16 @@ PHP_METHOD(Phalcon_Mvc_View, disableLevel){
 	}
 	
 	RETURN_THISW();
+}
+
+/**
+ * Returns an array with disabled render levels
+ *
+ * @return array
+ */
+PHP_METHOD(Phalcon_Mvc_View, getDisabledLevels) {
+
+	RETURN_MEMBER(getThis(), "_disabledLevels");
 }
 
 /**
@@ -1712,6 +1732,17 @@ PHP_METHOD(Phalcon_Mvc_View, enable){
 	phalcon_update_property_bool(this_ptr, SL("_disabled"), 0 TSRMLS_CC);
 	RETURN_THISW();
 }
+
+/**
+ * Whether automatic rendering is enabled
+ *
+ * @return bool
+ */
+PHP_METHOD(Phalcon_Mvc_View, isDisabled){
+
+	RETURN_MEMBER(this_ptr, "_disabled");
+}
+
 
 /**
  * Resets the view component to its factory default values

@@ -87,6 +87,13 @@ PHALCON_DOC_METHOD(Phalcon_Mvc_ViewInterface, getPartialsDir);
 PHALCON_DOC_METHOD(Phalcon_Mvc_ViewInterface, setBasePath);
 
 /**
+ * Gets the render level for the view
+ *
+ * @return string
+ */
+PHALCON_DOC_METHOD(Phalcon_Mvc_ViewInterface, getRenderLevel);
+
+/**
  * Sets the render level for the view
  *
  * @param string $level
@@ -285,3 +292,10 @@ PHALCON_DOC_METHOD(Phalcon_Mvc_ViewInterface, enable);
  */
 PHALCON_DOC_METHOD(Phalcon_Mvc_ViewInterface, reset);
 
+
+/**
+ * Whether the automatic rendering is disabled
+ *
+ * @return bool
+ */
+PHALCON_DOC_METHOD(Phalcon_Mvc_ViewInterface, isDisabled);
