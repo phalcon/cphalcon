@@ -306,9 +306,8 @@ PHP_METHOD(Phalcon_Mvc_Collection, getReservedAttributes){
 		add_assoc_zval_ex(return_value, SS("_operationMade"), dummy);
 		Z_ADDREF_P(dummy);
 		add_assoc_zval_ex(return_value, SS("_errorMessages"), dummy);
-		/* reserved is a reference, no need to update the property
-		phalcon_update_static_property_ce(phalcon_mvc_collection_ce, SL("_reserved"), reserved TSRMLS_CC);
-		*/
+
+		phalcon_update_static_property_ce(phalcon_mvc_collection_ce, SL("_reserved"), return_value TSRMLS_CC);
 		return;
 	}
 

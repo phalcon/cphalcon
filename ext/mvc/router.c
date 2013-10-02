@@ -143,7 +143,7 @@ PHP_METHOD(Phalcon_Mvc_Router, __construct){
 		object_init_ex(route, phalcon_mvc_router_route_ce);
 		phalcon_call_method_p2_noret(route, "__construct", action_pattern, paths);
 
-		phalcon_array_append(&routes, route, PH_SEPARATE);
+		phalcon_array_append(&routes, route, 0);
 
 		PHALCON_INIT_NVAR(paths);
 		array_init_size(paths, 3);
@@ -158,7 +158,7 @@ PHP_METHOD(Phalcon_Mvc_Router, __construct){
 		object_init_ex(route, phalcon_mvc_router_route_ce);
 		phalcon_call_method_p2_noret(route, "__construct", params_pattern, paths);
 
-		phalcon_array_append(&routes, route, PH_SEPARATE);
+		phalcon_array_append(&routes, route, 0);
 	}
 
 	PHALCON_INIT_VAR(params);

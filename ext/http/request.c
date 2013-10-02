@@ -660,14 +660,7 @@ PHP_METHOD(Phalcon_Http_Request, getRawBody){
 
 	raw = phalcon_fetch_nproperty_this(getThis(), SL("_rawBody"), PH_NOISY TSRMLS_CC);
 	if (Z_TYPE_P(raw) == IS_STRING) {
-		if (return_value_ptr) {
-			zval_ptr_dtor(return_value_ptr);
-			*return_value_ptr = raw;
-			Z_ADDREF_P(raw);
-		}
-		else {
-			RETURN_ZVAL(raw, 1, 0);
-		}
+		RETURN_ZVAL(raw, 1, 0);
 	}
 	else if (sapi_module.read_post) {
 		int read_bytes;
@@ -1358,7 +1351,7 @@ static void phalcon_http_request_getuploadedfiles_helper(zval **return_value, zv
 					Z_ADDREF_PP(derror);
 					Z_ADDREF_PP(dsize);
 
-					ALLOC_INIT_ZVAL(arr);
+					MAKE_STD_ZVAL(arr);
 					array_init_size(arr, 5);
 					add_assoc_zval_ex(arr, ISS(name),      *dname);
 					add_assoc_zval_ex(arr, ISS(type),      *dtype);
@@ -1366,11 +1359,11 @@ static void phalcon_http_request_getuploadedfiles_helper(zval **return_value, zv
 					add_assoc_zval_ex(arr, SS("error"),    *derror);
 					add_assoc_zval_ex(arr, SS("size"),     *dsize);
 
-					ALLOC_INIT_ZVAL(key);
+					MAKE_STD_ZVAL(key);
 					ZVAL_STRINGL(key, prefix->c, prefix->len, 1);
 					prefix->len = prefix_len;
 
-					ALLOC_INIT_ZVAL(file);
+					MAKE_STD_ZVAL(file);
 					object_init_ex(file, phalcon_http_request_file_ce);
 
 					res = phalcon_call_method_params(NULL, NULL, file, SL("__construct"), zend_inline_hash_func(SS("__construct")) TSRMLS_CC, 2, arr, key);

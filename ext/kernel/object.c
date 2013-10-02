@@ -429,7 +429,6 @@ int phalcon_read_property(zval **result, zval *object, char *property_name, unsi
 		}
 
 		ALLOC_INIT_ZVAL(*result);
-		ZVAL_NULL(*result);
 		return FAILURE;
 	}
 
@@ -1125,7 +1124,7 @@ int phalcon_update_property_empty_array(zend_class_entry *ce, zval *object, char
 	zval *empty_array;
 	int res;
 
-	ALLOC_INIT_ZVAL(empty_array);
+	MAKE_STD_ZVAL(empty_array);
 	array_init(empty_array);
 
 	res = phalcon_update_property_zval(object, property_name, property_length, empty_array TSRMLS_CC);

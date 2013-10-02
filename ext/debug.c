@@ -958,7 +958,6 @@ PHP_METHOD(Phalcon_Debug, onUncaughtException){
 	HashTable *ah0, *ah1, *ah2, *ah3, *ah4;
 	HashPosition hp0, hp1, hp2, hp3, hp4;
 	zval **hd;
-	zval *z_true, *z_false;
 
 	PHALCON_MM_GROW();
 
@@ -985,9 +984,7 @@ PHP_METHOD(Phalcon_Debug, onUncaughtException){
 	/** 
 	 * Globally block the debug component to avoid other exceptions must be shown
 	 */
-	PHALCON_INIT_VAR(z_true);
-	ZVAL_TRUE(z_true);
-	phalcon_update_static_property_ce(phalcon_debug_ce, SL("_isActive"), z_true TSRMLS_CC);
+	phalcon_update_static_property_ce(phalcon_debug_ce, SL("_isActive"), PHALCON_GLOBAL(z_true) TSRMLS_CC);
 	
 	PHALCON_INIT_VAR(class_name);
 	phalcon_get_class(class_name, exception, 0 TSRMLS_CC);
@@ -1209,9 +1206,7 @@ PHP_METHOD(Phalcon_Debug, onUncaughtException){
 	/** 
 	 * Unlock the exception renderer
 	 */
-	PHALCON_INIT_VAR(z_false);
-	ZVAL_FALSE(z_false);
-	phalcon_update_static_property_ce(phalcon_debug_ce, SL("_isActive"), z_false TSRMLS_CC);
+	phalcon_update_static_property_ce(phalcon_debug_ce, SL("_isActive"), PHALCON_GLOBAL(z_false) TSRMLS_CC);
 	RETURN_MM_TRUE;
 }
 
