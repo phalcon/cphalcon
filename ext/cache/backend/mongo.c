@@ -232,7 +232,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Mongo, get){
 	array_init_size(conditions, 2);
 	phalcon_array_update_string(&conditions, SL("key"), &prefixed_key, PH_COPY);
 	
-	ALLOC_INIT_ZVAL(time_condition);
+	MAKE_STD_ZVAL(time_condition);
 	array_init_size(time_condition, 1);
 	add_assoc_long_ex(time_condition, SS("$gt"), (long int)time(NULL));
 	add_assoc_zval_ex(conditions, SS("time"), time_condition);
@@ -430,7 +430,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Mongo, queryKeys){
 		phalcon_array_update_string(&conditions, SL("key"), &regex, PH_COPY);
 	}
 	
-	ALLOC_INIT_ZVAL(time_condition);
+	MAKE_STD_ZVAL(time_condition);
 	array_init_size(time_condition, 1);
 	add_assoc_long_ex(time_condition, SS("$gt"), (long int)time(NULL));
 	phalcon_array_update_string(&conditions, SL("time"), &time_condition, 0);
@@ -494,7 +494,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Mongo, exists){
 		array_init_size(conditions, 2);
 		phalcon_array_update_string(&conditions, SL("key"), &last_key, PH_COPY);
 
-		ALLOC_INIT_ZVAL(time_condition);
+		MAKE_STD_ZVAL(time_condition);
 		array_init_size(time_condition, 1);
 		add_assoc_long_ex(time_condition, SS("$gt"), (long int)time(NULL));
 		phalcon_array_update_string(&conditions, SL("time"), &time_condition, 0);
@@ -519,7 +519,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Mongo, gc) {
 
 	PHALCON_MM_GROW();
 
-	ALLOC_INIT_ZVAL(time_condition);
+	MAKE_STD_ZVAL(time_condition);
 	array_init_size(time_condition, 1);
 	add_assoc_long_ex(time_condition, SS("$gt"), (long int)time(NULL));
 

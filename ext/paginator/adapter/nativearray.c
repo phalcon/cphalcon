@@ -129,7 +129,7 @@ PHP_METHOD(Phalcon_Paginator_Adapter_NativeArray, setCurrentPage){
  */
 PHP_METHOD(Phalcon_Paginator_Adapter_NativeArray, getPaginate){
 
-	zval *one, *config, *items, *show, *page_number = NULL, *page;
+	zval *z_one, *config, *items, *show, *page_number = NULL, *page;
 	zval *number, *rounded_total, *total_pages, *before_page_number;
 	zval *start, *slice, *next = NULL, *before = NULL;
 
@@ -138,8 +138,7 @@ PHP_METHOD(Phalcon_Paginator_Adapter_NativeArray, getPaginate){
 	/** 
 	 * TODO: Rewrite the whole method!
 	 */
-	PHALCON_INIT_VAR(one);
-	ZVAL_LONG(one, 1);
+	z_one = PHALCON_GLOBAL(z_one);
 	
 	PHALCON_OBS_VAR(config);
 	phalcon_read_property_this(&config, this_ptr, SL("_config"), PH_NOISY_CC);
@@ -157,7 +156,7 @@ PHP_METHOD(Phalcon_Paginator_Adapter_NativeArray, getPaginate){
 	PHALCON_OBS_VAR(page_number);
 	phalcon_read_property_this(&page_number, this_ptr, SL("_page"), PH_NOISY_CC);
 	if (!zend_is_true(page_number)) {
-		PHALCON_CPY_WRT(page_number, one);
+		PHALCON_CPY_WRT_CTOR(page_number, z_one);
 	}
 	
 	PHALCON_INIT_VAR(page);
@@ -180,7 +179,7 @@ PHP_METHOD(Phalcon_Paginator_Adapter_NativeArray, getPaginate){
 	}
 	
 	PHALCON_INIT_VAR(before_page_number);
-	sub_function(before_page_number, page_number, one TSRMLS_CC);
+	sub_function(before_page_number, page_number, z_one TSRMLS_CC);
 	
 	PHALCON_INIT_VAR(start);
 	mul_function(start, show, before_page_number TSRMLS_CC);
@@ -190,20 +189,20 @@ PHP_METHOD(Phalcon_Paginator_Adapter_NativeArray, getPaginate){
 	phalcon_update_property_zval(page, SL("items"), slice TSRMLS_CC);
 	if (PHALCON_LT(page_number, total_pages)) {
 		PHALCON_INIT_VAR(next);
-		phalcon_add_function(next, page_number, one TSRMLS_CC);
+		phalcon_add_function(next, page_number, z_one TSRMLS_CC);
 	} else {
 		PHALCON_CPY_WRT(next, total_pages);
 	}
 	
 	phalcon_update_property_zval(page, SL("next"), next TSRMLS_CC);
-	if (PHALCON_GT(page_number, one)) {
+	if (PHALCON_GT(page_number, z_one)) {
 		PHALCON_INIT_VAR(before);
-		sub_function(before, page_number, one TSRMLS_CC);
+		sub_function(before, page_number, z_one TSRMLS_CC);
 	} else {
-		PHALCON_CPY_WRT(before, one);
+		PHALCON_CPY_WRT_CTOR(before, z_one);
 	}
 	
-	phalcon_update_property_zval(page, SL("first"), one TSRMLS_CC);
+	phalcon_update_property_zval(page, SL("first"), z_one TSRMLS_CC);
 	phalcon_update_property_zval(page, SL("before"), before TSRMLS_CC);
 	phalcon_update_property_zval(page, SL("current"), page_number TSRMLS_CC);
 	phalcon_update_property_zval(page, SL("last"), total_pages TSRMLS_CC);

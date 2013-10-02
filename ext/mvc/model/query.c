@@ -3496,7 +3496,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _executeSelect){
 	zval *type = NULL, *connection_types = NULL, *columns, *have_objects = NULL;
 	zval *have_scalars = NULL, *is_complex = NULL, *number_objects;
 	zval *column = NULL, *column_type = NULL, *is_simple_std = NULL, *select_columns;
-	zval *simple_column_map = NULL, *meta_data, *znull;
+	zval *simple_column_map = NULL, *meta_data, *z_null;
 	zval *alias_copy = NULL, *sql_column = NULL, *instance = NULL, *attributes = NULL;
 	zval *column_map = NULL, *attribute = NULL, *hidden_alias = NULL;
 	zval *column_alias = NULL, *is_keeping_snapshots = NULL;
@@ -3700,7 +3700,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _executeSelect){
 	PHALCON_OBS_VAR(meta_data);
 	phalcon_read_property_this(&meta_data, this_ptr, SL("_metaData"), PH_NOISY_CC);
 	
-	PHALCON_INIT_VAR(znull);
+	z_null = PHALCON_GLOBAL(z_null);
 	
 	phalcon_is_iterable(columns, &ah2, &hp2, 1, 0);
 	
@@ -3746,7 +3746,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _executeSelect){
 					PHALCON_INIT_NVAR(column_map);
 					phalcon_call_method_p1(column_map, meta_data, "getcolumnmap", instance);
 				} else {
-					PHALCON_CPY_WRT(column_map, znull);
+					PHALCON_CPY_WRT(column_map, z_null);
 				}
 	
 				/** 
@@ -3814,12 +3814,12 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _executeSelect){
 				PHALCON_INIT_NVAR(column_alias);
 				array_init_size(column_alias, 2);
 				phalcon_array_append(&column_alias, sql_column, 0);
-				phalcon_array_append(&column_alias, znull, 0);
+				phalcon_array_append(&column_alias, z_null, 0);
 			} else {
 				PHALCON_INIT_NVAR(column_alias);
 				array_init_size(column_alias, 3);
 				phalcon_array_append(&column_alias, sql_column, 0);
-				phalcon_array_append(&column_alias, znull, 0);
+				phalcon_array_append(&column_alias, z_null, 0);
 				phalcon_array_append(&column_alias, alias_copy, 0);
 			}
 			phalcon_array_append(&select_columns, column_alias, PH_SEPARATE);

@@ -817,7 +817,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, orWhere){
  */
 PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, betweenWhere){
 
-	zval *expr, *minimum, *maximum, *hidden_param, *one;
+	zval *expr, *minimum, *maximum, *hidden_param, *z_one;
 	zval *next_hidden_param, *minimum_key, *maximum_key;
 	zval *conditions, *bind_params;
 
@@ -828,11 +828,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, betweenWhere){
 	PHALCON_OBS_VAR(hidden_param);
 	phalcon_read_property_this(&hidden_param, this_ptr, SL("_hiddenParamNumber"), PH_NOISY_CC);
 	
-	PHALCON_INIT_VAR(one);
-	ZVAL_LONG(one, 1);
+	z_one = PHALCON_GLOBAL(z_one);
 	
 	PHALCON_INIT_VAR(next_hidden_param);
-	phalcon_add_function(next_hidden_param, hidden_param, one TSRMLS_CC);
+	phalcon_add_function(next_hidden_param, hidden_param, z_one TSRMLS_CC);
 	
 	/** 
 	 * Minimum key with auto bind-params
@@ -854,14 +853,14 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, betweenWhere){
 	
 	PHALCON_INIT_VAR(bind_params);
 	array_init_size(bind_params, 2);
-	phalcon_array_update_zval(&bind_params, minimum_key, &minimum, PH_COPY | PH_SEPARATE);
-	phalcon_array_update_zval(&bind_params, maximum_key, &maximum, PH_COPY | PH_SEPARATE);
+	phalcon_array_update_zval(&bind_params, minimum_key, &minimum, PH_COPY);
+	phalcon_array_update_zval(&bind_params, maximum_key, &maximum, PH_COPY);
 	
 	/** 
 	 * Append the BETWEEN to the current conditions using and 'and'
 	 */
 	phalcon_call_method_p2_noret(this_ptr, "andwhere", conditions, bind_params);
-	PHALCON_SEPARATE(next_hidden_param);
+
 	phalcon_increment(next_hidden_param);
 	phalcon_update_property_this(this_ptr, SL("_hiddenParamNumber"), next_hidden_param TSRMLS_CC);
 	RETURN_THIS();
@@ -881,7 +880,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, betweenWhere){
  */
 PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, notBetweenWhere){
 
-	zval *expr, *minimum, *maximum, *hidden_param, *one;
+	zval *expr, *minimum, *maximum, *hidden_param, *z_one;
 	zval *next_hidden_param, *minimum_key, *maximum_key;
 	zval *conditions, *bind_params;
 
@@ -892,11 +891,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, notBetweenWhere){
 	PHALCON_OBS_VAR(hidden_param);
 	phalcon_read_property_this(&hidden_param, this_ptr, SL("_hiddenParamNumber"), PH_NOISY_CC);
 	
-	PHALCON_INIT_VAR(one);
-	ZVAL_LONG(one, 1);
+	z_one = PHALCON_GLOBAL(z_one);
 	
 	PHALCON_INIT_VAR(next_hidden_param);
-	phalcon_add_function(next_hidden_param, hidden_param, one TSRMLS_CC);
+	phalcon_add_function(next_hidden_param, hidden_param, z_one TSRMLS_CC);
 	
 	/** 
 	 * Minimum key with auto bind-params
@@ -918,14 +916,14 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, notBetweenWhere){
 	
 	PHALCON_INIT_VAR(bind_params);
 	array_init_size(bind_params, 2);
-	phalcon_array_update_zval(&bind_params, minimum_key, &minimum, PH_COPY | PH_SEPARATE);
-	phalcon_array_update_zval(&bind_params, maximum_key, &maximum, PH_COPY | PH_SEPARATE);
+	phalcon_array_update_zval(&bind_params, minimum_key, &minimum, PH_COPY);
+	phalcon_array_update_zval(&bind_params, maximum_key, &maximum, PH_COPY);
 	
 	/** 
 	 * Append the BETWEEN to the current conditions using and 'and'
 	 */
 	phalcon_call_method_p2_noret(this_ptr, "andwhere", conditions, bind_params);
-	PHALCON_SEPARATE(next_hidden_param);
+
 	phalcon_increment(next_hidden_param);
 	phalcon_update_property_this(this_ptr, SL("_hiddenParamNumber"), next_hidden_param TSRMLS_CC);
 	RETURN_THIS();
@@ -1274,7 +1272,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getGroupBy){
 PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getPhql){
 
 	zval *dependency_injector = NULL, *models, *conditions = NULL, *distinct;
-	zval *one, *number_models, *invalid_condition;
+	zval *z_one, *number_models, *invalid_condition;
 	zval *model = NULL, *service_name, *meta_data, *model_instance;
 	zval *no_primary = NULL, *primary_keys, *first_primary_key;
 	zval *column_map = NULL, *attribute_field = NULL, *exception_message;
@@ -1327,14 +1325,13 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getPhql){
 		 */
 		if (Z_TYPE_P(models) == IS_ARRAY) { 
 	
-			PHALCON_INIT_VAR(one);
-			ZVAL_LONG(one, 1);
+			z_one = PHALCON_GLOBAL(z_one);
 	
 			PHALCON_INIT_VAR(number_models);
 			phalcon_fast_count(number_models, models TSRMLS_CC);
 	
 			PHALCON_INIT_VAR(invalid_condition);
-			is_smaller_function(invalid_condition, one, number_models TSRMLS_CC);
+			is_smaller_function(invalid_condition, z_one, number_models TSRMLS_CC);
 			if (PHALCON_IS_TRUE(invalid_condition)) {
 				PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Cannot build the query. Invalid condition");
 				return;
@@ -1365,7 +1362,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getPhql){
 		}
 	
 		PHALCON_INIT_VAR(no_primary);
-		ZVAL_BOOL(no_primary, 1);
+		ZVAL_TRUE(no_primary);
 	
 		PHALCON_INIT_VAR(primary_keys);
 		phalcon_call_method_p1(primary_keys, meta_data, "getprimarykeyattributes", model_instance);
@@ -1403,7 +1400,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getPhql){
 				PHALCON_CONCAT_SVSVSV(primary_key_condition, "[", model, "].[", attribute_field, "] = ", conditions);
 				PHALCON_CPY_WRT(conditions, primary_key_condition);
 	
-				ZVAL_BOOL(no_primary, 0);
+				ZVAL_FALSE(no_primary);
 			}
 		}
 	

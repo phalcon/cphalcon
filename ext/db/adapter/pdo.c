@@ -285,19 +285,18 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, prepare){
 PHP_METHOD(Phalcon_Db_Adapter_Pdo, executePrepared){
 
 	zval *statement = NULL, *placeholders = NULL, *data_types = NULL;
-	zval *one, *value = NULL, *wildcard = NULL, *parameter = NULL, *type = NULL, *cast_value = NULL;
+	zval *z_one, *value = NULL, *wildcard = NULL, *parameter = NULL, *type = NULL, *cast_value = NULL;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
 
-	PHALCON_MM_GROW();
-
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zzz", &statement, &placeholders, &data_types) == FAILURE) {
-		RETURN_MM_NULL();
+		RETURN_NULL();
 	}
 
-	PHALCON_INIT_VAR(one);
-	ZVAL_LONG(one, 1);
+	PHALCON_MM_GROW();
+
+	z_one = PHALCON_GLOBAL(z_one);
 
 	phalcon_is_iterable(placeholders, &ah0, &hp0, 0, 0);
 
@@ -308,7 +307,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, executePrepared){
 
 		if (Z_TYPE_P(wildcard) == IS_LONG) {
 			PHALCON_INIT_NVAR(parameter);
-			phalcon_add_function(parameter, wildcard, one TSRMLS_CC);
+			phalcon_add_function(parameter, wildcard, z_one TSRMLS_CC);
 		} else {
 			if (Z_TYPE_P(wildcard) == IS_STRING) {
 				PHALCON_CPY_WRT(parameter, wildcard);

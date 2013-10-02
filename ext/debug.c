@@ -589,7 +589,7 @@ PHP_METHOD(Phalcon_Debug, showTraceItem){
 	zval *prepare_internal_class, *type, *function_name = NULL;
 	zval *function_reflection, *prepared_function_name;
 	zval *trace_args, *arguments, *argument = NULL, *dumped_argument = NULL;
-	zval *span_argument = NULL, *joined_arguments, *one;
+	zval *span_argument = NULL, *joined_arguments, *z_one;
 	zval *file, *line, *show_files, *lines, *number_lines;
 	zval *show_file_fragment, *before_context, *before_line;
 	zval *first_line = NULL, *after_context, *after_line, *last_line = NULL;
@@ -783,8 +783,7 @@ PHP_METHOD(Phalcon_Debug, showTraceItem){
 	 */
 	if (phalcon_array_isset_string(trace, SS("file"))) {
 	
-		PHALCON_INIT_VAR(one);
-		ZVAL_LONG(one, 1);
+		z_one = PHALCON_GLOBAL(z_one);
 	
 		PHALCON_OBS_VAR(file);
 		phalcon_array_fetch_string(&file, trace, SL("file"), PH_NOISY);
@@ -834,7 +833,7 @@ PHP_METHOD(Phalcon_Debug, showTraceItem){
 				 * Check for overflows
 				 */
 				if (PHALCON_LT_LONG(before_line, 1)) {
-					PHALCON_CPY_WRT(first_line, one);
+					PHALCON_CPY_WRT_CTOR(first_line, z_one);
 				} else {
 					PHALCON_CPY_WRT(first_line, before_line);
 				}
@@ -858,7 +857,7 @@ PHP_METHOD(Phalcon_Debug, showTraceItem){
 	
 				PHALCON_SCONCAT_SVSVSVS(html, "<pre class='prettyprint highlight:", first_line, ":", line, " linenums:", first_line, "'>");
 			} else {
-				PHALCON_CPY_WRT(first_line, one);
+				PHALCON_CPY_WRT_CTOR(first_line, z_one);
 				PHALCON_CPY_WRT(last_line, number_lines);
 				PHALCON_SCONCAT_SVSVS(html, "<pre class='prettyprint highlight:", first_line, ":", line, " linenums error-scroll'>");
 			}
@@ -881,7 +880,7 @@ PHP_METHOD(Phalcon_Debug, showTraceItem){
 				 * Current line in the file
 				 */
 				PHALCON_INIT_NVAR(line_position);
-				sub_function(line_position, i, one TSRMLS_CC);
+				sub_function(line_position, i, z_one TSRMLS_CC);
 	
 				/** 
 				 * Current line content in the piece of file

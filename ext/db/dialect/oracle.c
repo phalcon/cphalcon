@@ -774,30 +774,30 @@ PHP_METHOD(Phalcon_Db_Dialect_Oracle, select){
 	zval *order_expression = NULL, *order_sql_item = NULL, *sql_order_type = NULL;
 	zval *order_sql_item_type = NULL, *order_sql, *limit_value;
 	zval *number, *offset, *tmp1 = NULL, *tmp2 = NULL;
-	zval *one, *ini_range, *end_range = NULL, *sql_limit;
+	zval *z_one, *ini_range, *end_range = NULL, *sql_limit;
 	HashTable *ah0, *ah1, *ah2, *ah3, *ah4, *ah5;
 	HashPosition hp0, hp1, hp2, hp3, hp4, hp5;
 	zval **hd;
 
-	PHALCON_MM_GROW();
-
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &definition) == FAILURE) {
-		RETURN_MM_NULL();
+		RETURN_NULL();
 	}
 
 	if (Z_TYPE_P(definition) != IS_ARRAY) {
-		PHALCON_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "Invalid SELECT definition");
+		PHALCON_THROW_EXCEPTION_STRW(phalcon_db_exception_ce, "Invalid SELECT definition");
 		return;
 	}
 	if (!phalcon_array_isset_string(definition, SS("tables"))) {
-		PHALCON_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "The index 'tables' is required in the definition array");
+		PHALCON_THROW_EXCEPTION_STRW(phalcon_db_exception_ce, "The index 'tables' is required in the definition array");
 		return;
 	}
 
 	if (!phalcon_array_isset_string(definition, SS("columns"))) {
-		PHALCON_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "The index 'columns' is required in the definition array");
+		PHALCON_THROW_EXCEPTION_STRW(phalcon_db_exception_ce, "The index 'columns' is required in the definition array");
 		return;
 	}
+
+	PHALCON_MM_GROW();
 
 	if (PHALCON_GLOBAL(db).escape_identifiers) {
 		PHALCON_OBS_VAR(escape_char);
@@ -1132,11 +1132,10 @@ PHP_METHOD(Phalcon_Db_Dialect_Oracle, select){
 					ZVAL_LONG(tmp2, 0);
 				}
 
-				PHALCON_INIT_VAR(one);
-				ZVAL_LONG(one, 1);
+				z_one = PHALCON_GLOBAL(z_one);
 
 				PHALCON_INIT_VAR(ini_range);
-				phalcon_add_function(ini_range, tmp2, one TSRMLS_CC);
+				phalcon_add_function(ini_range, tmp2, z_one TSRMLS_CC);
 
 				PHALCON_INIT_VAR(end_range);
 				phalcon_add_function(end_range, tmp2, tmp1 TSRMLS_CC);

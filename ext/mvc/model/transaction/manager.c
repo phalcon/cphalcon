@@ -225,17 +225,12 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, getRollbackPendent){
  */
 PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, has){
 
-	zval *zero, *number;
+	zval *z_zero, *number;
 
-	PHALCON_MM_GROW();
-
-	PHALCON_INIT_VAR(zero);
-	ZVAL_LONG(zero, 0);
+	z_zero = PHALCON_GLOBAL(z_zero);
 	
-	PHALCON_OBS_VAR(number);
-	phalcon_read_property_this(&number, this_ptr, SL("_number"), PH_NOISY_CC);
-	is_smaller_function(return_value, zero, number TSRMLS_CC);
-	RETURN_MM();
+	number = phalcon_fetch_nproperty_this(this_ptr, SL("_number"), PH_NOISY_CC);
+	is_smaller_function(return_value, z_zero, number TSRMLS_CC);
 }
 
 /**
