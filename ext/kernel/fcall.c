@@ -298,7 +298,7 @@ static int phalcon_call_static_zval_str_func_vparams(zval *return_value, zval **
 
 	Z_ADDREF_P(mixed_name);
 
-	ALLOC_INIT_ZVAL(fn);
+	MAKE_STD_ZVAL(fn);
 	array_init_size(fn, 2);
 	add_next_index_zval(fn, mixed_name);
 	add_next_index_stringl(fn, method_name, method_len, 1);
@@ -379,7 +379,7 @@ int phalcon_call_func_params(zval *return_value, zval **return_value_ptr, const 
 }
 
 /**
- * @brief Calls methid @a method_name from @a object which accepts @a param_count arguments @a params
+ * @brief Calls method @a method_name from @a object which accepts @a param_count arguments @a params
  * @param[out] Return value; set to @c NULL if the return value is not needed
  * @param object Object
  * @param method_name Method name

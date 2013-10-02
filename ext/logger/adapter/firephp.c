@@ -81,8 +81,8 @@ PHP_METHOD(Phalcon_Logger_Adapter_Firephp, getFormatter){
 
 	formatter = phalcon_fetch_nproperty_this(this_ptr, SL("_formatter"), PH_NOISY_CC);
 	if (Z_TYPE_P(formatter) != IS_OBJECT) {
-		/* This will update $this->_formatter, no need to call phalcon_update_property_this() explicitly */
 		object_init_ex(return_value, phalcon_logger_formatter_firephp_ce);
+		phalcon_update_property_this(this_ptr, SL("_formatter"), return_value TSRMLS_CC);
 		return;
 	}
 
@@ -104,6 +104,7 @@ PHP_METHOD(Phalcon_Logger_Adapter_Firephp, logInternal){
 	sapi_header_line h = { NULL, 0, 0 };
 	smart_str str      = { NULL, 0, 0 };
 	int size, offset, num_bytes;
+	int separate_index = 0;
 	const int chunk = 4960;
 
 	/* If headers has already been sent, we can do nothing. Exit early. */
@@ -151,6 +152,11 @@ PHP_METHOD(Phalcon_Logger_Adapter_Firephp, logInternal){
 	index = phalcon_fetch_static_property_ce(phalcon_logger_adapter_firephp_ce, SL("_index") TSRMLS_CC);
 	assert(Z_TYPE_P(index) == IS_LONG);
 
+	if (Z_REFCOUNT_P(index) > 1) {
+		PHALCON_INIT_VAR(index);
+		separate_index = 1;
+	}
+
 	size   = Z_STRLEN_P(applied_format);
 	offset = 0;
 
@@ -189,7 +195,6 @@ PHP_METHOD(Phalcon_Logger_Adapter_Firephp, logInternal){
 		h.line_len = str.len;
 		sapi_header_op(SAPI_HEADER_REPLACE, &h TSRMLS_CC);
 
-		/* Update header index; this will update Phalcon\Logger\Adapter\Firephp::$index as well */
 		ZVAL_LONG(index, Z_LVAL_P(index)+1);
 
 		/**
@@ -197,6 +202,10 @@ PHP_METHOD(Phalcon_Logger_Adapter_Firephp, logInternal){
 		 * is empty. We will take care of deallocation later.
 		 */
 		str.len = 0;
+	}
+
+	if (separate_index) {
+		phalcon_update_static_property_ce(phalcon_logger_adapter_firephp_ce, SL("_index"), index TSRMLS_CC);
 	}
 
 	/* Deallocate the smnart string if it is not empty */

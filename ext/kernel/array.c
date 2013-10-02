@@ -346,7 +346,7 @@ int phalcon_array_append_long(zval **arr, long value, int separate) {
 
 	zval *zvalue;
 
-	ALLOC_INIT_ZVAL(zvalue);
+	MAKE_STD_ZVAL(zvalue);
 	Z_SET_REFCOUNT_P(zvalue, 0);
 	ZVAL_LONG(zvalue, value);
 
@@ -371,7 +371,7 @@ int phalcon_array_append_string(zval **arr, char *value, uint value_length, int 
 
 	zval *zvalue;
 
-	ALLOC_INIT_ZVAL(zvalue);
+	MAKE_STD_ZVAL(zvalue);
 	Z_SET_REFCOUNT_P(zvalue, 0);
 	ZVAL_STRINGL(zvalue, value, value_length, 1);
 
@@ -500,7 +500,7 @@ int phalcon_array_update_zval_string(zval **arr, zval *index, char *value, uint 
 
 	zval *zvalue;
 
-	ALLOC_INIT_ZVAL(zvalue);
+	MAKE_STD_ZVAL(zvalue);
 	ZVAL_STRINGL(zvalue, value, value_length, 1);
 
 	return phalcon_array_update_zval(arr, index, &zvalue, flags);

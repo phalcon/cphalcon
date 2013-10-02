@@ -47,15 +47,15 @@ void phalcon_throw_exception_string(zend_class_entry *ce, const char *message, z
 
 	zval *object, *msg;
 
-	ALLOC_INIT_ZVAL(object);
+	MAKE_STD_ZVAL(object);
 	object_init_ex(object, ce);
 
-	ALLOC_INIT_ZVAL(msg);
+	MAKE_STD_ZVAL(msg);
 	ZVAL_STRINGL(msg, message, message_len, 1);
 
-	phalcon_call_method_p1_noret(object, "__construct", msg);
-
-	zend_throw_exception_object(object TSRMLS_CC);
+	if (SUCCESS == phalcon_call_method_params(NULL, NULL, object, SL("__construct"), zend_inline_hash_func(SS("__construct")) TSRMLS_CC, 1, msg)) {
+		zend_throw_exception_object(object TSRMLS_CC);
+	}
 
 	zval_ptr_dtor(&msg);
 }
@@ -67,12 +67,12 @@ void phalcon_throw_exception_zval(zend_class_entry *ce, zval *message TSRMLS_DC)
 
 	zval *object;
 
-	ALLOC_INIT_ZVAL(object);
+	MAKE_STD_ZVAL(object);
 	object_init_ex(object, ce);
 
-	phalcon_call_method_p1_noret(object, "__construct", message);
-
-	zend_throw_exception_object(object TSRMLS_CC);
+	if (SUCCESS == phalcon_call_method_params(NULL, NULL, object, SL("__construct"), zend_inline_hash_func(SS("__construct")) TSRMLS_CC, 1, message)) {
+		zend_throw_exception_object(object TSRMLS_CC);
+	}
 }
 
 /**

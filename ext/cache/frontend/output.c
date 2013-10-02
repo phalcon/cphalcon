@@ -130,14 +130,7 @@ PHP_METHOD(Phalcon_Cache_Frontend_Output, getLifetime){
 
 	options = phalcon_fetch_nproperty_this(this_ptr, SL("_frontendOptions"), PH_NOISY_CC);
 	if (phalcon_array_isset_string_fetch(&lifetime, options, SS("lifetime"))) {
-		if (return_value_ptr) {
-			zval_ptr_dtor(return_value_ptr);
-			*return_value_ptr = lifetime;
-			Z_ADDREF_P(lifetime);
-		}
-		else {
-			RETURN_ZVAL(lifetime, 1, 0);
-		}
+		RETURN_ZVAL(lifetime, 1, 0);
 	}
 	else {
 		RETURN_LONG(1);

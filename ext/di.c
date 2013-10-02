@@ -624,10 +624,5 @@ PHP_METHOD(Phalcon_DI, getDefault){
  */
 PHP_METHOD(Phalcon_DI, reset){
 
-	zval *null_value;
-
-	ALLOC_INIT_ZVAL(null_value);
-	phalcon_update_static_property_ce(phalcon_di_ce, SL("_default"), null_value TSRMLS_CC);
-	zval_ptr_dtor(&null_value);
+	phalcon_update_static_property_ce(phalcon_di_ce, SL("_default"), PHALCON_GLOBAL(z_null) TSRMLS_CC);
 }
-

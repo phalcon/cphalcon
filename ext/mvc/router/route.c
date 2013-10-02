@@ -83,6 +83,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Route, __construct){
 
 	zval *pattern, *paths = NULL, *http_methods = NULL, *unique_id = NULL;
 	zval *route_id = NULL;
+	int separate = 0;
 
 	PHALCON_MM_GROW();
 
@@ -110,15 +111,22 @@ PHP_METHOD(Phalcon_Mvc_Router_Route, __construct){
 	 * Get the unique Id from the static member _uniqueId
 	 */
 	unique_id = phalcon_fetch_static_property_ce(phalcon_mvc_router_route_ce, SL("_uniqueId") TSRMLS_CC);
+	if (Z_REFCOUNT_P(unique_id) > 1) {
+		PHALCON_INIT_VAR(unique_id);
+		separate = 1;
+	}
+
 	if (Z_TYPE_P(unique_id) == IS_NULL) {
-		ZVAL_LONG(unique_id, 0); /* This updates the value of the static property as well */
+		ZVAL_LONG(unique_id, 0);
 	}
 	
 	PHALCON_CPY_WRT_CTOR(route_id, unique_id); /* route_id is now separated from unique_id */
 	phalcon_update_property_this(this_ptr, SL("_id"), route_id TSRMLS_CC);
 	
-	/* increment_function() will increment the value of the statis property as well */
 	increment_function(unique_id);
+	if (separate) {
+		phalcon_update_static_property_ce(phalcon_mvc_router_route_ce, SL("_uniqueId"), unique_id TSRMLS_CC);
+	}
 	
 	PHALCON_MM_RESTORE();
 }
@@ -696,11 +704,5 @@ PHP_METHOD(Phalcon_Mvc_Router_Route, getConverters){
  */
 PHP_METHOD(Phalcon_Mvc_Router_Route, reset){
 
-	zval *zero;
-
-	MAKE_STD_ZVAL(zero);
-	ZVAL_LONG(zero, 0);
-	phalcon_update_static_property_ce(phalcon_mvc_router_route_ce, SL("_uniqueId"), zero TSRMLS_CC);
-	zval_ptr_dtor(&zero);
+	phalcon_update_static_property_ce(phalcon_mvc_router_route_ce, SL("_uniqueId"), PHALCON_GLOBAL(z_zero) TSRMLS_CC);
 }
-

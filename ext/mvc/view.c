@@ -1516,17 +1516,12 @@ PHP_METHOD(Phalcon_Mvc_View, _createCache){
  */
 PHP_METHOD(Phalcon_Mvc_View, isCaching){
 
-	zval *zero, *cache_level;
+	zval *z_zero, *cache_level;
 
-	PHALCON_MM_GROW();
-
-	PHALCON_INIT_VAR(zero);
-	ZVAL_LONG(zero, 0);
+	z_zero = PHALCON_GLOBAL(z_zero);
 	
-	PHALCON_OBS_VAR(cache_level);
-	phalcon_read_property_this(&cache_level, this_ptr, SL("_cacheLevel"), PH_NOISY_CC);
-	is_smaller_function(return_value, zero, cache_level TSRMLS_CC);
-	RETURN_MM();
+	cache_level = phalcon_fetch_nproperty_this(this_ptr, SL("_cacheLevel"), PH_NOISY_CC);
+	is_smaller_function(return_value, z_zero, cache_level TSRMLS_CC);
 }
 
 /**
@@ -1720,20 +1715,19 @@ PHP_METHOD(Phalcon_Mvc_View, enable){
  */
 PHP_METHOD(Phalcon_Mvc_View, reset){
 
-	zval *znull;
+	zval *z_null  = PHALCON_GLOBAL(z_null);
+	zval *z_false = PHALCON_GLOBAL(z_false);
+	zval *z_zero  = PHALCON_GLOBAL(z_zero);
 
-	PHALCON_MM_GROW();
-
-	PHALCON_INIT_VAR(znull);
-	phalcon_update_property_bool(this_ptr, SL("_disabled"), 0 TSRMLS_CC);
-	phalcon_update_property_bool(this_ptr, SL("_engines"), 0 TSRMLS_CC);
-	phalcon_update_property_this(this_ptr, SL("_cache"), znull TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_disabled"), z_false TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_engines"), z_false TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_cache"), z_null TSRMLS_CC);
 	phalcon_update_property_long(this_ptr, SL("_renderLevel"), 5 TSRMLS_CC);
-	phalcon_update_property_long(this_ptr, SL("_cacheLevel"), 0 TSRMLS_CC);
-	phalcon_update_property_this(this_ptr, SL("_content"), znull TSRMLS_CC);
-	phalcon_update_property_this(this_ptr, SL("_templatesBefore"), znull TSRMLS_CC);
-	phalcon_update_property_this(this_ptr, SL("_templatesAfter"), znull TSRMLS_CC);
-	RETURN_THIS();
+	phalcon_update_property_zval(this_ptr, SL("_cacheLevel"), z_zero TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_content"), z_null TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_templatesBefore"), z_null TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_templatesAfter"), z_null TSRMLS_CC);
+	RETURN_THISW();
 }
 
 /**

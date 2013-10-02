@@ -93,7 +93,7 @@ PHP_METHOD(Phalcon_Logger_Formatter_Firephp, getTypeString) {
  */
 PHP_METHOD(Phalcon_Logger_Formatter_Firephp, format) {
 
-	zval *message, *type, *type_str, *timestamp;
+	zval *message, *type, *type_str = NULL, *timestamp;
 	zval *payload, *backtrace, *meta, *encoded;
 	smart_str result = { NULL, 0, 0 };
 	int i;
@@ -110,8 +110,9 @@ PHP_METHOD(Phalcon_Logger_Formatter_Firephp, format) {
 	 * and we will just save some time by not using Z_ADDREF_P and Z_DELREF_P
 	 */
 
-	PHALCON_ALLOC_ZVAL(type_str);
-	phalcon_call_method_p1(type_str, this_ptr, "gettypestring", type);
+	if (FAILURE == phalcon_call_method_params(type_str, &type_str, this_ptr, SL("gettypestring"), zend_inline_hash_func(SS("gettypestring")) TSRMLS_CC, 1, type)) {
+		return;
+	}
 
 	/**
 	 * Get the backtrace. This differs for differemt PHP versions.
