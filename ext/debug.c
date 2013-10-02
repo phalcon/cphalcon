@@ -589,7 +589,7 @@ PHP_METHOD(Phalcon_Debug, showTraceItem){
 	zval *prepare_internal_class, *type, *function_name = NULL;
 	zval *function_reflection, *prepared_function_name;
 	zval *trace_args, *arguments, *argument = NULL, *dumped_argument = NULL;
-	zval *span_argument = NULL, *joined_arguments, *one;
+	zval *span_argument = NULL, *joined_arguments, *z_one;
 	zval *file, *line, *show_files, *lines, *number_lines;
 	zval *show_file_fragment, *before_context, *before_line;
 	zval *first_line = NULL, *after_context, *after_line, *last_line = NULL;
@@ -783,8 +783,7 @@ PHP_METHOD(Phalcon_Debug, showTraceItem){
 	 */
 	if (phalcon_array_isset_string(trace, SS("file"))) {
 	
-		PHALCON_INIT_VAR(one);
-		ZVAL_LONG(one, 1);
+		z_one = PHALCON_GLOBAL(z_one);
 	
 		PHALCON_OBS_VAR(file);
 		phalcon_array_fetch_string(&file, trace, SL("file"), PH_NOISY);
@@ -834,7 +833,7 @@ PHP_METHOD(Phalcon_Debug, showTraceItem){
 				 * Check for overflows
 				 */
 				if (PHALCON_LT_LONG(before_line, 1)) {
-					PHALCON_CPY_WRT(first_line, one);
+					PHALCON_CPY_WRT_CTOR(first_line, z_one);
 				} else {
 					PHALCON_CPY_WRT(first_line, before_line);
 				}
@@ -858,7 +857,7 @@ PHP_METHOD(Phalcon_Debug, showTraceItem){
 	
 				PHALCON_SCONCAT_SVSVSVS(html, "<pre class='prettyprint highlight:", first_line, ":", line, " linenums:", first_line, "'>");
 			} else {
-				PHALCON_CPY_WRT(first_line, one);
+				PHALCON_CPY_WRT_CTOR(first_line, z_one);
 				PHALCON_CPY_WRT(last_line, number_lines);
 				PHALCON_SCONCAT_SVSVS(html, "<pre class='prettyprint highlight:", first_line, ":", line, " linenums error-scroll'>");
 			}
@@ -881,7 +880,7 @@ PHP_METHOD(Phalcon_Debug, showTraceItem){
 				 * Current line in the file
 				 */
 				PHALCON_INIT_NVAR(line_position);
-				sub_function(line_position, i, one TSRMLS_CC);
+				sub_function(line_position, i, z_one TSRMLS_CC);
 	
 				/** 
 				 * Current line content in the piece of file
@@ -959,6 +958,7 @@ PHP_METHOD(Phalcon_Debug, onUncaughtException){
 	HashTable *ah0, *ah1, *ah2, *ah3, *ah4;
 	HashPosition hp0, hp1, hp2, hp3, hp4;
 	zval **hd;
+	zval *z_true, *z_false;
 
 	PHALCON_MM_GROW();
 
@@ -985,7 +985,9 @@ PHP_METHOD(Phalcon_Debug, onUncaughtException){
 	/** 
 	 * Globally block the debug component to avoid other exceptions must be shown
 	 */
-	phalcon_update_static_property_ce(phalcon_debug_ce, SL("_isActive"), PHALCON_GLOBAL(z_true) TSRMLS_CC);
+	PHALCON_INIT_VAR(z_true);
+	ZVAL_TRUE(z_true);
+	phalcon_update_static_property_ce(phalcon_debug_ce, SL("_isActive"), z_true TSRMLS_CC);
 	
 	PHALCON_INIT_VAR(class_name);
 	phalcon_get_class(class_name, exception, 0 TSRMLS_CC);
@@ -1207,7 +1209,9 @@ PHP_METHOD(Phalcon_Debug, onUncaughtException){
 	/** 
 	 * Unlock the exception renderer
 	 */
-	phalcon_update_static_property_ce(phalcon_debug_ce, SL("_isActive"), PHALCON_GLOBAL(z_false) TSRMLS_CC);
+	PHALCON_INIT_VAR(z_false);
+	ZVAL_FALSE(z_false);
+	phalcon_update_static_property_ce(phalcon_debug_ce, SL("_isActive"), z_false TSRMLS_CC);
 	RETURN_MM_TRUE;
 }
 

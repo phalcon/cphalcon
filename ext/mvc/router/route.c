@@ -703,4 +703,3 @@ PHP_METHOD(Phalcon_Mvc_Router_Route, reset){
 	phalcon_update_static_property_ce(phalcon_mvc_router_route_ce, SL("_uniqueId"), zero TSRMLS_CC);
 	zval_ptr_dtor(&zero);
 }
-

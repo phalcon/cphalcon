@@ -1164,7 +1164,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, _exists){
 
 	zval *collection, *id, *mongo_id = NULL, *models_manager;
 	zval *use_implicit_ids, *parameters, *document_count;
-	zval *zero;
+	zval *z_zero;
 	zend_class_entry *ce0;
 
 	PHALCON_MM_GROW();
@@ -1209,9 +1209,8 @@ PHP_METHOD(Phalcon_Mvc_Collection, _exists){
 		PHALCON_INIT_VAR(document_count);
 		phalcon_call_method_p1(document_count, collection, "count", parameters);
 	
-		PHALCON_INIT_VAR(zero);
-		ZVAL_LONG(zero, 0);
-		is_smaller_function(return_value, zero, document_count TSRMLS_CC);
+		z_zero = PHALCON_GLOBAL(z_zero);
+		is_smaller_function(return_value, z_zero, document_count TSRMLS_CC);
 	
 		RETURN_MM();
 	}

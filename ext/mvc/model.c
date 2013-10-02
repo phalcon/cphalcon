@@ -1126,7 +1126,7 @@ PHP_METHOD(Phalcon_Mvc_Model, find){
 PHP_METHOD(Phalcon_Mvc_Model, findFirst){
 
 	zval *parameters = NULL, *model_name, *params = NULL, *builder;
-	zval *one, *query, *bind_params = NULL, *bind_types = NULL, *cache;
+	zval *z_one, *query, *bind_params = NULL, *bind_types = NULL, *cache;
 	zval *unique;
 
 	PHALCON_MM_GROW();
@@ -1162,9 +1162,8 @@ PHP_METHOD(Phalcon_Mvc_Model, findFirst){
 	/** 
 	 * We only want the first record
 	 */
-	PHALCON_INIT_VAR(one);
-	ZVAL_LONG(one, 1);
-	phalcon_call_method_p1_noret(builder, "limit", one);
+	z_one = PHALCON_GLOBAL(z_one);
+	phalcon_call_method_p1_noret(builder, "limit", z_one);
 	
 	PHALCON_INIT_VAR(query);
 	phalcon_call_method(query, builder, "getquery");

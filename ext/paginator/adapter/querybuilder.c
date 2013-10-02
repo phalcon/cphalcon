@@ -139,7 +139,7 @@ PHP_METHOD(Phalcon_Paginator_Adapter_QueryBuilder, setCurrentPage){
 PHP_METHOD(Phalcon_Paginator_Adapter_QueryBuilder, getPaginate){
 
 	zval *original_builder, *builder, *total_builder;
-	zval *limit, *number_page = NULL, *one, *prev_number_page;
+	zval *limit, *number_page = NULL, *z_one, *prev_number_page;
 	zval *number, *query, *page, *before = NULL, *items, *select_count;
 	zval *null_order, *total_query, *result, *row, *rowcount;
 	zval *total_pages = NULL, *int_total_pages, *next = NULL;
@@ -171,14 +171,13 @@ PHP_METHOD(Phalcon_Paginator_Adapter_QueryBuilder, getPaginate){
 	PHALCON_OBS_VAR(number_page);
 	phalcon_read_property_this(&number_page, this_ptr, SL("_page"), PH_NOISY_CC);
 	
-	PHALCON_INIT_VAR(one);
-	ZVAL_LONG(one, 1);
+	z_one = PHALCON_GLOBAL(z_one);
 	if (!zend_is_true(number_page)) {
-		PHALCON_CPY_WRT(number_page, one);
+		PHALCON_CPY_WRT_CTOR(number_page, z_one);
 	}
 	
 	PHALCON_INIT_VAR(prev_number_page);
-	sub_function(prev_number_page, number_page, one TSRMLS_CC);
+	sub_function(prev_number_page, number_page, z_one TSRMLS_CC);
 	
 	PHALCON_INIT_VAR(number);
 	mul_function(number, limit, prev_number_page TSRMLS_CC);
@@ -197,12 +196,12 @@ PHP_METHOD(Phalcon_Paginator_Adapter_QueryBuilder, getPaginate){
 	
 	PHALCON_INIT_VAR(page);
 	object_init(page);
-	phalcon_update_property_zval(page, SL("first"), one TSRMLS_CC);
-	if (PHALCON_IS_EQUAL(number_page, one)) {
-		PHALCON_CPY_WRT(before, one);
+	phalcon_update_property_zval(page, SL("first"), z_one TSRMLS_CC);
+	if (PHALCON_IS_EQUAL(number_page, z_one)) {
+		PHALCON_CPY_WRT_CTOR(before, z_one);
 	} else {
 		PHALCON_INIT_NVAR(before);
-		sub_function(before, number_page, one TSRMLS_CC);
+		sub_function(before, number_page, z_one TSRMLS_CC);
 	}
 	
 	phalcon_update_property_zval(page, SL("before"), before TSRMLS_CC);
@@ -252,12 +251,12 @@ PHP_METHOD(Phalcon_Paginator_Adapter_QueryBuilder, getPaginate){
 	PHALCON_INIT_VAR(int_total_pages);
 	ZVAL_LONG(int_total_pages, phalcon_get_intval(total_pages));
 	if (!PHALCON_IS_EQUAL(int_total_pages, total_pages)) {
-		phalcon_add_function(total_pages, int_total_pages, one TSRMLS_CC);
+		phalcon_add_function(total_pages, int_total_pages, z_one TSRMLS_CC);
 	}
 	
 	if (PHALCON_LT(number_page, total_pages)) {
 		PHALCON_INIT_VAR(next);
-		phalcon_add_function(next, number_page, one TSRMLS_CC);
+		phalcon_add_function(next, number_page, z_one TSRMLS_CC);
 	} else {
 		PHALCON_CPY_WRT(next, total_pages);
 	}

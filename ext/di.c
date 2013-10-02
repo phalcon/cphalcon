@@ -630,4 +630,3 @@ PHP_METHOD(Phalcon_DI, reset){
 	phalcon_update_static_property_ce(phalcon_di_ce, SL("_default"), null_value TSRMLS_CC);
 	zval_ptr_dtor(&null_value);
 }
-
