@@ -36,16 +36,26 @@ PHP_METHOD(Phalcon_Tag, resetInput);
 PHP_METHOD(Phalcon_Tag, linkTo);
 PHP_METHOD(Phalcon_Tag, _inputField);
 PHP_METHOD(Phalcon_Tag, _inputFieldChecked);
+PHP_METHOD(Phalcon_Tag, colorField);
 PHP_METHOD(Phalcon_Tag, textField);
 PHP_METHOD(Phalcon_Tag, numericField);
+PHP_METHOD(Phalcon_Tag, rangeField);
 PHP_METHOD(Phalcon_Tag, emailField);
 PHP_METHOD(Phalcon_Tag, dateField);
+PHP_METHOD(Phalcon_Tag, dateTimeField);
+PHP_METHOD(Phalcon_Tag, dateTimeLocalField);
+PHP_METHOD(Phalcon_Tag, monthField);
+PHP_METHOD(Phalcon_Tag, timeField);
+PHP_METHOD(Phalcon_Tag, weekField);
 PHP_METHOD(Phalcon_Tag, passwordField);
 PHP_METHOD(Phalcon_Tag, hiddenField);
 PHP_METHOD(Phalcon_Tag, fileField);
 PHP_METHOD(Phalcon_Tag, checkField);
 PHP_METHOD(Phalcon_Tag, radioField);
 PHP_METHOD(Phalcon_Tag, imageInput);
+PHP_METHOD(Phalcon_Tag, searchField);
+PHP_METHOD(Phalcon_Tag, telField);
+PHP_METHOD(Phalcon_Tag, urlField);
 PHP_METHOD(Phalcon_Tag, submitButton);
 PHP_METHOD(Phalcon_Tag, selectStatic);
 PHP_METHOD(Phalcon_Tag, select);
@@ -96,47 +106,7 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_tag_linkto, 0, 0, 1)
 	ZEND_ARG_INFO(0, text)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_tag_textfield, 0, 0, 1)
-	ZEND_ARG_INFO(0, parameters)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_tag_numericfield, 0, 0, 1)
-	ZEND_ARG_INFO(0, parameters)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_tag_emailfield, 0, 0, 1)
-	ZEND_ARG_INFO(0, parameters)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_tag_datefield, 0, 0, 1)
-	ZEND_ARG_INFO(0, parameters)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_tag_passwordfield, 0, 0, 1)
-	ZEND_ARG_INFO(0, parameters)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_tag_hiddenfield, 0, 0, 1)
-	ZEND_ARG_INFO(0, parameters)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_tag_filefield, 0, 0, 1)
-	ZEND_ARG_INFO(0, parameters)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_tag_checkfield, 0, 0, 1)
-	ZEND_ARG_INFO(0, parameters)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_tag_radiofield, 0, 0, 1)
-	ZEND_ARG_INFO(0, parameters)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_tag_imageinput, 0, 0, 1)
-	ZEND_ARG_INFO(0, parameters)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_tag_submitbutton, 0, 0, 1)
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_tag_generic_field, 0, 0, 1)
 	ZEND_ARG_INFO(0, parameters)
 ZEND_END_ARG_INFO()
 
@@ -228,17 +198,27 @@ PHALCON_INIT_FUNCS(phalcon_tag_method_entry){
 	PHP_ME(Phalcon_Tag, linkTo, arginfo_phalcon_tag_linkto, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC) 
 	PHP_ME(Phalcon_Tag, _inputField, NULL, ZEND_ACC_STATIC|ZEND_ACC_PROTECTED) 
 	PHP_ME(Phalcon_Tag, _inputFieldChecked, NULL, ZEND_ACC_STATIC|ZEND_ACC_PROTECTED) 
-	PHP_ME(Phalcon_Tag, textField, arginfo_phalcon_tag_textfield, ZEND_ACC_STATIC|ZEND_ACC_PUBLIC) 
-	PHP_ME(Phalcon_Tag, numericField, arginfo_phalcon_tag_numericfield, ZEND_ACC_STATIC|ZEND_ACC_PUBLIC) 
-	PHP_ME(Phalcon_Tag, emailField, arginfo_phalcon_tag_emailfield, ZEND_ACC_STATIC|ZEND_ACC_PUBLIC) 
-	PHP_ME(Phalcon_Tag, dateField, arginfo_phalcon_tag_datefield, ZEND_ACC_STATIC|ZEND_ACC_PUBLIC) 
-	PHP_ME(Phalcon_Tag, passwordField, arginfo_phalcon_tag_passwordfield, ZEND_ACC_STATIC|ZEND_ACC_PUBLIC) 
-	PHP_ME(Phalcon_Tag, hiddenField, arginfo_phalcon_tag_hiddenfield, ZEND_ACC_STATIC|ZEND_ACC_PUBLIC) 
-	PHP_ME(Phalcon_Tag, fileField, arginfo_phalcon_tag_filefield, ZEND_ACC_STATIC|ZEND_ACC_PUBLIC) 
-	PHP_ME(Phalcon_Tag, checkField, arginfo_phalcon_tag_checkfield, ZEND_ACC_STATIC|ZEND_ACC_PUBLIC) 
-	PHP_ME(Phalcon_Tag, radioField, arginfo_phalcon_tag_radiofield, ZEND_ACC_STATIC|ZEND_ACC_PUBLIC) 
-	PHP_ME(Phalcon_Tag, imageInput, arginfo_phalcon_tag_imageinput, ZEND_ACC_STATIC|ZEND_ACC_PUBLIC) 
-	PHP_ME(Phalcon_Tag, submitButton, arginfo_phalcon_tag_submitbutton, ZEND_ACC_STATIC|ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Tag, colorField, arginfo_phalcon_tag_generic_field, ZEND_ACC_STATIC|ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Tag, textField, arginfo_phalcon_tag_generic_field, ZEND_ACC_STATIC|ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Tag, numericField, arginfo_phalcon_tag_generic_field, ZEND_ACC_STATIC|ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Tag, rangeField, arginfo_phalcon_tag_generic_field, ZEND_ACC_STATIC|ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Tag, emailField, arginfo_phalcon_tag_generic_field, ZEND_ACC_STATIC|ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Tag, dateField, arginfo_phalcon_tag_generic_field, ZEND_ACC_STATIC|ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Tag, dateTimeField, arginfo_phalcon_tag_generic_field, ZEND_ACC_STATIC|ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Tag, dateTimeLocalField, arginfo_phalcon_tag_generic_field, ZEND_ACC_STATIC|ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Tag, monthField, arginfo_phalcon_tag_generic_field, ZEND_ACC_STATIC|ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Tag, timeField, arginfo_phalcon_tag_generic_field, ZEND_ACC_STATIC|ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Tag, weekField, arginfo_phalcon_tag_generic_field, ZEND_ACC_STATIC|ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Tag, passwordField, arginfo_phalcon_tag_generic_field, ZEND_ACC_STATIC|ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Tag, hiddenField, arginfo_phalcon_tag_generic_field, ZEND_ACC_STATIC|ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Tag, searchField, arginfo_phalcon_tag_generic_field, ZEND_ACC_STATIC|ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Tag, telField, arginfo_phalcon_tag_generic_field, ZEND_ACC_STATIC|ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Tag, urlField, arginfo_phalcon_tag_generic_field, ZEND_ACC_STATIC|ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Tag, fileField, arginfo_phalcon_tag_generic_field, ZEND_ACC_STATIC|ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Tag, checkField, arginfo_phalcon_tag_generic_field, ZEND_ACC_STATIC|ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Tag, radioField, arginfo_phalcon_tag_generic_field, ZEND_ACC_STATIC|ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Tag, imageInput, arginfo_phalcon_tag_generic_field, ZEND_ACC_STATIC|ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Tag, submitButton, arginfo_phalcon_tag_generic_field, ZEND_ACC_STATIC|ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Tag, selectStatic, arginfo_phalcon_tag_selectstatic, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC) 
 	PHP_ME(Phalcon_Tag, select, arginfo_phalcon_tag_select, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC) 
 	PHP_ME(Phalcon_Tag, textArea, arginfo_phalcon_tag_textarea, ZEND_ACC_STATIC|ZEND_ACC_PUBLIC) 
@@ -258,4 +238,3 @@ PHALCON_INIT_FUNCS(phalcon_tag_method_entry){
 	PHP_ME(Phalcon_Tag, tagHtmlClose, arginfo_phalcon_tag_taghtmlclose, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC) 
 	PHP_FE_END
 };
-
