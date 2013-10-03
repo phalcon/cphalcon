@@ -104,11 +104,13 @@ PHP_METHOD(Phalcon_Events_Event, getData) {
  */
 PHP_METHOD(Phalcon_Events_Event, __construct) {
 
-	zval *type, *source, *data = NULL, *cancelable = NULL;
+	zval *type_param = NULL, *source, *data = NULL, *cancelable = NULL;
+	zval *type = NULL;
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 2, 2, &type, &source, &data, &cancelable);
+	zephir_fetch_params(1, 2, 2, &type_param, &source, &data, &cancelable);
 
+		zephir_get_strval(type, type_param);
 	if (!data) {
 		ZEPHIR_CPY_WRT(data, ZEPHIR_GLOBAL(global_null));
 	}

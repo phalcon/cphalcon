@@ -12,7 +12,6 @@
 #include <Zend/zend_interfaces.h>
 
 #include "kernel/main.h"
-#include "kernel/exception.h"
 #include "kernel/array.h"
 #include "kernel/object.h"
 #include "kernel/memory.h"
@@ -76,10 +75,6 @@ PHP_METHOD(Phalcon_Cache_Backend, __construct) {
 	}
 
 
-	if ((Z_TYPE_P(frontend) != IS_OBJECT)) {
-		ZEPHIR_THROW_EXCEPTION_STR(phalcon_cache_exception_ce, "Frontend must be an Object");
-		return;
-	}
 	if (zephir_array_isset_string_fetch(&prefix, options, SS("prefix"), 1 TSRMLS_CC)) {
 		zephir_update_property_this(this_ptr, SL("_prefix"), prefix TSRMLS_CC);
 	}
@@ -136,17 +131,20 @@ PHP_METHOD(Phalcon_Cache_Backend, start) {
  */
 PHP_METHOD(Phalcon_Cache_Backend, stop) {
 
-	zval *stopBuffer = NULL, *frontend;
+	zval *stopBuffer_param = NULL, *frontend;
+	zend_bool stopBuffer;
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 0, 1, &stopBuffer);
+	zephir_fetch_params(1, 0, 1, &stopBuffer_param);
 
-	if (!stopBuffer) {
-		ZEPHIR_CPY_WRT(stopBuffer, ZEPHIR_GLOBAL(global_true));
+	if (!stopBuffer_param) {
+		stopBuffer = 1;
+	} else {
+		stopBuffer = zephir_get_boolval(stopBuffer_param);
 	}
 
 
-	if (ZEPHIR_IS_TRUE(stopBuffer)) {
+	if ((stopBuffer == 1)) {
 		frontend = zephir_fetch_nproperty_this(this_ptr, SL("_frontend"), PH_NOISY_CC);
 		zephir_call_method_noret(frontend, "stop");
 	}

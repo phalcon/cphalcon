@@ -73,7 +73,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Cache_Backend_Apc) {
 /**
  * Returns a cached content
  *
- * @param 	string keyName
+ * @param 	string|long keyName
  * @param   long lifetime
  * @return  mixed
  */
@@ -110,7 +110,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Apc, get) {
 /**
  * Stores cached content into the APC backend and stops the frontend
  *
- * @param string keyName
+ * @param string|long keyName
  * @param string content
  * @param long lifetime
  * @param boolean stopBuffer
@@ -236,7 +236,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Apc, queryKeys) {
 /**
  * Checks if cache exists and it hasn't expired
  *
- * @param  string keyName
+ * @param  string|long keyName
  * @param  long lifetime
  * @return boolean
  */

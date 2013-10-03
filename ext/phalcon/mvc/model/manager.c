@@ -1770,6 +1770,291 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, clearReusableObjects) {
 }
 
 /**
+ * Gets belongsTo related records from a model
+ *
+ * @param string $method
+ * @param string $modelName
+ * @param string $modelRelation
+ * @param Phalcon\Mvc\Model $record
+ * @param array $parameters
+ * @return Phalcon\Mvc\Model\ResultsetInterface
+ */
+PHP_METHOD(Phalcon_Mvc_Model_Manager, getBelongsToRecords) {
+
+	zval *method_param = NULL, *modelName_param = NULL, *modelRelation, *record, *parameters = NULL, *belongsTo, *keyRelation, *relations, *_0, *_1, *_2, *_3;
+	zval *method = NULL, *modelName = NULL;
+
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 4, 1, &method_param, &modelName_param, &modelRelation, &record, &parameters);
+
+		zephir_get_strval(method, method_param);
+		zephir_get_strval(modelName, modelName_param);
+	if (!parameters) {
+		ZEPHIR_CPY_WRT(parameters, ZEPHIR_GLOBAL(global_null));
+	}
+
+
+	belongsTo = zephir_fetch_nproperty_this(this_ptr, SL("_hasMany"), PH_NOISY_CC);
+	if ((Z_TYPE_P(belongsTo) == IS_ARRAY)) {
+		ZEPHIR_INIT_VAR(_0);
+		zephir_call_func_p1(_0, "strtolower", modelName);
+		ZEPHIR_INIT_VAR(_1);
+		ZEPHIR_CONCAT_VS(_1, _0, "$");
+		ZEPHIR_INIT_VAR(_2);
+		zephir_call_func_p1(_2, "strtolower", modelRelation);
+		ZEPHIR_INIT_VAR(keyRelation);
+		concat_function(keyRelation, _1, _2 TSRMLS_CC);
+		if (!(zephir_array_isset(belongsTo, keyRelation))) {
+			RETURN_MM_BOOL(0);
+		}
+		zephir_array_fetch(&relations, belongsTo, keyRelation, PH_NOISY | PH_READONLY TSRMLS_CC);
+		zephir_array_fetch_long(&_3, relations, 0, PH_NOISY | PH_READONLY TSRMLS_CC);
+		zephir_call_method_p4(return_value, this_ptr, "getrelationrecords", _3, method, record, parameters);
+		RETURN_MM();
+	}
+	RETURN_MM_BOOL(0);
+
+}
+
+/**
+ * Gets hasMany related records from a model
+ *
+ * @param string $method
+ * @param string $modelName
+ * @param string $modelRelation
+ * @param Phalcon\Mvc\Model $record
+ * @param array $parameters
+ * @return Phalcon\Mvc\Model\ResultsetInterface
+ */
+PHP_METHOD(Phalcon_Mvc_Model_Manager, getHasManyRecords) {
+
+	zval *method_param = NULL, *modelName_param = NULL, *modelRelation, *record, *parameters = NULL, *hasMany, *keyRelation, *relations, *_0, *_1, *_2, *_3;
+	zval *method = NULL, *modelName = NULL;
+
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 4, 1, &method_param, &modelName_param, &modelRelation, &record, &parameters);
+
+		zephir_get_strval(method, method_param);
+		zephir_get_strval(modelName, modelName_param);
+	if (!parameters) {
+		ZEPHIR_CPY_WRT(parameters, ZEPHIR_GLOBAL(global_null));
+	}
+
+
+	hasMany = zephir_fetch_nproperty_this(this_ptr, SL("_hasMany"), PH_NOISY_CC);
+	if ((Z_TYPE_P(hasMany) == IS_ARRAY)) {
+		ZEPHIR_INIT_VAR(_0);
+		zephir_call_func_p1(_0, "strtolower", modelName);
+		ZEPHIR_INIT_VAR(_1);
+		ZEPHIR_CONCAT_VS(_1, _0, "$");
+		ZEPHIR_INIT_VAR(_2);
+		zephir_call_func_p1(_2, "strtolower", modelRelation);
+		ZEPHIR_INIT_VAR(keyRelation);
+		concat_function(keyRelation, _1, _2 TSRMLS_CC);
+		if (!(zephir_array_isset(hasMany, keyRelation))) {
+			RETURN_MM_BOOL(0);
+		}
+		zephir_array_fetch(&relations, hasMany, keyRelation, PH_NOISY | PH_READONLY TSRMLS_CC);
+		zephir_array_fetch_long(&_3, relations, 0, PH_NOISY | PH_READONLY TSRMLS_CC);
+		zephir_call_method_p4(return_value, this_ptr, "getrelationrecords", _3, method, record, parameters);
+		RETURN_MM();
+	}
+	RETURN_MM_BOOL(0);
+
+}
+
+/**
+ * Gets belongsTo related records from a model
+ *
+ * @param string method
+ * @param string modelName
+ * @param string modelRelation
+ * @param Phalcon\Mvc\ModelInterface record
+ * @param array parameters
+ * @return Phalcon\Mvc\ModelInterface
+ */
+PHP_METHOD(Phalcon_Mvc_Model_Manager, getHasOneRecords) {
+
+	zval *method_param = NULL, *modelName_param = NULL, *modelRelation, *record, *parameters = NULL, *hasOne, *keyRelation, *relations, *_0, *_1, *_2, *_3;
+	zval *method = NULL, *modelName = NULL;
+
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 4, 1, &method_param, &modelName_param, &modelRelation, &record, &parameters);
+
+		zephir_get_strval(method, method_param);
+		zephir_get_strval(modelName, modelName_param);
+	if (!parameters) {
+		ZEPHIR_CPY_WRT(parameters, ZEPHIR_GLOBAL(global_null));
+	}
+
+
+	hasOne = zephir_fetch_nproperty_this(this_ptr, SL("_hasOne"), PH_NOISY_CC);
+	if ((Z_TYPE_P(hasOne) == IS_ARRAY)) {
+		ZEPHIR_INIT_VAR(_0);
+		zephir_call_func_p1(_0, "strtolower", modelName);
+		ZEPHIR_INIT_VAR(_1);
+		ZEPHIR_CONCAT_VS(_1, _0, "$");
+		ZEPHIR_INIT_VAR(_2);
+		zephir_call_func_p1(_2, "strtolower", modelRelation);
+		ZEPHIR_INIT_VAR(keyRelation);
+		concat_function(keyRelation, _1, _2 TSRMLS_CC);
+		if (!(zephir_array_isset(hasOne, keyRelation))) {
+			RETURN_MM_BOOL(0);
+		}
+		zephir_array_fetch(&relations, hasOne, keyRelation, PH_NOISY | PH_READONLY TSRMLS_CC);
+		zephir_array_fetch_long(&_3, relations, 0, PH_NOISY | PH_READONLY TSRMLS_CC);
+		zephir_call_method_p4(return_value, this_ptr, "getrelationrecords", _3, method, record, parameters);
+		RETURN_MM();
+	}
+	RETURN_MM_BOOL(0);
+
+}
+
+/**
+ * Gets all the belongsTo relations defined in a model
+ *
+ *<code>
+ *	$relations = $modelsManager->getBelongsTo(new Robots());
+ *</code>
+ *
+ * @param  Phalcon\Mvc\ModelInterface model
+ * @return Phalcon\Mvc\Model\RelationInterface[]
+ */
+PHP_METHOD(Phalcon_Mvc_Model_Manager, getBelongsTo) {
+
+	zval *model, *belongsToSingle, *relations, *_0;
+
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 1, 0, &model);
+
+
+
+	belongsToSingle = zephir_fetch_nproperty_this(this_ptr, SL("_belongsToSingle"), PH_NOISY_CC);
+	if ((Z_TYPE_P(belongsToSingle) == IS_ARRAY)) {
+		ZEPHIR_INIT_VAR(_0);
+		zephir_call_func_p1(_0, "get_class_lower", model);
+		if (zephir_array_isset_fetch(&relations, belongsToSingle, _0, 1 TSRMLS_CC)) {
+			ZEPHIR_MM_RESTORE();
+			RETURN_ZVAL(relations, 1, 0);
+		}
+	}
+	array_init(return_value);
+	RETURN_MM();
+
+}
+
+/**
+ * Gets hasMany relations defined on a model
+ *
+ * @param  Phalcon\Mvc\ModelInterface model
+ * @return Phalcon\Mvc\Model\RelationInterface[]
+ */
+PHP_METHOD(Phalcon_Mvc_Model_Manager, getHasMany) {
+
+	zval *model, *hasManySingle, *relations, *_0;
+
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 1, 0, &model);
+
+
+
+	hasManySingle = zephir_fetch_nproperty_this(this_ptr, SL("_hasManySingle"), PH_NOISY_CC);
+	if ((Z_TYPE_P(hasManySingle) == IS_ARRAY)) {
+		ZEPHIR_INIT_VAR(_0);
+		zephir_call_func_p1(_0, "get_class_lower", model);
+		if (zephir_array_isset_fetch(&relations, hasManySingle, _0, 1 TSRMLS_CC)) {
+			ZEPHIR_MM_RESTORE();
+			RETURN_ZVAL(relations, 1, 0);
+		}
+	}
+	array_init(return_value);
+	RETURN_MM();
+
+}
+
+/**
+ * Gets hasOne relations defined on a model
+ *
+ * @param  Phalcon\Mvc\ModelInterface $model
+ * @return array
+ */
+PHP_METHOD(Phalcon_Mvc_Model_Manager, getHasOne) {
+
+	zval *model, *hasOneSingle, *relations, *_0;
+
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 1, 0, &model);
+
+
+
+	hasOneSingle = zephir_fetch_nproperty_this(this_ptr, SL("_hasOneSingle"), PH_NOISY_CC);
+	if ((Z_TYPE_P(hasOneSingle) == IS_ARRAY)) {
+		ZEPHIR_INIT_VAR(_0);
+		zephir_call_func_p1(_0, "get_class_lower", model);
+		if (zephir_array_isset_fetch(&relations, hasOneSingle, _0, 1 TSRMLS_CC)) {
+			ZEPHIR_MM_RESTORE();
+			RETURN_ZVAL(relations, 1, 0);
+		}
+	}
+	array_init(return_value);
+	RETURN_MM();
+
+}
+
+/**
+ * Gets hasManyToMany relations defined on a model
+ *
+ * @param  Phalcon\Mvc\ModelInterface model
+ * @return Phalcon\Mvc\Model\RelationInterface[]
+ */
+PHP_METHOD(Phalcon_Mvc_Model_Manager, getHasManyToMany) {
+
+	zval *model, *hasManyToManySingle, *relations, *_0;
+
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 1, 0, &model);
+
+
+
+	hasManyToManySingle = zephir_fetch_nproperty_this(this_ptr, SL("_hasManyToManySingle"), PH_NOISY_CC);
+	if ((Z_TYPE_P(hasManyToManySingle) == IS_ARRAY)) {
+		ZEPHIR_INIT_VAR(_0);
+		zephir_call_func_p1(_0, "get_class_lower", model);
+		if (zephir_array_isset_fetch(&relations, hasManyToManySingle, _0, 1 TSRMLS_CC)) {
+			ZEPHIR_MM_RESTORE();
+			RETURN_ZVAL(relations, 1, 0);
+		}
+	}
+	array_init(return_value);
+	RETURN_MM();
+
+}
+
+/**
+ * Gets hasOne relations defined on a model
+ *
+ * @param  Phalcon\Mvc\ModelInterface model
+ * @return array
+ */
+PHP_METHOD(Phalcon_Mvc_Model_Manager, getHasOneAndHasMany) {
+
+	zval *model, *_0, *_1;
+
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 1, 0, &model);
+
+
+
+	ZEPHIR_INIT_VAR(_0);
+	zephir_call_method_p1(_0, this_ptr, "gethasone", model);
+	ZEPHIR_INIT_VAR(_1);
+	zephir_call_method_p1(_1, this_ptr, "gethasmany", model);
+	zephir_fast_array_merge(return_value, &(_0), &(_1) TSRMLS_CC);
+	RETURN_MM();
+
+}
+
+/**
  * Creates a Phalcon\Mvc\Model\Query\Builder
  *
  * @param string|array params

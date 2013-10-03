@@ -45,7 +45,7 @@ class Event
 	 * @param mixed data
 	 * @param boolean cancelable
 	 */
-	public function __construct(type, source, data=null, cancelable=true)
+	public function __construct(string! type, source, data=null, cancelable=true)
 	{
 
 		let this->_type = type,

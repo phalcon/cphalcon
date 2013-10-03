@@ -133,7 +133,7 @@ PHP_METHOD(Phalcon_Logger_Adapter_File, __construct) {
 /**
  * Returns the internal formatter
  *
- * @return Phalcon\Logger\Formatter\Line
+ * @return Phalcon\Logger\FormatterInterface
  */
 PHP_METHOD(Phalcon_Logger_Adapter_File, getFormatter) {
 

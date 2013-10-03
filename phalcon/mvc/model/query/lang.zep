@@ -45,7 +45,7 @@ abstract class Lang
 	 * @param string phql
 	 * @return string
 	 */
-	public static function parsePHQL(string phql)
+	public static function parsePHQL(string! phql)
 	{
 		return phql_parse_phql(phql);
 	}

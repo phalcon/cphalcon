@@ -111,6 +111,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator, appendMessage) {
 	}
 	ZEPHIR_INIT_NVAR(_0);
 	object_init_ex(_0, phalcon_mvc_model_message_ce);
+	zephir_call_method_p3_noret(_0, "__construct", message, field, type);
 	zephir_update_property_array_append(this_ptr, SL("_messages"), _0 TSRMLS_CC);
 	ZEPHIR_MM_RESTORE();
 

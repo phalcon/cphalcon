@@ -78,7 +78,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Logger_Adapter) {
  * Filters the logs sent to the handlers that are less or equal than a specific level
  *
  * @param int level
- * @return Phalcon\Logger\Adapter
+ * @return Phalcon\Logger\AdapterInterface
  */
 PHP_METHOD(Phalcon_Logger_Adapter, setLogLevel) {
 
@@ -113,7 +113,7 @@ PHP_METHOD(Phalcon_Logger_Adapter, getLogLevel) {
  * Sets the message formatter
  *
  * @param Phalcon\Logger\FormatterInterface formatter
- * @return Phalcon\Logger\Adapter
+ * @return Phalcon\Logger\AdapterInterface
  */
 PHP_METHOD(Phalcon_Logger_Adapter, setFormatter) {
 
@@ -131,7 +131,7 @@ PHP_METHOD(Phalcon_Logger_Adapter, setFormatter) {
 /**
  * Starts a transaction
  *
- * @return Phalcon\Logger\Adapter
+ * @return Phalcon\Logger\AdapterInterface
  */
 PHP_METHOD(Phalcon_Logger_Adapter, begin) {
 
@@ -144,7 +144,7 @@ PHP_METHOD(Phalcon_Logger_Adapter, begin) {
 /**
  * Commits the internal transaction
  *
- * @return Phalcon\Logger\Adapter
+ * @return Phalcon\Logger\AdapterInterface
  */
 PHP_METHOD(Phalcon_Logger_Adapter, commit) {
 
@@ -210,7 +210,7 @@ PHP_METHOD(Phalcon_Logger_Adapter, rollback) {
  * Sends/Writes an emergence message to the log
  *
  * @param string message
- * @return Phalcon\Logger\Adapter
+ * @return Phalcon\Logger\AdapterInterface
  */
 PHP_METHOD(Phalcon_Logger_Adapter, emergence) {
 
@@ -234,7 +234,7 @@ PHP_METHOD(Phalcon_Logger_Adapter, emergence) {
  * Sends/Writes a debug message to the log
  *
  * @param string message
- * @return Phalcon\Logger\Adapter
+ * @return Phalcon\Logger\AdapterInterface
  */
 PHP_METHOD(Phalcon_Logger_Adapter, debug) {
 
@@ -258,7 +258,7 @@ PHP_METHOD(Phalcon_Logger_Adapter, debug) {
  * Sends/Writes an error message to the log
  *
  * @param string message
- * @return Phalcon\Logger\Adapter
+ * @return Phalcon\Logger\AdapterInterface
  */
 PHP_METHOD(Phalcon_Logger_Adapter, error) {
 
@@ -282,15 +282,17 @@ PHP_METHOD(Phalcon_Logger_Adapter, error) {
  * Sends/Writes an info message to the log
  *
  * @param string message
- * @return Phalcon\Logger\Adapter
+ * @return Phalcon\Logger\AdapterInterface
  */
 PHP_METHOD(Phalcon_Logger_Adapter, info) {
 
-	zval *message, *_0;
+	zval *message_param = NULL, *_0;
+	zval *message = NULL;
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 0, &message);
+	zephir_fetch_params(1, 1, 0, &message_param);
 
+		zephir_get_strval(message, message_param);
 
 
 	ZEPHIR_INIT_VAR(_0);
@@ -304,7 +306,7 @@ PHP_METHOD(Phalcon_Logger_Adapter, info) {
  * Sends/Writes a notice message to the log
  *
  * @param string message
- * @return Phalcon\Logger\Adapter
+ * @return Phalcon\Logger\AdapterInterface
  */
 PHP_METHOD(Phalcon_Logger_Adapter, notice) {
 
@@ -328,7 +330,7 @@ PHP_METHOD(Phalcon_Logger_Adapter, notice) {
  * Sends/Writes a warning message to the log
  *
  * @param string message
- * @return Phalcon\Logger\Adapter
+ * @return Phalcon\Logger\AdapterInterface
  */
 PHP_METHOD(Phalcon_Logger_Adapter, warning) {
 
@@ -352,7 +354,7 @@ PHP_METHOD(Phalcon_Logger_Adapter, warning) {
  * Sends/Writes an alert message to the log
  *
  * @param string message
- * @return Phalcon\Logger\Adapter
+ * @return Phalcon\Logger\AdapterInterface
  */
 PHP_METHOD(Phalcon_Logger_Adapter, alert) {
 
@@ -377,7 +379,7 @@ PHP_METHOD(Phalcon_Logger_Adapter, alert) {
  *
  * @param string message
  * @param int type
- * @return Phalcon\Logger\Adapter
+ * @return Phalcon\Logger\AdapterInterface
  */
 PHP_METHOD(Phalcon_Logger_Adapter, log) {
 

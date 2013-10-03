@@ -548,11 +548,14 @@ PHP_METHOD(Phalcon_Db_Dialect_MySQL, dropPrimaryKey) {
  */
 PHP_METHOD(Phalcon_Db_Dialect_MySQL, addForeignKey) {
 
-	zval *tableName, *schemaName, *reference, *sql, *referencedSchema, *_0 = NULL, *_1 = NULL, *_2 = NULL, *_3, *_4, *_5, *_6, *_7 = NULL, *_8, *_9, *_10, *_11;
+	zval *tableName_param = NULL, *schemaName_param = NULL, *reference, *sql, *referencedSchema, *_0 = NULL, *_1 = NULL, *_2 = NULL, *_3, *_4, *_5, *_6, *_7 = NULL, *_8, *_9, *_10, *_11;
+	zval *tableName = NULL, *schemaName = NULL;
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 3, 0, &tableName, &schemaName, &reference);
+	zephir_fetch_params(1, 3, 0, &tableName_param, &schemaName_param, &reference);
 
+		zephir_get_strval(tableName, tableName_param);
+		zephir_get_strval(schemaName, schemaName_param);
 
 
 	if ((Z_TYPE_P(reference) != IS_OBJECT)) {
@@ -560,7 +563,7 @@ PHP_METHOD(Phalcon_Db_Dialect_MySQL, addForeignKey) {
 		return;
 	}
 	ZEPHIR_INIT_VAR(sql);
-	if (zephir_is_true(schemaName)) {
+	if (schemaName && Z_STRLEN_P(schemaName)) {
 		ZEPHIR_INIT_VAR(_0);
 		ZEPHIR_CONCAT_SV(_0, "ALTER TABLE `", schemaName);
 		ZEPHIR_INIT_VAR(_1);
@@ -626,15 +629,18 @@ PHP_METHOD(Phalcon_Db_Dialect_MySQL, addForeignKey) {
  */
 PHP_METHOD(Phalcon_Db_Dialect_MySQL, dropForeignKey) {
 
-	zval *tableName, *schemaName, *referenceName, *sql, *_0 = NULL, *_1 = NULL, *_2;
+	zval *tableName_param = NULL, *schemaName_param = NULL, *referenceName, *sql, *_0 = NULL, *_1 = NULL, *_2;
+	zval *tableName = NULL, *schemaName = NULL;
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 3, 0, &tableName, &schemaName, &referenceName);
+	zephir_fetch_params(1, 3, 0, &tableName_param, &schemaName_param, &referenceName);
 
+		zephir_get_strval(tableName, tableName_param);
+		zephir_get_strval(schemaName, schemaName_param);
 
 
 	ZEPHIR_INIT_VAR(sql);
-	if (zephir_is_true(schemaName)) {
+	if (schemaName && Z_STRLEN_P(schemaName)) {
 		ZEPHIR_INIT_VAR(_0);
 		ZEPHIR_CONCAT_SV(_0, "ALTER TABLE `", schemaName);
 		ZEPHIR_INIT_VAR(_1);
@@ -728,11 +734,14 @@ PHP_METHOD(Phalcon_Db_Dialect_MySQL, createTable) {
 	zend_function *_7 = NULL, *_9 = NULL, *_11 = NULL, *_13 = NULL, *_15 = NULL, *_19 = NULL, *_20 = NULL, *_21 = NULL, *_22 = NULL, *_23 = NULL, *_28 = NULL, *_29 = NULL, *_31 = NULL, *_34 = NULL, *_35 = NULL;
 	HashTable *_4, *_17, *_26;
 	HashPosition _3, _16, _25;
-	zval *tableName, *schemaName, *definition, *temporary = NULL, *options, *table, *createLines, *columns, *column = NULL, *indexes, *index = NULL, *reference = NULL, *references, *indexName = NULL, *indexSql = NULL, *sql, *columnLine = NULL, *_0 = NULL, *_1 = NULL, *_2 = NULL, **_5, *_6 = NULL, *_8 = NULL, *_10 = NULL, *_12 = NULL, *_14 = NULL, **_18, *_24 = NULL, **_27, *_30 = NULL, *_32 = NULL, *_33 = NULL, *_36 = NULL, *_37 = NULL, _38;
+	zval *tableName_param = NULL, *schemaName_param = NULL, *definition, *temporary = NULL, *options, *table, *createLines, *columns, *column = NULL, *indexes, *index = NULL, *reference = NULL, *references, *indexName = NULL, *indexSql = NULL, *sql, *columnLine = NULL, *_0 = NULL, *_1 = NULL, *_2 = NULL, **_5, *_6 = NULL, *_8 = NULL, *_10 = NULL, *_12 = NULL, *_14 = NULL, **_18, *_24 = NULL, **_27, *_30 = NULL, *_32 = NULL, *_33 = NULL, *_36 = NULL, *_37 = NULL, _38;
+	zval *tableName = NULL, *schemaName = NULL;
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 3, 0, &tableName, &schemaName, &definition);
+	zephir_fetch_params(1, 3, 0, &tableName_param, &schemaName_param, &definition);
 
+		zephir_get_strval(tableName, tableName_param);
+		zephir_get_strval(schemaName, schemaName_param);
 
 
 	if (!(zephir_array_isset_string_fetch(&columns, definition, SS("columns"), 1 TSRMLS_CC))) {
@@ -740,7 +749,7 @@ PHP_METHOD(Phalcon_Db_Dialect_MySQL, createTable) {
 		return;
 	}
 	ZEPHIR_INIT_VAR(table);
-	if (zephir_is_true(schemaName)) {
+	if (schemaName && Z_STRLEN_P(schemaName)) {
 		ZEPHIR_INIT_VAR(_0);
 		ZEPHIR_CONCAT_SV(_0, "`", schemaName);
 		ZEPHIR_INIT_VAR(_1);
@@ -903,18 +912,21 @@ PHP_METHOD(Phalcon_Db_Dialect_MySQL, createTable) {
  */
 PHP_METHOD(Phalcon_Db_Dialect_MySQL, dropTable) {
 
-	zval *tableName, *schemaName, *ifExists = NULL, *sql, *table, *_0 = NULL, *_1, *_2;
+	zval *tableName_param = NULL, *schemaName_param = NULL, *ifExists = NULL, *sql, *table, *_0 = NULL, *_1, *_2;
+	zval *tableName = NULL, *schemaName = NULL;
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 2, 1, &tableName, &schemaName, &ifExists);
+	zephir_fetch_params(1, 2, 1, &tableName_param, &schemaName_param, &ifExists);
 
+		zephir_get_strval(tableName, tableName_param);
+		zephir_get_strval(schemaName, schemaName_param);
 	if (!ifExists) {
 		ZEPHIR_CPY_WRT(ifExists, ZEPHIR_GLOBAL(global_true));
 	}
 
 
 	ZEPHIR_INIT_VAR(table);
-	if (zephir_is_true(schemaName)) {
+	if (schemaName && Z_STRLEN_P(schemaName)) {
 		ZEPHIR_INIT_VAR(_0);
 		ZEPHIR_CONCAT_SV(_0, "`", schemaName);
 		ZEPHIR_INIT_VAR(_1);
@@ -947,11 +959,14 @@ PHP_METHOD(Phalcon_Db_Dialect_MySQL, dropTable) {
  */
 PHP_METHOD(Phalcon_Db_Dialect_MySQL, createView) {
 
-	zval *viewName, *definition, *schemaName, *view, *viewSql, *_0 = NULL, *_1 = NULL, *_2;
+	zval *viewName_param = NULL, *definition, *schemaName_param = NULL, *view, *viewSql, *_0 = NULL, *_1 = NULL, *_2;
+	zval *viewName = NULL, *schemaName = NULL;
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 3, 0, &viewName, &definition, &schemaName);
+	zephir_fetch_params(1, 3, 0, &viewName_param, &definition, &schemaName_param);
 
+		zephir_get_strval(viewName, viewName_param);
+		zephir_get_strval(schemaName, schemaName_param);
 
 
 	if (zephir_array_isset_string_fetch(&viewSql, definition, SS("sql"), 1 TSRMLS_CC)) {
@@ -959,7 +974,7 @@ PHP_METHOD(Phalcon_Db_Dialect_MySQL, createView) {
 		return;
 	}
 	ZEPHIR_INIT_VAR(view);
-	if (zephir_is_true(schemaName)) {
+	if (schemaName && Z_STRLEN_P(schemaName)) {
 		ZEPHIR_INIT_VAR(_0);
 		ZEPHIR_CONCAT_SV(_0, "`", schemaName);
 		ZEPHIR_INIT_VAR(_1);
@@ -991,17 +1006,23 @@ PHP_METHOD(Phalcon_Db_Dialect_MySQL, createView) {
  */
 PHP_METHOD(Phalcon_Db_Dialect_MySQL, dropView) {
 
-	zval *viewName, *schemaName, *ifExists = NULL, *sql, *view = NULL, *_0;
+	zend_bool ifExists;
+	zval *viewName_param = NULL, *schemaName_param = NULL, *ifExists_param = NULL, *sql, *view = NULL, *_0;
+	zval *viewName = NULL, *schemaName = NULL;
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 2, 1, &viewName, &schemaName, &ifExists);
+	zephir_fetch_params(1, 2, 1, &viewName_param, &schemaName_param, &ifExists_param);
 
-	if (!ifExists) {
-		ZEPHIR_CPY_WRT(ifExists, ZEPHIR_GLOBAL(global_true));
+		zephir_get_strval(viewName, viewName_param);
+		zephir_get_strval(schemaName, schemaName_param);
+	if (!ifExists_param) {
+		ifExists = 1;
+	} else {
+		ifExists = zephir_get_boolval(ifExists_param);
 	}
 
 
-	if (zephir_is_true(schemaName)) {
+	if (schemaName && Z_STRLEN_P(schemaName)) {
 		ZEPHIR_INIT_VAR(_0);
 		ZEPHIR_CONCAT_VS(_0, schemaName, ".");
 		ZEPHIR_INIT_VAR(view);
@@ -1010,7 +1031,7 @@ PHP_METHOD(Phalcon_Db_Dialect_MySQL, dropView) {
 		ZEPHIR_CPY_WRT(view, viewName);
 	}
 	ZEPHIR_INIT_VAR(sql);
-	if (zephir_is_true(ifExists)) {
+	if (ifExists) {
 		ZEPHIR_CONCAT_SV(sql, "DROP VIEW IF EXISTS ", view);
 	} else {
 		ZEPHIR_CONCAT_SV(sql, "DROP VIEW ", view);
@@ -1033,11 +1054,13 @@ PHP_METHOD(Phalcon_Db_Dialect_MySQL, dropView) {
  */
 PHP_METHOD(Phalcon_Db_Dialect_MySQL, tableExists) {
 
-	zval *tableName, *schemaName = NULL, *_0 = NULL, *_1, *_2;
+	zval *tableName_param = NULL, *schemaName = NULL, *_0 = NULL, *_1, *_2;
+	zval *tableName = NULL;
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 1, &tableName, &schemaName);
+	zephir_fetch_params(1, 1, 1, &tableName_param, &schemaName);
 
+		zephir_get_strval(tableName, tableName_param);
 	if (!schemaName) {
 		ZEPHIR_CPY_WRT(schemaName, ZEPHIR_GLOBAL(global_null));
 	}
@@ -1069,11 +1092,13 @@ PHP_METHOD(Phalcon_Db_Dialect_MySQL, tableExists) {
  */
 PHP_METHOD(Phalcon_Db_Dialect_MySQL, viewExists) {
 
-	zval *viewName, *schemaName = NULL, *_0 = NULL, *_1, *_2;
+	zval *viewName_param = NULL, *schemaName = NULL, *_0 = NULL, *_1, *_2;
+	zval *viewName = NULL;
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 1, &viewName, &schemaName);
+	zephir_fetch_params(1, 1, 1, &viewName_param, &schemaName);
 
+		zephir_get_strval(viewName, viewName_param);
 	if (!schemaName) {
 		ZEPHIR_CPY_WRT(schemaName, ZEPHIR_GLOBAL(global_null));
 	}
@@ -1109,11 +1134,13 @@ PHP_METHOD(Phalcon_Db_Dialect_MySQL, viewExists) {
  */
 PHP_METHOD(Phalcon_Db_Dialect_MySQL, describeColumns) {
 
-	zval *table, *schema = NULL, *_0 = NULL, *_1, *_2;
+	zval *table_param = NULL, *schema = NULL, *_0 = NULL, *_1, *_2;
+	zval *table = NULL;
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 1, &table, &schema);
+	zephir_fetch_params(1, 1, 1, &table_param, &schema);
 
+		zephir_get_strval(table, table_param);
 	if (!schema) {
 		ZEPHIR_CPY_WRT(schema, ZEPHIR_GLOBAL(global_null));
 	}
@@ -1205,11 +1232,13 @@ PHP_METHOD(Phalcon_Db_Dialect_MySQL, listViews) {
  */
 PHP_METHOD(Phalcon_Db_Dialect_MySQL, describeIndexes) {
 
-	zval *table, *schema = NULL, *_0 = NULL, *_1, *_2;
+	zval *table_param = NULL, *schema = NULL, *_0 = NULL, *_1, *_2;
+	zval *table = NULL;
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 1, &table, &schema);
+	zephir_fetch_params(1, 1, 1, &table_param, &schema);
 
+		zephir_get_strval(table, table_param);
 	if (!schema) {
 		ZEPHIR_CPY_WRT(schema, ZEPHIR_GLOBAL(global_null));
 	}

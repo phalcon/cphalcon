@@ -1785,11 +1785,11 @@ PHP_METHOD(Phalcon_Mvc_Model, getMessages) {
  */
 PHP_METHOD(Phalcon_Mvc_Model, _checkForeignKeysRestrict) {
 
-	zend_function *_4 = NULL, *_6 = NULL, *_7 = NULL, *_8 = NULL, *_9 = NULL, *_21 = NULL, *_24 = NULL;
+	zend_function *_4 = NULL, *_6 = NULL, *_7 = NULL, *_8 = NULL, *_9 = NULL, *_21 = NULL, *_25 = NULL, *_26 = NULL;
 	HashTable *_2, *_11;
 	HashPosition _1, _10;
 	zend_bool error;
-	zval *manager = NULL, *belongsTo, *foreignKey = NULL, *relation = NULL, *conditions = NULL, *position = NULL, *bindParams = NULL, *extraConditions, *message = NULL, *fields = NULL, *referencedFields = NULL, *field = NULL, *action = NULL, *referencedModel = NULL, *value = NULL, *_0, **_3, *_5 = NULL, **_12, *_13 = NULL, *_14 = NULL, *_15 = NULL, *_16 = NULL, *_17 = NULL, *_18 = NULL, _19 = zval_used_for_init, *_20 = NULL, *_22 = NULL, *_23 = NULL;
+	zval *manager = NULL, *belongsTo, *foreignKey = NULL, *relation = NULL, *conditions = NULL, *position = NULL, *bindParams = NULL, *extraConditions, *message = NULL, *fields = NULL, *referencedFields = NULL, *field = NULL, *action = NULL, *referencedModel = NULL, *value = NULL, *_0, **_3, *_5 = NULL, **_12, *_13 = NULL, *_14 = NULL, *_15 = NULL, *_16 = NULL, *_17 = NULL, *_18 = NULL, _19 = zval_used_for_init, *_20 = NULL, *_22 = NULL, *_23 = NULL, *_24 = NULL;
 
 	ZEPHIR_MM_GROW();
 
@@ -1888,7 +1888,10 @@ PHP_METHOD(Phalcon_Mvc_Model, _checkForeignKeysRestrict) {
 						}
 						ZEPHIR_INIT_NVAR(_23);
 						object_init_ex(_23, phalcon_mvc_model_message_ce);
-						zephir_call_method_p1_cache_noret(this_ptr, "appendmessage", &_24, _23);
+						ZEPHIR_INIT_NVAR(_24);
+						ZVAL_STRING(_24, "ConstraintViolation", 1);
+						zephir_call_method_p3_cache_noret(_23, "__construct", &_25, message, fields, _24);
+						zephir_call_method_p1_cache_noret(this_ptr, "appendmessage", &_26, _23);
 						error = 1;
 						break;
 					}
@@ -2021,11 +2024,11 @@ PHP_METHOD(Phalcon_Mvc_Model, _checkForeignKeysReverseCascade) {
  */
 PHP_METHOD(Phalcon_Mvc_Model, _checkForeignKeysReverseRestrict) {
 
-	zend_function *_3 = NULL, *_4 = NULL, *_5 = NULL, *_6 = NULL, *_7 = NULL, *_19 = NULL, *_20 = NULL;
+	zend_function *_3 = NULL, *_4 = NULL, *_5 = NULL, *_6 = NULL, *_7 = NULL, *_19 = NULL, *_21 = NULL, *_22 = NULL;
 	HashTable *_1, *_9;
 	HashPosition _0, _8;
 	zend_bool error;
-	zval *manager, *relations, *foreignKey = NULL, *action = NULL, *relation = NULL, *relationClass = NULL, *referencedModel = NULL, *fields = NULL, *referencedFields = NULL, *conditions = NULL, *bindParams = NULL, *position = NULL, *field = NULL, *value = NULL, *extraConditions, *message = NULL, **_2, **_10, *_11 = NULL, *_12 = NULL, *_13 = NULL, *_14 = NULL, *_15 = NULL, *_16 = NULL, _17 = zval_used_for_init, *_18 = NULL;
+	zval *manager, *relations, *foreignKey = NULL, *action = NULL, *relation = NULL, *relationClass = NULL, *referencedModel = NULL, *fields = NULL, *referencedFields = NULL, *conditions = NULL, *bindParams = NULL, *position = NULL, *field = NULL, *value = NULL, *extraConditions, *message = NULL, **_2, **_10, *_11 = NULL, *_12 = NULL, *_13 = NULL, *_14 = NULL, *_15 = NULL, *_16 = NULL, _17 = zval_used_for_init, *_18 = NULL, *_20 = NULL;
 
 	ZEPHIR_MM_GROW();
 
@@ -2111,7 +2114,10 @@ PHP_METHOD(Phalcon_Mvc_Model, _checkForeignKeysReverseRestrict) {
 						}
 						ZEPHIR_INIT_NVAR(_18);
 						object_init_ex(_18, phalcon_mvc_model_message_ce);
-						zephir_call_method_p1_cache_noret(this_ptr, "appendmessage", &_20, _18);
+						ZEPHIR_INIT_NVAR(_20);
+						ZVAL_STRING(_20, "ConstraintViolation", 1);
+						zephir_call_method_p3_cache_noret(_18, "__construct", &_21, message, fields, _20);
+						zephir_call_method_p1_cache_noret(this_ptr, "appendmessage", &_22, _18);
 						error = 1;
 						break;
 					}
@@ -2146,11 +2152,11 @@ PHP_METHOD(Phalcon_Mvc_Model, _checkForeignKeysReverseRestrict) {
  */
 PHP_METHOD(Phalcon_Mvc_Model, _preSave) {
 
-	zend_function *_10 = NULL;
+	zend_function *_10 = NULL, *_12 = NULL;
 	HashTable *_6;
 	HashPosition _5;
 	zend_bool exists, error, isNull;
-	zval *metaData, *exists_param = NULL, *identityField, *notNull, *columnMap, *dataTypeNumeric, *automaticAttributes, *field = NULL, *attributeField = NULL, *value, *_0, *_1, *_2 = NULL, *_3 = NULL, *_4 = NULL, **_7, *_8 = NULL, *_9 = NULL, *_11 = NULL, *_12, *_13;
+	zval *metaData, *exists_param = NULL, *identityField, *notNull, *columnMap, *dataTypeNumeric, *automaticAttributes, *field = NULL, *attributeField = NULL, *value, *_0, *_1, *_2 = NULL, *_3 = NULL, *_4 = NULL, **_7, *_8 = NULL, *_9 = NULL, *_11 = NULL, *_13, *_14;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 3, 0, &metaData, &exists_param, &identityField);
@@ -2274,17 +2280,22 @@ PHP_METHOD(Phalcon_Mvc_Model, _preSave) {
 						}
 						ZEPHIR_INIT_NVAR(_2);
 						object_init_ex(_2, phalcon_mvc_model_message_ce);
+						ZEPHIR_INIT_LNVAR(_8);
+						ZEPHIR_CONCAT_VS(_8, attributeField, " is required");
+						ZEPHIR_INIT_NVAR(_11);
+						ZVAL_STRING(_11, "PresenceOf", 1);
+						zephir_call_method_p3_cache_noret(_2, "__construct", &_12, _8, attributeField, _11);
 						zephir_update_property_array_append(this_ptr, SL("_errorMessages"), _2 TSRMLS_CC);
 						error = 1;
 					}
 				}
 			}
 			if ((error == 1)) {
-				ZEPHIR_INIT_VAR(_11);
+				ZEPHIR_INIT_NVAR(_11);
 				ZVAL_STRING(_11, "orm.events", 1);
-				ZEPHIR_INIT_VAR(_12);
-				zephir_call_func_p1(_12, "globals_get", _11);
-				if (zephir_is_true(_12)) {
+				ZEPHIR_INIT_VAR(_13);
+				zephir_call_func_p1(_13, "globals_get", _11);
+				if (zephir_is_true(_13)) {
 					ZEPHIR_INIT_NVAR(_11);
 					ZVAL_STRING(_11, "onValidationFails", 1);
 					zephir_call_method_p1_noret(this_ptr, "fireevent", _11);
@@ -2364,8 +2375,8 @@ PHP_METHOD(Phalcon_Mvc_Model, _preSave) {
 				RETURN_MM_BOOL(0);
 			}
 		}
-		_13 = zephir_fetch_nproperty_this(this_ptr, SL("_skipped"), PH_NOISY_CC);
-		if (ZEPHIR_IS_TRUE(_13)) {
+		_14 = zephir_fetch_nproperty_this(this_ptr, SL("_skipped"), PH_NOISY_CC);
+		if (ZEPHIR_IS_TRUE(_14)) {
 			RETURN_MM_BOOL(1);
 		}
 	}
@@ -3228,7 +3239,7 @@ PHP_METHOD(Phalcon_Mvc_Model, create) {
 	zend_function *_8 = NULL;
 	HashTable *_3;
 	HashPosition _2;
-	zval *data = NULL, *whiteList = NULL, *metaData, *attribute = NULL, *possibleSetter = NULL, *value, *columnMap, *attributeField = NULL, *_0 = NULL, *_1 = NULL, **_4, *_5 = NULL, *_6 = NULL, *_7 = NULL, *_9;
+	zval *data = NULL, *whiteList = NULL, *metaData, *attribute = NULL, *possibleSetter = NULL, *value, *columnMap, *attributeField = NULL, *_0 = NULL, *_1 = NULL, **_4, *_5 = NULL, *_6 = NULL, *_7 = NULL, *_9, *_10, *_11;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 2, &data, &whiteList);
@@ -3310,6 +3321,11 @@ PHP_METHOD(Phalcon_Mvc_Model, create) {
 		array_init(_5);
 		ZEPHIR_INIT_VAR(_9);
 		object_init_ex(_9, phalcon_mvc_model_message_ce);
+		ZEPHIR_INIT_VAR(_10);
+		ZVAL_STRING(_10, "Record cannot be created because it already exists", 1);
+		ZEPHIR_INIT_VAR(_11);
+		ZVAL_STRING(_11, "InvalidCreateAttempt", 1);
+		zephir_call_method_p3_noret(_9, "__construct", _10, ZEPHIR_GLOBAL(global_null), _11);
 		zend_hash_next_index_insert(Z_ARRVAL_P(_5), &_9, sizeof(zval *), NULL);
 		zephir_update_property_this(this_ptr, SL("_errorMessages"), _5 TSRMLS_CC);
 		RETURN_MM_BOOL(0);
@@ -3339,7 +3355,7 @@ PHP_METHOD(Phalcon_Mvc_Model, update) {
 	zend_function *_8 = NULL;
 	HashTable *_3;
 	HashPosition _2;
-	zval *data = NULL, *whiteList = NULL, *metaData, *columnMap, *attribute = NULL, *attributeField = NULL, *possibleSetter = NULL, *value, *_0 = NULL, *_1 = NULL, **_4, *_5 = NULL, *_6 = NULL, *_7 = NULL, *_9, *_10;
+	zval *data = NULL, *whiteList = NULL, *metaData, *columnMap, *attribute = NULL, *attributeField = NULL, *possibleSetter = NULL, *value, *_0 = NULL, *_1 = NULL, **_4, *_5 = NULL, *_6 = NULL, *_7 = NULL, *_9, *_10, *_11, *_12;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 2, &data, &whiteList);
@@ -3429,6 +3445,11 @@ PHP_METHOD(Phalcon_Mvc_Model, update) {
 			array_init(_5);
 			ZEPHIR_INIT_VAR(_10);
 			object_init_ex(_10, phalcon_mvc_model_message_ce);
+			ZEPHIR_INIT_VAR(_11);
+			ZVAL_STRING(_11, "Record cannot be updated because it does not exist", 1);
+			ZEPHIR_INIT_VAR(_12);
+			ZVAL_STRING(_12, "InvalidUpdateAttempt", 1);
+			zephir_call_method_p3_noret(_10, "__construct", _11, ZEPHIR_GLOBAL(global_null), _12);
 			zend_hash_next_index_insert(Z_ARRVAL_P(_5), &_10, sizeof(zval *), NULL);
 			zephir_update_property_this(this_ptr, SL("_errorMessages"), _5 TSRMLS_CC);
 			RETURN_MM_BOOL(0);

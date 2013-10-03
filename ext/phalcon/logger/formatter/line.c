@@ -160,12 +160,15 @@ PHP_METHOD(Phalcon_Logger_Formatter_Line, __construct) {
  */
 PHP_METHOD(Phalcon_Logger_Formatter_Line, format) {
 
-	int timestamp;
-	zval *message, *type, *timestamp_param = NULL, *format = NULL, *_0, _1 = zval_used_for_init, *_2 = NULL, *_3 = NULL;
+	int type, timestamp;
+	zval *message_param = NULL, *type_param = NULL, *timestamp_param = NULL, *format = NULL, *_0, _1 = zval_used_for_init, *_2 = NULL, *_3 = NULL;
+	zval *message = NULL;
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 3, 0, &message, &type, &timestamp_param);
+	zephir_fetch_params(1, 3, 0, &message_param, &type_param, &timestamp_param);
 
+		zephir_get_strval(message, message_param);
+		type = zephir_get_intval(type_param);
 		timestamp = zephir_get_intval(timestamp_param);
 
 
@@ -185,7 +188,9 @@ PHP_METHOD(Phalcon_Logger_Formatter_Line, format) {
 	}
 	if (zephir_memnstr_str(format, SL("%type%"), "phalcon/logger/formatter/line.zep", 84)) {
 		ZEPHIR_INIT_NVAR(_2);
-		zephir_call_method_p1(_2, this_ptr, "gettypestring", type);
+		ZEPHIR_INIT_NVAR(_3);
+		ZVAL_LONG(_3, type);
+		zephir_call_method_p1(_2, this_ptr, "gettypestring", _3);
 		ZEPHIR_SINIT_NVAR(_1);
 		ZVAL_STRING(&_1, "%type%", 0);
 		ZEPHIR_INIT_NVAR(_3);

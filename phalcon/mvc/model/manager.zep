@@ -1466,6 +1466,207 @@ class Manager
 	}
 
 	/**
+	 * Gets belongsTo related records from a model
+	 *
+	 * @param string $method
+	 * @param string $modelName
+	 * @param string $modelRelation
+	 * @param Phalcon\Mvc\Model $record
+	 * @param array $parameters
+	 * @return Phalcon\Mvc\Model\ResultsetInterface
+	 */
+	public function getBelongsToRecords(string! method, string! modelName,
+		<Phalcon\Mvc\ModelInterface> modelRelation, record, parameters=null) -> <Phalcon\Mvc\Model\ResultsetInterface>
+	{
+
+		var belongsTo, keyRelation, relations;
+
+		let belongsTo = this->_hasMany;
+		if typeof belongsTo == "array" {
+
+			/**
+			 * Check if there is a relation between them
+			 */
+			let keyRelation = strtolower(modelName) . "$" . strtolower(modelRelation);
+			if !isset belongsTo[keyRelation] {
+				return false;
+			}
+
+			/**
+			 * "relations" is an array with all the belongsTo relationships to that model
+			 * Perform the query
+			 */
+			let relations = belongsTo[keyRelation];
+			return this->getRelationRecords(relations[0], method, record, parameters);
+		}
+
+		return false;
+	}
+
+	/**
+	 * Gets hasMany related records from a model
+	 *
+	 * @param string $method
+	 * @param string $modelName
+	 * @param string $modelRelation
+	 * @param Phalcon\Mvc\Model $record
+	 * @param array $parameters
+	 * @return Phalcon\Mvc\Model\ResultsetInterface
+	 */
+	public function getHasManyRecords(string! method, string! modelName,
+		<Phalcon\Mvc\ModelInterface> modelRelation, record, parameters=null) -> <Phalcon\Mvc\Model\ResultsetInterface>
+	{
+
+		var hasMany, keyRelation, relations;
+
+		let hasMany = this->_hasMany;
+		if typeof hasMany == "array" {
+
+			/**
+			 * Check if there is a relation between them
+			 */
+			let keyRelation = strtolower(modelName) . "$" . strtolower(modelRelation);
+			if !isset hasMany[keyRelation] {
+				return false;
+			}
+
+			/**
+			 * "relations" is an array with all the hasMany relationships to that model
+			 * Perform the query
+			 */
+			let relations = hasMany[keyRelation];
+			return this->getRelationRecords(relations[0], method, record, parameters);
+		}
+
+		return false;
+	}
+
+	/**
+	 * Gets belongsTo related records from a model
+	 *
+	 * @param string method
+	 * @param string modelName
+	 * @param string modelRelation
+	 * @param Phalcon\Mvc\ModelInterface record
+	 * @param array parameters
+	 * @return Phalcon\Mvc\ModelInterface
+	 */
+	public function getHasOneRecords(string! method, string! modelName,
+		<Phalcon\Mvc\ModelInterface> modelRelation, record, parameters=null) -> <Phalcon\Mvc\ModelInterface>
+	{
+		var hasOne, keyRelation, relations;
+
+		let hasOne = this->_hasOne;
+		if typeof hasOne == "array" {
+
+			/**
+			 * Check if there is a relation between them
+			 */
+			let keyRelation = strtolower(modelName) . "$" . strtolower(modelRelation);
+			if !isset hasOne[keyRelation] {
+				return false;
+			}
+
+			/**
+			 * "relations" is an array with all the belongsTo relationships to that model
+			 * Perform the query
+			 */
+			let relations = hasOne[keyRelation];
+			return this->getRelationRecords(relations[0], method, record, parameters);
+		}
+
+		return false;
+	}
+
+	/**
+	 * Gets all the belongsTo relations defined in a model
+	 *
+	 *<code>
+	 *	$relations = $modelsManager->getBelongsTo(new Robots());
+	 *</code>
+	 *
+	 * @param  Phalcon\Mvc\ModelInterface model
+	 * @return Phalcon\Mvc\Model\RelationInterface[]
+	 */
+	public function getBelongsTo(<Phalcon\Mvc\ModelInterface> model)
+	{
+		var belongsToSingle, relations;
+		let belongsToSingle = this->_belongsToSingle;
+		if typeof belongsToSingle == "array" {
+			if fetch relations, belongsToSingle[get_class_lower(model)] {
+				return relations;
+			}
+		}
+		return [];
+	}
+
+	/**
+	 * Gets hasMany relations defined on a model
+	 *
+	 * @param  Phalcon\Mvc\ModelInterface model
+	 * @return Phalcon\Mvc\Model\RelationInterface[]
+	 */
+	public function getHasMany(<Phalcon\Mvc\ModelInterface> model)
+	{
+		var hasManySingle, relations;
+		let hasManySingle = this->_hasManySingle;
+		if typeof hasManySingle == "array" {
+			if fetch relations, hasManySingle[get_class_lower(model)] {
+				return relations;
+			}
+
+		}
+		return [];
+	}
+
+	/**
+	 * Gets hasOne relations defined on a model
+	 *
+	 * @param  Phalcon\Mvc\ModelInterface $model
+	 * @return array
+	 */
+	public function getHasOne(<Phalcon\Mvc\ModelInterface> model)
+	{
+		var hasOneSingle, relations;
+		let hasOneSingle = this->_hasOneSingle;
+		if typeof hasOneSingle == "array" {
+			if fetch relations, hasOneSingle[get_class_lower(model)] {
+				return relations;
+			}
+		}
+		return [];
+	}
+
+	/**
+	 * Gets hasManyToMany relations defined on a model
+	 *
+	 * @param  Phalcon\Mvc\ModelInterface model
+	 * @return Phalcon\Mvc\Model\RelationInterface[]
+	 */
+	public function getHasManyToMany(<Phalcon\Mvc\ModelInterface> model)
+	{
+		var hasManyToManySingle, relations;
+		let hasManyToManySingle = this->_hasManyToManySingle;
+		if typeof hasManyToManySingle == "array" {
+			if fetch relations, hasManyToManySingle[get_class_lower(model)] {
+				return relations;
+			}
+		}
+		return [];
+	}
+
+	/**
+	 * Gets hasOne relations defined on a model
+	 *
+	 * @param  Phalcon\Mvc\ModelInterface model
+	 * @return array
+	 */
+	public function getHasOneAndHasMany(<Phalcon\Mvc\ModelInterface> model)
+	{
+		return array_merge(this->getHasOne($model), this->getHasMany($model));
+	}
+
+	/**
 	 * Creates a Phalcon\Mvc\Model\Query\Builder
 	 *
 	 * @param string|array params

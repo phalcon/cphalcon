@@ -78,7 +78,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine, __construct) {
 /**
  * Returns cached ouput on another view stage
  *
- * @return array
+ * @return string
  */
 PHP_METHOD(Phalcon_Mvc_View_Engine, getContent) {
 

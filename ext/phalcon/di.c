@@ -14,10 +14,10 @@
 #include "kernel/main.h"
 #include "kernel/object.h"
 #include "kernel/operators.h"
-#include "kernel/exception.h"
 #include "kernel/memory.h"
 #include "kernel/fcall.h"
 #include "kernel/array.h"
+#include "kernel/exception.h"
 #include "kernel/concat.h"
 #include "kernel/string.h"
 
@@ -113,20 +113,18 @@ PHP_METHOD(Phalcon_Di, __construct) {
  */
 PHP_METHOD(Phalcon_Di, set) {
 
-	zval *name, *definition, *shared = NULL, *service;
+	zval *name_param = NULL, *definition, *shared = NULL, *service;
+	zval *name = NULL;
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 2, 1, &name, &definition, &shared);
+	zephir_fetch_params(1, 2, 1, &name_param, &definition, &shared);
 
+		zephir_get_strval(name, name_param);
 	if (!shared) {
 		ZEPHIR_CPY_WRT(shared, ZEPHIR_GLOBAL(global_false));
 	}
 
 
-	if ((Z_TYPE_P(name) != IS_STRING)) {
-		ZEPHIR_THROW_EXCEPTION_STR(phalcon_di_exception_ce, "The service name must be a string");
-		return;
-	}
 	ZEPHIR_INIT_VAR(service);
 	object_init_ex(service, phalcon_di_service_ce);
 	zephir_call_method_p3_noret(service, "__construct", name, definition, shared);
@@ -144,17 +142,15 @@ PHP_METHOD(Phalcon_Di, set) {
  */
 PHP_METHOD(Phalcon_Di, setShared) {
 
-	zval *name, *definition, *service;
+	zval *name_param = NULL, *definition, *service;
+	zval *name = NULL;
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 2, 0, &name, &definition);
+	zephir_fetch_params(1, 2, 0, &name_param, &definition);
+
+		zephir_get_strval(name, name_param);
 
 
-
-	if ((Z_TYPE_P(name) != IS_STRING)) {
-		ZEPHIR_THROW_EXCEPTION_STR(phalcon_di_exception_ce, "The service name must be a string");
-		return;
-	}
 	ZEPHIR_INIT_VAR(service);
 	object_init_ex(service, phalcon_di_service_ce);
 	zephir_call_method_p3_noret(service, "__construct", name, definition, ZEPHIR_GLOBAL(global_true));
@@ -170,16 +166,15 @@ PHP_METHOD(Phalcon_Di, setShared) {
  */
 PHP_METHOD(Phalcon_Di, remove) {
 
-	zval *name;
+	zval *name_param = NULL;
+	zval *name = NULL;
 
-	zephir_fetch_params(0, 1, 0, &name);
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 1, 0, &name_param);
+
+		zephir_get_strval(name, name_param);
 
 
-
-	if ((Z_TYPE_P(name) != IS_STRING)) {
-		ZEPHIR_THROW_EXCEPTION_STRW(phalcon_di_exception_ce, "The service name must be a string");
-		return;
-	}
 
 }
 
@@ -195,20 +190,18 @@ PHP_METHOD(Phalcon_Di, remove) {
  */
 PHP_METHOD(Phalcon_Di, attempt) {
 
-	zval *name, *definition, *shared = NULL, *services, *service;
+	zval *name_param = NULL, *definition, *shared = NULL, *services, *service;
+	zval *name = NULL;
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 2, 1, &name, &definition, &shared);
+	zephir_fetch_params(1, 2, 1, &name_param, &definition, &shared);
 
+		zephir_get_strval(name, name_param);
 	if (!shared) {
 		ZEPHIR_CPY_WRT(shared, ZEPHIR_GLOBAL(global_false));
 	}
 
 
-	if ((Z_TYPE_P(name) != IS_STRING)) {
-		ZEPHIR_THROW_EXCEPTION_STR(phalcon_di_exception_ce, "The service name must be a string");
-		return;
-	}
 	services = zephir_fetch_nproperty_this(this_ptr, SL("_services"), PH_NOISY_CC);
 	if (!(zephir_array_isset(services, name))) {
 		ZEPHIR_INIT_VAR(service);
@@ -230,22 +223,17 @@ PHP_METHOD(Phalcon_Di, attempt) {
  */
 PHP_METHOD(Phalcon_Di, setRaw) {
 
-	zval *name, *rawDefinition;
+	zval *name_param = NULL, *rawDefinition;
+	zval *name = NULL;
 
-	zephir_fetch_params(0, 2, 0, &name, &rawDefinition);
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 2, 0, &name_param, &rawDefinition);
+
+		zephir_get_strval(name, name_param);
 
 
-
-	if ((Z_TYPE_P(name) != IS_STRING)) {
-		ZEPHIR_THROW_EXCEPTION_STRW(phalcon_di_exception_ce, "The service name must be a string");
-		return;
-	}
-	if ((Z_TYPE_P(rawDefinition) != IS_OBJECT)) {
-		ZEPHIR_THROW_EXCEPTION_STRW(phalcon_di_exception_ce, "The service definition must be an object");
-		return;
-	}
 	zephir_update_property_array(this_ptr, SL("_services"), name, rawDefinition TSRMLS_CC);
-	RETURN_CCTORW(rawDefinition);
+	RETURN_CCTOR(rawDefinition);
 
 }
 
@@ -257,17 +245,15 @@ PHP_METHOD(Phalcon_Di, setRaw) {
  */
 PHP_METHOD(Phalcon_Di, getRaw) {
 
-	zval *name, *services, *service, *_0, *_1, *_2;
+	zval *name_param = NULL, *services, *service, *_0, *_1, *_2;
+	zval *name = NULL;
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 0, &name);
+	zephir_fetch_params(1, 1, 0, &name_param);
+
+		zephir_get_strval(name, name_param);
 
 
-
-	if ((Z_TYPE_P(name) != IS_STRING)) {
-		ZEPHIR_THROW_EXCEPTION_STR(phalcon_di_exception_ce, "The service name must be a string");
-		return;
-	}
 	services = zephir_fetch_nproperty_this(this_ptr, SL("_services"), PH_NOISY_CC);
 	if (zephir_array_isset(services, name)) {
 		zephir_array_fetch(&service, services, name, PH_NOISY | PH_READONLY TSRMLS_CC);
@@ -295,17 +281,15 @@ PHP_METHOD(Phalcon_Di, getRaw) {
  */
 PHP_METHOD(Phalcon_Di, getService) {
 
-	zval *name, *services, *service, *_0, *_1, *_2;
+	zval *name_param = NULL, *services, *service, *_0, *_1, *_2;
+	zval *name = NULL;
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 0, &name);
+	zephir_fetch_params(1, 1, 0, &name_param);
+
+		zephir_get_strval(name, name_param);
 
 
-
-	if ((Z_TYPE_P(name) != IS_STRING)) {
-		ZEPHIR_THROW_EXCEPTION_STR(phalcon_di_exception_ce, "The service name must be a string");
-		return;
-	}
 	services = zephir_fetch_nproperty_this(this_ptr, SL("_services"), PH_NOISY_CC);
 	if (zephir_array_isset_fetch(&service, services, name, 1 TSRMLS_CC)) {
 		ZEPHIR_MM_RESTORE();
@@ -333,20 +317,18 @@ PHP_METHOD(Phalcon_Di, getService) {
  */
 PHP_METHOD(Phalcon_Di, get) {
 
-	zval *name, *parameters = NULL, *services, *service, *instance = NULL, *_0, *_1, *_2, *_3;
+	zval *name_param = NULL, *parameters = NULL, *services, *service, *instance = NULL, *_0, *_1, *_2, *_3;
+	zval *name = NULL;
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 1, &name, &parameters);
+	zephir_fetch_params(1, 1, 1, &name_param, &parameters);
 
+		zephir_get_strval(name, name_param);
 	if (!parameters) {
 		ZEPHIR_CPY_WRT(parameters, ZEPHIR_GLOBAL(global_null));
 	}
 
 
-	if ((Z_TYPE_P(name) != IS_STRING)) {
-		ZEPHIR_THROW_EXCEPTION_STR(phalcon_di_exception_ce, "The service name must be a string");
-		return;
-	}
 	services = zephir_fetch_nproperty_this(this_ptr, SL("_services"), PH_NOISY_CC);
 	if (zephir_array_isset_fetch(&service, services, name, 1 TSRMLS_CC)) {
 		ZEPHIR_INIT_VAR(instance);
@@ -403,20 +385,18 @@ PHP_METHOD(Phalcon_Di, get) {
  */
 PHP_METHOD(Phalcon_Di, getShared) {
 
-	zval *name, *parameters = NULL, *instance, *sharedInstances;
+	zval *name_param = NULL, *parameters = NULL, *instance, *sharedInstances;
+	zval *name = NULL;
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 1, &name, &parameters);
+	zephir_fetch_params(1, 1, 1, &name_param, &parameters);
 
+		zephir_get_strval(name, name_param);
 	if (!parameters) {
 		ZEPHIR_CPY_WRT(parameters, ZEPHIR_GLOBAL(global_null));
 	}
 
 
-	if ((Z_TYPE_P(name) != IS_STRING)) {
-		ZEPHIR_THROW_EXCEPTION_STR(phalcon_di_exception_ce, "The service name must be a string");
-		return;
-	}
 	sharedInstances = zephir_fetch_nproperty_this(this_ptr, SL("_sharedInstances"), PH_NOISY_CC);
 	ZEPHIR_OBS_VAR(instance);
 	if (zephir_array_isset_fetch(&instance, sharedInstances, name, 0 TSRMLS_CC)) {
@@ -558,13 +538,16 @@ PHP_METHOD(Phalcon_Di, offsetGet) {
  */
 PHP_METHOD(Phalcon_Di, offsetUnset) {
 
-	zval *name;
+	zval *name_param = NULL;
+	zval *name = NULL;
 
-	zephir_fetch_params(0, 1, 0, &name);
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 1, 0, &name_param);
+
+		zephir_get_strval(name, name_param);
 
 
-
-	RETURN_CCTORW(name);
+	RETURN_CTOR(name);
 
 }
 
@@ -577,11 +560,13 @@ PHP_METHOD(Phalcon_Di, offsetUnset) {
  */
 PHP_METHOD(Phalcon_Di, __call) {
 
-	zval *method, *arguments = NULL, *instance, *possibleService, *services, *definition, _0 = zval_used_for_init, *_1 = NULL, *_2, *_3, *_4;
+	zval *method_param = NULL, *arguments = NULL, *instance, *possibleService, *services, *definition, _0 = zval_used_for_init, *_1 = NULL, *_2, *_3, *_4;
+	zval *method = NULL;
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 1, &method, &arguments);
+	zephir_fetch_params(1, 1, 1, &method_param, &arguments);
 
+		zephir_get_strval(method, method_param);
 	if (!arguments) {
 		ZEPHIR_CPY_WRT(arguments, ZEPHIR_GLOBAL(global_null));
 	}
