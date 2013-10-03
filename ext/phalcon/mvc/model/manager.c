@@ -191,6 +191,56 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getEventsManager) {
 }
 
 /**
+ * Sets a custom events manager for a specific model
+ *
+ * @param Phalcon\Mvc\ModelInterface model
+ * @param Phalcon\Events\ManagerInterface eventsManager
+ */
+PHP_METHOD(Phalcon_Mvc_Model_Manager, setCustomEventsManager) {
+
+	zval *model, *eventsManager, *_0;
+
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 2, 0, &model, &eventsManager);
+
+
+
+	ZEPHIR_INIT_VAR(_0);
+	zephir_call_func_p1(_0, "get_class_lower", model);
+	zephir_update_property_array(this_ptr, SL("_customEventsManager"), _0, eventsManager TSRMLS_CC);
+	ZEPHIR_MM_RESTORE();
+
+}
+
+/**
+ * Returns a custom events manager related to a model
+ *
+ * @param Phalcon\Mvc\ModelInterface model
+ * @return Phalcon\Events\ManagerInterface
+ */
+PHP_METHOD(Phalcon_Mvc_Model_Manager, getCustomEventsManager) {
+
+	zval *model, *customEventsManager, *eventsManager, *_0;
+
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 1, 0, &model);
+
+
+
+	customEventsManager = zephir_fetch_nproperty_this(this_ptr, SL("_customEventsManager"), PH_NOISY_CC);
+	if ((Z_TYPE_P(customEventsManager) == IS_ARRAY)) {
+		ZEPHIR_INIT_VAR(_0);
+		zephir_call_func_p1(_0, "get_class_lower", model);
+		if (zephir_array_isset_fetch(&eventsManager, customEventsManager, _0, 1 TSRMLS_CC)) {
+			ZEPHIR_MM_RESTORE();
+			RETURN_ZVAL(eventsManager, 1, 0);
+		}
+	}
+	RETURN_MM_NULL();
+
+}
+
+/**
  * Initializes a model in the model manager
  *
  * @param Phalcon\Mvc\ModelInterface model
@@ -235,11 +285,13 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, initialize) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_Manager, isInitialized) {
 
-	zval *modelName, *initialized, *_0;
+	zval *modelName_param = NULL, *initialized, *_0;
+	zval *modelName = NULL;
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 0, &modelName);
+	zephir_fetch_params(1, 1, 0, &modelName_param);
 
+		zephir_get_strval(modelName, modelName_param);
 
 
 	initialized = zephir_fetch_nproperty_this(this_ptr, SL("_initialized"), PH_NOISY_CC);
@@ -313,6 +365,30 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, load) {
 	zephir_throw_exception(_3 TSRMLS_CC);
 	ZEPHIR_MM_RESTORE();
 	return;
+
+}
+
+/**
+ * Sets the mapped source for a model
+ *
+ * @param Phalcon\Mvc\Model model
+ * @param string source
+ */
+PHP_METHOD(Phalcon_Mvc_Model_Manager, setModelSource) {
+
+	zval *source = NULL;
+	zval *model, *source_param = NULL, *_0;
+
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 2, 0, &model, &source_param);
+
+		zephir_get_strval(source, source_param);
+
+
+	ZEPHIR_INIT_VAR(_0);
+	zephir_call_func_p1(_0, "get_class_lower", model);
+	zephir_update_property_array(this_ptr, SL("_sources"), _0, source TSRMLS_CC);
+	ZEPHIR_MM_RESTORE();
 
 }
 
@@ -459,11 +535,13 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, setWriteConnectionService) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_Manager, setReadConnectionService) {
 
-	zval *model, *connectionService, *_0;
+	zval *connectionService = NULL;
+	zval *model, *connectionService_param = NULL, *_0;
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 2, 0, &model, &connectionService);
+	zephir_fetch_params(1, 2, 0, &model, &connectionService_param);
 
+		zephir_get_strval(connectionService, connectionService_param);
 
 
 	ZEPHIR_INIT_VAR(_0);
@@ -651,6 +729,214 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getRelationByAlias) {
 		if (zephir_array_isset_fetch(&relation, aliases, _2, 1 TSRMLS_CC)) {
 			ZEPHIR_MM_RESTORE();
 			RETURN_ZVAL(relation, 1, 0);
+		}
+	}
+	RETURN_MM_BOOL(0);
+
+}
+
+/**
+ * Receives events generated in the models and dispatches them to a events-manager if available
+ * Notify the behaviors that are listening in the model
+ *
+ * @param string eventName
+ * @param Phalcon\Mvc\ModelInterface model
+ */
+PHP_METHOD(Phalcon_Mvc_Model_Manager, notifyEvent) {
+
+	zend_function *_4 = NULL;
+	HashTable *_2;
+	HashPosition _1;
+	zval *eventName_param = NULL, *model, *status = NULL, *behavior = NULL, *modelsBehaviors, *eventsManager, *customEventsManager = NULL, *behaviors, *_0 = NULL, **_3, *_5 = NULL;
+	zval *eventName = NULL;
+
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 2, 0, &eventName_param, &model);
+
+		zephir_get_strval(eventName, eventName_param);
+
+
+	ZEPHIR_INIT_VAR(status);
+	ZVAL_NULL(status);
+	behaviors = zephir_fetch_nproperty_this(this_ptr, SL("_behaviors"), PH_NOISY_CC);
+	if ((Z_TYPE_P(behaviors) == IS_ARRAY)) {
+		ZEPHIR_INIT_VAR(_0);
+		zephir_call_func_p1(_0, "get_class_lower", model);
+		if (zephir_array_isset_fetch(&modelsBehaviors, behaviors, _0, 1 TSRMLS_CC)) {
+			zephir_is_iterable(modelsBehaviors, &_2, &_1, 0, 0);
+			for (
+				; zend_hash_get_current_data_ex(_2, (void**) &_3, &_1) == SUCCESS
+				; zend_hash_move_forward_ex(_2, &_1)
+			) {
+				ZEPHIR_GET_HVALUE(behavior, _3);
+				ZEPHIR_INIT_NVAR(status);
+				zephir_call_method_p2_cache(status, behavior, "notify", &_4, eventName, model);
+				if (ZEPHIR_IS_FALSE(status)) {
+					RETURN_MM_BOOL(0);
+				}
+			}
+		}
+	}
+	eventsManager = zephir_fetch_nproperty_this(this_ptr, SL("_eventsManager"), PH_NOISY_CC);
+	if ((Z_TYPE_P(eventsManager) == IS_OBJECT)) {
+		ZEPHIR_INIT_VAR(_5);
+		ZEPHIR_CONCAT_SV(_5, "model:", eventName);
+		ZEPHIR_INIT_BNVAR(status);
+		zephir_call_method_p2(status, eventsManager, "fire", _5, model);
+		if (ZEPHIR_IS_FALSE(status)) {
+			RETURN_CCTOR(status);
+		}
+	}
+	ZEPHIR_OBS_VAR(customEventsManager);
+	zephir_read_property_this(&customEventsManager, this_ptr, SL("_customEventsManager"), PH_NOISY_CC);
+	if ((Z_TYPE_P(customEventsManager) == IS_ARRAY)) {
+		ZEPHIR_OBS_NVAR(customEventsManager);
+		ZEPHIR_INIT_NVAR(_0);
+		zephir_call_func_p1(_0, "get_class_lower", model);
+		if (zephir_array_isset_fetch(&customEventsManager, customEventsManager, _0, 0 TSRMLS_CC)) {
+			ZEPHIR_INIT_LNVAR(_5);
+			ZEPHIR_CONCAT_SV(_5, "model:", eventName);
+			ZEPHIR_INIT_BNVAR(status);
+			zephir_call_method_p2(status, customEventsManager, "fire", _5, model);
+			if (ZEPHIR_IS_FALSE(status)) {
+				RETURN_MM_BOOL(0);
+			}
+		}
+	}
+	RETURN_CCTOR(status);
+
+}
+
+/**
+ * Dispatch a event to the listeners and behaviors
+ * This method expects that the endpoint listeners/behaviors returns true
+ * meaning that a least one was implemented
+ *
+ * @param Phalcon\Mvc\ModelInterface model
+ * @param string eventName
+ * @param array data
+ * @return boolean
+ */
+PHP_METHOD(Phalcon_Mvc_Model_Manager, missingMethod) {
+
+	zend_function *_4 = NULL;
+	HashTable *_2;
+	HashPosition _1;
+	zval *eventName = NULL;
+	zval *model, *eventName_param = NULL, *data, *behaviors, *modelsBehaviors, *result = NULL, *eventsManager, *behavior = NULL, *_0, **_3, *_5;
+
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 3, 0, &model, &eventName_param, &data);
+
+		zephir_get_strval(eventName, eventName_param);
+
+
+	behaviors = zephir_fetch_nproperty_this(this_ptr, SL("_behaviors"), PH_NOISY_CC);
+	if ((Z_TYPE_P(behaviors) == IS_ARRAY)) {
+		ZEPHIR_INIT_VAR(_0);
+		zephir_call_func_p1(_0, "get_class_lower", model);
+		if (zephir_array_isset_fetch(&modelsBehaviors, behaviors, _0, 1 TSRMLS_CC)) {
+			zephir_is_iterable(modelsBehaviors, &_2, &_1, 0, 0);
+			for (
+				; zend_hash_get_current_data_ex(_2, (void**) &_3, &_1) == SUCCESS
+				; zend_hash_move_forward_ex(_2, &_1)
+			) {
+				ZEPHIR_GET_HVALUE(behavior, _3);
+				ZEPHIR_INIT_NVAR(result);
+				zephir_call_method_p3_cache(result, behavior, "missingmethod", &_4, model, eventName, data);
+				if ((Z_TYPE_P(result) != IS_NULL)) {
+					RETURN_CCTOR(result);
+				}
+			}
+		}
+	}
+	eventsManager = zephir_fetch_nproperty_this(this_ptr, SL("_eventsManager"), PH_NOISY_CC);
+	if ((Z_TYPE_P(eventsManager) == IS_OBJECT)) {
+		ZEPHIR_INIT_VAR(_5);
+		ZEPHIR_CONCAT_SV(_5, "model:", eventName);
+		zephir_call_method_p3(return_value, eventsManager, "fire", _5, model, data);
+		RETURN_MM();
+	}
+	RETURN_MM_NULL();
+
+}
+
+/**
+ * Binds a behavior to a model
+ *
+ * @param Phalcon\Mvc\ModelInterface model
+ * @param Phalcon\Mvc\Model\BehaviorInterface behavior
+ */
+PHP_METHOD(Phalcon_Mvc_Model_Manager, addBehavior) {
+
+	zval *model, *behavior, *entityName, *behaviors, *modelsBehaviors;
+
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 2, 0, &model, &behavior);
+
+
+
+	ZEPHIR_INIT_VAR(entityName);
+	zephir_call_func_p1(entityName, "get_class_lower", model);
+	behaviors = zephir_fetch_nproperty_this(this_ptr, SL("_behaviors"), PH_NOISY_CC);
+	ZEPHIR_OBS_VAR(modelsBehaviors);
+	if (!(zephir_array_isset_fetch(&modelsBehaviors, behaviors, entityName, 0 TSRMLS_CC))) {
+		ZEPHIR_INIT_BNVAR(modelsBehaviors);
+		array_init(modelsBehaviors);
+	}
+	zephir_array_append(&modelsBehaviors, behavior, PH_SEPARATE);
+	zephir_update_property_array(this_ptr, SL("_behaviors"), entityName, modelsBehaviors TSRMLS_CC);
+	ZEPHIR_MM_RESTORE();
+
+}
+
+/**
+ * Sets if a model must keep snapshots
+ *
+ * @param Phalcon\Mvc\ModelInterface model
+ * @param boolean keepSnapshots
+ */
+PHP_METHOD(Phalcon_Mvc_Model_Manager, keepSnapshots) {
+
+	zend_bool keepSnapshots;
+	zval *model, *keepSnapshots_param = NULL, *_0, *_1;
+
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 2, 0, &model, &keepSnapshots_param);
+
+		keepSnapshots = zephir_get_boolval(keepSnapshots_param);
+
+
+	ZEPHIR_INIT_VAR(_0);
+	zephir_call_func_p1(_0, "get_class_lower", model);
+	ZEPHIR_INIT_VAR(_1);
+	ZVAL_BOOL(_1, keepSnapshots);
+	zephir_update_property_array(this_ptr, SL("_keepSnapshots"), _0, _1 TSRMLS_CC);
+	ZEPHIR_MM_RESTORE();
+
+}
+
+/**
+ * Checks if a model is keeping snapshots for the queried records
+ *
+ * @return boolean
+ */
+PHP_METHOD(Phalcon_Mvc_Model_Manager, isKeepingSnapshots) {
+
+	zval *model, *keepSnapshots, *isKeeping, *_0;
+
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 1, 0, &model);
+
+
+
+	keepSnapshots = zephir_fetch_nproperty_this(this_ptr, SL("_keepSnapshots"), PH_NOISY_CC);
+	if ((Z_TYPE_P(keepSnapshots) == IS_ARRAY)) {
+		ZEPHIR_INIT_VAR(_0);
+		zephir_call_func_p1(_0, "get_class_lower", model);
+		if (zephir_array_isset_fetch(&isKeeping, keepSnapshots, _0, 1 TSRMLS_CC)) {
+			ZEPHIR_MM_RESTORE();
+			RETURN_ZVAL(isKeeping, 1, 0);
 		}
 	}
 	RETURN_MM_BOOL(0);

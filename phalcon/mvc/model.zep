@@ -290,10 +290,10 @@ abstract class Model //implements Phalcon\Mvc\ModelInterface, Phalcon\Mvc\Model\
 	 * @param string source
 	 * @return Phalcon\Mvc\Model
 	 */
-	protected function setSource(string source) -> <Phalcon\Mvc\Model>
+	protected function setSource(string! source) -> <Phalcon\Mvc\Model>
 	{
 		var modelsManager;
-		let modelsManager = this->_modelsManager;
+		let modelsManager = <Phalcon\Mvc\Model\ManagerInterface> this->_modelsManager;
 		modelsManager->setModelSource(this, source);
 		return this;
 	}
@@ -316,7 +316,7 @@ abstract class Model //implements Phalcon\Mvc\ModelInterface, Phalcon\Mvc\Model\
 	 * @param string schema
 	 * @return Phalcon\Mvc\Model
 	 */
-	protected function setSchema(string schema) -> <Phalcon\Mvc\Model>
+	protected function setSchema(string! schema) -> <Phalcon\Mvc\Model>
 	{
 		var modelsManager;
 		let modelsManager = <Phalcon\Mvc\Model\ManagerInterface> this->_modelsManager;
@@ -342,7 +342,7 @@ abstract class Model //implements Phalcon\Mvc\ModelInterface, Phalcon\Mvc\Model\
 	 * @param string connectionService
 	 * @return Phalcon\Mvc\Model
 	 */
-	public function setConnectionService(string connectionService) -> <Phalcon\Mvc\Model>
+	public function setConnectionService(string! connectionService) -> <Phalcon\Mvc\Model>
 	{
 		var modelsManager;
 		let modelsManager = <Phalcon\Mvc\Model\ManagerInterface> this->_modelsManager;
@@ -356,7 +356,7 @@ abstract class Model //implements Phalcon\Mvc\ModelInterface, Phalcon\Mvc\Model\
 	 * @param string connectionService
 	 * @return Phalcon\Mvc\Model
 	 */
-	public function setReadConnectionService(string connectionService) -> <Phalcon\Mvc\Model>
+	public function setReadConnectionService(string! connectionService) -> <Phalcon\Mvc\Model>
 	{
 		var modelsManager;
 		let modelsManager = <Phalcon\Mvc\Model\ManagerInterface> this->_modelsManager;
@@ -370,7 +370,7 @@ abstract class Model //implements Phalcon\Mvc\ModelInterface, Phalcon\Mvc\Model\
 	 * @param string connectionService
 	 * @return Phalcon\Mvc\Model
 	 */
-	public function setWriteConnectionService(string connectionService) -> <Phalcon\Mvc\Model>
+	public function setWriteConnectionService(string! connectionService) -> <Phalcon\Mvc\Model>
 	{
 		var modelsManager;
 		let modelsManager = <Phalcon\Mvc\Model\ManagerInterface> this->_modelsManager;
@@ -465,12 +465,11 @@ abstract class Model //implements Phalcon\Mvc\ModelInterface, Phalcon\Mvc\Model\
 	 *));
 	 *</code>
 	 *
-	 * @param Phalcon\Mvc\Model object
 	 * @param array data
 	 * @param array columnMap
 	 * @return Phalcon\Mvc\Model
 	 */
-	public function assign(var data, var columnMap=null)
+	public function assign(var data, var columnMap=null) -> <Phalcon\Mvc\Model>
 	{
 		var key, value, attribute;
 
@@ -497,6 +496,8 @@ abstract class Model //implements Phalcon\Mvc\ModelInterface, Phalcon\Mvc\Model\
 				let this->{key} = value;
 			}
 		}
+
+		return this;
 	}
 
 	/**

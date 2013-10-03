@@ -51,6 +51,14 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_ManagerInterface) {
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_ManagerInterface, initialize);
 
 /**
+ * Sets the mapped source for a model
+ *
+ * @param Phalcon\Mvc\Model model
+ * @param string source
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_ManagerInterface, setModelSource);
+
+/**
  * Returns the mapped source for a model
  *
  * @param Phalcon\Mvc\Model model
@@ -61,7 +69,7 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_ManagerInterface, getModelSource);
 /**
  * Sets the mapped schema for a model
  *
- * @param Phalcon\Mvc\Model model
+ * @param Phalcon\Mvc\ModelInterface model
  * @param string schema
  * @return string
  */

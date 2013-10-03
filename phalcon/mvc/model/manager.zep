@@ -172,6 +172,35 @@ class Manager
 	}
 
 	/**
+	 * Sets a custom events manager for a specific model
+	 *
+	 * @param Phalcon\Mvc\ModelInterface model
+	 * @param Phalcon\Events\ManagerInterface eventsManager
+	 */
+	public function setCustomEventsManager(<Phalcon\Mvc\ModelInterface> model, <Phalcon\Events\ManagerInterface> eventsManager)
+	{
+		let this->_customEventsManager[get_class_lower(model)] = eventsManager;
+	}
+
+	/**
+	 * Returns a custom events manager related to a model
+	 *
+	 * @param Phalcon\Mvc\ModelInterface model
+	 * @return Phalcon\Events\ManagerInterface
+	 */
+	public function getCustomEventsManager(<Phalcon\Mvc\ModelInterface> model) -> <Phalcon\Events\ManagerInterface>
+	{
+		var customEventsManager, eventsManager;
+		let customEventsManager = this->_customEventsManager;
+		if typeof customEventsManager == "array" {
+			if fetch eventsManager, customEventsManager[get_class_lower(model)] {
+				return eventsManager;
+			}
+		}
+		return null;
+	}
+
+	/**
 	 * Initializes a model in the model manager
 	 *
 	 * @param Phalcon\Mvc\ModelInterface model
@@ -183,11 +212,10 @@ class Manager
 
 		let className = get_class_lower(model);
 
-		let initialized = this->_initialized;
-
 		/**
 		 * Models are just initialized once per request
 		 */
+		let initialized = this->_initialized;
 		if isset initialized[className] {
 			return false;
 		}
@@ -226,7 +254,7 @@ class Manager
 	 * @param string modelName
 	 * @return bool
 	 */
-	public function isInitialized(modelName) -> boolean
+	public function isInitialized(string! modelName) -> boolean
 	{
 		var initialized;
 		let initialized = this->_initialized;
@@ -250,7 +278,7 @@ class Manager
 	 * @param  boolean newInstance
 	 * @return Phalcon\Mvc\ModelInterface
 	 */
-	public function load(string modelName, boolean newInstance=false) -> <Phalcon\Mvc\ModelInterface>
+	public function load(string! modelName, boolean newInstance=false) -> <Phalcon\Mvc\ModelInterface>
 	{
 		var initialized, model;
 
@@ -276,6 +304,17 @@ class Manager
 		 * The model doesn't exist throw an exception
 		 */
 		throw new Phalcon\Mvc\Model\Exception("Model '" . modelName . "' could not be loaded");
+	}
+
+	/**
+	 * Sets the mapped source for a model
+	 *
+	 * @param Phalcon\Mvc\Model model
+	 * @param string source
+	 */
+	public function setModelSource(<Phalcon\Mvc\Model> model, string! source) -> void
+	{
+		let this->_sources[get_class_lower(model)] = source;
 	}
 
 	/**
@@ -309,7 +348,7 @@ class Manager
 	 * @param string schema
 	 * @return string
 	 */
-	public function setModelSchema(<Phalcon\Mvc\ModelInterface> model, string schema) -> string
+	public function setModelSchema(<Phalcon\Mvc\ModelInterface> model, string! schema) -> string
 	{
 		let this->_schemas[get_class_lower(model)] = schema;
 	}
@@ -338,7 +377,7 @@ class Manager
 	 * @param Phalcon\Mvc\ModelInterface model
 	 * @param string connectionService
 	 */
-	public function setConnectionService(<Phalcon\Mvc\ModelInterface> model, string connectionService)
+	public function setConnectionService(<Phalcon\Mvc\ModelInterface> model, string! connectionService) -> void
 	{
 		var entityName;
 		let entityName = get_class_lower(model),
@@ -352,7 +391,7 @@ class Manager
 	 * @param Phalcon\Mvc\ModelInterface model
 	 * @param string connectionService
 	 */
-	public function setWriteConnectionService(<Phalcon\Mvc\ModelInterface> model, string connectionService)
+	public function setWriteConnectionService(<Phalcon\Mvc\ModelInterface> model, string! connectionService) -> void
 	{
 		let this->_writeConnectionServices[get_class_lower(model)] = connectionService;
 	}
@@ -363,7 +402,7 @@ class Manager
 	 * @param Phalcon\Mvc\ModelInterface model
 	 * @param string connectionService
 	 */
-	public function setReadConnectionService(<Phalcon\Mvc\ModelInterface> model, connectionService)
+	public function setReadConnectionService(<Phalcon\Mvc\ModelInterface> model, string! connectionService) -> void
 	{
 		let this->_readConnectionServices[get_class_lower(model)] = connectionService;
 	}
@@ -489,13 +528,179 @@ class Manager
 	 * @param string alias
 	 * @return Phalcon\Mvc\Model\Relation
 	 */
-	public function getRelationByAlias(string modelName, string alias) -> <Phalcon\Mvc\Model\Relation>
+	public function getRelationByAlias(string! modelName, string! alias) -> <Phalcon\Mvc\Model\Relation>
 	{
 		var aliases, relation;
 		let aliases = this->_aliases;
 		if typeof aliases == "array" {
 			if fetch relation, aliases[strtolower(modelName . "$" . alias)] {
 				return relation;
+			}
+		}
+		return false;
+	}
+
+	/**
+	 * Receives events generated in the models and dispatches them to a events-manager if available
+	 * Notify the behaviors that are listening in the model
+	 *
+	 * @param string eventName
+	 * @param Phalcon\Mvc\ModelInterface model
+	 */
+	public function notifyEvent(string! eventName, <Phalcon\Mvc\ModelInterface> model)
+	{
+		var status, behavior, modelsBehaviors, eventsManager,
+			customEventsManager, behaviors;
+
+		let status = null;
+
+		/**
+		 * Dispatch events to the global events manager
+		 */
+		let behaviors = this->_behaviors;
+		if typeof behaviors == "array" {
+			if fetch modelsBehaviors, behaviors[get_class_lower(model)] {
+
+				/**
+				 * Notify all the events on the behavior
+				 */
+				for behavior in modelsBehaviors {
+					let status = behavior->notify(eventName, model);
+					if status === false {
+						return false;
+					}
+				}
+			}
+
+		}
+
+		/**
+		 * Dispatch events to the global events manager
+		 */
+		let eventsManager = this->_eventsManager;
+		if typeof eventsManager == "object" {
+			let status = eventsManager->fire("model:" . eventName, model);
+			if status === false {
+				return status;
+			}
+		}
+
+		/**
+		 * A model can has a specific events manager for it
+		 */
+		let customEventsManager = this->_customEventsManager;
+		if typeof customEventsManager == "array" {
+			if fetch customEventsManager, customEventsManager[get_class_lower(model)] {
+				let status = customEventsManager->fire("model:" . eventName, model);
+				if status === false {
+					return false;
+				}
+			}
+		}
+
+		return status;
+	}
+
+	/**
+	 * Dispatch a event to the listeners and behaviors
+	 * This method expects that the endpoint listeners/behaviors returns true
+	 * meaning that a least one was implemented
+	 *
+	 * @param Phalcon\Mvc\ModelInterface model
+	 * @param string eventName
+	 * @param array data
+	 * @return boolean
+	 */
+	public function missingMethod(<Phalcon\Mvc\ModelInterface> model, string! eventName, var data) -> boolean
+	{
+		var behaviors, modelsBehaviors, result, eventsManager, behavior;
+
+		/**
+		 * Dispatch events to the global events manager
+		 */
+		let behaviors = this->_behaviors;
+		if typeof behaviors == "array" {
+
+			if fetch modelsBehaviors, behaviors[get_class_lower(model)] {
+
+				/**
+				 * Notify all the events on the behavior
+				 */
+				for behavior in modelsBehaviors {
+					let result = behavior->missingMethod(model, eventName, data);
+					if result !== null {
+						return result;
+					}
+				}
+			}
+
+		}
+
+		/**
+		 * Dispatch events to the global events manager
+		 */
+		let eventsManager = this->_eventsManager;
+		if typeof eventsManager == "object" {
+			return eventsManager->fire("model:" . eventName, model, data);
+		}
+
+		return null;
+	}
+
+	/**
+	 * Binds a behavior to a model
+	 *
+	 * @param Phalcon\Mvc\ModelInterface model
+	 * @param Phalcon\Mvc\Model\BehaviorInterface behavior
+	 */
+	public function addBehavior(<Phalcon\Mvc\ModelInterface> model, <Phalcon\Mvc\Model\BehaviorInterface> behavior)
+	{
+		var entityName, behaviors, modelsBehaviors;
+
+		let entityName = get_class_lower(model);
+
+		/**
+		 * Get the current behaviors
+		 */
+		let behaviors = this->_behaviors;
+		if !fetch modelsBehaviors, behaviors[entityName] {
+			let modelsBehaviors = [];
+		}
+
+		/**
+		 * Append the behavior to the list of behaviors
+		 */
+		let modelsBehaviors[] = behavior;
+
+		/**
+		 * Update the behaviors list
+		 */
+		let this->_behaviors[entityName] = modelsBehaviors;
+	}
+
+	/**
+	 * Sets if a model must keep snapshots
+	 *
+	 * @param Phalcon\Mvc\ModelInterface model
+	 * @param boolean keepSnapshots
+	 */
+	public function keepSnapshots(<Phalcon\Mvc\ModelInterface> model, boolean keepSnapshots) -> void
+	{
+		let this->_keepSnapshots[get_class_lower(model)] = keepSnapshots;
+	}
+
+	/**
+	 * Checks if a model is keeping snapshots for the queried records
+	 *
+	 * @return boolean
+	 */
+	public function isKeepingSnapshots(<Phalcon\Mvc\ModelInterface> model) -> boolean
+	{
+		var keepSnapshots, isKeeping;
+		let keepSnapshots = this->_keepSnapshots;
+		if typeof keepSnapshots == "array" {
+			if fetch isKeeping, keepSnapshots[get_class_lower(model)] {
+				return isKeeping;
 			}
 		}
 		return false;

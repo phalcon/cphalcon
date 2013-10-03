@@ -330,7 +330,7 @@ PHP_METHOD(Phalcon_Mvc_Model, setTransaction) {
  */
 PHP_METHOD(Phalcon_Mvc_Model, setSource) {
 
-	zval *source_param = NULL, *modelsManager;
+	zval *source_param = NULL, *modelsManager = NULL, *_0;
 	zval *source = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -339,7 +339,8 @@ PHP_METHOD(Phalcon_Mvc_Model, setSource) {
 		zephir_get_strval(source, source_param);
 
 
-	modelsManager = zephir_fetch_nproperty_this(this_ptr, SL("_modelsManager"), PH_NOISY_CC);
+	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_modelsManager"), PH_NOISY_CC);
+	ZEPHIR_CPY_WRT(modelsManager, _0);
 	zephir_call_method_p2_noret(modelsManager, "setmodelsource", this_ptr, source);
 	RETURN_THIS();
 
@@ -601,7 +602,6 @@ PHP_METHOD(Phalcon_Mvc_Model, getWriteConnection) {
  *));
  *</code>
  *
- * @param Phalcon\Mvc\Model object
  * @param array data
  * @param array columnMap
  * @return Phalcon\Mvc\Model
@@ -651,7 +651,7 @@ PHP_METHOD(Phalcon_Mvc_Model, assign) {
 			zephir_update_property_zval_zval(this_ptr, key, value TSRMLS_CC);
 		}
 	}
-	ZEPHIR_MM_RESTORE();
+	RETURN_THIS();
 
 }
 

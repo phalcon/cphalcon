@@ -35,21 +35,29 @@ interface ManagerInterface
 	public function initialize(model);
 
 	/**
+	 * Sets the mapped source for a model
+	 *
+	 * @param Phalcon\Mvc\Model model
+	 * @param string source
+	 */
+	public function setModelSource(<Phalcon\Mvc\Model> model, string! source) -> void;
+
+	/**
 	 * Returns the mapped source for a model
 	 *
 	 * @param Phalcon\Mvc\Model model
 	 * @return string
 	 */
-	public function getModelSource(<Phalcon\Mvc\ModelInterface> model);
+	public function getModelSource(<Phalcon\Mvc\ModelInterface> model) -> <Phalcon\Mvc\ModelInterface>;
 
 	/**
 	 * Sets the mapped schema for a model
 	 *
-	 * @param Phalcon\Mvc\Model model
+	 * @param Phalcon\Mvc\ModelInterface model
 	 * @param string schema
 	 * @return string
 	 */
-	public function setModelSchema(<Phalcon\Mvc\ModelInterface> model, schema);
+	public function setModelSchema(<Phalcon\Mvc\ModelInterface> model, string! schema);
 
 	/**
 	 * Returns the mapped schema for a model
@@ -65,7 +73,7 @@ interface ManagerInterface
 	 * @param Phalcon\Mvc\ModelInterface model
 	 * @param string connectionService
 	 */
-	public function setConnectionService(<Phalcon\Mvc\ModelInterface> model, string connectionService);
+	public function setConnectionService(<Phalcon\Mvc\ModelInterface> model, string! connectionService);
 
 	/**
 	 * Sets read connection service for a model
@@ -73,7 +81,7 @@ interface ManagerInterface
 	 * @param Phalcon\Mvc\ModelInterface model
 	 * @param string connectionService
 	 */
-	public function setReadConnectionService(<Phalcon\Mvc\ModelInterface> model, string connectionService);
+	public function setReadConnectionService(<Phalcon\Mvc\ModelInterface> model, string! connectionService);
 
 	/**
 	 * Returns the connection service name used to read data related to a model
@@ -89,7 +97,7 @@ interface ManagerInterface
 	 * @param Phalcon\Mvc\ModelInterface model
 	 * @param string connectionService
 	 */
-	public function setWriteConnectionService(<Phalcon\Mvc\ModelInterface> model, string connectionService);
+	public function setWriteConnectionService(<Phalcon\Mvc\ModelInterface> model, string! connectionService);
 
 	/**
 	 * Returns the connection service name used to write data related to a model
