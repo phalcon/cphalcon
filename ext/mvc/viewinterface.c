@@ -87,6 +87,13 @@ PHALCON_DOC_METHOD(Phalcon_Mvc_ViewInterface, getPartialsDir);
 PHALCON_DOC_METHOD(Phalcon_Mvc_ViewInterface, setBasePath);
 
 /**
+ * Gets the current render level
+ *
+ * @return string
+ */
+PHALCON_DOC_METHOD(Phalcon_Mvc_ViewInterface, getCurrentRenderLevel);
+
+/**
  * Gets the render level for the view
  *
  * @return string

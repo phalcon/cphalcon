@@ -101,6 +101,7 @@ PHALCON_INIT_FUNCS(phalcon_mvc_viewinterface_method_entry){
 	PHP_ABSTRACT_ME(Phalcon_Mvc_ViewInterface, setPartialsDir, arginfo_phalcon_mvc_viewinterface_setpartialsdir)
 	PHP_ABSTRACT_ME(Phalcon_Mvc_ViewInterface, getPartialsDir, NULL)
 	PHP_ABSTRACT_ME(Phalcon_Mvc_ViewInterface, setBasePath, arginfo_phalcon_mvc_viewinterface_setbasepath)
+	PHP_ABSTRACT_ME(Phalcon_Mvc_ViewInterface, getCurrentRenderLevel, NULL)
 	PHP_ABSTRACT_ME(Phalcon_Mvc_ViewInterface, getRenderLevel, NULL)
 	PHP_ABSTRACT_ME(Phalcon_Mvc_ViewInterface, setRenderLevel, arginfo_phalcon_mvc_viewinterface_setrenderlevel)
 	PHP_ABSTRACT_ME(Phalcon_Mvc_ViewInterface, setMainView, arginfo_phalcon_mvc_viewinterface_setmainview)
