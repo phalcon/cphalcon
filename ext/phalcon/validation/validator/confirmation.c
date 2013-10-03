@@ -98,7 +98,7 @@ PHP_METHOD(Phalcon_Validation_Validator_Confirmation, validate) {
 			ZEPHIR_INIT_VAR(_3);
 			concat_function(_3, _2, withAttribute TSRMLS_CC);
 			ZEPHIR_INIT_NVAR(message);
-			ZEPHIR_CONCAT_VS(message, _3, "' don\'t match");
+			ZEPHIR_CONCAT_VS(message, _3, "' don't match");
 		}
 		ZEPHIR_INIT_BNVAR(_0);
 		object_init_ex(_0, phalcon_validation_message_ce);
