@@ -37943,21 +37943,13 @@ PHALCON_INIT_CLASS(Phalcon_Validation_Message_Group){
 
 static PHP_METHOD(Phalcon_Validation_Message_Group, __construct){
 
-	zval *messages = NULL;
-
-	PHALCON_MM_GROW();
+	zval *messages;
 
 	phalcon_fetch_params(1, 0, 1, &messages);
 	
-	if (!messages) {
-		PHALCON_INIT_VAR(messages);
-	}
-	
-	if (Z_TYPE_P(messages) == IS_ARRAY) { 
+	if (messages && Z_TYPE_P(messages) == IS_ARRAY) {
 		phalcon_update_property_this_quick(this_ptr, SL("_messages"), messages, 743366684UL TSRMLS_CC);
 	}
-	
-	PHALCON_MM_RESTORE();
 }
 
 static PHP_METHOD(Phalcon_Validation_Message_Group, offsetGet){
@@ -43424,7 +43416,7 @@ PHALCON_INIT_CLASS(Phalcon_Mvc_Model_Query_Builder){
 static PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, __construct){
 
 	zval *params = NULL, *dependency_injector = NULL, *conditions = NULL;
-	zval *models, *columns, *group_clause;
+	zval *models, *columns, *group_clause, *joins;
 	zval *having_clause, *order_clause, *limit_clause;
 	zval *offset_clause, *for_update, *shared_lock;
 
@@ -43465,7 +43457,13 @@ static PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, __construct){
 			phalcon_array_fetch_quick_string(&columns, params, SS("columns"), 1041822630UL, PH_NOISY);
 			phalcon_update_property_this_quick(this_ptr, SL("_columns"), columns, 4004520869UL TSRMLS_CC);
 		}
-	
+
+		if (phalcon_array_isset_quick_string(params, SS("joins"), 120974824UL)) {
+			PHALCON_OBS_VAR(joins);
+			phalcon_array_fetch_quick_string(&joins, params, SS("joins"), 120974824UL, PH_NOISY);
+			phalcon_update_property_this_quick(this_ptr, SL("_joins"), joins, 2482180647UL TSRMLS_CC);
+		}
+
 		if (phalcon_array_isset_quick_string(params, SS("group"), 7349554UL)) {
 			PHALCON_OBS_VAR(group_clause);
 			phalcon_array_fetch_quick_string(&group_clause, params, SS("group"), 7349554UL, PH_NOISY);
@@ -55694,7 +55692,7 @@ static PHP_METHOD(Phalcon_Mvc_Model_Manager, getWriteConnectionService){
 static PHP_METHOD(Phalcon_Mvc_Model_Manager, notifyEvent){
 
 	zval *event_name, *model, *status = NULL, *behaviors, *entity_name = NULL;
-	zval *models_behaviors, *behavior = NULL, *events_manager;
+	zval *models_behaviors, *behavior = NULL, *events_manager, *mgr;
 	zval *fire_event_name = NULL, *custom_events_manager;
 	HashTable *ah0;
 	HashPosition hp0;
@@ -55756,12 +55754,15 @@ static PHP_METHOD(Phalcon_Mvc_Model_Manager, notifyEvent){
 		PHALCON_INIT_NVAR(entity_name);
 		phalcon_get_class(entity_name, model, 1 TSRMLS_CC);
 		if (phalcon_array_isset(custom_events_manager, entity_name)) {
+
+			PHALCON_OBS_VAR(mgr);
+			phalcon_array_fetch(&mgr, custom_events_manager, entity_name, PH_NOISY);
 	
 			PHALCON_INIT_NVAR(fire_event_name);
 			PHALCON_CONCAT_SV(fire_event_name, "model:", event_name);
 	
 			PHALCON_INIT_NVAR(status);
-			phalcon_call_method_p2_key(status, custom_events_manager, "fire", fire_event_name, model, 259017035UL);
+			phalcon_call_method_p2_key(status, mgr, "fire", fire_event_name, model, 259017035UL);
 			if (PHALCON_IS_FALSE(status)) {
 				RETURN_CCTOR(status);
 			}
@@ -94536,9 +94537,30 @@ PHALCON_INIT_CLASS(Phalcon_Logger_Formatter_Firephp){
 
 	PHALCON_REGISTER_CLASS_EX(Phalcon\\Logger\\Formatter, Firephp, logger_formatter_firephp, "phalcon\\logger\\formatter", phalcon_logger_formatter_firephp_method_entry, 0);
 
+	zend_declare_property_bool(phalcon_logger_formatter_firephp_ce, SL("_showBacktrace"), 1, ZEND_ACC_PROTECTED TSRMLS_CC);
+
 	zend_class_implements(phalcon_logger_formatter_firephp_ce TSRMLS_CC, 1, phalcon_logger_formatterinterface_ce);
 
 	return SUCCESS;
+}
+
+static PHP_METHOD(Phalcon_Logger_Formatter_Firephp, getShowBacktrace) {
+
+	RETURN_MEMBER(getThis(), "_showBacktrace");
+}
+
+static PHP_METHOD(Phalcon_Logger_Formatter_Firephp, setShowBacktrace) {
+
+	zval *show;
+
+	phalcon_fetch_params(0, 1, 0, &show);
+
+	if (Z_TYPE_P(show) != IS_BOOL) {
+		PHALCON_SEPARATE_PARAM_NMO(show);
+		convert_to_boolean(show);
+	}
+
+	phalcon_update_property_bool(getThis(), SL("_showBacktrace"), Z_BVAL_P(show) TSRMLS_CC);
 }
 
 static PHP_METHOD(Phalcon_Logger_Formatter_Firephp, getTypeString) {
@@ -94563,8 +94585,9 @@ static PHP_METHOD(Phalcon_Logger_Formatter_Firephp, getTypeString) {
 
 static PHP_METHOD(Phalcon_Logger_Formatter_Firephp, format) {
 
-	zval *message, *type, *type_str, *timestamp;
-	zval *payload, *backtrace, *meta, *encoded;
+	zval *message, *type, *type_str = NULL, *timestamp;
+	zval *payload, *body, *backtrace, *meta, *encoded;
+	zval *show_backtrace;
 	smart_str result = { NULL, 0, 0 };
 	int i;
 	Bucket *p;
@@ -94575,67 +94598,104 @@ static PHP_METHOD(Phalcon_Logger_Formatter_Firephp, format) {
 	PHALCON_ALLOC_ZVAL(type_str);
 	phalcon_call_method_p1_key(type_str, this_ptr, "gettypestring", type, 2427941566UL);
 
+	phalcon_read_property_this(&show_backtrace, getThis(), SL("_showBacktrace"), PH_NOISY TSRMLS_CC);
+	Z_DELREF_P(show_backtrace);
+
 	PHALCON_ALLOC_ZVAL(backtrace);
+	if (zend_is_true(show_backtrace)) {
 #if PHP_VERSION_ID < 50306
-	zend_fetch_debug_backtrace(backtrace, 1, 0 TSRMLS_CC);
+		zend_fetch_debug_backtrace(backtrace, 1, 0 TSRMLS_CC);
 #elif PHP_VERSION_ID < 50400
-	zend_fetch_debug_backtrace(backtrace, 1, DEBUG_BACKTRACE_IGNORE_ARGS TSRMLS_CC);
+		zend_fetch_debug_backtrace(backtrace, 1, DEBUG_BACKTRACE_IGNORE_ARGS TSRMLS_CC);
 #else
-	zend_fetch_debug_backtrace(backtrace, 1, DEBUG_BACKTRACE_IGNORE_ARGS, 0 TSRMLS_CC);
+		zend_fetch_debug_backtrace(backtrace, 1, DEBUG_BACKTRACE_IGNORE_ARGS, 0 TSRMLS_CC);
 #endif
 
-	if (Z_TYPE_P(backtrace) == IS_ARRAY) {
-		HashPosition pos;
-		HashTable *ht = Z_ARRVAL_P(backtrace);
-		zval **ppzval;
-		int found = 0;
-		ulong idx;
-		char *key;
-		uint key_len;
+		if (Z_TYPE_P(backtrace) == IS_ARRAY) {
+			HashPosition pos;
+			HashTable *ht = Z_ARRVAL_P(backtrace);
+			zval **ppzval;
+			int found = 0;
+			ulong idx;
+			char *key;
+			uint key_len;
 
 
-		for (
-			zend_hash_internal_pointer_reset_ex(ht, &pos);
-			zend_hash_has_more_elements_ex(ht, &pos) == SUCCESS;
-		) {
-			zend_hash_get_current_data_ex(ht, (void**)&ppzval, &pos);
-			zend_hash_get_current_key_ex(ht, &key, &key_len, &idx, 0, &pos);
-			zend_hash_move_forward_ex(ht, &pos);
+			for (
+				zend_hash_internal_pointer_reset_ex(ht, &pos);
+				zend_hash_has_more_elements_ex(ht, &pos) == SUCCESS;
+			) {
+				zend_hash_get_current_data_ex(ht, (void**)&ppzval, &pos);
+				zend_hash_get_current_key_ex(ht, &key, &key_len, &idx, 0, &pos);
+				zend_hash_move_forward_ex(ht, &pos);
 
-			if (Z_TYPE_PP(ppzval) == IS_ARRAY) {
-				if (!found && !zend_hash_exists(Z_ARRVAL_PP(ppzval), SS("file"))) {
-					zend_hash_index_del(ht, idx);
-				}
-				else {
-					zend_hash_del(Z_ARRVAL_PP(ppzval), "args", sizeof("args"));
-					zend_hash_del(Z_ARRVAL_PP(ppzval), "object", sizeof("object"));
-					found = 1;
+				if (Z_TYPE_PP(ppzval) == IS_ARRAY) {
+					if (!found && !zend_hash_exists(Z_ARRVAL_PP(ppzval), SS("file"))) {
+						zend_hash_index_del(ht, idx);
+					}
+					else {
+						zend_hash_del(Z_ARRVAL_PP(ppzval), "args", sizeof("args"));
+						zend_hash_del(Z_ARRVAL_PP(ppzval), "object", sizeof("object"));
+						found = 1;
+					}
 				}
 			}
-		}
 
-		p = ht->pListHead;
-		i = 0;
-		while (p != NULL) {
-			p->nKeyLength = 0;
-			p->h = i++;
-			p = p->pListNext;
-		}
+			p = ht->pListHead;
+			i = 0;
+			while (p != NULL) {
+				p->nKeyLength = 0;
+				p->h = i++;
+				p = p->pListNext;
+			}
 
-		ht->nNextFreeElement = i;
- 		zend_hash_rehash(ht);
+			ht->nNextFreeElement = i;
+			zend_hash_rehash(ht);
+		}
 	}
 
-	PHALCON_ALLOC_ZVAL(payload);
+	MAKE_STD_ZVAL(payload);
 	array_init_size(payload, 2);
 
 	PHALCON_ALLOC_ZVAL(meta);
-	array_init_size(meta, 2);
-	add_assoc_zval(meta, "type", type_str);
-	add_assoc_zval(meta, "backtrace", backtrace);
+	array_init_size(meta, 4);
+	add_assoc_zval_ex(meta, SS("Type"), type_str);
+	Z_ADDREF_P(message);
+	add_assoc_zval_ex(meta, SS("Label"), message);
+
+	if (Z_TYPE_P(backtrace) == IS_ARRAY) {
+		zval **ppzval;
+
+		if (likely(SUCCESS == zend_hash_index_find(Z_ARRVAL_P(backtrace), 0, (void**)&ppzval)) && likely(Z_TYPE_PP(ppzval) == IS_ARRAY)) {
+			zval **file = NULL, **line = NULL;
+
+			zend_hash_quick_find(Z_ARRVAL_PP(ppzval), SS("file"), zend_inline_hash_func(SS("file")), (void**)&file);
+			zend_hash_quick_find(Z_ARRVAL_PP(ppzval), SS("line"), zend_inline_hash_func(SS("line")), (void**)&line);
+
+			if (likely(file != NULL)) {
+				Z_ADDREF_PP(file);
+				add_assoc_zval_ex(meta, SS("File"), *file);
+			}
+
+			if (likely(line != NULL)) {
+				Z_ADDREF_PP(line);
+				add_assoc_zval_ex(meta, SS("Line"), *line);
+			}
+		}
+	}
+
+	MAKE_STD_ZVAL(body);
+	array_init_size(body, 1);
+
+	if (zend_is_true(show_backtrace)) {
+		add_assoc_zval_ex(body, SS("backtrace"), backtrace);
+	}
+	else {
+		zval_ptr_dtor(&backtrace);
+	}
 
 	add_next_index_zval(payload, meta);
-	add_next_index_zval(payload, message);
+	add_next_index_zval(payload, body);
 
 	ALLOC_INIT_ZVAL(encoded);
 	phalcon_json_encode(encoded, payload, 0 TSRMLS_CC);
@@ -95470,7 +95530,8 @@ static PHP_METHOD(Phalcon_Logger_Adapter_Firephp, logInternal){
 	sapi_header_line h = { NULL, 0, 0 };
 	smart_str str      = { NULL, 0, 0 };
 	int size, offset, num_bytes;
-	const int chunk = 4960;
+	const int chunk = 4500;
+	int separated_index = 0;
 
 	/* If headers has already been sent, we can do nothing. Exit early. */
 	if (SG(headers_sent)) {
@@ -95484,8 +95545,8 @@ static PHP_METHOD(Phalcon_Logger_Adapter_Firephp, logInternal){
 	PHALCON_INIT_VAR(formatter);
 	phalcon_call_method_key(formatter, this_ptr, "getformatter", 519992697UL);
 
-	PHALCON_OBS_VAR(initialized);
 	phalcon_read_static_property(&initialized, SL("phalcon\\logger\\adapter\\firephp"), SL("_initialized") TSRMLS_CC);
+	Z_DELREF_P(initialized);
 	if (!zend_is_true(initialized)) {
 		h.line     = "X-Wf-Protocol-1: http://meta.wildfirehq.org/Protocol/JsonStream/0.2";
 		h.line_len = sizeof("X-Wf-Protocol-1: http://meta.wildfirehq.org/Protocol/JsonStream/0.2")-1;
@@ -95499,7 +95560,16 @@ static PHP_METHOD(Phalcon_Logger_Adapter_Firephp, logInternal){
 		h.line_len = sizeof("X-Wf-1-Structure-1: http://meta.firephp.org/Wildfire/Structure/FirePHP/FirebugConsole/0.1")-1;
 		sapi_header_op(SAPI_HEADER_REPLACE, &h TSRMLS_CC);
 
-		ZVAL_TRUE(initialized); /* This will also update the property because "initialized" was not separated */
+		if (Z_REFCOUNT_P(initialized) == 1) {
+			zval_dtor(initialized);
+			ZVAL_TRUE(initialized); /* This will also update the property because "initialized" was not separated */
+		}
+		else {
+			MAKE_STD_ZVAL(initialized);
+			ZVAL_TRUE(initialized);
+			Z_DELREF_P(initialized);
+			phalcon_update_static_property_nts(phalcon_logger_adapter_firephp_ce, SL("_initialized"), initialized TSRMLS_CC);
+		}
 	}
 
 	PHALCON_INIT_VAR(applied_format);
@@ -95509,8 +95579,15 @@ static PHP_METHOD(Phalcon_Logger_Adapter_Firephp, logInternal){
 		return;
 	}
 
-	PHALCON_OBS_VAR(index);
 	phalcon_read_static_property(&index, SL("phalcon\\logger\\adapter\\firephp"), SL("_index") TSRMLS_CC);
+	Z_DELREF_P(index);
+
+	if (Z_REFCOUNT_P(index) > 1) {
+		long int idx = phalcon_get_intval(index);
+		PHALCON_INIT_VAR(index);
+		ZVAL_LONG(index, idx);
+		separated_index = 1;
+	}
 
 	size   = Z_STRLEN_P(applied_format);
 	offset = 0;
@@ -95550,6 +95627,10 @@ static PHP_METHOD(Phalcon_Logger_Adapter_Firephp, logInternal){
 		ZVAL_LONG(index, Z_LVAL_P(index)+1);
 
 		str.len = 0;
+	}
+
+	if (separated_index) {
+		phalcon_update_static_property_nts(phalcon_logger_adapter_firephp_ce, SL("_index"), index TSRMLS_CC);
 	}
 
 	/* Deallocate the smnart string if it is not empty */
