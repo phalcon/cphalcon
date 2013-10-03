@@ -58,9 +58,9 @@ abstract class Adapter {
 	 * Filters the logs sent to the handlers that are less or equal than a specific level
 	 *
 	 * @param int level
-	 * @return Phalcon\Logger\Adapter
+	 * @return Phalcon\Logger\AdapterInterface
 	 */
-	public function setLogLevel(int level) -> <Phalcon\Logger\Adapter>
+	public function setLogLevel(int level) -> <Phalcon\Logger\AdapterInterface>
 	{
 		let this->_logLevel = level;
 		return this;
@@ -71,7 +71,7 @@ abstract class Adapter {
 	 *
 	 * @return int
 	 */
-	public function getLogLevel()
+	public function getLogLevel() -> int
 	{
 		return this->_logLevel;
 	}
@@ -80,9 +80,9 @@ abstract class Adapter {
 	 * Sets the message formatter
 	 *
 	 * @param Phalcon\Logger\FormatterInterface formatter
-	 * @return Phalcon\Logger\Adapter
+	 * @return Phalcon\Logger\AdapterInterface
 	 */
-	public function setFormatter(<Phalcon\Logger\FormatterInterface> formatter) -> <Phalcon\Logger\Adapter>
+	public function setFormatter(<Phalcon\Logger\FormatterInterface> formatter) -> <Phalcon\Logger\AdapterInterface>
 	{
 		let this->_formatter = formatter;
 		return this;
@@ -91,9 +91,9 @@ abstract class Adapter {
 	/**
  	 * Starts a transaction
  	 *
- 	 * @return Phalcon\Logger\Adapter
+ 	 * @return Phalcon\Logger\AdapterInterface
  	 */
-	public function begin() -> <Phalcon\Logger\Adapter>
+	public function begin() -> <Phalcon\Logger\AdapterInterface>
 	{
 		let this->_transaction = true;
 		return this;
@@ -102,9 +102,9 @@ abstract class Adapter {
 	/**
  	 * Commits the internal transaction
  	 *
- 	 * @return Phalcon\Logger\Adapter
+ 	 * @return Phalcon\Logger\AdapterInterface
  	 */
-	public function commit() -> <Phalcon\Logger\Adapter>
+	public function commit() -> <Phalcon\Logger\AdapterInterface>
 	{
 		var transaction, queue, message;
 
@@ -152,9 +152,9 @@ abstract class Adapter {
  	 * Sends/Writes an emergence message to the log
  	 *
  	 * @param string message
- 	 * @return Phalcon\Logger\Adapter
+ 	 * @return Phalcon\Logger\AdapterInterface
  	 */
-	public function emergence(string message) -> <Phalcon\Logger\Adapter>
+	public function emergence(string! message) -> <Phalcon\Logger\AdapterInterface>
 	{
 		this->log(message, Phalcon\Logger::EMERGENCE);
 		return this;
@@ -164,9 +164,9 @@ abstract class Adapter {
  	 * Sends/Writes a debug message to the log
  	 *
  	 * @param string message
- 	 * @return Phalcon\Logger\Adapter
+ 	 * @return Phalcon\Logger\AdapterInterface
  	 */
-	public function debug(string message) -> <Phalcon\Logger\Adapter>
+	public function debug(string! message) -> <Phalcon\Logger\AdapterInterface>
 	{
 		this->log(message, Phalcon\Logger::DEBUG);
 		return this;
@@ -176,9 +176,9 @@ abstract class Adapter {
  	 * Sends/Writes an error message to the log
  	 *
  	 * @param string message
- 	 * @return Phalcon\Logger\Adapter
+ 	 * @return Phalcon\Logger\AdapterInterface
  	 */
-	public function error(string message) -> <Phalcon\Logger\Adapter>
+	public function error(string! message) -> <Phalcon\Logger\AdapterInterface>
 	{
 		this->log(message, Phalcon\Logger::ERROR);
 		return this;
@@ -188,9 +188,9 @@ abstract class Adapter {
  	 * Sends/Writes an info message to the log
  	 *
  	 * @param string message
- 	 * @return Phalcon\Logger\Adapter
+ 	 * @return Phalcon\Logger\AdapterInterface
  	 */
-	public function info(message) -> <Phalcon\Logger\Adapter>
+	public function info(string! message) -> <Phalcon\Logger\AdapterInterface>
 	{
 		this->log(message, Phalcon\Logger::INFO);
 		return this;
@@ -200,9 +200,9 @@ abstract class Adapter {
  	 * Sends/Writes a notice message to the log
  	 *
  	 * @param string message
- 	 * @return Phalcon\Logger\Adapter
+ 	 * @return Phalcon\Logger\AdapterInterface
  	 */
-	public function notice(string message) -> <Phalcon\Logger\Adapter>
+	public function notice(string! message) -> <Phalcon\Logger\AdapterInterface>
 	{
 		this->log(message, Phalcon\Logger::NOTICE);
 		return this;
@@ -212,9 +212,9 @@ abstract class Adapter {
  	 * Sends/Writes a warning message to the log
  	 *
  	 * @param string message
- 	 * @return Phalcon\Logger\Adapter
+ 	 * @return Phalcon\Logger\AdapterInterface
  	 */
-	public function warning(string message) -> <Phalcon\Logger\Adapter>
+	public function warning(string! message) -> <Phalcon\Logger\AdapterInterface>
 	{
 		this->log(message, Phalcon\Logger::WARNING);
 		return this;
@@ -224,9 +224,9 @@ abstract class Adapter {
  	 * Sends/Writes an alert message to the log
  	 *
  	 * @param string message
- 	 * @return Phalcon\Logger\Adapter
+ 	 * @return Phalcon\Logger\AdapterInterface
  	 */
-	public function alert(string message) -> <Phalcon\Logger\Adapter>
+	public function alert(string! message) -> <Phalcon\Logger\AdapterInterface>
 	{
 		this->log(message, Phalcon\Logger::ALERT);
 		return this;
@@ -237,9 +237,9 @@ abstract class Adapter {
 	 *
 	 * @param string message
 	 * @param int type
-	 * @return Phalcon\Logger\Adapter
+	 * @return Phalcon\Logger\AdapterInterface
 	 */
-	public function log(string message, int type=7) -> <Phalcon\Logger\Adapter>
+	public function log(string! message, int type=7) -> <Phalcon\Logger\AdapterInterface>
 	{
 		var timestamp, transaction;
 

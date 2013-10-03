@@ -33,7 +33,7 @@ interface ColumnInterface
 	 * @param string columnName
 	 * @param array definition
 	 */
-	public function __construct(columnName, definition);
+	public function __construct(string! columnName, definition);
 
 	/**
 	 * Returns schema's table related to column
@@ -132,6 +132,6 @@ interface ColumnInterface
 	 * @param array data
 	 * @return \Phalcon\Db\ColumnInterface
 	 */
-	public static function __set_state(data);
+	public static function __set_state(data) -> <Phalcon\Db\ColumnInterface>;
 
 }

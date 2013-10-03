@@ -58,7 +58,7 @@ class File extends Phalcon\Logger\Adapter implements Phalcon\Logger\AdapterInter
 	 * @param string name
 	 * @param array options
 	 */
-	public function __construct(string name, options=null)
+	public function __construct(string! name, options=null)
 	{
 		var mode, handler;
 
@@ -88,9 +88,9 @@ class File extends Phalcon\Logger\Adapter implements Phalcon\Logger\AdapterInter
 	/**
 	 * Returns the internal formatter
 	 *
-	 * @return Phalcon\Logger\Formatter\Line
+	 * @return Phalcon\Logger\FormatterInterface
 	 */
-	public function getFormatter() -> <Phalcon\Logger\Formatter\Line>
+	public function getFormatter() -> <Phalcon\Logger\FormatterInterface>
 	{
 		var formatter;
 
@@ -109,7 +109,7 @@ class File extends Phalcon\Logger\Adapter implements Phalcon\Logger\AdapterInter
 	 * @param int type
 	 * @param int time
 	 */
-	public function logInternal(string message, int type, int time)
+	public function logInternal(string! message, int type, int time)
 	{
 		var fileHandler, formatter;
 
@@ -127,7 +127,7 @@ class File extends Phalcon\Logger\Adapter implements Phalcon\Logger\AdapterInter
  	 *
  	 * @return boolean
  	 */
-	public function close()
+	public function close() -> boolean
 	{
 		return fclose(this->_fileHandler);
 	}

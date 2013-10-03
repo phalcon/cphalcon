@@ -49,7 +49,7 @@ class Index implements Phalcon\Db\IndexInterface
 	 * @param string name
 	 * @param array columns
 	 */
-	public function __construct(string name, columns)
+	public function __construct(string! name, columns)
 	{
 		let this->_name = name;
 		let this->_columns = columns;

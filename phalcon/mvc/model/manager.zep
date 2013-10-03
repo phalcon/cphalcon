@@ -1471,7 +1471,7 @@ class Manager
 	 * @param string|array params
 	 * @return Phalcon\Mvc\Model\Query\BuilderInterface
 	 */
-	public function createBuilder(params=null) -> <Phalcon\Mvc\Model\Query\BuilderInterface>
+	public function createBuilder(var params=null) -> <Phalcon\Mvc\Model\Query\BuilderInterface>
 	{
 		var dependencyInjector;
 

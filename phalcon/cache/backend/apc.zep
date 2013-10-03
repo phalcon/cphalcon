@@ -48,7 +48,7 @@ class Apc extends Phalcon\Cache\Backend implements Phalcon\Cache\BackendInterfac
 	/**
 	 * Returns a cached content
 	 *
-	 * @param 	string keyName
+	 * @param 	string|long keyName
 	 * @param   long lifetime
 	 * @return  mixed
 	 */
@@ -72,7 +72,7 @@ class Apc extends Phalcon\Cache\Backend implements Phalcon\Cache\BackendInterfac
 	/**
 	 * Stores cached content into the APC backend and stops the frontend
 	 *
-	 * @param string keyName
+	 * @param string|long keyName
 	 * @param string content
 	 * @param long lifetime
 	 * @param boolean stopBuffer
@@ -158,7 +158,7 @@ class Apc extends Phalcon\Cache\Backend implements Phalcon\Cache\BackendInterfac
 	/**
 	 * Checks if cache exists and it hasn't expired
 	 *
-	 * @param  string keyName
+	 * @param  string|long keyName
 	 * @param  long lifetime
 	 * @return boolean
 	 */

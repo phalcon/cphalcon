@@ -85,13 +85,9 @@ class Di implements Phalcon\DiInterface
 	 * @param boolean shared
 	 * @return Phalcon\Di\ServiceInterface
 	 */
-	public function set(name, definition, shared=false) -> <Phalcon\Di\ServiceInterface>
+	public function set(string! name, definition, shared=false) -> <Phalcon\Di\ServiceInterface>
 	{
 		var service;
-
-		if typeof name != "string" {
-			throw new Phalcon\Di\Exception("The service name must be a string");
-		}
 		let service = new Phalcon\Di\Service(name, definition, shared),
 			this->_services[name] = service;
 		return service;
@@ -104,13 +100,9 @@ class Di implements Phalcon\DiInterface
 	 * @param mixed definition
 	 * @return Phalcon\Di\ServiceInterface
 	 */
-	public function setShared(name, definition) -> <Phalcon\Di\ServiceInterface>
+	public function setShared(string! name, definition) -> <Phalcon\Di\ServiceInterface>
 	{
 		var service;
-
-		if typeof name != "string" {
-			throw new Phalcon\Di\Exception("The service name must be a string");
-		}
 		let service = new Phalcon\Di\Service(name, definition, true),
 			this->_services[name] = service;
 		return service;
@@ -121,11 +113,8 @@ class Di implements Phalcon\DiInterface
 	 *
 	 * @param string name
 	 */
-	public function remove(name)
+	public function remove(string! name)
 	{
-		if typeof name != "string" {
-			throw new Phalcon\Di\Exception("The service name must be a string");
-		}
 		//unset this->_services[name];
 	}
 
@@ -139,13 +128,9 @@ class Di implements Phalcon\DiInterface
 	 * @param boolean shared
 	 * @return Phalcon\Di\ServiceInterface
 	 */
-	public function attempt(name, definition, shared=false) -> <Phalcon\Di\ServiceInterface>
+	public function attempt(string! name, definition, shared=false) -> <Phalcon\Di\ServiceInterface>
 	{
 		var services, service;
-
-		if typeof name != "string" {
-			throw new Phalcon\Di\Exception("The service name must be a string");
-		}
 
 		let services = this->_services;
 		if !isset services[name] {
@@ -164,17 +149,8 @@ class Di implements Phalcon\DiInterface
 	 * @param Phalcon\Di\ServiceInterface rawDefinition
 	 * @return Phalcon\Di\ServiceInterface
 	 */
-	public function setRaw(name, <Phalcon\Di\ServiceInterface> rawDefinition) -> <Phalcon\Di\ServiceInterface>
+	public function setRaw(string! name, <Phalcon\Di\ServiceInterface> rawDefinition) -> <Phalcon\Di\ServiceInterface>
 	{
-
-		if typeof name != "string" {
-			throw new Phalcon\Di\Exception("The service name must be a string");
-		}
-
-		if typeof rawDefinition != "object" {
-			throw new Phalcon\Di\Exception("The service definition must be an object");
-		}
-
 		let this->_services[name] = rawDefinition;
 		return rawDefinition;
 	}
@@ -185,13 +161,9 @@ class Di implements Phalcon\DiInterface
 	 * @param string name
 	 * @return mixed
 	 */
-	public function getRaw(name)
+	public function getRaw(string! name)
 	{
 		var services, service;
-
-		if typeof name != "string" {
-			throw new Phalcon\Di\Exception("The service name must be a string");
-		}
 
 		let services = this->_services;
 		if isset services[name] {
@@ -208,13 +180,9 @@ class Di implements Phalcon\DiInterface
 	 * @param string name
 	 * @return Phalcon\Di\ServiceInterface
 	 */
-	public function getService(name) -> <Phalcon\Di\ServiceInterface>
+	public function getService(string! name) -> <Phalcon\Di\ServiceInterface>
 	{
 		var services, service;
-
-		if typeof name != "string" {
-			throw new Phalcon\Di\Exception("The service name must be a string");
-		}
 
 		let services = this->_services;
 		if fetch service, services[name] {
@@ -231,16 +199,9 @@ class Di implements Phalcon\DiInterface
 	 * @param array parameters
 	 * @return mixed
 	 */
-	public function get(name, parameters=null)
+	public function get(string! name, parameters=null)
 	{
 		var services, service, instance;
-
-		/**
-		 * A valid service alias is a string
-		 */
-		if typeof name != "string" {
-			throw new Phalcon\Di\Exception("The service name must be a string");
-		}
 
 		let services = this->_services;
 		if fetch service, services[name] {
@@ -286,13 +247,9 @@ class Di implements Phalcon\DiInterface
 	 * @param array parameters
 	 * @return mixed
 	 */
-	public function getShared(name, parameters=null)
+	public function getShared(string! name, parameters=null)
 	{
 		var instance, sharedInstances;
-
-		if typeof name != "string" {
-			throw new Phalcon\Di\Exception("The service name must be a string");
-		}
 
 		/**
 		 * This method provides a first level to shared instances allowing to use non-shared services as shared
@@ -323,7 +280,7 @@ class Di implements Phalcon\DiInterface
 	 * @param string name
 	 * @return boolean
 	 */
-	public function has(string name) -> boolean
+	public function has(string! name) -> boolean
 	{
 		var services;
 		let services = this->_services;
@@ -356,7 +313,7 @@ class Di implements Phalcon\DiInterface
 	 * @param string name
 	 * @return boolean
 	 */
-	public function offsetExists(string name) -> boolean
+	public function offsetExists(string! name) -> boolean
 	{
 		return this->has(name);
 	}
@@ -371,7 +328,7 @@ class Di implements Phalcon\DiInterface
 	 * @param string name
 	 * @param mixed definition
 	 */
-	public function offsetSet(string name, definition) -> boolean
+	public function offsetSet(string! name, definition) -> boolean
 	{
 		this->setShared(name, definition);
 	}
@@ -386,7 +343,7 @@ class Di implements Phalcon\DiInterface
 	 * @param string name
 	 * @return mixed
 	 */
-	public function offsetGet(string name) -> boolean
+	public function offsetGet(string! name) -> boolean
 	{
 		return this->getShared(name);
 	}
@@ -396,7 +353,7 @@ class Di implements Phalcon\DiInterface
 	 *
 	 * @param string name
 	 */
-	public function offsetUnset(name) -> boolean
+	public function offsetUnset(string! name) -> boolean
 	{
 		return name;
 	}
@@ -408,7 +365,7 @@ class Di implements Phalcon\DiInterface
 	 * @param array arguments
 	 * @return mixed
 	 */
-	public function __call(method, arguments=null)
+	public function __call(string! method, arguments=null)
 	{
 		var instance, possibleService, services, definition;
 

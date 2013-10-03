@@ -65,7 +65,7 @@ class Line extends Phalcon\Logger\Formatter implements Phalcon\Logger\FormatterI
 	 * @param int timestamp
 	 * @return string
 	 */
-	public function format(message, type, int timestamp) -> string
+	public function format(string! message, int type, int timestamp) -> string
 	{
 		var format;
 

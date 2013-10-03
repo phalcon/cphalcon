@@ -220,7 +220,7 @@ class Column implements Phalcon\Db\ColumnInterface
 	 * @param string name
 	 * @param array definition
 	 */
-	public function __construct(string name, definition)
+	public function __construct(string! name, var definition)
 	{
 		var type, notNull, primary, size, scale, dunsigned, first,
 			after, bindType, isNumeric, autoIncrement;

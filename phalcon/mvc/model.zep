@@ -2932,7 +2932,7 @@ abstract class Model //implements Phalcon\Mvc\ModelInterface, Phalcon\Mvc\Model\
 		 */
 		if this->_exists(metaData, this->getReadConnection()) {
 			let this->_errorMessages = [
-				new Phalcon\Mvc\Model\Message("Record cannot be created because it already exists", null, 'InvalidCreateAttempt')
+				new Phalcon\Mvc\Model\Message("Record cannot be created because it already exists", null, "InvalidCreateAttempt")
 			];
 			return false;
 		}

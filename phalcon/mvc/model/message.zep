@@ -45,7 +45,7 @@ namespace Phalcon\Mvc\Model;
  * </code>
  *
  */
-class Message //implements Phalcon\Mvc\Model\MessageInterface
+class Message implements Phalcon\Mvc\Model\MessageInterface
 {
 
 	protected _type;
@@ -55,5 +55,131 @@ class Message //implements Phalcon\Mvc\Model\MessageInterface
 	protected _field;
 
 	protected _model;
+
+	/**
+	 * Phalcon\Mvc\Model\Message constructor
+	 *
+	 * @param string message
+	 * @param string field
+	 * @param string type
+	 * @param Phalcon\Mvc\ModelInterface model
+	 */
+	public function __construct(string! message, field=null, type=null, model=null){
+		let this->_message = message,
+			this->_field = field,
+			this->_type = type;
+		if typeof model == "object"{
+			let this->_model = model;
+		}
+	}
+
+	/**
+	 * Sets message type
+	 *
+	 * @param string type
+	 * @return Phalcon\Mvc\Model\MessageInterface
+	 */
+	public function setType(type) -> <Phalcon\Mvc\Model\MessageInterface>
+	{
+		let this->_type = type;
+		return this;
+	}
+
+	/**
+	 * Returns message type
+	 *
+	 * @return string
+	 */
+	public function getType() -> string
+	{
+		return this->_type;
+	}
+
+	/**
+	 * Sets verbose message
+	 *
+	 * @param string message
+	 * @return Phalcon\Mvc\Model\MessageInterface
+	 */
+	public function setMessage(string! message) -> <Phalcon\Mvc\Model\MessageInterface>
+	{
+		let this->_message = message;
+		return this;
+	}
+
+	/**
+	 * Returns verbose message
+	 *
+	 * @return string
+	 */
+	public function getMessage()
+	{
+		return this->_message;
+	}
+
+	/**
+	 * Sets field name related to message
+	 *
+	 * @param string field
+	 * @return Phalcon\Mvc\Model\MessageInterface
+	 */
+	public function setField(string! field) -> <Phalcon\Mvc\Model\MessageInterface>
+	{
+		let this->_field = field;
+		return this;
+	}
+
+	/**
+	 * Returns field name related to message
+	 *
+	 * @return string
+	 */
+	public function getField()
+	{
+		return this->_field;
+	}
+
+	/**
+	 * Set the model who generates the message
+	 *
+	 * @param Phalcon\Mvc\ModelInterface model
+	 * @return Phalcon\Mvc\Model\Message
+	 */
+	public function setModel(<Phalcon\Mvc\ModelInterface> model) -> <Phalcon\Mvc\Model\Message>
+	{
+		let this->_model = model;
+		return this;
+	}
+
+	/**
+	 * Returns the model that produced the message
+	 *
+	 * @return Phalcon\Mvc\ModelInterface
+	 */
+	public function getModel() -> <Phalcon\Mvc\ModelInterface>
+	{
+		return this->_model;
+	}
+
+	/**
+	 * Magic __toString method returns verbose message
+	 *
+	 * @return string
+	 */
+	public function __toString() -> string
+	{
+		return this->_message;
+	}
+
+	/**
+	 * Magic __set_state helps to re-build messages variable exporting
+	 *
+	 * @param array $message
+	 * @return Phalcon\Mvc\Model\MessageInterface
+	 */
+	public static function __set_state(message) -> <Phalcon\Mvc\Model\MessageInterface>
+	{
+		return new self(message["_message"], message["_field"], message["_type"]);
+	}
 
 }

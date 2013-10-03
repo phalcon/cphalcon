@@ -545,14 +545,14 @@ interface AdapterInterface
 	 *
 	 * @return boolean
 	 */
-	public function isNestedTransactionsWithSavepoints();
+	public function isNestedTransactionsWithSavepoints() -> boolean;
 
 	/**
 	 * Returns the savepoint name to use for nested transactions
 	 *
 	 * @return string
 	 */
-	public function getNestedTransactionSavepointName();
+	public function getNestedTransactionSavepointName() -> string;
 
 	/**
 	 * Returns an array of Phalcon\Db\Column objects describing a table

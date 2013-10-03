@@ -54,7 +54,7 @@ class Route
 	 * @param array paths
 	 * @param array|string httpMethods
 	 */
-	public function __construct(string pattern, paths=null, httpMethods=null)
+	public function __construct(string! pattern, paths=null, httpMethods=null)
 	{
 		// Configure the route (extract parameters, paths, etc)
 		this->reConfigure(pattern, paths);
@@ -69,7 +69,7 @@ class Route
 	 * @param string pattern
 	 * @return string
 	 */
-	public function compilePattern(string pattern)
+	public function compilePattern(string! pattern)
 	{
 		var idPattern;
 
@@ -134,7 +134,7 @@ class Route
 	 * @param string|array httpMethods
 	 * @return Phalcon\Mvc\Router\Route
 	 */
-	public function via(httpMethods)
+	public function via(httpMethods) -> <Phalcon\Mvc\Router\Route>
 	{
 		let this->_methods = httpMethods;
 		return this;
@@ -145,7 +145,7 @@ class Route
 	 *
 	 * @param string pattern
 	 */
-	public function extractNamedParams(string pattern) -> string
+	public function extractNamedParams(string! pattern) -> string
 	{
 
 		char ch;
@@ -283,7 +283,7 @@ class Route
 	 * @param string pattern
 	 * @param array paths
 	 */
-	public function reConfigure(string pattern, paths=null)
+	public function reConfigure(string! pattern, paths=null)
 	{
 		var moduleName, controllerName, actionName,
 			parts, routePaths, realClassName, namespaceName,
@@ -411,7 +411,7 @@ class Route
 	 * @param string name
 	 * @return Phalcon\Mvc\Router\Route
 	 */
-	public function setName(string name) -> <Phalcon\Mvc\Router\Route>
+	public function setName(string! name) -> <Phalcon\Mvc\Router\Route>
 	{
 		let this->_name = name;
 		return this;
@@ -425,7 +425,7 @@ class Route
 	 * @param callback callback
 	 * @return Phalcon\Mvc\Router\Route
 	 */
-	public function beforeMatch(callback) -> <Phalcon\Mvc\Router\Route>
+	public function beforeMatch(var callback) -> <Phalcon\Mvc\Router\Route>
 	{
 		let this->_beforeMatch = callback;
 		return this;
@@ -557,7 +557,7 @@ class Route
 	 * @param callable converter
 	 * @return Phalcon\Mvc\Router\Route
 	 */
-	public function convert(string name, converter) -> <Phalcon\Mvc\Router\Route>
+	public function convert(string! name, converter) -> <Phalcon\Mvc\Router\Route>
 	{
 		let this->_converters[name] = converter;
 		return this;

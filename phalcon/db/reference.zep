@@ -74,7 +74,7 @@ class Reference implements Phalcon\Db\ReferenceInterface
 	 * @param string name
 	 * @param array definition
 	 */
-	public function __construct(string name, definition)
+	public function __construct(string! name, definition)
 	{
 		var columns, schema, referencedTable,
 			referencedSchema, referencedColumns;

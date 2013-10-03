@@ -48,7 +48,7 @@ class Service implements Phalcon\Di\ServiceInterface
 	 * @param mixed definition
 	 * @param boolean shared
 	 */
-	public function __construct(string name, definition, boolean shared=false)
+	public function __construct(string! name, definition, boolean shared=false)
 	{
 		let this->_name = name,
 			this->_definition = definition,

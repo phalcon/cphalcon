@@ -32,7 +32,7 @@ interface CollectionInterface
 	 *
 	 * @param Phalcon\DiInterface dependencyInjector
 	 */
-	public function __construct(dependencyInjector=null);
+	public function __construct(<Phalcon\DiInterface> dependencyInjector=null);
 
 	/**
 	 * Sets a value for the _id propery, creates a MongoId object if needed
@@ -82,7 +82,7 @@ interface CollectionInterface
 	 * @param string attribute
 	 * @return mixed
 	 */
-	public function readAttribute(attribute);
+	public function readAttribute(string! attribute);
 
 	/**
 	 * Writes an attribute value by its name
@@ -90,7 +90,7 @@ interface CollectionInterface
 	 * @param string attribute
 	 * @param mixed value
 	 */
-	public function writeAttribute(attribute, value);
+	public function writeAttribute(string! attribute, value);
 
 	/**
 	 * Returns a cloned collection
@@ -137,7 +137,7 @@ interface CollectionInterface
 	 *
 	 * @param Phalcon\Mvc\Model\MessageInterface message
 	 */
-	public function appendMessage(message);
+	public function appendMessage(<Phalcon\Mvc\Model\MessageInterface> message);
 
 	/**
 	 * Creates/Updates a collection based on the values in the atributes

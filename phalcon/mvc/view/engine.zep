@@ -45,9 +45,9 @@ abstract class Engine extends Phalcon\Di\Injectable
 	/**
 	 * Returns cached ouput on another view stage
 	 *
-	 * @return array
+	 * @return string
 	 */
-	public function getContent()
+	public function getContent() -> string
 	{
 		var view;
 		let view = this->_view;

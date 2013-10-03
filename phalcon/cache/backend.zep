@@ -47,13 +47,9 @@ abstract class Backend
 	 * @param	Phalcon\Cache\FrontendInterface frontend
 	 * @param	array options
 	 */
-	public function __construct(frontend, options=null)
+	public function __construct(<Phalcon\Cache\FrontendInterface> frontend, options=null)
 	{
 		var prefix;
-
-		if typeof frontend != "object" {
-			throw new Phalcon\Cache\Exception("Frontend must be an Object");
-		}
 
 		/**
 		 * A common option is the prefix
@@ -73,7 +69,7 @@ abstract class Backend
 	 * @param   long lifetime
 	 * @return  mixed
 	 */
-	public function start(keyName, lifetime=null)
+	public function start(var keyName, lifetime=null)
 	{
 		var existingCache, fresh, frontend;
 
@@ -107,7 +103,7 @@ abstract class Backend
 	 *
 	 * @param boolean stopBuffer
 	 */
-	public function stop(stopBuffer=true)
+	public function stop(boolean stopBuffer=true)
 	{
 		var frontend;
 		if stopBuffer === true {

@@ -100,7 +100,7 @@ class MySQL extends Phalcon\Db\Dialect //implements Phalcon\Db\DialectInterface
 	 * @param	string schemaName
 	 * @param	Phalcon\Db\ColumnInterface column
 	 */
-	public function addColumn(string tableName, string schemaName, <Phalcon\Db\ColumnInterface> column) -> string
+	public function addColumn(string! tableName, string! schemaName, <Phalcon\Db\ColumnInterface> column) -> string
 	{
 		var afterPosition, sql;
 
@@ -139,7 +139,7 @@ class MySQL extends Phalcon\Db\Dialect //implements Phalcon\Db\DialectInterface
 	 * @param	Phalcon\Db\ColumnInterface column
 	 * @return	string
 	 */
-	public function modifyColumn(string tableName, string schemaName, <Phalcon\Db\ColumnInterface> column) -> string
+	public function modifyColumn(string! tableName, string! schemaName, <Phalcon\Db\ColumnInterface> column) -> string
 	{
 		var sql;
 
@@ -168,7 +168,7 @@ class MySQL extends Phalcon\Db\Dialect //implements Phalcon\Db\DialectInterface
 	 * @param	string columnName
 	 * @return 	string
 	 */
-	public function dropColumn(string tableName, string schemaName, string columnName) -> string
+	public function dropColumn(string! tableName, string! schemaName, string columnName) -> string
 	{
 		var sql;
 
@@ -189,7 +189,7 @@ class MySQL extends Phalcon\Db\Dialect //implements Phalcon\Db\DialectInterface
 	 * @param	Phalcon\Db\IndexInterface index
 	 * @return	string
 	 */
-	public function addIndex(string tableName, string schemaName, <Phalcon\Db\IndexInterface> index) -> string
+	public function addIndex(string! tableName, string! schemaName, <Phalcon\Db\IndexInterface> index) -> string
 	{
 		var sql;
 
@@ -215,7 +215,7 @@ class MySQL extends Phalcon\Db\Dialect //implements Phalcon\Db\DialectInterface
 	 * @param	string indexName
 	 * @return	string
 	 */
-	public function dropIndex(string tableName, string schemaName, string indexName) -> string
+	public function dropIndex(string! tableName, string! schemaName, string indexName) -> string
 	{
 		var sql;
 		if schemaName {
@@ -259,7 +259,7 @@ class MySQL extends Phalcon\Db\Dialect //implements Phalcon\Db\DialectInterface
 	 * @param	string schemaName
 	 * @return	string
 	 */
-	public function dropPrimaryKey(string tableName, string schemaName) -> string
+	public function dropPrimaryKey(string! tableName, string! schemaName) -> string
 	{
 		var sql;
 
@@ -279,7 +279,7 @@ class MySQL extends Phalcon\Db\Dialect //implements Phalcon\Db\DialectInterface
 	 * @param	Phalcon\Db\ReferenceInterface reference
 	 * @return	string
 	 */
-	public function addForeignKey(tableName, schemaName, <Phalcon\Db\ReferenceInterface> reference) -> string
+	public function addForeignKey(string! tableName, string! schemaName, <Phalcon\Db\ReferenceInterface> reference) -> string
 	{
 		var sql, referencedSchema;
 
@@ -315,7 +315,7 @@ class MySQL extends Phalcon\Db\Dialect //implements Phalcon\Db\DialectInterface
 	 * @param	string referenceName
 	 * @return	string
 	 */
-	public function dropForeignKey(tableName, schemaName, referenceName) -> string
+	public function dropForeignKey(string! tableName, string! schemaName, referenceName) -> string
 	{
 		var sql;
 		if schemaName {
@@ -387,7 +387,7 @@ class MySQL extends Phalcon\Db\Dialect //implements Phalcon\Db\DialectInterface
 	 * @param	array definition
 	 * @return 	string
 	 */
-	public function createTable(tableName, schemaName, definition) -> string
+	public function createTable(string! tableName, string! schemaName, definition) -> string
 	{
 		var temporary, options, table, createLines, columns,
 			column, indexes, index, reference, references, indexName,
@@ -494,7 +494,7 @@ class MySQL extends Phalcon\Db\Dialect //implements Phalcon\Db\DialectInterface
 	 * @param  boolean ifExists
 	 * @return string
 	 */
-	public function dropTable(tableName, schemaName, ifExists=true) -> string
+	public function dropTable(string! tableName, string! schemaName, ifExists=true) -> string
 	{
 		var sql, table;
 
@@ -521,7 +521,7 @@ class MySQL extends Phalcon\Db\Dialect //implements Phalcon\Db\DialectInterface
 	 * @param string schemaName
 	 * @return string
 	 */
-	public function createView(viewName, definition, schemaName) -> string
+	public function createView(string! viewName, definition, string! schemaName) -> string
 	{
 		var view, viewSql;
 
@@ -546,7 +546,7 @@ class MySQL extends Phalcon\Db\Dialect //implements Phalcon\Db\DialectInterface
 	 * @param boolean ifExists
 	 * @return string
 	 */
-	public function dropView(viewName, schemaName, ifExists=true) -> string
+	public function dropView(string! viewName, string! schemaName, boolean ifExists=true) -> string
 	{
 		var sql, view;
 
@@ -577,7 +577,7 @@ class MySQL extends Phalcon\Db\Dialect //implements Phalcon\Db\DialectInterface
 	 * @param string schemaName
 	 * @return string
 	 */
-	public function tableExists(tableName, schemaName=null) -> string
+	public function tableExists(string! tableName, schemaName=null) -> string
 	{
 		if schemaName {
 			return "SELECT IF(COUNT(*)>0, 1 , 0) FROM `INFORMATION_SCHEMA`.`TABLES` WHERE `TABLE_NAME`= '" . tableName . "' AND `TABLE_SCHEMA` = '" . schemaName . "'";
@@ -592,7 +592,7 @@ class MySQL extends Phalcon\Db\Dialect //implements Phalcon\Db\DialectInterface
 	 * @param string schemaName
 	 * @return string
 	 */
-	public function viewExists(viewName, schemaName=null)
+	public function viewExists(string! viewName, schemaName=null)
 	{
 		if schemaName {
 			return "SELECT IF(COUNT(*)>0, 1 , 0) FROM `INFORMATION_SCHEMA`.`VIEWS` WHERE `TABLE_NAME`= '" . viewName . "' AND `TABLE_SCHEMA`='" . schemaName . "'";
@@ -611,7 +611,7 @@ class MySQL extends Phalcon\Db\Dialect //implements Phalcon\Db\DialectInterface
 	 * @param string schema
 	 * @return string
 	 */
-	public function describeColumns(table, schema=null) -> string
+	public function describeColumns(string! table, schema=null) -> string
 	{
 		if schema {
 			return "DESCRIBE `" . schema . "`.`" . table . "`";
@@ -658,7 +658,7 @@ class MySQL extends Phalcon\Db\Dialect //implements Phalcon\Db\DialectInterface
 	 * @param	string schema
 	 * @return	string
 	 */
-	public function describeIndexes(table, schema=null) -> string
+	public function describeIndexes(string! table, schema=null) -> string
 	{
 		if schema {
 			return "SHOW INDEXES FROM `" . schema . "`.`" . table . "`";

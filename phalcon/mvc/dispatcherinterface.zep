@@ -32,41 +32,41 @@ interface DispatcherInterface extends Phalcon\DispatcherInterface
 	 *
 	 * @param string controllerSuffix
 	 */
-	public function setControllerSuffix(controllerSuffix);
+	public function setControllerSuffix(string! controllerSuffix);
 
 	/**
 	 * Sets the default controller name
      *
 	 * @param string controllerName
 	 */
-	public function setDefaultController(controllerName);
+	public function setDefaultController(string! controllerName);
 
 	/**
 	 * Sets the controller name to be dispatched
 	 *
 	 * @param string controllerName
 	 */
-	public function setControllerName(controllerName);
+	public function setControllerName(string! controllerName);
 
 	/**
 	 * Gets last dispatched controller name
 	 *
 	 * @return string
 	 */
-	public function getControllerName();
+	public function getControllerName() -> string;
 
 	/**
 	 * Returns the lastest dispatched controller
 	 *
 	 * @return Phalcon\Mvc\ControllerInterface
 	 */
-	public function getLastController();
+	public function getLastController() -> <Phalcon\Mvc\ControllerInterface>;
 
 	/**
 	 * Returns the active controller in the dispatcher
 	 *
 	 * @return Phalcon\Mvc\ControllerInterface
 	 */
-	public function getActiveController();
+	public function getActiveController() -> <Phalcon\Mvc\ControllerInterface>;
 
 }

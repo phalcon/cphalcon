@@ -377,7 +377,7 @@ abstract class Resultset
 	public function setHydrateMode(int hydrateMode) -> <Phalcon\Mvc\Model\Resultset>
 	{
 		let this->_hydrateMode = hydrateMode;
-		return $this;
+		return this;
 	}
 
 	/**

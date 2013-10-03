@@ -42,7 +42,7 @@ abstract class Dialect
 	 * @param int number
 	 * @return string
 	 */
-	public function limit(string sqlQuery, int number) -> string
+	public function limit(string! sqlQuery, int number) -> string
 	{
 		if is_numeric(number) {
 			return sqlQuery . " LIMIT " . number;
@@ -61,7 +61,7 @@ abstract class Dialect
 	 * @param	string sqlQuery
 	 * @return	string
 	 */
-	public function forUpdate(string sqlQuery) -> string
+	public function forUpdate(string! sqlQuery) -> string
 	{
 		return sqlQuery . " FOR UPDATE";
 	}
@@ -77,7 +77,7 @@ abstract class Dialect
 	 * @param	string sqlQuery
 	 * @return	string
 	 */
-	public function sharedLock(string sqlQuery) -> string
+	public function sharedLock(string! sqlQuery) -> string
 	{
 		return sqlQuery . " LOCK IN SHARE MODE";
 	}
@@ -110,7 +110,7 @@ abstract class Dialect
 	 * @param string escapeChar
 	 * @return string
 	 */
-	public function getSqlExpression(expression, string escapeChar=null) -> string
+	public function getSqlExpression(var expression, string escapeChar=null) -> string
 	{
 		var type, domain, operator, left, right, name, sqlItems,
 			escapedName, sqlArguments, arguments, argument, items, item;
@@ -569,7 +569,7 @@ abstract class Dialect
 	 *
 	 * @return boolean
 	 */
-	public function supportsReleaseSavepoints()
+	public function supportsReleaseSavepoints() -> boolean
 	{
 		return this->supportsSavePoints();
 	}
@@ -580,7 +580,7 @@ abstract class Dialect
 	 * @param string name
 	 * @return string
 	 */
-	public function createSavepoint(string name) -> string
+	public function createSavepoint(string! name) -> string
 	{
 		return "SAVEPOINT " . name;
 	}
@@ -591,7 +591,7 @@ abstract class Dialect
 	 * @param string name
 	 * @return string
 	 */
-	public function releaseSavepoint(string name) -> string
+	public function releaseSavepoint(string! name) -> string
 	{
 		return "RELEASE SAVEPOINT " . name;
 	}
@@ -602,7 +602,7 @@ abstract class Dialect
 	 * @param string name
 	 * @return string
 	 */
-	public function rollbackSavepoint(string name) -> string
+	public function rollbackSavepoint(string! name) -> string
 	{
 		return "ROLLBACK TO SAVEPOINT " . name;
 	}

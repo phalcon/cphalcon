@@ -96,7 +96,7 @@ abstract class Injectable implements Phalcon\Di\InjectionAwareInterface, Phalcon
 	 *
 	 * @param string propertyName
 	 */
-	public function __get(string propertyName)
+	public function __get(string! propertyName)
 	{
 		var dependencyInjector, hasService, service, persistent;
 
