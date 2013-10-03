@@ -217,14 +217,17 @@ PHP_METHOD(Phalcon_Mvc_Application, getModules) {
  */
 PHP_METHOD(Phalcon_Mvc_Application, setDefaultModule) {
 
-	zval *defaultModule;
+	zval *defaultModule_param = NULL;
+	zval *defaultModule = NULL;
 
-	zephir_fetch_params(0, 1, 0, &defaultModule);
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 1, 0, &defaultModule_param);
 
+		zephir_get_strval(defaultModule, defaultModule_param);
 
 
 	zephir_update_property_this(this_ptr, SL("_defaultModule"), defaultModule TSRMLS_CC);
-	RETURN_THISW();
+	RETURN_THIS();
 
 }
 

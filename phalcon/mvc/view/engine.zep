@@ -61,7 +61,7 @@ abstract class Engine extends Phalcon\Di\Injectable
 	 * @param array params
 	 * @return string
 	 */
-	public function partial(string partialPath, params=null) -> string
+	public function partial(string! partialPath, params=null) -> string
 	{
 		var view;
 		let view = this->_view;

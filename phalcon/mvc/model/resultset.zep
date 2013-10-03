@@ -147,8 +147,7 @@ abstract class Resultset
 	 */
 	public function seek(int position)
 	{
-		var result, rows;
-		int i;
+		var result, rows; int i;
 
 		if this->_pointer != position {
 

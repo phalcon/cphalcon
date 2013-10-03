@@ -382,7 +382,7 @@ class View extends Phalcon\Di\Injectable implements Phalcon\Mvc\ViewInterface
 	 * @param mixed value
 	 * @return Phalcon\Mvc\View
 	 */
-	public function setParamToView(string key, value) -> <Phalcon\Mvc\View>
+	public function setParamToView(string! key, value) -> <Phalcon\Mvc\View>
 	{
 		let this->_viewParams[key] = value;
 		return $this;
@@ -432,7 +432,7 @@ class View extends Phalcon\Di\Injectable implements Phalcon\Mvc\ViewInterface
 	 * @param mixed value
 	 * @return Phalcon\Mvc\View
 	 */
-	public function setVar(string key, value) -> <Phalcon\Mvc\View>
+	public function setVar(string! key, value) -> <Phalcon\Mvc\View>
 	{
 		let this->_viewParams[key] = value;
 		return this;
@@ -444,7 +444,7 @@ class View extends Phalcon\Di\Injectable implements Phalcon\Mvc\ViewInterface
 	 * @param string key
 	 * @return mixed
 	 */
-	public function getVar(string key)
+	public function getVar(string! key)
 	{
 		var params, value;
 		let params = this->_viewParams;
@@ -737,7 +737,7 @@ class View extends Phalcon\Di\Injectable implements Phalcon\Mvc\ViewInterface
 	 * @param array params
 	 * @return Phalcon\Mvc\View
 	 */
-	public function render(string controllerName, string actionName, params=null) -> <Phalcon\Mvc\View>
+	public function render(string! controllerName, string! actionName, params=null) -> <Phalcon\Mvc\View>
 	{
 		boolean silence, mustClean;
 		int cacheLevel, renderLevel;
@@ -999,7 +999,7 @@ class View extends Phalcon\Di\Injectable implements Phalcon\Mvc\ViewInterface
 	 * @param string partialPath
 	 * @param array params
 	 */
-	public function partial(string partialPath, params=null)
+	public function partial(string! partialPath, params=null)
 	{
 		var viewParams;
 

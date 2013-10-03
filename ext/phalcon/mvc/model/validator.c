@@ -83,11 +83,13 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator, __construct) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_Validator, appendMessage) {
 
-	zval *message, *field = NULL, *type = NULL, *_0 = NULL, _1, _2;
+	zval *message_param = NULL, *field = NULL, *type = NULL, *_0 = NULL, _1, _2;
+	zval *message = NULL;
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 2, &message, &field, &type);
+	zephir_fetch_params(1, 1, 2, &message_param, &field, &type);
 
+		zephir_get_strval(message, message_param);
 	if (!field) {
 		ZEPHIR_CPY_WRT(field, ZEPHIR_GLOBAL(global_null));
 	}

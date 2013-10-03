@@ -48,6 +48,13 @@ interface RelationInterface
 	public function setIntermediateRelation(var intermediateFields, string! intermediateModel, var intermediateReferencedFields);
 
 	/**
+	 * Check if records returned by getting belongs-to/has-many are implicitly cached during the current request
+	 *
+	 * @return boolean
+	 */
+	public function isReusable() -> boolean;
+
+	/**
 	 * Returns the relations type
 	 *
 	 * @return int

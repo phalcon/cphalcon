@@ -193,7 +193,7 @@ class Router
 	 * @param boolean remove
 	 * @return Phalcon\Mvc\Router
 	 */
-	public function removeExtraSlashes(var remove) -> <Phalcon\Mvc\Router>
+	public function removeExtraSlashes(boolean remove) -> <Phalcon\Mvc\Router>
 	{
 		let this->_removeExtraSlashes = remove;
 		return this;
@@ -205,7 +205,7 @@ class Router
 	 * @param string namespaceName
 	 * @return Phalcon\Mvc\Router
 	 */
-	public function setDefaultNamespace(var namespaceName) -> <Phalcon\Mvc\Router>
+	public function setDefaultNamespace(string! namespaceName) -> <Phalcon\Mvc\Router>
 	{
 		let this->_defaultNamespace = namespaceName;
 		return this;
@@ -217,7 +217,7 @@ class Router
 	 * @param string moduleName
 	 * @return Phalcon\Mvc\Router
 	 */
-	public function setDefaultModule(string moduleName) -> <Phalcon\Mvc\Router>
+	public function setDefaultModule(string! moduleName) -> <Phalcon\Mvc\Router>
 	{
 		let this->_defaultModule = moduleName;
 		return this;
@@ -229,7 +229,7 @@ class Router
 	 * @param string controllerName
 	 * @return Phalcon\Mvc\Router
 	 */
-	public function setDefaultController(string controllerName) -> <Phalcon\Mvc\Router>
+	public function setDefaultController(string! controllerName) -> <Phalcon\Mvc\Router>
 	{
 		let this->_defaultController = controllerName;
 		return this;
@@ -241,7 +241,7 @@ class Router
 	 * @param string actionName
 	 * @return Phalcon\Mvc\Router
 	 */
-	public function setDefaultAction(string actionName) -> <Phalcon\Mvc\Router>
+	public function setDefaultAction(string! actionName) -> <Phalcon\Mvc\Router>
 	{
 		let this->_defaultAction = actionName;
 		return this;
@@ -644,7 +644,7 @@ class Router
 	 * @param string httpMethods
 	 * @return Phalcon\Mvc\Router\Route
 	 */
-	public function add(string pattern, paths=null, httpMethods=null) -> <Phalcon\Mvc\Router\Route>
+	public function add(string! pattern, paths=null, httpMethods=null) -> <Phalcon\Mvc\Router\Route>
 	{
 		var route;
 
@@ -663,7 +663,7 @@ class Router
 	 * @param string/array paths
 	 * @return Phalcon\Mvc\Router\Route
 	 */
-	public function addGet(string pattern, paths=null) -> <Phalcon\Mvc\Router\Route>
+	public function addGet(string! pattern, paths=null) -> <Phalcon\Mvc\Router\Route>
 	{
 		return this->add(pattern, paths, "GET");
 	}
@@ -675,7 +675,7 @@ class Router
 	 * @param string/array paths
 	 * @return Phalcon\Mvc\Router\Route
 	 */
-	public function addPost(string pattern, paths=null) -> <Phalcon\Mvc\Router\Route>
+	public function addPost(string! pattern, paths=null) -> <Phalcon\Mvc\Router\Route>
 	{
 		return this->add(pattern, paths, "POST");
 	}
@@ -687,7 +687,7 @@ class Router
 	 * @param string/array paths
 	 * @return Phalcon\Mvc\Router\Route
 	 */
-	public function addPut(string pattern, paths=null) -> <Phalcon\Mvc\Router\Route>
+	public function addPut(string! pattern, paths=null) -> <Phalcon\Mvc\Router\Route>
 	{
 		return this->add(pattern, paths, "PUT");
 	}
@@ -699,7 +699,7 @@ class Router
 	 * @param string/array paths
 	 * @return Phalcon\Mvc\Router\Route
 	 */
-	public function addPatch(pattern, paths=null)
+	public function addPatch(string! pattern, paths=null)
 	{
 		return this->add(pattern, paths, "PATCH");
 	}
@@ -711,7 +711,7 @@ class Router
 	 * @param string/array paths
 	 * @return Phalcon\Mvc\Router\Route
 	 */
-	public function addDelete(string pattern, paths=null) -> <Phalcon\Mvc\Router\Route>
+	public function addDelete(string! pattern, paths=null) -> <Phalcon\Mvc\Router\Route>
 	{
 		return this->add(pattern, paths, "DELETE");
 	}
@@ -723,7 +723,7 @@ class Router
 	 * @param string/array paths
 	 * @return Phalcon\Mvc\Router\Route
 	 */
-	public function addOptions(string pattern, paths=null) -> <Phalcon\Mvc\Router\Route>
+	public function addOptions(string! pattern, paths=null) -> <Phalcon\Mvc\Router\Route>
 	{
 		return this->add(pattern, paths, "OPTIONS");
 	}
@@ -735,7 +735,7 @@ class Router
 	 * @param string/array paths
 	 * @return Phalcon\Mvc\Router\Route
 	 */
-	public function addHead(string pattern, paths=null) -> <Phalcon\Mvc\Router\Route>
+	public function addHead(string! pattern, paths=null) -> <Phalcon\Mvc\Router\Route>
 	{
 		return this->add(pattern, paths, "HEAD");
 	}
@@ -797,7 +797,7 @@ class Router
 	 * @param array paths
 	 * @return Phalcon\Mvc\Router
 	 */
-	public function notFound(paths) -> <Phalcon\Mvc\Router>
+	public function notFound(var paths) -> <Phalcon\Mvc\Router>
 	{
 		if typeof paths != "array" {
 			if typeof paths != "string" {
@@ -930,7 +930,7 @@ class Router
 	 * @param string name
 	 * @return Phalcon\Mvc\Router\Route
 	 */
-	public function getRouteByName(var name) -> <Phalcon\Mvc\Router\Route>
+	public function getRouteByName(string! name) -> <Phalcon\Mvc\Router\Route>
 	{
 		var route;
 

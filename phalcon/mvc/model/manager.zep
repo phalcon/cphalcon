@@ -522,25 +522,6 @@ class Manager
 	}
 
 	/**
-	 * Returns a relation by its alias
-	 *
-	 * @param string modelName
-	 * @param string alias
-	 * @return Phalcon\Mvc\Model\Relation
-	 */
-	public function getRelationByAlias(string! modelName, string! alias) -> <Phalcon\Mvc\Model\Relation>
-	{
-		var aliases, relation;
-		let aliases = this->_aliases;
-		if typeof aliases == "array" {
-			if fetch relation, aliases[strtolower(modelName . "$" . alias)] {
-				return relation;
-			}
-		}
-		return false;
-	}
-
-	/**
 	 * Receives events generated in the models and dispatches them to a events-manager if available
 	 * Notify the behaviors that are listening in the model
 	 *
@@ -1019,7 +1000,7 @@ class Manager
 
 		let hasManyToMany = this->_hasManyToMany;
 		if !fetch relations, hasManyToMany[keyRelation] {
-			let relations = array();
+			let relations = [];
 		}
 
 		/**
@@ -1099,6 +1080,410 @@ class Manager
 		let this->_hasManyToManySingle[entityName] = singleRelations;
 
 		return relation;
+	}
+
+	/**
+	 * Checks whether a model has a belongsTo relation with another model
+	 *
+	 * @param 	string modelName
+	 * @param 	string modelRelation
+	 * @return 	boolean
+	 */
+	public function existsBelongsTo(string! modelName, string! modelRelation) -> boolean
+	{
+
+		var initialized, entityName, keyRelation, belongsTo;
+
+		let initialized = this->_initialized,
+			entityName = strtolower(modelName);
+
+		/**
+		 * Relationship unique key
+		 */
+		let keyRelation = entityName . "$" . strtolower(modelRelation);
+
+		/**
+		 * Initialize the model first
+		 */
+		if !isset initialized[entityName] {
+			this->load(modelName);
+		}
+
+		let belongsTo = this->_belongsTo;
+		return isset belongsTo[keyRelation];
+	}
+
+	/**
+	 * Checks whether a model has a hasMany relation with another model
+	 *
+	 * @param 	string modelName
+	 * @param 	string modelRelation
+	 * @return 	boolean
+	 */
+	public function existsHasMany(string! modelName, string! modelRelation) -> boolean
+	{
+
+		var initialized, entityName, keyRelation, hasMany;
+
+		let initialized = this->_initialized,
+			entityName = strtolower(modelName);
+
+		/**
+		 * Relationship unique key
+		 */
+		let keyRelation = entityName . "$" . strtolower(modelRelation);
+
+		/**
+		 * Initialize the model first
+		 */
+		if !isset initialized[entityName] {
+			this->load(modelName);
+		}
+
+		let hasMany = this->_hasMany;
+		return isset hasMany[keyRelation];
+	}
+
+	/**
+	 * Checks whether a model has a hasOne relation with another model
+	 *
+	 * @param 	string modelName
+	 * @param 	string modelRelation
+	 * @return 	boolean
+	 */
+	public function existsHasOne(string! modelName, string! modelRelation) -> boolean
+	{
+
+		var initialized, entityName, keyRelation, hasOne;
+
+		let initialized = this->_initialized,
+			entityName = strtolower(modelName);
+
+		/**
+		 * Relationship unique key
+		 */
+		let keyRelation = entityName . "$" . strtolower(modelRelation);
+
+		/**
+		 * Initialize the model first
+		 */
+		if !isset initialized[entityName] {
+			this->load(modelName);
+		}
+
+		let hasOne = this->_hasOne;
+		return isset hasOne[keyRelation];
+	}
+
+	/**
+	 * Checks whether a model has a hasManyToMany relation with another model
+	 *
+	 * @param 	string modelName
+	 * @param 	string modelRelation
+	 * @return 	boolean
+	 */
+	public function existsHasManyToMany(string! modelName, string! modelRelation) -> boolean
+	{
+		var initialized, entityName, keyRelation, hasManyToMany;
+
+		let initialized = this->_initialized,
+			entityName = strtolower(modelName);
+
+		/**
+		 * Relationship unique key
+		 */
+		let keyRelation = entityName . "$" . strtolower(modelRelation);
+
+		/**
+		 * Initialize the model first
+		 */
+		if !isset initialized[entityName] {
+			this->load(modelName);
+		}
+
+		let hasManyToMany = this->_hasManyToMany;
+		return isset hasManyToMany[keyRelation];
+	}
+
+	/**
+	 * Returns a relation by its alias
+	 *
+	 * @param string modelName
+	 * @param string alias
+	 * @return Phalcon\Mvc\Model\Relation|false
+	 */
+	public function getRelationByAlias(string! modelName, string! alias)
+	{
+		var aliases, relation;
+		let aliases = this->_aliases;
+		if typeof aliases == "array" {
+			if fetch relation, aliases[strtolower(modelName . "$" . alias)] {
+				return relation;
+			}
+		}
+		return false;
+	}
+
+	/**
+	 * Helper method to query records based on a relation definition
+	 *
+	 * @param Phalcon\Mvc\Model\RelationInterface relation
+	 * @param string $method
+	 * @param Phalcon\Mvc\ModelInterface record
+	 * @param array parameters
+	 * @return Phalcon\Mvc\Model\Resultset\Simple|Phalcon\Mvc\Model\Resultset\Simple|false
+	 */
+	public function getRelationRecords(<Phalcon\Mvc\Model\RelationInterface> relation,
+		string! method, <Phalcon\Mvc\ModelInterface> record, var parameters=null)
+	{
+		var preConditions, placeholders, referencedModel, intermediateModel,
+			intermediateFields, joinConditions, query, fields, builder,
+			conditions, refPosition, field, referencedFields, findParams,
+			findArguments, retrieveMethod, uniqueKey, records, arguments;
+		boolean reusable;
+
+		/**
+		 * Re-use conditions
+		 */
+		let preConditions = null;
+
+		if typeof parameters == "array" {
+			if fetch preConditions, parameters[0] {
+				unset parameters[0];
+			} else {
+				if fetch preConditions, parameters["conditions"] {
+					unset parameters["conditions"];
+				}
+			}
+		} else {
+			if typeof parameters == "string" {
+				let preConditions = parameters;
+			}
+		}
+
+		/**
+		 * Re-use bound parameters
+		 */
+		if typeof parameters == "array" {
+			if fetch placeholders, parameters["bind"] {
+				unset parameters["bind"];
+			} else {
+				let placeholders = [];
+			}
+		} else {
+			let placeholders = [];
+		}
+
+		/**
+		 * Perform the query on the referenced model
+		 */
+		let referencedModel = relation->getReferencedModel();
+
+		/**
+		 * Check if the relation is direct or through an intermediate model
+		 */
+		if relation->isThrough() {
+
+			let conditions = [];
+
+			let intermediateModel = relation->getIntermediateModel(),
+				intermediateFields = relation->getIntermediateFields();
+
+			/**
+			 * Appends conditions created from the fields defined in the relation
+			 */
+			let fields = relation->getFields();
+			if typeof fields == "array" {
+				let conditions[] = "[" . intermediateModel . "].[" . intermediateFields . "] = ?0",
+					placeholders[] = record->readAttribute(fields);
+			} else {
+				throw new Phalcon\Mvc\Model\Exception("Not supported");
+			}
+
+			let joinConditions = [];
+
+			/**
+			 * Create the join conditions
+			 */
+			let intermediateFields = $relation->getIntermediateReferencedFields();
+			if typeof intermediateFields != "array" {
+				let joinConditions[] = "[" . intermediateModel . "].[" . intermediateFields . "] = [" . referencedModel . "].[" . relation->getReferencedFields() . "]";
+			} else {
+				throw new Phalcon\Mvc\Model\Exception("Not supported");
+			}
+
+			/**
+			 * Add extra conditions passed by the programmer
+			 */
+			if !empty preConditions {
+				let conditions[] = preConditions;
+			}
+
+			/**
+			 * We don't trust the user or the database so we use bound parameters
+			 * Create a query builder
+			 */
+			let builder = this->createBuilder(parameters);
+
+			builder->from(referencedModel);
+			builder->innerJoin(intermediateModel, join(" AND ", joinConditions));
+			builder->andWhere(join(" AND ", conditions), placeholders);
+
+			/**
+			 * Get the query
+			 * Execute the query
+			 */
+			let query = builder->getQuery();
+			return query->execute();
+		}
+
+		if preConditions !== null {
+			let conditions = [preConditions];
+		} else {
+			let conditions = [];
+		}
+
+		/**
+		 * Appends conditions created from the fields defined in the relation
+		 */
+		let fields = relation->getFields();
+		if typeof fields != "array" {
+			let conditions[] = "[". relation->getReferencedFields() . "] = ?0",
+				placeholders[] = record->readAttribute(fields);
+		} else {
+
+			/**
+			 * Compound relation
+			 */
+			let referencedFields = relation->getReferencedFields();
+			for refPosition, field in relation->getReferencedFields() {
+				let conditions[] = "[". referencedFields[refPosition] . "] = ?" . refPosition,
+					placeholders[] = record->readAttribute(field);
+			}
+		}
+
+		/**
+		 * We don"t trust the user or data in the database so we use bound parameters
+		 * Create a valid params array to pass to the find/findFirst method
+		 */
+		let findParams = [
+			join(" AND ", conditions),
+			"bind"      : placeholders,
+			"di"        : record->{"getDi"}()
+		];
+
+		if typeof parameters == "array" {
+			let findArguments = [findParams, parameters];
+		} else {
+			let findArguments = findParams;
+		}
+
+		/**
+		 * Check the right method to get the data
+		 */
+		if method === null {
+			switch relation->getType() {
+				case Phalcon\Mvc\Model\Relation::BELONGS_TO:
+				case Phalcon\Mvc\Model\Relation::HAS_ONE:
+					let retrieveMethod = "findFirst";
+					break;
+				case Phalcon\Mvc\Model\Relation::HAS_MANY:
+					let retrieveMethod = "find";
+					break;
+				default:
+					throw new Phalcon\Mvc\Model\Exception("Unkown relation type");
+			}
+		} else {
+			let retrieveMethod = method;
+		}
+
+		let arguments = [findArguments];
+
+		/**
+		 * Find first results could be reusable
+		 */
+		let reusable = (boolean) relation->isReusable();
+		if reusable {
+			let uniqueKey = unique_key(referencedModel, arguments),
+				records = this->getReusableRecords(referencedModel, uniqueKey);
+			if typeof records == "array" || typeof records == "object" {
+				return records;
+			}
+		}
+
+		/**
+		 * Load the referenced model
+		 * Call the function in the model
+		 */
+		let records = call_user_func_array([this->load(referencedModel), retrieveMethod], arguments);
+
+		/**
+		 * Store the result in the cache if it's reusable
+		 */
+		if reusable {
+			this->setReusableRecords(referencedModel, uniqueKey, records);
+		}
+
+		return records;
+	}
+
+	/**
+	 * Returns a reusable object from the internal list
+	 *
+	 * @param string modelName
+	 * @param string key
+	 * @return object
+	 */
+	public function getReusableRecords(string! modelName, string! key)
+	{
+		var reusable, records;
+		let reusable = this->_reusable;
+		if fetch records, reusable[key] {
+			return records;
+		}
+		return null;
+	}
+
+	/**
+	 * Stores a reusable record in the internal list
+	 *
+	 * @param string modelName
+	 * @param string key
+	 * @param mixed records
+	 */
+	public function setReusableRecords(string! modelName, string! key, records)
+	{
+		let this->_reusable[key] = records;
+	}
+
+	/**
+	 * Clears the internal reusable list
+	 *
+	 */
+	public function clearReusableObjects()
+	{
+		let this->_reusable = null;
+	}
+
+	/**
+	 * Creates a Phalcon\Mvc\Model\Query\Builder
+	 *
+	 * @param string|array params
+	 * @return Phalcon\Mvc\Model\Query\BuilderInterface
+	 */
+	public function createBuilder(params=null) -> <Phalcon\Mvc\Model\Query\BuilderInterface>
+	{
+		var dependencyInjector;
+
+		let dependencyInjector = <Phalcon\DiInterface> this->_dependencyInjector;
+		if typeof dependencyInjector != "object" {
+			throw new Phalcon\Mvc\Model\Exception("A dependency injection object is required to access ORM services");
+		}
+
+		/**
+		 * Create a query builder
+		 */
+		return new Phalcon\Mvc\_Model\Query\Builder(params, dependencyInjector);
 	}
 
 }

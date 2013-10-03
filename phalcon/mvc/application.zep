@@ -156,7 +156,7 @@ class Application extends Phalcon\Di\Injectable
 	 * @param string defaultModule
 	 * @return Phalcon\Mvc\Application
 	 */
-	public function setDefaultModule(defaultModule) -> <Phalcon\Mvc\Application>
+	public function setDefaultModule(string! defaultModule) -> <Phalcon\Mvc\Application>
 	{
 		let this->_defaultModule = defaultModule;
 		return this;

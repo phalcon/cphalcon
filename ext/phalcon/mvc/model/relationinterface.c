@@ -59,9 +59,16 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_RelationInterface, __construct);
  *
  * @param string|array intermediateFields
  * @param string intermediateModel
- * @param string intermediateReferencedFields
+ * @param string|array intermediateReferencedFields
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_RelationInterface, setIntermediateRelation);
+
+/**
+ * Check if records returned by getting belongs-to/has-many are implicitly cached during the current request
+ *
+ * @return boolean
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_RelationInterface, isReusable);
 
 /**
  * Returns the relations type

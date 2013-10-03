@@ -78,7 +78,7 @@ class Url //implements Phalcon\Mvc\UrlInterface, Phalcon\Di\InjectionAwareInterf
 	 * @param string baseUri
 	 * @return Phalcon\Mvc\Url
 	 */
-	public function setBaseUri(string baseUri) -> <Phalcon\Mvc\Url>
+	public function setBaseUri(string! baseUri) -> <Phalcon\Mvc\Url>
 	{
 		let this->_baseUri = baseUri;
 		if this->_staticBaseUri === null {
@@ -97,7 +97,7 @@ class Url //implements Phalcon\Mvc\UrlInterface, Phalcon\Di\InjectionAwareInterf
 	 * @param string staticBaseUri
 	 * @return Phalcon\Mvc\Url
 	 */
-	public function setStaticBaseUri(string staticBaseUri) -> <Phalcon\Mvc\Url>
+	public function setStaticBaseUri(string! staticBaseUri) -> <Phalcon\Mvc\Url>
 	{
 		let this->_staticBaseUri = staticBaseUri;
 		return this;
@@ -153,7 +153,7 @@ class Url //implements Phalcon\Mvc\UrlInterface, Phalcon\Di\InjectionAwareInterf
 	 * @param string basePath
 	 * @return Phalcon\Mvc\Url
 	 */
-	public function setBasePath(string basePath) -> <Phalcon\Mvc\Url>
+	public function setBasePath(string! basePath) -> <Phalcon\Mvc\Url>
 	{
 		let this->_basePath = basePath;
 		return this;

@@ -183,6 +183,7 @@ PHP_METHOD(Phalcon_Cli_Router, handle) {
 	if (!arguments) {
 		ZEPHIR_CPY_WRT(arguments, ZEPHIR_GLOBAL(global_null));
 	}
+	ZEPHIR_SEPARATE_PARAM(arguments);
 
 
 	if ((Z_TYPE_P(arguments) != IS_ARRAY)) {

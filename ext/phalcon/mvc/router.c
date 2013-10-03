@@ -249,13 +249,17 @@ PHP_METHOD(Phalcon_Mvc_Router, setUriSource) {
  */
 PHP_METHOD(Phalcon_Mvc_Router, removeExtraSlashes) {
 
-	zval *remove;
+	zval *remove_param = NULL, *_0;
+	zend_bool remove;
 
-	zephir_fetch_params(0, 1, 0, &remove);
+	zephir_fetch_params(0, 1, 0, &remove_param);
+
+		remove = zephir_get_boolval(remove_param);
 
 
-
-	zephir_update_property_this(this_ptr, SL("_removeExtraSlashes"), remove TSRMLS_CC);
+	ZEPHIR_INIT_ZVAL_NREF(_0);
+	ZVAL_BOOL(_0, remove);
+	zephir_update_property_this(this_ptr, SL("_removeExtraSlashes"), _0 TSRMLS_CC);
 	RETURN_THISW();
 
 }
@@ -268,14 +272,17 @@ PHP_METHOD(Phalcon_Mvc_Router, removeExtraSlashes) {
  */
 PHP_METHOD(Phalcon_Mvc_Router, setDefaultNamespace) {
 
-	zval *namespaceName;
+	zval *namespaceName_param = NULL;
+	zval *namespaceName = NULL;
 
-	zephir_fetch_params(0, 1, 0, &namespaceName);
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 1, 0, &namespaceName_param);
 
+		zephir_get_strval(namespaceName, namespaceName_param);
 
 
 	zephir_update_property_this(this_ptr, SL("_defaultNamespace"), namespaceName TSRMLS_CC);
-	RETURN_THISW();
+	RETURN_THIS();
 
 }
 
@@ -809,11 +816,13 @@ PHP_METHOD(Phalcon_Mvc_Router, addPut) {
  */
 PHP_METHOD(Phalcon_Mvc_Router, addPatch) {
 
-	zval *pattern, *paths = NULL, *_0;
+	zval *pattern_param = NULL, *paths = NULL, *_0;
+	zval *pattern = NULL;
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 1, &pattern, &paths);
+	zephir_fetch_params(1, 1, 1, &pattern_param, &paths);
 
+		zephir_get_strval(pattern, pattern_param);
 	if (!paths) {
 		ZEPHIR_CPY_WRT(paths, ZEPHIR_GLOBAL(global_null));
 	}
@@ -1169,11 +1178,13 @@ PHP_METHOD(Phalcon_Mvc_Router, getRouteByName) {
 	zend_function *_5 = NULL;
 	HashTable *_2;
 	HashPosition _1;
-	zval *name, *route = NULL, *_0, **_3, *_4 = NULL;
+	zval *name_param = NULL, *route = NULL, *_0, **_3, *_4 = NULL;
+	zval *name = NULL;
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 0, &name);
+	zephir_fetch_params(1, 1, 0, &name_param);
 
+		zephir_get_strval(name, name_param);
 
 
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_routes"), PH_NOISY_CC);
