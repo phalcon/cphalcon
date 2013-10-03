@@ -27,222 +27,218 @@ namespace Phalcon\Assets;
 class Collection //implements Countable, Iterator
 {
 
-    protected _prefix { get, set };
+	protected _prefix { get, set };
 
-    protected _local = true { get, set };
+	protected _local = true { get, set };
 
 	protected _resources { get, set };
 
 	protected _position { get, set };
 
-    protected _filters { get, set };
+	protected _filters { get, set };
 
-    protected _attributes { get, set };
+	protected _attributes { get, set };
 
-    protected _join = true { get, set };
+	protected _join = true { get, set };
 
-    protected _targetUri { get, set };
+	protected _targetUri { get, set };
 
-    protected _targetPath { get, set };
+	protected _targetPath { get, set };
 
-    protected _sourcePath { get, set };
+	protected _sourcePath { get, set };
 
-    /**
-    * Adds a resource to the collection
-    *
-    * @param Phalcon\Assets\Resource $resource
-    * @return Phalcon\Assets\Collection
-    */
-    public function add(resource) 
-    {
-        if typeof resource == "object" {
-            throw new Phalcon\Assets\Exception("Resource must be an object");
-        }
+	/**
+	 * Adds a resource to the collection
+	 *
+	 * @param Phalcon\Assets\Resource resource
+	 * @return Phalcon\Assets\Collection
+	 */
+	public function add(<Phalcon\Assets\Resource> resource) -> <Phalcon\Assets\Collection>
+	{
+		let this->_resources[] = resource;
+		return this;
+	}
 
-        let this->_resources[] = resource; 
-    }
+	/**
+	 * Adds a CSS resource to the collection
+	 *
+	 * @param string path
+	 * @param boolean local
+	 * @param boolean filter
+	 * @param array attributes
+	 * @return Phalcon\Assets\Collection
+	 */
+	public function addCss(string path, var local, boolean filter, attributes=null) -> <Phalcon\Assets\Collection>
+	{
+		var resource, collectionLocal, collectionAttributes;
 
-    /**
-    * Adds a CSS resource to the collection
-    *
-    * @param string $path
-    * @param boolean $local
-    * @param boolean $filter
-    * @param array $attributes
-    * @return Phalcon\Assets\Collection
-    */
-    public function addCss(path, local, filter, attributes)
-    {
-        var resource, collectionLocal, collectionAttributes;
+		if !filter {
+			let filter = true;
+		}
 
-        if !filter {
-            let filter = true;
-        }
+		if typeof local == "bool" {
+			let collectionLocal = local;
+		} else {
+			let collectionLocal = this->_local;
+		}
 
-        if typeof local == "bool" {
-            let collectionLocal = local;
-        } else {
-            let collectionLocal = this->_local;
-        }
+		if typeof attributes == "array" {
+			let collectionAttributes = attributes;
+		} else {
+			let collectionAttributes = this->_attributes;
+		}
 
-        if typeof attributes == "array" {
-            let collectionAttributes = attributes;
-        } else {
-            let collectionAttributes = this->_attributes;
-        }
+		let this->_resources[] = new Phalcon\Assets\Resource\Css(collectionLocal, filter, collectionAttributes);
+	}
 
-        let resource = new Phalcon\Assets\Resource\Css(collectionLocal, filter, collectionAttributes);
+	/**
+	 * Adds a javascript resource to the collection
+	 *
+	 * @param string path
+	 * @param boolean local
+	 * @param boolean filter
+	 * @param array attributes
+	 * @return Phalcon\Assets\Collection
+	 */
+	public function addJs(string! path, var local, boolean filter, attributes=null) -> <Phalcon\Assets\Collection>
+	{
+		var resource, collectionLocal, collectionAttributes;
 
-        let this->_resources[] = resource;
-    }
+		if !filter {
+			let filter = true;
+		}
 
-    /**
-    * Adds a javascript resource to the collection
-    *
-    * @param string $path
-    * @param boolean $local
-    * @param boolean $filter
-    * @param array $attributes
-    * @return Phalcon\Assets\Collection
-    */
-    public function addJs(path, local, filter, attributes)
-    {
-        var resource, collectionLocal, collectionAttributes;
+		if typeof local == "bool" {
+			let collectionLocal = local;
+		} else {
+			let collectionLocal = this->_local;
+		}
 
-        if !filter {
-            let filter = true;
-        }
+		if typeof attributes == "array" {
+			let collectionAttributes = attributes;
+		} else {
+			let collectionAttributes = this->_attributes;
+		}
 
-        if typeof local == "bool" {
-            let collectionLocal = local;
-        } else {
-            let collectionLocal = this->_local;
-        }
+		let resource = new Phalcon\Assets\Resource\Js(collectionLocal, filter, collectionAttributes);
 
-        if typeof attributes == "array" {
-            let collectionAttributes = attributes;
-        } else {
-            let collectionAttributes = this->_attributes;
-        }
+		let this->_resources[] = resource;
+	}
 
-        let resource = new Phalcon\Assets\Resource\Js(collectionLocal, filter, collectionAttributes);
+	/**
+	 * Returns the number of elements in the form
+	 *
+	 * @return int
+	 */
+	public function count() -> int
+	{
+		return count(this->_resources);
+	}
 
-        let this->_resources[] = resource;
-    }
+	/**
+	 * Rewinds the internal iterator
+	 */
+	public function rewind()
+	{
+		let this->_position = 0;
+	}
 
-    /**
-    * Returns the number of elements in the form
-    *
-    * @return int
-    */ 
-    public function count()
-    {
-        return count(this->_resources);
-    }
+	/**
+	 * Returns the current resource in the iterator
+	 *
+	 * @return Phalcon\Assets\Resource
+	 */
+	public function current() -> <Phalcon\Assets\Resource>
+	{
+		var position, resource, resources;
 
-    /**
-    * Rewinds the internal iterator
-    */
-    public function rewind()
-    {
-        let this->_position = 0;
-    }
+		let position = this->_position;
+		let resources = this->_resources;
 
-    /**
-    * Returns the current resource in the iterator
-    *
-    * @return Phalcon\Assets\Resource
-    */
-    public function current()
-    {
-        var position, resource, resources;
+		let resource = null;
+		if isset resources[position] {
+			let resource = resources[position];
+		}
 
-        let position = this->_position;
-        let resources = this->_resources;
+		return resource;
+	}
 
-        let resource = null;
-        if isset resources[position] {
-            let resource = resources[position];
-        }
+	/**
+	 * Returns the current position/key in the iterator
+	 *
+	 * @return int
+	 */
+	public function key()
+	{
+		return this->_position;
+	}
 
-        return resource;
-    }
+	/**
+	 * Moves the internal iteration pointer to the next position
+	 *
+	 */
+	public function next()
+	{
+		var position;
 
-    /**
-    * Returns the current position/key in the iterator
-    *
-    * @return int
-    */
-    public function key()
-    {
-        return this->_position;
-    }
+		//let this->_position++; //COOL
+		let position = this->_position;
+		let this->_position = position + 1;
+	}
 
-    /**
-    * Moves the internal iteration pointer to the next position
-    *
-    */
-    public function next()
-    {
-        var position;
+	/**
+	 * Check if the current element in the iterator is valid
+	 *
+	 * @return boolean
+	 */
+	public function valid() -> boolean
+	{
+		var resources;
 
-        //let this->_position++; //COOL
-        let position = this->_position;
-        let this->_position = position + 1;
-    }
+		let resources = this->_resources;
 
-    /**
-    * Check if the current element in the iterator is valid
-    *
-    * @return boolean
-    */
-    public function valid()
-    {
-        var resources;
+		if isset resources[this->_position] {
+			return true;
+		}
+		return false;
+	}
 
-        let resources = this->_resources;
+	/**
+	 * Sets if all filtered resources in the collection must be joined in a single result file
+	 *
+	 * @param boolean join
+	 * @return Phalcon\Assets\Collection
+	 */
+	public function join(boolean join) -> <Phalcon\Assets\Collection>
+	{
+		let this->_join = join;
+		return this;
+	}
 
-        if isset resources[this->_position] {
-            return true;
-        }
-        return false;
-    }
+	/**
+	 * Returns the complete location where the joined/filtered collection must be written
+	 *
+	 * @param string basePath
+	 * @return string
+	 */
+	public function getRealTargetPath(string! basePath) -> string
+	{
+		var targetPath, completePath;
 
-    /**
-    * Sets if all filtered resources in the collection must be joined in a single result file
-    *
-    * @param boolean $join
-    * @return Phalcon\Assets\Collection
-    */
-    public function join(join)
-    {
-        let this->_join = join;
-    }
+		let targetPath = this->_targetPath;
 
-    /**
-    * Returns the complete location where the joined/filtered collection must be written
-    *
-    * @param string $basePath
-    * @return string
-    */
-    public function getRealTargetPath(basePath) 
-    {
-        var targetPath, completePath;
+		/**
+		 * A base path for resources can be set in the assets manager
+		 */
+		let completePath = basePath . targetPath;
 
-        let targetPath = this->_targetPath;
+		/**
+		 * Get the real template path, the target path can optionally don't exist
+		 */
+		if file_exists(completePath) {
+			return realPath(completePath);
+		}
 
-        /** 
-        * A base path for resources can be set in the assets manager
-        */
-        let completePath = basePath . targetPath;
-
-        /** 
-        * Get the real template path, the target path can optionally don't exist
-        */
-        if file_exists(completePath) {
-            return realPath(completePath);
-        }
-
-        return completePath;
-    }
+		return completePath;
+	}
 }

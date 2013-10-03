@@ -33,8 +33,9 @@ class None
 	 * @param string content
 	 * @return string
 	 */
-	public function filter(content)
+	public function filter(string! content)
 	{
 		return content;
 	}
+
 }

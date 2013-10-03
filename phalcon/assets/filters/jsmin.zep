@@ -35,7 +35,7 @@ class Jsmin
 	 * @param string content
 	 * @return string
 	 */
-	public function filter(content)
+	public function filter(string! content)
 	{
 		return phalcon_jsmin(content);
 	}

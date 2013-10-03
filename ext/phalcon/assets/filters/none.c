@@ -12,6 +12,7 @@
 #include <Zend/zend_interfaces.h>
 
 #include "kernel/main.h"
+#include "kernel/operators.h"
 #include "kernel/memory.h"
 
 
@@ -54,13 +55,16 @@ ZEPHIR_INIT_CLASS(Phalcon_Assets_Filters_None) {
  */
 PHP_METHOD(Phalcon_Assets_Filters_None, filter) {
 
-	zval *content;
+	zval *content_param = NULL;
+	zval *content = NULL;
 
-	zephir_fetch_params(0, 1, 0, &content);
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 1, 0, &content_param);
+
+		zephir_get_strval(content, content_param);
 
 
-
-	RETURN_CCTORW(content);
+	RETURN_CTOR(content);
 
 }
 

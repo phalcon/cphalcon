@@ -79,9 +79,9 @@ PHP_METHOD(Phalcon_Assets_Manager, __construct) {
 }
 
 /**
- * Sets the manager's options
+ * Sets the manager options
  *
- * @param array $options
+ * @param array options
  * @return Phalcon\Assets\Manager
  */
 PHP_METHOD(Phalcon_Assets_Manager, setOptions) {
@@ -102,7 +102,7 @@ PHP_METHOD(Phalcon_Assets_Manager, setOptions) {
 }
 
 /**
- * Returns the manager's options
+ * Returns the manager options
  *
  * @return array
  */
@@ -369,6 +369,7 @@ PHP_METHOD(Phalcon_Assets_Manager, collection) {
  *
  * @param Phalcon\Assets\Collection collection
  * @param callback callback
+ * @param string type
  */
 PHP_METHOD(Phalcon_Assets_Manager, output) {
 
@@ -679,7 +680,7 @@ PHP_METHOD(Phalcon_Assets_Manager, output) {
 /**
  * Prints the HTML for CSS resources
  *
- * @param string $collectionName
+ * @param string collectionName
  */
 PHP_METHOD(Phalcon_Assets_Manager, outputCss) {
 
@@ -699,7 +700,7 @@ PHP_METHOD(Phalcon_Assets_Manager, outputCss) {
 	ZEPHIR_INIT_VAR(_0);
 	array_init(_0);
 	ZEPHIR_INIT_VAR(_1);
-	ZVAL_STRING(_1, "Phalcon\Tag", 1);
+	ZVAL_STRING(_1, "Phalcon\\Tag", 1);
 	zend_hash_next_index_insert(Z_ARRVAL_P(_0), &_1, sizeof(zval *), NULL);
 	ZEPHIR_INIT_BNVAR(_1);
 	ZVAL_STRING(_1, "stylesheetLink", 1);
@@ -714,7 +715,7 @@ PHP_METHOD(Phalcon_Assets_Manager, outputCss) {
 /**
  * Prints the HTML for JS resources
  *
- * @param string $collectionName
+ * @param string collectionName
  */
 PHP_METHOD(Phalcon_Assets_Manager, outputJs) {
 
@@ -734,7 +735,7 @@ PHP_METHOD(Phalcon_Assets_Manager, outputJs) {
 	ZEPHIR_INIT_VAR(_0);
 	array_init(_0);
 	ZEPHIR_INIT_VAR(_1);
-	ZVAL_STRING(_1, "Phalcon\Tag", 1);
+	ZVAL_STRING(_1, "Phalcon\\Tag", 1);
 	zend_hash_next_index_insert(Z_ARRVAL_P(_0), &_1, sizeof(zval *), NULL);
 	ZEPHIR_INIT_BNVAR(_1);
 	ZVAL_STRING(_1, "javascriptInclude", 1);

@@ -13,10 +13,9 @@
 
 #include "kernel/main.h"
 #include "kernel/memory.h"
-#include "kernel/exception.h"
 #include "kernel/object.h"
-#include "kernel/operators.h"
 #include "kernel/fcall.h"
+#include "kernel/operators.h"
 #include "kernel/array.h"
 #include "kernel/concat.h"
 
@@ -235,7 +234,7 @@ PHP_METHOD(Phalcon_Assets_Collection, setSourcePath) {
 /**
  * Adds a resource to the collection
  *
- * @param Phalcon\Assets\Resource $resource
+ * @param Phalcon\Assets\Resource resource
  * @return Phalcon\Assets\Collection
  */
 PHP_METHOD(Phalcon_Assets_Collection, add) {
@@ -246,36 +245,38 @@ PHP_METHOD(Phalcon_Assets_Collection, add) {
 
 
 
-	if ((Z_TYPE_P(resource) == IS_OBJECT)) {
-		ZEPHIR_THROW_EXCEPTION_STRW(phalcon_assets_exception_ce, "Resource must be an object");
-		return;
-	}
 	zephir_update_property_array_append(this_ptr, SL("_resources"), resource TSRMLS_CC);
+	RETURN_THISW();
 
 }
 
 /**
  * Adds a CSS resource to the collection
  *
- * @param string $path
- * @param boolean $local
- * @param boolean $filter
- * @param array $attributes
+ * @param string path
+ * @param boolean local
+ * @param boolean filter
+ * @param array attributes
  * @return Phalcon\Assets\Collection
  */
 PHP_METHOD(Phalcon_Assets_Collection, addCss) {
 
-	zval *path, *local, *filter = NULL, *attributes, *resource, *collectionLocal = NULL, *collectionAttributes = NULL;
+	zend_bool filter;
+	zval *path_param = NULL, *local, *filter_param = NULL, *attributes = NULL, *collectionLocal = NULL, *collectionAttributes = NULL, *_0;
+	zval *path = NULL;
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 4, 0, &path, &local, &filter, &attributes);
+	zephir_fetch_params(1, 3, 1, &path_param, &local, &filter_param, &attributes);
 
-	ZEPHIR_SEPARATE_PARAM(filter);
+		zephir_get_strval(path, path_param);
+		filter = zephir_get_boolval(filter_param);
+	if (!attributes) {
+		ZEPHIR_CPY_WRT(attributes, ZEPHIR_GLOBAL(global_null));
+	}
 
 
-	if (!(zephir_is_true(filter))) {
-		ZEPHIR_INIT_NVAR(filter);
-		ZVAL_BOOL(filter, 1);
+	if (!(filter)) {
+		filter = 1;
 	}
 	if ((Z_TYPE_P(local) == IS_BOOL)) {
 		ZEPHIR_CPY_WRT(collectionLocal, local);
@@ -289,10 +290,10 @@ PHP_METHOD(Phalcon_Assets_Collection, addCss) {
 		ZEPHIR_OBS_VAR(collectionAttributes);
 		zephir_read_property_this(&collectionAttributes, this_ptr, SL("_attributes"), PH_NOISY_CC);
 	}
-	ZEPHIR_INIT_VAR(resource);
-	object_init_ex(resource, phalcon_assets_resource_css_ce);
-	zephir_call_method_p3_noret(resource, "__construct", collectionLocal, filter, collectionAttributes);
-	zephir_update_property_array_append(this_ptr, SL("_resources"), resource TSRMLS_CC);
+	ZEPHIR_INIT_VAR(_0);
+	object_init_ex(_0, phalcon_assets_resource_css_ce);
+	zephir_call_method_p3_noret(_0, "__construct", collectionLocal, (filter ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false)), collectionAttributes);
+	zephir_update_property_array_append(this_ptr, SL("_resources"), _0 TSRMLS_CC);
 	ZEPHIR_MM_RESTORE();
 
 }
@@ -300,25 +301,30 @@ PHP_METHOD(Phalcon_Assets_Collection, addCss) {
 /**
  * Adds a javascript resource to the collection
  *
- * @param string $path
- * @param boolean $local
- * @param boolean $filter
- * @param array $attributes
+ * @param string path
+ * @param boolean local
+ * @param boolean filter
+ * @param array attributes
  * @return Phalcon\Assets\Collection
  */
 PHP_METHOD(Phalcon_Assets_Collection, addJs) {
 
-	zval *path, *local, *filter = NULL, *attributes, *resource, *collectionLocal = NULL, *collectionAttributes = NULL;
+	zend_bool filter;
+	zval *path_param = NULL, *local, *filter_param = NULL, *attributes = NULL, *resource, *collectionLocal = NULL, *collectionAttributes = NULL;
+	zval *path = NULL;
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 4, 0, &path, &local, &filter, &attributes);
+	zephir_fetch_params(1, 3, 1, &path_param, &local, &filter_param, &attributes);
 
-	ZEPHIR_SEPARATE_PARAM(filter);
+		zephir_get_strval(path, path_param);
+		filter = zephir_get_boolval(filter_param);
+	if (!attributes) {
+		ZEPHIR_CPY_WRT(attributes, ZEPHIR_GLOBAL(global_null));
+	}
 
 
-	if (!(zephir_is_true(filter))) {
-		ZEPHIR_INIT_NVAR(filter);
-		ZVAL_BOOL(filter, 1);
+	if (!(filter)) {
+		filter = 1;
 	}
 	if ((Z_TYPE_P(local) == IS_BOOL)) {
 		ZEPHIR_CPY_WRT(collectionLocal, local);
@@ -334,7 +340,7 @@ PHP_METHOD(Phalcon_Assets_Collection, addJs) {
 	}
 	ZEPHIR_INIT_VAR(resource);
 	object_init_ex(resource, phalcon_assets_resource_js_ce);
-	zephir_call_method_p3_noret(resource, "__construct", collectionLocal, filter, collectionAttributes);
+	zephir_call_method_p3_noret(resource, "__construct", collectionLocal, (filter ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false)), collectionAttributes);
 	zephir_update_property_array_append(this_ptr, SL("_resources"), resource TSRMLS_CC);
 	ZEPHIR_MM_RESTORE();
 
@@ -442,34 +448,41 @@ PHP_METHOD(Phalcon_Assets_Collection, valid) {
 /**
  * Sets if all filtered resources in the collection must be joined in a single result file
  *
- * @param boolean $join
+ * @param boolean join
  * @return Phalcon\Assets\Collection
  */
 PHP_METHOD(Phalcon_Assets_Collection, join) {
 
-	zval *join;
+	zval *join_param = NULL, *_0;
+	zend_bool join;
 
-	zephir_fetch_params(0, 1, 0, &join);
+	zephir_fetch_params(0, 1, 0, &join_param);
+
+		join = zephir_get_boolval(join_param);
 
 
-
-	zephir_update_property_this(this_ptr, SL("_join"), join TSRMLS_CC);
+	ZEPHIR_INIT_ZVAL_NREF(_0);
+	ZVAL_BOOL(_0, join);
+	zephir_update_property_this(this_ptr, SL("_join"), _0 TSRMLS_CC);
+	RETURN_THISW();
 
 }
 
 /**
  * Returns the complete location where the joined/filtered collection must be written
  *
- * @param string $basePath
+ * @param string basePath
  * @return string
  */
 PHP_METHOD(Phalcon_Assets_Collection, getRealTargetPath) {
 
-	zval *basePath, *targetPath, *completePath, *_0;
+	zval *basePath_param = NULL, *targetPath, *completePath, *_0;
+	zval *basePath = NULL;
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 0, &basePath);
+	zephir_fetch_params(1, 1, 0, &basePath_param);
 
+		zephir_get_strval(basePath, basePath_param);
 
 
 	targetPath = zephir_fetch_nproperty_this(this_ptr, SL("_targetPath"), PH_NOISY_CC);

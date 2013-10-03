@@ -50,9 +50,9 @@ class Manager
 	}
 
 	/**
-	 * Sets the manager's options
+	 * Sets the manager options
 	 *
-	 * @param array $options
+	 * @param array options
 	 * @return Phalcon\Assets\Manager
 	 */
 	public function setOptions(options) -> <Phalcon\Assets\Manager>
@@ -65,7 +65,7 @@ class Manager
 	}
 
 	/**
-	 * Returns the manager's options
+	 * Returns the manager options
 	 *
 	 * @return array
 	 */
@@ -101,7 +101,7 @@ class Manager
 	* @param array attributes
 	* @return Phalcon\Assets\Manager
 	*/
-	public function addCss(string path, local=true, filter=true, attributes)
+	public function addCss(string! path, local=true, filter=true, attributes)
 	{
 		this->addResourceByType("css", new Phalcon\Assets\Resource\Js(path, local, filter, attributes));
 	}
@@ -117,7 +117,7 @@ class Manager
 	 * @param Phalcon\Assets\Resource resource
 	 * @return Phalcon\Assets\Manager
 	 */
-	public function addResourceByType(string type, <Phalcon\Assets\Resource> resource)
+	public function addResourceByType(string! type, <Phalcon\Assets\Resource> resource) -> <Phalcon\Assets\Manager>
 	{
 		var collections, collection;
 
@@ -142,7 +142,7 @@ class Manager
 	 * @param Phalcon\Assets\Resource resource
 	 * @return Phalcon\Assets\Manager
 	 */
-	public function addResource(<Phalcon\Assets\Resource> resource) -> <halcon\Assets\Manager>
+	public function addResource(<Phalcon\Assets\Resource> resource) -> <Phalcon\Assets\Manager>
 	{
 		var type;
 
@@ -170,7 +170,7 @@ class Manager
 	 * @param Phalcon\Assets\Collection collection
 	 * @return Phalcon\Assets\Manager
 	 */
-	public function set(string id, <Phalcon\Assets\Collection> collection) -> <Phalcon\Assets\Manager>
+	public function set(string! id, <Phalcon\Assets\Collection> collection) -> <Phalcon\Assets\Manager>
 	{
 		let this->_collections[id] = collection;
 		return this;
@@ -186,7 +186,7 @@ class Manager
 	* @param string id
 	* @return Phalcon\Assets\Collection
 	*/
-	public function get(string id) -> <Phalcon\Assets\Collection>
+	public function get(string! id) -> <Phalcon\Assets\Collection>
 	{
 		var collections, collection;
 
@@ -255,19 +255,20 @@ class Manager
 		}
 
 		return collection;
-	} 
+	}
 
 	/**
 	 * Traverses a collection calling the callback to generate its HTML
 	 *
 	 * @param Phalcon\Assets\Collection collection
 	 * @param callback callback
+	 * @param string type
 	 */
 	public function output(<Phalcon\Assets\Collection> collection, callback, type)
 	{
-		var output, implicitOutput, resources, filters, prefix, sourceBasePath, 
+		var output, implicitOutput, resources, filters, prefix, sourceBasePath,
 			targetBasePath, options, collectionSourcePath, completeSourcePath,
-			collectionTargetPath, completeTargetPath, filteredJoinedContent, join, 
+			collectionTargetPath, completeTargetPath, filteredJoinedContent, join,
 			resource, filterNeeded, local, sourcePath, targetPath, path, prefixedPath,
 			attributes, parameters, html, useImplicitOutput, content, mustFilter,
 			filter, filteredContent, typeCss, targetUri;
@@ -314,7 +315,7 @@ class Manager
 				}
 
 				/**
-			 	 * The target base path is a global location where all resources are written
+				 * The target base path is a global location where all resources are written
 				 */
 				if isset options["targetBasePath"] {
 					let targetBasePath = options["targetBasePath"];
@@ -336,36 +337,36 @@ class Manager
 			let completeSourcePath = sourceBasePath;
 		}
 
-		/** 
-		* Check if the collection have its own target base path
-		*/
+		/**
+		 * Check if the collection have its own target base path
+		 */
 		let collectionTargetPath = collection->getTargetPath();
 
-		/** 
-		* Concatenate the global base source path with the collection one
-		*/
+		/**
+		 * Concatenate the global base source path with the collection one
+		 */
 		if collectionTargetPath {
 			let completeTargetPath = targetBasePath . collectionTargetPath;
 		} else {
 			let completeTargetPath = targetBasePath;
 		}
 
-		/** 
-		* Global filtered content
-		*/
+		/**
+		 * Global filtered content
+		 */
 		let filteredJoinedContent = null;
 
-		/** 
-		* Check if the collection have its own target base path
-		*/
+		/**
+		 * Check if the collection have its own target base path
+		 */
 		let join = collection->getJoin();
 
-		/** 
-		* Check for valid target paths if the collection must be joined
-		*/
+		/**
+		 * Check for valid target paths if the collection must be joined
+		 */
 		if join {
-	
-			/** 
+
+			/**
 			* We need a valid final target path
 			*/
 			if !completeTargetPath {
@@ -378,53 +379,55 @@ class Manager
 		}
 
 		/**
-		* walk in resources
-		*/
+		 * walk in resources
+		 */
 		for resource in resources {
 			let filterNeeded = false;
 			let type = resource->getType();
 
-			/** 
-			* Is the resource local?
-			*/
+			/**
+			 * Is the resource local?
+			 */
 			let local = resource->getLocal();
 
-			/** 
-			* If the collection must not be joined we must print a HTML for each one
-			*/
+			/**
+			 * If the collection must not be joined we must print a HTML for each one
+			 */
 			if typeof filters == "array" {
 				if join {
 					if local {
-						/** 
-						* Get the complete path
-						*/
+
+						/**
+						 * Get the complete path
+						 */
 						let sourcePath = resource->getRealSourcePath();
 
-						/** 
-						* We need a valid source path
-						*/
+						/**
+						 * We need a valid source path
+						 */
 						if !sourcePath {
 							let sourcePath = resource->getPath();
 							throw new Phalcon\Assets\Exception("Resource '". sourcePath. "' does not have a valid source path");
 						}
 					} else {
-						/** 
-						* Get the complete source path
-						*/
+
+						/**
+						 * Get the complete source path
+						 */
 						let sourcePath = resource->getPath();
 
-						/** 
-						* resources paths are always filtered
-						*/
+						/**
+						 * resources paths are always filtered
+						 */
 						let filterNeeded = true;
 					}
 
-					/** 
+					/**
 					* Get the target path, we need to write the filtered content to a file
 					*/
 					let targetPath = resource->getRealTargetPath(completeTargetPath);
 
-					/** 
+					/**
 					* We need a valid final target path
 					*/
 					if !targetPath {
@@ -432,9 +435,9 @@ class Manager
 					}
 
 					if local {
-						/** 
-						* Make sure the target path is not the same source path
-						*/
+						/**
+						 * Make sure the target path is not the same source path
+						 */
 						if targetPath == sourcePath {
 							throw new Phalcon\Assets\Exception("Resource '". targetPath. "' have the same source and target paths");
 						}
@@ -449,9 +452,10 @@ class Manager
 					}
 				}
 			} else {
-				/** 
-				* If there are not filters, just print/buffer the HTML
-				*/
+
+				/**
+				 * If there are not filters, just print/buffer the HTML
+				 */
 				let path = resource->getRealTargetUri();
 
 				if prefix {
@@ -460,14 +464,14 @@ class Manager
 					let prefixedPath = path;
 				}
 
-				/** 
-				* Gets extra HTML attributes in the resource
-				*/
+				/**
+				 * Gets extra HTML attributes in the resource
+				 */
 				let attributes = resource->getAttributes();
 
-				/** 
-				* Prepare the parameters for the callback
-				*/
+				/**
+				 * Prepare the parameters for the callback
+				 */
 				let parameters = [];
 				if typeof attributes == "array" {
 					let attributes[0] = prefixedPath;
@@ -476,15 +480,15 @@ class Manager
 					let parameters[] = prefixedPath;
 				}
 				let parameters[] = local;
-				
-				/** 
-				* Call the callback to generate the HTML
-				*/
+
+				/**
+				 * Call the callback to generate the HTML
+				 */
 				let html = call_user_func_array(callback, parameters);
 
-				/** 
-				* Implicit output prints the content directly
-				*/
+				/**
+				 * Implicit output prints the content directly
+				 */
 				if useImplicitOutput == true {
 					echo html;
 				} else {
@@ -495,38 +499,40 @@ class Manager
 			}
 
 			if filterNeeded == true {
-				/** 
-				* Gets the resource's content
-				*/
+
+				/**
+				 * Gets the resource's content
+				 */
 				let content = resource->getContent(completeSourcePath);
 
-				/** 
-				* Check if the resource must be filtered
-				*/
+				/**
+				 * Check if the resource must be filtered
+				 */
 				let mustFilter = resource->getFilter();
 
-				/** 
-				* Only filter the resource if it's marked as 'filterable'
-				*/
+				/**
+				 * Only filter the resource if it's marked as 'filterable'
+				 */
 				if mustFilter == true {
 					for filter in filters {
-						/** 
-						* Filters must be valid objects
-						*/
+
+						/**
+						 * Filters must be valid objects
+						 */
 						if typeof filter != "object" {
 							throw new Phalcon\Assets\Exception("Filter is invalid");
 						}
 
-						/** 
-						* Calls the method 'filter' which must return a filtered version of the content
-						*/
+						/**
+						 * Calls the method 'filter' which must return a filtered version of the content
+						 */
 						let filteredContent = filter->filter(content);
 
-						/** 
-						* Update the joined filtered content
-						*/
+						/**
+						 * Update the joined filtered content
+						 */
 						if join == true {
-							if type==typeCss {
+							if type == typeCss {
 								if filteredJoinedContent==null {
 									let filteredJoinedContent = filteredContent;
 								} else {
@@ -542,9 +548,10 @@ class Manager
 						}
 					}
 				} else {
-					/** 
-					* Update the joined filtered content
-					*/
+
+					/**
+					 * Update the joined filtered content
+					 */
 					if join == true {
 
 					} else {
@@ -557,18 +564,19 @@ class Manager
 				}
 
 				if !join {
-					/** 
-					* Write the file using file-put-contents. This respects the openbase-dir also
-					* writes to streams
-					*/
+					/**
+					 * Write the file using file-put-contents. This respects the openbase-dir also
+					 * writes to streams
+					 */
 					file_put_contents(targetPath, filteredContent);
 				}
 			}
 
 			if !join {
-				/** 
-				* Generate the HTML using the original path in the resource
-				*/
+
+				/**
+				 * Generate the HTML using the original path in the resource
+				 */
 				let path = resource->getRealTargetUri();
 
 				if prefix {
@@ -577,19 +585,19 @@ class Manager
 					let prefixedPath = path;
 				}
 
-				/** 
-				* Gets extra HTML attributes in the resource
-				*/
+				/**
+				 * Gets extra HTML attributes in the resource
+				 */
 				let attributes = resource->getAttributes();
 
-				/** 
-				* Filtered resources are always local
-				*/
+				/**
+				 * Filtered resources are always local
+				 */
 				let local = true;
 
-				/** 
-				* Prepare the parameters for the callback
-				*/
+				/**
+				 * Prepare the parameters for the callback
+				 */
 				let parameters = [];
 				if typeof attributes == "array" {
 					let attributes[0] = prefixedPath;
@@ -599,12 +607,12 @@ class Manager
 				}
 				let parameters[] = local;
 
-				/** 
+				/**
 				* Call the callback to generate the HTML
 				*/
 				let html = call_user_func_array(callback, parameters);
 
-				/** 
+				/**
 				* Implicit output prints the content directly
 				*/
 				if useImplicitOutput == true {
@@ -618,15 +626,16 @@ class Manager
 		if typeof filters == "array" {
 
 			if join == true {
-				/** 
-				* Write the file using file_put_contents. This respects the openbase-dir also
-				* writes to streams
-				*/
+
+				/**
+				 * Write the file using file_put_contents. This respects the openbase-dir also
+				 * writes to streams
+				 */
 				file_put_contents(completeTargetPath, filteredJoinedContent);
 
-				/** 
-				* Generate the HTML using the original path in the resource
-				*/
+				/**
+				 * Generate the HTML using the original path in the resource
+				 */
 				let targetUri = collection->getTargetUri();
 
 				if prefix {
@@ -635,19 +644,19 @@ class Manager
 					let prefixedPath = targetUri;
 				}
 
-				/** 
-				* Gets extra HTML attributes in the resource
-				*/
+				/**
+				 * Gets extra HTML attributes in the resource
+				 */
 				let attributes = resource->getAttributes();
 
-				/** 
-				* Filtered resources are always local
-				*/
+				/**
+				 * Filtered resources are always local
+				 */
 				let local = true;
 
-				/** 
-				* Prepare the parameters for the callback
-				*/
+				/**
+				 * Prepare the parameters for the callback
+				 */
 				let parameters = [];
 				if typeof attributes == "array" {
 					let attributes[0] = prefixedPath;
@@ -657,14 +666,14 @@ class Manager
 				}
 				let parameters[] = local;
 
-				/** 
-				* Call the callback to generate the HTML
-				*/
+				/**
+				 * Call the callback to generate the HTML
+				 */
 				let html = call_user_func_array(callback, parameters);
 
-				/** 
-				* Implicit output prints the content directly
-				*/
+				/**
+				 * Implicit output prints the content directly
+				 */
 				if useImplicitOutput == true {
 					echo html;
 				} else {
@@ -679,7 +688,7 @@ class Manager
 	/**
 	* Prints the HTML for CSS resources
 	*
-	* @param string $collectionName
+	* @param string collectionName
 	*/
 	public function outputCss(collectionName)
 	{
@@ -691,24 +700,24 @@ class Manager
 			let collection = this->get(collectionName);
 		}
 
-		return this->output(collection, ["Phalcon\Tag", "stylesheetLink"], "css");
+		return this->output(collection, ["Phalcon\\Tag", "stylesheetLink"], "css");
 	}
 
 	/**
 	* Prints the HTML for JS resources
 	*
-	* @param string $collectionName
+	* @param string collectionName
 	*/
 	public function outputJs(collectionName)
 	{
 		var collection;
-		
+
 		if !collectionName {
 			let collection = this->getJs();
 		} else {
 			let collection = this->get(collectionName);
 		}
 
-		return this->output(collection, ["Phalcon\Tag", "javascriptInclude"], "js");
+		return this->output(collection, ["Phalcon\\Tag", "javascriptInclude"], "js");
 	}
 }

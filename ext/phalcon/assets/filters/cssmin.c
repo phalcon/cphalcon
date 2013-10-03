@@ -13,6 +13,7 @@
 
 #include "kernel/main.h"
 #include "kernel/fcall.h"
+#include "kernel/operators.h"
 #include "kernel/memory.h"
 
 
@@ -57,11 +58,13 @@ ZEPHIR_INIT_CLASS(Phalcon_Assets_Filters_Cssmin) {
  */
 PHP_METHOD(Phalcon_Assets_Filters_Cssmin, filter) {
 
-	zval *content;
+	zval *content_param = NULL;
+	zval *content = NULL;
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 0, &content);
+	zephir_fetch_params(1, 1, 0, &content_param);
 
+		zephir_get_strval(content, content_param);
 
 
 	zephir_call_func_p1(return_value, "phalcon_cssmin", content);
