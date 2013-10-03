@@ -52,7 +52,15 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getHasMany);
 PHP_METHOD(Phalcon_Mvc_Model_Manager, getHasOne);
 PHP_METHOD(Phalcon_Mvc_Model_Manager, getHasManyToMany);
 PHP_METHOD(Phalcon_Mvc_Model_Manager, getHasOneAndHasMany);
+PHP_METHOD(Phalcon_Mvc_Model_Manager, getRelations);
+PHP_METHOD(Phalcon_Mvc_Model_Manager, getRelationsBetween);
+PHP_METHOD(Phalcon_Mvc_Model_Manager, createQuery);
+PHP_METHOD(Phalcon_Mvc_Model_Manager, executeQuery);
 PHP_METHOD(Phalcon_Mvc_Model_Manager, createBuilder);
+PHP_METHOD(Phalcon_Mvc_Model_Manager, getLastQuery);
+PHP_METHOD(Phalcon_Mvc_Model_Manager, registerNamespaceAlias);
+PHP_METHOD(Phalcon_Mvc_Model_Manager, getNamespaceAlias);
+PHP_METHOD(Phalcon_Mvc_Model_Manager, getNamespaceAliases);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_manager_setdi, 0, 0, 1)
 	ZEND_ARG_INFO(0, dependencyInjector)
@@ -289,8 +297,35 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_manager_gethasoneandhasmany, 0,
 	ZEND_ARG_INFO(0, model)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_manager_getrelations, 0, 0, 1)
+	ZEND_ARG_INFO(0, modelName)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_manager_getrelationsbetween, 0, 0, 2)
+	ZEND_ARG_INFO(0, first)
+	ZEND_ARG_INFO(0, second)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_manager_createquery, 0, 0, 1)
+	ZEND_ARG_INFO(0, phql)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_manager_executequery, 0, 0, 1)
+	ZEND_ARG_INFO(0, phql)
+	ZEND_ARG_INFO(0, placeholders)
+ZEND_END_ARG_INFO()
+
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_manager_createbuilder, 0, 0, 0)
 	ZEND_ARG_INFO(0, params)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_manager_registernamespacealias, 0, 0, 2)
+	ZEND_ARG_INFO(0, alias)
+	ZEND_ARG_INFO(0, namespaceName)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_manager_getnamespacealias, 0, 0, 1)
+	ZEND_ARG_INFO(0, alias)
 ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_mvc_model_manager_method_entry) {
@@ -343,6 +378,14 @@ ZEPHIR_INIT_FUNCS(phalcon_mvc_model_manager_method_entry) {
 	PHP_ME(Phalcon_Mvc_Model_Manager, getHasOne, arginfo_phalcon_mvc_model_manager_gethasone, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_Manager, getHasManyToMany, arginfo_phalcon_mvc_model_manager_gethasmanytomany, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_Manager, getHasOneAndHasMany, arginfo_phalcon_mvc_model_manager_gethasoneandhasmany, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Model_Manager, getRelations, arginfo_phalcon_mvc_model_manager_getrelations, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Model_Manager, getRelationsBetween, arginfo_phalcon_mvc_model_manager_getrelationsbetween, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Model_Manager, createQuery, arginfo_phalcon_mvc_model_manager_createquery, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Model_Manager, executeQuery, arginfo_phalcon_mvc_model_manager_executequery, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_Manager, createBuilder, arginfo_phalcon_mvc_model_manager_createbuilder, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Model_Manager, getLastQuery, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Model_Manager, registerNamespaceAlias, arginfo_phalcon_mvc_model_manager_registernamespacealias, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Model_Manager, getNamespaceAlias, arginfo_phalcon_mvc_model_manager_getnamespacealias, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Model_Manager, getNamespaceAliases, NULL, ZEND_ACC_PUBLIC)
 	PHP_FE_END
 };

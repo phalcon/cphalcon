@@ -12,8 +12,10 @@
 #include <Zend/zend_interfaces.h>
 
 #include "kernel/main.h"
-#include "kernel/object.h"
+#include "kernel/fcall.h"
 #include "kernel/memory.h"
+#include "kernel/exception.h"
+#include "kernel/object.h"
 #include "kernel/operators.h"
 
 
@@ -91,6 +93,55 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_Query) {
 }
 
 /**
+ * Sets the dependency injection container
+ *
+ * @param Phalcon\DiInterface dependencyInjector
+ */
+PHP_METHOD(Phalcon_Mvc_Model_Query, setDI) {
+
+	zval *dependencyInjector, *manager, *metaData, *_0;
+
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 1, 0, &dependencyInjector);
+
+
+
+	ZEPHIR_INIT_VAR(_0);
+	ZVAL_STRING(_0, "modelsManager", 1);
+	ZEPHIR_INIT_VAR(manager);
+	zephir_call_method_p1(manager, dependencyInjector, "getshared", _0);
+	if ((Z_TYPE_P(manager) != IS_OBJECT)) {
+		ZEPHIR_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Injected service 'modelsManager' is invalid");
+		return;
+	}
+	ZEPHIR_INIT_BNVAR(_0);
+	ZVAL_STRING(_0, "modelsManager", 1);
+	ZEPHIR_INIT_VAR(metaData);
+	zephir_call_method_p1(metaData, dependencyInjector, "getshared", _0);
+	if ((Z_TYPE_P(metaData) != IS_OBJECT)) {
+		ZEPHIR_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Injected service 'modelsMetadata' is invalid");
+		return;
+	}
+	zephir_update_property_this(this_ptr, SL("_manager"), manager TSRMLS_CC);
+	zephir_update_property_this(this_ptr, SL("_metaData"), metaData TSRMLS_CC);
+	zephir_update_property_this(this_ptr, SL("_dependencyInjector"), dependencyInjector TSRMLS_CC);
+	ZEPHIR_MM_RESTORE();
+
+}
+
+/**
+ * Returns the dependency injection container
+ *
+ * @return Phalcon\DiInterface
+ */
+PHP_METHOD(Phalcon_Mvc_Model_Query, getDI) {
+
+
+	RETURN_MEMBER(this_ptr, "_dependencyInjector");
+
+}
+
+/**
  * Sets the cache parameters of the query
  *
  * @param array cacheOptions
@@ -153,6 +204,31 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, getUniqueRow) {
 
 
 	RETURN_MEMBER(this_ptr, "_uniqueRow");
+
+}
+
+/**
+ * Executes a parsed PHQL statement
+ *
+ * @param array bindParams
+ * @param array bindTypes
+ * @return mixed
+ */
+PHP_METHOD(Phalcon_Mvc_Model_Query, execute) {
+
+	zval *bindParams = NULL, *bindTypes = NULL;
+
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 0, 2, &bindParams, &bindTypes);
+
+	if (!bindParams) {
+		ZEPHIR_CPY_WRT(bindParams, ZEPHIR_GLOBAL(global_null));
+	}
+	if (!bindTypes) {
+		ZEPHIR_CPY_WRT(bindTypes, ZEPHIR_GLOBAL(global_null));
+	}
+
+
 
 }
 

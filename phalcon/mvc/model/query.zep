@@ -94,6 +94,41 @@ class Query //implements Phalcon\Mvc\Model\QueryInterface, Phalcon\Di\InjectionA
 	const TYPE_DELETE = 303;
 
 	/**
+	 * Sets the dependency injection container
+	 *
+	 * @param Phalcon\DiInterface dependencyInjector
+	 */
+	public function setDI(<Phalcon\DiInterface> dependencyInjector)
+	{
+		var manager, metaData;
+
+		let manager = dependencyInjector->getShared("modelsManager");
+		if typeof manager != "object" {
+			throw new Phalcon\Mvc\Model\Exception("Injected service 'modelsManager' is invalid");
+		}
+
+		let metaData = dependencyInjector->getShared("modelsManager");
+		if typeof metaData != "object" {
+			throw new Phalcon\Mvc\Model\Exception("Injected service 'modelsMetadata' is invalid");
+		}
+
+		let this->_manager = manager,
+			this->_metaData = metaData;
+
+		let this->_dependencyInjector = dependencyInjector;
+	}
+
+	/**
+	 * Returns the dependency injection container
+	 *
+	 * @return Phalcon\DiInterface
+	 */
+	public function getDI() -> <Phalcon\DiInterface>
+	{
+		return this->_dependencyInjector;
+	}
+
+	/**
 	 * Sets the cache parameters of the query
 	 *
 	 * @param array cacheOptions
@@ -135,6 +170,18 @@ class Query //implements Phalcon\Mvc\Model\QueryInterface, Phalcon\Di\InjectionA
 	public function getUniqueRow() -> boolean
 	{
 		return this->_uniqueRow;
+	}
+
+	/**
+	 * Executes a parsed PHQL statement
+	 *
+	 * @param array bindParams
+	 * @param array bindTypes
+	 * @return mixed
+	 */
+	public function execute(bindParams=null, bindTypes=null)
+	{
+
 	}
 
 }

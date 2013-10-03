@@ -1663,7 +1663,161 @@ class Manager
 	 */
 	public function getHasOneAndHasMany(<Phalcon\Mvc\ModelInterface> model)
 	{
-		return array_merge(this->getHasOne($model), this->getHasMany($model));
+		return array_merge(this->getHasOne(model), this->getHasMany(model));
+	}
+
+	/**
+	 * Query all the relationships defined on a model
+	 *
+	 * @param string $modelName
+	 * @return Phalcon\Mvc\Model\RelationInterface[]
+	 */
+	public function getRelations(string! modelName)
+	{
+		var entityName, allRelations, relations,
+			belongsTo, relation, hasOne, hasMany;
+
+		let entityName = strtolower(modelName),
+			allRelations = [];
+
+		/**
+		 * Get belongs-to relations
+		 */
+		let belongsTo = this->_hasManySingle;
+		if typeof belongsTo == "array" {
+			if fetch relations, belongsTo[entityName] {
+				for relation in relations {
+					let allRelations[] = relation;
+				}
+			}
+		}
+
+		/**
+		 * Get has-many relations
+		 */
+		let hasMany = this->_hasManySingle;
+		if typeof hasMany == "array" {
+			if fetch relations, hasMany[entityName] {
+				for relation in relations {
+					let allRelations[] = relation;
+				}
+			}
+		}
+
+		/**
+		 * Get has-one relations
+		 */
+		let hasOne = this->_hasOneSingle;
+		if typeof hasOne == "array" {
+			if fetch relations, hasOne[entityName] {
+				for relation in relations {
+					let allRelations[] = relation;
+				}
+			}
+		}
+
+		return allRelations;
+	}
+
+	/**
+	 * Query the first relationship defined between two models
+	 *
+	 * @param string first
+	 * @param string second
+	 * @return Phalcon\Mvc\Model\RelationInterface
+	 */
+	public function getRelationsBetween(string! first, string! second) -> <Phalcon\Mvc\Model\RelationInterface>
+	{
+
+		var keyRelation, belongsTo, hasMany, hasOne, relations;
+
+		let keyRelation = strtolower(first) . "$" . strtolower(second);
+
+		/**
+		 * Check if it's a belongs-to relationship
+		 */
+		let belongsTo = this->_belongsTo;
+		if typeof belongsTo == "array" {
+			if fetch relations, belongsTo[keyRelation] {
+				return relations;
+			}
+		}
+
+		/**
+		 * Check if it's a has-many relationship
+		 */
+		let hasMany = this->_hasMany;
+		if typeof hasMany == "array" {
+			if fetch relations, hasMany[keyRelation] {
+				return relations;
+			}
+		}
+
+		/**
+		 * Check whether it's a has-one relationship
+		 */
+		let hasOne = this->_hasOne;
+		if typeof hasOne == "array" {
+			if fetch relations, hasOne[keyRelation] {
+				return relations;
+			}
+		}
+
+		return false;
+	}
+
+	/**
+	 * Creates a Phalcon\Mvc\Model\Query without execute it
+	 *
+	 * @param string phql
+	 * @return Phalcon\Mvc\Model\QueryInterface
+	 */
+	public function createQuery(string! phql) -> <Phalcon\Mvc\Model\QueryInterface>
+	{
+		var dependencyInjector, query;
+
+		let dependencyInjector = this->_dependencyInjector;
+		if typeof dependencyInjector != "object" {
+			throw new Phalcon\Mvc\Model\Exception("A dependency injection object is required to access ORM services");
+		}
+
+		/**
+		 * Create a query
+		 */
+		let query = new Phalcon\Mvc\Model\Query(phql);
+		query->setDI(dependencyInjector);
+		let this->_lastQuery = query;
+		return query;
+	}
+
+	/**
+	 * Creates a Phalcon\Mvc\Model\Query and execute it
+	 *
+	 * @param string phql
+	 * @param array placeholders
+	 * @return Phalcon\Mvc\Model\QueryInterface
+	 */
+	public function executeQuery(string! phql, var placeholders=null) -> <Phalcon\Mvc\Model\QueryInterface>
+	{
+		var dependencyInjector, query;
+
+		let dependencyInjector = <Phalcon\DiInterface> this->_dependencyInjector;
+		if typeof dependencyInjector != "object" {
+			throw new Phalcon\Mvc\Model\Exception("A dependency injection object is required to access ORM services");
+		}
+
+		/**
+		 * Create a query
+		 */
+		let query = new Phalcon\Mvc\Model\Query(phql);
+		query->setDI(dependencyInjector);
+
+		let this->_lastQuery = query;
+
+		/**
+		 * Execute the query
+		 */
+		return query->execute(placeholders);
 	}
 
 	/**
@@ -1684,7 +1838,55 @@ class Manager
 		/**
 		 * Create a query builder
 		 */
-		return new Phalcon\Mvc\_Model\Query\Builder(params, dependencyInjector);
+		return new Phalcon\Mvc\Model\Query\Builder(params, dependencyInjector);
+	}
+
+	/**
+	 * Returns the lastest query created or executed in the models manager
+	 *
+	 * @return Phalcon\Mvc\Model\QueryInterface
+	 */
+	public function getLastQuery() -> <Phalcon\Mvc\Model\QueryInterface>
+	{
+		return this->_lastQuery;
+	}
+
+	/**
+	 * Registers shorter aliases for namespaces in PHQL statements
+	 *
+	 * @param string alias
+	 * @param string namespace
+	 */
+	public function registerNamespaceAlias(string alias, string namespaceName)
+	{
+		let this->_namespaceAliases[alias] = namespaceName;
+	}
+
+	/**
+	 * Returns a real namespace from its alias
+	 *
+	 * @param string alias
+	 * @return string
+	 */
+	public function getNamespaceAlias(string! alias) -> string
+	{
+		var namespaceAliases, namespaceName;
+
+		let namespaceAliases = this->_namespaceAliases;
+		if fetch namespaceName, namespaceAliases[alias] {
+			return namespaceName;
+		}
+		throw new Phalcon\Mvc\Model\Exception("Namespace alias '" . alias . "' is not registered");
+	}
+
+	/**
+	 * Returns all the registered namespace aliases
+	 *
+	 * @return array
+	 */
+	public function getNamespaceAliases()
+	{
+		return this->_namespaceAliases;
 	}
 
 }

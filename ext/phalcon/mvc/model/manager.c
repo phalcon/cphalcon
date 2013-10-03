@@ -2055,6 +2055,193 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getHasOneAndHasMany) {
 }
 
 /**
+ * Query all the relationships defined on a model
+ *
+ * @param string $modelName
+ * @return Phalcon\Mvc\Model\RelationInterface[]
+ */
+PHP_METHOD(Phalcon_Mvc_Model_Manager, getRelations) {
+
+	HashTable *_1, *_4, *_7;
+	HashPosition _0, _3, _6;
+	zval *modelName_param = NULL, *entityName, *allRelations, *relations = NULL, *belongsTo, *relation = NULL, *hasOne, *hasMany, **_2, **_5, **_8;
+	zval *modelName = NULL;
+
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 1, 0, &modelName_param);
+
+		zephir_get_strval(modelName, modelName_param);
+
+
+	ZEPHIR_INIT_VAR(entityName);
+	zephir_call_func_p1(entityName, "strtolower", modelName);
+	ZEPHIR_INIT_VAR(allRelations);
+	array_init(allRelations);
+	belongsTo = zephir_fetch_nproperty_this(this_ptr, SL("_hasManySingle"), PH_NOISY_CC);
+	if ((Z_TYPE_P(belongsTo) == IS_ARRAY)) {
+		ZEPHIR_OBS_VAR(relations);
+		if (zephir_array_isset_fetch(&relations, belongsTo, entityName, 0 TSRMLS_CC)) {
+			zephir_is_iterable(relations, &_1, &_0, 0, 0);
+			for (
+				; zend_hash_get_current_data_ex(_1, (void**) &_2, &_0) == SUCCESS
+				; zend_hash_move_forward_ex(_1, &_0)
+			) {
+				ZEPHIR_GET_HVALUE(relation, _2);
+				zephir_array_append(&allRelations, relation, PH_SEPARATE);
+			}
+		}
+	}
+	hasMany = zephir_fetch_nproperty_this(this_ptr, SL("_hasManySingle"), PH_NOISY_CC);
+	if ((Z_TYPE_P(hasMany) == IS_ARRAY)) {
+		ZEPHIR_OBS_NVAR(relations);
+		if (zephir_array_isset_fetch(&relations, hasMany, entityName, 0 TSRMLS_CC)) {
+			zephir_is_iterable(relations, &_4, &_3, 0, 0);
+			for (
+				; zend_hash_get_current_data_ex(_4, (void**) &_5, &_3) == SUCCESS
+				; zend_hash_move_forward_ex(_4, &_3)
+			) {
+				ZEPHIR_GET_HVALUE(relation, _5);
+				zephir_array_append(&allRelations, relation, PH_SEPARATE);
+			}
+		}
+	}
+	hasOne = zephir_fetch_nproperty_this(this_ptr, SL("_hasOneSingle"), PH_NOISY_CC);
+	if ((Z_TYPE_P(hasOne) == IS_ARRAY)) {
+		ZEPHIR_OBS_NVAR(relations);
+		if (zephir_array_isset_fetch(&relations, hasOne, entityName, 0 TSRMLS_CC)) {
+			zephir_is_iterable(relations, &_7, &_6, 0, 0);
+			for (
+				; zend_hash_get_current_data_ex(_7, (void**) &_8, &_6) == SUCCESS
+				; zend_hash_move_forward_ex(_7, &_6)
+			) {
+				ZEPHIR_GET_HVALUE(relation, _8);
+				zephir_array_append(&allRelations, relation, PH_SEPARATE);
+			}
+		}
+	}
+	RETURN_CCTOR(allRelations);
+
+}
+
+/**
+ * Query the first relationship defined between two models
+ *
+ * @param string first
+ * @param string second
+ * @return Phalcon\Mvc\Model\RelationInterface
+ */
+PHP_METHOD(Phalcon_Mvc_Model_Manager, getRelationsBetween) {
+
+	zval *first_param = NULL, *second_param = NULL, *keyRelation, *belongsTo, *hasMany, *hasOne, *relations = NULL, *_0, *_1, *_2;
+	zval *first = NULL, *second = NULL;
+
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 2, 0, &first_param, &second_param);
+
+		zephir_get_strval(first, first_param);
+		zephir_get_strval(second, second_param);
+
+
+	ZEPHIR_INIT_VAR(_0);
+	zephir_call_func_p1(_0, "strtolower", first);
+	ZEPHIR_INIT_VAR(_1);
+	ZEPHIR_CONCAT_VS(_1, _0, "$");
+	ZEPHIR_INIT_VAR(_2);
+	zephir_call_func_p1(_2, "strtolower", second);
+	ZEPHIR_INIT_VAR(keyRelation);
+	concat_function(keyRelation, _1, _2 TSRMLS_CC);
+	belongsTo = zephir_fetch_nproperty_this(this_ptr, SL("_belongsTo"), PH_NOISY_CC);
+	if ((Z_TYPE_P(belongsTo) == IS_ARRAY)) {
+		ZEPHIR_OBS_VAR(relations);
+		if (zephir_array_isset_fetch(&relations, belongsTo, keyRelation, 0 TSRMLS_CC)) {
+			RETURN_CCTOR(relations);
+		}
+	}
+	hasMany = zephir_fetch_nproperty_this(this_ptr, SL("_hasMany"), PH_NOISY_CC);
+	if ((Z_TYPE_P(hasMany) == IS_ARRAY)) {
+		ZEPHIR_OBS_NVAR(relations);
+		if (zephir_array_isset_fetch(&relations, hasMany, keyRelation, 0 TSRMLS_CC)) {
+			RETURN_CCTOR(relations);
+		}
+	}
+	hasOne = zephir_fetch_nproperty_this(this_ptr, SL("_hasOne"), PH_NOISY_CC);
+	if ((Z_TYPE_P(hasOne) == IS_ARRAY)) {
+		ZEPHIR_OBS_NVAR(relations);
+		if (zephir_array_isset_fetch(&relations, hasOne, keyRelation, 0 TSRMLS_CC)) {
+			RETURN_CCTOR(relations);
+		}
+	}
+	RETURN_MM_BOOL(0);
+
+}
+
+/**
+ * Creates a Phalcon\Mvc\Model\Query without execute it
+ *
+ * @param string phql
+ * @return Phalcon\Mvc\Model\QueryInterface
+ */
+PHP_METHOD(Phalcon_Mvc_Model_Manager, createQuery) {
+
+	zval *phql_param = NULL, *dependencyInjector, *query;
+	zval *phql = NULL;
+
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 1, 0, &phql_param);
+
+		zephir_get_strval(phql, phql_param);
+
+
+	dependencyInjector = zephir_fetch_nproperty_this(this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
+	if ((Z_TYPE_P(dependencyInjector) != IS_OBJECT)) {
+		ZEPHIR_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "A dependency injection object is required to access ORM services");
+		return;
+	}
+	ZEPHIR_INIT_VAR(query);
+	object_init_ex(query, phalcon_mvc_model_query_ce);
+	zephir_call_method_p1_noret(query, "setdi", dependencyInjector);
+	zephir_update_property_this(this_ptr, SL("_lastQuery"), query TSRMLS_CC);
+	RETURN_CCTOR(query);
+
+}
+
+/**
+ * Creates a Phalcon\Mvc\Model\Query and execute it
+ *
+ * @param string phql
+ * @param array placeholders
+ * @return Phalcon\Mvc\Model\QueryInterface
+ */
+PHP_METHOD(Phalcon_Mvc_Model_Manager, executeQuery) {
+
+	zval *phql_param = NULL, *placeholders = NULL, *dependencyInjector = NULL, *query, *_0;
+	zval *phql = NULL;
+
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 1, 1, &phql_param, &placeholders);
+
+		zephir_get_strval(phql, phql_param);
+	if (!placeholders) {
+		ZEPHIR_CPY_WRT(placeholders, ZEPHIR_GLOBAL(global_null));
+	}
+
+
+	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
+	ZEPHIR_CPY_WRT(dependencyInjector, _0);
+	if ((Z_TYPE_P(dependencyInjector) != IS_OBJECT)) {
+		ZEPHIR_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "A dependency injection object is required to access ORM services");
+		return;
+	}
+	ZEPHIR_INIT_VAR(query);
+	object_init_ex(query, phalcon_mvc_model_query_ce);
+	zephir_call_method_p1_noret(query, "setdi", dependencyInjector);
+	zephir_update_property_this(this_ptr, SL("_lastQuery"), query TSRMLS_CC);
+	zephir_call_method_p1(return_value, query, "execute", placeholders);
+	RETURN_MM();
+
+}
+
+/**
  * Creates a Phalcon\Mvc\Model\Query\Builder
  *
  * @param string|array params
@@ -2062,7 +2249,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getHasOneAndHasMany) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_Manager, createBuilder) {
 
-	zend_class_entry *_1;
 	zval *params = NULL, *dependencyInjector = NULL, *_0;
 
 	ZEPHIR_MM_GROW();
@@ -2079,9 +2265,90 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, createBuilder) {
 		ZEPHIR_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "A dependency injection object is required to access ORM services");
 		return;
 	}
-	_1 = zend_fetch_class(SL("Phalcon\\Mvc\\_Model\\Query\\Builder"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
-	object_init_ex(return_value, _1);
+	object_init_ex(return_value, phalcon_mvc_model_query_builder_ce);
 	RETURN_MM();
+
+}
+
+/**
+ * Returns the lastest query created or executed in the models manager
+ *
+ * @return Phalcon\Mvc\Model\QueryInterface
+ */
+PHP_METHOD(Phalcon_Mvc_Model_Manager, getLastQuery) {
+
+
+	RETURN_MEMBER(this_ptr, "_lastQuery");
+
+}
+
+/**
+ * Registers shorter aliases for namespaces in PHQL statements
+ *
+ * @param string alias
+ * @param string namespace
+ */
+PHP_METHOD(Phalcon_Mvc_Model_Manager, registerNamespaceAlias) {
+
+	zval *alias_param = NULL, *namespaceName_param = NULL;
+	zval *alias = NULL, *namespaceName = NULL;
+
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 2, 0, &alias_param, &namespaceName_param);
+
+		zephir_get_strval(alias, alias_param);
+		zephir_get_strval(namespaceName, namespaceName_param);
+
+
+	zephir_update_property_array(this_ptr, SL("_namespaceAliases"), alias, namespaceName TSRMLS_CC);
+	ZEPHIR_MM_RESTORE();
+
+}
+
+/**
+ * Returns a real namespace from its alias
+ *
+ * @param string alias
+ * @return string
+ */
+PHP_METHOD(Phalcon_Mvc_Model_Manager, getNamespaceAlias) {
+
+	zval *alias_param = NULL, *namespaceAliases, *namespaceName, *_0, *_1, *_2;
+	zval *alias = NULL;
+
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 1, 0, &alias_param);
+
+		zephir_get_strval(alias, alias_param);
+
+
+	namespaceAliases = zephir_fetch_nproperty_this(this_ptr, SL("_namespaceAliases"), PH_NOISY_CC);
+	if (zephir_array_isset_fetch(&namespaceName, namespaceAliases, alias, 1 TSRMLS_CC)) {
+		ZEPHIR_MM_RESTORE();
+		RETURN_ZVAL(namespaceName, 1, 0);
+	}
+	ZEPHIR_INIT_VAR(_0);
+	object_init_ex(_0, phalcon_mvc_model_exception_ce);
+	ZEPHIR_INIT_VAR(_1);
+	ZEPHIR_CONCAT_SV(_1, "Namespace alias '", alias);
+	ZEPHIR_INIT_VAR(_2);
+	ZEPHIR_CONCAT_VS(_2, _1, "' is not registered");
+	zephir_call_method_p1_noret(_0, "__construct", _2);
+	zephir_throw_exception(_0 TSRMLS_CC);
+	ZEPHIR_MM_RESTORE();
+	return;
+
+}
+
+/**
+ * Returns all the registered namespace aliases
+ *
+ * @return array
+ */
+PHP_METHOD(Phalcon_Mvc_Model_Manager, getNamespaceAliases) {
+
+
+	RETURN_MEMBER(this_ptr, "_namespaceAliases");
 
 }
 
