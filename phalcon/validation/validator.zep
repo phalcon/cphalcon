@@ -26,7 +26,7 @@ namespace Phalcon\Validation;
  */
 abstract class Validator
 {
-	protected _options;
+	protected _options {get, set};
 
 	/**
 	 * Phalcon\Validation\Validator constructor
@@ -60,34 +60,5 @@ abstract class Validator
 		return false;
 	}
 
-	/**
-	 * Returns an option in the validator's options
-	 * Returns null if the option hasn't been set
-	 *
-	 * @param string key
-	 * @return mixed
-	 */
-	public function getOption(string key)
-	{
-		var options, value;
-		let options = this->_options;
-		if typeof options == "array" {
-			if fetch value, options[key] {
-				return value;
-			}
-		}
-		return null;
-	}
-
-	/**
-	 * Sets an option in the validator
-	 *
-	 * @param string key
-	 * @param mixed value
-	 */
-	public function setOption(string key, value)
-	{
-		let this->_options[key] = value;
-	}
-
+	
 }

@@ -96,7 +96,7 @@ PHP_METHOD(Phalcon_Di, __construct) {
 	zval *defaultDi, *_0;
 
 
-	defaultDi = zephir_fetch_static_property_ce(phalcon_di_ce , SL("_default") TSRMLS_CC);
+	zephir_read_static_property_ce(&defaultDi, phalcon_di_ce, SL("_default") TSRMLS_CC);
 	if (!(zephir_is_true(defaultDi))) {
 		zephir_update_static_property_ce(phalcon_di_ce, SL("_default"), this_ptr TSRMLS_CC);
 	}
@@ -657,7 +657,7 @@ PHP_METHOD(Phalcon_Di, getDefault) {
 	zval *_0;
 
 
-	_0 = zephir_fetch_static_property_ce(phalcon_di_ce , SL("_default") TSRMLS_CC);
+	_0 = zephir_fetch_static_property_ce(phalcon_di_ce, SL("_default") TSRMLS_CC);
 	RETURN_ZVAL(_0, 1, 0);
 
 }

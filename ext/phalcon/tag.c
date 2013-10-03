@@ -115,7 +115,7 @@ PHP_METHOD(Phalcon_Tag, getDI) {
 	zval *_0;
 
 
-	_0 = zephir_fetch_static_property_ce(phalcon_tag_ce , SL("_dependencyInjector") TSRMLS_CC);
+	_0 = zephir_fetch_static_property_ce(phalcon_tag_ce, SL("_dependencyInjector") TSRMLS_CC);
 	RETURN_ZVAL(_0, 1, 0);
 
 }
@@ -131,9 +131,9 @@ PHP_METHOD(Phalcon_Tag, getUrlService) {
 
 	ZEPHIR_MM_GROW();
 
-	url = zephir_fetch_static_property_ce(phalcon_tag_ce , SL("_urlService") TSRMLS_CC);
+	zephir_read_static_property_ce(&url, phalcon_tag_ce, SL("_urlService") TSRMLS_CC);
 	if ((Z_TYPE_P(url) != IS_OBJECT)) {
-		dependencyInjector = zephir_fetch_static_property_ce(phalcon_tag_ce , SL("_dependencyInjector") TSRMLS_CC);
+		zephir_read_static_property_ce(&dependencyInjector, phalcon_tag_ce, SL("_dependencyInjector") TSRMLS_CC);
 		if ((Z_TYPE_P(dependencyInjector) != IS_OBJECT)) {
 			ZEPHIR_INIT_VAR(dependencyInjector);
 			zephir_call_static(dependencyInjector, "Phalcon\\Di", "getdefault");
@@ -164,9 +164,9 @@ PHP_METHOD(Phalcon_Tag, getEscaperService) {
 
 	ZEPHIR_MM_GROW();
 
-	escaper = zephir_fetch_static_property_ce(phalcon_tag_ce , SL("_escaperService") TSRMLS_CC);
+	zephir_read_static_property_ce(&escaper, phalcon_tag_ce, SL("_escaperService") TSRMLS_CC);
 	if ((Z_TYPE_P(escaper) != IS_OBJECT)) {
-		dependencyInjector = zephir_fetch_static_property_ce(phalcon_tag_ce , SL("_dependencyInjector") TSRMLS_CC);
+		zephir_read_static_property_ce(&dependencyInjector, phalcon_tag_ce, SL("_dependencyInjector") TSRMLS_CC);
 		if ((Z_TYPE_P(dependencyInjector) != IS_OBJECT)) {
 			ZEPHIR_INIT_VAR(dependencyInjector);
 			zephir_call_static(dependencyInjector, "Phalcon\\Di", "getdefault");
@@ -305,7 +305,7 @@ PHP_METHOD(Phalcon_Tag, hasValue) {
 
 
 
-	displayValues = zephir_fetch_static_property_ce(phalcon_tag_ce , SL("_displayValues") TSRMLS_CC);
+	zephir_read_static_property_ce(&displayValues, phalcon_tag_ce, SL("_displayValues") TSRMLS_CC);
 	if (zephir_array_isset(displayValues, name)) {
 		RETURN_BOOL(1);
 	} else {
@@ -338,7 +338,7 @@ PHP_METHOD(Phalcon_Tag, getValue) {
 	}
 
 
-	displayValues = zephir_fetch_static_property_ce(phalcon_tag_ce , SL("_displayValues") TSRMLS_CC);
+	zephir_read_static_property_ce(&displayValues, phalcon_tag_ce, SL("_displayValues") TSRMLS_CC);
 	ZEPHIR_OBS_VAR(value);
 	if (!(zephir_array_isset_fetch(&value, displayValues, name, 0 TSRMLS_CC))) {
 		ZEPHIR_OBS_NVAR(value);
@@ -348,7 +348,7 @@ PHP_METHOD(Phalcon_Tag, getValue) {
 		}
 	}
 	if ((Z_TYPE_P(value) == IS_STRING)) {
-		_0 = zephir_fetch_static_property_ce(phalcon_tag_ce , SL("_autoEscape") TSRMLS_CC);
+		_0 = zephir_fetch_static_property_ce(phalcon_tag_ce, SL("_autoEscape") TSRMLS_CC);
 		if (zephir_is_true(_0)) {
 			ZEPHIR_INIT_VAR(escaper);
 			zephir_call_self(escaper, this_ptr, "getescaperservice");
