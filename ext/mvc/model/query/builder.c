@@ -114,7 +114,7 @@ PHALCON_INIT_CLASS(Phalcon_Mvc_Model_Query_Builder){
 PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, __construct){
 
 	zval *params = NULL, *dependency_injector = NULL, *conditions = NULL;
-	zval *models, *columns, *group_clause;
+	zval *models, *columns, *group_clause, *joins;
 	zval *having_clause, *order_clause, *limit_clause;
 	zval *offset_clause, *for_update, *shared_lock;
 	zval *limit, *offset;
@@ -144,6 +144,13 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, __construct){
 		 */
 		if (phalcon_array_isset_string_fetch(&columns, params, SS("columns"))) {
 			phalcon_update_property_this(this_ptr, SL("_columns"), columns TSRMLS_CC);
+		}
+
+		/**
+		 * Assign JOIN clause
+		 */
+		if (phalcon_array_isset_string_fetch(&joins, params, SS("joins"))) {
+			phalcon_update_property_this(this_ptr, SL("_joins"), joins TSRMLS_CC);
 		}
 	
 		/** 
