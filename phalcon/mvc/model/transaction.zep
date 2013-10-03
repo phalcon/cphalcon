@@ -56,7 +56,7 @@ namespace Phalcon\Mvc\Model;
  *
  *</code>
  */
-class Transaction //implements Phalcon\Mvc\Model\TransactionInterface
+class Transaction implements Phalcon\Mvc\Model\TransactionInterface
 {
 
 	protected _connection;
@@ -72,5 +72,175 @@ class Transaction //implements Phalcon\Mvc\Model\TransactionInterface
 	protected _messages;
 
 	protected _rollbackRecord;
+
+	/**
+	 * Phalcon\Mvc\Model\Transaction constructor
+	 *
+	 * @param Phalcon\DiInterface $ependencyInjector
+	 * @param boolean autoBegin
+	 * @param string service
+	 */
+	public function __construct(<Phalcon\DiInterface> dependencyInjector, boolean autoBegin=false, service=null)
+	{
+		var connection;
+
+		if service {
+			let connection = dependencyInjector->get(service);
+		} else {
+			let connection = dependencyInjector->get("db");
+		}
+
+		let this->_connection = connection;
+		if autoBegin {
+			connection->begin();
+		}
+	}
+
+	/**
+	 * Sets transaction manager related to the transaction
+	 *
+	 * @param Phalcon\Mvc\Model\Transaction\ManagerInterface $manager
+	 */
+	public function setTransactionManager(<Phalcon\Mvc\Model\Transaction\ManagerInterface> manager)
+	{
+		let this->_manager = manager;
+	}
+
+	/**
+	 * Starts the transaction
+	 *
+	 * @return boolean
+	 */
+	public function begin()
+	{
+		var connection;
+		let connection = this->_connection;
+		return connection->begin();
+	}
+
+	/**
+	 * Commits the transaction
+	 *
+	 * @return boolean
+	 */
+	public function commit() -> boolean
+	{
+		var manager, connection;
+
+		let manager = this->_manager;
+		if typeof manager == "object" {
+			call_user_func_array([manager, "notifyCommit"], [this]);
+		}
+
+		let connection = this->_connection;
+		return connection->commit();
+	}
+
+	/**
+	 * Rollbacks the transaction
+	 *
+	 * @param  string rollbackMessage
+	 * @param  Phalcon\Mvc\ModelInterface rollbackRecord
+	 * @return boolean
+	 */
+	public function rollback(rollbackMessage=null, rollbackRecord=null) -> boolean
+	{
+		var manager, connection;
+
+		let manager = this->_manager;
+		if typeof manager == "object" {
+			call_user_func_array([manager, "notifyRollback"], [this]);
+		}
+
+		let connection = this->_connection;
+		if connection->rollback() {
+			if !rollbackMessage {
+				let rollbackMessage = "Transaction aborted";
+			}
+			if typeof rollbackRecord == "object" {
+				let this->_rollbackRecord = rollbackRecord;
+			}
+			throw new Phalcon\Mvc\Model\Transaction\Failed(rollbackMessage, this->_rollbackRecord);
+		}
+	}
+
+	/**
+	 * Returns the connection related to transaction
+	 *
+	 * @return Phalcon\Db\AdapterInterface
+	 */
+	public function getConnection()
+	{
+
+		if this->_rollbackOnAbort {
+			if connection_aborted() {
+				this->rollback("The request was aborted");
+			}
+		}
+
+		return this->_connection;
+	}
+
+	/**
+	 * Sets if is a reused transaction or new once
+	 *
+	 * @param boolean isNew
+	 */
+	public function setIsNewTransaction(boolean isNew)
+	{
+		let this->_isNewTransaction = isNew;
+	}
+
+	/**
+	 * Sets flag to rollback on abort the HTTP connection
+	 *
+	 * @param boolean $rollbackOnAbort
+	 */
+	public function setRollbackOnAbort(boolean rollbackOnAbort)
+	{
+		let this->_rollbackOnAbort = rollbackOnAbort;
+	}
+
+	/**
+	 * Checks whether transaction is managed by a transaction manager
+	 *
+	 * @return boolean
+	 */
+	public function isManaged() -> boolean
+	{
+		return !this->_manager;
+	}
+
+	/**
+	 * Returns validations messages from last save try
+	 *
+	 * @return array
+	 */
+	public function getMessages()
+	{
+		return this->_messages;
+	}
+
+	/**
+	 * Checks whether internal connection is under an active transaction
+	 *
+	 * @return boolean
+	 */
+	public function isValid() -> boolean
+	{
+		var connection;
+		let connection = this->_connection;
+		return connection->isUnderTransaction();
+	}
+
+	/**
+	 * Sets object which generates rollback action
+	 *
+	 * @param Phalcon\Mvc\ModelInterface $record
+	 */
+	public function setRollbackedRecord(<Phalcon\Mvc\ModelInterface> record)
+	{
+		let this->_rollbackRecord = record;
+	}
 
 }
