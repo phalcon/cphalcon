@@ -20,6 +20,30 @@
 
 use Phalcon\Mvc\View as View;
 
+class ViewAfterRenderListener
+{
+	private $_levels = array();
+
+	public function afterRenderView($event, $view)
+	{
+		if ('afterRenderView' == $event->getType()) {
+			$this->_levels[] = $view->getCurrentRenderLevel();
+		}
+
+		return true;
+	}
+
+	public function reset()
+	{
+		$this->_levels = array();
+	}
+
+	public function getLevels()
+	{
+		return join(',', $this->_levels);
+	}
+}
+
 class ViewTest extends PHPUnit_Framework_TestCase
 {
 
@@ -203,10 +227,72 @@ class ViewTest extends PHPUnit_Framework_TestCase
 			View::LEVEL_BEFORE_TEMPLATE => true,
 			View::LEVEL_LAYOUT => true,
 			View::LEVEL_AFTER_TEMPLATE => true,
-        	View::LEVEL_MAIN_LAYOUT => true
+			View::LEVEL_MAIN_LAYOUT => true
 		));
 
 		$this->assertEquals($view->getContent(), '<div class="action">Action</div>');
 	}
 
+	public function testIssue907()
+	{
+		$view = new \Phalcon\Mvc\View();
+		$view->setBasePath(__DIR__.'/../');
+
+		$view->setViewsDir('unit-tests/views/');
+
+		$listener = new \ViewAfterRenderListener();
+		$eventsManager = new \Phalcon\Events\Manager();
+		$eventsManager->attach('view', $listener);
+
+		$view->setEventsManager($eventsManager);
+
+		$view->start();
+		$view->render('test3', 'other');
+		$view->finish();
+		$this->assertEquals($view->getContent(), '<html>lolhere</html>'.PHP_EOL);
+		$this->assertEquals('1,3,5', $listener->getLevels());
+		$listener->reset();
+
+		//Templates
+		$view->setTemplateAfter('test');
+
+		$view->start();
+		$view->render('test3', 'other');
+		$view->finish();
+
+		$this->assertEquals($view->getContent(), '<html>zuplolhere</html>' . PHP_EOL);
+		$this->assertEquals('1,3,4,5', $listener->getLevels());
+		$listener->reset();
+
+		$view->cleanTemplateAfter();
+
+		//Render Levels
+		$view->setRenderLevel(View::LEVEL_MAIN_LAYOUT);
+
+		$view->start();
+		$view->render('test3', 'other');
+		$view->finish();
+		$this->assertEquals($view->getContent(), '<html>lolhere</html>' . PHP_EOL);
+		$this->assertEquals('1,3,5', $listener->getLevels());
+		$listener->reset();
+
+		$view->setRenderLevel(View::LEVEL_LAYOUT);
+
+		$view->start();
+		$view->render('test3', 'other');
+		$view->finish();
+		$this->assertEquals($view->getContent(), 'lolhere');
+		$this->assertEquals('1,3', $listener->getLevels());
+		$listener->reset();
+
+		$view->setRenderLevel(View::LEVEL_ACTION_VIEW);
+
+		$view->start();
+		$view->render('test3', 'other');
+		$view->finish();
+		$this->assertEquals($view->getContent(), 'here');
+		$this->assertEquals('1', $listener->getLevels());
+		$listener->reset();
+
+	}
 }
