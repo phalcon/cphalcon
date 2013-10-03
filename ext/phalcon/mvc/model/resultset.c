@@ -596,7 +596,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, delete) {
 		if ((Z_TYPE_P(conditionCallback) == IS_OBJECT)) {
 			ZEPHIR_INIT_NVAR(_6);
 			array_init(_6);
-			zend_hash_next_index_insert(Z_ARRVAL_P(_6), &record, sizeof(zval *), NULL);
+			zephir_array_fast_append(_6, record);
 			ZEPHIR_INIT_NVAR(_7);
 			zephir_call_func_p2(_7, "call_user_func_array", conditionCallback, _6);
 			if (ZEPHIR_IS_FALSE(_7)) {

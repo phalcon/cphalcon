@@ -355,8 +355,8 @@ PHP_METHOD(Phalcon_Mvc_Router_Route, extractNamedParams) {
 		}
 	}
 	array_init(return_value);
-	zend_hash_next_index_insert(Z_ARRVAL_P(return_value), &route, sizeof(zval *), NULL);
-	zend_hash_next_index_insert(Z_ARRVAL_P(return_value), &matches, sizeof(zval *), NULL);
+	zephir_array_fast_append(return_value, route);
+	zephir_array_fast_append(return_value, matches);
 	RETURN_MM();
 
 }

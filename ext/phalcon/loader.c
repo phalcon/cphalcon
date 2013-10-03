@@ -93,7 +93,7 @@ PHP_METHOD(Phalcon_Loader, __construct) {
 	array_init(_0);
 	ZEPHIR_INIT_VAR(_1);
 	ZVAL_STRING(_1, "php", 1);
-	zend_hash_next_index_insert(Z_ARRVAL_P(_0), &_1, sizeof(zval *), NULL);
+	zephir_array_fast_append(_0, _1);
 	zephir_update_property_this(this_ptr, SL("_extensions"), _0 TSRMLS_CC);
 	ZEPHIR_MM_RESTORE();
 
@@ -395,10 +395,10 @@ PHP_METHOD(Phalcon_Loader, register) {
 	if (ZEPHIR_IS_FALSE(registered)) {
 		ZEPHIR_INIT_VAR(_0);
 		array_init(_0);
-		zend_hash_next_index_insert(Z_ARRVAL_P(_0), &this_ptr, sizeof(zval *), NULL);
+		zephir_array_fast_append(_0, this_ptr);
 		ZEPHIR_INIT_VAR(_1);
 		ZVAL_STRING(_1, "autoLoad", 1);
-		zend_hash_next_index_insert(Z_ARRVAL_P(_0), &_1, sizeof(zval *), NULL);
+		zephir_array_fast_append(_0, _1);
 		zephir_call_func_p1_noret("spl_autoload_register", _0);
 		zephir_update_property_this(this_ptr, SL("_registered"), ZEPHIR_GLOBAL(global_true) TSRMLS_CC);
 	}
@@ -421,10 +421,10 @@ PHP_METHOD(Phalcon_Loader, unregister) {
 	if (ZEPHIR_IS_FALSE(registered)) {
 		ZEPHIR_INIT_VAR(_0);
 		array_init(_0);
-		zend_hash_next_index_insert(Z_ARRVAL_P(_0), &this_ptr, sizeof(zval *), NULL);
+		zephir_array_fast_append(_0, this_ptr);
 		ZEPHIR_INIT_VAR(_1);
 		ZVAL_STRING(_1, "autoLoad", 1);
-		zend_hash_next_index_insert(Z_ARRVAL_P(_0), &_1, sizeof(zval *), NULL);
+		zephir_array_fast_append(_0, _1);
 		zephir_call_func_p1_noret("spl_autoload_unregister", _0);
 		zephir_update_property_this(this_ptr, SL("_registered"), ZEPHIR_GLOBAL(global_true) TSRMLS_CC);
 	}

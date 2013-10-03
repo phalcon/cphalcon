@@ -196,8 +196,8 @@ PHP_METHOD(Phalcon_Forms_Element, addFilter) {
 	} else {
 		ZEPHIR_INIT_VAR(_0);
 		array_init(_0);
-		zend_hash_next_index_insert(Z_ARRVAL_P(_0), &filters, sizeof(zval *), NULL);
-		zend_hash_next_index_insert(Z_ARRVAL_P(_0), &filter, sizeof(zval *), NULL);
+		zephir_array_fast_append(_0, filters);
+		zephir_array_fast_append(_0, filter);
 		zephir_update_property_this(this_ptr, SL("_filters"), _0 TSRMLS_CC);
 	}
 	RETURN_THIS();

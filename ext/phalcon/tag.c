@@ -429,8 +429,8 @@ PHP_METHOD(Phalcon_Tag, linkTo) {
 	if ((Z_TYPE_P(parameters) != IS_ARRAY)) {
 		ZEPHIR_INIT_VAR(params);
 		array_init(params);
-		zend_hash_next_index_insert(Z_ARRVAL_P(params), &parameters, sizeof(zval *), NULL);
-		zend_hash_next_index_insert(Z_ARRVAL_P(params), &text, sizeof(zval *), NULL);
+		zephir_array_fast_append(params, parameters);
+		zephir_array_fast_append(params, text);
 	} else {
 		ZEPHIR_CPY_WRT(params, parameters);
 	}

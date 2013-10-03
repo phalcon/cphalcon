@@ -304,8 +304,8 @@ PHP_METHOD(Phalcon_Di_Service_Builder, build) {
 			}
 			ZEPHIR_INIT_NVAR(methodCall);
 			array_init(methodCall);
-			zend_hash_next_index_insert(Z_ARRVAL_P(methodCall), &instance, sizeof(zval *), NULL);
-			zend_hash_next_index_insert(Z_ARRVAL_P(methodCall), &methodName, sizeof(zval *), NULL);
+			zephir_array_fast_append(methodCall, instance);
+			zephir_array_fast_append(methodCall, methodName);
 			ZEPHIR_OBS_NVAR(arguments);
 			if (zephir_array_isset_string_fetch(&arguments, method, SS("arguments"), 0 TSRMLS_CC)) {
 				if ((Z_TYPE_P(arguments) != IS_ARRAY)) {

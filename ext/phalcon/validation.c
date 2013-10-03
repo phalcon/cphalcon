@@ -199,8 +199,8 @@ PHP_METHOD(Phalcon_Validation, add) {
 	}
 	ZEPHIR_INIT_VAR(_0);
 	array_init(_0);
-	zend_hash_next_index_insert(Z_ARRVAL_P(_0), &attribute, sizeof(zval *), NULL);
-	zend_hash_next_index_insert(Z_ARRVAL_P(_0), &validator, sizeof(zval *), NULL);
+	zephir_array_fast_append(_0, attribute);
+	zephir_array_fast_append(_0, validator);
 	zephir_update_property_array_append(this_ptr, SL("_validators"), _0 TSRMLS_CC);
 	RETURN_THIS();
 

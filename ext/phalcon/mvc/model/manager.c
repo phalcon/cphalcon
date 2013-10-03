@@ -1593,7 +1593,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getRelationRecords) {
 	ZEPHIR_INIT_NVAR(conditions);
 	if ((Z_TYPE_P(preConditions) != IS_NULL)) {
 		array_init(conditions);
-		zend_hash_next_index_insert(Z_ARRVAL_P(conditions), &preConditions, sizeof(zval *), NULL);
+		zephir_array_fast_append(conditions, preConditions);
 	} else {
 		array_init(conditions);
 	}
@@ -1642,7 +1642,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getRelationRecords) {
 	ZVAL_STRING(&_10, " AND ", 0);
 	ZEPHIR_INIT_NVAR(_5);
 	zephir_call_func_p2(_5, "join", &_10, conditions);
-	zend_hash_next_index_insert(Z_ARRVAL_P(findParams), &_5, sizeof(zval *), NULL);
+	zephir_array_fast_append(findParams, _5);
 	zephir_array_update_string(&findParams, SL("bind"), &placeholders, PH_COPY | PH_SEPARATE);
 	ZEPHIR_INIT_NVAR(_5);
 	zephir_call_method(_5, record, "getdi");
@@ -1650,8 +1650,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getRelationRecords) {
 	if ((Z_TYPE_P(parameters) == IS_ARRAY)) {
 		ZEPHIR_INIT_VAR(findArguments);
 		array_init(findArguments);
-		zend_hash_next_index_insert(Z_ARRVAL_P(findArguments), &findParams, sizeof(zval *), NULL);
-		zend_hash_next_index_insert(Z_ARRVAL_P(findArguments), &parameters, sizeof(zval *), NULL);
+		zephir_array_fast_append(findArguments, findParams);
+		zephir_array_fast_append(findArguments, parameters);
 	} else {
 		ZEPHIR_CPY_WRT(findArguments, findParams);
 	}
@@ -1678,7 +1678,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getRelationRecords) {
 	}
 	ZEPHIR_INIT_VAR(arguments);
 	array_init(arguments);
-	zend_hash_next_index_insert(Z_ARRVAL_P(arguments), &findArguments, sizeof(zval *), NULL);
+	zephir_array_fast_append(arguments, findArguments);
 	ZEPHIR_INIT_NVAR(_5);
 	zephir_call_method(_5, relation, "isreusable");
 	reusable = (zephir_get_boolval(_5)) ? 1 : 0;
@@ -1695,8 +1695,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getRelationRecords) {
 	array_init(_5);
 	ZEPHIR_INIT_NVAR(_11);
 	zephir_call_method_p1(_11, this_ptr, "load", referencedModel);
-	zend_hash_next_index_insert(Z_ARRVAL_P(_5), &_11, sizeof(zval *), NULL);
-	zend_hash_next_index_insert(Z_ARRVAL_P(_5), &retrieveMethod, sizeof(zval *), NULL);
+	zephir_array_fast_append(_5, _11);
+	zephir_array_fast_append(_5, retrieveMethod);
 	ZEPHIR_INIT_NVAR(records);
 	zephir_call_func_p2(records, "call_user_func_array", _5, arguments);
 	if (reusable) {

@@ -182,13 +182,13 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction, commit) {
 	if ((Z_TYPE_P(manager) == IS_OBJECT)) {
 		ZEPHIR_INIT_VAR(_0);
 		array_init(_0);
-		zend_hash_next_index_insert(Z_ARRVAL_P(_0), &manager, sizeof(zval *), NULL);
+		zephir_array_fast_append(_0, manager);
 		ZEPHIR_INIT_VAR(_1);
 		ZVAL_STRING(_1, "notifyCommit", 1);
-		zend_hash_next_index_insert(Z_ARRVAL_P(_0), &_1, sizeof(zval *), NULL);
+		zephir_array_fast_append(_0, _1);
 		ZEPHIR_INIT_NVAR(_1);
 		array_init(_1);
-		zend_hash_next_index_insert(Z_ARRVAL_P(_1), &this_ptr, sizeof(zval *), NULL);
+		zephir_array_fast_append(_1, this_ptr);
 		zephir_call_func_p2_noret("call_user_func_array", _0, _1);
 	}
 	connection = zephir_fetch_nproperty_this(this_ptr, SL("_connection"), PH_NOISY_CC);
@@ -224,13 +224,13 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction, rollback) {
 	if ((Z_TYPE_P(manager) == IS_OBJECT)) {
 		ZEPHIR_INIT_VAR(_0);
 		array_init(_0);
-		zend_hash_next_index_insert(Z_ARRVAL_P(_0), &manager, sizeof(zval *), NULL);
+		zephir_array_fast_append(_0, manager);
 		ZEPHIR_INIT_VAR(_1);
 		ZVAL_STRING(_1, "notifyRollback", 1);
-		zend_hash_next_index_insert(Z_ARRVAL_P(_0), &_1, sizeof(zval *), NULL);
+		zephir_array_fast_append(_0, _1);
 		ZEPHIR_INIT_NVAR(_1);
 		array_init(_1);
-		zend_hash_next_index_insert(Z_ARRVAL_P(_1), &this_ptr, sizeof(zval *), NULL);
+		zephir_array_fast_append(_1, this_ptr);
 		zephir_call_func_p2_noret("call_user_func_array", _0, _1);
 	}
 	connection = zephir_fetch_nproperty_this(this_ptr, SL("_connection"), PH_NOISY_CC);

@@ -701,10 +701,10 @@ PHP_METHOD(Phalcon_Assets_Manager, outputCss) {
 	array_init(_0);
 	ZEPHIR_INIT_VAR(_1);
 	ZVAL_STRING(_1, "Phalcon\\Tag", 1);
-	zend_hash_next_index_insert(Z_ARRVAL_P(_0), &_1, sizeof(zval *), NULL);
+	zephir_array_fast_append(_0, _1);
 	ZEPHIR_INIT_BNVAR(_1);
 	ZVAL_STRING(_1, "stylesheetLink", 1);
-	zend_hash_next_index_insert(Z_ARRVAL_P(_0), &_1, sizeof(zval *), NULL);
+	zephir_array_fast_append(_0, _1);
 	ZEPHIR_INIT_BNVAR(_1);
 	ZVAL_STRING(_1, "css", 1);
 	zephir_call_method_p3(return_value, this_ptr, "output", collection, _0, _1);
@@ -736,10 +736,10 @@ PHP_METHOD(Phalcon_Assets_Manager, outputJs) {
 	array_init(_0);
 	ZEPHIR_INIT_VAR(_1);
 	ZVAL_STRING(_1, "Phalcon\\Tag", 1);
-	zend_hash_next_index_insert(Z_ARRVAL_P(_0), &_1, sizeof(zval *), NULL);
+	zephir_array_fast_append(_0, _1);
 	ZEPHIR_INIT_BNVAR(_1);
 	ZVAL_STRING(_1, "javascriptInclude", 1);
-	zend_hash_next_index_insert(Z_ARRVAL_P(_0), &_1, sizeof(zval *), NULL);
+	zephir_array_fast_append(_0, _1);
 	ZEPHIR_INIT_BNVAR(_1);
 	ZVAL_STRING(_1, "js", 1);
 	zephir_call_method_p3(return_value, this_ptr, "output", collection, _0, _1);

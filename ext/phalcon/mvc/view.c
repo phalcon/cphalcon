@@ -435,7 +435,7 @@ PHP_METHOD(Phalcon_Mvc_View, setTemplateBefore) {
 	if ((Z_TYPE_P(templateBefore) != IS_ARRAY)) {
 		ZEPHIR_INIT_VAR(_0);
 		array_init(_0);
-		zend_hash_next_index_insert(Z_ARRVAL_P(_0), &templateBefore, sizeof(zval *), NULL);
+		zephir_array_fast_append(_0, templateBefore);
 		zephir_update_property_this(this_ptr, SL("_templatesBefore"), _0 TSRMLS_CC);
 	} else {
 		zephir_update_property_this(this_ptr, SL("_templatesBefore"), templateBefore TSRMLS_CC);
@@ -475,7 +475,7 @@ PHP_METHOD(Phalcon_Mvc_View, setTemplateAfter) {
 	if ((Z_TYPE_P(templateAfter) != IS_ARRAY)) {
 		ZEPHIR_INIT_VAR(_0);
 		array_init(_0);
-		zend_hash_next_index_insert(Z_ARRVAL_P(_0), &templateAfter, sizeof(zval *), NULL);
+		zephir_array_fast_append(_0, templateAfter);
 		zephir_update_property_this(this_ptr, SL("_templatesAfter"), _0 TSRMLS_CC);
 	} else {
 		zephir_update_property_this(this_ptr, SL("_templatesAfter"), templateAfter TSRMLS_CC);
@@ -720,8 +720,8 @@ PHP_METHOD(Phalcon_Mvc_View, _loadTemplateEngines) {
 			}
 			ZEPHIR_INIT_VAR(arguments);
 			array_init(arguments);
-			zend_hash_next_index_insert(Z_ARRVAL_P(arguments), &this_ptr, sizeof(zval *), NULL);
-			zend_hash_next_index_insert(Z_ARRVAL_P(arguments), &dependencyInjector, sizeof(zval *), NULL);
+			zephir_array_fast_append(arguments, this_ptr);
+			zephir_array_fast_append(arguments, dependencyInjector);
 			zephir_is_iterable(registeredEngines, &_3, &_2, 0, 0);
 			for (
 				; zend_hash_get_current_data_ex(_3, (void**) &_4, &_2) == SUCCESS
@@ -1154,7 +1154,7 @@ PHP_METHOD(Phalcon_Mvc_View, pick) {
 		}
 		ZEPHIR_INIT_VAR(pickView);
 		array_init(pickView);
-		zend_hash_next_index_insert(Z_ARRVAL_P(pickView), &renderView, sizeof(zval *), NULL);
+		zephir_array_fast_append(pickView, renderView);
 		if ((Z_TYPE_P(layout) != IS_NULL)) {
 			zephir_array_append(&pickView, layout, PH_SEPARATE);
 		}
@@ -1259,7 +1259,7 @@ PHP_METHOD(Phalcon_Mvc_View, getRender) {
 	if ((Z_TYPE_P(configCallback) == IS_OBJECT)) {
 		ZEPHIR_INIT_VAR(_0);
 		array_init(_0);
-		zend_hash_next_index_insert(Z_ARRVAL_P(_0), &view, sizeof(zval *), NULL);
+		zephir_array_fast_append(_0, view);
 		zephir_call_func_p2_noret("call_user_func_array", configCallback, _0);
 	}
 	zephir_call_method_noret(view, "start");

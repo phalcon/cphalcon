@@ -182,7 +182,7 @@ PHP_METHOD(Phalcon_Di_Injectable, __get) {
 		array_init(_2);
 		ZEPHIR_INIT_VAR(_3);
 		zephir_call_func_p1(_3, "get_class", this_ptr);
-		zend_hash_next_index_insert(Z_ARRVAL_P(_2), &_3, sizeof(zval *), NULL);
+		zephir_array_fast_append(_2, _3);
 		ZEPHIR_INIT_NVAR(_3);
 		ZVAL_STRING(_3, "sessionBag", 1);
 		zephir_call_method_p2(_1, dependencyInjector, "get", _3, _2);
