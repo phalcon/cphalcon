@@ -107,7 +107,7 @@ PHP_METHOD(Phalcon_Logger_Adapter_Firephp, logInternal){
 	sapi_header_line h = { NULL, 0, 0 };
 	smart_str str      = { NULL, 0, 0 };
 	int size, offset, num_bytes;
-	const int chunk = 4960;
+	const int chunk = 4500;
 	int separated_index = 0;
 
 	/* If headers has already been sent, we can do nothing. Exit early. */
