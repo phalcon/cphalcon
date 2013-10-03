@@ -774,6 +774,17 @@ static void phalcon_tag_generic_field_checked(INTERNAL_FUNCTION_PARAMETERS, cons
 }
 
 /**
+ * Builds a HTML input[type="color"] tag
+ *
+ * @param array $parameters
+ * @return string
+ */
+PHP_METHOD(Phalcon_Tag, colorField){
+
+	phalcon_tag_generic_field(INTERNAL_FUNCTION_PARAM_PASSTHRU, "color", 0);
+}
+
+/**
  * Builds a HTML input[type="text"] tag
  *
  * <code>
@@ -804,6 +815,17 @@ PHP_METHOD(Phalcon_Tag, numericField){
 }
 
 /**
+ * Builds a HTML input[type="range"] tag
+ *
+ * @param array $parameters
+ * @return string
+ */
+PHP_METHOD(Phalcon_Tag, rangeField){
+
+	phalcon_tag_generic_field(INTERNAL_FUNCTION_PARAM_PASSTHRU, "range", 0);
+}
+
+/**
  * Builds a HTML input[type="email"] tag
  *
  * <code>
@@ -831,6 +853,61 @@ PHP_METHOD(Phalcon_Tag, emailField){
 PHP_METHOD(Phalcon_Tag, dateField){
 
 	phalcon_tag_generic_field(INTERNAL_FUNCTION_PARAM_PASSTHRU, "date", 0);
+}
+
+/**
+ * Builds a HTML input[type="datetime"] tag
+ *
+ * @param array $parameters
+ * @return string
+ */
+PHP_METHOD(Phalcon_Tag, dateTimeField){
+
+	phalcon_tag_generic_field(INTERNAL_FUNCTION_PARAM_PASSTHRU, "datetime", 0);
+}
+
+/**
+ * Builds a HTML input[type="datetime-local"] tag
+ *
+ * @param array $parameters
+ * @return string
+ */
+PHP_METHOD(Phalcon_Tag, dateTimeLocalField){
+
+	phalcon_tag_generic_field(INTERNAL_FUNCTION_PARAM_PASSTHRU, "datetime-local", 0);
+}
+
+/**
+ * Builds a HTML input[type="month"] tag
+ *
+ * @param array $parameters
+ * @return string
+ */
+PHP_METHOD(Phalcon_Tag, monthField){
+
+	phalcon_tag_generic_field(INTERNAL_FUNCTION_PARAM_PASSTHRU, "month", 0);
+}
+
+/**
+ * Builds a HTML input[type="time"] tag
+ *
+ * @param array $parameters
+ * @return string
+ */
+PHP_METHOD(Phalcon_Tag, timeField){
+
+	phalcon_tag_generic_field(INTERNAL_FUNCTION_PARAM_PASSTHRU, "time", 0);
+}
+
+/**
+ * Builds a HTML input[type="week"] tag
+ *
+ * @param array $parameters
+ * @return string
+ */
+PHP_METHOD(Phalcon_Tag, weekField){
+
+	phalcon_tag_generic_field(INTERNAL_FUNCTION_PARAM_PASSTHRU, "week", 0);
 }
 
 /**
@@ -876,6 +953,39 @@ PHP_METHOD(Phalcon_Tag, hiddenField){
 PHP_METHOD(Phalcon_Tag, fileField){
 
 	phalcon_tag_generic_field(INTERNAL_FUNCTION_PARAM_PASSTHRU, "file", 0);
+}
+
+/**
+ * Builds a HTML input[type="search"] tag
+ *
+ * @param array $parameters
+ * @return string
+ */
+PHP_METHOD(Phalcon_Tag, searchField){
+
+	phalcon_tag_generic_field(INTERNAL_FUNCTION_PARAM_PASSTHRU, "search", 0);
+}
+
+/**
+ * Builds a HTML input[type="tel"] tag
+ *
+ * @param array $parameters
+ * @return string
+ */
+PHP_METHOD(Phalcon_Tag, telField){
+
+	phalcon_tag_generic_field(INTERNAL_FUNCTION_PARAM_PASSTHRU, "tel", 0);
+}
+
+/**
+ * Builds a HTML input[type="url"] tag
+ *
+ * @param array $parameters
+ * @return string
+ */
+PHP_METHOD(Phalcon_Tag, urlField){
+
+	phalcon_tag_generic_field(INTERNAL_FUNCTION_PARAM_PASSTHRU, "url", 0);
 }
 
 /**
