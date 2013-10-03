@@ -59,4 +59,16 @@ class Relation //implements Phalcon\Mvc\Model\RelationInterface
 
 	const ACTION_CASCADE = 2;
 
+	/**
+	 * Sets the intermediate model data for has-*-through relations
+	 *
+	 * @param string|array intermediateFields
+	 * @param string intermediateModel
+	 * @param string|array intermediateReferencedFields
+	 */
+	public function setIntermediateRelation(var intermediateFields, string intermediateModel, var intermediateReferencedFields)
+	{
+
+	}
+
 }

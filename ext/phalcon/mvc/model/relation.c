@@ -12,6 +12,7 @@
 #include <Zend/zend_interfaces.h>
 
 #include "kernel/main.h"
+#include "kernel/memory.h"
 
 
 /*
@@ -38,7 +39,7 @@
  */
 ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_Relation) {
 
-	ZEPHIR_REGISTER_CLASS(Phalcon\\Mvc\\Model, Relation, phalcon, mvc_model_relation, NULL, 0);
+	ZEPHIR_REGISTER_CLASS(Phalcon\\Mvc\\Model, Relation, phalcon, mvc_model_relation, phalcon_mvc_model_relation_method_entry, 0);
 
 	zend_declare_property_null(phalcon_mvc_model_relation_ce, SL("_type"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_mvc_model_relation_ce, SL("_referencedModel"), ZEND_ACC_PROTECTED TSRMLS_CC);
@@ -58,6 +59,24 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_Relation) {
 	zend_declare_class_constant_long(phalcon_mvc_model_relation_ce, SL("ACTION_CASCADE"), 2 TSRMLS_CC);
 
 	return SUCCESS;
+
+}
+
+/**
+ * Sets the intermediate model data for has-*-through relations
+ *
+ * @param string|array intermediateFields
+ * @param string intermediateModel
+ * @param string intermediateReferencedFields
+ */
+PHP_METHOD(Phalcon_Mvc_Model_Relation, setIntermediateRelation) {
+
+	zval *intermediateFields, *intermediateModel, *intermediateReferencedFields;
+
+	zephir_fetch_params(0, 3, 0, &intermediateFields, &intermediateModel, &intermediateReferencedFields);
+
+
+
 
 }
 

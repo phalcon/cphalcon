@@ -50,7 +50,7 @@ abstract class Validator {
 	 * @param string field
 	 * @param string type
 	 */
-	protected function appendMessage(message, field=null, type=null)
+	protected function appendMessage(string! message, field=null, type=null)
 	{
 		if !type {
 			let type = str_replace("Validator", "", get_class(this));

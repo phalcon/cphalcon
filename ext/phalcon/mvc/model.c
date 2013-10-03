@@ -2611,11 +2611,11 @@ PHP_METHOD(Phalcon_Mvc_Model, _doLowInsert) {
  */
 PHP_METHOD(Phalcon_Mvc_Model, _doLowUpdate) {
 
-	zend_function *_8 = NULL, *_9 = NULL, *_14 = NULL;
-	HashTable *_4, *_12;
-	HashPosition _3, _11;
+	zend_function *_8 = NULL, *_9 = NULL, *_13 = NULL;
+	HashTable *_4, *_11;
+	HashPosition _3, _10;
 	zend_bool useDynamicUpdate, changed;
-	zval *metaData, *connection, *table, *bindSkip, *fields, *values, *bindTypes, *manager, *bindDataTypes, *field = NULL, *automaticAttributes, *snapshotValue, *uniqueKey, *uniqueParams, *uniqueTypes, *snapshot, *nonPrimary, *columnMap, *attributeField = NULL, *value = NULL, *primaryKeys, *_0, *_1 = NULL, *_2, **_5, *_6 = NULL, *_7 = NULL, *_10, **_13;
+	zval *metaData, *connection, *table, *bindSkip, *fields, *values, *bindTypes, *manager, *bindDataTypes, *field = NULL, *automaticAttributes, *snapshotValue, *uniqueKey, *uniqueParams, *uniqueTypes, *snapshot, *nonPrimary, *columnMap, *attributeField = NULL, *value = NULL, *primaryKeys, *bindType, *_0, *_1 = NULL, *_2, **_5, *_6 = NULL, *_7 = NULL, **_12;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 3, 0, &metaData, &connection, &table);
@@ -2663,7 +2663,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _doLowUpdate) {
 	) {
 		ZEPHIR_GET_HVALUE(field, _5);
 		if (!(zephir_array_isset(automaticAttributes, field))) {
-			if (!(zephir_array_isset(bindDataTypes, field))) {
+			if (!(zephir_array_isset_fetch(&bindType, bindDataTypes, field, 1 TSRMLS_CC))) {
 				ZEPHIR_INIT_NVAR(_1);
 				object_init_ex(_1, phalcon_mvc_model_exception_ce);
 				ZEPHIR_INIT_LNVAR(_6);
@@ -2697,8 +2697,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _doLowUpdate) {
 				if (!(useDynamicUpdate)) {
 					zephir_array_append(&fields, field, PH_SEPARATE);
 					zephir_array_append(&values, value, PH_SEPARATE);
-					zephir_array_fetch(&_10, bindDataTypes, field, PH_NOISY | PH_READONLY TSRMLS_CC);
-					zephir_array_append(&bindTypes, _10, PH_SEPARATE);
+					zephir_array_append(&bindTypes, bindType, PH_SEPARATE);
 				} else {
 					if (!(zephir_array_isset_fetch(&snapshotValue, snapshot, attributeField, 1 TSRMLS_CC))) {
 						changed = 1;
@@ -2708,8 +2707,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _doLowUpdate) {
 					if (changed) {
 						zephir_array_append(&fields, field, PH_SEPARATE);
 						zephir_array_append(&values, value, PH_SEPARATE);
-						zephir_array_fetch(&_10, bindDataTypes, field, PH_NOISY | PH_READONLY TSRMLS_CC);
-						zephir_array_append(&bindTypes, _10, PH_SEPARATE);
+						zephir_array_append(&bindTypes, bindType, PH_SEPARATE);
 					}
 				}
 			} else {
@@ -2735,12 +2733,12 @@ PHP_METHOD(Phalcon_Mvc_Model, _doLowUpdate) {
 		}
 		ZEPHIR_INIT_BNVAR(uniqueParams);
 		array_init(uniqueParams);
-		zephir_is_iterable(primaryKeys, &_12, &_11, 0, 0);
+		zephir_is_iterable(primaryKeys, &_11, &_10, 0, 0);
 		for (
-			; zend_hash_get_current_data_ex(_12, (void**) &_13, &_11) == SUCCESS
-			; zend_hash_move_forward_ex(_12, &_11)
+			; zend_hash_get_current_data_ex(_11, (void**) &_12, &_10) == SUCCESS
+			; zend_hash_move_forward_ex(_11, &_10)
 		) {
-			ZEPHIR_GET_HVALUE(field, _13);
+			ZEPHIR_GET_HVALUE(field, _12);
 			if ((Z_TYPE_P(columnMap) == IS_ARRAY)) {
 				ZEPHIR_OBS_NVAR(attributeField);
 				if (!(zephir_array_isset_fetch(&attributeField, columnMap, field, 0 TSRMLS_CC))) {
@@ -2750,7 +2748,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _doLowUpdate) {
 					ZEPHIR_CONCAT_SV(_6, "Column '", field);
 					ZEPHIR_INIT_LNVAR(_7);
 					ZEPHIR_CONCAT_VS(_7, _6, "' isn't part of the column map");
-					zephir_call_method_p1_cache_noret(_1, "__construct", &_14, _7);
+					zephir_call_method_p1_cache_noret(_1, "__construct", &_13, _7);
 					zephir_throw_exception(_1 TSRMLS_CC);
 					ZEPHIR_MM_RESTORE();
 					return;
@@ -4032,11 +4030,13 @@ PHP_METHOD(Phalcon_Mvc_Model, hasOne) {
  */
 PHP_METHOD(Phalcon_Mvc_Model, belongsTo) {
 
-	zval *fields, *referenceModel, *referencedFields, *options = NULL, *manager;
+	zval *referenceModel = NULL;
+	zval *fields, *referenceModel_param = NULL, *referencedFields, *options = NULL, *manager;
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 3, 1, &fields, &referenceModel, &referencedFields, &options);
+	zephir_fetch_params(1, 3, 1, &fields, &referenceModel_param, &referencedFields, &options);
 
+		zephir_get_strval(referenceModel, referenceModel_param);
 	if (!options) {
 		ZEPHIR_CPY_WRT(options, ZEPHIR_GLOBAL(global_null));
 	}

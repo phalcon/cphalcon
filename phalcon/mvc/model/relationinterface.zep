@@ -43,9 +43,9 @@ interface RelationInterface
 	 *
 	 * @param string|array intermediateFields
 	 * @param string intermediateModel
-	 * @param string intermediateReferencedFields
+	 * @param string|array intermediateReferencedFields
 	 */
-	public function setIntermediateRelation(intermediateFields, intermediateModel, intermediateReferencedFields);
+	public function setIntermediateRelation(var intermediateFields, string! intermediateModel, var intermediateReferencedFields);
 
 	/**
 	 * Returns the relations type

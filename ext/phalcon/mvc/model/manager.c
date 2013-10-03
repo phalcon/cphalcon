@@ -919,6 +919,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, keepSnapshots) {
 /**
  * Checks if a model is keeping snapshots for the queried records
  *
+ * @param Phalcon\Mvc\ModelInterface model
  * @return boolean
  */
 PHP_METHOD(Phalcon_Mvc_Model_Manager, isKeepingSnapshots) {
@@ -940,6 +941,359 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, isKeepingSnapshots) {
 		}
 	}
 	RETURN_MM_BOOL(0);
+
+}
+
+/**
+ * Sets if a model must use dynamic update instead of the all-field update
+ *
+ * @param Phalcon\Mvc\ModelInterface model
+ * @param boolean dynamicUpdate
+ */
+PHP_METHOD(Phalcon_Mvc_Model_Manager, useDynamicUpdate) {
+
+	zend_bool dynamicUpdate;
+	zval *model, *dynamicUpdate_param = NULL, *entityName, *_0, *_1;
+
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 2, 0, &model, &dynamicUpdate_param);
+
+		dynamicUpdate = zephir_get_boolval(dynamicUpdate_param);
+
+
+	ZEPHIR_INIT_VAR(entityName);
+	zephir_call_func_p1(entityName, "get_class_lower", model);
+	ZEPHIR_INIT_VAR(_0);
+	ZVAL_BOOL(_0, dynamicUpdate);
+	zephir_update_property_array(this_ptr, SL("_dynamicUpdate"), entityName, _0 TSRMLS_CC);
+	ZEPHIR_INIT_VAR(_1);
+	ZVAL_BOOL(_1, dynamicUpdate);
+	zephir_update_property_array(this_ptr, SL("_keepSnapshots"), entityName, _1 TSRMLS_CC);
+	ZEPHIR_MM_RESTORE();
+
+}
+
+/**
+ * Checks if a model is using dynamic update instead of all-field update
+ *
+ * @param Phalcon\Mvc\Model model
+ * @return boolean
+ */
+PHP_METHOD(Phalcon_Mvc_Model_Manager, isUsingDynamicUpdate) {
+
+	zval *model, *dynamicUpdate, *isUsing, *_0;
+
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 1, 0, &model);
+
+
+
+	dynamicUpdate = zephir_fetch_nproperty_this(this_ptr, SL("_dynamicUpdate"), PH_NOISY_CC);
+	if ((Z_TYPE_P(dynamicUpdate) == IS_ARRAY)) {
+		ZEPHIR_INIT_VAR(_0);
+		zephir_call_func_p1(_0, "get_class_lower", model);
+		if (zephir_array_isset_fetch(&isUsing, dynamicUpdate, _0, 1 TSRMLS_CC)) {
+			ZEPHIR_MM_RESTORE();
+			RETURN_ZVAL(isUsing, 1, 0);
+		}
+	}
+	RETURN_MM_BOOL(0);
+
+}
+
+/**
+ * Setup a 1-1 relation between two models
+ *
+ * @param   Phalcon\Mvc\Model model
+ * @param	mixed fields
+ * @param	string referencedModel
+ * @param	mixed referencedFields
+ * @param	array options
+ * @return  Phalcon\Mvc\Model\Relation
+ */
+PHP_METHOD(Phalcon_Mvc_Model_Manager, addHasOne) {
+
+	zval *referencedModel = NULL;
+	zval *model, *fields, *referencedModel_param = NULL, *referencedFields, *options = NULL, *entityName, *referencedEntity, *hasOne, *relation, *keyRelation, *relations, *alias, *lowerAlias = NULL, *hasOneSingle, *singleRelations, *_0, *_1, *_2;
+
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 4, 1, &model, &fields, &referencedModel_param, &referencedFields, &options);
+
+		zephir_get_strval(referencedModel, referencedModel_param);
+	if (!options) {
+		ZEPHIR_CPY_WRT(options, ZEPHIR_GLOBAL(global_null));
+	}
+
+
+	ZEPHIR_INIT_VAR(entityName);
+	zephir_call_func_p1(entityName, "get_class_lower", model);
+	ZEPHIR_INIT_VAR(referencedEntity);
+	zephir_call_func_p1(referencedEntity, "strtolower", referencedModel);
+	ZEPHIR_INIT_VAR(_0);
+	ZEPHIR_CONCAT_VS(_0, entityName, "$");
+	ZEPHIR_INIT_VAR(keyRelation);
+	concat_function(keyRelation, _0, referencedEntity TSRMLS_CC);
+	hasOne = zephir_fetch_nproperty_this(this_ptr, SL("_hasOne"), PH_NOISY_CC);
+	ZEPHIR_OBS_VAR(relations);
+	if (!(zephir_array_isset_fetch(&relations, hasOne, keyRelation, 0 TSRMLS_CC))) {
+		ZEPHIR_INIT_BNVAR(relations);
+		array_init(relations);
+	}
+	if ((Z_TYPE_P(referencedFields) == IS_ARRAY)) {
+		if ((zephir_fast_count_int(fields TSRMLS_CC) != zephir_fast_count_int(referencedFields TSRMLS_CC))) {
+			ZEPHIR_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Number of referenced fields are not the same");
+			return;
+		}
+	}
+	ZEPHIR_INIT_VAR(relation);
+	object_init_ex(relation, phalcon_mvc_model_relation_ce);
+	if (zephir_array_isset_string_fetch(&alias, options, SS("alias"), 1 TSRMLS_CC)) {
+		ZEPHIR_INIT_VAR(lowerAlias);
+		zephir_call_func_p1(lowerAlias, "strtolower", alias);
+	} else {
+		ZEPHIR_CPY_WRT(lowerAlias, referencedEntity);
+	}
+	zephir_array_append(&relations, relation, PH_SEPARATE);
+	ZEPHIR_INIT_VAR(_1);
+	ZEPHIR_CONCAT_VS(_1, entityName, "$");
+	ZEPHIR_INIT_VAR(_2);
+	concat_function(_2, _1, lowerAlias TSRMLS_CC);
+	zephir_update_property_array(this_ptr, SL("_aliases"), _2, relation TSRMLS_CC);
+	zephir_update_property_array(this_ptr, SL("_hasOne"), keyRelation, relations TSRMLS_CC);
+	hasOneSingle = zephir_fetch_nproperty_this(this_ptr, SL("_hasOneSingle"), PH_NOISY_CC);
+	ZEPHIR_OBS_VAR(singleRelations);
+	if (!(zephir_array_isset_fetch(&singleRelations, hasOneSingle, entityName, 0 TSRMLS_CC))) {
+		ZEPHIR_INIT_BNVAR(singleRelations);
+		array_init(singleRelations);
+	}
+	zephir_array_append(&singleRelations, relation, PH_SEPARATE);
+	zephir_update_property_array(this_ptr, SL("_hasOneSingle"), entityName, singleRelations TSRMLS_CC);
+	RETURN_CCTOR(relation);
+
+}
+
+/**
+ * Setup a relation reverse many to one between two models
+ *
+ * @param   Phalcon\Mvc\Model model
+ * @param	mixed fields
+ * @param	string referencedModel
+ * @param	mixed referencedFields
+ * @param	array options
+ * @return  Phalcon\Mvc\Model\Relation
+ */
+PHP_METHOD(Phalcon_Mvc_Model_Manager, addBelongsTo) {
+
+	zval *referencedModel = NULL;
+	zval *model, *fields, *referencedModel_param = NULL, *referencedFields, *options = NULL, *entityName, *referencedEntity, *belongsTo, *relation, *keyRelation, *relations, *alias, *lowerAlias = NULL, *belongsToSingle, *singleRelations, *_0, *_1, *_2;
+
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 4, 1, &model, &fields, &referencedModel_param, &referencedFields, &options);
+
+		zephir_get_strval(referencedModel, referencedModel_param);
+	if (!options) {
+		ZEPHIR_CPY_WRT(options, ZEPHIR_GLOBAL(global_null));
+	}
+
+
+	ZEPHIR_INIT_VAR(entityName);
+	zephir_call_func_p1(entityName, "get_class_lower", model);
+	ZEPHIR_INIT_VAR(referencedEntity);
+	zephir_call_func_p1(referencedEntity, "strtolower", referencedModel);
+	ZEPHIR_INIT_VAR(_0);
+	ZEPHIR_CONCAT_VS(_0, entityName, "$");
+	ZEPHIR_INIT_VAR(keyRelation);
+	concat_function(keyRelation, _0, referencedEntity TSRMLS_CC);
+	belongsTo = zephir_fetch_nproperty_this(this_ptr, SL("_belongsTo"), PH_NOISY_CC);
+	ZEPHIR_OBS_VAR(relations);
+	if (!(zephir_array_isset_fetch(&relations, belongsTo, keyRelation, 0 TSRMLS_CC))) {
+		ZEPHIR_INIT_BNVAR(relations);
+		array_init(relations);
+	}
+	if ((Z_TYPE_P(referencedFields) == IS_ARRAY)) {
+		if ((zephir_fast_count_int(fields TSRMLS_CC) != zephir_fast_count_int(referencedFields TSRMLS_CC))) {
+			ZEPHIR_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Number of referenced fields are not the same");
+			return;
+		}
+	}
+	ZEPHIR_INIT_VAR(relation);
+	object_init_ex(relation, phalcon_mvc_model_relation_ce);
+	if (zephir_array_isset_string_fetch(&alias, options, SS("alias"), 1 TSRMLS_CC)) {
+		ZEPHIR_INIT_VAR(lowerAlias);
+		zephir_call_func_p1(lowerAlias, "strtolower", alias);
+	} else {
+		ZEPHIR_CPY_WRT(lowerAlias, referencedEntity);
+	}
+	zephir_array_append(&relations, relation, PH_SEPARATE);
+	ZEPHIR_INIT_VAR(_1);
+	ZEPHIR_CONCAT_VS(_1, entityName, "$");
+	ZEPHIR_INIT_VAR(_2);
+	concat_function(_2, _1, lowerAlias TSRMLS_CC);
+	zephir_update_property_array(this_ptr, SL("_aliases"), _2, relation TSRMLS_CC);
+	zephir_update_property_array(this_ptr, SL("_belongsTo"), keyRelation, relations TSRMLS_CC);
+	belongsToSingle = zephir_fetch_nproperty_this(this_ptr, SL("_belongsToSingle"), PH_NOISY_CC);
+	ZEPHIR_OBS_VAR(singleRelations);
+	if (!(zephir_array_isset_fetch(&singleRelations, belongsToSingle, entityName, 0 TSRMLS_CC))) {
+		ZEPHIR_INIT_BNVAR(singleRelations);
+		array_init(singleRelations);
+	}
+	zephir_array_append(&singleRelations, relation, PH_SEPARATE);
+	zephir_update_property_array(this_ptr, SL("_belongsToSingle"), entityName, singleRelations TSRMLS_CC);
+	RETURN_CCTOR(relation);
+
+}
+
+/**
+ * Setup a relation 1-n between two models
+ *
+ * @param 	Phalcon\Mvc\ModelInterface model
+ * @param	mixed fields
+ * @param	string referencedModel
+ * @param	mixed referencedFields
+ * @param	array options
+ */
+PHP_METHOD(Phalcon_Mvc_Model_Manager, addHasMany) {
+
+	zval *referencedModel = NULL;
+	zval *model, *fields, *referencedModel_param = NULL, *referencedFields, *options = NULL, *entityName, *referencedEntity, *hasMany, *relation, *keyRelation, *relations, *alias, *lowerAlias = NULL, *hasManySingle, *singleRelations, *_0, *_1, *_2;
+
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 4, 1, &model, &fields, &referencedModel_param, &referencedFields, &options);
+
+		zephir_get_strval(referencedModel, referencedModel_param);
+	if (!options) {
+		ZEPHIR_CPY_WRT(options, ZEPHIR_GLOBAL(global_null));
+	}
+
+
+	ZEPHIR_INIT_VAR(entityName);
+	zephir_call_func_p1(entityName, "get_class_lower", model);
+	ZEPHIR_INIT_VAR(referencedEntity);
+	zephir_call_func_p1(referencedEntity, "strtolower", referencedModel);
+	ZEPHIR_INIT_VAR(_0);
+	ZEPHIR_CONCAT_VS(_0, entityName, "$");
+	ZEPHIR_INIT_VAR(keyRelation);
+	concat_function(keyRelation, _0, referencedEntity TSRMLS_CC);
+	hasMany = zephir_fetch_nproperty_this(this_ptr, SL("_hasMany"), PH_NOISY_CC);
+	ZEPHIR_OBS_VAR(relations);
+	if (!(zephir_array_isset_fetch(&relations, hasMany, keyRelation, 0 TSRMLS_CC))) {
+		ZEPHIR_INIT_BNVAR(relations);
+		array_init(relations);
+	}
+	if ((Z_TYPE_P(referencedFields) == IS_ARRAY)) {
+		if ((zephir_fast_count_int(fields TSRMLS_CC) != zephir_fast_count_int(referencedFields TSRMLS_CC))) {
+			ZEPHIR_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Number of referenced fields are not the same");
+			return;
+		}
+	}
+	ZEPHIR_INIT_VAR(relation);
+	object_init_ex(relation, phalcon_mvc_model_relation_ce);
+	if (zephir_array_isset_string_fetch(&alias, options, SS("alias"), 1 TSRMLS_CC)) {
+		ZEPHIR_INIT_VAR(lowerAlias);
+		zephir_call_func_p1(lowerAlias, "strtolower", alias);
+	} else {
+		ZEPHIR_CPY_WRT(lowerAlias, referencedEntity);
+	}
+	zephir_array_append(&relations, relation, PH_SEPARATE);
+	ZEPHIR_INIT_VAR(_1);
+	ZEPHIR_CONCAT_VS(_1, entityName, "$");
+	ZEPHIR_INIT_VAR(_2);
+	concat_function(_2, _1, lowerAlias TSRMLS_CC);
+	zephir_update_property_array(this_ptr, SL("_aliases"), _2, relation TSRMLS_CC);
+	zephir_update_property_array(this_ptr, SL("_hasMany"), keyRelation, relations TSRMLS_CC);
+	hasManySingle = zephir_fetch_nproperty_this(this_ptr, SL("_hasManySingle"), PH_NOISY_CC);
+	ZEPHIR_OBS_VAR(singleRelations);
+	if (!(zephir_array_isset_fetch(&singleRelations, hasManySingle, entityName, 0 TSRMLS_CC))) {
+		ZEPHIR_INIT_BNVAR(singleRelations);
+		array_init(singleRelations);
+	}
+	zephir_array_append(&singleRelations, relation, PH_SEPARATE);
+	zephir_update_property_array(this_ptr, SL("_hasManySingle"), entityName, singleRelations TSRMLS_CC);
+	RETURN_CCTOR(relation);
+
+}
+
+/**
+ * Setups a relation n-m between two models
+ *
+ * @param 	Phalcon\Mvc\ModelInterface model
+ * @param	string fields
+ * @param	string intermediateModel
+ * @param	string intermediateFields
+ * @param	string intermediateReferencedFields
+ * @param	string referencedModel
+ * @param	string referencedFields
+ * @param   array options
+ * @return  Phalcon\Mvc\Model\Relation
+ */
+PHP_METHOD(Phalcon_Mvc_Model_Manager, addHasManyToMany) {
+
+	zval *intermediateModel = NULL, *referencedModel = NULL;
+	zval *model, *fields, *intermediateModel_param = NULL, *intermediateFields, *intermediateReferencedFields, *referencedModel_param = NULL, *referencedFields, *options = NULL, *entityName, *referencedEntity, *hasManyToMany, *relation, *keyRelation, *relations, *alias, *lowerAlias = NULL, *hasManyToManySingle, *singleRelations, *intermediateEntity, *_0, *_1, *_2;
+
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 7, 1, &model, &fields, &intermediateModel_param, &intermediateFields, &intermediateReferencedFields, &referencedModel_param, &referencedFields, &options);
+
+		zephir_get_strval(intermediateModel, intermediateModel_param);
+		zephir_get_strval(referencedModel, referencedModel_param);
+	if (!options) {
+		ZEPHIR_CPY_WRT(options, ZEPHIR_GLOBAL(global_null));
+	}
+
+
+	ZEPHIR_INIT_VAR(entityName);
+	zephir_call_func_p1(entityName, "get_class_lower", model);
+	ZEPHIR_INIT_VAR(intermediateEntity);
+	zephir_call_func_p1(intermediateEntity, "strtolower", intermediateModel);
+	ZEPHIR_INIT_VAR(referencedEntity);
+	zephir_call_func_p1(referencedEntity, "strtolower", referencedModel);
+	ZEPHIR_INIT_VAR(_0);
+	ZEPHIR_CONCAT_VS(_0, entityName, "$");
+	ZEPHIR_INIT_VAR(keyRelation);
+	concat_function(keyRelation, _0, referencedEntity TSRMLS_CC);
+	hasManyToMany = zephir_fetch_nproperty_this(this_ptr, SL("_hasManyToMany"), PH_NOISY_CC);
+	ZEPHIR_OBS_VAR(relations);
+	if (!(zephir_array_isset_fetch(&relations, hasManyToMany, keyRelation, 0 TSRMLS_CC))) {
+		ZEPHIR_INIT_BNVAR(relations);
+		zephir_call_func(relations, "array");
+	}
+	if ((Z_TYPE_P(intermediateFields) == IS_ARRAY)) {
+		if ((zephir_fast_count_int(fields TSRMLS_CC) != zephir_fast_count_int(intermediateFields TSRMLS_CC))) {
+			ZEPHIR_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Number of referenced fields are not the same");
+			return;
+		}
+	}
+	if ((Z_TYPE_P(intermediateReferencedFields) == IS_ARRAY)) {
+		if ((zephir_fast_count_int(fields TSRMLS_CC) != zephir_fast_count_int(intermediateFields TSRMLS_CC))) {
+			ZEPHIR_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Number of referenced fields are not the same");
+			return;
+		}
+	}
+	ZEPHIR_INIT_VAR(relation);
+	object_init_ex(relation, phalcon_mvc_model_relation_ce);
+	zephir_call_method_p3_noret(relation, "setintermediaterelation", intermediateFields, intermediateModel, intermediateReferencedFields);
+	if (zephir_array_isset_string_fetch(&alias, options, SS("alias"), 1 TSRMLS_CC)) {
+		ZEPHIR_INIT_VAR(lowerAlias);
+		zephir_call_func_p1(lowerAlias, "strtolower", alias);
+	} else {
+		ZEPHIR_CPY_WRT(lowerAlias, referencedEntity);
+	}
+	zephir_array_append(&relations, relation, PH_SEPARATE);
+	ZEPHIR_INIT_VAR(_1);
+	ZEPHIR_CONCAT_VS(_1, entityName, "$");
+	ZEPHIR_INIT_VAR(_2);
+	concat_function(_2, _1, lowerAlias TSRMLS_CC);
+	zephir_update_property_array(this_ptr, SL("_aliases"), _2, relation TSRMLS_CC);
+	zephir_update_property_array(this_ptr, SL("_hasManyToMany"), keyRelation, relations TSRMLS_CC);
+	hasManyToManySingle = zephir_fetch_nproperty_this(this_ptr, SL("_hasManyToManySingle"), PH_NOISY_CC);
+	ZEPHIR_OBS_VAR(singleRelations);
+	if (zephir_array_isset_fetch(&singleRelations, hasManyToManySingle, entityName, 0 TSRMLS_CC)) {
+		ZEPHIR_INIT_BNVAR(singleRelations);
+		array_init(singleRelations);
+	}
+	zephir_array_append(&singleRelations, relation, PH_SEPARATE);
+	zephir_update_property_array(this_ptr, SL("_hasManyToManySingle"), entityName, singleRelations TSRMLS_CC);
+	RETURN_CCTOR(relation);
 
 }
 

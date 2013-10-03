@@ -692,6 +692,7 @@ class Manager
 	/**
 	 * Checks if a model is keeping snapshots for the queried records
 	 *
+	 * @param Phalcon\Mvc\ModelInterface model
 	 * @return boolean
 	 */
 	public function isKeepingSnapshots(<Phalcon\Mvc\ModelInterface> model) -> boolean
@@ -704,6 +705,400 @@ class Manager
 			}
 		}
 		return false;
+	}
+
+	/**
+	 * Sets if a model must use dynamic update instead of the all-field update
+	 *
+	 * @param Phalcon\Mvc\ModelInterface model
+	 * @param boolean dynamicUpdate
+	 */
+	public function useDynamicUpdate(<Phalcon\Mvc\ModelInterface> model, boolean dynamicUpdate)
+	{
+		var entityName;
+		let entityName = get_class_lower(model),
+			this->_dynamicUpdate[entityName] = dynamicUpdate,
+			this->_keepSnapshots[entityName] = dynamicUpdate;
+	}
+
+	/**
+	 * Checks if a model is using dynamic update instead of all-field update
+	 *
+	 * @param Phalcon\Mvc\Model model
+	 * @return boolean
+	 */
+	public function isUsingDynamicUpdate(<Phalcon\Mvc\ModelInterface> model) -> boolean
+	{
+		var dynamicUpdate, isUsing;
+		let dynamicUpdate = this->_dynamicUpdate;
+		if typeof dynamicUpdate == "array" {
+			if fetch isUsing, dynamicUpdate[get_class_lower(model)] {
+				return isUsing;
+			}
+		}
+		return false;
+	}
+
+	/**
+	 * Setup a 1-1 relation between two models
+	 *
+	 * @param   Phalcon\Mvc\Model model
+	 * @param	mixed fields
+	 * @param	string referencedModel
+	 * @param	mixed referencedFields
+	 * @param	array options
+	 * @return  Phalcon\Mvc\Model\Relation
+	 */
+	public function addHasOne(<Phalcon\Mvc\ModelInterface> model, var fields, string! referencedModel,
+		var referencedFields, var options=null) -> <Phalcon\Mvc\Model\Relation>
+	{
+		var entityName, referencedEntity, hasOne, relation,
+			keyRelation, relations, alias, lowerAlias, hasOneSingle, singleRelations;
+
+		let entityName = get_class_lower(model),
+			referencedEntity = strtolower(referencedModel);
+
+		let keyRelation = entityName . "$" . referencedEntity;
+
+		let hasOne = this->_hasOne;
+		if !fetch relations, hasOne[keyRelation] {
+			let relations = [];
+		}
+
+		/**
+		 * Check if the number of fields are the same
+		 */
+		if typeof referencedFields == "array" {
+			if count(fields) != count(referencedFields) {
+				throw new Phalcon\Mvc\Model\Exception("Number of referenced fields are not the same");
+			}
+		}
+
+		/**
+		 * Create a relationship instance
+		 */
+		let relation = new Phalcon\Mvc\Model\Relation(
+			Phalcon\Mvc\Model\Relation::HAS_ONE,
+			referencedModel,
+			fields,
+			referencedFields,
+			options
+		);
+
+		/**
+		 * Check an alias for the relation
+		 */
+		if fetch alias, options["alias"] {
+			let lowerAlias = strtolower(alias);
+		} else {
+			let lowerAlias = referencedEntity;
+		}
+
+		/**
+		 * Append a new relationship
+		 * Update the global alias
+		 * Update the relations
+		 */
+		let relations[] = relation,
+			this->_aliases[entityName . "$" . lowerAlias] = relation,
+			this->_hasOne[keyRelation] = relations;
+
+		/**
+		 * Get existing relations by model
+		 */
+		let hasOneSingle = this->_hasOneSingle;
+		if !fetch singleRelations, hasOneSingle[entityName] {
+			let singleRelations = [];
+		}
+
+		/**
+		 * Append a new relationship
+		 */
+		let singleRelations[] = relation;
+
+		/**
+		 * Update relations by model
+		 */
+		let this->_hasOneSingle[entityName] = singleRelations;
+
+		return relation;
+	}
+
+	/**
+	 * Setup a relation reverse many to one between two models
+	 *
+	 * @param   Phalcon\Mvc\Model model
+	 * @param	mixed fields
+	 * @param	string referencedModel
+	 * @param	mixed referencedFields
+	 * @param	array options
+	 * @return  Phalcon\Mvc\Model\Relation
+	 */
+	public function addBelongsTo(<Phalcon\Mvc\ModelInterface> model, var fields, string! referencedModel,
+		var referencedFields, var options=null) -> <Phalcon\Mvc\Model\Relation>
+	{
+		var entityName, referencedEntity, belongsTo, relation,
+			keyRelation, relations, alias, lowerAlias, belongsToSingle, singleRelations;
+
+		let entityName = get_class_lower(model),
+			referencedEntity = strtolower(referencedModel);
+
+		let keyRelation = entityName . "$" . referencedEntity;
+
+		let belongsTo = this->_belongsTo;
+		if !fetch relations, belongsTo[keyRelation] {
+			let relations = [];
+		}
+
+		/**
+		 * Check if the number of fields are the same
+		 */
+		if typeof referencedFields == "array" {
+			if count(fields) != count(referencedFields) {
+				throw new Phalcon\Mvc\Model\Exception("Number of referenced fields are not the same");
+			}
+		}
+
+		/**
+		 * Create a relationship instance
+		 */
+		let relation = new Phalcon\Mvc\Model\Relation(
+			Phalcon\Mvc\Model\Relation::BELONGS_TO,
+			referencedModel,
+			fields,
+			referencedFields,
+			options
+		);
+
+		/**
+		 * Check an alias for the relation
+		 */
+		if fetch alias, options["alias"] {
+			let lowerAlias = strtolower(alias);
+		} else {
+			let lowerAlias = referencedEntity;
+		}
+
+		/**
+		 * Append a new relationship
+		 * Update the global alias
+		 * Update the relations
+		 */
+		let relations[] = relation,
+			this->_aliases[entityName . "$" . lowerAlias] = relation,
+			this->_belongsTo[keyRelation] = relations;
+
+		/**
+		 * Get existing relations by model
+		 */
+		let belongsToSingle = this->_belongsToSingle;
+		if !fetch singleRelations, belongsToSingle[entityName] {
+			let singleRelations = [];
+		}
+
+		/**
+		 * Append a new relationship
+		 */
+		let singleRelations[] = relation;
+
+		/**
+		 * Update relations by model
+		 */
+		let this->_belongsToSingle[entityName] = singleRelations;
+
+		return relation;
+	}
+
+	/**
+	 * Setup a relation 1-n between two models
+	 *
+	 * @param 	Phalcon\Mvc\ModelInterface model
+	 * @param	mixed fields
+	 * @param	string referencedModel
+	 * @param	mixed referencedFields
+	 * @param	array options
+	 */
+	public function addHasMany(<Phalcon\Mvc\ModelInterface> model, var fields, string! referencedModel,
+		var referencedFields, var options=null) -> <Phalcon\Mvc\Model\Relation>
+	{
+		var entityName, referencedEntity, hasMany, relation,
+			keyRelation, relations, alias, lowerAlias, hasManySingle, singleRelations;
+
+		let entityName = get_class_lower(model),
+			referencedEntity = strtolower(referencedModel),
+			keyRelation = entityName . "$" . referencedEntity;
+
+		let hasMany = this->_hasMany;
+		if !fetch relations, hasMany[keyRelation] {
+			let relations = [];
+		}
+
+		/**
+		 * Check if the number of fields are the same
+		 */
+		if typeof referencedFields == "array" {
+			if count(fields) != count(referencedFields) {
+				throw new Phalcon\Mvc\Model\Exception("Number of referenced fields are not the same");
+			}
+		}
+
+		/**
+		 * Create a relationship instance
+		 */
+		let relation = new Phalcon\Mvc\Model\Relation(
+			Phalcon\Mvc\Model\Relation::BELONGS_TO,
+			referencedModel,
+			fields,
+			referencedFields,
+			options
+		);
+
+		/**
+		 * Check an alias for the relation
+		 */
+		if fetch alias, options["alias"] {
+			let lowerAlias = strtolower(alias);
+		} else {
+			let lowerAlias = referencedEntity;
+		}
+
+		/**
+		 * Append a new relationship
+		 * Update the global alias
+		 * Update the relations
+		 */
+		let relations[] = relation,
+			this->_aliases[entityName . "$" . lowerAlias] = relation,
+			this->_hasMany[keyRelation] = relations;
+
+		/**
+		 * Get existing relations by model
+		 */
+		let hasManySingle = this->_hasManySingle;
+		if !fetch singleRelations, hasManySingle[entityName] {
+			let singleRelations = [];
+		}
+
+		/**
+		 * Append a new relationship
+		 */
+		let singleRelations[] = relation;
+
+		/**
+		 * Update relations by model
+		 */
+		let this->_hasManySingle[entityName] = singleRelations;
+
+		return relation;
+	}
+
+	/**
+	 * Setups a relation n-m between two models
+	 *
+	 * @param 	Phalcon\Mvc\ModelInterface model
+	 * @param	string fields
+	 * @param	string intermediateModel
+	 * @param	string intermediateFields
+	 * @param	string intermediateReferencedFields
+	 * @param	string referencedModel
+	 * @param	string referencedFields
+	 * @param   array options
+	 * @return  Phalcon\Mvc\Model\Relation
+	 */
+	public function addHasManyToMany(<Phalcon\Mvc\ModelInterface> model, var fields, string! intermediateModel,
+		var intermediateFields, var intermediateReferencedFields, string! referencedModel, var referencedFields, var options=null) -> <Phalcon\Mvc\Model\Relation>
+	{
+		var entityName, referencedEntity, hasManyToMany, relation,
+			keyRelation, relations, alias, lowerAlias, hasManyToManySingle, singleRelations,
+			intermediateEntity;
+
+		let entityName = get_class_lower(model),
+			intermediateEntity = strtolower(intermediateModel),
+			referencedEntity = strtolower(referencedModel),
+			keyRelation = entityName . "$" . referencedEntity;
+
+		let hasManyToMany = this->_hasManyToMany;
+		if !fetch relations, hasManyToMany[keyRelation] {
+			let relations = array();
+		}
+
+		/**
+		 * Check if the number of fields are the same from the model to the intermediate model
+		 */
+		if typeof intermediateFields == "array" {
+			if count(fields) != count(intermediateFields) {
+				throw new Phalcon\Mvc\Model\Exception("Number of referenced fields are not the same");
+			}
+		}
+
+		/**
+		 * Check if the number of fields are the same from the intermediate model to the referenced model
+		 */
+		if typeof intermediateReferencedFields == "array" {
+			if count(fields) != count(intermediateFields) {
+				throw new Phalcon\Mvc\Model\Exception("Number of referenced fields are not the same");
+			}
+		}
+
+		/**
+		 * Create a relationship instance
+		 */
+		let relation = new Phalcon\Mvc\Model\Relation(
+			Phalcon\Mvc\Model\Relation::HAS_MANY_THROUGH,
+			referencedModel,
+			fields,
+			referencedFields,
+			options
+		);
+
+		/**
+		 * Set extended intermediate relation data
+		 */
+		relation->setIntermediateRelation(intermediateFields, intermediateModel, intermediateReferencedFields);
+
+		/**
+		 * Check an alias for the relation
+		 */
+		if fetch alias, options["alias"] {
+			let lowerAlias = strtolower(alias);
+		} else {
+			let lowerAlias = referencedEntity;
+		}
+
+		/**
+		 * Append a new relationship
+		 */
+		let relations[] = relation;
+
+		/**
+		 * Update the global alias
+		 */
+		let this->_aliases[entityName . "$" . lowerAlias] = relation;
+
+		/**
+		 * Update the relations
+		 */
+		let this->_hasManyToMany[keyRelation] = relations;
+
+		/**
+		 * Get existing relations by model
+		 */
+		let hasManyToManySingle = this->_hasManyToManySingle;
+		if fetch singleRelations, hasManyToManySingle[entityName] {
+			let singleRelations = [];
+		}
+
+		/**
+		 * Append a new relationship
+		 */
+		let singleRelations[] = relation;
+
+		/**
+		 * Update relations by model
+		 */
+		let this->_hasManyToManySingle[entityName] = singleRelations;
+
+		return relation;
 	}
 
 }

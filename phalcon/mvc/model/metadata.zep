@@ -590,7 +590,7 @@ abstract class MetaData //implements Phalcon\Di\InjectionAwareInterface
 	 * @param  Phalcon\Mvc\ModelInterface model
 	 * @param  array attributes
 	 */
-	public function setAutomaticCreateAttributes(<Phalcon\Mvc\ModelInterface> model, attributes)
+	public function setAutomaticCreateAttributes(<Phalcon\Mvc\ModelInterface> model, attributes) -> void
 	{
 		this->writeMetaDataIndex(model, self::MODELS_AUTOMATIC_DEFAULT_INSERT, attributes);
 	}
@@ -605,7 +605,7 @@ abstract class MetaData //implements Phalcon\Di\InjectionAwareInterface
 	 * @param  Phalcon\Mvc\ModelInterface model
 	 * @param  array attributes
 	 */
-	public function setAutomaticUpdateAttributes(<Phalcon\Mvc\ModelInterface> model, attributes)
+	public function setAutomaticUpdateAttributes(<Phalcon\Mvc\ModelInterface> model, attributes) -> void
 	{
 		this->writeMetaDataIndex(model, self::MODELS_AUTOMATIC_DEFAULT_UPDATE, attributes);
 	}

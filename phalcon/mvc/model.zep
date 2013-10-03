@@ -1026,7 +1026,7 @@ abstract class Model //implements Phalcon\Mvc\ModelInterface, Phalcon\Mvc\Model\
 	 * @param array parameters
 	 * @return Phalcon\Mvc\Model\ResultsetInterface
 	 */
-	protected static function _groupResult(string functionName, string alias, var parameters) -> <Phalcon\Mvc\Model\ResultsetInterface>
+	protected static function _groupResult(string! functionName, string! alias, var parameters) -> <Phalcon\Mvc\Model\ResultsetInterface>
 	{
 		var params, distinctColumn, groupColumn, columns,
 			bindParams, bindTypes, resultset, cache, firstRow, groupColumns,
@@ -1098,8 +1098,7 @@ abstract class Model //implements Phalcon\Mvc\ModelInterface, Phalcon\Mvc\Model\
 		 * Return only the value in the first result
 		 */
 		let firstRow = resultset->getFirst();
-		//@todo return firstRow->{alias};
-		return null;
+		return firstRow->{alias};
 	}
 
 	/**
@@ -1120,7 +1119,7 @@ abstract class Model //implements Phalcon\Mvc\ModelInterface, Phalcon\Mvc\Model\
 	 * @param array parameters
 	 * @return mixed
 	 */
-	public static function count(parameters=null)
+	public static function count(var parameters=null)
 	{
 		return self::_groupResult("COUNT", "rowcount", parameters);
 	}
@@ -1143,7 +1142,7 @@ abstract class Model //implements Phalcon\Mvc\ModelInterface, Phalcon\Mvc\Model\
 	 * @param array parameters
 	 * @return mixed
 	 */
-	public static function sum(parameters=null)
+	public static function sum(var parameters=null)
 	{
 		return self::_groupResult("SUM", "sumatory", parameters);
 	}
@@ -1223,7 +1222,7 @@ abstract class Model //implements Phalcon\Mvc\ModelInterface, Phalcon\Mvc\Model\
 	 * @param string eventName
 	 * @return boolean
 	 */
-	public function fireEvent(string eventName) -> boolean
+	public function fireEvent(string! eventName) -> boolean
 	{
 		var modelsManager;
 
@@ -1248,7 +1247,7 @@ abstract class Model //implements Phalcon\Mvc\ModelInterface, Phalcon\Mvc\Model\
 	 * @param string eventName
 	 * @return boolean
 	 */
-	public function fireEventCancel(string eventName)
+	public function fireEventCancel(string! eventName)
 	{
 		var modelsManager;
 
@@ -2198,7 +2197,7 @@ abstract class Model //implements Phalcon\Mvc\ModelInterface, Phalcon\Mvc\Model\
 	{
 		var bindSkip, fields, values, bindTypes, manager, bindDataTypes, field,
 			automaticAttributes, snapshotValue, uniqueKey, uniqueParams, uniqueTypes,
-			snapshot, nonPrimary, columnMap, attributeField, value, primaryKeys;
+			snapshot, nonPrimary, columnMap, attributeField, value, primaryKeys, bindType;
 		boolean useDynamicUpdate, changed;
 
 		let bindSkip = Phalcon\Db\Column::BIND_SKIP,
@@ -2239,7 +2238,7 @@ abstract class Model //implements Phalcon\Mvc\ModelInterface, Phalcon\Mvc\Model\
 				/**
 				 * Check a bind type for field to update
 				 */
-				if !isset bindDataTypes[field] {
+				if !fetch bindType, bindDataTypes[field] {
 					throw new Phalcon\Mvc\Model\Exception("Column '" . field . "' have not defined a bind data type");
 				}
 
@@ -2265,7 +2264,7 @@ abstract class Model //implements Phalcon\Mvc\ModelInterface, Phalcon\Mvc\Model\
 					 */
 					if !useDynamicUpdate {
 						let fields[] = field, values[] = value;
-						let bindTypes[] = bindDataTypes[field];
+						let bindTypes[] = bindType;
 					} else {
 
 						/**
@@ -2282,7 +2281,7 @@ abstract class Model //implements Phalcon\Mvc\ModelInterface, Phalcon\Mvc\Model\
 						 */
 						if changed {
 							let fields[] = field, values[] = value;
-							let bindTypes[] = bindDataTypes[field];
+							let bindTypes[] = bindType;
 						}
 					}
 
@@ -2658,7 +2657,7 @@ abstract class Model //implements Phalcon\Mvc\ModelInterface, Phalcon\Mvc\Model\
 	 * @param array whiteList
 	 * @return boolean
 	 */
-	public function save(data=null, whiteList=null) -> boolean
+	public function save(var data=null, var whiteList=null) -> boolean
 	{
 		var metaData, attribute, attributes, related,
 			schema, possibleSetter, value, writeConnection, readConnection,
@@ -2859,7 +2858,7 @@ abstract class Model //implements Phalcon\Mvc\ModelInterface, Phalcon\Mvc\Model\
 	 * @param array whiteList
 	 * @return boolean
 	 */
-	public function create(data=null, whiteList=null)
+	public function create(var data=null, var whiteList=null) -> boolean
 	{
 		var metaData, attribute, attributes, related,
 			schema, possibleSetter, value, writeConnection, readConnection,
@@ -2959,7 +2958,7 @@ abstract class Model //implements Phalcon\Mvc\ModelInterface, Phalcon\Mvc\Model\
 	 * @param array whiteList
 	 * @return boolean
 	 */
-	public function update(data=null, whiteList=null) -> boolean
+	public function update(var data=null, var whiteList=null) -> boolean
 	{
 		var metaData, columnMap, attribute, attributeField,
 			possibleSetter, value;
@@ -3301,7 +3300,7 @@ abstract class Model //implements Phalcon\Mvc\ModelInterface, Phalcon\Mvc\Model\
 	 * @param string attribute
 	 * @return mixed
 	 */
-	public function readAttribute(string attribute)
+	public function readAttribute(string! attribute)
 	{
 		if isset this->attribute {
 			return this->{attribute};
@@ -3319,7 +3318,7 @@ abstract class Model //implements Phalcon\Mvc\ModelInterface, Phalcon\Mvc\Model\
 	 * @param string attribute
 	 * @param mixed value
 	 */
-	public function writeAttribute(string attribute, value)
+	public function writeAttribute(string! attribute, value)
 	{
 		let this->{attribute} = value;
 	}
@@ -3382,7 +3381,7 @@ abstract class Model //implements Phalcon\Mvc\ModelInterface, Phalcon\Mvc\Model\
 	 *
 	 * @param array attributes
 	 */
-	protected function skipAttributesOnCreate(attributes)
+	protected function skipAttributesOnCreate(var attributes)
 	{
 		var keysAttributes, metaData, attribute;
 
@@ -3459,7 +3458,7 @@ abstract class Model //implements Phalcon\Mvc\ModelInterface, Phalcon\Mvc\Model\
 	 * @param   array options
 	 * @return  Phalcon\Mvc\Model\Relation
 	 */
-	protected function hasOne(fields, string referenceModel, referencedFields, options=null) -> <Phalcon\Mvc\Model\Relation>
+	protected function hasOne(fields, string! referenceModel, referencedFields, options=null) -> <Phalcon\Mvc\Model\Relation>
 	{
 		var manager;
 		let manager = this->_modelsManager;
@@ -3489,7 +3488,7 @@ abstract class Model //implements Phalcon\Mvc\ModelInterface, Phalcon\Mvc\Model\
 	 * @param   array options
 	 * @return  Phalcon\Mvc\Model\Relation
 	 */
-	protected function belongsTo(fields, referenceModel, referencedFields, options=null) -> <Phalcon\Mvc\Model\Relation>
+	protected function belongsTo(fields, string! referenceModel, referencedFields, options=null) -> <Phalcon\Mvc\Model\Relation>
 	{
 		var manager;
 		let manager = this->_modelsManager;
@@ -3519,7 +3518,7 @@ abstract class Model //implements Phalcon\Mvc\ModelInterface, Phalcon\Mvc\Model\
 	 * @param   array options
 	 * @return  Phalcon\Mvc\Model\Relation
 	 */
-	protected function hasMany(fields, string referenceModel, referencedFields, options=null) -> <Phalcon\Mvc\Model\Relation>
+	protected function hasMany(fields, string! referenceModel, referencedFields, options=null) -> <Phalcon\Mvc\Model\Relation>
 	{
 		var manager;
 		let manager = this->_modelsManager;
@@ -3560,7 +3559,7 @@ abstract class Model //implements Phalcon\Mvc\ModelInterface, Phalcon\Mvc\Model\
 	 * @param   array options
 	 * @return  Phalcon\Mvc\Model\Relation
 	 */
-	protected function hasManyToMany(fields, string intermediateModel, intermediateFields, intermediateReferencedFields,
+	protected function hasManyToMany(fields, string! intermediateModel, intermediateFields, intermediateReferencedFields,
 		string referenceModel, referencedFields, options=null) -> <Phalcon\Mvc\Model\Relation>
 	{
 		var manager;
@@ -4182,7 +4181,7 @@ abstract class Model //implements Phalcon\Mvc\ModelInterface, Phalcon\Mvc\Model\
 	 * @param string property
 	 * @return Phalcon\Mvc\Model\Resultset|Phalcon\Mvc\Model
 	 */
-	public function __get(string property)
+	public function __get(string! property)
 	{
 		var modelName, manager, lowerProperty, relation, result;
 
@@ -4237,7 +4236,7 @@ abstract class Model //implements Phalcon\Mvc\ModelInterface, Phalcon\Mvc\Model\
 	 *
 	 * @param string property
 	 */
-	public function __isset(string property)
+	public function __isset(string! property)
 	{
 		var modelName, manager, relation;
 

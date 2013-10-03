@@ -56,7 +56,7 @@ class Dispatcher extends Phalcon\Dispatcher implements Phalcon\Mvc\DispatcherInt
 	 *
 	 * @param string controllerSuffix
 	 */
-	public function setControllerSuffix(string controllerSuffix)
+	public function setControllerSuffix(string! controllerSuffix)
 	{
 		let this->_handlerSuffix = controllerSuffix;
 	}
@@ -66,7 +66,7 @@ class Dispatcher extends Phalcon\Dispatcher implements Phalcon\Mvc\DispatcherInt
 	 *
 	 * @param string controllerName
 	 */
-	public function setDefaultController(string controllerName)
+	public function setDefaultController(string! controllerName)
 	{
 		let this->_defaultHandler = controllerName;
 	}
@@ -76,7 +76,7 @@ class Dispatcher extends Phalcon\Dispatcher implements Phalcon\Mvc\DispatcherInt
 	 *
 	 * @param string controllerName
 	 */
-	public function setControllerName(string controllerName)
+	public function setControllerName(string! controllerName)
 	{
 		let this->_handlerName = controllerName;
 	}
@@ -97,7 +97,7 @@ class Dispatcher extends Phalcon\Dispatcher implements Phalcon\Mvc\DispatcherInt
 	 * @param string message
 	 * @param int exceptionCode
 	 */
-	protected function _throwDispatchException(string message, int exceptionCode=0)
+	protected function _throwDispatchException(string! message, int exceptionCode=0)
 	{
 		var eventsManager, dependencyInjector, response, exception;
 
