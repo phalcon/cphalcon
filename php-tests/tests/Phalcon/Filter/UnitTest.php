@@ -32,7 +32,7 @@ class UnitTest extends PhTestUnitTestCase
 	/**
 	 * Tests the filter with a string (US characters)
 	 *
-	 * @dataProvider prividerSanitizeStringStringFilter
+	 * @dataProvider providerSanitizeStringStringFilter
 	 * @author Nikos Dimopoulos <nikos@phalconphp.com>
 	 * @since  2012-11-30
 	 */
