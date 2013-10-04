@@ -21,10 +21,10 @@
 #define ZEPHIR_KERNEL_ARRAY_H
 
 /** Combined isset/fetch */
-int zephir_array_isset_fetch(zval **fetched, const zval *arr, zval *index TSRMLS_DC);
-int zephir_array_isset_quick_string_fetch(zval **fetched, zval *arr, char *index, uint index_length, unsigned long key TSRMLS_DC);
-int zephir_array_isset_string_fetch(zval **fetched, zval *arr, char *index, uint index_length TSRMLS_DC);
-int zephir_array_isset_long_fetch(zval **fetched, zval *arr, unsigned long index TSRMLS_DC);
+int zephir_array_isset_fetch(zval **fetched, const zval *arr, zval *index, int readonly TSRMLS_DC);
+int zephir_array_isset_quick_string_fetch(zval **fetched, zval *arr, char *index, uint index_length, unsigned long key, int readonly TSRMLS_DC);
+int zephir_array_isset_string_fetch(zval **fetched, zval *arr, char *index, uint index_length, int readonly TSRMLS_DC);
+int zephir_array_isset_long_fetch(zval **fetched, zval *arr, unsigned long index, int readonly TSRMLS_DC);
 
 /** Check for index existence */
 int ZEPHIR_FASTCALL zephir_array_isset(const zval *arr, zval *index);
@@ -75,5 +75,9 @@ void zephir_array_keys(zval *return_value, zval *arr);
 void zephir_array_values(zval *return_value, zval *arr);
 int zephir_array_key_exists(zval *arr, zval *key TSRMLS_DC);
 int zephir_array_is_associative(zval *arr);
+
+#define zephir_array_fast_append(arr, value) \
+  Z_ADDREF_P(arr); \
+  zend_hash_next_index_insert(Z_ARRVAL_P(arr), &value, sizeof(zval *), NULL);
 
 #endif /* ZEPHIR_KERNEL_ARRAY_H */

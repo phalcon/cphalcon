@@ -45,7 +45,7 @@
  * @note $arr[$index] is returned as is: no copying occurs, reference copunt is not updated
  * @throw E_WARNING if @a offset is not a scalar
  */
-int zephir_array_isset_fetch(zval **fetched, const zval *arr, zval *index TSRMLS_DC) {
+int zephir_array_isset_fetch(zval **fetched, const zval *arr, zval *index, int readonly TSRMLS_DC) {
 
 	HashTable *h;
 	zval **val;
@@ -53,7 +53,9 @@ int zephir_array_isset_fetch(zval **fetched, const zval *arr, zval *index TSRMLS
 
 	if (Z_TYPE_P(arr) != IS_ARRAY) {
 		*fetched = ZEPHIR_GLOBAL(global_null);
-		Z_ADDREF_P(*fetched);
+		if (!readonly) {
+			Z_ADDREF_P(*fetched);
+		}
 		return 0;
 	}
 
@@ -80,57 +82,71 @@ int zephir_array_isset_fetch(zval **fetched, const zval *arr, zval *index TSRMLS
 		default:
 			zend_error(E_WARNING, "Illegal offset type");
 			*fetched = ZEPHIR_GLOBAL(global_null);
-			Z_ADDREF_P(*fetched);
+			if (!readonly) {
+				Z_ADDREF_P(*fetched);
+			}
 			return 0;
 	}
 
 	if (result == SUCCESS) {
 		*fetched = *val;
-		Z_ADDREF_P(*fetched);
+		if (!readonly) {
+			Z_ADDREF_P(*fetched);
+		}
 		return 1;
 	}
 
 	*fetched = ZEPHIR_GLOBAL(global_null);
-	Z_ADDREF_P(*fetched);
+	if (!readonly) {
+		Z_ADDREF_P(*fetched);
+	}
 	return 0;
 }
 
-int zephir_array_isset_quick_string_fetch(zval **fetched, zval *arr, char *index, uint index_length, unsigned long key TSRMLS_DC) {
+int zephir_array_isset_quick_string_fetch(zval **fetched, zval *arr, char *index, uint index_length, unsigned long key, int readonly TSRMLS_DC) {
 
 	zval **zv;
 
 	if (likely(Z_TYPE_P(arr) == IS_ARRAY)) {
 		if (zephir_hash_quick_find(Z_ARRVAL_P(arr), index, index_length, key, (void**) &zv) == SUCCESS) {
 			*fetched = *zv;
-			Z_ADDREF_P(*fetched);
+			if (!readonly) {
+				Z_ADDREF_P(*fetched);
+			}
 			return 1;
 		}
 	}
 
 	*fetched = ZEPHIR_GLOBAL(global_null);
-	Z_ADDREF_P(*fetched);
+	if (!readonly) {
+		Z_ADDREF_P(*fetched);
+	}
 	return 0;
 }
 
-int zephir_array_isset_string_fetch(zval **fetched, zval *arr, char *index, uint index_length TSRMLS_DC) {
+int zephir_array_isset_string_fetch(zval **fetched, zval *arr, char *index, uint index_length, int readonly TSRMLS_DC) {
 
-	return zephir_array_isset_quick_string_fetch(fetched, arr, index, index_length, zend_inline_hash_func(index, index_length) TSRMLS_CC);
+	return zephir_array_isset_quick_string_fetch(fetched, arr, index, index_length, zend_inline_hash_func(index, index_length), readonly TSRMLS_CC);
 }
 
-int zephir_array_isset_long_fetch(zval **fetched, zval *arr, unsigned long index TSRMLS_DC) {
+int zephir_array_isset_long_fetch(zval **fetched, zval *arr, unsigned long index, int readonly TSRMLS_DC) {
 
 	zval **zv;
 
 	if (likely(Z_TYPE_P(arr) == IS_ARRAY)) {
 		if (zend_hash_index_find(Z_ARRVAL_P(arr), index, (void**)&zv) == SUCCESS) {
 			*fetched = *zv;
-			Z_ADDREF_P(*fetched);
+			if (!readonly) {
+				Z_ADDREF_P(*fetched);
+			}
 			return 1;
 		}
 	}
 
 	*fetched = ZEPHIR_GLOBAL(global_null);
-	Z_ADDREF_P(*fetched);
+	if (!readonly) {
+		Z_ADDREF_P(*fetched);
+	}
 	return 0;
 }
 

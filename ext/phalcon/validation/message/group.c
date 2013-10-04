@@ -116,26 +116,24 @@ PHP_METHOD(Phalcon_Validation_Message_Group, offsetGet) {
  * $messages[0] = new Phalcon\Validation\Message('This is a message');
  *</code>
  *
- * @param string index
+ * @param int index
  * @param Phalcon\Validation\Message message
  */
 PHP_METHOD(Phalcon_Validation_Message_Group, offsetSet) {
 
 	zval *index_param = NULL, *message;
-	zval *index = NULL;
+	int index;
 
-	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 2, 0, &index_param, &message);
+	zephir_fetch_params(0, 2, 0, &index_param, &message);
 
-		zephir_get_strval(index, index_param);
+		index = zephir_get_intval(index_param);
 
 
 	if ((Z_TYPE_P(message) != IS_OBJECT)) {
-		ZEPHIR_THROW_EXCEPTION_STR(phalcon_validation_exception_ce, "The message must be an object");
+		ZEPHIR_THROW_EXCEPTION_STRW(phalcon_validation_exception_ce, "The message must be an object");
 		return;
 	}
-	zephir_update_property_array(this_ptr, SL("_messages"), index, message TSRMLS_CC);
-	ZEPHIR_MM_RESTORE();
+	//missing
 
 }
 

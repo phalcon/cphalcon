@@ -34,7 +34,7 @@ interface FilterInterface
 	 * @param callable handler
 	 * @return Phalcon\FilterInterface
 	 */
-	public function add(name, handler);
+	public function add(string! name, handler) -> <Phalcon\FilterInterface>;
 
 	/**
 	 * Sanizites a value with a specified single or set of filters

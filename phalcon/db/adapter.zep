@@ -255,13 +255,13 @@ abstract class Adapter implements Phalcon\Events\EventsAwareInterface
 	 * INSERT INTO `robots` (`name`, `year`) VALUES ("Astro boy", 1952);
 	 * </code>
 	 *
-	 * @param 	string table
+	 * @param   string|array table
 	 * @param 	array values
 	 * @param 	array fields
 	 * @param 	array dataTypes
 	 * @return 	boolean
 	 */
-	public function insert(string table, values, fields=null, dataTypes=null) -> boolean
+	public function insert(var table, values, fields=null, dataTypes=null) -> boolean
 	{
 		var placeholders, insertValues, bindDataTypes, bindType,
 			position, value, escapedTable, joinedValues, escapedFields,
@@ -329,6 +329,7 @@ abstract class Adapter implements Phalcon\Events\EventsAwareInterface
 			} else {
 				let escapedFields = fields;
 			}
+
 			let insertSql = "INSERT INTO " . escapedTable . " (" . join(", ", escapedFields) . ") VALUES (" . joinedValues . ")";
 		} else {
 			let insertSql = "INSERT INTO " . escapedTable . " VALUES (" . joinedValues . ")";
@@ -356,14 +357,14 @@ abstract class Adapter implements Phalcon\Events\EventsAwareInterface
 	 * UPDATE `robots` SET `name` = "Astro boy" WHERE id = 101
 	 * </code>
 	 *
-	 * @param 	string table
+	 * @param   string|array table
 	 * @param 	array fields
 	 * @param 	array values
 	 * @param 	string whereCondition
 	 * @param 	array dataTypes
 	 * @return 	boolean
 	 */
-	public function update(string table, fields, values, whereCondition=null, dataTypes=null) -> boolean
+	public function update(var table, fields, values, whereCondition=null, dataTypes=null) -> boolean
 	{
 		var placeholders, updateValues, position, value,
 			field, bindDataTypes, escapedField, bindType, escapedTable,
@@ -482,13 +483,13 @@ abstract class Adapter implements Phalcon\Events\EventsAwareInterface
 	 * DELETE FROM `robots` WHERE `id` = 101
 	 * </code>
 	 *
-	 * @param  string table
+	 * @param  string|array table
 	 * @param  string whereCondition
 	 * @param  array placeholders
 	 * @param  array dataTypes
 	 * @return boolean
 	 */
-	public function delete(string table, whereCondition=null, placeholders=null, dataTypes=null) -> boolean
+	public function delete(var table, whereCondition=null, placeholders=null, dataTypes=null) -> boolean
 	{
 		var sql, escapedTable;
 
@@ -516,7 +517,7 @@ abstract class Adapter implements Phalcon\Events\EventsAwareInterface
 	 * @param	array columnList
 	 * @return	string
 	 */
-	public function getColumnList(columnList)
+	public function getColumnList(var columnList) -> string
 	{
 		var dialect;
 		let dialect = this->_dialect;
@@ -534,7 +535,7 @@ abstract class Adapter implements Phalcon\Events\EventsAwareInterface
 	 * @param 	int number
 	 * @return 	string
 	 */
-	public function limit(string! sqlQuery, int number)
+	public function limit(string! sqlQuery, int number) -> string
 	{
 		var dialect;
 		let dialect = this->_dialect;
@@ -550,14 +551,14 @@ abstract class Adapter implements Phalcon\Events\EventsAwareInterface
 	 *
 	 * @param string tableName
 	 * @param string schemaName
-	 * @return string
+	 * @return boolean
 	 */
-	public function tableExists(string! tableName, string! schemaName=null)
+	public function tableExists(string! tableName, string! schemaName=null) -> boolean
 	{
 		var dialect, num;
 		let dialect = this->_dialect;
 		let num = this->fetchOne(dialect->tableExists(tableName, schemaName), Phalcon\Db::FETCH_NUM);
-		return num[0];
+		return num[0] > 0;
 	}
 
 	/**
@@ -569,14 +570,14 @@ abstract class Adapter implements Phalcon\Events\EventsAwareInterface
 	 *
 	 * @param string viewName
 	 * @param string schemaName
-	 * @return string
+	 * @return boolean
 	 */
 	public function viewExists(string! viewName, schemaName=null)
 	{
 		var dialect, num;
 		let dialect = this->_dialect;
 		let num = this->fetchOne(dialect->viewExists(viewName, schemaName), Phalcon\Db::FETCH_NUM);
-		return num[0];
+		return num[0] > 0;
 	}
 
 	/**

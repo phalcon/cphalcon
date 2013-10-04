@@ -70,10 +70,10 @@ class Group implements Countable, ArrayAccess, Iterator
 	 * $messages[0] = new Phalcon\Validation\Message('This is a message');
 	 *</code>
 	 *
-	 * @param string index
+	 * @param int index
 	 * @param Phalcon\Validation\Message message
 	 */
-	public function offsetSet(string index, <Phalcon\Validation\Message> message)
+	public function offsetSet(int index, <Phalcon\Validation\Message> message)
 	{
 		if typeof message != "object" {
 			throw new Phalcon\Validation\Exception("The message must be an object");
@@ -182,7 +182,7 @@ class Group implements Countable, ArrayAccess, Iterator
 	 * @param string fieldName
 	 * @return array
 	 */
-	public function filter(string fieldName)
+	public function filter(string! fieldName)
 	{
 		var filtered, messages, message;
 

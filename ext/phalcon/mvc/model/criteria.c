@@ -77,6 +77,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, setDI) {
 
 
 
+	//missing
 
 }
 

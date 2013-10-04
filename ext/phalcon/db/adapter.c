@@ -371,7 +371,7 @@ PHP_METHOD(Phalcon_Db_Adapter, fetchAll) {
  * INSERT INTO `robots` (`name`, `year`) VALUES ("Astro boy", 1952);
  * </code>
  *
- * @param 	string table
+ * @param   string|array table
  * @param 	array values
  * @param 	array fields
  * @param 	array dataTypes
@@ -382,13 +382,11 @@ PHP_METHOD(Phalcon_Db_Adapter, insert) {
 	zend_function *_12 = NULL;
 	HashTable *_4, *_10;
 	HashPosition _3, _9;
-	zval *table_param = NULL, *values, *fields = NULL, *dataTypes = NULL, *placeholders, *insertValues, *bindDataTypes = NULL, *bindType, *position = NULL, *value = NULL, *escapedTable = NULL, *joinedValues, *escapedFields = NULL, *field = NULL, *insertSql, *_0 = NULL, *_1 = NULL, *_2 = NULL, **_5, *_6 = NULL, _7 = zval_used_for_init, *_8, **_11, *_13 = NULL, *_14, *_15;
-	zval *table = NULL;
+	zval *table, *values, *fields = NULL, *dataTypes = NULL, *placeholders, *insertValues, *bindDataTypes = NULL, *bindType, *position = NULL, *value = NULL, *escapedTable = NULL, *joinedValues, *escapedFields = NULL, *field = NULL, *insertSql, *_0 = NULL, *_1 = NULL, *_2 = NULL, **_5, *_6 = NULL, _7 = zval_used_for_init, *_8, **_11, *_13 = NULL, *_14, *_15;
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 2, 2, &table_param, &values, &fields, &dataTypes);
+	zephir_fetch_params(1, 2, 2, &table, &values, &fields, &dataTypes);
 
-		zephir_get_strval(table, table_param);
 	if (!fields) {
 		ZEPHIR_CPY_WRT(fields, ZEPHIR_GLOBAL(global_null));
 	}
@@ -532,7 +530,7 @@ PHP_METHOD(Phalcon_Db_Adapter, insert) {
  * UPDATE `robots` SET `name` = "Astro boy" WHERE id = 101
  * </code>
  *
- * @param 	string table
+ * @param   string|array table
  * @param 	array fields
  * @param 	array values
  * @param 	string whereCondition
@@ -544,13 +542,11 @@ PHP_METHOD(Phalcon_Db_Adapter, update) {
 	zend_function *_5 = NULL;
 	HashTable *_1;
 	HashPosition _0;
-	zval *table_param = NULL, *fields, *values, *whereCondition = NULL, *dataTypes = NULL, *placeholders, *updateValues, *position = NULL, *value = NULL, *field, *bindDataTypes = NULL, *escapedField = NULL, *bindType, *escapedTable = NULL, *setClause, *updateSql, *conditions, *whereBind, *whereTypes, **_2, *_3 = NULL, *_4 = NULL, *_6 = NULL, *_7 = NULL, _8, *_9;
-	zval *table = NULL;
+	zval *table, *fields, *values, *whereCondition = NULL, *dataTypes = NULL, *placeholders, *updateValues, *position = NULL, *value = NULL, *field, *bindDataTypes = NULL, *escapedField = NULL, *bindType, *escapedTable = NULL, *setClause, *updateSql, *conditions, *whereBind, *whereTypes, **_2, *_3 = NULL, *_4 = NULL, *_6 = NULL, *_7 = NULL, _8, *_9;
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 3, 2, &table_param, &fields, &values, &whereCondition, &dataTypes);
+	zephir_fetch_params(1, 3, 2, &table, &fields, &values, &whereCondition, &dataTypes);
 
-		zephir_get_strval(table, table_param);
 	if (!whereCondition) {
 		ZEPHIR_CPY_WRT(whereCondition, ZEPHIR_GLOBAL(global_null));
 	}
@@ -682,7 +678,7 @@ PHP_METHOD(Phalcon_Db_Adapter, update) {
  * DELETE FROM `robots` WHERE `id` = 101
  * </code>
  *
- * @param  string table
+ * @param  string|array table
  * @param  string whereCondition
  * @param  array placeholders
  * @param  array dataTypes
@@ -690,13 +686,11 @@ PHP_METHOD(Phalcon_Db_Adapter, update) {
  */
 PHP_METHOD(Phalcon_Db_Adapter, delete) {
 
-	zval *table_param = NULL, *whereCondition = NULL, *placeholders = NULL, *dataTypes = NULL, *sql, *escapedTable = NULL, *_0, *_1, *_2, *_3;
-	zval *table = NULL;
+	zval *table, *whereCondition = NULL, *placeholders = NULL, *dataTypes = NULL, *sql, *escapedTable = NULL, *_0, *_1, *_2, *_3;
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 3, &table_param, &whereCondition, &placeholders, &dataTypes);
+	zephir_fetch_params(1, 1, 3, &table, &whereCondition, &placeholders, &dataTypes);
 
-		zephir_get_strval(table, table_param);
 	if (!whereCondition) {
 		ZEPHIR_CPY_WRT(whereCondition, ZEPHIR_GLOBAL(global_null));
 	}
@@ -795,7 +789,7 @@ PHP_METHOD(Phalcon_Db_Adapter, limit) {
  *
  * @param string tableName
  * @param string schemaName
- * @return string
+ * @return boolean
  */
 PHP_METHOD(Phalcon_Db_Adapter, tableExists) {
 
@@ -822,8 +816,7 @@ PHP_METHOD(Phalcon_Db_Adapter, tableExists) {
 	ZEPHIR_INIT_VAR(num);
 	zephir_call_method_p2(num, this_ptr, "fetchone", _0, _1);
 	zephir_array_fetch_long(&_2, num, 0, PH_NOISY | PH_READONLY TSRMLS_CC);
-	ZEPHIR_MM_RESTORE();
-	RETURN_ZVAL(_2, 1, 0);
+	RETURN_MM_BOOL(ZEPHIR_GT_LONG(_2, 0));
 
 }
 
@@ -836,7 +829,7 @@ PHP_METHOD(Phalcon_Db_Adapter, tableExists) {
  *
  * @param string viewName
  * @param string schemaName
- * @return string
+ * @return boolean
  */
 PHP_METHOD(Phalcon_Db_Adapter, viewExists) {
 
@@ -860,8 +853,7 @@ PHP_METHOD(Phalcon_Db_Adapter, viewExists) {
 	ZEPHIR_INIT_VAR(num);
 	zephir_call_method_p2(num, this_ptr, "fetchone", _0, _1);
 	zephir_array_fetch_long(&_2, num, 0, PH_NOISY | PH_READONLY TSRMLS_CC);
-	ZEPHIR_MM_RESTORE();
-	RETURN_ZVAL(_2, 1, 0);
+	RETURN_MM_BOOL(ZEPHIR_GT_LONG(_2, 0));
 
 }
 

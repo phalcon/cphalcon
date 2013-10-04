@@ -42,7 +42,7 @@ interface AdapterInterface
 	 * @param int placeholders
 	 * @return array
 	 */
-	public function fetchOne(sqlQuery, fetchMode=2, placeholders=null);
+	public function fetchOne(string! sqlQuery, fetchMode=2, placeholders=null);
 
 	/**
 	 * Dumps the complete result of a query into an array
@@ -52,7 +52,7 @@ interface AdapterInterface
 	 * @param int placeholders
 	 * @return array
 	 */
-	public function fetchAll(sqlQuery, fetchMode=2, placeholders=null);
+	public function fetchAll(string! sqlQuery, fetchMode=2, placeholders=null);
 
 	/**
 	 * Inserts data into a table using custom RBDM SQL syntax
@@ -63,7 +63,7 @@ interface AdapterInterface
 	 * @param 	array dataTypes
 	 * @return 	boolean
 	 */
-	public function insert(table, values, fields=null, dataTypes=null);
+	public function insert(var table, values, fields=null, dataTypes=null);
 
 	/**
 	 * Updates data on a table using custom RBDM SQL syntax
@@ -75,7 +75,7 @@ interface AdapterInterface
 	 * @param 	array dataTypes
 	 * @return 	boolean
 	 */
-	public function update(table, fields, values, whereCondition=null, dataTypes=null);
+	public function update(var table, fields, values, whereCondition=null, dataTypes=null);
 
 	/**
 	 * Deletes data from a table using custom RBDM SQL syntax
@@ -86,7 +86,7 @@ interface AdapterInterface
 	 * @param  array dataTypes
 	 * @return boolean
 	 */
-	public function delete(table, whereCondition=null, placeholders=null, dataTypes=null);
+	public function delete(var table, whereCondition=null, placeholders=null, dataTypes=null);
 
 	/**
 	 * Gets a list of columns
@@ -103,7 +103,7 @@ interface AdapterInterface
 	 * @param 	int number
 	 * @return 	string
 	 */
-	public function limit(sqlQuery, number);
+	public function limit(var sqlQuery, number);
 
 	/**
 	 * Generates SQL checking for the existence of a schema.table
@@ -112,7 +112,7 @@ interface AdapterInterface
 	 * @param string schemaName
 	 * @return string
 	 */
-	public function tableExists(tableName, schemaName=null);
+	public function tableExists(string! tableName, schemaName=null);
 
 	/**
 	 * Generates SQL checking for the existence of a schema.view
@@ -121,7 +121,7 @@ interface AdapterInterface
 	 * @param string schemaName
 	 * @return string
 	 */
-	public function viewExists(viewName, schemaName=null);
+	public function viewExists(string! viewName, schemaName=null);
 
 	/**
 	 * Returns a SQL modified with a FOR UPDATE clause
@@ -129,7 +129,7 @@ interface AdapterInterface
 	 * @param	string sqlQuery
 	 * @return	string
 	 */
-	public function forUpdate(sqlQuery);
+	public function forUpdate(string! sqlQuery);
 
 	/**
 	 * Returns a SQL modified with a LOCK IN SHARE MODE clause
