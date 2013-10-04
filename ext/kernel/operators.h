@@ -81,9 +81,9 @@ int zephir_compare_strict_string(zval *op1, const char *op2, int op2_length);
 int zephir_compare_strict_long(zval *op1, long op2 TSRMLS_DC);
 
 void zephir_cast(zval *result, zval *var, zend_uint type);
-long zephir_get_intval(const zval *op);
-double zephir_get_doubleval(const zval *op);
-zend_bool zephir_get_boolval(const zval *op);
+long zephir_get_intval_ex(const zval *op);
+double zephir_get_doubleval_ex(const zval *op);
+zend_bool zephir_get_boolval_ex(const zval *op);
 
 int zephir_is_numeric_ex(const zval *op);
 
@@ -103,6 +103,10 @@ int zephir_greater_equal(zval *op1, zval *op2 TSRMLS_DC);
 int zephir_greater_equal_long(zval *op1, long op2 TSRMLS_DC);
 
 #define zephir_get_numberval(z) (Z_TYPE_P(z) == IS_LONG ? Z_LVAL_P(z) : zephir_get_doubleval(z))
+
+#define zephir_get_intval(z) (Z_TYPE_P(z) == IS_LONG ? Z_LVAL_P(z) : zephir_get_intval_ex(z))
+#define zephir_get_doubleval(z) (Z_TYPE_P(z) == IS_DOUBLE ? Z_DVAL_P(z) : zephir_get_doubleval_ex(z))
+#define zephir_get_boolval(z) (Z_TYPE_P(z) == IS_BOOL ? Z_BVAL_P(z) : zephir_get_boolval_ex(z))
 
 #define ZEPHIR_ADD_ASSIGN(z, v)  \
 	{  \

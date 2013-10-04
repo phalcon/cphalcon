@@ -328,7 +328,7 @@ void zephir_cast(zval *result, zval *var, zend_uint type){
 /**
  * Returns the long value of a zval
  */
-long zephir_get_intval(const zval *op) {
+long zephir_get_intval_ex(const zval *op) {
 
 	switch (Z_TYPE_P(op)) {
 		case IS_LONG:
@@ -358,7 +358,7 @@ long zephir_get_intval(const zval *op) {
 /**
  * Returns the long value of a zval
  */
-double zephir_get_doubleval(const zval *op) {
+double zephir_get_doubleval_ex(const zval *op) {
 
 	int type;
 	long long_value = 0;
@@ -391,7 +391,7 @@ double zephir_get_doubleval(const zval *op) {
 /**
  * Returns the long value of a zval
  */
-zend_bool zephir_get_boolval(const zval *op) {
+zend_bool zephir_get_boolval_ex(const zval *op) {
 
 	int type;
 	long long_value = 0;

@@ -27,7 +27,7 @@ namespace Phalcon\Events;
  * plugins that will offer monitoring of data, manipulation, conditional execution and much more.
  *
  */
-class Manager //implements Phalcon\Events\ManagerInterface
+class Manager implements Phalcon\Events\ManagerInterface
 {
 
 	protected _events = null;
@@ -180,8 +180,8 @@ class Manager //implements Phalcon\Events\ManagerInterface
 	 */
 	public function fireQueue(var queue, var event)
 	{
-		var status, arguments, eventName, data,
-			collect, iterator, cancelable, source, handler;
+		var status, arguments, eventName, data, iterator, source, handler;
+		boolean collect, cancelable;
 
 		if typeof queue != "array" && typeof queue != "object" {
 			throw new Phalcon\Events\Exception("The queue is not valid");
@@ -214,12 +214,12 @@ class Manager //implements Phalcon\Events\ManagerInterface
 		/**
 		 * Tell if the event is cancelable
 		 */
-		let cancelable = (bool) event->getCancelable();
+		let cancelable = (boolean) event->getCancelable();
 
 		/**
 		 * Responses need to be traced?
 		 */
-		let collect = this->_collect;
+		let collect = (boolean) this->_collect;
 
 		if queue == "object" {
 
