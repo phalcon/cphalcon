@@ -105,7 +105,7 @@ PHP_METHOD(Phalcon_Logger_Adapter_Firephp, logInternal){
 	smart_str str      = { NULL, 0, 0 };
 	int size, offset, num_bytes;
 	int separate_index = 0;
-	const int chunk = 4960;
+	const int chunk = 4500;
 
 	/* If headers has already been sent, we can do nothing. Exit early. */
 	if (SG(headers_sent)) {

@@ -33,6 +33,7 @@
 
 #include "kernel/main.h"
 #include "kernel/memory.h"
+#include "kernel/object.h"
 #include "kernel/fcall.h"
 #include "kernel/operators.h"
 #include "kernel/string.h"
@@ -52,9 +53,30 @@ PHALCON_INIT_CLASS(Phalcon_Logger_Formatter_Firephp){
 
 	PHALCON_REGISTER_CLASS_EX(Phalcon\\Logger\\Formatter, Firephp, logger_formatter_firephp, phalcon_logger_formatter_ce, phalcon_logger_formatter_firephp_method_entry, 0);
 
+	zend_declare_property_bool(phalcon_logger_formatter_firephp_ce, SL("_showBacktrace"), 1, ZEND_ACC_PROTECTED TSRMLS_CC);
+
 	zend_class_implements(phalcon_logger_formatter_firephp_ce TSRMLS_CC, 1, phalcon_logger_formatterinterface_ce);
 
 	return SUCCESS;
+}
+
+PHP_METHOD(Phalcon_Logger_Formatter_Firephp, getShowBacktrace) {
+
+	RETURN_MEMBER(getThis(), "_showBacktrace");
+}
+
+PHP_METHOD(Phalcon_Logger_Formatter_Firephp, setShowBacktrace) {
+
+	zval *show;
+
+	phalcon_fetch_params(0, 1, 0, &show);
+
+	if (Z_TYPE_P(show) != IS_BOOL) {
+		PHALCON_SEPARATE_PARAM_NMO(show);
+		convert_to_boolean(show);
+	}
+
+	phalcon_update_property_bool(getThis(), SL("_showBacktrace"), Z_BVAL_P(show) TSRMLS_CC);
 }
 
 /**
@@ -94,7 +116,8 @@ PHP_METHOD(Phalcon_Logger_Formatter_Firephp, getTypeString) {
 PHP_METHOD(Phalcon_Logger_Formatter_Firephp, format) {
 
 	zval *message, *type, *type_str = NULL, *timestamp;
-	zval *payload, *backtrace, *meta, *encoded;
+	zval *payload, *body, *backtrace, *meta, *encoded;
+	zval *show_backtrace;
 	smart_str result = { NULL, 0, 0 };
 	int i;
 	Bucket *p;
@@ -114,101 +137,137 @@ PHP_METHOD(Phalcon_Logger_Formatter_Firephp, format) {
 		return;
 	}
 
+	show_backtrace = phalcon_fetch_nproperty_this(getThis(), SL("_showBacktrace"), PH_NOISY TSRMLS_CC);
+
 	/**
 	 * Get the backtrace. This differs for differemt PHP versions.
 	 * 5.3.6+ allows us to skip the function arguments which will save some memory
 	 * For 5.4+ there is an extra argument.
 	 */
 	PHALCON_ALLOC_ZVAL(backtrace);
+	if (zend_is_true(show_backtrace)) {
 #if PHP_VERSION_ID < 50306
-	zend_fetch_debug_backtrace(backtrace, 1, 0 TSRMLS_CC);
+		zend_fetch_debug_backtrace(backtrace, 1, 0 TSRMLS_CC);
 #elif PHP_VERSION_ID < 50400
-	zend_fetch_debug_backtrace(backtrace, 1, DEBUG_BACKTRACE_IGNORE_ARGS TSRMLS_CC);
+		zend_fetch_debug_backtrace(backtrace, 1, DEBUG_BACKTRACE_IGNORE_ARGS TSRMLS_CC);
 #else
-	zend_fetch_debug_backtrace(backtrace, 1, DEBUG_BACKTRACE_IGNORE_ARGS, 0 TSRMLS_CC);
+		zend_fetch_debug_backtrace(backtrace, 1, DEBUG_BACKTRACE_IGNORE_ARGS, 0 TSRMLS_CC);
 #endif
 
-	if (Z_TYPE_P(backtrace) == IS_ARRAY) {
-		HashPosition pos;
-		HashTable *ht = Z_ARRVAL_P(backtrace);
-		zval **ppzval;
-		int found = 0;
-		ulong idx;
-		char *key;
-		uint key_len;
+		if (Z_TYPE_P(backtrace) == IS_ARRAY) {
+			HashPosition pos;
+			HashTable *ht = Z_ARRVAL_P(backtrace);
+			zval **ppzval;
+			int found = 0;
+			ulong idx;
+			char *key;
+			uint key_len;
 
-		/**
-		 * At this point we know that the backtrace is the array.
-		 * Again, we intentionally do not use Phalcon's API because we know
-		 * that we are working with the array / hash table and thus we can
-		 * save some time by omitting Z_TYPE_P(x) == IS_ARRAY checks
-		 */
+			/**
+			 * At this point we know that the backtrace is the array.
+			 * Again, we intentionally do not use Phalcon's API because we know
+			 * that we are working with the array / hash table and thus we can
+			 * save some time by omitting Z_TYPE_P(x) == IS_ARRAY checks
+			 */
 
-		for (
-			zend_hash_internal_pointer_reset_ex(ht, &pos);
-			zend_hash_has_more_elements_ex(ht, &pos) == SUCCESS;
-		) {
-			zend_hash_get_current_data_ex(ht, (void**)&ppzval, &pos);
-			zend_hash_get_current_key_ex(ht, &key, &key_len, &idx, 0, &pos);
-			zend_hash_move_forward_ex(ht, &pos);
+			for (
+				zend_hash_internal_pointer_reset_ex(ht, &pos);
+				zend_hash_has_more_elements_ex(ht, &pos) == SUCCESS;
+			) {
+				zend_hash_get_current_data_ex(ht, (void**)&ppzval, &pos);
+				zend_hash_get_current_key_ex(ht, &key, &key_len, &idx, 0, &pos);
+				zend_hash_move_forward_ex(ht, &pos);
 
-			if (Z_TYPE_PP(ppzval) == IS_ARRAY) {
-				/**
-				 * Here we need to skip the latest calls into Phalcon's core.
-				 * Calls to Zend internal functions will have "file" index not set.
-				 * We remove these entries from the array.
-				 */
-				if (!found && !zend_hash_exists(Z_ARRVAL_PP(ppzval), SS("file"))) {
-					zend_hash_index_del(ht, idx);
-				}
-				else {
+				if (Z_TYPE_PP(ppzval) == IS_ARRAY) {
 					/**
-					 * Remove args and object indices. They usually give
-					 * too much information; this is not suitable to send
-					 * in the HTTP headers
+					 * Here we need to skip the latest calls into Phalcon's core.
+					 * Calls to Zend internal functions will have "file" index not set.
+					 * We remove these entries from the array.
 					 */
-					zend_hash_del(Z_ARRVAL_PP(ppzval), "args", sizeof("args"));
-					zend_hash_del(Z_ARRVAL_PP(ppzval), "object", sizeof("object"));
-					found = 1;
+					if (!found && !zend_hash_exists(Z_ARRVAL_PP(ppzval), SS("file"))) {
+						zend_hash_index_del(ht, idx);
+					}
+					else {
+						/**
+						 * Remove args and object indices. They usually give
+						 * too much information; this is not suitable to send
+						 * in the HTTP headers
+						 */
+						zend_hash_del(Z_ARRVAL_PP(ppzval), "args", sizeof("args"));
+						zend_hash_del(Z_ARRVAL_PP(ppzval), "object", sizeof("object"));
+						found = 1;
+					}
 				}
 			}
-		}
 
-		/**
-		 * Now we need to renumber the hash table because we removed several
-		 * heading elements. If we don't do this, json_encode() will convert
-		 * this array to a JavaScript object which is an unwanted side effect
-		 */
-		p = ht->pListHead;
-		i = 0;
-		while (p != NULL) {
-			p->nKeyLength = 0;
-			p->h = i++;
-			p = p->pListNext;
-		}
+			/**
+			 * Now we need to renumber the hash table because we removed several
+			 * heading elements. If we don't do this, json_encode() will convert
+			 * this array to a JavaScript object which is an unwanted side effect
+			 */
+			p = ht->pListHead;
+			i = 0;
+			while (p != NULL) {
+				p->nKeyLength = 0;
+				p->h = i++;
+				p = p->pListNext;
+			}
 
-		ht->nNextFreeElement = i;
- 		zend_hash_rehash(ht);
+			ht->nNextFreeElement = i;
+			zend_hash_rehash(ht);
+		}
 	}
 
 	/**
 	 * The result will looks like this:
 	 *
 	 * array(
-	 *     array('type' => 'message type', 'backtrace' => array(backtrace goes here)),
-	 *     message
+	 *     array('Type' => 'message type', 'Label' => 'message'),
+	 *     array('backtrace' => array(backtrace goes here)
 	 * )
 	 */
-	PHALCON_ALLOC_ZVAL(payload);
+	MAKE_STD_ZVAL(payload);
 	array_init_size(payload, 2);
 
 	PHALCON_ALLOC_ZVAL(meta);
-	array_init_size(meta, 2);
-	add_assoc_zval(meta, "type", type_str);
-	add_assoc_zval(meta, "backtrace", backtrace);
+	array_init_size(meta, 4);
+	add_assoc_zval_ex(meta, SS("Type"), type_str);
+	Z_ADDREF_P(message);
+	add_assoc_zval_ex(meta, SS("Label"), message);
+
+	if (Z_TYPE_P(backtrace) == IS_ARRAY) {
+		zval **ppzval;
+
+		if (likely(SUCCESS == zend_hash_index_find(Z_ARRVAL_P(backtrace), 0, (void**)&ppzval)) && likely(Z_TYPE_PP(ppzval) == IS_ARRAY)) {
+			zval **file = NULL, **line = NULL;
+
+			zend_hash_quick_find(Z_ARRVAL_PP(ppzval), SS("file"), zend_inline_hash_func(SS("file")), (void**)&file);
+			zend_hash_quick_find(Z_ARRVAL_PP(ppzval), SS("line"), zend_inline_hash_func(SS("line")), (void**)&line);
+
+			if (likely(file != NULL)) {
+				Z_ADDREF_PP(file);
+				add_assoc_zval_ex(meta, SS("File"), *file);
+			}
+
+			if (likely(line != NULL)) {
+				Z_ADDREF_PP(line);
+				add_assoc_zval_ex(meta, SS("Line"), *line);
+			}
+		}
+	}
+
+	MAKE_STD_ZVAL(body);
+	array_init_size(body, 1);
+
+	if (zend_is_true(show_backtrace)) {
+		add_assoc_zval_ex(body, SS("backtrace"), backtrace);
+	}
+	else {
+		zval_ptr_dtor(&backtrace);
+	}
 
 	add_next_index_zval(payload, meta);
-	add_next_index_zval(payload, message);
+	add_next_index_zval(payload, body);
 
 	/**
 	 * Convert everything to JSON
