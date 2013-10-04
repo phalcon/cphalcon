@@ -36,7 +36,7 @@
  */
 ZEPHIR_INIT_CLASS(Phalcon_DiInterface) {
 
-	ZEPHIR_REGISTER_INTERFACE_EX(Phalcon, DiInterface, phalcon, diinterface, zend_exception_get_default(TSRMLS_C), phalcon_diinterface_method_entry);
+	ZEPHIR_REGISTER_INTERFACE_EX(Phalcon, DiInterface, phalcon, diinterface, zend_ce_arrayaccess, phalcon_diinterface_method_entry);
 
 
 	return SUCCESS;

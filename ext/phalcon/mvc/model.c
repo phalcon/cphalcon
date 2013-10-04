@@ -3795,7 +3795,7 @@ PHP_METHOD(Phalcon_Mvc_Model, readAttribute) {
 		zephir_get_strval(attribute, attribute_param);
 
 
-	if (zephir_isset_property_zval(this_ptr, attribute)) {
+	if (zephir_isset_property_zval(this_ptr, attribute TSRMLS_CC)) {
 		ZEPHIR_OBS_VAR(_0);
 		zephir_read_property_zval(&_0, this_ptr, attribute, PH_NOISY_CC);
 		RETURN_CCTOR(_0);
