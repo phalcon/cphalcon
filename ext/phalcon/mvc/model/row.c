@@ -12,6 +12,10 @@
 #include <Zend/zend_interfaces.h>
 
 #include "kernel/main.h"
+#include "kernel/operators.h"
+#include "kernel/memory.h"
+#include "kernel/array.h"
+#include "kernel/exception.h"
 
 
 /*
@@ -39,10 +43,110 @@
  */
 ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_Row) {
 
-	ZEPHIR_REGISTER_CLASS(Phalcon\\Mvc\\Model, Row, phalcon, mvc_model_row, NULL, 0);
+	ZEPHIR_REGISTER_CLASS(Phalcon\\Mvc\\Model, Row, phalcon, mvc_model_row, phalcon_mvc_model_row_method_entry, 0);
 
+	zend_class_implements(phalcon_mvc_model_row_ce TSRMLS_CC, 1, zend_ce_arrayaccess);
+	zend_class_implements(phalcon_mvc_model_row_ce TSRMLS_CC, 1, phalcon_mvc_model_resultinterface_ce);
 
 	return SUCCESS;
+
+}
+
+/**
+ * Set the current object's state
+ *
+ * @param int dirtyState
+ */
+PHP_METHOD(Phalcon_Mvc_Model_Row, setDirtyState) {
+
+	zval *dirtyState_param = NULL;
+	int dirtyState;
+
+	zephir_fetch_params(0, 1, 0, &dirtyState_param);
+
+		dirtyState = zephir_get_intval(dirtyState_param);
+
+
+	RETURN_BOOL(0);
+
+}
+
+/**
+ * Checks whether offset exists in the row
+ *
+ * @param string|int $index
+ * @return boolean
+ */
+PHP_METHOD(Phalcon_Mvc_Model_Row, offsetExists) {
+
+	zval *index;
+
+	zephir_fetch_params(0, 1, 0, &index);
+
+
+
+	RETURN_BOOL(0);
+
+}
+
+/**
+ * Gets a record in a specific position of the row
+ *
+ * @param string|int index
+ * @return string|Phalcon\Mvc\ModelInterface
+ */
+PHP_METHOD(Phalcon_Mvc_Model_Row, offsetGet) {
+
+	zval *index, *value;
+
+	zephir_fetch_params(0, 1, 0, &index);
+
+
+
+	if (0) {
+		RETURN_ZVAL(value, 1, 0);
+	}
+	ZEPHIR_THROW_EXCEPTION_STRW(phalcon_mvc_model_exception_ce, "The index does not exist in the row");
+	return;
+
+}
+
+/**
+ * Rows cannot be changed. It has only been implemented to meet the definition of the ArrayAccess interface
+ *
+ * @param string|int index
+ * @param Phalcon\Mvc\ModelInterface value
+ */
+PHP_METHOD(Phalcon_Mvc_Model_Row, offsetSet) {
+
+	zval *index, *value;
+
+	zephir_fetch_params(0, 2, 0, &index, &value);
+
+
+
+	ZEPHIR_THROW_EXCEPTION_STRW(phalcon_mvc_model_exception_ce, "Row is an immutable ArrayAccess object");
+	return;
+
+}
+
+/**
+ * Rows cannot be changed. It has only been implemented to meet the definition of the ArrayAccess interface
+ *
+ * @param string|int offset
+ */
+PHP_METHOD(Phalcon_Mvc_Model_Row, offsetUnset) {
+
+	zval *offset_param = NULL;
+	int offset;
+
+	zephir_fetch_params(0, 1, 0, &offset_param);
+
+		offset = zephir_get_intval(offset_param);
+
+
+	ZEPHIR_THROW_EXCEPTION_STRW(phalcon_mvc_model_exception_ce, "Row is an immutable ArrayAccess object");
+	return;
 
 }
 

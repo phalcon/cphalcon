@@ -48,9 +48,9 @@ class Crypt implements Phalcon\CryptInterface
 	 * Sets the cipher algorithm
 	 *
 	 * @param string cipher
-	 * @return Phalcon\Encrypt
+	 * @return Phalcon\Crypt
 	 */
-	public function setCipher(cipher)
+	public function setCipher(string! cipher) -> <Phalcon\Crypt>
 	{
 		let this->_cipher = cipher;
 		return this;
@@ -70,9 +70,9 @@ class Crypt implements Phalcon\CryptInterface
 	 * Sets the encrypt/decrypt mode
 	 *
 	 * @param string cipher
-	 * @return Phalcon\Encrypt
+	 * @return Phalcon\Crypt
 	 */
-	public function setMode(mode)
+	public function setMode(mode) -> <Phalcon\Crypt>
 	{
 		let this->_mode = mode;
 		return this;
@@ -92,9 +92,9 @@ class Crypt implements Phalcon\CryptInterface
 	 * Sets the encryption key
 	 *
 	 * @param string key
-	 * @return Phalcon\Encrypt
+	 * @return Phalcon\Crypt
 	 */
-	public function setKey(key)
+	public function setKey(string! key) -> <Phalcon\Crypt>
 	{
 		let this->_key = key;
 		return this;
@@ -161,7 +161,7 @@ class Crypt implements Phalcon\CryptInterface
 	 * @param string key
 	 * @return string
 	 */
-	public function decryptBase64(text, key=null)
+	public function decryptBase64(string! text, key=null)
 	{
 
 	}

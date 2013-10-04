@@ -16,9 +16,9 @@
 #include "kernel/object.h"
 #include "kernel/fcall.h"
 #include "kernel/memory.h"
-#include "kernel/operators.h"
 #include "kernel/array.h"
 #include "kernel/hash.h"
+#include "kernel/operators.h"
 #include "kernel/concat.h"
 
 
@@ -110,17 +110,14 @@ PHP_METHOD(Phalcon_Forms_Form, __construct) {
  */
 PHP_METHOD(Phalcon_Forms_Form, setAction) {
 
-	zval *action_param = NULL;
-	zval *action = NULL;
+	zval *action;
 
-	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 0, &action_param);
+	zephir_fetch_params(0, 1, 0, &action);
 
-		zephir_get_strval(action, action_param);
 
 
 	zephir_update_property_this(this_ptr, SL("_action"), action TSRMLS_CC);
-	RETURN_THIS();
+	RETURN_THISW();
 
 }
 

@@ -47,7 +47,7 @@ namespace Phalcon\Mvc\Model;
  *
  */
 abstract class Resultset
-	//implements Phalcon\Mvc\Model\ResultsetInterface, Iterator, SeekableIterator, Countable, ArrayAccess, Serializable
+	implements Phalcon\Mvc\Model\ResultsetInterface, Iterator, SeekableIterator, Countable, ArrayAccess, Serializable
 {
 
 	protected _type = 0;
@@ -282,7 +282,7 @@ abstract class Resultset
 	 * @param int index
 	 * @param Phalcon\Mvc\ModelInterface value
 	 */
-	public function offsetSet(int index, <Phalcon\Mvc\ModelInterface> value)
+	public function offsetSet(var index, <Phalcon\Mvc\ModelInterface> value)
 	{
 		throw new Phalcon\Mvc\Model\Exception("Cursor is an immutable ArrayAccess object");
 	}
@@ -294,7 +294,7 @@ abstract class Resultset
 	 */
 	public function offsetUnset(int offset)
 	{
-		throw new Phalcon_Mvc_Model_Exception("Cursor is an immutable ArrayAccess object");
+		throw new Phalcon\Mvc\Model\Exception("Cursor is an immutable ArrayAccess object");
 	}
 
 	/**

@@ -19,7 +19,45 @@
 
 namespace Phalcon\Mvc\Model\MetaData;
 
-class Memory
+/**
+ * Phalcon\Mvc\Model\MetaData\Memory
+ *
+ * Stores model meta-data in memory. Data will be erased when the request finishes
+ *
+ */
+class Memory extends Phalcon\Mvc\Model\MetaData implements Phalcon\Mvc\Model\MetaDataInterface
 {
+
+	/**
+	 * Phalcon\Mvc\Model\MetaData\Memory constructor
+	 *
+	 * @param array options
+	 */
+	public function __construct(var options=null)
+	{
+		let this->_metaData = [];
+	}
+
+	/**
+	 * Reads the meta-data from temporal memory
+	 *
+	 * @param string $key
+	 * @return array
+	 */
+	public function read(string! key)
+	{
+		return null;
+	}
+
+	/**
+	 * Writes the meta-data to temporal memory
+	 *
+	 * @param string key
+	 * @param array metaData
+	 */
+	public function write(string! key, metaData)
+	{
+		return null;
+	}
 
 }

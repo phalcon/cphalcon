@@ -84,6 +84,13 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_Resultset) {
 	zend_declare_class_constant_long(phalcon_mvc_model_resultset_ce, SL("HYDRATE_OBJECTS"), 2 TSRMLS_CC);
 	zend_declare_class_constant_long(phalcon_mvc_model_resultset_ce, SL("HYDRATE_ARRAYS"), 1 TSRMLS_CC);
 
+	zend_class_implements(phalcon_mvc_model_resultset_ce TSRMLS_CC, 1, phalcon_mvc_model_resultsetinterface_ce);
+	zend_class_implements(phalcon_mvc_model_resultset_ce TSRMLS_CC, 1, zend_ce_iterator);
+	zend_class_implements(phalcon_mvc_model_resultset_ce TSRMLS_CC, 1, spl_ce_SeekableIterator);
+	zend_class_implements(phalcon_mvc_model_resultset_ce TSRMLS_CC, 1, spl_ce_Countable);
+	zend_class_implements(phalcon_mvc_model_resultset_ce TSRMLS_CC, 1, zend_ce_arrayaccess);
+	zend_class_implements(phalcon_mvc_model_resultset_ce TSRMLS_CC, 1, zend_ce_serializable);
+
 	return SUCCESS;
 
 }
@@ -342,12 +349,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, offsetGet) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_Resultset, offsetSet) {
 
-	zval *index_param = NULL, *value;
-	int index;
+	zval *index, *value;
 
-	zephir_fetch_params(0, 2, 0, &index_param, &value);
+	zephir_fetch_params(0, 2, 0, &index, &value);
 
-		index = zephir_get_intval(index_param);
 
 
 	ZEPHIR_THROW_EXCEPTION_STRW(phalcon_mvc_model_exception_ce, "Cursor is an immutable ArrayAccess object");
@@ -362,21 +367,15 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, offsetSet) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_Resultset, offsetUnset) {
 
-	zend_class_entry *_1;
-	zval *offset_param = NULL, *_0;
+	zval *offset_param = NULL;
 	int offset;
 
-	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 0, &offset_param);
+	zephir_fetch_params(0, 1, 0, &offset_param);
 
 		offset = zephir_get_intval(offset_param);
 
 
-	ZEPHIR_INIT_VAR(_0);
-	_1 = zend_fetch_class(SL("Phalcon_Mvc_Model_Exception"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
-	object_init_ex(_0, _1);
-	zephir_throw_exception(_0 TSRMLS_CC);
-	ZEPHIR_MM_RESTORE();
+	ZEPHIR_THROW_EXCEPTION_STRW(phalcon_mvc_model_exception_ce, "Cursor is an immutable ArrayAccess object");
 	return;
 
 }

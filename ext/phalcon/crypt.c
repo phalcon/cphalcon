@@ -13,6 +13,7 @@
 
 #include "kernel/main.h"
 #include "kernel/object.h"
+#include "kernel/operators.h"
 #include "kernel/memory.h"
 #include "kernel/fcall.h"
 
@@ -68,18 +69,21 @@ ZEPHIR_INIT_CLASS(Phalcon_Crypt) {
  * Sets the cipher algorithm
  *
  * @param string cipher
- * @return Phalcon\Encrypt
+ * @return Phalcon\Crypt
  */
 PHP_METHOD(Phalcon_Crypt, setCipher) {
 
-	zval *cipher;
+	zval *cipher_param = NULL;
+	zval *cipher = NULL;
 
-	zephir_fetch_params(0, 1, 0, &cipher);
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 1, 0, &cipher_param);
 
+		zephir_get_strval(cipher, cipher_param);
 
 
 	zephir_update_property_this(this_ptr, SL("_cipher"), cipher TSRMLS_CC);
-	RETURN_THISW();
+	RETURN_THIS();
 
 }
 
@@ -99,7 +103,7 @@ PHP_METHOD(Phalcon_Crypt, getCipher) {
  * Sets the encrypt/decrypt mode
  *
  * @param string cipher
- * @return Phalcon\Encrypt
+ * @return Phalcon\Crypt
  */
 PHP_METHOD(Phalcon_Crypt, setMode) {
 
@@ -130,18 +134,21 @@ PHP_METHOD(Phalcon_Crypt, getMode) {
  * Sets the encryption key
  *
  * @param string key
- * @return Phalcon\Encrypt
+ * @return Phalcon\Crypt
  */
 PHP_METHOD(Phalcon_Crypt, setKey) {
 
-	zval *key;
+	zval *key_param = NULL;
+	zval *key = NULL;
 
-	zephir_fetch_params(0, 1, 0, &key);
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 1, 0, &key_param);
 
+		zephir_get_strval(key, key_param);
 
 
 	zephir_update_property_this(this_ptr, SL("_key"), key TSRMLS_CC);
-	RETURN_THISW();
+	RETURN_THIS();
 
 }
 
@@ -240,11 +247,13 @@ PHP_METHOD(Phalcon_Crypt, encryptBase64) {
  */
 PHP_METHOD(Phalcon_Crypt, decryptBase64) {
 
-	zval *text, *key = NULL;
+	zval *text_param = NULL, *key = NULL;
+	zval *text = NULL;
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 1, &text, &key);
+	zephir_fetch_params(1, 1, 1, &text_param, &key);
 
+		zephir_get_strval(text, text_param);
 	if (!key) {
 		ZEPHIR_CPY_WRT(key, ZEPHIR_GLOBAL(global_null));
 	}

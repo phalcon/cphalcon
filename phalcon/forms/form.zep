@@ -79,7 +79,7 @@ class Form extends Phalcon\Di\Injectable implements Countable, Iterator
 	 * @param string action
 	 * @return Phalcon\Forms\Form
 	 */
-	public function setAction(string action) -> <Phalcon\Forms\Form>
+	public function setAction(var action) -> <Phalcon\Forms\Form>
 	{
 		let this->_action = action;
 		return this;
@@ -115,7 +115,7 @@ class Form extends Phalcon\Di\Injectable implements Countable, Iterator
 	 * @param mixed defaultValue
 	 * @return mixed
 	 */
-	public function getUserOption(option, defaultValue=null)
+	public function getUserOption(var option, defaultValue=null)
 	{
 		var value, options;
 		let options = this->_options;
@@ -248,11 +248,10 @@ class Form extends Phalcon\Di\Injectable implements Countable, Iterator
 				let filteredValue = value;
 			}
 
-			let method = "set" . key;
-
 			/**
 			 * Use the setter if any available
 			 */
+			let method = "set" . key;
 			if method_exists(entity, method) {
 				entity->{method}(filteredValue);
 				continue;

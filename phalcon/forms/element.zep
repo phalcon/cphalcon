@@ -86,7 +86,7 @@ abstract class Element {
 	 * @param string name
 	 * @return Phalcon\Forms\ElementInterface
 	 */
-	public function setName(string name) -> <Phalcon\Forms\ElementInterface>
+	public function setName(string! name) -> <Phalcon\Forms\ElementInterface>
 	{
 		let this->_name = name;
 		return this;
