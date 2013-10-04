@@ -196,14 +196,18 @@ PHP_METHOD(Phalcon_Text, random){
 PHP_METHOD(Phalcon_Text, startsWith){
 
 	zval *str, *start, *ignore_case = NULL;
+	zval *case_sensitive;
 
 	phalcon_fetch_params(0, 2, 1, &str, &start, &ignore_case);
 	
-	if (phalcon_start_with(str, start, ignore_case ? ignore_case : PHALCON_GLOBAL(z_true))) {
-		RETURN_TRUE;
+	if (!ignore_case) {
+		case_sensitive = PHALCON_GLOBAL(z_false);
 	}
-	
-	RETURN_FALSE;
+	else {
+		case_sensitive = zend_is_true(ignore_case) ? PHALCON_GLOBAL(z_false) : PHALCON_GLOBAL(z_true);
+	}
+
+	RETURN_BOOL(phalcon_start_with(str, start, case_sensitive));
 }
 
 /**
@@ -223,14 +227,18 @@ PHP_METHOD(Phalcon_Text, startsWith){
 PHP_METHOD(Phalcon_Text, endsWith){
 
 	zval *str, *end, *ignore_case = NULL;
+	zval *case_sensitive;
 
 	phalcon_fetch_params(0, 2, 1, &str, &end, &ignore_case);
 	
-	if (phalcon_end_with(str, end, ignore_case ? ignore_case : PHALCON_GLOBAL(z_true))) {
-		RETURN_TRUE;
+	if (!ignore_case) {
+		case_sensitive = PHALCON_GLOBAL(z_false);
 	}
-	
-	RETURN_FALSE;
+	else {
+		case_sensitive = zend_is_true(ignore_case) ? PHALCON_GLOBAL(z_false) : PHALCON_GLOBAL(z_true);
+	}
+
+	RETURN_BOOL(phalcon_end_with(str, end, case_sensitive));
 }
 
 /**
