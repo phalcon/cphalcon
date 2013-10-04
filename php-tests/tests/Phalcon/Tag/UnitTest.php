@@ -284,9 +284,7 @@ class UnitTest extends PhTestUnitTestCase
 	public function testStylesheetLinkWithArrayRemote()
 	{
 		$options  = array('http://fonts.googleapis.com/css?family=Rosario');
-		$expected = '<link rel="stylesheet" '
-				  . 'type="text/css" '
-				  . 'href="http://fonts.googleapis.com/css?family=Rosario">' . PHP_EOL;
+		$expected = '<link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Rosario">' . PHP_EOL;
 		$actual   = PhTag::stylesheetLink($options, false);
 
 		$this->assertEquals(
@@ -305,9 +303,7 @@ class UnitTest extends PhTestUnitTestCase
 	public function testStylesheetLinkWithStringAsSecondParameterRemote()
 	{
 		$options  = 'http://fonts.googleapis.com/css?family=Rosario';
-		$expected = '<link rel="stylesheet" '
-				  . 'type="text/css" '
-				  . 'href="http://fonts.googleapis.com/css?family=Rosario">' . PHP_EOL;
+		$expected = '<link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Rosario">' . PHP_EOL;
 		$actual   = PhTag::stylesheetLink($options, '0');
 
 		$this->assertEquals(
@@ -394,9 +390,7 @@ class UnitTest extends PhTestUnitTestCase
 	{
 		PhTag::setDoctype(PhTag::XHTML10_STRICT);
 		$options  = 'http://fonts.googleapis.com/css?family=Rosario';
-		$expected = '<link rel="stylesheet" '
-				  . 'type="text/css" '
-				  . 'href="http://fonts.googleapis.com/css?family=Rosario" />' . PHP_EOL;
+		$expected = '<link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Rosario" />' . PHP_EOL;
 		$actual   = PhTag::stylesheetLink($options, FALSE);
 
 		$this->assertEquals(
@@ -416,9 +410,7 @@ class UnitTest extends PhTestUnitTestCase
 	{
 		PhTag::setDoctype(PhTag::XHTML10_STRICT);
 		$options  = array('http://fonts.googleapis.com/css?family=Rosario');
-		$expected = '<link rel="stylesheet" '
-				  . 'type="text/css" '
-				  . 'href="http://fonts.googleapis.com/css?family=Rosario" />' . PHP_EOL;
+		$expected = '<link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Rosario" />' . PHP_EOL;
 		$actual   = PhTag::stylesheetLink($options, FALSE);
 
 		$this->assertEquals(
@@ -438,9 +430,7 @@ class UnitTest extends PhTestUnitTestCase
 	{
 		PhTag::setDoctype(PhTag::XHTML10_STRICT);
 		$options  = 'http://fonts.googleapis.com/css?family=Rosario';
-		$expected = '<link rel="stylesheet" '
-				  . 'type="text/css" '
-				  . 'href="http://fonts.googleapis.com/css?family=Rosario" />' . PHP_EOL;
+		$expected = '<link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Rosario" />' . PHP_EOL;
 		$actual   = PhTag::stylesheetLink($options, '0');
 
 		$this->assertEquals(
@@ -465,8 +455,7 @@ class UnitTest extends PhTestUnitTestCase
 	public function testJavascriptIncludeLocal()
 	{
 		$options  = 'js/phalcon.js';
-		$expected = '<script type="text/javascript" src="/js/phalcon.js">'
-				  . '</script>' . PHP_EOL;
+		$expected = '<script type="text/javascript" src="/js/phalcon.js"></script>' . PHP_EOL;
 		$actual   = PhTag::javascriptInclude($options);
 
 		$this->assertEquals(
@@ -485,8 +474,7 @@ class UnitTest extends PhTestUnitTestCase
 	public function testJavascriptIncludeWithArrayLocal()
 	{
 		$options  = array('js/phalcon.js');
-		$expected = '<script type="text/javascript" src="js/phalcon.js">'
-				  . '</script>' . PHP_EOL;
+		$expected = '<script type="text/javascript" src="js/phalcon.js"></script>' . PHP_EOL;
 		$actual   = PhTag::javascriptInclude($options);
 
 		$this->assertEquals(
@@ -505,8 +493,7 @@ class UnitTest extends PhTestUnitTestCase
 	public function testJavascriptIncludeWithStringAsSecondParameterLocal()
 	{
 		$options  = 'js/phalcon.js';
-		$expected = '<script type="text/javascript" src="/js/phalcon.js">'
-				  . '</script>' . PHP_EOL;
+		$expected = '<script type="text/javascript" src="/js/phalcon.js"></script>' . PHP_EOL;
 		$actual   = PhTag::javascriptInclude($options, 'hello');
 
 		$this->assertEquals(
@@ -589,8 +576,7 @@ class UnitTest extends PhTestUnitTestCase
 	{
 		PhTag::setDoctype(PhTag::XHTML10_STRICT);
 		$options  = 'js/phalcon.js';
-		$expected = '<script type="text/javascript" src="/js/phalcon.js">'
-				  . '</script>' . PHP_EOL;
+		$expected = '<script type="text/javascript" src="/js/phalcon.js"></script>' . PHP_EOL;
 		$actual   = PhTag::javascriptInclude($options);
 		PhTag::setDoctype('');
 
@@ -611,8 +597,7 @@ class UnitTest extends PhTestUnitTestCase
 	{
 		PhTag::setDoctype(PhTag::XHTML10_STRICT);
 		$options  = array('js/phalcon.js');
-		$expected = '<script type="text/javascript" src="js/phalcon.js">'
-				  . '</script>' . PHP_EOL;
+		$expected = '<script type="text/javascript" src="js/phalcon.js"></script>' . PHP_EOL;
 		$actual   = PhTag::javascriptInclude($options);
 		PhTag::setDoctype('');
 
@@ -633,8 +618,7 @@ class UnitTest extends PhTestUnitTestCase
 	{
 		PhTag::setDoctype(PhTag::XHTML10_STRICT);
 		$options  = 'js/phalcon.js';
-		$expected = '<script type="text/javascript" src="/js/phalcon.js">'
-				  . '</script>' . PHP_EOL;
+		$expected = '<script type="text/javascript" src="/js/phalcon.js"></script>' . PHP_EOL;
 		$actual   = PhTag::javascriptInclude($options, 'hello');
 		PhTag::setDoctype('');
 
@@ -853,8 +837,7 @@ class UnitTest extends PhTestUnitTestCase
 	public function testTextBasic()
 	{
 		$options  = 'some_field_name';
-		$expected = '<input type="text" name="some_field_name" '
-				  . 'id="some_field_name" value="">';
+		$expected = '<input type="text" id="some_field_name" name="some_field_name" value="">';
 		$actual   = PhTag::textField($options);
 
 		$this->assertEquals(
@@ -876,8 +859,7 @@ class UnitTest extends PhTestUnitTestCase
 			'some_field_name',
 			'class' => 'some_class',
 		);
-		$expected = '<input type="text" class="some_class" '
-				  . 'name="some_field_name" id="some_field_name" value="">';
+		$expected = '<input type="text" id="some_field_name" name="some_field_name" value="" class="some_class">';
 		$actual   = PhTag::textField($options);
 
 		$this->assertEquals(
@@ -901,8 +883,7 @@ class UnitTest extends PhTestUnitTestCase
 			'class' => 'some_class',
 			'size'  => '10',
 		);
-		$expected = '<input type="text" id="some_id" class="some_class" '
-				  . 'size="10" name="some_field_name" value="">';
+		$expected = '<input type="text" id="some_id" name="some_field_name" value="" class="some_class" size="10">';
 		$actual   = PhTag::textField($options);
 
 		$this->assertEquals(
@@ -926,9 +907,7 @@ class UnitTest extends PhTestUnitTestCase
 			'class' => 'some_class',
 			'size'  => '10',
 		);
-		$expected = '<input type="text" name="some_other_name" '
-				  . 'class="some_class" size="10" id="some_field_name" '
-				  . 'value="">';
+		$expected = '<input type="text" id="some_field_name" name="some_other_name" value="" class="some_class" size="10">';
 		$actual   = PhTag::textField($options);
 
 		$this->assertEquals(
@@ -952,9 +931,7 @@ class UnitTest extends PhTestUnitTestCase
 			'size'  => '10',
 		);
 		PhTag::setDefault('some_field_name', 'some_default_value');
-		$expected = '<input type="text" class="some_class" size="10" '
-				  . 'name="some_field_name" id="some_field_name" '
-				  . 'value="some_default_value">';
+		$expected = '<input type="text" id="some_field_name" name="some_field_name" value="some_default_value" class="some_class" size="10">';
 		$actual   = PhTag::textField($options);
 		PhTag::setDefault('some_field_name', '');
 
@@ -979,9 +956,7 @@ class UnitTest extends PhTestUnitTestCase
 			'size'  => '10',
 		);
 		PhTag::displayTo('some_field_name', 'some_default_value');
-		$expected = '<input type="text" class="some_class" size="10" '
-				  . 'name="some_field_name" id="some_field_name" '
-				  . 'value="some_default_value">';
+		$expected = '<input type="text" id="some_field_name" name="some_field_name" value="some_default_value" class="some_class" size="10">';
 		$actual   = PhTag::textField($options);
 		PhTag::displayTo('some_field_name', '');
 
@@ -1006,8 +981,7 @@ class UnitTest extends PhTestUnitTestCase
 			'size'  => '10',
 		);
 		PhTag::setDefault('some_field', 'some_default_value');
-		$expected = '<input type="text" class="some_class" size="10" '
-				  . 'name="some_field_name" id="some_field_name" value="">';
+		$expected = '<input type="text" id="some_field_name" name="some_field_name" value="" class="some_class" size="10">';
 		$actual   = PhTag::textField($options);
 		PhTag::setDefault('some_field', '');
 
@@ -1035,8 +1009,7 @@ class UnitTest extends PhTestUnitTestCase
 			'size'  => '10',
 		);
 		PhTag::displayTo('some_field', 'some_default_value');
-		$expected = '<input type="text" class="some_class" size="10" '
-				  . 'name="some_field_name" id="some_field_name" value="">';
+		$expected = '<input type="text" id="some_field_name" name="some_field_name" value="" class="some_class" size="10">';
 		$actual   = PhTag::textField($options);
 		PhTag::displayTo('some_field', '');
 
@@ -1057,8 +1030,7 @@ class UnitTest extends PhTestUnitTestCase
 	{
 		PhTag::setDoctype(PhTag::XHTML10_STRICT);
 		$options  = 'some_field_name';
-		$expected = '<input type="text" name="some_field_name" '
-				  . 'id="some_field_name" value="" />';
+		$expected = '<input type="text" id="some_field_name" name="some_field_name" value="" />';
 		$actual   = PhTag::textField($options);
 		PhTag::setDoctype('');
 
@@ -1082,8 +1054,7 @@ class UnitTest extends PhTestUnitTestCase
 			'some_field_name',
 			'class' => 'some_class',
 		);
-		$expected = '<input type="text" class="some_class" '
-				  . 'name="some_field_name" id="some_field_name" value="" />';
+		$expected = '<input type="text" id="some_field_name" name="some_field_name" value="" class="some_class" />';
 		$actual   = PhTag::textField($options);
 		PhTag::setDoctype('');
 
@@ -1109,8 +1080,7 @@ class UnitTest extends PhTestUnitTestCase
 			'class' => 'some_class',
 			'size'  => '10',
 		);
-		$expected = '<input type="text" id="some_id" class="some_class" '
-				  . 'size="10" name="some_field_name" value="" />';
+		$expected = '<input type="text" id="some_id" name="some_field_name" value="" class="some_class" size="10" />';
 		$actual   = PhTag::textField($options);
 		PhTag::setDoctype('');
 
@@ -1135,8 +1105,7 @@ class UnitTest extends PhTestUnitTestCase
 			'class' => 'some_class',
 			'size'  => '10',
 		);
-		$expected = '<input type="text" class="some_class" '
-				  . 'size="10" name="some_field_name[]" value="" />';
+		$expected = '<input type="text" name="some_field_name[]" value="" class="some_class" size="10" />';
 		$actual   = PhTag::textField($options);
 		PhTag::setDoctype('');
 
@@ -1162,9 +1131,7 @@ class UnitTest extends PhTestUnitTestCase
 			'class' => 'some_class',
 			'size'  => '10',
 		);
-		$expected = '<input type="text" name="some_other_name" '
-				  . 'class="some_class" size="10" id="some_field_name" '
-				  . 'value="" />';
+		$expected = '<input type="text" id="some_field_name" name="some_other_name" value="" class="some_class" size="10" />';
 		$actual   = PhTag::textField($options);
 		PhTag::setDoctype('');
 
@@ -1190,9 +1157,7 @@ class UnitTest extends PhTestUnitTestCase
 			'size'  => '10',
 		);
 		PhTag::setDefault('some_field_name', 'some_default_value');
-		$expected = '<input type="text" class="some_class" size="10" '
-				  . 'name="some_field_name" id="some_field_name" '
-				  . 'value="some_default_value" />';
+		$expected = '<input type="text" id="some_field_name" name="some_field_name" value="some_default_value" class="some_class" size="10" />';
 		$actual   = PhTag::textField($options);
 		PhTag::setDefault('some_field_name', '');
 		PhTag::setDoctype('');
@@ -1219,9 +1184,7 @@ class UnitTest extends PhTestUnitTestCase
 			'size'  => '10',
 		);
 		PhTag::displayTo('some_field_name', 'some_default_value');
-		$expected = '<input type="text" class="some_class" size="10" '
-				  . 'name="some_field_name" id="some_field_name" '
-				  . 'value="some_default_value" />';
+		$expected = '<input type="text" id="some_field_name" name="some_field_name" value="some_default_value" class="some_class" size="10" />';
 		$actual   = PhTag::textField($options);
 		PhTag::displayTo('some_field_name', '');
 		PhTag::setDoctype('');
@@ -1248,8 +1211,7 @@ class UnitTest extends PhTestUnitTestCase
 			'size'  => '10',
 		);
 		PhTag::setDefault('some_field', 'some_default_value');
-		$expected = '<input type="text" class="some_class" size="10" '
-				  . 'name="some_field_name" id="some_field_name" value="" />';
+		$expected = '<input type="text" id="some_field_name" name="some_field_name" value="" class="some_class" size="10" />';
 		$actual   = PhTag::textField($options);
 		PhTag::setDefault('some_field', '');
 		PhTag::setDoctype('');
@@ -1279,8 +1241,7 @@ class UnitTest extends PhTestUnitTestCase
 			'size'  => '10',
 		);
 		PhTag::displayTo('some_field', 'some_default_value');
-		$expected = '<input type="text" class="some_class" size="10" '
-				  . 'name="some_field_name" id="some_field_name" value="" />';
+		$expected = '<input type="text" id="some_field_name" name="some_field_name" value="" class="some_class" size="10" />';
 		$actual   = PhTag::textField($options);
 		PhTag::displayTo('some_field', '');
 		PhTag::setDoctype('');
@@ -1304,8 +1265,7 @@ class UnitTest extends PhTestUnitTestCase
 	public function testTextareaBasic()
 	{
 		$options  = 'some_field_name';
-		$expected = '<textarea name="some_field_name" id="some_field_name">'
-				  . '</textarea>';
+		$expected = '<textarea id="some_field_name" name="some_field_name"></textarea>';
 		$actual   = PhTag::textArea($options);
 
 		$this->assertEquals(
@@ -1327,8 +1287,7 @@ class UnitTest extends PhTestUnitTestCase
 			'some_field_name',
 			'class' => 'some_class',
 		);
-		$expected = '<textarea class="some_class" name="some_field_name" '
-				  . 'id="some_field_name"></textarea>';
+		$expected = '<textarea id="some_field_name" name="some_field_name" class="some_class"></textarea>';
 		$actual   = PhTag::textArea($options);
 
 		$this->assertEquals(
@@ -1352,8 +1311,7 @@ class UnitTest extends PhTestUnitTestCase
 			'class' => 'some_class',
 			'size'  => '10',
 		);
-		$expected = '<textarea id="some_id" class="some_class" size="10" '
-				  . 'name="some_field_name"></textarea>';
+		$expected = '<textarea id="some_id" name="some_field_name" class="some_class" size="10"></textarea>';
 		$actual   = PhTag::textArea($options);
 
 		$this->assertEquals(
@@ -1377,8 +1335,7 @@ class UnitTest extends PhTestUnitTestCase
 			'class' => 'some_class',
 			'size'  => '10',
 		);
-		$expected = '<textarea name="some_other_name" class="some_class" '
-				  . 'size="10" id="some_field_name"></textarea>';
+		$expected = '<textarea id="some_field_name" name="some_other_name" class="some_class" size="10"></textarea>';
 		$actual   = PhTag::textArea($options);
 
 		$this->assertEquals(
@@ -1402,9 +1359,7 @@ class UnitTest extends PhTestUnitTestCase
 			'size'  => '10',
 		);
 		PhTag::setDefault('some_field_name', 'some_default_value');
-		$expected = '<textarea class="some_class" size="10" '
-				  . 'name="some_field_name" id="some_field_name">'
-				  . 'some_default_value</textarea>';
+		$expected = '<textarea id="some_field_name" name="some_field_name" class="some_class" size="10">some_default_value</textarea>';
 		$actual   = PhTag::textArea($options);
 		PhTag::setDefault('some_field_name', '');
 
@@ -1429,9 +1384,7 @@ class UnitTest extends PhTestUnitTestCase
 			'size'  => '10',
 		);
 		PhTag::displayTo('some_field_name', 'some_default_value');
-		$expected = '<textarea class="some_class" size="10" '
-				  . 'name="some_field_name" id="some_field_name">'
-				  . 'some_default_value</textarea>';
+		$expected = '<textarea id="some_field_name" name="some_field_name" class="some_class" size="10">some_default_value</textarea>';
 		$actual   = PhTag::textArea($options);
 		PhTag::displayTo('some_field_name', '');
 
@@ -1456,9 +1409,7 @@ class UnitTest extends PhTestUnitTestCase
 			'size'  => '10',
 		);
 		PhTag::setDefault('some_field', 'some_default_value');
-		$expected = '<textarea class="some_class" size="10" '
-				  . 'name="some_field_name" id="some_field_name">'
-				  . '</textarea>';
+		$expected = '<textarea id="some_field_name" name="some_field_name" class="some_class" size="10"></textarea>';
 		$actual   = PhTag::textArea($options);
 		PhTag::setDefault('some_field', '');
 
@@ -1483,9 +1434,7 @@ class UnitTest extends PhTestUnitTestCase
 			'size'  => '10',
 		);
 		PhTag::displayTo('some_field', 'some_default_value');
-		$expected = '<textarea class="some_class" size="10" '
-				  . 'name="some_field_name" id="some_field_name">'
-				  . '</textarea>';
+		$expected = '<textarea id="some_field_name" name="some_field_name" class="some_class" size="10"></textarea>';
 		$actual   = PhTag::textArea($options);
 		PhTag::displayTo('some_field', '');
 
@@ -1508,8 +1457,7 @@ class UnitTest extends PhTestUnitTestCase
 	public function testHiddenFieldBasic()
 	{
 		$options  = 'some_field_name';
-		$expected = '<input type="hidden" name="some_field_name" '
-				  . 'id="some_field_name" value="">';
+		$expected = '<input type="hidden" id="some_field_name" name="some_field_name" value="">';
 		$actual   = PhTag::hiddenField($options);
 
 		$this->assertEquals(
@@ -1531,8 +1479,7 @@ class UnitTest extends PhTestUnitTestCase
 			'some_field_name',
 			'class' => 'some_class',
 		);
-		$expected = '<input type="hidden" class="some_class" '
-				  . 'name="some_field_name" id="some_field_name" value="">';
+		$expected = '<input type="hidden" id="some_field_name" name="some_field_name" value="" class="some_class">';
 		$actual   = PhTag::hiddenField($options);
 
 		$this->assertEquals(
@@ -1556,8 +1503,7 @@ class UnitTest extends PhTestUnitTestCase
 			'class' => 'some_class',
 			'size'  => '10',
 		);
-		$expected = '<input type="hidden" id="some_id" class="some_class" '
-				  . 'size="10" name="some_field_name" value="">';
+		$expected = '<input type="hidden" id="some_id" name="some_field_name" value="" class="some_class" size="10">';
 		$actual   = PhTag::hiddenField($options);
 
 		$this->assertEquals(
@@ -1581,9 +1527,7 @@ class UnitTest extends PhTestUnitTestCase
 			'class' => 'some_class',
 			'size'  => '10',
 		);
-		$expected = '<input type="hidden" name="some_other_name" '
-				  . 'class="some_class" size="10" id="some_field_name" '
-				  . 'value="">';
+		$expected = '<input type="hidden" id="some_field_name" name="some_other_name" value="" class="some_class" size="10">';
 		$actual   = PhTag::hiddenField($options);
 
 		$this->assertEquals(
@@ -1610,9 +1554,7 @@ class UnitTest extends PhTestUnitTestCase
 			'size'  => '10',
 		);
 		PhTag::setDefault('some_field_name', 'some_default_value');
-		$expected = '<input type="hidden" class="some_class" size="10" '
-				  . 'name="some_field_name" id="some_field_name" '
-				  . 'value="some_default_value">';
+		$expected = '<input type="hidden" id="some_field_name" name="some_field_name" value="some_default_value" class="some_class" size="10">';
 		$actual   = PhTag::hiddenField($options);
 		PhTag::setDefault('some_field_name', '');
 
@@ -1637,9 +1579,7 @@ class UnitTest extends PhTestUnitTestCase
 			'size'  => '10',
 		);
 		PhTag::displayTo('some_field_name', 'some_default_value');
-		$expected = '<input type="hidden" class="some_class" size="10" '
-				  . 'name="some_field_name" id="some_field_name" '
-				  . 'value="some_default_value">';
+		$expected = '<input type="hidden" id="some_field_name" name="some_field_name" value="some_default_value" class="some_class" size="10">';
 		$actual   = PhTag::hiddenField($options);
 		PhTag::displayTo('some_field_name', '');
 
@@ -1664,8 +1604,7 @@ class UnitTest extends PhTestUnitTestCase
 			'size'  => '10',
 		);
 		PhTag::setDefault('some_field', 'some_default_value');
-		$expected = '<input type="hidden" class="some_class" size="10" '
-				  . 'name="some_field_name" id="some_field_name" value="">';
+		$expected = '<input type="hidden" id="some_field_name" name="some_field_name" value="" class="some_class" size="10">';
 		$actual   = PhTag::hiddenField($options);
 		PhTag::setDefault('some_field', '');
 
@@ -1690,8 +1629,7 @@ class UnitTest extends PhTestUnitTestCase
 			'size'  => '10',
 		);
 		PhTag::displayTo('some_field', 'some_default_value');
-		$expected = '<input type="hidden" class="some_class" size="10" '
-				  . 'name="some_field_name" id="some_field_name" value="">';
+		$expected = '<input type="hidden" id="some_field_name" name="some_field_name" value="" class="some_class" size="10">';
 		$actual   = PhTag::hiddenField($options);
 		PhTag::displayTo('some_field', '');
 
@@ -1712,8 +1650,7 @@ class UnitTest extends PhTestUnitTestCase
 	{
 		PhTag::setDoctype(PhTag::XHTML10_STRICT);
 		$options  = 'some_field_name';
-		$expected = '<input type="hidden" name="some_field_name" '
-				  . 'id="some_field_name" value="" />';
+		$expected = '<input type="hidden" id="some_field_name" name="some_field_name" value="" />';
 		$actual   = PhTag::hiddenField($options);
 		PhTag::setDoctype('');
 
@@ -1737,8 +1674,7 @@ class UnitTest extends PhTestUnitTestCase
 			'some_field_name',
 			'class' => 'some_class',
 		);
-		$expected = '<input type="hidden" class="some_class" '
-				  . 'name="some_field_name" id="some_field_name" value="" />';
+		$expected = '<input type="hidden" id="some_field_name" name="some_field_name" value="" class="some_class" />';
 		$actual   = PhTag::hiddenField($options);
 		PhTag::setDoctype('');
 
@@ -1764,8 +1700,7 @@ class UnitTest extends PhTestUnitTestCase
 			'class' => 'some_class',
 			'size'  => '10',
 		);
-		$expected = '<input type="hidden" id="some_id" class="some_class" '
-				  . 'size="10" name="some_field_name" value="" />';
+		$expected = '<input type="hidden" id="some_id" name="some_field_name" value="" class="some_class" size="10" />';
 		$actual   = PhTag::hiddenField($options);
 		PhTag::setDoctype('');
 
@@ -1791,9 +1726,7 @@ class UnitTest extends PhTestUnitTestCase
 			'class' => 'some_class',
 			'size'  => '10',
 		);
-		$expected = '<input type="hidden" name="some_other_name" '
-				  . 'class="some_class" size="10" id="some_field_name" '
-				  . 'value="" />';
+		$expected = '<input type="hidden" id="some_field_name" name="some_other_name" value="" class="some_class" size="10" />';
 		$actual   = PhTag::hiddenField($options);
 		PhTag::setDoctype('');
 
@@ -1822,9 +1755,7 @@ class UnitTest extends PhTestUnitTestCase
 			'size'  => '10',
 		);
 		PhTag::setDefault('some_field_name', 'some_default_value');
-		$expected = '<input type="hidden" class="some_class" size="10" '
-				  . 'name="some_field_name" id="some_field_name" '
-				  . 'value="some_default_value" />';
+		$expected = '<input type="hidden" id="some_field_name" name="some_field_name" value="some_default_value" class="some_class" size="10" />';
 		$actual   = PhTag::hiddenField($options);
 		PhTag::setDefault('some_field_name', '');
 		PhTag::setDoctype('');
@@ -1851,9 +1782,7 @@ class UnitTest extends PhTestUnitTestCase
 			'size'  => '10',
 		);
 		PhTag::displayTo('some_field_name', 'some_default_value');
-		$expected = '<input type="hidden" class="some_class" size="10" '
-				  . 'name="some_field_name" id="some_field_name" '
-				  . 'value="some_default_value" />';
+		$expected = '<input type="hidden" id="some_field_name" name="some_field_name" value="some_default_value" class="some_class" size="10" />';
 		$actual   = PhTag::hiddenField($options);
 		PhTag::displayTo('some_field_name', '');
 		PhTag::setDoctype('');
@@ -1880,8 +1809,7 @@ class UnitTest extends PhTestUnitTestCase
 			'size'  => '10',
 		);
 		PhTag::setDefault('some_field', 'some_default_value');
-		$expected = '<input type="hidden" class="some_class" size="10" '
-				  . 'name="some_field_name" id="some_field_name" value="" />';
+		$expected = '<input type="hidden" id="some_field_name" name="some_field_name" value="" class="some_class" size="10" />';
 		$actual   = PhTag::hiddenField($options);
 		PhTag::setDefault('some_field', '');
 		PhTag::setDoctype('');
@@ -1908,8 +1836,7 @@ class UnitTest extends PhTestUnitTestCase
 			'size'  => '10',
 		);
 		PhTag::displayTo('some_field', 'some_default_value');
-		$expected = '<input type="hidden" class="some_class" size="10" '
-				  . 'name="some_field_name" id="some_field_name" value="" />';
+		$expected = '<input type="hidden" id="some_field_name" name="some_field_name" value="" class="some_class" size="10" />';
 		$actual   = PhTag::hiddenField($options);
 		PhTag::displayTo('some_field', '');
 		PhTag::setDoctype('');
@@ -1933,8 +1860,7 @@ class UnitTest extends PhTestUnitTestCase
 	public function testPasswordFieldBasic()
 	{
 		$options  = 'some_field_name';
-		$expected = '<input type="password" name="some_field_name" '
-				  . 'id="some_field_name" value="">';
+		$expected = '<input type="password" id="some_field_name" name="some_field_name" value="">';
 		$actual   = PhTag::passwordField($options);
 
 		$this->assertEquals(
@@ -1956,8 +1882,7 @@ class UnitTest extends PhTestUnitTestCase
 			'some_field_name',
 			'class' => 'some_class',
 		);
-		$expected = '<input type="password" class="some_class" '
-				  . 'name="some_field_name" id="some_field_name" value="">';
+		$expected = '<input type="password" id="some_field_name" name="some_field_name" value="" class="some_class">';
 		$actual   = PhTag::passwordField($options);
 
 		$this->assertEquals(
@@ -1981,9 +1906,7 @@ class UnitTest extends PhTestUnitTestCase
 			'class' => 'some_class',
 			'size'  => '10',
 		);
-		$expected = '<input type="password" id="some_id" '
-				  . 'class="some_class" size="10" name="some_field_name" '
-				  . 'value="">';
+		$expected = '<input type="password" id="some_id" name="some_field_name" value="" class="some_class" size="10">';
 		$actual   = PhTag::passwordField($options);
 
 		$this->assertEquals(
@@ -2007,9 +1930,7 @@ class UnitTest extends PhTestUnitTestCase
 			'class' => 'some_class',
 			'size'  => '10',
 		);
-		$expected = '<input type="password" name="some_other_name" '
-				  . 'class="some_class" size="10" id="some_field_name" '
-				  . 'value="">';
+		$expected = '<input type="password" id="some_field_name" name="some_other_name" value="" class="some_class" size="10">';
 		$actual   = PhTag::passwordField($options);
 
 		$this->assertEquals(
@@ -2036,9 +1957,7 @@ class UnitTest extends PhTestUnitTestCase
 			'size'  => '10',
 		);
 		PhTag::setDefault('some_field_name', 'some_default_value');
-		$expected = '<input type="password" class="some_class" size="10" '
-				  . 'name="some_field_name" id="some_field_name" '
-				  . 'value="some_default_value">';
+		$expected = '<input type="password" id="some_field_name" name="some_field_name" value="some_default_value" class="some_class" size="10">';
 		$actual   = PhTag::passwordField($options);
 		PhTag::setDefault('some_field_name', '');
 
@@ -2063,9 +1982,7 @@ class UnitTest extends PhTestUnitTestCase
 			'size'  => '10',
 		);
 		PhTag::displayTo('some_field_name', 'some_default_value');
-		$expected = '<input type="password" class="some_class" size="10" '
-				  . 'name="some_field_name" id="some_field_name" '
-				  . 'value="some_default_value">';
+		$expected = '<input type="password" id="some_field_name" name="some_field_name" value="some_default_value" class="some_class" size="10">';
 		$actual   = PhTag::passwordField($options);
 		PhTag::displayTo('some_field_name', '');
 
@@ -2090,8 +2007,7 @@ class UnitTest extends PhTestUnitTestCase
 			'size'  => '10',
 		);
 		PhTag::setDefault('some_field', 'some_default_value');
-		$expected = '<input type="password" class="some_class" size="10" '
-				  . 'name="some_field_name" id="some_field_name" value="">';
+		$expected = '<input type="password" id="some_field_name" name="some_field_name" value="" class="some_class" size="10">';
 		$actual   = PhTag::passwordField($options);
 		PhTag::setDefault('some_field', '');
 
@@ -2116,8 +2032,7 @@ class UnitTest extends PhTestUnitTestCase
 			'size'  => '10',
 		);
 		PhTag::displayTo('some_field', 'some_default_value');
-		$expected = '<input type="password" class="some_class" size="10" '
-				  . 'name="some_field_name" id="some_field_name" value="">';
+		$expected = '<input type="password" id="some_field_name" name="some_field_name" value="" class="some_class" size="10">';
 		$actual   = PhTag::passwordField($options);
 		PhTag::displayTo('some_field', '');
 
@@ -2138,8 +2053,7 @@ class UnitTest extends PhTestUnitTestCase
 	{
 		PhTag::setDoctype(PhTag::XHTML10_STRICT);
 		$options  = 'some_field_name';
-		$expected = '<input type="password" name="some_field_name" '
-				  . 'id="some_field_name" value="" />';
+		$expected = '<input type="password" id="some_field_name" name="some_field_name" value="" />';
 		$actual   = PhTag::passwordField($options);
 		PhTag::setDoctype('');
 
@@ -2163,8 +2077,7 @@ class UnitTest extends PhTestUnitTestCase
 			'some_field_name',
 			'class' => 'some_class',
 		);
-		$expected = '<input type="password" class="some_class" '
-				  . 'name="some_field_name" id="some_field_name" value="" />';
+		$expected = '<input type="password" id="some_field_name" name="some_field_name" value="" class="some_class" />';
 		$actual   = PhTag::passwordField($options);
 		PhTag::setDoctype('');
 
@@ -2190,9 +2103,7 @@ class UnitTest extends PhTestUnitTestCase
 			'class' => 'some_class',
 			'size'  => '10',
 		);
-		$expected = '<input type="password" id="some_id" '
-				  . 'class="some_class" size="10" name="some_field_name" '
-				  . 'value="" />';
+		$expected = '<input type="password" id="some_id" name="some_field_name" value="" class="some_class" size="10" />';
 		$actual   = PhTag::passwordField($options);
 		PhTag::setDoctype('');
 
@@ -2218,9 +2129,7 @@ class UnitTest extends PhTestUnitTestCase
 			'class' => 'some_class',
 			'size'  => '10',
 		);
-		$expected = '<input type="password" name="some_other_name" '
-				  . 'class="some_class" size="10" id="some_field_name" '
-				  . 'value="" />';
+		$expected = '<input type="password" id="some_field_name" name="some_other_name" value="" class="some_class" size="10" />';
 		$actual   = PhTag::passwordField($options);
 		PhTag::setDoctype('');
 
@@ -2249,9 +2158,7 @@ class UnitTest extends PhTestUnitTestCase
 			'size'  => '10',
 		);
 		PhTag::setDefault('some_field_name', 'some_default_value');
-		$expected = '<input type="password" class="some_class" size="10" '
-				  . 'name="some_field_name" id="some_field_name" '
-				  . 'value="some_default_value" />';
+		$expected = '<input type="password" id="some_field_name" name="some_field_name" value="some_default_value" class="some_class" size="10" />';
 		$actual   = PhTag::passwordField($options);
 		PhTag::setDefault('some_field_name', '');
 		PhTag::setDoctype('');
@@ -2278,9 +2185,7 @@ class UnitTest extends PhTestUnitTestCase
 			'size'  => '10',
 		);
 		PhTag::displayTo('some_field_name', 'some_default_value');
-		$expected = '<input type="password" class="some_class" size="10" '
-				  . 'name="some_field_name" id="some_field_name" '
-				  . 'value="some_default_value" />';
+		$expected = '<input type="password" id="some_field_name" name="some_field_name" value="some_default_value" class="some_class" size="10" />';
 		$actual   = PhTag::passwordField($options);
 		PhTag::displayTo('some_field_name', '');
 		PhTag::setDoctype('');
@@ -2307,8 +2212,7 @@ class UnitTest extends PhTestUnitTestCase
 			'size'  => '10',
 		);
 		PhTag::setDefault('some_field', 'some_default_value');
-		$expected = '<input type="password" class="some_class" size="10" '
-				  . 'name="some_field_name" id="some_field_name" value="" />';
+		$expected = '<input type="password" id="some_field_name" name="some_field_name" value="" class="some_class" size="10" />';
 		$actual   = PhTag::passwordField($options);
 		PhTag::setDefault('some_field', '');
 		PhTag::setDoctype('');
@@ -2335,8 +2239,7 @@ class UnitTest extends PhTestUnitTestCase
 			'size'  => '10',
 		);
 		PhTag::displayTo('some_field', 'some_default_value');
-		$expected = '<input type="password" class="some_class" size="10" '
-				  . 'name="some_field_name" id="some_field_name" value="" />';
+		$expected = '<input type="password" id="some_field_name" name="some_field_name" value="" class="some_class" size="10" />';
 		$actual   = PhTag::passwordField($options);
 		PhTag::displayTo('some_field', '');
 		PhTag::setDoctype('');
@@ -2360,8 +2263,7 @@ class UnitTest extends PhTestUnitTestCase
 	public function testFileFieldBasic()
 	{
 		$options  = 'some_field_name';
-		$expected = '<input type="file" name="some_field_name" '
-				  . 'id="some_field_name" value="">';
+		$expected = '<input type="file" id="some_field_name" name="some_field_name" value="">';
 		$actual   = PhTag::fileField($options);
 
 		$this->assertEquals(
@@ -2383,8 +2285,7 @@ class UnitTest extends PhTestUnitTestCase
 			'some_field_name',
 			'class' => 'some_class',
 		);
-		$expected = '<input type="file" class="some_class" '
-				  . 'name="some_field_name" id="some_field_name" value="">';
+		$expected = '<input type="file" id="some_field_name" name="some_field_name" value="" class="some_class">';
 		$actual   = PhTag::fileField($options);
 
 		$this->assertEquals(
@@ -2408,8 +2309,7 @@ class UnitTest extends PhTestUnitTestCase
 			'class' => 'some_class',
 			'size'  => '10',
 		);
-		$expected = '<input type="file" id="some_id" class="some_class" '
-				  . 'size="10" name="some_field_name" value="">';
+		$expected = '<input type="file" id="some_id" name="some_field_name" value="" class="some_class" size="10">';
 		$actual   = PhTag::fileField($options);
 
 		$this->assertEquals(
@@ -2433,9 +2333,7 @@ class UnitTest extends PhTestUnitTestCase
 			'class' => 'some_class',
 			'size'  => '10',
 		);
-		$expected = '<input type="file" name="some_other_name" '
-				  . 'class="some_class" size="10" id="some_field_name" '
-				  . 'value="">';
+		$expected = '<input type="file" id="some_field_name" name="some_other_name" value="" class="some_class" size="10">';
 		$actual   = PhTag::fileField($options);
 
 		$this->assertEquals(
@@ -2462,9 +2360,7 @@ class UnitTest extends PhTestUnitTestCase
 			'size'  => '10',
 		);
 		PhTag::setDefault('some_field_name', 'some_default_value');
-		$expected = '<input type="file" class="some_class" size="10" '
-				  . 'name="some_field_name" id="some_field_name" '
-				  . 'value="some_default_value">';
+		$expected = '<input type="file" id="some_field_name" name="some_field_name" value="some_default_value" class="some_class" size="10">';
 		$actual   = PhTag::fileField($options);
 		PhTag::setDefault('some_field_name', '');
 
@@ -2489,9 +2385,7 @@ class UnitTest extends PhTestUnitTestCase
 			'size'  => '10',
 		);
 		PhTag::displayTo('some_field_name', 'some_default_value');
-		$expected = '<input type="file" class="some_class" size="10" '
-				  . 'name="some_field_name" id="some_field_name" '
-				  . 'value="some_default_value">';
+		$expected = '<input type="file" id="some_field_name" name="some_field_name" value="some_default_value" class="some_class" size="10">';
 		$actual   = PhTag::fileField($options);
 		PhTag::displayTo('some_field_name', '');
 
@@ -2516,8 +2410,7 @@ class UnitTest extends PhTestUnitTestCase
 			'size'  => '10',
 		);
 		PhTag::setDefault('some_field', 'some_default_value');
-		$expected = '<input type="file" class="some_class" size="10" '
-				  . 'name="some_field_name" id="some_field_name" value="">';
+		$expected = '<input type="file" id="some_field_name" name="some_field_name" value="" class="some_class" size="10">';
 		$actual   = PhTag::fileField($options);
 		PhTag::setDefault('some_field', '');
 
@@ -2542,8 +2435,7 @@ class UnitTest extends PhTestUnitTestCase
 			'size'  => '10',
 		);
 		PhTag::displayTo('some_field', 'some_default_value');
-		$expected = '<input type="file" class="some_class" size="10" '
-				  . 'name="some_field_name" id="some_field_name" value="">';
+		$expected = '<input type="file" id="some_field_name" name="some_field_name" value="" class="some_class" size="10">';
 		$actual   = PhTag::fileField($options);
 		PhTag::displayTo('some_field', '');
 
@@ -2564,8 +2456,7 @@ class UnitTest extends PhTestUnitTestCase
 	{
 		PhTag::setDoctype(PhTag::XHTML10_STRICT);
 		$options  = 'some_field_name';
-		$expected = '<input type="file" name="some_field_name" '
-				  . 'id="some_field_name" value="" />';
+		$expected = '<input type="file" id="some_field_name" name="some_field_name" value="" />';
 		$actual   = PhTag::fileField($options);
 		PhTag::setDoctype('');
 
@@ -2589,8 +2480,7 @@ class UnitTest extends PhTestUnitTestCase
 			'some_field_name',
 			'class' => 'some_class',
 		);
-		$expected = '<input type="file" class="some_class" '
-				  . 'name="some_field_name" id="some_field_name" value="" />';
+		$expected = '<input type="file" id="some_field_name" name="some_field_name" value="" class="some_class" />';
 		$actual   = PhTag::fileField($options);
 		PhTag::setDoctype('');
 
@@ -2616,8 +2506,7 @@ class UnitTest extends PhTestUnitTestCase
 			'class' => 'some_class',
 			'size'  => '10',
 		);
-		$expected = '<input type="file" id="some_id" class="some_class" '
-				  . 'size="10" name="some_field_name" value="" />';
+		$expected = '<input type="file" id="some_id" name="some_field_name" value="" class="some_class" size="10" />';
 		$actual   = PhTag::fileField($options);
 		PhTag::setDoctype('');
 
@@ -2643,9 +2532,7 @@ class UnitTest extends PhTestUnitTestCase
 			'class' => 'some_class',
 			'size'  => '10',
 		);
-		$expected = '<input type="file" name="some_other_name" '
-				  . 'class="some_class" size="10" id="some_field_name" '
-				  . 'value="" />';
+		$expected = '<input type="file" id="some_field_name" name="some_other_name" value="" class="some_class" size="10" />';
 		$actual   = PhTag::fileField($options);
 		PhTag::setDoctype('');
 
@@ -2674,9 +2561,7 @@ class UnitTest extends PhTestUnitTestCase
 			'size'  => '10',
 		);
 		PhTag::setDefault('some_field_name', 'some_default_value');
-		$expected = '<input type="file" class="some_class" size="10" '
-				  . 'name="some_field_name" id="some_field_name" '
-				  . 'value="some_default_value" />';
+		$expected = '<input type="file" id="some_field_name" name="some_field_name" value="some_default_value" class="some_class" size="10" />';
 		$actual   = PhTag::fileField($options);
 		PhTag::setDefault('some_field_name', '');
 		PhTag::setDoctype('');
@@ -2703,9 +2588,7 @@ class UnitTest extends PhTestUnitTestCase
 			'size'  => '10',
 		);
 		PhTag::displayTo('some_field_name', 'some_default_value');
-		$expected = '<input type="file" class="some_class" size="10" '
-				  . 'name="some_field_name" id="some_field_name" '
-				  . 'value="some_default_value" />';
+		$expected = '<input type="file" id="some_field_name" name="some_field_name" value="some_default_value" class="some_class" size="10" />';
 		$actual   = PhTag::fileField($options);
 		PhTag::displayTo('some_field_name', '');
 		PhTag::setDoctype('');
@@ -2732,8 +2615,7 @@ class UnitTest extends PhTestUnitTestCase
 			'size'  => '10',
 		);
 		PhTag::setDefault('some_field', 'some_default_value');
-		$expected = '<input type="file" class="some_class" size="10" '
-				  . 'name="some_field_name" id="some_field_name" value="" />';
+		$expected = '<input type="file" id="some_field_name" name="some_field_name" value="" class="some_class" size="10" />';
 		$actual   = PhTag::fileField($options);
 		PhTag::setDefault('some_field', '');
 		PhTag::setDoctype('');
@@ -2760,8 +2642,7 @@ class UnitTest extends PhTestUnitTestCase
 			'size'  => '10',
 		);
 		PhTag::displayTo('some_field', 'some_default_value');
-		$expected = '<input type="file" class="some_class" size="10" '
-				  . 'name="some_field_name" id="some_field_name" value="" />';
+		$expected = '<input type="file" id="some_field_name" name="some_field_name" value="" class="some_class" size="10" />';
 		$actual   = PhTag::fileField($options);
 		PhTag::displayTo('some_field', '');
 		PhTag::setDoctype('');
@@ -2785,8 +2666,7 @@ class UnitTest extends PhTestUnitTestCase
 	public function testCheckFieldBasic()
 	{
 		$options  = 'some_field_name';
-		$expected = '<input type="checkbox" name="some_field_name" '
-				  . 'id="some_field_name" value="">';
+		$expected = '<input type="checkbox" id="some_field_name" name="some_field_name" value="">';
 		$actual   = PhTag::checkField($options);
 
 		$this->assertEquals(
@@ -2808,8 +2688,7 @@ class UnitTest extends PhTestUnitTestCase
 			'some_field_name',
 			'class' => 'some_class',
 		);
-		$expected = '<input type="checkbox" class="some_class" '
-				  . 'name="some_field_name" id="some_field_name" value="">';
+		$expected = '<input type="checkbox" id="some_field_name" name="some_field_name" value="" class="some_class">';
 		$actual   = PhTag::checkField($options);
 
 		$this->assertEquals(
@@ -2833,8 +2712,7 @@ class UnitTest extends PhTestUnitTestCase
 			'class' => 'some_class',
 			'size'  => '10',
 		);
-		$expected = '<input type="checkbox" id="some_id" class="some_class" '
-				  . 'size="10" name="some_field_name" value="">';
+		$expected = '<input type="checkbox" id="some_id" name="some_field_name" value="" class="some_class" size="10">';
 		$actual   = PhTag::checkField($options);
 
 		$this->assertEquals(
@@ -2858,9 +2736,7 @@ class UnitTest extends PhTestUnitTestCase
 			'class' => 'some_class',
 			'size'  => '10',
 		);
-		$expected = '<input type="checkbox" name="some_other_name" '
-				  . 'class="some_class" size="10" id="some_field_name" '
-				  . 'value="">';
+		$expected = '<input type="checkbox" id="some_field_name" name="some_other_name" value="" class="some_class" size="10">';
 		$actual   = PhTag::checkField($options);
 
 		$this->assertEquals(
@@ -2887,7 +2763,7 @@ class UnitTest extends PhTestUnitTestCase
 			'size'  => '10',
 		);
 		PhTag::setDefault('some_field_name', 'some_default_value');
-		$expected = '<input type="checkbox" class="some_class" size="10" name="some_field_name" id="some_field_name" checked="checked" value="some_default_value">';
+		$expected = '<input type="checkbox" id="some_field_name" name="some_field_name" value="some_default_value" class="some_class" size="10" checked="checked">';
 		$actual   = PhTag::checkField($options);
 		PhTag::setDefault('some_field_name', '');
 
@@ -2912,7 +2788,7 @@ class UnitTest extends PhTestUnitTestCase
 			'size'  => '10',
 		);
 		PhTag::displayTo('some_field_name', 'some_default_value');
-		$expected = '<input type="checkbox" class="some_class" size="10" name="some_field_name" id="some_field_name" checked="checked" value="some_default_value">';
+		$expected = '<input type="checkbox" id="some_field_name" name="some_field_name" value="some_default_value" class="some_class" size="10" checked="checked">';
 		$actual   = PhTag::checkField($options);
 		PhTag::displayTo('some_field_name', '');
 
@@ -2937,8 +2813,7 @@ class UnitTest extends PhTestUnitTestCase
 			'size'  => '10',
 		);
 		PhTag::setDefault('some_field', 'some_default_value');
-		$expected = '<input type="checkbox" class="some_class" size="10" '
-				  . 'name="some_field_name" id="some_field_name" value="">';
+		$expected = '<input type="checkbox" id="some_field_name" name="some_field_name" value="" class="some_class" size="10">';
 		$actual   = PhTag::checkField($options);
 		PhTag::setDefault('some_field', '');
 
@@ -2963,8 +2838,7 @@ class UnitTest extends PhTestUnitTestCase
 			'size'  => '10',
 		);
 		PhTag::displayTo('some_field', 'some_default_value');
-		$expected = '<input type="checkbox" class="some_class" size="10" '
-				  . 'name="some_field_name" id="some_field_name" value="">';
+		$expected = '<input type="checkbox" id="some_field_name" name="some_field_name" value="" class="some_class" size="10">';
 		$actual   = PhTag::checkField($options);
 		PhTag::displayTo('some_field', '');
 
@@ -2985,8 +2859,7 @@ class UnitTest extends PhTestUnitTestCase
 	{
 		PhTag::setDoctype(PhTag::XHTML10_STRICT);
 		$options  = 'some_field_name';
-		$expected = '<input type="checkbox" name="some_field_name" '
-				  . 'id="some_field_name" value="" />';
+		$expected = '<input type="checkbox" id="some_field_name" name="some_field_name" value="" />';
 		$actual   = PhTag::checkField($options);
 		PhTag::setDoctype('');
 
@@ -3010,8 +2883,7 @@ class UnitTest extends PhTestUnitTestCase
 			'some_field_name',
 			'class' => 'some_class',
 		);
-		$expected = '<input type="checkbox" class="some_class" '
-				  . 'name="some_field_name" id="some_field_name" value="" />';
+		$expected = '<input type="checkbox" id="some_field_name" name="some_field_name" value="" class="some_class" />';
 		$actual   = PhTag::checkField($options);
 		PhTag::setDoctype('');
 
@@ -3037,8 +2909,7 @@ class UnitTest extends PhTestUnitTestCase
 			'class' => 'some_class',
 			'size'  => '10',
 		);
-		$expected = '<input type="checkbox" id="some_id" class="some_class" '
-				  . 'size="10" name="some_field_name" value="" />';
+		$expected = '<input type="checkbox" id="some_id" name="some_field_name" value="" class="some_class" size="10" />';
 		$actual   = PhTag::checkField($options);
 		PhTag::setDoctype('');
 
@@ -3064,9 +2935,7 @@ class UnitTest extends PhTestUnitTestCase
 			'class' => 'some_class',
 			'size'  => '10',
 		);
-		$expected = '<input type="checkbox" name="some_other_name" '
-				  . 'class="some_class" size="10" id="some_field_name" '
-				  . 'value="" />';
+		$expected = '<input type="checkbox" id="some_field_name" name="some_other_name" value="" class="some_class" size="10" />';
 		$actual   = PhTag::checkField($options);
 		PhTag::setDoctype('');
 
@@ -3095,7 +2964,7 @@ class UnitTest extends PhTestUnitTestCase
 			'size'  => '10',
 		);
 		PhTag::setDefault('some_field_name', 'some_default_value');
-		$expected = '<input type="checkbox" class="some_class" size="10" name="some_field_name" id="some_field_name" checked="checked" value="some_default_value" />';
+		$expected = '<input type="checkbox" id="some_field_name" name="some_field_name" value="some_default_value" class="some_class" size="10" checked="checked" />';
 		$actual   = PhTag::checkField($options);
 		PhTag::setDefault('some_field_name', '');
 		PhTag::setDoctype('');
@@ -3122,7 +2991,7 @@ class UnitTest extends PhTestUnitTestCase
 			'size'  => '10',
 		);
 		PhTag::displayTo('some_field_name', 'some_default_value');
-		$expected = '<input type="checkbox" class="some_class" size="10" name="some_field_name" id="some_field_name" checked="checked" value="some_default_value" />';
+		$expected = '<input type="checkbox" id="some_field_name" name="some_field_name" value="some_default_value" class="some_class" size="10" checked="checked" />';
 		$actual   = PhTag::checkField($options);
 		PhTag::displayTo('some_field_name', '');
 		PhTag::setDoctype('');
@@ -3149,8 +3018,7 @@ class UnitTest extends PhTestUnitTestCase
 			'size'  => '10',
 		);
 		PhTag::setDefault('some_field', 'some_default_value');
-		$expected = '<input type="checkbox" class="some_class" size="10" '
-				  . 'name="some_field_name" id="some_field_name" value="" />';
+		$expected = '<input type="checkbox" id="some_field_name" name="some_field_name" value="" class="some_class" size="10" />';
 		$actual   = PhTag::checkField($options);
 		PhTag::setDefault('some_field', '');
 		PhTag::setDoctype('');
@@ -3177,8 +3045,7 @@ class UnitTest extends PhTestUnitTestCase
 			'size'  => '10',
 		);
 		PhTag::displayTo('some_field', 'some_default_value');
-		$expected = '<input type="checkbox" class="some_class" size="10" '
-				  . 'name="some_field_name" id="some_field_name" value="" />';
+		$expected = '<input type="checkbox" id="some_field_name" name="some_field_name" value="" class="some_class" size="10" />';
 		$actual   = PhTag::checkField($options);
 		PhTag::displayTo('some_field', '');
 		PhTag::setDoctype('');
@@ -3202,8 +3069,7 @@ class UnitTest extends PhTestUnitTestCase
 	public function testRadioFieldBasic()
 	{
 		$options  = 'some_field_name';
-		$expected = '<input type="radio" name="some_field_name" '
-				  . 'id="some_field_name" value="">';
+		$expected = '<input type="radio" id="some_field_name" name="some_field_name" value="">';
 		$actual   = PhTag::radioField($options);
 
 		$this->assertEquals(
@@ -3225,8 +3091,7 @@ class UnitTest extends PhTestUnitTestCase
 			'some_field_name',
 			'class' => 'some_class',
 		);
-		$expected = '<input type="radio" class="some_class" '
-				  . 'name="some_field_name" id="some_field_name" value="">';
+		$expected = '<input type="radio" id="some_field_name" name="some_field_name" value="" class="some_class">';
 		$actual   = PhTag::radioField($options);
 
 		$this->assertEquals(
@@ -3250,8 +3115,7 @@ class UnitTest extends PhTestUnitTestCase
 			'class' => 'some_class',
 			'size'  => '10',
 		);
-		$expected = '<input type="radio" id="some_id" class="some_class" '
-				  . 'size="10" name="some_field_name" value="">';
+		$expected = '<input type="radio" id="some_id" name="some_field_name" value="" class="some_class" size="10">';
 		$actual   = PhTag::radioField($options);
 
 		$this->assertEquals(
@@ -3275,9 +3139,7 @@ class UnitTest extends PhTestUnitTestCase
 			'class' => 'some_class',
 			'size'  => '10',
 		);
-		$expected = '<input type="radio" name="some_other_name" '
-				  . 'class="some_class" size="10" id="some_field_name" '
-				  . 'value="">';
+		$expected = '<input type="radio" id="some_field_name" name="some_other_name" value="" class="some_class" size="10">';
 		$actual   = PhTag::radioField($options);
 
 		$this->assertEquals(
@@ -3304,7 +3166,7 @@ class UnitTest extends PhTestUnitTestCase
 			'size'  => '10',
 		);
 		PhTag::setDefault('some_field_name', 'some_default_value');
-		$expected = '<input type="radio" class="some_class" size="10" name="some_field_name" id="some_field_name" checked="checked" value="some_default_value">';
+		$expected = '<input type="radio" id="some_field_name" name="some_field_name" value="some_default_value" class="some_class" size="10" checked="checked">';
 		$actual   = PhTag::radioField($options);
 		PhTag::setDefault('some_field_name', '');
 
@@ -3329,7 +3191,7 @@ class UnitTest extends PhTestUnitTestCase
 			'size'  => '10',
 		);
 		PhTag::displayTo('some_field_name', 'some_default_value');
-		$expected = '<input type="radio" class="some_class" size="10" name="some_field_name" id="some_field_name" checked="checked" value="some_default_value">';
+		$expected = '<input type="radio" id="some_field_name" name="some_field_name" value="some_default_value" class="some_class" size="10" checked="checked">';
 		$actual   = PhTag::radioField($options);
 		PhTag::displayTo('some_field_name', '');
 
@@ -3354,8 +3216,7 @@ class UnitTest extends PhTestUnitTestCase
 			'size'  => '10',
 		);
 		PhTag::setDefault('some_field', 'some_default_value');
-		$expected = '<input type="radio" class="some_class" size="10" '
-				  . 'name="some_field_name" id="some_field_name" value="">';
+		$expected = '<input type="radio" id="some_field_name" name="some_field_name" value="" class="some_class" size="10">';
 		$actual   = PhTag::radioField($options);
 		PhTag::setDefault('some_field', '');
 
@@ -3380,8 +3241,7 @@ class UnitTest extends PhTestUnitTestCase
 			'size'  => '10',
 		);
 		PhTag::displayTo('some_field', 'some_default_value');
-		$expected = '<input type="radio" class="some_class" size="10" '
-				  . 'name="some_field_name" id="some_field_name" value="">';
+		$expected = '<input type="radio" id="some_field_name" name="some_field_name" value="" class="some_class" size="10">';
 		$actual   = PhTag::radioField($options);
 		PhTag::displayTo('some_field', '');
 
@@ -3402,8 +3262,7 @@ class UnitTest extends PhTestUnitTestCase
 	{
 		PhTag::setDoctype(PhTag::XHTML10_STRICT);
 		$options  = 'some_field_name';
-		$expected = '<input type="radio" name="some_field_name" '
-				  . 'id="some_field_name" value="" />';
+		$expected = '<input type="radio" id="some_field_name" name="some_field_name" value="" />';
 		$actual   = PhTag::radioField($options);
 		PhTag::setDoctype('');
 
@@ -3427,8 +3286,7 @@ class UnitTest extends PhTestUnitTestCase
 			'some_field_name',
 			'class' => 'some_class',
 		);
-		$expected = '<input type="radio" class="some_class" '
-				  . 'name="some_field_name" id="some_field_name" value="" />';
+		$expected = '<input type="radio" id="some_field_name" name="some_field_name" value="" class="some_class" />';
 		$actual   = PhTag::radioField($options);
 		PhTag::setDoctype('');
 
@@ -3454,8 +3312,7 @@ class UnitTest extends PhTestUnitTestCase
 			'class' => 'some_class',
 			'size'  => '10',
 		);
-		$expected = '<input type="radio" id="some_id" class="some_class" '
-				  . 'size="10" name="some_field_name" value="" />';
+		$expected = '<input type="radio" id="some_id" name="some_field_name" value="" class="some_class" size="10" />';
 		$actual   = PhTag::radioField($options);
 		PhTag::setDoctype('');
 
@@ -3481,9 +3338,7 @@ class UnitTest extends PhTestUnitTestCase
 			'class' => 'some_class',
 			'size'  => '10',
 		);
-		$expected = '<input type="radio" name="some_other_name" '
-				  . 'class="some_class" size="10" id="some_field_name" '
-				  . 'value="" />';
+		$expected = '<input type="radio" id="some_field_name" name="some_other_name" value="" class="some_class" size="10" />';
 		$actual   = PhTag::radioField($options);
 		PhTag::setDoctype('');
 
@@ -3512,7 +3367,7 @@ class UnitTest extends PhTestUnitTestCase
 			'size'  => '10',
 		);
 		PhTag::setDefault('some_field_name', 'some_default_value');
-		$expected = '<input type="radio" class="some_class" size="10" name="some_field_name" id="some_field_name" checked="checked" value="some_default_value" />';
+		$expected = '<input type="radio" id="some_field_name" name="some_field_name" value="some_default_value" class="some_class" size="10" checked="checked" />';
 		$actual   = PhTag::radioField($options);
 		PhTag::setDefault('some_field_name', '');
 		PhTag::setDoctype('');
@@ -3539,7 +3394,7 @@ class UnitTest extends PhTestUnitTestCase
 			'size'  => '10',
 		);
 		PhTag::displayTo('some_field_name', 'some_default_value');
-		$expected = '<input type="radio" class="some_class" size="10" name="some_field_name" id="some_field_name" checked="checked" value="some_default_value" />';
+		$expected = '<input type="radio" id="some_field_name" name="some_field_name" value="some_default_value" class="some_class" size="10" checked="checked" />';
 		$actual   = PhTag::radioField($options);
 		PhTag::displayTo('some_field_name', '');
 		PhTag::setDoctype('');
@@ -3566,8 +3421,7 @@ class UnitTest extends PhTestUnitTestCase
 			'size'  => '10',
 		);
 		PhTag::setDefault('some_field', 'some_default_value');
-		$expected = '<input type="radio" class="some_class" size="10" '
-				  . 'name="some_field_name" id="some_field_name" value="" />';
+		$expected = '<input type="radio" id="some_field_name" name="some_field_name" value="" class="some_class" size="10" />';
 		$actual   = PhTag::radioField($options);
 		PhTag::setDefault('some_field', '');
 		PhTag::setDoctype('');
@@ -3594,8 +3448,7 @@ class UnitTest extends PhTestUnitTestCase
 			'size'  => '10',
 		);
 		PhTag::displayTo('some_field', 'some_default_value');
-		$expected = '<input type="radio" class="some_class" size="10" '
-				  . 'name="some_field_name" id="some_field_name" value="" />';
+		$expected = '<input type="radio" id="some_field_name" name="some_field_name" value="" class="some_class" size="10" />';
 		$actual   = PhTag::radioField($options);
 		PhTag::displayTo('some_field', '');
 		PhTag::setDoctype('');
@@ -3644,8 +3497,7 @@ class UnitTest extends PhTestUnitTestCase
 		);
 //        $expected = '<input type="submit" value="some_field_name" '
 //                  . 'class="some_class">';
-		$expected = '<input type="submit" class="some_class" '
-				  . 'value="some_field_name">';
+		$expected = '<input type="submit" value="some_field_name" class="some_class">';
 		$actual   = PhTag::submitButton($options);
 
 		$this->assertEquals(
@@ -3670,8 +3522,7 @@ class UnitTest extends PhTestUnitTestCase
 			'class' => 'some_class',
 			'size'  => '10',
 		);
-		$expected = '<input type="submit" id="some_id" class="some_class" '
-				  . 'size="10" value="some_field_name">';
+		$expected = '<input type="submit" id="some_id" value="some_field_name" class="some_class" size="10">';
 		$actual   = PhTag::submitButton($options);
 
 		$this->assertEquals(
@@ -3696,8 +3547,7 @@ class UnitTest extends PhTestUnitTestCase
 			'class' => 'some_class',
 			'size'  => '10',
 		);
-		$expected = '<input type="submit" name="some_other_name" '
-				  . 'class="some_class" size="10" value="some_field_name">';
+		$expected = '<input type="submit" name="some_other_name" value="some_field_name" class="some_class" size="10">';
 		$actual   = PhTag::submitButton($options);
 
 		$this->assertEquals(
@@ -3725,8 +3575,7 @@ class UnitTest extends PhTestUnitTestCase
 			'size'  => '10',
 		);
 		PhTag::setDefault('some_field_name', 'some_default_value');
-		$expected = '<input type="submit" class="some_class" size="10" '
-				  . 'value="some_field_name">';
+		$expected = '<input type="submit" value="some_field_name" class="some_class" size="10">';
 		$actual   = PhTag::submitButton($options);
 		PhTag::setDefault('some_field_name', '');
 
@@ -3752,8 +3601,7 @@ class UnitTest extends PhTestUnitTestCase
 			'size'  => '10',
 		);
 		PhTag::displayTo('some_field_name', 'some_default_value');
-		$expected = '<input type="submit" class="some_class" size="10" '
-				  . 'value="some_field_name">';
+		$expected = '<input type="submit" value="some_field_name" class="some_class" size="10">';
 		$actual   = PhTag::submitButton($options);
 		PhTag::displayTo('some_field_name', '');
 
@@ -3779,8 +3627,7 @@ class UnitTest extends PhTestUnitTestCase
 			'size'  => '10',
 		);
 		PhTag::setDefault('some_field', 'some_default_value');
-		$expected = '<input type="submit" class="some_class" size="10" '
-				  . 'value="some_field_name">';
+		$expected = '<input type="submit" value="some_field_name" class="some_class" size="10">';
 		$actual   = PhTag::submitButton($options);
 		PhTag::setDefault('some_field', '');
 
@@ -3806,8 +3653,7 @@ class UnitTest extends PhTestUnitTestCase
 			'size'  => '10',
 		);
 		PhTag::displayTo('some_field', 'some_default_value');
-		$expected = '<input type="submit" class="some_class" size="10" '
-				  . 'value="some_field_name">';
+		$expected = '<input type="submit" value="some_field_name" class="some_class" size="10">';
 		$actual   = PhTag::submitButton($options);
 		PhTag::displayTo('some_field', '');
 
@@ -3853,10 +3699,8 @@ class UnitTest extends PhTestUnitTestCase
 			'some_field_name',
 			'class' => 'some_class',
 		);
-//        $expected = '<input type="submit" value="some_field_name" '
-//                  . 'class="some_class" />';
-		$expected = '<input type="submit" class="some_class" '
-				  . 'value="some_field_name" />';
+
+		$expected = '<input type="submit" value="some_field_name" class="some_class" />';
 		$actual   = PhTag::submitButton($options);
 		PhTag::setDoctype('');
 
@@ -3883,8 +3727,7 @@ class UnitTest extends PhTestUnitTestCase
 			'class' => 'some_class',
 			'size'  => '10',
 		);
-		$expected = '<input type="submit" id="some_id" class="some_class" '
-				  . 'size="10" value="some_field_name" />';
+		$expected = '<input type="submit" id="some_id" value="some_field_name" class="some_class" size="10" />';
 		$actual   = PhTag::submitButton($options);
 		PhTag::setDoctype('');
 
@@ -3911,8 +3754,7 @@ class UnitTest extends PhTestUnitTestCase
 			'class' => 'some_class',
 			'size'  => '10',
 		);
-		$expected = '<input type="submit" name="some_other_name" '
-				  . 'class="some_class" size="10" value="some_field_name" />';
+		$expected = '<input type="submit" name="some_other_name" value="some_field_name" class="some_class" size="10" />';
 		$actual   = PhTag::submitButton($options);
 		PhTag::setDoctype('');
 
@@ -3942,8 +3784,7 @@ class UnitTest extends PhTestUnitTestCase
 			'size'  => '10',
 		);
 		PhTag::setDefault('some_field_name', 'some_default_value');
-		$expected = '<input type="submit" class="some_class" size="10" '
-				  . 'value="some_field_name" />';
+		$expected = '<input type="submit" value="some_field_name" class="some_class" size="10" />';
 		$actual   = PhTag::submitButton($options);
 		PhTag::setDefault('some_field_name', '');
 		PhTag::setDoctype('');
@@ -3971,8 +3812,7 @@ class UnitTest extends PhTestUnitTestCase
 			'size'  => '10',
 		);
 		PhTag::displayTo('some_field_name', 'some_default_value');
-		$expected = '<input type="submit" class="some_class" size="10" '
-				  . 'value="some_field_name" />';
+		$expected = '<input type="submit" value="some_field_name" class="some_class" size="10" />';
 		$actual   = PhTag::submitButton($options);
 		PhTag::displayTo('some_field_name', '');
 		PhTag::setDoctype('');
@@ -4000,8 +3840,7 @@ class UnitTest extends PhTestUnitTestCase
 			'size'  => '10',
 		);
 		PhTag::setDefault('some_field', 'some_default_value');
-		$expected = '<input type="submit" class="some_class" size="10" '
-				  . 'value="some_field_name" />';
+		$expected = '<input type="submit" value="some_field_name" class="some_class" size="10" />';
 		$actual   = PhTag::submitButton($options);
 		PhTag::setDefault('some_field', '');
 		PhTag::setDoctype('');
@@ -4029,8 +3868,7 @@ class UnitTest extends PhTestUnitTestCase
 			'size'  => '10',
 		);
 		PhTag::displayTo('some_field', 'some_default_value');
-		$expected = '<input type="submit" class="some_class" size="10" '
-				  . 'value="some_field_name" />';
+		$expected = '<input type="submit" value="some_field_name" class="some_class" size="10" />';
 		$actual   = PhTag::submitButton($options);
 		PhTag::displayTo('some_field', '');
 		PhTag::setDoctype('');
@@ -4082,8 +3920,7 @@ class UnitTest extends PhTestUnitTestCase
 			'A' => 'Active',
 			'I' => 'Inactive',
 		);
-		$expected = '<select name="some_field_name" '
-				  . 'id="some_field_name">' . PHP_EOL
+		$expected = '<select id="some_field_name" name="some_field_name">' . PHP_EOL
 				  . chr(9) . '<option value="A">Active</option>' . PHP_EOL
 				  . chr(9) . '<option value="I">Inactive</option>' . PHP_EOL
 				  . '</select>';
@@ -4114,8 +3951,7 @@ class UnitTest extends PhTestUnitTestCase
 			'A' => 'Active',
 			'I' => 'Inactive',
 		);
-		$expected = '<select id="some_id" class="some_class" '
-				  . 'name="some_field_name">' . PHP_EOL
+		$expected = '<select id="some_id" name="some_field_name" class="some_class">' . PHP_EOL
 				  . chr(9) . '<option value="A">Active</option>' . PHP_EOL
 				  . chr(9) . '<option value="I">Inactive</option>' . PHP_EOL
 				  . '</select>';
@@ -4149,8 +3985,7 @@ class UnitTest extends PhTestUnitTestCase
 			'A' => 'Active',
 			'I' => 'Inactive',
 		);
-		$expected = '<select id="some_id" class="some_class" '
-				  . 'name="some_field_name">' . PHP_EOL
+		$expected = '<select id="some_id" name="some_field_name" class="some_class">' . PHP_EOL
 				  . chr(9) . '<option value="A">Active</option>' . PHP_EOL
 				  . chr(9) . '<option value="I">Inactive</option>' . PHP_EOL
 				  . '</select>';
@@ -4183,11 +4018,9 @@ class UnitTest extends PhTestUnitTestCase
 			'A' => 'Active',
 			'I' => 'Inactive',
 		);
-		$expected = '<select class="some_class" '
-				  . 'name="some_field_name" id="some_field_name">' . PHP_EOL
+		$expected = '<select id="some_field_name" name="some_field_name" class="some_class">' . PHP_EOL
 				  . chr(9) . '<option value="A">Active</option>' . PHP_EOL
-				  . chr(9) . '<option selected="selected" '
-				  . 'value="I">Inactive</option>' . PHP_EOL
+				  . chr(9) . '<option selected="selected" value="I">Inactive</option>' . PHP_EOL
 				  . '</select>';
 		$actual   = PhTag::selectStatic($params, $options);
 
@@ -4219,11 +4052,9 @@ class UnitTest extends PhTestUnitTestCase
 			'A' => 'Active',
 			'I' => 'Inactive',
 		);
-		$expected = '<select class="some_class" size="10" '
-				  . 'name="some_field_name" id="some_field_name">' . PHP_EOL
+		$expected = '<select id="some_field_name" name="some_field_name" class="some_class" size="10">' . PHP_EOL
 				  . chr(9) . '<option value="A">Active</option>' . PHP_EOL
-				  . chr(9) . '<option selected="selected" '
-				  . 'value="I">Inactive</option>' . PHP_EOL
+				  . chr(9) . '<option selected="selected" value="I">Inactive</option>' . PHP_EOL
 				  . '</select>';
 		$actual   = PhTag::selectStatic($params, $options);
 		PhTag::setDefault('some_field_name', '');
@@ -4253,11 +4084,9 @@ class UnitTest extends PhTestUnitTestCase
 			'A' => 'Active',
 			'I' => 'Inactive',
 		);
-		$expected = '<select class="some_class" size="10" '
-				  . 'name="some_field_name" id="some_field_name">' . PHP_EOL
+		$expected = '<select id="some_field_name" name="some_field_name" class="some_class" size="10">' . PHP_EOL
 				  . chr(9) . '<option value="A">Active</option>' . PHP_EOL
-				  . chr(9) . '<option selected="selected" '
-				  . 'value="I">Inactive</option>' . PHP_EOL
+				  . chr(9) . '<option selected="selected" value="I">Inactive</option>' . PHP_EOL
 				  . '</select>';
 		$actual   = PhTag::selectStatic($params, $options);
 		PhTag::displayTo('some_field_name', '');
@@ -4287,8 +4116,7 @@ class UnitTest extends PhTestUnitTestCase
 			'A' => 'Active',
 			'I' => 'Inactive',
 		);
-		$expected = '<select class="some_class" size="10" '
-				  . 'name="some_field_name" id="some_field_name">' . PHP_EOL
+		$expected = '<select id="some_field_name" name="some_field_name" class="some_class" size="10">' . PHP_EOL
 				  . chr(9) . '<option value="A">Active</option>' . PHP_EOL
 				  . chr(9) . '<option value="I">Inactive</option>' . PHP_EOL
 				  . '</select>';
@@ -4320,8 +4148,7 @@ class UnitTest extends PhTestUnitTestCase
 			'A' => 'Active',
 			'I' => 'Inactive',
 		);
-		$expected = '<select class="some_class" size="10" '
-				  . 'name="some_field_name" id="some_field_name">' . PHP_EOL
+		$expected = '<select id="some_field_name" name="some_field_name" class="some_class" size="10">' . PHP_EOL
 				  . chr(9) . '<option value="A">Active</option>' . PHP_EOL
 				  . chr(9) . '<option value="I">Inactive</option>' . PHP_EOL
 				  . '</select>';
@@ -4372,8 +4199,7 @@ class UnitTest extends PhTestUnitTestCase
 			'A' => 'Active',
 			'I' => 'Inactive',
 		);
-		$expected = '<select name="some_field_name" '
-				  . 'id="some_field_name">' . PHP_EOL
+		$expected = '<select id="some_field_name" name="some_field_name">' . PHP_EOL
 				  . chr(9) . '<option value="A">Active</option>' . PHP_EOL
 				  . chr(9) . '<option value="I">Inactive</option>' . PHP_EOL
 				  . '</select>';
@@ -4404,8 +4230,7 @@ class UnitTest extends PhTestUnitTestCase
 			'A' => 'Active',
 			'I' => 'Inactive',
 		);
-		$expected = '<select id="some_id" class="some_class" '
-				  . 'name="some_field_name">' . PHP_EOL
+		$expected = '<select id="some_id" name="some_field_name" class="some_class">' . PHP_EOL
 				  . chr(9) . '<option value="A">Active</option>' . PHP_EOL
 				  . chr(9) . '<option value="I">Inactive</option>' . PHP_EOL
 				  . '</select>';
@@ -4439,8 +4264,7 @@ class UnitTest extends PhTestUnitTestCase
 			'A' => 'Active',
 			'I' => 'Inactive',
 		);
-		$expected = '<select id="some_id" class="some_class" '
-				  . 'name="some_field_name">' . PHP_EOL
+		$expected = '<select id="some_id" name="some_field_name" class="some_class">' . PHP_EOL
 				  . chr(9) . '<option value="A">Active</option>' . PHP_EOL
 				  . chr(9) . '<option value="I">Inactive</option>' . PHP_EOL
 				  . '</select>';
@@ -4473,11 +4297,9 @@ class UnitTest extends PhTestUnitTestCase
 			'A' => 'Active',
 			'I' => 'Inactive',
 		);
-		$expected = '<select class="some_class" '
-				  . 'name="some_field_name" id="some_field_name">' . PHP_EOL
+		$expected = '<select id="some_field_name" name="some_field_name" class="some_class">' . PHP_EOL
 				  . chr(9) . '<option value="A">Active</option>' . PHP_EOL
-				  . chr(9) . '<option selected="selected" '
-				  . 'value="I">Inactive</option>' . PHP_EOL
+				  . chr(9) . '<option selected="selected" value="I">Inactive</option>' . PHP_EOL
 				  . '</select>';
 		$actual   = PhTag::selectStatic($params, $options);
 
@@ -4509,11 +4331,9 @@ class UnitTest extends PhTestUnitTestCase
 			'A' => 'Active',
 			'I' => 'Inactive',
 		);
-		$expected = '<select class="some_class" size="10" '
-				  . 'name="some_field_name" id="some_field_name">' . PHP_EOL
+		$expected = '<select id="some_field_name" name="some_field_name" class="some_class" size="10">' . PHP_EOL
 				  . chr(9) . '<option value="A">Active</option>' . PHP_EOL
-				  . chr(9) . '<option selected="selected" '
-				  . 'value="I">Inactive</option>' . PHP_EOL
+				  . chr(9) . '<option selected="selected" value="I">Inactive</option>' . PHP_EOL
 				  . '</select>';
 		$actual   = PhTag::selectStatic($params, $options);
 		PhTag::setDefault('some_field_name', '');
@@ -4543,11 +4363,9 @@ class UnitTest extends PhTestUnitTestCase
 			'A' => 'Active',
 			'I' => 'Inactive',
 		);
-		$expected = '<select class="some_class" size="10" '
-				  . 'name="some_field_name" id="some_field_name">' . PHP_EOL
+		$expected = '<select id="some_field_name" name="some_field_name" class="some_class" size="10">' . PHP_EOL
 				  . chr(9) . '<option value="A">Active</option>' . PHP_EOL
-				  . chr(9) . '<option selected="selected" '
-				  . 'value="I">Inactive</option>' . PHP_EOL
+				  . chr(9) . '<option selected="selected" value="I">Inactive</option>' . PHP_EOL
 				  . '</select>';
 		$actual   = PhTag::selectStatic($params, $options);
 		PhTag::displayTo('some_field_name', '');
@@ -4577,8 +4395,7 @@ class UnitTest extends PhTestUnitTestCase
 			'A' => 'Active',
 			'I' => 'Inactive',
 		);
-		$expected = '<select class="some_class" size="10" '
-				  . 'name="some_field_name" id="some_field_name">' . PHP_EOL
+		$expected = '<select id="some_field_name" name="some_field_name" class="some_class" size="10">' . PHP_EOL
 				  . chr(9) . '<option value="A">Active</option>' . PHP_EOL
 				  . chr(9) . '<option value="I">Inactive</option>' . PHP_EOL
 				  . '</select>';
@@ -4610,8 +4427,7 @@ class UnitTest extends PhTestUnitTestCase
 			'A' => 'Active',
 			'I' => 'Inactive',
 		);
-		$expected = '<select class="some_class" size="10" '
-				  . 'name="some_field_name" id="some_field_name">' . PHP_EOL
+		$expected = '<select id="some_field_name" name="some_field_name" class="some_class" size="10">' . PHP_EOL
 				  . chr(9) . '<option value="A">Active</option>' . PHP_EOL
 				  . chr(9) . '<option value="I">Inactive</option>' . PHP_EOL
 				  . '</select>';
@@ -4934,8 +4750,7 @@ class UnitTest extends PhTestUnitTestCase
 			'value'  => '123',
 		);
 
-		$expected = '<canvas id="canvas1" width="300" height="300" value="123">'
-				  . '</canvas>';
+		$expected = '<canvas id="canvas1" value="123" width="300" height="300"></canvas>';
 		$actual   = PhTag::tagHtml($name, $options);
 
 		$this->assertEquals(
