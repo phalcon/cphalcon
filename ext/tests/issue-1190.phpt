@@ -12,4 +12,4 @@ $form->add(new \Phalcon\Forms\Element\Text("title"));
 echo $form->render('title'), PHP_EOL;
 ?>
 --EXPECT--
-<input value="Hello &quot;world!&quot;" name="title" id="title" type="text" />
+<input type="text" id="title" name="title" value="Hello &quot;world!&quot;" />
