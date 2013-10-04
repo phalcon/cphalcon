@@ -29,117 +29,117 @@ use \Phalcon\Tag as PhTag;
 
 class FunctionalTest extends PhTestFunctionalTestCase
 {
-    private $message = "%s does not return proper html element";
+	private $message = "%s does not return proper html element";
 
-    // -------------------------------------------------------------------------
-    // form. endForm
-    // -------------------------------------------------------------------------
-    /**
-     * Tests form with a string as a parameter
-     *
-     * @issue  57
-     * @author Nikos Dimopoulos <nikos@niden.net>
-     * @since  2012-11-29
-     */
-    public function testFormBasicT57()
-    {
-        $params = 'about/index';
+	// -------------------------------------------------------------------------
+	// form. endForm
+	// -------------------------------------------------------------------------
+	/**
+	 * Tests form with a string as a parameter
+	 *
+	 * @issue  57
+	 * @author Nikos Dimopoulos <nikos@niden.net>
+	 * @since  2012-11-29
+	 */
+	public function testFormBasicT57()
+	{
+		$params = 'about/index';
 
-        $expected = '<form method="post" action="/about/index">';
-        $actual   = PhTag::form($params);
+		$expected = '<form action="/about/index" method="post">';
+		$actual   = PhTag::form($params);
 
-        $this->assertEquals(
-            $expected,
-            $actual,
-            sprintf($this->message, 'form basic parameter')
-        );
-    }
+		$this->assertEquals(
+			$expected,
+			$actual,
+			sprintf($this->message, 'form basic parameter')
+		);
+	}
 
-    /**
-     * Tests form with a string as a parameter
-     *
-     * @issue  57
-     * @author Nikos Dimopoulos <nikos@niden.net>
-     * @since  2012-11-29
-     */
-    public function testFormBasicWithRandomStringT57()
-    {
-        $params = 'somestring';
+	/**
+	 * Tests form with a string as a parameter
+	 *
+	 * @issue  57
+	 * @author Nikos Dimopoulos <nikos@niden.net>
+	 * @since  2012-11-29
+	 */
+	public function testFormBasicWithRandomStringT57()
+	{
+		$params = 'somestring';
 
-        $expected = '<form method="post" action="/somestring">';
-        $actual   = PhTag::form($params);
+		$expected = '<form action="/somestring" method="post">';
+		$actual   = PhTag::form($params);
 
-        $this->assertEquals(
-            $expected,
-            $actual,
-            sprintf($this->message, 'form with random string parameter')
-        );
-    }
+		$this->assertEquals(
+			$expected,
+			$actual,
+			sprintf($this->message, 'form with random string parameter')
+		);
+	}
 
-    /**
-     * Tests form with an array as parameters
-     *
-     * @issue  57
-     * @author Nikos Dimopoulos <nikos@niden.net>
-     * @since  2012-11-29
-     */
-    public function testFormWithArrayParametersGetT57()
-    {
-        $params = array(
-            'about/list',
-            'method' => 'get',
-        );
+	/**
+	 * Tests form with an array as parameters
+	 *
+	 * @issue  57
+	 * @author Nikos Dimopoulos <nikos@niden.net>
+	 * @since  2012-11-29
+	 */
+	public function testFormWithArrayParametersGetT57()
+	{
+		$params = array(
+			'about/list',
+			'method' => 'get',
+		);
 
-        $expected = '<form method="get" action="/about/list">';
-        $actual   = PhTag::form($params);
+		$expected = '<form action="/about/list" method="get">';
+		$actual   = PhTag::form($params);
 
-        $this->assertEquals(
-            $expected,
-            $actual,
-            sprintf($this->message, 'form with array parameters get')
-        );
-    }
+		$this->assertEquals(
+			$expected,
+			$actual,
+			sprintf($this->message, 'form with array parameters get')
+		);
+	}
 
-    /**
-     * Tests form with an array as parameters
-     *
-     * @issue  57
-     * @author Nikos Dimopoulos <nikos@niden.net>
-     * @since  2012-11-29
-     */
-    public function testFormWithArrayParametersPostT57()
-    {
-        $params = array(
-            'about/list',
-            'method' => 'post',
-        );
+	/**
+	 * Tests form with an array as parameters
+	 *
+	 * @issue  57
+	 * @author Nikos Dimopoulos <nikos@niden.net>
+	 * @since  2012-11-29
+	 */
+	public function testFormWithArrayParametersPostT57()
+	{
+		$params = array(
+			'about/list',
+			'method' => 'post',
+		);
 
-        $expected = '<form method="post" action="/about/list">';
-        $actual   = PhTag::form($params);
+		$expected = '<form action="/about/list" method="post">';
+		$actual   = PhTag::form($params);
 
-        $this->assertEquals(
-            $expected,
-            $actual,
-            sprintf($this->message, 'form with array parameters post')
-        );
-    }
+		$this->assertEquals(
+			$expected,
+			$actual,
+			sprintf($this->message, 'form with array parameters post')
+		);
+	}
 
-    /**
-     * Tests endForm with an array as parameters
-     *
-     * @issue  57
-     * @author Nikos Dimopoulos <nikos@niden.net>
-     * @since  2012-11-29
-     */
-    public function testEndForm()
-    {
-        $expected = '</form>';
-        $actual   = PhTag::endForm();
+	/**
+	 * Tests endForm with an array as parameters
+	 *
+	 * @issue  57
+	 * @author Nikos Dimopoulos <nikos@niden.net>
+	 * @since  2012-11-29
+	 */
+	public function testEndForm()
+	{
+		$expected = '</form>';
+		$actual   = PhTag::endForm();
 
-        $this->assertEquals(
-            $expected,
-            $actual,
-            sprintf($this->message, 'endForm')
-        );
-    }
+		$this->assertEquals(
+			$expected,
+			$actual,
+			sprintf($this->message, 'endForm')
+		);
+	}
 }
