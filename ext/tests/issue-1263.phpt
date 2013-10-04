@@ -27,9 +27,8 @@ echo \Phalcon\Tag::textField(array('name')), PHP_EOL;
 --EXPECT--
 bool(true)
 bool(false)
-<input value="&"" name="name" id="name" type="text" />
+<input type="text" id="name" name="name" value="&"" />
 bool(true)
-<input value="&amp;&quot;" name="name" id="name" type="text" />
-<input name="name" id="name" value="&"" type="text" />
-<input name="name" id="name" value="&amp;&quot;" type="text" />
-
+<input type="text" id="name" name="name" value="&amp;&quot;" />
+<input type="text" id="name" name="name" value="&"" />
+<input type="text" id="name" name="name" value="&amp;&quot;" />

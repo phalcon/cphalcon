@@ -249,7 +249,7 @@ PHP_METHOD(Phalcon_Filter, _sanitize){
 		 * The 'email' filter uses the filter extension
 		 */
 		PHALCON_INIT_VAR(type);
-		ZVAL_LONG(type, 517);
+		ZVAL_LONG(type, 517); /* FILTER_SANITIZE_EMAIL */
 	
 		PHALCON_INIT_VAR(quote);
 		ZVAL_STRING(quote, "'", 1);
@@ -270,7 +270,7 @@ PHP_METHOD(Phalcon_Filter, _sanitize){
 		 * 'int' filter sanitizes a numeric input
 		 */
 		PHALCON_INIT_NVAR(type);
-		ZVAL_LONG(type, 519);
+		ZVAL_LONG(type, 519); /* FILTER_SANITIZE_NUMBER_INT */
 	
 		PHALCON_INIT_NVAR(filtered);
 		phalcon_call_func_p2(filtered, "filter_var", value, type);
@@ -279,7 +279,7 @@ PHP_METHOD(Phalcon_Filter, _sanitize){
 	
 	if (PHALCON_IS_STRING(filter, "string")) {
 		PHALCON_INIT_NVAR(type);
-		ZVAL_LONG(type, 513);
+		ZVAL_LONG(type, 513); /* FILTER_SANITIZE_STRING */
 	
 		PHALCON_INIT_NVAR(filtered);
 		phalcon_call_func_p2(filtered, "filter_var", value, type);

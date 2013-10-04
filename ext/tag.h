@@ -18,6 +18,11 @@
   +------------------------------------------------------------------------+
 */
 
+#ifndef PHALCON_TAG_H
+#define PHALCON_TAG_H
+
+void phalcon_tag_render_attributes(zval *code, zval *attributes TSRMLS_DC);
+
 extern zend_class_entry *phalcon_tag_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Tag);
@@ -238,3 +243,5 @@ PHALCON_INIT_FUNCS(phalcon_tag_method_entry){
 	PHP_ME(Phalcon_Tag, tagHtmlClose, arginfo_phalcon_tag_taghtmlclose, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC) 
 	PHP_FE_END
 };
+
+#endif /* PHALCON_TAG_H */

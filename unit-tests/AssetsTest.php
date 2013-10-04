@@ -129,16 +129,16 @@ class AssetsTest extends PHPUnit_Framework_TestCase
 		$assets->outputCss();
 		$html = ob_get_clean();
 
-		$this->assertEquals($html, '<link rel="stylesheet" href="//css/style1.css" type="text/css" />
-<link rel="stylesheet" href="//css/style2.css" type="text/css" />
-<link rel="stylesheet" href="/css/style.css" type="text/css" />' . PHP_EOL);
+		$this->assertEquals($html, '<link rel="stylesheet" type="text/css" href="//css/style1.css" />
+<link rel="stylesheet" type="text/css" href="//css/style2.css" />
+<link rel="stylesheet" type="text/css" href="/css/style.css" />' . PHP_EOL);
 
 		ob_start();
 		$assets->outputJs();
 		$html = ob_get_clean();
 
-		$this->assertEquals($html, '<script src="//js/scripts1.js" type="text/javascript"></script>
-<script src="//js/scripts2.js" type="text/javascript"></script>' . PHP_EOL);
+		$this->assertEquals($html, '<script type="text/javascript" src="//js/scripts1.js"></script>
+<script type="text/javascript" src="//js/scripts2.js"></script>' . PHP_EOL);
 
 		//Without implicit output
 
@@ -146,14 +146,14 @@ class AssetsTest extends PHPUnit_Framework_TestCase
 
 		$html = $assets->outputCss();
 
-		$this->assertEquals($html, '<link rel="stylesheet" href="//css/style1.css" type="text/css" />
-<link rel="stylesheet" href="//css/style2.css" type="text/css" />
-<link rel="stylesheet" href="/css/style.css" type="text/css" />' . PHP_EOL);
+		$this->assertEquals($html, '<link rel="stylesheet" type="text/css" href="//css/style1.css" />
+<link rel="stylesheet" type="text/css" href="//css/style2.css" />
+<link rel="stylesheet" type="text/css" href="/css/style.css" />' . PHP_EOL);
 
 		$html = $assets->outputJs();
 
-		$this->assertEquals($html, '<script src="//js/scripts1.js" type="text/javascript"></script>
-<script src="//js/scripts2.js" type="text/javascript"></script>' . PHP_EOL);
+		$this->assertEquals($html, '<script type="text/javascript" src="//js/scripts1.js"></script>
+<script type="text/javascript" src="//js/scripts2.js"></script>' . PHP_EOL);
 
 		//Test collections
 		$assets->collection('footer')
@@ -164,8 +164,8 @@ class AssetsTest extends PHPUnit_Framework_TestCase
 
 		$html = $assets->outputCss('footer');
 
-		$this->assertEquals($html, '<link rel="stylesheet" href="/css/style-1.css" type="text/css" />
-<link rel="stylesheet" href="/css/style-2.css" type="text/css" />' . PHP_EOL);
+		$this->assertEquals($html, '<link rel="stylesheet" type="text/css" href="/css/style-1.css" />
+<link rel="stylesheet" type="text/css" href="/css/style-2.css" />' . PHP_EOL);
 
 		$scripts = $assets
 			->collection('header')
@@ -176,8 +176,8 @@ class AssetsTest extends PHPUnit_Framework_TestCase
 
 		$html = $assets->outputJs('header');
 
-		$this->assertEquals($html, '<script src="http:://cdn.example.com/js/jquery.js" type="text/javascript"></script>
-<script src="http:://cdn.example.com/js/bootstrap.min.js" type="text/javascript"></script>' . PHP_EOL);
+		$this->assertEquals($html, '<script type="text/javascript" src="http:://cdn.example.com/js/jquery.js"></script>
+<script type="text/javascript" src="http:://cdn.example.com/js/bootstrap.min.js"></script>' . PHP_EOL);
 	}
 
 	public function testJsminFilter()
@@ -260,13 +260,13 @@ class AssetsTest extends PHPUnit_Framework_TestCase
 
 		$filtered = $cssmin->filter("h2:after,
 		.h2:after {
-    		content: ''; display 	:
-    		block; height: 1px; width: 100%; border-color:         #c0c0c0; border-style:
-    		solid
-    		none;
-    			border-width: 1px;
-    	position: absolute;
-    		bottom: 	0; left: 	0;
+		content: ''; display 	:
+		block; height: 1px; width: 100%; border-color:         #c0c0c0; border-style:
+		solid
+		none;
+		border-width: 1px;
+		position: absolute;
+		bottom: 	0; left: 	0;
 }	");
 		$this->assertEquals($filtered, "h2:after, .h2:after{content: '';display : block;height: 1px;width: 100%;border-color: #c0c0c0;border-style: solid none;border-width: 1px;position: absolute;bottom: 0;left: 0;} ");
 
@@ -311,20 +311,20 @@ class AssetsTest extends PHPUnit_Framework_TestCase
 		$js->addJs('unit-tests/assets/jquery.js', false, false);
 
 		//Basic output
-		$this->assertEquals($assets->outputJs('js'), '<script src="unit-tests/assets/jquery.js" type="text/javascript"></script>' . PHP_EOL);
+		$this->assertEquals($assets->outputJs('js'), '<script type="text/javascript" src="unit-tests/assets/jquery.js"></script>' . PHP_EOL);
 
 		//Enabling join
 		$js->join(true);
-		$this->assertEquals($assets->outputJs('js'), '<script src="unit-tests/assets/jquery.js" type="text/javascript"></script>' . PHP_EOL);
+		$this->assertEquals($assets->outputJs('js'), '<script type="text/javascript" src="unit-tests/assets/jquery.js"></script>' . PHP_EOL);
 
 		//Disabling join
 		$js->join(false);
-		$this->assertEquals($assets->outputJs('js'), '<script src="unit-tests/assets/jquery.js" type="text/javascript"></script>' . PHP_EOL);
+		$this->assertEquals($assets->outputJs('js'), '<script type="text/javascript" src="unit-tests/assets/jquery.js"></script>' . PHP_EOL);
 
 		//Filter - Join
 		$js->join(false);
 		$js->addFilter(new Phalcon\Assets\Filters\None());
-		$this->assertEquals($assets->outputJs('js'), '<script src="/unit-tests/assets/jquery.js" type="text/javascript"></script>' . PHP_EOL);
+		$this->assertEquals($assets->outputJs('js'), '<script type="text/javascript" src="/unit-tests/assets/jquery.js"></script>' . PHP_EOL);
 
 	}
 
@@ -357,20 +357,20 @@ class AssetsTest extends PHPUnit_Framework_TestCase
 		$js->addJs('unit-tests/assets/jquery.js', false, false);
 
 		//Basic output
-		$this->assertEquals($assets->outputJs('js'), '<script src="unit-tests/assets/jquery.js" type="text/javascript"></script>' . PHP_EOL);
+		$this->assertEquals($assets->outputJs('js'), '<script type="text/javascript" src="unit-tests/assets/jquery.js"></script>' . PHP_EOL);
 
 		//Enabling join
 		$js->join(true);
-		$this->assertEquals($assets->outputJs('js'), '<script src="unit-tests/assets/jquery.js" type="text/javascript"></script>' . PHP_EOL);
+		$this->assertEquals($assets->outputJs('js'), '<script type="text/javascript" src="unit-tests/assets/jquery.js"></script>' . PHP_EOL);
 
 		//Disabling join
 		$js->join(false);
-		$this->assertEquals($assets->outputJs('js'), '<script src="unit-tests/assets/jquery.js" type="text/javascript"></script>' . PHP_EOL);
+		$this->assertEquals($assets->outputJs('js'), '<script type="text/javascript" src="unit-tests/assets/jquery.js"></script>' . PHP_EOL);
 
 		//Filter + Join
 		$js->join(true);
 		$js->addFilter(new Phalcon\Assets\Filters\None());
-		$this->assertEquals($assets->outputJs('js'), '<script src="/production/combined.js" type="text/javascript"></script>' . PHP_EOL);
+		$this->assertEquals($assets->outputJs('js'), '<script type="text/javascript" src="/production/combined.js"></script>' . PHP_EOL);
 	}
 
 	public function testFilterMultiplesSourcesNoFilter()
@@ -403,15 +403,15 @@ class AssetsTest extends PHPUnit_Framework_TestCase
 		$js->addJs('gs.js');
 
 		//Basic output
-		$this->assertEquals($assets->outputJs('js'), '<script src="jquery.js" type="text/javascript"></script>' . PHP_EOL . '<script src="/gs.js" type="text/javascript"></script>' . PHP_EOL);
+		$this->assertEquals($assets->outputJs('js'), '<script type="text/javascript" src="jquery.js"></script>' . PHP_EOL . '<script type="text/javascript" src="/gs.js"></script>' . PHP_EOL);
 
 		//Enabling join
 		$js->join(true);
-		$this->assertEquals($assets->outputJs('js'), '<script src="jquery.js" type="text/javascript"></script>' . PHP_EOL . '<script src="/gs.js" type="text/javascript"></script>' . PHP_EOL);
+		$this->assertEquals($assets->outputJs('js'), '<script type="text/javascript" src="jquery.js"></script>' . PHP_EOL . '<script type="text/javascript" src="/gs.js"></script>' . PHP_EOL);
 
 		//Disabling join
 		$js->join(false);
-		$this->assertEquals($assets->outputJs('js'), '<script src="jquery.js" type="text/javascript"></script>' . PHP_EOL . '<script src="/gs.js" type="text/javascript"></script>' . PHP_EOL);
+		$this->assertEquals($assets->outputJs('js'), '<script type="text/javascript" src="jquery.js"></script>' . PHP_EOL . '<script type="text/javascript" src="/gs.js"></script>' . PHP_EOL);
 	}
 
 	public function testFilterMultiplesSourcesFilterNoJoin()
@@ -452,18 +452,18 @@ class AssetsTest extends PHPUnit_Framework_TestCase
 		$js->add($gs);
 
 		//Basic output
-		$this->assertEquals($assets->outputJs('js'), '<script src="jquery.js" type="text/javascript"></script>' . PHP_EOL . '<script src="/gs.js" type="text/javascript"></script>' . PHP_EOL);
+		$this->assertEquals($assets->outputJs('js'), '<script type="text/javascript" src="jquery.js"></script>' . PHP_EOL . '<script type="text/javascript" src="/gs.js"></script>' . PHP_EOL);
 
 		//Enabling join
 		$js->join(true);
-		$this->assertEquals($assets->outputJs('js'), '<script src="jquery.js" type="text/javascript"></script>' . PHP_EOL . '<script src="/gs.js" type="text/javascript"></script>' . PHP_EOL);
+		$this->assertEquals($assets->outputJs('js'), '<script type="text/javascript" src="jquery.js"></script>' . PHP_EOL . '<script type="text/javascript" src="/gs.js"></script>' . PHP_EOL);
 
 		//Disabling join
 		$js->join(false);
-		$this->assertEquals($assets->outputJs('js'), '<script src="jquery.js" type="text/javascript"></script>' . PHP_EOL . '<script src="/gs.js" type="text/javascript"></script>' . PHP_EOL);
+		$this->assertEquals($assets->outputJs('js'), '<script type="text/javascript" src="jquery.js"></script>' . PHP_EOL . '<script type="text/javascript" src="/gs.js"></script>' . PHP_EOL);
 
 		$js->addFilter(new Phalcon\Assets\Filters\None());
-		$this->assertEquals($assets->outputJs('js'), '<script src="/jquery.js" type="text/javascript"></script>' . PHP_EOL . '<script src="/gs.js" type="text/javascript"></script>' . PHP_EOL);
+		$this->assertEquals($assets->outputJs('js'), '<script type="text/javascript" src="/jquery.js"></script>' . PHP_EOL . '<script type="text/javascript" src="/gs.js"></script>' . PHP_EOL);
 	}
 
 	public function testFilterMultiplesSourcesFilterJoin()
@@ -509,7 +509,7 @@ class AssetsTest extends PHPUnit_Framework_TestCase
 		$js->addFilter(new Phalcon\Assets\Filters\None());
 		$js->addFilter(new Phalcon\Assets\Filters\None());
 
-		$this->assertEquals($assets->outputJs('js'), '<script src="/production/combined-3.js" type="text/javascript"></script>' . PHP_EOL);
+		$this->assertEquals($assets->outputJs('js'), '<script type="text/javascript" src="/production/combined-3.js"></script>' . PHP_EOL);
 	}
 
 	public function testIssue1198()
