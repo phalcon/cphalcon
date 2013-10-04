@@ -137,7 +137,7 @@ PHP_METHOD(Phalcon_Logger_Formatter_Firephp, format) {
 	phalcon_call_method_p1(type_str, this_ptr, "gettypestring", type);
 
 	phalcon_read_property_this(&show_backtrace, getThis(), SL("_showBacktrace"), PH_NOISY TSRMLS_CC);
-	Z_DELREF_P(&show_backtrace);
+	Z_DELREF_P(show_backtrace);
 
 	/**
 	 * Get the backtrace. This differs for differemt PHP versions.
