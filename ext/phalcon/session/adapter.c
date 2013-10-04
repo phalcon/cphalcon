@@ -264,7 +264,7 @@ PHP_METHOD(Phalcon_Session_Adapter, remove) {
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_uniqueId"), PH_NOISY_CC);
 	ZEPHIR_INIT_VAR(_1);
 	concat_function(_1, _0, index TSRMLS_CC);
-	zephir_array_unset(&_SESSION, _1, PH_SEPARATE TSRMLS_CC);
+	zephir_array_unset(&_SESSION, _1, PH_SEPARATE);
 	ZEPHIR_MM_RESTORE();
 
 }

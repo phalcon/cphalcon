@@ -1247,7 +1247,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _exists) {
  */
 PHP_METHOD(Phalcon_Mvc_Model, _groupResult) {
 
-	zval *functionName_param = NULL, *alias_param = NULL, *parameters, *params = NULL, *distinctColumn, *groupColumn, *columns = NULL, *bindParams = NULL, *bindTypes = NULL, *resultset, *cache, *firstRow, *groupColumns, *builder, *query, *_0 = NULL, *_1 = NULL, *_2 = NULL, *_3 = NULL, *_4 = NULL, *_5, *_6;
+	zval *functionName_param = NULL, *alias_param = NULL, *parameters, *params = NULL, *distinctColumn, *groupColumn, *columns = NULL, *bindParams = NULL, *bindTypes = NULL, *resultset, *cache, *firstRow, *groupColumns, *builder, *query, *_0 = NULL, *_1 = NULL, *_2 = NULL, *_3 = NULL, *_4 = NULL, *_5, *_6, *_7;
 	zval *functionName = NULL, *alias = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -1330,7 +1330,9 @@ PHP_METHOD(Phalcon_Mvc_Model, _groupResult) {
 	}
 	ZEPHIR_INIT_VAR(firstRow);
 	zephir_call_method(firstRow, resultset, "getfirst");
-	RETURN_MM_NULL();
+	ZEPHIR_OBS_VAR(_7);
+	zephir_read_property_zval(&_7, firstRow, alias, PH_NOISY_CC);
+	RETURN_CCTOR(_7);
 
 }
 
@@ -2970,8 +2972,8 @@ PHP_METHOD(Phalcon_Mvc_Model, _postSaveRelatedRecords) {
 					ZEPHIR_INIT_NVAR(intermediateModel);
 					zephir_call_method_p2_cache(intermediateModel, manager, "load", &_24, intermediateModelName, ZEPHIR_GLOBAL(global_true));
 					zephir_call_method_p2_cache_noret(intermediateModel, "writeattribute", &_25, intermediateFields, value);
-					ZEPHIR_INIT_NVAR(intermediateValue);
-					ZVAL_NULL(intermediateValue);
+					ZEPHIR_OBS_NVAR(intermediateValue);
+					zephir_read_property_zval(&intermediateValue, recordAfter, referencedFields, PH_NOISY_CC);
 					zephir_call_method_p2_cache_noret(intermediateModel, "writeattribute", &_26, intermediateReferencedFields, intermediateValue);
 					ZEPHIR_INIT_NVAR(_12);
 					zephir_call_method_cache(_12, intermediateModel, "save", &_27);
@@ -3784,7 +3786,7 @@ PHP_METHOD(Phalcon_Mvc_Model, skipOperation) {
  */
 PHP_METHOD(Phalcon_Mvc_Model, readAttribute) {
 
-	zval *attribute_param = NULL;
+	zval *attribute_param = NULL, *_0;
 	zval *attribute = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -3794,7 +3796,9 @@ PHP_METHOD(Phalcon_Mvc_Model, readAttribute) {
 
 
 	if (zephir_isset_property_zval(this_ptr, attribute)) {
-		RETURN_MM_NULL();
+		ZEPHIR_OBS_VAR(_0);
+		zephir_read_property_zval(&_0, this_ptr, attribute, PH_NOISY_CC);
+		RETURN_CCTOR(_0);
 	}
 	RETURN_MM_NULL();
 

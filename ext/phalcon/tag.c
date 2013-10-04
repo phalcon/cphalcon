@@ -392,7 +392,7 @@ PHP_METHOD(Phalcon_Tag, resetInput) {
 	) {
 		ZEPHIR_GET_HMKEY(key, _3, _2);
 		ZEPHIR_GET_HVALUE(value, _4);
-		zephir_array_unset(&_POST, key, PH_SEPARATE TSRMLS_CC);
+		zephir_array_unset(&_POST, key, PH_SEPARATE);
 	}
 	ZEPHIR_MM_RESTORE();
 
