@@ -88,7 +88,7 @@ int phalcon_array_isset_fetch(zval **fetched, const zval *arr, zval *index) {
 	return 0;
 }
 
-int phalcon_array_isset_quick_string_fetch(zval **fetched, zval *arr, char *index, uint index_length, unsigned long key) {
+int phalcon_array_isset_quick_string_fetch(zval **fetched, zval *arr, const char *index, uint index_length, unsigned long key) {
 
 	zval **zv;
 
@@ -102,7 +102,7 @@ int phalcon_array_isset_quick_string_fetch(zval **fetched, zval *arr, char *inde
 	return 0;
 }
 
-int phalcon_array_isset_string_fetch(zval **fetched, zval *arr, char *index, uint index_length) {
+int phalcon_array_isset_string_fetch(zval **fetched, zval *arr, const char *index, uint index_length) {
 
 	return phalcon_array_isset_quick_string_fetch(fetched, arr, index, index_length, zend_inline_hash_func(index, index_length));
 }

@@ -108,31 +108,31 @@ class TagTest extends PHPUnit_Framework_TestCase
 		$di = new \Phalcon\DI\FactoryDefault();
 
 		$actual   = \Phalcon\Tag::linkTo(array('url"', '<>', 'class' => 'class"'));
-		$expected = '<a class="class&quot;" href="/url&quot;"><></a>';
+		$expected = '<a href="/url&quot;" class="class&quot;"><></a>';
 		$this->assertEquals($expected, $actual);
 
 		$actual   = \Phalcon\Tag::textField(array('name"'));
-		$expected = '<input name="name&quot;" id="name&quot;" value="" type="text" />';
+		$expected = '<input type="text" id="name&quot;" name="name&quot;" value="" />';
 		$this->assertEquals($expected, $actual);
 
 		$actual   = \Phalcon\Tag::checkField(array('name"'));
-		$expected = '<input name="name&quot;" id="name&quot;" value="" type="checkbox" />';
+		$expected = '<input type="checkbox" id="name&quot;" name="name&quot;" value="" />';
 		$this->assertEquals($expected, $actual);
 
 		$actual   = \Phalcon\Tag::form(array('<', 'method' => '>'));
-		$expected = '<form method="&gt;" action="/&lt;">';
+		$expected = '<form action="/&lt;" method="&gt;">';
 		$this->assertEquals($expected, $actual);
 
 		$actual   = \Phalcon\Tag::textArea(array('<', 'cols' => '<'));
-		$expected = '<textarea cols="&lt;" name="&lt;" id="&lt;"></textarea>';
+		$expected = '<textarea id="&lt;" name="&lt;" cols="&lt;"></textarea>';
 		$this->assertEquals($expected, $actual);
 
 		$actual   = \Phalcon\Tag::stylesheetLink(array('href' => '<', 'local' => false, 'type' => '>'));
-		$expected = '<link rel="stylesheet" href="&lt;" type="&gt;" />' . PHP_EOL;
+		$expected = '<link rel="stylesheet" type="&gt;" href="&lt;" />' . PHP_EOL;
 		$this->assertEquals($expected, $actual);
 
 		$actual   = \Phalcon\Tag::javascriptInclude(array('src' => '<', 'local' => false, 'type' => '>'));
-		$expected = '<script src="&lt;" type="&gt;"></script>' . PHP_EOL;
+		$expected = '<script type="&gt;" src="&lt;"></script>' . PHP_EOL;
 		$this->assertEquals($expected, $actual);
 
 		$actual   = \Phalcon\Tag::image(array('src' => '<', 'alt' => '>'), false);
@@ -144,7 +144,7 @@ class TagTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($expected, $actual);
 
 		$actual   = \Phalcon\Tag\Select::selectField(array('name' => '<', 'value' => '>', 'id' => ''), array('"' => '"', '>' => 'test'));
-		$expected = '<select name="&lt;" id="">' . PHP_EOL . "\t" . '<option value="&quot;">"</option>' . PHP_EOL . "\t" . '<option selected="selected" value="&gt;">test</option>' . PHP_EOL . '</select>';
+		$expected = '<select id="" name="&lt;">' . PHP_EOL . "\t" . '<option value="&quot;">"</option>' . PHP_EOL . "\t" . '<option selected="selected" value="&gt;">test</option>' . PHP_EOL . '</select>';
 		$this->assertEquals($expected, $actual);
 	}
 }

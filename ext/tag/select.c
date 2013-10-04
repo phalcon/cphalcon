@@ -41,6 +41,8 @@
 #include "kernel/exception.h"
 #include "kernel/object.h"
 
+#include "tag.h"
+
 /**
  * Phalcon\Tag\Select
  *
@@ -68,11 +70,8 @@ PHP_METHOD(Phalcon_Tag_Select, selectField){
 
 	zval *parameters, *data = NULL, *params = NULL, *eol, *id = NULL, *name, *value = NULL;
 	zval *use_empty = NULL, *empty_value = NULL, *empty_text = NULL, *code;
-	zval *avalue = NULL, *key = NULL, *close_option, *options = NULL, *using;
-	zval *resultset_options, *array_options, *escaped;
-	HashTable *ah0;
-	HashPosition hp0;
-	zval **hd;
+	zval *close_option, *options = NULL, *using;
+	zval *resultset_options, *array_options;
 
 	PHALCON_MM_GROW();
 
@@ -156,35 +155,12 @@ PHP_METHOD(Phalcon_Tag_Select, selectField){
 	
 	PHALCON_INIT_VAR(code);
 	ZVAL_STRING(code, "<select", 1);
-	if (Z_TYPE_P(params) == IS_ARRAY) { 
-	
-		phalcon_is_iterable(params, &ah0, &hp0, 0, 0);
-	
-		PHALCON_INIT_VAR(escaped);
-
-		while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
-	
-			PHALCON_GET_HKEY(key, ah0, hp0);
-			PHALCON_GET_HVALUE(avalue);
-	
-			if (Z_TYPE_P(key) != IS_LONG) {
-				if (Z_TYPE_P(avalue) != IS_ARRAY) { 
-					phalcon_htmlspecialchars(escaped, avalue, NULL, NULL TSRMLS_CC);
-					PHALCON_SCONCAT_SVSVS(code, " ", key, "=\"", escaped, "\"");
-					zval_dtor(escaped);
-					ZVAL_NULL(escaped);
-				}
-			}
-	
-			zend_hash_move_forward_ex(ah0, &hp0);
-		}
-	
-	}
+	phalcon_tag_render_attributes(code, params TSRMLS_CC);
 	
 	PHALCON_SCONCAT_SV(code, ">", eol);
 	
 	PHALCON_INIT_VAR(close_option);
-	PHALCON_CONCAT_SV(close_option, "</option>", eol);
+	ZVAL_STRING(close_option, "</option>" PHP_EOL, 1);
 	if (zend_is_true(use_empty)) {
 		/** 
 		 * Create an empty value

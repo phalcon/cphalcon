@@ -10,6 +10,6 @@ echo \Phalcon\Tag::form(array('about/list', 'method' => 'get')), PHP_EOL;
 echo \Phalcon\Tag::endForm(), PHP_EOL;
 ?>
 --EXPECT--
-<form method="post" action="/tests/about/index">
-<form method="get" action="/tests/about/list">
+<form action="/tests/about/index" method="post">
+<form action="/tests/about/list" method="get">
 </form>

@@ -18,22 +18,24 @@
   +------------------------------------------------------------------------+
 */
 
-class ResponseTest extends PHPUnit_Framework_TestCase
+namespace Phalcon\Test\Http\Response;
+
+class ResponseTest extends \PHPUnit_Framework_TestCase
 {
 
 	private $_response;
 
 	public function setUp()
 	{
-		$di = new Phalcon\DI();
+		$di = new \Phalcon\DI();
 
 		$di->set('url', function(){
-			$url = new Phalcon\Mvc\Url();
+			$url = new \Phalcon\Mvc\Url();
 			$url->setBaseUri('/');
 			return $url;
 		});
 
-		$this->_response = new Phalcon\Http\Response();
+		$this->_response = new \Phalcon\Http\Response();
 
 		$this->_response->setDI($di);
 	}
@@ -45,7 +47,7 @@ class ResponseTest extends PHPUnit_Framework_TestCase
 
 		$this->_response->setHeader('Content-Type', 'text/html');
 
-		$this->assertEquals(Phalcon\Http\Response\Headers::__set_state(array(
+		$this->assertEquals(\Phalcon\Http\Response\Headers::__set_state(array(
 			'_headers' => array(
 				'Content-Type' => 'text/html',
 			)
@@ -53,7 +55,7 @@ class ResponseTest extends PHPUnit_Framework_TestCase
 
 		$this->_response->setHeader('Content-Length', '1234');
 
-		$this->assertEquals(Phalcon\Http\Response\Headers::__set_state(array(
+		$this->assertEquals(\Phalcon\Http\Response\Headers::__set_state(array(
 			'_headers' => array(
 				'Content-Type' => 'text/html',
 				'Content-Length' => '1234'
@@ -69,7 +71,7 @@ class ResponseTest extends PHPUnit_Framework_TestCase
 
 		$this->_response->setStatusCode(404, "Not Found");
 
-		$this->assertEquals(Phalcon\Http\Response\Headers::__set_state(array(
+		$this->assertEquals(\Phalcon\Http\Response\Headers::__set_state(array(
 			'_headers' => array(
 				'HTTP/1.1 404 Not Found' => '',
 				'Status' => '404 Not Found'
@@ -85,7 +87,7 @@ class ResponseTest extends PHPUnit_Framework_TestCase
 
 		$this->_response->setRawHeader("HTTP/1.1 404 Not Found");
 
-		$this->assertEquals(Phalcon\Http\Response\Headers::__set_state(array(
+		$this->assertEquals(\Phalcon\Http\Response\Headers::__set_state(array(
 			'_headers' => array(
 				'HTTP/1.1 404 Not Found' => '',
 			)
@@ -118,7 +120,7 @@ class ResponseTest extends PHPUnit_Framework_TestCase
 
 		$this->_response->setContentType('application/json');
 
-		$this->assertEquals(Phalcon\Http\Response\Headers::__set_state(array(
+		$this->assertEquals(\Phalcon\Http\Response\Headers::__set_state(array(
 			'_headers' => array(
 				'Content-Type' => 'application/json'
 			)
@@ -129,7 +131,7 @@ class ResponseTest extends PHPUnit_Framework_TestCase
 
 		$this->_response->setContentType('application/json', 'utf-8');
 
-		$this->assertEquals(Phalcon\Http\Response\Headers::__set_state(array(
+		$this->assertEquals(\Phalcon\Http\Response\Headers::__set_state(array(
 			'_headers' => array(
 				'Content-Type' => 'application/json; charset=utf-8'
 			)
@@ -143,7 +145,7 @@ class ResponseTest extends PHPUnit_Framework_TestCase
 
 		$this->_response->setNotModified();
 
-		$this->assertEquals(Phalcon\Http\Response\Headers::__set_state(array(
+		$this->assertEquals(\Phalcon\Http\Response\Headers::__set_state(array(
 			'_headers' => array(
 				'HTTP/1.1 304 Not modified' => false,
 				'Status' => '304 Not modified'
@@ -161,10 +163,10 @@ class ResponseTest extends PHPUnit_Framework_TestCase
 
 		$this->_response->redirect("some/local/uri");
 
-		$this->assertEquals(Phalcon\Http\Response\Headers::__set_state(array(
+		$this->assertEquals(\Phalcon\Http\Response\Headers::__set_state(array(
 			'_headers' => array(
-				'HTTP/1.1 302 Redirect' => false,
-				'Status' => '302 Redirect',
+				'HTTP/1.1 302 Found' => false,
+				'Status' => '302 Found',
 				'Location' => '/some/local/uri'
 			)
 		)), $this->_response->getHeaders());
@@ -174,10 +176,10 @@ class ResponseTest extends PHPUnit_Framework_TestCase
 
 		$this->_response->redirect("http://google.com", true);
 
-		$this->assertEquals(Phalcon\Http\Response\Headers::__set_state(array(
+		$this->assertEquals(\Phalcon\Http\Response\Headers::__set_state(array(
 			'_headers' => array(
-				'HTTP/1.1 302 Redirect' => false,
-				'Status' => '302 Redirect',
+				'HTTP/1.1 302 Found' => false,
+				'Status' => '302 Found',
 				'Location' => 'http://google.com'
 			)
 		)), $this->_response->getHeaders());
@@ -187,10 +189,10 @@ class ResponseTest extends PHPUnit_Framework_TestCase
 
 		$this->_response->redirect("http://google.com", true, 301);
 
-		$this->assertEquals(Phalcon\Http\Response\Headers::__set_state(array(
+		$this->assertEquals(\Phalcon\Http\Response\Headers::__set_state(array(
 			'_headers' => array(
-				'HTTP/1.1 301 Redirect' => false,
-				'Status' => '301 Redirect',
+				'HTTP/1.1 301 Moved Permanently' => false,
+				'Status' => '301 Moved Permanently',
 				'Location' => 'http://google.com'
 			)
 		)), $this->_response->getHeaders());

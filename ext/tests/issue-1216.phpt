@@ -21,18 +21,18 @@ echo "DONE", PHP_EOL;
 ?>
 --EXPECT--
 <label for="test&lt;" id="test&lt;" class="test&gt;">test<</label>
-<a class="class&quot;" href="/tests/url&quot;"><></a>
-<input class="class&quot;" name="name&quot;" id="name&quot;" value="" type="text" />
-<input class="class&quot;" name="name&quot;" id="name&quot;" value="" type="checkbox" />
-<form method="&gt;" action="/tests/&lt;">
-<textarea cols="&lt;" name="&lt;" id="&lt;"></textarea>
-<link rel="stylesheet" href="&lt;" type="&gt;" />
+<a href="/tests/url&quot;" class="class&quot;"><></a>
+<input type="text" id="name&quot;" name="name&quot;" value="" class="class&quot;" />
+<input type="checkbox" id="name&quot;" name="name&quot;" value="" class="class&quot;" />
+<form action="/tests/&lt;" method="&gt;">
+<textarea id="&lt;" name="&lt;" cols="&lt;"></textarea>
+<link rel="stylesheet" type="&gt;" href="&lt;" />
 
-<script src="&lt;" type="&gt;"></script>
+<script type="&gt;" src="&lt;"></script>
 
 <img src="&lt;" alt="&gt;" />
 <br class="&lt;" />
-<select name="&lt;" id="">
+<select id="" name="&lt;">
 	<option value="&quot;">"</option>
 	<option selected="selected" value="&gt;">test</option>
 </select>
