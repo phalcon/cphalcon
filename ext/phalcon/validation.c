@@ -379,7 +379,7 @@ PHP_METHOD(Phalcon_Validation, getValue) {
 				zephir_call_method_p1(value, entity, "readattribute", attribute);
 			} else {
 				ZEPHIR_INIT_NVAR(value);
-				if (0) {
+				if (zephir_isset_property(entity, SS("Array"))) {
 					zephir_read_property(&value, entity, SL("attribute"), PH_NOISY_CC);
 				} else {
 					ZVAL_NULL(value);
@@ -409,7 +409,7 @@ PHP_METHOD(Phalcon_Validation, getValue) {
 		}
 	} else {
 		if ((Z_TYPE_P(data) == IS_OBJECT)) {
-			if (0) {
+			if (zephir_isset_property(data, SS("Array"))) {
 				ZEPHIR_OBS_NVAR(value);
 				zephir_read_property(&value, data, SL("attribute"), PH_NOISY_CC);
 			}

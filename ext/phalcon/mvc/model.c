@@ -3793,7 +3793,7 @@ PHP_METHOD(Phalcon_Mvc_Model, readAttribute) {
 		zephir_get_strval(attribute, attribute_param);
 
 
-	if (0) {
+	if (zephir_isset_property_zval(this_ptr, attribute)) {
 		RETURN_MM_NULL();
 	}
 	RETURN_MM_NULL();

@@ -3302,7 +3302,7 @@ abstract class Model //implements Phalcon\Mvc\ModelInterface, Phalcon\Mvc\Model\
 	 */
 	public function readAttribute(string! attribute)
 	{
-		if isset this->attribute {
+		if isset this->{attribute} {
 			return this->{attribute};
 		}
 		return null;

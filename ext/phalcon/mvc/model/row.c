@@ -85,7 +85,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Row, offsetExists) {
 
 
 
-	RETURN_BOOL(0);
+	RETURN_BOOL(zephir_isset_property_zval(this_ptr, index));
 
 }
 
