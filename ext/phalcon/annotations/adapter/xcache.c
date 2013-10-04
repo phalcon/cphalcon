@@ -12,8 +12,9 @@
 #include <Zend/zend_interfaces.h>
 
 #include "kernel/main.h"
-#include "kernel/concat.h"
 #include "kernel/memory.h"
+#include "kernel/string.h"
+#include "kernel/concat.h"
 #include "kernel/fcall.h"
 #include "kernel/operators.h"
 
@@ -72,11 +73,11 @@ PHP_METHOD(Phalcon_Annotations_Adapter_Xcache, read) {
 
 
 	ZEPHIR_INIT_VAR(_0);
-	ZEPHIR_CONCAT_SV(_0, "_PHAN", key);
 	ZEPHIR_INIT_VAR(_1);
-	zephir_call_func_p1(_1, "strtolower", _0);
+	ZEPHIR_CONCAT_SV(_1, "_PHAN", key);
+	zephir_fast_strtolower(_0, _1);
 	ZEPHIR_INIT_VAR(serialized);
-	zephir_call_func_p1(serialized, "xcache_get", _1);
+	zephir_call_func_p1(serialized, "xcache_get", _0);
 	if ((Z_TYPE_P(serialized) == IS_STRING)) {
 		ZEPHIR_INIT_VAR(data);
 		zephir_call_func_p1(data, "unserialize", serialized);
@@ -106,12 +107,12 @@ PHP_METHOD(Phalcon_Annotations_Adapter_Xcache, write) {
 
 
 	ZEPHIR_INIT_VAR(_0);
-	ZEPHIR_CONCAT_SV(_0, "_PHAN", key);
 	ZEPHIR_INIT_VAR(_1);
-	zephir_call_func_p1(_1, "strtolower", _0);
+	ZEPHIR_CONCAT_SV(_1, "_PHAN", key);
+	zephir_fast_strtolower(_0, _1);
 	ZEPHIR_INIT_VAR(_2);
 	zephir_call_func_p1(_2, "serialize", data);
-	zephir_call_func_p2_noret("xcache_set", _1, _2);
+	zephir_call_func_p2_noret("xcache_set", _0, _2);
 	ZEPHIR_MM_RESTORE();
 
 }

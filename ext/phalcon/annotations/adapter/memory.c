@@ -13,8 +13,8 @@
 
 #include "kernel/main.h"
 #include "kernel/object.h"
-#include "kernel/fcall.h"
 #include "kernel/memory.h"
+#include "kernel/string.h"
 #include "kernel/array.h"
 #include "kernel/operators.h"
 
@@ -74,7 +74,7 @@ PHP_METHOD(Phalcon_Annotations_Adapter_Memory, read) {
 
 	data = zephir_fetch_nproperty_this(this_ptr, SL("_data"), PH_NOISY_CC);
 	ZEPHIR_INIT_VAR(lowercasedKey);
-	zephir_call_func_p1(lowercasedKey, "strtolower", key);
+	zephir_fast_strtolower(lowercasedKey, key);
 	if (zephir_array_isset(data, lowercasedKey)) {
 		zephir_array_fetch(&_0, data, lowercasedKey, PH_NOISY | PH_READONLY TSRMLS_CC);
 		ZEPHIR_MM_RESTORE();
@@ -102,7 +102,7 @@ PHP_METHOD(Phalcon_Annotations_Adapter_Memory, write) {
 
 
 	ZEPHIR_INIT_VAR(lowercasedKey);
-	zephir_call_func_p1(lowercasedKey, "strtolower", key);
+	zephir_fast_strtolower(lowercasedKey, key);
 	zephir_update_property_array(this_ptr, SL("_data"), lowercasedKey, data TSRMLS_CC);
 	ZEPHIR_MM_RESTORE();
 

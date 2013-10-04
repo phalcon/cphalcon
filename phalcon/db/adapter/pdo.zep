@@ -164,7 +164,7 @@ abstract class Pdo extends Phalcon\Db\Adapter
 	 * @param string sqlStatement
 	 * @return \PDOStatement
 	 */
-	public function prepare(string sqlStatement) -> <PDOStatement>
+	public function prepare(string! sqlStatement) -> <PDOStatement>
 	{
 		var pdo;
 		let pdo = this->_pdo;
@@ -253,7 +253,7 @@ abstract class Pdo extends Phalcon\Db\Adapter
 	 * @param  array bindTypes
 	 * @return Phalcon\Db\ResultInterface
 	 */
-	public function query(string sqlStatement, bindParams=null, bindTypes=null) -> <Phalcon\Db\ResultInterface>
+	public function query(string! sqlStatement, bindParams=null, bindTypes=null) -> <Phalcon\Db\ResultInterface>
 	{
 		var eventsManager, pdo, statement;
 
@@ -309,7 +309,7 @@ abstract class Pdo extends Phalcon\Db\Adapter
 	 * @param  array bindTypes
 	 * @return boolean
 	 */
-	public function execute(string sqlStatement, bindParams=null, bindTypes=null) -> boolean
+	public function execute(string! sqlStatement, bindParams=null, bindTypes=null) -> boolean
 	{
 		var eventsManager, affectedRows, pdo, newStatement, statement;
 
@@ -416,7 +416,7 @@ abstract class Pdo extends Phalcon\Db\Adapter
 	 * @param string str
 	 * @return string
 	 */
-	public function escapeString(string str) -> string
+	public function escapeString(string! str) -> string
 	{
 		var pdo;
 		let pdo = this->_pdo;

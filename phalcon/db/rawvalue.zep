@@ -48,7 +48,7 @@ class RawValue
 	 *
 	 * @param string value
 	 */
-	public function __construct(value)
+	public function __construct(string! value)
 	{
 		let this->_value = value;
 	}

@@ -312,7 +312,7 @@ class Pdo
 	 *
 	 * @return \PDOStatement
 	 */
-	public function getInternalResult()
+	public function getInternalResult() -> <PDOStatement>
 	{
 		return this->_pdoStatement;
 	}

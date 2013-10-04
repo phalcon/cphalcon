@@ -13,6 +13,7 @@
 
 #include "kernel/main.h"
 #include "kernel/object.h"
+#include "kernel/operators.h"
 #include "kernel/memory.h"
 
 
@@ -91,13 +92,17 @@ PHP_METHOD(Phalcon_Db_RawValue, __toString) {
  */
 PHP_METHOD(Phalcon_Db_RawValue, __construct) {
 
-	zval *value;
+	zval *value_param = NULL;
+	zval *value = NULL;
 
-	zephir_fetch_params(0, 1, 0, &value);
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 1, 0, &value_param);
 
+		zephir_get_strval(value, value_param);
 
 
 	zephir_update_property_this(this_ptr, SL("_value"), value TSRMLS_CC);
+	ZEPHIR_MM_RESTORE();
 
 }
 

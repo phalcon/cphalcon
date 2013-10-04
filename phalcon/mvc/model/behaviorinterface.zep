@@ -40,7 +40,7 @@ interface BehaviorInterface
 	 * @param string type
 	 * @param Phalcon\Mvc\ModelInterface model
 	 */
-	public function notify(type, model);
+	public function notify(string! type, <Phalcon\Mvc\ModelInterface> model);
 
 	/**
 	 * Calls a method when it's missing in the model
@@ -49,6 +49,6 @@ interface BehaviorInterface
 	 * @param string method
 	 * @param array arguments
 	 */
-	public function missingMethod(model, method, arguments=null);
+	public function missingMethod(string !model, string !method, arguments=null);
 
 }

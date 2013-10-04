@@ -19,6 +19,7 @@
 #include "kernel/array.h"
 #include "kernel/concat.h"
 #include "kernel/exception.h"
+#include "kernel/string.h"
 
 
 /*
@@ -145,7 +146,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, _initialize) {
 		RETURN_MM_NULL();
 	}
 	ZEPHIR_INIT_VAR(keyName);
-	zephir_call_func_p1(keyName, "strtolower", className);
+	zephir_fast_strtolower(keyName, className);
 	ZEPHIR_OBS_VAR(columnMap);
 	zephir_read_property_this(&columnMap, this_ptr, SL("_columnMap"), PH_NOISY_CC);
 	if (zephir_array_isset(columnMap, keyName)) {

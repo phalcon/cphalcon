@@ -33,14 +33,14 @@ interface StatusInterface
 	 * @param boolean success
 	 * @param Phalcon\Mvc\ModelInterface model
 	 */
-	public function __construct(success, model);
+	public function __construct(boolean success, <Phalcon\Mvc\ModelInterface> model);
 
 	/**
 	 * Returns the model which executed the action
 	 *
 	 * @return Phalcon\Mvc\ModelInterface
 	 */
-	public function getModel();
+	public function getModel() -> <Phalcon\Mvc\ModelInterface>;
 
 	/**
 	 * Returns the messages produced by a operation failed
@@ -54,6 +54,6 @@ interface StatusInterface
 	 *
 	 * @return boolean
 	 */
-	public function success();
+	public function success() -> boolean;
 
 }

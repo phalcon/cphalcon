@@ -123,14 +123,17 @@ PHP_METHOD(Phalcon_Mvc_Model_Message, __construct) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_Message, setType) {
 
-	zval *type;
+	zval *type_param = NULL;
+	zval *type = NULL;
 
-	zephir_fetch_params(0, 1, 0, &type);
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 1, 0, &type_param);
 
+		zephir_get_strval(type, type_param);
 
 
 	zephir_update_property_this(this_ptr, SL("_type"), type TSRMLS_CC);
-	RETURN_THISW();
+	RETURN_THIS();
 
 }
 

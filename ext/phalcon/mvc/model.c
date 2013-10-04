@@ -4872,7 +4872,7 @@ PHP_METHOD(Phalcon_Mvc_Model, __set) {
 	if ((Z_TYPE_P(value) == IS_OBJECT)) {
 		if (zephir_is_instance_of(value, SL("phalcon\\mvc\\modelinterface") TSRMLS_CC)) {
 			ZEPHIR_INIT_VAR(lowerProperty);
-			zephir_call_func_p1(lowerProperty, "strtolower", property);
+			zephir_fast_strtolower(lowerProperty, property);
 			zephir_update_property_zval_zval(this_ptr, lowerProperty, value TSRMLS_CC);
 			zephir_update_property_array(this_ptr, SL("_related"), lowerProperty, value TSRMLS_CC);
 			ZEPHIR_INIT_ZVAL_NREF(_0);
@@ -4883,7 +4883,7 @@ PHP_METHOD(Phalcon_Mvc_Model, __set) {
 	}
 	if ((Z_TYPE_P(value) == IS_ARRAY)) {
 		ZEPHIR_INIT_NVAR(lowerProperty);
-		zephir_call_func_p1(lowerProperty, "strtolower", property);
+		zephir_fast_strtolower(lowerProperty, property);
 		zephir_update_property_array(this_ptr, SL("_related"), lowerProperty, value TSRMLS_CC);
 		ZEPHIR_INIT_ZVAL_NREF(_0);
 		ZVAL_LONG(_0, 1);
@@ -4917,7 +4917,7 @@ PHP_METHOD(Phalcon_Mvc_Model, __get) {
 	ZEPHIR_INIT_VAR(manager);
 	zephir_call_method(manager, this_ptr, "getmodelsmanager");
 	ZEPHIR_INIT_VAR(lowerProperty);
-	zephir_call_func_p1(lowerProperty, "strtolower", property);
+	zephir_fast_strtolower(lowerProperty, property);
 	ZEPHIR_INIT_VAR(relation);
 	zephir_call_method_p2(relation, manager, "getrelationbyalias", modelName, lowerProperty);
 	if ((Z_TYPE_P(relation) == IS_OBJECT)) {

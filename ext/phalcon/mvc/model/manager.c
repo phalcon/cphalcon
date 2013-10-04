@@ -16,10 +16,10 @@
 #include "kernel/memory.h"
 #include "kernel/fcall.h"
 #include "kernel/array.h"
+#include "kernel/string.h"
 #include "kernel/operators.h"
 #include "kernel/exception.h"
 #include "kernel/concat.h"
-#include "kernel/string.h"
 #include "kernel/hash.h"
 
 
@@ -297,7 +297,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, isInitialized) {
 
 	initialized = zephir_fetch_nproperty_this(this_ptr, SL("_initialized"), PH_NOISY_CC);
 	ZEPHIR_INIT_VAR(_0);
-	zephir_call_func_p1(_0, "strtolower", modelName);
+	zephir_fast_strtolower(_0, modelName);
 	RETURN_MM_BOOL(zephir_array_isset(initialized, _0));
 
 }
@@ -341,7 +341,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, load) {
 
 	initialized = zephir_fetch_nproperty_this(this_ptr, SL("_initialized"), PH_NOISY_CC);
 	ZEPHIR_INIT_VAR(_0);
-	zephir_call_func_p1(_0, "strtolower", modelName);
+	zephir_fast_strtolower(_0, modelName);
 	if (zephir_array_isset_fetch(&model, initialized, _0, 1 TSRMLS_CC)) {
 		if (newInstance) {
 			RETURN_MM_NULL();
@@ -993,7 +993,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, addHasOne) {
 	ZEPHIR_INIT_VAR(entityName);
 	zephir_call_func_p1(entityName, "get_class_lower", model);
 	ZEPHIR_INIT_VAR(referencedEntity);
-	zephir_call_func_p1(referencedEntity, "strtolower", referencedModel);
+	zephir_fast_strtolower(referencedEntity, referencedModel);
 	ZEPHIR_INIT_VAR(_0);
 	ZEPHIR_CONCAT_VS(_0, entityName, "$");
 	ZEPHIR_INIT_VAR(keyRelation);
@@ -1017,7 +1017,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, addHasOne) {
 	zephir_call_method_p5_noret(relation, "__construct", _1, referencedModel, fields, referencedFields, options);
 	if (zephir_array_isset_string_fetch(&alias, options, SS("alias"), 1 TSRMLS_CC)) {
 		ZEPHIR_INIT_VAR(lowerAlias);
-		zephir_call_func_p1(lowerAlias, "strtolower", alias);
+		zephir_fast_strtolower(lowerAlias, alias);
 	} else {
 		ZEPHIR_CPY_WRT(lowerAlias, referencedEntity);
 	}
@@ -1067,7 +1067,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, addBelongsTo) {
 	ZEPHIR_INIT_VAR(entityName);
 	zephir_call_func_p1(entityName, "get_class_lower", model);
 	ZEPHIR_INIT_VAR(referencedEntity);
-	zephir_call_func_p1(referencedEntity, "strtolower", referencedModel);
+	zephir_fast_strtolower(referencedEntity, referencedModel);
 	ZEPHIR_INIT_VAR(_0);
 	ZEPHIR_CONCAT_VS(_0, entityName, "$");
 	ZEPHIR_INIT_VAR(keyRelation);
@@ -1091,7 +1091,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, addBelongsTo) {
 	zephir_call_method_p5_noret(relation, "__construct", _1, referencedModel, fields, referencedFields, options);
 	if (zephir_array_isset_string_fetch(&alias, options, SS("alias"), 1 TSRMLS_CC)) {
 		ZEPHIR_INIT_VAR(lowerAlias);
-		zephir_call_func_p1(lowerAlias, "strtolower", alias);
+		zephir_fast_strtolower(lowerAlias, alias);
 	} else {
 		ZEPHIR_CPY_WRT(lowerAlias, referencedEntity);
 	}
@@ -1140,7 +1140,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, addHasMany) {
 	ZEPHIR_INIT_VAR(entityName);
 	zephir_call_func_p1(entityName, "get_class_lower", model);
 	ZEPHIR_INIT_VAR(referencedEntity);
-	zephir_call_func_p1(referencedEntity, "strtolower", referencedModel);
+	zephir_fast_strtolower(referencedEntity, referencedModel);
 	ZEPHIR_INIT_VAR(_0);
 	ZEPHIR_CONCAT_VS(_0, entityName, "$");
 	ZEPHIR_INIT_VAR(keyRelation);
@@ -1164,7 +1164,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, addHasMany) {
 	zephir_call_method_p5_noret(relation, "__construct", _1, referencedModel, fields, referencedFields, options);
 	if (zephir_array_isset_string_fetch(&alias, options, SS("alias"), 1 TSRMLS_CC)) {
 		ZEPHIR_INIT_VAR(lowerAlias);
-		zephir_call_func_p1(lowerAlias, "strtolower", alias);
+		zephir_fast_strtolower(lowerAlias, alias);
 	} else {
 		ZEPHIR_CPY_WRT(lowerAlias, referencedEntity);
 	}
@@ -1218,9 +1218,9 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, addHasManyToMany) {
 	ZEPHIR_INIT_VAR(entityName);
 	zephir_call_func_p1(entityName, "get_class_lower", model);
 	ZEPHIR_INIT_VAR(intermediateEntity);
-	zephir_call_func_p1(intermediateEntity, "strtolower", intermediateModel);
+	zephir_fast_strtolower(intermediateEntity, intermediateModel);
 	ZEPHIR_INIT_VAR(referencedEntity);
-	zephir_call_func_p1(referencedEntity, "strtolower", referencedModel);
+	zephir_fast_strtolower(referencedEntity, referencedModel);
 	ZEPHIR_INIT_VAR(_0);
 	ZEPHIR_CONCAT_VS(_0, entityName, "$");
 	ZEPHIR_INIT_VAR(keyRelation);
@@ -1251,7 +1251,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, addHasManyToMany) {
 	zephir_call_method_p3_noret(relation, "setintermediaterelation", intermediateFields, intermediateModel, intermediateReferencedFields);
 	if (zephir_array_isset_string_fetch(&alias, options, SS("alias"), 1 TSRMLS_CC)) {
 		ZEPHIR_INIT_VAR(lowerAlias);
-		zephir_call_func_p1(lowerAlias, "strtolower", alias);
+		zephir_fast_strtolower(lowerAlias, alias);
 	} else {
 		ZEPHIR_CPY_WRT(lowerAlias, referencedEntity);
 	}
@@ -1295,11 +1295,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, existsBelongsTo) {
 
 	initialized = zephir_fetch_nproperty_this(this_ptr, SL("_initialized"), PH_NOISY_CC);
 	ZEPHIR_INIT_VAR(entityName);
-	zephir_call_func_p1(entityName, "strtolower", modelName);
+	zephir_fast_strtolower(entityName, modelName);
 	ZEPHIR_INIT_VAR(_0);
 	ZEPHIR_CONCAT_VS(_0, entityName, "$");
 	ZEPHIR_INIT_VAR(_1);
-	zephir_call_func_p1(_1, "strtolower", modelRelation);
+	zephir_fast_strtolower(_1, modelRelation);
 	ZEPHIR_INIT_VAR(keyRelation);
 	concat_function(keyRelation, _0, _1 TSRMLS_CC);
 	if (!(zephir_array_isset(initialized, entityName))) {
@@ -1331,11 +1331,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, existsHasMany) {
 
 	initialized = zephir_fetch_nproperty_this(this_ptr, SL("_initialized"), PH_NOISY_CC);
 	ZEPHIR_INIT_VAR(entityName);
-	zephir_call_func_p1(entityName, "strtolower", modelName);
+	zephir_fast_strtolower(entityName, modelName);
 	ZEPHIR_INIT_VAR(_0);
 	ZEPHIR_CONCAT_VS(_0, entityName, "$");
 	ZEPHIR_INIT_VAR(_1);
-	zephir_call_func_p1(_1, "strtolower", modelRelation);
+	zephir_fast_strtolower(_1, modelRelation);
 	ZEPHIR_INIT_VAR(keyRelation);
 	concat_function(keyRelation, _0, _1 TSRMLS_CC);
 	if (!(zephir_array_isset(initialized, entityName))) {
@@ -1367,11 +1367,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, existsHasOne) {
 
 	initialized = zephir_fetch_nproperty_this(this_ptr, SL("_initialized"), PH_NOISY_CC);
 	ZEPHIR_INIT_VAR(entityName);
-	zephir_call_func_p1(entityName, "strtolower", modelName);
+	zephir_fast_strtolower(entityName, modelName);
 	ZEPHIR_INIT_VAR(_0);
 	ZEPHIR_CONCAT_VS(_0, entityName, "$");
 	ZEPHIR_INIT_VAR(_1);
-	zephir_call_func_p1(_1, "strtolower", modelRelation);
+	zephir_fast_strtolower(_1, modelRelation);
 	ZEPHIR_INIT_VAR(keyRelation);
 	concat_function(keyRelation, _0, _1 TSRMLS_CC);
 	if (!(zephir_array_isset(initialized, entityName))) {
@@ -1403,11 +1403,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, existsHasManyToMany) {
 
 	initialized = zephir_fetch_nproperty_this(this_ptr, SL("_initialized"), PH_NOISY_CC);
 	ZEPHIR_INIT_VAR(entityName);
-	zephir_call_func_p1(entityName, "strtolower", modelName);
+	zephir_fast_strtolower(entityName, modelName);
 	ZEPHIR_INIT_VAR(_0);
 	ZEPHIR_CONCAT_VS(_0, entityName, "$");
 	ZEPHIR_INIT_VAR(_1);
-	zephir_call_func_p1(_1, "strtolower", modelRelation);
+	zephir_fast_strtolower(_1, modelRelation);
 	ZEPHIR_INIT_VAR(keyRelation);
 	concat_function(keyRelation, _0, _1 TSRMLS_CC);
 	if (!(zephir_array_isset(initialized, entityName))) {
@@ -1440,12 +1440,12 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getRelationByAlias) {
 	aliases = zephir_fetch_nproperty_this(this_ptr, SL("_aliases"), PH_NOISY_CC);
 	if ((Z_TYPE_P(aliases) == IS_ARRAY)) {
 		ZEPHIR_INIT_VAR(_0);
-		ZEPHIR_CONCAT_VS(_0, modelName, "$");
 		ZEPHIR_INIT_VAR(_1);
-		concat_function(_1, _0, alias TSRMLS_CC);
+		ZEPHIR_CONCAT_VS(_1, modelName, "$");
 		ZEPHIR_INIT_VAR(_2);
-		zephir_call_func_p1(_2, "strtolower", _1);
-		if (zephir_array_isset_fetch(&relation, aliases, _2, 1 TSRMLS_CC)) {
+		concat_function(_2, _1, alias TSRMLS_CC);
+		zephir_fast_strtolower(_0, _2);
+		if (zephir_array_isset_fetch(&relation, aliases, _0, 1 TSRMLS_CC)) {
 			ZEPHIR_MM_RESTORE();
 			RETURN_ZVAL(relation, 1, 0);
 		}
@@ -1797,11 +1797,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getBelongsToRecords) {
 	belongsTo = zephir_fetch_nproperty_this(this_ptr, SL("_hasMany"), PH_NOISY_CC);
 	if ((Z_TYPE_P(belongsTo) == IS_ARRAY)) {
 		ZEPHIR_INIT_VAR(_0);
-		zephir_call_func_p1(_0, "strtolower", modelName);
+		zephir_fast_strtolower(_0, modelName);
 		ZEPHIR_INIT_VAR(_1);
 		ZEPHIR_CONCAT_VS(_1, _0, "$");
 		ZEPHIR_INIT_VAR(_2);
-		zephir_call_func_p1(_2, "strtolower", modelRelation);
+		zephir_fast_strtolower(_2, modelRelation);
 		ZEPHIR_INIT_VAR(keyRelation);
 		concat_function(keyRelation, _1, _2 TSRMLS_CC);
 		if (!(zephir_array_isset(belongsTo, keyRelation))) {
@@ -1844,11 +1844,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getHasManyRecords) {
 	hasMany = zephir_fetch_nproperty_this(this_ptr, SL("_hasMany"), PH_NOISY_CC);
 	if ((Z_TYPE_P(hasMany) == IS_ARRAY)) {
 		ZEPHIR_INIT_VAR(_0);
-		zephir_call_func_p1(_0, "strtolower", modelName);
+		zephir_fast_strtolower(_0, modelName);
 		ZEPHIR_INIT_VAR(_1);
 		ZEPHIR_CONCAT_VS(_1, _0, "$");
 		ZEPHIR_INIT_VAR(_2);
-		zephir_call_func_p1(_2, "strtolower", modelRelation);
+		zephir_fast_strtolower(_2, modelRelation);
 		ZEPHIR_INIT_VAR(keyRelation);
 		concat_function(keyRelation, _1, _2 TSRMLS_CC);
 		if (!(zephir_array_isset(hasMany, keyRelation))) {
@@ -1891,11 +1891,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getHasOneRecords) {
 	hasOne = zephir_fetch_nproperty_this(this_ptr, SL("_hasOne"), PH_NOISY_CC);
 	if ((Z_TYPE_P(hasOne) == IS_ARRAY)) {
 		ZEPHIR_INIT_VAR(_0);
-		zephir_call_func_p1(_0, "strtolower", modelName);
+		zephir_fast_strtolower(_0, modelName);
 		ZEPHIR_INIT_VAR(_1);
 		ZEPHIR_CONCAT_VS(_1, _0, "$");
 		ZEPHIR_INIT_VAR(_2);
-		zephir_call_func_p1(_2, "strtolower", modelRelation);
+		zephir_fast_strtolower(_2, modelRelation);
 		ZEPHIR_INIT_VAR(keyRelation);
 		concat_function(keyRelation, _1, _2 TSRMLS_CC);
 		if (!(zephir_array_isset(hasOne, keyRelation))) {
@@ -2074,7 +2074,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getRelations) {
 
 
 	ZEPHIR_INIT_VAR(entityName);
-	zephir_call_func_p1(entityName, "strtolower", modelName);
+	zephir_fast_strtolower(entityName, modelName);
 	ZEPHIR_INIT_VAR(allRelations);
 	array_init(allRelations);
 	belongsTo = zephir_fetch_nproperty_this(this_ptr, SL("_hasManySingle"), PH_NOISY_CC);
@@ -2143,11 +2143,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getRelationsBetween) {
 
 
 	ZEPHIR_INIT_VAR(_0);
-	zephir_call_func_p1(_0, "strtolower", first);
+	zephir_fast_strtolower(_0, first);
 	ZEPHIR_INIT_VAR(_1);
 	ZEPHIR_CONCAT_VS(_1, _0, "$");
 	ZEPHIR_INIT_VAR(_2);
-	zephir_call_func_p1(_2, "strtolower", second);
+	zephir_fast_strtolower(_2, second);
 	ZEPHIR_INIT_VAR(keyRelation);
 	concat_function(keyRelation, _1, _2 TSRMLS_CC);
 	belongsTo = zephir_fetch_nproperty_this(this_ptr, SL("_belongsTo"), PH_NOISY_CC);

@@ -64,7 +64,8 @@ class Message implements Phalcon\Mvc\Model\MessageInterface
 	 * @param string type
 	 * @param Phalcon\Mvc\ModelInterface model
 	 */
-	public function __construct(string! message, field=null, type=null, model=null){
+	public function __construct(string! message, field=null, type=null, model=null)
+	{
 		let this->_message = message,
 			this->_field = field,
 			this->_type = type;
@@ -79,7 +80,7 @@ class Message implements Phalcon\Mvc\Model\MessageInterface
 	 * @param string type
 	 * @return Phalcon\Mvc\Model\MessageInterface
 	 */
-	public function setType(type) -> <Phalcon\Mvc\Model\MessageInterface>
+	public function setType(string! type) -> <Phalcon\Mvc\Model\MessageInterface>
 	{
 		let this->_type = type;
 		return this;
@@ -112,7 +113,7 @@ class Message implements Phalcon\Mvc\Model\MessageInterface
 	 *
 	 * @return string
 	 */
-	public function getMessage()
+	public function getMessage() -> string
 	{
 		return this->_message;
 	}
@@ -134,7 +135,7 @@ class Message implements Phalcon\Mvc\Model\MessageInterface
 	 *
 	 * @return string
 	 */
-	public function getField()
+	public function getField() -> string
 	{
 		return this->_field;
 	}

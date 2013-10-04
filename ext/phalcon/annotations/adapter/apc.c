@@ -12,8 +12,9 @@
 #include <Zend/zend_interfaces.h>
 
 #include "kernel/main.h"
-#include "kernel/concat.h"
 #include "kernel/memory.h"
+#include "kernel/string.h"
+#include "kernel/concat.h"
 #include "kernel/fcall.h"
 #include "kernel/operators.h"
 
@@ -71,10 +72,10 @@ PHP_METHOD(Phalcon_Annotations_Adapter_Apc, read) {
 
 
 	ZEPHIR_INIT_VAR(_0);
-	ZEPHIR_CONCAT_SV(_0, "_PHAN", key);
 	ZEPHIR_INIT_VAR(_1);
-	zephir_call_func_p1(_1, "strtolower", _0);
-	zephir_call_func_p1(return_value, "apc_fetch", _1);
+	ZEPHIR_CONCAT_SV(_1, "_PHAN", key);
+	zephir_fast_strtolower(_0, _1);
+	zephir_call_func_p1(return_value, "apc_fetch", _0);
 	RETURN_MM();
 
 }
@@ -97,10 +98,10 @@ PHP_METHOD(Phalcon_Annotations_Adapter_Apc, write) {
 
 
 	ZEPHIR_INIT_VAR(_0);
-	ZEPHIR_CONCAT_SV(_0, "_PHAN", key);
 	ZEPHIR_INIT_VAR(_1);
-	zephir_call_func_p1(_1, "strtolower", _0);
-	zephir_call_func_p2(return_value, "apc_store", _1, data);
+	ZEPHIR_CONCAT_SV(_1, "_PHAN", key);
+	zephir_fast_strtolower(_0, _1);
+	zephir_call_func_p2(return_value, "apc_store", _0, data);
 	RETURN_MM();
 
 }

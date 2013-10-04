@@ -27,4 +27,69 @@ namespace Phalcon\Mvc\Model;
 abstract class Behavior
 {
 	protected _options;
+
+	/**
+	 * Phalcon\Mvc\Model\Behavior
+	 *
+	 * @param array options
+	 */
+	public function __construct(options=null)
+	{
+		let this->_options = options;
+	}
+
+	/**
+	 * Checks whether the behavior must take action on certain event
+	 *
+	 * @param string eventName
+	 */
+	protected function mustTakeAction(eventName)
+	{
+		var options;
+		let options = this->_options;
+		return isset options[eventName];
+	}
+
+	/**
+	 * Returns the behavior options related to an event
+	 *
+	 * @param string eventName
+	 * @return array
+	 */
+	protected function getOptions(string! eventName=null)
+	{
+		var options, eventOptions;
+		let options = this->_options;
+		if eventName !== null {
+			if fetch eventOptions, options[eventName] {
+				return eventOptions;
+			}
+			return null;
+		}
+		return options;
+	}
+
+	/**
+	 * This method receives the notifications from the EventsManager
+	 *
+	 * @param string type
+	 * @param Phalcon\Mvc\ModelInterface model
+	 */
+	public function notify(string type, <Phalcon\Mvc\ModelInterface> model)
+	{
+		return null;
+	}
+
+	/**
+	 * Acts as fallbacks when a missing method is called on the model
+	 *
+	 * @param Phalcon\Mvc\ModelInterface model
+	 * @param string method
+	 * @param array arguments
+	 */
+	public function missingMethod(<Phalcon\Mvc\ModelInterface> model, string method, arguments=null)
+	{
+		return null;
+	}
+
 }

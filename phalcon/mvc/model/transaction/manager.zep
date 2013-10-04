@@ -29,7 +29,7 @@ namespace Phalcon\Mvc\Model\Transaction;
  * A trasaction produces a unique connection that is passed to every
  * object part of the transaction.
  *
-  *<code>
+ *<code>
  *try {
  *
  *  use Phalcon\Mvc\Model\Transaction\Manager as TransactionManager;
