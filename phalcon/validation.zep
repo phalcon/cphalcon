@@ -288,8 +288,8 @@ class Validation extends Phalcon\Di\Injectable
 				if method_exists(entity, "readAttribute") {
 					let value = entity->readAttribute(attribute);
 				} else {
-					if isset entity->attribute {
-						let value = entity->attribute;
+					if isset entity->{attribute} {
+						let value = entity->{attribute};
 					} else {
 						let value = null;
 					}
@@ -321,8 +321,8 @@ class Validation extends Phalcon\Di\Injectable
 			}
 		} else  {
 			if typeof data == "object" {
-				if isset data->attribute {
-					let value = data->attribute;
+				if isset data->{attribute} {
+					let value = data->{attribute};
 				}
 			}
 		}
