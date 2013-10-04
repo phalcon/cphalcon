@@ -164,8 +164,7 @@ PHP_METHOD(Phalcon_Http_Request, get) {
 				zephir_call_method_p2(return_value, filter, "sanitize", value, filters);
 				RETURN_MM();
 			} else {
-				ZEPHIR_MM_RESTORE();
-				RETURN_ZVAL(value, 1, 0);
+				RETURN_CTOR(value);
 			}
 		}
 		RETURN_CCTOR(defaultValue);
@@ -237,8 +236,7 @@ PHP_METHOD(Phalcon_Http_Request, getPost) {
 				zephir_call_method_p2(return_value, filter, "sanitize", value, filters);
 				RETURN_MM();
 			} else {
-				ZEPHIR_MM_RESTORE();
-				RETURN_ZVAL(value, 1, 0);
+				RETURN_CTOR(value);
 			}
 		}
 		RETURN_CCTOR(defaultValue);
@@ -313,8 +311,7 @@ PHP_METHOD(Phalcon_Http_Request, getQuery) {
 				zephir_call_method_p2(return_value, filter, "sanitize", value, filters);
 				RETURN_MM();
 			} else {
-				ZEPHIR_MM_RESTORE();
-				RETURN_ZVAL(value, 1, 0);
+				RETURN_CTOR(value);
 			}
 		}
 		RETURN_CCTOR(defaultValue);
@@ -342,8 +339,7 @@ PHP_METHOD(Phalcon_Http_Request, getServer) {
 
 	zephir_get_global(&_SERVER, SS("_SERVER") TSRMLS_CC);
 	if (zephir_array_isset_fetch(&serverValue, _SERVER, name, 1 TSRMLS_CC)) {
-		ZEPHIR_MM_RESTORE();
-		RETURN_ZVAL(serverValue, 1, 0);
+		RETURN_CTOR(serverValue);
 	}
 	RETURN_MM_NULL();
 
@@ -456,14 +452,12 @@ PHP_METHOD(Phalcon_Http_Request, getHeader) {
 
 	zephir_get_global(&_SERVER, SS("_SERVER") TSRMLS_CC);
 	if (zephir_array_isset_fetch(&serverValue, _SERVER, header, 1 TSRMLS_CC)) {
-		ZEPHIR_MM_RESTORE();
-		RETURN_ZVAL(serverValue, 1, 0);
+		RETURN_CTOR(serverValue);
 	} else {
 		ZEPHIR_INIT_VAR(_0);
 		ZEPHIR_CONCAT_SV(_0, "HTTP_", header);
 		if (zephir_array_isset_fetch(&headerValue, _SERVER, _0, 1 TSRMLS_CC)) {
-			ZEPHIR_MM_RESTORE();
-			RETURN_ZVAL(headerValue, 1, 0);
+			RETURN_CTOR(headerValue);
 		}
 	}
 	RETURN_MM_STRING("", 1);

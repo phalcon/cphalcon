@@ -89,7 +89,7 @@ PHP_METHOD(Phalcon_Http_Response_Headers, get) {
 
 	headers = zephir_fetch_nproperty_this(this_ptr, SL("_headers"), PH_NOISY_CC);
 	if (zephir_array_isset_fetch(&headerValue, headers, name, 1 TSRMLS_CC)) {
-		RETURN_ZVAL(headerValue, 1, 0);
+		RETURN_CTORW(headerValue);
 	}
 	RETURN_BOOL(0);
 

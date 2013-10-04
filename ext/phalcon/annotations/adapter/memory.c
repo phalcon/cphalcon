@@ -77,8 +77,7 @@ PHP_METHOD(Phalcon_Annotations_Adapter_Memory, read) {
 	zephir_fast_strtolower(lowercasedKey, key);
 	if (zephir_array_isset(data, lowercasedKey)) {
 		zephir_array_fetch(&_0, data, lowercasedKey, PH_NOISY | PH_READONLY TSRMLS_CC);
-		ZEPHIR_MM_RESTORE();
-		RETURN_ZVAL(_0, 1, 0);
+		RETURN_CTOR(_0);
 	}
 	ZEPHIR_MM_RESTORE();
 

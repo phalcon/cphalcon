@@ -1638,8 +1638,7 @@ PHP_METHOD(Phalcon_Db_Adapter, tableOptions) {
 		ZEPHIR_INIT_VAR(describe);
 		zephir_call_method_p2(describe, this_ptr, "fetchall", sql, _0);
 		zephir_array_fetch_long(&_1, describe, 0, PH_NOISY | PH_READONLY TSRMLS_CC);
-		ZEPHIR_MM_RESTORE();
-		RETURN_ZVAL(_1, 1, 0);
+		RETURN_CTOR(_1);
 	}
 	array_init(return_value);
 	RETURN_MM();

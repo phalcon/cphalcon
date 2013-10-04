@@ -233,8 +233,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getCustomEventsManager) {
 		ZEPHIR_INIT_VAR(_0);
 		zephir_call_func_p1(_0, "get_class_lower", model);
 		if (zephir_array_isset_fetch(&eventsManager, customEventsManager, _0, 1 TSRMLS_CC)) {
-			ZEPHIR_MM_RESTORE();
-			RETURN_ZVAL(eventsManager, 1, 0);
+			RETURN_CTOR(eventsManager);
 		}
 	}
 	RETURN_MM_NULL();
@@ -346,8 +345,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, load) {
 		if (newInstance) {
 			RETURN_MM_NULL();
 		}
-		ZEPHIR_MM_RESTORE();
-		RETURN_ZVAL(model, 1, 0);
+		RETURN_CTOR(model);
 	}
 	ZEPHIR_INIT_VAR(_1);
 	zephir_call_func_p1(_1, "class_exists", modelName);
@@ -471,8 +469,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getModelSchema) {
 		ZEPHIR_INIT_VAR(_0);
 		zephir_call_func_p1(_0, "get_class_lower", model);
 		if (zephir_array_isset_fetch(&schema, schemas, _0, 1 TSRMLS_CC)) {
-			ZEPHIR_MM_RESTORE();
-			RETURN_ZVAL(schema, 1, 0);
+			RETURN_CTOR(schema);
 		}
 	}
 	RETURN_MM_NULL();
@@ -664,8 +661,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getReadConnectionService) {
 		ZEPHIR_INIT_VAR(_0);
 		zephir_call_func_p1(_0, "get_class_lower", model);
 		if (zephir_array_isset_fetch(&connection, connectionServices, _0, 1 TSRMLS_CC)) {
-			ZEPHIR_MM_RESTORE();
-			RETURN_ZVAL(connection, 1, 0);
+			RETURN_CTOR(connection);
 		}
 	}
 	RETURN_MM_STRING("db", 1);
@@ -692,8 +688,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getWriteConnectionService) {
 		ZEPHIR_INIT_VAR(_0);
 		zephir_call_func_p1(_0, "get_class_lower", model);
 		if (zephir_array_isset_fetch(&connection, connectionServices, _0, 1 TSRMLS_CC)) {
-			ZEPHIR_MM_RESTORE();
-			RETURN_ZVAL(connection, 1, 0);
+			RETURN_CTOR(connection);
 		}
 	}
 	RETURN_MM_STRING("db", 1);
@@ -901,8 +896,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, isKeepingSnapshots) {
 		ZEPHIR_INIT_VAR(_0);
 		zephir_call_func_p1(_0, "get_class_lower", model);
 		if (zephir_array_isset_fetch(&isKeeping, keepSnapshots, _0, 1 TSRMLS_CC)) {
-			ZEPHIR_MM_RESTORE();
-			RETURN_ZVAL(isKeeping, 1, 0);
+			RETURN_CTOR(isKeeping);
 		}
 	}
 	RETURN_MM_BOOL(0);
@@ -958,8 +952,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, isUsingDynamicUpdate) {
 		ZEPHIR_INIT_VAR(_0);
 		zephir_call_func_p1(_0, "get_class_lower", model);
 		if (zephir_array_isset_fetch(&isUsing, dynamicUpdate, _0, 1 TSRMLS_CC)) {
-			ZEPHIR_MM_RESTORE();
-			RETURN_ZVAL(isUsing, 1, 0);
+			RETURN_CTOR(isUsing);
 		}
 	}
 	RETURN_MM_BOOL(0);
@@ -1446,8 +1439,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getRelationByAlias) {
 		concat_function(_2, _1, alias TSRMLS_CC);
 		zephir_fast_strtolower(_0, _2);
 		if (zephir_array_isset_fetch(&relation, aliases, _0, 1 TSRMLS_CC)) {
-			ZEPHIR_MM_RESTORE();
-			RETURN_ZVAL(relation, 1, 0);
+			RETURN_CTOR(relation);
 		}
 	}
 	RETURN_MM_BOOL(0);
@@ -1727,8 +1719,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getReusableRecords) {
 
 	reusable = zephir_fetch_nproperty_this(this_ptr, SL("_reusable"), PH_NOISY_CC);
 	if (zephir_array_isset_fetch(&records, reusable, key, 1 TSRMLS_CC)) {
-		ZEPHIR_MM_RESTORE();
-		RETURN_ZVAL(records, 1, 0);
+		RETURN_CTOR(records);
 	}
 	RETURN_MM_NULL();
 
@@ -1934,8 +1925,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getBelongsTo) {
 		ZEPHIR_INIT_VAR(_0);
 		zephir_call_func_p1(_0, "get_class_lower", model);
 		if (zephir_array_isset_fetch(&relations, belongsToSingle, _0, 1 TSRMLS_CC)) {
-			ZEPHIR_MM_RESTORE();
-			RETURN_ZVAL(relations, 1, 0);
+			RETURN_CTOR(relations);
 		}
 	}
 	array_init(return_value);
@@ -1963,8 +1953,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getHasMany) {
 		ZEPHIR_INIT_VAR(_0);
 		zephir_call_func_p1(_0, "get_class_lower", model);
 		if (zephir_array_isset_fetch(&relations, hasManySingle, _0, 1 TSRMLS_CC)) {
-			ZEPHIR_MM_RESTORE();
-			RETURN_ZVAL(relations, 1, 0);
+			RETURN_CTOR(relations);
 		}
 	}
 	array_init(return_value);
@@ -1992,8 +1981,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getHasOne) {
 		ZEPHIR_INIT_VAR(_0);
 		zephir_call_func_p1(_0, "get_class_lower", model);
 		if (zephir_array_isset_fetch(&relations, hasOneSingle, _0, 1 TSRMLS_CC)) {
-			ZEPHIR_MM_RESTORE();
-			RETURN_ZVAL(relations, 1, 0);
+			RETURN_CTOR(relations);
 		}
 	}
 	array_init(return_value);
@@ -2021,8 +2009,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getHasManyToMany) {
 		ZEPHIR_INIT_VAR(_0);
 		zephir_call_func_p1(_0, "get_class_lower", model);
 		if (zephir_array_isset_fetch(&relations, hasManyToManySingle, _0, 1 TSRMLS_CC)) {
-			ZEPHIR_MM_RESTORE();
-			RETURN_ZVAL(relations, 1, 0);
+			RETURN_CTOR(relations);
 		}
 	}
 	array_init(return_value);
@@ -2324,8 +2311,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getNamespaceAlias) {
 
 	namespaceAliases = zephir_fetch_nproperty_this(this_ptr, SL("_namespaceAliases"), PH_NOISY_CC);
 	if (zephir_array_isset_fetch(&namespaceName, namespaceAliases, alias, 1 TSRMLS_CC)) {
-		ZEPHIR_MM_RESTORE();
-		RETURN_ZVAL(namespaceName, 1, 0);
+		RETURN_CTOR(namespaceName);
 	}
 	ZEPHIR_INIT_VAR(_0);
 	object_init_ex(_0, phalcon_mvc_model_exception_ce);

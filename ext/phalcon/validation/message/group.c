@@ -103,7 +103,7 @@ PHP_METHOD(Phalcon_Validation_Message_Group, offsetGet) {
 
 	messages = zephir_fetch_nproperty_this(this_ptr, SL("_messages"), PH_NOISY_CC);
 	if (zephir_array_isset_long_fetch(&message, messages, index, 1 TSRMLS_CC)) {
-		RETURN_ZVAL(message, 1, 0);
+		RETURN_CTORW(message);
 	}
 	RETURN_NULL();
 
@@ -349,7 +349,7 @@ PHP_METHOD(Phalcon_Validation_Message_Group, current) {
 	messages = zephir_fetch_nproperty_this(this_ptr, SL("_messages"), PH_NOISY_CC);
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_position"), PH_NOISY_CC);
 	if (zephir_array_isset_fetch(&message, messages, _0, 1 TSRMLS_CC)) {
-		RETURN_ZVAL(message, 1, 0);
+		RETURN_CTORW(message);
 	}
 	RETURN_NULL();
 

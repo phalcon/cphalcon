@@ -215,8 +215,7 @@ PHP_METHOD(Phalcon_Di_Service, resolve) {
 	if (zephir_is_true(shared)) {
 		sharedInstance = zephir_fetch_nproperty_this(this_ptr, SL("_sharedInstance"), PH_NOISY_CC);
 		if ((Z_TYPE_P(sharedInstance) != IS_NULL)) {
-			ZEPHIR_MM_RESTORE();
-			RETURN_ZVAL(sharedInstance, 1, 0);
+			RETURN_CTOR(sharedInstance);
 		}
 	}
 	found = 1;
@@ -356,7 +355,7 @@ PHP_METHOD(Phalcon_Di_Service, getParameter) {
 	}
 	if (zephir_array_isset_string_fetch(&arguments, definition, SS("arguments"), 1 TSRMLS_CC)) {
 		if (zephir_array_isset_long_fetch(&parameter, arguments, position, 1 TSRMLS_CC)) {
-			RETURN_ZVAL(parameter, 1, 0);
+			RETURN_CTORW(parameter);
 		}
 	}
 	RETURN_NULL();

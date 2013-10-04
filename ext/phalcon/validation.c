@@ -250,13 +250,11 @@ PHP_METHOD(Phalcon_Validation, getFilters) {
 	filters = zephir_fetch_nproperty_this(this_ptr, SL("_filters"), PH_NOISY_CC);
 	if ((Z_TYPE_P(attribute) == IS_STRING)) {
 		if (zephir_array_isset_fetch(&attributeFilters, filters, attribute, 1 TSRMLS_CC)) {
-			ZEPHIR_MM_RESTORE();
-			RETURN_ZVAL(attributeFilters, 1, 0);
+			RETURN_CTOR(attributeFilters);
 		}
 		RETURN_MM_NULL();
 	}
-	ZEPHIR_MM_RESTORE();
-	RETURN_ZVAL(filters, 1, 0);
+	RETURN_CTOR(filters);
 
 }
 

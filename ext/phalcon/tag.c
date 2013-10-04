@@ -116,7 +116,7 @@ PHP_METHOD(Phalcon_Tag, getDI) {
 
 
 	_0 = zephir_fetch_static_property_ce(phalcon_tag_ce, SL("_dependencyInjector") TSRMLS_CC);
-	RETURN_ZVAL(_0, 1, 0);
+	RETURN_CTORW(_0);
 
 }
 

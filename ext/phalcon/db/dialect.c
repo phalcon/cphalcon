@@ -274,8 +274,7 @@ PHP_METHOD(Phalcon_Db_Dialect, getSqlExpression) {
 	}
 	if (ZEPHIR_IS_STRING(type, "literal")) {
 		zephir_array_fetch_string(&_9, expression, SL("value"), PH_NOISY | PH_READONLY TSRMLS_CC);
-		ZEPHIR_MM_RESTORE();
-		RETURN_ZVAL(_9, 1, 0);
+		RETURN_CTOR(_9);
 	}
 	if (ZEPHIR_IS_STRING(type, "binary-op")) {
 		zephir_array_fetch_string(&_9, expression, SL("left"), PH_NOISY | PH_READONLY TSRMLS_CC);
@@ -314,8 +313,7 @@ PHP_METHOD(Phalcon_Db_Dialect, getSqlExpression) {
 	}
 	if (ZEPHIR_IS_STRING(type, "placeholder")) {
 		zephir_array_fetch_string(&_9, expression, SL("value"), PH_NOISY | PH_READONLY TSRMLS_CC);
-		ZEPHIR_MM_RESTORE();
-		RETURN_ZVAL(_9, 1, 0);
+		RETURN_CTOR(_9);
 	}
 	if (ZEPHIR_IS_STRING(type, "parentheses")) {
 		ZEPHIR_INIT_NVAR(_4);

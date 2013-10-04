@@ -127,8 +127,7 @@ PHP_METHOD(Phalcon_Di_Service_Builder, _buildParameter) {
 				ZEPHIR_MM_RESTORE();
 				return;
 			}
-			ZEPHIR_MM_RESTORE();
-			RETURN_ZVAL(value, 1, 0);
+			RETURN_CTOR(value);
 		}
 		if (ZEPHIR_IS_STRING(type, "instance")) {
 			ZEPHIR_OBS_NVAR(name);

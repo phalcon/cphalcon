@@ -293,8 +293,7 @@ PHP_METHOD(Phalcon_Assets_Manager, get) {
 		ZEPHIR_THROW_EXCEPTION_STR(phalcon_assets_exception_ce, "The collection does not exist in the manager");
 		return;
 	}
-	ZEPHIR_MM_RESTORE();
-	RETURN_ZVAL(collection, 1, 0);
+	RETURN_CTOR(collection);
 
 }
 
@@ -313,7 +312,7 @@ PHP_METHOD(Phalcon_Assets_Manager, getCss) {
 		object_init_ex(return_value, phalcon_assets_collection_ce);
 		return;
 	}
-	RETURN_ZVAL(collection, 1, 0);
+	RETURN_CTORW(collection);
 
 }
 
@@ -332,7 +331,7 @@ PHP_METHOD(Phalcon_Assets_Manager, getJs) {
 		object_init_ex(return_value, phalcon_assets_collection_ce);
 		return;
 	}
-	RETURN_ZVAL(collection, 1, 0);
+	RETURN_CTORW(collection);
 
 }
 

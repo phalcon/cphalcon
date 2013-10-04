@@ -115,13 +115,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Behavior, getOptions) {
 	options = zephir_fetch_nproperty_this(this_ptr, SL("_options"), PH_NOISY_CC);
 	if (!ZEPHIR_IS_STRING(eventName, "")) {
 		if (zephir_array_isset_fetch(&eventOptions, options, eventName, 1 TSRMLS_CC)) {
-			ZEPHIR_MM_RESTORE();
-			RETURN_ZVAL(eventOptions, 1, 0);
+			RETURN_CTOR(eventOptions);
 		}
 		RETURN_MM_NULL();
 	}
-	ZEPHIR_MM_RESTORE();
-	RETURN_ZVAL(options, 1, 0);
+	RETURN_CTOR(options);
 
 }
 

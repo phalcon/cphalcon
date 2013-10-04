@@ -122,8 +122,7 @@ PHP_METHOD(Phalcon_Annotations_Adapter, get) {
 	if ((Z_TYPE_P(annotations) == IS_ARRAY)) {
 		if (zephir_array_isset(annotations, realClassName)) {
 			zephir_array_fetch(&_0, annotations, realClassName, PH_NOISY | PH_READONLY TSRMLS_CC);
-			ZEPHIR_MM_RESTORE();
-			RETURN_ZVAL(_0, 1, 0);
+			RETURN_CTOR(_0);
 		}
 	}
 	ZEPHIR_INIT_VAR(classAnnotations);

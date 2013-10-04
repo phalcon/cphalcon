@@ -269,7 +269,7 @@ PHP_METHOD(Phalcon_Annotations_Annotation, getArgument) {
 	arguments = zephir_fetch_nproperty_this(this_ptr, SL("_arguments"), PH_NOISY_CC);
 	if (zephir_array_isset_long(arguments, position)) {
 		zephir_array_fetch_long(&_0, arguments, position, PH_NOISY | PH_READONLY TSRMLS_CC);
-		RETURN_ZVAL(_0, 1, 0);
+		RETURN_CTORW(_0);
 	}
 
 }
@@ -314,8 +314,7 @@ PHP_METHOD(Phalcon_Annotations_Annotation, getNamedArgument) {
 
 	arguments = zephir_fetch_nproperty_this(this_ptr, SL("_arguments"), PH_NOISY_CC);
 	if (zephir_array_isset_fetch(&argument, arguments, name, 1 TSRMLS_CC)) {
-		ZEPHIR_MM_RESTORE();
-		RETURN_ZVAL(argument, 1, 0);
+		RETURN_CTOR(argument);
 	}
 	ZEPHIR_MM_RESTORE();
 

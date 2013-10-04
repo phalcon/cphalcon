@@ -403,8 +403,7 @@ PHP_METHOD(Phalcon_Forms_Element, getAttribute) {
 
 	attributes = zephir_fetch_nproperty_this(this_ptr, SL("_attributes"), PH_NOISY_CC);
 	if (zephir_array_isset_fetch(&value, attributes, attribute, 1 TSRMLS_CC)) {
-		ZEPHIR_MM_RESTORE();
-		RETURN_ZVAL(value, 1, 0);
+		RETURN_CTOR(value);
 	}
 	RETURN_CCTOR(defaultValue);
 
@@ -448,7 +447,7 @@ PHP_METHOD(Phalcon_Forms_Element, getAttributes) {
 		array_init(return_value);
 		return;
 	}
-	RETURN_ZVAL(attributes, 1, 0);
+	RETURN_CTORW(attributes);
 
 }
 
@@ -496,8 +495,7 @@ PHP_METHOD(Phalcon_Forms_Element, getUserOption) {
 
 	options = zephir_fetch_nproperty_this(this_ptr, SL("_options"), PH_NOISY_CC);
 	if (zephir_array_isset_fetch(&value, options, option, 1 TSRMLS_CC)) {
-		ZEPHIR_MM_RESTORE();
-		RETURN_ZVAL(value, 1, 0);
+		RETURN_CTOR(value);
 	}
 	RETURN_CCTOR(defaultValue);
 

@@ -292,8 +292,7 @@ PHP_METHOD(Phalcon_Di, getService) {
 
 	services = zephir_fetch_nproperty_this(this_ptr, SL("_services"), PH_NOISY_CC);
 	if (zephir_array_isset_fetch(&service, services, name, 1 TSRMLS_CC)) {
-		ZEPHIR_MM_RESTORE();
-		RETURN_ZVAL(service, 1, 0);
+		RETURN_CTOR(service);
 	}
 	ZEPHIR_INIT_VAR(_0);
 	object_init_ex(_0, phalcon_di_exception_ce);
@@ -643,7 +642,7 @@ PHP_METHOD(Phalcon_Di, getDefault) {
 
 
 	_0 = zephir_fetch_static_property_ce(phalcon_di_ce, SL("_default") TSRMLS_CC);
-	RETURN_ZVAL(_0, 1, 0);
+	RETURN_CTORW(_0);
 
 }
 

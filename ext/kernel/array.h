@@ -77,7 +77,7 @@ int zephir_array_key_exists(zval *arr, zval *key TSRMLS_DC);
 int zephir_array_is_associative(zval *arr);
 
 #define zephir_array_fast_append(arr, value) \
-  Z_ADDREF_P(arr); \
+  Z_ADDREF_P(value); \
   zend_hash_next_index_insert(Z_ARRVAL_P(arr), &value, sizeof(zval *), NULL);
 
 #endif /* ZEPHIR_KERNEL_ARRAY_H */

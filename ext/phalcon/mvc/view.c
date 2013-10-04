@@ -616,8 +616,7 @@ PHP_METHOD(Phalcon_Mvc_View, getVar) {
 
 	params = zephir_fetch_nproperty_this(this_ptr, SL("_viewParams"), PH_NOISY_CC);
 	if (zephir_array_isset_fetch(&value, params, key, 1 TSRMLS_CC)) {
-		ZEPHIR_MM_RESTORE();
-		RETURN_ZVAL(value, 1, 0);
+		RETURN_CTOR(value);
 	}
 	RETURN_MM_NULL();
 
@@ -1586,8 +1585,7 @@ PHP_METHOD(Phalcon_Mvc_View, __get) {
 
 	params = zephir_fetch_nproperty_this(this_ptr, SL("_viewParams"), PH_NOISY_CC);
 	if (zephir_array_isset_fetch(&value, params, key, 1 TSRMLS_CC)) {
-		ZEPHIR_MM_RESTORE();
-		RETURN_ZVAL(value, 1, 0);
+		RETURN_CTOR(value);
 	}
 	RETURN_MM_NULL();
 

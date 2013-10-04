@@ -180,6 +180,29 @@ int zephir_fetch_parameters(int num_args TSRMLS_DC, int required_args, int optio
 	ZEPHIR_MM_RESTORE(); \
 	return;
 
+#define RETURN_LCTOR(var) { \
+	zend_uchar is_ref = Z_ISREF_P(return_value);       \
+	zend_uint refcount = Z_REFCOUNT_P(return_value);   \
+	(return_value)->value = var.value;                \
+	Z_TYPE_P(return_value) = Z_TYPE(var);              \
+	zval_copy_ctor(return_value);                      \
+	Z_SET_ISREF_TO_P(return_value, is_ref);            \
+	Z_SET_REFCOUNT_P(return_value, refcount);          \
+	ZEPHIR_MM_RESTORE(); \
+	return; \
+}
+
+#define RETURN_LCTORW(var) { \
+	zend_uchar is_ref = Z_ISREF_P(return_value);       \
+	zend_uint refcount = Z_REFCOUNT_P(return_value);   \
+	(return_value)->value = var.value;                \
+	Z_TYPE_P(return_value) = Z_TYPE(var);              \
+	zval_copy_ctor(return_value);                      \
+	Z_SET_ISREF_TO_P(return_value, is_ref);            \
+	Z_SET_REFCOUNT_P(return_value, refcount);          \
+	return; \
+}
+
 /**
  * Check for ctor on the same return_value, without restoring the memory stack
  */

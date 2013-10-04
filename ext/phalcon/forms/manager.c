@@ -115,8 +115,7 @@ PHP_METHOD(Phalcon_Forms_Manager, get) {
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
-	ZEPHIR_MM_RESTORE();
-	RETURN_ZVAL(form, 1, 0);
+	RETURN_CTOR(form);
 
 }
 
