@@ -718,8 +718,7 @@ abstract class Model //implements Phalcon\Mvc\ModelInterface, Phalcon\Mvc\Model\
 	 */
 	public static function find(var parameters=null) -> <Phalcon\Mvc\Model\ResultsetInterface>
 	{
-		var modelName, params, builder, query, bindParams, bindTypes,
-			cache, resultset, hydration;
+		var params, builder, query, bindParams, bindTypes, cache, resultset, hydration;
 
 		if typeof parameters != "array" {
 			let params = [];
@@ -1558,7 +1557,7 @@ abstract class Model //implements Phalcon\Mvc\ModelInterface, Phalcon\Mvc\Model\
 	{
 
 		var manager, relations, relation, foreignKey,
-			resulset, conditions, bindParams, bindTypes, referencedModel,
+			resulset, conditions, bindParams, referencedModel,
 			referencedFields, action, fields, field, position, value,
 			extraConditions;
 
@@ -1660,11 +1659,11 @@ abstract class Model //implements Phalcon\Mvc\ModelInterface, Phalcon\Mvc\Model\
 	 */
 	protected function _checkForeignKeysReverseRestrict() -> boolean
 	{
+		boolean error;
 		var manager, relations, foreignKey, action, relation,
 			relationClass, referencedModel, fields, referencedFields,
-			conditions, bindParams, bindTypes, position, field,
+			conditions, bindParams,position, field,
 			value, extraConditions, message;
-		boolean error;
 
 		/**
 		 * Get the models manager
@@ -2860,10 +2859,7 @@ abstract class Model //implements Phalcon\Mvc\ModelInterface, Phalcon\Mvc\Model\
 	 */
 	public function create(var data=null, var whiteList=null) -> boolean
 	{
-		var metaData, attribute, attributes, related,
-			schema, possibleSetter, value, writeConnection, readConnection,
-			source, table, identityField, exists, success, columnMap,
-			attributeField;
+		var metaData, attribute, possibleSetter, value, columnMap, attributeField;
 
 		let metaData = this->getModelsMetaData();
 
@@ -3716,7 +3712,7 @@ abstract class Model //implements Phalcon\Mvc\ModelInterface, Phalcon\Mvc\Model\
 	public function hasChanged(var fieldName=null) -> boolean
 	{
 		var snapshot, metaData, columnMap, allAttributes, value,
-			originalValue, name, type, attributes;
+			originalValue, name, type;
 
 		let snapshot = this->_snapshot;
 		if typeof snapshot != "array" {

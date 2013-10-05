@@ -243,7 +243,7 @@ class Response implements Phalcon\Http\ResponseInterface, Phalcon\Di\InjectionAw
 	 */
 	public function setExpires(<DateTime> datetime) -> <Phalcon\Http\ResponseInterface>
 	{
-		var headers, date, timezone;
+		var headers, date;
 
 		let headers = this->getHeaders(),
 			date = clone datetime;

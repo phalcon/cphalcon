@@ -312,23 +312,27 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, offsetExists) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_Resultset, offsetGet) {
 
-	zval *index, *_0, *_1, *_2;
+	zval *index_param = NULL, *_0, *_1, *_2 = NULL;
+	int index;
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 0, &index);
+	zephir_fetch_params(1, 1, 0, &index_param);
 
+		index = zephir_get_intval(index_param);
 
 
 	ZEPHIR_INIT_VAR(_0);
 	zephir_call_method(_0, this_ptr, "count");
-	if (ZEPHIR_LS(index, _0)) {
+	if (ZEPHIR_LT_LONG(_0, index)) {
 		_1 = zephir_fetch_nproperty_this(this_ptr, SL("_pointer"), PH_NOISY_CC);
-		if (ZEPHIR_IS_EQUAL(_1, index)) {
+		if (ZEPHIR_IS_LONG(_1, index)) {
 			zephir_call_method(return_value, this_ptr, "current");
 			RETURN_MM();
 		}
-		zephir_call_method_p1_noret(this_ptr, "seek", index);
 		ZEPHIR_INIT_VAR(_2);
+		ZVAL_LONG(_2, index);
+		zephir_call_method_p1_noret(this_ptr, "seek", _2);
+		ZEPHIR_INIT_NVAR(_2);
 		zephir_call_method(_2, this_ptr, "valid");
 		if (!ZEPHIR_IS_FALSE(_2)) {
 			zephir_call_method(return_value, this_ptr, "current");

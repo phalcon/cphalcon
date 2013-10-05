@@ -59,14 +59,14 @@ interface RelationInterface
 	 *
 	 * @return int
 	 */
-	public function getType();
+	public function getType() -> int;
 
 	/**
 	 * Returns the referenced model
 	 *
 	 * @return string
 	 */
-	public function getReferencedModel();
+	public function getReferencedModel() -> string;
 
 	/**
 	 * Returns the fields
@@ -92,9 +92,9 @@ interface RelationInterface
 	/**
 	 * Check whether the relation act as a foreign key
 	 *
-	 * @return string|array
+	 * @return boolean
 	 */
-	public function isForeignKey();
+	public function isForeignKey() -> boolean;
 
 	/**
 	 * Returns the foreign key configuration
@@ -108,7 +108,7 @@ interface RelationInterface
 	 *
 	 * @return boolean
 	 */
-	public function isThrough();
+	public function isThrough() -> boolean;
 
 	/**
 	 * Gets the intermediate fields for has-*-through relations
@@ -122,7 +122,7 @@ interface RelationInterface
 	 *
 	 * @return string
 	 */
-	public function getIntermediateModel();
+	public function getIntermediateModel() -> string;
 
 	/**
 	 * Gets the intermediate referenced fields for has-*-through relations

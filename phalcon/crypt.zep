@@ -40,9 +40,9 @@ class Crypt implements Phalcon\CryptInterface
 
 	protected _key;
 
-	protected _mode = 'cbc';
+	protected _mode = "cbc";
 
-	protected _cipher = 'rijndael-256';
+	protected _cipher = "rijndael-256";
 
 	/**
 	 * Sets the cipher algorithm
@@ -61,7 +61,7 @@ class Crypt implements Phalcon\CryptInterface
 	 *
 	 * @return string
 	 */
-	public function getCipher()
+	public function getCipher() -> string
 	{
 		return this->_cipher;
 	}
@@ -83,7 +83,7 @@ class Crypt implements Phalcon\CryptInterface
 	 *
 	 * @return string
 	 */
-	public function getMode()
+	public function getMode() -> string
 	{
 		return this->_mode;
 	}
@@ -105,7 +105,7 @@ class Crypt implements Phalcon\CryptInterface
 	 *
 	 * @return string
 	 */
-	public function getKey()
+	public function getKey() -> string
 	{
 		return this->_key;
 	}
@@ -121,7 +121,7 @@ class Crypt implements Phalcon\CryptInterface
 	 * @param string key
 	 * @return string
 	 */
-	public function encrypt(text, key=null)
+	public function encrypt(string! text, key=null) -> string
 	{
 
 	}
@@ -137,7 +137,7 @@ class Crypt implements Phalcon\CryptInterface
 	 * @param string key
 	 * @return string
 	 */
-	public function decrypt(text, key=null)
+	public function decrypt(string! text, key=null) -> string
 	{
 
 	}
@@ -149,7 +149,7 @@ class Crypt implements Phalcon\CryptInterface
 	 * @param string key
 	 * @return string
 	 */
-	public function encryptBase64(text, key=null)
+	public function encryptBase64(string! text, key=null) -> string
 	{
 
 	}
@@ -161,7 +161,7 @@ class Crypt implements Phalcon\CryptInterface
 	 * @param string key
 	 * @return string
 	 */
-	public function decryptBase64(string! text, key=null)
+	public function decryptBase64(string! text, key=null) -> string
 	{
 
 	}

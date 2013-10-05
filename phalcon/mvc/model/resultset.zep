@@ -105,7 +105,7 @@ abstract class Resultset
 	 */
 	public function rewind()
 	{
-		var rows, result, activeRow;
+		var rows, result;
 
 		if this->_type {
 
@@ -248,7 +248,7 @@ abstract class Resultset
 	 * @param int index
 	 * @return Phalcon\Mvc\ModelInterface
 	 */
-	public function offsetGet(index) -> <Phalcon\Mvc\ModelInterface>
+	public function offsetGet(int index) -> <Phalcon\Mvc\ModelInterface>
 	{
 		if index < this->count() {
 

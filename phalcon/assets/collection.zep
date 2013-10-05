@@ -70,7 +70,7 @@ class Collection //implements Countable, Iterator
 	 */
 	public function addCss(string path, var local, boolean filter, attributes=null) -> <Phalcon\Assets\Collection>
 	{
-		var resource, collectionLocal, collectionAttributes;
+		var collectionLocal, collectionAttributes;
 
 		if !filter {
 			let filter = true;
@@ -89,6 +89,7 @@ class Collection //implements Countable, Iterator
 		}
 
 		let this->_resources[] = new Phalcon\Assets\Resource\Css(collectionLocal, filter, collectionAttributes);
+		return this;
 	}
 
 	/**

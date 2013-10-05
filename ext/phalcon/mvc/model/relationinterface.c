@@ -108,7 +108,7 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_RelationInterface, getOptions);
 /**
  * Check whether the relation act as a foreign key
  *
- * @return string|array
+ * @return boolean
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_RelationInterface, isForeignKey);
 

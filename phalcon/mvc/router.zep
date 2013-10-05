@@ -325,8 +325,7 @@ class Router
 			vnamespace, module,  controller, action, paramsStr, strParams,
 			route, methods, dependencyInjector,
 			hostname, regexHostName, matched, pattern, handledUri, beforeMatch,
-			paths, converters, part, position, matchPosition, converter,
-			convertedPart;
+			paths, converters, part, position, matchPosition, converter;
 
 		if !uri {
 			/**

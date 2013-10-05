@@ -56,8 +56,8 @@ ZEPHIR_INIT_CLASS(Phalcon_Crypt) {
 	ZEPHIR_REGISTER_CLASS(Phalcon, Crypt, phalcon, crypt, phalcon_crypt_method_entry, 0);
 
 	zend_declare_property_null(phalcon_crypt_ce, SL("_key"), ZEND_ACC_PROTECTED TSRMLS_CC);
-	zend_declare_property_null(phalcon_crypt_ce, SL("_mode"), ZEND_ACC_PROTECTED TSRMLS_CC);
-	zend_declare_property_null(phalcon_crypt_ce, SL("_cipher"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_string(phalcon_crypt_ce, SL("_mode"), "cbc", ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_string(phalcon_crypt_ce, SL("_cipher"), "rijndael-256", ZEND_ACC_PROTECTED TSRMLS_CC);
 
 	zend_class_implements(phalcon_crypt_ce TSRMLS_CC, 1, phalcon_cryptinterface_ce);
 
@@ -177,11 +177,13 @@ PHP_METHOD(Phalcon_Crypt, getKey) {
  */
 PHP_METHOD(Phalcon_Crypt, encrypt) {
 
-	zval *text, *key = NULL;
+	zval *text_param = NULL, *key = NULL;
+	zval *text = NULL;
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 1, &text, &key);
+	zephir_fetch_params(1, 1, 1, &text_param, &key);
 
+		zephir_get_strval(text, text_param);
 	if (!key) {
 		ZEPHIR_CPY_WRT(key, ZEPHIR_GLOBAL(global_null));
 	}
@@ -203,11 +205,13 @@ PHP_METHOD(Phalcon_Crypt, encrypt) {
  */
 PHP_METHOD(Phalcon_Crypt, decrypt) {
 
-	zval *text, *key = NULL;
+	zval *text_param = NULL, *key = NULL;
+	zval *text = NULL;
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 1, &text, &key);
+	zephir_fetch_params(1, 1, 1, &text_param, &key);
 
+		zephir_get_strval(text, text_param);
 	if (!key) {
 		ZEPHIR_CPY_WRT(key, ZEPHIR_GLOBAL(global_null));
 	}
@@ -225,11 +229,13 @@ PHP_METHOD(Phalcon_Crypt, decrypt) {
  */
 PHP_METHOD(Phalcon_Crypt, encryptBase64) {
 
-	zval *text, *key = NULL;
+	zval *text_param = NULL, *key = NULL;
+	zval *text = NULL;
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 1, &text, &key);
+	zephir_fetch_params(1, 1, 1, &text_param, &key);
 
+		zephir_get_strval(text, text_param);
 	if (!key) {
 		ZEPHIR_CPY_WRT(key, ZEPHIR_GLOBAL(global_null));
 	}

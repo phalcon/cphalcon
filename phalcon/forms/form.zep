@@ -275,7 +275,7 @@ class Form extends Phalcon\Di\Injectable implements Countable, Iterator
 	 */
 	public function isValid(data=null, entity=null) -> boolean
 	{
-		var elements, notFailed, messages, message, element,
+		var elements, notFailed, messages, element,
 			validators, name, preparedValidators, filters,
 			validator, validation, elementMessages;
 

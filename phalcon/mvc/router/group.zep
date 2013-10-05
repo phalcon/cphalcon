@@ -285,7 +285,7 @@ class Group
 	 * @param string/array paths
 	 * @return Phalcon\Mvc\Router\Route
 	 */
-	public function addPatch(pattern, paths=null) -> <Phalcon\Mvc\Router\Route>
+	public function addPatch(string! pattern, paths=null) -> <Phalcon\Mvc\Router\Route>
 	{
 		return this->_addRoute(pattern, paths, "PATCH");
 	}
@@ -297,7 +297,7 @@ class Group
 	 * @param string/array paths
 	 * @return Phalcon\Mvc\Router\Route
 	 */
-	public function addDelete(pattern, paths=null) -> <Phalcon\Mvc\Router\Route>
+	public function addDelete(string! pattern, paths=null) -> <Phalcon\Mvc\Router\Route>
 	{
 		return this->_addRoute(pattern, paths, "DELETE");
 	}
@@ -309,7 +309,7 @@ class Group
 	 * @param string/array paths
 	 * @return Phalcon\Mvc\Router\Route
 	 */
-	public function addOptions(string pattern, paths=null) -> <Phalcon\Mvc\Router\Route>
+	public function addOptions(string! pattern, paths=null) -> <Phalcon\Mvc\Router\Route>
 	{
 		return this->_addRoute(pattern, paths, "OPTIONS");
 	}

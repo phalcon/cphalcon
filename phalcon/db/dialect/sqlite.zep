@@ -28,6 +28,6 @@ namespace Phalcon\Db\Dialect;
 class Sqlite extends Phalcon\Db\Dialect //implements Phalcon\Db\DialectInterface
 {
 
-	protected _escapeChar = '"';
+	protected _escapeChar = "\"";
 
 }

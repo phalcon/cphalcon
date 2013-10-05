@@ -240,8 +240,7 @@ class Pdo
 	 */
 	public function dataSeek(number)
 	{
-		var connection, pdo, sqlStatement, bindParams,
-			bindTypes, statement, pdoStatement;
+		var connection, pdo, sqlStatement, bindParams, statement;
 
 		let connection = this->_connection,
 			pdo = connection->getInternalHandler(),

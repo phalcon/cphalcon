@@ -366,7 +366,7 @@ abstract class MetaData //implements Phalcon\Di\InjectionAwareInterface
 	 */
 	public function readColumnMapIndex(<Phalcon\Mvc\ModelInterface> model, int index)
 	{
-		var keyName, columnMap, columnMapModel, data;
+		var keyName, columnMap, columnMapModel;
 
 		let keyName = get_class_lower(model);
 
