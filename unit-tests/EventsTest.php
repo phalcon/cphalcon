@@ -239,12 +239,6 @@ class EventsTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testBug1331()
 	{
-		if (!class_exists('MyFirstWeakrefListener')
-		    || !class_exists('MySecondWeakrefListener')
-		) {
-			return;
-		}
-
 		$di = new Phalcon\Di;
 		$di->set('componentX', function() use ($di) {
 			$component = new LeDummyComponent();
@@ -263,7 +257,7 @@ class EventsTest extends PHPUnit_Framework_TestCase
 
 		$logListeners = $component->getEventsManager()->getListeners('log');
 		
-		$this->assertContainsOnlyInstancesOf('MyFirstWeakrefListener', $logListeners);
+		$this->assertInstanceOf('MyFirstWeakrefListener', $logListeners[0]);
 		$this->assertCount(1, $logListeners);
 		
 		// ----- TESTING STEP 2 - SECOND 'LOG' LISTENER ATTACHED
@@ -291,7 +285,7 @@ class EventsTest extends PHPUnit_Framework_TestCase
 		
 		$logListeners = $component->getEventsManager()->getListeners('log');
 				
-		$this->assertContainsOnlyInstancesOf('MySecondWeakrefListener', $logListeners);
+		$this->assertInstanceOf('MySecondWeakrefListener', $logListeners[0]);
 		$this->assertCount(1, $logListeners);		
 	}
 	
@@ -314,12 +308,6 @@ class EventsTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testBug1331BackwardCompatibility()
 	{
-		if (!class_exists('MyFirstWeakrefListener')
-		    || !class_exists('MySecondWeakrefListener')
-		) {
-			return;
-		}
-
 		$di = new Phalcon\Di;
 		$di->set('componentX', function() use ($di) {
 			$component = new LeDummyComponent();
@@ -338,7 +326,7 @@ class EventsTest extends PHPUnit_Framework_TestCase
 
 		$logListeners = $component->getEventsManager()->getListeners('log');
 		
-		$this->assertContainsOnlyInstancesOf('MyFirstWeakrefListener', $logListeners);
+		$this->assertInstanceOf('MyFirstWeakrefListener', $logListeners[0]);
 		$this->assertCount(1, $logListeners);
 		
 		// ----- TESTING STEP 2 - SECOND 'LOG' LISTENER ATTACHED
@@ -366,7 +354,7 @@ class EventsTest extends PHPUnit_Framework_TestCase
 		
 		$logListeners = $component->getEventsManager()->getListeners('log');
 				
-		$this->assertContainsOnlyInstancesOf('MySecondWeakrefListener', $logListeners);
+		$this->assertInstanceOf('MySecondWeakrefListener', $logListeners[0]);
 		$this->assertCount(1, $logListeners);		
 	}	
 }
