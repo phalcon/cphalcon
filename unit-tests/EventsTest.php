@@ -343,7 +343,11 @@ class EventsTest extends PHPUnit_Framework_TestCase
 		
 		// ----- TESTING STEP 3 - ALL 'LOG' LISTENER DETACHED
 		
-		$component->getEventsManager()->dettachAll('log');
+		$oldErrorLevel = error_reporting(E_ALL & ~E_DEPRECATED);
+		
+		@$component->getEventsManager()->dettachAll('log');
+
+		error_reporting($oldErrorLevel);
 		
 		$logListeners = $component->getEventsManager()->getListeners('log');
 		$this->assertEmpty($logListeners);
