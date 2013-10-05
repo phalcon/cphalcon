@@ -62,9 +62,9 @@ class Reflection
 	/**
 	 * Returns the annotations found in the class docblock
 	 *
-	 * @return Phalcon\Annotations\Collection
+	 * @return Phalcon\Annotations\Collection|false
 	 */
-	public function getClassAnnotations() -> <Phalcon\Annotations\Collection>
+	public function getClassAnnotations() -> <Phalcon\Annotations\Collection> | boolean
 	{
 
 		var annotations, reflectionData, reflectionClass, collection;

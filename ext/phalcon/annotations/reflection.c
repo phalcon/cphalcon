@@ -93,7 +93,7 @@ PHP_METHOD(Phalcon_Annotations_Reflection, __construct) {
 /**
  * Returns the annotations found in the class docblock
  *
- * @return Phalcon\Annotations\Collection
+ * @return Phalcon\Annotations\Collection|false
  */
 PHP_METHOD(Phalcon_Annotations_Reflection, getClassAnnotations) {
 

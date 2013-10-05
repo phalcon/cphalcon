@@ -1724,9 +1724,9 @@ class Manager
 	 *
 	 * @param string first
 	 * @param string second
-	 * @return Phalcon\Mvc\Model\RelationInterface
+	 * @return Phalcon\Mvc\Model\RelationInterface[]
 	 */
-	public function getRelationsBetween(string! first, string! second) -> <Phalcon\Mvc\Model\RelationInterface>
+	public function getRelationsBetween(string! first, string! second)
 	{
 
 		var keyRelation, belongsTo, hasMany, hasOne, relations;

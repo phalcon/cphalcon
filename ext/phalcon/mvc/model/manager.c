@@ -2115,7 +2115,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getRelations) {
  *
  * @param string first
  * @param string second
- * @return Phalcon\Mvc\Model\RelationInterface
+ * @return Phalcon\Mvc\Model\RelationInterface[]
  */
 PHP_METHOD(Phalcon_Mvc_Model_Manager, getRelationsBetween) {
 
