@@ -227,6 +227,40 @@ PHP_METHOD(Phalcon_Events_Manager, getResponses){
 }
 
 /**
+ * Removes all events from the EventsManager (deprecated)
+ *
+ * @param string $type
+ * 
+ * @deprecated
+ */
+PHP_METHOD(Phalcon_Events_Manager, dettachAll){
+
+	zval *type = NULL, *events = NULL;
+
+	PHALCON_MM_GROW();
+
+	phalcon_fetch_params(1, 0, 1, &type);
+	
+	if (!type) {
+		type = PHALCON_GLOBAL(z_null);
+	}
+	
+	PHALCON_OBS_VAR(events);
+	phalcon_read_property_this(&events, this_ptr, SL("_events"), PH_NOISY_CC);
+	if (Z_TYPE_P(type) == IS_NULL) {
+		PHALCON_INIT_NVAR(events);
+	} else {
+		if (phalcon_array_isset(events, type)) {
+			phalcon_array_unset(&events, type, 0);
+		}
+	}
+	
+	phalcon_update_property_this(this_ptr, SL("_events"), events TSRMLS_CC);
+	
+	PHALCON_MM_RESTORE();
+}
+
+/**
  * Removes all events from the EventsManager
  *
  * @param string $type
@@ -252,7 +286,7 @@ PHP_METHOD(Phalcon_Events_Manager, detachAll){
 			phalcon_array_unset(&events, type, 0);
 		}
 	}
-	
+
 	phalcon_update_property_this(this_ptr, SL("_events"), events TSRMLS_CC);
 	
 	PHALCON_MM_RESTORE();
