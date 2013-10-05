@@ -55,7 +55,7 @@ class Manager implements Phalcon\Events\ManagerInterface
 
 		let events = this->_events;
 		if typeof events != "array" {
-			let events = array();
+			let events = [];
 		}
 
 		if fetch priorityQueue, events[eventType] {

@@ -15,9 +15,9 @@
 #include "kernel/exception.h"
 #include "kernel/memory.h"
 #include "kernel/object.h"
-#include "kernel/fcall.h"
 #include "kernel/array.h"
 #include "kernel/operators.h"
+#include "kernel/fcall.h"
 #include "kernel/string.h"
 #include "kernel/concat.h"
 
@@ -94,7 +94,7 @@ PHP_METHOD(Phalcon_Events_Manager, attach) {
 	zephir_read_property_this(&events, this_ptr, SL("_events"), PH_NOISY_CC);
 	if ((Z_TYPE_P(events) != IS_ARRAY)) {
 		ZEPHIR_INIT_BNVAR(events);
-		zephir_call_func(events, "array");
+		array_init(events);
 	}
 	ZEPHIR_OBS_VAR(priorityQueue);
 	if (zephir_array_isset_fetch(&priorityQueue, events, eventType, 0 TSRMLS_CC)) {
