@@ -231,9 +231,9 @@ PHP_METHOD(Phalcon_Events_Manager, getResponses){
  *
  * @param string $type
  */
-PHP_METHOD(Phalcon_Events_Manager, dettachAll){
+PHP_METHOD(Phalcon_Events_Manager, detachAll){
 
-	zval *type = NULL, *events = NULL, *null_value;
+	zval *type = NULL, *events = NULL;
 
 	PHALCON_MM_GROW();
 
@@ -249,11 +249,10 @@ PHP_METHOD(Phalcon_Events_Manager, dettachAll){
 		PHALCON_INIT_NVAR(events);
 	} else {
 		if (phalcon_array_isset(events, type)) {
-			PHALCON_INIT_VAR(null_value);
-			phalcon_array_update_zval(&events, type, &null_value, PH_COPY | PH_SEPARATE);
+			phalcon_array_unset(&events, type, PH_SEPARATE);
 		}
 	}
-	
+
 	phalcon_update_property_this(this_ptr, SL("_events"), events TSRMLS_CC);
 	
 	PHALCON_MM_RESTORE();
