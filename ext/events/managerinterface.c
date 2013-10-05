@@ -50,7 +50,7 @@ PHALCON_DOC_METHOD(Phalcon_Events_ManagerInterface, attach);
  *
  * @param string $type
  */
-PHALCON_DOC_METHOD(Phalcon_Events_ManagerInterface, dettachAll);
+PHALCON_DOC_METHOD(Phalcon_Events_ManagerInterface, detachAll);
 
 /**
  * Fires a event in the events manager causing that the acive listeners will be notified about it

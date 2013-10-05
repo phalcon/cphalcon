@@ -23,9 +23,14 @@ class LeDummyComponent
 
 	protected $_eventsManager;
 
-	public function setEventManager($eventsManager)
+	public function setEventsManager($eventsManager)
 	{
 		$this->_eventsManager = $eventsManager;
+	}
+	
+	public function getEventsManager()
+	{
+		return $this->_eventsManager;
 	}
 
 	public function leAction()
@@ -41,7 +46,7 @@ class LeAnotherComponent
 
 	protected $_eventsManager;
 
-	public function setEventManager($eventsManager)
+	public function setEventsManager($eventsManager)
 	{
 		$this->_eventsManager = $eventsManager;
 	}
@@ -125,10 +130,10 @@ class EventsTest extends PHPUnit_Framework_TestCase
 		$eventsManager->attach('dummy', $listener);
 
 		$component = new LeDummyComponent();
-		$component->setEventManager($eventsManager);
+		$component->setEventsManager($eventsManager);
 
 		$another = new LeAnotherComponent();
-		$another->setEventManager($eventsManager);
+		$another->setEventsManager($eventsManager);
 
 		$component->leAction();
 		$component->leAction();
@@ -156,9 +161,9 @@ class EventsTest extends PHPUnit_Framework_TestCase
 
 		/*
 		//This is failling :(
-		$eventsManager->dettach('dummy', $listener);*/
+		$eventsManager->detach('dummy', $listener);*/
 
-		/*$eventsManager->dettachAll('dummy');
+		/*$eventsManager->detachAll('dummy');
 
 		$component->leAction();
 		$component->leAction();
@@ -217,5 +222,76 @@ class EventsTest extends PHPUnit_Framework_TestCase
 		$data = ob_get_clean();
 
 		$this->assertEquals($data, "show first listener\n");
+	}
+	
+	/**
+	 * "Attaching event listeners by event name fails if preceded by
+	 * detachment of all listeners for that type."
+	 * 
+	 * Test contains 4 steps:
+	 * - assigning event manager to dummy service with single log event
+	 *   listener attached
+	 * - attaching second log listener
+	 * - detaching all log listeners
+	 * - attaching different listener
+	 * 
+	 * @see https://github.com/phalcon/cphalcon/issues/1331
+	 */
+	public function testBug1331()
+	{
+		if (!class_exists('MyFirstWeakrefListener')
+		    || !class_exists('MySecondWeakrefListener')
+		) {
+			return;
+		}
+
+		$di = new Phalcon\Di;
+		$di->set('componentX', function() use ($di) {
+			$component = new LeDummyComponent();
+			$eventsManager = new Phalcon\Events\Manager;
+			$eventsManager->attach('log', $di->get('MyFirstWeakrefListener'));
+			$component->setEventsManager($eventsManager);
+			return $component;
+		});
+		
+		$di->set('firstListener', 'MyFirstWeakrefListener');
+		$di->set('secondListener', 'MySecondWeakrefListener');
+		
+		// ----- TESTING STEP 1 - SIGNLE 'LOG' LISTENER ATTACHED		
+		
+		$component = $di->get('componentX');
+
+		$logListeners = $component->getEventsManager()->getListeners('log');
+		
+		$this->assertContainsOnlyInstancesOf('MyFirstWeakrefListener', $logListeners);
+		$this->assertCount(1, $logListeners);
+		
+		// ----- TESTING STEP 2 - SECOND 'LOG' LISTENER ATTACHED
+
+		$component->getEventsManager()->attach('log', $di->get('MySecondWeakrefListener'));
+
+		$logListeners = $component->getEventsManager()->getListeners('log');		
+
+		$this->assertCount(2, $logListeners);
+		$firstLister  = array_shift($logListeners);
+		$secondLister = array_shift($logListeners);		
+		$this->assertInstanceOf('MyFirstWeakrefListener', $firstLister);
+		$this->assertInstanceOf('MySecondWeakrefListener', $secondLister);		
+		
+		// ----- TESTING STEP 3 - ALL 'LOG' LISTENER DETACHED
+		
+		$component->getEventsManager()->detachAll('log');
+		
+		$logListeners = $component->getEventsManager()->getListeners('log');
+		$this->assertEmpty($logListeners);
+		
+		// ----- TESTING STEP 4 - SINGLE 'LOG' LISTENER ATTACHED SECOND TIME
+		
+		$component->getEventsManager()->attach('log', $di->get('MySecondWeakrefListener'));
+		
+		$logListeners = $component->getEventsManager()->getListeners('log');
+				
+		$this->assertContainsOnlyInstancesOf('MySecondWeakrefListener', $logListeners);
+		$this->assertCount(1, $logListeners);		
 	}
 }
