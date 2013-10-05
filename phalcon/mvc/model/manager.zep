@@ -188,7 +188,8 @@ class Manager
 	 * @param Phalcon\Mvc\ModelInterface model
 	 * @return Phalcon\Events\ManagerInterface
 	 */
-	public function getCustomEventsManager(<Phalcon\Mvc\ModelInterface> model) -> <Phalcon\Events\ManagerInterface>
+	public function getCustomEventsManager(<Phalcon\Mvc\ModelInterface> model) 
+		-> <Phalcon\Events\ManagerInterface> | boolean
 	{
 		var customEventsManager, eventsManager;
 		let customEventsManager = this->_customEventsManager;
@@ -197,7 +198,7 @@ class Manager
 				return eventsManager;
 			}
 		}
-		return null;
+		return false;
 	}
 
 	/**
@@ -288,7 +289,7 @@ class Manager
 		let initialized = this->_initialized;
 		if fetch model, initialized[strtolower(modelName)] {
 			if newInstance {
-				return clone model;
+				//return clone model;
 			}
 			return model;
 		}
@@ -368,7 +369,7 @@ class Manager
 				return schema;
 			}
 		}
-		return null;
+		return "";
 	}
 
 	/**
@@ -625,7 +626,7 @@ class Manager
 			return eventsManager->fire("model:" . eventName, model, data);
 		}
 
-		return null;
+		return false;
 	}
 
 	/**
@@ -1468,15 +1469,16 @@ class Manager
 	/**
 	 * Gets belongsTo related records from a model
 	 *
-	 * @param string $method
-	 * @param string $modelName
-	 * @param string $modelRelation
-	 * @param Phalcon\Mvc\Model $record
-	 * @param array $parameters
+	 * @param string method
+	 * @param string modelName
+	 * @param string modelRelation
+	 * @param Phalcon\Mvc\ModelInterface record
+	 * @param array parameters
 	 * @return Phalcon\Mvc\Model\ResultsetInterface
 	 */
 	public function getBelongsToRecords(string! method, string! modelName,
-		<Phalcon\Mvc\ModelInterface> modelRelation, record, parameters=null) -> <Phalcon\Mvc\Model\ResultsetInterface>
+		<Phalcon\Mvc\ModelInterface> modelRelation, record, parameters=null) 
+		-> <Phalcon\Mvc\Model\ResultsetInterface> | boolean
 	{
 
 		var belongsTo, keyRelation, relations;
@@ -1506,15 +1508,16 @@ class Manager
 	/**
 	 * Gets hasMany related records from a model
 	 *
-	 * @param string $method
-	 * @param string $modelName
-	 * @param string $modelRelation
-	 * @param Phalcon\Mvc\Model $record
-	 * @param array $parameters
+	 * @param string method
+	 * @param string modelName
+	 * @param string modelRelation
+	 * @param Phalcon\Mvc\ModelInterface record
+	 * @param array parameters
 	 * @return Phalcon\Mvc\Model\ResultsetInterface
 	 */
 	public function getHasManyRecords(string! method, string! modelName,
-		<Phalcon\Mvc\ModelInterface> modelRelation, record, parameters=null) -> <Phalcon\Mvc\Model\ResultsetInterface>
+		<Phalcon\Mvc\ModelInterface> modelRelation, record, parameters=null) 
+		-> <Phalcon\Mvc\Model\ResultsetInterface> | boolean
 	{
 
 		var hasMany, keyRelation, relations;
@@ -1552,7 +1555,8 @@ class Manager
 	 * @return Phalcon\Mvc\ModelInterface
 	 */
 	public function getHasOneRecords(string! method, string! modelName,
-		<Phalcon\Mvc\ModelInterface> modelRelation, record, parameters=null) -> <Phalcon\Mvc\ModelInterface>
+		<Phalcon\Mvc\ModelInterface> modelRelation, record, parameters=null) 
+		-> <Phalcon\Mvc\ModelInterface> | boolean
 	{
 		var hasOne, keyRelation, relations;
 
@@ -1797,7 +1801,8 @@ class Manager
 	 * @param array placeholders
 	 * @return Phalcon\Mvc\Model\QueryInterface
 	 */
-	public function executeQuery(string! phql, var placeholders=null) -> <Phalcon\Mvc\Model\QueryInterface>
+	public function executeQuery(string! phql, var placeholders=null) 
+		-> <Phalcon\Mvc\Model\QueryInterface>
 	{
 		var dependencyInjector, query;
 
@@ -1857,7 +1862,7 @@ class Manager
 	 * @param string alias
 	 * @param string namespace
 	 */
-	public function registerNamespaceAlias(string alias, string namespaceName)
+	public function registerNamespaceAlias(string alias, string namespaceName) -> void
 	{
 		let this->_namespaceAliases[alias] = namespaceName;
 	}

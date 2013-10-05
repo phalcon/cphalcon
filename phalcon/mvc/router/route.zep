@@ -144,8 +144,9 @@ class Route
 	 * Extracts parameters from a string
 	 *
 	 * @param string pattern
+	 * @return array|boolean
 	 */
-	public function extractNamedParams(string! pattern) -> string
+	public function extractNamedParams(string! pattern)
 	{
 
 		char ch;

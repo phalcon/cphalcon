@@ -57,7 +57,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Annotations_Adapter_Apc) {
 /**
  * Reads parsed annotations from APC
  *
- * @param string $key
+ * @param string key
  * @return Phalcon\Annotations\Reflection
  */
 PHP_METHOD(Phalcon_Annotations_Adapter_Apc, read) {
@@ -83,7 +83,7 @@ PHP_METHOD(Phalcon_Annotations_Adapter_Apc, read) {
 /**
  * Writes parsed annotations to APC
  *
- * @param string $key
+ * @param string key
  * @param Phalcon\Annotations\Reflection $data
  */
 PHP_METHOD(Phalcon_Annotations_Adapter_Apc, write) {

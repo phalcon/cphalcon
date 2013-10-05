@@ -93,7 +93,7 @@ class Validation extends Phalcon\Di\Injectable
 		 */
 		if method_exists(this, "beforeValidation") {
 			if this->{"beforeValidation"}(data, entity, messages) === false {
-				return false;
+				return messages;
 			}
 		}
 

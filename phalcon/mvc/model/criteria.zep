@@ -63,14 +63,14 @@ class Criteria
 	 *
 	 * @return Phalcon\DiInterface
 	 */
-	public function getDI() -> <Phalcon\DiInterface>
+	public function getDI() -> <Phalcon\DiInterface> | boolean
 	{
 		var params, dependencyInjector;
 		let params = this->_params;
 		if fetch dependencyInjector, params["di"] {
 			return dependencyInjector;
 		}
-		return null;
+		return false;
 	}
 
 	/**

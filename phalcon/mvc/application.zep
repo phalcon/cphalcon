@@ -176,9 +176,9 @@ class Application extends Phalcon\Di\Injectable
 	 * Handles a MVC request
 	 *
 	 * @param string uri
-	 * @return Phalcon\Http\ResponseInterface
+	 * @return Phalcon\Http\ResponseInterface|boolean
 	 */
-	public function handle(uri=null) -> <Phalcon\Http\ResponseInterface>
+	public function handle(uri=null) -> <Phalcon\Http\ResponseInterface> | boolean
 	{
 
 		var dependencyInjector, eventsManager, router, dispatcher, response, view,

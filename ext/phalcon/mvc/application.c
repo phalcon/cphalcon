@@ -247,7 +247,7 @@ PHP_METHOD(Phalcon_Mvc_Application, getDefaultModule) {
  * Handles a MVC request
  *
  * @param string uri
- * @return Phalcon\Http\ResponseInterface
+ * @return Phalcon\Http\ResponseInterface|boolean
  */
 PHP_METHOD(Phalcon_Mvc_Application, handle) {
 

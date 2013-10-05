@@ -53,14 +53,14 @@ class Group implements Countable, ArrayAccess, Iterator
 	 * @param string index
 	 * @return Phalcon\Validation\Message
 	 */
-	public function offsetGet(int index) -> <Phalcon\Validation\Message>
+	public function offsetGet(int! index) -> <Phalcon\Validation\Message> | boolean
 	{
 		var messages, message;
 		let messages = this->_messages;
 		if fetch message, messages[index] {
 			return message;
 		}
-		return null;
+		return false;
 	}
 
 	/**
@@ -73,7 +73,7 @@ class Group implements Countable, ArrayAccess, Iterator
 	 * @param int index
 	 * @param Phalcon\Validation\Message message
 	 */
-	public function offsetSet(int index, <Phalcon\Validation\Message> message)
+	public function offsetSet(int! index, <Phalcon\Validation\Message> message)
 	{
 		if typeof message != "object" {
 			throw new Phalcon\Validation\Exception("The message must be an object");
@@ -91,7 +91,7 @@ class Group implements Countable, ArrayAccess, Iterator
 	 * @param string index
 	 * @return boolean
 	 */
-	public function offsetExists(string index)
+	public function offsetExists(string index) -> boolean
 	{
 		var messages;
 		let messages = this->_messages;
@@ -126,11 +126,8 @@ class Group implements Countable, ArrayAccess, Iterator
 	 *
 	 * @param Phalcon\Validation\MessageInterface message
 	 */
-	public function appendMessage(message)
+	public function appendMessage(<Phalcon\Validation\MessageInterface> message)
 	{
-		if typeof message != "object" {
-			throw new Phalcon\Validation\Exception("The message must be an object");
-		}
 		let this->_messages[] = message;
 	}
 
@@ -223,7 +220,7 @@ class Group implements Countable, ArrayAccess, Iterator
 	/**
 	 * Rewinds the internal iterator
 	 */
-	public function rewind()
+	public function rewind() -> void
 	{
 		let this->_position = 0;
 	}
@@ -233,14 +230,14 @@ class Group implements Countable, ArrayAccess, Iterator
 	 *
 	 * @return Phalcon\Validation\Message
 	 */
-	public function current() -> <Phalcon\Validation\Message>
+	public function current() -> <Phalcon\Validation\Message> | boolean
 	{
 		var messages, message;
 		let messages = this->_messages;
 		if fetch message, messages[this->_position] {
 			return message;
 		}
-		return null;
+		return false;
 	}
 
 	/**
@@ -257,7 +254,7 @@ class Group implements Countable, ArrayAccess, Iterator
 	 * Moves the internal iteration pointer to the next position
 	 *
 	 */
-	public function next()
+	public function next() -> void
 	{
 		let this->_position++;
 	}

@@ -36,7 +36,7 @@ class Xcache
 	 * @param string key
 	 * @return Phalcon\Annotations\Reflection
 	 */
-	public function read(string key) -> <Phalcon\Annotations\Reflection>
+	public function read(string! key) -> <Phalcon\Annotations\Reflection> | boolean
 	{
 		var serialized, data;
 		let serialized = xcache_get(strtolower("_PHAN" . key));
@@ -46,6 +46,7 @@ class Xcache
 				return data;
 			}
 		}
+		return false;
 	}
 
 	/**
@@ -54,7 +55,7 @@ class Xcache
 	* @param string key
 	* @param Phalcon\Annotations\Reflection $data
 	*/
-	public function write(string key, <Phalcon\Annotations\Reflection> data)
+	public function write(string! key, <Phalcon\Annotations\Reflection> data)
 	{
 		xcache_set(strtolower("_PHAN" . key), serialize(data));
 	}

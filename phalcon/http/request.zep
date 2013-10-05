@@ -267,7 +267,7 @@ class Request implements Phalcon\Http\RequestInterface, Phalcon\Di\InjectionAwar
 	 * @param string header
 	 * @return string
 	 */
-	public function getHeader(string header) -> boolean
+	public function getHeader(string header) -> string
 	{
 		var serverValue, headerValue;
 
@@ -308,7 +308,7 @@ class Request implements Phalcon\Http\RequestInterface, Phalcon\Di\InjectionAwar
 	 *
 	 * @return boolean
 	 */
-	public function isAjax()
+	public function isAjax() -> boolean
 	{
 		return this->getHeader("HTTP_X_REQUESTED_WITH") == "XMLHttpRequest";
 	}

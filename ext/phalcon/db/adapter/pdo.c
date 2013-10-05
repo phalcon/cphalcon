@@ -326,7 +326,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, executePrepared) {
  * @param  string sqlStatement
  * @param  array bindParams
  * @param  array bindTypes
- * @return Phalcon\Db\ResultInterface
+ * @return Phalcon\Db\ResultInterface|bool
  */
 PHP_METHOD(Phalcon_Db_Adapter_Pdo, query) {
 
@@ -581,7 +581,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, escapeString) {
  *</code>
  *
  * @param string sequenceName
- * @return int
+ * @return int|boolean
  */
 PHP_METHOD(Phalcon_Db_Adapter_Pdo, lastInsertId) {
 

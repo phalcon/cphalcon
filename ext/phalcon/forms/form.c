@@ -498,7 +498,7 @@ PHP_METHOD(Phalcon_Forms_Form, getMessages) {
 /**
  * Returns the messages generated for a specific element
  *
- * @return Phalcon\Validation\Message\Group[]
+ * @return Phalcon\Validation\Message\Group
  */
 PHP_METHOD(Phalcon_Forms_Form, getMessagesFor) {
 
@@ -900,7 +900,7 @@ PHP_METHOD(Phalcon_Forms_Form, current) {
 	if (zephir_array_isset_fetch(&element, elements, _0, 1 TSRMLS_CC)) {
 		RETURN_CTORW(element);
 	}
-	RETURN_NULL();
+	RETURN_BOOL(0);
 
 }
 

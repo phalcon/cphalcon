@@ -55,7 +55,7 @@ class Files
 	 * @param string key
 	 * @return Phalcon\Annotations\Reflection
 	 */
-	public function read(string key) -> <Phalcon\Annotations\Reflection>
+	public function read(string key) -> <Phalcon\Annotations\Reflection> | boolean
 	{
 		var path;
 
@@ -65,9 +65,10 @@ class Files
 		let path = this->_annotationsDir . prepare_virtual_path(key, "_") . ".php";
 
 		if file_exists(path) {
-			return require path;
+			//return require path;
 		}
-		return null;
+
+		return false;
 	}
 
 	/**
@@ -76,7 +77,7 @@ class Files
 	 * @param string key
 	 * @param Phalcon\Annotations\Reflection data
 	 */
-	public function write(string key, <Phalcon\Annotations\Reflection> data)
+	public function write(string! key, <Phalcon\Annotations\Reflection> data)
 	{
 		var path;
 

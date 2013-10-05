@@ -737,7 +737,8 @@ class View extends Phalcon\Di\Injectable implements Phalcon\Mvc\ViewInterface
 	 * @param array params
 	 * @return Phalcon\Mvc\View
 	 */
-	public function render(string! controllerName, string! actionName, params=null) -> <Phalcon\Mvc\View>
+	public function render(string! controllerName, string! actionName, params=null) 
+		-> <Phalcon\Mvc\View>
 	{
 		boolean silence, mustClean;
 		int cacheLevel, renderLevel;
@@ -751,7 +752,7 @@ class View extends Phalcon\Di\Injectable implements Phalcon\Mvc\ViewInterface
 		 */
 		if this->_disabled !== false {
 			let this->_content = ob_get_contents();
-			return false;
+			return this;
 		}
 
 		let this->_controllerName = controllerName,
@@ -821,7 +822,7 @@ class View extends Phalcon\Di\Injectable implements Phalcon\Mvc\ViewInterface
 		 */
 		if typeof eventsManager == "object" {
 			if eventsManager->fire("view:beforeRender", this) === false {
-				return false;
+				return this;
 			}
 		}
 
@@ -936,7 +937,7 @@ class View extends Phalcon\Di\Injectable implements Phalcon\Mvc\ViewInterface
 			eventsManager->fire("view:afterRender", this);
 		}
 
-		return null;
+		return this;
 	}
 
 	/**

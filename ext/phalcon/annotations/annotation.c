@@ -278,7 +278,7 @@ PHP_METHOD(Phalcon_Annotations_Annotation, getArgument) {
  * Returns an argument in a specific position
  *
  * @param int position
- * @return mixed
+ * @return boolean
  */
 PHP_METHOD(Phalcon_Annotations_Annotation, hasArgument) {
 

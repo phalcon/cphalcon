@@ -399,7 +399,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, getType) {
 /**
  * Get first row in the resultset
  *
- * @return Phalcon\Mvc\ModelInterface
+ * @return Phalcon\Mvc\ModelInterface|boolean
  */
 PHP_METHOD(Phalcon_Mvc_Model_Resultset, getFirst) {
 
@@ -426,7 +426,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, getFirst) {
 /**
  * Get last row in the resultset
  *
- * @return Phalcon\Mvc\ModelInterface
+ * @return Phalcon\Mvc\ModelInterface| boolean
  */
 PHP_METHOD(Phalcon_Mvc_Model_Resultset, getLast) {
 

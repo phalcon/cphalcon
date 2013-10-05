@@ -376,7 +376,7 @@ class MySQL extends Phalcon\Db\Dialect //implements Phalcon\Db\DialectInterface
 			}
 		}
 
-		return null;
+		return "";
 	}
 
 	/**

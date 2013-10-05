@@ -126,9 +126,10 @@ class Di implements Phalcon\DiInterface
 	 * @param string name
 	 * @param mixed definition
 	 * @param boolean shared
-	 * @return Phalcon\Di\ServiceInterface
+	 * @return Phalcon\Di\ServiceInterface|false
 	 */
-	public function attempt(string! name, definition, shared=false) -> <Phalcon\Di\ServiceInterface>
+	public function attempt(string! name, definition, boolean shared=false) 
+		-> <Phalcon\Di\ServiceInterface> | boolean
 	{
 		var services, service;
 
@@ -139,7 +140,7 @@ class Di implements Phalcon\DiInterface
 			return service;
 		}
 
-		return null;
+		return false;
 	}
 
 	/**

@@ -80,7 +80,7 @@ class Collection implements \Iterator, \Countable
 	/**
 	 * Rewinds the internal iterator
 	 */
-	public function rewind()
+	public function rewind() -> void
 	{
 		let this->_position = 0;
 	}
@@ -90,14 +90,14 @@ class Collection implements \Iterator, \Countable
 	 *
 	 * @return Phalcon\Annotations\Annotation
 	 */
-	public function current() -> <Phalcon\Annotations\Annotation>
+	public function current() -> <Phalcon\Annotations\Annotation> | boolean
 	{
 		var annotation, annotations;
 		let annotations = this->_annotations;
 		if fetch annotation, annotations[this->_position] {
 			return annotation;
 		}
-		return null;
+		return false;
 	}
 
 	/**
@@ -114,7 +114,7 @@ class Collection implements \Iterator, \Countable
 	 * Moves the internal iteration pointer to the next position
 	 *
 	 */
-	public function next()
+	public function next() -> void
 	{
 		let this->_position++;
 	}

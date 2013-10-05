@@ -717,7 +717,7 @@ PHP_METHOD(Phalcon_Db_Dialect_MySQL, _getTableOptions) {
 			RETURN_MM();
 		}
 	}
-	RETURN_MM_NULL();
+	RETURN_MM_STRING("", 1);
 
 }
 

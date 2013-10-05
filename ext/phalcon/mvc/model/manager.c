@@ -236,7 +236,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getCustomEventsManager) {
 			RETURN_CTOR(eventsManager);
 		}
 	}
-	RETURN_MM_NULL();
+	RETURN_MM_BOOL(0);
 
 }
 
@@ -343,7 +343,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, load) {
 	zephir_fast_strtolower(_0, modelName);
 	if (zephir_array_isset_fetch(&model, initialized, _0, 1 TSRMLS_CC)) {
 		if (newInstance) {
-			RETURN_MM_NULL();
 		}
 		RETURN_CTOR(model);
 	}
@@ -472,7 +471,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getModelSchema) {
 			RETURN_CTOR(schema);
 		}
 	}
-	RETURN_MM_NULL();
+	RETURN_MM_STRING("", 1);
 
 }
 
@@ -817,7 +816,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, missingMethod) {
 		zephir_call_method_p3(return_value, eventsManager, "fire", _5, model, data);
 		RETURN_MM();
 	}
-	RETURN_MM_NULL();
+	RETURN_MM_BOOL(0);
 
 }
 
@@ -1763,11 +1762,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, clearReusableObjects) {
 /**
  * Gets belongsTo related records from a model
  *
- * @param string $method
- * @param string $modelName
- * @param string $modelRelation
- * @param Phalcon\Mvc\Model $record
- * @param array $parameters
+ * @param string method
+ * @param string modelName
+ * @param string modelRelation
+ * @param Phalcon\Mvc\ModelInterface record
+ * @param array parameters
  * @return Phalcon\Mvc\Model\ResultsetInterface
  */
 PHP_METHOD(Phalcon_Mvc_Model_Manager, getBelongsToRecords) {
@@ -1810,11 +1809,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getBelongsToRecords) {
 /**
  * Gets hasMany related records from a model
  *
- * @param string $method
- * @param string $modelName
- * @param string $modelRelation
- * @param Phalcon\Mvc\Model $record
- * @param array $parameters
+ * @param string method
+ * @param string modelName
+ * @param string modelRelation
+ * @param Phalcon\Mvc\ModelInterface record
+ * @param array parameters
  * @return Phalcon\Mvc\Model\ResultsetInterface
  */
 PHP_METHOD(Phalcon_Mvc_Model_Manager, getHasManyRecords) {

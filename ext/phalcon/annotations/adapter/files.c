@@ -114,9 +114,8 @@ PHP_METHOD(Phalcon_Annotations_Adapter_Files, read) {
 	ZEPHIR_INIT_BNVAR(_1);
 	zephir_call_func_p1(_1, "file_exists", path);
 	if (zephir_is_true(_1)) {
-		RETURN_MM_NULL();
 	}
-	RETURN_MM_NULL();
+	RETURN_MM_BOOL(0);
 
 }
 

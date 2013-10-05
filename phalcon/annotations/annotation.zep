@@ -82,7 +82,7 @@ class Annotation
 	 *
 	 * @return string
 	 */
-	public function getName()
+	public function getName() -> string
 	{
 		return this->_name;
 	}
@@ -162,7 +162,7 @@ class Annotation
 	 *
 	 * @return int
 	 */
-	public function numberArguments()
+	public function numberArguments() -> int
 	{
 		return count(this->_arguments);
 	}
@@ -186,9 +186,9 @@ class Annotation
 	 * Returns an argument in a specific position
 	 *
 	 * @param int position
-	 * @return mixed
+	 * @return boolean
 	 */
-	public function hasArgument(int position)
+	public function hasArgument(int position) -> boolean
 	{
 		var arguments;
 		let arguments = this->_arguments;

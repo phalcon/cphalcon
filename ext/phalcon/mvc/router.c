@@ -1162,7 +1162,7 @@ PHP_METHOD(Phalcon_Mvc_Router, getRouteById) {
 			RETURN_CCTOR(route);
 		}
 	}
-	RETURN_MM_NULL();
+	RETURN_MM_BOOL(0);
 
 }
 
@@ -1170,7 +1170,7 @@ PHP_METHOD(Phalcon_Mvc_Router, getRouteById) {
  * Returns a route object by its name
  *
  * @param string name
- * @return Phalcon\Mvc\Router\Route
+ * @return Phalcon\Mvc\Router\Route | boolean
  */
 PHP_METHOD(Phalcon_Mvc_Router, getRouteByName) {
 
@@ -1199,7 +1199,7 @@ PHP_METHOD(Phalcon_Mvc_Router, getRouteByName) {
 			RETURN_CCTOR(route);
 		}
 	}
-	RETURN_MM_NULL();
+	RETURN_MM_BOOL(0);
 
 }
 

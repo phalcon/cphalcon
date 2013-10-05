@@ -911,7 +911,7 @@ class Router
 	 * @param string id
 	 * @return Phalcon\Mvc\Router\Route
 	 */
-	public function getRouteById(var id) -> <Phalcon\Mvc\Router\Route>
+	public function getRouteById(var id) -> <Phalcon\Mvc\Router\Route> | boolean
 	{
 		var route;
 
@@ -920,16 +920,16 @@ class Router
 				return route;
 			}
 		}
-		return null;
+		return false;
 	}
 
 	/**
 	 * Returns a route object by its name
 	 *
 	 * @param string name
-	 * @return Phalcon\Mvc\Router\Route
+	 * @return Phalcon\Mvc\Router\Route | boolean
 	 */
-	public function getRouteByName(string! name) -> <Phalcon\Mvc\Router\Route>
+	public function getRouteByName(string! name) -> <Phalcon\Mvc\Router\Route> | boolean
 	{
 		var route;
 
@@ -938,7 +938,7 @@ class Router
 				return route;
 			}
 		}
-		return null;
+		return false;
 	}
 
 }

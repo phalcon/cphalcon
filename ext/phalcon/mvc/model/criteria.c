@@ -95,7 +95,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, getDI) {
 	if (zephir_array_isset_string_fetch(&dependencyInjector, params, SS("di"), 1 TSRMLS_CC)) {
 		RETURN_CTORW(dependencyInjector);
 	}
-	RETURN_NULL();
+	RETURN_BOOL(0);
 
 }
 

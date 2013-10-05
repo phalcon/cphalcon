@@ -387,7 +387,7 @@ class Form extends Phalcon\Di\Injectable implements Countable, Iterator
 	 * @param boolean byItemName
 	 * @return array
 	 */
-	public function getMessages(boolean byItemName=false)
+	public function getMessages(boolean byItemName=false) -> <Phalcon\Validation\Message\Group>
 	{
 		var messages, group, element, elementMessages;
 
@@ -410,9 +410,9 @@ class Form extends Phalcon\Di\Injectable implements Countable, Iterator
 	/**
 	 * Returns the messages generated for a specific element
 	 *
-	 * @return Phalcon\Validation\Message\Group[]
+	 * @return Phalcon\Validation\Message\Group
 	 */
-	public function getMessagesFor(name)
+	public function getMessagesFor(name) -> <Phalcon\Validation\Message\Group>
 	{
 		var messages, elementMessages, group;
 
@@ -476,7 +476,7 @@ class Form extends Phalcon\Di\Injectable implements Countable, Iterator
 	 * @param array attributes
 	 * @return string
 	 */
-	public function render(string name, attributes=null)
+	public function render(string name, attributes=null) -> string
 	{
 		var elements, element;
 
@@ -680,7 +680,7 @@ class Form extends Phalcon\Di\Injectable implements Countable, Iterator
 	/**
 	 * Rewinds the internal iterator
 	 */
-	public function rewind()
+	public function rewind() -> void
 	{
 		let this->_position = 0;
 		let this->_elementsIndexed = array_values(this->_elements);
@@ -691,7 +691,7 @@ class Form extends Phalcon\Di\Injectable implements Countable, Iterator
 	 *
 	 * @return Phalcon\Forms\ElementInterface
 	 */
-	public function current() -> <Phalcon\Forms\ElementInterface>
+	public function current() -> <Phalcon\Forms\ElementInterface> | boolean
 	{
 		var elements, element;
 
@@ -699,7 +699,7 @@ class Form extends Phalcon\Di\Injectable implements Countable, Iterator
 		if fetch element, elements[this->_position] {
 			return element;
 		}
-		return null;
+		return false;
 	}
 
 	/**
@@ -716,7 +716,7 @@ class Form extends Phalcon\Di\Injectable implements Countable, Iterator
 	 * Moves the internal iteration pointer to the next position
 	 *
 	 */
-	public function next()
+	public function next() -> void
 	{
 		let this->_position++;
 	}

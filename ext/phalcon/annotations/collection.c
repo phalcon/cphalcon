@@ -160,7 +160,7 @@ PHP_METHOD(Phalcon_Annotations_Collection, current) {
 	if (zephir_array_isset_fetch(&annotation, annotations, _0, 1 TSRMLS_CC)) {
 		RETURN_CTORW(annotation);
 	}
-	RETURN_NULL();
+	RETURN_BOOL(0);
 
 }
 

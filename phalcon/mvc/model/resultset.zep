@@ -248,7 +248,7 @@ abstract class Resultset
 	 * @param int index
 	 * @return Phalcon\Mvc\ModelInterface
 	 */
-	public function offsetGet(int index) -> <Phalcon\Mvc\ModelInterface>
+	public function offsetGet(int! index) -> <Phalcon\Mvc\ModelInterface> | boolean
 	{
 		if index < this->count() {
 
@@ -310,9 +310,9 @@ abstract class Resultset
 	/**
 	 * Get first row in the resultset
 	 *
-	 * @return Phalcon\Mvc\ModelInterface
+	 * @return Phalcon\Mvc\ModelInterface|boolean
 	 */
-	public function getFirst() -> <Phalcon\Mvc\ModelInterface>
+	public function getFirst() -> <Phalcon\Mvc\ModelInterface> | boolean
 	{
 
 		/**
@@ -335,9 +335,9 @@ abstract class Resultset
 	/**
 	 * Get last row in the resultset
 	 *
-	 * @return Phalcon\Mvc\ModelInterface
+	 * @return Phalcon\Mvc\ModelInterface| boolean
 	 */
-	public function getLast() -> <Phalcon\Mvc\ModelInterface>
+	public function getLast() -> <Phalcon\Mvc\ModelInterface> | boolean
 	{
 		this->seek(this->count() - 1);
 		if this->{"valid"}() !== false {
@@ -363,7 +363,7 @@ abstract class Resultset
 	 *
 	 * @return boolean
 	 */
-	public function isFresh()
+	public function isFresh() -> boolean
 	{
 		return this->_isFresh;
 	}

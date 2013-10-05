@@ -85,7 +85,7 @@ PHP_METHOD(Phalcon_Annotations_Adapter_Xcache, read) {
 			RETURN_CCTOR(data);
 		}
 	}
-	ZEPHIR_MM_RESTORE();
+	RETURN_MM_BOOL(0);
 
 }
 

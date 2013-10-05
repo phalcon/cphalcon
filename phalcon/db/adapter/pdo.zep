@@ -251,9 +251,10 @@ abstract class Pdo extends Phalcon\Db\Adapter
 	 * @param  string sqlStatement
 	 * @param  array bindParams
 	 * @param  array bindTypes
-	 * @return Phalcon\Db\ResultInterface
+	 * @return Phalcon\Db\ResultInterface|bool
 	 */
-	public function query(string! sqlStatement, bindParams=null, bindTypes=null) -> <Phalcon\Db\ResultInterface>
+	public function query(string! sqlStatement, bindParams=null, bindTypes=null) 
+		-> <Phalcon\Db\ResultInterface> | boolean
 	{
 		var eventsManager, pdo, statement;
 
@@ -439,9 +440,9 @@ abstract class Pdo extends Phalcon\Db\Adapter
 	 *</code>
 	 *
 	 * @param string sequenceName
-	 * @return int
+	 * @return int|boolean
 	 */
-	public function lastInsertId(sequenceName=null) -> int
+	public function lastInsertId(sequenceName=null) -> int | boolean
 	{
 		var pdo;
 		let pdo = this->_pdo;

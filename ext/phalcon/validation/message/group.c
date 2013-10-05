@@ -105,7 +105,7 @@ PHP_METHOD(Phalcon_Validation_Message_Group, offsetGet) {
 	if (zephir_array_isset_long_fetch(&message, messages, index, 1 TSRMLS_CC)) {
 		RETURN_CTORW(message);
 	}
-	RETURN_NULL();
+	RETURN_BOOL(0);
 
 }
 
@@ -204,10 +204,6 @@ PHP_METHOD(Phalcon_Validation_Message_Group, appendMessage) {
 
 
 
-	if ((Z_TYPE_P(message) != IS_OBJECT)) {
-		ZEPHIR_THROW_EXCEPTION_STRW(phalcon_validation_exception_ce, "The message must be an object");
-		return;
-	}
 	zephir_update_property_array_append(this_ptr, SL("_messages"), message TSRMLS_CC);
 
 }
@@ -351,7 +347,7 @@ PHP_METHOD(Phalcon_Validation_Message_Group, current) {
 	if (zephir_array_isset_fetch(&message, messages, _0, 1 TSRMLS_CC)) {
 		RETURN_CTORW(message);
 	}
-	RETURN_NULL();
+	RETURN_BOOL(0);
 
 }
 

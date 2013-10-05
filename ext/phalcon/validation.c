@@ -127,7 +127,7 @@ PHP_METHOD(Phalcon_Validation, validate) {
 		ZEPHIR_INIT_VAR(_0);
 		zephir_call_method_p3(_0, this_ptr, "beforevalidation", data, entity, messages);
 		if (ZEPHIR_IS_FALSE(_0)) {
-			RETURN_MM_BOOL(0);
+			RETURN_CCTOR(messages);
 		}
 	}
 	zephir_update_property_this(this_ptr, SL("_messages"), messages TSRMLS_CC);

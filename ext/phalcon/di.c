@@ -186,19 +186,22 @@ PHP_METHOD(Phalcon_Di, remove) {
  * @param string name
  * @param mixed definition
  * @param boolean shared
- * @return Phalcon\Di\ServiceInterface
+ * @return Phalcon\Di\ServiceInterface|false
  */
 PHP_METHOD(Phalcon_Di, attempt) {
 
-	zval *name_param = NULL, *definition, *shared = NULL, *services, *service;
+	zend_bool shared;
+	zval *name_param = NULL, *definition, *shared_param = NULL, *services, *service;
 	zval *name = NULL;
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 2, 1, &name_param, &definition, &shared);
+	zephir_fetch_params(1, 2, 1, &name_param, &definition, &shared_param);
 
 		zephir_get_strval(name, name_param);
-	if (!shared) {
-		ZEPHIR_CPY_WRT(shared, ZEPHIR_GLOBAL(global_false));
+	if (!shared_param) {
+		shared = 0;
+	} else {
+		shared = zephir_get_boolval(shared_param);
 	}
 
 
@@ -206,11 +209,11 @@ PHP_METHOD(Phalcon_Di, attempt) {
 	if (!(zephir_array_isset(services, name))) {
 		ZEPHIR_INIT_VAR(service);
 		object_init_ex(service, phalcon_di_service_ce);
-		zephir_call_method_p3_noret(service, "__construct", name, definition, shared);
+		zephir_call_method_p3_noret(service, "__construct", name, definition, (shared ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false)));
 		zephir_update_property_array(this_ptr, SL("_services"), name, service TSRMLS_CC);
 		RETURN_CCTOR(service);
 	}
-	RETURN_MM_NULL();
+	RETURN_MM_BOOL(0);
 
 }
 
