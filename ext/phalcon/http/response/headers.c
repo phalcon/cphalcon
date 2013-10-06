@@ -136,7 +136,7 @@ PHP_METHOD(Phalcon_Http_Response_Headers, send) {
 		) {
 			ZEPHIR_GET_HMKEY(header, _3, _2);
 			ZEPHIR_GET_HVALUE(value, _4);
-			if (!(0)) {
+			if (!((0 == 0))) {
 				ZEPHIR_INIT_LNVAR(_5);
 				ZEPHIR_CONCAT_VS(_5, header, ": ");
 				ZEPHIR_INIT_LNVAR(_6);

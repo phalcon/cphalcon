@@ -680,7 +680,7 @@ PHP_METHOD(Phalcon_Mvc_Model, cloneResultMap) {
 	HashPosition _1;
 	zend_bool keepSnapshots;
 	int dirtyState;
-	zval *base, *data, *columnMap, *dirtyState_param = NULL, *keepSnapshots_param = NULL, *object, *attribute, *key = NULL, *value = NULL, *_0 = NULL, **_3, *_4 = NULL, *_5 = NULL;
+	zval *base, *data, *columnMap, *dirtyState_param = NULL, *keepSnapshots_param = NULL, *object = NULL, *attribute, *key = NULL, *value = NULL, *_0 = NULL, **_3, *_4 = NULL, *_5 = NULL;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 3, 2, &base, &data, &columnMap, &dirtyState_param, &keepSnapshots_param);
@@ -700,9 +700,9 @@ PHP_METHOD(Phalcon_Mvc_Model, cloneResultMap) {
 		ZEPHIR_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Data to dump in the object must be an Array");
 		return;
 	}
-	ZEPHIR_INIT_VAR(object);
-	ZVAL_NULL(object);
 	ZEPHIR_INIT_VAR(_0);
+	ZEPHIR_CPY_WRT(object, _0);
+	ZEPHIR_INIT_BNVAR(_0);
 	ZVAL_LONG(_0, dirtyState);
 	zephir_call_method_p1_noret(object, "setdirtystate", _0);
 	zephir_is_iterable(data, &_2, &_1, 0, 0);
@@ -840,7 +840,7 @@ PHP_METHOD(Phalcon_Mvc_Model, cloneResult) {
 	HashTable *_2;
 	HashPosition _1;
 	int dirtyState;
-	zval *base, *data, *dirtyState_param = NULL, *object, *key = NULL, *value = NULL, *_0, **_3;
+	zval *base, *data, *dirtyState_param = NULL, *object = NULL, *key = NULL, *value = NULL, *_0, **_3;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 1, &base, &data, &dirtyState_param);
@@ -855,9 +855,9 @@ PHP_METHOD(Phalcon_Mvc_Model, cloneResult) {
 		ZEPHIR_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Data to dump in the object must be an Array");
 		return;
 	}
-	ZEPHIR_INIT_VAR(object);
-	ZVAL_NULL(object);
 	ZEPHIR_INIT_VAR(_0);
+	ZEPHIR_CPY_WRT(object, _0);
+	ZEPHIR_INIT_BNVAR(_0);
 	ZVAL_LONG(_0, dirtyState);
 	zephir_call_method_p1_noret(object, "setdirtystate", _0);
 	zephir_is_iterable(data, &_2, &_1, 0, 0);
@@ -1145,7 +1145,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _exists) {
 			ZEPHIR_INIT_NVAR(value);
 			ZVAL_NULL(value);
 			if (1) {
-				if (0) {
+				if ((0 == 0)) {
 					numberEmpty++;
 				}
 				zephir_array_append(&uniqueParams, value, PH_SEPARATE);
@@ -2259,10 +2259,10 @@ PHP_METHOD(Phalcon_Mvc_Model, _preSave) {
 					} else {
 						ZEPHIR_CPY_WRT(attributeField, field);
 					}
-					if (0) {
+					if ((0 == 1)) {
 						if ((Z_TYPE_P(value) != IS_OBJECT)) {
 							if (!(zephir_array_isset(dataTypeNumeric, field))) {
-								if (0) {
+								if ((0 == 0)) {
 									isNull = 1;
 								}
 							} else {
@@ -2501,7 +2501,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _doLowInsert) {
 			if (!ZEPHIR_IS_EQUAL(field, identityField)) {
 				zephir_array_append(&fields, field, PH_SEPARATE);
 				ZEPHIR_OBS_NVAR(value);
-				if (0) {
+				if ((0 == 1)) {
 					ZEPHIR_OBS_NVAR(bindType);
 					if (!(zephir_array_isset_fetch(&bindType, bindDataTypes, field, 0 TSRMLS_CC))) {
 						ZEPHIR_INIT_NVAR(_0);
@@ -2551,8 +2551,8 @@ PHP_METHOD(Phalcon_Mvc_Model, _doLowInsert) {
 			ZEPHIR_CPY_WRT(attributeField, identityField);
 		}
 		ZEPHIR_OBS_NVAR(value);
-		if (0) {
-			if (0) {
+		if ((0 == 1)) {
+			if ((0 == 0)) {
 				if (useExplicitIdentity) {
 					zephir_array_append(&values, defaultValue, PH_SEPARATE);
 					zephir_array_append(&bindTypes, bindSkip, PH_SEPARATE);
@@ -2706,7 +2706,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _doLowUpdate) {
 				ZEPHIR_CPY_WRT(attributeField, field);
 			}
 			ZEPHIR_OBS_NVAR(value);
-			if (0) {
+			if ((0 == 1)) {
 				if (!(useDynamicUpdate)) {
 					zephir_array_append(&fields, field, PH_SEPARATE);
 					zephir_array_append(&values, value, PH_SEPARATE);
@@ -2770,7 +2770,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _doLowUpdate) {
 				ZEPHIR_CPY_WRT(attributeField, field);
 			}
 			ZEPHIR_OBS_NVAR(value);
-			if (0) {
+			if ((0 == 1)) {
 				zephir_array_append(&uniqueParams, value, PH_SEPARATE);
 			} else {
 				zephir_array_append(&uniqueParams, ZEPHIR_GLOBAL(global_null), PH_SEPARATE);
@@ -2936,7 +2936,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _postSaveRelatedRecords) {
 			} else {
 				ZEPHIR_CPY_WRT(relatedRecords, record);
 			}
-			if (!(0)) {
+			if (!((0 == 1))) {
 				zephir_call_method_p1_cache_noret(connection, "rollback", &_11, (nesting ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false)));
 				ZEPHIR_INIT_NVAR(_12);
 				object_init_ex(_12, phalcon_mvc_model_exception_ce);
@@ -3565,7 +3565,7 @@ PHP_METHOD(Phalcon_Mvc_Model, delete) {
 		} else {
 			ZEPHIR_CPY_WRT(attributeField, primaryKey);
 		}
-		if (!(0)) {
+		if (!((0 == 1))) {
 			ZEPHIR_INIT_NVAR(_4);
 			object_init_ex(_4, phalcon_mvc_model_exception_ce);
 			ZEPHIR_INIT_LNVAR(_9);
@@ -4408,7 +4408,7 @@ PHP_METHOD(Phalcon_Mvc_Model, hasChanged) {
 			}
 		}
 		ZEPHIR_OBS_VAR(value);
-		if (!(0)) {
+		if (!((0 == 1))) {
 			ZEPHIR_INIT_NVAR(_1);
 			object_init_ex(_1, phalcon_mvc_model_exception_ce);
 			ZEPHIR_INIT_LNVAR(_2);
@@ -4447,7 +4447,7 @@ PHP_METHOD(Phalcon_Mvc_Model, hasChanged) {
 			RETURN_MM_BOOL(1);
 		}
 		ZEPHIR_OBS_NVAR(value);
-		if (!(0)) {
+		if (!((0 == 1))) {
 			RETURN_MM_BOOL(1);
 		}
 		if (!ZEPHIR_IS_EQUAL(value, originalValue)) {
@@ -4504,7 +4504,7 @@ PHP_METHOD(Phalcon_Mvc_Model, getChangedFields) {
 			zephir_array_append(&changed, name, PH_SEPARATE);
 			continue;
 		}
-		if (!(0)) {
+		if (!((0 == 1))) {
 			zephir_array_append(&changed, name, PH_SEPARATE);
 			continue;
 		}
@@ -5012,7 +5012,7 @@ PHP_METHOD(Phalcon_Mvc_Model, serialize) {
 		; zend_hash_move_forward_ex(_2, &_1)
 	) {
 		ZEPHIR_GET_HVALUE(attribute, _3);
-		if (0) {
+		if ((0 == 1)) {
 			zephir_array_update_zval(&data, attribute, &value, PH_COPY | PH_SEPARATE);
 		} else {
 			zephir_array_update_zval(&data, attribute, &ZEPHIR_GLOBAL(global_null), PH_COPY | PH_SEPARATE);
@@ -5144,7 +5144,7 @@ PHP_METHOD(Phalcon_Mvc_Model, toArray) {
 		} else {
 			ZEPHIR_CPY_WRT(attributeField, attribute);
 		}
-		if (0) {
+		if ((0 == 1)) {
 			zephir_array_update_zval(&data, attributeField, &value, PH_COPY | PH_SEPARATE);
 		} else {
 			zephir_array_update_zval(&data, attributeField, &ZEPHIR_GLOBAL(global_null), PH_COPY | PH_SEPARATE);

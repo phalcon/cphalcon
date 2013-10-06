@@ -355,7 +355,7 @@ PHP_METHOD(Phalcon_Http_Response, resetHeaders) {
 PHP_METHOD(Phalcon_Http_Response, setExpires) {
 
 	zend_class_entry *_1;
-	zval *datetime, *headers, *date, *_0, *_2, *_3, *_4;
+	zval *datetime, *headers, *date = NULL, *_0, *_2, *_3, *_4;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &datetime);
@@ -364,9 +364,9 @@ PHP_METHOD(Phalcon_Http_Response, setExpires) {
 
 	ZEPHIR_INIT_VAR(headers);
 	zephir_call_method(headers, this_ptr, "getheaders");
-	ZEPHIR_INIT_VAR(date);
-	ZVAL_NULL(date);
 	ZEPHIR_INIT_VAR(_0);
+	ZEPHIR_CPY_WRT(date, _0);
+	ZEPHIR_INIT_BNVAR(_0);
 	_1 = zend_fetch_class(SL("DateTimeZone"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
 	object_init_ex(_0, _1);
 	ZEPHIR_INIT_VAR(_2);

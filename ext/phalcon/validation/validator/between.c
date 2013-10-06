@@ -93,7 +93,7 @@ PHP_METHOD(Phalcon_Validation_Validator_Between, validate) {
 		ZVAL_STRING(_0, "message", 1);
 		ZEPHIR_INIT_VAR(message);
 		zephir_call_method_p1(message, this_ptr, "getoption", _0);
-		if (0) {
+		if ((0 == 0)) {
 			ZEPHIR_INIT_NVAR(message);
 			ZEPHIR_CONCAT_VS(message, attribute, " is not between a valid range");
 		}

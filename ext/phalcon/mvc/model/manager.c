@@ -1560,7 +1560,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getRelationRecords) {
 			ZEPHIR_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Not supported");
 			return;
 		}
-		if (!(0)) {
+		if (!((0 == 0))) {
 			zephir_array_append(&conditions, preConditions, PH_SEPARATE);
 		}
 		ZEPHIR_INIT_VAR(builder);

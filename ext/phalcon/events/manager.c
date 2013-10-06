@@ -252,7 +252,7 @@ PHP_METHOD(Phalcon_Events_Manager, fireQueue) {
 	HashPosition _8;
 	zend_function *_3 = NULL, *_4 = NULL, *_6 = NULL, *_7 = NULL, *_11 = NULL, *_12 = NULL;
 	zend_bool collect, cancelable;
-	zval *queue = NULL, *event, *status = NULL, *arguments = NULL, *eventName, *data, *iterator, *source, *handler = NULL, *_0, *_1, *_2 = NULL, *_5 = NULL, **_10;
+	zval *queue = NULL, *event, *status = NULL, *arguments = NULL, *eventName, *data, *iterator = NULL, *source, *handler = NULL, *_0, *_1, *_2 = NULL, *_5 = NULL, **_10;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &queue, &event);
@@ -288,8 +288,8 @@ PHP_METHOD(Phalcon_Events_Manager, fireQueue) {
 	zephir_read_property_this(&_1, this_ptr, SL("_collect"), PH_NOISY_CC);
 	collect = (zephir_get_boolval(_1)) ? 1 : 0;
 	if (ZEPHIR_IS_STRING(queue, "object")) {
-		ZEPHIR_INIT_VAR(iterator);
-		ZVAL_NULL(iterator);
+		ZEPHIR_INIT_VAR(_2);
+		ZEPHIR_CPY_WRT(iterator, _2);
 		zephir_call_method_noret(iterator, "top");
 		while (1) {
 			ZEPHIR_INIT_NVAR(_2);

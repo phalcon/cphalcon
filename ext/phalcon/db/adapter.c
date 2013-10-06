@@ -275,7 +275,7 @@ PHP_METHOD(Phalcon_Db_Adapter, fetchOne) {
 	ZEPHIR_INIT_VAR(result);
 	zephir_call_method_p3(result, this_ptr, "query", sqlQuery, bindParams, bindTypes);
 	if ((Z_TYPE_P(result) == IS_OBJECT)) {
-		if ((0 != 0)) {
+		if ((Z_TYPE_P(fetchMode) != IS_NULL)) {
 			zephir_call_method_p1_noret(result, "setfetchmode", fetchMode);
 		}
 		zephir_call_method(return_value, result, "fetch");
@@ -713,7 +713,7 @@ PHP_METHOD(Phalcon_Db_Adapter, delete) {
 		ZEPHIR_CPY_WRT(escapedTable, table);
 	}
 	ZEPHIR_INIT_VAR(sql);
-	if (!(0)) {
+	if (!((0 == 0))) {
 		ZEPHIR_INIT_VAR(_2);
 		ZEPHIR_CONCAT_SV(_2, "DELETE FROM ", escapedTable);
 		ZEPHIR_INIT_VAR(_3);

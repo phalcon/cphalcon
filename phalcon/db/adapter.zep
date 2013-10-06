@@ -168,7 +168,7 @@ abstract class Adapter implements Phalcon\Events\EventsAwareInterface
 	 *	//Getting first robot
 	 *	$robot = $connection->fecthOne("SELECT * FROM robots");
 	 *	print_r($robot);
-     *
+	 *
 	 *	//Getting first robot with associative indexes only
 	 *	$robot = $connection->fecthOne("SELECT * FROM robots", Phalcon\Db::FETCH_ASSOC);
 	 *	print_r($robot);
@@ -185,7 +185,7 @@ abstract class Adapter implements Phalcon\Events\EventsAwareInterface
 		var result;
 		let result = this->{"query"}(sqlQuery, bindParams, bindTypes);
 		if typeof result == "object" {
-			if typeof fetchMode !== null {
+			if typeof fetchMode !== "null" {
 				result->setFetchMode(fetchMode);
 			}
 			return result->$fetch();
@@ -198,20 +198,20 @@ abstract class Adapter implements Phalcon\Events\EventsAwareInterface
 	 *
 	 *<code>
 	 *	//Getting all robots with associative indexes only
-     *	$robots = $connection->fetchAll("SELECT * FROM robots", Phalcon\Db::FETCH_ASSOC);
-     *	foreach ($robots as $robot) {
-     *		print_r($robot);
-     *	}
-     *
-     *  //Getting all robots that contains word "robot" withing the name
-     *  $robots = $connection->fetchAll("SELECT * FROM robots WHERE name LIKE :name",
-     *		Phalcon\Db::FETCH_ASSOC,
-     *		array('name' => '%robot%')
-     *  );
-     *	foreach($robots as $robot){
-     *		print_r($robot);
-     *	}
-     *</code>
+	 *	$robots = $connection->fetchAll("SELECT * FROM robots", Phalcon\Db::FETCH_ASSOC);
+	 *	foreach ($robots as $robot) {
+	 *		print_r($robot);
+	 *	}
+	 *
+	 *  //Getting all robots that contains word "robot" withing the name
+	 *  $robots = $connection->fetchAll("SELECT * FROM robots WHERE name LIKE :name",
+	 *		Phalcon\Db::FETCH_ASSOC,
+	 *		array('name' => '%robot%')
+	 *  );
+	 *	foreach($robots as $robot){
+	 *		print_r($robot);
+	 *	}
+	 *</code>
 	 *
 	 * @param string sqlQuery
 	 * @param int fetchMode

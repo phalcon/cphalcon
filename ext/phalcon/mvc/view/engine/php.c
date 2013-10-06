@@ -80,7 +80,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Php, render) {
 	if ((Z_TYPE_P(params) == IS_ARRAY)) {
 	}
 	ZEPHIR_INIT_VAR(status);
-	ZVAL_NULL(status);
+	ZVAL_LONG(status, (0 == 1));
 	if ((mustClean == 1)) {
 		view = zephir_fetch_nproperty_this(this_ptr, SL("_view"), PH_NOISY_CC);
 		ZEPHIR_INIT_VAR(_0);

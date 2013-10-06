@@ -1233,7 +1233,7 @@ PHP_METHOD(Phalcon_Mvc_View, partial) {
  */
 PHP_METHOD(Phalcon_Mvc_View, getRender) {
 
-	zval *controllerName_param = NULL, *actionName_param = NULL, *params = NULL, *configCallback = NULL, *view, *_0;
+	zval *controllerName_param = NULL, *actionName_param = NULL, *params = NULL, *configCallback = NULL, *view = NULL, *_0;
 	zval *controllerName = NULL, *actionName = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -1249,14 +1249,14 @@ PHP_METHOD(Phalcon_Mvc_View, getRender) {
 	}
 
 
-	ZEPHIR_INIT_VAR(view);
-	ZVAL_NULL(view);
+	ZEPHIR_INIT_VAR(_0);
+	ZEPHIR_CPY_WRT(view, _0);
 	zephir_call_method_noret(view, "reset");
 	if ((Z_TYPE_P(params) == IS_ARRAY)) {
 		zephir_call_method_p1_noret(view, "setvars", params);
 	}
 	if ((Z_TYPE_P(configCallback) == IS_OBJECT)) {
-		ZEPHIR_INIT_VAR(_0);
+		ZEPHIR_INIT_BNVAR(_0);
 		array_init(_0);
 		zephir_array_fast_append(_0, view);
 		zephir_call_func_p2_noret("call_user_func_array", configCallback, _0);

@@ -103,7 +103,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Row, offsetGet) {
 
 
 
-	if (0) {
+	if ((0 == 1)) {
 		RETURN_CTORW(value);
 	}
 	ZEPHIR_THROW_EXCEPTION_STRW(phalcon_mvc_model_exception_ce, "The index does not exist in the row");

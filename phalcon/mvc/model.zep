@@ -4262,7 +4262,7 @@ abstract class Model //implements Phalcon\Mvc\ModelInterface, Phalcon\Mvc\Model\
 		let data = [],
 			metaData = this->getModelsMetaData();
 		for attribute in metaData->getAttributes(this) {
-			if fetch value, this->attribute {
+			if fetch value, this->{attribute} {
 				let data[attribute] = value;
 			} else {
 				let data[attribute] = null;

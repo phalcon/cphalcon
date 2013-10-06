@@ -741,7 +741,7 @@ PHP_METHOD(Phalcon_Forms_Form, getValue) {
 			RETURN_MM();
 		}
 		ZEPHIR_OBS_VAR(value);
-		if (0) {
+		if ((0 == 1)) {
 			RETURN_CCTOR(value);
 		}
 	}
