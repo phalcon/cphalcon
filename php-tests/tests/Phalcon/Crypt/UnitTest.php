@@ -25,6 +25,12 @@ namespace Phalcon\Test\Crypt;
 
 class UnitTest extends \Phalcon\Test\UnitTestCase
 {
+	protected function setUp()
+	{
+		$this->checkExtension('mcrypt');
+		parent::setUp();
+	}
+
 	public function testEncryption()
 	{
 		$tests = array(
