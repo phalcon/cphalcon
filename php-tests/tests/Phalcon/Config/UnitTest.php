@@ -198,75 +198,6 @@ class UnitTest extends \Phalcon\Test\UnitTestCase
 		$this->assertEquals($expected, $config1);
 	}
 
-	public function testIssue731()
-	{
-		// Code path AAA, B, AE, B
-		$a = new \Phalcon\Config(array('aaa' => array('b' => 2, 'c' => 3)));
-		$b = new \Phalcon\Config(array('aaa' => array('a' => 10, 'c' => 30, 'd' => 40)));
-		$c = array('aaa' => array('b' => 2, 'c' => 30, 'a' => 10, 'd' => 40));
-		$a->merge($b);
-		$this->assertEquals($c, $a->toArray());
-
-		// Code path AAB
-		$a = new \Phalcon\Config(array('aab' => (object)array('n' => 'm')));
-		$b = new \Phalcon\Config(array('aab' => array('x' => 'y')));
-		$c = array('aab' => array('x' => 'y'));
-		$a->merge($b);
-		$this->assertEquals($c, $a->toArray());
-
-		//Code path AB
-		$a = new \Phalcon\Config(array('ab' => array('b' => 1, 'c' => 2)));
-		$b = new \Phalcon\Config(array('ab' => array(0 => -10, 'c' => 20, 'd' => 30)));
-		$c = array('ab' => array(0 => -10, 'c' => 2, 'd' => 30, 'b' => 1));
-		$b->merge($a);
-		$this->assertEquals($c, $b->toArray());
-
-		// Code path AC
-		$a = new \Phalcon\Config(array('ac' => array('b' => 1, 'c' => 2)));
-		$b = new \Phalcon\Config(array('ac' => array(0 => -10, 'c' => 20, 'd' => 30)));
-		$c = array('ac' => array(0 => -10, 'c' => 20, 'd' => 30, 'b' => 1));
-		$a->merge($b);
-		$this->assertEquals($c, $a->toArray());
-
-		// Code path AD
-		$a = new \Phalcon\Config(array('ad' => array(0 => 1, 1 => 2, 2 => 3)));
-		$b = new \Phalcon\Config(array('ad' => array(1 => 20, 3 => 40)));
-		$c = array('ad' => array(0 => 1, 1 => 20, 2 => 3, 3 => 40));
-		$a->merge($b);
-		$this->assertEquals($c, $a->toArray());
-	}
-
-	public function testIssue732()
-	{
-		$a = new \Phalcon\Config(array('a' => 0));
-
-		$this->assertTrue(isset($a['a']));
-		unset($a['a']);
-		$this->assertFalse(isset($a['a']));
-	}
-
-	public function testIssue829()
-	{
-		$config = new \Phalcon\Config\Adapter\Ini(PATH_CONFIGS . '/829-no-sections.ini');
-		$actual = $config->toArray();
-		$expected = array(
-			'hoge' => 'test',
-			'foo'  => 'bar',
-		);
-
-		$this->assertEquals($expected, $actual);
-
-		$config = new \Phalcon\Config\Adapter\Ini(PATH_CONFIGS . '/829-with-empty-section.ini');
-		$actual = $config->toArray();
-		$expected = array(
-			'section' => array('hoge' => 'test'),
-			'empty'   => array(),
-			'test'    => array('foo'  => 'bar'),
-		);
-
-		$this->assertEquals($expected, $actual);
-	}
-
 	public function testIniConfigDirective()
 	{
 		$config = new \Phalcon\Config\Adapter\Ini(PATH_CONFIGS . '/directive.ini');
@@ -297,39 +228,5 @@ class UnitTest extends \Phalcon\Test\UnitTestCase
 		);
 
 		$this->assertEquals($expected, $actual);
-	}
-
-	public function testIssue980()
-	{
-		$a = new \Phalcon\Config(array('aaa' => array('b' => 2, 'c' => 3)));
-		$s = serialize($a);
-		$b = unserialize($s);
-		$this->assertEquals($a, $b);
-	}
-
-	public function testIssue1024()
-	{
-		$config1 = new \Phalcon\Config\Adapter\Ini(PATH_CONFIGS . '/1024-a.ini');
-		$config2 = new \Phalcon\Config\Adapter\Ini(PATH_CONFIGS . '/1024-b.ini');
-
-		$config1->merge($config2);
-		$actual   = $config1->toArray();
-		$expected = array(
-			'a' => array(
-				'a_1' => 1,
-				'a_2' => 1,
-			),
-		);
-
-		$this->assertEquals($expected, $actual);
-	}
-
-	public function testIssue1277()
-	{
-		$c1 = new \Phalcon\Config();
-		$c1["test"] = 1;
-		$c2 = clone $c1;
-		$this->assertEquals($c1, $c2);
-		$this->assertEquals($c1->toArray(), $c2->toArray());
 	}
 }
