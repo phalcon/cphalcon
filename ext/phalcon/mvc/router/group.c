@@ -234,6 +234,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Group, setPaths) {
 
 
 	zephir_update_property_this(this_ptr, SL("_paths"), paths TSRMLS_CC);
+	RETURN_THISW();
 
 }
 

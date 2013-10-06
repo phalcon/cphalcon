@@ -124,6 +124,7 @@ class Collection //implements Countable, Iterator
 		let resource = new Phalcon\Assets\Resource\Js(collectionLocal, filter, collectionAttributes);
 
 		let this->_resources[] = resource;
+		return this;
 	}
 
 	/**

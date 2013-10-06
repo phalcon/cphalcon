@@ -206,7 +206,7 @@ PHP_METHOD(Phalcon_Assets_Manager, addResourceByType) {
 		zephir_update_property_array(this_ptr, SL("_collections"), type, _0 TSRMLS_CC);
 	}
 	zephir_call_method_p1_noret(collection, "add", resource);
-	ZEPHIR_MM_RESTORE();
+	RETURN_THIS();
 
 }
 

@@ -130,6 +130,8 @@ class Manager
 		 * Add the resource to the collection
 		 */
 		collection->add(resource);
+
+		return this;
 	}
 
 	/**

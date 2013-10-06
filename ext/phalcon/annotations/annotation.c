@@ -258,7 +258,7 @@ PHP_METHOD(Phalcon_Annotations_Annotation, numberArguments) {
  */
 PHP_METHOD(Phalcon_Annotations_Annotation, getArgument) {
 
-	zval *position_param = NULL, *arguments, *_0;
+	zval *position_param = NULL, *arguments, *argument;
 	int position;
 
 	zephir_fetch_params(0, 1, 0, &position_param);
@@ -267,9 +267,8 @@ PHP_METHOD(Phalcon_Annotations_Annotation, getArgument) {
 
 
 	arguments = zephir_fetch_nproperty_this(this_ptr, SL("_arguments"), PH_NOISY_CC);
-	if (zephir_array_isset_long(arguments, position)) {
-		zephir_array_fetch_long(&_0, arguments, position, PH_NOISY | PH_READONLY TSRMLS_CC);
-		RETURN_CTORW(_0);
+	if (zephir_array_isset_long_fetch(&argument, arguments, position, 1 TSRMLS_CC)) {
+		RETURN_CTORW(argument);
 	}
 
 }

@@ -264,6 +264,8 @@ class Form extends Phalcon\Di\Injectable implements Countable, Iterator
 		}
 
 		let this->_data = data;
+
+		return this;
 	}
 
 	/**

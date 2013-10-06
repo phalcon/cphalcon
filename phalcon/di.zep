@@ -328,10 +328,12 @@ class Di implements Phalcon\DiInterface
 	 *
 	 * @param string name
 	 * @param mixed definition
+	 * @return boolean
 	 */
 	public function offsetSet(string! name, definition) -> boolean
 	{
 		this->setShared(name, definition);
+		return true;
 	}
 
 	/**
@@ -356,7 +358,7 @@ class Di implements Phalcon\DiInterface
 	 */
 	public function offsetUnset(string! name) -> boolean
 	{
-		return name;
+		return false;
 	}
 
 	/**

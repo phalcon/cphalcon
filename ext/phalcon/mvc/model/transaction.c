@@ -252,7 +252,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction, rollback) {
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
-	ZEPHIR_MM_RESTORE();
+	RETURN_MM_BOOL(1);
 
 }
 

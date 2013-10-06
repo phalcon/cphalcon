@@ -342,7 +342,7 @@ PHP_METHOD(Phalcon_Assets_Collection, addJs) {
 	object_init_ex(resource, phalcon_assets_resource_js_ce);
 	zephir_call_method_p3_noret(resource, "__construct", collectionLocal, (filter ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false)), collectionAttributes);
 	zephir_update_property_array_append(this_ptr, SL("_resources"), resource TSRMLS_CC);
-	ZEPHIR_MM_RESTORE();
+	RETURN_THIS();
 
 }
 

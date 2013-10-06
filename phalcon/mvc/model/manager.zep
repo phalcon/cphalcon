@@ -159,6 +159,7 @@ class Manager
 	public function setEventsManager(<Phalcon\Events\ManagerInterface> eventsManager) -> <Phalcon\Events\ManagerInterface>
 	{
 		let this->_eventsManager = eventsManager;
+		return this;
 	}
 
 	/**
@@ -347,9 +348,8 @@ class Manager
 	 *
 	 * @param Phalcon\Mvc\Model model
 	 * @param string schema
-	 * @return string
 	 */
-	public function setModelSchema(<Phalcon\Mvc\ModelInterface> model, string! schema) -> string
+	public function setModelSchema(<Phalcon\Mvc\ModelInterface> model, string! schema) -> void
 	{
 		let this->_schemas[get_class_lower(model)] = schema;
 	}

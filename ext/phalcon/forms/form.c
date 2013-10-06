@@ -337,7 +337,7 @@ PHP_METHOD(Phalcon_Forms_Form, bind) {
 		zephir_update_property_zval_zval(entity, key, filteredValue TSRMLS_CC);
 	}
 	zephir_update_property_this(this_ptr, SL("_data"), data TSRMLS_CC);
-	ZEPHIR_MM_RESTORE();
+	RETURN_THIS();
 
 }
 

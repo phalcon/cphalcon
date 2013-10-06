@@ -162,6 +162,8 @@ class Transaction implements Phalcon\Mvc\Model\TransactionInterface
 			}
 			throw new Phalcon\Mvc\Model\Transaction\Failed(rollbackMessage, this->_rollbackRecord);
 		}
+
+		return true;
 	}
 
 	/**

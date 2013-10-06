@@ -490,6 +490,7 @@ PHP_METHOD(Phalcon_Di, offsetExists) {
  *
  * @param string name
  * @param mixed definition
+ * @return boolean
  */
 PHP_METHOD(Phalcon_Di, offsetSet) {
 
@@ -503,7 +504,7 @@ PHP_METHOD(Phalcon_Di, offsetSet) {
 
 
 	zephir_call_method_p2_noret(this_ptr, "setshared", name, definition);
-	ZEPHIR_MM_RESTORE();
+	RETURN_MM_BOOL(1);
 
 }
 
@@ -549,7 +550,7 @@ PHP_METHOD(Phalcon_Di, offsetUnset) {
 		zephir_get_strval(name, name_param);
 
 
-	RETURN_CTOR(name);
+	RETURN_MM_BOOL(0);
 
 }
 

@@ -166,6 +166,7 @@ class Group
 	public function setPaths(var paths) -> <Phalcon\Mvc\Router\Group>
 	{
 		let this->_paths = paths;
+		return this;
 	}
 
 	/**

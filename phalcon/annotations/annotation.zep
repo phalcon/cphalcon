@@ -175,10 +175,10 @@ class Annotation
 	 */
 	public function getArgument(int position)
 	{
-		var arguments;
+		var arguments, argument;
 		let arguments = this->_arguments;
-		if isset arguments[position] {
-			return arguments[position];
+		if fetch argument, arguments[position] {
+			return argument;
 		}
 	}
 
@@ -201,7 +201,7 @@ class Annotation
 	 * @param string name
 	 * @return mixed
 	 */
-	public function getNamedArgument(string name)
+	public function getNamedArgument(string! name)
 	{
 		var arguments, argument;
 		let arguments = this->_arguments;

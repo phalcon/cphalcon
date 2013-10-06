@@ -176,6 +176,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, setEventsManager) {
 
 
 	zephir_update_property_this(this_ptr, SL("_eventsManager"), eventsManager TSRMLS_CC);
+	RETURN_THISW();
 
 }
 
@@ -428,7 +429,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getModelSource) {
  *
  * @param Phalcon\Mvc\Model model
  * @param string schema
- * @return string
  */
 PHP_METHOD(Phalcon_Mvc_Model_Manager, setModelSchema) {
 
