@@ -535,7 +535,7 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch) {
 	numberDispatches = 0;
 	handlerSuffix = zephir_fetch_nproperty_this(this_ptr, SL("_handlerSuffix"), PH_NOISY_CC);
 	actionSuffix = zephir_fetch_nproperty_this(this_ptr, SL("_actionSuffix"), PH_NOISY_CC);
-	zephir_update_property_this(this_ptr, SL("_finished"), 0 ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
+	zephir_update_property_this(this_ptr, SL("_finished"), (0) ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
 	while (1) {
 		_0 = zephir_fetch_nproperty_this(this_ptr, SL("_finished"), PH_NOISY_CC);
 		if (!(!(zephir_is_true(_0)))) {
@@ -550,7 +550,7 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch) {
 			zephir_call_method_p2_cache_noret(this_ptr, "_throwdispatchexception", &_3, _1, _2);
 			break;
 		}
-		zephir_update_property_this(this_ptr, SL("_finished"), 1 ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
+		zephir_update_property_this(this_ptr, SL("_finished"), (1) ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
 		ZEPHIR_OBS_NVAR(namespaceName);
 		zephir_read_property_this(&namespaceName, this_ptr, SL("_namespaceName"), PH_NOISY_CC);
 		if (!(zephir_is_true(namespaceName))) {
@@ -818,8 +818,8 @@ PHP_METHOD(Phalcon_Dispatcher, forward) {
 	if (zephir_array_isset_string_fetch(&params, forward, SS("params"), 1 TSRMLS_CC)) {
 		zephir_update_property_this(this_ptr, SL("_params"), params TSRMLS_CC);
 	}
-	zephir_update_property_this(this_ptr, SL("_finished"), 0 ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
-	zephir_update_property_this(this_ptr, SL("_forwarded"), 1 ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
+	zephir_update_property_this(this_ptr, SL("_finished"), (0) ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
+	zephir_update_property_this(this_ptr, SL("_forwarded"), (1) ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
 	ZEPHIR_MM_RESTORE();
 
 }

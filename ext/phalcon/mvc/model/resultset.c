@@ -457,7 +457,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, getLast) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_Resultset, setIsFresh) {
 
-	zval *isFresh_param = NULL, *_0;
+	zval *isFresh_param = NULL;
 	zend_bool isFresh;
 
 	zephir_fetch_params(0, 1, 0, &isFresh_param);
@@ -465,9 +465,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, setIsFresh) {
 		isFresh = zephir_get_boolval(isFresh_param);
 
 
-	ZEPHIR_INIT_ZVAL_NREF(_0);
-	ZVAL_BOOL(_0, isFresh);
-	zephir_update_property_this(this_ptr, SL("_isFresh"), _0 TSRMLS_CC);
+	zephir_update_property_this(this_ptr, SL("_isFresh"), isFresh ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
 	RETURN_THISW();
 
 }

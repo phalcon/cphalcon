@@ -152,7 +152,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, getDI) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_Query, setUniqueRow) {
 
-	zval *uniqueRow_param = NULL, *_0;
+	zval *uniqueRow_param = NULL;
 	zend_bool uniqueRow;
 
 	zephir_fetch_params(0, 1, 0, &uniqueRow_param);
@@ -160,9 +160,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, setUniqueRow) {
 		uniqueRow = zephir_get_boolval(uniqueRow_param);
 
 
-	ZEPHIR_INIT_ZVAL_NREF(_0);
-	ZVAL_BOOL(_0, uniqueRow);
-	zephir_update_property_this(this_ptr, SL("_uniqueRow"), _0 TSRMLS_CC);
+	zephir_update_property_this(this_ptr, SL("_uniqueRow"), uniqueRow ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
 	RETURN_THISW();
 
 }

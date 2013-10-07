@@ -94,7 +94,7 @@ PHP_METHOD(Phalcon_Cache_Backend, __construct) {
 PHP_METHOD(Phalcon_Cache_Backend, start) {
 
 	zend_bool fresh;
-	zval *keyName, *lifetime = NULL, *existingCache, *frontend, *_0;
+	zval *keyName, *lifetime = NULL, *existingCache, *frontend;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 1, &keyName, &lifetime);
@@ -113,10 +113,8 @@ PHP_METHOD(Phalcon_Cache_Backend, start) {
 	} else {
 		fresh = 0;
 	}
-	ZEPHIR_INIT_ZVAL_NREF(_0);
-	ZVAL_BOOL(_0, fresh);
-	zephir_update_property_this(this_ptr, SL("_fresh"), _0 TSRMLS_CC);
-	zephir_update_property_this(this_ptr, SL("_started"), 1 ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
+	zephir_update_property_this(this_ptr, SL("_fresh"), fresh ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
+	zephir_update_property_this(this_ptr, SL("_started"), (1) ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
 	if ((Z_TYPE_P(lifetime) != IS_NULL)) {
 		zephir_update_property_this(this_ptr, SL("_lastLifetime"), lifetime TSRMLS_CC);
 	}
@@ -148,7 +146,7 @@ PHP_METHOD(Phalcon_Cache_Backend, stop) {
 		frontend = zephir_fetch_nproperty_this(this_ptr, SL("_frontend"), PH_NOISY_CC);
 		zephir_call_method_noret(frontend, "stop");
 	}
-	zephir_update_property_this(this_ptr, SL("_started"), 0 ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
+	zephir_update_property_this(this_ptr, SL("_started"), (0) ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
 	ZEPHIR_MM_RESTORE();
 
 }

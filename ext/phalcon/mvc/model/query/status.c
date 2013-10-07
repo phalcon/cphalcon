@@ -79,7 +79,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_Query_Status) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_Query_Status, __construct) {
 
-	zval *success_param = NULL, *model, *_0;
+	zval *success_param = NULL, *model;
 	zend_bool success;
 
 	zephir_fetch_params(0, 2, 0, &success_param, &model);
@@ -87,9 +87,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Status, __construct) {
 		success = zephir_get_boolval(success_param);
 
 
-	ZEPHIR_INIT_ZVAL_NREF(_0);
-	ZVAL_BOOL(_0, success);
-	zephir_update_property_this(this_ptr, SL("_success"), _0 TSRMLS_CC);
+	zephir_update_property_this(this_ptr, SL("_success"), success ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
 	zephir_update_property_this(this_ptr, SL("_model"), model TSRMLS_CC);
 
 }

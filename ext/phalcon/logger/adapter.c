@@ -136,7 +136,7 @@ PHP_METHOD(Phalcon_Logger_Adapter, setFormatter) {
 PHP_METHOD(Phalcon_Logger_Adapter, begin) {
 
 
-	zephir_update_property_this(this_ptr, SL("_transaction"), 1 ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
+	zephir_update_property_this(this_ptr, SL("_transaction"), (1) ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
 	RETURN_THISW();
 
 }
@@ -160,7 +160,7 @@ PHP_METHOD(Phalcon_Logger_Adapter, commit) {
 		ZEPHIR_THROW_EXCEPTION_STR(phalcon_logger_exception_ce, "There is no active transaction");
 		return;
 	}
-	zephir_update_property_this(this_ptr, SL("_transaction"), 0 ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
+	zephir_update_property_this(this_ptr, SL("_transaction"), (0) ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
 	queue = zephir_fetch_nproperty_this(this_ptr, SL("_queue"), PH_NOISY_CC);
 	if ((Z_TYPE_P(queue) == IS_ARRAY)) {
 		zephir_is_iterable(queue, &_1, &_0, 0, 0);
@@ -198,7 +198,7 @@ PHP_METHOD(Phalcon_Logger_Adapter, rollback) {
 		ZEPHIR_THROW_EXCEPTION_STR(phalcon_logger_exception_ce, "There is no active transaction");
 		return;
 	}
-	zephir_update_property_this(this_ptr, SL("_transaction"), 0 ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
+	zephir_update_property_this(this_ptr, SL("_transaction"), (0) ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
 	ZEPHIR_INIT_VAR(_0);
 	array_init(_0);
 	zephir_update_property_this(this_ptr, SL("_queue"), _0 TSRMLS_CC);

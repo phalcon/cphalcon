@@ -74,7 +74,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Di_Service) {
 PHP_METHOD(Phalcon_Di_Service, __construct) {
 
 	zend_bool shared;
-	zval *name_param = NULL, *definition, *shared_param = NULL, *_0;
+	zval *name_param = NULL, *definition, *shared_param = NULL;
 	zval *name = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -90,9 +90,7 @@ PHP_METHOD(Phalcon_Di_Service, __construct) {
 
 	zephir_update_property_this(this_ptr, SL("_name"), name TSRMLS_CC);
 	zephir_update_property_this(this_ptr, SL("_definition"), definition TSRMLS_CC);
-	ZEPHIR_INIT_ZVAL_NREF(_0);
-	ZVAL_BOOL(_0, shared);
-	zephir_update_property_this(this_ptr, SL("_shared"), _0 TSRMLS_CC);
+	zephir_update_property_this(this_ptr, SL("_shared"), shared ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
 	ZEPHIR_MM_RESTORE();
 
 }
@@ -116,7 +114,7 @@ PHP_METHOD(Phalcon_Di_Service, getName) {
  */
 PHP_METHOD(Phalcon_Di_Service, setShared) {
 
-	zval *shared_param = NULL, *_0;
+	zval *shared_param = NULL;
 	zend_bool shared;
 
 	zephir_fetch_params(0, 1, 0, &shared_param);
@@ -124,9 +122,7 @@ PHP_METHOD(Phalcon_Di_Service, setShared) {
 		shared = zephir_get_boolval(shared_param);
 
 
-	ZEPHIR_INIT_ZVAL_NREF(_0);
-	ZVAL_BOOL(_0, shared);
-	zephir_update_property_this(this_ptr, SL("_shared"), _0 TSRMLS_CC);
+	zephir_update_property_this(this_ptr, SL("_shared"), shared ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
 
 }
 

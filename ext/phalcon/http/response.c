@@ -706,7 +706,7 @@ PHP_METHOD(Phalcon_Http_Response, send) {
 	}
 	_1 = zephir_fetch_nproperty_this(this_ptr, SL("_content"), PH_NOISY_CC);
 	zend_print_zval(_1, 0);
-	zephir_update_property_this(this_ptr, SL("_sent"), 1 ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
+	zephir_update_property_this(this_ptr, SL("_sent"), (1) ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
 	RETURN_THIS();
 
 }

@@ -2359,7 +2359,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _preSave) {
 		if (ZEPHIR_IS_FALSE(_3)) {
 			RETURN_MM_BOOL(0);
 		}
-		zephir_update_property_this(this_ptr, SL("_skipped"), 0 ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
+		zephir_update_property_this(this_ptr, SL("_skipped"), (0) ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
 		if (exists) {
 			ZEPHIR_INIT_NVAR(_3);
 			ZEPHIR_INIT_NVAR(_4);
@@ -3481,7 +3481,7 @@ PHP_METHOD(Phalcon_Mvc_Model, delete) {
 	zend_function *_11 = NULL, *_12 = NULL, *_13 = NULL, *_14 = NULL;
 	HashTable *_7;
 	HashPosition _6;
-	zval *metaData, *writeConnection, *values, *bindTypes, *primaryKeys, *bindDataTypes, *columnMap, *attributeField = NULL, *conditions, *primaryKey = NULL, *bindType, *value, *schema, *source, *table = NULL, *success, *_0, *_1, *_2, *_3, *_4 = NULL, *_5, **_8, *_9 = NULL, *_10 = NULL, *_15, *_16, *_17 = NULL, *_18, _19, *_20, *_21, *_22;
+	zval *metaData, *writeConnection, *values, *bindTypes, *primaryKeys, *bindDataTypes, *columnMap, *attributeField = NULL, *conditions, *primaryKey = NULL, *bindType, *value, *schema, *source, *table = NULL, *success, *_0, *_1, *_2, *_3, *_4 = NULL, *_5, **_8, *_9 = NULL, *_10 = NULL, *_15, *_16, *_17 = NULL, _18, *_19, *_20, *_21, *_22;
 
 	ZEPHIR_MM_GROW();
 
@@ -3590,7 +3590,7 @@ PHP_METHOD(Phalcon_Mvc_Model, delete) {
 	ZEPHIR_INIT_VAR(_16);
 	zephir_call_func_p1(_16, "globals_get", _15);
 	if (zephir_is_true(_16)) {
-		zephir_update_property_this(this_ptr, SL("_skipped"), 0 ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
+		zephir_update_property_this(this_ptr, SL("_skipped"), (0) ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
 		ZEPHIR_INIT_BNVAR(_15);
 		ZEPHIR_INIT_VAR(_17);
 		ZVAL_STRING(_17, "beforeDelete", 1);
@@ -3598,8 +3598,8 @@ PHP_METHOD(Phalcon_Mvc_Model, delete) {
 		if (ZEPHIR_IS_FALSE(_15)) {
 			RETURN_MM_BOOL(0);
 		} else {
-			_18 = zephir_fetch_nproperty_this(this_ptr, SL("_skipped"), PH_NOISY_CC);
-			if (ZEPHIR_IS_TRUE(_18)) {
+			_0 = zephir_fetch_nproperty_this(this_ptr, SL("_skipped"), PH_NOISY_CC);
+			if (ZEPHIR_IS_TRUE(_0)) {
 				RETURN_MM_BOOL(1);
 			}
 		}
@@ -3616,37 +3616,37 @@ PHP_METHOD(Phalcon_Mvc_Model, delete) {
 	} else {
 		ZEPHIR_CPY_WRT(table, source);
 	}
-	ZEPHIR_SINIT_VAR(_19);
-	ZVAL_STRING(&_19, " AND ", 0);
+	ZEPHIR_SINIT_VAR(_18);
+	ZVAL_STRING(&_18, " AND ", 0);
 	ZEPHIR_INIT_NVAR(_17);
-	zephir_call_func_p2(_17, "join", &_19, conditions);
+	zephir_call_func_p2(_17, "join", &_18, conditions);
 	ZEPHIR_INIT_VAR(success);
 	zephir_call_method_p4(success, writeConnection, "delete", table, _17, values, bindTypes);
+	ZEPHIR_INIT_VAR(_19);
+	ZVAL_STRING(_19, "orm.virtual_foreign_keys", 1);
 	ZEPHIR_INIT_VAR(_20);
-	ZVAL_STRING(_20, "orm.virtual_foreign_keys", 1);
-	ZEPHIR_INIT_VAR(_21);
-	zephir_call_func_p1(_21, "globals_get", _20);
-	if (zephir_is_true(_21)) {
-		ZEPHIR_INIT_BNVAR(_20);
-		zephir_call_method(_20, this_ptr, "_checkforeignkeysreversecascade");
-		if (ZEPHIR_IS_FALSE(_20)) {
+	zephir_call_func_p1(_20, "globals_get", _19);
+	if (zephir_is_true(_20)) {
+		ZEPHIR_INIT_BNVAR(_19);
+		zephir_call_method(_19, this_ptr, "_checkforeignkeysreversecascade");
+		if (ZEPHIR_IS_FALSE(_19)) {
 			RETURN_MM_BOOL(0);
 		}
 	}
 	ZEPHIR_INIT_NVAR(_17);
 	ZVAL_STRING(_17, "orm.events", 1);
-	ZEPHIR_INIT_VAR(_22);
-	zephir_call_func_p1(_22, "globals_get", _17);
-	if (zephir_is_true(_22)) {
+	ZEPHIR_INIT_VAR(_21);
+	zephir_call_func_p1(_21, "globals_get", _17);
+	if (zephir_is_true(_21)) {
 		if (zephir_is_true(success)) {
 			ZEPHIR_INIT_NVAR(_17);
 			ZVAL_STRING(_17, "afterDelete", 1);
 			zephir_call_method_p1_noret(this_ptr, "fireevent", _17);
 		}
 	}
-	ZEPHIR_INIT_ZVAL_NREF(_18);
-	ZVAL_LONG(_18, 2);
-	zephir_update_property_this(this_ptr, SL("_dirtyState"), _18 TSRMLS_CC);
+	ZEPHIR_INIT_ZVAL_NREF(_22);
+	ZVAL_LONG(_22, 2);
+	zephir_update_property_this(this_ptr, SL("_dirtyState"), _22 TSRMLS_CC);
 	RETURN_CCTOR(success);
 
 }
@@ -3760,7 +3760,7 @@ PHP_METHOD(Phalcon_Mvc_Model, refresh) {
  */
 PHP_METHOD(Phalcon_Mvc_Model, skipOperation) {
 
-	zval *skip_param = NULL, *_0;
+	zval *skip_param = NULL;
 	zend_bool skip;
 
 	zephir_fetch_params(0, 1, 0, &skip_param);
@@ -3768,9 +3768,7 @@ PHP_METHOD(Phalcon_Mvc_Model, skipOperation) {
 		skip = zephir_get_boolval(skip_param);
 
 
-	ZEPHIR_INIT_ZVAL_NREF(_0);
-	ZVAL_BOOL(_0, skip);
-	zephir_update_property_this(this_ptr, SL("_skipped"), _0 TSRMLS_CC);
+	zephir_update_property_this(this_ptr, SL("_skipped"), skip ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
 
 }
 

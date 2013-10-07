@@ -132,7 +132,7 @@ PHP_METHOD(Phalcon_Events_Manager, attach) {
  */
 PHP_METHOD(Phalcon_Events_Manager, enablePriorities) {
 
-	zval *enablePriorities_param = NULL, *_0;
+	zval *enablePriorities_param = NULL;
 	zend_bool enablePriorities;
 
 	zephir_fetch_params(0, 1, 0, &enablePriorities_param);
@@ -140,9 +140,7 @@ PHP_METHOD(Phalcon_Events_Manager, enablePriorities) {
 		enablePriorities = zephir_get_boolval(enablePriorities_param);
 
 
-	ZEPHIR_INIT_ZVAL_NREF(_0);
-	ZVAL_BOOL(_0, enablePriorities);
-	zephir_update_property_this(this_ptr, SL("_enablePriorities"), _0 TSRMLS_CC);
+	zephir_update_property_this(this_ptr, SL("_enablePriorities"), enablePriorities ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
 
 }
 
@@ -166,7 +164,7 @@ PHP_METHOD(Phalcon_Events_Manager, arePrioritiesEnabled) {
  */
 PHP_METHOD(Phalcon_Events_Manager, collectResponses) {
 
-	zval *collect_param = NULL, *_0;
+	zval *collect_param = NULL;
 	zend_bool collect;
 
 	zephir_fetch_params(0, 1, 0, &collect_param);
@@ -174,9 +172,7 @@ PHP_METHOD(Phalcon_Events_Manager, collectResponses) {
 		collect = zephir_get_boolval(collect_param);
 
 
-	ZEPHIR_INIT_ZVAL_NREF(_0);
-	ZVAL_BOOL(_0, collect);
-	zephir_update_property_this(this_ptr, SL("_collect"), _0 TSRMLS_CC);
+	zephir_update_property_this(this_ptr, SL("_collect"), collect ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
 
 }
 

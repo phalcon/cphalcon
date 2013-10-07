@@ -453,7 +453,7 @@ PHP_METHOD(Phalcon_Assets_Collection, valid) {
  */
 PHP_METHOD(Phalcon_Assets_Collection, join) {
 
-	zval *join_param = NULL, *_0;
+	zval *join_param = NULL;
 	zend_bool join;
 
 	zephir_fetch_params(0, 1, 0, &join_param);
@@ -461,9 +461,7 @@ PHP_METHOD(Phalcon_Assets_Collection, join) {
 		join = zephir_get_boolval(join_param);
 
 
-	ZEPHIR_INIT_ZVAL_NREF(_0);
-	ZVAL_BOOL(_0, join);
-	zephir_update_property_this(this_ptr, SL("_join"), _0 TSRMLS_CC);
+	zephir_update_property_this(this_ptr, SL("_join"), join ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
 	RETURN_THISW();
 
 }

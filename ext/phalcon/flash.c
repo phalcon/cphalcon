@@ -99,7 +99,7 @@ PHP_METHOD(Phalcon_Flash, __construct) {
  */
 PHP_METHOD(Phalcon_Flash, setImplicitFlush) {
 
-	zval *implicitFlush_param = NULL, *_0;
+	zval *implicitFlush_param = NULL;
 	zend_bool implicitFlush;
 
 	zephir_fetch_params(0, 1, 0, &implicitFlush_param);
@@ -107,9 +107,7 @@ PHP_METHOD(Phalcon_Flash, setImplicitFlush) {
 		implicitFlush = zephir_get_boolval(implicitFlush_param);
 
 
-	ZEPHIR_INIT_ZVAL_NREF(_0);
-	ZVAL_BOOL(_0, implicitFlush);
-	zephir_update_property_this(this_ptr, SL("_implicitFlush"), _0 TSRMLS_CC);
+	zephir_update_property_this(this_ptr, SL("_implicitFlush"), implicitFlush ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
 	RETURN_THISW();
 
 }
@@ -122,7 +120,7 @@ PHP_METHOD(Phalcon_Flash, setImplicitFlush) {
  */
 PHP_METHOD(Phalcon_Flash, setAutomaticHtml) {
 
-	zval *automaticHtml_param = NULL, *_0;
+	zval *automaticHtml_param = NULL;
 	zend_bool automaticHtml;
 
 	zephir_fetch_params(0, 1, 0, &automaticHtml_param);
@@ -130,9 +128,7 @@ PHP_METHOD(Phalcon_Flash, setAutomaticHtml) {
 		automaticHtml = zephir_get_boolval(automaticHtml_param);
 
 
-	ZEPHIR_INIT_ZVAL_NREF(_0);
-	ZVAL_BOOL(_0, automaticHtml);
-	zephir_update_property_this(this_ptr, SL("_automaticHtml"), _0 TSRMLS_CC);
+	zephir_update_property_this(this_ptr, SL("_automaticHtml"), automaticHtml ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
 	RETURN_THISW();
 
 }

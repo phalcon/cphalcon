@@ -870,17 +870,17 @@ PHP_METHOD(Phalcon_Forms_Form, count) {
  */
 PHP_METHOD(Phalcon_Forms_Form, rewind) {
 
-	zval *_0, *_1, *_2;
+	zval *_0, *_1;
 
 	ZEPHIR_MM_GROW();
 
 	ZEPHIR_INIT_ZVAL_NREF(_0);
 	ZVAL_LONG(_0, 0);
 	zephir_update_property_this(this_ptr, SL("_position"), _0 TSRMLS_CC);
-	_1 = zephir_fetch_nproperty_this(this_ptr, SL("_elements"), PH_NOISY_CC);
-	ZEPHIR_INIT_VAR(_2);
-	zephir_call_func_p1(_2, "array_values", _1);
-	zephir_update_property_this(this_ptr, SL("_elementsIndexed"), _2 TSRMLS_CC);
+	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_elements"), PH_NOISY_CC);
+	ZEPHIR_INIT_VAR(_1);
+	zephir_call_func_p1(_1, "array_values", _0);
+	zephir_update_property_this(this_ptr, SL("_elementsIndexed"), _1 TSRMLS_CC);
 	ZEPHIR_MM_RESTORE();
 
 }

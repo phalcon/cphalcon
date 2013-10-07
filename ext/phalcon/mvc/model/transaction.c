@@ -288,7 +288,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction, getConnection) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_Transaction, setIsNewTransaction) {
 
-	zval *isNew_param = NULL, *_0;
+	zval *isNew_param = NULL;
 	zend_bool isNew;
 
 	zephir_fetch_params(0, 1, 0, &isNew_param);
@@ -296,9 +296,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction, setIsNewTransaction) {
 		isNew = zephir_get_boolval(isNew_param);
 
 
-	ZEPHIR_INIT_ZVAL_NREF(_0);
-	ZVAL_BOOL(_0, isNew);
-	zephir_update_property_this(this_ptr, SL("_isNewTransaction"), _0 TSRMLS_CC);
+	zephir_update_property_this(this_ptr, SL("_isNewTransaction"), isNew ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
 
 }
 
@@ -309,7 +307,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction, setIsNewTransaction) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_Transaction, setRollbackOnAbort) {
 
-	zval *rollbackOnAbort_param = NULL, *_0;
+	zval *rollbackOnAbort_param = NULL;
 	zend_bool rollbackOnAbort;
 
 	zephir_fetch_params(0, 1, 0, &rollbackOnAbort_param);
@@ -317,9 +315,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction, setRollbackOnAbort) {
 		rollbackOnAbort = zephir_get_boolval(rollbackOnAbort_param);
 
 
-	ZEPHIR_INIT_ZVAL_NREF(_0);
-	ZVAL_BOOL(_0, rollbackOnAbort);
-	zephir_update_property_this(this_ptr, SL("_rollbackOnAbort"), _0 TSRMLS_CC);
+	zephir_update_property_this(this_ptr, SL("_rollbackOnAbort"), rollbackOnAbort ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
 
 }
 

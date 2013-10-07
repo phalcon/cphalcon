@@ -127,7 +127,7 @@ PHP_METHOD(Phalcon_Mvc_Application, __construct) {
  */
 PHP_METHOD(Phalcon_Mvc_Application, useImplicitView) {
 
-	zval *implicitView_param = NULL, *_0;
+	zval *implicitView_param = NULL;
 	zend_bool implicitView;
 
 	zephir_fetch_params(0, 1, 0, &implicitView_param);
@@ -135,9 +135,7 @@ PHP_METHOD(Phalcon_Mvc_Application, useImplicitView) {
 		implicitView = zephir_get_boolval(implicitView_param);
 
 
-	ZEPHIR_INIT_ZVAL_NREF(_0);
-	ZVAL_BOOL(_0, implicitView);
-	zephir_update_property_this(this_ptr, SL("_implicitView"), _0 TSRMLS_CC);
+	zephir_update_property_this(this_ptr, SL("_implicitView"), implicitView ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
 	RETURN_THISW();
 
 }

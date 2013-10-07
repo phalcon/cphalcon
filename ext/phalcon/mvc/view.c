@@ -796,10 +796,10 @@ PHP_METHOD(Phalcon_Mvc_View, _engineRender) {
 	if ((Z_TYPE_P(cache) == IS_OBJECT)) {
 		ZEPHIR_OBS_VAR(_1);
 		zephir_read_property_this(&_1, this_ptr, SL("_renderLevel"), PH_NOISY_CC);
-		renderLevel = zephir_get_numberval(_1);
+		renderLevel = zephir_get_intval(_1);
 		ZEPHIR_OBS_VAR(_2);
 		zephir_read_property_this(&_2, this_ptr, SL("_cacheLevel"), PH_NOISY_CC);
-		cacheLevel = zephir_get_numberval(_2);
+		cacheLevel = zephir_get_intval(_2);
 		if ((renderLevel >= cacheLevel)) {
 			ZEPHIR_INIT_VAR(_3);
 			zephir_call_method(_3, cache, "isstarted");
@@ -1000,7 +1000,7 @@ PHP_METHOD(Phalcon_Mvc_View, render) {
 	ZVAL_NULL(cache);
 	ZEPHIR_OBS_VAR(_3);
 	zephir_read_property_this(&_3, this_ptr, SL("_cacheLevel"), PH_NOISY_CC);
-	cacheLevel = zephir_get_numberval(_3);
+	cacheLevel = zephir_get_intval(_3);
 	if (cacheLevel) {
 		ZEPHIR_INIT_BNVAR(cache);
 		zephir_call_method(cache, this_ptr, "getcache");
@@ -1025,7 +1025,7 @@ PHP_METHOD(Phalcon_Mvc_View, render) {
 	disabledLevels = zephir_fetch_nproperty_this(this_ptr, SL("_disabledLevels"), PH_NOISY_CC);
 	ZEPHIR_OBS_VAR(_5);
 	zephir_read_property_this(&_5, this_ptr, SL("_renderLevel"), PH_NOISY_CC);
-	renderLevel = zephir_get_numberval(_5);
+	renderLevel = zephir_get_intval(_5);
 	if (renderLevel) {
 		if ((renderLevel >= 1)) {
 			if (!(zephir_array_isset_long(disabledLevels, 1))) {
@@ -1492,7 +1492,7 @@ PHP_METHOD(Phalcon_Mvc_View, getActiveRenderPath) {
 PHP_METHOD(Phalcon_Mvc_View, disable) {
 
 
-	zephir_update_property_this(this_ptr, SL("_disabled"), 1 ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
+	zephir_update_property_this(this_ptr, SL("_disabled"), (1) ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
 	RETURN_THISW();
 
 }
@@ -1505,7 +1505,7 @@ PHP_METHOD(Phalcon_Mvc_View, disable) {
 PHP_METHOD(Phalcon_Mvc_View, enable) {
 
 
-	zephir_update_property_this(this_ptr, SL("_disabled"), 0 ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
+	zephir_update_property_this(this_ptr, SL("_disabled"), (0) ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
 	RETURN_THISW();
 
 }
@@ -1517,18 +1517,18 @@ PHP_METHOD(Phalcon_Mvc_View, enable) {
  */
 PHP_METHOD(Phalcon_Mvc_View, reset) {
 
-	zval *_0, *_1;
+	zval *_0;
 
 
-	zephir_update_property_this(this_ptr, SL("_disabled"), 0 ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
-	zephir_update_property_this(this_ptr, SL("_engines"), 0 ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
+	zephir_update_property_this(this_ptr, SL("_disabled"), (0) ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
+	zephir_update_property_this(this_ptr, SL("_engines"), (0) ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
 	zephir_update_property_this(this_ptr, SL("_cache"), ZEPHIR_GLOBAL(global_null) TSRMLS_CC);
 	ZEPHIR_INIT_ZVAL_NREF(_0);
 	ZVAL_LONG(_0, 5);
 	zephir_update_property_this(this_ptr, SL("_renderLevel"), _0 TSRMLS_CC);
-	ZEPHIR_INIT_ZVAL_NREF(_1);
-	ZVAL_LONG(_1, 0);
-	zephir_update_property_this(this_ptr, SL("_cacheLevel"), _1 TSRMLS_CC);
+	ZEPHIR_INIT_ZVAL_NREF(_0);
+	ZVAL_LONG(_0, 0);
+	zephir_update_property_this(this_ptr, SL("_cacheLevel"), _0 TSRMLS_CC);
 	zephir_update_property_this(this_ptr, SL("_content"), ZEPHIR_GLOBAL(global_null) TSRMLS_CC);
 	zephir_update_property_this(this_ptr, SL("_templatesBefore"), ZEPHIR_GLOBAL(global_null) TSRMLS_CC);
 	zephir_update_property_this(this_ptr, SL("_templatesAfter"), ZEPHIR_GLOBAL(global_null) TSRMLS_CC);

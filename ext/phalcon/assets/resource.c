@@ -75,7 +75,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Assets_Resource) {
 PHP_METHOD(Phalcon_Assets_Resource, __construct) {
 
 	zend_bool local, filter;
-	zval *type_param = NULL, *path_param = NULL, *local_param = NULL, *filter_param = NULL, *attributes = NULL, *_0, *_1;
+	zval *type_param = NULL, *path_param = NULL, *local_param = NULL, *filter_param = NULL, *attributes = NULL;
 	zval *type = NULL, *path = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -100,12 +100,8 @@ PHP_METHOD(Phalcon_Assets_Resource, __construct) {
 
 	zephir_update_property_this(this_ptr, SL("_type"), type TSRMLS_CC);
 	zephir_update_property_this(this_ptr, SL("_path"), path TSRMLS_CC);
-	ZEPHIR_INIT_ZVAL_NREF(_0);
-	ZVAL_BOOL(_0, local);
-	zephir_update_property_this(this_ptr, SL("_local"), _0 TSRMLS_CC);
-	ZEPHIR_INIT_ZVAL_NREF(_1);
-	ZVAL_BOOL(_1, filter);
-	zephir_update_property_this(this_ptr, SL("_filter"), _1 TSRMLS_CC);
+	zephir_update_property_this(this_ptr, SL("_local"), local ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
+	zephir_update_property_this(this_ptr, SL("_filter"), filter ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
 	if ((Z_TYPE_P(attributes) == IS_ARRAY)) {
 		zephir_update_property_this(this_ptr, SL("_attributes"), attributes TSRMLS_CC);
 	}
@@ -189,7 +185,7 @@ PHP_METHOD(Phalcon_Assets_Resource, getPath) {
  */
 PHP_METHOD(Phalcon_Assets_Resource, setLocal) {
 
-	zval *local_param = NULL, *_0;
+	zval *local_param = NULL;
 	zend_bool local;
 
 	zephir_fetch_params(0, 1, 0, &local_param);
@@ -197,9 +193,7 @@ PHP_METHOD(Phalcon_Assets_Resource, setLocal) {
 		local = zephir_get_boolval(local_param);
 
 
-	ZEPHIR_INIT_ZVAL_NREF(_0);
-	ZVAL_BOOL(_0, local);
-	zephir_update_property_this(this_ptr, SL("_local"), _0 TSRMLS_CC);
+	zephir_update_property_this(this_ptr, SL("_local"), local ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
 	RETURN_THISW();
 
 }
@@ -224,7 +218,7 @@ PHP_METHOD(Phalcon_Assets_Resource, getLocal) {
  */
 PHP_METHOD(Phalcon_Assets_Resource, setFilter) {
 
-	zval *filter_param = NULL, *_0;
+	zval *filter_param = NULL;
 	zend_bool filter;
 
 	zephir_fetch_params(0, 1, 0, &filter_param);
@@ -232,9 +226,7 @@ PHP_METHOD(Phalcon_Assets_Resource, setFilter) {
 		filter = zephir_get_boolval(filter_param);
 
 
-	ZEPHIR_INIT_ZVAL_NREF(_0);
-	ZVAL_BOOL(_0, filter);
-	zephir_update_property_this(this_ptr, SL("_filter"), _0 TSRMLS_CC);
+	zephir_update_property_this(this_ptr, SL("_filter"), filter ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
 	RETURN_THISW();
 
 }

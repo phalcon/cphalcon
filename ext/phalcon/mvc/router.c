@@ -248,7 +248,7 @@ PHP_METHOD(Phalcon_Mvc_Router, setUriSource) {
  */
 PHP_METHOD(Phalcon_Mvc_Router, removeExtraSlashes) {
 
-	zval *remove_param = NULL, *_0;
+	zval *remove_param = NULL;
 	zend_bool remove;
 
 	zephir_fetch_params(0, 1, 0, &remove_param);
@@ -256,9 +256,7 @@ PHP_METHOD(Phalcon_Mvc_Router, removeExtraSlashes) {
 		remove = zephir_get_boolval(remove_param);
 
 
-	ZEPHIR_INIT_ZVAL_NREF(_0);
-	ZVAL_BOOL(_0, remove);
-	zephir_update_property_this(this_ptr, SL("_removeExtraSlashes"), _0 TSRMLS_CC);
+	zephir_update_property_this(this_ptr, SL("_removeExtraSlashes"), remove ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
 	RETURN_THISW();
 
 }
@@ -464,7 +462,7 @@ PHP_METHOD(Phalcon_Mvc_Router, handle) {
 	array_init(params);
 	ZEPHIR_INIT_VAR(matches);
 	ZVAL_NULL(matches);
-	zephir_update_property_this(this_ptr, SL("_wasMatched"), 0 ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
+	zephir_update_property_this(this_ptr, SL("_wasMatched"), (0) ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
 	zephir_update_property_this(this_ptr, SL("_matchedRoute"), ZEPHIR_GLOBAL(global_null) TSRMLS_CC);
 	_1 = zephir_fetch_nproperty_this(this_ptr, SL("_routes"), PH_NOISY_CC);
 	zephir_is_iterable(_1, &_3, &_2, 0, 1);
@@ -600,9 +598,9 @@ PHP_METHOD(Phalcon_Mvc_Router, handle) {
 		}
 	}
 	if (zephir_is_true(routeFound)) {
-		zephir_update_property_this(this_ptr, SL("_wasMatched"), 1 ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
+		zephir_update_property_this(this_ptr, SL("_wasMatched"), (1) ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
 	} else {
-		zephir_update_property_this(this_ptr, SL("_wasMatched"), 0 ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
+		zephir_update_property_this(this_ptr, SL("_wasMatched"), (0) ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
 	}
 	if (!(zephir_is_true(routeFound))) {
 		notFoundPaths = zephir_fetch_nproperty_this(this_ptr, SL("_notFoundPaths"), PH_NOISY_CC);
