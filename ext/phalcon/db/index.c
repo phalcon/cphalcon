@@ -49,16 +49,16 @@ ZEPHIR_INIT_CLASS(Phalcon_Db_Index) {
 	ZEPHIR_REGISTER_CLASS(Phalcon\\Db, Index, phalcon, db_index, phalcon_db_index_method_entry, 0);
 
 /**
- * Index name
- *
- * @var string
- */
+	 * Index name
+	 *
+	 * @var string
+	 */
 	zend_declare_property_null(phalcon_db_index_ce, SL("_name"), ZEND_ACC_PROTECTED TSRMLS_CC);
 /**
- * Index columns
- *
- * @var array
- */
+	 * Index columns
+	 *
+	 * @var array
+	 */
 	zend_declare_property_null(phalcon_db_index_ce, SL("_columns"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
 	zend_class_implements(phalcon_db_index_ce TSRMLS_CC, 1, phalcon_db_indexinterface_ce);

@@ -45,22 +45,22 @@ ZEPHIR_INIT_CLASS(Phalcon_Logger_Item) {
 	ZEPHIR_REGISTER_CLASS(Phalcon\\Logger, Item, phalcon, logger_item, phalcon_logger_item_method_entry, 0);
 
 /**
- * Log type
- *
- * @var integer
- */
+	 * Log type
+	 *
+	 * @var integer
+	 */
 	zend_declare_property_null(phalcon_logger_item_ce, SL("_type"), ZEND_ACC_PROTECTED TSRMLS_CC);
 /**
- * Log message
- *
- * @var string
- */
+	 * Log message
+	 *
+	 * @var string
+	 */
 	zend_declare_property_null(phalcon_logger_item_ce, SL("_message"), ZEND_ACC_PROTECTED TSRMLS_CC);
 /**
- * Log timestamp
- *
- * @var integer
- */
+	 * Log timestamp
+	 *
+	 * @var integer
+	 */
 	zend_declare_property_null(phalcon_logger_item_ce, SL("_time"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
 	return SUCCESS;

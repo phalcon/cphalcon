@@ -65,76 +65,76 @@ ZEPHIR_INIT_CLASS(Phalcon_Db_Column) {
 	ZEPHIR_REGISTER_CLASS(Phalcon\\Db, Column, phalcon, db_column, phalcon_db_column_method_entry, 0);
 
 /**
- * Column's name
- *
- * @var string
- */
+	 * Column's name
+	 *
+	 * @var string
+	 */
 	zend_declare_property_null(phalcon_db_column_ce, SL("_name"), ZEND_ACC_PROTECTED TSRMLS_CC);
 /**
- * Schema which table related is
- *
- * @var string
- */
+	 * Schema which table related is
+	 *
+	 * @var string
+	 */
 	zend_declare_property_null(phalcon_db_column_ce, SL("_schemaName"), ZEND_ACC_PROTECTED TSRMLS_CC);
 /**
- * Column data type
- *
- * @var int
- */
+	 * Column data type
+	 *
+	 * @var int
+	 */
 	zend_declare_property_null(phalcon_db_column_ce, SL("_type"), ZEND_ACC_PROTECTED TSRMLS_CC);
 /**
- * The column have some numeric type?
- */
+	 * The column have some numeric type?
+	 */
 	zend_declare_property_bool(phalcon_db_column_ce, SL("_isNumeric"), 0, ZEND_ACC_PROTECTED TSRMLS_CC);
 /**
- * Integer column size
- *
- * @var int
- */
+	 * Integer column size
+	 *
+	 * @var int
+	 */
 	zend_declare_property_long(phalcon_db_column_ce, SL("_size"), 0, ZEND_ACC_PROTECTED TSRMLS_CC);
 /**
- * Integer column number scale
- *
- * @var int
- */
+	 * Integer column number scale
+	 *
+	 * @var int
+	 */
 	zend_declare_property_long(phalcon_db_column_ce, SL("_scale"), 0, ZEND_ACC_PROTECTED TSRMLS_CC);
 /**
- * Integer column unsigned?
- *
- * @var boolean
- */
+	 * Integer column unsigned?
+	 *
+	 * @var boolean
+	 */
 	zend_declare_property_bool(phalcon_db_column_ce, SL("_unsigned"), 0, ZEND_ACC_PROTECTED TSRMLS_CC);
 /**
- * Column not nullable?
- *
- * @var boolean
- */
+	 * Column not nullable?
+	 *
+	 * @var boolean
+	 */
 	zend_declare_property_bool(phalcon_db_column_ce, SL("_notNull"), 0, ZEND_ACC_PROTECTED TSRMLS_CC);
 /**
- * Column is part of the primary key?
- */
+	 * Column is part of the primary key?
+	 */
 	zend_declare_property_bool(phalcon_db_column_ce, SL("_primary"), 0, ZEND_ACC_PROTECTED TSRMLS_CC);
 /**
- * Column is autoIncrement?
- *
- * @var boolean
- */
+	 * Column is autoIncrement?
+	 *
+	 * @var boolean
+	 */
 	zend_declare_property_bool(phalcon_db_column_ce, SL("_autoIncrement"), 0, ZEND_ACC_PROTECTED TSRMLS_CC);
 /**
- * Position is first
- *
- * @var boolean
- */
+	 * Position is first
+	 *
+	 * @var boolean
+	 */
 	zend_declare_property_bool(phalcon_db_column_ce, SL("_first"), 0, ZEND_ACC_PROTECTED TSRMLS_CC);
 /**
- * Column Position
- *
- * @var string
- */
+	 * Column Position
+	 *
+	 * @var string
+	 */
 	zend_declare_property_null(phalcon_db_column_ce, SL("_after"), ZEND_ACC_PROTECTED TSRMLS_CC);
 /**
- * Bind Type
- */
+	 * Bind Type
+	 */
 	zend_declare_property_long(phalcon_db_column_ce, SL("_bindType"), 2, ZEND_ACC_PROTECTED TSRMLS_CC);
 /**
  * Integer abstract type

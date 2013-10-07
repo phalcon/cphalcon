@@ -59,16 +59,16 @@ ZEPHIR_INIT_CLASS(Phalcon_Db_Adapter_Pdo) {
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Db\\Adapter, Pdo, phalcon, db_adapter_pdo, phalcon_db_adapter_ce, phalcon_db_adapter_pdo_method_entry, 0);
 
 /**
- * PDO Handler
- */
+	 * PDO Handler
+	 */
 	zend_declare_property_null(phalcon_db_adapter_pdo_ce, SL("_pdo"), ZEND_ACC_PROTECTED TSRMLS_CC);
 /**
- * Last affected rows
- */
+	 * Last affected rows
+	 */
 	zend_declare_property_null(phalcon_db_adapter_pdo_ce, SL("_affectedRows"), ZEND_ACC_PROTECTED TSRMLS_CC);
 /**
- * Transaction level
- */
+	 * Transaction level
+	 */
 	zend_declare_property_long(phalcon_db_adapter_pdo_ce, SL("_transactionLevel"), 0, ZEND_ACC_PROTECTED TSRMLS_CC);
 
 	return SUCCESS;

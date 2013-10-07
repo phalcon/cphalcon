@@ -49,16 +49,16 @@ ZEPHIR_INIT_CLASS(Phalcon_Di_Injectable) {
 	ZEPHIR_REGISTER_CLASS(Phalcon\\Di, Injectable, phalcon, di_injectable, phalcon_di_injectable_method_entry, 0);
 
 /**
- * Dependency Injector
- *
- * @var Phalcon\DiInteface
- */
+	 * Dependency Injector
+	 *
+	 * @var Phalcon\DiInteface
+	 */
 	zend_declare_property_null(phalcon_di_injectable_ce, SL("_dependencyInjector"), ZEND_ACC_PROTECTED TSRMLS_CC);
 /**
- * Events Manager
- *
- * @var Phalcon\Events\ManagerInterface
- */
+	 * Events Manager
+	 *
+	 * @var Phalcon\Events\ManagerInterface
+	 */
 	zend_declare_property_null(phalcon_di_injectable_ce, SL("_eventsManager"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
 	zend_class_implements(phalcon_di_injectable_ce TSRMLS_CC, 1, phalcon_di_injectionawareinterface_ce);

@@ -45,14 +45,14 @@ ZEPHIR_INIT_CLASS(Phalcon_Acl_Role) {
 	ZEPHIR_REGISTER_CLASS(Phalcon\\Acl, Role, phalcon, acl_role, phalcon_acl_role_method_entry, 0);
 
 /**
- * Role name
- * @var string
- */
+	 * Role name
+	 * @var string
+	 */
 	zend_declare_property_null(phalcon_acl_role_ce, SL("_name"), ZEND_ACC_PROTECTED TSRMLS_CC);
 /**
- * Role description
- * @var string
- */
+	 * Role description
+	 * @var string
+	 */
 	zend_declare_property_null(phalcon_acl_role_ce, SL("_description"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
 	return SUCCESS;

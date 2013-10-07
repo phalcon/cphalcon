@@ -56,30 +56,30 @@ ZEPHIR_INIT_CLASS(Phalcon_Db_Reference) {
 	ZEPHIR_REGISTER_CLASS(Phalcon\\Db, Reference, phalcon, db_reference, phalcon_db_reference_method_entry, 0);
 
 /**
- * Constraint name
- *
- * @var string
- */
+	 * Constraint name
+	 *
+	 * @var string
+	 */
 	zend_declare_property_null(phalcon_db_reference_ce, SL("_name"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_db_reference_ce, SL("_schemaName"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_db_reference_ce, SL("_referencedSchema"), ZEND_ACC_PROTECTED TSRMLS_CC);
 /**
- * Referenced Table
- *
- * @var string
- */
+	 * Referenced Table
+	 *
+	 * @var string
+	 */
 	zend_declare_property_null(phalcon_db_reference_ce, SL("_referencedTable"), ZEND_ACC_PROTECTED TSRMLS_CC);
 /**
- * Local reference columns
- *
- * @var array
- */
+	 * Local reference columns
+	 *
+	 * @var array
+	 */
 	zend_declare_property_null(phalcon_db_reference_ce, SL("_columns"), ZEND_ACC_PROTECTED TSRMLS_CC);
 /**
- * Referenced Columns
- *
- * @var array
- */
+	 * Referenced Columns
+	 *
+	 * @var array
+	 */
 	zend_declare_property_null(phalcon_db_reference_ce, SL("_referencedColumns"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
 	zend_class_implements(phalcon_db_reference_ce TSRMLS_CC, 1, phalcon_db_referenceinterface_ce);

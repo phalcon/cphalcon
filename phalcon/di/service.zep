@@ -70,7 +70,7 @@ class Service implements Phalcon\Di\ServiceInterface
 	 *
 	 * @param boolean shared
 	 */
-	public function setShared(boolean shared)
+	public function setShared(boolean shared) -> void
 	{
 		let this->_shared = shared;
 	}
@@ -90,7 +90,7 @@ class Service implements Phalcon\Di\ServiceInterface
 	 *
 	 * @param mixed sharedInstance
 	 */
-	public function setSharedInstance(sharedInstance)
+	public function setSharedInstance(sharedInstance) -> void
 	{
 		let this->_sharedInstance = sharedInstance;
 	}
@@ -100,7 +100,7 @@ class Service implements Phalcon\Di\ServiceInterface
 	 *
 	 * @param mixed definition
 	 */
-	public function setDefinition(definition)
+	public function setDefinition(definition) -> void
 	{
 		let this->_definition = definition;
 	}

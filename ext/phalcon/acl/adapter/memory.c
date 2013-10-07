@@ -100,46 +100,46 @@ ZEPHIR_INIT_CLASS(Phalcon_Acl_Adapter_Memory) {
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Acl\\Adapter, Memory, phalcon, acl_adapter_memory, phalcon_acl_adapter_ce, phalcon_acl_adapter_memory_method_entry, 0);
 
 /**
- * Roles Names
- *
- * @var mixed
- */
+	 * Roles Names
+	 *
+	 * @var mixed
+	 */
 	zend_declare_property_null(phalcon_acl_adapter_memory_ce, SL("_rolesNames"), ZEND_ACC_PROTECTED TSRMLS_CC);
 /**
- * Roles
- *
- * @var mixed
- */
+	 * Roles
+	 *
+	 * @var mixed
+	 */
 	zend_declare_property_null(phalcon_acl_adapter_memory_ce, SL("_roles"), ZEND_ACC_PROTECTED TSRMLS_CC);
 /**
- * Resource Names
- *
- * @var mixed
- */
+	 * Resource Names
+	 *
+	 * @var mixed
+	 */
 	zend_declare_property_null(phalcon_acl_adapter_memory_ce, SL("_resourcesNames"), ZEND_ACC_PROTECTED TSRMLS_CC);
 /**
- * Resources
- *
- * @var mixed
- */
+	 * Resources
+	 *
+	 * @var mixed
+	 */
 	zend_declare_property_null(phalcon_acl_adapter_memory_ce, SL("_resources"), ZEND_ACC_PROTECTED TSRMLS_CC);
 /**
- * Access
- *
- * @var mixed
- */
+	 * Access
+	 *
+	 * @var mixed
+	 */
 	zend_declare_property_null(phalcon_acl_adapter_memory_ce, SL("_access"), ZEND_ACC_PROTECTED TSRMLS_CC);
 /**
- * Role Inherits
- *
- * @var mixed
- */
+	 * Role Inherits
+	 *
+	 * @var mixed
+	 */
 	zend_declare_property_null(phalcon_acl_adapter_memory_ce, SL("_roleInherits"), ZEND_ACC_PROTECTED TSRMLS_CC);
 /**
- * Access List
- *
- * @var mixed
- */
+	 * Access List
+	 *
+	 * @var mixed
+	 */
 	zend_declare_property_null(phalcon_acl_adapter_memory_ce, SL("_accessList"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
 	return SUCCESS;

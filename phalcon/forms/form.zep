@@ -177,7 +177,7 @@ class Form extends Phalcon\Di\Injectable implements Countable, Iterator
 	 *
 	 * @return Phalcon\Forms\ElementInterface[]
 	 */
-	public function getElements()
+	public function getElements() -> <Phalcon\Forms\ElementInterface[]>
 	{
 		return this->_elements;
 	}
@@ -478,7 +478,7 @@ class Form extends Phalcon\Di\Injectable implements Countable, Iterator
 	 * @param array attributes
 	 * @return string
 	 */
-	public function render(string name, attributes=null) -> string
+	public function render(string! name, attributes=null) -> string
 	{
 		var elements, element;
 
@@ -497,7 +497,7 @@ class Form extends Phalcon\Di\Injectable implements Countable, Iterator
 	 * @param string name
 	 * @return Phalcon\Forms\ElementInterface
 	 */
-	public function get(string name) -> <Phalcon\Forms\ElementInterface>
+	public function get(string! name) -> <Phalcon\Forms\ElementInterface>
 	{
 		var elements, element;
 
@@ -515,7 +515,7 @@ class Form extends Phalcon\Di\Injectable implements Countable, Iterator
 	 * @param string name
 	 * @return string
 	 */
-	public function label(string name) -> string
+	public function label(string! name) -> string
 	{
 		var elements, element;
 
@@ -533,7 +533,7 @@ class Form extends Phalcon\Di\Injectable implements Countable, Iterator
 	 * @param string name
 	 * @return string
 	 */
-	public function getLabel(string name) -> string
+	public function getLabel(string! name) -> string
 	{
 		var elements, element, label;
 
@@ -561,7 +561,7 @@ class Form extends Phalcon\Di\Injectable implements Countable, Iterator
 	 * @param string name
 	 * @return mixed
 	 */
-	public function getValue(string name)
+	public function getValue(string! name)
 	{
 		var entity, method, value, data;
 
@@ -604,7 +604,7 @@ class Form extends Phalcon\Di\Injectable implements Countable, Iterator
 	 * @param string name
 	 * @return boolean
 	 */
-	public function has(string name) -> boolean
+	public function has(string! name) -> boolean
 	{
 		var elements;
 
@@ -622,7 +622,7 @@ class Form extends Phalcon\Di\Injectable implements Countable, Iterator
 	 * @param string name
 	 * @return boolean
 	 */
-	public function remove(string name) -> boolean
+	public function remove(string! name) -> boolean
 	{
 		var elements;
 

@@ -57,18 +57,18 @@ ZEPHIR_INIT_CLASS(Phalcon_Logger_Adapter_File) {
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Logger\\Adapter, File, phalcon, logger_adapter_file, phalcon_logger_adapter_ce, phalcon_logger_adapter_file_method_entry, 0);
 
 /**
- * File handler resource
- *
- * @var resource
- */
+	 * File handler resource
+	 *
+	 * @var resource
+	 */
 	zend_declare_property_null(phalcon_logger_adapter_file_ce, SL("_fileHandler"), ZEND_ACC_PROTECTED TSRMLS_CC);
 /**
- * File Path
- */
+	 * File Path
+	 */
 	zend_declare_property_null(phalcon_logger_adapter_file_ce, SL("_path"), ZEND_ACC_PROTECTED TSRMLS_CC);
 /**
- * Path options
- */
+	 * Path options
+	 */
 	zend_declare_property_null(phalcon_logger_adapter_file_ce, SL("_options"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
 	zend_class_implements(phalcon_logger_adapter_file_ce TSRMLS_CC, 1, phalcon_logger_adapterinterface_ce);

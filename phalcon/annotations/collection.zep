@@ -136,7 +136,7 @@ class Collection implements \Iterator, \Countable
 	 *
 	 * @return Phalcon\Annotations\Annotation[]
 	 */
-	public function getAnnotations()
+	public function getAnnotations() -> <Phalcon\Annotations\Annotation[]>
 	{
 		return this->_annotations;
 	}
@@ -168,7 +168,7 @@ class Collection implements \Iterator, \Countable
 	 * @param string name
 	 * @return Phalcon\Annotations\Annotation[]
 	 */
-	public function getAll(string name)
+	public function getAll(string name) -> <Phalcon\Annotations\Annotation[]>
 	{
 		var annotations, found, annotation;
 

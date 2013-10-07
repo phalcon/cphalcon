@@ -45,22 +45,22 @@ ZEPHIR_INIT_CLASS(Phalcon_Db_Profiler_Item) {
 	ZEPHIR_REGISTER_CLASS(Phalcon\\Db\\Profiler, Item, phalcon, db_profiler_item, phalcon_db_profiler_item_method_entry, 0);
 
 /**
- * SQL statement related to the profile
- *
- * @var string
- */
+	 * SQL statement related to the profile
+	 *
+	 * @var string
+	 */
 	zend_declare_property_null(phalcon_db_profiler_item_ce, SL("_sqlStatement"), ZEND_ACC_PROTECTED TSRMLS_CC);
 /**
- * Timestamp when the profile started
- *
- * @var double
- */
+	 * Timestamp when the profile started
+	 *
+	 * @var double
+	 */
 	zend_declare_property_null(phalcon_db_profiler_item_ce, SL("_initialTime"), ZEND_ACC_PROTECTED TSRMLS_CC);
 /**
- * Timestamp when the profile ended
- *
- * @var double
- */
+	 * Timestamp when the profile ended
+	 *
+	 * @var double
+	 */
 	zend_declare_property_null(phalcon_db_profiler_item_ce, SL("_finalTime"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
 	return SUCCESS;

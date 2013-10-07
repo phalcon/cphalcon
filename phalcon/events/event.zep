@@ -77,7 +77,7 @@ class Event
 	 *
 	 * @return boolean
 	 */
-	public function isStopped()
+	public function isStopped() -> boolean
 	{
 		return this->_stopped;
 	}

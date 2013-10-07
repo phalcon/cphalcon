@@ -24,7 +24,8 @@ namespace Phalcon\Forms;
  *
  * This is a base class for form elements
  */
-abstract class Element {
+abstract class Element
+{
 
 	protected _form;
 
@@ -186,7 +187,7 @@ abstract class Element {
 	 *
 	 * @return Phalcon\Validation\ValidatorInterface[]
 	 */
-	public function getValidators()
+	public function getValidators() -> <Phalcon\Validation\ValidatorInterface[]>
 	{
 		return this->_validators;
 	}
