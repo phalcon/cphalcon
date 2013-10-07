@@ -104,12 +104,12 @@ class Query //implements Phalcon\Mvc\Model\QueryInterface, Phalcon\Di\InjectionA
 
 		let manager = dependencyInjector->getShared("modelsManager");
 		if typeof manager != "object" {
-			throw new Phalcon\Mvc\Model\Exception("Injected service " . manager . " is invalid");
+			throw new Phalcon\Mvc\Model\Exception("Injected service 'modelsManager' is invalid");
 		}
 
-		let metaData = dependencyInjector->getShared("modelsManager");
+		let metaData = dependencyInjector->getShared("modelsMetadata");
 		if typeof metaData != "object" {
-			throw new Phalcon\Mvc\Model\Exception("Injected service " . metaData . " is invalid");
+			throw new Phalcon\Mvc\Model\Exception("Injected service 'modelsMetaData' is invalid");
 		}
 
 		let this->_manager = manager,
@@ -151,17 +151,17 @@ class Query //implements Phalcon\Mvc\Model\QueryInterface, Phalcon\Di\InjectionA
 	}
 
 	/**
-	 * Replaces the model"s name to its source name in a qualifed-name expression
+	 * Replaces the model's name to its source name in a qualifed-name expression
 	 *
-	 * @param array $expr
+	 * @param array expr
 	 * @return string
 	 */
 	protected function _getQualified(expr)
 	{
 		var columnName, sqlColumnAliases, metaData, sqlAliases,
 			source, sqlAliasesModelsInstances, realColumnName, columnDomain,
-			model, models, columnMap;
-		int number; boolean hasModel;
+			model, models, columnMap, hasModel;
+		int number;
 
 		let columnName = expr["name"];
 
@@ -226,7 +226,7 @@ class Query //implements Phalcon\Mvc\Model\QueryInterface, Phalcon\Di\InjectionA
 		} else {
 
 			/**
-			 * If the column IR doesn"t have a domain, we must check for ambiguities
+			 * If the column IR doesn't have a domain, we must check for ambiguities
 			 */
 			let number = 0, hasModel = false;
 			for model in this->_modelsInstances {
@@ -259,7 +259,7 @@ class Query //implements Phalcon\Mvc\Model\QueryInterface, Phalcon\Di\InjectionA
 			}
 
 			/**
-			 * Obtain the model"s source from the _models list
+			 * Obtain the model's source from the _models list
 			 */
 			if !fetch source, models[get_class(hasModel)] {
 				throw new Phalcon\Mvc\Model\Exception("Column '" . columnName . "' doesn't belong to any of the selected models (2), when preparing: " . this->_phql);
@@ -306,7 +306,7 @@ class Query //implements Phalcon\Mvc\Model\QueryInterface, Phalcon\Di\InjectionA
 	 */
 	protected function _getCallArgument(argument)
 	{
-		if argument["type"] == 352 {
+		if argument["type"] == PHQL_T_ALL {
 			return ["type": "all"];
 		}
 		return this->_getExpression(argument);
@@ -384,7 +384,7 @@ class Query //implements Phalcon\Mvc\Model\QueryInterface, Phalcon\Di\InjectionA
 			 * Every node in the AST has a unique integer type
 			 */
 			switch exprType {
-				case 60:
+				case PHQL_T_LESS:
 					let exprReturn = ["type": "binary-op", "op": "<", "left": left, "right": right];
 					break;
 				case 61:

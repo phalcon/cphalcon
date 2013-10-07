@@ -15,10 +15,10 @@
 #include "kernel/fcall.h"
 #include "kernel/memory.h"
 #include "kernel/exception.h"
-#include "kernel/concat.h"
 #include "kernel/object.h"
 #include "kernel/operators.h"
 #include "kernel/array.h"
+#include "kernel/concat.h"
 #include "kernel/string.h"
 
 
@@ -102,7 +102,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_Query) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_Query, setDI) {
 
-	zval *dependencyInjector, *manager, *metaData, *_0, *_1 = NULL, *_2 = NULL;
+	zval *dependencyInjector, *manager, *metaData, *_0;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &dependencyInjector);
@@ -114,31 +114,15 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, setDI) {
 	ZEPHIR_INIT_VAR(manager);
 	zephir_call_method_p1(manager, dependencyInjector, "getshared", _0);
 	if ((Z_TYPE_P(manager) != IS_OBJECT)) {
-		ZEPHIR_INIT_BNVAR(_0);
-		object_init_ex(_0, phalcon_mvc_model_exception_ce);
-		ZEPHIR_INIT_VAR(_1);
-		ZEPHIR_CONCAT_SV(_1, "Injected service ", manager);
-		ZEPHIR_INIT_VAR(_2);
-		ZEPHIR_CONCAT_VS(_2, _1, " is invalid");
-		zephir_call_method_p1_noret(_0, "__construct", _2);
-		zephir_throw_exception(_0 TSRMLS_CC);
-		ZEPHIR_MM_RESTORE();
+		ZEPHIR_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Injected service 'modelsManager' is invalid");
 		return;
 	}
 	ZEPHIR_INIT_BNVAR(_0);
-	ZVAL_STRING(_0, "modelsManager", 1);
+	ZVAL_STRING(_0, "modelsMetadata", 1);
 	ZEPHIR_INIT_VAR(metaData);
 	zephir_call_method_p1(metaData, dependencyInjector, "getshared", _0);
 	if ((Z_TYPE_P(metaData) != IS_OBJECT)) {
-		ZEPHIR_INIT_BNVAR(_0);
-		object_init_ex(_0, phalcon_mvc_model_exception_ce);
-		ZEPHIR_INIT_LNVAR(_1);
-		ZEPHIR_CONCAT_SV(_1, "Injected service ", metaData);
-		ZEPHIR_INIT_LNVAR(_2);
-		ZEPHIR_CONCAT_VS(_2, _1, " is invalid");
-		zephir_call_method_p1_noret(_0, "__construct", _2);
-		zephir_throw_exception(_0 TSRMLS_CC);
-		ZEPHIR_MM_RESTORE();
+		ZEPHIR_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Injected service 'modelsMetaData' is invalid");
 		return;
 	}
 	zephir_update_property_this(this_ptr, SL("_manager"), manager TSRMLS_CC);
@@ -196,9 +180,9 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, getUniqueRow) {
 }
 
 /**
- * Replaces the model"s name to its source name in a qualifed-name expression
+ * Replaces the model's name to its source name in a qualifed-name expression
  *
- * @param array $expr
+ * @param array expr
  * @return string
  */
 PHP_METHOD(Phalcon_Mvc_Model_Query, _getQualified) {
@@ -206,8 +190,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getQualified) {
 	zend_function *_12 = NULL, *_13 = NULL;
 	HashTable *_10;
 	HashPosition _9;
-	zend_bool hasModel;
 	int number;
+	zend_bool hasModel;
 	zval *expr, *columnName, *sqlColumnAliases, *metaData, *sqlAliases, *source = NULL, *sqlAliasesModelsInstances, *realColumnName = NULL, *columnDomain, *model = NULL, *models, *columnMap = NULL, *_0 = NULL, *_1 = NULL, *_2 = NULL, *_3 = NULL, *_4 = NULL, *_5 = NULL, *_6, *_7, *_8, **_11;
 
 	ZEPHIR_MM_GROW();
@@ -515,7 +499,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getExpression) {
 		quoting = zephir_get_boolval(quoting_param);
 	}
 
-
 	if (zephir_array_isset_string_fetch(&exprType, expr, SS("type"), 1 TSRMLS_CC)) {
 		tempNotQuoting = 1;
 		if (zephir_array_isset_string_fetch(&exprLeft, expr, SS("left"), 1 TSRMLS_CC)) {
@@ -527,7 +510,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getExpression) {
 			zephir_call_method_p2(right, this_ptr, "_getexpression", exprRight, (tempNotQuoting ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false)));
 		}
 		do {
-			if (ZEPHIR_IS_LONG(exprType, 60)) {
+			if (ZEPHIR_IS_LONG(exprType, '<')) {
 				ZEPHIR_INIT_VAR(exprReturn);
 				array_init(exprReturn);
 				add_assoc_stringl_ex(exprReturn, SS("type"), SL("binary-op"), 1);

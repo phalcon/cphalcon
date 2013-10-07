@@ -1,1 +1,6 @@
-{"namespace":"phalcon"}
+{
+	"namespace": "phalcon",
+	"constants-sources": [
+		"ext/phalcon/mvc/model/query/scanner.h"
+	]
+}
