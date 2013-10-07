@@ -38,8 +38,8 @@ class Model implements Phalcon\Paginator\AdapterInterface
 	protected _config = null;
 
 	/**
- 	 * Current page in paginate
- 	*/
+	 * Current page in paginate
+	*/
 	protected _page = null;
 
 	/**
@@ -75,12 +75,12 @@ class Model implements Phalcon\Paginator\AdapterInterface
 	 *
 	 * @return stdClass
 	 */
- 	public function getPaginate() -> <stdclass>
- 	{
- 		var config, items, pageItems, page, valid;
- 		int pageNumber, show, n, start, lastPage, totalPages,
- 			lastShowPage, i, maximumPages, next, pagesTotal,
- 			before;
+	public function getPaginate() -> <stdclass>
+	{
+		var config, items, pageItems, page, valid;
+		int pageNumber, show, n, start, lastPage, totalPages,
+			lastShowPage, i, maximumPages, next, pagesTotal,
+			before;
 
 		let show       = (int) this->_limitRows,
 			config     = this->_config,
@@ -130,10 +130,10 @@ class Model implements Phalcon\Paginator\AdapterInterface
 			let i = 1;
 			loop {
 
-			 	let valid = items->valid();
-			 	if valid == false {
-			 		break;
-			 	}
+				let valid = items->valid();
+				if valid == false {
+					break;
+				}
 
 				let pageItems[] = items->current();
 				if i >= show {

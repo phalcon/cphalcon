@@ -2158,7 +2158,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _preSave) {
 	HashTable *_6;
 	HashPosition _5;
 	zend_bool exists, error, isNull;
-	zval *metaData, *exists_param = NULL, *identityField, *notNull, *columnMap, *dataTypeNumeric, *automaticAttributes, *field = NULL, *attributeField = NULL, *value, *_0, *_1, *_2 = NULL, *_3 = NULL, *_4 = NULL, **_7, *_8 = NULL, *_9 = NULL, *_11 = NULL, *_13, *_14;
+	zval *metaData, *exists_param = NULL, *identityField, *notNull, *columnMap, *dataTypeNumeric, *automaticAttributes, *field = NULL, *attributeField = NULL, *value, *_0, *_1, *_2 = NULL, *_3 = NULL, *_4 = NULL, **_7, *_8 = NULL, *_9 = NULL, *_11 = NULL, *_13;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 3, 0, &metaData, &exists_param, &identityField);
@@ -2293,14 +2293,14 @@ PHP_METHOD(Phalcon_Mvc_Model, _preSave) {
 				}
 			}
 			if ((error == 1)) {
+				ZEPHIR_INIT_NVAR(_2);
+				ZVAL_STRING(_2, "orm.events", 1);
 				ZEPHIR_INIT_NVAR(_11);
-				ZVAL_STRING(_11, "orm.events", 1);
-				ZEPHIR_INIT_VAR(_13);
-				zephir_call_func_p1(_13, "globals_get", _11);
-				if (zephir_is_true(_13)) {
-					ZEPHIR_INIT_NVAR(_11);
-					ZVAL_STRING(_11, "onValidationFails", 1);
-					zephir_call_method_p1_noret(this_ptr, "fireevent", _11);
+				zephir_call_func_p1(_11, "globals_get", _2);
+				if (zephir_is_true(_11)) {
+					ZEPHIR_INIT_NVAR(_2);
+					ZVAL_STRING(_2, "onValidationFails", 1);
+					zephir_call_method_p1_noret(this_ptr, "fireevent", _2);
 					zephir_call_method_noret(this_ptr, "_canceloperation");
 				}
 				RETURN_MM_BOOL(0);
@@ -2377,8 +2377,8 @@ PHP_METHOD(Phalcon_Mvc_Model, _preSave) {
 				RETURN_MM_BOOL(0);
 			}
 		}
-		_14 = zephir_fetch_nproperty_this(this_ptr, SL("_skipped"), PH_NOISY_CC);
-		if (ZEPHIR_IS_TRUE(_14)) {
+		_13 = zephir_fetch_nproperty_this(this_ptr, SL("_skipped"), PH_NOISY_CC);
+		if (ZEPHIR_IS_TRUE(_13)) {
 			RETURN_MM_BOOL(1);
 		}
 	}
