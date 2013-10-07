@@ -80,7 +80,7 @@ class Manager implements Phalcon\Events\ManagerInterface
 					this->_events = events;
 
 			} else {
-				let priorityQueue = rray();
+				let priorityQueue = [];
 			}
 
 		}

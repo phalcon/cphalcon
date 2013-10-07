@@ -109,7 +109,7 @@ PHP_METHOD(Phalcon_Events_Manager, attach) {
 			zephir_array_update_zval(&events, eventType, &priorityQueue, PH_COPY | PH_SEPARATE);
 			zephir_update_property_this(this_ptr, SL("_events"), events TSRMLS_CC);
 		} else {
-			zephir_call_func(priorityQueue, "rray");
+			array_init(priorityQueue);
 		}
 	}
 	if ((Z_TYPE_P(priorityQueue) == IS_OBJECT)) {

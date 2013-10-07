@@ -499,6 +499,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getExpression) {
 		quoting = zephir_get_boolval(quoting_param);
 	}
 
+
 	if (zephir_array_isset_string_fetch(&exprType, expr, SS("type"), 1 TSRMLS_CC)) {
 		tempNotQuoting = 1;
 		if (zephir_array_isset_string_fetch(&exprLeft, expr, SS("left"), 1 TSRMLS_CC)) {
