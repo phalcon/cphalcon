@@ -1117,6 +1117,7 @@ PHP_METHOD(Phalcon_Mvc_View, render){
 				 */
 				if (Z_TYPE_P(templates_before) == IS_ARRAY) { 
 	
+					PHALCON_INIT_NVAR(silence);
 					ZVAL_BOOL(silence, 0);
 	
 					phalcon_is_iterable(templates_before, &ah0, &hp0, 0, 0);
