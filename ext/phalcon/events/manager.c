@@ -244,11 +244,11 @@ PHP_METHOD(Phalcon_Events_Manager, dettachAll) {
  */
 PHP_METHOD(Phalcon_Events_Manager, fireQueue) {
 
-	HashTable *_9;
-	HashPosition _8;
-	zend_function *_3 = NULL, *_4 = NULL, *_6 = NULL, *_7 = NULL, *_11 = NULL, *_12 = NULL;
+	HashTable *_8;
+	HashPosition _7;
+	zend_function *_2 = NULL, *_3 = NULL, *_5 = NULL, *_6 = NULL, *_10 = NULL, *_11 = NULL;
 	zend_bool collect, cancelable;
-	zval *queue = NULL, *event, *status = NULL, *arguments = NULL, *eventName, *data, *iterator = NULL, *source, *handler = NULL, *_0, *_1, *_2 = NULL, *_5 = NULL, **_10;
+	zval *queue = NULL, *event, *status = NULL, *arguments = NULL, *eventName, *data, *iterator = NULL, *source, *handler = NULL, *_0 = NULL, *_1, *_4 = NULL, **_9;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &queue, &event);
@@ -284,17 +284,17 @@ PHP_METHOD(Phalcon_Events_Manager, fireQueue) {
 	zephir_read_property_this(&_1, this_ptr, SL("_collect"), PH_NOISY_CC);
 	collect = (zephir_get_boolval(_1)) ? 1 : 0;
 	if (ZEPHIR_IS_STRING(queue, "object")) {
-		ZEPHIR_INIT_VAR(_2);
-		ZEPHIR_CPY_WRT(iterator, _2);
+		ZEPHIR_INIT_BNVAR(_0);
+		ZEPHIR_CPY_WRT(iterator, _0);
 		zephir_call_method_noret(iterator, "top");
 		while (1) {
-			ZEPHIR_INIT_NVAR(_2);
-			zephir_call_method_cache(_2, iterator, "valid", &_3);
-			if (!(zephir_is_true(_2))) {
+			ZEPHIR_INIT_NVAR(_0);
+			zephir_call_method_cache(_0, iterator, "valid", &_2);
+			if (!(zephir_is_true(_0))) {
 				break;
 			}
 			ZEPHIR_INIT_NVAR(handler);
-			zephir_call_method_cache(handler, iterator, "current", &_4);
+			zephir_call_method_cache(handler, iterator, "current", &_3);
 			if ((Z_TYPE_P(handler) == IS_OBJECT)) {
 				if (zephir_is_instance_of(handler, SL("closure") TSRMLS_CC)) {
 					if ((Z_TYPE_P(arguments) == IS_NULL)) {
@@ -310,9 +310,9 @@ PHP_METHOD(Phalcon_Events_Manager, fireQueue) {
 						zephir_update_property_array_append(this_ptr, SL("_responses"), status TSRMLS_CC);
 					}
 					if (cancelable) {
-						ZEPHIR_INIT_NVAR(_5);
-						zephir_call_method_cache(_5, event, "isstopped", &_6);
-						if (zephir_is_true(_5)) {
+						ZEPHIR_INIT_NVAR(_4);
+						zephir_call_method_cache(_4, event, "isstopped", &_5);
+						if (zephir_is_true(_4)) {
 							break;
 						}
 					}
@@ -324,9 +324,9 @@ PHP_METHOD(Phalcon_Events_Manager, fireQueue) {
 							zephir_update_property_array_append(this_ptr, SL("_responses"), status TSRMLS_CC);
 						}
 						if (cancelable) {
-							ZEPHIR_INIT_NVAR(_5);
-							zephir_call_method_cache(_5, event, "isstopped", &_7);
-							if (zephir_is_true(_5)) {
+							ZEPHIR_INIT_NVAR(_4);
+							zephir_call_method_cache(_4, event, "isstopped", &_6);
+							if (zephir_is_true(_4)) {
 								break;
 							}
 						}
@@ -335,12 +335,12 @@ PHP_METHOD(Phalcon_Events_Manager, fireQueue) {
 			}
 		}
 	} else {
-		zephir_is_iterable(handler, &_9, &_8, 0, 0);
+		zephir_is_iterable(handler, &_8, &_7, 0, 0);
 		for (
-			; zend_hash_get_current_data_ex(_9, (void**) &_10, &_8) == SUCCESS
-			; zend_hash_move_forward_ex(_9, &_8)
+			; zend_hash_get_current_data_ex(_8, (void**) &_9, &_7) == SUCCESS
+			; zend_hash_move_forward_ex(_8, &_7)
 		) {
-			ZEPHIR_GET_HVALUE(queue, _10);
+			ZEPHIR_GET_HVALUE(queue, _9);
 			if ((Z_TYPE_P(handler) == IS_OBJECT)) {
 				if (zephir_is_instance_of(handler, SL("closure") TSRMLS_CC)) {
 					if ((Z_TYPE_P(arguments) == IS_NULL)) {
@@ -356,9 +356,9 @@ PHP_METHOD(Phalcon_Events_Manager, fireQueue) {
 						zephir_update_property_array_append(this_ptr, SL("_responses"), status TSRMLS_CC);
 					}
 					if (cancelable) {
-						ZEPHIR_INIT_NVAR(_2);
-						zephir_call_method_cache(_2, event, "isstopped", &_11);
-						if (zephir_is_true(_2)) {
+						ZEPHIR_INIT_NVAR(_4);
+						zephir_call_method_cache(_4, event, "isstopped", &_10);
+						if (zephir_is_true(_4)) {
 							break;
 						}
 					}
@@ -370,9 +370,9 @@ PHP_METHOD(Phalcon_Events_Manager, fireQueue) {
 							zephir_update_property_array_append(this_ptr, SL("_responses"), status TSRMLS_CC);
 						}
 						if (cancelable) {
-							ZEPHIR_INIT_NVAR(_5);
-							zephir_call_method_cache(_5, event, "isstopped", &_12);
-							if (zephir_is_true(_5)) {
+							ZEPHIR_INIT_NVAR(_4);
+							zephir_call_method_cache(_4, event, "isstopped", &_11);
+							if (zephir_is_true(_4)) {
 								break;
 							}
 						}

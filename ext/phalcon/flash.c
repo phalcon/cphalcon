@@ -274,10 +274,10 @@ PHP_METHOD(Phalcon_Flash, warning) {
  */
 PHP_METHOD(Phalcon_Flash, outputMessage) {
 
-	HashTable *_6;
-	HashPosition _5;
+	HashTable *_5;
+	HashPosition _4;
 	zend_bool automaticHtml, implicitFlush;
-	zval *type_param = NULL, *message, *content, *cssClasses = NULL, *classes, *typeClasses, *eol, *msg = NULL, *htmlMessage = NULL, *_0, _1, *_2, *_3 = NULL, *_4, **_7, *_8 = NULL, *_9 = NULL, *_10 = NULL;
+	zval *type_param = NULL, *message, *content, *cssClasses = NULL, *classes, *typeClasses, *eol, *msg = NULL, *htmlMessage = NULL, *_0 = NULL, _1, *_2, *_3 = NULL, **_6, *_7 = NULL, *_8 = NULL, *_9 = NULL;
 	zval *type = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -313,31 +313,31 @@ PHP_METHOD(Phalcon_Flash, outputMessage) {
 		ZEPHIR_INIT_VAR(eol);
 		ZVAL_STRING(eol, "\n", 1);
 	}
-	ZEPHIR_OBS_VAR(_4);
-	zephir_read_property_this(&_4, this_ptr, SL("_implicitFlush"), PH_NOISY_CC);
-	implicitFlush = (zephir_get_boolval(_4)) ? 1 : 0;
+	ZEPHIR_OBS_NVAR(_0);
+	zephir_read_property_this(&_0, this_ptr, SL("_implicitFlush"), PH_NOISY_CC);
+	implicitFlush = (zephir_get_boolval(_0)) ? 1 : 0;
 	if ((Z_TYPE_P(message) == IS_ARRAY)) {
 		if ((implicitFlush == 0)) {
 			ZEPHIR_INIT_VAR(content);
 			ZVAL_STRING(content, "", 1);
 		}
-		zephir_is_iterable(message, &_6, &_5, 0, 0);
+		zephir_is_iterable(message, &_5, &_4, 0, 0);
 		for (
-			; zend_hash_get_current_data_ex(_6, (void**) &_7, &_5) == SUCCESS
-			; zend_hash_move_forward_ex(_6, &_5)
+			; zend_hash_get_current_data_ex(_5, (void**) &_6, &_4) == SUCCESS
+			; zend_hash_move_forward_ex(_5, &_4)
 		) {
-			ZEPHIR_GET_HVALUE(msg, _7);
+			ZEPHIR_GET_HVALUE(msg, _6);
 			if ((automaticHtml == 1)) {
 				ZEPHIR_INIT_LNVAR(_3);
 				ZEPHIR_CONCAT_SV(_3, "<div", cssClasses);
+				ZEPHIR_INIT_LNVAR(_7);
+				ZEPHIR_CONCAT_VS(_7, _3, ">");
 				ZEPHIR_INIT_LNVAR(_8);
-				ZEPHIR_CONCAT_VS(_8, _3, ">");
+				concat_function(_8, _7, msg TSRMLS_CC);
 				ZEPHIR_INIT_LNVAR(_9);
-				concat_function(_9, _8, msg TSRMLS_CC);
-				ZEPHIR_INIT_LNVAR(_10);
-				ZEPHIR_CONCAT_VS(_10, _9, "</div>");
+				ZEPHIR_CONCAT_VS(_9, _8, "</div>");
 				ZEPHIR_INIT_NVAR(htmlMessage);
-				concat_function(htmlMessage, _10, eol TSRMLS_CC);
+				concat_function(htmlMessage, _9, eol TSRMLS_CC);
 			} else {
 				ZEPHIR_CPY_WRT(htmlMessage, msg);
 			}
@@ -354,14 +354,14 @@ PHP_METHOD(Phalcon_Flash, outputMessage) {
 		if ((automaticHtml == 1)) {
 			ZEPHIR_INIT_LNVAR(_3);
 			ZEPHIR_CONCAT_SV(_3, "<div", cssClasses);
+			ZEPHIR_INIT_LNVAR(_7);
+			ZEPHIR_CONCAT_VS(_7, _3, ">");
 			ZEPHIR_INIT_LNVAR(_8);
-			ZEPHIR_CONCAT_VS(_8, _3, ">");
+			concat_function(_8, _7, message TSRMLS_CC);
 			ZEPHIR_INIT_LNVAR(_9);
-			concat_function(_9, _8, message TSRMLS_CC);
-			ZEPHIR_INIT_LNVAR(_10);
-			ZEPHIR_CONCAT_VS(_10, _9, "</div>");
+			ZEPHIR_CONCAT_VS(_9, _8, "</div>");
 			ZEPHIR_INIT_NVAR(htmlMessage);
-			concat_function(htmlMessage, _10, eol TSRMLS_CC);
+			concat_function(htmlMessage, _9, eol TSRMLS_CC);
 		} else {
 			ZEPHIR_CPY_WRT(htmlMessage, message);
 		}

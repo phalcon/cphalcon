@@ -2536,14 +2536,14 @@ PHP_METHOD(Phalcon_Mvc_Model, _doLowInsert) {
 		if ((Z_TYPE_P(columnMap) == IS_ARRAY)) {
 			ZEPHIR_OBS_NVAR(attributeField);
 			if (!(zephir_array_isset_fetch(&attributeField, columnMap, identityField, 0 TSRMLS_CC))) {
-				ZEPHIR_INIT_VAR(_9);
-				object_init_ex(_9, phalcon_mvc_model_exception_ce);
+				ZEPHIR_INIT_BNVAR(_0);
+				object_init_ex(_0, phalcon_mvc_model_exception_ce);
 				ZEPHIR_INIT_LNVAR(_5);
 				ZEPHIR_CONCAT_SV(_5, "Identity column '", identityField);
 				ZEPHIR_INIT_LNVAR(_6);
 				ZEPHIR_CONCAT_VS(_6, _5, "' isn't part of the column map");
-				zephir_call_method_p1_noret(_9, "__construct", _6);
-				zephir_throw_exception(_9 TSRMLS_CC);
+				zephir_call_method_p1_noret(_0, "__construct", _6);
+				zephir_throw_exception(_0 TSRMLS_CC);
 				ZEPHIR_MM_RESTORE();
 				return;
 			}
@@ -2563,14 +2563,14 @@ PHP_METHOD(Phalcon_Mvc_Model, _doLowInsert) {
 				}
 				ZEPHIR_OBS_NVAR(bindType);
 				if (!(zephir_array_isset_fetch(&bindType, bindDataTypes, identityField, 0 TSRMLS_CC))) {
-					ZEPHIR_INIT_NVAR(_9);
-					object_init_ex(_9, phalcon_mvc_model_exception_ce);
+					ZEPHIR_INIT_BNVAR(_0);
+					object_init_ex(_0, phalcon_mvc_model_exception_ce);
 					ZEPHIR_INIT_LNVAR(_5);
 					ZEPHIR_CONCAT_SV(_5, "Identity column '", identityField);
 					ZEPHIR_INIT_LNVAR(_6);
 					ZEPHIR_CONCAT_VS(_6, _5, "' isn\'t part of the table columns");
-					zephir_call_method_p1_noret(_9, "__construct", _6);
-					zephir_throw_exception(_9 TSRMLS_CC);
+					zephir_call_method_p1_noret(_0, "__construct", _6);
+					zephir_throw_exception(_0 TSRMLS_CC);
 					ZEPHIR_MM_RESTORE();
 					return;
 				}
@@ -2589,14 +2589,14 @@ PHP_METHOD(Phalcon_Mvc_Model, _doLowInsert) {
 	if (zephir_is_true(success) && !ZEPHIR_IS_FALSE(identityField)) {
 		ZEPHIR_INIT_VAR(sequenceName);
 		ZVAL_NULL(sequenceName);
-		ZEPHIR_INIT_NVAR(_9);
-		zephir_call_method(_9, connection, "supportsequences");
-		if (ZEPHIR_IS_TRUE(_9)) {
+		ZEPHIR_INIT_BNVAR(_0);
+		zephir_call_method(_0, connection, "supportsequences");
+		if (ZEPHIR_IS_TRUE(_0)) {
 			ZEPHIR_INIT_NVAR(sequenceName);
 			if ((zephir_method_exists_str(this_ptr, SS("getsequencename") TSRMLS_CC) == SUCCESS)) {
 				zephir_call_method(sequenceName, this_ptr, "getsequencename");
 			} else {
-				ZEPHIR_INIT_NVAR(_9);
+				ZEPHIR_INIT_VAR(_9);
 				zephir_call_method(_9, this_ptr, "getsource");
 				ZEPHIR_INIT_LNVAR(_5);
 				ZEPHIR_CONCAT_VS(_5, _9, "_");
@@ -2624,11 +2624,11 @@ PHP_METHOD(Phalcon_Mvc_Model, _doLowInsert) {
  */
 PHP_METHOD(Phalcon_Mvc_Model, _doLowUpdate) {
 
-	zend_function *_8 = NULL, *_9 = NULL, *_13 = NULL;
-	HashTable *_4, *_11;
-	HashPosition _3, _10;
+	zend_function *_7 = NULL, *_8 = NULL, *_12 = NULL;
+	HashTable *_3, *_10;
+	HashPosition _2, _9;
 	zend_bool useDynamicUpdate, changed;
-	zval *metaData, *connection, *table, *bindSkip, *fields, *values, *bindTypes, *manager, *bindDataTypes, *field = NULL, *automaticAttributes, *snapshotValue, *uniqueKey, *uniqueParams, *uniqueTypes, *snapshot, *nonPrimary, *columnMap, *attributeField = NULL, *value = NULL, *primaryKeys, *bindType, *_0, *_1 = NULL, *_2, **_5, *_6 = NULL, *_7 = NULL, **_12;
+	zval *metaData, *connection, *table, *bindSkip, *fields, *values, *bindTypes, *manager, *bindDataTypes, *field = NULL, *automaticAttributes, *snapshotValue, *uniqueKey, *uniqueParams, *uniqueTypes, *snapshot, *nonPrimary, *columnMap, *attributeField = NULL, *value = NULL, *primaryKeys, *bindType, *_0 = NULL, *_1, **_4, *_5 = NULL, *_6 = NULL, **_11;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 3, 0, &metaData, &connection, &table);
@@ -2660,45 +2660,45 @@ PHP_METHOD(Phalcon_Mvc_Model, _doLowUpdate) {
 	ZEPHIR_INIT_VAR(automaticAttributes);
 	zephir_call_method_p1(automaticAttributes, metaData, "getautomaticupdateattributes", this_ptr);
 	ZEPHIR_INIT_VAR(columnMap);
+	ZEPHIR_INIT_BNVAR(_0);
+	ZVAL_STRING(_0, "orm.column_renaming", 1);
 	ZEPHIR_INIT_VAR(_1);
-	ZVAL_STRING(_1, "orm.column_renaming", 1);
-	ZEPHIR_INIT_VAR(_2);
-	zephir_call_func_p1(_2, "globals_get", _1);
-	if (zephir_is_true(_2)) {
+	zephir_call_func_p1(_1, "globals_get", _0);
+	if (zephir_is_true(_1)) {
 		zephir_call_method_p1(columnMap, metaData, "getcolumnmap", this_ptr);
 	} else {
 		ZVAL_NULL(columnMap);
 	}
-	zephir_is_iterable(nonPrimary, &_4, &_3, 0, 0);
+	zephir_is_iterable(nonPrimary, &_3, &_2, 0, 0);
 	for (
-		; zend_hash_get_current_data_ex(_4, (void**) &_5, &_3) == SUCCESS
-		; zend_hash_move_forward_ex(_4, &_3)
+		; zend_hash_get_current_data_ex(_3, (void**) &_4, &_2) == SUCCESS
+		; zend_hash_move_forward_ex(_3, &_2)
 	) {
-		ZEPHIR_GET_HVALUE(field, _5);
+		ZEPHIR_GET_HVALUE(field, _4);
 		if (!(zephir_array_isset(automaticAttributes, field))) {
 			if (!(zephir_array_isset_fetch(&bindType, bindDataTypes, field, 1 TSRMLS_CC))) {
-				ZEPHIR_INIT_NVAR(_1);
-				object_init_ex(_1, phalcon_mvc_model_exception_ce);
+				ZEPHIR_INIT_NVAR(_0);
+				object_init_ex(_0, phalcon_mvc_model_exception_ce);
+				ZEPHIR_INIT_LNVAR(_5);
+				ZEPHIR_CONCAT_SV(_5, "Column '", field);
 				ZEPHIR_INIT_LNVAR(_6);
-				ZEPHIR_CONCAT_SV(_6, "Column '", field);
-				ZEPHIR_INIT_LNVAR(_7);
-				ZEPHIR_CONCAT_VS(_7, _6, "' have not defined a bind data type");
-				zephir_call_method_p1_cache_noret(_1, "__construct", &_8, _7);
-				zephir_throw_exception(_1 TSRMLS_CC);
+				ZEPHIR_CONCAT_VS(_6, _5, "' have not defined a bind data type");
+				zephir_call_method_p1_cache_noret(_0, "__construct", &_7, _6);
+				zephir_throw_exception(_0 TSRMLS_CC);
 				ZEPHIR_MM_RESTORE();
 				return;
 			}
 			if ((Z_TYPE_P(columnMap) == IS_ARRAY)) {
 				ZEPHIR_OBS_NVAR(attributeField);
 				if (!(zephir_array_isset_fetch(&attributeField, columnMap, field, 0 TSRMLS_CC))) {
-					ZEPHIR_INIT_NVAR(_1);
-					object_init_ex(_1, phalcon_mvc_model_exception_ce);
+					ZEPHIR_INIT_NVAR(_0);
+					object_init_ex(_0, phalcon_mvc_model_exception_ce);
+					ZEPHIR_INIT_LNVAR(_5);
+					ZEPHIR_CONCAT_SV(_5, "Column '", field);
 					ZEPHIR_INIT_LNVAR(_6);
-					ZEPHIR_CONCAT_SV(_6, "Column '", field);
-					ZEPHIR_INIT_LNVAR(_7);
-					ZEPHIR_CONCAT_VS(_7, _6, "' isn't part of the column map");
-					zephir_call_method_p1_cache_noret(_1, "__construct", &_9, _7);
-					zephir_throw_exception(_1 TSRMLS_CC);
+					ZEPHIR_CONCAT_VS(_6, _5, "' isn't part of the column map");
+					zephir_call_method_p1_cache_noret(_0, "__construct", &_8, _6);
+					zephir_throw_exception(_0 TSRMLS_CC);
 					ZEPHIR_MM_RESTORE();
 					return;
 				}
@@ -2746,23 +2746,23 @@ PHP_METHOD(Phalcon_Mvc_Model, _doLowUpdate) {
 		}
 		ZEPHIR_INIT_BNVAR(uniqueParams);
 		array_init(uniqueParams);
-		zephir_is_iterable(primaryKeys, &_11, &_10, 0, 0);
+		zephir_is_iterable(primaryKeys, &_10, &_9, 0, 0);
 		for (
-			; zend_hash_get_current_data_ex(_11, (void**) &_12, &_10) == SUCCESS
-			; zend_hash_move_forward_ex(_11, &_10)
+			; zend_hash_get_current_data_ex(_10, (void**) &_11, &_9) == SUCCESS
+			; zend_hash_move_forward_ex(_10, &_9)
 		) {
-			ZEPHIR_GET_HVALUE(field, _12);
+			ZEPHIR_GET_HVALUE(field, _11);
 			if ((Z_TYPE_P(columnMap) == IS_ARRAY)) {
 				ZEPHIR_OBS_NVAR(attributeField);
 				if (!(zephir_array_isset_fetch(&attributeField, columnMap, field, 0 TSRMLS_CC))) {
-					ZEPHIR_INIT_NVAR(_1);
-					object_init_ex(_1, phalcon_mvc_model_exception_ce);
+					ZEPHIR_INIT_NVAR(_0);
+					object_init_ex(_0, phalcon_mvc_model_exception_ce);
+					ZEPHIR_INIT_LNVAR(_5);
+					ZEPHIR_CONCAT_SV(_5, "Column '", field);
 					ZEPHIR_INIT_LNVAR(_6);
-					ZEPHIR_CONCAT_SV(_6, "Column '", field);
-					ZEPHIR_INIT_LNVAR(_7);
-					ZEPHIR_CONCAT_VS(_7, _6, "' isn't part of the column map");
-					zephir_call_method_p1_cache_noret(_1, "__construct", &_13, _7);
-					zephir_throw_exception(_1 TSRMLS_CC);
+					ZEPHIR_CONCAT_VS(_6, _5, "' isn't part of the column map");
+					zephir_call_method_p1_cache_noret(_0, "__construct", &_12, _6);
+					zephir_throw_exception(_0 TSRMLS_CC);
 					ZEPHIR_MM_RESTORE();
 					return;
 				}
@@ -2777,12 +2777,12 @@ PHP_METHOD(Phalcon_Mvc_Model, _doLowUpdate) {
 			}
 		}
 	}
-	ZEPHIR_INIT_BNVAR(_1);
-	array_init(_1);
-	zephir_array_update_string(&_1, SL("conditions"), &uniqueKey, PH_COPY | PH_SEPARATE);
-	zephir_array_update_string(&_1, SL("bind"), &uniqueParams, PH_COPY | PH_SEPARATE);
-	zephir_array_update_string(&_1, SL("bindTypes"), &uniqueTypes, PH_COPY | PH_SEPARATE);
-	zephir_call_method_p5(return_value, connection, "update", table, fields, values, _1, bindTypes);
+	ZEPHIR_INIT_BNVAR(_0);
+	array_init(_0);
+	zephir_array_update_string(&_0, SL("conditions"), &uniqueKey, PH_COPY | PH_SEPARATE);
+	zephir_array_update_string(&_0, SL("bind"), &uniqueParams, PH_COPY | PH_SEPARATE);
+	zephir_array_update_string(&_0, SL("bindTypes"), &uniqueTypes, PH_COPY | PH_SEPARATE);
+	zephir_call_method_p5(return_value, connection, "update", table, fields, values, _0, bindTypes);
 	RETURN_MM();
 
 }
