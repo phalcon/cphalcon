@@ -68,9 +68,9 @@ PHALCON_INIT_CLASS(Phalcon_Tag_Select){
  */
 PHP_METHOD(Phalcon_Tag_Select, selectField){
 
-	zval *parameters, *data = NULL, *params = NULL, *eol, *id = NULL, *name, *value = NULL;
+	zval *parameters, *data = NULL, *params = NULL, *id = NULL, *name, *value = NULL;
 	zval *use_empty = NULL, *empty_value = NULL, *empty_text = NULL, *code;
-	zval *close_option, *options = NULL, *using;
+	zval *close_option, *options = NULL, *using = NULL;
 	zval *resultset_options, *array_options;
 
 	PHALCON_MM_GROW();
@@ -90,8 +90,6 @@ PHP_METHOD(Phalcon_Tag_Select, selectField){
 		PHALCON_CPY_WRT(params, parameters);
 	}
 	
-	PHALCON_INIT_VAR(eol);
-	ZVAL_STRING(eol, PHP_EOL, 1);
 	if (!phalcon_array_isset_long(params, 0)) {
 		PHALCON_OBS_VAR(id);
 		phalcon_array_fetch_string(&id, params, SL("id"), PH_NOISY);
@@ -133,7 +131,7 @@ PHP_METHOD(Phalcon_Tag_Select, selectField){
 	if (phalcon_array_isset_string(params, SS("useEmpty"))) {
 		if (!phalcon_array_isset_string(params, SS("emptyValue"))) {
 			PHALCON_INIT_VAR(empty_value);
-			ZVAL_STRING(empty_value, "", 1);
+			ZVAL_EMPTY_STRING(empty_value);
 		} else {
 			PHALCON_OBS_NVAR(empty_value);
 			phalcon_array_fetch_string(&empty_value, params, SL("emptyValue"), PH_NOISY);
@@ -153,11 +151,15 @@ PHP_METHOD(Phalcon_Tag_Select, selectField){
 		phalcon_array_unset_string(&params, SS("useEmpty"), PH_SEPARATE);
 	}
 	
+	if (phalcon_array_isset_string_fetch(&using, params, SS("using"))) {
+		phalcon_array_unset_string(&params, SS("using"), PH_SEPARATE);
+	}
+
 	PHALCON_INIT_VAR(code);
 	ZVAL_STRING(code, "<select", 1);
 	phalcon_tag_render_attributes(code, params TSRMLS_CC);
 	
-	PHALCON_SCONCAT_SV(code, ">", eol);
+	phalcon_concat_self_str(&code, SL(">" PHP_EOL) TSRMLS_CC);
 	
 	PHALCON_INIT_VAR(close_option);
 	ZVAL_STRING(close_option, "</option>" PHP_EOL, 1);
@@ -166,7 +168,6 @@ PHP_METHOD(Phalcon_Tag_Select, selectField){
 		 * Create an empty value
 		 */
 		PHALCON_SCONCAT_SVSVV(code, "\t<option value=\"", empty_value, "\">", empty_text, close_option);
-		phalcon_array_unset_string(&params, SS("useEmpty"), PH_SEPARATE);
 	}
 	
 	if (phalcon_array_isset_long(params, 1)) {
@@ -175,44 +176,37 @@ PHP_METHOD(Phalcon_Tag_Select, selectField){
 	} else {
 		PHALCON_CPY_WRT(options, data);
 	}
-	
+
 	if (Z_TYPE_P(options) == IS_OBJECT) {
-	
 		/** 
 		 * The options is a resultset
 		 */
-		if (!phalcon_array_isset_string(params, SS("using"))) {
+		if (using == NULL) {
 			PHALCON_THROW_EXCEPTION_STR(phalcon_tag_exception_ce, "The 'using' parameter is required");
 			return;
-		} else {
-			PHALCON_OBS_VAR(using);
-			phalcon_array_fetch_string(&using, params, SL("using"), PH_NOISY);
-			if (Z_TYPE_P(using) != IS_ARRAY) { 
-				if (Z_TYPE_P(using) != IS_OBJECT) {
-					PHALCON_THROW_EXCEPTION_STR(phalcon_tag_exception_ce, "The 'using' parameter should be an Array");
-					return;
-				}
-			}
 		}
-	
+
+		if (Z_TYPE_P(using) != IS_ARRAY && Z_TYPE_P(using) != IS_OBJECT) {
+			PHALCON_THROW_EXCEPTION_STR(phalcon_tag_exception_ce, "The 'using' parameter should be an Array");
+			return;
+		}
+
 		/** 
 		 * Create the SELECT's option from a resultset
 		 */
 		PHALCON_INIT_VAR(resultset_options);
 		phalcon_call_self_p4(resultset_options, this_ptr, "_optionsfromresultset", options, using, value, close_option);
 		phalcon_concat_self(&code, resultset_options TSRMLS_CC);
+	} else if (Z_TYPE_P(options) == IS_ARRAY) {
+		/**
+		 * Create the SELECT's option from an array
+		 */
+		PHALCON_INIT_VAR(array_options);
+		phalcon_call_self_p3(array_options, this_ptr, "_optionsfromarray", options, value, close_option);
+		phalcon_concat_self(&code, array_options TSRMLS_CC);
 	} else {
-		if (Z_TYPE_P(options) == IS_ARRAY) { 
-			/** 
-			 * Create the SELECT's option from an array
-			 */
-			PHALCON_INIT_VAR(array_options);
-			phalcon_call_self_p3(array_options, this_ptr, "_optionsfromarray", options, value, close_option);
-			phalcon_concat_self(&code, array_options TSRMLS_CC);
-		} else {
-			PHALCON_THROW_EXCEPTION_STR(phalcon_tag_exception_ce, "Invalid data provided to SELECT helper");
-			return;
-		}
+		PHALCON_THROW_EXCEPTION_STR(phalcon_tag_exception_ce, "Invalid data provided to SELECT helper");
+		return;
 	}
 	
 	phalcon_concat_self_str(&code, SL("</select>") TSRMLS_CC);
@@ -248,7 +242,6 @@ PHP_METHOD(Phalcon_Tag_Select, _optionsFromResultset){
 	PHALCON_INIT_VAR(escaped);
 
 	while (1) {
-	
 		PHALCON_INIT_NVAR(r0);
 		phalcon_call_method(r0, resultset, "valid");
 		if (PHALCON_IS_NOT_FALSE(r0)) {

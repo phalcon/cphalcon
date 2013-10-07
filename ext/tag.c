@@ -101,9 +101,10 @@ static void phalcon_tag_get_escaper(zval **return_value_ptr, zval *params TSRMLS
 	*return_value_ptr = result;
 }
 
-static zend_bool phalcon_tag_associative_only(HashTable *ht, void *pData, zend_hash_key *hash_key, void *pParam)
+static zend_bool phalcon_tag_attribute_filter(HashTable *ht, void *pData, zend_hash_key *hash_key, void *pParam)
 {
-	return hash_key->arKey && hash_key->nKeyLength;
+	zval **z = (zval**)pData;
+	return hash_key->arKey && hash_key->nKeyLength && Z_TYPE_PP(z) != IS_ARRAY;
 }
 
 PHALCON_STATIC void phalcon_tag_render_attributes(zval *code, zval *attributes TSRMLS_DC)
@@ -152,7 +153,7 @@ PHALCON_STATIC void phalcon_tag_render_attributes(zval *code, zval *attributes T
 		}
 	}
 
-	zend_hash_merge_ex(Z_ARRVAL_P(attrs), Z_ARRVAL_P(attributes), (copy_ctor_func_t)zval_add_ref, sizeof(zval*), phalcon_tag_associative_only, NULL);
+	zend_hash_merge_ex(Z_ARRVAL_P(attrs), Z_ARRVAL_P(attributes), (copy_ctor_func_t)zval_add_ref, sizeof(zval*), phalcon_tag_attribute_filter, NULL);
 
 	if (phalcon_array_isset_string(attrs, SS("escape"))) {
 		phalcon_array_unset_string(&attrs, SS("escape"), 0);
