@@ -29,6 +29,8 @@
 #include "Zend/zend_exceptions.h"
 #include "Zend/zend_interfaces.h"
 
+#include "ext/hash/php_hash.h"
+
 #include "kernel/main.h"
 #include "kernel/memory.h"
 
@@ -513,7 +515,7 @@ PHP_METHOD(Phalcon_Security, getSessionToken){
 	PHALCON_OBS_VAR(dependency_injector);
 	phalcon_read_property_this(&dependency_injector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
 	if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
-		PHALCON_THROW_EXCEPTION_STR(phalcon_flash_exception_ce, "A dependency injection container is required to access the 'session' service");
+		PHALCON_THROW_EXCEPTION_STR(phalcon_security_exception_ce, "A dependency injection container is required to access the 'session' service");
 		return;
 	}
 	
@@ -532,3 +534,93 @@ PHP_METHOD(Phalcon_Security, getSessionToken){
 	PHALCON_MM_RESTORE();
 }
 
+/**
+ * string \Phalcon\Security::computeHmac(string $data, string $key, string $algo, bool $raw = false)
+ *
+ *
+ */
+PHP_METHOD(Phalcon_Security, computeHmac)
+{
+	zval *data, *key, *algo, *raw = NULL;
+	const php_hash_ops *ops;
+	void *context;
+	unsigned char *block, *digest;
+	int i;
+
+	phalcon_fetch_params(0, 3, 1, &data, &key, &algo, &raw);
+
+	if (Z_TYPE_P(data) != IS_STRING) {
+		PHALCON_SEPARATE_PARAM_NMO(data);
+		convert_to_string(data);
+	}
+
+	if (Z_TYPE_P(key) != IS_STRING) {
+		PHALCON_SEPARATE_PARAM_NMO(key);
+		convert_to_string(key);
+	}
+
+	if (Z_TYPE_P(algo) != IS_STRING) {
+		PHALCON_SEPARATE_PARAM_NMO(algo);
+		convert_to_string(algo);
+	}
+
+	if (!raw) {
+		raw = PHALCON_GLOBAL(z_false);
+	}
+
+	ops = php_hash_fetch_ops(Z_STRVAL_P(algo), Z_STRLEN_P(algo));
+	if (!ops) {
+		zend_throw_exception_ex(phalcon_security_exception_ce, 0 TSRMLS_CC, "Unknown hashing algorithm: %s", Z_STRVAL_P(algo));
+		return;
+	}
+
+	/* Allocate all memory we need in one chunk */
+	context = ecalloc(1, ops->context_size + ops->block_size);
+	block   = (unsigned char*)context + ops->context_size;
+	digest  = ecalloc(1, ops->digest_size + 1);
+	ops->hash_init(context);
+
+	if (Z_STRLEN_P(key) > ops->block_size) {
+		/* Reduce the key */
+		ops->hash_update(context, (unsigned char*)(Z_STRVAL_P(key)), Z_STRLEN_P(key));
+		ops->hash_final(block, context);
+		/* Reinitialize the context */
+		ops->hash_init(context);
+	}
+	else {
+		memcpy(block, Z_STRVAL_P(key), Z_STRLEN_P(key));
+	}
+
+	for (i=0; i<ops->block_size; ++i) {
+		block[i] ^= 0x36;
+	}
+
+	ops->hash_update(context, block, ops->block_size);
+	ops->hash_update(context, (unsigned char*)(Z_STRVAL_P(data)), Z_STRLEN_P(data));
+	ops->hash_final(digest, context);
+
+	for(i=0; i < ops->block_size; i++) {
+		block[i] ^= 0x6A;
+	}
+
+	ops->hash_init(context);
+	ops->hash_update(context, block, ops->block_size);
+	ops->hash_update(context, digest, ops->digest_size);
+	ops->hash_final(digest, context);
+
+	memset(block, 0, ops->block_size);
+	efree(context);
+
+	if (zend_is_true(raw)) {
+		RETURN_STRINGL((char*)digest, ops->digest_size, 0);
+	}
+	else {
+		char *hex_digest = safe_emalloc(ops->digest_size, 2, 1);
+
+		php_hash_bin2hex(hex_digest, digest, ops->digest_size);
+		efree(digest);
+		hex_digest[2 * ops->digest_size] = 0;
+
+		RETURN_STRINGL(hex_digest, 2 * ops->digest_size, 0);
+	}
+}
