@@ -226,15 +226,8 @@ PHP_METHOD(Phalcon_Security, hash){
 
 	phalcon_fetch_params(1, 1, 1, &password, &work_factor);
 	
-	if (!work_factor) {
-		PHALCON_INIT_VAR(work_factor);
-	} else {
-		PHALCON_SEPARATE_PARAM(work_factor);
-	}
-	
-	if (Z_TYPE_P(work_factor) == IS_NULL) {
-		PHALCON_OBS_NVAR(work_factor);
-		phalcon_read_property_this(&work_factor, this_ptr, SL("_workFactor"), PH_NOISY_CC);
+	if (!work_factor || Z_TYPE_P(work_factor) == IS_NULL) {
+		work_factor = phalcon_fetch_nproperty_this(this_ptr, SL("_workFactor"), PH_NOISY_CC);
 	}
 	
 	PHALCON_INIT_VAR(format);
@@ -426,12 +419,6 @@ PHP_METHOD(Phalcon_Security, checkToken){
 
 	phalcon_fetch_params(1, 0, 2, &token_key, &token_value);
 	
-	if (!token_key) {
-		PHALCON_INIT_VAR(token_key);
-	} else {
-		PHALCON_SEPARATE_PARAM(token_key);
-	}
-	
 	if (!token_value) {
 		token_value = PHALCON_GLOBAL(z_null);
 	}
@@ -439,7 +426,7 @@ PHP_METHOD(Phalcon_Security, checkToken){
 	PHALCON_OBS_VAR(dependency_injector);
 	phalcon_read_property_this(&dependency_injector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
 	if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
-		PHALCON_THROW_EXCEPTION_STR(phalcon_flash_exception_ce, "A dependency injection container is required to access the 'session' service");
+		PHALCON_THROW_EXCEPTION_STR(phalcon_security_exception_ce, "A dependency injection container is required to access the 'session' service");
 		return;
 	}
 	
@@ -450,11 +437,11 @@ PHP_METHOD(Phalcon_Security, checkToken){
 	phalcon_call_method_p1(session, dependency_injector, "getshared", service);
 	PHALCON_VERIFY_INTERFACE(session, phalcon_session_adapterinterface_ce);
 
-	if (Z_TYPE_P(token_key) == IS_NULL) {
+	if (!token_key || Z_TYPE_P(token_key) == IS_NULL) {
 		PHALCON_INIT_VAR(key);
 		ZVAL_STRING(key, "$PHALCON/CSRF/KEY$", 1);
 	
-		PHALCON_INIT_NVAR(token_key);
+		PHALCON_INIT_VAR(token_key);
 		phalcon_call_method_p1(token_key, session, "get", key);
 	}
 	
