@@ -43,6 +43,8 @@ define('PATH_COLLECTIONS', $root . '/tests/app/collections/');
 define('PATH_VENDORS', $root . '/tests/app/vendor/');
 define('PATH_TASKS', $root . '/tests/app/tasks/');
 
+define('PATH_CONFIGS', $root . '/tests/app/configs/');
+
 error_reporting(E_ALL);
 set_include_path(
     ROOT_PATH . PATH_SEPARATOR . get_include_path()
