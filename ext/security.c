@@ -29,7 +29,9 @@
 #include "Zend/zend_exceptions.h"
 #include "Zend/zend_interfaces.h"
 
+#ifdef PHALCON_USE_PHP_HASH
 #include "ext/hash/php_hash.h"
+#endif
 
 #include "kernel/main.h"
 #include "kernel/memory.h"
@@ -542,13 +544,20 @@ PHP_METHOD(Phalcon_Security, getSessionToken){
 PHP_METHOD(Phalcon_Security, computeHmac)
 {
 	zval *data, *key, *algo, *raw = NULL;
+#ifdef PHALCON_USE_PHP_HASH
 	const php_hash_ops *ops;
 	void *context;
 	unsigned char *block, *digest;
 	int i;
+#endif
 
 	phalcon_fetch_params(0, 3, 1, &data, &key, &algo, &raw);
 
+	if (!raw) {
+		raw = PHALCON_GLOBAL(z_false);
+	}
+
+#ifdef PHALCON_USE_PHP_HASH
 	if (Z_TYPE_P(data) != IS_STRING) {
 		PHALCON_SEPARATE_PARAM_NMO(data);
 		convert_to_string(data);
@@ -562,10 +571,6 @@ PHP_METHOD(Phalcon_Security, computeHmac)
 	if (Z_TYPE_P(algo) != IS_STRING) {
 		PHALCON_SEPARATE_PARAM_NMO(algo);
 		convert_to_string(algo);
-	}
-
-	if (!raw) {
-		raw = PHALCON_GLOBAL(z_false);
 	}
 
 	ops = php_hash_fetch_ops(Z_STRVAL_P(algo), Z_STRLEN_P(algo));
@@ -623,4 +628,10 @@ PHP_METHOD(Phalcon_Security, computeHmac)
 
 		RETURN_STRINGL(hex_digest, 2 * ops->digest_size, 0);
 	}
+#else
+	phalcon_call_func_params(return_value, return_value_ptr, SL("hash_hmac") TSRMLS_CC, 4, algo, data, key, raw);
+	if (unlikely(EG(exception) != NULL) && return_value_ptr) {
+		ALLOC_INIT_ZVAL(*return_value_ptr);
+	}
+#endif
 }
