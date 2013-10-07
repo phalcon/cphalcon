@@ -35,6 +35,7 @@ return <<<HEADER
 #include "ext/standard/md5.h"
 #include "ext/standard/head.h"
 #include "ext/standard/url.h"
+#include "ext/hash/php_hash.h"
 #include "ext/spl/spl_heap.h"
 #include "ext/spl/spl_exceptions.h"
 #include "ext/spl/spl_directory.h"
