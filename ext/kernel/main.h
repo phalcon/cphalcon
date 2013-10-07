@@ -17,10 +17,13 @@
   +------------------------------------------------------------------------+
 */
 
+#include "Zend/zend_exceptions.h"
 #include "Zend/zend_interfaces.h"
+
 #include "ext/spl/spl_exceptions.h"
 #include "ext/spl/spl_iterators.h"
 
+#include "kernel/memory.h"
 #include "kernel/backtrace.h"
 
 /** Main macros */
@@ -36,10 +39,10 @@
 #define PH_COPY 1024
 #define PH_CTOR 4096
 
-#define SL(str) ZEND_STRL(str)
-#define SS(str) ZEND_STRS(str)
-#define ISL(str) (phalcon_interned_##str), (sizeof(#str)-1)
-#define ISS(str) (phalcon_interned_##str), (sizeof(#str))
+#define SL(str)   ZEND_STRL(str)
+#define SS(str)   ZEND_STRS(str)
+#define ISL(str)  (phalcon_interned_##str), (sizeof(#str)-1)
+#define ISS(str)  (phalcon_interned_##str), (sizeof(#str))
 
 
 /* Startup functions */
@@ -67,26 +70,23 @@ void phalcon_safe_zval_ptr_dtor(zval *pzval);
 /* Fetch Parameters */
 extern int phalcon_fetch_parameters(int num_args TSRMLS_DC, int required_args, int optional_args, ...);
 
-/* Compatibility with PHP 5.3 */
-#ifndef ZVAL_COPY_VALUE
- #define ZVAL_COPY_VALUE(z, v)\
-  (z)->value = (v)->value;\
-  Z_TYPE_P(z) = Z_TYPE_P(v);
-#endif
-
+/* Compatibility macros for PHP 5.3 */
 #ifndef INIT_PZVAL_COPY
  #define INIT_PZVAL_COPY(z, v) ZVAL_COPY_VALUE(z, v);\
   Z_SET_REFCOUNT_P(z, 1);\
   Z_UNSET_ISREF_P(z);
 #endif
 
+#ifndef ZVAL_COPY_VALUE
+ #define ZVAL_COPY_VALUE(z, v)\
+  (z)->value = (v)->value;\
+  Z_TYPE_P(z) = Z_TYPE_P(v);
+#endif
+
 /** Symbols */
-#define PHALCON_READ_SYMBOL(var, auxarr, name) if (EG(active_symbol_table)){ \
-	if (zend_hash_find(EG(active_symbol_table), name, sizeof(name), (void **)  &auxarr) == SUCCESS) { \
-			var = *auxarr; \
-		} else { \
-			ZVAL_NULL(var); \
-		} \
+#define PHALCON_READ_SYMBOL(var, auxarr, name) \
+	if (EG(active_symbol_table) && zend_hash_find(EG(active_symbol_table), name, sizeof(name), (void **)&auxarr) == SUCCESS) { \
+		var = *auxarr; \
 	} else { \
 		ZVAL_NULL(var); \
 	}
@@ -352,34 +352,77 @@ extern int phalcon_fetch_parameters(int num_args TSRMLS_DC, int required_args, i
 	}
 #endif
 
-#define PHALCON_VERIFY_INTERFACE(instance, interface_ce) \
-	do { \
-		if (Z_TYPE_P(instance) != IS_OBJECT || !instanceof_function_ex(Z_OBJCE_P(instance), interface_ce, 1 TSRMLS_CC)) { \
-			char *buf; \
-			if (Z_TYPE_P(instance) != IS_OBJECT) { \
-				spprintf(&buf, 0, "Unexpected value type: expected object implementing %s, %s given", interface_ce->name, zend_zval_type_name(instance)); \
-			} \
-			else { \
-				spprintf(&buf, 0, "Unexpected value type: expected object implementing %s, object of type %s given", interface_ce->name, Z_OBJCE_P(instance)->name); \
-			} \
-			PHALCON_THROW_EXCEPTION_STR(spl_ce_LogicException, buf); \
-			efree(buf); \
-			return; \
+#define PHALCON_VERIFY_INTERFACE_EX(instance, interface_ce, exception_ce, restore_stack) \
+	if (Z_TYPE_P(instance) != IS_OBJECT || !instanceof_function_ex(Z_OBJCE_P(instance), interface_ce, 1 TSRMLS_CC)) { \
+		if (Z_TYPE_P(instance) != IS_OBJECT) { \
+			zend_throw_exception_ex(exception_ce, 0 TSRMLS_CC, "Unexpected value type: expected object implementing %s, %s given", interface_ce->name, zend_zval_type_name(instance)); \
 		} \
-	} while (0)
+		else { \
+			zend_throw_exception_ex(exception_ce, 0 TSRMLS_CC, "Unexpected value type: expected object implementing %s, object of type %s given", interface_ce->name, Z_OBJCE_P(instance)->name); \
+		} \
+		if (restore_stack) { \
+			PHALCON_MM_RESTORE(); \
+		} \
+		return; \
+	}
 
-#define PHALCON_VERIFY_CLASS(instance, class_ce) \
-	do { \
-		if (Z_TYPE_P(instance) != IS_OBJECT || !instanceof_function_ex(Z_OBJCE_P(instance), class_ce, 0 TSRMLS_CC)) { \
-			char *buf; \
-			if (Z_TYPE_P(instance) != IS_OBJECT) { \
-				spprintf(&buf, 0, "Unexpected value type: expected object of type %s, %s given", class_ce->name, zend_zval_type_name(instance)); \
-			} \
-			else { \
-				spprintf(&buf, 0, "Unexpected value type: expected object of type %s, object of type %s given", class_ce->name, Z_OBJCE_P(instance)->name); \
-			} \
-			PHALCON_THROW_EXCEPTION_STR(spl_ce_LogicException, buf); \
-			efree(buf); \
-			return; \
+#define PHALCON_VERIFY_INTERFACE_OR_NULL_EX(pzv, interface_ce, exception_ce, restore_stack) \
+	if (Z_TYPE_P(pzv) != IS_NULL && (Z_TYPE_P(pzv) != IS_OBJECT || !instanceof_function_ex(Z_OBJCE_P(pzv), interface_ce, 1 TSRMLS_CC))) { \
+		if (Z_TYPE_P(pzv) != IS_OBJECT) { \
+			zend_throw_exception_ex(exception_ce, 0 TSRMLS_CC, "Unexpected value type: expected object implementing %s or NULL, %s given", interface_ce->name, zend_zval_type_name(pzv)); \
 		} \
-	} while (0)
+		else { \
+			zend_throw_exception_ex(exception_ce, 0 TSRMLS_CC, "Unexpected value type: expected object implementing %s or NULL, object of type %s given", interface_ce->name, Z_OBJCE_P(pzv)->name); \
+		} \
+		if (restore_stack) { \
+			PHALCON_MM_RESTORE(); \
+		} \
+		return; \
+	}
+
+#define PHALCON_VERIFY_CLASS_EX(instance, class_ce, exception_ce, restore_stack) \
+	if (Z_TYPE_P(instance) != IS_OBJECT || !instanceof_function_ex(Z_OBJCE_P(instance), class_ce, 0 TSRMLS_CC)) { \
+		if (Z_TYPE_P(instance) != IS_OBJECT) { \
+			zend_throw_exception_ex(exception_ce, 0 TSRMLS_CC, "Unexpected value type: expected object of type %s, %s given", class_ce->name, zend_zval_type_name(instance)); \
+		} \
+		else { \
+			zend_throw_exception_ex(exception_ce, 0 TSRMLS_CC, "Unexpected value type: expected object of type %s, object of type %s given", class_ce->name, Z_OBJCE_P(instance)->name); \
+		} \
+		if (restore_stack) { \
+			PHALCON_MM_RESTORE(); \
+		} \
+		return; \
+	}
+
+#define PHALCON_VERIFY_CLASS_OR_NULL_EX(pzv, class_ce, exception_ce, restore_stack) \
+	if (Z_TYPE_P(pzv) != IS_NULL && (Z_TYPE_P(pzv) != IS_OBJECT || !instanceof_function_ex(Z_OBJCE_P(pzv), class_ce, 0 TSRMLS_CC))) { \
+		if (Z_TYPE_P(pzv) != IS_OBJECT) { \
+			zend_throw_exception_ex(exception_ce, 0 TSRMLS_CC, "Unexpected value type: expected object of type %s, %s given", class_ce->name, zend_zval_type_name(pzv)); \
+		} \
+		else { \
+			zend_throw_exception_ex(exception_ce, 0 TSRMLS_CC, "Unexpected value type: expected object of type %s, object of type %s given", class_ce->name, Z_OBJCE_P(pzv)->name); \
+		} \
+		if (restore_stack) { \
+			PHALCON_MM_RESTORE(); \
+		} \
+		return; \
+	}
+
+#define PHALCON_VERIFY_INTERFACE(instance, interface_ce)      PHALCON_VERIFY_INTERFACE_EX(instance, interface_ce, spl_ce_LogicException, 1)
+#define PHALCON_VERIFY_INTERFACE_OR_NULL(pzv, interface_ce)   PHALCON_VERIFY_INTERFACE_OR_NULL_EX(pzv, interface_ce, spl_ce_LogicException, 1)
+#define PHALCON_VERIFY_CLASS(instance, class_ce)              PHALCON_VERIFY_CLASS_EX(instance, class_ce, spl_ce_LogicException, 1)
+#define PHALCON_VERIFY_CLASS_OR_NULL(pzv, class_ce)           PHALCON_VERIFY_CLASS_OR_NULL_EX(pzv, class_ce, spl_ce_LogicException, 1)
+
+#define phalcon_convert_to_explicit_type_mm_ex(ppzv, str_type) \
+	if (Z_TYPE_PP(ppzv) != str_type) { \
+		if (!Z_ISREF_PP(ppzv)) { \
+			PHALCON_SEPARATE(*ppzv); \
+		} \
+		convert_to_explicit_type(*ppzv, str_type); \
+	}
+
+#define PHALCON_ENSURE_IS_STRING(param)    convert_to_explicit_type_ex(&param, IS_STRING)
+#define PHALCON_ENSURE_IS_LONG(param)      convert_to_explicit_type_ex(&param, IS_LONG)
+#define PHALCON_ENSURE_IS_DOUBLE(param)    convert_to_explicit_type_ex(&param, IS_DOUBLE)
+#define PHALCON_ENSURE_IS_BOOL(param)      convert_to_explicit_type_ex(&param, IS_BOOL)
+#define PHALCON_ENSURE_IS_ARRAY(param)     convert_to_explicit_type_ex(&param, IS_ARRAY)
