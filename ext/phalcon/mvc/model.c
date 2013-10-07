@@ -2359,7 +2359,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _preSave) {
 		if (ZEPHIR_IS_FALSE(_3)) {
 			RETURN_MM_BOOL(0);
 		}
-		zephir_update_property_this(this_ptr, SL("_skipped"), ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
+		zephir_update_property_this(this_ptr, SL("_skipped"), 0 ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
 		if (exists) {
 			ZEPHIR_INIT_NVAR(_3);
 			ZEPHIR_INIT_NVAR(_4);
@@ -3590,7 +3590,7 @@ PHP_METHOD(Phalcon_Mvc_Model, delete) {
 	ZEPHIR_INIT_VAR(_16);
 	zephir_call_func_p1(_16, "globals_get", _15);
 	if (zephir_is_true(_16)) {
-		zephir_update_property_this(this_ptr, SL("_skipped"), ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
+		zephir_update_property_this(this_ptr, SL("_skipped"), 0 ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
 		ZEPHIR_INIT_BNVAR(_15);
 		ZEPHIR_INIT_VAR(_17);
 		ZVAL_STRING(_17, "beforeDelete", 1);

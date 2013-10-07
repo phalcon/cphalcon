@@ -94,7 +94,7 @@ PHP_METHOD(Phalcon_Session_Adapter, start) {
 	zephir_call_func(_0, "headers_sent");
 	if (zephir_is_true(_0)) {
 		zephir_call_func_noret("session_start");
-		zephir_update_property_this(this_ptr, SL("_started"), ZEPHIR_GLOBAL(global_true) TSRMLS_CC);
+		zephir_update_property_this(this_ptr, SL("_started"), 1 ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
 		RETURN_MM_BOOL(1);
 	}
 	RETURN_MM_BOOL(0);
@@ -319,7 +319,7 @@ PHP_METHOD(Phalcon_Session_Adapter, destroy) {
 
 	ZEPHIR_INIT_VAR(destroyed);
 	zephir_call_func(destroyed, "session_destroy");
-	zephir_update_property_this(this_ptr, SL("_started"), ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
+	zephir_update_property_this(this_ptr, SL("_started"), 0 ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
 	RETURN_CCTOR(destroyed);
 
 }

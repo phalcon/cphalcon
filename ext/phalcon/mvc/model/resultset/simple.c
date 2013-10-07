@@ -159,7 +159,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, valid) {
 		}
 	}
 	if ((Z_TYPE_P(row) != IS_ARRAY)) {
-		zephir_update_property_this(this_ptr, SL("_activeRow"), ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
+		zephir_update_property_this(this_ptr, SL("_activeRow"), 0 ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
 		RETURN_MM_BOOL(0);
 	}
 	hydrateMode = zephir_fetch_nproperty_this(this_ptr, SL("_hydrateMode"), PH_NOISY_CC);
@@ -298,7 +298,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, serialize) {
 
 	ZEPHIR_MM_GROW();
 
-	zephir_update_property_this(this_ptr, SL("_activeRow"), ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
+	zephir_update_property_this(this_ptr, SL("_activeRow"), 0 ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
 	ZEPHIR_INIT_VAR(_0);
 	array_init(_0);
 	ZEPHIR_OBS_VAR(_1);

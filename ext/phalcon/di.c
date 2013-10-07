@@ -402,12 +402,12 @@ PHP_METHOD(Phalcon_Di, getShared) {
 	sharedInstances = zephir_fetch_nproperty_this(this_ptr, SL("_sharedInstances"), PH_NOISY_CC);
 	ZEPHIR_OBS_VAR(instance);
 	if (zephir_array_isset_fetch(&instance, sharedInstances, name, 0 TSRMLS_CC)) {
-		zephir_update_property_this(this_ptr, SL("_freshInstance"), ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
+		zephir_update_property_this(this_ptr, SL("_freshInstance"), 0 ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
 	} else {
 		ZEPHIR_INIT_BNVAR(instance);
 		zephir_call_method_p2(instance, this_ptr, "get", name, parameters);
 		zephir_update_property_array(this_ptr, SL("_sharedInstances"), name, instance TSRMLS_CC);
-		zephir_update_property_this(this_ptr, SL("_freshInstance"), ZEPHIR_GLOBAL(global_true) TSRMLS_CC);
+		zephir_update_property_this(this_ptr, SL("_freshInstance"), 1 ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
 	}
 	RETURN_CCTOR(instance);
 

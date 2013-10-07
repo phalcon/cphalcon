@@ -400,7 +400,7 @@ PHP_METHOD(Phalcon_Loader, register) {
 		ZVAL_STRING(_1, "autoLoad", 1);
 		zephir_array_fast_append(_0, _1);
 		zephir_call_func_p1_noret("spl_autoload_register", _0);
-		zephir_update_property_this(this_ptr, SL("_registered"), ZEPHIR_GLOBAL(global_true) TSRMLS_CC);
+		zephir_update_property_this(this_ptr, SL("_registered"), 1 ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
 	}
 	RETURN_THIS();
 
@@ -426,7 +426,7 @@ PHP_METHOD(Phalcon_Loader, unregister) {
 		ZVAL_STRING(_1, "autoLoad", 1);
 		zephir_array_fast_append(_0, _1);
 		zephir_call_func_p1_noret("spl_autoload_unregister", _0);
-		zephir_update_property_this(this_ptr, SL("_registered"), ZEPHIR_GLOBAL(global_true) TSRMLS_CC);
+		zephir_update_property_this(this_ptr, SL("_registered"), 1 ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
 	}
 	RETURN_THIS();
 

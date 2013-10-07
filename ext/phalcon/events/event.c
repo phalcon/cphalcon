@@ -141,7 +141,7 @@ PHP_METHOD(Phalcon_Events_Event, stop) {
 
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_cancelable"), PH_NOISY_CC);
 	if (zephir_is_true(_0)) {
-		zephir_update_property_this(this_ptr, SL("_stopped"), ZEPHIR_GLOBAL(global_true) TSRMLS_CC);
+		zephir_update_property_this(this_ptr, SL("_stopped"), 1 ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
 	} else {
 		ZEPHIR_THROW_EXCEPTION_STRW(phalcon_events_exception_ce, "Trying to cancel a non-cancelable event");
 		return;
