@@ -90,9 +90,9 @@ PHP_METHOD(Phalcon_Security, setDI){
 	zval *dependency_injector;
 
 	phalcon_fetch_params(0, 1, 0, &dependency_injector);
+	PHALCON_VERIFY_INTERFACE_OR_NULL_EX(dependency_injector, phalcon_diinterface_ce, phalcon_security_exception_ce, 0);
 	
 	phalcon_update_property_this(this_ptr, SL("_dependencyInjector"), dependency_injector TSRMLS_CC);
-	
 }
 
 /**
@@ -116,18 +116,15 @@ PHP_METHOD(Phalcon_Security, setRandomBytes){
 	zval *random_bytes;
 
 	phalcon_fetch_params(0, 1, 0, &random_bytes);
-	
-	if (Z_TYPE_P(random_bytes) != IS_LONG) {
-		PHALCON_THROW_EXCEPTION_STRW(phalcon_security_exception_ce, "Random bytes must be integer");
-		return;
-	}
+
+	PHALCON_ENSURE_IS_LONG(random_bytes);
+
 	if (PHALCON_LT_LONG(random_bytes, 16)) {
 		PHALCON_THROW_EXCEPTION_STRW(phalcon_security_exception_ce, "At least 16 bytes are needed to produce a correct salt");
 		return;
 	}
 	
 	phalcon_update_property_this(this_ptr, SL("_numberBytes"), random_bytes TSRMLS_CC);
-	
 }
 
 /**
@@ -152,12 +149,8 @@ PHP_METHOD(Phalcon_Security, setWorkFactor){
 
 	phalcon_fetch_params(0, 1, 0, &work_factor);
 	
-	if (Z_TYPE_P(work_factor) != IS_LONG) {
-		PHALCON_THROW_EXCEPTION_STRW(phalcon_security_exception_ce, "Work factor must be integer");
-		return;
-	}
+	PHALCON_ENSURE_IS_LONG(work_factor);
 	phalcon_update_property_this(this_ptr, SL("_workFactor"), work_factor TSRMLS_CC);
-	
 }
 
 /**
@@ -273,16 +266,10 @@ PHP_METHOD(Phalcon_Security, checkHash){
 
 	phalcon_fetch_params(0, 2, 1, &password, &password_hash, &max_pass_length);
 	
-	if (Z_TYPE_P(password) != IS_STRING) {
-		PHALCON_SEPARATE_PARAM_NMO(password);
-		convert_to_string(password);
-	}
+	PHALCON_ENSURE_IS_STRING(password);
 
 	if (max_pass_length) {
-		if (Z_TYPE_P(max_pass_length) != IS_LONG) {
-			PHALCON_SEPARATE_PARAM_NMO(max_pass_length);
-			convert_to_long(max_pass_length);
-		}
+		PHALCON_ENSURE_IS_LONG(max_pass_length);
 
 		if (Z_LVAL_P(max_pass_length) > 0 && Z_STRLEN_P(password) > Z_LVAL_P(max_pass_length)) {
 			RETURN_FALSE;
@@ -558,20 +545,9 @@ PHP_METHOD(Phalcon_Security, computeHmac)
 	}
 
 #ifdef PHALCON_USE_PHP_HASH
-	if (Z_TYPE_P(data) != IS_STRING) {
-		PHALCON_SEPARATE_PARAM_NMO(data);
-		convert_to_string(data);
-	}
-
-	if (Z_TYPE_P(key) != IS_STRING) {
-		PHALCON_SEPARATE_PARAM_NMO(key);
-		convert_to_string(key);
-	}
-
-	if (Z_TYPE_P(algo) != IS_STRING) {
-		PHALCON_SEPARATE_PARAM_NMO(algo);
-		convert_to_string(algo);
-	}
+	PHALCON_ENSURE_IS_STRING(data);
+	PHALCON_ENSURE_IS_STRING(key);
+	PHALCON_ENSURE_IS_STRING(algo);
 
 	ops = php_hash_fetch_ops(Z_STRVAL_P(algo), Z_STRLEN_P(algo));
 	if (!ops) {
