@@ -333,7 +333,7 @@ PHP_METHOD(Phalcon_Security, getTokenKey){
 	PHALCON_OBS_VAR(dependency_injector);
 	phalcon_read_property_this(&dependency_injector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
 	if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
-		PHALCON_THROW_EXCEPTION_STR(phalcon_flash_exception_ce, "A dependency injection container is required to access the 'session' service");
+		PHALCON_THROW_EXCEPTION_STR(phalcon_security_exception_ce, "A dependency injection container is required to access the 'session' service");
 		return;
 	}
 	
@@ -382,21 +382,20 @@ PHP_METHOD(Phalcon_Security, getToken){
 	PHALCON_INIT_VAR(token);
 	phalcon_md5(token, random_bytes);
 	
-	PHALCON_OBS_VAR(dependency_injector);
-	phalcon_read_property_this(&dependency_injector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
+	dependency_injector = phalcon_fetch_nproperty_this(this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
 	if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
-		PHALCON_THROW_EXCEPTION_STR(phalcon_flash_exception_ce, "A dependency injection container is required to access the 'session' service");
+		PHALCON_THROW_EXCEPTION_STR(phalcon_security_exception_ce, "A dependency injection container is required to access the 'session' service");
 		return;
 	}
 	
-	PHALCON_INIT_VAR(service);
+	PHALCON_ALLOC_GHOST_ZVAL(service);
 	ZVAL_STRING(service, "session", 1);
 	
 	PHALCON_INIT_VAR(session);
 	phalcon_call_method_p1(session, dependency_injector, "getshared", service);
 	PHALCON_VERIFY_INTERFACE(session, phalcon_session_adapterinterface_ce);
 	
-	PHALCON_INIT_VAR(key);
+	PHALCON_ALLOC_GHOST_ZVAL(key);
 	ZVAL_STRING(key, "$PHALCON/CSRF$", 1);
 	phalcon_call_method_p2_noret(session, "set", key, token);
 	
@@ -488,21 +487,20 @@ PHP_METHOD(Phalcon_Security, getSessionToken){
 
 	PHALCON_MM_GROW();
 
-	PHALCON_OBS_VAR(dependency_injector);
-	phalcon_read_property_this(&dependency_injector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
+	dependency_injector = phalcon_fetch_nproperty_this(this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
 	if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_security_exception_ce, "A dependency injection container is required to access the 'session' service");
 		return;
 	}
 	
-	PHALCON_INIT_VAR(service);
+	PHALCON_ALLOC_GHOST_ZVAL(service);
 	ZVAL_STRING(service, "session", 1);
 	
 	PHALCON_INIT_VAR(session);
 	phalcon_call_method_p1(session, dependency_injector, "getshared", service);
 	PHALCON_VERIFY_INTERFACE(session, phalcon_session_adapterinterface_ce);
 	
-	PHALCON_INIT_VAR(key);
+	PHALCON_ALLOC_GHOST_ZVAL(key);
 	ZVAL_STRING(key, "$PHALCON/CSRF$", 1);
 	
 	phalcon_return_call_method_p1(session, "get", key);
