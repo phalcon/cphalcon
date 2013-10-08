@@ -812,7 +812,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, betweenWhere){
 	 * Append the BETWEEN to the current conditions using and 'and'
 	 */
 	phalcon_call_method_p2_noret(this_ptr, "andwhere", conditions, bind_params);
-	PHALCON_SEPARATE(next_hidden_param);
 	phalcon_increment(next_hidden_param);
 	phalcon_update_property_this(this_ptr, SL("_hiddenParamNumber"), next_hidden_param TSRMLS_CC);
 	RETURN_THIS();
@@ -876,7 +875,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, notBetweenWhere){
 	 * Append the BETWEEN to the current conditions using and 'and'
 	 */
 	phalcon_call_method_p2_noret(this_ptr, "andwhere", conditions, bind_params);
-	PHALCON_SEPARATE(next_hidden_param);
 	phalcon_increment(next_hidden_param);
 	phalcon_update_property_this(this_ptr, SL("_hiddenParamNumber"), next_hidden_param TSRMLS_CC);
 	RETURN_THIS();
@@ -913,6 +911,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, inWhere){
 	
 	PHALCON_OBS_VAR(hidden_param);
 	phalcon_read_property_this(&hidden_param, this_ptr, SL("_hiddenParamNumber"), PH_NOISY_CC);
+	SEPARATE_ZVAL(&hidden_param);
 	
 	PHALCON_INIT_VAR(bind_params);
 	array_init(bind_params);
@@ -936,7 +935,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, inWhere){
 		PHALCON_CONCAT_SVS(query_key, ":", key, ":");
 		phalcon_array_append(&bind_keys, query_key, PH_SEPARATE);
 		phalcon_array_update_zval(&bind_params, key, &value, PH_COPY | PH_SEPARATE);
-		PHALCON_SEPARATE(hidden_param);
 		phalcon_increment(hidden_param);
 	
 		zend_hash_move_forward_ex(ah0, &hp0);
@@ -991,6 +989,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, notInWhere){
 	
 	PHALCON_OBS_VAR(hidden_param);
 	phalcon_read_property_this(&hidden_param, this_ptr, SL("_hiddenParamNumber"), PH_NOISY_CC);
+	SEPARATE_ZVAL(&hidden_param);
 	
 	PHALCON_INIT_VAR(bind_params);
 	array_init(bind_params);
@@ -1014,7 +1013,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, notInWhere){
 		PHALCON_CONCAT_SVS(query_key, ":", key, ":");
 		phalcon_array_append(&bind_keys, query_key, PH_SEPARATE);
 		phalcon_array_update_zval(&bind_params, key, &value, PH_COPY | PH_SEPARATE);
-		PHALCON_SEPARATE(hidden_param);
 		phalcon_increment(hidden_param);
 	
 		zend_hash_move_forward_ex(ah0, &hp0);
