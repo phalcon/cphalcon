@@ -149,8 +149,6 @@ extern void PHALCON_FASTCALL phalcon_copy_ctor(zval *destiny, zval *origin);
 		} \
 	}
 
-#define PHALCON_SEPARATE(z) SEPARATE_ZVAL(&z)
-
 #define PHALCON_SEPARATE_PARAM(z) \
 	{\
 		zval *orig_ptr = z;\
