@@ -71,6 +71,7 @@ extern int phalcon_is_iterable_ex(zval *arr, HashTable **arr_hash, HashPosition 
 
 /* Fetch Parameters */
 extern int phalcon_fetch_parameters(int num_args TSRMLS_DC, int required_args, int optional_args, ...);
+int phalcon_fetch_parameters_ex(int dummy TSRMLS_DC, int n_req, int n_opt, ...);
 
 /* Compatibility with PHP 5.3 */
 #ifndef ZVAL_COPY_VALUE
@@ -321,9 +322,14 @@ extern int phalcon_fetch_parameters(int num_args TSRMLS_DC, int required_args, i
 	if (phalcon_fetch_parameters(ZEND_NUM_ARGS() TSRMLS_CC, required_params, optional_params, __VA_ARGS__) == FAILURE) { \
 		if (memory_grow) { \
 			RETURN_MM_NULL(); \
-		} else { \
-			RETURN_NULL(); \
 		} \
+		RETURN_NULL(); \
+	}
+
+#define phalcon_fetch_params_ex(required_params, optional_params, ...) \
+	if (phalcon_fetch_parameters_ex(0 TSRMLS_CC, required_params, optional_params, __VA_ARGS__) == FAILURE) { \
+		zend_throw_exception_ex(spl_ce_BadMethodCallException, 0 TSRMLS_CC, "Wrong number of parameters"); \
+		return; \
 	}
 
 #define PHALCON_VERIFY_INTERFACE(instance, interface_ce) \
