@@ -904,6 +904,11 @@ zend_module_dep phalcon_deps[] = {
 #else
 	ZEND_MOD_OPTIONAL("pcre")
 #endif
+#if PHALCON_USE_PHP_HASH
+	ZEND_MOD_REQUIRED("hash")
+#else
+	ZEND_MOD_OPTIONAL("hash")
+#endif
 	ZEND_MOD_OPTIONAL("apc")
 	ZEND_MOD_OPTIONAL("apcu")
 	ZEND_MOD_OPTIONAL("XCache")
