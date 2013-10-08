@@ -1229,15 +1229,12 @@ PHP_METHOD(Phalcon_Debug, getCharset) {
  */
 PHP_METHOD(Phalcon_Debug, setCharset) {
 
-	zval *charset;
+	zval **charset;
 
-	phalcon_fetch_params(0, 1, 0, &charset);
-	if (unlikely(Z_TYPE_P(charset) != IS_STRING)) {
-		PHALCON_SEPARATE_PARAM_NMO(charset);
-		convert_to_string(charset);
-	}
+	phalcon_fetch_params_ex(1, 0, &charset);
+	PHALCON_ENSURE_IS_STRING(charset);
 
-	phalcon_update_property_this(getThis(), SL("_charset"), charset TSRMLS_CC);
+	phalcon_update_property_this(getThis(), SL("_charset"), *charset TSRMLS_CC);
 	RETURN_THISW();
 }
 
@@ -1259,15 +1256,13 @@ PHP_METHOD(Phalcon_Debug, getLinesBeforeContext) {
  * @return \Phalcon\Debug
  */
 PHP_METHOD(Phalcon_Debug, setLinesBeforeContext) {
-	zval *lines;
 
-	phalcon_fetch_params(0, 1, 0, &lines);
-	if (unlikely(Z_TYPE_P(lines) != IS_LONG)) {
-		PHALCON_SEPARATE_PARAM_NMO(lines);
-		convert_to_long(lines);
-	}
+	zval **lines;
 
-	phalcon_update_property_this(getThis(), SL("_beforeContext"), lines TSRMLS_CC);
+	phalcon_fetch_params_ex(1, 0, &lines);
+	PHALCON_ENSURE_IS_LONG(lines);
+
+	phalcon_update_property_this(getThis(), SL("_beforeContext"), *lines TSRMLS_CC);
 	RETURN_THISW();
 }
 
@@ -1289,14 +1284,12 @@ PHP_METHOD(Phalcon_Debug, getLinesAfterContext) {
  * @return \Phalcon\Debug
  */
 PHP_METHOD(Phalcon_Debug, setLinesAfterContext) {
-	zval *lines;
 
-	phalcon_fetch_params(0, 1, 0, &lines);
-	if (unlikely(Z_TYPE_P(lines) != IS_LONG)) {
-		PHALCON_SEPARATE_PARAM_NMO(lines);
-		convert_to_long(lines);
-	}
+	zval **lines;
 
-	phalcon_update_property_this(getThis(), SL("_afterContext"), lines TSRMLS_CC);
+	phalcon_fetch_params_ex(1, 0, &lines);
+	PHALCON_ENSURE_IS_LONG(lines);
+
+	phalcon_update_property_this(getThis(), SL("_afterContext"), *lines TSRMLS_CC);
 	RETURN_THISW();
 }

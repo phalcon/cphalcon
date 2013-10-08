@@ -117,19 +117,12 @@ PHP_METHOD(Phalcon_Crypt, getCipher){
  */
 PHP_METHOD(Phalcon_Crypt, setMode){
 
-	zval *mode;
+	zval **mode;
 
-	phalcon_fetch_params(0, 1, 0, &mode);
-	if (Z_TYPE_P(mode) != IS_STRING) {
-		PHALCON_SEPARATE_PARAM_NMO(mode);
-		convert_to_string(mode);
-	}
-	else {
-		Z_ADDREF_P(mode);
-	}
+	phalcon_fetch_params_ex(1, 0, &mode);
+	PHALCON_ENSURE_IS_STRING(mode);
 
-	phalcon_update_property_this(this_ptr, SL("_mode"), mode TSRMLS_CC);
-	zval_ptr_dtor(&mode);
+	phalcon_update_property_this(this_ptr, SL("_mode"), *mode TSRMLS_CC);
 	RETURN_THISW();
 }
 
@@ -152,19 +145,12 @@ PHP_METHOD(Phalcon_Crypt, getMode){
  */
 PHP_METHOD(Phalcon_Crypt, setKey){
 
-	zval *key;
+	zval **key;
 
-	phalcon_fetch_params(0, 1, 0, &key);
-	if (Z_TYPE_P(key) != IS_STRING) {
-		PHALCON_SEPARATE_PARAM_NMO(key);
-		convert_to_string(key);
-	}
-	else {
-		Z_ADDREF_P(key);
-	}
+	phalcon_fetch_params_ex(1, 0, &key);
+	PHALCON_ENSURE_IS_STRING(key);
 
-	phalcon_update_property_this(this_ptr, SL("_key"), key TSRMLS_CC);
-	zval_ptr_dtor(&key);
+	phalcon_update_property_this(this_ptr, SL("_key"), *key TSRMLS_CC);
 	RETURN_THISW();
 }
 
@@ -188,19 +174,12 @@ PHP_METHOD(Phalcon_Crypt, getKey){
  */
 PHP_METHOD(Phalcon_Crypt, setPadding) {
 
-	zval *scheme;
+	zval **scheme;
 
-	phalcon_fetch_params(0, 1, 0, &scheme);
-	if (Z_TYPE_P(scheme) != IS_LONG) {
-		PHALCON_SEPARATE_PARAM_NMO(scheme);
-		convert_to_long(scheme);
-	}
-	else {
-		Z_ADDREF_P(scheme);
-	}
+	phalcon_fetch_params_ex(1, 0, &scheme);
+	PHALCON_ENSURE_IS_LONG(scheme);
 
-	phalcon_update_property_this(this_ptr, SL("_padding"), scheme TSRMLS_CC);
-	zval_ptr_dtor(&scheme);
+	phalcon_update_property_this(this_ptr, SL("_padding"), *scheme TSRMLS_CC);
 	RETURN_THISW();
 }
 

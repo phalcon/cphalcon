@@ -43,21 +43,9 @@ void phalcon_throw_exception(zval *object TSRMLS_DC){
 /**
  * Throws an exception with a single string parameter
  */
-void phalcon_throw_exception_string(zend_class_entry *ce, const char *message, zend_uint message_len TSRMLS_DC){
+void phalcon_throw_exception_string(zend_class_entry *ce, const char *message TSRMLS_DC){
 
-	zval *object, *msg;
-
-	MAKE_STD_ZVAL(object);
-	object_init_ex(object, ce);
-
-	MAKE_STD_ZVAL(msg);
-	ZVAL_STRINGL(msg, message, message_len, 1);
-
-	if (SUCCESS == phalcon_call_method_params(NULL, NULL, object, SL("__construct"), zend_inline_hash_func(SS("__construct")) TSRMLS_CC, 1, msg)) {
-		zend_throw_exception_object(object TSRMLS_CC);
-	}
-
-	zval_ptr_dtor(&msg);
+	zend_throw_exception_ex(ce, 0 TSRMLS_CC, "%s", message);
 }
 
 /**

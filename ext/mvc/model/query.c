@@ -3650,15 +3650,14 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _executeSelect){
 		if (PHALCON_IS_STRING(column_type, "scalar")) {
 			if (!phalcon_array_isset_string(column, SS("balias"))) {
 				PHALCON_INIT_NVAR(is_complex);
-				ZVAL_BOOL(is_complex, 1);
+				ZVAL_TRUE(is_complex);
 			}
 	
 			PHALCON_INIT_NVAR(have_scalars);
 			ZVAL_BOOL(have_scalars, 1);
 		} else {
 			PHALCON_INIT_NVAR(have_objects);
-			ZVAL_BOOL(have_objects, 1);
-			PHALCON_SEPARATE(number_objects);
+			ZVAL_TRUE(have_objects);
 			phalcon_increment(number_objects);
 		}
 	
@@ -3672,19 +3671,19 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _executeSelect){
 		if (PHALCON_IS_TRUE(have_objects)) {
 			if (PHALCON_IS_TRUE(have_scalars)) {
 				PHALCON_INIT_NVAR(is_complex);
-				ZVAL_BOOL(is_complex, 1);
+				ZVAL_TRUE(is_complex);
 			} else {
 				if (PHALCON_IS_LONG(number_objects, 1)) {
 					PHALCON_INIT_VAR(is_simple_std);
-					ZVAL_BOOL(is_simple_std, 0);
+					ZVAL_FALSE(is_simple_std);
 				} else {
 					PHALCON_INIT_NVAR(is_complex);
-					ZVAL_BOOL(is_complex, 1);
+					ZVAL_TRUE(is_complex);
 				}
 			}
 		} else {
 			PHALCON_INIT_NVAR(is_simple_std);
-			ZVAL_BOOL(is_simple_std, 1);
+			ZVAL_TRUE(is_simple_std);
 		}
 	}
 	

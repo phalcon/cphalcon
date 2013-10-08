@@ -474,9 +474,7 @@ PHP_METHOD(Phalcon_Forms_Element, getUserOption){
 
 	zval *option, *default_value = NULL, *options, *value;
 
-	PHALCON_MM_GROW();
-
-	phalcon_fetch_params(1, 1, 1, &option, &default_value);
+	phalcon_fetch_params(0, 1, 1, &option, &default_value);
 	
 	if (!default_value) {
 		default_value = PHALCON_GLOBAL(z_null);

@@ -416,6 +416,23 @@ image/adapter/imagick.c"
 		[[#include "php_config.h"]]
 	)
 
+	AC_CHECK_DECL(
+		[HAVE_HASH_EXT],
+		[
+			AC_CHECK_HEADERS(
+				[ext/hash/php_hash.h],
+				[
+					PHP_ADD_EXTENSION_DEP([phalcon], [hash])
+					AC_DEFINE([PHALCON_USE_PHP_HASH], [1], [Whether PHP hash extension is present at compile time])
+				],
+				,
+				[[#include "main/php.h"]]
+			)
+		],
+		,
+		[[#include "php_config.h"]]
+	)
+
 	CPPFLAGS=$old_CPPFLAGS
 
 	PHP_ADD_MAKEFILE_FRAGMENT
