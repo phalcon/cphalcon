@@ -1244,4 +1244,3 @@ PHP_METHOD(Phalcon_Debug, onUncaughtException){
 	phalcon_update_static_property(SL("phalcon\\debug"), SL("_isActive"), is_active TSRMLS_CC);
 	RETURN_MM_TRUE;
 }
-

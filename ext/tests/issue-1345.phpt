@@ -1,7 +1,5 @@
 --TEST--
 Memory leaks due to PHALCON_SEPARATE_PARAM_NMO - https://github.com/phalcon/cphalcon/issues/1345
---XFAIL--
-Could fail now
 --SKIPIF--
 <?php
 include('skipif.inc');
@@ -12,7 +10,7 @@ if (!defined('PHP_DEBUG') || !PHP_DEBUG) {
 --FILE--
 <?php
 $s = new \Phalcon\Security();
-$f1 = 10;
+$f1 = "10";
 $f2 = $f1;
 $s->setWorkFactor($f2);
 $hash = $s->hash('password', null);
