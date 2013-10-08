@@ -113,18 +113,18 @@ PHP_METHOD(Phalcon_Security, getDI){
  */
 PHP_METHOD(Phalcon_Security, setRandomBytes){
 
-	zval *random_bytes;
+	zval **random_bytes;
 
-	phalcon_fetch_params(0, 1, 0, &random_bytes);
+	phalcon_fetch_params_ex(1, 0, &random_bytes);
 
 	PHALCON_ENSURE_IS_LONG(random_bytes);
 
-	if (PHALCON_LT_LONG(random_bytes, 16)) {
+	if (PHALCON_LT_LONG(*random_bytes, 16)) {
 		PHALCON_THROW_EXCEPTION_STRW(phalcon_security_exception_ce, "At least 16 bytes are needed to produce a correct salt");
 		return;
 	}
 	
-	phalcon_update_property_this(this_ptr, SL("_numberBytes"), random_bytes TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_numberBytes"), *random_bytes TSRMLS_CC);
 }
 
 /**
@@ -145,12 +145,12 @@ PHP_METHOD(Phalcon_Security, getRandomBytes){
  */
 PHP_METHOD(Phalcon_Security, setWorkFactor){
 
-	zval *work_factor;
+	zval **work_factor;
 
-	phalcon_fetch_params(0, 1, 0, &work_factor);
+	phalcon_fetch_params_ex(1, 0, &work_factor);
 	
 	PHALCON_ENSURE_IS_LONG(work_factor);
-	phalcon_update_property_this(this_ptr, SL("_workFactor"), work_factor TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_workFactor"), *work_factor TSRMLS_CC);
 }
 
 /**
@@ -255,24 +255,24 @@ PHP_METHOD(Phalcon_Security, hash){
  */
 PHP_METHOD(Phalcon_Security, checkHash){
 
-	zval *password, *password_hash, *hash, *max_pass_length = NULL;
+	zval **password, **password_hash, **max_pass_length = NULL, *hash;
 
-	phalcon_fetch_params(0, 2, 1, &password, &password_hash, &max_pass_length);
+	phalcon_fetch_params_ex(2, 1, &password, &password_hash, &max_pass_length);
 	
 	PHALCON_ENSURE_IS_STRING(password);
 
 	if (max_pass_length) {
 		PHALCON_ENSURE_IS_LONG(max_pass_length);
 
-		if (Z_LVAL_P(max_pass_length) > 0 && Z_STRLEN_P(password) > Z_LVAL_P(max_pass_length)) {
+		if (Z_LVAL_PP(max_pass_length) > 0 && Z_STRLEN_PP(password) > Z_LVAL_PP(max_pass_length)) {
 			RETURN_FALSE;
 		}
 	}
 
 	PHALCON_MM_GROW();
 	PHALCON_INIT_VAR(hash);
-	phalcon_call_func_p2(hash, "crypt", password, password_hash);
-	is_equal_function(return_value, hash, password_hash TSRMLS_CC);
+	phalcon_call_func_p2(hash, "crypt", *password, *password_hash);
+	is_equal_function(return_value, hash, *password_hash TSRMLS_CC);
 	RETURN_MM();
 }
 
@@ -515,7 +515,7 @@ PHP_METHOD(Phalcon_Security, getSessionToken){
  */
 PHP_METHOD(Phalcon_Security, computeHmac)
 {
-	zval *data, *key, *algo, *raw = NULL;
+	zval **data, **key, **algo, **raw = NULL;
 #ifdef PHALCON_USE_PHP_HASH
 	const php_hash_ops *ops;
 	void *context;
@@ -523,10 +523,10 @@ PHP_METHOD(Phalcon_Security, computeHmac)
 	int i;
 #endif
 
-	phalcon_fetch_params(0, 3, 1, &data, &key, &algo, &raw);
+	phalcon_fetch_params_ex(3, 1, &data, &key, &algo, &raw);
 
 	if (!raw) {
-		raw = PHALCON_GLOBAL(z_false);
+		raw = &(PHALCON_GLOBAL(z_false));
 	}
 
 #ifdef PHALCON_USE_PHP_HASH
@@ -534,9 +534,9 @@ PHP_METHOD(Phalcon_Security, computeHmac)
 	PHALCON_ENSURE_IS_STRING(key);
 	PHALCON_ENSURE_IS_STRING(algo);
 
-	ops = php_hash_fetch_ops(Z_STRVAL_P(algo), Z_STRLEN_P(algo));
+	ops = php_hash_fetch_ops(Z_STRVAL_PP(algo), Z_STRLEN_PP(algo));
 	if (!ops) {
-		zend_throw_exception_ex(phalcon_security_exception_ce, 0 TSRMLS_CC, "Unknown hashing algorithm: %s", Z_STRVAL_P(algo));
+		zend_throw_exception_ex(phalcon_security_exception_ce, 0 TSRMLS_CC, "Unknown hashing algorithm: %s", Z_STRVAL_PP(algo));
 		return;
 	}
 
@@ -546,15 +546,15 @@ PHP_METHOD(Phalcon_Security, computeHmac)
 	digest  = ecalloc(1, ops->digest_size + 1);
 	ops->hash_init(context);
 
-	if (Z_STRLEN_P(key) > ops->block_size) {
+	if (Z_STRLEN_PP(key) > ops->block_size) {
 		/* Reduce the key */
-		ops->hash_update(context, (unsigned char*)(Z_STRVAL_P(key)), Z_STRLEN_P(key));
+		ops->hash_update(context, (unsigned char*)(Z_STRVAL_PP(key)), Z_STRLEN_PP(key));
 		ops->hash_final(block, context);
 		/* Reinitialize the context */
 		ops->hash_init(context);
 	}
 	else {
-		memcpy(block, Z_STRVAL_P(key), Z_STRLEN_P(key));
+		memcpy(block, Z_STRVAL_PP(key), Z_STRLEN_PP(key));
 	}
 
 	for (i=0; i<ops->block_size; ++i) {
@@ -562,7 +562,7 @@ PHP_METHOD(Phalcon_Security, computeHmac)
 	}
 
 	ops->hash_update(context, block, ops->block_size);
-	ops->hash_update(context, (unsigned char*)(Z_STRVAL_P(data)), Z_STRLEN_P(data));
+	ops->hash_update(context, (unsigned char*)(Z_STRVAL_PP(data)), Z_STRLEN_PP(data));
 	ops->hash_final(digest, context);
 
 	for(i=0; i < ops->block_size; i++) {
@@ -577,10 +577,7 @@ PHP_METHOD(Phalcon_Security, computeHmac)
 	memset(block, 0, ops->block_size);
 	efree(context);
 
-	if (zend_is_true(raw)) {
-		RETURN_STRINGL((char*)digest, ops->digest_size, 0);
-	}
-	else {
+	if (!zend_is_true(*raw)) {
 		char *hex_digest = safe_emalloc(ops->digest_size, 2, 1);
 
 		php_hash_bin2hex(hex_digest, digest, ops->digest_size);
@@ -589,8 +586,10 @@ PHP_METHOD(Phalcon_Security, computeHmac)
 
 		RETURN_STRINGL(hex_digest, 2 * ops->digest_size, 0);
 	}
+
+	RETURN_STRINGL((char*)digest, ops->digest_size, 0);
 #else
-	phalcon_call_func_params(return_value, return_value_ptr, SL("hash_hmac") TSRMLS_CC, 4, algo, data, key, raw);
+	phalcon_call_func_params(return_value, return_value_ptr, SL("hash_hmac") TSRMLS_CC, 4, *algo, *data, *key, *raw);
 	if (unlikely(EG(exception) != NULL) && return_value_ptr) {
 		ALLOC_INIT_ZVAL(*return_value_ptr);
 	}

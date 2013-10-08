@@ -428,8 +428,8 @@ int phalcon_fetch_parameters_ex(TSRMLS_D, int n_req, int n_opt, ...);
 		convert_to_explicit_type(*ppzv, str_type); \
 	}
 
-#define PHALCON_ENSURE_IS_STRING(param)    convert_to_explicit_type_ex(&param, IS_STRING)
-#define PHALCON_ENSURE_IS_LONG(param)      convert_to_explicit_type_ex(&param, IS_LONG)
-#define PHALCON_ENSURE_IS_DOUBLE(param)    convert_to_explicit_type_ex(&param, IS_DOUBLE)
-#define PHALCON_ENSURE_IS_BOOL(param)      convert_to_explicit_type_ex(&param, IS_BOOL)
-#define PHALCON_ENSURE_IS_ARRAY(param)     convert_to_explicit_type_ex(&param, IS_ARRAY)
+#define PHALCON_ENSURE_IS_STRING(ppzv)    convert_to_explicit_type_ex(ppzv, IS_STRING)
+#define PHALCON_ENSURE_IS_LONG(ppzv)      convert_to_explicit_type_ex(ppzv, IS_LONG)
+#define PHALCON_ENSURE_IS_DOUBLE(ppzv)    convert_to_explicit_type_ex(ppzv, IS_DOUBLE)
+#define PHALCON_ENSURE_IS_BOOL(ppzv)      convert_to_explicit_type_ex(ppzv, IS_BOOL)
+#define PHALCON_ENSURE_IS_ARRAY(ppzv)     convert_to_explicit_type_ex(ppzv, IS_ARRAY)

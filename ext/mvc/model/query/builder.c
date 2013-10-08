@@ -229,17 +229,15 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, __construct){
  */
 PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, distinct){
 
-	zval *distinct;
+	zval **distinct;
 
-	phalcon_fetch_params(0, 1, 0, &distinct);
+	phalcon_fetch_params_ex(1, 0, &distinct);
 
-	if (Z_TYPE_P(distinct) != IS_NULL && Z_TYPE_P(distinct) != IS_BOOL) {
-		PHALCON_SEPARATE_PARAM_NMO(distinct);
-		convert_to_long(distinct);
+	if (Z_TYPE_PP(distinct) != IS_NULL && Z_TYPE_PP(distinct) != IS_BOOL) {
+		PHALCON_ENSURE_IS_BOOL(distinct);
 	}
 
-	phalcon_update_property_this(this_ptr, SL("_distinct"), distinct TSRMLS_CC);
-
+	phalcon_update_property_this(this_ptr, SL("_distinct"), *distinct TSRMLS_CC);
 	RETURN_THISW();
 }
 
