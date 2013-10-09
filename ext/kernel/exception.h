@@ -28,6 +28,3 @@ extern void phalcon_throw_exception(zval *object TSRMLS_DC);
 extern void phalcon_throw_exception_string(zend_class_entry *ce, const char *message, zend_uint message_len, int restore_stack TSRMLS_DC);
 extern void phalcon_throw_exception_zval(zend_class_entry *ce, zval *message, int restore_stack TSRMLS_DC);
 extern void phalcon_throw_exception_internal(zval *exception TSRMLS_DC);
-
-/** Catch Exceptions */
-/* extern void phalcon_try_execute(zval *success, zval *return_value, zval *call_object, zval *params, zval **exception TSRMLS_DC); */
