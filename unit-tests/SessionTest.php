@@ -36,6 +36,10 @@ class SessionTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($session->get('some'), 'value');
 		$this->assertTrue($session->has('some'));
 		$this->assertEquals($session->get('undefined', 'my-default'), 'my-default');
+		
+		// Automatically deleted after reading
+		$this->assertEquals($session->get('some', TRUE), 'value');
+		$this->assertFalse($session->has('some'));
 	}
 
 }
