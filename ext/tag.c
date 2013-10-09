@@ -322,7 +322,7 @@ PHP_METHOD(Phalcon_Tag, setDefault){
 			return;
 		}
 	}
-	PHALCON_OBSERVE_VAR(t0);
+	PHALCON_OBS_VAR(t0);
 	phalcon_read_static_property(&t0, SL("phalcon\\tag"), SL("_displayValues") TSRMLS_CC);
 	if (Z_TYPE_P(t0) != IS_ARRAY) {
 		convert_to_array(t0);

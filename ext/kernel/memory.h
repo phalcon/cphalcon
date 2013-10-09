@@ -117,6 +117,7 @@ extern void PHALCON_FASTCALL phalcon_copy_ctor(zval *destiny, zval *origin);
 			Z_DELREF_P(z); \
 		} else {\
 			zval_ptr_dtor(&z); \
+			z = NULL; \
 		} \
 	} else { \
 		phalcon_memory_observe(&z TSRMLS_CC); \
@@ -138,44 +139,16 @@ extern void PHALCON_FASTCALL phalcon_copy_ctor(zval *destiny, zval *origin);
 		} \
 	}
 
-#define PHALCON_SEPARATE(z) \
-	{ \
-		zval *orig_ptr = z; \
-		if (Z_REFCOUNT_P(orig_ptr) > 1) { \
-			Z_DELREF_P(orig_ptr); \
-			ALLOC_ZVAL(z); \
-			*z = *orig_ptr; \
-			zval_copy_ctor(z); \
-			Z_SET_REFCOUNT_P(z, 1); \
-			Z_UNSET_ISREF_P(z); \
-		} \
-	}
-
-#define PHALCON_SEPARATE_NMO(z) \
-	{\
-		zval *orig_ptr = z;\
-		if (Z_REFCOUNT_P(orig_ptr) > 1) {\
-			Z_DELREF_P(orig_ptr);\
-			ALLOC_ZVAL(z);\
-			*z = *orig_ptr;\
-			zval_copy_ctor(z);\
-			Z_SET_REFCOUNT_P(z, 1);\
-			Z_UNSET_ISREF_P(z);\
-		}\
-	}
-
 #define PHALCON_SEPARATE_PARAM(z) \
-	{\
+	do { \
 		zval *orig_ptr = z;\
-		if (Z_REFCOUNT_P(orig_ptr) > 1) {\
-			phalcon_memory_observe(&z TSRMLS_CC);\
-			ALLOC_ZVAL(z);\
-			*z = *orig_ptr;\
-			zval_copy_ctor(z);\
-			Z_SET_REFCOUNT_P(z, 1);\
-			Z_UNSET_ISREF_P(z);\
-		}\
-	}
+		phalcon_memory_observe(&z TSRMLS_CC);\
+		ALLOC_ZVAL(z);\
+		*z = *orig_ptr;\
+		zval_copy_ctor(z);\
+		Z_SET_REFCOUNT_P(z, 1);\
+		Z_UNSET_ISREF_P(z);\
+	} while (0)
 
 #define PHALCON_SEPARATE_PARAM_NMO(z) { \
 		zval *orig_ptr = z; \
@@ -186,11 +159,4 @@ extern void PHALCON_FASTCALL phalcon_copy_ctor(zval *destiny, zval *origin);
 			Z_SET_REFCOUNT_P(z, 1); \
 			Z_UNSET_ISREF_P(z); \
 		} \
-	}
-
-#define PHALCON_OBSERVE_VAR(var) \
-	if (!var) { \
-		phalcon_memory_observe(&var TSRMLS_CC); \
-	} else { \
-		zval_ptr_dtor(&var); \
 	}

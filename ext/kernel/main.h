@@ -17,6 +17,7 @@
   +------------------------------------------------------------------------+
 */
 
+#include "Zend/zend_exceptions.h"
 #include "ext/spl/spl_exceptions.h"
 
 /** Main macros */
@@ -71,6 +72,7 @@ extern int phalcon_is_iterable_ex(zval *arr, HashTable **arr_hash, HashPosition 
 
 /* Fetch Parameters */
 extern int phalcon_fetch_parameters(int num_args TSRMLS_DC, int required_args, int optional_args, ...);
+int phalcon_fetch_parameters_ex(int dummy TSRMLS_DC, int n_req, int n_opt, ...);
 
 /* Compatibility with PHP 5.3 */
 #ifndef ZVAL_COPY_VALUE
@@ -261,12 +263,12 @@ extern int phalcon_fetch_parameters(int num_args TSRMLS_DC, int required_args, i
 #define phalcon_is_iterable(var, array_hash, hash_pointer, duplicate, reverse) if (!phalcon_is_iterable_ex(var, array_hash, hash_pointer, duplicate, reverse)) { return; }
 
 #define PHALCON_GET_FOREACH_VALUE(var) \
-	PHALCON_OBSERVE_VAR(var); \
+	PHALCON_OBS_NVAR(var); \
 	var = *hd; \
 	Z_ADDREF_P(var);
 
 #define PHALCON_GET_HVALUE(var) \
-	PHALCON_OBSERVE_VAR(var); \
+	PHALCON_OBS_NVAR(var); \
 	var = *hd; \
 	Z_ADDREF_P(var);
 
@@ -321,9 +323,14 @@ extern int phalcon_fetch_parameters(int num_args TSRMLS_DC, int required_args, i
 	if (phalcon_fetch_parameters(ZEND_NUM_ARGS() TSRMLS_CC, required_params, optional_params, __VA_ARGS__) == FAILURE) { \
 		if (memory_grow) { \
 			RETURN_MM_NULL(); \
-		} else { \
-			RETURN_NULL(); \
 		} \
+		RETURN_NULL(); \
+	}
+
+#define phalcon_fetch_params_ex(required_params, optional_params, ...) \
+	if (phalcon_fetch_parameters_ex(0 TSRMLS_CC, required_params, optional_params, __VA_ARGS__) == FAILURE) { \
+		zend_throw_exception_ex(spl_ce_BadMethodCallException, 0 TSRMLS_CC, "Wrong number of parameters"); \
+		return; \
 	}
 
 #define PHALCON_VERIFY_INTERFACE(instance, interface_ce) \
@@ -357,3 +364,9 @@ extern int phalcon_fetch_parameters(int num_args TSRMLS_DC, int required_args, i
 			return; \
 		} \
 	} while (0)
+
+#define PHALCON_ENSURE_IS_STRING(ppzv)    convert_to_explicit_type_ex(ppzv, IS_STRING)
+#define PHALCON_ENSURE_IS_LONG(ppzv)      convert_to_explicit_type_ex(ppzv, IS_LONG)
+#define PHALCON_ENSURE_IS_DOUBLE(ppzv)    convert_to_explicit_type_ex(ppzv, IS_DOUBLE)
+#define PHALCON_ENSURE_IS_BOOL(ppzv)      convert_to_explicit_type_ex(ppzv, IS_BOOL)
+#define PHALCON_ENSURE_IS_ARRAY(ppzv)     convert_to_explicit_type_ex(ppzv, IS_ARRAY)
