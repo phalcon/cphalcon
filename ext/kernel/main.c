@@ -354,7 +354,7 @@ int phalcon_fetch_parameters(int num_args TSRMLS_DC, int required_args, int opti
 	return SUCCESS;
 }
 
-int phalcon_fetch_parameters_ex(TSRMLS_D, int n_req, int n_opt, ...)
+int phalcon_fetch_parameters_ex(int dummy TSRMLS_DC, int n_req, int n_opt, ...)
 {
 	void **p;
 	int arg_count, param_count;
