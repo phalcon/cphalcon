@@ -560,8 +560,7 @@ PHP_METHOD(Phalcon_Forms_Form, isValid){
  */
 PHP_METHOD(Phalcon_Forms_Form, getMessages){
 
-	zval *by_item_name = NULL, *messages, *group, *element_messages = NULL;
-	zval *element = NULL;
+	zval *by_item_name = NULL, *messages;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -588,23 +587,20 @@ PHP_METHOD(Phalcon_Forms_Form, getMessages){
 		RETURN_CCTOR(messages);
 	}
 
-	PHALCON_INIT_VAR(group);
-	object_init_ex(group, phalcon_validation_message_group_ce);
-	phalcon_call_method_noret(group, "__construct");
+	object_init_ex(return_value, phalcon_validation_message_group_ce);
+	phalcon_call_method_noret(return_value, "__construct");
 
-	phalcon_is_iterable(messages, &ah0, &hp0, 0, 0);
+	if (Z_TYPE_P(messages) == IS_ARRAY) {
+		phalcon_is_iterable(messages, &ah0, &hp0, 0, 0);
 
-	while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
+		while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 
-		PHALCON_GET_HKEY(element, ah0, hp0);
-		PHALCON_GET_HVALUE(element_messages);
-
-		phalcon_call_method_p1_noret(group, "appendmessages", element_messages);
-
-		zend_hash_move_forward_ex(ah0, &hp0);
+			phalcon_call_method_p1_noret(return_value, "appendmessages", *hd);
+			zend_hash_move_forward_ex(ah0, &hp0);
+		}
 	}
 
-	RETURN_CTOR(group);
+	PHALCON_MM_RESTORE();
 }
 
 /**
