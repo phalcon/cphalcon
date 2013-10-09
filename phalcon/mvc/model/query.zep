@@ -387,10 +387,10 @@ class Query //implements Phalcon\Mvc\Model\QueryInterface, Phalcon\Di\InjectionA
 				case PHQL_T_LESS:
 					let exprReturn = ["type": "binary-op", "op": "<", "left": left, "right": right];
 					break;
-				case 61:
+				case PHQL_T_EQUALS:
 					let exprReturn = ["type": "binary-op", "op": "=", "left": left, "right": right];
 					break;
-				case 62:
+				case PHQL_T_GREATER:
 					let exprReturn = ["type": "binary-op", "op": ">", "left": left, "right": right];
 					break;
 				case 270:
@@ -402,10 +402,10 @@ class Query //implements Phalcon\Mvc\Model\QueryInterface, Phalcon\Di\InjectionA
 				case 272:
 					let exprReturn = ["type": "binary-op", "op": ">=", "left": left, "right": right];
 					break;
-				case 266:
+				case PHQL_T_AND:
 					let exprReturn = ["type": "binary-op", "op": "AND", "left": left, "right": right];
 					break;
-				case 267:
+				case PHQL_T_OR:
 					let exprReturn = ["type": "binary-op", "op": "OR", "left": left, "right": right];
 					break;
 				case 355:
@@ -414,19 +414,19 @@ class Query //implements Phalcon\Mvc\Model\QueryInterface, Phalcon\Di\InjectionA
 				case 359:
 					//let exprReturn = this->_getAliased(expr);
 					break;
-				case 43:
+				case PHQL_T_ADD:
 					let exprReturn = ["type": "binary-op", "op": "+", "left": left, "right": right];
 					break;
-				case 45:
+				case PHQL_T_SUB:
 					let exprReturn = ["type": "binary-op", "op": "-", "left": left, "right": right];
 					break;
-				case 42:
+				case PHQL_T_MUL:
 					let exprReturn = ["type": "binary-op", "op": "*", "left": left, "right": right];
 					break;
-				case 47:
+				case PHQL_T_DIV:
 					let exprReturn = ["type": "binary-op", "op": "/", "left": left, "right": right];
 					break;
-				case 37:
+				case PHQL_T_MOD:
 					let exprReturn = ["type": "binary-op", "op": "%", "left": left, "right": right];
 					break;
 				case 38:
@@ -435,23 +435,23 @@ class Query //implements Phalcon\Mvc\Model\QueryInterface, Phalcon\Di\InjectionA
 				case 124:
 					let exprReturn = ["type": "binary-op", "op": "|", "left": left, "right": right];
 					break;
-				case 356:
+				case PHQL_T_ENCLOSED:
 					let exprReturn = ["type": "parentheses", "left": left];
 					break;
-				case 367:
+				case PHQL_T_MINUS:
 					let exprReturn = ["type": "unary-op", "op": "-", "right": right];
 					break;
-				case 258:
-				case 259:
+				case PHQL_T_INTEGER:
+				case PHQL_T_DOUBLE:
 					let exprReturn = ["type": "literal", "value": expr["value"]];
 					break;
-				case 333:
+				case PHQL_T_TRUE:
 					let exprReturn = ["type": "literal", "value": "TRUE"];
 					break;
-				case 334:
+				case PHQL_T_FALSE:
 					let exprReturn = ["type": "literal", "value": "FALSE"];
 					break;
-				case 260:
+				case PHQL_T_STRING:
 					let value = expr["value"];
 					if quoting === true {
 						/**
@@ -468,61 +468,61 @@ class Query //implements Phalcon\Mvc\Model\QueryInterface, Phalcon\Di\InjectionA
 					}
 					let exprReturn = ["type": "literal", "value": exprValue];
 					break;
-				case 273:
+				case PHQL_T_NPLACEHOLDER:
 					let exprReturn = ["type": "placeholder", "value": str_replace("?", ":", expr["value"])];
 					break;
-				case 274:
+				case PHQL_T_SPLACEHOLDER:
 					let exprReturn = ["type": "placeholder", "value": ":" . expr["value"]];
 					break;
-				case 322:
+				case PHQL_T_NULL:
 					let exprReturn = ["type": "literal", "value": "NULL"];
 					break;
-				case 268:
+				case PHQL_T_LIKE:
 					let exprReturn = ["type": "binary-op", "op": "LIKE", "left": left, "right": right];
 					break;
-				case 351:
+				case PHQL_T_NLIKE:
 					let exprReturn = ["type": "binary-op", "op": "NOT LIKE", "left": left, "right": right];
 					break;
-				case 275:
+				case PHQL_T_ILIKE:
 					let exprReturn = ["type": "binary-op", "op": "ILIKE", "left": left, "right": right];
 					break;
-				case 357:
+				case PHQL_T_NILIKE:
 					let exprReturn = ["type": "binary-op", "op": "NOT ILIKE", "left": left, "right": right];
 					break;
-				case 33:
+				case PHQL_T_NOT:
 					let exprReturn = ["type": "unary-op", "op": "NOT ", "right": right];
 					break;
 				case 365:
 					let exprReturn = ["type": "unary-op", "op": " IS NULL", "left": left];
 					break;
-				case 366:
+				case PHQL_T_ISNOTNULL:
 					let exprReturn = ["type": "unary-op", "op": " IS NOT NULL", "left": left];
 					break;
-				case 315:
+				case PHQL_T_IN:
 					let exprReturn = ["type": "binary-op", "op": "IN", "left": left, "right": right];
 					break;
-				case 323:
+				case PHQL_T_NOTIN:
 					let exprReturn = ["type": "binary-op", "op": "NOT IN", "left": left, "right": right];
 					break;
-				case 330:
+				case PHQL_T_DISTINCT:
 					let exprReturn = ["type": "unary-op", "op": "DISTINCT ", "right": right];
 					break;
-				case 331:
+				case PHQL_T_BETWEEN:
 					let exprReturn = ["type": "binary-op", "op": "BETWEEN", "left": left, "right": right];
 					break;
-				case 276:
+				case PHQL_T_AGAINST:
 					let exprReturn = ["type": "binary-op", "op": "AGAINST", "left": left, "right": right];
 					break;
-				case 332:
+				case PHQL_T_CAST:
 					let exprReturn = ["type": "cast", "left": left, "right": right];
 					break;
-				case 335:
+				case PHQL_T_CONVERT:
 					let exprReturn = ["type": "convert", "left": left, "right": right];
 					break;
-				case 358:
+				case PHQL_T_RAW_QUALIFIED:
 					let exprReturn = ["type": "literal", "value": expr["name"]];
 					break;
-				case 350:
+				case PHQL_T_FCALL:
 					let exprReturn = this->_getFunctionCall(expr);
 					break;
 				default:
@@ -551,6 +551,127 @@ class Query //implements Phalcon\Mvc\Model\QueryInterface, Phalcon\Di\InjectionA
 		}
 
 		throw new Phalcon\Mvc\Model\Exception("Unknown expression");
+	}
+
+	/**
+	 * Resolves a column from its intermediate representation into an array used to determine
+	 * if the resulset produced is simple or complex
+	 *
+	 * @param array column
+	 * @return array
+	 */
+	protected function _getSelectColumn(column)
+	{
+		var sqlColumns, columnType, sqlAliases, modelName, source,
+			columnDomain, sqlColumnAlias, bestAlias, preparedAlias, sqlExprColumn,
+			sqlAliasesModels, sqlModelsAliases, sqlColumn, columnData, balias;
+
+		if !fetch columnType, column["type"] {
+			throw new Phalcon\Mvc\Model\Exception("Corrupted SELECT AST");
+		}
+
+		let sqlColumns = [];
+
+		/**
+		 * Check for select * (all)
+		 */
+		if columnType == PHQL_T_ALL {
+			for modelName, source in this->_models {
+				let sqlColumns[] = [
+					"type"  : "object",
+					"model" : modelName,
+					"column": source
+				];
+			}
+			return sqlColumns;
+		}
+
+		if !isset column["column"] {
+			throw new Phalcon\Mvc\Model\Exception("Corrupted SELECT AST");
+		}
+
+		/**
+		 * Check if selected column is qualified.*
+		 */
+		if columnType == PHQL_T_DOMAINALL {
+
+			let sqlAliases = this->_sqlAliases;
+
+			/**
+			 * We only allow the alias.*
+			 */
+			let columnDomain = column["column"];
+
+			if !fetch source, sqlAliases[columnDomain] {
+				throw new Phalcon\Mvc\Model\Exception("Unknown model or alias '" . columnDomain . "' (2), when preparing: " . this->_phql);
+			}
+
+			/**
+			 * Get the SQL alias if any
+			 */
+			let sqlColumnAlias = source;
+
+			/**
+			 * Get the real source name
+			 */
+			let sqlAliasesModels = this->_sqlAliasesModels,
+				modelName = sqlAliasesModels[columnDomain];
+
+			/**
+			 * Get the best alias for the column
+			 */
+			let sqlModelsAliases = this->_sqlModelsAliases,
+				bestAlias = sqlModelsAliases[modelName];
+
+			/**
+			 * If the best alias is the model name we lowercase the first letter
+			 */
+			if bestAlias == modelName {
+				let preparedAlias = lcfirst(modelName);
+			} else {
+				let preparedAlias = bestAlias;
+			}
+
+			/**
+			 * Each item is a complex type returning a complete object
+			 */
+			let sqlColumns[] = [
+				"type":  "object",
+				"model":  modelName,
+				"column": sqlColumnAlias,
+				"balias": preparedAlias
+			];
+
+			return sqlColumns;
+		}
+
+		/**
+		 * Check for columns qualified and not qualified
+		 */
+		if columnType == PHQL_T_EXPR {
+
+			/**
+			 * The sql_column is a scalar type returning a simple string
+			 */
+			let sqlColumn = ["type": "scalar"],
+				columnData = column["column"],
+				sqlExprColumn = this->_getExpression(columnData);
+
+			/**
+			 * Create balias and sqlAlias
+			 */
+			if fetch balias, sqlExprColumn["balias"] {
+				let sqlColumn["balias"] = balias,
+					sqlColumn["sqlAlias"] = balias;
+			}
+
+			let sqlColumn["column"] = sqlExprColumn,
+				sqlColumns[] = sqlColumn;
+
+			return sqlColumns;
+		}
+
+		throw new Phalcon\Mvc\Model\Exception("Unknown type of column " . columnType);
 	}
 
 	/**

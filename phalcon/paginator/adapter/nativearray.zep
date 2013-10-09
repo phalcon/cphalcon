@@ -99,7 +99,7 @@ class NativeArray implements Phalcon\Paginator\AdapterInterface
 		double roundedTotal;
 
 		/**
-		 * TODO: Rewrite the whole method!</comment>
+		 * TODO: Rewrite the whole method!
 		 */
 		let config = this->_config,
 			items  = config["data"];

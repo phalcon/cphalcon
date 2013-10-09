@@ -253,6 +253,7 @@ PHP_METHOD(Phalcon_Events_Manager, fireQueue) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &queue, &event);
 
+	ZEPHIR_SEPARATE_PARAM(queue);
 
 
 	if (((Z_TYPE_P(queue) != IS_ARRAY) && (Z_TYPE_P(queue) != IS_OBJECT))) {
