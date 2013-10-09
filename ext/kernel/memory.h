@@ -117,6 +117,7 @@ extern void PHALCON_FASTCALL phalcon_copy_ctor(zval *destiny, zval *origin);
 			Z_DELREF_P(z); \
 		} else {\
 			zval_ptr_dtor(&z); \
+			z = NULL; \
 		} \
 	} else { \
 		phalcon_memory_observe(&z TSRMLS_CC); \
@@ -159,11 +160,3 @@ extern void PHALCON_FASTCALL phalcon_copy_ctor(zval *destiny, zval *origin);
 			Z_UNSET_ISREF_P(z); \
 		} \
 	}
-
-#define PHALCON_OBSERVE_VAR(var) \
-	if (!var) { \
-		phalcon_memory_observe(&var TSRMLS_CC); \
-	} else { \
-		zval_ptr_dtor(&var); \
-	}
-

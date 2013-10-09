@@ -261,12 +261,12 @@ extern int phalcon_fetch_parameters(int num_args TSRMLS_DC, int required_args, i
 #define phalcon_is_iterable(var, array_hash, hash_pointer, duplicate, reverse) if (!phalcon_is_iterable_ex(var, array_hash, hash_pointer, duplicate, reverse)) { return; }
 
 #define PHALCON_GET_FOREACH_VALUE(var) \
-	PHALCON_OBSERVE_VAR(var); \
+	PHALCON_OBS_NVAR(var); \
 	var = *hd; \
 	Z_ADDREF_P(var);
 
 #define PHALCON_GET_HVALUE(var) \
-	PHALCON_OBSERVE_VAR(var); \
+	PHALCON_OBS_NVAR(var); \
 	var = *hd; \
 	Z_ADDREF_P(var);
 
