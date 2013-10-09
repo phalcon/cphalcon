@@ -1365,14 +1365,12 @@ PHP_METHOD(Phalcon_Mvc_Model, _exists){
 				 * 'exist' check
 				 */
 				if (PHALCON_IS_EMPTY(value)) {
-					PHALCON_SEPARATE(number_empty);
 					phalcon_increment(number_empty);
 				}
 	
 				phalcon_array_append(&unique_params, value, PH_SEPARATE);
 			} else {
 				phalcon_array_append(&unique_params, null_value, PH_SEPARATE);
-				PHALCON_SEPARATE(number_empty);
 				phalcon_increment(number_empty);
 			}
 	
