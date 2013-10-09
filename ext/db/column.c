@@ -93,7 +93,6 @@ PHALCON_INIT_CLASS(Phalcon_Db_Column){
 	zend_declare_class_constant_long(phalcon_db_column_ce, SL("TYPE_TEXT"), 6 TSRMLS_CC);
 	zend_declare_class_constant_long(phalcon_db_column_ce, SL("TYPE_FLOAT"), 7 TSRMLS_CC);
 	zend_declare_class_constant_long(phalcon_db_column_ce, SL("TYPE_BOOLEAN"), 8 TSRMLS_CC);
-	zend_declare_class_constant_long(phalcon_db_column_ce, SL("TYPE_DOUBLE"), 9 TSRMLS_CC);
 	zend_declare_class_constant_long(phalcon_db_column_ce, SL("BIND_PARAM_NULL"), 0 TSRMLS_CC);
 	zend_declare_class_constant_long(phalcon_db_column_ce, SL("BIND_PARAM_INT"), 1 TSRMLS_CC);
 	zend_declare_class_constant_long(phalcon_db_column_ce, SL("BIND_PARAM_STR"), 2 TSRMLS_CC);
@@ -173,12 +172,6 @@ PHP_METHOD(Phalcon_Db_Column, __construct){
 		if (PHALCON_IS_NOT_TRUE(is_numeric)) {
 			PHALCON_INIT_VAR(t1);
 			ZVAL_LONG(t1, 7);
-			is_equal_function(is_numeric, type, t1 TSRMLS_CC);
-		}
-
-		if (PHALCON_IS_NOT_TRUE(is_numeric)) {
-			PHALCON_INIT_NVAR(t1);
-			ZVAL_LONG(t1, 9);
 			is_equal_function(is_numeric, type, t1 TSRMLS_CC);
 		}
 	

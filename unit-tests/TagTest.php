@@ -71,33 +71,4 @@ class TagTest extends PHPUnit_Framework_TestCase
 			$this->assertTrue(true);
 		}
 	}
-
-	public function testIssue947()
-        {
-		$di = new Phalcon\DI\FactoryDefault();
-		\Phalcon\Tag::setDI($di);
-
-		$html = \Phalcon\Tag::radioField(array(
-		    'test',
-		    'value' => 1,
-		    'checked' => 'checked'
-		));
-		$pos = strpos($html, 'checked="checked"');
-		$this->assertTrue($pos !== FALSE);
-
-		$html = \Phalcon\Tag::radioField(array(
-		    'test',
-		    'value' => 0
-		));
-		$pos = strpos($html, 'checked="checked"');
-		$this->assertTrue($pos === FALSE);
-
-		\Phalcon\Tag::setDefault("test", "0");
-		$html = \Phalcon\Tag::radioField(array(
-		    'test',
-		    'value' => 0
-		));
-		$pos = strpos($html, 'checked="checked"');
-		$this->assertTrue($pos !== FALSE);
-	 }
 }

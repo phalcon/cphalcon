@@ -1,3 +1,4 @@
+
 /*
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
@@ -51,10 +52,10 @@
  *   'year' => 1959
  *));
  *
- * //Check if the update was successful
- * if ($status->success() == true) {
+ *\//Check if the update was successful
+ *if ($status->success() == true) {
  *   echo 'OK';
- * }
+ *}
  *</code>
  */
 

@@ -21,6 +21,7 @@ extern zend_class_entry *phalcon_mvc_micro_collection_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Mvc_Micro_Collection);
 
+PHP_METHOD(Phalcon_Mvc_Micro_Collection, _addMap);
 PHP_METHOD(Phalcon_Mvc_Micro_Collection, setPrefix);
 PHP_METHOD(Phalcon_Mvc_Micro_Collection, getPrefix);
 PHP_METHOD(Phalcon_Mvc_Micro_Collection, getHandlers);
@@ -91,6 +92,7 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_micro_collection_options, 0, 0, 2)
 ZEND_END_ARG_INFO()
 
 PHALCON_INIT_FUNCS(phalcon_mvc_micro_collection_method_entry){
+	PHP_ME(Phalcon_Mvc_Micro_Collection, _addMap, NULL, ZEND_ACC_PROTECTED) 
 	PHP_ME(Phalcon_Mvc_Micro_Collection, setPrefix, arginfo_phalcon_mvc_micro_collection_setprefix, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Mvc_Micro_Collection, getPrefix, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Mvc_Micro_Collection, getHandlers, NULL, ZEND_ACC_PUBLIC) 

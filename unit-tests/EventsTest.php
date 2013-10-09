@@ -23,14 +23,9 @@ class LeDummyComponent
 
 	protected $_eventsManager;
 
-	public function setEventsManager($eventsManager)
+	public function setEventManager($eventsManager)
 	{
 		$this->_eventsManager = $eventsManager;
-	}
-
-	public function getEventsManager()
-	{
-		return $this->_eventsManager;
 	}
 
 	public function leAction()
@@ -46,7 +41,7 @@ class LeAnotherComponent
 
 	protected $_eventsManager;
 
-	public function setEventsManager($eventsManager)
+	public function setEventManager($eventsManager)
 	{
 		$this->_eventsManager = $eventsManager;
 	}
@@ -100,22 +95,6 @@ class LeDummyListener
 
 }
 
-class MyFirstWeakrefListener
-{
-	public function afterShow()
-	{
-		echo "show first listener\n";
-	}
-}
-
-class MySecondWeakrefListener
-{
-	public function afterShow()
-	{
-		echo "show second listener\n";
-	}
-}
-
 class EventsTest extends PHPUnit_Framework_TestCase
 {
 
@@ -130,10 +109,10 @@ class EventsTest extends PHPUnit_Framework_TestCase
 		$eventsManager->attach('dummy', $listener);
 
 		$component = new LeDummyComponent();
-		$component->setEventsManager($eventsManager);
+		$component->setEventManager($eventsManager);
 
 		$another = new LeAnotherComponent();
-		$another->setEventsManager($eventsManager);
+		$another->setEventManager($eventsManager);
 
 		$component->leAction();
 		$component->leAction();
@@ -163,7 +142,7 @@ class EventsTest extends PHPUnit_Framework_TestCase
 		//This is failling :(
 		$eventsManager->dettach('dummy', $listener);*/
 
-		/*$eventsManager->detachAll('dummy');
+		/*$eventsManager->dettachAll('dummy');
 
 		$component->leAction();
 		$component->leAction();
@@ -190,139 +169,5 @@ class EventsTest extends PHPUnit_Framework_TestCase
 		$eventsManager->fire('some-type:beforeSome', $this);
 
 		$this->assertEquals($number, 1);
-	}
-
-	/**
-	 * "Attaching event listeners by event name fails if preceded by
-	 * detachment of all listeners for that type."
-	 *
-	 * Test contains 4 steps:
-	 * - assigning event manager to dummy service with single log event
-	 *   listener attached
-	 * - attaching second log listener
-	 * - detaching all log listeners
-	 * - attaching different listener
-	 *
-	 * @see https://github.com/phalcon/cphalcon/issues/1331
-	 */
-	public function testBug1331()
-	{
-		$di = new Phalcon\Di;
-		$di->set('componentX', function() use ($di) {
-			$component = new LeDummyComponent();
-			$eventsManager = new Phalcon\Events\Manager;
-			$eventsManager->attach('log', $di->get('MyFirstWeakrefListener'));
-			$component->setEventsManager($eventsManager);
-			return $component;
-		});
-
-		$di->set('firstListener', 'MyFirstWeakrefListener');
-		$di->set('secondListener', 'MySecondWeakrefListener');
-
-		// ----- TESTING STEP 1 - SIGNLE 'LOG' LISTENER ATTACHED
-
-		$component = $di->get('componentX');
-
-		$logListeners = $component->getEventsManager()->getListeners('log');
-
-		$this->assertCount(1, $logListeners);
-		$this->assertInstanceOf('MyFirstWeakrefListener', $logListeners[0]);
-
-		// ----- TESTING STEP 2 - SECOND 'LOG' LISTENER ATTACHED
-
-		$component->getEventsManager()->attach('log', $di->get('MySecondWeakrefListener'));
-
-		$logListeners = $component->getEventsManager()->getListeners('log');
-
-		$this->assertCount(2, $logListeners);
-		$firstLister  = array_shift($logListeners);
-		$secondLister = array_shift($logListeners);
-		$this->assertInstanceOf('MyFirstWeakrefListener', $firstLister);
-		$this->assertInstanceOf('MySecondWeakrefListener', $secondLister);
-
-		// ----- TESTING STEP 3 - ALL 'LOG' LISTENER DETACHED
-
-		$component->getEventsManager()->detachAll('log');
-
-		$logListeners = $component->getEventsManager()->getListeners('log');
-		$this->assertEmpty($logListeners);
-
-		// ----- TESTING STEP 4 - SINGLE 'LOG' LISTENER ATTACHED SECOND TIME
-
-		$component->getEventsManager()->attach('log', $di->get('MySecondWeakrefListener'));
-
-		$logListeners = $component->getEventsManager()->getListeners('log');
-
-		$this->assertCount(1, $logListeners);
-		$this->assertInstanceOf('MySecondWeakrefListener', $logListeners[0]);
-	}
-
-	/**
-	 * "Attaching event listeners by event name fails if preceded by
-	 * detachment of all listeners for that type."
-	 *
-	 * Test contains 4 steps:
-	 * - assigning event manager to dummy service with single log event
-	 *   listener attached
-	 * - attaching second log listener
-	 * - detaching all log listeners
-	 * - attaching different listener
-	 *
-	 * NOTE: This test looks the same as above but it checks detachAll()
-	 * instead of detachAll() method. To be DELETED when detachAll()
-	 * will not supported any more.
-	 *
-	 * @see https://github.com/phalcon/cphalcon/issues/1331
-	 */
-	public function testBug1331BackwardCompatibility()
-	{
-		$di = new Phalcon\Di;
-		$di->set('componentX', function() use ($di) {
-			$component = new LeDummyComponent();
-			$eventsManager = new Phalcon\Events\Manager;
-			$eventsManager->attach('log', $di->get('MyFirstWeakrefListener'));
-			$component->setEventsManager($eventsManager);
-			return $component;
-		});
-
-		$di->set('firstListener', 'MyFirstWeakrefListener');
-		$di->set('secondListener', 'MySecondWeakrefListener');
-
-		// ----- TESTING STEP 1 - SIGNLE 'LOG' LISTENER ATTACHED
-
-		$component = $di->get('componentX');
-
-		$logListeners = $component->getEventsManager()->getListeners('log');
-
-		$this->assertCount(1, $logListeners);
-		$this->assertInstanceOf('MyFirstWeakrefListener', $logListeners[0]);
-
-		// ----- TESTING STEP 2 - SECOND 'LOG' LISTENER ATTACHED
-
-		$component->getEventsManager()->attach('log', $di->get('MySecondWeakrefListener'));
-
-		$logListeners = $component->getEventsManager()->getListeners('log');
-
-		$this->assertCount(2, $logListeners);
-		$firstLister  = array_shift($logListeners);
-		$secondLister = array_shift($logListeners);
-		$this->assertInstanceOf('MyFirstWeakrefListener', $firstLister);
-		$this->assertInstanceOf('MySecondWeakrefListener', $secondLister);
-
-		// ----- TESTING STEP 3 - ALL 'LOG' LISTENER DETACHED
-
-		$component->getEventsManager()->detachAll('log');
-
-		$logListeners = $component->getEventsManager()->getListeners('log');
-		$this->assertEmpty($logListeners);
-
-		// ----- TESTING STEP 4 - SINGLE 'LOG' LISTENER ATTACHED SECOND TIME
-
-		$component->getEventsManager()->attach('log', $di->get('MySecondWeakrefListener'));
-
-		$logListeners = $component->getEventsManager()->getListeners('log');
-
-		$this->assertCount(1, $logListeners);
-		$this->assertInstanceOf('MySecondWeakrefListener', $logListeners[0]);
 	}
 }

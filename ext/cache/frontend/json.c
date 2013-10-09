@@ -1,3 +1,4 @@
+
 /*
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
@@ -53,7 +54,7 @@
  *    "lifetime" => 172800
  * ));
  *
- * //Create the Cache setting memcached connection options
+* //Create the Cache setting memcached connection options
  * $cache = new Phalcon\Cache\Backend\Memcache($frontCache, array(
  *		'host' => 'localhost',
  *		'port' => 11211,

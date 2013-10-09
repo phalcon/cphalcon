@@ -46,7 +46,19 @@ void phalcon_throw_exception(zval *object TSRMLS_DC){
  */
 void phalcon_throw_exception_string(zend_class_entry *ce, const char *message, zend_uint message_len, int restore_stack TSRMLS_DC){
 
-	zend_throw_exception_ex(ce, 0 TSRMLS_CC, "%s", message);
+	zval *object, *msg;
+
+	ALLOC_INIT_ZVAL(object);
+	object_init_ex(object, ce);
+
+	ALLOC_INIT_ZVAL(msg);
+	ZVAL_STRINGL(msg, message, message_len, 1);
+
+	phalcon_call_method_p1_noret(object, "__construct", msg);
+
+	zend_throw_exception_object(object TSRMLS_CC);
+
+	zval_ptr_dtor(&msg);
 
 	if (restore_stack) {
 		phalcon_memory_restore_stack(TSRMLS_C);
@@ -106,3 +118,37 @@ void phalcon_throw_exception_internal(zval *exception TSRMLS_DC) {
 	EG(current_execute_data)->opline = EG(exception_op);
 
 }
+
+/*void phalcon_try_execute(zval *success, zval *return_value, zval *call_object, zval *params, zval **exception TSRMLS_DC){
+
+	zval *fn = NULL;
+	int status = FAILURE;
+	zval *func_params[] = { call_object, params };
+
+	PHALCON_ALLOC_ZVAL(fn);
+	ZVAL_STRING(fn, "call_user_func_array", 0);
+
+	status = phalcon_call_user_function(CG(function_table), NULL, fn, return_value, 2, func_params TSRMLS_CC);
+	if (status == FAILURE) {
+		php_error_docref(NULL TSRMLS_CC, E_ERROR, "Call to undefined function call_user_func_array()");
+	}
+
+	ZVAL_NULL(fn);
+	zval_ptr_dtor(&fn);
+
+	if (status == SUCCESS) {
+		zend_exception_restore(TSRMLS_C);
+		if (EG(exception)) {
+			zval_ptr_dtor(exception);
+			*exception = EG(exception);
+			EG(exception) = NULL;
+			EG(current_execute_data)->opline->opcode = 40;
+			ZVAL_BOOL(success, 0);
+		} else {
+			ZVAL_BOOL(success, 1);
+		}
+	} else {
+		ZVAL_BOOL(success, 0);
+	}
+
+}*/

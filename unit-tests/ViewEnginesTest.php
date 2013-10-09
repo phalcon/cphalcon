@@ -21,14 +21,14 @@
 /**
  * Adapter to use Mustache library as templating engine
  */
-class My_Mustache_Engine extends \Phalcon\Mvc\View\Engine implements \Phalcon\Mvc\View\EngineInterface
+class My_Mustache_Engine extends \Phalcon\Mvc\View\Engine
 {
 
 	protected $_mustache;
 
 	protected $_params;
 
-	public function __construct($view, $di = null)
+	public function __construct(Phalcon\Mvc\View $view, Phalcon\DI $di)
 	{
 		$this->_mustache = new Mustache_Engine();
 		parent::__construct($view, $di);
@@ -53,12 +53,12 @@ class My_Mustache_Engine extends \Phalcon\Mvc\View\Engine implements \Phalcon\Mv
 /**
  * Adapter to use Twig library as templating engine
  */
-class My_Twig_Engine extends \Phalcon\Mvc\View\Engine implements \Phalcon\Mvc\View\EngineInterface
+class My_Twig_Engine extends \Phalcon\Mvc\View\Engine
 {
 
 	protected $_twig;
 
-	public function __construct($view, $di = null)
+	public function __construct(Phalcon\Mvc\View $view, Phalcon\DI $di)
 	{
 		$loader = new Twig_Loader_Filesystem($view->getViewsDir());
 		$this->_twig = new Twig_Environment($loader);

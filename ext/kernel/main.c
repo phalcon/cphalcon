@@ -360,28 +360,3 @@ int phalcon_fetch_parameters(int num_args TSRMLS_DC, int required_args, int opti
 
 	return SUCCESS;
 }
-
-int phalcon_fetch_parameters_ex(int dummy TSRMLS_DC, int n_req, int n_opt, ...)
-{
-	void **p;
-	int arg_count, param_count;
-	va_list ptr;
-
-	p           = zend_vm_stack_top(TSRMLS_C) - 1;
-	arg_count   = (int)(zend_uintptr_t)*p;
-	param_count = n_req + n_opt;
-
-	if (param_count < arg_count || n_req > arg_count) {
-		return FAILURE;
-	}
-
-	va_start(ptr, n_opt);
-	while (arg_count > 0) {
-		zval ***param = va_arg(ptr, zval ***);
-		*param = (zval**)p - arg_count;
-		--arg_count;
-	}
-
-	va_end(ptr);
-	return SUCCESS;
-}

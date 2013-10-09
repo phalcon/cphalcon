@@ -1404,8 +1404,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, save){
 	/** 
 	 * We always use safe stores to get the success state
 	 */
-	MAKE_STD_ZVAL(options);
-	Z_SET_REFCOUNT_P(options, 0);
+	PHALCON_INIT_VAR(options);
 	array_init_size(options, 1);
 	add_assoc_bool_ex(options, SS("safe"), 1);
 	
@@ -1413,7 +1412,13 @@ PHP_METHOD(Phalcon_Mvc_Collection, save){
 	 * Save the document
 	 */
 	PHALCON_INIT_NVAR(status);
+	Z_SET_ISREF_P(options);
+	Z_ADDREF_P(options);
 	phalcon_call_method_p2(status, collection, "save", data, options);
+	if (Z_REFCOUNT_P(options) > 1) {
+		Z_UNSET_ISREF_P(options);
+		Z_DELREF_P(options);
+	}
 
 	if (Z_TYPE_P(status) == IS_ARRAY) { 
 		if (phalcon_array_isset_string(status, SS("ok"))) {

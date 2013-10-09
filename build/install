@@ -28,11 +28,9 @@ if [ $? != 0 ]; then
 		export CFLAGS="-O2 -fno-delete-null-pointer-checks"
 	fi
 fi
-
 if [ $(gcc -dumpversion | cut -f1 -d.) -ge 4 ]; then
 	gcc $CFLAGS -fvisibility=hidden t.c -o t 2> t.t && export CFLAGS="$CFLAGS -fvisibility=hidden"
 fi
-
 #gcc $CFLAGS -flto t.c -o t 2> t.t && { export CFLAGS="$CFLAGS -flto"; export LDFLAGS="$LDFLAGS $CFLAGS"; }
 rm -f t.t t.c t
 
@@ -59,5 +57,13 @@ if [ -f Makefile ]; then
 	phpize --clean
 fi
 
+LIBTOOLIZE_BIN="libtoolize"
+
+#GNU 'libtoolize' on MAC OS X is called 'glibtoolize'
+if [ "$(uname -s 2>/dev/null)" = "Darwin" ] && $(which glibtoolize > /dev/null 2>&1)
+then
+  LIBTOOLIZE_BIN="glibtoolize"
+fi
+
 #Perform the compilation
-phpize && ./configure --enable-phalcon && make && make install && echo -e "\nThanks for compiling Phalcon!\nBuild succeed: Please restart your web server to complete the installation"
+phpize && aclocal && $LIBTOOLIZE_BIN --force && autoheader && autoconf && ./configure --enable-phalcon && make && make install && echo -e "\nThanks for compiling Phalcon!\nBuild succeed: Please restart your web server to complete the installation"

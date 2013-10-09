@@ -20,7 +20,7 @@
 #ifndef PHP_PHALCON_H
 #define PHP_PHALCON_H 1
 
-#define PHP_PHALCON_VERSION "1.2.4"
+#define PHP_PHALCON_VERSION "1.2.3"
 #define PHP_PHALCON_EXTNAME "phalcon"
 
 /** Memory frame */

@@ -91,33 +91,6 @@ class PHPUnit_Framework_TestCase
 		echo 'Skipped: ' . $message . PHP_EOL;
 	}
 
-	public function assertContainsOnlyInstancesOf($classname, $haystack, $message = '')
-	{
-		if (!(is_array($haystack) || is_object($haystack) && $haystack instanceof Traversable)) {
-			throw new Exception('$haystack has to be an array or iterator');
-		}
-
-		foreach ($haystack as $item) {
-			if (!($item instanceof $classname)) {
-				throw new Exception('assertContainsOnlyInstancesOf');
-			}
-		}
-	}
-
-	public function assertCount($expected, $haystack, $message = '')
-	{
-		if (count($haystack) != $expected) {
-			throw new Exception('assertCount');
-		}
-	}
-
-	public function assertEmpty($haystack, $message = '')
-	{
-		if (!empty($haystack)) {
-			throw new Exception('empty');
-		}
-	}
-
 	public static function main($className)
 	{
 		echo 'Testing ', $className, ' ';

@@ -37,7 +37,6 @@
 #include "kernel/memory.h"
 #include "kernel/fcall.h"
 #include "kernel/object.h"
-#include "kernel/operators.h"
 #include "kernel/exception.h"
 
 #include "logger/adapter/firephp.h"
@@ -107,8 +106,7 @@ PHP_METHOD(Phalcon_Logger_Adapter_Firephp, logInternal){
 	sapi_header_line h = { NULL, 0, 0 };
 	smart_str str      = { NULL, 0, 0 };
 	int size, offset, num_bytes;
-	const int chunk = 4500;
-	int separated_index = 0;
+	const int chunk = 4960;
 
 	/* If headers has already been sent, we can do nothing. Exit early. */
 	if (SG(headers_sent)) {
@@ -122,8 +120,8 @@ PHP_METHOD(Phalcon_Logger_Adapter_Firephp, logInternal){
 	PHALCON_INIT_VAR(formatter);
 	phalcon_call_method(formatter, this_ptr, "getformatter");
 
+	PHALCON_OBS_VAR(initialized);
 	phalcon_read_static_property(&initialized, SL("phalcon\\logger\\adapter\\firephp"), SL("_initialized") TSRMLS_CC);
-	Z_DELREF_P(initialized);
 	if (!zend_is_true(initialized)) {
 		/**
 		 * Send the required initialization headers.
@@ -143,16 +141,7 @@ PHP_METHOD(Phalcon_Logger_Adapter_Firephp, logInternal){
 		h.line_len = sizeof("X-Wf-1-Structure-1: http://meta.firephp.org/Wildfire/Structure/FirePHP/FirebugConsole/0.1")-1;
 		sapi_header_op(SAPI_HEADER_REPLACE, &h TSRMLS_CC);
 
-		if (Z_REFCOUNT_P(initialized) == 1) {
-			zval_dtor(initialized);
-			ZVAL_TRUE(initialized); /* This will also update the property because "initialized" was not separated */
-		}
-		else {
-			MAKE_STD_ZVAL(initialized);
-			ZVAL_TRUE(initialized);
-			Z_DELREF_P(initialized);
-			phalcon_update_static_property_nts(phalcon_logger_adapter_firephp_ce, SL("_initialized"), initialized TSRMLS_CC);
-		}
+		ZVAL_TRUE(initialized); /* This will also update the property because "initialized" was not separated */
 	}
 
 	PHALCON_INIT_VAR(applied_format);
@@ -162,15 +151,8 @@ PHP_METHOD(Phalcon_Logger_Adapter_Firephp, logInternal){
 		return;
 	}
 
+	PHALCON_OBS_VAR(index);
 	phalcon_read_static_property(&index, SL("phalcon\\logger\\adapter\\firephp"), SL("_index") TSRMLS_CC);
-	Z_DELREF_P(index);
-
-	if (Z_REFCOUNT_P(index) > 1) {
-		long int idx = phalcon_get_intval(index);
-		PHALCON_INIT_VAR(index);
-		ZVAL_LONG(index, idx);
-		separated_index = 1;
-	}
 
 	size   = Z_STRLEN_P(applied_format);
 	offset = 0;
@@ -218,10 +200,6 @@ PHP_METHOD(Phalcon_Logger_Adapter_Firephp, logInternal){
 		 * is empty. We will take care of deallocation later.
 		 */
 		str.len = 0;
-	}
-
-	if (separated_index) {
-		phalcon_update_static_property_nts(phalcon_logger_adapter_firephp_ce, SL("_index"), index TSRMLS_CC);
 	}
 
 	/* Deallocate the smnart string if it is not empty */

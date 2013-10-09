@@ -137,6 +137,8 @@ class ResponseTest extends PHPUnit_Framework_TestCase
 
 	public function testRedirect()
 	{
+
+
 		//local URI
 		$this->_response->resetHeaders();
 
@@ -144,8 +146,8 @@ class ResponseTest extends PHPUnit_Framework_TestCase
 
 		$this->assertEquals(Phalcon\Http\Response\Headers::__set_state(array(
 			'_headers' => array(
-				'HTTP/1.1 302 Found' => false,
-				'Status' => '302 Found',
+				'HTTP/1.1 302 Redirect' => false,
+				'Status' => '302 Redirect',
 				'Location' => '/some/local/uri'
 			)
 		)), $this->_response->getHeaders());
@@ -157,8 +159,8 @@ class ResponseTest extends PHPUnit_Framework_TestCase
 
 		$this->assertEquals(Phalcon\Http\Response\Headers::__set_state(array(
 			'_headers' => array(
-				'HTTP/1.1 302 Found' => false,
-				'Status' => '302 Found',
+				'HTTP/1.1 302 Redirect' => false,
+				'Status' => '302 Redirect',
 				'Location' => 'http://google.com'
 			)
 		)), $this->_response->getHeaders());
@@ -170,11 +172,12 @@ class ResponseTest extends PHPUnit_Framework_TestCase
 
 		$this->assertEquals(Phalcon\Http\Response\Headers::__set_state(array(
 			'_headers' => array(
-				'HTTP/1.1 301 Moved Permanently' => false,
-				'Status' => '301 Moved Permanently',
+				'HTTP/1.1 301 Redirect' => false,
+				'Status' => '301 Redirect',
 				'Location' => 'http://google.com'
 			)
 		)), $this->_response->getHeaders());
+
 	}
 
 	public function testContent()

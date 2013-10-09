@@ -35,7 +35,6 @@
 #include "ext/standard/base64.h"
 #include "ext/standard/md5.h"
 #include "ext/standard/url.h"
-#include "ext/standard/html.h"
 
 #ifdef PHALCON_USE_PHP_PCRE
 #include "ext/pcre/php_pcre.h"
@@ -1283,33 +1282,4 @@ int phalcon_http_build_query(zval *return_value, zval *params, char *sep TSRMLS_
 	}
 
 	return FAILURE;
-}
-
-void phalcon_htmlspecialchars(zval *return_value, zval *string, zval *quoting, zval *charset TSRMLS_DC)
-{
-	zval copy;
-	char *escaped, *cs;
-	int qs, use_copy = 0;
-#if PHP_VERSION_ID < 50400
-	int escaped_len;
-#else
-	size_t escaped_len;
-#endif
-
-	if (unlikely(Z_TYPE_P(string) != IS_STRING)) {
-		zend_make_printable_zval(string, &copy, &use_copy);
-		if (use_copy) {
-			string = &copy;
-		}
-	}
-
-	cs = (charset && Z_TYPE_P(charset) == IS_STRING) ? Z_STRVAL_P(charset) : NULL;
-	qs = (quoting && Z_TYPE_P(quoting) == IS_LONG)   ? Z_LVAL_P(quoting)   : ENT_COMPAT;
-
-	escaped = php_escape_html_entities_ex((unsigned char *)(Z_STRVAL_P(string)), Z_STRLEN_P(string), &escaped_len, 0, qs, cs, 1 TSRMLS_CC);
-	ZVAL_STRINGL(return_value, escaped, escaped_len, 0);
-
-	if (unlikely(use_copy)) {
-		zval_dtor(&copy);
-	}
 }

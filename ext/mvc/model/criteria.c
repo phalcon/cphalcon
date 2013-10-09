@@ -120,7 +120,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, getDI){
  * Set a model on which the query will be executed
  *
  * @param string $modelName
- * @return Phalcon\Mvc\Model\CriteriaInterface
+ * @return Phalcon\Mvc\Model\Criteria
  */
 PHP_METHOD(Phalcon_Mvc_Model_Criteria, setModelName){
 
@@ -158,7 +158,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, getModelName){
  * This method replaces all previously set bound parameters
  *
  * @param string $bindParams
- * @return Phalcon\Mvc\Model\CriteriaInterface
+ * @return Phalcon\Mvc\Model\Criteria
  */
 PHP_METHOD(Phalcon_Mvc_Model_Criteria, bind){
 
@@ -180,7 +180,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, bind){
  * This method replaces all previously set bound parameters
  *
  * @param string $bindTypes
- * @return Phalcon\Mvc\Model\CriteriaInterface
+ * @return Phalcon\Mvc\Model\Criteria
  */
 PHP_METHOD(Phalcon_Mvc_Model_Criteria, bindTypes){
 
@@ -205,7 +205,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, bindTypes){
  *</code>
  *
  * @param string|array $columns
- * @return Phalcon\Mvc\Model\CriteriaInterface
+ * @return Phalcon\Mvc\Model\Query\Builder
  */
 PHP_METHOD(Phalcon_Mvc_Model_Criteria, columns){
 
@@ -231,7 +231,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, columns){
  * @param string $conditions
  * @param string $alias
  * @param string $type
- * @return Phalcon\Mvc\Model\CriteriaInterface
+ * @return Phalcon\Mvc\Model\Query\Builder
  */
 PHP_METHOD(Phalcon_Mvc_Model_Criteria, join){
 
@@ -297,7 +297,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, join){
  * @param string $model
  * @param string $conditions
  * @param string $alias
- * @return Phalcon\Mvc\Model\CriteriaInterface
+ * @param string $type
+ * @return Phalcon\Mvc\Model\Query\Builder
  */
 PHP_METHOD(Phalcon_Mvc_Model_Criteria, innerJoin){
 
@@ -359,7 +360,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, innerJoin){
  * @param string $model
  * @param string $conditions
  * @param string $alias
- * @return Phalcon\Mvc\Model\CriteriaInterface
+ * @return Phalcon\Mvc\Model\Query\Builder
  */
 PHP_METHOD(Phalcon_Mvc_Model_Criteria, leftJoin){
 
@@ -421,7 +422,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, leftJoin){
  * @param string $model
  * @param string $conditions
  * @param string $alias
- * @return Phalcon\Mvc\Model\CriteriaInterface
+ * @return Phalcon\Mvc\Model\Query\Builder
  */
 PHP_METHOD(Phalcon_Mvc_Model_Criteria, rightJoin){
 
@@ -479,7 +480,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, rightJoin){
  * @param string $conditions
  * @param array $bindParams
  * @param array $bindTypes
- * @return Phalcon\Mvc\Model\CriteriaInterface
+ * @return Phalcon\Mvc\Model\Criteria
  */
 PHP_METHOD(Phalcon_Mvc_Model_Criteria, where){
 
@@ -554,7 +555,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, where){
  * @param string $conditions
  * @param array $bindParams
  * @param array $bindTypes
- * @return Phalcon\Mvc\Model\CriteriaInterface
+ * @return Phalcon\Mvc\Model\Criteria
  */
 PHP_METHOD(Phalcon_Mvc_Model_Criteria, addWhere){
 
@@ -582,7 +583,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, addWhere){
  * @param string $conditions
  * @param array $bindParams
  * @param array $bindTypes
- * @return Phalcon\Mvc\Model\CriteriaInterface
+ * @return Phalcon\Mvc\Model\Criteria
  */
 PHP_METHOD(Phalcon_Mvc_Model_Criteria, andWhere){
 
@@ -671,7 +672,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, andWhere){
  * @param string $conditions
  * @param array $bindParams
  * @param array $bindTypes
- * @return Phalcon\Mvc\Model\CriteriaInterface
+ * @return Phalcon\Mvc\Model\Criteria
  */
 PHP_METHOD(Phalcon_Mvc_Model_Criteria, orWhere){
 
@@ -764,7 +765,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, orWhere){
  * @param string $expr
  * @param mixed $minimum
  * @param mixed $maximum
- * @return Phalcon\Mvc\Model\CriteriaInterface
+ * @return Phalcon\Mvc\Model\Query\Builder
  */
 PHP_METHOD(Phalcon_Mvc_Model_Criteria, betweenWhere){
 
@@ -812,6 +813,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, betweenWhere){
 	 * Append the BETWEEN to the current conditions using and 'and'
 	 */
 	phalcon_call_method_p2_noret(this_ptr, "andwhere", conditions, bind_params);
+	PHALCON_SEPARATE(next_hidden_param);
 	phalcon_increment(next_hidden_param);
 	phalcon_update_property_this(this_ptr, SL("_hiddenParamNumber"), next_hidden_param TSRMLS_CC);
 	RETURN_THIS();
@@ -827,7 +829,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, betweenWhere){
  * @param string $expr
  * @param mixed $minimum
  * @param mixed $maximum
- * @return Phalcon\Mvc\Model\CriteriaInterface
+ * @return Phalcon\Mvc\Model\Query\Builder
  */
 PHP_METHOD(Phalcon_Mvc_Model_Criteria, notBetweenWhere){
 
@@ -875,6 +877,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, notBetweenWhere){
 	 * Append the BETWEEN to the current conditions using and 'and'
 	 */
 	phalcon_call_method_p2_noret(this_ptr, "andwhere", conditions, bind_params);
+	PHALCON_SEPARATE(next_hidden_param);
 	phalcon_increment(next_hidden_param);
 	phalcon_update_property_this(this_ptr, SL("_hiddenParamNumber"), next_hidden_param TSRMLS_CC);
 	RETURN_THIS();
@@ -889,7 +892,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, notBetweenWhere){
  *
  * @param string $expr
  * @param array $values
- * @return Phalcon\Mvc\Model\CriteriaInterface
+ * @return Phalcon\Mvc\Model\Query\Builder
  */
 PHP_METHOD(Phalcon_Mvc_Model_Criteria, inWhere){
 
@@ -911,7 +914,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, inWhere){
 	
 	PHALCON_OBS_VAR(hidden_param);
 	phalcon_read_property_this(&hidden_param, this_ptr, SL("_hiddenParamNumber"), PH_NOISY_CC);
-	SEPARATE_ZVAL(&hidden_param);
 	
 	PHALCON_INIT_VAR(bind_params);
 	array_init(bind_params);
@@ -935,6 +937,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, inWhere){
 		PHALCON_CONCAT_SVS(query_key, ":", key, ":");
 		phalcon_array_append(&bind_keys, query_key, PH_SEPARATE);
 		phalcon_array_update_zval(&bind_params, key, &value, PH_COPY | PH_SEPARATE);
+		PHALCON_SEPARATE(hidden_param);
 		phalcon_increment(hidden_param);
 	
 		zend_hash_move_forward_ex(ah0, &hp0);
@@ -967,7 +970,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, inWhere){
  *
  * @param string $expr
  * @param array $values
- * @return Phalcon\Mvc\Model\CriteriaInterface
+ * @return Phalcon\Mvc\Model\Query\Builder
  */
 PHP_METHOD(Phalcon_Mvc_Model_Criteria, notInWhere){
 
@@ -989,7 +992,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, notInWhere){
 	
 	PHALCON_OBS_VAR(hidden_param);
 	phalcon_read_property_this(&hidden_param, this_ptr, SL("_hiddenParamNumber"), PH_NOISY_CC);
-	SEPARATE_ZVAL(&hidden_param);
 	
 	PHALCON_INIT_VAR(bind_params);
 	array_init(bind_params);
@@ -1013,6 +1015,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, notInWhere){
 		PHALCON_CONCAT_SVS(query_key, ":", key, ":");
 		phalcon_array_append(&bind_keys, query_key, PH_SEPARATE);
 		phalcon_array_update_zval(&bind_params, key, &value, PH_COPY | PH_SEPARATE);
+		PHALCON_SEPARATE(hidden_param);
 		phalcon_increment(hidden_param);
 	
 		zend_hash_move_forward_ex(ah0, &hp0);
@@ -1040,7 +1043,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, notInWhere){
  * Adds the conditions parameter to the criteria
  *
  * @param string $conditions
- * @return Phalcon\Mvc\Model\CriteriaIntreface
+ * @return Phalcon\Mvc\Model\Criteria
  */
 PHP_METHOD(Phalcon_Mvc_Model_Criteria, conditions){
 
@@ -1061,7 +1064,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, conditions){
  * Adds the order-by parameter to the criteria (deprecated)
  *
  * @param string $orderColumns
- * @return Phalcon\Mvc\Model\CriteriaInterface
+ * @return Phalcon\Mvc\Model\Criteria
  */
 PHP_METHOD(Phalcon_Mvc_Model_Criteria, order){
 
@@ -1082,7 +1085,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, order){
  * Adds the order-by parameter to the criteria
  *
  * @param string $orderColumns
- * @return Phalcon\Mvc\Model\CriteriaInterface
+ * @return Phalcon\Mvc\Model\Criteria
  */
 PHP_METHOD(Phalcon_Mvc_Model_Criteria, orderBy){
 
@@ -1104,7 +1107,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, orderBy){
  *
  * @param int $limit
  * @param int $offset
- * @return Phalcon\Mvc\Model\CriteriaInterface
+ * @return Phalcon\Mvc\Model\Criteria
  */
 PHP_METHOD(Phalcon_Mvc_Model_Criteria, limit){
 
@@ -1139,7 +1142,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, limit){
  * Adds the "for_update" parameter to the criteria
  *
  * @param boolean $forUpdate
- * @return Phalcon\Mvc\Model\CriteriaInterface
+ * @return Phalcon\Mvc\Model\Criteria
  */
 PHP_METHOD(Phalcon_Mvc_Model_Criteria, forUpdate){
 
@@ -1162,7 +1165,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, forUpdate){
  * Adds the "shared_lock" parameter to the criteria
  *
  * @param boolean $sharedLock
- * @return Phalcon\Mvc\Model\CriteriaInterface
+ * @return Phalcon\Mvc\Model\Criteria
  */
 PHP_METHOD(Phalcon_Mvc_Model_Criteria, sharedLock){
 
@@ -1294,7 +1297,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, getOrder){
 /**
  * Returns all the parameters defined in the criteria
  *
- * @return array
+ * @return string
  */
 PHP_METHOD(Phalcon_Mvc_Model_Criteria, getParams){
 
@@ -1308,7 +1311,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, getParams){
  * @param Phalcon\DiInterface $dependencyInjector
  * @param string $modelName
  * @param array $data
- * @return Phalcon\Mvc\Model\Criteria
+ * @return static
  */
 PHP_METHOD(Phalcon_Mvc_Model_Criteria, fromInput){
 

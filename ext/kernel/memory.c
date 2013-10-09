@@ -46,6 +46,62 @@
  */
 
 /**
+ * Initializes/Reinitializes a variable
+ */
+inline void phalcon_init_nvar(zval **var TSRMLS_DC) {
+	if (*var) {
+		if (Z_REFCOUNT_PP(var) > 1) {
+			Z_DELREF_PP(var);
+			ALLOC_ZVAL(*var);
+			Z_SET_REFCOUNT_PP(var, 1);
+			Z_UNSET_ISREF_PP(var);
+		} else {
+			zval_ptr_dtor(var);
+			PHALCON_ALLOC_ZVAL(*var);
+		}
+	} else {
+		phalcon_memory_alloc(var TSRMLS_CC);
+	}
+}
+
+/**
+ * Copy/Write variables caring of reference counting
+ */
+inline void phalcon_cpy_wrt(zval **dest, zval *var TSRMLS_DC) {
+
+	if (*dest) {
+		if (Z_REFCOUNT_PP(dest) > 0) {
+			zval_ptr_dtor(dest);
+		}
+	} else {
+		phalcon_memory_observe(dest TSRMLS_CC);
+	}
+
+	Z_ADDREF_P(var);
+	*dest = var;
+}
+
+/**
+ * Copy/Write variables caring of reference counting also duplicating the origin ctor
+ */
+inline void phalcon_cpy_wrt_ctor(zval **dest, zval *var TSRMLS_DC) {
+
+	if (*dest) {
+		if (Z_REFCOUNT_PP(dest) > 0) {
+			zval_ptr_dtor(dest);
+		}
+	} else {
+		phalcon_memory_observe(dest TSRMLS_CC);
+	}
+
+	Z_ADDREF_P(var);
+	*dest = var;
+	zval_copy_ctor(*dest);
+	Z_SET_REFCOUNT_PP(dest, 1);
+	Z_UNSET_ISREF_PP(dest);
+}
+
+/**
  * Adds a memory frame in the current executed method
  */
 void PHALCON_FASTCALL phalcon_memory_grow_stack(TSRMLS_D) {
