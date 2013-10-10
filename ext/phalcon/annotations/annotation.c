@@ -137,7 +137,7 @@ PHP_METHOD(Phalcon_Annotations_Annotation, getExpression) {
 	zend_function *_5 = NULL;
 	HashTable *_2;
 	HashPosition _1;
-	zval *expr, *value = NULL, *item = NULL, *resolvedItem = NULL, *arrayValue = NULL, *name, *type, *_0, **_3, *_4, *_6, *_7, *_8;
+	zval *expr, *value = NULL, *item = NULL, *resolvedItem = NULL, *arrayValue = NULL, *name, *type, *_0, **_3, *_4, *_6, *_7;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &expr);
@@ -198,10 +198,8 @@ PHP_METHOD(Phalcon_Annotations_Annotation, getExpression) {
 		ZEPHIR_INIT_VAR(_6);
 		object_init_ex(_6, phalcon_annotations_exception_ce);
 		ZEPHIR_INIT_VAR(_7);
-		ZEPHIR_CONCAT_SV(_7, "The expression ", type);
-		ZEPHIR_INIT_VAR(_8);
-		ZEPHIR_CONCAT_VS(_8, _7, " is unknown");
-		zephir_call_method_p1_noret(_6, "__construct", _8);
+		ZEPHIR_CONCAT_SVS(_7, "The expression ", type, " is unknown");
+		zephir_call_method_p1_noret(_6, "__construct", _7);
 		zephir_throw_exception(_6 TSRMLS_CC);
 		ZEPHIR_MM_RESTORE();
 		return;

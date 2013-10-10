@@ -160,7 +160,7 @@ PHP_METHOD(Phalcon_Mvc_Url, setStaticBaseUri) {
  */
 PHP_METHOD(Phalcon_Mvc_Url, getBaseUri) {
 
-	zval *baseUri, *phpSelf, *uri, *_SERVER, *_0;
+	zval *baseUri, *phpSelf, *uri, *_SERVER;
 
 	ZEPHIR_MM_GROW();
 
@@ -178,9 +178,7 @@ PHP_METHOD(Phalcon_Mvc_Url, getBaseUri) {
 		if (!(zephir_is_true(uri))) {
 			ZVAL_STRING(baseUri, "/", 1);
 		} else {
-			ZEPHIR_INIT_VAR(_0);
-			ZEPHIR_CONCAT_SV(_0, "/", uri);
-			ZEPHIR_CONCAT_VS(baseUri, _0, "/");
+			ZEPHIR_CONCAT_SVS(baseUri, "/", uri, "/");
 		}
 		zephir_update_property_this(this_ptr, SL("_baseUri"), baseUri TSRMLS_CC);
 	}
@@ -275,7 +273,7 @@ PHP_METHOD(Phalcon_Mvc_Url, replacePaths) {
  */
 PHP_METHOD(Phalcon_Mvc_Url, get) {
 
-	zval *uri = NULL, *baseUri, *router = NULL, *dependencyInjector = NULL, *routeName, *route = NULL, *_0, *_1 = NULL, *_2 = NULL, *_3, *_4, *_5;
+	zval *uri = NULL, *baseUri, *router = NULL, *dependencyInjector = NULL, *routeName, *route = NULL, *_0, *_1 = NULL, *_2 = NULL, *_3, *_4;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 1, &uri);
@@ -315,10 +313,8 @@ PHP_METHOD(Phalcon_Mvc_Url, get) {
 			ZEPHIR_INIT_NVAR(_1);
 			object_init_ex(_1, phalcon_mvc_url_exception_ce);
 			ZEPHIR_INIT_VAR(_3);
-			ZEPHIR_CONCAT_SV(_3, "Cannot obtain a route using the name '", routeName);
-			ZEPHIR_INIT_VAR(_4);
-			ZEPHIR_CONCAT_VS(_4, _3, "'");
-			zephir_call_method_p1_noret(_1, "__construct", _4);
+			ZEPHIR_CONCAT_SVS(_3, "Cannot obtain a route using the name '", routeName, "'");
+			zephir_call_method_p1_noret(_1, "__construct", _3);
 			zephir_throw_exception(_1 TSRMLS_CC);
 			ZEPHIR_MM_RESTORE();
 			return;
@@ -326,13 +322,13 @@ PHP_METHOD(Phalcon_Mvc_Url, get) {
 		ZEPHIR_INIT_NVAR(_1);
 		ZEPHIR_INIT_NVAR(_2);
 		zephir_call_method(_2, route, "getpattern");
-		ZEPHIR_INIT_VAR(_5);
-		zephir_call_method(_5, route, "getreversedpaths");
-		zephir_call_method_p3(_1, this_ptr, "replacepaths", _2, _5, uri);
-		concat_function(return_value, baseUri, _1 TSRMLS_CC);
+		ZEPHIR_INIT_VAR(_4);
+		zephir_call_method(_4, route, "getreversedpaths");
+		zephir_call_method_p3(_1, this_ptr, "replacepaths", _2, _4, uri);
+		ZEPHIR_CONCAT_VV(return_value, baseUri, _1);
 		RETURN_MM();
 	}
-	concat_function(return_value, baseUri, uri TSRMLS_CC);
+	ZEPHIR_CONCAT_VV(return_value, baseUri, uri);
 	RETURN_MM();
 
 }
@@ -357,12 +353,12 @@ PHP_METHOD(Phalcon_Mvc_Url, getStatic) {
 
 	staticBaseUri = zephir_fetch_nproperty_this(this_ptr, SL("_staticBaseUri"), PH_NOISY_CC);
 	if ((Z_TYPE_P(staticBaseUri) != IS_NULL)) {
-		concat_function(return_value, staticBaseUri, uri TSRMLS_CC);
+		ZEPHIR_CONCAT_VV(return_value, staticBaseUri, uri);
 		RETURN_MM();
 	}
 	ZEPHIR_INIT_VAR(_0);
 	zephir_call_method(_0, this_ptr, "getbaseuri");
-	concat_function(return_value, _0, uri TSRMLS_CC);
+	ZEPHIR_CONCAT_VV(return_value, _0, uri);
 	RETURN_MM();
 
 }
@@ -386,7 +382,7 @@ PHP_METHOD(Phalcon_Mvc_Url, path) {
 
 
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_basePath"), PH_NOISY_CC);
-	concat_function(return_value, _0, path TSRMLS_CC);
+	ZEPHIR_CONCAT_VV(return_value, _0, path);
 	RETURN_MM();
 
 }

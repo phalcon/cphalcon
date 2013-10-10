@@ -121,10 +121,10 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, __construct) {
  */
 PHP_METHOD(Phalcon_Db_Adapter_Pdo, connect) {
 
-	zend_class_entry *_8;
+	zend_class_entry *_7;
 	HashTable *_1;
 	HashPosition _0;
-	zval *descriptor = NULL, *username, *password, *dsnParts, *dsnAttributes, *persistent, *options, *key = NULL, *value = NULL, **_2, *_3 = NULL, *_4 = NULL, _5, *_6, *_7, *_9;
+	zval *descriptor = NULL, *username, *password, *dsnParts, *dsnAttributes, *persistent, *options, *key = NULL, *value = NULL, **_2, *_3 = NULL, _4, *_5, *_6, *_8;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 1, &descriptor);
@@ -172,34 +172,30 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, connect) {
 			ZEPHIR_GET_HMKEY(key, _1, _0);
 			ZEPHIR_GET_HVALUE(value, _2);
 			ZEPHIR_INIT_LNVAR(_3);
-			ZEPHIR_CONCAT_VS(_3, key, "=");
-			ZEPHIR_INIT_LNVAR(_4);
-			concat_function(_4, _3, value TSRMLS_CC);
-			zephir_array_append(&dsnParts, _4, PH_SEPARATE);
+			ZEPHIR_CONCAT_VSV(_3, key, "=", value);
+			zephir_array_append(&dsnParts, _3, PH_SEPARATE);
 		}
-		ZEPHIR_SINIT_VAR(_5);
-		ZVAL_STRING(&_5, ";", 0);
+		ZEPHIR_SINIT_VAR(_4);
+		ZVAL_STRING(&_4, ";", 0);
 		ZEPHIR_INIT_BNVAR(dsnAttributes);
-		zephir_call_func_p2(dsnAttributes, "join", &_5, dsnParts);
+		zephir_call_func_p2(dsnAttributes, "join", &_4, dsnParts);
 	}
-	ZEPHIR_INIT_VAR(_6);
-	ZVAL_LONG(_6, 2);
-	zephir_array_update_long(&options, 3, &_6, PH_COPY | PH_SEPARATE);
+	ZEPHIR_INIT_VAR(_5);
+	ZVAL_LONG(_5, 2);
+	zephir_array_update_long(&options, 3, &_5, PH_COPY | PH_SEPARATE);
 	if (zephir_array_isset_string_fetch(&persistent, descriptor, SS("persistent"), 1 TSRMLS_CC)) {
 		if (zephir_is_true(persistent)) {
 			zephir_array_update_long(&options, 12, &ZEPHIR_GLOBAL(global_true), PH_COPY | PH_SEPARATE);
 		}
 	}
-	ZEPHIR_INIT_VAR(_7);
-	_8 = zend_fetch_class(SL("Pdo"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
-	object_init_ex(_7, _8);
-	_9 = zephir_fetch_nproperty_this(this_ptr, SL("_type"), PH_NOISY_CC);
+	ZEPHIR_INIT_VAR(_6);
+	_7 = zend_fetch_class(SL("Pdo"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
+	object_init_ex(_6, _7);
+	_8 = zephir_fetch_nproperty_this(this_ptr, SL("_type"), PH_NOISY_CC);
 	ZEPHIR_INIT_LNVAR(_3);
-	ZEPHIR_CONCAT_VS(_3, _9, ":");
-	ZEPHIR_INIT_LNVAR(_4);
-	concat_function(_4, _3, dsnAttributes TSRMLS_CC);
-	zephir_call_method_p4_noret(_7, "__construct", _4, username, password, options);
-	zephir_update_property_this(this_ptr, SL("_pdo"), _7 TSRMLS_CC);
+	ZEPHIR_CONCAT_VSV(_3, _8, ":", dsnAttributes);
+	zephir_call_method_p4_noret(_6, "__construct", _3, username, password, options);
+	zephir_update_property_this(this_ptr, SL("_pdo"), _6 TSRMLS_CC);
 	ZEPHIR_MM_RESTORE();
 
 }
@@ -510,31 +506,20 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, close) {
  */
 PHP_METHOD(Phalcon_Db_Adapter_Pdo, escapeIdentifier) {
 
-	zval *identifier, *_0, *_1 = NULL, *_2, *_3, *_4;
+	zval *identifier, *_0, *_1;
 
-	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 0, &identifier);
+	zephir_fetch_params(0, 1, 0, &identifier);
 
 
 
 	if ((Z_TYPE_P(identifier) == IS_ARRAY)) {
-		ZEPHIR_OBS_VAR(_0);
-		zephir_array_fetch_long(&_0, identifier, 0, PH_NOISY TSRMLS_CC);
-		ZEPHIR_INIT_VAR(_1);
-		ZEPHIR_CONCAT_SV(_1, "\"", _0);
-		ZEPHIR_INIT_VAR(_2);
-		ZEPHIR_CONCAT_VS(_2, _1, "\".\"");
-		ZEPHIR_OBS_VAR(_3);
-		zephir_array_fetch_long(&_3, identifier, 1, PH_NOISY TSRMLS_CC);
-		ZEPHIR_INIT_VAR(_4);
-		concat_function(_4, _2, _3 TSRMLS_CC);
-		ZEPHIR_CONCAT_VS(return_value, _4, "\"");
-		RETURN_MM();
+		zephir_array_fetch_long(&_0, identifier, 0, PH_NOISY | PH_READONLY TSRMLS_CC);
+		zephir_array_fetch_long(&_1, identifier, 1, PH_NOISY | PH_READONLY TSRMLS_CC);
+		ZEPHIR_CONCAT_SVSVS(return_value, "\"", _0, "\".\"", _1, "\"");
+		return;
 	}
-	ZEPHIR_INIT_LNVAR(_1);
-	ZEPHIR_CONCAT_SV(_1, "\"", identifier);
-	ZEPHIR_CONCAT_VS(return_value, _1, "\"");
-	RETURN_MM();
+	ZEPHIR_CONCAT_SVS(return_value, "\"", identifier, "\"");
+	return;
 
 }
 

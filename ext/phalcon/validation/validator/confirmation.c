@@ -69,7 +69,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Validation_Validator_Confirmation) {
 PHP_METHOD(Phalcon_Validation_Validator_Confirmation, validate) {
 
 	zval *attribute = NULL;
-	zval *validator, *attribute_param = NULL, *withAttribute, *value, *withValue, *message = NULL, *_0, *_1, *_2, *_3;
+	zval *validator, *attribute_param = NULL, *withAttribute, *value, *withValue, *message = NULL, *_0;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &validator, &attribute_param);
@@ -91,14 +91,8 @@ PHP_METHOD(Phalcon_Validation_Validator_Confirmation, validate) {
 		ZEPHIR_INIT_VAR(message);
 		zephir_call_method_p1(message, this_ptr, "getoption", _0);
 		if ((0 == 0)) {
-			ZEPHIR_INIT_VAR(_1);
-			ZEPHIR_CONCAT_SV(_1, "Value of '", attribute);
-			ZEPHIR_INIT_VAR(_2);
-			ZEPHIR_CONCAT_VS(_2, _1, "' and '");
-			ZEPHIR_INIT_VAR(_3);
-			concat_function(_3, _2, withAttribute TSRMLS_CC);
 			ZEPHIR_INIT_NVAR(message);
-			ZEPHIR_CONCAT_VS(message, _3, "' don't match");
+			ZEPHIR_CONCAT_SVSVS(message, "Value of '", attribute, "' and '", withAttribute, "' don't match");
 		}
 		ZEPHIR_INIT_BNVAR(_0);
 		object_init_ex(_0, phalcon_validation_message_ce);

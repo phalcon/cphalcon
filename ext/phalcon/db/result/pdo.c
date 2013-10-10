@@ -228,7 +228,7 @@ PHP_METHOD(Phalcon_Db_Result_Pdo, fetchAll) {
  */
 PHP_METHOD(Phalcon_Db_Result_Pdo, numRows) {
 
-	zval *sqlStatement, *rowCount = NULL, *connection, *type, *pdoStatement, *matches, *result, *row, *_0, *_1, *_2, *_3, *_4, *_5, *_6;
+	zval *sqlStatement, *rowCount = NULL, *connection, *type, *pdoStatement, *matches, *result, *row, *_0, *_1, *_2, *_3, *_4, *_5;
 
 	ZEPHIR_MM_GROW();
 
@@ -254,16 +254,13 @@ PHP_METHOD(Phalcon_Db_Result_Pdo, numRows) {
 				ZEPHIR_INIT_VAR(_1);
 				zephir_call_func_p3(_1, "preg_match", _0, sqlStatement, matches);
 				if (zephir_is_true(_1)) {
-					ZEPHIR_OBS_VAR(_2);
-					zephir_array_fetch_long(&_2, matches, 1, PH_NOISY TSRMLS_CC);
+					zephir_array_fetch_long(&_2, matches, 1, PH_NOISY | PH_READONLY TSRMLS_CC);
 					ZEPHIR_INIT_VAR(_3);
-					ZEPHIR_CONCAT_SV(_3, "SELECT COUNT(*) \"numrows\" FROM (SELECT ", _2);
-					ZEPHIR_INIT_VAR(_4);
-					ZEPHIR_CONCAT_VS(_4, _3, ")");
-					_5 = zephir_fetch_nproperty_this(this_ptr, SL("_bindParams"), PH_NOISY_CC);
-					_6 = zephir_fetch_nproperty_this(this_ptr, SL("_bindTypes"), PH_NOISY_CC);
+					ZEPHIR_CONCAT_SVS(_3, "SELECT COUNT(*) \"numrows\" FROM (SELECT ", _2, ")");
+					_4 = zephir_fetch_nproperty_this(this_ptr, SL("_bindParams"), PH_NOISY_CC);
+					_5 = zephir_fetch_nproperty_this(this_ptr, SL("_bindTypes"), PH_NOISY_CC);
 					ZEPHIR_INIT_VAR(result);
-					zephir_call_method_p3(result, connection, "query", _4, _5, _6);
+					zephir_call_method_p3(result, connection, "query", _3, _4, _5);
 					ZEPHIR_INIT_VAR(row);
 					zephir_call_method(row, result, "fetch");
 					ZEPHIR_OBS_NVAR(rowCount);

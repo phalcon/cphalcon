@@ -64,7 +64,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Di_Service_Builder) {
 PHP_METHOD(Phalcon_Di_Service_Builder, _buildParameter) {
 
 	int position;
-	zval *dependencyInjector, *position_param = NULL, *argument, *type, *name = NULL, *value, *instanceArguments, *_0 = NULL, *_1 = NULL, *_2 = NULL;
+	zval *dependencyInjector, *position_param = NULL, *argument, *type, *name = NULL, *value, *instanceArguments, *_0 = NULL, _1 = zval_used_for_init, *_2 = NULL;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 3, 0, &dependencyInjector, &position_param, &argument);
@@ -75,10 +75,10 @@ PHP_METHOD(Phalcon_Di_Service_Builder, _buildParameter) {
 	if ((Z_TYPE_P(argument) != IS_ARRAY)) {
 		ZEPHIR_INIT_VAR(_0);
 		object_init_ex(_0, phalcon_di_exception_ce);
-		ZEPHIR_INIT_VAR(_1);
-		ZEPHIR_CONCAT_SV(_1, "Argument at position ", position);
+		ZEPHIR_SINIT_VAR(_1);
+		ZVAL_LONG(&_1, position, 0);
 		ZEPHIR_INIT_VAR(_2);
-		ZEPHIR_CONCAT_VS(_2, _1, " must be an array");
+		ZEPHIR_CONCAT_SVS(_2, "Argument at position ", &_1, " must be an array");
 		zephir_call_method_p1_noret(_0, "__construct", _2);
 		zephir_throw_exception(_0 TSRMLS_CC);
 		ZEPHIR_MM_RESTORE();
@@ -87,10 +87,10 @@ PHP_METHOD(Phalcon_Di_Service_Builder, _buildParameter) {
 	if (!(zephir_array_isset_string_fetch(&type, argument, SS("type"), 1 TSRMLS_CC))) {
 		ZEPHIR_INIT_NVAR(_0);
 		object_init_ex(_0, phalcon_di_exception_ce);
-		ZEPHIR_INIT_LNVAR(_1);
-		ZEPHIR_CONCAT_SV(_1, "Argument at position ", position);
+		ZEPHIR_SINIT_NVAR(_1);
+		ZVAL_LONG(&_1, position, 0);
 		ZEPHIR_INIT_LNVAR(_2);
-		ZEPHIR_CONCAT_VS(_2, _1, " must have a type");
+		ZEPHIR_CONCAT_SVS(_2, "Argument at position ", &_1, " must have a type");
 		zephir_call_method_p1_noret(_0, "__construct", _2);
 		zephir_throw_exception(_0 TSRMLS_CC);
 		ZEPHIR_MM_RESTORE();
@@ -102,9 +102,11 @@ PHP_METHOD(Phalcon_Di_Service_Builder, _buildParameter) {
 			if (!(zephir_array_isset_string_fetch(&name, argument, SS("name"), 0 TSRMLS_CC))) {
 				ZEPHIR_INIT_NVAR(_0);
 				object_init_ex(_0, phalcon_di_exception_ce);
-				ZEPHIR_INIT_LNVAR(_1);
-				ZEPHIR_CONCAT_SV(_1, "Service 'name' is required in parameter on position ", position);
-				zephir_call_method_p1_noret(_0, "__construct", _1);
+				ZEPHIR_SINIT_NVAR(_1);
+				ZVAL_LONG(&_1, position, 0);
+				ZEPHIR_INIT_LNVAR(_2);
+				ZEPHIR_CONCAT_SV(_2, "Service 'name' is required in parameter on position ", &_1);
+				zephir_call_method_p1_noret(_0, "__construct", _2);
 				zephir_throw_exception(_0 TSRMLS_CC);
 				ZEPHIR_MM_RESTORE();
 				return;
@@ -120,9 +122,11 @@ PHP_METHOD(Phalcon_Di_Service_Builder, _buildParameter) {
 			if (!(zephir_array_isset_string_fetch(&value, argument, SS("value"), 1 TSRMLS_CC))) {
 				ZEPHIR_INIT_NVAR(_0);
 				object_init_ex(_0, phalcon_di_exception_ce);
-				ZEPHIR_INIT_LNVAR(_1);
-				ZEPHIR_CONCAT_SV(_1, "Service 'value' is required in parameter on position ", position);
-				zephir_call_method_p1_noret(_0, "__construct", _1);
+				ZEPHIR_SINIT_NVAR(_1);
+				ZVAL_LONG(&_1, position, 0);
+				ZEPHIR_INIT_LNVAR(_2);
+				ZEPHIR_CONCAT_SV(_2, "Service 'value' is required in parameter on position ", &_1);
+				zephir_call_method_p1_noret(_0, "__construct", _2);
 				zephir_throw_exception(_0 TSRMLS_CC);
 				ZEPHIR_MM_RESTORE();
 				return;
@@ -134,9 +138,11 @@ PHP_METHOD(Phalcon_Di_Service_Builder, _buildParameter) {
 			if (!(zephir_array_isset_string_fetch(&name, argument, SS("className"), 0 TSRMLS_CC))) {
 				ZEPHIR_INIT_NVAR(_0);
 				object_init_ex(_0, phalcon_di_exception_ce);
-				ZEPHIR_INIT_LNVAR(_1);
-				ZEPHIR_CONCAT_SV(_1, "Service 'className' is required in parameter on position ", position);
-				zephir_call_method_p1_noret(_0, "__construct", _1);
+				ZEPHIR_SINIT_NVAR(_1);
+				ZVAL_LONG(&_1, position, 0);
+				ZEPHIR_INIT_LNVAR(_2);
+				ZEPHIR_CONCAT_SV(_2, "Service 'className' is required in parameter on position ", &_1);
+				zephir_call_method_p1_noret(_0, "__construct", _2);
 				zephir_throw_exception(_0 TSRMLS_CC);
 				ZEPHIR_MM_RESTORE();
 				return;
@@ -155,9 +161,11 @@ PHP_METHOD(Phalcon_Di_Service_Builder, _buildParameter) {
 		}
 		ZEPHIR_INIT_NVAR(_0);
 		object_init_ex(_0, phalcon_di_exception_ce);
-		ZEPHIR_INIT_LNVAR(_1);
-		ZEPHIR_CONCAT_SV(_1, "Unknown service type in parameter on position ", position);
-		zephir_call_method_p1_noret(_0, "__construct", _1);
+		ZEPHIR_SINIT_NVAR(_1);
+		ZVAL_LONG(&_1, position, 0);
+		ZEPHIR_INIT_LNVAR(_2);
+		ZEPHIR_CONCAT_SV(_2, "Unknown service type in parameter on position ", &_1);
+		zephir_call_method_p1_noret(_0, "__construct", _2);
 		zephir_throw_exception(_0 TSRMLS_CC);
 		ZEPHIR_MM_RESTORE();
 		return;

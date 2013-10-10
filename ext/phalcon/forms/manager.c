@@ -93,7 +93,7 @@ PHP_METHOD(Phalcon_Forms_Manager, create) {
  */
 PHP_METHOD(Phalcon_Forms_Manager, get) {
 
-	zval *name_param = NULL, *form, *forms, *_0, *_1, *_2;
+	zval *name_param = NULL, *form, *forms, *_0, *_1;
 	zval *name = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -107,10 +107,8 @@ PHP_METHOD(Phalcon_Forms_Manager, get) {
 		ZEPHIR_INIT_VAR(_0);
 		object_init_ex(_0, phalcon_forms_exception_ce);
 		ZEPHIR_INIT_VAR(_1);
-		ZEPHIR_CONCAT_SV(_1, "There is no form with name='", name);
-		ZEPHIR_INIT_VAR(_2);
-		ZEPHIR_CONCAT_VS(_2, _1, "'");
-		zephir_call_method_p1_noret(_0, "__construct", _2);
+		ZEPHIR_CONCAT_SVS(_1, "There is no form with name='", name, "'");
+		zephir_call_method_p1_noret(_0, "__construct", _1);
 		zephir_throw_exception(_0 TSRMLS_CC);
 		ZEPHIR_MM_RESTORE();
 		return;

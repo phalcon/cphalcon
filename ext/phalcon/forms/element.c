@@ -573,7 +573,7 @@ PHP_METHOD(Phalcon_Forms_Element, getLabel) {
  */
 PHP_METHOD(Phalcon_Forms_Element, label) {
 
-	zval *attributes, *label, *name = NULL, *_0 = NULL, *_1 = NULL, *_2 = NULL;
+	zval *attributes, *label, *name = NULL;
 
 	ZEPHIR_MM_GROW();
 
@@ -585,22 +585,10 @@ PHP_METHOD(Phalcon_Forms_Element, label) {
 	}
 	label = zephir_fetch_nproperty_this(this_ptr, SL("_label"), PH_NOISY_CC);
 	if (zephir_is_true(label)) {
-		ZEPHIR_INIT_VAR(_0);
-		ZEPHIR_CONCAT_SV(_0, "<label for=\"", name);
-		ZEPHIR_INIT_VAR(_1);
-		ZEPHIR_CONCAT_VS(_1, _0, "\">");
-		ZEPHIR_INIT_VAR(_2);
-		concat_function(_2, _1, label TSRMLS_CC);
-		ZEPHIR_CONCAT_VS(return_value, _2, "</label>");
+		ZEPHIR_CONCAT_SVSVS(return_value, "<label for=\"", name, "\">", label, "</label>");
 		RETURN_MM();
 	}
-	ZEPHIR_INIT_LNVAR(_0);
-	ZEPHIR_CONCAT_SV(_0, "<label for=\"", name);
-	ZEPHIR_INIT_LNVAR(_1);
-	ZEPHIR_CONCAT_VS(_1, _0, "\">");
-	ZEPHIR_INIT_LNVAR(_2);
-	concat_function(_2, _1, name TSRMLS_CC);
-	ZEPHIR_CONCAT_VS(return_value, _2, "</label>");
+	ZEPHIR_CONCAT_SVSVS(return_value, "<label for=\"", name, "\">", name, "</label>");
 	RETURN_MM();
 
 }

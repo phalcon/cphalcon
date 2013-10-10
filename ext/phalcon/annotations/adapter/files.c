@@ -93,7 +93,7 @@ PHP_METHOD(Phalcon_Annotations_Adapter_Files, __construct) {
  */
 PHP_METHOD(Phalcon_Annotations_Adapter_Files, read) {
 
-	zval *key_param = NULL, *path, *_0, *_1, *_2, *_3;
+	zval *key_param = NULL, *path, *_0, *_1, *_2;
 	zval *key = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -107,10 +107,8 @@ PHP_METHOD(Phalcon_Annotations_Adapter_Files, read) {
 	ZVAL_STRING(_1, "_", 1);
 	ZEPHIR_INIT_VAR(_2);
 	zephir_call_func_p2(_2, "prepare_virtual_path", key, _1);
-	ZEPHIR_INIT_VAR(_3);
-	concat_function(_3, _0, _2 TSRMLS_CC);
 	ZEPHIR_INIT_VAR(path);
-	ZEPHIR_CONCAT_VS(path, _3, ".php");
+	ZEPHIR_CONCAT_VVS(path, _0, _2, ".php");
 	ZEPHIR_INIT_BNVAR(_1);
 	zephir_call_func_p1(_1, "file_exists", path);
 	if (zephir_is_true(_1)) {
@@ -127,7 +125,7 @@ PHP_METHOD(Phalcon_Annotations_Adapter_Files, read) {
  */
 PHP_METHOD(Phalcon_Annotations_Adapter_Files, write) {
 
-	zval *key_param = NULL, *data, *path, *_0, *_1, *_2, *_3, *_4, *_5, *_6;
+	zval *key_param = NULL, *data, *path, *_0, *_1, *_2, *_3, *_4;
 	zval *key = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -141,19 +139,15 @@ PHP_METHOD(Phalcon_Annotations_Adapter_Files, write) {
 	ZVAL_STRING(_1, "_", 1);
 	ZEPHIR_INIT_VAR(_2);
 	zephir_call_func_p2(_2, "prepare_virtual_path", key, _1);
-	ZEPHIR_INIT_VAR(_3);
-	concat_function(_3, _0, _2 TSRMLS_CC);
 	ZEPHIR_INIT_VAR(path);
-	ZEPHIR_CONCAT_VS(path, _3, ".php");
+	ZEPHIR_CONCAT_VVS(path, _0, _2, ".php");
 	ZEPHIR_INIT_BNVAR(_1);
 	zephir_call_func_p2(_1, "var_export", data, ZEPHIR_GLOBAL(global_true));
+	ZEPHIR_INIT_VAR(_3);
+	ZEPHIR_CONCAT_SVS(_3, "<?php return ", _1, "; ");
 	ZEPHIR_INIT_VAR(_4);
-	ZEPHIR_CONCAT_SV(_4, "<?php return ", _1);
-	ZEPHIR_INIT_VAR(_5);
-	ZEPHIR_CONCAT_VS(_5, _4, "; ");
-	ZEPHIR_INIT_VAR(_6);
-	zephir_call_func_p2(_6, "file_put_contents", path, _5);
-	if (ZEPHIR_IS_FALSE(_6)) {
+	zephir_call_func_p2(_4, "file_put_contents", path, _3);
+	if (ZEPHIR_IS_FALSE(_4)) {
 		ZEPHIR_THROW_EXCEPTION_STR(phalcon_annotations_exception_ce, "Annotations directory cannot be written");
 		return;
 	}

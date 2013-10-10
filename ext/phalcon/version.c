@@ -98,7 +98,7 @@ PHP_METHOD(Phalcon_Version, _getVersion) {
  */
 PHP_METHOD(Phalcon_Version, get) {
 
-	zval *version, *major, *medium, *minor, *special, *specialNumber, *result, *suffix = NULL, *_0, *_1;
+	zval *version, *major, *medium, *minor, *special, *specialNumber, *result, *suffix = NULL;
 
 	ZEPHIR_MM_GROW();
 
@@ -109,12 +109,8 @@ PHP_METHOD(Phalcon_Version, get) {
 	zephir_array_fetch_long(&minor, version, 2, PH_NOISY | PH_READONLY TSRMLS_CC);
 	zephir_array_fetch_long(&special, version, 3, PH_NOISY | PH_READONLY TSRMLS_CC);
 	zephir_array_fetch_long(&specialNumber, version, 4, PH_NOISY | PH_READONLY TSRMLS_CC);
-	ZEPHIR_INIT_VAR(_0);
-	concat_function(_0, major, medium TSRMLS_CC);
-	ZEPHIR_INIT_VAR(_1);
-	concat_function(_1, _0, minor TSRMLS_CC);
 	ZEPHIR_INIT_VAR(result);
-	ZEPHIR_CONCAT_VS(result, _1, " ");
+	ZEPHIR_CONCAT_VVVS(result, major, medium, minor, " ");
 	do {
 		if (ZEPHIR_IS_LONG(special, 1)) {
 			ZEPHIR_INIT_VAR(suffix);
@@ -153,7 +149,7 @@ PHP_METHOD(Phalcon_Version, get) {
  */
 PHP_METHOD(Phalcon_Version, getId) {
 
-	zval *version, *major, *medium, *minor, *special, *specialNumber, _0 = zval_used_for_init, *_1, *_2, *_3, *_4, *_5;
+	zval *version, *major, *medium, *minor, *special, *specialNumber, _0 = zval_used_for_init, *_1, *_2;
 
 	ZEPHIR_MM_GROW();
 
@@ -168,17 +164,11 @@ PHP_METHOD(Phalcon_Version, getId) {
 	ZVAL_STRING(&_0, "%02s", 0);
 	ZEPHIR_INIT_VAR(_1);
 	zephir_call_func_p2(_1, "sprintf", &_0, medium);
-	ZEPHIR_INIT_VAR(_2);
-	concat_function(_2, major, _1 TSRMLS_CC);
 	ZEPHIR_SINIT_NVAR(_0);
 	ZVAL_STRING(&_0, "%02s", 0);
-	ZEPHIR_INIT_VAR(_3);
-	zephir_call_func_p2(_3, "sprintf", &_0, minor);
-	ZEPHIR_INIT_VAR(_4);
-	concat_function(_4, _2, _3 TSRMLS_CC);
-	ZEPHIR_INIT_VAR(_5);
-	concat_function(_5, _4, special TSRMLS_CC);
-	concat_function(return_value, _5, specialNumber TSRMLS_CC);
+	ZEPHIR_INIT_VAR(_2);
+	zephir_call_func_p2(_2, "sprintf", &_0, minor);
+	ZEPHIR_CONCAT_VVVVV(return_value, major, _1, _2, special, specialNumber);
 	RETURN_MM();
 
 }

@@ -260,7 +260,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, getStrategy) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_MetaData, readMetaData) {
 
-	zval *model, *source, *schema, *key, *metaData, *_0, *_1, *_2;
+	zval *model, *source, *schema, *key, *metaData, *_0;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &model);
@@ -273,11 +273,8 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, readMetaData) {
 	zephir_call_method(schema, model, "getschema");
 	ZEPHIR_INIT_VAR(_0);
 	zephir_call_func_p1(_0, "get_class_lower", model);
-	ZEPHIR_INIT_VAR(_1);
-	ZEPHIR_INIT_VAR(_2);
-	concat_function(_2, _1, schema TSRMLS_CC);
 	ZEPHIR_INIT_VAR(key);
-	concat_function(key, _2, source TSRMLS_CC);
+	ZEPHIR_CONCAT_VVV(key, _0, schema, source);
 	metaData = zephir_fetch_nproperty_this(this_ptr, SL("_metaData"), PH_NOISY_CC);
 	if (!(zephir_array_isset(metaData, key))) {
 		zephir_call_method_p4_noret(this_ptr, "_initialize", model, key, source, schema);
@@ -300,7 +297,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, readMetaData) {
 PHP_METHOD(Phalcon_Mvc_Model_MetaData, readMetaDataIndex) {
 
 	int index;
-	zval *model, *index_param = NULL, *source, *schema, *key, *metaData, *_0, *_1, *_2;
+	zval *model, *index_param = NULL, *source, *schema, *key, *metaData, *_0;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &model, &index_param);
@@ -314,11 +311,8 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, readMetaDataIndex) {
 	zephir_call_method(schema, model, "getschema");
 	ZEPHIR_INIT_VAR(_0);
 	zephir_call_func_p1(_0, "get_class_lower", model);
-	ZEPHIR_INIT_VAR(_1);
-	ZEPHIR_INIT_VAR(_2);
-	concat_function(_2, _1, schema TSRMLS_CC);
 	ZEPHIR_INIT_VAR(key);
-	concat_function(key, _2, source TSRMLS_CC);
+	ZEPHIR_CONCAT_VVV(key, _0, schema, source);
 	metaData = zephir_fetch_nproperty_this(this_ptr, SL("_metaData"), PH_NOISY_CC);
 	if (!(zephir_array_isset(metaData, key))) {
 		zephir_call_method_p4_noret(this_ptr, "_initialize", model, key, source, schema);
@@ -341,7 +335,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, readMetaDataIndex) {
 PHP_METHOD(Phalcon_Mvc_Model_MetaData, writeMetaDataIndex) {
 
 	int index;
-	zval *model, *index_param = NULL, *data, *source, *schema, *key, *metaData, *_0, *_1, *_2;
+	zval *model, *index_param = NULL, *data, *source, *schema, *key, *metaData, *_0;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 3, 0, &model, &index_param, &data);
@@ -359,12 +353,8 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, writeMetaDataIndex) {
 	zephir_call_method(schema, model, "getschema");
 	ZEPHIR_INIT_VAR(_0);
 	zephir_call_func_p1(_0, "get_class_lower", model);
-	ZEPHIR_INIT_VAR(_1);
-	ZEPHIR_CONCAT_VS(_1, _0, "-");
-	ZEPHIR_INIT_VAR(_2);
-	concat_function(_2, _1, schema TSRMLS_CC);
 	ZEPHIR_INIT_VAR(key);
-	concat_function(key, _2, source TSRMLS_CC);
+	ZEPHIR_CONCAT_VSVV(key, _0, "-", schema, source);
 	metaData = zephir_fetch_nproperty_this(this_ptr, SL("_metaData"), PH_NOISY_CC);
 	if (!(zephir_array_isset(metaData, key))) {
 		zephir_call_method_p4_noret(this_ptr, "_initialize", model, key, source, schema);

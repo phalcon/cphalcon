@@ -228,7 +228,7 @@ PHP_METHOD(Phalcon_Annotations_Collection, get) {
 	zend_function *_4 = NULL;
 	HashTable *_1;
 	HashPosition _0;
-	zval *name_param = NULL, *annotation = NULL, *annotations, **_2, *_3 = NULL, *_5, *_6;
+	zval *name_param = NULL, *annotation = NULL, *annotations, **_2, *_3 = NULL, *_5;
 	zval *name = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -255,10 +255,8 @@ PHP_METHOD(Phalcon_Annotations_Collection, get) {
 	ZEPHIR_INIT_NVAR(_3);
 	object_init_ex(_3, phalcon_annotations_exception_ce);
 	ZEPHIR_INIT_VAR(_5);
-	ZEPHIR_CONCAT_SV(_5, "The collection doesn't have an annotation called '", name);
-	ZEPHIR_INIT_VAR(_6);
-	ZEPHIR_CONCAT_VS(_6, _5, "'");
-	zephir_call_method_p1_noret(_3, "__construct", _6);
+	ZEPHIR_CONCAT_SVS(_5, "The collection doesn't have an annotation called '", name, "'");
+	zephir_call_method_p1_noret(_3, "__construct", _5);
 	zephir_throw_exception(_3 TSRMLS_CC);
 	ZEPHIR_MM_RESTORE();
 	return;

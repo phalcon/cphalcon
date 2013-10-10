@@ -413,9 +413,9 @@ PHP_METHOD(Phalcon_Tag, resetInput) {
  */
 PHP_METHOD(Phalcon_Tag, linkTo) {
 
-	HashTable *_3;
-	HashPosition _2;
-	zval *parameters, *text = NULL, *key = NULL, *value = NULL, *params = NULL, *action = NULL, *url, *code, *_0, *_1, **_4, *_5 = NULL, *_6 = NULL, *_7 = NULL, *_8 = NULL;
+	HashTable *_2;
+	HashPosition _1;
+	zval *parameters, *text = NULL, *key = NULL, *value = NULL, *params = NULL, *action = NULL, *url, *code, *_0, **_3, *_4 = NULL;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 1, &parameters, &text);
@@ -458,34 +458,24 @@ PHP_METHOD(Phalcon_Tag, linkTo) {
 	zephir_call_self(url, this_ptr, "geturlservice");
 	ZEPHIR_INIT_VAR(_0);
 	zephir_call_method_p1(_0, url, "get", action);
-	ZEPHIR_INIT_VAR(_1);
-	ZEPHIR_CONCAT_SV(_1, "<a href=\"", _0);
 	ZEPHIR_INIT_VAR(code);
-	ZEPHIR_CONCAT_VS(code, _1, "\"");
-	zephir_is_iterable(params, &_3, &_2, 0, 0);
+	ZEPHIR_CONCAT_SVS(code, "<a href=\"", _0, "\"");
+	zephir_is_iterable(params, &_2, &_1, 0, 0);
 	for (
-		; zend_hash_get_current_data_ex(_3, (void**) &_4, &_2) == SUCCESS
-		; zend_hash_move_forward_ex(_3, &_2)
+		; zend_hash_get_current_data_ex(_2, (void**) &_3, &_1) == SUCCESS
+		; zend_hash_move_forward_ex(_2, &_1)
 	) {
-		ZEPHIR_GET_HMKEY(key, _3, _2);
-		ZEPHIR_GET_HVALUE(value, _4);
+		ZEPHIR_GET_HMKEY(key, _2, _1);
+		ZEPHIR_GET_HVALUE(value, _3);
 		if ((Z_TYPE_P(key) != IS_LONG)) {
-			ZEPHIR_INIT_LNVAR(_5);
-			ZEPHIR_CONCAT_SV(_5, " ", key);
-			ZEPHIR_INIT_LNVAR(_6);
-			ZEPHIR_CONCAT_VS(_6, _5, "=\"");
-			ZEPHIR_INIT_LNVAR(_7);
-			concat_function(_7, _6, value TSRMLS_CC);
-			ZEPHIR_INIT_LNVAR(_8);
-			ZEPHIR_CONCAT_VS(_8, _7, "\"");
-			zephir_concat_self(&code, _8 TSRMLS_CC);
+			ZEPHIR_INIT_LNVAR(_4);
+			ZEPHIR_CONCAT_SVSVS(_4, " ", key, "=\"", value, "\"");
+			zephir_concat_self(&code, _4 TSRMLS_CC);
 		}
 	}
-	ZEPHIR_INIT_LNVAR(_5);
-	ZEPHIR_CONCAT_SV(_5, ">", text);
-	ZEPHIR_INIT_LNVAR(_6);
-	ZEPHIR_CONCAT_VS(_6, _5, "</a>");
-	zephir_concat_self(&code, _6 TSRMLS_CC);
+	ZEPHIR_INIT_LNVAR(_4);
+	ZEPHIR_CONCAT_SVS(_4, ">", text, "</a>");
+	zephir_concat_self(&code, _4 TSRMLS_CC);
 	RETURN_CCTOR(code);
 
 }

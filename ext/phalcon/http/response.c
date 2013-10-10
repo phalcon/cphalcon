@@ -160,7 +160,7 @@ PHP_METHOD(Phalcon_Http_Response, getDI) {
  */
 PHP_METHOD(Phalcon_Http_Response, setStatusCode) {
 
-	zval *code_param = NULL, *message_param = NULL, *headers, *_0, *_1, *_2, *_3, *_4, *_5;
+	zval *code_param = NULL, *message_param = NULL, *headers, *_0, *_1, *_2;
 	zval *code = NULL, *message = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -173,19 +173,13 @@ PHP_METHOD(Phalcon_Http_Response, setStatusCode) {
 	ZEPHIR_INIT_VAR(headers);
 	zephir_call_method(headers, this_ptr, "getheaders");
 	ZEPHIR_INIT_VAR(_0);
-	ZEPHIR_CONCAT_SV(_0, "HTTP/1.1 ", code);
+	ZEPHIR_CONCAT_SVSV(_0, "HTTP/1.1 ", code, " ", message);
+	zephir_call_method_p1_noret(headers, "setraw", _0);
 	ZEPHIR_INIT_VAR(_1);
-	ZEPHIR_CONCAT_VS(_1, _0, " ");
+	ZEPHIR_CONCAT_VSV(_1, code, " ", message);
 	ZEPHIR_INIT_VAR(_2);
-	concat_function(_2, _1, message TSRMLS_CC);
-	zephir_call_method_p1_noret(headers, "setraw", _2);
-	ZEPHIR_INIT_VAR(_3);
-	ZEPHIR_CONCAT_VS(_3, code, " ");
-	ZEPHIR_INIT_VAR(_4);
-	concat_function(_4, _3, message TSRMLS_CC);
-	ZEPHIR_INIT_VAR(_5);
-	ZVAL_STRING(_5, "Status", 1);
-	zephir_call_method_p2_noret(headers, "set", _4, _5);
+	ZVAL_STRING(_2, "Status", 1);
+	zephir_call_method_p2_noret(headers, "set", _1, _2);
 	zephir_update_property_this(this_ptr, SL("_headers"), headers TSRMLS_CC);
 	RETURN_THIS();
 
@@ -420,7 +414,7 @@ PHP_METHOD(Phalcon_Http_Response, setNotModified) {
  */
 PHP_METHOD(Phalcon_Http_Response, setContentType) {
 
-	zval *contentType_param = NULL, *charset = NULL, *headers, *name, *_0, *_1;
+	zval *contentType_param = NULL, *charset = NULL, *headers, *name, *_0;
 	zval *contentType = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -440,10 +434,8 @@ PHP_METHOD(Phalcon_Http_Response, setContentType) {
 		zephir_call_method_p2_noret(headers, "set", name, contentType);
 	} else {
 		ZEPHIR_INIT_VAR(_0);
-		ZEPHIR_CONCAT_VS(_0, contentType, "; charset=");
-		ZEPHIR_INIT_VAR(_1);
-		concat_function(_1, _0, charset TSRMLS_CC);
-		zephir_call_method_p2_noret(headers, "set", name, _1);
+		ZEPHIR_CONCAT_VSV(_0, contentType, "; charset=", charset);
+		zephir_call_method_p2_noret(headers, "set", name, _0);
 	}
 	RETURN_THIS();
 

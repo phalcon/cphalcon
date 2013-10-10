@@ -189,10 +189,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, valid) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, toArray) {
 
-	zend_function *_11 = NULL;
+	zend_function *_10 = NULL;
 	HashTable *_3, *_6;
 	HashPosition _2, _5;
-	zval *renameColumns_param = NULL, *result = NULL, *activeRow = NULL, *records = NULL, *record = NULL, *renamed = NULL, *renamedKey, *key = NULL, *value = NULL, *renamedRecords, *columnMap, *_0, *_1, **_4, **_7, *_8 = NULL, *_9 = NULL, *_10 = NULL;
+	zval *renameColumns_param = NULL, *result = NULL, *activeRow = NULL, *records = NULL, *record = NULL, *renamed = NULL, *renamedKey, *key = NULL, *value = NULL, *renamedRecords, *columnMap, *_0, *_1, **_4, **_7, *_8 = NULL, *_9 = NULL;
 	zend_bool renameColumns;
 
 	ZEPHIR_MM_GROW();
@@ -268,10 +268,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, toArray) {
 						ZEPHIR_INIT_NVAR(_8);
 						object_init_ex(_8, phalcon_mvc_model_exception_ce);
 						ZEPHIR_INIT_LNVAR(_9);
-						ZEPHIR_CONCAT_SV(_9, "Column '", key);
-						ZEPHIR_INIT_LNVAR(_10);
-						ZEPHIR_CONCAT_VS(_10, _9, "' is not part of the column map");
-						zephir_call_method_p1_cache_noret(_8, "__construct", &_11, _10);
+						ZEPHIR_CONCAT_SVS(_9, "Column '", key, "' is not part of the column map");
+						zephir_call_method_p1_cache_noret(_8, "__construct", &_10, _9);
 						zephir_throw_exception(_8 TSRMLS_CC);
 						ZEPHIR_MM_RESTORE();
 						return;

@@ -248,7 +248,7 @@ PHP_METHOD(Phalcon_Di, setRaw) {
  */
 PHP_METHOD(Phalcon_Di, getRaw) {
 
-	zval *name_param = NULL, *services, *service, *_0, *_1, *_2;
+	zval *name_param = NULL, *services, *service, *_0, *_1;
 	zval *name = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -266,10 +266,8 @@ PHP_METHOD(Phalcon_Di, getRaw) {
 	ZEPHIR_INIT_VAR(_0);
 	object_init_ex(_0, phalcon_di_exception_ce);
 	ZEPHIR_INIT_VAR(_1);
-	ZEPHIR_CONCAT_SV(_1, "Service '", name);
-	ZEPHIR_INIT_VAR(_2);
-	ZEPHIR_CONCAT_VS(_2, _1, "' wasn't found in the dependency injection container");
-	zephir_call_method_p1_noret(_0, "__construct", _2);
+	ZEPHIR_CONCAT_SVS(_1, "Service '", name, "' wasn't found in the dependency injection container");
+	zephir_call_method_p1_noret(_0, "__construct", _1);
 	zephir_throw_exception(_0 TSRMLS_CC);
 	ZEPHIR_MM_RESTORE();
 	return;
@@ -284,7 +282,7 @@ PHP_METHOD(Phalcon_Di, getRaw) {
  */
 PHP_METHOD(Phalcon_Di, getService) {
 
-	zval *name_param = NULL, *services, *service, *_0, *_1, *_2;
+	zval *name_param = NULL, *services, *service, *_0, *_1;
 	zval *name = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -300,10 +298,8 @@ PHP_METHOD(Phalcon_Di, getService) {
 	ZEPHIR_INIT_VAR(_0);
 	object_init_ex(_0, phalcon_di_exception_ce);
 	ZEPHIR_INIT_VAR(_1);
-	ZEPHIR_CONCAT_SV(_1, "Service '", name);
-	ZEPHIR_INIT_VAR(_2);
-	ZEPHIR_CONCAT_VS(_2, _1, "' wasn't found in the dependency injection container");
-	zephir_call_method_p1_noret(_0, "__construct", _2);
+	ZEPHIR_CONCAT_SVS(_1, "Service '", name, "' wasn't found in the dependency injection container");
+	zephir_call_method_p1_noret(_0, "__construct", _1);
 	zephir_throw_exception(_0 TSRMLS_CC);
 	ZEPHIR_MM_RESTORE();
 	return;
@@ -319,7 +315,7 @@ PHP_METHOD(Phalcon_Di, getService) {
  */
 PHP_METHOD(Phalcon_Di, get) {
 
-	zval *name_param = NULL, *parameters = NULL, *services, *service, *instance = NULL, *_0, *_1, *_2, *_3;
+	zval *name_param = NULL, *parameters = NULL, *services, *service, *instance = NULL, *_0, *_1, *_2;
 	zval *name = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -360,10 +356,8 @@ PHP_METHOD(Phalcon_Di, get) {
 			ZEPHIR_INIT_VAR(_1);
 			object_init_ex(_1, phalcon_di_exception_ce);
 			ZEPHIR_INIT_VAR(_2);
-			ZEPHIR_CONCAT_SV(_2, "Service '", name);
-			ZEPHIR_INIT_VAR(_3);
-			ZEPHIR_CONCAT_VS(_3, _2, "' wasn't found in the dependency injection container");
-			zephir_call_method_p1_noret(_1, "__construct", _3);
+			ZEPHIR_CONCAT_SVS(_2, "Service '", name, "' wasn't found in the dependency injection container");
+			zephir_call_method_p1_noret(_1, "__construct", _2);
 			zephir_throw_exception(_1 TSRMLS_CC);
 			ZEPHIR_MM_RESTORE();
 			return;
@@ -563,7 +557,7 @@ PHP_METHOD(Phalcon_Di, offsetUnset) {
  */
 PHP_METHOD(Phalcon_Di, __call) {
 
-	zval *method_param = NULL, *arguments = NULL, *instance, *possibleService, *services, *definition, _0 = zval_used_for_init, *_1 = NULL, *_2, *_3, *_4;
+	zval *method_param = NULL, *arguments = NULL, *instance, *possibleService, *services, *definition, _0 = zval_used_for_init, *_1 = NULL, *_2, *_3;
 	zval *method = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -608,10 +602,8 @@ PHP_METHOD(Phalcon_Di, __call) {
 	ZEPHIR_INIT_NVAR(_1);
 	object_init_ex(_1, phalcon_di_exception_ce);
 	ZEPHIR_INIT_VAR(_3);
-	ZEPHIR_CONCAT_SV(_3, "Call to undefined method or service '", method);
-	ZEPHIR_INIT_VAR(_4);
-	ZEPHIR_CONCAT_VS(_4, _3, "'");
-	zephir_call_method_p1_noret(_1, "__construct", _4);
+	ZEPHIR_CONCAT_SVS(_3, "Call to undefined method or service '", method, "'");
+	zephir_call_method_p1_noret(_1, "__construct", _3);
 	zephir_throw_exception(_1 TSRMLS_CC);
 	ZEPHIR_MM_RESTORE();
 	return;

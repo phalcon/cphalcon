@@ -302,7 +302,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Group, _addRoute) {
 	object_init_ex(route, phalcon_mvc_router_route_ce);
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_prefix"), PH_NOISY_CC);
 	ZEPHIR_INIT_VAR(_1);
-	concat_function(_1, _0, pattern TSRMLS_CC);
+	ZEPHIR_CONCAT_VV(_1, _0, pattern);
 	zephir_call_method_p3_noret(route, "__construct", _1, mergedPaths, httpMethods);
 	zephir_update_property_array_append(this_ptr, SL("_routes"), route TSRMLS_CC);
 	RETURN_CCTOR(route);

@@ -76,7 +76,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Db_Adapter_Pdo_Mysql) {
  */
 PHP_METHOD(Phalcon_Db_Adapter_Pdo_Mysql, escapeIdentifier) {
 
-	zval *identifier, *domain, *name, *_0 = NULL, *_1 = NULL, *_2 = NULL, *_3 = NULL, *_4;
+	zval *identifier, *domain, *name, *_0 = NULL, *_1 = NULL;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &identifier);
@@ -91,18 +91,10 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Mysql, escapeIdentifier) {
 		ZEPHIR_INIT_VAR(_1);
 		zephir_call_func_p1(_1, "globals_get", _0);
 		if (zephir_is_true(_1)) {
-			ZEPHIR_INIT_VAR(_2);
-			ZEPHIR_CONCAT_SV(_2, "`", domain);
-			ZEPHIR_INIT_VAR(_3);
-			ZEPHIR_CONCAT_VS(_3, _2, "`.`");
-			ZEPHIR_INIT_VAR(_4);
-			concat_function(_4, _3, name TSRMLS_CC);
-			ZEPHIR_CONCAT_VS(return_value, _4, "`");
+			ZEPHIR_CONCAT_SVSVS(return_value, "`", domain, "`.`", name, "`");
 			RETURN_MM();
 		}
-		ZEPHIR_INIT_LNVAR(_2);
-		ZEPHIR_CONCAT_VS(_2, domain, ".");
-		concat_function(return_value, _2, name TSRMLS_CC);
+		ZEPHIR_CONCAT_VSV(return_value, domain, ".", name);
 		RETURN_MM();
 	}
 	ZEPHIR_INIT_NVAR(_0);
@@ -110,9 +102,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Mysql, escapeIdentifier) {
 	ZEPHIR_INIT_NVAR(_1);
 	zephir_call_func_p1(_1, "globals_get", _0);
 	if (zephir_is_true(_1)) {
-		ZEPHIR_INIT_LNVAR(_3);
-		ZEPHIR_CONCAT_SV(_3, "`", identifier);
-		ZEPHIR_CONCAT_VS(return_value, _3, "`");
+		ZEPHIR_CONCAT_SVS(return_value, "`", identifier, "`");
 		RETURN_MM();
 	}
 	RETURN_CCTOR(identifier);

@@ -274,10 +274,10 @@ PHP_METHOD(Phalcon_Flash, warning) {
  */
 PHP_METHOD(Phalcon_Flash, outputMessage) {
 
-	HashTable *_5;
-	HashPosition _4;
+	HashTable *_4;
+	HashPosition _3;
 	zend_bool automaticHtml, implicitFlush;
-	zval *type_param = NULL, *message, *content, *cssClasses = NULL, *classes, *typeClasses, *eol, *msg = NULL, *htmlMessage = NULL, *_0 = NULL, _1, *_2, *_3 = NULL, **_6, *_7 = NULL, *_8 = NULL, *_9 = NULL;
+	zval *type_param = NULL, *message, *content, *cssClasses = NULL, *classes, *typeClasses, *eol, *msg = NULL, *htmlMessage = NULL, *_0 = NULL, _1, *_2, **_5;
 	zval *type = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -298,13 +298,9 @@ PHP_METHOD(Phalcon_Flash, outputMessage) {
 				ZVAL_STRING(&_1, " ", 0);
 				ZEPHIR_INIT_VAR(_2);
 				zephir_call_func_p2(_2, "join", &_1, typeClasses);
-				ZEPHIR_INIT_VAR(_3);
-				ZEPHIR_CONCAT_SV(_3, " class=\"", _2);
-				ZEPHIR_CONCAT_VS(cssClasses, _3, "\"");
+				ZEPHIR_CONCAT_SVS(cssClasses, " class=\"", _2, "\"");
 			} else {
-				ZEPHIR_INIT_LNVAR(_3);
-				ZEPHIR_CONCAT_SV(_3, " class=\"", typeClasses);
-				ZEPHIR_CONCAT_VS(cssClasses, _3, "\"");
+				ZEPHIR_CONCAT_SVS(cssClasses, " class=\"", typeClasses, "\"");
 			}
 		} else {
 			ZEPHIR_INIT_NVAR(cssClasses);
@@ -321,23 +317,15 @@ PHP_METHOD(Phalcon_Flash, outputMessage) {
 			ZEPHIR_INIT_VAR(content);
 			ZVAL_STRING(content, "", 1);
 		}
-		zephir_is_iterable(message, &_5, &_4, 0, 0);
+		zephir_is_iterable(message, &_4, &_3, 0, 0);
 		for (
-			; zend_hash_get_current_data_ex(_5, (void**) &_6, &_4) == SUCCESS
-			; zend_hash_move_forward_ex(_5, &_4)
+			; zend_hash_get_current_data_ex(_4, (void**) &_5, &_3) == SUCCESS
+			; zend_hash_move_forward_ex(_4, &_3)
 		) {
-			ZEPHIR_GET_HVALUE(msg, _6);
+			ZEPHIR_GET_HVALUE(msg, _5);
 			if ((automaticHtml == 1)) {
-				ZEPHIR_INIT_LNVAR(_3);
-				ZEPHIR_CONCAT_SV(_3, "<div", cssClasses);
-				ZEPHIR_INIT_LNVAR(_7);
-				ZEPHIR_CONCAT_VS(_7, _3, ">");
-				ZEPHIR_INIT_LNVAR(_8);
-				concat_function(_8, _7, msg TSRMLS_CC);
-				ZEPHIR_INIT_LNVAR(_9);
-				ZEPHIR_CONCAT_VS(_9, _8, "</div>");
 				ZEPHIR_INIT_NVAR(htmlMessage);
-				concat_function(htmlMessage, _9, eol TSRMLS_CC);
+				ZEPHIR_CONCAT_SVSVSV(htmlMessage, "<div", cssClasses, ">", msg, "</div>", eol);
 			} else {
 				ZEPHIR_CPY_WRT(htmlMessage, msg);
 			}
@@ -352,16 +340,8 @@ PHP_METHOD(Phalcon_Flash, outputMessage) {
 		}
 	} else {
 		if ((automaticHtml == 1)) {
-			ZEPHIR_INIT_LNVAR(_3);
-			ZEPHIR_CONCAT_SV(_3, "<div", cssClasses);
-			ZEPHIR_INIT_LNVAR(_7);
-			ZEPHIR_CONCAT_VS(_7, _3, ">");
-			ZEPHIR_INIT_LNVAR(_8);
-			concat_function(_8, _7, message TSRMLS_CC);
-			ZEPHIR_INIT_LNVAR(_9);
-			ZEPHIR_CONCAT_VS(_9, _8, "</div>");
 			ZEPHIR_INIT_NVAR(htmlMessage);
-			concat_function(htmlMessage, _9, eol TSRMLS_CC);
+			ZEPHIR_CONCAT_SVSVSV(htmlMessage, "<div", cssClasses, ">", message, "</div>", eol);
 		} else {
 			ZEPHIR_CPY_WRT(htmlMessage, message);
 		}

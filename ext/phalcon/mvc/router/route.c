@@ -102,7 +102,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Route, __construct) {
  */
 PHP_METHOD(Phalcon_Mvc_Router_Route, compilePattern) {
 
-	zval *pattern_param = NULL, *idPattern, _0 = zval_used_for_init, *_1 = NULL, _2 = zval_used_for_init, *_3 = NULL;
+	zval *pattern_param = NULL, *idPattern, _0 = zval_used_for_init, *_1 = NULL, _2 = zval_used_for_init;
 	zval *pattern = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -162,15 +162,11 @@ PHP_METHOD(Phalcon_Mvc_Router_Route, compilePattern) {
 		}
 	}
 	if (zephir_memnstr_str(pattern, SL("("), "phalcon/mvc/router/route.zep", 114)) {
-		ZEPHIR_INIT_VAR(_3);
-		ZEPHIR_CONCAT_SV(_3, "#^", pattern);
-		ZEPHIR_CONCAT_VS(return_value, _3, "$#");
+		ZEPHIR_CONCAT_SVS(return_value, "#^", pattern, "$#");
 		RETURN_MM();
 	}
 	if (zephir_memnstr_str(pattern, SL("["), "phalcon/mvc/router/route.zep", 119)) {
-		ZEPHIR_INIT_LNVAR(_3);
-		ZEPHIR_CONCAT_SV(_3, "#^", pattern);
-		ZEPHIR_CONCAT_VS(return_value, _3, "$#");
+		ZEPHIR_CONCAT_SVS(return_value, "#^", pattern, "$#");
 		RETURN_MM();
 	}
 	RETURN_CTOR(pattern);

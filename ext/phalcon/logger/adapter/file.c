@@ -85,7 +85,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Logger_Adapter_File) {
  */
 PHP_METHOD(Phalcon_Logger_Adapter_File, __construct) {
 
-	zval *name_param = NULL, *options = NULL, *mode = NULL, *handler, *_0, *_1, *_2;
+	zval *name_param = NULL, *options = NULL, *mode = NULL, *handler, *_0, *_1;
 	zval *name = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -115,10 +115,8 @@ PHP_METHOD(Phalcon_Logger_Adapter_File, __construct) {
 		ZEPHIR_INIT_VAR(_0);
 		object_init_ex(_0, phalcon_logger_exception_ce);
 		ZEPHIR_INIT_VAR(_1);
-		ZEPHIR_CONCAT_SV(_1, "Can't open log file at '", name);
-		ZEPHIR_INIT_VAR(_2);
-		ZEPHIR_CONCAT_VS(_2, _1, "'");
-		zephir_call_method_p1_noret(_0, "__construct", _2);
+		ZEPHIR_CONCAT_SVS(_1, "Can't open log file at '", name, "'");
+		zephir_call_method_p1_noret(_0, "__construct", _1);
 		zephir_throw_exception(_0 TSRMLS_CC);
 		ZEPHIR_MM_RESTORE();
 		return;
