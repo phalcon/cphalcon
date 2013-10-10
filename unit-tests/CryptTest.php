@@ -81,4 +81,20 @@ class CryptTest extends PHPUnit_Framework_TestCase
 			}
 		}
 	}
+
+	public function testEncryptBase64()
+	{
+		$crypt = new Phalcon\Crypt();
+
+		$key = 'phalcon';
+		$text = 'https://github.com/phalcon/cphalcon/issues?state=open';
+
+		$encrypted = $crypt->encryptBase64($text, $key);
+		$actual = $crypt->decryptBase64($encrypted, $key);
+		$this->assertEquals($actual, $text);
+
+		$encrypted = $crypt->encryptBase64($text, $key, TRUE);
+		$actual = $crypt->decryptBase64($encrypted, $key, TRUE);
+		$this->assertEquals($actual, $text);
+	}
 }
