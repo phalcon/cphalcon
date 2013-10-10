@@ -367,14 +367,14 @@ class Query //implements Phalcon\Mvc\Model\QueryInterface, Phalcon\Di\InjectionA
 			let tempNotQuoting = true;
 
 			/**
-			 * Resolving left part of the expression if any
+			 * Resolving the left part of the expression if any
 			 */
 			if fetch exprLeft, expr["left"] {
 				let left = this->_getExpression(exprLeft, tempNotQuoting);
 			}
 
 			/**
-			 * Resolving right part of the expression if any
+			 * Resolving the right part of the expression if any
 			 */
 			if fetch exprRight, expr["right"] {
 				let right = this->_getExpression(exprRight, tempNotQuoting);
@@ -533,14 +533,14 @@ class Query //implements Phalcon\Mvc\Model\QueryInterface, Phalcon\Di\InjectionA
 		}
 
 		/**
-		 * Is a qualified column
+		 * It's a qualified column
 		 */
 		if isset expr["domain"] {
 			return this->_getQualified(expr);
 		}
 
 		/**
-		 * Is the expression doesn't have a type it's a list of nodes
+		 * If the expression doesn't have a type it's a list of nodes
 		 */
 		if isset expr[0] {
 			let listItems = [];

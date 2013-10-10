@@ -551,8 +551,6 @@ PHP_METHOD(Phalcon_Mvc_Router, handle) {
 					ZEPHIR_THROW_EXCEPTION_STR(phalcon_mvc_router_exception_ce, "Before-Match callback is not callable in matched route");
 					return;
 				}
-				ZEPHIR_INIT_NVAR(routeFound);
-				zephir_call_func_p3(routeFound, "beforematch", handledUri, route, this_ptr);
 			}
 		}
 		if (zephir_is_true(routeFound)) {
@@ -574,7 +572,6 @@ PHP_METHOD(Phalcon_Mvc_Router, handle) {
 							ZEPHIR_OBS_NVAR(converter);
 							if (zephir_array_isset_fetch(&converter, converters, part, 0 TSRMLS_CC)) {
 								ZEPHIR_INIT_NVAR(_7);
-								zephir_call_func_p1(_7, "converter", matchPosition);
 								zephir_array_update_zval(&parts, part, &_7, PH_COPY | PH_SEPARATE);
 								continue;
 							}
@@ -585,7 +582,6 @@ PHP_METHOD(Phalcon_Mvc_Router, handle) {
 							ZEPHIR_OBS_NVAR(converter);
 							if (zephir_array_isset_fetch(&converter, converters, part, 0 TSRMLS_CC)) {
 								ZEPHIR_INIT_NVAR(_8);
-								zephir_call_func_p1(_8, "converter", matchPosition);
 								zephir_array_update_zval(&parts, part, &_8, PH_COPY | PH_SEPARATE);
 							}
 						}
