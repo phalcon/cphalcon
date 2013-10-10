@@ -354,7 +354,7 @@ int phalcon_fetch_parameters_ex(int dummy TSRMLS_DC, int n_req, int n_opt, ...);
 #endif
 
 #define phalcon_fetch_params_ex(required_params, optional_params, ...) \
-	if (phalcon_fetch_parameters_ex(0 TSRMLS_C, required_params, optional_params, __VA_ARGS__) == FAILURE) { \
+	if (phalcon_fetch_parameters_ex(0 TSRMLS_CC, required_params, optional_params, __VA_ARGS__) == FAILURE) { \
 		zend_throw_exception_ex(spl_ce_BadMethodCallException, 0 TSRMLS_CC, "Wrong number of parameters"); \
 		return; \
 	}

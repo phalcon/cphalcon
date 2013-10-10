@@ -164,9 +164,7 @@ PHP_METHOD(Phalcon_Session_Adapter, get){
 	zval *value;
 
 	PHALCON_MM_GROW();
-
 	phalcon_fetch_params(1, 1, 2, &index, &default_value, &remove);
-	
 	if (!default_value) {
 		default_value = PHALCON_GLOBAL(z_null);
 	}
@@ -185,15 +183,14 @@ PHP_METHOD(Phalcon_Session_Adapter, get){
 	
 		PHALCON_OBS_VAR(value);
 		phalcon_array_fetch(&value, _SESSION, key, PH_NOISY);
-		if (PHALCON_IS_NOT_EMPTY(value)) {
-			RETURN_CTOR(value);
-		}
-
 		if (zend_is_true(remove)) {
 			phalcon_array_unset(&_SESSION, key, 0);
 		}
+		if (PHALCON_IS_NOT_EMPTY(value)) {
+			RETURN_CTOR(value);
+		}
 	}
-	
+
 	RETURN_CTOR(default_value);
 }
 
@@ -281,7 +278,7 @@ PHP_METHOD(Phalcon_Session_Adapter, remove){
 	PHALCON_CONCAT_VV(key, unique_id, index);
 	phalcon_get_global(&_SESSION, SS("_SESSION") TSRMLS_CC);
 	phalcon_array_unset(&_SESSION, key, 0);
-	
+
 	PHALCON_MM_RESTORE();
 }
 

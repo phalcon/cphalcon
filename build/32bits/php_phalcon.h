@@ -194,4 +194,8 @@ extern zend_module_entry phalcon_module_entry;
 #		define PHALCON_USE_PHP_SESSION 1
 #	endif
 
+#	if defined(HAVE_HASH_EXT) && !defined(PHALCON_USE_PHP_HASH)
+#		define PHALCON_USE_PHP_HASH 1
+#	endif
+
 #endif /* !defined(__CYGWIN__) && !defined(WIN32) && defined(HAVE_CONFIG_H) */
