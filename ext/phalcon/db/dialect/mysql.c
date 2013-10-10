@@ -18,6 +18,7 @@
 #include "kernel/operators.h"
 #include "kernel/concat.h"
 #include "kernel/array.h"
+#include "kernel/string.h"
 
 
 /*
@@ -548,7 +549,7 @@ PHP_METHOD(Phalcon_Db_Dialect_MySQL, dropForeignKey) {
  */
 PHP_METHOD(Phalcon_Db_Dialect_MySQL, _getTableOptions) {
 
-	zval *definition, *options, *engine, *autoIncrement, *tableCollation, *collationParts, *tableOptions, *_0 = NULL, _1 = zval_used_for_init, *_2, *_3;
+	zval *definition, *options, *engine, *autoIncrement, *tableCollation, *collationParts, *tableOptions, *_0 = NULL, _1, *_2, *_3;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &definition);
@@ -588,9 +589,7 @@ PHP_METHOD(Phalcon_Db_Dialect_MySQL, _getTableOptions) {
 			}
 		}
 		if (zephir_fast_count_int(tableOptions TSRMLS_CC)) {
-			ZEPHIR_SINIT_NVAR(_1);
-			ZVAL_STRING(&_1, " ", 0);
-			zephir_call_func_p2(return_value, "join", &_1, tableOptions);
+			zephir_fast_join_str(return_value, SL(" "), tableOptions TSRMLS_CC);
 			RETURN_MM();
 		}
 	}
@@ -611,7 +610,7 @@ PHP_METHOD(Phalcon_Db_Dialect_MySQL, createTable) {
 	zend_function *_4 = NULL, *_6 = NULL, *_8 = NULL, *_10 = NULL, *_12 = NULL, *_16 = NULL, *_17 = NULL, *_18 = NULL, *_19 = NULL, *_20 = NULL, *_24 = NULL, *_25 = NULL, *_26 = NULL, *_27 = NULL, *_28 = NULL;
 	HashTable *_1, *_14, *_22;
 	HashPosition _0, _13, _21;
-	zval *tableName_param = NULL, *schemaName_param = NULL, *definition, *temporary = NULL, *options, *table, *createLines, *columns, *column = NULL, *indexes, *index = NULL, *reference = NULL, *references, *indexName = NULL, *indexSql = NULL, *sql, *columnLine = NULL, **_2, *_3 = NULL, *_5 = NULL, *_7 = NULL, *_9 = NULL, *_11 = NULL, **_15, **_23, *_29 = NULL, _30, *_31;
+	zval *tableName_param = NULL, *schemaName_param = NULL, *definition, *temporary = NULL, *options, *table, *createLines, *columns, *column = NULL, *indexes, *index = NULL, *reference = NULL, *references, *indexName = NULL, *indexSql = NULL, *sql, *columnLine = NULL, **_2, *_3 = NULL, *_5 = NULL, *_7 = NULL, *_9 = NULL, *_11 = NULL, **_15, **_23, *_29 = NULL, *_30;
 	zval *tableName = NULL, *schemaName = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -721,19 +720,17 @@ PHP_METHOD(Phalcon_Db_Dialect_MySQL, createTable) {
 			zephir_array_append(&createLines, _29, PH_SEPARATE);
 		}
 	}
-	ZEPHIR_SINIT_VAR(_30);
-	ZVAL_STRING(&_30, ",\n\t", 0);
 	ZEPHIR_INIT_NVAR(_3);
-	zephir_call_func_p2(_3, "join", &_30, createLines);
+	zephir_fast_join_str(_3, SL(",\n\t"), createLines TSRMLS_CC);
 	ZEPHIR_INIT_LNVAR(_29);
 	ZEPHIR_CONCAT_VS(_29, _3, "\n)");
 	zephir_concat_self(&sql, _29 TSRMLS_CC);
 	if (zephir_array_isset_string(definition, SS("options"))) {
 		ZEPHIR_INIT_NVAR(_5);
 		zephir_call_method_p1(_5, this_ptr, "_gettableoptions", definition);
-		ZEPHIR_INIT_VAR(_31);
-		ZEPHIR_CONCAT_SV(_31, " ", _5);
-		zephir_concat_self(&sql, _31 TSRMLS_CC);
+		ZEPHIR_INIT_VAR(_30);
+		ZEPHIR_CONCAT_SV(_30, " ", _5);
+		zephir_concat_self(&sql, _30 TSRMLS_CC);
 	}
 	RETURN_CCTOR(sql);
 

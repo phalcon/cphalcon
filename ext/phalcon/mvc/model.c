@@ -1070,7 +1070,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _exists) {
 	HashTable *_3;
 	HashPosition _2;
 	int numberEmpty, numberPrimary;
-	zval *metaData, *connection, *table = NULL, *uniqueParams = NULL, *uniqueTypes = NULL, *uniqueKey = NULL, *columnMap, *primaryKeys, *wherePk, *field = NULL, *attributeField = NULL, *value = NULL, *bindDataTypes, *joinWhere, *num, *type, *schema, *source, *_0 = NULL, *_1, **_4, *_5 = NULL, *_9 = NULL, _10, *_11, *_12, *_13;
+	zval *metaData, *connection, *table = NULL, *uniqueParams = NULL, *uniqueTypes = NULL, *uniqueKey = NULL, *columnMap, *primaryKeys, *wherePk, *field = NULL, *attributeField = NULL, *value = NULL, *bindDataTypes, *joinWhere, *num, *type, *schema, *source, *_0 = NULL, *_1, **_4, *_5 = NULL, *_9 = NULL, *_10, *_11, *_12;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 1, &metaData, &connection, &table);
@@ -1165,17 +1165,15 @@ PHP_METHOD(Phalcon_Mvc_Model, _exists) {
 		if ((numberPrimary == numberEmpty)) {
 			RETURN_MM_BOOL(0);
 		}
-		ZEPHIR_SINIT_VAR(_10);
-		ZVAL_STRING(&_10, " AND ", 0);
 		ZEPHIR_INIT_VAR(joinWhere);
-		zephir_call_func_p2(joinWhere, "join", &_10, wherePk);
+		zephir_fast_join_str(joinWhere, SL(" and "), wherePk TSRMLS_CC);
 		zephir_update_property_this(this_ptr, SL("_uniqueKey"), joinWhere TSRMLS_CC);
 		zephir_update_property_this(this_ptr, SL("_uniqueParams"), uniqueParams TSRMLS_CC);
 		zephir_update_property_this(this_ptr, SL("_uniqueTypes"), uniqueTypes TSRMLS_CC);
 		ZEPHIR_CPY_WRT(uniqueKey, joinWhere);
 	}
-	_11 = zephir_fetch_nproperty_this(this_ptr, SL("_dirtyState"), PH_NOISY_CC);
-	if (!(zephir_is_true(_11))) {
+	_10 = zephir_fetch_nproperty_this(this_ptr, SL("_dirtyState"), PH_NOISY_CC);
+	if (!(zephir_is_true(_10))) {
 		RETURN_MM_BOOL(1);
 	}
 	if ((Z_TYPE_P(uniqueKey) == IS_NULL)) {
@@ -1208,16 +1206,16 @@ PHP_METHOD(Phalcon_Mvc_Model, _exists) {
 	ZEPHIR_CONCAT_SVSV(_9, "SELECT COUNT(*) \"rowcount\" FROM ", _0, " WHERE ", uniqueKey);
 	ZEPHIR_INIT_VAR(num);
 	zephir_call_method_p4(num, connection, "fetchone", _9, ZEPHIR_GLOBAL(global_null), uniqueParams, uniqueTypes);
-	zephir_array_fetch_string(&_12, num, SL("rowcount"), PH_NOISY | PH_READONLY TSRMLS_CC);
-	if (zephir_is_true(_12)) {
-		ZEPHIR_INIT_ZVAL_NREF(_13);
-		ZVAL_LONG(_13, 0);
-		zephir_update_property_this(this_ptr, SL("_dirtyState"), _13 TSRMLS_CC);
+	zephir_array_fetch_string(&_11, num, SL("rowcount"), PH_NOISY | PH_READONLY TSRMLS_CC);
+	if (zephir_is_true(_11)) {
+		ZEPHIR_INIT_ZVAL_NREF(_12);
+		ZVAL_LONG(_12, 0);
+		zephir_update_property_this(this_ptr, SL("_dirtyState"), _12 TSRMLS_CC);
 		RETURN_MM_BOOL(1);
 	} else {
-		ZEPHIR_INIT_ZVAL_NREF(_13);
-		ZVAL_LONG(_13, 1);
-		zephir_update_property_this(this_ptr, SL("_dirtyState"), _13 TSRMLS_CC);
+		ZEPHIR_INIT_ZVAL_NREF(_12);
+		ZVAL_LONG(_12, 1);
+		zephir_update_property_this(this_ptr, SL("_dirtyState"), _12 TSRMLS_CC);
 	}
 	RETURN_MM_BOOL(0);
 
@@ -1751,11 +1749,11 @@ PHP_METHOD(Phalcon_Mvc_Model, getMessages) {
  */
 PHP_METHOD(Phalcon_Mvc_Model, _checkForeignKeysRestrict) {
 
-	zend_function *_4 = NULL, *_6 = NULL, *_7 = NULL, *_8 = NULL, *_9 = NULL, *_18 = NULL, *_21 = NULL, *_22 = NULL;
+	zend_function *_4 = NULL, *_6 = NULL, *_7 = NULL, *_8 = NULL, *_9 = NULL, *_17 = NULL, *_20 = NULL, *_21 = NULL;
 	HashTable *_2, *_11;
 	HashPosition _1, _10;
 	zend_bool error;
-	zval *manager = NULL, *belongsTo, *foreignKey = NULL, *relation = NULL, *conditions = NULL, *position = NULL, *bindParams = NULL, *extraConditions, *message = NULL, *fields = NULL, *referencedFields = NULL, *field = NULL, *action = NULL, *referencedModel = NULL, *value = NULL, *_0, **_3, *_5 = NULL, **_12, *_13 = NULL, *_14 = NULL, *_15 = NULL, _16 = zval_used_for_init, *_17 = NULL, *_19 = NULL, *_20 = NULL;
+	zval *manager = NULL, *belongsTo, *foreignKey = NULL, *relation = NULL, *conditions = NULL, *position = NULL, *bindParams = NULL, *extraConditions, *message = NULL, *fields = NULL, *referencedFields = NULL, *field = NULL, *action = NULL, *referencedModel = NULL, *value = NULL, *_0, **_3, *_5 = NULL, **_12, *_13 = NULL, *_14 = NULL, *_15 = NULL, *_16 = NULL, *_18 = NULL, *_19 = NULL;
 
 	ZEPHIR_MM_GROW();
 
@@ -1820,33 +1818,29 @@ PHP_METHOD(Phalcon_Mvc_Model, _checkForeignKeysRestrict) {
 					ZEPHIR_INIT_NVAR(_14);
 					ZEPHIR_INIT_NVAR(_15);
 					array_init(_15);
-					ZEPHIR_SINIT_NVAR(_16);
-					ZVAL_STRING(&_16, " AND ", 0);
-					ZEPHIR_INIT_NVAR(_17);
-					zephir_call_func_p2(_17, "join", &_16, conditions);
-					zephir_array_fast_append(_15, _17);
+					ZEPHIR_INIT_NVAR(_16);
+					zephir_fast_join_str(_16, SL(" and "), conditions TSRMLS_CC);
+					zephir_array_fast_append(_15, _16);
 					zephir_array_update_string(&_15, SL("bind"), &bindParams, PH_COPY | PH_SEPARATE);
-					zephir_call_method_p1_cache(_14, referencedModel, "count", &_18, _15);
+					zephir_call_method_p1_cache(_14, referencedModel, "count", &_17, _15);
 					if (!(zephir_is_true(_14))) {
 						ZEPHIR_OBS_NVAR(message);
 						if (!(zephir_array_isset_string_fetch(&message, foreignKey, SS("message"), 0 TSRMLS_CC))) {
 							ZEPHIR_INIT_NVAR(message);
 							if ((Z_TYPE_P(fields) == IS_ARRAY)) {
-								ZEPHIR_SINIT_NVAR(_16);
-								ZVAL_STRING(&_16, ", ", 0);
-								ZEPHIR_INIT_NVAR(_17);
-								zephir_call_func_p2(_17, "join", &_16, fields);
-								ZEPHIR_CONCAT_SVS(message, "Value of fields '", _17, "' does not exist on referenced table");
+								ZEPHIR_INIT_NVAR(_16);
+								zephir_fast_join_str(_16, SL(", "), fields TSRMLS_CC);
+								ZEPHIR_CONCAT_SVS(message, "Value of fields '", _16, "' does not exist on referenced table");
 							} else {
 								ZEPHIR_CONCAT_SVS(message, "Value of field '", fields, "' does not exist on referenced table");
 							}
 						}
+						ZEPHIR_INIT_NVAR(_18);
+						object_init_ex(_18, phalcon_mvc_model_message_ce);
 						ZEPHIR_INIT_NVAR(_19);
-						object_init_ex(_19, phalcon_mvc_model_message_ce);
-						ZEPHIR_INIT_NVAR(_20);
-						ZVAL_STRING(_20, "ConstraintViolation", 1);
-						zephir_call_method_p3_cache_noret(_19, "__construct", &_21, message, fields, _20);
-						zephir_call_method_p1_cache_noret(this_ptr, "appendmessage", &_22, _19);
+						ZVAL_STRING(_19, "ConstraintViolation", 1);
+						zephir_call_method_p3_cache_noret(_18, "__construct", &_20, message, fields, _19);
+						zephir_call_method_p1_cache_noret(this_ptr, "appendmessage", &_21, _18);
 						error = 1;
 						break;
 					}
@@ -1878,10 +1872,10 @@ PHP_METHOD(Phalcon_Mvc_Model, _checkForeignKeysRestrict) {
  */
 PHP_METHOD(Phalcon_Mvc_Model, _checkForeignKeysReverseCascade) {
 
-	zend_function *_4 = NULL, *_6 = NULL, *_7 = NULL, *_8 = NULL, *_9 = NULL, *_17 = NULL, *_18 = NULL;
+	zend_function *_4 = NULL, *_6 = NULL, *_7 = NULL, *_8 = NULL, *_9 = NULL, *_16 = NULL, *_17 = NULL;
 	HashTable *_2, *_11;
 	HashPosition _1, _10;
-	zval *manager = NULL, *relations, *relation = NULL, *foreignKey = NULL, *resulset = NULL, *conditions = NULL, *bindParams = NULL, *referencedModel = NULL, *referencedFields = NULL, *action = NULL, *fields = NULL, *field = NULL, *position = NULL, *value = NULL, *extraConditions, *_0, **_3, *_5 = NULL, **_12, *_13 = NULL, *_14 = NULL, _15 = zval_used_for_init, *_16 = NULL;
+	zval *manager = NULL, *relations, *relation = NULL, *foreignKey = NULL, *resulset = NULL, *conditions = NULL, *bindParams = NULL, *referencedModel = NULL, *referencedFields = NULL, *action = NULL, *fields = NULL, *field = NULL, *position = NULL, *value = NULL, *extraConditions, *_0, **_3, *_5 = NULL, **_12, *_13 = NULL, *_14 = NULL, *_15 = NULL;
 
 	ZEPHIR_MM_GROW();
 
@@ -1944,17 +1938,15 @@ PHP_METHOD(Phalcon_Mvc_Model, _checkForeignKeysReverseCascade) {
 					}
 					ZEPHIR_INIT_NVAR(_14);
 					array_init(_14);
-					ZEPHIR_SINIT_NVAR(_15);
-					ZVAL_STRING(&_15, " AND ", 0);
-					ZEPHIR_INIT_NVAR(_16);
-					zephir_call_func_p2(_16, "join", &_15, conditions);
-					zephir_array_fast_append(_14, _16);
+					ZEPHIR_INIT_NVAR(_15);
+					zephir_fast_join_str(_15, SL(" and "), conditions TSRMLS_CC);
+					zephir_array_fast_append(_14, _15);
 					zephir_array_update_string(&_14, SL("bind"), &bindParams, PH_COPY | PH_SEPARATE);
 					ZEPHIR_INIT_NVAR(resulset);
-					zephir_call_method_p1_cache(resulset, referencedModel, "find", &_17, _14);
-					ZEPHIR_INIT_NVAR(_16);
-					zephir_call_method_cache(_16, resulset, "delete", &_18);
-					if (ZEPHIR_IS_FALSE(_16)) {
+					zephir_call_method_p1_cache(resulset, referencedModel, "find", &_16, _14);
+					ZEPHIR_INIT_NVAR(_15);
+					zephir_call_method_cache(_15, resulset, "delete", &_17);
+					if (ZEPHIR_IS_FALSE(_15)) {
 						RETURN_MM_BOOL(0);
 					}
 				}
@@ -1972,10 +1964,10 @@ PHP_METHOD(Phalcon_Mvc_Model, _checkForeignKeysReverseCascade) {
  */
 PHP_METHOD(Phalcon_Mvc_Model, _checkForeignKeysReverseRestrict) {
 
-	zend_function *_3 = NULL, *_4 = NULL, *_5 = NULL, *_6 = NULL, *_7 = NULL, *_17 = NULL, *_19 = NULL, *_20 = NULL;
+	zend_function *_3 = NULL, *_4 = NULL, *_5 = NULL, *_6 = NULL, *_7 = NULL, *_16 = NULL, *_18 = NULL, *_19 = NULL;
 	HashTable *_1, *_9;
 	HashPosition _0, _8;
-	zval *manager, *relations, *foreignKey = NULL, *action = NULL, *relation = NULL, *relationClass = NULL, *referencedModel = NULL, *fields = NULL, *referencedFields = NULL, *conditions = NULL, *bindParams = NULL, *position = NULL, *field = NULL, *value = NULL, *extraConditions, *message = NULL, **_2, **_10, *_11, *_12 = NULL, *_13 = NULL, *_14 = NULL, _15 = zval_used_for_init, *_16 = NULL, *_18 = NULL;
+	zval *manager, *relations, *foreignKey = NULL, *action = NULL, *relation = NULL, *relationClass = NULL, *referencedModel = NULL, *fields = NULL, *referencedFields = NULL, *conditions = NULL, *bindParams = NULL, *position = NULL, *field = NULL, *value = NULL, *extraConditions, *message = NULL, **_2, **_10, *_11, *_12 = NULL, *_13 = NULL, *_14 = NULL, *_15 = NULL, *_17 = NULL;
 	zend_bool error;
 
 	ZEPHIR_MM_GROW();
@@ -2040,25 +2032,23 @@ PHP_METHOD(Phalcon_Mvc_Model, _checkForeignKeysReverseRestrict) {
 					ZEPHIR_INIT_NVAR(_13);
 					ZEPHIR_INIT_NVAR(_14);
 					array_init(_14);
-					ZEPHIR_SINIT_NVAR(_15);
-					ZVAL_STRING(&_15, " AND ", 0);
-					ZEPHIR_INIT_NVAR(_16);
-					zephir_call_func_p2(_16, "join", &_15, conditions);
-					zephir_array_fast_append(_14, _16);
+					ZEPHIR_INIT_NVAR(_15);
+					zephir_fast_join_str(_15, SL(" and "), conditions TSRMLS_CC);
+					zephir_array_fast_append(_14, _15);
 					zephir_array_update_string(&_14, SL("bind"), &bindParams, PH_COPY | PH_SEPARATE);
-					zephir_call_method_p1_cache(_13, referencedModel, "count", &_17, _14);
+					zephir_call_method_p1_cache(_13, referencedModel, "count", &_16, _14);
 					if (zephir_is_true(_13)) {
 						ZEPHIR_OBS_NVAR(message);
 						if (!(zephir_array_isset_string_fetch(&message, foreignKey, SS("message"), 0 TSRMLS_CC))) {
 							ZEPHIR_INIT_NVAR(message);
 							ZEPHIR_CONCAT_SV(message, "Record is referenced by model ", relationClass);
 						}
-						ZEPHIR_INIT_NVAR(_16);
-						object_init_ex(_16, phalcon_mvc_model_message_ce);
-						ZEPHIR_INIT_NVAR(_18);
-						ZVAL_STRING(_18, "ConstraintViolation", 1);
-						zephir_call_method_p3_cache_noret(_16, "__construct", &_19, message, fields, _18);
-						zephir_call_method_p1_cache_noret(this_ptr, "appendmessage", &_20, _16);
+						ZEPHIR_INIT_NVAR(_15);
+						object_init_ex(_15, phalcon_mvc_model_message_ce);
+						ZEPHIR_INIT_NVAR(_17);
+						ZVAL_STRING(_17, "ConstraintViolation", 1);
+						zephir_call_method_p3_cache_noret(_15, "__construct", &_18, message, fields, _17);
+						zephir_call_method_p1_cache_noret(this_ptr, "appendmessage", &_19, _15);
 						error = 1;
 						break;
 					}
@@ -3388,7 +3378,7 @@ PHP_METHOD(Phalcon_Mvc_Model, delete) {
 	zend_function *_10 = NULL, *_11 = NULL, *_12 = NULL, *_13 = NULL;
 	HashTable *_7;
 	HashPosition _6;
-	zval *metaData, *writeConnection, *values, *bindTypes, *primaryKeys, *bindDataTypes, *columnMap, *attributeField = NULL, *conditions, *primaryKey = NULL, *bindType, *value, *schema, *source, *table = NULL, *success, *_0, *_1, *_2, *_3, *_4 = NULL, *_5, **_8, *_9 = NULL, *_14, *_15, *_16 = NULL, _17, *_18, *_19, *_20, *_21;
+	zval *metaData, *writeConnection, *values, *bindTypes, *primaryKeys, *bindDataTypes, *columnMap, *attributeField = NULL, *conditions, *primaryKey = NULL, *bindType, *value, *schema, *source, *table = NULL, *success, *_0, *_1, *_2, *_3, *_4 = NULL, *_5, **_8, *_9 = NULL, *_14, *_15, *_16 = NULL, *_17, *_18, *_19, *_20;
 
 	ZEPHIR_MM_GROW();
 
@@ -3517,37 +3507,35 @@ PHP_METHOD(Phalcon_Mvc_Model, delete) {
 	} else {
 		ZEPHIR_CPY_WRT(table, source);
 	}
-	ZEPHIR_SINIT_VAR(_17);
-	ZVAL_STRING(&_17, " AND ", 0);
 	ZEPHIR_INIT_NVAR(_16);
-	zephir_call_func_p2(_16, "join", &_17, conditions);
+	zephir_fast_join_str(_16, SL(" and "), conditions TSRMLS_CC);
 	ZEPHIR_INIT_VAR(success);
 	zephir_call_method_p4(success, writeConnection, "delete", table, _16, values, bindTypes);
+	ZEPHIR_INIT_VAR(_17);
+	ZVAL_STRING(_17, "orm.virtual_foreign_keys", 1);
 	ZEPHIR_INIT_VAR(_18);
-	ZVAL_STRING(_18, "orm.virtual_foreign_keys", 1);
-	ZEPHIR_INIT_VAR(_19);
-	zephir_call_func_p1(_19, "globals_get", _18);
-	if (zephir_is_true(_19)) {
-		ZEPHIR_INIT_BNVAR(_18);
-		zephir_call_method(_18, this_ptr, "_checkforeignkeysreversecascade");
-		if (ZEPHIR_IS_FALSE(_18)) {
+	zephir_call_func_p1(_18, "globals_get", _17);
+	if (zephir_is_true(_18)) {
+		ZEPHIR_INIT_BNVAR(_17);
+		zephir_call_method(_17, this_ptr, "_checkforeignkeysreversecascade");
+		if (ZEPHIR_IS_FALSE(_17)) {
 			RETURN_MM_BOOL(0);
 		}
 	}
 	ZEPHIR_INIT_NVAR(_16);
 	ZVAL_STRING(_16, "orm.events", 1);
-	ZEPHIR_INIT_VAR(_20);
-	zephir_call_func_p1(_20, "globals_get", _16);
-	if (zephir_is_true(_20)) {
+	ZEPHIR_INIT_VAR(_19);
+	zephir_call_func_p1(_19, "globals_get", _16);
+	if (zephir_is_true(_19)) {
 		if (zephir_is_true(success)) {
 			ZEPHIR_INIT_NVAR(_16);
 			ZVAL_STRING(_16, "afterDelete", 1);
 			zephir_call_method_p1_noret(this_ptr, "fireevent", _16);
 		}
 	}
-	ZEPHIR_INIT_ZVAL_NREF(_21);
-	ZVAL_LONG(_21, 2);
-	zephir_update_property_this(this_ptr, SL("_dirtyState"), _21 TSRMLS_CC);
+	ZEPHIR_INIT_ZVAL_NREF(_20);
+	ZVAL_LONG(_20, 2);
+	zephir_update_property_this(this_ptr, SL("_dirtyState"), _20 TSRMLS_CC);
 	RETURN_CCTOR(success);
 
 }

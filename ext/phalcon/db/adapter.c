@@ -20,6 +20,7 @@
 #include "kernel/operators.h"
 #include "kernel/exception.h"
 #include "kernel/hash.h"
+#include "kernel/string.h"
 
 
 /*
@@ -378,10 +379,10 @@ PHP_METHOD(Phalcon_Db_Adapter, fetchAll) {
  */
 PHP_METHOD(Phalcon_Db_Adapter, insert) {
 
-	zend_function *_11 = NULL;
-	HashTable *_3, *_9;
-	HashPosition _2, _8;
-	zval *table, *values, *fields = NULL, *dataTypes = NULL, *placeholders, *insertValues, *bindDataTypes = NULL, *bindType, *position = NULL, *value = NULL, *escapedTable = NULL, *joinedValues, *escapedFields = NULL, *field = NULL, *insertSql, *_0 = NULL, *_1, **_4, *_5 = NULL, _6 = zval_used_for_init, *_7, **_10;
+	zend_function *_10 = NULL;
+	HashTable *_3, *_8;
+	HashPosition _2, _7;
+	zval *table, *values, *fields = NULL, *dataTypes = NULL, *placeholders, *insertValues, *bindDataTypes = NULL, *bindType, *position = NULL, *value = NULL, *escapedTable = NULL, *joinedValues, *escapedFields = NULL, *field = NULL, *insertSql, *_0 = NULL, *_1, **_4, *_5 = NULL, *_6, **_9;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 2, &table, &values, &fields, &dataTypes);
@@ -456,36 +457,32 @@ PHP_METHOD(Phalcon_Db_Adapter, insert) {
 	} else {
 		ZEPHIR_CPY_WRT(escapedTable, table);
 	}
-	ZEPHIR_SINIT_VAR(_6);
-	ZVAL_STRING(&_6, ", ", 0);
 	ZEPHIR_INIT_VAR(joinedValues);
-	zephir_call_func_p2(joinedValues, "join", &_6, placeholders);
+	zephir_fast_join_str(joinedValues, SL(", "), placeholders TSRMLS_CC);
 	ZEPHIR_INIT_VAR(insertSql);
 	if ((Z_TYPE_P(fields) == IS_ARRAY)) {
 		ZEPHIR_INIT_NVAR(_0);
 		ZVAL_STRING(_0, "db.escape_identifiers", 1);
-		ZEPHIR_INIT_VAR(_7);
-		zephir_call_func_p1(_7, "globals_get", _0);
-		if (zephir_is_true(_7)) {
+		ZEPHIR_INIT_VAR(_6);
+		zephir_call_func_p1(_6, "globals_get", _0);
+		if (zephir_is_true(_6)) {
 			ZEPHIR_INIT_VAR(escapedFields);
 			array_init(escapedFields);
-			zephir_is_iterable(fields, &_9, &_8, 0, 0);
+			zephir_is_iterable(fields, &_8, &_7, 0, 0);
 			for (
-				; zend_hash_get_current_data_ex(_9, (void**) &_10, &_8) == SUCCESS
-				; zend_hash_move_forward_ex(_9, &_8)
+				; zend_hash_get_current_data_ex(_8, (void**) &_9, &_7) == SUCCESS
+				; zend_hash_move_forward_ex(_8, &_7)
 			) {
-				ZEPHIR_GET_HVALUE(field, _10);
+				ZEPHIR_GET_HVALUE(field, _9);
 				ZEPHIR_INIT_NVAR(_0);
-				zephir_call_method_p1_cache(_0, this_ptr, "escapeidentifier", &_11, field);
+				zephir_call_method_p1_cache(_0, this_ptr, "escapeidentifier", &_10, field);
 				zephir_array_append(&escapedFields, _0, PH_SEPARATE);
 			}
 		} else {
 			ZEPHIR_CPY_WRT(escapedFields, fields);
 		}
-		ZEPHIR_SINIT_NVAR(_6);
-		ZVAL_STRING(&_6, ", ", 0);
 		ZEPHIR_INIT_NVAR(_5);
-		zephir_call_func_p2(_5, "join", &_6, escapedFields);
+		zephir_fast_join_str(_5, SL(", "), escapedFields TSRMLS_CC);
 		ZEPHIR_CONCAT_SVSVSVS(insertSql, "INSERT INTO ", escapedTable, " (", _5, ") VALUES (", joinedValues, ")");
 	} else {
 		ZEPHIR_CONCAT_SVSVS(insertSql, "INSERT INTO ", escapedTable, " VALUES (", joinedValues, ")");
@@ -523,7 +520,7 @@ PHP_METHOD(Phalcon_Db_Adapter, update) {
 	zend_function *_5 = NULL;
 	HashTable *_1;
 	HashPosition _0;
-	zval *table, *fields, *values, *whereCondition = NULL, *dataTypes = NULL, *placeholders, *updateValues, *position = NULL, *value = NULL, *field, *bindDataTypes = NULL, *escapedField = NULL, *bindType, *escapedTable = NULL, *setClause, *updateSql, *conditions, *whereBind, *whereTypes, **_2, *_3 = NULL, *_4 = NULL, *_6 = NULL, *_7 = NULL, _8;
+	zval *table, *fields, *values, *whereCondition = NULL, *dataTypes = NULL, *placeholders, *updateValues, *position = NULL, *value = NULL, *field, *bindDataTypes = NULL, *escapedField = NULL, *bindType, *escapedTable = NULL, *setClause, *updateSql, *conditions, *whereBind, *whereTypes, **_2, *_3 = NULL, *_4 = NULL, *_6 = NULL, *_7 = NULL;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 3, 2, &table, &fields, &values, &whereCondition, &dataTypes);
@@ -601,10 +598,8 @@ PHP_METHOD(Phalcon_Db_Adapter, update) {
 	} else {
 		ZEPHIR_CPY_WRT(escapedTable, table);
 	}
-	ZEPHIR_SINIT_VAR(_8);
-	ZVAL_STRING(&_8, ", ", 0);
 	ZEPHIR_INIT_VAR(setClause);
-	zephir_call_func_p2(setClause, "join", &_8, placeholders);
+	zephir_fast_join_str(setClause, SL(", "), placeholders TSRMLS_CC);
 	ZEPHIR_INIT_VAR(updateSql);
 	if ((Z_TYPE_P(whereCondition) != IS_NULL)) {
 		ZEPHIR_CONCAT_SVSVS(updateSql, "UPDATE ", escapedTable, " SET ", setClause, " WHERE ");
