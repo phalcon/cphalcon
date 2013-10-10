@@ -39,6 +39,9 @@
 #include "kernel/string.h"
 #include "kernel/concat.h"
 
+#include "ext/standard/php_smart_str.h"
+#include "ext/standard/php_string.h"
+
 /**
  * Phalcon\Crypt
  *
@@ -566,7 +569,7 @@ PHP_METHOD(Phalcon_Crypt, decrypt){
  */
 PHP_METHOD(Phalcon_Crypt, encryptBase64){
 
-	zval *text, *key = NULL, *safe = NULL, *encrypted, *search, *replace, *base64;
+	zval *text, *key = NULL, *safe = NULL, *encrypted, *from, *to;
 
 	PHALCON_MM_GROW();
 
@@ -582,20 +585,16 @@ PHP_METHOD(Phalcon_Crypt, encryptBase64){
 	
 	PHALCON_OBS_VAR(encrypted);
 	phalcon_call_method_p2_ex(encrypted, &encrypted, this_ptr, "encrypt", text, key);
+	phalcon_base64_encode(return_value, encrypted);
 
 	if (zend_is_true(safe)) {
-		PHALCON_INIT_VAR(base64);
-		phalcon_base64_encode(base64, encrypted);
+		PHALCON_INIT_VAR(from);
+		ZVAL_STRING(from, "+/", 1);
 
-		PHALCON_INIT_VAR(search);
-		ZVAL_STRING(search, "+/", 1);
+		PHALCON_INIT_VAR(to);
+		ZVAL_STRING(to, "-_", 1);
 
-		PHALCON_INIT_VAR(replace);
-		ZVAL_STRING(replace, "-_", 1);
-		
-		phalcon_call_func_p3_ex(return_value, return_value_ptr, "strtr", base64, search, replace);
-	} else {
-		phalcon_base64_encode(return_value, encrypted);
+		php_strtr(Z_STRVAL_P(return_value), Z_STRLEN_P(return_value), Z_STRVAL_P(from), Z_STRVAL_P(to), MIN(Z_STRLEN_P(from), Z_STRLEN_P(to)));
 	}
 	
 	RETURN_MM();
@@ -610,7 +609,7 @@ PHP_METHOD(Phalcon_Crypt, encryptBase64){
  */
 PHP_METHOD(Phalcon_Crypt, decryptBase64){
 
-	zval *text, *key = NULL, *safe = NULL, *decrypt_text, *search, *replace, *base64 = NULL;
+	zval *text, *key = NULL, *safe = NULL, *decrypt_text, *from, *to, *base64 = NULL;
 
 	PHALCON_MM_GROW();
 
@@ -625,20 +624,19 @@ PHP_METHOD(Phalcon_Crypt, decryptBase64){
 	}
 
 	if (zend_is_true(safe)) {
-		PHALCON_INIT_VAR(search);
-		ZVAL_STRING(search, "-_", 1);
+		PHALCON_SEPARATE_PARAM(text);
 
-		PHALCON_INIT_VAR(replace);
-		ZVAL_STRING(replace, "+/", 1);
+		PHALCON_INIT_VAR(from);
+		ZVAL_STRING(from, "-_", 1);
 
-		PHALCON_OBS_VAR(base64);		
-		phalcon_call_func_p3_ex(base64, &base64, "strtr", text, search, replace);
-	} else {
-		PHALCON_CPY_WRT_CTOR(base64, text);
+		PHALCON_INIT_VAR(to);
+		ZVAL_STRING(to, "+/", 1);
+
+		php_strtr(Z_STRVAL_P(text), Z_STRLEN_P(text), Z_STRVAL_P(from), Z_STRVAL_P(to), MIN(Z_STRLEN_P(from), Z_STRLEN_P(to)));
 	}
 	
 	PHALCON_INIT_VAR(decrypt_text);
-	phalcon_base64_decode(decrypt_text, base64);
+	phalcon_base64_decode(decrypt_text, text);
 	phalcon_call_method_p2(return_value, this_ptr, "decrypt", decrypt_text, key);
 	RETURN_MM();
 }
