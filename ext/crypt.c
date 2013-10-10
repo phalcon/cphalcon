@@ -624,8 +624,6 @@ PHP_METHOD(Phalcon_Crypt, decryptBase64){
 	}
 
 	if (zend_is_true(safe)) {
-		PHALCON_SEPARATE_PARAM(text);
-
 		PHALCON_INIT_VAR(from);
 		ZVAL_STRING(from, "-_", 1);
 
