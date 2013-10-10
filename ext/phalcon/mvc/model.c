@@ -1166,7 +1166,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _exists) {
 			RETURN_MM_BOOL(0);
 		}
 		ZEPHIR_INIT_VAR(joinWhere);
-		zephir_fast_join_str(joinWhere, SL(" and "), wherePk TSRMLS_CC);
+		zephir_fast_join_str(joinWhere, SL(" AND "), wherePk TSRMLS_CC);
 		zephir_update_property_this(this_ptr, SL("_uniqueKey"), joinWhere TSRMLS_CC);
 		zephir_update_property_this(this_ptr, SL("_uniqueParams"), uniqueParams TSRMLS_CC);
 		zephir_update_property_this(this_ptr, SL("_uniqueTypes"), uniqueTypes TSRMLS_CC);
@@ -1819,7 +1819,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _checkForeignKeysRestrict) {
 					ZEPHIR_INIT_NVAR(_15);
 					array_init(_15);
 					ZEPHIR_INIT_NVAR(_16);
-					zephir_fast_join_str(_16, SL(" and "), conditions TSRMLS_CC);
+					zephir_fast_join_str(_16, SL(" AND "), conditions TSRMLS_CC);
 					zephir_array_fast_append(_15, _16);
 					zephir_array_update_string(&_15, SL("bind"), &bindParams, PH_COPY | PH_SEPARATE);
 					zephir_call_method_p1_cache(_14, referencedModel, "count", &_17, _15);
@@ -1939,7 +1939,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _checkForeignKeysReverseCascade) {
 					ZEPHIR_INIT_NVAR(_14);
 					array_init(_14);
 					ZEPHIR_INIT_NVAR(_15);
-					zephir_fast_join_str(_15, SL(" and "), conditions TSRMLS_CC);
+					zephir_fast_join_str(_15, SL(" AND "), conditions TSRMLS_CC);
 					zephir_array_fast_append(_14, _15);
 					zephir_array_update_string(&_14, SL("bind"), &bindParams, PH_COPY | PH_SEPARATE);
 					ZEPHIR_INIT_NVAR(resulset);
@@ -2033,7 +2033,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _checkForeignKeysReverseRestrict) {
 					ZEPHIR_INIT_NVAR(_14);
 					array_init(_14);
 					ZEPHIR_INIT_NVAR(_15);
-					zephir_fast_join_str(_15, SL(" and "), conditions TSRMLS_CC);
+					zephir_fast_join_str(_15, SL(" AND "), conditions TSRMLS_CC);
 					zephir_array_fast_append(_14, _15);
 					zephir_array_update_string(&_14, SL("bind"), &bindParams, PH_COPY | PH_SEPARATE);
 					zephir_call_method_p1_cache(_13, referencedModel, "count", &_16, _14);
@@ -3508,7 +3508,7 @@ PHP_METHOD(Phalcon_Mvc_Model, delete) {
 		ZEPHIR_CPY_WRT(table, source);
 	}
 	ZEPHIR_INIT_NVAR(_16);
-	zephir_fast_join_str(_16, SL(" and "), conditions TSRMLS_CC);
+	zephir_fast_join_str(_16, SL(" AND "), conditions TSRMLS_CC);
 	ZEPHIR_INIT_VAR(success);
 	zephir_call_method_p4(success, writeConnection, "delete", table, _16, values, bindTypes);
 	ZEPHIR_INIT_VAR(_17);

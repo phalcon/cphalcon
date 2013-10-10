@@ -628,7 +628,7 @@ PHP_METHOD(Phalcon_Db_Dialect, select) {
 						zephir_array_append(&joinExpressions, _6, PH_SEPARATE);
 					}
 					ZEPHIR_INIT_NVAR(_21);
-					zephir_fast_join_str(_21, SL(" and "), joinExpressions TSRMLS_CC);
+					zephir_fast_join_str(_21, SL(" AND "), joinExpressions TSRMLS_CC);
 					ZEPHIR_INIT_LNVAR(_22);
 					ZEPHIR_CONCAT_SVS(_22, " ON ", _21, " ");
 					zephir_concat_self(&sqlJoin, _22 TSRMLS_CC);

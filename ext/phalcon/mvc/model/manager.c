@@ -1519,10 +1519,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getRelationRecords) {
 		zephir_call_method_p1(builder, this_ptr, "createbuilder", parameters);
 		zephir_call_method_p1_noret(builder, "from", referencedModel);
 		ZEPHIR_INIT_NVAR(_2);
-		zephir_fast_join_str(_2, SL(" and "), joinConditions TSRMLS_CC);
+		zephir_fast_join_str(_2, SL(" AND "), joinConditions TSRMLS_CC);
 		zephir_call_method_p2_noret(builder, "innerjoin", intermediateModel, _2);
 		ZEPHIR_INIT_VAR(_3);
-		zephir_fast_join_str(_3, SL(" and "), conditions TSRMLS_CC);
+		zephir_fast_join_str(_3, SL(" AND "), conditions TSRMLS_CC);
 		zephir_call_method_p2_noret(builder, "andwhere", _3, placeholders);
 		ZEPHIR_INIT_VAR(query);
 		zephir_call_method(query, builder, "getquery");
@@ -1571,7 +1571,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getRelationRecords) {
 	ZEPHIR_INIT_VAR(findParams);
 	array_init(findParams);
 	ZEPHIR_INIT_NVAR(_2);
-	zephir_fast_join_str(_2, SL(" and "), conditions TSRMLS_CC);
+	zephir_fast_join_str(_2, SL(" AND "), conditions TSRMLS_CC);
 	zephir_array_fast_append(findParams, _2);
 	zephir_array_update_string(&findParams, SL("bind"), &placeholders, PH_COPY | PH_SEPARATE);
 	ZEPHIR_INIT_NVAR(_2);
