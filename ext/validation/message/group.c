@@ -67,7 +67,7 @@ PHALCON_INIT_CLASS(Phalcon_Validation_Message_Group){
  */
 PHP_METHOD(Phalcon_Validation_Message_Group, __construct){
 
-	zval *messages;
+	zval *messages = NULL;
 
 	phalcon_fetch_params(1, 0, 1, &messages);
 	
