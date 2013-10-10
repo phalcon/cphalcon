@@ -273,3 +273,22 @@ PHP_METHOD(Phalcon_Flash_Session, output){
 	
 	PHALCON_MM_RESTORE();
 }
+
+/**
+ * bool \Phalcon\Flash\Session::has(string $type)
+ *
+ * @see https://github.com/phalcon/cphalcon/issues/1342
+ */
+PHP_METHOD(Phalcon_Flash_Session, has) {
+
+	zval *type, *messages;
+
+	phalcon_fetch_params(0, 0, 1, &type);
+
+	PHALCON_MM_GROW();
+	PHALCON_OBS_VAR(messages);
+	phalcon_call_method_p1_ex(messages, &messages, this_ptr, "_getsessionmessages", PHALCON_GLOBAL(z_false));
+
+	RETVAL_BOOL(phalcon_array_isset(messages, type));
+	PHALCON_MM_RESTORE();
+}
