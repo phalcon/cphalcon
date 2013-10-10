@@ -39,6 +39,9 @@
 #include "kernel/string.h"
 #include "kernel/concat.h"
 
+#include "ext/standard/php_smart_str.h"
+#include "ext/standard/php_string.h"
+
 /**
  * Phalcon\Crypt
  *
@@ -566,19 +569,34 @@ PHP_METHOD(Phalcon_Crypt, decrypt){
  */
 PHP_METHOD(Phalcon_Crypt, encryptBase64){
 
-	zval *text, *key = NULL, *encrypted;
+	zval *text, *key = NULL, *safe = NULL, *encrypted, *from, *to;
 
 	PHALCON_MM_GROW();
 
-	phalcon_fetch_params(1, 1, 1, &text, &key);
+	phalcon_fetch_params(1, 1, 2, &text, &key, &safe);
 	
 	if (!key) {
 		key = PHALCON_GLOBAL(z_null);
+	}
+
+	if (!safe) {
+		safe = PHALCON_GLOBAL(z_false);
 	}
 	
 	PHALCON_OBS_VAR(encrypted);
 	phalcon_call_method_p2_ex(encrypted, &encrypted, this_ptr, "encrypt", text, key);
 	phalcon_base64_encode(return_value, encrypted);
+
+	if (zend_is_true(safe)) {
+		PHALCON_INIT_VAR(from);
+		ZVAL_STRING(from, "+/", 1);
+
+		PHALCON_INIT_VAR(to);
+		ZVAL_STRING(to, "-_", 1);
+
+		php_strtr(Z_STRVAL_P(return_value), Z_STRLEN_P(return_value), Z_STRVAL_P(from), Z_STRVAL_P(to), MIN(Z_STRLEN_P(from), Z_STRLEN_P(to)));
+	}
+	
 	RETURN_MM();
 }
 
@@ -591,14 +609,28 @@ PHP_METHOD(Phalcon_Crypt, encryptBase64){
  */
 PHP_METHOD(Phalcon_Crypt, decryptBase64){
 
-	zval *text, *key = NULL, *decrypt_text;
+	zval *text, *key = NULL, *safe = NULL, *decrypt_text, *from, *to;
 
 	PHALCON_MM_GROW();
 
-	phalcon_fetch_params(1, 1, 1, &text, &key);
+	phalcon_fetch_params(1, 1, 2, &text, &key, &safe);
 	
 	if (!key) {
 		key = PHALCON_GLOBAL(z_null);
+	}
+
+	if (!safe) {
+		safe = PHALCON_GLOBAL(z_false);
+	}
+
+	if (zend_is_true(safe)) {
+		PHALCON_INIT_VAR(from);
+		ZVAL_STRING(from, "-_", 1);
+
+		PHALCON_INIT_VAR(to);
+		ZVAL_STRING(to, "+/", 1);
+
+		php_strtr(Z_STRVAL_P(text), Z_STRLEN_P(text), Z_STRVAL_P(from), Z_STRVAL_P(to), MIN(Z_STRLEN_P(from), Z_STRLEN_P(to)));
 	}
 	
 	PHALCON_INIT_VAR(decrypt_text);

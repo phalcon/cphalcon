@@ -92,11 +92,13 @@ ZEND_END_ARG_INFO()
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_crypt_encryptbase64, 0, 0, 1)
 	ZEND_ARG_INFO(0, text)
 	ZEND_ARG_INFO(0, key)
+	ZEND_ARG_INFO(0, safe)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_crypt_decryptbase64, 0, 0, 1)
 	ZEND_ARG_INFO(0, text)
 	ZEND_ARG_INFO(0, key)
+	ZEND_ARG_INFO(0, safe)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_crypt_getpadding, 0, 0, 0)
