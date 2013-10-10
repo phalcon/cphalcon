@@ -609,7 +609,7 @@ PHP_METHOD(Phalcon_Crypt, encryptBase64){
  */
 PHP_METHOD(Phalcon_Crypt, decryptBase64){
 
-	zval *text, *key = NULL, *safe = NULL, *decrypt_text, *from, *to, *base64 = NULL;
+	zval *text, *key = NULL, *safe = NULL, *decrypt_text, *from, *to;
 
 	PHALCON_MM_GROW();
 
