@@ -275,11 +275,11 @@ PHP_METHOD(Phalcon_Flash_Session, output){
 }
 
 /**
- * bool \Phalcon\Flash\Session::isset(string $type)
+ * bool \Phalcon\Flash\Session::has(string $type)
  *
  * @see https://github.com/phalcon/cphalcon/issues/1342
  */
-PHP_METHOD(Phalcon_Flash_Session, isset) {
+PHP_METHOD(Phalcon_Flash_Session, has) {
 
 	zval *type, *messages;
 

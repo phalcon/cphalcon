@@ -10,9 +10,9 @@ $di = new \Phalcon\DI\FactoryDefault();
 $f  = $di->getShared('flashSession');
 $s  = new \Phalcon\Session\Adapter\Files(array('uniqueId' => 'issue-1342'));
 var_dump($s->start());
-var_dump($f->isset('type'));
+var_dump($f->has('type'));
 $f->message('type', 'message');
-var_dump($f->isset('type'));
+var_dump($f->has('type'));
 ?>
 --EXPECT--
 bool(true)
