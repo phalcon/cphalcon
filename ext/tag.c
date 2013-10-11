@@ -61,6 +61,7 @@ PHALCON_INIT_CLASS(Phalcon_Tag){
 
 	zend_declare_property_null(phalcon_tag_ce, SL("_displayValues"), ZEND_ACC_PROTECTED|ZEND_ACC_STATIC TSRMLS_CC);
 	zend_declare_property_null(phalcon_tag_ce, SL("_documentTitle"), ZEND_ACC_PROTECTED|ZEND_ACC_STATIC TSRMLS_CC);
+	zend_declare_property_null(phalcon_tag_ce, SL("_documentTitleSeparator"), ZEND_ACC_PROTECTED|ZEND_ACC_STATIC TSRMLS_CC);
 	zend_declare_property_long(phalcon_tag_ce, SL("_documentType"), 11, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC TSRMLS_CC);
 	zend_declare_property_null(phalcon_tag_ce, SL("_dependencyInjector"), ZEND_ACC_PROTECTED|ZEND_ACC_STATIC TSRMLS_CC);
 	zend_declare_property_null(phalcon_tag_ce, SL("_urlService"), ZEND_ACC_PROTECTED|ZEND_ACC_STATIC TSRMLS_CC);
@@ -1365,19 +1366,39 @@ PHP_METHOD(Phalcon_Tag, setTitle){
 }
 
 /**
+ * Set the title separator of view content
+ *
+ *<code>
+ * Phalcon\Tag::setTitleSeparator('-');
+ *</code>
+ *
+ * @param string $titleSeparator
+ */
+PHP_METHOD(Phalcon_Tag, setTitleSeparator){
+
+	zval *title_separator;
+
+	phalcon_fetch_params(0, 1, 0, &title_separator);
+	
+	phalcon_update_static_property_ce(phalcon_tag_ce, SL("_documentTitleSeparator"), title_separator TSRMLS_CC);
+	
+}
+
+/**
  * Appends a text to current document title
  *
  * @param string $title
  */
 PHP_METHOD(Phalcon_Tag, appendTitle){
 
-	zval *title, *t0, *r0;
+	zval *title, *document_title, *document_title_separator, *r0;
 
 	phalcon_fetch_params(0, 1, 0, &title);
 	
-	t0 = phalcon_fetch_static_property_ce(phalcon_tag_ce, SL("_documentTitle") TSRMLS_CC);
+	document_title = phalcon_fetch_static_property_ce(phalcon_tag_ce, SL("_documentTitle") TSRMLS_CC);
+	document_title_separator = phalcon_fetch_static_property_ce(phalcon_tag_ce, SL("_documentTitleSeparator") TSRMLS_CC);
 	ALLOC_INIT_ZVAL(r0);
-	concat_function(r0, t0, title TSRMLS_CC);
+	PHALCON_CONCAT_VVV(r0, document_title, document_title_separator, title);
 	phalcon_update_static_property_ce(phalcon_tag_ce, SL("_documentTitle"), r0 TSRMLS_CC);
 	zval_ptr_dtor(&r0);
 }
@@ -1389,14 +1410,15 @@ PHP_METHOD(Phalcon_Tag, appendTitle){
  */
 PHP_METHOD(Phalcon_Tag, prependTitle){
 
-	zval *title, *document_title, *r0;
+	zval *title, *document_title, *document_title_separator, *r0;
 
 	phalcon_fetch_params(0, 1, 0, &title);
 	
 	document_title = phalcon_fetch_static_property_ce(phalcon_tag_ce, SL("_documentTitle") TSRMLS_CC);
+	document_title_separator = phalcon_fetch_static_property_ce(phalcon_tag_ce, SL("_documentTitleSeparator") TSRMLS_CC);
 	
 	ALLOC_INIT_ZVAL(r0);
-	concat_function(r0, title, document_title TSRMLS_CC);
+	PHALCON_CONCAT_VVV(r0, title, document_title_separator, document_title);
 	phalcon_update_static_property_ce(phalcon_tag_ce, SL("_documentTitle"), r0 TSRMLS_CC);
 	zval_ptr_dtor(&r0);
 }
@@ -1427,6 +1449,26 @@ PHP_METHOD(Phalcon_Tag, getTitle){
 	else {
 		RETURN_ZVAL(document_title, 1, 0);
 	}
+}
+
+/**
+ * Gets the current document title separator
+ *
+ * <code>
+ * 	echo Phalcon\Tag::getTitleSeparator();
+ * </code>
+ *
+ * <code>
+ * 	{{ get_title_separator() }}
+ * </code>
+ *
+ * @return string
+ */
+PHP_METHOD(Phalcon_Tag, getTitleSeparator){
+
+	zval *document_title_separator;
+	document_title_separator = phalcon_fetch_static_property_ce(phalcon_tag_ce, SL("_documentTitleSeparator") TSRMLS_CC);
+	RETURN_ZVAL(document_title_separator, 1, 0);
 }
 
 /**
