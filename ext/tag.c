@@ -1452,6 +1452,26 @@ PHP_METHOD(Phalcon_Tag, getTitle){
 }
 
 /**
+ * Gets the current document title separator
+ *
+ * <code>
+ * 	echo Phalcon\Tag::getTitleSeparator();
+ * </code>
+ *
+ * <code>
+ * 	{{ get_title_separator() }}
+ * </code>
+ *
+ * @return string
+ */
+PHP_METHOD(Phalcon_Tag, getTitleSeparator){
+
+	zval *document_title_separator;
+	document_title_separator = phalcon_fetch_static_property_ce(phalcon_tag_ce, SL("_documentTitleSeparator") TSRMLS_CC);
+	RETURN_ZVAL(document_title_separator, 1, 0);
+}
+
+/**
  * Builds a LINK[rel="stylesheet"] tag
  *
  * <code>

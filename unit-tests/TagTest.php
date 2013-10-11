@@ -36,6 +36,7 @@ class TagTest extends PHPUnit_Framework_TestCase
 		Tag::appendTitle('Class');
 
 		$this->assertEquals(Tag::getTitle(), '<title>Title|Class</title>'.PHP_EOL);
+		$this->assertEquals(Tag::getTitleSeparator(), '|');
 
 		Tag::setTitle('Title');
 		Tag::setTitleSeparator('|');
