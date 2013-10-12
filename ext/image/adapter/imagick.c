@@ -79,9 +79,7 @@ PHALCON_INIT_CLASS(Phalcon_Image_Adapter_Imagick){
  */
 PHP_METHOD(Phalcon_Image_Adapter_Imagick, check){
 
-	zval class_name, *ret = NULL;
-
-	PHALCON_MM_GROW();
+	zval class_name;
 
 	INIT_ZVAL(class_name);
 	ZVAL_STRING(&class_name, "imagick", 0);
@@ -91,10 +89,8 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, check){
 		return;
 	}
 
-	phalcon_update_static_property_ce(phalcon_image_adapter_imagick_ce, SL("_checked"), ret TSRMLS_CC);
-
-	RETVAL_TRUE;
-	RETURN_MM();
+	zend_update_static_property_bool(phalcon_image_adapter_imagick_ce, SL("_checked"), 1 TSRMLS_CC);
+	RETURN_TRUE;
 }
 
 /**
