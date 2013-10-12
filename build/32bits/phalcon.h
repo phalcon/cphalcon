@@ -5907,8 +5907,6 @@ static PHP_METHOD(Phalcon_Cache_Backend_File, save);
 static PHP_METHOD(Phalcon_Cache_Backend_File, delete);
 static PHP_METHOD(Phalcon_Cache_Backend_File, queryKeys);
 static PHP_METHOD(Phalcon_Cache_Backend_File, exists);
-static PHP_METHOD(Phalcon_Cache_Backend_File, increment);
-static PHP_METHOD(Phalcon_Cache_Backend_File, decrement);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_cache_backend_file___construct, 0, 0, 1)
 	ZEND_ARG_INFO(0, frontend)
@@ -5940,25 +5938,13 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_cache_backend_file_exists, 0, 0, 0)
 	ZEND_ARG_INFO(0, lifetime)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_cache_backend_file_increment, 0, 0, 0)
-	ZEND_ARG_INFO(0, keyName)
-	ZEND_ARG_INFO(0, value)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_cache_backend_file_decrement, 0, 0, 0)
-	ZEND_ARG_INFO(0, keyName)
-	ZEND_ARG_INFO(0, value)
-ZEND_END_ARG_INFO()
-
 PHALCON_INIT_FUNCS(phalcon_cache_backend_file_method_entry){
 	PHP_ME(Phalcon_Cache_Backend_File, __construct, arginfo_phalcon_cache_backend_file___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR) 
 	PHP_ME(Phalcon_Cache_Backend_File, get, arginfo_phalcon_cache_backend_file_get, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Cache_Backend_File, save, arginfo_phalcon_cache_backend_file_save, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Cache_Backend_File, delete, arginfo_phalcon_cache_backend_file_delete, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Cache_Backend_File, queryKeys, arginfo_phalcon_cache_backend_file_querykeys, ZEND_ACC_PUBLIC) 
-	PHP_ME(Phalcon_Cache_Backend_File, exists, arginfo_phalcon_cache_backend_file_exists, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Cache_Backend_File, increment, arginfo_phalcon_cache_backend_file_increment, ZEND_ACC_PUBLIC) 
-	PHP_ME(Phalcon_Cache_Backend_File, decrement, arginfo_phalcon_cache_backend_file_decrement, ZEND_ACC_PUBLIC)  
+	PHP_ME(Phalcon_Cache_Backend_File, exists, arginfo_phalcon_cache_backend_file_exists, ZEND_ACC_PUBLIC) 
 	PHP_FE_END
 };
 
@@ -5973,8 +5959,6 @@ static PHP_METHOD(Phalcon_Cache_Backend_Memory, save);
 static PHP_METHOD(Phalcon_Cache_Backend_Memory, delete);
 static PHP_METHOD(Phalcon_Cache_Backend_Memory, queryKeys);
 static PHP_METHOD(Phalcon_Cache_Backend_Memory, exists);
-static PHP_METHOD(Phalcon_Cache_Backend_Memory, increment);
-static PHP_METHOD(Phalcon_Cache_Backend_Memory, decrement);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_cache_backend_memory_get, 0, 0, 1)
 	ZEND_ARG_INFO(0, keyName)
@@ -6001,24 +5985,12 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_cache_backend_memory_exists, 0, 0, 0)
 	ZEND_ARG_INFO(0, lifetime)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_cache_backend_memory_increment, 0, 0, 0)
-	ZEND_ARG_INFO(0, keyName)
-	ZEND_ARG_INFO(0, value)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_cache_backend_memory_decrement, 0, 0, 0)
-	ZEND_ARG_INFO(0, keyName)
-	ZEND_ARG_INFO(0, value)
-ZEND_END_ARG_INFO()
-
 PHALCON_INIT_FUNCS(phalcon_cache_backend_memory_method_entry){
 	PHP_ME(Phalcon_Cache_Backend_Memory, get, arginfo_phalcon_cache_backend_memory_get, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Cache_Backend_Memory, save, arginfo_phalcon_cache_backend_memory_save, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Cache_Backend_Memory, delete, arginfo_phalcon_cache_backend_memory_delete, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Cache_Backend_Memory, queryKeys, arginfo_phalcon_cache_backend_memory_querykeys, ZEND_ACC_PUBLIC) 
-	PHP_ME(Phalcon_Cache_Backend_Memory, exists, arginfo_phalcon_cache_backend_memory_exists, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Cache_Backend_Memory, increment, arginfo_phalcon_cache_backend_memory_increment, ZEND_ACC_PUBLIC) 
-	PHP_ME(Phalcon_Cache_Backend_Memory, decrement, arginfo_phalcon_cache_backend_memory_decrement, ZEND_ACC_PUBLIC)  
+	PHP_ME(Phalcon_Cache_Backend_Memory, exists, arginfo_phalcon_cache_backend_memory_exists, ZEND_ACC_PUBLIC) 
 	PHP_FE_END
 };
 
@@ -6034,8 +6006,6 @@ static PHP_METHOD(Phalcon_Cache_Backend_Xcache, save);
 static PHP_METHOD(Phalcon_Cache_Backend_Xcache, delete);
 static PHP_METHOD(Phalcon_Cache_Backend_Xcache, queryKeys);
 static PHP_METHOD(Phalcon_Cache_Backend_Xcache, exists);
-static PHP_METHOD(Phalcon_Cache_Backend_Xcache, increment);
-static PHP_METHOD(Phalcon_Cache_Backend_Xcache, decrement);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_cache_backend_xcache___construct, 0, 0, 1)
 	ZEND_ARG_INFO(0, frontend)
@@ -6067,25 +6037,13 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_cache_backend_xcache_exists, 0, 0, 0)
 	ZEND_ARG_INFO(0, lifetime)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_cache_backend_xcache_increment, 0, 0, 0)
-	ZEND_ARG_INFO(0, key_name)
-	ZEND_ARG_INFO(0, value)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_cache_backend_xcache_decrement, 0, 0, 0)
-	ZEND_ARG_INFO(0, key_name)
-	ZEND_ARG_INFO(0, value)
-ZEND_END_ARG_INFO()
-
 PHALCON_INIT_FUNCS(phalcon_cache_backend_xcache_method_entry){
 	PHP_ME(Phalcon_Cache_Backend_Xcache, __construct, arginfo_phalcon_cache_backend_xcache___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR) 
 	PHP_ME(Phalcon_Cache_Backend_Xcache, get, arginfo_phalcon_cache_backend_xcache_get, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Cache_Backend_Xcache, save, arginfo_phalcon_cache_backend_xcache_save, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Cache_Backend_Xcache, delete, arginfo_phalcon_cache_backend_xcache_delete, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Cache_Backend_Xcache, queryKeys, arginfo_phalcon_cache_backend_xcache_querykeys, ZEND_ACC_PUBLIC) 
-	PHP_ME(Phalcon_Cache_Backend_Xcache, exists, arginfo_phalcon_cache_backend_xcache_exists, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Cache_Backend_Xcache, increment, arginfo_phalcon_cache_backend_xcache_increment, ZEND_ACC_PUBLIC) 
-	PHP_ME(Phalcon_Cache_Backend_Xcache, decrement, arginfo_phalcon_cache_backend_xcache_decrement, ZEND_ACC_PUBLIC)  
+	PHP_ME(Phalcon_Cache_Backend_Xcache, exists, arginfo_phalcon_cache_backend_xcache_exists, ZEND_ACC_PUBLIC) 
 	PHP_FE_END
 };
 
@@ -6102,8 +6060,6 @@ static PHP_METHOD(Phalcon_Cache_Backend_Mongo, save);
 static PHP_METHOD(Phalcon_Cache_Backend_Mongo, delete);
 static PHP_METHOD(Phalcon_Cache_Backend_Mongo, queryKeys);
 static PHP_METHOD(Phalcon_Cache_Backend_Mongo, exists);
-static PHP_METHOD(Phalcon_Cache_Backend_Mongo, increment);
-static PHP_METHOD(Phalcon_Cache_Backend_Mongo, decrement);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_cache_backend_mongo___construct, 0, 0, 1)
 	ZEND_ARG_INFO(0, frontend)
@@ -6135,16 +6091,6 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_cache_backend_mongo_exists, 0, 0, 0)
 	ZEND_ARG_INFO(0, lifetime)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_cache_backend_mongo_increment, 0, 0, 0)
-	ZEND_ARG_INFO(0, keyName)
-	ZEND_ARG_INFO(0, value)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_cache_backend_mongo_decrement, 0, 0, 0)
-	ZEND_ARG_INFO(0, keyName)
-	ZEND_ARG_INFO(0, value)
-ZEND_END_ARG_INFO()
-
 PHALCON_INIT_FUNCS(phalcon_cache_backend_mongo_method_entry){
 	PHP_ME(Phalcon_Cache_Backend_Mongo, __construct, arginfo_phalcon_cache_backend_mongo___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR) 
 	PHP_ME(Phalcon_Cache_Backend_Mongo, _getCollection, NULL, ZEND_ACC_PROTECTED) 
@@ -6152,9 +6098,7 @@ PHALCON_INIT_FUNCS(phalcon_cache_backend_mongo_method_entry){
 	PHP_ME(Phalcon_Cache_Backend_Mongo, save, arginfo_phalcon_cache_backend_mongo_save, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Cache_Backend_Mongo, delete, arginfo_phalcon_cache_backend_mongo_delete, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Cache_Backend_Mongo, queryKeys, arginfo_phalcon_cache_backend_mongo_querykeys, ZEND_ACC_PUBLIC) 
-	PHP_ME(Phalcon_Cache_Backend_Mongo, exists, arginfo_phalcon_cache_backend_mongo_exists, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Cache_Backend_Mongo, increment, arginfo_phalcon_cache_backend_mongo_increment, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Cache_Backend_Mongo, decrement, arginfo_phalcon_cache_backend_mongo_decrement, ZEND_ACC_PUBLIC)    
+	PHP_ME(Phalcon_Cache_Backend_Mongo, exists, arginfo_phalcon_cache_backend_mongo_exists, ZEND_ACC_PUBLIC) 
 	PHP_FE_END
 };
 
@@ -6171,8 +6115,6 @@ static PHP_METHOD(Phalcon_Cache_Backend_Memcache, save);
 static PHP_METHOD(Phalcon_Cache_Backend_Memcache, delete);
 static PHP_METHOD(Phalcon_Cache_Backend_Memcache, queryKeys);
 static PHP_METHOD(Phalcon_Cache_Backend_Memcache, exists);
-static PHP_METHOD(Phalcon_Cache_Backend_Memcache, increment);
-static PHP_METHOD(Phalcon_Cache_Backend_Memcache, decrement);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_cache_backend_memcache___construct, 0, 0, 1)
 	ZEND_ARG_INFO(0, frontend)
@@ -6204,26 +6146,14 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_cache_backend_memcache_exists, 0, 0, 0)
 	ZEND_ARG_INFO(0, lifetime)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_cache_backend_memcache_increment, 0, 0, 0)
-	ZEND_ARG_INFO(0, keyName)
-	ZEND_ARG_INFO(0, value)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_cache_backend_memcache_decrement, 0, 0, 0)
-	ZEND_ARG_INFO(0, keyName)
-	ZEND_ARG_INFO(0, value)
-ZEND_END_ARG_INFO()
-
 PHALCON_INIT_FUNCS(phalcon_cache_backend_memcache_method_entry){
-	PHP_ME(Phalcon_Cache_Backend_Memcache, __construct, arginfo_phalcon_cache_backend_memcache___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
-	PHP_ME(Phalcon_Cache_Backend_Memcache, _connect, NULL, ZEND_ACC_PROTECTED)
-	PHP_ME(Phalcon_Cache_Backend_Memcache, get, arginfo_phalcon_cache_backend_memcache_get, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Cache_Backend_Memcache, save, arginfo_phalcon_cache_backend_memcache_save, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Cache_Backend_Memcache, delete, arginfo_phalcon_cache_backend_memcache_delete, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Cache_Backend_Memcache, queryKeys, arginfo_phalcon_cache_backend_memcache_querykeys, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Cache_Backend_Memcache, exists, arginfo_phalcon_cache_backend_memcache_exists, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Cache_Backend_Memcache, increment, arginfo_phalcon_cache_backend_memcache_increment, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Cache_Backend_Memcache, decrement, arginfo_phalcon_cache_backend_memcache_decrement, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Cache_Backend_Memcache, __construct, arginfo_phalcon_cache_backend_memcache___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR) 
+	PHP_ME(Phalcon_Cache_Backend_Memcache, _connect, NULL, ZEND_ACC_PROTECTED) 
+	PHP_ME(Phalcon_Cache_Backend_Memcache, get, arginfo_phalcon_cache_backend_memcache_get, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Cache_Backend_Memcache, save, arginfo_phalcon_cache_backend_memcache_save, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Cache_Backend_Memcache, delete, arginfo_phalcon_cache_backend_memcache_delete, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Cache_Backend_Memcache, queryKeys, arginfo_phalcon_cache_backend_memcache_querykeys, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Cache_Backend_Memcache, exists, arginfo_phalcon_cache_backend_memcache_exists, ZEND_ACC_PUBLIC) 
 	PHP_FE_END
 };
 
