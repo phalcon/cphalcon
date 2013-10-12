@@ -274,6 +274,8 @@ static inline void phalcon_do_memory_observe(zval **var, phalcon_memory_entry *f
 		TSRMLS_FETCH();
 		fprintf(stderr, "PHALCON_MM_GROW() must be called before using any of MM functions or macros!");
 		phalcon_memory_grow_stack("N/A" TSRMLS_CC);
+		frame = PHALCON_GLOBAL(active_memory);
+		ASSUME(frame != NULL);
 	}
 #endif
 
