@@ -459,7 +459,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Memcache, exists){
 
 	phalcon_fetch_params(1, 0, 2, &key_name, &lifetime);
 	
-	if (!key_name && Z_TYPE_P(key_name) == IS_NULL) {
+	if (!key_name || Z_TYPE_P(key_name) == IS_NULL) {
 		last_key = phalcon_fetch_nproperty_this(this_ptr, SL("_lastKey"), PH_NOISY_CC);
 	} else {
 		zval *prefix = phalcon_fetch_nproperty_this(this_ptr, SL("_prefix"), PH_NOISY_CC);
