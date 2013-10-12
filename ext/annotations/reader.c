@@ -122,7 +122,7 @@ PHP_METHOD(Phalcon_Annotations_Reader, parse){
 		 */
 		PHALCON_INIT_VAR(class_annotations);
 		if (phannot_parse_annotations(class_annotations, comment, file, line TSRMLS_CC) == FAILURE) {
-			return;
+			RETURN_MM();
 		}
 	
 		/** 
@@ -173,7 +173,7 @@ PHP_METHOD(Phalcon_Annotations_Reader, parse){
 				 */
 				PHALCON_INIT_NVAR(property_annotations);
 				if (phannot_parse_annotations(property_annotations, comment, file, line TSRMLS_CC) == FAILURE) {
-					return;
+					RETURN_MM();
 				}
 				if (Z_TYPE_P(property_annotations) == IS_ARRAY) { 
 					PHALCON_OBS_NVAR(name);
@@ -230,7 +230,7 @@ PHP_METHOD(Phalcon_Annotations_Reader, parse){
 				 */
 				PHALCON_INIT_NVAR(method_annotations);
 				if (phannot_parse_annotations(method_annotations, comment, file, line TSRMLS_CC) == FAILURE) {
-					return;
+					RETURN_MM();
 				}
 				if (Z_TYPE_P(method_annotations) == IS_ARRAY) { 
 					PHALCON_OBS_NVAR(name);

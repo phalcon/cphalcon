@@ -232,10 +232,12 @@ int phannot_internal_parse_annotations(zval **result, zval *comment, zval *file_
 	void* phannot_parser;
 	zval processed_comment;
 
+	*error_msg = NULL;
+
 	/**
 	 * Check if the comment has content
 	 */
-	if (!Z_STRVAL_P(comment)) {
+	if (unlikely(Z_TYPE_P(comment) != IS_STRING) || unlikely(Z_STRVAL_P(comment) == NULL)) {
 		ZVAL_BOOL(*result, 0);
 		return FAILURE;
 	}

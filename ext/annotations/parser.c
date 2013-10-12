@@ -1304,8 +1304,14 @@ int phannot_parse_annotations(zval *result, zval *comment, zval *file_path, zval
 		return FAILURE;
 	}
 
-	if(phannot_internal_parse_annotations(&result, comment, file_path, line, &error_msg TSRMLS_CC) == FAILURE){
-		PHALCON_THROW_EXCEPTION_STRW(phalcon_annotations_exception_ce, Z_STRVAL_P(error_msg));
+	if (phannot_internal_parse_annotations(&result, comment, file_path, line, &error_msg TSRMLS_CC) == FAILURE) {
+		if (likely(error_msg != NULL)) {
+			PHALCON_THROW_EXCEPTION_STRW(phalcon_annotations_exception_ce, Z_STRVAL_P(error_msg));
+		}
+		else {
+			PHALCON_THROW_EXCEPTION_STRW(phalcon_annotations_exception_ce, "Error parsing annotation");
+		}
+
 		return FAILURE;
 	}
 
@@ -1420,10 +1426,12 @@ int phannot_internal_parse_annotations(zval **result, zval *comment, zval *file_
 	void* phannot_parser;
 	zval processed_comment;
 
+	*error_msg = NULL;
+
 	/**
 	 * Check if the comment has content
 	 */
-	if (!Z_STRVAL_P(comment)) {
+	if (unlikely(Z_TYPE_P(comment) != IS_STRING) || unlikely(Z_STRVAL_P(comment) == NULL)) {
 		ZVAL_BOOL(*result, 0);
 		return FAILURE;
 	}
