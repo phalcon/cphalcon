@@ -249,8 +249,8 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, connect){
  * Returns a PDO prepared statement to be executed with 'executePrepared'
  *
  *<code>
- * $statement = $db->prepare('SELECT * FROM robots WHERE name = :name');
- * $result = $connection->executePrepared($statement, array('name' => 'Voltron'));
+ * $statement = $connection->prepare('SELECT * FROM robots WHERE name = :name');
+ * $pdoResult = $connection->executePrepared($statement, array('name' => 'Voltron'));
  *</code>
  *
  * @param string $sqlStatement
@@ -273,8 +273,8 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, prepare){
  * Executes a prepared statement binding. This function uses integer indexes starting from zero
  *
  *<code>
- * $statement = $db->prepare('SELECT * FROM robots WHERE name = :name');
- * $result = $connection->executePrepared($statement, array('name' => 'Voltron'));
+ * $statement = $connection->prepare('SELECT * FROM robots WHERE name = :name');
+ * $pdoResult = $connection->executePrepared($statement, array('name' => 'Voltron'));
  *</code>
  *
  * @param \PDOStatement $statement
