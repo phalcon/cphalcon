@@ -1484,7 +1484,7 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, _blur){
 PHP_METHOD(Phalcon_Image_Adapter_Imagick, _pixelate){
 
 	zval *amount, *index;
-	zval *im, *width, *height, *type, *tmp_width, *tmp_height, *next;
+	zval *im, *width, *height, *type, *tmp_width, *tmp_height, *next = NULL;
 	int w, h;
 
 	PHALCON_MM_GROW();
@@ -1514,7 +1514,8 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, _pixelate){
 
 	if (phalcon_get_intval(type) == 1) {
 	
-		PHALCON_INIT_VAR(index); //? where this variable comes from?
+		PHALCON_INIT_VAR(index);
+		ZVAL_LONG(index, 0);
 		phalcon_call_method_p1_noret(im, "setIteratorIndex", index);
 
 		do {
