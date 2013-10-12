@@ -574,7 +574,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getFunctionCall){
 PHP_METHOD(Phalcon_Mvc_Model_Query, _getExpression){
 
 	zval *expr, *quoting = NULL, *temp_not_quoting;
-	zval *left, *right, *expr_type;
+	zval *left = NULL, *right = NULL, *expr_type;
 	zval *expr_value = NULL, *value = NULL, *escaped_value = NULL;
 	zval *placeholder = NULL, *exception_message;
 	zval *list_items, *expr_list_item = NULL;
