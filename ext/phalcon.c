@@ -793,25 +793,30 @@ static PHP_GINIT_FUNCTION(phalcon)
 
 	phalcon_globals->start_memory = start;
 
+	/* 'Allocator sizeof operand mismatch' warning can be safely ignored */
 	ALLOC_PERMANENT_ZVAL(phalcon_globals->z_null);
 	INIT_ZVAL(*phalcon_globals->z_null);
 	Z_ADDREF_P(phalcon_globals->z_null);
 
+	/* 'Allocator sizeof operand mismatch' warning can be safely ignored */
 	ALLOC_PERMANENT_ZVAL(phalcon_globals->z_false);
 	INIT_PZVAL(phalcon_globals->z_false);
 	Z_ADDREF_P(phalcon_globals->z_false);
 	ZVAL_FALSE(phalcon_globals->z_false);
 
+	/* 'Allocator sizeof operand mismatch' warning can be safely ignored */
 	ALLOC_PERMANENT_ZVAL(phalcon_globals->z_true);
 	INIT_PZVAL(phalcon_globals->z_true);
 	Z_ADDREF_P(phalcon_globals->z_true);
 	ZVAL_TRUE(phalcon_globals->z_true);
 
+	/* 'Allocator sizeof operand mismatch' warning can be safely ignored */
 	ALLOC_PERMANENT_ZVAL(phalcon_globals->z_zero);
 	INIT_PZVAL(phalcon_globals->z_zero);
 	Z_ADDREF_P(phalcon_globals->z_zero);
 	ZVAL_LONG(phalcon_globals->z_zero, 0);
 
+	/* 'Allocator sizeof operand mismatch' warning can be safely ignored */
 	ALLOC_PERMANENT_ZVAL(phalcon_globals->z_one);
 	INIT_PZVAL(phalcon_globals->z_one);
 	Z_ADDREF_P(phalcon_globals->z_one);
