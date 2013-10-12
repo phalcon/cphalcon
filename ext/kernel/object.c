@@ -331,7 +331,8 @@ int phalcon_clone(zval *destination, zval *obj TSRMLS_DC) {
 				Z_SET_REFCOUNT_P(destination, 1);
 				Z_UNSET_ISREF_P(destination);
 				if (EG(exception)) {
-					zval_ptr_dtor(&destination);
+					zval_dtor(destination);
+					ZVAL_NULL(destination);
 				}
 			}
 		}
