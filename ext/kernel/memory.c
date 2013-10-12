@@ -313,6 +313,16 @@ void PHALCON_FASTCALL phalcon_memory_alloc_pnull(zval **var TSRMLS_DC) {
 
 	phalcon_memory_entry *active_memory = PHALCON_GLOBAL(active_memory);
 
+#ifndef PHALCON_RELEASE
+	if (unlikely(active_memory == NULL)) {
+		TSRMLS_FETCH();
+		fprintf(stderr, "PHALCON_MM_GROW() must be called before using any of MM functions or macros!");
+		phalcon_memory_grow_stack("N/A" TSRMLS_CC);
+		active_memory = PHALCON_GLOBAL(active_memory);
+		ASSUME(active_memory != NULL);
+	}
+#endif
+
 	phalcon_do_memory_observe(var, active_memory);
 	ALLOC_INIT_ZVAL(*var);
 
