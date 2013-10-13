@@ -146,7 +146,7 @@ PHP_METHOD(Phalcon_Image_Adapter_GD, check){
 PHP_METHOD(Phalcon_Image_Adapter_GD, __construct){
 
 	zval *file, *width = NULL, *height = NULL, *exception_message;
-	zval *checked, *realpath, *type, *mime, *image, *imageinfo;
+	zval *checked, *realpath, *type, *mime = NULL, *image, *imageinfo;
 	zval *saveflag, *blendmode;
 
 	PHALCON_MM_GROW();
@@ -169,6 +169,10 @@ PHP_METHOD(Phalcon_Image_Adapter_GD, __construct){
 	if (phalcon_file_exists(file TSRMLS_CC) != FAILURE) {
 		PHALCON_INIT_VAR(realpath);
 		phalcon_realpath(realpath, file TSRMLS_CC);
+		if (unlikely(Z_TYPE_P(realpath) != IS_STRING)) {
+			convert_to_string(realpath);
+		}
+
 		phalcon_update_property_this(this_ptr, SL("_realpath"), realpath TSRMLS_CC);
 
 		PHALCON_INIT_VAR(imageinfo);
@@ -200,8 +204,11 @@ PHP_METHOD(Phalcon_Image_Adapter_GD, __construct){
 		}
 
 		if (phalcon_array_isset_string_fetch(&mime, imageinfo, SS("mime"))) {
+			convert_to_string(mime);
 			phalcon_update_property_this(this_ptr, SL("_mime"), mime TSRMLS_CC);
 		}
+
+		assert(Z_TYPE_P(type) == IS_LONG);
 
 		switch (Z_LVAL_P(type)) {
 			case 1: // GIF
@@ -220,17 +227,21 @@ PHP_METHOD(Phalcon_Image_Adapter_GD, __construct){
 				break;
 
 			default:
-				PHALCON_INIT_VAR(exception_message);
-				PHALCON_CONCAT_SVS(exception_message, "Installed GD does not support '", mime, "' images");
-				PHALCON_THROW_EXCEPTION_ZVAL(phalcon_image_exception_ce, exception_message);
-				return;
+				if (mime) {
+					assert(Z_TYPE_P(mime) == IS_STRING);
+					zend_throw_exception_ex(phalcon_image_exception_ce, 0 TSRMLS_CC, "Installed GD does not support '%s' images", Z_STRVAL_P(mime));
+				}
+				else {
+					zend_throw_exception_ex(phalcon_image_exception_ce, 0 TSRMLS_CC, "Installed GD does not support such images");
+				}
+
+				RETURN_MM();
 		}
 
 		if (Z_TYPE_P(image) != IS_RESOURCE) {
-			PHALCON_INIT_VAR(exception_message);
-			PHALCON_CONCAT_SVS(exception_message, "Create image from file '", realpath, "' failure  ");
-			PHALCON_THROW_EXCEPTION_ZVAL(phalcon_image_exception_ce, exception_message);
-			return;
+			assert(Z_TYPE_P(realpath) == IS_STRING);
+			zend_throw_exception_ex(phalcon_image_exception_ce, 0 TSRMLS_CC, "Failed to create image from file '%s'", Z_STRVAL_P(realpath));
+			RETURN_MM();
 		}
 
 		PHALCON_INIT_VAR(saveflag);
