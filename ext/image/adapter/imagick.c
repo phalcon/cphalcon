@@ -75,13 +75,6 @@ PHALCON_INIT_CLASS(Phalcon_Image_Adapter_Imagick){
 	return SUCCESS;
 }
 
-//static void phalcon_image_adapter_imagick_apply_thread_limit(zval *this_ptr, zval *im)
-//{
-//	zval *limit;
-//
-//	limit = phalcon_fetch_nproperty_this()
-//}
-
 /**
  * Checks if Imagick is enabled
  *
@@ -1401,14 +1394,14 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, _render) {
 
 	zval *extension, *quality, *exception_message;
 	zval *mime, *format, *type, *im, *image_string, *compression;
-	zend_class_entry *ce0;
+	zend_class_entry *imagick_ce;
 	char *ext;
 
 	PHALCON_MM_GROW();
 
 	phalcon_fetch_params(1, 2, 0, &extension, &quality);
 
-	ce0 = zend_fetch_class(SL("Imagick"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
+	imagick_ce = zend_fetch_class(SL("Imagick"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
 
 	PHALCON_INIT_VAR(format);
 	phalcon_fast_strtolower(format, extension);
@@ -1453,7 +1446,7 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, _render) {
 	} else {
 		if (phalcon_get_intval(type) == 2) {
 			PHALCON_INIT_VAR(compression);
-			phalcon_get_class_constant(compression, ce0, SS("COMPRESSION_JPEG") TSRMLS_CC);
+			phalcon_get_class_constant(compression, imagick_ce, SS("COMPRESSION_JPEG") TSRMLS_CC);
 			phalcon_call_method_p1_noret(im, "setImageCompression", compression );
 		}
 		phalcon_call_method_p1_noret(im, "setImageCompressionQuality", quality);
@@ -1481,4 +1474,21 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, __destruct){
 PHP_METHOD(Phalcon_Image_Adapter_Imagick, getInternalImInstance)
 {
 	RETURN_MEMBER(getThis(), "_image");
+}
+
+PHP_METHOD(Phalcon_Image_Adapter_Imagick, setResourceLimit)
+{
+	zval **resource, **limit;
+	zval *im;
+	zend_class_entry *imagick_ce;
+
+	phalcon_fetch_params_ex(2, 0, &resource, &limit);
+
+	imagick_ce = zend_fetch_class(SL("Imagick"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
+	if (EXPECTED(imagick_ce != NULL)) {
+		MAKE_STD_ZVAL(im);
+		object_init_ex(im, imagick_ce);
+		phalcon_call_method_params(NULL, NULL, im, SL("setresourcelimit"), zend_inline_hash_func(SS("setresourcelimit")) TSRMLS_CC, 2, *resource, *limit);
+		zval_ptr_dtor(&im);
+	}
 }

@@ -47,6 +47,7 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, _save);
 PHP_METHOD(Phalcon_Image_Adapter_Imagick, _render);
 PHP_METHOD(Phalcon_Image_Adapter_Imagick, __destruct);
 PHP_METHOD(Phalcon_Image_Adapter_Imagick, getInternalImInstance);
+PHP_METHOD(Phalcon_Image_Adapter_Imagick, setResourceLimit);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_image_adapter_imagick___construct, 0, 0, 1)
 	ZEND_ARG_INFO(0, file)
@@ -139,6 +140,11 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_image_adapter_imagick__render, 0, 0, 2)
 	ZEND_ARG_INFO(0, quality)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_image_adapter_imagick_setresourcelimit, 0, 0, 2)
+	ZEND_ARG_INFO(0, resource)
+	ZEND_ARG_INFO(0, limit)
+ZEND_END_ARG_INFO()
+
 PHALCON_INIT_FUNCS(phalcon_image_adapter_imagick_method_entry) {
 	PHP_ME(Phalcon_Image_Adapter_Imagick, check, NULL, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC) 
 	PHP_ME(Phalcon_Image_Adapter_Imagick, __construct, arginfo_phalcon_image_adapter_imagick___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR) 
@@ -159,6 +165,7 @@ PHALCON_INIT_FUNCS(phalcon_image_adapter_imagick_method_entry) {
 	PHP_ME(Phalcon_Image_Adapter_Imagick, _render, arginfo_phalcon_image_adapter_imagick__render, ZEND_ACC_PROTECTED) 
 	PHP_ME(Phalcon_Image_Adapter_Imagick, __destruct, NULL, ZEND_ACC_PUBLIC|ZEND_ACC_DTOR) 
 	PHP_ME(Phalcon_Image_Adapter_Imagick, getInternalImInstance, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Image_Adapter_Imagick, setResourceLimit, arginfo_phalcon_image_adapter_imagick_setresourcelimit, ZEND_ACC_PUBLIC | ZEND_ACC_STATIC)
 	PHP_FE_END
 };
 
