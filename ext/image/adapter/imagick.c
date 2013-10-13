@@ -1246,20 +1246,25 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, _blur){
  */
 PHP_METHOD(Phalcon_Image_Adapter_Imagick, _pixelate){
 
-	zval *amount, *index;
+	zval **amount, *index;
 	zval *im, *width, *height, *tmp_width, *tmp_height, *next = NULL;
 	int w, h;
 
-	PHALCON_MM_GROW();
+	phalcon_fetch_params_ex(1, 0, &amount);
+	PHALCON_ENSURE_IS_LONG(amount);
 
-	phalcon_fetch_params(1, 1, 0, &amount);
+	if (Z_LVAL_PP(amount) < 2) {
+		ZVAL_LONG(*amount, 2);
+	}
+
+	PHALCON_MM_GROW();
 
 	im     = phalcon_fetch_nproperty_this(this_ptr, SL("_image"), PH_NOISY_CC);
 	width  = phalcon_fetch_nproperty_this(this_ptr, SL("_width"), PH_NOISY_CC);
 	height = phalcon_fetch_nproperty_this(this_ptr, SL("_height"), PH_NOISY_CC);
 
-	w = (int)((phalcon_get_intval(width) / phalcon_get_intval(amount)) + 0.5);
-	h = (int)((phalcon_get_intval(height) / phalcon_get_intval(amount)) + 0.5);
+	w = (int)((phalcon_get_intval(width) / Z_LVAL_PP(amount)) + 0.5);
+	h = (int)((phalcon_get_intval(height) / Z_LVAL_PP(amount)) + 0.5);
 
 	PHALCON_INIT_VAR(tmp_width);
 	PHALCON_INIT_VAR(tmp_height);
