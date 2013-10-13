@@ -747,6 +747,10 @@ PHP_METHOD(Phalcon_Image_Adapter_GD, _reflection) {
 	h0 = phalcon_get_intval(height);
 	h1 = phalcon_get_intval(image_height);
 
+	if (unlikely(h0 == 0)) {
+		h0 = 1;
+	}
+
 	tmp_opacity = phalcon_get_intval(opacity);
 
 	tmp_opacity = (int)((tmp_opacity * 127 / 100) - 127 + 0.5);
