@@ -1399,6 +1399,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getSingleJoin){
 	 */
 	PHALCON_OBS_VAR(referenced_fields);
 	phalcon_call_method_p0_ex(referenced_fields, &referenced_fields, relation, "getreferencedfields");
+
+	PHALCON_INIT_VAR(sql_join_conditions);
+	array_init_size(sql_join_conditions, 1);
+
 	if (Z_TYPE_P(fields) != IS_ARRAY) { 
 		/** 
 		 * Create the left part of the expression
@@ -1434,8 +1438,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getSingleJoin){
 		phalcon_array_update_string(&sql_join_condition, ISL(left), &left_expr, PH_COPY);
 		phalcon_array_update_string(&sql_join_condition, ISL(right), &right_expr, PH_COPY);
 	
-		PHALCON_INIT_VAR(sql_join_conditions);
-		array_init_size(sql_join_conditions, 1);
 		phalcon_array_append(&sql_join_conditions, sql_join_condition, 0);
 	} else {
 		/** 
