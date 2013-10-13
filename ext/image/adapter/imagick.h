@@ -46,6 +46,7 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, _pixelate);
 PHP_METHOD(Phalcon_Image_Adapter_Imagick, _save);
 PHP_METHOD(Phalcon_Image_Adapter_Imagick, _render);
 PHP_METHOD(Phalcon_Image_Adapter_Imagick, __destruct);
+PHP_METHOD(Phalcon_Image_Adapter_Imagick, getInternalImInstance);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_image_adapter_imagick___construct, 0, 0, 1)
 	ZEND_ARG_INFO(0, file)
@@ -157,6 +158,7 @@ PHALCON_INIT_FUNCS(phalcon_image_adapter_imagick_method_entry) {
 	PHP_ME(Phalcon_Image_Adapter_Imagick, _save, arginfo_phalcon_image_adapter_imagick__save, ZEND_ACC_PROTECTED) 
 	PHP_ME(Phalcon_Image_Adapter_Imagick, _render, arginfo_phalcon_image_adapter_imagick__render, ZEND_ACC_PROTECTED) 
 	PHP_ME(Phalcon_Image_Adapter_Imagick, __destruct, NULL, ZEND_ACC_PUBLIC|ZEND_ACC_DTOR) 
+	PHP_ME(Phalcon_Image_Adapter_Imagick, getInternalImInstance, NULL, ZEND_ACC_PUBLIC)
 	PHP_FE_END
 };
 

@@ -75,6 +75,13 @@ PHALCON_INIT_CLASS(Phalcon_Image_Adapter_Imagick){
 	return SUCCESS;
 }
 
+//static void phalcon_image_adapter_imagick_apply_thread_limit(zval *this_ptr, zval *im)
+//{
+//	zval *limit;
+//
+//	limit = phalcon_fetch_nproperty_this()
+//}
+
 /**
  * Checks if Imagick is enabled
  *
@@ -1469,4 +1476,9 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, __destruct){
 	if (Z_TYPE_P(im) == IS_OBJECT) {
 		phalcon_call_method_params(NULL, NULL, im, SL("destroy"), zend_inline_hash_func(SS("destroy")) TSRMLS_CC, 0);
 	}
+}
+
+PHP_METHOD(Phalcon_Image_Adapter_Imagick, getInternalImInstance)
+{
+	RETURN_MEMBER(getThis(), "_image");
 }

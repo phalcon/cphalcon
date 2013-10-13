@@ -10,6 +10,7 @@ if (!class_exists('imagick')) {
 --FILE--
 <?php
 $im = new \Phalcon\Image\Adapter\Imagick(__DIR__ . '/images/Neighborhood_watch_bw.png');
+$im->getInternalImInstance()->setResourceLimit(6, 1);
 $im->pixelate(10);
 ?>
 --EXPECT--
