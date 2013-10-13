@@ -191,7 +191,12 @@ PHP_METHOD(Phalcon_Image_Adapter_GD, __construct){
 		}
 
 		if (phalcon_array_isset_long_fetch(&type, imageinfo, 2)) {
+			convert_to_long(type);
 			phalcon_update_property_this(this_ptr, SL("_type"), type TSRMLS_CC);
+		}
+		else {
+			PHALCON_INIT_VAR(type);
+			ZVAL_LONG(type, -1);
 		}
 
 		if (phalcon_array_isset_string_fetch(&mime, imageinfo, SS("mime"))) {
