@@ -146,7 +146,7 @@ PHP_METHOD(Phalcon_Image_Adapter, getImage){
  *
  * @param int $width   new width
  * @param int $height  new height
- * @param int $master  master dimension, if master equal TENSILE, the width and height must be input
+ * @param int $master  master dimension, if $master is TENSILE, the width and height must be specified
  * @return Phalcon\Image\Adapter
  */
 PHP_METHOD(Phalcon_Image_Adapter, resize){
@@ -222,6 +222,14 @@ PHP_METHOD(Phalcon_Image_Adapter, resize){
 			tmp_height = Z_LVAL_P(height);
 		}
 
+		if (tmp_width <= 0) {
+			tmp_width = 1;
+		}
+
+		if (tmp_height <= 0) {
+			tmp_height = 1;
+		}
+
 		switch (master) {
 			case PHALCON_IMAGE_AUTO:
 				if ((tmp_image_width / tmp_width) > (tmp_image_height / tmp_height)) {
@@ -238,6 +246,14 @@ PHP_METHOD(Phalcon_Image_Adapter, resize){
 					master = PHALCON_IMAGE_WIDTH;
 				}
 				break;
+		}
+
+		if (tmp_image_width <= 0) {
+			tmp_image_width = 1;
+		}
+
+		if (tmp_image_height <= 0) {
+			tmp_image_height = 1;
 		}
 
 		switch (master) {
