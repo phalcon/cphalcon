@@ -561,7 +561,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Mongo, increment){
 
 	zval *key_name, *lifetime = NULL, *frontend, *prefix, *prefixed_key, *value = NULL;
 	zval *collection, *conditions, *document, *timestamp;
-	zval *ttl = NULL, *modified_time, *difference, *not_expired, *data;
+	zval *ttl = NULL, *modified_time, *difference, *not_expired;
 	zval *cached_content;
 
 	PHALCON_MM_GROW();
@@ -676,7 +676,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Mongo, decrement){
 
 	zval *key_name, *lifetime = NULL, *frontend, *prefix, *prefixed_key, *value = NULL;
 	zval *collection, *conditions, *document, *timestamp;
-	zval *ttl = NULL, *modified_time, *difference, *not_expired, *data;
+	zval *ttl = NULL, *modified_time, *difference, *not_expired;
 	zval *cached_content;
 
 	PHALCON_MM_GROW();

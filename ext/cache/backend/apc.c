@@ -226,7 +226,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Apc, increment){
 
 	zval *key_name, *value = NULL, *prefixed_key;
 	zval *cached_content = NULL, *function_name;
-	zval *frontend, *prefix;
+	zval *prefix;
 
 	PHALCON_MM_GROW();
 
@@ -248,7 +248,6 @@ PHP_METHOD(Phalcon_Cache_Backend_Apc, increment){
 		convert_to_long_ex(&value);
 	}
 	
-	frontend = phalcon_fetch_nproperty_this(this_ptr, SL("_frontend"), PH_NOISY_CC);
 	prefix   = phalcon_fetch_nproperty_this(this_ptr, SL("_prefix"), PH_NOISY_CC);
 	
 	PHALCON_INIT_VAR(prefixed_key);
@@ -287,7 +286,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Apc, decrement){
 
 	zval *key_name, *value = NULL, *prefixed_key;
 	zval *cached_content = NULL, *function_name;
-	zval *frontend, *prefix;
+	zval *prefix;
 
 	PHALCON_MM_GROW();
 
@@ -309,7 +308,6 @@ PHP_METHOD(Phalcon_Cache_Backend_Apc, decrement){
 		convert_to_long_ex(&value);
 	}
 	
-	frontend = phalcon_fetch_nproperty_this(this_ptr, SL("_frontend"), PH_NOISY_CC);
 	prefix   = phalcon_fetch_nproperty_this(this_ptr, SL("_prefix"), PH_NOISY_CC);
 	
 	PHALCON_INIT_VAR(prefixed_key);
