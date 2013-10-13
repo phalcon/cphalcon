@@ -205,12 +205,13 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Complex, valid){
 					break;
 	
 				case 1:
-					PHALCON_INIT_NVAR(active_row);
+					PHALCON_INIT_VAR(active_row);
 					array_init(active_row);
 					break;
 	
 				case 2:
-					PHALCON_INIT_NVAR(active_row);
+				default:
+					PHALCON_INIT_VAR(active_row);
 					object_init(active_row);
 					break;
 	

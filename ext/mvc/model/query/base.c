@@ -202,6 +202,11 @@ PHALCON_ATTR_NONNULL2(1, 4) int phql_internal_parse_phql(zval **result, char *ph
 	}
 
 	phql_parser = phql_Alloc(phql_wrapper_alloc);
+	if (unlikely(!phql_parser)) {
+		PHALCON_INIT_VAR(*error_msg);
+		ZVAL_STRING(*error_msg, "Memory allocation error", 1);
+		return FAILURE;
+	}
 
 	parser_status = emalloc(sizeof(phql_parser_status));
 	state = emalloc(sizeof(phql_scanner_state));
