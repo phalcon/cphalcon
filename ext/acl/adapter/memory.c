@@ -462,8 +462,8 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, dropResourceAccess){
 		}
 	
 	} else {
-		PHALCON_INIT_NVAR(access_key);
-		PHALCON_CONCAT_VSV(access_key, resource_name, "!", access_name);
+		PHALCON_INIT_VAR(access_key);
+		PHALCON_CONCAT_VSV(access_key, resource_name, "!", access_list);
 		phalcon_unset_property_array(this_ptr, SL("_accessList"), access_key TSRMLS_CC);
 	}
 	
