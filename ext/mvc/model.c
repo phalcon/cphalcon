@@ -3070,6 +3070,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _doLowInsert){
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
+	int identity_field_is_not_false; /* scan-build insists on using flags */
 
 	PHALCON_MM_GROW();
 
@@ -3097,11 +3098,10 @@ PHP_METHOD(Phalcon_Mvc_Model, _doLowInsert){
 	
 	PHALCON_INIT_VAR(automatic_attributes);
 	phalcon_call_method_p1(automatic_attributes, meta_data, "getautomaticcreateattributes", this_ptr);
+
+	PHALCON_INIT_VAR(column_map);
 	if (PHALCON_GLOBAL(orm).column_renaming) {
-		PHALCON_INIT_VAR(column_map);
 		phalcon_call_method_p1(column_map, meta_data, "getcolumnmap", this_ptr);
-	} else {
-		PHALCON_INIT_NVAR(column_map);
 	}
 	
 	/** 
@@ -3173,7 +3173,8 @@ PHP_METHOD(Phalcon_Mvc_Model, _doLowInsert){
 	/** 
 	 * If there is an identity field we add it using "null" or "default"
 	 */
-	if (PHALCON_IS_NOT_FALSE(identity_field)) {
+	identity_field_is_not_false = PHALCON_IS_NOT_FALSE(identity_field);
+	if (identity_field_is_not_false) {
 	
 		PHALCON_INIT_VAR(default_value);
 		phalcon_call_method(default_value, connection, "getdefaultidvalue");
@@ -3253,7 +3254,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _doLowInsert){
 	 */
 	PHALCON_INIT_VAR(success);
 	phalcon_call_method_p4(success, connection, "insert", table, values, fields, bind_types);
-	if (PHALCON_IS_NOT_FALSE(identity_field)) {
+	if (identity_field_is_not_false) {
 	
 		/** 
 		 * We check if the model have sequences
