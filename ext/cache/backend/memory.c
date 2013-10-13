@@ -307,7 +307,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Memory, exists){
 PHP_METHOD(Phalcon_Cache_Backend_Memory, increment){
 
 	zval *key_name, *value = NULL, *last_key = NULL, *prefix, *data;
-	zval *cached_content, *frontend, *result;
+	zval *cached_content, *result;
 
 	PHALCON_MM_GROW();
 
@@ -362,7 +362,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Memory, increment){
 PHP_METHOD(Phalcon_Cache_Backend_Memory, decrement){
 
 	zval *key_name, *value = NULL, *last_key = NULL, *prefix, *data;
-	zval *cached_content, *frontend, *result;
+	zval *cached_content, *result;
 
 	PHALCON_MM_GROW();
 

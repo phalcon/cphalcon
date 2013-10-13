@@ -375,7 +375,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Libmemcached, save){
  * @return mixed
  */
 PHP_METHOD(Phalcon_Cache_Backend_Libmemcached, increment){
-	zval *key_name, *value = NULL, *memcache, *frontend, *prefix;
+	zval *key_name, *value = NULL, *memcache, *prefix;
 	zval *prefixed_key, *cached_content;
 
 	PHALCON_MM_GROW();
@@ -396,7 +396,6 @@ PHP_METHOD(Phalcon_Cache_Backend_Libmemcached, increment){
 		memcache = phalcon_fetch_nproperty_this(this_ptr, SL("_memcache"), PH_NOISY_CC);
 	}
 
-	frontend = phalcon_fetch_nproperty_this(this_ptr, SL("_frontend"), PH_NOISY_CC);
 	prefix   = phalcon_fetch_nproperty_this(this_ptr, SL("_prefix"), PH_NOISY_CC);
 
 	PHALCON_INIT_VAR(prefixed_key);
@@ -422,7 +421,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Libmemcached, increment){
  * @return mixed
  */
 PHP_METHOD(Phalcon_Cache_Backend_Libmemcached, decrement){
-	zval *key_name, *value = NULL, *memcache, *frontend, *prefix;
+	zval *key_name, *value = NULL, *memcache, *prefix;
 	zval *prefixed_key, *cached_content;
 
 	PHALCON_MM_GROW();
@@ -443,7 +442,6 @@ PHP_METHOD(Phalcon_Cache_Backend_Libmemcached, decrement){
 		memcache = phalcon_fetch_nproperty_this(this_ptr, SL("_memcache"), PH_NOISY_CC);
 	}
 
-	frontend = phalcon_fetch_nproperty_this(this_ptr, SL("_frontend"), PH_NOISY_CC);
 	prefix   = phalcon_fetch_nproperty_this(this_ptr, SL("_prefix"), PH_NOISY_CC);
 
 	PHALCON_INIT_VAR(prefixed_key);
