@@ -87,65 +87,58 @@ PHALCON_INIT_CLASS(Phalcon_Mvc_Collection){
  */
 PHP_METHOD(Phalcon_Mvc_Collection, __construct){
 
-	zval *dependency_injector = NULL, *models_manager = NULL;
+	zval **dependency_injector = NULL, **models_manager = NULL;
+	zval *di, *mm;
 	zval *service_name;
 
+	phalcon_fetch_params_ex(0, 2, &dependency_injector, &models_manager);
+	
 	PHALCON_MM_GROW();
 
-	phalcon_fetch_params(1, 0, 2, &dependency_injector, &models_manager);
-	
-	if (!dependency_injector) {
-		PHALCON_INIT_VAR(dependency_injector);
-	}
-	
-	if (!models_manager) {
-		PHALCON_INIT_VAR(models_manager);
-	}
-	
 	/** 
 	 * We use a default DI if the user doesn't define one
 	 */
-	if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
-		PHALCON_SEPARATE_PARAM(dependency_injector);
-		PHALCON_INIT_NVAR(dependency_injector);
-		phalcon_call_static(dependency_injector, "phalcon\\di", "getdefault");
-
-		if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
-			PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "A dependency injector container is required to obtain the services related to the ORM");
-			return;
-		}
+	if (!dependency_injector || Z_TYPE_PP(dependency_injector) != IS_OBJECT) {
+		PHALCON_INIT_VAR(di);
+		phalcon_call_static(di, "phalcon\\di", "getdefault");
 	}
+	else {
+		di = *dependency_injector;
+	}
+
+	PHALCON_VERIFY_INTERFACE_EX(di, phalcon_diinterface_ce, phalcon_mvc_model_exception_ce, 1);
 	
-	phalcon_update_property_this(this_ptr, SL("_dependencyInjector"), dependency_injector TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_dependencyInjector"), di TSRMLS_CC);
 	
 	/** 
 	 * Inject the manager service from the DI
 	 */
-	if (Z_TYPE_P(models_manager) != IS_OBJECT) {
-		PHALCON_SEPARATE_PARAM(models_manager);
-
-		PHALCON_INIT_VAR(service_name);
+	if (!models_manager || Z_TYPE_PP(models_manager) != IS_OBJECT) {
+		PHALCON_ALLOC_GHOST_ZVAL(service_name);
 		ZVAL_STRING(service_name, "collectionManager", 1);
 	
-		PHALCON_INIT_NVAR(models_manager);
-		phalcon_call_method_p1(models_manager, dependency_injector, "getshared", service_name);
-		if (Z_TYPE_P(models_manager) != IS_OBJECT) {
+		PHALCON_OBS_VAR(mm);
+		phalcon_call_method_p1_ex(mm, &mm, di, "getshared", service_name);
+		if (Z_TYPE_P(mm) != IS_OBJECT) {
 			PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "The injected service 'collectionManager' is not valid");
 			return;
 		}
-
-		PHALCON_VERIFY_INTERFACE(models_manager, phalcon_mvc_collection_managerinterface_ce);
+	}
+	else {
+		mm = *models_manager;
 	}
 	
+	PHALCON_VERIFY_INTERFACE_EX(mm, phalcon_mvc_collection_managerinterface_ce, phalcon_mvc_model_exception_ce, 1);
+
 	/** 
 	 * Update the models-manager
 	 */
-	phalcon_update_property_this(this_ptr, SL("_modelsManager"), models_manager TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_modelsManager"), mm TSRMLS_CC);
 	
 	/** 
 	 * The manager always initializes the object
 	 */
-	phalcon_call_method_p1_noret(models_manager, "initialize", this_ptr);
+	phalcon_call_method_p1_noret(mm, "initialize", this_ptr);
 	
 	/** 
 	 * This allows the developer to execute initialization stuff every time an instance
@@ -1302,7 +1295,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, save){
 	zval *params[2];
 	zval func;
 
-	dependency_injector = phalcon_fetch_property_this(this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
+	dependency_injector = phalcon_fetch_nproperty_this(this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
 	if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
 		PHALCON_THROW_EXCEPTION_STRW(phalcon_mvc_model_exception_ce, "A dependency injector container is required to obtain the services related to the ORM");
 		return;

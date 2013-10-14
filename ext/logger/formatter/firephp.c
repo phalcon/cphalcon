@@ -283,8 +283,7 @@ PHP_METHOD(Phalcon_Logger_Formatter_Firephp, format) {
 	 * in one go and this allows us to avoid performance penalties due to
 	 * memory reallocations.
 	 */
-	if (Z_TYPE_P(encoded) == IS_STRING) {
-
+	if (Z_TYPE_P(encoded) == IS_STRING && Z_STRVAL_P(encoded) != NULL) {
 		smart_str_alloc4(&result, Z_STRLEN_P(encoded) + 2 + 5, 0, i);
 
 		/**

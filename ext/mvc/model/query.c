@@ -574,7 +574,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getFunctionCall){
 PHP_METHOD(Phalcon_Mvc_Model_Query, _getExpression){
 
 	zval *expr, *quoting = NULL, *temp_not_quoting;
-	zval *left, *right, *expr_type;
+	zval *left = NULL, *right = NULL, *expr_type;
 	zval *expr_value = NULL, *value = NULL, *escaped_value = NULL;
 	zval *placeholder = NULL, *exception_message;
 	zval *list_items, *expr_list_item = NULL;
@@ -1399,6 +1399,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getSingleJoin){
 	 */
 	PHALCON_OBS_VAR(referenced_fields);
 	phalcon_call_method_p0_ex(referenced_fields, &referenced_fields, relation, "getreferencedfields");
+
+	PHALCON_INIT_VAR(sql_join_conditions);
+	array_init_size(sql_join_conditions, 1);
+
 	if (Z_TYPE_P(fields) != IS_ARRAY) { 
 		/** 
 		 * Create the left part of the expression
@@ -1434,8 +1438,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getSingleJoin){
 		phalcon_array_update_string(&sql_join_condition, ISL(left), &left_expr, PH_COPY);
 		phalcon_array_update_string(&sql_join_condition, ISL(right), &right_expr, PH_COPY);
 	
-		PHALCON_INIT_VAR(sql_join_conditions);
-		array_init_size(sql_join_conditions, 1);
 		phalcon_array_append(&sql_join_conditions, sql_join_condition, 0);
 	} else {
 		/** 
@@ -4706,6 +4708,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, execute){
 	zval *prepared_result = NULL, *intermediate, *default_bind_params;
 	zval *merged_params = NULL, *default_bind_types;
 	zval *merged_types = NULL, *type, *exception_message;
+	int cache_options_is_not_null;
 
 	PHALCON_MM_GROW();
 
@@ -4722,9 +4725,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, execute){
 	PHALCON_OBS_VAR(unique_row);
 	phalcon_read_property_this(&unique_row, this_ptr, SL("_uniqueRow"), PH_NOISY_CC);
 	
-	PHALCON_OBS_VAR(cache_options);
-	phalcon_read_property_this(&cache_options, this_ptr, SL("_cacheOptions"), PH_NOISY_CC);
-	if (Z_TYPE_P(cache_options) != IS_NULL) {
+	cache_options             = phalcon_fetch_nproperty_this(this_ptr, SL("_cacheOptions"), PH_NOISY_CC);
+	cache_options_is_not_null = (Z_TYPE_P(cache_options) != IS_NULL); /* to keep scan-build happy */
+
+	if (cache_options_is_not_null) {
 		if (Z_TYPE_P(cache_options) != IS_ARRAY) { 
 			PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Invalid caching options");
 			return;
@@ -4733,10 +4737,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, execute){
 		/** 
 		 * The user must set a cache key
 		 */
-		if (phalcon_array_isset_string(cache_options, SS("key"))) {
-			PHALCON_OBS_VAR(key);
-			phalcon_array_fetch_string(&key, cache_options, SL("key"), PH_NOISY);
-		} else {
+		if (!phalcon_array_isset_string_fetch(&key, cache_options, SS("key"))) {
 			PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "A cache key must be provided to identify the cached resultset in the cache backend");
 			return;
 		}
@@ -4744,22 +4745,16 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, execute){
 		/** 
 		 * By defaut use use 3600 seconds (1 hour) as cache lifetime
 		 */
-		if (phalcon_array_isset_string(cache_options, SS("lifetime"))) {
-			PHALCON_OBS_VAR(lifetime);
-			phalcon_array_fetch_string(&lifetime, cache_options, SL("lifetime"), PH_NOISY);
-		} else {
-			PHALCON_INIT_NVAR(lifetime);
+		if (!phalcon_array_isset_string_fetch(&lifetime, cache_options, SS("lifetime"))) {
+			PHALCON_INIT_VAR(lifetime);
 			ZVAL_LONG(lifetime, 3600);
 		}
 	
 		/** 
 		 * 'modelsCache' is the default name for the models cache service
 		 */
-		if (phalcon_array_isset_string(cache_options, SS("service"))) {
-			PHALCON_OBS_VAR(cache_service);
-			phalcon_array_fetch_string(&cache_service, cache_options, SL("service"), PH_NOISY);
-		} else {
-			PHALCON_INIT_NVAR(cache_service);
+		if (!phalcon_array_isset_string_fetch(&cache_service, cache_options, SS("service"))) {
+			PHALCON_INIT_VAR(cache_service);
 			PHALCON_ZVAL_MAYBE_INTERNED_STRING(cache_service, phalcon_interned_modelsCache);
 		}
 	
@@ -4877,7 +4872,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, execute){
 	/** 
 	 * We store the resultset in the cache if any
 	 */
-	if (Z_TYPE_P(cache_options) != IS_NULL) {
+	if (cache_options_is_not_null) {
 	
 		/** 
 		 * Only PHQL SELECTs can be cached

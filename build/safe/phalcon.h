@@ -5597,6 +5597,7 @@ ZEND_END_ARG_INFO()
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_session_adapter_get, 0, 0, 1)
 	ZEND_ARG_INFO(0, index)
 	ZEND_ARG_INFO(0, defaultValue)
+	ZEND_ARG_INFO(0, remove)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_session_adapter_set, 0, 0, 2)
@@ -5701,8 +5702,10 @@ static PHP_METHOD(Phalcon_Tag, textArea);
 static PHP_METHOD(Phalcon_Tag, form);
 static PHP_METHOD(Phalcon_Tag, endForm);
 static PHP_METHOD(Phalcon_Tag, setTitle);
+static PHP_METHOD(Phalcon_Tag, setTitleSeparator);
 static PHP_METHOD(Phalcon_Tag, appendTitle);
 static PHP_METHOD(Phalcon_Tag, prependTitle);
+static PHP_METHOD(Phalcon_Tag, getTitleSeparator);
 static PHP_METHOD(Phalcon_Tag, getTitle);
 static PHP_METHOD(Phalcon_Tag, stylesheetLink);
 static PHP_METHOD(Phalcon_Tag, javascriptInclude);
@@ -5768,6 +5771,10 @@ ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_tag_settitle, 0, 0, 1)
 	ZEND_ARG_INFO(0, title)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_tag_settitleseparator, 0, 0, 1)
+	ZEND_ARG_INFO(0, separator)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_tag_appendtitle, 0, 0, 1)
@@ -5863,9 +5870,11 @@ PHALCON_INIT_FUNCS(phalcon_tag_method_entry){
 	PHP_ME(Phalcon_Tag, form, arginfo_phalcon_tag_form, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC) 
 	PHP_ME(Phalcon_Tag, endForm, NULL, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC) 
 	PHP_ME(Phalcon_Tag, setTitle, arginfo_phalcon_tag_settitle, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC) 
+	PHP_ME(Phalcon_Tag, setTitleSeparator, arginfo_phalcon_tag_settitleseparator, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC) 
 	PHP_ME(Phalcon_Tag, appendTitle, arginfo_phalcon_tag_appendtitle, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC) 
 	PHP_ME(Phalcon_Tag, prependTitle, arginfo_phalcon_tag_prependtitle, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC) 
 	PHP_ME(Phalcon_Tag, getTitle, arginfo_phalcon_tag_gettitle, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC) 
+	PHP_ME(Phalcon_Tag, getTitleSeparator, NULL, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC) 
 	PHP_ME(Phalcon_Tag, stylesheetLink, arginfo_phalcon_tag_stylesheetlink, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC) 
 	PHP_ME(Phalcon_Tag, javascriptInclude, arginfo_phalcon_tag_javascriptinclude, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC) 
 	PHP_ME(Phalcon_Tag, image, arginfo_phalcon_tag_image, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC) 
@@ -8772,6 +8781,7 @@ static PHP_METHOD(Phalcon_Flash_Session, _setSessionMessages);
 static PHP_METHOD(Phalcon_Flash_Session, message);
 static PHP_METHOD(Phalcon_Flash_Session, getMessages);
 static PHP_METHOD(Phalcon_Flash_Session, output);
+static PHP_METHOD(Phalcon_Flash_Session, has);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_flash_session_setdi, 0, 0, 1)
 	ZEND_ARG_INFO(0, dependencyInjector)
@@ -8791,6 +8801,10 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_flash_session_output, 0, 0, 0)
 	ZEND_ARG_INFO(0, remove)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_flash_session_has, 0, 0, 1)
+	ZEND_ARG_INFO(0, type)
+ZEND_END_ARG_INFO()
+
 PHALCON_INIT_FUNCS(phalcon_flash_session_method_entry){
 	PHP_ME(Phalcon_Flash_Session, setDI, arginfo_phalcon_flash_session_setdi, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Flash_Session, getDI, NULL, ZEND_ACC_PUBLIC) 
@@ -8799,6 +8813,7 @@ PHALCON_INIT_FUNCS(phalcon_flash_session_method_entry){
 	PHP_ME(Phalcon_Flash_Session, message, arginfo_phalcon_flash_session_message, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Flash_Session, getMessages, arginfo_phalcon_flash_session_getmessages, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Flash_Session, output, arginfo_phalcon_flash_session_output, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Flash_Session, has, arginfo_phalcon_flash_session_has, ZEND_ACC_PUBLIC)
 	PHP_FE_END
 };
 
@@ -10165,11 +10180,13 @@ ZEND_END_ARG_INFO()
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_crypt_encryptbase64, 0, 0, 1)
 	ZEND_ARG_INFO(0, text)
 	ZEND_ARG_INFO(0, key)
+	ZEND_ARG_INFO(0, safe)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_crypt_decryptbase64, 0, 0, 1)
 	ZEND_ARG_INFO(0, text)
 	ZEND_ARG_INFO(0, key)
+	ZEND_ARG_INFO(0, safe)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_crypt_getpadding, 0, 0, 0)
@@ -15800,6 +15817,8 @@ static PHP_METHOD(Phalcon_Image_Adapter_Imagick, _pixelate);
 static PHP_METHOD(Phalcon_Image_Adapter_Imagick, _save);
 static PHP_METHOD(Phalcon_Image_Adapter_Imagick, _render);
 static PHP_METHOD(Phalcon_Image_Adapter_Imagick, __destruct);
+static PHP_METHOD(Phalcon_Image_Adapter_Imagick, getInternalImInstance);
+static PHP_METHOD(Phalcon_Image_Adapter_Imagick, setResourceLimit);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_image_adapter_imagick___construct, 0, 0, 1)
 	ZEND_ARG_INFO(0, file)
@@ -15892,6 +15911,11 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_image_adapter_imagick__render, 0, 0, 2)
 	ZEND_ARG_INFO(0, quality)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_image_adapter_imagick_setresourcelimit, 0, 0, 2)
+	ZEND_ARG_INFO(0, resource)
+	ZEND_ARG_INFO(0, limit)
+ZEND_END_ARG_INFO()
+
 PHALCON_INIT_FUNCS(phalcon_image_adapter_imagick_method_entry) {
 	PHP_ME(Phalcon_Image_Adapter_Imagick, check, NULL, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC) 
 	PHP_ME(Phalcon_Image_Adapter_Imagick, __construct, arginfo_phalcon_image_adapter_imagick___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR) 
@@ -15911,6 +15935,8 @@ PHALCON_INIT_FUNCS(phalcon_image_adapter_imagick_method_entry) {
 	PHP_ME(Phalcon_Image_Adapter_Imagick, _save, arginfo_phalcon_image_adapter_imagick__save, ZEND_ACC_PROTECTED) 
 	PHP_ME(Phalcon_Image_Adapter_Imagick, _render, arginfo_phalcon_image_adapter_imagick__render, ZEND_ACC_PROTECTED) 
 	PHP_ME(Phalcon_Image_Adapter_Imagick, __destruct, NULL, ZEND_ACC_PUBLIC|ZEND_ACC_DTOR) 
+	PHP_ME(Phalcon_Image_Adapter_Imagick, getInternalImInstance, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Image_Adapter_Imagick, setResourceLimit, arginfo_phalcon_image_adapter_imagick_setresourcelimit, ZEND_ACC_PUBLIC | ZEND_ACC_STATIC)
 	PHP_FE_END
 };
 
