@@ -212,6 +212,10 @@ PHP_METHOD(Phalcon_Cache_Backend_Memcache, get){
 	if (PHALCON_IS_FALSE(cached_content)) {
 		RETURN_MM_NULL();
 	}
+
+	if (phalcon_is_numeric(cached_content)) {
+		RETURN_CCTOR(cached_content);
+	}
 	
 	phalcon_return_call_method_p1(frontend, "afterretrieve", cached_content);
 	RETURN_MM();
@@ -295,7 +299,11 @@ PHP_METHOD(Phalcon_Cache_Backend_Memcache, save){
 	 * We store without flags
 	 */
 	PHALCON_OBS_VAR(success);
-	phalcon_call_method_p4_ex(success, &success, memcache, "set", last_key, prepared_content, flags, ttl);
+	if(phalcon_is_numeric(cached_content)) {
+		phalcon_call_method_p4_ex(success, &success, memcache, "set", last_key, cached_content, flags, ttl);
+	} else {
+		phalcon_call_method_p4_ex(success, &success, memcache, "set", last_key, prepared_content, flags, ttl);
+	}
 	if (!zend_is_true(success)) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_cache_exception_ce, "Failed to store data in memcached");
 		return;
@@ -484,4 +492,88 @@ PHP_METHOD(Phalcon_Cache_Backend_Memcache, exists){
 	}
 	
 	PHALCON_MM_RESTORE();
+}
+
+/**
+ * Atomic increment of a given key, by number $value
+ * 
+ * @param  string $keyName
+ * @param  long $value
+ * @return mixed
+ */
+PHP_METHOD(Phalcon_Cache_Backend_Memcache, increment){
+    
+	zval *key_name = NULL, *value = NULL, *memcache = NULL;
+	zval *newVal;
+    
+	PHALCON_MM_GROW();
+    
+	phalcon_fetch_params(1, 0, 2, &key_name, &value);
+    
+	if (!key_name) {
+		PHALCON_INIT_VAR(key_name);
+	}   
+    
+	if (!value) {
+		PHALCON_INIT_VAR(value);
+	}   
+    
+	if (Z_TYPE_P(value) == IS_NULL) {
+		ZVAL_LONG(value, 1); 
+	}   
+    
+	if (Z_TYPE_P(value) != IS_LONG) {
+		PHALCON_SEPARATE_PARAM(value);
+		convert_to_long_ex(&value);
+	}   
+    
+	PHALCON_OBS_VAR(memcache);
+	phalcon_read_property_this(&memcache, this_ptr, SL("_memcache"), PH_NOISY_CC);
+    
+	PHALCON_INIT_VAR(newVal);
+	phalcon_call_method_p2(newVal, memcache, "increment", key_name, value);
+    
+	RETURN_CTOR(newVal);
+}
+
+/**
+ * Atomic decrement of a given key, by number $value
+ * 
+ * @param  string $keyName
+ * @param  long $value
+ * @return mixed
+ */
+PHP_METHOD(Phalcon_Cache_Backend_Memcache, decrement){
+
+	zval *key_name = NULL, *value = NULL, *memcache = NULL;
+	zval *newVal;
+
+	PHALCON_MM_GROW();
+
+	phalcon_fetch_params(1, 0, 2, &key_name, &value);
+
+	if (!key_name) {
+		PHALCON_INIT_VAR(key_name);
+	}
+
+	if (!value) {
+		PHALCON_INIT_VAR(value);
+	}
+
+	if (Z_TYPE_P(value) == IS_NULL) {
+		ZVAL_LONG(value, 1);
+	}
+
+	if (Z_TYPE_P(value) != IS_LONG) {
+		PHALCON_SEPARATE_PARAM(value);
+		convert_to_long_ex(&value);
+	}
+
+	PHALCON_OBS_VAR(memcache);
+	phalcon_read_property_this(&memcache, this_ptr, SL("_memcache"), PH_NOISY_CC);
+
+	PHALCON_INIT_VAR(newVal);
+	phalcon_call_method_p2(newVal, memcache, "decrement", key_name, value);
+
+	RETURN_CTOR(newVal);
 }
