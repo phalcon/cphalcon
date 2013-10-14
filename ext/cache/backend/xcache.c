@@ -141,8 +141,13 @@ PHP_METHOD(Phalcon_Cache_Backend_Xcache, get){
 	if (Z_TYPE_P(cached_content) == IS_NULL) {
 		RETURN_MM_NULL();
 	}
+
+	if (phalcon_is_numeric(cached_content)) {
+		RETURN_CCTOR(cached_content);
+	} else {
+		phalcon_return_call_method_p1(frontend, "afterretrieve", cached_content);
+	}
 	
-	phalcon_return_call_method_p1(frontend, "afterretrieve", cached_content);
 	RETURN_MM();
 }
 
@@ -186,8 +191,10 @@ PHP_METHOD(Phalcon_Cache_Backend_Xcache, save){
 		cached_content = content;
 	}
 	
-	PHALCON_OBS_VAR(prepared_content);
-	phalcon_call_method_p1_ex(prepared_content, &prepared_content, frontend, "beforestore", cached_content);
+	if (!phalcon_is_numeric(cached_content)) {
+		PHALCON_OBS_VAR(prepared_content);
+		phalcon_call_method_p1_ex(prepared_content, &prepared_content, frontend, "beforestore", cached_content);
+	}
 	
 	/** 
 	 * Take the lifetime from the frontend or read it from the set in start()
@@ -207,7 +214,12 @@ PHP_METHOD(Phalcon_Cache_Backend_Xcache, save){
 	}
 	
 	PHALCON_OBS_VAR(success);
-	phalcon_call_func_p3_ex(success, &success, "xcache_set", last_key, prepared_content, ttl);
+
+	if (phalcon_is_numeric(cached_content)) {
+		phalcon_call_func_p3_ex(success, &success, "xcache_set", last_key, cached_content, ttl);
+	} else {
+		phalcon_call_func_p3_ex(success, &success, "xcache_set", last_key, prepared_content, ttl);
+	}
 	
 	PHALCON_OBS_VAR(is_buffering);
 	phalcon_call_method_p0_ex(is_buffering, &is_buffering, frontend, "isbuffering");
@@ -385,4 +397,139 @@ PHP_METHOD(Phalcon_Cache_Backend_Xcache, exists){
 	}
 
 	PHALCON_MM_RESTORE();
+}
+
+/**
+ * Atomic increment of a given key, by number $value
+ *
+ * @param  string $keyName
+ * @param  long $value
+ * @return mixed
+ */
+PHP_METHOD(Phalcon_Cache_Backend_Xcache, increment){
+	
+	zval *key_name = NULL, *value = NULL, *last_key = NULL;
+	zval *newVal, *prefix, *origVal, *success, *function_name;
+	
+	PHALCON_MM_GROW();
+	
+	phalcon_fetch_params(1, 0, 2, &key_name, &value);
+	
+	if (!key_name) {
+		PHALCON_INIT_VAR(key_name);
+	}
+	
+	if (!value) {
+		PHALCON_INIT_VAR(value);
+	}
+	
+	if (Z_TYPE_P(value) == IS_NULL) {
+		ZVAL_LONG(value, 1);
+	}
+	
+	if (Z_TYPE_P(value) != IS_LONG) {
+		convert_to_long_ex(&value);
+	}
+
+	if (Z_TYPE_P(key_name) == IS_NULL) {
+		PHALCON_OBS_VAR(last_key);
+		phalcon_read_property_this(&last_key, this_ptr, SL("_lastKey"), PH_NOISY_CC);
+	} else {
+		PHALCON_OBS_VAR(prefix);
+		phalcon_read_property_this(&prefix, this_ptr, SL("_prefix"), PH_NOISY_CC);
+	
+		PHALCON_INIT_NVAR(last_key);
+		PHALCON_CONCAT_SVV(last_key, "_PHCX", prefix, key_name);
+	}
+	if (!zend_is_true(last_key)) {
+		PHALCON_THROW_EXCEPTION_STR(phalcon_cache_exception_ce, "The cache must be started first");
+		return;
+	}
+
+	PHALCON_INIT_VAR(newVal);
+	PHALCON_INIT_VAR(function_name);
+	ZVAL_STRING(function_name, "xcache_inc", 1);
+	if (phalcon_function_exists(function_name TSRMLS_CC) == SUCCESS) {
+		phalcon_call_func_p2(newVal, "xcache_inc", last_key, value);
+	
+		RETURN_CTOR(newVal);
+	} else {
+		PHALCON_INIT_VAR(origVal);
+		PHALCON_INIT_VAR(success);
+		phalcon_call_func_p1(origVal, "xcache_get", last_key);
+		PHALCON_SEPARATE_PARAM(origVal);
+		convert_to_long_ex(&origVal);
+		add_function(newVal, origVal, value TSRMLS_CC);
+		phalcon_call_func_p2(success, "xcache_set", last_key, newVal);
+
+		RETURN_CTOR(newVal);
+	}
+}
+
+/**
+ * Atomic decrement of a given key, by number $value
+ *
+ * @param  string $keyName
+ * @param  long $value
+ * @return mixed
+ */
+PHP_METHOD(Phalcon_Cache_Backend_Xcache, decrement){
+	
+	zval *key_name = NULL, *value = NULL, *last_key = NULL;
+	zval *newVal, *prefix, *origVal, *success, *function_name;
+	
+	PHALCON_MM_GROW();
+	
+	phalcon_fetch_params(1, 0, 2, &key_name, &value);
+	
+	if (!key_name) {
+		PHALCON_INIT_VAR(key_name);
+	}
+	
+	if (!value) {
+		PHALCON_INIT_VAR(value);
+	}
+	
+	if (Z_TYPE_P(value) == IS_NULL) {
+		ZVAL_LONG(value, 1);
+	}
+	
+	if (Z_TYPE_P(value) != IS_LONG) {
+		convert_to_long_ex(&value);
+	}
+
+	if (Z_TYPE_P(key_name) == IS_NULL) {
+		PHALCON_OBS_VAR(last_key);
+		phalcon_read_property_this(&last_key, this_ptr, SL("_lastKey"), PH_NOISY_CC);
+	} else {
+		PHALCON_OBS_VAR(prefix);
+		phalcon_read_property_this(&prefix, this_ptr, SL("_prefix"), PH_NOISY_CC);
+	
+		PHALCON_INIT_NVAR(last_key);
+		PHALCON_CONCAT_SVV(last_key, "_PHCX", prefix, key_name);
+	}
+	if (!zend_is_true(last_key)) {
+		PHALCON_THROW_EXCEPTION_STR(phalcon_cache_exception_ce, "The cache must be started first");
+		return;
+	}
+
+	PHALCON_INIT_VAR(newVal);
+	PHALCON_INIT_VAR(function_name);
+	ZVAL_STRING(function_name, "xcache_dec", 1);
+
+	if (phalcon_function_exists(function_name TSRMLS_CC) == SUCCESS) {
+		phalcon_call_func_p2(newVal, "xcache_dec", last_key, value);
+	
+		RETURN_CTOR(newVal);
+	} else {
+		PHALCON_INIT_VAR(origVal);
+		PHALCON_INIT_VAR(success);
+		phalcon_call_func_p1(origVal, "xcache_get", last_key);
+		PHALCON_SEPARATE_PARAM(origVal);
+		convert_to_long_ex(&origVal);
+		sub_function(newVal, origVal, value TSRMLS_CC);
+		phalcon_call_func_p2(success, "xcache_set", last_key, newVal);
+
+		RETURN_CTOR(newVal);
+	}
 }

@@ -117,8 +117,13 @@ PHP_METHOD(Phalcon_Cache_Backend_Apc, get){
 	if (PHALCON_IS_FALSE(cached_content)) {
 		RETURN_MM_NULL();
 	}
+
+	if (phalcon_is_numeric(cached_content)) {
+		RETURN_CCTOR(cached_content);
+	} else {
+		phalcon_return_call_method_p1(frontend, "afterretrieve", cached_content);
+	}
 	
-	phalcon_return_call_method_p1(frontend, "afterretrieve", cached_content);
 	RETURN_MM();
 }
 
@@ -163,8 +168,10 @@ PHP_METHOD(Phalcon_Cache_Backend_Apc, save){
 		cached_content = content;
 	}
 	
-	PHALCON_OBS_VAR(prepared_content);
-	phalcon_call_method_p1_ex(prepared_content, &prepared_content, frontend, "beforestore", cached_content);
+	if (!phalcon_is_numeric(cached_content)) {
+		PHALCON_OBS_VAR(prepared_content);
+		phalcon_call_method_p1_ex(prepared_content, &prepared_content, frontend, "beforestore", cached_content);
+	}
 	
 	/** 
 	 * Take the lifetime from the frontend or read it from the set in start()
@@ -187,7 +194,11 @@ PHP_METHOD(Phalcon_Cache_Backend_Apc, save){
 	 * Call apc_store in the PHP userland since most of the time it isn't available at
 	 * compile time
 	 */
-	phalcon_call_func_p3_noret("apc_store", last_key, prepared_content, ttl);
+	if (phalcon_is_numeric(cached_content)) {
+		phalcon_call_func_p3_noret("apc_store", last_key, cached_content, ttl);
+	} else {
+		phalcon_call_func_p3_noret("apc_store", last_key, prepared_content, ttl);
+	}
 	
 	PHALCON_OBS_VAR(is_buffering);
 	phalcon_call_method_p0_ex(is_buffering, &is_buffering, frontend, "isbuffering");
@@ -202,6 +213,126 @@ PHP_METHOD(Phalcon_Cache_Backend_Apc, save){
 	phalcon_update_property_bool(this_ptr, SL("_started"), 0 TSRMLS_CC);
 	
 	PHALCON_MM_RESTORE();
+}
+
+/**
+ * Increment of a given key, by number $value
+ * 
+ * @param  string $keyName
+ * @param  long $value
+ * @return mixed
+ */
+PHP_METHOD(Phalcon_Cache_Backend_Apc, increment){
+
+	zval *key_name, *value = NULL, *prefixed_key;
+	zval *cached_content = NULL, *function_name;
+	zval *prefix;
+
+	PHALCON_MM_GROW();
+
+	PHALCON_INIT_VAR(function_name);
+	ZVAL_STRING(function_name, "apc_inc", 1);
+
+	phalcon_fetch_params(1, 1, 1, &key_name, &value);
+
+	if (!value) {
+		PHALCON_INIT_VAR(value);
+	}
+	
+	if (Z_TYPE_P(value) == IS_NULL) {
+		ZVAL_LONG(value, 1);
+	}
+
+	if (Z_TYPE_P(value) != IS_LONG) {
+		PHALCON_SEPARATE_PARAM(value);
+		convert_to_long_ex(&value);
+	}
+	
+	prefix   = phalcon_fetch_nproperty_this(this_ptr, SL("_prefix"), PH_NOISY_CC);
+	
+	PHALCON_INIT_VAR(prefixed_key);
+	PHALCON_CONCAT_SVV(prefixed_key, "_PHCA", prefix, key_name);
+	phalcon_update_property_this(this_ptr, SL("_lastKey"), prefixed_key TSRMLS_CC);
+	
+	if (phalcon_function_exists(function_name TSRMLS_CC)) { 
+		phalcon_call_func_p1(return_value, "apc_inc", value);
+	} else {
+		PHALCON_OBS_VAR(cached_content);
+		phalcon_call_func_p1_ex(cached_content, &cached_content, "apc_fetch", prefixed_key);
+
+		if (Z_TYPE_P(cached_content) != IS_LONG) {
+			PHALCON_SEPARATE_PARAM(cached_content);
+			convert_to_long_ex(&cached_content);
+		}
+
+		if (phalcon_is_numeric(cached_content)) {
+			add_function(return_value, cached_content, value TSRMLS_CC);
+
+			phalcon_call_method_p2_noret(this_ptr, "save", key_name, return_value);
+		}
+	}
+	
+	RETURN_MM();
+}
+
+/**
+ * Decrement of a given key, by number $value
+ * 
+ * @param  string $keyName
+ * @param  long $value
+ * @return mixed
+ */
+PHP_METHOD(Phalcon_Cache_Backend_Apc, decrement){
+
+	zval *key_name, *value = NULL, *prefixed_key;
+	zval *cached_content = NULL, *function_name;
+	zval *prefix;
+
+	PHALCON_MM_GROW();
+
+	PHALCON_INIT_VAR(function_name);
+	ZVAL_STRING(function_name, "apc_dec", 1);
+
+	phalcon_fetch_params(1, 1, 1, &key_name, &value);
+
+	if (!value) {
+		PHALCON_INIT_VAR(value);
+	}
+	
+	if (Z_TYPE_P(value) == IS_NULL) {
+		ZVAL_LONG(value, 1);
+	}
+
+	if (Z_TYPE_P(value) != IS_LONG) {
+		PHALCON_SEPARATE_PARAM(value);
+		convert_to_long_ex(&value);
+	}
+	
+	prefix   = phalcon_fetch_nproperty_this(this_ptr, SL("_prefix"), PH_NOISY_CC);
+	
+	PHALCON_INIT_VAR(prefixed_key);
+	PHALCON_CONCAT_SVV(prefixed_key, "_PHCA", prefix, key_name);
+	phalcon_update_property_this(this_ptr, SL("_lastKey"), prefixed_key TSRMLS_CC);
+	
+	if (phalcon_function_exists(function_name TSRMLS_CC)) { 
+		phalcon_call_func_p1(return_value, "apc_dec", value);
+	} else {
+		PHALCON_OBS_VAR(cached_content);
+		phalcon_call_func_p1_ex(cached_content, &cached_content, "apc_fetch", prefixed_key);
+
+		if (Z_TYPE_P(cached_content) != IS_LONG) {
+			PHALCON_SEPARATE_PARAM(cached_content);
+			convert_to_long_ex(&cached_content);
+		}
+
+		if (phalcon_is_numeric(cached_content)) {
+			sub_function(return_value, cached_content, value TSRMLS_CC);
+
+			phalcon_call_method_p2_noret(this_ptr, "save", key_name, return_value);
+		}
+	}
+	
+	RETURN_MM();
 }
 
 /**
