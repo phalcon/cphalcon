@@ -3455,10 +3455,10 @@ int phvolt_parse_view(zval *result, zval *view_code, zval *template_path TSRMLS_
 
 	if (phvolt_internal_parse_view(&result, view_code, template_path, &error_msg TSRMLS_CC) == FAILURE) {
 		if (likely(error_msg != NULL)) {
-			PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_view_exception_ce, Z_STRVAL_P(error_msg));
+			PHALCON_THROW_EXCEPTION_STRW(phalcon_mvc_view_exception_ce, Z_STRVAL_P(error_msg));
 		}
 		else {
-			PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_view_exception_ce, "Error parsing the view");
+			PHALCON_THROW_EXCEPTION_STRW(phalcon_mvc_view_exception_ce, "Error parsing the view");
 		}
 
 		return FAILURE;
