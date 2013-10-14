@@ -17,6 +17,9 @@
 	+------------------------------------------------------------------------+
 */
 
+#ifndef PHALCON_ANNOTATIONS_SCANNER_H
+#define PHALCON_ANNOTATIONS_SCANNER_H
+
 #define PHANNOT_SCANNER_RETCODE_EOF -1
 #define PHANNOT_SCANNER_RETCODE_ERR -2
 #define PHANNOT_SCANNER_RETCODE_IMPOSSIBLE -3
@@ -81,3 +84,5 @@ typedef struct _phannot_scanner_token {
 int phannot_get_token(phannot_scanner_state *s, phannot_scanner_token *token);
 
 extern const phannot_token_names phannot_tokens[];
+
+#endif /* PHALCON_ANNOTATIONS_SCANNER_H */

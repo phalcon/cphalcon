@@ -17,27 +17,18 @@
   +------------------------------------------------------------------------+
 */
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
-
-#include "php.h"
 #include "php_phalcon.h"
-#include "phalcon.h"
 
-#include "Zend/zend_operators.h"
-#include "Zend/zend_exceptions.h"
-#include "Zend/zend_interfaces.h"
-
+#include "acl/exception.h"
+#include "acl/../exception.h"
 #include "kernel/main.h"
-#include "kernel/memory.h"
 
 /**
  * Phalcon\Acl\Exception
  *
  * Class for exceptions thrown by Phalcon\Acl
  */
-
+zend_class_entry *phalcon_acl_exception_ce;
 
 /**
  * Phalcon\Acl\Exception initializer
@@ -48,4 +39,3 @@ PHALCON_INIT_CLASS(Phalcon_Acl_Exception){
 
 	return SUCCESS;
 }
-

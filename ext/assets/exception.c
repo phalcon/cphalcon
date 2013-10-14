@@ -17,20 +17,12 @@
   +------------------------------------------------------------------------+
 */
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
-
-#include "php.h"
 #include "php_phalcon.h"
-#include "phalcon.h"
 
-#include "Zend/zend_operators.h"
-#include "Zend/zend_exceptions.h"
-#include "Zend/zend_interfaces.h"
+#include "assets/exception.h"
+#include "assets/../exception.h"
 
 #include "kernel/main.h"
-#include "kernel/memory.h"
 
 /**
  * Phalcon\DI\Exception
@@ -38,7 +30,7 @@
  * Exceptions thrown in Phalcon\Assets will use this class
  *
  */
-
+zend_class_entry *phalcon_assets_exception_ce;
 
 /**
  * Phalcon\Assets\Exception initializer
@@ -49,4 +41,3 @@ PHALCON_INIT_CLASS(Phalcon_Assets_Exception){
 
 	return SUCCESS;
 }
-

@@ -16,22 +16,15 @@
   +------------------------------------------------------------------------+
 */
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
+#include <ext/spl/spl_heap.h>
 
-#include "php.h"
-#include "php_phalcon.h"
-#include "phalcon.h"
-
-#include "Zend/zend_operators.h"
-#include "Zend/zend_exceptions.h"
-#include "Zend/zend_interfaces.h"
+#include "events/manager.h"
+#include "events/managerinterface.h"
+#include "events/event.h"
+#include "events/exception.h"
 
 #include "kernel/main.h"
 #include "kernel/memory.h"
-
-#include "ext/spl/spl_heap.h"
 #include "kernel/exception.h"
 #include "kernel/object.h"
 #include "kernel/array.h"
@@ -47,6 +40,35 @@
  * plugins that will offer monitoring of data, manipulation, conditional execution and much more.
  *
  */
+zend_class_entry *phalcon_events_manager_ce;
+
+PHP_METHOD(Phalcon_Events_Manager, attach);
+PHP_METHOD(Phalcon_Events_Manager, enablePriorities);
+PHP_METHOD(Phalcon_Events_Manager, arePrioritiesEnabled);
+PHP_METHOD(Phalcon_Events_Manager, collectResponses);
+PHP_METHOD(Phalcon_Events_Manager, isCollecting);
+PHP_METHOD(Phalcon_Events_Manager, getResponses);
+PHP_METHOD(Phalcon_Events_Manager, detachAll);
+PHP_METHOD(Phalcon_Events_Manager, fireQueue);
+PHP_METHOD(Phalcon_Events_Manager, fire);
+PHP_METHOD(Phalcon_Events_Manager, hasListeners);
+PHP_METHOD(Phalcon_Events_Manager, getListeners);
+
+static const zend_function_entry phalcon_events_manager_method_entry[] = {
+	PHP_ME(Phalcon_Events_Manager, attach, arginfo_phalcon_events_managerinterface_attach, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Events_Manager, enablePriorities, arginfo_phalcon_events_manager_enablepriorities, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Events_Manager, arePrioritiesEnabled, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Events_Manager, collectResponses, arginfo_phalcon_events_manager_collectresponses, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Events_Manager, isCollecting, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Events_Manager, getResponses, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Events_Manager, detachAll, arginfo_phalcon_events_managerinterface_detachall, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Events_Manager, fireQueue, arginfo_phalcon_events_manager_firequeue, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Events_Manager, fire, arginfo_phalcon_events_managerinterface_fire, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Events_Manager, hasListeners, arginfo_phalcon_events_manager_haslisteners, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Events_Manager, getListeners, arginfo_phalcon_events_managerinterface_getlisteners, ZEND_ACC_PUBLIC)
+	PHP_MALIAS(Phalcon_Events_Manager, dettachAll, detachAll, arginfo_phalcon_events_managerinterface_detachall, ZEND_ACC_PUBLIC | ZEND_ACC_DEPRECATED)
+	PHP_FE_END
+};
 
 
 /**

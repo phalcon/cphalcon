@@ -25,9 +25,9 @@
 #include "php_phalcon.h"
 #include "phalcon.h"
 
-#include "Zend/zend_operators.h"
-#include "Zend/zend_exceptions.h"
-#include "Zend/zend_interfaces.h"
+#include <Zend/zend_operators.h>
+#include <Zend/zend_exceptions.h>
+#include <Zend/zend_interfaces.h>
 
 #include "ext/standard/file.h"
 #include "main/php_streams.h"

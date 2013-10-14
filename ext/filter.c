@@ -17,21 +17,12 @@
   +------------------------------------------------------------------------+
 */
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
-
-#include "php.h"
-#include "php_phalcon.h"
-#include "phalcon.h"
-
-#include "Zend/zend_operators.h"
-#include "Zend/zend_exceptions.h"
-#include "Zend/zend_interfaces.h"
+#include "filter.h"
+#include "filterinterface.h"
+#include "filter/exception.h"
 
 #include "kernel/main.h"
 #include "kernel/memory.h"
-
 #include "kernel/exception.h"
 #include "kernel/hash.h"
 #include "kernel/fcall.h"
@@ -57,7 +48,20 @@
  *	$filter->sanitize("!100a019.01a", "float"); // returns "100019.01"
  *</code>
  */
+zend_class_entry *phalcon_filter_ce;
 
+PHP_METHOD(Phalcon_Filter, add);
+PHP_METHOD(Phalcon_Filter, sanitize);
+PHP_METHOD(Phalcon_Filter, _sanitize);
+PHP_METHOD(Phalcon_Filter, getFilters);
+
+static const zend_function_entry phalcon_filter_method_entry[] = {
+	PHP_ME(Phalcon_Filter, add, arginfo_phalcon_filterinterface_add, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Filter, sanitize, arginfo_phalcon_filterinterface_sanitize, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Filter, _sanitize, NULL, ZEND_ACC_PROTECTED)
+	PHP_ME(Phalcon_Filter, getFilters, NULL, ZEND_ACC_PUBLIC)
+	PHP_FE_END
+};
 
 /**
  * Phalcon\Filter initializer
@@ -373,4 +377,3 @@ PHP_METHOD(Phalcon_Filter, getFilters){
 
 	RETURN_MEMBER(this_ptr, "_filters");
 }
-

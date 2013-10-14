@@ -26,15 +26,15 @@
 #include "php.h"
 #include "php_phalcon.h"
 #include "php_main.h"
-#include "ext/standard/php_smart_str.h"
-#include "ext/standard/php_math.h"
-#include "ext/standard/html.h"
+#include <ext/standard/php_smart_str.h>
+#include <ext/standard/php_math.h>
+#include <ext/standard/html.h>
 
 #include "kernel/main.h"
 #include "kernel/memory.h"
 
-#include "Zend/zend_exceptions.h"
-#include "Zend/zend_interfaces.h"
+#include <Zend/zend_exceptions.h>
+#include <Zend/zend_interfaces.h>
 
 /**
  * Filter alphanum string

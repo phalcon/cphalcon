@@ -17,22 +17,10 @@
   +------------------------------------------------------------------------+
 */
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
-
-#include "php.h"
-#include "php_phalcon.h"
-#include "phalcon.h"
-
-#include "Zend/zend_operators.h"
-#include "Zend/zend_exceptions.h"
-#include "Zend/zend_interfaces.h"
+#include "image.h"
 
 #include "kernel/main.h"
 #include "kernel/memory.h"
-
-#include "image.h"
 
 /**
  * Phalcon\Image
@@ -45,7 +33,7 @@
  *	$image->save();
  *</code>
  */
-
+zend_class_entry *phalcon_image_ce;
 
 /**
  * Phalcon\Image initializer

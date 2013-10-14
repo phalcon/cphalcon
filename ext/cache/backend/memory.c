@@ -17,21 +17,15 @@
   +------------------------------------------------------------------------+
 */
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
-
-#include "php.h"
 #include "php_phalcon.h"
-#include "phalcon.h"
 
-#include "Zend/zend_operators.h"
-#include "Zend/zend_exceptions.h"
-#include "Zend/zend_interfaces.h"
+#include "cache/backend/memory.h"
+#include "cache/backend.h"
+#include "cache/backendinterface.h"
+#include "cache/exception.h"
 
 #include "kernel/main.h"
 #include "kernel/memory.h"
-
 #include "kernel/object.h"
 #include "kernel/concat.h"
 #include "kernel/array.h"
@@ -58,7 +52,28 @@
  *
  *</code>
  */
+zend_class_entry *phalcon_cache_backend_memory_ce;
 
+PHP_METHOD(Phalcon_Cache_Backend_Memory, get);
+PHP_METHOD(Phalcon_Cache_Backend_Memory, save);
+PHP_METHOD(Phalcon_Cache_Backend_Memory, delete);
+PHP_METHOD(Phalcon_Cache_Backend_Memory, queryKeys);
+PHP_METHOD(Phalcon_Cache_Backend_Memory, exists);
+PHP_METHOD(Phalcon_Cache_Backend_Memory, increment);
+PHP_METHOD(Phalcon_Cache_Backend_Memory, decrement);
+PHP_METHOD(Phalcon_Cache_Backend_Memory, flush);
+
+static const zend_function_entry phalcon_cache_backend_memory_method_entry[] = {
+	PHP_ME(Phalcon_Cache_Backend_Memory, get, arginfo_phalcon_cache_backendinterface_get, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Cache_Backend_Memory, save, arginfo_phalcon_cache_backendinterface_save, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Cache_Backend_Memory, delete, arginfo_phalcon_cache_backendinterface_delete, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Cache_Backend_Memory, queryKeys, arginfo_phalcon_cache_backendinterface_querykeys, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Cache_Backend_Memory, exists, arginfo_phalcon_cache_backendinterface_exists, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Cache_Backend_Memory, increment, arginfo_phalcon_cache_backendinterface_increment, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Cache_Backend_Memory, decrement, arginfo_phalcon_cache_backendinterface_decrement, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Cache_Backend_Memory, flush, NULL, ZEND_ACC_PUBLIC)
+	PHP_FE_END
+};
 
 /**
  * Phalcon\Cache\Backend\Memory initializer
@@ -336,10 +351,11 @@ PHP_METHOD(Phalcon_Cache_Backend_Memory, increment){
 		RETURN_MM();
 	}
 	
+
 	add_function(return_value, cached_content, *value TSRMLS_CC);
 	phalcon_update_property_array(this_ptr, SL("_data"), last_key, return_value TSRMLS_CC);
 
-	RETURN_MM();
+	PHALCON_MM_RESTORE();
 }
 
 /**
@@ -383,7 +399,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Memory, decrement){
 	sub_function(return_value, cached_content, *value TSRMLS_CC);
 	phalcon_update_property_array(this_ptr, SL("_data"), last_key, return_value TSRMLS_CC);
 
-	RETURN_MM();
+	PHALCON_MM_RESTORE();
 }
 
 /**

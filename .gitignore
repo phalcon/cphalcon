@@ -19,6 +19,7 @@ unit-tests/annotations/cache/*
 *.loT
 *.in
 *.log
+*.d
 .libs
 .coverage
 parser.out

@@ -21,8 +21,8 @@
 #define PHALCON_KERNEL_FCALL_H
 
 #include <stdarg.h>
-#include "Zend/zend_hash.h"
-#include "Zend/zend.h"
+#include <Zend/zend_hash.h>
+#include <Zend/zend.h>
 
 #ifdef __GNUC__
 #define PHALCON_CALL_FUNCTION(return_value, return_value_ptr, func_name, nparams, ...) \

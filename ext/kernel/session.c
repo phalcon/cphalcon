@@ -29,7 +29,7 @@
 #include "kernel/session.h"
 
 #ifdef PHALCON_USE_PHP_SESSION
-#include "ext/session/php_session.h"
+#include <ext/session/php_session.h>
 #endif
 
 void phalcon_session_start(TSRMLS_D)

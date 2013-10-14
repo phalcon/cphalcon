@@ -8,7 +8,6 @@ kernel/fcall.c \
 kernel/require.c \
 kernel/debug.c \
 kernel/backtrace.c \
-kernel/assert.c \
 kernel/object.c \
 kernel/array.c \
 kernel/hash.c \
@@ -336,7 +335,6 @@ validation/validator/inclusionin.c \
 validation/validator/stringlength.c \
 validation/validator/url.c \
 validation/validator.c \
-session.c \
 assets/filters/jsminifier.c \
 assets/filters/cssminifier.c \
 mvc/model/query/parser.c \

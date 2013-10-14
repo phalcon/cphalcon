@@ -17,13 +17,9 @@
   +------------------------------------------------------------------------+
 */
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
-
-#include "php.h"
 #include "php_phalcon.h"
 
+#include "kernel/hash.h"
 #include "kernel/memory.h"
 
 int phalcon_hash_exists(const HashTable *ht, const char *arKey, uint nKeyLength)

@@ -17,17 +17,20 @@
   +------------------------------------------------------------------------+
 */
 
+#ifndef PHALCON_DI_INJECTIONAWAREINTERFACE_H
+#define PHALCON_DI_INJECTIONAWAREINTERFACE_H
+
+#include "php_phalcon.h"
+
 extern zend_class_entry *phalcon_di_injectionawareinterface_ce;
 
 PHALCON_INIT_CLASS(Phalcon_DI_InjectionAwareInterface);
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_di_injectionawareinterface_getdi, 0, 0, 0)
+ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_di_injectionawareinterface_setdi, 0, 0, 1)
 	ZEND_ARG_INFO(0, dependencyInjector)
 ZEND_END_ARG_INFO()
 
-PHALCON_INIT_FUNCS(phalcon_di_injectionawareinterface_method_entry){
-	PHP_ABSTRACT_ME(Phalcon_DI_InjectionAwareInterface, setDI, arginfo_phalcon_di_injectionawareinterface_setdi)
-	PHP_ABSTRACT_ME(Phalcon_DI_InjectionAwareInterface, getDI, NULL)
-	PHP_FE_END
-};
-
+#endif /* PHALCON_DI_INJECTIONAWAREINTERFACE_H */

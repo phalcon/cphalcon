@@ -27,22 +27,16 @@
 
 %include {
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
-
-#include "php.h"
-#include "ext/standard/php_smart_str.h"
 #include "php_phalcon.h"
-#include "phalcon.h"
 
-#include "parser.h"
-#include "scanner.h"
-#include "annot.h"
+#include <ext/standard/php_smart_str.h>
+
+#include "annotations/parser.h"
+#include "annotations/scanner.h"
+#include "annotations/annot.h"
+#include "annotations/exception.h"
 
 #include "kernel/main.h"
-#include "kernel/memory.h"
-#include "kernel/fcall.h"
 #include "kernel/exception.h"
 
 #include "interned-strings.h"

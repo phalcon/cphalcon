@@ -17,21 +17,13 @@
   +------------------------------------------------------------------------+
 */
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
-
-#include "php.h"
 #include "php_phalcon.h"
-#include "ext/standard/php_array.h"
+#include <ext/standard/php_array.h>
 
 #include "kernel/main.h"
-#include "kernel/memory.h"
-#include "kernel/debug.h"
 #include "kernel/array.h"
 #include "kernel/operators.h"
 #include "kernel/hash.h"
-#include "kernel/backtrace.h"
 
 /**
  * @brief Fetches @a index if it exists from the array @a arr
@@ -131,7 +123,7 @@ int phalcon_array_isset_long_fetch(zval **fetched, zval *arr, unsigned long inde
  * @note @c index will be handled as follows: @c NULL is treated as an empty string, @c double values are cast to @c integer, @c bool or @c resource are treated as @c integer
  * @throw E_WARNING if @a offset is not a scalar
  */
-int PHALCON_FASTCALL phalcon_array_isset(const zval *arr, zval *index) {
+int ZEND_FASTCALL phalcon_array_isset(const zval *arr, zval *index) {
 
 	HashTable *h;
 
@@ -172,7 +164,7 @@ int PHALCON_FASTCALL phalcon_array_isset(const zval *arr, zval *index) {
  * @note The function is a wrapper around phalcon_array_isset_quick_string()
  * @see phalcon_array_isset_quick_string()
  */
-int PHALCON_FASTCALL phalcon_array_isset_string(const zval *arr, const char *index, uint index_length) {
+int ZEND_FASTCALL phalcon_array_isset_string(const zval *arr, const char *index, uint index_length) {
 
 	return phalcon_array_isset_quick_string(arr, index, index_length, zend_inline_hash_func(index, index_length));
 }
@@ -187,7 +179,7 @@ int PHALCON_FASTCALL phalcon_array_isset_string(const zval *arr, const char *ind
  * @retval 0 Not exists or @a arr is not an array
  * @retval 1 Exists
  */
-int PHALCON_FASTCALL phalcon_array_isset_quick_string(const zval *arr, const char *index, uint index_length, unsigned long key) {
+int ZEND_FASTCALL phalcon_array_isset_quick_string(const zval *arr, const char *index, uint index_length, unsigned long key) {
 
 	if (likely(Z_TYPE_P(arr) == IS_ARRAY)) {
 		return zend_hash_quick_exists(Z_ARRVAL_P(arr), index, index_length, key);
@@ -204,7 +196,7 @@ int PHALCON_FASTCALL phalcon_array_isset_quick_string(const zval *arr, const cha
  * @retval 0 Not exists or @a arr is not an array
  * @retval 1 Exists
  */
-int PHALCON_FASTCALL phalcon_array_isset_long(const zval *arr, unsigned long index) {
+int ZEND_FASTCALL phalcon_array_isset_long(const zval *arr, unsigned long index) {
 
 	if (likely(Z_TYPE_P(arr) == IS_ARRAY)) {
 		return zend_hash_index_exists(Z_ARRVAL_P(arr), index);
@@ -224,7 +216,7 @@ int PHALCON_FASTCALL phalcon_array_isset_long(const zval *arr, unsigned long ind
  * @note @c index will be handled as follows: @c NULL is treated as an empty string, @c double values are cast to @c integer, @c bool or @c resource are treated as @c integer
  * @throw @c E_WARNING if @a offset is not a scalar
  */
-int PHALCON_FASTCALL phalcon_array_unset(zval **arr, zval *index, int flags) {
+int ZEND_FASTCALL phalcon_array_unset(zval **arr, zval *index, int flags) {
 
 	HashTable *ht;
 
@@ -269,7 +261,7 @@ int PHALCON_FASTCALL phalcon_array_unset(zval **arr, zval *index, int flags) {
  * @retval @c FAILURE Failure or @a arr is not an array
  * @retval @c SUCCESS Success
  */
-int PHALCON_FASTCALL phalcon_array_unset_string(zval **arr, const char *index, uint index_length, int flags) {
+int ZEND_FASTCALL phalcon_array_unset_string(zval **arr, const char *index, uint index_length, int flags) {
 
 	if (Z_TYPE_PP(arr) != IS_ARRAY) {
 		return 0;
@@ -291,7 +283,7 @@ int PHALCON_FASTCALL phalcon_array_unset_string(zval **arr, const char *index, u
  * @retval @c FAILURE Failure or @a arr is not an array
  * @retval @c SUCCESS Success
  */
-int PHALCON_FASTCALL phalcon_array_unset_long(zval **arr, unsigned long index, int flags) {
+int ZEND_FASTCALL phalcon_array_unset_long(zval **arr, unsigned long index, int flags) {
 
 	if (Z_TYPE_PP(arr) != IS_ARRAY) {
 		return 0;

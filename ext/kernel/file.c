@@ -25,10 +25,10 @@
 #include "php_phalcon.h"
 #include "php_main.h"
 #include "main/php_streams.h"
-#include "ext/standard/file.h"
-#include "ext/standard/php_smart_str.h"
-#include "ext/standard/php_filestat.h"
-#include "ext/standard/php_string.h"
+#include <ext/standard/file.h>
+#include <ext/standard/php_smart_str.h>
+#include <ext/standard/php_filestat.h>
+#include <ext/standard/php_string.h>
 
 #include "kernel/main.h"
 #include "kernel/memory.h"
@@ -36,8 +36,8 @@
 #include "kernel/operators.h"
 #include "kernel/file.h"
 
-#include "Zend/zend_exceptions.h"
-#include "Zend/zend_interfaces.h"
+#include <Zend/zend_exceptions.h>
+#include <Zend/zend_interfaces.h>
 
 /**
  * Checks if a file exist

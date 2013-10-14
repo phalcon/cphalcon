@@ -17,28 +17,21 @@
   +------------------------------------------------------------------------+
 */
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
-
-#include "php.h"
 #include "php_phalcon.h"
-#include "phalcon.h"
 
-#include "Zend/zend_operators.h"
-#include "Zend/zend_exceptions.h"
-#include "Zend/zend_interfaces.h"
+#include "di/service.h"
+#include "di/serviceinterface.h"
+#include "di/service/builder.h"
+#include "di/exception.h"
 
 #include "kernel/main.h"
 #include "kernel/memory.h"
-
 #include "kernel/object.h"
-#include "kernel/file.h"
 #include "kernel/fcall.h"
-#include "kernel/operators.h"
 #include "kernel/concat.h"
 #include "kernel/exception.h"
 #include "kernel/array.h"
+#include "kernel/operators.h"
 
 /**
  * Phalcon\DI\Service
@@ -51,7 +44,36 @@
  *<code>
  *
  */
+zend_class_entry *phalcon_di_service_ce;
 
+PHP_METHOD(Phalcon_DI_Service, __construct);
+PHP_METHOD(Phalcon_DI_Service, getName);
+PHP_METHOD(Phalcon_DI_Service, setShared);
+PHP_METHOD(Phalcon_DI_Service, isShared);
+PHP_METHOD(Phalcon_DI_Service, setSharedInstance);
+PHP_METHOD(Phalcon_DI_Service, setDefinition);
+PHP_METHOD(Phalcon_DI_Service, getDefinition);
+PHP_METHOD(Phalcon_DI_Service, resolve);
+PHP_METHOD(Phalcon_DI_Service, setParameter);
+PHP_METHOD(Phalcon_DI_Service, getParameter);
+PHP_METHOD(Phalcon_DI_Service, isResolved);
+PHP_METHOD(Phalcon_DI_Service, __set_state);
+
+static const zend_function_entry phalcon_di_service_method_entry[] = {
+	PHP_ME(Phalcon_DI_Service, __construct, arginfo_phalcon_di_serviceinterface___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
+	PHP_ME(Phalcon_DI_Service, getName, arginfo_phalcon_di_serviceinterface_empty, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_DI_Service, setShared, arginfo_phalcon_di_serviceinterface_setshared, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_DI_Service, isShared, arginfo_phalcon_di_serviceinterface_empty, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_DI_Service, setSharedInstance, arginfo_phalcon_di_service_setsharedinstance, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_DI_Service, setDefinition, arginfo_phalcon_di_serviceinterface_setdefinition, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_DI_Service, getDefinition, arginfo_phalcon_di_serviceinterface_empty, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_DI_Service, resolve, arginfo_phalcon_di_serviceinterface_resolve, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_DI_Service, setParameter, arginfo_phalcon_di_service_setparameter, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_DI_Service, getParameter, arginfo_phalcon_di_service_getparameter, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_DI_Service, isResolved, arginfo_phalcon_di_serviceinterface_empty, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_DI_Service, __set_state, arginfo_phalcon_di_service___set_state, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
+	PHP_FE_END
+};
 
 /**
  * Phalcon\DI\Service initializer

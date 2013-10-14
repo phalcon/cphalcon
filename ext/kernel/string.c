@@ -17,37 +17,29 @@
   +------------------------------------------------------------------------+
 */
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
+#include "php_phalcon.h"
 
 #include <ctype.h>
-
-#include "php.h"
-#include "php_phalcon.h"
-#include "php_main.h"
-
-#include "ext/standard/php_smart_str.h"
-#include "ext/standard/php_string.h"
-#include "ext/standard/php_rand.h"
-#include "ext/standard/php_lcg.h"
-#include "ext/standard/php_http.h"
-#include "ext/standard/base64.h"
-#include "ext/standard/md5.h"
-#include "ext/standard/url.h"
-#include "ext/standard/html.h"
-#include "ext/date/php_date.h"
+#include <ext/standard/php_smart_str.h>
+#include <ext/standard/php_string.h>
+#include <ext/standard/php_rand.h>
+#include <ext/standard/php_lcg.h>
+#include <ext/standard/php_http.h>
+#include <ext/standard/base64.h>
+#include <ext/standard/md5.h>
+#include <ext/standard/url.h>
+#include <ext/standard/html.h>
+#include <ext/date/php_date.h>
 
 #ifdef PHALCON_USE_PHP_PCRE
-#include "ext/pcre/php_pcre.h"
+#include <ext/pcre/php_pcre.h>
 #endif
 
 #ifdef PHALCON_USE_PHP_JSON
-#include "ext/json/php_json.h"
+#include <ext/json/php_json.h>
 #endif
 
 #include "kernel/main.h"
-#include "kernel/memory.h"
 #include "kernel/string.h"
 #include "kernel/operators.h"
 #include "kernel/fcall.h"

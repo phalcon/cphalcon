@@ -17,6 +17,13 @@
   +------------------------------------------------------------------------+
 */
 
+#ifndef PHALCON_TAG_EXCEPTION_H
+#define PHALCON_TAG_EXCEPTION_H
+
+#include "php_phalcon.h"
+
 extern zend_class_entry *phalcon_tag_exception_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Tag_Exception);
+
+#endif /* PHALCON_TAG_EXCEPTION_H */

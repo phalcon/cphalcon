@@ -17,20 +17,12 @@
   +------------------------------------------------------------------------+
 */
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
-
-#include "php.h"
 #include "php_phalcon.h"
-#include "phalcon.h"
 
-#include "Zend/zend_operators.h"
-#include "Zend/zend_exceptions.h"
-#include "Zend/zend_interfaces.h"
-
+#include "tag/exception.h"
+#include "tag/../exception.h"
 #include "kernel/main.h"
-#include "kernel/memory.h"
+
 
 /**
  * Phalcon\Tag\Exception
@@ -38,7 +30,7 @@
  * Exceptions thrown in Phalcon\Tag will use this class
  *
  */
-
+zend_class_entry *phalcon_tag_exception_ce;
 
 /**
  * Phalcon\Tag\Exception initializer
@@ -49,4 +41,3 @@ PHALCON_INIT_CLASS(Phalcon_Tag_Exception){
 
 	return SUCCESS;
 }
-

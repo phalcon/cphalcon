@@ -27,11 +27,11 @@
 #include "php_phalcon.h"
 #include "phalcon.h"
 
-#include "Zend/zend_operators.h"
-#include "Zend/zend_exceptions.h"
-#include "Zend/zend_interfaces.h"
+#include <Zend/zend_operators.h>
+#include <Zend/zend_exceptions.h>
+#include <Zend/zend_interfaces.h>
 
-#include "ext/standard/php_versioning.h"
+#include <ext/standard/php_versioning.h>
 
 #include "kernel/main.h"
 #include "kernel/memory.h"

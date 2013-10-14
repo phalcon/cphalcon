@@ -17,25 +17,13 @@
   +------------------------------------------------------------------------+
 */
 
+#ifndef PHALCON_ANNOTATIONS_ADAPTER_MEMORY_H
+#define PHALCON_ANNOTATIONS_ADAPTER_MEMORY_H
+
+#include "php_phalcon.h"
+
 extern zend_class_entry *phalcon_annotations_adapter_memory_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Annotations_Adapter_Memory);
 
-PHP_METHOD(Phalcon_Annotations_Adapter_Memory, read);
-PHP_METHOD(Phalcon_Annotations_Adapter_Memory, write);
-
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_annotations_adapter_memory_read, 0, 0, 1)
-	ZEND_ARG_INFO(0, key)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_annotations_adapter_memory_write, 0, 0, 2)
-	ZEND_ARG_INFO(0, key)
-	ZEND_ARG_INFO(0, data)
-ZEND_END_ARG_INFO()
-
-PHALCON_INIT_FUNCS(phalcon_annotations_adapter_memory_method_entry){
-	PHP_ME(Phalcon_Annotations_Adapter_Memory, read, arginfo_phalcon_annotations_adapter_memory_read, ZEND_ACC_PUBLIC) 
-	PHP_ME(Phalcon_Annotations_Adapter_Memory, write, arginfo_phalcon_annotations_adapter_memory_write, ZEND_ACC_PUBLIC) 
-	PHP_FE_END
-};
-
+#endif /* PHALCON_ANNOTATIONS_ADAPTER_MEMORY_H */

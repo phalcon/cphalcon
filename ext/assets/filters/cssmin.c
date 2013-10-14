@@ -17,23 +17,15 @@
   +------------------------------------------------------------------------+
 */
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
-
-#include "php.h"
 #include "php_phalcon.h"
-#include "phalcon.h"
 
-#include "Zend/zend_operators.h"
-#include "Zend/zend_exceptions.h"
-#include "Zend/zend_interfaces.h"
+#include "assets/filters/cssmin.h"
+#include "assets/filters/cssminifier.h"
+#include "assets/filterinterface.h"
 
 #include "kernel/main.h"
 #include "kernel/memory.h"
-
 #include "kernel/fcall.h"
-#include "assets/filters/cssminifier.h"
 
 /**
  * Phalcon\Assets\Filters\Cssmin
@@ -42,7 +34,18 @@
  * removes newlines and line feeds keeping
  * removes last semicolon from last property
  */
+zend_class_entry *phalcon_assets_filters_cssmin_ce;
 
+PHP_METHOD(Phalcon_Assets_Filters_Cssmin, filter);
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_assets_filters_cssmin_filter, 0, 0, 1)
+	ZEND_ARG_INFO(0, content)
+ZEND_END_ARG_INFO()
+
+static const zend_function_entry phalcon_assets_filters_cssmin_method_entry[] = {
+	PHP_ME(Phalcon_Assets_Filters_Cssmin, filter, arginfo_phalcon_assets_filters_cssmin_filter, ZEND_ACC_PUBLIC)
+	PHP_FE_END
+};
 
 /**
  * Phalcon\Assets\Filters\Cssmin initializer
@@ -71,4 +74,3 @@ PHP_METHOD(Phalcon_Assets_Filters_Cssmin, filter){
 		return;
 	}
 }
-

@@ -17,6 +17,13 @@
   +------------------------------------------------------------------------+
 */
 
+#ifndef PHALCON_CACHE_EXCEPTION_H
+#define PHALCON_CACHE_EXCEPTION_H
+
+#include "php_config.h"
+
 extern zend_class_entry *phalcon_cache_exception_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Cache_Exception);
+
+#endif /* PHALCON_CACHE_EXCEPTION_H */

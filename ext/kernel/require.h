@@ -17,5 +17,5 @@
   +------------------------------------------------------------------------+
 */
 
-int PHALCON_FASTCALL phalcon_require(const zval *require_path TSRMLS_DC);
-int PHALCON_FASTCALL phalcon_require_ret(zval *return_value, const zval *require_path TSRMLS_DC);
+int ZEND_FASTCALL phalcon_require(const zval *require_path TSRMLS_DC);
+int ZEND_FASTCALL phalcon_require_ret(zval *return_value, const zval *require_path TSRMLS_DC);

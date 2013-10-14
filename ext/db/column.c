@@ -17,21 +17,12 @@
   +------------------------------------------------------------------------+
 */
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
-
-#include "php.h"
-#include "php_phalcon.h"
-#include "phalcon.h"
-
-#include "Zend/zend_operators.h"
-#include "Zend/zend_exceptions.h"
-#include "Zend/zend_interfaces.h"
+#include "db/column.h"
+#include "db/columninterface.h"
+#include "db/exception.h"
 
 #include "kernel/main.h"
 #include "kernel/memory.h"
-
 #include "kernel/object.h"
 #include "kernel/array.h"
 #include "kernel/exception.h"
@@ -61,7 +52,46 @@
  *</code>
  *
  */
+zend_class_entry *phalcon_db_column_ce;
 
+PHP_METHOD(Phalcon_Db_Column, __construct);
+PHP_METHOD(Phalcon_Db_Column, getSchemaName);
+PHP_METHOD(Phalcon_Db_Column, getName);
+PHP_METHOD(Phalcon_Db_Column, getType);
+PHP_METHOD(Phalcon_Db_Column, getSize);
+PHP_METHOD(Phalcon_Db_Column, getScale);
+PHP_METHOD(Phalcon_Db_Column, isUnsigned);
+PHP_METHOD(Phalcon_Db_Column, isNotNull);
+PHP_METHOD(Phalcon_Db_Column, isPrimary);
+PHP_METHOD(Phalcon_Db_Column, isAutoIncrement);
+PHP_METHOD(Phalcon_Db_Column, isNumeric);
+PHP_METHOD(Phalcon_Db_Column, isFirst);
+PHP_METHOD(Phalcon_Db_Column, getAfterPosition);
+PHP_METHOD(Phalcon_Db_Column, getBindType);
+PHP_METHOD(Phalcon_Db_Column, __set_state);
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_column___set_state, 0, 0, 1)
+	ZEND_ARG_INFO(0, data)
+ZEND_END_ARG_INFO()
+
+static const zend_function_entry phalcon_db_column_method_entry[] = {
+	PHP_ME(Phalcon_Db_Column, __construct, arginfo_phalcon_db_columninterface___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
+	PHP_ME(Phalcon_Db_Column, getSchemaName, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Db_Column, getName, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Db_Column, getType, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Db_Column, getSize, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Db_Column, getScale, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Db_Column, isUnsigned, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Db_Column, isNotNull, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Db_Column, isPrimary, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Db_Column, isAutoIncrement, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Db_Column, isNumeric, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Db_Column, isFirst, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Db_Column, getAfterPosition, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Db_Column, getBindType, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Db_Column, __set_state, arginfo_phalcon_db_column___set_state, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
+	PHP_FE_END
+};
 
 /**
  * Phalcon\Db\Column initializer

@@ -89,13 +89,6 @@ PHALCON_DOC_METHOD(Phalcon_Mvc_Model_MessageInterface, setField);
 PHALCON_DOC_METHOD(Phalcon_Mvc_Model_MessageInterface, getField);
 
 /**
- * Magic __toString method returns verbose message
- *
- * @return string
- */
-PHALCON_DOC_METHOD(Phalcon_Mvc_Model_MessageInterface, __toString);
-
-/**
  * Magic __set_state helps to recover messsages from serialization
  *
  * @param array $message

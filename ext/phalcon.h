@@ -169,7 +169,6 @@
 #include "security.h"
 #include "security/exception.h"
 #include "version.h"
-#include "session.h"
 #include "session/bag.h"
 #include "session/exception.h"
 #include "session/adapter/files.h"

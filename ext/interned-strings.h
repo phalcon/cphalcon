@@ -20,7 +20,7 @@
 #ifndef PHALCON_INTERNED_STRINGS_H
 #define PHALCON_INTERNED_STRINGS_H
 
-#include "main/php.h"
+#include <main/php.h>
 
 extern const char *phalcon_interned_DELETE;
 extern const char *phalcon_interned_GET;

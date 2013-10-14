@@ -18,33 +18,33 @@
   +------------------------------------------------------------------------+
 */
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
-
-#include "php.h"
-#include "php_phalcon.h"
-#include "phalcon.h"
-
-#include "Zend/zend_operators.h"
-#include "Zend/zend_exceptions.h"
-#include "Zend/zend_interfaces.h"
+#include "version.h"
 
 #include "kernel/main.h"
 #include "kernel/memory.h"
-
 #include "kernel/fcall.h"
 #include "kernel/array.h"
 #include "kernel/concat.h"
-#include "kernel/operators.h"
 #include "kernel/string.h"
+#include "kernel/operators.h"
 
 /**
  * Phalcon\Version
  *
  * This class allows to get the installed version of the framework
  */
+zend_class_entry *phalcon_version_ce;
 
+PHP_METHOD(Phalcon_Version, _getVersion);
+PHP_METHOD(Phalcon_Version, get);
+PHP_METHOD(Phalcon_Version, getId);
+
+static const zend_function_entry phalcon_version_method_entry[] = {
+	PHP_ME(Phalcon_Version, _getVersion, NULL, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
+	PHP_ME(Phalcon_Version, get, NULL, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
+	PHP_ME(Phalcon_Version, getId, NULL, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
+	PHP_FE_END
+};
 
 /**
  * Phalcon\Version initializer
@@ -68,18 +68,12 @@ PHALCON_INIT_CLASS(Phalcon_Version){
  */
 PHP_METHOD(Phalcon_Version, _getVersion){
 
-	zval *version;
-
-	PHALCON_MM_GROW();
-
-	PHALCON_INIT_VAR(version);
-	array_init_size(version, 5);
-	add_next_index_long(version, 1);
-	add_next_index_long(version, 3);
-	add_next_index_long(version, 0);
-	add_next_index_long(version, 2);
-	add_next_index_long(version, 1);
-	RETURN_CTOR(version);
+	array_init_size(return_value, 5);
+	add_next_index_long(return_value, 1);
+	add_next_index_long(return_value, 3);
+	add_next_index_long(return_value, 0);
+	add_next_index_long(return_value, 2);
+	add_next_index_long(return_value, 1);
 }
 
 /**
@@ -192,4 +186,3 @@ PHP_METHOD(Phalcon_Version, getId){
 	PHALCON_CONCAT_VVVVV(return_value, major, real_medium, real_minor, special, special_number);
 	RETURN_MM();
 }
-

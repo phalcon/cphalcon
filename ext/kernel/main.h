@@ -17,11 +17,11 @@
   +------------------------------------------------------------------------+
 */
 
-#include "Zend/zend_exceptions.h"
-#include "Zend/zend_interfaces.h"
+#include <Zend/zend_exceptions.h>
+#include <Zend/zend_interfaces.h>
 
-#include "ext/spl/spl_exceptions.h"
-#include "ext/spl/spl_iterators.h"
+#include <ext/spl/spl_exceptions.h>
+#include <ext/spl/spl_iterators.h>
 
 #include "php_phalcon.h"
 
@@ -61,8 +61,9 @@ extern int phalcon_function_exists_ex(const char *func_name, unsigned int func_l
 extern int phalcon_function_quick_exists_ex(const char *func_name, unsigned int func_len, unsigned long key TSRMLS_DC);
 
 /* Count */
-extern void phalcon_fast_count(zval *result, zval *array TSRMLS_DC);
-extern int phalcon_fast_count_ev(zval *array TSRMLS_DC);
+long int phalcon_fast_count_int(zval *value TSRMLS_DC);
+void phalcon_fast_count(zval *result, zval *array TSRMLS_DC);
+int phalcon_fast_count_ev(zval *array TSRMLS_DC);
 
 /* Utils functions */
 extern int phalcon_is_iterable_ex(zval *arr, HashTable **arr_hash, HashPosition *hash_position, int duplicate, int reverse);

@@ -19,14 +19,9 @@
   +------------------------------------------------------------------------+
 */
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
-
-#include "php.h"
 #include "php_phalcon.h"
 
-#include "scanner.h"
+#include "annotations/scanner.h"
 
 #define JJCTYPE unsigned char
 #define JJCURSOR (s->start)

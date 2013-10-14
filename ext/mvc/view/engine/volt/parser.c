@@ -15,7 +15,7 @@
 #include "php_phalcon.h"
 #include "phalcon.h"
 
-#include "ext/standard/php_smart_str.h"
+#include <ext/standard/php_smart_str.h>
 
 #include "parser.h"
 #include "scanner.h"

@@ -16,21 +16,14 @@
   |          Eduar Carvajal <eduar@phalconphp.com>                         |
   +------------------------------------------------------------------------+
 */
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
-
-#include "php.h"
 #include "php_phalcon.h"
-#include "phalcon.h"
 
-#include "Zend/zend_operators.h"
-#include "Zend/zend_exceptions.h"
-#include "Zend/zend_interfaces.h"
+#include "db/reference.h"
+#include "db/referenceinterface.h"
+#include "db/exception.h"
 
 #include "kernel/main.h"
 #include "kernel/memory.h"
-
 #include "kernel/object.h"
 #include "kernel/array.h"
 #include "kernel/exception.h"
@@ -51,7 +44,32 @@
  *	));
  *</code>
  */
+zend_class_entry *phalcon_db_reference_ce;
 
+PHP_METHOD(Phalcon_Db_Reference, __construct);
+PHP_METHOD(Phalcon_Db_Reference, getName);
+PHP_METHOD(Phalcon_Db_Reference, getSchemaName);
+PHP_METHOD(Phalcon_Db_Reference, getReferencedSchema);
+PHP_METHOD(Phalcon_Db_Reference, getColumns);
+PHP_METHOD(Phalcon_Db_Reference, getReferencedTable);
+PHP_METHOD(Phalcon_Db_Reference, getReferencedColumns);
+PHP_METHOD(Phalcon_Db_Reference, __set_state);
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_reference___set_state, 0, 0, 1)
+	ZEND_ARG_INFO(0, data)
+ZEND_END_ARG_INFO()
+
+static const zend_function_entry phalcon_db_reference_method_entry[] = {
+	PHP_ME(Phalcon_Db_Reference, __construct, arginfo_phalcon_db_referenceinterface___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
+	PHP_ME(Phalcon_Db_Reference, getName, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Db_Reference, getSchemaName, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Db_Reference, getReferencedSchema, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Db_Reference, getColumns, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Db_Reference, getReferencedTable, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Db_Reference, getReferencedColumns, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Db_Reference, __set_state, arginfo_phalcon_db_reference___set_state, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
+	PHP_FE_END
+};
 
 /**
  * Phalcon\Db\Reference initializer
@@ -82,8 +100,8 @@ PHP_METHOD(Phalcon_Db_Reference, __construct){
 
 	zval *reference_name, *definition, *referenced_table;
 	zval *columns, *referenced_columns, *schema;
-	zval *referenced_schema, *number_columns;
-	zval *number_referenced_columns;
+	zval *referenced_schema;
+	long int number_columns, number_referenced_columns;
 
 	phalcon_fetch_params(0, 2, 0, &reference_name, &definition);
 	
@@ -116,19 +134,14 @@ PHP_METHOD(Phalcon_Db_Reference, __construct){
 	if (phalcon_array_isset_string_fetch(&referenced_schema, definition, SS("referencedSchema"))) {
 		phalcon_update_property_this(this_ptr, SL("_referencedSchema"), referenced_schema TSRMLS_CC);
 	}
-
-	PHALCON_MM_GROW();
-	PHALCON_INIT_VAR(number_columns);
-	phalcon_fast_count(number_columns, columns TSRMLS_CC);
-
-	PHALCON_INIT_VAR(number_referenced_columns);
-	phalcon_fast_count(number_referenced_columns, referenced_columns TSRMLS_CC);
-	if (!PHALCON_IS_EQUAL(number_columns, number_referenced_columns)) {
-		PHALCON_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "Number of columns is not equals than the number of columns referenced");
+	
+	number_columns            = phalcon_fast_count_int(columns TSRMLS_CC);
+	number_referenced_columns = phalcon_fast_count_int(referenced_columns TSRMLS_CC);
+	
+	if (number_columns != number_referenced_columns) {
+		PHALCON_THROW_EXCEPTION_STRW(phalcon_db_exception_ce, "Number of columns is not equal to the number of referenced columns");
 		return;
 	}
-
-	PHALCON_MM_RESTORE();
 }
 
 /**
@@ -209,12 +222,10 @@ PHP_METHOD(Phalcon_Db_Reference, __set_state){
 	zval *referenced_table, *columns, *referenced_columns;
 	zval *definition;
 
-	PHALCON_MM_GROW();
-
-	phalcon_fetch_params(1, 1, 0, &data);
+	phalcon_fetch_params(0, 1, 0, &data);
 	
 	if (!phalcon_array_isset_string_fetch(&constraint_name, data, SS("_referenceName"))) {
-		PHALCON_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "_referenceName parameter is required");
+		PHALCON_THROW_EXCEPTION_STRW(phalcon_db_exception_ce, "_referenceName parameter is required");
 		return;
 	}
 
@@ -240,8 +251,7 @@ PHP_METHOD(Phalcon_Db_Reference, __set_state){
 	phalcon_array_update_string(&definition, SL("referencedTable"), &referenced_table, PH_COPY);
 	phalcon_array_update_string(&definition, SL("columns"), &columns, PH_COPY);
 	phalcon_array_update_string(&definition, SL("referencedColumns"), &referenced_columns, PH_COPY);
+
 	object_init_ex(return_value, phalcon_db_reference_ce);
-	phalcon_call_method_p2_noret(return_value, "__construct", constraint_name, definition);
-	
-	RETURN_MM();
+	phalcon_call_method_params(NULL, NULL, return_value, SL("__construct"), zend_inline_hash_func(SS("__construct")) TSRMLS_CC, 2, constraint_name, definition);
 }

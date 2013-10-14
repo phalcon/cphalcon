@@ -21,8 +21,8 @@
 #include "php_phalcon.h"
 #include "php_main.h"
 
-#include "ext/standard/php_smart_str.h"
-#include "ext/standard/php_string.h"
+#include <ext/standard/php_smart_str.h>
+#include <ext/standard/php_string.h>
 
 zval *phalcon_replace_marker(int named, zval *paths, zval *replacements, unsigned long *position, char *cursor, char *marker){
 

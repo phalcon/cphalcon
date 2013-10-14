@@ -18,17 +18,13 @@
   +------------------------------------------------------------------------+
 */
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
-
-#include "php.h"
-#include "php_phalcon.h"
+#include "di.h"
 #include "phalcon.h"
-
-#include "Zend/zend_operators.h"
-#include "Zend/zend_exceptions.h"
-#include "Zend/zend_interfaces.h"
+#include "diinterface.h"
+#include "di/exception.h"
+#include "di/injectionawareinterface.h"
+#include "di/service.h"
+#include "di/serviceinterface.h"
 
 #include "kernel/main.h"
 #include "kernel/memory.h"
@@ -73,6 +69,7 @@
  *
  *</code>
  */
+zend_class_entry *phalcon_di_ce;
 
 static zend_object_handlers phalcon_di_object_handlers;
 
@@ -466,6 +463,56 @@ void phalcon_di_set_services(zval *this_ptr, zval *services TSRMLS_DC)
 	phalcon_di_object *obj = phalcon_di_get_object(this_ptr TSRMLS_CC);
 	zend_hash_copy(obj->services, Z_ARRVAL_P(services), (copy_ctor_func_t)zval_add_ref, NULL, sizeof(zval*));
 }
+
+PHP_METHOD(Phalcon_DI, __construct);
+PHP_METHOD(Phalcon_DI, set);
+PHP_METHOD(Phalcon_DI, setShared);
+PHP_METHOD(Phalcon_DI, remove);
+PHP_METHOD(Phalcon_DI, attempt);
+PHP_METHOD(Phalcon_DI, setRaw);
+PHP_METHOD(Phalcon_DI, getRaw);
+PHP_METHOD(Phalcon_DI, getService);
+PHP_METHOD(Phalcon_DI, get);
+PHP_METHOD(Phalcon_DI, getShared);
+PHP_METHOD(Phalcon_DI, has);
+PHP_METHOD(Phalcon_DI, wasFreshInstance);
+PHP_METHOD(Phalcon_DI, getServices);
+PHP_METHOD(Phalcon_DI, __call);
+PHP_METHOD(Phalcon_DI, setDefault);
+PHP_METHOD(Phalcon_DI, getDefault);
+PHP_METHOD(Phalcon_DI, reset);
+PHP_METHOD(Phalcon_DI, __clone);
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_di___call, 0, 0, 1)
+	ZEND_ARG_INFO(0, method)
+	ZEND_ARG_INFO(0, arguments)
+ZEND_END_ARG_INFO()
+
+static const zend_function_entry phalcon_di_method_entry[] = {
+	PHP_ME(Phalcon_DI, __construct, NULL, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
+	PHP_ME(Phalcon_DI, set, arginfo_phalcon_diinterface_set, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_DI, setShared, arginfo_phalcon_diinterface_setshared, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_DI, remove, arginfo_phalcon_diinterface_remove, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_DI, attempt, arginfo_phalcon_diinterface_attempt, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_DI, setRaw, arginfo_phalcon_diinterface_setraw, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_DI, getRaw, arginfo_phalcon_diinterface_getraw, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_DI, getService, arginfo_phalcon_diinterface_getservice, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_DI, get, arginfo_phalcon_diinterface_get, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_DI, getShared, arginfo_phalcon_diinterface_getshared, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_DI, has, arginfo_phalcon_diinterface_has, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_DI, wasFreshInstance, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_DI, getServices, NULL, ZEND_ACC_PUBLIC)
+	PHP_MALIAS(Phalcon_DI, offsetExists, has, arginfo_phalcon_diinterface_has, ZEND_ACC_PUBLIC)
+	PHP_MALIAS(Phalcon_DI, offsetSet, setShared, arginfo_phalcon_diinterface_setshared, ZEND_ACC_PUBLIC)
+	PHP_MALIAS(Phalcon_DI, offsetGet, getShared, arginfo_phalcon_diinterface_getshared, ZEND_ACC_PUBLIC)
+	PHP_MALIAS(Phalcon_DI, offsetUnset, remove, arginfo_phalcon_diinterface_remove, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_DI, __call, arginfo_phalcon_di___call, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_DI, setDefault, arginfo_phalcon_diinterface_setdefault, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
+	PHP_ME(Phalcon_DI, getDefault, NULL, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
+	PHP_ME(Phalcon_DI, reset, NULL, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
+	PHP_ME(Phalcon_DI, __clone, NULL, ZEND_ACC_PUBLIC)
+	PHP_FE_END
+};
 
 /**
  * Phalcon\DI initializer

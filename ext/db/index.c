@@ -17,21 +17,11 @@
   +------------------------------------------------------------------------+
 */
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
-
-#include "php.h"
-#include "php_phalcon.h"
-#include "phalcon.h"
-
-#include "Zend/zend_operators.h"
-#include "Zend/zend_exceptions.h"
-#include "Zend/zend_interfaces.h"
+#include "db/index.h"
+#include "db/indexinterface.h"
+#include "db/exception.h"
 
 #include "kernel/main.h"
-#include "kernel/memory.h"
-
 #include "kernel/object.h"
 #include "kernel/array.h"
 #include "kernel/exception.h"
@@ -44,7 +34,24 @@
  * to enhance database performance. An index allows the database server to find
  * and retrieve specific rows much faster than it could do without an index
  */
+zend_class_entry *phalcon_db_index_ce;
 
+PHP_METHOD(Phalcon_Db_Index, __construct);
+PHP_METHOD(Phalcon_Db_Index, getName);
+PHP_METHOD(Phalcon_Db_Index, getColumns);
+PHP_METHOD(Phalcon_Db_Index, __set_state);
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_index___set_state, 0, 0, 1)
+	ZEND_ARG_INFO(0, data)
+ZEND_END_ARG_INFO()
+
+static const zend_function_entry phalcon_db_index_method_entry[] = {
+	PHP_ME(Phalcon_Db_Index, __construct, arginfo_phalcon_db_indexinterface___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
+	PHP_ME(Phalcon_Db_Index, getName, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Db_Index, getColumns, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Db_Index, __set_state, arginfo_phalcon_db_index___set_state, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
+	PHP_FE_END
+};
 
 /**
  * Phalcon\Db\Index initializer
@@ -110,25 +117,21 @@ PHP_METHOD(Phalcon_Db_Index, __set_state){
 
 	zval *data, *index_name, *columns;
 
-	PHALCON_MM_GROW();
-
-	phalcon_fetch_params(1, 1, 0, &data);
+	phalcon_fetch_params(0, 1, 0, &data);
 	
 	if (!phalcon_array_isset_string_fetch(&index_name, data, SS("_indexName"))) {
-		PHALCON_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "_indexName parameter is required");
+		PHALCON_THROW_EXCEPTION_STRW(phalcon_db_exception_ce, "_indexName parameter is required");
 		return;
 	}
 
 	if (!phalcon_array_isset_string_fetch(&columns, data, SS("_columns"))) {
-		PHALCON_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "_columns parameter is required");
+		PHALCON_THROW_EXCEPTION_STRW(phalcon_db_exception_ce, "_columns parameter is required");
 		return;
 	}
-
+	
 	/** 
 	 * Return a Phalcon\Db\Index as part of the returning state
 	 */
 	object_init_ex(return_value, phalcon_db_index_ce);
-	phalcon_call_method_p2_noret(return_value, "__construct", index_name, columns);
-	
-	RETURN_MM();
+	phalcon_call_method_params(NULL, NULL, return_value, SL("__construct"), zend_inline_hash_func(SS("__construct")) TSRMLS_CC, 2, index_name, columns);
 }
