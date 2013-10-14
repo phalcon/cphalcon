@@ -36,5 +36,5 @@ typedef struct _phannot_parser_status {
 #define PHANNOT_PARSING_OK 1
 #define PHANNOT_PARSING_FAILED 0
 
-extern int phannot_parse_annotations(zval *result, zval *view_code, zval *template_path, zval *line TSRMLS_DC);
+int phannot_parse_annotations(zval *result, zval *view_code, zval *template_path, zval *line TSRMLS_DC);
 int phannot_internal_parse_annotations(zval **result, zval *view_code, zval *template_path, zval *line, zval **error_msg TSRMLS_DC);
