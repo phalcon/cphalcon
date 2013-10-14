@@ -23,6 +23,8 @@
 #include "ext/spl/spl_exceptions.h"
 #include "ext/spl/spl_iterators.h"
 
+#include "php_phalcon.h"
+
 #include "kernel/memory.h"
 #include "kernel/backtrace.h"
 
@@ -324,11 +326,12 @@ int phalcon_fetch_parameters_ex(int dummy TSRMLS_DC, int n_req, int n_opt, ...);
 #define phalcon_fetch_params(memory_grow, required_params, optional_params, ...) \
 	if (memory_grow) { \
 		zend_phalcon_globals *phalcon_globals_ptr = PHALCON_VGLOBAL; \
+		ASSUME(phalcon_globals_ptr != NULL); \
 		if (unlikely(phalcon_globals_ptr->active_memory == NULL)) { \
 			fprintf(stderr, "phalcon_fetch_params is called with memory_grow=1 but there is no active memory frame!\n"); \
 			phalcon_print_backtrace(); \
 		} \
-		if (unlikely(phalcon_globals_ptr->active_memory->func != __func__)) { \
+		else if (unlikely(phalcon_globals_ptr->active_memory->func != __func__)) { \
 			fprintf(stderr, "phalcon_fetch_params is called with memory_grow=1 but the memory frame was not created!\n"); \
 			fprintf(stderr, "The frame was created by %s\n", phalcon_globals_ptr->active_memory->func); \
 			fprintf(stderr, "Calling function: %s\n", __func__); \

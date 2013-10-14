@@ -241,13 +241,14 @@ PHP_METHOD(Phalcon_Mvc_Application, handle){
 
 	zval *uri = NULL, *dependency_injector, *events_manager;
 	zval *event_name = NULL, *status = NULL, *service = NULL, *router, *module_name = NULL;
-	zval *module_object = NULL, *modules, *exception_msg = NULL;
+	zval *module_object = NULL, *modules;
 	zval *module, *class_name = NULL, *path, *module_params;
 	zval *implicit_view, *view, *namespace_name;
 	zval *controller_name = NULL, *action_name = NULL, *params = NULL;
 	zval *dispatcher, *controller, *returned_response = NULL;
 	zval *possible_response, *render_status = NULL, *response = NULL;
 	zval *content;
+	int f_implicit_view;
 
 	PHALCON_MM_GROW();
 
@@ -257,15 +258,13 @@ PHP_METHOD(Phalcon_Mvc_Application, handle){
 		uri = PHALCON_GLOBAL(z_null);
 	}
 	
-	PHALCON_OBS_VAR(dependency_injector);
-	phalcon_read_property_this(&dependency_injector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
+	dependency_injector = phalcon_fetch_nproperty_this(this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
 	if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_application_exception_ce, "A dependency injection object is required to access internal services");
 		return;
 	}
 	
-	PHALCON_OBS_VAR(events_manager);
-	phalcon_read_property_this(&events_manager, this_ptr, SL("_eventsManager"), PH_NOISY_CC);
+	events_manager = phalcon_fetch_nproperty_this(this_ptr, SL("_eventsManager"), PH_NOISY_CC);
 	
 	/** 
 	 * Call boot event, this allow the developer to perform initialization actions
@@ -308,8 +307,6 @@ PHP_METHOD(Phalcon_Mvc_Application, handle){
 		phalcon_read_property_this(&module_name, this_ptr, SL("_defaultModule"), PH_NOISY_CC);
 	}
 	
-	PHALCON_INIT_VAR(module_object);
-	
 	/** 
 	 * Process the module definition
 	 */
@@ -331,25 +328,22 @@ PHP_METHOD(Phalcon_Mvc_Application, handle){
 		 */
 		PHALCON_OBS_VAR(modules);
 		phalcon_read_property_this(&modules, this_ptr, SL("_modules"), PH_NOISY_CC);
-		if (!phalcon_array_isset(modules, module_name)) {
-			PHALCON_INIT_VAR(exception_msg);
-			PHALCON_CONCAT_SVS(exception_msg, "Module '", module_name, "' isn't registered in the application container");
-			PHALCON_THROW_EXCEPTION_ZVAL(phalcon_mvc_application_exception_ce, exception_msg);
-			return;
+		if (!phalcon_array_isset_fetch(&module, modules, module_name)) {
+			convert_to_string(module_name);
+			zend_throw_exception_ex(phalcon_mvc_application_exception_ce, 0 TSRMLS_CC, "Module %s is not registered in the application container", Z_STRVAL_P(module_name));
+			RETURN_MM();
 		}
 	
 		/** 
 		 * A module definition must ne an array or an object
 		 */
-		PHALCON_OBS_VAR(module);
-		phalcon_array_fetch(&module, modules, module_name, PH_NOISY);
-		if (Z_TYPE_P(module) != IS_ARRAY) { 
-			if (Z_TYPE_P(module) != IS_OBJECT) {
-				PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_application_exception_ce, "Invalid module definition");
-				return;
-			}
+		if (Z_TYPE_P(module) != IS_ARRAY && Z_TYPE_P(module) != IS_OBJECT) {
+			PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_application_exception_ce, "Invalid module definition");
+			return;
 		}
 	
+		PHALCON_INIT_VAR(module_object);
+
 		/** 
 		 * An array module definition contains a path to a module definition class
 		 */
@@ -379,10 +373,9 @@ PHP_METHOD(Phalcon_Mvc_Application, handle){
 							RETURN_MM();
 						}
 					} else {
-						PHALCON_INIT_NVAR(exception_msg);
-						PHALCON_CONCAT_SVS(exception_msg, "Module definition path '", path, "' doesn't exist");
-						PHALCON_THROW_EXCEPTION_ZVAL(phalcon_mvc_application_exception_ce, exception_msg);
-						return;
+						PHALCON_ENSURE_IS_STRING(&path);
+						zend_throw_exception_ex(phalcon_mvc_application_exception_ce, 0 TSRMLS_CC, "Module definition path '%s' does not exist", Z_STRVAL_P(path));
+						RETURN_MM();
 					}
 				}
 			}
@@ -433,7 +426,15 @@ PHP_METHOD(Phalcon_Mvc_Application, handle){
 	 */
 	PHALCON_OBS_VAR(implicit_view);
 	phalcon_read_property_this(&implicit_view, this_ptr, SL("_implicitView"), PH_NOISY_CC);
-	if (PHALCON_IS_TRUE(implicit_view)) {
+
+	/*
+	 * The safe way is to use a flag because it *might* be possible to alter the value
+	 * of _implicitView later which might result in crashes because 'view'
+	 * is initialized only when _implicitView evaluates to false
+	 */
+	f_implicit_view = PHALCON_IS_TRUE(implicit_view);
+
+	if (f_implicit_view) {
 		PHALCON_INIT_NVAR(service);
 		ZVAL_STRING(service, "view", 1);
 	
@@ -479,7 +480,7 @@ PHP_METHOD(Phalcon_Mvc_Application, handle){
 	/** 
 	 * Start the view component (start output buffering)
 	 */
-	if (PHALCON_IS_TRUE(implicit_view)) {
+	if (f_implicit_view) {
 		phalcon_call_method_noret(view, "start");
 	}
 	
@@ -535,7 +536,7 @@ PHP_METHOD(Phalcon_Mvc_Application, handle){
 	 * mode
 	 */
 	if (PHALCON_IS_FALSE(returned_response)) {
-		if (PHALCON_IS_TRUE(implicit_view)) {
+		if (f_implicit_view) {
 	
 			if (Z_TYPE_P(controller) == IS_OBJECT) {
 	
@@ -579,7 +580,7 @@ PHP_METHOD(Phalcon_Mvc_Application, handle){
 	/** 
 	 * Finish the view component (stop output buffering)
 	 */
-	if (PHALCON_IS_TRUE(implicit_view)) {
+	if (f_implicit_view) {
 		phalcon_call_method_noret(view, "finish");
 	}
 	
@@ -591,7 +592,7 @@ PHP_METHOD(Phalcon_Mvc_Application, handle){
 		PHALCON_INIT_VAR(response);
 		phalcon_call_method_p1(response, dependency_injector, "getshared", service);
 		PHALCON_VERIFY_INTERFACE(response, phalcon_http_responseinterface_ce);
-		if (PHALCON_IS_TRUE(implicit_view)) {
+		if (f_implicit_view) {
 			/** 
 			 * The content returned by the view is passed to the response service
 			 */
@@ -631,4 +632,3 @@ PHP_METHOD(Phalcon_Mvc_Application, handle){
 	
 	RETURN_CCTOR(response);
 }
-
