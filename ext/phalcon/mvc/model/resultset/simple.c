@@ -81,10 +81,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, __construct) {
 	zephir_fetch_params(1, 3, 2, &columnMap, &model, &result, &cache, &keepSnapshots);
 
 	if (!cache) {
-		ZEPHIR_CPY_WRT(cache, ZEPHIR_GLOBAL(global_null));
+		cache = ZEPHIR_GLOBAL(global_null);
 	}
 	if (!keepSnapshots) {
-		ZEPHIR_CPY_WRT(keepSnapshots, ZEPHIR_GLOBAL(global_null));
+		keepSnapshots = ZEPHIR_GLOBAL(global_null);
 	}
 
 
@@ -339,6 +339,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, unserialize) {
 		}
 
 		data = data_param;
+
 
 
 	ZEPHIR_INIT_ZVAL_NREF(_0);

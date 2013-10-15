@@ -64,7 +64,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Memory, __construct) {
 	zephir_fetch_params(1, 0, 1, &options);
 
 	if (!options) {
-		ZEPHIR_CPY_WRT(options, ZEPHIR_GLOBAL(global_null));
+		options = ZEPHIR_GLOBAL(global_null);
 	}
 
 
@@ -97,6 +97,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Memory, read) {
 		key = key_param;
 
 
+
 	RETURN_MM_NULL();
 
 }
@@ -121,6 +122,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Memory, write) {
 		}
 
 		key = key_param;
+
 
 
 	RETURN_MM_NULL();

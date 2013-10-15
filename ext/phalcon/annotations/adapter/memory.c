@@ -78,6 +78,7 @@ PHP_METHOD(Phalcon_Annotations_Adapter_Memory, read) {
 		key = key_param;
 
 
+
 	data = zephir_fetch_nproperty_this(this_ptr, SL("_data"), PH_NOISY_CC);
 	ZEPHIR_INIT_VAR(lowercasedKey);
 	zephir_fast_strtolower(lowercasedKey, key);
@@ -109,6 +110,7 @@ PHP_METHOD(Phalcon_Annotations_Adapter_Memory, write) {
 		}
 
 		key = key_param;
+
 
 
 	ZEPHIR_INIT_VAR(lowercasedKey);

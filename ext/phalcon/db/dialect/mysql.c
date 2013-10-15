@@ -186,12 +186,14 @@ PHP_METHOD(Phalcon_Db_Dialect_MySQL, addColumn) {
 		}
 
 		tableName = tableName_param;
+
 		if (Z_TYPE_P(schemaName_param) != IS_STRING) {
 				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'schemaName' must be a string") TSRMLS_CC);
 				RETURN_MM_NULL();
 		}
 
 		schemaName = schemaName_param;
+
 
 
 	if ((Z_TYPE_P(column) != IS_OBJECT)) {
@@ -255,12 +257,14 @@ PHP_METHOD(Phalcon_Db_Dialect_MySQL, modifyColumn) {
 		}
 
 		tableName = tableName_param;
+
 		if (Z_TYPE_P(schemaName_param) != IS_STRING) {
 				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'schemaName' must be a string") TSRMLS_CC);
 				RETURN_MM_NULL();
 		}
 
 		schemaName = schemaName_param;
+
 
 
 	if ((Z_TYPE_P(column) != IS_OBJECT)) {
@@ -311,12 +315,14 @@ PHP_METHOD(Phalcon_Db_Dialect_MySQL, dropColumn) {
 		}
 
 		tableName = tableName_param;
+
 		if (Z_TYPE_P(schemaName_param) != IS_STRING) {
 				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'schemaName' must be a string") TSRMLS_CC);
 				RETURN_MM_NULL();
 		}
 
 		schemaName = schemaName_param;
+
 		zephir_get_strval(columnName, columnName_param);
 
 
@@ -355,12 +361,14 @@ PHP_METHOD(Phalcon_Db_Dialect_MySQL, addIndex) {
 		}
 
 		tableName = tableName_param;
+
 		if (Z_TYPE_P(schemaName_param) != IS_STRING) {
 				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'schemaName' must be a string") TSRMLS_CC);
 				RETURN_MM_NULL();
 		}
 
 		schemaName = schemaName_param;
+
 
 
 	if ((Z_TYPE_P(index) != IS_OBJECT)) {
@@ -408,18 +416,21 @@ PHP_METHOD(Phalcon_Db_Dialect_MySQL, dropIndex) {
 		}
 
 		tableName = tableName_param;
+
 		if (Z_TYPE_P(schemaName_param) != IS_STRING) {
 				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'schemaName' must be a string") TSRMLS_CC);
 				RETURN_MM_NULL();
 		}
 
 		schemaName = schemaName_param;
+
 		if (Z_TYPE_P(indexName_param) != IS_STRING) {
 				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'indexName' must be a string") TSRMLS_CC);
 				RETURN_MM_NULL();
 		}
 
 		indexName = indexName_param;
+
 
 
 	ZEPHIR_INIT_VAR(sql);
@@ -497,12 +508,14 @@ PHP_METHOD(Phalcon_Db_Dialect_MySQL, dropPrimaryKey) {
 		}
 
 		tableName = tableName_param;
+
 		if (Z_TYPE_P(schemaName_param) != IS_STRING) {
 				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'schemaName' must be a string") TSRMLS_CC);
 				RETURN_MM_NULL();
 		}
 
 		schemaName = schemaName_param;
+
 
 
 	ZEPHIR_INIT_VAR(sql);
@@ -537,12 +550,14 @@ PHP_METHOD(Phalcon_Db_Dialect_MySQL, addForeignKey) {
 		}
 
 		tableName = tableName_param;
+
 		if (Z_TYPE_P(schemaName_param) != IS_STRING) {
 				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'schemaName' must be a string") TSRMLS_CC);
 				RETURN_MM_NULL();
 		}
 
 		schemaName = schemaName_param;
+
 
 
 	if ((Z_TYPE_P(reference) != IS_OBJECT)) {
@@ -606,12 +621,14 @@ PHP_METHOD(Phalcon_Db_Dialect_MySQL, dropForeignKey) {
 		}
 
 		tableName = tableName_param;
+
 		if (Z_TYPE_P(schemaName_param) != IS_STRING) {
 				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'schemaName' must be a string") TSRMLS_CC);
 				RETURN_MM_NULL();
 		}
 
 		schemaName = schemaName_param;
+
 
 
 	ZEPHIR_INIT_VAR(sql);
@@ -708,12 +725,14 @@ PHP_METHOD(Phalcon_Db_Dialect_MySQL, createTable) {
 		}
 
 		tableName = tableName_param;
+
 		if (Z_TYPE_P(schemaName_param) != IS_STRING) {
 				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'schemaName' must be a string") TSRMLS_CC);
 				RETURN_MM_NULL();
 		}
 
 		schemaName = schemaName_param;
+
 
 
 	if (!(zephir_array_isset_string_fetch(&columns, definition, SS("columns"), 1 TSRMLS_CC))) {
@@ -854,14 +873,16 @@ PHP_METHOD(Phalcon_Db_Dialect_MySQL, dropTable) {
 		}
 
 		tableName = tableName_param;
+
 		if (Z_TYPE_P(schemaName_param) != IS_STRING) {
 				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'schemaName' must be a string") TSRMLS_CC);
 				RETURN_MM_NULL();
 		}
 
 		schemaName = schemaName_param;
+
 	if (!ifExists) {
-		ZEPHIR_CPY_WRT(ifExists, ZEPHIR_GLOBAL(global_true));
+		ifExists = ZEPHIR_GLOBAL(global_true);
 	}
 
 
@@ -903,12 +924,14 @@ PHP_METHOD(Phalcon_Db_Dialect_MySQL, createView) {
 		}
 
 		viewName = viewName_param;
+
 		if (Z_TYPE_P(schemaName_param) != IS_STRING) {
 				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'schemaName' must be a string") TSRMLS_CC);
 				RETURN_MM_NULL();
 		}
 
 		schemaName = schemaName_param;
+
 
 
 	if (zephir_array_isset_string_fetch(&viewSql, definition, SS("sql"), 1 TSRMLS_CC)) {
@@ -949,12 +972,14 @@ PHP_METHOD(Phalcon_Db_Dialect_MySQL, dropView) {
 		}
 
 		viewName = viewName_param;
+
 		if (Z_TYPE_P(schemaName_param) != IS_STRING) {
 				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'schemaName' must be a string") TSRMLS_CC);
 				RETURN_MM_NULL();
 		}
 
 		schemaName = schemaName_param;
+
 	if (!ifExists_param) {
 		ifExists = 1;
 	} else {
@@ -1004,8 +1029,9 @@ PHP_METHOD(Phalcon_Db_Dialect_MySQL, tableExists) {
 		}
 
 		tableName = tableName_param;
+
 	if (!schemaName) {
-		ZEPHIR_CPY_WRT(schemaName, ZEPHIR_GLOBAL(global_null));
+		schemaName = ZEPHIR_GLOBAL(global_null);
 	}
 
 
@@ -1039,8 +1065,9 @@ PHP_METHOD(Phalcon_Db_Dialect_MySQL, viewExists) {
 		}
 
 		viewName = viewName_param;
+
 	if (!schemaName) {
-		ZEPHIR_CPY_WRT(schemaName, ZEPHIR_GLOBAL(global_null));
+		schemaName = ZEPHIR_GLOBAL(global_null);
 	}
 
 
@@ -1078,8 +1105,9 @@ PHP_METHOD(Phalcon_Db_Dialect_MySQL, describeColumns) {
 		}
 
 		table = table_param;
+
 	if (!schema) {
-		ZEPHIR_CPY_WRT(schema, ZEPHIR_GLOBAL(global_null));
+		schema = ZEPHIR_GLOBAL(global_null);
 	}
 
 
@@ -1177,8 +1205,9 @@ PHP_METHOD(Phalcon_Db_Dialect_MySQL, describeIndexes) {
 		}
 
 		table = table_param;
+
 	if (!schema) {
-		ZEPHIR_CPY_WRT(schema, ZEPHIR_GLOBAL(global_null));
+		schema = ZEPHIR_GLOBAL(global_null);
 	}
 
 
@@ -1212,8 +1241,9 @@ PHP_METHOD(Phalcon_Db_Dialect_MySQL, describeReferences) {
 		}
 
 		table = table_param;
+
 	if (!schema) {
-		ZEPHIR_CPY_WRT(schema, ZEPHIR_GLOBAL(global_null));
+		schema = ZEPHIR_GLOBAL(global_null);
 	}
 	ZEPHIR_INIT_VAR(sql);
 	ZVAL_STRING(sql, "SELECT TABLE_NAME,COLUMN_NAME,CONSTRAINT_NAME,REFERENCED_TABLE_SCHEMA,REFERENCED_TABLE_NAME,REFERENCED_COLUMN_NAME FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE WHERE REFERENCED_TABLE_NAME IS NOT NULL AND ", 1);
@@ -1253,8 +1283,9 @@ PHP_METHOD(Phalcon_Db_Dialect_MySQL, tableOptions) {
 		}
 
 		table = table_param;
+
 	if (!schema) {
-		ZEPHIR_CPY_WRT(schema, ZEPHIR_GLOBAL(global_null));
+		schema = ZEPHIR_GLOBAL(global_null);
 	}
 	ZEPHIR_INIT_VAR(sql);
 	ZVAL_STRING(sql, "SELECT TABLES.TABLE_TYPE AS table_type,TABLES.AUTO_INCREMENT AS auto_increment,TABLES.ENGINE AS engine,TABLES.TABLE_COLLATION AS table_collation FROM INFORMATION_SCHEMA.TABLES WHERE ", 1);

@@ -94,7 +94,7 @@ PHP_METHOD(Phalcon_Assets_Resource, __construct) {
 		filter = zephir_get_boolval(filter_param);
 	}
 	if (!attributes) {
-		ZEPHIR_CPY_WRT(attributes, ZEPHIR_GLOBAL(global_null));
+		attributes = ZEPHIR_GLOBAL(global_null);
 	}
 
 

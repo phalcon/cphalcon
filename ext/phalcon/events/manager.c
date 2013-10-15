@@ -86,6 +86,7 @@ PHP_METHOD(Phalcon_Events_Manager, attach) {
 		}
 
 		eventType = eventType_param;
+
 	if (!priority_param) {
 		priority = 100;	} else {
 		priority = zephir_get_intval(priority_param);
@@ -420,8 +421,9 @@ PHP_METHOD(Phalcon_Events_Manager, fire) {
 		}
 
 		eventType = eventType_param;
+
 	if (!data) {
-		ZEPHIR_CPY_WRT(data, ZEPHIR_GLOBAL(global_null));
+		data = ZEPHIR_GLOBAL(global_null);
 	}
 	if (!cancelable_param) {
 		cancelable = 1;
@@ -506,6 +508,7 @@ PHP_METHOD(Phalcon_Events_Manager, hasListeners) {
 		type = type_param;
 
 
+
 	events = zephir_fetch_nproperty_this(this_ptr, SL("_events"), PH_NOISY_CC);
 	if ((Z_TYPE_P(events) == IS_ARRAY)) {
 		RETURN_MM_BOOL(zephir_array_isset(events, type));
@@ -534,6 +537,7 @@ PHP_METHOD(Phalcon_Events_Manager, getListeners) {
 		}
 
 		type = type_param;
+
 
 
 	events = zephir_fetch_nproperty_this(this_ptr, SL("_events"), PH_NOISY_CC);

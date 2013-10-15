@@ -95,6 +95,7 @@ PHP_METHOD(Phalcon_Mvc_Dispatcher, setControllerSuffix) {
 		controllerSuffix = controllerSuffix_param;
 
 
+
 	zephir_update_property_this(this_ptr, SL("_handlerSuffix"), controllerSuffix TSRMLS_CC);
 	ZEPHIR_MM_RESTORE();
 
@@ -121,6 +122,7 @@ PHP_METHOD(Phalcon_Mvc_Dispatcher, setDefaultController) {
 		controllerName = controllerName_param;
 
 
+
 	zephir_update_property_this(this_ptr, SL("_defaultHandler"), controllerName TSRMLS_CC);
 	ZEPHIR_MM_RESTORE();
 
@@ -145,6 +147,7 @@ PHP_METHOD(Phalcon_Mvc_Dispatcher, setControllerName) {
 		}
 
 		controllerName = controllerName_param;
+
 
 
 	zephir_update_property_this(this_ptr, SL("_handlerName"), controllerName TSRMLS_CC);
@@ -185,6 +188,7 @@ PHP_METHOD(Phalcon_Mvc_Dispatcher, _throwDispatchException) {
 		}
 
 		message = message_param;
+
 	if (!exceptionCode_param) {
 		exceptionCode = 0;	} else {
 		exceptionCode = zephir_get_intval(exceptionCode_param);

@@ -134,18 +134,15 @@ PHP_METHOD(Phalcon_Mvc_View, __construct) {
 
 	zval *options = NULL;
 
-	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 0, 1, &options);
+	zephir_fetch_params(0, 0, 1, &options);
 
 	if (!options) {
-		ZEPHIR_CPY_WRT(options, ZEPHIR_GLOBAL(global_null));
+		options = ZEPHIR_GLOBAL(global_null);
 	}
-
 
 	if ((Z_TYPE_P(options) == IS_ARRAY)) {
 		zephir_update_property_this(this_ptr, SL("_options"), options TSRMLS_CC);
 	}
-	ZEPHIR_MM_RESTORE();
 
 }
 
@@ -525,6 +522,7 @@ PHP_METHOD(Phalcon_Mvc_View, setParamToView) {
 		key = key_param;
 
 
+
 	zephir_update_property_array(this_ptr, SL("_viewParams"), key, value TSRMLS_CC);
 	RETURN_THIS();
 
@@ -603,6 +601,7 @@ PHP_METHOD(Phalcon_Mvc_View, setVar) {
 		key = key_param;
 
 
+
 	zephir_update_property_array(this_ptr, SL("_viewParams"), key, value TSRMLS_CC);
 	RETURN_THIS();
 
@@ -628,6 +627,7 @@ PHP_METHOD(Phalcon_Mvc_View, getVar) {
 		}
 
 		key = key_param;
+
 
 
 	params = zephir_fetch_nproperty_this(this_ptr, SL("_viewParams"), PH_NOISY_CC);
@@ -970,14 +970,16 @@ PHP_METHOD(Phalcon_Mvc_View, render) {
 		}
 
 		controllerName = controllerName_param;
+
 		if (Z_TYPE_P(actionName_param) != IS_STRING) {
 				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'actionName' must be a string") TSRMLS_CC);
 				RETURN_MM_NULL();
 		}
 
 		actionName = actionName_param;
+
 	if (!params) {
-		ZEPHIR_CPY_WRT(params, ZEPHIR_GLOBAL(global_null));
+		params = ZEPHIR_GLOBAL(global_null);
 	}
 
 
@@ -1213,8 +1215,9 @@ PHP_METHOD(Phalcon_Mvc_View, partial) {
 		}
 
 		partialPath = partialPath_param;
+
 	if (!params) {
-		ZEPHIR_CPY_WRT(params, ZEPHIR_GLOBAL(global_null));
+		params = ZEPHIR_GLOBAL(global_null);
 	}
 
 
@@ -1267,10 +1270,10 @@ PHP_METHOD(Phalcon_Mvc_View, getRender) {
 		zephir_get_strval(controllerName, controllerName_param);
 		zephir_get_strval(actionName, actionName_param);
 	if (!params) {
-		ZEPHIR_CPY_WRT(params, ZEPHIR_GLOBAL(global_null));
+		params = ZEPHIR_GLOBAL(global_null);
 	}
 	if (!configCallback) {
-		ZEPHIR_CPY_WRT(configCallback, ZEPHIR_GLOBAL(global_null));
+		configCallback = ZEPHIR_GLOBAL(global_null);
 	}
 
 
@@ -1410,7 +1413,7 @@ PHP_METHOD(Phalcon_Mvc_View, cache) {
 	zephir_fetch_params(1, 0, 1, &options);
 
 	if (!options) {
-		ZEPHIR_CPY_WRT(options, ZEPHIR_GLOBAL(global_true));
+		options = ZEPHIR_GLOBAL(global_true);
 	}
 
 

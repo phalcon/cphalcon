@@ -163,11 +163,12 @@ PHP_METHOD(Phalcon_Assets_Manager, addCss) {
 		}
 
 		path = path_param;
+
 	if (!local) {
-		ZEPHIR_CPY_WRT(local, ZEPHIR_GLOBAL(global_true));
+		local = ZEPHIR_GLOBAL(global_true);
 	}
 	if (!filter) {
-		ZEPHIR_CPY_WRT(filter, ZEPHIR_GLOBAL(global_true));
+		filter = ZEPHIR_GLOBAL(global_true);
 	}
 
 
@@ -206,6 +207,7 @@ PHP_METHOD(Phalcon_Assets_Manager, addResourceByType) {
 		}
 
 		type = type_param;
+
 
 
 	collections = zephir_fetch_nproperty_this(this_ptr, SL("_collections"), PH_NOISY_CC);
@@ -276,6 +278,7 @@ PHP_METHOD(Phalcon_Assets_Manager, set) {
 		id = id_param;
 
 
+
 	zephir_update_property_array(this_ptr, SL("_collections"), id, collection TSRMLS_CC);
 	RETURN_THIS();
 
@@ -305,6 +308,7 @@ PHP_METHOD(Phalcon_Assets_Manager, get) {
 		}
 
 		id = id_param;
+
 
 
 	collections = zephir_fetch_nproperty_this(this_ptr, SL("_collections"), PH_NOISY_CC);

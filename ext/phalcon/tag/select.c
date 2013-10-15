@@ -56,11 +56,10 @@ PHP_METHOD(Phalcon_Tag_Select, selectField) {
 
 	zval *parameters, *data = NULL;
 
-	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 1, &parameters, &data);
+	zephir_fetch_params(0, 1, 1, &parameters, &data);
 
 	if (!data) {
-		ZEPHIR_CPY_WRT(data, ZEPHIR_GLOBAL(global_null));
+		data = ZEPHIR_GLOBAL(global_null);
 	}
 
 

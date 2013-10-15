@@ -126,8 +126,9 @@ PHP_METHOD(Phalcon_Di, set) {
 		}
 
 		name = name_param;
+
 	if (!shared) {
-		ZEPHIR_CPY_WRT(shared, ZEPHIR_GLOBAL(global_false));
+		shared = ZEPHIR_GLOBAL(global_false);
 	}
 
 
@@ -162,6 +163,7 @@ PHP_METHOD(Phalcon_Di, setShared) {
 		name = name_param;
 
 
+
 	ZEPHIR_INIT_VAR(service);
 	object_init_ex(service, phalcon_di_service_ce);
 	zephir_call_method_p3_noret(service, "__construct", name, definition, ZEPHIR_GLOBAL(global_true));
@@ -192,6 +194,7 @@ PHP_METHOD(Phalcon_Di, remove) {
 
 
 
+
 }
 
 /**
@@ -219,6 +222,7 @@ PHP_METHOD(Phalcon_Di, attempt) {
 		}
 
 		name = name_param;
+
 	if (!shared_param) {
 		shared = 0;
 	} else {
@@ -261,6 +265,7 @@ PHP_METHOD(Phalcon_Di, setRaw) {
 		name = name_param;
 
 
+
 	zephir_update_property_array(this_ptr, SL("_services"), name, rawDefinition TSRMLS_CC);
 	RETURN_CCTOR(rawDefinition);
 
@@ -286,6 +291,7 @@ PHP_METHOD(Phalcon_Di, getRaw) {
 		}
 
 		name = name_param;
+
 
 
 	services = zephir_fetch_nproperty_this(this_ptr, SL("_services"), PH_NOISY_CC);
@@ -327,6 +333,7 @@ PHP_METHOD(Phalcon_Di, getService) {
 		name = name_param;
 
 
+
 	services = zephir_fetch_nproperty_this(this_ptr, SL("_services"), PH_NOISY_CC);
 	if (zephir_array_isset_fetch(&service, services, name, 1 TSRMLS_CC)) {
 		RETURN_CTOR(service);
@@ -363,8 +370,9 @@ PHP_METHOD(Phalcon_Di, get) {
 		}
 
 		name = name_param;
+
 	if (!parameters) {
-		ZEPHIR_CPY_WRT(parameters, ZEPHIR_GLOBAL(global_null));
+		parameters = ZEPHIR_GLOBAL(global_null);
 	}
 
 
@@ -434,8 +442,9 @@ PHP_METHOD(Phalcon_Di, getShared) {
 		}
 
 		name = name_param;
+
 	if (!parameters) {
-		ZEPHIR_CPY_WRT(parameters, ZEPHIR_GLOBAL(global_null));
+		parameters = ZEPHIR_GLOBAL(global_null);
 	}
 
 
@@ -473,6 +482,7 @@ PHP_METHOD(Phalcon_Di, has) {
 		}
 
 		name = name_param;
+
 
 
 	services = zephir_fetch_nproperty_this(this_ptr, SL("_services"), PH_NOISY_CC);
@@ -526,6 +536,7 @@ PHP_METHOD(Phalcon_Di, offsetExists) {
 		name = name_param;
 
 
+
 	zephir_call_method_p1(return_value, this_ptr, "has", name);
 	RETURN_MM();
 
@@ -556,6 +567,7 @@ PHP_METHOD(Phalcon_Di, offsetSet) {
 		}
 
 		name = name_param;
+
 
 
 	zephir_call_method_p2_noret(this_ptr, "setshared", name, definition);
@@ -589,6 +601,7 @@ PHP_METHOD(Phalcon_Di, offsetGet) {
 		name = name_param;
 
 
+
 	zephir_call_method_p1(return_value, this_ptr, "getshared", name);
 	RETURN_MM();
 
@@ -613,6 +626,7 @@ PHP_METHOD(Phalcon_Di, offsetUnset) {
 		}
 
 		name = name_param;
+
 
 
 	RETURN_MM_BOOL(0);
@@ -640,8 +654,9 @@ PHP_METHOD(Phalcon_Di, __call) {
 		}
 
 		method = method_param;
+
 	if (!arguments) {
-		ZEPHIR_CPY_WRT(arguments, ZEPHIR_GLOBAL(global_null));
+		arguments = ZEPHIR_GLOBAL(global_null);
 	}
 
 

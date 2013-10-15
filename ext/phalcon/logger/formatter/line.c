@@ -131,14 +131,13 @@ PHP_METHOD(Phalcon_Logger_Formatter_Line, __construct) {
 
 	zval *format = NULL, *dateFormat = NULL;
 
-	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 0, 2, &format, &dateFormat);
+	zephir_fetch_params(0, 0, 2, &format, &dateFormat);
 
 	if (!format) {
-		ZEPHIR_CPY_WRT(format, ZEPHIR_GLOBAL(global_null));
+		format = ZEPHIR_GLOBAL(global_null);
 	}
 	if (!dateFormat) {
-		ZEPHIR_CPY_WRT(dateFormat, ZEPHIR_GLOBAL(global_null));
+		dateFormat = ZEPHIR_GLOBAL(global_null);
 	}
 
 
@@ -148,7 +147,6 @@ PHP_METHOD(Phalcon_Logger_Formatter_Line, __construct) {
 	if (zephir_is_true(dateFormat)) {
 		zephir_update_property_this(this_ptr, SL("_dateFormat"), dateFormat TSRMLS_CC);
 	}
-	ZEPHIR_MM_RESTORE();
 
 }
 
@@ -175,6 +173,7 @@ PHP_METHOD(Phalcon_Logger_Formatter_Line, format) {
 		}
 
 		message = message_param;
+
 		type = zephir_get_intval(type_param);
 		timestamp = zephir_get_intval(timestamp_param);
 

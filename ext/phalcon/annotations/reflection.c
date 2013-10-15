@@ -75,18 +75,16 @@ PHP_METHOD(Phalcon_Annotations_Reflection, __construct) {
 
 	zval *reflectionData = NULL;
 
-	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 0, 1, &reflectionData);
+	zephir_fetch_params(0, 0, 1, &reflectionData);
 
 	if (!reflectionData) {
-		ZEPHIR_CPY_WRT(reflectionData, ZEPHIR_GLOBAL(global_null));
+		reflectionData = ZEPHIR_GLOBAL(global_null);
 	}
 
 
 	if ((Z_TYPE_P(reflectionData) == IS_ARRAY)) {
 		zephir_update_property_this(this_ptr, SL("_reflectionData"), reflectionData TSRMLS_CC);
 	}
-	ZEPHIR_MM_RESTORE();
 
 }
 

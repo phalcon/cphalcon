@@ -69,11 +69,10 @@ PHP_METHOD(Phalcon_Annotations_Adapter_Files, __construct) {
 
 	zval *options = NULL, *annotationsDir;
 
-	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 0, 1, &options);
+	zephir_fetch_params(0, 0, 1, &options);
 
 	if (!options) {
-		ZEPHIR_CPY_WRT(options, ZEPHIR_GLOBAL(global_null));
+		options = ZEPHIR_GLOBAL(global_null);
 	}
 
 
@@ -82,7 +81,6 @@ PHP_METHOD(Phalcon_Annotations_Adapter_Files, __construct) {
 			zephir_update_property_this(this_ptr, SL("_annotationsDir"), annotationsDir TSRMLS_CC);
 		}
 	}
-	ZEPHIR_MM_RESTORE();
 
 }
 
@@ -138,6 +136,7 @@ PHP_METHOD(Phalcon_Annotations_Adapter_Files, write) {
 		}
 
 		key = key_param;
+
 
 
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_annotationsDir"), PH_NOISY_CC);

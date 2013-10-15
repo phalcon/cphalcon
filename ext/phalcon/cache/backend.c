@@ -67,11 +67,10 @@ PHP_METHOD(Phalcon_Cache_Backend, __construct) {
 
 	zval *frontend, *options = NULL, *prefix;
 
-	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 1, &frontend, &options);
+	zephir_fetch_params(0, 1, 1, &frontend, &options);
 
 	if (!options) {
-		ZEPHIR_CPY_WRT(options, ZEPHIR_GLOBAL(global_null));
+		options = ZEPHIR_GLOBAL(global_null);
 	}
 
 
@@ -80,7 +79,6 @@ PHP_METHOD(Phalcon_Cache_Backend, __construct) {
 	}
 	zephir_update_property_this(this_ptr, SL("_frontend"), frontend TSRMLS_CC);
 	zephir_update_property_this(this_ptr, SL("_options"), options TSRMLS_CC);
-	ZEPHIR_MM_RESTORE();
 
 }
 
@@ -100,7 +98,7 @@ PHP_METHOD(Phalcon_Cache_Backend, start) {
 	zephir_fetch_params(1, 1, 1, &keyName, &lifetime);
 
 	if (!lifetime) {
-		ZEPHIR_CPY_WRT(lifetime, ZEPHIR_GLOBAL(global_null));
+		lifetime = ZEPHIR_GLOBAL(global_null);
 	}
 
 

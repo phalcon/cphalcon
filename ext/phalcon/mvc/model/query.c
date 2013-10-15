@@ -1027,14 +1027,13 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, execute) {
 
 	zval *bindParams = NULL, *bindTypes = NULL;
 
-	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 0, 2, &bindParams, &bindTypes);
+	zephir_fetch_params(0, 0, 2, &bindParams, &bindTypes);
 
 	if (!bindParams) {
-		ZEPHIR_CPY_WRT(bindParams, ZEPHIR_GLOBAL(global_null));
+		bindParams = ZEPHIR_GLOBAL(global_null);
 	}
 	if (!bindTypes) {
-		ZEPHIR_CPY_WRT(bindTypes, ZEPHIR_GLOBAL(global_null));
+		bindTypes = ZEPHIR_GLOBAL(global_null);
 	}
 
 

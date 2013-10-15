@@ -69,10 +69,10 @@ PHP_METHOD(Phalcon_Forms_Element_Select, __construct) {
 
 		zephir_get_strval(name, name_param);
 	if (!options) {
-		ZEPHIR_CPY_WRT(options, ZEPHIR_GLOBAL(global_null));
+		options = ZEPHIR_GLOBAL(global_null);
 	}
 	if (!attributes) {
-		ZEPHIR_CPY_WRT(attributes, ZEPHIR_GLOBAL(global_null));
+		attributes = ZEPHIR_GLOBAL(global_null);
 	}
 
 
@@ -146,7 +146,7 @@ PHP_METHOD(Phalcon_Forms_Element_Select, render) {
 	zephir_fetch_params(1, 0, 1, &attributes);
 
 	if (!attributes) {
-		ZEPHIR_CPY_WRT(attributes, ZEPHIR_GLOBAL(global_null));
+		attributes = ZEPHIR_GLOBAL(global_null);
 	}
 
 

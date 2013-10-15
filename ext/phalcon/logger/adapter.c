@@ -229,6 +229,7 @@ PHP_METHOD(Phalcon_Logger_Adapter, emergence) {
 		message = message_param;
 
 
+
 	ZEPHIR_INIT_VAR(_0);
 	ZVAL_LONG(_0, 0);
 	zephir_call_method_p2_noret(this_ptr, "log", message, _0);
@@ -256,6 +257,7 @@ PHP_METHOD(Phalcon_Logger_Adapter, debug) {
 		}
 
 		message = message_param;
+
 
 
 	ZEPHIR_INIT_VAR(_0);
@@ -287,6 +289,7 @@ PHP_METHOD(Phalcon_Logger_Adapter, error) {
 		message = message_param;
 
 
+
 	ZEPHIR_INIT_VAR(_0);
 	ZVAL_LONG(_0, 3);
 	zephir_call_method_p2_noret(this_ptr, "log", message, _0);
@@ -314,6 +317,7 @@ PHP_METHOD(Phalcon_Logger_Adapter, info) {
 		}
 
 		message = message_param;
+
 
 
 	ZEPHIR_INIT_VAR(_0);
@@ -345,6 +349,7 @@ PHP_METHOD(Phalcon_Logger_Adapter, notice) {
 		message = message_param;
 
 
+
 	ZEPHIR_INIT_VAR(_0);
 	ZVAL_LONG(_0, 5);
 	zephir_call_method_p2_noret(this_ptr, "log", message, _0);
@@ -372,6 +377,7 @@ PHP_METHOD(Phalcon_Logger_Adapter, warning) {
 		}
 
 		message = message_param;
+
 
 
 	ZEPHIR_INIT_VAR(_0);
@@ -403,6 +409,7 @@ PHP_METHOD(Phalcon_Logger_Adapter, alert) {
 		message = message_param;
 
 
+
 	ZEPHIR_INIT_VAR(_0);
 	ZVAL_LONG(_0, 2);
 	zephir_call_method_p2_noret(this_ptr, "log", message, _0);
@@ -432,6 +439,7 @@ PHP_METHOD(Phalcon_Logger_Adapter, log) {
 		}
 
 		message = message_param;
+
 	if (!type_param) {
 		type = 7;	} else {
 		type = zephir_get_intval(type_param);

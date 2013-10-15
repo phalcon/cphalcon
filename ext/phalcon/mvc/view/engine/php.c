@@ -74,6 +74,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Php, render) {
 		}
 
 		path = path_param;
+
 	if (!mustClean_param) {
 		mustClean = 0;
 	} else {

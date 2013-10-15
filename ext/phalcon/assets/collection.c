@@ -273,7 +273,7 @@ PHP_METHOD(Phalcon_Assets_Collection, addCss) {
 		zephir_get_strval(path, path_param);
 		filter = zephir_get_boolval(filter_param);
 	if (!attributes) {
-		ZEPHIR_CPY_WRT(attributes, ZEPHIR_GLOBAL(global_null));
+		attributes = ZEPHIR_GLOBAL(global_null);
 	}
 
 
@@ -324,9 +324,10 @@ PHP_METHOD(Phalcon_Assets_Collection, addJs) {
 		}
 
 		path = path_param;
+
 		filter = zephir_get_boolval(filter_param);
 	if (!attributes) {
-		ZEPHIR_CPY_WRT(attributes, ZEPHIR_GLOBAL(global_null));
+		attributes = ZEPHIR_GLOBAL(global_null);
 	}
 
 
@@ -493,6 +494,7 @@ PHP_METHOD(Phalcon_Assets_Collection, getRealTargetPath) {
 		}
 
 		basePath = basePath_param;
+
 
 
 	targetPath = zephir_fetch_nproperty_this(this_ptr, SL("_targetPath"), PH_NOISY_CC);

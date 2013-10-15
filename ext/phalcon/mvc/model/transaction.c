@@ -113,7 +113,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction, __construct) {
 		autoBegin = zephir_get_boolval(autoBegin_param);
 	}
 	if (!service) {
-		ZEPHIR_CPY_WRT(service, ZEPHIR_GLOBAL(global_null));
+		service = ZEPHIR_GLOBAL(global_null);
 	}
 
 
@@ -216,7 +216,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction, rollback) {
 	}
 	ZEPHIR_SEPARATE_PARAM(rollbackMessage);
 	if (!rollbackRecord) {
-		ZEPHIR_CPY_WRT(rollbackRecord, ZEPHIR_GLOBAL(global_null));
+		rollbackRecord = ZEPHIR_GLOBAL(global_null);
 	}
 
 

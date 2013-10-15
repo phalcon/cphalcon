@@ -227,6 +227,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, prepare) {
 		sqlStatement = sqlStatement_param;
 
 
+
 	pdo = zephir_fetch_nproperty_this(this_ptr, SL("_pdo"), PH_NOISY_CC);
 	zephir_call_method_p1(return_value, pdo, "prepare", sqlStatement);
 	RETURN_MM();
@@ -343,11 +344,12 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, query) {
 		}
 
 		sqlStatement = sqlStatement_param;
+
 	if (!bindParams) {
-		ZEPHIR_CPY_WRT(bindParams, ZEPHIR_GLOBAL(global_null));
+		bindParams = ZEPHIR_GLOBAL(global_null);
 	}
 	if (!bindTypes) {
-		ZEPHIR_CPY_WRT(bindTypes, ZEPHIR_GLOBAL(global_null));
+		bindTypes = ZEPHIR_GLOBAL(global_null);
 	}
 
 
@@ -421,11 +423,12 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, execute) {
 		}
 
 		sqlStatement = sqlStatement_param;
+
 	if (!bindParams) {
-		ZEPHIR_CPY_WRT(bindParams, ZEPHIR_GLOBAL(global_null));
+		bindParams = ZEPHIR_GLOBAL(global_null);
 	}
 	if (!bindTypes) {
-		ZEPHIR_CPY_WRT(bindTypes, ZEPHIR_GLOBAL(global_null));
+		bindTypes = ZEPHIR_GLOBAL(global_null);
 	}
 
 
@@ -564,6 +567,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, escapeString) {
 		str = str_param;
 
 
+
 	pdo = zephir_fetch_nproperty_this(this_ptr, SL("_pdo"), PH_NOISY_CC);
 	zephir_call_method_p1(return_value, pdo, "quote", str);
 	RETURN_MM();
@@ -596,7 +600,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, lastInsertId) {
 	zephir_fetch_params(1, 0, 1, &sequenceName);
 
 	if (!sequenceName) {
-		ZEPHIR_CPY_WRT(sequenceName, ZEPHIR_GLOBAL(global_null));
+		sequenceName = ZEPHIR_GLOBAL(global_null);
 	}
 
 

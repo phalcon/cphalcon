@@ -69,18 +69,16 @@ PHP_METHOD(Phalcon_Cli_Console, __construct) {
 
 	zval *dependencyInjector = NULL;
 
-	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 0, 1, &dependencyInjector);
+	zephir_fetch_params(0, 0, 1, &dependencyInjector);
 
 	if (!dependencyInjector) {
-		ZEPHIR_CPY_WRT(dependencyInjector, ZEPHIR_GLOBAL(global_null));
+		dependencyInjector = ZEPHIR_GLOBAL(global_null);
 	}
 
 
 	if ((Z_TYPE_P(dependencyInjector) == IS_OBJECT)) {
 		zephir_update_property_this(this_ptr, SL("_dependencyInjector"), dependencyInjector TSRMLS_CC);
 	}
-	ZEPHIR_MM_RESTORE();
 
 }
 
@@ -241,7 +239,7 @@ PHP_METHOD(Phalcon_Cli_Console, handle) {
 	zephir_fetch_params(1, 0, 1, &arguments);
 
 	if (!arguments) {
-		ZEPHIR_CPY_WRT(arguments, ZEPHIR_GLOBAL(global_null));
+		arguments = ZEPHIR_GLOBAL(global_null);
 	}
 
 

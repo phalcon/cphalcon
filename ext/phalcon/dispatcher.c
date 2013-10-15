@@ -401,10 +401,10 @@ PHP_METHOD(Phalcon_Dispatcher, getParam) {
 	zephir_fetch_params(1, 1, 2, &param, &filters, &defaultValue);
 
 	if (!filters) {
-		ZEPHIR_CPY_WRT(filters, ZEPHIR_GLOBAL(global_null));
+		filters = ZEPHIR_GLOBAL(global_null);
 	}
 	if (!defaultValue) {
-		ZEPHIR_CPY_WRT(defaultValue, ZEPHIR_GLOBAL(global_null));
+		defaultValue = ZEPHIR_GLOBAL(global_null);
 	}
 
 

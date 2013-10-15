@@ -205,10 +205,10 @@ PHP_METHOD(Phalcon_Flash_Session, getMessages) {
 	zephir_fetch_params(1, 0, 2, &type, &remove);
 
 	if (!type) {
-		ZEPHIR_CPY_WRT(type, ZEPHIR_GLOBAL(global_null));
+		type = ZEPHIR_GLOBAL(global_null);
 	}
 	if (!remove) {
-		ZEPHIR_CPY_WRT(remove, ZEPHIR_GLOBAL(global_true));
+		remove = ZEPHIR_GLOBAL(global_true);
 	}
 
 

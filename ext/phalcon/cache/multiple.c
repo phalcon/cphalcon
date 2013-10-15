@@ -97,22 +97,20 @@ PHP_METHOD(Phalcon_Cache_Multiple, __construct) {
 
 	zval *backends = NULL;
 
-	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 0, 1, &backends);
+	zephir_fetch_params(0, 0, 1, &backends);
 
 	if (!backends) {
-		ZEPHIR_CPY_WRT(backends, ZEPHIR_GLOBAL(global_null));
+		backends = ZEPHIR_GLOBAL(global_null);
 	}
 
 
 	if ((Z_TYPE_P(backends) != IS_NULL)) {
 		if ((Z_TYPE_P(backends) != IS_ARRAY)) {
-			ZEPHIR_THROW_EXCEPTION_STR(phalcon_cache_exception_ce, "The backends must be an array");
+			ZEPHIR_THROW_EXCEPTION_STRW(phalcon_cache_exception_ce, "The backends must be an array");
 			return;
 		}
 		zephir_update_property_this(this_ptr, SL("_backends"), backends TSRMLS_CC);
 	}
-	ZEPHIR_MM_RESTORE();
 
 }
 

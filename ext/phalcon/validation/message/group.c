@@ -67,18 +67,16 @@ PHP_METHOD(Phalcon_Validation_Message_Group, __construct) {
 
 	zval *messages = NULL;
 
-	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 0, 1, &messages);
+	zephir_fetch_params(0, 0, 1, &messages);
 
 	if (!messages) {
-		ZEPHIR_CPY_WRT(messages, ZEPHIR_GLOBAL(global_null));
+		messages = ZEPHIR_GLOBAL(global_null);
 	}
 
 
 	if ((Z_TYPE_P(messages) == IS_ARRAY)) {
 		zephir_update_property_this(this_ptr, SL("_messages"), messages TSRMLS_CC);
 	}
-	ZEPHIR_MM_RESTORE();
 
 }
 
@@ -105,6 +103,7 @@ PHP_METHOD(Phalcon_Validation_Message_Group, offsetGet) {
 		}
 
 		index = Z_LVAL_P(index_param);
+
 
 
 	messages = zephir_fetch_nproperty_this(this_ptr, SL("_messages"), PH_NOISY_CC);
@@ -138,6 +137,7 @@ PHP_METHOD(Phalcon_Validation_Message_Group, offsetSet) {
 		}
 
 		index = Z_LVAL_P(index_param);
+
 
 
 	if ((Z_TYPE_P(message) != IS_OBJECT)) {
@@ -294,6 +294,7 @@ PHP_METHOD(Phalcon_Validation_Message_Group, filter) {
 		}
 
 		fieldName = fieldName_param;
+
 
 
 	ZEPHIR_INIT_VAR(filtered);

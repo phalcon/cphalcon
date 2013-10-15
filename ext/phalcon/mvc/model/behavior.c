@@ -59,16 +59,14 @@ PHP_METHOD(Phalcon_Mvc_Model_Behavior, __construct) {
 
 	zval *options = NULL;
 
-	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 0, 1, &options);
+	zephir_fetch_params(0, 0, 1, &options);
 
 	if (!options) {
-		ZEPHIR_CPY_WRT(options, ZEPHIR_GLOBAL(global_null));
+		options = ZEPHIR_GLOBAL(global_null);
 	}
 
 
 	zephir_update_property_this(this_ptr, SL("_options"), options TSRMLS_CC);
-	ZEPHIR_MM_RESTORE();
 
 }
 
@@ -161,7 +159,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Behavior, missingMethod) {
 
 		zephir_get_strval(method, method_param);
 	if (!arguments) {
-		ZEPHIR_CPY_WRT(arguments, ZEPHIR_GLOBAL(global_null));
+		arguments = ZEPHIR_GLOBAL(global_null);
 	}
 
 

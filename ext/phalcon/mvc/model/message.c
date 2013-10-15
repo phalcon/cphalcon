@@ -100,14 +100,15 @@ PHP_METHOD(Phalcon_Mvc_Model_Message, __construct) {
 		}
 
 		message = message_param;
+
 	if (!field) {
-		ZEPHIR_CPY_WRT(field, ZEPHIR_GLOBAL(global_null));
+		field = ZEPHIR_GLOBAL(global_null);
 	}
 	if (!type) {
-		ZEPHIR_CPY_WRT(type, ZEPHIR_GLOBAL(global_null));
+		type = ZEPHIR_GLOBAL(global_null);
 	}
 	if (!model) {
-		ZEPHIR_CPY_WRT(model, ZEPHIR_GLOBAL(global_null));
+		model = ZEPHIR_GLOBAL(global_null);
 	}
 
 
@@ -141,6 +142,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Message, setType) {
 		}
 
 		type = type_param;
+
 
 
 	zephir_update_property_this(this_ptr, SL("_type"), type TSRMLS_CC);
@@ -182,6 +184,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Message, setMessage) {
 		message = message_param;
 
 
+
 	zephir_update_property_this(this_ptr, SL("_message"), message TSRMLS_CC);
 	RETURN_THIS();
 
@@ -219,6 +222,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Message, setField) {
 		}
 
 		field = field_param;
+
 
 
 	zephir_update_property_this(this_ptr, SL("_field"), field TSRMLS_CC);

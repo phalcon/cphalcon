@@ -111,6 +111,7 @@ PHP_METHOD(Phalcon_Db_Index, __construct) {
 		name = name_param;
 
 
+
 	zephir_update_property_this(this_ptr, SL("_name"), name TSRMLS_CC);
 	zephir_update_property_this(this_ptr, SL("_columns"), columns TSRMLS_CC);
 	ZEPHIR_MM_RESTORE();

@@ -90,22 +90,21 @@ PHP_METHOD(Phalcon_Db_Result_Pdo, __construct) {
 
 	zval *connection, *result, *sqlStatement = NULL, *bindParams = NULL, *bindTypes = NULL;
 
-	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 2, 3, &connection, &result, &sqlStatement, &bindParams, &bindTypes);
+	zephir_fetch_params(0, 2, 3, &connection, &result, &sqlStatement, &bindParams, &bindTypes);
 
 	if (!sqlStatement) {
-		ZEPHIR_CPY_WRT(sqlStatement, ZEPHIR_GLOBAL(global_null));
+		sqlStatement = ZEPHIR_GLOBAL(global_null);
 	}
 	if (!bindParams) {
-		ZEPHIR_CPY_WRT(bindParams, ZEPHIR_GLOBAL(global_null));
+		bindParams = ZEPHIR_GLOBAL(global_null);
 	}
 	if (!bindTypes) {
-		ZEPHIR_CPY_WRT(bindTypes, ZEPHIR_GLOBAL(global_null));
+		bindTypes = ZEPHIR_GLOBAL(global_null);
 	}
 
 
 	if ((Z_TYPE_P(result) != IS_OBJECT)) {
-		ZEPHIR_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "Invalid PDOStatement supplied to Phalcon\\Db\\Result\\Pdo");
+		ZEPHIR_THROW_EXCEPTION_STRW(phalcon_db_exception_ce, "Invalid PDOStatement supplied to Phalcon\\Db\\Result\\Pdo");
 		return;
 	}
 	zephir_update_property_this(this_ptr, SL("_connection"), connection TSRMLS_CC);
@@ -119,7 +118,6 @@ PHP_METHOD(Phalcon_Db_Result_Pdo, __construct) {
 	if ((Z_TYPE_P(bindTypes) != IS_NULL)) {
 		zephir_update_property_this(this_ptr, SL("_bindTypes"), bindTypes TSRMLS_CC);
 	}
-	ZEPHIR_MM_RESTORE();
 
 }
 

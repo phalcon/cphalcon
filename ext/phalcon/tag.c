@@ -334,7 +334,7 @@ PHP_METHOD(Phalcon_Tag, getValue) {
 	zephir_fetch_params(1, 1, 1, &name, &params);
 
 	if (!params) {
-		ZEPHIR_CPY_WRT(params, ZEPHIR_GLOBAL(global_null));
+		params = ZEPHIR_GLOBAL(global_null);
 	}
 
 
@@ -849,7 +849,7 @@ PHP_METHOD(Phalcon_Tag, selectStatic) {
 	zephir_fetch_params(1, 1, 1, &parameters, &data);
 
 	if (!data) {
-		ZEPHIR_CPY_WRT(data, ZEPHIR_GLOBAL(global_null));
+		data = ZEPHIR_GLOBAL(global_null);
 	}
 
 
@@ -886,7 +886,7 @@ PHP_METHOD(Phalcon_Tag, select) {
 	zephir_fetch_params(1, 1, 1, &parameters, &data);
 
 	if (!data) {
-		ZEPHIR_CPY_WRT(data, ZEPHIR_GLOBAL(global_null));
+		data = ZEPHIR_GLOBAL(global_null);
 	}
 
 

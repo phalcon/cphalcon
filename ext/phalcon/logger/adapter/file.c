@@ -98,8 +98,9 @@ PHP_METHOD(Phalcon_Logger_Adapter_File, __construct) {
 		}
 
 		name = name_param;
+
 	if (!options) {
-		ZEPHIR_CPY_WRT(options, ZEPHIR_GLOBAL(global_null));
+		options = ZEPHIR_GLOBAL(global_null);
 	}
 
 
@@ -179,6 +180,7 @@ PHP_METHOD(Phalcon_Logger_Adapter_File, logInternal) {
 		}
 
 		message = message_param;
+
 		type = zephir_get_intval(type_param);
 		time = zephir_get_intval(time_param);
 

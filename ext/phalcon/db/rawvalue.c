@@ -107,6 +107,7 @@ PHP_METHOD(Phalcon_Db_RawValue, __construct) {
 		value = value_param;
 
 
+
 	zephir_update_property_this(this_ptr, SL("_value"), value TSRMLS_CC);
 	ZEPHIR_MM_RESTORE();
 

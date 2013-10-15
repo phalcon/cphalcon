@@ -234,7 +234,7 @@ PHP_METHOD(Phalcon_Di_Service_Builder, build) {
 	zephir_fetch_params(1, 2, 1, &dependencyInjector, &definition, &parameters);
 
 	if (!parameters) {
-		ZEPHIR_CPY_WRT(parameters, ZEPHIR_GLOBAL(global_null));
+		parameters = ZEPHIR_GLOBAL(global_null);
 	}
 
 

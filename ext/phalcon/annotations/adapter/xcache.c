@@ -78,6 +78,7 @@ PHP_METHOD(Phalcon_Annotations_Adapter_Xcache, read) {
 		key = key_param;
 
 
+
 	ZEPHIR_INIT_VAR(_0);
 	ZEPHIR_INIT_VAR(_1);
 	ZEPHIR_CONCAT_SV(_1, "_PHAN", key);
@@ -115,6 +116,7 @@ PHP_METHOD(Phalcon_Annotations_Adapter_Xcache, write) {
 		}
 
 		key = key_param;
+
 
 
 	ZEPHIR_INIT_VAR(_0);

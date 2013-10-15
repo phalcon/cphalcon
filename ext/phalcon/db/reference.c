@@ -166,6 +166,7 @@ PHP_METHOD(Phalcon_Db_Reference, __construct) {
 		name = name_param;
 
 
+
 	zephir_update_property_this(this_ptr, SL("_name"), name TSRMLS_CC);
 	if (zephir_array_isset_string_fetch(&referencedTable, definition, SS("referencedTable"), 1 TSRMLS_CC)) {
 		zephir_update_property_this(this_ptr, SL("_referencedTable"), referencedTable TSRMLS_CC);

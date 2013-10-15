@@ -84,13 +84,13 @@ PHP_METHOD(Phalcon_Http_Response, __construct) {
 	zephir_fetch_params(1, 0, 3, &content, &code, &status);
 
 	if (!content) {
-		ZEPHIR_CPY_WRT(content, ZEPHIR_GLOBAL(global_null));
+		content = ZEPHIR_GLOBAL(global_null);
 	}
 	if (!code) {
-		ZEPHIR_CPY_WRT(code, ZEPHIR_GLOBAL(global_null));
+		code = ZEPHIR_GLOBAL(global_null);
 	}
 	if (!status) {
-		ZEPHIR_CPY_WRT(status, ZEPHIR_GLOBAL(global_null));
+		status = ZEPHIR_GLOBAL(global_null);
 	}
 
 
@@ -422,7 +422,7 @@ PHP_METHOD(Phalcon_Http_Response, setContentType) {
 
 		zephir_get_strval(contentType, contentType_param);
 	if (!charset) {
-		ZEPHIR_CPY_WRT(charset, ZEPHIR_GLOBAL(global_null));
+		charset = ZEPHIR_GLOBAL(global_null);
 	}
 
 
@@ -501,10 +501,10 @@ PHP_METHOD(Phalcon_Http_Response, redirect) {
 	zephir_fetch_params(1, 0, 3, &location, &externalRedirect, &statusCode);
 
 	if (!location) {
-		ZEPHIR_CPY_WRT(location, ZEPHIR_GLOBAL(global_null));
+		location = ZEPHIR_GLOBAL(global_null);
 	}
 	if (!externalRedirect) {
-		ZEPHIR_CPY_WRT(externalRedirect, ZEPHIR_GLOBAL(global_false));
+		externalRedirect = ZEPHIR_GLOBAL(global_false);
 	}
 	if (!statusCode) {
 		ZEPHIR_INIT_VAR(statusCode);
@@ -720,7 +720,7 @@ PHP_METHOD(Phalcon_Http_Response, setFileToSend) {
 
 		zephir_get_strval(filePath, filePath_param);
 	if (!attachmentName) {
-		ZEPHIR_CPY_WRT(attachmentName, ZEPHIR_GLOBAL(global_null));
+		attachmentName = ZEPHIR_GLOBAL(global_null);
 	}
 
 

@@ -96,8 +96,9 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator, appendMessage) {
 		}
 
 		message = message_param;
+
 	if (!field) {
-		ZEPHIR_CPY_WRT(field, ZEPHIR_GLOBAL(global_null));
+		field = ZEPHIR_GLOBAL(global_null);
 	}
 	if (!type) {
 		ZEPHIR_CPY_WRT(type, ZEPHIR_GLOBAL(global_null));
@@ -169,6 +170,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator, getOption) {
 		option = option_param;
 
 
+
 	options = zephir_fetch_nproperty_this(this_ptr, SL("_options"), PH_NOISY_CC);
 	if (zephir_array_isset_fetch(&value, options, option, 1 TSRMLS_CC)) {
 		RETURN_CTOR(value);
@@ -197,6 +199,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator, isSetOption) {
 		}
 
 		option = option_param;
+
 
 
 	options = zephir_fetch_nproperty_this(this_ptr, SL("_options"), PH_NOISY_CC);

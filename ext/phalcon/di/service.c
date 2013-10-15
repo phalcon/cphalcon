@@ -87,6 +87,7 @@ PHP_METHOD(Phalcon_Di_Service, __construct) {
 		}
 
 		name = name_param;
+
 	if (!shared_param) {
 		shared = 0;
 	} else {
@@ -206,10 +207,10 @@ PHP_METHOD(Phalcon_Di_Service, resolve) {
 	zephir_fetch_params(1, 0, 2, &parameters, &dependencyInjector);
 
 	if (!parameters) {
-		ZEPHIR_CPY_WRT(parameters, ZEPHIR_GLOBAL(global_null));
+		parameters = ZEPHIR_GLOBAL(global_null);
 	}
 	if (!dependencyInjector) {
-		ZEPHIR_CPY_WRT(dependencyInjector, ZEPHIR_GLOBAL(global_null));
+		dependencyInjector = ZEPHIR_GLOBAL(global_null);
 	}
 
 

@@ -62,7 +62,7 @@ PHP_METHOD(Phalcon_Forms_Element_Numeric, render) {
 	zephir_fetch_params(1, 0, 1, &attributes);
 
 	if (!attributes) {
-		ZEPHIR_CPY_WRT(attributes, ZEPHIR_GLOBAL(global_null));
+		attributes = ZEPHIR_GLOBAL(global_null);
 	}
 
 

@@ -290,6 +290,7 @@ PHP_METHOD(Phalcon_Db_Column, __construct) {
 		name = name_param;
 
 
+
 	zephir_update_property_this(this_ptr, SL("_name"), name TSRMLS_CC);
 	if (zephir_array_isset_string_fetch(&type, definition, SS("type"), 1 TSRMLS_CC)) {
 		zephir_update_property_this(this_ptr, SL("_type"), type TSRMLS_CC);

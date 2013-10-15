@@ -117,11 +117,12 @@ PHP_METHOD(Phalcon_Events_Event, __construct) {
 		}
 
 		type = type_param;
+
 	if (!data) {
-		ZEPHIR_CPY_WRT(data, ZEPHIR_GLOBAL(global_null));
+		data = ZEPHIR_GLOBAL(global_null);
 	}
 	if (!cancelable) {
-		ZEPHIR_CPY_WRT(cancelable, ZEPHIR_GLOBAL(global_true));
+		cancelable = ZEPHIR_GLOBAL(global_true);
 	}
 
 

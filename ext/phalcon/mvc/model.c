@@ -345,6 +345,7 @@ PHP_METHOD(Phalcon_Mvc_Model, setSource) {
 		source = source_param;
 
 
+
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_modelsManager"), PH_NOISY_CC);
 	ZEPHIR_CPY_WRT(modelsManager, _0);
 	zephir_call_method_p2_noret(modelsManager, "setmodelsource", this_ptr, source);
@@ -390,6 +391,7 @@ PHP_METHOD(Phalcon_Mvc_Model, setSchema) {
 		}
 
 		schema = schema_param;
+
 
 
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_modelsManager"), PH_NOISY_CC);
@@ -439,6 +441,7 @@ PHP_METHOD(Phalcon_Mvc_Model, setConnectionService) {
 		connectionService = connectionService_param;
 
 
+
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_modelsManager"), PH_NOISY_CC);
 	ZEPHIR_CPY_WRT(modelsManager, _0);
 	zephir_call_method_p2_noret(modelsManager, "setconnectionservice", this_ptr, connectionService);
@@ -468,6 +471,7 @@ PHP_METHOD(Phalcon_Mvc_Model, setReadConnectionService) {
 		connectionService = connectionService_param;
 
 
+
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_modelsManager"), PH_NOISY_CC);
 	ZEPHIR_CPY_WRT(modelsManager, _0);
 	zephir_call_method_p2_noret(modelsManager, "setreadconnectionservice", this_ptr, connectionService);
@@ -495,6 +499,7 @@ PHP_METHOD(Phalcon_Mvc_Model, setWriteConnectionService) {
 		}
 
 		connectionService = connectionService_param;
+
 
 
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_modelsManager"), PH_NOISY_CC);
@@ -643,7 +648,7 @@ PHP_METHOD(Phalcon_Mvc_Model, assign) {
 	zephir_fetch_params(1, 1, 1, &data, &columnMap);
 
 	if (!columnMap) {
-		ZEPHIR_CPY_WRT(columnMap, ZEPHIR_GLOBAL(global_null));
+		columnMap = ZEPHIR_GLOBAL(global_null);
 	}
 
 
@@ -937,7 +942,7 @@ PHP_METHOD(Phalcon_Mvc_Model, find) {
 	zephir_fetch_params(1, 0, 1, &parameters);
 
 	if (!parameters) {
-		ZEPHIR_CPY_WRT(parameters, ZEPHIR_GLOBAL(global_null));
+		parameters = ZEPHIR_GLOBAL(global_null);
 	}
 
 
@@ -1009,7 +1014,7 @@ PHP_METHOD(Phalcon_Mvc_Model, findFirst) {
 	zephir_fetch_params(1, 0, 1, &parameters);
 
 	if (!parameters) {
-		ZEPHIR_CPY_WRT(parameters, ZEPHIR_GLOBAL(global_null));
+		parameters = ZEPHIR_GLOBAL(global_null);
 	}
 
 
@@ -1269,12 +1274,14 @@ PHP_METHOD(Phalcon_Mvc_Model, _groupResult) {
 		}
 
 		functionName = functionName_param;
+
 		if (Z_TYPE_P(alias_param) != IS_STRING) {
 				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'alias' must be a string") TSRMLS_CC);
 				RETURN_MM_NULL();
 		}
 
 		alias = alias_param;
+
 
 
 	if ((Z_TYPE_P(parameters) != IS_ARRAY)) {
@@ -1360,7 +1367,7 @@ PHP_METHOD(Phalcon_Mvc_Model, count) {
 	zephir_fetch_params(1, 0, 1, &parameters);
 
 	if (!parameters) {
-		ZEPHIR_CPY_WRT(parameters, ZEPHIR_GLOBAL(global_null));
+		parameters = ZEPHIR_GLOBAL(global_null);
 	}
 
 
@@ -1399,7 +1406,7 @@ PHP_METHOD(Phalcon_Mvc_Model, sum) {
 	zephir_fetch_params(1, 0, 1, &parameters);
 
 	if (!parameters) {
-		ZEPHIR_CPY_WRT(parameters, ZEPHIR_GLOBAL(global_null));
+		parameters = ZEPHIR_GLOBAL(global_null);
 	}
 
 
@@ -1438,7 +1445,7 @@ PHP_METHOD(Phalcon_Mvc_Model, maximum) {
 	zephir_fetch_params(1, 0, 1, &parameters);
 
 	if (!parameters) {
-		ZEPHIR_CPY_WRT(parameters, ZEPHIR_GLOBAL(global_null));
+		parameters = ZEPHIR_GLOBAL(global_null);
 	}
 
 
@@ -1477,7 +1484,7 @@ PHP_METHOD(Phalcon_Mvc_Model, minimum) {
 	zephir_fetch_params(1, 0, 1, &parameters);
 
 	if (!parameters) {
-		ZEPHIR_CPY_WRT(parameters, ZEPHIR_GLOBAL(global_null));
+		parameters = ZEPHIR_GLOBAL(global_null);
 	}
 
 
@@ -1516,7 +1523,7 @@ PHP_METHOD(Phalcon_Mvc_Model, average) {
 	zephir_fetch_params(1, 0, 1, &parameters);
 
 	if (!parameters) {
-		ZEPHIR_CPY_WRT(parameters, ZEPHIR_GLOBAL(global_null));
+		parameters = ZEPHIR_GLOBAL(global_null);
 	}
 
 
@@ -1551,6 +1558,7 @@ PHP_METHOD(Phalcon_Mvc_Model, fireEvent) {
 		eventName = eventName_param;
 
 
+
 	if ((zephir_method_exists(this_ptr, eventName TSRMLS_CC)  == SUCCESS)) {
 		zephir_call_method_zval_noret(this_ptr, eventName);
 	}
@@ -1582,6 +1590,7 @@ PHP_METHOD(Phalcon_Mvc_Model, fireEventCancel) {
 		}
 
 		eventName = eventName_param;
+
 
 
 	if ((zephir_method_exists(this_ptr, eventName TSRMLS_CC)  == SUCCESS)) {
@@ -3018,10 +3027,10 @@ PHP_METHOD(Phalcon_Mvc_Model, save) {
 	zephir_fetch_params(1, 0, 2, &data, &whiteList);
 
 	if (!data) {
-		ZEPHIR_CPY_WRT(data, ZEPHIR_GLOBAL(global_null));
+		data = ZEPHIR_GLOBAL(global_null);
 	}
 	if (!whiteList) {
-		ZEPHIR_CPY_WRT(whiteList, ZEPHIR_GLOBAL(global_null));
+		whiteList = ZEPHIR_GLOBAL(global_null);
 	}
 
 
@@ -3194,10 +3203,10 @@ PHP_METHOD(Phalcon_Mvc_Model, create) {
 	zephir_fetch_params(1, 0, 2, &data, &whiteList);
 
 	if (!data) {
-		ZEPHIR_CPY_WRT(data, ZEPHIR_GLOBAL(global_null));
+		data = ZEPHIR_GLOBAL(global_null);
 	}
 	if (!whiteList) {
-		ZEPHIR_CPY_WRT(whiteList, ZEPHIR_GLOBAL(global_null));
+		whiteList = ZEPHIR_GLOBAL(global_null);
 	}
 
 
@@ -3308,10 +3317,10 @@ PHP_METHOD(Phalcon_Mvc_Model, update) {
 	zephir_fetch_params(1, 0, 2, &data, &whiteList);
 
 	if (!data) {
-		ZEPHIR_CPY_WRT(data, ZEPHIR_GLOBAL(global_null));
+		data = ZEPHIR_GLOBAL(global_null);
 	}
 	if (!whiteList) {
-		ZEPHIR_CPY_WRT(whiteList, ZEPHIR_GLOBAL(global_null));
+		whiteList = ZEPHIR_GLOBAL(global_null);
 	}
 
 
@@ -3733,6 +3742,7 @@ PHP_METHOD(Phalcon_Mvc_Model, readAttribute) {
 		attribute = attribute_param;
 
 
+
 	if (zephir_isset_property_zval(this_ptr, attribute TSRMLS_CC)) {
 		ZEPHIR_OBS_VAR(_0);
 		zephir_read_property_zval(&_0, this_ptr, attribute, PH_NOISY_CC);
@@ -3766,6 +3776,7 @@ PHP_METHOD(Phalcon_Mvc_Model, writeAttribute) {
 		}
 
 		attribute = attribute_param;
+
 
 
 	zephir_update_property_zval_zval(this_ptr, attribute, value TSRMLS_CC);
@@ -3967,8 +3978,9 @@ PHP_METHOD(Phalcon_Mvc_Model, hasOne) {
 		}
 
 		referenceModel = referenceModel_param;
+
 	if (!options) {
-		ZEPHIR_CPY_WRT(options, ZEPHIR_GLOBAL(global_null));
+		options = ZEPHIR_GLOBAL(global_null);
 	}
 
 
@@ -4015,8 +4027,9 @@ PHP_METHOD(Phalcon_Mvc_Model, belongsTo) {
 		}
 
 		referenceModel = referenceModel_param;
+
 	if (!options) {
-		ZEPHIR_CPY_WRT(options, ZEPHIR_GLOBAL(global_null));
+		options = ZEPHIR_GLOBAL(global_null);
 	}
 
 
@@ -4063,8 +4076,9 @@ PHP_METHOD(Phalcon_Mvc_Model, hasMany) {
 		}
 
 		referenceModel = referenceModel_param;
+
 	if (!options) {
-		ZEPHIR_CPY_WRT(options, ZEPHIR_GLOBAL(global_null));
+		options = ZEPHIR_GLOBAL(global_null);
 	}
 
 
@@ -4122,9 +4136,10 @@ PHP_METHOD(Phalcon_Mvc_Model, hasManyToMany) {
 		}
 
 		intermediateModel = intermediateModel_param;
+
 		zephir_get_strval(referenceModel, referenceModel_param);
 	if (!options) {
-		ZEPHIR_CPY_WRT(options, ZEPHIR_GLOBAL(global_null));
+		options = ZEPHIR_GLOBAL(global_null);
 	}
 
 
@@ -4229,7 +4244,7 @@ PHP_METHOD(Phalcon_Mvc_Model, setSnapshotData) {
 	zephir_fetch_params(1, 1, 1, &data, &columnMap);
 
 	if (!columnMap) {
-		ZEPHIR_CPY_WRT(columnMap, ZEPHIR_GLOBAL(global_null));
+		columnMap = ZEPHIR_GLOBAL(global_null);
 	}
 
 
@@ -4316,7 +4331,7 @@ PHP_METHOD(Phalcon_Mvc_Model, hasChanged) {
 	zephir_fetch_params(1, 0, 1, &fieldName);
 
 	if (!fieldName) {
-		ZEPHIR_CPY_WRT(fieldName, ZEPHIR_GLOBAL(global_null));
+		fieldName = ZEPHIR_GLOBAL(global_null);
 	}
 
 
@@ -4524,7 +4539,7 @@ PHP_METHOD(Phalcon_Mvc_Model, getRelated) {
 
 		zephir_get_strval(alias, alias_param);
 	if (!arguments) {
-		ZEPHIR_CPY_WRT(arguments, ZEPHIR_GLOBAL(global_null));
+		arguments = ZEPHIR_GLOBAL(global_null);
 	}
 
 
@@ -4644,7 +4659,7 @@ PHP_METHOD(Phalcon_Mvc_Model, __call) {
 
 		zephir_get_strval(method, method_param);
 	if (!arguments) {
-		ZEPHIR_CPY_WRT(arguments, ZEPHIR_GLOBAL(global_null));
+		arguments = ZEPHIR_GLOBAL(global_null);
 	}
 
 
@@ -4690,7 +4705,7 @@ PHP_METHOD(Phalcon_Mvc_Model, __callStatic) {
 
 		zephir_get_strval(method, method_param);
 	if (!arguments) {
-		ZEPHIR_CPY_WRT(arguments, ZEPHIR_GLOBAL(global_null));
+		arguments = ZEPHIR_GLOBAL(global_null);
 	}
 
 
@@ -4852,6 +4867,7 @@ PHP_METHOD(Phalcon_Mvc_Model, __get) {
 		property = property_param;
 
 
+
 	ZEPHIR_INIT_VAR(modelName);
 	zephir_call_func_p1(modelName, "get_class", this_ptr);
 	ZEPHIR_INIT_VAR(manager);
@@ -4909,6 +4925,7 @@ PHP_METHOD(Phalcon_Mvc_Model, __isset) {
 		}
 
 		property = property_param;
+
 
 
 	ZEPHIR_INIT_VAR(modelName);

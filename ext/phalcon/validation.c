@@ -71,7 +71,7 @@ PHP_METHOD(Phalcon_Validation, __construct) {
 	zephir_fetch_params(1, 0, 1, &validators);
 
 	if (!validators) {
-		ZEPHIR_CPY_WRT(validators, ZEPHIR_GLOBAL(global_null));
+		validators = ZEPHIR_GLOBAL(global_null);
 	}
 
 
@@ -107,10 +107,10 @@ PHP_METHOD(Phalcon_Validation, validate) {
 	zephir_fetch_params(1, 0, 2, &data, &entity);
 
 	if (!data) {
-		ZEPHIR_CPY_WRT(data, ZEPHIR_GLOBAL(global_null));
+		data = ZEPHIR_GLOBAL(global_null);
 	}
 	if (!entity) {
-		ZEPHIR_CPY_WRT(entity, ZEPHIR_GLOBAL(global_null));
+		entity = ZEPHIR_GLOBAL(global_null);
 	}
 
 
@@ -239,22 +239,21 @@ PHP_METHOD(Phalcon_Validation, getFilters) {
 
 	zval *attribute = NULL, *filters, *attributeFilters;
 
-	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 0, 1, &attribute);
+	zephir_fetch_params(0, 0, 1, &attribute);
 
 	if (!attribute) {
-		ZEPHIR_CPY_WRT(attribute, ZEPHIR_GLOBAL(global_null));
+		attribute = ZEPHIR_GLOBAL(global_null);
 	}
 
 
 	filters = zephir_fetch_nproperty_this(this_ptr, SL("_filters"), PH_NOISY_CC);
 	if ((Z_TYPE_P(attribute) == IS_STRING)) {
 		if (zephir_array_isset_fetch(&attributeFilters, filters, attribute, 1 TSRMLS_CC)) {
-			RETURN_CTOR(attributeFilters);
+			RETURN_CTORW(attributeFilters);
 		}
-		RETURN_MM_NULL();
+		RETURN_NULL();
 	}
-	RETURN_CTOR(filters);
+	RETURN_CTORW(filters);
 
 }
 

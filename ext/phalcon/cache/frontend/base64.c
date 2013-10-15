@@ -91,16 +91,14 @@ PHP_METHOD(Phalcon_Cache_Frontend_Base64, __construct) {
 
 	zval *frontendOptions = NULL;
 
-	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 0, 1, &frontendOptions);
+	zephir_fetch_params(0, 0, 1, &frontendOptions);
 
 	if (!frontendOptions) {
-		ZEPHIR_CPY_WRT(frontendOptions, ZEPHIR_GLOBAL(global_null));
+		frontendOptions = ZEPHIR_GLOBAL(global_null);
 	}
 
 
 	zephir_update_property_this(this_ptr, SL("_frontendOptions"), frontendOptions TSRMLS_CC);
-	ZEPHIR_MM_RESTORE();
 
 }
 

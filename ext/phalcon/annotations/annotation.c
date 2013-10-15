@@ -315,6 +315,7 @@ PHP_METHOD(Phalcon_Annotations_Annotation, getNamedArgument) {
 		name = name_param;
 
 
+
 	arguments = zephir_fetch_nproperty_this(this_ptr, SL("_arguments"), PH_NOISY_CC);
 	if (zephir_array_isset_fetch(&argument, arguments, name, 1 TSRMLS_CC)) {
 		RETURN_CTOR(argument);

@@ -83,6 +83,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Lang, parsePHQL) {
 		phql = phql_param;
 
 
+
 	zephir_call_func_p1(return_value, "phql_parse_phql", phql);
 	RETURN_MM();
 

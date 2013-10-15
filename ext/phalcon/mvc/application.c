@@ -104,18 +104,16 @@ PHP_METHOD(Phalcon_Mvc_Application, __construct) {
 
 	zval *dependencyInjector = NULL;
 
-	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 0, 1, &dependencyInjector);
+	zephir_fetch_params(0, 0, 1, &dependencyInjector);
 
 	if (!dependencyInjector) {
-		ZEPHIR_CPY_WRT(dependencyInjector, ZEPHIR_GLOBAL(global_null));
+		dependencyInjector = ZEPHIR_GLOBAL(global_null);
 	}
 
 
 	if ((Z_TYPE_P(dependencyInjector) == IS_OBJECT)) {
 		zephir_update_property_this(this_ptr, SL("_dependencyInjector"), dependencyInjector TSRMLS_CC);
 	}
-	ZEPHIR_MM_RESTORE();
 
 }
 
@@ -230,6 +228,7 @@ PHP_METHOD(Phalcon_Mvc_Application, setDefaultModule) {
 		defaultModule = defaultModule_param;
 
 
+
 	zephir_update_property_this(this_ptr, SL("_defaultModule"), defaultModule TSRMLS_CC);
 	RETURN_THIS();
 
@@ -262,7 +261,7 @@ PHP_METHOD(Phalcon_Mvc_Application, handle) {
 	zephir_fetch_params(1, 0, 1, &uri);
 
 	if (!uri) {
-		ZEPHIR_CPY_WRT(uri, ZEPHIR_GLOBAL(global_null));
+		uri = ZEPHIR_GLOBAL(global_null);
 	}
 
 

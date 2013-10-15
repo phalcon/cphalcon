@@ -92,8 +92,9 @@ PHP_METHOD(Phalcon_Mvc_Model_Relation, __construct) {
 		}
 
 		referencedModel = referencedModel_param;
+
 	if (!options) {
-		ZEPHIR_CPY_WRT(options, ZEPHIR_GLOBAL(global_null));
+		options = ZEPHIR_GLOBAL(global_null);
 	}
 
 
@@ -127,6 +128,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Relation, setIntermediateRelation) {
 		}
 
 		intermediateModel = intermediateModel_param;
+
 
 
 	zephir_update_property_this(this_ptr, SL("_intermediateFields"), intermediateFields TSRMLS_CC);

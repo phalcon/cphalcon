@@ -83,6 +83,7 @@ PHP_METHOD(Phalcon_Db_Dialect, limit) {
 		}
 
 		sqlQuery = sqlQuery_param;
+
 		number = zephir_get_intval(number_param);
 
 
@@ -125,6 +126,7 @@ PHP_METHOD(Phalcon_Db_Dialect, forUpdate) {
 		sqlQuery = sqlQuery_param;
 
 
+
 	ZEPHIR_CONCAT_VS(return_value, sqlQuery, " FOR UPDATE");
 	RETURN_MM();
 
@@ -155,6 +157,7 @@ PHP_METHOD(Phalcon_Db_Dialect, sharedLock) {
 		}
 
 		sqlQuery = sqlQuery_param;
+
 
 
 	ZEPHIR_CONCAT_VS(return_value, sqlQuery, " LOCK IN SHARE MODE");
@@ -788,6 +791,7 @@ PHP_METHOD(Phalcon_Db_Dialect, createSavepoint) {
 		name = name_param;
 
 
+
 	ZEPHIR_CONCAT_SV(return_value, "SAVEPOINT ", name);
 	RETURN_MM();
 
@@ -815,6 +819,7 @@ PHP_METHOD(Phalcon_Db_Dialect, releaseSavepoint) {
 		name = name_param;
 
 
+
 	ZEPHIR_CONCAT_SV(return_value, "RELEASE SAVEPOINT ", name);
 	RETURN_MM();
 
@@ -840,6 +845,7 @@ PHP_METHOD(Phalcon_Db_Dialect, rollbackSavepoint) {
 		}
 
 		name = name_param;
+
 
 
 	ZEPHIR_CONCAT_SV(return_value, "ROLLBACK TO SAVEPOINT ", name);

@@ -327,6 +327,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, offsetGet) {
 		index = Z_LVAL_P(index_param);
 
 
+
 	ZEPHIR_INIT_VAR(_0);
 	zephir_call_method(_0, this_ptr, "count");
 	if (ZEPHIR_LT_LONG(_0, index)) {
@@ -577,7 +578,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, delete) {
 	zephir_fetch_params(1, 0, 1, &conditionCallback);
 
 	if (!conditionCallback) {
-		ZEPHIR_CPY_WRT(conditionCallback, ZEPHIR_GLOBAL(global_null));
+		conditionCallback = ZEPHIR_GLOBAL(global_null);
 	}
 
 

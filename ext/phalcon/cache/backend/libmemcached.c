@@ -89,11 +89,10 @@ PHP_METHOD(Phalcon_Cache_Backend_Libmemcached, __construct) {
 
 	zval *frontend, *options = NULL;
 
-	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 1, &frontend, &options);
+	zephir_fetch_params(0, 1, 1, &frontend, &options);
 
 	if (!options) {
-		ZEPHIR_CPY_WRT(options, ZEPHIR_GLOBAL(global_null));
+		options = ZEPHIR_GLOBAL(global_null);
 	}
 
 
@@ -111,11 +110,10 @@ PHP_METHOD(Phalcon_Cache_Backend_Libmemcached, get) {
 
 	zval *keyName, *lifetime = NULL;
 
-	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 1, &keyName, &lifetime);
+	zephir_fetch_params(0, 1, 1, &keyName, &lifetime);
 
 	if (!lifetime) {
-		ZEPHIR_CPY_WRT(lifetime, ZEPHIR_GLOBAL(global_null));
+		lifetime = ZEPHIR_GLOBAL(global_null);
 	}
 
 
@@ -134,20 +132,19 @@ PHP_METHOD(Phalcon_Cache_Backend_Libmemcached, save) {
 
 	zval *keyName = NULL, *content = NULL, *lifetime = NULL, *stopBuffer = NULL;
 
-	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 0, 4, &keyName, &content, &lifetime, &stopBuffer);
+	zephir_fetch_params(0, 0, 4, &keyName, &content, &lifetime, &stopBuffer);
 
 	if (!keyName) {
-		ZEPHIR_CPY_WRT(keyName, ZEPHIR_GLOBAL(global_null));
+		keyName = ZEPHIR_GLOBAL(global_null);
 	}
 	if (!content) {
-		ZEPHIR_CPY_WRT(content, ZEPHIR_GLOBAL(global_null));
+		content = ZEPHIR_GLOBAL(global_null);
 	}
 	if (!lifetime) {
-		ZEPHIR_CPY_WRT(lifetime, ZEPHIR_GLOBAL(global_null));
+		lifetime = ZEPHIR_GLOBAL(global_null);
 	}
 	if (!stopBuffer) {
-		ZEPHIR_CPY_WRT(stopBuffer, ZEPHIR_GLOBAL(global_true));
+		stopBuffer = ZEPHIR_GLOBAL(global_true);
 	}
 
 
@@ -181,11 +178,10 @@ PHP_METHOD(Phalcon_Cache_Backend_Libmemcached, queryKeys) {
 
 	zval *prefix = NULL;
 
-	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 0, 1, &prefix);
+	zephir_fetch_params(0, 0, 1, &prefix);
 
 	if (!prefix) {
-		ZEPHIR_CPY_WRT(prefix, ZEPHIR_GLOBAL(global_null));
+		prefix = ZEPHIR_GLOBAL(global_null);
 	}
 
 
@@ -203,14 +199,13 @@ PHP_METHOD(Phalcon_Cache_Backend_Libmemcached, exists) {
 
 	zval *keyName = NULL, *lifetime = NULL;
 
-	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 0, 2, &keyName, &lifetime);
+	zephir_fetch_params(0, 0, 2, &keyName, &lifetime);
 
 	if (!keyName) {
-		ZEPHIR_CPY_WRT(keyName, ZEPHIR_GLOBAL(global_null));
+		keyName = ZEPHIR_GLOBAL(global_null);
 	}
 	if (!lifetime) {
-		ZEPHIR_CPY_WRT(lifetime, ZEPHIR_GLOBAL(global_null));
+		lifetime = ZEPHIR_GLOBAL(global_null);
 	}
 
 

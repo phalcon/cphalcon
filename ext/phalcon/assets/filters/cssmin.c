@@ -73,6 +73,7 @@ PHP_METHOD(Phalcon_Assets_Filters_Cssmin, filter) {
 		content = content_param;
 
 
+
 	zephir_call_func_p1(return_value, "phalcon_cssmin", content);
 	RETURN_MM();
 

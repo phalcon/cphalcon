@@ -70,6 +70,7 @@ PHP_METHOD(Phalcon_Assets_Filters_None, filter) {
 		content = content_param;
 
 
+
 	RETURN_CTOR(content);
 
 }

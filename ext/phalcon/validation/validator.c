@@ -61,23 +61,21 @@ PHP_METHOD(Phalcon_Validation_Validator, __construct) {
 
 	zval *options = NULL;
 
-	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 0, 1, &options);
+	zephir_fetch_params(0, 0, 1, &options);
 
 	if (!options) {
-		ZEPHIR_CPY_WRT(options, ZEPHIR_GLOBAL(global_null));
+		options = ZEPHIR_GLOBAL(global_null);
 	}
 
 
 	if ((Z_TYPE_P(options) != IS_ARRAY)) {
 		if ((Z_TYPE_P(options) != IS_NULL)) {
-			ZEPHIR_THROW_EXCEPTION_STR(phalcon_validation_exception_ce, "The attribute must be a string");
+			ZEPHIR_THROW_EXCEPTION_STRW(phalcon_validation_exception_ce, "The attribute must be a string");
 			return;
 		}
 	} else {
 		zephir_update_property_this(this_ptr, SL("_options"), options TSRMLS_CC);
 	}
-	ZEPHIR_MM_RESTORE();
 
 }
 
@@ -129,6 +127,7 @@ PHP_METHOD(Phalcon_Validation_Validator, getOption) {
 		key = key_param;
 
 
+
 	options = zephir_fetch_nproperty_this(this_ptr, SL("_options"), PH_NOISY_CC);
 	if ((Z_TYPE_P(options) == IS_ARRAY)) {
 		if (zephir_array_isset_fetch(&value, options, key, 1 TSRMLS_CC)) {
@@ -159,6 +158,7 @@ PHP_METHOD(Phalcon_Validation_Validator, setOption) {
 		}
 
 		key = key_param;
+
 
 
 	zephir_update_property_array(this_ptr, SL("_options"), key, value TSRMLS_CC);

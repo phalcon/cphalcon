@@ -86,11 +86,12 @@ PHP_METHOD(Phalcon_Mvc_Router_Route, __construct) {
 		}
 
 		pattern = pattern_param;
+
 	if (!paths) {
-		ZEPHIR_CPY_WRT(paths, ZEPHIR_GLOBAL(global_null));
+		paths = ZEPHIR_GLOBAL(global_null);
 	}
 	if (!httpMethods) {
-		ZEPHIR_CPY_WRT(httpMethods, ZEPHIR_GLOBAL(global_null));
+		httpMethods = ZEPHIR_GLOBAL(global_null);
 	}
 
 
@@ -120,6 +121,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Route, compilePattern) {
 		}
 
 		pattern = pattern_param;
+
 
 
 	if (zephir_memnstr_str(pattern, SL(":"), "phalcon/mvc/router/route.zep", 77)) {
@@ -231,6 +233,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Route, extractNamedParams) {
 		}
 
 		pattern = pattern_param;
+
 
 
 	if ((zephir_fast_strlen_ev(pattern) <= 0)) {
@@ -395,8 +398,9 @@ PHP_METHOD(Phalcon_Mvc_Router_Route, reConfigure) {
 		}
 
 		pattern = pattern_param;
+
 	if (!paths) {
-		ZEPHIR_CPY_WRT(paths, ZEPHIR_GLOBAL(global_null));
+		paths = ZEPHIR_GLOBAL(global_null);
 	}
 
 
@@ -535,6 +539,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Route, setName) {
 		}
 
 		name = name_param;
+
 
 
 	zephir_update_property_this(this_ptr, SL("_name"), name TSRMLS_CC);
@@ -744,6 +749,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Route, convert) {
 		}
 
 		name = name_param;
+
 
 
 	zephir_update_property_array(this_ptr, SL("_converters"), name, converter TSRMLS_CC);

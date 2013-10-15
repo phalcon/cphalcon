@@ -79,10 +79,10 @@ PHP_METHOD(Phalcon_Forms_Form, __construct) {
 	zephir_fetch_params(1, 0, 2, &entity, &userOptions);
 
 	if (!entity) {
-		ZEPHIR_CPY_WRT(entity, ZEPHIR_GLOBAL(global_null));
+		entity = ZEPHIR_GLOBAL(global_null);
 	}
 	if (!userOptions) {
-		ZEPHIR_CPY_WRT(userOptions, ZEPHIR_GLOBAL(global_null));
+		userOptions = ZEPHIR_GLOBAL(global_null);
 	}
 
 
@@ -165,19 +165,18 @@ PHP_METHOD(Phalcon_Forms_Form, getUserOption) {
 
 	zval *option, *defaultValue = NULL, *value, *options;
 
-	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 1, &option, &defaultValue);
+	zephir_fetch_params(0, 1, 1, &option, &defaultValue);
 
 	if (!defaultValue) {
-		ZEPHIR_CPY_WRT(defaultValue, ZEPHIR_GLOBAL(global_null));
+		defaultValue = ZEPHIR_GLOBAL(global_null);
 	}
 
 
 	options = zephir_fetch_nproperty_this(this_ptr, SL("_options"), PH_NOISY_CC);
 	if (zephir_array_isset_fetch(&value, options, option, 1 TSRMLS_CC)) {
-		RETURN_CTOR(value);
+		RETURN_CTORW(value);
 	}
-	RETURN_CCTOR(defaultValue);
+	RETURN_CCTORW(defaultValue);
 
 }
 
@@ -279,7 +278,7 @@ PHP_METHOD(Phalcon_Forms_Form, bind) {
 
 	ZEPHIR_SEPARATE_PARAM(entity);
 	if (!whitelist) {
-		ZEPHIR_CPY_WRT(whitelist, ZEPHIR_GLOBAL(global_null));
+		whitelist = ZEPHIR_GLOBAL(global_null);
 	}
 
 
@@ -365,7 +364,7 @@ PHP_METHOD(Phalcon_Forms_Form, isValid) {
 	}
 	ZEPHIR_SEPARATE_PARAM(data);
 	if (!entity) {
-		ZEPHIR_CPY_WRT(entity, ZEPHIR_GLOBAL(global_null));
+		entity = ZEPHIR_GLOBAL(global_null);
 	}
 
 
@@ -588,8 +587,9 @@ PHP_METHOD(Phalcon_Forms_Form, render) {
 		}
 
 		name = name_param;
+
 	if (!attributes) {
-		ZEPHIR_CPY_WRT(attributes, ZEPHIR_GLOBAL(global_null));
+		attributes = ZEPHIR_GLOBAL(global_null);
 	}
 
 
@@ -632,6 +632,7 @@ PHP_METHOD(Phalcon_Forms_Form, get) {
 		name = name_param;
 
 
+
 	elements = zephir_fetch_nproperty_this(this_ptr, SL("_elements"), PH_NOISY_CC);
 	if (zephir_array_isset_fetch(&element, elements, name, 1 TSRMLS_CC)) {
 		RETURN_CTOR(element);
@@ -667,6 +668,7 @@ PHP_METHOD(Phalcon_Forms_Form, label) {
 		}
 
 		name = name_param;
+
 
 
 	elements = zephir_fetch_nproperty_this(this_ptr, SL("_elements"), PH_NOISY_CC);
@@ -705,6 +707,7 @@ PHP_METHOD(Phalcon_Forms_Form, getLabel) {
 		}
 
 		name = name_param;
+
 
 
 	elements = zephir_fetch_nproperty_this(this_ptr, SL("_elements"), PH_NOISY_CC);
@@ -748,6 +751,7 @@ PHP_METHOD(Phalcon_Forms_Form, getValue) {
 		}
 
 		name = name_param;
+
 
 
 	entity = zephir_fetch_nproperty_this(this_ptr, SL("_entity"), PH_NOISY_CC);
@@ -796,6 +800,7 @@ PHP_METHOD(Phalcon_Forms_Form, has) {
 		name = name_param;
 
 
+
 	elements = zephir_fetch_nproperty_this(this_ptr, SL("_elements"), PH_NOISY_CC);
 	RETURN_MM_BOOL(zephir_array_isset(elements, name));
 
@@ -821,6 +826,7 @@ PHP_METHOD(Phalcon_Forms_Form, remove) {
 		}
 
 		name = name_param;
+
 
 
 	elements = zephir_fetch_nproperty_this(this_ptr, SL("_elements"), PH_NOISY_CC);
@@ -849,7 +855,7 @@ PHP_METHOD(Phalcon_Forms_Form, clear) {
 	zephir_fetch_params(1, 0, 1, &fields);
 
 	if (!fields) {
-		ZEPHIR_CPY_WRT(fields, ZEPHIR_GLOBAL(global_null));
+		fields = ZEPHIR_GLOBAL(global_null);
 	}
 
 
