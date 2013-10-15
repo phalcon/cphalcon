@@ -89,7 +89,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator, appendMessage) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 2, &message_param, &field, &type);
 
-		zephir_get_strval(message, message_param);
+		if (Z_TYPE_P(message_param) != IS_STRING) {
+				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'message' must be a string") TSRMLS_CC);
+		}
+
+		message = message_param;
 	if (!field) {
 		ZEPHIR_CPY_WRT(field, ZEPHIR_GLOBAL(global_null));
 	}
@@ -155,7 +159,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator, getOption) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &option_param);
 
-		zephir_get_strval(option, option_param);
+		if (Z_TYPE_P(option_param) != IS_STRING) {
+				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'option' must be a string") TSRMLS_CC);
+		}
+
+		option = option_param;
 
 
 	options = zephir_fetch_nproperty_this(this_ptr, SL("_options"), PH_NOISY_CC);
@@ -180,7 +188,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator, isSetOption) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &option_param);
 
-		zephir_get_strval(option, option_param);
+		if (Z_TYPE_P(option_param) != IS_STRING) {
+				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'option' must be a string") TSRMLS_CC);
+		}
+
+		option = option_param;
 
 
 	options = zephir_fetch_nproperty_this(this_ptr, SL("_options"), PH_NOISY_CC);

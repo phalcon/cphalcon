@@ -79,7 +79,11 @@ PHP_METHOD(Phalcon_Events_Manager, attach) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 1, &eventType_param, &handler, &priority_param);
 
-		zephir_get_strval(eventType, eventType_param);
+		if (Z_TYPE_P(eventType_param) != IS_STRING) {
+				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'eventType' must be a string") TSRMLS_CC);
+		}
+
+		eventType = eventType_param;
 	if (!priority_param) {
 		priority = 100;	} else {
 		priority = zephir_get_intval(priority_param);
@@ -408,7 +412,11 @@ PHP_METHOD(Phalcon_Events_Manager, fire) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 2, &eventType_param, &source, &data, &cancelable_param);
 
-		zephir_get_strval(eventType, eventType_param);
+		if (Z_TYPE_P(eventType_param) != IS_STRING) {
+				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'eventType' must be a string") TSRMLS_CC);
+		}
+
+		eventType = eventType_param;
 	if (!data) {
 		ZEPHIR_CPY_WRT(data, ZEPHIR_GLOBAL(global_null));
 	}
@@ -487,7 +495,11 @@ PHP_METHOD(Phalcon_Events_Manager, hasListeners) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &type_param);
 
-		zephir_get_strval(type, type_param);
+		if (Z_TYPE_P(type_param) != IS_STRING) {
+				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'type' must be a string") TSRMLS_CC);
+		}
+
+		type = type_param;
 
 
 	events = zephir_fetch_nproperty_this(this_ptr, SL("_events"), PH_NOISY_CC);
@@ -512,7 +524,11 @@ PHP_METHOD(Phalcon_Events_Manager, getListeners) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &type_param);
 
-		zephir_get_strval(type, type_param);
+		if (Z_TYPE_P(type_param) != IS_STRING) {
+				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'type' must be a string") TSRMLS_CC);
+		}
+
+		type = type_param;
 
 
 	events = zephir_fetch_nproperty_this(this_ptr, SL("_events"), PH_NOISY_CC);

@@ -218,7 +218,11 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, prepare) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &sqlStatement_param);
 
-		zephir_get_strval(sqlStatement, sqlStatement_param);
+		if (Z_TYPE_P(sqlStatement_param) != IS_STRING) {
+				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'sqlStatement' must be a string") TSRMLS_CC);
+		}
+
+		sqlStatement = sqlStatement_param;
 
 
 	pdo = zephir_fetch_nproperty_this(this_ptr, SL("_pdo"), PH_NOISY_CC);
@@ -331,7 +335,11 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, query) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 2, &sqlStatement_param, &bindParams, &bindTypes);
 
-		zephir_get_strval(sqlStatement, sqlStatement_param);
+		if (Z_TYPE_P(sqlStatement_param) != IS_STRING) {
+				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'sqlStatement' must be a string") TSRMLS_CC);
+		}
+
+		sqlStatement = sqlStatement_param;
 	if (!bindParams) {
 		ZEPHIR_CPY_WRT(bindParams, ZEPHIR_GLOBAL(global_null));
 	}
@@ -404,7 +412,11 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, execute) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 2, &sqlStatement_param, &bindParams, &bindTypes);
 
-		zephir_get_strval(sqlStatement, sqlStatement_param);
+		if (Z_TYPE_P(sqlStatement_param) != IS_STRING) {
+				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'sqlStatement' must be a string") TSRMLS_CC);
+		}
+
+		sqlStatement = sqlStatement_param;
 	if (!bindParams) {
 		ZEPHIR_CPY_WRT(bindParams, ZEPHIR_GLOBAL(global_null));
 	}
@@ -540,7 +552,11 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, escapeString) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &str_param);
 
-		zephir_get_strval(str, str_param);
+		if (Z_TYPE_P(str_param) != IS_STRING) {
+				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'str' must be a string") TSRMLS_CC);
+		}
+
+		str = str_param;
 
 
 	pdo = zephir_fetch_nproperty_this(this_ptr, SL("_pdo"), PH_NOISY_CC);

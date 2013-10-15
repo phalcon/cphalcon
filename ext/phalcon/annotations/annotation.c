@@ -306,7 +306,11 @@ PHP_METHOD(Phalcon_Annotations_Annotation, getNamedArgument) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &name_param);
 
-		zephir_get_strval(name, name_param);
+		if (Z_TYPE_P(name_param) != IS_STRING) {
+				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'name' must be a string") TSRMLS_CC);
+		}
+
+		name = name_param;
 
 
 	arguments = zephir_fetch_nproperty_this(this_ptr, SL("_arguments"), PH_NOISY_CC);

@@ -65,7 +65,11 @@ PHP_METHOD(Phalcon_Assets_Resource_Css, __construct) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 3, &path_param, &local_param, &filter_param, &attributes);
 
-		zephir_get_strval(path, path_param);
+		if (Z_TYPE_P(path_param) != IS_STRING) {
+				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'path' must be a string") TSRMLS_CC);
+		}
+
+		path = path_param;
 	if (!local_param) {
 		local = 1;
 	} else {

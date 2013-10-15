@@ -110,7 +110,11 @@ PHP_METHOD(Phalcon_Events_Event, __construct) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 2, &type_param, &source, &data, &cancelable);
 
-		zephir_get_strval(type, type_param);
+		if (Z_TYPE_P(type_param) != IS_STRING) {
+				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'type' must be a string") TSRMLS_CC);
+		}
+
+		type = type_param;
 	if (!data) {
 		ZEPHIR_CPY_WRT(data, ZEPHIR_GLOBAL(global_null));
 	}

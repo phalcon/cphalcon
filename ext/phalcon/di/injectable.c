@@ -152,7 +152,11 @@ PHP_METHOD(Phalcon_Di_Injectable, __get) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &propertyName_param);
 
-		zephir_get_strval(propertyName, propertyName_param);
+		if (Z_TYPE_P(propertyName_param) != IS_STRING) {
+				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'propertyName' must be a string") TSRMLS_CC);
+		}
+
+		propertyName = propertyName_param;
 
 
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);

@@ -107,7 +107,11 @@ PHP_METHOD(Phalcon_Mvc_View_Engine, partial) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 1, &partialPath_param, &params);
 
-		zephir_get_strval(partialPath, partialPath_param);
+		if (Z_TYPE_P(partialPath_param) != IS_STRING) {
+				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'partialPath' must be a string") TSRMLS_CC);
+		}
+
+		partialPath = partialPath_param;
 	if (!params) {
 		ZEPHIR_CPY_WRT(params, ZEPHIR_GLOBAL(global_null));
 	}

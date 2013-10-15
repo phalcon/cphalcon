@@ -150,13 +150,17 @@ PHP_METHOD(Phalcon_Assets_Manager, useImplicitOutput) {
  */
 PHP_METHOD(Phalcon_Assets_Manager, addCss) {
 
-	zval *path_param = NULL, *local = NULL, *filter = NULL, *attributes, *_0;
+	zval *path_param = NULL, *local = NULL, *filter = NULL, *attributes, *_0, *_1;
 	zval *path = NULL;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 2, &path_param, &local, &filter, &attributes);
 
-		zephir_get_strval(path, path_param);
+		if (Z_TYPE_P(path_param) != IS_STRING) {
+				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'path' must be a string") TSRMLS_CC);
+		}
+
+		path = path_param;
 	if (!local) {
 		ZEPHIR_CPY_WRT(local, ZEPHIR_GLOBAL(global_true));
 	}
@@ -168,9 +172,9 @@ PHP_METHOD(Phalcon_Assets_Manager, addCss) {
 	ZEPHIR_INIT_VAR(_0);
 	object_init_ex(_0, phalcon_assets_resource_js_ce);
 	zephir_call_method_p4_noret(_0, "__construct", path, local, filter, attributes);
-	ZEPHIR_INIT_BNVAR(_0);
-	ZVAL_STRING(_0, "css", 1);
-	zephir_call_method_p2_noret(this_ptr, "addresourcebytype", _0, _0);
+	ZEPHIR_INIT_VAR(_1);
+	ZVAL_STRING(_1, "css", 1);
+	zephir_call_method_p2_noret(this_ptr, "addresourcebytype", _1, _0);
 	ZEPHIR_MM_RESTORE();
 
 }
@@ -194,7 +198,11 @@ PHP_METHOD(Phalcon_Assets_Manager, addResourceByType) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &type_param, &resource);
 
-		zephir_get_strval(type, type_param);
+		if (Z_TYPE_P(type_param) != IS_STRING) {
+				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'type' must be a string") TSRMLS_CC);
+		}
+
+		type = type_param;
 
 
 	collections = zephir_fetch_nproperty_this(this_ptr, SL("_collections"), PH_NOISY_CC);
@@ -257,7 +265,11 @@ PHP_METHOD(Phalcon_Assets_Manager, set) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &id_param, &collection);
 
-		zephir_get_strval(id, id_param);
+		if (Z_TYPE_P(id_param) != IS_STRING) {
+				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'id' must be a string") TSRMLS_CC);
+		}
+
+		id = id_param;
 
 
 	zephir_update_property_array(this_ptr, SL("_collections"), id, collection TSRMLS_CC);
@@ -283,7 +295,11 @@ PHP_METHOD(Phalcon_Assets_Manager, get) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &id_param);
 
-		zephir_get_strval(id, id_param);
+		if (Z_TYPE_P(id_param) != IS_STRING) {
+				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'id' must be a string") TSRMLS_CC);
+		}
+
+		id = id_param;
 
 
 	collections = zephir_fetch_nproperty_this(this_ptr, SL("_collections"), PH_NOISY_CC);

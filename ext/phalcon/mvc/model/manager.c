@@ -292,7 +292,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, isInitialized) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &modelName_param);
 
-		zephir_get_strval(modelName, modelName_param);
+		if (Z_TYPE_P(modelName_param) != IS_STRING) {
+				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'modelName' must be a string") TSRMLS_CC);
+		}
+
+		modelName = modelName_param;
 
 
 	initialized = zephir_fetch_nproperty_this(this_ptr, SL("_initialized"), PH_NOISY_CC);
@@ -331,7 +335,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, load) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 1, &modelName_param, &newInstance_param);
 
-		zephir_get_strval(modelName, modelName_param);
+		if (Z_TYPE_P(modelName_param) != IS_STRING) {
+				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'modelName' must be a string") TSRMLS_CC);
+		}
+
+		modelName = modelName_param;
 	if (!newInstance_param) {
 		newInstance = 0;
 	} else {
@@ -379,7 +387,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, setModelSource) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &model, &source_param);
 
-		zephir_get_strval(source, source_param);
+		if (Z_TYPE_P(source_param) != IS_STRING) {
+				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'source' must be a string") TSRMLS_CC);
+		}
+
+		source = source_param;
 
 
 	ZEPHIR_INIT_VAR(_0);
@@ -436,7 +448,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, setModelSchema) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &model, &schema_param);
 
-		zephir_get_strval(schema, schema_param);
+		if (Z_TYPE_P(schema_param) != IS_STRING) {
+				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'schema' must be a string") TSRMLS_CC);
+		}
+
+		schema = schema_param;
 
 
 	ZEPHIR_INIT_VAR(_0);
@@ -487,7 +503,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, setConnectionService) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &model, &connectionService_param);
 
-		zephir_get_strval(connectionService, connectionService_param);
+		if (Z_TYPE_P(connectionService_param) != IS_STRING) {
+				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'connectionService' must be a string") TSRMLS_CC);
+		}
+
+		connectionService = connectionService_param;
 
 
 	ZEPHIR_INIT_VAR(entityName);
@@ -512,7 +532,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, setWriteConnectionService) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &model, &connectionService_param);
 
-		zephir_get_strval(connectionService, connectionService_param);
+		if (Z_TYPE_P(connectionService_param) != IS_STRING) {
+				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'connectionService' must be a string") TSRMLS_CC);
+		}
+
+		connectionService = connectionService_param;
 
 
 	ZEPHIR_INIT_VAR(_0);
@@ -536,7 +560,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, setReadConnectionService) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &model, &connectionService_param);
 
-		zephir_get_strval(connectionService, connectionService_param);
+		if (Z_TYPE_P(connectionService_param) != IS_STRING) {
+				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'connectionService' must be a string") TSRMLS_CC);
+		}
+
+		connectionService = connectionService_param;
 
 
 	ZEPHIR_INIT_VAR(_0);
@@ -710,7 +738,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, notifyEvent) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &eventName_param, &model);
 
-		zephir_get_strval(eventName, eventName_param);
+		if (Z_TYPE_P(eventName_param) != IS_STRING) {
+				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'eventName' must be a string") TSRMLS_CC);
+		}
+
+		eventName = eventName_param;
 
 
 	ZEPHIR_INIT_VAR(status);
@@ -785,7 +817,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, missingMethod) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 3, 0, &model, &eventName_param, &data);
 
-		zephir_get_strval(eventName, eventName_param);
+		if (Z_TYPE_P(eventName_param) != IS_STRING) {
+				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'eventName' must be a string") TSRMLS_CC);
+		}
+
+		eventName = eventName_param;
 
 
 	behaviors = zephir_fetch_nproperty_this(this_ptr, SL("_behaviors"), PH_NOISY_CC);
@@ -974,7 +1010,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, addHasOne) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 4, 1, &model, &fields, &referencedModel_param, &referencedFields, &options);
 
-		zephir_get_strval(referencedModel, referencedModel_param);
+		if (Z_TYPE_P(referencedModel_param) != IS_STRING) {
+				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'referencedModel' must be a string") TSRMLS_CC);
+		}
+
+		referencedModel = referencedModel_param;
 	if (!options) {
 		ZEPHIR_CPY_WRT(options, ZEPHIR_GLOBAL(global_null));
 	}
@@ -1044,7 +1084,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, addBelongsTo) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 4, 1, &model, &fields, &referencedModel_param, &referencedFields, &options);
 
-		zephir_get_strval(referencedModel, referencedModel_param);
+		if (Z_TYPE_P(referencedModel_param) != IS_STRING) {
+				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'referencedModel' must be a string") TSRMLS_CC);
+		}
+
+		referencedModel = referencedModel_param;
 	if (!options) {
 		ZEPHIR_CPY_WRT(options, ZEPHIR_GLOBAL(global_null));
 	}
@@ -1113,7 +1157,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, addHasMany) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 4, 1, &model, &fields, &referencedModel_param, &referencedFields, &options);
 
-		zephir_get_strval(referencedModel, referencedModel_param);
+		if (Z_TYPE_P(referencedModel_param) != IS_STRING) {
+				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'referencedModel' must be a string") TSRMLS_CC);
+		}
+
+		referencedModel = referencedModel_param;
 	if (!options) {
 		ZEPHIR_CPY_WRT(options, ZEPHIR_GLOBAL(global_null));
 	}
@@ -1186,8 +1234,16 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, addHasManyToMany) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 7, 1, &model, &fields, &intermediateModel_param, &intermediateFields, &intermediateReferencedFields, &referencedModel_param, &referencedFields, &options);
 
-		zephir_get_strval(intermediateModel, intermediateModel_param);
-		zephir_get_strval(referencedModel, referencedModel_param);
+		if (Z_TYPE_P(intermediateModel_param) != IS_STRING) {
+				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'intermediateModel' must be a string") TSRMLS_CC);
+		}
+
+		intermediateModel = intermediateModel_param;
+		if (Z_TYPE_P(referencedModel_param) != IS_STRING) {
+				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'referencedModel' must be a string") TSRMLS_CC);
+		}
+
+		referencedModel = referencedModel_param;
 	if (!options) {
 		ZEPHIR_CPY_WRT(options, ZEPHIR_GLOBAL(global_null));
 	}
@@ -1263,8 +1319,16 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, existsBelongsTo) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &modelName_param, &modelRelation_param);
 
-		zephir_get_strval(modelName, modelName_param);
-		zephir_get_strval(modelRelation, modelRelation_param);
+		if (Z_TYPE_P(modelName_param) != IS_STRING) {
+				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'modelName' must be a string") TSRMLS_CC);
+		}
+
+		modelName = modelName_param;
+		if (Z_TYPE_P(modelRelation_param) != IS_STRING) {
+				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'modelRelation' must be a string") TSRMLS_CC);
+		}
+
+		modelRelation = modelRelation_param;
 
 
 	initialized = zephir_fetch_nproperty_this(this_ptr, SL("_initialized"), PH_NOISY_CC);
@@ -1297,8 +1361,16 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, existsHasMany) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &modelName_param, &modelRelation_param);
 
-		zephir_get_strval(modelName, modelName_param);
-		zephir_get_strval(modelRelation, modelRelation_param);
+		if (Z_TYPE_P(modelName_param) != IS_STRING) {
+				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'modelName' must be a string") TSRMLS_CC);
+		}
+
+		modelName = modelName_param;
+		if (Z_TYPE_P(modelRelation_param) != IS_STRING) {
+				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'modelRelation' must be a string") TSRMLS_CC);
+		}
+
+		modelRelation = modelRelation_param;
 
 
 	initialized = zephir_fetch_nproperty_this(this_ptr, SL("_initialized"), PH_NOISY_CC);
@@ -1331,8 +1403,16 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, existsHasOne) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &modelName_param, &modelRelation_param);
 
-		zephir_get_strval(modelName, modelName_param);
-		zephir_get_strval(modelRelation, modelRelation_param);
+		if (Z_TYPE_P(modelName_param) != IS_STRING) {
+				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'modelName' must be a string") TSRMLS_CC);
+		}
+
+		modelName = modelName_param;
+		if (Z_TYPE_P(modelRelation_param) != IS_STRING) {
+				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'modelRelation' must be a string") TSRMLS_CC);
+		}
+
+		modelRelation = modelRelation_param;
 
 
 	initialized = zephir_fetch_nproperty_this(this_ptr, SL("_initialized"), PH_NOISY_CC);
@@ -1365,8 +1445,16 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, existsHasManyToMany) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &modelName_param, &modelRelation_param);
 
-		zephir_get_strval(modelName, modelName_param);
-		zephir_get_strval(modelRelation, modelRelation_param);
+		if (Z_TYPE_P(modelName_param) != IS_STRING) {
+				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'modelName' must be a string") TSRMLS_CC);
+		}
+
+		modelName = modelName_param;
+		if (Z_TYPE_P(modelRelation_param) != IS_STRING) {
+				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'modelRelation' must be a string") TSRMLS_CC);
+		}
+
+		modelRelation = modelRelation_param;
 
 
 	initialized = zephir_fetch_nproperty_this(this_ptr, SL("_initialized"), PH_NOISY_CC);
@@ -1399,8 +1487,16 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getRelationByAlias) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &modelName_param, &alias_param);
 
-		zephir_get_strval(modelName, modelName_param);
-		zephir_get_strval(alias, alias_param);
+		if (Z_TYPE_P(modelName_param) != IS_STRING) {
+				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'modelName' must be a string") TSRMLS_CC);
+		}
+
+		modelName = modelName_param;
+		if (Z_TYPE_P(alias_param) != IS_STRING) {
+				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'alias' must be a string") TSRMLS_CC);
+		}
+
+		alias = alias_param;
 
 
 	aliases = zephir_fetch_nproperty_this(this_ptr, SL("_aliases"), PH_NOISY_CC);
@@ -1438,7 +1534,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getRelationRecords) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 3, 1, &relation, &method_param, &record, &parameters);
 
-		zephir_get_strval(method, method_param);
+		if (Z_TYPE_P(method_param) != IS_STRING) {
+				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'method' must be a string") TSRMLS_CC);
+		}
+
+		method = method_param;
 	if (!parameters) {
 		ZEPHIR_CPY_WRT(parameters, ZEPHIR_GLOBAL(global_null));
 	}
@@ -1651,8 +1751,16 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getReusableRecords) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &modelName_param, &key_param);
 
-		zephir_get_strval(modelName, modelName_param);
-		zephir_get_strval(key, key_param);
+		if (Z_TYPE_P(modelName_param) != IS_STRING) {
+				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'modelName' must be a string") TSRMLS_CC);
+		}
+
+		modelName = modelName_param;
+		if (Z_TYPE_P(key_param) != IS_STRING) {
+				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'key' must be a string") TSRMLS_CC);
+		}
+
+		key = key_param;
 
 
 	reusable = zephir_fetch_nproperty_this(this_ptr, SL("_reusable"), PH_NOISY_CC);
@@ -1678,8 +1786,16 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, setReusableRecords) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 3, 0, &modelName_param, &key_param, &records);
 
-		zephir_get_strval(modelName, modelName_param);
-		zephir_get_strval(key, key_param);
+		if (Z_TYPE_P(modelName_param) != IS_STRING) {
+				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'modelName' must be a string") TSRMLS_CC);
+		}
+
+		modelName = modelName_param;
+		if (Z_TYPE_P(key_param) != IS_STRING) {
+				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'key' must be a string") TSRMLS_CC);
+		}
+
+		key = key_param;
 
 
 	zephir_update_property_array(this_ptr, SL("_reusable"), key, records TSRMLS_CC);
@@ -1716,8 +1832,16 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getBelongsToRecords) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 4, 1, &method_param, &modelName_param, &modelRelation, &record, &parameters);
 
-		zephir_get_strval(method, method_param);
-		zephir_get_strval(modelName, modelName_param);
+		if (Z_TYPE_P(method_param) != IS_STRING) {
+				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'method' must be a string") TSRMLS_CC);
+		}
+
+		method = method_param;
+		if (Z_TYPE_P(modelName_param) != IS_STRING) {
+				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'modelName' must be a string") TSRMLS_CC);
+		}
+
+		modelName = modelName_param;
 	if (!parameters) {
 		ZEPHIR_CPY_WRT(parameters, ZEPHIR_GLOBAL(global_null));
 	}
@@ -1761,8 +1885,16 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getHasManyRecords) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 4, 1, &method_param, &modelName_param, &modelRelation, &record, &parameters);
 
-		zephir_get_strval(method, method_param);
-		zephir_get_strval(modelName, modelName_param);
+		if (Z_TYPE_P(method_param) != IS_STRING) {
+				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'method' must be a string") TSRMLS_CC);
+		}
+
+		method = method_param;
+		if (Z_TYPE_P(modelName_param) != IS_STRING) {
+				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'modelName' must be a string") TSRMLS_CC);
+		}
+
+		modelName = modelName_param;
 	if (!parameters) {
 		ZEPHIR_CPY_WRT(parameters, ZEPHIR_GLOBAL(global_null));
 	}
@@ -1806,8 +1938,16 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getHasOneRecords) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 4, 1, &method_param, &modelName_param, &modelRelation, &record, &parameters);
 
-		zephir_get_strval(method, method_param);
-		zephir_get_strval(modelName, modelName_param);
+		if (Z_TYPE_P(method_param) != IS_STRING) {
+				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'method' must be a string") TSRMLS_CC);
+		}
+
+		method = method_param;
+		if (Z_TYPE_P(modelName_param) != IS_STRING) {
+				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'modelName' must be a string") TSRMLS_CC);
+		}
+
+		modelName = modelName_param;
 	if (!parameters) {
 		ZEPHIR_CPY_WRT(parameters, ZEPHIR_GLOBAL(global_null));
 	}
@@ -1989,7 +2129,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getRelations) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &modelName_param);
 
-		zephir_get_strval(modelName, modelName_param);
+		if (Z_TYPE_P(modelName_param) != IS_STRING) {
+				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'modelName' must be a string") TSRMLS_CC);
+		}
+
+		modelName = modelName_param;
 
 
 	ZEPHIR_INIT_VAR(entityName);
@@ -2057,8 +2201,16 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getRelationsBetween) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &first_param, &second_param);
 
-		zephir_get_strval(first, first_param);
-		zephir_get_strval(second, second_param);
+		if (Z_TYPE_P(first_param) != IS_STRING) {
+				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'first' must be a string") TSRMLS_CC);
+		}
+
+		first = first_param;
+		if (Z_TYPE_P(second_param) != IS_STRING) {
+				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'second' must be a string") TSRMLS_CC);
+		}
+
+		second = second_param;
 
 
 	ZEPHIR_INIT_VAR(_0);
@@ -2106,7 +2258,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, createQuery) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &phql_param);
 
-		zephir_get_strval(phql, phql_param);
+		if (Z_TYPE_P(phql_param) != IS_STRING) {
+				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'phql' must be a string") TSRMLS_CC);
+		}
+
+		phql = phql_param;
 
 
 	dependencyInjector = zephir_fetch_nproperty_this(this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
@@ -2137,7 +2293,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, executeQuery) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 1, &phql_param, &placeholders);
 
-		zephir_get_strval(phql, phql_param);
+		if (Z_TYPE_P(phql_param) != IS_STRING) {
+				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'phql' must be a string") TSRMLS_CC);
+		}
+
+		phql = phql_param;
 	if (!placeholders) {
 		ZEPHIR_CPY_WRT(placeholders, ZEPHIR_GLOBAL(global_null));
 	}
@@ -2236,7 +2396,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getNamespaceAlias) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &alias_param);
 
-		zephir_get_strval(alias, alias_param);
+		if (Z_TYPE_P(alias_param) != IS_STRING) {
+				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'alias' must be a string") TSRMLS_CC);
+		}
+
+		alias = alias_param;
 
 
 	namespaceAliases = zephir_fetch_nproperty_this(this_ptr, SL("_namespaceAliases"), PH_NOISY_CC);

@@ -220,7 +220,11 @@ PHP_METHOD(Phalcon_Logger_Adapter, emergence) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &message_param);
 
-		zephir_get_strval(message, message_param);
+		if (Z_TYPE_P(message_param) != IS_STRING) {
+				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'message' must be a string") TSRMLS_CC);
+		}
+
+		message = message_param;
 
 
 	ZEPHIR_INIT_VAR(_0);
@@ -244,7 +248,11 @@ PHP_METHOD(Phalcon_Logger_Adapter, debug) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &message_param);
 
-		zephir_get_strval(message, message_param);
+		if (Z_TYPE_P(message_param) != IS_STRING) {
+				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'message' must be a string") TSRMLS_CC);
+		}
+
+		message = message_param;
 
 
 	ZEPHIR_INIT_VAR(_0);
@@ -268,7 +276,11 @@ PHP_METHOD(Phalcon_Logger_Adapter, error) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &message_param);
 
-		zephir_get_strval(message, message_param);
+		if (Z_TYPE_P(message_param) != IS_STRING) {
+				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'message' must be a string") TSRMLS_CC);
+		}
+
+		message = message_param;
 
 
 	ZEPHIR_INIT_VAR(_0);
@@ -292,7 +304,11 @@ PHP_METHOD(Phalcon_Logger_Adapter, info) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &message_param);
 
-		zephir_get_strval(message, message_param);
+		if (Z_TYPE_P(message_param) != IS_STRING) {
+				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'message' must be a string") TSRMLS_CC);
+		}
+
+		message = message_param;
 
 
 	ZEPHIR_INIT_VAR(_0);
@@ -316,7 +332,11 @@ PHP_METHOD(Phalcon_Logger_Adapter, notice) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &message_param);
 
-		zephir_get_strval(message, message_param);
+		if (Z_TYPE_P(message_param) != IS_STRING) {
+				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'message' must be a string") TSRMLS_CC);
+		}
+
+		message = message_param;
 
 
 	ZEPHIR_INIT_VAR(_0);
@@ -340,7 +360,11 @@ PHP_METHOD(Phalcon_Logger_Adapter, warning) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &message_param);
 
-		zephir_get_strval(message, message_param);
+		if (Z_TYPE_P(message_param) != IS_STRING) {
+				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'message' must be a string") TSRMLS_CC);
+		}
+
+		message = message_param;
 
 
 	ZEPHIR_INIT_VAR(_0);
@@ -364,7 +388,11 @@ PHP_METHOD(Phalcon_Logger_Adapter, alert) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &message_param);
 
-		zephir_get_strval(message, message_param);
+		if (Z_TYPE_P(message_param) != IS_STRING) {
+				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'message' must be a string") TSRMLS_CC);
+		}
+
+		message = message_param;
 
 
 	ZEPHIR_INIT_VAR(_0);
@@ -390,7 +418,11 @@ PHP_METHOD(Phalcon_Logger_Adapter, log) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 1, &message_param, &type_param);
 
-		zephir_get_strval(message, message_param);
+		if (Z_TYPE_P(message_param) != IS_STRING) {
+				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'message' must be a string") TSRMLS_CC);
+		}
+
+		message = message_param;
 	if (!type_param) {
 		type = 7;	} else {
 		type = zephir_get_intval(type_param);

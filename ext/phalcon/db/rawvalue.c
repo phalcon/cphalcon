@@ -98,7 +98,11 @@ PHP_METHOD(Phalcon_Db_RawValue, __construct) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &value_param);
 
-		zephir_get_strval(value, value_param);
+		if (Z_TYPE_P(value_param) != IS_STRING) {
+				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'value' must be a string") TSRMLS_CC);
+		}
+
+		value = value_param;
 
 
 	zephir_update_property_this(this_ptr, SL("_value"), value TSRMLS_CC);

@@ -91,7 +91,11 @@ PHP_METHOD(Phalcon_Logger_Adapter_File, __construct) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 1, &name_param, &options);
 
-		zephir_get_strval(name, name_param);
+		if (Z_TYPE_P(name_param) != IS_STRING) {
+				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'name' must be a string") TSRMLS_CC);
+		}
+
+		name = name_param;
 	if (!options) {
 		ZEPHIR_CPY_WRT(options, ZEPHIR_GLOBAL(global_null));
 	}
@@ -167,7 +171,11 @@ PHP_METHOD(Phalcon_Logger_Adapter_File, logInternal) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 3, 0, &message_param, &type_param, &time_param);
 
-		zephir_get_strval(message, message_param);
+		if (Z_TYPE_P(message_param) != IS_STRING) {
+				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'message' must be a string") TSRMLS_CC);
+		}
+
+		message = message_param;
 		type = zephir_get_intval(type_param);
 		time = zephir_get_intval(time_param);
 

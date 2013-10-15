@@ -86,7 +86,11 @@ PHP_METHOD(Phalcon_Mvc_Dispatcher, setControllerSuffix) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &controllerSuffix_param);
 
-		zephir_get_strval(controllerSuffix, controllerSuffix_param);
+		if (Z_TYPE_P(controllerSuffix_param) != IS_STRING) {
+				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'controllerSuffix' must be a string") TSRMLS_CC);
+		}
+
+		controllerSuffix = controllerSuffix_param;
 
 
 	zephir_update_property_this(this_ptr, SL("_handlerSuffix"), controllerSuffix TSRMLS_CC);
@@ -107,7 +111,11 @@ PHP_METHOD(Phalcon_Mvc_Dispatcher, setDefaultController) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &controllerName_param);
 
-		zephir_get_strval(controllerName, controllerName_param);
+		if (Z_TYPE_P(controllerName_param) != IS_STRING) {
+				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'controllerName' must be a string") TSRMLS_CC);
+		}
+
+		controllerName = controllerName_param;
 
 
 	zephir_update_property_this(this_ptr, SL("_defaultHandler"), controllerName TSRMLS_CC);
@@ -128,7 +136,11 @@ PHP_METHOD(Phalcon_Mvc_Dispatcher, setControllerName) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &controllerName_param);
 
-		zephir_get_strval(controllerName, controllerName_param);
+		if (Z_TYPE_P(controllerName_param) != IS_STRING) {
+				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'controllerName' must be a string") TSRMLS_CC);
+		}
+
+		controllerName = controllerName_param;
 
 
 	zephir_update_property_this(this_ptr, SL("_handlerName"), controllerName TSRMLS_CC);
@@ -163,7 +175,11 @@ PHP_METHOD(Phalcon_Mvc_Dispatcher, _throwDispatchException) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 1, &message_param, &exceptionCode_param);
 
-		zephir_get_strval(message, message_param);
+		if (Z_TYPE_P(message_param) != IS_STRING) {
+				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'message' must be a string") TSRMLS_CC);
+		}
+
+		message = message_param;
 	if (!exceptionCode_param) {
 		exceptionCode = 0;	} else {
 		exceptionCode = zephir_get_intval(exceptionCode_param);

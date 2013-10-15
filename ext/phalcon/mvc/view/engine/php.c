@@ -66,7 +66,11 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Php, render) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 1, &path_param, &params, &mustClean_param);
 
-		zephir_get_strval(path, path_param);
+		if (Z_TYPE_P(path_param) != IS_STRING) {
+				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'path' must be a string") TSRMLS_CC);
+		}
+
+		path = path_param;
 	if (!mustClean_param) {
 		mustClean = 0;
 	} else {

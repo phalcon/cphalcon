@@ -75,7 +75,11 @@ PHP_METHOD(Phalcon_Validation_Validator_Between, validate) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &validator, &attribute_param);
 
-		zephir_get_strval(attribute, attribute_param);
+		if (Z_TYPE_P(attribute_param) != IS_STRING) {
+				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'attribute' must be a string") TSRMLS_CC);
+		}
+
+		attribute = attribute_param;
 
 
 	ZEPHIR_INIT_VAR(value);

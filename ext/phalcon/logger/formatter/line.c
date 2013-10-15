@@ -167,7 +167,11 @@ PHP_METHOD(Phalcon_Logger_Formatter_Line, format) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 3, 0, &message_param, &type_param, &timestamp_param);
 
-		zephir_get_strval(message, message_param);
+		if (Z_TYPE_P(message_param) != IS_STRING) {
+				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'message' must be a string") TSRMLS_CC);
+		}
+
+		message = message_param;
 		type = zephir_get_intval(type_param);
 		timestamp = zephir_get_intval(timestamp_param);
 

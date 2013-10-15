@@ -318,7 +318,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, offsetGet) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &index_param);
 
-		index = zephir_get_intval(index_param);
+		if (Z_TYPE_P(index_param) != IS_LONG) {
+				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'index' must be a long/integer") TSRMLS_CC);
+		}
+
+		index = Z_LVAL_P(index_param);
 
 
 	ZEPHIR_INIT_VAR(_0);

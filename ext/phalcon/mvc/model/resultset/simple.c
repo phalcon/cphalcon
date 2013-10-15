@@ -332,7 +332,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, unserialize) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &data_param);
 
-		zephir_get_strval(data, data_param);
+		if (Z_TYPE_P(data_param) != IS_STRING) {
+				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'data' must be a string") TSRMLS_CC);
+		}
+
+		data = data_param;
 
 
 	ZEPHIR_INIT_ZVAL_NREF(_0);

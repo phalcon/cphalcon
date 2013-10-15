@@ -64,7 +64,11 @@ PHP_METHOD(Phalcon_Assets_Filters_Cssmin, filter) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &content_param);
 
-		zephir_get_strval(content, content_param);
+		if (Z_TYPE_P(content_param) != IS_STRING) {
+				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'content' must be a string") TSRMLS_CC);
+		}
+
+		content = content_param;
 
 
 	zephir_call_func_p1(return_value, "phalcon_cssmin", content);

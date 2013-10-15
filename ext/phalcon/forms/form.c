@@ -581,7 +581,11 @@ PHP_METHOD(Phalcon_Forms_Form, render) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 1, &name_param, &attributes);
 
-		zephir_get_strval(name, name_param);
+		if (Z_TYPE_P(name_param) != IS_STRING) {
+				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'name' must be a string") TSRMLS_CC);
+		}
+
+		name = name_param;
 	if (!attributes) {
 		ZEPHIR_CPY_WRT(attributes, ZEPHIR_GLOBAL(global_null));
 	}
@@ -618,7 +622,11 @@ PHP_METHOD(Phalcon_Forms_Form, get) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &name_param);
 
-		zephir_get_strval(name, name_param);
+		if (Z_TYPE_P(name_param) != IS_STRING) {
+				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'name' must be a string") TSRMLS_CC);
+		}
+
+		name = name_param;
 
 
 	elements = zephir_fetch_nproperty_this(this_ptr, SL("_elements"), PH_NOISY_CC);
@@ -650,7 +658,11 @@ PHP_METHOD(Phalcon_Forms_Form, label) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &name_param);
 
-		zephir_get_strval(name, name_param);
+		if (Z_TYPE_P(name_param) != IS_STRING) {
+				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'name' must be a string") TSRMLS_CC);
+		}
+
+		name = name_param;
 
 
 	elements = zephir_fetch_nproperty_this(this_ptr, SL("_elements"), PH_NOISY_CC);
@@ -683,7 +695,11 @@ PHP_METHOD(Phalcon_Forms_Form, getLabel) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &name_param);
 
-		zephir_get_strval(name, name_param);
+		if (Z_TYPE_P(name_param) != IS_STRING) {
+				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'name' must be a string") TSRMLS_CC);
+		}
+
+		name = name_param;
 
 
 	elements = zephir_fetch_nproperty_this(this_ptr, SL("_elements"), PH_NOISY_CC);
@@ -721,7 +737,11 @@ PHP_METHOD(Phalcon_Forms_Form, getValue) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &name_param);
 
-		zephir_get_strval(name, name_param);
+		if (Z_TYPE_P(name_param) != IS_STRING) {
+				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'name' must be a string") TSRMLS_CC);
+		}
+
+		name = name_param;
 
 
 	entity = zephir_fetch_nproperty_this(this_ptr, SL("_entity"), PH_NOISY_CC);
@@ -762,7 +782,11 @@ PHP_METHOD(Phalcon_Forms_Form, has) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &name_param);
 
-		zephir_get_strval(name, name_param);
+		if (Z_TYPE_P(name_param) != IS_STRING) {
+				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'name' must be a string") TSRMLS_CC);
+		}
+
+		name = name_param;
 
 
 	elements = zephir_fetch_nproperty_this(this_ptr, SL("_elements"), PH_NOISY_CC);
@@ -784,7 +808,11 @@ PHP_METHOD(Phalcon_Forms_Form, remove) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &name_param);
 
-		zephir_get_strval(name, name_param);
+		if (Z_TYPE_P(name_param) != IS_STRING) {
+				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'name' must be a string") TSRMLS_CC);
+		}
+
+		name = name_param;
 
 
 	elements = zephir_fetch_nproperty_this(this_ptr, SL("_elements"), PH_NOISY_CC);

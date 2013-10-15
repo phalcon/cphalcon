@@ -84,7 +84,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Relation, __construct) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 4, 1, &type, &referencedModel_param, &fields, &referencedFields, &options);
 
-		zephir_get_strval(referencedModel, referencedModel_param);
+		if (Z_TYPE_P(referencedModel_param) != IS_STRING) {
+				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'referencedModel' must be a string") TSRMLS_CC);
+		}
+
+		referencedModel = referencedModel_param;
 	if (!options) {
 		ZEPHIR_CPY_WRT(options, ZEPHIR_GLOBAL(global_null));
 	}
@@ -114,7 +118,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Relation, setIntermediateRelation) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 3, 0, &intermediateFields, &intermediateModel_param, &intermediateReferencedFields);
 
-		zephir_get_strval(intermediateModel, intermediateModel_param);
+		if (Z_TYPE_P(intermediateModel_param) != IS_STRING) {
+				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'intermediateModel' must be a string") TSRMLS_CC);
+		}
+
+		intermediateModel = intermediateModel_param;
 
 
 	zephir_update_property_this(this_ptr, SL("_intermediateFields"), intermediateFields TSRMLS_CC);

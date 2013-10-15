@@ -131,7 +131,11 @@ PHP_METHOD(Phalcon_Annotations_Adapter_Files, write) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &key_param, &data);
 
-		zephir_get_strval(key, key_param);
+		if (Z_TYPE_P(key_param) != IS_STRING) {
+				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'key' must be a string") TSRMLS_CC);
+		}
+
+		key = key_param;
 
 
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_annotationsDir"), PH_NOISY_CC);

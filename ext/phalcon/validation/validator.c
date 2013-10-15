@@ -120,7 +120,11 @@ PHP_METHOD(Phalcon_Validation_Validator, getOption) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &key_param);
 
-		zephir_get_strval(key, key_param);
+		if (Z_TYPE_P(key_param) != IS_STRING) {
+				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'key' must be a string") TSRMLS_CC);
+		}
+
+		key = key_param;
 
 
 	options = zephir_fetch_nproperty_this(this_ptr, SL("_options"), PH_NOISY_CC);
@@ -147,7 +151,11 @@ PHP_METHOD(Phalcon_Validation_Validator, setOption) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &key_param, &value);
 
-		zephir_get_strval(key, key_param);
+		if (Z_TYPE_P(key_param) != IS_STRING) {
+				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'key' must be a string") TSRMLS_CC);
+		}
+
+		key = key_param;
 
 
 	zephir_update_property_array(this_ptr, SL("_options"), key, value TSRMLS_CC);

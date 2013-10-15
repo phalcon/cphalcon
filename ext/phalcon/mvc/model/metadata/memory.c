@@ -88,7 +88,11 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Memory, read) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &key_param);
 
-		zephir_get_strval(key, key_param);
+		if (Z_TYPE_P(key_param) != IS_STRING) {
+				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'key' must be a string") TSRMLS_CC);
+		}
+
+		key = key_param;
 
 
 	RETURN_MM_NULL();
@@ -109,7 +113,11 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Memory, write) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &key_param, &metaData);
 
-		zephir_get_strval(key, key_param);
+		if (Z_TYPE_P(key_param) != IS_STRING) {
+				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'key' must be a string") TSRMLS_CC);
+		}
+
+		key = key_param;
 
 
 	RETURN_MM_NULL();

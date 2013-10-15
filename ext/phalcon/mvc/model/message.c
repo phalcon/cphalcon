@@ -93,7 +93,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Message, __construct) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 3, &message_param, &field, &type, &model);
 
-		zephir_get_strval(message, message_param);
+		if (Z_TYPE_P(message_param) != IS_STRING) {
+				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'message' must be a string") TSRMLS_CC);
+		}
+
+		message = message_param;
 	if (!field) {
 		ZEPHIR_CPY_WRT(field, ZEPHIR_GLOBAL(global_null));
 	}
@@ -129,7 +133,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Message, setType) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &type_param);
 
-		zephir_get_strval(type, type_param);
+		if (Z_TYPE_P(type_param) != IS_STRING) {
+				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'type' must be a string") TSRMLS_CC);
+		}
+
+		type = type_param;
 
 
 	zephir_update_property_this(this_ptr, SL("_type"), type TSRMLS_CC);
@@ -163,7 +171,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Message, setMessage) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &message_param);
 
-		zephir_get_strval(message, message_param);
+		if (Z_TYPE_P(message_param) != IS_STRING) {
+				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'message' must be a string") TSRMLS_CC);
+		}
+
+		message = message_param;
 
 
 	zephir_update_property_this(this_ptr, SL("_message"), message TSRMLS_CC);
@@ -197,7 +209,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Message, setField) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &field_param);
 
-		zephir_get_strval(field, field_param);
+		if (Z_TYPE_P(field_param) != IS_STRING) {
+				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'field' must be a string") TSRMLS_CC);
+		}
+
+		field = field_param;
 
 
 	zephir_update_property_this(this_ptr, SL("_field"), field TSRMLS_CC);

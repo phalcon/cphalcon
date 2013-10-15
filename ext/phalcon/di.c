@@ -119,7 +119,11 @@ PHP_METHOD(Phalcon_Di, set) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 1, &name_param, &definition, &shared);
 
-		zephir_get_strval(name, name_param);
+		if (Z_TYPE_P(name_param) != IS_STRING) {
+				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'name' must be a string") TSRMLS_CC);
+		}
+
+		name = name_param;
 	if (!shared) {
 		ZEPHIR_CPY_WRT(shared, ZEPHIR_GLOBAL(global_false));
 	}
@@ -148,7 +152,11 @@ PHP_METHOD(Phalcon_Di, setShared) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &name_param, &definition);
 
-		zephir_get_strval(name, name_param);
+		if (Z_TYPE_P(name_param) != IS_STRING) {
+				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'name' must be a string") TSRMLS_CC);
+		}
+
+		name = name_param;
 
 
 	ZEPHIR_INIT_VAR(service);
@@ -172,7 +180,11 @@ PHP_METHOD(Phalcon_Di, remove) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &name_param);
 
-		zephir_get_strval(name, name_param);
+		if (Z_TYPE_P(name_param) != IS_STRING) {
+				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'name' must be a string") TSRMLS_CC);
+		}
+
+		name = name_param;
 
 
 
@@ -197,7 +209,11 @@ PHP_METHOD(Phalcon_Di, attempt) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 1, &name_param, &definition, &shared_param);
 
-		zephir_get_strval(name, name_param);
+		if (Z_TYPE_P(name_param) != IS_STRING) {
+				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'name' must be a string") TSRMLS_CC);
+		}
+
+		name = name_param;
 	if (!shared_param) {
 		shared = 0;
 	} else {
@@ -232,7 +248,11 @@ PHP_METHOD(Phalcon_Di, setRaw) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &name_param, &rawDefinition);
 
-		zephir_get_strval(name, name_param);
+		if (Z_TYPE_P(name_param) != IS_STRING) {
+				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'name' must be a string") TSRMLS_CC);
+		}
+
+		name = name_param;
 
 
 	zephir_update_property_array(this_ptr, SL("_services"), name, rawDefinition TSRMLS_CC);
@@ -254,7 +274,11 @@ PHP_METHOD(Phalcon_Di, getRaw) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &name_param);
 
-		zephir_get_strval(name, name_param);
+		if (Z_TYPE_P(name_param) != IS_STRING) {
+				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'name' must be a string") TSRMLS_CC);
+		}
+
+		name = name_param;
 
 
 	services = zephir_fetch_nproperty_this(this_ptr, SL("_services"), PH_NOISY_CC);
@@ -288,7 +312,11 @@ PHP_METHOD(Phalcon_Di, getService) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &name_param);
 
-		zephir_get_strval(name, name_param);
+		if (Z_TYPE_P(name_param) != IS_STRING) {
+				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'name' must be a string") TSRMLS_CC);
+		}
+
+		name = name_param;
 
 
 	services = zephir_fetch_nproperty_this(this_ptr, SL("_services"), PH_NOISY_CC);
@@ -321,7 +349,11 @@ PHP_METHOD(Phalcon_Di, get) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 1, &name_param, &parameters);
 
-		zephir_get_strval(name, name_param);
+		if (Z_TYPE_P(name_param) != IS_STRING) {
+				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'name' must be a string") TSRMLS_CC);
+		}
+
+		name = name_param;
 	if (!parameters) {
 		ZEPHIR_CPY_WRT(parameters, ZEPHIR_GLOBAL(global_null));
 	}
@@ -387,7 +419,11 @@ PHP_METHOD(Phalcon_Di, getShared) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 1, &name_param, &parameters);
 
-		zephir_get_strval(name, name_param);
+		if (Z_TYPE_P(name_param) != IS_STRING) {
+				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'name' must be a string") TSRMLS_CC);
+		}
+
+		name = name_param;
 	if (!parameters) {
 		ZEPHIR_CPY_WRT(parameters, ZEPHIR_GLOBAL(global_null));
 	}
@@ -421,7 +457,11 @@ PHP_METHOD(Phalcon_Di, has) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &name_param);
 
-		zephir_get_strval(name, name_param);
+		if (Z_TYPE_P(name_param) != IS_STRING) {
+				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'name' must be a string") TSRMLS_CC);
+		}
+
+		name = name_param;
 
 
 	services = zephir_fetch_nproperty_this(this_ptr, SL("_services"), PH_NOISY_CC);
@@ -467,7 +507,11 @@ PHP_METHOD(Phalcon_Di, offsetExists) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &name_param);
 
-		zephir_get_strval(name, name_param);
+		if (Z_TYPE_P(name_param) != IS_STRING) {
+				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'name' must be a string") TSRMLS_CC);
+		}
+
+		name = name_param;
 
 
 	zephir_call_method_p1(return_value, this_ptr, "has", name);
@@ -494,7 +538,11 @@ PHP_METHOD(Phalcon_Di, offsetSet) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &name_param, &definition);
 
-		zephir_get_strval(name, name_param);
+		if (Z_TYPE_P(name_param) != IS_STRING) {
+				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'name' must be a string") TSRMLS_CC);
+		}
+
+		name = name_param;
 
 
 	zephir_call_method_p2_noret(this_ptr, "setshared", name, definition);
@@ -520,7 +568,11 @@ PHP_METHOD(Phalcon_Di, offsetGet) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &name_param);
 
-		zephir_get_strval(name, name_param);
+		if (Z_TYPE_P(name_param) != IS_STRING) {
+				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'name' must be a string") TSRMLS_CC);
+		}
+
+		name = name_param;
 
 
 	zephir_call_method_p1(return_value, this_ptr, "getshared", name);
@@ -541,7 +593,11 @@ PHP_METHOD(Phalcon_Di, offsetUnset) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &name_param);
 
-		zephir_get_strval(name, name_param);
+		if (Z_TYPE_P(name_param) != IS_STRING) {
+				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'name' must be a string") TSRMLS_CC);
+		}
+
+		name = name_param;
 
 
 	RETURN_MM_BOOL(0);
@@ -563,7 +619,11 @@ PHP_METHOD(Phalcon_Di, __call) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 1, &method_param, &arguments);
 
-		zephir_get_strval(method, method_param);
+		if (Z_TYPE_P(method_param) != IS_STRING) {
+				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'method' must be a string") TSRMLS_CC);
+		}
+
+		method = method_param;
 	if (!arguments) {
 		ZEPHIR_CPY_WRT(arguments, ZEPHIR_GLOBAL(global_null));
 	}

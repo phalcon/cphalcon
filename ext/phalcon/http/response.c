@@ -349,7 +349,7 @@ PHP_METHOD(Phalcon_Http_Response, resetHeaders) {
 PHP_METHOD(Phalcon_Http_Response, setExpires) {
 
 	zend_class_entry *_1;
-	zval *datetime, *headers, *date = NULL, *_0, *_2, *_3;
+	zval *datetime, *headers, *date = NULL, *_0, *_2, *_3, *_4;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &datetime);
@@ -367,15 +367,15 @@ PHP_METHOD(Phalcon_Http_Response, setExpires) {
 	ZVAL_STRING(_2, "UTC", 1);
 	zephir_call_method_p1_noret(_0, "__construct", _2);
 	zephir_call_method_p1_noret(date, "settimezone", _0);
-	ZEPHIR_INIT_BNVAR(_0);
 	ZEPHIR_INIT_BNVAR(_2);
-	ZVAL_STRING(_2, "D, d M Y H:i:s", 1);
-	zephir_call_method_p1(_0, date, "format", _2);
 	ZEPHIR_INIT_VAR(_3);
-	ZEPHIR_CONCAT_VS(_3, _0, " GMT");
-	ZEPHIR_INIT_BNVAR(_2);
-	ZVAL_STRING(_2, "Expires", 1);
-	zephir_call_method_p2_noret(this_ptr, "setheader", _2, _3);
+	ZVAL_STRING(_3, "D, d M Y H:i:s", 1);
+	zephir_call_method_p1(_2, date, "format", _3);
+	ZEPHIR_INIT_VAR(_4);
+	ZEPHIR_CONCAT_VS(_4, _2, " GMT");
+	ZEPHIR_INIT_BNVAR(_3);
+	ZVAL_STRING(_3, "Expires", 1);
+	zephir_call_method_p2_noret(this_ptr, "setheader", _3, _4);
 	RETURN_THIS();
 
 }
