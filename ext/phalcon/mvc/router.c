@@ -102,7 +102,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Router) {
  */
 PHP_METHOD(Phalcon_Mvc_Router, __construct) {
 
-	zval *defaultRoutes_param = NULL, *routes, *_0 = NULL, *_1 = NULL, *_2 = NULL, *_3, *_4;
+	zval *defaultRoutes_param = NULL, *routes, *_0 = NULL, *_1 = NULL, *_2 = NULL, *_3;
 	zend_bool defaultRoutes;
 
 	ZEPHIR_MM_GROW();
@@ -127,17 +127,17 @@ PHP_METHOD(Phalcon_Mvc_Router, __construct) {
 		ZVAL_STRING(_2, "#^/([a-zA-Z0-9\\_\\-]+)[/]{0,1}$#", 1);
 		zephir_call_method_p2_noret(_0, "__construct", _2, _1);
 		zephir_array_append(&routes, _0, PH_SEPARATE);
+		ZEPHIR_INIT_NVAR(_0);
+		object_init_ex(_0, phalcon_mvc_router_route_ce);
 		ZEPHIR_INIT_NVAR(_2);
-		object_init_ex(_2, phalcon_mvc_router_route_ce);
+		array_init(_2);
+		add_assoc_long_ex(_2, SS("controller"), 1);
+		add_assoc_long_ex(_2, SS("action"), 2);
+		add_assoc_long_ex(_2, SS("params"), 3);
 		ZEPHIR_INIT_VAR(_3);
-		array_init(_3);
-		add_assoc_long_ex(_3, SS("controller"), 1);
-		add_assoc_long_ex(_3, SS("action"), 2);
-		add_assoc_long_ex(_3, SS("params"), 3);
-		ZEPHIR_INIT_VAR(_4);
-		ZVAL_STRING(_4, "#^/([a-zA-Z0-9\\_\\-]+)/([a-zA-Z0-9\\.\\_]+)(/.*)*$#", 1);
-		zephir_call_method_p2_noret(_2, "__construct", _4, _3);
-		zephir_array_append(&routes, _2, PH_SEPARATE);
+		ZVAL_STRING(_3, "#^/([a-zA-Z0-9\\_\\-]+)/([a-zA-Z0-9\\.\\_]+)(/.*)*$#", 1);
+		zephir_call_method_p2_noret(_0, "__construct", _3, _2);
+		zephir_array_append(&routes, _0, PH_SEPARATE);
 	}
 	ZEPHIR_INIT_NVAR(_0);
 	array_init(_0);

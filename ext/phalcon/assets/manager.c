@@ -150,7 +150,7 @@ PHP_METHOD(Phalcon_Assets_Manager, useImplicitOutput) {
  */
 PHP_METHOD(Phalcon_Assets_Manager, addCss) {
 
-	zval *path_param = NULL, *local = NULL, *filter = NULL, *attributes, *_0, *_1;
+	zval *path_param = NULL, *local = NULL, *filter = NULL, *attributes, *_0;
 	zval *path = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -168,9 +168,9 @@ PHP_METHOD(Phalcon_Assets_Manager, addCss) {
 	ZEPHIR_INIT_VAR(_0);
 	object_init_ex(_0, phalcon_assets_resource_js_ce);
 	zephir_call_method_p4_noret(_0, "__construct", path, local, filter, attributes);
-	ZEPHIR_INIT_VAR(_1);
-	ZVAL_STRING(_1, "css", 1);
-	zephir_call_method_p2_noret(this_ptr, "addresourcebytype", _1, _0);
+	ZEPHIR_INIT_BNVAR(_0);
+	ZVAL_STRING(_0, "css", 1);
+	zephir_call_method_p2_noret(this_ptr, "addresourcebytype", _0, _0);
 	ZEPHIR_MM_RESTORE();
 
 }
