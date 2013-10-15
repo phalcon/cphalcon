@@ -12,7 +12,8 @@
 #include <Zend/zend_interfaces.h>
 
 #include "kernel/main.h"
-#include "kernel/operators.h"
+#include "ext/spl/spl_exceptions.h"
+#include "kernel/exception.h"
 #include "kernel/memory.h"
 
 
@@ -63,6 +64,7 @@ PHP_METHOD(Phalcon_Assets_Filters_None, filter) {
 
 		if (Z_TYPE_P(content_param) != IS_STRING) {
 				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'content' must be a string") TSRMLS_CC);
+				RETURN_MM_NULL();
 		}
 
 		content = content_param;

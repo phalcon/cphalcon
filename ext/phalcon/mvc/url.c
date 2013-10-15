@@ -15,10 +15,11 @@
 #include "kernel/object.h"
 #include "kernel/memory.h"
 #include "kernel/operators.h"
+#include "ext/spl/spl_exceptions.h"
+#include "kernel/exception.h"
 #include "kernel/array.h"
 #include "kernel/fcall.h"
 #include "kernel/concat.h"
-#include "kernel/exception.h"
 
 
 /*
@@ -117,6 +118,7 @@ PHP_METHOD(Phalcon_Mvc_Url, setBaseUri) {
 
 		if (Z_TYPE_P(baseUri_param) != IS_STRING) {
 				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'baseUri' must be a string") TSRMLS_CC);
+				RETURN_MM_NULL();
 		}
 
 		baseUri = baseUri_param;
@@ -151,6 +153,7 @@ PHP_METHOD(Phalcon_Mvc_Url, setStaticBaseUri) {
 
 		if (Z_TYPE_P(staticBaseUri_param) != IS_STRING) {
 				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'staticBaseUri' must be a string") TSRMLS_CC);
+				RETURN_MM_NULL();
 		}
 
 		staticBaseUri = staticBaseUri_param;
@@ -234,6 +237,7 @@ PHP_METHOD(Phalcon_Mvc_Url, setBasePath) {
 
 		if (Z_TYPE_P(basePath_param) != IS_STRING) {
 				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'basePath' must be a string") TSRMLS_CC);
+				RETURN_MM_NULL();
 		}
 
 		basePath = basePath_param;

@@ -19,6 +19,7 @@
 #include "kernel/operators.h"
 #include "kernel/array.h"
 #include "kernel/concat.h"
+#include "ext/spl/spl_exceptions.h"
 
 
 /*
@@ -154,6 +155,7 @@ PHP_METHOD(Phalcon_Di_Injectable, __get) {
 
 		if (Z_TYPE_P(propertyName_param) != IS_STRING) {
 				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'propertyName' must be a string") TSRMLS_CC);
+				RETURN_MM_NULL();
 		}
 
 		propertyName = propertyName_param;

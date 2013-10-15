@@ -21,6 +21,7 @@
 #include "kernel/exception.h"
 #include "kernel/hash.h"
 #include "kernel/string.h"
+#include "ext/spl/spl_exceptions.h"
 
 
 /*
@@ -730,6 +731,7 @@ PHP_METHOD(Phalcon_Db_Adapter, limit) {
 
 		if (Z_TYPE_P(sqlQuery_param) != IS_STRING) {
 				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'sqlQuery' must be a string") TSRMLS_CC);
+				RETURN_MM_NULL();
 		}
 
 		sqlQuery = sqlQuery_param;
@@ -765,6 +767,7 @@ PHP_METHOD(Phalcon_Db_Adapter, tableExists) {
 
 		if (Z_TYPE_P(tableName_param) != IS_STRING) {
 				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'tableName' must be a string") TSRMLS_CC);
+				RETURN_MM_NULL();
 		}
 
 		tableName = tableName_param;
@@ -809,6 +812,7 @@ PHP_METHOD(Phalcon_Db_Adapter, viewExists) {
 
 		if (Z_TYPE_P(viewName_param) != IS_STRING) {
 				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'viewName' must be a string") TSRMLS_CC);
+				RETURN_MM_NULL();
 		}
 
 		viewName = viewName_param;
@@ -845,6 +849,7 @@ PHP_METHOD(Phalcon_Db_Adapter, forUpdate) {
 
 		if (Z_TYPE_P(sqlQuery_param) != IS_STRING) {
 				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'sqlQuery' must be a string") TSRMLS_CC);
+				RETURN_MM_NULL();
 		}
 
 		sqlQuery = sqlQuery_param;
@@ -872,6 +877,7 @@ PHP_METHOD(Phalcon_Db_Adapter, sharedLock) {
 
 		if (Z_TYPE_P(sqlQuery_param) != IS_STRING) {
 				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'sqlQuery' must be a string") TSRMLS_CC);
+				RETURN_MM_NULL();
 		}
 
 		sqlQuery = sqlQuery_param;
@@ -901,11 +907,13 @@ PHP_METHOD(Phalcon_Db_Adapter, createTable) {
 
 		if (Z_TYPE_P(tableName_param) != IS_STRING) {
 				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'tableName' must be a string") TSRMLS_CC);
+				RETURN_MM_NULL();
 		}
 
 		tableName = tableName_param;
 		if (Z_TYPE_P(schemaName_param) != IS_STRING) {
 				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'schemaName' must be a string") TSRMLS_CC);
+				RETURN_MM_NULL();
 		}
 
 		schemaName = schemaName_param;
@@ -955,6 +963,7 @@ PHP_METHOD(Phalcon_Db_Adapter, dropTable) {
 
 		if (Z_TYPE_P(tableName_param) != IS_STRING) {
 				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'tableName' must be a string") TSRMLS_CC);
+				RETURN_MM_NULL();
 		}
 
 		tableName = tableName_param;
@@ -995,6 +1004,7 @@ PHP_METHOD(Phalcon_Db_Adapter, createView) {
 
 		if (Z_TYPE_P(viewName_param) != IS_STRING) {
 				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'viewName' must be a string") TSRMLS_CC);
+				RETURN_MM_NULL();
 		}
 
 		viewName = viewName_param;
@@ -1043,6 +1053,7 @@ PHP_METHOD(Phalcon_Db_Adapter, dropView) {
 
 		if (Z_TYPE_P(viewName_param) != IS_STRING) {
 				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'viewName' must be a string") TSRMLS_CC);
+				RETURN_MM_NULL();
 		}
 
 		viewName = viewName_param;
@@ -1083,11 +1094,13 @@ PHP_METHOD(Phalcon_Db_Adapter, addColumn) {
 
 		if (Z_TYPE_P(tableName_param) != IS_STRING) {
 				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'tableName' must be a string") TSRMLS_CC);
+				RETURN_MM_NULL();
 		}
 
 		tableName = tableName_param;
 		if (Z_TYPE_P(schemaName_param) != IS_STRING) {
 				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'schemaName' must be a string") TSRMLS_CC);
+				RETURN_MM_NULL();
 		}
 
 		schemaName = schemaName_param;
@@ -1119,11 +1132,13 @@ PHP_METHOD(Phalcon_Db_Adapter, modifyColumn) {
 
 		if (Z_TYPE_P(tableName_param) != IS_STRING) {
 				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'tableName' must be a string") TSRMLS_CC);
+				RETURN_MM_NULL();
 		}
 
 		tableName = tableName_param;
 		if (Z_TYPE_P(schemaName_param) != IS_STRING) {
 				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'schemaName' must be a string") TSRMLS_CC);
+				RETURN_MM_NULL();
 		}
 
 		schemaName = schemaName_param;
@@ -1155,11 +1170,13 @@ PHP_METHOD(Phalcon_Db_Adapter, dropColumn) {
 
 		if (Z_TYPE_P(tableName_param) != IS_STRING) {
 				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'tableName' must be a string") TSRMLS_CC);
+				RETURN_MM_NULL();
 		}
 
 		tableName = tableName_param;
 		if (Z_TYPE_P(schemaName_param) != IS_STRING) {
 				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'schemaName' must be a string") TSRMLS_CC);
+				RETURN_MM_NULL();
 		}
 
 		schemaName = schemaName_param;
@@ -1192,11 +1209,13 @@ PHP_METHOD(Phalcon_Db_Adapter, addIndex) {
 
 		if (Z_TYPE_P(tableName_param) != IS_STRING) {
 				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'tableName' must be a string") TSRMLS_CC);
+				RETURN_MM_NULL();
 		}
 
 		tableName = tableName_param;
 		if (Z_TYPE_P(schemaName_param) != IS_STRING) {
 				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'schemaName' must be a string") TSRMLS_CC);
+				RETURN_MM_NULL();
 		}
 
 		schemaName = schemaName_param;
@@ -1228,11 +1247,13 @@ PHP_METHOD(Phalcon_Db_Adapter, dropIndex) {
 
 		if (Z_TYPE_P(tableName_param) != IS_STRING) {
 				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'tableName' must be a string") TSRMLS_CC);
+				RETURN_MM_NULL();
 		}
 
 		tableName = tableName_param;
 		if (Z_TYPE_P(schemaName_param) != IS_STRING) {
 				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'schemaName' must be a string") TSRMLS_CC);
+				RETURN_MM_NULL();
 		}
 
 		schemaName = schemaName_param;
@@ -1264,11 +1285,13 @@ PHP_METHOD(Phalcon_Db_Adapter, addPrimaryKey) {
 
 		if (Z_TYPE_P(tableName_param) != IS_STRING) {
 				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'tableName' must be a string") TSRMLS_CC);
+				RETURN_MM_NULL();
 		}
 
 		tableName = tableName_param;
 		if (Z_TYPE_P(schemaName_param) != IS_STRING) {
 				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'schemaName' must be a string") TSRMLS_CC);
+				RETURN_MM_NULL();
 		}
 
 		schemaName = schemaName_param;
@@ -1299,11 +1322,13 @@ PHP_METHOD(Phalcon_Db_Adapter, dropPrimaryKey) {
 
 		if (Z_TYPE_P(tableName_param) != IS_STRING) {
 				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'tableName' must be a string") TSRMLS_CC);
+				RETURN_MM_NULL();
 		}
 
 		tableName = tableName_param;
 		if (Z_TYPE_P(schemaName_param) != IS_STRING) {
 				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'schemaName' must be a string") TSRMLS_CC);
+				RETURN_MM_NULL();
 		}
 
 		schemaName = schemaName_param;
@@ -1335,11 +1360,13 @@ PHP_METHOD(Phalcon_Db_Adapter, addForeignKey) {
 
 		if (Z_TYPE_P(tableName_param) != IS_STRING) {
 				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'tableName' must be a string") TSRMLS_CC);
+				RETURN_MM_NULL();
 		}
 
 		tableName = tableName_param;
 		if (Z_TYPE_P(schemaName_param) != IS_STRING) {
 				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'schemaName' must be a string") TSRMLS_CC);
+				RETURN_MM_NULL();
 		}
 
 		schemaName = schemaName_param;
@@ -1371,11 +1398,13 @@ PHP_METHOD(Phalcon_Db_Adapter, dropForeignKey) {
 
 		if (Z_TYPE_P(tableName_param) != IS_STRING) {
 				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'tableName' must be a string") TSRMLS_CC);
+				RETURN_MM_NULL();
 		}
 
 		tableName = tableName_param;
 		if (Z_TYPE_P(schemaName_param) != IS_STRING) {
 				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'schemaName' must be a string") TSRMLS_CC);
+				RETURN_MM_NULL();
 		}
 
 		schemaName = schemaName_param;
@@ -1535,6 +1564,7 @@ PHP_METHOD(Phalcon_Db_Adapter, describeIndexes) {
 
 		if (Z_TYPE_P(table_param) != IS_STRING) {
 				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'table' must be a string") TSRMLS_CC);
+				RETURN_MM_NULL();
 		}
 
 		table = table_param;
@@ -1607,6 +1637,7 @@ PHP_METHOD(Phalcon_Db_Adapter, describeReferences) {
 
 		if (Z_TYPE_P(table_param) != IS_STRING) {
 				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'table' must be a string") TSRMLS_CC);
+				RETURN_MM_NULL();
 		}
 
 		table = table_param;
@@ -1737,6 +1768,7 @@ PHP_METHOD(Phalcon_Db_Adapter, createSavepoint) {
 
 		if (Z_TYPE_P(name_param) != IS_STRING) {
 				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'name' must be a string") TSRMLS_CC);
+				RETURN_MM_NULL();
 		}
 
 		name = name_param;
@@ -1772,6 +1804,7 @@ PHP_METHOD(Phalcon_Db_Adapter, releaseSavepoint) {
 
 		if (Z_TYPE_P(name_param) != IS_STRING) {
 				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'name' must be a string") TSRMLS_CC);
+				RETURN_MM_NULL();
 		}
 
 		name = name_param;
@@ -1812,6 +1845,7 @@ PHP_METHOD(Phalcon_Db_Adapter, rollbackSavepoint) {
 
 		if (Z_TYPE_P(name_param) != IS_STRING) {
 				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'name' must be a string") TSRMLS_CC);
+				RETURN_MM_NULL();
 		}
 
 		name = name_param;

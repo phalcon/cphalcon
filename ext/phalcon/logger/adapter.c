@@ -17,6 +17,7 @@
 #include "kernel/memory.h"
 #include "kernel/exception.h"
 #include "kernel/fcall.h"
+#include "ext/spl/spl_exceptions.h"
 
 
 /*
@@ -222,6 +223,7 @@ PHP_METHOD(Phalcon_Logger_Adapter, emergence) {
 
 		if (Z_TYPE_P(message_param) != IS_STRING) {
 				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'message' must be a string") TSRMLS_CC);
+				RETURN_MM_NULL();
 		}
 
 		message = message_param;
@@ -250,6 +252,7 @@ PHP_METHOD(Phalcon_Logger_Adapter, debug) {
 
 		if (Z_TYPE_P(message_param) != IS_STRING) {
 				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'message' must be a string") TSRMLS_CC);
+				RETURN_MM_NULL();
 		}
 
 		message = message_param;
@@ -278,6 +281,7 @@ PHP_METHOD(Phalcon_Logger_Adapter, error) {
 
 		if (Z_TYPE_P(message_param) != IS_STRING) {
 				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'message' must be a string") TSRMLS_CC);
+				RETURN_MM_NULL();
 		}
 
 		message = message_param;
@@ -306,6 +310,7 @@ PHP_METHOD(Phalcon_Logger_Adapter, info) {
 
 		if (Z_TYPE_P(message_param) != IS_STRING) {
 				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'message' must be a string") TSRMLS_CC);
+				RETURN_MM_NULL();
 		}
 
 		message = message_param;
@@ -334,6 +339,7 @@ PHP_METHOD(Phalcon_Logger_Adapter, notice) {
 
 		if (Z_TYPE_P(message_param) != IS_STRING) {
 				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'message' must be a string") TSRMLS_CC);
+				RETURN_MM_NULL();
 		}
 
 		message = message_param;
@@ -362,6 +368,7 @@ PHP_METHOD(Phalcon_Logger_Adapter, warning) {
 
 		if (Z_TYPE_P(message_param) != IS_STRING) {
 				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'message' must be a string") TSRMLS_CC);
+				RETURN_MM_NULL();
 		}
 
 		message = message_param;
@@ -390,6 +397,7 @@ PHP_METHOD(Phalcon_Logger_Adapter, alert) {
 
 		if (Z_TYPE_P(message_param) != IS_STRING) {
 				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'message' must be a string") TSRMLS_CC);
+				RETURN_MM_NULL();
 		}
 
 		message = message_param;
@@ -420,6 +428,7 @@ PHP_METHOD(Phalcon_Logger_Adapter, log) {
 
 		if (Z_TYPE_P(message_param) != IS_STRING) {
 				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'message' must be a string") TSRMLS_CC);
+				RETURN_MM_NULL();
 		}
 
 		message = message_param;

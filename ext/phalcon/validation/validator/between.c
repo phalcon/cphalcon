@@ -16,6 +16,8 @@
 #include "kernel/memory.h"
 #include "kernel/operators.h"
 #include "kernel/concat.h"
+#include "ext/spl/spl_exceptions.h"
+#include "kernel/exception.h"
 
 
 /*
@@ -77,6 +79,7 @@ PHP_METHOD(Phalcon_Validation_Validator_Between, validate) {
 
 		if (Z_TYPE_P(attribute_param) != IS_STRING) {
 				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'attribute' must be a string") TSRMLS_CC);
+				RETURN_MM_NULL();
 		}
 
 		attribute = attribute_param;

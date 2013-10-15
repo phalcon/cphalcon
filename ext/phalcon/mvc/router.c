@@ -17,6 +17,7 @@
 #include "kernel/object.h"
 #include "kernel/operators.h"
 #include "kernel/array.h"
+#include "ext/spl/spl_exceptions.h"
 #include "kernel/exception.h"
 #include "kernel/string.h"
 #include "kernel/concat.h"
@@ -277,6 +278,7 @@ PHP_METHOD(Phalcon_Mvc_Router, setDefaultNamespace) {
 
 		if (Z_TYPE_P(namespaceName_param) != IS_STRING) {
 				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'namespaceName' must be a string") TSRMLS_CC);
+				RETURN_MM_NULL();
 		}
 
 		namespaceName = namespaceName_param;
@@ -303,6 +305,7 @@ PHP_METHOD(Phalcon_Mvc_Router, setDefaultModule) {
 
 		if (Z_TYPE_P(moduleName_param) != IS_STRING) {
 				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'moduleName' must be a string") TSRMLS_CC);
+				RETURN_MM_NULL();
 		}
 
 		moduleName = moduleName_param;
@@ -329,6 +332,7 @@ PHP_METHOD(Phalcon_Mvc_Router, setDefaultController) {
 
 		if (Z_TYPE_P(controllerName_param) != IS_STRING) {
 				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'controllerName' must be a string") TSRMLS_CC);
+				RETURN_MM_NULL();
 		}
 
 		controllerName = controllerName_param;
@@ -355,6 +359,7 @@ PHP_METHOD(Phalcon_Mvc_Router, setDefaultAction) {
 
 		if (Z_TYPE_P(actionName_param) != IS_STRING) {
 				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'actionName' must be a string") TSRMLS_CC);
+				RETURN_MM_NULL();
 		}
 
 		actionName = actionName_param;
@@ -715,6 +720,7 @@ PHP_METHOD(Phalcon_Mvc_Router, add) {
 
 		if (Z_TYPE_P(pattern_param) != IS_STRING) {
 				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'pattern' must be a string") TSRMLS_CC);
+				RETURN_MM_NULL();
 		}
 
 		pattern = pattern_param;
@@ -751,6 +757,7 @@ PHP_METHOD(Phalcon_Mvc_Router, addGet) {
 
 		if (Z_TYPE_P(pattern_param) != IS_STRING) {
 				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'pattern' must be a string") TSRMLS_CC);
+				RETURN_MM_NULL();
 		}
 
 		pattern = pattern_param;
@@ -783,6 +790,7 @@ PHP_METHOD(Phalcon_Mvc_Router, addPost) {
 
 		if (Z_TYPE_P(pattern_param) != IS_STRING) {
 				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'pattern' must be a string") TSRMLS_CC);
+				RETURN_MM_NULL();
 		}
 
 		pattern = pattern_param;
@@ -815,6 +823,7 @@ PHP_METHOD(Phalcon_Mvc_Router, addPut) {
 
 		if (Z_TYPE_P(pattern_param) != IS_STRING) {
 				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'pattern' must be a string") TSRMLS_CC);
+				RETURN_MM_NULL();
 		}
 
 		pattern = pattern_param;
@@ -847,6 +856,7 @@ PHP_METHOD(Phalcon_Mvc_Router, addPatch) {
 
 		if (Z_TYPE_P(pattern_param) != IS_STRING) {
 				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'pattern' must be a string") TSRMLS_CC);
+				RETURN_MM_NULL();
 		}
 
 		pattern = pattern_param;
@@ -879,6 +889,7 @@ PHP_METHOD(Phalcon_Mvc_Router, addDelete) {
 
 		if (Z_TYPE_P(pattern_param) != IS_STRING) {
 				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'pattern' must be a string") TSRMLS_CC);
+				RETURN_MM_NULL();
 		}
 
 		pattern = pattern_param;
@@ -911,6 +922,7 @@ PHP_METHOD(Phalcon_Mvc_Router, addOptions) {
 
 		if (Z_TYPE_P(pattern_param) != IS_STRING) {
 				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'pattern' must be a string") TSRMLS_CC);
+				RETURN_MM_NULL();
 		}
 
 		pattern = pattern_param;
@@ -943,6 +955,7 @@ PHP_METHOD(Phalcon_Mvc_Router, addHead) {
 
 		if (Z_TYPE_P(pattern_param) != IS_STRING) {
 				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'pattern' must be a string") TSRMLS_CC);
+				RETURN_MM_NULL();
 		}
 
 		pattern = pattern_param;
@@ -1225,6 +1238,7 @@ PHP_METHOD(Phalcon_Mvc_Router, getRouteByName) {
 
 		if (Z_TYPE_P(name_param) != IS_STRING) {
 				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'name' must be a string") TSRMLS_CC);
+				RETURN_MM_NULL();
 		}
 
 		name = name_param;

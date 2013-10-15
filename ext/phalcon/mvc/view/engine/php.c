@@ -15,6 +15,8 @@
 #include "kernel/fcall.h"
 #include "kernel/memory.h"
 #include "kernel/object.h"
+#include "ext/spl/spl_exceptions.h"
+#include "kernel/exception.h"
 #include "kernel/operators.h"
 
 
@@ -68,6 +70,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Php, render) {
 
 		if (Z_TYPE_P(path_param) != IS_STRING) {
 				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'path' must be a string") TSRMLS_CC);
+				RETURN_MM_NULL();
 		}
 
 		path = path_param;

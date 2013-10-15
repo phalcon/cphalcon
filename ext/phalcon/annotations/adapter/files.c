@@ -19,6 +19,7 @@
 #include "kernel/fcall.h"
 #include "kernel/operators.h"
 #include "kernel/exception.h"
+#include "ext/spl/spl_exceptions.h"
 
 
 /*
@@ -133,6 +134,7 @@ PHP_METHOD(Phalcon_Annotations_Adapter_Files, write) {
 
 		if (Z_TYPE_P(key_param) != IS_STRING) {
 				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'key' must be a string") TSRMLS_CC);
+				RETURN_MM_NULL();
 		}
 
 		key = key_param;

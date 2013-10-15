@@ -18,6 +18,8 @@
 #include "kernel/operators.h"
 #include "kernel/array.h"
 #include "kernel/concat.h"
+#include "ext/spl/spl_exceptions.h"
+#include "kernel/exception.h"
 
 
 /*
@@ -280,6 +282,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Group, _addRoute) {
 
 		if (Z_TYPE_P(pattern_param) != IS_STRING) {
 				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'pattern' must be a string") TSRMLS_CC);
+				RETURN_MM_NULL();
 		}
 
 		pattern = pattern_param;
@@ -335,6 +338,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Group, add) {
 
 		if (Z_TYPE_P(pattern_param) != IS_STRING) {
 				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'pattern' must be a string") TSRMLS_CC);
+				RETURN_MM_NULL();
 		}
 
 		pattern = pattern_param;
@@ -368,6 +372,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Group, addGet) {
 
 		if (Z_TYPE_P(pattern_param) != IS_STRING) {
 				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'pattern' must be a string") TSRMLS_CC);
+				RETURN_MM_NULL();
 		}
 
 		pattern = pattern_param;
@@ -400,6 +405,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Group, addPost) {
 
 		if (Z_TYPE_P(pattern_param) != IS_STRING) {
 				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'pattern' must be a string") TSRMLS_CC);
+				RETURN_MM_NULL();
 		}
 
 		pattern = pattern_param;
@@ -432,6 +438,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Group, addPut) {
 
 		if (Z_TYPE_P(pattern_param) != IS_STRING) {
 				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'pattern' must be a string") TSRMLS_CC);
+				RETURN_MM_NULL();
 		}
 
 		pattern = pattern_param;
@@ -464,6 +471,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Group, addPatch) {
 
 		if (Z_TYPE_P(pattern_param) != IS_STRING) {
 				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'pattern' must be a string") TSRMLS_CC);
+				RETURN_MM_NULL();
 		}
 
 		pattern = pattern_param;
@@ -496,6 +504,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Group, addDelete) {
 
 		if (Z_TYPE_P(pattern_param) != IS_STRING) {
 				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'pattern' must be a string") TSRMLS_CC);
+				RETURN_MM_NULL();
 		}
 
 		pattern = pattern_param;
@@ -528,6 +537,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Group, addOptions) {
 
 		if (Z_TYPE_P(pattern_param) != IS_STRING) {
 				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'pattern' must be a string") TSRMLS_CC);
+				RETURN_MM_NULL();
 		}
 
 		pattern = pattern_param;

@@ -15,8 +15,9 @@
 #include "kernel/object.h"
 #include "kernel/memory.h"
 #include "kernel/array.h"
-#include "kernel/operators.h"
+#include "ext/spl/spl_exceptions.h"
 #include "kernel/exception.h"
+#include "kernel/operators.h"
 #include "kernel/fcall.h"
 
 
@@ -100,6 +101,7 @@ PHP_METHOD(Phalcon_Validation_Message_Group, offsetGet) {
 
 		if (Z_TYPE_P(index_param) != IS_LONG) {
 				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'index' must be a long/integer") TSRMLS_CC);
+				RETURN_NULL();
 		}
 
 		index = Z_LVAL_P(index_param);
@@ -132,6 +134,7 @@ PHP_METHOD(Phalcon_Validation_Message_Group, offsetSet) {
 
 		if (Z_TYPE_P(index_param) != IS_LONG) {
 				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'index' must be a long/integer") TSRMLS_CC);
+				RETURN_NULL();
 		}
 
 		index = Z_LVAL_P(index_param);
@@ -287,6 +290,7 @@ PHP_METHOD(Phalcon_Validation_Message_Group, filter) {
 
 		if (Z_TYPE_P(fieldName_param) != IS_STRING) {
 				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'fieldName' must be a string") TSRMLS_CC);
+				RETURN_MM_NULL();
 		}
 
 		fieldName = fieldName_param;

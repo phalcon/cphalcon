@@ -15,7 +15,8 @@
 #include "kernel/object.h"
 #include "kernel/memory.h"
 #include "kernel/fcall.h"
-#include "kernel/operators.h"
+#include "ext/spl/spl_exceptions.h"
+#include "kernel/exception.h"
 
 
 /*
@@ -109,6 +110,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine, partial) {
 
 		if (Z_TYPE_P(partialPath_param) != IS_STRING) {
 				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'partialPath' must be a string") TSRMLS_CC);
+				RETURN_MM_NULL();
 		}
 
 		partialPath = partialPath_param;

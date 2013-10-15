@@ -18,6 +18,8 @@
 #include "kernel/string.h"
 #include "kernel/fcall.h"
 #include "kernel/concat.h"
+#include "ext/spl/spl_exceptions.h"
+#include "kernel/exception.h"
 
 
 /*
@@ -169,6 +171,7 @@ PHP_METHOD(Phalcon_Logger_Formatter_Line, format) {
 
 		if (Z_TYPE_P(message_param) != IS_STRING) {
 				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'message' must be a string") TSRMLS_CC);
+				RETURN_MM_NULL();
 		}
 
 		message = message_param;

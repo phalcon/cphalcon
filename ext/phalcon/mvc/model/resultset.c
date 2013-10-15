@@ -17,6 +17,7 @@
 #include "kernel/memory.h"
 #include "kernel/fcall.h"
 #include "kernel/exception.h"
+#include "ext/spl/spl_exceptions.h"
 #include "kernel/array.h"
 
 
@@ -320,6 +321,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, offsetGet) {
 
 		if (Z_TYPE_P(index_param) != IS_LONG) {
 				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'index' must be a long/integer") TSRMLS_CC);
+				RETURN_MM_NULL();
 		}
 
 		index = Z_LVAL_P(index_param);

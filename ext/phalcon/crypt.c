@@ -13,7 +13,8 @@
 
 #include "kernel/main.h"
 #include "kernel/object.h"
-#include "kernel/operators.h"
+#include "ext/spl/spl_exceptions.h"
+#include "kernel/exception.h"
 #include "kernel/memory.h"
 #include "kernel/fcall.h"
 
@@ -81,6 +82,7 @@ PHP_METHOD(Phalcon_Crypt, setCipher) {
 
 		if (Z_TYPE_P(cipher_param) != IS_STRING) {
 				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'cipher' must be a string") TSRMLS_CC);
+				RETURN_MM_NULL();
 		}
 
 		cipher = cipher_param;
@@ -150,6 +152,7 @@ PHP_METHOD(Phalcon_Crypt, setKey) {
 
 		if (Z_TYPE_P(key_param) != IS_STRING) {
 				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'key' must be a string") TSRMLS_CC);
+				RETURN_MM_NULL();
 		}
 
 		key = key_param;
@@ -193,6 +196,7 @@ PHP_METHOD(Phalcon_Crypt, encrypt) {
 
 		if (Z_TYPE_P(text_param) != IS_STRING) {
 				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'text' must be a string") TSRMLS_CC);
+				RETURN_MM_NULL();
 		}
 
 		text = text_param;
@@ -225,6 +229,7 @@ PHP_METHOD(Phalcon_Crypt, decrypt) {
 
 		if (Z_TYPE_P(text_param) != IS_STRING) {
 				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'text' must be a string") TSRMLS_CC);
+				RETURN_MM_NULL();
 		}
 
 		text = text_param;
@@ -253,6 +258,7 @@ PHP_METHOD(Phalcon_Crypt, encryptBase64) {
 
 		if (Z_TYPE_P(text_param) != IS_STRING) {
 				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'text' must be a string") TSRMLS_CC);
+				RETURN_MM_NULL();
 		}
 
 		text = text_param;
@@ -281,6 +287,7 @@ PHP_METHOD(Phalcon_Crypt, decryptBase64) {
 
 		if (Z_TYPE_P(text_param) != IS_STRING) {
 				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'text' must be a string") TSRMLS_CC);
+				RETURN_MM_NULL();
 		}
 
 		text = text_param;

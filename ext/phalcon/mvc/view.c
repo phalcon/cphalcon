@@ -16,6 +16,7 @@
 #include "kernel/memory.h"
 #include "kernel/operators.h"
 #include "kernel/array.h"
+#include "ext/spl/spl_exceptions.h"
 #include "kernel/exception.h"
 #include "kernel/fcall.h"
 #include "kernel/hash.h"
@@ -518,6 +519,7 @@ PHP_METHOD(Phalcon_Mvc_View, setParamToView) {
 
 		if (Z_TYPE_P(key_param) != IS_STRING) {
 				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'key' must be a string") TSRMLS_CC);
+				RETURN_MM_NULL();
 		}
 
 		key = key_param;
@@ -595,6 +597,7 @@ PHP_METHOD(Phalcon_Mvc_View, setVar) {
 
 		if (Z_TYPE_P(key_param) != IS_STRING) {
 				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'key' must be a string") TSRMLS_CC);
+				RETURN_MM_NULL();
 		}
 
 		key = key_param;
@@ -621,6 +624,7 @@ PHP_METHOD(Phalcon_Mvc_View, getVar) {
 
 		if (Z_TYPE_P(key_param) != IS_STRING) {
 				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'key' must be a string") TSRMLS_CC);
+				RETURN_MM_NULL();
 		}
 
 		key = key_param;
@@ -962,11 +966,13 @@ PHP_METHOD(Phalcon_Mvc_View, render) {
 
 		if (Z_TYPE_P(controllerName_param) != IS_STRING) {
 				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'controllerName' must be a string") TSRMLS_CC);
+				RETURN_MM_NULL();
 		}
 
 		controllerName = controllerName_param;
 		if (Z_TYPE_P(actionName_param) != IS_STRING) {
 				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'actionName' must be a string") TSRMLS_CC);
+				RETURN_MM_NULL();
 		}
 
 		actionName = actionName_param;
@@ -1203,6 +1209,7 @@ PHP_METHOD(Phalcon_Mvc_View, partial) {
 
 		if (Z_TYPE_P(partialPath_param) != IS_STRING) {
 				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'partialPath' must be a string") TSRMLS_CC);
+				RETURN_MM_NULL();
 		}
 
 		partialPath = partialPath_param;

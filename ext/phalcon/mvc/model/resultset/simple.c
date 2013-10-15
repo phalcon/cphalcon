@@ -20,6 +20,7 @@
 #include "kernel/array.h"
 #include "kernel/exception.h"
 #include "kernel/concat.h"
+#include "ext/spl/spl_exceptions.h"
 
 
 /*
@@ -334,6 +335,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, unserialize) {
 
 		if (Z_TYPE_P(data_param) != IS_STRING) {
 				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'data' must be a string") TSRMLS_CC);
+				RETURN_MM_NULL();
 		}
 
 		data = data_param;

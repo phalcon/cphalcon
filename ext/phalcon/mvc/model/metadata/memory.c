@@ -14,7 +14,8 @@
 #include "kernel/main.h"
 #include "kernel/memory.h"
 #include "kernel/object.h"
-#include "kernel/operators.h"
+#include "ext/spl/spl_exceptions.h"
+#include "kernel/exception.h"
 
 
 /*
@@ -90,6 +91,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Memory, read) {
 
 		if (Z_TYPE_P(key_param) != IS_STRING) {
 				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'key' must be a string") TSRMLS_CC);
+				RETURN_MM_NULL();
 		}
 
 		key = key_param;
@@ -115,6 +117,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Memory, write) {
 
 		if (Z_TYPE_P(key_param) != IS_STRING) {
 				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'key' must be a string") TSRMLS_CC);
+				RETURN_MM_NULL();
 		}
 
 		key = key_param;

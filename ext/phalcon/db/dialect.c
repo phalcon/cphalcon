@@ -14,11 +14,12 @@
 #include "kernel/main.h"
 #include "kernel/memory.h"
 #include "kernel/concat.h"
+#include "ext/spl/spl_exceptions.h"
+#include "kernel/exception.h"
 #include "kernel/operators.h"
 #include "kernel/object.h"
 #include "kernel/string.h"
 #include "kernel/fcall.h"
-#include "kernel/exception.h"
 #include "kernel/array.h"
 
 
@@ -78,6 +79,7 @@ PHP_METHOD(Phalcon_Db_Dialect, limit) {
 
 		if (Z_TYPE_P(sqlQuery_param) != IS_STRING) {
 				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'sqlQuery' must be a string") TSRMLS_CC);
+				RETURN_MM_NULL();
 		}
 
 		sqlQuery = sqlQuery_param;
@@ -117,6 +119,7 @@ PHP_METHOD(Phalcon_Db_Dialect, forUpdate) {
 
 		if (Z_TYPE_P(sqlQuery_param) != IS_STRING) {
 				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'sqlQuery' must be a string") TSRMLS_CC);
+				RETURN_MM_NULL();
 		}
 
 		sqlQuery = sqlQuery_param;
@@ -148,6 +151,7 @@ PHP_METHOD(Phalcon_Db_Dialect, sharedLock) {
 
 		if (Z_TYPE_P(sqlQuery_param) != IS_STRING) {
 				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'sqlQuery' must be a string") TSRMLS_CC);
+				RETURN_MM_NULL();
 		}
 
 		sqlQuery = sqlQuery_param;
@@ -778,6 +782,7 @@ PHP_METHOD(Phalcon_Db_Dialect, createSavepoint) {
 
 		if (Z_TYPE_P(name_param) != IS_STRING) {
 				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'name' must be a string") TSRMLS_CC);
+				RETURN_MM_NULL();
 		}
 
 		name = name_param;
@@ -804,6 +809,7 @@ PHP_METHOD(Phalcon_Db_Dialect, releaseSavepoint) {
 
 		if (Z_TYPE_P(name_param) != IS_STRING) {
 				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'name' must be a string") TSRMLS_CC);
+				RETURN_MM_NULL();
 		}
 
 		name = name_param;
@@ -830,6 +836,7 @@ PHP_METHOD(Phalcon_Db_Dialect, rollbackSavepoint) {
 
 		if (Z_TYPE_P(name_param) != IS_STRING) {
 				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'name' must be a string") TSRMLS_CC);
+				RETURN_MM_NULL();
 		}
 
 		name = name_param;

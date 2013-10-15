@@ -21,6 +21,7 @@
 #include "kernel/hash.h"
 #include "kernel/concat.h"
 #include "kernel/string.h"
+#include "ext/spl/spl_exceptions.h"
 
 
 /*
@@ -220,6 +221,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, prepare) {
 
 		if (Z_TYPE_P(sqlStatement_param) != IS_STRING) {
 				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'sqlStatement' must be a string") TSRMLS_CC);
+				RETURN_MM_NULL();
 		}
 
 		sqlStatement = sqlStatement_param;
@@ -337,6 +339,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, query) {
 
 		if (Z_TYPE_P(sqlStatement_param) != IS_STRING) {
 				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'sqlStatement' must be a string") TSRMLS_CC);
+				RETURN_MM_NULL();
 		}
 
 		sqlStatement = sqlStatement_param;
@@ -414,6 +417,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, execute) {
 
 		if (Z_TYPE_P(sqlStatement_param) != IS_STRING) {
 				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'sqlStatement' must be a string") TSRMLS_CC);
+				RETURN_MM_NULL();
 		}
 
 		sqlStatement = sqlStatement_param;
@@ -554,6 +558,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, escapeString) {
 
 		if (Z_TYPE_P(str_param) != IS_STRING) {
 				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'str' must be a string") TSRMLS_CC);
+				RETURN_MM_NULL();
 		}
 
 		str = str_param;

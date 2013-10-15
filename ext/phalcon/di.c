@@ -16,8 +16,9 @@
 #include "kernel/operators.h"
 #include "kernel/memory.h"
 #include "kernel/fcall.h"
-#include "kernel/array.h"
+#include "ext/spl/spl_exceptions.h"
 #include "kernel/exception.h"
+#include "kernel/array.h"
 #include "kernel/concat.h"
 #include "kernel/string.h"
 
@@ -121,6 +122,7 @@ PHP_METHOD(Phalcon_Di, set) {
 
 		if (Z_TYPE_P(name_param) != IS_STRING) {
 				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'name' must be a string") TSRMLS_CC);
+				RETURN_MM_NULL();
 		}
 
 		name = name_param;
@@ -154,6 +156,7 @@ PHP_METHOD(Phalcon_Di, setShared) {
 
 		if (Z_TYPE_P(name_param) != IS_STRING) {
 				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'name' must be a string") TSRMLS_CC);
+				RETURN_MM_NULL();
 		}
 
 		name = name_param;
@@ -182,6 +185,7 @@ PHP_METHOD(Phalcon_Di, remove) {
 
 		if (Z_TYPE_P(name_param) != IS_STRING) {
 				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'name' must be a string") TSRMLS_CC);
+				RETURN_MM_NULL();
 		}
 
 		name = name_param;
@@ -211,6 +215,7 @@ PHP_METHOD(Phalcon_Di, attempt) {
 
 		if (Z_TYPE_P(name_param) != IS_STRING) {
 				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'name' must be a string") TSRMLS_CC);
+				RETURN_MM_NULL();
 		}
 
 		name = name_param;
@@ -250,6 +255,7 @@ PHP_METHOD(Phalcon_Di, setRaw) {
 
 		if (Z_TYPE_P(name_param) != IS_STRING) {
 				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'name' must be a string") TSRMLS_CC);
+				RETURN_MM_NULL();
 		}
 
 		name = name_param;
@@ -276,6 +282,7 @@ PHP_METHOD(Phalcon_Di, getRaw) {
 
 		if (Z_TYPE_P(name_param) != IS_STRING) {
 				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'name' must be a string") TSRMLS_CC);
+				RETURN_MM_NULL();
 		}
 
 		name = name_param;
@@ -314,6 +321,7 @@ PHP_METHOD(Phalcon_Di, getService) {
 
 		if (Z_TYPE_P(name_param) != IS_STRING) {
 				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'name' must be a string") TSRMLS_CC);
+				RETURN_MM_NULL();
 		}
 
 		name = name_param;
@@ -351,6 +359,7 @@ PHP_METHOD(Phalcon_Di, get) {
 
 		if (Z_TYPE_P(name_param) != IS_STRING) {
 				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'name' must be a string") TSRMLS_CC);
+				RETURN_MM_NULL();
 		}
 
 		name = name_param;
@@ -421,6 +430,7 @@ PHP_METHOD(Phalcon_Di, getShared) {
 
 		if (Z_TYPE_P(name_param) != IS_STRING) {
 				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'name' must be a string") TSRMLS_CC);
+				RETURN_MM_NULL();
 		}
 
 		name = name_param;
@@ -459,6 +469,7 @@ PHP_METHOD(Phalcon_Di, has) {
 
 		if (Z_TYPE_P(name_param) != IS_STRING) {
 				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'name' must be a string") TSRMLS_CC);
+				RETURN_MM_NULL();
 		}
 
 		name = name_param;
@@ -509,6 +520,7 @@ PHP_METHOD(Phalcon_Di, offsetExists) {
 
 		if (Z_TYPE_P(name_param) != IS_STRING) {
 				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'name' must be a string") TSRMLS_CC);
+				RETURN_MM_NULL();
 		}
 
 		name = name_param;
@@ -540,6 +552,7 @@ PHP_METHOD(Phalcon_Di, offsetSet) {
 
 		if (Z_TYPE_P(name_param) != IS_STRING) {
 				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'name' must be a string") TSRMLS_CC);
+				RETURN_MM_NULL();
 		}
 
 		name = name_param;
@@ -570,6 +583,7 @@ PHP_METHOD(Phalcon_Di, offsetGet) {
 
 		if (Z_TYPE_P(name_param) != IS_STRING) {
 				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'name' must be a string") TSRMLS_CC);
+				RETURN_MM_NULL();
 		}
 
 		name = name_param;
@@ -595,6 +609,7 @@ PHP_METHOD(Phalcon_Di, offsetUnset) {
 
 		if (Z_TYPE_P(name_param) != IS_STRING) {
 				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'name' must be a string") TSRMLS_CC);
+				RETURN_MM_NULL();
 		}
 
 		name = name_param;
@@ -621,6 +636,7 @@ PHP_METHOD(Phalcon_Di, __call) {
 
 		if (Z_TYPE_P(method_param) != IS_STRING) {
 				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'method' must be a string") TSRMLS_CC);
+				RETURN_MM_NULL();
 		}
 
 		method = method_param;

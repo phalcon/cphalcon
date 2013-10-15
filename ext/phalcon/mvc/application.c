@@ -17,6 +17,7 @@
 #include "kernel/operators.h"
 #include "kernel/exception.h"
 #include "kernel/array.h"
+#include "ext/spl/spl_exceptions.h"
 #include "kernel/fcall.h"
 #include "kernel/concat.h"
 
@@ -223,6 +224,7 @@ PHP_METHOD(Phalcon_Mvc_Application, setDefaultModule) {
 
 		if (Z_TYPE_P(defaultModule_param) != IS_STRING) {
 				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'defaultModule' must be a string") TSRMLS_CC);
+				RETURN_MM_NULL();
 		}
 
 		defaultModule = defaultModule_param;

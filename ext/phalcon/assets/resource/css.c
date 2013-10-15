@@ -14,6 +14,8 @@
 #include "kernel/main.h"
 #include "kernel/fcall.h"
 #include "kernel/memory.h"
+#include "ext/spl/spl_exceptions.h"
+#include "kernel/exception.h"
 #include "kernel/operators.h"
 
 
@@ -67,6 +69,7 @@ PHP_METHOD(Phalcon_Assets_Resource_Css, __construct) {
 
 		if (Z_TYPE_P(path_param) != IS_STRING) {
 				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'path' must be a string") TSRMLS_CC);
+				RETURN_MM_NULL();
 		}
 
 		path = path_param;

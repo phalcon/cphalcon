@@ -13,10 +13,11 @@
 
 #include "kernel/main.h"
 #include "kernel/object.h"
+#include "ext/spl/spl_exceptions.h"
+#include "kernel/exception.h"
 #include "kernel/operators.h"
 #include "kernel/memory.h"
 #include "kernel/fcall.h"
-#include "kernel/exception.h"
 #include "kernel/concat.h"
 #include "kernel/array.h"
 
@@ -82,6 +83,7 @@ PHP_METHOD(Phalcon_Di_Service, __construct) {
 
 		if (Z_TYPE_P(name_param) != IS_STRING) {
 				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'name' must be a string") TSRMLS_CC);
+				RETURN_MM_NULL();
 		}
 
 		name = name_param;

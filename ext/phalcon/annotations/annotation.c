@@ -19,6 +19,7 @@
 #include "kernel/memory.h"
 #include "kernel/operators.h"
 #include "kernel/concat.h"
+#include "ext/spl/spl_exceptions.h"
 
 
 /*
@@ -308,6 +309,7 @@ PHP_METHOD(Phalcon_Annotations_Annotation, getNamedArgument) {
 
 		if (Z_TYPE_P(name_param) != IS_STRING) {
 				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'name' must be a string") TSRMLS_CC);
+				RETURN_MM_NULL();
 		}
 
 		name = name_param;

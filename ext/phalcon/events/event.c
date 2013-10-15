@@ -15,6 +15,7 @@
 #include "kernel/memory.h"
 #include "kernel/object.h"
 #include "kernel/operators.h"
+#include "ext/spl/spl_exceptions.h"
 #include "kernel/exception.h"
 
 
@@ -112,6 +113,7 @@ PHP_METHOD(Phalcon_Events_Event, __construct) {
 
 		if (Z_TYPE_P(type_param) != IS_STRING) {
 				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'type' must be a string") TSRMLS_CC);
+				RETURN_MM_NULL();
 		}
 
 		type = type_param;

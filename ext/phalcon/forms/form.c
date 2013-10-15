@@ -20,6 +20,7 @@
 #include "kernel/hash.h"
 #include "kernel/operators.h"
 #include "kernel/concat.h"
+#include "ext/spl/spl_exceptions.h"
 
 
 /*
@@ -583,6 +584,7 @@ PHP_METHOD(Phalcon_Forms_Form, render) {
 
 		if (Z_TYPE_P(name_param) != IS_STRING) {
 				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'name' must be a string") TSRMLS_CC);
+				RETURN_MM_NULL();
 		}
 
 		name = name_param;
@@ -624,6 +626,7 @@ PHP_METHOD(Phalcon_Forms_Form, get) {
 
 		if (Z_TYPE_P(name_param) != IS_STRING) {
 				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'name' must be a string") TSRMLS_CC);
+				RETURN_MM_NULL();
 		}
 
 		name = name_param;
@@ -660,6 +663,7 @@ PHP_METHOD(Phalcon_Forms_Form, label) {
 
 		if (Z_TYPE_P(name_param) != IS_STRING) {
 				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'name' must be a string") TSRMLS_CC);
+				RETURN_MM_NULL();
 		}
 
 		name = name_param;
@@ -697,6 +701,7 @@ PHP_METHOD(Phalcon_Forms_Form, getLabel) {
 
 		if (Z_TYPE_P(name_param) != IS_STRING) {
 				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'name' must be a string") TSRMLS_CC);
+				RETURN_MM_NULL();
 		}
 
 		name = name_param;
@@ -739,6 +744,7 @@ PHP_METHOD(Phalcon_Forms_Form, getValue) {
 
 		if (Z_TYPE_P(name_param) != IS_STRING) {
 				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'name' must be a string") TSRMLS_CC);
+				RETURN_MM_NULL();
 		}
 
 		name = name_param;
@@ -784,6 +790,7 @@ PHP_METHOD(Phalcon_Forms_Form, has) {
 
 		if (Z_TYPE_P(name_param) != IS_STRING) {
 				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'name' must be a string") TSRMLS_CC);
+				RETURN_MM_NULL();
 		}
 
 		name = name_param;
@@ -810,6 +817,7 @@ PHP_METHOD(Phalcon_Forms_Form, remove) {
 
 		if (Z_TYPE_P(name_param) != IS_STRING) {
 				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'name' must be a string") TSRMLS_CC);
+				RETURN_MM_NULL();
 		}
 
 		name = name_param;

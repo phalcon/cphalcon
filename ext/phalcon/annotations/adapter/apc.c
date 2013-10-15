@@ -16,7 +16,8 @@
 #include "kernel/string.h"
 #include "kernel/concat.h"
 #include "kernel/fcall.h"
-#include "kernel/operators.h"
+#include "ext/spl/spl_exceptions.h"
+#include "kernel/exception.h"
 
 
 /*
@@ -70,6 +71,7 @@ PHP_METHOD(Phalcon_Annotations_Adapter_Apc, read) {
 
 		if (Z_TYPE_P(key_param) != IS_STRING) {
 				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'key' must be a string") TSRMLS_CC);
+				RETURN_MM_NULL();
 		}
 
 		key = key_param;
@@ -100,6 +102,7 @@ PHP_METHOD(Phalcon_Annotations_Adapter_Apc, write) {
 
 		if (Z_TYPE_P(key_param) != IS_STRING) {
 				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'key' must be a string") TSRMLS_CC);
+				RETURN_MM_NULL();
 		}
 
 		key = key_param;

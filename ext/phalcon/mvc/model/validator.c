@@ -17,6 +17,7 @@
 #include "kernel/memory.h"
 #include "kernel/operators.h"
 #include "kernel/fcall.h"
+#include "ext/spl/spl_exceptions.h"
 #include "kernel/array.h"
 
 
@@ -91,6 +92,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator, appendMessage) {
 
 		if (Z_TYPE_P(message_param) != IS_STRING) {
 				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'message' must be a string") TSRMLS_CC);
+				RETURN_MM_NULL();
 		}
 
 		message = message_param;
@@ -161,6 +163,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator, getOption) {
 
 		if (Z_TYPE_P(option_param) != IS_STRING) {
 				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'option' must be a string") TSRMLS_CC);
+				RETURN_MM_NULL();
 		}
 
 		option = option_param;
@@ -190,6 +193,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator, isSetOption) {
 
 		if (Z_TYPE_P(option_param) != IS_STRING) {
 				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'option' must be a string") TSRMLS_CC);
+				RETURN_MM_NULL();
 		}
 
 		option = option_param;

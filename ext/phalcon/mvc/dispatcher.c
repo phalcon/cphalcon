@@ -13,10 +13,11 @@
 
 #include "kernel/main.h"
 #include "kernel/object.h"
-#include "kernel/operators.h"
-#include "kernel/memory.h"
+#include "ext/spl/spl_exceptions.h"
 #include "kernel/exception.h"
+#include "kernel/memory.h"
 #include "kernel/fcall.h"
+#include "kernel/operators.h"
 
 
 /*
@@ -88,6 +89,7 @@ PHP_METHOD(Phalcon_Mvc_Dispatcher, setControllerSuffix) {
 
 		if (Z_TYPE_P(controllerSuffix_param) != IS_STRING) {
 				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'controllerSuffix' must be a string") TSRMLS_CC);
+				RETURN_MM_NULL();
 		}
 
 		controllerSuffix = controllerSuffix_param;
@@ -113,6 +115,7 @@ PHP_METHOD(Phalcon_Mvc_Dispatcher, setDefaultController) {
 
 		if (Z_TYPE_P(controllerName_param) != IS_STRING) {
 				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'controllerName' must be a string") TSRMLS_CC);
+				RETURN_MM_NULL();
 		}
 
 		controllerName = controllerName_param;
@@ -138,6 +141,7 @@ PHP_METHOD(Phalcon_Mvc_Dispatcher, setControllerName) {
 
 		if (Z_TYPE_P(controllerName_param) != IS_STRING) {
 				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'controllerName' must be a string") TSRMLS_CC);
+				RETURN_MM_NULL();
 		}
 
 		controllerName = controllerName_param;
@@ -177,6 +181,7 @@ PHP_METHOD(Phalcon_Mvc_Dispatcher, _throwDispatchException) {
 
 		if (Z_TYPE_P(message_param) != IS_STRING) {
 				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'message' must be a string") TSRMLS_CC);
+				RETURN_MM_NULL();
 		}
 
 		message = message_param;

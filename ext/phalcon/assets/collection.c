@@ -16,6 +16,8 @@
 #include "kernel/object.h"
 #include "kernel/fcall.h"
 #include "kernel/operators.h"
+#include "ext/spl/spl_exceptions.h"
+#include "kernel/exception.h"
 #include "kernel/array.h"
 #include "kernel/concat.h"
 
@@ -318,6 +320,7 @@ PHP_METHOD(Phalcon_Assets_Collection, addJs) {
 
 		if (Z_TYPE_P(path_param) != IS_STRING) {
 				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'path' must be a string") TSRMLS_CC);
+				RETURN_MM_NULL();
 		}
 
 		path = path_param;
@@ -486,6 +489,7 @@ PHP_METHOD(Phalcon_Assets_Collection, getRealTargetPath) {
 
 		if (Z_TYPE_P(basePath_param) != IS_STRING) {
 				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'basePath' must be a string") TSRMLS_CC);
+				RETURN_MM_NULL();
 		}
 
 		basePath = basePath_param;

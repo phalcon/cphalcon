@@ -13,9 +13,11 @@
 
 #include "kernel/main.h"
 #include "kernel/object.h"
-#include "kernel/operators.h"
+#include "ext/spl/spl_exceptions.h"
+#include "kernel/exception.h"
 #include "kernel/memory.h"
 #include "kernel/array.h"
+#include "kernel/operators.h"
 
 
 /*
@@ -86,6 +88,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Relation, __construct) {
 
 		if (Z_TYPE_P(referencedModel_param) != IS_STRING) {
 				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'referencedModel' must be a string") TSRMLS_CC);
+				RETURN_MM_NULL();
 		}
 
 		referencedModel = referencedModel_param;
@@ -120,6 +123,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Relation, setIntermediateRelation) {
 
 		if (Z_TYPE_P(intermediateModel_param) != IS_STRING) {
 				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'intermediateModel' must be a string") TSRMLS_CC);
+				RETURN_MM_NULL();
 		}
 
 		intermediateModel = intermediateModel_param;
