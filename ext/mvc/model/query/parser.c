@@ -2827,7 +2827,7 @@ PHALCON_ATTR_NONNULL int phql_parse_phql(zval *result, zval *phql TSRMLS_DC) {
 /**
  * Executes a PHQL parser/tokenizer
  */
-PHALCON_ATTR_NONNULL2(1, 4) int phql_internal_parse_phql(zval **result, char *phql, unsigned int phql_length, zval **error_msg TSRMLS_DC) {
+int phql_internal_parse_phql(zval **result, char *phql, unsigned int phql_length, zval **error_msg TSRMLS_DC) {
 
 	zend_phalcon_globals *phalcon_globals_ptr = PHALCON_VGLOBAL;
 	phql_parser_status *parser_status = NULL;
