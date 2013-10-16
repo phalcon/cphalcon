@@ -94,7 +94,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_MetaData) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_MetaData, _initialize) {
 
-	zval *model, *key, *table, *schema, *strategy, *className, *metaData, *data = NULL, *modelMetadata, *dependencyInjector = NULL, *columnMap, *keyName, *prefixKey = NULL, *_0 = NULL, *_1, *_2, *_3;
+	zval *model, *key, *table, *schema, *strategy, *className, *metaData, *data = NULL, *modelMetadata, *dependencyInjector = NULL, *columnMap, *keyName, *prefixKey = NULL, *_0 = NULL, *_1, *_2;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 4, 0, &model, &key, &table, &schema);
@@ -140,11 +140,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, _initialize) {
 			}
 		}
 	}
-	ZEPHIR_INIT_NVAR(_0);
-	ZVAL_STRING(_0, "orm.column_renaming", 1);
-	ZEPHIR_INIT_VAR(_2);
-	zephir_call_func_p1(_2, "globals_get", _0);
-	if (zephir_is_true(_2)) {
+	if (ZEPHIR_GLOBAL(orm.column_renaming)) {
 		RETURN_MM_NULL();
 	}
 	ZEPHIR_INIT_VAR(keyName);
@@ -176,8 +172,8 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, _initialize) {
 	ZEPHIR_INIT_NVAR(_0);
 	zephir_call_method_p2(_0, strategy, "getcolumnmaps", model, dependencyInjector);
 	zephir_update_property_array(this_ptr, SL("_columnMap"), keyName, _0 TSRMLS_CC);
-	_3 = zephir_fetch_nproperty_this(this_ptr, SL("_columnMap"), PH_NOISY_CC);
-	zephir_call_method_p2_noret(this_ptr, "write", prefixKey, _3);
+	_2 = zephir_fetch_nproperty_this(this_ptr, SL("_columnMap"), PH_NOISY_CC);
+	zephir_call_method_p2_noret(this_ptr, "write", prefixKey, _2);
 	ZEPHIR_MM_RESTORE();
 
 }

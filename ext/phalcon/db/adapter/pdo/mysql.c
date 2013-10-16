@@ -13,12 +13,12 @@
 
 #include "kernel/main.h"
 #include "kernel/array.h"
-#include "kernel/memory.h"
-#include "kernel/fcall.h"
-#include "kernel/operators.h"
 #include "kernel/concat.h"
+#include "kernel/memory.h"
 #include "kernel/object.h"
+#include "kernel/fcall.h"
 #include "kernel/string.h"
+#include "kernel/operators.h"
 
 
 /*
@@ -76,36 +76,27 @@ ZEPHIR_INIT_CLASS(Phalcon_Db_Adapter_Pdo_Mysql) {
  */
 PHP_METHOD(Phalcon_Db_Adapter_Pdo_Mysql, escapeIdentifier) {
 
-	zval *identifier, *domain, *name, *_0 = NULL, *_1 = NULL;
+	zval *identifier, *domain, *name;
 
-	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 0, &identifier);
+	zephir_fetch_params(0, 1, 0, &identifier);
 
 
 
 	if ((Z_TYPE_P(identifier) == IS_ARRAY)) {
 		zephir_array_fetch_long(&domain, identifier, 0, PH_NOISY | PH_READONLY TSRMLS_CC);
 		zephir_array_fetch_long(&name, identifier, 1, PH_NOISY | PH_READONLY TSRMLS_CC);
-		ZEPHIR_INIT_VAR(_0);
-		ZVAL_STRING(_0, "db.escape_identifiers", 1);
-		ZEPHIR_INIT_VAR(_1);
-		zephir_call_func_p1(_1, "globals_get", _0);
-		if (zephir_is_true(_1)) {
+		if (ZEPHIR_GLOBAL(db.escape_identifiers)) {
 			ZEPHIR_CONCAT_SVSVS(return_value, "`", domain, "`.`", name, "`");
-			RETURN_MM();
+			return;
 		}
 		ZEPHIR_CONCAT_VSV(return_value, domain, ".", name);
-		RETURN_MM();
+		return;
 	}
-	ZEPHIR_INIT_NVAR(_0);
-	ZVAL_STRING(_0, "db.escape_identifiers", 1);
-	ZEPHIR_INIT_NVAR(_1);
-	zephir_call_func_p1(_1, "globals_get", _0);
-	if (zephir_is_true(_1)) {
+	if (ZEPHIR_GLOBAL(db.escape_identifiers)) {
 		ZEPHIR_CONCAT_SVS(return_value, "`", identifier, "`");
-		RETURN_MM();
+		return;
 	}
-	RETURN_CCTOR(identifier);
+	RETURN_CCTORW(identifier);
 
 }
 

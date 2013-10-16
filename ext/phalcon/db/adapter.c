@@ -380,10 +380,10 @@ PHP_METHOD(Phalcon_Db_Adapter, fetchAll) {
  */
 PHP_METHOD(Phalcon_Db_Adapter, insert) {
 
-	zend_function *_10 = NULL;
-	HashTable *_3, *_8;
-	HashPosition _2, _7;
-	zval *table, *values, *fields = NULL, *dataTypes = NULL, *placeholders, *insertValues, *bindDataTypes = NULL, *bindType, *position = NULL, *value = NULL, *escapedTable = NULL, *joinedValues, *escapedFields = NULL, *field = NULL, *insertSql, *_0 = NULL, *_1, **_4, *_5 = NULL, *_6, **_9;
+	zend_function *_9 = NULL;
+	HashTable *_3, *_7;
+	HashPosition _2, _6;
+	zval *table, *values, *fields = NULL, *dataTypes = NULL, *placeholders, *insertValues, *bindDataTypes = NULL, *bindType, *position = NULL, *value = NULL, *escapedTable = NULL, *joinedValues, *escapedFields = NULL, *field = NULL, *insertSql, *_0 = NULL, *_1, **_4, *_5 = NULL, **_8;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 2, &table, &values, &fields, &dataTypes);
@@ -448,11 +448,7 @@ PHP_METHOD(Phalcon_Db_Adapter, insert) {
 			}
 		}
 	}
-	ZEPHIR_INIT_NVAR(_0);
-	ZVAL_STRING(_0, "db.escape_identifiers", 1);
-	ZEPHIR_INIT_NVAR(_5);
-	zephir_call_func_p1(_5, "globals_get", _0);
-	if (zephir_is_true(_5)) {
+	if (ZEPHIR_GLOBAL(db.escape_identifiers)) {
 		ZEPHIR_INIT_VAR(escapedTable);
 		zephir_call_method_p1(escapedTable, this_ptr, "escapeidentifier", table);
 	} else {
@@ -462,21 +458,17 @@ PHP_METHOD(Phalcon_Db_Adapter, insert) {
 	zephir_fast_join_str(joinedValues, SL(", "), placeholders TSRMLS_CC);
 	ZEPHIR_INIT_VAR(insertSql);
 	if ((Z_TYPE_P(fields) == IS_ARRAY)) {
-		ZEPHIR_INIT_NVAR(_0);
-		ZVAL_STRING(_0, "db.escape_identifiers", 1);
-		ZEPHIR_INIT_VAR(_6);
-		zephir_call_func_p1(_6, "globals_get", _0);
-		if (zephir_is_true(_6)) {
+		if (ZEPHIR_GLOBAL(db.escape_identifiers)) {
 			ZEPHIR_INIT_VAR(escapedFields);
 			array_init(escapedFields);
-			zephir_is_iterable(fields, &_8, &_7, 0, 0);
+			zephir_is_iterable(fields, &_7, &_6, 0, 0);
 			for (
-				; zend_hash_get_current_data_ex(_8, (void**) &_9, &_7) == SUCCESS
-				; zend_hash_move_forward_ex(_8, &_7)
+				; zend_hash_get_current_data_ex(_7, (void**) &_8, &_6) == SUCCESS
+				; zend_hash_move_forward_ex(_7, &_6)
 			) {
-				ZEPHIR_GET_HVALUE(field, _9);
+				ZEPHIR_GET_HVALUE(field, _8);
 				ZEPHIR_INIT_NVAR(_0);
-				zephir_call_method_p1_cache(_0, this_ptr, "escapeidentifier", &_10, field);
+				zephir_call_method_p1_cache(_0, this_ptr, "escapeidentifier", &_9, field);
 				zephir_array_append(&escapedFields, _0, PH_SEPARATE);
 			}
 		} else {
@@ -518,10 +510,10 @@ PHP_METHOD(Phalcon_Db_Adapter, insert) {
  */
 PHP_METHOD(Phalcon_Db_Adapter, update) {
 
-	zend_function *_5 = NULL;
+	zend_function *_3 = NULL;
 	HashTable *_1;
 	HashPosition _0;
-	zval *table, *fields, *values, *whereCondition = NULL, *dataTypes = NULL, *placeholders, *updateValues, *position = NULL, *value = NULL, *field, *bindDataTypes = NULL, *escapedField = NULL, *bindType, *escapedTable = NULL, *setClause, *updateSql, *conditions, *whereBind, *whereTypes, **_2, *_3 = NULL, *_4 = NULL, *_6 = NULL, *_7 = NULL;
+	zval *table, *fields, *values, *whereCondition = NULL, *dataTypes = NULL, *placeholders, *updateValues, *position = NULL, *value = NULL, *field, *bindDataTypes = NULL, *escapedField = NULL, *bindType, *escapedTable = NULL, *setClause, *updateSql, *conditions, *whereBind, *whereTypes, **_2, *_4 = NULL, *_5 = NULL;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 3, 2, &table, &fields, &values, &whereCondition, &dataTypes);
@@ -555,25 +547,21 @@ PHP_METHOD(Phalcon_Db_Adapter, update) {
 			ZEPHIR_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "The number of values in the update is not the same as fields");
 			return;
 		}
-		ZEPHIR_INIT_NVAR(_3);
-		ZVAL_STRING(_3, "db.escape_identifiers", 1);
-		ZEPHIR_INIT_NVAR(_4);
-		zephir_call_func_p1(_4, "globals_get", _3);
-		if (zephir_is_true(_4)) {
+		if (ZEPHIR_GLOBAL(db.escape_identifiers)) {
 			ZEPHIR_INIT_NVAR(escapedField);
-			zephir_call_method_p1_cache(escapedField, this_ptr, "escapeidentifier", &_5, field);
+			zephir_call_method_p1_cache(escapedField, this_ptr, "escapeidentifier", &_3, field);
 		} else {
 			ZEPHIR_CPY_WRT(escapedField, field);
 		}
 		if ((Z_TYPE_P(value) == IS_OBJECT)) {
-			ZEPHIR_INIT_LNVAR(_6);
-			ZEPHIR_CONCAT_VSV(_6, escapedField, " = ", value);
-			zephir_array_append(&placeholders, _6, PH_SEPARATE);
+			ZEPHIR_INIT_LNVAR(_4);
+			ZEPHIR_CONCAT_VSV(_4, escapedField, " = ", value);
+			zephir_array_append(&placeholders, _4, PH_SEPARATE);
 		} else {
 			if ((Z_TYPE_P(value) == IS_NULL)) {
-				ZEPHIR_INIT_LNVAR(_6);
-				ZEPHIR_CONCAT_VS(_6, escapedField, " = null");
-				zephir_array_append(&placeholders, _6, PH_SEPARATE);
+				ZEPHIR_INIT_LNVAR(_4);
+				ZEPHIR_CONCAT_VS(_4, escapedField, " = null");
+				zephir_array_append(&placeholders, _4, PH_SEPARATE);
 			} else {
 				zephir_array_append(&updateValues, value, PH_SEPARATE);
 				if ((Z_TYPE_P(dataTypes) == IS_ARRAY)) {
@@ -583,17 +571,13 @@ PHP_METHOD(Phalcon_Db_Adapter, update) {
 					}
 					zephir_array_append(&bindDataTypes, bindType, PH_SEPARATE);
 				}
-				ZEPHIR_INIT_LNVAR(_7);
-				ZEPHIR_CONCAT_VS(_7, escapedField, " = ?");
-				zephir_array_append(&placeholders, _7, PH_SEPARATE);
+				ZEPHIR_INIT_LNVAR(_5);
+				ZEPHIR_CONCAT_VS(_5, escapedField, " = ?");
+				zephir_array_append(&placeholders, _5, PH_SEPARATE);
 			}
 		}
 	}
-	ZEPHIR_INIT_NVAR(_3);
-	ZVAL_STRING(_3, "db.escape_identifiers", 1);
-	ZEPHIR_INIT_NVAR(_4);
-	zephir_call_func_p1(_4, "globals_get", _3);
-	if (zephir_is_true(_4)) {
+	if (ZEPHIR_GLOBAL(db.escape_identifiers)) {
 		ZEPHIR_INIT_VAR(escapedTable);
 		zephir_call_method_p1(escapedTable, this_ptr, "escapeidentifier", table);
 	} else {
@@ -651,7 +635,7 @@ PHP_METHOD(Phalcon_Db_Adapter, update) {
  */
 PHP_METHOD(Phalcon_Db_Adapter, delete) {
 
-	zval *table, *whereCondition = NULL, *placeholders = NULL, *dataTypes = NULL, *sql, *escapedTable = NULL, *_0, *_1;
+	zval *table, *whereCondition = NULL, *placeholders = NULL, *dataTypes = NULL, *sql, *escapedTable = NULL;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 3, &table, &whereCondition, &placeholders, &dataTypes);
@@ -667,11 +651,7 @@ PHP_METHOD(Phalcon_Db_Adapter, delete) {
 	}
 
 
-	ZEPHIR_INIT_VAR(_0);
-	ZVAL_STRING(_0, "db.escape_identifiers", 1);
-	ZEPHIR_INIT_VAR(_1);
-	zephir_call_func_p1(_1, "globals_get", _0);
-	if (zephir_is_true(_1)) {
+	if (ZEPHIR_GLOBAL(db.escape_identifiers)) {
 		ZEPHIR_INIT_VAR(escapedTable);
 		zephir_call_method_p1(escapedTable, this_ptr, "escapeidentifier", table);
 	} else {

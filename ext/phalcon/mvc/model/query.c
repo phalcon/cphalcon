@@ -186,12 +186,12 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, getUniqueRow) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_Query, _getQualified) {
 
-	zend_function *_7 = NULL, *_9 = NULL;
-	HashTable *_5;
-	HashPosition _4;
+	zend_function *_6 = NULL, *_9 = NULL;
+	HashTable *_4;
+	HashPosition _3;
 	int number;
 	zend_bool hasModel;
-	zval *expr, *columnName, *sqlColumnAliases, *metaData, *sqlAliases, *source = NULL, *sqlAliasesModelsInstances, *realColumnName = NULL, *columnDomain, *model = NULL, *models, *columnMap = NULL, *_0 = NULL, *_1, *_2 = NULL, *_3 = NULL, **_6, *_8;
+	zval *expr, *columnName, *sqlColumnAliases, *metaData, *sqlAliases, *source = NULL, *sqlAliasesModelsInstances, *realColumnName = NULL, *columnDomain, *model = NULL, *models, *columnMap = NULL, *_0 = NULL, *_1, *_2 = NULL, **_5, *_7 = NULL, *_8;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &expr);
@@ -223,11 +223,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getQualified) {
 			return;
 		}
 		ZEPHIR_INIT_VAR(columnMap);
-		ZEPHIR_INIT_NVAR(_0);
-		ZVAL_STRING(_0, "orm.column_renaming", 1);
-		ZEPHIR_INIT_VAR(_3);
-		zephir_call_func_p1(_3, "globals_get", _0);
-		if (zephir_is_true(_3)) {
+		if (ZEPHIR_GLOBAL(orm.column_renaming)) {
 			sqlAliasesModelsInstances = zephir_fetch_nproperty_this(this_ptr, SL("_sqlAliasesModelsInstances"), PH_NOISY_CC);
 			ZEPHIR_OBS_VAR(model);
 			if (!(zephir_array_isset_fetch(&model, sqlAliasesModelsInstances, columnDomain, 0 TSRMLS_CC))) {
@@ -265,24 +261,24 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getQualified) {
 		number = 0;
 		hasModel = 0;
 		_1 = zephir_fetch_nproperty_this(this_ptr, SL("_modelsInstances"), PH_NOISY_CC);
-		zephir_is_iterable(_1, &_5, &_4, 0, 0);
+		zephir_is_iterable(_1, &_4, &_3, 0, 0);
 		for (
-			; zend_hash_get_current_data_ex(_5, (void**) &_6, &_4) == SUCCESS
-			; zend_hash_move_forward_ex(_5, &_4)
+			; zend_hash_get_current_data_ex(_4, (void**) &_5, &_3) == SUCCESS
+			; zend_hash_move_forward_ex(_4, &_3)
 		) {
-			ZEPHIR_GET_HVALUE(model, _6);
+			ZEPHIR_GET_HVALUE(model, _5);
 			ZEPHIR_INIT_NVAR(_0);
-			zephir_call_method_p2_cache(_0, metaData, "hasattribute", &_7, model, columnName);
+			zephir_call_method_p2_cache(_0, metaData, "hasattribute", &_6, model, columnName);
 			if (zephir_is_true(_0)) {
 				number++;
 				if ((number > 1)) {
-					ZEPHIR_INIT_NVAR(_3);
-					object_init_ex(_3, phalcon_mvc_model_exception_ce);
+					ZEPHIR_INIT_NVAR(_7);
+					object_init_ex(_7, phalcon_mvc_model_exception_ce);
 					_8 = zephir_fetch_nproperty_this(this_ptr, SL("_phql"), PH_NOISY_CC);
 					ZEPHIR_INIT_LNVAR(_2);
 					ZEPHIR_CONCAT_SVSV(_2, "The column '", columnName, "' is ambiguous, when preparing: ", _8);
-					zephir_call_method_p1_cache_noret(_3, "__construct", &_9, _2);
-					zephir_throw_exception(_3 TSRMLS_CC);
+					zephir_call_method_p1_cache_noret(_7, "__construct", &_9, _2);
+					zephir_throw_exception(_7 TSRMLS_CC);
 					ZEPHIR_MM_RESTORE();
 					return;
 				}
@@ -309,22 +305,18 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getQualified) {
 		ZEPHIR_INIT_NVAR(_0);
 		zephir_call_func_p1(_0, "get_class", (hasModel ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false)));
 		if (!(zephir_array_isset_fetch(&source, models, _0, 0 TSRMLS_CC))) {
-			ZEPHIR_INIT_NVAR(_3);
-			object_init_ex(_3, phalcon_mvc_model_exception_ce);
+			ZEPHIR_INIT_NVAR(_7);
+			object_init_ex(_7, phalcon_mvc_model_exception_ce);
 			_1 = zephir_fetch_nproperty_this(this_ptr, SL("_phql"), PH_NOISY_CC);
 			ZEPHIR_INIT_LNVAR(_2);
 			ZEPHIR_CONCAT_SVSV(_2, "Column '", columnName, "' doesn't belong to any of the selected models (2), when preparing: ", _1);
-			zephir_call_method_p1_noret(_3, "__construct", _2);
-			zephir_throw_exception(_3 TSRMLS_CC);
+			zephir_call_method_p1_noret(_7, "__construct", _2);
+			zephir_throw_exception(_7 TSRMLS_CC);
 			ZEPHIR_MM_RESTORE();
 			return;
 		}
 		ZEPHIR_INIT_NVAR(columnMap);
-		ZEPHIR_INIT_NVAR(_0);
-		ZVAL_STRING(_0, "orm.column_renaming", 1);
-		ZEPHIR_INIT_NVAR(_3);
-		zephir_call_func_p1(_3, "globals_get", _0);
-		if (zephir_is_true(_3)) {
+		if (ZEPHIR_GLOBAL(orm.column_renaming)) {
 			zephir_call_method_p1(columnMap, metaData, "getreversecolumnmap", (hasModel ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false)));
 		} else {
 			ZVAL_NULL(columnMap);
