@@ -1951,6 +1951,18 @@ PHP_METHOD(Phalcon_Mvc_Model, appendMessage){
  *
  *	public function validation()
  *  {
+ * 		$this->validate('status', 'is_int');
+ * 		$this->validate('status', array(
+ *			'is_int',
+ *			'message' => 'status must be integer'
+ *		));
+ * 		$this->validate('status', array(
+ *			array(
+ *				'is_int', 
+ *				array('in_array', array(':value', array(1, 2, 3)))
+ *			),
+ *			'message' => 'status must be one of the available options'
+ *		));
  * 		$this->validate(new ExclusionIn(array(
  *			'field' => 'status',
  *			'domain' => array('A', 'I')
@@ -1968,47 +1980,168 @@ PHP_METHOD(Phalcon_Mvc_Model, appendMessage){
  */
 PHP_METHOD(Phalcon_Mvc_Model, validate){
 
-	zval *validator, *status, *messages, *message = NULL;
-	HashTable *ah0;
-	HashPosition hp0;
+	zval *validator, *options = NULL, *field_name = NULL, *value, *rules = NULL, *rule = NULL, *func_name = NULL, *params = NULL, *key = NULL, *param = NULL;
+	zval *bind_key, *status, *messages, *message = NULL, *tmp = NULL;
+	HashTable *ah0, *ah1;
+	HashPosition hp0, hp1;
 	zval **hd;
 
 	PHALCON_MM_GROW();
 
-	phalcon_fetch_params(1, 1, 0, &validator);
-	
-	/** 
-	 * Valid validators are objects
-	 */
-	if (Z_TYPE_P(validator) != IS_OBJECT) {
-		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Validator must be an Object");
-		return;
-	}
-	
-	/** 
-	 * Call the validation, if it returns false we append the messages to the current
-	 * object
-	 */
-	PHALCON_INIT_VAR(status);
-	phalcon_call_method_p1(status, validator, "validate", this_ptr);
-	if (PHALCON_IS_FALSE(status)) {
-	
-		PHALCON_INIT_VAR(messages);
-		phalcon_call_method(messages, validator, "getmessages");
-	
-		phalcon_is_iterable(messages, &ah0, &hp0, 0, 0);
-	
+	phalcon_fetch_params(1, 1, 1, &validator, &options);
+
+	if (Z_TYPE_P(validator) == IS_STRING) {
+		if (!options) {
+			PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Option must be required");
+			return;
+		}
+
+		PHALCON_CPY_WRT_CTOR(field_name, validator);
+		if (!phalcon_isset_property_zval(this_ptr, field_name TSRMLS_CC)) {
+			RETURN_THIS();
+		}
+
+		PHALCON_OBS_VAR(value);
+		phalcon_read_property_zval(&value, this_ptr, field_name, PH_NOISY_CC);
+
+		if (Z_TYPE_P(options) == IS_STRING) {
+			PHALCON_INIT_VAR(rules);
+			array_init_size(rules, 1);
+			
+			phalcon_array_append(&rules, options, 0);
+		} else if (Z_TYPE_P(options) == IS_ARRAY && phalcon_array_isset_long(options, 0)) {			
+			PHALCON_OBS_VAR(rule);
+			phalcon_array_fetch_long(&rule, options, 0, PH_NOISY);
+
+			if (Z_TYPE_P(rule) == IS_STRING) {
+				PHALCON_INIT_VAR(tmp);
+				array_init_size(tmp, 1);
+				phalcon_array_append(&tmp, rule, 0);
+
+				PHALCON_INIT_VAR(rules);
+				array_init_size(rules, 1);				
+				phalcon_array_append(&rules, tmp, 0);
+			} else if (Z_TYPE_P(rule) == IS_ARRAY) {
+				if (phalcon_array_isset_long(rule, 0)) {
+					PHALCON_OBS_VAR(tmp);
+					phalcon_array_fetch_long(&tmp, rule, 0, PH_NOISY);
+
+					if (Z_TYPE_P(tmp) == IS_STRING) {
+						PHALCON_INIT_VAR(rules);
+						array_init_size(rules, 1);	
+						phalcon_array_append(&rules, rule, 0);
+					} else {
+						PHALCON_CPY_WRT_CTOR(rules, rule);
+					}
+				}
+			}
+
+			if (phalcon_array_isset_string(options, SS("message"))) {
+				PHALCON_OBS_VAR(message);
+				phalcon_array_fetch_string(&message, options, SL("message"), PH_NOISY);
+			}
+		} else {
+			PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Option must be an string or array");
+			return;
+		}
+
+		PHALCON_INIT_VAR(bind_key);
+		ZVAL_STRING(bind_key, ":value", 1);
+			
+		phalcon_is_iterable(rules, &ah0, &hp0, 0, 0);
 		while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
-	
-			PHALCON_GET_HVALUE(message);
-	
-			phalcon_update_property_array_append(this_ptr, SL("_errorMessages"), message TSRMLS_CC);
-	
+			PHALCON_GET_HVALUE(rule);
+
+			if (Z_TYPE_P(rule) == IS_STRING) {
+				PHALCON_INIT_NVAR(func_name);
+				ZVAL_ZVAL(func_name, rule, 1, 0);
+
+				PHALCON_INIT_NVAR(params);
+				array_init_size(params, 1);
+
+				phalcon_array_append(&params, value, 0);
+			} else if (phalcon_array_isset_long(rule, 0)) {	
+				PHALCON_OBS_NVAR(func_name);
+				phalcon_array_fetch_long(&func_name, rule, 0, PH_NOISY);
+
+				if (phalcon_array_isset_long(rule, 1)) {
+					PHALCON_OBS_NVAR(params);
+					phalcon_array_fetch_long(&params, rule, 1, PH_NOISY);
+					if (Z_TYPE_P(params) == IS_ARRAY) {
+						phalcon_is_iterable(params, &ah1, &hp1, 0, 0);
+							
+						while (zend_hash_get_current_data_ex(ah1, (void**) &hd, &hp1) == SUCCESS) {
+							PHALCON_INIT_NVAR(key);
+							phalcon_get_current_key(&key, ah1, &hp1 TSRMLS_CC);
+							PHALCON_GET_HKEY(key, ah1, hp1);
+							PHALCON_GET_HVALUE(param);
+
+							if (PHALCON_IS_EQUAL(param, bind_key)) {
+								phalcon_array_update_zval(&params, key, &value, 0);
+								break;
+							}
+							zend_hash_move_forward_ex(ah1, &hp1);
+						}
+					}
+				}  else {
+					PHALCON_INIT_NVAR(params);
+					array_init_size(params, 1);
+
+					phalcon_array_append(&params, value, 0);
+				}
+			} else {
+				RETURN_THIS();
+			}
+
+			PHALCON_INIT_NVAR(status);
+			PHALCON_CALL_USER_FUNC_ARRAY(status, func_name, params);
+
+			if (PHALCON_IS_FALSE(status)) {
+				 if (!message) {
+					PHALCON_INIT_NVAR(message);
+					PHALCON_CONCAT_SVS(message, "Value of field '", field_name, "' validation failed");
+				}
+
+				phalcon_update_property_array_append(this_ptr, SL("_errorMessages"), message TSRMLS_CC);
+				break;
+			}
+		
 			zend_hash_move_forward_ex(ah0, &hp0);
 		}
-	
+	} else {
+		/** 
+		 * Valid validators are objects
+		 */
+		if (Z_TYPE_P(validator) != IS_OBJECT) {
+			PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Validator must be an Object");
+			return;
+		}
+		
+		/** 
+		 * Call the validation, if it returns false we append the messages to the current
+		 * object
+		 */
+		PHALCON_INIT_VAR(status);
+		phalcon_call_method_p1(status, validator, "validate", this_ptr);
+		if (PHALCON_IS_FALSE(status)) {
+		
+			PHALCON_INIT_VAR(messages);
+			phalcon_call_method(messages, validator, "getmessages");
+		
+			phalcon_is_iterable(messages, &ah0, &hp0, 0, 0);
+		
+			while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
+		
+				PHALCON_GET_HVALUE(message);
+		
+				phalcon_update_property_array_append(this_ptr, SL("_errorMessages"), message TSRMLS_CC);
+		
+				zend_hash_move_forward_ex(ah0, &hp0);
+			}
+		
+		}
 	}
-	
+
 	RETURN_THIS();
 }
 
