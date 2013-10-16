@@ -1762,7 +1762,7 @@ PHP_METHOD(Phalcon_Db_Adapter, describeReferences) {
  */
 PHP_METHOD(Phalcon_Db_Adapter, tableOptions) {
 
-	zval *tableName, *schemaName = NULL, *describe, *sql, *_0, *_1, *_2;
+	zval *tableName, *schemaName = NULL, *sql, *_0, *_1, *_2, *_3;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 1, &tableName, &schemaName);
@@ -1777,11 +1777,11 @@ PHP_METHOD(Phalcon_Db_Adapter, tableOptions) {
 	zephir_call_method_p2(sql, _0, "tableoptions", tableName, schemaName);
 	if (zephir_is_true(sql)) {
 		ZEPHIR_INIT_VAR(_1);
-		ZVAL_LONG(_1, 3);
-		ZEPHIR_INIT_VAR(describe);
-		zephir_call_method_p2(describe, this_ptr, "fetchall", sql, _1);
-		zephir_array_fetch_long(&_2, describe, 0, PH_NOISY | PH_READONLY TSRMLS_CC);
-		RETURN_CTOR(_2);
+		ZEPHIR_INIT_VAR(_2);
+		ZVAL_LONG(_2, 3);
+		zephir_call_method_p2(_1, this_ptr, "fetchall", sql, _2);
+		zephir_array_fetch_long(&_3, _1, 0, PH_NOISY | PH_READONLY TSRMLS_CC);
+		RETURN_CTOR(_3);
 	}
 	array_init(return_value);
 	RETURN_MM();

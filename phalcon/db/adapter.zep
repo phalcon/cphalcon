@@ -934,12 +934,11 @@ abstract class Adapter implements Phalcon\Events\EventsAwareInterface
 	 */
 	public function tableOptions(tableName, schemaName=null)
 	{
-		var describe, sql;
+		var sql;
 
 		let sql = this->_dialect->tableOptions(tableName, schemaName);
 		if sql {
-			let describe = this->fetchAll(sql, Phalcon\DB::FETCH_NUM);
-			return describe[0];
+			return this->fetchAll(sql, Phalcon\DB::FETCH_NUM)[0];
 		}
 		return [];
 	}
