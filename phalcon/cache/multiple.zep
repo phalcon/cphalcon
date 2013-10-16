@@ -84,4 +84,158 @@ class Multiple
 		}
 	}
 
+	/**
+	* Adds a backend
+	*
+	* @param Phalcon\Cache\BackendInterface $backend
+	* @return Phalcon\Cache\Multiple
+	*/
+	public function push(<Phalcon\Cache\BackendInterface> backend) -> <Phalcon\Cache\Multiple>
+	{
+		if typeof backend != "object" {
+			throw new Phalcon\Cache\Exception("The backend is not valid");
+		}
+
+		let this->_backends = backend;
+
+		return this;
+	}
+
+	/**
+	* Returns a cached content reading the internal backends
+	*
+	* @param 	string $keyName
+	* @param   long $lifetime
+	* @return  mixed
+	*/
+	public function get(keyName, lifetime)
+	{
+		var backends, content;
+
+		if !lifetime {
+			let lifetime = null;
+		}
+
+		let backends = this->_backends;
+
+		for backend in backends 
+		{
+			let content = backend->get(keyName, lifetime);
+			if content != null {
+				return content;
+			}
+		}
+
+		return null;
+	}
+
+	/**
+	* Starts every backend
+	*
+	* @param int|string $keyName
+	* @param   long $lifetime
+	*/
+	public function start(keyName, lifetime) -> void
+	{
+		var backends, content;
+
+		if !lifetime {
+			let lifetime = null;
+		}
+
+		let backends = this->_backends;
+
+		for backend in backends 
+		{
+			backend->start(keyName, lifetime);
+		}
+	}
+
+	/**
+	* Stores cached content into all backends and stops the frontend
+	*
+	* @param string $keyName
+	* @param string $content
+	* @param long $lifetime
+	* @param boolean $stopBuffer
+	*/
+	public function save(keyName, content, lifetime, stopBuffer) -> void
+	{
+		let backends = this->_backends;
+
+		if !keyName {
+			let keyName = null;
+		}
+
+		if !content {
+			let content = null;
+		}
+
+		if !lifetime {
+			let lifetime = null;
+		}
+
+		if !stopBuffer {
+			let stopBuffer = true;
+		}
+
+		let backends = this->_backends;
+
+		for backend in backends 
+		{
+			backend->save(keyName, content, lifetime, stopBuffer);
+		}
+	}
+
+	/**
+	* Deletes a value from each backend
+	*
+	* @param int|string $keyName
+	* @return boolean
+	*/
+	public function delete(keyName) -> boolean
+	{
+		var backends, backend;
+		
+		let backends = this->_backends;
+
+		for backend in backends 
+		{
+			backend->delete(keyName);
+		}
+
+		return true;
+	}
+
+	/**
+	* Checks if cache exists in at least one backend
+	*
+	* @param  string $keyName
+	* @param  long $lifetime
+	* @return boolean
+	*/
+	public function exists(keyName, lifetime) -> boolean
+	{
+		var backends, backend, exists;
+
+		if !keyName {
+			let keyName = null;
+		}
+
+		if !lifetime {
+			let lifetime = null;
+		}
+
+		let backends = this->_backends;
+
+		for backend in backends 
+		{
+			let exists = backend->exists(keyName, lifetime);
+			if exists==true {
+				return true;
+			}
+		}
+
+		return false;
+	}
 }

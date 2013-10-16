@@ -27,13 +27,13 @@ namespace Phalcon\Cache;
 abstract class Backend
 {
 
-	protected _frontend;
+	protected _frontend {get, set};
 
-	protected _options;
+	protected _options {get, set};
 
 	protected _prefix = "";
 
-	protected _lastKey = "";
+	protected _lastKey = "" {get, set};
 
 	protected _lastLifetime = null;
 
@@ -114,26 +114,6 @@ abstract class Backend
 	}
 
 	/**
-	 * Returns front-end instance adapter related to the back-end
-	 *
-	 * @return mixed
-	 */
-	public function getFrontend()
-	{
-		return this->_frontend;
-	}
-
-	/**
-	 * Returns the backend options
-	 *
-	 * @return array
-	 */
-	public function getOptions()
-	{
-		return this->_options;
-	}
-
-	/**
 	 * Checks whether the last cache is fresh or cached
 	 *
 	 * @return boolean
@@ -153,34 +133,5 @@ abstract class Backend
 		return this->_started;
 	}
 
-	/**
-	 * Sets the last key used in the cache
-	 *
-	 * @param string lastKey
-	 */
-	public function setLastKey(lastKey)
-	{
-		let this->_lastKey = lastKey;
-	}
-
-	/**
-	 * Gets the last key stored by the cache
-	 *
-	 * @return string
-	 */
-	public function getLastKey()
-	{
-		return this->_lastKey;
-	}
-
-	/**
-	 * Gets the last lifetime set
-	 *
-	 * @return int
-	 */
-	public function getLifetime()
-	{
-		return this->_lastLifetime;
-	}
 
 }

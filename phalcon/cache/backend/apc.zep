@@ -139,7 +139,7 @@ class Apc extends Phalcon\Cache\Backend implements Phalcon\Cache\BackendInterfac
 	 * @param string keyName
 	 * @return boolean
 	 */
-	public function delete(keyName)
+	public function delete(keyName) -> boolean
 	{
 		return apc_delete("_PHCA" . this->_prefix . keyName);
 	}
@@ -150,9 +150,18 @@ class Apc extends Phalcon\Cache\Backend implements Phalcon\Cache\BackendInterfac
 	 * @param string prefix
 	 * @return array
 	 */
-	public function queryKeys(prefix=null)
+	public function queryKeys(string prefix=null)
 	{
+		var prefixPattern, ret, type;
 
+		if !prefix {
+			let prefixPattern = "/^_PHCA/";
+		} else {
+			let prefixPattern = "/^_PHCA/" . prefix;
+		}
+
+		let ret = [];
+		let iterator = new APCIterator("user", prefixPattern);
 	}
 
 	/**
@@ -162,7 +171,7 @@ class Apc extends Phalcon\Cache\Backend implements Phalcon\Cache\BackendInterfac
 	 * @param  long lifetime
 	 * @return boolean
 	 */
-	public function exists(keyName=null, lifetime=null)
+	public function exists(keyName=null, lifetime=null) -> boolean
 	{
 		var lastKey;
 
