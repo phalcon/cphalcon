@@ -223,7 +223,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getQualified) {
 			return;
 		}
 		ZEPHIR_INIT_VAR(columnMap);
-		if (ZEPHIR_GLOBAL(orm.column_renaming)) {
+		if (ZEPHIR_GLOBAL(orm).column_renaming) {
 			sqlAliasesModelsInstances = zephir_fetch_nproperty_this(this_ptr, SL("_sqlAliasesModelsInstances"), PH_NOISY_CC);
 			ZEPHIR_OBS_VAR(model);
 			if (!(zephir_array_isset_fetch(&model, sqlAliasesModelsInstances, columnDomain, 0 TSRMLS_CC))) {
@@ -316,7 +316,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getQualified) {
 			return;
 		}
 		ZEPHIR_INIT_NVAR(columnMap);
-		if (ZEPHIR_GLOBAL(orm.column_renaming)) {
+		if (ZEPHIR_GLOBAL(orm).column_renaming) {
 			zephir_call_method_p1(columnMap, metaData, "getreversecolumnmap", (hasModel ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false)));
 		} else {
 			ZVAL_NULL(columnMap);

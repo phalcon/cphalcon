@@ -140,7 +140,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, _initialize) {
 			}
 		}
 	}
-	if (ZEPHIR_GLOBAL(orm.column_renaming)) {
+	if (ZEPHIR_GLOBAL(orm).column_renaming) {
 		RETURN_MM_NULL();
 	}
 	ZEPHIR_INIT_VAR(keyName);

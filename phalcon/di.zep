@@ -130,10 +130,9 @@ class Di implements Phalcon\DiInterface
 	 */
 	public function attempt(string! name, definition, boolean shared=false) -> <Phalcon\Di\ServiceInterface> | boolean
 	{
-		var services, service;
+		var service;
 
-		let services = this->_services;
-		if !isset services[name] {
+		if !isset this->_services[name] {
 			let service = new Phalcon\Di\Service(name, definition, shared),
 				this->_services[name] = service;
 			return service;
@@ -163,10 +162,9 @@ class Di implements Phalcon\DiInterface
 	 */
 	public function getRaw(string! name)
 	{
-		var services, service;
+		var service;
 
-		let services = this->_services;
-		if fetch service, services[name] {
+		if fetch service, this->_services[name] {
 			return service->getDefinition();
 		}
 
@@ -181,10 +179,9 @@ class Di implements Phalcon\DiInterface
 	 */
 	public function getService(string! name) -> <Phalcon\Di\ServiceInterface>
 	{
-		var services, service;
+		var service;
 
-		let services = this->_services;
-		if fetch service, services[name] {
+		if fetch service, this->_services[name] {
 			return service;
 		}
 
@@ -200,10 +197,9 @@ class Di implements Phalcon\DiInterface
 	 */
 	public function get(string! name, parameters=null)
 	{
-		var services, service, instance;
+		var service, instance;
 
-		let services = this->_services;
-		if fetch service, services[name] {
+		if fetch service, this->_services[name] {
 			/**
 			 * The service is registered in the DI
 			 */
@@ -248,13 +244,12 @@ class Di implements Phalcon\DiInterface
 	 */
 	public function getShared(string! name, parameters=null)
 	{
-		var instance, sharedInstances;
+		var instance;
 
 		/**
 		 * This method provides a first level to shared instances allowing to use non-shared services as shared
 		 */
-		let sharedInstances = this->_sharedInstances;
-		if fetch instance, sharedInstances[name] {
+		if fetch instance, this->_sharedInstances[name] {
 			let this->_freshInstance = false;
 		} else {
 
@@ -281,9 +276,7 @@ class Di implements Phalcon\DiInterface
 	 */
 	public function has(string! name) -> boolean
 	{
-		var services;
-		let services = this->_services;
-		return isset services[name];
+		return isset this->_services[name];
 	}
 
 	/**

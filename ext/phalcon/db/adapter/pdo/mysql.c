@@ -85,14 +85,14 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Mysql, escapeIdentifier) {
 	if ((Z_TYPE_P(identifier) == IS_ARRAY)) {
 		zephir_array_fetch_long(&domain, identifier, 0, PH_NOISY | PH_READONLY TSRMLS_CC);
 		zephir_array_fetch_long(&name, identifier, 1, PH_NOISY | PH_READONLY TSRMLS_CC);
-		if (ZEPHIR_GLOBAL(db.escape_identifiers)) {
+		if (ZEPHIR_GLOBAL(db).escape_identifiers) {
 			ZEPHIR_CONCAT_SVSVS(return_value, "`", domain, "`.`", name, "`");
 			return;
 		}
 		ZEPHIR_CONCAT_VSV(return_value, domain, ".", name);
 		return;
 	}
-	if (ZEPHIR_GLOBAL(db.escape_identifiers)) {
+	if (ZEPHIR_GLOBAL(db).escape_identifiers) {
 		ZEPHIR_CONCAT_SVS(return_value, "`", identifier, "`");
 		return;
 	}

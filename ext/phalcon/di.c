@@ -210,7 +210,7 @@ PHP_METHOD(Phalcon_Di, remove) {
 PHP_METHOD(Phalcon_Di, attempt) {
 
 	zend_bool shared;
-	zval *name_param = NULL, *definition, *shared_param = NULL, *services, *service;
+	zval *name_param = NULL, *definition, *shared_param = NULL, *service, *_0;
 	zval *name = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -230,8 +230,8 @@ PHP_METHOD(Phalcon_Di, attempt) {
 	}
 
 
-	services = zephir_fetch_nproperty_this(this_ptr, SL("_services"), PH_NOISY_CC);
-	if (!(zephir_array_isset(services, name))) {
+	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_services"), PH_NOISY_CC);
+	if (!(zephir_array_isset(_0, name))) {
 		ZEPHIR_INIT_VAR(service);
 		object_init_ex(service, phalcon_di_service_ce);
 		zephir_call_method_p3_noret(service, "__construct", name, definition, (shared ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false)));
@@ -279,7 +279,7 @@ PHP_METHOD(Phalcon_Di, setRaw) {
  */
 PHP_METHOD(Phalcon_Di, getRaw) {
 
-	zval *name_param = NULL, *services, *service, *_0, *_1;
+	zval *name_param = NULL, *service, *_0, *_1, *_2;
 	zval *name = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -294,17 +294,17 @@ PHP_METHOD(Phalcon_Di, getRaw) {
 
 
 
-	services = zephir_fetch_nproperty_this(this_ptr, SL("_services"), PH_NOISY_CC);
-	if (zephir_array_isset_fetch(&service, services, name, 1 TSRMLS_CC)) {
+	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_services"), PH_NOISY_CC);
+	if (zephir_array_isset_fetch(&service, _0, name, 1 TSRMLS_CC)) {
 		zephir_call_method(return_value, service, "getdefinition");
 		RETURN_MM();
 	}
-	ZEPHIR_INIT_VAR(_0);
-	object_init_ex(_0, phalcon_di_exception_ce);
 	ZEPHIR_INIT_VAR(_1);
-	ZEPHIR_CONCAT_SVS(_1, "Service '", name, "' wasn't found in the dependency injection container");
-	zephir_call_method_p1_noret(_0, "__construct", _1);
-	zephir_throw_exception(_0 TSRMLS_CC);
+	object_init_ex(_1, phalcon_di_exception_ce);
+	ZEPHIR_INIT_VAR(_2);
+	ZEPHIR_CONCAT_SVS(_2, "Service '", name, "' wasn't found in the dependency injection container");
+	zephir_call_method_p1_noret(_1, "__construct", _2);
+	zephir_throw_exception(_1 TSRMLS_CC);
 	ZEPHIR_MM_RESTORE();
 	return;
 
@@ -318,7 +318,7 @@ PHP_METHOD(Phalcon_Di, getRaw) {
  */
 PHP_METHOD(Phalcon_Di, getService) {
 
-	zval *name_param = NULL, *services, *service, *_0, *_1;
+	zval *name_param = NULL, *service, *_0, *_1, *_2;
 	zval *name = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -333,16 +333,16 @@ PHP_METHOD(Phalcon_Di, getService) {
 
 
 
-	services = zephir_fetch_nproperty_this(this_ptr, SL("_services"), PH_NOISY_CC);
-	if (zephir_array_isset_fetch(&service, services, name, 1 TSRMLS_CC)) {
+	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_services"), PH_NOISY_CC);
+	if (zephir_array_isset_fetch(&service, _0, name, 1 TSRMLS_CC)) {
 		RETURN_CTOR(service);
 	}
-	ZEPHIR_INIT_VAR(_0);
-	object_init_ex(_0, phalcon_di_exception_ce);
 	ZEPHIR_INIT_VAR(_1);
-	ZEPHIR_CONCAT_SVS(_1, "Service '", name, "' wasn't found in the dependency injection container");
-	zephir_call_method_p1_noret(_0, "__construct", _1);
-	zephir_throw_exception(_0 TSRMLS_CC);
+	object_init_ex(_1, phalcon_di_exception_ce);
+	ZEPHIR_INIT_VAR(_2);
+	ZEPHIR_CONCAT_SVS(_2, "Service '", name, "' wasn't found in the dependency injection container");
+	zephir_call_method_p1_noret(_1, "__construct", _2);
+	zephir_throw_exception(_1 TSRMLS_CC);
 	ZEPHIR_MM_RESTORE();
 	return;
 
@@ -357,7 +357,7 @@ PHP_METHOD(Phalcon_Di, getService) {
  */
 PHP_METHOD(Phalcon_Di, get) {
 
-	zval *name_param = NULL, *parameters = NULL, *services, *service, *instance = NULL, *_0, *_1, *_2;
+	zval *name_param = NULL, *parameters = NULL, *service, *instance = NULL, *_0, *_1, *_2, *_3;
 	zval *name = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -375,14 +375,14 @@ PHP_METHOD(Phalcon_Di, get) {
 	}
 
 
-	services = zephir_fetch_nproperty_this(this_ptr, SL("_services"), PH_NOISY_CC);
-	if (zephir_array_isset_fetch(&service, services, name, 1 TSRMLS_CC)) {
+	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_services"), PH_NOISY_CC);
+	if (zephir_array_isset_fetch(&service, _0, name, 1 TSRMLS_CC)) {
 		ZEPHIR_INIT_VAR(instance);
 		zephir_call_method_p2(instance, service, "resolve", parameters, this_ptr);
 	} else {
-		ZEPHIR_INIT_VAR(_0);
-		zephir_call_func_p1(_0, "class_exists", name);
-		if (zephir_is_true(_0)) {
+		ZEPHIR_INIT_VAR(_1);
+		zephir_call_func_p1(_1, "class_exists", name);
+		if (zephir_is_true(_1)) {
 			if ((Z_TYPE_P(parameters) == IS_STRING)) {
 				ZEPHIR_INIT_NVAR(instance);
 				if (zephir_fast_count_int(parameters TSRMLS_CC)) {
@@ -401,12 +401,12 @@ PHP_METHOD(Phalcon_Di, get) {
 				}
 			}
 		} else {
-			ZEPHIR_INIT_VAR(_1);
-			object_init_ex(_1, phalcon_di_exception_ce);
 			ZEPHIR_INIT_VAR(_2);
-			ZEPHIR_CONCAT_SVS(_2, "Service '", name, "' wasn't found in the dependency injection container");
-			zephir_call_method_p1_noret(_1, "__construct", _2);
-			zephir_throw_exception(_1 TSRMLS_CC);
+			object_init_ex(_2, phalcon_di_exception_ce);
+			ZEPHIR_INIT_VAR(_3);
+			ZEPHIR_CONCAT_SVS(_3, "Service '", name, "' wasn't found in the dependency injection container");
+			zephir_call_method_p1_noret(_2, "__construct", _3);
+			zephir_throw_exception(_2 TSRMLS_CC);
 			ZEPHIR_MM_RESTORE();
 			return;
 		}
@@ -429,7 +429,7 @@ PHP_METHOD(Phalcon_Di, get) {
  */
 PHP_METHOD(Phalcon_Di, getShared) {
 
-	zval *name_param = NULL, *parameters = NULL, *instance, *sharedInstances;
+	zval *name_param = NULL, *parameters = NULL, *instance, *_0;
 	zval *name = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -447,9 +447,9 @@ PHP_METHOD(Phalcon_Di, getShared) {
 	}
 
 
-	sharedInstances = zephir_fetch_nproperty_this(this_ptr, SL("_sharedInstances"), PH_NOISY_CC);
 	ZEPHIR_OBS_VAR(instance);
-	if (zephir_array_isset_fetch(&instance, sharedInstances, name, 0 TSRMLS_CC)) {
+	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_sharedInstances"), PH_NOISY_CC);
+	if (zephir_array_isset_fetch(&instance, _0, name, 0 TSRMLS_CC)) {
 		zephir_update_property_this(this_ptr, SL("_freshInstance"), (0) ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
 	} else {
 		ZEPHIR_INIT_BNVAR(instance);
@@ -469,7 +469,7 @@ PHP_METHOD(Phalcon_Di, getShared) {
  */
 PHP_METHOD(Phalcon_Di, has) {
 
-	zval *name_param = NULL, *services;
+	zval *name_param = NULL, *_0;
 	zval *name = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -484,8 +484,8 @@ PHP_METHOD(Phalcon_Di, has) {
 
 
 
-	services = zephir_fetch_nproperty_this(this_ptr, SL("_services"), PH_NOISY_CC);
-	RETURN_MM_BOOL(zephir_array_isset(services, name));
+	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_services"), PH_NOISY_CC);
+	RETURN_MM_BOOL(zephir_array_isset(_0, name));
 
 }
 

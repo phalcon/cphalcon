@@ -230,7 +230,7 @@ PHP_METHOD(Phalcon_Db_Dialect, getSqlExpression) {
 	}
 
 
-	if (ZEPHIR_GLOBAL(db.escape_identifiers)) {
+	if (ZEPHIR_GLOBAL(db).escape_identifiers) {
 		if (ZEPHIR_IS_STRING(escapeChar, "")) {
 			ZEPHIR_OBS_VAR(_0);
 			zephir_read_property_this(&_0, this_ptr, SL("_escapeChar"), PH_NOISY_CC);
@@ -249,14 +249,14 @@ PHP_METHOD(Phalcon_Db_Dialect, getSqlExpression) {
 	if (ZEPHIR_IS_STRING(type, "qualified")) {
 		ZEPHIR_OBS_VAR(name);
 		zephir_array_fetch_string(&name, expression, SL("name"), PH_NOISY TSRMLS_CC);
-		if (ZEPHIR_GLOBAL(db.escape_identifiers)) {
+		if (ZEPHIR_GLOBAL(db).escape_identifiers) {
 			ZEPHIR_INIT_VAR(escapedName);
 			ZEPHIR_CONCAT_VVV(escapedName, escapeChar, name, escapeChar);
 		} else {
 			ZEPHIR_CPY_WRT(escapedName, name);
 		}
 		if (zephir_array_isset_string_fetch(&domain, expression, SS("domain"), 1 TSRMLS_CC)) {
-			if (ZEPHIR_GLOBAL(db.escape_identifiers)) {
+			if (ZEPHIR_GLOBAL(db).escape_identifiers) {
 				ZEPHIR_CONCAT_VVVSV(return_value, escapeChar, domain, escapeChar, ".", escapedName);
 				RETURN_MM();
 			} else {
@@ -418,7 +418,7 @@ PHP_METHOD(Phalcon_Db_Dialect, getSqlTable) {
 	}
 	if ((Z_TYPE_P(table) == IS_ARRAY)) {
 		zephir_array_fetch_long(&tableName, table, 0, PH_NOISY | PH_READONLY TSRMLS_CC);
-		if (ZEPHIR_GLOBAL(db.escape_identifiers)) {
+		if (ZEPHIR_GLOBAL(db).escape_identifiers) {
 			ZEPHIR_INIT_VAR(sqlTable);
 			ZEPHIR_CONCAT_VVV(sqlTable, escapeChar, tableName, escapeChar);
 		} else {
@@ -427,7 +427,7 @@ PHP_METHOD(Phalcon_Db_Dialect, getSqlTable) {
 		zephir_array_fetch_long(&schemaName, table, 1, PH_NOISY | PH_READONLY TSRMLS_CC);
 		if ((Z_TYPE_P(schemaName) != IS_ARRAY)) {
 			ZEPHIR_INIT_VAR(sqlSchema);
-			if (ZEPHIR_GLOBAL(db.escape_identifiers)) {
+			if (ZEPHIR_GLOBAL(db).escape_identifiers) {
 				ZEPHIR_CONCAT_VVVSV(sqlSchema, escapeChar, schemaName, escapeChar, ".", sqlTable);
 			} else {
 				ZEPHIR_CONCAT_VSV(sqlSchema, schemaName, ".", sqlTable);
@@ -437,7 +437,7 @@ PHP_METHOD(Phalcon_Db_Dialect, getSqlTable) {
 		}
 		if (zephir_array_isset_long_fetch(&aliasName, table, 2, 1 TSRMLS_CC)) {
 			ZEPHIR_INIT_VAR(sqlTableAlias);
-			if (ZEPHIR_GLOBAL(db.escape_identifiers)) {
+			if (ZEPHIR_GLOBAL(db).escape_identifiers) {
 				ZEPHIR_CONCAT_VSVVV(sqlTableAlias, sqlSchema, " AS ", escapeChar, aliasName, escapeChar);
 			} else {
 				ZEPHIR_CONCAT_VSV(sqlTableAlias, sqlSchema, " AS ", aliasName);
@@ -447,7 +447,7 @@ PHP_METHOD(Phalcon_Db_Dialect, getSqlTable) {
 		}
 		RETURN_CCTOR(sqlTableAlias);
 	}
-	if (ZEPHIR_GLOBAL(db.escape_identifiers)) {
+	if (ZEPHIR_GLOBAL(db).escape_identifiers) {
 		ZEPHIR_CONCAT_VVV(return_value, escapeChar, table, escapeChar);
 		RETURN_MM();
 	}
@@ -487,7 +487,7 @@ PHP_METHOD(Phalcon_Db_Dialect, select) {
 		return;
 	}
 	ZEPHIR_INIT_VAR(escapeChar);
-	if (ZEPHIR_GLOBAL(db.escape_identifiers)) {
+	if (ZEPHIR_GLOBAL(db).escape_identifiers) {
 		zephir_read_property_this(&escapeChar, this_ptr, SL("_escapeChar"), PH_NOISY_CC);
 	} else {
 		ZVAL_NULL(escapeChar);
@@ -511,7 +511,7 @@ PHP_METHOD(Phalcon_Db_Dialect, select) {
 				if (ZEPHIR_IS_STRING(columnItem, "*")) {
 					ZEPHIR_CPY_WRT(columnSql, columnItem);
 				} else {
-					if (ZEPHIR_GLOBAL(db.escape_identifiers)) {
+					if (ZEPHIR_GLOBAL(db).escape_identifiers) {
 						ZEPHIR_INIT_NVAR(columnSql);
 						ZEPHIR_CONCAT_VVV(columnSql, escapeChar, columnItem, escapeChar);
 					} else {
@@ -522,7 +522,7 @@ PHP_METHOD(Phalcon_Db_Dialect, select) {
 			if (zephir_array_isset_long_fetch(&columnDomain, column, 1, 1 TSRMLS_CC)) {
 				if (zephir_is_true(columnDomain)) {
 					ZEPHIR_INIT_NVAR(columnDomainSql);
-					if (ZEPHIR_GLOBAL(db.escape_identifiers)) {
+					if (ZEPHIR_GLOBAL(db).escape_identifiers) {
 						ZEPHIR_CONCAT_VVVSV(columnDomainSql, escapeChar, columnDomain, escapeChar, ".", columnSql);
 					} else {
 						ZEPHIR_CONCAT_VSV(columnDomainSql, columnDomain, ".", columnSql);
@@ -536,7 +536,7 @@ PHP_METHOD(Phalcon_Db_Dialect, select) {
 			if (zephir_array_isset_long_fetch(&columnAlias, column, 2, 1 TSRMLS_CC)) {
 				if (zephir_is_true(columnAlias)) {
 					ZEPHIR_INIT_NVAR(columnAliasSql);
-					if (ZEPHIR_GLOBAL(db.escape_identifiers)) {
+					if (ZEPHIR_GLOBAL(db).escape_identifiers) {
 						ZEPHIR_CONCAT_VSVVV(columnAliasSql, columnDomainSql, " AS ", escapeChar, columnAlias, escapeChar);
 					} else {
 						ZEPHIR_CONCAT_VSV(columnAliasSql, columnDomainSql, " AS ", columnAlias);

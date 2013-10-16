@@ -448,7 +448,7 @@ PHP_METHOD(Phalcon_Db_Adapter, insert) {
 			}
 		}
 	}
-	if (ZEPHIR_GLOBAL(db.escape_identifiers)) {
+	if (ZEPHIR_GLOBAL(db).escape_identifiers) {
 		ZEPHIR_INIT_VAR(escapedTable);
 		zephir_call_method_p1(escapedTable, this_ptr, "escapeidentifier", table);
 	} else {
@@ -458,7 +458,7 @@ PHP_METHOD(Phalcon_Db_Adapter, insert) {
 	zephir_fast_join_str(joinedValues, SL(", "), placeholders TSRMLS_CC);
 	ZEPHIR_INIT_VAR(insertSql);
 	if ((Z_TYPE_P(fields) == IS_ARRAY)) {
-		if (ZEPHIR_GLOBAL(db.escape_identifiers)) {
+		if (ZEPHIR_GLOBAL(db).escape_identifiers) {
 			ZEPHIR_INIT_VAR(escapedFields);
 			array_init(escapedFields);
 			zephir_is_iterable(fields, &_7, &_6, 0, 0);
@@ -547,7 +547,7 @@ PHP_METHOD(Phalcon_Db_Adapter, update) {
 			ZEPHIR_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "The number of values in the update is not the same as fields");
 			return;
 		}
-		if (ZEPHIR_GLOBAL(db.escape_identifiers)) {
+		if (ZEPHIR_GLOBAL(db).escape_identifiers) {
 			ZEPHIR_INIT_NVAR(escapedField);
 			zephir_call_method_p1_cache(escapedField, this_ptr, "escapeidentifier", &_3, field);
 		} else {
@@ -577,7 +577,7 @@ PHP_METHOD(Phalcon_Db_Adapter, update) {
 			}
 		}
 	}
-	if (ZEPHIR_GLOBAL(db.escape_identifiers)) {
+	if (ZEPHIR_GLOBAL(db).escape_identifiers) {
 		ZEPHIR_INIT_VAR(escapedTable);
 		zephir_call_method_p1(escapedTable, this_ptr, "escapeidentifier", table);
 	} else {
@@ -651,7 +651,7 @@ PHP_METHOD(Phalcon_Db_Adapter, delete) {
 	}
 
 
-	if (ZEPHIR_GLOBAL(db.escape_identifiers)) {
+	if (ZEPHIR_GLOBAL(db).escape_identifiers) {
 		ZEPHIR_INIT_VAR(escapedTable);
 		zephir_call_method_p1(escapedTable, this_ptr, "escapeidentifier", table);
 	} else {

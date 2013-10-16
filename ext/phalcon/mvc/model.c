@@ -1128,7 +1128,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _exists) {
 			RETURN_MM_BOOL(0);
 		}
 		ZEPHIR_INIT_VAR(columnMap);
-		if (ZEPHIR_GLOBAL(orm.column_renaming)) {
+		if (ZEPHIR_GLOBAL(orm).column_renaming) {
 			zephir_call_method_p1(columnMap, metaData, "getcolumnmap", this_ptr);
 		} else {
 			ZVAL_NULL(columnMap);
@@ -1899,7 +1899,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _checkForeignKeysRestrict) {
 			}
 		}
 		if ((error == 1)) {
-			if (ZEPHIR_GLOBAL(orm.events)) {
+			if (ZEPHIR_GLOBAL(orm).events) {
 				ZEPHIR_INIT_NVAR(_5);
 				ZVAL_STRING(_5, "onValidationFails", 1);
 				zephir_call_method_p1_noret(this_ptr, "fireevent", _5);
@@ -2103,7 +2103,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _checkForeignKeysReverseRestrict) {
 			}
 		}
 		if ((error == 1)) {
-			if (ZEPHIR_GLOBAL(orm.events)) {
+			if (ZEPHIR_GLOBAL(orm).events) {
 				ZEPHIR_INIT_NVAR(_13);
 				ZVAL_STRING(_13, "onValidationFails", 1);
 				zephir_call_method_p1_noret(this_ptr, "fireevent", _13);
@@ -2138,7 +2138,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _preSave) {
 		exists = zephir_get_boolval(exists_param);
 
 
-	if (ZEPHIR_GLOBAL(orm.events)) {
+	if (ZEPHIR_GLOBAL(orm).events) {
 		ZEPHIR_INIT_VAR(_0);
 		ZEPHIR_INIT_VAR(_1);
 		ZVAL_STRING(_1, "beforeValidation", 1);
@@ -2164,21 +2164,21 @@ PHP_METHOD(Phalcon_Mvc_Model, _preSave) {
 			}
 		}
 	}
-	if (ZEPHIR_GLOBAL(orm.virtual_foreign_keys)) {
+	if (ZEPHIR_GLOBAL(orm).virtual_foreign_keys) {
 		ZEPHIR_INIT_NVAR(_0);
 		zephir_call_method(_0, this_ptr, "_checkforeignkeysrestrict");
 		if (ZEPHIR_IS_FALSE(_0)) {
 			RETURN_MM_BOOL(0);
 		}
 	}
-	if (ZEPHIR_GLOBAL(orm.not_null_validations)) {
+	if (ZEPHIR_GLOBAL(orm).not_null_validations) {
 		ZEPHIR_INIT_VAR(notNull);
 		zephir_call_method_p1(notNull, metaData, "getnotnullattributes", this_ptr);
 		if ((Z_TYPE_P(notNull) == IS_ARRAY)) {
 			ZEPHIR_INIT_VAR(dataTypeNumeric);
 			zephir_call_method_p1(dataTypeNumeric, metaData, "getdatatypesnumeric", this_ptr);
 			ZEPHIR_INIT_VAR(columnMap);
-			if (ZEPHIR_GLOBAL(orm.column_renaming)) {
+			if (ZEPHIR_GLOBAL(orm).column_renaming) {
 				zephir_call_method_p1(columnMap, metaData, "getcolumnmap", this_ptr);
 			} else {
 				ZVAL_NULL(columnMap);
@@ -2247,7 +2247,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _preSave) {
 				}
 			}
 			if ((error == 1)) {
-				if (ZEPHIR_GLOBAL(orm.events)) {
+				if (ZEPHIR_GLOBAL(orm).events) {
 					ZEPHIR_INIT_NVAR(_0);
 					ZVAL_STRING(_0, "onValidationFails", 1);
 					zephir_call_method_p1_noret(this_ptr, "fireevent", _0);
@@ -2262,14 +2262,14 @@ PHP_METHOD(Phalcon_Mvc_Model, _preSave) {
 	ZVAL_STRING(_1, "validation", 1);
 	zephir_call_method_p1(_0, this_ptr, "fireeventcancel", _1);
 	if (ZEPHIR_IS_FALSE(_0)) {
-		if (ZEPHIR_GLOBAL(orm.events)) {
+		if (ZEPHIR_GLOBAL(orm).events) {
 			ZEPHIR_INIT_NVAR(_1);
 			ZVAL_STRING(_1, "onValidationFails", 1);
 			zephir_call_method_p1_noret(this_ptr, "fireevent", _1);
 		}
 		RETURN_MM_BOOL(0);
 	}
-	if (ZEPHIR_GLOBAL(orm.events)) {
+	if (ZEPHIR_GLOBAL(orm).events) {
 		if (!(exists)) {
 			ZEPHIR_INIT_NVAR(_0);
 			ZEPHIR_INIT_NVAR(_1);
@@ -2407,7 +2407,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _doLowInsert) {
 	ZEPHIR_INIT_VAR(automaticAttributes);
 	zephir_call_method_p1(automaticAttributes, metaData, "getautomaticcreateattributes", this_ptr);
 	ZEPHIR_INIT_VAR(columnMap);
-	if (ZEPHIR_GLOBAL(orm.column_renaming)) {
+	if (ZEPHIR_GLOBAL(orm).column_renaming) {
 		zephir_call_method_p1(columnMap, metaData, "getcolumnmap", this_ptr);
 	} else {
 		ZVAL_NULL(columnMap);
@@ -2586,7 +2586,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _doLowUpdate) {
 	ZEPHIR_INIT_VAR(automaticAttributes);
 	zephir_call_method_p1(automaticAttributes, metaData, "getautomaticupdateattributes", this_ptr);
 	ZEPHIR_INIT_VAR(columnMap);
-	if (ZEPHIR_GLOBAL(orm.column_renaming)) {
+	if (ZEPHIR_GLOBAL(orm).column_renaming) {
 		zephir_call_method_p1(columnMap, metaData, "getcolumnmap", this_ptr);
 	} else {
 		ZVAL_NULL(columnMap);
@@ -3069,7 +3069,7 @@ PHP_METHOD(Phalcon_Mvc_Model, save) {
 		if ((Z_TYPE_P(related) == IS_ARRAY)) {
 			zephir_call_method_p1_noret(writeConnection, "rollback", ZEPHIR_GLOBAL(global_false));
 		}
-		if (ZEPHIR_GLOBAL(orm.exception_on_failed_save)) {
+		if (ZEPHIR_GLOBAL(orm).exception_on_failed_save) {
 			ZEPHIR_INIT_VAR(_7);
 			object_init_ex(_7, phalcon_mvc_model_validationfailed_ce);
 			_4 = zephir_fetch_nproperty_this(this_ptr, SL("_errorMessages"), PH_NOISY_CC);
@@ -3091,7 +3091,7 @@ PHP_METHOD(Phalcon_Mvc_Model, save) {
 		ZVAL_LONG(_4, 0);
 		zephir_update_property_this(this_ptr, SL("_dirtyState"), _4 TSRMLS_CC);
 	}
-	if (ZEPHIR_GLOBAL(orm.events)) {
+	if (ZEPHIR_GLOBAL(orm).events) {
 		ZEPHIR_INIT_NVAR(_7);
 		zephir_call_method_p2(_7, this_ptr, "_postsave", success, exists);
 		ZEPHIR_CPY_WRT(success, _7);
@@ -3162,7 +3162,7 @@ PHP_METHOD(Phalcon_Mvc_Model, create) {
 			return;
 		}
 		ZEPHIR_INIT_VAR(columnMap);
-		if (ZEPHIR_GLOBAL(orm.column_renaming)) {
+		if (ZEPHIR_GLOBAL(orm).column_renaming) {
 			zephir_call_method_p1(columnMap, metaData, "getcolumnmap", this_ptr);
 		} else {
 			ZVAL_NULL(columnMap);
@@ -3274,7 +3274,7 @@ PHP_METHOD(Phalcon_Mvc_Model, update) {
 		ZEPHIR_INIT_BNVAR(metaData);
 		zephir_call_method(metaData, this_ptr, "getmodelsmetadata");
 		ZEPHIR_INIT_VAR(columnMap);
-		if (ZEPHIR_GLOBAL(orm.column_renaming)) {
+		if (ZEPHIR_GLOBAL(orm).column_renaming) {
 			zephir_call_method_p1(columnMap, metaData, "getcolumnmap", this_ptr);
 		} else {
 			ZVAL_NULL(columnMap);
@@ -3383,7 +3383,7 @@ PHP_METHOD(Phalcon_Mvc_Model, delete) {
 	ZEPHIR_INIT_VAR(_1);
 	array_init(_1);
 	zephir_update_property_this(this_ptr, SL("_errorMessages"), _1 TSRMLS_CC);
-	if (ZEPHIR_GLOBAL(orm.virtual_foreign_keys)) {
+	if (ZEPHIR_GLOBAL(orm).virtual_foreign_keys) {
 		ZEPHIR_INIT_VAR(_2);
 		zephir_call_method(_2, this_ptr, "_checkforeignkeysreverserestrict");
 		if (ZEPHIR_IS_FALSE(_2)) {
@@ -3401,7 +3401,7 @@ PHP_METHOD(Phalcon_Mvc_Model, delete) {
 	ZEPHIR_INIT_VAR(bindDataTypes);
 	zephir_call_method_p1(bindDataTypes, metaData, "getbindtypes", this_ptr);
 	ZEPHIR_INIT_VAR(columnMap);
-	if (ZEPHIR_GLOBAL(orm.column_renaming)) {
+	if (ZEPHIR_GLOBAL(orm).column_renaming) {
 		zephir_call_method_p1(columnMap, metaData, "getcolumnmap", this_ptr);
 	} else {
 		ZVAL_NULL(columnMap);
@@ -3459,7 +3459,7 @@ PHP_METHOD(Phalcon_Mvc_Model, delete) {
 		zephir_array_append(&conditions, _6, PH_SEPARATE);
 		zephir_array_append(&bindTypes, bindType, PH_SEPARATE);
 	}
-	if (ZEPHIR_GLOBAL(orm.events)) {
+	if (ZEPHIR_GLOBAL(orm).events) {
 		zephir_update_property_this(this_ptr, SL("_skipped"), (0) ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
 		ZEPHIR_INIT_NVAR(_2);
 		ZEPHIR_INIT_VAR(_11);
@@ -3490,14 +3490,14 @@ PHP_METHOD(Phalcon_Mvc_Model, delete) {
 	zephir_fast_join_str(_2, SL(" AND "), conditions TSRMLS_CC);
 	ZEPHIR_INIT_VAR(success);
 	zephir_call_method_p4(success, writeConnection, "delete", table, _2, values, bindTypes);
-	if (ZEPHIR_GLOBAL(orm.virtual_foreign_keys)) {
+	if (ZEPHIR_GLOBAL(orm).virtual_foreign_keys) {
 		ZEPHIR_INIT_NVAR(_11);
 		zephir_call_method(_11, this_ptr, "_checkforeignkeysreversecascade");
 		if (ZEPHIR_IS_FALSE(_11)) {
 			RETURN_MM_BOOL(0);
 		}
 	}
-	if (ZEPHIR_GLOBAL(orm.events)) {
+	if (ZEPHIR_GLOBAL(orm).events) {
 		if (zephir_is_true(success)) {
 			ZEPHIR_INIT_NVAR(_2);
 			ZVAL_STRING(_2, "afterDelete", 1);
@@ -3659,7 +3659,7 @@ PHP_METHOD(Phalcon_Mvc_Model, readAttribute) {
 
 
 
-	if (zephir_isset_property_zval(this_ptr, attribute TSRMLS_CC)) {
+	if (0 == 0) {
 		ZEPHIR_OBS_VAR(_0);
 		zephir_read_property_zval(&_0, this_ptr, attribute, PH_NOISY_CC);
 		RETURN_CCTOR(_0);

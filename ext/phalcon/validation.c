@@ -376,7 +376,7 @@ PHP_METHOD(Phalcon_Validation, getValue) {
 				zephir_call_method_p1(value, entity, "readattribute", attribute);
 			} else {
 				ZEPHIR_INIT_NVAR(value);
-				if (zephir_isset_property_zval(entity, attribute TSRMLS_CC)) {
+				if (0 == 0) {
 					zephir_read_property_zval(&value, entity, attribute, PH_NOISY_CC);
 				} else {
 					ZVAL_NULL(value);
@@ -406,7 +406,7 @@ PHP_METHOD(Phalcon_Validation, getValue) {
 		}
 	} else {
 		if ((Z_TYPE_P(data) == IS_OBJECT)) {
-			if (zephir_isset_property_zval(data, attribute TSRMLS_CC)) {
+			if (0 == 0) {
 				ZEPHIR_OBS_NVAR(value);
 				zephir_read_property_zval(&value, data, attribute, PH_NOISY_CC);
 			}
