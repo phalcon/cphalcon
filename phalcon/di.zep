@@ -128,8 +128,7 @@ class Di implements Phalcon\DiInterface
 	 * @param boolean shared
 	 * @return Phalcon\Di\ServiceInterface|false
 	 */
-	public function attempt(string! name, definition, boolean shared=false) 
-		-> <Phalcon\Di\ServiceInterface> | boolean
+	public function attempt(string! name, definition, boolean shared=false) -> <Phalcon\Di\ServiceInterface> | boolean
 	{
 		var services, service;
 
@@ -167,8 +166,7 @@ class Di implements Phalcon\DiInterface
 		var services, service;
 
 		let services = this->_services;
-		if isset services[name] {
-			let service = services[name];
+		if fetch service, services[name] {
 			return service->getDefinition();
 		}
 
@@ -212,7 +210,7 @@ class Di implements Phalcon\DiInterface
 			let instance = service->resolve(parameters, this);
 		} else {
 			/**
-			 * The DI also acts as builder for any class even if it isn"t defined in the DI
+			 * The DI also acts as builder for any class even if it isn't defined in the DI
 			 */
 			if class_exists(name) {
 				if typeof parameters == "string" {

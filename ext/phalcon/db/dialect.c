@@ -217,7 +217,7 @@ PHP_METHOD(Phalcon_Db_Dialect, getSqlExpression) {
 	HashTable *_10, *_14;
 	HashPosition _9, _13;
 	zval *escapeChar = NULL, *_3 = NULL;
-	zval *expression, *escapeChar_param = NULL, *type, *domain, *operator, *left = NULL, *right = NULL, *name = NULL, *sqlItems, *escapedName = NULL, *sqlArguments, *arguments, *argument = NULL, *items, *item = NULL, *_0, *_1, *_2, *_4 = NULL, *_5 = NULL, *_6, *_7, *_8, **_11, **_15, *_17;
+	zval *expression, *escapeChar_param = NULL, *type, *domain, *operator, *left = NULL, *right = NULL, *name = NULL, *sqlItems, *escapedName = NULL, *sqlArguments, *arguments, *argument = NULL, *item = NULL, *_0, *_1, *_2, *_4 = NULL, *_5 = NULL, *_6, *_7, *_8, **_11, **_15, *_17;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 1, &expression, &escapeChar_param);
@@ -349,8 +349,8 @@ PHP_METHOD(Phalcon_Db_Dialect, getSqlExpression) {
 	if (ZEPHIR_IS_STRING(type, "list")) {
 		ZEPHIR_INIT_VAR(sqlItems);
 		array_init(sqlItems);
-		zephir_array_fetch_long(&items, expression, 0, PH_NOISY | PH_READONLY TSRMLS_CC);
-		zephir_is_iterable(items, &_14, &_13, 0, 0);
+		zephir_array_fetch_long(&_6, expression, 0, PH_NOISY | PH_READONLY TSRMLS_CC);
+		zephir_is_iterable(_6, &_14, &_13, 0, 0);
 		for (
 			; zend_hash_get_current_data_ex(_14, (void**) &_15, &_13) == SUCCESS
 			; zend_hash_move_forward_ex(_14, &_13)

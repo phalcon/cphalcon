@@ -78,6 +78,8 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_MetaData) {
 	zend_declare_class_constant_long(phalcon_mvc_model_metadata_ce, SL("MODELS_COLUMN_MAP"), 0 TSRMLS_CC);
 	zend_declare_class_constant_long(phalcon_mvc_model_metadata_ce, SL("MODELS_REVERSE_COLUMN_MAP"), 1 TSRMLS_CC);
 
+	zend_class_implements(phalcon_mvc_model_metadata_ce TSRMLS_CC, 1, phalcon_di_injectionawareinterface_ce);
+
 	return SUCCESS;
 
 }
@@ -260,7 +262,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, getStrategy) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_MetaData, readMetaData) {
 
-	zval *model, *source, *schema, *key, *metaData, *_0;
+	zval *model, *source, *schema, *key, *metaData, *_0, *_1, *_2;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &model);
@@ -279,7 +281,9 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, readMetaData) {
 	if (!(zephir_array_isset(metaData, key))) {
 		zephir_call_method_p4_noret(this_ptr, "_initialize", model, key, source, schema);
 	}
-	ZEPHIR_MM_RESTORE();
+	_1 = zephir_fetch_nproperty_this(this_ptr, SL("_metaData"), PH_NOISY_CC);
+	zephir_array_fetch(&_2, _1, key, PH_NOISY | PH_READONLY TSRMLS_CC);
+	RETURN_CTOR(_2);
 
 }
 
@@ -297,7 +301,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, readMetaData) {
 PHP_METHOD(Phalcon_Mvc_Model_MetaData, readMetaDataIndex) {
 
 	int index;
-	zval *model, *index_param = NULL, *source, *schema, *key, *metaData, *_0;
+	zval *model, *index_param = NULL, *source, *schema, *key, *metaData, *_0, *_1, *_2, *_3;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &model, &index_param);
@@ -316,8 +320,14 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, readMetaDataIndex) {
 	metaData = zephir_fetch_nproperty_this(this_ptr, SL("_metaData"), PH_NOISY_CC);
 	if (!(zephir_array_isset(metaData, key))) {
 		zephir_call_method_p4_noret(this_ptr, "_initialize", model, key, source, schema);
+		_1 = zephir_fetch_nproperty_this(this_ptr, SL("_metaData"), PH_NOISY_CC);
+		zephir_array_fetch(&_2, _1, key, PH_NOISY | PH_READONLY TSRMLS_CC);
+		zephir_array_fetch_long(&_3, _2, index, PH_NOISY | PH_READONLY TSRMLS_CC);
+		RETURN_CTOR(_3);
 	}
-	ZEPHIR_MM_RESTORE();
+	zephir_array_fetch(&_1, metaData, key, PH_NOISY | PH_READONLY TSRMLS_CC);
+	zephir_array_fetch_long(&_2, _1, index, PH_NOISY | PH_READONLY TSRMLS_CC);
+	RETURN_CTOR(_2);
 
 }
 
@@ -335,7 +345,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, readMetaDataIndex) {
 PHP_METHOD(Phalcon_Mvc_Model_MetaData, writeMetaDataIndex) {
 
 	int index;
-	zval *model, *index_param = NULL, *data, *source, *schema, *key, *metaData, *_0;
+	zval *model, *index_param = NULL, *data, *source, *schema, *key, *metaData, *_0, *_1;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 3, 0, &model, &index_param, &data);
@@ -359,6 +369,8 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, writeMetaDataIndex) {
 	if (!(zephir_array_isset(metaData, key))) {
 		zephir_call_method_p4_noret(this_ptr, "_initialize", model, key, source, schema);
 	}
+	_1 = zephir_fetch_nproperty_this(this_ptr, SL("_metaData"), PH_NOISY_CC);
+	zephir_array_update_multi(&_1, &data TSRMLS_CC, SL("zl"), 2, key, index);
 	ZEPHIR_MM_RESTORE();
 
 }
@@ -375,7 +387,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, writeMetaDataIndex) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_MetaData, readColumnMap) {
 
-	zval *model, *keyName, *columnMap = NULL, *data = NULL;
+	zval *model, *keyName, *columnMap, *data = NULL, *_0;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &model);
@@ -384,15 +396,13 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, readColumnMap) {
 
 	ZEPHIR_INIT_VAR(keyName);
 	zephir_call_func_p1(keyName, "get_class_lower", model);
-	ZEPHIR_OBS_VAR(columnMap);
-	zephir_read_property_this(&columnMap, this_ptr, SL("_columnMap"), PH_NOISY_CC);
+	columnMap = zephir_fetch_nproperty_this(this_ptr, SL("_columnMap"), PH_NOISY_CC);
 	ZEPHIR_OBS_VAR(data);
 	if (!(zephir_array_isset_fetch(&data, columnMap, keyName, 0 TSRMLS_CC))) {
 		zephir_call_method_p4_noret(this_ptr, "_initialize", model, ZEPHIR_GLOBAL(global_null), ZEPHIR_GLOBAL(global_null), ZEPHIR_GLOBAL(global_null));
-		ZEPHIR_OBS_NVAR(columnMap);
-		zephir_read_property_this(&columnMap, this_ptr, SL("_columnMap"), PH_NOISY_CC);
+		_0 = zephir_fetch_nproperty_this(this_ptr, SL("_columnMap"), PH_NOISY_CC);
 		ZEPHIR_OBS_NVAR(data);
-		zephir_array_fetch(&data, columnMap, keyName, PH_NOISY TSRMLS_CC);
+		zephir_array_fetch(&data, _0, keyName, PH_NOISY TSRMLS_CC);
 	}
 	RETURN_CCTOR(data);
 
@@ -411,7 +421,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, readColumnMap) {
 PHP_METHOD(Phalcon_Mvc_Model_MetaData, readColumnMapIndex) {
 
 	int index;
-	zval *model, *index_param = NULL, *keyName, *columnMap = NULL, *columnMapModel = NULL, *_0;
+	zval *model, *index_param = NULL, *keyName, *columnMap, *columnMapModel = NULL, *_0;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &model, &index_param);
@@ -421,15 +431,13 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, readColumnMapIndex) {
 
 	ZEPHIR_INIT_VAR(keyName);
 	zephir_call_func_p1(keyName, "get_class_lower", model);
-	ZEPHIR_OBS_VAR(columnMap);
-	zephir_read_property_this(&columnMap, this_ptr, SL("_columnMap"), PH_NOISY_CC);
+	columnMap = zephir_fetch_nproperty_this(this_ptr, SL("_columnMap"), PH_NOISY_CC);
 	ZEPHIR_OBS_VAR(columnMapModel);
 	if (!(zephir_array_isset_fetch(&columnMapModel, columnMap, keyName, 0 TSRMLS_CC))) {
 		zephir_call_method_p4_noret(this_ptr, "_initialize", model, ZEPHIR_GLOBAL(global_null), ZEPHIR_GLOBAL(global_null), ZEPHIR_GLOBAL(global_null));
-		ZEPHIR_OBS_NVAR(columnMap);
-		zephir_read_property_this(&columnMap, this_ptr, SL("_columnMap"), PH_NOISY_CC);
+		_0 = zephir_fetch_nproperty_this(this_ptr, SL("_columnMap"), PH_NOISY_CC);
 		ZEPHIR_OBS_NVAR(columnMapModel);
-		zephir_array_fetch(&columnMapModel, columnMap, keyName, PH_NOISY TSRMLS_CC);
+		zephir_array_fetch(&columnMapModel, _0, keyName, PH_NOISY TSRMLS_CC);
 	}
 	zephir_array_fetch_long(&_0, columnMapModel, index, PH_NOISY | PH_READONLY TSRMLS_CC);
 	RETURN_CTOR(_0);
@@ -499,7 +507,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, getPrimaryKeyAttributes) {
 }
 
 /**
- * Returns an arrau of fields which are not part of the primary key
+ * Returns an array of fields which are not part of the primary key
  *
  *<code>
  *	print_r($metaData->getNonPrimaryKeyAttributes(new Robots()));

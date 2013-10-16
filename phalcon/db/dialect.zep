@@ -113,7 +113,7 @@ abstract class Dialect
 	public function getSqlExpression(var expression, string escapeChar=null) -> string
 	{
 		var type, domain, operator, left, right, name, sqlItems,
-			escapedName, sqlArguments, arguments, argument, items, item;
+			escapedName, sqlArguments, arguments, argument, item;
 
 		if globals_get("db.escape_identifiers") {
 			if escapeChar === null{
@@ -229,9 +229,8 @@ abstract class Dialect
 		 * Resolve lists
 		 */
 		if type == "list" {
-			let sqlItems = [],
-				items = expression[0];
-			for item in items {
+			let sqlItems = [];
+			for item in expression[0] {
 				let sqlItems[] = this->getSqlExpression(item, escapeChar);
 			}
 			return "(" . join(", ", sqlItems) . ")";
@@ -305,6 +304,7 @@ abstract class Dialect
 			 * The index "1" is the schema name
 			 */
 			let schemaName = table[1];
+
 			if typeof schemaName != "array" {
 				if globals_get("db.escape_identifiers") {
 					let sqlSchema = escapeChar . schemaName . escapeChar . "." . sqlTable;
@@ -525,6 +525,7 @@ abstract class Dialect
 				} else {
 					let orderSqlItemType = orderSqlItem;
 				}
+
 				let orderItems[] = orderSqlItemType;
 			}
 			let sql .= " ORDER BY " . join(", ", orderItems);
@@ -534,6 +535,7 @@ abstract class Dialect
 		 * Check for a LIMIT condition
 		 */
 		if fetch limitValue, definition["limit"] {
+
 			if typeof limitValue == "array" {
 
 				let number = limitValue["number"];

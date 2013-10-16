@@ -125,7 +125,7 @@ PHP_METHOD(Phalcon_Db_Index, __construct) {
  */
 PHP_METHOD(Phalcon_Db_Index, __set_state) {
 
-	zval *data, *indexName, *columns, *_0, *_1;
+	zval *data, *indexName, *columns;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &data);
@@ -141,9 +141,7 @@ PHP_METHOD(Phalcon_Db_Index, __set_state) {
 		return;
 	}
 	object_init_ex(return_value, phalcon_db_index_ce);
-	zephir_array_fetch_string(&_0, data, SL("_indexName"), PH_NOISY | PH_READONLY TSRMLS_CC);
-	zephir_array_fetch_string(&_1, data, SL("_columns"), PH_NOISY | PH_READONLY TSRMLS_CC);
-	zephir_call_method_p2_noret(return_value, "__construct", _0, _1);
+	zephir_call_method_p2_noret(return_value, "__construct", indexName, columns);
 	RETURN_MM();
 
 }

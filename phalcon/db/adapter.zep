@@ -519,9 +519,7 @@ abstract class Adapter implements Phalcon\Events\EventsAwareInterface
 	 */
 	public function getColumnList(var columnList) -> string
 	{
-		var dialect;
-		let dialect = this->_dialect;
-		return dialect->getColumnList(columnList);
+		return this->_dialect->getColumnList(columnList);
 	}
 
 	/**
@@ -537,9 +535,7 @@ abstract class Adapter implements Phalcon\Events\EventsAwareInterface
 	 */
 	public function limit(string! sqlQuery, int number) -> string
 	{
-		var dialect;
-		let dialect = this->_dialect;
-		return dialect->limit(sqlQuery, number);
+		return this->_dialect->limit(sqlQuery, number);
 	}
 
 	/**
@@ -555,10 +551,7 @@ abstract class Adapter implements Phalcon\Events\EventsAwareInterface
 	 */
 	public function tableExists(string! tableName, string! schemaName=null) -> boolean
 	{
-		var dialect, num;
-		let dialect = this->_dialect;
-		let num = this->fetchOne(dialect->tableExists(tableName, schemaName), Phalcon\Db::FETCH_NUM);
-		return num[0] > 0;
+		return this->fetchOne(this->_dialect->tableExists(tableName, schemaName), Phalcon\Db::FETCH_NUM)[0] > 0;
 	}
 
 	/**
@@ -574,10 +567,7 @@ abstract class Adapter implements Phalcon\Events\EventsAwareInterface
 	 */
 	public function viewExists(string! viewName, schemaName=null)
 	{
-		var dialect, num;
-		let dialect = this->_dialect;
-		let num = this->fetchOne(dialect->viewExists(viewName, schemaName), Phalcon\Db::FETCH_NUM);
-		return num[0] > 0;
+		return this->fetchOne(this->_dialect->viewExists(viewName, schemaName), Phalcon\Db::FETCH_NUM)[0] > 0;
 	}
 
 	/**
@@ -588,9 +578,7 @@ abstract class Adapter implements Phalcon\Events\EventsAwareInterface
 	 */
 	public function forUpdate(string! sqlQuery) -> string
 	{
-		var dialect;
-		let dialect = this->_dialect;
-		return dialect->forUpdate(sqlQuery);
+		return this->_dialect->forUpdate(sqlQuery);
 	}
 
 	/**
@@ -601,9 +589,7 @@ abstract class Adapter implements Phalcon\Events\EventsAwareInterface
 	 */
 	public function sharedLock(string! sqlQuery) -> string
 	{
-		var dialect;
-		let dialect = this->_dialect;
-		return dialect->sharedLock(sqlQuery);
+		return this->_dialect->sharedLock(sqlQuery);
 	}
 
 	/**
@@ -616,7 +602,7 @@ abstract class Adapter implements Phalcon\Events\EventsAwareInterface
 	 */
 	public function createTable(string! tableName, string! schemaName, definition) -> boolean
 	{
-		var dialect, columns;
+		var columns;
 
 		if typeof definition != "array" {
 			throw new Phalcon\Db\Exception("Invalid definition to create the table '" . tableName . "'");
@@ -630,8 +616,7 @@ abstract class Adapter implements Phalcon\Events\EventsAwareInterface
 			throw new Phalcon\Db\Exception("The table must contain at least one column");
 		}
 
-		let dialect = this->_dialect;
-		return this->{"execute"}(dialect->createTable(tableName, schemaName, definition));
+		return this->{"execute"}(this->_dialect->createTable(tableName, schemaName, definition));
 	}
 
 	/**
@@ -644,9 +629,7 @@ abstract class Adapter implements Phalcon\Events\EventsAwareInterface
 	 */
 	public function dropTable(string! tableName, string! schemaName=null, ifExists=true) -> boolean
 	{
-		var dialect;
-		let dialect = this->_dialect;
-		return this->{"execute"}(dialect->dropTable(tableName, schemaName, ifExists));
+		return this->{"execute"}(this->_dialect->dropTable(tableName, schemaName, ifExists));
 	}
 
 	/**
@@ -659,8 +642,6 @@ abstract class Adapter implements Phalcon\Events\EventsAwareInterface
 	 */
 	public function createView(string! viewName, definition, schemaName=null) -> boolean
 	{
-		var dialect;
-
 		if typeof definition != "array" {
 			throw new Phalcon\Db\Exception("Invalid definition to create the view '" . viewName . "'");
 		}
@@ -669,8 +650,7 @@ abstract class Adapter implements Phalcon\Events\EventsAwareInterface
 			throw new Phalcon\Db\Exception("The table must contain at least one column");
 		}
 
-		let dialect = this->_dialect;
-		return this->{"execute"}(dialect->createView(viewName, definition, schemaName));
+		return this->{"execute"}(this->_dialect->createView(viewName, definition, schemaName));
 	}
 
 	/**
@@ -683,9 +663,7 @@ abstract class Adapter implements Phalcon\Events\EventsAwareInterface
 	 */
 	public function dropView(string! viewName, string! schemaName=null, ifExists=true) -> boolean
 	{
-		var dialect;
-		let dialect = this->_dialect;
-		return this->{"execute"}(dialect->dropView(viewName, schemaName, ifExists));
+		return this->{"execute"}(this->_dialect->dropView(viewName, schemaName, ifExists));
 	}
 
 	/**
@@ -698,9 +676,7 @@ abstract class Adapter implements Phalcon\Events\EventsAwareInterface
 	 */
 	public function addColumn(string! tableName, string! schemaName, <Phalcon\Db\ColumnInterface> column) -> boolean
 	{
-		var dialect;
-		let dialect = this->_dialect;
-		return this->{"execute"}(dialect->addColumn(tableName, schemaName, column));
+		return this->{"execute"}(this->_dialect->addColumn(tableName, schemaName, column));
 	}
 
 	/**
@@ -713,9 +689,7 @@ abstract class Adapter implements Phalcon\Events\EventsAwareInterface
 	 */
 	public function modifyColumn(string! tableName, string! schemaName, <Phalcon\Db\ColumnInterface> column) -> boolean
 	{
-		var dialect;
-		let dialect = this->_dialect;
-		return this->{"execute"}(dialect->modifyColumn(tableName, schemaName, column));
+		return this->{"execute"}(this->_dialect->modifyColumn(tableName, schemaName, column));
 	}
 
 	/**
@@ -728,9 +702,7 @@ abstract class Adapter implements Phalcon\Events\EventsAwareInterface
 	 */
 	public function dropColumn(string! tableName, string! schemaName, string columnName) -> boolean
 	{
-		var dialect;
-		let dialect = this->_dialect;
-		return this->{"execute"}(dialect->dropColumn(tableName, schemaName, columnName));
+		return this->{"execute"}(this->_dialect->dropColumn(tableName, schemaName, columnName));
 	}
 
 	/**
@@ -743,9 +715,7 @@ abstract class Adapter implements Phalcon\Events\EventsAwareInterface
 	 */
 	public function addIndex(string! tableName, string! schemaName, <Phalcon\Db\IndexInterface> index) -> boolean
 	{
-		var dialect;
-		let dialect = this->_dialect;
-		return this->{"execute"}(dialect->addIndex(tableName, schemaName, index));
+		return this->{"execute"}(this->_dialect->addIndex(tableName, schemaName, index));
 	}
 
 	/**
@@ -758,9 +728,7 @@ abstract class Adapter implements Phalcon\Events\EventsAwareInterface
 	 */
 	public function dropIndex(string! tableName, string! schemaName, indexName) -> boolean
 	{
-		var dialect;
-		let dialect = this->_dialect;
-		return this->{"execute"}(dialect->dropIndex(tableName, schemaName, indexName));
+		return this->{"execute"}(this->_dialect->dropIndex(tableName, schemaName, indexName));
 	}
 
 	/**
@@ -773,9 +741,7 @@ abstract class Adapter implements Phalcon\Events\EventsAwareInterface
 	 */
 	public function addPrimaryKey(string! tableName, string! schemaName, <Phalcon\Db\IndexInterface> index) -> boolean
 	{
-		var dialect;
-		let dialect = this->_dialect;
-		return this->{"execute"}(dialect->addPrimaryKey(tableName, schemaName, index));
+		return this->{"execute"}(this->_dialect->addPrimaryKey(tableName, schemaName, index));
 	}
 
 	/**
@@ -787,9 +753,7 @@ abstract class Adapter implements Phalcon\Events\EventsAwareInterface
 	 */
 	public function dropPrimaryKey(string! tableName, string! schemaName) -> boolean
 	{
-		var dialect;
-		let dialect = this->_dialect;
-		return this->{"execute"}(dialect->dropPrimaryKey(tableName, schemaName));
+		return this->{"execute"}(this->_dialect->dropPrimaryKey(tableName, schemaName));
 	}
 
 	/**
@@ -802,9 +766,7 @@ abstract class Adapter implements Phalcon\Events\EventsAwareInterface
 	 */
 	public function addForeignKey(string! tableName, string! schemaName, <Phalcon\Db\ReferenceInterface> reference) -> boolean
 	{
-		var dialect;
-		let dialect = this->_dialect;
-		return this->{"execute"}(dialect->addForeignKey(tableName, schemaName, reference));
+		return this->{"execute"}(this->_dialect->addForeignKey(tableName, schemaName, reference));
 	}
 
 	/**
@@ -815,11 +777,9 @@ abstract class Adapter implements Phalcon\Events\EventsAwareInterface
 	 * @param	string referenceName
 	 * @return	boolean true
 	 */
-	public function dropForeignKey(string! tableName, string! schemaName, string referenceName) -> boolean
+	public function dropForeignKey(string! tableName, string! schemaName, string! referenceName) -> boolean
 	{
-		var dialect;
-		let dialect = this->_dialect;
-		return this->{"execute"}(dialect->dropForeignKey(tableName, schemaName, referenceName));
+		return this->{"execute"}(this->_dialect->dropForeignKey(tableName, schemaName, referenceName));
 	}
 
 	/**
@@ -830,9 +790,7 @@ abstract class Adapter implements Phalcon\Events\EventsAwareInterface
 	 */
 	public function getColumnDefinition(<Phalcon\Db\ColumnInterface> column) -> boolean
 	{
-		var dialect;
-		let dialect = this->_dialect;
-		return dialect->getColumnDefinition(column);
+		return this->_dialect->getColumnDefinition(column);
 	}
 
 	/**
@@ -847,12 +805,10 @@ abstract class Adapter implements Phalcon\Events\EventsAwareInterface
 	 */
 	public function listTables(string! schemaName=null)
 	{
-		var dialect, table, allTables;
-
-		let dialect = this->_dialect;
+		var table, allTables;
 
 		let allTables = [];
-		for table in this->fetchAll(dialect->listTables(schemaName), Phalcon\Db::FETCH_NUM) {
+		for table in this->fetchAll(this->_dialect->listTables(schemaName), Phalcon\Db::FETCH_NUM) {
 			let allTables[] = table[0];
 		}
 		return allTables;
@@ -870,12 +826,10 @@ abstract class Adapter implements Phalcon\Events\EventsAwareInterface
 	 */
 	public function listViews(string! schemaName=null)
 	{
-		var dialect, table, allTables;
-
-		let dialect = this->_dialect;
+		var table, allTables;
 
 		let allTables = [];
-		for table in this->fetchAll(dialect->listViews(schemaName), Phalcon\Db::FETCH_NUM) {
+		for table in this->fetchAll(this->_dialect->listViews(schemaName), Phalcon\Db::FETCH_NUM) {
 			let allTables[] = table[0];
 		}
 		return allTables;
@@ -894,13 +848,11 @@ abstract class Adapter implements Phalcon\Events\EventsAwareInterface
 	 */
 	public function describeIndexes(string! table, schema=null)
 	{
-		var dialect, indexes, index, keyName, indexObjects,
+		var indexes, index, keyName, indexObjects,
 			name, indexColumns;
 
-		let dialect = this->_dialect;
-
 		let indexes = [];
-		for index in this->fetchAll(dialect->describeIndexes(table, schema), Phalcon\Db::FETCH_NUM) {
+		for index in this->fetchAll(this->_dialect->describeIndexes(table, schema), Phalcon\Db::FETCH_NUM) {
 
 			let keyName = index[2];
 			if !isset indexes[keyName] {
@@ -935,15 +887,12 @@ abstract class Adapter implements Phalcon\Events\EventsAwareInterface
 	 */
 	public function describeReferences(string! table, string! schema=null)
 	{
-		var dialect, emptyArr, references, reference,
+		var emptyArr, references, reference,
 			arrayReference, constraintName, referenceObjects, name;
 
-		let dialect = this->_dialect;
+		let emptyArr = [], references = [];
 
-		let emptyArr = [],
-			references = [];
-
-		for reference in this->fetchAll(dialect->describeReferences(table, schema), Phalcon\Db::FETCH_NUM) {
+		for reference in this->fetchAll(this->_dialect->describeReferences(table, schema), Phalcon\Db::FETCH_NUM) {
 
 			let constraintName = reference[2];
 			if !isset references[constraintName] {
@@ -985,8 +934,9 @@ abstract class Adapter implements Phalcon\Events\EventsAwareInterface
 	 */
 	public function tableOptions(tableName, schemaName=null)
 	{
-		var dialect, describe, sql;
-		let dialect = this->_dialect, sql = dialect->tableOptions(tableName, schemaName);
+		var describe, sql;
+
+		let sql = this->_dialect->tableOptions(tableName, schemaName);
 		if sql {
 			let describe = this->fetchAll(sql, Phalcon\DB::FETCH_NUM);
 			return describe[0];
@@ -1061,16 +1011,14 @@ abstract class Adapter implements Phalcon\Events\EventsAwareInterface
 	 * @param boolean nestedTransactionsWithSavepoints
 	 * @return Phalcon\Db\AdapterInterface
 	 */
-	public function setNestedTransactionsWithSavepoints(nestedTransactionsWithSavepoints) -> <Phalcon\Db\AdapterInterface>
+	public function setNestedTransactionsWithSavepoints(boolean nestedTransactionsWithSavepoints) -> <Phalcon\Db\AdapterInterface>
 	{
-		var dialect;
 
 		if this->_transactionLevel > 0 {
 			throw new Phalcon\Db\Exception("Nested transaction with savepoints behavior cannot be changed while a transaction is open");
 		}
 
-		let dialect = this->_dialect;
-		if !dialect->supportsSavePoints() {
+		if !this->_dialect->supportsSavePoints() {
 			throw new Phalcon\Db\Exception("Savepoints are not supported by this database adapter");
 		}
 

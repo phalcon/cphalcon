@@ -140,6 +140,7 @@ PHP_METHOD(Phalcon_Mvc_View, __construct) {
 		options = ZEPHIR_GLOBAL(global_null);
 	}
 
+
 	if ((Z_TYPE_P(options) == IS_ARRAY)) {
 		zephir_update_property_this(this_ptr, SL("_options"), options TSRMLS_CC);
 	}

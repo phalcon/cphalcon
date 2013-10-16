@@ -75,7 +75,7 @@ class Index implements Phalcon\Db\IndexInterface
 		/**
 		 * Return a Phalcon\Db\Index as part of the returning state
 		 */
-		return new Phalcon\Db\Index(data["_indexName"], data["_columns"]);
+		return new Phalcon\Db\Index(indexName, columns);
 	}
 
 }

@@ -44,33 +44,41 @@ class MySQL extends Phalcon\Db\Dialect //implements Phalcon\Db\DialectInterface
 		}
 
 		switch column->getType() {
+
 			case Phalcon\Db\Column::TYPE_INTEGER:
 				let columnSql = "INT(" . column->getSize() . ")";
 				if column->isUnsigned() {
 					let columnSql .= " UNSIGNED";
 				}
 				break;
+
 			case Phalcon\Db\Column::TYPE_DATE:
 				let columnSql = "DATE";
 				break;
+
 			case Phalcon\Db\Column::TYPE_VARCHAR:
 				let columnSql = "VARCHAR(" . column->getSize() . ")";
 				break;
+
 			case Phalcon\Db\Column::TYPE_DECIMAL:
 				let columnSql = "DECIMAL(" . column->getSize() . "," . column->getScale() . ")";
 				if column->isUnsigned() {
 					let columnSql .= " UNSIGNED";
 				}
 				break;
+
 			case Phalcon\Db\Column::TYPE_DATETIME:
 				let columnSql = "DATETIME";
 				break;
+
 			case Phalcon\Db\Column::TYPE_CHAR:
 				let columnSql = "CHAR(" . column->getSize() . ")";
 				break;
+
 			case Phalcon\Db\Column::TYPE_TEXT:
 				let columnSql = "TEXT";
 				break;
+
 			case Phalcon\Db\Column::TYPE_FLOAT:
 				let columnSql = "FLOAT",
 					size = column->getSize();
@@ -87,9 +95,11 @@ class MySQL extends Phalcon\Db\Dialect //implements Phalcon\Db\DialectInterface
 					let columnSql .= " UNSIGNED";
 				}
 				break;
+
 			default:
 				throw new Phalcon\Db\Exception("Unrecognized MySQL data type");
 		}
+
 		return columnSql;
 	}
 
@@ -177,6 +187,7 @@ class MySQL extends Phalcon\Db\Dialect //implements Phalcon\Db\DialectInterface
 		} else {
 			let sql = "ALTER TABLE `" . tableName . "` DROP COLUMN ";
 		}
+
 		let sql .= "`".columnName."`";
 		return sql;
 	}

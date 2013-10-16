@@ -37,8 +37,7 @@ namespace Phalcon\Mvc\Model;
  * $robot = new Robots($di);
  * </code>
  */
-class Manager
-	//implements Phalcon_Mvc_Model_ManagerInterface, Phalcon_DI_InjectionAwareInterface, Phalcon_Events_EventsAwareInterface
+class Manager implements Phalcon\Mvc\Model\ManagerInterface, Phalcon\Di\InjectionAwareInterface, Phalcon\Events\EventsAwareInterface
 {
 
 	protected _dependencyInjector;
@@ -189,7 +188,7 @@ class Manager
 	 * @param Phalcon\Mvc\ModelInterface model
 	 * @return Phalcon\Events\ManagerInterface
 	 */
-	public function getCustomEventsManager(<Phalcon\Mvc\ModelInterface> model) 
+	public function getCustomEventsManager(<Phalcon\Mvc\ModelInterface> model)
 		-> <Phalcon\Events\ManagerInterface> | boolean
 	{
 		var customEventsManager, eventsManager;
@@ -1477,7 +1476,7 @@ class Manager
 	 * @return Phalcon\Mvc\Model\ResultsetInterface
 	 */
 	public function getBelongsToRecords(string! method, string! modelName,
-		<Phalcon\Mvc\ModelInterface> modelRelation, record, parameters=null) 
+		<Phalcon\Mvc\ModelInterface> modelRelation, record, parameters=null)
 		-> <Phalcon\Mvc\Model\ResultsetInterface> | boolean
 	{
 
@@ -1516,7 +1515,7 @@ class Manager
 	 * @return Phalcon\Mvc\Model\ResultsetInterface
 	 */
 	public function getHasManyRecords(string! method, string! modelName,
-		<Phalcon\Mvc\ModelInterface> modelRelation, record, parameters=null) 
+		<Phalcon\Mvc\ModelInterface> modelRelation, record, parameters=null)
 		-> <Phalcon\Mvc\Model\ResultsetInterface> | boolean
 	{
 
@@ -1555,7 +1554,7 @@ class Manager
 	 * @return Phalcon\Mvc\ModelInterface
 	 */
 	public function getHasOneRecords(string! method, string! modelName,
-		<Phalcon\Mvc\ModelInterface> modelRelation, record, parameters=null) 
+		<Phalcon\Mvc\ModelInterface> modelRelation, record, parameters=null)
 		-> <Phalcon\Mvc\ModelInterface> | boolean
 	{
 		var hasOne, keyRelation, relations;
@@ -1801,7 +1800,7 @@ class Manager
 	 * @param array placeholders
 	 * @return Phalcon\Mvc\Model\QueryInterface
 	 */
-	public function executeQuery(string! phql, var placeholders=null) 
+	public function executeQuery(string! phql, var placeholders=null)
 		-> <Phalcon\Mvc\Model\QueryInterface>
 	{
 		var dependencyInjector, query;
