@@ -1267,7 +1267,7 @@ static void phannot_scanner_error_msg(phannot_parser_status *parser_status, zval
 	char *error, *error_part;
 	phannot_scanner_state *state = parser_status->scanner_state;
 
-	PHALCON_INIT_VAR(*error_msg);
+	MAKE_STD_ZVAL(*error_msg);
 	if (state->start) {
 		error_length = 128 + state->start_length +  Z_STRLEN_P(state->active_file);
 		error = emalloc(sizeof(char) * error_length);
@@ -1571,7 +1571,7 @@ int phannot_internal_parse_annotations(zval **result, zval *comment, zval *file_
 					error = emalloc(error_length);
 					snprintf(error, error_length - 1, "Scanner: unknown opcode %d on in %s line %d", token.opcode, Z_STRVAL_P(state->active_file), state->active_line);
 					error[error_length - 1] = '\0';
-					PHALCON_INIT_VAR(*error_msg);
+					MAKE_STD_ZVAL(*error_msg);
 					ZVAL_STRING(*error_msg, error, 1);
 					efree(error);
 				}
@@ -1607,7 +1607,7 @@ int phannot_internal_parse_annotations(zval **result, zval *comment, zval *file_
 		status = FAILURE;
 		if (parser_status->syntax_error) {
 			if (!*error_msg) {
-				PHALCON_INIT_VAR(*error_msg);
+				MAKE_STD_ZVAL(*error_msg);
 				ZVAL_STRING(*error_msg, parser_status->syntax_error, 1);
 			}
 			efree(parser_status->syntax_error);
