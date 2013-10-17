@@ -2751,11 +2751,11 @@ static void *phql_wrapper_alloc(size_t bytes){
 	return emalloc(bytes);
 }
 
-PHALCON_ATTR_NONNULL1(1) static void phql_wrapper_free(void *pointer){
+static void phql_wrapper_free(void *pointer){
 	efree(pointer);
 }
 
-PHALCON_ATTR_NONNULL1(1) static void phql_parse_with_token(void* phql_parser, int opcode, int parsercode, phql_scanner_token *token, phql_parser_status *parser_status){
+static void phql_parse_with_token(void* phql_parser, int opcode, int parsercode, phql_scanner_token *token, phql_parser_status *parser_status){
 
 	phql_parser_token *pToken;
 
@@ -2773,7 +2773,7 @@ PHALCON_ATTR_NONNULL1(1) static void phql_parse_with_token(void* phql_parser, in
 /**
  * Creates an error message when it's triggered by the scanner
  */
-PHALCON_ATTR_NONNULL static void phql_scanner_error_msg(phql_parser_status *parser_status, zval **error_msg TSRMLS_DC){
+static void phql_scanner_error_msg(phql_parser_status *parser_status, zval **error_msg TSRMLS_DC){
 
 	char *error = NULL, *error_part;
 	unsigned int length;
@@ -2804,7 +2804,7 @@ PHALCON_ATTR_NONNULL static void phql_scanner_error_msg(phql_parser_status *pars
 /**
  * Executes the internal PHQL parser/tokenizer
  */
-PHALCON_ATTR_NONNULL int phql_parse_phql(zval *result, zval *phql TSRMLS_DC) {
+int phql_parse_phql(zval *result, zval *phql TSRMLS_DC) {
 
 	zval *error_msg = NULL;
 

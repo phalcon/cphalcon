@@ -93,11 +93,11 @@ static void *phql_wrapper_alloc(size_t bytes){
 	return emalloc(bytes);
 }
 
-PHALCON_ATTR_NONNULL1(1) static void phql_wrapper_free(void *pointer){
+static void phql_wrapper_free(void *pointer){
 	efree(pointer);
 }
 
-PHALCON_ATTR_NONNULL1(1) static void phql_parse_with_token(void* phql_parser, int opcode, int parsercode, phql_scanner_token *token, phql_parser_status *parser_status){
+static void phql_parse_with_token(void* phql_parser, int opcode, int parsercode, phql_scanner_token *token, phql_parser_status *parser_status){
 
 	phql_parser_token *pToken;
 
@@ -115,7 +115,7 @@ PHALCON_ATTR_NONNULL1(1) static void phql_parse_with_token(void* phql_parser, in
 /**
  * Creates an error message when it's triggered by the scanner
  */
-PHALCON_ATTR_NONNULL static void phql_scanner_error_msg(phql_parser_status *parser_status, zval **error_msg TSRMLS_DC){
+static void phql_scanner_error_msg(phql_parser_status *parser_status, zval **error_msg TSRMLS_DC){
 
 	char *error = NULL, *error_part;
 	unsigned int length;
@@ -146,7 +146,7 @@ PHALCON_ATTR_NONNULL static void phql_scanner_error_msg(phql_parser_status *pars
 /**
  * Executes the internal PHQL parser/tokenizer
  */
-PHALCON_ATTR_NONNULL int phql_parse_phql(zval *result, zval *phql TSRMLS_DC) {
+int phql_parse_phql(zval *result, zval *phql TSRMLS_DC) {
 
 	zval *error_msg = NULL;
 
@@ -155,6 +155,7 @@ PHALCON_ATTR_NONNULL int phql_parse_phql(zval *result, zval *phql TSRMLS_DC) {
 	if (phql_internal_parse_phql(&result, Z_STRVAL_P(phql), Z_STRLEN_P(phql), &error_msg TSRMLS_CC) == FAILURE) {
 		if (likely(error_msg != NULL)) {
 			PHALCON_THROW_EXCEPTION_STRW(phalcon_mvc_model_exception_ce, Z_STRVAL_P(error_msg));
+			zval_ptr_dtor(&error_msg);
 		}
 		else {
 			PHALCON_THROW_EXCEPTION_STRW(phalcon_mvc_model_exception_ce, "There was an error parsing PHQL");
@@ -169,7 +170,7 @@ PHALCON_ATTR_NONNULL int phql_parse_phql(zval *result, zval *phql TSRMLS_DC) {
 /**
  * Executes a PHQL parser/tokenizer
  */
-PHALCON_ATTR_NONNULL2(1, 4) int phql_internal_parse_phql(zval **result, char *phql, unsigned int phql_length, zval **error_msg TSRMLS_DC) {
+int phql_internal_parse_phql(zval **result, char *phql, unsigned int phql_length, zval **error_msg TSRMLS_DC) {
 
 	zend_phalcon_globals *phalcon_globals_ptr = PHALCON_VGLOBAL;
 	phql_parser_status *parser_status = NULL;
