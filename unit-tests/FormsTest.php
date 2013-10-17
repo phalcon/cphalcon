@@ -485,4 +485,22 @@ class FormsTest extends PHPUnit_Framework_TestCase
 		$expected = '<label for="test">Test</label>';
 		$this->assertEquals($actual, $expected);
 	}
+
+	public function testIssue706()
+	{
+		$form = new \Phalcon\Forms\Form();
+		$form->add(new \Phalcon\Forms\Element\Text('name'));
+
+		$form->add(new \Phalcon\Forms\Element\Text('before'), 'name', true);
+		$form->add(new \Phalcon\Forms\Element\Text('after'), 'name');
+
+		$data = array('before', 'name', 'after');
+		$result = array();
+
+		foreach ($form as $element) {
+			$result[] = $element->getName();
+		}
+
+		$this->assertEquals($result, $data);
+	}
 }

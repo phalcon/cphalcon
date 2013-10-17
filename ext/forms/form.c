@@ -639,15 +639,21 @@ PHP_METHOD(Phalcon_Forms_Form, hasMessagesFor){
  * Adds an element to the form
  *
  * @param Phalcon\Forms\ElementInterface $element
+ * @param string $postion
+ * @param bool $type If $type is TRUE, the element wile add before $postion, else is after
  * @return Phalcon\Forms\Form
  */
 PHP_METHOD(Phalcon_Forms_Form, add){
 
-	zval *element, *name;
+	zval *element, *pos = NULL, *type = NULL, *name, *values, *elements, *key = NULL, *tmp0, *tmp1, *length, *offset, *preserve_keys;
+	HashTable *ah0;
+	HashPosition hp0;
+	zval **hd;
+	int found = 0, i = 0;
 
 	PHALCON_MM_GROW();
 
-	phalcon_fetch_params(1, 1, 0, &element);
+	phalcon_fetch_params(1, 1, 2, &element, &pos, &type);
 	
 	if (Z_TYPE_P(element) != IS_OBJECT) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_forms_exception_ce, "The element is not valid");
@@ -664,11 +670,77 @@ PHP_METHOD(Phalcon_Forms_Form, add){
 	 * Link the element to the form
 	 */
 	phalcon_call_method_p1_noret(element, "setform", this_ptr);
-	
-	/** 
-	 * Append the element by its name
-	 */
-	phalcon_update_property_array(this_ptr, SL("_elements"), name, element TSRMLS_CC);
+
+	if (!pos) {	
+		/** 
+		 * Append the element by its name
+		 */
+		phalcon_update_property_array(this_ptr, SL("_elements"), name, element TSRMLS_CC);
+	} else {
+		if (!type) {
+			type = PHALCON_GLOBAL(z_false);
+		}
+
+		if (zend_is_true(type)) {
+			i = -1;
+		}
+
+		PHALCON_INIT_VAR(values);
+		array_init_size(values, 1);
+
+		phalcon_array_update_zval(&values, name, &element, PH_COPY);
+
+		PHALCON_OBS_VAR(elements);
+		phalcon_read_property_this(&elements, this_ptr, SL("_elements"), PH_NOISY_CC);
+
+		if (Z_TYPE_P(elements) != IS_ARRAY) {
+			convert_to_array(elements);
+		}
+
+		phalcon_is_iterable(elements, &ah0, &hp0, 0, 0);
+		while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
+			PHALCON_GET_HKEY(key, ah0, hp0);
+
+			i++;
+
+			if (PHALCON_IS_EQUAL(key, pos)) {
+				found = 1;
+				break;
+			}
+
+			zend_hash_move_forward_ex(ah0, &hp0);
+		}
+
+		if (!found) {
+			PHALCON_THROW_EXCEPTION_STR(phalcon_forms_exception_ce, "Array position does not exist");
+			return;
+		}
+
+		PHALCON_INIT_VAR(offset);
+		ZVAL_LONG(offset, i);
+
+		PHALCON_INIT_VAR(length);
+		ZVAL_LONG(length, 0);
+
+		preserve_keys = PHALCON_GLOBAL(z_true);
+
+		PHALCON_INIT_VAR(tmp0);
+		phalcon_call_func_p4(tmp0, "array_slice", elements, length, offset, preserve_keys);
+
+		PHALCON_INIT_NVAR(length);
+
+		PHALCON_INIT_VAR(tmp1);
+		phalcon_call_func_p4(tmp1, "array_slice", elements, offset, length, preserve_keys);
+
+		PHALCON_INIT_NVAR(elements);
+		array_init(elements);
+
+		phalcon_array_merge_recursive_n(&elements, tmp0);
+		phalcon_array_merge_recursive_n(&elements, values);
+		phalcon_array_merge_recursive_n(&elements, tmp1);
+
+		phalcon_update_property_this(this_ptr, SL("_elements"), elements TSRMLS_CC);
+	}
 	
 	RETURN_THIS();
 }
