@@ -491,8 +491,8 @@ class FormsTest extends PHPUnit_Framework_TestCase
 		$form = new \Phalcon\Forms\Form();
 		$form->add(new \Phalcon\Forms\Element\Text('name'));
 
-		$form->addAt(new \Phalcon\Forms\Element\Text('before'), 'name', true);
-		$form->addAt(new \Phalcon\Forms\Element\Text('after'), 'name');
+		$form->add(new \Phalcon\Forms\Element\Text('before'), 'name', true);
+		$form->add(new \Phalcon\Forms\Element\Text('after'), 'name');
 
 		$data = array('before', 'name', 'after');
 		$result = array();
