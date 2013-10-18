@@ -1313,7 +1313,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, getParams){
 PHP_METHOD(Phalcon_Mvc_Model_Criteria, fromInput){
 
 	zval *dependency_injector, *model_name, *data;
-	zval *conditions, *service, *meta_data, *model;
+	zval *conditions = NULL, *service, *meta_data, *model;
 	zval *data_types, *bind, *value = NULL, *field = NULL, *type = NULL, *condition = NULL;
 	zval *value_pattern = NULL, *join_conditions;
 	HashTable *ah0;
@@ -1334,9 +1334,9 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, fromInput){
 		return;
 	}
 	
-	PHALCON_INIT_VAR(conditions);
-	array_init(conditions);
 	if (phalcon_fast_count_ev(data TSRMLS_CC)) {
+		PHALCON_INIT_VAR(conditions);
+		array_init(conditions);
 	
 		PHALCON_INIT_VAR(service);
 		ZVAL_STRING(service, "modelsMetadata", 1);
@@ -1406,7 +1406,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, fromInput){
 	 * Create an object instance and pass the paramaters to it
 	 */
 	object_init_ex(return_value, phalcon_mvc_model_criteria_ce);
-	if (phalcon_fast_count_ev(conditions TSRMLS_CC)) {
+	if (conditions && phalcon_fast_count_ev(conditions TSRMLS_CC)) {
 		PHALCON_INIT_VAR(join_conditions);
 		phalcon_fast_join_str(join_conditions, SL(" AND "), conditions TSRMLS_CC);
 		phalcon_call_method_p1_noret(return_value, "where", join_conditions);

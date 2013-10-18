@@ -3312,6 +3312,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _doLowUpdate){
 	HashTable *ah0, *ah1;
 	HashPosition hp0, hp1;
 	zval **hd;
+	int i_dynamic_update;
 
 	PHALCON_MM_GROW();
 
@@ -3339,13 +3340,13 @@ PHP_METHOD(Phalcon_Mvc_Model, _doLowUpdate){
 	 */
 	PHALCON_INIT_VAR(use_dynamic_update);
 	phalcon_call_method_p1(use_dynamic_update, manager, "isusingdynamicupdate", this_ptr);
-	if (zend_is_true(use_dynamic_update)) {
+	i_dynamic_update = zend_is_true(use_dynamic_update);
+	if (i_dynamic_update) {
 	
 		PHALCON_OBS_VAR(snapshot);
 		phalcon_read_property_this(&snapshot, this_ptr, SL("_snapshot"), PH_NOISY_CC);
 		if (Z_TYPE_P(snapshot) != IS_ARRAY) { 
-			PHALCON_INIT_NVAR(use_dynamic_update);
-			ZVAL_BOOL(use_dynamic_update, 0);
+			i_dynamic_update = 0;
 		}
 	}
 	
@@ -3417,7 +3418,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _doLowUpdate){
 				/** 
 				 * When dynamic update is not used we pass every field to the update
 				 */
-				if (!zend_is_true(use_dynamic_update)) {
+				if (!i_dynamic_update) {
 					phalcon_array_append(&fields, field, PH_SEPARATE);
 					phalcon_array_append(&values, value, PH_SEPARATE);
 	
