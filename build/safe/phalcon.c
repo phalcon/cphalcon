@@ -35389,12 +35389,8 @@ static PHP_METHOD(Phalcon_Validation, validate){
 	}
 	
 	phalcon_update_property_this(this_ptr, SL("_messages"), messages TSRMLS_CC);
-	if (Z_TYPE_P(data) == IS_ARRAY) { 
+	if (Z_TYPE_P(data) == IS_ARRAY || Z_TYPE_P(data) == IS_OBJECT) {
 		phalcon_update_property_this(this_ptr, SL("_data"), data TSRMLS_CC);
-	} else {
-		if (Z_TYPE_P(data) == IS_OBJECT) {
-			phalcon_update_property_this(this_ptr, SL("_data"), data TSRMLS_CC);
-		}
 	}
 	
 	PHALCON_INIT_VAR(cancel_on_fail);
@@ -35582,18 +35578,14 @@ static PHP_METHOD(Phalcon_Validation, getValue){
 		if (phalcon_method_exists(entity, method TSRMLS_CC) == SUCCESS) {
 			PHALCON_INIT_VAR(value);
 			phalcon_call_method_zval(value, entity, method);
+		} else if (phalcon_method_exists_ex(entity, SS("readattribute") TSRMLS_CC) == SUCCESS) {
+			PHALCON_INIT_VAR(value);
+			phalcon_call_method_p1(value, entity, "readattribute", attribute);
+		} else if (phalcon_isset_property_zval(entity, attribute TSRMLS_CC)) {
+			PHALCON_OBS_VAR(value);
+			phalcon_read_property_zval(&value, entity, attribute, PH_NOISY_CC);
 		} else {
-			if (phalcon_method_exists_ex(entity, SS("readattribute") TSRMLS_CC) == SUCCESS) {
-				PHALCON_INIT_NVAR(value);
-				phalcon_call_method(value, entity, "readattribute");
-			} else {
-				if (phalcon_isset_property_zval(entity, attribute TSRMLS_CC)) {
-					PHALCON_OBS_NVAR(value);
-					phalcon_read_property_zval(&value, entity, attribute, PH_NOISY_CC);
-				} else {
-					PHALCON_INIT_NVAR(value);
-				}
-			}
+			PHALCON_INIT_VAR(value);
 		}
 	
 		RETURN_CCTOR(value);
@@ -35680,7 +35672,6 @@ static PHP_METHOD(Phalcon_Validation, getValue){
 	
 	RETURN_MM_NULL();
 }
-
 
 
 
