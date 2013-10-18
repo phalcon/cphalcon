@@ -1301,7 +1301,7 @@ PHP_METHOD(Phalcon_Mvc_View, pick){
  */
 PHP_METHOD(Phalcon_Mvc_View, partial){
 
-	zval *partial_path, *params = NULL, *view_params, *new_params = NULL;
+	zval *partial_path, *params = NULL, *view_params = NULL, *new_params = NULL;
 	zval *zfalse, *partials_dir, *real_path, *engines;
 
 	PHALCON_MM_GROW();
@@ -1369,7 +1369,7 @@ PHP_METHOD(Phalcon_Mvc_View, partial){
 	/** 
 	 * Now we need to restore the original view parameters
 	 */
-	if (Z_TYPE_P(params) == IS_ARRAY) { 
+	if (view_params) {
 		/** 
 		 * Restore the original view params
 		 */

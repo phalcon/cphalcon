@@ -667,7 +667,6 @@ int phalcon_read_property_zval(zval **result, zval *object, zval *property, int 
 		}
 
 		ALLOC_INIT_ZVAL(*result);
-		ZVAL_NULL(*result);
 		return FAILURE;
 	}
 
@@ -1196,6 +1195,8 @@ int phalcon_read_static_property(zval **result, const char *class_name, unsigned
 			return SUCCESS;
 		}
 	}
+
+	ALLOC_INIT_ZVAL(*result);
 	return FAILURE;
 }
 
