@@ -542,7 +542,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Xcache, decrement){
 PHP_METHOD(Phalcon_Cache_Backend_Xcache, flush){
 
 	zval *prefixed, *options, *special_key, *z_zero;
-	zval *keys, *real_key = NULL;
+	zval *keys;
 	HashPosition pos;
 	zval **value;
 
