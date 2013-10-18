@@ -25,7 +25,7 @@
  - Fixed memory leaks (#1345)
  - Fixed invalid memory reads/writes across the code (#1340)
  - Bug fixes in \Phalcon\Logger\{Adapter,Formatter}\FirePhp (#1333)
- - Other bug fixes (#947, #1131, #1040, backported patches from 1.3.0 etc)
+ - Other bug fixes (#947, #1131, #1040, #1392, #1396, #1399, backported patches from 1.3.0 etc)
 
 1.2.3
  - Security fixes (#1144)
