@@ -319,7 +319,7 @@ class File extends Phalcon\Cache\Backend implements Phalcon\Cache\BackendInterfa
 	public function increment(var keyName=null, int value=null)
 	{
 		var options, prefix, prefixedKey, cacheDir, cacheFile, frontend, timestamp, lifetime, ttl,
-			modifiedTime, difference, notExpired, cachedContent, status, result;
+			modifiedTime, difference, cachedContent, status, result;
 
 		let prefixedKey = this->_prefix . keyName,
 			this->_lastKey = prefixedKey,

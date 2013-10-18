@@ -1384,6 +1384,729 @@ class Query //implements Phalcon\Mvc\Model\QueryInterface, Phalcon\Di\InjectionA
 	}
 
 	/**
+	 * Returns a processed group clause for a SELECT statement
+	 *
+	 * @param array $group
+	 * @return array
+	 */
+	protected function _getGroupClause(group)
+	{
+		var groupItem, groupParts;
+
+		if isset group[0] {
+			/**
+			 * The select is gruped by several columns
+			 */
+			let groupParts = [];
+			for groupItem in group {
+				let groupParts[] = this->_getExpression(groupItem);
+			}
+		} else {
+			let groupParts = [this->_getExpression(group)];
+		}
+		return groupParts;
+	}
+
+	/**
+	 * Analyzes a SELECT intermediate code and produces an array to be executed later
+	 *
+	 * @return array
+	 */
+	protected function _prepareSelect()
+	{
+		var ast, sqlModels, sqlTables, sqlAliases, sqlColumns, select, tables, columns,
+			sqlAliasesModels, sqlModelsAliases, sqlAliasesModelsInstances,
+			models, modelsInstances, selectedModels, manager, metaData,
+			selectedModel, qualifiedName, modelName, nsAlias, realModelName, model,
+			schema, source, completeSource, alias, joins, sqlJoins, selectColumns,
+			sqlColumnAliases, column, sqlColumn, sqlSelect, having, where,
+			groupBy, order, limit;
+		int position;
+
+		let ast = this->_ast,
+			select = ast["select"];
+
+		if !fetch tables, select["tables"] {
+			throw new Phalcon\Mvc\Model\Exception("Corrupted SELECT AST");
+		}
+
+		if !fetch columns, select["columns"] {
+			throw new Phalcon\Mvc\Model\Exception("Corrupted SELECT AST");
+		}
+
+		/**
+		 * sql_models are all the models that are using in the query
+		 */
+		let sqlModels = [];
+
+		/**
+		 * sql_tables are all the mapped sources regarding the models in use
+		 */
+		let sqlTables = [];
+
+		/**
+		 * sql_aliases are the aliases as keys and the mapped sources as values
+		 */
+		let sqlAliases = [];
+
+		/**
+		 * sql_columns are all every column expression
+		 */
+		let sqlColumns = [];
+
+		/**
+		 * sqlAliasesModels are the aliases as keys and the model names as values
+		 */
+		let sqlAliasesModels = [];
+
+		/**
+		 * sqlAliasesModels are the model names as keys and the aliases as values
+		 */
+		let sqlModelsAliases = [];
+
+		/**
+		 * sqlAliasesModelsInstances are the aliases as keys and the model instances as values
+		 */
+		let sqlAliasesModelsInstances = [];
+
+		/**
+		 * Models information
+		 */
+		let models = [],
+			modelsInstances = [];
+
+		if !isset tables[0] {
+			let selectedModels = [tables];
+		} else {
+			let selectedModels = tables;
+		}
+
+		let manager = this->_manager,
+			metaData = this->_metaData;
+
+		/**
+		 * Processing selected columns
+		 */
+		for selectedModel in selectedModels {
+
+			let qualifiedName = selectedModel["qualifiedName"],
+				modelName = qualifiedName["name"];
+
+			/**
+			 * Check if the table have a namespace alias
+			 */
+			if fetch nsAlias, qualifiedName["ns-alias"] {
+
+				/**
+				 * Get the real namespace alias
+				 * Create the real namespaced name
+				 */
+				let realModelName = manager->getNamespaceAlias(nsAlias) . "\\" . modelName;
+
+			} else {
+				let realModelName = modelName;
+			}
+
+			/**
+			 * Load a model instance from the models manager
+			 */
+			let model = manager->load(realModelName);
+
+			/**
+			 * Define a complete schema/source
+			 */
+			let schema = model->getSchema(),
+				source = model->getSource();
+
+			/**
+			 * Obtain the real source including the schema
+			 */
+			if schema {
+				let completeSource = [source, schema];
+			} else {
+				let completeSource = source;
+			}
+
+			/**
+			 * If an alias is defined for a model the model cannot be referenced in the column list
+			 */
+			if fetch alias, selectedModel["alias"] {
+
+				/**
+				 * Check that the alias hasn"t been used before
+				 */
+				if isset sqlAliases[alias] {
+					throw new Phalcon\Mvc\Model\Exception("Alias '" . alias . "' is already used, when preparing: " . this->_phql);
+				}
+
+				let sqlAliasesModels[alias] = modelName,
+					sqlModelsAliases[modelName] = alias,
+					sqlAliasesModelsInstances[alias] = model;
+
+				/**
+				 * Append or convert complete source to an array
+				 */
+				if typeof completeSource == "array" {
+					let completeSource[] = alias;
+				} else {
+					let completeSource = [source, null, alias];
+				}
+				let models[modelName] = alias;
+
+			} else {
+				let sqlAliases[modelName] = source,
+					sqlAliasesModels[modelName] = modelName,
+					sqlModelsAliases[modelName] = modelName,
+					sqlAliasesModelsInstances[modelName] = model,
+					models[modelName] = source;
+			}
+
+			let sqlModels[] = modelName,
+				sqlTables[] = completeSource,
+				modelsInstances[modelName] = model;
+		}
+
+		/**
+		 * Assign Models/Tables information
+		 */
+		let this->_models = models,
+			this->_modelsInstances = modelsInstances,
+			this->_sqlAliases = sqlAliases,
+			this->_sqlAliasesModels = sqlAliasesModels,
+			this->_sqlModelsAliases = sqlModelsAliases,
+			this->_sqlAliasesModelsInstances = sqlAliasesModelsInstances,
+			this->_modelsInstances = modelsInstances;
+
+		/**
+		 * Processing joins
+		 */
+		if fetch joins, select["joins"] {
+			if count(joins) {
+				let sqlJoins = this->_getJoins(select);
+			} else {
+				let sqlJoins = [];
+			}
+		} else {
+			let sqlJoins = [];
+		}
+
+		/**
+		 * Processing selected columns
+		 */
+		if !isset columns[0] {
+			let selectColumns = [columns];
+		} else {
+			let selectColumns = columns;
+		}
+
+		/**
+		 * Resolve selected columns
+		 */
+		let position = 0,
+			sqlColumnAliases = [];
+
+		for column in selectColumns {
+
+			for sqlColumn in this->_getSelectColumn(column) {
+
+				/**
+				 * If "alias" is set, the user had defined a alias for the column
+				 */
+				if fetch alias, column["alias"] {
+
+					/**
+					 * The best alias is the one provided by the user
+					 */
+					let sqlColumn["balias"] = alias,
+						sqlColumn["sqlAlias"] = alias,
+						sqlColumns[alias] = sqlColumn,
+						sqlColumnAliases[alias] = true;
+
+				} else {
+					/**
+					 * "balias" is the best alias selected for the column
+					 */
+					if fetch alias, sqlColumn["balias"] {
+						let sqlColumns[alias] = sqlColumn;
+					} else {
+						if sqlColumn["type"] == "scalar" {
+							let sqlColumns["_" . position] = sqlColumn;
+						} else {
+							let sqlColumns[] = sqlColumn;
+						}
+					}
+				}
+
+				let position++;
+			}
+		}
+		let this->_sqlColumnAliases = sqlColumnAliases;
+
+		/**
+		 * sqlSelect is the final prepared SELECT
+		 */
+		let sqlSelect = [
+			"models" : sqlModels,
+			"tables" : sqlTables,
+			"columns": sqlColumns
+		];
+
+		if count(sqlJoins) {
+			let sqlSelect["joins"] = sqlJoins;
+		}
+
+		/**
+		 * Process WHERE clause if any
+		 */
+		if fetch where, ast["where"] {
+			let sqlSelect["where"] = this->_getExpression(where);
+		}
+
+		/**
+		 * Process GROUP BY clause if any
+		 */
+		if fetch groupBy, ast["groupBy"] {
+			let sqlSelect["group"] = this->_getGroupClause(groupBy);
+		}
+
+		/**
+		 * Process HAVING clause if any
+		 */
+		if fetch having , ast["having"] {
+			let sqlSelect["having"] = this->_getExpression(having);
+		}
+
+		/**
+		 * Process ORDER BY clause if any
+		 */
+		if fetch order, ast["orderBy"] {
+			let sqlSelect["order"] = this->_getOrderClause(order);
+		}
+
+		/**
+		 * Process LIMIT clause if any
+		 */
+		if fetch limit, ast["limit"] {
+			let sqlSelect["limit"] = limit;
+		}
+
+		return sqlSelect;
+	}
+
+	/**
+	 * Parses the intermediate code produced by Phalcon\Mvc\Model\Query\Lang generating another
+	 * intermediate representation that could be executed by Phalcon\Mvc\Model\Query
+	 *
+	 * @return array
+	 */
+	public function parse()
+	{
+		var intermediate, phql, ast, irPhql, irPhqlCache, uniqueId, type;
+
+		let intermediate = this->_intermediate;
+		if typeof intermediate == "array" {
+			return intermediate;
+		}
+
+		/**
+		 * This function parses the PHQL statement
+		 */
+		let phql = this->_phql,
+			ast = phql_parse_phql();
+
+		let irPhql = null,
+			irPhqlCache = null,
+			uniqueId = null;
+
+		if typeof ast == "array" {
+
+			/**
+			 * Check if the prepared PHQL is already cached
+			 * Parsed ASTs have a unique id
+			 */
+			if fetch uniqueId, ast["id"] {
+				if fetch irPhql, self::_irPhqlCache[uniqueId] {
+					if typeof irPhql == "array" {
+						/**
+						 * Assign the type to the query
+						 */
+						let this->_type = ast["type"];
+						return irPhql;
+					}
+				}
+			}
+
+			/**
+			 * A valid AST must have a type
+			 */
+			if fetch type, ast["type"] {
+
+				let this->_type = type;
+				switch type {
+					case 309:
+						let irPhql = this->_prepareSelect();
+						break;
+					case 306:
+						//let irPhql = this->_prepareInsert();
+						break;
+					case 300:
+						//let irPhql = this->_prepareUpdate();
+						break;
+					case 303:
+						//let irPhql = this->_prepareDelete();
+						break;
+					default:
+						throw new Phalcon\Mvc\Model\Exception("Unknown statement " . type . ", when preparing: " . phql);
+				}
+			}
+		}
+
+		if typeof irPhql != "array" {
+			throw new Phalcon\Mvc\Model\Exception("Corrupted AST");
+		}
+
+		/**
+		 * Store the prepared AST in the cache
+		 */
+		if typeof uniqueId == "int" {
+			let self::_irPhqlCache[uniqueId] = irPhql;
+		}
+
+		let this->_intermediate = irPhql;
+		return irPhql;
+	}
+
+	/**
+	 * Returns the current cache backend instance
+	 *
+	 * @return Phalcon\Cache\BackendInterface
+	 */
+	public function getCache()
+	{
+		return this->_cache;
+	}
+
+	/**
+	 * Executes the SELECT intermediate representation producing a Phalcon\Mvc\Model\Resultset
+	 *
+	 * @param array intermediate
+	 * @param array bindParams
+	 * @param array bindTypes
+	 * @return Phalcon\Mvc\Model\ResultsetInterface
+	 */
+	protected function _executeSelect(intermediate, bindParams, bindTypes) -> <Phalcon\Mvc\Model\ResultsetInterface>
+	{
+
+		var manager, modelName, models, model, connection, connections,
+			columns, column, selectColumns, simpleColumnMap, metaData, aliasCopy,
+			sqlColumn, attributes, instance, columnMap, attribute,
+			isKeepingSnapshots, columnAlias, sqlAlias, dialect, sqlSelect,
+			processed, wildcard, value, processedTypes, typeWildcard, result,
+			resultData, cache, resultObject;
+		boolean haveObjects, haveScalars, isComplex, isSimpleStd;
+		int numberObjects;
+
+		let manager = this->_manager;
+
+		let models = intermediate["models"];
+
+		if count(models) == 1 {
+
+			/**
+			 * Load first model if is not loaded
+			 */
+			let modelName = models[0];
+			if !fetch model, this->_modelsInstances[modelName] {
+				let model = manager->load(modelName),
+					this->_modelsInstances[modelName] = model;
+			}
+
+			/**
+			 * The 'selectConnection' method could be implemented in a
+			 */
+			if method_exists(model, "selectReadConnection") {
+				let connection = model->selectReadConnection(intermediate, bindParams, bindTypes);
+				if typeof connection != "object" {
+					throw new Phalcon\Mvc\Model\Exception("'selectReadConnection' didn't return a valid connection");
+				}
+			} else {
+
+				/**
+				 * Get the current connection to the model
+				 */
+				let connection = model->getReadConnection();
+			}
+
+		} else {
+
+			/**
+			 * Check if all the models belongs to the same connection
+			 */
+			let connections = [];
+			for modelName in models {
+
+				if !fetch model, this->_modelsInstances[modelName] {
+					let model = manager->load(modelName),
+						this->_modelsInstances[modelName] = model;
+				}
+
+				/**
+				 * Get the models connection
+				 * Mark the type of connection in the connection flags
+				 */
+				let connection = model->getReadConnection(),
+					connections[connection->getType()] = true;
+
+				/**
+				 * More than one type of connection is not allowed
+				 */
+				if count(connections) == 2 {
+					throw new Phalcon\Mvc\Model\Exception("Cannot use models of different database systems in the same query");
+				}
+
+			}
+		}
+
+		let columns = intermediate["columns"];
+
+		let haveObjects = false,
+			haveScalars = false,
+			isComplex = false;
+
+		/**
+		 * Check if the resultset have objects and how many of them have
+		 */
+		let numberObjects = 0;
+		for column in columns {
+
+			if column["type"] == "scalar" {
+				if !isset column["balias"] {
+					let isComplex = true;
+				}
+				let haveScalars = true;
+			} else {
+				let haveObjects = true, numberObjects++;
+			}
+		}
+
+		/**
+		 * Check if the resultset to return is complex or simple
+		 */
+		if isComplex === false {
+			if haveObjects === true {
+				if haveScalars === true {
+					let isComplex = true;
+				} else {
+					if numberObjects == 1 {
+						let isSimpleStd = false;
+					} else {
+						let isComplex = true;
+					}
+				}
+			} else {
+				let isSimpleStd = true;
+			}
+		}
+
+		/**
+		 * Processing selected columns
+		 */
+		let selectColumns = [],
+			simpleColumnMap = [],
+			metaData = this->_metaData;
+
+		for aliasCopy, column in columns {
+
+			let sqlColumn = column["column"];
+
+			/**
+			 * Complete objects are treaded in a different way
+			 */
+			if column["type"] == "object" {
+
+				let modelName = column["model"];
+
+				/**
+				 * Base instance
+				 */
+				if !fetch instance, this->_modelsInstances[modelName] {
+					let instance = manager->load(modelName),
+						this->_modelsInstances[modelName] = instance;
+				}
+
+				let attributes = metaData->getAttributes(instance);
+				if isComplex === true {
+
+					/**
+					 * If the resultset is complex we open every model into their columns
+					 */
+					if globals_get("orm.column_renaming") {
+						let columnMap = metaData->getColumnMap(instance);
+					} else {
+						let columnMap = null;
+					}
+
+					/**
+					 * Add every attribute in the model to the generated select
+				 	 */
+					for attribute in attributes {
+						let selectColumns[] = [attribute, sqlColumn, "_" . sqlColumn . "_" . attribute];
+					}
+
+					/**
+					 * We cache required meta-data to make its future access faster
+					 */
+					let columns[aliasCopy]["instance"] = instance,
+						columns[aliasCopy]["attributes"] = attributes,
+						columns[aliasCopy]["columnMap"] = columnMap;
+
+					/**
+					 * Check if the model keeps snapshots
+					 */
+					let isKeepingSnapshots = manager->isKeepingSnapshots(instance);
+					if isKeepingSnapshots {
+						let columns[aliasCopy]["keepSnapshots"] = isKeepingSnapshots;
+					}
+
+				} else {
+
+					/**
+					 * Query only the columns that are registered as attributes in the metaData
+					 */
+					for attribute in attributes {
+						let selectColumns[] = [attribute, sqlColumn];
+					}
+				}
+			} else {
+
+				/**
+ 				 * Create an alias if the column doesn"t have one
+				 */
+				if typeof aliasCopy == "int" {
+					let columnAlias = [sqlColumn, null];
+				} else {
+					let columnAlias = [sqlColumn, null, aliasCopy];
+				}
+				let selectColumns[] = columnAlias;
+			}
+
+			/**
+			 * Simulate a column map
+			 */
+			if isComplex === false {
+				if isSimpleStd === true {
+					if fetch sqlAlias, column["sqlAlias"] {
+						let simpleColumnMap[sqlAlias] = aliasCopy;
+					} else {
+						let simpleColumnMap[aliasCopy] = aliasCopy;
+					}
+				}
+			}
+		}
+
+		let intermediate["columns"] = selectColumns;
+
+		/**
+		 * The corresponding SQL dialect generates the SQL statement based accordingly with the database system
+		 */
+		let dialect = connection->getDialect(),
+			sqlSelect = dialect->select(intermediate);
+
+		/**
+		 * Replace the placeholders
+		 */
+		if typeof bindParams == "array" {
+			let processed = [];
+			for wildcard, value in bindParams {
+				if typeof wildcard == "int" {
+					let processed[":" . wildcard] = value;
+				} else {
+					let processed[wildcard] = value;
+				}
+			}
+		} else {
+			let processed = bindParams;
+		}
+
+		/**
+		 * Replace the bind Types
+		 */
+		if typeof bindTypes == "array" {
+			let processedTypes = [];
+			for typeWildcard, value in bindTypes {
+				if typeof typeWildcard == "string" {
+					let processedTypes[":" . typeWildcard] = value;
+				} else {
+					let processedTypes[typeWildcard] = value;
+				}
+			}
+		} else {
+			let processedTypes = bindTypes;
+		}
+
+		/**
+		 * Execute the query
+		 */
+		let result = connection->query(sqlSelect, processed, processedTypes);
+
+		/**
+		 * Check if the query has data
+		 */
+		if result->numRows(result) {
+			let resultData = result;
+		} else {
+			let resultData = false;
+		}
+
+		/**
+		 * Choose a resultset type
+		 */
+		let cache = this->_cache;
+		if isComplex === false {
+
+			/**
+			 * Select the base object
+			 */
+			if isSimpleStd === true {
+
+				/**
+				 * If the result is a simple standard object use an Phalcon\Mvc\Model\Row as base
+				 */
+				let resultObject = new Phalcon\Mvc\Model\Row();
+
+				/**
+				 * Standard objects can"t keep snapshots
+				 */
+				let isKeepingSnapshots = false;
+
+			} else {
+
+				let resultObject = model;
+
+				/**
+				 * Get the column map
+				 */
+				let simpleColumnMap = metaData->getColumnMap(model);
+
+				/**
+				 * Check if the model keeps snapshots
+				 */
+				let isKeepingSnapshots = manager->isKeepingSnapshots(model);
+			}
+
+			/**
+			 * Simple resultsets contains only complete objects
+			 */
+			return new Phalcon\Mvc\Model\Resultset_Simple(simpleColumnMap, resultObject, resultData, cache, isKeepingSnapshots);
+		}
+
+		/**
+		 * Complex resultsets may contain complete objects and scalars
+		 */
+		return new Phalcon\Mvc\Model\Resultset\Complex(columns, resultData, cache);
+	}
+
+	/**
 	 * Sets the cache parameters of the query
 	 *
 	 * @param array cacheOptions
