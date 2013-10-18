@@ -556,7 +556,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Apc, flush){
 			 * Note that str_key_len includes the trailing zero.
 			 * Remove the _PHCA prefix.
 			 */
-			ZVAL_STRINGL(key, str_key + 5, str_key_len - 5 - 1, 1);
+			ZVAL_STRINGL(key, str_key, str_key_len - 1, 1);
 			efree(str_key);
 
 			phalcon_call_func_p1_noret("apc_delete", key);

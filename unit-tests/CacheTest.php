@@ -1350,8 +1350,6 @@ class CacheTest extends PHPUnit_Framework_TestCase
 		$this->assertFalse($cache->exists('data2'));
 	}
 
-	
-
 	public function testCacheLibmemcachedFlush()
 	{
 		if (!extension_loaded('memcached')) {

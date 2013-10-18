@@ -569,14 +569,9 @@ PHP_METHOD(Phalcon_Cache_Backend_Xcache, flush){
 			zend_hash_move_forward_ex(Z_ARRVAL_P(keys), &pos)
 		) {
 			zval key = phalcon_get_current_key_w(Z_ARRVAL_P(keys), &pos);
-	
-			PHALCON_INIT_NVAR(real_key);
-			phalcon_substr(real_key, &key, 5, 0);
 
-			
-			phalcon_array_unset(&keys, real_key, 0);
-
-			phalcon_return_call_func_p1("xcache_unset", real_key);
+			phalcon_array_unset(&keys, &key, 0);
+			phalcon_return_call_func_p1("xcache_unset", &key);
 		}
 
 		phalcon_call_func_p3_noret("xcache_set", special_key, keys, z_zero);
