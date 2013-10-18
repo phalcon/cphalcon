@@ -621,8 +621,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Memcache, flush){
 			PHALCON_INIT_NVAR(real_key);
 			ZVAL_STRINGL(real_key, Z_STRVAL(key), Z_STRLEN(key), 1);
 
-			phalcon_array_unset(&keys, real_key, 0);
-			
+			phalcon_array_unset(&keys, real_key, 0);			
 			phalcon_call_method_p1_noret(memcache, "delete", real_key);
 		}
 		

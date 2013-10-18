@@ -559,14 +559,14 @@ PHP_METHOD(Phalcon_Cache_Backend_Apc, flush){
 			ZVAL_STRINGL(key, str_key + 5, str_key_len - 5 - 1, 1);
 			efree(str_key);
 
-			phalcon_return_call_func_p1("apc_delete", key);
+			phalcon_call_func_p1_noret("apc_delete", key);
 		}
 #else
 		PHALCON_INIT_NVAR(itkey);
 		it->funcs->get_current_key(it, itkey TSRMLS_CC);
 		if (likely(Z_TYPE_P(itkey) == IS_STRING)) {
 			ZVAL_STRINGL(key, Z_STRVAL_P(itkey) + 5, Z_STRLEN_P(itkey) - 5, 1);
-			phalcon_return_call_func_p1("apc_delete", key);
+			phalcon_call_func_p1_noret("apc_delete", key);
 		}
 #endif
 
