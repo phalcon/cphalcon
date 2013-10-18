@@ -586,7 +586,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Memcache, decrement){
 PHP_METHOD(Phalcon_Cache_Backend_Memcache, flush){
 
 	zval *memcache, *options, *special_key;
-	zval *keys;
+	zval *keys, *real_key = NULL;
 	HashPosition pos;
 	zval **value;
 
