@@ -46,60 +46,130 @@ class Memory extends Phalcon\Cache\Backend implements Phalcon\Cache\BackendInter
 	/**
 	 * Returns a cached content
 	 *
-	 * @param int|string keyName
+	 * @param 	string keyName
 	 * @param   long lifetime
 	 * @return  mixed
 	 */
-	public function get(keyName, lifetime=null)
+	public function get(var keyName, lifetime=null)
 	{
+		var lastKey, cachedContent;
 
+		if keyName === null {
+			let lastKey = this->_lastKey;
+		} else {
+			let lastKey = this->_prefix . keyName;
+		}
+
+		if !fetch cachedContent, this->_data[lastKey] {
+			return null;
+		}
+
+		if cachedContent === null {
+			return null;
+		}
+
+		return this->_frontend->afterRetrieve(cachedContent);
 	}
 
 	/**
-	 * Stores cached content into the file backend and stops the frontend
+	 * Stores cached content into the backend and stops the frontend
 	 *
-	 * @param int|string keyName
+	 * @param string keyName
 	 * @param string content
 	 * @param long lifetime
 	 * @param boolean stopBuffer
 	 */
-	public function save(keyName=null, content=null, lifetime=null, stopBuffer=true)
+	public function save(var keyName=null, var content=null, lifetime=null, stopBuffer=true) -> void
 	{
+		var lastKey, frontend, cachedContent, preparedContent;
+
+		if keyName === null {
+			let lastKey = this->_lastKey;
+		} else {
+			let lastKey = this->_prefix . keyName;
+		}
+
+		if !lastKey {
+			throw new Phalcon\Cache\Exception("The cache must be started first");
+		}
+
+		let frontend = this->_frontend;
+
+		if content === null {
+			let cachedContent = frontend->getContent();
+		} else {
+			let cachedContent = content;
+		}
+
+		let preparedContent = frontend->beforeStore(cachedContent),
+			this->_data[lastKey] = preparedContent;
+
+		if stopBuffer === true {
+			frontend->stop();
+		}
+
+		if frontend->isBuffering() === true {
+			echo cachedContent;
+		}
+
+		let this->_started = false;
 
 	}
 
 	/**
 	 * Deletes a value from the cache by its key
 	 *
-	 * @param int|string keyName
+	 * @param string $keyName
 	 * @return boolean
 	 */
-	public function delete(keyName)
+	public function delete(var keyName)
 	{
+		var key;
 
+		let key = this->_prefix . keyName;
+		if isset this->_data[key] {
+			unset this->_data[key];
+			return true;
+		}
+
+		return false;
 	}
 
 	/**
 	 * Query the existing cached keys
 	 *
-	 * @param string prefix
+	 * @param string|int prefix
 	 * @return array
 	 */
-	public function queryKeys(prefix=null)
+	public function queryKeys(var prefix=null)
 	{
 
 	}
 
 	/**
-	 * Checks if cache exists and it isn't expired
+	 * Checks if cache exists and it hasn't expired
 	 *
-	 * @param string keyName
-	 * @param   long lifetime
+	 * @param  string|int $keyName
+	 * @param  long $lifetime
 	 * @return boolean
 	 */
-	public function exists(keyName=null, lifetime=null)
+	public function exists(var keyName=null, lifetime=null)
 	{
+		var lastKey;
 
+		if keyName === null {
+			let lastKey = this->_lastKey;
+		} else {
+			let lastKey = this->_prefix . keyName;
+		}
+
+		if lastKey {
+			if isset this->_data[lastKey] {
+				return true;
+			}
+		}
+
+		return false;
 	}
 
 }

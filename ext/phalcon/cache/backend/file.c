@@ -19,6 +19,7 @@
 #include "kernel/object.h"
 #include "kernel/concat.h"
 #include "kernel/operators.h"
+#include "kernel/string.h"
 
 
 /*
@@ -97,11 +98,11 @@ PHP_METHOD(Phalcon_Cache_Backend_File, __construct) {
 	}
 
 
-	if ((!zephir_is_true(options) || zephir_array_isset_string(options, SS("cacheDir")))) {
+	if (!(zephir_array_isset_string(options, SS("cacheDir")))) {
 		ZEPHIR_THROW_EXCEPTION_STR(phalcon_cache_exception_ce, "Cache directory must be specified with the option cacheDir");
 		return;
 	}
-	zephir_call_method_p2_noret(this_ptr, "__construct", frontend, options);
+	zephir_call_parent_p2_noret(this_ptr, phalcon_cache_backend_file_ce, "__construct", frontend, options);
 	ZEPHIR_MM_RESTORE();
 
 }
@@ -193,7 +194,7 @@ PHP_METHOD(Phalcon_Cache_Backend_File, get) {
  */
 PHP_METHOD(Phalcon_Cache_Backend_File, save) {
 
-	zval *keyName = NULL, *content = NULL, *lifetime = NULL, *stopBuffer = NULL, *lastKey, *prefix, *lastPrefix, *frontend, *cacheDir, *isBuffering, *cacheFile, *cachedContent = NULL, *preparedContent, *status, *_0;
+	zval *keyName = NULL, *content = NULL, *lifetime = NULL, *stopBuffer = NULL, *lastKey, *lastPrefix, *frontend, *cacheDir, *isBuffering, *cacheFile, *cachedContent = NULL, *preparedContent, *status, *_0;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 4, &keyName, &content, &lifetime, &stopBuffer);
@@ -215,9 +216,9 @@ PHP_METHOD(Phalcon_Cache_Backend_File, save) {
 	if (!(zephir_is_true(keyName))) {
 		lastKey = zephir_fetch_nproperty_this(this_ptr, SL("_lastKey"), PH_NOISY_CC);
 	} else {
-		prefix = zephir_fetch_nproperty_this(this_ptr, SL("_prefix"), PH_NOISY_CC);
+		_0 = zephir_fetch_nproperty_this(this_ptr, SL("_prefix"), PH_NOISY_CC);
 		ZEPHIR_INIT_VAR(lastPrefix);
-		ZEPHIR_CONCAT_VV(lastPrefix, prefix, keyName);
+		ZEPHIR_CONCAT_VV(lastPrefix, _0, keyName);
 	}
 	if (!(zephir_is_true(lastKey))) {
 		ZEPHIR_THROW_EXCEPTION_STR(phalcon_cache_exception_ce, "The cache must be started first");
@@ -300,7 +301,7 @@ PHP_METHOD(Phalcon_Cache_Backend_File, delete) {
 /**
  * Query the existing cached keys
  *
- * @param string prefix
+ * @param string|int prefix
  * @return array
  */
 PHP_METHOD(Phalcon_Cache_Backend_File, queryKeys) {
@@ -309,17 +310,13 @@ PHP_METHOD(Phalcon_Cache_Backend_File, queryKeys) {
 	HashTable *_5;
 	HashPosition _4;
 	zend_class_entry *_2;
-	zval *prefix_param = NULL, *item = NULL, *key = NULL, *ret, *cacheDir, *_0, *_1, *_3, **_6, *_7 = NULL, *_10 = NULL;
-	zval *prefix = NULL;
+	zval *prefix = NULL, *item = NULL, *key = NULL, *ret, *cacheDir, *_0, *_1, *_3, **_6, *_7 = NULL;
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 0, 1, &prefix_param);
+	zephir_fetch_params(1, 0, 1, &prefix);
 
-	if (!prefix_param) {
-		ZEPHIR_INIT_VAR(prefix);
-		ZVAL_EMPTY_STRING(prefix);
-	} else {
-		zephir_get_strval(prefix, prefix_param);
+	if (!prefix) {
+		prefix = ZEPHIR_GLOBAL(global_null);
 	}
 
 
@@ -347,9 +344,7 @@ PHP_METHOD(Phalcon_Cache_Backend_File, queryKeys) {
 		if (ZEPHIR_IS_FALSE(_7)) {
 			ZEPHIR_INIT_NVAR(key);
 			zephir_call_method_cache(key, item, "getfilename", &_9);
-			ZEPHIR_INIT_NVAR(_10);
-			zephir_call_func_p2(_10, "start_with", key, prefix);
-			if (zephir_is_true(_10)) {
+			if (zephir_start_with(key, prefix)) {
 				zephir_array_append(&ret, key, PH_SEPARATE);
 			}
 		}
@@ -361,24 +356,20 @@ PHP_METHOD(Phalcon_Cache_Backend_File, queryKeys) {
 /**
  * Checks if cache exists and it isn't expired
  *
- * @param string keyName
+ * @param string|int keyName
  * @param   int lifetime
  * @return boolean
  */
 PHP_METHOD(Phalcon_Cache_Backend_File, exists) {
 
 	int lifetime, ttl;
-	zval *keyName_param = NULL, *lifetime_param = NULL, *lastKey, *prefix, *cacheDir, *cacheFile, *_0, *_1, *_2, *_3 = NULL, *_4;
-	zval *keyName = NULL;
+	zval *keyName = NULL, *lifetime_param = NULL, *lastKey, *prefix, *cacheDir, *cacheFile, *_0, *_1, *_2, *_3 = NULL, *_4;
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 0, 2, &keyName_param, &lifetime_param);
+	zephir_fetch_params(1, 0, 2, &keyName, &lifetime_param);
 
-	if (!keyName_param) {
-		ZEPHIR_INIT_VAR(keyName);
-		ZVAL_EMPTY_STRING(keyName);
-	} else {
-		zephir_get_strval(keyName, keyName_param);
+	if (!keyName) {
+		keyName = ZEPHIR_GLOBAL(global_null);
 	}
 	if (!lifetime_param) {
 		lifetime = 0;
@@ -388,7 +379,7 @@ PHP_METHOD(Phalcon_Cache_Backend_File, exists) {
 
 
 	ZEPHIR_INIT_VAR(lastKey);
-	if (!(keyName && Z_STRLEN_P(keyName))) {
+	if (!(zephir_is_true(keyName))) {
 		zephir_read_property_this(&lastKey, this_ptr, SL("_lastKey"), PH_NOISY_CC);
 	} else {
 		prefix = zephir_fetch_nproperty_this(this_ptr, SL("_prefix"), PH_NOISY_CC);
@@ -426,24 +417,20 @@ PHP_METHOD(Phalcon_Cache_Backend_File, exists) {
 /**
  * Increment of a given key, by number $value
  *
- * @param  string $keyName
- * @param  int $value
+ * @param  string|int keyName
+ * @param  int value
  * @return mixed
  */
 PHP_METHOD(Phalcon_Cache_Backend_File, increment) {
 
 	int value;
-	zval *keyName_param = NULL, *value_param = NULL, *prefixedKey, *cacheFile, *frontend, *timestamp, *lifetime, *ttl = NULL, *cachedContent, *result, *_0, *_1, *_2, *_3, *_4, *_5, *_6 = NULL, *_7;
-	zval *keyName = NULL;
+	zval *keyName = NULL, *value_param = NULL, *prefixedKey, *cacheFile, *frontend, *timestamp, *lifetime, *ttl = NULL, *cachedContent, *result, *_0, *_1, *_2, *_3, *_4, *_5, *_6 = NULL, *_7;
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 0, 2, &keyName_param, &value_param);
+	zephir_fetch_params(1, 0, 2, &keyName, &value_param);
 
-	if (!keyName_param) {
-		ZEPHIR_INIT_VAR(keyName);
-		ZVAL_EMPTY_STRING(keyName);
-	} else {
-		zephir_get_strval(keyName, keyName_param);
+	if (!keyName) {
+		keyName = ZEPHIR_GLOBAL(global_null);
 	}
 	if (!value_param) {
 		value = 0;
@@ -510,24 +497,20 @@ PHP_METHOD(Phalcon_Cache_Backend_File, increment) {
 /**
  * Decrement of a given key, by number $value
  *
- * @param  string keyName
+ * @param  string|int keyName
  * @param  int value
  * @return mixed
  */
 PHP_METHOD(Phalcon_Cache_Backend_File, decrement) {
 
 	int value;
-	zval *keyName_param = NULL, *value_param = NULL, *options, *prefix, *prefixedKey, *cacheDir, *cacheFile, *frontend, *timestamp, *lifetime, *ttl = NULL, *cachedContent, *status, *result, *_0, *_1, *_2, *_3, *_4;
-	zval *keyName = NULL;
+	zval *keyName = NULL, *value_param = NULL, *prefixedKey, *cacheFile, *timestamp, *lifetime, *ttl = NULL, *cachedContent, *status, *result, *_0, *_1, *_2, *_3, *_4, *_5, *_6, *_7, *_8;
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 0, 2, &keyName_param, &value_param);
+	zephir_fetch_params(1, 0, 2, &keyName, &value_param);
 
-	if (!keyName_param) {
-		ZEPHIR_INIT_VAR(keyName);
-		ZVAL_EMPTY_STRING(keyName);
-	} else {
-		zephir_get_strval(keyName, keyName_param);
+	if (!keyName) {
+		keyName = ZEPHIR_GLOBAL(global_null);
 	}
 	if (!value_param) {
 		value = 0;
@@ -536,41 +519,41 @@ PHP_METHOD(Phalcon_Cache_Backend_File, decrement) {
 	}
 
 
-	options = zephir_fetch_nproperty_this(this_ptr, SL("_options"), PH_NOISY_CC);
-	prefix = zephir_fetch_nproperty_this(this_ptr, SL("_prefix"), PH_NOISY_CC);
+	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_prefix"), PH_NOISY_CC);
 	ZEPHIR_INIT_VAR(prefixedKey);
-	ZEPHIR_CONCAT_VV(prefixedKey, prefix, keyName);
+	ZEPHIR_CONCAT_VV(prefixedKey, _0, keyName);
 	zephir_update_property_this(this_ptr, SL("_lastKey"), prefixedKey TSRMLS_CC);
-	zephir_array_fetch_string(&cacheDir, options, SL("cacheDir"), PH_NOISY | PH_READONLY TSRMLS_CC);
+	_1 = zephir_fetch_nproperty_this(this_ptr, SL("_options"), PH_NOISY_CC);
+	zephir_array_fetch_string(&_2, _1, SL("cacheDir"), PH_NOISY | PH_READONLY TSRMLS_CC);
 	ZEPHIR_INIT_VAR(cacheFile);
-	ZEPHIR_CONCAT_VV(cacheFile, cacheDir, prefixedKey);
-	ZEPHIR_INIT_VAR(_0);
-	zephir_call_func_p1(_0, "file_exists", cacheFile);
-	if (zephir_is_true(_0)) {
-		frontend = zephir_fetch_nproperty_this(this_ptr, SL("_frontend"), PH_NOISY_CC);
+	ZEPHIR_CONCAT_VV(cacheFile, _2, prefixedKey);
+	ZEPHIR_INIT_VAR(_3);
+	zephir_call_func_p1(_3, "file_exists", cacheFile);
+	if (zephir_is_true(_3)) {
 		ZEPHIR_INIT_VAR(timestamp);
 		zephir_call_func(timestamp, "time");
 		lifetime = zephir_fetch_nproperty_this(this_ptr, SL("_lastLifetime"), PH_NOISY_CC);
 		if (!(zephir_is_true(lifetime))) {
+			_4 = zephir_fetch_nproperty_this(this_ptr, SL("_frontend"), PH_NOISY_CC);
 			ZEPHIR_INIT_VAR(ttl);
-			zephir_call_method(ttl, frontend, "getlifetime");
+			zephir_call_method(ttl, _4, "getlifetime");
 		} else {
 			ZEPHIR_CPY_WRT(ttl, lifetime);
 		}
-		ZEPHIR_INIT_VAR(_1);
-		sub_function(_1, timestamp, ttl TSRMLS_CC);
-		ZEPHIR_INIT_VAR(_2);
-		zephir_call_func_p1(_2, "filemtime", cacheFile);
-		if (ZEPHIR_LS(_1, _2)) {
+		ZEPHIR_INIT_VAR(_5);
+		sub_function(_5, timestamp, ttl TSRMLS_CC);
+		ZEPHIR_INIT_VAR(_6);
+		zephir_call_func_p1(_6, "filemtime", cacheFile);
+		if (ZEPHIR_LS(_5, _6)) {
 			ZEPHIR_INIT_VAR(cachedContent);
 			zephir_call_func_p1(cachedContent, "file_get_contents", cacheFile);
 			if (!(zephir_is_true(cachedContent))) {
-				ZEPHIR_INIT_VAR(_3);
-				object_init_ex(_3, phalcon_cache_exception_ce);
-				ZEPHIR_INIT_VAR(_4);
-				ZEPHIR_CONCAT_SVS(_4, "Cache file ", cacheFile, " could not be opened");
-				zephir_call_method_p1_noret(_3, "__construct", _4);
-				zephir_throw_exception(_3 TSRMLS_CC);
+				ZEPHIR_INIT_VAR(_7);
+				object_init_ex(_7, phalcon_cache_exception_ce);
+				ZEPHIR_INIT_VAR(_8);
+				ZEPHIR_CONCAT_SVS(_8, "Cache file ", cacheFile, " could not be opened");
+				zephir_call_method_p1_noret(_7, "__construct", _8);
+				zephir_throw_exception(_7 TSRMLS_CC);
 				ZEPHIR_MM_RESTORE();
 				return;
 			}

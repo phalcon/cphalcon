@@ -119,7 +119,7 @@ PHP_METHOD(Phalcon_Cache_Multiple, __construct) {
 /**
  * Adds a backend
  *
- * @param Phalcon\Cache\BackendInterface $backend
+ * @param Phalcon\Cache\BackendInterface backend
  * @return Phalcon\Cache\Multiple
  */
 PHP_METHOD(Phalcon_Cache_Multiple, push) {
@@ -142,7 +142,7 @@ PHP_METHOD(Phalcon_Cache_Multiple, push) {
 /**
  * Returns a cached content reading the internal backends
  *
- * @param 	string keyName
+ * @param 	string|int keyName
  * @param   long lifetime
  * @return  mixed
  */
@@ -181,8 +181,8 @@ PHP_METHOD(Phalcon_Cache_Multiple, get) {
 /**
  * Starts every backend
  *
- * @param int|string keyName
- * @param   long lifetime
+ * @param string|int keyName
+ * @param long lifetime
  */
 PHP_METHOD(Phalcon_Cache_Multiple, start) {
 
@@ -215,10 +215,10 @@ PHP_METHOD(Phalcon_Cache_Multiple, start) {
 /**
  * Stores cached content into all backends and stops the frontend
  *
- * @param string $keyName
- * @param string $content
- * @param long $lifetime
- * @param boolean $stopBuffer
+ * @param string keyName
+ * @param string content
+ * @param long lifetime
+ * @param boolean stopBuffer
  */
 PHP_METHOD(Phalcon_Cache_Multiple, save) {
 
@@ -260,7 +260,7 @@ PHP_METHOD(Phalcon_Cache_Multiple, save) {
 /**
  * Deletes a value from each backend
  *
- * @param int|string keyName
+ * @param string|int keyName
  * @return boolean
  */
 PHP_METHOD(Phalcon_Cache_Multiple, delete) {
@@ -268,13 +268,11 @@ PHP_METHOD(Phalcon_Cache_Multiple, delete) {
 	zend_function *_4 = NULL;
 	HashTable *_2;
 	HashPosition _1;
-	zval *keyName_param = NULL, *backend = NULL, *_0, **_3;
-	zval *keyName = NULL;
+	zval *keyName, *backend = NULL, *_0, **_3;
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 0, &keyName_param);
+	zephir_fetch_params(1, 1, 0, &keyName);
 
-		zephir_get_strval(keyName, keyName_param);
 
 
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_backends"), PH_NOISY_CC);
@@ -293,7 +291,7 @@ PHP_METHOD(Phalcon_Cache_Multiple, delete) {
 /**
  * Checks if cache exists in at least one backend
  *
- * @param  string keyName
+ * @param  string|int keyName
  * @param  long lifetime
  * @return boolean
  */
@@ -302,17 +300,13 @@ PHP_METHOD(Phalcon_Cache_Multiple, exists) {
 	zend_function *_5 = NULL;
 	HashTable *_2;
 	HashPosition _1;
-	zval *keyName_param = NULL, *lifetime = NULL, *backend = NULL, *_0, **_3, *_4 = NULL;
-	zval *keyName = NULL;
+	zval *keyName = NULL, *lifetime = NULL, *backend = NULL, *_0, **_3, *_4 = NULL;
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 0, 2, &keyName_param, &lifetime);
+	zephir_fetch_params(1, 0, 2, &keyName, &lifetime);
 
-	if (!keyName_param) {
-		ZEPHIR_INIT_VAR(keyName);
-		ZVAL_EMPTY_STRING(keyName);
-	} else {
-		zephir_get_strval(keyName, keyName_param);
+	if (!keyName) {
+		keyName = ZEPHIR_GLOBAL(global_null);
 	}
 	if (!lifetime) {
 		lifetime = ZEPHIR_GLOBAL(global_null);

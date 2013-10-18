@@ -87,7 +87,7 @@ class Multiple
 	/**
 	 * Adds a backend
 	 *
-	 * @param Phalcon\Cache\BackendInterface $backend
+	 * @param Phalcon\Cache\BackendInterface backend
 	 * @return Phalcon\Cache\Multiple
 	 */
 	public function push(<Phalcon\Cache\BackendInterface> backend) -> <Phalcon\Cache\Multiple>
@@ -104,11 +104,11 @@ class Multiple
 	/**
 	 * Returns a cached content reading the internal backends
 	 *
-	 * @param 	string keyName
+	 * @param 	string|int keyName
 	 * @param   long lifetime
 	 * @return  mixed
 	 */
-	public function get(keyName, lifetime=null)
+	public function get(var keyName, lifetime=null)
 	{
 		var backend, content;
 
@@ -125,10 +125,10 @@ class Multiple
 	/**
 	 * Starts every backend
 	 *
-	 * @param int|string keyName
-	 * @param   long lifetime
+	 * @param string|int keyName
+	 * @param long lifetime
 	 */
-	public function start(keyName, lifetime=null) -> void
+	public function start(var keyName, lifetime=null) -> void
 	{
 		var backend;
 
@@ -140,12 +140,12 @@ class Multiple
 	/**
 	* Stores cached content into all backends and stops the frontend
 	*
-	* @param string $keyName
-	* @param string $content
-	* @param long $lifetime
-	* @param boolean $stopBuffer
+	* @param string keyName
+	* @param string content
+	* @param long lifetime
+	* @param boolean stopBuffer
 	*/
-	public function save(keyName=null, content=null, lifetime=null, stopBuffer=null) -> void
+	public function save(var keyName=null, content=null, lifetime=null, stopBuffer=null) -> void
 	{
 		var backend;
 
@@ -157,10 +157,10 @@ class Multiple
 	/**
 	 * Deletes a value from each backend
 	 *
-	 * @param int|string keyName
+	 * @param string|int keyName
 	 * @return boolean
 	 */
-	public function delete(string keyName) -> boolean
+	public function delete(var keyName) -> boolean
 	{
 		var backend;
 
@@ -174,11 +174,11 @@ class Multiple
 	/**
 	 * Checks if cache exists in at least one backend
 	 *
-	 * @param  string keyName
+	 * @param  string|int keyName
 	 * @param  long lifetime
 	 * @return boolean
 	 */
-	public function exists(string keyName=null, lifetime=null) -> boolean
+	public function exists(var keyName=null, lifetime=null) -> boolean
 	{
 		var backend;
 

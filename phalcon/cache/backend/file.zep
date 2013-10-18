@@ -61,11 +61,11 @@ class File extends Phalcon\Cache\Backend implements Phalcon\Cache\BackendInterfa
 	 */
 	public function __construct(<Phalcon\Cache\FrontendInterface> frontend, options=null)
 	{
-		if !options || isset options["cacheDir"] {
+		if !isset options["cacheDir"] {
 			throw new Phalcon\Cache\Exception("Cache directory must be specified with the option cacheDir");
 		}
 
-		this->__construct(frontend, options);
+		parent::__construct(frontend, options);
 	}
 
 	/**
@@ -75,7 +75,7 @@ class File extends Phalcon\Cache\Backend implements Phalcon\Cache\BackendInterfa
 	 * @param   int lifetime
 	 * @return  mixed
 	 */
-	public function get(keyName, lifetime=null)
+	public function get(var keyName, lifetime=null)
 	{
 		var options, prefix, prefixedKey, cacheDir, cacheFile, frontend,
 			now, lastLifetime, tmp, ttl, diff, cachedContent;
@@ -152,7 +152,7 @@ class File extends Phalcon\Cache\Backend implements Phalcon\Cache\BackendInterfa
 	 * @param int lifetime
 	 * @param boolean stopBuffer
 	 */
-	public function save(keyName=null, content=null, lifetime=null, stopBuffer=true) -> void
+	public function save(var keyName=null, var content=null, lifetime=null, stopBuffer=true) -> void
 	{
 		var lastKey, prefix, lastPrefix, frontend, options, cacheDir,
 			isBuffering, cacheFile, cachedContent, preparedContent, status;
@@ -160,8 +160,7 @@ class File extends Phalcon\Cache\Backend implements Phalcon\Cache\BackendInterfa
 		if !keyName {
 			let lastKey = this->_lastKey;
 		} else {
-			let prefix = this->_prefix;
-			let lastPrefix = prefix . keyName;
+			let lastPrefix = this->_prefix . keyName;
 		}
 
 		if !lastKey {
@@ -185,8 +184,8 @@ class File extends Phalcon\Cache\Backend implements Phalcon\Cache\BackendInterfa
 		let preparedContent = frontend->beforeStore(cachedContent);
 
 		/**
-		* We use file_put_contents to respect open-base-dir directive
-		*/
+		 * We use file_put_contents to respect open-base-dir directive
+		 */
 		if !is_numeric(cachedContent) {
 			let status = file_put_contents(cacheFile, preparedContent);
 		} else {
@@ -216,7 +215,7 @@ class File extends Phalcon\Cache\Backend implements Phalcon\Cache\BackendInterfa
 	 * @param int|string keyName
 	 * @return boolean
 	 */
-	public function delete(keyName) -> boolean
+	public function delete(var keyName) -> boolean
 	{
 		var options, prefix, prefixedKey, cacheFile, cacheDir;
 
@@ -238,10 +237,10 @@ class File extends Phalcon\Cache\Backend implements Phalcon\Cache\BackendInterfa
 	/**
 	 * Query the existing cached keys
 	 *
-	 * @param string prefix
+	 * @param string|int prefix
 	 * @return array
 	 */
-	public function queryKeys(string prefix=null)
+	public function queryKeys(var prefix=null)
 	{
 		var options, item, key, ret, cacheDir;
 
@@ -257,7 +256,7 @@ class File extends Phalcon\Cache\Backend implements Phalcon\Cache\BackendInterfa
 
 			if item->isDir() === false {
 				let key = item->getFileName();
-				if start_with(key, prefix) {
+				if starts_with(key, prefix) {
 					let ret[] = key;
 				}
 			}
@@ -269,11 +268,11 @@ class File extends Phalcon\Cache\Backend implements Phalcon\Cache\BackendInterfa
 	/**
 	 * Checks if cache exists and it isn't expired
 	 *
-	 * @param string keyName
+	 * @param string|int keyName
 	 * @param   int lifetime
 	 * @return boolean
 	 */
-	public function exists(string keyName=null, int lifetime=null) -> boolean
+	public function exists(var keyName=null, int lifetime=null) -> boolean
 	{
 		var lastKey, prefix, options, cacheDir, cacheFile, frontend, tmp;
 		int ttl;
@@ -311,13 +310,13 @@ class File extends Phalcon\Cache\Backend implements Phalcon\Cache\BackendInterfa
 	}
 
 	/**
-	* Increment of a given key, by number $value
-	*
-	* @param  string $keyName
-	* @param  int $value
-	* @return mixed
-	*/
-	public function increment(string keyName=null, int value=null)
+	 * Increment of a given key, by number $value
+	 *
+	 * @param  string|int keyName
+	 * @param  int value
+	 * @return mixed
+	 */
+	public function increment(var keyName=null, int value=null)
 	{
 		var options, prefix, prefixedKey, cacheDir, cacheFile, frontend, timestamp, lifetime, ttl,
 			modifiedTime, difference, notExpired, cachedContent, status, result;
@@ -373,26 +372,22 @@ class File extends Phalcon\Cache\Backend implements Phalcon\Cache\BackendInterfa
 	}
 
 	/**
-	* Decrement of a given key, by number $value
-	*
-	* @param  string keyName
-	* @param  int value
-	* @return mixed
-	*/
-	public function decrement(string keyName=null, int value=null)
+	 * Decrement of a given key, by number $value
+	 *
+	 * @param  string|int keyName
+	 * @param  int value
+	 * @return mixed
+	 */
+	public function decrement(var keyName=null, int value=null)
 	{
 		var options, prefix, prefixedKey, cacheDir, cacheFile, frontend, timestamp, lifetime, ttl,
 			modifiedTime, difference, notExpired, cachedContent, status, result;
 
-		let options = this->_options;
-		let prefix = this->_prefix;
-		let prefixedKey = prefix . keyName;
-		let this->_lastKey = prefixedKey;
-		let cacheDir = options["cacheDir"];
-		let cacheFile = cacheDir . prefixedKey;
+		let prefixedKey = this->_prefix . keyName,
+			this->_lastKey = prefixedKey,
+			cacheFile = this->_options["cacheDir"] . prefixedKey;
 
 		if file_exists(cacheFile) {
-			let frontend = this->_frontend;
 
 			/**
 			 * Check if the file has expired
@@ -404,7 +399,7 @@ class File extends Phalcon\Cache\Backend implements Phalcon\Cache\BackendInterfa
 			 */
 			let lifetime = this->_lastLifetime;
 			if !lifetime {
-				let ttl = frontend->getLifeTime();
+				let ttl = this->_frontend->getLifeTime();
 			} else {
 				let ttl = lifetime;
 			}
@@ -420,7 +415,7 @@ class File extends Phalcon\Cache\Backend implements Phalcon\Cache\BackendInterfa
 				let cachedContent = file_get_contents(cacheFile);
 
 				if !cachedContent {
-					throw new Phalcon\Cache\Exception("Cache file ". cacheFile. " could not be opened");
+					throw new Phalcon\Cache\Exception("Cache file " . cacheFile . " could not be opened");
 				}
 
 				if is_numeric(cachedContent) {
