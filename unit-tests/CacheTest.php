@@ -598,7 +598,6 @@ class CacheTest extends PHPUnit_Framework_TestCase
 
 	public function testDataApcCache()
 	{
-
 		$ready = $this->_prepareApc();
 		if (!$ready) {
 			return false;
@@ -1339,9 +1338,41 @@ class CacheTest extends PHPUnit_Framework_TestCase
 		if (!$ready) {
 			return false;
 		}
-		xcache_unset('_PHCXtest-data');
 
 		$cache = new Phalcon\Cache\Backend\Xcache($frontCache);
+
+		$cache->save('data', "1");
+		$cache->save('data2', "2");
+
+		$this->assertTrue($cache->flush());
+
+		$this->assertFalse($cache->exists('data'));
+		$this->assertFalse($cache->exists('data2'));
+	}
+
+	
+
+	public function testCacheLibmemcachedFlush()
+	{
+		if (!extension_loaded('memcached')) {
+			$this->markTestSkipped('Warning: memcached extension is not loaded');
+			return false;
+		}
+
+		$frontCache = new Phalcon\Cache\Frontend\Data();
+
+        //Memcached OPT_PREFIX_KEY: prefix.
+		$cache = new Phalcon\Cache\Backend\Libmemcached($frontCache, array(
+			'servers' => array(
+				array(
+					'host' => '127.0.0.1',
+					'port' => '11211',
+					'weight' => '1'),
+			),
+			'client' => array(
+				Memcached::OPT_PREFIX_KEY => 'prefix.',
+			)
+		));
 
 		$cache->save('data', "1");
 		$cache->save('data2', "2");
