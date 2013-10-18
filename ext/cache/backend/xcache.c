@@ -548,7 +548,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Xcache, flush){
 
 	PHALCON_MM_GROW();
 
-	z_zero = PHALCON_GLOBAL(z_zero)
+	z_zero = PHALCON_GLOBAL(z_zero);
 
 	PHALCON_INIT_VAR(prefixed);
 	ZVAL_STRING(prefixed, "_PHCX", 1);

@@ -626,7 +626,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Memcache, flush){
 			phalcon_call_method_p1_noret(memcache, "delete", real_key);
 		}
 		
-		phalcon_call_method_p2_noret(memcache, "set", special_key, keys)
+		phalcon_call_method_p2_noret(memcache, "set", special_key, keys);
 	}
 	
 	RETURN_MM_TRUE;

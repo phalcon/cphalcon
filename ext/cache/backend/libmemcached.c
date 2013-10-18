@@ -615,6 +615,8 @@ PHP_METHOD(Phalcon_Cache_Backend_Libmemcached, flush){
 
 	zval *memcache, *options, *special_key;
 	zval *keys, *real_key = NULL;
+	HashPosition pos;
+	zval **value;
 
 	PHALCON_MM_GROW();
 
@@ -631,16 +633,12 @@ PHP_METHOD(Phalcon_Cache_Backend_Libmemcached, flush){
 		return;
 	}
 
-	array_init(return_value);
-
 	/** 
 	 * Get the key from memcached
 	 */
 	PHALCON_OBS_VAR(keys);
 	phalcon_call_method_p1_ex(keys, &keys, memcache, "get", special_key);
 	if (Z_TYPE_P(keys) == IS_ARRAY) {
-		HashPosition pos;
-		zval **value;
 
 		for (
 			zend_hash_internal_pointer_reset_ex(Z_ARRVAL_P(keys), &pos);
