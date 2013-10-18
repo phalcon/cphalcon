@@ -6048,41 +6048,20 @@ PHP_METHOD(Phalcon_Mvc_Model, __callStatic){
 	}
 	
 	PHALCON_INIT_VAR(extra_method);
+	PHALCON_INIT_VAR(type);
 	
-	/** 
-	 * Check if the method starts with 'findFirst'
-	 */
+	/* Check if the method starts with 'findFirst' */
 	if (phalcon_start_with_str(method, SL("findFirstBy"))) {
-		PHALCON_INIT_VAR(type);
 		ZVAL_STRING(type, "findFirst", 1);
-	
 		phalcon_substr(extra_method, method, 11, 0);
 	}
-	
-	/** 
-	 * Check if the method starts with 'find'
-	 */
-	if (Z_TYPE_P(extra_method) == IS_NULL) {
-		if (phalcon_start_with_str(method, SL("findBy"))) {
-			PHALCON_INIT_NVAR(type);
-			ZVAL_STRING(type, "find", 1);
-	
-			PHALCON_INIT_NVAR(extra_method);
-			phalcon_substr(extra_method, method, 6, 0);
-		}
+	else if (phalcon_start_with_str(method, SL("findBy"))) { /* Check if the method starts with 'find' */
+		ZVAL_STRING(type, "find", 1);
+		phalcon_substr(extra_method, method, 6, 0);
 	}
-	
-	/** 
-	 * Check if the method starts with 'count'
-	 */
-	if (Z_TYPE_P(extra_method) == IS_NULL) {
-		if (phalcon_start_with_str(method, SL("countBy"))) {
-			PHALCON_INIT_NVAR(type);
-			ZVAL_STRING(type, "count", 1);
-	
-			PHALCON_INIT_NVAR(extra_method);
-			phalcon_substr(extra_method, method, 7, 0);
-		}
+	else if (phalcon_start_with_str(method, SL("countBy"))) { /* Check if the method starts with 'count' */
+		ZVAL_STRING(type, "count", 1);
+		phalcon_substr(extra_method, method, 7, 0);
 	}
 	
 	/** 
