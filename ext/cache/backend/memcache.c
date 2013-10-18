@@ -577,3 +577,17 @@ PHP_METHOD(Phalcon_Cache_Backend_Memcache, decrement){
 
 	RETURN_CTOR(newVal);
 }
+
+/**
+ * Immediately invalidates all existing items.
+ * 
+ * @return boolean
+ */
+PHP_METHOD(Phalcon_Cache_Backend_Memcache, flush){
+
+	zval *memcache;
+
+	memcache = phalcon_fetch_nproperty_this(this_ptr, SL("_memcache"), PH_NOISY_CC);
+
+	phalcon_call_method(return_value, memcache, "flush");
+}

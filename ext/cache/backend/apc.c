@@ -489,3 +489,19 @@ PHP_METHOD(Phalcon_Cache_Backend_Apc, exists){
 	
 	RETURN_MM_FALSE;
 }
+
+/**
+ * Immediately invalidates all existing items.
+ * 
+ * @return boolean
+ */
+PHP_METHOD(Phalcon_Cache_Backend_Apc, flush){
+
+	zval *cache_type;
+	MAKE_STD_ZVAL(cache_type);
+	ZVAL_STRING(cache_type, "user", 0);
+
+	phalcon_call_func_p1_ex(return_value, return_value_ptr, "apc_clear_cache", cache_type);
+	
+	zval_ptr_dtor(&cache_type);
+}

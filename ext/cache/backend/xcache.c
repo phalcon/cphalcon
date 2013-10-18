@@ -533,3 +533,24 @@ PHP_METHOD(Phalcon_Cache_Backend_Xcache, decrement){
 		RETURN_CTOR(newVal);
 	}
 }
+
+/**
+ * Immediately invalidates all existing items.
+ * 
+ * @return boolean
+ */
+PHP_METHOD(Phalcon_Cache_Backend_Xcache, flush){
+
+	zval *cache_type, *id;
+
+	MAKE_STD_ZVAL(cache_type);
+	MAKE_STD_ZVAL(id);
+	ZVAL_LONG(id, 0);
+	if (!zend_get_constant(SL("XC_TYPE_VAR"), cache_type TSRMLS_CC)) {
+		RETVAL_FALSE;
+	} else {
+		phalcon_call_func_p2_ex(return_value, return_value_ptr, "xcache_clear_cache", cache_type, id);
+	}
+	zval_ptr_dtor(&id);
+	zval_ptr_dtor(&cache_type);
+}

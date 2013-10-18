@@ -139,3 +139,9 @@ PHALCON_DOC_METHOD(Phalcon_Cache_BackendInterface, queryKeys);
  */
 PHALCON_DOC_METHOD(Phalcon_Cache_BackendInterface, exists);
 
+/**
+ * Immediately invalidates all existing items.
+ * 
+ * @return boolean
+ */
+PHALCON_DOC_METHOD(Phalcon_Cache_BackendInterface, flush);

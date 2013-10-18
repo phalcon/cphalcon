@@ -406,3 +406,15 @@ PHP_METHOD(Phalcon_Cache_Backend_Memory, decrement){
 
 	RETURN_MM();
 }
+
+/**
+ * Immediately invalidates all existing items.
+ * 
+ * @return boolean
+ */
+PHP_METHOD(Phalcon_Cache_Backend_Memory, flush){
+
+	phalcon_update_property_null(this_ptr, SL("_data") TSRMLS_CC);
+
+	RETVAL_TRUE;
+}

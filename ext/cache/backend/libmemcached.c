@@ -605,3 +605,17 @@ PHP_METHOD(Phalcon_Cache_Backend_Libmemcached, exists){
 
 	PHALCON_MM_RESTORE();
 }
+
+/**
+ * Immediately invalidates all existing items.
+ * 
+ * @return boolean
+ */
+PHP_METHOD(Phalcon_Cache_Backend_Libmemcached, flush){
+
+	zval *memcache;
+
+	memcache = phalcon_fetch_nproperty_this(this_ptr, SL("_memcache"), PH_NOISY_CC);
+
+	phalcon_call_method(return_value, memcache, "flush");
+}
