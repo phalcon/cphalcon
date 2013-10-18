@@ -12,9 +12,9 @@
 #include <Zend/zend_interfaces.h>
 
 #include "kernel/main.h"
+#include "kernel/memory.h"
 #include "kernel/array.h"
 #include "kernel/object.h"
-#include "kernel/memory.h"
 #include "kernel/fcall.h"
 #include "kernel/operators.h"
 
@@ -54,6 +54,57 @@ ZEPHIR_INIT_CLASS(Phalcon_Cache_Backend) {
 	zend_declare_property_bool(phalcon_cache_backend_ce, SL("_started"), 0, ZEND_ACC_PROTECTED TSRMLS_CC);
 
 	return SUCCESS;
+
+}
+
+PHP_METHOD(Phalcon_Cache_Backend, getFrontend) {
+
+
+
+}
+
+PHP_METHOD(Phalcon_Cache_Backend, setFrontend) {
+
+	zval *frontend;
+
+	zephir_fetch_params(0, 1, 0, &frontend);
+
+
+
+
+}
+
+PHP_METHOD(Phalcon_Cache_Backend, getOptions) {
+
+
+
+}
+
+PHP_METHOD(Phalcon_Cache_Backend, setOptions) {
+
+	zval *options;
+
+	zephir_fetch_params(0, 1, 0, &options);
+
+
+
+
+}
+
+PHP_METHOD(Phalcon_Cache_Backend, getLastKey) {
+
+
+
+}
+
+PHP_METHOD(Phalcon_Cache_Backend, setLastKey) {
+
+	zval *lastKey;
+
+	zephir_fetch_params(0, 1, 0, &lastKey);
+
+
+
 
 }
 
@@ -150,30 +201,6 @@ PHP_METHOD(Phalcon_Cache_Backend, stop) {
 }
 
 /**
- * Returns front-end instance adapter related to the back-end
- *
- * @return mixed
- */
-PHP_METHOD(Phalcon_Cache_Backend, getFrontend) {
-
-
-	RETURN_MEMBER(this_ptr, "_frontend");
-
-}
-
-/**
- * Returns the backend options
- *
- * @return array
- */
-PHP_METHOD(Phalcon_Cache_Backend, getOptions) {
-
-
-	RETURN_MEMBER(this_ptr, "_options");
-
-}
-
-/**
  * Checks whether the last cache is fresh or cached
  *
  * @return boolean
@@ -194,47 +221,6 @@ PHP_METHOD(Phalcon_Cache_Backend, isStarted) {
 
 
 	RETURN_MEMBER(this_ptr, "_started");
-
-}
-
-/**
- * Sets the last key used in the cache
- *
- * @param string lastKey
- */
-PHP_METHOD(Phalcon_Cache_Backend, setLastKey) {
-
-	zval *lastKey;
-
-	zephir_fetch_params(0, 1, 0, &lastKey);
-
-
-
-	zephir_update_property_this(this_ptr, SL("_lastKey"), lastKey TSRMLS_CC);
-
-}
-
-/**
- * Gets the last key stored by the cache
- *
- * @return string
- */
-PHP_METHOD(Phalcon_Cache_Backend, getLastKey) {
-
-
-	RETURN_MEMBER(this_ptr, "_lastKey");
-
-}
-
-/**
- * Gets the last lifetime set
- *
- * @return int
- */
-PHP_METHOD(Phalcon_Cache_Backend, getLifetime) {
-
-
-	RETURN_MEMBER(this_ptr, "_lastLifetime");
 
 }
 

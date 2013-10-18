@@ -79,8 +79,7 @@ class Apc extends Phalcon\Cache\Backend implements Phalcon\Cache\BackendInterfac
 	 */
 	public function save(keyName=null, content=null, lifetime=null, stopBuffer=true)
 	{
-		var lastKey, frontend, cachedContent, preparedContent,
-			ttl, isBuffering;
+		var lastKey, frontend, cachedContent, preparedContent, ttl, isBuffering;
 
 		if keyName === null{
 			let lastKey = this->_lastKey;
@@ -139,7 +138,7 @@ class Apc extends Phalcon\Cache\Backend implements Phalcon\Cache\BackendInterfac
 	 * @param string keyName
 	 * @return boolean
 	 */
-	public function delete(keyName) -> boolean
+	public function delete(string keyName) -> boolean
 	{
 		return apc_delete("_PHCA" . this->_prefix . keyName);
 	}
@@ -152,7 +151,7 @@ class Apc extends Phalcon\Cache\Backend implements Phalcon\Cache\BackendInterfac
 	 */
 	public function queryKeys(string prefix=null)
 	{
-		var prefixPattern, ret, type;
+		var prefixPattern, apc, keys, key, item;
 
 		if !prefix {
 			let prefixPattern = "/^_PHCA/";
@@ -160,8 +159,14 @@ class Apc extends Phalcon\Cache\Backend implements Phalcon\Cache\BackendInterfac
 			let prefixPattern = "/^_PHCA/" . prefix;
 		}
 
-		let ret = [];
-		let iterator = new APCIterator("user", prefixPattern);
+		let keys = [],
+			apc = new APCIterator("user", prefixPattern);
+
+		for key, item in iterator(apc) {
+			let keys[] = substr(key, 5);
+		}
+
+		return keys;
 	}
 
 	/**

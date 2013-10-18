@@ -77,8 +77,8 @@ class File extends Phalcon\Cache\Backend implements Phalcon\Cache\BackendInterfa
 	 */
 	public function get(keyName, lifetime=null)
 	{
-		var options, prefix, prefixedKey, cacheDir, cacheFile, frontend, now, lastLifetime, tmp, 
-			ttl, diff, cachedContent;
+		var options, prefix, prefixedKey, cacheDir, cacheFile, frontend,
+			now, lastLifetime, tmp, ttl, diff, cachedContent;
 		int modifiedTime;
 
 		let options = this->_options;
@@ -87,7 +87,7 @@ class File extends Phalcon\Cache\Backend implements Phalcon\Cache\BackendInterfa
 		let prefixedKey = prefix . keyName;
 		let this->_lastKey = prefixedKey;
 
-		if unlikely fetch cacheDir, options["cacheDir"] {
+		if fetch cacheDir, options["cacheDir"] {
 			throw new Phalcon\Cache\Exception("Unexpected inconsistency in options");
 		}
 
@@ -96,14 +96,14 @@ class File extends Phalcon\Cache\Backend implements Phalcon\Cache\BackendInterfa
 		if file_exists(cacheFile) == true {
 			let frontend = this->_frontend;
 
-			/** 
-			* Check if the file has expired
-			*/
+			/**
+			 * Check if the file has expired
+			 */
 			let now = time();
 
-			/** 
-			* Take the lifetime from the frontend or read it from the set in start()
-			*/
+			/**
+			 * Take the lifetime from the frontend or read it from the set in start()
+			 */
 			if !lifetime {
 				let lastLifetime = this->_lastLifetime;
 
@@ -119,15 +119,14 @@ class File extends Phalcon\Cache\Backend implements Phalcon\Cache\BackendInterfa
 
 			let modifiedTime = (int) filemtime(cacheFile);
 
-			let diff = now - ttl;
-			
-			/** 
-			* The content is only retrieved if the content has not expired
-			*/
-			if !diff > modifiedTime {
-				/** 
-				* Use file-get-contents to control that the openbase_dir can't be skipped
-				*/
+			/**
+			 * The content is only retrieved if the content has not expired
+			 */
+			if !(now - ttl > modifiedTime) {
+
+				/**
+				 * Use file-get-contents to control that the openbase_dir can't be skipped
+				 */
 				let cachedContent = get_file_contents(cacheFile);
 				if !cachedContent {
 					throw new Phalcon\Cache\Exception("Cache file ". cacheFile. " could not be opened");
@@ -136,9 +135,9 @@ class File extends Phalcon\Cache\Backend implements Phalcon\Cache\BackendInterfa
 				if is_numeric(cachedContent) {
 					return cachedContent;
 				} else {
-					/** 
-					* Use the frontend to process the content of the cache
-					*/
+					/**
+					 * Use the frontend to process the content of the cache
+					 */
 					return frontend->afterRetrieve(cachedContent);
 				}
 			}
@@ -155,10 +154,11 @@ class File extends Phalcon\Cache\Backend implements Phalcon\Cache\BackendInterfa
 	 */
 	public function save(keyName=null, content=null, lifetime=null, stopBuffer=true) -> void
 	{
-		var lastKey, prefix, lastPrefix, frontend, options, cacheDir, isBuffering;
+		var lastKey, prefix, lastPrefix, frontend, options, cacheDir,
+			isBuffering, cacheFile, cachedContent, preparedContent, status;
 
 		if !keyName {
-				let lastKey = this->_lastKey;
+			let lastKey = this->_lastKey;
 		} else {
 			let prefix = this->_prefix;
 			let lastPrefix = prefix . keyName;
@@ -169,9 +169,8 @@ class File extends Phalcon\Cache\Backend implements Phalcon\Cache\BackendInterfa
 		}
 
 		let frontend = this->_frontend;
-		let options = this->_options;
 
-		if unlikely isset options["cacheDir"] {
+		if !fetch cacheDir, this->_options["cacheDir"] {
 			throw new Phalcon\Cache\Exception("Unexpected inconsistency in options");
 		}
 
@@ -185,7 +184,7 @@ class File extends Phalcon\Cache\Backend implements Phalcon\Cache\BackendInterfa
 
 		let preparedContent = frontend->beforeStore(cachedContent);
 
-		/** 
+		/**
 		* We use file_put_contents to respect open-base-dir directive
 		*/
 		if !is_numeric(cachedContent) {
@@ -199,7 +198,7 @@ class File extends Phalcon\Cache\Backend implements Phalcon\Cache\BackendInterfa
 		}
 
 		let isBuffering = frontend->isBuffering();
-		
+
 		if !stopBuffer {
 			frontend->stop();
 		}
@@ -219,13 +218,12 @@ class File extends Phalcon\Cache\Backend implements Phalcon\Cache\BackendInterfa
 	 */
 	public function delete(keyName) -> boolean
 	{
-		var options, prefix, prefixedKey, cacheFile;
+		var options, prefix, prefixedKey, cacheFile, cacheDir;
 
 		let prefix = this->_prefix;
-		let options = this->_options;
 		let prefixedKey = prefix . keyName;
 
-		if unlikely isset options["cacheDir"] {
+		if !fetch cacheDir, this->_options["cacheDir"] {
 			throw new Phalcon\Cache\Exception("Unexpected inconsistency in options");
 		}
 
@@ -233,6 +231,7 @@ class File extends Phalcon\Cache\Backend implements Phalcon\Cache\BackendInterfa
 		if file_exists(cacheFile) {
 			return unlink(cacheFile);
 		}
+
 		return false;
 	}
 
@@ -244,24 +243,20 @@ class File extends Phalcon\Cache\Backend implements Phalcon\Cache\BackendInterfa
 	 */
 	public function queryKeys(string prefix=null)
 	{
-		var options, item, isDirectory, key, ret;
-		
-		let ret = [];
-		let options = this->_options;
-		
-		if unlikely isset options["cacheDir"] {
+		var options, item, key, ret, cacheDir;
+
+		if !fetch cacheDir, this->_options["cacheDir"] {
 			throw new Phalcon\Cache\Exception("Unexpected inconsistency in options");
 		}
 
-		/** 
-		* We use a directory iterator to traverse the cache dir directory
-		*/
+		/**
+		 * We use a directory iterator to traverse the cache dir directory
+		 */
+		let ret = [];
 		for item in iterator(new DirectoryIterator(cacheDir)) {
-			let isDirectory = item->isDir();
 
-			if isDirectory===false {
+			if item->isDir() === false {
 				let key = item->getFileName();
-
 				if start_with(key, prefix) {
 					let ret[] = key;
 				}
@@ -280,7 +275,8 @@ class File extends Phalcon\Cache\Backend implements Phalcon\Cache\BackendInterfa
 	 */
 	public function exists(string keyName=null, int lifetime=null) -> boolean
 	{
-		var lastKey, prefix, options, cacheDir, cacheFile, frontend;
+		var lastKey, prefix, options, cacheDir, cacheFile, frontend, tmp;
+		int ttl;
 
 		if !keyName {
 			let lastKey = this->_lastKey;
@@ -290,26 +286,22 @@ class File extends Phalcon\Cache\Backend implements Phalcon\Cache\BackendInterfa
 		}
 
 		if lastKey {
-			let options = this->_options;
-			let cacheDir = options["cacheDir"];
+
+			let cacheDir = this->_options["cacheDir"];
 			let cacheFile = cacheDir . lastKey;
 
 			if file_exists(cacheFile) {
-				let frontend = this->_frontend;
 
-				/** 
+				/**
 				* Check if the file has expired
 				*/
 				if !lifetime {
-					let tmp = frontend->getLifeTime();
-					let ttl = (int) tmp;
+					let ttl = (int) this->_frontend->getLifeTime();
 				} else {
 					let ttl = (int) lifetime;
 				}
 
-				let modifiedTime = filemtime(cacheFile);
-
-				if modifiedTime+ ttl > time() {
+				if filemtime(cacheFile) + ttl > time() {
 					return true;
 				}
 			}
@@ -320,67 +312,57 @@ class File extends Phalcon\Cache\Backend implements Phalcon\Cache\BackendInterfa
 
 	/**
 	* Increment of a given key, by number $value
-	* 
+	*
 	* @param  string $keyName
 	* @param  int $value
 	* @return mixed
 	*/
 	public function increment(string keyName=null, int value=null)
 	{
-		var options, prefix, prefixedKey, cacheDir, cacheFile, frontend, timestamp, lifetime, ttl, 
+		var options, prefix, prefixedKey, cacheDir, cacheFile, frontend, timestamp, lifetime, ttl,
 			modifiedTime, difference, notExpired, cachedContent, status, result;
 
-		let options = this->_options;
-		let prefix = this->_prefix;
-		let prefixedKey = prefix . keyName;
-		let this->_lastKey = prefixedKey;
-		let cacheDir = options["cacheDir"];
-		let cacheFile = cacheDir . prefixedKey;
-	
+		let prefixedKey = this->_prefix . keyName,
+			this->_lastKey = prefixedKey,
+			cacheFile = this->_options["cacheDir"] . prefixedKey;
+
 		if file_exists(cacheFile) {
+
 			let frontend = this->_frontend;
-			
-			/** 
-			* Check if the file has expired
-			*/
+
+			/**
+			 * Check if the file has expired
+			 */
 			let timestamp = time();
 
-			/** 
-			* Take the lifetime from the frontend or read it from the set in start()
-			*/
+			/**
+			 * Take the lifetime from the frontend or read it from the set in start()
+			 */
+			let lifetime = this->_lastLifetime;
 			if !lifetime {
-				let lifetime = this->_lastLifetime;
-				if !lifetime {
-					let ttl = frontend->getLifeTime();
-				} else {
-					let ttl = lifetime;
-				}
+				let ttl = frontend->getLifeTime();
 			} else {
 				let ttl = lifetime;
 			}
 
-			let modifiedTime = filemtime(cacheFile);
-			let difference = timestamp - ttl;
-			let notExpired = difference < modifiedTime;
+			/**
+			 * The content is only retrieved if the content has not expired
+			 */
+			if (timestamp - ttl) < filemtime(cacheFile) {
 
-			/** 
-			* The content is only retrieved if the content has not expired
-			*/
-			if notExpired {
-				/** 
-				* Use file-get-contents to control that the openbase_dir can't be skipped
-				*/
+				/**
+				 * Use file-get-contents to control that the openbase_dir can't be skipped
+				 */
 				let cachedContent = file_get_contents(cacheFile);
 
 				if !cachedContent {
-					throw new Phalcon\Cache\Exception("Cache file ". cacheFile. " could not be opened");
+					throw new Phalcon\Cache\Exception("Cache file " . cacheFile . " could not be opened");
 				}
 
 				if is_numeric(cachedContent) {
-					let result = value + cachedContent;
-					let status = file_put_contents(cacheFile, result);
 
-					if !status {
+					let result = value + cachedContent;
+					if !file_put_contents(cacheFile, result) {
 						throw new Phalcon\Cache\Exception("Cache directory can't be written");
 					}
 
@@ -392,14 +374,14 @@ class File extends Phalcon\Cache\Backend implements Phalcon\Cache\BackendInterfa
 
 	/**
 	* Decrement of a given key, by number $value
-	* 
-	* @param  string $keyName
-	* @param  int $value
+	*
+	* @param  string keyName
+	* @param  int value
 	* @return mixed
 	*/
 	public function decrement(string keyName=null, int value=null)
 	{
-		var options, prefix, prefixedKey, cacheDir, cacheFile, frontend, timestamp, lifetime, ttl, 
+		var options, prefix, prefixedKey, cacheDir, cacheFile, frontend, timestamp, lifetime, ttl,
 			modifiedTime, difference, notExpired, cachedContent, status, result;
 
 		let options = this->_options;
@@ -408,40 +390,33 @@ class File extends Phalcon\Cache\Backend implements Phalcon\Cache\BackendInterfa
 		let this->_lastKey = prefixedKey;
 		let cacheDir = options["cacheDir"];
 		let cacheFile = cacheDir . prefixedKey;
-	
+
 		if file_exists(cacheFile) {
 			let frontend = this->_frontend;
-			
-			/** 
-			* Check if the file has expired
-			*/
+
+			/**
+			 * Check if the file has expired
+			 */
 			let timestamp = time();
 
-			/** 
-			* Take the lifetime from the frontend or read it from the set in start()
-			*/
+			/**
+			 * Take the lifetime from the frontend or read it from the set in start()
+			 */
+			let lifetime = this->_lastLifetime;
 			if !lifetime {
-				let lifetime = this->_lastLifetime;
-				if !lifetime {
-					let ttl = frontend->getLifeTime();
-				} else {
-					let ttl = lifetime;
-				}
+				let ttl = frontend->getLifeTime();
 			} else {
 				let ttl = lifetime;
 			}
 
-			let modifiedTime = filemtime(cacheFile);
-			let difference = timestamp - ttl;
-			let notExpired = difference < modifiedTime;
+			/**
+			 * The content is only retrieved if the content has not expired
+			 */
+			if (timestamp - ttl) < filemtime(cacheFile) {
 
-			/** 
-			* The content is only retrieved if the content has not expired
-			*/
-			if notExpired {
-				/** 
-				* Use file-get-contents to control that the openbase_dir can't be skipped
-				*/
+				/**
+				 * Use file-get-contents to control that the openbase_dir can't be skipped
+				 */
 				let cachedContent = file_get_contents(cacheFile);
 
 				if !cachedContent {
@@ -449,6 +424,7 @@ class File extends Phalcon\Cache\Backend implements Phalcon\Cache\BackendInterfa
 				}
 
 				if is_numeric(cachedContent) {
+
 					let result = value - cachedContent;
 					let status = file_put_contents(cacheFile, result);
 

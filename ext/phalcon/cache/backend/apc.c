@@ -18,6 +18,7 @@
 #include "kernel/fcall.h"
 #include "kernel/operators.h"
 #include "kernel/exception.h"
+#include "kernel/hash.h"
 
 
 /*
@@ -188,11 +189,13 @@ PHP_METHOD(Phalcon_Cache_Backend_Apc, save) {
  */
 PHP_METHOD(Phalcon_Cache_Backend_Apc, delete) {
 
-	zval *keyName, *_0, *_1;
+	zval *keyName_param = NULL, *_0, *_1;
+	zval *keyName = NULL;
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 0, &keyName);
+	zephir_fetch_params(1, 1, 0, &keyName_param);
 
+		zephir_get_strval(keyName, keyName_param);
 
 
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_prefix"), PH_NOISY_CC);
@@ -211,15 +214,50 @@ PHP_METHOD(Phalcon_Cache_Backend_Apc, delete) {
  */
 PHP_METHOD(Phalcon_Cache_Backend_Apc, queryKeys) {
 
+	HashTable *_3;
+	HashPosition _2;
+	zend_class_entry *_0;
+	zval *prefix_param = NULL, *prefixPattern, *apc, *keys, *key = NULL, *item = NULL, *_1, **_4, _5 = zval_used_for_init, *_6 = NULL;
 	zval *prefix = NULL;
 
-	zephir_fetch_params(0, 0, 1, &prefix);
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 0, 1, &prefix_param);
 
-	if (!prefix) {
-		prefix = ZEPHIR_GLOBAL(global_null);
+	if (!prefix_param) {
+		ZEPHIR_INIT_VAR(prefix);
+		ZVAL_EMPTY_STRING(prefix);
+	} else {
+		zephir_get_strval(prefix, prefix_param);
 	}
 
 
+	ZEPHIR_INIT_VAR(prefixPattern);
+	if (!(prefix && Z_STRLEN_P(prefix))) {
+		ZVAL_STRING(prefixPattern, "/^_PHCA/", 1);
+	} else {
+		ZEPHIR_CONCAT_SV(prefixPattern, "/^_PHCA/", prefix);
+	}
+	ZEPHIR_INIT_VAR(keys);
+	array_init(keys);
+	ZEPHIR_INIT_VAR(apc);
+	_0 = zend_fetch_class(SL("APCIterator"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
+	object_init_ex(apc, _0);
+	ZEPHIR_INIT_VAR(_1);
+	zephir_call_func_p1(_1, "iterator", apc);
+	zephir_is_iterable(_1, &_3, &_2, 0, 0);
+	for (
+		; zend_hash_get_current_data_ex(_3, (void**) &_4, &_2) == SUCCESS
+		; zend_hash_move_forward_ex(_3, &_2)
+	) {
+		ZEPHIR_GET_HMKEY(key, _3, _2);
+		ZEPHIR_GET_HVALUE(item, _4);
+		ZEPHIR_SINIT_NVAR(_5);
+		ZVAL_LONG(&_5, 5);
+		ZEPHIR_INIT_NVAR(_6);
+		zephir_call_func_p2(_6, "substr", key, &_5);
+		zephir_array_append(&keys, _6, PH_SEPARATE);
+	}
+	RETURN_CCTOR(keys);
 
 }
 
