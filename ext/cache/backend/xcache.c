@@ -298,7 +298,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Xcache, delete){
 	phalcon_call_func_p1_ex(keys, &keys, "xcache_get", special_key);
 	if (Z_TYPE_P(keys) == IS_ARRAY) { 
 		zval *z_zero = PHALCON_GLOBAL(z_zero);
-		phalcon_array_unset(&keys, special_key, 0);
+		phalcon_array_unset(&keys, prefixed_key, 0);
 		phalcon_call_func_p3_noret("xcache_set", special_key, keys, z_zero);
 	}
 	
@@ -541,19 +541,46 @@ PHP_METHOD(Phalcon_Cache_Backend_Xcache, decrement){
  */
 PHP_METHOD(Phalcon_Cache_Backend_Xcache, flush){
 
-	zval *cache_type, *id;
+	zval *prefixed, *options, *special_key, *z_zero;
+	zval *keys, *real_key = NULL;
+	HashPosition pos;
+	zval **value;
 
-	MAKE_STD_ZVAL(id);
-	ZVAL_LONG(id, 0);
+	PHALCON_MM_GROW();
 
-	ALLOC_INIT_ZVAL(cache_type);
-	if (!zend_get_constant(SL("XC_TYPE_VAR"), cache_type TSRMLS_CC)) {
-		RETVAL_FALSE;
-	} else {
-		phalcon_call_func_p2_ex(return_value, return_value_ptr, "xcache_clear_cache", cache_type, id);
+	z_zero = PHALCON_GLOBAL(z_zero)
+
+	PHALCON_INIT_VAR(prefixed);
+	ZVAL_STRING(prefixed, "_PHCX", 1);
+	
+	options = phalcon_fetch_nproperty_this(this_ptr, SL("_options"), PH_NOISY_CC);
+	
+	if (unlikely(!phalcon_array_isset_string_fetch(&special_key, options, SS("statsKey")))) {
+		PHALCON_THROW_EXCEPTION_STR(phalcon_cache_exception_ce, "Unexpected inconsistency in options");
+		return;
 	}
-	zval_ptr_dtor(&id);
-	zval_ptr_dtor(&cache_type);
 
-	RETVAL_TRUE;
+	PHALCON_OBS_VAR(keys);
+	phalcon_call_func_p1_ex(keys, &keys, "xcache_get", special_key);
+	if (Z_TYPE_P(keys) == IS_ARRAY) {
+		for (
+			zend_hash_internal_pointer_reset_ex(Z_ARRVAL_P(keys), &pos);
+			zend_hash_get_current_data_ex(Z_ARRVAL_P(keys), (void**)&value, &pos) == SUCCESS;
+			zend_hash_move_forward_ex(Z_ARRVAL_P(keys), &pos)
+		) {
+			zval key = phalcon_get_current_key_w(Z_ARRVAL_P(keys), &pos);
+	
+			PHALCON_INIT_NVAR(real_key);
+			phalcon_substr(real_key, &key, 5, 0);
+
+			
+			phalcon_array_unset(&keys, real_key, 0);
+
+			phalcon_return_call_func_p1("xcache_unset", real_key);
+		}
+
+		phalcon_call_func_p3_noret("xcache_set", special_key, keys, z_zero);
+	}
+	
+	RETURN_MM_TRUE;
 }
