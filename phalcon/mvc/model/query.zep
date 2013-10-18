@@ -31,7 +31,7 @@ namespace Phalcon\Mvc\Model;
  *          WHERE b.name = :name: ORDER BY c.name";
  *
  * $result = manager->executeQuery($phql, array(
- *   "name" : "Lamborghini"
+ *   "name": "Lamborghini"
  * ));
  *
  * foreach ($result as $row) {
@@ -1030,6 +1030,357 @@ class Query //implements Phalcon\Mvc\Model\QueryInterface, Phalcon\Di\InjectionA
 		}
 
 		return sqlJoins;
+	}
+
+	/**
+	 * Processes the JOINs in the query returning an internal representation for the database dialect
+	 *
+	 * @param array select
+	 * @return array
+	 */
+	protected function _getJoins(select)
+	{
+		var models, sqlAliases, sqlAliasesModels, sqlModelsAliases, sqlAliasesModelsInstances,
+			modelsInstances, fromModels, sqlJoins, joinModels, joinSources, joinTypes, joinPreCondition,
+			joinPrepared, manager, selectJoins, joinItem, joins, joinData, schema, source, model,
+			modelName, completeSource, joinType, aliasExpr, alias, joinAliasName, joinExpr,
+			fromModelName, joinAlias, joinModel, joinSource, preCondition, modelNameAlias,
+			relation, relations, modelAlias, sqlJoin;
+
+		let models = this->_models,
+			sqlAliases = this->_sqlAliases,
+			sqlAliasesModels = this->_sqlAliasesModels,
+			sqlModelsAliases = this->_sqlModelsAliases,
+			sqlAliasesModelsInstances = this->_sqlAliasesModelsInstances,
+			modelsInstances = this->_modelsInstances,
+			fromModels = models;
+
+		let sqlJoins = [],
+			joinModels = [],
+			joinSources = [],
+			joinTypes = [],
+			joinPreCondition = [],
+			joinPrepared = [];
+
+		let manager = this->_manager;
+
+		let joins = select["joins"];
+		if !isset joins[0] {
+			let selectJoins = [joins];
+		} else {
+			let selectJoins = joins;
+		}
+
+		for joinItem in selectJoins {
+
+			/**
+			 * Check join alias
+			 */
+			let joinData = this->_getJoin(manager, joinItem),
+				source = joinData["source"],
+				schema = joinData["schema"],
+				model = joinData["model"],
+				modelName = joinData["modelName"],
+				completeSource = [source, schema];
+
+			/**
+			 * Check join alias
+			 */
+			let joinType = this->_getJoinType(joinItem);
+
+			/**
+			 * Process join alias
+			 */
+			if fetch aliasExpr, joinItem["alias"] {
+
+				let alias = aliasExpr["name"];
+
+				/**
+				 * Check if alias is unique
+				 */
+				if isset joinModels[alias] {
+					throw new Phalcon_Mvc_Model_Exception("Cannot use '" . alias . "' as join alias because it was already used, when preparing: " . this->_phql);
+				}
+
+				/**
+				 * Add the alias to the source
+				 */
+				let completeSource[] = alias;
+
+				/**
+				 * Set the join type
+				 */
+				let joinTypes[alias] = joinType;
+
+				/**
+				 * Update alias: alias
+				 */
+				let sqlAliases[alias] = alias;
+
+				/**
+				 * Update model: alias
+				 */
+				let joinModels[alias] = modelName;
+
+				/**
+				 * Update model: alias
+				 */
+				let sqlModelsAliases[modelName] = alias;
+
+				/**
+				 * Update model: model
+				 */
+				let sqlAliasesModels[alias] = modelName;
+
+				/**
+				 * Update alias: model
+				 */
+				let sqlAliasesModelsInstances[alias] = model;
+
+				/**
+				 * Update model: alias
+				 */
+				let models[modelName] = alias;
+
+				/**
+				 * Complete source related to a model
+				 */
+				let joinSources[alias] = completeSource;
+
+				/**
+				 * Complete source related to a model
+				 */
+				let joinPrepared[alias] = joinItem;
+
+			} else {
+
+				/**
+				 * Check if alias is unique
+				 */
+				if isset joinModels[modelName] {
+					throw new Phalcon\Mvc\Model\Exception("Cannot use '" . modelName . "' as join alias because it was already used, when preparing: " . this->_phql);
+				}
+
+				/**
+				 * Set the join type
+				 */
+				let joinTypes[modelName] = joinType;
+
+				/**
+				 * Update model: source
+				 */
+				let sqlAliases[modelName] = source;
+
+				/**
+				 * Update model: source
+				 */
+				let joinModels[modelName] = source;
+
+				/**
+				 * Update model: model
+				 */
+				let sqlModelsAliases[modelName] = modelName;
+
+				/**
+				 * Update model: model
+				 */
+				let sqlAliasesModels[modelName] = modelName;
+
+				/**
+				 * Update model: model instance
+				 */
+				let sqlAliasesModelsInstances[modelName] = model;
+
+				/**
+				 * Update model: source
+				 */
+				let models[modelName] = source;
+
+				/**
+				 * Complete source related to a model
+				 */
+				let joinSources[modelName] = completeSource;
+
+				/**
+				 * Complete source related to a model
+				 */
+				let joinPrepared[modelName] = joinItem;
+			}
+
+			let modelsInstances[modelName] = model;
+		}
+
+		/**
+		 * Update temporary properties
+		 */
+		let this->_models = models,
+			this->_sqlAliases = sqlAliases,
+			this->_sqlAliasesModels = sqlAliasesModels,
+			this->_sqlModelsAliases = sqlModelsAliases,
+			this->_sqlAliasesModelsInstances = sqlAliasesModelsInstances,
+			this->_modelsInstances = modelsInstances;
+
+		for joinAliasName, joinItem in joinPrepared {
+
+			/**
+			 * Check for predefined conditions
+			 */
+			if fetch joinExpr, joinItem["conditions"] {
+				let joinPreCondition[joinAliasName] = this->_getExpression(joinExpr);
+			}
+		}
+
+		/**
+		 * Create join relationships dynamically
+		 */
+		let manager = this->_manager;
+
+		for fromModelName, source in fromModels {
+
+			for joinAlias, joinModel in joinModels {
+
+				/**
+				 * Real source name for joined model
+				 */
+				let joinSource = joinSources[joinAlias];
+
+				/**
+				 * Join type is: LEFT, RIGHT, INNER, etc
+				 */
+				let joinType = joinTypes[joinAlias];
+
+				/**
+				 * Check if the model already have pre-defined conditions
+				 */
+				if !fetch preCondition, joinPreCondition[joinAlias] {
+
+					/**
+					 * Get the model name from its source
+					 */
+					let modelNameAlias = sqlAliasesModels[joinAlias];
+
+					/**
+					 * Check if the joined model is an alias
+					 */
+					let relation = manager->getRelationByAlias(fromModelName, modelNameAlias);
+					if relation === false {
+
+						/**
+						 * Check for relations between models
+						 */
+						let relations = manager->getRelationsBetween(fromModelName, modelNameAlias);
+						if typeof relations == "array" {
+
+							/**
+							 * More than one relation must throw an exception
+							 */
+							if count(relations) != 1 {
+								throw new Phalcon\Mvc\Model\Exception("There is more than one relation between models '" . modelName . "' and '" . joinModel . "', the join must be done using an alias, when preparing: " . this->_phql);
+							}
+
+							/**
+							 * Get the first relationship
+							 */
+							let relation = relations[0];
+						}
+					}
+
+					/*
+					 * Valid relations are objects
+					 */
+					if typeof relation == "object" {
+
+						/**
+						 * Get the related model alias of the left part
+						 */
+						let modelAlias = sqlModelsAliases[fromModelName];
+
+						/**
+						 * Generate the conditions based on the type of join
+						 */
+						if !relation->isThrough() {
+							let sqlJoin = this->_getSingleJoin(joinType, joinSource, modelAlias, joinAlias, relation);
+						} else {
+							let sqlJoin = this->_getMultiJoin(joinType, joinSource, modelAlias, joinAlias, relation);
+						}
+
+						/**
+						 * Append or merge joins
+						 */
+						if isset sqlJoin[0] {
+							let sqlJoins = array_merge(sqlJoins, sqlJoin);
+						} else {
+							let sqlJoins[] = sqlJoin;
+						}
+
+					} else {
+
+						/**
+						 * Join without conditions because no relation has been found between the models
+						 */
+						let sqlJoins[] = [
+							"type": joinType,
+							"source": joinSource,
+							"conditions": []
+						];
+					}
+				} else {
+
+					/**
+					 * Get the conditions stablished by the developer
+					 * Join with conditions stablished by the developer
+					 */
+					let sqlJoins[] = [
+						"type": joinType,
+						"source": joinSource,
+						"conditions": [preCondition]
+					];
+				}
+			}
+		}
+
+		return sqlJoins;
+	}
+
+	/**
+	 * Returns a processed order clause for a SELECT statement
+	 *
+	 * @param array $order
+	 * @return string
+	 */
+	protected function _getOrderClause(order)
+	{
+		var orderColumns, orderParts, orderItem, orderPartExpr,
+			orderSort, orderPartSort;
+
+		if !isset order[0] {
+			let orderColumns = [order];
+		} else {
+			let orderColumns = order;
+		}
+
+		let orderParts = [];
+		for orderItem in orderColumns {
+
+			let orderPartExpr = this->_getExpression(orderItem["column"]);
+
+			/**
+			 * Check if the order has a predefined ordering mode
+			 */
+			if fetch orderSort, orderItem["sort"] {
+				if orderSort == 327{
+					let orderPartSort = [orderPartExpr, "ASC"];
+				} else {
+					let orderPartSort = [orderPartExpr, "DESC"];
+				}
+			} else {
+				let orderPartSort = [orderPartExpr];
+			}
+
+			let orderParts[] = orderPartSort;
+		}
+
+		return orderParts;
 	}
 
 	/**

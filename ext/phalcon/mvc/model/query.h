@@ -17,6 +17,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getJoin);
 PHP_METHOD(Phalcon_Mvc_Model_Query, _getJoinType);
 PHP_METHOD(Phalcon_Mvc_Model_Query, _getSingleJoin);
 PHP_METHOD(Phalcon_Mvc_Model_Query, _getMultiJoin);
+PHP_METHOD(Phalcon_Mvc_Model_Query, _getJoins);
+PHP_METHOD(Phalcon_Mvc_Model_Query, _getOrderClause);
 PHP_METHOD(Phalcon_Mvc_Model_Query, cache);
 PHP_METHOD(Phalcon_Mvc_Model_Query, getCacheOptions);
 PHP_METHOD(Phalcon_Mvc_Model_Query, execute);
@@ -80,6 +82,14 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_query__getmultijoin, 0, 0, 5)
 	ZEND_ARG_INFO(0, relation)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_query__getjoins, 0, 0, 1)
+	ZEND_ARG_INFO(0, select)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_query__getorderclause, 0, 0, 1)
+	ZEND_ARG_INFO(0, order)
+ZEND_END_ARG_INFO()
+
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_query_cache, 0, 0, 1)
 	ZEND_ARG_INFO(0, cacheOptions)
 ZEND_END_ARG_INFO()
@@ -104,6 +114,8 @@ ZEPHIR_INIT_FUNCS(phalcon_mvc_model_query_method_entry) {
 	PHP_ME(Phalcon_Mvc_Model_Query, _getJoinType, arginfo_phalcon_mvc_model_query__getjointype, ZEND_ACC_PROTECTED)
 	PHP_ME(Phalcon_Mvc_Model_Query, _getSingleJoin, arginfo_phalcon_mvc_model_query__getsinglejoin, ZEND_ACC_PROTECTED)
 	PHP_ME(Phalcon_Mvc_Model_Query, _getMultiJoin, arginfo_phalcon_mvc_model_query__getmultijoin, ZEND_ACC_PROTECTED)
+	PHP_ME(Phalcon_Mvc_Model_Query, _getJoins, arginfo_phalcon_mvc_model_query__getjoins, ZEND_ACC_PROTECTED)
+	PHP_ME(Phalcon_Mvc_Model_Query, _getOrderClause, arginfo_phalcon_mvc_model_query__getorderclause, ZEND_ACC_PROTECTED)
 	PHP_ME(Phalcon_Mvc_Model_Query, cache, arginfo_phalcon_mvc_model_query_cache, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_Query, getCacheOptions, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_Query, execute, arginfo_phalcon_mvc_model_query_execute, ZEND_ACC_PUBLIC)
