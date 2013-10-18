@@ -185,7 +185,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, __construct){
 		if (phalcon_array_isset_string(params, SS("having"))) {
 			PHALCON_OBS_VAR(having_clause);
 			phalcon_array_fetch_string(&having_clause, params, SL("having"), PH_NOISY);
-			phalcon_update_property_this(this_ptr, SL("_group"), having_clause TSRMLS_CC);
+			phalcon_update_property_this(this_ptr, SL("_having"), having_clause TSRMLS_CC);
 		}
 	
 		/** 
