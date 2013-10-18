@@ -1217,7 +1217,7 @@ class CacheTest extends PHPUnit_Framework_TestCase
 		$memcache->quit();
 	}
 
-	public function testCacheFlush()
+	public function testCacheFileFlush()
 	{
 		$frontCache = new Phalcon\Cache\Frontend\Data(array('lifetime' => 10));
 
@@ -1233,6 +1233,11 @@ class CacheTest extends PHPUnit_Framework_TestCase
 
 		$this->assertFalse(file_exists('unit-tests/cache/data'));
 		$this->assertFalse(file_exists('unit-tests/cache/data2'));
+	}
+
+	public function testCacheMemoryFlush()
+	{
+		$frontCache = new Phalcon\Cache\Frontend\Data(array('lifetime' => 10));
 
 		// Memory
 		$cache = new Phalcon\Cache\Backend\Memory($frontCache);
@@ -1244,79 +1249,106 @@ class CacheTest extends PHPUnit_Framework_TestCase
 
 		$this->assertFalse($cache->exists('data'));
 		$this->assertFalse($cache->exists('data2'));
+	}
+
+	public function testCacheMemcachedFlush()
+	{
+		$frontCache = new Phalcon\Cache\Frontend\Data(array('lifetime' => 10));
 
 		// Memcached
 		$memcache = $this->_prepareMemcached();
-		if ($memcache) {
-			$cache = new Phalcon\Cache\Backend\Memcache($frontCache, array(
-				'host' => '127.0.0.1',
-				'port' => '11211'
-			));
-
-			$cache->save('data', "1");
-			$cache->save('data2', "2");
-
-			$this->assertTrue($cache->flush());
-
-			$this->assertFalse($cache->exists('data'));
-			$this->assertFalse($cache->exists('data2'));
+		if (!$memcache) {
+			return false;
 		}
+
+		$cache = new Phalcon\Cache\Backend\Memcache($frontCache, array(
+			'host' => '127.0.0.1',
+			'port' => '11211'
+		));
+
+		$cache->save('data', "1");
+		$cache->save('data2', "2");
+
+		$this->assertTrue($cache->flush());
+
+		$this->assertFalse($cache->exists('data'));
+		$this->assertFalse($cache->exists('data2'));
+	}
+
+	public function testCacheApcFlush()
+	{
+		$frontCache = new Phalcon\Cache\Frontend\Data(array('lifetime' => 10));
 
 		// Apc
 		$ready = $this->_prepareApc();
-		if ($ready) {
-			$cache = new Phalcon\Cache\Backend\Apc($frontCache);
-
-			$data = array(1, 2, 3, 4, 5);
-
-			$cache->save('data', "1");
-			$cache->save('data2', "2");
-
-			$this->assertTrue($cache->flush());
-
-			$this->assertFalse($cache->exists('data'));
-			$this->assertFalse($cache->exists('data2'));
+		if (!$ready) {
+			return false;
 		}
+
+		$cache = new Phalcon\Cache\Backend\Apc($frontCache);
+
+		$data = array(1, 2, 3, 4, 5);
+
+		$cache->save('data', "1");
+		$cache->save('data2', "2");
+
+		$this->assertTrue($cache->flush());
+
+		$this->assertFalse($cache->exists('data'));
+		$this->assertFalse($cache->exists('data2'));
+	}
+
+	public function testCacheMongoFlush()
+	{
+		$frontCache = new Phalcon\Cache\Frontend\Data(array('lifetime' => 10));
 
 		// Mongo
 		$ready = $this->_prepareMongo();
-		if ($ready) {
-			$mongo = new Mongo();
-			$database = $mongo->phalcon_test;
-			$collection = $database->caches;
-			$collection->remove();
-
-			$frontCache = new Phalcon\Cache\Frontend\Data();
-
-			$cache = new Phalcon\Cache\Backend\Mongo($frontCache, array(
-				'mongo' => $mongo,
-				'db' => 'phalcon_test',
-				'collection' => 'caches'
-			));
-
-			$cache->save('data', "1");
-			$cache->save('data2', "2");
-
-			$this->assertTrue($cache->flush());
-
-			$this->assertFalse($cache->exists('data'));
-			$this->assertFalse($cache->exists('data2'));
+		if (!$ready) {
+			return false;
 		}
+
+		$mongo = new Mongo();
+		$database = $mongo->phalcon_test;
+		$collection = $database->caches;
+		$collection->remove();
+
+		$frontCache = new Phalcon\Cache\Frontend\Data();
+
+		$cache = new Phalcon\Cache\Backend\Mongo($frontCache, array(
+			'mongo' => $mongo,
+			'db' => 'phalcon_test',
+			'collection' => 'caches'
+		));
+
+		$cache->save('data', "1");
+		$cache->save('data2', "2");
+
+		$this->assertTrue($cache->flush());
+
+		$this->assertFalse($cache->exists('data'));
+		$this->assertFalse($cache->exists('data2'));
+	}
+
+	public function testCacheXcacheFlush()
+	{
+		$frontCache = new Phalcon\Cache\Frontend\Data(array('lifetime' => 10));
 
 		// Xcache
 		$ready = $this->_prepareXcache();
-		if ($ready) {
-			xcache_unset('_PHCXtest-data');
-
-			$cache = new Phalcon\Cache\Backend\Xcache($frontCache);
-
-			$cache->save('data', "1");
-			$cache->save('data2', "2");
-
-			$this->assertTrue($cache->flush());
-
-			$this->assertFalse($cache->exists('data'));
-			$this->assertFalse($cache->exists('data2'));
+		if (!$ready) {
+			return false;
 		}
+		xcache_unset('_PHCXtest-data');
+
+		$cache = new Phalcon\Cache\Backend\Xcache($frontCache);
+
+		$cache->save('data', "1");
+		$cache->save('data2', "2");
+
+		$this->assertTrue($cache->flush());
+
+		$this->assertFalse($cache->exists('data'));
+		$this->assertFalse($cache->exists('data2'));
 	}
 }

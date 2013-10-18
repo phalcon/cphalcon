@@ -543,9 +543,10 @@ PHP_METHOD(Phalcon_Cache_Backend_Xcache, flush){
 
 	zval *cache_type, *id;
 
-	MAKE_STD_ZVAL(cache_type);
 	MAKE_STD_ZVAL(id);
 	ZVAL_LONG(id, 0);
+
+	ALLOC_INIT_ZVAL(cache_type);
 	if (!zend_get_constant(SL("XC_TYPE_VAR"), cache_type TSRMLS_CC)) {
 		RETVAL_FALSE;
 	} else {
@@ -553,4 +554,6 @@ PHP_METHOD(Phalcon_Cache_Backend_Xcache, flush){
 	}
 	zval_ptr_dtor(&id);
 	zval_ptr_dtor(&cache_type);
+
+	RETVAL_TRUE;
 }
