@@ -92,7 +92,7 @@ PHP_METHOD(Phalcon_Validation_Message_Group, __construct) {
  */
 PHP_METHOD(Phalcon_Validation_Message_Group, offsetGet) {
 
-	zval *index_param = NULL, *messages, *message;
+	zval *index_param = NULL, *message, *_0;
 	int index;
 
 	zephir_fetch_params(0, 1, 0, &index_param);
@@ -106,8 +106,8 @@ PHP_METHOD(Phalcon_Validation_Message_Group, offsetGet) {
 
 
 
-	messages = zephir_fetch_nproperty_this(this_ptr, SL("_messages"), PH_NOISY_CC);
-	if (zephir_array_isset_long_fetch(&message, messages, index, 1 TSRMLS_CC)) {
+	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_messages"), PH_NOISY_CC);
+	if (zephir_array_isset_long_fetch(&message, _0, index, 1 TSRMLS_CC)) {
 		RETURN_CTORW(message);
 	}
 	RETURN_BOOL(0);
@@ -160,7 +160,7 @@ PHP_METHOD(Phalcon_Validation_Message_Group, offsetSet) {
  */
 PHP_METHOD(Phalcon_Validation_Message_Group, offsetExists) {
 
-	zval *index_param = NULL, *messages;
+	zval *index_param = NULL, *_0;
 	zval *index = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -169,8 +169,8 @@ PHP_METHOD(Phalcon_Validation_Message_Group, offsetExists) {
 		zephir_get_strval(index, index_param);
 
 
-	messages = zephir_fetch_nproperty_this(this_ptr, SL("_messages"), PH_NOISY_CC);
-	RETURN_MM_BOOL(zephir_array_isset(messages, index));
+	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_messages"), PH_NOISY_CC);
+	RETURN_MM_BOOL(zephir_array_isset(_0, index));
 
 }
 
@@ -185,14 +185,14 @@ PHP_METHOD(Phalcon_Validation_Message_Group, offsetExists) {
  */
 PHP_METHOD(Phalcon_Validation_Message_Group, offsetUnset) {
 
-	zval *index, *messages;
+	zval *index, *_0;
 
 	zephir_fetch_params(0, 1, 0, &index);
 
 
 
-	messages = zephir_fetch_nproperty_this(this_ptr, SL("_messages"), PH_NOISY_CC);
-	if (zephir_array_isset(messages, index)) {
+	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_messages"), PH_NOISY_CC);
+	if (zephir_array_isset(_0, index)) {
 	}
 	RETURN_BOOL(0);
 
@@ -356,12 +356,12 @@ PHP_METHOD(Phalcon_Validation_Message_Group, rewind) {
  */
 PHP_METHOD(Phalcon_Validation_Message_Group, current) {
 
-	zval *messages, *message, *_0;
+	zval *message, *_0, *_1;
 
 
-	messages = zephir_fetch_nproperty_this(this_ptr, SL("_messages"), PH_NOISY_CC);
-	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_position"), PH_NOISY_CC);
-	if (zephir_array_isset_fetch(&message, messages, _0, 1 TSRMLS_CC)) {
+	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_messages"), PH_NOISY_CC);
+	_1 = zephir_fetch_nproperty_this(this_ptr, SL("_position"), PH_NOISY_CC);
+	if (zephir_array_isset_fetch(&message, _0, _1, 1 TSRMLS_CC)) {
 		RETURN_CTORW(message);
 	}
 	RETURN_BOOL(0);
@@ -397,12 +397,12 @@ PHP_METHOD(Phalcon_Validation_Message_Group, next) {
  */
 PHP_METHOD(Phalcon_Validation_Message_Group, valid) {
 
-	zval *messages, *_0;
+	zval *_0, *_1;
 
 
-	messages = zephir_fetch_nproperty_this(this_ptr, SL("_messages"), PH_NOISY_CC);
-	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_position"), PH_NOISY_CC);
-	RETURN_BOOL(zephir_array_isset(messages, _0));
+	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_messages"), PH_NOISY_CC);
+	_1 = zephir_fetch_nproperty_this(this_ptr, SL("_position"), PH_NOISY_CC);
+	RETURN_BOOL(zephir_array_isset(_0, _1));
 
 }
 

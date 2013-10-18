@@ -91,7 +91,7 @@ PHP_METHOD(Phalcon_Annotations_Adapter_Apc, read) {
  * Writes parsed annotations to APC
  *
  * @param string key
- * @param Phalcon\Annotations\Reflection $data
+ * @param Phalcon\Annotations\Reflection data
  */
 PHP_METHOD(Phalcon_Annotations_Adapter_Apc, write) {
 

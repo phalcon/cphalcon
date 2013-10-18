@@ -55,9 +55,8 @@ class Group implements Countable, ArrayAccess, Iterator
 	 */
 	public function offsetGet(int! index) -> <Phalcon\Validation\Message> | boolean
 	{
-		var messages, message;
-		let messages = this->_messages;
-		if fetch message, messages[index] {
+		var message;
+		if fetch message, this->_messages[index] {
 			return message;
 		}
 		return false;
@@ -93,9 +92,7 @@ class Group implements Countable, ArrayAccess, Iterator
 	 */
 	public function offsetExists(string index) -> boolean
 	{
-		var messages;
-		let messages = this->_messages;
-		return isset messages[index];
+		return isset this->_messages[index];
 	}
 
 	/**
@@ -109,10 +106,8 @@ class Group implements Countable, ArrayAccess, Iterator
 	 */
 	public function offsetUnset(index)
 	{
-		var messages;
-		let messages = this->_messages;
-		if isset messages[index] {
-			//unset this->_messages[index];
+		if isset this->_messages[index] {
+			unset this->_messages[index];
 		}
 		return false;
 	}
@@ -232,9 +227,8 @@ class Group implements Countable, ArrayAccess, Iterator
 	 */
 	public function current() -> <Phalcon\Validation\Message> | boolean
 	{
-		var messages, message;
-		let messages = this->_messages;
-		if fetch message, messages[this->_position] {
+		var message;
+		if fetch message, this->_messages[this->_position] {
 			return message;
 		}
 		return false;
@@ -266,9 +260,7 @@ class Group implements Countable, ArrayAccess, Iterator
 	 */
 	public function valid() -> boolean
 	{
-		var messages;
-		let messages = this->_messages;
-		return isset messages[this->_position];
+		return isset this->_messages[this->_position];
 	}
 
 	/**

@@ -115,7 +115,7 @@ class Di implements Phalcon\DiInterface
 	 */
 	public function remove(string! name)
 	{
-		//unset this->_services[name];
+		unset this->_services[name];
 	}
 
 	/**
@@ -294,7 +294,7 @@ class Di implements Phalcon\DiInterface
 	 *
 	 * @return Phalcon\Di\Service[]
 	 */
-	public function getServices()
+	public function getServices() -> <Phalcon\Di\Service[]>
 	{
 		return this->_services;
 	}

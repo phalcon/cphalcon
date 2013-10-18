@@ -31,7 +31,7 @@ namespace Phalcon\Mvc\Model;
  *          WHERE b.name = :name: ORDER BY c.name";
  *
  * $result = manager->executeQuery($phql, array(
- *   "name" => "Lamborghini"
+ *   "name" : "Lamborghini"
  * ));
  *
  * foreach ($result as $row) {
@@ -672,6 +672,364 @@ class Query //implements Phalcon\Mvc\Model\QueryInterface, Phalcon\Di\InjectionA
 		}
 
 		throw new Phalcon\Mvc\Model\Exception("Unknown type of column " . columnType);
+	}
+
+	/**
+	 * Resolves a table in a SELECT statement checking if the model exists
+	 *
+	 * @param Phalcon\Mvc\Model\ManagerInterface manager
+	 * @param array qualifiedName
+	 * @return string
+	 */
+	protected function _getTable(<Phalcon\Mvc\Model\ManagerInterface> manager, qualifiedName)
+	{
+		var modelName, model, source, schema;
+
+		if fetch modelName, qualifiedName["name"] {
+
+			let model = manager->load(modelName),
+				source = model->getSource(),
+				schema = model->getSchema();
+
+			if schema {
+				return [schema, source];
+			}
+
+			return source;
+		}
+
+		throw new Phalcon\Mvc\Model\Exception("Corrupted SELECT AST");
+	}
+
+	/**
+	 * Resolves a JOIN clause checking if the associated models exist
+	 *
+	 * @param Phalcon\Mvc\Model\ManagerInterface manager
+	 * @param array join
+	 * @return array
+	 */
+	protected function _getJoin(<Phalcon\Mvc\Model\ManagerInterface> manager, join)
+	{
+
+		var qualified, modelName, source, model, schema;
+
+		if fetch qualified, join["qualified"] {
+
+			if qualified["type"] == 355 {
+
+				let modelName = qualified["name"],
+					model = manager->load(modelName),
+					source = model->getSource(),
+					schema = model->getSchema();
+
+				return [
+					"schema"   : schema,
+					"source"   : source,
+					"modelName": modelName,
+					"model"    : model
+				];
+			}
+		}
+
+		throw new Phalcon\Mvc\Model\Exception("Corrupted SELECT AST");
+	}
+
+	/**
+	 * Resolves a JOIN type
+	 *
+	 * @param array join
+	 * @return string
+	 */
+	protected function _getJoinType(join) -> string
+	{
+		var type;
+
+		if !fetch type, join["type"] {
+			throw new Phalcon\Mvc\Model\Exception("Corrupted SELECT AST");
+		}
+
+		switch type {
+			case PHQL_T_INNERJOIN:
+				return "INNER";
+			case PHQL_T_LEFTJOIN:
+				return "LEFT";
+			case PHQL_T_RIGHTJOIN:
+				return "RIGHT";
+			case PHQL_T_CROSSJOIN:
+				return "CROSS";
+			case PHQL_T_FULLJOIN:
+				return "FULL OUTER";
+		}
+
+		throw new Phalcon\Mvc\Model\Exception("Unknown join type " . type . ", when preparing: " . this->_phql);
+	}
+
+	/**
+	 * Resolves joins involving has-one/belongs-to/has-many relations
+	 *
+	 * @param string joinType
+	 * @param string joinSource
+	 * @param string modelAlias
+	 * @param string joinAlias
+	 * @param Phalcon\Mvc\Model\RelationInterface relation
+	 * @return array
+	 */
+	protected function _getSingleJoin(string! joinType, joinSource, modelAlias, joinAlias,
+		<Phalcon\Mvc\Model\RelationInterface> relation)
+	{
+		var fields, referencedFields, sqlJoinConditions,
+			sqlJoinPartialConditions, position, field, referencedField;
+
+		/**
+		 * Local fields in the 'from' relation
+		 */
+		let fields = relation->getFields();
+
+		/**
+		 * Referenced fields in the joined relation
+		 */
+		let referencedFields = relation->getReferencedFields();
+
+		if typeof fields != "array" {
+
+			/**
+			 * Create the left part of the expression
+			 * Create a binary operation for the join conditions
+			 * Create the right part of the expression
+			 */
+			let sqlJoinConditions = [
+				"type"     : "binary-op",
+				"op"       : "=",
+				"left"     : this->_getQualified([
+					"type"   : 355,
+					"domain" : modelAlias,
+					"name"   : fields
+				]),
+				"right"    : this->_getQualified([
+					"type"   : "qualified",
+					"domain" : joinAlias,
+					"name"   : referencedFields
+				])
+			];
+
+		} else {
+
+			/**
+			 * Resolve the compound operation
+			 */
+			let sqlJoinPartialConditions = [];
+			for position, field in fields {
+
+				/**
+				 * Get the referenced field in the same position
+				 */
+				if !fetch referencedField, referencedFields[position] {
+					throw new Phalcon\Mvc\Model\Exception("The number of fields must be equal to the number of referenced fields in join " . modelAlias . "-" . joinAlias . ", when preparing: " . this->_phql);
+				}
+
+				/**
+				 * Create the left part of the expression
+				 * Create the right part of the expression
+				 * Create a binary operation for the join conditions
+				 */
+				let sqlJoinPartialConditions[] = [
+					"type" : "binary-op",
+					"op"   : "=",
+					"left" : this->_getQualified([
+						"type"   : 355,
+						"domain" : modelAlias,
+						"name"   : field
+					]),
+					"right"      : this->_getQualified([
+						"type"   : "qualified",
+						"domain" : joinAlias,
+						"name"   : referencedField
+					])
+				];
+			}
+
+		}
+
+		/**
+		 * A single join
+		 */
+		return [
+			"type"       : joinType,
+			"source"     : joinSource,
+			"conditions" : sqlJoinConditions
+		];
+	}
+
+	/**
+	 * Resolves joins involving many-to-many relations
+	 *
+	 * @param string joinType
+	 * @param string joinSource
+	 * @param string modelAlias
+	 * @param string joinAlias
+	 * @param Phalcon\Mvc\Model\RelationInterface relation
+	 * @return array
+	 */
+	protected function _getMultiJoin(joinType, joinSource, modelAlias, joinAlias,
+		<Phalcon\Mvc\Model\RelationInterface> relation)
+	{
+		var sqlJoins, fields, referencedFields,
+			intermediateModelName, intermediateModel, intermediateSource,
+			intermediateSchema, intermediateFields, intermediateReferencedFields,
+			referencedModelName, manager, field, position, intermediateField,
+			sqlEqualsJoinCondition;
+
+		let sqlJoins = [];
+
+		/**
+		 * Local fields in the 'from' relation
+		 */
+		let fields = relation->getFields();
+
+		/**
+		 * Referenced fields in the joined relation
+		 */
+		let referencedFields = relation->getReferencedFields();
+
+		/**
+		 * Intermediate model
+		 */
+		let intermediateModelName = relation->getIntermediateModel();
+
+		let manager = this->_manager;
+
+		/**
+		 * Get the intermediate model instance
+		 */
+		let intermediateModel = manager->load(intermediateModelName);
+
+		/**
+		 * Source of the related model
+		 */
+		let intermediateSource = intermediateModel->getSource();
+
+		/**
+		 * Schema of the related model
+		 */
+		let intermediateSchema = intermediateModel->getSchema();
+
+		//intermediateFullSource = array(intermediateSchema, intermediateSource);
+
+		/**
+		 * Update the internal sqlAliases to set up the intermediate model
+		 */
+		let this->_sqlAliases[intermediateModelName] = intermediateSource;
+
+		/**
+		 * Update the internal _sqlAliasesModelsInstances to rename columns if necessary
+		 */
+		let this->_sqlAliasesModelsInstances[intermediateModelName] = intermediateModel;
+
+		/**
+		 * Fields that join the 'from' model with the 'intermediate' model
+		 */
+		let intermediateFields = relation->getIntermediateFields();
+
+		/**
+		 * Fields that join the 'intermediate' model with the intermediate model
+		 */
+		let intermediateReferencedFields = relation->getIntermediateReferencedFields();
+
+		/**
+		 * Intermediate model
+		 */
+		let referencedModelName = relation->getReferencedModel();
+
+		if typeof fields == "array" {
+			for field, position in fields {
+
+				if !isset referencedFields[position] {
+					throw new Phalcon\Mvc\Model\Exception("The number of fields must be equal to the number of referenced fields in join " . modelAlias . "-" . joinAlias . ", when preparing: " . this->_phql);
+				}
+
+				/**
+				 * Get the referenced field in the same position
+				 */
+				let intermediateField = intermediateFields[position];
+
+				/**
+				 * Create a binary operation for the join conditions
+				 */
+				let sqlEqualsJoinCondition = [
+					"type" : "binary-op",
+					"op" : "=",
+					"left" : this->_getQualified([
+						"type" : 355,
+						"domain" : modelAlias,
+						"name" : field
+					]),
+					"right" : this->_getQualified([
+						"type" : "qualified",
+						"domain" : joinAlias,
+						"name" : referencedFields
+					])
+				];
+
+				//let sqlJoinPartialConditions[] = sqlEqualsJoinCondition;
+			}
+
+		} else {
+
+			/**
+			 * Create the left part of the expression
+			 * Create the right part of the expression
+			 * Create a binary operation for the join conditions
+			 * A single join
+			 */
+			let sqlJoins = [
+
+				[
+					"type" : joinType,
+					"source" : intermediateSource,
+					"conditions" : [[
+						"type" : "binary-op",
+						"op" : "=",
+						"left" : this->_getQualified([
+							"type" : 355,
+							"domain" : modelAlias,
+							"name" : fields
+						]),
+						"right" : this->_getQualified([
+							"type" : "qualified",
+							"domain" : intermediateModelName,
+							"name" : intermediateFields
+						])
+					]]
+				],
+
+				/**
+				 * Create the left part of the expression
+				 * Create the right part of the expression
+				 * Create a binary operation for the join conditions
+				 * A single join
+				 */
+				[
+					"type" : joinType,
+					"source" : joinSource,
+					"conditions" : [[
+						"type" : "binary-op",
+						"op" : "=",
+						"left" : this->_getQualified([
+							"type" : 355,
+							"domain" : intermediateModelName,
+							"name" : intermediateReferencedFields
+						]),
+						"right" : this->_getQualified([
+							"type" : "qualified",
+							"domain" : referencedModelName,
+							"name" : referencedFields
+						])
+					]]
+				]
+			];
+		}
+
+		return sqlJoins;
 	}
 
 	/**

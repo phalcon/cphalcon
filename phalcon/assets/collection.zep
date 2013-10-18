@@ -140,7 +140,7 @@ class Collection //implements Countable, Iterator
 	/**
 	 * Rewinds the internal iterator
 	 */
-	public function rewind()
+	public function rewind() -> void
 	{
 		let this->_position = 0;
 	}
@@ -179,13 +179,9 @@ class Collection //implements Countable, Iterator
 	 * Moves the internal iteration pointer to the next position
 	 *
 	 */
-	public function next()
+	public function next() -> void
 	{
-		var position;
-
-		//let this->_position++; //COOL
-		let position = this->_position;
-		let this->_position = position + 1;
+		let this->_position++;
 	}
 
 	/**

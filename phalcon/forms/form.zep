@@ -632,7 +632,7 @@ class Form extends Phalcon\Di\Injectable implements Countable, Iterator
 		 * Checks if the element is in the form
 		 */
 		if isset elements[name] {
-			//unset this->_elements[name]
+			unset this->_elements[name];
 			return true;
 		}
 

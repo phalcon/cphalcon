@@ -1605,11 +1605,9 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getRelationRecords) {
 	if ((Z_TYPE_P(parameters) == IS_ARRAY)) {
 		ZEPHIR_OBS_NVAR(preConditions);
 		if (zephir_array_isset_long_fetch(&preConditions, parameters, 0, 0 TSRMLS_CC)) {
-			zephir_array_unset_long(&parameters, 0, PH_SEPARATE);
 		} else {
 			ZEPHIR_OBS_NVAR(preConditions);
 			if (zephir_array_isset_string_fetch(&preConditions, parameters, SS("conditions"), 0 TSRMLS_CC)) {
-				zephir_array_unset_string(&parameters, SS("conditions"), PH_SEPARATE);
 			}
 		}
 	} else {
@@ -1620,7 +1618,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getRelationRecords) {
 	if ((Z_TYPE_P(parameters) == IS_ARRAY)) {
 		ZEPHIR_OBS_VAR(placeholders);
 		if (zephir_array_isset_string_fetch(&placeholders, parameters, SS("bind"), 0 TSRMLS_CC)) {
-			zephir_array_unset_string(&parameters, SS("bind"), PH_SEPARATE);
 		} else {
 			ZEPHIR_INIT_NVAR(placeholders);
 			array_init(placeholders);

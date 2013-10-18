@@ -194,6 +194,7 @@ PHP_METHOD(Phalcon_Di, remove) {
 
 
 
+	ZEPHIR_MM_RESTORE();
 
 }
 

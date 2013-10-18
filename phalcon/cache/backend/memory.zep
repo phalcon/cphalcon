@@ -119,7 +119,7 @@ class Memory extends Phalcon\Cache\Backend implements Phalcon\Cache\BackendInter
 	/**
 	 * Deletes a value from the cache by its key
 	 *
-	 * @param string $keyName
+	 * @param string keyName
 	 * @return boolean
 	 */
 	public function delete(var keyName)
@@ -149,8 +149,8 @@ class Memory extends Phalcon\Cache\Backend implements Phalcon\Cache\BackendInter
 	/**
 	 * Checks if cache exists and it hasn't expired
 	 *
-	 * @param  string|int $keyName
-	 * @param  long $lifetime
+	 * @param  string|int keyName
+	 * @param  long lifetime
 	 * @return boolean
 	 */
 	public function exists(var keyName=null, lifetime=null)

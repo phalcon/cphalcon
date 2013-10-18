@@ -198,15 +198,12 @@ PHP_METHOD(Phalcon_Cli_Router, handle) {
 	ZVAL_NULL(actionName);
 	ZEPHIR_OBS_NVAR(moduleName);
 	if (zephir_array_isset_string_fetch(&moduleName, arguments, SS("module"), 0 TSRMLS_CC)) {
-		zephir_array_unset_string(&arguments, SS("module"), PH_SEPARATE);
 	}
 	ZEPHIR_OBS_NVAR(taskName);
 	if (zephir_array_isset_string_fetch(&taskName, arguments, SS("task"), 0 TSRMLS_CC)) {
-		zephir_array_unset_string(&arguments, SS("task"), PH_SEPARATE);
 	}
 	ZEPHIR_OBS_NVAR(actionName);
 	if (zephir_array_isset_string_fetch(&actionName, arguments, SS("action"), 0 TSRMLS_CC)) {
-		zephir_array_unset_string(&arguments, SS("action"), PH_SEPARATE);
 	}
 	zephir_update_property_this(this_ptr, SL("_module"), moduleName TSRMLS_CC);
 	zephir_update_property_this(this_ptr, SL("_task"), taskName TSRMLS_CC);

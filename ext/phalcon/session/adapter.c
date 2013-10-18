@@ -250,7 +250,7 @@ PHP_METHOD(Phalcon_Session_Adapter, has) {
  */
 PHP_METHOD(Phalcon_Session_Adapter, remove) {
 
-	zval *index_param = NULL, *_SESSION, *_0, *_1;
+	zval *index_param = NULL;
 	zval *index = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -259,11 +259,6 @@ PHP_METHOD(Phalcon_Session_Adapter, remove) {
 		zephir_get_strval(index, index_param);
 
 
-	zephir_get_global(&_SESSION, SS("_SESSION") TSRMLS_CC);
-	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_uniqueId"), PH_NOISY_CC);
-	ZEPHIR_INIT_VAR(_1);
-	ZEPHIR_CONCAT_VV(_1, _0, index);
-	zephir_array_unset(&_SESSION, _1, PH_SEPARATE);
 	ZEPHIR_MM_RESTORE();
 
 }

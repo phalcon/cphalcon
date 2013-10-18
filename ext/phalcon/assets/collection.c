@@ -424,13 +424,7 @@ PHP_METHOD(Phalcon_Assets_Collection, key) {
  */
 PHP_METHOD(Phalcon_Assets_Collection, next) {
 
-	zval *position, *_0;
 
-
-	position = zephir_fetch_nproperty_this(this_ptr, SL("_position"), PH_NOISY_CC);
-	ZEPHIR_INIT_ZVAL_NREF(_0);
-	ZVAL_LONG(_0, (zephir_get_numberval(position) + 1));
-	zephir_update_property_this(this_ptr, SL("_position"), _0 TSRMLS_CC);
 
 }
 

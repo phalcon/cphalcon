@@ -337,14 +337,14 @@ class Memory extends Phalcon\Acl\Adapter
 			for accessName in accessList {
 				let accessKey = resourceName . "!" . accessName;
 				if isset accessList[accessKey] {
-					//unset this->_accessList[accessKey];
+					unset this->_accessList[accessKey];
 				}
 			}
 		} else {
 			if typeof accessList == "string" {
 				let accessKey = resourceName . "!" . accessName;
 				if isset accessList[accessKey] {
-					//unset this->_accessList[accessKey];
+					unset this->_accessList[accessKey];
 				}
 			}
 		}

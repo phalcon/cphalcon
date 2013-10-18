@@ -46,7 +46,7 @@ class Apc
 	 * Writes parsed annotations to APC
 	 *
  	 * @param string key
-	 * @param Phalcon\Annotations\Reflection $data
+	 * @param Phalcon\Annotations\Reflection data
 	 */
 	public function write(string! key, <Phalcon\Annotations\Reflection> data)
 	{

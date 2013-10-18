@@ -143,21 +143,18 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, connect) {
 	}
 	ZEPHIR_OBS_VAR(username);
 	if (zephir_array_isset_string_fetch(&username, descriptor, SS("username"), 0 TSRMLS_CC)) {
-		zephir_array_unset_string(&descriptor, SS("username"), PH_SEPARATE);
 	} else {
 		ZEPHIR_INIT_BNVAR(username);
 		ZVAL_NULL(username);
 	}
 	ZEPHIR_OBS_VAR(password);
 	if (zephir_array_isset_string_fetch(&password, descriptor, SS("password"), 0 TSRMLS_CC)) {
-		zephir_array_unset_string(&descriptor, SS("password"), PH_SEPARATE);
 	} else {
 		ZEPHIR_INIT_BNVAR(password);
 		ZVAL_NULL(password);
 	}
 	ZEPHIR_OBS_VAR(options);
 	if (zephir_array_isset_string_fetch(&options, descriptor, SS("options"), 0 TSRMLS_CC)) {
-		zephir_array_unset_string(&descriptor, SS("options"), PH_SEPARATE);
 	} else {
 		ZEPHIR_INIT_BNVAR(options);
 		array_init(options);

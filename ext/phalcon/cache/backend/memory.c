@@ -174,7 +174,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Memory, save) {
 /**
  * Deletes a value from the cache by its key
  *
- * @param string $keyName
+ * @param string keyName
  * @return boolean
  */
 PHP_METHOD(Phalcon_Cache_Backend_Memory, delete) {
@@ -220,8 +220,8 @@ PHP_METHOD(Phalcon_Cache_Backend_Memory, queryKeys) {
 /**
  * Checks if cache exists and it hasn't expired
  *
- * @param  string|int $keyName
- * @param  long $lifetime
+ * @param  string|int keyName
+ * @param  long lifetime
  * @return boolean
  */
 PHP_METHOD(Phalcon_Cache_Backend_Memory, exists) {
