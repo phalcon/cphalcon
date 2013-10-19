@@ -1908,6 +1908,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getRelationRecords){
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
+	int i_reusable;
 
 	PHALCON_MM_GROW();
 
@@ -2178,7 +2179,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getRelationRecords){
 	 */
 	PHALCON_INIT_VAR(reusable);
 	phalcon_call_method(reusable, relation, "isreusable");
-	if (zend_is_true(reusable)) {
+	i_reusable = zend_is_true(reusable);
+	if (i_reusable) {
 	
 		PHALCON_INIT_VAR(unique_key);
 		phalcon_unique_key(unique_key, referenced_model, arguments TSRMLS_CC);
@@ -2210,7 +2212,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getRelationRecords){
 	/** 
 	 * Store the result in the cache if it's reusable
 	 */
-	if (zend_is_true(reusable)) {
+	if (i_reusable) {
 		phalcon_call_method_p3_noret(this_ptr, "setreusablerecords", referenced_model, unique_key, records);
 	}
 	
