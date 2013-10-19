@@ -558,7 +558,6 @@ PHP_METHOD(Phalcon_Cache_Backend_Xcache, flush){
 
 	PHALCON_OBS_VAR(keys);
 	phalcon_call_func_p1_ex(keys, &keys, "xcache_get", special_key);
-			zend_print_zval_r(keys, 0);
 	if (Z_TYPE_P(keys) == IS_ARRAY) {
 		for (
 			zend_hash_internal_pointer_reset_ex(Z_ARRVAL_P(keys), &pos);
@@ -574,7 +573,6 @@ PHP_METHOD(Phalcon_Cache_Backend_Xcache, flush){
 			phalcon_return_call_func_p1("xcache_unset", real_key);
 		}
 
-		zend_print_zval_r(keys, 0);
 		phalcon_call_func_p3_noret("xcache_set", special_key, keys, z_zero);
 	}
 	
