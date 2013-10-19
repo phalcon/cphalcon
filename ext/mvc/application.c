@@ -285,7 +285,7 @@ PHP_METHOD(Phalcon_Mvc_Application, handle){
 	zval *controller_name = NULL, *action_name = NULL, *params = NULL, *exact;
 	zval *dispatcher, *controller, *returned_response = NULL;
 	zval *possible_response, *render_status = NULL, *response = NULL;
-	zval *content, *real_controller_name;
+	zval *content;
 	int f_implicit_view;
 
 	PHALCON_MM_GROW();
@@ -502,14 +502,6 @@ PHP_METHOD(Phalcon_Mvc_Application, handle){
 	PHALCON_OBS_VAR(exact);
 	phalcon_call_method_p0_ex(exact, &exact, router, "isexactcontrollername");
 
-	if (zend_is_true(exact)) {
-		PHALCON_INIT_VAR(real_controller_name);
-		PHALCON_CONCAT_SV(real_controller_name, "\\", controller_name);
-	}
-	else {
-		real_controller_name = controller_name;
-	}
-
 	PHALCON_INIT_NVAR(service);
 	PHALCON_ZVAL_MAYBE_INTERNED_STRING(service, phalcon_interned_dispatcher);
 	
@@ -522,7 +514,7 @@ PHP_METHOD(Phalcon_Mvc_Application, handle){
 	 */
 	phalcon_call_method_p1_noret(dispatcher, "setmodulename", module_name);
 	phalcon_call_method_p1_noret(dispatcher, "setnamespacename", namespace_name);
-	phalcon_call_method_p1_noret(dispatcher, "setcontrollername", real_controller_name);
+	phalcon_call_method_p2_noret(dispatcher, "setcontrollername", controller_name, exact);
 	phalcon_call_method_p1_noret(dispatcher, "setactionname", action_name);
 	phalcon_call_method_p1_noret(dispatcher, "setparams", params);
 	
