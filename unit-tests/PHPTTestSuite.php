@@ -33,6 +33,19 @@ class PHPTTestSuite extends PHPUnit_Framework_TestCase
 		}
 
 		$directory = __DIR__ . '/../ext/tests/';
-		return new PHPUnit_Extensions_PhptTestSuite($directory);
+
+		$facade = new File_Iterator_Facade;
+		$files  = $facade->getFilesAsArray($directory, '.phpt');
+
+		$suite = new PHPUnit_Framework_TestSuite();
+
+		foreach ($files as $file) {
+			$c = file_get_contents($file);
+			if (!preg_match('/^--(?:PUT|(?:GZIP|DEFLATE)_POST|CGI)--$/m', $c)) {
+				$suite->addTestFile($file);
+			}
+		}
+
+		return $suite;
 	}
 }
