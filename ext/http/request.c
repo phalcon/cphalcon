@@ -319,7 +319,7 @@ PHP_METHOD(Phalcon_Http_Request, getPost){
  *<code>
  *	$userEmail = $request->getPut("user_email");
  *
- *	$userEmail = $request->getPost("user_email", "email");
+ *	$userEmail = $request->getPut("user_email", "email");
  *</code>
  *
  * @param string $name
