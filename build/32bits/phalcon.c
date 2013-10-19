@@ -65613,7 +65613,11 @@ static PHP_METHOD(Phalcon_Mvc_Dispatcher, getControllerName){
 		char *c = Z_STRVAL_P(return_value);
 		int len = Z_STRLEN_P(return_value);
 		memmove(c, c+1, len-1);
-		c[len] = 0;
+		c[len-1] = 0;
+		c = erealloc(c, len);
+		if (likely(c != NULL)) {
+			RETVAL_STRINGL(c, len-1, 0);
+		}
 	}
 }
 
