@@ -182,6 +182,10 @@ PHP_METHOD(Phalcon_Mvc_Dispatcher, getControllerName){
 		int len = Z_STRLEN_P(return_value);
 		memmove(c, c+1, len-1);
 		c[len-1] = 0;
+		c = erealloc(c, len);
+		if (likely(c != NULL)) {
+			RETVAL_STRINGL(c, len-1, 0);
+		}
 	}
 }
 
