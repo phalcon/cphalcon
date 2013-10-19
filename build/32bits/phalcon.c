@@ -43331,7 +43331,7 @@ static PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, __construct){
 		if (phalcon_array_isset_quick_string(params, SS("having"), 876572994UL)) {
 			PHALCON_OBS_VAR(having_clause);
 			phalcon_array_fetch_quick_string(&having_clause, params, SS("having"), 876572994UL, PH_NOISY);
-			phalcon_update_property_this_quick(this_ptr, SL("_group"), having_clause, 2368555377UL TSRMLS_CC);
+			phalcon_update_property_this_quick(this_ptr, SL("_having"), having_clause, 1486953825UL TSRMLS_CC);
 		}
 	
 		if (phalcon_array_isset_quick_string(params, SS("order"), 320020033UL)) {
@@ -63897,7 +63897,7 @@ static PHP_METHOD(Phalcon_Mvc_Application, handle){
 	zval *controller_name = NULL, *action_name = NULL, *params = NULL, *exact;
 	zval *dispatcher, *controller, *returned_response = NULL;
 	zval *possible_response, *render_status = NULL, *response = NULL;
-	zval *content, *real_controller_name;
+	zval *content;
 
 	PHALCON_MM_GROW();
 
@@ -64066,14 +64066,6 @@ static PHP_METHOD(Phalcon_Mvc_Application, handle){
 	PHALCON_INIT_VAR(exact);
 	phalcon_call_method_key(exact, router, "isexactcontrollername", 1048339579UL);
 
-	if (zend_is_true(exact)) {
-		PHALCON_INIT_VAR(real_controller_name);
-		PHALCON_CONCAT_SV(real_controller_name, "\\", controller_name);
-	}
-	else {
-		real_controller_name = controller_name;
-	}
-
 	PHALCON_INIT_NVAR(service);
 	ZVAL_STRING(service, "dispatcher", 1);
 	
@@ -64082,7 +64074,7 @@ static PHP_METHOD(Phalcon_Mvc_Application, handle){
 	
 	phalcon_call_method_p1_key(NULL, dispatcher, "setmodulename", module_name, 2582492152UL);
 	phalcon_call_method_p1_key(NULL, dispatcher, "setnamespacename", namespace_name, 1052613599UL);
-	phalcon_call_method_p1_key(NULL, dispatcher, "setcontrollername", real_controller_name, 1308595606UL);
+	phalcon_call_method_p2_key(NULL, dispatcher, "setcontrollername", controller_name, exact, 1308595606UL);
 	phalcon_call_method_p1_key(NULL, dispatcher, "setactionname", action_name, 1505009872UL);
 	phalcon_call_method_p1_key(NULL, dispatcher, "setparams", params, 2707361429UL);
 	
@@ -65549,7 +65541,6 @@ PHALCON_INIT_CLASS(Phalcon_Mvc_Collection_Exception){
 
 
 
-
 PHALCON_INIT_CLASS(Phalcon_Mvc_Dispatcher){
 
 	PHALCON_REGISTER_CLASS_EX(Phalcon\\Mvc, Dispatcher, mvc_dispatcher, "phalcon\\dispatcher", phalcon_mvc_dispatcher_method_entry, 0);
@@ -65557,6 +65548,7 @@ PHALCON_INIT_CLASS(Phalcon_Mvc_Dispatcher){
 	zend_declare_property_string(phalcon_mvc_dispatcher_ce, SL("_handlerSuffix"), "Controller", ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_string(phalcon_mvc_dispatcher_ce, SL("_defaultHandler"), "index", ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_string(phalcon_mvc_dispatcher_ce, SL("_defaultAction"), "index", ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_bool(phalcon_mvc_dispatcher_ce, SL("_isExactControllerName"), 0, ZEND_ACC_PROTECTED TSRMLS_CC);
 
 	zend_class_implements(phalcon_mvc_dispatcher_ce TSRMLS_CC, 2, phalcon_dispatcherinterface_ce, phalcon_mvc_dispatcherinterface_ce);
 
@@ -65585,18 +65577,44 @@ static PHP_METHOD(Phalcon_Mvc_Dispatcher, setDefaultController){
 
 static PHP_METHOD(Phalcon_Mvc_Dispatcher, setControllerName){
 
-	zval *controller_name;
+	zval *controller_name, *is_exact = NULL;
 
-	phalcon_fetch_params(0, 1, 0, &controller_name);
+	phalcon_fetch_params(0, 1, 1, &controller_name, &is_exact);
 	
-	phalcon_update_property_this_quick(this_ptr, SL("_handlerName"), controller_name, 2743819555UL TSRMLS_CC);
-	
+	if (is_exact && zend_is_true(is_exact)) {
+		zval *name;
+		MAKE_STD_ZVAL(name);
+		PHALCON_CONCAT_SV(name, "\\", controller_name);
+		phalcon_update_property_this_quick(this_ptr, SL("_handlerName"), name, 2743819555UL TSRMLS_CC);
+		zval_ptr_dtor(&name);
+		phalcon_update_property_bool(this_ptr, SL("_isExactControllerName"), 1 TSRMLS_CC);
+	}
+	else {
+		phalcon_update_property_this_quick(this_ptr, SL("_handlerName"), controller_name, 2743819555UL TSRMLS_CC);
+		phalcon_update_property_bool(this_ptr, SL("_isExactControllerName"), 0 TSRMLS_CC);
+	}
 }
 
 static PHP_METHOD(Phalcon_Mvc_Dispatcher, getControllerName){
 
+	zval *is_exact;
+	int i_exact;
 
-	RETURN_MEMBER_QUICK(this_ptr, "_handlerName", 2743819555UL);
+	phalcon_read_property_this(&is_exact, getThis(), SL("_isExactControllerName"), PH_NOISY TSRMLS_CC);
+	i_exact = zend_is_true(is_exact);
+	zval_ptr_dtor(&is_exact);
+
+	if (!i_exact) {
+		RETURN_MEMBER_QUICK(this_ptr, "_handlerName", 2743819555UL);
+	}
+
+	phalcon_return_property_quick(return_value, getThis(), SL("_handlerName"), zend_inline_hash_func(SS("_handlerName")) TSRMLS_CC);
+	if (likely(Z_TYPE_P(return_value) == IS_STRING) && Z_STRLEN_P(return_value) > 1) {
+		char *c = Z_STRVAL_P(return_value);
+		int len = Z_STRLEN_P(return_value);
+		memmove(c, c+1, len-1);
+		c[len] = 0;
+	}
 }
 
 static PHP_METHOD(Phalcon_Mvc_Dispatcher, _throwDispatchException){
