@@ -45,7 +45,7 @@
  *use Phalcon\Validation\Validator\Identical;
  *
  *$validator->add('terms', new Identical(array(
- *   'accepted' => 'yes',
+ *   'value'   => 'yes',
  *   'message' => 'Terms and conditions must be accepted'
  *)));
  *</code>
