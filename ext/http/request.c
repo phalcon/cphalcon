@@ -29,6 +29,7 @@
 #include "Zend/zend_exceptions.h"
 #include "Zend/zend_interfaces.h"
 
+#include "main/php_variables.h"
 #include "main/SAPI.h"
 
 #include "ext/standard/php_smart_str.h"
@@ -332,6 +333,7 @@ PHP_METHOD(Phalcon_Http_Request, getPut){
 
 	zval *name = NULL, *filters = NULL, *default_value = NULL, *not_allow_empty = NULL, *norecursive = NULL;
 	zval *is_put, *put, *raw, *value, *filter = NULL, *dependency_injector, *service;
+	char *tmp;
 
 	PHALCON_MM_GROW();
 
@@ -371,9 +373,12 @@ PHP_METHOD(Phalcon_Http_Request, getPut){
 		phalcon_call_method(raw, this_ptr, "getRawBody");
 
 		PHALCON_INIT_NVAR(put);
-		Z_SET_ISREF_P(put);
-		phalcon_call_func_p2_noret("parse_str", raw, put);
-		Z_UNSET_ISREF_P(put);
+		array_init(put);
+
+		PHALCON_ENSURE_IS_STRING(&raw);
+		tmp = estrndup(Z_STRVAL_P(raw), Z_STRLEN_P(raw));
+		sapi_module.treat_data(PARSE_STRING, tmp, put TSRMLS_CC);
+
 		phalcon_update_property_this(getThis(), SL("_put"), put TSRMLS_CC);
 	}
 	
@@ -600,6 +605,7 @@ PHP_METHOD(Phalcon_Http_Request, hasPost){
 PHP_METHOD(Phalcon_Http_Request, hasPut){
 
 	zval *name, *is_put, *put, *raw;
+	char *tmp;
 
 	PHALCON_MM_GROW();
 
@@ -619,9 +625,11 @@ PHP_METHOD(Phalcon_Http_Request, hasPut){
 		phalcon_call_method(raw, this_ptr, "getRawBody");
 
 		PHALCON_INIT_NVAR(put);
-		Z_SET_ISREF_P(put);
-		phalcon_call_func_p2_noret("parse_str", raw, put);
-		Z_UNSET_ISREF_P(put);
+		array_init(put);
+
+		PHALCON_ENSURE_IS_STRING(&raw);
+		tmp = estrndup(Z_STRVAL_P(raw), Z_STRLEN_P(raw));
+		sapi_module.treat_data(PARSE_STRING, tmp, put TSRMLS_CC);
 
 		phalcon_update_property_this(getThis(), SL("_put"), put TSRMLS_CC);
 	}
