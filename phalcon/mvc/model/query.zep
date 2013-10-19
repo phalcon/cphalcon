@@ -2107,6 +2107,57 @@ class Query //implements Phalcon\Mvc\Model\QueryInterface, Phalcon\Di\InjectionA
 	}
 
 	/**
+	 * Query the records on which the UPDATE/DELETE operation well be done
+	 *
+	 * @param Phalcon\Mvc\Model model
+	 * @param array intermediate
+	 * @param array bindParams
+	 * @param array bindTypes
+	 * @return Phalcon\Mvc\Model\ResultsetInterface
+	 */
+	protected function _getRelatedRecords(<Phalcon\Mvc\ModelInterface> model, intermediate, bindParams, bindTypes)
+	 -> <Phalcon\Mvc\Model\ResultsetInterface>
+	{
+
+		/**
+		 * Instead of create a PHQL string statement we manually create the IR representation
+		 */
+		let selectIr = [
+			"columns": [[[
+				"type"  : "object",
+				"model" : get_class(model),
+				"column": model->getSource(),
+			]]],
+			"models":  intermediate["models"],
+			"tables":  intermediate["tables"]
+		];
+
+		/**
+		 * Check if a WHERE clause was especified
+		 */
+		if fetch whereConditions, intermediate["where"] {
+			let selectIr["where"] = whereConditions;
+		}
+
+		/**
+		 * Check if a WHERE clause was especified
+		 */
+		if fetch limitConditions, intermediate["limit"] {
+			let selectIr["limit"] = limitConditions;
+		}
+
+		/**
+		 * We create another Phalcon\Mvc\Model\Query to get the related records
+		 */
+		let query = new self();
+		query->setDI(this->_dependencyInjector);
+		query->setType(309);
+		query->setIntermediate(selectIr);
+
+		return query->execute(bindParams, bindTypes);
+	}
+
+	/**
 	 * Sets the cache parameters of the query
 	 *
 	 * @param array cacheOptions
