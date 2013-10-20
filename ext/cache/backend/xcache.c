@@ -275,13 +275,11 @@ PHP_METHOD(Phalcon_Cache_Backend_Xcache, save){
 			array_init(keys);
 		}
 	
-		if (!zend_is_true(keys)) {
-			phalcon_array_update_zval(&keys, last_key, &ttl, PH_COPY | PH_SEPARATE);
-	
-			PHALCON_INIT_VAR(zero);
-			ZVAL_LONG(zero, 0);
-			phalcon_call_func_p3_noret("xcache_set", special_key, keys, zero);
-		}
+		phalcon_array_update_zval(&keys, last_key, &ttl, PH_COPY | PH_SEPARATE);
+
+		PHALCON_INIT_VAR(zero);
+		ZVAL_LONG(zero, 0);
+		phalcon_call_func_p3_noret("xcache_set", special_key, keys, zero);
 	}
 	
 	PHALCON_MM_RESTORE();
