@@ -21,10 +21,11 @@ before_script:
  - (cd php-tests/library/Mustache; git checkout master )
  - (cd php-tests/library/Twig; git checkout master )
  - (cd unit-tests/engines/; git clone -q git://github.com/bobthecow/mustache.php.git & git clone -q git://github.com/fabpot/Twig.git & wait)
- - (cd ext; export CFLAGS="-g3 -O1 -fno-delete-null-pointer-checks -Wall"; phpize && ./configure --enable-phalcon && make -j2 && sudo make install && phpenv config-add ../unit-tests/ci/phalcon.ini)
+ - (cd ext; export CFLAGS="-g3 -O1 -fno-delete-null-pointer-checks -Wall"; phpize && ./configure --enable-phalcon && make -j4 && sudo make install && phpenv config-add ../unit-tests/ci/phalcon.ini)
  - ulimit -c unlimited || true
 
 script:
+ - (cd ext; NO_INTERACTION=1 make test)
  - $(phpenv which php) ./unit-tests/ci/phpunit.php --debug -c unit-tests/phpunit.xml
 
 after_failure:
@@ -36,3 +37,4 @@ notifications:
     - andres@phalconphp.com
     - eduar@phalconphp.com
     - nikos@phalconphp.com
+    - vladimir@phalconphp.com

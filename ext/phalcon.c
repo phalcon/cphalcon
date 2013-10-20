@@ -346,60 +346,42 @@ zend_class_entry *phalcon_exception_ce;
 
 ZEND_DECLARE_MODULE_GLOBALS(phalcon)
 
-static void (*old_error_cb)(int, const char *, const uint, const char *, va_list) = NULL;
-
-static void phalcon_error_cb(int type, const char *error_filename, const uint error_lineno, const char *format, va_list args)
-{
-	if (type == E_ERROR || type == E_CORE_ERROR || type == E_RECOVERABLE_ERROR || type == E_COMPILE_ERROR || type == E_USER_ERROR) {
-		TSRMLS_FETCH();
-		phalcon_clean_restore_stack(TSRMLS_C);
-	}
-
-	if (likely(old_error_cb != NULL)) {
-	/**
-	 * va_copy() is __va_copy() in old gcc versions.
-	 * According to the autoconf manual, using memcpy(&dst, &src, sizeof(va_list))
-	 * gives maximum portability.
-	 */
-#ifndef va_copy
-#	ifdef __va_copy
-#		define va_copy(dest, src) __va_copy((dest), (src))
-#	else
-#		define va_copy(dest, src) memcpy(&(dest), &(src), sizeof(va_list))
-#	endif
+#if PHP_VERSION_ID >= 50500
+static void (*orig_execute_internal)(zend_execute_data *, zend_fcall_info *, int TSRMLS_DC) = NULL;
+#else
+static void (*orig_execute_internal)(zend_execute_data *, int TSRMLS_DC) = NULL;
 #endif
-		va_list copy;
-		va_copy(copy, args);
-		old_error_cb(type, error_filename, error_lineno, format, copy);
-		va_end(copy);
+
+#if PHP_VERSION_ID >= 50500
+
+static void phalcon_execute_internal(zend_execute_data *execute_data_ptr, zend_fcall_info *fci, int return_value_used TSRMLS_DC)
+{
+	if (fci) {
+		((zend_internal_function *) execute_data_ptr->function_state.function)->handler(fci->param_count, *fci->retval_ptr_ptr, fci->retval_ptr_ptr, fci->object_ptr, return_value_used TSRMLS_CC);
 	}
 	else {
-		exit(255);
+		zval **return_value_ptr = EX_TMP_VAR(execute_data_ptr, execute_data_ptr->opline->result.var)->var.ptr_ptr;
+		((zend_internal_function *) execute_data_ptr->function_state.function)->handler(execute_data_ptr->opline->extended_value, *return_value_ptr, return_value_ptr, execute_data_ptr->object, return_value_used TSRMLS_CC);
 	}
 }
 
-static PHP_MINIT_FUNCTION(phalcon){
+#else
 
-	if (!spl_ce_Countable) {
-		fprintf(stderr, "Phalcon Error: Interface Countable was not found");
-		return FAILURE;
-	}
-	if (!zend_ce_iterator) {
-		fprintf(stderr, "Phalcon Error: Interface Iterator was not found");
-		return FAILURE;
-	}
-	if (!zend_ce_arrayaccess) {
-		fprintf(stderr, "Phalcon Error: Interface ArrayAccess was not found");
-		return FAILURE;
-	}
-	if (!zend_ce_serializable) {
-		fprintf(stderr, "Phalcon Error: Interface Serializable was not found");
-		return FAILURE;
-	}
-	if (!spl_ce_SeekableIterator) {
-		fprintf(stderr, "Phalcon Error: Interface SeekableIterator was not found");
-		return FAILURE;
-	}
+static void phalcon_execute_internal(zend_execute_data *execute_data_ptr, int return_value_used TSRMLS_DC)
+{
+#if PHP_VERSION_ID < 50400
+	zval **return_value_ptr = &(*(temp_variable *)((char *) execute_data_ptr->Ts + execute_data_ptr->opline->result.u.var)).var.ptr;
+#else
+	zval **return_value_ptr = &(*(temp_variable *)((char *) execute_data_ptr->Ts + execute_data_ptr->opline->result.var)).var.ptr;
+#endif
+
+	((zend_internal_function *) execute_data_ptr->function_state.function)->handler(execute_data_ptr->opline->extended_value, *return_value_ptr, return_value_ptr, execute_data_ptr->object, return_value_used TSRMLS_CC);
+}
+
+#endif
+
+
+static PHP_MINIT_FUNCTION(phalcon){
 
 	PHALCON_INIT(Phalcon_DI_InjectionAwareInterface);
 	PHALCON_INIT(Phalcon_Forms_ElementInterface);
@@ -708,19 +690,22 @@ static PHP_MINIT_FUNCTION(phalcon){
 	PHALCON_INIT(Phalcon_Events_Manager);
 	PHALCON_INIT(Phalcon_Events_Exception);
 
-	//old_error_cb  = zend_error_cb;
-	//zend_error_cb = phalcon_error_cb;
+	orig_execute_internal = zend_execute_internal;
+	if (!zend_execute_internal) {
+		zend_execute_internal = phalcon_execute_internal;
+	}
+
 	return SUCCESS;
 }
 
 
 static PHP_MSHUTDOWN_FUNCTION(phalcon){
 
-	//zend_error_cb = old_error_cb;
-
 	assert(PHALCON_GLOBAL(function_cache) == NULL);
 	assert(PHALCON_GLOBAL(orm).parser_cache == NULL);
 	assert(PHALCON_GLOBAL(orm).ast_cache == NULL);
+
+	zend_execute_internal = orig_execute_internal;
 
 	return SUCCESS;
 }
@@ -796,13 +781,32 @@ zend_module_dep phalcon_deps[] = {
 	ZEND_MOD_REQUIRED("spl")
 #if PHALCON_USE_PHP_JSON
 	ZEND_MOD_REQUIRED("json")
+#else
+	ZEND_MOD_OPTIONAL("json")
 #endif
 #if PHALCON_USE_PHP_SESSION
 	ZEND_MOD_REQUIRED("session")
+#else
+	ZEND_MOD_OPTIONAL("session")
 #endif
 #if PHALCON_USE_PHP_PCRE
 	ZEND_MOD_REQUIRED("pcre")
+#else
+	ZEND_MOD_OPTIONAL("pcre")
 #endif
+	ZEND_MOD_OPTIONAL("apc")
+	ZEND_MOD_OPTIONAL("apcu")
+	ZEND_MOD_OPTIONAL("XCache")
+	ZEND_MOD_OPTIONAL("memcache")
+	ZEND_MOD_OPTIONAL("memcached")
+	ZEND_MOD_OPTIONAL("mongo")
+	ZEND_MOD_OPTIONAL("filter")
+	ZEND_MOD_OPTIONAL("iconv")
+	ZEND_MOD_OPTIONAL("libxml")
+	ZEND_MOD_OPTIONAL("mbstring")
+	ZEND_MOD_OPTIONAL("mcrypt")
+	ZEND_MOD_OPTIONAL("openssl")
+	ZEND_MOD_OPTIONAL("pdo")
 	ZEND_MOD_END
 };
 
@@ -828,4 +832,3 @@ zend_module_entry phalcon_module_entry = {
 #ifdef COMPILE_DL_PHALCON
 ZEND_GET_MODULE(phalcon)
 #endif
-

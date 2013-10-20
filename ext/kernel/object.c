@@ -667,7 +667,6 @@ int phalcon_read_property_zval(zval **result, zval *object, zval *property, int 
 		}
 
 		ALLOC_INIT_ZVAL(*result);
-		ZVAL_NULL(*result);
 		return FAILURE;
 	}
 
@@ -1196,6 +1195,8 @@ int phalcon_read_static_property(zval **result, const char *class_name, unsigned
 			return SUCCESS;
 		}
 	}
+
+	ALLOC_INIT_ZVAL(*result);
 	return FAILURE;
 }
 
@@ -1313,17 +1314,11 @@ int phalcon_create_instance_params(zval *return_value, const zval *class_name, z
 int phalcon_property_incr(zval *object, char *property_name, unsigned int property_length TSRMLS_DC){
 
 	zval *tmp = NULL;
-	zend_class_entry *ce;
 	int separated = 0;
 
 	if (Z_TYPE_P(object) != IS_OBJECT) {
 		php_error_docref(NULL TSRMLS_CC, E_WARNING, "Attempt to assign property of non-object");
 		return FAILURE;
-	}
-
-	ce = Z_OBJCE_P(object);
-	if (ce->parent) {
-		ce = phalcon_lookup_class_ce(ce, property_name, property_length TSRMLS_CC);
 	}
 
 	phalcon_read_property(&tmp, object, property_name, property_length, 0 TSRMLS_CC);
@@ -1358,17 +1353,11 @@ int phalcon_property_incr(zval *object, char *property_name, unsigned int proper
 int phalcon_property_decr(zval *object, char *property_name, unsigned int property_length TSRMLS_DC){
 
 	zval *tmp = NULL;
-	zend_class_entry *ce;
 	int separated = 0;
 
 	if (Z_TYPE_P(object) != IS_OBJECT) {
 		php_error_docref(NULL TSRMLS_CC, E_WARNING, "Attempt to assign property of non-object");
 		return FAILURE;
-	}
-
-	ce = Z_OBJCE_P(object);
-	if (ce->parent) {
-		ce = phalcon_lookup_class_ce(ce, property_name, property_length TSRMLS_CC);
 	}
 
 	phalcon_read_property(&tmp, object, property_name, property_length, 0 TSRMLS_CC);

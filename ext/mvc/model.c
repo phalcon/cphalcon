@@ -1365,14 +1365,12 @@ PHP_METHOD(Phalcon_Mvc_Model, _exists){
 				 * 'exist' check
 				 */
 				if (PHALCON_IS_EMPTY(value)) {
-					PHALCON_SEPARATE(number_empty);
 					phalcon_increment(number_empty);
 				}
 	
 				phalcon_array_append(&unique_params, value, PH_SEPARATE);
 			} else {
 				phalcon_array_append(&unique_params, null_value, PH_SEPARATE);
-				PHALCON_SEPARATE(number_empty);
 				phalcon_increment(number_empty);
 			}
 	
@@ -3072,6 +3070,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _doLowInsert){
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
+	int identity_field_is_not_false; /* scan-build insists on using flags */
 
 	PHALCON_MM_GROW();
 
@@ -3099,11 +3098,10 @@ PHP_METHOD(Phalcon_Mvc_Model, _doLowInsert){
 	
 	PHALCON_INIT_VAR(automatic_attributes);
 	phalcon_call_method_p1(automatic_attributes, meta_data, "getautomaticcreateattributes", this_ptr);
+
+	PHALCON_INIT_VAR(column_map);
 	if (PHALCON_GLOBAL(orm).column_renaming) {
-		PHALCON_INIT_VAR(column_map);
 		phalcon_call_method_p1(column_map, meta_data, "getcolumnmap", this_ptr);
-	} else {
-		PHALCON_INIT_NVAR(column_map);
 	}
 	
 	/** 
@@ -3175,7 +3173,8 @@ PHP_METHOD(Phalcon_Mvc_Model, _doLowInsert){
 	/** 
 	 * If there is an identity field we add it using "null" or "default"
 	 */
-	if (PHALCON_IS_NOT_FALSE(identity_field)) {
+	identity_field_is_not_false = PHALCON_IS_NOT_FALSE(identity_field);
+	if (identity_field_is_not_false) {
 	
 		PHALCON_INIT_VAR(default_value);
 		phalcon_call_method(default_value, connection, "getdefaultidvalue");
@@ -3255,7 +3254,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _doLowInsert){
 	 */
 	PHALCON_INIT_VAR(success);
 	phalcon_call_method_p4(success, connection, "insert", table, values, fields, bind_types);
-	if (PHALCON_IS_NOT_FALSE(identity_field)) {
+	if (identity_field_is_not_false) {
 	
 		/** 
 		 * We check if the model have sequences
@@ -3314,6 +3313,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _doLowUpdate){
 	HashTable *ah0, *ah1;
 	HashPosition hp0, hp1;
 	zval **hd;
+	int i_dynamic_update;
 
 	PHALCON_MM_GROW();
 
@@ -3341,13 +3341,13 @@ PHP_METHOD(Phalcon_Mvc_Model, _doLowUpdate){
 	 */
 	PHALCON_INIT_VAR(use_dynamic_update);
 	phalcon_call_method_p1(use_dynamic_update, manager, "isusingdynamicupdate", this_ptr);
-	if (zend_is_true(use_dynamic_update)) {
+	i_dynamic_update = zend_is_true(use_dynamic_update);
+	if (i_dynamic_update) {
 	
 		PHALCON_OBS_VAR(snapshot);
 		phalcon_read_property_this(&snapshot, this_ptr, SL("_snapshot"), PH_NOISY_CC);
 		if (Z_TYPE_P(snapshot) != IS_ARRAY) { 
-			PHALCON_INIT_NVAR(use_dynamic_update);
-			ZVAL_BOOL(use_dynamic_update, 0);
+			i_dynamic_update = 0;
 		}
 	}
 	
@@ -3419,7 +3419,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _doLowUpdate){
 				/** 
 				 * When dynamic update is not used we pass every field to the update
 				 */
-				if (!zend_is_true(use_dynamic_update)) {
+				if (!i_dynamic_update) {
 					phalcon_array_append(&fields, field, PH_SEPARATE);
 					phalcon_array_append(&values, value, PH_SEPARATE);
 	
@@ -6048,41 +6048,20 @@ PHP_METHOD(Phalcon_Mvc_Model, __callStatic){
 	}
 	
 	PHALCON_INIT_VAR(extra_method);
+	PHALCON_INIT_VAR(type);
 	
-	/** 
-	 * Check if the method starts with 'findFirst'
-	 */
+	/* Check if the method starts with 'findFirst' */
 	if (phalcon_start_with_str(method, SL("findFirstBy"))) {
-		PHALCON_INIT_VAR(type);
 		ZVAL_STRING(type, "findFirst", 1);
-	
 		phalcon_substr(extra_method, method, 11, 0);
 	}
-	
-	/** 
-	 * Check if the method starts with 'find'
-	 */
-	if (Z_TYPE_P(extra_method) == IS_NULL) {
-		if (phalcon_start_with_str(method, SL("findBy"))) {
-			PHALCON_INIT_NVAR(type);
-			ZVAL_STRING(type, "find", 1);
-	
-			PHALCON_INIT_NVAR(extra_method);
-			phalcon_substr(extra_method, method, 6, 0);
-		}
+	else if (phalcon_start_with_str(method, SL("findBy"))) { /* Check if the method starts with 'find' */
+		ZVAL_STRING(type, "find", 1);
+		phalcon_substr(extra_method, method, 6, 0);
 	}
-	
-	/** 
-	 * Check if the method starts with 'count'
-	 */
-	if (Z_TYPE_P(extra_method) == IS_NULL) {
-		if (phalcon_start_with_str(method, SL("countBy"))) {
-			PHALCON_INIT_NVAR(type);
-			ZVAL_STRING(type, "count", 1);
-	
-			PHALCON_INIT_NVAR(extra_method);
-			phalcon_substr(extra_method, method, 7, 0);
-		}
+	else if (phalcon_start_with_str(method, SL("countBy"))) { /* Check if the method starts with 'count' */
+		ZVAL_STRING(type, "count", 1);
+		phalcon_substr(extra_method, method, 7, 0);
 	}
 	
 	/** 
@@ -6579,6 +6558,13 @@ PHP_METHOD(Phalcon_Mvc_Model, toArray){
 
 /**
  * Enables/disables options in the ORM
+ * Available options:
+ * events                — Enables/Disables globally the internal events
+ * virtualForeignKeys    — Enables/Disables virtual foreign keys
+ * columnRenaming        — Enables/Disables column renaming
+ * notNullValidations    — Enables/Disables automatic not null validation
+ * exceptionOnFailedSave — Enables/Disables throws an exception if the saving process fails
+ * phqlLiterals          — Enables/Disables literals in PHQL this improves the security of applications  
  *
  * @param array $options
  */

@@ -39,6 +39,8 @@
 #include "kernel/operators.h"
 #include "kernel/concat.h"
 #include "kernel/file.h"
+#include "kernel/hash.h"
+#include "kernel/string.h"
 
 /**
  * Phalcon\Forms\Element
@@ -579,7 +581,7 @@ PHP_METHOD(Phalcon_Forms_Element, getLabel){
  */
 PHP_METHOD(Phalcon_Forms_Element, label){
 
-	zval *label, *attributes, *name = NULL, *html = NULL;
+	zval *label, *attributes, *name = NULL, *html = NULL, *escaped;
 
 	PHALCON_MM_GROW();
 
@@ -592,7 +594,7 @@ PHP_METHOD(Phalcon_Forms_Element, label){
 	/** 
 	 * Check if there is an 'id' attribute defined
 	 */
-	if (phalcon_array_isset_string(attributes, SS("id"))) {
+	if (attributes && phalcon_array_isset_string(attributes, SS("id"))) {
 		PHALCON_OBS_VAR(name);
 		phalcon_array_fetch_string(&name, attributes, SL("id"), PH_NOISY);
 	} else {
@@ -603,12 +605,14 @@ PHP_METHOD(Phalcon_Forms_Element, label){
 	/** 
 	 * Use the default label or leave the same name as label
 	 */
+	PHALCON_INIT_VAR(escaped);
+	phalcon_htmlspecialchars(escaped, name, NULL, NULL TSRMLS_CC);
 	if (zend_is_true(label)) {
 		PHALCON_INIT_VAR(html);
-		PHALCON_CONCAT_SVSVS(html, "<label for=\"", name, "\">", label, "</label>");
+		PHALCON_CONCAT_SVSVS(html, "<label for=\"", escaped, "\">", label, "</label>");
 	} else {
 		PHALCON_INIT_NVAR(html);
-		PHALCON_CONCAT_SVSVS(html, "<label for=\"", name, "\">", name, "</label>");
+		PHALCON_CONCAT_SVSVS(html, "<label for=\"", escaped, "\">", name, "</label>");
 	}
 	
 	RETURN_CTOR(html);

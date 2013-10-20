@@ -180,7 +180,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Complex, valid){
 		 * The result type=1 so we need to build every row
 		 */
 		if (zend_is_true(type)) {
-	
+			int i_hydrate_mode;
 			/** 
 			 * Get current hydration mode
 			 */
@@ -196,8 +196,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Complex, valid){
 			/** 
 			 * Each row in a complex result is a Phalcon\Mvc\Model\Row instance
 			 */
-	
-			switch (phalcon_get_intval(hydrate_mode)) {
+			i_hydrate_mode = phalcon_get_intval(hydrate_mode);
+			switch (i_hydrate_mode) {
 	
 				case 0:
 					PHALCON_INIT_VAR(active_row);
@@ -280,7 +280,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Complex, valid){
 					 * Generate the column value according to the hydration type
 					 */
 	
-					switch (phalcon_get_intval(hydrate_mode)) {
+					switch (i_hydrate_mode) {
 	
 						case 0:
 							/** 
@@ -322,7 +322,9 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Complex, valid){
 					 * the model name
 					 */
 					PHALCON_OBS_NVAR(attribute);
-					phalcon_array_fetch_string(&attribute, column, SL("balias"), PH_NOISY);
+					if (phalcon_array_isset_string(column, SS("balias"))) {
+						phalcon_array_fetch_string(&attribute, column, SL("balias"), PH_NOISY);
+					}
 				} else {
 					/** 
 					 * Scalar columns are simply assigned to the result object
@@ -335,7 +337,9 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Complex, valid){
 						phalcon_array_fetch(&value, row, sql_alias, PH_NOISY);
 					} else {
 						PHALCON_OBS_NVAR(value);
-						phalcon_array_fetch(&value, row, alias, PH_NOISY);
+						if (phalcon_array_isset(row, alias)) {
+							phalcon_array_fetch(&value, row, alias, PH_NOISY);
+						}
 					}
 	
 					/** 
@@ -349,12 +353,15 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Complex, valid){
 						PHALCON_CPY_WRT(attribute, n_alias);
 					}
 				}
+
+				if (!attribute) {
+					PHALCON_INIT_NVAR(attribute);
+				}
 	
 				/** 
 				 * Assign the instance according to the hydration type
 				 */
-	
-				switch (phalcon_get_intval(hydrate_mode)) {
+				switch (i_hydrate_mode) {
 	
 					case 1:
 						phalcon_array_update_zval(&active_row, attribute, &value, PH_COPY | PH_SEPARATE);

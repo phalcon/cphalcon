@@ -336,6 +336,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, toArray){
 				phalcon_fast_count(row_count, records TSRMLS_CC);
 				phalcon_update_property_this(this_ptr, SL("_count"), row_count TSRMLS_CC);
 			}
+			else {
+				PHALCON_INIT_NVAR(records);
+				array_init(records);
+			}
 		}
 	}
 	

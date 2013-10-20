@@ -511,7 +511,7 @@ int phalcon_array_update_quick_string(zval **arr, char *index, uint index_length
  * @brief Updates value in @a arr at position @a index with @a value
  * @param[in,out] arr Array
  * @param index Index
- * @param index_length Length of the index, should include the trailing zero
+ * @param index_length Length of the index, should NOT include the trailing zero
  * @param value Value
  * @param flags Flags
  * @return Whether the operation succeeded
@@ -1451,4 +1451,36 @@ int phalcon_array_key_exists(zval *arr, zval *key TSRMLS_DC)
 	}
 
 	return 0;
+}
+
+void phalcon_array_keys(zval *return_value, zval *arr) {
+
+	if (likely(Z_TYPE_P(arr) == IS_ARRAY)) {
+		HashPosition pos;
+		zval **entry, *new_val;
+		char *skey;
+		uint skey_len;
+		ulong nkey;
+
+		array_init_size(return_value, zend_hash_num_elements(Z_ARRVAL_P(arr)));
+
+		zend_hash_internal_pointer_reset_ex(Z_ARRVAL_P(arr), &pos);
+		while (zend_hash_get_current_data_ex(Z_ARRVAL_P(arr), (void**)&entry, &pos) == SUCCESS) {
+			MAKE_STD_ZVAL(new_val);
+
+			switch (zend_hash_get_current_key_ex(Z_ARRVAL_P(arr), &skey, &skey_len, &nkey, 1, &pos)) {
+				case HASH_KEY_IS_STRING:
+					ZVAL_STRINGL(new_val, skey, skey_len - 1, 0);
+					zend_hash_next_index_insert(Z_ARRVAL_P(arr), &new_val, sizeof(zval*), NULL);
+					break;
+
+				case HASH_KEY_IS_LONG:
+					ZVAL_LONG(new_val, nkey);
+					zend_hash_next_index_insert(Z_ARRVAL_P(arr), &new_val, sizeof(zval*), NULL);
+					break;
+			}
+
+			zend_hash_move_forward_ex(Z_ARRVAL_P(arr), &pos);
+		}
+	}
 }

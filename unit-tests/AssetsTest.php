@@ -105,6 +105,8 @@ class AssetsTest extends PHPUnit_Framework_TestCase
 			return $url;
 		});
 
+		$di->set('escaper', function() { return new \Phalcon\Escaper(); });
+
 		//With implicit output
 
 		ob_start();

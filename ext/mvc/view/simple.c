@@ -543,7 +543,7 @@ PHP_METHOD(Phalcon_Mvc_View_Simple, render){
  */
 PHP_METHOD(Phalcon_Mvc_View_Simple, partial){
 
-	zval *partial_path, *params = NULL, *view_params, *merged_params = NULL;
+	zval *partial_path, *params = NULL, *view_params = NULL, *merged_params = NULL;
 	zval *content;
 
 	PHALCON_MM_GROW();
@@ -594,7 +594,7 @@ PHP_METHOD(Phalcon_Mvc_View_Simple, partial){
 	/** 
 	 * Now we need to restore the original view parameters
 	 */
-	if (Z_TYPE_P(params) == IS_ARRAY) { 
+	if (view_params != NULL) {
 		/** 
 		 * Restore the original view params
 		 */

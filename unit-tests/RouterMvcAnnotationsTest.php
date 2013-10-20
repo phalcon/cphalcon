@@ -114,49 +114,49 @@ class RouterMvcAnnotationsTest extends PHPUnit_Framework_TestCase
 			array(
 				'uri' => '/products/save',
 				'method' => 'PUT',
-				'controller' => 'products',
+				'controller' => 'Products',
 				'action' => 'save',
 				'params' => array()
 			),
 			array(
 				'uri' => '/products/save',
 				'method' => 'POST',
-				'controller' => 'products',
+				'controller' => 'Products',
 				'action' => 'save',
 				'params' => array()
 			),
 			array(
 				'uri' => '/products/edit/100',
 				'method' => 'GET',
-				'controller' => 'products',
+				'controller' => 'Products',
 				'action' => 'edit',
 				'params' => array('id' => '100')
 			),
 			array(
 				'uri' => '/products',
 				'method' => 'GET',
-				'controller' => 'products',
+				'controller' => 'Products',
 				'action' => 'index',
 				'params' => array()
 			),
 			array(
 				'uri' => '/robots/edit/100',
 				'method' => 'GET',
-				'controller' => 'robots',
+				'controller' => 'Robots',
 				'action' => 'edit',
 				'params' => array('id' => '100')
 			),
 			array(
 				'uri' => '/robots',
 				'method' => 'GET',
-				'controller' => 'robots',
+				'controller' => 'Robots',
 				'action' => 'index',
 				'params' => array()
 			),
 			array(
 				'uri' => '/robots/save',
 				'method' => 'PUT',
-				'controller' => 'robots',
+				'controller' => 'Robots',
 				'action' => 'save',
 				'params' => array()
 			),
@@ -170,6 +170,7 @@ class RouterMvcAnnotationsTest extends PHPUnit_Framework_TestCase
 			$this->assertEquals($router->getControllerName(), $route['controller']);
 			$this->assertEquals($router->getActionName(), $route['action']);
 			$this->assertEquals($router->getParams(), $route['params']);
+			$this->assertEquals($router->isExactControllerName(), true);
 		}
 	}
 

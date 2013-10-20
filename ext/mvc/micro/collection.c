@@ -82,29 +82,28 @@ PHALCON_INIT_CLASS(Phalcon_Mvc_Micro_Collection){
  * @param string $routePattern
  * @param mixed $handler
  */
-PHP_METHOD(Phalcon_Mvc_Micro_Collection, _addMap){
+void phalcon_mvc_collection_addmap(zval *this_ptr, zval *method, zval *route_pattern, zval *handler TSRMLS_DC) {
 
-	zval *method, *route_pattern, *handler, *handler_definition;
+	zval *handler_definition;
 
-	PHALCON_MM_GROW();
+	Z_ADDREF_P(method);
+	Z_ADDREF_P(route_pattern);
+	Z_ADDREF_P(handler);
 
-	phalcon_fetch_params(1, 3, 0, &method, &route_pattern, &handler);
-	
-	PHALCON_INIT_VAR(handler_definition);
+	MAKE_STD_ZVAL(handler_definition);
 	array_init_size(handler_definition, 3);
-	phalcon_array_append(&handler_definition, method, PH_SEPARATE);
-	phalcon_array_append(&handler_definition, route_pattern, PH_SEPARATE);
-	phalcon_array_append(&handler_definition, handler, PH_SEPARATE);
+	add_next_index_zval(handler_definition, method);
+	add_next_index_zval(handler_definition, route_pattern);
+	add_next_index_zval(handler_definition, handler);
 	phalcon_update_property_array_append(this_ptr, SL("_handlers"), handler_definition TSRMLS_CC);
-	
-	PHALCON_MM_RESTORE();
+	zval_ptr_dtor(&handler_definition);
 }
 
 /**
  * Sets a prefix for all routes added to the collection
  *
  * @param string $prefix
- * @return Phalcon\Mvc\Micro\Collection
+ * @return Phalcon\Mvc\Micro\CollectionInterface
  */
 PHP_METHOD(Phalcon_Mvc_Micro_Collection, setPrefix){
 
@@ -143,7 +142,7 @@ PHP_METHOD(Phalcon_Mvc_Micro_Collection, getHandlers){
  *
  * @param mixed $handler
  * @param boolean $lazy
- * @return Phalcon\Mvc\Micro\Collection
+ * @return Phalcon\Mvc\Micro\CollectionInterface
  */
 PHP_METHOD(Phalcon_Mvc_Micro_Collection, setHandler){
 
@@ -155,7 +154,7 @@ PHP_METHOD(Phalcon_Mvc_Micro_Collection, setHandler){
 	
 	if (!lazy) {
 		PHALCON_INIT_VAR(lazy);
-		ZVAL_BOOL(lazy, 0);
+		ZVAL_FALSE(lazy);
 	}
 	
 	phalcon_update_property_this(this_ptr, SL("_handler"), handler TSRMLS_CC);
@@ -167,7 +166,7 @@ PHP_METHOD(Phalcon_Mvc_Micro_Collection, setHandler){
  * Sets if the main handler must be lazy loaded
  *
  * @param boolean $lazy
- * @return Phalcon\Mvc\Micro\Collection
+ * @return Phalcon\Mvc\Micro\CollectionInterface
  */
 PHP_METHOD(Phalcon_Mvc_Micro_Collection, setLazy){
 
@@ -206,19 +205,18 @@ PHP_METHOD(Phalcon_Mvc_Micro_Collection, getHandler){
  *
  * @param string $routePattern
  * @param callable $handler
- * @return Phalcon\Mvc\Router\RouteInterface
+ * @return Phalcon\Mvc\Micro\CollectionInterface
  */
 PHP_METHOD(Phalcon_Mvc_Micro_Collection, map){
 
 	zval *route_pattern, *handler, *method;
 
-	PHALCON_MM_GROW();
-
-	phalcon_fetch_params(1, 2, 0, &route_pattern, &handler);
+	phalcon_fetch_params(0, 2, 0, &route_pattern, &handler);
 	
-	PHALCON_INIT_VAR(method);
-	phalcon_call_method_p3(return_value, this_ptr, "_addmap", method, route_pattern, handler);
-	RETURN_MM();
+	ALLOC_INIT_ZVAL(method);
+	phalcon_mvc_collection_addmap(getThis(), method, route_pattern, handler TSRMLS_CC);
+	zval_ptr_dtor(&method);
+	RETURN_ZVAL(getThis(), 1, 0);
 }
 
 /**
@@ -226,20 +224,19 @@ PHP_METHOD(Phalcon_Mvc_Micro_Collection, map){
  *
  * @param string $routePattern
  * @param callable $handler
- * @return Phalcon\Mvc\Router\RouteInterface
+ * @return Phalcon\Mvc\Micro\CollectionInterface
  */
 PHP_METHOD(Phalcon_Mvc_Micro_Collection, get){
 
 	zval *route_pattern, *handler, *method;
 
-	PHALCON_MM_GROW();
-
-	phalcon_fetch_params(1, 2, 0, &route_pattern, &handler);
+	phalcon_fetch_params(0, 2, 0, &route_pattern, &handler);
 	
-	PHALCON_INIT_VAR(method);
+	ALLOC_INIT_ZVAL(method);
 	ZVAL_STRING(method, "GET", 1);
-	phalcon_call_method_p3(return_value, this_ptr, "_addmap", method, route_pattern, handler);
-	RETURN_MM();
+	phalcon_mvc_collection_addmap(getThis(), method, route_pattern, handler TSRMLS_CC);
+	zval_ptr_dtor(&method);
+	RETURN_ZVAL(getThis(), 1, 0);
 }
 
 /**
@@ -247,20 +244,19 @@ PHP_METHOD(Phalcon_Mvc_Micro_Collection, get){
  *
  * @param string $routePattern
  * @param callable $handler
- * @return Phalcon\Mvc\Router\RouteInterface
+ * @return Phalcon\Mvc\Micro\CollectionInterface
  */
 PHP_METHOD(Phalcon_Mvc_Micro_Collection, post){
 
 	zval *route_pattern, *handler, *method;
 
-	PHALCON_MM_GROW();
-
-	phalcon_fetch_params(1, 2, 0, &route_pattern, &handler);
+	phalcon_fetch_params(0, 2, 0, &route_pattern, &handler);
 	
-	PHALCON_INIT_VAR(method);
+	ALLOC_INIT_ZVAL(method);
 	ZVAL_STRING(method, "POST", 1);
-	phalcon_call_method_p3(return_value, this_ptr, "_addmap", method, route_pattern, handler);
-	RETURN_MM();
+	phalcon_mvc_collection_addmap(getThis(), method, route_pattern, handler TSRMLS_CC);
+	zval_ptr_dtor(&method);
+	RETURN_ZVAL(getThis(), 1, 0);
 }
 
 /**
@@ -268,20 +264,19 @@ PHP_METHOD(Phalcon_Mvc_Micro_Collection, post){
  *
  * @param string $routePattern
  * @param callable $handler
- * @return Phalcon\Mvc\Router\RouteInterface
+ * @return Phalcon\Mvc\Micro\CollectionInterface
  */
 PHP_METHOD(Phalcon_Mvc_Micro_Collection, put){
 
 	zval *route_pattern, *handler, *method;
 
-	PHALCON_MM_GROW();
-
-	phalcon_fetch_params(1, 2, 0, &route_pattern, &handler);
+	phalcon_fetch_params(0, 2, 0, &route_pattern, &handler);
 	
-	PHALCON_INIT_VAR(method);
+	ALLOC_INIT_ZVAL(method);
 	ZVAL_STRING(method, "PUT", 1);
-	phalcon_call_method_p3(return_value, this_ptr, "_addmap", method, route_pattern, handler);
-	RETURN_MM();
+	phalcon_mvc_collection_addmap(getThis(), method, route_pattern, handler TSRMLS_CC);
+	zval_ptr_dtor(&method);
+	RETURN_ZVAL(getThis(), 1, 0);
 }
 
 /**
@@ -289,20 +284,19 @@ PHP_METHOD(Phalcon_Mvc_Micro_Collection, put){
  *
  * @param string $routePattern
  * @param callable $handler
- * @return Phalcon\Mvc\Router\RouteInterface
+ * @return Phalcon\Mvc\Micro\CollectionInterface
  */
 PHP_METHOD(Phalcon_Mvc_Micro_Collection, patch){
 
 	zval *route_pattern, *handler, *method;
 
-	PHALCON_MM_GROW();
-
-	phalcon_fetch_params(1, 2, 0, &route_pattern, &handler);
+	phalcon_fetch_params(0, 2, 0, &route_pattern, &handler);
 	
-	PHALCON_INIT_VAR(method);
+	ALLOC_INIT_ZVAL(method);
 	ZVAL_STRING(method, "PATCH", 1);
-	phalcon_call_method_p3(return_value, this_ptr, "_addmap", method, route_pattern, handler);
-	RETURN_MM();
+	phalcon_mvc_collection_addmap(getThis(), method, route_pattern, handler TSRMLS_CC);
+	zval_ptr_dtor(&method);
+	RETURN_ZVAL(getThis(), 1, 0);
 }
 
 /**
@@ -310,20 +304,19 @@ PHP_METHOD(Phalcon_Mvc_Micro_Collection, patch){
  *
  * @param string $routePattern
  * @param callable $handler
- * @return Phalcon\Mvc\Router\RouteInterface
+ * @return Phalcon\Mvc\Micro\CollectionInterface
  */
 PHP_METHOD(Phalcon_Mvc_Micro_Collection, head){
 
 	zval *route_pattern, *handler, *method;
 
-	PHALCON_MM_GROW();
-
-	phalcon_fetch_params(1, 2, 0, &route_pattern, &handler);
+	phalcon_fetch_params(0, 2, 0, &route_pattern, &handler);
 	
-	PHALCON_INIT_VAR(method);
+	ALLOC_INIT_ZVAL(method);
 	ZVAL_STRING(method, "HEAD", 1);
-	phalcon_call_method_p3(return_value, this_ptr, "_addmap", method, route_pattern, handler);
-	RETURN_MM();
+	phalcon_mvc_collection_addmap(getThis(), method, route_pattern, handler TSRMLS_CC);
+	zval_ptr_dtor(&method);
+	RETURN_ZVAL(getThis(), 1, 0);
 }
 
 /**
@@ -331,20 +324,19 @@ PHP_METHOD(Phalcon_Mvc_Micro_Collection, head){
  *
  * @param string $routePattern
  * @param callable $handler
- * @return Phalcon\Mvc\Router\RouteInterface
+ * @return Phalcon\Mvc\Micro\CollectionInterface
  */
 PHP_METHOD(Phalcon_Mvc_Micro_Collection, delete){
 
 	zval *route_pattern, *handler, *method;
 
-	PHALCON_MM_GROW();
-
-	phalcon_fetch_params(1, 2, 0, &route_pattern, &handler);
+	phalcon_fetch_params(0, 2, 0, &route_pattern, &handler);
 	
-	PHALCON_INIT_VAR(method);
+	ALLOC_INIT_ZVAL(method);
 	ZVAL_STRING(method, "DELETE", 1);
-	phalcon_call_method_p3(return_value, this_ptr, "_addmap", method, route_pattern, handler);
-	RETURN_MM();
+	phalcon_mvc_collection_addmap(getThis(), method, route_pattern, handler TSRMLS_CC);
+	zval_ptr_dtor(&method);
+	RETURN_ZVAL(getThis(), 1, 0);
 }
 
 /**
@@ -352,19 +344,17 @@ PHP_METHOD(Phalcon_Mvc_Micro_Collection, delete){
  *
  * @param string $routePattern
  * @param callable $handler
- * @return Phalcon\Mvc\Router\RouteInterface
+ * @return Phalcon\Mvc\Micro\CollectionInterface
  */
 PHP_METHOD(Phalcon_Mvc_Micro_Collection, options){
 
 	zval *route_pattern, *handler, *method;
 
-	PHALCON_MM_GROW();
-
-	phalcon_fetch_params(1, 2, 0, &route_pattern, &handler);
+	phalcon_fetch_params(0, 2, 0, &route_pattern, &handler);
 	
-	PHALCON_INIT_VAR(method);
+	ALLOC_INIT_ZVAL(method);
 	ZVAL_STRING(method, "OPTIONS", 1);
-	phalcon_call_method_p3(return_value, this_ptr, "_addmap", method, route_pattern, handler);
-	RETURN_MM();
+	phalcon_mvc_collection_addmap(getThis(), method, route_pattern, handler TSRMLS_CC);
+	zval_ptr_dtor(&method);
+	RETURN_ZVAL(getThis(), 1, 0);
 }
-
