@@ -690,6 +690,9 @@ class CacheTest extends PHPUnit_Framework_TestCase
 			return false;
 		}
 
+		xcache_unset('_PHCXtest-output');
+		xcache_unset('_PHCXtest-data');
+
 		$frontCache = new Phalcon\Cache\Frontend\None(array(
 			'lifetime' => 2
 		));
