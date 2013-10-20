@@ -55,6 +55,7 @@ PHALCON_DOC_METHOD(Phalcon_Mvc_DispatcherInterface, setDefaultController);
  * Sets the controller name to be dispatched
  *
  * @param string $controllerName
+ * @param bool $isExact If true, the name should not be mangled in any way
  */
 PHALCON_DOC_METHOD(Phalcon_Mvc_DispatcherInterface, setControllerName);
 
