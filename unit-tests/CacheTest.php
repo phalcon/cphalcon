@@ -690,15 +690,15 @@ class CacheTest extends PHPUnit_Framework_TestCase
 			return false;
 		}
 
-		xcache_unset('_PHCXtest-output');
-		xcache_unset('_PHCXtest-data');
-
 		$frontCache = new Phalcon\Cache\Frontend\None(array(
 			'lifetime' => 2
 		));
 
 		$cache = new Phalcon\Cache\Backend\Xcache($frontCache);
 
+
+		$cache->delete('test-output');
+		$cache->delete('test-data');
 
 		$cache->save('test-one', 'one');
 		$cache->save('test-two', 'two');
