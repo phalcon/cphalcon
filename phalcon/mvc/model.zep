@@ -567,7 +567,7 @@ abstract class Model //implements Phalcon\Mvc\ModelInterface, Phalcon\Mvc\Model\
 		 * Call afterFetch, this allows the developer to execute actions after a record is fetched from the database
 		 */
 		if method_exists(object, "afterFetch") {
-			object->afterFetch();
+			object->{"afterFetch"}();
 		}
 
 		return object;
@@ -681,7 +681,7 @@ abstract class Model //implements Phalcon\Mvc\ModelInterface, Phalcon\Mvc\Model\
 		 * Call afterFetch, this allows the developer to execute actions after a record is fetched from the database
 		 */
 		if method_exists(object, "afterFetch") {
-			object->afterFetch();
+			object->{"afterFetch"}();
 		}
 
 		return object;

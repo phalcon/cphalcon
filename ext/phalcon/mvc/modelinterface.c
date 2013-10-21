@@ -123,6 +123,21 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_ModelInterface, getReadConnection);
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_ModelInterface, getWriteConnection);
 
 /**
+ * Sets the dirty state of the object using one of the DIRTY_STATE_* constants
+ *
+ * @param int dirtyState
+ * @return Phalcon\Mvc\ModelInterface
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Mvc_ModelInterface, setDirtyState);
+
+/**
+ * Returns one of the DIRTY_STATE_* constants telling if the record exists in the database or not
+ *
+ * @return int
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Mvc_ModelInterface, getDirtyState);
+
+/**
  * Assigns values to a model from an array
  *
  * @param Phalcon\Mvc\Model object
@@ -338,4 +353,13 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_ModelInterface, writeAttribute);
  * @return Phalcon\Mvc\Model\ResultsetInterface
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_ModelInterface, getRelated);
+
+/**
+ * Sets the record's snapshot data.
+ * This method is used internally to set snapshot data when the model was set up to keep snapshot data
+ *
+ * @param array data
+ * @param array columnMap
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Mvc_ModelInterface, setSnapshotData);
 

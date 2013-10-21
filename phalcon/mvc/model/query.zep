@@ -2588,7 +2588,7 @@ class Query //implements Phalcon\Mvc\Model\QueryInterface, Phalcon\Di\InjectionA
 	/**
 	 * Query the records on which the UPDATE/DELETE operation well be done
 	 *
-	 * @param Phalcon\Mvc\Model model
+	 * @param Phalcon\Mvc\ModelInterface model
 	 * @param array intermediate
 	 * @param array bindParams
 	 * @param array bindTypes

@@ -41,7 +41,7 @@ interface ModelInterface
 	 * @param Phalcon\Mvc\Model\TransactionInterface transaction
 	 * @return Phalcon\Mvc\ModelInterface
 	 */
-	public function setTransaction(transaction);
+	public function setTransaction(<Phalcon\Mvc\Model\TransactionInterface> transaction) -> <Phalcon\Mvc\ModelInterface>;
 
 	/**
 	 * Returns table name mapped in the model
@@ -62,49 +62,64 @@ interface ModelInterface
 	 *
 	 * @param string connectionService
 	 */
-	public function setConnectionService(connectionService);
+	public function setConnectionService(string connectionService) -> void;
 
 	/**
 	 * Sets the DependencyInjection connection service used to write data
 	 *
 	 * @param string connectionService
 	 */
-	public function setWriteConnectionService(connectionService);
+	public function setWriteConnectionService(string connectionService) -> void;
 
 	/**
 	 * Sets the DependencyInjection connection service used to read data
 	 *
 	 * @param string connectionService
 	 */
-	public function setReadConnectionService(connectionService);
+	public function setReadConnectionService(string connectionService) -> void;
 
 	/**
 	 * Returns DependencyInjection connection service used to read data
 	 *
 	 * @return string
 	 */
-	public function getReadConnectionService();
+	public function getReadConnectionService() -> string;
 
 	/**
 	 * Returns DependencyInjection connection service used to write data
 	 *
 	 * @return string
 	 */
-	public function getWriteConnectionService();
+	public function getWriteConnectionService() -> string;
 
 	/**
 	 * Gets internal database connection
 	 *
 	 * @return Phalcon\Db\AdapterInterface
 	 */
-	public function getReadConnection();
+	public function getReadConnection() -> <Phalcon\Db\AdapterInterface>;
 
 	/**
 	 * Gets internal database connection
 	 *
 	 * @return Phalcon\Db\AdapterInterface
 	 */
-	public function getWriteConnection();
+	public function getWriteConnection() -> <Phalcon\Db\AdapterInterface>;
+
+	/**
+	 * Sets the dirty state of the object using one of the DIRTY_STATE_* constants
+	 *
+	 * @param int dirtyState
+	 * @return Phalcon\Mvc\ModelInterface
+	 */
+	public function setDirtyState(int dirtyState) -> <Phalcon\Mvc\ModelInterface>;
+
+	/**
+	 * Returns one of the DIRTY_STATE_* constants telling if the record exists in the database or not
+	 *
+	 * @return int
+	 */
+	public function getDirtyState() -> int;
 
 	/**
 	 * Assigns values to a model from an array
@@ -322,5 +337,14 @@ interface ModelInterface
 	 * @return Phalcon\Mvc\Model\ResultsetInterface
 	 */
 	public function getRelated(alias, arguments=null);
+
+	/**
+	 * Sets the record's snapshot data.
+	 * This method is used internally to set snapshot data when the model was set up to keep snapshot data
+	 *
+	 * @param array data
+	 * @param array columnMap
+	 */
+	public function setSnapshotData(data, columnMap=null);
 
 }
