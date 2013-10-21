@@ -274,14 +274,12 @@ PHP_METHOD(Phalcon_Cache_Backend_Xcache, save){
 			PHALCON_INIT_NVAR(keys);
 			array_init(keys);
 		}
-	
-		if (!zend_is_true(keys)) {
-			phalcon_array_update_zval(&keys, last_key, &ttl, PH_COPY | PH_SEPARATE);
-	
-			PHALCON_INIT_VAR(zero);
-			ZVAL_LONG(zero, 0);
-			phalcon_call_func_p3_noret("xcache_set", special_key, keys, zero);
-		}
+
+		phalcon_array_update_zval(&keys, last_key, &ttl, PH_COPY | PH_SEPARATE);
+
+		PHALCON_INIT_VAR(zero);
+		ZVAL_LONG(zero, 0);
+		phalcon_call_func_p3_noret("xcache_set", special_key, keys, zero);
 	}
 	
 	PHALCON_MM_RESTORE();
@@ -322,7 +320,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Xcache, delete){
 	if (Z_TYPE_P(keys) == IS_ARRAY) { 
 		PHALCON_INIT_VAR(zero);
 		ZVAL_LONG(zero, 0);
-		phalcon_array_unset(&keys, special_key, PH_SEPARATE);
+		phalcon_array_unset(&keys, prefixed_key, PH_SEPARATE);
 		phalcon_call_func_p3_noret("xcache_set", special_key, keys, zero);
 	}
 	
