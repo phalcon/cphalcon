@@ -38,6 +38,7 @@
 #include "kernel/concat.h"
 #include "kernel/exception.h"
 #include "kernel/operators.h"
+#include "kernel/hash.h"
 
 /**
  * Phalcon\Acl\Adapter\Memory
