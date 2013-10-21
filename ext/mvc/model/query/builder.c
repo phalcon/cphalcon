@@ -588,8 +588,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, rightJoin){
 PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, where){
 
 	zval *conditions, *bind_params = NULL, *bind_types = NULL;
-	zval *current_bind_params, *merged_params = NULL;
-	zval *current_bind_types, *merged_types = NULL;
 
 	PHALCON_MM_GROW();
 
@@ -606,38 +604,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, where){
 	phalcon_update_property_this(this_ptr, SL("_conditions"), conditions TSRMLS_CC);
 	
 	/** 
-	 * Merge the bind params to the current ones
+	 * Override the bind params and bind types to the current ones
 	 */
-	if (Z_TYPE_P(bind_params) == IS_ARRAY) { 
-	
-		PHALCON_OBS_VAR(current_bind_params);
-		phalcon_read_property_this(&current_bind_params, this_ptr, SL("_bindParams"), PH_NOISY_CC);
-		if (Z_TYPE_P(current_bind_params) == IS_ARRAY) { 
-			PHALCON_INIT_VAR(merged_params);
-			phalcon_add_function(merged_params, bind_params, current_bind_params TSRMLS_CC);
-		} else {
-			PHALCON_CPY_WRT(merged_params, bind_params);
-		}
-	
-		phalcon_update_property_this(this_ptr, SL("_bindParams"), merged_params TSRMLS_CC);
-	}
-	
-	/** 
-	 * Merge the bind types to the current ones
-	 */
-	if (Z_TYPE_P(bind_types) == IS_ARRAY) { 
-	
-		PHALCON_OBS_VAR(current_bind_types);
-		phalcon_read_property_this(&current_bind_types, this_ptr, SL("_bindTypes"), PH_NOISY_CC);
-		if (Z_TYPE_P(current_bind_types) == IS_ARRAY) { 
-			PHALCON_INIT_VAR(merged_types);
-			phalcon_add_function(merged_params, bind_types, current_bind_types TSRMLS_CC);
-		} else {
-			PHALCON_CPY_WRT(merged_types, bind_types);
-		}
-	
-		phalcon_update_property_this(this_ptr, SL("_bindTypes"), merged_types TSRMLS_CC);
-	}
+	phalcon_update_property_this(this_ptr, SL("_bindParams"), bind_params TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_bindTypes"), bind_types TSRMLS_CC);
 	
 	RETURN_THIS();
 }
