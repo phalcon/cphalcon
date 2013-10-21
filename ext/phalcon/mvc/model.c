@@ -961,6 +961,7 @@ PHP_METHOD(Phalcon_Mvc_Model, find) {
 	}
 	ZEPHIR_INIT_VAR(builder);
 	object_init_ex(builder, phalcon_mvc_model_query_builder_ce);
+	zephir_call_method_p1_noret(builder, "__construct", params);
 	ZEPHIR_INIT_VAR(_0);
 	zephir_call_func(_0, "get_called_class");
 	zephir_call_method_p1_noret(builder, "from", _0);
@@ -1033,6 +1034,7 @@ PHP_METHOD(Phalcon_Mvc_Model, findFirst) {
 	}
 	ZEPHIR_INIT_VAR(builder);
 	object_init_ex(builder, phalcon_mvc_model_query_builder_ce);
+	zephir_call_method_p1_noret(builder, "__construct", params);
 	ZEPHIR_INIT_VAR(_0);
 	zephir_call_func(_0, "get_called_class");
 	zephir_call_method_p1_noret(builder, "from", _0);
@@ -1311,6 +1313,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _groupResult) {
 	}
 	ZEPHIR_INIT_VAR(builder);
 	object_init_ex(builder, phalcon_mvc_model_query_builder_ce);
+	zephir_call_method_p1_noret(builder, "__construct", params);
 	zephir_call_method_p1_noret(builder, "columns", columns);
 	ZEPHIR_INIT_VAR(_0);
 	zephir_call_func(_0, "get_called_class");

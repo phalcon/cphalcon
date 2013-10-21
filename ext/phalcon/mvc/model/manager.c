@@ -2425,6 +2425,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, createBuilder) {
 		return;
 	}
 	object_init_ex(return_value, phalcon_mvc_model_query_builder_ce);
+	zephir_call_method_p2_noret(return_value, "__construct", params, dependencyInjector);
 	RETURN_MM();
 
 }
