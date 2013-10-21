@@ -709,7 +709,7 @@ PHP_METHOD(Phalcon_Mvc_Model, cloneResultMap) {
 	HashPosition _1;
 	zend_bool keepSnapshots;
 	int dirtyState;
-	zval *base, *data, *columnMap, *dirtyState_param = NULL, *keepSnapshots_param = NULL, *object = NULL, *attribute, *key = NULL, *value = NULL, *_0 = NULL, **_3, *_4 = NULL;
+	zval *base, *data, *columnMap, *dirtyState_param = NULL, *keepSnapshots_param = NULL, *object, *attribute, *key = NULL, *value = NULL, *_0 = NULL, **_3, *_4 = NULL;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 3, 2, &base, &data, &columnMap, &dirtyState_param, &keepSnapshots_param);
@@ -729,9 +729,11 @@ PHP_METHOD(Phalcon_Mvc_Model, cloneResultMap) {
 		ZEPHIR_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Data to dump in the object must be an Array");
 		return;
 	}
+	ZEPHIR_INIT_VAR(object);
+	if (zephir_clone(object, base TSRMLS_CC) == FAILURE) {
+		RETURN_MM();
+	}
 	ZEPHIR_INIT_VAR(_0);
-	ZEPHIR_CPY_WRT(object, _0);
-	ZEPHIR_INIT_BNVAR(_0);
 	ZVAL_LONG(_0, dirtyState);
 	zephir_call_method_p1_noret(object, "setdirtystate", _0);
 	zephir_is_iterable(data, &_2, &_1, 0, 0);
@@ -865,7 +867,7 @@ PHP_METHOD(Phalcon_Mvc_Model, cloneResult) {
 	HashTable *_2;
 	HashPosition _1;
 	int dirtyState;
-	zval *base, *data, *dirtyState_param = NULL, *object = NULL, *key = NULL, *value = NULL, *_0, **_3;
+	zval *base, *data, *dirtyState_param = NULL, *object, *key = NULL, *value = NULL, *_0, **_3;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 1, &base, &data, &dirtyState_param);
@@ -880,9 +882,11 @@ PHP_METHOD(Phalcon_Mvc_Model, cloneResult) {
 		ZEPHIR_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Data to dump in the object must be an Array");
 		return;
 	}
+	ZEPHIR_INIT_VAR(object);
+	if (zephir_clone(object, base TSRMLS_CC) == FAILURE) {
+		RETURN_MM();
+	}
 	ZEPHIR_INIT_VAR(_0);
-	ZEPHIR_CPY_WRT(object, _0);
-	ZEPHIR_INIT_BNVAR(_0);
 	ZVAL_LONG(_0, dirtyState);
 	zephir_call_method_p1_noret(object, "setdirtystate", _0);
 	zephir_is_iterable(data, &_2, &_1, 0, 0);

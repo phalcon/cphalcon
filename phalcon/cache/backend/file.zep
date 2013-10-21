@@ -217,7 +217,7 @@ class File extends Phalcon\Cache\Backend implements Phalcon\Cache\BackendInterfa
 	 */
 	public function delete(var keyName) -> boolean
 	{
-		var options, prefix, prefixedKey, cacheFile, cacheDir;
+		var prefix, prefixedKey, cacheFile, cacheDir;
 
 		let prefix = this->_prefix;
 		let prefixedKey = prefix . keyName;
@@ -274,7 +274,7 @@ class File extends Phalcon\Cache\Backend implements Phalcon\Cache\BackendInterfa
 	 */
 	public function exists(var keyName=null, int lifetime=null) -> boolean
 	{
-		var lastKey, prefix, options, cacheDir, cacheFile, tmp;
+		var lastKey, prefix, cacheDir, cacheFile;
 		int ttl;
 
 		if !keyName {
@@ -319,7 +319,7 @@ class File extends Phalcon\Cache\Backend implements Phalcon\Cache\BackendInterfa
 	public function increment(var keyName=null, int value=null)
 	{
 		var prefixedKey, cacheFile, frontend, timestamp, lifetime, ttl,
-			cachedContent, status, result;
+			cachedContent, result;
 
 		let prefixedKey = this->_prefix . keyName,
 			this->_lastKey = prefixedKey,
@@ -380,7 +380,7 @@ class File extends Phalcon\Cache\Backend implements Phalcon\Cache\BackendInterfa
 	 */
 	public function decrement(var keyName=null, int value=null)
 	{
-		var options, prefixedKey, cacheFile, timestamp, lifetime, ttl,
+		var prefixedKey, cacheFile, timestamp, lifetime, ttl,
 			cachedContent, status, result;
 
 		let prefixedKey = this->_prefix . keyName,

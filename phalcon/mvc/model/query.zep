@@ -1932,6 +1932,119 @@ class Query //implements Phalcon\Mvc\Model\QueryInterface, Phalcon\Di\InjectionA
 	}
 
 	/**
+	 * Analyzes a DELETE intermediate code and produces an array to be executed later
+	 *
+	 * @return array
+	 */
+	protected function _prepareDelete()
+	{
+		var ast, delete, tables, models, modelsInstances,
+			sqlTables, sqlModels, sqlAliases, sqlAliasesModelsInstances,
+			deleteTables, manager, table, qualifiedName, modelName, nsAlias,
+			realModelName, model, source, schema, completeSource, alias,
+			sqlDelete, where, limit;
+
+		let ast = this->_ast;
+
+		if !fetch delete, ast["delete"] {
+			throw new Phalcon\Mvc\Model\Exception("Corrupted DELETE AST");
+		}
+
+		if !fetch tables, delete["tables"] {
+			throw new Phalcon\Mvc\Model\Exception("Corrupted DELETE AST");
+		}
+
+		/**
+		 * We use these arrays to store info related to models, alias and its sources. With them we can rename columns later
+		 */
+		let models = [], modelsInstances = [];
+
+		let sqlTables = [],
+			sqlModels = [],
+			sqlAliases = [],
+			sqlAliasesModelsInstances = [];
+
+		if !isset tables[0] {
+			let deleteTables = [tables];
+		} else {
+			let deleteTables = tables;
+		}
+
+		let manager = this->_manager;
+		for table in deleteTables {
+
+			let qualifiedName = table["qualifiedName"],
+				modelName = qualifiedName["name"];
+
+			/**
+			 * Check if the table have a namespace alias
+			 */
+			if fetch nsAlias, qualifiedName["ns-alias"] {
+
+				/**
+				 * Get the real namespace alias
+				 * Create the real namespaced name
+				 */
+				let realModelName = manager->getNamespaceAlias(nsAlias) . "\\" . modelName;
+
+			} else {
+				let realModelName = modelName;
+			}
+
+			/**
+			 * Load a model instance from the models manager
+			 */
+			let model = manager->load(realModelName),
+				source = model->getSource(),
+				schema = model->getSchema();
+
+			if schema {
+				let completeSource = [source, schema];
+			} else {
+				let completeSource = [source, null];
+			}
+
+			if fetch alias, table["alias"] {
+				let sqlAliases[alias] = alias,
+					completeSource[] = alias,
+					sqlTables[] = completeSource,
+					sqlAliasesModelsInstances[alias] = model,
+					models[alias] = modelName;
+			} else {
+				let sqlAliases[modelName] = source,
+					sqlAliasesModelsInstances[modelName] = model,
+					sqlTables[] = source,
+					models[modelName] = source;
+			}
+
+			let sqlModels[] = modelName,
+				modelsInstances[modelName] = model;
+		}
+
+		/**
+		 * Update the models/alias/sources in the object
+		 */
+		let this->_models = models,
+			this->_modelsInstances = modelsInstances,
+			this->_sqlAliases = sqlAliases,
+			this->_sqlAliasesModelsInstances = sqlAliasesModelsInstances;
+
+		let sqlDelete = [],
+			sqlDelete["tables"] = sqlTables,
+			sqlDelete["models"] = sqlModels;
+
+		if fetch where, ast["where"] {
+			let sqlDelete["where"] = this->_getExpression(where, true);
+		}
+
+		if fetch limit, ast["limit"] {
+			let sqlDelete["limit"] = limit;
+		}
+
+		return sqlDelete;
+	}
+
+	/**
 	 * Parses the intermediate code produced by Phalcon\Mvc\Model\Query\Lang generating another
 	 * intermediate representation that could be executed by Phalcon\Mvc\Model\Query
 	 *
@@ -1950,7 +2063,7 @@ class Query //implements Phalcon\Mvc\Model\QueryInterface, Phalcon\Di\InjectionA
 		 * This function parses the PHQL statement
 		 */
 		let phql = this->_phql,
-			ast = phql_parse_phql();
+			ast = phql_parse_phql(phql);
 
 		let irPhql = null,
 			irPhqlCache = null,
@@ -1991,7 +2104,7 @@ class Query //implements Phalcon\Mvc\Model\QueryInterface, Phalcon\Di\InjectionA
 						let irPhql = this->_prepareUpdate();
 						break;
 					case PHQL_T_DELETE:
-						//let irPhql = this->_prepareDelete();
+						let irPhql = this->_prepareDelete();
 						break;
 					default:
 						throw new Phalcon\Mvc\Model\Exception("Unknown statement " . type . ", when preparing: " . phql);
@@ -2186,7 +2299,7 @@ class Query //implements Phalcon\Mvc\Model\QueryInterface, Phalcon\Di\InjectionA
 
 					/**
 					 * Add every attribute in the model to the generated select
-				 	 */
+					 */
 					for attribute in attributes {
 						let selectColumns[] = [attribute, sqlColumn, "_" . sqlColumn . "_" . attribute];
 					}
@@ -2218,7 +2331,7 @@ class Query //implements Phalcon\Mvc\Model\QueryInterface, Phalcon\Di\InjectionA
 			} else {
 
 				/**
- 				 * Create an alias if the column doesn"t have one
+				 * Create an alias if the column doesn"t have one
 				 */
 				if typeof aliasCopy == "int" {
 					let columnAlias = [sqlColumn, null];
@@ -2335,13 +2448,141 @@ class Query //implements Phalcon\Mvc\Model\QueryInterface, Phalcon\Di\InjectionA
 			/**
 			 * Simple resultsets contains only complete objects
 			 */
-			return new Phalcon\Mvc\Model\Resultset_Simple(simpleColumnMap, resultObject, resultData, cache, isKeepingSnapshots);
+			return new Phalcon\Mvc\Model\Resultset\Simple(simpleColumnMap, resultObject, resultData, cache, isKeepingSnapshots);
 		}
 
 		/**
 		 * Complex resultsets may contain complete objects and scalars
 		 */
 		return new Phalcon\Mvc\Model\Resultset\Complex(columns, resultData, cache);
+	}
+
+	/**
+	 * Executes the INSERT intermediate representation producing a Phalcon\Mvc\Model\Query\Status
+	 *
+	 * @param array intermediate
+	 * @param array bindParams
+	 * @param array bindTypes
+	 * @return Phalcon\Mvc\Model\Query\StatusInterface
+	 */
+	protected function _executeInsert(intermediate, bindParams, bindTypes) -> <Phalcon\Mvc\Model\Query\StatusInterface>
+	{
+		var modelName, manager, connection, metaData, attributes,
+			fields, columnMap, dialect, insertValues, number, value, model,
+			values, exprValue, insertValue, wildcard, fieldName, attributeName,
+			insertModel;
+		boolean notExists, automaticFields;
+
+		let modelName = intermediate["model"];
+
+		let manager = this->_manager;
+		if !fetch model, this->_modelsInstances[modelName] {
+			let model = manager->load(modelName);
+		}
+
+		/**
+		 * Get the model connection
+		 */
+		let connection = model->getWriteConnection(),
+			metaData = this->_metaData,
+			attributes = metaData->getAttributes(model);
+
+		let automaticFields = false;
+
+		/**
+		 * The "fields" index may already have the fields to be used in the query
+		 */
+		if !fetch fields, intermediate["fields"] {
+			let automaticFields = true,
+				fields = attributes;
+			if globals_get("orm.column_renaming") {
+				let columnMap = metaData->getColumnMap(model);
+			} else {
+				let columnMap = null;
+			}
+		}
+
+		let values = intermediate["values"];
+
+		/**
+		 * The number of calculated values must be equal to the number of fields in the model
+		 */
+		if count(fields) != count(values) {
+			throw new Phalcon\Mvc\Model\Exception("The column count does not match the values count");
+		}
+
+		/**
+		 * Get the dialect to resolve the SQL expressions
+		 */
+		let dialect = connection->getDialect();
+
+		let notExists = false,
+			insertValues = [];
+		for number, value in values {
+
+			let exprValue = value["value"];
+			switch value["type"] {
+
+				case PHQL_T_STRING:
+				case PHQL_T_INTEGER:
+				case PHQL_T_DOUBLE:
+					let insertValue = dialect->getSqlExpression(exprValue);
+					break;
+
+				case PHQL_T_NULL:
+					let insertValue = null;
+					break;
+
+				case PHQL_T_NPLACEHOLDER:
+				case PHQL_T_SPLACEHOLDER:
+
+					if typeof bindParams != "array" {
+						throw new Phalcon\Mvc\Model\Exception("Bound parameter cannot be replaced because placeholders is not an array");
+					}
+
+					let wildcard = str_replace(":", "", dialect->getSqlExpression(exprValue));
+					if !fetch insertValue, bindParams[wildcard] {
+						throw new Phalcon\Mvc\Model\Exception("Bound parameter '" . wildcard . "' cannot be replaced because it isn't in the placeholders list");
+					}
+
+					break;
+
+				default:
+					let insertValue = new Phalcon\Db\RawValue(dialect->getSqlExpression(exprValue));
+					break;
+			}
+
+			let fieldName = fields[number];
+
+			/**
+			 * If the user didn't defined a column list we assume all the model's attributes as columns
+			 */
+			if automaticFields === true {
+				if typeof columnMap == "array" {
+					if !fetch attributeName, columnMap[fieldName] {
+						throw new Phalcon\Mvc\Model\Exception("Column '" . fieldName . "' isn't part of the column map");
+					}
+				} else {
+					let attributeName = fieldName;
+				}
+			} else {
+				let attributeName = fieldName;
+			}
+
+			let insertValues[attributeName] = insertValue;
+		}
+
+		/**
+		 * Get a base model from the Models Manager
+		 * Clone the base model
+		 */
+		let insertModel = clone manager->load(modelName);
+
+		/**
+		 * Call 'create' to ensure that an insert is performed
+		 * Return the insertation status
+		 */
+		return new Phalcon\Mvc\Model\Query\Status(insertModel->create(insertValues), insertModel);
 	}
 
 	/**
@@ -2390,7 +2631,7 @@ class Query //implements Phalcon\Mvc\Model\QueryInterface, Phalcon\Di\InjectionA
 		 */
 		let query = new self();
 		query->setDI(this->_dependencyInjector);
-		query->setType(309);
+		query->setType(PHQL_T_SELECT);
 		query->setIntermediate(selectIr);
 
 		return query->execute(bindParams, bindTypes);
