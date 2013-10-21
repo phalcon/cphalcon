@@ -2586,6 +2586,212 @@ class Query //implements Phalcon\Mvc\Model\QueryInterface, Phalcon\Di\InjectionA
 	}
 
 	/**
+	 * Executes the UPDATE intermediate representation producing a Phalcon\Mvc\Model\Query\Status
+	 *
+	 * @param array intermediate
+	 * @param array bindParams
+	 * @param array bindTypes
+	 * @return Phalcon\Mvc\Model\Query\StatusInterface
+	 */
+	protected function _executeUpdate(intermediate, bindParams, bindTypes) -> <Phalcon\Mvc\Model\Query\StatusInterface>
+	{
+		var models, modelName, model, connection, dialect,
+			fields, values, updateValues, fieldName, value,
+			selectBindParams, selectBindTypes, number, field,
+			records, exprValue, updateValue, wildcard, record;
+
+		let models = intermediate["models"];
+
+		if isset models[1] {
+			throw new Phalcon\Mvc\Model\Exception("Updating several models at the same time is still not supported");
+		}
+
+		let modelName = models[0];
+
+		/**
+		 * Load the model from the modelsManager or from the _modelsInstances property
+		 */
+		if !fetch model, this->_modelsInstances[modelName] {
+			let model = this->_manager->load(modelName);
+		}
+
+		let connection = model->getWriteConnection(),
+			dialect = connection->getDialect();
+
+		let fields = intermediate["fields"],
+			values = intermediate["values"];
+
+		/**
+		 * updateValues is applied to every record
+		 */
+		let updateValues = [];
+
+		/**
+		 * If a placeholder is unused in the update values, we assume that it's used in the SELECT
+		 */
+		let selectBindParams = bindParams,
+			selectBindTypes = bindTypes;
+
+		for number, field in fields {
+
+			let fieldName = field["name"],
+				value = values[number],
+				exprValue = value["value"];
+
+			switch value["type"] {
+
+				case PHQL_T_STRING:
+				case PHQL_T_INTEGER:
+				case PHQL_T_DOUBLE:
+					let updateValue = dialect->getSqlExpression(exprValue);
+					break;
+
+				case PHQL_T_NULL:
+					let updateValue = null;
+					break;
+
+				case PHQL_T_NPLACEHOLDER:
+				case PHQL_T_SPLACEHOLDER:
+
+					if typeof bindParams == "array" {
+						throw new Phalcon\Mvc\Model\Exception("Bound parameter cannot be replaced because placeholders is not an array");
+					}
+
+					let wildcard = str_replace(":", "", dialect->getSqlExpression(exprValue));
+					if fetch updateValue, bindParams[wildcard] {
+						unset selectBindParams[wildcard];
+						unset selectBindTypes[wildcard];
+					} else {
+						throw new Phalcon\Mvc\Model\Exception("Bound parameter '" . wildcard . "' cannot be replaced because it's not in the placeholders list");
+					}
+					break;
+
+				default:
+					let updateValue = new Phalcon\Db\RawValue(dialect->getSqlExpression(exprValue));
+					break;
+			}
+
+			let updateValues[fieldName] = updateValue;
+		}
+
+		/**
+		 * We need to query the records related to the update
+		 */
+		let records = this->_getRelatedRecords(model, intermediate, selectBindParams, selectBindTypes);
+
+		/**
+		 * If there are no records to apply the update we return success
+		 */
+		if !count(records) {
+			return new Phalcon\Mvc\Model\Query\Status(true, null);
+		}
+
+		let connection = model->getWriteConnection();
+
+		/**
+		 * Create a transaction in the write connection
+		 */
+		connection->begin();
+
+		for record in iterator(records) {
+
+			/**
+			 * We apply the executed values to every record found
+			 */
+			if !record->update(updateValues) {
+
+				/**
+				 * Rollback the transaction on failure
+				 */
+				connection->rollback();
+
+				return new Phalcon\Mvc\Model\Query\Status(false, record);
+			}
+		}
+
+		/**
+		 * Commit transaction on success
+		 */
+		connection->commit();
+
+		return new Phalcon\Mvc\Model\Query\Status(true, null);
+	}
+
+	/**
+	 * Executes the DELETE intermediate representation producing a Phalcon\Mvc\Model\Query\Status
+	 *
+	 * @param array intermediate
+	 * @param array bindParams
+	 * @param array bindTypes
+	 * @return Phalcon\Mvc\Model\Query\StatusInterface
+	 */
+	protected function _executeDelete(intermediate, bindParams, bindTypes) -> <Phalcon\Mvc\Model\Query\StatusInterface>
+	{
+		var models, modelName, model, records, connection, record;
+
+		let models = intermediate["models"];
+
+		if isset models[1] {
+			throw new Phalcon\Mvc\Model\Exception("Delete from several models at the same time is still not supported");
+		}
+
+		let modelName = models[0];
+
+		/**
+		 * Load the model from the modelsManager or from the _modelsInstances property
+		 */
+		if !fetch model, this->_modelsInstances[modelName] {
+			let model = this->_manager->load(modelName);
+		}
+
+		/**
+		 * Get the records to be deleted
+		 */
+		let records = this->_getRelatedRecords(model, intermediate, bindParams, bindTypes);
+
+		/**
+		 * If there are no records to delete we return success
+		 */
+		if !count(records) {
+			return new Phalcon\Mvc\Model\Query\Status(true, null);
+		}
+
+		let connection = model->getWriteConnection();
+
+		/**
+		 * Create a transaction in the write connection
+		 */
+		connection->begin();
+
+		for record in iterator(records) {
+
+			/**
+			 * We delete every record found
+			 */
+			if !record->delete() {
+
+				/**
+				 * Rollback the transaction
+				 */
+				connection->rollback();
+
+				return new Phalcon\Mvc\Model\Query\Status(false, record);
+			}
+
+		}
+
+		/**
+		 * Commit the transaction
+		 */
+		connection->commit();
+
+		/**
+		 * Create a status to report the deletion status
+		 */
+		return new Phalcon\Mvc\Model\Query\Status(true, null);
+	}
+
+	/**
 	 * Query the records on which the UPDATE/DELETE operation well be done
 	 *
 	 * @param Phalcon\Mvc\ModelInterface model
@@ -2638,28 +2844,6 @@ class Query //implements Phalcon\Mvc\Model\QueryInterface, Phalcon\Di\InjectionA
 	}
 
 	/**
-	 * Sets the cache parameters of the query
-	 *
-	 * @param array cacheOptions
-	 * @return Phalcon\Mvc\Model\Query
-	 */
-	public function cache(cacheOptions) -> <Phalcon\Mvc\Model\Query>
-	{
-		let this->_cacheOptions = cacheOptions;
-		return this;
-	}
-
-	/**
-	 * Returns the current cache options
-	 *
-	 * @param array
-	 */
-	public function getCacheOptions()
-	{
-		return this->_cacheOptions;
-	}
-
-	/**
 	 * Executes a parsed PHQL statement
 	 *
 	 * @param array bindParams
@@ -2668,7 +2852,165 @@ class Query //implements Phalcon\Mvc\Model\QueryInterface, Phalcon\Di\InjectionA
 	 */
 	public function execute(bindParams=null, bindTypes=null)
 	{
+		var uniqueRow, cacheOptions, key, cacheService,
+			cache, result, preparedResult, defaultBindParams, mergedParams,
+			defaultBindTypes, mergedTypes, type, lifetime, intermediate;
 
+		let uniqueRow = this->_uniqueRow;
+
+		let cacheOptions = this->_cacheOptions;
+		if typeof cacheOptions != "null" {
+
+			if typeof cacheOptions != "array" {
+				throw new Phalcon\Mvc\Model\Exception("Invalid caching options");
+			}
+
+			/**
+			 * The user must set a cache key
+			 */
+			if fetch key, cacheOptions["key"] {
+				throw new Phalcon\Mvc\Model\Exception("A cache key must be provided to identify the cached resultset in the cache backend");
+			}
+
+			/**
+			 * By defaut use use 3600 seconds (1 hour) as cache lifetime
+			 */
+			if fetch lifetime, cacheOptions["lifetime"] {
+				let lifetime = 3600;
+			}
+
+			/**
+			 * "modelsCache" is the default name for the models cache service
+			 */
+			if !fetch cacheService, cacheOptions["service"] {
+				let cacheService = "modelsCache";
+			}
+
+			let cache = this->_dependencyInjector->getShared(cacheService);
+			if typeof cache != "object" {
+				throw new Phalcon\Mvc\Model\Exception("Cache service must be an object");
+			}
+
+			let result = cache->get(key, lifetime);
+			if result !== null {
+
+				if typeof result != "object" {
+					throw new Phalcon\Mvc\Model\Exception("Cache didn't return a valid resultset");
+				}
+
+				result->setIsFresh(false);
+
+				/**
+				 * Check if only the first row must be returned
+				 */
+				if uniqueRow {
+					let preparedResult = result->getFirst();
+				} else {
+					let preparedResult = result;
+				}
+
+				return preparedResult;
+			}
+
+			let this->_cache = cache;
+		}
+
+		/**
+		 * The statement is parsed from its PHQL string or a previously processed IR
+		 */
+		let intermediate = this->parse();
+
+		/**
+		 * Check for default bind parameters and merge them with the passed ones
+		 */
+		let defaultBindParams = this->_bindParams;
+		if typeof defaultBindParams == "array" {
+			if typeof bindParams == "array" {
+				let mergedParams = array_merge(defaultBindParams, bindParams);
+			} else {
+				let mergedParams = defaultBindParams;
+			}
+		} else {
+			let mergedParams = bindParams;
+		}
+
+		/**
+		 * Check for default bind types and merge them with the passed ones
+		 */
+		let defaultBindTypes = this->_bindTypes;
+		if typeof defaultBindTypes == "array" {
+			if typeof bindTypes == "array" {
+				let mergedTypes = array_merge(defaultBindTypes, bindTypes);
+			} else {
+				let mergedTypes = defaultBindTypes;
+			}
+		} else {
+			let mergedTypes = bindTypes;
+		}
+
+		let type = this->_type;
+		switch type {
+			case PHQL_T_SELECT:
+				let result = this->_executeSelect(intermediate, mergedParams, mergedTypes);
+				break;
+			case PHQL_T_INSERT:
+				let result = this->_executeInsert(intermediate, mergedParams, mergedTypes);
+				break;
+			case PHQL_T_UPDATE:
+				let result = this->_executeUpdate(intermediate, mergedParams, mergedTypes);
+				break;
+			case PHQL_T_DELETE:
+				let result = this->_executeDelete(intermediate, mergedParams, mergedTypes);
+				break;
+			default:
+				throw new Phalcon\Mvc\Model\Exception("Unknown statement " . type);
+		}
+
+		/**
+		 * We store the resultset in the cache if any
+		 */
+		if cacheOptions !== null {
+
+			/**
+			 * Only PHQL SELECTs can be cached
+			 */
+			if type != PHQL_T_SELECT {
+				throw new Phalcon\Mvc\Model\Exception("Only PHQL statements that return resultsets can be cached");
+			}
+
+			cache->save(key, result, lifetime);
+		}
+
+		/**
+		 * Check if only the first row must be returned
+		 */
+		if uniqueRow {
+			let preparedResult = result->getFirst();
+		} else {
+			let preparedResult = result;
+		}
+
+		return preparedResult;
+	}
+
+	/**
+	 * Executes the query returning the first result
+	 *
+	 * @param array bindParams
+	 * @param array bindTypes
+	 * @return Ṕhalcon\Mvc\ModelInterface
+	 */
+	public function getSingleResult(bindParams=null, bindTypes=null)
+	{
+
+		/**
+		 * The query is already programmed to return just one row
+		 */
+		if this->_uniqueRow {
+			return this->execute(bindParams, bindTypes);
+		}
+
+		return this->execute(bindParams, bindTypes)->getFirst();
 	}
 
 	/**
@@ -2688,7 +3030,7 @@ class Query //implements Phalcon\Mvc\Model\QueryInterface, Phalcon\Di\InjectionA
 	 *
 	 * @return int
 	 */
-	public function getType()
+	public function getType() -> int
 	{
 		return this->_type;
 	}
@@ -2699,10 +3041,10 @@ class Query //implements Phalcon\Mvc\Model\QueryInterface, Phalcon\Di\InjectionA
 	 * @param array bindParams
 	 * @return Phalcon\Mvc\Model\Query
 	 */
-	public function setBindParams(bindParams)
+	public function setBindParams(bindParams) -> <Phalcon\Mvc\Model\Query>
 	{
 		let this->_bindParams = bindParams;
-		return $this;
+		return this;
 	}
 
 	/**
@@ -2724,7 +3066,7 @@ class Query //implements Phalcon\Mvc\Model\QueryInterface, Phalcon\Di\InjectionA
 	public function setBindTypes(bindTypes)
 	{
 		let this->_bindTypes = bindTypes;
-		return $this;
+		return this;
 	}
 
 	/**
@@ -2757,6 +3099,28 @@ class Query //implements Phalcon\Mvc\Model\QueryInterface, Phalcon\Di\InjectionA
 	public function getIntermediate()
 	{
 		return this->_intermediate;
+	}
+
+	/**
+	 * Sets the cache parameters of the query
+	 *
+	 * @param array cacheOptions
+	 * @return Phalcon\Mvc\Model\Query
+	 */
+	public function cache(cacheOptions) -> <Phalcon\Mvc\Model\Query>
+	{
+		let this->_cacheOptions = cacheOptions;
+		return this;
+	}
+
+	/**
+	 * Returns the current cache options
+	 *
+	 * @param array
+	 */
+	public function getCacheOptions()
+	{
+		return this->_cacheOptions;
 	}
 
 }
