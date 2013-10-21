@@ -4047,7 +4047,7 @@ abstract class Model //implements Phalcon\Mvc\ModelInterface, Phalcon\Mvc\Model\
 		/**
 		 * Check if the method starts with "findFirst"
 		 */
-		if start_with(method, "findFirstBy") {
+		if starts_with(method, "findFirstBy") {
 			let type = "findFirst",
 				extraMethod = substr(method, 11);
 		}

@@ -1073,7 +1073,7 @@ PHP_METHOD(Phalcon_Http_Request, getHeaders) {
 
 	HashTable *_1;
 	HashPosition _0;
-	zval *headers, *key = NULL, *value = NULL, *_SERVER, **_2, *_3 = NULL, *_4 = NULL, _5 = zval_used_for_init, _6 = zval_used_for_init;
+	zval *headers, *key = NULL, *value = NULL, *_SERVER, **_2, _3 = zval_used_for_init, _4 = zval_used_for_init, *_5 = NULL;
 
 	ZEPHIR_MM_GROW();
 
@@ -1087,18 +1087,14 @@ PHP_METHOD(Phalcon_Http_Request, getHeaders) {
 	) {
 		ZEPHIR_GET_HMKEY(key, _1, _0);
 		ZEPHIR_GET_HVALUE(value, _2);
-		ZEPHIR_INIT_NVAR(_3);
-		ZVAL_STRING(_3, "HTTP_", 1);
-		ZEPHIR_INIT_NVAR(_4);
-		zephir_call_func_p2(_4, "start_withs", key, _3);
-		if (zephir_is_true(_4)) {
-			ZEPHIR_SINIT_NVAR(_5);
-			ZVAL_STRING(&_5, "HTTP_", 0);
-			ZEPHIR_SINIT_NVAR(_6);
-			ZVAL_STRING(&_6, "", 0);
-			ZEPHIR_INIT_NVAR(_3);
-			zephir_call_func_p3(_3, "str_replace", &_5, &_6, key);
-			zephir_array_update_zval(&headers, _3, &value, PH_COPY | PH_SEPARATE);
+		if (zephir_start_with_str(key, SL("HTTP_"))) {
+			ZEPHIR_SINIT_NVAR(_3);
+			ZVAL_STRING(&_3, "HTTP_", 0);
+			ZEPHIR_SINIT_NVAR(_4);
+			ZVAL_STRING(&_4, "", 0);
+			ZEPHIR_INIT_NVAR(_5);
+			zephir_call_func_p3(_5, "str_replace", &_3, &_4, key);
+			zephir_array_update_zval(&headers, _5, &value, PH_COPY | PH_SEPARATE);
 		}
 	}
 	RETURN_CCTOR(headers);

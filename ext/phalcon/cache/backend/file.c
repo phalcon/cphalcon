@@ -161,7 +161,7 @@ PHP_METHOD(Phalcon_Cache_Backend_File, get) {
 		modifiedTime = zephir_get_intval(_1);
 		if (!(((zephir_get_numberval(now) - ttl) > modifiedTime))) {
 			ZEPHIR_INIT_VAR(cachedContent);
-			zephir_call_func_p1(cachedContent, "get_file_contents", cacheFile);
+			zephir_call_func_p1(cachedContent, "file_get_contents", cacheFile);
 			if (!(zephir_is_true(cachedContent))) {
 				ZEPHIR_INIT_NVAR(_1);
 				object_init_ex(_1, phalcon_cache_exception_ce);

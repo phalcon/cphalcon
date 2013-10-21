@@ -1099,7 +1099,7 @@ class Query //implements Phalcon\Mvc\Model\QueryInterface, Phalcon\Di\InjectionA
 				 * Check if alias is unique
 				 */
 				if isset joinModels[alias] {
-					throw new Phalcon_Mvc_Model_Exception("Cannot use '" . alias . "' as join alias because it was already used, when preparing: " . this->_phql);
+					throw new Phalcon\Mvc\Model\Exception("Cannot use '" . alias . "' as join alias because it was already used, when preparing: " . this->_phql);
 				}
 
 				/**
@@ -1368,7 +1368,7 @@ class Query //implements Phalcon\Mvc\Model\QueryInterface, Phalcon\Di\InjectionA
 			 * Check if the order has a predefined ordering mode
 			 */
 			if fetch orderSort, orderItem["sort"] {
-				if orderSort == 327{
+				if orderSort == PHQL_T_ASC {
 					let orderPartSort = [orderPartExpr, "ASC"];
 				} else {
 					let orderPartSort = [orderPartExpr, "DESC"];
@@ -1694,6 +1694,244 @@ class Query //implements Phalcon\Mvc\Model\QueryInterface, Phalcon\Di\InjectionA
 	}
 
 	/**
+	 * Analyzes an INSERT intermediate code and produces an array to be executed later
+	 *
+	 * @return array
+	 */
+	protected function _prepareInsert()
+	{
+		var ast, qualifiedName, manager, modelName, model, source, schema,
+			sqlAliases, exprValues, exprValue, sqlInsert, metaData, fields,
+			sqlFields, field, name;
+		boolean notQuoting;
+
+		let ast = this->_ast;
+
+		if !isset ast["qualifiedName"] {
+			throw new Phalcon\Mvc\Model\Exception("Corrupted INSERT AST");
+		}
+
+		if !isset ast["values"] {
+			throw new Phalcon\Mvc\Model\Exception("Corrupted INSERT AST");
+		}
+
+		let qualifiedName = ast["qualifiedName"];
+
+		/**
+		 * Check if the related model exists
+		 */
+		if !isset qualifiedName["name"] {
+			throw new Phalcon\Mvc\Model\Exception("Corrupted INSERT AST");
+		}
+
+		let manager = this->_manager, modelName = qualifiedName["name"];
+
+		let model = manager->load(modelName),
+			source = model->getSource(),
+			schema = model->getSchema();
+		if schema {
+			let source = [schema, source];
+		}
+
+		let sqlAliases = [],
+			notQuoting = false,
+			exprValues = [];
+
+		for exprValue in ast["values"] {
+
+			/**
+			 * Resolve every expression in the "values" clause
+			 */
+			let exprValues[] = [
+				"type" : exprValue["type"],
+				"value": this->_getExpression(exprValue, notQuoting)
+			];
+		}
+
+		let sqlInsert = [
+			"model": modelName,
+			"table": source
+		];
+
+		let metaData = this->_metaData;
+
+		if fetch fields, ast["fields"] {
+			let sqlFields = [];
+			for field in fields {
+
+				let name = field["name"];
+
+				/**
+				 * Check that inserted fields are part of the model
+				 */
+				if !metaData->hasAttribute(model, name) {
+					throw new Phalcon\Mvc\Model\Exception("The model '" . modelName . "' doesn't have the attribute '" . name . "', when preparing: " . this->_phql);
+				}
+
+				/**
+				 * Add the file to the insert list
+				 */
+				let sqlFields[] = name;
+			}
+
+			let sqlInsert["fields"] = sqlFields;
+		}
+
+		let sqlInsert["values"] = exprValues;
+
+		return sqlInsert;
+	}
+
+	/**
+	 * Analyzes an UPDATE intermediate code and produces an array to be executed later
+	 *
+	 * @return array
+	 */
+	protected function _prepareUpdate()
+	{
+		var ast, update, tables, values, modelsInstances, models,
+			sqlTables, sqlAliases, sqlAliasesModelsInstances, updateTables,
+			nsAlias, realModelName, completeSource, sqlModels, manager,
+			table, qualifiedName, modelName, model, source, schema, alias,
+			sqlFields, sqlValues, updateValues, updateValue, exprColumn, sqlUpdate,
+			where, limit;
+		boolean notQuoting;
+
+		let ast = this->_ast;
+
+		if !fetch update, ast["update"] {
+			throw new Phalcon\Mvc\Model\Exception("Corrupted UPDATE AST");
+		}
+
+		if !fetch tables, update["tables"] {
+			throw new Phalcon\Mvc\Model\Exception("Corrupted UPDATE AST");
+		}
+
+		if !fetch values, update["values"] {
+			throw new Phalcon\Mvc\Model\Exception("Corrupted UPDATE AST");
+		}
+
+		/**
+		 * We use these arrays to store info related to models, alias and its sources. With them we can rename columns later
+		 */
+		let models = [],
+			modelsInstances = [];
+
+		let sqlTables = [],
+			sqlModels = [],
+			sqlAliases = [],
+			sqlAliasesModelsInstances = [];
+
+		if !isset tables[0] {
+			let updateTables = [tables];
+		} else {
+			let updateTables = tables;
+		}
+
+		let manager = this->_manager;
+		for table in updateTables {
+
+			let qualifiedName = table["qualifiedName"],
+				modelName = qualifiedName["name"];
+
+			/**
+			 * Check if the table have a namespace alias
+			 */
+			if fetch nsAlias, qualifiedName["ns-alias"] {
+
+				/**
+				 * Get the real namespace alias
+				 * Create the real namespaced name
+				 */
+				let realModelName = manager->getNamespaceAlias(nsAlias) . "\\" . modelName;
+
+			} else {
+				let realModelName = modelName;
+			}
+
+			/**
+			 * Load a model instance from the models manager
+			 */
+			let model = manager->load(realModelName),
+				source = model->getSource(),
+				schema = model->getSchema();
+
+			/**
+			 * Create a full source representation including schema
+			 */
+			if schema {
+				let completeSource = [source, schema];
+			} else {
+				let completeSource = [source, null];
+			}
+
+			/**
+			 * Check if the table is aliased
+			 */
+			if fetch alias, table["alias"] {
+				let sqlAliases[alias] = alias,
+					completeSource[] = alias,
+					sqlTables[] = completeSource,
+					sqlAliasesModelsInstances[alias] = model,
+					models[alias] = modelName;
+			} else {
+				let sqlAliases[modelName] = source,
+					sqlAliasesModelsInstances[modelName] = model,
+					sqlTables[] = source,
+					models[modelName] = source;
+			}
+
+			let sqlModels[] = modelName,
+				modelsInstances[modelName] = model;
+		}
+
+		/**
+		 * Update the models/alias/sources in the object
+		 */
+		let this->_models = models,
+			this->_modelsInstances = modelsInstances,
+			this->_sqlAliases = sqlAliases,
+			this->_sqlAliasesModelsInstances = sqlAliasesModelsInstances;
+
+		let sqlFields = [], sqlValues = [];
+
+		if !isset values[0] {
+			let updateValues = [values];
+		} else {
+			let updateValues = values;
+		}
+
+		let notQuoting = false;
+		for updateValue in updateValues {
+
+			let sqlFields[] = this->_getExpression(updateValue["column"], notQuoting),
+				exprColumn = updateValue["expr"],
+				sqlValues[] = [
+					"type" : exprColumn["type"],
+					"value": this->_getExpression(exprColumn, notQuoting)
+				];
+
+		}
+
+		let sqlUpdate = [
+			"tables": sqlTables,
+			"models": sqlModels,
+			"fields": sqlFields,
+			"values": sqlValues
+		];
+
+		if fetch where, ast["where"] {
+			let sqlUpdate["where"] = this->_getExpression(where, true);
+		}
+
+		if fetch limit, ast["limit"] {
+			let sqlUpdate["limit"] = limit;
+		}
+
+		return sqlUpdate;
+	}
+
+	/**
 	 * Parses the intermediate code produced by Phalcon\Mvc\Model\Query\Lang generating another
 	 * intermediate representation that could be executed by Phalcon\Mvc\Model\Query
 	 *
@@ -1743,16 +1981,16 @@ class Query //implements Phalcon\Mvc\Model\QueryInterface, Phalcon\Di\InjectionA
 
 				let this->_type = type;
 				switch type {
-					case 309:
+					case PHQL_T_SELECT:
 						let irPhql = this->_prepareSelect();
 						break;
-					case 306:
-						//let irPhql = this->_prepareInsert();
+					case PHQL_T_INSERT:
+						let irPhql = this->_prepareInsert();
 						break;
-					case 300:
-						//let irPhql = this->_prepareUpdate();
+					case PHQL_T_UPDATE:
+						let irPhql = this->_prepareUpdate();
 						break;
-					case 303:
+					case PHQL_T_DELETE:
 						//let irPhql = this->_prepareDelete();
 						break;
 					default:
@@ -2118,6 +2356,7 @@ class Query //implements Phalcon\Mvc\Model\QueryInterface, Phalcon\Di\InjectionA
 	protected function _getRelatedRecords(<Phalcon\Mvc\ModelInterface> model, intermediate, bindParams, bindTypes)
 	 -> <Phalcon\Mvc\Model\ResultsetInterface>
 	{
+		var selectIr, whereConditions, limitConditions, query;
 
 		/**
 		 * Instead of create a PHQL string statement we manually create the IR representation
@@ -2126,7 +2365,7 @@ class Query //implements Phalcon\Mvc\Model\QueryInterface, Phalcon\Di\InjectionA
 			"columns": [[[
 				"type"  : "object",
 				"model" : get_class(model),
-				"column": model->getSource(),
+				"column": model->getSource()
 			]]],
 			"models":  intermediate["models"],
 			"tables":  intermediate["tables"]
@@ -2189,6 +2428,94 @@ class Query //implements Phalcon\Mvc\Model\QueryInterface, Phalcon\Di\InjectionA
 	public function execute(bindParams=null, bindTypes=null)
 	{
 
+	}
+
+	/**
+	 * Sets the type of PHQL statement to be executed
+	 *
+	 * @param int type
+	 * @return Phalcon\Mvc\Model\Query
+	 */
+	public function setType(int type) -> <Phalcon\Mvc\Model\Query>
+	{
+		let this->_type = type;
+		return this;
+	}
+
+	/**
+	 * Gets the type of PHQL statement executed
+	 *
+	 * @return int
+	 */
+	public function getType()
+	{
+		return this->_type;
+	}
+
+	/**
+	 * Set default bind parameters
+	 *
+	 * @param array bindParams
+	 * @return Phalcon\Mvc\Model\Query
+	 */
+	public function setBindParams(bindParams)
+	{
+		let this->_bindParams = bindParams;
+		return $this;
+	}
+
+	/**
+	 * Returns default bind params
+	 *
+	 * @return array
+	 */
+	public function getBindParams()
+	{
+		return this->_bindParams;
+	}
+
+	/**
+	 * Set default bind parameters
+	 *
+	 * @param array bindTypes
+	 * @return Phalcon\Mvc\Model\Query
+	 */
+	public function setBindTypes(bindTypes)
+	{
+		let this->_bindTypes = bindTypes;
+		return $this;
+	}
+
+	/**
+	 * Returns default bind types
+	 *
+	 * @return array
+	 */
+	public function getBindTypes()
+	{
+		return this->_bindTypes;
+	}
+
+	/**
+	 * Allows to set the IR to be executed
+	 *
+	 * @param array intermediate
+	 * @return Phalcon\Mvc\Model\Query
+	 */
+	public function setIntermediate(intermediate) -> <Phalcon\Mvc\Model\Query>
+	{
+		let this->_intermediate = intermediate;
+		return this;
+	}
+
+	/**
+	 * Returns the intermediate representation of the PHQL statement
+	 *
+	 * @return array
+	 */
+	public function getIntermediate()
+	{
+		return this->_intermediate;
 	}
 
 }

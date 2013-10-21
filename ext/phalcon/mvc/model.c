@@ -4612,8 +4612,8 @@ PHP_METHOD(Phalcon_Mvc_Model, __call) {
  */
 PHP_METHOD(Phalcon_Mvc_Model, __callStatic) {
 
-	zend_class_entry *_4;
-	zval *method_param = NULL, *arguments = NULL, *extraMethod, *type = NULL, *modelName, *value, *model, *attributes, *field = NULL, *extraMethodFirst, *metaData, *_0, *_1, _2 = zval_used_for_init, *_3 = NULL;
+	zend_class_entry *_3;
+	zval *method_param = NULL, *arguments = NULL, *extraMethod, *type = NULL, *modelName, *value, *model, *attributes, *field = NULL, *extraMethodFirst, *metaData, _0 = zval_used_for_init, *_1 = NULL, *_2 = NULL;
 	zval *method = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -4627,63 +4627,59 @@ PHP_METHOD(Phalcon_Mvc_Model, __callStatic) {
 
 	ZEPHIR_INIT_VAR(extraMethod);
 	ZVAL_NULL(extraMethod);
-	ZEPHIR_INIT_VAR(_0);
-	ZVAL_STRING(_0, "findFirstBy", 1);
-	ZEPHIR_INIT_VAR(_1);
-	zephir_call_func_p2(_1, "start_with", method, _0);
-	if (zephir_is_true(_1)) {
+	if (zephir_start_with_str(method, SL("findFirstBy"))) {
 		ZEPHIR_INIT_VAR(type);
 		ZVAL_STRING(type, "findFirst", 1);
-		ZEPHIR_SINIT_VAR(_2);
-		ZVAL_LONG(&_2, 11);
+		ZEPHIR_SINIT_VAR(_0);
+		ZVAL_LONG(&_0, 11);
 		ZEPHIR_INIT_BNVAR(extraMethod);
-		zephir_call_func_p2(extraMethod, "substr", method, &_2);
+		zephir_call_func_p2(extraMethod, "substr", method, &_0);
 	}
 	if ((Z_TYPE_P(extraMethod) == IS_NULL)) {
 		if (zephir_start_with_str(method, SL("findBy"))) {
 			ZEPHIR_INIT_NVAR(type);
 			ZVAL_STRING(type, "find", 1);
-			ZEPHIR_SINIT_NVAR(_2);
-			ZVAL_LONG(&_2, 6);
+			ZEPHIR_SINIT_NVAR(_0);
+			ZVAL_LONG(&_0, 6);
 			ZEPHIR_INIT_BNVAR(extraMethod);
-			zephir_call_func_p2(extraMethod, "substr", method, &_2);
+			zephir_call_func_p2(extraMethod, "substr", method, &_0);
 		}
 	}
 	if ((Z_TYPE_P(extraMethod) == IS_NULL)) {
 		if (zephir_start_with_str(method, SL("countBy"))) {
 			ZEPHIR_INIT_NVAR(type);
 			ZVAL_STRING(type, "count", 1);
-			ZEPHIR_SINIT_NVAR(_2);
-			ZVAL_LONG(&_2, 7);
+			ZEPHIR_SINIT_NVAR(_0);
+			ZVAL_LONG(&_0, 7);
 			ZEPHIR_INIT_BNVAR(extraMethod);
-			zephir_call_func_p2(extraMethod, "substr", method, &_2);
+			zephir_call_func_p2(extraMethod, "substr", method, &_0);
 		}
 	}
 	ZEPHIR_INIT_VAR(modelName);
 	zephir_call_func(modelName, "get_called_class");
 	if (zephir_is_true(extraMethod)) {
-		ZEPHIR_INIT_BNVAR(_0);
-		object_init_ex(_0, phalcon_mvc_model_exception_ce);
-		ZEPHIR_INIT_VAR(_3);
-		ZEPHIR_CONCAT_SVSVS(_3, "The static method '", method, "' doesn't exist on model '", modelName, "'");
-		zephir_call_method_p1_noret(_0, "__construct", _3);
-		zephir_throw_exception(_0 TSRMLS_CC);
+		ZEPHIR_INIT_VAR(_1);
+		object_init_ex(_1, phalcon_mvc_model_exception_ce);
+		ZEPHIR_INIT_VAR(_2);
+		ZEPHIR_CONCAT_SVSVS(_2, "The static method '", method, "' doesn't exist on model '", modelName, "'");
+		zephir_call_method_p1_noret(_1, "__construct", _2);
+		zephir_throw_exception(_1 TSRMLS_CC);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
 	if (!(zephir_array_isset_long_fetch(&value, arguments, 0, 1 TSRMLS_CC))) {
-		ZEPHIR_INIT_BNVAR(_0);
-		object_init_ex(_0, phalcon_mvc_model_exception_ce);
-		ZEPHIR_INIT_LNVAR(_3);
-		ZEPHIR_CONCAT_SVS(_3, "The static method '", method, "' requires one argument");
-		zephir_call_method_p1_noret(_0, "__construct", _3);
-		zephir_throw_exception(_0 TSRMLS_CC);
+		ZEPHIR_INIT_NVAR(_1);
+		object_init_ex(_1, phalcon_mvc_model_exception_ce);
+		ZEPHIR_INIT_LNVAR(_2);
+		ZEPHIR_CONCAT_SVS(_2, "The static method '", method, "' requires one argument");
+		zephir_call_method_p1_noret(_1, "__construct", _2);
+		zephir_throw_exception(_1 TSRMLS_CC);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
 	ZEPHIR_INIT_VAR(model);
-	_4 = zend_fetch_class(SL("modelName"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
-	object_init_ex(model, _4);
+	_3 = zend_fetch_class(SL("modelName"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
+	object_init_ex(model, _3);
 	ZEPHIR_INIT_VAR(metaData);
 	zephir_call_method(metaData, model, "getmodelsmetadata");
 	ZEPHIR_INIT_VAR(attributes);
@@ -4703,12 +4699,12 @@ PHP_METHOD(Phalcon_Mvc_Model, __callStatic) {
 			ZEPHIR_INIT_VAR(field);
 			zephir_uncamelize(field, extraMethod);
 			if (!(zephir_array_isset(attributes, field))) {
-				ZEPHIR_INIT_BNVAR(_0);
-				object_init_ex(_0, phalcon_mvc_model_exception_ce);
-				ZEPHIR_INIT_LNVAR(_3);
-				ZEPHIR_CONCAT_SVS(_3, "Cannot resolve attribute '", extraMethod, "' in the model");
-				zephir_call_method_p1_noret(_0, "__construct", _3);
-				zephir_throw_exception(_0 TSRMLS_CC);
+				ZEPHIR_INIT_NVAR(_1);
+				object_init_ex(_1, phalcon_mvc_model_exception_ce);
+				ZEPHIR_INIT_LNVAR(_2);
+				ZEPHIR_CONCAT_SVS(_2, "Cannot resolve attribute '", extraMethod, "' in the model");
+				zephir_call_method_p1_noret(_1, "__construct", _2);
+				zephir_throw_exception(_1 TSRMLS_CC);
 				ZEPHIR_MM_RESTORE();
 				return;
 			}

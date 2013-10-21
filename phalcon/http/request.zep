@@ -692,7 +692,7 @@ class Request implements Phalcon\Http\RequestInterface, Phalcon\Di\InjectionAwar
 
 		let headers = [];
 		for key, value in _SERVER {
-			if start_withs(key, "HTTP_") {
+			if starts_with(key, "HTTP_") {
 				let headers[str_replace("HTTP_", "", key)] = value;
 			}
 		}

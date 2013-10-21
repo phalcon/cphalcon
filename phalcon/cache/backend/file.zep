@@ -78,7 +78,7 @@ class File extends Phalcon\Cache\Backend implements Phalcon\Cache\BackendInterfa
 	public function get(var keyName, lifetime=null)
 	{
 		var options, prefix, prefixedKey, cacheDir, cacheFile, frontend,
-			now, lastLifetime, tmp, ttl, diff, cachedContent;
+			now, lastLifetime, tmp, ttl, cachedContent;
 		int modifiedTime;
 
 		let options = this->_options;
@@ -127,7 +127,7 @@ class File extends Phalcon\Cache\Backend implements Phalcon\Cache\BackendInterfa
 				/**
 				 * Use file-get-contents to control that the openbase_dir can't be skipped
 				 */
-				let cachedContent = get_file_contents(cacheFile);
+				let cachedContent = file_get_contents(cacheFile);
 				if !cachedContent {
 					throw new Phalcon\Cache\Exception("Cache file ". cacheFile. " could not be opened");
 				}
@@ -242,7 +242,7 @@ class File extends Phalcon\Cache\Backend implements Phalcon\Cache\BackendInterfa
 	 */
 	public function queryKeys(var prefix=null)
 	{
-		var options, item, key, ret, cacheDir;
+		var item, key, ret, cacheDir;
 
 		if !fetch cacheDir, this->_options["cacheDir"] {
 			throw new Phalcon\Cache\Exception("Unexpected inconsistency in options");
@@ -274,7 +274,7 @@ class File extends Phalcon\Cache\Backend implements Phalcon\Cache\BackendInterfa
 	 */
 	public function exists(var keyName=null, int lifetime=null) -> boolean
 	{
-		var lastKey, prefix, options, cacheDir, cacheFile, frontend, tmp;
+		var lastKey, prefix, options, cacheDir, cacheFile, tmp;
 		int ttl;
 
 		if !keyName {
@@ -318,8 +318,8 @@ class File extends Phalcon\Cache\Backend implements Phalcon\Cache\BackendInterfa
 	 */
 	public function increment(var keyName=null, int value=null)
 	{
-		var options, prefix, prefixedKey, cacheDir, cacheFile, frontend, timestamp, lifetime, ttl,
-			modifiedTime, difference, cachedContent, status, result;
+		var prefixedKey, cacheFile, frontend, timestamp, lifetime, ttl,
+			cachedContent, status, result;
 
 		let prefixedKey = this->_prefix . keyName,
 			this->_lastKey = prefixedKey,
@@ -380,8 +380,8 @@ class File extends Phalcon\Cache\Backend implements Phalcon\Cache\BackendInterfa
 	 */
 	public function decrement(var keyName=null, int value=null)
 	{
-		var options, prefix, prefixedKey, cacheDir, cacheFile, frontend, timestamp, lifetime, ttl,
-			modifiedTime, difference, notExpired, cachedContent, status, result;
+		var options, prefixedKey, cacheFile, timestamp, lifetime, ttl,
+			cachedContent, status, result;
 
 		let prefixedKey = this->_prefix . keyName,
 			this->_lastKey = prefixedKey,
