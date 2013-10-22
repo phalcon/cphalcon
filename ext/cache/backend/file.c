@@ -704,3 +704,67 @@ PHP_METHOD(Phalcon_Cache_Backend_File, decrement){
 	
 	RETURN_MM_NULL();
 }
+
+/**
+ * Immediately invalidates all existing items.
+ * 
+ * @return boolean
+ */
+PHP_METHOD(Phalcon_Cache_Backend_File, flush){
+
+	zval *options, *prefix, *cache_dir, *iterator;
+	zval **item, *is_file = NULL, *key = NULL, *cache_file = NULL;
+	zend_object_iterator *it;
+
+	PHALCON_MM_GROW();
+	
+	options = phalcon_fetch_nproperty_this(this_ptr, SL("_options"), PH_NOISY_CC);
+	prefix  = phalcon_fetch_nproperty_this(this_ptr, SL("_prefix"), PH_NOISY_CC);
+	
+	if (unlikely(!phalcon_array_isset_string_fetch(&cache_dir, options, SS("cacheDir")))) {
+		PHALCON_THROW_EXCEPTION_STR(phalcon_cache_exception_ce, "Unexpected inconsistency in options");
+		return;
+	}
+
+	PHALCON_INIT_VAR(iterator);
+	object_init_ex(iterator, spl_ce_DirectoryIterator);
+	assert(phalcon_has_constructor(iterator TSRMLS_CC));
+	phalcon_call_method_p1_noret(iterator, "__construct", cache_dir);
+
+	/* DirectoryIterator implements Iterator */
+	assert(instanceof_function_ex(spl_ce_DirectoryIterator, zend_ce_iterator, 1 TSRMLS_CC));
+
+	it = spl_ce_DirectoryIterator->get_iterator(spl_ce_DirectoryIterator, iterator, 0 TSRMLS_CC);
+
+	/* DirectoryIterator is an iterator */
+	assert(it != NULL);
+
+	/* DirectoryIterator has rewind() method */
+	assert(it->funcs->rewind != NULL);
+
+	it->funcs->rewind(it TSRMLS_CC);
+	while (it->funcs->valid(it TSRMLS_CC) == SUCCESS && !EG(exception)) {
+		it->funcs->get_current_data(it, &item TSRMLS_CC);
+
+		PHALCON_OBS_NVAR(is_file);
+		phalcon_call_method_params(is_file, &is_file, *item, SL("isFile"), zend_inline_hash_func(SS("isFile")) TSRMLS_CC, 0);
+
+		if (!EG(exception) && PHALCON_IS_TRUE(is_file)) {			
+			PHALCON_OBS_NVAR(key);
+			phalcon_call_method_params(key, &key, *item, SL("getfilename"), zend_inline_hash_func(SS("getfilename")) TSRMLS_CC, 0);
+
+			PHALCON_OBS_NVAR(cache_file);
+			phalcon_call_method_params(cache_file, &cache_file, *item, SL("getPathname"), zend_inline_hash_func(SS("getPathname")) TSRMLS_CC, 0);
+
+			if (!EG(exception) && (PHALCON_IS_EMPTY(prefix) || phalcon_start_with(key, prefix, NULL))) {
+				phalcon_unlink(return_value, cache_file TSRMLS_CC);
+			}
+		}
+	
+		it->funcs->move_forward(it TSRMLS_CC);
+	}
+
+	it->funcs->dtor(it TSRMLS_CC);
+	
+	RETURN_MM_TRUE;
+}

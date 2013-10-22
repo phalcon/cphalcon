@@ -779,3 +779,26 @@ PHP_METHOD(Phalcon_Cache_Backend_Mongo, decrement){
 	
 	RETURN_MM_NULL();
 }
+
+/**
+ * Immediately invalidates all existing items.
+ * 
+ * @return bool
+ */
+PHP_METHOD(Phalcon_Cache_Backend_Mongo, flush){
+
+	zval *collection;
+
+	PHALCON_MM_GROW();
+	
+	PHALCON_OBS_VAR(collection);
+	phalcon_call_method_p0_ex(collection, &collection, this_ptr, "_getcollection");
+	
+	phalcon_call_method_noret(collection, "remove");
+
+	if ((php_rand(TSRMLS_C) % 100) == 0) {
+		phalcon_call_method_noret(getThis(), "gc");
+	}
+
+	RETURN_MM_TRUE;
+}

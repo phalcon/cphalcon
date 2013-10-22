@@ -26,6 +26,10 @@ class CacheTest extends PHPUnit_Framework_TestCase
 	public function setUp()
 	{
 		date_default_timezone_set('UTC');
+		if (!file_exists('unit-tests/cache/')) {
+			mkdir("unit-tests/cache/", 0766);
+		}
+
 		$iterator = new DirectoryIterator('unit-tests/cache/');
 		foreach ($iterator as $item) {
 			if (!$item->isDir()) {
@@ -594,7 +598,6 @@ class CacheTest extends PHPUnit_Framework_TestCase
 
 	public function testDataApcCache()
 	{
-
 		$ready = $this->_prepareApc();
 		if (!$ready) {
 			return false;
@@ -1211,7 +1214,170 @@ class CacheTest extends PHPUnit_Framework_TestCase
 		$this->assertTrue($cache2->delete('test-data'));
 
 		$memcache->quit();
-
 	}
 
+	public function testCacheFileFlush()
+	{
+		$frontCache = new Phalcon\Cache\Frontend\Data(array('lifetime' => 10));
+
+		// File
+		$cache = new Phalcon\Cache\Backend\File($frontCache, array(
+			'cacheDir' => 'unit-tests/cache/',
+		));
+
+		$cache->save('data', "1");
+		$cache->save('data2', "2");
+
+		$this->assertTrue($cache->flush());
+
+		$this->assertFalse(file_exists('unit-tests/cache/data'));
+		$this->assertFalse(file_exists('unit-tests/cache/data2'));
+	}
+
+	public function testCacheMemoryFlush()
+	{
+		$frontCache = new Phalcon\Cache\Frontend\Data(array('lifetime' => 10));
+
+		// Memory
+		$cache = new Phalcon\Cache\Backend\Memory($frontCache);
+
+		$cache->save('data', "1");
+		$cache->save('data2', "2");
+
+		$this->assertTrue($cache->flush());
+
+		$this->assertFalse($cache->exists('data'));
+		$this->assertFalse($cache->exists('data2'));
+	}
+
+	public function testCacheMemcachedFlush()
+	{
+		$frontCache = new Phalcon\Cache\Frontend\Data(array('lifetime' => 10));
+
+		// Memcached
+		$memcache = $this->_prepareMemcached();
+		if (!$memcache) {
+			return false;
+		}
+
+		$cache = new Phalcon\Cache\Backend\Memcache($frontCache, array(
+			'host' => '127.0.0.1',
+			'port' => '11211'
+		));
+
+		$cache->save('data', "1");
+		$cache->save('data2', "2");
+
+		$this->assertTrue($cache->flush());
+
+		$this->assertFalse($cache->exists('data'));
+		$this->assertFalse($cache->exists('data2'));
+	}
+
+	public function testCacheApcFlush()
+	{
+		$frontCache = new Phalcon\Cache\Frontend\Data(array('lifetime' => 10));
+
+		// Apc
+		$ready = $this->_prepareApc();
+		if (!$ready) {
+			return false;
+		}
+
+		$cache = new Phalcon\Cache\Backend\Apc($frontCache);
+
+		$data = array(1, 2, 3, 4, 5);
+
+		$cache->save('data', "1");
+		$cache->save('data2', "2");
+
+		$this->assertTrue($cache->flush());
+
+		$this->assertFalse($cache->exists('data'));
+		$this->assertFalse($cache->exists('data2'));
+	}
+
+	public function testCacheMongoFlush()
+	{
+		$frontCache = new Phalcon\Cache\Frontend\Data(array('lifetime' => 10));
+
+		// Mongo
+		$ready = $this->_prepareMongo();
+		if (!$ready) {
+			return false;
+		}
+
+		$mongo = new Mongo();
+		$database = $mongo->phalcon_test;
+		$collection = $database->caches;
+		$collection->remove();
+
+		$frontCache = new Phalcon\Cache\Frontend\Data();
+
+		$cache = new Phalcon\Cache\Backend\Mongo($frontCache, array(
+			'mongo' => $mongo,
+			'db' => 'phalcon_test',
+			'collection' => 'caches'
+		));
+
+		$cache->save('data', "1");
+		$cache->save('data2', "2");
+
+		$this->assertTrue($cache->flush());
+
+		$this->assertFalse($cache->exists('data'));
+		$this->assertFalse($cache->exists('data2'));
+	}
+
+	public function testCacheXcacheFlush()
+	{
+		$frontCache = new Phalcon\Cache\Frontend\Data(array('lifetime' => 10));
+
+		// Xcache
+		$ready = $this->_prepareXcache();
+		if (!$ready) {
+			return false;
+		}
+
+		$cache = new Phalcon\Cache\Backend\Xcache($frontCache);
+
+		$cache->save('data', "1");
+		$cache->save('data2', "2");
+
+		$this->assertTrue($cache->flush());
+
+		$this->assertFalse($cache->exists('data'));
+		$this->assertFalse($cache->exists('data2'));
+	}
+
+	public function testCacheLibmemcachedFlush()
+	{
+		if (!extension_loaded('memcached')) {
+			$this->markTestSkipped('Warning: memcached extension is not loaded');
+			return false;
+		}
+
+		$frontCache = new Phalcon\Cache\Frontend\Data();
+
+        //Memcached OPT_PREFIX_KEY: prefix.
+		$cache = new Phalcon\Cache\Backend\Libmemcached($frontCache, array(
+			'servers' => array(
+				array(
+					'host' => '127.0.0.1',
+					'port' => '11211',
+					'weight' => '1'),
+			),
+			'client' => array(
+				Memcached::OPT_PREFIX_KEY => 'prefix.',
+			)
+		));
+
+		$cache->save('data', "1");
+		$cache->save('data2', "2");
+
+		$this->assertTrue($cache->flush());
+
+		$this->assertFalse($cache->exists('data'));
+		$this->assertFalse($cache->exists('data2'));
+	}
 }

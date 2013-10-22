@@ -605,3 +605,57 @@ PHP_METHOD(Phalcon_Cache_Backend_Libmemcached, exists){
 
 	PHALCON_MM_RESTORE();
 }
+
+/**
+ * Immediately invalidates all existing items.
+ * 
+ * @return boolean
+ */
+PHP_METHOD(Phalcon_Cache_Backend_Libmemcached, flush){
+
+	zval *memcache, *options, *special_key;
+	zval *keys, *real_key = NULL;
+	HashPosition pos;
+	zval **value;
+
+	PHALCON_MM_GROW();
+
+	memcache = phalcon_fetch_nproperty_this(this_ptr, SL("_memcache"), PH_NOISY_CC);
+	if (Z_TYPE_P(memcache) != IS_OBJECT) {
+		phalcon_call_method_noret(this_ptr, "_connect");
+		memcache = phalcon_fetch_nproperty_this(this_ptr, SL("_memcache"), PH_NOISY_CC);
+	}
+
+	options = phalcon_fetch_nproperty_this(this_ptr, SL("_options"), PH_NOISY_CC);
+
+	if (unlikely(!phalcon_array_isset_string_fetch(&special_key, options, SS("statsKey")))) {
+		PHALCON_THROW_EXCEPTION_STR(phalcon_cache_exception_ce, "Unexpected inconsistency in options");
+		return;
+	}
+
+	/** 
+	 * Get the key from memcached
+	 */
+	PHALCON_OBS_VAR(keys);
+	phalcon_call_method_p1_ex(keys, &keys, memcache, "get", special_key);
+	if (Z_TYPE_P(keys) == IS_ARRAY) {
+
+		for (
+			zend_hash_internal_pointer_reset_ex(Z_ARRVAL_P(keys), &pos);
+			zend_hash_get_current_data_ex(Z_ARRVAL_P(keys), (void**)&value, &pos) == SUCCESS;
+			zend_hash_move_forward_ex(Z_ARRVAL_P(keys), &pos)
+		) {
+			zval key = phalcon_get_current_key_w(Z_ARRVAL_P(keys), &pos);
+			
+			PHALCON_INIT_NVAR(real_key);
+			ZVAL_STRINGL(real_key, Z_STRVAL(key), Z_STRLEN(key), 1);
+			
+			phalcon_array_unset(&keys, real_key, 0);
+			phalcon_call_method_p1_noret(memcache, "delete", real_key);
+		}
+		
+		phalcon_call_method_p2_noret(memcache, "set", special_key, keys);
+	}
+
+	RETURN_MM_TRUE;
+}
