@@ -682,4 +682,32 @@ class CacheTest extends PHPUnit_Framework_TestCase
 
 		$this->assertTrue($cache->delete('test-data'));
 	}
+
+	public function testXcacheQueryKeys()
+	{
+		$ready = $this->_prepareXcache();
+		if (!$ready) {
+			return false;
+		}
+
+		$frontCache = new Phalcon\Cache\Frontend\None(array(
+			'lifetime' => 2
+		));
+
+		$cache = new Phalcon\Cache\Backend\Xcache($frontCache);
+
+
+		$cache->delete('test-output');
+		$cache->delete('test-data');
+
+		$cache->save('test-one', 'one');
+		$cache->save('test-two', 'two');
+
+		//Query keys
+		$keys = $cache->queryKeys();
+		$this->assertEquals($keys, array(
+			0 => 'test-one',
+			1 => 'test-two',
+		));
+	}
 }

@@ -89117,13 +89117,11 @@ static PHP_METHOD(Phalcon_Cache_Backend_Xcache, save){
 			array_init(keys);
 		}
 	
-		if (!zend_is_true(keys)) {
-			phalcon_array_update_zval(&keys, last_key, &ttl, PH_COPY | PH_SEPARATE);
-	
-			PHALCON_INIT_VAR(zero);
-			ZVAL_LONG(zero, 0);
-			phalcon_call_func_p3_noret("xcache_set", special_key, keys, zero);
-		}
+		phalcon_array_update_zval(&keys, last_key, &ttl, PH_COPY | PH_SEPARATE);
+
+		PHALCON_INIT_VAR(zero);
+		ZVAL_LONG(zero, 0);
+		phalcon_call_func_p3_noret("xcache_set", special_key, keys, zero);
 	}
 	
 	PHALCON_MM_RESTORE();
@@ -89158,7 +89156,7 @@ static PHP_METHOD(Phalcon_Cache_Backend_Xcache, delete){
 	if (Z_TYPE_P(keys) == IS_ARRAY) { 
 		PHALCON_INIT_VAR(zero);
 		ZVAL_LONG(zero, 0);
-		phalcon_array_unset(&keys, special_key, PH_SEPARATE);
+		phalcon_array_unset(&keys, prefixed_key, PH_SEPARATE);
 		phalcon_call_func_p3_noret("xcache_set", special_key, keys, zero);
 	}
 	
@@ -90969,10 +90967,26 @@ static PHP_METHOD(Phalcon_Forms_Element, clear){
 
 static PHP_METHOD(Phalcon_Forms_Element, __toString){
 
-
 	PHALCON_MM_GROW();
 
-	phalcon_call_method_key(return_value, this_ptr, "render", 1053215877UL);
+	if (phalcon_call_method_params(return_value, this_ptr, SL("render"), 0, NULL, zend_inline_hash_func(SS("render")), 1 TSRMLS_CC) == FAILURE) {
+		if (EG(exception)) {
+			zval *e = EG(exception);
+			zval *m = zend_read_property(Z_OBJCE_P(e), e, SL("message"), 1 TSRMLS_CC);
+
+			Z_ADDREF_P(m);
+			if (Z_TYPE_P(m) != IS_STRING) {
+				convert_to_string_ex(&m);
+			}
+
+			zend_clear_exception(TSRMLS_C);
+			zend_error(E_ERROR, "%s", Z_STRVAL_P(m));
+			zval_ptr_dtor(&m);
+		}
+
+		return;
+	}
+
 	RETURN_MM();
 }
 
@@ -97268,6 +97282,9 @@ static void phalcon_tag_write_attributes(zval *code, zval *attributes TSRMLS_DC)
 
 	PHALCON_OBS_VAR(escaper);
 	phalcon_tag_get_escaper(&escaper, attributes TSRMLS_CC);
+	if (EG(exception)) {
+		RETURN_MM();
+	}
 
 	if (escaper) {
 		for (
@@ -97658,6 +97675,9 @@ static PHP_METHOD(Phalcon_Tag, _inputField){
 
 	PHALCON_OBS_VAR(escaper);
 	phalcon_tag_get_escaper(&escaper, params TSRMLS_CC);
+	if (EG(exception)) {
+		RETURN_MM();
+	}
 
 	phalcon_array_update_quick_string(&params, SS("type"), 276192743UL, &type, PH_COPY | PH_SEPARATE);
 
@@ -97999,6 +98019,9 @@ static PHP_METHOD(Phalcon_Tag, textArea){
 
 	PHALCON_OBS_VAR(escaper);
 	phalcon_tag_get_escaper(&escaper, params TSRMLS_CC);
+	if (EG(exception)) {
+		RETURN_MM();
+	}
 
 	if (escaper) {
 		PHALCON_INIT_VAR(escaped);

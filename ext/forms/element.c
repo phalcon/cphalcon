@@ -824,10 +824,26 @@ PHP_METHOD(Phalcon_Forms_Element, clear){
  */
 PHP_METHOD(Phalcon_Forms_Element, __toString){
 
-
 	PHALCON_MM_GROW();
 
-	phalcon_call_method(return_value, this_ptr, "render");
+	if (phalcon_call_method_params(return_value, this_ptr, SL("render"), 0, NULL, zend_inline_hash_func(SS("render")), 1 TSRMLS_CC) == FAILURE) {
+		if (EG(exception)) {
+			zval *e = EG(exception);
+			zval *m = zend_read_property(Z_OBJCE_P(e), e, SL("message"), 1 TSRMLS_CC);
+
+			Z_ADDREF_P(m);
+			if (Z_TYPE_P(m) != IS_STRING) {
+				convert_to_string_ex(&m);
+			}
+
+			zend_clear_exception(TSRMLS_C);
+			zend_error(E_ERROR, "%s", Z_STRVAL_P(m));
+			zval_ptr_dtor(&m);
+		}
+
+		return;
+	}
+
 	RETURN_MM();
 }
 
