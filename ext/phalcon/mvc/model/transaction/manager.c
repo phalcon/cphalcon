@@ -67,8 +67,7 @@
  *
  *  $transaction->commit();
  *
- *}
- *catch(Phalcon\Mvc\Model\Transaction\Failed $e){
+ *} catch (Phalcon\Mvc\Model\Transaction\Failed $e) {
  *  echo 'Failed, reason: ', $e->getMessage();
  *}
  *

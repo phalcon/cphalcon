@@ -344,7 +344,7 @@ PHP_METHOD(Phalcon_Cache_Backend_File, queryKeys) {
 		if (ZEPHIR_IS_FALSE(_7)) {
 			ZEPHIR_INIT_NVAR(key);
 			zephir_call_method_cache(key, item, "getfilename", &_9);
-			if (zephir_start_with(key, prefix)) {
+			if (zephir_start_with(key, prefix, 0)) {
 				zephir_array_append(&ret, key, PH_SEPARATE);
 			}
 		}
@@ -399,7 +399,7 @@ PHP_METHOD(Phalcon_Cache_Backend_File, exists) {
 				zephir_call_method(_3, _2, "getlifetime");
 				ttl = zephir_get_intval(_3);
 			} else {
-				ttl = zephir_get_intval(lifetime);
+				ttl = lifetime;
 			}
 			ZEPHIR_INIT_NVAR(_3);
 			zephir_call_func_p1(_3, "filemtime", cacheFile);
