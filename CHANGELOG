@@ -26,6 +26,8 @@
  - Fixed invalid memory reads/writes across the code (#1340)
  - Fixed HAVING handling in Phalcon\Mvc\QueryBuilder (#1396)
  - Bug fixes in \Phalcon\Logger\{Adapter,Formatter}\FirePhp (#1333)
+ - Bug fixes in Phalcon\Cache\Backend\Xcache (#1406)
+ - Phalcon\Forms\Element::__toString() does not throw exceptions anymore (#1413)
  - Other bug fixes (#947, #1131, #1040, #1275, #1392, #1396, #1399, backported patches from 1.3.0 etc)
 
 1.2.3
