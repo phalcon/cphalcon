@@ -119,6 +119,9 @@ static void phalcon_tag_write_attributes(zval *code, zval *attributes TSRMLS_DC)
 
 	PHALCON_OBS_VAR(escaper);
 	phalcon_tag_get_escaper(&escaper, attributes TSRMLS_CC);
+	if (EG(exception)) {
+		RETURN_MM();
+	}
 
 	if (escaper) {
 		for (
@@ -629,6 +632,9 @@ PHP_METHOD(Phalcon_Tag, _inputField){
 
 	PHALCON_OBS_VAR(escaper);
 	phalcon_tag_get_escaper(&escaper, params TSRMLS_CC);
+	if (EG(exception)) {
+		RETURN_MM();
+	}
 
 	phalcon_array_update_string(&params, SL("type"), &type, PH_COPY | PH_SEPARATE);
 
@@ -1163,6 +1169,9 @@ PHP_METHOD(Phalcon_Tag, textArea){
 
 	PHALCON_OBS_VAR(escaper);
 	phalcon_tag_get_escaper(&escaper, params TSRMLS_CC);
+	if (EG(exception)) {
+		RETURN_MM();
+	}
 
 	if (escaper) {
 		PHALCON_INIT_VAR(escaped);
