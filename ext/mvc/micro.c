@@ -1166,7 +1166,7 @@ PHP_METHOD(Phalcon_Mvc_Micro, handle){
 		PHALCON_INIT_VAR(returned_response);
 		PHALCON_INIT_VAR(returned_response_sent);
 		phalcon_instance_of(returned_response, returned_value, phalcon_http_responseinterface_ce TSRMLS_CC);
-		phalcon_call_method(returned_response_sent, returned_response, "isSent");
+		phalcon_call_method(returned_response_sent, returned_value, "isSent");
 		
 		if (PHALCON_IS_TRUE(returned_response) && PHALCON_IS_FALSE(returned_response_sent)) {
 			/** 
