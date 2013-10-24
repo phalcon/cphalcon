@@ -873,9 +873,9 @@ PHP_METHOD(Phalcon_Http_Cookie, __toString){
 			}
 		}
 
+		convert_to_string(return_value_ptr ? *return_value_ptr : return_value);
 		return;
 	}
 	
 	RETURN_ZVAL(value, 1, 0);
 }
-
