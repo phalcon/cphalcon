@@ -246,7 +246,7 @@ void phalcon_camelize(zval *return_value, const zval *str){
 	marker = Z_STRVAL_P(str);
 	len    = Z_STRLEN_P(str);
 
-	for (i = 0; i < len - 1; i++) {
+	for (i = 0; i < len; i++) {
 		ch = *marker;
 		if (i == 0 || ch == '-' || ch == '_') {
 			if (ch == '-' || ch == '_') {
