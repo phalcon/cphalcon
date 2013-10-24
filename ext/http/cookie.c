@@ -877,10 +877,10 @@ PHP_METHOD(Phalcon_Http_Cookie, __toString){
 			}
 		}
 
+		convert_to_string(return_value);
 		RETURN_MM();
 	}
 	
 	RETVAL_ZVAL(value, 1, 0);
 	PHALCON_MM_RESTORE();
 }
-
