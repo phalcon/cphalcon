@@ -851,14 +851,31 @@ PHP_METHOD(Phalcon_Http_Cookie, __toString){
 
 	zval *value;
 
-	PHALCON_MM_GROW();
-
 	value = phalcon_fetch_nproperty_this(this_ptr, SL("_value"), PH_NOISY_CC);
 	if (Z_TYPE_P(value) == IS_NULL) {
-		phalcon_return_call_method_p0(this_ptr, "getvalue");
-		RETURN_MM();
+		if (FAILURE == phalcon_call_method_params(return_value, return_value_ptr, this_ptr, SL("getvalue"), zend_inline_hash_func(SS("getvalue")) TSRMLS_CC, 0)) {
+			if (EG(exception)) {
+				zval *e = EG(exception);
+				zval *m = zend_read_property(Z_OBJCE_P(e), e, SL("message"), 1 TSRMLS_CC);
+
+				Z_ADDREF_P(m);
+				if (Z_TYPE_P(m) != IS_STRING) {
+					convert_to_string_ex(&m);
+				}
+
+				if (return_value_ptr) {
+					ALLOC_INIT_ZVAL(*return_value_ptr);
+				}
+
+				zend_clear_exception(TSRMLS_C);
+				zend_error(E_ERROR, "%s", Z_STRVAL_P(m));
+				zval_ptr_dtor(&m);
+			}
+		}
+
+		convert_to_string(return_value_ptr ? *return_value_ptr : return_value);
+		return;
 	}
 	
-	RETURN_CTOR(value);
+	RETURN_ZVAL(value, 1, 0);
 }
-
