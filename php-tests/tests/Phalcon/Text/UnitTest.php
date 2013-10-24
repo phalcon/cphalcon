@@ -80,6 +80,8 @@ class UnitTest extends PhTestUnitTestCase
             'Camelize'        => 'camelize',
             'camel_ize'       => 'camel_ize',
             'CameLize'        => 'came_lize',
+            'CAMELIZE'        => 'Camelize',
+            'camelizE'        => 'Camelize',
         );
 
         $template = "Text::uncamelize did not convert the string '%s' correctly";
