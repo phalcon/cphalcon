@@ -884,7 +884,3 @@ class UnitTest extends PhTestUnitTestCase
         );
     }
 }
-
-);
-
-        $this-
