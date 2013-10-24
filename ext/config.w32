@@ -8,7 +8,7 @@ if (PHP_PHALCON != "no") {
   ADD_SOURCES("ext/phalcon/mvc/model/query", "scanner.c parser.c builder.c lang.c statusinterface.c status.c builderinterface.c", "phalcon")
   ADD_SOURCES("ext/phalcon/mvc/view/engine/volt", "scanner.c parser.c compiler.c", "phalcon")
   ADD_SOURCES("ext/phalcon/annotations", "scanner.c parser.c reflection.c annotation.c readerinterface.c exception.c collection.c adapterinterface.c adapter.c reader.c", "phalcon")
-  ADD_SOURCES("ext/phalcon/.", "logger.c flash.c dispatcherinterface.c di.c cryptinterface.c db.c text.c debug.c tag.c filterinterface.c acl.c loader.c exception.c crypt.c filter.c dispatcher.c diinterface.c escaper.c config.c escaperinterface.c validation.c version.c flashinterface.c kernel.c security.c translate.c session.c", "phalcon")
+  ADD_SOURCES("ext/phalcon/.", "logger.c flash.c dispatcherinterface.c di.c cryptinterface.c db.c text.c debug.c tag.c filterinterface.c acl.c loader.c exception.c crypt.c filter.c dispatcher.c diinterface.c escaper.c config.c escaperinterface.c validation.c version.c flashinterface.c kernel.c security.c session.c", "phalcon")
   ADD_SOURCES("ext/phalcon/cli/dispatcher", "exception.c", "phalcon")
   ADD_SOURCES("ext/phalcon/cli", "console.c router.c task.c dispatcher.c", "phalcon")
   ADD_SOURCES("ext/phalcon/cli/router", "exception.c", "phalcon")
