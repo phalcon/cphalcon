@@ -857,10 +857,30 @@ PHP_METHOD(Phalcon_Http_Cookie, __toString){
 	PHALCON_OBS_VAR(value);
 	phalcon_read_property_this(&value, this_ptr, SL("_value"), PH_NOISY_CC);
 	if (Z_TYPE_P(value) == IS_NULL) {
-		PHALCON_INIT_NVAR(value);
-		phalcon_call_method(value, this_ptr, "getvalue");
+		if (FAILURE == phalcon_call_method_params(return_value, this_ptr, SL("getvalue"), 0, NULL, zend_inline_hash_func(SS("getvalue")), 1 TSRMLS_CC)) {
+			if (EG(exception)) {
+				zval *e = EG(exception);
+				zval *m = zend_read_property(Z_OBJCE_P(e), e, SL("message"), 1 TSRMLS_CC);
+
+				Z_ADDREF_P(m);
+				if (Z_TYPE_P(m) != IS_STRING) {
+					convert_to_string_ex(&m);
+				}
+
+				if (return_value_ptr) {
+					ALLOC_INIT_ZVAL(*return_value_ptr);
+				}
+
+				zend_clear_exception(TSRMLS_C);
+				zend_error(E_ERROR, "%s", Z_STRVAL_P(m));
+				zval_ptr_dtor(&m);
+			}
+		}
+
+		RETURN_MM();
 	}
 	
-	RETURN_CCTOR(value);
+	RETVAL_ZVAL(value, 1, 0);
+	PHALCON_MM_RESTORE();
 }
 
