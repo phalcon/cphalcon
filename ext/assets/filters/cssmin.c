@@ -51,6 +51,7 @@ PHALCON_INIT_CLASS(Phalcon_Assets_Filters_Cssmin){
 
 	PHALCON_REGISTER_CLASS(Phalcon\\Assets\\Filters, Cssmin, assets_filters_cssmin, phalcon_assets_filters_cssmin_method_entry, 0);
 
+	zend_class_implements(phalcon_assets_filters_cssmin_ce TSRMLS_CC, 1, phalcon_assets_filterinterface_ce);
 	return SUCCESS;
 }
 
