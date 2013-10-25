@@ -299,7 +299,6 @@ di/exception.c \
 di/injectionawareinterface.c \
 di/service.c \
 security.c \
-translate.c \
 annotations/reflection.c \
 annotations/annotation.c \
 annotations/readerinterface.c \
