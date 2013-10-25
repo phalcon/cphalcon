@@ -38,6 +38,7 @@
 #include "kernel/object.h"
 #include "kernel/operators.h"
 #include "kernel/array.h"
+#include "kernel/require.h"
 
 /**
  * Phalcon\Config
@@ -448,7 +449,7 @@ static void phalcon_config_toarray_internal(zval **return_value_ptr, zval *this_
  */
 PHP_METHOD(Phalcon_Config, __construct){
 
-	zval *array_config = NULL;
+	zval *array_config = NULL, *file_path = NULL;
 
 	phalcon_fetch_params(0, 0, 1, &array_config);
 	
@@ -456,8 +457,20 @@ PHP_METHOD(Phalcon_Config, __construct){
 	 * Throw exceptions if bad parameters are passed
 	 */
 	if (array_config && Z_TYPE_P(array_config) != IS_ARRAY && Z_TYPE_P(array_config) != IS_NULL) {
-		PHALCON_THROW_EXCEPTION_STRW(phalcon_config_exception_ce, "The configuration must be an Array");
-		return;
+		if (Z_TYPE_P(array_config) == IS_STRING && phalcon_file_exists(array_config TSRMLS_CC) == SUCCESS) {
+			PHALCON_CPY_WRT_CTOR(file_path, array_config);
+
+			PHALCON_SEPARATE_PARAM(array_config);
+			PHALCON_INIT_NVAR(array_config);
+
+			if (phalcon_require_ret(array_config, file_path TSRMLS_CC) == FAILURE) {
+				PHALCON_THROW_EXCEPTION_STRW(phalcon_config_exception_ce, "Configuration file can't be require");
+				return;
+			}
+		} else {
+			PHALCON_THROW_EXCEPTION_STRW(phalcon_config_exception_ce, "The configuration must be an Array");
+			return;
+		}
 	}
 
 	phalcon_config_construct_internal(getThis(), array_config TSRMLS_CC);
