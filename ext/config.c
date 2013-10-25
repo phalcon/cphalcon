@@ -458,20 +458,8 @@ PHP_METHOD(Phalcon_Config, __construct){
 	 * Throw exceptions if bad parameters are passed
 	 */
 	if (array_config && Z_TYPE_P(array_config) != IS_ARRAY && Z_TYPE_P(array_config) != IS_NULL) {
-		if (Z_TYPE_P(array_config) == IS_STRING && phalcon_file_exists(array_config TSRMLS_CC) == SUCCESS) {
-			PHALCON_CPY_WRT_CTOR(file_path, array_config);
-
-			PHALCON_SEPARATE_PARAM(array_config);
-			PHALCON_INIT_NVAR(array_config);
-
-			if (phalcon_require_ret(array_config, file_path TSRMLS_CC) == FAILURE) {
-				PHALCON_THROW_EXCEPTION_STRW(phalcon_config_exception_ce, "Configuration file can't be require");
-				return;
-			}
-		} else {
-			PHALCON_THROW_EXCEPTION_STRW(phalcon_config_exception_ce, "The configuration must be an Array");
-			return;
-		}
+		PHALCON_THROW_EXCEPTION_STRW(phalcon_config_exception_ce, "The configuration must be an Array");
+		return;
 	}
 
 	phalcon_config_construct_internal(getThis(), array_config TSRMLS_CC);
