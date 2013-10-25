@@ -39,6 +39,8 @@
 #include "kernel/hash.h"
 #include "kernel/string.h"
 #include "kernel/array.h"
+#include "kernel/require.h"
+#include "kernel/file.h"
 
 /**
  * Phalcon\Config\Adapter\Php
@@ -48,17 +50,21 @@
  * Given the next configuration file:
  *
  *<code>
- *[database]
- *adapter = Mysql
- *host = localhost
- *username = scott
- *password = cheetah
- *dbname = test_db
+ *<?php
+ *return array(
+ *	'database' => array(
+ *		'adapter' => 'Mysql',
+ *		'host' => 'localhost',
+ *		'username' => 'scott',
+ *		'password' => 'cheetah',
+ *		'dbname' => 'test_db'
+ *	),
  *
- *[phalcon]
- *controllersDir = "../app/controllers/"
- *modelsDir = "../app/models/"
- *viewsDir = "../app/views/"
+ *	'phalcon' => array(
+ *		'controllersDir' => '../app/controllers/',
+ *		'modelsDir' => '../app/models/',
+ *		'viewsDir' => '../app/views/'
+ *));
  *</code>
  *
  * You can read it as follows:
@@ -70,53 +76,6 @@
  *</code>
  *
  */
-
-static inline void phalcon_config_adapter_php_update_zval_directive(zval **arr, zval *section, zval *directive, zval **value, int flags TSRMLS_DC) {
-	zval *temp1 = NULL, *temp2 = NULL, *index = NULL;
-	int i, n;
-
-	n = zend_hash_num_elements(Z_ARRVAL_P(directive));
-
-	if (Z_TYPE_PP(arr) == IS_ARRAY) {
-		phalcon_array_fetch(&temp1, *arr, section, PH_SILENT);
-		if (Z_REFCOUNT_P(temp1) > 1) {
-			phalcon_array_update_zval(arr, section, &temp1, PH_COPY | PH_CTOR);
-		}
-		if (Z_TYPE_P(temp1) != IS_ARRAY) {
-			convert_to_array(temp1);
-			phalcon_array_update_zval(arr, section, &temp1, PH_COPY);
-		}
-
-		for (i = 0; i < n - 1; i++) {
-			phalcon_array_fetch_long(&index, directive, i, PH_NOISY);
-
-			phalcon_array_fetch(&temp2, temp1, index, PH_SILENT);
-			if (Z_REFCOUNT_P(temp2) > 1) {
-				phalcon_array_update_zval(&temp1, index, &temp2, PH_COPY | PH_CTOR);
-			}
-			if (Z_TYPE_P(temp2) != IS_ARRAY) {
-				convert_to_array(temp2);
-				phalcon_array_update_zval(&temp1, index, &temp2, PH_COPY);
-			}
-			zval_ptr_dtor(&index);
-
-			if (temp1 != NULL) {
-				zval_ptr_dtor(&temp1);
-			}
-			temp1 = temp2;
-			temp2 = NULL;
-		}
-
-		phalcon_array_fetch_long(&index, directive, n - 1, PH_NOISY);
-		phalcon_array_update_zval(&temp1, index, value, PH_COPY);
-
-		zval_ptr_dtor(&index);
-
-		if (temp1 != NULL) {
-			zval_ptr_dtor(&temp1);
-		}
-	}
-}
 
 /**
  * Phalcon\Config\Adapter\Php phptializer

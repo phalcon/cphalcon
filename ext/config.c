@@ -38,8 +38,6 @@
 #include "kernel/object.h"
 #include "kernel/operators.h"
 #include "kernel/array.h"
-#include "kernel/require.h"
-#include "kernel/file.h"
 
 /**
  * Phalcon\Config
