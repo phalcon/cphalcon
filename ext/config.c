@@ -448,7 +448,7 @@ static void phalcon_config_toarray_internal(zval **return_value_ptr, zval *this_
  */
 PHP_METHOD(Phalcon_Config, __construct){
 
-	zval *array_config = NULL, *file_path = NULL;
+	zval *array_config = NULL;
 
 	phalcon_fetch_params(0, 0, 1, &array_config);
 	
