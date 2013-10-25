@@ -214,7 +214,7 @@
 #include "logger/formatter/syslog.h"
 #include "config/adapter/ini.h"
 #include "config/adapter/json.h"
-#include "config/adapter/php.h"
+#include "config/adapter/configphp.h"
 #include "config/exception.h"
 #include "forms/form.h"
 #include "forms/manager.h"
