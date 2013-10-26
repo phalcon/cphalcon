@@ -38,6 +38,7 @@
 #include "kernel/array.h"
 #include "kernel/object.h"
 #include "kernel/fcall.h"
+#include "kernel/string.h"
 
 /**
  * Phalcon\Http\Request\File
@@ -210,7 +211,7 @@ PHP_METHOD(Phalcon_Http_Request_File, getRealType){
 
 	PHALCON_INIT_VAR(mime);
 	phalcon_call_func_p2(mime, "finfo_file", finfo, temp_file);
-	phalcon_call_func_p1_noret(mime, "finfo_close", finfo);
+	phalcon_call_func_p1_noret("finfo_close", finfo);
 
 	if (Z_TYPE_P(mime) != IS_STRING) {
 		RETURN_MM_NULL();
