@@ -204,7 +204,6 @@ zend_class_entry *phalcon_forms_elementinterface_ce;
 zend_class_entry *phalcon_forms_element_numeric_ce;
 zend_class_entry *phalcon_forms_element_password_ce;
 zend_class_entry *phalcon_crypt_ce;
-zend_class_entry *phalcon_translate_ce;
 zend_class_entry *phalcon_translate_exception_ce;
 zend_class_entry *phalcon_translate_adapter_ce;
 zend_class_entry *phalcon_translate_adapterinterface_ce;
@@ -594,7 +593,6 @@ static PHP_MINIT_FUNCTION(phalcon){
 	PHALCON_INIT(Phalcon_Forms_Element_Password);
 	PHALCON_INIT(Phalcon_Forms_Element_TextArea);
 	PHALCON_INIT(Phalcon_Crypt);
-	PHALCON_INIT(Phalcon_Translate);
 	PHALCON_INIT(Phalcon_Translate_Exception);
 	PHALCON_INIT(Phalcon_Translate_Adapter_NativeArray);
 	PHALCON_INIT(Phalcon_Crypt_Exception);

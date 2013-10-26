@@ -228,7 +228,6 @@
 #include "forms/element/password.h"
 #include "forms/element/textarea.h"
 #include "crypt.h"
-#include "translate.h"
 #include "translate/exception.h"
 #include "translate/adapter/nativearray.h"
 #include "crypt/exception.h"

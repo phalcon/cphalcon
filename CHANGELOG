@@ -1,3 +1,8 @@
+1.2.5
+ - Http\Cookie::__toString() will not throw exceptions (#1427)
+ - Phalcon\Http\Cookie::__toString() will return a string value (#1428)
+ - Camelize does not ignore the last character of a string anymore (#1436)
+
 1.2.4
  - Fixed broken ACL inheritance (#905)
  - Fixed crash while rendering element's label (#1210)
