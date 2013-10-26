@@ -76,6 +76,7 @@ PHALCON_INIT_CLASS(Phalcon_Http_Request_File){
 	zend_declare_property_null(phalcon_http_request_file_ce, SL("_tmp"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_http_request_file_ce, SL("_size"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_http_request_file_ce, SL("_type"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_http_request_file_ce, SL("_real_type"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_http_request_file_ce, SL("_error"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_http_request_file_ce, SL("_key"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
@@ -194,6 +195,13 @@ PHP_METHOD(Phalcon_Http_Request_File, getRealType){
 
 	PHALCON_MM_GROW();
 
+	PHALCON_OBS_VAR(mime);
+	phalcon_read_property_this(&mime, this_ptr, SL("_real_type"), PH_NOISY_CC);
+
+	if (Z_TYPE_P(mime) == IS_STRING) {
+		RETURN_CTOR(mime, 1, 0);
+	}
+
 	PHALCON_INIT_VAR(constant);
 	if (!zend_get_constant(SL("FILEINFO_MIME"), constant TSRMLS_CC)) {
 		RETURN_MM_NULL();
@@ -209,7 +217,7 @@ PHP_METHOD(Phalcon_Http_Request_File, getRealType){
 	PHALCON_OBS_VAR(temp_file);
 	phalcon_read_property_this(&temp_file, this_ptr, SL("_tmp"), PH_NOISY_CC);
 
-	PHALCON_INIT_VAR(mime);
+	PHALCON_INIT_NVAR(mime);
 	phalcon_call_func_p2(mime, "finfo_file", finfo, temp_file);
 	phalcon_call_func_p1_noret("finfo_close", finfo);
 
