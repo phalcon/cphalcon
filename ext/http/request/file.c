@@ -225,8 +225,9 @@ PHP_METHOD(Phalcon_Http_Request_File, getRealType){
 	phalcon_preg_match(ret, &ret, pattern, mime, matches TSRMLS_CC);
 
 	if (zend_is_true(ret)) {
-		if (phalcon_array_isset_long_fetch(&return_value, matches, 1)) {
-			RETURN_MM();
+		PHALCON_INIT_NVAR(ret);
+		if (phalcon_array_isset_long_fetch(&ret, matches, 1)) {
+			RETURN_CTOR(ret);
 		}
 	}
 
