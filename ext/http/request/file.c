@@ -185,13 +185,51 @@ PHP_METHOD(Phalcon_Http_Request_File, getType){
 /**
  * Gets the real mime type of the upload file using finfo
  *
- * @todo Not implemented
  * @return string
  */
 PHP_METHOD(Phalcon_Http_Request_File, getRealType){
 
+	zval *constant, *finfo, *temp_file, *mime, *pattern, *matches, *ret;
 
+	PHALCON_MM_GROW();
+
+	PHALCON_INIT_VAR(constant);
+	if (!zend_get_constant(SL("FILEINFO_MIME"), constant TSRMLS_CC)) {
+		RETURN_MM_NULL();
+	}
+
+	PHALCON_INIT_VAR(finfo);
+	phalcon_call_func_p1(finfo, "finfo_open", constant);
+
+	if (Z_TYPE_P(finfo) != IS_RESOURCE) {
+		RETURN_MM_NULL();
+	}
+
+	PHALCON_OBS_VAR(temp_file);
+	phalcon_read_property_this(&temp_file, this_ptr, SL("_tmp"), PH_NOISY_CC);
+
+	PHALCON_INIT_VAR(mime);
+	phalcon_call_func_p2(mime, "finfo_file", finfo, temp_file);
+	phalcon_call_func_p1_noret(mime, "finfo_close", finfo);
+
+	if (Z_TYPE_P(mime) != IS_STRING) {
+		RETURN_MM_NULL();
+	}
 	
+	PHALCON_INIT_VAR(pattern);
+	ZVAL_STRING(pattern, "#^([a-z\\-]+\\/[a-z0-9\\-\\.\\+]+)(;\\s.+)?$#", 1);
+
+	PHALCON_INIT_VAR(matches);
+	PHALCON_INIT_VAR(ret);
+	phalcon_preg_match(ret, &ret, pattern, mime, matches TSRMLS_CC);
+
+	if (zend_is_true(ret)) {
+		if (phalcon_array_isset_long_fetch(&return_value, matches, 1)) {
+			RETURN_MM();
+		}
+	}
+
+	RETURN_MM_NULL();	
 }
 
 /**
