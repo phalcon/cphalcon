@@ -98,6 +98,7 @@ void phalcon_htmlentities(zval *return_value, zval *string, zval *quoting, zval 
 void phalcon_strval(zval *return_value, zval *v);
 void phalcon_date(zval *return_value, zval *format, zval *timestamp TSRMLS_DC);
 void phalcon_addslashes(zval *return_value, zval *str TSRMLS_DC);
+void phalcon_add_trailing_slash(zval** v);
 
 #if PHP_VERSION_ID < 50400
 

@@ -137,25 +137,7 @@ PHP_METHOD(Phalcon_Mvc_View, setViewsDir){
 	zval **views_dir;
 
 	phalcon_fetch_params_ex(1, 0, &views_dir);
-	PHALCON_ENSURE_IS_STRING(views_dir);
-	if (Z_STRLEN_PP(views_dir)) {
-		int len = Z_STRLEN_PP(views_dir);
-		char *c = Z_STRVAL_PP(views_dir);
-
-		if (c[len-1] != '/' && c[len-1] != '\\') {
-			SEPARATE_ZVAL(views_dir);
-			c = Z_STRVAL_PP(views_dir);
-
-			c = erealloc(c, len+2);
-			if (c != NULL) {
-				c[len]   = PHP_DIR_SEPARATOR;
-				c[len+1] = 0;
-
-				ZVAL_STRINGL(*views_dir, c, len+1, 0);
-			}
-		}
-	}
-
+	phalcon_add_trailing_slash(views_dir);
 	phalcon_update_property_this(this_ptr, SL("_viewsDir"), *views_dir TSRMLS_CC);
 	
 	RETURN_THISW();
@@ -187,25 +169,7 @@ PHP_METHOD(Phalcon_Mvc_View, setLayoutsDir){
 	zval **layouts_dir;
 
 	phalcon_fetch_params_ex(1, 0, &layouts_dir);
-	PHALCON_ENSURE_IS_STRING(layouts_dir);
-	if (Z_STRLEN_PP(layouts_dir)) {
-		int len = Z_STRLEN_PP(layouts_dir);
-		char *c = Z_STRVAL_PP(layouts_dir);
-
-		if (c[len-1] != '/' && c[len-1] != '\\') {
-			SEPARATE_ZVAL(layouts_dir);
-			c = Z_STRVAL_PP(layouts_dir);
-
-			c = erealloc(c, len+2);
-			if (c != NULL) {
-				c[len]   = PHP_DIR_SEPARATOR;
-				c[len+1] = 0;
-
-				ZVAL_STRINGL(*layouts_dir, c, len+1, 0);
-			}
-		}
-	}
-
+	phalcon_add_trailing_slash(layouts_dir);
 	phalcon_update_property_this(this_ptr, SL("_layoutsDir"), *layouts_dir TSRMLS_CC);
 	RETURN_THISW();
 }
@@ -236,25 +200,7 @@ PHP_METHOD(Phalcon_Mvc_View, setPartialsDir){
 	zval **partials_dir;
 
 	phalcon_fetch_params_ex(1, 0, &partials_dir);
-	PHALCON_ENSURE_IS_STRING(partials_dir);
-	if (Z_STRLEN_PP(partials_dir)) {
-		int len = Z_STRLEN_PP(partials_dir);
-		char *c = Z_STRVAL_PP(partials_dir);
-
-		if (c[len-1] != '/' && c[len-1] != '\\') {
-			SEPARATE_ZVAL(partials_dir);
-			c = Z_STRVAL_PP(partials_dir);
-
-			c = erealloc(c, len+2);
-			if (c != NULL) {
-				c[len]   = PHP_DIR_SEPARATOR;
-				c[len+1] = 0;
-
-				ZVAL_STRINGL(*partials_dir, c, len+1, 0);
-			}
-		}
-	}
-
+	phalcon_add_trailing_slash(partials_dir);
 	phalcon_update_property_this(this_ptr, SL("_partialsDir"), *partials_dir TSRMLS_CC);
 	RETURN_THISW();
 }
@@ -286,25 +232,7 @@ PHP_METHOD(Phalcon_Mvc_View, setBasePath){
 
 	phalcon_fetch_params_ex(1, 0, &base_path);
 
-	PHALCON_ENSURE_IS_STRING(base_path);
-	if (Z_STRLEN_PP(base_path)) {
-		int len = Z_STRLEN_PP(base_path);
-		char *c = Z_STRVAL_PP(base_path);
-
-		if (c[len-1] != '/' && c[len-1] != '\\') {
-			SEPARATE_ZVAL(base_path);
-			c = Z_STRVAL_PP(base_path);
-
-			c = erealloc(c, len+2);
-			if (c != NULL) {
-				c[len]   = PHP_DIR_SEPARATOR;
-				c[len+1] = 0;
-
-				ZVAL_STRINGL(*base_path, c, len+1, 0);
-			}
-		}
-	}
-	
+	phalcon_add_trailing_slash(base_path);
 	phalcon_update_property_this(this_ptr, SL("_basePath"), *base_path TSRMLS_CC);
 	RETURN_THISW();
 }
