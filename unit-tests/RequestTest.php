@@ -345,7 +345,7 @@ class RequestTest extends PHPUnit_Framework_TestCase
 		);
 
 		foreach ($request->getUploadedFiles(TRUE) as $file) {
-			$this->assertEquals($file->getType(), 'text/plain')
+			$this->assertEquals($file->getType(), 'text/plain');
 			$this->assertEquals($file->getRealType(), 'image/jpeg');			
 		}
 	}
