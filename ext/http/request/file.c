@@ -199,7 +199,7 @@ PHP_METHOD(Phalcon_Http_Request_File, getRealType){
 	phalcon_read_property_this(&mime, this_ptr, SL("_real_type"), PH_NOISY_CC);
 
 	if (Z_TYPE_P(mime) == IS_STRING) {
-		RETURN_CTOR(mime, 1, 0);
+		RETURN_CTOR(mime);
 	}
 
 	PHALCON_INIT_VAR(constant);
@@ -232,14 +232,16 @@ PHP_METHOD(Phalcon_Http_Request_File, getRealType){
 	PHALCON_INIT_VAR(ret);
 	phalcon_preg_match(ret, &ret, pattern, mime, matches TSRMLS_CC);
 
-	if (zend_is_true(ret)) {
-		PHALCON_INIT_NVAR(ret);
-		if (phalcon_array_isset_long_fetch(&ret, matches, 1)) {
-			RETURN_CTOR(ret);
-		}
+	if (zend_is_true(ret) && phalcon_array_isset_long(matches, 1)) {
+		PHALCON_OBS_NVAR(ret);
+		phalcon_array_fetch_long(&ret, matches, 1, PH_NOISY);
+
+		phalcon_update_property_this(this_ptr, SL("_real_type"), ret TSRMLS_CC);
+
+		RETURN_CTOR(ret);
 	}
 
-	RETURN_MM_NULL();	
+	RETURN_MM_NULL();
 }
 
 /**
