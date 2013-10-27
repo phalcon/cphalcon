@@ -393,15 +393,14 @@ PHP_METHOD(Phalcon_Cache_Backend_Apc, queryKeys){
 	
 	array_init(return_value);
 	
-	PHALCON_INIT_VAR(type);
-	ZVAL_STRING(type, "user", 1);
-	
 	apciterator_ce = zend_fetch_class(SL("APCIterator"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
 	
 	PHALCON_INIT_VAR(iterator);
 	object_init_ex(iterator, apciterator_ce);
 	assert(phalcon_has_constructor(iterator TSRMLS_CC));
 	if (!phalcon_cache_backend_is_apcu) {
+		PHALCON_ALLOC_GHOST_ZVAL(type);
+		ZVAL_STRING(type, "user", 1);
 		phalcon_call_method_p2_noret(iterator, "__construct", type, prefix_pattern);
 	}
 	else {
@@ -423,7 +422,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Apc, queryKeys){
 	assert(it->funcs->rewind != NULL);
 
 	it->funcs->rewind(it TSRMLS_CC);
-	while (it->funcs->valid(it TSRMLS_CC) == SUCCESS) {
+	while (it->funcs->valid(it TSRMLS_CC) == SUCCESS && !EG(exception)) {
 		PHALCON_INIT_NVAR(key);
 #if PHP_VERSION_ID < 50500
 		key_type = it->funcs->get_current_key(it, &str_key, &str_key_len, &int_key TSRMLS_CC);
