@@ -665,7 +665,7 @@ PHP_METHOD(Phalcon_Mvc_Model, getWriteConnection){
  */
 PHP_METHOD(Phalcon_Mvc_Model, assign){
 
-	zval *data, *column_map = NULL, *value = NULL, *key = NULL, *attribute = NULL;
+	zval *data, *column_map = NULL, *ignore = NULL, *value = NULL, *key = NULL, *attribute = NULL;
 	zval *exception_message = NULL;
 	HashTable *ah0;
 	HashPosition hp0;
@@ -673,10 +673,14 @@ PHP_METHOD(Phalcon_Mvc_Model, assign){
 
 	PHALCON_MM_GROW();
 
-	phalcon_fetch_params(1, 1, 1, &data, &column_map);
+	phalcon_fetch_params(1, 1, 1, &data, &column_map, &ignore);
 	
 	if (!column_map) {
 		column_map = PHALCON_GLOBAL(z_null);
+	}
+
+	if (!ignore) {
+		ignore = PHALCON_GLOBAL(z_false);
 	}
 	
 	if (Z_TYPE_P(data) != IS_ARRAY) { 
@@ -703,7 +707,7 @@ PHP_METHOD(Phalcon_Mvc_Model, assign){
 				PHALCON_OBS_NVAR(attribute);
 				phalcon_array_fetch(&attribute, column_map, key, PH_NOISY);
 				phalcon_update_property_zval_zval(this_ptr, attribute, value TSRMLS_CC);
-			} else {
+			} else if (!zend_is_true(ignore)) {
 				PHALCON_INIT_NVAR(exception_message);
 				PHALCON_CONCAT_SVS(exception_message, "Column \"", key, "\" doesn't make part of the column map");
 				PHALCON_THROW_EXCEPTION_ZVAL(phalcon_mvc_model_exception_ce, exception_message);
