@@ -369,15 +369,14 @@ PHP_METHOD(Phalcon_Cache_Backend_Apc, queryKeys){
 	
 	array_init(return_value);
 	
-	PHALCON_INIT_VAR(type);
-	ZVAL_STRING(type, "user", 1);
-	
 	apciterator_ce = zend_fetch_class(SL("APCIterator"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
 	
 	PHALCON_INIT_VAR(iterator);
 	object_init_ex(iterator, apciterator_ce);
 	assert(phalcon_has_constructor(iterator TSRMLS_CC));
 	if (!phalcon_cache_backend_is_apcu) {
+		PHALCON_ALLOC_GHOST_ZVAL(type);
+		ZVAL_STRING(type, "user", 1);
 		phalcon_call_method_p2_noret(iterator, "__construct", type, prefix_pattern);
 	}
 	else {
@@ -399,7 +398,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Apc, queryKeys){
 	assert(it->funcs->rewind != NULL);
 
 	it->funcs->rewind(it TSRMLS_CC);
-	while (it->funcs->valid(it TSRMLS_CC) == SUCCESS) {
+	while (it->funcs->valid(it TSRMLS_CC) == SUCCESS && !EG(exception)) {
 		PHALCON_INIT_NVAR(key);
 #if PHP_VERSION_ID < 50500
 		key_type = it->funcs->get_current_key(it, &str_key, &str_key_len, &int_key TSRMLS_CC);
@@ -488,13 +487,8 @@ PHP_METHOD(Phalcon_Cache_Backend_Apc, flush){
 
 	PHALCON_MM_GROW();
 	
-	PHALCON_INIT_VAR(prefix_pattern);	
+	PHALCON_INIT_VAR(prefix_pattern);
 	ZVAL_STRING(prefix_pattern, "/^_PHCA/", 1);	
-	
-	array_init(return_value);
-	
-	PHALCON_INIT_VAR(type);
-	ZVAL_STRING(type, "user", 1);
 	
 	apciterator_ce = zend_fetch_class(SL("APCIterator"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
 	
@@ -502,6 +496,8 @@ PHP_METHOD(Phalcon_Cache_Backend_Apc, flush){
 	object_init_ex(iterator, apciterator_ce);
 	assert(phalcon_has_constructor(iterator TSRMLS_CC));
 	if (!phalcon_cache_backend_is_apcu) {
+		PHALCON_ALLOC_GHOST_ZVAL(type);
+		ZVAL_STRING(type, "user", 1);
 		phalcon_call_method_p2_noret(iterator, "__construct", type, prefix_pattern);
 	}
 	else {
@@ -528,21 +524,23 @@ PHP_METHOD(Phalcon_Cache_Backend_Apc, flush){
 #if PHP_VERSION_ID < 50500
 		key_type = it->funcs->get_current_key(it, &str_key, &str_key_len, &int_key TSRMLS_CC);
 		if (likely(key_type == HASH_KEY_IS_STRING)) {
-			/**
-			 * Note that str_key_len includes the trailing zero.
-			 * Remove the _PHCA prefix.
-			 */
 			ZVAL_STRINGL(key, str_key, str_key_len - 1, 1);
 			efree(str_key);
 
-			phalcon_call_func_p1_noret("apc_delete", key);
+			phalcon_call_func_params(NULL, NULL, SL("apc_delete") TSRMLS_CC, 1, key);
+			if (unlikely(EG(exception) != NULL)) {
+				break;
+			}
 		}
 #else
 		PHALCON_INIT_NVAR(itkey);
 		it->funcs->get_current_key(it, itkey TSRMLS_CC);
 		if (likely(Z_TYPE_P(itkey) == IS_STRING)) {
 			ZVAL_STRINGL(key, Z_STRVAL_P(itkey), Z_STRLEN_P(itkey), 1);
-			phalcon_call_func_p1_noret("apc_delete", key);
+			phalcon_call_func_params(NULL, NULL, SL("apc_delete") TSRMLS_CC, 1, key);
+			if (unlikely(EG(exception) != NULL)) {
+				break;
+			}
 		}
 #endif
 
