@@ -22,6 +22,8 @@ extern zend_class_entry *phalcon_di_ce;
 
 PHALCON_INIT_CLASS(Phalcon_DI);
 
+PHALCON_STATIC void phalcon_di_set_services(zval *this_ptr, zval *services TSRMLS_DC);
+
 PHP_METHOD(Phalcon_DI, __construct);
 PHP_METHOD(Phalcon_DI, set);
 PHP_METHOD(Phalcon_DI, setShared);
