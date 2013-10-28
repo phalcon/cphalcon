@@ -25,6 +25,11 @@ class TagTest extends PHPUnit_Framework_TestCase
 
 	public function testSelect()
 	{
+		$data = array(
+			"status",
+			array("Active" => array('A1' => 'A One', 'A2' => 'A Two'), "B" => "B One")
+		);
+
 		$html = <<<HTML
 <select id="status" name="status">
 	<optgroup label="Active">
@@ -37,10 +42,22 @@ HTML;
 
 		$di = new Phalcon\DI\FactoryDefault();
 		Tag::setDI($di);
-		$ret = Tag::selectStatic(array(
-			"status",
-			array("Active" => array('A1' => 'A One', 'A2' => 'A Two'), "B" => "B One")
-		));
+		$ret = Tag::selectStatic($data);
+
+		$this->assertEquals($ret, $html);
+
+		$html = <<<HTML
+<select id="status" name="status">
+	<optgroup label="Active">
+	<option selected="selected" value="A1">A One</option>
+	<option value="A2">A Two</option>
+	</optgroup>
+	<option value="B">B One</option>
+</select>
+HTML;
+		Tag::setDefault("status", "A1");
+
+		$ret = Tag::selectStatic($data);
 
 		$this->assertEquals($ret, $html);
 	}
