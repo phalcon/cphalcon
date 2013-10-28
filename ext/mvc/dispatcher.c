@@ -287,3 +287,25 @@ PHP_METHOD(Phalcon_Mvc_Dispatcher, getActiveController){
 	RETURN_MEMBER(this_ptr, "_activeHandler");
 }
 
+/**
+ * Returns the previous controller in the dispatcher
+ *
+ * @return string
+ */
+PHP_METHOD(Phalcon_Mvc_Dispatcher, getPreviousControllerName){
+
+
+	RETURN_MEMBER(this_ptr, "_previousHandlerName");
+}
+
+/**
+ * Returns the previous action in the dispatcher
+ *
+ * @return string
+ */
+PHP_METHOD(Phalcon_Mvc_Dispatcher, getPreviousActionName){
+
+
+	RETURN_MEMBER(this_ptr, "_previousActionName");
+}
+
