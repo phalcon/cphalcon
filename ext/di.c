@@ -624,5 +624,5 @@ PHP_METHOD(Phalcon_DI, getDefault){
  */
 PHP_METHOD(Phalcon_DI, reset){
 
-	phalcon_update_static_property_ce(phalcon_di_ce, SL("_default"), PHALCON_GLOBAL(z_null) TSRMLS_CC);
+	zend_update_static_property_null(phalcon_di_ce, SL("_default") TSRMLS_CC);
 }

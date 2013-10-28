@@ -704,5 +704,5 @@ PHP_METHOD(Phalcon_Mvc_Router_Route, getConverters){
  */
 PHP_METHOD(Phalcon_Mvc_Router_Route, reset){
 
-	phalcon_update_static_property_ce(phalcon_mvc_router_route_ce, SL("_uniqueId"), PHALCON_GLOBAL(z_zero) TSRMLS_CC);
+	zend_update_static_property_long(phalcon_mvc_router_route_ce, SL("_uniqueId"), 0 TSRMLS_CC);
 }
