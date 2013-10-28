@@ -23,6 +23,28 @@ use Phalcon\Tag as Tag;
 class TagTest extends PHPUnit_Framework_TestCase
 {
 
+	public function testSelect()
+	{
+		$html = <<<HTML
+<select id="status" name="status">
+	<optgroup label="Active">
+	<option value="A1">A One</option>
+	<option value="A2">A Two</option>
+	</optgroup>
+	<option value="B">B One</option>
+</select>
+HTML;
+
+		$di = new Phalcon\DI\FactoryDefault();
+		Tag::setDI($di);
+		$ret = Tag::selectStatic(array(
+			"status",
+			array("Active" => array('A1' => 'A One', 'A2' => 'A Two'), "B" => "B One")
+		));
+
+		$this->assertEquals($ret, $html);
+	}
+
 	public function testSetTitleSeparator()
 	{
 

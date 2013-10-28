@@ -385,7 +385,7 @@ PHP_METHOD(Phalcon_Tag_Select, _optionsFromArray){
 			PHALCON_INIT_NVAR(array_options);
 			phalcon_call_self_p3(array_options, this_ptr, "_optionsfromarray", option_text, value, close_option);
 
-			PHALCON_SCONCAT_SVSVS(code, "\t<optgroup label=\"", escaped, "\">", array_options, "\t</optgroup>");
+			PHALCON_SCONCAT_SVSVS(code, "\t<optgroup label=\"", escaped, "\">" PHP_EOL, array_options, "\t</optgroup>" PHP_EOL);
 		} else {
 			phalcon_htmlspecialchars(escaped, option_value, NULL, NULL TSRMLS_CC);
 		
