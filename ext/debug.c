@@ -1021,7 +1021,7 @@ PHP_METHOD(Phalcon_Debug, onUncaughtException){
 	/** 
 	 * Globally block the debug component to avoid other exceptions must be shown
 	 */
-	phalcon_update_static_property_ce(phalcon_debug_ce, SL("_isActive"), PHALCON_GLOBAL(z_true) TSRMLS_CC);
+	zend_update_static_property_bool(phalcon_debug_ce, SL("_isActive"), 1 TSRMLS_CC);
 	
 	PHALCON_INIT_VAR(class_name);
 	phalcon_get_class(class_name, exception, 0 TSRMLS_CC);
@@ -1252,7 +1252,7 @@ PHP_METHOD(Phalcon_Debug, onUncaughtException){
 	/** 
 	 * Unlock the exception renderer
 	 */
-	phalcon_update_static_property_ce(phalcon_debug_ce, SL("_isActive"), PHALCON_GLOBAL(z_false) TSRMLS_CC);
+	zend_update_static_property_bool(phalcon_debug_ce, SL("_isActive"), 0 TSRMLS_CC);
 	RETURN_MM_TRUE;
 }
 
