@@ -422,6 +422,8 @@ PHALCON_INIT_CLASS(Phalcon_DI){
 	zend_class_implements(phalcon_di_ce TSRMLS_CC, 1, phalcon_diinterface_ce);
 
 	phalcon_di_ce->create_object = phalcon_di_ctor;
+	phalcon_di_ce->serialize     = zend_class_serialize_deny;
+	phalcon_di_ce->unserialize   = zend_class_unserialize_deny;
 
 	phalcon_di_object_handlers = *zend_get_std_object_handlers();
 	phalcon_di_object_handlers.read_dimension  = phalcon_di_read_dimension;
