@@ -1,0 +1,10 @@
+class_name: DbGuy
+modules:
+    enabled: [PhalconApiHelper, PhalconDbHelper]
+    config:
+        PhalconDbHelper:
+            driver: mysql
+            host: 'localhost'
+            username: 'root'
+            password: ''
+            dbname: 'phalcon_test'

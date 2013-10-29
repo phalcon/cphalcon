@@ -26,15 +26,8 @@ before_script:
 
 script:
  - (cd ext; NO_INTERACTION=1 make test)
- - $(phpenv which php) ./unit-tests/ci/phpunit.php --debug -c unit-tests/phpunit.xml
+ - php codecept.phar run
 
 after_failure:
  - sudo apt-get -qq install gdb
  - ./unit-tests/ci/after_failure.sh
-
-notifications:
-  email:
-    - andres@phalconphp.com
-    - eduar@phalconphp.com
-    - nikos@phalconphp.com
-    - vladimir@phalconphp.com
