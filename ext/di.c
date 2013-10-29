@@ -140,34 +140,36 @@ static int phalcon_di_call_method_internal(zval *return_value, zval **return_val
 
 	zend_str_tolower_copy(lc_method_name, method, method_len);
 
-	if (method_len > 3) {
-		if (!memcmp(lc_method_name, "get", 3) || !memcmp(lc_method_name, "set", 3)) {
-			phalcon_di_object *obj = phalcon_di_get_object(getThis() TSRMLS_CC);
-			char *service          = estrndup(method+3, method_len-3);
+	if (method_len > 3 && (!memcmp(lc_method_name, "get", 3) || !memcmp(lc_method_name, "set", 3))) {
+		phalcon_di_object *obj = phalcon_di_get_object(getThis() TSRMLS_CC);
+		char *service          = estrndup(method+3, method_len-3);
 
-			service[0] = tolower(service[0]);
+		service[0] = tolower(service[0]);
 
-			if (SUCCESS == zend_symtable_exists(obj->services, method, method_len + 1)) {
-				zval *svc;
+		if (SUCCESS == zend_symtable_exists(obj->services, method, method_len + 1)) {
+			zval *svc;
 
-				PHALCON_ALLOC_GHOST_ZVAL(svc);
-				ZVAL_STRINGL(svc, service, method_len - 3, 0);
+			PHALCON_ALLOC_GHOST_ZVAL(svc);
+			ZVAL_STRINGL(svc, service, method_len - 3, 0);
 
-				if (lc_method_name[0] == 'g') {
-					retval = phalcon_call_method_params(return_value, return_value_ptr, this_ptr, SL("get"), zend_inline_hash_func(SS("get")) TSRMLS_CC, 2, svc, param);
-				}
-				else {
-					retval = phalcon_call_method_params(return_value, return_value_ptr, this_ptr, SL("set"), zend_inline_hash_func(SS("set")) TSRMLS_CC, 2, svc, param);
-				}
+			if (lc_method_name[0] == 'g') {
+				retval = phalcon_call_method_params(return_value, return_value_ptr, this_ptr, SL("get"), zend_inline_hash_func(SS("get")) TSRMLS_CC, 2, svc, param);
+			}
+			else {
+				retval = phalcon_call_method_params(return_value, return_value_ptr, this_ptr, SL("set"), zend_inline_hash_func(SS("set")) TSRMLS_CC, 2, svc, param);
+			}
 
-				if (EG(exception)) {
-					retval = SUCCESS;
-					if (return_value_ptr) {
-						ALLOC_INIT_ZVAL(*return_value_ptr);
-					}
+			if (EG(exception)) {
+				retval = SUCCESS;
+				if (return_value_ptr) {
+					ALLOC_INIT_ZVAL(*return_value_ptr);
 				}
 			}
 		}
+	}
+
+	if (FAILURE == retval) {
+		zend_throw_exception_ex(phalcon_di_exception_ce, 0 TSRMLS_CC, "Call to undefined method or service '%s'", method);
 	}
 
 	efree(lc_method_name);
@@ -826,10 +828,6 @@ PHP_METHOD(Phalcon_DI, __call){
 	}
 	
 	phalcon_di_call_method_internal(return_value, return_value_ptr, getThis(), Z_STRVAL_PP(method), *arguments TSRMLS_CC);
-//	PHALCON_INIT_VAR(exception_message);
-//	PHALCON_CONCAT_SVS(exception_message, "Call to undefined method or service '", method, "'");
-//	PHALCON_THROW_EXCEPTION_ZVAL(phalcon_di_exception_ce, exception_message);
-//	return;
 }
 
 /**

@@ -64,6 +64,13 @@ $x = unserialize($s);
 $clone = clone $di;
 var_dump(isset($clone['test']));
 var_dump(get_class($clone->test()));
+
+try {
+	$di->somethingWeird();
+}
+catch (\Phalcon\DI\Exception $e) {
+	echo $e->getMessage(), PHP_EOL;
+}
 ?>
 --EXPECTF--
 MyDI::offsetSet
@@ -82,3 +89,5 @@ MyDI::offsetExists
 bool(true)
 MyDI::__call
 string(8) "stdClass"
+MyDI::__call
+Call to undefined method or service 'somethingWeird'
