@@ -287,7 +287,7 @@ namespace Phalcon\Cache\Backend;
 		var lastKey, prefix, newVal, functionName, origVal, success;
 
 		if !keyName {
-			let lastKey = this->_lastKey();
+			let lastKey = this->_lastKey;
 		} else {
 			let prefix = this->_prefix;
 			let lastKey = "_PHCX" . prefix . keyName;
@@ -300,7 +300,7 @@ namespace Phalcon\Cache\Backend;
 		if function_exists("xcache_inc") {
 			let newVal = xcache_inc(lastKey, value);
 		} else {
-			let origVal = (long) xcache_get(lastKey);
+			let origVal = xcache_get(lastKey);
 			let newVal = origVal + value;
 			let success = xcache_set(lastKey, newVal);
 		}
@@ -320,7 +320,7 @@ namespace Phalcon\Cache\Backend;
 		var lastKey, prefix, newVal, functionName, origVal, success;
 
 		if !keyName {
-			let lastKey = this->_lastKey();
+			let lastKey = this->_lastKey;
 		} else {
 			let prefix = this->_prefix;
 			let lastKey = "_PHCX" . prefix . keyName;
@@ -333,7 +333,7 @@ namespace Phalcon\Cache\Backend;
 		if function_exists("xcache_dec") {
 			let newVal = xcache_dec(lastKey, value);
 		} else {
-			let origVal = (long) xcache_get(lastKey);
+			let origVal = xcache_get(lastKey);
 			let newVal = origVal - value;
 			let success = xcache_set(lastKey, newVal);
 		}
@@ -348,7 +348,7 @@ namespace Phalcon\Cache\Backend;
 	*/
 	public function flush()
 	{
-		var prefix, prefixed, options, specialKey, keys, realKey, value;
+		var prefix, prefixed, options, specialKey, keys, realKey, value, key, index;
 
 		let prefixed = "_PHCX";
 		let options = this->_options;
@@ -363,7 +363,7 @@ namespace Phalcon\Cache\Backend;
         if typeof keys == "array" {
         	for key in keys {
         		unset(keys[key]);
-        		xcache_unset(realKey);
+        		xcache_unset(key);
         	}
         	xcache_set(specialKey, keys);
         }

@@ -287,10 +287,10 @@ PHP_METHOD(Phalcon_Events_Manager, fireQueue) {
 	zephir_call_method(data, event, "getdata");
 	ZEPHIR_INIT_VAR(_0);
 	zephir_call_method(_0, event, "getcancelable");
-	cancelable = (zephir_get_boolval(_0)) ? 1 : 0;
+	cancelable = zephir_get_boolval(_0);
 	ZEPHIR_OBS_VAR(_1);
 	zephir_read_property_this(&_1, this_ptr, SL("_collect"), PH_NOISY_CC);
-	collect = (zephir_get_boolval(_1)) ? 1 : 0;
+	collect = zephir_get_boolval(_1);
 	if (ZEPHIR_IS_STRING(queue, "object")) {
 		ZEPHIR_INIT_VAR(iterator);
 		if (zephir_clone(iterator, queue TSRMLS_CC) == FAILURE) {

@@ -15,6 +15,8 @@
 #include "kernel/object.h"
 #include "kernel/memory.h"
 #include "kernel/array.h"
+#include "kernel/fcall.h"
+#include "kernel/operators.h"
 
 
 /*
@@ -143,7 +145,7 @@ PHP_METHOD(Phalcon_Cache_Frontend_Output, getLifetime) {
 PHP_METHOD(Phalcon_Cache_Frontend_Output, isBuffering) {
 
 
-	RETURN_BOOL(0);
+	RETURN_MEMBER(this_ptr, "_buffering");
 
 }
 
@@ -152,7 +154,11 @@ PHP_METHOD(Phalcon_Cache_Frontend_Output, isBuffering) {
  */
 PHP_METHOD(Phalcon_Cache_Frontend_Output, start) {
 
+	ZEPHIR_MM_GROW();
 
+	zephir_update_property_this(this_ptr, SL("_buffering"), (1) ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
+	zephir_call_func_noret("ob_start");
+	ZEPHIR_MM_RESTORE();
 
 }
 
@@ -163,8 +169,16 @@ PHP_METHOD(Phalcon_Cache_Frontend_Output, start) {
  */
 PHP_METHOD(Phalcon_Cache_Frontend_Output, getContent) {
 
+	zval *buffering;
 
-	RETURN_NULL();
+	ZEPHIR_MM_GROW();
+
+	buffering = zephir_fetch_nproperty_this(this_ptr, SL("_buffering"), PH_NOISY_CC);
+	if (zephir_is_true(buffering)) {
+		zephir_call_func(return_value, "ob_get_content");
+		RETURN_MM();
+	}
+	RETURN_MM_NULL();
 
 }
 
@@ -173,7 +187,17 @@ PHP_METHOD(Phalcon_Cache_Frontend_Output, getContent) {
  */
 PHP_METHOD(Phalcon_Cache_Frontend_Output, stop) {
 
+	zval *buffering;
 
+	ZEPHIR_MM_GROW();
+
+	buffering = zephir_fetch_nproperty_this(this_ptr, SL("_buffering"), PH_NOISY_CC);
+	if (zephir_is_true(buffering)) {
+		zephir_call_func(return_value, "ob_end_clean");
+		RETURN_MM();
+	}
+	zephir_update_property_this(this_ptr, SL("_buffering"), (0) ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
+	RETURN_MM_NULL();
 
 }
 
@@ -191,6 +215,7 @@ PHP_METHOD(Phalcon_Cache_Frontend_Output, beforeStore) {
 
 
 
+	RETURN_CCTORW(data);
 
 }
 
@@ -208,6 +233,7 @@ PHP_METHOD(Phalcon_Cache_Frontend_Output, afterRetrieve) {
 
 
 
+	RETURN_CCTORW(data);
 
 }
 

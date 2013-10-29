@@ -143,7 +143,7 @@ class Memory extends Phalcon\Cache\Backend implements Phalcon\Cache\BackendInter
 	 */
 	public function queryKeys(var prefix=null)
 	{
-		var data, keys;
+		var data, keys, index, value;
 
 		let data = this->_data;
 		let keys = [];
@@ -194,7 +194,7 @@ class Memory extends Phalcon\Cache\Backend implements Phalcon\Cache\BackendInter
 	*/
 	public function increment(keyName=null, value=null)
 	{
-		var lastKey, prefix, data, cachedContent, value, result;
+		var lastKey, prefix, data, cachedContent, result;
 
 		if !keyName {
 			let lastKey = this->_lastKey;
@@ -232,7 +232,7 @@ class Memory extends Phalcon\Cache\Backend implements Phalcon\Cache\BackendInter
 	*/
 	public function decrement(keyName=null, value=null)
 	{
-		var lastKey, prefix, data, cachedContent, value, result;
+		var lastKey, prefix, data, cachedContent, result;
 
 		if !keyName {
 			let lastKey = this->_lastKey;

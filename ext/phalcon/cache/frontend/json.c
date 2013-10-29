@@ -15,6 +15,7 @@
 #include "kernel/object.h"
 #include "kernel/memory.h"
 #include "kernel/array.h"
+#include "kernel/fcall.h"
 
 
 /*
@@ -170,10 +171,13 @@ PHP_METHOD(Phalcon_Cache_Frontend_Json, beforeStore) {
 
 	zval *data;
 
-	zephir_fetch_params(0, 1, 0, &data);
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 1, 0, &data);
 
 
 
+	zephir_call_func_p1(return_value, "json_encode", data);
+	RETURN_MM();
 
 }
 
@@ -187,10 +191,13 @@ PHP_METHOD(Phalcon_Cache_Frontend_Json, afterRetrieve) {
 
 	zval *data;
 
-	zephir_fetch_params(0, 1, 0, &data);
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 1, 0, &data);
 
 
 
+	zephir_call_func_p1(return_value, "json_decode", data);
+	RETURN_MM();
 
 }
 

@@ -133,5 +133,13 @@ abstract class Backend
 		return this->_started;
 	}
 
-
+	/**
+	* Gets the last lifetime set
+	*
+	* @return int
+	*/
+	public function getLifetime()
+	{
+		return this->_lastLifetime;
+	}
 }

@@ -14,6 +14,7 @@ PHP_METHOD(Phalcon_Cache_Backend, start);
 PHP_METHOD(Phalcon_Cache_Backend, stop);
 PHP_METHOD(Phalcon_Cache_Backend, isFresh);
 PHP_METHOD(Phalcon_Cache_Backend, isStarted);
+PHP_METHOD(Phalcon_Cache_Backend, getLifetime);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_cache_backend_setfrontend, 0, 0, 1)
 	ZEND_ARG_INFO(0, frontend)
@@ -53,5 +54,6 @@ ZEPHIR_INIT_FUNCS(phalcon_cache_backend_method_entry) {
 	PHP_ME(Phalcon_Cache_Backend, stop, arginfo_phalcon_cache_backend_stop, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Cache_Backend, isFresh, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Cache_Backend, isStarted, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Cache_Backend, getLifetime, NULL, ZEND_ACC_PUBLIC)
 	PHP_FE_END
 };

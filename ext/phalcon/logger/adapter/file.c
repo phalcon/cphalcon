@@ -21,6 +21,7 @@
 #include "kernel/concat.h"
 #include "kernel/object.h"
 #include "ext/spl/spl_exceptions.h"
+#include "kernel/file.h"
 
 
 /*
@@ -198,7 +199,7 @@ PHP_METHOD(Phalcon_Logger_Adapter_File, logInternal) {
 	ZEPHIR_INIT_VAR(_2);
 	ZVAL_LONG(_2, time);
 	zephir_call_method_p3(_0, formatter, "format", message, _1, _2);
-	zephir_call_func_p2_noret("fwrite", fileHandler, _0);
+	zephir_fwrite(NULL, fileHandler, _0);
 	ZEPHIR_MM_RESTORE();
 
 }

@@ -604,11 +604,11 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch) {
 		}
 		ZEPHIR_INIT_NVAR(_2);
 		zephir_call_method_p1_cache(_2, dependencyInjector, "has", &_6, handlerClass);
-		hasService = (zephir_get_boolval(_2)) ? 1 : 0;
+		hasService = zephir_get_boolval(_2);
 		if (!(hasService)) {
 			ZEPHIR_INIT_NVAR(_2);
 			zephir_call_func_p1(_2, "class_exists", handlerClass);
-			hasService = (zephir_get_boolval(_2)) ? 1 : 0;
+			hasService = zephir_get_boolval(_2);
 		}
 		if (!(hasService)) {
 			ZEPHIR_INIT_LNVAR(_7);

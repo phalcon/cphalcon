@@ -1763,7 +1763,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getRelationRecords) {
 	zephir_array_fast_append(arguments, findArguments);
 	ZEPHIR_INIT_NVAR(_2);
 	zephir_call_method(_2, relation, "isreusable");
-	reusable = (zephir_get_boolval(_2)) ? 1 : 0;
+	reusable = zephir_get_boolval(_2);
 	if (reusable) {
 		ZEPHIR_INIT_VAR(uniqueKey);
 		zephir_call_func_p2(uniqueKey, "unique_key", referencedModel, arguments);

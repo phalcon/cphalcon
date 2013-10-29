@@ -124,7 +124,7 @@ class Memcache extends Phalcon\Cache\Backend implements Phalcon\Cache\BackendInt
 	 */
 	public function get(keyName, lifetime=null)
 	{
-		var memcache, frontend, prefix, prefixedKey, cacheContent;
+		var memcache, frontend, prefix, prefixedKey, cachedContent;
 
 		let memcache = this->_memcache;
 		if typeof memcache != "object" {
@@ -198,7 +198,7 @@ class Memcache extends Phalcon\Cache\Backend implements Phalcon\Cache\BackendInt
         }
 
         if !lifetime {
-        	let tmp = this->_lastLifetime();
+        	let tmp = this->_lastLifetime;
 
         	if !tmp {
         		let tt1 = frontend->getLifetime();
@@ -260,7 +260,7 @@ class Memcache extends Phalcon\Cache\Backend implements Phalcon\Cache\BackendInt
 	 */
 	public function delete(keyName)
 	{
-		var memcache, prefix, prefixedKey, options, keys;
+		var memcache, prefix, prefixedKey, options, keys, specialKey;
 
 		let memcache = this->_memcache;
 		if typeof memcache != "object" {
@@ -298,7 +298,7 @@ class Memcache extends Phalcon\Cache\Backend implements Phalcon\Cache\BackendInt
 	 */
 	public function queryKeys(prefix=null)
 	{
-		var memcache, prefix, prefixedKey, options, keys;
+		var memcache, prefixedKey, options, keys, specialKey, key;
 
 		let memcache = this->_memcache;
 		
@@ -337,7 +337,7 @@ class Memcache extends Phalcon\Cache\Backend implements Phalcon\Cache\BackendInt
 	 */
 	public function exists(keyName=null, lifetime=null)
 	{
-		var lastKey, memcache, lastKey, value;
+		var lastKey, memcache, value, prefix;
 
 		if !keyName {
 			let lastKey = this->_lastKey;

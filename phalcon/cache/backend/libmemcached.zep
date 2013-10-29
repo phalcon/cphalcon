@@ -91,7 +91,7 @@ class Libmemcached extends Phalcon\Cache\Backend implements Phalcon\Cache\Backen
 	*/
 	public function _connect()
 	{
-		var options, memcache, client;
+		var options, memcache, client, servers, option, res;
 
 		let options = this->_options;
 		let memcache = new Memcached();
@@ -99,7 +99,8 @@ class Libmemcached extends Phalcon\Cache\Backend implements Phalcon\Cache\Backen
 		if !isset options["servers"] {
 			throw new Phalcon\Cache\Exception("Servers must be an array");
 		} else {
-			if typeof options["servers"] != "array" {
+			let servers = options["servers"];
+			if typeof servers != "array" {
 				throw new Phalcon\Cache\Exception("Servers must be an array");
 			}
 		}
@@ -111,7 +112,6 @@ class Libmemcached extends Phalcon\Cache\Backend implements Phalcon\Cache\Backen
 		}
 
 		if typeof client == "array" {
-
 			for option in client {
 				if typeof option == "string" {
 					let res = Constant(option);
@@ -210,7 +210,7 @@ class Libmemcached extends Phalcon\Cache\Backend implements Phalcon\Cache\Backen
         }
 
         if !lifetime {
-        	let tmp = this->_lastLifetime();
+        	let tmp = this->_lastLifetime;
 
         	if !tmp {
         		let tt1 = frontend->getLifetime();
@@ -338,7 +338,7 @@ class Libmemcached extends Phalcon\Cache\Backend implements Phalcon\Cache\Backen
 	 */
 	public function delete(keyName)
 	{
-		var memcache, prefix, prefixedKey, options, keys;
+		var memcache, prefix, prefixedKey, options, keys, specialKey;
 
 		let memcache = this->_memcache;
 		if typeof memcache != "object" {
@@ -376,7 +376,7 @@ class Libmemcached extends Phalcon\Cache\Backend implements Phalcon\Cache\Backen
 	 */
 	public function queryKeys(prefix=null)
 	{
-		var memcache, prefix, prefixedKey, options, keys;
+		var memcache, prefixedKey, options, keys, specialKey, key;
 
 		let memcache = this->_memcache;
 		
@@ -415,7 +415,7 @@ class Libmemcached extends Phalcon\Cache\Backend implements Phalcon\Cache\Backen
 	 */
 	public function exists(keyName=null, lifetime=null)
 	{
-		var lastKey, memcache, lastKey, value;
+		var lastKey, memcache, value, prefix;
 
 		if !keyName {
 			let lastKey = this->_lastKey;
@@ -447,7 +447,7 @@ class Libmemcached extends Phalcon\Cache\Backend implements Phalcon\Cache\Backen
 	*/
 	public function flush()
 	{
-		var memcache, prefix, prefixedKey, options, keys;
+		var memcache, prefix, prefixedKey, options, keys, specialKey, key;
 
 		let memcache = this->_memcache;
 		

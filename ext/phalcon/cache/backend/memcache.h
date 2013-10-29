@@ -4,6 +4,7 @@ extern zend_class_entry *phalcon_cache_backend_memcache_ce;
 ZEPHIR_INIT_CLASS(Phalcon_Cache_Backend_Memcache);
 
 PHP_METHOD(Phalcon_Cache_Backend_Memcache, __construct);
+PHP_METHOD(Phalcon_Cache_Backend_Memcache, _connect);
 PHP_METHOD(Phalcon_Cache_Backend_Memcache, get);
 PHP_METHOD(Phalcon_Cache_Backend_Memcache, save);
 PHP_METHOD(Phalcon_Cache_Backend_Memcache, delete);
@@ -42,6 +43,7 @@ ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_cache_backend_memcache_method_entry) {
 	PHP_ME(Phalcon_Cache_Backend_Memcache, __construct, arginfo_phalcon_cache_backend_memcache___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
+	PHP_ME(Phalcon_Cache_Backend_Memcache, _connect, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Cache_Backend_Memcache, get, arginfo_phalcon_cache_backend_memcache_get, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Cache_Backend_Memcache, save, arginfo_phalcon_cache_backend_memcache_save, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Cache_Backend_Memcache, delete, arginfo_phalcon_cache_backend_memcache_delete, ZEND_ACC_PUBLIC)

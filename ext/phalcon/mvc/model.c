@@ -2470,7 +2470,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _doLowInsert) {
 		zephir_call_method(defaultValue, connection, "getdefaultidvalue");
 		ZEPHIR_INIT_NVAR(_3);
 		zephir_call_method(_3, connection, "useexplicitidvalue");
-		useExplicitIdentity = (zephir_get_boolval(_3)) ? 1 : 0;
+		useExplicitIdentity = zephir_get_boolval(_3);
 		if (useExplicitIdentity) {
 			zephir_array_append(&fields, identityField, PH_SEPARATE);
 		}
@@ -2579,7 +2579,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _doLowUpdate) {
 	manager = zephir_fetch_nproperty_this(this_ptr, SL("_modelsManager"), PH_NOISY_CC);
 	ZEPHIR_INIT_VAR(_0);
 	zephir_call_method_p1(_0, manager, "isusingdynamicupdate", this_ptr);
-	useDynamicUpdate = (zephir_get_boolval(_0)) ? 1 : 0;
+	useDynamicUpdate = zephir_get_boolval(_0);
 	if (useDynamicUpdate) {
 		snapshot = zephir_fetch_nproperty_this(this_ptr, SL("_snapshot"), PH_NOISY_CC);
 		if ((Z_TYPE_P(snapshot) != IS_ARRAY)) {
@@ -2872,7 +2872,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _postSaveRelatedRecords) {
 			}
 			ZEPHIR_INIT_NVAR(_12);
 			zephir_call_method_cache(_12, relation, "isthrough", &_15);
-			isThrough = (zephir_get_boolval(_12)) ? 1 : 0;
+			isThrough = zephir_get_boolval(_12);
 			if (isThrough) {
 				ZEPHIR_INIT_NVAR(intermediateModelName);
 				zephir_call_method_cache(intermediateModelName, relation, "getintermediatemodel", &_16);

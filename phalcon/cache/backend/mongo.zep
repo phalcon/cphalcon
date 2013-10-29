@@ -82,9 +82,9 @@ class Mongo extends Phalcon\Cache\Backend implements Phalcon\Cache\BackendInterf
 	*
 	* @return MongoCollection
 	*/
-	public function getCollection()
+	public function _getCollection()
 	{
-		var mongoCollection, options, mongo, server, database, collection, mongoDatabase, mongoCollection;
+		var options, mongo, server, database, collection, mongoDatabase, mongoCollection;
 
 		let mongoCollection = this->_collection;
 		if typeof mongoCollection != "object" {
@@ -148,10 +148,12 @@ class Mongo extends Phalcon\Cache\Backend implements Phalcon\Cache\BackendInterf
 		var frontend, prefix, prefixedKey, collection, conditions, timeCondition, document,
 			cachedContent;
 
+		let conditions = [];
+		let timeCondition = [];
 		let frontend = this->_frontend;
 		let prefix = this->_prefix;
 		let prefixedKey = prefix . keyName;
-		let this->_lastkey = prefixedKey;
+		let this->_lastKey = prefixedKey;
 		let collection = this->_getCollection();
 		let conditions["key"] = prefixedKey;
 		let timeCondition["$gt"] = time();
@@ -184,10 +186,13 @@ class Mongo extends Phalcon\Cache\Backend implements Phalcon\Cache\BackendInterf
 	public function save(keyName=null, content=null, lifetime=null, stopBuffer=true)
 	{
 		var lastkey, prefix, frontend, cachedContent, tmp, tt1, collection, timestamp, conditions,
-			document, preparedContent, isBuffering;
+			document, preparedContent, isBuffering, data;
+
+		let conditions = [];
+		let data = [];
 
 		if !keyName {
-			let lastkey = this->_lastkey;
+			let lastkey = this->_lastKey;
 		} else {
 			let prefix = this->_prefix;
 			let lastkey = prefix . keyName;
@@ -266,6 +271,7 @@ class Mongo extends Phalcon\Cache\Backend implements Phalcon\Cache\BackendInterf
 	{
 		var prefix, prefixedKey, collection, conditions;
 
+		let conditions = [];
 		let prefix = this->_prefix;
 		let prefixedKey = prefix . keyName;
 		let collection = this->_getCollection();
@@ -288,8 +294,10 @@ class Mongo extends Phalcon\Cache\Backend implements Phalcon\Cache\BackendInterf
 	public function queryKeys(prefix=null)
 	{
 		var collection, fields, conditions, pattern, regex, timeCondition, documents,
-			documentsArray, keys;
+			documentsArray, keys, index, key;
 
+		let fields = [];
+		let timeCondition = [];
 		let collection = this->_getCollection();
 		let fields["key"] = 1;
 		let conditions = [];
@@ -326,6 +334,9 @@ class Mongo extends Phalcon\Cache\Backend implements Phalcon\Cache\BackendInterf
 	{
 		var lastKey, collection, conditions, number, timeCondition;
 
+		let conditions = [];
+		let timeCondition = [];
+
 		if keyName === null {
 			let lastKey = this->_lastKey;
 		} else {
@@ -355,8 +366,9 @@ class Mongo extends Phalcon\Cache\Backend implements Phalcon\Cache\BackendInterf
 	{
 		var conditions, timeCondition, collection;
 
-		let timeCondition["$gt"] = time();
-		let conditions["time"] = timeCondition;
+
+		let timeCondition = ["$gt": time()];
+		let conditions = ["time": timeCondition];
 		let collection = this->_getCollection();
 		return collection->remove(conditions);
 	}
@@ -380,10 +392,10 @@ class Mongo extends Phalcon\Cache\Backend implements Phalcon\Cache\BackendInterf
 		let this->_lastKey = prefixedKey;
 		
 		let collection = this->_getCollection();
-		let conditions["key"] = prefixedKey;
+		let conditions = ["key": prefixedKey];
 		let document = collection->findOne(conditions);
 		let timestamp = time();
-		let lifetime = this->_lastLifetime();
+		let lifetime = this->_lastLifetime;
 		
 		if !lifetime {
 			let tt1 = frontend->getLifetime();
@@ -407,7 +419,7 @@ class Mongo extends Phalcon\Cache\Backend implements Phalcon\Cache\BackendInterf
         		throw new Phalcon\Cache\Exception("The cache is currupted");
         	}
 
-        	let cachedContent = (long) document["data"];
+        	let cachedContent = document["data"];
 
         	if is_numeric(cachedContent) {
         		let keys = cachedContent + value;
@@ -437,10 +449,10 @@ class Mongo extends Phalcon\Cache\Backend implements Phalcon\Cache\BackendInterf
 		let this->_lastKey = prefixedKey;
 		
 		let collection = this->_getCollection();
-		let conditions["key"] = prefixedKey;
+		let conditions = ["key": prefixedKey];
 		let document = collection->findOne(conditions);
 		let timestamp = time();
-		let lifetime = this->_lastLifetime();
+		let lifetime = this->_lastLifetime;
 		
 		if !lifetime {
 			let tt1 = frontend->getLifetime();
@@ -464,7 +476,7 @@ class Mongo extends Phalcon\Cache\Backend implements Phalcon\Cache\BackendInterf
         		throw new Phalcon\Cache\Exception("The cache is currupted");
         	}
 
-        	let cachedContent = (long) document["data"];
+        	let cachedContent = document["data"];
 
         	if is_numeric(cachedContent) {
         		let keys = cachedContent - value;

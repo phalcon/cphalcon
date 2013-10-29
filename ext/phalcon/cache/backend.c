@@ -224,3 +224,15 @@ PHP_METHOD(Phalcon_Cache_Backend, isStarted) {
 
 }
 
+/**
+ * Gets the last lifetime set
+ *
+ * @return int
+ */
+PHP_METHOD(Phalcon_Cache_Backend, getLifetime) {
+
+
+	RETURN_MEMBER(this_ptr, "_lastLifetime");
+
+}
+
