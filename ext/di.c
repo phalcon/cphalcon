@@ -405,6 +405,26 @@ static zend_object_value phalcon_di_ctor(zend_class_entry* ce TSRMLS_DC)
 	return retval;
 }
 
+static zend_object_value phalcon_di_clone_obj(zval *zobject TSRMLS_DC)
+{
+	zend_object_value new_obj_val;
+	phalcon_di_object *old_object;
+	phalcon_di_object *new_object;
+	zend_object_handle handle = Z_OBJ_HANDLE_P(zobject);
+
+	old_object  = phalcon_di_get_object(zobject TSRMLS_CC);
+	new_obj_val = phalcon_di_ctor(Z_OBJCE_P(zobject) TSRMLS_CC);
+	new_object  = zend_object_store_get_object_by_handle(new_obj_val.handle TSRMLS_CC);
+
+	zend_objects_clone_members(&new_object->obj, new_obj_val, &old_object->obj, handle TSRMLS_CC);
+
+	zend_hash_copy(new_object->services, old_object->services, (copy_ctor_func_t)zval_add_ref, NULL, sizeof(zval*));
+	zend_hash_copy(new_object->shared, old_object->shared, (copy_ctor_func_t)zval_add_ref, NULL, sizeof(zval*));
+	new_object->fresh = old_object->fresh;
+
+	return new_obj_val;
+}
+
 void phalcon_di_set_services(zval *this_ptr, zval *services TSRMLS_DC)
 {
 	phalcon_di_object *obj = phalcon_di_get_object(this_ptr TSRMLS_CC);
@@ -432,6 +452,7 @@ PHALCON_INIT_CLASS(Phalcon_DI){
 	phalcon_di_object_handlers.get_properties  = phalcon_di_get_properties;
 	phalcon_di_object_handlers.get_method      = phalcon_di_get_method;
 	phalcon_di_object_handlers.call_method     = (zend_object_call_method_t)phalcon_di_call_method;
+	phalcon_di_object_handlers.clone_obj       = phalcon_di_clone_obj;
 
 	return SUCCESS;
 }
@@ -845,4 +866,7 @@ PHP_METHOD(Phalcon_DI, getDefault){
 PHP_METHOD(Phalcon_DI, reset){
 
 	zend_update_static_property_null(phalcon_di_ce, SL("_default") TSRMLS_CC);
+}
+
+PHP_METHOD(Phalcon_DI, __clone) {
 }
