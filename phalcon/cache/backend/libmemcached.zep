@@ -35,12 +35,12 @@ namespace Phalcon\Cache\Backend;
  *
  * //Create the Cache setting memcached connection options
  * $cache = new Phalcon\Cache\Backend\Libmemcached($frontCache, array(
- *     'servers' => array(
+ *     "servers" => array(
  *         array('host' => 'localhost',
  *               'port' => 11211,
  *               'weight' => 1),
  *     ),
- *     'client' => array(
+ *     "client" => array(
  *         Memcached::OPT_HASH => Memcached::HASH_MD5,
  *         Memcached::OPT_PREFIX_KEY => 'prefix.',
  *     )
@@ -67,12 +67,16 @@ class Libmemcached extends Phalcon\Cache\Backend implements Phalcon\Cache\Backen
 	 */
 	public function __construct(<Phalcon\Cache\FrontendInterface> frontend, options=null)
 	{
+		var config;
+		
 		if typeof options != "array" {
 			let options = [];
 		}
 
 		if !isset options["servers"] {
-			let options["servers"][] = ["host": "127.0.0.1", "port": 11211, "weigth": 1];
+			let config = ["host": "127.0.0.1", "port": 11211, "weigth": 1];
+			
+			let options["servers"] = [config];
 		}
 
 		if !isset options["statsKey"] {
@@ -92,15 +96,15 @@ class Libmemcached extends Phalcon\Cache\Backend implements Phalcon\Cache\Backen
 		let options = this->_options;
 		let memcache = new Memcached();
 
-		if !isset options['servers'] {
+		if !isset options["servers"] {
 			throw new Phalcon\Cache\Exception("Servers must be an array");
 		} else {
-			if typeof options['servers'] != "array" {
+			if typeof options["servers"] != "array" {
 				throw new Phalcon\Cache\Exception("Servers must be an array");
 			}
 		}
 
-		let client = options['client'];
+		let client = options["client"];
 
 		if !memcache->addServers(servers) {
 			throw new Phalcon\Cache\Exception("Cannot connect to Memcached server");

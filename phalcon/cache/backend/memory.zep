@@ -143,7 +143,20 @@ class Memory extends Phalcon\Cache\Backend implements Phalcon\Cache\BackendInter
 	 */
 	public function queryKeys(var prefix=null)
 	{
+		var data, keys;
 
+		let data = this->_data;
+		let keys = [];
+		if typeof data == "array" {
+			if !prefix {
+				let keys = array_keys(data);
+			} else {
+				for index, value in data {
+					let keys[] = index;
+				}
+			}
+		}
+		return keys;
 	}
 
 	/**
@@ -172,4 +185,90 @@ class Memory extends Phalcon\Cache\Backend implements Phalcon\Cache\BackendInter
 		return false;
 	}
 
+	/**
+	* Increment of given $keyName by $value
+	*
+	* @param  string $keyName
+	* @param  long $lifetime
+	* @return boolean
+	*/
+	public function increment(keyName=null, value=null)
+	{
+		var lastKey, prefix, data, cachedContent, value, result;
+
+		if !keyName {
+			let lastKey = this->_lastKey;
+		} else {
+			let prefix = this->_prefix;
+			let this->_lastKey = prefix . keyName;
+		}
+
+		let data = this->_data;
+		if !isset data[lastKey] {
+			return null;
+		}
+		
+		let cachedContent = data[lastKey];
+		if !cachedContent {
+			return null;
+		}
+
+		if !value {
+			let value = 1;
+		}
+
+		let result = cachedContent + value;
+		let this->_data[lastKey] = result;
+
+		return result;
+	}
+
+	/**
+	* Decrement of $keyName by given $value
+	*
+	* @param  string $keyName
+	* @param  long $value
+	* @return long
+	*/
+	public function decrement(keyName=null, value=null)
+	{
+		var lastKey, prefix, data, cachedContent, value, result;
+
+		if !keyName {
+			let lastKey = this->_lastKey;
+		} else {
+			let prefix = this->_prefix;
+			let this->_lastKey = prefix . keyName;
+		}
+
+		let data = this->_data;
+		if !isset data[lastKey] {
+			return null;
+		}
+		
+		let cachedContent = data[lastKey];
+		if !cachedContent {
+			return null;
+		}
+
+		if !value {
+			let value = 1;
+		}
+
+		let result = cachedContent - value;
+		let this->_data[lastKey] = result;
+
+		return result;
+	}
+
+	/**
+	* Immediately invalidates all existing items.
+	* 
+	* @return boolean
+	*/
+	public function flush()
+	{
+		let this->_data = null;
+		return true;
+	}
 }
