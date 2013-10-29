@@ -103,7 +103,7 @@ class Builder
 				let this->_conditions = conditions;
 			} else {
 				if fetch conditions, params["conditions"] {
-				    if typeof conditions == "array" {
+					if typeof conditions == "array" {
 						let mergedConditions = [];
 						let mergedParams     = [];
 						let mergedTypes      = [];
@@ -124,14 +124,14 @@ class Builder
 								if typeof singleTypes == "array" {
 									let mergedTypes = array_merge(mergedTypes, singleTypes);
 								}
-                            }
-				        }
-                        let this->_conditions = implode(' AND ', mergedConditions);
-                        let this->_bindParams = mergedParams;
-                        let this->_bindTypes  = mergedTypes;
-				    } else {
-    					let this->_conditions = conditions;
-				    }
+							}
+						}
+						let this->_conditions = implode(' AND ', mergedConditions);
+						let this->_bindParams = mergedParams;
+						let this->_bindTypes  = mergedTypes;
+					} else {
+						let this->_conditions = conditions;
+					}
 				}
 			}
 
@@ -181,18 +181,18 @@ class Builder
 			 * Assign LIMIT clause
 			 */
 			if fetch limitClause, params["limit"] {
-                if typeof limitClause == "array" {
-                    fetch limit, limitClause[0];
-                    fetch offset, limitClause[1];
-                    if is_int(limit) {
-                        let this->_limit = limit;
-                    }
-                    if is_int(offset) {
-                        let this->_offset = offset;
-                    }
-                } else {
-    				let this->_limit = limitClause;
-                }
+				if typeof limitClause == "array" {
+					fetch limit, limitClause[0];
+					fetch offset, limitClause[1];
+					if is_int(limit) {
+						let this->_limit = limit;
+					}
+					if is_int(offset) {
+						let this->_offset = offset;
+					}
+				} else {
+					let this->_limit = limitClause;
+				}
 			}
 
 			/**
