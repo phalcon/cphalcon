@@ -91,7 +91,7 @@ class Builder
 		var conditions, columns, groupClause, havingClause, limitClause,
 			forUpdate, sharedLock, orderClause, offsetClause, joinsClause,
 			singleConditionArray, limit, offset, fromClause,
-			mergedConditions, mergedParams, mergedTypes
+			mergedConditions, mergedParams, mergedTypes,
 			singleCondition, singleParams, singleTypes;
 
 		if typeof params == "array" {
