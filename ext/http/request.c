@@ -570,11 +570,12 @@ PHP_METHOD(Phalcon_Http_Request, has){
 
 	phalcon_fetch_params(0, 1, 0, &name);
 	
+	PHALCON_MM_GROW();
 	phalcon_get_global(&_REQUEST, SS("_REQUEST") TSRMLS_CC);
 	if (phalcon_array_isset(_REQUEST, name)) {
-		RETURN_TRUE;
+		RETURN_MM_TRUE;
 	}
-	RETURN_FALSE;
+	RETURN_MM_FALSE;
 }
 
 /**
@@ -589,11 +590,12 @@ PHP_METHOD(Phalcon_Http_Request, hasPost){
 
 	phalcon_fetch_params(0, 1, 0, &name);
 	
+	PHALCON_MM_GROW();
 	phalcon_get_global(&_POST, SS("_POST") TSRMLS_CC);
 	if (phalcon_array_isset(_POST, name)) {
-		RETURN_TRUE;
+		RETURN_MM_TRUE;
 	}
-	RETURN_FALSE;
+	RETURN_MM_FALSE;
 }
 
 /**
@@ -653,11 +655,12 @@ PHP_METHOD(Phalcon_Http_Request, hasQuery){
 
 	phalcon_fetch_params(0, 1, 0, &name);
 	
+	PHALCON_MM_GROW();
 	phalcon_get_global(&_GET, SS("_GET") TSRMLS_CC);
 	if (phalcon_array_isset(_GET, name)) {
-		RETURN_TRUE;
+		RETURN_MM_TRUE;
 	}
-	RETURN_FALSE;
+	RETURN_MM_FALSE;
 }
 
 /**
@@ -672,11 +675,12 @@ PHP_METHOD(Phalcon_Http_Request, hasServer){
 
 	phalcon_fetch_params(0, 1, 0, &name);
 	
+	PHALCON_MM_GROW();
 	phalcon_get_global(&_SERVER, SS("_SERVER") TSRMLS_CC);
 	if (phalcon_array_isset(_SERVER, name)) {
-		RETURN_TRUE;
+		RETURN_MM_TRUE;
 	}
-	RETURN_FALSE;
+	RETURN_MM_FALSE;
 }
 
 /**
@@ -1105,6 +1109,7 @@ static const char* phalcon_http_request_getmethod_helper(TSRMLS_D)
 		INIT_ZVAL(key);
 		ZVAL_STRING(&key, "REQUEST_METHOD", 0);
 
+		/* FIXME: PHALCON_MM_GROW() */
 		phalcon_get_global(&_SERVER, SS("_SERVER") TSRMLS_CC);
 		value = phalcon_hash_get(Z_ARRVAL_P(_SERVER), &key, BP_VAR_NA);
 		if (value && Z_TYPE_PP(value) == IS_STRING) {
@@ -1144,6 +1149,7 @@ PHP_METHOD(Phalcon_Http_Request, getURI){
 	INIT_ZVAL(key);
 	ZVAL_STRING(&key, "REQUEST_URI", 0);
 
+	/* FIXME: PHALCON_MM_GROW() */
 	phalcon_get_global(&_SERVER, SS("_SERVER") TSRMLS_CC);
 	value = phalcon_hash_get(Z_ARRVAL_P(_SERVER), &key, BP_VAR_NA);
 	if (value && Z_TYPE_PP(value) == IS_STRING) {
@@ -1443,6 +1449,7 @@ PHP_METHOD(Phalcon_Http_Request, hasFiles){
 	
 	only_successful = not_errored ? phalcon_get_intval(not_errored) : 1;
 	
+	/* FIXME: PHALCON_MM_GROW() */
 	phalcon_get_global(&_FILES, SS("_FILES") TSRMLS_CC);
 	if (unlikely(Z_TYPE_P(_FILES) != IS_ARRAY)) {
 		RETURN_LONG(0);
@@ -1583,12 +1590,13 @@ PHP_METHOD(Phalcon_Http_Request, getUploadedFiles){
 
 	array_init(return_value);
 
+	PHALCON_MM_GROW();
+
 	phalcon_get_global(&_FILES, SS("_FILES") TSRMLS_CC);
 	if (Z_TYPE_P(_FILES) != IS_ARRAY || !zend_hash_num_elements(Z_ARRVAL_P(_FILES))) {
-		return;
+		RETURN_MM();
 	}
 
-	PHALCON_MM_GROW();
 	phalcon_is_iterable(_FILES, &ah0, &hp0, 0, 0);
 
 	while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS && !EG(exception)) {
@@ -1606,7 +1614,6 @@ PHP_METHOD(Phalcon_Http_Request, getUploadedFiles){
 					PHALCON_INIT_NVAR(key);
 					ZVAL_STRINGL(key, Z_STRVAL(index), Z_STRLEN(index), 1);
 
-					Z_ADDREF_PP(hd);
 					phalcon_call_method_p2_noret(request_file, "__construct", *hd, key);
 
 					phalcon_array_append(&return_value, request_file, 0);
@@ -1660,14 +1667,14 @@ PHP_METHOD(Phalcon_Http_Request, getHeaders){
 	HashPosition hp0;
 	zval **hd;
 
+	PHALCON_MM_GROW();
+
 	array_init(return_value);
 	phalcon_get_global(&_SERVER, SS("_SERVER") TSRMLS_CC);
 	if (unlikely(Z_TYPE_P(_SERVER) != IS_ARRAY)) {
-		return;
+		RETURN_MM();
 	}
 
-	PHALCON_MM_GROW();
-	
 	phalcon_is_iterable(_SERVER, &ah0, &hp0, 0, 0);
 	
 	while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
