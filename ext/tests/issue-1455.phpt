@@ -8,6 +8,9 @@ include('skipif.inc');
 if (!PHP_DEBUG) {
 	die('skip PHP must be compiled in debug mode');
 }
+if (!function_exists('apc_store')) {
+	die('skip APC or APCu is required');
+}
 ?>
 --FILE--
 <?php
