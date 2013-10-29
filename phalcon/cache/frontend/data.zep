@@ -1,4 +1,4 @@
-
+	
 /*
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
@@ -133,7 +133,7 @@ class Data implements Phalcon\Cache\FrontendInterface
 	 */
 	public function beforeStore(data)
 	{
-
+		return serialize(data);
 	}
 
 	/**
@@ -144,7 +144,7 @@ class Data implements Phalcon\Cache\FrontendInterface
 	 */
 	public function afterRetrieve(data)
 	{
-
+		return unserialize(data);
 	}
 
 }

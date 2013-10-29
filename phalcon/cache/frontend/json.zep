@@ -126,7 +126,7 @@ class Json implements Phalcon\Cache\FrontendInterface
 	 */
 	public function beforeStore(data)
 	{
-
+		return json_encode(data);
 	}
 
 	/**
@@ -137,7 +137,7 @@ class Json implements Phalcon\Cache\FrontendInterface
 	 */
 	public function afterRetrieve(data)
 	{
-
+		return json_decode(data);
 	}
 
 }

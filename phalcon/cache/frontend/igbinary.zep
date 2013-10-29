@@ -131,7 +131,7 @@ class Igbinary extends Phalcon\Cache\Frontend\Data implements Phalcon\Cache\Fron
 	 */
 	public function beforeStore(data)
 	{
-
+		return igbinary_serialize(data);
 	}
 
 	/**
@@ -142,7 +142,7 @@ class Igbinary extends Phalcon\Cache\Frontend\Data implements Phalcon\Cache\Fron
 	 */
 	public function afterRetrieve(data)
 	{
-
+		return igbinary_unserialize(data);
 	}
 
 }

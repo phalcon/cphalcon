@@ -108,7 +108,7 @@ class Output implements Phalcon\Cache\FrontendInterface
 	 */
 	public function isBuffering()
 	{
-		return false;
+		return this->_buffering;
 	}
 
 	/**
@@ -116,7 +116,8 @@ class Output implements Phalcon\Cache\FrontendInterface
 	 */
 	public function start()
 	{
-
+		let this->_buffering = true;
+		ob_start();
 	}
 
 	/**
@@ -125,6 +126,14 @@ class Output implements Phalcon\Cache\FrontendInterface
 	 * @return string
 	 */
 	public function getContent(){
+
+		var buffering;
+
+		let buffering = this->_buffering;
+		if buffering {
+			return ob_get_content();
+		}
+
 		return null;
 	}
 
@@ -133,7 +142,17 @@ class Output implements Phalcon\Cache\FrontendInterface
 	 */
 	public function stop()
 	{
+		var buffering;
 
+		let buffering = this->_buffering;
+		
+		if buffering {
+			return ob_end_clean();
+		}
+		
+		let this->_buffering = false;
+
+		return null;
 	}
 
 	/**
@@ -144,7 +163,7 @@ class Output implements Phalcon\Cache\FrontendInterface
 	 */
 	public function beforeStore(data)
 	{
-
+		return data;
 	}
 
 	/**
@@ -155,7 +174,7 @@ class Output implements Phalcon\Cache\FrontendInterface
 	 */
 	public function afterRetrieve(data)
 	{
-
+		return data;
 	}
 
 }
