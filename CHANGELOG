@@ -2,6 +2,7 @@
  - Http\Cookie::__toString() will not throw exceptions (#1427)
  - Phalcon\Http\Cookie::__toString() will return a string value (#1428)
  - Camelize does not ignore the last character of a string anymore (#1436)
+ - APC tests do not run under CLI when apc.enable_cli is 0 (#1449)
 
 1.2.4
  - Fixed broken ACL inheritance (#905)
