@@ -586,7 +586,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Memcache, decrement){
 PHP_METHOD(Phalcon_Cache_Backend_Memcache, flush){
 
 	zval *memcache, *options, *special_key;
-	zval *keys, *real_key = NULL;
+	zval *keys;
 	HashPosition pos;
 	zval **value;
 
@@ -618,13 +618,10 @@ PHP_METHOD(Phalcon_Cache_Backend_Memcache, flush){
 		) {
 			zval key = phalcon_get_current_key_w(Z_ARRVAL_P(keys), &pos);
 	
-			PHALCON_INIT_NVAR(real_key);
-			ZVAL_STRINGL(real_key, Z_STRVAL(key), Z_STRLEN(key), 1);
-
-			phalcon_array_unset(&keys, real_key, 0);			
-			phalcon_call_method_p1_noret(memcache, "delete", real_key);
+			phalcon_call_method_p1_noret(memcache, "delete", &key);
 		}
 		
+		zend_hash_clean(Z_ARRVAL_P(keys));
 		phalcon_call_method_p2_noret(memcache, "set", special_key, keys);
 	}
 	
