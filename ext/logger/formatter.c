@@ -1,4 +1,3 @@
-
 /*
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
@@ -70,7 +69,7 @@ PHP_METHOD(Phalcon_Logger_Formatter, getTypeString){
 	phalcon_fetch_params(0, 1, 0, &type);
 	
 	itype = phalcon_get_intval(type);
-	if (itype > 0 && itype < 10) {
+	if (itype >= 0 && itype < 10) {
 		RETURN_STRING(lut[itype], 1);
 	}
 	
