@@ -2125,7 +2125,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, execute){
 	phalcon_fetch_params(1, 1, 1, &code, &args);	
 
 	PHALCON_INIT_VAR(connection);
-	phalcon_call_method(connection, collection, "getconnection");
+	phalcon_call_method(connection, this_ptr, "getconnection");
 	
 	if (args) {
 		phalcon_call_method_p2(return_value, connection, "execute", code, args);
