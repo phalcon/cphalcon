@@ -221,7 +221,7 @@ PHP_METHOD(Phalcon_Http_Request_File, getRealType){
 	phalcon_call_func_p2(mime, "finfo_file", finfo, temp_file);
 	phalcon_call_func_p1_noret("finfo_close", finfo);
 
-	RETURN_CTOR(ret);
+	RETURN_CTOR(mime);
 }
 
 /**
