@@ -191,7 +191,7 @@ PHP_METHOD(Phalcon_Http_Request_File, getType){
  */
 PHP_METHOD(Phalcon_Http_Request_File, getRealType){
 
-	zval *constant, *finfo, *temp_file, *mime, *pattern, *matches, *ret;
+	zval *constant, *finfo, *temp_file, *mime;
 
 	PHALCON_MM_GROW();
 
