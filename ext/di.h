@@ -22,6 +22,8 @@ extern zend_class_entry *phalcon_di_ce;
 
 PHALCON_INIT_CLASS(Phalcon_DI);
 
+PHALCON_STATIC void phalcon_di_set_services(zval *this_ptr, zval *services TSRMLS_DC);
+
 PHP_METHOD(Phalcon_DI, __construct);
 PHP_METHOD(Phalcon_DI, set);
 PHP_METHOD(Phalcon_DI, setShared);
@@ -39,6 +41,7 @@ PHP_METHOD(Phalcon_DI, __call);
 PHP_METHOD(Phalcon_DI, setDefault);
 PHP_METHOD(Phalcon_DI, getDefault);
 PHP_METHOD(Phalcon_DI, reset);
+PHP_METHOD(Phalcon_DI, __clone);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_di_set, 0, 0, 2)
 	ZEND_ARG_INFO(0, name)
@@ -119,6 +122,7 @@ PHALCON_INIT_FUNCS(phalcon_di_method_entry){
 	PHP_ME(Phalcon_DI, setDefault, arginfo_phalcon_di_setdefault, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC) 
 	PHP_ME(Phalcon_DI, getDefault, NULL, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC) 
 	PHP_ME(Phalcon_DI, reset, NULL, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC) 
+	PHP_ME(Phalcon_DI, __clone, NULL, ZEND_ACC_PUBLIC)
 	PHP_FE_END
 };
 
