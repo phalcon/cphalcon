@@ -200,6 +200,9 @@ class CollectionsTest extends PHPUnit_Framework_TestCase
 			array('artist' => 'Massive Attack')
 		)), 2);
 
+		$ret = Songs::execute("function(greeting, name) { return greeting+', '+name+'!'; }", array("Good bye", "Joe"));
+		$this->assertEquals($ret, array('retval' => 'Good bye, Joe!'));
+
 	}
 
 }
