@@ -2109,3 +2109,30 @@ PHP_METHOD(Phalcon_Mvc_Collection, unserialize){
 	return;
 }
 
+/**
+ * Find a document by its id (_id)
+ *
+ * @param string|\MongoCode $code
+ * @param array $args
+ * @return array
+ */
+PHP_METHOD(Phalcon_Mvc_Collection, execute){
+
+	zval *code, *args = NULL, *connection;
+
+	PHALCON_MM_GROW();
+
+	phalcon_fetch_params(1, 1, 1, &code, &args);	
+
+	PHALCON_INIT_VAR(connection);
+	phalcon_call_method(connection, collection, "getconnection");
+	
+	if (args) {
+		phalcon_call_method_p2(return_value, connection, "execute", code, args);
+	} else {
+		phalcon_call_method_p1(return_value, connection, "execute", code);
+	}
+
+	RETURN_MM();
+}
+
