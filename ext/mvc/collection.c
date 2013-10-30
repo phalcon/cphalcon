@@ -2109,3 +2109,56 @@ PHP_METHOD(Phalcon_Mvc_Collection, unserialize){
 	return;
 }
 
+/**
+ * Runs JavaScript code on the database server.
+ *
+ * <code>
+ *
+ * $ret = Robots::execute("function() { return 'Hello, world!';}");
+ * echo $ret['retval'], "\n";
+ *
+ * </code>
+ *
+ * @param mixed $code
+ * @param array $args
+ * @return array
+ */
+PHP_METHOD(Phalcon_Mvc_Collection, execute){
+
+	zval *parameters = NULL, *class_name, *collection, *connection;
+	zval *unique;
+	zend_class_entry *ce0;
+
+	PHALCON_MM_GROW();
+
+	phalcon_fetch_params(1, 0, 1, &parameters);
+	
+	if (!parameters) {
+		parameters = PHALCON_GLOBAL(z_null);
+	}
+	
+	if (Z_TYPE_P(parameters) != IS_NULL) {
+		if (Z_TYPE_P(parameters) != IS_ARRAY) { 
+			PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_collection_exception_ce, "Invalid parameters for findFirst");
+			return;
+		}
+	}
+	
+	PHALCON_INIT_VAR(class_name);
+	phalcon_get_called_class(class_name  TSRMLS_CC);
+	ce0 = phalcon_fetch_class(class_name TSRMLS_CC);
+	
+	PHALCON_INIT_VAR(collection);
+	object_init_ex(collection, ce0);
+	if (phalcon_has_constructor(collection TSRMLS_CC)) {
+		phalcon_call_method_noret(collection, "__construct");
+	}
+	
+	PHALCON_INIT_VAR(connection);
+	phalcon_call_method(connection, collection, "getconnection");
+
+	unique = PHALCON_GLOBAL(z_true);
+	phalcon_call_self_p4(return_value, this_ptr, "_getresultset", parameters, collection, connection, unique);
+	RETURN_MM();
+}
+
