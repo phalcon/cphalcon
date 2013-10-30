@@ -342,6 +342,35 @@ static void phalcon_di_write_dimension(zval *object, zval *offset, zval *value T
 	}
 }
 
+static inline void phalcon_di_unset_dimension_internal(phalcon_di_object *obj, zval *offset)
+{
+	assert(Z_TYPE_P(offset) == IS_STRING);
+	zend_symtable_del(obj->services, Z_STRVAL_P(offset), Z_STRLEN_P(offset)+1);
+}
+
+static void phalcon_di_unset_dimension(zval *object, zval *offset TSRMLS_DC)
+{
+	phalcon_di_object *obj = phalcon_di_get_object(object TSRMLS_CC);
+	zval tmp;
+
+	if (obj->obj.ce->type != ZEND_INTERNAL_CLASS) {
+		zend_get_std_object_handlers()->unset_dimension(object, offset TSRMLS_CC);
+		return;
+	}
+
+	if (UNEXPECTED(Z_TYPE_P(offset) != IS_STRING)) {
+		ZVAL_ZVAL(&tmp, offset, 1, 0);
+		convert_to_string(&tmp);
+		offset = &tmp;
+	}
+
+	phalcon_di_unset_dimension_internal(obj, offset);
+
+	if (UNEXPECTED(offset == &tmp)) {
+		zval_dtor(&tmp);
+	}
+}
+
 static HashTable* phalcon_di_get_properties(zval* object TSRMLS_DC)
 {
 	HashTable* props = zend_std_get_properties(object TSRMLS_CC);
@@ -451,6 +480,7 @@ PHALCON_INIT_CLASS(Phalcon_DI){
 	phalcon_di_object_handlers.read_dimension  = phalcon_di_read_dimension;
 	phalcon_di_object_handlers.has_dimension   = phalcon_di_has_dimension;
 	phalcon_di_object_handlers.write_dimension = phalcon_di_write_dimension;
+	phalcon_di_object_handlers.unset_dimension = phalcon_di_unset_dimension;
 	phalcon_di_object_handlers.get_properties  = phalcon_di_get_properties;
 	phalcon_di_object_handlers.get_method      = phalcon_di_get_method;
 	phalcon_di_object_handlers.call_method     = (zend_object_call_method_t)phalcon_di_call_method;
@@ -540,7 +570,7 @@ PHP_METHOD(Phalcon_DI, remove){
 	PHALCON_ENSURE_IS_STRING(name);
 	
 	obj = phalcon_di_get_object(getThis() TSRMLS_CC);
-	zend_symtable_del(obj->services, Z_STRVAL_PP(name), Z_STRLEN_PP(name)+1);
+	phalcon_di_unset_dimension_internal(obj, *name);
 }
 
 /**

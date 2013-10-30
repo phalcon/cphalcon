@@ -25,6 +25,12 @@ class MyDI extends \Phalcon\DI
 		return parent::offsetExists($offset);
 	}
 
+	public function offsetUnset($offset)
+	{
+		echo __METHOD__, PHP_EOL;
+		return parent::offsetUnset($offset);
+	}
+
 	public function __call($method, $params = null)
 	{
 		echo __METHOD__, PHP_EOL;
@@ -71,6 +77,9 @@ try {
 catch (\Phalcon\DI\Exception $e) {
 	echo $e->getMessage(), PHP_EOL;
 }
+
+unset($clone['test']);
+var_dump(isset($di['test']));
 ?>
 --EXPECTF--
 MyDI::offsetSet
@@ -91,3 +100,6 @@ MyDI::__call
 string(8) "stdClass"
 MyDI::__call
 Call to undefined method or service 'somethingWeird'
+MyDI::offsetUnset
+MyDI::offsetExists
+bool(true)
