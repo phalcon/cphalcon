@@ -1452,7 +1452,7 @@ PHP_METHOD(Phalcon_Tag, stylesheetLink){
 	}
 
 	PHALCON_INIT_NVAR(local);
-	ZVAL_BOOL(local, 0);
+	ZVAL_BOOL(local, 1);
 	if (phalcon_array_isset_long(params, 1)) {
 		PHALCON_OBS_NVAR(local);
 		phalcon_array_fetch_long(&local, params, 1, PH_NOISY);
@@ -1560,7 +1560,7 @@ PHP_METHOD(Phalcon_Tag, javascriptInclude){
 	}
 
 	PHALCON_INIT_NVAR(local);
-	ZVAL_BOOL(local, 0);
+	ZVAL_BOOL(local, 1);
 	if (phalcon_array_isset_long(params, 1)) {
 		PHALCON_OBS_NVAR(local);
 		phalcon_array_fetch_long(&local, params, 1, PH_NOISY);
