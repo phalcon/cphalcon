@@ -92,10 +92,13 @@ class Adapter {
 
 	/**
  	 * Resize the image to the given size
- 	 *
+	 * 
+	 * @param int width
+	 * @param int height
+	 * @param int master
  	 * @return Phalcon\Image\Adapter
  	 */
-	public function resize(int width, int height, int master = Image::AUTO) -> <Phalcon\Image\Adapter>
+	public function resize(int width = null, int height = null, int master = Image::AUTO) -> <Phalcon\Image\Adapter>
 	{
 		var ratio;
 
@@ -110,44 +113,53 @@ class Adapter {
 				}
 
 				let master = (this->_width / width) > (this->_height / height) ? Image::WIDTH : Image::HEIGHT;
-			} else if master == Image::INVERSE {
+			}
+			if master == Image::INVERSE {
 				if !width || !height {
 					throw new Phalcon\Image\Exception("width and height must be specified");
 				}
 
 				let master = (this->_width / width) > (this->_height / height) ? Image::HEIGHT : Image::WIDTH;
 			}
-
-			if master == Image::WIDTH {
-				if !width { 
-					throw new Phalcon\Image\Exception("width must be specified");
-				}
-				height = this->_height * width / this->_width;
-			} else if master == Image::HEIGHT {				
-				if !height { 
-					throw new Phalcon\Image\Exception("height must be specified");
-				}
-				width = this->_width * height / this->_height;
-			} else if master == Image::PRECISE {
-				if !width || !height {
-					throw new Phalcon\Image\Exception("width and height must be specified");
-				}
-
-				let ratio = this->_width / this->_height;
-
-				if (width / height) > ratio {
+			switch master {
+			
+				case Image::WIDTH:
+					if !width { 
+						throw new Phalcon\Image\Exception("width must be specified");
+					}
 					height = this->_height * width / this->_width;
-				} else {
-					width = this->_width * height / this->_height;
-				}
-			} else if master == Image::NONE {
-				if !width {
-					let width = this->_width;
-				}
+					break;
 
-				if !height {
-					let width = this->_height;
-				}
+				case Image::HEIGHT:			
+					if !height { 
+						throw new Phalcon\Image\Exception("height must be specified");
+					}
+					width = this->_width * height / this->_height;
+					break;
+
+				case Image::PRECISE:
+					if !width || !height {
+						throw new Phalcon\Image\Exception("width and height must be specified");
+					}
+
+					let ratio = this->_width / this->_height;
+
+					if (width / height) > ratio {
+						height = this->_height * width / this->_width;
+					} else {
+						width = this->_width * height / this->_height;
+					}
+					break;
+
+				case Image::NONE:
+						if !width {
+							let width = this->_width;
+						}
+
+						if !height {
+							let width = this->_height;
+						}
+					break;
 			}
 		}
 
@@ -155,6 +167,54 @@ class Adapter {
 		height = max(round(height), 1);
 
 		this->_resize(width, height);
+
+		return this;
+	}
+
+	/**
+ 	 * Crop an image to the given size
+ 	 *
+ 	 * @param int width
+ 	 * @param int height
+ 	 * @param int offset_x
+ 	 * @param int offset_y
+ 	 * @return Phalcon\Image\Adapter
+ 	 */
+	public function crop(int width, int height, int offset_x = null, int offset_y = null) -> <Phalcon\Image\Adapter>
+	{
+		if !offset_x {
+			offset_x = ((this->_width - width) / 2);
+		} else {
+			if offset_x < 0 {
+				offset_x = this->_width - width + offset_x;
+			}
+
+			if offset_x > this->_width {
+				offset_x = this->_width;
+			}
+		}
+
+		if !offset_y {
+			offset_y = ((this->_height - height) / 2);
+		} else {
+			if offset_y < 0 {
+				offset_y = this->_height - height + offset_y;
+			}
+
+			if offset_y > this->_height {
+				offset_y = this->_height;
+			}
+		}
+
+		if width > (this->_width - offset_x) {
+			width = this->_width - offset_x;
+		}
+
+		if height > (this->_height - offset_y) {
+			height = this->_height - offset_y;
+		}
+
+		this->_crop(width, height);
 
 		return this;
 	}
