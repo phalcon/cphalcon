@@ -1533,7 +1533,7 @@ PHP_METHOD(Phalcon_Tag, stylesheetLink){
 	}
 	else {
 		PHALCON_INIT_VAR(z_local);
-		ZVAL_FALSE(z_local);
+		ZVAL_TRUE(z_local);
 	}
 	
 	if (!phalcon_array_isset_string(params, SS("type"))) {
@@ -1635,7 +1635,7 @@ PHP_METHOD(Phalcon_Tag, javascriptInclude){
 		phalcon_array_unset_string(&params, SS("local"), PH_SEPARATE);
 	} else {
 		PHALCON_INIT_VAR(z_local);
-		ZVAL_FALSE(z_local);
+		ZVAL_TRUE(z_local);
 	}
 	
 	if (!phalcon_array_isset_string(params, SS("type"))) {
