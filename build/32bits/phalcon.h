@@ -10065,11 +10065,6 @@ PHALCON_INIT_FUNCS(phalcon_crypt_method_entry){
 
 
 
-zend_class_entry *phalcon_translate_ce;
-
-PHALCON_INIT_CLASS(Phalcon_Translate);
-
-
 zend_class_entry *phalcon_translate_exception_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Translate_Exception);

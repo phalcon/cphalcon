@@ -6348,7 +6348,7 @@ static void phalcon_camelize(zval *return_value, const zval *str){
 	marker = Z_STRVAL_P(str);
 	len    = Z_STRLEN_P(str);
 
-	for (i = 0; i < len - 1; i++) {
+	for (i = 0; i < len; i++) {
 		ch = *marker;
 		if (i == 0 || ch == '-' || ch == '_') {
 			if (ch == '-' || ch == '_') {
@@ -13998,13 +13998,33 @@ static PHP_METHOD(Phalcon_Http_Cookie, __toString){
 	PHALCON_OBS_VAR(value);
 	phalcon_read_property_this(&value, this_ptr, SL("_value"), PH_NOISY_CC);
 	if (Z_TYPE_P(value) == IS_NULL) {
-		PHALCON_INIT_NVAR(value);
-		phalcon_call_method(value, this_ptr, "getvalue");
+		if (FAILURE == phalcon_call_method_params(return_value, this_ptr, SL("getvalue"), 0, NULL, zend_inline_hash_func(SS("getvalue")), 1 TSRMLS_CC)) {
+			if (EG(exception)) {
+				zval *e = EG(exception);
+				zval *m = zend_read_property(Z_OBJCE_P(e), e, SL("message"), 1 TSRMLS_CC);
+
+				Z_ADDREF_P(m);
+				if (Z_TYPE_P(m) != IS_STRING) {
+					convert_to_string_ex(&m);
+				}
+
+				if (return_value_ptr) {
+					ALLOC_INIT_ZVAL(*return_value_ptr);
+				}
+
+				zend_clear_exception(TSRMLS_C);
+				zend_error(E_ERROR, "%s", Z_STRVAL_P(m));
+				zval_ptr_dtor(&m);
+			}
+		}
+
+		convert_to_string(return_value);
+		RETURN_MM();
 	}
 	
-	RETURN_CCTOR(value);
+	RETVAL_ZVAL(value, 1, 0);
+	PHALCON_MM_RESTORE();
 }
-
 
 
 
@@ -23995,7 +24015,7 @@ PHALCON_INIT_CLASS(Phalcon_Debug){
 
 	PHALCON_REGISTER_CLASS(Phalcon, Debug, debug, phalcon_debug_method_entry, 0);
 
-	zend_declare_property_string(phalcon_debug_ce, SL("_uri"), "http://static.phalconphp.com/debug/1.2.0/", ZEND_ACC_PUBLIC TSRMLS_CC);
+	zend_declare_property_string(phalcon_debug_ce, SL("_uri"), "//static.phalconphp.com/debug/1.2.0/", ZEND_ACC_PUBLIC TSRMLS_CC);
 	zend_declare_property_string(phalcon_debug_ce, SL("_theme"), "default", ZEND_ACC_PUBLIC TSRMLS_CC);
 	zend_declare_property_bool(phalcon_debug_ce, SL("_hideDocumentRoot"), 0, ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_bool(phalcon_debug_ce, SL("_showBackTrace"), 1, ZEND_ACC_PROTECTED TSRMLS_CC);
@@ -35270,25 +35290,6 @@ static PHP_METHOD(Phalcon_Loader, getCheckedPath){
 
 
 	RETURN_MEMBER(this_ptr, "_checkedPath");
-}
-
-
-
-
-
-#ifdef HAVE_CONFIG_H
-#endif
-
-
-
-
-
-
-PHALCON_INIT_CLASS(Phalcon_Translate){
-
-	PHALCON_REGISTER_CLASS(Phalcon, Translate, translate, NULL, ZEND_ACC_EXPLICIT_ABSTRACT_CLASS);
-
-	return SUCCESS;
 }
 
 
@@ -94586,7 +94587,6 @@ static PHP_METHOD(Phalcon_Logger_Formatter_Firephp, format) {
 
 
 
-
 #ifdef HAVE_CONFIG_H
 #endif
 
@@ -94616,7 +94616,7 @@ static PHP_METHOD(Phalcon_Logger_Formatter, getTypeString){
 	phalcon_fetch_params(0, 1, 0, &type);
 	
 	itype = phalcon_get_intval(type);
-	if (itype > 0 && itype < 10) {
+	if (itype >= 0 && itype < 10) {
 		RETURN_STRING(lut[itype], 1);
 	}
 	
@@ -95840,9 +95840,9 @@ static PHP_METHOD(Phalcon_Version, _getVersion){
 	array_init_size(version, 5);
 	add_next_index_long(version, 1);
 	add_next_index_long(version, 2);
-	add_next_index_long(version, 4);
-	add_next_index_long(version, 4);
-	add_next_index_long(version, 0);
+	add_next_index_long(version, 5);
+	add_next_index_long(version, 2);
+	add_next_index_long(version, 1);
 	RETURN_CTOR(version);
 }
 
@@ -98224,7 +98224,7 @@ static PHP_METHOD(Phalcon_Tag, stylesheetLink){
 	}
 
 	PHALCON_INIT_NVAR(local);
-	ZVAL_BOOL(local, 0);
+	ZVAL_BOOL(local, 1);
 	if (phalcon_array_isset_long(params, 1)) {
 		PHALCON_OBS_NVAR(local);
 		phalcon_array_fetch_long(&local, params, 1, PH_NOISY);
@@ -98308,7 +98308,7 @@ static PHP_METHOD(Phalcon_Tag, javascriptInclude){
 	}
 
 	PHALCON_INIT_NVAR(local);
-	ZVAL_BOOL(local, 0);
+	ZVAL_BOOL(local, 1);
 	if (phalcon_array_isset_long(params, 1)) {
 		PHALCON_OBS_NVAR(local);
 		phalcon_array_fetch_long(&local, params, 1, PH_NOISY);
@@ -100261,7 +100261,6 @@ zend_class_entry *phalcon_forms_elementinterface_ce;
 zend_class_entry *phalcon_forms_element_numeric_ce;
 zend_class_entry *phalcon_forms_element_password_ce;
 zend_class_entry *phalcon_crypt_ce;
-zend_class_entry *phalcon_translate_ce;
 zend_class_entry *phalcon_translate_exception_ce;
 zend_class_entry *phalcon_translate_adapter_ce;
 zend_class_entry *phalcon_translate_adapterinterface_ce;
@@ -100651,7 +100650,6 @@ static PHP_MINIT_FUNCTION(phalcon){
 	PHALCON_INIT(Phalcon_Forms_Element_Password);
 	PHALCON_INIT(Phalcon_Forms_Element_TextArea);
 	PHALCON_INIT(Phalcon_Crypt);
-	PHALCON_INIT(Phalcon_Translate);
 	PHALCON_INIT(Phalcon_Translate_Exception);
 	PHALCON_INIT(Phalcon_Translate_Adapter_NativeArray);
 	PHALCON_INIT(Phalcon_Crypt_Exception);
