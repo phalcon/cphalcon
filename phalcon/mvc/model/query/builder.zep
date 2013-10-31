@@ -126,7 +126,7 @@ class Builder
 								}
 							}
 						}
-						let this->_conditions = implode(' AND ', mergedConditions);
+						let this->_conditions = implode(" AND ", mergedConditions);
 						let this->_bindParams = mergedParams;
 						let this->_bindTypes  = mergedTypes;
 					} else {
