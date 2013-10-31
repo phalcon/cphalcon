@@ -52,7 +52,7 @@ class Security //implements Phalcon\Di\InjectionAwareInterface
 	*
 	* @param Phalcon\DiInterface $dependencyInjector
 	*/
-	public function setDI(<Phalcon\DiInterface> dependencyInjector)
+	public function setDI(<Phalcon\DiInterface> dependencyInjector) -> void
 	{
 		let this->_dependencyInjector = dependencyInjector;
 	}
@@ -62,7 +62,7 @@ class Security //implements Phalcon\Di\InjectionAwareInterface
 	*
 	* @return Phalcon\DiInterface
 	*/
-	public function getDI()
+	public function getDI() -> <Phalcon\DiInterface>
 	{
 		return this->_dependencyInjector;
 	}
@@ -72,7 +72,7 @@ class Security //implements Phalcon\Di\InjectionAwareInterface
 	*
 	* @param string $randomBytes
 	*/
-	public function setRandomBytes(randomBytes)
+	public function setRandomBytes(randomBytes) -> void
 	{
 		if typeof randomBytes != "long" {
 			throw new Phalcon\Security\Exception("At least 16 bytes are needed to produce a correct salt");
@@ -86,7 +86,7 @@ class Security //implements Phalcon\Di\InjectionAwareInterface
 	*
 	* @return string
 	*/
-	public function getRandomBytes()
+	public function getRandomBytes() -> string
 	{
 		return this->_numberBytes;
 	}
@@ -96,7 +96,7 @@ class Security //implements Phalcon\Di\InjectionAwareInterface
 	*
 	* @return string
 	*/
-	public function getSaltBytes()
+	public function getSaltBytes() -> string
 	{
 		var numberBytes, randomBytes, safeBytes, bytesLength, base64Bytes, filter;
 
@@ -135,7 +135,7 @@ class Security //implements Phalcon\Di\InjectionAwareInterface
 	* @param int $workFactor
 	* @return string
 	*/
-	public function hash(password, workFactor)
+	public function hash(string password, workFactor) -> string
 	{
 		var factor, saltBytes, salt;
 
@@ -158,7 +158,7 @@ class Security //implements Phalcon\Di\InjectionAwareInterface
 	* @param int $maxPasswordLength
 	* @return boolean
 	*/
-	public function checkHash(password, passwordHash, maxPassLength)
+	public function checkHash(string password, string passwordHash, int maxPassLength)
 	{
 		var hash;
 
@@ -184,7 +184,7 @@ class Security //implements Phalcon\Di\InjectionAwareInterface
 	* @param string $passwordHash
 	* @return boolean
 	*/
-	public function isLegacyHash(password, passwordHash)
+	public function isLegacyHash(string password, string passwordHash)
 	{
 		if start_with_str(passwordHash, "$2a$") {
 			return true;
@@ -198,7 +198,7 @@ class Security //implements Phalcon\Di\InjectionAwareInterface
 	* @param int $numberBytes
 	* @return string
 	*/
-	public function getTokenKey(numberBytes)
+	public function getTokenKey(int numberBytes) -> string
 	{
 		var randomBytes, base64Bytes, filter, safeBytes, dependencyInjector, session;
 
@@ -232,7 +232,7 @@ class Security //implements Phalcon\Di\InjectionAwareInterface
 	* @param int $numberBytes
 	* @return string
 	*/
-	public function getToken(numberBytes=null)
+	public function getToken(int numberBytes=null) -> string
 	{
 		var token, dependencyInjector, session;
 
@@ -308,7 +308,7 @@ class Security //implements Phalcon\Di\InjectionAwareInterface
 	*
 	* @return string
 	*/
-	public function getSessionToken()
+	public function getSessionToken() -> string
 	{
 		var dependencyInjector, session;
 
@@ -329,7 +329,7 @@ class Security //implements Phalcon\Di\InjectionAwareInterface
 	{
 		var ops;
 
-		let ops = hash_hmac(algo, algo, key);
+		let ops = hash_hmac(algo, algo, key, raw);
 		if !ops {
 			throw new Phalcon\Security\Exception("Unknown hashing algorithm: %s" . algo);
 		}

@@ -205,11 +205,13 @@ PHP_METHOD(Phalcon_Security, getSaltBytes) {
  */
 PHP_METHOD(Phalcon_Security, hash) {
 
-	zval *password, *workFactor = NULL, *factor, *saltBytes, *salt, _0;
+	zval *password_param = NULL, *workFactor = NULL, *factor, *saltBytes, *salt, _0;
+	zval *password = NULL;
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 2, 0, &password, &workFactor);
+	zephir_fetch_params(1, 2, 0, &password_param, &workFactor);
 
+		zephir_get_strval(password, password_param);
 	ZEPHIR_SEPARATE_PARAM(workFactor);
 
 
@@ -240,15 +242,20 @@ PHP_METHOD(Phalcon_Security, hash) {
  */
 PHP_METHOD(Phalcon_Security, checkHash) {
 
-	zval *password, *passwordHash, *maxPassLength, *hash;
+	int maxPassLength;
+	zval *password_param = NULL, *passwordHash_param = NULL, *maxPassLength_param = NULL, *hash;
+	zval *password = NULL, *passwordHash = NULL;
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 3, 0, &password, &passwordHash, &maxPassLength);
+	zephir_fetch_params(1, 3, 0, &password_param, &passwordHash_param, &maxPassLength_param);
+
+		zephir_get_strval(password, password_param);
+		zephir_get_strval(passwordHash, passwordHash_param);
+		maxPassLength = zephir_get_intval(maxPassLength_param);
 
 
-
-	if (zephir_is_true(maxPassLength)) {
-		if ((ZEPHIR_GT_LONG(maxPassLength, 0) && ZEPHIR_IS_LONG(maxPassLength, zephir_fast_count_int(password TSRMLS_CC)))) {
+	if (maxPassLength) {
+		if (((maxPassLength > 0) && (zephir_fast_count_int(password TSRMLS_CC) > maxPassLength))) {
 			RETURN_MM_BOOL(0);
 		}
 	}
@@ -272,11 +279,14 @@ PHP_METHOD(Phalcon_Security, checkHash) {
  */
 PHP_METHOD(Phalcon_Security, isLegacyHash) {
 
-	zval *password, *passwordHash, *_0, *_1;
+	zval *password_param = NULL, *passwordHash_param = NULL, *_0, *_1;
+	zval *password = NULL, *passwordHash = NULL;
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 2, 0, &password, &passwordHash);
+	zephir_fetch_params(1, 2, 0, &password_param, &passwordHash_param);
 
+		zephir_get_strval(password, password_param);
+		zephir_get_strval(passwordHash, passwordHash_param);
 
 
 	ZEPHIR_INIT_VAR(_0);
@@ -298,17 +308,17 @@ PHP_METHOD(Phalcon_Security, isLegacyHash) {
  */
 PHP_METHOD(Phalcon_Security, getTokenKey) {
 
-	zval *numberBytes = NULL, *randomBytes, *base64Bytes, *filter, *safeBytes, *dependencyInjector, *session, _0, *_1, *_2;
+	zval *numberBytes_param = NULL, *randomBytes, *base64Bytes, *filter, *safeBytes, *dependencyInjector, *session, _0, *_1, *_2;
+	int numberBytes;
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 0, &numberBytes);
+	zephir_fetch_params(1, 1, 0, &numberBytes_param);
 
-	ZEPHIR_SEPARATE_PARAM(numberBytes);
+		numberBytes = zephir_get_intval(numberBytes_param);
 
 
-	if (!(zephir_is_true(numberBytes))) {
-		ZEPHIR_INIT_NVAR(numberBytes);
-		ZVAL_LONG(numberBytes, 12);
+	if (!(numberBytes)) {
+		numberBytes = 12;
 	}
 	ZEPHIR_SINIT_VAR(_0);
 	ZVAL_STRING(&_0, "openssl_random_pseudo_bytes", 0);
@@ -318,13 +328,15 @@ PHP_METHOD(Phalcon_Security, getTokenKey) {
 		ZEPHIR_THROW_EXCEPTION_STR(phalcon_security_exception_ce, "Openssl extension must be loaded");
 		return;
 	}
+	ZEPHIR_INIT_VAR(_2);
+	ZVAL_LONG(_2, numberBytes);
 	ZEPHIR_INIT_VAR(randomBytes);
-	zephir_call_func_p1(randomBytes, "openssl_random_pseudo_bytes", numberBytes);
+	zephir_call_func_p1(randomBytes, "openssl_random_pseudo_bytes", _2);
 	ZEPHIR_INIT_VAR(base64Bytes);
 	zephir_call_func_p1(base64Bytes, "base64_encode", randomBytes);
 	ZEPHIR_INIT_VAR(filter);
 	object_init_ex(filter, phalcon_filter_ce);
-	ZEPHIR_INIT_VAR(_2);
+	ZEPHIR_INIT_BNVAR(_2);
 	ZVAL_STRING(_2, "alphnum", 1);
 	ZEPHIR_INIT_VAR(safeBytes);
 	zephir_call_method_p2(safeBytes, filter, "sanitize", base64Bytes, _2);
@@ -352,20 +364,21 @@ PHP_METHOD(Phalcon_Security, getTokenKey) {
  */
 PHP_METHOD(Phalcon_Security, getToken) {
 
-	zval *numberBytes = NULL, *token, *dependencyInjector, *session, _0, *_1, *_2;
+	zval *numberBytes_param = NULL, *token, *dependencyInjector, *session, _0, *_1, *_2;
+	int numberBytes;
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 0, 1, &numberBytes);
+	zephir_fetch_params(1, 0, 1, &numberBytes_param);
 
-	if (!numberBytes) {
-		ZEPHIR_CPY_WRT(numberBytes, ZEPHIR_GLOBAL(global_null));
+	if (!numberBytes_param) {
+		numberBytes = 0;
+	} else {
+		numberBytes = zephir_get_intval(numberBytes_param);
 	}
-	ZEPHIR_SEPARATE_PARAM(numberBytes);
 
 
-	if (!(zephir_is_true(numberBytes))) {
-		ZEPHIR_INIT_NVAR(numberBytes);
-		ZVAL_LONG(numberBytes, 12);
+	if (!(numberBytes)) {
+		numberBytes = 12;
 	}
 	ZEPHIR_SINIT_VAR(_0);
 	ZVAL_STRING(&_0, "openssl_random_pseudo_bytes", 0);
@@ -375,14 +388,16 @@ PHP_METHOD(Phalcon_Security, getToken) {
 		ZEPHIR_THROW_EXCEPTION_STR(phalcon_security_exception_ce, "Openssl extension must be loaded");
 		return;
 	}
+	ZEPHIR_INIT_VAR(_2);
+	ZVAL_LONG(_2, numberBytes);
 	ZEPHIR_INIT_VAR(token);
-	zephir_call_func_p1(token, "openssl_random_pseudo_bytes", numberBytes);
+	zephir_call_func_p1(token, "openssl_random_pseudo_bytes", _2);
 	dependencyInjector = zephir_fetch_nproperty_this(this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
 	if ((Z_TYPE_P(dependencyInjector) != IS_OBJECT)) {
 		ZEPHIR_THROW_EXCEPTION_STR(phalcon_security_exception_ce, "A dependency injection container is required to access the 'session' service");
 		return;
 	}
-	ZEPHIR_INIT_VAR(_2);
+	ZEPHIR_INIT_BNVAR(_2);
 	ZVAL_STRING(_2, "session", 1);
 	ZEPHIR_INIT_VAR(session);
 	zephir_call_method_p1(session, dependencyInjector, "getshared", _2);
@@ -497,7 +512,7 @@ PHP_METHOD(Phalcon_Security, computeHmac) {
 
 
 	ZEPHIR_INIT_VAR(ops);
-	zephir_call_func_p3(ops, "hash_hmac", algo, algo, key);
+	zephir_call_func_p4(ops, "hash_hmac", algo, algo, key, raw);
 	if (!(zephir_is_true(ops))) {
 		ZEPHIR_INIT_VAR(_0);
 		object_init_ex(_0, phalcon_security_exception_ce);
