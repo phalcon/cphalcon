@@ -3,6 +3,8 @@
  - Phalcon\Http\Cookie::__toString() will return a string value (#1428)
  - Camelize does not ignore the last character of a string anymore (#1436)
  - APC tests do not run under CLI when apc.enable_cli is 0 (#1449)
+ - Phalcon\Debug::uri now support both http and https (#987)
+ - Fixed inconsistency in Tag::stylesheetLink/javascriptInclude w.r.t local URLs (#1486)
 
 1.2.4
  - Fixed broken ACL inheritance (#905)
