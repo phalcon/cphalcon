@@ -358,7 +358,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Mongo, delete) {
 	zephir_call_method_p1_noret(collection, "remove", conditions);
 	ZEPHIR_INIT_VAR(_0);
 	zephir_call_func(_0, "rand");
-	if (((zephir_get_numberval(_0) % 100) == 0)) {
+	if (((zephir_get_intval(_0) % 100) == 0)) {
 		zephir_call_method_noret(this_ptr, "gc");
 	}
 	RETURN_MM_BOOL(1);
@@ -658,7 +658,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Mongo, flush) {
 	zephir_call_method_noret(collection, "remove");
 	ZEPHIR_INIT_VAR(_0);
 	zephir_call_func(_0, "rand");
-	if (((zephir_get_numberval(_0) % 100) == 0)) {
+	if (((zephir_get_intval(_0) % 100) == 0)) {
 		zephir_call_method_noret(this_ptr, "gc");
 	}
 	RETURN_MM_BOOL(1);
