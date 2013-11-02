@@ -25,6 +25,7 @@ PHP_METHOD(Phalcon_Logger_Adapter_File, __construct);
 PHP_METHOD(Phalcon_Logger_Adapter_File, getFormatter);
 PHP_METHOD(Phalcon_Logger_Adapter_File, logInternal);
 PHP_METHOD(Phalcon_Logger_Adapter_File, close);
+PHP_METHOD(Phalcon_Logger_Adapter_File, getPath);
 PHP_METHOD(Phalcon_Logger_Adapter_File, __wakeup);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_logger_adapter_file___construct, 0, 0, 1)
@@ -43,6 +44,7 @@ PHALCON_INIT_FUNCS(phalcon_logger_adapter_file_method_entry){
 	PHP_ME(Phalcon_Logger_Adapter_File, getFormatter, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Logger_Adapter_File, logInternal, arginfo_phalcon_logger_adapter_file_loginternal, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Logger_Adapter_File, close, NULL, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Logger_Adapter_File, getPath, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Logger_Adapter_File, __wakeup, NULL, ZEND_ACC_PUBLIC)
 	PHP_FE_END
 };
