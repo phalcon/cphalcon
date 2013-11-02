@@ -387,6 +387,113 @@ static void phalcon_execute_internal(zend_execute_data *execute_data_ptr, int re
 
 #endif
 
+#ifndef PHALCON_RELEASE
+
+static void phalcon_verify_permanent_zvals(int strict TSRMLS_DC)
+{
+	int ok = 1;
+
+	if (strict) {
+		if (Z_REFCOUNT_P(PHALCON_GLOBAL(z_null)) != 2) {
+			ok = 0;
+			fprintf(stderr, "Z_REFCOUNT_P(PHALCON_GLOBAL(z_null)) != 2 (%u)\n", Z_REFCOUNT_P(PHALCON_GLOBAL(z_null)));
+		}
+
+		if (Z_REFCOUNT_P(PHALCON_GLOBAL(z_false)) != 2) {
+			ok = 0;
+			fprintf(stderr, "Z_REFCOUNT_P(PHALCON_GLOBAL(z_false)) != 2 (%u)\n", Z_REFCOUNT_P(PHALCON_GLOBAL(z_false)));
+		}
+
+		if (Z_REFCOUNT_P(PHALCON_GLOBAL(z_true)) != 2) {
+			ok = 0;
+			fprintf(stderr, "Z_REFCOUNT_P(PHALCON_GLOBAL(z_true)) != 2 (%u)\n", Z_REFCOUNT_P(PHALCON_GLOBAL(z_true)));
+		}
+
+		if (Z_REFCOUNT_P(PHALCON_GLOBAL(z_zero)) != 2) {
+			ok = 0;
+			fprintf(stderr, "Z_REFCOUNT_P(PHALCON_GLOBAL(z_zero)) != 2 (%u)\n", Z_REFCOUNT_P(PHALCON_GLOBAL(z_zero)));
+		}
+
+		if (Z_REFCOUNT_P(PHALCON_GLOBAL(z_one)) != 2) {
+			ok = 0;
+			fprintf(stderr, "Z_REFCOUNT_P(PHALCON_GLOBAL(z_false)) != 2 (%u)\n", Z_REFCOUNT_P(PHALCON_GLOBAL(z_one)));
+		}
+	}
+	else {
+		if (Z_REFCOUNT_P(PHALCON_GLOBAL(z_null)) < 2) {
+			ok = 0;
+			fprintf(stderr, "Z_REFCOUNT_P(PHALCON_GLOBAL(z_null)) < 2 (%u)\n", Z_REFCOUNT_P(PHALCON_GLOBAL(z_null)));
+		}
+
+		if (Z_REFCOUNT_P(PHALCON_GLOBAL(z_false)) < 2) {
+			ok = 0;
+			fprintf(stderr, "Z_REFCOUNT_P(PHALCON_GLOBAL(z_false)) < 2 (%u)\n", Z_REFCOUNT_P(PHALCON_GLOBAL(z_false)));
+		}
+
+		if (Z_REFCOUNT_P(PHALCON_GLOBAL(z_true)) < 2) {
+			ok = 0;
+			fprintf(stderr, "Z_REFCOUNT_P(PHALCON_GLOBAL(z_true)) < 2 (%u)\n", Z_REFCOUNT_P(PHALCON_GLOBAL(z_true)));
+		}
+
+		if (Z_REFCOUNT_P(PHALCON_GLOBAL(z_zero)) < 2) {
+			ok = 0;
+			fprintf(stderr, "Z_REFCOUNT_P(PHALCON_GLOBAL(z_zero)) < 2 (%u)\n", Z_REFCOUNT_P(PHALCON_GLOBAL(z_zero)));
+		}
+
+		if (Z_REFCOUNT_P(PHALCON_GLOBAL(z_one)) < 2) {
+			ok = 0;
+			fprintf(stderr, "Z_REFCOUNT_P(PHALCON_GLOBAL(z_false)) < 2 (%u)\n", Z_REFCOUNT_P(PHALCON_GLOBAL(z_one)));
+		}
+	}
+
+	if (Z_TYPE_P(PHALCON_GLOBAL(z_null)) != IS_NULL) {
+		ok = 0;
+		fprintf(stderr, "Z_TYPE_P(PHALCON_GLOBAL(z_null)) != IS_NULL (%d != %d)\n", Z_TYPE_P(PHALCON_GLOBAL(z_null)), IS_NULL);
+	}
+
+	if (Z_TYPE_P(PHALCON_GLOBAL(z_false)) != IS_BOOL) {
+		ok = 0;
+		fprintf(stderr, "Z_TYPE_P(PHALCON_GLOBAL(z_false)) != IS_BOOL (%d != %d)\n", Z_TYPE_P(PHALCON_GLOBAL(z_false)), IS_BOOL);
+	}
+	else if (Z_BVAL_P(PHALCON_GLOBAL(z_false)) != 0) {
+		ok = 0;
+		fprintf(stderr, "Z_BVAL_P(PHALCON_GLOBAL(z_false)) != 0 (%d)\n", Z_BVAL_P(PHALCON_GLOBAL(z_false)));
+	}
+
+	if (Z_TYPE_P(PHALCON_GLOBAL(z_true)) != IS_BOOL) {
+		ok = 0;
+		fprintf(stderr, "Z_TYPE_P(PHALCON_GLOBAL(z_true)) != IS_BOOL (%d != %d)\n", Z_TYPE_P(PHALCON_GLOBAL(z_true)), IS_BOOL);
+	}
+	else if (Z_BVAL_P(PHALCON_GLOBAL(z_true)) != 1) {
+		ok = 0;
+		fprintf(stderr, "Z_BVAL_P(PHALCON_GLOBAL(z_true)) != 1 (%d)\n", Z_BVAL_P(PHALCON_GLOBAL(z_true)));
+	}
+
+	if (Z_TYPE_P(PHALCON_GLOBAL(z_zero)) != IS_LONG) {
+		ok = 0;
+		fprintf(stderr, "Z_TYPE_P(PHALCON_GLOBAL(z_zero)) != IS_LONG (%d != %d)\n", Z_TYPE_P(PHALCON_GLOBAL(z_zero)), IS_LONG);
+	}
+	else if (Z_LVAL_P(PHALCON_GLOBAL(z_zero)) != 0) {
+		ok = 0;
+		fprintf(stderr, "Z_LVAL_P(PHALCON_GLOBAL(z_zero)) != 0 (%ld)\n", Z_LVAL_P(PHALCON_GLOBAL(z_zero)));
+	}
+
+	if (Z_TYPE_P(PHALCON_GLOBAL(z_one)) != IS_LONG) {
+		ok = 0;
+		fprintf(stderr, "Z_TYPE_P(PHALCON_GLOBAL(z_one)) != IS_LONG (%d != %d)\n", Z_TYPE_P(PHALCON_GLOBAL(z_one)), IS_LONG);
+	}
+	else if (Z_LVAL_P(PHALCON_GLOBAL(z_one)) != 1) {
+		ok = 0;
+		fprintf(stderr, "Z_LVAL_P(PHALCON_GLOBAL(z_one)) != 1 (%ld)\n", Z_LVAL_P(PHALCON_GLOBAL(z_one)));
+	}
+
+	if (!ok) {
+		abort();
+	}
+}
+
+#endif
+
 static PHP_MINIT_FUNCTION(phalcon){
 
 	PHALCON_INIT(Phalcon_DI_InjectionAwareInterface);
@@ -744,22 +851,7 @@ static PHP_RSHUTDOWN_FUNCTION(phalcon){
 	phalcon_orm_destroy_cache(TSRMLS_C);
 
 #ifndef PHALCON_RELEASE
-	assert(Z_REFCOUNT_P(PHALCON_GLOBAL(z_null)) >= 2);
-	assert(Z_REFCOUNT_P(PHALCON_GLOBAL(z_false)) >= 2);
-	assert(Z_REFCOUNT_P(PHALCON_GLOBAL(z_true)) >= 2);
-	assert(Z_REFCOUNT_P(PHALCON_GLOBAL(z_zero)) >= 2);
-	assert(Z_REFCOUNT_P(PHALCON_GLOBAL(z_one)) >= 2);
-
-	assert(Z_TYPE_P(PHALCON_GLOBAL(z_null)) == IS_NULL);
-	assert(Z_TYPE_P(PHALCON_GLOBAL(z_false)) == IS_BOOL);
-	assert(Z_TYPE_P(PHALCON_GLOBAL(z_true)) == IS_BOOL);
-	assert(Z_TYPE_P(PHALCON_GLOBAL(z_zero)) == IS_LONG);
-	assert(Z_TYPE_P(PHALCON_GLOBAL(z_one)) == IS_LONG);
-
-	assert(Z_BVAL_P(PHALCON_GLOBAL(z_false)) == 0);
-	assert(Z_BVAL_P(PHALCON_GLOBAL(z_true)) == 1);
-	assert(Z_LVAL_P(PHALCON_GLOBAL(z_zero)) == 0);
-	assert(Z_LVAL_P(PHALCON_GLOBAL(z_one)) == 1);
+	phalcon_verify_permanent_zvals(0 TSRMLS_CC);
 #endif
 
 	return SUCCESS;
@@ -833,22 +925,7 @@ static PHP_GSHUTDOWN_FUNCTION(phalcon)
 	phalcon_globals->start_memory = NULL;
 
 #ifndef PHALCON_RELEASE
-	assert(Z_REFCOUNT_P(PHALCON_GLOBAL(z_null)) == 2);
-	assert(Z_REFCOUNT_P(PHALCON_GLOBAL(z_false)) == 2);
-	assert(Z_REFCOUNT_P(PHALCON_GLOBAL(z_true)) == 2);
-	assert(Z_REFCOUNT_P(PHALCON_GLOBAL(z_zero)) == 2);
-	assert(Z_REFCOUNT_P(PHALCON_GLOBAL(z_one)) == 2);
-
-	assert(Z_TYPE_P(PHALCON_GLOBAL(z_null)) == IS_NULL);
-	assert(Z_TYPE_P(PHALCON_GLOBAL(z_false)) == IS_BOOL);
-	assert(Z_TYPE_P(PHALCON_GLOBAL(z_true)) == IS_BOOL);
-	assert(Z_TYPE_P(PHALCON_GLOBAL(z_zero)) == IS_LONG);
-	assert(Z_TYPE_P(PHALCON_GLOBAL(z_one)) == IS_LONG);
-
-	assert(Z_BVAL_P(PHALCON_GLOBAL(z_false)) == 0);
-	assert(Z_BVAL_P(PHALCON_GLOBAL(z_true)) == 1);
-	assert(Z_LVAL_P(PHALCON_GLOBAL(z_zero)) == 0);
-	assert(Z_LVAL_P(PHALCON_GLOBAL(z_one)) == 1);
+	phalcon_verify_permanent_zvals(1 TSRMLS_CC);
 #endif
 
 	free(phalcon_globals->z_null);
@@ -858,35 +935,41 @@ static PHP_GSHUTDOWN_FUNCTION(phalcon)
 	free(phalcon_globals->z_one);
 }
 
-#ifndef PHALCON_RELEASE
-
 static ZEND_MODULE_POST_ZEND_DEACTIVATE_D(phalcon)
 {
-#ifndef NDEBUG
 	TSRMLS_FETCH();
 
-	assert(Z_REFCOUNT_P(PHALCON_GLOBAL(z_null)) == 2);
-	assert(Z_REFCOUNT_P(PHALCON_GLOBAL(z_false)) == 2);
-	assert(Z_REFCOUNT_P(PHALCON_GLOBAL(z_true)) == 2);
-	assert(Z_REFCOUNT_P(PHALCON_GLOBAL(z_zero)) == 2);
-	assert(Z_REFCOUNT_P(PHALCON_GLOBAL(z_one)) == 2);
-
-	assert(Z_TYPE_P(PHALCON_GLOBAL(z_null)) == IS_NULL);
-	assert(Z_TYPE_P(PHALCON_GLOBAL(z_false)) == IS_BOOL);
-	assert(Z_TYPE_P(PHALCON_GLOBAL(z_true)) == IS_BOOL);
-	assert(Z_TYPE_P(PHALCON_GLOBAL(z_zero)) == IS_LONG);
-	assert(Z_TYPE_P(PHALCON_GLOBAL(z_one)) == IS_LONG);
-
-	assert(Z_BVAL_P(PHALCON_GLOBAL(z_false)) == 0);
-	assert(Z_BVAL_P(PHALCON_GLOBAL(z_true)) == 1);
-	assert(Z_LVAL_P(PHALCON_GLOBAL(z_zero)) == 0);
-	assert(Z_LVAL_P(PHALCON_GLOBAL(z_one)) == 1);
+#ifndef PHALCON_RELEASE
+	if (!CG(unclean_shutdown)) {
+		phalcon_verify_permanent_zvals(1 TSRMLS_CC);
+	}
 #endif
+
+	if (CG(unclean_shutdown)) {
+		zend_phalcon_globals *phalcon_globals = PHALCON_VGLOBAL;
+
+		INIT_ZVAL(*phalcon_globals->z_null);
+		Z_ADDREF_P(phalcon_globals->z_null);
+
+		INIT_PZVAL(phalcon_globals->z_false);
+		Z_ADDREF_P(phalcon_globals->z_false);
+		ZVAL_FALSE(phalcon_globals->z_false);
+
+		INIT_PZVAL(phalcon_globals->z_true);
+		Z_ADDREF_P(phalcon_globals->z_true);
+		ZVAL_TRUE(phalcon_globals->z_true);
+
+		INIT_PZVAL(phalcon_globals->z_zero);
+		Z_ADDREF_P(phalcon_globals->z_zero);
+		ZVAL_LONG(phalcon_globals->z_zero, 0);
+
+		INIT_PZVAL(phalcon_globals->z_one);
+		Z_ADDREF_P(phalcon_globals->z_one);
+		ZVAL_LONG(phalcon_globals->z_one, 1);
+	}
 
 	return SUCCESS;
 }
-
-#endif
 
 static
 #if ZEND_MODULE_API_NO > 20060613
@@ -947,11 +1030,7 @@ zend_module_entry phalcon_module_entry = {
 	ZEND_MODULE_GLOBALS(phalcon),
 	PHP_GINIT(phalcon),
 	PHP_GSHUTDOWN(phalcon),
-#ifdef PHALCON_RELEASE
-	NULL,
-#else
 	ZEND_MODULE_POST_ZEND_DEACTIVATE_N(phalcon),
-#endif
 	STANDARD_MODULE_PROPERTIES_EX
 };
 
