@@ -151,10 +151,19 @@ static void phalcon_config_write_internal(phalcon_config_object *object, zval *o
 {
 	if (Z_TYPE_P(value) == IS_ARRAY) {
 		zval *instance;
-		MAKE_STD_ZVAL(instance);
-		object_init_ex(instance, phalcon_config_ce);
-		phalcon_config_construct_internal(instance, value TSRMLS_CC);
-		phalcon_hash_update_or_insert(object->props, offset, instance);
+		HashTable *h = Z_ARRVAL_P(value);
+
+		if (!h->nApplyCount) {
+			++h->nApplyCount;
+			MAKE_STD_ZVAL(instance);
+			object_init_ex(instance, phalcon_config_ce);
+			phalcon_config_construct_internal(instance, value TSRMLS_CC);
+			phalcon_hash_update_or_insert(object->props, offset, instance);
+			--h->nApplyCount;
+		}
+		else {
+			php_error_docref(NULL TSRMLS_CC, E_WARNING, "Recursion detected");
+		}
 	}
 	else {
 		Z_ADDREF_P(value);
