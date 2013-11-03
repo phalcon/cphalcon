@@ -217,12 +217,12 @@ PHP_METHOD(Phalcon_Logger_Adapter, rollback){
 }
 
 /**
- * Sends/Writes an emergence message to the log
+ * Sends/Writes an emergency message to the log
  *
  * @param string $message
  * @return Phalcon\Logger\Adapter
  */
-PHP_METHOD(Phalcon_Logger_Adapter, emergence){
+PHP_METHOD(Phalcon_Logger_Adapter, emergency){
 
 	zval *message, *type;
 
@@ -231,7 +231,7 @@ PHP_METHOD(Phalcon_Logger_Adapter, emergence){
 	phalcon_fetch_params(1, 1, 0, &message);
 	
 	PHALCON_INIT_VAR(type);
-	PHALCON_GET_CLASS_CONSTANT(type, phalcon_logger_ce, "EMERGENCE");
+	PHALCON_GET_CLASS_CONSTANT(type, phalcon_logger_ce, "EMERGENCY");
 	phalcon_call_method_p2_noret(this_ptr, "log", message, type);
 	RETURN_THIS();
 }

@@ -26,7 +26,7 @@ PHP_METHOD(Phalcon_Logger_Multiple, getLoggers);
 PHP_METHOD(Phalcon_Logger_Multiple, setFormatter);
 PHP_METHOD(Phalcon_Logger_Multiple, getFormatter);
 PHP_METHOD(Phalcon_Logger_Multiple, log);
-PHP_METHOD(Phalcon_Logger_Multiple, emergence);
+PHP_METHOD(Phalcon_Logger_Multiple, emergency);
 PHP_METHOD(Phalcon_Logger_Multiple, debug);
 PHP_METHOD(Phalcon_Logger_Multiple, error);
 PHP_METHOD(Phalcon_Logger_Multiple, info);
@@ -47,7 +47,7 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_logger_multiple_log, 0, 0, 1)
 	ZEND_ARG_INFO(0, type)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_logger_multiple_emergence, 0, 0, 1)
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_logger_multiple_emergency, 0, 0, 1)
 	ZEND_ARG_INFO(0, message)
 ZEND_END_ARG_INFO()
 
@@ -81,7 +81,8 @@ PHALCON_INIT_FUNCS(phalcon_logger_multiple_method_entry){
 	PHP_ME(Phalcon_Logger_Multiple, setFormatter, arginfo_phalcon_logger_multiple_setformatter, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Logger_Multiple, getFormatter, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Logger_Multiple, log, arginfo_phalcon_logger_multiple_log, ZEND_ACC_PUBLIC) 
-	PHP_ME(Phalcon_Logger_Multiple, emergence, arginfo_phalcon_logger_multiple_emergence, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Logger_Multiple, emergency, arginfo_phalcon_logger_multiple_emergency, ZEND_ACC_PUBLIC)
+	PHP_MALIAS(Phalcon_Logger_Multiple, emergence, emergency, arginfo_phalcon_logger_multiple_emergency, ZEND_ACC_PUBLIC | ZEND_ACC_DEPRECATED)
 	PHP_ME(Phalcon_Logger_Multiple, debug, arginfo_phalcon_logger_multiple_debug, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Logger_Multiple, error, arginfo_phalcon_logger_multiple_error, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Logger_Multiple, info, arginfo_phalcon_logger_multiple_info, ZEND_ACC_PUBLIC) 
