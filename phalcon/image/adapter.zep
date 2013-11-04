@@ -127,14 +127,14 @@ class Adapter {
 					if !width { 
 						throw new Phalcon\Image\Exception("width must be specified");
 					}
-					height = this->_height * width / this->_width;
+					let height = this->_height * width / this->_width;
 					break;
 
 				case Image::HEIGHT:			
 					if !height { 
 						throw new Phalcon\Image\Exception("height must be specified");
 					}
-					width = this->_width * height / this->_height;
+					let width = this->_width * height / this->_height;
 					break;
 
 				case Image::PRECISE:
@@ -145,9 +145,9 @@ class Adapter {
 					let ratio = this->_width / this->_height;
 
 					if (width / height) > ratio {
-						height = this->_height * width / this->_width;
+						let height = this->_height * width / this->_width;
 					} else {
-						width = this->_width * height / this->_height;
+						let width = this->_width * height / this->_height;
 					}
 					break;
 
@@ -163,8 +163,8 @@ class Adapter {
 			}
 		}
 
-		width  = max(round(width), 1);
-		height = max(round(height), 1);
+		let width  = max(round(width), 1);
+		let height = max(round(height), 1);
 
 		this->_resize(width, height);
 
@@ -183,38 +183,62 @@ class Adapter {
 	public function crop(int width, int height, int offset_x = null, int offset_y = null) -> <Phalcon\Image\Adapter>
 	{
 		if !offset_x {
-			offset_x = ((this->_width - width) / 2);
+			let offset_x = ((this->_width - width) / 2);
 		} else {
 			if offset_x < 0 {
-				offset_x = this->_width - width + offset_x;
+				let offset_x = this->_width - width + offset_x;
 			}
 
 			if offset_x > this->_width {
-				offset_x = this->_width;
+				let offset_x = this->_width;
 			}
 		}
 
 		if !offset_y {
-			offset_y = ((this->_height - height) / 2);
+			let offset_y = ((this->_height - height) / 2);
 		} else {
 			if offset_y < 0 {
-				offset_y = this->_height - height + offset_y;
+				let offset_y = this->_height - height + offset_y;
 			}
 
 			if offset_y > this->_height {
-				offset_y = this->_height;
+				let offset_y = this->_height;
 			}
 		}
 
 		if width > (this->_width - offset_x) {
-			width = this->_width - offset_x;
+			let width = this->_width - offset_x;
 		}
 
 		if height > (this->_height - offset_y) {
-			height = this->_height - offset_y;
+			let height = this->_height - offset_y;
 		}
 
 		this->_crop(width, height);
+
+		return this;
+	}
+
+	/**
+ 	 * Rotate the image by a given amount
+ 	 *
+ 	 * @param int degrees
+ 	 * @return Phalcon\Image\Adapter
+ 	 */
+	public function rotate(int degrees) -> <Phalcon\Image\Adapter>
+	{
+		if degrees > 180 {
+			let degrees %= 360;
+			if degrees > 180 {
+				let degrees -= 360;
+			}
+		} else {
+			while degrees < -180 {
+				let degrees += 360;
+			}
+		}
+
+		this->_rotate(degrees);
 
 		return this;
 	}
