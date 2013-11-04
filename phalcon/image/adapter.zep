@@ -243,4 +243,42 @@ class Adapter {
 		return this;
 	}
 
+	/**
+ 	 * Flip the image along the horizontal or vertical axis
+ 	 *
+ 	 * @param int direction
+ 	 * @return Phalcon\Image\Adapter
+ 	 */
+	public function flip(int direction) -> <Phalcon\Image\Adapter>
+	{
+		if direction != Image::HORIZONTAL && direction != Image::VERTICAL {
+			let direction = Image::HORIZONTAL;
+		}
+
+		this->_flip(direction);
+
+		return this;
+	}
+
+	/**
+ 	 * Sharpen the image by a given amount
+ 	 *
+ 	 * @param int amount
+ 	 * @return Phalcon\Image\Adapter
+ 	 */
+	public function sharpen(int amount) -> <Phalcon\Image\Adapter>
+	{
+		if amount > 100 {
+			let amount = 100;
+		} else {
+			if amount < 1 {
+				let amount = 1;
+			}
+		}
+
+		this->_sharpen(amount);
+
+		return this;
+	}
+
 }
