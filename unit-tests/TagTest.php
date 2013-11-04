@@ -18,133 +18,88 @@
   +------------------------------------------------------------------------+
 */
 
-use Phalcon\Tag;
-
-class DIDescendant extends Phalcon\DI {}
+use Phalcon\Tag as Tag;
 
 class TagTest extends PHPUnit_Framework_TestCase
 {
 
-	public function setUp()
+	public function testSelect()
 	{
-	}
+		$data = array(
+			"status",
+			array("Active" => array('A1' => 'A One', 'A2' => 'A Two'), "B" => "B One")
+		);
 
-	public function testIssue744()
-	{
-		$v = new Phalcon\Tag;
+		$html = <<<HTML
+<select id="status" name="status">
+	<optgroup label="Active">
+	<option value="A1">A One</option>
+	<option value="A2">A Two</option>
+	</optgroup>
+	<option value="B">B One</option>
+</select>
+HTML;
 
-		try {
-			$v->setDI(0);
-			$this->assertTrue(false);
-		}
-		catch (Exception $e) {
-			$this->assertTrue(true);
-		}
-
-		try {
-			$v->setDI(new stdClass());
-			$this->assertTrue(false);
-		}
-		catch (Exception $e) {
-			$this->assertTrue(true);
-		}
-
-		try {
-			$v->setDI(new Phalcon\DI());
-			$this->assertTrue(true);
-		}
-		catch (Exception $e) {
-			$this->assertTrue(false);
-		}
-
-		try {
-			$v->setDI(new DIDescendant());
-			$this->assertTrue(true);
-		}
-		catch (Exception $e) {
-			$this->assertTrue(false);
-		}
-
-		try {
-			$v->setDefaults(0);
-			$this->assertTrue(false);
-		}
-		catch (Exception $e) {
-			$this->assertTrue(true);
-		}
-	}
-
-	public function testIssue947()
-        {
 		$di = new Phalcon\DI\FactoryDefault();
 		Tag::setDI($di);
+		$ret = Tag::selectStatic($data);
 
-		$html = Tag::radioField(array(
-		    'test',
-		    'value' => 1,
-		    'checked' => 'checked'
-		));
-		$pos = strpos($html, 'checked="checked"');
-		$this->assertTrue($pos !== FALSE);
+		$this->assertEquals($ret, $html);
 
-		$html = Tag::radioField(array(
-		    'test',
-		    'value' => 0
-		));
-		$pos = strpos($html, 'checked="checked"');
-		$this->assertTrue($pos === FALSE);
+		$html = <<<HTML
+<select id="status" name="status">
+	<optgroup label="Active">
+	<option selected="selected" value="A1">A One</option>
+	<option value="A2">A Two</option>
+	</optgroup>
+	<option value="B">B One</option>
+</select>
+HTML;
+		Tag::setDefault("status", "A1");
 
-		Tag::setDefault("test", "0");
-		$html = Tag::radioField(array(
-		    'test',
-		    'value' => 0
-		));
-		$pos = strpos($html, 'checked="checked"');
-		$this->assertTrue($pos !== FALSE);
+		$ret = Tag::selectStatic($data);
+
+		$this->assertEquals($ret, $html);
 	}
 
-	public function testIssue1216()
+	public function testSetTitleSeparator()
 	{
-		$di = new \Phalcon\DI\FactoryDefault();
 
-		$actual   = \Phalcon\Tag::linkTo(array('url"', '<>', 'class' => 'class"'));
-		$expected = '<a href="/url&quot;" class="class&quot;"><></a>';
-		$this->assertEquals($expected, $actual);
+		Tag::setTitle('Title');
+		Tag::appendTitle('Class');
 
-		$actual   = \Phalcon\Tag::textField(array('name"'));
-		$expected = '<input type="text" id="name&quot;" name="name&quot;" value="" />';
-		$this->assertEquals($expected, $actual);
+		$this->assertEquals(Tag::getTitle(), '<title>TitleClass</title>'.PHP_EOL);
 
-		$actual   = \Phalcon\Tag::checkField(array('name"'));
-		$expected = '<input type="checkbox" id="name&quot;" name="name&quot;" value="" />';
-		$this->assertEquals($expected, $actual);
+		Tag::setTitle('Title');
+		Tag::setTitleSeparator('|');
+		Tag::appendTitle('Class');
 
-		$actual   = \Phalcon\Tag::form(array('<', 'method' => '>'));
-		$expected = '<form action="/&lt;" method="&gt;">';
-		$this->assertEquals($expected, $actual);
+		$this->assertEquals(Tag::getTitle(), '<title>Title|Class</title>'.PHP_EOL);
+		$this->assertEquals(Tag::getTitleSeparator(), '|');
 
-		$actual   = \Phalcon\Tag::textArea(array('<', 'cols' => '<'));
-		$expected = '<textarea id="&lt;" name="&lt;" cols="&lt;"></textarea>';
-		$this->assertEquals($expected, $actual);
+		Tag::setTitle('Title');
+		Tag::setTitleSeparator('|');
+		Tag::prependTitle('Class');
 
-		$actual   = \Phalcon\Tag::stylesheetLink(array('href' => '<', 'local' => false, 'type' => '>'));
-		$expected = '<link rel="stylesheet" type="&gt;" href="&lt;" />' . PHP_EOL;
-		$this->assertEquals($expected, $actual);
-
-		$actual   = \Phalcon\Tag::javascriptInclude(array('src' => '<', 'local' => false, 'type' => '>'));
-		$expected = '<script type="&gt;" src="&lt;"></script>' . PHP_EOL;
-		$this->assertEquals($expected, $actual);
-
-		$actual   = \Phalcon\Tag::image(array('src' => '<', 'alt' => '>'), false);
-		$expected = '<img src="&lt;" alt="&gt;" />';
-		$this->assertEquals($expected, $actual);
-
-		$actual   = \Phalcon\Tag::tagHtml('br', array('class' => '<'), true, false, false);
-		$expected = '<br class="&lt;" />';
-		$this->assertEquals($expected, $actual);
-
-		$actual   = \Phalcon\Tag\Select::selectField(array('name' => '<', 'value' => '>', 'id' => ''), array('"' => '"', '>' => 'test'));
-		$expected = '<select id="" name="&lt;">' . PHP_EOL . "\t" . '<option value="&quot;">"</option>' . PHP_EOL . "\t" . '<option selected="selected" value="&gt;">test</option>' . PHP_EOL . '</select>';
-		$this->assertEquals($expected, $actual);
+		$this->assertEquals(Tag::getTitle(), '<title>Class|Title</title>'.PHP_EOL);
 	}
+
+	public function testIssue1486()
+    {
+		$di = new Phalcon\DI\FactoryDefault();
+		$di->getshared('url')->setBaseUri('/');
+		\Phalcon\Tag::setDI($di);
+
+		$html = \Phalcon\Tag::stylesheetLink('css/phalcon.css');
+		$this->assertEquals($html, '<link rel="stylesheet" href="/css/phalcon.css" type="text/css" />'.PHP_EOL);
+
+		$html = \Phalcon\Tag::stylesheetLink(array('css/phalcon.css'));
+		$this->assertEquals($html, '<link rel="stylesheet" href="/css/phalcon.css" type="text/css" />'.PHP_EOL);
+
+		$html = \Phalcon\Tag::javascriptInclude('js/phalcon.js');
+		$this->assertEquals($html, '<script src="/js/phalcon.js" type="text/javascript"></script>'.PHP_EOL);
+
+		$html = \Phalcon\Tag::javascriptInclude(array('js/phalcon.js'));
+		$this->assertEquals($html, '<script src="/js/phalcon.js" type="text/javascript"></script>'.PHP_EOL);
+	 }
 }

@@ -19,6 +19,7 @@ export GCC_INSTRUMENT_PROGRAM_FLOW_ARCS="YES"
 
 export CC="gcc"
 export CFLAGS="-march=native -mtune=native -O2 -fno-delete-null-pointer-checks -finline-functions -fno-builtin-memcmp -fprofile-generate -lgcov -pg"
+export CPPFLAGS="-DPHALCON_RELEASE"
 echo "int main() {}" > t.c
 gcc $CFLAGS t.c -o t 2> t.t
 if [ $? != 0 ]; then

@@ -116,7 +116,7 @@ static zval* phalcon_config_read_property(zval *object, zval *offset, int type Z
 	phalcon_config_object *obj = fetchPhalconConfigObject(object TSRMLS_CC);
 
 	if (obj->obj.ce->type != ZEND_INTERNAL_CLASS) {
-		if (BP_VAR_IS == type && !zend_get_std_object_handlers()->has_property(object, offset, 2 ZLK_CC TSRMLS_CC)) {
+		if (BP_VAR_IS == type && !zend_get_std_object_handlers()->has_property(object, offset, 0 ZLK_CC TSRMLS_CC)) {
 			return EG(uninitialized_zval_ptr);
 		}
 
@@ -151,10 +151,19 @@ static void phalcon_config_write_internal(phalcon_config_object *object, zval *o
 {
 	if (Z_TYPE_P(value) == IS_ARRAY) {
 		zval *instance;
-		MAKE_STD_ZVAL(instance);
-		object_init_ex(instance, phalcon_config_ce);
-		phalcon_config_construct_internal(instance, value TSRMLS_CC);
-		phalcon_hash_update_or_insert(object->props, offset, instance);
+		HashTable *h = Z_ARRVAL_P(value);
+
+		if (!h->nApplyCount) {
+			++h->nApplyCount;
+			MAKE_STD_ZVAL(instance);
+			object_init_ex(instance, phalcon_config_ce);
+			phalcon_config_construct_internal(instance, value TSRMLS_CC);
+			phalcon_hash_update_or_insert(object->props, offset, instance);
+			--h->nApplyCount;
+		}
+		else {
+			php_error_docref(NULL TSRMLS_CC, E_WARNING, "Recursion detected");
+		}
 	}
 	else {
 		Z_ADDREF_P(value);
@@ -222,7 +231,7 @@ static int phalcon_config_has_property(zval *object, zval *offset, int has_set_e
 		return zend_get_std_object_handlers()->has_property(object, offset, has_set_exists ZLK_CC TSRMLS_CC);
 	}
 
-	return phalcon_config_has_internal(obj, offset, 2 TSRMLS_CC);
+	return phalcon_config_has_internal(obj, offset, 0 TSRMLS_CC);
 }
 
 static int phalcon_config_has_dimension(zval *object, zval *offset, int check_empty TSRMLS_DC)

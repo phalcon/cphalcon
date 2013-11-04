@@ -241,16 +241,20 @@ PHP_METHOD(Phalcon_Cache_Backend_Mongo, get){
 	phalcon_call_method_p1_ex(document, &document, collection, "findone", conditions);
 	if (Z_TYPE_P(document) == IS_ARRAY) { 
 		if (likely(phalcon_array_isset_string_fetch(&cached_content, document, SS("data")))) {
-			phalcon_return_call_method_p1(frontend, "afterretrieve", cached_content);
-			RETURN_MM();
-		}
-		else {
+			if (phalcon_is_numeric(cached_content)) {
+				RETURN_CCTOR(cached_content);
+			} else {
+				phalcon_return_call_method_p1(frontend, "afterretrieve", cached_content);
+				RETURN_MM();
+			}
+		} else {
 			PHALCON_THROW_EXCEPTION_STR(phalcon_cache_exception_ce, "The cache is corrupt");
 			return;
 		}
+	} else {
+		RETURN_MM_NULL();
 	}
 	
-	RETURN_MM_NULL();
 }
 
 /**
@@ -293,9 +297,11 @@ PHP_METHOD(Phalcon_Cache_Backend_Mongo, save){
 	} else {
 		cached_content = content;
 	}
-	
-	PHALCON_OBS_VAR(prepared_content);
-	phalcon_call_method_p1_ex(prepared_content, &prepared_content, frontend, "beforestore", cached_content);
+
+	if (!phalcon_is_numeric(cached_content)) {
+		PHALCON_OBS_VAR(prepared_content);
+		phalcon_call_method_p1_ex(prepared_content, &prepared_content, frontend, "beforestore", cached_content);
+	}
 
 	if (!lifetime || Z_TYPE_P(lifetime) == IS_NULL) {
 		zval *tmp = phalcon_fetch_nproperty_this(this_ptr, SL("_lastLifetime"), PH_NOISY_CC);
@@ -326,14 +332,24 @@ PHP_METHOD(Phalcon_Cache_Backend_Mongo, save){
 
 	if (Z_TYPE_P(document) == IS_ARRAY) { 
 		phalcon_array_update_string(&document, SL("time"), &timestamp, PH_COPY);
-		phalcon_array_update_string(&document, SL("data"), &prepared_content, PH_COPY);
+		if (!phalcon_is_numeric(cached_content)) {
+			phalcon_array_update_string(&document, SL("data"), &prepared_content, PH_COPY);
+		} else {
+			phalcon_array_update_string(&document, SL("data"), &cached_content, PH_COPY);
+		}
 		phalcon_call_method_p1_noret(collection, "save", document);
 	} else {
 		PHALCON_INIT_VAR(data);
 		array_init_size(data, 3);
 		phalcon_array_update_string(&data, SL("key"), &last_key, PH_COPY);
 		phalcon_array_update_string(&data, SL("time"), &timestamp, PH_COPY);
-		phalcon_array_update_string(&data, SL("data"), &prepared_content, PH_COPY);
+
+		if (!phalcon_is_numeric(cached_content)) {
+			phalcon_array_update_string(&data, SL("data"), &prepared_content, PH_COPY);
+		} else {
+			phalcon_array_update_string(&data, SL("data"), &cached_content, PH_COPY);
+		}
+
 		phalcon_call_method_p1_noret(collection, "save", data);
 	}
 	
@@ -532,4 +548,257 @@ PHP_METHOD(Phalcon_Cache_Backend_Mongo, gc) {
 	phalcon_call_method_p1_noret(collection, "remove", conditions);
 
 	PHALCON_MM_RESTORE();
+}
+
+/**
+ * Increment of a given key by $value
+ *
+ * @param int|string $keyName
+ * @param   long $value
+ * @return  mixed
+ */
+PHP_METHOD(Phalcon_Cache_Backend_Mongo, increment){
+
+	zval *key_name, *lifetime = NULL, *frontend, *prefix, *prefixed_key, *value = NULL;
+	zval *collection, *conditions, *document, *timestamp;
+	zval *ttl = NULL, *modified_time, *difference, *not_expired;
+	zval *cached_content;
+
+	PHALCON_MM_GROW();
+
+	phalcon_fetch_params(1, 1, 1, &key_name, &value);
+
+	if (!value) {
+		PHALCON_INIT_VAR(value);
+		ZVAL_LONG(value, 1);
+	} 
+
+	if(Z_TYPE_P(value) == IS_NULL) {
+		ZVAL_LONG(value, 1);
+	}
+
+	if (Z_TYPE_P(value) != IS_LONG) {	
+		PHALCON_SEPARATE_PARAM(value);
+		convert_to_long_ex(&value);
+	}
+
+	PHALCON_OBS_VAR(frontend);
+	phalcon_read_property_this(&frontend, this_ptr, SL("_frontend"), PH_NOISY_CC);
+	
+	PHALCON_OBS_VAR(prefix);
+	phalcon_read_property_this(&prefix, this_ptr, SL("_prefix"), PH_NOISY_CC);
+
+	PHALCON_INIT_VAR(prefixed_key);
+	PHALCON_CONCAT_VV(prefixed_key, prefix, key_name);
+	phalcon_update_property_this(this_ptr, SL("_lastKey"), prefixed_key TSRMLS_CC);
+	
+	PHALCON_INIT_VAR(collection);
+	phalcon_call_method(collection, this_ptr, "_getcollection");
+	
+	PHALCON_INIT_VAR(conditions);
+	array_init_size(conditions, 1);
+	phalcon_array_update_string(&conditions, SL("key"), &prefixed_key, PH_COPY | PH_SEPARATE);
+	
+	PHALCON_INIT_VAR(document);
+	phalcon_call_method_p1(document, collection, "findone", conditions);
+
+	PHALCON_INIT_VAR(timestamp);
+	PHALCON_INIT_VAR(lifetime);
+	ZVAL_LONG(timestamp, (long) time(NULL));
+
+	PHALCON_OBS_NVAR(lifetime);
+	phalcon_read_property_this(&lifetime, this_ptr, SL("_lastLifetime"), PH_NOISY_CC);
+	if (Z_TYPE_P(lifetime) == IS_NULL) {
+		PHALCON_INIT_VAR(ttl);
+		phalcon_call_method(ttl, frontend, "getlifetime");
+	} else {
+		PHALCON_CPY_WRT(ttl, lifetime);
+	}
+
+	/*
+	 * phalcon_add_function(newlifetime, ttl, timestamp TSRMLS_CC);
+	 */
+	
+	if (!phalcon_array_isset_string(document, SS("time"))) {
+		PHALCON_THROW_EXCEPTION_STR(phalcon_cache_exception_ce, "The cache is currupted");
+		return;
+	}
+	
+	PHALCON_OBS_VAR(modified_time);
+	phalcon_array_fetch_string(&modified_time, document, SL("time"), PH_NOISY);
+	
+	PHALCON_INIT_VAR(difference);
+	sub_function(difference, timestamp, ttl TSRMLS_CC);
+	
+	PHALCON_INIT_VAR(not_expired);
+	is_smaller_function(not_expired, difference, modified_time TSRMLS_CC);
+	
+	/** 
+	 * The expiration is based on the column 'time'
+	 */
+	if (PHALCON_IS_TRUE(not_expired)) {
+		if (!phalcon_array_isset_string(document, SS("data"))) {
+			PHALCON_THROW_EXCEPTION_STR(phalcon_cache_exception_ce, "The cache is currupted");
+			return;
+		}
+	
+		PHALCON_OBS_VAR(cached_content);
+		phalcon_array_fetch_string(&cached_content, document, SL("data"), PH_NOISY);
+
+		if(Z_TYPE_P(cached_content) != IS_LONG) {
+			PHALCON_SEPARATE_PARAM(cached_content);
+			convert_to_long_ex(&cached_content);
+		}
+
+		if (phalcon_is_numeric(cached_content)) {
+			add_function(return_value, cached_content, value TSRMLS_CC);
+				
+			PHALCON_INIT_NVAR(ttl);
+			phalcon_add_function(ttl, lifetime, timestamp TSRMLS_CC);
+
+			phalcon_call_method_p2_noret(this_ptr, "save", prefixed_key, return_value);
+		}
+
+		RETURN_MM();
+	}
+	
+	RETURN_MM_NULL();
+}
+
+/**
+ * Decrement of a given key by $value
+ *
+ * @param int|string $keyName
+ * @param   long $value
+ * @return  mixed
+ */
+PHP_METHOD(Phalcon_Cache_Backend_Mongo, decrement){
+
+	zval *key_name, *lifetime = NULL, *frontend, *prefix, *prefixed_key, *value = NULL;
+	zval *collection, *conditions, *document, *timestamp;
+	zval *ttl = NULL, *modified_time, *difference, *not_expired;
+	zval *cached_content;
+
+	PHALCON_MM_GROW();
+
+	phalcon_fetch_params(1, 1, 1, &key_name, &value);
+
+	if (!value) {
+		PHALCON_INIT_VAR(value);
+		ZVAL_LONG(value, 1);
+	} 
+
+	if(Z_TYPE_P(value) == IS_NULL) {
+		ZVAL_LONG(value, 1);
+	}
+
+	if (Z_TYPE_P(value) != IS_LONG) {	
+		PHALCON_SEPARATE_PARAM(value);
+		convert_to_long_ex(&value);
+	}
+
+	PHALCON_OBS_VAR(frontend);
+	phalcon_read_property_this(&frontend, this_ptr, SL("_frontend"), PH_NOISY_CC);
+	
+	PHALCON_OBS_VAR(prefix);
+	phalcon_read_property_this(&prefix, this_ptr, SL("_prefix"), PH_NOISY_CC);
+
+	PHALCON_INIT_VAR(prefixed_key);
+	PHALCON_CONCAT_VV(prefixed_key, prefix, key_name);
+	phalcon_update_property_this(this_ptr, SL("_lastKey"), prefixed_key TSRMLS_CC);
+	
+	PHALCON_INIT_VAR(collection);
+	phalcon_call_method(collection, this_ptr, "_getcollection");
+	
+	PHALCON_INIT_VAR(conditions);
+	array_init_size(conditions, 1);
+	phalcon_array_update_string(&conditions, SL("key"), &prefixed_key, PH_COPY | PH_SEPARATE);
+	
+	PHALCON_INIT_VAR(document);
+	phalcon_call_method_p1(document, collection, "findone", conditions);
+
+	PHALCON_INIT_VAR(timestamp);
+	PHALCON_INIT_VAR(lifetime);
+	ZVAL_LONG(timestamp, (long) time(NULL));
+
+	PHALCON_OBS_NVAR(lifetime);
+	phalcon_read_property_this(&lifetime, this_ptr, SL("_lastLifetime"), PH_NOISY_CC);
+	if (Z_TYPE_P(lifetime) == IS_NULL) {
+		PHALCON_INIT_VAR(ttl);
+		phalcon_call_method(ttl, frontend, "getlifetime");
+	} else {
+		PHALCON_CPY_WRT(ttl, lifetime);
+	}
+
+	/*
+	 * phalcon_add_function(newlifetime, ttl, timestamp TSRMLS_CC);
+	 */
+	
+	if (!phalcon_array_isset_string(document, SS("time"))) {
+		PHALCON_THROW_EXCEPTION_STR(phalcon_cache_exception_ce, "The cache is currupted");
+		return;
+	}
+	
+	PHALCON_OBS_VAR(modified_time);
+	phalcon_array_fetch_string(&modified_time, document, SL("time"), PH_NOISY);
+	
+	PHALCON_INIT_VAR(difference);
+	sub_function(difference, timestamp, ttl TSRMLS_CC);
+	
+	PHALCON_INIT_VAR(not_expired);
+	is_smaller_function(not_expired, difference, modified_time TSRMLS_CC);
+	
+	/** 
+	 * The expiration is based on the column 'time'
+	 */
+	if (PHALCON_IS_TRUE(not_expired)) {
+		if (!phalcon_array_isset_string(document, SS("data"))) {
+			PHALCON_THROW_EXCEPTION_STR(phalcon_cache_exception_ce, "The cache is currupted");
+			return;
+		}
+	
+		PHALCON_OBS_VAR(cached_content);
+		phalcon_array_fetch_string(&cached_content, document, SL("data"), PH_NOISY);
+
+		if(Z_TYPE_P(cached_content) != IS_LONG) {
+			PHALCON_SEPARATE_PARAM(cached_content);
+			convert_to_long_ex(&cached_content);
+		}
+
+		if (phalcon_is_numeric(cached_content)) {
+			sub_function(return_value, cached_content, value TSRMLS_CC);
+				
+			PHALCON_INIT_NVAR(ttl);
+			phalcon_add_function(ttl, lifetime, timestamp TSRMLS_CC);
+
+			phalcon_call_method_p2_noret(this_ptr, "save", prefixed_key, return_value);
+		}
+
+		RETURN_MM();
+	}
+	
+	RETURN_MM_NULL();
+}
+
+/**
+ * Immediately invalidates all existing items.
+ * 
+ * @return bool
+ */
+PHP_METHOD(Phalcon_Cache_Backend_Mongo, flush){
+
+	zval *collection;
+
+	PHALCON_MM_GROW();
+	
+	PHALCON_OBS_VAR(collection);
+	phalcon_call_method_p0_ex(collection, &collection, this_ptr, "_getcollection");
+	
+	phalcon_call_method_noret(collection, "remove");
+
+	if ((php_rand(TSRMLS_C) % 100) == 0) {
+		phalcon_call_method_noret(getThis(), "gc");
+	}
+
+	RETURN_MM_TRUE;
 }

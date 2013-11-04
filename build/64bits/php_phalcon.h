@@ -159,6 +159,18 @@ extern zend_module_entry phalcon_module_entry;
 #define ASSUME(x)     assert(!!(x));
 #endif
 
+#if defined(__GNUC__) || defined(__clang__)
+#define PHALCON_ATTR_NONNULL            __attribute__((nonnull))
+#define PHALCON_ATTR_NONNULL1(x)        __attribute__((nonnull (x)))
+#define PHALCON_ATTR_NONNULL2(x, y)     __attribute__((nonnull (x, y)))
+#define PHALCON_ATTR_NONNULL3(x, y, z)  __attribute__((nonnull (x, y, z)))
+#else
+#define PHALCON_ATTR_NONNULL
+#define PHALCON_ATTR_NONNULL1(x)
+#define PHALCON_ATTR_NONNULL2(x, y)
+#define PHALCON_ATTR_NONNULL3(x, y, z)
+#endif
+
 #ifndef ZEND_MOD_END
 #define ZEND_MOD_END { NULL, NULL, NULL, 0 }
 #endif
@@ -192,6 +204,10 @@ extern zend_module_entry phalcon_module_entry;
 
 #	if defined(HAVE_PHP_SESSION) && !defined(PHALCON_USE_PHP_SESSION)
 #		define PHALCON_USE_PHP_SESSION 1
+#	endif
+
+#	if defined(HAVE_HASH_EXT) && !defined(PHALCON_USE_PHP_HASH)
+#		define PHALCON_USE_PHP_HASH 1
 #	endif
 
 #endif /* !defined(__CYGWIN__) && !defined(WIN32) && defined(HAVE_CONFIG_H) */

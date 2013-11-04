@@ -1,4 +1,3 @@
-
 /*
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
@@ -796,11 +795,11 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, functionCall){
 			}
 	
 			if (phalcon_array_isset(array_helpers, name)) {
-				PHALCON_CONCAT_SVSVS(return_value, "Phalcon\\Tag::", method, "(array(", arguments, "))");
+				PHALCON_CONCAT_SVSVS(return_value, "$this->tag->", method, "(array(", arguments, "))");
 				RETURN_MM();
 			}
 	
-			PHALCON_CONCAT_SVSVS(return_value, "Phalcon\\Tag::", method, "(", arguments, ")");
+			PHALCON_CONCAT_SVSVS(return_value, "$this->tag->", method, "(", arguments, ")");
 	
 			RETURN_MM();
 		}
@@ -1557,11 +1556,11 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, expression){
 		/** 
 		 * Left part of expression is always resolved
 		 */
+		PHALCON_INIT_NVAR(left_code);
 		if (phalcon_array_isset_string(expr, SS("left"))) {
 			PHALCON_OBS_NVAR(left);
 			phalcon_array_fetch_string(&left, expr, SL("left"), PH_NOISY);
 	
-			PHALCON_INIT_NVAR(left_code);
 			phalcon_call_method_p1(left_code, this_ptr, "expression", left);
 		}
 	
@@ -1592,11 +1591,11 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, expression){
 		/** 
 		 * From here, right part of expression is always resolved
 		 */
+		PHALCON_INIT_NVAR(right_code);
 		if (phalcon_array_isset_string(expr, SS("right"))) {
 			PHALCON_OBS_NVAR(right);
 			phalcon_array_fetch_string(&right, expr, SL("right"), PH_NOISY);
 	
-			PHALCON_INIT_NVAR(right_code);
 			phalcon_call_method_p1(right_code, this_ptr, "expression", right);
 		}
 	
@@ -3290,7 +3289,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, _compileSource){
 	
 	PHALCON_INIT_VAR(intermediate);
 	if (phvolt_parse_view(intermediate, view_code, current_path TSRMLS_CC) == FAILURE) {
-		return;
+		RETURN_MM();
 	}
 	
 	/** 
@@ -3837,8 +3836,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, parse){
 	PHALCON_INIT_VAR(current_path);
 	ZVAL_STRING(current_path, "eval code", 1);
 	if (phvolt_parse_view(return_value, view_code, current_path TSRMLS_CC) == FAILURE) {
-		return;
+		RETURN_MM();
 	}
 	RETURN_MM();
 }
-

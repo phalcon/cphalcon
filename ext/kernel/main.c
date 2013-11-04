@@ -323,12 +323,12 @@ int phalcon_fetch_parameters(int num_args TSRMLS_DC, int required_args, int opti
 	int i;
 
 	if (num_args < required_args || (num_args > (required_args + optional_args))) {
-		phalcon_throw_exception_string(spl_ce_BadMethodCallException, SL("Wrong number of parameters") TSRMLS_CC);
+		phalcon_throw_exception_string(spl_ce_BadMethodCallException, "Wrong number of parameters" TSRMLS_CC);
 		return FAILURE;
 	}
 
 	if (num_args > arg_count) {
-		phalcon_throw_exception_string(spl_ce_BadMethodCallException, SL("Could not obtain parameters for parsing") TSRMLS_CC);
+		phalcon_throw_exception_string(spl_ce_BadMethodCallException, "Could not obtain parameters for parsing" TSRMLS_CC);
 		return FAILURE;
 	}
 
@@ -351,5 +351,30 @@ int phalcon_fetch_parameters(int num_args TSRMLS_DC, int required_args, int opti
 
 	va_end(va);
 
+	return SUCCESS;
+}
+
+int phalcon_fetch_parameters_ex(int dummy TSRMLS_DC, int n_req, int n_opt, ...)
+{
+	void **p;
+	int arg_count, param_count;
+	va_list ptr;
+
+	p           = zend_vm_stack_top(TSRMLS_C) - 1;
+	arg_count   = (int)(zend_uintptr_t)*p;
+	param_count = n_req + n_opt;
+
+	if (param_count < arg_count || n_req > arg_count) {
+		return FAILURE;
+	}
+
+	va_start(ptr, n_opt);
+	while (arg_count > 0) {
+		zval ***param = va_arg(ptr, zval ***);
+		*param = (zval**)p - arg_count;
+		--arg_count;
+	}
+
+	va_end(ptr);
 	return SUCCESS;
 }

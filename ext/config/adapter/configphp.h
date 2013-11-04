@@ -17,36 +17,18 @@
   +------------------------------------------------------------------------+
 */
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
+extern zend_class_entry *phalcon_config_adapter_php_ce;
 
-#include "php.h"
-#include "php_phalcon.h"
-#include "phalcon.h"
+PHALCON_INIT_CLASS(Phalcon_Config_Adapter_Php);
 
-#include "Zend/zend_operators.h"
-#include "Zend/zend_exceptions.h"
-#include "Zend/zend_interfaces.h"
+PHP_METHOD(Phalcon_Config_Adapter_Php, __construct);
 
-#include "kernel/main.h"
-#include "kernel/memory.h"
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_config_adapter_php___construct, 0, 0, 1)
+	ZEND_ARG_INFO(0, filePath)
+ZEND_END_ARG_INFO()
 
-/**
- * Phalcon\Translate
- *
- * Translate component allows the creation of multi-language applications using
- * different adapters for translation lists.
- */
-
-
-/**
- * Phalcon\Translate initializer
- */
-PHALCON_INIT_CLASS(Phalcon_Translate){
-
-	PHALCON_REGISTER_CLASS(Phalcon, Translate, translate, NULL, ZEND_ACC_EXPLICIT_ABSTRACT_CLASS);
-
-	return SUCCESS;
-}
+PHALCON_INIT_FUNCS(phalcon_config_adapter_php_method_entry){
+	PHP_ME(Phalcon_Config_Adapter_Php, __construct, arginfo_phalcon_config_adapter_php___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR) 
+	PHP_FE_END
+};
 

@@ -23,15 +23,16 @@ class PHPTTestSuite extends PHPUnit_Framework_TestCase
 {
 	public static function suite()
 	{
-		$options = array(
-			'cgi' => PHP_BINDIR . DIRECTORY_SEPARATOR . 'php-cgi',
-		);
+		if (empty($_ENV)) {
+			if (isset($_SERVER['PATH'])) {
+				$_ENV['PATH'] = $_SERVER['PATH'];
+			}
+			else {
+				$_ENV['PATH'] = getenv('PATH');
+			}
+		}
 
 		$directory = __DIR__ . '/../../ext/tests/';
-
-		if (file_exists($options['cgi'])) {
-			return new PHPUnit_Extensions_PhptTestSuite($directory, $options);
-		}
 
 		$facade = new File_Iterator_Facade;
 		$files  = $facade->getFilesAsArray($directory, '.phpt');
@@ -40,7 +41,7 @@ class PHPTTestSuite extends PHPUnit_Framework_TestCase
 
 		foreach ($files as $file) {
 			$c = file_get_contents($file);
-			if (!preg_match('/^--(?:POST(?:_RAW)?|UPLOAD|PUT|EXPECTHEADERS|(?:GZIP|DEFLATE)_POST|GET|COOKIE)--$/m', $c)) {
+			if (!preg_match('/^--(?:PUT|(?:GZIP|DEFLATE)_POST|CGI)--$/m', $c)) {
 				$suite->addTestFile($file);
 			}
 		}
@@ -48,5 +49,3 @@ class PHPTTestSuite extends PHPUnit_Framework_TestCase
 		return $suite;
 	}
 }
-
-

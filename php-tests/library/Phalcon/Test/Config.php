@@ -26,52 +26,65 @@ namespace Phalcon\Test;
 
 class Config
 {
-    public static function init()
-    {
-        $config = array(
-            'db' => array(
-                        'mysql'      => array(
-                            'host'     => 'localhost',
-                            'username' => 'root',
-                            'password' => '',
-                            'dbname'   => 'phalcon_test',
-                        ),
-                        'postgresql' => array(
-                            'host'     => '127.0.0.1',
-                            'username' => 'postgres',
-                            'password' => '',
-                            'dbname'   => 'phalcon_test',
-                            'schema'   => 'public',
-                        ),
-                        'sqlite'     => array(
-                            'host'     => '',
-                            'username' => '',
-                            'password' => '',
-                            'dbname'   => '/tmp/phalcon_test.sqlite',
-                        ),
-                    ),
-            'tr' => array(
-                        'en' => array(
-                            'hi'        => 'Hello',
-                            'bye'       => 'Good Bye',
-                            'hello-key' => 'Hello %name%',
-                            'song-key'  => 'This song is %song% (%artist%)',
-                        ),
-                        'es' => array(
-                            'hi'        => 'Hola',
-                            'bye'       => 'Adiós',
-                            'hello-key' => 'Hola %name%',
-                            'song-key'  => 'La canción es %song% (%artist%)',
-                        ),
-                        'fr' => array(
-                            'hi'        => 'Bonjour',
-                            'bye'       => 'Au revoir',
-                            'hello-key' => 'Bonjour %name%',
-                            'song-key'  => 'La chanson est %song% (%artist%)',
-                        ),
-                    ),
-        );
+	public static function init()
+	{
+		if (file_exists(__DIR__ . '/config.db.local.php')) {
+			$db_config = require (__DIR__ . '/config.db.local.php');
+		}
+		else {
+			$db_config = array(
+				'mysql'      => array(
+					'host'     => 'localhost',
+					'username' => 'root',
+					'password' => '',
+					'dbname'   => 'phalcon_test',
+				),
+				'postgresql' => array(
+					'host'     => '127.0.0.1',
+					'username' => 'postgres',
+					'password' => '',
+					'dbname'   => 'phalcon_test',
+					'schema'   => 'public',
+				),
+				'sqlite'     => array(
+					'host'     => '',
+					'username' => '',
+					'password' => '',
+					'dbname'   => '/tmp/phalcon_test.sqlite',
+				),
+			);
+		}
 
-        return $config;
-    }
+		$config = array(
+			'db' => $db_config,
+			'tr' => array(
+				'en' => array(
+					'hi'        => 'Hello',
+					'bye'       => 'Good Bye',
+					'hello-key' => 'Hello %name%',
+					'song-key'  => 'This song is %song% (%artist%)',
+				),
+				'es' => array(
+					'hi'        => 'Hola',
+					'bye'       => 'Adiós',
+					'hello-key' => 'Hola %name%',
+					'song-key'  => 'La canción es %song% (%artist%)',
+				),
+				'fr' => array(
+					'hi'        => 'Bonjour',
+					'bye'       => 'Au revoir',
+					'hello-key' => 'Bonjour %name%',
+					'song-key'  => 'La chanson est %song% (%artist%)',
+				),
+				'hi' => array(
+					'hi'        => 'हाय',
+					'bye'       => 'अलविदा',
+					'hello-key' => 'हाय %name%',
+					'song-key'  => 'यह गीत %song% (%artist%) है',
+				),
+			),
+		);
+
+		return $config;
+	}
 }

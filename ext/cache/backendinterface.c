@@ -139,3 +139,27 @@ PHALCON_DOC_METHOD(Phalcon_Cache_BackendInterface, queryKeys);
  */
 PHALCON_DOC_METHOD(Phalcon_Cache_BackendInterface, exists);
 
+/**
+ * Increment $key by $value
+ *
+ * @param $key
+ * @param $value
+ * @return mixed
+ */
+PHALCON_DOC_METHOD(Phalcon_Cache_BackendInterface, increment);
+
+/**
+ * Decrement $key by $value
+ *
+ * @param $key
+ * @param $value
+ * @return mixed
+ */
+PHALCON_DOC_METHOD(Phalcon_Cache_BackendInterface, decrement);
+
+/**
+ * Immediately invalidates all existing items.
+ * 
+ * @return boolean
+ */
+PHALCON_DOC_METHOD(Phalcon_Cache_BackendInterface, flush);

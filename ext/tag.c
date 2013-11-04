@@ -61,6 +61,7 @@ PHALCON_INIT_CLASS(Phalcon_Tag){
 
 	zend_declare_property_null(phalcon_tag_ce, SL("_displayValues"), ZEND_ACC_PROTECTED|ZEND_ACC_STATIC TSRMLS_CC);
 	zend_declare_property_null(phalcon_tag_ce, SL("_documentTitle"), ZEND_ACC_PROTECTED|ZEND_ACC_STATIC TSRMLS_CC);
+	zend_declare_property_null(phalcon_tag_ce, SL("_documentTitleSeparator"), ZEND_ACC_PROTECTED|ZEND_ACC_STATIC TSRMLS_CC);
 	zend_declare_property_long(phalcon_tag_ce, SL("_documentType"), 11, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC TSRMLS_CC);
 	zend_declare_property_null(phalcon_tag_ce, SL("_dependencyInjector"), ZEND_ACC_PROTECTED|ZEND_ACC_STATIC TSRMLS_CC);
 	zend_declare_property_null(phalcon_tag_ce, SL("_urlService"), ZEND_ACC_PROTECTED|ZEND_ACC_STATIC TSRMLS_CC);
@@ -101,9 +102,10 @@ static void phalcon_tag_get_escaper(zval **return_value_ptr, zval *params TSRMLS
 	*return_value_ptr = result;
 }
 
-static zend_bool phalcon_tag_associative_only(HashTable *ht, void *pData, zend_hash_key *hash_key, void *pParam)
+static zend_bool phalcon_tag_attribute_filter(HashTable *ht, void *pData, zend_hash_key *hash_key, void *pParam)
 {
-	return hash_key->arKey && hash_key->nKeyLength;
+	zval **z = (zval**)pData;
+	return hash_key->arKey && hash_key->nKeyLength && Z_TYPE_PP(z) != IS_ARRAY;
 }
 
 PHALCON_STATIC void phalcon_tag_render_attributes(zval *code, zval *attributes TSRMLS_DC)
@@ -152,7 +154,7 @@ PHALCON_STATIC void phalcon_tag_render_attributes(zval *code, zval *attributes T
 		}
 	}
 
-	zend_hash_merge_ex(Z_ARRVAL_P(attrs), Z_ARRVAL_P(attributes), (copy_ctor_func_t)zval_add_ref, sizeof(zval*), phalcon_tag_associative_only, NULL);
+	zend_hash_merge_ex(Z_ARRVAL_P(attrs), Z_ARRVAL_P(attributes), (copy_ctor_func_t)zval_add_ref, sizeof(zval*), phalcon_tag_attribute_filter, NULL);
 
 	if (phalcon_array_isset_string(attrs, SS("escape"))) {
 		phalcon_array_unset_string(&attrs, SS("escape"), 0);
@@ -432,12 +434,13 @@ PHP_METHOD(Phalcon_Tag, hasValue){
 	/**
 	 * Check if there is a post value for the item
 	 */
+	PHALCON_MM_GROW();
 	phalcon_get_global(&_POST, SS("_POST") TSRMLS_CC);
 	if (phalcon_array_isset(_POST, name)) {
-		RETURN_TRUE;
+		RETURN_MM_TRUE;
 	}
 	
-	RETURN_FALSE;
+	RETURN_MM_FALSE;
 }
 
 /**
@@ -469,10 +472,13 @@ PHP_METHOD(Phalcon_Tag, getValue){
 			/**
 			 * Check if there is a post value for the item
 			 */
+			PHALCON_MM_GROW();
 			phalcon_get_global(&_POST, SS("_POST") TSRMLS_CC);
 			if (!phalcon_array_isset_fetch(&value, _POST, name)) {
-				RETURN_NULL();
+				RETURN_MM_NULL();
 			}
+
+			PHALCON_MM_RESTORE();
 		}
 	}
 	
@@ -1364,19 +1370,39 @@ PHP_METHOD(Phalcon_Tag, setTitle){
 }
 
 /**
+ * Set the title separator of view content
+ *
+ *<code>
+ * Phalcon\Tag::setTitleSeparator('-');
+ *</code>
+ *
+ * @param string $titleSeparator
+ */
+PHP_METHOD(Phalcon_Tag, setTitleSeparator){
+
+	zval *title_separator;
+
+	phalcon_fetch_params(0, 1, 0, &title_separator);
+	
+	phalcon_update_static_property_ce(phalcon_tag_ce, SL("_documentTitleSeparator"), title_separator TSRMLS_CC);
+	
+}
+
+/**
  * Appends a text to current document title
  *
  * @param string $title
  */
 PHP_METHOD(Phalcon_Tag, appendTitle){
 
-	zval *title, *t0, *r0;
+	zval *title, *document_title, *document_title_separator, *r0;
 
 	phalcon_fetch_params(0, 1, 0, &title);
 	
-	t0 = phalcon_fetch_static_property_ce(phalcon_tag_ce, SL("_documentTitle") TSRMLS_CC);
+	document_title = phalcon_fetch_static_property_ce(phalcon_tag_ce, SL("_documentTitle") TSRMLS_CC);
+	document_title_separator = phalcon_fetch_static_property_ce(phalcon_tag_ce, SL("_documentTitleSeparator") TSRMLS_CC);
 	ALLOC_INIT_ZVAL(r0);
-	concat_function(r0, t0, title TSRMLS_CC);
+	PHALCON_CONCAT_VVV(r0, document_title, document_title_separator, title);
 	phalcon_update_static_property_ce(phalcon_tag_ce, SL("_documentTitle"), r0 TSRMLS_CC);
 	zval_ptr_dtor(&r0);
 }
@@ -1388,14 +1414,15 @@ PHP_METHOD(Phalcon_Tag, appendTitle){
  */
 PHP_METHOD(Phalcon_Tag, prependTitle){
 
-	zval *title, *document_title, *r0;
+	zval *title, *document_title, *document_title_separator, *r0;
 
 	phalcon_fetch_params(0, 1, 0, &title);
 	
 	document_title = phalcon_fetch_static_property_ce(phalcon_tag_ce, SL("_documentTitle") TSRMLS_CC);
+	document_title_separator = phalcon_fetch_static_property_ce(phalcon_tag_ce, SL("_documentTitleSeparator") TSRMLS_CC);
 	
 	ALLOC_INIT_ZVAL(r0);
-	concat_function(r0, title, document_title TSRMLS_CC);
+	PHALCON_CONCAT_VVV(r0, title, document_title_separator, document_title);
 	phalcon_update_static_property_ce(phalcon_tag_ce, SL("_documentTitle"), r0 TSRMLS_CC);
 	zval_ptr_dtor(&r0);
 }
@@ -1426,6 +1453,26 @@ PHP_METHOD(Phalcon_Tag, getTitle){
 	else {
 		RETURN_ZVAL(document_title, 1, 0);
 	}
+}
+
+/**
+ * Gets the current document title separator
+ *
+ * <code>
+ * 	echo Phalcon\Tag::getTitleSeparator();
+ * </code>
+ *
+ * <code>
+ * 	{{ get_title_separator() }}
+ * </code>
+ *
+ * @return string
+ */
+PHP_METHOD(Phalcon_Tag, getTitleSeparator){
+
+	zval *document_title_separator;
+	document_title_separator = phalcon_fetch_static_property_ce(phalcon_tag_ce, SL("_documentTitleSeparator") TSRMLS_CC);
+	RETURN_ZVAL(document_title_separator, 1, 0);
 }
 
 /**
@@ -1486,7 +1533,7 @@ PHP_METHOD(Phalcon_Tag, stylesheetLink){
 	}
 	else {
 		PHALCON_INIT_VAR(z_local);
-		ZVAL_FALSE(z_local);
+		ZVAL_TRUE(z_local);
 	}
 	
 	if (!phalcon_array_isset_string(params, SS("type"))) {
@@ -1588,7 +1635,7 @@ PHP_METHOD(Phalcon_Tag, javascriptInclude){
 		phalcon_array_unset_string(&params, SS("local"), PH_SEPARATE);
 	} else {
 		PHALCON_INIT_VAR(z_local);
-		ZVAL_FALSE(z_local);
+		ZVAL_TRUE(z_local);
 	}
 	
 	if (!phalcon_array_isset_string(params, SS("type"))) {

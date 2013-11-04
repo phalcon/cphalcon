@@ -102,8 +102,12 @@ PHP_METHOD(Phalcon_Cache_Backend_Memory, get){
 	data = phalcon_fetch_nproperty_this(this_ptr, SL("_data"), PH_NOISY_CC);
 	if (phalcon_array_isset_fetch(&cached_content, data, last_key)) {
 		if (Z_TYPE_P(cached_content) != IS_NULL) {
-			frontend = phalcon_fetch_nproperty_this(this_ptr, SL("_frontend"), PH_NOISY_CC);
-			phalcon_return_call_method_p1(frontend, "afterretrieve", cached_content);
+			if (phalcon_is_numeric(cached_content)) {
+				RETVAL_ZVAL(cached_content, 1, 0);
+			} else {
+				frontend = phalcon_fetch_nproperty_this(this_ptr, SL("_frontend"), PH_NOISY_CC);
+				phalcon_return_call_method_p1(frontend, "afterretrieve", cached_content);
+			}
 		}
 	}
 
@@ -149,10 +153,14 @@ PHP_METHOD(Phalcon_Cache_Backend_Memory, save){
 	} else {
 		cached_content = content;
 	}
-	
-	PHALCON_OBS_VAR(prepared_content);
-	phalcon_call_method_p1_ex(prepared_content, &prepared_content, frontend, "beforestore", cached_content);
-	phalcon_update_property_array(this_ptr, SL("_data"), last_key, prepared_content TSRMLS_CC);
+
+	if (phalcon_is_numeric(cached_content))	{
+		phalcon_update_property_array(this_ptr, SL("_data"), last_key, cached_content TSRMLS_CC);
+	} else {
+		PHALCON_OBS_VAR(prepared_content);
+		phalcon_call_method_p1_ex(prepared_content, &prepared_content, frontend, "beforestore", cached_content);
+		phalcon_update_property_array(this_ptr, SL("_data"), last_key, prepared_content TSRMLS_CC);
+	}
 	
 	PHALCON_OBS_VAR(is_buffering);
 	phalcon_call_method_p0_ex(is_buffering, &is_buffering, frontend, "isbuffering");
@@ -287,4 +295,104 @@ PHP_METHOD(Phalcon_Cache_Backend_Memory, exists){
 	}
 	
 	RETURN_MM_FALSE;
+}
+
+/**
+ * Increment of given $keyName by $value
+ *
+ * @param  string $keyName
+ * @param  long $lifetime
+ * @return mixed
+ */
+PHP_METHOD(Phalcon_Cache_Backend_Memory, increment){
+
+	zval **key_name, **value = NULL, *last_key, *data;
+	zval *cached_content;
+
+	phalcon_fetch_params_ex(1, 1, &key_name, &value);
+
+	if (!value || Z_TYPE_PP(value) == IS_NULL) {
+		value = &PHALCON_GLOBAL(z_one);
+	}
+	else {
+		PHALCON_ENSURE_IS_LONG(value);
+	}
+	
+	PHALCON_MM_GROW();
+
+	if (Z_TYPE_PP(key_name) == IS_NULL) {
+		last_key = phalcon_fetch_nproperty_this(this_ptr, SL("_lastKey"), PH_NOISY_CC);
+	} else {
+		zval *prefix = phalcon_fetch_nproperty_this(this_ptr, SL("_prefix"), PH_NOISY_CC);
+	
+		PHALCON_INIT_VAR(last_key);
+		PHALCON_CONCAT_VV(last_key, prefix, *key_name);
+	}
+	
+	data = phalcon_fetch_nproperty_this(this_ptr, SL("_data"), PH_NOISY_CC);
+	if (!phalcon_array_isset_fetch(&cached_content, data, last_key)) {
+		RETVAL_FALSE;
+		RETURN_MM();
+	}
+	
+	add_function(return_value, cached_content, *value TSRMLS_CC);
+	phalcon_update_property_array(this_ptr, SL("_data"), last_key, return_value TSRMLS_CC);
+
+	RETURN_MM();
+}
+
+/**
+ * Decrement of $keyName by given $value
+ *
+ * @param  string $keyName
+ * @param  long $value
+ * @return long
+ */
+PHP_METHOD(Phalcon_Cache_Backend_Memory, decrement){
+
+	zval **key_name, **value = NULL, *last_key, *data;
+	zval *cached_content;
+
+	phalcon_fetch_params_ex(1, 1, &key_name, &value);
+
+	if (!value || Z_TYPE_PP(value) == IS_NULL) {
+		value = &PHALCON_GLOBAL(z_one);
+	}
+	else {
+		PHALCON_ENSURE_IS_LONG(value);
+	}
+	
+	PHALCON_MM_GROW();
+	
+	if (Z_TYPE_PP(key_name) == IS_NULL) {
+		last_key = phalcon_fetch_nproperty_this(this_ptr, SL("_lastKey"), PH_NOISY_CC);
+	} else {
+		zval *prefix = phalcon_fetch_nproperty_this(this_ptr, SL("_prefix"), PH_NOISY_CC);
+	
+		PHALCON_INIT_VAR(last_key);
+		PHALCON_CONCAT_VV(last_key, prefix, *key_name);
+	}
+	
+	data = phalcon_fetch_nproperty_this(this_ptr, SL("_data"), PH_NOISY_CC);
+	if (!phalcon_array_isset_fetch(&cached_content, data, last_key)) {
+		RETVAL_FALSE;
+		RETURN_MM();
+	}
+	
+	sub_function(return_value, cached_content, *value TSRMLS_CC);
+	phalcon_update_property_array(this_ptr, SL("_data"), last_key, return_value TSRMLS_CC);
+
+	RETURN_MM();
+}
+
+/**
+ * Immediately invalidates all existing items.
+ * 
+ * @return boolean
+ */
+PHP_METHOD(Phalcon_Cache_Backend_Memory, flush){
+
+	phalcon_update_property_null(this_ptr, SL("_data") TSRMLS_CC);
+
+	RETURN_TRUE;
 }

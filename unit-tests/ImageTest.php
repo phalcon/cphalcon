@@ -164,6 +164,8 @@ class ImageTest extends PHPUnit_Framework_TestCase
 			return;
 		}
 
+		\Phalcon\Image\Adapter\Imagick::setResourceLimit(6, 1);
+
 		@unlink('unit-tests/assets/production/imagick-new.jpg');
 		@unlink('unit-tests/assets/production/imagick-resize.jpg');
 		@unlink('unit-tests/assets/production/imagick-liquidRescale.jpg');

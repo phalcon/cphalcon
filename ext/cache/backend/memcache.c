@@ -212,6 +212,10 @@ PHP_METHOD(Phalcon_Cache_Backend_Memcache, get){
 	if (PHALCON_IS_FALSE(cached_content)) {
 		RETURN_MM_NULL();
 	}
+
+	if (phalcon_is_numeric(cached_content)) {
+		RETURN_CCTOR(cached_content);
+	}
 	
 	phalcon_return_call_method_p1(frontend, "afterretrieve", cached_content);
 	RETURN_MM();
@@ -295,7 +299,11 @@ PHP_METHOD(Phalcon_Cache_Backend_Memcache, save){
 	 * We store without flags
 	 */
 	PHALCON_OBS_VAR(success);
-	phalcon_call_method_p4_ex(success, &success, memcache, "set", last_key, prepared_content, flags, ttl);
+	if(phalcon_is_numeric(cached_content)) {
+		phalcon_call_method_p4_ex(success, &success, memcache, "set", last_key, cached_content, flags, ttl);
+	} else {
+		phalcon_call_method_p4_ex(success, &success, memcache, "set", last_key, prepared_content, flags, ttl);
+	}
 	if (!zend_is_true(success)) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_cache_exception_ce, "Failed to store data in memcached");
 		return;
@@ -459,7 +467,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Memcache, exists){
 
 	phalcon_fetch_params(1, 0, 2, &key_name, &lifetime);
 	
-	if (!key_name && Z_TYPE_P(key_name) == IS_NULL) {
+	if (!key_name || Z_TYPE_P(key_name) == IS_NULL) {
 		last_key = phalcon_fetch_nproperty_this(this_ptr, SL("_lastKey"), PH_NOISY_CC);
 	} else {
 		zval *prefix = phalcon_fetch_nproperty_this(this_ptr, SL("_prefix"), PH_NOISY_CC);
@@ -484,4 +492,138 @@ PHP_METHOD(Phalcon_Cache_Backend_Memcache, exists){
 	}
 	
 	PHALCON_MM_RESTORE();
+}
+
+/**
+ * Atomic increment of a given key, by number $value
+ * 
+ * @param  string $keyName
+ * @param  long $value
+ * @return mixed
+ */
+PHP_METHOD(Phalcon_Cache_Backend_Memcache, increment){
+    
+	zval *key_name = NULL, *value = NULL, *memcache = NULL;
+	zval *newVal;
+    
+	PHALCON_MM_GROW();
+    
+	phalcon_fetch_params(1, 0, 2, &key_name, &value);
+    
+	if (!key_name) {
+		PHALCON_INIT_VAR(key_name);
+	}   
+    
+	if (!value) {
+		PHALCON_INIT_VAR(value);
+	}   
+    
+	if (Z_TYPE_P(value) == IS_NULL) {
+		ZVAL_LONG(value, 1); 
+	}   
+    
+	if (Z_TYPE_P(value) != IS_LONG) {
+		PHALCON_SEPARATE_PARAM(value);
+		convert_to_long_ex(&value);
+	}   
+    
+	PHALCON_OBS_VAR(memcache);
+	phalcon_read_property_this(&memcache, this_ptr, SL("_memcache"), PH_NOISY_CC);
+    
+	PHALCON_INIT_VAR(newVal);
+	phalcon_call_method_p2(newVal, memcache, "increment", key_name, value);
+    
+	RETURN_CTOR(newVal);
+}
+
+/**
+ * Atomic decrement of a given key, by number $value
+ * 
+ * @param  string $keyName
+ * @param  long $value
+ * @return mixed
+ */
+PHP_METHOD(Phalcon_Cache_Backend_Memcache, decrement){
+
+	zval *key_name = NULL, *value = NULL, *memcache = NULL;
+	zval *newVal;
+
+	PHALCON_MM_GROW();
+
+	phalcon_fetch_params(1, 0, 2, &key_name, &value);
+
+	if (!key_name) {
+		PHALCON_INIT_VAR(key_name);
+	}
+
+	if (!value) {
+		PHALCON_INIT_VAR(value);
+	}
+
+	if (Z_TYPE_P(value) == IS_NULL) {
+		ZVAL_LONG(value, 1);
+	}
+
+	if (Z_TYPE_P(value) != IS_LONG) {
+		PHALCON_SEPARATE_PARAM(value);
+		convert_to_long_ex(&value);
+	}
+
+	PHALCON_OBS_VAR(memcache);
+	phalcon_read_property_this(&memcache, this_ptr, SL("_memcache"), PH_NOISY_CC);
+
+	PHALCON_INIT_VAR(newVal);
+	phalcon_call_method_p2(newVal, memcache, "decrement", key_name, value);
+
+	RETURN_CTOR(newVal);
+}
+
+/**
+ * Immediately invalidates all existing items.
+ * 
+ * @return boolean
+ */
+PHP_METHOD(Phalcon_Cache_Backend_Memcache, flush){
+
+	zval *memcache, *options, *special_key;
+	zval *keys;
+	HashPosition pos;
+	zval **value;
+
+	PHALCON_MM_GROW();
+	
+	memcache = phalcon_fetch_nproperty_this(this_ptr, SL("_memcache"), PH_NOISY_CC);
+	if (Z_TYPE_P(memcache) != IS_OBJECT) {
+		phalcon_call_method_noret(this_ptr, "_connect");
+		memcache = phalcon_fetch_nproperty_this(this_ptr, SL("_memcache"), PH_NOISY_CC);
+	}
+	
+	options = phalcon_fetch_nproperty_this(this_ptr, SL("_options"), PH_NOISY_CC);
+	
+	if (unlikely(!phalcon_array_isset_string_fetch(&special_key, options, SS("statsKey")))) {
+		PHALCON_THROW_EXCEPTION_STR(phalcon_cache_exception_ce, "Unexpected inconsistency in options");
+		return;
+	}
+	
+	/** 
+	 * Get the key from memcached
+	 */
+	PHALCON_OBS_VAR(keys);
+	phalcon_call_method_p1_ex(keys, &keys, memcache, "get", special_key);
+	if (Z_TYPE_P(keys) == IS_ARRAY) {
+		for (
+			zend_hash_internal_pointer_reset_ex(Z_ARRVAL_P(keys), &pos);
+			zend_hash_get_current_data_ex(Z_ARRVAL_P(keys), (void**)&value, &pos) == SUCCESS;
+			zend_hash_move_forward_ex(Z_ARRVAL_P(keys), &pos)
+		) {
+			zval key = phalcon_get_current_key_w(Z_ARRVAL_P(keys), &pos);
+	
+			phalcon_call_method_p1_noret(memcache, "delete", &key);
+		}
+		
+		zend_hash_clean(Z_ARRVAL_P(keys));
+		phalcon_call_method_p2_noret(memcache, "set", special_key, keys);
+	}
+	
+	RETURN_MM_TRUE;
 }

@@ -216,23 +216,23 @@ class RequestTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($auth, $data);
 
 		$_SERVER = array(
-			'PHP_AUTH_DIGEST' => 'Digest username="myleft", realm="myleft", qop="auth", algorithm="MD5", uri="/", nonce="nonce", nc=nc, cnonce="cnonce", opaque="opaque", response="response"'
+			'PHP_AUTH_DIGEST' => 'Digest username="myleft", realm="myleft", qop="auth", algorithm="MD5", uri="http://localhost:81/", nonce="nonce", nc=nc, cnonce="cnonce", opaque="opaque", response="response"'
 		);
 
-		$data = array('username' => 'myleft', 'realm' => 'myleft', 'qop' => 'auth', 'algorithm' => 'MD5', 'uri' => '/', 'nonce' => 'nonce', 'nc' => 'nc', 'cnonce' => 'cnonce', 'opaque' => 'opaque', 'response' => 'response');
+		$data = array('username' => 'myleft', 'realm' => 'myleft', 'qop' => 'auth', 'algorithm' => 'MD5', 'uri' => 'http://localhost:81/', 'nonce' => 'nonce', 'nc' => 'nc', 'cnonce' => 'cnonce', 'opaque' => 'opaque', 'response' => 'response');
 
 		$auth = $request->getDigestAuth();
 		$this->assertEquals($auth, $data);
 
 		$_SERVER = array(
-			'PHP_AUTH_DIGEST' => 'Digest username=myleft, realm=myleft, qop=auth, algorithm=MD5, uri=/, nonce=nonce, nc=nc, cnonce=cnonce, opaque=opaque, response=response'
+			'PHP_AUTH_DIGEST' => 'Digest username=myleft, realm=myleft, qop=auth, algorithm=MD5, uri=http://localhost:81/, nonce=nonce, nc=nc, cnonce=cnonce, opaque=opaque, response=response'
 		);
 
 		$auth = $request->getDigestAuth();
 		$this->assertEquals($auth, $data);
 
 		$_SERVER = array(
-			'PHP_AUTH_DIGEST' => 'Digest username=myleft realm=myleft qop=auth algorithm=MD5 uri=/ nonce=nonce nc=nc cnonce=cnonce opaque=opaque response=response'
+			'PHP_AUTH_DIGEST' => 'Digest username=myleft realm=myleft qop=auth algorithm=MD5 uri=http://localhost:81/ nonce=nonce nc=nc cnonce=cnonce opaque=opaque response=response'
 		);
 
 		$auth = $request->getDigestAuth();
@@ -328,6 +328,26 @@ class RequestTest extends PHPUnit_Framework_TestCase
 
 		$this->assertEquals($request->getPost('array', 'string'), array('string' => 'world'));
 		$this->assertEquals($request->getPost('array', 'string', NULL, TRUE, TRUE), NULL);
+	}
+
+	public function testIssues1442()
+	{
+		$request = new \Phalcon\Http\Request();
+
+		$_FILES = array (
+			'test' => array(
+				'name'		=> 'test',
+				'type'		=> 'text/plain',
+				'tmp_name'	=> 'unit-tests/assets/phalconphp.jpg',
+				'size'		=> 1,
+				'error'		=> 0,
+			)
+		);
+
+		foreach ($request->getUploadedFiles(TRUE) as $file) {
+			$this->assertEquals($file->getType(), 'text/plain');
+			$this->assertEquals($file->getRealType(), 'image/jpeg');			
+		}
 	}
 }
 

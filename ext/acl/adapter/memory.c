@@ -38,6 +38,7 @@
 #include "kernel/concat.h"
 #include "kernel/exception.h"
 #include "kernel/operators.h"
+#include "kernel/hash.h"
 
 /**
  * Phalcon\Acl\Adapter\Memory
@@ -462,8 +463,8 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, dropResourceAccess){
 		}
 	
 	} else {
-		PHALCON_INIT_NVAR(access_key);
-		PHALCON_CONCAT_VSV(access_key, resource_name, "!", access_name);
+		PHALCON_INIT_VAR(access_key);
+		PHALCON_CONCAT_VSV(access_key, resource_name, "!", access_list);
 		phalcon_unset_property_array(this_ptr, SL("_accessList"), access_key TSRMLS_CC);
 	}
 	
@@ -623,7 +624,10 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, _allowOrDeny){
  */
 PHP_METHOD(Phalcon_Acl_Adapter_Memory, allow){
 
-	zval *role_name, *resource_name, *access, *action;
+	zval *role_name, *resource_name, *access, *action, *roles_names;
+	HashTable *ah0;
+	HashPosition hp0;
+	zval **hd;
 
 	PHALCON_MM_GROW();
 
@@ -631,7 +635,24 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, allow){
 	
 	PHALCON_INIT_VAR(action);
 	ZVAL_LONG(action, 1);
-	phalcon_call_method_p4(return_value, this_ptr, "_allowordeny", role_name, resource_name, access, action);
+
+	if (!PHALCON_IS_STRING(role_name, "*")) {
+		phalcon_call_method_p4(return_value, this_ptr, "_allowordeny", role_name, resource_name, access, action);
+	} else {
+		PHALCON_SEPARATE_PARAM(role_name);
+
+		PHALCON_OBS_VAR(roles_names);
+		phalcon_read_property_this(&roles_names, this_ptr, SL("_rolesNames"), PH_NOISY_CC);
+
+		phalcon_is_iterable(roles_names, &ah0, &hp0, 0, 0);	
+		while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
+			PHALCON_GET_HKEY(role_name, ah0, hp0);
+
+			phalcon_call_method_p4_noret(this_ptr, "_allowordeny", role_name, resource_name, access, action);
+			zend_hash_move_forward_ex(ah0, &hp0);
+		}
+	}
+
 	RETURN_MM();
 }
 
@@ -662,7 +683,10 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, allow){
  */
 PHP_METHOD(Phalcon_Acl_Adapter_Memory, deny){
 
-	zval *role_name, *resource_name, *access, *action;
+	zval *role_name, *resource_name, *access, *action, *roles_names;
+	HashTable *ah0;
+	HashPosition hp0;
+	zval **hd;
 
 	PHALCON_MM_GROW();
 
@@ -670,7 +694,24 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, deny){
 	
 	PHALCON_INIT_VAR(action);
 	ZVAL_LONG(action, 0);
-	phalcon_call_method_p4(return_value, this_ptr, "_allowordeny", role_name, resource_name, access, action);
+
+	if (!PHALCON_IS_STRING(role_name, "*")) {
+		phalcon_call_method_p4(return_value, this_ptr, "_allowordeny", role_name, resource_name, access, action);
+	} else {
+		PHALCON_SEPARATE_PARAM(role_name);
+
+		PHALCON_OBS_VAR(roles_names);
+		phalcon_read_property_this(&roles_names, this_ptr, SL("_rolesNames"), PH_NOISY_CC);
+
+		phalcon_is_iterable(roles_names, &ah0, &hp0, 0, 0);
+		while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
+			PHALCON_GET_HKEY(role_name, ah0, hp0);
+
+			phalcon_call_method_p4_noret(this_ptr, "_allowordeny", role_name, resource_name, access, action);
+			zend_hash_move_forward_ex(ah0, &hp0);
+		}
+	}
+
 	RETURN_MM();
 }
 

@@ -28,45 +28,45 @@ use \Phalcon\Tag as PhTag;
 
 class Model extends PhTestModelTestCase
 {
-    private $message = "%s does not return proper html element";
+	private $message = "%s does not return proper html element";
 
-    // -------------------------------------------------------------------------
-    // select
-    // -------------------------------------------------------------------------
-    /**
-     * Tests an image tag with a bare minimum of information passed
-     *
-     * @author Nikos Dimopoulos <nikos@niden.net>
-     * @since  2012-09-09
-     */
-    public function testSelectBasic()
-    {
-        // Populate the table
-        // Empty the relationship table first
-        $this->emptyTable('robots_parts');
-        $this->populateTable('robots');
-        $this->populateTable('robots_parts');
+	// -------------------------------------------------------------------------
+	// select
+	// -------------------------------------------------------------------------
+	/**
+	 * Tests an image tag with a bare minimum of information passed
+	 *
+	 * @author Nikos Dimopoulos <nikos@niden.net>
+	 * @since  2012-09-09
+	 */
+	public function testSelectBasic()
+	{
+		// Populate the table
+		// Empty the relationship table first
+		$this->emptyTable('robots_parts');
+		$this->populateTable('robots');
+		$this->populateTable('robots_parts');
 
-        $robots = \Robots::find();
+		$robots = \Robots::find();
 
-        $params = array(
-            'some_name',
-            $robots,
-            'using' => array('id', 'name')
-        );
+		$params = array(
+			'some_name',
+			$robots,
+			'using' => array('id', 'name')
+		);
 
-        $expected = '<select name="some_name" id="some_name">' . PHP_EOL
-                  . chr(9) . '<option value="1">Robotina</option>' . PHP_EOL
-                  . chr(9) . '<option value="2">Astro Boy</option>' . PHP_EOL
-                  . chr(9) . '<option value="3">Terminator</option>' . PHP_EOL
-                  . '</select>';
-        $actual   = PhTag::select($params);
+		$expected = '<select id="some_name" name="some_name">' . PHP_EOL
+				  . chr(9) . '<option value="1">Robotina</option>' . PHP_EOL
+				  . chr(9) . '<option value="2">Astro Boy</option>' . PHP_EOL
+				  . chr(9) . '<option value="3">Terminator</option>' . PHP_EOL
+				  . '</select>';
+		$actual   = PhTag::select($params);
 
-        $this->assertEquals(
-            $expected,
-            $actual,
-            sprintf($this->message, 'select basic')
-        );
-    }
+		$this->assertEquals(
+			$expected,
+			$actual,
+			sprintf($this->message, 'select basic')
+		);
+	}
 
 }

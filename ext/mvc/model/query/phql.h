@@ -17,6 +17,8 @@
  +------------------------------------------------------------------------+
 */
 
+#include "php_phalcon.h"
+
 typedef struct _phql_parser_token {
 	char *token;
 	int opcode;
@@ -39,5 +41,5 @@ typedef struct _phql_parser_status {
 #define PHQL_PARSING_OK 1
 #define PHQL_PARSING_FAILED 0
 
-extern int phql_parse_phql(zval *result, zval *phql TSRMLS_DC);
-extern int phql_internal_parse_phql(zval **result, char *phql, unsigned int phql_length, zval **error_msg TSRMLS_DC);
+int phql_parse_phql(zval *result, zval *phql TSRMLS_DC) PHALCON_ATTR_NONNULL;
+int phql_internal_parse_phql(zval **result, char *phql, unsigned int phql_length, zval **error_msg TSRMLS_DC) PHALCON_ATTR_NONNULL2(1, 4);

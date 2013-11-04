@@ -38,6 +38,7 @@
 #include "kernel/array.h"
 #include "kernel/object.h"
 #include "kernel/fcall.h"
+#include "kernel/string.h"
 
 /**
  * Phalcon\Http\Request\File
@@ -75,6 +76,7 @@ PHALCON_INIT_CLASS(Phalcon_Http_Request_File){
 	zend_declare_property_null(phalcon_http_request_file_ce, SL("_tmp"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_http_request_file_ce, SL("_size"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_http_request_file_ce, SL("_type"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_http_request_file_ce, SL("_real_type"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_http_request_file_ce, SL("_error"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_http_request_file_ce, SL("_key"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
@@ -185,13 +187,41 @@ PHP_METHOD(Phalcon_Http_Request_File, getType){
 /**
  * Gets the real mime type of the upload file using finfo
  *
- * @todo Not implemented
  * @return string
  */
 PHP_METHOD(Phalcon_Http_Request_File, getRealType){
 
+	zval *constant, *finfo, *temp_file, *mime;
 
-	
+	PHALCON_MM_GROW();
+
+	PHALCON_OBS_VAR(mime);
+	phalcon_read_property_this(&mime, this_ptr, SL("_real_type"), PH_NOISY_CC);
+
+	if (Z_TYPE_P(mime) == IS_STRING) {
+		RETURN_CTOR(mime);
+	}
+
+	PHALCON_INIT_VAR(constant);
+	if (!zend_get_constant(SL("FILEINFO_MIME_TYPE"), constant TSRMLS_CC)) {
+		RETURN_MM_NULL();
+	}
+
+	PHALCON_INIT_VAR(finfo);
+	phalcon_call_func_p1(finfo, "finfo_open", constant);
+
+	if (Z_TYPE_P(finfo) != IS_RESOURCE) {
+		RETURN_MM_NULL();
+	}
+
+	PHALCON_OBS_VAR(temp_file);
+	phalcon_read_property_this(&temp_file, this_ptr, SL("_tmp"), PH_NOISY_CC);
+
+	PHALCON_INIT_NVAR(mime);
+	phalcon_call_func_p2(mime, "finfo_file", finfo, temp_file);
+	phalcon_call_func_p1_noret("finfo_close", finfo);
+
+	RETURN_CTOR(mime);
 }
 
 /**

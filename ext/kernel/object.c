@@ -302,6 +302,26 @@ int phalcon_class_exists(const zval *class_name, int autoload TSRMLS_DC) {
 	return 0;
 }
 
+int phalcon_class_exists_ex(zend_class_entry **zce, const zval *class_name, int autoload TSRMLS_DC) {
+
+	zend_class_entry **ce;
+
+	if (Z_TYPE_P(class_name) == IS_STRING) {
+		if (zend_lookup_class(Z_STRVAL_P(class_name), Z_STRLEN_P(class_name), &ce TSRMLS_CC) == SUCCESS) {
+			*zce = *ce;
+#if PHP_VERSION_ID < 50400
+			return (((*ce)->ce_flags & ZEND_ACC_INTERFACE) == 0);
+#else
+			return ((*ce)->ce_flags & (ZEND_ACC_INTERFACE | (ZEND_ACC_TRAIT - ZEND_ACC_EXPLICIT_ABSTRACT_CLASS))) == 0;
+#endif
+		}
+		return 0;
+	}
+
+	php_error_docref(NULL TSRMLS_CC, E_WARNING, "class name must be a string");
+	return 0;
+}
+
 /**
  * Clones an object from obj to destination
  */
@@ -331,7 +351,8 @@ int phalcon_clone(zval *destination, zval *obj TSRMLS_DC) {
 				Z_SET_REFCOUNT_P(destination, 1);
 				Z_UNSET_ISREF_P(destination);
 				if (EG(exception)) {
-					zval_ptr_dtor(&destination);
+					zval_dtor(destination);
+					ZVAL_NULL(destination);
 				}
 			}
 		}
@@ -1276,59 +1297,14 @@ int phalcon_read_class_property(zval **result, int type, char *property, int len
 	return FAILURE;
 }
 
-/**
- * Creates a new instance dynamically. Call constructor without parameters
- */
-int phalcon_create_instance(zval *return_value, const zval *class_name TSRMLS_DC){
-
-	zend_class_entry *ce;
-
-	if (Z_TYPE_P(class_name) != IS_STRING) {
-		phalcon_throw_exception_string(phalcon_exception_ce, SL("Invalid class name") TSRMLS_CC);
-		return FAILURE;
-	}
-
-	ce = zend_fetch_class(Z_STRVAL_P(class_name), Z_STRLEN_P(class_name), ZEND_FETCH_CLASS_DEFAULT TSRMLS_CC);
-	if (!ce) {
-		return FAILURE;
-	}
+int phalcon_create_instance_params_ce(zval *return_value, zend_class_entry *ce, zval *params TSRMLS_DC)
+{
+	int outcome = SUCCESS;
 
 	object_init_ex(return_value, ce);
-	if (phalcon_has_constructor_ce(ce)) {
-		return phalcon_call_method_params(NULL, NULL, return_value, SL("__construct"), zend_inline_hash_func(SS("__construct")) TSRMLS_CC, 0);
-	}
-
-	return SUCCESS;
-}
-
-/**
- * Creates a new instance dynamically calling constructor with parameters
- */
-int phalcon_create_instance_params(zval *return_value, const zval *class_name, zval *params TSRMLS_DC){
-
-	int outcome;
-	zend_class_entry *ce;
-
-	if (Z_TYPE_P(class_name) != IS_STRING) {
-		phalcon_throw_exception_string(phalcon_exception_ce, SL("Invalid class name") TSRMLS_CC);
-		return FAILURE;
-	}
-
-	if (Z_TYPE_P(params) != IS_ARRAY) {
-		phalcon_throw_exception_string(phalcon_exception_ce, SL("Instantiation parameters must be an array") TSRMLS_CC);
-		return FAILURE;
-	}
-
-	ce = zend_fetch_class(Z_STRVAL_P(class_name), Z_STRLEN_P(class_name), ZEND_FETCH_CLASS_DEFAULT TSRMLS_CC);
-	if (!ce) {
-		return FAILURE;
-	}
-
-	object_init_ex(return_value, ce);
-	outcome = SUCCESS;
 
 	if (phalcon_has_constructor_ce(ce)) {
-		int param_count = zend_hash_num_elements(Z_ARRVAL_P(params));
+		int param_count = (Z_TYPE_P(params) == IS_ARRAY) ? zend_hash_num_elements(Z_ARRVAL_P(params)) : 0;
 		zval *static_params[10];
 		zval **params_ptr, **params_arr = NULL;
 
@@ -1368,22 +1344,56 @@ int phalcon_create_instance_params(zval *return_value, const zval *class_name, z
 }
 
 /**
+ * Creates a new instance dynamically. Call constructor without parameters
+ */
+int phalcon_create_instance(zval *return_value, const zval *class_name TSRMLS_DC){
+
+	zend_class_entry *ce;
+
+	if (unlikely(Z_TYPE_P(class_name) != IS_STRING)) {
+		phalcon_throw_exception_string(phalcon_exception_ce, "Invalid class name" TSRMLS_CC);
+		return FAILURE;
+	}
+
+	ce = zend_fetch_class(Z_STRVAL_P(class_name), Z_STRLEN_P(class_name), ZEND_FETCH_CLASS_DEFAULT TSRMLS_CC);
+	if (!ce) {
+		return FAILURE;
+	}
+
+	return phalcon_create_instance_params_ce(return_value, ce, PHALCON_GLOBAL(z_null) TSRMLS_CC);
+}
+
+/**
+ * Creates a new instance dynamically calling constructor with parameters
+ */
+int phalcon_create_instance_params(zval *return_value, const zval *class_name, zval *params TSRMLS_DC){
+
+	zend_class_entry *ce;
+
+	if (unlikely(Z_TYPE_P(class_name) != IS_STRING)) {
+		phalcon_throw_exception_string(phalcon_exception_ce, "Invalid class name" TSRMLS_CC);
+		return FAILURE;
+	}
+
+	ce = zend_fetch_class(Z_STRVAL_P(class_name), Z_STRLEN_P(class_name), ZEND_FETCH_CLASS_DEFAULT TSRMLS_CC);
+	if (!ce) {
+		return FAILURE;
+	}
+
+	return phalcon_create_instance_params_ce(return_value, ce, params TSRMLS_CC);
+}
+
+/**
  * Increments an object property
  */
 int phalcon_property_incr(zval *object, char *property_name, unsigned int property_length TSRMLS_DC){
 
 	zval *tmp = NULL;
-	zend_class_entry *ce;
 	int separated = 0;
 
-	if (Z_TYPE_P(object) != IS_OBJECT) {
+	if (unlikely(Z_TYPE_P(object) != IS_OBJECT)) {
 		php_error_docref(NULL TSRMLS_CC, E_WARNING, "Attempt to assign property of non-object");
 		return FAILURE;
-	}
-
-	ce = Z_OBJCE_P(object);
-	if (ce->parent) {
-		ce = phalcon_lookup_class_ce(ce, property_name, property_length TSRMLS_CC);
 	}
 
 	phalcon_read_property(&tmp, object, property_name, property_length, 0 TSRMLS_CC);
@@ -1418,17 +1428,11 @@ int phalcon_property_incr(zval *object, char *property_name, unsigned int proper
 int phalcon_property_decr(zval *object, char *property_name, unsigned int property_length TSRMLS_DC){
 
 	zval *tmp = NULL;
-	zend_class_entry *ce;
 	int separated = 0;
 
-	if (Z_TYPE_P(object) != IS_OBJECT) {
+	if (unlikely(Z_TYPE_P(object) != IS_OBJECT)) {
 		php_error_docref(NULL TSRMLS_CC, E_WARNING, "Attempt to assign property of non-object");
 		return FAILURE;
-	}
-
-	ce = Z_OBJCE_P(object);
-	if (ce->parent) {
-		ce = phalcon_lookup_class_ce(ce, property_name, property_length TSRMLS_CC);
 	}
 
 	phalcon_read_property(&tmp, object, property_name, property_length, 0 TSRMLS_CC);

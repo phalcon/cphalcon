@@ -195,6 +195,15 @@ PHP_METHOD(Phalcon_Logger_Adapter_File, close){
 }
 
 /**
+ * Returns the file path
+ *
+ */
+PHP_METHOD(Phalcon_Logger_Adapter_File, getPath) {
+
+	RETURN_MEMBER(getThis(), "_path");
+}
+
+/**
  * Opens the internal file handler after unserialization
  *
  */

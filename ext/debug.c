@@ -25,6 +25,8 @@
 #include "php_phalcon.h"
 #include "phalcon.h"
 
+#include "ext/standard/php_string.h"
+
 #include "Zend/zend_operators.h"
 #include "Zend/zend_exceptions.h"
 #include "Zend/zend_interfaces.h"
@@ -574,6 +576,34 @@ PHP_METHOD(Phalcon_Debug, getJsSources){
 	RETURN_CTOR(sources);
 }
 
+PHP_METHOD(Phalcon_Debug, getFileLink) {
+
+	zval **file, **line, **format;
+
+	phalcon_fetch_params_ex(3, 0, &file, &line, &format);
+
+	PHALCON_ENSURE_IS_STRING(file);
+	PHALCON_ENSURE_IS_STRING(line);
+
+	if (Z_TYPE_PP(format) == IS_STRING) {
+		char *tmp, *link;
+		int tmp_len, link_len;
+		zval z_link = zval_used_for_init;
+
+		tmp  = php_str_to_str_ex(Z_STRVAL_PP(format), Z_STRLEN_PP(format), SL("%f"), Z_STRVAL_PP(file), Z_STRLEN_PP(file), &tmp_len, 1, NULL);
+		link = php_str_to_str_ex(tmp, tmp_len, SL("%l"), Z_STRVAL_PP(line), Z_STRLEN_PP(line), &link_len, 1, NULL);
+
+		ZVAL_STRINGL(&z_link, link, link_len, 0);
+
+		efree(tmp);
+		PHALCON_CONCAT_SVSVS(return_value, "<a href=\"", &z_link, "\">", *file, "</a>");
+		efree(link);
+	}
+	else {
+		RETVAL_ZVAL(*file, 1, 0);
+	}
+}
+
 /**
  * Shows a backtrace item
  *
@@ -582,7 +612,7 @@ PHP_METHOD(Phalcon_Debug, getJsSources){
  */
 PHP_METHOD(Phalcon_Debug, showTraceItem){
 
-	zval *n, *trace, *space, *two_spaces, *underscore;
+	zval *n, *trace, *link_format, *space, *two_spaces, *underscore;
 	zval *minus, *html, *class_name, *pattern, *is_phalcon_class;
 	zval *namespace_separator, *prepare_uri_class;
 	zval *class_reflection, *is_internal = NULL, *lower_class_name;
@@ -596,7 +626,7 @@ PHP_METHOD(Phalcon_Debug, showTraceItem){
 	zval *comment_pattern, *charset, *tab;
 	zval *comment, *i = NULL, *line_position = NULL, *current_line = NULL;
 	zval *trimmed = NULL, *is_comment = NULL, *spaced_current_line = NULL;
-	zval *escaped_line = NULL;
+	zval *escaped_line = NULL, *formatted_file = NULL;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -604,7 +634,7 @@ PHP_METHOD(Phalcon_Debug, showTraceItem){
 
 	PHALCON_MM_GROW();
 
-	phalcon_fetch_params(1, 2, 0, &n, &trace);
+	phalcon_fetch_params(1, 3, 0, &n, &trace, &link_format);
 	
 	PHALCON_INIT_VAR(space);
 	ZVAL_STRING(space, " ", 1);
@@ -790,11 +820,14 @@ PHP_METHOD(Phalcon_Debug, showTraceItem){
 	
 		PHALCON_OBS_VAR(line);
 		phalcon_array_fetch_string(&line, trace, SL("line"), PH_NOISY);
+
+		PHALCON_OBS_VAR(formatted_file);
+		phalcon_call_method_p3_ex(formatted_file, &formatted_file, getThis(), "getfilelink", file, line, link_format);
 	
 		/** 
 		 * Realpath to the file and its line using a special header
 		 */
-		PHALCON_SCONCAT_SVSVS(html, "<br/><div class=\"error-file\">", file, " (", line, ")</div>");
+		PHALCON_SCONCAT_SVSVS(html, "<br/><div class=\"error-file\">", formatted_file, " (", line, ")</div>");
 	
 		PHALCON_OBS_VAR(show_files);
 		phalcon_read_property_this(&show_files, this_ptr, SL("_showFiles"), PH_NOISY_CC);
@@ -954,10 +987,14 @@ PHP_METHOD(Phalcon_Debug, onUncaughtException){
 	zval *_REQUEST, *value = NULL, *key_request = NULL, *joined_value = NULL, *_SERVER;
 	zval *key_server = NULL, *files, *key_file = NULL;
 	zval *memory, *data_var = NULL, *key_var = NULL, *variable = NULL, *dumped_argument = NULL;
-	zval *js_sources;
+	zval *js_sources, *formatted_file;
 	HashTable *ah0, *ah1, *ah2, *ah3, *ah4;
 	HashPosition hp0, hp1, hp2, hp3, hp4;
 	zval **hd;
+	char* link_format;
+	zend_bool ini_exists = 1;
+	zval z_link_format = zval_used_for_init;
+
 
 	PHALCON_MM_GROW();
 
@@ -984,7 +1021,7 @@ PHP_METHOD(Phalcon_Debug, onUncaughtException){
 	/** 
 	 * Globally block the debug component to avoid other exceptions must be shown
 	 */
-	phalcon_update_static_property_ce(phalcon_debug_ce, SL("_isActive"), PHALCON_GLOBAL(z_true) TSRMLS_CC);
+	zend_update_static_property_bool(phalcon_debug_ce, SL("_isActive"), 1 TSRMLS_CC);
 	
 	PHALCON_INIT_VAR(class_name);
 	phalcon_get_class(class_name, exception, 0 TSRMLS_CC);
@@ -1023,12 +1060,22 @@ PHP_METHOD(Phalcon_Debug, onUncaughtException){
 	PHALCON_INIT_VAR(line);
 	phalcon_call_method(line, exception, "getline");
 	
+	link_format = zend_ini_string_ex(SS("xdebug.file_link_format"), 0, &ini_exists);
+	if (!link_format || !ini_exists) {
+		link_format = "file://%f#%l";
+	}
+
+	ZVAL_STRING(&z_link_format, link_format, 0);
+
+	PHALCON_OBS_VAR(formatted_file);
+	phalcon_call_method_p3_ex(formatted_file, &formatted_file, getThis(), "getfilelink", file, line, &z_link_format);
+
 	/** 
 	 * Main exception info
 	 */
 	phalcon_concat_self_str(&html, SL("<div align=\"center\"><div class=\"error-main\">") TSRMLS_CC);
 	PHALCON_SCONCAT_SVSVS(html, "<h1>", class_name, ": ", escaped_message, "</h1>");
-	PHALCON_SCONCAT_SVSVS(html, "<span class=\"error-file\">", file, " (", line, ")</span>");
+	PHALCON_SCONCAT_SVSVS(html, "<span class=\"error-file\">", formatted_file, " (", line, ")</span>");
 	phalcon_concat_self_str(&html, SL("</div>") TSRMLS_CC);
 	
 	PHALCON_OBS_VAR(show_back_trace);
@@ -1038,10 +1085,9 @@ PHP_METHOD(Phalcon_Debug, onUncaughtException){
 	 * Check if the developer wants to show the backtrace or not
 	 */
 	if (zend_is_true(show_back_trace)) {
-	
 		PHALCON_OBS_VAR(data_vars);
 		phalcon_read_property_this(&data_vars, this_ptr, SL("_data"), PH_NOISY_CC);
-	
+
 		/** 
 		 * Create the tabs in the page
 		 */
@@ -1076,7 +1122,7 @@ PHP_METHOD(Phalcon_Debug, onUncaughtException){
 			 * Every line in the trace is rendered using 'showTraceItem'
 			 */
 			PHALCON_INIT_NVAR(html_item);
-			phalcon_call_method_p2(html_item, this_ptr, "showtraceitem", n, trace_item);
+			phalcon_call_method_p3(html_item, this_ptr, "showtraceitem", n, trace_item, &z_link_format);
 			phalcon_concat_self(&html, html_item TSRMLS_CC);
 	
 			zend_hash_move_forward_ex(ah0, &hp0);
@@ -1206,7 +1252,7 @@ PHP_METHOD(Phalcon_Debug, onUncaughtException){
 	/** 
 	 * Unlock the exception renderer
 	 */
-	phalcon_update_static_property_ce(phalcon_debug_ce, SL("_isActive"), PHALCON_GLOBAL(z_false) TSRMLS_CC);
+	zend_update_static_property_bool(phalcon_debug_ce, SL("_isActive"), 0 TSRMLS_CC);
 	RETURN_MM_TRUE;
 }
 
@@ -1229,15 +1275,12 @@ PHP_METHOD(Phalcon_Debug, getCharset) {
  */
 PHP_METHOD(Phalcon_Debug, setCharset) {
 
-	zval *charset;
+	zval **charset;
 
-	phalcon_fetch_params(0, 1, 0, &charset);
-	if (unlikely(Z_TYPE_P(charset) != IS_STRING)) {
-		PHALCON_SEPARATE_PARAM_NMO(charset);
-		convert_to_string(charset);
-	}
+	phalcon_fetch_params_ex(1, 0, &charset);
+	PHALCON_ENSURE_IS_STRING(charset);
 
-	phalcon_update_property_this(getThis(), SL("_charset"), charset TSRMLS_CC);
+	phalcon_update_property_this(getThis(), SL("_charset"), *charset TSRMLS_CC);
 	RETURN_THISW();
 }
 
@@ -1259,15 +1302,13 @@ PHP_METHOD(Phalcon_Debug, getLinesBeforeContext) {
  * @return \Phalcon\Debug
  */
 PHP_METHOD(Phalcon_Debug, setLinesBeforeContext) {
-	zval *lines;
 
-	phalcon_fetch_params(0, 1, 0, &lines);
-	if (unlikely(Z_TYPE_P(lines) != IS_LONG)) {
-		PHALCON_SEPARATE_PARAM_NMO(lines);
-		convert_to_long(lines);
-	}
+	zval **lines;
 
-	phalcon_update_property_this(getThis(), SL("_beforeContext"), lines TSRMLS_CC);
+	phalcon_fetch_params_ex(1, 0, &lines);
+	PHALCON_ENSURE_IS_LONG(lines);
+
+	phalcon_update_property_this(getThis(), SL("_beforeContext"), *lines TSRMLS_CC);
 	RETURN_THISW();
 }
 
@@ -1289,14 +1330,12 @@ PHP_METHOD(Phalcon_Debug, getLinesAfterContext) {
  * @return \Phalcon\Debug
  */
 PHP_METHOD(Phalcon_Debug, setLinesAfterContext) {
-	zval *lines;
 
-	phalcon_fetch_params(0, 1, 0, &lines);
-	if (unlikely(Z_TYPE_P(lines) != IS_LONG)) {
-		PHALCON_SEPARATE_PARAM_NMO(lines);
-		convert_to_long(lines);
-	}
+	zval **lines;
 
-	phalcon_update_property_this(getThis(), SL("_afterContext"), lines TSRMLS_CC);
+	phalcon_fetch_params_ex(1, 0, &lines);
+	PHALCON_ENSURE_IS_LONG(lines);
+
+	phalcon_update_property_this(getThis(), SL("_afterContext"), *lines TSRMLS_CC);
 	RETURN_THISW();
 }

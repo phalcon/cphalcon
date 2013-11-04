@@ -90,7 +90,7 @@
 			<file>unit-tests/FormsTest.php</file>
 			<file>unit-tests/AssetsTest.php</file>
 			<file>unit-tests/CryptTest.php</file>
-			<file>unit-tests/TagTest.php</file>
+			<file>unit-tests/SecurityTest.php</file>
 
 			<!-- Complex components/Integral tests -->
 			<file>unit-tests/ModelsResultsetCacheTest.php</file>

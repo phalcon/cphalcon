@@ -134,15 +134,11 @@ PHP_METHOD(Phalcon_Mvc_View, __construct){
  */
 PHP_METHOD(Phalcon_Mvc_View, setViewsDir){
 
-	zval *views_dir;
+	zval **views_dir;
 
-	phalcon_fetch_params(0, 1, 0, &views_dir);
-	
-	if (Z_TYPE_P(views_dir) != IS_STRING) {
-		PHALCON_THROW_EXCEPTION_STRW(phalcon_mvc_view_exception_ce, "The views directory must be a string");
-		return;
-	}
-	phalcon_update_property_this(this_ptr, SL("_viewsDir"), views_dir TSRMLS_CC);
+	phalcon_fetch_params_ex(1, 0, &views_dir);
+	phalcon_add_trailing_slash(views_dir);
+	phalcon_update_property_this(this_ptr, SL("_viewsDir"), *views_dir TSRMLS_CC);
 	
 	RETURN_THISW();
 }
@@ -170,11 +166,11 @@ PHP_METHOD(Phalcon_Mvc_View, getViewsDir){
  */
 PHP_METHOD(Phalcon_Mvc_View, setLayoutsDir){
 
-	zval *layouts_dir;
+	zval **layouts_dir;
 
-	phalcon_fetch_params(0, 1, 0, &layouts_dir);
-	
-	phalcon_update_property_this(this_ptr, SL("_layoutsDir"), layouts_dir TSRMLS_CC);
+	phalcon_fetch_params_ex(1, 0, &layouts_dir);
+	phalcon_add_trailing_slash(layouts_dir);
+	phalcon_update_property_this(this_ptr, SL("_layoutsDir"), *layouts_dir TSRMLS_CC);
 	RETURN_THISW();
 }
 
@@ -201,11 +197,11 @@ PHP_METHOD(Phalcon_Mvc_View, getLayoutsDir){
  */
 PHP_METHOD(Phalcon_Mvc_View, setPartialsDir){
 
-	zval *partials_dir;
+	zval **partials_dir;
 
-	phalcon_fetch_params(0, 1, 0, &partials_dir);
-	
-	phalcon_update_property_this(this_ptr, SL("_partialsDir"), partials_dir TSRMLS_CC);
+	phalcon_fetch_params_ex(1, 0, &partials_dir);
+	phalcon_add_trailing_slash(partials_dir);
+	phalcon_update_property_this(this_ptr, SL("_partialsDir"), *partials_dir TSRMLS_CC);
 	RETURN_THISW();
 }
 
@@ -232,11 +228,12 @@ PHP_METHOD(Phalcon_Mvc_View, getPartialsDir){
  */
 PHP_METHOD(Phalcon_Mvc_View, setBasePath){
 
-	zval *base_path;
+	zval **base_path;
 
-	phalcon_fetch_params(0, 1, 0, &base_path);
-	
-	phalcon_update_property_this(this_ptr, SL("_basePath"), base_path TSRMLS_CC);
+	phalcon_fetch_params_ex(1, 0, &base_path);
+
+	phalcon_add_trailing_slash(base_path);
+	phalcon_update_property_this(this_ptr, SL("_basePath"), *base_path TSRMLS_CC);
 	RETURN_THISW();
 }
 

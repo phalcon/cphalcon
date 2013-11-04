@@ -803,7 +803,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, betweenWhere){
 	 * Append the BETWEEN to the current conditions using and 'and'
 	 */
 	phalcon_call_method_p2_noret(this_ptr, "andwhere", conditions, bind_params);
-	PHALCON_SEPARATE(next_hidden_param);
 	phalcon_increment(next_hidden_param);
 	phalcon_update_property_this(this_ptr, SL("_hiddenParamNumber"), next_hidden_param TSRMLS_CC);
 	RETURN_THIS();
@@ -864,7 +863,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, notBetweenWhere){
 	 * Append the BETWEEN to the current conditions using and 'and'
 	 */
 	phalcon_call_method_p2_noret(this_ptr, "andwhere", conditions, bind_params);
-	PHALCON_SEPARATE(next_hidden_param);
 	phalcon_increment(next_hidden_param);
 	phalcon_update_property_this(this_ptr, SL("_hiddenParamNumber"), next_hidden_param TSRMLS_CC);
 	RETURN_THIS();
@@ -901,6 +899,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, inWhere){
 	
 	PHALCON_OBS_VAR(hidden_param);
 	phalcon_read_property_this(&hidden_param, this_ptr, SL("_hiddenParamNumber"), PH_NOISY_CC);
+	SEPARATE_ZVAL(&hidden_param);
 	
 	PHALCON_INIT_VAR(bind_params);
 	array_init(bind_params);
@@ -924,7 +923,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, inWhere){
 		PHALCON_CONCAT_SVS(query_key, ":", key, ":");
 		phalcon_array_append(&bind_keys, query_key, PH_SEPARATE);
 		phalcon_array_update_zval(&bind_params, key, &value, PH_COPY | PH_SEPARATE);
-		PHALCON_SEPARATE(hidden_param);
 		phalcon_increment(hidden_param);
 	
 		zend_hash_move_forward_ex(ah0, &hp0);
@@ -979,6 +977,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, notInWhere){
 	
 	PHALCON_OBS_VAR(hidden_param);
 	phalcon_read_property_this(&hidden_param, this_ptr, SL("_hiddenParamNumber"), PH_NOISY_CC);
+	SEPARATE_ZVAL(&hidden_param);
 	
 	PHALCON_INIT_VAR(bind_params);
 	array_init(bind_params);
@@ -1002,7 +1001,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, notInWhere){
 		PHALCON_CONCAT_SVS(query_key, ":", key, ":");
 		phalcon_array_append(&bind_keys, query_key, PH_SEPARATE);
 		phalcon_array_update_zval(&bind_params, key, &value, PH_COPY | PH_SEPARATE);
-		PHALCON_SEPARATE(hidden_param);
 		phalcon_increment(hidden_param);
 	
 		zend_hash_move_forward_ex(ah0, &hp0);
@@ -1293,9 +1291,9 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, fromInput){
 		return;
 	}
 	
-	PHALCON_INIT_VAR(conditions);
-	array_init(conditions);
-	if (phalcon_fast_count_ev(data TSRMLS_CC)) {
+	object_init_ex(return_value, phalcon_mvc_model_criteria_ce);
+
+	if (zend_hash_num_elements(Z_ARRVAL_P(data))) {
 	
 		PHALCON_INIT_VAR(service);
 		PHALCON_ZVAL_MAYBE_INTERNED_STRING(service, phalcon_interned_modelsMetadata);
@@ -1317,6 +1315,9 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, fromInput){
 		PHALCON_INIT_VAR(bind);
 		array_init(bind);
 	
+		PHALCON_INIT_VAR(conditions);
+		array_init(conditions);
+
 		/** 
 		 * We look for attributes in the array passed as data
 		 */
@@ -1342,17 +1343,17 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, fromInput){
 	
 							PHALCON_INIT_NVAR(value_pattern);
 							PHALCON_CONCAT_SVS(value_pattern, "%", value, "%");
-							phalcon_array_update_zval(&bind, field, &value_pattern, PH_COPY | PH_SEPARATE);
+							phalcon_array_update_zval(&bind, field, &value_pattern, PH_COPY);
 						} else {
 							/** 
 							 * For the rest of data types we use a plain = operator
 							 */
 							PHALCON_INIT_NVAR(condition);
 							PHALCON_CONCAT_VSVS(condition, field, "=:", field, ":");
-							phalcon_array_update_zval(&bind, field, &value, PH_COPY | PH_SEPARATE);
+							phalcon_array_update_zval(&bind, field, &value, PH_COPY);
 						}
 	
-						phalcon_array_append(&conditions, condition, PH_SEPARATE);
+						phalcon_array_append(&conditions, condition, 0);
 					}
 				}
 			}
@@ -1360,17 +1361,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, fromInput){
 			zend_hash_move_forward_ex(ah0, &hp0);
 		}
 	
-	}
-	
-	/** 
-	 * Create an object instance and pass the paramaters to it
-	 */
-	object_init_ex(return_value, phalcon_mvc_model_criteria_ce);
-	if (phalcon_fast_count_ev(conditions TSRMLS_CC)) {
-		PHALCON_INIT_VAR(join_conditions);
-		phalcon_fast_join_str(join_conditions, SL(" AND "), conditions TSRMLS_CC);
-		phalcon_call_method_p1_noret(return_value, "where", join_conditions);
-		phalcon_call_method_p1_noret(return_value, "bind", bind);
+		if (zend_hash_num_elements(Z_ARRVAL_P(conditions))) {
+			PHALCON_INIT_VAR(join_conditions);
+			phalcon_fast_join_str(join_conditions, SL(" AND "), conditions TSRMLS_CC);
+			phalcon_call_method_p2_noret(return_value, "where", join_conditions, bind);
+		}
 	}
 	
 	phalcon_call_method_p1_noret(return_value, "setmodelname", model_name);
