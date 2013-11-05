@@ -127,5 +127,40 @@ class MicroMvcTest extends PHPUnit_Framework_TestCase
 		$this->assertTrue($flag);
 	}
 
+    /**
+     * Tests the collections with routes names
+     *
+     * @author Kamil Skowron <info@kamilskowron.pl>
+     * @since 2013-11-04
+     */
+    public function testMicroMountCollectionTakesRouteName()
+    {
+        $handler = new RestHandler($this);
+        $app = new \Phalcon\Mvc\Micro();
+
+        $collection = new \Phalcon\Mvc\Micro\Collection();
+        $collection->setHandler($handler);
+
+        $collection->get('/api/siteA', 'find');
+        $collection->post('/api/siteB', 'save', 'saveRoute');
+
+        $app->mount($collection);
+
+        $_SERVER['REQUEST_METHOD'] = 'GET';
+        $_GET['_url'] = '/api/siteA';
+
+        $app->handle();
+
+        $this->assertTrue($app->getRouter()->wasMatched());
+        $this->assertEquals(null, $app->getRouter()->getMatchedRoute()->getName());
+
+        $_SERVER['REQUEST_METHOD'] = 'POST';
+        $_GET['_url'] = '/api/siteB';
+
+        $app->handle();
+
+        $this->assertTrue($app->getRouter()->wasMatched());
+        $this->assertEquals('saveRoute', $app->getRouter()->getMatchedRoute()->getName());
+    }
 }
 

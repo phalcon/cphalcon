@@ -143,9 +143,9 @@ PHP_METHOD(Phalcon_Mvc_Micro, setDI){
 
 static void phalcon_mvc_micro_generic_add(INTERNAL_FUNCTION_PARAMETERS, const char *method)
 {
-	zval *route_pattern, *handler, *router, *route_id;
+	zval *route_pattern, *handler, *router, *route_id, *route_name;
 
-	phalcon_fetch_params(0, 2, 0, &route_pattern, &handler);
+	phalcon_fetch_params(0, 2, 1, &route_pattern, &handler, &route_name);
 	PHALCON_MM_GROW();
 
 	/**
@@ -158,6 +158,10 @@ static void phalcon_mvc_micro_generic_add(INTERNAL_FUNCTION_PARAMETERS, const ch
 	 * Routes are added to the router
 	 */
 	phalcon_call_method_p1(return_value, router, method, route_pattern);
+
+	if (Z_TYPE_P(route_name) == IS_STRING) {
+		phalcon_call_method_p1_noret(return_value, "setname", route_name);
+	}
 
 	/**
 	 * Using the id produced by the router we store the handler
@@ -278,7 +282,7 @@ PHP_METHOD(Phalcon_Mvc_Micro, options){
 PHP_METHOD(Phalcon_Mvc_Micro, mount){
 
 	zval *collection, *main_handler, *handlers, *lazy;
-	zval *lazy_handler = NULL, *prefix, *handler = NULL, *methods = NULL;
+	zval *lazy_handler = NULL, *prefix, *handler = NULL, *methods = NULL, *route_name = NULL;
 	zval *pattern = NULL, *sub_handler = NULL, *real_handler = NULL, *prefixed_pattern = NULL;
 	zval *route = NULL;
 	HashTable *ah0;
@@ -352,6 +356,9 @@ PHP_METHOD(Phalcon_Mvc_Micro, mount){
 	
 			PHALCON_OBS_NVAR(sub_handler);
 			phalcon_array_fetch_long(&sub_handler, handler, 2, PH_NOISY);
+
+			PHALCON_OBS_NVAR(sub_handler);
+			phalcon_array_fetch_long(&route_name, handler, 3, PH_NOISY);
 	
 			/** 
 			 * Create a real handler
@@ -375,7 +382,12 @@ PHP_METHOD(Phalcon_Mvc_Micro, mount){
 			 * Map the route manually
 			 */
 			PHALCON_INIT_NVAR(route);
-			phalcon_call_method_p2(route, this_ptr, "map", prefixed_pattern, real_handler);
+			if (!route_name) {
+    			phalcon_call_method_p2(route, this_ptr, "map", prefixed_pattern, real_handler);
+			} else {
+    			phalcon_call_method_p3(route, this_ptr, "map", prefixed_pattern, real_handler, route_name);
+			}
+
 			if (zend_is_true(methods)) {
 				phalcon_call_method_p1_noret(route, "via", methods);
 			}
