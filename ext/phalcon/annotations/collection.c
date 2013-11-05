@@ -15,8 +15,8 @@
 #include "kernel/exception.h"
 #include "kernel/memory.h"
 #include "kernel/fcall.h"
-#include "kernel/object.h"
 #include "kernel/array.h"
+#include "kernel/object.h"
 #include "kernel/operators.h"
 #include "kernel/concat.h"
 

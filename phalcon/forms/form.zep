@@ -435,9 +435,7 @@ class Form extends Phalcon\Di\Injectable implements Countable, Iterator
 	 */
 	public function hasMessagesFor(name) -> boolean
 	{
-		var messages;
-		let messages = this->_messages;
-		return isset messages[name];
+		return isset this->_messages[name];
 	}
 
 	/**
@@ -482,12 +480,10 @@ class Form extends Phalcon\Di\Injectable implements Countable, Iterator
 	{
 		var elements, element;
 
-		let elements = this->_elements;
-		if !isset elements[name] {
+		if !fetch element, this->_elements[name] {
 			throw new Phalcon\Forms\Exception("Element with ID=" . name . " is not part of the form");
 		}
 
-		let element = elements[name];
 		return element->render(attributes);
 	}
 
@@ -501,8 +497,7 @@ class Form extends Phalcon\Di\Injectable implements Countable, Iterator
 	{
 		var elements, element;
 
-		let elements = this->_elements;
-		if fetch element, elements[name] {
+		if fetch element, this->_elements[name] {
 			return element;
 		}
 
@@ -519,8 +514,7 @@ class Form extends Phalcon\Di\Injectable implements Countable, Iterator
 	{
 		var elements, element;
 
-		let elements = this->_elements;
-		if fetch element, elements[name] {
+		if fetch element, this->_elements[name] {
 			return element->label();
 		}
 
@@ -537,12 +531,10 @@ class Form extends Phalcon\Di\Injectable implements Countable, Iterator
 	{
 		var elements, element, label;
 
-		let elements = this->_elements;
-		if !isset elements[name] {
+		if !fetch element, this->_elements[name] {
 			throw new Phalcon\Forms\Exception("Element with ID=" . name . " is not part of the form");
 		}
 
-		let element = elements[name];
 		let label = element->getLabel();
 
 		/**
@@ -606,14 +598,11 @@ class Form extends Phalcon\Di\Injectable implements Countable, Iterator
 	 */
 	public function has(string! name) -> boolean
 	{
-		var elements;
-
-		let elements = this->_elements;
 
 		/**
 		 * Checks if the element is in the form
 		 */
-		return isset elements[name];
+		return isset this->_elements[name];
 	}
 
 	/**
@@ -697,10 +686,10 @@ class Form extends Phalcon\Di\Injectable implements Countable, Iterator
 	{
 		var elements, element;
 
-		let elements = this->_elementsIndexed;
-		if fetch element, elements[this->_position] {
+		if fetch element, this->_elementsIndexed[this->_position] {
 			return element;
 		}
+
 		return false;
 	}
 
@@ -730,9 +719,7 @@ class Form extends Phalcon\Di\Injectable implements Countable, Iterator
 	 */
 	public function valid() -> boolean
 	{
-		var elements;
-		let elements = this->_elementsIndexed;
-		return isset elements[this->_position];
+		return isset this->_elementsIndexed[this->_position];
 	}
 
 }

@@ -71,15 +71,15 @@ namespace Phalcon\Cache\Backend;
 	 * @param   long lifetime
 	 * @return  mixed
 	 */
-	public function get(keyName, lifetime=null)
+	public function get(var keyName, lifetime=null)
 	{
 		var frontend, prefix, prefixedKey, cachedContent;
 
 		let frontend = this->_frontend;
-		let prefix = this->_prefix;
-		let prefixedKey = "_PHCX" . prefix . keyName;
+		let prefixedKey = "_PHCX" . this->_prefix . keyName;
 		let this->_lastKey = prefixedKey;
 		let cachedContent = xcache_get(prefixedKey);
+
 		if !cachedContent {
 			return null;
 		}
@@ -102,14 +102,13 @@ namespace Phalcon\Cache\Backend;
 	 */
 	public function save(keyName=null, content=null, lifetime=null, stopBuffer=true)
 	{
-		var lastKey, prefix, frontend, cachedContent, preparedContent, tmp, tt1, success, isBuffering, 
+		var lastKey, prefix, frontend, cachedContent, preparedContent, tmp, tt1, success, isBuffering,
 			options, keys, specialKey;
 
 		if !keyName {
 			let lastKey = this->_lastKey;
 		} else {
-			let prefix = this->_prefix;
-			let lastKey = "_PHCX" . prefix . keyName;
+			let lastKey = "_PHCX" . this->_prefix . keyName;
 		}
 
 		if !lastKey {
@@ -127,58 +126,58 @@ namespace Phalcon\Cache\Backend;
 			let preparedContent = frontend->beforeStore(cachedContent);
 		}
 
-		/** 
-        * Take the lifetime from the frontend or read it from the set in start()
-        */
-        if !lifetime {
-        	let tmp = this->_lastLifetime;
-        	if !tmp {
-        		let tt1 = frontend->getLifetime();
-        	} else {
-        		let tt1 = tmp;
-        	}
-        } else {
-        	let tt1 = lifetime;
-        }
+		/**
+		* Take the lifetime from the frontend or read it from the set in start()
+		*/
+		if !lifetime {
+			let tmp = this->_lastLifetime;
+			if !tmp {
+				let tt1 = frontend->getLifetime();
+			} else {
+				let tt1 = tmp;
+			}
+		} else {
+			let tt1 = lifetime;
+		}
 
-        if is_numeric(cachedContent) {
-        	let success = xcache_set(lastKey, cachedContent, tt1);
-        } else {
-        	let success = xcache_set(lastKey, preparedContent, tt1);
-        }
+		if is_numeric(cachedContent) {
+			let success = xcache_set(lastKey, cachedContent, tt1);
+		} else {
+			let success = xcache_set(lastKey, preparedContent, tt1);
+		}
 
-        let isBuffering = frontend->isBuffering();
+		let isBuffering = frontend->isBuffering();
 
-        if !stopBuffer {
-        	frontend->stop();
-        }
+		if !stopBuffer {
+			frontend->stop();
+		}
 
-        if isBuffering == true {
-        	echo cachedContent;
-        }
+		if isBuffering == true {
+			echo cachedContent;
+		}
 
-        let this->_started = false;
+		let this->_started = false;
 
-        if success {
-        	let options = this->_options;
+		if success {
+			let options = this->_options;
 
-        	if !isset options["statsKey"] {
-        		throw new Phalcon\Cache\Exception("Unexpected inconsistency in options");
-        	}
-        	let specialKey = options["statsKey"];
+			if !isset options["statsKey"] {
+				throw new Phalcon\Cache\Exception("Unexpected inconsistency in options");
+			}
+			let specialKey = options["statsKey"];
 
-        	/** 
-            * xcache_list() is available only to the administrator (unless XCache was
-            * patched). We have to update the list of the stored keys.
-            */
-            let keys = xcache_get(specialKey);
-            if typeof keys != "array" {
-            	let keys = [];
-            }
+			/**
+			 * xcache_list() is available only to the administrator (unless XCache was
+			 * patched). We have to update the list of the stored keys.
+			 */
+			let keys = xcache_get(specialKey);
+			if typeof keys != "array" {
+				let keys = [];
+			}
 
-            let keys[lastKey] = tt1;
-            xcache_set(specialKey, keys);
-        }
+			let keys[lastKey] = tt1;
+			xcache_set(specialKey, keys);
+		}
 	}
 
 	/**
@@ -187,27 +186,24 @@ namespace Phalcon\Cache\Backend;
 	 * @param int|string keyName
 	 * @return boolean
 	 */
-	public function delete(keyName)
+	public function delete(var keyName)
 	{
-		var prefix, options, prefixedKey, specialKey, keys;
-	
-		let prefix = this->_prefix;
-		let options = this->_options;
-		let prefixedKey = "_PHCX" . prefix . keyName;
+		var prefixedKey, specialKey, keys;
 
-		if !isset options["statsKey"] {
-    		throw new Phalcon\Cache\Exception("Unexpected inconsistency in options");
-    	}
-    	let specialKey = options["statsKey"];
-    	let keys = xcache_get(specialKey);
-        
-        if typeof keys != "array" {
-        	let keys = [];
-        }
+		let prefixedKey = "_PHCX" . this->_prefix . keyName;
 
-        unset(keys[prefixedKey]);
-        
-        xcache_set(specialKey, keys);
+		if !fetch specialKey, this->_options["statsKey"] {
+			throw new Phalcon\Cache\Exception("Unexpected inconsistency in options");
+		}
+
+		let keys = xcache_get(specialKey);
+		if typeof keys != "array" {
+			let keys = [];
+		}
+
+		unset keys[prefixedKey];
+
+		xcache_set(specialKey, keys);
 	}
 
 	/**
@@ -229,25 +225,25 @@ namespace Phalcon\Cache\Backend;
 		let options = this->_options;
 
 		if !isset options["statsKey"] {
-    		throw new Phalcon\Cache\Exception("Unexpected inconsistency in options");
-    	}
-    	let specialKey = options["statsKey"];
+			throw new Phalcon\Cache\Exception("Unexpected inconsistency in options");
+		}
+		let specialKey = options["statsKey"];
 
-    	let retval = [];
+		let retval = [];
 
-    	/** 
-        * Get the key from XCache (we cannot use xcache_list() as it is available only to
-        * the administrator)
-        */
-        let keys = xcache_get(specialKey);
-        if typeof keys == "array" {
-        	for key in keys {
-        		let realKey = substr(key,5,0);
-        		let retval[] = realKey;
-        	}
-        }
+		/**
+		* Get the key from XCache (we cannot use xcache_list() as it is available only to
+		* the administrator)
+		*/
+		let keys = xcache_get(specialKey);
+		if typeof keys == "array" {
+			for key in keys {
+				let realKey = substr(key,5,0);
+				let retval[] = realKey;
+			}
+		}
 
-        return retval;
+		return retval;
 	}
 
 	/**
@@ -257,40 +253,37 @@ namespace Phalcon\Cache\Backend;
 	 * @param   long lifetime
 	 * @return boolean
 	 */
-	public function exists(keyName=null, lifetime=null)
+	public function exists(var keyName=null, lifetime=null)
 	{
-		var lastKey, prefix;
+		var lastKey;
 
 		if !keyName {
 			let lastKey = this->_lastKey;
 		} else {
-			let prefix = this->_prefix;
-			let lastKey = "_PHCX" . prefix . keyName;
+			let lastKey = "_PHCX" . this->_prefix . keyName;
 		}
 
 		if lastKey {
 			return xcache_isset(lastKey);
-		} else {
-			return false;
 		}
+		return false;
 	}
 
 	/**
 	* Atomic increment of a given key, by number $value
 	*
-	* @param  string $keyName
-	* @param  long $value
+	* @param  string keyName
+	* @param  long value
 	* @return mixed
 	*/
-	public function increment(keyName, long value=1)
+	public function increment(var keyName, long value=1)
 	{
-		var lastKey, prefix, newVal, functionName, origVal, success;
+		var lastKey, newVal, functionName, origVal, success;
 
 		if !keyName {
 			let lastKey = this->_lastKey;
 		} else {
-			let prefix = this->_prefix;
-			let lastKey = "_PHCX" . prefix . keyName;
+			let lastKey = "_PHCX" . this->_prefix . keyName;
 		}
 
 		if !lastKey {
@@ -301,8 +294,8 @@ namespace Phalcon\Cache\Backend;
 			let newVal = xcache_inc(lastKey, value);
 		} else {
 			let origVal = xcache_get(lastKey);
-			let newVal = origVal + value;
-			let success = xcache_set(lastKey, newVal);
+			let newVal = origVal - value;
+			xcache_set(lastKey, newVal);
 		}
 
 		return newVal;
@@ -343,31 +336,31 @@ namespace Phalcon\Cache\Backend;
 
 	/**
 	* Immediately invalidates all existing items.
-	* 
+	*
 	* @return boolean
 	*/
 	public function flush()
 	{
-		var prefix, prefixed, options, specialKey, keys, realKey, value, key, index;
+		var prefix, prefixed, options, specialKey, keys, realKey, key, value, index;
 
 		let prefixed = "_PHCX";
 		let options = this->_options;
 
 		if !isset options["statsKey"] {
-    		throw new Phalcon\Cache\Exception("Unexpected inconsistency in options");
-    	}
-    	
-    	let specialKey = options["statsKey"];
-		let keys = xcache_get(specialKey);
-        
-        if typeof keys == "array" {
-        	for key in keys {
-        		unset(keys[key]);
-        		xcache_unset(key);
-        	}
-        	xcache_set(specialKey, keys);
-        }
+			throw new Phalcon\Cache\Exception("Unexpected inconsistency in options");
+		}
 
-        return true;
+		let specialKey = options["statsKey"];
+		let keys = xcache_get(specialKey);
+
+		if typeof keys == "array" {
+			for key, value in keys {
+				unset keys[key];
+				xcache_unset(key);
+			}
+			xcache_set(specialKey, keys);
+		}
+
+		return true;
 	}
 }
