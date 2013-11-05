@@ -93,4 +93,17 @@ class AclTest extends PHPUnit_Framework_TestCase
 		$acl->allow('*', '*', '*');
 */
 	}
+
+	public function testIssues1513()
+	{
+		try {
+			$acl = new \Phalcon\Acl\Adapter\Memory();
+			$acl->setDefaultAction(Phalcon\Acl::DENY);
+			$acl->addRole(new \Phalcon\Acl\Role('11'));
+			$acl->addResource(new \Phalcon\Acl\Resource('11'), array('index'));
+			$this->assertTrue(TRUE);
+		} catch (Exception $e) {
+			$this->assertTrue(FALSE);
+		}
+	}
 }
