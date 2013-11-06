@@ -97,7 +97,7 @@ class Filter implements Phalcon\FilterInterface
 		if typeof value == "array" {
 			let sanitizedValue = [];
 			for itemKey, itemValue in value {
-				let sanitizedValue[key] = this->_sanitize(itemValue, filters);
+				let sanitizedValue[itemKey] = this->_sanitize(itemValue, filters);
 			}
 			return sanitizedValue;
 		}
@@ -114,6 +114,7 @@ class Filter implements Phalcon\FilterInterface
 	 */
 	protected function _sanitize(var value, string! filter)
 	{
+		var filterObject;
 
 		if fetch filterObject, this->_filters[filter] {
 
@@ -159,7 +160,7 @@ class Filter implements Phalcon\FilterInterface
 			case "striptags":
 				return strip_tags(value);
 
-			case 'lower':
+			case "lower":
 				if function_exists("mb_strtolower") {
 					/**
 					 * 'lower' checks for the mbstring extension to make a correct lowercase transformation

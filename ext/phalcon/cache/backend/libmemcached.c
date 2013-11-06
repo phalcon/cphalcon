@@ -341,7 +341,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Libmemcached, save) {
 
 /**
  * Increment of a given key, by number $value
- * 
+ *
  * @param  string $keyName
  * @param  long $value
  * @return mixed
@@ -388,7 +388,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Libmemcached, increment) {
 
 /**
  * Decrement of a given key, by number $value
- * 
+ *
  * @param  string $keyName
  * @param  long $value
  * @return mixed
@@ -579,7 +579,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Libmemcached, exists) {
 
 /**
  * Immediately invalidates all existing items.
- * 
+ *
  * @return boolean
  */
 PHP_METHOD(Phalcon_Cache_Backend_Libmemcached, flush) {

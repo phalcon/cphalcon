@@ -1014,6 +1014,7 @@ PHP_METHOD(Phalcon_Http_Request, hasFiles) {
  */
 PHP_METHOD(Phalcon_Http_Request, getUploadedFiles) {
 
+	zend_function *_4 = NULL, *_5 = NULL;
 	HashTable *_1;
 	HashPosition _0;
 	zval *notErrored_param = NULL, *files, *superFiles = NULL, *file = NULL, *error = NULL, *_FILES, **_2, *_3 = NULL;
@@ -1049,11 +1050,13 @@ PHP_METHOD(Phalcon_Http_Request, getUploadedFiles) {
 				if (!(zephir_is_true(error))) {
 					ZEPHIR_INIT_NVAR(_3);
 					object_init_ex(_3, phalcon_http_request_file_ce);
+					zephir_call_method_p1_cache_noret(_3, "__construct", &_4, file);
 					zephir_array_append(&files, _3, PH_SEPARATE);
 				}
 			} else {
 				ZEPHIR_INIT_NVAR(_3);
 				object_init_ex(_3, phalcon_http_request_file_ce);
+				zephir_call_method_p1_cache_noret(_3, "__construct", &_5, file);
 				zephir_array_append(&files, _3, PH_SEPARATE);
 			}
 		}

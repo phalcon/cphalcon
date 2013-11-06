@@ -73,7 +73,7 @@ namespace Phalcon\Cache\Backend;
 	 */
 	public function get(var keyName, lifetime=null)
 	{
-		var frontend, prefix, prefixedKey, cachedContent;
+		var frontend, prefixedKey, cachedContent;
 
 		let frontend = this->_frontend;
 		let prefixedKey = "_PHCX" . this->_prefix . keyName;
@@ -102,7 +102,7 @@ namespace Phalcon\Cache\Backend;
 	 */
 	public function save(keyName=null, content=null, lifetime=null, stopBuffer=true)
 	{
-		var lastKey, prefix, frontend, cachedContent, preparedContent, tmp, tt1, success, isBuffering,
+		var lastKey, frontend, cachedContent, preparedContent, tmp, tt1, success, isBuffering,
 			options, keys, specialKey;
 
 		if !keyName {
@@ -278,7 +278,7 @@ namespace Phalcon\Cache\Backend;
 	*/
 	public function increment(var keyName, long value=1)
 	{
-		var lastKey, newVal, functionName, origVal, success;
+		var lastKey, newVal, origVal;
 
 		if !keyName {
 			let lastKey = this->_lastKey;
@@ -304,19 +304,18 @@ namespace Phalcon\Cache\Backend;
 	/**
 	* Atomic decrement of a given key, by number $value
 	*
-	* @param  string $keyName
-	* @param  long $value
+	* @param  string keyName
+	* @param  long value
 	* @return mixed
 	*/
 	public function decrement(keyName, long value=1)
 	{
-		var lastKey, prefix, newVal, functionName, origVal, success;
+		var lastKey, newVal, origVal, success;
 
 		if !keyName {
 			let lastKey = this->_lastKey;
 		} else {
-			let prefix = this->_prefix;
-			let lastKey = "_PHCX" . prefix . keyName;
+			let lastKey = "_PHCX" . this->_prefix . keyName;
 		}
 
 		if !lastKey {
@@ -341,16 +340,15 @@ namespace Phalcon\Cache\Backend;
 	*/
 	public function flush()
 	{
-		var prefix, prefixed, options, specialKey, keys, realKey, key, value, index;
+		var prefixed, options, specialKey, keys, key, value;
 
 		let prefixed = "_PHCX";
 		let options = this->_options;
 
-		if !isset options["statsKey"] {
+		if !fetch specialKey, this->_options["statsKey"] {
 			throw new Phalcon\Cache\Exception("Unexpected inconsistency in options");
 		}
 
-		let specialKey = options["statsKey"];
 		let keys = xcache_get(specialKey);
 
 		if typeof keys == "array" {

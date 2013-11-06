@@ -478,7 +478,7 @@ class Form extends Phalcon\Di\Injectable implements Countable, Iterator
 	 */
 	public function render(string! name, attributes=null) -> string
 	{
-		var elements, element;
+		var element;
 
 		if !fetch element, this->_elements[name] {
 			throw new Phalcon\Forms\Exception("Element with ID=" . name . " is not part of the form");
@@ -495,7 +495,7 @@ class Form extends Phalcon\Di\Injectable implements Countable, Iterator
 	 */
 	public function get(string! name) -> <Phalcon\Forms\ElementInterface>
 	{
-		var elements, element;
+		var element;
 
 		if fetch element, this->_elements[name] {
 			return element;
@@ -512,7 +512,7 @@ class Form extends Phalcon\Di\Injectable implements Countable, Iterator
 	 */
 	public function label(string! name) -> string
 	{
-		var elements, element;
+		var element;
 
 		if fetch element, this->_elements[name] {
 			return element->label();
@@ -529,7 +529,7 @@ class Form extends Phalcon\Di\Injectable implements Countable, Iterator
 	 */
 	public function getLabel(string! name) -> string
 	{
-		var elements, element, label;
+		var element, label;
 
 		if !fetch element, this->_elements[name] {
 			throw new Phalcon\Forms\Exception("Element with ID=" . name . " is not part of the form");
@@ -684,7 +684,7 @@ class Form extends Phalcon\Di\Injectable implements Countable, Iterator
 	 */
 	public function current() -> <Phalcon\Forms\ElementInterface> | boolean
 	{
-		var elements, element;
+		var element;
 
 		if fetch element, this->_elementsIndexed[this->_position] {
 			return element;
