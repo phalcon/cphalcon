@@ -1,4 +1,3 @@
-
 /*
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
@@ -162,7 +161,7 @@ PHP_METHOD(Phalcon_Http_Request_File, getName){
 }
 
 /**
- * Returns the temporal name of the uploaded file
+ * Returns the temporary name of the uploaded file
  *
  * @return string
  */
