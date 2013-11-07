@@ -170,7 +170,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator, getOption){
 		RETURN_ZVAL(value, 1, 0);
 	}
 	
-	RETURN_EMPTY_STRING();
+	RETURN_MM_NULL();
 }
 
 /**
