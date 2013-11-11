@@ -197,6 +197,14 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Mysql, describeColumns){
 		while (1) {
 	
 			/** 
+			 * Point are varchars
+			 */
+			if (phalcon_memnstr_str(column_type, SL("point"))) {
+				phalcon_array_update_string_long(&definition, SL("type"), 2, PH_SEPARATE);
+				break;
+			}
+	
+			/** 
 			 * Enum are treated as char
 			 */
 			if (phalcon_memnstr_str(column_type, SL("enum"))) {
