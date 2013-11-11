@@ -4038,8 +4038,17 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _executeInsert){
 	/** 
 	 * Get the model connection
 	 */
-	PHALCON_INIT_VAR(connection);
-	phalcon_call_method(connection, model, "getwriteconnection");
+	if (phalcon_method_exists_ex(model, SS("selectwriteconnection") TSRMLS_CC) == SUCCESS) {
+		PHALCON_INIT_VAR(connection);
+		phalcon_call_method_p3(connection, model, "selectwriteconnection", intermediate, bind_params, bind_types);
+		if (Z_TYPE_P(connection) != IS_OBJECT) {
+			PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "'selectWriteConnection' didn't returned a valid connection");
+			return;
+		}
+	} else {
+		PHALCON_INIT_VAR(connection);
+		phalcon_call_method(connection, model, "getwriteconnection");
+	}
 	
 	PHALCON_OBS_VAR(meta_data);
 	phalcon_read_property_this(&meta_data, this_ptr, SL("_metaData"), PH_NOISY_CC);
@@ -4380,8 +4389,17 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _executeUpdate){
 		phalcon_call_method_p1(model, manager, "load", model_name);
 	}
 	
-	PHALCON_INIT_VAR(connection);
-	phalcon_call_method(connection, model, "getwriteconnection");
+	if (phalcon_method_exists_ex(model, SS("selectwriteconnection") TSRMLS_CC) == SUCCESS) {
+		PHALCON_INIT_VAR(connection);
+		phalcon_call_method_p3(connection, model, "selectwriteconnection", intermediate, bind_params, bind_types);
+		if (Z_TYPE_P(connection) != IS_OBJECT) {
+			PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "'selectWriteConnection' didn't returned a valid connection");
+			return;
+		}
+	} else {
+		PHALCON_INIT_VAR(connection);
+		phalcon_call_method(connection, model, "getwriteconnection");
+	}
 	
 	PHALCON_INIT_VAR(dialect);
 	phalcon_call_method(dialect, connection, "getdialect");
@@ -4630,8 +4648,17 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _executeDelete){
 		RETURN_MM();
 	}
 	
-	PHALCON_INIT_VAR(connection);
-	phalcon_call_method(connection, model, "getwriteconnection");
+	if (phalcon_method_exists_ex(model, SS("selectwriteconnection") TSRMLS_CC) == SUCCESS) {
+		PHALCON_INIT_VAR(connection);
+		phalcon_call_method_p3(connection, model, "selectwriteconnection", intermediate, bind_params, bind_types);
+		if (Z_TYPE_P(connection) != IS_OBJECT) {
+			PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "'selectWriteConnection' didn't returned a valid connection");
+			return;
+		}
+	} else {
+		PHALCON_INIT_VAR(connection);
+		phalcon_call_method(connection, model, "getwriteconnection");
+	}
 	
 	/** 
 	 * Create a transaction in the write connection
