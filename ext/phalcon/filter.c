@@ -204,7 +204,7 @@ PHP_METHOD(Phalcon_Filter, _sanitize) {
 
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_filters"), PH_NOISY_CC);
 	if (zephir_array_isset_fetch(&filterObject, _0, filter, 1 TSRMLS_CC)) {
-		if (zephir_is_instance_of(filterObject, SL("closure") TSRMLS_CC)) {
+		if (zephir_is_instance_of(filterObject, SL("Closure") TSRMLS_CC)) {
 			ZEPHIR_INIT_VAR(_1);
 			array_init(_1);
 			zephir_array_fast_append(_1, value);

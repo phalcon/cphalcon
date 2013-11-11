@@ -35,12 +35,12 @@
  * Memory Frames/Virtual Symbol Scopes
  *------------------------------------
  *
- * Phalcon uses memory frames to track the variables used within a method
+ * Zephir uses memory frames to track the variables used within a method
  * in order to free them or reduce their reference counting accordingly before
  * exit the method in execution.
  *
  * This adds a minimum overhead to execution but save us the work of
- * free memory in each method.
+ * freeing memory before exit each method.
  *
  * The whole memory frame is an open double-linked list which start is an
  * allocated empty frame that points to the real first frame. The start

@@ -746,7 +746,7 @@ PHP_METHOD(Phalcon_Mvc_View, _loadTemplateEngines) {
 				ZEPHIR_GET_HMKEY(extension, _3, _2);
 				ZEPHIR_GET_HVALUE(engineService, _4);
 				if ((Z_TYPE_P(engineService) == IS_OBJECT)) {
-					if (zephir_is_instance_of(engineService, SL("closure") TSRMLS_CC)) {
+					if (zephir_is_instance_of(engineService, SL("Closure") TSRMLS_CC)) {
 						ZEPHIR_INIT_NVAR(_1);
 						zephir_call_func_p2(_1, "call_user_func_array", engineService, arguments);
 						zephir_array_update_zval(&engines, extension, &_1, PH_COPY | PH_SEPARATE);

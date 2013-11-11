@@ -98,8 +98,7 @@ extern void ZEPHIR_FASTCALL zephir_copy_ctor(zval *destiny, zval *origin);
 	}
 
 /**
- * Second allocation, assumes the variable was allocated for the first time
- * in the branch zero
+ * Second allocation, assumes the variable was allocated for the first time in the branch zero
  */
 #define ZEPHIR_INIT_BNVAR(z) \
 	if (Z_REFCOUNT_P(z) > 1) { \

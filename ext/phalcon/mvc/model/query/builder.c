@@ -903,7 +903,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, inWhere) {
 	) {
 		ZEPHIR_GET_HVALUE(value, _3);
 		ZEPHIR_SINIT_NVAR(_4);
-		ZVAL_LONG(&_4, hiddenParam, 0);
+		ZVAL_LONG(&_4, hiddenParam);
 		ZEPHIR_INIT_NVAR(key);
 		ZEPHIR_CONCAT_SV(key, "phi", &_4);
 		ZEPHIR_INIT_NVAR(queryKey);
@@ -973,7 +973,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, notInWhere) {
 	) {
 		ZEPHIR_GET_HVALUE(value, _3);
 		ZEPHIR_SINIT_NVAR(_4);
-		ZVAL_LONG(&_4, hiddenParam, 0);
+		ZVAL_LONG(&_4, hiddenParam);
 		ZEPHIR_INIT_NVAR(key);
 		ZEPHIR_CONCAT_SV(key, "phi", &_4);
 		ZEPHIR_INIT_NVAR(queryKey);
@@ -1251,7 +1251,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getPhql) {
 		ZEPHIR_INIT_VAR(metaData);
 		zephir_call_method_p1(metaData, dependencyInjector, "getshared", _0);
 		ZEPHIR_INIT_VAR(modelInstance);
-		_1 = zend_fetch_class(SL("model"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
+		_1 = zend_fetch_class(Z_STRVAL_P(model), Z_STRLEN_P(model), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
 		object_init_ex(modelInstance, _1);
 		noPrimary = 1;
 		ZEPHIR_INIT_VAR(primaryKeys);

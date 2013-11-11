@@ -115,7 +115,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Group, __construct) {
 			zephir_update_property_this(this_ptr, SL("_paths"), paths TSRMLS_CC);
 		}
 	}
-	if ((zephir_method_exists_str(this_ptr, SS("initialize") TSRMLS_CC) == SUCCESS)) {
+	if ((zephir_method_exists_ex(this_ptr, SS("initialize") TSRMLS_CC) == SUCCESS)) {
 		zephir_call_method_p1_noret(this_ptr, "initialize", paths);
 	}
 	ZEPHIR_MM_RESTORE();

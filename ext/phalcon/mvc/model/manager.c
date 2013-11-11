@@ -268,7 +268,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, initialize) {
 		RETURN_MM_BOOL(0);
 	}
 	zephir_update_property_array(this_ptr, SL("_initialized"), className, model TSRMLS_CC);
-	if ((zephir_method_exists_str(model, SS("initialize") TSRMLS_CC) == SUCCESS)) {
+	if ((zephir_method_exists_ex(model, SS("initialize") TSRMLS_CC) == SUCCESS)) {
 		zephir_call_method_noret(model, "initialize");
 	}
 	zephir_update_property_this(this_ptr, SL("_lastInitialized"), model TSRMLS_CC);
@@ -367,7 +367,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, load) {
 	ZEPHIR_INIT_VAR(_1);
 	zephir_call_func_p1(_1, "class_exists", modelName);
 	if (zephir_is_true(_1)) {
-		_2 = zend_fetch_class(SL("modelName"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
+		_2 = zend_fetch_class(Z_STRVAL_P(modelName), Z_STRLEN_P(modelName), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
 		object_init_ex(return_value, _2);
 		RETURN_MM();
 	}

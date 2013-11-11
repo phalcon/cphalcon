@@ -337,8 +337,7 @@ class Cookie implements Phalcon\Di\InjectionAwareInterface
 	 */
 	public function delete()
 	{
-		var name, value, expire, domain, path, secure, httpOnly,
-			dependencyInjector, definition, session;
+		var name, domain, path, secure, httpOnly, dependencyInjector, session;
 
 		let name     = this->_name,
 			domain   = this->_domain,

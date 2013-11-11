@@ -306,7 +306,7 @@ PHP_METHOD(Phalcon_Events_Manager, fireQueue) {
 			ZEPHIR_INIT_NVAR(handler);
 			zephir_call_method_cache(handler, iterator, "current", &_3);
 			if ((Z_TYPE_P(handler) == IS_OBJECT)) {
-				if (zephir_is_instance_of(handler, SL("closure") TSRMLS_CC)) {
+				if (zephir_is_instance_of(handler, SL("Closure") TSRMLS_CC)) {
 					if ((Z_TYPE_P(arguments) == IS_NULL)) {
 						ZEPHIR_INIT_NVAR(arguments);
 						array_init(arguments);
@@ -352,7 +352,7 @@ PHP_METHOD(Phalcon_Events_Manager, fireQueue) {
 		) {
 			ZEPHIR_GET_HVALUE(queue, _9);
 			if ((Z_TYPE_P(handler) == IS_OBJECT)) {
-				if (zephir_is_instance_of(handler, SL("closure") TSRMLS_CC)) {
+				if (zephir_is_instance_of(handler, SL("Closure") TSRMLS_CC)) {
 					if ((Z_TYPE_P(arguments) == IS_NULL)) {
 						ZEPHIR_INIT_NVAR(arguments);
 						array_init(arguments);

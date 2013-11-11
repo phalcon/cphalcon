@@ -1863,7 +1863,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _prepareSelect) {
 					zephir_array_fetch_string(&_8, sqlColumn, SL("type"), PH_NOISY | PH_READONLY TSRMLS_CC);
 					if (ZEPHIR_IS_STRING(_8, "scalar")) {
 						ZEPHIR_SINIT_NVAR(_18);
-						ZVAL_LONG(&_18, position, 0);
+						ZVAL_LONG(&_18, position);
 						ZEPHIR_INIT_LNVAR(_9);
 						ZEPHIR_CONCAT_SV(_9, "_", &_18);
 						zephir_array_update_zval(&sqlColumns, _9, &sqlColumn, PH_COPY | PH_SEPARATE);
@@ -2405,7 +2405,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _executeSelect) {
 			zephir_update_property_array(this_ptr, SL("_modelsInstances"), modelName, model TSRMLS_CC);
 		}
 		ZEPHIR_INIT_VAR(connection);
-		if ((zephir_method_exists_str(model, SS("selectreadconnection") TSRMLS_CC) == SUCCESS)) {
+		if ((zephir_method_exists_ex(model, SS("selectreadconnection") TSRMLS_CC) == SUCCESS)) {
 			zephir_call_method_p3(connection, model, "selectreadconnection", intermediate, bindParams, bindTypes);
 			if ((Z_TYPE_P(connection) != IS_OBJECT)) {
 				ZEPHIR_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "'selectReadConnection' didn't return a valid connection");

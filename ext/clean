@@ -1,0 +1,6 @@
+for i in `find . -name "*.o"`; do
+ rm -f $i
+done
+for i in `find . -name "*.lo"`; do
+ rm -f $i
+done

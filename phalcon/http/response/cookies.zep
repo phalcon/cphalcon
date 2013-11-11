@@ -199,7 +199,7 @@ class Cookies implements Phalcon\Http\Response\CookiesInterface, Phalcon\Di\Inje
 	 * @param string name
 	 * @return boolean
 	 */
-	public function has(name)
+	public function has(string! name) -> boolean
 	{
 
 		/**

@@ -8,6 +8,18 @@
 #define PHP_PHALCON_VERSION "0.0.1"
 #define PHP_PHALCON_EXTNAME "phalcon"
 
+typedef struct _zephir_struct_db {
+	zend_bool escape_identifiers;
+} zephir_struct_db;
+typedef struct _zephir_struct_orm {
+	zend_bool column_renaming;
+	zend_bool events;
+	zend_bool virtual_foreign_keys;
+	zend_bool not_null_validations;
+	zend_bool exception_on_failed_save;
+} zephir_struct_orm;
+
+
 ZEND_BEGIN_MODULE_GLOBALS(phalcon)
 
 	/* Memory */
@@ -27,6 +39,11 @@ ZEND_BEGIN_MODULE_GLOBALS(phalcon)
 	zval *global_true;
 	zval *global_false;
 	zval *global_null;
+	
+	zephir_struct_db db;
+
+	zephir_struct_orm orm;
+
 
 ZEND_END_MODULE_GLOBALS(phalcon)
 
