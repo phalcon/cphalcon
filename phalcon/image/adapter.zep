@@ -281,4 +281,78 @@ class Adapter {
 		return this;
 	}
 
+	/**
+ 	 * Add a reflection to an image
+ 	 *
+ 	 * @param int height
+ 	 * @param int opacity
+ 	 * @param boolean fade_in
+ 	 * @return Phalcon\Image\Adapter
+ 	 */
+	public function reflection(int height, int opacity = 100, boolean fade_in = false) -> <Phalcon\Image\Adapter>
+	{
+		if height <= 0 || height > this->_height {
+			let height = this->_height;
+		}
+
+		if opacity < 0 {
+			let opacity = 0;
+		} else {
+			if opacity > 100 {
+				let opacity = 100;
+			}
+		}
+
+		this->_reflection(height, opacity, fade_in);
+
+		return this;
+	}
+
+	/**
+ 	 * Add a watermark to an image with a specified opacity
+ 	 *
+ 	 * @param Phalcon\Image\Adapter watermark
+ 	 * @param int offset_x
+ 	 * @param int offset_y
+ 	 * @param int opacity
+ 	 * @return Phalcon\Image\Adapter
+ 	 */
+	public function watermark(<Phalcon\Image\Adapter> watermark, int offset_x = 0, int offset_y = 0, int opacity = 100) -> <Phalcon\Image\Adapter>
+	{
+		int tmp;
+		let tmp = this->_width - watermark->getWidth();
+
+		if offset_x < 0 {
+			
+			let offset_x = tmp + offset_x;			
+			while offset_x < 0 {
+				let offset_x = tmp + offset_x;
+			}
+		} else {
+			if offset_x > tmp {
+				let offset_x = tmp;
+			}
+
+		}
+		
+		let tmp = this->_height - watermark->getHeight();
+
+		if offset_y < 0 {
+			
+			let offset_y = tmp + offset_y;			
+			while offset_y < 0 {
+				let offset_y = tmp + offset_y;
+			}
+		} else {
+			if offset_y > tmp {
+				let offset_y = tmp;
+			}
+
+		}
+
+		this->_watermark(watermark, offset_x, offset_y, opacity);
+
+		return this;
+	}
+
 }
