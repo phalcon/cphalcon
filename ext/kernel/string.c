@@ -14,6 +14,7 @@
   +------------------------------------------------------------------------+
   | Authors: Andres Gutierrez <andres@zephir-lang.com>                     |
   |          Eduar Carvajal <eduar@zephir-lang.com>                        |
+  |          Vladimir Kolesnikov <vladimir@extrememember.com>              |
   +------------------------------------------------------------------------+
 */
 

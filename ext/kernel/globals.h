@@ -45,6 +45,11 @@ typedef struct _zephir_symbol_table {
 	struct _zephir_symbol_table *prev;
 } zephir_symbol_table;
 
+typedef struct _zephir_function_cache {
+	zend_class_entry *ce;
+	zend_function *func;
+} zephir_function_cache;
+
 #if PHP_VERSION_ID >= 50400
 	#define ZEPHIR_INIT_FUNCS(class_functions) static const zend_function_entry class_functions[] =
 #else

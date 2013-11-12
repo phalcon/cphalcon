@@ -96,7 +96,7 @@ PHP_METHOD(Phalcon_Forms_Form, __construct) {
 	if ((Z_TYPE_P(userOptions) == IS_ARRAY)) {
 		zephir_update_property_this(this_ptr, SL("_options"), userOptions TSRMLS_CC);
 	}
-	if ((zephir_method_exists_str(this_ptr, SS("initialize") TSRMLS_CC) == SUCCESS)) {
+	if ((zephir_method_exists_ex(this_ptr, SS("initialize") TSRMLS_CC) == SUCCESS)) {
 		zephir_call_method_p2_noret(this_ptr, "initialize", entity, userOptions);
 	}
 	ZEPHIR_MM_RESTORE();
@@ -379,7 +379,7 @@ PHP_METHOD(Phalcon_Forms_Form, isValid) {
 		ZEPHIR_OBS_NVAR(data);
 		zephir_read_property_this(&data, this_ptr, SL("_data"), PH_NOISY_CC);
 	}
-	if ((zephir_method_exists_str(this_ptr, SS("beforevalidation") TSRMLS_CC) == SUCCESS)) {
+	if ((zephir_method_exists_ex(this_ptr, SS("beforevalidation") TSRMLS_CC) == SUCCESS)) {
 		ZEPHIR_INIT_VAR(_0);
 		zephir_call_method_p2(_0, this_ptr, "beforevalidation", data, entity);
 		if (ZEPHIR_IS_FALSE(_0)) {
@@ -439,7 +439,7 @@ PHP_METHOD(Phalcon_Forms_Form, isValid) {
 	if (!(notFailed)) {
 		zephir_update_property_this(this_ptr, SL("_messages"), messages TSRMLS_CC);
 	}
-	if ((zephir_method_exists_str(this_ptr, SS("aftervalidation") TSRMLS_CC) == SUCCESS)) {
+	if ((zephir_method_exists_ex(this_ptr, SS("aftervalidation") TSRMLS_CC) == SUCCESS)) {
 		zephir_call_method_p1_noret(this_ptr, "aftervalidation", messages);
 	}
 	RETURN_MM_BOOL(notFailed);
@@ -528,14 +528,14 @@ PHP_METHOD(Phalcon_Forms_Form, getMessagesFor) {
  */
 PHP_METHOD(Phalcon_Forms_Form, hasMessagesFor) {
 
-	zval *name, *messages;
+	zval *name, *_0;
 
 	zephir_fetch_params(0, 1, 0, &name);
 
 
 
-	messages = zephir_fetch_nproperty_this(this_ptr, SL("_messages"), PH_NOISY_CC);
-	RETURN_BOOL(zephir_array_isset(messages, name));
+	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_messages"), PH_NOISY_CC);
+	RETURN_BOOL(zephir_array_isset(_0, name));
 
 }
 
@@ -575,7 +575,7 @@ PHP_METHOD(Phalcon_Forms_Form, add) {
  */
 PHP_METHOD(Phalcon_Forms_Form, render) {
 
-	zval *name_param = NULL, *attributes = NULL, *elements, *element, *_0, *_1;
+	zval *name_param = NULL, *attributes = NULL, *element, *_0, *_1, *_2;
 	zval *name = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -593,18 +593,17 @@ PHP_METHOD(Phalcon_Forms_Form, render) {
 	}
 
 
-	elements = zephir_fetch_nproperty_this(this_ptr, SL("_elements"), PH_NOISY_CC);
-	if (!(zephir_array_isset(elements, name))) {
-		ZEPHIR_INIT_VAR(_0);
-		object_init_ex(_0, phalcon_forms_exception_ce);
+	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_elements"), PH_NOISY_CC);
+	if (!(zephir_array_isset_fetch(&element, _0, name, 1 TSRMLS_CC))) {
 		ZEPHIR_INIT_VAR(_1);
-		ZEPHIR_CONCAT_SVS(_1, "Element with ID=", name, " is not part of the form");
-		zephir_call_method_p1_noret(_0, "__construct", _1);
-		zephir_throw_exception(_0 TSRMLS_CC);
+		object_init_ex(_1, phalcon_forms_exception_ce);
+		ZEPHIR_INIT_VAR(_2);
+		ZEPHIR_CONCAT_SVS(_2, "Element with ID=", name, " is not part of the form");
+		zephir_call_method_p1_noret(_1, "__construct", _2);
+		zephir_throw_exception(_1 TSRMLS_CC);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
-	zephir_array_fetch(&element, elements, name, PH_NOISY | PH_READONLY TSRMLS_CC);
 	zephir_call_method_p1(return_value, element, "render", attributes);
 	RETURN_MM();
 
@@ -618,7 +617,7 @@ PHP_METHOD(Phalcon_Forms_Form, render) {
  */
 PHP_METHOD(Phalcon_Forms_Form, get) {
 
-	zval *name_param = NULL, *elements, *element, *_0, *_1;
+	zval *name_param = NULL, *element, *_0, *_1, *_2;
 	zval *name = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -633,16 +632,16 @@ PHP_METHOD(Phalcon_Forms_Form, get) {
 
 
 
-	elements = zephir_fetch_nproperty_this(this_ptr, SL("_elements"), PH_NOISY_CC);
-	if (zephir_array_isset_fetch(&element, elements, name, 1 TSRMLS_CC)) {
+	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_elements"), PH_NOISY_CC);
+	if (zephir_array_isset_fetch(&element, _0, name, 1 TSRMLS_CC)) {
 		RETURN_CTOR(element);
 	}
-	ZEPHIR_INIT_VAR(_0);
-	object_init_ex(_0, phalcon_forms_exception_ce);
 	ZEPHIR_INIT_VAR(_1);
-	ZEPHIR_CONCAT_SVS(_1, "Element with ID=", name, " is not part of the form");
-	zephir_call_method_p1_noret(_0, "__construct", _1);
-	zephir_throw_exception(_0 TSRMLS_CC);
+	object_init_ex(_1, phalcon_forms_exception_ce);
+	ZEPHIR_INIT_VAR(_2);
+	ZEPHIR_CONCAT_SVS(_2, "Element with ID=", name, " is not part of the form");
+	zephir_call_method_p1_noret(_1, "__construct", _2);
+	zephir_throw_exception(_1 TSRMLS_CC);
 	ZEPHIR_MM_RESTORE();
 	return;
 
@@ -656,7 +655,7 @@ PHP_METHOD(Phalcon_Forms_Form, get) {
  */
 PHP_METHOD(Phalcon_Forms_Form, label) {
 
-	zval *name_param = NULL, *elements, *element, *_0, *_1;
+	zval *name_param = NULL, *element, *_0, *_1, *_2;
 	zval *name = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -671,17 +670,17 @@ PHP_METHOD(Phalcon_Forms_Form, label) {
 
 
 
-	elements = zephir_fetch_nproperty_this(this_ptr, SL("_elements"), PH_NOISY_CC);
-	if (zephir_array_isset_fetch(&element, elements, name, 1 TSRMLS_CC)) {
+	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_elements"), PH_NOISY_CC);
+	if (zephir_array_isset_fetch(&element, _0, name, 1 TSRMLS_CC)) {
 		zephir_call_method(return_value, element, "label");
 		RETURN_MM();
 	}
-	ZEPHIR_INIT_VAR(_0);
-	object_init_ex(_0, phalcon_forms_exception_ce);
 	ZEPHIR_INIT_VAR(_1);
-	ZEPHIR_CONCAT_SVS(_1, "Element with ID=", name, " is not part of the form");
-	zephir_call_method_p1_noret(_0, "__construct", _1);
-	zephir_throw_exception(_0 TSRMLS_CC);
+	object_init_ex(_1, phalcon_forms_exception_ce);
+	ZEPHIR_INIT_VAR(_2);
+	ZEPHIR_CONCAT_SVS(_2, "Element with ID=", name, " is not part of the form");
+	zephir_call_method_p1_noret(_1, "__construct", _2);
+	zephir_throw_exception(_1 TSRMLS_CC);
 	ZEPHIR_MM_RESTORE();
 	return;
 
@@ -695,7 +694,7 @@ PHP_METHOD(Phalcon_Forms_Form, label) {
  */
 PHP_METHOD(Phalcon_Forms_Form, getLabel) {
 
-	zval *name_param = NULL, *elements, *element, *label, *_0, *_1;
+	zval *name_param = NULL, *element, *label, *_0, *_1, *_2;
 	zval *name = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -710,18 +709,17 @@ PHP_METHOD(Phalcon_Forms_Form, getLabel) {
 
 
 
-	elements = zephir_fetch_nproperty_this(this_ptr, SL("_elements"), PH_NOISY_CC);
-	if (!(zephir_array_isset(elements, name))) {
-		ZEPHIR_INIT_VAR(_0);
-		object_init_ex(_0, phalcon_forms_exception_ce);
+	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_elements"), PH_NOISY_CC);
+	if (!(zephir_array_isset_fetch(&element, _0, name, 1 TSRMLS_CC))) {
 		ZEPHIR_INIT_VAR(_1);
-		ZEPHIR_CONCAT_SVS(_1, "Element with ID=", name, " is not part of the form");
-		zephir_call_method_p1_noret(_0, "__construct", _1);
-		zephir_throw_exception(_0 TSRMLS_CC);
+		object_init_ex(_1, phalcon_forms_exception_ce);
+		ZEPHIR_INIT_VAR(_2);
+		ZEPHIR_CONCAT_SVS(_2, "Element with ID=", name, " is not part of the form");
+		zephir_call_method_p1_noret(_1, "__construct", _2);
+		zephir_throw_exception(_1 TSRMLS_CC);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
-	zephir_array_fetch(&element, elements, name, PH_NOISY | PH_READONLY TSRMLS_CC);
 	ZEPHIR_INIT_VAR(label);
 	zephir_call_method(label, element, "getlabel");
 	if (!(zephir_is_true(label))) {
@@ -786,7 +784,7 @@ PHP_METHOD(Phalcon_Forms_Form, getValue) {
  */
 PHP_METHOD(Phalcon_Forms_Form, has) {
 
-	zval *name_param = NULL, *elements;
+	zval *name_param = NULL, *_0;
 	zval *name = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -801,8 +799,8 @@ PHP_METHOD(Phalcon_Forms_Form, has) {
 
 
 
-	elements = zephir_fetch_nproperty_this(this_ptr, SL("_elements"), PH_NOISY_CC);
-	RETURN_MM_BOOL(zephir_array_isset(elements, name));
+	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_elements"), PH_NOISY_CC);
+	RETURN_MM_BOOL(zephir_array_isset(_0, name));
 
 }
 
@@ -926,12 +924,12 @@ PHP_METHOD(Phalcon_Forms_Form, rewind) {
  */
 PHP_METHOD(Phalcon_Forms_Form, current) {
 
-	zval *elements, *element, *_0;
+	zval *element, *_0, *_1;
 
 
-	elements = zephir_fetch_nproperty_this(this_ptr, SL("_elementsIndexed"), PH_NOISY_CC);
-	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_position"), PH_NOISY_CC);
-	if (zephir_array_isset_fetch(&element, elements, _0, 1 TSRMLS_CC)) {
+	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_elementsIndexed"), PH_NOISY_CC);
+	_1 = zephir_fetch_nproperty_this(this_ptr, SL("_position"), PH_NOISY_CC);
+	if (zephir_array_isset_fetch(&element, _0, _1, 1 TSRMLS_CC)) {
 		RETURN_CTORW(element);
 	}
 	RETURN_BOOL(0);
@@ -967,12 +965,12 @@ PHP_METHOD(Phalcon_Forms_Form, next) {
  */
 PHP_METHOD(Phalcon_Forms_Form, valid) {
 
-	zval *elements, *_0;
+	zval *_0, *_1;
 
 
-	elements = zephir_fetch_nproperty_this(this_ptr, SL("_elementsIndexed"), PH_NOISY_CC);
-	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_position"), PH_NOISY_CC);
-	RETURN_BOOL(zephir_array_isset(elements, _0));
+	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_elementsIndexed"), PH_NOISY_CC);
+	_1 = zephir_fetch_nproperty_this(this_ptr, SL("_position"), PH_NOISY_CC);
+	RETURN_BOOL(zephir_array_isset(_0, _1));
 
 }
 

@@ -229,9 +229,9 @@ int zephir_alt_call_method(zend_fcall_info *fci, zend_class_entry *ce, unsigned 
 			}
 		}
 
-		/** Check if it's a Phalcon function */
+		/** Check if it's an internal function */
 		if (!is_zephir_function) {
-			is_zephir_function = ce->type == ZEND_INTERNAL_CLASS && ce->name_length > 10 && !memcmp(ce->name, SL("Phalcon\\"));
+			is_zephir_function = ce->type == ZEND_INTERNAL_CLASS;
 		}
 
 		/* The fci_cache doesn't exist, so we check it */
@@ -242,7 +242,7 @@ int zephir_alt_call_method(zend_fcall_info *fci, zend_class_entry *ce, unsigned 
 
 			if (is_zephir_function) {
 
-				/** Use the Phalcon optimized version */
+				/** Use the optimized version */
 				if (!zephir_alt_is_callable_method_ex(ce, method_name, method_len, fci->object_ptr, IS_CALLABLE_CHECK_SILENT, fci_cache, &error, exists, method_key TSRMLS_CC)) {
 					if (error) {
 						zend_error(E_WARNING, "Invalid callback %s, %s", method_name, error);
@@ -603,7 +603,7 @@ int zephir_alt_call_method(zend_fcall_info *fci, zend_class_entry *ce, unsigned 
 			}
 		}
 
-		/** Check if it's a Phalcon function */
+		/** Check if it's an internal function */
 		if (!is_zephir_function) {
 			if (ce->type == ZEND_INTERNAL_CLASS) {
 				is_zephir_function = 1;
@@ -618,7 +618,7 @@ int zephir_alt_call_method(zend_fcall_info *fci, zend_class_entry *ce, unsigned 
 
 			if (is_zephir_function) {
 
-				/** Use the Phalcon optimized version */
+				/** Use the optimized version */
 				if (unlikely(!zephir_alt_is_callable_method_ex(ce, method_name, method_len, fci->object_ptr, IS_CALLABLE_CHECK_SILENT, fci_cache, &error, exists, method_key TSRMLS_CC))) {
 					if (error) {
 						zend_error(E_WARNING, "Invalid callback %s, %s", method_name, error);

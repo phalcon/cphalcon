@@ -76,7 +76,7 @@ PHP_METHOD(Phalcon_Di_Service_Builder, _buildParameter) {
 		ZEPHIR_INIT_VAR(_0);
 		object_init_ex(_0, phalcon_di_exception_ce);
 		ZEPHIR_SINIT_VAR(_1);
-		ZVAL_LONG(&_1, position, 0);
+		ZVAL_LONG(&_1, position);
 		ZEPHIR_INIT_VAR(_2);
 		ZEPHIR_CONCAT_SVS(_2, "Argument at position ", &_1, " must be an array");
 		zephir_call_method_p1_noret(_0, "__construct", _2);
@@ -88,7 +88,7 @@ PHP_METHOD(Phalcon_Di_Service_Builder, _buildParameter) {
 		ZEPHIR_INIT_NVAR(_0);
 		object_init_ex(_0, phalcon_di_exception_ce);
 		ZEPHIR_SINIT_NVAR(_1);
-		ZVAL_LONG(&_1, position, 0);
+		ZVAL_LONG(&_1, position);
 		ZEPHIR_INIT_LNVAR(_2);
 		ZEPHIR_CONCAT_SVS(_2, "Argument at position ", &_1, " must have a type");
 		zephir_call_method_p1_noret(_0, "__construct", _2);
@@ -103,7 +103,7 @@ PHP_METHOD(Phalcon_Di_Service_Builder, _buildParameter) {
 				ZEPHIR_INIT_NVAR(_0);
 				object_init_ex(_0, phalcon_di_exception_ce);
 				ZEPHIR_SINIT_NVAR(_1);
-				ZVAL_LONG(&_1, position, 0);
+				ZVAL_LONG(&_1, position);
 				ZEPHIR_INIT_LNVAR(_2);
 				ZEPHIR_CONCAT_SV(_2, "Service 'name' is required in parameter on position ", &_1);
 				zephir_call_method_p1_noret(_0, "__construct", _2);
@@ -123,7 +123,7 @@ PHP_METHOD(Phalcon_Di_Service_Builder, _buildParameter) {
 				ZEPHIR_INIT_NVAR(_0);
 				object_init_ex(_0, phalcon_di_exception_ce);
 				ZEPHIR_SINIT_NVAR(_1);
-				ZVAL_LONG(&_1, position, 0);
+				ZVAL_LONG(&_1, position);
 				ZEPHIR_INIT_LNVAR(_2);
 				ZEPHIR_CONCAT_SV(_2, "Service 'value' is required in parameter on position ", &_1);
 				zephir_call_method_p1_noret(_0, "__construct", _2);
@@ -139,7 +139,7 @@ PHP_METHOD(Phalcon_Di_Service_Builder, _buildParameter) {
 				ZEPHIR_INIT_NVAR(_0);
 				object_init_ex(_0, phalcon_di_exception_ce);
 				ZEPHIR_SINIT_NVAR(_1);
-				ZVAL_LONG(&_1, position, 0);
+				ZVAL_LONG(&_1, position);
 				ZEPHIR_INIT_LNVAR(_2);
 				ZEPHIR_CONCAT_SV(_2, "Service 'className' is required in parameter on position ", &_1);
 				zephir_call_method_p1_noret(_0, "__construct", _2);
@@ -162,7 +162,7 @@ PHP_METHOD(Phalcon_Di_Service_Builder, _buildParameter) {
 		ZEPHIR_INIT_NVAR(_0);
 		object_init_ex(_0, phalcon_di_exception_ce);
 		ZEPHIR_SINIT_NVAR(_1);
-		ZVAL_LONG(&_1, position, 0);
+		ZVAL_LONG(&_1, position);
 		ZEPHIR_INIT_LNVAR(_2);
 		ZEPHIR_CONCAT_SV(_2, "Unknown service type in parameter on position ", &_1);
 		zephir_call_method_p1_noret(_0, "__construct", _2);

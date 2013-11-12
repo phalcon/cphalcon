@@ -146,6 +146,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Mongo, _getCollection) {
 			ZEPHIR_INIT_NVAR(mongo);
 			_0 = zend_fetch_class(SL("Mongo"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
 			object_init_ex(mongo, _0);
+			zephir_call_method_noret(mongo, "__construct");
 		}
 		zephir_array_fetch_string(&database, options, SL("db"), PH_NOISY | PH_READONLY TSRMLS_CC);
 		if ((!zephir_is_true(database) || (Z_TYPE_P(database) != IS_STRING))) {
@@ -358,7 +359,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Mongo, delete) {
 	zephir_call_method_p1_noret(collection, "remove", conditions);
 	ZEPHIR_INIT_VAR(_0);
 	zephir_call_func(_0, "rand");
-	if (((zephir_get_numberval(_0) % 100) == 0)) {
+	if (((zephir_get_intval(_0) % 100) == 0)) {
 		zephir_call_method_noret(this_ptr, "gc");
 	}
 	RETURN_MM_BOOL(1);
@@ -555,7 +556,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Mongo, increment) {
 	zephir_array_fetch_string(&modifiedTime, document, SL("time"), PH_NOISY | PH_READONLY TSRMLS_CC);
 	ZEPHIR_SINIT_VAR(difference);
 	sub_function(&difference, timestamp, tt1 TSRMLS_CC);
-	notExpired = ZEPHIR_LS(&difference, modifiedTime);
+	notExpired = ZEPHIR_LT(&difference, modifiedTime);
 	if ((notExpired == 1)) {
 		if (!(zephir_array_isset_string(document, SS("data")))) {
 			ZEPHIR_THROW_EXCEPTION_STR(phalcon_cache_exception_ce, "The cache is currupted");
@@ -623,7 +624,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Mongo, decrement) {
 	zephir_array_fetch_string(&modifiedTime, document, SL("time"), PH_NOISY | PH_READONLY TSRMLS_CC);
 	ZEPHIR_SINIT_VAR(difference);
 	sub_function(&difference, timestamp, tt1 TSRMLS_CC);
-	notExpired = ZEPHIR_LS(&difference, modifiedTime);
+	notExpired = ZEPHIR_LT(&difference, modifiedTime);
 	if ((notExpired == 1)) {
 		if (!(zephir_array_isset_string(document, SS("data")))) {
 			ZEPHIR_THROW_EXCEPTION_STR(phalcon_cache_exception_ce, "The cache is currupted");
@@ -658,7 +659,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Mongo, flush) {
 	zephir_call_method_noret(collection, "remove");
 	ZEPHIR_INIT_VAR(_0);
 	zephir_call_func(_0, "rand");
-	if (((zephir_get_numberval(_0) % 100) == 0)) {
+	if (((zephir_get_intval(_0) % 100) == 0)) {
 		zephir_call_method_noret(this_ptr, "gc");
 	}
 	RETURN_MM_BOOL(1);

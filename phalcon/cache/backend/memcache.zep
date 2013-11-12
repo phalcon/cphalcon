@@ -175,81 +175,81 @@ class Memcache extends Phalcon\Cache\Backend implements Phalcon\Cache\BackendInt
 
 		let frontend = this->_frontend;
 
-		/** 
-        * Check if a connection is created or make a new one
-        */
-        let memcache = this->_memcache;
-        if typeof memcache != "object" {
-        	this->_connect();
-        	let memcache = this->_memcache;
-        }
+		/**
+		 * Check if a connection is created or make a new one
+		 */
+		let memcache = this->_memcache;
+		if typeof memcache != "object" {
+			this->_connect();
+			let memcache = this->_memcache;
+		}
 
-        if !content {
-        	let cachedContent = frontend->getContent();
-        } else {
-        	let cachedContent = content;
-        }
+		if !content {
+			let cachedContent = frontend->getContent();
+		} else {
+			let cachedContent = content;
+		}
 
-        /** 
-        * Prepare the content in the frontend
-        */
-        if !is_numeric(cachedContent) {
-        	let preparedContent = frontend->beforeStore(cachedContent);
-        }
+		/**
+		 * Prepare the content in the frontend
+		 */
+		if !is_numeric(cachedContent) {
+			let preparedContent = frontend->beforeStore(cachedContent);
+		}
 
-        if !lifetime {
-        	let tmp = this->_lastLifetime;
+		if !lifetime {
+			let tmp = this->_lastLifetime;
 
-        	if !tmp {
-        		let tt1 = frontend->getLifetime();
-        	} else {
-        		let tt1 = tmp;
-        	}
-        } else {
-        	let tt1 = lifetime;
-        }
+			if !tmp {
+				let tt1 = frontend->getLifetime();
+			} else {
+				let tt1 = tmp;
+			}
+		} else {
+			let tt1 = lifetime;
+		}
 
-        if is_numeric(cachedContent) {
-        	let success = memcache->set(lastKey, cachedContent, tt1);
-        } else {
-        	let success = memcache->set(lastKey, preparedContent, tt1);
-        }
+		if is_numeric(cachedContent) {
+			let success = memcache->set(lastKey, cachedContent, tt1);
+		} else {
+			let success = memcache->set(lastKey, preparedContent, tt1);
+		}
 
-        if !success {
-        	throw new Phalcon\Cache\Exception("Failed storing data in memcached");
-        }
+		if !success {
+			throw new Phalcon\Cache\Exception("Failed storing data in memcached");
+		}
 
-        let options = this->_options;
+		let options = this->_options;
 
-        if !isset options["statsKey"] {
-        	throw new Phalcon\Cache\Exception("Unexpected inconsistency in options");
-        }
-        let specialKey = options["statsKey"];
+		if !isset options["statsKey"] {
+			throw new Phalcon\Cache\Exception("Unexpected inconsistency in options");
+		}
+		let specialKey = options["statsKey"];
 
-        /** 
-        * Update the stats key
-        */
-        let keys = memcache->get(specialKey);
-        if typeof keys != "array" {
-        	let keys = [];
-        }
+		/**
+		 * Update the stats key
+		 */
+		let keys = memcache->get(specialKey);
+		if typeof keys != "array" {
+			let keys = [];
+		}
 
-        if !isset keys[lastKey] {
-        	let keys[lastKey] = tt1;
-        	memcache->set(specialKey,keys);
-        }
+		if !isset keys[lastKey] {
+			let keys[lastKey] = tt1;
+			memcache->set(specialKey,keys);
+		}
 
-        let isBuffering = frontend->isBuffering();
+		let isBuffering = frontend->isBuffering();
 
-        if !stopBuffer {
-        	frontend->stop();
-        }
+		if !stopBuffer {
+			frontend->stop();
+		}
 
-        if isBuffering == true {
-        	echo cachedContent;
-        }
+		if isBuffering == true {
+			echo cachedContent;
+		}
 
-        let this->_started = false;
+		let this->_started = false;
 	}
 
 	/**
@@ -272,19 +272,19 @@ class Memcache extends Phalcon\Cache\Backend implements Phalcon\Cache\BackendInt
 		let prefixedKey = prefix . keyName;
 		let options = this->_options;
 
-        if !isset options["statsKey"] {
-        	throw new Phalcon\Cache\Exception("Unexpected inconsistency in options");
-        }
-        
-        let specialKey = options["statsKey"];
-        let keys = memcache->get(specialKey);
+		if !isset options["statsKey"] {
+			throw new Phalcon\Cache\Exception("Unexpected inconsistency in options");
+		}
 
-        if typeof keys == "array" {
-        	unset(keys[prefixedKey]);
-        	memcache->set(specialKey, keys);
-        }
+		let specialKey = options["statsKey"];
+		let keys = memcache->get(specialKey);
 
-		/** 
+		if typeof keys == "array" {
+			unset(keys[prefixedKey]);
+			memcache->set(specialKey, keys);
+		}
+
+		/**
 		* Delete the key from memcached
 		*/
 		memcache->delete(prefixedKey);
@@ -298,10 +298,10 @@ class Memcache extends Phalcon\Cache\Backend implements Phalcon\Cache\BackendInt
 	 */
 	public function queryKeys(prefix=null)
 	{
-		var memcache, prefixedKey, options, keys, specialKey, key;
+		var memcache, options, keys, specialKey, key;
 
 		let memcache = this->_memcache;
-		
+
 		if typeof memcache != "object" {
 			this->_connect();
 			let memcache = this->_memcache;
@@ -310,22 +310,22 @@ class Memcache extends Phalcon\Cache\Backend implements Phalcon\Cache\BackendInt
 		let options = this->_options;
 
 		if !isset options["statsKey"] {
-        	throw new Phalcon\Cache\Exception("Unexpected inconsistency in options");
-        }
-        
-        let specialKey = options["statsKey"];
+			throw new Phalcon\Cache\Exception("Unexpected inconsistency in options");
+		}
 
-        /** 
-        * Get the key from memcached
-        */
-        let keys = memcache->get(specialKey);
-        if typeof keys == "array" {
-        	for key in keys {
-        		if !prefix || start_with(key, prefix) {
-        			return key;
-        		}
-        	}
-        }
+		let specialKey = options["statsKey"];
+
+		/**
+		* Get the key from memcached
+		*/
+		let keys = memcache->get(specialKey);
+		if typeof keys == "array" {
+			for key in keys {
+				if !prefix || start_with(key, prefix) {
+					return key;
+				}
+			}
+		}
 	}
 
 	/**

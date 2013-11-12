@@ -413,7 +413,7 @@ PHP_METHOD(Phalcon_Di, get) {
 		}
 	}
 	if ((Z_TYPE_P(instance) == IS_OBJECT)) {
-		if ((zephir_method_exists_str(instance, SS("setdi") TSRMLS_CC) == SUCCESS)) {
+		if ((zephir_method_exists_ex(instance, SS("setdi") TSRMLS_CC) == SUCCESS)) {
 			zephir_call_method_p1_noret(instance, "setdi", this_ptr);
 		}
 	}
@@ -436,12 +436,12 @@ PHP_METHOD(Phalcon_Di, getShared) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 1, &name_param, &parameters);
 
-		if (Z_TYPE_P(name_param) != IS_STRING) {
-				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'name' must be a string") TSRMLS_CC);
-				RETURN_MM_NULL();
-		}
+	if (Z_TYPE_P(name_param) != IS_STRING) {
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'name' must be a string") TSRMLS_CC);
+		RETURN_MM_NULL();
+	}
 
-		name = name_param;
+	name = name_param;
 
 	if (!parameters) {
 		parameters = ZEPHIR_GLOBAL(global_null);
@@ -476,14 +476,12 @@ PHP_METHOD(Phalcon_Di, has) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &name_param);
 
-		if (Z_TYPE_P(name_param) != IS_STRING) {
-				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'name' must be a string") TSRMLS_CC);
-				RETURN_MM_NULL();
-		}
+	if (Z_TYPE_P(name_param) != IS_STRING) {
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'name' must be a string") TSRMLS_CC);
+		RETURN_MM_NULL();
+	}
 
-		name = name_param;
-
-
+	name = name_param;
 
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_services"), PH_NOISY_CC);
 	RETURN_MM_BOOL(zephir_array_isset(_0, name));
@@ -528,14 +526,12 @@ PHP_METHOD(Phalcon_Di, offsetExists) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &name_param);
 
-		if (Z_TYPE_P(name_param) != IS_STRING) {
-				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'name' must be a string") TSRMLS_CC);
-				RETURN_MM_NULL();
-		}
+	if (Z_TYPE_P(name_param) != IS_STRING) {
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'name' must be a string") TSRMLS_CC);
+		RETURN_MM_NULL();
+	}
 
-		name = name_param;
-
-
+	name = name_param;
 
 	zephir_call_method_p1(return_value, this_ptr, "has", name);
 	RETURN_MM();

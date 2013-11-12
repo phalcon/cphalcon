@@ -1,24 +1,10 @@
 #!/bin/bash
-
-#  Phalcon Framework
-#
-#  Copyright (c) 2011-2013 Phalcon Team (http://www.phalconphp.com)
-#
-#  This source file is subject to the New BSD License that is bundled
-#  with this package in the file docs/LICENSE.txt.
-#
-#  If you did not receive a copy of the license and are unable to
-#  obtain it through the world-wide-web, please send an email
-#  to license@phalconphp.com so we can send you a copy immediately.
-#
-#  Authors: Andres Gutierrez <andres@phalconphp.com>
-#            Eduar Carvajal <eduar@phalconphp.com>
-
+export CC="gcc"
+export CFLAGS="-O0 -g3 -Wall -fvisibility=hidden"
 if [ -f Makefile ]; then
-	make distclean
-	phpize --clean
+	sudo make --silent clean
+	sudo phpize --silent --clean
 fi
-
-phpize
-CC="gcc" CFLAGS="-O2 -fno-delete-null-pointer-checks -Wall -fvisibility=hidden" ./configure --enable-phalcon && make && make install && echo "Notice: Phalcon was compiled in debug mode.\nThanks for compiling Phalcon!\nBuild succeed: Please restart your web server to complete the installation"
-
+phpize --silent
+./configure --silent --enable-test
+make --silent && sudo make --silent install

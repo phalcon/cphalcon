@@ -25,13 +25,25 @@ namespace Phalcon\Mvc\Model\Query;
  * Helps to create PHQL queries using an OO interface
  *
  *<code>
- *$resultset = $this->modelsManager->createBuilder()
- *   ->from('Robots')
- *   ->join('RobotsParts')
- *   ->limit(20)
- *   ->orderBy('Robots.name')
- *   ->getQuery()
- *   ->execute();
+ * $params = array(
+ *    'models'     => array('Users'),
+ *    'columns'    => array('id', 'name', 'status'),
+ *    'conditions' => array(
+ *        array(
+ *            "created > :min: AND created < :max:",
+ *            array("min" => '2013-01-01',   'max' => '2014-01-01'),
+ *            array("min" => PDO::PARAM_STR, 'max' => PDO::PARAM_STR),
+ *        ),
+ *    ),
+ *    // or 'conditions' => "created > '2013-01-01' AND created < '2014-01-01'",
+ *    'group'      => array('id', 'name'),
+ *    'having'     => "name = 'Kamil'",
+ *    'order'      => array('name', 'id'),
+ *    'limit'      => 20,
+ *    'offset'     => 20,
+ *    // or 'limit' => array(20, 20),
+ *);
+ *$queryBuilder = new Phalcon\Mvc\Model\Query\Builder($params);
  *</code>
  */
 class Builder
@@ -77,7 +89,10 @@ class Builder
 	public function __construct(params=null, <Phalcon\DiInterface> dependencyInjector=null)
 	{
 		var conditions, columns, groupClause, havingClause, limitClause,
-			forUpdate, sharedLock, orderClause;
+			forUpdate, sharedLock, orderClause, offsetClause, joinsClause,
+			singleConditionArray, limit, offset, fromClause,
+			mergedConditions, mergedParams, mergedTypes,
+			singleCondition, singleParams, singleTypes;
 
 		if typeof params == "array" {
 
@@ -88,8 +103,43 @@ class Builder
 				let this->_conditions = conditions;
 			} else {
 				if fetch conditions, params["conditions"] {
-					let this->_conditions = conditions;
+					if typeof conditions == "array" {
+						let mergedConditions = [];
+						let mergedParams     = [];
+						let mergedTypes      = [];
+						for singleConditionArray in conditions {
+							if typeof singleConditionArray == "array" {
+								fetch singleCondition, singleConditionArray[0];
+								fetch singleParams, singleConditionArray[1];
+								fetch singleTypes, singleConditionArray[2];
+
+								if typeof singleCondition == "string" {
+									let mergedConditions = array_push(mergedConditions, singleCondition);
+								}
+
+								if typeof singleParams == "array" {
+									let mergedParams = array_merge(mergedParams, singleParams);
+								}
+
+								if typeof singleTypes == "array" {
+									let mergedTypes = array_merge(mergedTypes, singleTypes);
+								}
+							}
+						}
+						let this->_conditions = implode(" AND ", mergedConditions);
+						let this->_bindParams = mergedParams;
+						let this->_bindTypes  = mergedTypes;
+					} else {
+						let this->_conditions = conditions;
+					}
 				}
+			}
+
+			/**
+			 * Assign FROM clause
+			 */
+			if fetch fromClause, params["models"] {
+				let this->_models = fromClause;
 			}
 
 			/**
@@ -97,6 +147,13 @@ class Builder
 			 */
 			if fetch columns, params["columns"] {
 				let this->_columns = columns;
+			}
+
+			/**
+			 * Assign JOIN clause
+			 */
+			if fetch joinsClause, params["joins"] {
+				let this->_joins = joinsClause;
 			}
 
 			/**
@@ -110,7 +167,7 @@ class Builder
 			 * Assign HAVING clause
 			 */
 			if fetch havingClause, params["having"] {
-				let this->_group = havingClause;
+				let this->_having = havingClause;
 			}
 
 			/**
@@ -124,7 +181,25 @@ class Builder
 			 * Assign LIMIT clause
 			 */
 			if fetch limitClause, params["limit"] {
-				let this->_limit = limitClause;
+				if typeof limitClause == "array" {
+					fetch limit, limitClause[0];
+					fetch offset, limitClause[1];
+					if is_int(limit) {
+						let this->_limit = limit;
+					}
+					if is_int(offset) {
+						let this->_offset = offset;
+					}
+				} else {
+					let this->_limit = limitClause;
+				}
+			}
+
+			/**
+			 * Assign OFFSET clause
+			 */
+			if fetch offsetClause, params["offset"] {
+				let this->_offset = offsetClause;
 			}
 
 			/**

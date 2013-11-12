@@ -147,7 +147,7 @@ PHP_METHOD(Phalcon_Mvc_Model, __construct) {
 	}
 	zephir_update_property_this(this_ptr, SL("_modelsManager"), modelsManager TSRMLS_CC);
 	zephir_call_method_p1_noret(modelsManager, "initialize", this_ptr);
-	if ((zephir_method_exists_str(this_ptr, SS("onconstruct") TSRMLS_CC) == SUCCESS)) {
+	if ((zephir_method_exists_ex(this_ptr, SS("onconstruct") TSRMLS_CC) == SUCCESS)) {
 		zephir_call_method_noret(this_ptr, "onconstruct");
 	}
 	ZEPHIR_MM_RESTORE();
@@ -765,7 +765,7 @@ PHP_METHOD(Phalcon_Mvc_Model, cloneResultMap) {
 	if (keepSnapshots) {
 		zephir_call_method_p2_noret(object, "setsnapshotdata", data, columnMap);
 	}
-	if ((zephir_method_exists_str(object, SS("afterfetch") TSRMLS_CC) == SUCCESS)) {
+	if ((zephir_method_exists_ex(object, SS("afterfetch") TSRMLS_CC) == SUCCESS)) {
 		zephir_call_method_noret(object, "afterfetch");
 	}
 	RETURN_CCTOR(object);
@@ -902,7 +902,7 @@ PHP_METHOD(Phalcon_Mvc_Model, cloneResult) {
 		}
 		zephir_update_property_zval_zval(object, key, value TSRMLS_CC);
 	}
-	if ((zephir_method_exists_str(object, SS("afterfetch") TSRMLS_CC) == SUCCESS)) {
+	if ((zephir_method_exists_ex(object, SS("afterfetch") TSRMLS_CC) == SUCCESS)) {
 		zephir_call_method_noret(object, "afterfetch");
 	}
 	RETURN_CCTOR(object);
@@ -2530,7 +2530,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _doLowInsert) {
 		zephir_call_method(_3, connection, "supportsequences");
 		if (ZEPHIR_IS_TRUE(_3)) {
 			ZEPHIR_INIT_NVAR(sequenceName);
-			if ((zephir_method_exists_str(this_ptr, SS("getsequencename") TSRMLS_CC) == SUCCESS)) {
+			if ((zephir_method_exists_ex(this_ptr, SS("getsequencename") TSRMLS_CC) == SUCCESS)) {
 				zephir_call_method(sequenceName, this_ptr, "getsequencename");
 			} else {
 				ZEPHIR_INIT_VAR(_7);
@@ -4685,7 +4685,7 @@ PHP_METHOD(Phalcon_Mvc_Model, __callStatic) {
 		return;
 	}
 	ZEPHIR_INIT_VAR(model);
-	_3 = zend_fetch_class(SL("modelName"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
+	_3 = zend_fetch_class(Z_STRVAL_P(modelName), Z_STRLEN_P(modelName), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
 	object_init_ex(model, _3);
 	ZEPHIR_INIT_VAR(metaData);
 	zephir_call_method(metaData, model, "getmodelsmetadata");
@@ -4739,7 +4739,7 @@ PHP_METHOD(Phalcon_Mvc_Model, __set) {
 
 
 	if ((Z_TYPE_P(value) == IS_OBJECT)) {
-		if (zephir_is_instance_of(value, SL("phalcon\\mvc\\modelinterface") TSRMLS_CC)) {
+		if (zephir_is_instance_of(value, SL("Phalcon\\Mvc\\ModelInterface") TSRMLS_CC)) {
 			ZEPHIR_INIT_VAR(lowerProperty);
 			zephir_fast_strtolower(lowerProperty, property);
 			zephir_update_property_zval_zval(this_ptr, lowerProperty, value TSRMLS_CC);
@@ -4812,7 +4812,7 @@ PHP_METHOD(Phalcon_Mvc_Model, __get) {
 		zephir_call_func_p2(result, "call_user_func_array", _0, _1);
 		if ((Z_TYPE_P(result) == IS_OBJECT)) {
 			zephir_update_property_zval_zval(this_ptr, lowerProperty, result TSRMLS_CC);
-			if (zephir_is_instance_of(result, SL("phalcon\\mvc\\modelinterface") TSRMLS_CC)) {
+			if (zephir_is_instance_of(result, SL("Phalcon\\Mvc\\ModelInterface") TSRMLS_CC)) {
 				zephir_update_property_array(this_ptr, SL("_related"), lowerProperty, result TSRMLS_CC);
 			}
 		}

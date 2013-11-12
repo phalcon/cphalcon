@@ -592,7 +592,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, delete) {
 	) {
 		ZEPHIR_GET_HVALUE(record, _3);
 		if ((transaction == 0)) {
-			if (!((zephir_method_exists_str(record, SS("getwriteconnection") TSRMLS_CC) == SUCCESS))) {
+			if (!((zephir_method_exists_ex(record, SS("getwriteconnection") TSRMLS_CC) == SUCCESS))) {
 				ZEPHIR_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "The returned record is not valid");
 				return;
 			}

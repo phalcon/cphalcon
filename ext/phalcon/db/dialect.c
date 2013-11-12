@@ -18,8 +18,8 @@
 #include "kernel/exception.h"
 #include "kernel/operators.h"
 #include "kernel/object.h"
-#include "kernel/string.h"
 #include "kernel/array.h"
+#include "kernel/string.h"
 #include "kernel/fcall.h"
 
 
@@ -91,7 +91,7 @@ PHP_METHOD(Phalcon_Db_Dialect, limit) {
 	ZVAL_LONG(&_0, number);
 	if (zephir_is_numeric(&_0)) {
 		ZEPHIR_SINIT_VAR(_1);
-		ZVAL_LONG(&_1, number, 0);
+		ZVAL_LONG(&_1, number);
 		ZEPHIR_CONCAT_VSV(return_value, sqlQuery, " LIMIT ", &_1);
 		RETURN_MM();
 	}

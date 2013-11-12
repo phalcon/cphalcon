@@ -278,7 +278,7 @@ class Mongo extends Phalcon\Cache\Backend implements Phalcon\Cache\BackendInterf
 		let conditions["key"] = prefixedKey;
 		collection->remove(conditions);
 
-		if rand() % 100 == 0 {
+		if (int) rand() % 100 == 0 {
 			this->gc();
 		}
 
@@ -500,7 +500,7 @@ class Mongo extends Phalcon\Cache\Backend implements Phalcon\Cache\BackendInterf
 		
 		collection->remove();
 
-		if rand() % 100 == 0 {
+		if (int) rand() % 100 == 0 {
 			this->gc();
 		}
 
