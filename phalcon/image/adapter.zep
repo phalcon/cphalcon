@@ -322,36 +322,192 @@ class Adapter {
 		int tmp;
 		let tmp = this->_width - watermark->getWidth();
 
-		if offset_x < 0 {
-			
-			let offset_x = tmp + offset_x;			
-			while offset_x < 0 {
-				let offset_x = tmp + offset_x;
-			}
+		if offset_x < 0 {			
+			let offset_x = 0;
 		} else {
 			if offset_x > tmp {
 				let offset_x = tmp;
 			}
-
 		}
 		
 		let tmp = this->_height - watermark->getHeight();
 
-		if offset_y < 0 {
-			
-			let offset_y = tmp + offset_y;			
-			while offset_y < 0 {
-				let offset_y = tmp + offset_y;
-			}
+		if offset_y < 0 {			
+			let offset_y = 0;
 		} else {
 			if offset_y > tmp {
 				let offset_y = tmp;
 			}
+		}
 
+		if opacity < 0 {			
+			let opacity = 0;
+		} else {
+			if opacity > 100 {
+				let opacity = 100;
+			}
 		}
 
 		this->_watermark(watermark, offset_x, offset_y, opacity);
 
+		return this;
+	}
+
+	/**
+ 	 * Add a text to an image with a specified opacity
+ 	 *
+ 	 * @param string text
+ 	 * @param int offset_x
+ 	 * @param int offset_y
+ 	 * @param int opacity
+ 	 * @param string color
+ 	 * @param int size
+ 	 * @param string fontfile
+ 	 * @return Phalcon\Image\Adapter
+ 	 */
+	public function text(string text, int offset_x = 0, int offset_y = 0, int opacity = 100, string color = "000000", int size = 12, string fontfile = null) -> <Phalcon\Image\Adapter>
+	{
+		if opacity < 0 {			
+			let opacity = 0;
+		} else {
+			if opacity > 100 {
+				let opacity = 100;
+			}
+		}
+
+		if strlen(color) > 1 && color[0] === '#') {
+			let color = substr(color, 1);
+		}
+
+		if strlen(color) == 3) {
+			let color = preg_replace('/./', '$0$0', color);
+		}
+
+		this->_text(text, offset_x, offset_y, opacity, color, size, fontfile);
+
+		return this;
+	}
+
+	/**
+ 	 * Composite one image onto another
+ 	 *
+ 	 * @param Phalcon\Image\Adapter watermark
+ 	 * @return Phalcon\Image\Adapter
+ 	 */
+	public function mask(<Phalcon\Image\Adapter> watermark) -> <Phalcon\Image\Adapter>
+	{
+		this->_mask(watermark);
+		return this;
+	}
+
+	/**
+ 	 * Set the background color of an image
+ 	 *
+ 	 * @param string color
+ 	 * @param int opacity
+ 	 * @return Phalcon\Image\Adapter
+ 	 */
+	public function background(string color, int opacity = 100) -> <Phalcon\Image\Adapter>
+	{
+		if strlen(color) > 1 && color[0] === '#') {
+			let color = substr(color, 1);
+		}
+
+		if strlen(color) == 3) {
+			let color = preg_replace('/./', '$0$0', color);
+		}
+
+		this->_background(color, opacity);
+		return this;
+	}
+
+	/**
+ 	 * Blur image
+ 	 *
+ 	 * @param int radius
+ 	 * @return Phalcon\Image\Adapter
+ 	 */
+	public function blur(int radius) -> <Phalcon\Image\Adapter>
+	{
+		if radius < 1 {
+			let radius = 1;
+		} else {
+			if radius > 100 {
+				let radius = 100;
+			}
+		}
+
+		this->_blur(radius);
+		return this;
+	}
+
+	/**
+ 	 * Pixelate image
+ 	 *
+ 	 * @param int amount
+ 	 * @return Phalcon\Image\Adapter
+ 	 */
+	public function pixelate(int amount) -> <Phalcon\Image\Adapter>
+	{
+		if amount < 2 {
+			let amount = 2;
+		}
+
+		this->_pixelate(amount);
+		return this;
+	}
+
+	/**
+ 	 * Save the image
+ 	 *
+	 * @param string file
+	 * @param int quality
+ 	 * @return Phalcon\Image\Adapter
+ 	 */
+	public function save(string file = null, int quality = 100) -> <Phalcon\Image\Adapter>
+	{
+		if !file {
+			let file = this->_realpath;
+		}
+
+		if quality < 1 {
+			let quality = 1;
+		} else {
+			if quality > 100 {
+				let quality = 100;
+			}
+		}
+
+		this->_save(file, quality);
+		return this;
+	}
+
+	/**
+ 	 * Render the image and return the binary string
+ 	 *
+	 * @param string ext
+	 * @param int quality
+ 	 * @return Phalcon\Image\Adapter
+ 	 */
+	public function render(string ext = null, int quality = 100) -> <Phalcon\Image\Adapter>
+	{
+		if !ext {
+			let ext = pathinfo(this->_file, PATHINFO_EXTENSION);
+		}
+
+		if empty(ext) {
+			let ext = "png";
+		}
+
+		if quality < 1 {
+			let quality = 1;
+		} else {
+			if quality > 100 {
+				let quality = 100;
+			}
+		}
+
+		this->_render(ext, quality);
 		return this;
 	}
 
