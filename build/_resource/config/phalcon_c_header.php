@@ -13,6 +13,7 @@ return <<<HEADER
 #include "phalcon.h"
 
 #include "main/php_main.h"
+#include "main/php_variables.h"
 #include "main/php_streams.h"
 #include "main/php_output.h"
 #include "main/php_ini.h"
