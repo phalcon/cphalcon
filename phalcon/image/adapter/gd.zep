@@ -71,7 +71,7 @@ class Gd extends Phalcon\Image\Adapter implements Phalcon\Image\AdapterInterface
 				let this->_width = imageinfo[0];
 				let this->_height = imageinfo[1];
 				let this->_type = imageinfo[2];
-				let this->_mime = imageinfo['mime'];
+				let this->_mime = imageinfo["mime"];
 			}
 
 			switch this->_type {
@@ -166,6 +166,7 @@ class Gd extends Phalcon\Image\Adapter implements Phalcon\Image\AdapterInterface
 		var image, rect;
 
 		if version_compare(PHP_VERSION, "5.5.0") < 0 {
+			let image = null;
 			if (imagecopyresampled(image, this->_image, 0, 0, offset_x, offset_y, width, height, width, height)) {
 				imagedestroy(this->_image);
 				let this->_image = image;
@@ -173,7 +174,7 @@ class Gd extends Phalcon\Image\Adapter implements Phalcon\Image\AdapterInterface
 				let this->_height = imagesy(image);
 			}
 		} else {
-			let rect = ["x":offset_x, "y":offset_y, "width":width, "height":height];
+			let rect = ["x": offset_x, "y": offset_y, "width": width, "height": height];
 			let image = imagecrop(this->_image, rect);
 			imagedestroy(this->_image);
 			let this->_image = image;
@@ -209,7 +210,7 @@ class Gd extends Phalcon\Image\Adapter implements Phalcon\Image\AdapterInterface
 		if version_compare(PHP_VERSION, "5.5.0") < 0 {
 			let image = this->_create(this->_width, this->_height);
 
-			if direction == Image::HORIZONTAL {
+			if direction == Phalcon\Image::HORIZONTAL {
 				let x = 0;
 				while x < this->_width {
 					let x++;
@@ -229,7 +230,7 @@ class Gd extends Phalcon\Image\Adapter implements Phalcon\Image\AdapterInterface
 			let this->_width  = imagesx(image);
 			let this->_height = imagesy(image);
 		} else {
-			if direction == Image::HORIZONTAL {
+			if direction == Phalcon\Image::HORIZONTAL {
 				imageflip(this->_image, IMG_FLIP_HORIZONTAL);
 			} else {
 				imageflip(this->_image, IMG_FLIP_VERTICAL);
@@ -241,9 +242,9 @@ class Gd extends Phalcon\Image\Adapter implements Phalcon\Image\AdapterInterface
 
 	protected function _sharpen(int amount)
 	{
-		var matrix, amount;
+		var matrix;
 
-		let amount = round(abs(-18 + (amount * 0.08)), 2);
+		let amount = (int) round(abs(-18 + (amount * 0.08)), 2);
 
 		let matrix = [
 			[-1,   -1,    -1],
@@ -262,7 +263,7 @@ class Gd extends Phalcon\Image\Adapter implements Phalcon\Image\AdapterInterface
 		var reflection, line;
 		int stepping, offset, src_y, dst_y, dst_opacity;
 
-		let opacity = round(abs((opacity * 127 / 100) - 127));
+		let opacity = (int) round(abs((opacity * 127 / 100) - 127));
 
 		if opacity < 127 {
 			let stepping = (127 - opacity) / height;
@@ -281,9 +282,9 @@ class Gd extends Phalcon\Image\Adapter implements Phalcon\Image\AdapterInterface
 			let dst_y = this->_height + offset;
 
 			if fade_in {
-				let dst_opacity = round(opacity + (stepping * (height - offset)));
+				let dst_opacity = (int) round(opacity + (stepping * (height - offset)));
 			} else {
-				let dst_opacity = round(opacity + (stepping * offset));
+				let dst_opacity = (int) round(opacity + (stepping * offset));
 			}
 
 			let line = this->_create(this->_width, 1);
@@ -296,8 +297,8 @@ class Gd extends Phalcon\Image\Adapter implements Phalcon\Image\AdapterInterface
 
 		imagedestroy(this->_image);
 		let this->_image = reflection;
-		let this->width  = imagesx(reflection);
-		let this->height = imagesy(reflection);
+		let this->_width  = imagesx(reflection);
+		let this->_height = imagesy(reflection);
 	}
 
 	protected function _watermark(<Phalcon\Image\Adapter> watermark, int offset_x, int offset_y, int opacity)
@@ -309,11 +310,11 @@ class Gd extends Phalcon\Image\Adapter implements Phalcon\Image\AdapterInterface
 
 		imagesavealpha(overlay, true);
 
-		let width  = imagesx(overlay);
-		let height = imagesy(overlay);
+		let width  = (int) imagesx(overlay);
+		let height = (int) imagesy(overlay);
 
 		if opacity < 100 {
-			let opacity = round(abs((opacity * 127 / 100) - 127));
+			let opacity = (int) round(abs((opacity * 127 / 100) - 127));
 			let color = imagecolorallocatealpha(overlay, 127, 127, 127, opacity);
 
 			imagelayereffect(overlay, IMG_EFFECT_OVERLAY);
@@ -330,26 +331,27 @@ class Gd extends Phalcon\Image\Adapter implements Phalcon\Image\AdapterInterface
 
 	protected function _text(string text, int offset_x, int offset_y, int opacity, int r, int g, int b, int size, string fontfile)
 	{
-		var space, color;
-		int s0, s1, s4, s5, width, height;
+		var space, color, angle;
+		int s0 = 0, s1 = 0, s4 = 0, s5 = 0, width, height;
 
-		let opacity = round(abs((opacity * 127 / 100) - 127));
+		let opacity = (int) round(abs((opacity * 127 / 100) - 127));
 
 		if fontfile {
+
 			let space = imagettfbbox(size, 0, fontfile, text);
 
 			if isset space[0] {
-				let s0 = space[0];
-				let s1 = space[1];
-				let s4 = space[4];
-				let s5 = space[5];
+				let s0 = (int) space[0];
+				let s1 = (int) space[1];
+				let s4 = (int) space[4];
+				let s5 = (int) space[5];
 			}
 
 			if !s0 || !s1 || !s4 || !s5 {
 				throw new \Phalcon\Image\Exception("Call to imagettfbbox() failed");
 			}
 
-			let width = abs(s4 - s0) + 10;
+			let width  = abs(s4 - s0) + 10;
 			let height = abs(s5 - s1) + 10;
 
 			if offset_x < 0 {
@@ -360,12 +362,13 @@ class Gd extends Phalcon\Image\Adapter implements Phalcon\Image\AdapterInterface
 				let offset_y = this->_height - height + offset_y;
 			}
 
-			let color = imagecolorallocatealpha(image, r, g, b, opacity);
+			let color = imagecolorallocatealpha(this->_image, r, g, b, opacity);
+			let angle = 0;
 
-			imagettftext(this->_image, size, tmp, offset_x, offset_y, color, fontfile, text);
+			imagettftext(this->_image, size, angle, offset_x, offset_y, color, fontfile, text);
 		} else {
-			let width = imagefontwidth(size) * strtlen(text);
-			let height = imagefontheight(size);
+			let width  = (int) imagefontwidth(size) * strlen(text);
+			let height = (int) imagefontheight(size);
 
 			if offset_x < 0 {
 				let offset_x = this->_width - width + offset_x;
@@ -375,19 +378,19 @@ class Gd extends Phalcon\Image\Adapter implements Phalcon\Image\AdapterInterface
 				let offset_y = this->_height - height + offset_y;
 			}
 
-			let color = imagecolorallocatealpha(image, r, g, b, opacity);
+			let color = imagecolorallocatealpha(this->_image, r, g, b, opacity);
 			imagestring(this->_image, size, offset_x, offset_y, text, color);
 		}
 	}
 
 	protected function _mask(<Phalcon\Image\Adapter> mask)
 	{
-		var mask, newimage, tempImage, color, index, alpha;
+		var maskImage, newimage, tempImage, color, index, alpha;
 		int mask_width, mask_height, x, y;
 
-		let mask = imagecreatefromstring(mask->render());
-		let mask_width = imagesx(mask);
-		let mask_height = imagesy(mask);
+		let maskImage   = imagecreatefromstring(mask->render());
+		let mask_width  = (int) imagesx(mask);
+		let mask_height = (int) imagesy(mask);
 		let alpha = 127;
 
 		imagesavealpha(mask, true);
@@ -414,10 +417,10 @@ class Gd extends Phalcon\Image\Adapter implements Phalcon\Image\AdapterInterface
 			let y = 0;
 			while y < this->_height {
 
-				let index = imagecolorat(mask_image, x, y);
-				let color = imagecolorsforindex(mask_image, index);
+				let index = imagecolorat(maskImage, x, y);
+				let color = imagecolorsforindex(maskImage, index);
 
-				if isset(color["red"]) {
+				if isset color["red"] {
 					let alpha = 127 - (alpha["red"] / 2);
 				}
 
@@ -432,7 +435,7 @@ class Gd extends Phalcon\Image\Adapter implements Phalcon\Image\AdapterInterface
 		}
 
 		imagedestroy(this->_image);
-		imagedestroy(mask_image);
+		imagedestroy(maskImage);
 		let this->_image = newimage;
 	}
 
@@ -447,7 +450,7 @@ class Gd extends Phalcon\Image\Adapter implements Phalcon\Image\AdapterInterface
 		let color = imagecolorallocatealpha(background, r, g, b, opacity);
 		imagealphablending(background, true);
 
-		if imagecopy(background, image, 0, 0, 0, 0, this->_width, this->_height) {
+		if imagecopy(background, this->_image, 0, 0, 0, 0, this->_width, this->_height) {
 			imagedestroy(this->_image);
 			let this->_image = background;
 		}
@@ -458,8 +461,8 @@ class Gd extends Phalcon\Image\Adapter implements Phalcon\Image\AdapterInterface
 		int i;
 		let i = 0;
 		while i < radius {
-			let i++;
 			imagefilter(this->_image, IMG_FILTER_GAUSSIAN_BLUR);
+			let i++;
 		}
 	}
 
@@ -488,7 +491,7 @@ class Gd extends Phalcon\Image\Adapter implements Phalcon\Image\AdapterInterface
 
 	protected function _save(string file, int quality)
 	{
-		var ext, type, func_name;
+		var ext, type;
 
 		let ext = pathinfo(file, PATHINFO_EXTENSION);
 
@@ -523,7 +526,7 @@ class Gd extends Phalcon\Image\Adapter implements Phalcon\Image\AdapterInterface
 			return true;
 		}
 
-		throw new \Phalcon\Image\Exception("Installed GD does not support '".extension."' images");
+		throw new \Phalcon\Image\Exception("Installed GD does not support '" . ext . "' images");
 	}
 
 	protected function _render(string ext, int quality)
@@ -549,7 +552,7 @@ class Gd extends Phalcon\Image\Adapter implements Phalcon\Image\AdapterInterface
 			return;
 		}
 
-		throw new \Phalcon\Image\Exception("Installed GD does not support '".extension."' images");
+		throw new \Phalcon\Image\Exception("Installed GD does not support '" . ext . "' images");
 	}
 
 	protected function _create(int width, int height)
@@ -566,8 +569,11 @@ class Gd extends Phalcon\Image\Adapter implements Phalcon\Image\AdapterInterface
 
 	public function __destruct()
 	{
-		if typeof this->_image == "resource" {
-			imagedestroy(this->_image);
+		var image;
+	
+		let image = this->_image;
+		if typeof image  == "resource" {
+			imagedestroy(image);
 		}
 	}
 
