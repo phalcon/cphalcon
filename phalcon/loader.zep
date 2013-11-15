@@ -45,23 +45,23 @@ namespace Phalcon;
 class Loader implements Phalcon\Events\EventsAwareInterface
 {
 
-	protected _eventsManager;
+	protected _eventsManager = null;
 
-	protected _foundPath;
+	protected _foundPath = null;
 
-	protected _checkedPath;
+	protected _checkedPath = null;
 
-	protected _prefixes;
+	protected _prefixes = null;
 
-	protected _classes;
+	protected _classes = null;
 
 	protected _extensions;
 
-	protected _namespaces;
+	protected _namespaces = null;
 
-	protected _directories;
+	protected _directories = null;
 
-	protected _registered;
+	protected _registered = false;
 
 	/**
 	 * Phalcon\Loader constructor
@@ -95,13 +95,12 @@ class Loader implements Phalcon\Events\EventsAwareInterface
 	 * Sets an array of extensions that the loader must try in each attempt to locate the file
 	 *
 	 * @param array extensions
-	 * @param boolean merge
 	 * @return Phalcon\Loader
 	 */
 	public function setExtensions(extensions) -> <Phalcon\Loader>
 	{
 		if typeof extensions != "array" {
-			throw new Phalcon\Loader\Exception("Parameter extensions must be an array");
+			throw new Phalcon\Loader\Exception('Parameter extensions must be an array');
 		}
 		let this->_extensions = extensions;
 		return this;
@@ -124,21 +123,20 @@ class Loader implements Phalcon\Events\EventsAwareInterface
 	 * @param boolean merge
 	 * @return Phalcon\Loader
 	 */
-	public function registerNamespaces(namespaces, boolean merge=false) -> <Phalcon\Loader>
-	{
-		var currentNamespaces;
+	public function registerNamespaces(namespaces, merge=false){
 
 		if typeof namespaces != "array" {
-			throw new Phalcon\Loader\Exception("Parameter namespaces must be an array");
+			throw new Phalcon\Loader\Exception('Parameter namespaces must be an array');
 		}
 
 		if merge {
 			let currentNamespaces = this->_namespaces;
-			if typeof currentNamespaces == "array" {
-				let this->_namespaces = array_merge(currentNamespaces, namespaces);
+			if (is_array(currentNamespaces)) {
+				let mergedNamespaces = array_merge(currentNamespaces, namespaces);
 			} else {
-				let this->_namespaces = namespaces;
+				let mergedNamespaces = namespaces;
 			}
+			let this->_namespaces = mergedNamespaces;
 		} else {
 			let this->_namespaces = namespaces;
 		}
@@ -163,25 +161,22 @@ class Loader implements Phalcon\Events\EventsAwareInterface
 	 * @param boolean merge
 	 * @return Phalcon\Loader
 	 */
-	public function registerPrefixes(prefixes, boolean merge=false) -> <Phalcon\Loader>
+	public function registerPrefixes(prefixes, merge=false)
 	{
-		var currentPrefixes;
-
 		if typeof prefixes != "array" {
-			throw new Phalcon\Loader\Exception("Parameter prefixes must be an array");
+			throw new Phalcon\Loader\Exception('Parameter prefixes must be an array');
 		}
-
 		if merge {
 			let currentPrefixes = this->_prefixes;
 			if typeof currentPrefixes == "array" {
-				let this->_prefixes = array_merge(currentPrefixes, prefixes);
+				let mergedPrefixes = array_merge(currentPrefixes, prefixes);
 			} else {
-				let this->_prefixes = prefixes;
+				let mergedPrefixes = prefixes;
 			}
+			let this->_prefixes = mergedPrefixes;
 		} else {
 			let this->_prefixes = prefixes;
 		}
-
 		return this;
 	}
 
@@ -204,19 +199,17 @@ class Loader implements Phalcon\Events\EventsAwareInterface
 	 */
 	public function registerDirs(directories, boolean merge=false) -> <Phalcon\Loader>
 	{
-		var currentDirectories;
-
 		if typeof directories != "array" {
-			throw new Phalcon\Loader\Exception("Parameter directories must be an array");
+			throw new Phalcon\Loader\Exception('Parameter directories must be an array');
 		}
-
 		if merge {
 			let currentDirectories = this->_directories;
 			if typeof currentDirectories == "array" {
-				let this->_directories = array_merge(currentDirectories, directories);
+				let mergedDirectories = array_merge(currentDirectories, directories);
 			} else {
-				let this->_directories = directories;
+				let mergedDirectories = directories;
 			}
+			let this->_directories = mergedDirectories;
 		} else {
 			let this->_directories = directories;
 		}
@@ -240,21 +233,19 @@ class Loader implements Phalcon\Events\EventsAwareInterface
 	 * @param boolean merge
 	 * @return Phalcon\Loader
 	 */
-	public function registerClasses(classes, boolean merge=false) -> <Phalcon\Loader>
+	public function registerClasses(classes, merge=false) -> <Phalcon\Loader>
 	{
-		var currentClasses;
-
 		if typeof classes != "array" {
-			throw new Phalcon\Loader\Exception("Parameter directories must be an array");
+			throw new Phalcon\Loader\Exception('Parameter classes must be an array');
 		}
-
 		if merge {
 			let currentClasses = this->_classes;
 			if typeof currentClasses == "array" {
-				let this->_classes = array_merge(currentClasses, classes);
+				let mergedClasses = array_merge(currentClasses, classes);
 			} else {
-				let this->_classes = classes;
+				let mergedClasses = classes;
 			}
+			let this->_classes = mergedClasses;
 		} else {
 			let this->_classes = classes;
 		}
@@ -276,11 +267,9 @@ class Loader implements Phalcon\Events\EventsAwareInterface
 	 *
 	 * @return Phalcon\Loader
 	 */
-	public function register() -> <Phalcon\Loader>
+	public function register()
 	{
-		var registered;
-		let registered = this->_registered;
-		if registered === false {
+		if this->_registered === false {
 			spl_autoload_register([this, "autoLoad"]);
 			let this->_registered = true;
 		}
@@ -292,13 +281,11 @@ class Loader implements Phalcon\Events\EventsAwareInterface
 	 *
 	 * @return Phalcon\Loader
 	 */
-	public function unregister() -> <Phalcon\Loader>
+	public function unregister()
 	{
-		var registered;
-		let registered = this->_registered;
-		if registered === false {
+		if this->_registered === true {
 			spl_autoload_unregister([this, "autoLoad"]);
-			let this->_registered = true;
+			let this->_registered = false;
 		}
 		return this;
 	}
@@ -309,8 +296,222 @@ class Loader implements Phalcon\Events\EventsAwareInterface
 	 * @param string className
 	 * @return boolean
 	 */
-	public function autoLoad(string className) -> boolean
+	public function autoLoad(string! className)
 	{
+
+		let eventsManager = this->_eventsManager;
+		if typeof eventsManager == "object" {
+			eventsManager->fire("loader:beforeCheckClass", this, className);
+		}
+
+		/**
+		 * First we check for static paths for classes
+		 */
+		let classes = this->_classes;
+		if typeof classes == "array" {
+			if fetch filePath, classes[className] {
+				if typeof eventsManager == "object" {
+					let this->_foundPath = filePath;
+					eventsManager->fire("loader:pathFound", this, filePath);
+				}
+				//require filePath;
+				return true;
+			}
+		}
+
+		let extensions = this->_extensions;
+
+		let ds = DIRECTORY_SEPARATOR,
+			namespaceSeparator = "\\";
+
+		/**
+		 * Checking in namespaces
+		 */
+		let namespaces = this->_namespaces;
+		if typeof namespaces == "array" {
+
+			for nsPrefix, directory in namespaces {
+
+				/**
+				 * The class name must start with the current namespace
+				 */
+				if starts_with(className, nsPrefix) {
+
+					/**
+					 * Get the possible file path
+					 */
+					let fileName = phalcon_possible_autoload_filepath(nsPrefix, className, ds);
+					if fileName {
+
+						/**
+						 * Add a trailing directory separator if the user forgot to do that
+						 */
+						let fixedDirectory = phalcon_fix_path(directory, ds);
+
+						for extension in extensions {
+
+							let filePath = fixedDirectory . fileName . "." . extension;
+
+							/**
+							 * Check if a events manager is available
+							 */
+							if typeof eventsManager == "object" {
+								let this->_checkedPath = filePath;
+								eventsManager->fire("loader:beforeCheckPath", this);
+							}
+
+							/**
+							 * This is probably a good path, let's check if the file exist
+							 */
+							if file_exists(filePath) {
+
+								if typeof eventsManager == "object" {
+									let this->_foundPath = filePath;
+									eventsManager->fire("loader:pathFound", this, filePath);
+								}
+
+								/**
+								 * Simulate a require
+								 */
+								//require filePath;
+
+								/**
+								 * Return true mean success
+								 */
+								return true;
+							}
+						}
+					}
+				}
+			}
+		}
+
+		/**
+		 * Checking in prefixes
+		 */
+		let prefixes = this->_prefixes;
+		if typeof prefixes == "array" {
+
+			for prefix, directory in prefixes {
+
+				/**
+				 * The class name starts with the prefix?
+				 */
+				if starts_with(className, prefix) {
+
+					/**
+					 * Get the possible file path
+					 */
+					let fileName = phalcon_possible_autoload_filepath(prefix, className, ds, "_");
+
+					if fileName {
+
+						/**
+						 * Add a trailing directory separator if the user forgot to do that
+						 */
+						let fixedDirectory = phalcon_fix_path(directory, ds);
+
+						for extension in extensions {
+
+							let filePath = fixedDirectory . fileName . "." . extension;
+
+							if typeof eventsManager == "object" {
+								let this->_checkedPath = filePath;
+								eventsManager->fire("loader:beforeCheckPath", this, filePath);
+							}
+
+							if file_exists(filePath) {
+
+								/**
+								 * Call 'pathFound' event
+								 */
+								if typeof eventsManager == "object" {
+									let this->_foundPath = filePath;
+									eventsManager->fire("loader:pathFound", this, filePath);
+								}
+
+								//require filePath;
+								return true;
+							}
+						}
+					}
+				}
+			}
+		}
+
+		/**
+		 * Change the pseudo-separator by the directory separator in the class name
+		 */
+		let dsClassName = str_replace("_", ds, className);
+
+		/**
+		 * And change the namespace separator by directory separator too
+		 */
+		let nsClassName = str_replace("\\", ds, dsClassName);
+
+		/**
+		 * Checking in directories
+		 */
+		let directories = this->_directories;
+		if typeof directories == "array" {
+
+			for directory in directories {
+
+				/**
+				 * Add a trailing directory separator if the user forgot to do that
+				 */
+				let fixedDirectory = phalcon_fix_path(directory, ds);
+
+				for extension in extensions {
+
+					/**
+					 * Create a possible path for the file
+					 */
+					let filePath = fixedDirectory . nsClassName . "." . extension;
+
+					if typeof eventsManager == "object" {
+						let this->_checkedPath = filePath;
+						eventsManager->fire("loader:beforeCheckPath", this, filePath);
+					}
+
+					/**
+					 * Check in every directory if the class exists here
+					 */
+					if file_exists(filePath) {
+
+						/**
+						 * Call 'pathFound' event
+						 */
+						if typeof eventsManager == "object" {
+							let this->_foundPath = filePath;
+							eventsManager->fire("loader:pathFound", this, filePath);
+						}
+
+						/**
+						 * Simulate a require
+						 */
+						//require filePath;
+
+						/**
+						 * Return true meaning success
+						 */
+						return true;
+					}
+				}
+			}
+		}
+
+		/**
+		 * Call 'afterCheckClass' event
+		 */
+		if typeof eventsManager == "object" {
+			eventsManager->fire("loader:afterCheckClass", this, className);
+		}
+
+		/**
+		 * Cannot find the class return false
+		 */
+		return false;
 	}
 
 	/**
@@ -318,7 +519,7 @@ class Loader implements Phalcon\Events\EventsAwareInterface
 	 *
 	 * @return string
 	 */
-	public function getFoundPath() -> string
+	public function getFoundPath()
 	{
 		return this->_foundPath;
 	}
@@ -328,7 +529,7 @@ class Loader implements Phalcon\Events\EventsAwareInterface
 	 *
 	 * @return string
 	 */
-	public function getCheckedPath() -> string
+	public function getCheckedPath()
 	{
 		return this->_checkedPath;
 	}

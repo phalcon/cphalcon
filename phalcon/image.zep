@@ -19,7 +19,9 @@
 
 namespace Phalcon;
 
-class Image {
+class Image
+{
+
 	/*
 	 * Resizing constraints
 	 */

@@ -19,33 +19,32 @@
 
 namespace Phalcon\Image\Adapter;
 
-class GD extends Phalcon\Logger\Adapter implements Phalcon\Image\AdapterInterface
+class Gd extends Phalcon\Image\Adapter implements Phalcon\Image\AdapterInterface
 {
 	public static function check()
 	{
 		var version, info, matches;
 
-		if (self::_checked) {
+		if self::_checked {
 			return true;
 		}
 
-		if !function_exists('gd_info') {
-			throw new \Phalcon\Image\Exception('GD is either not installed or not enabled, check your configuration');
-			return;
+		if !function_exists("gd_info") {
+			throw new Phalcon\Image\Exception("GD is either not installed or not enabled, check your configuration");
 		}
 
-		if defined('GD_VERSION') {
+		let version = null;
+		if defined("GD_VERSION") {
 			let version = GD_VERSION;
 		} else {
-			let info = gd_info();
-
-			preg_match('/\d+\.\d+(?:\.\d+)?/', info['GD Version'], matches);
-
-			let version = matches[0];
+			let info = gd_info(), matches = null;
+			if (preg_match("/\d+\.\d+(?:\.\d+)?/", info["GD Version"], matches)) {
+				let version = matches[0];
+			}
 		}
 
-		if !version_compare(version, '2.0.1', '>=') {
-			throw new \Phalcon\Image\Exception("Phalcon\\Image\\Adapter\\GD requires GD version '2.0.1' or greater, you have " . version);
+		if !version_compare(version, "2.0.1", ">=") {
+			throw new Phalcon\Image\Exception("Phalcon\\Image\\Adapter\\GD requires GD version '2.0.1' or greater, you have " . version);
 		}
 
 		let self::_checked = true;
@@ -64,6 +63,7 @@ class GD extends Phalcon\Logger\Adapter implements Phalcon\Image\AdapterInterfac
 		let this->_file = file;
 
 		if file_exists(this->_file) {
+
 			let this->_realpath = realpath(this->_file);
 			let imageinfo = getimagesize(this->_file);
 
@@ -76,19 +76,19 @@ class GD extends Phalcon\Logger\Adapter implements Phalcon\Image\AdapterInterfac
 
 			switch this->_type {
 				case 1:
-					let this->_image = imagecreatefromgif(this->_file);					
+					let this->_image = imagecreatefromgif(this->_file);
 					break;
 				case 2:
-					let this->_image = imagecreatefromjpeg(this->_file);					
+					let this->_image = imagecreatefromjpeg(this->_file);
 					break;
 				case 3:
-					let this->_image = imagecreatefrompng(this->_file);					
+					let this->_image = imagecreatefrompng(this->_file);
 					break;
 				case 15:
-					let this->_image = imagecreatefromwbmp(this->_file);					
+					let this->_image = imagecreatefromwbmp(this->_file);
 					break;
 				case 16:
-					let this->_image = imagecreatefromxbm(this->_file);					
+					let this->_image = imagecreatefromxbm(this->_file);
 					break;
 				default:
 					if this->_mime {
@@ -106,15 +106,15 @@ class GD extends Phalcon\Logger\Adapter implements Phalcon\Image\AdapterInterfac
 				throw new \Phalcon\Image\Exception("Failed to create image from file " . this->_file);
 			}
 
-			let this->_image = imagecreatetruecolor(width, height);			
+			let this->_image = imagecreatetruecolor(width, height);
 			imagealphablending(this->_image, true);
 			imagesavealpha(this->_image, true);
 
 			let this->_realpath = this->_file;
-			let this->_width = width;
-			let this->_height = height;
-			let this->_type = 3;
-			let this->_mime = 'image/png';
+			let this->_width    = width;
+			let this->_height   = height;
+			let this->_type     = 3;
+			let this->_mime     = "image/png";
 		}
 	}
 
@@ -122,7 +122,8 @@ class GD extends Phalcon\Logger\Adapter implements Phalcon\Image\AdapterInterfac
 	{
 		var image, pre_width, pre_height, reduction_width, reduction_height;
 
-		if version_compare(PHP_VERSION, '5.5.0') < 0 {
+		if version_compare(PHP_VERSION, "5.5.0") < 0 {
+
 			let pre_width = this->_width;
 			let pre_height = this->_height;
 
@@ -130,9 +131,9 @@ class GD extends Phalcon\Logger\Adapter implements Phalcon\Image\AdapterInterfac
 				let reduction_width  = round(width  * 1.1);
 				let reduction_height = round(height * 1.1);
 
-				while (pre_width / 2 > reduction_width AND pre_height / 2 > reduction_height) {
-					pre_width /= 2;
-					pre_height /= 2;
+				while pre_width / 2 > reduction_width && pre_height / 2 > reduction_height {
+					let pre_width /= 2;
+					let pre_height /= 2;
 				}
 
 				let image = this->_create(pre_width, pre_height);
@@ -164,7 +165,7 @@ class GD extends Phalcon\Logger\Adapter implements Phalcon\Image\AdapterInterfac
 	{
 		var image, rect;
 
-		if version_compare(PHP_VERSION, '5.5.0') < 0 {
+		if version_compare(PHP_VERSION, "5.5.0") < 0 {
 			if (imagecopyresampled(image, this->_image, 0, 0, offset_x, offset_y, width, height, width, height)) {
 				imagedestroy(this->_image);
 				let this->_image = image;
@@ -196,8 +197,8 @@ class GD extends Phalcon\Logger\Adapter implements Phalcon\Image\AdapterInterfac
 		if imagecopymerge(this->_image, image, 0, 0, 0, 0, width, height, 100) {
 			imagedestroy(this->_image);
 			let this->_image = image;
-			this->_width  = width;
-			this->_height = height;
+			let this->_width  = width;
+			let this->_height = height;
 		}
 	}
 
@@ -205,10 +206,10 @@ class GD extends Phalcon\Logger\Adapter implements Phalcon\Image\AdapterInterfac
 	{
 		var image, x;
 
-		if version_compare(PHP_VERSION, '5.5.0') < 0 {
-			image = this->_create(this->_width, this->_height);
+		if version_compare(PHP_VERSION, "5.5.0") < 0 {
+			let image = this->_create(this->_width, this->_height);
 
-			if direction == Image::HORIZONTAL) {
+			if direction == Image::HORIZONTAL {
 				let x = 0;
 				while x < this->_width {
 					let x++;
@@ -228,13 +229,13 @@ class GD extends Phalcon\Logger\Adapter implements Phalcon\Image\AdapterInterfac
 			let this->_width  = imagesx(image);
 			let this->_height = imagesy(image);
 		} else {
-			if direction == Image::HORIZONTAL) {
+			if direction == Image::HORIZONTAL {
 				imageflip(this->_image, IMG_FLIP_HORIZONTAL);
 			} else {
 				imageflip(this->_image, IMG_FLIP_VERTICAL);
 			}
 
-			
+
 		}
 	}
 
@@ -244,10 +245,10 @@ class GD extends Phalcon\Logger\Adapter implements Phalcon\Image\AdapterInterfac
 
 		let amount = round(abs(-18 + (amount * 0.08)), 2);
 
-		let matrix =[
+		let matrix = [
 			[-1,   -1,    -1],
 			[-1, amount, -1],
-			[-1,   -1,    -1],
+			[-1,   -1,    -1]
 		];
 
 		if imageconvolution(this->_image, matrix, amount - 8, 0) {
@@ -259,7 +260,7 @@ class GD extends Phalcon\Logger\Adapter implements Phalcon\Image\AdapterInterfac
 	protected function _reflection(int height, int opacity, boolean fade_in)
 	{
 		var reflection, line;
-		int stepping, offset, src_y, dst_y, *dst_opacity;
+		int stepping, offset, src_y, dst_y, dst_opacity;
 
 		let opacity = round(abs((opacity * 127 / 100) - 127));
 
@@ -275,6 +276,7 @@ class GD extends Phalcon\Logger\Adapter implements Phalcon\Image\AdapterInterfac
 
 		let offset = 0;
 		while height >= offset {
+
 			let src_y = this->_height - offset - 1;
 			let dst_y = this->_height + offset;
 
@@ -294,15 +296,15 @@ class GD extends Phalcon\Logger\Adapter implements Phalcon\Image\AdapterInterfac
 
 		imagedestroy(this->_image);
 		let this->_image = reflection;
-		this->width  = imagesx(reflection);
-		this->height = imagesy(reflection);
+		let this->width  = imagesx(reflection);
+		let this->height = imagesy(reflection);
 	}
 
 	protected function _watermark(<Phalcon\Image\Adapter> watermark, int offset_x, int offset_y, int opacity)
 	{
 		var overlay, color;
 		int width, height;
-		
+
 		let overlay = imagecreatefromstring(watermark->render());
 
 		imagesavealpha(overlay, true);
@@ -336,7 +338,7 @@ class GD extends Phalcon\Logger\Adapter implements Phalcon\Image\AdapterInterfac
 		if fontfile {
 			let space = imagettfbbox(size, 0, fontfile, text);
 
-			if isset(space[0]) {
+			if isset space[0] {
 				let s0 = space[0];
 				let s1 = space[1];
 				let s4 = space[4];
@@ -357,7 +359,7 @@ class GD extends Phalcon\Logger\Adapter implements Phalcon\Image\AdapterInterfac
 			if offset_y < 0 {
 				let offset_y = this->_height - height + offset_y;
 			}
-			
+
 			let color = imagecolorallocatealpha(image, r, g, b, opacity);
 
 			imagettftext(this->_image, size, tmp, offset_x, offset_y, color, fontfile, text);
@@ -380,7 +382,7 @@ class GD extends Phalcon\Logger\Adapter implements Phalcon\Image\AdapterInterfac
 
 	protected function _mask(<Phalcon\Image\Adapter> mask)
 	{
-		var mask, newimage, temp_image, color, index, alpha;
+		var mask, newimage, tempImage, color, index, alpha;
 		int mask_width, mask_height, x, y;
 
 		let mask = imagecreatefromstring(mask->render());
@@ -397,18 +399,18 @@ class GD extends Phalcon\Logger\Adapter implements Phalcon\Image\AdapterInterfac
 
 		imagefill(newimage, 0, 0, color);
 
-		if this->_width != mask_width || this->_height != mask_height)) {
-			let temp_image = imagecreatetruecolor(this->_width, this->_height);
+		if this->_width != mask_width || this->_height != mask_height {
+			let tempImage = imagecreatetruecolor(this->_width, this->_height);
 
-			imagecopyresampled(temp_image, mask_image, 0, 0, 0, 0, this->_width, this->_height, mask_width, mask_height);
-			imagedestroy(mask_image);
+			imagecopyresampled(tempImage, maskImage, 0, 0, 0, 0, this->_width, this->_height, mask_width, mask_height);
+			imagedestroy(maskImage);
 
-			let mask_image = temp_image;
+			let maskImage = tempImage;
 		}
 
 		let x = 0;
 		while x < this->_width {
-			
+
 			let y = 0;
 			while y < this->_height {
 
@@ -470,12 +472,12 @@ class GD extends Phalcon\Logger\Adapter implements Phalcon\Image\AdapterInterfac
 		while x < this->_width {
 			let y = 0;
 			while y < this->_height {
-				let x1 = x + amount/2
-				let y1 = y + amount/2
+				let x1 = x + amount/2;
+				let y1 = y + amount/2;
 				let color = imagecolorat(this->_image, x1, y1);
 
-				let x2 = x + amount
-				let y2 = y + amount
+				let x2 = x + amount;
+				let y2 = y + amount;
 				imagefilledrectangle(this->_image, x1, y1, x2, y2, color);
 
 				let y += amount;
@@ -491,62 +493,62 @@ class GD extends Phalcon\Logger\Adapter implements Phalcon\Image\AdapterInterfac
 		let ext = pathinfo(file, PATHINFO_EXTENSION);
 
 		if strcasecmp(ext, "gif") == 0 {
-			this->_type = 1;
-			this->_mime = image_type_to_mime_type(this->_type);
-			imagegif(this->_image, file)
+			let this->_type = 1;
+			let this->_mime = image_type_to_mime_type(this->_type);
+			imagegif(this->_image, file);
 			return true;
 		}
-		if (strcmp(ext, "jpg") == 0 || strcmp(ext, "jpeg") == 0) {
-			this->_type = 2;
-			this->_mime = image_type_to_mime_type(this->_type);
-			imagejpeg(this->_image, file, quality)
+		if strcmp(ext, "jpg") == 0 || strcmp(ext, "jpeg") == 0 {
+			let this->_type = 2;
+			let this->_mime = image_type_to_mime_type(this->_type);
+			imagejpeg(this->_image, file, quality);
 			return true;
 		}
-		if (strcmp(ext, "png") == 0) {
-			this->_type = 3;
-			this->_mime = image_type_to_mime_type(this->_type);
-			imagejpeg(this->_image, file)
+		if strcmp(ext, "png") == 0 {
+			let this->_type = 3;
+			let this->_mime = image_type_to_mime_type(this->_type);
+			imagejpeg(this->_image, file);
 			return true;
 		}
-		if (strcmp(ext, "wbmp") == 0) {
-			this->_type = 15;
-			this->_mime = image_type_to_mime_type(this->_type);
-			imagewbmp(this->_image, file)
+		if strcmp(ext, "wbmp") == 0 {
+			let this->_type = 15;
+			let this->_mime = image_type_to_mime_type(this->_type);
+			imagewbmp(this->_image, file);
 			return true;
 		}
-		if (strcmp(ext, "xbm") == 0) {
-			this->_type = 16;
-			this->_mime = image_type_to_mime_type(this->_type);
-			imagexbm(this->_image, file)
+		if strcmp(ext, "xbm") == 0 {
+			let this->_type = 16;
+			let this->_mime = image_type_to_mime_type(this->_type);
+			imagexbm(this->_image, file);
 			return true;
 		}
-		
+
 		throw new \Phalcon\Image\Exception("Installed GD does not support '".extension."' images");
 	}
 
 	protected function _render(string ext, int quality)
 	{
 		if strcasecmp(ext, "gif") == 0 {
-			imagegif(this->_image)
+			imagegif(this->_image);
 			return;
 		}
-		if (strcmp(ext, "jpg") == 0 || strcmp(ext, "jpeg") == 0) {
-			imagejpeg(this->_image, null, quality)
+		if strcmp(ext, "jpg") == 0 || strcmp(ext, "jpeg") == 0 {
+			imagejpeg(this->_image, null, quality);
 			return;
 		}
-		if (strcmp(ext, "png") == 0) {
-			imagejpeg(this->_image)
+		if strcmp(ext, "png") == 0 {
+			imagejpeg(this->_image);
 			return;
 		}
-		if (strcmp(ext, "wbmp") == 0) {
-			imagewbmp(this->_image)
+		if strcmp(ext, "wbmp") == 0 {
+			imagewbmp(this->_image);
 			return;
 		}
-		if (strcmp(ext, "xbm") == 0) {
-			imagexbm(this->_image)
+		if strcmp(ext, "xbm") == 0 {
+			imagexbm(this->_image);
 			return;
 		}
-		
+
 		throw new \Phalcon\Image\Exception("Installed GD does not support '".extension."' images");
 	}
 
@@ -557,15 +559,15 @@ class GD extends Phalcon\Logger\Adapter implements Phalcon\Image\AdapterInterfac
 		let image = imagecreatetruecolor(width, height);
 
 		imagealphablending(image, false);
-		imagesavealpha($image, true);
+		imagesavealpha(image, true);
 
 		return image;
 	}
 
 	public function __destruct()
 	{
-		if is_resource(this->image) {
-			imagedestroy(image);
+		if typeof this->_image == "resource" {
+			imagedestroy(this->_image);
 		}
 	}
 
