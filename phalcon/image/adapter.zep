@@ -367,6 +367,8 @@ class Adapter {
  	 */
 	public function text(string text, int offset_x = 0, int offset_y = 0, int opacity = 100, string color = "000000", int size = 12, string fontfile = null) -> <Phalcon\Image\Adapter>
 	{
+		var r, g, b;
+
 		if opacity < 0 {			
 			let opacity = 0;
 		} else {
@@ -382,8 +384,10 @@ class Adapter {
 		if strlen(color) == 3) {
 			let color = preg_replace('/./', '$0$0', color);
 		}
+		
+		list (r, g, b) = array_map('hexdec', str_split(color, 2));
 
-		this->_text(text, offset_x, offset_y, opacity, color, size, fontfile);
+		this->_text(text, offset_x, offset_y, opacity, r, g, b, size, fontfile);
 
 		return this;
 	}
@@ -394,7 +398,7 @@ class Adapter {
  	 * @param Phalcon\Image\Adapter watermark
  	 * @return Phalcon\Image\Adapter
  	 */
-	public function mask(<Phalcon\Image\Adapter> watermark) -> <Phalcon\Image\Adapter>
+	public function mask(<Phalcon\Image\Adapter> mask) -> <Phalcon\Image\Adapter>
 	{
 		this->_mask(watermark);
 		return this;
@@ -409,6 +413,8 @@ class Adapter {
  	 */
 	public function background(string color, int opacity = 100) -> <Phalcon\Image\Adapter>
 	{
+		var r, g, b;
+
 		if strlen(color) > 1 && color[0] === '#') {
 			let color = substr(color, 1);
 		}
@@ -417,7 +423,9 @@ class Adapter {
 			let color = preg_replace('/./', '$0$0', color);
 		}
 
-		this->_background(color, opacity);
+		list (r, g, b) = array_map('hexdec', str_split(color, 2));
+
+		this->_background(r, g, b, opacity);
 		return this;
 	}
 

@@ -48,6 +48,525 @@ class GD extends Phalcon\Logger\Adapter implements Phalcon\Image\AdapterInterfac
 			throw new \Phalcon\Image\Exception("Phalcon\\Image\\Adapter\\GD requires GD version '2.0.1' or greater, you have " . version);
 		}
 
-		self::_checked = true;
+		let self::_checked = true;
+
+		return self::_checked;
 	}
+
+	public function __construct(string! file, int width = null, int height = null)
+	{
+		var imageinfo;
+
+		if !self::_checked {
+			self::check();
+		}
+
+		let this->_file = file;
+
+		if file_exists(this->_file) {
+			let this->_realpath = realpath(this->_file);
+			let imageinfo = getimagesize(this->_file);
+
+			if imageinfo {
+				let this->_width = imageinfo[0];
+				let this->_height = imageinfo[1];
+				let this->_type = imageinfo[2];
+				let this->_mime = imageinfo['mime'];
+			}
+
+			switch this->_type {
+				case 1:
+					let this->_image = imagecreatefromgif(this->_file);					
+					break;
+				case 2:
+					let this->_image = imagecreatefromjpeg(this->_file);					
+					break;
+				case 3:
+					let this->_image = imagecreatefrompng(this->_file);					
+					break;
+				case 15:
+					let this->_image = imagecreatefromwbmp(this->_file);					
+					break;
+				case 16:
+					let this->_image = imagecreatefromxbm(this->_file);					
+					break;
+				default:
+					if this->_mime {
+						throw new \Phalcon\Image\Exception("Installed GD does not support " . this->_mime . " images");
+					} else {
+						throw new \Phalcon\Image\Exception("Installed GD does not support such images");
+					}
+					break;
+			}
+
+			imagesavealpha(this->_image, true);
+
+		} else {
+			if !width || !height {
+				throw new \Phalcon\Image\Exception("Failed to create image from file " . this->_file);
+			}
+
+			let this->_image = imagecreatetruecolor(width, height);			
+			imagealphablending(this->_image, true);
+			imagesavealpha(this->_image, true);
+
+			let this->_realpath = this->_file;
+			let this->_width = width;
+			let this->_height = height;
+			let this->_type = 3;
+			let this->_mime = 'image/png';
+		}
+	}
+
+	protected function _resize(int width, int height)
+	{
+		var image, pre_width, pre_height, reduction_width, reduction_height;
+
+		if version_compare(PHP_VERSION, '5.5.0') < 0 {
+			let pre_width = this->_width;
+			let pre_height = this->_height;
+
+			if width > (this->_width / 2) && height > (this->_height / 2) {
+				let reduction_width  = round(width  * 1.1);
+				let reduction_height = round(height * 1.1);
+
+				while (pre_width / 2 > reduction_width AND pre_height / 2 > reduction_height) {
+					pre_width /= 2;
+					pre_height /= 2;
+				}
+
+				let image = this->_create(pre_width, pre_height);
+
+				if imagecopyresized(image, this->_image, 0, 0, 0, 0, pre_width, pre_height, this->_width, this->_height) {
+					imagedestroy(this->_image);
+					let this->_image = image;
+				}
+			}
+
+			let image = this->_create(width, height);
+
+			if imagecopyresampled(image, this->_image, 0, 0, 0, 0, width, height, pre_width, pre_height) {
+				imagedestroy(this->_image);
+				let this->_image = image;
+				let this->_width  = imagesx(image);
+				let this->_height = imagesy(image);
+			}
+		} else {
+			let image = imagescale(this->_image, width, height);
+			imagedestroy(this->_image);
+			let this->_image = image;
+			let this->_width  = imagesx(image);
+			let this->_height = imagesx(image);
+		}
+	}
+
+	protected function _crop(int width, int height, int offset_x, int offset_y)
+	{
+		var image, rect;
+
+		if version_compare(PHP_VERSION, '5.5.0') < 0 {
+			if (imagecopyresampled(image, this->_image, 0, 0, offset_x, offset_y, width, height, width, height)) {
+				imagedestroy(this->_image);
+				let this->_image = image;
+				let this->_width  = imagesx(image);
+				let this->_height = imagesy(image);
+			}
+		} else {
+			let rect = ["x":offset_x, "y":offset_y, "width":width, "height":height];
+			let image = imagecrop(this->_image, rect);
+			imagedestroy(this->_image);
+			let this->_image = image;
+			let this->_width  = imagesx(image);
+			let this->_height = imagesx(image);
+		}
+	}
+
+	protected function _rotate(int degrees)
+	{
+		var image, transparent, width, height;
+
+		let transparent = imagecolorallocatealpha(this->_image, 0, 0, 0, 127);
+		let image = imagerotate(this->_image, 360 - degrees, transparent, 1);
+
+		imagesavealpha(image, TRUE);
+
+		let width  = imagesx(image);
+		let height = imagesy(image);
+
+		if imagecopymerge(this->_image, image, 0, 0, 0, 0, width, height, 100) {
+			imagedestroy(this->_image);
+			let this->_image = image;
+			this->_width  = width;
+			this->_height = height;
+		}
+	}
+
+	protected function _flip(int direction)
+	{
+		var image, x;
+
+		if version_compare(PHP_VERSION, '5.5.0') < 0 {
+			image = this->_create(this->_width, this->_height);
+
+			if direction == Image::HORIZONTAL) {
+				let x = 0;
+				while x < this->_width {
+					let x++;
+					imagecopy(image, this->_image, x, 0, this->_width - x - 1, 0, 1, this->_height);
+				}
+			} else {
+				let x = 0;
+				while x < this->_height {
+					let x++;
+					imagecopy(image, this->_image, 0, x, 0, this->_height - x - 1, this->_width, 1);
+				}
+			}
+
+			imagedestroy(this->_image);
+			let this->_image = image;
+
+			let this->_width  = imagesx(image);
+			let this->_height = imagesy(image);
+		} else {
+			if direction == Image::HORIZONTAL) {
+				imageflip(this->_image, IMG_FLIP_HORIZONTAL);
+			} else {
+				imageflip(this->_image, IMG_FLIP_VERTICAL);
+			}
+
+			
+		}
+	}
+
+	protected function _sharpen(int amount)
+	{
+		var matrix, amount;
+
+		let amount = round(abs(-18 + (amount * 0.08)), 2);
+
+		let matrix =[
+			[-1,   -1,    -1],
+			[-1, amount, -1],
+			[-1,   -1,    -1],
+		];
+
+		if imageconvolution(this->_image, matrix, amount - 8, 0) {
+			let this->_width  = imagesx(this->_image);
+			let this->_height = imagesy(this->_image);
+		}
+	}
+
+	protected function _reflection(int height, int opacity, boolean fade_in)
+	{
+		var reflection, line;
+		int stepping, offset, src_y, dst_y, *dst_opacity;
+
+		let opacity = round(abs((opacity * 127 / 100) - 127));
+
+		if opacity < 127 {
+			let stepping = (127 - opacity) / height;
+		} else {
+			let stepping = 127 / height;
+		}
+
+		let reflection = this->_create(this->_width, this->_height + height);
+
+		imagecopy(reflection, this->_image, 0, 0, 0, 0, this->_width, this->_height);
+
+		let offset = 0;
+		while height >= offset {
+			let src_y = this->_height - offset - 1;
+			let dst_y = this->_height + offset;
+
+			if fade_in {
+				let dst_opacity = round(opacity + (stepping * (height - offset)));
+			} else {
+				let dst_opacity = round(opacity + (stepping * offset));
+			}
+
+			let line = this->_create(this->_width, 1);
+
+			imagecopy(line, this->_image, 0, 0, 0, src_y, this->_width, 1);
+			imagefilter(line, IMG_FILTER_COLORIZE, 0, 0, 0, dst_opacity);
+			imagecopy(reflection, line, 0, dst_y, 0, 0, this->_width, 1);
+			let offset++;
+		}
+
+		imagedestroy(this->_image);
+		let this->_image = reflection;
+		this->width  = imagesx(reflection);
+		this->height = imagesy(reflection);
+	}
+
+	protected function _watermark(<Phalcon\Image\Adapter> watermark, int offset_x, int offset_y, int opacity)
+	{
+		var overlay, color;
+		int width, height;
+		
+		let overlay = imagecreatefromstring(watermark->render());
+
+		imagesavealpha(overlay, true);
+
+		let width  = imagesx(overlay);
+		let height = imagesy(overlay);
+
+		if opacity < 100 {
+			let opacity = round(abs((opacity * 127 / 100) - 127));
+			let color = imagecolorallocatealpha(overlay, 127, 127, 127, opacity);
+
+			imagelayereffect(overlay, IMG_EFFECT_OVERLAY);
+
+			imagefilledrectangle(overlay, 0, 0, width, height, color);
+		}
+
+		imagealphablending(this->_image, true);
+
+		if imagecopy(this->_image, overlay, offset_x, offset_y, 0, 0, width, height) {
+			imagedestroy(overlay);
+		}
+	}
+
+	protected function _text(string text, int offset_x, int offset_y, int opacity, int r, int g, int b, int size, string fontfile)
+	{
+		var space, color;
+		int s0, s1, s4, s5, width, height;
+
+		let opacity = round(abs((opacity * 127 / 100) - 127));
+
+		if fontfile {
+			let space = imagettfbbox(size, 0, fontfile, text);
+
+			if isset(space[0]) {
+				let s0 = space[0];
+				let s1 = space[1];
+				let s4 = space[4];
+				let s5 = space[5];
+			}
+
+			if !s0 || !s1 || !s4 || !s5 {
+				throw new \Phalcon\Image\Exception("Call to imagettfbbox() failed");
+			}
+
+			let width = abs(s4 - s0) + 10;
+			let height = abs(s5 - s1) + 10;
+
+			if offset_x < 0 {
+				let offset_x = this->_width - width + offset_x;
+			}
+
+			if offset_y < 0 {
+				let offset_y = this->_height - height + offset_y;
+			}
+			
+			let color = imagecolorallocatealpha(image, r, g, b, opacity);
+
+			imagettftext(this->_image, size, tmp, offset_x, offset_y, color, fontfile, text);
+		} else {
+			let width = imagefontwidth(size) * strtlen(text);
+			let height = imagefontheight(size);
+
+			if offset_x < 0 {
+				let offset_x = this->_width - width + offset_x;
+			}
+
+			if offset_y < 0 {
+				let offset_y = this->_height - height + offset_y;
+			}
+
+			let color = imagecolorallocatealpha(image, r, g, b, opacity);
+			imagestring(this->_image, size, offset_x, offset_y, text, color);
+		}
+	}
+
+	protected function _mask(<Phalcon\Image\Adapter> mask)
+	{
+		var mask, newimage, temp_image, color, index, alpha;
+		int mask_width, mask_height, x, y;
+
+		let mask = imagecreatefromstring(mask->render());
+		let mask_width = imagesx(mask);
+		let mask_height = imagesy(mask);
+		let alpha = 127;
+
+		imagesavealpha(mask, true);
+
+		let newimage = this->_create(this->_width, this->_height);
+		imagesavealpha(newimage, true);
+
+		let color = imagecolorallocatealpha(newimage, 0, 0, 0, 127);
+
+		imagefill(newimage, 0, 0, color);
+
+		if this->_width != mask_width || this->_height != mask_height)) {
+			let temp_image = imagecreatetruecolor(this->_width, this->_height);
+
+			imagecopyresampled(temp_image, mask_image, 0, 0, 0, 0, this->_width, this->_height, mask_width, mask_height);
+			imagedestroy(mask_image);
+
+			let mask_image = temp_image;
+		}
+
+		let x = 0;
+		while x < this->_width {
+			
+			let y = 0;
+			while y < this->_height {
+
+				let index = imagecolorat(mask_image, x, y);
+				let color = imagecolorsforindex(mask_image, index);
+
+				if isset(color["red"]) {
+					let alpha = 127 - (alpha["red"] / 2);
+				}
+
+				let index = imagecolorat(this->_image, x, y);
+				let color = imagecolorsforindex(this->_image, index);
+				let color = imagecolorallocatealpha(newimage, color["red"], color["green"], color["blue"], alpha);
+
+				imagesetpixel(newimage, x, y, color);
+				let y++;
+			}
+			let x++;
+		}
+
+		imagedestroy(this->_image);
+		imagedestroy(mask_image);
+		let this->_image = newimage;
+	}
+
+	protected function _background(int r, int g, int b, int opacity)
+	{
+		var background, color;
+
+		let opacity = (opacity * 127 / 100) - 127;
+
+		let background = this->_create(this->_width, this->_height);
+
+		let color = imagecolorallocatealpha(background, r, g, b, opacity);
+		imagealphablending(background, true);
+
+		if imagecopy(background, image, 0, 0, 0, 0, this->_width, this->_height) {
+			imagedestroy(this->_image);
+			let this->_image = background;
+		}
+	}
+
+	protected function _blur(int radius)
+	{
+		int i;
+		let i = 0;
+		while i < radius {
+			let i++;
+			imagefilter(this->_image, IMG_FILTER_GAUSSIAN_BLUR);
+		}
+	}
+
+	protected function _pixelate(int amount)
+	{
+		var color;
+		int x, y, x1, y1, x2, y2;
+
+		let x = 0;
+		while x < this->_width {
+			let y = 0;
+			while y < this->_height {
+				let x1 = x + amount/2
+				let y1 = y + amount/2
+				let color = imagecolorat(this->_image, x1, y1);
+
+				let x2 = x + amount
+				let y2 = y + amount
+				imagefilledrectangle(this->_image, x1, y1, x2, y2, color);
+
+				let y += amount;
+			}
+			let x += amount;
+		}
+	}
+
+	protected function _save(string file, int quality)
+	{
+		var ext, type, func_name;
+
+		let ext = pathinfo(file, PATHINFO_EXTENSION);
+
+		if strcasecmp(ext, "gif") == 0 {
+			this->_type = 1;
+			this->_mime = image_type_to_mime_type(this->_type);
+			imagegif(this->_image, file)
+			return true;
+		}
+		if (strcmp(ext, "jpg") == 0 || strcmp(ext, "jpeg") == 0) {
+			this->_type = 2;
+			this->_mime = image_type_to_mime_type(this->_type);
+			imagejpeg(this->_image, file, quality)
+			return true;
+		}
+		if (strcmp(ext, "png") == 0) {
+			this->_type = 3;
+			this->_mime = image_type_to_mime_type(this->_type);
+			imagejpeg(this->_image, file)
+			return true;
+		}
+		if (strcmp(ext, "wbmp") == 0) {
+			this->_type = 15;
+			this->_mime = image_type_to_mime_type(this->_type);
+			imagewbmp(this->_image, file)
+			return true;
+		}
+		if (strcmp(ext, "xbm") == 0) {
+			this->_type = 16;
+			this->_mime = image_type_to_mime_type(this->_type);
+			imagexbm(this->_image, file)
+			return true;
+		}
+		
+		throw new \Phalcon\Image\Exception("Installed GD does not support '".extension."' images");
+	}
+
+	protected function _render(string ext, int quality)
+	{
+		if strcasecmp(ext, "gif") == 0 {
+			imagegif(this->_image)
+			return;
+		}
+		if (strcmp(ext, "jpg") == 0 || strcmp(ext, "jpeg") == 0) {
+			imagejpeg(this->_image, null, quality)
+			return;
+		}
+		if (strcmp(ext, "png") == 0) {
+			imagejpeg(this->_image)
+			return;
+		}
+		if (strcmp(ext, "wbmp") == 0) {
+			imagewbmp(this->_image)
+			return;
+		}
+		if (strcmp(ext, "xbm") == 0) {
+			imagexbm(this->_image)
+			return;
+		}
+		
+		throw new \Phalcon\Image\Exception("Installed GD does not support '".extension."' images");
+	}
+
+	protected function _create(int width, int height)
+	{
+		var image;
+
+		let image = imagecreatetruecolor(width, height);
+
+		imagealphablending(image, false);
+		imagesavealpha($image, true);
+
+		return image;
+	}
+
+	public function __destruct()
+	{
+		if is_resource(this->image) {
+			imagedestroy(image);
+		}
+	}
+
 }
