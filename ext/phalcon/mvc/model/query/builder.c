@@ -794,8 +794,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, betweenWhere) {
 	ZEPHIR_CONCAT_VSVSVS(_0, expr, " BETWEEN :", minimumKey, ": AND :", maximumKey, ":");
 	ZEPHIR_INIT_VAR(_1);
 	array_init(_1);
-	zephir_array_update(&_1, minimumKey, &minimum, PH_COPY);
-	zephir_array_update(&_1, maximumKey, &maximum, PH_COPY);
+	zephir_array_update_zval(&_1, minimumKey, &minimum, PH_COPY);
+	zephir_array_update_zval(&_1, maximumKey, &maximum, PH_COPY);
 	zephir_call_method_p2_noret(this_ptr, "andwhere", _0, _1);
 	ZEPHIR_SEPARATE(nextHiddenParam);
 	zephir_increment(nextHiddenParam);
@@ -844,8 +844,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, notBetweenWhere) {
 	ZEPHIR_CONCAT_VSVSVS(_0, expr, " NOT BETWEEN :", minimumKey, ": AND :", maximumKey, ":");
 	ZEPHIR_INIT_VAR(_1);
 	array_init(_1);
-	zephir_array_update(&_1, minimumKey, &minimum, PH_COPY);
-	zephir_array_update(&_1, maximumKey, &maximum, PH_COPY);
+	zephir_array_update_zval(&_1, minimumKey, &minimum, PH_COPY);
+	zephir_array_update_zval(&_1, maximumKey, &maximum, PH_COPY);
 	zephir_call_method_p2_noret(this_ptr, "andwhere", _0, _1);
 	ZEPHIR_SEPARATE(nextHiddenParam);
 	zephir_increment(nextHiddenParam);
