@@ -1,6 +1,5 @@
 - Tests for foreign keys cascade in the ORM
 - Tests for many-to-many relations
-- Tests for Phalcon\Mvc\View\Simple
 - Tests for Phalcon\Mvc\View::partial
 - Tests for macros in Volt
 - Tests for +=, -=, *=, /=, ++, -- in Volt
