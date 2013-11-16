@@ -564,8 +564,8 @@ class GD extends Phalcon\Logger\Adapter implements Phalcon\Image\AdapterInterfac
 
 	public function __destruct()
 	{
-		if is_resource(this->image) {
-			imagedestroy(image);
+		if is_resource(this->_image) {
+			imagedestroy(this->_image);
 		}
 	}
 
