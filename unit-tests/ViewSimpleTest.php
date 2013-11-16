@@ -112,7 +112,7 @@ class ViewSimpleTest extends PHPUnit_Framework_TestCase
 
         $this->assertFalse($view->getCache()); // No cache before DI is set
         $view->setDI($this->_getDI());
-        $this->assertEquals($view, $view->cache(['key' => 'view_simple_cache']));
+        $this->assertEquals($view, $view->cache(array('key' => 'view_simple_cache')));
 
         $cache = $view->getCache();
         $this->assertInstanceOf('Phalcon\Cache\BackendInterface', $cache);
