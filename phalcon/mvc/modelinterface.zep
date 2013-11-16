@@ -314,6 +314,13 @@ interface ModelInterface
 	public function refresh();
 
 	/**
+	 * Skips the current operation forcing a success state
+	 *
+	 * @param boolean skip
+	 */
+	public function skipOperation(boolean skip);
+
+	/**
 	 * Reads an attribute value by its name
 	 *
 	 * @param string attribute

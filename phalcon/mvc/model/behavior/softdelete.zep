@@ -19,7 +19,83 @@
 
 namespace Phalcon\Mvc\Model\Behavior;
 
-class SoftDelete
+/**
+ * Phalcon\Mvc\Model\Behavior\SoftDelete
+ *
+ * Instead of permanently delete a record it marks the record as
+ * deleted changing the value of a flag column
+ */
+class SoftDelete extends Phalcon\Mvc\Model\Behavior implements Phalcon\Mvc\Model\BehaviorInterface
 {
+
+	/**
+	 * Listens for notifications from the models manager
+	 *
+	 * @param string type
+	 * @param Phalcon\Mvc\ModelInterface model
+	 */
+	public function notify(string! type, <Phalcon\Mvc\ModelInterface> model)
+	{
+		var options, value, field, updateModel, message;
+
+		if type == "beforeDelete" {
+
+			let options = this->getOptions();
+
+			/**
+			 * 'value' is the value to be updated instead of delete the record
+			 */
+			if !fetch value, options["value"] {
+				throw new Phalcon\Mvc\Model\Exception("The option 'value' is required");
+			}
+
+			/**
+			 * 'field' is the attribute to be updated instead of delete the record
+			 */
+			if !fetch field, options["field"] {
+				throw new Phalcon\Mvc\Model\Exception("The option 'field' is required");
+			}
+
+			/**
+			 * Skip the current operation
+			 */
+			model->skipOperation(true);
+
+			/**
+			 * If the record is already flagged as 'deleted' we don't delete it again
+			 */
+			if model->readAttribute(field) != value {
+
+				/**
+				 * Clone the current model to make a clean new operation
+				 */
+				let updateModel = clone model;
+
+				updateModel->writeAttribute(field, value);
+
+				/**
+				 * Update the cloned model
+				 */
+				if !updateModel->save() {
+
+					/**
+					 * Transfer the messages from the cloned model to the original model
+					 */
+					for message in updateModel->getMessages() {
+						model->appendMessage(message);
+					}
+
+					return false;
+				}
+
+				/**
+				 * Update the original model too
+				 */
+				model->writeAttribute(field, value);
+
+			}
+		}
+
+	}
 
 }

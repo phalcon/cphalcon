@@ -330,6 +330,13 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_ModelInterface, getOperationMade);
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_ModelInterface, refresh);
 
 /**
+ * Skips the current operation forcing a success state
+ *
+ * @param boolean skip
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Mvc_ModelInterface, skipOperation);
+
+/**
  * Reads an attribute value by its name
  *
  * @param string attribute
