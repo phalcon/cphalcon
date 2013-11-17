@@ -49,11 +49,9 @@ class ViewSimpleTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($expectedCacheOptions, $view->getCacheOptions());
     }
 
-    /**
-     * @expectedException Exception
-     */
     public function testMissingView()
     {
+        $this->setExpectedException('Exception');
         $view = new View;
         $view->setViewsDir('unit-tests/views/');
         $view->render('test1/index');
