@@ -337,13 +337,13 @@ class ViewTest extends PHPUnit_Framework_TestCase
     public function testGetActiveRenderPath()
     {
         $di = new \Phalcon\Di;
-        $view = new View;
         $listener = new ViewAfterRenderListener;
         $eventsManager = new \Phalcon\Events\Manager;
-
-        $di->set('view', $view);
         $eventsManager->attach('view', $listener);
 
+        $view = new View;
+        $di->set('view', $view);
+        $view->setDI($di);
         $view->setEventsManager($eventsManager);
         $view->setBasePath(__DIR__.'/../');
         $view->setViewsDir('unit-tests/views/');
@@ -357,8 +357,9 @@ class ViewTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($expectedPath . DIRECTORY_SEPARATOR . 'test15' . DIRECTORY_SEPARATOR . 'index.phtml',
             realpath($view->getContent()));
 
-var_dump($expectedPath . DIRECTORY_SEPARATOR . 'test15' . DIRECTORY_SEPARATOR . 'index.phtml',
-    realpath($view->getContent()));
+echo 'Expected: ', $expectedPath . DIRECTORY_SEPARATOR . 'test15' . DIRECTORY_SEPARATOR . 'index.phtml'.PHP_EOL;
+echo 'Actual: ', realpath($view->getContent());
+
     }
 
 	public function testIssue907()
