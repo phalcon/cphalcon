@@ -356,6 +356,9 @@ class ViewTest extends PHPUnit_Framework_TestCase
         $expectedPath = realpath('unit-tests/views/');
         $this->assertEquals($expectedPath . DIRECTORY_SEPARATOR . 'test15' . DIRECTORY_SEPARATOR . 'index.phtml',
             realpath($view->getContent()));
+
+var_dump($expectedPath . DIRECTORY_SEPARATOR . 'test15' . DIRECTORY_SEPARATOR . 'index.phtml',
+    realpath($view->getContent()));
     }
 
 	public function testIssue907()
