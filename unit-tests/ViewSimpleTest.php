@@ -40,7 +40,7 @@ class ViewSimpleTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($view, $view->setContent('<h1>hello</h1>'));
         $this->assertEquals('<h1>hello</h1>', $view->getContent());
 
-        $this->assertEquals($view, $view->setViewsDir('unit-tests/views/'));
+        $view->setViewsDir('unit-tests/views/');
         $this->assertEquals('unit-tests/views/', $view->getViewsDir());
 
         $expectedCacheOptions = array("lifetime" => 86400, "key" => "simple-cache");
