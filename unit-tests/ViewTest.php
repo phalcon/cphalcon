@@ -220,18 +220,49 @@ class ViewTest extends PHPUnit_Framework_TestCase
 		$view->setViewsDir('unit-tests/views/');
 		$view->setParamToView('cool_var', 'le-this');
 
+        // Single partial
 		$view->start();
 		$view->render('test5', 'index');
 		$view->finish();
 
 		$this->assertEquals($view->getContent(), '<html>Hey, this is a partial, also le-this</html>' . PHP_EOL);
 
+        // Multiple partials
 		$view->start();
 		$view->render('test9', 'index');
 		$view->finish();
 
 		$this->assertEquals($view->getContent(), '<html>Hey, this is a partial, also le-this<br />Hey, this is a second partial, also le-this</html>' . PHP_EOL);
+
+        // A partial within other partial
+        $view->start();
+        $view->render('test5', 'subpartial');
+        $view->finish();
+
+        $this->assertEquals('<html>Including Hey, this is a partial, also le-this</html>' . PHP_EOL, $view->getContent());
+
+        // Single partial in overridden main view
+        $view->setMainView('html5');
+        $view->start();
+        $view->render('test5', 'index');
+        $view->finish();
+
+        $this->assertEquals('<!DOCTYPE html><html>Hey, this is a partial, also le-this</html>' . PHP_EOL, $view->getContent());
+
 	}
+
+    public function testMissingPartial()
+    {
+        $this->setExpectedException('Phalcon\Mvc\View\Exception');
+
+        $view = new View();
+        $view->setBasePath(__DIR__.'/../');
+        $view->setViewsDir('unit-tests/views/');
+
+        $view->start();
+        $view->render('test5', 'missing');
+        $view->finish();
+    }
 
 	public function testGetRender()
 	{
