@@ -471,21 +471,22 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, addForeignKey){
 	}
 	if (zend_is_true(schema_name)) {
 		PHALCON_INIT_VAR(sql);
-		PHALCON_CONCAT_SVSVS(sql, "ALTER TABLE `", schema_name, "`.`", table_name, "` ADD FOREIGN KEY ");
+		PHALCON_CONCAT_SVSVS(sql, "ALTER TABLE `", schema_name, "`.`", table_name, "` ");
 	} else {
 		PHALCON_INIT_NVAR(sql);
-		PHALCON_CONCAT_SVS(sql, "ALTER TABLE `", table_name, "` ADD FOREIGN KEY ");
+		PHALCON_CONCAT_SVS(sql, "ALTER TABLE `", table_name, "` ");
 	}
-	
+
+    PHALCON_INIT_VAR(reference_name);
+    phalcon_call_method(reference_name, reference, "getname");
+	PHALCON_SCONCAT_SVS(sql, "ADD CONSTRAINT `", reference_name, "` FOREIGN KEY ");
+
 	PHALCON_INIT_VAR(columns);
 	phalcon_call_method(columns, reference, "getcolumns");
 	
 	PHALCON_INIT_VAR(quoted_column_list);
 	phalcon_call_method_p1(quoted_column_list, this_ptr, "getcolumnlist", columns);
-	
-	PHALCON_INIT_VAR(reference_name);
-	phalcon_call_method(reference_name, reference, "getname");
-	PHALCON_SCONCAT_SVSVS(sql, "`", reference_name, "`(", quoted_column_list, ") REFERENCES ");
+	PHALCON_SCONCAT_SVS(sql, "(", quoted_column_list, ") REFERENCES ");
 	
 	/** 
 	 * Add the schema
