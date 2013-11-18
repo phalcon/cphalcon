@@ -120,8 +120,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, __construct){
 
 	zval *phql = NULL, *dependency_injector = NULL;
 
-	PHALCON_MM_GROW();
-
 	phalcon_fetch_params(0, 0, 2, &phql, &dependency_injector);
 	
 	if (phql && Z_TYPE_P(phql) != IS_NULL) {
