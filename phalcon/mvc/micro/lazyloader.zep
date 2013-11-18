@@ -35,14 +35,11 @@ class LazyLoader
 	 *
 	 * @param string definition
 	 */
-	public function __construct(definition)
+	public function __construct(string! definition)
 	{
-		if typeof definition!="string" {
-			throw new Phalcon\Mvc\Micro\Exception("Only strings can be lazy loaded");
-		}
 		let this->_definition = definition;
 	}
- 
+
 	/**
 	 * Initializes the internal handler, calling functions on it
 	 *
@@ -50,23 +47,22 @@ class LazyLoader
 	 * @param array arguments
 	 * @return mixed
 	 */
-	public function __call(method, arguments)
+	public function __call(string! method, arguments)
 	{
- 		var handler, definition, callHandler;
+ 		var handler, definition;
 
 		let handler = this->_handler;
- 
-		if typeof definition!="object" {
+
+		if typeof definition != "object" {
 			let definition = this->_definition;
-			let handler = new definition();
+			let handler = new {definition}();
 			let this->_handler = handler;
 		}
- 
-		let callHandler = array(handler, method);
- 
+
 		/**
 		 * Call the handler
 		 */
-		return call_user_func_array(callHandler, arguments);
+		return call_user_func_array(callHandler, [handler, method]);
 	}
+
 }

@@ -63,7 +63,7 @@ class Session extends Phalcon\Mvc\Model\MetaData implements Phalcon\Mvc\Model\Me
 	{
 		let session = _SESSION,
 			prefixKey = "$PMM$" . this->_prefix;
-		if isset session[prefixKey])){
+		if isset session[prefixKey] {
 			if fetch metaData, session[prefixKey][key] {
 				return metaData;
 			}

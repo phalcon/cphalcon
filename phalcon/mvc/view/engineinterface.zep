@@ -24,7 +24,8 @@ namespace Phalcon\Mvc\View;
  *
  * Interface for Phalcon\Mvc\View engine adapters
  */
-interface EngineInterface {
+interface EngineInterface
+{
 
 	/**
 	 * Phalcon\Mvc\View\Engine constructor
