@@ -68,7 +68,7 @@ class Micro extends Phalcon\Di\Injectable //implements ArrayAccess
 	*/
 	public function __construct(<Phalcon\DiInterface> dependencyInjector)
 	{
-		let this->setDi(dependencyInjector);
+		this->setDi(dependencyInjector);
 	}
 
 	/**
@@ -87,7 +87,7 @@ class Micro extends Phalcon\Di\Injectable //implements ArrayAccess
         let exists = dependencyInjector->has(service);
         
         if !exists {
-        	let dependencyInjector->set(service, this);
+        	dependencyInjector->set(service, this);
         }
 
         let this->_dependencyInjector = dependencyInjector;
@@ -111,7 +111,7 @@ class Micro extends Phalcon\Di\Injectable //implements ArrayAccess
         * Routes are added to the router
         */
         let retVal = [];
-        let retVal[] = router->{"method"}(routePattern)
+        let retVal[] = router->{"method"}(routePattern);
 	}
 
 	/**
@@ -424,7 +424,7 @@ class Micro extends Phalcon\Di\Injectable //implements ArrayAccess
 			 */
 			let prefix = collection->getPrefix();
  
-			foreach (handlers as handler) 
+			for handler in handlers 
 			{
  
 				if !is_array(handler) {
@@ -494,14 +494,14 @@ class Micro extends Phalcon\Di\Injectable //implements ArrayAccess
 			/**
 			 * <comment>Clear the set routes if any</comment>
 			 */
-			let router->clear();
+			router->clear();
  
 			let remove = true;
  
 			/**
 			 * <comment>Automatically remove extra slashes</comment>
 			 */
-			let router->removeExtraSlashes(remove);
+			router->removeExtraSlashes(remove);
  
 			/**
 			 * <comment>Update the internal router</comment>
@@ -628,7 +628,7 @@ class Micro extends Phalcon\Di\Injectable //implements ArrayAccess
 		/**
 		 * <comment>Handle the URI as normal</comment>
 		 */
-		let router->handle(uri);
+		router->handle(uri);
  
 		/**
 		 * <comment>Check if one route was matched</comment>
@@ -671,7 +671,7 @@ class Micro extends Phalcon\Di\Injectable //implements ArrayAccess
 				/**
 				 * <comment>Calls the before handlers</comment>
 				 */
-				foreach (beforeHandlers as before) 
+				for before in beforeHandlers 
 				{
  
 					if is_object(before) {
@@ -738,7 +738,7 @@ class Micro extends Phalcon\Di\Injectable //implements ArrayAccess
 			 */
 			if is_object(eventsManager) {
 				let eventName = 'micro:afterExecuteRoute';
-				let eventsManager->fire(eventName, this);
+				eventsManager->fire(eventName, this);
 			}
  
 			let afterHandlers = this->_afterHandlers;
@@ -749,7 +749,7 @@ class Micro extends Phalcon\Di\Injectable //implements ArrayAccess
 				/**
 				 * <comment>Calls the after handlers</comment>
 				 */
-				foreach (afterHandlers as after) 
+				for after in afterHandlers 
 				{
  
 					if is_object(after) {
@@ -825,7 +825,7 @@ class Micro extends Phalcon\Di\Injectable //implements ArrayAccess
 		 */
 		if is_object(eventsManager) {
 			let eventName = 'micro:afterHandleRoute';
-			let eventsManager->fire(eventName, this);
+			eventsManager->fire(eventName, this);
 		}
  
 		let finishHandlers = this->_finishHandlers;
@@ -838,7 +838,7 @@ class Micro extends Phalcon\Di\Injectable //implements ArrayAccess
 			/**
 			 * <comment>Calls the finish handlers</comment>
 			 */
-			foreach (finishHandlers as finish) 
+			for finish in finishHandlers 
 			{
  
 				/**
