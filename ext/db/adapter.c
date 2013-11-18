@@ -164,9 +164,8 @@ PHP_METHOD(Phalcon_Db_Adapter, setDialect){
 	zval *dialect;
 
 	phalcon_fetch_params(0, 1, 0, &dialect);
-	
+	PHALCON_VERIFY_INTERFACE_EX(dialect, phalcon_db_dialectinterface_ce, phalcon_db_exception_ce, 0);
 	phalcon_update_property_this(this_ptr, SL("_dialect"), dialect TSRMLS_CC);
-	
 }
 
 /**
