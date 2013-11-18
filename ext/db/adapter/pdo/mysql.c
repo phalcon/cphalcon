@@ -282,7 +282,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Mysql, describeColumns){
 		  /** 
 		   * Timestamp as date
 		   */
-		  if (phalcon_memnstr_str(column_type, SL("TIMESTAMP"))) {
+		  if (phalcon_memnstr_str(column_type, SL("timestamp"))) {
 		    phalcon_array_update_string_long(&definition, SL("type"), 1, PH_SEPARATE);
 		    break;
 		  }
