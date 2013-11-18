@@ -19,7 +19,66 @@
 
 namespace Phalcon\Mvc\Model\MetaData;
 
-class Files
+/**
+ * Phalcon\Mvc\Model\MetaData\Files
+ *
+ * Stores model meta-data in PHP files.
+ *
+ *<code>
+ * $metaData = new \Phalcon\Mvc\Model\Metadata\Files(array(
+ *    'metaDataDir' => 'app/cache/metadata/'
+ * ));
+ *</code>
+ */
+class Files extends Phalcon\Mvc\Model\MetaData implements Phalcon\Mvc\Model\MetaDataInterface
 {
+
+	protected _metaDataDir = "./";
+
+	/**
+	 * Phalcon\Mvc\Model\MetaData\Files constructor
+	 *
+	 * @param array $options
+	 */
+	public function __construct($options=null)
+	{
+		if typeof options == "array" {
+			if fetch metaDataDir, options["metaDataDir"] {
+				let this->_metaDataDir = metaDataDir;
+			}
+		}
+		let this->_metaData = [];
+	}
+
+	/**
+	 * Reads meta-data from files
+	 *
+	 * @param string key
+	 * @return array
+	 */
+	public function read(string! key)
+	{
+		let path = this->_metaDataDir . phalcon_prepare_virtual_path(key, "_") . ".php";
+		if file_exists(path) {
+			return require path;
+		}
+		return null;
+	}
+
+	/**
+	 * Writes the meta-data to files
+	 *
+	 * @param string key
+	 * @param array data
+	 */
+	public function write(string! key, var data)
+	{
+		var path;
+
+		let path = this->_metaDataDir . phalcon_prepare_virtual_path(key, "_") . ".php";
+		if file_put_contents(path, "<?php return " . var_export(data, true) . "; ") === false {
+			throw new Phalcon\Mvc\Model\Exception("Meta-Data directory cannot be written");
+		}
+	}
 
 }

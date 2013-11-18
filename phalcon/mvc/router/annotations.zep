@@ -92,7 +92,8 @@ class Annotations extends Phalcon\Mvc\Router
 	public function handle(string! uri=null)
 	{
 		var realUri, annotationsService, handlers, controllerSuffix,
-			scope, prefix, dependencyInjector;
+			scope, prefix, dependencyInjector, handler, controllerName,
+			lowerControllerName;
 
 		if !uri {
 			/**

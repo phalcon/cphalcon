@@ -491,7 +491,7 @@ class Gd extends Phalcon\Image\Adapter implements Phalcon\Image\AdapterInterface
 
 	protected function _save(string file, int quality)
 	{
-		var ext, type;
+		var ext;
 
 		let ext = pathinfo(file, PATHINFO_EXTENSION);
 

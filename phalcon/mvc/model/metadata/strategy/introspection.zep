@@ -36,7 +36,124 @@ class Introspection
 	 */
 	public function getMetaData(<Phalcon\Mvc\ModelInterface> model, <Phalcon\DiInterface> dependencyInjector)
 	{
+		var schema, table, readConnection, columns, attributes,
+			primaryKeys, nonPrimaryKeys, completeTable, numericTyped, notNull,
+			fieldTypes, automaticDefault, identityField, fieldBindTypes, column, fieldName;
 
+		let schema    = model->getSchema(),
+			table     = model->getSource();
+
+		/**
+		 * Check if the mapped table exists on the database</comment>
+		 */
+		let readConnection = model->getReadConnection();
+
+		if !readConnection->tableExists(table, schema) {
+
+			if schema {
+				let completeTable = schema . "'.'" . table;
+			} else {
+				let completeTable = table;
+			}
+
+			/**
+			 * The table not exists
+			 */
+			throw new Phalcon\Mvc\Model\Exception("Table '" . completeTable . "' doesn't exist on database when dumping meta-data for " . get_class(model));
+		}
+
+		/**
+		 * Try to describe the table
+		 */
+		let columns = readConnection->describeColumns(table, schema);
+		if !count(columns) {
+
+			if schema {
+				let completeTable = schema . "'.'" . table;
+			} else {
+				let completeTable = table;
+			}
+
+			/**
+			 * The table not exists
+			 */
+			throw new Phalcon\Mvc\Model\Exception("Cannot obtain table columns for the mapped source '" . completeTable . "' used in model " . get_class(model));
+		}
+
+		/**
+		 * Initialize meta-data
+		 */
+		let attributes = [];
+		let primaryKeys = [];
+		let nonPrimaryKeys = [];
+		let numericTyped = [];
+		let notNull = [];
+		let fieldTypes = [];
+		let fieldBindTypes = [];
+		let automaticDefault = [];
+		let identityField = false;
+
+		for column in columns {
+
+			let fieldName = column->getName(),
+				attributes[] = fieldName;
+
+			/**
+			 * To mark fields as primary keys
+			 */
+			if column->isPrimary() === true {
+				let primaryKeys[] = fieldName;
+			} else {
+				let nonPrimaryKeys[] = fieldName;
+			}
+
+			/**
+			 * To mark fields as numeric
+			 */
+			if column->isNumeric() === true {
+				let numericTyped[fieldName] = true;
+			}
+
+			/**
+			 * To mark fields as not null
+			 */
+			if column->isNotNull() === true {
+				let notNull[] = fieldName;
+			}
+
+			/**
+			 * To mark fields as identity columns
+			 */
+			if column->isAutoIncrement() === true {
+				let identityField = fieldName;
+			}
+
+			/**
+			 * To get the internal types
+			 */
+			let fieldTypes[fieldName] = column->getType();
+
+			/**
+			 * To mark how the fields must be escaped
+			 */
+			let fieldBindTypes[fieldName] = column->getBindType();
+		}
+
+		/**
+		 * Create an array using the MODELS_* constants as indexes
+		 */
+		return [
+			0: attributes,
+			1: primaryKeys,
+			2: nonPrimaryKeys,
+			3: notNull,
+			4: fieldTypes,
+			5: numericTyped,
+			8: identityField,
+			9: fieldBindTypes,
+			10: automaticDefault,
+			11: automaticDefault
+		];
 	}
 
 	/**
@@ -48,7 +165,33 @@ class Introspection
 	 */
 	public function getColumnMaps(<Phalcon\Mvc\ModelInterface> model, <Phalcon\DiInterface> dependencyInjector)
 	{
+		var orderedColumnMap, userColumnMap, reversedColumnMap, name, userName;
 
+		let orderedColumnMap = null;
+		let reversedColumnMap = null;
+
+		/**
+		 * Check for a columnMap() method on the model
+		 */
+		if method_exists(model, "columnMap") {
+
+			let userColumnMap = model->{"columnMap"}();
+			if typeof userColumnMap != "array" {
+				throw new Phalcon\Mvc\Model\Exception("columnMap() not returned an array");
+			}
+
+			let reversedColumnMap = [],
+				orderedColumnMap = userColumnMap;
+			for name, userName in userColumnMap {
+				let reversedColumnMap[userName] = name;
+			}
+		}
+
+		/**
+		 * Store the column map
+		 */
+		return [orderedColumnMap, reversedColumnMap];
 	}
 
 }
+

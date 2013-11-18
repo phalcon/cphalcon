@@ -21,7 +21,7 @@ namespace Phalcon\Image\Adapter;
 
 class Imagick extends Phalcon\Image\Adapter implements Phalcon\Image\AdapterInterface
 {
-	protected int _version = 0;
+	protected _version = 0;
 
 	public static function check()
 	{
@@ -186,7 +186,7 @@ class Imagick extends Phalcon\Image\Adapter implements Phalcon\Image\AdapterInte
 			let reflection = clone this->_image;
 		}
 		else {
-			let reflection = clone this->_image->clone();
+			let reflection = clone this->_image->$clone();
 		}
 
 		reflection->setIteratorIndex(0);
@@ -212,7 +212,7 @@ class Imagick extends Phalcon\Image\Adapter implements Phalcon\Image\AdapterInte
 
 		loop {
 			reflection->compositeImage(fade, Imagick::COMPOSITE_DSTOUT, 0, 0);
-			reflection->evaluateImage(Imagick::EVALUATE_MULTIPLY, opacity / 100, Imagick::CHANNEL_ALPHA);
+			reflection->evaluateImage(Imagick::EVALUATE_MULTIPLY, opacity/100, Imagick::CHANNEL_ALPHA);
 			if  !reflection->nextImage() {
 				break;
 			}
@@ -385,7 +385,7 @@ class Imagick extends Phalcon\Image\Adapter implements Phalcon\Image\AdapterInte
 				background->setImageAlphaChannel(Imagick::ALPHACHANNEL_SET);
 			}
 			background->setImageBackgroundColor(pixel2);
-			background->evaluateImage(Imagick::EVALUATE_MULTIPLY£¬opacity, Imagick::CHANNEL_ALPHA);		
+			background->evaluateImage(Imagick::EVALUATE_MULTIPLY, opacity, Imagick::CHANNEL_ALPHA);		
 			background->setColorspace(this->_image->getColorspace());
 			background->compositeImage(this->_image, Imagick::COMPOSITE_DISSOLVE, 0, 0);
 			if  !this->_image->nextImage() {
@@ -415,8 +415,8 @@ class Imagick extends Phalcon\Image\Adapter implements Phalcon\Image\AdapterInte
 	{
 		int width, height;
 
-		width = this->_width / amount;
-		height = this->_height / amount;
+		let width = this->_width / amount;
+		let height = this->_height / amount;
 
 		this->_image->setIteratorIndex(0);
 

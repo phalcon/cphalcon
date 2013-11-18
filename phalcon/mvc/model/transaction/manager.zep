@@ -63,7 +63,7 @@ namespace Phalcon\Mvc\Model\Transaction;
  *
  */
 class Manager
-	//implements Phalcon\Mvc\Model\Transaction\ManagerInterface, Phalcon_DI_InjectionAwareInterface
+	//implements Phalcon\Mvc\Model\Transaction\ManagerInterface, Phalcon\Di\InjectionAwareInterface
 {
 
 	protected _dependencyInjector;

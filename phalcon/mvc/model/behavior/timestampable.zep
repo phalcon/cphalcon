@@ -36,7 +36,7 @@ class Timestampable extends Phalcon\Mvc\Model\Behavior implements Phalcon\Mvc\Mo
 	 */
 	public function notify(string! type, <Phalcon\Mvc\ModelInterface> model)
 	{
-		var options, field, timestamp, singleField, field, generator;
+		var options, timestamp, singleField, field, generator, format;
 
 		/**
 		 * Check if the developer decided to take action here
@@ -51,13 +51,13 @@ class Timestampable extends Phalcon\Mvc\Model\Behavior implements Phalcon\Mvc\Mo
 			/**
 			 * The field name is required in this behavior
 			 */
-			if !fetch field, options['field'] {
+			if !fetch field, options["field"] {
 				throw new Phalcon\Mvc\Model\Exception("The option 'field' is required");
 			}
 
 			let timestamp = null;
 
-			if fetch format, options['format'] {
+			if fetch format, options["format"] {
 				/**
 				 * Format is a format for date()
 				 */

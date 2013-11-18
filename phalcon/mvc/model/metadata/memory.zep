@@ -53,9 +53,9 @@ class Memory extends Phalcon\Mvc\Model\MetaData implements Phalcon\Mvc\Model\Met
 	 * Writes the meta-data to temporal memory
 	 *
 	 * @param string key
-	 * @param array metaData
+	 * @param array data
 	 */
-	public function write(string! key, metaData)
+	public function write(string! key, var data)
 	{
 		return null;
 	}
