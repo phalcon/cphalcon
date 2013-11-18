@@ -19,7 +19,7 @@
 
 namespace Phalcon\Image\Adapter;
 
-class Imagick extends Phalcon\Logger\Adapter implements Phalcon\Image\AdapterInterface
+class Imagick extends Phalcon\Image\Adapter implements Phalcon\Image\AdapterInterface
 {
 	protected int _version = 0;
 
