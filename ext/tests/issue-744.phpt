@@ -41,7 +41,7 @@ catch (Exception $e) {
 }
 ?>
 --EXPECT--
-Parameter dependencyInjector must be an Object
+Unexpected value type: expected object implementing Phalcon\DiInterface, integer given
 OK
 OK
 An array is required as default values
