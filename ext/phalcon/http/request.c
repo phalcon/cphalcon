@@ -128,16 +128,16 @@ PHP_METHOD(Phalcon_Http_Request, get) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 3, &name_param, &filters, &defaultValue);
 
-	if (!name_param || Z_TYPE_P(name_param) == IS_NULL) {
+	if (!name_param) {
 		ZEPHIR_INIT_VAR(name);
 		ZVAL_EMPTY_STRING(name);
 	} else {
 		zephir_get_strval(name, name_param);
 	}
-	if (!filters || Z_TYPE_P(filters) == IS_NULL) {
+	if (!filters) {
 		filters = ZEPHIR_GLOBAL(global_null);
 	}
-	if (!defaultValue || Z_TYPE_P(defaultValue) == IS_NULL) {
+	if (!defaultValue) {
 		defaultValue = ZEPHIR_GLOBAL(global_null);
 	}
 
@@ -200,16 +200,16 @@ PHP_METHOD(Phalcon_Http_Request, getPost) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 3, &name_param, &filters, &defaultValue);
 
-	if (!name_param || Z_TYPE_P(name_param) == IS_NULL) {
+	if (!name_param) {
 		ZEPHIR_INIT_VAR(name);
 		ZVAL_EMPTY_STRING(name);
 	} else {
 		zephir_get_strval(name, name_param);
 	}
-	if (!filters || Z_TYPE_P(filters) == IS_NULL) {
+	if (!filters) {
 		filters = ZEPHIR_GLOBAL(global_null);
 	}
-	if (!defaultValue || Z_TYPE_P(defaultValue) == IS_NULL) {
+	if (!defaultValue) {
 		defaultValue = ZEPHIR_GLOBAL(global_null);
 	}
 
@@ -275,16 +275,16 @@ PHP_METHOD(Phalcon_Http_Request, getQuery) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 3, &name_param, &filters, &defaultValue);
 
-	if (!name_param || Z_TYPE_P(name_param) == IS_NULL) {
+	if (!name_param) {
 		ZEPHIR_INIT_VAR(name);
 		ZVAL_EMPTY_STRING(name);
 	} else {
 		zephir_get_strval(name, name_param);
 	}
-	if (!filters || Z_TYPE_P(filters) == IS_NULL) {
+	if (!filters) {
 		filters = ZEPHIR_GLOBAL(global_null);
 	}
-	if (!defaultValue || Z_TYPE_P(defaultValue) == IS_NULL) {
+	if (!defaultValue) {
 		defaultValue = ZEPHIR_GLOBAL(global_null);
 	}
 
@@ -733,7 +733,7 @@ PHP_METHOD(Phalcon_Http_Request, getClientAddress) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 1, &trustForwardedHeader_param);
 
-	if (!trustForwardedHeader_param || Z_TYPE_P(trustForwardedHeader_param) == IS_NULL) {
+	if (!trustForwardedHeader_param) {
 		trustForwardedHeader = 0;
 	} else {
 		trustForwardedHeader = zephir_get_boolval(trustForwardedHeader_param);
@@ -973,7 +973,7 @@ PHP_METHOD(Phalcon_Http_Request, hasFiles) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 1, &notErrored_param);
 
-	if (!notErrored_param || Z_TYPE_P(notErrored_param) == IS_NULL) {
+	if (!notErrored_param) {
 		notErrored = 0;
 	} else {
 		notErrored = zephir_get_boolval(notErrored_param);
@@ -1023,7 +1023,7 @@ PHP_METHOD(Phalcon_Http_Request, getUploadedFiles) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 1, &notErrored_param);
 
-	if (!notErrored_param || Z_TYPE_P(notErrored_param) == IS_NULL) {
+	if (!notErrored_param) {
 		notErrored = 0;
 	} else {
 		notErrored = zephir_get_boolval(notErrored_param);

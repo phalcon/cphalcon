@@ -87,7 +87,7 @@ PHP_METHOD(Phalcon_Events_Manager, attach) {
 
 		eventType = eventType_param;
 
-	if (!priority_param || Z_TYPE_P(priority_param) == IS_NULL) {
+	if (!priority_param) {
 		priority = 100;	} else {
 		priority = zephir_get_intval(priority_param);
 	}
@@ -219,7 +219,7 @@ PHP_METHOD(Phalcon_Events_Manager, dettachAll) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 1, &type_param);
 
-	if (!type_param || Z_TYPE_P(type_param) == IS_NULL) {
+	if (!type_param) {
 		ZEPHIR_INIT_VAR(type);
 		ZVAL_EMPTY_STRING(type);
 	} else {
@@ -424,10 +424,10 @@ PHP_METHOD(Phalcon_Events_Manager, fire) {
 
 		eventType = eventType_param;
 
-	if (!data || Z_TYPE_P(data) == IS_NULL) {
+	if (!data) {
 		data = ZEPHIR_GLOBAL(global_null);
 	}
-	if (!cancelable_param || Z_TYPE_P(cancelable_param) == IS_NULL) {
+	if (!cancelable_param) {
 		cancelable = 1;
 	} else {
 		cancelable = zephir_get_boolval(cancelable_param);

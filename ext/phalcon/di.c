@@ -127,7 +127,7 @@ PHP_METHOD(Phalcon_Di, set) {
 
 		name = name_param;
 
-	if (!shared || Z_TYPE_P(shared) == IS_NULL) {
+	if (!shared) {
 		shared = ZEPHIR_GLOBAL(global_false);
 	}
 
@@ -224,7 +224,7 @@ PHP_METHOD(Phalcon_Di, attempt) {
 
 		name = name_param;
 
-	if (!shared_param || Z_TYPE_P(shared_param) == IS_NULL) {
+	if (!shared_param) {
 		shared = 0;
 	} else {
 		shared = zephir_get_boolval(shared_param);
@@ -371,7 +371,7 @@ PHP_METHOD(Phalcon_Di, get) {
 
 		name = name_param;
 
-	if (!parameters || Z_TYPE_P(parameters) == IS_NULL) {
+	if (!parameters) {
 		parameters = ZEPHIR_GLOBAL(global_null);
 	}
 
@@ -443,7 +443,7 @@ PHP_METHOD(Phalcon_Di, getShared) {
 
 		name = name_param;
 
-	if (!parameters || Z_TYPE_P(parameters) == IS_NULL) {
+	if (!parameters) {
 		parameters = ZEPHIR_GLOBAL(global_null);
 	}
 
@@ -655,7 +655,7 @@ PHP_METHOD(Phalcon_Di, __call) {
 
 		method = method_param;
 
-	if (!arguments || Z_TYPE_P(arguments) == IS_NULL) {
+	if (!arguments) {
 		arguments = ZEPHIR_GLOBAL(global_null);
 	}
 

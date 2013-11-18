@@ -93,7 +93,7 @@ class Annotations extends Phalcon\Mvc\Router
 	{
 		var realUri, annotationsService, handlers, controllerSuffix,
 			scope, prefix, dependencyInjector, handler, controllerName,
-			lowerControllerName;
+			lowerControllerName, namespaceName, moduleName, sufixed;
 
 		if !uri {
 			/**

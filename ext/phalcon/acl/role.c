@@ -104,7 +104,7 @@ PHP_METHOD(Phalcon_Acl_Role, __construct) {
 	zephir_fetch_params(1, 1, 1, &name_param, &description_param);
 
 		zephir_get_strval(name, name_param);
-	if (!description_param || Z_TYPE_P(description_param) == IS_NULL) {
+	if (!description_param) {
 		ZEPHIR_INIT_VAR(description);
 		ZVAL_EMPTY_STRING(description);
 	} else {

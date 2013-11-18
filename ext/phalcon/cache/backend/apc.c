@@ -86,7 +86,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Apc, get) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 1, &keyName, &lifetime);
 
-	if (!lifetime || Z_TYPE_P(lifetime) == IS_NULL) {
+	if (!lifetime) {
 		lifetime = ZEPHIR_GLOBAL(global_null);
 	}
 
@@ -121,17 +121,17 @@ PHP_METHOD(Phalcon_Cache_Backend_Apc, save) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 4, &keyName, &content, &lifetime, &stopBuffer);
 
-	if (!keyName || Z_TYPE_P(keyName) == IS_NULL) {
+	if (!keyName) {
 		keyName = ZEPHIR_GLOBAL(global_null);
 	}
-	if (!content || Z_TYPE_P(content) == IS_NULL) {
+	if (!content) {
 		content = ZEPHIR_GLOBAL(global_null);
 	}
-	if (!lifetime || Z_TYPE_P(lifetime) == IS_NULL) {
+	if (!lifetime) {
 		ZEPHIR_CPY_WRT(lifetime, ZEPHIR_GLOBAL(global_null));
 	}
 	ZEPHIR_SEPARATE_PARAM(lifetime);
-	if (!stopBuffer || Z_TYPE_P(stopBuffer) == IS_NULL) {
+	if (!stopBuffer) {
 		stopBuffer = ZEPHIR_GLOBAL(global_true);
 	}
 
@@ -224,7 +224,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Apc, queryKeys) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 1, &prefix_param);
 
-	if (!prefix_param || Z_TYPE_P(prefix_param) == IS_NULL) {
+	if (!prefix_param) {
 		ZEPHIR_INIT_VAR(prefix);
 		ZVAL_EMPTY_STRING(prefix);
 	} else {
@@ -276,10 +276,10 @@ PHP_METHOD(Phalcon_Cache_Backend_Apc, exists) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 2, &keyName, &lifetime);
 
-	if (!keyName || Z_TYPE_P(keyName) == IS_NULL) {
+	if (!keyName) {
 		keyName = ZEPHIR_GLOBAL(global_null);
 	}
-	if (!lifetime || Z_TYPE_P(lifetime) == IS_NULL) {
+	if (!lifetime) {
 		lifetime = ZEPHIR_GLOBAL(global_null);
 	}
 

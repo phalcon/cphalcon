@@ -71,7 +71,7 @@ PHP_METHOD(Phalcon_Cli_Console, __construct) {
 
 	zephir_fetch_params(0, 0, 1, &dependencyInjector);
 
-	if (!dependencyInjector || Z_TYPE_P(dependencyInjector) == IS_NULL) {
+	if (!dependencyInjector) {
 		dependencyInjector = ZEPHIR_GLOBAL(global_null);
 	}
 
@@ -238,7 +238,7 @@ PHP_METHOD(Phalcon_Cli_Console, handle) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 1, &arguments);
 
-	if (!arguments || Z_TYPE_P(arguments) == IS_NULL) {
+	if (!arguments) {
 		arguments = ZEPHIR_GLOBAL(global_null);
 	}
 

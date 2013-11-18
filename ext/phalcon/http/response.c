@@ -83,13 +83,13 @@ PHP_METHOD(Phalcon_Http_Response, __construct) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 3, &content, &code, &status);
 
-	if (!content || Z_TYPE_P(content) == IS_NULL) {
+	if (!content) {
 		content = ZEPHIR_GLOBAL(global_null);
 	}
-	if (!code || Z_TYPE_P(code) == IS_NULL) {
+	if (!code) {
 		code = ZEPHIR_GLOBAL(global_null);
 	}
-	if (!status || Z_TYPE_P(status) == IS_NULL) {
+	if (!status) {
 		status = ZEPHIR_GLOBAL(global_null);
 	}
 
@@ -423,7 +423,7 @@ PHP_METHOD(Phalcon_Http_Response, setContentType) {
 	zephir_fetch_params(1, 1, 1, &contentType_param, &charset);
 
 		zephir_get_strval(contentType, contentType_param);
-	if (!charset || Z_TYPE_P(charset) == IS_NULL) {
+	if (!charset) {
 		charset = ZEPHIR_GLOBAL(global_null);
 	}
 
@@ -502,13 +502,13 @@ PHP_METHOD(Phalcon_Http_Response, redirect) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 3, &location, &externalRedirect, &statusCode);
 
-	if (!location || Z_TYPE_P(location) == IS_NULL) {
+	if (!location) {
 		location = ZEPHIR_GLOBAL(global_null);
 	}
-	if (!externalRedirect || Z_TYPE_P(externalRedirect) == IS_NULL) {
+	if (!externalRedirect) {
 		externalRedirect = ZEPHIR_GLOBAL(global_false);
 	}
-	if (!statusCode || Z_TYPE_P(statusCode) == IS_NULL) {
+	if (!statusCode) {
 		ZEPHIR_INIT_VAR(statusCode);
 		ZVAL_LONG(statusCode, 302);
 	}
@@ -581,7 +581,7 @@ PHP_METHOD(Phalcon_Http_Response, setJsonContent) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 1, &content, &jsonOptions);
 
-	if (!jsonOptions || Z_TYPE_P(jsonOptions) == IS_NULL) {
+	if (!jsonOptions) {
 		ZEPHIR_INIT_VAR(jsonOptions);
 		ZVAL_LONG(jsonOptions, 0);
 	}
@@ -721,7 +721,7 @@ PHP_METHOD(Phalcon_Http_Response, setFileToSend) {
 	zephir_fetch_params(1, 1, 1, &filePath_param, &attachmentName);
 
 		zephir_get_strval(filePath, filePath_param);
-	if (!attachmentName || Z_TYPE_P(attachmentName) == IS_NULL) {
+	if (!attachmentName) {
 		attachmentName = ZEPHIR_GLOBAL(global_null);
 	}
 

@@ -151,29 +151,29 @@ PHP_METHOD(Phalcon_Http_Response_Cookies, set) {
 
 		name = name_param;
 
-	if (!value || Z_TYPE_P(value) == IS_NULL) {
+	if (!value) {
 		value = ZEPHIR_GLOBAL(global_null);
 	}
-	if (!expire_param || Z_TYPE_P(expire_param) == IS_NULL) {
+	if (!expire_param) {
 		expire = 0;	} else {
 		expire = zephir_get_intval(expire_param);
 	}
-	if (!path_param || Z_TYPE_P(path_param) == IS_NULL) {
+	if (!path_param) {
 		ZEPHIR_INIT_VAR(path);
 		ZVAL_STRING(path, "/", 1);
 	} else {
 		zephir_get_strval(path, path_param);
 	}
-	if (!secure || Z_TYPE_P(secure) == IS_NULL) {
+	if (!secure) {
 		secure = ZEPHIR_GLOBAL(global_null);
 	}
-	if (!domain_param || Z_TYPE_P(domain_param) == IS_NULL) {
+	if (!domain_param) {
 		ZEPHIR_INIT_VAR(domain);
 		ZVAL_EMPTY_STRING(domain);
 	} else {
 		zephir_get_strval(domain, domain_param);
 	}
-	if (!httpOnly || Z_TYPE_P(httpOnly) == IS_NULL) {
+	if (!httpOnly) {
 		httpOnly = ZEPHIR_GLOBAL(global_null);
 	}
 

@@ -175,7 +175,7 @@ class Message implements Phalcon\Mvc\Model\MessageInterface
 	/**
 	 * Magic __set_state helps to re-build messages variable exporting
 	 *
-	 * @param array $message
+	 * @param array message
 	 * @return Phalcon\Mvc\Model\MessageInterface
 	 */
 	public static function __set_state(message) -> <Phalcon\Mvc\Model\MessageInterface>

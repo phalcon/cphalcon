@@ -203,7 +203,7 @@ PHP_METHOD(Phalcon_Crypt, encrypt) {
 
 		text = text_param;
 
-	if (!key || Z_TYPE_P(key) == IS_NULL) {
+	if (!key) {
 		key = ZEPHIR_GLOBAL(global_null);
 	}
 
@@ -237,7 +237,7 @@ PHP_METHOD(Phalcon_Crypt, decrypt) {
 
 		text = text_param;
 
-	if (!key || Z_TYPE_P(key) == IS_NULL) {
+	if (!key) {
 		key = ZEPHIR_GLOBAL(global_null);
 	}
 
@@ -267,7 +267,7 @@ PHP_METHOD(Phalcon_Crypt, encryptBase64) {
 
 		text = text_param;
 
-	if (!key || Z_TYPE_P(key) == IS_NULL) {
+	if (!key) {
 		key = ZEPHIR_GLOBAL(global_null);
 	}
 
@@ -297,7 +297,7 @@ PHP_METHOD(Phalcon_Crypt, decryptBase64) {
 
 		text = text_param;
 
-	if (!key || Z_TYPE_P(key) == IS_NULL) {
+	if (!key) {
 		key = ZEPHIR_GLOBAL(global_null);
 	}
 

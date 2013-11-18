@@ -259,6 +259,7 @@ class Manager implements Phalcon\Mvc\Model\Transaction\ManagerInterface, Phalcon
 	 */
 	public function rollback(collect=true)
 	{
+		var transactions, transaction, connection;
 
 		let transactions = this->_transactions;
 		if typeof transactions == "array" {
@@ -302,9 +303,11 @@ class Manager implements Phalcon\Mvc\Model\Transaction\ManagerInterface, Phalcon
 	 */
 	protected function _collectTransaction(<Phalcon\Mvc\Model\TransactionInterface> transaction)
 	{
+		var transactions, newTransactions, managedTransaction;
+	
 		let transactions = this->_transactions;
 		if count(transactions) {
-			let newTransactions = array();
+			let newTransactions = [];
 			for managedTransaction in transactions {
 				if managedTransaction == transaction {
 					let newTransactions[] = transaction,
@@ -321,6 +324,8 @@ class Manager implements Phalcon\Mvc\Model\Transaction\ManagerInterface, Phalcon
 	 */
 	public function collectTransactions()
 	{
+		var transactions, managedTransaction;
+
 		let transactions = this->_transactions;
 		if count(transactions) {
 			for managedTransaction in transactions {

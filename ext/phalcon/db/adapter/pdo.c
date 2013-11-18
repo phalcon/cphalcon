@@ -131,7 +131,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, connect) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 1, &descriptor);
 
-	if (!descriptor || Z_TYPE_P(descriptor) == IS_NULL) {
+	if (!descriptor) {
 		ZEPHIR_CPY_WRT(descriptor, ZEPHIR_GLOBAL(global_null));
 	}
 	ZEPHIR_SEPARATE_PARAM(descriptor);
@@ -342,10 +342,10 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, query) {
 
 		sqlStatement = sqlStatement_param;
 
-	if (!bindParams || Z_TYPE_P(bindParams) == IS_NULL) {
+	if (!bindParams) {
 		bindParams = ZEPHIR_GLOBAL(global_null);
 	}
-	if (!bindTypes || Z_TYPE_P(bindTypes) == IS_NULL) {
+	if (!bindTypes) {
 		bindTypes = ZEPHIR_GLOBAL(global_null);
 	}
 
@@ -421,10 +421,10 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, execute) {
 
 		sqlStatement = sqlStatement_param;
 
-	if (!bindParams || Z_TYPE_P(bindParams) == IS_NULL) {
+	if (!bindParams) {
 		bindParams = ZEPHIR_GLOBAL(global_null);
 	}
-	if (!bindTypes || Z_TYPE_P(bindTypes) == IS_NULL) {
+	if (!bindTypes) {
 		bindTypes = ZEPHIR_GLOBAL(global_null);
 	}
 
@@ -596,7 +596,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, lastInsertId) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 1, &sequenceName);
 
-	if (!sequenceName || Z_TYPE_P(sequenceName) == IS_NULL) {
+	if (!sequenceName) {
 		sequenceName = ZEPHIR_GLOBAL(global_null);
 	}
 
@@ -624,7 +624,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, begin) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 1, &nesting_param);
 
-	if (!nesting_param || Z_TYPE_P(nesting_param) == IS_NULL) {
+	if (!nesting_param) {
 		nesting = 1;
 	} else {
 		nesting = zephir_get_boolval(nesting_param);
@@ -685,7 +685,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, rollback) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 1, &nesting_param);
 
-	if (!nesting_param || Z_TYPE_P(nesting_param) == IS_NULL) {
+	if (!nesting_param) {
 		nesting = 1;
 	} else {
 		nesting = zephir_get_boolval(nesting_param);
@@ -752,7 +752,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, commit) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 1, &nesting_param);
 
-	if (!nesting_param || Z_TYPE_P(nesting_param) == IS_NULL) {
+	if (!nesting_param) {
 		nesting = 1;
 	} else {
 		nesting = zephir_get_boolval(nesting_param);
