@@ -118,10 +118,10 @@ PHP_METHOD(Phalcon_Events_Event, __construct) {
 
 		type = type_param;
 
-	if (!data) {
+	if (!data || Z_TYPE_P(data) == IS_NULL) {
 		data = ZEPHIR_GLOBAL(global_null);
 	}
-	if (!cancelable) {
+	if (!cancelable || Z_TYPE_P(cancelable) == IS_NULL) {
 		cancelable = ZEPHIR_GLOBAL(global_true);
 	}
 

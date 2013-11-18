@@ -83,17 +83,17 @@ PHP_METHOD(Phalcon_Assets_Resource, __construct) {
 
 		zephir_get_strval(type, type_param);
 		zephir_get_strval(path, path_param);
-	if (!local_param) {
+	if (!local_param || Z_TYPE_P(local_param) == IS_NULL) {
 		local = 1;
 	} else {
 		local = zephir_get_boolval(local_param);
 	}
-	if (!filter_param) {
+	if (!filter_param || Z_TYPE_P(filter_param) == IS_NULL) {
 		filter = 1;
 	} else {
 		filter = zephir_get_boolval(filter_param);
 	}
-	if (!attributes) {
+	if (!attributes || Z_TYPE_P(attributes) == IS_NULL) {
 		attributes = ZEPHIR_GLOBAL(global_null);
 	}
 
@@ -391,7 +391,7 @@ PHP_METHOD(Phalcon_Assets_Resource, getContent) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 1, &basePath_param);
 
-	if (!basePath_param) {
+	if (!basePath_param || Z_TYPE_P(basePath_param) == IS_NULL) {
 		ZEPHIR_INIT_VAR(basePath);
 		ZVAL_EMPTY_STRING(basePath);
 	} else {
@@ -473,7 +473,7 @@ PHP_METHOD(Phalcon_Assets_Resource, getRealSourcePath) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 1, &basePath_param);
 
-	if (!basePath_param) {
+	if (!basePath_param || Z_TYPE_P(basePath_param) == IS_NULL) {
 		ZEPHIR_INIT_VAR(basePath);
 		ZVAL_EMPTY_STRING(basePath);
 	} else {
@@ -512,7 +512,7 @@ PHP_METHOD(Phalcon_Assets_Resource, getRealTargetPath) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 1, &basePath_param);
 
-	if (!basePath_param) {
+	if (!basePath_param || Z_TYPE_P(basePath_param) == IS_NULL) {
 		ZEPHIR_INIT_VAR(basePath);
 		ZVAL_EMPTY_STRING(basePath);
 	} else {

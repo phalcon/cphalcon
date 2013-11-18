@@ -77,7 +77,7 @@ PHP_METHOD(Phalcon_Annotations_Reflection, __construct) {
 
 	zephir_fetch_params(0, 0, 1, &reflectionData);
 
-	if (!reflectionData) {
+	if (!reflectionData || Z_TYPE_P(reflectionData) == IS_NULL) {
 		reflectionData = ZEPHIR_GLOBAL(global_null);
 	}
 

@@ -74,17 +74,17 @@ PHP_METHOD(Phalcon_Assets_Resource_Css, __construct) {
 
 		path = path_param;
 
-	if (!local_param) {
+	if (!local_param || Z_TYPE_P(local_param) == IS_NULL) {
 		local = 1;
 	} else {
 		local = zephir_get_boolval(local_param);
 	}
-	if (!filter_param) {
+	if (!filter_param || Z_TYPE_P(filter_param) == IS_NULL) {
 		filter = 1;
 	} else {
 		filter = zephir_get_boolval(filter_param);
 	}
-	if (!attributes) {
+	if (!attributes || Z_TYPE_P(attributes) == IS_NULL) {
 		attributes = ZEPHIR_GLOBAL(global_null);
 	}
 

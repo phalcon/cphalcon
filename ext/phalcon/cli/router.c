@@ -180,7 +180,7 @@ PHP_METHOD(Phalcon_Cli_Router, handle) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 1, &arguments);
 
-	if (!arguments) {
+	if (!arguments || Z_TYPE_P(arguments) == IS_NULL) {
 		ZEPHIR_CPY_WRT(arguments, ZEPHIR_GLOBAL(global_null));
 	}
 	ZEPHIR_SEPARATE_PARAM(arguments);
