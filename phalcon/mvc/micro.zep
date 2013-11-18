@@ -28,13 +28,13 @@ namespace Phalcon\Mvc;
  *
  *<code>
  *
- * app = new Phalcon\Mvc\Micro();
+ * $app = new Phalcon\Mvc\Micro();
  *
- * app->get('/say/welcome/{name}', function (name) {
- *    echo "<h1>Welcome name!</h1>";
+ * $app->get('/say/welcome/{name}', function ($name) {
+ *    echo "<h1>Welcome $name!</h1>";
  * });
  *
- * app->handle();
+ * $app->handle();
  *
  *</code>
  */
@@ -64,7 +64,7 @@ class Micro extends Phalcon\Di\Injectable //implements ArrayAccess
 	/**
 	* Phalcon\Mvc\Micro constructor
 	*
-	* @param Phalcon\DiInterface dependencyInjector
+	* @param Phalcon\DiInterface $dependencyInjector
 	*/
 	public function __construct(<Phalcon\DiInterface> dependencyInjector)
 	{
@@ -74,7 +74,7 @@ class Micro extends Phalcon\Di\Injectable //implements ArrayAccess
 	/**
 	* Sets the DependencyInjector container
 	*
-	* @param Phalcon\DiInterface dependencyInjector
+	* @param Phalcon\DiInterface $dependencyInjector
 	*/
 	public function setDI(<Phalcon\DiInterface> dependencyInjector)
 	{
@@ -126,23 +126,23 @@ class Micro extends Phalcon\Di\Injectable //implements ArrayAccess
 		var router, route, routeId;
  
 		/**
-		 * <comment>We create a router even if there is no one in the DI</comment>
+		 * We create a router even if there is no one in the DI
 		 */
 		let router = this->getRouter();
  
 		/**
-		 * <comment>Routes are added to the router</comment>
+		 * Routes are added to the router
 		 */
 		let route = router->add(routePattern);
  
 		/**
-		 * <comment>Using the id produced by the router we store the handler</comment>
+		 * Using the id produced by the router we store the handler
 		 */
 		let routeId = route->getRouteId();
 		let this->_handlers[routeId] = handler;
  
 		/**
-		 * <comment>The route is returned, the developer can add more things on it</comment>
+		 * The route is returned, the developer can add more things on it
 		 */
 		return route;
 	}
@@ -159,23 +159,23 @@ class Micro extends Phalcon\Di\Injectable //implements ArrayAccess
  		var router, route, routeId;
  
 		/**
-		 * <comment>We create a router even if there is no one in the DI</comment>
+		 * We create a router even if there is no one in the DI
 		 */
 		let router = this->getRouter();
  
 		/**
-		 * <comment>Routes are added to the router restricting to GET</comment>
+		 * Routes are added to the router restricting to GET
 		 */
 		let route = router->addGet(routePattern);
  
 		/**
-		 * <comment>Using the id produced by the router we store the handler</comment>
+		 * Using the id produced by the router we store the handler
 		 */
 		let routeId = route->getRouteId();
 		let this->_handlers[routeId] = handler;
  
 		/**
-		 * <comment>The route is returned, the developer can add more things on it</comment>
+		 * The route is returned, the developer can add more things on it
 		 */
 		return route;
 	}
@@ -183,8 +183,8 @@ class Micro extends Phalcon\Di\Injectable //implements ArrayAccess
 	/**
 	* Maps a route to a handler that only matches if the HTTP method is POST
 	*
-	* @param string routePattern
-	* @param callable handler
+	* @param string $routePattern
+	* @param callable $handler
 	* @return Phalcon\Mvc\Router\RouteInterface
 	*/
 	public function post(routePattern, handler) -> <Phalcon\Mvc\Router\RouteInterface>
@@ -192,23 +192,23 @@ class Micro extends Phalcon\Di\Injectable //implements ArrayAccess
  		var router, route, routeId;
  
 		/**
-		 * <comment>We create a router even if there is no one in the DI</comment>
+		 * We create a router even if there is no one in the DI
 		 */
 		let router = this->getRouter();
  
 		/**
-		 * <comment>Routes are added to the router restricting to POST</comment>
+		 * Routes are added to the router restricting to POST
 		 */
 		let route = router->addPost(routePattern);
  
 		/**
-		 * <comment>Using the id produced by the router we store the handler</comment>
+		 * Using the id produced by the router we store the handler
 		 */
 		let routeId = route->getRouteId();
 		let this->_handlers[routeId] = handler;
  
 		/**
-		 * <comment>The route is returned, the developer can add more things on it</comment>
+		 * The route is returned, the developer can add more things on it
 		 */
 		return route;
 	}
@@ -216,8 +216,8 @@ class Micro extends Phalcon\Di\Injectable //implements ArrayAccess
 	/**
 	 * Maps a route to a handler that only matches if the HTTP method is PUT
 	 *
-	 * @param string routePattern
-	 * @param callable handler
+	 * @param string $routePattern
+	 * @param callable $handler
 	 * @return Phalcon\Mvc\Router\RouteInterface
 	 */
 	public function put(routePattern, handler) -> <Phalcon\Mvc\Router\RouteInterface>
@@ -225,23 +225,23 @@ class Micro extends Phalcon\Di\Injectable //implements ArrayAccess
 		var router, route, routeId;
  
 		/**
-		 * <comment>We create a router even if there is no one in the DI</comment>
+		 * We create a router even if there is no one in the DI
 		 */
 		let router = this->getRouter();
  
 		/**
-		 * <comment>Routes are added to the router restricting to PUT</comment>
+		 * Routes are added to the router restricting to PUT
 		 */
 		let route = router->addPut(routePattern);
  
 		/**
-		 * <comment>Using the id produced by the router we store the handler</comment>
+		 * Using the id produced by the router we store the handler
 		 */
 		let routeId = route->getRouteId();
 		let this->_handlers[routeId] = handler;
  
 		/**
-		 * <comment>The route is returned, the developer can add more things on it</comment>
+		 * The route is returned, the developer can add more things on it
 		 */
 		return route;
 	}
@@ -249,8 +249,8 @@ class Micro extends Phalcon\Di\Injectable //implements ArrayAccess
 	/**
 	 * Maps a route to a handler that only matches if the HTTP method is PATCH
 	 *
-	 * @param string routePattern
-	 * @param callable handler
+	 * @param string $routePattern
+	 * @param callable $handler
 	 * @return Phalcon\Mvc\Router\RouteInterface
 	 */
 	public function patch(routePattern, handler) -> <Phalcon\Mvc\Router\RouteInterface>
@@ -258,23 +258,23 @@ class Micro extends Phalcon\Di\Injectable //implements ArrayAccess
 		var router, route, routeId;
  
 		/**
-		 * <comment>We create a router even if there is no one in the DI</comment>
+		 * We create a router even if there is no one in the DI
 		 */
 		let router = this->getRouter();
  
 		/**
-		 * <comment>Routes are added to the router restricting to PATCH</comment>
+		 * Routes are added to the router restricting to PATCH
 		 */
 		let route = router->addPatch(routePattern);
  
 		/**
-		 * <comment>Using the id produced by the router we store the handler</comment>
+		 * Using the id produced by the router we store the handler
 		 */
 		let routeId = route->getRouteId();
 		let this->_handlers[routeId] = handler;
  
 		/**
-		 * <comment>The route is returned, the developer can add more things on it</comment>
+		 * The route is returned, the developer can add more things on it
 		 */
 		return route;
 	}
@@ -282,8 +282,8 @@ class Micro extends Phalcon\Di\Injectable //implements ArrayAccess
 	/**
 	 * Maps a route to a handler that only matches if the HTTP method is HEAD
 	 *
-	 * @param string routePattern
-	 * @param callable handler
+	 * @param string $routePattern
+	 * @param callable $handler
 	 * @return Phalcon\Mvc\Router\RouteInterface
 	 */
 	public function head(routePattern, handler) -> <Phalcon\Mvc\Router\RouteInterface>
@@ -291,23 +291,23 @@ class Micro extends Phalcon\Di\Injectable //implements ArrayAccess
  		var router, route, routeId;
  
 		/**
-		 * <comment>We create a router even if there is no one in the DI</comment>
+		 * We create a router even if there is no one in the DI
 		 */
 		let router = this->getRouter();
  
 		/**
-		 * <comment>Routes are added to the router restricting to HEAD</comment>
+		 * Routes are added to the router restricting to HEAD
 		 */
 		let route = router->addHead(routePattern);
  
 		/**
-		 * <comment>Using the id produced by the router we store the handler</comment>
+		 * Using the id produced by the router we store the handler
 		 */
 		let routeId = route->getRouteId();
 		let this->_handlers[routeId] = handler;
  
 		/**
-		 * <comment>The route is returned, the developer can add more things on it</comment>
+		 * The route is returned, the developer can add more things on it
 		 */
 		return route;
 	}
@@ -315,8 +315,8 @@ class Micro extends Phalcon\Di\Injectable //implements ArrayAccess
 	/**
 	 * Maps a route to a handler that only matches if the HTTP method is DELETE
 	 *
-	 * @param string routePattern
-	 * @param callable handler
+	 * @param string $routePattern
+	 * @param callable $handler
 	 * @return Phalcon\Mvc\Router\RouteInterface
 	 */
 	public function delete(routePattern, handler) -> <Phalcon\Mvc\Router\RouteInterface>
@@ -324,23 +324,23 @@ class Micro extends Phalcon\Di\Injectable //implements ArrayAccess
 		var router, route, routeId;
  
 		/**
-		 * <comment>We create a router even if there is no one in the DI</comment>
+		 * We create a router even if there is no one in the DI
 		 */
 		let router = this->getRouter();
  
 		/**
-		 * <comment>Routes are added to the router restricting to DELETE</comment>
+		 * Routes are added to the router restricting to DELETE
 		 */
 		let route = router->addDelete(routePattern);
  
 		/**
-		 * <comment>Using the id produced by the router we store the handler</comment>
+		 * Using the id produced by the router we store the handler
 		 */
 		let routeId = route->getRouteId();
 		let this->_handlers[routeId] = handler;
  
 		/**
-		 * <comment>The route is returned, the developer can add more things on it</comment>
+		 * The route is returned, the developer can add more things on it
 		 */
 		return route;
 	}
@@ -348,8 +348,8 @@ class Micro extends Phalcon\Di\Injectable //implements ArrayAccess
 	/**
 	 * Maps a route to a handler that only matches if the HTTP method is OPTIONS
 	 *
-	 * @param string routePattern
-	 * @param callable handler
+	 * @param string $routePattern
+	 * @param callable $handler
 	 * @return Phalcon\Mvc\Router\RouteInterface
 	 */
 	public function options(routePattern, handler) -> <Phalcon\Mvc\Router\RouteInterface>
@@ -357,23 +357,23 @@ class Micro extends Phalcon\Di\Injectable //implements ArrayAccess
  		var router, route, routeId;
  
 		/**
-		 * <comment>We create a router even if there is no one in the DI</comment>
+		 * We create a router even if there is no one in the DI
 		 */
 		let router = this->getRouter();
  
 		/**
-		 * <comment>Routes are added to the router restricting to OPTIONS</comment>
+		 * Routes are added to the router restricting to OPTIONS
 		 */
 		let route = router->addOptions(routePattern);
  
 		/**
-		 * <comment>Using the id produced by the router we store the handler</comment>
+		 * Using the id produced by the router we store the handler
 		 */
 		let routeId = route->getRouteId();
 		let this->_handlers[routeId] = handler;
  
 		/**
-		 * <comment>The route is returned, the developer can add more things on it</comment>
+		 * The route is returned, the developer can add more things on it
 		 */
 		return route;
 	}
@@ -381,7 +381,7 @@ class Micro extends Phalcon\Di\Injectable //implements ArrayAccess
 	/**
 	 * Mounts a collection of handlers
 	 *
-	 * @param Phalcon\Mvc\Collection collection
+	 * @param Phalcon\Mvc\Collection $collection
 	 * @return Phalcon\Mvc\Micro
 	 */
 	public function mount(<Phalcon\Mvc\Collection> collection) -> <Phalcon\Mvc\Micro>
@@ -394,7 +394,7 @@ class Micro extends Phalcon\Di\Injectable //implements ArrayAccess
 		}
  
 		/**
-		 * <comment>Get the main handler</comment>
+		 * Get the main handler
 		 */
 		let mainHandler = collection->getHandler();
 		if is_empty(mainHandler) {
@@ -409,18 +409,18 @@ class Micro extends Phalcon\Di\Injectable //implements ArrayAccess
 		if is_array(handlers) {
  
 			/**
-			 * <comment>Check if handler is lazy</comment>
+			 * Check if handler is lazy
 			 */
 			let lazy = collection->isLazy();
  
 			if lazy {
-				let lazyHandler = new Phalcon\Mvc\Micro\Exception(mainHandler);
+				let lazyHandler = new Phalcon\Mvc\Micro\Exception($mainHandler);
 			} else {
 				let lazyHandler = mainHandler;
 			}
  
 			/**
-			 * <comment>Get the main prefix for the collection</comment>
+			 * Get the main prefix for the collection
 			 */
 			let prefix = collection->getPrefix();
  
@@ -436,7 +436,7 @@ class Micro extends Phalcon\Di\Injectable //implements ArrayAccess
 				let subHandler = handler[2];
  
 				/**
-				 * <comment>Create a real handler</comment>
+				 * Create a real handler
 				 */
 				let realHandler = array(lazyHandler, subHandler);
  
@@ -451,7 +451,7 @@ class Micro extends Phalcon\Di\Injectable //implements ArrayAccess
 				}
  
 				/**
-				 * <comment>Map the route manually</comment>
+				 * Map the route manually
 				 */
 				let route = this->map(prefixedPattern, realHandler);
  
@@ -467,7 +467,7 @@ class Micro extends Phalcon\Di\Injectable //implements ArrayAccess
 	/**
 	 * Sets a handler that will be called when the router doesn't match any of the defined routes
 	 *
-	 * @param callable handler
+	 * @param callable $handler
 	 * @return Phalcon\Mvc\Micro
 	 */
 	public function notFound(handler) -> <Phalcon\Mvc\Micro>
@@ -492,19 +492,19 @@ class Micro extends Phalcon\Di\Injectable //implements ArrayAccess
 			let router = this->getSharedService(serviceName);
  
 			/**
-			 * <comment>Clear the set routes if any</comment>
+			 * Clear the set routes if any
 			 */
 			router->clear();
  
 			let remove = true;
  
 			/**
-			 * <comment>Automatically remove extra slashes</comment>
+			 * Automatically remove extra slashes
 			 */
 			router->removeExtraSlashes(remove);
  
 			/**
-			 * <comment>Update the internal router</comment>
+			 * Update the internal router
 			 */
 			let this->_router = router;
 		}
@@ -515,9 +515,9 @@ class Micro extends Phalcon\Di\Injectable //implements ArrayAccess
 	/**
 	 * Sets a service from the DI
 	 *
-	 * @param string serviceName
-	 * @param mixed definition
-	 * @param boolean shared
+	 * @param string $serviceName
+	 * @param mixed $definition
+	 * @param boolean $shared
 	 * @return Phalcon\DI\ServiceInterface
 	 */
 	public function setService(serviceName, definition, shared=false) -> <Phalcon\DI\ServiceInterface>
@@ -536,7 +536,7 @@ class Micro extends Phalcon\Di\Injectable //implements ArrayAccess
 	/**
 	 * Checks if a service is registered in the DI
 	 *
-	 * @param string serviceName
+	 * @param string $serviceName
 	 * @return boolean
 	 */
 	public function hasService(serviceName) -> boolean
@@ -555,7 +555,7 @@ class Micro extends Phalcon\Di\Injectable //implements ArrayAccess
 	/**
 	 * Obtains a service from the DI
 	 *
-	 * @param string serviceName
+	 * @param string $serviceName
 	 * @return object
 	 */
 	public function getService(serviceName)
@@ -574,7 +574,7 @@ class Micro extends Phalcon\Di\Injectable //implements ArrayAccess
 	/**
 	 * Obtains a shared service from the DI
 	 *
-	 * @param string serviceName
+	 * @param string $serviceName
 	 * @return mixed
 	 */
 	public function getSharedService(serviceName)
@@ -593,7 +593,7 @@ class Micro extends Phalcon\Di\Injectable //implements ArrayAccess
 	/**
 	 * Handle the whole request
 	 *
-	 * @param string uri
+	 * @param string $uri
 	 * @return mixed
 	 */
 	public function handle(uri=null)
@@ -608,7 +608,7 @@ class Micro extends Phalcon\Di\Injectable //implements ArrayAccess
 		}
  
 		/**
-		 * <comment>Calling beforeHandle routing</comment>
+		 * Calling beforeHandle routing
 		 */
 		let eventsManager = this->_eventsManager;
 		if is_object(eventsManager) {
@@ -620,18 +620,18 @@ class Micro extends Phalcon\Di\Injectable //implements ArrayAccess
 		}
  
 		/**
-		 * <comment>Handling routing information</comment>
+		 * Handling routing information
 		 */
 		let service = 'router';
 		let router = dependencyInjector->getShared(service);
  
 		/**
-		 * <comment>Handle the URI as normal</comment>
+		 * Handle the URI as normal
 		 */
 		router->handle(uri);
  
 		/**
-		 * <comment>Check if one route was matched</comment>
+		 * Check if one route was matched
 		 */
 		let matchedRoute = router->getMatchedRoute();
 		if is_object(matchedRoute) {
@@ -644,14 +644,14 @@ class Micro extends Phalcon\Di\Injectable //implements ArrayAccess
 			}
  
 			/**
-			 * <comment>Updating active handler</comment>
+			 * Updating active handler
 			 */
 			let handler = handlers[routeId];
  
 			let this->_activeHandler = handler;
  
 			/**
-			 * <comment>Calling beforeExecuteRoute event</comment>
+			 * Calling beforeExecuteRoute event
 			 */
 			if is_object(eventsManager) {
 				let eventName = 'micro:beforeExecuteRoute';
@@ -669,7 +669,7 @@ class Micro extends Phalcon\Di\Injectable //implements ArrayAccess
 				let this->_stopped = false;
  
 				/**
-				 * <comment>Calls the before handlers</comment>
+				 * Calls the before handlers
 				 */
 				for before in beforeHandlers 
 				{
@@ -679,17 +679,17 @@ class Micro extends Phalcon\Di\Injectable //implements ArrayAccess
 						if isMiddleware===true {
  
 							/**
-							 * <comment>Call the middleware</comment>
+							 * Call the middleware
 							 */
 							let status = before->call(this);
  
 							/**
-							 * <comment>Reload the status</comment>
+							 * Reload the status
 							 */
 							let stopped = this->_stopped;
  
 							/**
-							 * <comment>break the execution if the middleware was stopped</comment>
+							 * break the execution if the middleware was stopped
 							 */
 							if stopped {
 								break;
@@ -704,7 +704,7 @@ class Micro extends Phalcon\Di\Injectable //implements ArrayAccess
 					}
  
 					/**
-					 * <comment>Call the before handler, if it returns false exit</comment>
+					 * Call the before handler, if it returns false exit
 					 */
 					let status = call_user_func(before);
 					if status===false {
@@ -712,7 +712,7 @@ class Micro extends Phalcon\Di\Injectable //implements ArrayAccess
 					}
  
 					/**
-					 * <comment>Reload the 'stopped' status</comment>
+					 * Reload the 'stopped' status
 					 */
 					let stopped = this->_stopped;
  
@@ -723,18 +723,18 @@ class Micro extends Phalcon\Di\Injectable //implements ArrayAccess
 			}
  
 			/**
-			 * <comment>Calling the Handler in the PHP userland</comment>
+			 * Calling the Handler in the PHP userland
 			 */
 			let params = router->getParams();
 			let returnedValue = call_user_func_array(handler, params);
  
 			/**
-			 * <comment>Update the returned value</comment>
+			 * Update the returned value
 			 */
 			let this->_returnedValue = returnedValue;
  
 			/**
-			 * <comment>Calling afterExecuteRoute event</comment>
+			 * Calling afterExecuteRoute event
 			 */
 			if is_object(eventsManager) {
 				let eventName = 'micro:afterExecuteRoute';
@@ -747,7 +747,7 @@ class Micro extends Phalcon\Di\Injectable //implements ArrayAccess
 				let this->_stopped = false;
  
 				/**
-				 * <comment>Calls the after handlers</comment>
+				 * Calls the after handlers
 				 */
 				for after in afterHandlers 
 				{
@@ -757,17 +757,17 @@ class Micro extends Phalcon\Di\Injectable //implements ArrayAccess
 						if isMiddleware===true {
  
 							/**
-							 * <comment>Call the middleware</comment>
+							 * Call the middleware
 							 */
 							let status = after->call(this);
  
 							/**
-							 * <comment>Reload the status</comment>
+							 * Reload the status
 							 */
 							let stopped = this->_stopped;
  
 							/**
-							 * <comment>break the execution if the middleware was stopped</comment>
+							 * break the execution if the middleware was stopped
 							 */
 							if stopped {
 								break;
@@ -788,19 +788,19 @@ class Micro extends Phalcon\Di\Injectable //implements ArrayAccess
 		} else {
  
 			/**
-			 * <comment>Calling beforeNotFound event</comment>
+			 * Calling beforeNotFound event
 			 */
 			let eventsManager = this->_eventsManager;
 			if is_object(eventsManager) {
 				let eventName = 'micro:beforeNotFound';
 				let status = eventsManager->fire(eventName, this);
-				if status===false {
+				if $status===false {
 					return false;
 				}
 			}
  
 			/**
-			 * <comment>Check if a notfoundhandler is defined and it's callable</comment>
+			 * Check if a notfoundhandler is defined and it's callable
 			 */
 			let notFoundHandler = this->_notFoundHandler;
 			if !is_callable(notFoundHandler) {
@@ -808,12 +808,12 @@ class Micro extends Phalcon\Di\Injectable //implements ArrayAccess
 			}
  
 			/**
-			 * <comment>Call the Not-Found handler</comment>
+			 * Call the Not-Found handler
 			 */
 			let returnedValue = call_user_func(notFoundHandler);
  
 			/**
-			 * <comment>Update the returned value</comment>
+			 * Update the returned value
 			 */
 			let this->_returnedValue = returnedValue;
  
@@ -821,7 +821,7 @@ class Micro extends Phalcon\Di\Injectable //implements ArrayAccess
 		}
  
 		/**
-		 * <comment>Calling afterHandleRoute event</comment>
+		 * Calling afterHandleRoute event
 		 */
 		if is_object(eventsManager) {
 			let eventName = 'micro:afterHandleRoute';
@@ -836,30 +836,30 @@ class Micro extends Phalcon\Di\Injectable //implements ArrayAccess
 			let params = null;
  
 			/**
-			 * <comment>Calls the finish handlers</comment>
+			 * Calls the finish handlers
 			 */
 			for finish in finishHandlers 
 			{
  
 				/**
-				 * <comment>Try to execute middleware as plugins</comment>
+				 * Try to execute middleware as plugins
 				 */
 				if is_object(finish) {
 					let isMiddleware = finish instanceof Phalcon\Mvc\Micro\MiddlewareInterface;
 					if isMiddleware===true {
  
 						/**
-						 * <comment>Call the middleware</comment>
+						 * Call the middleware
 						 */
 						let status = finish->call(this);
  
 						/**
-						 * <comment>Reload the status</comment>
+						 * Reload the status
 						 */
 						let stopped = this->_stopped;
  
 						/**
-						 * <comment>break the execution if the middleware was stopped</comment>
+						 * break the execution if the middleware was stopped
 						 */
 						if stopped {
 							break;
@@ -878,17 +878,17 @@ class Micro extends Phalcon\Di\Injectable //implements ArrayAccess
 				}
  
 				/**
-				 * <comment>Call the 'finish' middleware</comment>
+				 * Call the 'finish' middleware
 				 */
 				let status = call_user_func_array(finish, params);
  
 				/**
-				 * <comment>Reload the status</comment>
+				 * Reload the status
 				 */
 				let stopped = this->_stopped;
  
 				/**
-				 * <comment>break the execution if the middleware was stopped</comment>
+				 * break the execution if the middleware was stopped
 				 */
 				if stopped {
 					break;
@@ -897,13 +897,13 @@ class Micro extends Phalcon\Di\Injectable //implements ArrayAccess
 		}
  
 		/**
-		 * <comment>Check if the returned object is already a response</comment>
+		 * Check if the returned object is already a response
 		 */
 		if is_object(returnedValue) {
 			let returnedResponse = returnedValue instanceof Phalcon\Http\ResponseInterface;
 			if returnedResponse===true {
 				/**
-				 * <comment>Automatically send the responses</comment>
+				 * Automatically send the responses
 				 */
 				returnedValue->send();
 			}
@@ -953,7 +953,7 @@ class Micro extends Phalcon\Di\Injectable //implements ArrayAccess
 	/**
 	 * Check if a service is registered in the internal services container using the array syntax
 	 *
-	 * @param string alias
+	 * @param string $alias
 	 * @return boolean
 	 */
 	public function offsetExists(alias) -> boolean
@@ -965,11 +965,11 @@ class Micro extends Phalcon\Di\Injectable //implements ArrayAccess
 	 * Allows to register a shared service in the internal services container using the array syntax
 	 *
 	 *<code>
-	 *	app['request'] = new Phalcon\Http\Request();
+	 *	$app['request'] = new Phalcon\Http\Request();
 	 *</code>
 	 *
-	 * @param string alias
-	 * @param mixed definition
+	 * @param string $alias
+	 * @param mixed $definition
 	 */
 	public function offsetSet(alias, definition)
 	{
@@ -980,10 +980,10 @@ class Micro extends Phalcon\Di\Injectable //implements ArrayAccess
 	 * Allows to obtain a shared service in the internal services container using the array syntax
 	 *
 	 *<code>
-	 *	var_dump(di['request']);
+	 *	var_dump($di['request']);
 	 *</code>
 	 *
-	 * @param string alias
+	 * @param string $alias
 	 * @return mixed
 	 */
 	public function offsetGet(alias)
@@ -994,7 +994,7 @@ class Micro extends Phalcon\Di\Injectable //implements ArrayAccess
 	/**
 	 * Removes a service from the internal services container using the array syntax
 	 *
-	 * @param string alias
+	 * @param string $alias
 	 */
 	public function offsetUnset(alias)
 	{
@@ -1004,7 +1004,7 @@ class Micro extends Phalcon\Di\Injectable //implements ArrayAccess
 	/**
 	 * Appends a before middleware to be called before execute the route
 	 *
-	 * @param callable handler
+	 * @param callable $handler
 	 * @return Phalcon\Mvc\Micro
 	 */
 	public function before(handler) -> <Phalcon\Mvc\Micro>
@@ -1016,7 +1016,7 @@ class Micro extends Phalcon\Di\Injectable //implements ArrayAccess
 	/**
 	 * Appends an 'after' middleware to be called after execute the route
 	 *
-	 * @param callable handler
+	 * @param callable $handler
 	 * @return Phalcon\Mvc\Micro
 	 */
 	public function after(handler) -> <Phalcon\Mvc\Micro>
@@ -1028,7 +1028,7 @@ class Micro extends Phalcon\Di\Injectable //implements ArrayAccess
 	/**
 	 * Appends a 'finish' middleware to be called when the request is finished
 	 *
-	 * @param callable handler
+	 * @param callable $handler
 	 * @return Phalcon\Mvc\Micro
 	 */
 	public function finish(handler) -> <Phalcon\Mvc\Micro>
