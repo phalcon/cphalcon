@@ -2647,6 +2647,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _executeSelect) {
 		RETURN_MM();
 	}
 	object_init_ex(return_value, phalcon_mvc_model_resultset_complex_ce);
+	zephir_call_method_p3_noret(return_value, "__construct", columns, (resultData ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false)), cache);
 	RETURN_MM();
 
 }

@@ -45,6 +45,7 @@ class Session extends Phalcon\Mvc\Model\MetaData implements Phalcon\Mvc\Model\Me
 	 */
 	public function __construct($options=null)
 	{
+		var prefix;
 		if typeof options == "array" {
 			if fetch prefix, options["prefix"] {
 				let this->_prefix = prefix;
@@ -61,6 +62,8 @@ class Session extends Phalcon\Mvc\Model\MetaData implements Phalcon\Mvc\Model\Me
 	 */
 	public function read(string! key)
 	{
+		var session, prefixKey, metaData;
+
 		let session = _SESSION,
 			prefixKey = "$PMM$" . this->_prefix;
 		if isset session[prefixKey] {

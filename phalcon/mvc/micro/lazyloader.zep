@@ -43,8 +43,8 @@ class LazyLoader
 	/**
 	 * Initializes the internal handler, calling functions on it
 	 *
-	 * @param string method
-	 * @param array arguments
+	 * @param  string method
+	 * @param  array arguments
 	 * @return mixed
 	 */
 	public function __call(string! method, arguments)
@@ -53,7 +53,7 @@ class LazyLoader
 
 		let handler = this->_handler;
 
-		if typeof definition != "object" {
+		if typeof handler != "object" {
 			let definition = this->_definition;
 			let handler = new {definition}();
 			let this->_handler = handler;
@@ -62,7 +62,7 @@ class LazyLoader
 		/**
 		 * Call the handler
 		 */
-		return call_user_func_array(callHandler, [handler, method]);
+		return call_user_func_array([handler, method], arguments);
 	}
 
 }

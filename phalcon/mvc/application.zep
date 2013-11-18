@@ -387,7 +387,11 @@ class Application extends Phalcon\Di\Injectable
 						/**
 						 * Automatic render based on the latest controller executed
 						 */
-						view->render(dispatcher->getControllerName(), dispatcher->getActionName(), dispatcher->getParams());
+						view->render(
+							dispatcher->getControllerName(),
+							dispatcher->getActionName(),
+							dispatcher->getParams()
+						);
 					}
 				}
 			}

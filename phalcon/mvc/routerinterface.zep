@@ -24,7 +24,8 @@ namespace Phalcon\Mvc;
  *
  * Interface for Phalcon\Mvc\Router
  */
-interface RouterInterface {
+interface RouterInterface
+{
 
 	/**
 	 * Sets the name of the default module
@@ -97,6 +98,15 @@ interface RouterInterface {
 	 * @return Phalcon\Mvc\Router\RouteInterface
 	 */
 	public function addPut(pattern, paths=null);
+
+	/**
+	 * Adds a route to the router that only match if the HTTP method is PATCH
+	 *
+	 * @param string pattern
+	 * @param string/array paths
+	 * @return Phalcon\Mvc\Router\Route
+	 */
+	public function addPatch(string! pattern, paths=null);
 
 	/**
 	 * Adds a route to the router that only match if the HTTP method is DELETE

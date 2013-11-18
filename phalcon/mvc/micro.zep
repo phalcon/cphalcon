@@ -372,13 +372,13 @@ class Micro extends Phalcon\Di\Injectable //implements ArrayAccess
 	/**
 	 * Mounts a collection of handlers
 	 *
-	 * @param Phalcon\Mvc\Collection $collection
+	 * @param Phalcon\Mvc\Micro\Collection collection
 	 * @return Phalcon\Mvc\Micro
 	 */
-	public function mount(<Phalcon\Mvc\Collection> collection) -> <Phalcon\Mvc\Micro>
+	public function mount(<Phalcon\Mvc\Micro\Collection> collection) -> <Phalcon\Mvc\Micro>
 	{
  		var mainHandler, handlers, lazy, lazyHandler, prefix, methods, pattern,
- 			subHandler, realHandler, prefixedPattern, route;
+ 			subHandler, realHandler, prefixedPattern, route, handler;
 
 		if typeof collection != "object" {
 			throw new Phalcon\Mvc\Micro\Exception("The collection is not valid");
@@ -428,7 +428,7 @@ class Micro extends Phalcon\Di\Injectable //implements ArrayAccess
 				/**
 				 * Create a real handler
 				 */
-				let realHandler = array(lazyHandler, subHandler);
+				let realHandler = [lazyHandler, subHandler];
 
 				if !empty prefix {
 					if pattern == '/' {
@@ -561,7 +561,7 @@ class Micro extends Phalcon\Di\Injectable //implements ArrayAccess
 	/**
 	 * Obtains a shared service from the DI
 	 *
-	 * @param string $serviceName
+	 * @param string serviceName
 	 * @return mixed
 	 */
 	public function getSharedService(serviceName)
@@ -570,7 +570,7 @@ class Micro extends Phalcon\Di\Injectable //implements ArrayAccess
 
 		let dependencyInjector = this->_dependencyInjector;
 		if typeof dependencyInjector != "object" {
-			let dependencyInjector = new Phalcon\DI\FactoryDefault();
+			let dependencyInjector = new Phalcon\Di\FactoryDefault();
 			let this->_dependencyInjector = dependencyInjector;
 		}
 
@@ -580,14 +580,14 @@ class Micro extends Phalcon\Di\Injectable //implements ArrayAccess
 	/**
 	 * Handle the whole request
 	 *
-	 * @param string $uri
+	 * @param string uri
 	 * @return mixed
 	 */
 	public function handle(uri=null)
 	{
  		var dependencyInjector, eventsManager, eventName, status, service, router, matchedRoute,
- 			handlers, routeId, handler, beforeHandlers, isMiddleware, stopped, params, returnedValue,
- 			afterHandlers, notFoundHandler, finishHandlers;
+ 			handlers, routeId, handler, beforeHandlers, topped, params, returnedValue,
+ 			afterHandlers, notFoundHandler, finishHandlers, finish, before, after;
 
 		let dependencyInjector = this->_dependencyInjector;
 		if typeof dependencyInjector != "object" {
@@ -598,10 +598,8 @@ class Micro extends Phalcon\Di\Injectable //implements ArrayAccess
 		 * Calling beforeHandle routing
 		 */
 		let eventsManager = this->_eventsManager;
-		if typeof eventsManager == "object" {
-			let eventName = 'micro:beforeHandleRoute';
-			let status = eventsManager->fire(eventName, this);
-			if status===false {
+		if is_object(eventsManager) {
+			if eventsManager->fire("micro:beforeHandleRoute", this) === false {
 				return false;
 			}
 		}
@@ -653,8 +651,7 @@ class Micro extends Phalcon\Di\Injectable //implements ArrayAccess
 				for before in beforeHandlers {
 
 					if typeof before == "object" {
-						let isMiddleware = before instanceof Phalcon\Mvc\Micro\MiddlewareInterface;
-						if isMiddleware===true {
+						if before instanceof Phalcon\Mvc\Micro\MiddlewareInterface {
 
 							/**
 							 * Call the middleware
@@ -663,13 +660,9 @@ class Micro extends Phalcon\Di\Injectable //implements ArrayAccess
 
 							/**
 							 * Reload the status
-							 */
-							let stopped = this->_stopped;
-
-							/**
 							 * break the execution if the middleware was stopped
 							 */
-							if stopped {
+							if this->_stopped {
 								break;
 							}
 
@@ -684,17 +677,14 @@ class Micro extends Phalcon\Di\Injectable //implements ArrayAccess
 					/**
 					 * Call the before handler, if it returns false exit
 					 */
-					let status = call_user_func(before);
-					if status===false {
+					if call_user_func(before) === false {
 						return false;
 					}
 
 					/**
 					 * Reload the 'stopped' status
 					 */
-					let stopped = this->_stopped;
-
-					if stopped {
+					if this->_stopped {
 						return status;
 					}
 				}
@@ -714,9 +704,8 @@ class Micro extends Phalcon\Di\Injectable //implements ArrayAccess
 			/**
 			 * Calling afterExecuteRoute event
 			 */
-			if typeof eventsManager == "object" {
-				let eventName = 'micro:afterExecuteRoute';
-				eventsManager->fire(eventName, this);
+			if is_object(eventsManager) {
+				eventsManager->fire("micro:afterExecuteRoute", this);
 			}
 
 			let afterHandlers = this->_afterHandlers;
@@ -727,12 +716,10 @@ class Micro extends Phalcon\Di\Injectable //implements ArrayAccess
 				/**
 				 * Calls the after handlers
 				 */
-				for after in afterHandlers
-				{
+				for after in afterHandlers {
 
-					if typeof after == "object" {
-						let isMiddleware = after instanceof Phalcon\Mvc\Micro\MiddlewareInterface;
-						if isMiddleware===true {
+					if is_object(after) {
+						if after instanceof Phalcon\Mvc\Micro\MiddlewareInterface {
 
 							/**
 							 * Call the middleware
@@ -740,14 +727,9 @@ class Micro extends Phalcon\Di\Injectable //implements ArrayAccess
 							let status = after->call(this);
 
 							/**
-							 * Reload the status
-							 */
-							let stopped = this->_stopped;
-
-							/**
 							 * break the execution if the middleware was stopped
 							 */
-							if stopped {
+							if this->_stopped {
 								break;
 							}
 
@@ -769,10 +751,8 @@ class Micro extends Phalcon\Di\Injectable //implements ArrayAccess
 			 * Calling beforeNotFound event
 			 */
 			let eventsManager = this->_eventsManager;
-			if typeof eventsManager == "object" {
-				let eventName = 'micro:beforeNotFound';
-				let status = eventsManager->fire(eventName, this);
-				if $status===false {
+			if is_object(eventsManager) {
+				if eventsManager->fire("micro:beforeNotFound", this) === false {
 					return false;
 				}
 			}
@@ -801,9 +781,8 @@ class Micro extends Phalcon\Di\Injectable //implements ArrayAccess
 		/**
 		 * Calling afterHandleRoute event
 		 */
-		if typeof eventsManager == "object" {
-			let eventName = 'micro:afterHandleRoute';
-			eventsManager->fire(eventName, this);
+		if is_object(eventsManager) {
+			eventsManager->fire("micro:afterHandleRoute", this);
 		}
 
 		let finishHandlers = this->_finishHandlers;
@@ -816,15 +795,14 @@ class Micro extends Phalcon\Di\Injectable //implements ArrayAccess
 			/**
 			 * Calls the finish handlers
 			 */
-			for finish in finishHandlers
-			{
+			for finish in finishHandlers {
 
 				/**
 				 * Try to execute middleware as plugins
 				 */
-				if typeof finish == "object" {
-					let isMiddleware = finish instanceof Phalcon\Mvc\Micro\MiddlewareInterface;
-					if isMiddleware===true {
+				if is_object(finish) {
+
+					if finish instanceof Phalcon\Mvc\Micro\MiddlewareInterface {
 
 						/**
 						 * Call the middleware
@@ -832,14 +810,9 @@ class Micro extends Phalcon\Di\Injectable //implements ArrayAccess
 						let status = finish->call(this);
 
 						/**
-						 * Reload the status
-						 */
-						let stopped = this->_stopped;
-
-						/**
 						 * break the execution if the middleware was stopped
 						 */
-						if stopped {
+						if this->_stopped {
 							break;
 						}
 
@@ -851,8 +824,8 @@ class Micro extends Phalcon\Di\Injectable //implements ArrayAccess
 					throw new Phalcon\Mvc\Micro\Exception("One of finish handlers is not callable");
 				}
 
-				if params===null {
-					let params = array(this);
+				if params === null {
+					let params = [this];
 				}
 
 				/**
@@ -861,14 +834,9 @@ class Micro extends Phalcon\Di\Injectable //implements ArrayAccess
 				let status = call_user_func_array(finish, params);
 
 				/**
-				 * Reload the status
-				 */
-				let stopped = this->_stopped;
-
-				/**
 				 * break the execution if the middleware was stopped
 				 */
-				if stopped {
+				if this->_stopped {
 					break;
 				}
 			}
@@ -877,9 +845,8 @@ class Micro extends Phalcon\Di\Injectable //implements ArrayAccess
 		/**
 		 * Check if the returned object is already a response
 		 */
-		if typeof returnedValue == "object" {
-			let returnedResponse = returnedValue instanceof Phalcon\Http\ResponseInterface;
-			if returnedResponse===true {
+		if is_object(returnedValue) {
+			if returnedValue instanceof Phalcon\Http\ResponseInterface {
 				/**
 				 * Automatically send the responses
 				 */
@@ -931,7 +898,7 @@ class Micro extends Phalcon\Di\Injectable //implements ArrayAccess
 	/**
 	 * Check if a service is registered in the internal services container using the array syntax
 	 *
-	 * @param string $alias
+	 * @param string alias
 	 * @return boolean
 	 */
 	public function offsetExists(alias) -> boolean
@@ -946,8 +913,8 @@ class Micro extends Phalcon\Di\Injectable //implements ArrayAccess
 	 *	$app['request'] = new Phalcon\Http\Request();
 	 *</code>
 	 *
-	 * @param string $alias
-	 * @param mixed $definition
+	 * @param string alias
+	 * @param mixed definition
 	 */
 	public function offsetSet(alias, definition)
 	{
@@ -961,7 +928,7 @@ class Micro extends Phalcon\Di\Injectable //implements ArrayAccess
 	 *	var_dump($di['request']);
 	 *</code>
 	 *
-	 * @param string $alias
+	 * @param string alias
 	 * @return mixed
 	 */
 	public function offsetGet(alias)
@@ -972,7 +939,7 @@ class Micro extends Phalcon\Di\Injectable //implements ArrayAccess
 	/**
 	 * Removes a service from the internal services container using the array syntax
 	 *
-	 * @param string $alias
+	 * @param string alias
 	 */
 	public function offsetUnset(alias)
 	{
@@ -982,7 +949,7 @@ class Micro extends Phalcon\Di\Injectable //implements ArrayAccess
 	/**
 	 * Appends a before middleware to be called before execute the route
 	 *
-	 * @param callable $handler
+	 * @param callable handler
 	 * @return Phalcon\Mvc\Micro
 	 */
 	public function before(handler) -> <Phalcon\Mvc\Micro>

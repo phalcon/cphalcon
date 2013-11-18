@@ -27,21 +27,21 @@ namespace Phalcon\Mvc\Model\Resultset;
  */
 class Complex extends Phalcon\Mvc\Model\Resultset implements Phalcon\Mvc\Model\ResultsetInterface
 {
+	protected _columnTypes;
 
 	/**
 	 * Phalcon\Mvc\Model\Resultset\Complex constructor
 	 *
-	 * @param array columnsTypes
+	 * @param array columnTypes
 	 * @param Phalcon\Db\ResultInterface result
 	 * @param Phalcon\Cache\BackendInterface cache
 	 */
-	public function __construct(var columnsTypes, <Phalcon\Db\ResultInterface> result, <Phalcon\Cache\BackendInterface> cache=null)
+	public function __construct(var columnTypes, <Phalcon\Db\ResultInterface> result, <Phalcon\Cache\BackendInterface> cache=null)
 	{
-
 		/**
 		 * Column types, tell the resultset how to build the result
 		 */
-		let this->_columnTypes = columnsTypes;
+		let this->_columnTypes = columnTypes;
 
 		/**
 		 * Valid resultsets are Phalcon\Db\ResultInterface instances
@@ -73,8 +73,13 @@ class Complex extends Phalcon\Mvc\Model\Resultset implements Phalcon\Mvc\Model\R
 	 *
 	 * @return boolean
 	 */
-	public function valid()
+	public function valid() -> boolean
 	{
+		var result, rows, row, underscore, emptyStr, hydrateMode,
+			dirtyState, alias, activeRow, type, columnTypes,
+			column, columnValue, value, attribute, source, attributes,
+			columnMap, rowModel, keepSnapshots, sqlAlias;
+
 		if this->_type {
 
 			/**
@@ -109,7 +114,7 @@ class Complex extends Phalcon\Mvc\Model\Resultset implements Phalcon\Mvc\Model\R
 			/**
 			 * The result type=1 so we need to build every row
 			 */
-			if type {
+			if this->_type {
 
 				/**
 				 * Get current hydration mode
@@ -136,14 +141,14 @@ class Complex extends Phalcon\Mvc\Model\Resultset implements Phalcon\Mvc\Model\R
 				/**
 				 * Create every record according to the column types
 				 */
-				let columnsTypes = this->_columnTypes;
+				let columnTypes = this->_columnTypes;
 
 				/**
 				 * Set records as dirty state PERSISTENT by default
 				 */
 				let dirtyState = 0;
 
-				for alias, column in columnsTypes {
+				for alias, column in columnTypes {
 
 					let type = column["type"];
 					if typeof type == "object" {
@@ -176,7 +181,7 @@ class Complex extends Phalcon\Mvc\Model\Resultset implements Phalcon\Mvc\Model\R
 								/**
 								 * Check if the resultset must keep snapshots
 								 */
-								if !fetch keepSnapshots, column['keepSnapshots'] {
+								if !fetch keepSnapshots, column["keepSnapshots"] {
 									let keepSnapshots = false;
 								}
 
@@ -184,7 +189,7 @@ class Complex extends Phalcon\Mvc\Model\Resultset implements Phalcon\Mvc\Model\R
 								 * Get the base instance
 								 * Assign the values to the attributes using a column map
 								 */
-								let value = Phalcon\Mvc\Model::cloneResultMap(column['instance'], rowModel, columnMap, dirtyState, keepSnapshots);
+								let value = Phalcon\Mvc\Model::cloneResultMap(column["instance"], rowModel, columnMap, dirtyState, keepSnapshots);
 								break;
 							default:
 								/**
@@ -197,23 +202,23 @@ class Complex extends Phalcon\Mvc\Model\Resultset implements Phalcon\Mvc\Model\R
 						/**
 						 * The complete object is assigned to an attribute with the name of the alias or the model name
 						 */
-						let attribute = column['balias'];
+						let attribute = column["balias"];
 
 					} else {
 
 						/**
 						 * Scalar columns are simply assigned to the result object
 						 */
-						if fetch sqlAlias, column['sqlAlias'] {
+						if fetch sqlAlias, column["sqlAlias"] {
 							let value = row[sqlAlias];
 						} else {
 							let value = row[alias];
 						}
 
 						/**
-						 * If a 'balias' is defined is not an unnamed scalar
+						 * If a "balias" is defined is not an unnamed scalar
 						 */
-						if isset column['balias'] {
+						if isset column["balias"] {
 							let attribute = alias;
 						} else {
 							let attribute = str_replace(underscore, "", alias);
@@ -263,6 +268,7 @@ class Complex extends Phalcon\Mvc\Model\Resultset implements Phalcon\Mvc\Model\R
 	 */
 	public function toArray()
 	{
+		var records, current;
 		let records = [];
 		for current in iterator(this) {
 			let records[] = current;
@@ -277,6 +283,7 @@ class Complex extends Phalcon\Mvc\Model\Resultset implements Phalcon\Mvc\Model\R
 	 */
 	public function serialize()
 	{
+		var records, cache, columnTypes, hydrateMode, serialized;
 
 		/**
 		 * Obtain the records as an array
@@ -311,6 +318,7 @@ class Complex extends Phalcon\Mvc\Model\Resultset implements Phalcon\Mvc\Model\R
 	 */
 	public function unserialize(data)
 	{
+		var resultset;
 
 		let this->_type = 0;
 

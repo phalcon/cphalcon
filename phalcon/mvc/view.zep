@@ -737,7 +737,7 @@ class View extends Phalcon\Di\Injectable implements Phalcon\Mvc\ViewInterface
 	 * @param array params
 	 * @return Phalcon\Mvc\View
 	 */
-	public function render(string! controllerName, string! actionName, params=null) 
+	public function render(string! controllerName, string! actionName, params=null)
 		-> <Phalcon\Mvc\View>
 	{
 		boolean silence, mustClean;
@@ -1056,7 +1056,7 @@ class View extends Phalcon\Di\Injectable implements Phalcon\Mvc\ViewInterface
 	 * @param mixed configCallback
 	 * @return string
 	 */
-	public function getRender(string controllerName, string actionName, params=null, configCallback=null) -> string
+	public function getRender(string! controllerName, string! actionName, params=null, configCallback=null) -> string
 	{
 		var view;
 
@@ -1328,7 +1328,7 @@ class View extends Phalcon\Di\Injectable implements Phalcon\Mvc\ViewInterface
 	 * @param string key
 	 * @param mixed value
 	 */
-	public function __set(string key, value)
+	public function __set(string! key, value)
 	{
 		let this->_viewParams[key] = value;
 	}
@@ -1343,11 +1343,10 @@ class View extends Phalcon\Di\Injectable implements Phalcon\Mvc\ViewInterface
 	 * @param string key
 	 * @return mixed
 	 */
-	public function __get(string key)
+	public function __get(string! key)
 	{
-		var params, value;
-		let params = this->_viewParams;
-		if fetch value, params[key] {
+		var value;
+		if fetch value, this->_viewParams[key] {
 			return value;
 		}
 		return null;
