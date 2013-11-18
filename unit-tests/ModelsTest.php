@@ -20,6 +20,10 @@
 
 use Phalcon\Mvc\Model\Message as ModelMessage;
 
+class Issue_1534 extends \Phalcon\Mvc\Model
+{
+}
+
 class ModelsTest extends PHPUnit_Framework_TestCase
 {
 
@@ -75,11 +79,25 @@ class ModelsTest extends PHPUnit_Framework_TestCase
 
 		$di = $this->_getDI(function(){
 			require 'unit-tests/config.db.php';
-			return new Phalcon\Db\Adapter\Pdo\Mysql($configMysql);
+			$db = new Phalcon\Db\Adapter\Pdo\Mysql($configMysql);
+		/*
+			$em = new \Phalcon\Events\Manager();
+			$em->attach('db', function($event, $connection) {
+				if ($event->getType() == 'beforeQuery') {
+					echo $connection->getSQLStatement(), PHP_EOL;
+					print_r($connection->getSQLVariables());
+				}
+			});
+
+			$db->setEventsManager($em);
+		*/
+			return $db;
 		});
 
 		$this->_executeTestsNormal($di);
 		$this->_executeTestsRenamed($di);
+
+		$this->issue1534($di);
 	}
 
 	public function testModelsPostgresql()
@@ -114,6 +132,63 @@ class ModelsTest extends PHPUnit_Framework_TestCase
 
 		$this->_executeTestsNormal($di);
 		$this->_executeTestsRenamed($di);
+	}
+
+	protected function issue1534($di)
+	{
+		$db = $di->getShared('db');
+		$this->_prepareDb($di->getShared('db'));
+
+		$this->assertTrue($db->delete('issue_1534'));
+
+		$product = new Issue_1534();
+		$product->language = new \Phalcon\Db\RawValue('default(language)');
+		$product->name     = 'foo';
+		$product->slug     = 'bar';
+		$product->brand    = new \Phalcon\Db\RawValue('default');
+		$product->sort     = new \Phalcon\Db\RawValue('default');
+		$this->assertTrue($product->save());
+		$this->assertEquals(1, Issue_1534::count());
+
+		$entry = Issue_1534::findFirst();
+		$this->assertEquals('bb', $entry->language);
+		$this->assertEquals('0', $entry->sort);
+		$this->assertTrue($entry->brand === NULL);
+
+		$this->assertTrue($entry->delete());
+
+		$product = new Issue_1534();
+		$product->language = 'en';
+		$product->name     = 'foo';
+		$product->slug     = 'bar';
+		$product->brand    = 'brand';
+		$product->sort     = 1;
+		$this->assertTrue($product->save());
+		$this->assertEquals(1, Issue_1534::count());
+
+		$entry = Issue_1534::findFirst();
+		$entry->brand    = new \Phalcon\Db\RawValue('default');
+		$entry->sort     = new \Phalcon\Db\RawValue('default');
+		$this->assertTrue($entry->save());
+		$this->assertEquals(1, Issue_1534::count());
+
+		$entry = Issue_1534::findFirst();
+		$this->assertEquals('0', $entry->sort);
+		$this->assertTrue($entry->brand === NULL);
+
+/* FIXME: this does not work yet
+		$entry->language = new \Phalcon\Db\RawValue('default(language)');
+		$entry->language = 'es';
+		$this->assertTrue($entry->save());
+		$this->assertEquals(1, Issue_1534::count());
+
+		$entry = Issue_1534::findFirst();
+		$this->assertEquals('es', $entry->language);
+		$this->assertEquals('0', $entry->sort);
+		$this->assertTrue($entry->brand === NULL);
+*/
+
+		$this->assertTrue($db->delete('issue_1534'));
 	}
 
 	protected function _executeTestsNormal($di){
