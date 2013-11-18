@@ -148,7 +148,7 @@ class Collection //implements Phalcon\Mvc\CollectionInterface, Phalcon\Di\Inject
 	 *
 	 * @param Phalcon\DiInterface dependencyInjector
 	 */
-	public function setDI(<Phalcon\DiInterface dependencyInjector> dependencyInjector)
+	public function setDI(<Phalcon\DiInterface> dependencyInjector)
 	{
 		let this->_dependencyInjector = dependencyInjector;
 	}
@@ -185,7 +185,7 @@ class Collection //implements Phalcon\Mvc\CollectionInterface, Phalcon\Di\Inject
 	{
 		var modelsManager;
 		
-		modelsManager = this->_modelsManager;
+		let modelsManager = this->_modelsManager;
 		return modelsManager->getCustomEventsManager(this);
 	}
  
@@ -210,13 +210,13 @@ class Collection //implements Phalcon\Mvc\CollectionInterface, Phalcon\Di\Inject
 
 		let reserved = self::_reserved;
 		if (reserved===null) {
-			let reserved = array(
-				'_connection' => true,
-				'_dependencyInjector' => true,
-				'_source' => true,
-				'_operationMade' => true,
-				'_errorMessages' => true
-			);
+			let reserved = [
+				"_connection": true,
+				"_dependencyInjector": true,
+				"_source": true,
+				"_operationMade": true,
+				"_errorMessages": true
+			];
 			let self::_reserved = reserved;
 		}
 		return reserved;
@@ -289,7 +289,7 @@ class Collection //implements Phalcon\Mvc\CollectionInterface, Phalcon\Di\Inject
 	{
 		var modelsManager;
 
-		modelsManager = this->_modelsManager;
+		let modelsManager = this->_modelsManager;
 		return modelsManager->getConnectionService(this);
 	}
  
@@ -386,79 +386,80 @@ class Collection //implements Phalcon\Mvc\CollectionInterface, Phalcon\Di\Inject
 	 */
 	protected static function _getResultset(params, collection, connection, unique) 
 	{
- 
-		source = collection->getSource();
-		if (is_empty(source)) {
+ 		var source, mongoCollection, conditions, base, documentsCursor, documentsArray, collectionCloned;
+
+		let source = collection->getSource();
+		if empty(source) {
 			throw new Phalcon\Mvc\Collection\Exception("Method getSource() returns empty string");
 		}
  
-		mongoCollection = connection->selectCollection(source);
+		let mongoCollection = connection->selectCollection(source);
  
 		/**
 		 * Convert the string to an array
 		 */
-		if(isset(params[0])){
-			conditions = params[0];
+		if isset(params[0]) {
+			let conditions = params[0];
 		} else {
-			if(isset(params['conditions'])){
-				conditions = params['conditions'];
+			if isset(params['conditions']) {
+				let conditions = params['conditions'];
 			} else {
-				conditions = array();
+				let conditions = [];
 			}
 		}
  
 		/**
 		 * Perform the find
 		 */
-		if (isset(params['fields'])) {
-			fields = params['fields'];
-			documentsCursor = mongoCollection->find(conditions, fields);
+		if isset(params['fields']) {
+			let fields = params['fields'];
+			let documentsCursor = mongoCollection->find(conditions, fields);
 		} else {
-			documentsCursor = mongoCollection->find(conditions);
+			let documentsCursor = mongoCollection->find(conditions);
 		}
  
 		/**
 		 * Check if a 'limit' clause was defined
 		 */
-		if(isset(params['limit'])){
-			limit = params['limit'];
+		if isset(params['limit']) {
+			let limit = params['limit'];
 			documentsCursor->limit(limit);
 		}
  
 		/**
 		 * Check if a 'sort' clause was defined
 		 */
-		if(isset(params['sort'])){
-			sort = params['sort'];
+		if isset(params['sort']) {
+			let sort = params['sort'];
 			documentsCursor->sort(sort);
 		}
  
 		/**
 		 * Check if a 'skip' clause was defined
 		 */
-		if(isset(params['skip'])){
-			sort = params['skip'];
+		if isset(params['skip']) {
+			let sort = params['skip'];
 			documentsCursor->skip(sort);
 		}
  
 		/**
 		 * If a group of specific fields are requested we use a Phalcon\Mvc\Collection\Document instead
 		 */
-		if (isset(params['fields'])) {
-			base = new Phalcon_Mvc_Collection_Document();
+		if isset(params['fields']) {
+			let base = new Phalcon_Mvc_Collection_Document();
 		} else {
-			base = collection;
+			let base = collection;
 		}
  
-		if (unique === true) {
+		if unique === true {
  
 			/**
 			 * Requesting a single result
 			 */
 			documentsCursor->rewind();
  
-			document = documentsCursor->current();
-			if (is_array(document)) {
+			let document = documentsCursor->current();
+			if typeof document == "array" {
  
 				/**
 				 * Assign the values to the base object
@@ -471,16 +472,17 @@ class Collection //implements Phalcon\Mvc\CollectionInterface, Phalcon\Di\Inject
 		/**
 		 * Requesting a complete resultset
 		 */
-		collections = array();
-		documentsArray = iterator_to_array(documentsCursor);
-		foreach (documentsArray as document) {
+		let collections = [];
+		let documentsArray = iterator_to_array(documentsCursor);
+		for document in documentsArray 
+		{
  
 			/**
 			 * Assign the values to the base object
 			 */
-			collectionCloned = self::cloneResult(base, document);
+			let collectionCloned = self::cloneResult(base, document);
  
-			collections[] = collectionCloned;
+			let collections[] = collectionCloned;
 		}
  
 		return collections;
@@ -494,70 +496,72 @@ class Collection //implements Phalcon\Mvc\CollectionInterface, Phalcon\Di\Inject
 	 * @param \MongoDb connection
 	 * @return int
 	 */
-	protected static function _getGroupResultset(params, collection, connection){
- 
-		source = collection->getSource();
-		if (is_empty(source)) {
+	protected static function _getGroupResultset(params, collection, connection) -> int
+	{
+ 		var source, mongoCollection, conditions, simple;
+
+		let source = collection->getSource();
+		if empty(source) {
 			throw new Phalcon\Mvc\Collection\Exception("Method getSource() returns empty string");
 		}
  
-		mongoCollection = connection->selectCollection(source);
+		let mongoCollection = connection->selectCollection(source);
  
 		/**
 		 * Convert the string to an array
 		 */
-		if(isset(params[0])){
-			conditions = params[0];
+		if isset(params[0]) {
+			let conditions = params[0];
 		} else {
-			if(isset(params['conditions'])){
-				conditions = params['conditions'];
+			if isset(params['conditions']) {
+				let conditions = params['conditions'];
 			} else {
-				conditions = array();
+				let conditions = [];
 			}
 		}
  
-		simple = true;
+		let simple = true;
  
-		if(isset(params['limit'])){
-			simple = false;
+		if isset(params['limit']) {
+			let simple = false;
 		} else {
-			if(isset(params['sort'])){
-				simple = false;
+			if isset(params['sort']) {
+				let simple = false;
 			} else {
-				if(isset(params['skip'])){
-					simple = false;
+				if isset(params['skip']) {
+					let simple = false;
 				}
 			}
 		}
  
-		if (simple===false) {
+		if simple===false {
  
 			/**
 			 * Perform the find
 			 */
-			documentsCursor = mongoCollection->find(conditions);
+			let documentsCursor = mongoCollection->find(conditions);
  
 			/**
 			 * Check if a 'limit' clause was defined
 			 */
-			if(isset(params['limit'])){
-				limit = params['limit'];
+			if isset(params['limit']) {
+				let limit = params['limit'];
 				documentsCursor->limit(limit);
 			}
  
 			/**
 			 * Check if a 'sort' clause was defined
 			 */
-			if(isset(params['sort'])){
-				sort = params['sort'];
+			if isset(params['sort']) {
+				let sort = params['sort'];
 				documentsCursor->sort(sort);
 			}
  
 			/**
 			 * Check if a 'skip' clause was defined
 			 */
-			if(isset(params['skip'])){
-				sort = params['skip'];
+			if isset(params['skip']) {
+				let sort = params['skip'];
 				documentsCursor->skip(sort);
 			}
  
@@ -578,27 +582,28 @@ class Collection //implements Phalcon\Mvc\CollectionInterface, Phalcon\Di\Inject
 	 * @param boolean exists
 	 * @return boolean
 	 */
-	protected function _preSave(dependencyInjector, disableEvents, exists){
- 
+	protected function _preSave(dependencyInjector, disableEvents, exists) -> boolean
+	{
+ 		var eventName;
+
 		/**
 		 * Run Validation Callbacks Before
 		 */
-		if(!disableEvents){
+		if !disableEvents {
  
-			eventName = 'beforeValidation';
-			status = this->fireEventCancel(eventName);
-			if(status===false){
+			let status = this->fireEventCancel('beforeValidation');
+			if status===false {
 				return false;
 			}
  
-			if(!exists){
-				eventName = 'beforeValidationOnCreate';
+			if !exists {
+				let eventName = 'beforeValidationOnCreate';
 			} else {
-				eventName = 'beforeValidationOnUpdate';
+				let eventName = 'beforeValidationOnUpdate';
 			}
  
-			status = this->fireEventCancel(eventName);
-			if(status===false){
+			let status = this->fireEventCancel(eventName);
+			if status===false {
 				return false;
 			}
  
@@ -607,53 +612,49 @@ class Collection //implements Phalcon\Mvc\CollectionInterface, Phalcon\Di\Inject
 		/**
 		 * Run validation
 		 */
-		eventName = 'validation';
-		status = this->fireEventCancel(eventName);
-		if(status===false){
-			if(!disableEvents){
-				eventName = 'onValidationFails';
-				this->fireEvent(eventName);
+		let status = this->fireEventCancel('validation');
+		if status===false {
+			if !disableEvents {
+				this->fireEvent('onValidationFails');
 			}
 			return false;
 		}
  
-		if(!disableEvents){
+		if !disableEvents {
  
 			/**
 			 * Run Validation Callbacks After
 			 */
-			if(!exists){
-				eventName = 'afterValidationOnCreate';
+			if !exists {
+				let eventName = 'afterValidationOnCreate';
 			} else {
-				eventName = 'afterValidationOnUpdate';
+				let eventName = 'afterValidationOnUpdate';
 			}
-			status = this->fireEventCancel(eventName);
-			if(status===false){
+			let status = this->fireEventCancel(eventName);
+			if status===false {
 				return false;
 			}
  
-			eventName = 'afterValidation';
-			status = this->fireEventCancel(eventName);
-			if(status===false){
+			let status = this->fireEventCancel('afterValidation');
+			if status===false {
 				return false;
 			}
  
 			/**
 			 * Run Before Callbacks
 			 */
-			eventName = 'beforeSave';
-			status = this->fireEventCancel(eventName);
-			if(status===false){
+			let status = this->fireEventCancel('beforeSave');
+			if status===false {
 				return false;
 			}
  
-			if(exists){
-				eventName = 'beforeUpdate';
+			if exists {
+				let eventName = 'beforeUpdate';
 			} else {
-				eventName = 'beforeCreate';
+				let eventName = 'beforeCreate';
 			}
-			status = this->fireEventCancel(eventName);
-			if(status===false){
+			let status = this->fireEventCancel(eventName);
+			if status===false {
 				return false;
 			}
  
@@ -670,27 +671,27 @@ class Collection //implements Phalcon\Mvc\CollectionInterface, Phalcon\Di\Inject
 	 * @param boolean exists
 	 * @return boolean
 	 */
-	protected function _postSave(disableEvents, success, exists){
+	protected function _postSave(disableEvents, success, exists)
+	{
+ 		var eventName;
+
+		if success===true {
+			if !disableEvents {
  
-		if (success===true) {
-			if (!disableEvents) {
- 
-				if (exists===true) {
-					eventName = 'afterUpdate';
+				if exists===true {
+					let eventName = 'afterUpdate';
 				} else {
-					eventName = 'afterCreate';
+					let eventName = 'afterCreate';
 				}
 				this->fireEvent(eventName);
  
-				eventName = 'afterSave';
-				this->fireEvent(eventName);
+				this->fireEvent('afterSave');
 			}
 			return success;
 		}
  
-		if (!disableEvents) {
-			eventName = 'notSave';
-			this->fireEvent(eventName);
+		if !disableEvents {
+			this->fireEvent('notSave');
 		}
  
 		this->_cancelOperation(disableEvents);
@@ -722,17 +723,18 @@ class Collection //implements Phalcon\Mvc\CollectionInterface, Phalcon\Di\Inject
 	 *
 	 * @param object validator
 	 */
-	protected function validate(validator){
+	protected function validate(validator)
+	{
  
-		if(!is_object(validator)){
+		if typeof validator != "object" {
 			throw new Phalcon\Mvc\Model\Exception("Validator must be an Object");
 		}
  
-		status = validator->validate(this);
-		if(status===false){
-			messages = validator->getMessages();
-			foreach(messages as message){
-				this->_errorMessages[] = message;
+		let status = validator->validate(this);
+		if status===false {
+			for message in validator->getMessages()
+			{
+				let this->_errorMessages[] = message;
 			}
 		}
 	}
@@ -762,10 +764,13 @@ class Collection //implements Phalcon\Mvc\CollectionInterface, Phalcon\Di\Inject
 	 *
 	 * @return boolean
 	 */
-	public function validationHasFailed(){
-		errorMessages = this->_errorMessages;
-		if(is_array(errorMessages)){
-			if(count(errorMessages)){
+	public function validationHasFailed() -> boolean
+	{
+		var errorMessages;
+
+		let errorMessages = this->_errorMessages;
+		if typeof errorMessages == "array" {
+			if count(errorMessages) {
 				return true;
 			}
 		}
@@ -778,19 +783,21 @@ class Collection //implements Phalcon\Mvc\CollectionInterface, Phalcon\Di\Inject
 	 * @param string eventName
 	 * @return boolean
 	 */
-	public function fireEvent(eventName){
- 
+	public function fireEvent(eventName) -> boolean
+	{
+ 		var modelsManager;
+
 		/**
 		 * Check if there is a method with the same name of the event
 		 */
-		if(method_exists(this, eventName)){
+		if method_exists(this, eventName) {
 			this->eventName();
 		}
  
 		/**
 		 * Send a notification to the events manager
 		 */
-		modelsManager = this->_modelsManager;
+		let modelsManager = this->_modelsManager;
 		return modelsManager->notifyEvent(eventName, this);
 	}
  
@@ -800,14 +807,16 @@ class Collection //implements Phalcon\Mvc\CollectionInterface, Phalcon\Di\Inject
 	 * @param string eventName
 	 * @return boolean
 	 */
-	public function fireEventCancel(eventName){
- 
+	public function fireEventCancel(eventName)
+	{
+ 		var status;
+
 		/**
 		 * Check if there is a method with the same name of the event
 		 */
-		if (method_exists(this, eventName)) {
-			status = this->eventName();
-			if(status===false){
+		if method_exists(this, eventName) {
+			let status = this->eventName();
+			if status===false {
 				return false;
 			}
 		}
@@ -815,9 +824,9 @@ class Collection //implements Phalcon\Mvc\CollectionInterface, Phalcon\Di\Inject
 		/**
 		 * Send a notification to the events manager
 		 */
-		modelsManager = this->_modelsManager;
-		status = modelsManager->notifyEvent(eventName, this);
-		if (status===false) {
+		let modelsManager = this->_modelsManager;
+		let status = modelsManager->notifyEvent(eventName, this);
+		if status===false {
 			return false;
 		}
  
@@ -829,13 +838,16 @@ class Collection //implements Phalcon\Mvc\CollectionInterface, Phalcon\Di\Inject
 	 *
 	 * @return boolean
 	 */
-	protected function _cancelOperation(disableEvents){
-		if (!disableEvents) {
-			operationMade = this->_operationMade;
-			if (operationMade==3) {
-				eventName = 'notDeleted';
+	protected function _cancelOperation(disableEvents)
+	{
+		var operationMade, eventName;
+
+		if !disableEvents {
+			let operationMade = this->_operationMade;
+			if operationMade==3 {
+				let eventName = 'notDeleted';
 			} else {
-				eventName = 'notSaved';
+				let eventName = 'notSaved';
 			}
 			this->fireEvent(eventName);
 		}
@@ -847,37 +859,39 @@ class Collection //implements Phalcon\Mvc\CollectionInterface, Phalcon\Di\Inject
 	 *
 	 * @param \MongoCollection collection
 	 */
-	protected function _exists(collection){
-		if(isset(this->_id)){
- 
-			id = this->_id;
-			if(is_object(id)){
-				mongoId = id;
+	protected function _exists(collection)
+	{
+		var id, mongoId, modelsManager, useImplicitIds, parameters, documentCount;
+
+		if isset(this->_id) { 
+			
+			let id = this->_id;
+			if typeof id == "object" {
+				let mongoId = id;
 			} else {
  
-				modelsManager = this->_modelsManager;
+				let modelsManager = this->_modelsManager;
  
 				/**
 				 * Check if the model use implicit ids
 				 */
-				useImplicitIds = modelsManager->isUsingImplicitObjectIds(this);
-				if (useImplicitIds) {
-					mongoId = new MongoId(id);
-					this->_id = mongoId;
+				let useImplicitIds = modelsManager->isUsingImplicitObjectIds(this);
+				if useImplicitIds {
+					let mongoId = new MongoId(id);
+					let this->_id = mongoId;
 				} else {
-					mongoId = id;
+					let mongoId = id;
 				}
 			}
  
-			parameters = array('_id' => mongoId);
+			let parameters = ["_id": mongoId];
  
 			/**
 			 * Perform the count using the function provided by the driver
 			 */
-			documentCount = collection->count(parameters);
+			let documentCount = collection->count(parameters);
  
-			zero = 0;
-			return documentCount > zero;
+			return documentCount > 0;
 		}
 		return false;
 	}
@@ -902,7 +916,8 @@ class Collection //implements Phalcon\Mvc\CollectionInterface, Phalcon\Di\Inject
 	 *
 	 * @return Phalcon\Mvc\Model\MessageInterface[]
 	 */
-	public function getMessages(){
+	public function getMessages()
+	{
 		return this->_errorMessages;
 	}
  
@@ -927,13 +942,15 @@ class Collection //implements Phalcon\Mvc\CollectionInterface, Phalcon\Di\Inject
 	 *
 	 * @param Phalcon\Mvc\Model\MessageInterface message
 	 */
-	public function appendMessage(message){
-		if(!is_object(message)){
-			type = gettype(message);
-			exceptionMessage = "Invalid message format '".type."'";
-			throw new Phalcon\Mvc\Model\Exception(exceptionMessage);
+	public function appendMessage(message)
+	{
+		var type;
+
+		if typeof message != "object" {
+			let type = gettype(message);
+			throw new Phalcon\Mvc\Model\Exception("Invalid message format '". type ."'");
 		}
-		this->_errorMessages[] = message;
+		let this->_errorMessages[] = message;
 	}
  
 	/**
@@ -941,99 +958,101 @@ class Collection //implements Phalcon\Mvc\CollectionInterface, Phalcon\Di\Inject
 	 *
 	 * @return boolean
 	 */
-	public function save(){
- 
-		dependencyInjector = this->_dependencyInjector;
+	public function save() -> boolean
+	{
+ 		var dependencyInjector, connection, exists, source, data, properties, reserved,
+ 			success, options, status, id, ok;
+
+		let dependencyInjector = this->_dependencyInjector;
 		if typeof dependencyInjector != "object" {
 			throw new Phalcon\Mvc\Model\Exception("A dependency injector container is required to obtain the services related to the ORM");
 		}
  
-		source = this->getSource();
-		if (is_empty(source)) {
+		let source = this->getSource();
+		if empty(source) {
 			throw new Phalcon\Mvc\Collection\Exception("Method getSource() returns empty string");
 		}
  
-		connection = this->getConnection();
+		let connection = this->getConnection();
  
 		/**
 		 * Choose a collection according to the collection name
 		 */
-		collection = connection->selectCollection(source);
+		let collection = connection->selectCollection(source);
  
 		/**
 		 * Check the dirty state of the current operation to update the current operation
 		 */
-		exists = this->_exists(collection);
+		let exists = this->_exists(collection);
  
-		if(exists===false){
-			this->_operationMade = 1;
+		if exists===false {
+			let this->_operationMade = 1;
 		} else {
-			this->_operationMade = 2;
+			let this->_operationMade = 2;
 		}
- 
-		emptyArray = array();
  
 		/**
 		 * The messages added to the validator are reset here
 		 */
-		this->_errorMessages = emptyArray;
+		let this->_errorMessages = [];
  
-		disableEvents = self::_disableEvents;
+		let disableEvents = self::_disableEvents;
  
 		/**
 		 * Execute the preSave hook
 		 */
-		status = this->_preSave(dependencyInjector, disableEvents, exists);
-		if(status===false){
+		let status = this->_preSave(dependencyInjector, disableEvents, exists);
+		if status===false {
 			return false;
 		}
  
-		data = array();
+		let data = [];
  
-		reserved = this->getReservedAttributes();
-		properties = get_object_vars(this);
+		let reserved = this->getReservedAttributes();
+		let properties = get_object_vars(this);
  
 		/**
 		 * We only assign values to the public properties
 		 */
-		foreach (properties as key => value) {
-			if(key=='_id'){
-				if(!is_null(value)){
-					data[key] = value;
+		for key, value in properties 
+		{
+			if key=='_id' {
+				if value {
+					let data[key] = value;
 				}
 			} else {
-				if(!isset(reserved[key])){
-					data[key] = value;
+				if !isset(reserved[key]) {
+					let data[key] = value;
 				}
 			}
 		}
  
-		success = false;
+		let success = false;
  
 		/**
 		 * We always use safe stores to get the success state
 		 */
-		options = array("safe" => true);
+		let options = ["safe": true];
  
 		/**
 		 * Save the document
 		 */
-		status = collection->save(data, options);
-		if(is_array(status)){
-			if(isset(status['ok'])){
-				ok = status['ok'];
-				if(ok){
-					success = true;
-					if(exists===false){
-						if(isset(data['_id'])){
-							id = data['_id'];
-							this->_id = id;
+		let status = collection->save(data, options);
+		if is_array(status) {
+			if isset(status['ok']) {
+				let ok = status['ok'];
+				if (ok) {
+					let success = true;
+					if exists===false {
+						if isset(data['_id']) {
+							let id = data['_id'];
+							let this->_id = id;
 						}
 					}
 				}
 			}
 		} else {
-			success = false;
+			let success = false;
 		}
  
 		/**
@@ -1048,32 +1067,35 @@ class Collection //implements Phalcon\Mvc\CollectionInterface, Phalcon\Di\Inject
 	 * @param string|\MongoId id
 	 * @return Phalcon\Mvc\Collection
 	 */
-	public static function findById(id){
- 
+	public static function findById(id) -> <Phalcon\Mvc\Collection>
+	{
+ 		var className, collection, modelsManager, useImplicitIds, mongoId, conditions, parameters;
+
 		if typeof id != "object" {
  
-			className = get_called_class();
+			let className = get_called_class();
  
-			collection = new className();
+			let collection = new className();
  
-			modelsManager = collection->getModelsManager();
+			let modelsManager = collection->getModelsManager();
  
 			/**
 			 * Check if the model use implicit ids
 			 */
-			useImplicitIds = modelsManager->isUsingImplicitObjectIds(collection);
-			if (useImplicitIds) {
-				mongoId = new MongoId(id);
+			let useImplicitIds = modelsManager->isUsingImplicitObjectIds(collection);
+			if useImplicitIds {
+				let mongoId = new MongoId(id);
 			} else {
-				mongoId = id;
+				let mongoId = id;
 			}
  
 		} else {
-			mongoId = id;
+			let mongoId = id;
 		}
  
-		conditions = array('_id' => mongoId);
-		parameters = array(conditions);
+		let conditions = ["_id": mongoId];
+		let parameters = [conditions];
+
 		return self::findFirst(parameters);
 	}
  
@@ -1104,22 +1126,23 @@ class Collection //implements Phalcon\Mvc\CollectionInterface, Phalcon\Di\Inject
 	 * @param array parameters
 	 * @return array
 	 */
-	public static function findFirst(parameters=null){
- 
-		if(!is_null(parameters)){
-			if(!is_array(parameters)){
+	public static function findFirst(parameters=null)
+	{
+ 		var className, collection, modelsManager;
+
+		if parameters {
+			if typeof parameters != "array" {
 				throw new Phalcon\Mvc\Collection\Exception("Invalid parameters for findFirst");
 			}
 		}
  
-		className = get_called_class();
+		let className = get_called_class();
  
-		collection = new className();
+		let collection = new className();
  
-		connection = collection->getConnection();
+		let connection = collection->getConnection();
  
-		unique = true;
-		return self::_getResultset(parameters, collection, connection, unique);
+		return self::_getResultset(parameters, collection, connection, true);
 	}
  
 	/**
@@ -1160,22 +1183,23 @@ class Collection //implements Phalcon\Mvc\CollectionInterface, Phalcon\Di\Inject
 	 * @param 	array parameters
 	 * @return  array
 	 */
-	public static function find(parameters=null){
- 
-		if(!is_null(parameters)){
-			if(!is_array(parameters)){
+	public static function find(parameters=null)
+	{
+ 		var className, collection, connection;
+
+		if parameters {
+			if typeof parameters != "array" {
 				throw new Phalcon\Mvc\Collection\Exception("Invalid parameters for find");
 			}
 		}
  
-		className = get_called_class();
+		let className = get_called_class();
  
-		collection = new className();
+		let collection = new className();
  
-		connection = collection->getConnection();
+		let connection = collection->getConnection();
  
-		unique = false;
-		return self::_getResultset(parameters, collection, connection, unique);
+		return self::_getResultset(parameters, collection, connection, false);
 	}
  
 	/**
@@ -1188,19 +1212,21 @@ class Collection //implements Phalcon\Mvc\CollectionInterface, Phalcon\Di\Inject
 	 * @param array parameters
 	 * @return array
 	 */
-	public static function count(parameters=null){
- 
-		if(!is_null(parameters)){
-			if(!is_array(parameters)){
+	public static function count(parameters=null)
+	{
+ 		var className, collection, connection;
+
+		if parameters {
+			if typeof parameters != "array" {
 				throw new Phalcon\Mvc\Collection\Exception("Invalid parameters for count");
 			}
 		}
  
-		className = get_called_class();
+		let className = get_called_class();
  
-		collection = new className();
+		let collection = new className();
  
-		connection = collection->getConnection();
+		let connection = collection->getConnection();
  
 		return self::_getGroupResultset(parameters, collection, connection);
 	}
@@ -1212,26 +1238,28 @@ class Collection //implements Phalcon\Mvc\CollectionInterface, Phalcon\Di\Inject
 	 * @param array parameters
 	 * @return array
 	 */
-	public static function aggregate(parameters){
- 
-		if(!is_null(parameters)){
-			if(!is_array(parameters)){
+	public static function aggregate(parameters)
+	{
+ 		var className, model, connection, source;
+
+		if parameters {
+			if typeof parameters != "array" {
 				throw new Phalcon\Mvc\Collection\Exception("Invalid parameters for aggregate");
 			}
 		}
  
-		className = get_called_class();
+		let className = get_called_class();
  
-		model = new className();
+		let model = new className();
  
-		connection = model->getConnection();
+		let connection = model->getConnection();
  
-		source = model->getSource();
-		if (is_empty(source)) {
+		let source = model->getSource();
+		if empty(source) {
 			throw new Phalcon\Mvc\Collection\Exception("Method getSource() returns empty string");
 		}
  
-		collection = connection->selectCollection(source);
+		let collection = connection->selectCollection(source);
  
 		return collection->aggregate(parameters);
 	}
@@ -1244,48 +1272,50 @@ class Collection //implements Phalcon\Mvc\CollectionInterface, Phalcon\Di\Inject
 	 * @param string finalize
 	 * @return array
 	 */
-	public static function summatory(field, conditions=null, finalize=null){
- 
-		if (!is_string(field)) {
+	public static function summatory(field, conditions=null, finalize=null)
+	{
+ 		var className, model, connection, source, collection, keys, emptyArray, initial,
+ 			reduce, group, retval, firstRetval;
+
+		if typeof field != "string" {
 			throw new Phalcon\Mvc\Collection\Exception("Invalid field name for group");
 		}
  
-		className = get_called_class();
+		let className = get_called_class();
  
-		model = new className();
+		let model = new className();
  
-		connection = model->getConnection();
+		let connection = model->getConnection();
  
-		source = model->getSource();
-		if (is_empty(source)) {
+		let source = model->getSource();
+		if empty(source) {
 			throw new Phalcon\Mvc\Collection\Exception("Method getSource() returns empty string");
 		}
  
-		collection = connection->selectCollection(source);
+		let collection = connection->selectCollection(source);
  
-		keys = array();
+		let keys = [];
  
-		emptyArray = array();
+		let emptyArray = [];
  
 		/**
 		 * Uses a javascript hash to group the results
 		 */
-		initial = array("summatory" => emptyArray);
+		let initial = ["summatory": emptyArray];
  
 		/**
 		 * Uses a javascript hash to group the results, however this is slow with larger datasets
 		 */
-		reduce = "function (curr, result) { if (typeof result.summatory[curr.".field."] === \"undefined\") { result.summatory[curr.".field."] = 1; } else { result.summatory[curr.".field."]++; } }";
+		let reduce = "function (curr, result) { if (typeof result.summatory[curr.".field."] === \"undefined\") { result.summatory[curr.".field."] = 1; } else { result.summatory[curr.".field."]++; } }";
  
-		group = collection->group(keys, initial, reduce);
+		let group = collection->group(keys, initial, reduce);
  
-		if (isset(group['retval'])) {
-			retval = group['retval'];
-			if (isset(retval[0])) {
-				firstRetval = retval[0];
-				if (isset(firstRetval["summatory"])) {
-					summatory = firstRetval["summatory"];
-					return summatory;
+		if isset(group['retval']) {
+			let retval = group['retval'];
+			if isset(retval[0]) {
+				let firstRetval = retval[0];
+				if isset(firstRetval["summatory"]) {
+					return firstRetval["summatory"];
 				}
 				return firstRetval;
 			}
@@ -1308,79 +1338,80 @@ class Collection //implements Phalcon\Mvc\CollectionInterface, Phalcon\Di\Inject
 	 *
 	 * @return boolean
 	 */
-	public function delete(){
- 
-		if(!isset(this->_id)){
+	public function delete()
+	{
+ 		var disableEvents, eventName, status, id, connection, source, collection, mongoId,
+ 			modelsManager, useImplicitIds, idCondition, success, options, ok;
+
+		if !isset(this->_id) {
 			throw new Phalcon\Mvc\Collection\Exception("The document cannot be deleted because it doesn't exist");
 		}
  
-		disableEvents = self::_disableEvents;
+		let disableEvents = self::_disableEvents;
  
-		if(!disableEvents){
-			eventName = 'beforeDelete';
-			status = this->fireEventCancel(eventName);
-			if(status===false){
+		if !disableEvents {
+			let status = this->fireEventCancel('beforeDelete');
+			if status===false {
 				return false;
 			}
 		}
  
-		id = this->_id;
-		connection = this->getConnection();
+		let id = this->_id;
+		let connection = this->getConnection();
  
-		source = this->getSource();
-		if (is_empty(source)) {
+		let source = this->getSource();
+		if empty(source) {
 			throw new Phalcon\Mvc\Collection\Exception("Method getSource() returns empty string");
 		}
  
 		/**
 		 * Get the \MongoCollection
 		 */
-		collection = connection->selectCollection(source);
+		let collection = connection->selectCollection(source);
  
-		if(is_object(id)){
-			mongoId = id;
+		if typeof id == "object" {
+			let mongoId = id;
 		} else {
  
-			modelsManager = this->_modelsManager;
+			let modelsManager = this->_modelsManager;
  
 			/**
 			 * Is the collection using implicit object Ids?
 			 */
-			useImplicitIds = modelsManager->isUsingImplicitObjectIds(this);
-			if (useImplicitIds) {
-				mongoId = new MongoId(id);
+			let useImplicitIds = modelsManager->isUsingImplicitObjectIds(this);
+			if useImplicitIds {
+				let mongoId = new MongoId(id);
 			} else {
-				mongoId = id;
+				let mongoId = id;
 			}
 		}
  
-		idCondition = array('_id' => mongoId);
+		let idCondition = ["_id": mongoId];
  
-		success = false;
-		options = array("safe" => true);
+		let success = false;
+		let options = ["safe": true];
  
 		/**
 		 * Remove the instance
 		 */
-		status = collection->remove(idCondition, options);
-		if(!is_array(status)){
+		let status = collection->remove(idCondition, options);
+		if typeof status != "array" {
 			return false;
 		}
  
 		/**
 		 * Check the operation status
 		 */
-		if(isset(status['ok'])){
-			ok = status['ok'];
-			if(ok){
-				success = true;
-				if(!disableEvents){
-					eventName = 'afterDelete';
-					this->fireEvent(eventName);
+		if isset(status['ok']) {
+			let ok = status['ok'];
+			if ok {
+				let success = true;
+				if !disableEvents {
+					this->fireEvent('afterDelete');
 				}
 			}
 		} else {
-			success = false;
+			let success = false;
 		}
  
 		return success;
@@ -1390,33 +1421,36 @@ class Collection //implements Phalcon\Mvc\CollectionInterface, Phalcon\Di\Inject
 	 * Returns the instance as an array representation
 	 *
 	 *<code>
-	 * print_r(robot->toArray());
+	 * print_r(robot->to[]);
 	 *</code>
 	 *
 	 * @return array
 	 */
-	public function toArray(){
+	public function toArray()
+	{
+ 		var data, reserved, properties;
+
+		let data = [];
  
-		data = array();
- 
-		reserved = this->getReservedAttributes();
+		let reserved = this->getReservedAttributes();
  
 		/**
 		 * Get an array with the values of the object
 		 */
-		properties = get_object_vars(this);
+		let properties = get_object_vars(this);
  
 		/**
 		 * We only assign values to the public properties
 		 */
-		foreach (properties as key => value) {
-			if (key=='_id') {
-				if(!is_null(value)){
-					data[key] = value;
+		for key, value in properties 
+		{
+			if key=='_id' {
+				if value {
+					let data[key] = value;
 				}
 			} else {
-				if(!isset(reserved[key])){
-					data[key] = value;
+				if !isset(reserved[key]) {
+					let data[key] = value;
 				}
 			}
 		}
@@ -1429,14 +1463,13 @@ class Collection //implements Phalcon\Mvc\CollectionInterface, Phalcon\Di\Inject
 	 *
 	 * @return string
 	 */
-	public function serialize(){
- 
-		data = this->toArray();
- 
+	public function serialize()
+	{
+ 	
 		/**
 		 * Use the standard serialize function to serialize the array data
 		 */
-		return serialize(data);
+		return serialize(this->toArray());
 	}
  
 	/**
@@ -1444,43 +1477,46 @@ class Collection //implements Phalcon\Mvc\CollectionInterface, Phalcon\Di\Inject
 	 *
 	 * @param string data
 	 */
-	public function unserialize(data){
-		if(is_string(data)){
-			attributes = unserialize(data);
-			if(is_array(attributes)){
+	public function unserialize(data)
+	{
+		var attributes;
+
+		if typeof data == "string" {
+			let attributes = unserialize(data);
+			if typeof attributes != "array" {
  
 				/**
 				 * Obtain the default DI
 				 */
-				dependencyInjector = Phalcon\DI::getDefault();
-				if (!is_object(dependencyInjector)) {
+				let dependencyInjector = Phalcon\DI::getDefault();
+				if typeof dependencyInjector != "object" {
 					throw new Phalcon\Mvc\Model\Exception("A dependency injector container is required to obtain the services related to the ODM");
 				}
  
 				/**
 				 * Update the dependency injector
 				 */
-				this->_dependencyInjector = dependencyInjector;
+				let this->_dependencyInjector = dependencyInjector;
  
 				/**
 				 * Gets the default modelsManager service
 				 */
-				service = 'collectionManager';
-				manager = dependencyInjector->getShared(service);
-				if(!is_object(manager)){
+				let manager = dependencyInjector->getShared('collectionManager');
+				if typeof manager != "object" {
 					throw new Phalcon\Mvc\Model\Exception("The injected service 'collectionManager' is not valid");
 				}
  
 				/**
 				 * Update the models manager
 				 */
-				this->_modelsManager = manager;
+				let this->_modelsManager = manager;
  
 				/**
 				 * Update the objects attributes
 				 */
-				foreach (attributes as key => value) {
-					this->key = value;
+				for key, value in attributes 
+				{
+					let this->key = value;
 				}
  
 				return null;
