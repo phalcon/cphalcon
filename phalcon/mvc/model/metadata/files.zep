@@ -38,10 +38,11 @@ class Files extends Phalcon\Mvc\Model\MetaData implements Phalcon\Mvc\Model\Meta
 	/**
 	 * Phalcon\Mvc\Model\MetaData\Files constructor
 	 *
-	 * @param array $options
+	 * @param array options
 	 */
 	public function __construct($options=null)
 	{
+		var metaDataDir;
 		if typeof options == "array" {
 			if fetch metaDataDir, options["metaDataDir"] {
 				let this->_metaDataDir = metaDataDir;
@@ -58,6 +59,7 @@ class Files extends Phalcon\Mvc\Model\MetaData implements Phalcon\Mvc\Model\Meta
 	 */
 	public function read(string! key)
 	{
+		var path;
 		let path = this->_metaDataDir . phalcon_prepare_virtual_path(key, "_") . ".php";
 		if file_exists(path) {
 			return require path;

@@ -51,8 +51,7 @@ namespace Phalcon\Mvc;
  * </code>
  *
  */
-abstract class Model //implements Phalcon\Mvc\ModelInterface, Phalcon\Mvc\Model\ResultInterface,
-	//Phalcon\Di\InjectionAwareInterface, Serializable
+abstract class Model implements Phalcon\Mvc\ModelInterface, Phalcon\Mvc\Model\ResultInterface, Phalcon\Di\InjectionAwareInterface, Serializable
 {
 
 	protected _dependencyInjector;

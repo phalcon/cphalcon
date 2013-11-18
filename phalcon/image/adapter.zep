@@ -19,7 +19,7 @@
 
 namespace Phalcon\Image;
 
-class Adapter
+abstract class Adapter
 {
 
 	protected _image;
@@ -184,7 +184,7 @@ class Adapter
 		let width  = (int) max(round(width), 1);
 		let height = (int) max(round(height), 1);
 
-		this->_resize(width, height);
+		this->{"_resize"}(width, height);
 
 		return this;
 	}
@@ -232,7 +232,7 @@ class Adapter
 			let height = this->_height - offset_y;
 		}
 
-		this->_crop(width, height);
+		this->{"_crop"}(width, height);
 
 		return this;
 	}
@@ -256,7 +256,7 @@ class Adapter
 			}
 		}
 
-		this->_rotate(degrees);
+		this->{"_rotate"}(degrees);
 		return this;
 	}
 
@@ -272,7 +272,7 @@ class Adapter
 			let direction = Phalcon\Image::HORIZONTAL;
 		}
 
-		this->_flip(direction);
+		this->{"_flip"}(direction);
 		return this;
 	}
 
@@ -292,7 +292,7 @@ class Adapter
 			}
 		}
 
-		this->_sharpen(amount);
+		this->{"_sharpen"}(amount);
 		return this;
 	}
 
@@ -318,7 +318,7 @@ class Adapter
 			}
 		}
 
-		this->_reflection(height, opacity, fade_in);
+		this->{"_reflection"}(height, opacity, fade_in);
 
 		return this;
 	}
@@ -364,7 +364,7 @@ class Adapter
 			}
 		}
 
-		this->_watermark(watermark, offset_x, offset_y, opacity);
+		this->{"_watermark"}(watermark, offset_x, offset_y, opacity);
 
 		return this;
 	}
@@ -403,7 +403,7 @@ class Adapter
 
 		let colors = array_map("hexdec", str_split(color, 2));
 
-		this->_text(text, offset_x, offset_y, opacity, colors[0], colors[1], colors[2], size, fontfile);
+		this->{"_text"}(text, offset_x, offset_y, opacity, colors[0], colors[1], colors[2], size, fontfile);
 
 		return this;
 	}
@@ -414,9 +414,9 @@ class Adapter
  	 * @param Phalcon\Image\Adapter watermark
  	 * @return Phalcon\Image\Adapter
  	 */
-	public function mask(<Phalcon\Image\Adapter> mask) -> <Phalcon\Image\Adapter>
+	public function mask(<Phalcon\Image\Adapter> watermark) -> <Phalcon\Image\Adapter>
 	{
-		this->_mask(watermark);
+		this->{"_mask"}(watermark); 
 		return this;
 	}
 
@@ -441,7 +441,7 @@ class Adapter
 
 		let colors = array_map("hexdec", str_split(color, 2));
 
-		this->_background(colors[0], colors[1], colors[2], opacity);
+		this->{"_background"}(colors[0], colors[1], colors[2], opacity);
 		return this;
 	}
 
@@ -461,7 +461,7 @@ class Adapter
 			}
 		}
 
-		this->_blur(radius);
+		this->{"_blur"}(radius);
 		return this;
 	}
 
@@ -477,7 +477,7 @@ class Adapter
 			let amount = 2;
 		}
 
-		this->_pixelate(amount);
+		this->{"_pixelate"}(amount);
 		return this;
 	}
 
@@ -502,7 +502,7 @@ class Adapter
 			}
 		}
 
-		this->_save(file, quality);
+		this->{"_save"}(file, quality);
 		return this;
 	}
 
@@ -531,7 +531,7 @@ class Adapter
 			}
 		}
 
-		this->_render(ext, quality);
+		this->{"_render"}(ext, quality);
 		return this;
 	}
 

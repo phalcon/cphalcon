@@ -106,15 +106,15 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Memory, read) {
  * Writes the meta-data to temporal memory
  *
  * @param string key
- * @param array metaData
+ * @param array data
  */
 PHP_METHOD(Phalcon_Mvc_Model_MetaData_Memory, write) {
 
-	zval *key_param = NULL, *metaData;
+	zval *key_param = NULL, *data;
 	zval *key = NULL;
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 2, 0, &key_param, &metaData);
+	zephir_fetch_params(1, 2, 0, &key_param, &data);
 
 		if (Z_TYPE_P(key_param) != IS_STRING) {
 				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'key' must be a string") TSRMLS_CC);

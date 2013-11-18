@@ -66,7 +66,7 @@ class Imagick extends Phalcon\Image\Adapter implements Phalcon\Image\AdapterInte
 			if !this->_image->getImageAlphaChannel() {
 				this->_image->setImageAlphaChannel(Imagick::ALPHACHANNEL_SET);
 			}
-			
+
 			if this->_type == 1 {
 				let image = this->_image->coalesceImages();
 				this->_image->clear();
@@ -110,18 +110,24 @@ class Imagick extends Phalcon\Image\Adapter implements Phalcon\Image\AdapterInte
 
 	protected function _crop(int width, int height, int offset_x, int offset_y)
 	{
-		this->_image->setIteratorIndex(0);
+		var image;
+
+		let image = this->_image;
+
+		image->setIteratorIndex(0);
 
 		loop {
-			this->_image->cropImage(width, height, offset_x, offset_y);
-			this->_image->setImagePage(width, height, 0, 0);
-			if  !this->_image->nextImage() {
+
+			image->cropImage(width, height, offset_x, offset_y);
+			image->setImagePage(width, height, 0, 0);
+
+			if !image->nextImage() {
 				break;
 			}
 		}
 
-		let this->_width = this->_image->getImageWidth();
-		let this->_height = this->_image->getImageHeight();
+		let this->_width  = image->getImageWidth();
+		let this->_height = image->getImageHeight();
 	}
 
 	protected function _rotate(int degrees)
@@ -149,7 +155,7 @@ class Imagick extends Phalcon\Image\Adapter implements Phalcon\Image\AdapterInte
 		var func;
 
 		let func = "flipImage";
-		if direction === Image::HORIZONTAL {
+		if direction === Phalcon\Image::HORIZONTAL {
 		   let func = "flopImage";
 		}
 
@@ -217,7 +223,7 @@ class Imagick extends Phalcon\Image\Adapter implements Phalcon\Image\AdapterInte
 				break;
 			}
 		}
-		
+
 		fade->destroy();
 
 		let image = new Imagick();
@@ -227,6 +233,7 @@ class Imagick extends Phalcon\Image\Adapter implements Phalcon\Image\AdapterInte
 		this->_image->setIteratorIndex(0);
 
 		loop {
+
 			image->newImage(this->_width, height, pixel);
 			image->setImageAlphaChannel(Imagick::ALPHACHANNEL_SET);
 			image->setColorspace(this->_image->getColorspace());
@@ -242,6 +249,7 @@ class Imagick extends Phalcon\Image\Adapter implements Phalcon\Image\AdapterInte
 		reflection->setIteratorIndex(0);
 
 		loop {
+
 			image->compositeImage(reflection, Imagick::COMPOSITE_OVER, 0, this->_height);
 			image->setImageAlphaChannel(Imagick::ALPHACHANNEL_SET);
 			image->setColorspace(this->_image->getColorspace());
@@ -254,7 +262,7 @@ class Imagick extends Phalcon\Image\Adapter implements Phalcon\Image\AdapterInte
 		}
 
 		reflection->destroy();
-		
+
 		this->_image->clear();
 		this->_image->destroy();
 
@@ -270,7 +278,7 @@ class Imagick extends Phalcon\Image\Adapter implements Phalcon\Image\AdapterInte
 		let opacity = opacity / 100;
 
 		let watermark = new Imagick();
-		
+
 		watermark->readImageBlob(image->render());
 		watermark->setImageOpacity(opacity);
 
@@ -295,7 +303,7 @@ class Imagick extends Phalcon\Image\Adapter implements Phalcon\Image\AdapterInte
 
 		let draw = new ImagickDraw();
 
-		let color = sprintf("rgb(%d, %d, %d)", r, g, b);		
+		let color = sprintf("rgb(%d, %d, %d)", r, g, b);
 		let pixel = new ImagickPixel(color);
 
 		draw->setFillColor(pixel);
@@ -312,21 +320,21 @@ class Imagick extends Phalcon\Image\Adapter implements Phalcon\Image\AdapterInte
 			draw->setfillopacity(opacity);
 		}
 
-		if (offset_x < 0) {
+		if offset_x < 0 {
 			let offset_x = abs(offset_x);
-			if (offset_y < 0) {
+			if offset_y < 0 {
 				let offset_y = abs(offset_y);
 				let gravity = Imagick::GRAVITY_SOUTHEAST;
-			} else {		
+			} else {
 				let gravity = Imagick::GRAVITY_NORTHEAST;
 			}
 		} else {
-			if (y < 0) {
+			/*if y < 0 { where y comes from??
 				let offset_y = abs(offset_y);
 				let gravity = Imagick::GRAVITY_SOUTHWEST;
 			} else {
 				let gravity = Imagick::GRAVITY_NORTHWEST;
-			}
+			}*/
 		}
 
 		draw->setGravity(gravity);
@@ -335,7 +343,7 @@ class Imagick extends Phalcon\Image\Adapter implements Phalcon\Image\AdapterInte
 
 		loop {
 			this->_image->annotateImage(draw, offset_x, offset_y, 0, text);
-			if  !this->_image->nextImage() {
+			if !this->_image->nextImage() {
 				break;
 			}
 		}
@@ -346,10 +354,10 @@ class Imagick extends Phalcon\Image\Adapter implements Phalcon\Image\AdapterInte
 	{
 		var mask;
 
-		let opacity = opacity / 100;
+		//let opacity = opacity / 100; // where opacity comes from?
 
 		let mask = new Imagick();
-		
+
 		mask->readImageBlob(image->render());
 
 		this->_image->setIteratorIndex(0);
@@ -370,7 +378,7 @@ class Imagick extends Phalcon\Image\Adapter implements Phalcon\Image\AdapterInte
 	{
 		var background, color, pixel1, pixel2;
 
-		let color = sprintf("rgb(%d, %d, %d)", r, g, b);		
+		let color = sprintf("rgb(%d, %d, %d)", r, g, b);
 		let pixel1 = new ImagickPixel(color);
 		let opacity = opacity / 100;
 
@@ -385,7 +393,7 @@ class Imagick extends Phalcon\Image\Adapter implements Phalcon\Image\AdapterInte
 				background->setImageAlphaChannel(Imagick::ALPHACHANNEL_SET);
 			}
 			background->setImageBackgroundColor(pixel2);
-			background->evaluateImage(Imagick::EVALUATE_MULTIPLY, opacity, Imagick::CHANNEL_ALPHA);		
+			background->evaluateImage(Imagick::EVALUATE_MULTIPLY, opacity, Imagick::CHANNEL_ALPHA);
 			background->setColorspace(this->_image->getColorspace());
 			background->compositeImage(this->_image, Imagick::COMPOSITE_DISSOLVE, 0, 0);
 			if  !this->_image->nextImage() {
@@ -434,7 +442,7 @@ class Imagick extends Phalcon\Image\Adapter implements Phalcon\Image\AdapterInte
 		var ext, fp;
 
 		let ext = pathinfo(file, PATHINFO_EXTENSION);
-		
+
 		this->_image->setFormat(ext);
 		this->_image->setImageFormat(ext);
 
@@ -458,29 +466,36 @@ class Imagick extends Phalcon\Image\Adapter implements Phalcon\Image\AdapterInte
 
 	protected function _render(string ext, int quality)
 	{
-		this->_image->setFormat(ext);
-		this->_image->setImageFormat(ext);
-		let this->_type = this->_image->getImageType();
-		let this->_mime = "image/".this->_image->getImageFormat();
+		var image;
+
+		let image = this->_image;
+
+		image->setFormat(ext);
+		image->setImageFormat(ext);
+
+		let this->_type = image->getImageType();
+		let this->_mime = "image/" . image->getImageFormat();
 
 		if strcasecmp(ext, "gif") == 0 {
-			this->_image->optimizeImageLayers();
-			return this->_image->getImagesBlob();
-			return;
+			image->optimizeImageLayers();
+			return image->getImagesBlob();
 		} else {
 			if strcasecmp(ext, "jpg") == 0 || strcasecmp(ext, "jpeg") == 0 {
-				this->_image->setImageCompression(Imagick::COMPRESSION_JPEG);
+				image->setImageCompression(Imagick::COMPRESSION_JPEG);
 			}
-			this->_image->setImageCompressionQuality(quality);
-			return this->_image->getImageBlob(file);
+			image->setImageCompressionQuality(quality);
+			//return image->getImageBlob(file); where file comes from?
 		}
 	}
 
 	public function __destruct()
 	{
-		if this->_image {
-			this->_image->clear();
-			this->_image->destroy();
+		var image;
+
+		let image = this->_image;
+		if image {
+			image->clear();
+			image->destroy();
 		}
 	}
 
