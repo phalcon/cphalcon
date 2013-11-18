@@ -25,7 +25,7 @@ class Imagick extends Phalcon\Image\Adapter implements Phalcon\Image\AdapterInte
 
 	public static function check()
 	{
-		if (self::_checked) {
+		if self::_checked {
 			return true;
 		}
 
