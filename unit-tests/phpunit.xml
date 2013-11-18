@@ -80,7 +80,7 @@
 			<file>unit-tests/ViewEnginesTest.php</file>
 			<!--<file>unit-tests/ViewEnginesVoltTest.php</file>-->
 			<file>unit-tests/ViewCacheTest.php</file>
-            <file>unit-tests/ViewSimpleTest.php</file>
+			<file>unit-tests/ViewSimpleTest.php</file>
 
 			<!-- Other components -->
 			<file>unit-tests/ControllersTest.php</file>
