@@ -111,7 +111,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, __construct) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 1, &dependencyInjector);
 
-	if (!dependencyInjector) {
+	if (!dependencyInjector || Z_TYPE_P(dependencyInjector) == IS_NULL) {
 		ZEPHIR_CPY_WRT(dependencyInjector, ZEPHIR_GLOBAL(global_null));
 	}
 	ZEPHIR_SEPARATE_PARAM(dependencyInjector);
@@ -264,7 +264,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, get) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 1, &autoBegin_param);
 
-	if (!autoBegin_param) {
+	if (!autoBegin_param || Z_TYPE_P(autoBegin_param) == IS_NULL) {
 		autoBegin = 1;
 	} else {
 		autoBegin = zephir_get_boolval(autoBegin_param);
@@ -307,7 +307,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, getOrCreateTransaction) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 1, &autoBegin_param);
 
-	if (!autoBegin_param) {
+	if (!autoBegin_param || Z_TYPE_P(autoBegin_param) == IS_NULL) {
 		autoBegin = 1;
 	} else {
 		autoBegin = zephir_get_boolval(autoBegin_param);
@@ -410,7 +410,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, rollback) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 1, &collect);
 
-	if (!collect) {
+	if (!collect || Z_TYPE_P(collect) == IS_NULL) {
 		collect = ZEPHIR_GLOBAL(global_true);
 	}
 

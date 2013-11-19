@@ -577,7 +577,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, delete) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 1, &conditionCallback);
 
-	if (!conditionCallback) {
+	if (!conditionCallback || Z_TYPE_P(conditionCallback) == IS_NULL) {
 		conditionCallback = ZEPHIR_GLOBAL(global_null);
 	}
 

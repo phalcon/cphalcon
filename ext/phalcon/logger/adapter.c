@@ -440,7 +440,7 @@ PHP_METHOD(Phalcon_Logger_Adapter, log) {
 
 		message = message_param;
 
-	if (!type_param) {
+	if (!type_param || Z_TYPE_P(type_param) == IS_NULL) {
 		type = 7;	} else {
 		type = zephir_get_intval(type_param);
 	}

@@ -137,7 +137,7 @@ PHP_METHOD(Phalcon_Logger_Multiple, log) {
 	zephir_fetch_params(1, 1, 1, &message_param, &type_param);
 
 		zephir_get_strval(message, message_param);
-	if (!type_param) {
+	if (!type_param || Z_TYPE_P(type_param) == IS_NULL) {
 		type = 7;	} else {
 		type = zephir_get_intval(type_param);
 	}

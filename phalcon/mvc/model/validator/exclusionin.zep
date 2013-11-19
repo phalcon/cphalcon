@@ -44,7 +44,7 @@ namespace Phalcon\Mvc\Model\Validator;
  *	}
  *</code>
  */
-class Exclusionin extends Phalcon\Mvc\Model\Validator implements Phalcon\Mvc\Model_ValidatorInterface
+class Exclusionin extends Phalcon\Mvc\Model\Validator implements Phalcon\Mvc\Model\ValidatorInterface
 {
 
 	/**
@@ -55,6 +55,7 @@ class Exclusionin extends Phalcon\Mvc\Model\Validator implements Phalcon\Mvc\Mod
 	 */
 	public function validate(<Phalcon\Mvc\ModelInterface> record) -> boolean
 	{
+		var fieldName, domain, value, message;
 
 		let fieldName = this->getOption("field");
 

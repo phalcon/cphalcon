@@ -50,6 +50,20 @@ interface AdapterInterface
 	public function get(className);
 
 	/**
+	 * Parses or retrieves name the annotations found in a class
+	 *
+	 * @return string
+	 */
+	public function getName();
+
+	/**
+	 * Parses or retrieves argument the annotations found in a class
+	 * @param int
+	 * @return string
+	 */
+	public function getArgument(argument);
+
+	/**
 	 * Returns the annotations found in all the class' methods
 	 *
 	 * @param string className
@@ -82,5 +96,13 @@ interface AdapterInterface
 	 * @return Phalcon\Annotations\Collection
 	 */
 	public function getProperty(className, propertyName);
+
+	/**
+	 * Returns the annotations found in all the class' methods
+	 *
+	 * @param string className
+	 * @return array
+	 */
+	public function getNamedParameter(parameter);
 
 }

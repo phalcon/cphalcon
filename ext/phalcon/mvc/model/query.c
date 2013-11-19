@@ -447,7 +447,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getExpression) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 1, &expr, &quoting_param);
 
-	if (!quoting_param) {
+	if (!quoting_param || Z_TYPE_P(quoting_param) == IS_NULL) {
 		quoting = 1;
 	} else {
 		quoting = zephir_get_boolval(quoting_param);
@@ -3076,10 +3076,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, execute) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 2, &bindParams, &bindTypes);
 
-	if (!bindParams) {
+	if (!bindParams || Z_TYPE_P(bindParams) == IS_NULL) {
 		bindParams = ZEPHIR_GLOBAL(global_null);
 	}
-	if (!bindTypes) {
+	if (!bindTypes || Z_TYPE_P(bindTypes) == IS_NULL) {
 		bindTypes = ZEPHIR_GLOBAL(global_null);
 	}
 
@@ -3217,10 +3217,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, getSingleResult) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 2, &bindParams, &bindTypes);
 
-	if (!bindParams) {
+	if (!bindParams || Z_TYPE_P(bindParams) == IS_NULL) {
 		bindParams = ZEPHIR_GLOBAL(global_null);
 	}
-	if (!bindTypes) {
+	if (!bindTypes || Z_TYPE_P(bindTypes) == IS_NULL) {
 		bindTypes = ZEPHIR_GLOBAL(global_null);
 	}
 

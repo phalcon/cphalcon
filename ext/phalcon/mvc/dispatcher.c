@@ -189,7 +189,7 @@ PHP_METHOD(Phalcon_Mvc_Dispatcher, _throwDispatchException) {
 
 		message = message_param;
 
-	if (!exceptionCode_param) {
+	if (!exceptionCode_param || Z_TYPE_P(exceptionCode_param) == IS_NULL) {
 		exceptionCode = 0;	} else {
 		exceptionCode = zephir_get_intval(exceptionCode_param);
 	}

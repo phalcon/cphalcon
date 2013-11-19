@@ -118,7 +118,7 @@ PHP_METHOD(Phalcon_Logger_Item, __construct) {
 
 		zephir_get_strval(message, message_param);
 		type = zephir_get_intval(type_param);
-	if (!time_param) {
+	if (!time_param || Z_TYPE_P(time_param) == IS_NULL) {
 		time = 0;	} else {
 		time = zephir_get_intval(time_param);
 	}

@@ -101,13 +101,13 @@ PHP_METHOD(Phalcon_Mvc_Model_Message, __construct) {
 
 		message = message_param;
 
-	if (!field) {
+	if (!field || Z_TYPE_P(field) == IS_NULL) {
 		field = ZEPHIR_GLOBAL(global_null);
 	}
-	if (!type) {
+	if (!type || Z_TYPE_P(type) == IS_NULL) {
 		type = ZEPHIR_GLOBAL(global_null);
 	}
-	if (!model) {
+	if (!model || Z_TYPE_P(model) == IS_NULL) {
 		model = ZEPHIR_GLOBAL(global_null);
 	}
 
@@ -288,7 +288,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Message, __toString) {
 /**
  * Magic __set_state helps to re-build messages variable exporting
  *
- * @param array $message
+ * @param array message
  * @return Phalcon\Mvc\Model\MessageInterface
  */
 PHP_METHOD(Phalcon_Mvc_Model_Message, __set_state) {
