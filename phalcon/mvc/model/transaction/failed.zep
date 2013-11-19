@@ -29,4 +29,43 @@ class Failed extends Phalcon\Mvc\Model\Transaction\Exception
 
 	protected _record = null;
 
+	/**
+	 * Phalcon\Mvc\Model\Transaction\Failed constructor
+	 *
+	 * @param string message
+	 * @param Phalcon\Mvc\ModelInterface record
+	 */
+	public function __construct(string! message, <Phalcon\Mvc\ModelInterface> record)
+	{
+		let this->_record = record;
+		parent::__construct(message);
+	}
+
+	/**
+	 * Returns validation record messages which stop the transaction
+	 *
+	 * @return Phalcon\Mvc\Model\MessageInterface[]
+	 */
+	public function getRecordMessages() -> <Phalcon\Mvc\Model\MessageInterface[]>
+	{
+		var record;
+
+		let record = this->_record;
+		if record !== null {
+			return record->getMessages();
+		}
+
+		return this->getMessage();
+	}
+
+	/**
+	 * Returns validation record messages which stop the transaction
+	 *
+	 * @return Phalcon\Mvc\ModelInterface
+	 */
+	public function getRecord() -> <Phalcon\Mvc\ModelInterface>
+	{
+		return this->_record;
+	}
+
 }

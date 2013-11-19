@@ -26,7 +26,7 @@ namespace Phalcon\Mvc;
  * This component implements a high level abstraction for NoSQL databases which
  * works with documents
  */
-class Collection //implements Phalcon\Mvc\CollectionInterface, Phalcon\Di\InjectionAwareInterface, Serializable
+class Collection implements Phalcon\Mvc\CollectionInterface, Phalcon\Di\InjectionAwareInterface, Serializable
 {
 
 	public _id;
@@ -61,7 +61,7 @@ class Collection //implements Phalcon\Mvc\CollectionInterface, Phalcon\Di\Inject
 	 * @param Phalcon\DiInterface dependencyInjector
 	 * @param Phalcon\Mvc\Collection\ManagerInterface modelsManager
 	 */
-	public final function __construct(dependencyInjector=null, modelsManager=null)
+	public final function __construct(<Phalcon\DiInterface> dependencyInjector=null, <Phalcon\Mvc\Collection\ManagerInterface> modelsManager=null)
 	{
  		/**
 		 * We use a default DI if the user doesn't define one
@@ -69,41 +69,41 @@ class Collection //implements Phalcon\Mvc\CollectionInterface, Phalcon\Di\Inject
 		if typeof dependencyInjector != "object" {
 			let dependencyInjector = Phalcon\DI::getDefault();
 		}
- 
+
 		if typeof dependencyInjector != "object" {
 			throw new Phalcon\Mvc\Model\Exception("A dependency injector container is required to obtain the services related to the ORM");
 		}
- 
+
 		let this->_dependencyInjector = dependencyInjector;
- 
+
 		/**
 		 * Inject the manager service from the DI
 		 */
 		if typeof modelsManager != "object" {
-			let modelsManager = dependencyInjector->getShared('collectionManager');
+			let modelsManager = dependencyInjector->getShared("collectionManager");
 			if typeof modelsManager != "object" {
 				throw new Phalcon\Mvc\Model\Exception("The injected service 'modelsManager' is not valid");
 			}
 		}
- 
+
 		/**
 		 * Update the models-manager
 		 */
 		let this->_modelsManager = modelsManager;
- 
+
 		/**
 		 * The manager always initializes the object
 		 */
 		modelsManager->initialize(this);
- 
+
 		/**
 		 * This allows the developer to execute initialization stuff every time an instance is created
 		 */
-		if (method_exists(this, 'onConstruct')) {
-			this->onConstruct();
+		if method_exists(this, "onConstruct") {
+			this->{"onConstruct"}();
 		}
 	}
- 
+
 	/**
 	 * Sets a value for the _id property, creates a MongoId object if needed
 	 *
@@ -114,9 +114,9 @@ class Collection //implements Phalcon\Mvc\CollectionInterface, Phalcon\Di\Inject
 		var modelsManager, useImplicitIds;
 
 		if typeof id != "object" {
- 
+
 			let modelsManager = this->_modelsManager;
- 
+
 			/**
 			 * Check if the model use implicit ids
 			 */
@@ -126,13 +126,13 @@ class Collection //implements Phalcon\Mvc\CollectionInterface, Phalcon\Di\Inject
 			} else {
 				let mongoId = id;
 			}
- 
+
 		} else {
 			let mongoId = id;
 		}
 		let this->_id = mongoId;
 	}
- 
+
 	/**
 	 * Returns the value of the _id property
 	 *
@@ -142,7 +142,7 @@ class Collection //implements Phalcon\Mvc\CollectionInterface, Phalcon\Di\Inject
 	{
 		return this->_id;
 	}
- 
+
 	/**
 	 * Sets the dependency injection container
 	 *
@@ -152,7 +152,7 @@ class Collection //implements Phalcon\Mvc\CollectionInterface, Phalcon\Di\Inject
 	{
 		let this->_dependencyInjector = dependencyInjector;
 	}
- 
+
 	/**
 	 * Returns the dependency injection container
 	 *
@@ -162,7 +162,7 @@ class Collection //implements Phalcon\Mvc\CollectionInterface, Phalcon\Di\Inject
 	{
 		return this->_dependencyInjector;
 	}
- 
+
 	/**
 	 * Sets a custom events manager
 	 *
@@ -170,12 +170,9 @@ class Collection //implements Phalcon\Mvc\CollectionInterface, Phalcon\Di\Inject
 	 */
 	protected function setEventsManager(<Phalcon\Events\ManagerInterface> eventsManager)
 	{
-		var modelsManager;
-
-		let modelsManager = this->_modelsManager;
-		modelsManager->setCustomEventsManager(this, eventsManager);
+		this->_modelsManager->setCustomEventsManager(this, eventsManager);
 	}
- 
+
 	/**
 	 * Returns the custom events manager
 	 *
@@ -183,12 +180,9 @@ class Collection //implements Phalcon\Mvc\CollectionInterface, Phalcon\Di\Inject
 	 */
 	protected function getEventsManager() -> <Phalcon\Events\ManagerInterface>
 	{
-		var modelsManager;
-		
-		let modelsManager = this->_modelsManager;
-		return modelsManager->getCustomEventsManager(this);
+		return this->_modelsManager->getCustomEventsManager(this);
 	}
- 
+
 	/**
 	 * Returns the models manager related to the entity instance
 	 *
@@ -198,7 +192,7 @@ class Collection //implements Phalcon\Mvc\CollectionInterface, Phalcon\Di\Inject
 	{
 		return this->_modelsManager;
 	}
- 
+
 	/**
 	 * Returns an array with reserved properties that cannot be part of the insert/update
 	 *
@@ -209,7 +203,7 @@ class Collection //implements Phalcon\Mvc\CollectionInterface, Phalcon\Di\Inject
 		var reserved;
 
 		let reserved = self::_reserved;
-		if (reserved===null) {
+		if reserved === null {
 			let reserved = [
 				"_connection": true,
 				"_dependencyInjector": true,
@@ -221,50 +215,46 @@ class Collection //implements Phalcon\Mvc\CollectionInterface, Phalcon\Di\Inject
 		}
 		return reserved;
 	}
- 
+
 	/**
 	 * Sets if a model must use implicit objects ids
 	 *
 	 * @param boolean useImplicitObjectIds
 	 */
-	protected function useImplicitObjectIds(useImplicitObjectIds)
+	protected function useImplicitObjectIds(boolean useImplicitObjectIds)
 	{
-		var modelsManager;
-
-		let modelsManager = this->_modelsManager;
-		modelsManager->useImplicitObjectIds(this, useImplicitObjectIds);
+		this->_modelsManager->useImplicitObjectIds(this, useImplicitObjectIds);
 	}
- 
+
 	/**
 	 * Sets collection name which model should be mapped
 	 *
 	 * @param string source
 	 * @return Phalcon\Mvc\Collection
 	 */
-	protected function setSource(source) -> <Phalcon\Mvc\Collection>
+	protected function setSource(string! source) -> <Phalcon\Mvc\Collection>
 	{
 		let this->_source = source;
 		return this;
 	}
- 
+
 	/**
 	 * Returns collection name mapped in the model
 	 *
 	 * @return string
 	 */
-	public function getSource()
+	public function getSource() -> string
 	{
-		var source, className;
+		var source;
 
 		let source = this->_source;
-		if(!source){
-			let className = get_class_ns(this);
-			let source = uncamelize(className);
+		if !source {
+			let source = uncamelize(get_class_ns(this));
 			let this->_source = source;
 		}
 		return source;
 	}
- 
+
 	/**
 	 * Sets the DependencyInjection connection service name
 	 *
@@ -273,26 +263,20 @@ class Collection //implements Phalcon\Mvc\CollectionInterface, Phalcon\Di\Inject
 	 */
 	public function setConnectionService(connectionService) -> <Phalcon\Mvc\Model>
 	{
-		var modelsManager;
-
-		let modelsManager = this->_modelsManager;
-		modelsManager->setConnectionService(this, connectionService);
+		this->_modelsManager->setConnectionService(this, connectionService);
 		return this;
 	}
- 
+
 	/**
 	 * Returns DependencyInjection connection service
 	 *
 	 * @return string
 	 */
-	public function getConnectionService()
+	public function getConnectionService() -> string
 	{
-		var modelsManager;
-
-		let modelsManager = this->_modelsManager;
-		return modelsManager->getConnectionService(this);
+		return this->_modelsManager->getConnectionService(this);
 	}
- 
+
 	/**
 	 * Retrieves a database connection
 	 *
@@ -300,17 +284,16 @@ class Collection //implements Phalcon\Mvc\CollectionInterface, Phalcon\Di\Inject
 	 */
 	public function getConnection()
 	{
-		var connection, modelsManager;
+		var connection;
 
 		let connection = this->_connection;
 		if typeof connection != "object" {
-			let modelsManager = this->_modelsManager;
-			let connection = modelsManager->getConnection(this);
+			let connection = this->_modelsManager->getConnection(this);
 			let this->_connection = connection;
 		}
 		return connection;
 	}
- 
+
 	/**
 	 * Reads an attribute value by its name
 	 *
@@ -321,17 +304,15 @@ class Collection //implements Phalcon\Mvc\CollectionInterface, Phalcon\Di\Inject
 	 * @param string attribute
 	 * @return mixed
 	 */
-	public function readAttribute(attribute)
+	public function readAttribute(string! attribute)
 	{
-		var attribute;
-
-		if isset(this->attribute) {
-			let attributeValue = this->attribute;
+		var attributeValue;
+		if fetch attributeValue, this->attribute  {
 			return attributeValue;
 		}
 		return null;
 	}
- 
+
 	/**
 	 * Writes an attribute value by its name
 	 *
@@ -342,11 +323,11 @@ class Collection //implements Phalcon\Mvc\CollectionInterface, Phalcon\Di\Inject
 	 * @param string attribute
 	 * @param mixed value
 	 */
-	public function writeAttribute(attribute, value)
+	public function writeAttribute(string! attribute, value)
 	{
-		let this->attribute = value;
+		let this->{attribute} = value;
 	}
- 
+
 	/**
 	 * Returns a cloned collection
 	 *
@@ -354,27 +335,26 @@ class Collection //implements Phalcon\Mvc\CollectionInterface, Phalcon\Di\Inject
 	 * @param array document
 	 * @return Phalcon\Mvc\Collection
 	 */
-	public static function cloneResult(collection, document) -> <Phalcon\Mvc\Collection>
+	public static function cloneResult(<Phalcon\Mvc\Collection> collection, document) -> <Phalcon\Mvc\Collection>
 	{
  		var clonedCollection;
 
 		if typeof collection != "object" {
 			throw new Phalcon\Mvc\Collection\Exception("Invalid collection");
 		}
- 
+
 		if typeof document != "object" {
 			throw new Phalcon\Mvc\Collection\Exception("Invalid document");
 		}
- 
+
 		let clonedCollection = clone collection;
-		for key,value in document 
-		{
+		for key, value in document {
 			clonedCollection->writeAttribute(key, value);
 		}
- 
+
 		return clonedCollection;
 	}
- 
+
 	/**
 	 * Returns a collection resultset
 	 *
@@ -384,83 +364,75 @@ class Collection //implements Phalcon\Mvc\CollectionInterface, Phalcon\Di\Inject
 	 * @param boolean unique
 	 * @return array
 	 */
-	protected static function _getResultset(params, collection, connection, unique) 
+	protected static function _getResultset(params, collection, connection, unique)
 	{
  		var source, mongoCollection, conditions, base, documentsCursor, documentsArray, collectionCloned;
 
 		let source = collection->getSource();
-		if empty(source) {
+		if empty source {
 			throw new Phalcon\Mvc\Collection\Exception("Method getSource() returns empty string");
 		}
- 
+
 		let mongoCollection = connection->selectCollection(source);
- 
+
 		/**
 		 * Convert the string to an array
 		 */
-		if isset(params[0]) {
-			let conditions = params[0];
-		} else {
-			if isset(params['conditions']) {
-				let conditions = params['conditions'];
-			} else {
+		if !fetch conditions, params[0] {
+			if !fetch conditions, params["conditions"] {
 				let conditions = [];
 			}
 		}
- 
+
 		/**
 		 * Perform the find
 		 */
-		if isset(params['fields']) {
-			let fields = params['fields'];
+		if fetch fields, params["fields"] {
 			let documentsCursor = mongoCollection->find(conditions, fields);
 		} else {
 			let documentsCursor = mongoCollection->find(conditions);
 		}
- 
+
 		/**
-		 * Check if a 'limit' clause was defined
+		 * Check if a "limit" clause was defined
 		 */
-		if isset(params['limit']) {
-			let limit = params['limit'];
+		if fetch limit, params["limit"] {
 			documentsCursor->limit(limit);
 		}
- 
+
 		/**
-		 * Check if a 'sort' clause was defined
+		 * Check if a "sort" clause was defined
 		 */
-		if isset(params['sort']) {
-			let sort = params['sort'];
+		if fetch sort, params["sort"] {
 			documentsCursor->sort(sort);
 		}
- 
+
 		/**
-		 * Check if a 'skip' clause was defined
+		 * Check if a "skip" clause was defined
 		 */
-		if isset(params['skip']) {
-			let sort = params['skip'];
-			documentsCursor->skip(sort);
+		if fetch skip, params["skip"] {
+			documentsCursor->skip(skip);
 		}
- 
+
 		/**
 		 * If a group of specific fields are requested we use a Phalcon\Mvc\Collection\Document instead
 		 */
-		if isset(params['fields']) {
-			let base = new Phalcon_Mvc_Collection_Document();
+		if isset params["fields"] {
+			let base = new Phalcon\Mvc\Collection\Document();
 		} else {
 			let base = collection;
 		}
- 
+
 		if unique === true {
- 
+
 			/**
 			 * Requesting a single result
 			 */
 			documentsCursor->rewind();
- 
+
 			let document = documentsCursor->current();
 			if typeof document == "array" {
- 
+
 				/**
 				 * Assign the values to the base object
 				 */
@@ -468,26 +440,22 @@ class Collection //implements Phalcon\Mvc\CollectionInterface, Phalcon\Di\Inject
 			}
 			return false;
 		}
- 
+
 		/**
 		 * Requesting a complete resultset
 		 */
 		let collections = [];
-		let documentsArray = iterator_to_array(documentsCursor);
-		for document in documentsArray 
-		{
- 
+		for document in iterator_to_array(documentsCursor) {
+
 			/**
 			 * Assign the values to the base object
 			 */
-			let collectionCloned = self::cloneResult(base, document);
- 
-			let collections[] = collectionCloned;
+			let collections[] = self::cloneResult(base, document);
 		}
- 
+
 		return collections;
 	}
- 
+
 	/**
 	 * Perform a count over a resultset
 	 *
@@ -501,79 +469,72 @@ class Collection //implements Phalcon\Mvc\CollectionInterface, Phalcon\Di\Inject
  		var source, mongoCollection, conditions, simple;
 
 		let source = collection->getSource();
-		if empty(source) {
+		if empty source {
 			throw new Phalcon\Mvc\Collection\Exception("Method getSource() returns empty string");
 		}
- 
+
 		let mongoCollection = connection->selectCollection(source);
- 
+
 		/**
 		 * Convert the string to an array
 		 */
-		if isset(params[0]) {
-			let conditions = params[0];
-		} else {
-			if isset(params['conditions']) {
-				let conditions = params['conditions'];
-			} else {
+		if !fetch conditions, params[0] {
+			if !fetch conditions, params["conditions"] {
 				let conditions = [];
 			}
 		}
- 
+
 		let simple = true;
- 
-		if isset(params['limit']) {
+
+		if isset params["limit"] {
 			let simple = false;
 		} else {
-			if isset(params['sort']) {
+			if isset params["sort"] {
 				let simple = false;
 			} else {
-				if isset(params['skip']) {
+				if isset params["skip"] {
 					let simple = false;
 				}
 			}
 		}
- 
-		if simple===false {
- 
+
+		if simple === false {
+
 			/**
 			 * Perform the find
 			 */
 			let documentsCursor = mongoCollection->find(conditions);
- 
+
 			/**
-			 * Check if a 'limit' clause was defined
+			 * Check if a "limit" clause was defined
 			 */
-			if isset(params['limit']) {
-				let limit = params['limit'];
+			if fetch limit, params["limit"] {
 				documentsCursor->limit(limit);
 			}
- 
+
 			/**
-			 * Check if a 'sort' clause was defined
+			 * Check if a "sort" clause was defined
 			 */
-			if isset(params['sort']) {
-				let sort = params['sort'];
+			if fetch sort, params["sort"] {
 				documentsCursor->sort(sort);
 			}
- 
+
 			/**
-			 * Check if a 'skip' clause was defined
+			 * Check if a "skip" clause was defined
 			 */
-			if isset(params['skip']) {
-				let sort = params['skip'];
+			if fetch sort, params["skip"] {
 				documentsCursor->skip(sort);
 			}
- 
+
 			/**
-			 * Only 'count' is supported
+			 * Only "count" is supported
 			 */
 			return count(documentsCursor);
 		}
- 
+
 		return mongoCollection->count(conditions);
 	}
- 
+
 	/**
 	 * Executes internal hooks before save a document
 	 *
@@ -590,79 +551,73 @@ class Collection //implements Phalcon\Mvc\CollectionInterface, Phalcon\Di\Inject
 		 * Run Validation Callbacks Before
 		 */
 		if !disableEvents {
- 
-			let status = this->fireEventCancel('beforeValidation');
-			if status===false {
+
+			if this->fireEventCancel("beforeValidation") === false {
 				return false;
 			}
- 
+
 			if !exists {
-				let eventName = 'beforeValidationOnCreate';
+				let eventName = "beforeValidationOnCreate";
 			} else {
-				let eventName = 'beforeValidationOnUpdate';
+				let eventName = "beforeValidationOnUpdate";
 			}
- 
-			let status = this->fireEventCancel(eventName);
-			if status===false {
+
+			if this->fireEventCancel(eventName) === false {
 				return false;
 			}
- 
+
 		}
- 
+
 		/**
 		 * Run validation
 		 */
-		let status = this->fireEventCancel('validation');
-		if status===false {
+		if this->fireEventCancel("validation") === false {
 			if !disableEvents {
-				this->fireEvent('onValidationFails');
+				this->fireEvent("onValidationFails");
 			}
 			return false;
 		}
- 
+
 		if !disableEvents {
- 
+
 			/**
 			 * Run Validation Callbacks After
 			 */
 			if !exists {
-				let eventName = 'afterValidationOnCreate';
+				let eventName = "afterValidationOnCreate";
 			} else {
-				let eventName = 'afterValidationOnUpdate';
+				let eventName = "afterValidationOnUpdate";
 			}
-			let status = this->fireEventCancel(eventName);
-			if status===false {
+
+			if this->fireEventCancel(eventName) === false {
 				return false;
 			}
- 
-			let status = this->fireEventCancel('afterValidation');
-			if status===false {
+
+			if this->fireEventCancel("afterValidation") === false {
 				return false;
 			}
- 
+
 			/**
 			 * Run Before Callbacks
 			 */
-			let status = this->fireEventCancel('beforeSave');
-			if status===false {
+			if this->fireEventCancel("beforeSave") === false {
 				return false;
 			}
- 
+
 			if exists {
-				let eventName = 'beforeUpdate';
+				let eventName = "beforeUpdate";
 			} else {
-				let eventName = 'beforeCreate';
+				let eventName = "beforeCreate";
 			}
-			let status = this->fireEventCancel(eventName);
-			if status===false {
+			if this->fireEventCancel(eventName) === false {
 				return false;
 			}
- 
+
 		}
- 
+
 		return true;
 	}
- 
+
 	/**
 	 * Executes internal events after save a document
 	 *
@@ -671,33 +626,33 @@ class Collection //implements Phalcon\Mvc\CollectionInterface, Phalcon\Di\Inject
 	 * @param boolean exists
 	 * @return boolean
 	 */
-	protected function _postSave(disableEvents, success, exists)
+	protected function _postSave(boolean disableEvents, boolean success, boolean exists)
 	{
  		var eventName;
 
-		if success===true {
+		if success === true {
 			if !disableEvents {
- 
-				if exists===true {
+
+				if exists === true {
 					let eventName = 'afterUpdate';
 				} else {
 					let eventName = 'afterCreate';
 				}
 				this->fireEvent(eventName);
- 
+
 				this->fireEvent('afterSave');
 			}
 			return success;
 		}
- 
+
 		if !disableEvents {
 			this->fireEvent('notSave');
 		}
- 
+
 		this->_cancelOperation(disableEvents);
 		return false;
 	}
- 
+
 	/**
 	 * Executes validators on every validation call
 	 *
@@ -725,20 +680,18 @@ class Collection //implements Phalcon\Mvc\CollectionInterface, Phalcon\Di\Inject
 	 */
 	protected function validate(validator)
 	{
- 
+
 		if typeof validator != "object" {
 			throw new Phalcon\Mvc\Model\Exception("Validator must be an Object");
 		}
- 
-		let status = validator->validate(this);
-		if status===false {
-			for message in validator->getMessages()
-			{
+
+		if validator->validate(this) === false {
+			for message in validator->getMessages() {
 				let this->_errorMessages[] = message;
 			}
 		}
 	}
- 
+
 	/**
 	 * Check whether validation process has generated any messages
 	 *
@@ -776,75 +729,67 @@ class Collection //implements Phalcon\Mvc\CollectionInterface, Phalcon\Di\Inject
 		}
 		return false;
 	}
- 
+
 	/**
 	 * Fires an internal event
 	 *
 	 * @param string eventName
 	 * @return boolean
 	 */
-	public function fireEvent(eventName) -> boolean
+	public function fireEvent(string! eventName) -> boolean
 	{
- 		var modelsManager;
-
 		/**
 		 * Check if there is a method with the same name of the event
 		 */
 		if method_exists(this, eventName) {
 			this->eventName();
 		}
- 
+
 		/**
 		 * Send a notification to the events manager
 		 */
-		let modelsManager = this->_modelsManager;
-		return modelsManager->notifyEvent(eventName, this);
+		return this->_modelsManager->notifyEvent(eventName, this);
 	}
- 
+
 	/**
 	 * Fires an internal event that cancels the operation
 	 *
 	 * @param string eventName
 	 * @return boolean
 	 */
-	public function fireEventCancel(eventName)
+	public function fireEventCancel(string! eventName) -> boolean
 	{
- 		var status;
 
 		/**
 		 * Check if there is a method with the same name of the event
 		 */
 		if method_exists(this, eventName) {
-			let status = this->eventName();
-			if status===false {
+			if this->eventName() === false {
 				return false;
 			}
 		}
- 
+
 		/**
 		 * Send a notification to the events manager
 		 */
-		let modelsManager = this->_modelsManager;
-		let status = modelsManager->notifyEvent(eventName, this);
-		if status===false {
+		if this->_modelsManager->notifyEvent(eventName, this) === false {
 			return false;
 		}
- 
+
 		return true;
 	}
- 
+
 	/**
 	 * Cancel the current operation
 	 *
 	 * @return boolean
 	 */
-	protected function _cancelOperation(disableEvents)
+	protected function _cancelOperation(boolean disableEvents)
 	{
-		var operationMade, eventName;
+		var eventName;
 
 		if !disableEvents {
-			let operationMade = this->_operationMade;
-			if operationMade==3 {
+			if this->_operationMade == self::OP_DELETE {
 				let eventName = 'notDeleted';
 			} else {
 				let eventName = 'notSaved';
@@ -853,49 +798,42 @@ class Collection //implements Phalcon\Mvc\CollectionInterface, Phalcon\Di\Inject
 		}
 		return false;
 	}
- 
+
 	/**
 	 * Checks if the document exists in the collection
 	 *
 	 * @param \MongoCollection collection
+	 * @return boolean
 	 */
-	protected function _exists(collection)
+	protected function _exists(collection) -> boolean
 	{
 		var id, mongoId, modelsManager, useImplicitIds, parameters, documentCount;
 
-		if isset(this->_id) { 
-			
-			let id = this->_id;
+		if fetch id, this->_id {
+
 			if typeof id == "object" {
 				let mongoId = id;
 			} else {
- 
-				let modelsManager = this->_modelsManager;
- 
+
 				/**
 				 * Check if the model use implicit ids
 				 */
-				let useImplicitIds = modelsManager->isUsingImplicitObjectIds(this);
-				if useImplicitIds {
+				if this->_modelsManager->isUsingImplicitObjectIds(this) {
 					let mongoId = new MongoId(id);
 					let this->_id = mongoId;
 				} else {
 					let mongoId = id;
 				}
 			}
- 
-			let parameters = ["_id": mongoId];
- 
+
 			/**
 			 * Perform the count using the function provided by the driver
 			 */
-			let documentCount = collection->count(parameters);
- 
-			return documentCount > 0;
+			return collection->count(["_id": mongoId]) > 0;
 		}
 		return false;
 	}
- 
+
 	/**
 	 * Returns all the validation messages
 	 *
@@ -916,11 +854,11 @@ class Collection //implements Phalcon\Mvc\CollectionInterface, Phalcon\Di\Inject
 	 *
 	 * @return Phalcon\Mvc\Model\MessageInterface[]
 	 */
-	public function getMessages()
+	public function getMessages() -> <Phalcon\Mvc\Model\MessageInterface[]>
 	{
 		return this->_errorMessages;
 	}
- 
+
 	/**
 	 * Appends a customized message on the validation process
 	 *
@@ -942,17 +880,14 @@ class Collection //implements Phalcon\Mvc\CollectionInterface, Phalcon\Di\Inject
 	 *
 	 * @param Phalcon\Mvc\Model\MessageInterface message
 	 */
-	public function appendMessage(message)
+	public function appendMessage(<Phalcon\Mvc\Model\MessageInterface> message)
 	{
-		var type;
-
 		if typeof message != "object" {
-			let type = gettype(message);
-			throw new Phalcon\Mvc\Model\Exception("Invalid message format '". type ."'");
+			throw new Phalcon\Mvc\Model\Exception("Invalid message format '" . gettype(message) . "'");
 		}
 		let this->_errorMessages[] = message;
 	}
- 
+
 	/**
 	 * Creates/Updates a collection based on the values in the atributes
 	 *
@@ -967,85 +902,77 @@ class Collection //implements Phalcon\Mvc\CollectionInterface, Phalcon\Di\Inject
 		if typeof dependencyInjector != "object" {
 			throw new Phalcon\Mvc\Model\Exception("A dependency injector container is required to obtain the services related to the ORM");
 		}
- 
+
 		let source = this->getSource();
-		if empty(source) {
+		if empty source {
 			throw new Phalcon\Mvc\Collection\Exception("Method getSource() returns empty string");
 		}
- 
+
 		let connection = this->getConnection();
- 
+
 		/**
 		 * Choose a collection according to the collection name
 		 */
 		let collection = connection->selectCollection(source);
- 
+
 		/**
 		 * Check the dirty state of the current operation to update the current operation
 		 */
 		let exists = this->_exists(collection);
- 
-		if exists===false {
-			let this->_operationMade = 1;
+
+		if exists === false {
+			let this->_operationMade = self::OP_CREATE;
 		} else {
-			let this->_operationMade = 2;
+			let this->_operationMade = self::OP_UPDATE;
 		}
- 
+
 		/**
 		 * The messages added to the validator are reset here
 		 */
 		let this->_errorMessages = [];
- 
+
 		let disableEvents = self::_disableEvents;
- 
+
 		/**
 		 * Execute the preSave hook
 		 */
-		let status = this->_preSave(dependencyInjector, disableEvents, exists);
-		if status===false {
+		if this->_preSave(dependencyInjector, disableEvents, exists) === false {
 			return false;
 		}
- 
+
 		let data = [];
- 
+
 		let reserved = this->getReservedAttributes();
 		let properties = get_object_vars(this);
- 
+
 		/**
 		 * We only assign values to the public properties
 		 */
-		for key, value in properties 
-		{
-			if key=='_id' {
+		for key, value in properties {
+			if key == '_id' {
 				if value {
 					let data[key] = value;
 				}
 			} else {
-				if !isset(reserved[key]) {
+				if !isset reserved[key] {
 					let data[key] = value;
 				}
 			}
 		}
- 
+
 		let success = false;
- 
+
 		/**
 		 * We always use safe stores to get the success state
-		 */
-		let options = ["safe": true];
- 
-		/**
 		 * Save the document
 		 */
-		let status = collection->save(data, options);
-		if is_array(status) {
-			if isset(status['ok']) {
-				let ok = status['ok'];
-				if (ok) {
+		let status = collection->save(data, ["safe": true]);
+		if typeof status == "array" {
+			if fetch ok, status['ok'] {
+				if ok {
 					let success = true;
-					if exists===false {
-						if isset(data['_id']) {
-							let id = data['_id'];
+					if exists === false {
+						if fetch id, data['_id'] {
 							let this->_id = id;
 						}
 					}
@@ -1054,13 +981,13 @@ class Collection //implements Phalcon\Mvc\CollectionInterface, Phalcon\Di\Inject
 		} else {
 			let success = false;
 		}
- 
+
 		/**
 		 * Call the postSave hooks
 		 */
 		return this->_postSave(disableEvents, success, exists);
 	}
- 
+
 	/**
 	 * Find a document by its id (_id)
 	 *
@@ -1072,33 +999,27 @@ class Collection //implements Phalcon\Mvc\CollectionInterface, Phalcon\Di\Inject
  		var className, collection, modelsManager, useImplicitIds, mongoId, conditions, parameters;
 
 		if typeof id != "object" {
- 
+
 			let className = get_called_class();
- 
-			let collection = new className();
- 
-			let modelsManager = collection->getModelsManager();
- 
+
+			let collection = new {className}();
+
 			/**
 			 * Check if the model use implicit ids
 			 */
-			let useImplicitIds = modelsManager->isUsingImplicitObjectIds(collection);
-			if useImplicitIds {
+			if collection->getModelsManager()->isUsingImplicitObjectIds(collection) {
 				let mongoId = new MongoId(id);
 			} else {
 				let mongoId = id;
 			}
- 
+
 		} else {
 			let mongoId = id;
 		}
- 
-		let conditions = ["_id": mongoId];
-		let parameters = [conditions];
 
-		return self::findFirst(parameters);
+		return self::findFirst([["_id": mongoId]]);
 	}
- 
+
 	/**
 	 * Allows to query the first record that match the specified conditions
 	 *
@@ -1135,16 +1056,16 @@ class Collection //implements Phalcon\Mvc\CollectionInterface, Phalcon\Di\Inject
 				throw new Phalcon\Mvc\Collection\Exception("Invalid parameters for findFirst");
 			}
 		}
- 
+
 		let className = get_called_class();
- 
-		let collection = new className();
- 
+
+		let collection = new {className}();
+
 		let connection = collection->getConnection();
- 
+
 		return self::_getResultset(parameters, collection, connection, true);
 	}
- 
+
 	/**
 	 * Allows to query a set of records that match the specified conditions
 	 *
@@ -1192,16 +1113,12 @@ class Collection //implements Phalcon\Mvc\CollectionInterface, Phalcon\Di\Inject
 				throw new Phalcon\Mvc\Collection\Exception("Invalid parameters for find");
 			}
 		}
- 
+
 		let className = get_called_class();
- 
-		let collection = new className();
- 
-		let connection = collection->getConnection();
- 
-		return self::_getResultset(parameters, collection, connection, false);
+		let collection = new {className}();
+		return self::_getResultset(parameters, collection, collection->getConnection(), false);
 	}
- 
+
 	/**
 	 * Perform a count over a collection
 	 *
@@ -1221,16 +1138,16 @@ class Collection //implements Phalcon\Mvc\CollectionInterface, Phalcon\Di\Inject
 				throw new Phalcon\Mvc\Collection\Exception("Invalid parameters for count");
 			}
 		}
- 
+
 		let className = get_called_class();
- 
+
 		let collection = new className();
- 
+
 		let connection = collection->getConnection();
- 
+
 		return self::_getGroupResultset(parameters, collection, connection);
 	}
- 
+
 	/**
 	 * Perform an aggregation using the Mongo aggregation framework
 	 *
@@ -1247,23 +1164,21 @@ class Collection //implements Phalcon\Mvc\CollectionInterface, Phalcon\Di\Inject
 				throw new Phalcon\Mvc\Collection\Exception("Invalid parameters for aggregate");
 			}
 		}
- 
+
 		let className = get_called_class();
- 
-		let model = new className();
- 
+
+		let model = new {className}();
+
 		let connection = model->getConnection();
- 
+
 		let source = model->getSource();
-		if empty(source) {
+		if empty source {
 			throw new Phalcon\Mvc\Collection\Exception("Method getSource() returns empty string");
 		}
- 
-		let collection = connection->selectCollection(source);
- 
-		return collection->aggregate(parameters);
+
+		return connection->selectCollection(source)->aggregate(parameters);
 	}
- 
+
 	/**
 	 * Allows to perform a summatory group for a column in the collection
 	 *
@@ -1280,41 +1195,39 @@ class Collection //implements Phalcon\Mvc\CollectionInterface, Phalcon\Di\Inject
 		if typeof field != "string" {
 			throw new Phalcon\Mvc\Collection\Exception("Invalid field name for group");
 		}
- 
+
 		let className = get_called_class();
- 
+
 		let model = new className();
- 
+
 		let connection = model->getConnection();
- 
+
 		let source = model->getSource();
 		if empty(source) {
 			throw new Phalcon\Mvc\Collection\Exception("Method getSource() returns empty string");
 		}
- 
+
 		let collection = connection->selectCollection(source);
- 
+
 		let keys = [];
- 
+
 		let emptyArray = [];
- 
+
 		/**
 		 * Uses a javascript hash to group the results
 		 */
 		let initial = ["summatory": emptyArray];
- 
+
 		/**
 		 * Uses a javascript hash to group the results, however this is slow with larger datasets
 		 */
-		let reduce = "function (curr, result) { if (typeof result.summatory[curr.".field."] === \"undefined\") { result.summatory[curr.".field."] = 1; } else { result.summatory[curr.".field."]++; } }";
- 
+		let reduce = "function (curr, result) { if (typeof result.summatory[curr." . field . "] === \"undefined\") { result.summatory[curr." . field . "] = 1; } else { result.summatory[curr." . field . "]++; } }";
+
 		let group = collection->group(keys, initial, reduce);
- 
-		if isset(group['retval']) {
-			let retval = group['retval'];
-			if isset(retval[0]) {
-				let firstRetval = retval[0];
-				if isset(firstRetval["summatory"]) {
+
+		if fetch retval, group['retval'] {
+			if fetch firstRetval, retval[0] {
+				if isset firstRetval["summatory"] {
 					return firstRetval["summatory"];
 				}
 				return firstRetval;
@@ -1322,7 +1235,7 @@ class Collection //implements Phalcon\Mvc\CollectionInterface, Phalcon\Di\Inject
 			return retval;
 		}
 	}
- 
+
 	/**
 	 * Deletes a model instance. Returning true on success or false otherwise.
 	 *
@@ -1338,72 +1251,62 @@ class Collection //implements Phalcon\Mvc\CollectionInterface, Phalcon\Di\Inject
 	 *
 	 * @return boolean
 	 */
-	public function delete()
+	public function delete() -> boolean
 	{
  		var disableEvents, eventName, status, id, connection, source, collection, mongoId,
  			modelsManager, useImplicitIds, idCondition, success, options, ok;
 
-		if !isset(this->_id) {
+		if !fetch id, this->_id {
 			throw new Phalcon\Mvc\Collection\Exception("The document cannot be deleted because it doesn't exist");
 		}
- 
+
 		let disableEvents = self::_disableEvents;
- 
+
 		if !disableEvents {
-			let status = this->fireEventCancel('beforeDelete');
-			if status===false {
+			if this->fireEventCancel("beforeDelete") === false {
 				return false;
 			}
 		}
- 
-		let id = this->_id;
+
 		let connection = this->getConnection();
- 
+
 		let source = this->getSource();
-		if empty(source) {
+		if empty source {
 			throw new Phalcon\Mvc\Collection\Exception("Method getSource() returns empty string");
 		}
- 
+
 		/**
 		 * Get the \MongoCollection
 		 */
 		let collection = connection->selectCollection(source);
- 
+
 		if typeof id == "object" {
 			let mongoId = id;
 		} else {
- 
-			let modelsManager = this->_modelsManager;
- 
 			/**
 			 * Is the collection using implicit object Ids?
 			 */
-			let useImplicitIds = modelsManager->isUsingImplicitObjectIds(this);
-			if useImplicitIds {
+			if this->_modelsManager->isUsingImplicitObjectIds(this) {
 				let mongoId = new MongoId(id);
 			} else {
 				let mongoId = id;
 			}
 		}
- 
-		let idCondition = ["_id": mongoId];
- 
+
 		let success = false;
-		let options = ["safe": true];
- 
+
 		/**
 		 * Remove the instance
 		 */
-		let status = collection->remove(idCondition, options);
+		let status = collection->remove(["_id": mongoId], ["safe": true]);
 		if typeof status != "array" {
 			return false;
 		}
- 
+
 		/**
 		 * Check the operation status
 		 */
-		if isset(status['ok']) {
-			let ok = status['ok'];
+		if fetch ok, status['ok'] {
 			if ok {
 				let success = true;
 				if !disableEvents {
@@ -1413,10 +1316,10 @@ class Collection //implements Phalcon\Mvc\CollectionInterface, Phalcon\Di\Inject
 		} else {
 			let success = false;
 		}
- 
+
 		return success;
 	}
- 
+
 	/**
 	 * Returns the instance as an array representation
 	 *
@@ -1430,34 +1333,28 @@ class Collection //implements Phalcon\Mvc\CollectionInterface, Phalcon\Di\Inject
 	{
  		var data, reserved, properties;
 
-		let data = [];
- 
 		let reserved = this->getReservedAttributes();
- 
+
 		/**
 		 * Get an array with the values of the object
-		 */
-		let properties = get_object_vars(this);
- 
-		/**
 		 * We only assign values to the public properties
 		 */
-		for key, value in properties 
-		{
-			if key=='_id' {
+		let data = [];
+		for key, value in get_object_vars(this) {
+			if key == "_id" {
 				if value {
 					let data[key] = value;
 				}
 			} else {
-				if !isset(reserved[key]) {
+				if !isset reserved[key] {
 					let data[key] = value;
 				}
 			}
 		}
- 
+
 		return data;
 	}
- 
+
 	/**
 	 * Serializes the object ignoring connections or protected properties
 	 *
@@ -1465,13 +1362,13 @@ class Collection //implements Phalcon\Mvc\CollectionInterface, Phalcon\Di\Inject
 	 */
 	public function serialize()
 	{
- 	
+
 		/**
 		 * Use the standard serialize function to serialize the array data
 		 */
 		return serialize(this->toArray());
 	}
- 
+
 	/**
 	 * Unserializes the object from a serialized string
 	 *
@@ -1484,20 +1381,20 @@ class Collection //implements Phalcon\Mvc\CollectionInterface, Phalcon\Di\Inject
 		if typeof data == "string" {
 			let attributes = unserialize(data);
 			if typeof attributes != "array" {
- 
+
 				/**
 				 * Obtain the default DI
 				 */
-				let dependencyInjector = Phalcon\DI::getDefault();
+				let dependencyInjector = Phalcon\Di::getDefault();
 				if typeof dependencyInjector != "object" {
 					throw new Phalcon\Mvc\Model\Exception("A dependency injector container is required to obtain the services related to the ODM");
 				}
- 
+
 				/**
 				 * Update the dependency injector
 				 */
 				let this->_dependencyInjector = dependencyInjector;
- 
+
 				/**
 				 * Gets the default modelsManager service
 				 */
@@ -1505,23 +1402,23 @@ class Collection //implements Phalcon\Mvc\CollectionInterface, Phalcon\Di\Inject
 				if typeof manager != "object" {
 					throw new Phalcon\Mvc\Model\Exception("The injected service 'collectionManager' is not valid");
 				}
- 
+
 				/**
 				 * Update the models manager
 				 */
 				let this->_modelsManager = manager;
- 
+
 				/**
 				 * Update the objects attributes
 				 */
-				for key, value in attributes 
-				{
-					let this->key = value;
+				for key, value in attributes {
+					let this->{key} = value;
 				}
- 
+
 				return null;
 			}
 		}
-		throw new Phalcon\Mvc\Model\Exception('Invalid serialization data');
+
+		throw new Phalcon\Mvc\Model\Exception("Invalid serialization data");
 	}
 }

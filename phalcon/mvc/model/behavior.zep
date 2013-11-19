@@ -43,11 +43,9 @@ abstract class Behavior
 	 *
 	 * @param string eventName
 	 */
-	protected function mustTakeAction(eventName)
+	protected function mustTakeAction(string! eventName)
 	{
-		var options;
-		let options = this->_options;
-		return isset options[eventName];
+		return isset this->_options[eventName];
 	}
 
 	/**
