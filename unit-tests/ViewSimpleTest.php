@@ -70,7 +70,7 @@ class ViewSimpleTest extends PHPUnit_Framework_TestCase
 
 	public function testMissingView()
 	{
-		$this->setExpectedException('Exception');
+		$this->setExpectedException('Phalcon\Mvc\View\Exception');
 		$view = new View;
 		$view->setViewsDir('unit-tests/views/');
 		$view->render('test1/index');
