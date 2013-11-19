@@ -106,7 +106,7 @@ PHP_METHOD(Phalcon_Mvc_Application, __construct) {
 
 	zephir_fetch_params(0, 0, 1, &dependencyInjector);
 
-	if (!dependencyInjector) {
+	if (!dependencyInjector || Z_TYPE_P(dependencyInjector) == IS_NULL) {
 		dependencyInjector = ZEPHIR_GLOBAL(global_null);
 	}
 
@@ -167,7 +167,7 @@ PHP_METHOD(Phalcon_Mvc_Application, registerModules) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 1, &modules, &merge_param);
 
-	if (!merge_param) {
+	if (!merge_param || Z_TYPE_P(merge_param) == IS_NULL) {
 		merge = 0;
 	} else {
 		merge = zephir_get_boolval(merge_param);
@@ -260,7 +260,7 @@ PHP_METHOD(Phalcon_Mvc_Application, handle) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 1, &uri);
 
-	if (!uri) {
+	if (!uri || Z_TYPE_P(uri) == IS_NULL) {
 		uri = ZEPHIR_GLOBAL(global_null);
 	}
 

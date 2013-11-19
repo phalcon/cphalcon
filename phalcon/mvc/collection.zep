@@ -111,17 +111,14 @@ class Collection implements Phalcon\Mvc\CollectionInterface, Phalcon\Di\Injectio
 	 */
 	public function setId(id)
 	{
-		var modelsManager, useImplicitIds;
+		var mongoId;
 
 		if typeof id != "object" {
-
-			let modelsManager = this->_modelsManager;
 
 			/**
 			 * Check if the model use implicit ids
 			 */
-			let useImplicitIds = modelsManager->isUsingImplicitObjectIds(this);
-			if useImplicitIds {
+			if this->_modelsManager->isUsingImplicitObjectIds(this) {
 				let mongoId = new MongoId(id);
 			} else {
 				let mongoId = id;
@@ -337,7 +334,7 @@ class Collection implements Phalcon\Mvc\CollectionInterface, Phalcon\Di\Injectio
 	 */
 	public static function cloneResult(<Phalcon\Mvc\Collection> collection, document) -> <Phalcon\Mvc\Collection>
 	{
- 		var clonedCollection;
+ 		var clonedCollection, key, value;
 
 		if typeof collection != "object" {
 			throw new Phalcon\Mvc\Collection\Exception("Invalid collection");
@@ -364,9 +361,11 @@ class Collection implements Phalcon\Mvc\CollectionInterface, Phalcon\Di\Injectio
 	 * @param boolean unique
 	 * @return array
 	 */
-	protected static function _getResultset(params, collection, connection, unique)
+	protected static function _getResultset(params, collection, connection, boolean unique)
 	{
- 		var source, mongoCollection, conditions, base, documentsCursor, documentsArray, collectionCloned;
+ 		var source, mongoCollection, conditions, base, documentsCursor,
+ 			documentsArray, collectionCloned, fields, skip, limit, sort, document,
+ 			collections;
 
 		let source = collection->getSource();
 		if empty source {
@@ -464,9 +463,9 @@ class Collection implements Phalcon\Mvc\CollectionInterface, Phalcon\Di\Injectio
 	 * @param \MongoDb connection
 	 * @return int
 	 */
-	protected static function _getGroupResultset(params, collection, connection) -> int
+	protected static function _getGroupResultset(params, <Phalcon\Mvc\Collection> collection, connection) -> int
 	{
- 		var source, mongoCollection, conditions, simple;
+ 		var source, mongoCollection, conditions, simple, documentsCursor, limit, sort;
 
 		let source = collection->getSource();
 		if empty source {
@@ -634,19 +633,19 @@ class Collection implements Phalcon\Mvc\CollectionInterface, Phalcon\Di\Injectio
 			if !disableEvents {
 
 				if exists === true {
-					let eventName = 'afterUpdate';
+					let eventName = "afterUpdate";
 				} else {
-					let eventName = 'afterCreate';
+					let eventName = "afterCreate";
 				}
 				this->fireEvent(eventName);
 
-				this->fireEvent('afterSave');
+				this->fireEvent("afterSave");
 			}
 			return success;
 		}
 
 		if !disableEvents {
-			this->fireEvent('notSave');
+			this->fireEvent("notSave");
 		}
 
 		this->_cancelOperation(disableEvents);
@@ -680,6 +679,7 @@ class Collection implements Phalcon\Mvc\CollectionInterface, Phalcon\Di\Injectio
 	 */
 	protected function validate(validator)
 	{
+		var message;
 
 		if typeof validator != "object" {
 			throw new Phalcon\Mvc\Model\Exception("Validator must be an Object");
@@ -742,7 +742,7 @@ class Collection implements Phalcon\Mvc\CollectionInterface, Phalcon\Di\Injectio
 		 * Check if there is a method with the same name of the event
 		 */
 		if method_exists(this, eventName) {
-			this->eventName();
+			this->{eventName}();
 		}
 
 		/**
@@ -764,7 +764,7 @@ class Collection implements Phalcon\Mvc\CollectionInterface, Phalcon\Di\Injectio
 		 * Check if there is a method with the same name of the event
 		 */
 		if method_exists(this, eventName) {
-			if this->eventName() === false {
+			if this->{eventName}() === false {
 				return false;
 			}
 		}

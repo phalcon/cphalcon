@@ -19,4 +19,100 @@
 
 namespace Phalcon\Validation\Validator;
 
-class StringLength { }
+/**
+ * Phalcon\Validation\Validator\StringLength
+ *
+ * Validates that a string has the specified maximum and minimum constraints
+ *
+ *<code>
+ *use Phalcon\Validation\Validator\StringLength as StringLength;
+ *
+ *$validation->add('name_last', new StringLength(array(
+ *      'max' => 50,
+ *      'min' => 2,
+ *      'messageMaximum' => 'We don\'t like really long names',
+ *      'messageMinimum' => 'We want more than just their initials'
+ *)));
+ *</code>
+ *
+ */
+class StringLength extends Phalcon\Validation\Validator implements Phalcon\Validation\ValidatorInterface
+{
+
+	/**
+	 * Executes the validation
+	 *
+	 * @param Phalcon\Validation validator
+	 * @param string attribute
+	 * @return boolean
+	 */
+	public function validate(<Phalcon\Validation> validator, string! attribute) -> boolean
+	{
+
+		/**
+		 * At least one of 'min' or 'max' must be set
+		 */
+		let isSetMin = this->isSetOption("min"),
+			isSetMax = this->isSetOption("max");
+
+		if !isSetMin && !isSetMax {
+			throw new Phalcon\Mvc\Model\Exception("A minimum or maximum must be set");
+		}
+
+		let value = validator->getValue($attribute);
+
+		/**
+		 * Check if mbstring is available to calculate the correct length
+		 */
+		if function_exists('mb_strlen') {
+			let length = mb_strlen(value);
+		} else {
+			let length = strlen(value);
+		}
+
+		let invalidMaximum = false, invalidMinimum = false;
+
+		/**
+		 * Maximum length
+		 */
+		if isSetMax {
+
+			if length > this->getOption("max") {
+
+				/**
+				 * Check if the developer has defined a custom message
+				 */
+				let message = this->getOption("messageMaximum");
+				if empty messageStr {
+		 			let message = "Value of field '" . attribute . "' exceeds the maximum " . maximum . " characters";
+		 		}
+
+		 		validator->appendMessage(new Phalcon\Validation\Message(messageStr, attribute, "TooLong"));
+				return false;
+			}
+		}
+
+		/**
+		 * Minimum length
+		 */
+		if isSetMin {
+
+			if length < this->getOption("min") {
+
+				/**
+				 * Check if the developer has defined a custom message
+				 */
+				let message = this->getOption("messageMinimum");
+				if empty message {
+		 			let message = "Value of field '" . attribute . "' is less than the minimum " . minimum . " characters";
+		 		}
+
+		 		validator->appendMessage(new Phalcon\Validation\Message(message, attribute, "TooShort"));
+				return false;
+			}
+		}
+
+		return true;
+	}
+
+}

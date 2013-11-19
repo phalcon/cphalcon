@@ -78,10 +78,10 @@ PHP_METHOD(Phalcon_Forms_Form, __construct) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 2, &entity, &userOptions);
 
-	if (!entity) {
+	if (!entity || Z_TYPE_P(entity) == IS_NULL) {
 		entity = ZEPHIR_GLOBAL(global_null);
 	}
-	if (!userOptions) {
+	if (!userOptions || Z_TYPE_P(userOptions) == IS_NULL) {
 		userOptions = ZEPHIR_GLOBAL(global_null);
 	}
 
@@ -167,7 +167,7 @@ PHP_METHOD(Phalcon_Forms_Form, getUserOption) {
 
 	zephir_fetch_params(0, 1, 1, &option, &defaultValue);
 
-	if (!defaultValue) {
+	if (!defaultValue || Z_TYPE_P(defaultValue) == IS_NULL) {
 		defaultValue = ZEPHIR_GLOBAL(global_null);
 	}
 
@@ -277,7 +277,7 @@ PHP_METHOD(Phalcon_Forms_Form, bind) {
 	zephir_fetch_params(1, 2, 1, &data, &entity, &whitelist);
 
 	ZEPHIR_SEPARATE_PARAM(entity);
-	if (!whitelist) {
+	if (!whitelist || Z_TYPE_P(whitelist) == IS_NULL) {
 		whitelist = ZEPHIR_GLOBAL(global_null);
 	}
 
@@ -359,11 +359,11 @@ PHP_METHOD(Phalcon_Forms_Form, isValid) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 2, &data, &entity);
 
-	if (!data) {
+	if (!data || Z_TYPE_P(data) == IS_NULL) {
 		ZEPHIR_CPY_WRT(data, ZEPHIR_GLOBAL(global_null));
 	}
 	ZEPHIR_SEPARATE_PARAM(data);
-	if (!entity) {
+	if (!entity || Z_TYPE_P(entity) == IS_NULL) {
 		entity = ZEPHIR_GLOBAL(global_null);
 	}
 
@@ -463,7 +463,7 @@ PHP_METHOD(Phalcon_Forms_Form, getMessages) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 1, &byItemName_param);
 
-	if (!byItemName_param) {
+	if (!byItemName_param || Z_TYPE_P(byItemName_param) == IS_NULL) {
 		byItemName = 0;
 	} else {
 		byItemName = zephir_get_boolval(byItemName_param);
@@ -588,7 +588,7 @@ PHP_METHOD(Phalcon_Forms_Form, render) {
 
 		name = name_param;
 
-	if (!attributes) {
+	if (!attributes || Z_TYPE_P(attributes) == IS_NULL) {
 		attributes = ZEPHIR_GLOBAL(global_null);
 	}
 
@@ -852,7 +852,7 @@ PHP_METHOD(Phalcon_Forms_Form, clear) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 1, &fields);
 
-	if (!fields) {
+	if (!fields || Z_TYPE_P(fields) == IS_NULL) {
 		fields = ZEPHIR_GLOBAL(global_null);
 	}
 

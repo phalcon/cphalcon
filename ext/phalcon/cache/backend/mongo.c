@@ -91,7 +91,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Mongo, __construct) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 1, &frontend, &options);
 
-	if (!options) {
+	if (!options || Z_TYPE_P(options) == IS_NULL) {
 		options = ZEPHIR_GLOBAL(global_null);
 	}
 
@@ -182,7 +182,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Mongo, get) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 1, &keyName, &lifetime);
 
-	if (!lifetime) {
+	if (!lifetime || Z_TYPE_P(lifetime) == IS_NULL) {
 		lifetime = ZEPHIR_GLOBAL(global_null);
 	}
 
@@ -240,16 +240,16 @@ PHP_METHOD(Phalcon_Cache_Backend_Mongo, save) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 4, &keyName, &content, &lifetime, &stopBuffer);
 
-	if (!keyName) {
+	if (!keyName || Z_TYPE_P(keyName) == IS_NULL) {
 		keyName = ZEPHIR_GLOBAL(global_null);
 	}
-	if (!content) {
+	if (!content || Z_TYPE_P(content) == IS_NULL) {
 		content = ZEPHIR_GLOBAL(global_null);
 	}
-	if (!lifetime) {
+	if (!lifetime || Z_TYPE_P(lifetime) == IS_NULL) {
 		lifetime = ZEPHIR_GLOBAL(global_null);
 	}
-	if (!stopBuffer) {
+	if (!stopBuffer || Z_TYPE_P(stopBuffer) == IS_NULL) {
 		stopBuffer = ZEPHIR_GLOBAL(global_true);
 	}
 
@@ -381,7 +381,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Mongo, queryKeys) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 1, &prefix);
 
-	if (!prefix) {
+	if (!prefix || Z_TYPE_P(prefix) == IS_NULL) {
 		prefix = ZEPHIR_GLOBAL(global_null);
 	}
 
@@ -444,10 +444,10 @@ PHP_METHOD(Phalcon_Cache_Backend_Mongo, exists) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 2, &keyName, &lifetime);
 
-	if (!keyName) {
+	if (!keyName || Z_TYPE_P(keyName) == IS_NULL) {
 		keyName = ZEPHIR_GLOBAL(global_null);
 	}
-	if (!lifetime) {
+	if (!lifetime || Z_TYPE_P(lifetime) == IS_NULL) {
 		lifetime = ZEPHIR_GLOBAL(global_null);
 	}
 
@@ -522,7 +522,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Mongo, increment) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 1, &keyName, &value);
 
-	if (!value) {
+	if (!value || Z_TYPE_P(value) == IS_NULL) {
 		ZEPHIR_INIT_VAR(value);
 		ZVAL_LONG(value, 1);
 	}
@@ -590,7 +590,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Mongo, decrement) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 1, &keyName, &value);
 
-	if (!value) {
+	if (!value || Z_TYPE_P(value) == IS_NULL) {
 		ZEPHIR_INIT_VAR(value);
 		ZVAL_LONG(value, 1);
 	}

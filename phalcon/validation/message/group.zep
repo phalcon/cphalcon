@@ -50,7 +50,7 @@ class Group implements Countable, ArrayAccess, Iterator
 	 * print_r($messages[0]);
 	 *</code>
 	 *
-	 * @param string index
+	 * @param int index
 	 * @return Phalcon\Validation\Message
 	 */
 	public function offsetGet(int! index) -> <Phalcon\Validation\Message> | boolean
@@ -87,7 +87,7 @@ class Group implements Countable, ArrayAccess, Iterator
 	 * var_dump(isset($message['database']));
 	 *</code>
 	 *
-	 * @param string index
+	 * @param int index
 	 * @return boolean
 	 */
 	public function offsetExists(string index) -> boolean

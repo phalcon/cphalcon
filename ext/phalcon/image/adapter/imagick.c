@@ -107,12 +107,12 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, __construct) {
 
 		file = file_param;
 
-	if (!width_param) {
+	if (!width_param || Z_TYPE_P(width_param) == IS_NULL) {
 		width = 0;
 	} else {
 		width = zephir_get_intval(width_param);
 	}
-	if (!height_param) {
+	if (!height_param || Z_TYPE_P(height_param) == IS_NULL) {
 		height = 0;
 	} else {
 		height = zephir_get_intval(height_param);

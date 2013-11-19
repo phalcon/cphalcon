@@ -56,7 +56,6 @@ class Email extends Phalcon\Mvc\Model\Validator implements Phalcon\Mvc\Model\Val
 	public function validate(<Phalcon\Mvc\ModelInterface> record) -> boolean
 	{
 
-
 		let fieldName = this->getOption("field");
 		if typeof fieldName != "string" {
 			throw new Phalcon\Mvc\Model\Exception("Field name must be a string");
@@ -67,7 +66,7 @@ class Email extends Phalcon\Mvc\Model\Validator implements Phalcon\Mvc\Model\Val
 		/**
 		 * We check if the email has a valid format using a regular expression
 		 */
-		let regs = null, invalid = false;
+		let regs = null;
 		if preg_match("/^[a-zA-Z0-9\-_\.\+]+@[a-zA-Z0-9_\-]+(\.[a-zA-Z0-9_\-]+)*/", value, regs) {
 			let invalid = regs[0] != value;
 		} else {

@@ -77,7 +77,7 @@ PHP_METHOD(Phalcon_Forms_Element, __construct) {
 	zephir_fetch_params(1, 1, 1, &name_param, &attributes);
 
 		zephir_get_strval(name, name_param);
-	if (!attributes) {
+	if (!attributes || Z_TYPE_P(attributes) == IS_NULL) {
 		attributes = ZEPHIR_GLOBAL(global_null);
 	}
 
@@ -237,7 +237,7 @@ PHP_METHOD(Phalcon_Forms_Element, addValidators) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 1, &validators, &merge_param);
 
-	if (!merge_param) {
+	if (!merge_param || Z_TYPE_P(merge_param) == IS_NULL) {
 		merge = 1;
 	} else {
 		merge = zephir_get_boolval(merge_param);
@@ -313,10 +313,10 @@ PHP_METHOD(Phalcon_Forms_Element, prepareAttributes) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 2, &attributes, &useChecked_param);
 
-	if (!attributes) {
+	if (!attributes || Z_TYPE_P(attributes) == IS_NULL) {
 		attributes = ZEPHIR_GLOBAL(global_null);
 	}
-	if (!useChecked_param) {
+	if (!useChecked_param || Z_TYPE_P(useChecked_param) == IS_NULL) {
 		useChecked = 0;
 	} else {
 		useChecked = zephir_get_boolval(useChecked_param);
@@ -403,7 +403,7 @@ PHP_METHOD(Phalcon_Forms_Element, getAttribute) {
 	zephir_fetch_params(1, 1, 1, &attribute_param, &defaultValue);
 
 		zephir_get_strval(attribute, attribute_param);
-	if (!defaultValue) {
+	if (!defaultValue || Z_TYPE_P(defaultValue) == IS_NULL) {
 		defaultValue = ZEPHIR_GLOBAL(global_null);
 	}
 
@@ -494,7 +494,7 @@ PHP_METHOD(Phalcon_Forms_Element, getUserOption) {
 
 	zephir_fetch_params(0, 1, 1, &option, &defaultValue);
 
-	if (!defaultValue) {
+	if (!defaultValue || Z_TYPE_P(defaultValue) == IS_NULL) {
 		defaultValue = ZEPHIR_GLOBAL(global_null);
 	}
 

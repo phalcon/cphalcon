@@ -33,7 +33,7 @@ interface ValidatorInterface
 	 * @param string key
 	 * @return mixed
 	 */
-	public function isSetOption(key);
+	public function isSetOption(string! key) -> boolean;
 
 	/**
 	 * Returns an option in the validator's options
@@ -42,15 +42,15 @@ interface ValidatorInterface
 	 * @param string key
 	 * @return mixed
 	 */
-	public function getOption(key);
+	public function getOption(string! key);
 
 	/**
 	 * Executes the validation
 	 *
 	 * @param Phalcon\Validator validator
 	 * @param string attribute
-	 * @return Phalcon\Validation\Message\Group
+	 * @return boolean
 	 */
-	public function validate(validator, attribute);
+	public function validate(<Phalcon\Validator> validator, attribute) -> boolean;
 
 }

@@ -57,6 +57,7 @@ abstract class Behavior
 	protected function getOptions(string! eventName=null)
 	{
 		var options, eventOptions;
+
 		let options = this->_options;
 		if eventName !== null {
 			if fetch eventOptions, options[eventName] {

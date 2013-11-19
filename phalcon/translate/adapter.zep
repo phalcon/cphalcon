@@ -25,62 +25,61 @@ namespace Phalcon\Translate;
 * Base class for Phalcon\Translate adapters
 */
 class Adapter extends Phalcon\Translate\Adapter\NativeArray implements Phalcon\Translate\AdapterInterface
-{ 
+{
 
 	/**
-	* Returns the translation string of the given key
-	*
-	* @param string $translateKey
-	* @param array $placeholders
-	* @return string
-	*/
-	public function  t(translateKey, placeholders=null)
+	 * Returns the translation string of the given key
+	 *
+	 * @param string  translateKey
+	 * @param array   placeholders
+	 * @return string
+	 */
+	public function  t(string! translateKey, placeholders=null)
 	{
 		return this->query(translateKey, placeholders);
 	}
 
 	/**
-	* Sets a translation value
-	*
-	* @param         string $offset
-	* @param         string $value
-	*/
+	 * Sets a translation value
+	 *
+	 * @param         string offset
+	 * @param         string value
+	 */
 	public function offsetSet(offset, value)
 	{
 		throw new Phalcon\Translate\Exception("Translate is an immutable ArrayAccess object");
 	}
 
 	/**
-	* Check whether a translation key exists
-	*
-	* @param string $translateKey
-	* @return boolean
-	*/
-	public function offsetExists(translateKey)
+	 * Check whether a translation key exists
+	 *
+	 * @param string  translateKey
+	 * @return boolean
+	 */
+	public function offsetExists(string! translateKey) -> boolean
 	{
 		return this->exists(translateKey);
 	}
 
 	/**
-	* Unsets a translation from the dictionary
-	*
-	* @param string $offset
-	*/
+	 * Unsets a translation from the dictionary
+	 *
+	 * @param string offset
+	 */
 	public function offsetUnset()
 	{
 		throw new Phalcon\Translate\Exception("Translate is an immutable ArrayAccess object");
 	}
 
 	/**
-	* Returns the translation related to the given key
-	*
-	* @param string $translateKey
-	* @return string
-	*/
-	public function offsetGet(translateKey)
+	 * Returns the translation related to the given key
+	 *
+	 * @param  string translateKey
+	 * @return string
+	 */
+	public function offsetGet(string! translateKey)
 	{
 		return this->query(translateKey, null);
 	}
-
 
 }

@@ -19,4 +19,44 @@
 
 namespace Phalcon\Validation\Validator;
 
-class Email { }
+/**
+ * Phalcon\Validation\Validator\Email
+ *
+ * Checks if a value has a correct e-mail format
+ *
+ *<code>
+ *use Phalcon\Validation\Validator\Email as EmailValidator;
+ *
+ *$validator->add('email', new EmailValidator(array(
+ *   'message' => 'The e-mail is not valid'
+ *)));
+ *</code>
+ */
+class Email extends Phalcon\Validation\Validator implements Phalcon\Validation\ValidatorInterface
+{
+
+	/**
+	 * Executes the validation
+	 *
+	 * @param  Phalcon\Validation validator
+	 * @param  string             attribute
+	 * @return boolean
+	 */
+	public function validate(<Phalcon\Validatio> validator, string! attribute) -> boolean
+	{
+
+		let value = validator->getValue(attribute);
+		if !filter_var(value, FILTER_VALIDATE_EMAIL) {
+
+			let message = this->getOption("message");
+			if empty message {
+				let message = "Value of field '" . attribute . "' must have a valid e-mail format";
+			}
+
+			validator->appendMessage(new Phalcon_Validation_Message(message, attribute, "Email"));
+			return false;
+		}
+
+		return true;
+	}
+}
