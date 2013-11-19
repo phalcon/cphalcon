@@ -349,7 +349,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, load) {
 
 		modelName = modelName_param;
 
-	if (!newInstance_param) {
+	if (!newInstance_param || Z_TYPE_P(newInstance_param) == IS_NULL) {
 		newInstance = 0;
 	} else {
 		newInstance = zephir_get_boolval(newInstance_param);
@@ -1040,7 +1040,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, addHasOne) {
 
 		referencedModel = referencedModel_param;
 
-	if (!options) {
+	if (!options || Z_TYPE_P(options) == IS_NULL) {
 		options = ZEPHIR_GLOBAL(global_null);
 	}
 
@@ -1116,7 +1116,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, addBelongsTo) {
 
 		referencedModel = referencedModel_param;
 
-	if (!options) {
+	if (!options || Z_TYPE_P(options) == IS_NULL) {
 		options = ZEPHIR_GLOBAL(global_null);
 	}
 
@@ -1191,7 +1191,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, addHasMany) {
 
 		referencedModel = referencedModel_param;
 
-	if (!options) {
+	if (!options || Z_TYPE_P(options) == IS_NULL) {
 		options = ZEPHIR_GLOBAL(global_null);
 	}
 
@@ -1277,7 +1277,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, addHasManyToMany) {
 
 		referencedModel = referencedModel_param;
 
-	if (!options) {
+	if (!options || Z_TYPE_P(options) == IS_NULL) {
 		options = ZEPHIR_GLOBAL(global_null);
 	}
 
@@ -1594,7 +1594,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getRelationRecords) {
 
 		method = method_param;
 
-	if (!parameters) {
+	if (!parameters || Z_TYPE_P(parameters) == IS_NULL) {
 		ZEPHIR_CPY_WRT(parameters, ZEPHIR_GLOBAL(global_null));
 	}
 	ZEPHIR_SEPARATE_PARAM(parameters);
@@ -1906,7 +1906,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getBelongsToRecords) {
 
 		modelName = modelName_param;
 
-	if (!parameters) {
+	if (!parameters || Z_TYPE_P(parameters) == IS_NULL) {
 		parameters = ZEPHIR_GLOBAL(global_null);
 	}
 
@@ -1963,7 +1963,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getHasManyRecords) {
 
 		modelName = modelName_param;
 
-	if (!parameters) {
+	if (!parameters || Z_TYPE_P(parameters) == IS_NULL) {
 		parameters = ZEPHIR_GLOBAL(global_null);
 	}
 
@@ -2020,7 +2020,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getHasOneRecords) {
 
 		modelName = modelName_param;
 
-	if (!parameters) {
+	if (!parameters || Z_TYPE_P(parameters) == IS_NULL) {
 		parameters = ZEPHIR_GLOBAL(global_null);
 	}
 
@@ -2380,7 +2380,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, executeQuery) {
 
 		phql = phql_param;
 
-	if (!placeholders) {
+	if (!placeholders || Z_TYPE_P(placeholders) == IS_NULL) {
 		placeholders = ZEPHIR_GLOBAL(global_null);
 	}
 
@@ -2413,7 +2413,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, createBuilder) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 1, &params);
 
-	if (!params) {
+	if (!params || Z_TYPE_P(params) == IS_NULL) {
 		params = ZEPHIR_GLOBAL(global_null);
 	}
 

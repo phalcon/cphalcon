@@ -93,7 +93,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Relation, __construct) {
 
 		referencedModel = referencedModel_param;
 
-	if (!options) {
+	if (!options || Z_TYPE_P(options) == IS_NULL) {
 		options = ZEPHIR_GLOBAL(global_null);
 	}
 

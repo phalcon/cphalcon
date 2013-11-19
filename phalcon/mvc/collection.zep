@@ -111,6 +111,7 @@ class Collection implements Phalcon\Mvc\CollectionInterface, Phalcon\Di\Injectio
 	 */
 	public function setId(id)
 	{
+
 		var mongoId;
 
 		if typeof id != "object" {
@@ -345,7 +346,8 @@ class Collection implements Phalcon\Mvc\CollectionInterface, Phalcon\Di\Injectio
 		}
 
 		let clonedCollection = clone collection;
-		for key, value in document {
+		for key, value in document
+		{
 			clonedCollection->writeAttribute(key, value);
 		}
 
@@ -465,7 +467,8 @@ class Collection implements Phalcon\Mvc\CollectionInterface, Phalcon\Di\Injectio
 	 */
 	protected static function _getGroupResultset(params, <Phalcon\Mvc\Collection> collection, connection) -> int
 	{
- 		var source, mongoCollection, conditions, simple, documentsCursor, limit, sort;
+
+ 		var source, mongoCollection, conditions, simple, documentsCursor, limit, sort, skip;
 
 		let source = collection->getSource();
 		if empty source {
@@ -790,9 +793,9 @@ class Collection implements Phalcon\Mvc\CollectionInterface, Phalcon\Di\Injectio
 
 		if !disableEvents {
 			if this->_operationMade == self::OP_DELETE {
-				let eventName = 'notDeleted';
+				let eventName = "notDeleted";
 			} else {
-				let eventName = 'notSaved';
+				let eventName = "notSaved";
 			}
 			this->fireEvent(eventName);
 		}
@@ -896,7 +899,7 @@ class Collection implements Phalcon\Mvc\CollectionInterface, Phalcon\Di\Injectio
 	public function save() -> boolean
 	{
  		var dependencyInjector, connection, exists, source, data, properties, reserved,
- 			success, options, status, id, ok;
+ 			success, options, status, id, ok, collection, disableEvents, key, value;
 
 		let dependencyInjector = this->_dependencyInjector;
 		if typeof dependencyInjector != "object" {
@@ -949,7 +952,7 @@ class Collection implements Phalcon\Mvc\CollectionInterface, Phalcon\Di\Injectio
 		 * We only assign values to the public properties
 		 */
 		for key, value in properties {
-			if key == '_id' {
+			if key == "_id" {
 				if value {
 					let data[key] = value;
 				}
@@ -968,11 +971,11 @@ class Collection implements Phalcon\Mvc\CollectionInterface, Phalcon\Di\Injectio
 		 */
 		let status = collection->save(data, ["safe": true]);
 		if typeof status == "array" {
-			if fetch ok, status['ok'] {
+			if fetch ok, status["ok"] {
 				if ok {
 					let success = true;
 					if exists === false {
-						if fetch id, data['_id'] {
+						if fetch id, data["_id"] {
 							let this->_id = id;
 						}
 					}
@@ -1049,7 +1052,7 @@ class Collection implements Phalcon\Mvc\CollectionInterface, Phalcon\Di\Injectio
 	 */
 	public static function findFirst(parameters=null)
 	{
- 		var className, collection, modelsManager;
+ 		var className, collection, modelsManager, connection;
 
 		if parameters {
 			if typeof parameters != "array" {
@@ -1225,7 +1228,7 @@ class Collection implements Phalcon\Mvc\CollectionInterface, Phalcon\Di\Injectio
 
 		let group = collection->group(keys, initial, reduce);
 
-		if fetch retval, group['retval'] {
+		if fetch retval, group["retval"] {
 			if fetch firstRetval, retval[0] {
 				if isset firstRetval["summatory"] {
 					return firstRetval["summatory"];
@@ -1306,11 +1309,11 @@ class Collection implements Phalcon\Mvc\CollectionInterface, Phalcon\Di\Injectio
 		/**
 		 * Check the operation status
 		 */
-		if fetch ok, status['ok'] {
+		if fetch ok, status["ok"] {
 			if ok {
 				let success = true;
 				if !disableEvents {
-					this->fireEvent('afterDelete');
+					this->fireEvent("afterDelete");
 				}
 			}
 		} else {
@@ -1331,7 +1334,7 @@ class Collection implements Phalcon\Mvc\CollectionInterface, Phalcon\Di\Injectio
 	 */
 	public function toArray()
 	{
- 		var data, reserved, properties;
+ 		var data, reserved, properties, key, value;
 
 		let reserved = this->getReservedAttributes();
 
@@ -1376,7 +1379,7 @@ class Collection implements Phalcon\Mvc\CollectionInterface, Phalcon\Di\Injectio
 	 */
 	public function unserialize(data)
 	{
-		var attributes;
+		var attributes, dependencyInjector, manager, key, value;
 
 		if typeof data == "string" {
 			let attributes = unserialize(data);
@@ -1398,7 +1401,7 @@ class Collection implements Phalcon\Mvc\CollectionInterface, Phalcon\Di\Injectio
 				/**
 				 * Gets the default modelsManager service
 				 */
-				let manager = dependencyInjector->getShared('collectionManager');
+				let manager = dependencyInjector->getShared("collectionManager");
 				if typeof manager != "object" {
 					throw new Phalcon\Mvc\Model\Exception("The injected service 'collectionManager' is not valid");
 				}

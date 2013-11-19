@@ -15,6 +15,8 @@
 #include "kernel/object.h"
 #include "kernel/memory.h"
 #include "kernel/array.h"
+#include "ext/spl/spl_exceptions.h"
+#include "kernel/exception.h"
 #include "kernel/operators.h"
 
 
@@ -61,7 +63,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Behavior, __construct) {
 
 	zephir_fetch_params(0, 0, 1, &options);
 
-	if (!options) {
+	if (!options || Z_TYPE_P(options) == IS_NULL) {
 		options = ZEPHIR_GLOBAL(global_null);
 	}
 
@@ -77,14 +79,23 @@ PHP_METHOD(Phalcon_Mvc_Model_Behavior, __construct) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_Behavior, mustTakeAction) {
 
-	zval *eventName, *options;
+	zval *eventName_param = NULL, *_0;
+	zval *eventName = NULL;
 
-	zephir_fetch_params(0, 1, 0, &eventName);
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 1, 0, &eventName_param);
+
+		if (Z_TYPE_P(eventName_param) != IS_STRING) {
+				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'eventName' must be a string") TSRMLS_CC);
+				RETURN_MM_NULL();
+		}
+
+		eventName = eventName_param;
 
 
 
-	options = zephir_fetch_nproperty_this(this_ptr, SL("_options"), PH_NOISY_CC);
-	RETURN_BOOL(zephir_array_isset(options, eventName));
+	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_options"), PH_NOISY_CC);
+	RETURN_MM_BOOL(zephir_array_isset(_0, eventName));
 
 }
 
@@ -102,7 +113,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Behavior, getOptions) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 1, &eventName_param);
 
-	if (!eventName_param) {
+	if (!eventName_param || Z_TYPE_P(eventName_param) == IS_NULL) {
 		ZEPHIR_INIT_VAR(eventName);
 		ZVAL_EMPTY_STRING(eventName);
 	} else {
@@ -158,7 +169,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Behavior, missingMethod) {
 	zephir_fetch_params(1, 2, 1, &model, &method_param, &arguments);
 
 		zephir_get_strval(method, method_param);
-	if (!arguments) {
+	if (!arguments || Z_TYPE_P(arguments) == IS_NULL) {
 		arguments = ZEPHIR_GLOBAL(global_null);
 	}
 

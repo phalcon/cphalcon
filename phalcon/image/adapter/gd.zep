@@ -548,7 +548,7 @@ class Gd extends Phalcon\Image\Adapter implements Phalcon\Image\AdapterInterface
 			return;
 		}
 		if strcmp(ext, "xbm") == 0 {
-			imagexbm(this->_image);
+			imagexbm(this->_image, null);
 			return;
 		}
 

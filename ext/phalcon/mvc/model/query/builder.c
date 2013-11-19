@@ -107,10 +107,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, __construct) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 2, &params, &dependencyInjector);
 
-	if (!params) {
+	if (!params || Z_TYPE_P(params) == IS_NULL) {
 		params = ZEPHIR_GLOBAL(global_null);
 	}
-	if (!dependencyInjector) {
+	if (!dependencyInjector || Z_TYPE_P(dependencyInjector) == IS_NULL) {
 		dependencyInjector = ZEPHIR_GLOBAL(global_null);
 	}
 
@@ -325,7 +325,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, addFrom) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 1, &model, &alias);
 
-	if (!alias) {
+	if (!alias || Z_TYPE_P(alias) == IS_NULL) {
 		alias = ZEPHIR_GLOBAL(global_null);
 	}
 
@@ -395,13 +395,13 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, join) {
 
 		model = model_param;
 
-	if (!conditions) {
+	if (!conditions || Z_TYPE_P(conditions) == IS_NULL) {
 		conditions = ZEPHIR_GLOBAL(global_null);
 	}
-	if (!alias) {
+	if (!alias || Z_TYPE_P(alias) == IS_NULL) {
 		alias = ZEPHIR_GLOBAL(global_null);
 	}
-	if (!type) {
+	if (!type || Z_TYPE_P(type) == IS_NULL) {
 		type = ZEPHIR_GLOBAL(global_null);
 	}
 
@@ -448,10 +448,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, innerJoin) {
 
 		model = model_param;
 
-	if (!conditions) {
+	if (!conditions || Z_TYPE_P(conditions) == IS_NULL) {
 		conditions = ZEPHIR_GLOBAL(global_null);
 	}
-	if (!alias) {
+	if (!alias || Z_TYPE_P(alias) == IS_NULL) {
 		alias = ZEPHIR_GLOBAL(global_null);
 	}
 
@@ -496,10 +496,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, leftJoin) {
 
 		model = model_param;
 
-	if (!conditions) {
+	if (!conditions || Z_TYPE_P(conditions) == IS_NULL) {
 		conditions = ZEPHIR_GLOBAL(global_null);
 	}
-	if (!alias) {
+	if (!alias || Z_TYPE_P(alias) == IS_NULL) {
 		alias = ZEPHIR_GLOBAL(global_null);
 	}
 
@@ -536,10 +536,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, rightJoin) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 2, &model, &conditions, &alias);
 
-	if (!conditions) {
+	if (!conditions || Z_TYPE_P(conditions) == IS_NULL) {
 		conditions = ZEPHIR_GLOBAL(global_null);
 	}
-	if (!alias) {
+	if (!alias || Z_TYPE_P(alias) == IS_NULL) {
 		alias = ZEPHIR_GLOBAL(global_null);
 	}
 
@@ -585,10 +585,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, where) {
 
 		conditions = conditions_param;
 
-	if (!bindParams) {
+	if (!bindParams || Z_TYPE_P(bindParams) == IS_NULL) {
 		bindParams = ZEPHIR_GLOBAL(global_null);
 	}
-	if (!bindTypes) {
+	if (!bindTypes || Z_TYPE_P(bindTypes) == IS_NULL) {
 		bindTypes = ZEPHIR_GLOBAL(global_null);
 	}
 
@@ -646,10 +646,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, andWhere) {
 
 		conditions = conditions_param;
 
-	if (!bindParams) {
+	if (!bindParams || Z_TYPE_P(bindParams) == IS_NULL) {
 		bindParams = ZEPHIR_GLOBAL(global_null);
 	}
-	if (!bindTypes) {
+	if (!bindTypes || Z_TYPE_P(bindTypes) == IS_NULL) {
 		bindTypes = ZEPHIR_GLOBAL(global_null);
 	}
 
@@ -714,10 +714,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, orWhere) {
 
 		conditions = conditions_param;
 
-	if (!bindParams) {
+	if (!bindParams || Z_TYPE_P(bindParams) == IS_NULL) {
 		bindParams = ZEPHIR_GLOBAL(global_null);
 	}
-	if (!bindTypes) {
+	if (!bindTypes || Z_TYPE_P(bindTypes) == IS_NULL) {
 		bindTypes = ZEPHIR_GLOBAL(global_null);
 	}
 
@@ -1097,7 +1097,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, limit) {
 	zephir_fetch_params(0, 1, 1, &limit_param, &offset_param);
 
 		limit = zephir_get_intval(limit_param);
-	if (!offset_param) {
+	if (!offset_param || Z_TYPE_P(offset_param) == IS_NULL) {
 		offset = 0;
 	} else {
 		offset = zephir_get_intval(offset_param);

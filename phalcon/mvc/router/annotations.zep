@@ -93,7 +93,9 @@ class Annotations extends Phalcon\Mvc\Router
 	{
 		var realUri, annotationsService, handlers, controllerSuffix,
 			scope, prefix, dependencyInjector, handler, controllerName,
-			lowerControllerName, namespaceName, moduleName, sufixed;
+			lowerControllerName, namespaceName, moduleName, sufixed, handlerAnnotations,
+			classAnnotations, annotations, annotation, methodAnnotations, lowercased, method,
+			collection;
 
 		if !uri {
 			/**
@@ -249,6 +251,7 @@ class Annotations extends Phalcon\Mvc\Router
 	public function processActionAnnotation(string! module, string! namespaceName, string! controller, string! action,
 		<Phalcon\Annotations\Annotation> annotation)
 	{
+		var isRoute, name, actionName, routePrefix, paths, value, uri, route, methods;
 
 		let isRoute = false, methods = null;
 
@@ -285,7 +288,7 @@ class Annotations extends Phalcon\Mvc\Router
 			/**
 			 * Check for existing paths in the annotation
 			 */
-			let paths = annotation->getNamedParameter("paths");
+			let paths = annotation->getNamedArgument("paths");
 			if typeof paths != "array" {
 				let paths = [];
 			}
@@ -293,14 +296,14 @@ class Annotations extends Phalcon\Mvc\Router
 			/**
 			 * Update the module if any
 			 */
-			if typeof module == "string" {
+			if !empty module {
 				let paths["module"] = module;
 			}
 
 			/**
 			 * Update the namespace if any
 			 */
-			if typeof namespaceName == "string" {
+			if !empty namespaceName {
 				let paths["namespace"] = namespaceName;
 			}
 

@@ -71,7 +71,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Complex, __construct) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 1, &columnTypes, &result, &cache);
 
-	if (!cache) {
+	if (!cache || Z_TYPE_P(cache) == IS_NULL) {
 		cache = ZEPHIR_GLOBAL(global_null);
 	}
 

@@ -80,10 +80,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, __construct) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 3, 2, &columnMap, &model, &result, &cache, &keepSnapshots);
 
-	if (!cache) {
+	if (!cache || Z_TYPE_P(cache) == IS_NULL) {
 		cache = ZEPHIR_GLOBAL(global_null);
 	}
-	if (!keepSnapshots) {
+	if (!keepSnapshots || Z_TYPE_P(keepSnapshots) == IS_NULL) {
 		keepSnapshots = ZEPHIR_GLOBAL(global_null);
 	}
 
@@ -199,7 +199,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, toArray) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 1, &renameColumns_param);
 
-	if (!renameColumns_param) {
+	if (!renameColumns_param || Z_TYPE_P(renameColumns_param) == IS_NULL) {
 		renameColumns = 1;
 	} else {
 		renameColumns = zephir_get_boolval(renameColumns_param);

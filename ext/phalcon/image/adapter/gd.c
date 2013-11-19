@@ -1469,7 +1469,7 @@ PHP_METHOD(Phalcon_Image_Adapter_Gd, _render) {
 	zephir_call_func_p2(_5, "strcmp", ext, &_0);
 	if (ZEPHIR_IS_LONG(_5, 0)) {
 		_2 = zephir_fetch_nproperty_this(this_ptr, SL("_image"), PH_NOISY_CC);
-		zephir_call_func_p1_noret("imagexbm", _2);
+		zephir_call_func_p2_noret("imagexbm", _2, ZEPHIR_GLOBAL(global_null));
 		RETURN_MM_NULL();
 	}
 	ZEPHIR_INIT_NVAR(_5);

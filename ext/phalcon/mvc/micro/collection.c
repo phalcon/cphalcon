@@ -173,7 +173,7 @@ PHP_METHOD(Phalcon_Mvc_Micro_Collection, setHandler) {
 
 	zephir_fetch_params(0, 1, 1, &handler, &lazy_param);
 
-	if (!lazy_param) {
+	if (!lazy_param || Z_TYPE_P(lazy_param) == IS_NULL) {
 		lazy = 0;
 	} else {
 		lazy = zephir_get_boolval(lazy_param);

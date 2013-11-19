@@ -362,11 +362,15 @@ class Route
 			throw new Phalcon\Mvc\Router\Exception("The route contains invalid paths");
 		}
 
-		// If the route starts with '#' we assume that it is a regular expression
+		/**
+		 * If the route starts with '#' we assume that it is a regular expression
+		 */
 		if !starts_with(pattern, "#") {
 
 			if memstr(pattern, "{") {
-				// The route has named parameters so we need to extract them
+				/**
+				 * The route has named parameters so we need to extract them
+				 */
 				let extracted = this->extractNamedParams(pattern),
 					pcrePattern = extracted[0],
 					routePaths = array_merge(routePaths, extracted[1]);
@@ -374,19 +378,27 @@ class Route
 				let pcrePattern = pattern;
 			}
 
-			// Transform the route's pattern to a regular expression
+			/**
+			 * Transform the route's pattern to a regular expression
+			 */
 			let compiledPattern = this->compilePattern(pcrePattern);
 		} else {
 			let compiledPattern = pattern;
 		}
 
-		// Update the original pattern
+		/**
+		 * Update the original pattern
+		 */
 		let this->_pattern = pattern;
 
-		// Update the compiled pattern
+		/**
+		 * Update the compiled pattern
+		 */
 		let this->_compiledPattern = compiledPattern;
 
-		//Update the route's paths
+		/**
+		 * Update the route's paths
+		 */
 		let this->_paths = routePaths;
 	}
 
