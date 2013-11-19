@@ -143,6 +143,7 @@ PHP_METHOD(Phalcon_Paginator_Adapter_QueryBuilder, getPaginate){
 	zval *number, *query, *page, *before = NULL, *items, *select_count;
 	zval *null_order, *total_query, *result, *row, *rowcount;
 	zval *total_pages = NULL, *int_total_pages, *next = NULL;
+	zval *rowcount_int;
 
 	PHALCON_MM_GROW();
 
@@ -245,6 +246,9 @@ PHP_METHOD(Phalcon_Paginator_Adapter_QueryBuilder, getPaginate){
 	
 	PHALCON_OBS_VAR(rowcount);
 	phalcon_read_property(&rowcount, row, SL("rowcount"), PH_NOISY_CC);
+
+	PHALCON_INIT_VAR(rowcount_int);
+	ZVAL_LONG(rowcount_int, phalcon_get_intval(rowcount));
 	
 	PHALCON_INIT_VAR(total_pages);
 	div_function(total_pages, rowcount, limit TSRMLS_CC);
@@ -266,7 +270,7 @@ PHP_METHOD(Phalcon_Paginator_Adapter_QueryBuilder, getPaginate){
 	phalcon_update_property_zval(page, SL("last"), total_pages TSRMLS_CC);
 	phalcon_update_property_zval(page, SL("current"), number_page TSRMLS_CC);
 	phalcon_update_property_zval(page, SL("total_pages"), total_pages TSRMLS_CC);
-	phalcon_update_property_zval(page, SL("total_items"), rowcount TSRMLS_CC);
+	phalcon_update_property_zval(page, SL("total_items"), rowcount_int TSRMLS_CC);
 	
 	RETURN_CTOR(page);
 }
