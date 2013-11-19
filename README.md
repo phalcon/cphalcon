@@ -59,6 +59,36 @@ extension=phalcon.so
 
 Finally restart the webserver
 
+Sample update script
+--------------------
+
+(save it to filename.sh, then chmod +x and run with sudo)
+
+```bash
+#!/bin/bash
+
+pathToClone=/tmp
+
+installedPhalconV=$(php --ri phalcon | tail -n1 | cut -d' ' -f4)
+releasedPhalconV=$( curl -s 'https://raw.github.com/phalcon/cphalcon/master/CHANGELOG' | head -n1)
+
+echo " Local phalcon version: $installedPhalconV"
+echo "Github phalcon version: $releasedPhalconV"
+
+if [[ $installedPhalconV != $releasedPhalconV ]]; then
+	echo 'Updating...';
+	cd $pathToClone
+	git clone git://github.com/phalcon/cphalcon.git && cd cphalcon/build && ./install
+	echo 'Restarting PHP...';
+	service php5-fpm restart #kill -SIGUSR2 $(cat /var/run/php5-fpm.pid)
+	echo 'Wiping sources...';
+	rm -rf "$pathToClone/cphalcon"
+	echo 'Done';
+else
+	echo 'No changes, exit';
+fi
+```
+
 External Links
 --------------
 
