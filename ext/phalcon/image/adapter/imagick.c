@@ -81,7 +81,7 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, check) {
 	zephir_call_func_p1(_3, "defined", &_1);
 	if (zephir_is_true(_3)) {
 		ZEPHIR_INIT_ZVAL_NREF(_5);
-		ZVAL_LONG(_5, 30001);
+		ZVAL_LONG(_5, 30102);
 		zephir_update_property_this(this_ptr, SL("_version"), _5 TSRMLS_CC);
 	}
 	zephir_update_static_property_ce(phalcon_image_adapter_imagick_ce, SL("_checked"), ZEPHIR_GLOBAL(global_true) TSRMLS_CC);
