@@ -101,7 +101,7 @@ PHP_METHOD(Phalcon_Cache_Multiple, __construct) {
 
 	zephir_fetch_params(0, 0, 1, &backends);
 
-	if (!backends) {
+	if (!backends || Z_TYPE_P(backends) == IS_NULL) {
 		backends = ZEPHIR_GLOBAL(global_null);
 	}
 
@@ -156,7 +156,7 @@ PHP_METHOD(Phalcon_Cache_Multiple, get) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 1, &keyName, &lifetime);
 
-	if (!lifetime) {
+	if (!lifetime || Z_TYPE_P(lifetime) == IS_NULL) {
 		lifetime = ZEPHIR_GLOBAL(global_null);
 	}
 
@@ -194,7 +194,7 @@ PHP_METHOD(Phalcon_Cache_Multiple, start) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 1, &keyName, &lifetime);
 
-	if (!lifetime) {
+	if (!lifetime || Z_TYPE_P(lifetime) == IS_NULL) {
 		lifetime = ZEPHIR_GLOBAL(global_null);
 	}
 
@@ -230,16 +230,16 @@ PHP_METHOD(Phalcon_Cache_Multiple, save) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 4, &keyName, &content, &lifetime, &stopBuffer);
 
-	if (!keyName) {
+	if (!keyName || Z_TYPE_P(keyName) == IS_NULL) {
 		keyName = ZEPHIR_GLOBAL(global_null);
 	}
-	if (!content) {
+	if (!content || Z_TYPE_P(content) == IS_NULL) {
 		content = ZEPHIR_GLOBAL(global_null);
 	}
-	if (!lifetime) {
+	if (!lifetime || Z_TYPE_P(lifetime) == IS_NULL) {
 		lifetime = ZEPHIR_GLOBAL(global_null);
 	}
-	if (!stopBuffer) {
+	if (!stopBuffer || Z_TYPE_P(stopBuffer) == IS_NULL) {
 		stopBuffer = ZEPHIR_GLOBAL(global_null);
 	}
 
@@ -305,10 +305,10 @@ PHP_METHOD(Phalcon_Cache_Multiple, exists) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 2, &keyName, &lifetime);
 
-	if (!keyName) {
+	if (!keyName || Z_TYPE_P(keyName) == IS_NULL) {
 		keyName = ZEPHIR_GLOBAL(global_null);
 	}
-	if (!lifetime) {
+	if (!lifetime || Z_TYPE_P(lifetime) == IS_NULL) {
 		lifetime = ZEPHIR_GLOBAL(global_null);
 	}
 

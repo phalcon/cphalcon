@@ -400,10 +400,10 @@ PHP_METHOD(Phalcon_Dispatcher, getParam) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 2, &param, &filters, &defaultValue);
 
-	if (!filters) {
+	if (!filters || Z_TYPE_P(filters) == IS_NULL) {
 		filters = ZEPHIR_GLOBAL(global_null);
 	}
-	if (!defaultValue) {
+	if (!defaultValue || Z_TYPE_P(defaultValue) == IS_NULL) {
 		defaultValue = ZEPHIR_GLOBAL(global_null);
 	}
 

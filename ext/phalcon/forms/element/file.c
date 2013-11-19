@@ -61,7 +61,7 @@ PHP_METHOD(Phalcon_Forms_Element_File, render) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 1, &attributes);
 
-	if (!attributes) {
+	if (!attributes || Z_TYPE_P(attributes) == IS_NULL) {
 		attributes = ZEPHIR_GLOBAL(global_null);
 	}
 

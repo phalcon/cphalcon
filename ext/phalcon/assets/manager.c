@@ -164,10 +164,10 @@ PHP_METHOD(Phalcon_Assets_Manager, addCss) {
 
 		path = path_param;
 
-	if (!local) {
+	if (!local || Z_TYPE_P(local) == IS_NULL) {
 		local = ZEPHIR_GLOBAL(global_true);
 	}
-	if (!filter) {
+	if (!filter || Z_TYPE_P(filter) == IS_NULL) {
 		filter = ZEPHIR_GLOBAL(global_true);
 	}
 

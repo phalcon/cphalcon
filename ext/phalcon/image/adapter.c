@@ -144,17 +144,17 @@ PHP_METHOD(Phalcon_Image_Adapter, resize) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 3, &width_param, &height_param, &master_param);
 
-	if (!width_param) {
+	if (!width_param || Z_TYPE_P(width_param) == IS_NULL) {
 		width = 0;
 	} else {
 		width = zephir_get_intval(width_param);
 	}
-	if (!height_param) {
+	if (!height_param || Z_TYPE_P(height_param) == IS_NULL) {
 		height = 0;
 	} else {
 		height = zephir_get_intval(height_param);
 	}
-	if (!master_param) {
+	if (!master_param || Z_TYPE_P(master_param) == IS_NULL) {
 		master = 7;	} else {
 		master = zephir_get_intval(master_param);
 	}
@@ -284,12 +284,12 @@ PHP_METHOD(Phalcon_Image_Adapter, crop) {
 
 		width = zephir_get_intval(width_param);
 		height = zephir_get_intval(height_param);
-	if (!offset_x_param) {
+	if (!offset_x_param || Z_TYPE_P(offset_x_param) == IS_NULL) {
 		offset_x = 0;
 	} else {
 		offset_x = zephir_get_intval(offset_x_param);
 	}
-	if (!offset_y_param) {
+	if (!offset_y_param || Z_TYPE_P(offset_y_param) == IS_NULL) {
 		offset_y = 0;
 	} else {
 		offset_y = zephir_get_intval(offset_y_param);
@@ -458,11 +458,11 @@ PHP_METHOD(Phalcon_Image_Adapter, reflection) {
 	zephir_fetch_params(1, 1, 2, &height_param, &opacity_param, &fade_in_param);
 
 		height = zephir_get_intval(height_param);
-	if (!opacity_param) {
+	if (!opacity_param || Z_TYPE_P(opacity_param) == IS_NULL) {
 		opacity = 100;	} else {
 		opacity = zephir_get_intval(opacity_param);
 	}
-	if (!fade_in_param) {
+	if (!fade_in_param || Z_TYPE_P(fade_in_param) == IS_NULL) {
 		fade_in = 0;
 	} else {
 		fade_in = zephir_get_boolval(fade_in_param);
@@ -508,15 +508,15 @@ PHP_METHOD(Phalcon_Image_Adapter, watermark) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 3, &watermark, &offset_x_param, &offset_y_param, &opacity_param);
 
-	if (!offset_x_param) {
+	if (!offset_x_param || Z_TYPE_P(offset_x_param) == IS_NULL) {
 		offset_x = 0;	} else {
 		offset_x = zephir_get_intval(offset_x_param);
 	}
-	if (!offset_y_param) {
+	if (!offset_y_param || Z_TYPE_P(offset_y_param) == IS_NULL) {
 		offset_y = 0;	} else {
 		offset_y = zephir_get_intval(offset_y_param);
 	}
-	if (!opacity_param) {
+	if (!opacity_param || Z_TYPE_P(opacity_param) == IS_NULL) {
 		opacity = 100;	} else {
 		opacity = zephir_get_intval(opacity_param);
 	}
@@ -588,29 +588,29 @@ PHP_METHOD(Phalcon_Image_Adapter, text) {
 	zephir_fetch_params(1, 1, 6, &text_param, &offset_x_param, &offset_y_param, &opacity_param, &color_param, &size_param, &fontfile_param);
 
 		zephir_get_strval(text, text_param);
-	if (!offset_x_param) {
+	if (!offset_x_param || Z_TYPE_P(offset_x_param) == IS_NULL) {
 		offset_x = 0;	} else {
 		offset_x = zephir_get_intval(offset_x_param);
 	}
-	if (!offset_y_param) {
+	if (!offset_y_param || Z_TYPE_P(offset_y_param) == IS_NULL) {
 		offset_y = 0;	} else {
 		offset_y = zephir_get_intval(offset_y_param);
 	}
-	if (!opacity_param) {
+	if (!opacity_param || Z_TYPE_P(opacity_param) == IS_NULL) {
 		opacity = 100;	} else {
 		opacity = zephir_get_intval(opacity_param);
 	}
-	if (!color_param) {
+	if (!color_param || Z_TYPE_P(color_param) == IS_NULL) {
 		ZEPHIR_INIT_VAR(color);
 		ZVAL_STRING(color, "000000", 1);
 	} else {
 		zephir_get_strval(color, color_param);
 	}
-	if (!size_param) {
+	if (!size_param || Z_TYPE_P(size_param) == IS_NULL) {
 		size = 12;	} else {
 		size = zephir_get_intval(size_param);
 	}
-	if (!fontfile_param) {
+	if (!fontfile_param || Z_TYPE_P(fontfile_param) == IS_NULL) {
 		ZEPHIR_INIT_VAR(fontfile);
 		ZVAL_EMPTY_STRING(fontfile);
 	} else {
@@ -708,7 +708,7 @@ PHP_METHOD(Phalcon_Image_Adapter, background) {
 	zephir_fetch_params(1, 1, 1, &color_param, &opacity_param);
 
 		zephir_get_strval(color, color_param);
-	if (!opacity_param) {
+	if (!opacity_param || Z_TYPE_P(opacity_param) == IS_NULL) {
 		opacity = 100;	} else {
 		opacity = zephir_get_intval(opacity_param);
 	}
@@ -828,13 +828,13 @@ PHP_METHOD(Phalcon_Image_Adapter, save) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 2, &file_param, &quality_param);
 
-	if (!file_param) {
+	if (!file_param || Z_TYPE_P(file_param) == IS_NULL) {
 		ZEPHIR_INIT_VAR(file);
 		ZVAL_EMPTY_STRING(file);
 	} else {
 		zephir_get_strval(file, file_param);
 	}
-	if (!quality_param) {
+	if (!quality_param || Z_TYPE_P(quality_param) == IS_NULL) {
 		quality = 100;	} else {
 		quality = zephir_get_intval(quality_param);
 	}
@@ -876,13 +876,13 @@ PHP_METHOD(Phalcon_Image_Adapter, render) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 2, &ext_param, &quality_param);
 
-	if (!ext_param) {
+	if (!ext_param || Z_TYPE_P(ext_param) == IS_NULL) {
 		ZEPHIR_INIT_VAR(ext);
 		ZVAL_EMPTY_STRING(ext);
 	} else {
 		zephir_get_strval(ext, ext_param);
 	}
-	if (!quality_param) {
+	if (!quality_param || Z_TYPE_P(quality_param) == IS_NULL) {
 		quality = 100;	} else {
 		quality = zephir_get_intval(quality_param);
 	}

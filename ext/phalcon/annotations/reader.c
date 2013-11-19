@@ -174,11 +174,11 @@ PHP_METHOD(Phalcon_Annotations_Reader, parseDocBlock) {
 	zephir_fetch_params(1, 1, 2, &docBlock_param, &file, &line);
 
 		zephir_get_strval(docBlock, docBlock_param);
-	if (!file) {
+	if (!file || Z_TYPE_P(file) == IS_NULL) {
 		ZEPHIR_CPY_WRT(file, ZEPHIR_GLOBAL(global_null));
 	}
 	ZEPHIR_SEPARATE_PARAM(file);
-	if (!line) {
+	if (!line || Z_TYPE_P(line) == IS_NULL) {
 		line = ZEPHIR_GLOBAL(global_null);
 	}
 

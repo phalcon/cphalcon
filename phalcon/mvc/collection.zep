@@ -99,7 +99,7 @@ class Collection //implements Phalcon\Mvc\CollectionInterface, Phalcon\Di\Inject
 		/**
 		 * This allows the developer to execute initialization stuff every time an instance is created
 		 */
-		if (method_exists(this, 'onConstruct')) {
+		if method_exists(this, 'onConstruct') {
 			this->onConstruct();
 		}
 	}

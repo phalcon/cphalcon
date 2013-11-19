@@ -697,7 +697,7 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, isAllowed) {
 	}
 	rolesNames = zephir_fetch_nproperty_this(this_ptr, SL("_rolesNames"), PH_NOISY_CC);
 	if (!(zephir_array_isset(rolesNames, role))) {
-		RETURN_MEMBER(this_ptr, "_defaultAccess");
+		RETURN_MM_MEMBER(this_ptr, "_defaultAccess");
 	}
 	ZEPHIR_INIT_VAR(accessKey);
 	ZEPHIR_CONCAT_VSVSV(accessKey, role, "!", resource, "!", access);
