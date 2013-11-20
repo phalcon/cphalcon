@@ -41,6 +41,8 @@ PHP_METHOD(Phalcon_Mvc_Router_Group, addDelete);
 PHP_METHOD(Phalcon_Mvc_Router_Group, addOptions);
 PHP_METHOD(Phalcon_Mvc_Router_Group, addHead);
 PHP_METHOD(Phalcon_Mvc_Router_Group, clear);
+PHP_METHOD(Phalcon_Mvc_Router_Group, convert);
+PHP_METHOD(Phalcon_Mvc_Router_Group, getConverters);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_router_group___construct, 0, 0, 0)
 	ZEND_ARG_INFO(0, paths)
@@ -103,6 +105,11 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_router_group_addhead, 0, 0, 1)
 	ZEND_ARG_INFO(0, paths)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_router_group_convert, 0, 0, 2)
+	ZEND_ARG_INFO(0, name)
+	ZEND_ARG_INFO(0, converter)
+ZEND_END_ARG_INFO()
+
 PHALCON_INIT_FUNCS(phalcon_mvc_router_group_method_entry){
 	PHP_ME(Phalcon_Mvc_Router_Group, __construct, arginfo_phalcon_mvc_router_group___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR) 
 	PHP_ME(Phalcon_Mvc_Router_Group, setHostname, arginfo_phalcon_mvc_router_group_sethostname, ZEND_ACC_PUBLIC) 
@@ -124,6 +131,8 @@ PHALCON_INIT_FUNCS(phalcon_mvc_router_group_method_entry){
 	PHP_ME(Phalcon_Mvc_Router_Group, addOptions, arginfo_phalcon_mvc_router_group_addoptions, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Mvc_Router_Group, addHead, arginfo_phalcon_mvc_router_group_addhead, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Mvc_Router_Group, clear, NULL, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Mvc_Router_Group, convert, arginfo_phalcon_mvc_router_group_convert, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Router_Group, getConverters, NULL, ZEND_ACC_PUBLIC)
 	PHP_FE_END
 };
 
