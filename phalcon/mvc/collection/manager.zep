@@ -37,7 +37,7 @@ namespace Phalcon\Mvc\Collection;
  * $robot = new Robots($di);
  * </code>
  */
-class Manager //implements Phalcon\Di\InjectionAwareInterface, Phalcon\Events\EventsAwareInterface
+class Manager implements Phalcon\Di\InjectionAwareInterface, Phalcon\Events\EventsAwareInterface
 {
 
 	protected _dependencyInjector;
@@ -139,29 +139,29 @@ class Manager //implements Phalcon\Di\InjectionAwareInterface, Phalcon\Events\Ev
 		let className = get_class(model);
 		let initialized = this->_initialized;
 
-		/** 
-        * Models are just initialized once per request
-        */
-        if !isset initialized[className] {
-        	
-        	/** 
-            * Call the 'initialize' method if it's implemented
-            */
-            if method_exists(mode, "initialize") == true {
-            	model->initialize();
-            }
+		/**
+		* Models are just initialized once per request
+		*/
+		if !isset initialized[className] {
 
-            /** 
-            * If an EventsManager is available we pass to it every initialized model
-            */
-            let eventsManager = this->_eventsManager;
-            if typeof eventsManager == "object" {
-            	eventsManager->fire("collectionManager:afterInitialize");
-            }
+			/**
+			* Call the 'initialize' method if it's implemented
+			*/
+			if method_exists(model, "initialize") == true {
+				model->{"initialize"}();
+			}
 
-            let this->_initialized[className] = model;
-            let this->_lastInitialized = model;
-        }
+			/**
+			* If an EventsManager is available we pass to it every initialized model
+			*/
+			let eventsManager = this->_eventsManager;
+			if typeof eventsManager == "object" {
+				eventsManager->fire("collectionManager:afterInitialize");
+			}
+
+			let this->_initialized[className] = model;
+			let this->_lastInitialized = model;
+		}
 	}
 
 	/**
@@ -227,7 +227,7 @@ class Manager //implements Phalcon\Di\InjectionAwareInterface, Phalcon\Events\Ev
 		}
 
 		let entityName = get_class(model);
-		let this->_implicitObjectsIds[entityName] = useImplicitObjectIds; 
+		let this->_implicitObjectsIds[entityName] = useImplicitObjectIds;
 	}
 
 	/**
@@ -238,6 +238,7 @@ class Manager //implements Phalcon\Di\InjectionAwareInterface, Phalcon\Events\Ev
 	*/
 	public function isUsingImplicitObjectIds(<isUsingImplicitObjectIds> model) -> boolean
 	{
-		
+
 	}
+
 }

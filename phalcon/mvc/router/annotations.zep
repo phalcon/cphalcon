@@ -251,7 +251,8 @@ class Annotations extends Phalcon\Mvc\Router
 	public function processActionAnnotation(string! module, string! namespaceName, string! controller, string! action,
 		<Phalcon\Annotations\Annotation> annotation)
 	{
-		var isRoute, name, actionName, routePrefix, paths, value, uri, route, methods;
+		var isRoute, name, actionName, routePrefix, paths, value, uri, 
+			route, methods, converts, param, convert, conversorParam, routeName;
 
 		let isRoute = false, methods = null;
 
@@ -317,12 +318,12 @@ class Annotations extends Phalcon\Mvc\Router
 			 */
 			if typeof value !== null {
 				if value != "/" {
-					let uri = routePrefix.value;
+					let uri = routePrefix . value;
 				} else {
 					let uri = routePrefix;
 				}
 			} else {
-				let uri = routePrefix.actionName;
+				let uri = routePrefix . actionName;
 			}
 
 			/**
@@ -334,7 +335,7 @@ class Annotations extends Phalcon\Mvc\Router
 			 * Add HTTP constraint methods
 			 */
 			if methods !== null {
-				let methods = annotation->getNamedParameter("methods");
+				let methods = annotation->getNamedArgument("methods");
 				if typeof methods == "array" {
 					route->via(methods);
 				} else {
@@ -349,7 +350,7 @@ class Annotations extends Phalcon\Mvc\Router
 			/**
 			 * Add the converters
 			 */
-			let converts = annotation->getNamedParameter("converts");
+			let converts = annotation->getNamedArgument("converts");
 			if typeof converts != "array" {
 				for param, convert in converts {
 					route->convert(param, convert);
@@ -359,14 +360,14 @@ class Annotations extends Phalcon\Mvc\Router
 			/**
 			 * Add the conversors
 			 */
-			let converts = annotation->getNamedParameter("conversors");
+			let converts = annotation->getNamedArgument("conversors");
 			if typeof converts != "array" {
 				for conversorParam, convert in converts {
 					route->convert(conversorParam, convert);
 				}
 			}
 
-			let routeName = annotation->getNamedParameter("name");
+			let routeName = annotation->getNamedArgument("name");
 			if typeof routeName == "string" {
 				route->setName(routeName);
 			}
@@ -407,3 +408,4 @@ class Annotations extends Phalcon\Mvc\Router
 	}
 
 }
+

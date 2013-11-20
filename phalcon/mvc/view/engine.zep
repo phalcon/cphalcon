@@ -49,9 +49,7 @@ abstract class Engine extends Phalcon\Di\Injectable
 	 */
 	public function getContent() -> string
 	{
-		var view;
-		let view = this->_view;
-		return view->getContent();
+		return this->_view->getContent();
 	}
 
 	/**
@@ -63,9 +61,7 @@ abstract class Engine extends Phalcon\Di\Injectable
 	 */
 	public function partial(string! partialPath, params=null) -> string
 	{
-		var view;
-		let view = this->_view;
-		return view->partial(partialPath, params);
+		return this->_view->partial(partialPath, params);
 	}
 
 	/**

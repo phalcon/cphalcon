@@ -87,10 +87,10 @@ PHP_METHOD(Phalcon_Mvc_Router_Route, __construct) {
 
 		pattern = pattern_param;
 
-	if (!paths) {
+	if (!paths || Z_TYPE_P(paths) == IS_NULL) {
 		paths = ZEPHIR_GLOBAL(global_null);
 	}
-	if (!httpMethods) {
+	if (!httpMethods || Z_TYPE_P(httpMethods) == IS_NULL) {
 		httpMethods = ZEPHIR_GLOBAL(global_null);
 	}
 
@@ -399,7 +399,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Route, reConfigure) {
 
 		pattern = pattern_param;
 
-	if (!paths) {
+	if (!paths || Z_TYPE_P(paths) == IS_NULL) {
 		paths = ZEPHIR_GLOBAL(global_null);
 	}
 
@@ -477,7 +477,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Route, reConfigure) {
 		return;
 	}
 	if (!(zephir_start_with_str(pattern, SL("#")))) {
-		if (zephir_memnstr_str(pattern, SL("{"), "phalcon/mvc/router/route.zep", 368)) {
+		if (zephir_memnstr_str(pattern, SL("{"), "phalcon/mvc/router/route.zep", 370)) {
 			ZEPHIR_INIT_VAR(extracted);
 			zephir_call_method_p1(extracted, this_ptr, "extractnamedparams", pattern);
 			ZEPHIR_OBS_VAR(pcrePattern);

@@ -13,6 +13,7 @@
 
 #include "kernel/main.h"
 #include "kernel/fcall.h"
+#include "kernel/hash.h"
 #include "kernel/memory.h"
 #include "kernel/object.h"
 #include "ext/spl/spl_exceptions.h"
@@ -61,8 +62,10 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_View_Engine_Php) {
  */
 PHP_METHOD(Phalcon_Mvc_View_Engine_Php, render) {
 
+	HashTable *_1;
+	HashPosition _0;
 	zend_bool mustClean;
-	zval *path_param = NULL, *params, *mustClean_param = NULL, *status, *view, *_0;
+	zval *path_param = NULL, *params, *mustClean_param = NULL, *status, *key = NULL, *value = NULL, **_2, *_3, *_4;
 	zval *path = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -75,7 +78,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Php, render) {
 
 		path = path_param;
 
-	if (!mustClean_param) {
+	if (!mustClean_param || Z_TYPE_P(mustClean_param) == IS_NULL) {
 		mustClean = 0;
 	} else {
 		mustClean = zephir_get_boolval(mustClean_param);
@@ -86,14 +89,22 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Php, render) {
 		zephir_call_func_noret("ob_clean");
 	}
 	if ((Z_TYPE_P(params) == IS_ARRAY)) {
+		zephir_is_iterable(params, &_1, &_0, 0, 0);
+		for (
+			; zend_hash_get_current_data_ex(_1, (void**) &_2, &_0) == SUCCESS
+			; zend_hash_move_forward_ex(_1, &_0)
+		) {
+			ZEPHIR_GET_HMKEY(key, _1, _0);
+			ZEPHIR_GET_HVALUE(value, _2);
+		}
 	}
 	ZEPHIR_INIT_VAR(status);
 	ZVAL_LONG(status, (0 == 1));
 	if ((mustClean == 1)) {
-		view = zephir_fetch_nproperty_this(this_ptr, SL("_view"), PH_NOISY_CC);
-		ZEPHIR_INIT_VAR(_0);
-		zephir_call_func(_0, "ob_get_contents");
-		zephir_call_method_p1_noret(view, "setcontent", _0);
+		_3 = zephir_fetch_nproperty_this(this_ptr, SL("_view"), PH_NOISY_CC);
+		ZEPHIR_INIT_VAR(_4);
+		zephir_call_func(_4, "ob_get_contents");
+		zephir_call_method_p1_noret(_3, "setcontent", _4);
 	}
 	ZEPHIR_MM_RESTORE();
 

@@ -36,7 +36,7 @@ class Php extends Phalcon\Mvc\View\Engine implements Phalcon\Mvc\View\EngineInte
 	 */
 	public function render(string! path, params, boolean mustClean=false)
 	{
-		var status, view;
+		var status, key, value;
 
 		if mustClean === true {
 			ob_clean();
@@ -46,9 +46,9 @@ class Php extends Phalcon\Mvc\View\Engine implements Phalcon\Mvc\View\EngineInte
 		 * Create the variables in local symbol table
 		 */
 		if typeof params == "array" {
-			//for key, value in params {
-				//let {key} = value;
-			//}
+			for key, value in params {
+				let {key} = value;
+			}
 		}
 
 		/**
@@ -57,8 +57,7 @@ class Php extends Phalcon\Mvc\View\Engine implements Phalcon\Mvc\View\EngineInte
 		let status = require path;
 
 		if mustClean === true {
-			let view = this->_view;
-			view->setContent(ob_get_contents());
+			this->_view->setContent(ob_get_contents());
 		}
 	}
 

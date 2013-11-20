@@ -45,13 +45,15 @@ class Regex extends Phalcon\Validation\Validator implements Phalcon\Validation\V
 	 */
 	public function validate(<Phalcon\Validation> validator, attribute) -> boolean
 	{
+		var matches, failed, message, value;
 
 		/**
 		 * Regular expression is set in the option 'pattern'
 		 * Check if the value match using preg_match in the PHP userland
 		 */
 		let matches = null;
-		if preg_match(this->getOption("pattern"), validator->getValue(attribute), matches) {
+		let value = validator->getValue(attribute);
+		if preg_match(this->getOption("pattern"), value, matches) {
 			let failed = matches[0] != value;
 		} else {
 			let failed = true;

@@ -149,34 +149,34 @@ PHP_METHOD(Phalcon_Logger_Adapter, begin) {
  */
 PHP_METHOD(Phalcon_Logger_Adapter, commit) {
 
-	zend_function *_4 = NULL, *_6 = NULL, *_8 = NULL, *_9 = NULL;
-	HashTable *_1;
-	HashPosition _0;
-	zval *transaction, *queue, *message = NULL, **_2, *_3 = NULL, *_5 = NULL, *_7 = NULL;
+	zend_function *_5 = NULL, *_7 = NULL, *_9 = NULL, *_10 = NULL;
+	HashTable *_2;
+	HashPosition _1;
+	zval *queue, *message = NULL, *_0, **_3, *_4 = NULL, *_6 = NULL, *_8 = NULL;
 
 	ZEPHIR_MM_GROW();
 
-	transaction = zephir_fetch_nproperty_this(this_ptr, SL("_transaction"), PH_NOISY_CC);
-	if (!(zephir_is_true(transaction))) {
+	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_transaction"), PH_NOISY_CC);
+	if (!(zephir_is_true(_0))) {
 		ZEPHIR_THROW_EXCEPTION_STR(phalcon_logger_exception_ce, "There is no active transaction");
 		return;
 	}
 	zephir_update_property_this(this_ptr, SL("_transaction"), (0) ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
 	queue = zephir_fetch_nproperty_this(this_ptr, SL("_queue"), PH_NOISY_CC);
 	if ((Z_TYPE_P(queue) == IS_ARRAY)) {
-		zephir_is_iterable(queue, &_1, &_0, 0, 0);
+		zephir_is_iterable(queue, &_2, &_1, 0, 0);
 		for (
-			; zend_hash_get_current_data_ex(_1, (void**) &_2, &_0) == SUCCESS
-			; zend_hash_move_forward_ex(_1, &_0)
+			; zend_hash_get_current_data_ex(_2, (void**) &_3, &_1) == SUCCESS
+			; zend_hash_move_forward_ex(_2, &_1)
 		) {
-			ZEPHIR_GET_HVALUE(message, _2);
-			ZEPHIR_INIT_NVAR(_3);
-			zephir_call_method_cache(_3, message, "getmessage", &_4);
-			ZEPHIR_INIT_NVAR(_5);
-			zephir_call_method_cache(_5, message, "gettype", &_6);
-			ZEPHIR_INIT_NVAR(_7);
-			zephir_call_method_cache(_7, message, "gettime", &_8);
-			zephir_call_method_p3_cache_noret(this_ptr, "loginternal", &_9, _3, _5, _7);
+			ZEPHIR_GET_HVALUE(message, _3);
+			ZEPHIR_INIT_NVAR(_4);
+			zephir_call_method_cache(_4, message, "getmessage", &_5);
+			ZEPHIR_INIT_NVAR(_6);
+			zephir_call_method_cache(_6, message, "gettype", &_7);
+			ZEPHIR_INIT_NVAR(_8);
+			zephir_call_method_cache(_8, message, "gettime", &_9);
+			zephir_call_method_p3_cache_noret(this_ptr, "loginternal", &_10, _4, _6, _8);
 		}
 	}
 	RETURN_THIS();

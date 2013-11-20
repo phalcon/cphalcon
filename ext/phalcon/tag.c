@@ -333,7 +333,7 @@ PHP_METHOD(Phalcon_Tag, getValue) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 1, &name, &params);
 
-	if (!params) {
+	if (!params || Z_TYPE_P(params) == IS_NULL) {
 		params = ZEPHIR_GLOBAL(global_null);
 	}
 
@@ -419,7 +419,7 @@ PHP_METHOD(Phalcon_Tag, linkTo) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 1, &parameters, &text);
 
-	if (!text) {
+	if (!text || Z_TYPE_P(text) == IS_NULL) {
 		ZEPHIR_CPY_WRT(text, ZEPHIR_GLOBAL(global_null));
 	}
 	ZEPHIR_SEPARATE_PARAM(text);
@@ -495,7 +495,7 @@ PHP_METHOD(Phalcon_Tag, _inputField) {
 	zephir_fetch_params(1, 2, 1, &type_param, &parameters, &asValue_param);
 
 		zephir_get_strval(type, type_param);
-	if (!asValue_param) {
+	if (!asValue_param || Z_TYPE_P(asValue_param) == IS_NULL) {
 		asValue = 0;
 	} else {
 		asValue = zephir_get_boolval(asValue_param);
@@ -845,7 +845,7 @@ PHP_METHOD(Phalcon_Tag, selectStatic) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 1, &parameters, &data);
 
-	if (!data) {
+	if (!data || Z_TYPE_P(data) == IS_NULL) {
 		data = ZEPHIR_GLOBAL(global_null);
 	}
 
@@ -882,7 +882,7 @@ PHP_METHOD(Phalcon_Tag, select) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 1, &parameters, &data);
 
-	if (!data) {
+	if (!data || Z_TYPE_P(data) == IS_NULL) {
 		data = ZEPHIR_GLOBAL(global_null);
 	}
 

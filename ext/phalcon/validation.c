@@ -70,7 +70,7 @@ PHP_METHOD(Phalcon_Validation, __construct) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 1, &validators);
 
-	if (!validators) {
+	if (!validators || Z_TYPE_P(validators) == IS_NULL) {
 		validators = ZEPHIR_GLOBAL(global_null);
 	}
 
@@ -106,10 +106,10 @@ PHP_METHOD(Phalcon_Validation, validate) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 2, &data, &entity);
 
-	if (!data) {
+	if (!data || Z_TYPE_P(data) == IS_NULL) {
 		data = ZEPHIR_GLOBAL(global_null);
 	}
-	if (!entity) {
+	if (!entity || Z_TYPE_P(entity) == IS_NULL) {
 		entity = ZEPHIR_GLOBAL(global_null);
 	}
 
@@ -241,7 +241,7 @@ PHP_METHOD(Phalcon_Validation, getFilters) {
 
 	zephir_fetch_params(0, 0, 1, &attribute);
 
-	if (!attribute) {
+	if (!attribute || Z_TYPE_P(attribute) == IS_NULL) {
 		attribute = ZEPHIR_GLOBAL(global_null);
 	}
 

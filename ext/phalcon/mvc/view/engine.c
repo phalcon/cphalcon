@@ -64,7 +64,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine, __construct) {
 
 	zephir_fetch_params(0, 1, 1, &view, &dependencyInjector);
 
-	if (!dependencyInjector) {
+	if (!dependencyInjector || Z_TYPE_P(dependencyInjector) == IS_NULL) {
 		dependencyInjector = ZEPHIR_GLOBAL(global_null);
 	}
 
@@ -81,12 +81,12 @@ PHP_METHOD(Phalcon_Mvc_View_Engine, __construct) {
  */
 PHP_METHOD(Phalcon_Mvc_View_Engine, getContent) {
 
-	zval *view;
+	zval *_0;
 
 	ZEPHIR_MM_GROW();
 
-	view = zephir_fetch_nproperty_this(this_ptr, SL("_view"), PH_NOISY_CC);
-	zephir_call_method(return_value, view, "getcontent");
+	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_view"), PH_NOISY_CC);
+	zephir_call_method(return_value, _0, "getcontent");
 	RETURN_MM();
 
 }
@@ -100,7 +100,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine, getContent) {
  */
 PHP_METHOD(Phalcon_Mvc_View_Engine, partial) {
 
-	zval *partialPath_param = NULL, *params = NULL, *view;
+	zval *partialPath_param = NULL, *params = NULL, *_0;
 	zval *partialPath = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -113,13 +113,13 @@ PHP_METHOD(Phalcon_Mvc_View_Engine, partial) {
 
 		partialPath = partialPath_param;
 
-	if (!params) {
+	if (!params || Z_TYPE_P(params) == IS_NULL) {
 		params = ZEPHIR_GLOBAL(global_null);
 	}
 
 
-	view = zephir_fetch_nproperty_this(this_ptr, SL("_view"), PH_NOISY_CC);
-	zephir_call_method_p2(return_value, view, "partial", partialPath, params);
+	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_view"), PH_NOISY_CC);
+	zephir_call_method_p2(return_value, _0, "partial", partialPath, params);
 	RETURN_MM();
 
 }

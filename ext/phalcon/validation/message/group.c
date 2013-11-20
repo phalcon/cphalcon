@@ -69,7 +69,7 @@ PHP_METHOD(Phalcon_Validation_Message_Group, __construct) {
 
 	zephir_fetch_params(0, 0, 1, &messages);
 
-	if (!messages) {
+	if (!messages || Z_TYPE_P(messages) == IS_NULL) {
 		messages = ZEPHIR_GLOBAL(global_null);
 	}
 
@@ -87,7 +87,7 @@ PHP_METHOD(Phalcon_Validation_Message_Group, __construct) {
  * print_r($messages[0]);
  *</code>
  *
- * @param string index
+ * @param int index
  * @return Phalcon\Validation\Message
  */
 PHP_METHOD(Phalcon_Validation_Message_Group, offsetGet) {
@@ -155,7 +155,7 @@ PHP_METHOD(Phalcon_Validation_Message_Group, offsetSet) {
  * var_dump(isset($message['database']));
  *</code>
  *
- * @param string index
+ * @param int index
  * @return boolean
  */
 PHP_METHOD(Phalcon_Validation_Message_Group, offsetExists) {

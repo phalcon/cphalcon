@@ -13,8 +13,9 @@
 
 #include "kernel/main.h"
 #include "kernel/fcall.h"
-#include "kernel/memory.h"
+#include "ext/spl/spl_exceptions.h"
 #include "kernel/exception.h"
+#include "kernel/memory.h"
 
 
 /*
@@ -52,18 +53,26 @@ ZEPHIR_INIT_CLASS(Phalcon_Translate_Adapter) {
 /**
  * Returns the translation string of the given key
  *
- * @param string $translateKey
- * @param array $placeholders
+ * @param string  translateKey
+ * @param array   placeholders
  * @return string
  */
 PHP_METHOD(Phalcon_Translate_Adapter, t) {
 
-	zval *translateKey, *placeholders = NULL;
+	zval *translateKey_param = NULL, *placeholders = NULL;
+	zval *translateKey = NULL;
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 1, &translateKey, &placeholders);
+	zephir_fetch_params(1, 1, 1, &translateKey_param, &placeholders);
 
-	if (!placeholders) {
+		if (Z_TYPE_P(translateKey_param) != IS_STRING) {
+				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'translateKey' must be a string") TSRMLS_CC);
+				RETURN_MM_NULL();
+		}
+
+		translateKey = translateKey_param;
+
+	if (!placeholders || Z_TYPE_P(placeholders) == IS_NULL) {
 		placeholders = ZEPHIR_GLOBAL(global_null);
 	}
 
@@ -76,8 +85,8 @@ PHP_METHOD(Phalcon_Translate_Adapter, t) {
 /**
  * Sets a translation value
  *
- * @param         string $offset
- * @param         string $value
+ * @param         string offset
+ * @param         string value
  */
 PHP_METHOD(Phalcon_Translate_Adapter, offsetSet) {
 
@@ -95,15 +104,23 @@ PHP_METHOD(Phalcon_Translate_Adapter, offsetSet) {
 /**
  * Check whether a translation key exists
  *
- * @param string $translateKey
+ * @param string  translateKey
  * @return boolean
  */
 PHP_METHOD(Phalcon_Translate_Adapter, offsetExists) {
 
-	zval *translateKey;
+	zval *translateKey_param = NULL;
+	zval *translateKey = NULL;
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 0, &translateKey);
+	zephir_fetch_params(1, 1, 0, &translateKey_param);
+
+		if (Z_TYPE_P(translateKey_param) != IS_STRING) {
+				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'translateKey' must be a string") TSRMLS_CC);
+				RETURN_MM_NULL();
+		}
+
+		translateKey = translateKey_param;
 
 
 
@@ -115,7 +132,7 @@ PHP_METHOD(Phalcon_Translate_Adapter, offsetExists) {
 /**
  * Unsets a translation from the dictionary
  *
- * @param string $offset
+ * @param string offset
  */
 PHP_METHOD(Phalcon_Translate_Adapter, offsetUnset) {
 
@@ -128,15 +145,23 @@ PHP_METHOD(Phalcon_Translate_Adapter, offsetUnset) {
 /**
  * Returns the translation related to the given key
  *
- * @param string $translateKey
+ * @param  string translateKey
  * @return string
  */
 PHP_METHOD(Phalcon_Translate_Adapter, offsetGet) {
 
-	zval *translateKey;
+	zval *translateKey_param = NULL;
+	zval *translateKey = NULL;
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 0, &translateKey);
+	zephir_fetch_params(1, 1, 0, &translateKey_param);
+
+		if (Z_TYPE_P(translateKey_param) != IS_STRING) {
+				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'translateKey' must be a string") TSRMLS_CC);
+				RETURN_MM_NULL();
+		}
+
+		translateKey = translateKey_param;
 
 
 

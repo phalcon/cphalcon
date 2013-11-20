@@ -48,6 +48,7 @@ class StringLength extends Phalcon\Validation\Validator implements Phalcon\Valid
 	 */
 	public function validate(<Phalcon\Validation> validator, string! attribute) -> boolean
 	{
+		var isSetMin, isSetMax, value, length, message, minimum, maximum;
 
 		/**
 		 * At least one of 'min' or 'max' must be set
@@ -64,30 +65,29 @@ class StringLength extends Phalcon\Validation\Validator implements Phalcon\Valid
 		/**
 		 * Check if mbstring is available to calculate the correct length
 		 */
-		if function_exists('mb_strlen') {
+		if function_exists("mb_strlen") {
 			let length = mb_strlen(value);
 		} else {
 			let length = strlen(value);
 		}
-
-		let invalidMaximum = false, invalidMinimum = false;
 
 		/**
 		 * Maximum length
 		 */
 		if isSetMax {
 
-			if length > this->getOption("max") {
+			let maximum = this->getOption("max");
+			if length > maximum {
 
 				/**
 				 * Check if the developer has defined a custom message
 				 */
 				let message = this->getOption("messageMaximum");
-				if empty messageStr {
+				if empty message {
 		 			let message = "Value of field '" . attribute . "' exceeds the maximum " . maximum . " characters";
 		 		}
 
-		 		validator->appendMessage(new Phalcon\Validation\Message(messageStr, attribute, "TooLong"));
+		 		validator->appendMessage(new Phalcon\Validation\Message(message, attribute, "TooLong"));
 				return false;
 			}
 		}
@@ -97,7 +97,8 @@ class StringLength extends Phalcon\Validation\Validator implements Phalcon\Valid
 		 */
 		if isSetMin {
 
-			if length < this->getOption("min") {
+			let minimum = this->getOption("min");
+			if length < minimum {
 
 				/**
 				 * Check if the developer has defined a custom message

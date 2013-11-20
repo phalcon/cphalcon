@@ -116,6 +116,15 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_RouterInterface, addPost);
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_RouterInterface, addPut);
 
 /**
+ * Adds a route to the router that only match if the HTTP method is PATCH
+ *
+ * @param string pattern
+ * @param string/array paths
+ * @return Phalcon\Mvc\Router\Route
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Mvc_RouterInterface, addPatch);
+
+/**
  * Adds a route to the router that only match if the HTTP method is DELETE
  *
  * @param string pattern

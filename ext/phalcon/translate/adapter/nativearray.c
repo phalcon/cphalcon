@@ -19,6 +19,7 @@
 #include "kernel/hash.h"
 #include "kernel/concat.h"
 #include "kernel/fcall.h"
+#include "ext/spl/spl_exceptions.h"
 
 
 /*
@@ -57,7 +58,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Translate_Adapter_NativeArray) {
 /**
  * Phalcon\Translate\Adapter\NativeArray constructor
  *
- * @param array $options
+ * @param array options
  */
 PHP_METHOD(Phalcon_Translate_Adapter_NativeArray, __construct) {
 
@@ -71,11 +72,10 @@ PHP_METHOD(Phalcon_Translate_Adapter_NativeArray, __construct) {
 		ZEPHIR_THROW_EXCEPTION_STRW(phalcon_translate_exception_ce, "Invalid options");
 		return;
 	}
-	if (!(zephir_array_isset_string(options, SS("content")))) {
+	if (!(zephir_array_isset_string_fetch(&data, options, SS("content"), 1 TSRMLS_CC))) {
 		ZEPHIR_THROW_EXCEPTION_STRW(phalcon_translate_exception_ce, "Translation content was not provided");
 		return;
 	}
-	zephir_array_fetch_string(&data, options, SL("content"), PH_NOISY | PH_READONLY TSRMLS_CC);
 	if ((Z_TYPE_P(data) != IS_ARRAY)) {
 		ZEPHIR_THROW_EXCEPTION_STRW(phalcon_translate_exception_ce, "Translation data must be an array");
 		return;
@@ -87,71 +87,83 @@ PHP_METHOD(Phalcon_Translate_Adapter_NativeArray, __construct) {
 /**
  * Returns the translation related to the given key
  *
- * @param string $index
- * @param array $placeholders
+ * @param string  index
+ * @param array   placeholders
  * @return string
  */
 PHP_METHOD(Phalcon_Translate_Adapter_NativeArray, query) {
 
-	HashTable *_1;
-	HashPosition _0;
-	zval *index, *placeholders = NULL, *translate, *traslation = NULL, *key = NULL, *value = NULL, *keyPlaceholder = NULL, **_2, *_3 = NULL;
+	HashTable *_2;
+	HashPosition _1;
+	zval *index_param = NULL, *placeholders = NULL, *traslation = NULL, *key = NULL, *value = NULL, *_0, **_3, *_4 = NULL, *_5 = NULL;
+	zval *index = NULL;
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 1, &index, &placeholders);
+	zephir_fetch_params(1, 1, 1, &index_param, &placeholders);
 
-	if (!placeholders) {
+		if (Z_TYPE_P(index_param) != IS_STRING) {
+				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'index' must be a string") TSRMLS_CC);
+				RETURN_MM_NULL();
+		}
+
+		index = index_param;
+
+	if (!placeholders || Z_TYPE_P(placeholders) == IS_NULL) {
 		placeholders = ZEPHIR_GLOBAL(global_null);
 	}
 
 
-	translate = zephir_fetch_nproperty_this(this_ptr, SL("_translate"), PH_NOISY_CC);
-	if (zephir_array_isset(translate, index)) {
-		ZEPHIR_OBS_VAR(traslation);
-		zephir_array_fetch(&traslation, translate, index, PH_NOISY TSRMLS_CC);
+	ZEPHIR_OBS_VAR(traslation);
+	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_translate"), PH_NOISY_CC);
+	if (zephir_array_isset_fetch(&traslation, _0, index, 0 TSRMLS_CC)) {
 		if ((Z_TYPE_P(placeholders) == IS_ARRAY)) {
 			if (zephir_fast_count_int(placeholders TSRMLS_CC)) {
-				zephir_is_iterable(placeholders, &_1, &_0, 0, 0);
+				zephir_is_iterable(placeholders, &_2, &_1, 0, 0);
 				for (
-					; zend_hash_get_current_data_ex(_1, (void**) &_2, &_0) == SUCCESS
-					; zend_hash_move_forward_ex(_1, &_0)
+					; zend_hash_get_current_data_ex(_2, (void**) &_3, &_1) == SUCCESS
+					; zend_hash_move_forward_ex(_2, &_1)
 				) {
-					ZEPHIR_GET_HMKEY(key, _1, _0);
-					ZEPHIR_GET_HVALUE(value, _2);
-					ZEPHIR_INIT_NVAR(keyPlaceholder);
-					ZEPHIR_CONCAT_SVS(keyPlaceholder, "%", key, "%");
-					ZEPHIR_INIT_NVAR(_3);
-					zephir_call_func_p3(_3, "str_replace", keyPlaceholder, value, traslation);
-					ZEPHIR_CPY_WRT(traslation, _3);
+					ZEPHIR_GET_HMKEY(key, _2, _1);
+					ZEPHIR_GET_HVALUE(value, _3);
+					ZEPHIR_INIT_LNVAR(_4);
+					ZEPHIR_CONCAT_SVS(_4, "%", key, "%");
+					ZEPHIR_INIT_NVAR(_5);
+					zephir_call_func_p3(_5, "str_replace", _4, value, traslation);
+					ZEPHIR_CPY_WRT(traslation, _5);
 				}
 			}
 		}
 		RETURN_CCTOR(traslation);
 	}
-	RETURN_CCTOR(index);
+	RETURN_CTOR(index);
 
 }
 
 /**
  * Check whether is defined a translation key in the internal array
  *
- * @param         string $index
- * @return bool
+ * @param    string index
+ * @return   bool
  */
 PHP_METHOD(Phalcon_Translate_Adapter_NativeArray, exists) {
 
-	zval *index, *translate;
+	zval *index_param = NULL, *_0;
+	zval *index = NULL;
 
-	zephir_fetch_params(0, 1, 0, &index);
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 1, 0, &index_param);
+
+		if (Z_TYPE_P(index_param) != IS_STRING) {
+				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'index' must be a string") TSRMLS_CC);
+				RETURN_MM_NULL();
+		}
+
+		index = index_param;
 
 
 
-	translate = zephir_fetch_nproperty_this(this_ptr, SL("_translate"), PH_NOISY_CC);
-	if (zephir_array_isset(translate, index)) {
-		RETURN_BOOL(1);
-	} else {
-		RETURN_BOOL(0);
-	}
+	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_translate"), PH_NOISY_CC);
+	RETURN_MM_BOOL(zephir_array_isset(_0, index));
 
 }
 

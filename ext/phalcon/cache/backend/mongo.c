@@ -146,6 +146,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Mongo, _getCollection) {
 			ZEPHIR_INIT_NVAR(mongo);
 			_0 = zend_fetch_class(SL("Mongo"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
 			object_init_ex(mongo, _0);
+			zephir_call_method_noret(mongo, "__construct");
 		}
 		zephir_array_fetch_string(&database, options, SL("db"), PH_NOISY | PH_READONLY TSRMLS_CC);
 		if ((!zephir_is_true(database) || (Z_TYPE_P(database) != IS_STRING))) {

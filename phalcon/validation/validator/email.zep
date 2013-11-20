@@ -44,6 +44,7 @@ class Email extends Phalcon\Validation\Validator implements Phalcon\Validation\V
 	 */
 	public function validate(<Phalcon\Validatio> validator, string! attribute) -> boolean
 	{
+		var value, message;
 
 		let value = validator->getValue(attribute);
 		if !filter_var(value, FILTER_VALIDATE_EMAIL) {
@@ -53,7 +54,7 @@ class Email extends Phalcon\Validation\Validator implements Phalcon\Validation\V
 				let message = "Value of field '" . attribute . "' must have a valid e-mail format";
 			}
 
-			validator->appendMessage(new Phalcon_Validation_Message(message, attribute, "Email"));
+			validator->appendMessage(new Phalcon\Validation\Message(message, attribute, "Email"));
 			return false;
 		}
 

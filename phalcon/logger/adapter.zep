@@ -24,7 +24,8 @@ namespace Phalcon\Logger;
  *
  * Base class for Phalcon\Logger adapters
  */
-abstract class Adapter {
+abstract class Adapter
+{
 
 	/**
 	 * Tells if there is an active transaction or not
@@ -106,10 +107,9 @@ abstract class Adapter {
  	 */
 	public function commit() -> <Phalcon\Logger\AdapterInterface>
 	{
-		var transaction, queue, message;
+		var queue, message;
 
-		let transaction = this->_transaction;
-		if !transaction {
+		if !this->_transaction {
 			throw new Phalcon\Logger\Exception("There is no active transaction");
 		}
 

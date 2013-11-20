@@ -1256,8 +1256,8 @@ class Collection implements Phalcon\Mvc\CollectionInterface, Phalcon\Di\Injectio
 	 */
 	public function delete() -> boolean
 	{
- 		var disableEvents, eventName, status, id, connection, source, collection, mongoId,
- 			modelsManager, useImplicitIds, idCondition, success, options, ok;
+ 		var disableEvents, status, id, connection, source, 
+			collection, mongoId, success, ok;
 
 		if !fetch id, this->_id {
 			throw new Phalcon\Mvc\Collection\Exception("The document cannot be deleted because it doesn't exist");
@@ -1334,7 +1334,7 @@ class Collection implements Phalcon\Mvc\CollectionInterface, Phalcon\Di\Injectio
 	 */
 	public function toArray()
 	{
- 		var data, reserved, properties, key, value;
+ 		var data, reserved, key, value;
 
 		let reserved = this->getReservedAttributes();
 

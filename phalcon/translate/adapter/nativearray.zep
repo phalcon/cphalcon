@@ -63,7 +63,7 @@ class NativeArray
 	*/
 	public function query(string! index, placeholders=null)
 	{
-		var translate, traslation, key, value;
+		var traslation, key, value;
 
 		if fetch traslation, this->_translate[index] {
 			if typeof placeholders == "array" {

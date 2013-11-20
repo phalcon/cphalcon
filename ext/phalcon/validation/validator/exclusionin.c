@@ -12,6 +12,13 @@
 #include <Zend/zend_interfaces.h>
 
 #include "kernel/main.h"
+#include "kernel/fcall.h"
+#include "kernel/memory.h"
+#include "kernel/exception.h"
+#include "kernel/operators.h"
+#include "kernel/concat.h"
+#include "kernel/string.h"
+#include "ext/spl/spl_exceptions.h"
 
 
 /*
@@ -31,12 +38,86 @@
  |          Eduar Carvajal <eduar@phalconphp.com>                         |
  +------------------------------------------------------------------------+
  */
+/**
+ * Phalcon\Validation\Validator\ExclusionIn
+ *
+ * Check if a value is not included into a list of values
+ *
+ *<code>
+ *use Phalcon\Validation\Validator\ExclusionIn;
+ *
+ *$validator->add('status', new ExclusionIn(array(
+ *   'message' => 'The status must not be A or B',
+ *   'domain' => array('A', 'B')
+ *)));
+ *</code>
+ */
 ZEPHIR_INIT_CLASS(Phalcon_Validation_Validator_ExclusionIn) {
 
-	ZEPHIR_REGISTER_CLASS(Phalcon\\Validation\\Validator, ExclusionIn, phalcon, validation_validator_exclusionin, NULL, 0);
+	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Validation\\Validator, ExclusionIn, phalcon, validation_validator_exclusionin, phalcon_validation_validator_ce, phalcon_validation_validator_exclusionin_method_entry, 0);
 
+	zend_class_implements(phalcon_validation_validator_exclusionin_ce TSRMLS_CC, 1, phalcon_validation_validatorinterface_ce);
 
 	return SUCCESS;
+
+}
+
+/**
+ * Executes the validation
+ *
+ * @param Phalcon\Validation validator
+ * @param string attribute
+ * @return boolean
+ */
+PHP_METHOD(Phalcon_Validation_Validator_ExclusionIn, validate) {
+
+	zval *attribute = NULL;
+	zval *validator, *attribute_param = NULL, *value, *domain, *message = NULL, *_0, *_1 = NULL, *_2, *_3;
+
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 2, 0, &validator, &attribute_param);
+
+		if (Z_TYPE_P(attribute_param) != IS_STRING) {
+				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'attribute' must be a string") TSRMLS_CC);
+				RETURN_MM_NULL();
+		}
+
+		attribute = attribute_param;
+
+
+
+	ZEPHIR_INIT_VAR(value);
+	zephir_call_method_p1(value, validator, "getvalue", attribute);
+	ZEPHIR_INIT_VAR(_0);
+	ZVAL_STRING(_0, "domain", 1);
+	ZEPHIR_INIT_VAR(domain);
+	zephir_call_method_p1(domain, this_ptr, "getoption", _0);
+	if ((Z_TYPE_P(domain) != IS_ARRAY)) {
+		ZEPHIR_THROW_EXCEPTION_STR(phalcon_validation_exception_ce, "Option 'domain' must be an array");
+		return;
+	}
+	ZEPHIR_INIT_BNVAR(_0);
+	zephir_call_func_p2(_0, "in_array", value, domain);
+	if (zephir_is_true(_0)) {
+		ZEPHIR_INIT_VAR(_1);
+		ZVAL_STRING(_1, "message", 1);
+		ZEPHIR_INIT_VAR(message);
+		zephir_call_method_p1(message, this_ptr, "getoption", _1);
+		if ((0 == 0)) {
+			ZEPHIR_INIT_NVAR(_1);
+			zephir_fast_join_str(_1, SL(", "), domain TSRMLS_CC);
+			ZEPHIR_INIT_NVAR(message);
+			ZEPHIR_CONCAT_SVSV(message, "Value of field '", attribute, "' must not be part of list: ", _1);
+		}
+		ZEPHIR_INIT_VAR(_2);
+		object_init_ex(_2, phalcon_validation_message_ce);
+		ZEPHIR_INIT_VAR(_3);
+		ZVAL_STRING(_3, "ExclusionIn", 1);
+		zephir_call_method_p3_noret(_2, "__construct", message, attribute, _3);
+		zephir_call_method_p1_noret(validator, "appendmessage", _2);
+		RETURN_MM_BOOL(0);
+	}
+	RETURN_MM_BOOL(1);
 
 }
 

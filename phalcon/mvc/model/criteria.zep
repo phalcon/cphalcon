@@ -65,9 +65,8 @@ class Criteria
 	 */
 	public function getDI() -> <Phalcon\DiInterface> | boolean
 	{
-		var params, dependencyInjector;
-		let params = this->_params;
-		if fetch dependencyInjector, params["di"] {
+		var dependencyInjector;
+		if fetch dependencyInjector, this->_params["di"] {
 			return dependencyInjector;
 		}
 		return false;
@@ -79,7 +78,7 @@ class Criteria
 	 * @param string modelName
 	 * @return Phalcon\Mvc\Model\Criteria
 	 */
-	public function setModelName(string modelName) -> <Phalcon\Mvc\Model\Criteria>
+	public function setModelName(string! modelName) -> <Phalcon\Mvc\Model\Criteria>
 	{
 		let this->_model = modelName;
 		return this;

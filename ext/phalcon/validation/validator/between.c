@@ -72,7 +72,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Validation_Validator_Between) {
 PHP_METHOD(Phalcon_Validation_Validator_Between, validate) {
 
 	zval *attribute = NULL;
-	zval *validator, *attribute_param = NULL, *value, *minimum, *maximum, *message = NULL, *_0;
+	zval *validator, *attribute_param = NULL, *value, *minimum, *maximum, *message = NULL, *_0, *_1;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &validator, &attribute_param);
@@ -107,6 +107,9 @@ PHP_METHOD(Phalcon_Validation_Validator_Between, validate) {
 		}
 		ZEPHIR_INIT_BNVAR(_0);
 		object_init_ex(_0, phalcon_validation_message_ce);
+		ZEPHIR_INIT_VAR(_1);
+		ZVAL_STRING(_1, "Between", 1);
+		zephir_call_method_p3_noret(_0, "__construct", message, attribute, _1);
 		zephir_call_method_p1_noret(validator, "appendmessage", _0);
 		RETURN_MM_BOOL(0);
 	}

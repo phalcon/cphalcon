@@ -44,11 +44,12 @@ class PresenceOf extends Phalcon\Validation\Validator implements Phalcon\Validat
 	 */
 	public function validate(<Phalcon\Validation> validator, string! attribute)
 	{
+		var value, message;
 
 		let value = validator->getValue(attribute);
 		if empty value {
 
-			let messageStr = this->getOption("message");
+			let message = this->getOption("message");
 			if empty message {
 				let message = attribute . " is required";
 			}

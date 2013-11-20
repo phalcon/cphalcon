@@ -64,6 +64,9 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Url) {
 	zend_declare_property_null(phalcon_mvc_url_ce, SL("_basePath"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_mvc_url_ce, SL("_router"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
+	zend_class_implements(phalcon_mvc_url_ce TSRMLS_CC, 1, phalcon_mvc_urlinterface_ce);
+	zend_class_implements(phalcon_mvc_url_ce TSRMLS_CC, 1, phalcon_di_injectionawareinterface_ce);
+
 	return SUCCESS;
 
 }
@@ -297,7 +300,7 @@ PHP_METHOD(Phalcon_Mvc_Url, get) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 1, &uri);
 
-	if (!uri) {
+	if (!uri || Z_TYPE_P(uri) == IS_NULL) {
 		uri = ZEPHIR_GLOBAL(global_null);
 	}
 
@@ -365,7 +368,7 @@ PHP_METHOD(Phalcon_Mvc_Url, getStatic) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 1, &uri);
 
-	if (!uri) {
+	if (!uri || Z_TYPE_P(uri) == IS_NULL) {
 		uri = ZEPHIR_GLOBAL(global_null);
 	}
 
@@ -394,7 +397,7 @@ PHP_METHOD(Phalcon_Mvc_Url, path) {
 
 	zephir_fetch_params(0, 0, 1, &path);
 
-	if (!path) {
+	if (!path || Z_TYPE_P(path) == IS_NULL) {
 		path = ZEPHIR_GLOBAL(global_null);
 	}
 

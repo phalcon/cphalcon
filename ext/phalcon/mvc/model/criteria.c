@@ -15,7 +15,8 @@
 #include "kernel/object.h"
 #include "kernel/memory.h"
 #include "kernel/array.h"
-#include "kernel/operators.h"
+#include "ext/spl/spl_exceptions.h"
+#include "kernel/exception.h"
 
 
 /*
@@ -88,11 +89,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, setDI) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_Criteria, getDI) {
 
-	zval *params, *dependencyInjector;
+	zval *dependencyInjector, *_0;
 
 
-	params = zephir_fetch_nproperty_this(this_ptr, SL("_params"), PH_NOISY_CC);
-	if (zephir_array_isset_string_fetch(&dependencyInjector, params, SS("di"), 1 TSRMLS_CC)) {
+	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_params"), PH_NOISY_CC);
+	if (zephir_array_isset_string_fetch(&dependencyInjector, _0, SS("di"), 1 TSRMLS_CC)) {
 		RETURN_CTORW(dependencyInjector);
 	}
 	RETURN_BOOL(0);
@@ -113,7 +114,13 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, setModelName) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &modelName_param);
 
-		zephir_get_strval(modelName, modelName_param);
+		if (Z_TYPE_P(modelName_param) != IS_STRING) {
+				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'modelName' must be a string") TSRMLS_CC);
+				RETURN_MM_NULL();
+		}
+
+		modelName = modelName_param;
+
 
 
 	zephir_update_property_this(this_ptr, SL("_model"), modelName TSRMLS_CC);

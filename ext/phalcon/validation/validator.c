@@ -63,7 +63,7 @@ PHP_METHOD(Phalcon_Validation_Validator, __construct) {
 
 	zephir_fetch_params(0, 0, 1, &options);
 
-	if (!options) {
+	if (!options || Z_TYPE_P(options) == IS_NULL) {
 		options = ZEPHIR_GLOBAL(global_null);
 	}
 
