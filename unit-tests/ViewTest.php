@@ -15,6 +15,7 @@
   +------------------------------------------------------------------------+
   | Authors: Andres Gutierrez <andres@phalconphp.com>                      |
   |          Eduar Carvajal <eduar@phalconphp.com>                         |
+  |          Piotr Gasiorowski <p.gasiorowski@vipserv.org>                 |
   +------------------------------------------------------------------------+
 */
 
@@ -46,63 +47,63 @@ class ViewAfterRenderListener
 
 class ViewTest extends PHPUnit_Framework_TestCase
 {
-    public function testSettersAndGetters()
-    {
-        $view = new View();
+	public function testSettersAndGetters()
+	{
+		$view = new View();
 
-        $this->assertEquals($view, $view->setBasePath(__DIR__.'/../'));
+		$this->assertEquals($view, $view->setBasePath(__DIR__.'/../'));
 
-        $view->foo = 'bar';
-        $this->assertEquals('bar', $view->foo);
+		$view->foo = 'bar';
+		$this->assertEquals('bar', $view->foo);
 
-        $this->assertEquals($view, $view->setVar('foo1', 'bar1'));
-        $this->assertEquals('bar1', $view->getVar('foo1'));
+		$this->assertEquals($view, $view->setVar('foo1', 'bar1'));
+		$this->assertEquals('bar1', $view->getVar('foo1'));
 
-        $expectedVars = array('foo2' => 'bar2', 'foo3' => 'bar3');
-        $this->assertEquals($view, $view->setVars($expectedVars));
-        $this->assertEquals('bar2', $view->foo2);
-        $this->assertEquals('bar3', $view->foo3);
-        $this->assertEquals($view, $view->setVars($expectedVars, false));
+		$expectedVars = array('foo2' => 'bar2', 'foo3' => 'bar3');
+		$this->assertEquals($view, $view->setVars($expectedVars));
+		$this->assertEquals('bar2', $view->foo2);
+		$this->assertEquals('bar3', $view->foo3);
+		$this->assertEquals($view, $view->setVars($expectedVars, false));
 
-        $this->assertEquals($view, $view->setParamToView('foo4', 'bar4'));
+		$this->assertEquals($view, $view->setParamToView('foo4', 'bar4'));
 
-        $expectedParamsToView = array('foo2' => 'bar2', 'foo3' => 'bar3', 'foo4' => 'bar4');
-        $this->assertEquals($expectedParamsToView, $view->getParamsToView());
+		$expectedParamsToView = array('foo2' => 'bar2', 'foo3' => 'bar3', 'foo4' => 'bar4');
+		$this->assertEquals($expectedParamsToView, $view->getParamsToView());
 
-        $this->assertEquals($view, $view->setContent('<h1>hello</h1>'));
-        $this->assertEquals('<h1>hello</h1>', $view->getContent());
+		$this->assertEquals($view, $view->setContent('<h1>hello</h1>'));
+		$this->assertEquals('<h1>hello</h1>', $view->getContent());
 
-        $this->assertEquals($view, $view->setViewsDir('unit-tests/views/'));
-        $this->assertEquals('unit-tests/views/', $view->getViewsDir());
+		$this->assertEquals($view, $view->setViewsDir('unit-tests/views/'));
+		$this->assertEquals('unit-tests/views/', $view->getViewsDir());
 
-        $this->assertEquals($view, $view->setLayoutsDir('unit-tests/views/layouts/'));
-        $this->assertEquals('unit-tests/views/layouts/', $view->getLayoutsDir());
+		$this->assertEquals($view, $view->setLayoutsDir('unit-tests/views/layouts/'));
+		$this->assertEquals('unit-tests/views/layouts/', $view->getLayoutsDir());
 
-        $this->assertEquals($view, $view->setPartialsDir('unit-tests/views/partials/'));
-        $this->assertEquals('unit-tests/views/partials/', $view->getPartialsDir());
+		$this->assertEquals($view, $view->setPartialsDir('unit-tests/views/partials/'));
+		$this->assertEquals('unit-tests/views/partials/', $view->getPartialsDir());
 
-        $this->assertEquals($view, $view->disableLevel(View::LEVEL_MAIN_LAYOUT));
-        $this->assertEquals($view, $view->setRenderLevel(View::LEVEL_ACTION_VIEW));
-        $this->assertEquals(View::LEVEL_ACTION_VIEW, $view->getRenderLevel());
+		$this->assertEquals($view, $view->disableLevel(View::LEVEL_MAIN_LAYOUT));
+		$this->assertEquals($view, $view->setRenderLevel(View::LEVEL_ACTION_VIEW));
+		$this->assertEquals(View::LEVEL_ACTION_VIEW, $view->getRenderLevel());
 
-        $this->assertEquals($view, $view->setMainView('html5'));
-        $this->assertEquals('html5', $view->getMainView());
+		$this->assertEquals($view, $view->setMainView('html5'));
+		$this->assertEquals('html5', $view->getMainView());
 
-        $this->assertEquals($view, $view->setLayout('test2'));
-        $this->assertEquals('test2', $view->getLayout());
+		$this->assertEquals($view, $view->setLayout('test2'));
+		$this->assertEquals('test2', $view->getLayout());
 
-        $this->assertEquals($view, $view->setTemplateBefore('before'));
-        $this->assertEquals($view, $view->setTemplateAfter('after'));
-        $this->assertEquals($view, $view->cleanTemplateBefore());
-        $this->assertEquals($view, $view->cleanTemplateAfter());
+		$this->assertEquals($view, $view->setTemplateBefore('before'));
+		$this->assertEquals($view, $view->setTemplateAfter('after'));
+		$this->assertEquals($view, $view->cleanTemplateBefore());
+		$this->assertEquals($view, $view->cleanTemplateAfter());
 
-        $view->start();
-        $view->render('test2', 'index');
-        $view->finish();
+		$view->start();
+		$view->render('test2', 'index');
+		$view->finish();
 
-        $this->assertEquals('test2', $view->getControllerName());
-        $this->assertEquals('index', $view->getActionName());
-    }
+		$this->assertEquals('test2', $view->getControllerName());
+		$this->assertEquals('index', $view->getActionName());
+	}
 
 	public function testStandardRender()
 	{
@@ -122,7 +123,7 @@ class ViewTest extends PHPUnit_Framework_TestCase
 		$view->finish();
 		$this->assertEquals($view->getContent(), '<html>lolhere</html>'.PHP_EOL);
 
-        //Variables
+		//Variables
 		$view->setParamToView('a_cool_var', 'le-this');
 
 		$view->start();
@@ -197,20 +198,20 @@ class ViewTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($view->getContent(), '<html>Well, this is the view content: here.</html>' . PHP_EOL);
 	}
 
-    /**
-     * @covers \Phalcon\Mvc\View::setMainView
-     */
-    public function testOverrideMainView()
-    {
-        $view = new View();
-        $view->setViewsDir('unit-tests/views/');
-        $view->setMainView('html5');
+	/**
+	 * @covers \Phalcon\Mvc\View::setMainView
+	 */
+	public function testOverrideMainView()
+	{
+		$view = new View();
+		$view->setViewsDir('unit-tests/views/');
+		$view->setMainView('html5');
 
-        $view->start();
-        $view->render('test2', 'index');
-        $view->finish();
-        $this->assertEquals($view->getContent(), '<!DOCTYPE html><html>here</html>' . PHP_EOL);
-    }
+		$view->start();
+		$view->render('test2', 'index');
+		$view->finish();
+		$this->assertEquals($view->getContent(), '<!DOCTYPE html><html>here</html>' . PHP_EOL);
+	}
 
 	public function testPartials()
 	{
@@ -220,49 +221,49 @@ class ViewTest extends PHPUnit_Framework_TestCase
 		$view->setViewsDir('unit-tests/views/');
 		$view->setParamToView('cool_var', 'le-this');
 
-        // Single partial
+		// Single partial
 		$view->start();
 		$view->render('test5', 'index');
 		$view->finish();
 
 		$this->assertEquals($view->getContent(), '<html>Hey, this is a partial, also le-this</html>' . PHP_EOL);
 
-        // Multiple partials
+		// Multiple partials
 		$view->start();
 		$view->render('test9', 'index');
 		$view->finish();
 
 		$this->assertEquals($view->getContent(), '<html>Hey, this is a partial, also le-this<br />Hey, this is a second partial, also le-this</html>' . PHP_EOL);
 
-        // A partial within other partial
-        $view->start();
-        $view->render('test5', 'subpartial');
-        $view->finish();
+		// A partial within other partial
+		$view->start();
+		$view->render('test5', 'subpartial');
+		$view->finish();
 
-        $this->assertEquals('<html>Including Hey, this is a partial, also le-this</html>' . PHP_EOL, $view->getContent());
+		$this->assertEquals('<html>Including Hey, this is a partial, also le-this</html>' . PHP_EOL, $view->getContent());
 
-        // Single partial in overridden main view
-        $view->setMainView('html5');
-        $view->start();
-        $view->render('test5', 'index');
-        $view->finish();
+		// Single partial in overridden main view
+		$view->setMainView('html5');
+		$view->start();
+		$view->render('test5', 'index');
+		$view->finish();
 
-        $this->assertEquals('<!DOCTYPE html><html>Hey, this is a partial, also le-this</html>' . PHP_EOL, $view->getContent());
+		$this->assertEquals('<!DOCTYPE html><html>Hey, this is a partial, also le-this</html>' . PHP_EOL, $view->getContent());
 
 	}
 
-    public function testMissingPartial()
-    {
-        $this->setExpectedException('Phalcon\Mvc\View\Exception');
+	public function testMissingPartial()
+	{
+		$this->setExpectedException('Phalcon\Mvc\View\Exception');
 
-        $view = new View();
-        $view->setBasePath(__DIR__.'/../');
-        $view->setViewsDir('unit-tests/views/');
+		$view = new View();
+		$view->setBasePath(__DIR__.'/../');
+		$view->setViewsDir('unit-tests/views/');
 
-        $view->start();
-        $view->render('test5', 'missing');
-        $view->finish();
-    }
+		$view->start();
+		$view->render('test5', 'missing');
+		$view->finish();
+	}
 
 	public function testGetRender()
 	{
@@ -331,31 +332,31 @@ class ViewTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($view->getContent(), '<div class="action">Action</div>');
 	}
 
-    /**
-     * @covers \Phalcon\Mvc\View::getActiveRenderPath
-     */
-    public function testGetActiveRenderPath()
-    {
-        $di = new \Phalcon\Di;
-        $listener = new ViewAfterRenderListener;
-        $eventsManager = new \Phalcon\Events\Manager;
-        $eventsManager->attach('view', $listener);
+	/**
+	 * @covers \Phalcon\Mvc\View::getActiveRenderPath
+	 */
+	public function testGetActiveRenderPath()
+	{
+		$di = new \Phalcon\Di;
+		$listener = new ViewAfterRenderListener;
+		$eventsManager = new \Phalcon\Events\Manager;
+		$eventsManager->attach('view', $listener);
 
-        $view = new View;
-        $view->setDI($di);
-        $view->setEventsManager($eventsManager);
-        $view->setBasePath(__DIR__.'/../');
-        $view->setViewsDir('unit-tests/views/');
-        $view->setRenderLevel(View::LEVEL_ACTION_VIEW);
+		$view = new View;
+		$view->setDI($di);
+		$view->setEventsManager($eventsManager);
+		$view->setBasePath(__DIR__.'/../');
+		$view->setViewsDir('unit-tests/views/');
+		$view->setRenderLevel(View::LEVEL_ACTION_VIEW);
 
-        $view->start();
-        $view->render('test15', 'index');
-        $view->finish();
+		$view->start();
+		$view->render('test15', 'index');
+		$view->finish();
 
-        $expectedPath = realpath('unit-tests/views/');
-        $this->assertEquals($expectedPath . DIRECTORY_SEPARATOR . 'test15' . DIRECTORY_SEPARATOR . 'index.phtml',
-            realpath($view->getContent()));
-    }
+		$expectedPath = realpath('unit-tests/views/');
+		$this->assertEquals($expectedPath . DIRECTORY_SEPARATOR . 'test15' . DIRECTORY_SEPARATOR . 'index.phtml',
+			realpath($view->getContent()));
+	}
 
 	public function testIssue907()
 	{
