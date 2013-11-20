@@ -392,99 +392,100 @@ static void phalcon_execute_internal(zend_execute_data *execute_data_ptr, int re
 static void phalcon_verify_permanent_zvals(int strict TSRMLS_DC)
 {
 	int ok = 1;
+	zend_phalcon_globals *pg = PHALCON_VGLOBAL;
 
 	if (strict) {
-		if (Z_REFCOUNT_P(PHALCON_GLOBAL(z_null)) != 2) {
+		if (Z_REFCOUNT_P(pg->z_null) != 2) {
 			ok = 0;
-			fprintf(stderr, "Z_REFCOUNT_P(PHALCON_GLOBAL(z_null)) != 2 (%u)\n", Z_REFCOUNT_P(PHALCON_GLOBAL(z_null)));
+			fprintf(stderr, "Z_REFCOUNT_P(PHALCON_GLOBAL(z_null)) != 2 (%u)\n", Z_REFCOUNT_P(pg->z_null));
 		}
 
-		if (Z_REFCOUNT_P(PHALCON_GLOBAL(z_false)) != 2) {
+		if (Z_REFCOUNT_P(pg->z_false) != 2) {
 			ok = 0;
-			fprintf(stderr, "Z_REFCOUNT_P(PHALCON_GLOBAL(z_false)) != 2 (%u)\n", Z_REFCOUNT_P(PHALCON_GLOBAL(z_false)));
+			fprintf(stderr, "Z_REFCOUNT_P(PHALCON_GLOBAL(z_false)) != 2 (%u)\n", Z_REFCOUNT_P(pg->z_false));
 		}
 
-		if (Z_REFCOUNT_P(PHALCON_GLOBAL(z_true)) != 2) {
+		if (Z_REFCOUNT_P(pg->z_true) != 2) {
 			ok = 0;
-			fprintf(stderr, "Z_REFCOUNT_P(PHALCON_GLOBAL(z_true)) != 2 (%u)\n", Z_REFCOUNT_P(PHALCON_GLOBAL(z_true)));
+			fprintf(stderr, "Z_REFCOUNT_P(PHALCON_GLOBAL(z_true)) != 2 (%u)\n", Z_REFCOUNT_P(pg->z_true));
 		}
 
-		if (Z_REFCOUNT_P(PHALCON_GLOBAL(z_zero)) != 2) {
+		if (Z_REFCOUNT_P(pg->z_zero) != 2) {
 			ok = 0;
-			fprintf(stderr, "Z_REFCOUNT_P(PHALCON_GLOBAL(z_zero)) != 2 (%u)\n", Z_REFCOUNT_P(PHALCON_GLOBAL(z_zero)));
+			fprintf(stderr, "Z_REFCOUNT_P(PHALCON_GLOBAL(z_zero)) != 2 (%u)\n", Z_REFCOUNT_P(pg->z_zero));
 		}
 
-		if (Z_REFCOUNT_P(PHALCON_GLOBAL(z_one)) != 2) {
+		if (Z_REFCOUNT_P(pg->z_one) != 2) {
 			ok = 0;
-			fprintf(stderr, "Z_REFCOUNT_P(PHALCON_GLOBAL(z_false)) != 2 (%u)\n", Z_REFCOUNT_P(PHALCON_GLOBAL(z_one)));
+			fprintf(stderr, "Z_REFCOUNT_P(PHALCON_GLOBAL(z_one)) != 2 (%u)\n", Z_REFCOUNT_P(pg->z_one));
 		}
 	}
 	else {
-		if (Z_REFCOUNT_P(PHALCON_GLOBAL(z_null)) < 2) {
+		if (Z_REFCOUNT_P(pg->z_null) < 2) {
 			ok = 0;
-			fprintf(stderr, "Z_REFCOUNT_P(PHALCON_GLOBAL(z_null)) < 2 (%u)\n", Z_REFCOUNT_P(PHALCON_GLOBAL(z_null)));
+			fprintf(stderr, "Z_REFCOUNT_P(PHALCON_GLOBAL(z_null)) < 2 (%u)\n", Z_REFCOUNT_P(pg->z_null));
 		}
 
-		if (Z_REFCOUNT_P(PHALCON_GLOBAL(z_false)) < 2) {
+		if (Z_REFCOUNT_P(pg->z_false) < 2) {
 			ok = 0;
-			fprintf(stderr, "Z_REFCOUNT_P(PHALCON_GLOBAL(z_false)) < 2 (%u)\n", Z_REFCOUNT_P(PHALCON_GLOBAL(z_false)));
+			fprintf(stderr, "Z_REFCOUNT_P(PHALCON_GLOBAL(z_false)) < 2 (%u)\n", Z_REFCOUNT_P(pg->z_false));
 		}
 
-		if (Z_REFCOUNT_P(PHALCON_GLOBAL(z_true)) < 2) {
+		if (Z_REFCOUNT_P(pg->z_true) < 2) {
 			ok = 0;
-			fprintf(stderr, "Z_REFCOUNT_P(PHALCON_GLOBAL(z_true)) < 2 (%u)\n", Z_REFCOUNT_P(PHALCON_GLOBAL(z_true)));
+			fprintf(stderr, "Z_REFCOUNT_P(PHALCON_GLOBAL(z_true)) < 2 (%u)\n", Z_REFCOUNT_P(pg->z_true));
 		}
 
-		if (Z_REFCOUNT_P(PHALCON_GLOBAL(z_zero)) < 2) {
+		if (Z_REFCOUNT_P(pg->z_zero) < 2) {
 			ok = 0;
-			fprintf(stderr, "Z_REFCOUNT_P(PHALCON_GLOBAL(z_zero)) < 2 (%u)\n", Z_REFCOUNT_P(PHALCON_GLOBAL(z_zero)));
+			fprintf(stderr, "Z_REFCOUNT_P(PHALCON_GLOBAL(z_zero)) < 2 (%u)\n", Z_REFCOUNT_P(pg->z_zero));
 		}
 
-		if (Z_REFCOUNT_P(PHALCON_GLOBAL(z_one)) < 2) {
+		if (Z_REFCOUNT_P(pg->z_one) < 2) {
 			ok = 0;
-			fprintf(stderr, "Z_REFCOUNT_P(PHALCON_GLOBAL(z_false)) < 2 (%u)\n", Z_REFCOUNT_P(PHALCON_GLOBAL(z_one)));
+			fprintf(stderr, "Z_REFCOUNT_P(PHALCON_GLOBAL(z_one)) < 2 (%u)\n", Z_REFCOUNT_P(pg->z_one));
 		}
 	}
 
-	if (Z_TYPE_P(PHALCON_GLOBAL(z_null)) != IS_NULL) {
+	if (Z_TYPE_P(pg->z_null) != IS_NULL) {
 		ok = 0;
-		fprintf(stderr, "Z_TYPE_P(PHALCON_GLOBAL(z_null)) != IS_NULL (%d != %d)\n", Z_TYPE_P(PHALCON_GLOBAL(z_null)), IS_NULL);
+		fprintf(stderr, "Z_TYPE_P(PHALCON_GLOBAL(z_null)) != IS_NULL (%d != %d)\n", Z_TYPE_P(pg->z_null), IS_NULL);
 	}
 
-	if (Z_TYPE_P(PHALCON_GLOBAL(z_false)) != IS_BOOL) {
+	if (Z_TYPE_P(pg->z_false) != IS_BOOL) {
 		ok = 0;
-		fprintf(stderr, "Z_TYPE_P(PHALCON_GLOBAL(z_false)) != IS_BOOL (%d != %d)\n", Z_TYPE_P(PHALCON_GLOBAL(z_false)), IS_BOOL);
+		fprintf(stderr, "Z_TYPE_P(PHALCON_GLOBAL(z_false)) != IS_BOOL (%d != %d)\n", Z_TYPE_P(pg->z_false), IS_BOOL);
 	}
-	else if (Z_BVAL_P(PHALCON_GLOBAL(z_false)) != 0) {
+	else if (Z_BVAL_P(pg->z_false) != 0) {
 		ok = 0;
-		fprintf(stderr, "Z_BVAL_P(PHALCON_GLOBAL(z_false)) != 0 (%d)\n", Z_BVAL_P(PHALCON_GLOBAL(z_false)));
-	}
-
-	if (Z_TYPE_P(PHALCON_GLOBAL(z_true)) != IS_BOOL) {
-		ok = 0;
-		fprintf(stderr, "Z_TYPE_P(PHALCON_GLOBAL(z_true)) != IS_BOOL (%d != %d)\n", Z_TYPE_P(PHALCON_GLOBAL(z_true)), IS_BOOL);
-	}
-	else if (Z_BVAL_P(PHALCON_GLOBAL(z_true)) != 1) {
-		ok = 0;
-		fprintf(stderr, "Z_BVAL_P(PHALCON_GLOBAL(z_true)) != 1 (%d)\n", Z_BVAL_P(PHALCON_GLOBAL(z_true)));
+		fprintf(stderr, "Z_BVAL_P(PHALCON_GLOBAL(z_false)) != 0 (%d)\n", Z_BVAL_P(pg->z_false));
 	}
 
-	if (Z_TYPE_P(PHALCON_GLOBAL(z_zero)) != IS_LONG) {
+	if (Z_TYPE_P(pg->z_true) != IS_BOOL) {
 		ok = 0;
-		fprintf(stderr, "Z_TYPE_P(PHALCON_GLOBAL(z_zero)) != IS_LONG (%d != %d)\n", Z_TYPE_P(PHALCON_GLOBAL(z_zero)), IS_LONG);
+		fprintf(stderr, "Z_TYPE_P(PHALCON_GLOBAL(z_true)) != IS_BOOL (%d != %d)\n", Z_TYPE_P(pg->z_true), IS_BOOL);
 	}
-	else if (Z_LVAL_P(PHALCON_GLOBAL(z_zero)) != 0) {
+	else if (Z_BVAL_P(pg->z_true) != 1) {
 		ok = 0;
-		fprintf(stderr, "Z_LVAL_P(PHALCON_GLOBAL(z_zero)) != 0 (%ld)\n", Z_LVAL_P(PHALCON_GLOBAL(z_zero)));
+		fprintf(stderr, "Z_BVAL_P(PHALCON_GLOBAL(z_true)) != 1 (%d)\n", Z_BVAL_P(pg->z_true));
 	}
 
-	if (Z_TYPE_P(PHALCON_GLOBAL(z_one)) != IS_LONG) {
+	if (Z_TYPE_P(pg->z_zero) != IS_LONG) {
 		ok = 0;
-		fprintf(stderr, "Z_TYPE_P(PHALCON_GLOBAL(z_one)) != IS_LONG (%d != %d)\n", Z_TYPE_P(PHALCON_GLOBAL(z_one)), IS_LONG);
+		fprintf(stderr, "Z_TYPE_P(PHALCON_GLOBAL(z_zero)) != IS_LONG (%d != %d)\n", Z_TYPE_P(pg->z_zero), IS_LONG);
 	}
-	else if (Z_LVAL_P(PHALCON_GLOBAL(z_one)) != 1) {
+	else if (Z_LVAL_P(pg->z_zero) != 0) {
 		ok = 0;
-		fprintf(stderr, "Z_LVAL_P(PHALCON_GLOBAL(z_one)) != 1 (%ld)\n", Z_LVAL_P(PHALCON_GLOBAL(z_one)));
+		fprintf(stderr, "Z_LVAL_P(PHALCON_GLOBAL(z_zero)) != 0 (%ld)\n", Z_LVAL_P(pg->z_zero));
+	}
+
+	if (Z_TYPE_P(pg->z_one) != IS_LONG) {
+		ok = 0;
+		fprintf(stderr, "Z_TYPE_P(PHALCON_GLOBAL(z_one)) != IS_LONG (%d != %d)\n", Z_TYPE_P(pg->z_one), IS_LONG);
+	}
+	else if (Z_LVAL_P(pg->z_one) != 1) {
+		ok = 0;
+		fprintf(stderr, "Z_LVAL_P(PHALCON_GLOBAL(z_one)) != 1 (%ld)\n", Z_LVAL_P(pg->z_one));
 	}
 
 	if (!ok) {
@@ -946,26 +947,26 @@ static ZEND_MODULE_POST_ZEND_DEACTIVATE_D(phalcon)
 #endif
 
 	if (CG(unclean_shutdown)) {
-		zend_phalcon_globals *phalcon_globals = PHALCON_VGLOBAL;
+		zend_phalcon_globals *pg = PHALCON_VGLOBAL;
 
-		INIT_ZVAL(*phalcon_globals->z_null);
-		Z_ADDREF_P(phalcon_globals->z_null);
+		INIT_ZVAL(*pg->z_null);
+		Z_ADDREF_P(pg->z_null);
 
-		INIT_PZVAL(phalcon_globals->z_false);
-		Z_ADDREF_P(phalcon_globals->z_false);
-		ZVAL_FALSE(phalcon_globals->z_false);
+		INIT_PZVAL(pg->z_false);
+		Z_ADDREF_P(pg->z_false);
+		ZVAL_FALSE(pg->z_false);
 
-		INIT_PZVAL(phalcon_globals->z_true);
-		Z_ADDREF_P(phalcon_globals->z_true);
-		ZVAL_TRUE(phalcon_globals->z_true);
+		INIT_PZVAL(pg->z_true);
+		Z_ADDREF_P(pg->z_true);
+		ZVAL_TRUE(pg->z_true);
 
-		INIT_PZVAL(phalcon_globals->z_zero);
-		Z_ADDREF_P(phalcon_globals->z_zero);
-		ZVAL_LONG(phalcon_globals->z_zero, 0);
+		INIT_PZVAL(pg->z_zero);
+		Z_ADDREF_P(pg->z_zero);
+		ZVAL_LONG(pg->z_zero, 0);
 
-		INIT_PZVAL(phalcon_globals->z_one);
-		Z_ADDREF_P(phalcon_globals->z_one);
-		ZVAL_LONG(phalcon_globals->z_one, 1);
+		INIT_PZVAL(pg->z_one);
+		Z_ADDREF_P(pg->z_one);
+		ZVAL_LONG(pg->z_one, 1);
 	}
 
 	return SUCCESS;
