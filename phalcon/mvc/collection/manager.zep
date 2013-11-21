@@ -102,10 +102,7 @@ class Manager implements Phalcon\Di\InjectionAwareInterface, Phalcon\Events\Even
 	*/
 	public function setCustomEventsManager(<Phalcon\Mvc\CollectionInterface> model, <Phalcon\Events\ManagerInterface> eventsManager) -> void
 	{
-		var className;
-
-		let className = get_class(model);
-		let this->_customEventsManager[className] = eventsManager;
+		let this->_customEventsManager[get_class(model)] = eventsManager;
 	}
 
 	/**
@@ -172,12 +169,7 @@ class Manager implements Phalcon\Di\InjectionAwareInterface, Phalcon\Events\Even
 	*/
 	public function isInitialized(modelName) -> boolean
 	{
-		var initialized, lowerCased;
-
-		let initialized = this->_initialized;
-		let lowerCased = strtolower(modelName);
-
-		if isset initialized[lowerCased] {
+		if isset this->_initialized[strtolower(modelName)] {
 			return true;
 		}
 		return false;
@@ -201,14 +193,11 @@ class Manager implements Phalcon\Di\InjectionAwareInterface, Phalcon\Events\Even
 	*/
 	public function setConnectionService(<Phalcon\Mvc\CollectionInterface> model, connectionService) -> void
 	{
-		var entityName;
-
 		if typeof model != "object" {
 			throw new Phalcon\Mvc\Collection\Exception("A valid collection instance is required");
 		}
 
-		let entityName = get_class(model);
-		let this->_connectionServices[entityName] = connectionService;
+		let this->_connectionServices[get_class(model)] = connectionService;
 
 	}
 
@@ -220,14 +209,11 @@ class Manager implements Phalcon\Di\InjectionAwareInterface, Phalcon\Events\Even
 	*/
 	public function useImplicitObjectIds(<Phalcon\Mvc\CollectionInterface> model, useImplicitObjectIds) -> void
 	{
-		var entityName;
-
 		if typeof model != "object" {
 			throw new Phalcon\Mvc\Collection\Exception("A valid collection instance is required");
 		}
 
-		let entityName = get_class(model);
-		let this->_implicitObjectsIds[entityName] = useImplicitObjectIds;
+		let this->_implicitObjectsIds[get_class(model)] = useImplicitObjectIds;
 	}
 
 	/**

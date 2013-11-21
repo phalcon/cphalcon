@@ -140,16 +140,16 @@ PHP_METHOD(Phalcon_Mvc_Collection_Manager, getEventsManager) {
  */
 PHP_METHOD(Phalcon_Mvc_Collection_Manager, setCustomEventsManager) {
 
-	zval *model, *eventsManager, *className;
+	zval *model, *eventsManager, *_0;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &model, &eventsManager);
 
 
 
-	ZEPHIR_INIT_VAR(className);
-	zephir_call_func_p1(className, "get_class", model);
-	zephir_update_property_array(this_ptr, SL("_customEventsManager"), className, eventsManager TSRMLS_CC);
+	ZEPHIR_INIT_VAR(_0);
+	zephir_call_func_p1(_0, "get_class", model);
+	zephir_update_property_array(this_ptr, SL("_customEventsManager"), _0, eventsManager TSRMLS_CC);
 	ZEPHIR_MM_RESTORE();
 
 }
@@ -224,17 +224,17 @@ PHP_METHOD(Phalcon_Mvc_Collection_Manager, initialize) {
  */
 PHP_METHOD(Phalcon_Mvc_Collection_Manager, isInitialized) {
 
-	zval *modelName, *initialized, *lowerCased;
+	zval *modelName, *_0, *_1;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &modelName);
 
 
 
-	initialized = zephir_fetch_nproperty_this(this_ptr, SL("_initialized"), PH_NOISY_CC);
-	ZEPHIR_INIT_VAR(lowerCased);
-	zephir_fast_strtolower(lowerCased, modelName);
-	if (zephir_array_isset(initialized, lowerCased)) {
+	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_initialized"), PH_NOISY_CC);
+	ZEPHIR_INIT_VAR(_1);
+	zephir_fast_strtolower(_1, modelName);
+	if (zephir_array_isset(_0, _1)) {
 		RETURN_MM_BOOL(1);
 	}
 	RETURN_MM_BOOL(0);
@@ -261,7 +261,7 @@ PHP_METHOD(Phalcon_Mvc_Collection_Manager, getLastInitialized) {
  */
 PHP_METHOD(Phalcon_Mvc_Collection_Manager, setConnectionService) {
 
-	zval *model, *connectionService, *entityName;
+	zval *model, *connectionService, *_0;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &model, &connectionService);
@@ -272,9 +272,9 @@ PHP_METHOD(Phalcon_Mvc_Collection_Manager, setConnectionService) {
 		ZEPHIR_THROW_EXCEPTION_STR(phalcon_mvc_collection_exception_ce, "A valid collection instance is required");
 		return;
 	}
-	ZEPHIR_INIT_VAR(entityName);
-	zephir_call_func_p1(entityName, "get_class", model);
-	zephir_update_property_array(this_ptr, SL("_connectionServices"), entityName, connectionService TSRMLS_CC);
+	ZEPHIR_INIT_VAR(_0);
+	zephir_call_func_p1(_0, "get_class", model);
+	zephir_update_property_array(this_ptr, SL("_connectionServices"), _0, connectionService TSRMLS_CC);
 	ZEPHIR_MM_RESTORE();
 
 }
@@ -287,7 +287,7 @@ PHP_METHOD(Phalcon_Mvc_Collection_Manager, setConnectionService) {
  */
 PHP_METHOD(Phalcon_Mvc_Collection_Manager, useImplicitObjectIds) {
 
-	zval *model, *useImplicitObjectIds, *entityName;
+	zval *model, *useImplicitObjectIds, *_0;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &model, &useImplicitObjectIds);
@@ -298,9 +298,9 @@ PHP_METHOD(Phalcon_Mvc_Collection_Manager, useImplicitObjectIds) {
 		ZEPHIR_THROW_EXCEPTION_STR(phalcon_mvc_collection_exception_ce, "A valid collection instance is required");
 		return;
 	}
-	ZEPHIR_INIT_VAR(entityName);
-	zephir_call_func_p1(entityName, "get_class", model);
-	zephir_update_property_array(this_ptr, SL("_implicitObjectsIds"), entityName, useImplicitObjectIds TSRMLS_CC);
+	ZEPHIR_INIT_VAR(_0);
+	zephir_call_func_p1(_0, "get_class", model);
+	zephir_update_property_array(this_ptr, SL("_implicitObjectsIds"), _0, useImplicitObjectIds TSRMLS_CC);
 	ZEPHIR_MM_RESTORE();
 
 }
