@@ -370,3 +370,5 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_ModelInterface, getRelated);
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_ModelInterface, setSnapshotData);
 
+ZEPHIR_DOC_METHOD(Phalcon_Mvc_ModelInterface, getDI);
+

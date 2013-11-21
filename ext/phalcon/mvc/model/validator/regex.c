@@ -12,6 +12,12 @@
 #include <Zend/zend_interfaces.h>
 
 #include "kernel/main.h"
+#include "kernel/fcall.h"
+#include "kernel/memory.h"
+#include "kernel/exception.h"
+#include "kernel/operators.h"
+#include "kernel/array.h"
+#include "kernel/concat.h"
 
 
 /*
@@ -31,12 +37,107 @@
  |          Eduar Carvajal <eduar@phalconphp.com>                         |
  +------------------------------------------------------------------------+
  */
+/**
+ * Phalcon\Mvc\Model\Validator\Regex
+ *
+ * Allows validate if the value of a field matches a regular expression
+ *
+ *<code>
+ *use Phalcon\Mvc\Model\Validator\Regex as RegexValidator;
+ *
+ *class Subscriptors extends Phalcon\Mvc\Model
+ *{
+ *
+ *  public function validation()
+ *  {
+ *      this->validate(new RegexValidator(array(
+ *          "field" => 'created_at',
+ *          'pattern' => '/^[0-9]{4}[-\/](0[1-9]|1[12])[-\/](0[1-9]|[12][0-9]|3[01])/'
+ *      )));
+ *      if (this->validationHasFailed() == true) {
+ *          return false;
+ *      }
+ *  }
+ *
+ *}
+ *</code>
+ *
+ */
 ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_Validator_Regex) {
 
-	ZEPHIR_REGISTER_CLASS(Phalcon\\Mvc\\Model\\Validator, Regex, phalcon, mvc_model_validator_regex, NULL, 0);
+	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Mvc\\Model\\Validator, Regex, phalcon, mvc_model_validator_regex, phalcon_mvc_model_validator_ce, phalcon_mvc_model_validator_regex_method_entry, 0);
 
+	zend_class_implements(phalcon_mvc_model_validator_regex_ce TSRMLS_CC, 1, phalcon_mvc_model_validatorinterface_ce);
 
 	return SUCCESS;
+
+}
+
+/**
+ * Executes the validator
+ *
+ * @param Phalcon\Mvc\ModelInterface record
+ * @return boolean
+ */
+PHP_METHOD(Phalcon_Mvc_Model_Validator_Regex, validate) {
+
+	zend_bool failed;
+	zval *record, *fieldName, *visSet, *value, *matches, *pattern, *matchPattern, *matchZero, *message = NULL, *_0;
+
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 1, 0, &record);
+
+
+
+	ZEPHIR_INIT_VAR(_0);
+	ZVAL_STRING(_0, "field", 1);
+	ZEPHIR_INIT_VAR(fieldName);
+	zephir_call_method_p1(fieldName, this_ptr, "getoption", _0);
+	if ((Z_TYPE_P(fieldName) != IS_STRING)) {
+		ZEPHIR_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Field name must be a string");
+		return;
+	}
+	ZEPHIR_INIT_BNVAR(_0);
+	ZVAL_STRING(_0, "pattern", 1);
+	ZEPHIR_INIT_VAR(visSet);
+	zephir_call_method_p1(visSet, this_ptr, "issetoption", _0);
+	if (!(zephir_is_true(visSet))) {
+		ZEPHIR_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Validator requires a perl-compatible regex pattern");
+		return;
+	}
+	ZEPHIR_INIT_VAR(value);
+	zephir_call_method_p1(value, record, "readattribute", fieldName);
+	failed = 0;
+	ZEPHIR_INIT_VAR(matches);
+	ZVAL_NULL(matches);
+	ZEPHIR_INIT_BNVAR(_0);
+	ZVAL_STRING(_0, "field", 1);
+	ZEPHIR_INIT_VAR(pattern);
+	zephir_call_method_p1(pattern, this_ptr, "getoption", _0);
+	Z_SET_ISREF_P(matches);
+	ZEPHIR_INIT_VAR(matchPattern);
+	zephir_call_func_p3(matchPattern, "preg_match", pattern, value, matches);
+	if (zephir_is_true(matchPattern)) {
+		zephir_array_fetch_long(&matchZero, matches, 0, PH_NOISY | PH_READONLY TSRMLS_CC);
+		failed = (!ZEPHIR_IS_EQUAL(matchZero, value));
+	} else {
+		failed = 1;
+	}
+	if ((failed == 1)) {
+		ZEPHIR_INIT_BNVAR(_0);
+		ZVAL_STRING(_0, "message", 1);
+		ZEPHIR_INIT_VAR(message);
+		zephir_call_method_p1(message, this_ptr, "getoption", _0);
+		if (!(zephir_is_true(message))) {
+			ZEPHIR_INIT_NVAR(message);
+			ZEPHIR_CONCAT_SVS(message, "Value of field '", fieldName, "' doesn't match regular expression");
+		}
+		ZEPHIR_INIT_BNVAR(_0);
+		ZVAL_STRING(_0, "Regex", 1);
+		zephir_call_method_p3_noret(this_ptr, "appendmessage", message, fieldName, _0);
+		RETURN_MM_BOOL(0);
+	}
+	RETURN_MM_BOOL(1);
 
 }
 

@@ -19,4 +19,68 @@
 
 namespace Phalcon\Mvc\Model\Validator;
 
-class PresenceOf {}
+/**
+ * Phalcon\Mvc\Model\Validator\PresenceOf
+ *
+ * Allows to validate if a filed have a value different of null and empty string ("")
+ *
+ *<code>
+ *use Phalcon\Mvc\Model\Validator\PresenceOf;
+ *
+ *class Subscriptors extends Phalcon\Mvc\Model
+ *{
+ *
+ *  public function validation()
+ *  {
+ *      this->validate(new PresenceOf(array(
+ *          "field" => 'name',
+ *          "message" => 'The name is required'
+ *      )));
+ *      if (this->validationHasFailed() == true) {
+ *          return false;
+ *      }
+ *  }
+ *
+ *}
+ *</code>
+ *
+ */
+class PresenceOf extends Phalcon\Mvc\Model\Validator implements Phalcon\Mvc\Model\ValidatorInterface
+{
+	/**
+	 * Executes the validator
+	 *
+	 * @param Phalcon\Mvc\ModelInterface record
+	 * @return boolean
+	 */
+	public function validate(<Phalcon\Mvc\ModelInterface> record) -> boolean
+	{
+ 		var fieldName, value, message;
+
+		let fieldName = this->getOption("field");
+		if typeof fieldName != "string" {
+			throw new Phalcon\Mvc\Model\Exception("Field name must be a string");
+		}
+ 
+		/**
+		 * A value is null when it is identical to null or a empty string
+		 */
+		let value = record->readAttribute(fieldName);
+		if empty(value) {
+ 
+			/**
+			 * Check if the developer has defined a custom message
+			 */
+			let message = this->getOption("message");
+			if !message{
+				let message = "'".fieldName."' is required";
+			}
+ 
+			this->appendMessage(message, fieldName, "PresenceOf");
+			return false;
+		}
+ 
+		return true;
+ 
+	}
+}

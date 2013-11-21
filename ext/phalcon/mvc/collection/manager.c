@@ -18,6 +18,8 @@
 #include "kernel/array.h"
 #include "kernel/string.h"
 #include "kernel/exception.h"
+#include "kernel/concat.h"
+#include "kernel/operators.h"
 
 
 /*
@@ -313,12 +315,113 @@ PHP_METHOD(Phalcon_Mvc_Collection_Manager, useImplicitObjectIds) {
  */
 PHP_METHOD(Phalcon_Mvc_Collection_Manager, isUsingImplicitObjectIds) {
 
-	zval *model;
+	zval *model, *implicit, *_0, *_1;
 
-	zephir_fetch_params(0, 1, 0, &model);
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 1, 0, &model);
 
 
 
+	if ((Z_TYPE_P(model) != IS_OBJECT)) {
+		ZEPHIR_THROW_EXCEPTION_STR(phalcon_mvc_collection_exception_ce, "A valid collection instance is required");
+		return;
+	}
+	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_implicitObjectsIds"), PH_NOISY_CC);
+	ZEPHIR_INIT_VAR(_1);
+	zephir_call_func_p1(_1, "get_class", model);
+	if (zephir_array_isset_fetch(&implicit, _0, _1, 1 TSRMLS_CC)) {
+		RETURN_CTOR(implicit);
+	}
+	RETURN_MM_BOOL(1);
+
+}
+
+/**
+ * Returns the connection related to a model
+ *
+ * @param Phalcon\Mvc\CollectionInterface $model
+ * @return Phalcon\Db\AdapterInterface(?) MongoDB
+ */
+PHP_METHOD(Phalcon_Mvc_Collection_Manager, getConnection) {
+
+	zval *model, *service = NULL, *connectionService, *connection, *dependencyInjector, *entityName;
+
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 1, 0, &model);
+
+
+
+	if ((Z_TYPE_P(model) != IS_OBJECT)) {
+		ZEPHIR_THROW_EXCEPTION_STR(phalcon_mvc_collection_exception_ce, "A valid collection instance is required");
+		return;
+	}
+	ZEPHIR_INIT_VAR(service);
+	ZVAL_STRING(service, "mongo", 1);
+	connectionService = zephir_fetch_nproperty_this(this_ptr, SL("_connectionServices"), PH_NOISY_CC);
+	if ((Z_TYPE_P(connectionService) == IS_ARRAY)) {
+		ZEPHIR_INIT_VAR(entityName);
+		zephir_call_func_p1(entityName, "get_class", model);
+		if (zephir_array_isset(connectionService, entityName)) {
+			ZEPHIR_OBS_NVAR(service);
+			zephir_array_fetch(&service, connectionService, entityName, PH_NOISY TSRMLS_CC);
+		}
+	}
+	dependencyInjector = zephir_fetch_nproperty_this(this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
+	if ((Z_TYPE_P(dependencyInjector) != IS_OBJECT)) {
+		ZEPHIR_THROW_EXCEPTION_STR(phalcon_mvc_collection_exception_ce, "A dependency injector container is required to obtain the services related to the ORM");
+		return;
+	}
+	ZEPHIR_INIT_VAR(connection);
+	zephir_call_method_p1(connection, dependencyInjector, "getshared", service);
+	if ((Z_TYPE_P(connection) != IS_OBJECT)) {
+		ZEPHIR_THROW_EXCEPTION_STR(phalcon_mvc_collection_exception_ce, "Invalid injected connection service");
+		return;
+	}
+	RETURN_CCTOR(connection);
+
+}
+
+/**
+ * Receives events generated in the models and dispatches them to a events-manager if available
+ * Notify the behaviors that are listening in the model
+ *
+ * @param string $eventName
+ * @param Phalcon\Mvc\CollectionInterface $model
+ */
+PHP_METHOD(Phalcon_Mvc_Collection_Manager, notifyEvent) {
+
+	zval *eventName, *model, *eventsManager, *status = NULL, *customEventsManager, *_0 = NULL, *_1;
+
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 2, 0, &eventName, &model);
+
+
+
+	eventsManager = zephir_fetch_nproperty_this(this_ptr, SL("_eventsManager"), PH_NOISY_CC);
+	if ((Z_TYPE_P(eventsManager) == IS_OBJECT)) {
+		ZEPHIR_INIT_VAR(_0);
+		ZEPHIR_CONCAT_SV(_0, "collection:", eventName);
+		ZEPHIR_INIT_VAR(status);
+		zephir_call_method_p2(status, eventsManager, "fire", _0, model);
+		if (!(zephir_is_true(status))) {
+			RETURN_CCTOR(status);
+		}
+	}
+	customEventsManager = zephir_fetch_nproperty_this(this_ptr, SL("_customEventsManager"), PH_NOISY_CC);
+	if ((Z_TYPE_P(customEventsManager) == IS_ARRAY)) {
+		ZEPHIR_INIT_VAR(_1);
+		zephir_call_func_p1(_1, "get_calls", model);
+		if (zephir_array_isset(customEventsManager, _1)) {
+			ZEPHIR_INIT_LNVAR(_0);
+			ZEPHIR_CONCAT_SV(_0, "collection:", eventName);
+			ZEPHIR_INIT_NVAR(status);
+			zephir_call_method_p2(status, customEventsManager, "fire", _0, model);
+			if (!(zephir_is_true(status))) {
+				RETURN_CCTOR(status);
+			}
+		}
+	}
+	RETURN_CCTOR(status);
 
 }
 

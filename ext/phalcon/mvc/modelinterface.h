@@ -177,5 +177,6 @@ ZEPHIR_INIT_FUNCS(phalcon_mvc_modelinterface_method_entry) {
 	PHP_ABSTRACT_ME(Phalcon_Mvc_ModelInterface, writeAttribute, arginfo_phalcon_mvc_modelinterface_writeattribute)
 	PHP_ABSTRACT_ME(Phalcon_Mvc_ModelInterface, getRelated, arginfo_phalcon_mvc_modelinterface_getrelated)
 	PHP_ABSTRACT_ME(Phalcon_Mvc_ModelInterface, setSnapshotData, arginfo_phalcon_mvc_modelinterface_setsnapshotdata)
+	PHP_ABSTRACT_ME(Phalcon_Mvc_ModelInterface, getDI, NULL)
 	PHP_FE_END
 };

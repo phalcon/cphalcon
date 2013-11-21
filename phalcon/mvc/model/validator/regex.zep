@@ -19,4 +19,92 @@
 
 namespace Phalcon\Mvc\Model\Validator;
 
-class Regex {}
+/**
+ * Phalcon\Mvc\Model\Validator\Regex
+ *
+ * Allows validate if the value of a field matches a regular expression
+ *
+ *<code>
+ *use Phalcon\Mvc\Model\Validator\Regex as RegexValidator;
+ *
+ *class Subscriptors extends Phalcon\Mvc\Model
+ *{
+ *
+ *  public function validation()
+ *  {
+ *      this->validate(new RegexValidator(array(
+ *          "field" => 'created_at',
+ *          'pattern' => '/^[0-9]{4}[-\/](0[1-9]|1[12])[-\/](0[1-9]|[12][0-9]|3[01])/'
+ *      )));
+ *      if (this->validationHasFailed() == true) {
+ *          return false;
+ *      }
+ *  }
+ *
+ *}
+ *</code>
+ *
+ */
+class Regex extends Phalcon\Mvc\Model\Validator implements Phalcon\Mvc\Model\ValidatorInterface
+{
+	/**
+	 * Executes the validator
+	 *
+	 * @param Phalcon\Mvc\ModelInterface record
+	 * @return boolean
+	 */
+	public function validate(<Phalcon\Mvc\ModelInterface> record) -> boolean
+	{
+ 		var fieldName, visSet, value, failed, matches, pattern, matchPattern, matchZero, message;
+
+		let fieldName = this->getOption("field");
+		if typeof fieldName != "string" {
+			throw new Phalcon\Mvc\Model\Exception("Field name must be a string");
+		}
+ 
+		/**
+		 * The 'pattern' option must be a valid regular expression
+		 */
+		let visSet = this->isSetOption("pattern");
+		if !visSet {
+			throw new Phalcon\Mvc\Model\Exception("Validator requires a perl-compatible regex pattern");
+		}
+ 
+		let value = record->readAttribute(fieldName);
+ 		let failed = false;
+ 		let matches = null;
+		
+		/**
+		 * The regular expression is set in the option 'pattern'
+		 */
+		let pattern = this->getOption("field");
+ 
+		/**
+		 * Check if the value match using preg_match in the PHP userland
+		 */
+		let matchPattern = preg_match(pattern, value, matches);
+		if matchPattern {
+			let matchZero = matches[0];
+			let failed = (matchZero != value);
+		} else {
+			let failed = true;
+		}
+ 
+		if failed===true {
+ 
+			/**
+			 * Check if the developer has defined a custom message
+			 */
+			let message = this->getOption("message");
+			if !message {
+				let message = "Value of field '".fieldName."' doesn't match regular expression";
+			}
+ 
+			this->appendMessage(message, fieldName, "Regex");
+			return false;
+		}
+ 
+		return true;
+ 
+	}
+}

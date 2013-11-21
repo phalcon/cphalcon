@@ -32,11 +32,11 @@ namespace Phalcon\Mvc\Model\Validator;
  *
  *		public function validation()
  *		{
- *			$this->validate(new InclusionInValidator(array(
- *				'field' => 'status',
+ *			this->validate(new InclusionInValidator(array(
+ *				"field" => 'status',
  *				'domain' => array('A', 'I')
  *			)));
- *			if ($this->validationHasFailed() == true) {
+ *			if (this->validationHasFailed() == true) {
  *				return false;
  *			}
  *		}
@@ -44,7 +44,56 @@ namespace Phalcon\Mvc\Model\Validator;
  *	}
  *</code>
  */
-class Inclusionin extends Phalcon\Mvc\Model\Validator
-	//implements Phalcon_Mvc_Model_ValidatorInterface
+class Inclusionin extends Phalcon\Mvc\Model\Validator implements Phalcon\Mvc\Model\ValidatorInterface
 {
+	/**
+	 * Executes validator
+	 *
+	 * @param Phalcon\Mvc\ModelInterface record
+	 * @return boolean
+	 */
+	public function validate(<Phalcon\Mvc\ModelInterface> record) -> boolean
+	{
+ 		var fieldName, visSet, domain, value, message, joinedDomain;
+
+		let fieldName = this->getOption("field");
+		if typeof fieldName != "string" {
+			throw new Phalcon\Mvc\Model\Exception("Field name must be a string");
+		}
+ 
+		/**
+		 * The 'domain' option must be a valid array of not allowed values
+		 */
+		let visSet = this->isSetOption("domain");
+		if visSet===false {
+			throw new Phalcon\Mvc\Model\Exception("The option 'domain' is required for this validator");
+		}
+ 
+		let domain = this->getOption("domain");
+		if typeof domain != "array" {
+			throw new Phalcon\Mvc\Model\Exception("Option 'domain' must be an array");
+		}
+ 
+		let value = record->readAttribute(fieldName);
+ 
+		/**
+		 * Check if the value is contained in the array
+		 */
+		if !in_array(value, domain) {
+ 
+			/**
+			 * Check if the developer has defined a custom message
+			 */
+			let message = this->getOption("message");
+			if(!message){
+				let joinedDomain = join(", ", domain);
+				let message = "Value of field '".fieldName."' must be part of list: ".joinedDomain;
+			}
+ 
+			this->appendMessage(message, fieldName, "Inclusion");
+			return false;
+		}
+ 
+		return true;
+	}
 }

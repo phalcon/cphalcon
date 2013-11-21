@@ -19,4 +19,74 @@
 
 namespace Phalcon\Mvc\Model\Validator;
 
-class Url {}
+/**
+ * Phalcon\Mvc\Model\Validator\Url
+ *
+ * Allows to validate if a field has a url format
+ *
+ *<code>
+ *use Phalcon\Mvc\Model\Validator\Url as UrlValidator;
+ *
+ *class Posts extends Phalcon\Mvc\Model
+ *{
+ *
+ *  public function validation()
+ *  {
+ *      this->validate(new UrlValidator(array(
+ *          'field' => 'source_url'
+ *      )));
+ *      if (this->validationHasFailed() == true) {
+ *          return false;
+ *      }
+ *  }
+ *
+ *}
+ *</code>
+ *
+ */
+class Url extends Phalcon\Mvc\Model\Validator implements Phalcon\Mvc\Model\ValidatorInterface
+{
+	/**
+	 * Executes the validator
+	 *
+	 * @param Phalcon\Mvc\ModelInterface record
+	 * @return boolean
+	 */
+	public function validate(<Phalcon\Mvc\ModelInterface> record) -> boolean
+	{
+		var fieldName, field, value, isValid, message;
+
+		let fieldName = this->getOption("field");
+		if typeof fieldName != "string" {
+			throw new Phalcon\Mvc\Model\Exception("Field name must be a string");
+		}
+ 
+		let field = this->getOption("field");
+		if typeof field == "string" {
+			throw new Phalcon\Mvc\Model\Exception("Field name must be a string");
+		}
+ 
+		let value = record->readAttribute(field);
+ 
+		/**
+		 * Filters the format using FILTER_VALIDATE_URL
+		 */
+		let isValid = filter_var(value, FILTER_VALIDATE_URL);
+		if !isValid {
+ 
+			/**
+			 * Check if the developer has defined a custom message
+			 */
+			let message = this->getOption("message");
+			if !message {
+				let message = "'".field."' does not have a valid url format";
+			}
+ 
+			this->appendMessage(message, field, "Url");
+			return false;
+		}
+ 
+		return true;
+ 
+	}
+}

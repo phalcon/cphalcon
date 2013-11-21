@@ -224,7 +224,100 @@ class Manager implements Phalcon\Di\InjectionAwareInterface, Phalcon\Events\Even
 	*/
 	public function isUsingImplicitObjectIds(<isUsingImplicitObjectIds> model) -> boolean
 	{
+		var implicit;
 
+		if typeof model != "object" {
+			throw new Phalcon\Mvc\Collection\Exception("A valid collection instance is required");
+		}
+
+		/** 
+        * All collections use by default are using implicit object ids
+        */
+        if fetch implicit, this->_implicitObjectsIds[get_class(model)] {
+        	return implicit;
+        }
+
+        return true;
+	}
+
+	/**
+	* Returns the connection related to a model
+	*
+	* @param Phalcon\Mvc\CollectionInterface $model
+	* @return Phalcon\Db\AdapterInterface(?) MongoDB
+	*/
+	public function getConnection(<Phalcon\Mvc\CollectionInterface> model) -> <Phalcon\Db\AdapterInterface>
+	{
+		var service, connectionService, connection, dependencyInjector, entityName;
+
+		if typeof model != "object" {
+			throw new Phalcon\Mvc\Collection\Exception("A valid collection instance is required");
+		}
+
+		let service = "mongo";
+		let connectionService = this->_connectionServices;
+		if typeof connectionService == "array" {
+			let entityName = get_class(model);
+
+			/** 
+	        * Check if the model has a custom connection service
+	        */
+	        if isset connectionService[entityName] {
+	        	let service = connectionService[entityName];
+	        }
+		}
+
+		let dependencyInjector = this->_dependencyInjector;
+		if typeof dependencyInjector != "object" {
+			throw new Phalcon\Mvc\Collection\Exception("A dependency injector container is required to obtain the services related to the ORM");
+		}
+
+		/** 
+		* Request the connection service from the DI
+		*/
+		let connection = dependencyInjector->getShared(service);
+		if typeof connection != "object" {
+			throw new Phalcon\Mvc\Collection\Exception("Invalid injected connection service");
+		}
+
+		return connection;
+	}
+
+	/**
+	* Receives events generated in the models and dispatches them to a events-manager if available
+	* Notify the behaviors that are listening in the model
+	*
+	* @param string $eventName
+	* @param Phalcon\Mvc\CollectionInterface $model
+	*/
+	public function notifyEvent(eventName, model)
+	{
+		var eventsManager, status, customEventsManager;
+
+		/** 
+        * Dispatch events to the global events manager
+        */
+        let eventsManager = this->_eventsManager;
+        if typeof eventsManager == "object" {
+        	let status = eventsManager->fire( "collection:". eventName, model);
+        	if !status {
+        		return status;
+        	} 
+        }
+
+        /** 
+        * A model can has a specific events manager for it
+        */
+        let customEventsManager = this->_customEventsManager;
+        if typeof customEventsManager == "array" {
+        	if isset customEventsManager[get_calls(model)] {
+        		let status = customEventsManager->fire("collection:". eventName, model);
+        		if !status {
+        			return status;
+        		}
+        	}
+        }
+        return status;
 	}
 
 }

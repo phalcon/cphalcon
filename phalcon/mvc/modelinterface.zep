@@ -354,4 +354,5 @@ interface ModelInterface
 	 */
 	public function setSnapshotData(data, columnMap=null);
 
+	public function getDI();
 }

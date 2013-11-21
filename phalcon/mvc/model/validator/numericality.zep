@@ -32,10 +32,10 @@ namespace Phalcon\Mvc\Model\Validator;
  *
  *  public function validation()
  *  {
- *      $this->validate(new NumericalityValidator(array(
- *          'field' => 'price'
+ *      this->validate(new NumericalityValidator(array(
+ *          "field" => 'price'
  *      )));
- *      if ($this->validationHasFailed() == true) {
+ *      if (this->validationHasFailed() == true) {
  *          return false;
  *      }
  *  }
@@ -44,7 +44,43 @@ namespace Phalcon\Mvc\Model\Validator;
  *</code>
  *
  */
-class Numericality extends Phalcon\Mvc\Model\Validator
-	//implements Phalcon\Mvc\Model\ValidatorInterface
+class Numericality extends Phalcon\Mvc\Model\Validator implements Phalcon\Mvc\Model\ValidatorInterface
 {
+	/**
+	 * Executes the validator
+	 *
+	 * @param Phalcon\Mvc\ModelInterface record
+	 * @return boolean
+	 */
+	public function validate(<Phalcon\Mvc\ModelInterface> record) -> boolean
+	{
+ 		var field, value, message;
+
+		let field = this->getOption("field");
+		if typeof field != "string" {
+			throw new Phalcon\Mvc\Model\Exception("Field name must be a string");
+		}
+ 
+		let value = record->readAttribute(field);
+ 
+		/**
+		 * Check if the value is numeric using is_numeric in the PHP userland
+		 */
+		if !is_numeric(value) {
+ 
+			/**
+			 * Check if the developer has defined a custom message
+			 */
+			let message = this->getOption("message");
+			if !message {
+				let message = "Value of field '".field."' must be numeric";
+			}
+ 
+			this->appendMessage(message, field, "Numericality");
+			return false;
+		}
+ 
+		return true;
+ 
+	}
 }
