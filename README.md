@@ -41,10 +41,16 @@ sudo apt-get install build-essential php5-dev
 sudo apt-get build-dep php5-dev
 ```
 
-Suse:
+SuSE:
 
 ```bash
 yast2 -i php5-pear php5-devel libmysqlclient gcc make autoconf2.13
+```
+
+CentOS:
+
+```bash
+yum install pcre-devel gcc make php-devel
 ```
 
 Compilation
