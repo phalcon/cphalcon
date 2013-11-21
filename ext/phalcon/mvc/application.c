@@ -255,7 +255,7 @@ PHP_METHOD(Phalcon_Mvc_Application, getDefaultModule) {
 PHP_METHOD(Phalcon_Mvc_Application, handle) {
 
 	zend_bool returnedResponse;
-	zval *uri = NULL, *dependencyInjector, *eventsManager = NULL, *router = NULL, *dispatcher = NULL, *response = NULL, *view = NULL, *module, *modules, *moduleObject = NULL, *moduleName = NULL, *className = NULL, *path, *implicitView, *controller, *possibleResponse, *renderStatus = NULL, *_0, *_1 = NULL, *_2 = NULL, *_3 = NULL, *_4 = NULL, *_5 = NULL, *_6, *_7;
+	zval *uri = NULL, *dependencyInjector, *eventsManager = NULL, *router = NULL, *dispatcher = NULL, *response = NULL, *view = NULL, *module, *moduleObject = NULL, *moduleName = NULL, *className = NULL, *path, *implicitView, *controller, *possibleResponse, *renderStatus = NULL, *_0, *_1 = NULL, *_2 = NULL, *_3 = NULL, *_4 = NULL, *_5 = NULL, *_6, *_7;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 1, &uri);
@@ -305,8 +305,8 @@ PHP_METHOD(Phalcon_Mvc_Application, handle) {
 				RETURN_MM_BOOL(0);
 			}
 		}
-		modules = zephir_fetch_nproperty_this(this_ptr, SL("_modules"), PH_NOISY_CC);
-		if (!(zephir_array_isset_fetch(&module, modules, moduleName, 1 TSRMLS_CC))) {
+		_0 = zephir_fetch_nproperty_this(this_ptr, SL("_modules"), PH_NOISY_CC);
+		if (!(zephir_array_isset_fetch(&module, _0, moduleName, 1 TSRMLS_CC))) {
 			ZEPHIR_INIT_NVAR(_2);
 			object_init_ex(_2, phalcon_mvc_application_exception_ce);
 			ZEPHIR_INIT_VAR(_3);
@@ -335,6 +335,7 @@ PHP_METHOD(Phalcon_Mvc_Application, handle) {
 					ZEPHIR_INIT_VAR(_4);
 					zephir_call_func_p1(_4, "file_exists", path);
 					if (zephir_is_true(_4)) {
+						//missing require
 					} else {
 						ZEPHIR_INIT_VAR(_5);
 						object_init_ex(_5, phalcon_mvc_application_exception_ce);

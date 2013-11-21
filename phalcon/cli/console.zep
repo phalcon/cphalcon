@@ -194,7 +194,7 @@ class Console implements Phalcon\Di\InjectionAwareInterface, Phalcon\Events\Even
 				if !file_exists(path) {
 					throw new Phalcon\Cli\Console\Exception("Module definition path '" . path . "' doesn't exist");
 				}
-				//require path;
+				require path;
 			}
 
 			if !fetch className, module["className"] {

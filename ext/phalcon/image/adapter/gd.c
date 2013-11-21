@@ -287,7 +287,7 @@ PHP_METHOD(Phalcon_Image_Adapter_Gd, _resize) {
 
 	ZEPHIR_INIT_VAR(image);
 	ZEPHIR_SINIT_VAR(_0);
-	ZVAL_STRING(&_0, "5.3.17", 0);
+	ZVAL_STRING(&_0, "5.5.1", 0);
 	ZEPHIR_SINIT_VAR(_1);
 	ZVAL_STRING(&_1, "5.5.0", 0);
 	ZEPHIR_INIT_VAR(_2);
@@ -370,12 +370,12 @@ PHP_METHOD(Phalcon_Image_Adapter_Gd, _resize) {
 		}
 	} else {
 		_3 = zephir_fetch_nproperty_this(this_ptr, SL("_image"), PH_NOISY_CC);
-		ZEPHIR_INIT_NVAR(_10);
-		ZVAL_LONG(_10, width);
-		ZEPHIR_INIT_NVAR(_12);
-		ZVAL_LONG(_12, height);
+		ZEPHIR_SINIT_NVAR(_0);
+		ZVAL_LONG(&_0, width);
+		ZEPHIR_SINIT_NVAR(_1);
+		ZVAL_LONG(&_1, height);
 		ZEPHIR_INIT_BNVAR(image);
-		zephir_call_func_p3(image, "imagescale", _3, _10, _12);
+		zephir_call_func_p3(image, "imagescale", _3, &_0, &_1);
 		_4 = zephir_fetch_nproperty_this(this_ptr, SL("_image"), PH_NOISY_CC);
 		zephir_call_func_p1_noret("imagedestroy", _4);
 		zephir_update_property_this(this_ptr, SL("_image"), image TSRMLS_CC);
@@ -406,7 +406,7 @@ PHP_METHOD(Phalcon_Image_Adapter_Gd, _crop) {
 
 	ZEPHIR_INIT_VAR(image);
 	ZEPHIR_SINIT_VAR(_0);
-	ZVAL_STRING(&_0, "5.3.17", 0);
+	ZVAL_STRING(&_0, "5.5.1", 0);
 	ZEPHIR_SINIT_VAR(_1);
 	ZVAL_STRING(&_1, "5.5.0", 0);
 	ZEPHIR_INIT_VAR(_2);
@@ -544,7 +544,7 @@ PHP_METHOD(Phalcon_Image_Adapter_Gd, _flip) {
 
 
 	ZEPHIR_SINIT_VAR(_0);
-	ZVAL_STRING(&_0, "5.3.17", 0);
+	ZVAL_STRING(&_0, "5.5.1", 0);
 	ZEPHIR_SINIT_VAR(_1);
 	ZVAL_STRING(&_1, "5.5.0", 0);
 	ZEPHIR_INIT_VAR(_2);
@@ -613,10 +613,14 @@ PHP_METHOD(Phalcon_Image_Adapter_Gd, _flip) {
 	} else {
 		if ((direction == 11)) {
 			_3 = zephir_fetch_nproperty_this(this_ptr, SL("_image"), PH_NOISY_CC);
-			zephir_call_func_p2_noret("imageflip", _3, ZEPHIR_GLOBAL(global_null));
+			ZEPHIR_SINIT_NVAR(_0);
+			ZVAL_LONG(&_0, 1);
+			zephir_call_func_p2_noret("imageflip", _3, &_0);
 		} else {
 			_4 = zephir_fetch_nproperty_this(this_ptr, SL("_image"), PH_NOISY_CC);
-			zephir_call_func_p2_noret("imageflip", _4, ZEPHIR_GLOBAL(global_null));
+			ZEPHIR_SINIT_NVAR(_0);
+			ZVAL_LONG(&_0, 2);
+			zephir_call_func_p2_noret("imageflip", _4, &_0);
 		}
 	}
 	ZEPHIR_MM_RESTORE();

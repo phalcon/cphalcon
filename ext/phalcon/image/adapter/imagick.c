@@ -73,7 +73,6 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, check) {
 		zephir_throw_exception(_3 TSRMLS_CC);
 		ZEPHIR_MM_RESTORE();
 		return;
-		RETURN_MM_NULL();
 	}
 	ZEPHIR_SINIT_NVAR(_1);
 	ZVAL_STRING(&_1, "Imagick::IMAGICK_EXTNUM", 0);
@@ -81,7 +80,7 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, check) {
 	zephir_call_func_p1(_3, "defined", &_1);
 	if (zephir_is_true(_3)) {
 		ZEPHIR_INIT_ZVAL_NREF(_5);
-		ZVAL_LONG(_5, 30102);
+		ZVAL_LONG(_5, 30001);
 		zephir_update_property_this(this_ptr, SL("_version"), _5 TSRMLS_CC);
 	}
 	zephir_update_static_property_ce(phalcon_image_adapter_imagick_ce, SL("_checked"), ZEPHIR_GLOBAL(global_true) TSRMLS_CC);
@@ -150,7 +149,6 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, __construct) {
 			zephir_throw_exception(_10 TSRMLS_CC);
 			ZEPHIR_MM_RESTORE();
 			return;
-			RETURN_MM_NULL();
 		}
 		_11 = zephir_fetch_nproperty_this(this_ptr, SL("_image"), PH_NOISY_CC);
 		ZEPHIR_INIT_NVAR(_10);

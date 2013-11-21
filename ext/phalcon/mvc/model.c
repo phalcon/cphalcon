@@ -215,12 +215,12 @@ PHP_METHOD(Phalcon_Mvc_Model, setEventsManager) {
  */
 PHP_METHOD(Phalcon_Mvc_Model, getEventsManager) {
 
-	zval *modelsManager;
+	zval *_0;
 
 	ZEPHIR_MM_GROW();
 
-	modelsManager = zephir_fetch_nproperty_this(this_ptr, SL("_modelsManager"), PH_NOISY_CC);
-	zephir_call_method_p1(return_value, modelsManager, "getcustomeventsmanager", this_ptr);
+	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_modelsManager"), PH_NOISY_CC);
+	zephir_call_method_p1(return_value, _0, "getcustomeventsmanager", this_ptr);
 	RETURN_MM();
 
 }
@@ -365,13 +365,12 @@ PHP_METHOD(Phalcon_Mvc_Model, setSource) {
  */
 PHP_METHOD(Phalcon_Mvc_Model, getSource) {
 
-	zval *modelsManager = NULL, *_0;
+	zval *_0;
 
 	ZEPHIR_MM_GROW();
 
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_modelsManager"), PH_NOISY_CC);
-	ZEPHIR_CPY_WRT(modelsManager, _0);
-	zephir_call_method_p1(return_value, modelsManager, "getmodelsource", this_ptr);
+	zephir_call_method_p1(return_value, _0, "getmodelsource", this_ptr);
 	RETURN_MM();
 
 }
@@ -384,7 +383,7 @@ PHP_METHOD(Phalcon_Mvc_Model, getSource) {
  */
 PHP_METHOD(Phalcon_Mvc_Model, setSchema) {
 
-	zval *schema_param = NULL, *modelsManager = NULL, *_0;
+	zval *schema_param = NULL, *_0;
 	zval *schema = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -400,9 +399,8 @@ PHP_METHOD(Phalcon_Mvc_Model, setSchema) {
 
 
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_modelsManager"), PH_NOISY_CC);
-	ZEPHIR_CPY_WRT(modelsManager, _0);
-	zephir_call_method_p2_noret(modelsManager, "setmodelschema", this_ptr, schema);
-	RETURN_THIS();
+	zephir_call_method_p2(return_value, _0, "setmodelschema", this_ptr, schema);
+	RETURN_MM();
 
 }
 
@@ -413,13 +411,12 @@ PHP_METHOD(Phalcon_Mvc_Model, setSchema) {
  */
 PHP_METHOD(Phalcon_Mvc_Model, getSchema) {
 
-	zval *modelsManager = NULL, *_0;
+	zval *_0;
 
 	ZEPHIR_MM_GROW();
 
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_modelsManager"), PH_NOISY_CC);
-	ZEPHIR_CPY_WRT(modelsManager, _0);
-	zephir_call_method_p1(return_value, modelsManager, "getmodelschema", this_ptr);
+	zephir_call_method_p1(return_value, _0, "getmodelschema", this_ptr);
 	RETURN_MM();
 
 }
@@ -432,7 +429,7 @@ PHP_METHOD(Phalcon_Mvc_Model, getSchema) {
  */
 PHP_METHOD(Phalcon_Mvc_Model, setConnectionService) {
 
-	zval *connectionService_param = NULL, *modelsManager = NULL, *_0;
+	zval *connectionService_param = NULL, *_0;
 	zval *connectionService = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -448,8 +445,7 @@ PHP_METHOD(Phalcon_Mvc_Model, setConnectionService) {
 
 
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_modelsManager"), PH_NOISY_CC);
-	ZEPHIR_CPY_WRT(modelsManager, _0);
-	zephir_call_method_p2_noret(modelsManager, "setconnectionservice", this_ptr, connectionService);
+	zephir_call_method_p2_noret(_0, "setconnectionservice", this_ptr, connectionService);
 	RETURN_THIS();
 
 }
@@ -462,7 +458,7 @@ PHP_METHOD(Phalcon_Mvc_Model, setConnectionService) {
  */
 PHP_METHOD(Phalcon_Mvc_Model, setReadConnectionService) {
 
-	zval *connectionService_param = NULL, *modelsManager = NULL, *_0;
+	zval *connectionService_param = NULL, *_0;
 	zval *connectionService = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -478,8 +474,7 @@ PHP_METHOD(Phalcon_Mvc_Model, setReadConnectionService) {
 
 
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_modelsManager"), PH_NOISY_CC);
-	ZEPHIR_CPY_WRT(modelsManager, _0);
-	zephir_call_method_p2_noret(modelsManager, "setreadconnectionservice", this_ptr, connectionService);
+	zephir_call_method_p2_noret(_0, "setreadconnectionservice", this_ptr, connectionService);
 	RETURN_THIS();
 
 }
@@ -492,7 +487,7 @@ PHP_METHOD(Phalcon_Mvc_Model, setReadConnectionService) {
  */
 PHP_METHOD(Phalcon_Mvc_Model, setWriteConnectionService) {
 
-	zval *connectionService_param = NULL, *modelsManager = NULL, *_0;
+	zval *connectionService_param = NULL, *_0;
 	zval *connectionService = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -508,9 +503,8 @@ PHP_METHOD(Phalcon_Mvc_Model, setWriteConnectionService) {
 
 
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_modelsManager"), PH_NOISY_CC);
-	ZEPHIR_CPY_WRT(modelsManager, _0);
-	zephir_call_method_p2_noret(modelsManager, "setwriteconnectionservice", this_ptr, connectionService);
-	RETURN_THIS();
+	zephir_call_method_p2(return_value, _0, "setwriteconnectionservice", this_ptr, connectionService);
+	RETURN_MM();
 
 }
 
@@ -521,13 +515,12 @@ PHP_METHOD(Phalcon_Mvc_Model, setWriteConnectionService) {
  */
 PHP_METHOD(Phalcon_Mvc_Model, getReadConnectionService) {
 
-	zval *modelsManager = NULL, *_0;
+	zval *_0;
 
 	ZEPHIR_MM_GROW();
 
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_modelsManager"), PH_NOISY_CC);
-	ZEPHIR_CPY_WRT(modelsManager, _0);
-	zephir_call_method_p1(return_value, modelsManager, "getreadconnectionservice", this_ptr);
+	zephir_call_method_p1(return_value, _0, "getreadconnectionservice", this_ptr);
 	RETURN_MM();
 
 }
@@ -539,13 +532,12 @@ PHP_METHOD(Phalcon_Mvc_Model, getReadConnectionService) {
  */
 PHP_METHOD(Phalcon_Mvc_Model, getWriteConnectionService) {
 
-	zval *modelsManager = NULL, *_0;
+	zval *_0;
 
 	ZEPHIR_MM_GROW();
 
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_modelsManager"), PH_NOISY_CC);
-	ZEPHIR_CPY_WRT(modelsManager, _0);
-	zephir_call_method_p1(return_value, modelsManager, "getwriteconnectionservice", this_ptr);
+	zephir_call_method_p1(return_value, _0, "getwriteconnectionservice", this_ptr);
 	RETURN_MM();
 
 }
@@ -592,13 +584,12 @@ PHP_METHOD(Phalcon_Mvc_Model, getDirtyState) {
  */
 PHP_METHOD(Phalcon_Mvc_Model, getReadConnection) {
 
-	zval *modelsManager = NULL, *_0;
+	zval *_0;
 
 	ZEPHIR_MM_GROW();
 
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_modelsManager"), PH_NOISY_CC);
-	ZEPHIR_CPY_WRT(modelsManager, _0);
-	zephir_call_method_p1(return_value, modelsManager, "getreadconnection", this_ptr);
+	zephir_call_method_p1(return_value, _0, "getreadconnection", this_ptr);
 	RETURN_MM();
 
 }
@@ -610,7 +601,7 @@ PHP_METHOD(Phalcon_Mvc_Model, getReadConnection) {
  */
 PHP_METHOD(Phalcon_Mvc_Model, getWriteConnection) {
 
-	zval *modelsManager = NULL, *transaction = NULL, *_0;
+	zval *transaction = NULL, *_0;
 
 	ZEPHIR_MM_GROW();
 
@@ -621,8 +612,7 @@ PHP_METHOD(Phalcon_Mvc_Model, getWriteConnection) {
 		RETURN_MM();
 	}
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_modelsManager"), PH_NOISY_CC);
-	ZEPHIR_CPY_WRT(modelsManager, _0);
-	zephir_call_method_p1(return_value, modelsManager, "getwriteconnection", this_ptr);
+	zephir_call_method_p1(return_value, _0, "getwriteconnection", this_ptr);
 	RETURN_MM();
 
 }

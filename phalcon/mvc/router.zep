@@ -908,7 +908,7 @@ class Router
 	/**
 	 * Returns a route object by its id
 	 *
-	 * @param string id
+	 * @param int id
 	 * @return Phalcon\Mvc\Router\Route
 	 */
 	public function getRouteById(var id) -> <Phalcon\Mvc\Router\Route> | boolean

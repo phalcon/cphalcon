@@ -31,7 +31,6 @@ class Imagick extends Phalcon\Image\Adapter implements Phalcon\Image\AdapterInte
 
 		if !class_exists("imagick") {
 			throw new \Phalcon\Image\Exception("Imagick is not installed, or the extension is not loaded");
-			return;
 		}
 
 		if defined("Imagick::IMAGICK_EXTNUM") {
@@ -60,7 +59,6 @@ class Imagick extends Phalcon\Image\Adapter implements Phalcon\Image\AdapterInte
 
 			if !this->_image->readImage(this->_realpath) {
 				 throw new \Phalcon\Image\Exception("Imagick::readImage ".this->_file." failed");
-				 return;
 			}
 
 			if !this->_image->getImageAlphaChannel() {

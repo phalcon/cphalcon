@@ -184,9 +184,7 @@ abstract class Model implements Phalcon\Mvc\ModelInterface, Phalcon\Mvc\Model\Re
 	 */
 	protected function getEventsManager() -> <Phalcon\Events\ManagerInterface>
 	{
-		var modelsManager;
-		let modelsManager = this->_modelsManager;
-		return modelsManager->getCustomEventsManager(this);
+		return this->_modelsManager->getCustomEventsManager(this);
 	}
 
 	/**
@@ -304,9 +302,7 @@ abstract class Model implements Phalcon\Mvc\ModelInterface, Phalcon\Mvc\Model\Re
 	 */
 	public function getSource() -> string
 	{
-		var modelsManager;
-		let modelsManager = <Phalcon\Mvc\Model\ManagerInterface> this->_modelsManager;
-		return modelsManager->getModelSource(this);
+		return (<Phalcon\Mvc\Model\ManagerInterface> this->_modelsManager)->getModelSource(this);
 	}
 
 	/**
@@ -317,10 +313,7 @@ abstract class Model implements Phalcon\Mvc\ModelInterface, Phalcon\Mvc\Model\Re
 	 */
 	protected function setSchema(string! schema) -> <Phalcon\Mvc\Model>
 	{
-		var modelsManager;
-		let modelsManager = <Phalcon\Mvc\Model\ManagerInterface> this->_modelsManager;
-		modelsManager->setModelSchema(this, schema);
-		return this;
+		return (<Phalcon\Mvc\Model\ManagerInterface> this->_modelsManager)->setModelSchema(this, schema);
 	}
 
 	/**
@@ -330,9 +323,7 @@ abstract class Model implements Phalcon\Mvc\ModelInterface, Phalcon\Mvc\Model\Re
 	 */
 	public function getSchema() -> string
 	{
-		var modelsManager;
-		let modelsManager = <Phalcon\Mvc\Model\ManagerInterface> this->_modelsManager;
-		return modelsManager->getModelSchema(this);
+		return (<Phalcon\Mvc\Model\ManagerInterface> this->_modelsManager)->getModelSchema(this);
 	}
 
 	/**
@@ -343,9 +334,7 @@ abstract class Model implements Phalcon\Mvc\ModelInterface, Phalcon\Mvc\Model\Re
 	 */
 	public function setConnectionService(string! connectionService) -> <Phalcon\Mvc\Model>
 	{
-		var modelsManager;
-		let modelsManager = <Phalcon\Mvc\Model\ManagerInterface> this->_modelsManager;
-		modelsManager->setConnectionService(this, connectionService);
+		(<Phalcon\Mvc\Model\ManagerInterface> this->_modelsManager)->setConnectionService(this, connectionService);
 		return this;
 	}
 
@@ -357,9 +346,7 @@ abstract class Model implements Phalcon\Mvc\ModelInterface, Phalcon\Mvc\Model\Re
 	 */
 	public function setReadConnectionService(string! connectionService) -> <Phalcon\Mvc\Model>
 	{
-		var modelsManager;
-		let modelsManager = <Phalcon\Mvc\Model\ManagerInterface> this->_modelsManager;
-		modelsManager->setReadConnectionService(this, connectionService);
+		(<Phalcon\Mvc\Model\ManagerInterface> this->_modelsManager)->setReadConnectionService(this, connectionService);
 		return this;
 	}
 
@@ -371,10 +358,7 @@ abstract class Model implements Phalcon\Mvc\ModelInterface, Phalcon\Mvc\Model\Re
 	 */
 	public function setWriteConnectionService(string! connectionService) -> <Phalcon\Mvc\Model>
 	{
-		var modelsManager;
-		let modelsManager = <Phalcon\Mvc\Model\ManagerInterface> this->_modelsManager;
-		modelsManager->setWriteConnectionService(this, connectionService);
-		return this;
+		return (<Phalcon\Mvc\Model\ManagerInterface> this->_modelsManager)->setWriteConnectionService(this, connectionService);
 	}
 
 	/**
@@ -384,9 +368,7 @@ abstract class Model implements Phalcon\Mvc\ModelInterface, Phalcon\Mvc\Model\Re
 	 */
 	public function getReadConnectionService() -> string
 	{
-		var modelsManager;
-		let modelsManager = <Phalcon\Mvc\Model\ManagerInterface> this->_modelsManager;
-		return modelsManager->getReadConnectionService(this);
+		return (<Phalcon\Mvc\Model\ManagerInterface> this->_modelsManager)->getReadConnectionService(this);
 	}
 
 	/**
@@ -396,9 +378,7 @@ abstract class Model implements Phalcon\Mvc\ModelInterface, Phalcon\Mvc\Model\Re
 	 */
 	public function getWriteConnectionService() -> string
 	{
-		var modelsManager;
-		let modelsManager = <Phalcon\Mvc\Model\ManagerInterface> this->_modelsManager;
-		return modelsManager->getWriteConnectionService(this);
+		return (<Phalcon\Mvc\Model\ManagerInterface> this->_modelsManager)->getWriteConnectionService(this);
 	}
 
 	/**
@@ -430,9 +410,7 @@ abstract class Model implements Phalcon\Mvc\ModelInterface, Phalcon\Mvc\Model\Re
 	 */
 	public function getReadConnection() -> <Phalcon\Db\AdapterInterface>
 	{
-		var modelsManager;
-		let modelsManager = <Phalcon\Mvc\Model\ManagerInterface> this->_modelsManager;
-		return modelsManager->getReadConnection(this);
+		return (<Phalcon\Mvc\Model\ManagerInterface> this->_modelsManager)->getReadConnection(this);
 	}
 
 	/**
@@ -442,15 +420,14 @@ abstract class Model implements Phalcon\Mvc\ModelInterface, Phalcon\Mvc\Model\Re
 	 */
 	public function getWriteConnection() -> <Phalcon\Db\AdapterInterface>
 	{
-		var modelsManager, transaction;
+		var transaction;
 
 		let transaction = <Phalcon\Mvc\Model\TransactionInterface> this->_transaction;
 		if typeof transaction == "object" {
 			return transaction->getConnection();
 		}
 
-		let modelsManager = <Phalcon\Mvc\Model\ManagerInterface> this->_modelsManager;
-		return modelsManager->getWriteConnection(this);
+		return (<Phalcon\Mvc\Model\ManagerInterface> this->_modelsManager)->getWriteConnection(this);
 	}
 
 	/**

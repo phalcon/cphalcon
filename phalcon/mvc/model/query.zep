@@ -42,7 +42,7 @@ namespace Phalcon\Mvc\Model;
  *
  *</code>
  */
-class Query //implements Phalcon\Mvc\Model\QueryInterface, Phalcon\Di\InjectionAwareInterface
+class Query implements Phalcon\Mvc\Model\QueryInterface, Phalcon\Di\InjectionAwareInterface
 {
 
 	protected _dependencyInjector;

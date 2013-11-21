@@ -182,7 +182,7 @@ class Application extends Phalcon\Di\Injectable
 	{
 
 		var dependencyInjector, eventsManager, router, dispatcher, response, view,
-			module, modules, moduleObject, moduleName, className, path,
+			module, moduleObject, moduleName, className, path,
 			implicitView, returnedResponse, controller, possibleResponse,
 			renderStatus;
 
@@ -233,8 +233,7 @@ class Application extends Phalcon\Di\Injectable
 			/**
 			 * Check if the module passed by the router is registered in the modules container
 			 */
-			let modules = this->_modules;
-			if !fetch module, modules[moduleName] {
+			if !fetch module, this->_modules[moduleName] {
 				throw new Phalcon\Mvc\Application\Exception("Module '" . moduleName . "' isn't registered in the application container");
 			}
 
@@ -265,7 +264,7 @@ class Application extends Phalcon\Di\Injectable
 				if fetch path, module["path"] {
 					if !class_exists(className, false) {
 						if file_exists(path) {
-							//require path;
+							require path;
 						} else {
 							throw new Phalcon\Mvc\Application\Exception("Module definition path '" . path . "' doesn't exist");
 						}

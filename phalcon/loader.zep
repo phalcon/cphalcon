@@ -330,7 +330,7 @@ class Loader implements Phalcon\Events\EventsAwareInterface
 					let this->_foundPath = filePath;
 					eventsManager->fire("loader:pathFound", this, filePath);
 				}
-				//require filePath;
+				require filePath;
 				return true;
 			}
 		}
@@ -389,7 +389,7 @@ class Loader implements Phalcon\Events\EventsAwareInterface
 								/**
 								 * Simulate a require
 								 */
-								//require filePath;
+								require filePath;
 
 								/**
 								 * Return true mean success
@@ -446,7 +446,7 @@ class Loader implements Phalcon\Events\EventsAwareInterface
 									eventsManager->fire("loader:pathFound", this, filePath);
 								}
 
-								//require filePath;
+								require filePath;
 								return true;
 							}
 						}
@@ -506,7 +506,7 @@ class Loader implements Phalcon\Events\EventsAwareInterface
 						/**
 						 * Simulate a require
 						 */
-						//require filePath;
+						require filePath;
 
 						/**
 						 * Return true meaning success

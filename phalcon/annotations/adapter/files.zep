@@ -65,7 +65,7 @@ class Files
 		let path = this->_annotationsDir . prepare_virtual_path(key, "_") . ".php";
 
 		if file_exists(path) {
-			//return require path;
+			return require path;
 		}
 
 		return false;

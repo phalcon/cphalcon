@@ -1194,7 +1194,7 @@ PHP_METHOD(Phalcon_Mvc_Router, getRoutes) {
 /**
  * Returns a route object by its id
  *
- * @param string id
+ * @param int id
  * @return Phalcon\Mvc\Router\Route
  */
 PHP_METHOD(Phalcon_Mvc_Router, getRouteById) {

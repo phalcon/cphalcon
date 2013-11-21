@@ -474,6 +474,7 @@ PHP_METHOD(Phalcon_Loader, autoLoad) {
 				ZVAL_STRING(_0, "loader:pathFound", 1);
 				zephir_call_method_p3_noret(eventsManager, "fire", _0, this_ptr, filePath);
 			}
+			//missing require
 			RETURN_MM_BOOL(1);
 		}
 	}
@@ -520,6 +521,7 @@ PHP_METHOD(Phalcon_Loader, autoLoad) {
 								ZVAL_STRING(_8, "loader:pathFound", 1);
 								zephir_call_method_p3_cache_noret(eventsManager, "fire", &_9, _8, this_ptr, filePath);
 							}
+							//missing require
 							RETURN_MM_BOOL(1);
 						}
 					}
@@ -567,6 +569,7 @@ PHP_METHOD(Phalcon_Loader, autoLoad) {
 								ZVAL_STRING(_8, "loader:pathFound", 1);
 								zephir_call_method_p3_cache_noret(eventsManager, "fire", &_17, _8, this_ptr, filePath);
 							}
+							//missing require
 							RETURN_MM_BOOL(1);
 						}
 					}
@@ -615,6 +618,7 @@ PHP_METHOD(Phalcon_Loader, autoLoad) {
 						ZVAL_STRING(_8, "loader:pathFound", 1);
 						zephir_call_method_p3_cache_noret(eventsManager, "fire", &_26, _8, this_ptr, filePath);
 					}
+					//missing require
 					RETURN_MM_BOOL(1);
 				}
 			}

@@ -297,6 +297,7 @@ PHP_METHOD(Phalcon_Cli_Console, handle) {
 				ZEPHIR_MM_RESTORE();
 				return;
 			}
+			//missing require
 		}
 		ZEPHIR_OBS_VAR(className);
 		if (!(zephir_array_isset_string_fetch(&className, module, SS("className"), 0 TSRMLS_CC))) {

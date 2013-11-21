@@ -122,7 +122,7 @@ class Volt extends Phalcon\Mvc\View\Engine implements Phalcon\Mvc\View\EngineInt
 			}
 		}
 
-		//require compiledTemplatePath;
+		require compiledTemplatePath;
 
 		if mustClean === true {
 			this->_view->setContent(ob_get_contents());

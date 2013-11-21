@@ -63,7 +63,7 @@ class Collection implements Phalcon\Mvc\CollectionInterface, Phalcon\Di\Injectio
 	 */
 	public final function __construct(<Phalcon\DiInterface> dependencyInjector=null, <Phalcon\Mvc\Collection\ManagerInterface> modelsManager=null)
 	{
- 		/**
+		/**
 		 * We use a default DI if the user doesn't define one
 		 */
 		if typeof dependencyInjector != "object" {
@@ -335,7 +335,7 @@ class Collection implements Phalcon\Mvc\CollectionInterface, Phalcon\Di\Injectio
 	 */
 	public static function cloneResult(<Phalcon\Mvc\Collection> collection, document) -> <Phalcon\Mvc\Collection>
 	{
- 		var clonedCollection, key, value;
+		var clonedCollection, key, value;
 
 		if typeof collection != "object" {
 			throw new Phalcon\Mvc\Collection\Exception("Invalid collection");
@@ -365,9 +365,8 @@ class Collection implements Phalcon\Mvc\CollectionInterface, Phalcon\Di\Injectio
 	 */
 	protected static function _getResultset(params, collection, connection, boolean unique)
 	{
- 		var source, mongoCollection, conditions, base, documentsCursor,
- 			documentsArray, collectionCloned, fields, skip, limit, sort, document,
- 			collections;
+		var source, mongoCollection, conditions, base, documentsCursor,
+			fields, skip, limit, sort, document, collections;
 
 		let source = collection->getSource();
 		if empty source {
@@ -468,7 +467,7 @@ class Collection implements Phalcon\Mvc\CollectionInterface, Phalcon\Di\Injectio
 	protected static function _getGroupResultset(params, <Phalcon\Mvc\Collection> collection, connection) -> int
 	{
 
- 		var source, mongoCollection, conditions, simple, documentsCursor, limit, sort, skip;
+		var source, mongoCollection, conditions, simple, limit, sort, documentsCursor;
 
 		let source = collection->getSource();
 		if empty source {
@@ -547,7 +546,7 @@ class Collection implements Phalcon\Mvc\CollectionInterface, Phalcon\Di\Injectio
 	 */
 	protected function _preSave(dependencyInjector, disableEvents, exists) -> boolean
 	{
- 		var eventName;
+		var eventName;
 
 		/**
 		 * Run Validation Callbacks Before
@@ -630,7 +629,7 @@ class Collection implements Phalcon\Mvc\CollectionInterface, Phalcon\Di\Injectio
 	 */
 	protected function _postSave(boolean disableEvents, boolean success, boolean exists)
 	{
- 		var eventName;
+		var eventName;
 
 		if success === true {
 			if !disableEvents {
@@ -810,7 +809,7 @@ class Collection implements Phalcon\Mvc\CollectionInterface, Phalcon\Di\Injectio
 	 */
 	protected function _exists(collection) -> boolean
 	{
-		var id, mongoId, modelsManager, useImplicitIds, parameters, documentCount;
+		var id, mongoId;
 
 		if fetch id, this->_id {
 
@@ -898,8 +897,8 @@ class Collection implements Phalcon\Mvc\CollectionInterface, Phalcon\Di\Injectio
 	 */
 	public function save() -> boolean
 	{
- 		var dependencyInjector, connection, exists, source, data, properties, reserved,
- 			success, options, status, id, ok, collection, disableEvents, key, value;
+		var dependencyInjector, connection, exists, source, data, properties, reserved,
+			success, status, id, ok, collection, disableEvents, key, value;
 
 		let dependencyInjector = this->_dependencyInjector;
 		if typeof dependencyInjector != "object" {
@@ -999,7 +998,7 @@ class Collection implements Phalcon\Mvc\CollectionInterface, Phalcon\Di\Injectio
 	 */
 	public static function findById(id) -> <Phalcon\Mvc\Collection>
 	{
- 		var className, collection, modelsManager, useImplicitIds, mongoId, conditions, parameters;
+		var className, collection, mongoId;
 
 		if typeof id != "object" {
 
@@ -1052,7 +1051,7 @@ class Collection implements Phalcon\Mvc\CollectionInterface, Phalcon\Di\Injectio
 	 */
 	public static function findFirst(parameters=null)
 	{
- 		var className, collection, modelsManager, connection;
+		var className, collection, connection;
 
 		if parameters {
 			if typeof parameters != "array" {
@@ -1109,7 +1108,7 @@ class Collection implements Phalcon\Mvc\CollectionInterface, Phalcon\Di\Injectio
 	 */
 	public static function find(parameters=null)
 	{
- 		var className, collection, connection;
+		var className, collection;
 
 		if parameters {
 			if typeof parameters != "array" {
@@ -1134,7 +1133,7 @@ class Collection implements Phalcon\Mvc\CollectionInterface, Phalcon\Di\Injectio
 	 */
 	public static function count(parameters=null)
 	{
- 		var className, collection, connection;
+		var className, collection, connection;
 
 		if parameters {
 			if typeof parameters != "array" {
@@ -1160,7 +1159,7 @@ class Collection implements Phalcon\Mvc\CollectionInterface, Phalcon\Di\Injectio
 	 */
 	public static function aggregate(parameters)
 	{
- 		var className, model, connection, source;
+		var className, model, connection, source;
 
 		if parameters {
 			if typeof parameters != "array" {
@@ -1192,8 +1191,8 @@ class Collection implements Phalcon\Mvc\CollectionInterface, Phalcon\Di\Injectio
 	 */
 	public static function summatory(field, conditions=null, finalize=null)
 	{
- 		var className, model, connection, source, collection, keys, emptyArray, initial,
- 			reduce, group, retval, firstRetval;
+		var className, model, connection, source, collection, keys, emptyArray, initial,
+			reduce, group, retval, firstRetval;
 
 		if typeof field != "string" {
 			throw new Phalcon\Mvc\Collection\Exception("Invalid field name for group");
@@ -1256,7 +1255,7 @@ class Collection implements Phalcon\Mvc\CollectionInterface, Phalcon\Di\Injectio
 	 */
 	public function delete() -> boolean
 	{
- 		var disableEvents, status, id, connection, source, 
+		var disableEvents, status, id, connection, source,
 			collection, mongoId, success, ok;
 
 		if !fetch id, this->_id {
@@ -1334,7 +1333,7 @@ class Collection implements Phalcon\Mvc\CollectionInterface, Phalcon\Di\Injectio
 	 */
 	public function toArray()
 	{
- 		var data, reserved, key, value;
+		var data, reserved, key, value;
 
 		let reserved = this->getReservedAttributes();
 

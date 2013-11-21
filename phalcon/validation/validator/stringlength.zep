@@ -60,7 +60,7 @@ class StringLength extends Phalcon\Validation\Validator implements Phalcon\Valid
 			throw new Phalcon\Mvc\Model\Exception("A minimum or maximum must be set");
 		}
 
-		let value = validator->getValue($attribute);
+		let value = validator->getValue(attribute);
 
 		/**
 		 * Check if mbstring is available to calculate the correct length

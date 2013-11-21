@@ -173,6 +173,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, render) {
 			ZEPHIR_GET_HVALUE(value, _2);
 		}
 	}
+	//missing require
 	if ((mustClean == 1)) {
 		_3 = zephir_fetch_nproperty_this(this_ptr, SL("_view"), PH_NOISY_CC);
 		ZEPHIR_INIT_VAR(_4);

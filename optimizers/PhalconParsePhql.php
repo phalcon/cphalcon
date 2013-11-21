@@ -1,3 +1,4 @@
+<?php
 
 /*
  +------------------------------------------------------------------------+
@@ -17,48 +18,46 @@
  +------------------------------------------------------------------------+
  */
 
-namespace Phalcon\Mvc\View\Engine;
-
-/**
- * Phalcon\Mvc\View\Engine\Php
- *
- * Adapter to use PHP itself as templating engine
- */
-class Php extends Phalcon\Mvc\View\Engine implements Phalcon\Mvc\View\EngineInterface
+class PhqlParsePhqlOptimizer
 {
 
 	/**
-	 * Renders a view using the template engine
 	 *
-	 * @param string path
-	 * @param array params
-	 * @param boolean mustClean
+	 * @param array $expression
+	 * @param Call $call
+	 * @param CompilationContext $context
 	 */
-	public function render(string! path, params, boolean mustClean=false)
+	public function optimize(array $expression, Call $call, CompilationContext $context)
 	{
-		var key, value;
+		if (!isset($expression['parameters'])) {
+			return false;
+		}
 
-		if mustClean === true {
-			ob_clean();
+		if (count($expression['parameters']) != 2) {
+			return false;
 		}
 
 		/**
-		 * Create the variables in local symbol table
+		 * Process the expected symbol to be returned
 		 */
-		if typeof params == "array" {
-			for key, value in params {
-				let {key} = value;
-			}
+		$call->processExpectedReturn($context);
+
+		$symbolVariable = $call->getSymbolVariable();
+		if ($symbolVariable->getType() != 'variable') {
+			throw new CompilerException("Returned values by functions can only be assigned to variant variables", $expression);
 		}
 
-		/**
-		 * Require the file
-		 */
-		require path;
-
-		if mustClean === true {
-			this->_view->setContent(ob_get_contents());
+		if ($call->mustInitSymbolVariable()) {
+			$symbolVariable->initVariant($context);
 		}
+
+		$context->headersManager->add('kernel/array');
+
+		$symbolVariable->setDynamicTypes('array');
+
+		$resolvedParams = $call->getReadOnlyResolvedParams($expression['parameters'], $context, $expression);
+		//$context->codePrinter->output('zephir_fast_array_merge(' . $symbolVariable->getName() . ', &(' . $resolvedParams[0] . '), &(' . $resolvedParams[1] . ') TSRMLS_CC);');
+		return new CompiledExpression('variable', $symbolVariable->getRealName(), $expression);
 	}
 
 }
