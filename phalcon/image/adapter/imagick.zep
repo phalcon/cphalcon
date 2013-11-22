@@ -34,7 +34,7 @@ class Imagick extends Phalcon\Image\Adapter implements Phalcon\Image\AdapterInte
 		}
 
 		if defined("Imagick::IMAGICK_EXTNUM") {
-			let this->_version = Imagick::IMAGICK_EXTNUM;
+			let this->_version = constant("Imagick::IMAGICK_EXTNUM");
 		}
 
 		let self::_checked = true;
@@ -62,7 +62,7 @@ class Imagick extends Phalcon\Image\Adapter implements Phalcon\Image\AdapterInte
 			}
 
 			if !this->_image->getImageAlphaChannel() {
-				this->_image->setImageAlphaChannel(Imagick::ALPHACHANNEL_SET);
+				this->_image->setImageAlphaChannel(constant("Imagick::ALPHACHANNEL_SET"));
 			}
 
 			if this->_type == 1 {
@@ -215,8 +215,8 @@ class Imagick extends Phalcon\Image\Adapter implements Phalcon\Image\AdapterInte
 		reflection->setIteratorIndex(0);
 
 		loop {
-			reflection->compositeImage(fade, Imagick::COMPOSITE_DSTOUT, 0, 0);
-			reflection->evaluateImage(Imagick::EVALUATE_MULTIPLY, opacity/100, Imagick::CHANNEL_ALPHA);
+			reflection->compositeImage(fade, constant("Imagick::COMPOSITE_DSTOUT"), 0, 0);
+			reflection->evaluateImage(constant("Imagick::EVALUATE_MULTIPLY"), opacity/100, constant("Imagick::CHANNEL_ALPHA"));
 			if  !reflection->nextImage() {
 				break;
 			}
@@ -233,10 +233,10 @@ class Imagick extends Phalcon\Image\Adapter implements Phalcon\Image\AdapterInte
 		loop {
 
 			image->newImage(this->_width, height, pixel);
-			image->setImageAlphaChannel(Imagick::ALPHACHANNEL_SET);
+			image->setImageAlphaChannel(constant("Imagick::ALPHACHANNEL_SET"));
 			image->setColorspace(this->_image->getColorspace());
 			image->setImageDelay(this->_image->getImageDelay());
-			image->compositeImage(this->_image, Imagick::COMPOSITE_SRC, 0, 0);
+			image->compositeImage(this->_image, constant("Imagick::COMPOSITE_SRC"), 0, 0);
 
 			if  !this->_image->nextImage() {
 				break;
@@ -248,11 +248,11 @@ class Imagick extends Phalcon\Image\Adapter implements Phalcon\Image\AdapterInte
 
 		loop {
 
-			image->compositeImage(reflection, Imagick::COMPOSITE_OVER, 0, this->_height);
-			image->setImageAlphaChannel(Imagick::ALPHACHANNEL_SET);
+			image->compositeImage(reflection, constant("Imagick::COMPOSITE_OVER"), 0, this->_height);
+			image->setImageAlphaChannel(constant("Imagick::ALPHACHANNEL_SET"));
 			image->setColorspace(this->_image->getColorspace());
 			image->setImageDelay(this->_image->getImageDelay());
-			image->compositeImage(this->_image, Imagick::COMPOSITE_SRC, 0, 0);
+			image->compositeImage(this->_image, constant("Imagick::COMPOSITE_SRC"), 0, 0);
 
 			if  !image->nextImage() || !reflection->nextImage() {
 				break;
@@ -283,7 +283,7 @@ class Imagick extends Phalcon\Image\Adapter implements Phalcon\Image\AdapterInte
 		this->_image->setIteratorIndex(0);
 
 		loop {
-			this->_image->compositeImage(watermark, Imagick::COMPOSITE_OVER, offset_x, offset_y);
+			this->_image->compositeImage(watermark, constant("Imagick::COMPOSITE_OVER"), offset_x, offset_y);
 			if  !this->_image->nextImage() {
 				break;
 			}
@@ -322,16 +322,16 @@ class Imagick extends Phalcon\Image\Adapter implements Phalcon\Image\AdapterInte
 			let offset_x = abs(offset_x);
 			if offset_y < 0 {
 				let offset_y = abs(offset_y);
-				let gravity = Imagick::GRAVITY_SOUTHEAST;
+				let gravity = constant("Imagick::GRAVITY_SOUTHEAST");
 			} else {
-				let gravity = Imagick::GRAVITY_NORTHEAST;
+				let gravity = constant("Imagick::GRAVITY_NORTHEAST");
 			}
 		} else {
 			/*if y < 0 { where y comes from??
 				let offset_y = abs(offset_y);
-				let gravity = Imagick::GRAVITY_SOUTHWEST;
+				let gravity = constant("Imagick::GRAVITY_SOUTHWEST");
 			} else {
-				let gravity = Imagick::GRAVITY_NORTHWEST;
+				let gravity = constant("Imagick::GRAVITY_NORTHWEST");
 			}*/
 		}
 
@@ -362,7 +362,7 @@ class Imagick extends Phalcon\Image\Adapter implements Phalcon\Image\AdapterInte
 
 		loop {
 			this->_image->setImageMatte(1);
-			this->_image->compositeImage(mask, Imagick::COMPOSITE_DSTIN, 0, 0);
+			this->_image->compositeImage(mask, constant("Imagick::COMPOSITE_DSTIN"), 0, 0);
 			if  !this->_image->nextImage() {
 				break;
 			}
@@ -388,12 +388,12 @@ class Imagick extends Phalcon\Image\Adapter implements Phalcon\Image\AdapterInte
 		loop {
 			background->newImage(this->_width, this->_height, pixel1);
 			if !background->getImageAlphaChannel() {
-				background->setImageAlphaChannel(Imagick::ALPHACHANNEL_SET);
+				background->setImageAlphaChannel(constant("Imagick::ALPHACHANNEL_SET"));
 			}
 			background->setImageBackgroundColor(pixel2);
-			background->evaluateImage(Imagick::EVALUATE_MULTIPLY, opacity, Imagick::CHANNEL_ALPHA);
+			background->evaluateImage(constant("Imagick::EVALUATE_MULTIPLY"), opacity, constant("Imagick::CHANNEL_ALPHA"));
 			background->setColorspace(this->_image->getColorspace());
-			background->compositeImage(this->_image, Imagick::COMPOSITE_DISSOLVE, 0, 0);
+			background->compositeImage(this->_image, constant("Imagick::COMPOSITE_DISSOLVE"), 0, 0);
 			if  !this->_image->nextImage() {
 				break;
 			}
@@ -455,7 +455,7 @@ class Imagick extends Phalcon\Image\Adapter implements Phalcon\Image\AdapterInte
 			return;
 		} else {
 			if strcasecmp(ext, "jpg") == 0 || strcasecmp(ext, "jpeg") == 0 {
-				this->_image->setImageCompression(Imagick::COMPRESSION_JPEG);
+				this->_image->setImageCompression(constant("Imagick::COMPRESSION_JPEG"));
 			}
 			this->_image->setImageCompressionQuality(quality);
 			this->_image->writeImage(file);
@@ -479,7 +479,7 @@ class Imagick extends Phalcon\Image\Adapter implements Phalcon\Image\AdapterInte
 			return image->getImagesBlob();
 		} else {
 			if strcasecmp(ext, "jpg") == 0 || strcasecmp(ext, "jpeg") == 0 {
-				image->setImageCompression(Imagick::COMPRESSION_JPEG);
+				image->setImageCompression(constant("Imagick::COMPRESSION_JPEG"));
 			}
 			image->setImageCompressionQuality(quality);
 			//return image->getImageBlob(file); where file comes from?
