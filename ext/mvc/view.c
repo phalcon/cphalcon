@@ -1243,7 +1243,7 @@ PHP_METHOD(Phalcon_Mvc_View, render){
 		phalcon_call_method_p2_noret(events_manager, "fire", event_name, this_ptr);
 	}
 	
-	RETURN_MM_NULL();
+	RETURN_THIS();
 }
 
 /**
