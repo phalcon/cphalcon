@@ -22,7 +22,7 @@ class CryptTest extends PHPUnit_Framework_TestCase
 {
 
 	/**
-	 * @requires extension fileinfo
+	 * @requires extension mcrypt
 	 */
 	public function testEncryption()
 	{
@@ -53,7 +53,7 @@ class CryptTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @requires extension fileinfo
+	 * @requires extension mcrypt
 	 */
 	public function testPadding()
 	{
@@ -89,7 +89,7 @@ class CryptTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @requires extension fileinfo
+	 * @requires extension mcrypt
 	 */
 	public function testEncryptBase64()
 	{
