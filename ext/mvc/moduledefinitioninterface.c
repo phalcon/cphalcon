@@ -29,7 +29,6 @@
 
 /**
  * Phalcon\Mvc\ModuleDefinitionInterface initializer
-
  */
 PHALCON_INIT_CLASS(Phalcon_Mvc_ModuleDefinitionInterface){
 
