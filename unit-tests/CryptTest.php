@@ -21,6 +21,9 @@
 class CryptTest extends PHPUnit_Framework_TestCase
 {
 
+	/**
+	 * @requires extension fileinfo
+	 */
 	public function testEncryption()
 	{
 
@@ -49,6 +52,9 @@ class CryptTest extends PHPUnit_Framework_TestCase
 		}
 	}
 
+	/**
+	 * @requires extension fileinfo
+	 */
 	public function testPadding()
 	{
 		$texts = array('');
@@ -82,6 +88,9 @@ class CryptTest extends PHPUnit_Framework_TestCase
 		}
 	}
 
+	/**
+	 * @requires extension fileinfo
+	 */
 	public function testEncryptBase64()
 	{
 		$crypt = new \Phalcon\Crypt();
