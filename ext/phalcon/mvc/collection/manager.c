@@ -202,7 +202,7 @@ PHP_METHOD(Phalcon_Mvc_Collection_Manager, initialize) {
 	zephir_call_func_p1(className, "get_class", model);
 	initialized = zephir_fetch_nproperty_this(this_ptr, SL("_initialized"), PH_NOISY_CC);
 	if (!(zephir_array_isset(initialized, className))) {
-		if (((zephir_method_exists_ex(model, SS("initialize") TSRMLS_CC) == SUCCESS) == true)) {
+		if ((zephir_method_exists_ex(model, SS("initialize") TSRMLS_CC) == SUCCESS)) {
 			zephir_call_method_noret(model, "initialize");
 		}
 		eventsManager = zephir_fetch_nproperty_this(this_ptr, SL("_eventsManager"), PH_NOISY_CC);

@@ -220,38 +220,53 @@ int zephir_fetch_parameters(int num_args TSRMLS_DC, int required_args, int optio
 	return;
 
 /**
+ * Returns a zval in an object member
+ */
+#define RETURN_MM_MEMBER(object, member_name) \
+  zephir_return_property_quick(return_value, return_value_ptr, object, SL(member_name), zend_inline_hash_func(SS(member_name)) TSRMLS_CC); \
+  RETURN_MM();
+
+/**
  * Returns a zval in an object member (quick)
  */
 #define RETURN_MEMBER_QUICK(object, member_name, key) \
  	zephir_return_property_quick(return_value, return_value_ptr, object, SL(member_name), key TSRMLS_CC); \
 	return;
 
+/**
+ * Returns a zval in an object member (quick)
+ */
+#define RETURN_MM_MEMBER_QUICK(object, member_name, key) \
+  zephir_return_property_quick(return_value, return_value_ptr, object, SL(member_name), key TSRMLS_CC); \
+  RETURN_MM();
+
 /** Return without change return_value */
-#define RETURN_MM() ZEPHIR_MM_RESTORE(); return;
+#define RETURN_MM()                 { ZEPHIR_MM_RESTORE(); return; }
 
 /** Return null restoring memory frame */
-#define RETURN_MM_BOOL(value) ZEPHIR_MM_RESTORE(); RETURN_BOOL(value);
+#define RETURN_MM_BOOL(value)       { RETVAL_BOOL(value); ZEPHIR_MM_RESTORE(); return; }
 
 /** Return null restoring memory frame */
-#define RETURN_MM_NULL() ZEPHIR_MM_RESTORE(); RETURN_NULL();
+#define RETURN_MM_NULL()            { RETVAL_NULL(); ZEPHIR_MM_RESTORE(); return; }
 
 /** Return bool restoring memory frame */
-#define RETURN_MM_FALSE ZEPHIR_MM_RESTORE(); RETURN_FALSE;
-#define RETURN_MM_TRUE ZEPHIR_MM_RESTORE(); RETURN_TRUE;
+#define RETURN_MM_FALSE             { RETVAL_FALSE; ZEPHIR_MM_RESTORE(); return; }
+#define RETURN_MM_TRUE              { RETVAL_TRUE; ZEPHIR_MM_RESTORE(); return; }
 
 /** Return string restoring memory frame */
-#define RETURN_MM_STRING(str, copy) ZEPHIR_MM_RESTORE(); RETURN_STRING(str, copy);
-#define RETURN_MM_EMPTY_STRING() ZEPHIR_MM_RESTORE(); RETURN_EMPTY_STRING();
+#define RETURN_MM_STRING(str, copy) { RETVAL_STRING(str, copy); ZEPHIR_MM_RESTORE(); return; }
+#define RETURN_MM_EMPTY_STRING()    { RETVAL_EMPTY_STRING(); ZEPHIR_MM_RESTORE(); return; }
 
 /** Return empty array */
-#define RETURN_EMPTY_ARRAY() array_init(return_value); return;
-#define RETURN_MM_EMPTY_ARRAY() ZEPHIR_MM_RESTORE(); RETURN_EMPTY_ARRAY();
+#define RETVAL_EMPTY_ARRAY()        { array_init(return_value); }
+#define RETURN_EMPTY_ARRAY()        { RETVAL_EMPTY_ARRAY(); return; }
+#define RETURN_MM_EMPTY_ARRAY()     { RETVAL_EMPTY_ARRAY(); ZEPHIR_MM_RESTORE(); return; }
 
 /* Return long */
-#define RETURN_MM_LONG(value) ZEPHIR_MM_RESTORE(); RETURN_LONG(value);
+#define RETURN_MM_LONG(value)       { RETVAL_LONG(value); ZEPHIR_MM_RESTORE(); return; }
 
 /* Return double */
-#define RETURN_MM_DOUBLE(value) ZEPHIR_MM_RESTORE(); RETURN_DOUBLE(value);
+#define RETURN_MM_DOUBLE(value)     { RETVAL_DOUBLE(value); ZEPHIR_MM_RESTORE(); return; }
 
 #ifndef IS_INTERNED
 #define IS_INTERNED(key) 0

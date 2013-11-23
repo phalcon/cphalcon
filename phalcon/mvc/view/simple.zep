@@ -188,7 +188,7 @@ class Simple extends Phalcon\Di\Injectable
 	 */
 	protected function _internalRender(string! path, params)
 	{
-		var eventsManager, notExists, engines, extension, engine, mustClean, viewEnginePath;
+		var eventsManager, notExists, engines, extension, engine, mustClean, viewEnginePath, viewsDirPath;
 
 		let eventsManager = this->_eventsManager;
 
@@ -269,7 +269,7 @@ class Simple extends Phalcon\Di\Injectable
 	 */
 	public function render(string! path, params=null)
 	{
-		var cache, key, lifetime;
+		var cache, key, lifetime, cacheOptions, content, viewParams, mergedParams;
 
 		/**
 		 * Create/Get a cache
@@ -290,8 +290,8 @@ class Simple extends Phalcon\Di\Injectable
 				 */
 				let cacheOptions = this->_cacheOptions;
 				if typeof cacheOptions == "array" {
-					fetch key, cacheOptions['key'];
-					fetch lifetime, cacheOptions['lifetime'];
+					fetch key, cacheOptions["key"];
+					fetch lifetime, cacheOptions["lifetime"];
 				}
 
 				/**
@@ -378,6 +378,7 @@ class Simple extends Phalcon\Di\Injectable
 	 */
 	public function partial(string! partialPath, params=null)
 	{
+	    var viewParams, mergedParams;
 
 		/**
 		 * Start ouput buffering
@@ -461,6 +462,7 @@ class Simple extends Phalcon\Di\Injectable
 	 */
 	protected function _createCache() -> <Phalcon\Cache\BackendInterface>
 	{
+        var dependencyInjector, cacheService, cacheOptions, viewCache;
 
 		let dependencyInjector = this->_dependencyInjector;
 		if typeof dependencyInjector == "object" {
@@ -471,7 +473,7 @@ class Simple extends Phalcon\Di\Injectable
 
 		let cacheOptions = this->_cacheOptions;
 		if typeof cacheOptions == "array" {
-			fetch cacheService, cacheOptions['service'];
+			fetch cacheService, cacheOptions["service"];
 		}
 
 		/**
@@ -492,6 +494,8 @@ class Simple extends Phalcon\Di\Injectable
 	 */
 	public function getCache()
 	{
+	    var cache;
+
 		let cache = this->_cache;
 		if cache {
 			if typeof cache != "object" {
@@ -555,6 +559,7 @@ class Simple extends Phalcon\Di\Injectable
 	 */
 	public function setVars(var params, boolean merge=true) -> <Phalcon\Mvc\View\Simple>
 	{
+	    var viewParams, mergedParams;
 
 		if typeof params != "array" {
 			throw new Phalcon\Mvc\View\Exception("The render parameters must be an array");

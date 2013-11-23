@@ -144,7 +144,7 @@ class Manager implements Phalcon\Di\InjectionAwareInterface, Phalcon\Events\Even
 			/**
 			* Call the 'initialize' method if it's implemented
 			*/
-			if method_exists(model, "initialize") == true {
+			if method_exists(model, "initialize") {
 				model->{"initialize"}();
 			}
 
