@@ -212,19 +212,19 @@ class AssetsTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($filtered, '');
 
 		$filtered = $jsmin->filter('{}}');
-		$this->assertEquals($filtered, PHP_EOL . '{}}');
+		$this->assertEquals($filtered, "\n" . '{}}');
 
 		$filtered = $jsmin->filter('if ( a == b ) {    document . writeln("hello") ; }');
-		$this->assertEquals($filtered, PHP_EOL . 'if(a==b){document.writeln("hello");}');
+		$this->assertEquals($filtered, "\n" . 'if(a==b){document.writeln("hello");}');
 
 		$filtered = $jsmin->filter("if ( a == b ) {    document . writeln('\t') ; }");
-		$this->assertEquals($filtered, PHP_EOL . "if(a==b){document.writeln('\t');}");
+		$this->assertEquals($filtered, "\n" . "if(a==b){document.writeln('\t');}");
 
 		$filtered = $jsmin->filter("/** this is a comment */ if ( a == b ) {    document . writeln('\t') ; /** this is a comment */ }");
-		$this->assertEquals($filtered, PHP_EOL . "if(a==b){document.writeln('\t');}");
+		$this->assertEquals($filtered, "\n" . "if(a==b){document.writeln('\t');}");
 
 		$filtered = $jsmin->filter("\t\ta\t\r\n= \n \r\n100;\t");
-		$this->assertEquals($filtered, PHP_EOL . 'a=100;');
+		$this->assertEquals($filtered, "\n" . 'a=100;');
 	}
 
 	public function testCssminFilter()
