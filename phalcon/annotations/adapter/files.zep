@@ -55,7 +55,7 @@ class Files
 	 * @param string key
 	 * @return Phalcon\Annotations\Reflection
 	 */
-	public function read(string key) -> <Phalcon\Annotations\Reflection> | boolean
+	public function read(string key) -> <Phalcon\Annotations\Reflection> | boolean | int
 	{
 		var path;
 
