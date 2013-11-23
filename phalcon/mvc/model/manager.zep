@@ -209,15 +209,14 @@ class Manager implements Phalcon\Mvc\Model\ManagerInterface, Phalcon\Di\Injectio
 	 */
 	public function initialize(<Phalcon\Mvc\ModelInterface> model) -> boolean
 	{
-		var className, initialized, eventsManager;
+		var className, eventsManager;
 
 		let className = get_class_lower(model);
 
 		/**
 		 * Models are just initialized once per request
 		 */
-		let initialized = this->_initialized;
-		if isset initialized[className] {
+		if isset this->_initialized[className] {
 			return false;
 		}
 
@@ -257,9 +256,7 @@ class Manager implements Phalcon\Mvc\Model\ManagerInterface, Phalcon\Di\Injectio
 	 */
 	public function isInitialized(string! modelName) -> boolean
 	{
-		var initialized;
-		let initialized = this->_initialized;
-		return isset initialized[strtolower(modelName)];
+		return isset this->_initialized[strtolower(modelName)];
 	}
 
 	/**
@@ -289,7 +286,7 @@ class Manager implements Phalcon\Mvc\Model\ManagerInterface, Phalcon\Di\Injectio
 		let initialized = this->_initialized;
 		if fetch model, initialized[strtolower(modelName)] {
 			if newInstance {
-				//return clone model;
+				return clone model;
 			}
 			return model;
 		}
@@ -636,15 +633,14 @@ class Manager implements Phalcon\Mvc\Model\ManagerInterface, Phalcon\Di\Injectio
 	 */
 	public function addBehavior(<Phalcon\Mvc\ModelInterface> model, <Phalcon\Mvc\Model\BehaviorInterface> behavior)
 	{
-		var entityName, behaviors, modelsBehaviors;
+		var entityName, modelsBehaviors;
 
 		let entityName = get_class_lower(model);
 
 		/**
 		 * Get the current behaviors
 		 */
-		let behaviors = this->_behaviors;
-		if !fetch modelsBehaviors, behaviors[entityName] {
+		if !fetch modelsBehaviors, this->_behaviors[entityName] {
 			let modelsBehaviors = [];
 		}
 
@@ -733,7 +729,7 @@ class Manager implements Phalcon\Mvc\Model\ManagerInterface, Phalcon\Di\Injectio
 	public function addHasOne(<Phalcon\Mvc\ModelInterface> model, var fields, string! referencedModel,
 		var referencedFields, var options=null) -> <Phalcon\Mvc\Model\Relation>
 	{
-		var entityName, referencedEntity, hasOne, relation,
+		var entityName, referencedEntity, relation,
 			keyRelation, relations, alias, lowerAlias, hasOneSingle, singleRelations;
 
 		let entityName = get_class_lower(model),
@@ -741,8 +737,7 @@ class Manager implements Phalcon\Mvc\Model\ManagerInterface, Phalcon\Di\Injectio
 
 		let keyRelation = entityName . "$" . referencedEntity;
 
-		let hasOne = this->_hasOne;
-		if !fetch relations, hasOne[keyRelation] {
+		if !fetch relations, this->_hasOne[keyRelation] {
 			let relations = [];
 		}
 
@@ -787,8 +782,7 @@ class Manager implements Phalcon\Mvc\Model\ManagerInterface, Phalcon\Di\Injectio
 		/**
 		 * Get existing relations by model
 		 */
-		let hasOneSingle = this->_hasOneSingle;
-		if !fetch singleRelations, hasOneSingle[entityName] {
+		if !fetch singleRelations, this->_hasOneSingle[entityName] {
 			let singleRelations = [];
 		}
 
@@ -826,8 +820,7 @@ class Manager implements Phalcon\Mvc\Model\ManagerInterface, Phalcon\Di\Injectio
 
 		let keyRelation = entityName . "$" . referencedEntity;
 
-		let belongsTo = this->_belongsTo;
-		if !fetch relations, belongsTo[keyRelation] {
+		if !fetch relations, this->_belongsTo[keyRelation] {
 			let relations = [];
 		}
 
@@ -872,8 +865,7 @@ class Manager implements Phalcon\Mvc\Model\ManagerInterface, Phalcon\Di\Injectio
 		/**
 		 * Get existing relations by model
 		 */
-		let belongsToSingle = this->_belongsToSingle;
-		if !fetch singleRelations, belongsToSingle[entityName] {
+		if !fetch singleRelations, this->_belongsToSingle[entityName] {
 			let singleRelations = [];
 		}
 
@@ -1874,10 +1866,9 @@ class Manager implements Phalcon\Mvc\Model\ManagerInterface, Phalcon\Di\Injectio
 	 */
 	public function getNamespaceAlias(string! alias) -> string
 	{
-		var namespaceAliases, namespaceName;
+		var namespaceName;
 
-		let namespaceAliases = this->_namespaceAliases;
-		if fetch namespaceName, namespaceAliases[alias] {
+		if fetch namespaceName, this->_namespaceAliases[alias] {
 			return namespaceName;
 		}
 		throw new Phalcon\Mvc\Model\Exception("Namespace alias '" . alias . "' is not registered");

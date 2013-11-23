@@ -41,7 +41,7 @@ class Memory extends Phalcon\Mvc\Model\MetaData implements Phalcon\Mvc\Model\Met
 	/**
 	 * Reads the meta-data from temporal memory
 	 *
-	 * @param string $key
+	 * @param string key
 	 * @return array
 	 */
 	public function read(string! key)

@@ -78,7 +78,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Memory, __construct) {
 /**
  * Reads the meta-data from temporal memory
  *
- * @param string $key
+ * @param string key
  * @return array
  */
 PHP_METHOD(Phalcon_Mvc_Model_MetaData_Memory, read) {
