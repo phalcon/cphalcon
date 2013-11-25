@@ -230,6 +230,10 @@ class ModelsValidatorsTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($messages[0]->getType(), "Email");
 		$this->assertEquals($messages[0]->getField(), "email");
 		$this->assertEquals($messages[0]->getMessage(), "Value of field 'email' must have a valid e-mail format");
+
+		// Issue 1527
+		$subscriptor = Subscriptores::findFirst();
+		$this->assertTrue($subscriptor->validation());
 	}
 
 	protected function _testValidatorsRenamed($di)
