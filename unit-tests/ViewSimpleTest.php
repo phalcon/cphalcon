@@ -113,7 +113,9 @@ class ViewSimpleTest extends PHPUnit_Framework_TestCase
 		$view->setViewsDir('unit-tests/views/');
 		$expectedParams = array('cool_var' => 'FooBar');
 
+		ob_start();
 		$view->partial('partials/_partial1', $expectedParams);
+		ob_clean();
 		$this->assertEquals('Hey, this is a partial, also FooBar', $view->getContent());
 
 		$view->setVars($expectedParams);
