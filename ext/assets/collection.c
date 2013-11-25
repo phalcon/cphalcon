@@ -63,6 +63,7 @@ PHALCON_INIT_CLASS(Phalcon_Assets_Collection){
 	zend_declare_property_null(phalcon_assets_collection_ce, SL("_targetUri"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_assets_collection_ce, SL("_targetPath"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_assets_collection_ce, SL("_sourcePath"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_bool(phalcon_assets_collection_ce, SL("_targetLocal"), 1, ZEND_ACC_PROTECTED TSRMLS_CC);
 
 	zend_class_implements(phalcon_assets_collection_ce TSRMLS_CC, 2, spl_ce_Countable, zend_ce_iterator);
 
@@ -578,5 +579,32 @@ PHP_METHOD(Phalcon_Assets_Collection, getRealTargetPath){
 	}
 	
 	RETURN_CTOR(complete_path);
+}
+
+/**
+ * Sets the target local
+ *
+ * @param boolean $targetLocal
+ * @return Phalcon\Assets\Collection
+ */
+PHP_METHOD(Phalcon_Assets_Collection, setTargetLocal){
+
+	zval *target_local;
+
+	phalcon_fetch_params(0, 1, 0, &target_local);
+	
+	phalcon_update_property_this(this_ptr, SL("_targetLocal"), target_local TSRMLS_CC);
+	RETURN_THISW();
+}
+
+/**
+ * Returns the target local
+ *
+ * @return boolean
+ */
+PHP_METHOD(Phalcon_Assets_Collection, getTargetLocal){
+
+
+	RETURN_MEMBER(this_ptr, "_targetLocal");
 }
 
