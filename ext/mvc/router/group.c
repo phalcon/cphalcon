@@ -89,6 +89,7 @@ PHALCON_INIT_CLASS(Phalcon_Mvc_Router_Group){
 	zend_declare_property_null(phalcon_mvc_router_group_ce, SL("_paths"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_mvc_router_group_ce, SL("_routes"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_mvc_router_group_ce, SL("_beforeMatch"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_mvc_router_group_ce, SL("_converters"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
 	return SUCCESS;
 }
@@ -531,3 +532,29 @@ PHP_METHOD(Phalcon_Mvc_Router_Group, clear){
 	PHALCON_MM_RESTORE();
 }
 
+/**
+ * Adds a converter to perform an additional transformation for certain parameter
+ *
+ * @param string $name
+ * @param callable $converter
+ * @return Phalcon\Mvc\Router\Group
+ */
+PHP_METHOD(Phalcon_Mvc_Router_Group, convert){
+
+	zval **name, **converter;
+
+	phalcon_fetch_params_ex(2, 0, &name, &converter);
+
+	phalcon_update_property_array(this_ptr, SL("_converters"), *name, *converter TSRMLS_CC);
+	RETURN_THISW();
+}
+
+/**
+ * Returns the router converter
+ *
+ * @return array|null
+ */
+PHP_METHOD(Phalcon_Mvc_Router_Group, getConverters) {
+
+	RETURN_MEMBER(this_ptr, "_converters");
+}

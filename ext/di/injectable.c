@@ -66,19 +66,16 @@ PHALCON_INIT_CLASS(Phalcon_DI_Injectable){
  * Sets the dependency injector
  *
  * @param Phalcon\DiInterface $dependencyInjector
+ * @throw Phalcon\Di\Exception if !($dependencyInjector instanceof Phalcon\DiInterface)
  */
 PHP_METHOD(Phalcon_DI_Injectable, setDI){
 
-	zval *dependency_injector;
+	zval **dependency_injector;
 
-	phalcon_fetch_params(0, 1, 0, &dependency_injector);
+	phalcon_fetch_params_ex(1, 0, &dependency_injector);
 	
-	if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
-		PHALCON_THROW_EXCEPTION_STRW(phalcon_di_exception_ce, "Dependency Injector is invalid");
-		return;
-	}
-	phalcon_update_property_this(this_ptr, SL("_dependencyInjector"), dependency_injector TSRMLS_CC);
-	
+	PHALCON_VERIFY_INTERFACE_EX(*dependency_injector, phalcon_diinterface_ce, phalcon_di_exception_ce, 0);
+	phalcon_update_property_this(this_ptr, SL("_dependencyInjector"), *dependency_injector TSRMLS_CC);
 }
 
 /**

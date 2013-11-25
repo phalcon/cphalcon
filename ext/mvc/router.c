@@ -179,9 +179,8 @@ PHP_METHOD(Phalcon_Mvc_Router, setDI){
 	zval *dependency_injector;
 
 	phalcon_fetch_params(0, 1, 0, &dependency_injector);
-
+	PHALCON_VERIFY_INTERFACE_EX(dependency_injector, phalcon_diinterface_ce, phalcon_mvc_router_exception_ce, 0);
 	phalcon_update_property_this(this_ptr, SL("_dependencyInjector"), dependency_injector TSRMLS_CC);
-
 }
 
 /**
@@ -1152,6 +1151,23 @@ PHP_METHOD(Phalcon_Mvc_Router, addHead){
 	RETURN_MM();
 }
 
+static int phalcon_router_call_convert(void *pDest TSRMLS_DC, int num_args, va_list args, zend_hash_key *hash_key)
+{
+	zval *route, key = zval_used_for_init;
+	assert(num_args == 1);
+
+	route = va_arg(args, zval*);
+	if (hash_key->nKeyLength) {
+		ZVAL_STRINGL(&key, hash_key->arKey, hash_key->nKeyLength-1, 0);
+	}
+	else {
+		ZVAL_LONG(&key, hash_key->h);
+	}
+
+	phalcon_call_method_params(NULL, NULL, route, SL("convert"), zend_inline_hash_func(SS("convert")) TSRMLS_CC, 2, &key, *((zval**)pDest));
+	return ZEND_HASH_APPLY_KEEP;
+}
+
 /**
  * Mounts a group of routes in the router
  *
@@ -1160,70 +1176,60 @@ PHP_METHOD(Phalcon_Mvc_Router, addHead){
  */
 PHP_METHOD(Phalcon_Mvc_Router, mount){
 
-	zval *group, *group_routes, *before_match, *route = NULL;
-	zval *hostname, *routes, *new_routes;
-	HashTable *ah0, *ah1;
-	HashPosition hp0, hp1;
-	zval **hd;
+	zval *group, *group_routes, *before_match;
+	zval *hostname, *converters, *routes, *new_routes;
+	HashPosition hp0;
+	zval **route;
+
+	phalcon_fetch_params(0, 1, 0, &group);
+	PHALCON_VERIFY_CLASS_EX(group, phalcon_mvc_router_group_ce, phalcon_mvc_router_exception_ce, 0);
 
 	PHALCON_MM_GROW();
 
-	phalcon_fetch_params(1, 1, 0, &group);
-
-	if (Z_TYPE_P(group) != IS_OBJECT) {
-		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_router_exception_ce, "The group of routes is not valid");
-		return;
-	}
-
 	PHALCON_INIT_VAR(group_routes);
 	phalcon_call_method(group_routes, group, "getroutes");
-	if (!phalcon_fast_count_ev(group_routes TSRMLS_CC)) {
+	if (Z_TYPE_P(group_routes) != IS_ARRAY || !zend_hash_num_elements(Z_ARRVAL_P(group_routes))) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_router_exception_ce, "The group of routes does not contain any routes");
 		return;
 	}
 
-	/**
-	 * Get the before-match condition
-	 */
+	/* Get the before-match condition */
 	PHALCON_INIT_VAR(before_match);
 	phalcon_call_method(before_match, group, "getbeforematch");
-	if (Z_TYPE_P(before_match) != IS_NULL) {
 
-		phalcon_is_iterable(group_routes, &ah0, &hp0, 0, 0);
-
-		while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
-
-			PHALCON_GET_HVALUE(route);
-
-			phalcon_call_method_p1_noret(route, "beforematch", before_match);
-
-			zend_hash_move_forward_ex(ah0, &hp0);
-		}
-
-	}
-
-	/**
-	 * Get the hostname restriction
-	 */
+	/* Get the hostname restriction */
 	PHALCON_INIT_VAR(hostname);
 	phalcon_call_method(hostname, group, "gethostname");
-	if (Z_TYPE_P(hostname) != IS_NULL) {
 
-		phalcon_is_iterable(group_routes, &ah1, &hp1, 0, 0);
+	/* Get converters */
+	PHALCON_INIT_VAR(converters);
+	phalcon_call_method(converters, group, "getconverters");
 
-		while (zend_hash_get_current_data_ex(ah1, (void**) &hd, &hp1) == SUCCESS) {
+	if (Z_TYPE_P(before_match) != IS_NULL || Z_TYPE_P(hostname) != IS_NULL || Z_TYPE_P(converters) != IS_NULL) {
+		int has_before_match = (Z_TYPE_P(before_match) != IS_NULL);
+		int has_hostname     = (Z_TYPE_P(hostname) != IS_NULL);
+		int has_converters   = (Z_TYPE_P(converters) != IS_NULL);
 
-			PHALCON_GET_HVALUE(route);
+		for (
+			zend_hash_internal_pointer_reset_ex(Z_ARRVAL_P(group_routes), &hp0);
+			zend_hash_get_current_data_ex(Z_ARRVAL_P(group_routes), (void**)&route, &hp0) == SUCCESS;
+			zend_hash_move_forward_ex(Z_ARRVAL_P(group_routes), &hp0)
+		) {
+			if (has_before_match) {
+				phalcon_call_method_p1_noret(*route, "beforematch", before_match);
+			}
 
-			phalcon_call_method_p1_noret(route, "sethostname", hostname);
+			if (has_hostname) {
+				phalcon_call_method_p1_noret(*route, "sethostname", hostname);
+			}
 
-			zend_hash_move_forward_ex(ah1, &hp1);
+			if (has_converters) {
+				zend_hash_apply_with_arguments(Z_ARRVAL_P(converters) TSRMLS_CC, phalcon_router_call_convert, 1, *route);
+			}
 		}
-
 	}
 
-	PHALCON_OBS_VAR(routes);
-	phalcon_read_property_this(&routes, this_ptr, SL("_routes"), PH_NOISY_CC);
+	routes = phalcon_fetch_nproperty_this(this_ptr, SL("_routes"), PH_NOISY_CC);
 	if (Z_TYPE_P(routes) == IS_ARRAY) {
 		PHALCON_INIT_VAR(new_routes);
 		phalcon_fast_array_merge(new_routes, &routes, &group_routes TSRMLS_CC);

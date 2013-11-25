@@ -96,9 +96,8 @@ PHP_METHOD(Phalcon_Http_Request, setDI){
 	zval *dependency_injector;
 
 	phalcon_fetch_params(0, 1, 0, &dependency_injector);
-	
+	PHALCON_VERIFY_INTERFACE_EX(dependency_injector, phalcon_diinterface_ce, phalcon_http_request_exception_ce, 0);
 	phalcon_update_property_this(this_ptr, SL("_dependencyInjector"), dependency_injector TSRMLS_CC);
-	
 }
 
 /**
@@ -2037,7 +2036,7 @@ PHP_METHOD(Phalcon_Http_Request, getDigestAuth){
 		ZVAL_STRING(digest, auth_digest, 1);
 
 		PHALCON_INIT_VAR(pattern);
-		ZVAL_STRING(pattern, "#(\\w+)=(['\"]?)([a-zA-Z0-9=.:/\\_-]+)\\2#", 1);
+		ZVAL_STRING(pattern, "#(\\w+)=(['\"]?)([^'\", ]+)\\2#", 1);
 
 		PHALCON_INIT_VAR(set_order);
 		ZVAL_LONG(set_order, 2);
