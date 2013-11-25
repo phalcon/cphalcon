@@ -342,10 +342,12 @@ class DbDialectTest extends PHPUnit_Framework_TestCase
 				$columns['column2'],
 			)
 		);
-		$this->assertEquals($dialect->createTable('table', null, $definition), 'CREATE TABLE `table` (
-	`column1` VARCHAR(10),
-	`column2` INT(18) UNSIGNED
-)');
+
+		$expected  = "CREATE TABLE `table` (\n";
+		$expected .= "	`column1` VARCHAR(10),\n";
+		$expected .= "	`column2` INT(18) UNSIGNED\n";
+		$expected .= ")";
+		$this->assertEquals($dialect->createTable('table', null, $definition), $expected);
 
 		$definition = array(
 			'columns' => array(
@@ -357,12 +359,14 @@ class DbDialectTest extends PHPUnit_Framework_TestCase
 				$indexes['PRIMARY']
 			)
 		);
-		$this->assertEquals($dialect->createTable('table', null, $definition), 'CREATE TABLE `table` (
-	`column2` INT(18) UNSIGNED,
-	`column3` DECIMAL(10,2) NOT NULL,
-	`column1` VARCHAR(10),
-	PRIMARY KEY (`column3`)
-)');
+
+		$expected  = "CREATE TABLE `table` (\n";
+		$expected .= "	`column2` INT(18) UNSIGNED,\n";
+		$expected .= "	`column3` DECIMAL(10,2) NOT NULL,\n";
+		$expected .= "	`column1` VARCHAR(10),\n";
+		$expected .= "	PRIMARY KEY (`column3`)\n";
+		$expected .= ")";
+		$this->assertEquals($dialect->createTable('table', null, $definition), $expected);
 
 	}
 

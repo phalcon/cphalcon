@@ -15,40 +15,45 @@
   +------------------------------------------------------------------------+
   | Authors: Andres Gutierrez <andres@phalconphp.com>                      |
   |          Eduar Carvajal <eduar@phalconphp.com>                         |
+  |          Piotr Gasiorowski <p.gasiorowski@vipserv.org>                 |
   +------------------------------------------------------------------------+
 */
+
+use Phalcon\Di;
+use Phalcon\Cache\Frontend\Output as FrontendCache;
+use Phalcon\Cache\Backend\File as BackendCache;
+use Phalcon\Mvc\View;
 
 class ViewCacheTest extends PHPUnit_Framework_TestCase
 {
 
 	public function setUp()
 	{
-		$iterator = new DirectoryIterator('unit-tests/cache/');
-		foreach ($iterator as $item) {
-			if (!$item->isDir()) {
-				unlink($item->getPathname());
-			}
+		foreach (new DirectoryIterator('unit-tests/cache/') as $item) {
+			$item->isDir() or unlink($item->getPathname());
 		}
+	}
+
+	public function testCacheMethods()
+	{
+		$di = $this->_getDi();
+		$view = new View();
+		$view->setDI($di);
+		$view->setViewsDir('unit-tests/views/');
+
+		$this->assertEquals($view, $view->start());
+		$this->assertEquals($view, $view->cache(true));
+		$this->assertEquals($view, $view->render('test2', 'index'));
+		$this->assertEquals($view, $view->finish());
 	}
 
 	public function testCacheDI()
 	{
-
-		$di = new Phalcon\DI();
-
-		$di->set('viewCache', function(){
-			$frontend = new Phalcon\Cache\Frontend\Output(array(
-				'lifetime' => 60
-			));
-			return new Phalcon\Cache\Backend\File($frontend, array(
-				'cacheDir' => 'unit-tests/cache/'
-			));
-		});
-
 		$date = date("r");
 		$content = '<html>'.$date.'</html>'.PHP_EOL;
 
-		$view = new Phalcon\Mvc\View();
+		$di = $this->_getDi();
+		$view = new View();
 		$view->setDI($di);
 		$view->setViewsDir('unit-tests/views/');
 		$view->setVar("date", $date);
@@ -93,38 +98,51 @@ class ViewCacheTest extends PHPUnit_Framework_TestCase
 
 	}
 
+	public function testViewCacheIndependency()
+	{
+		$date = date("r");
+		$content = '<html>'.$date.'</html>'.PHP_EOL;
+
+		$di = $this->_getDi();
+		$view = new View();
+		$view->setDI($di);
+		$view->setViewsDir('unit-tests/views/');
+		$view->setVar("date", $date);
+
+		//First hit
+		$view->start();
+		$view->cache(true);
+		$view->render('test8', 'index');
+		$view->finish();
+		$this->assertEquals($view->getContent(), $content);
+
+		$di2 = $this->_getDi();
+		$view2 = new View();
+		$view2->setDI($di2);
+		$view2->setViewsDir('unit-tests/views/');
+
+		//Second hit
+		$view2->start();
+		$view2->cache(true);
+		$view2->render('test8', 'index');
+		$view2->finish();
+		$this->assertEquals($view2->getContent(), $content);
+	}
+
 	public function testViewOptions()
 	{
-
 		$config = array(
 			'cache' => array(
 				'service' => 'otherCache',
 			)
 		);
-
-		$di = new Phalcon\DI();
-
-		$di->set('otherCache', function(){
-
-			$frontend = new Phalcon\Cache\Frontend\Output(array(
-				'lifetime' => 60
-			));
-
-			return new Phalcon\Cache\Backend\File($frontend, array(
-				'cacheDir' => 'unit-tests/cache/'
-			));
-
-		});
-
-		$view = new Phalcon\Mvc\View($config);
-		$view->setDI($di);
-
-		$view->setViewsDir('unit-tests/views/');
-
 		$date = date("r");
-
 		$content = '<html>'.$date.'</html>'.PHP_EOL;
 
+		$di = $this->_getDi('otherCache');
+		$view = new View($config);
+		$view->setDI($di);
+		$view->setViewsDir('unit-tests/views/');
 		$view->setVar("date", $date);
 
 		$view->start();
@@ -145,6 +163,23 @@ class ViewCacheTest extends PHPUnit_Framework_TestCase
 		$view->finish();
 		$this->assertEquals($view->getContent(), $content);
 
+	}
+
+	private function _getDi($service='viewCache', $lifetime=60)
+	{
+		$di = new Di;
+		$frontendCache = new FrontendCache(array('lifetime' => $lifetime));
+		$backendCache = new BackendCache($frontendCache, array('cacheDir' => 'unit-tests/cache/'));
+		$di->set($service, $backendCache);
+		return $di;
+	}
+
+	public static function tearDownAfterClass()
+	{
+		foreach (new DirectoryIterator('unit-tests/cache/') as $item)
+		{
+			$item->isDir() or unlink($item->getPathname());
+		}
 	}
 
 }

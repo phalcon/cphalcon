@@ -1,1 +1,7 @@
-../../ext/tests/assets/1198.css
+a {
+    text-decoration: none;
+}
+
+b {
+    font-weight: bold;
+}

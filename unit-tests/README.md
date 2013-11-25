@@ -26,3 +26,5 @@ Additionally, the file cphalcon/.travis.yml contains full instructions to test P
 Please report any issue if you find out bugs or memory leaks. Thanks!
 
 Note: Cache unit-tests are slower than others tests because they make waits (sleeps) to expire generated caches.
+
+Note: For testing on Windows copy folder php-tests/tests/app/configs to unit-tests/config as Windows doesn't recognize symbolic links

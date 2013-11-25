@@ -330,6 +330,9 @@ class RequestTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($request->getPost('array', 'string', NULL, TRUE, TRUE), NULL);
 	}
 
+	/**
+	 * @requires extension fileinfo
+	 */
 	public function testIssues1442()
 	{
 		$request = new \Phalcon\Http\Request();
