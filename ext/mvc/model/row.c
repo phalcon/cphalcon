@@ -34,6 +34,7 @@
 
 #include "kernel/object.h"
 #include "kernel/exception.h"
+#include "kernel/array.h"
 
 /**
  * Phalcon\Mvc\Model\Row
@@ -139,5 +140,40 @@ PHP_METHOD(Phalcon_Mvc_Model_Row, offsetUnset){
 	
 	PHALCON_THROW_EXCEPTION_STRW(phalcon_mvc_model_exception_ce, "Row is an immutable ArrayAccess object");
 	return;
+}
+
+/**
+ * Returns the instance as an array representation
+ *
+ * @return array
+ */
+PHP_METHOD(Phalcon_Mvc_Model_Row, toArray){
+
+	zval *properties, *key = NULL, *value = NULL;
+	HashTable *ah0;
+	HashPosition hp0;
+	zval **hd;
+
+	PHALCON_MM_GROW();
+	
+	properties = Z_OBJ_HT_P(this_ptr)->get_properties(this_ptr TSRMLS_CC);
+
+	if (properties == NULL) {
+		RETURN_MM_FALSE;
+	}
+
+	array_init(return_value);
+
+	zend_hash_internal_pointer_reset_ex(properties, &hp0);
+	while (zend_hash_get_current_data_ex(properties, (void**) &hd, &hp0) == SUCCESS) {
+		PHALCON_GET_HKEY(key, ah0, hp0);
+		PHALCON_GET_HVALUE(value);
+
+		phalcon_array_update_zval(&return_value, key, &value, PH_COPY | PH_SEPARATE);
+
+		zend_hash_move_forward_ex(ah0, &hp0);
+	}
+
+	RETURN_MM();
 }
 
