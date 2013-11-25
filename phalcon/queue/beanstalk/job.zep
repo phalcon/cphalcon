@@ -56,12 +56,12 @@ class Job
  		var queue, response, status;
 
 		let queue = this->_queue;
-		queue->write('delete '.this->_id);
+		queue->write("delete ".this->_id);
  
 		let response = queue->readStatus();
 		let status = response[0];
  
-		if status=='DELETED' {
+		if status=="DELETED" {
 			return true;
 		}
  
