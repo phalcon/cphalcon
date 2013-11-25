@@ -167,11 +167,10 @@ PHP_METHOD(Phalcon_Mvc_View_Simple, registerEngines) {
  */
 PHP_METHOD(Phalcon_Mvc_View_Simple, _loadTemplateEngines) {
 
-	zend_function *_5 = NULL, *_7 = NULL;
-	HashTable *_3;
-	HashPosition _2;
-	zend_class_entry *_1;
-	zval *engines, *dependencyInjector, *registeredEngines, *arguments, *extension = NULL, *engineService = NULL, *engineObject = NULL, *_0 = NULL, **_4, *_6 = NULL;
+	zend_function *_4 = NULL, *_6 = NULL;
+	HashTable *_2;
+	HashPosition _1;
+	zval *engines, *dependencyInjector, *registeredEngines, *arguments, *extension = NULL, *engineService = NULL, *engineObject = NULL, *_0 = NULL, **_3, *_5 = NULL;
 
 	ZEPHIR_MM_GROW();
 
@@ -189,24 +188,20 @@ PHP_METHOD(Phalcon_Mvc_View_Simple, _loadTemplateEngines) {
 			zephir_array_update_string(&engines, SL(".phtml"), &_0, PH_COPY | PH_SEPARATE);
 		} else {
 			if ((Z_TYPE_P(dependencyInjector) != IS_OBJECT)) {
-				ZEPHIR_INIT_NVAR(_0);
-				_1 = zend_fetch_class(SL("Phalcon\\_Mvc\\View\\Exception"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
-				object_init_ex(_0, _1);
-				zephir_throw_exception(_0 TSRMLS_CC);
-				ZEPHIR_MM_RESTORE();
+				ZEPHIR_THROW_EXCEPTION_STR(phalcon_mvc_view_exception_ce, "A dependency injector container is required to obtain the application services");
 				return;
 			}
 			ZEPHIR_INIT_VAR(arguments);
 			array_init(arguments);
 			zephir_array_fast_append(arguments, this_ptr);
 			zephir_array_fast_append(arguments, dependencyInjector);
-			zephir_is_iterable(registeredEngines, &_3, &_2, 0, 0);
+			zephir_is_iterable(registeredEngines, &_2, &_1, 0, 0);
 			for (
-				; zend_hash_get_current_data_ex(_3, (void**) &_4, &_2) == SUCCESS
-				; zend_hash_move_forward_ex(_3, &_2)
+				; zend_hash_get_current_data_ex(_2, (void**) &_3, &_1) == SUCCESS
+				; zend_hash_move_forward_ex(_2, &_1)
 			) {
-				ZEPHIR_GET_HMKEY(extension, _3, _2);
-				ZEPHIR_GET_HVALUE(engineService, _4);
+				ZEPHIR_GET_HMKEY(extension, _2, _1);
+				ZEPHIR_GET_HVALUE(engineService, _3);
 				if ((Z_TYPE_P(engineService) == IS_OBJECT)) {
 					if (zephir_is_instance_of(engineService, SL("Closure") TSRMLS_CC)) {
 						ZEPHIR_INIT_NVAR(engineObject);
@@ -217,13 +212,13 @@ PHP_METHOD(Phalcon_Mvc_View_Simple, _loadTemplateEngines) {
 				} else {
 					if ((Z_TYPE_P(engineService) == IS_STRING)) {
 						ZEPHIR_INIT_NVAR(engineObject);
-						zephir_call_method_p2_cache(engineObject, dependencyInjector, "getshared", &_5, engineService, arguments);
+						zephir_call_method_p2_cache(engineObject, dependencyInjector, "getshared", &_4, engineService, arguments);
 					} else {
 						ZEPHIR_INIT_NVAR(_0);
 						object_init_ex(_0, phalcon_mvc_view_exception_ce);
-						ZEPHIR_INIT_LNVAR(_6);
-						ZEPHIR_CONCAT_SV(_6, "Invalid template engine registration for extension: ", extension);
-						zephir_call_method_p1_cache_noret(_0, "__construct", &_7, _6);
+						ZEPHIR_INIT_LNVAR(_5);
+						ZEPHIR_CONCAT_SV(_5, "Invalid template engine registration for extension: ", extension);
+						zephir_call_method_p1_cache_noret(_0, "__construct", &_6, _5);
 						zephir_throw_exception(_0 TSRMLS_CC);
 						ZEPHIR_MM_RESTORE();
 						return;

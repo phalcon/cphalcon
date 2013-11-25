@@ -124,8 +124,7 @@ class Beanstalk
 		/**
 		 * Create the command
 		 */
-		let command = "put ".priority." ".delay;
-		let command .= " ".ttr." ".serializedLength;
+		let command = "put " . priority . " " . delay . " " . ttr ." " . serializedLength;
  
 		this->write(command);
 		this->write(serialized);
@@ -133,10 +132,10 @@ class Beanstalk
 		let response = this->readStatus();
 		let status = response[0];
  
-		if status=="INSERTED" {
+		if status == "INSERTED" {
 			return response[1];
 		}
-		if status=="BURIED" {
+		if status == "BURIED" {
 			return response[1];
 		}
  
@@ -285,8 +284,7 @@ class Beanstalk
 	*/
 	public function read(length=null) 
 	{
- 		var connection, length, isEof, totalLength, data, meta, timeout,
- 			packet;
+ 		var connection, isEof, totalLength, data, meta, timeout, packet;
 
 		let connection = this->_connection;
 		if !is_resource(connection) {

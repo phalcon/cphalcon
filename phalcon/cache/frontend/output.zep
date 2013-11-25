@@ -125,13 +125,11 @@ class Output implements Phalcon\Cache\FrontendInterface
 	 *
 	 * @return string
 	 */
-	public function getContent(){
+	public function getContent()
+	{
 
-		var buffering;
-
-		let buffering = this->_buffering;
-		if buffering {
-			return ob_get_content();
+		if this->_buffering {
+			return ob_get_contents();
 		}
 
 		return null;
@@ -142,14 +140,10 @@ class Output implements Phalcon\Cache\FrontendInterface
 	 */
 	public function stop()
 	{
-		var buffering;
-
-		let buffering = this->_buffering;
-		
-		if buffering {
+		if this->_buffering {
 			return ob_end_clean();
 		}
-		
+
 		let this->_buffering = false;
 
 		return null;

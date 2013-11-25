@@ -153,12 +153,12 @@ class Annotations extends Phalcon\Mvc\Router
 							 * Extract the namespace from the namespaced class
 							 */
 							let controllerName = get_class_ns(handler),
-								lowerControllerName = phalcon_uncamelize(controllerName),
+								lowerControllerName = uncamelize(controllerName),
 								namespaceName = get_ns_class(handler);
 
 						} else {
 							let controllerName = handler,
-								lowerControllerName = phalcon_uncamelize(controllerName),
+								lowerControllerName = uncamelize(controllerName),
 								namespaceName = null;
 						}
 
@@ -200,7 +200,7 @@ class Annotations extends Phalcon\Mvc\Router
 						 */
 						let methodAnnotations = handlerAnnotations->getMethodsAnnotations();
 						if typeof methodAnnotations == "array" {
-							let lowercased = phalcon_uncamelize(handler);
+							let lowercased = uncamelize(handler);
 							for method, collection in methodAnnotations {
 								if typeof collection == "object" {
 									for annotation in collection->getAnnotations() {

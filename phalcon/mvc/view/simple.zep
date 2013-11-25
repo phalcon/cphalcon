@@ -138,7 +138,7 @@ class Simple extends Phalcon\Di\Injectable
 			} else {
 
 				if typeof dependencyInjector != "object" {
-					throw new Phalcon\_Mvc\View\Exception("A dependency injector container is required to obtain the application services");
+					throw new Phalcon\Mvc\View\Exception("A dependency injector container is required to obtain the application services");
 				}
 
 				/**

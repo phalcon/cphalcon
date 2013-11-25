@@ -445,7 +445,7 @@ class Manager
 						}
 
 						if file_exists(targetPath) {
-							if compare_mtime(targetPath,sourcePath) {
+							if compare_mtime(targetPath, sourcePath) {
 								let filterNeeded = true;
 							}
 						} else {
@@ -688,10 +688,10 @@ class Manager
 	}
 
 	/**
-	* Prints the HTML for CSS resources
-	*
-	* @param string collectionName
-	*/
+	 * Prints the HTML for CSS resources
+	 *
+	 * @param string collectionName
+	 */
 	public function outputCss(collectionName)
 	{
 		var collection;
@@ -706,10 +706,10 @@ class Manager
 	}
 
 	/**
-	* Prints the HTML for JS resources
-	*
-	* @param string collectionName
-	*/
+	 * Prints the HTML for JS resources
+	 *
+	 * @param string collectionName
+	 */
 	public function outputJs(collectionName)
 	{
 		var collection;

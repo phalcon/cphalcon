@@ -237,11 +237,11 @@ PHP_METHOD(Phalcon_Mvc_Router_Annotations, handle) {
 					if (zephir_is_true(_7)) {
 						ZEPHIR_INIT_NVAR(controllerName);
 						zephir_call_func_p1(controllerName, "get_class_ns", handler);
-						zephir_call_func_p1(lowerControllerName, "phalcon_uncamelize", controllerName);
+						zephir_uncamelize(lowerControllerName, controllerName);
 						zephir_call_func_p1(namespaceName, "get_ns_class", handler);
 					} else {
 						ZEPHIR_CPY_WRT(controllerName, handler);
-						zephir_call_func_p1(lowerControllerName, "phalcon_uncamelize", controllerName);
+						zephir_uncamelize(lowerControllerName, controllerName);
 						ZVAL_NULL(namespaceName);
 					}
 					zephir_update_property_this(this_ptr, SL("_routePrefix"), ZEPHIR_GLOBAL(global_null) TSRMLS_CC);
@@ -274,7 +274,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Annotations, handle) {
 					zephir_call_method_cache(methodAnnotations, handlerAnnotations, "getmethodsannotations", &_15);
 					if ((Z_TYPE_P(methodAnnotations) == IS_ARRAY)) {
 						ZEPHIR_INIT_NVAR(lowercased);
-						zephir_call_func_p1(lowercased, "phalcon_uncamelize", handler);
+						zephir_uncamelize(lowercased, handler);
 						zephir_is_iterable(methodAnnotations, &_17, &_16, 0, 0);
 						for (
 							; zend_hash_get_current_data_ex(_17, (void**) &_18, &_16) == SUCCESS

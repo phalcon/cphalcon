@@ -72,7 +72,7 @@ class Uniqueness extends Phalcon\Mvc\Model\Validator implements Phalcon\Mvc\Mode
 		let bindTypes = [];
 		let bindDataTypes = metaData->getBindTypes(record);
  
-		if kernel_get("orm.column_renaming") {
+		if globals_get("orm.column_renaming") {
 			let columnMap = metaData->getReverseColumnMap(record);
 		} else {
 			let columnMap = null;
@@ -163,20 +163,19 @@ class Uniqueness extends Phalcon\Mvc\Model\Validator implements Phalcon\Mvc\Mode
 		 * If the operation is update, there must be values in the object
 		 */
 		let operationMade = record->getOperationMade();
-		if operationMade==2 {
+		if operationMade == 2 {
  
 			/**
 			 * We build a query with the primary key attributes
 			 */
-			if kernel_get("orm.column_renaming") {
+			if globals_get("orm.column_renaming") {
 				let columnMap = metaData->getColumnMap(record);
 			} else {
 				let columnMap = null;
 			}
  
 			let primaryFields = metaData->getPrimaryKeyAttributes(record);
-			for primaryField in primaryFields
-			{
+			for primaryField in primaryFields {
  
 				if !isset bindDataTypes[primaryField] {
 					throw new Phalcon\Mvc\Model\Exception("Column '".primaryField."' isn't part of the table columns");
@@ -199,7 +198,7 @@ class Uniqueness extends Phalcon\Mvc\Model\Validator implements Phalcon\Mvc\Mode
 				 * Create a condition based on the renamed primary key
 				 */
 				let value = record->readAttribute(primaryField);
-				let condition = '['.attributeField."] <> ?".number;
+				let condition = '[' . attributeField . "] <> ?".number;
 				let conditions[] = condition;
 				let bindParams[] = value;
  
