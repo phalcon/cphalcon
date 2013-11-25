@@ -529,4 +529,23 @@ class AssetsTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals(file_get_contents(__DIR__ . '/assets/production/1198.css'), 'A{TEXT-DECORATION:NONE;}B{FONT-WEIGHT:BOLD;}');
 		@unlink(__DIR__ . '/assets/production/1198.css');
 	}
+
+	public function testIssue1532()
+	{
+		@unlink(__DIR__ . '/assets/production/1532.js');
+		$di = new \Phalcon\DI\FactoryDefault();
+		$assets = new \Phalcon\Assets\Manager();
+		$assets->useImplicitOutput(false);
+		$assets->collection('js')
+			->addJs('unit-tests/assets/jquery.js')
+			->join(true)
+			->addFilter(new Phalcon\Assets\Filters\Jsmin())
+			->setTargetPath(__DIR__ .'/assets/production/1532.js')
+			->setTargetLocal(FALSE)
+			->setPrefix('//phalconphp.com/')
+			->setTargetUri('js/jquery.js');
+
+		$this->assertEquals($assets->outputJs('js'), '<script type="text/javascript" src="//phalconphp.com/js/jquery.js"></script>' . PHP_EOL);
+	}
+
 }

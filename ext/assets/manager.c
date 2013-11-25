@@ -900,12 +900,9 @@ PHP_METHOD(Phalcon_Assets_Manager, output){
 			 */
 			PHALCON_INIT_NVAR(attributes);
 			phalcon_call_method(attributes, collection, "getattributes");
-	
-			/** 
-			 * Joined resources are always local
-			 */
+
 			PHALCON_INIT_NVAR(local);
-			ZVAL_TRUE(local);
+			phalcon_call_method(local, collection, "gettargetlocal");
 	
 			/** 
 			 * Prepare the parameters for the callback
