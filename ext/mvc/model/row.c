@@ -144,37 +144,21 @@ PHP_METHOD(Phalcon_Mvc_Model_Row, offsetUnset){
 }
 
 /**
- * Returns the instance as an array representation
- *
- * @return array
- */
+* Returns the instance as an array representation
+*
+* @return array
+*/
 PHP_METHOD(Phalcon_Mvc_Model_Row, toArray){
 
-	zval *key = NULL, *value = NULL;
-	HashTable *properties;
-	HashPosition hp0;
-	zval **hd;
+        HashTable *properties;
 
-	PHALCON_MM_GROW();
-	
-	properties = Z_OBJ_HT_P(getThis())->get_properties(getThis() TSRMLS_CC);
+        properties = Z_OBJ_HT_P(this_ptr)->get_properties(this_ptr TSRMLS_CC);
 
-	if (properties == NULL) {
-		RETURN_MM_FALSE;
-	}
+        if (!properties) {
+                RETURN_FALSE;
+        }
 
-	array_init(return_value);
-
-	zend_hash_internal_pointer_reset_ex(properties, &hp0);
-	while (zend_hash_get_current_data_ex(properties, (void**) &hd, &hp0) == SUCCESS) {
-		PHALCON_GET_HKEY(key, properties, hp0);
-		PHALCON_GET_HVALUE(value);
-
-		phalcon_array_update_zval(&return_value, key, &value, PH_COPY | PH_SEPARATE);
-
-		zend_hash_move_forward_ex(properties, &hp0);
-	}
-
-	RETURN_MM();
+        array_init_size(return_value, zend_hash_num_elements(properties));
+        zend_hash_copy(Z_ARRVAL_P(return_value), properties, (copy_ctor_func_t)zval_add_ref, NULL, sizeof(zval*));
 }
 
