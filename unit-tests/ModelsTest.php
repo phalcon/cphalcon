@@ -467,6 +467,15 @@ class ModelsTest extends PHPUnit_Framework_TestCase
 		// Issue 1314
 		$parts = new Parts2();
 		$parts->save();
+
+		// Issue 1506
+		$persona = Personas::findFirst(array('columns' => 'nombres, telefono, estado'));
+
+		$expected = array(
+			'nombres', 'telefono', 'estado'
+		);
+
+		$this->assertEquals(array_keys($persona->toArray()), $expected);
 	}
 
 	protected function _executeTestsRenamed($di)
