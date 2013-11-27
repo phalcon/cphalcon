@@ -469,16 +469,13 @@ class ModelsTest extends PHPUnit_Framework_TestCase
 		$parts->save();
 
 		// Issue 1506
-
 		$persona = Personas::findFirst(array('columns' => 'nombres, telefono, estado'));
 
 		$expected = array(
-			'nombres' => 'LOST CREATE',
-			'telefono' => '1',
-			'estado' => 'A'
+			'nombres', 'telefono', 'estado'
 		);
 
-		$this->assertEquals($persona->toArray(), $expected);
+		$this->assertEquals(array_keys($persona->toArray()), $expected);
 	}
 
 	protected function _executeTestsRenamed($di)
