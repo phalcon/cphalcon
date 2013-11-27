@@ -34,6 +34,7 @@
 
 #include "kernel/object.h"
 #include "kernel/exception.h"
+#include "kernel/hash.h"
 #include "kernel/array.h"
 
 /**
