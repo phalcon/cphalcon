@@ -452,7 +452,7 @@ PHP_METHOD(Phalcon_Mvc_View_Simple, render){
 			phalcon_call_method_p2(content, cache, "start", key, lifetime);
 			if (Z_TYPE_P(content) != IS_NULL) {
 				phalcon_update_property_this(this_ptr, SL("_content"), content TSRMLS_CC);
-				RETURN_CCTOR(content);
+				RETURN_CTOR(content);
 			}
 		}
 	}
@@ -509,7 +509,8 @@ PHP_METHOD(Phalcon_Mvc_View_Simple, render){
 	
 	phalcon_ob_end_clean(TSRMLS_C);
 	
-	content = phalcon_fetch_nproperty_this(this_ptr, SL("_content"), PH_NOISY_CC);
+	PHALCON_OBS_NVAR(content);
+	phalcon_read_property_this(&content, this_ptr, SL("_content"), PH_NOISY_CC);
 	RETURN_CTOR(content);
 }
 
