@@ -652,9 +652,9 @@ class Manager
 				let attributes = resource->getAttributes();
 
 				/**
-				 * Filtered resources are always local
+				 *  Gets local
 				 */
-				let local = true;
+				let local = collection->getTargetLocal();
 
 				/**
 				 * Prepare the parameters for the callback

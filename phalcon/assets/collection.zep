@@ -45,6 +45,8 @@ class Collection //implements Countable, Iterator
 
 	protected _targetPath { get, set };
 
+	protected _targetLocal = true { get, set };
+
 	protected _sourcePath { get, set };
 
 	/**
