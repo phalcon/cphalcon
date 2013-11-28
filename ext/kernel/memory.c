@@ -192,6 +192,51 @@ static void phalcon_memory_restore_stack_common(zend_phalcon_globals *phalcon_gl
 
 #ifndef PHALCON_RELEASE
 
+void phalcon_dump_current_frame(TSRMLS_D)
+{
+	zend_phalcon_globals *phalcon_globals_ptr = PHALCON_VGLOBAL;
+	phalcon_memory_entry *active_memory;
+	int i;
+
+	if (unlikely(phalcon_globals_ptr->active_memory == NULL)) {
+		fprintf(stderr, "WARNING: calling phalcon_dump_current_frame() without an active memory frame!\n");
+		phalcon_print_backtrace();
+		return;
+	}
+
+	active_memory = phalcon_globals_ptr->active_memory;
+	assert(active_memory != NULL);
+
+	fprintf(stderr, "Dump of the memory frame %p\n", active_memory);
+
+	if (active_memory->hash_pointer) {
+		for (i = 0; i < active_memory->hash_pointer; ++i) {
+			assert(active_memory->hash_addresses[i] != NULL && *(active_memory->hash_addresses[i]) != NULL);
+			fprintf(stderr, "Hash ptr %d (%p => %p), type=%u, refcnt=%u\n", i, active_memory->hash_addresses[i], *active_memory->hash_addresses[i], Z_TYPE_PP(active_memory->hash_addresses[i]), Z_REFCOUNT_PP(active_memory->hash_addresses[i]));
+		}
+	}
+
+	for (i = 0; i < active_memory->pointer; ++i) {
+		if (likely(active_memory->addresses[i] != NULL && *(active_memory->addresses[i]) != NULL)) {
+			zval **var = active_memory->addresses[i];
+			fprintf(stderr, "Obs var %d (%p => %p), type=%u, refcnt=%u; ", i, var, *var, Z_TYPE_PP(var), Z_REFCOUNT_PP(var));
+			switch (Z_TYPE_PP(var)) {
+				case IS_NULL:     fprintf(stderr, "value=NULL\n"); break;
+				case IS_LONG:     fprintf(stderr, "value=%ld\n", Z_LVAL_PP(var)); break;
+				case IS_DOUBLE:   fprintf(stderr, "value=%E\n", Z_DVAL_PP(var)); break;
+				case IS_BOOL:     fprintf(stderr, "value=(bool)%d\n", Z_BVAL_PP(var)); break;
+				case IS_ARRAY:    fprintf(stderr, "value=array(%p), %d elements\n", Z_ARRVAL_PP(var), zend_hash_num_elements(Z_ARRVAL_PP(var))); break;
+				case IS_OBJECT:   fprintf(stderr, "value=object(%u), %s\n", Z_OBJ_HANDLE_PP(var), Z_OBJCE_PP(var)->name); break;
+				case IS_STRING:   fprintf(stderr, "value=%*s (%p)\n", Z_STRLEN_PP(var), Z_STRVAL_PP(var), Z_STRVAL_PP(var)); break;
+				case IS_RESOURCE: fprintf(stderr, "value=(resource)%ld\n", Z_LVAL_PP(var)); break;
+				default:          fprintf(stderr, "\n"); break;
+			}
+		}
+	}
+
+	fprintf(stderr, "End of the dump of the memory frame %p\n", active_memory);
+}
+
 /**
  * Finishes the current memory stack by releasing allocated memory
  */

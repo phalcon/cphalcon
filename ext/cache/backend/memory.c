@@ -97,6 +97,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Memory, get){
 	
 		PHALCON_INIT_VAR(last_key);
 		PHALCON_CONCAT_VV(last_key, prefix, key_name);
+		phalcon_update_property_this(this_ptr, SL("_lastKey"), last_key TSRMLS_CC);
 	}
 	
 	data = phalcon_fetch_nproperty_this(this_ptr, SL("_data"), PH_NOISY_CC);
