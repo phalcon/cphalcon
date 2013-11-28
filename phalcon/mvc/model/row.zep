@@ -84,5 +84,15 @@ class Row implements ArrayAccess, Phalcon\Mvc\Model\ResultInterface
 	{
 		throw new Phalcon\Mvc\Model\Exception("Row is an immutable ArrayAccess object");
 	}
+	
+	/**
+	 * Returns the instance as an array representation
+	 *
+	 * @return array
+	 */
+	public function toArray()
+	{
+		return get_object_vars(this);
+	}
 
 }
