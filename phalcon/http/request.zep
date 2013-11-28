@@ -837,4 +837,48 @@ class Request implements Phalcon\Http\RequestInterface, Phalcon\Di\InjectionAwar
 		return this->_getBestQuality(this->getLanguages(), "language");
 	}
 
+	
+	/**
+	 * Gets auth info accepted by the browser/client from $_SERVER['PHP_AUTH_USER']
+	 *
+	 * @return array
+	 */
+	public function getBasicAuth()
+	{
+		var auth, username, password;
+
+		if isset _SERVER["PHP_AUTH_USER"] && isset _SERVER["PHP_AUTH_PW"] {
+			let auth = [];
+			let auth["username"] = _SERVER["PHP_AUTH_USER"];
+			let auth["password"] = _SERVER["PHP_AUTH_PW"];
+		}
+
+		return auth;
+	}
+
+	/**
+	 * Gets auth info accepted by the browser/client from $_SERVER['PHP_AUTH_DIGEST']
+	 *
+	 * @return array
+	 */
+	public function getDigestAuth()
+	{
+		var auth, digest, matchs, match;
+
+		if fetch digest, _SERVER["PHP_AUTH_USER"] {
+			if !preg_match_all("#(\w+)=(['\"]?)([^'\" ,]+)\2#", digest, matchs, 2) {
+				return auth;
+			}
+
+			if typeof matchs == array {
+				let auth = [];
+				for match in matchs {
+					let auth[match[1]] = match[3];
+				}
+			}
+		}
+
+		return auth;
+	}
+
 }

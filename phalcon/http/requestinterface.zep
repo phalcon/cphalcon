@@ -299,4 +299,17 @@ interface RequestInterface
 	 */
 	public function getBestLanguage();
 
+	/**
+	 * Gets auth info accepted by the browser/client from $_SERVER['PHP_AUTH_USER']
+	 *
+	 * @return array
+	 */
+	public function getBasicAuth();
+
+	/**
+	 * Gets auth info accepted by the browser/client from $_SERVER['PHP_AUTH_DIGEST']
+	 *
+	 * @return array
+	 */
+	public function getDigestAuth();
 }

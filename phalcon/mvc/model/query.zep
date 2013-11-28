@@ -2483,9 +2483,16 @@ class Query implements Phalcon\Mvc\Model\QueryInterface, Phalcon\Di\InjectionAwa
 		/**
 		 * Get the model connection
 		 */
-		let connection = model->getWriteConnection(),
-			metaData = this->_metaData,
-			attributes = metaData->getAttributes(model);
+		if method_exists(model, "selectWriteConnection") {
+			let connection = model->selectWriteConnection(intermediate, bindParams, bindTypes);
+			if typeof connection != "object" {
+				throw new Phalcon\Mvc\Model\Exception("'selectWriteConnection' didn't return a valid connection");
+			}
+		} else {			
+			let connection = model->getWriteConnection();
+		}
+
+		let metaData = this->_metaData, attributes = metaData->getAttributes(model);
 
 		let automaticFields = false;
 
@@ -2614,9 +2621,17 @@ class Query implements Phalcon\Mvc\Model\QueryInterface, Phalcon\Di\InjectionAwa
 		if !fetch model, this->_modelsInstances[modelName] {
 			let model = this->_manager->load(modelName);
 		}
+			
+		if method_exists(model, "selectWriteConnection") {
+			let connection = model->selectWriteConnection(intermediate, bindParams, bindTypes);
+			if typeof connection != "object" {
+				throw new Phalcon\Mvc\Model\Exception("'selectWriteConnection' didn't return a valid connection");
+			}
+		} else {			
+			let connection = model->getWriteConnection();
+		}
 
-		let connection = model->getWriteConnection(),
-			dialect = connection->getDialect();
+		let dialect = connection->getDialect();
 
 		let fields = intermediate["fields"],
 			values = intermediate["values"];
@@ -2686,7 +2701,14 @@ class Query implements Phalcon\Mvc\Model\QueryInterface, Phalcon\Di\InjectionAwa
 			return new Phalcon\Mvc\Model\Query\Status(true, null);
 		}
 
-		let connection = model->getWriteConnection();
+		if method_exists(model, "selectWriteConnection") {
+			let connection = model->selectWriteConnection(intermediate, bindParams, bindTypes);
+			if typeof connection != "object" {
+				throw new Phalcon\Mvc\Model\Exception("'selectWriteConnection' didn't return a valid connection");
+			}
+		} else {			
+			let connection = model->getWriteConnection();
+		}
 
 		/**
 		 * Create a transaction in the write connection
@@ -2756,7 +2778,14 @@ class Query implements Phalcon\Mvc\Model\QueryInterface, Phalcon\Di\InjectionAwa
 			return new Phalcon\Mvc\Model\Query\Status(true, null);
 		}
 
-		let connection = model->getWriteConnection();
+		if method_exists(model, "selectWriteConnection") {
+			let connection = model->selectWriteConnection(intermediate, bindParams, bindTypes);
+			if typeof connection != "object" {
+				throw new Phalcon\Mvc\Model\Exception("'selectWriteConnection' didn't return a valid connection");
+			}
+		} else {			
+			let connection = model->getWriteConnection();
+		}
 
 		/**
 		 * Create a transaction in the write connection
