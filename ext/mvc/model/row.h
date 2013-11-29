@@ -27,6 +27,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Row, offsetGet);
 PHP_METHOD(Phalcon_Mvc_Model_Row, offsetSet);
 PHP_METHOD(Phalcon_Mvc_Model_Row, offsetUnset);
 PHP_METHOD(Phalcon_Mvc_Model_Row, toArray);
+PHP_METHOD(Phalcon_Mvc_Model_Row, count);
+PHP_METHOD(Phalcon_Mvc_Model_Row, __wakeup);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_row_setdirtystate, 0, 0, 1)
 	ZEND_ARG_INFO(0, dirtyState)
@@ -56,6 +58,7 @@ PHALCON_INIT_FUNCS(phalcon_mvc_model_row_method_entry){
 	PHP_ME(Phalcon_Mvc_Model_Row, offsetSet, arginfo_phalcon_mvc_model_row_offsetset, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Mvc_Model_Row, offsetUnset, arginfo_phalcon_mvc_model_row_offsetunset, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_Row, toArray, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Model_Row, count, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Model_Row, __wakeup, NULL, ZEND_ACC_PUBLIC)
 	PHP_FE_END
 };
-
