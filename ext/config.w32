@@ -35,7 +35,7 @@ if (PHP_PHALCON != "no") {
   ADD_SOURCES("ext/phalcon/mvc/user", "component.c plugin.c module.c", "phalcon")
   ADD_SOURCES("ext/phalcon/mvc/router", "group.c route.c annotations.c exception.c routeinterface.c", "phalcon")
   ADD_SOURCES("ext/phalcon/mvc/url", "exception.c", "phalcon")
-  ADD_SOURCES("ext/phalcon/mvc/view/engine", "php.c volt.c", "phalcon")
+  ADD_SOURCES("ext/phalcon/mvc/view/engine", "php.c volt.c helpers.c", "phalcon")
   ADD_SOURCES("ext/phalcon/mvc/view", "exception.c engineinterface.c simple.c engine.c", "phalcon")
   ADD_SOURCES("ext/phalcon/mvc/model/metadata", "files.c apc.c xcache.c memory.c session.c", "phalcon")
   ADD_SOURCES("ext/phalcon/mvc/model/metadata/strategy", "introspection.c annotations.c", "phalcon")

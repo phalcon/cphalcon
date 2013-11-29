@@ -42,6 +42,8 @@
 #include "kernel/string.h"
 #include "kernel/array.h"
 
+#include "mvc/view/engine/helpers.h"
+
 /**
  * Phalcon\Mvc\View\Engine\Volt
  *
@@ -152,11 +154,8 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, getCompiler){
 PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, render){
 
 	zval *template_path, *params, *must_clean = NULL, *compiler;
-	zval *compiled_template_path, *value = NULL, *key = NULL, *contents;
+	zval *compiled_template_path, *contents;
 	zval *view;
-	HashTable *ah0;
-	HashPosition hp0;
-	zval **hd;
 
 	PHALCON_MM_GROW();
 
@@ -181,38 +180,40 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, render){
 	phalcon_call_method(compiled_template_path, compiler, "getcompiledtemplatepath");
 	
 	/** 
-	 * Export the variables the current symbol table
+	 * Export the variables into the current symbol table
 	 */
 	if (Z_TYPE_P(params) == IS_ARRAY) { 
-	
-		phalcon_is_iterable(params, &ah0, &hp0, 0, 0);
-	
-		while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
-	
-			PHALCON_GET_HKEY(key, ah0, hp0);
-			PHALCON_GET_HVALUE(value);
-	
-			if (phalcon_set_symbol(key, value TSRMLS_CC) == FAILURE){
-				return;
-			}
-	
-			zend_hash_move_forward_ex(ah0, &hp0);
+		if (!EG(active_symbol_table)) {
+			zend_rebuild_symbol_table(TSRMLS_C);
 		}
-	
+
+		zend_hash_merge_ex(
+			EG(active_symbol_table),
+			Z_ARRVAL_P(params),
+			(copy_ctor_func_t)zval_add_ref,
+			sizeof(zval*),
+			phalcon_mvc_view_engine_php_symtable_merger
+#ifdef ZTS
+			TSRMLS_CC
+#else
+			NULL
+#endif
+		);
 	}
 	
 	if (phalcon_require(compiled_template_path TSRMLS_CC) == FAILURE) {
+		RETVAL_FALSE;
 		RETURN_MM();
 	}
 	if (PHALCON_IS_TRUE(must_clean)) {
 		PHALCON_INIT_VAR(contents);
 		phalcon_ob_get_contents(contents TSRMLS_CC);
 	
-		PHALCON_OBS_VAR(view);
-		phalcon_read_property_this(&view, this_ptr, SL("_view"), PH_NOISY_CC);
+		view = phalcon_fetch_nproperty_this(this_ptr, SL("_view"), PH_NOISY_CC);
 		phalcon_call_method_p1_noret(view, "setcontent", contents);
 	}
 	
+	RETVAL_TRUE;
 	PHALCON_MM_RESTORE();
 }
 
@@ -224,32 +225,19 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, render){
  */
 PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, length){
 
-	zval *item, *length = NULL;
+	zval *item;
 
-	PHALCON_MM_GROW();
-
-	phalcon_fetch_params(1, 1, 0, &item);
+	phalcon_fetch_params(0, 1, 0, &item);
 	
-	PHALCON_INIT_VAR(length);
-	ZVAL_LONG(length, 0);
-	if (Z_TYPE_P(item) == IS_OBJECT) {
-		phalcon_fast_count(length, item TSRMLS_CC);
+	if (Z_TYPE_P(item) == IS_OBJECT || Z_TYPE_P(item) == IS_ARRAY) {
+		phalcon_fast_count(return_value, item TSRMLS_CC);
+	} else if (phalcon_function_exists_ex(SS("mb_strlen") TSRMLS_CC) == SUCCESS) {
+		PHALCON_MM_GROW();
+		phalcon_call_func_p1(return_value, "mb_strlen", item);
+		PHALCON_MM_RESTORE();
 	} else {
-		if (Z_TYPE_P(item) == IS_ARRAY) { 
-			PHALCON_INIT_NVAR(length);
-			phalcon_fast_count(length, item TSRMLS_CC);
-		} else {
-			if (phalcon_function_exists_ex(SS("mb_strlen") TSRMLS_CC) == SUCCESS) {
-				PHALCON_INIT_NVAR(length);
-				phalcon_call_func_p1(length, "mb_strlen", item);
-			} else {
-				PHALCON_INIT_NVAR(length);
-				phalcon_fast_strlen(length, item);
-			}
-		}
+		phalcon_fast_strlen(return_value, item);
 	}
-	
-	RETURN_CCTOR(length);
 }
 
 /**
@@ -263,25 +251,23 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, isIncluded){
 
 	zval *needle, *haystack;
 
-	PHALCON_MM_GROW();
-
-	phalcon_fetch_params(1, 2, 0, &needle, &haystack);
+	phalcon_fetch_params(0, 2, 0, &needle, &haystack);
 	
 	if (Z_TYPE_P(haystack) == IS_ARRAY) { 
-		RETVAL_BOOL(phalcon_fast_in_array(needle, haystack TSRMLS_CC));
-		RETURN_MM();
+		RETURN_BOOL(phalcon_fast_in_array(needle, haystack TSRMLS_CC));
 	}
+
 	if (Z_TYPE_P(haystack) == IS_STRING) {
 		if (phalcon_function_exists_ex(SS("mb_strpos") TSRMLS_CC) == SUCCESS) {
+			PHALCON_MM_GROW();
 			phalcon_call_func_p2(return_value, "mb_strpos", haystack, needle);
 			RETURN_MM();
 		}
+
 		phalcon_fast_strpos(return_value, haystack, needle);
-		RETURN_MM();
 	}
 	
-	PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_view_exception_ce, "Invalid haystack");
-	return;
+	PHALCON_THROW_EXCEPTION_STRW(phalcon_mvc_view_exception_ce, "Invalid haystack");
 }
 
 /**

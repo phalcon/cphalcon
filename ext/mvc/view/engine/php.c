@@ -39,6 +39,8 @@
 #include "kernel/require.h"
 #include "kernel/object.h"
 
+#include "mvc/view/engine/helpers.h"
+
 /**
  * Phalcon\Mvc\View\Engine\Php
  *
@@ -67,15 +69,10 @@ PHALCON_INIT_CLASS(Phalcon_Mvc_View_Engine_Php){
  */
 PHP_METHOD(Phalcon_Mvc_View_Engine_Php, render){
 
-	zval *path, *params, *must_clean = NULL, *value = NULL, *key = NULL, *contents;
+	zval *path, *params, *must_clean = NULL, *contents;
 	zval *view;
-	HashTable *ah0;
-	HashPosition hp0;
-	zval **hd;
 
-	PHALCON_MM_GROW();
-
-	phalcon_fetch_params(1, 2, 1, &path, &params, &must_clean);
+	phalcon_fetch_params(0, 2, 1, &path, &params, &must_clean);
 	
 	if (!must_clean) {
 		must_clean = PHALCON_GLOBAL(z_false);
@@ -89,38 +86,38 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Php, render){
 	 * Create the variables in local symbol table
 	 */
 	if (Z_TYPE_P(params) == IS_ARRAY) { 
-	
-		phalcon_is_iterable(params, &ah0, &hp0, 0, 0);
-	
-		while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
-	
-			PHALCON_GET_HKEY(key, ah0, hp0);
-			PHALCON_GET_HVALUE(value);
-	
-			if (phalcon_set_symbol(key, value TSRMLS_CC) == FAILURE){
-				return;
-			}
-	
-			zend_hash_move_forward_ex(ah0, &hp0);
+		if (!EG(active_symbol_table)) {
+			zend_rebuild_symbol_table(TSRMLS_C);
 		}
-	
+
+		zend_hash_merge_ex(
+			EG(active_symbol_table),
+			Z_ARRVAL_P(params),
+			(copy_ctor_func_t)zval_add_ref,
+			sizeof(zval*),
+			phalcon_mvc_view_engine_php_symtable_merger
+#ifdef ZTS
+			TSRMLS_CC
+#else
+			NULL
+#endif
+		);
 	}
 	
 	/** 
 	 * Require the file
 	 */
 	if (phalcon_require(path TSRMLS_CC) == FAILURE) {
-		RETURN_MM();
+		RETURN_FALSE;
 	}
+
 	if (PHALCON_IS_TRUE(must_clean)) {
-		PHALCON_INIT_VAR(contents);
+		PHALCON_ALLOC_GHOST_ZVAL(contents);
 		phalcon_ob_get_contents(contents TSRMLS_CC);
 	
-		PHALCON_OBS_VAR(view);
-		phalcon_read_property_this(&view, this_ptr, SL("_view"), PH_NOISY_CC);
-		phalcon_call_method_p1_noret(view, "setcontent", contents);
+		view = phalcon_fetch_nproperty_this(this_ptr, SL("_view"), PH_NOISY_CC);
+		phalcon_call_method_params(NULL, NULL, view, SL("setcontent"), zend_inline_hash_func(SS("setcontent")) TSRMLS_CC, 1, contents);
 	}
-	
-	PHALCON_MM_RESTORE();
-}
 
+	RETURN_TRUE;
+}
