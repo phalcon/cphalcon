@@ -28,7 +28,7 @@ class BeanstalkTest extends PHPUnit_Framework_TestCase
 			@$queue->connect();
 		}
 		catch (Exception $e) {
-			$this->markTestSkipped("Unable to connect to beanstalkd");
+			$this->markTestSkipped($e->getMessage());
 			return;
 		}
 
