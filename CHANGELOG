@@ -5,6 +5,7 @@
  - APC tests do not run under CLI when apc.enable_cli is 0 (#1449)
  - Phalcon\Debug::uri now support both http and https (#987)
  - Fixed inconsistency in Tag::stylesheetLink/javascriptInclude w.r.t local URLs (#1486)
+ - Fixed bug in Phalcon\Queue\Beanstalk::read() (#1348, #1612)
 
 1.2.4
  - Fixed broken ACL inheritance (#905)
