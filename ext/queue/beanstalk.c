@@ -431,7 +431,7 @@ PHP_METHOD(Phalcon_Queue_Beanstalk, read){
 
 	zval *length = NULL, *connection = NULL, *is_eof, *eof_chars;
 	zval *total_length = NULL, *data, *meta, *timeout, *mask;
-	zval *packet = NULL, *end_of_file;
+	zval *packet = NULL;
 
 	PHALCON_MM_GROW();
 
@@ -488,11 +488,8 @@ PHP_METHOD(Phalcon_Queue_Beanstalk, read){
 		PHALCON_INIT_NVAR(total_length);
 		ZVAL_LONG(total_length, 16384);
 	
-		PHALCON_INIT_VAR(end_of_file);
-		ZVAL_STRING(end_of_file, "\r\n", 1);
-	
 		PHALCON_INIT_NVAR(packet);
-		phalcon_call_func_p3(packet, "stream_get_line", connection, total_length, end_of_file);
+		phalcon_call_func_p2(packet, "fgets", connection, total_length);
 	}
 	
 	RETURN_CCTOR(packet);
