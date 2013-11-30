@@ -18,3 +18,8 @@ phpenv config-add "$DIR/memcache.ini"
 phpenv config-add "$DIR/memcached.ini"
 phpenv config-rm xdebug.ini
 wait
+
+sudo apt-get -qq install beanstalkd
+echo 'DAEMON_OPTS="-l 127.0.0.1 -p 11300"' | sudo tee -a /etc/default/beanstalkd
+echo 'START=yes' | sudo tee -a /etc/default/beanstalkd
+sudo service beanstalkd restart
