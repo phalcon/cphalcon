@@ -21,7 +21,7 @@
 
 class BeanstalkTest extends PHPUnit_Framework_TestCase
 {
-	public function testMemory()
+	public function testBasic()
 	{
 		$queue = new Phalcon\Queue\Beanstalk();
 		try {
