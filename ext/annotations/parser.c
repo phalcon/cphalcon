@@ -1360,7 +1360,7 @@ void phannot_remove_comment_separators(zval *return_value, char *comment, int le
 
 				if (open_parentheses == 0) {
 
-					if ((ch >= 'A' && ch <= 'Z') || (ch >= 'a' && ch <= 'z')) {
+					if (isalnum(ch) || '_' == ch || '\\' == ch) {
 						smart_str_appendc(&processed_str, ch);
 						continue;
 					}
@@ -1377,15 +1377,11 @@ void phannot_remove_comment_separators(zval *return_value, char *comment, int le
 
 					if (ch == '(') {
 						open_parentheses++;
-					} else {
-						if (ch == ')') {
-							open_parentheses--;
-						} else {
-							if (ch == '\n') {
-								(*start_lines)++;
-								start_mode = 1;
-							}
-						}
+					} else if (ch == ')') {
+						open_parentheses--;
+					} else if (ch == '\n') {
+						(*start_lines)++;
+						start_mode = 1;
 					}
 
 					if (open_parentheses > 0) {
