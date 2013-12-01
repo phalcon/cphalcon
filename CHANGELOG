@@ -11,6 +11,7 @@
  - Added Phalcon\Mvc\Model\Row::toArray() method (#1506)
  - Added support for POINT type in MySQL (#1536)
  - Phalcon\Mvc\Model\Validator::getOption() returns NULL if the option does not exist (#1530)
+ - Fixed parsing of annotations containing / (#1480)
 
 1.2.4
  - Fixed broken ACL inheritance (#905)
