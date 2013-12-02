@@ -863,16 +863,17 @@ class Request implements Phalcon\Http\RequestInterface, Phalcon\Di\InjectionAwar
 	 */
 	public function getDigestAuth()
 	{
-		var auth, digest, matchs, match;
+		var auth, digest, matches, match;
 
+		let auth = [];
 		if fetch digest, _SERVER["PHP_AUTH_USER"] {
-			if !preg_match_all("#(\w+)=(['\"]?)([^'\" ,]+)\2#", digest, matchs, 2) {
+			let matches = [];
+			if !preg_match_all("#(\w+)=(['\"]?)([^'\" ,]+)\2#", digest, matches, 2) {
 				return auth;
 			}
 
-			if typeof matchs == array {
-				let auth = [];
-				for match in matchs {
+			if typeof matches == "array" {
+				for match in matches {
 					let auth[match[1]] = match[3];
 				}
 			}

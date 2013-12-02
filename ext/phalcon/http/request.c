@@ -1378,3 +1378,74 @@ PHP_METHOD(Phalcon_Http_Request, getBestLanguage) {
 
 }
 
+/**
+ * Gets auth info accepted by the browser/client from $_SERVER['PHP_AUTH_USER']
+ *
+ * @return array
+ */
+PHP_METHOD(Phalcon_Http_Request, getBasicAuth) {
+
+	zval *auth, *_SERVER, *_0, *_1;
+
+	ZEPHIR_MM_GROW();
+
+	zephir_get_global(&_SERVER, SS("_SERVER") TSRMLS_CC);
+	if ((zephir_array_isset_string(_SERVER, SS("PHP_AUTH_USER")) && zephir_array_isset_string(_SERVER, SS("PHP_AUTH_PW")))) {
+		ZEPHIR_INIT_VAR(auth);
+		array_init(auth);
+		zephir_array_fetch_string(&_0, _SERVER, SL("PHP_AUTH_USER"), PH_NOISY | PH_READONLY TSRMLS_CC);
+		zephir_array_update_string(&auth, SL("username"), &_0, PH_COPY | PH_SEPARATE);
+		zephir_array_fetch_string(&_1, _SERVER, SL("PHP_AUTH_PW"), PH_NOISY | PH_READONLY TSRMLS_CC);
+		zephir_array_update_string(&auth, SL("password"), &_1, PH_COPY | PH_SEPARATE);
+	}
+	RETURN_CCTOR(auth);
+
+}
+
+/**
+ * Gets auth info accepted by the browser/client from $_SERVER['PHP_AUTH_DIGEST']
+ *
+ * @return array
+ */
+PHP_METHOD(Phalcon_Http_Request, getDigestAuth) {
+
+	HashTable *_4;
+	HashPosition _3;
+	zval *auth, *digest, *matches, *match = NULL, *_SERVER, *_0, *_1, *_2, **_5, *_6, *_7 = NULL;
+
+	ZEPHIR_MM_GROW();
+
+	ZEPHIR_INIT_VAR(auth);
+	array_init(auth);
+	zephir_get_global(&_SERVER, SS("_SERVER") TSRMLS_CC);
+	if (zephir_array_isset_string_fetch(&digest, _SERVER, SS("PHP_AUTH_USER"), 1 TSRMLS_CC)) {
+		ZEPHIR_INIT_VAR(matches);
+		array_init(matches);
+		ZEPHIR_INIT_VAR(_0);
+		ZVAL_STRING(_0, "#(\w+)=(['\"]?)([^'\" ,]+)\2#", 1);
+		ZEPHIR_INIT_VAR(_1);
+		ZVAL_LONG(_1, 2);
+		Z_SET_ISREF_P(matches);
+		ZEPHIR_INIT_VAR(_2);
+		zephir_call_func_p4(_2, "preg_match_all", _0, digest, matches, _1);
+		if (!(zephir_is_true(_2))) {
+			RETURN_CCTOR(auth);
+		}
+		if ((Z_TYPE_P(matches) == IS_ARRAY)) {
+			zephir_is_iterable(matches, &_4, &_3, 0, 0);
+			for (
+				; zend_hash_get_current_data_ex(_4, (void**) &_5, &_3) == SUCCESS
+				; zend_hash_move_forward_ex(_4, &_3)
+			) {
+				ZEPHIR_GET_HVALUE(match, _5);
+				zephir_array_fetch_long(&_6, match, 3, PH_NOISY | PH_READONLY TSRMLS_CC);
+				ZEPHIR_OBS_NVAR(_7);
+				zephir_array_fetch_long(&_7, match, 1, PH_NOISY TSRMLS_CC);
+				zephir_array_update_zval(&auth, _7, &_6, PH_COPY | PH_SEPARATE);
+			}
+		}
+	}
+	RETURN_CCTOR(auth);
+
+}
+

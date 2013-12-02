@@ -236,7 +236,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Annotations, handle) {
 					zephir_call_func_p2(_7, "memnstr", handler, _5);
 					if (zephir_is_true(_7)) {
 						ZEPHIR_INIT_NVAR(controllerName);
-						zephir_call_func_p1(controllerName, "get_class_ns", handler);
+						zephir_get_class_ns(controllerName, handler, 0);
 						zephir_uncamelize(lowerControllerName, controllerName);
 						zephir_call_func_p1(namespaceName, "get_ns_class", handler);
 					} else {

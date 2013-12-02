@@ -57,6 +57,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Assets_Collection) {
 	zend_declare_property_bool(phalcon_assets_collection_ce, SL("_join"), 1, ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_assets_collection_ce, SL("_targetUri"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_assets_collection_ce, SL("_targetPath"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_bool(phalcon_assets_collection_ce, SL("_targetLocal"), 1, ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_assets_collection_ce, SL("_sourcePath"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
 	return SUCCESS;
@@ -210,6 +211,23 @@ PHP_METHOD(Phalcon_Assets_Collection, setTargetPath) {
 	zval *targetPath;
 
 	zephir_fetch_params(0, 1, 0, &targetPath);
+
+
+
+
+}
+
+PHP_METHOD(Phalcon_Assets_Collection, getTargetLocal) {
+
+
+
+}
+
+PHP_METHOD(Phalcon_Assets_Collection, setTargetLocal) {
+
+	zval *targetLocal;
+
+	zephir_fetch_params(0, 1, 0, &targetLocal);
 
 
 

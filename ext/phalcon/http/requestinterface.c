@@ -315,3 +315,17 @@ ZEPHIR_DOC_METHOD(Phalcon_Http_RequestInterface, getLanguages);
  */
 ZEPHIR_DOC_METHOD(Phalcon_Http_RequestInterface, getBestLanguage);
 
+/**
+ * Gets auth info accepted by the browser/client from $_SERVER['PHP_AUTH_USER']
+ *
+ * @return array
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Http_RequestInterface, getBasicAuth);
+
+/**
+ * Gets auth info accepted by the browser/client from $_SERVER['PHP_AUTH_DIGEST']
+ *
+ * @return array
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Http_RequestInterface, getDigestAuth);
+

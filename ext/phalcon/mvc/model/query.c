@@ -2685,7 +2685,15 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _executeInsert) {
 		zephir_call_method_p1(model, manager, "load", modelName);
 	}
 	ZEPHIR_INIT_VAR(connection);
-	zephir_call_method(connection, model, "getwriteconnection");
+	if ((zephir_method_exists_ex(model, SS("selectwriteconnection") TSRMLS_CC) == SUCCESS)) {
+		zephir_call_method_p3(connection, model, "selectwriteconnection", intermediate, bindParams, bindTypes);
+		if ((Z_TYPE_P(connection) != IS_OBJECT)) {
+			ZEPHIR_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "'selectWriteConnection' didn't return a valid connection");
+			return;
+		}
+	} else {
+		zephir_call_method(connection, model, "getwriteconnection");
+	}
 	metaData = zephir_fetch_nproperty_this(this_ptr, SL("_metaData"), PH_NOISY_CC);
 	ZEPHIR_INIT_VAR(attributes);
 	zephir_call_method_p1(attributes, metaData, "getattributes", model);
@@ -2835,7 +2843,15 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _executeUpdate) {
 		zephir_call_method_p1(model, _1, "load", modelName);
 	}
 	ZEPHIR_INIT_VAR(connection);
-	zephir_call_method(connection, model, "getwriteconnection");
+	if ((zephir_method_exists_ex(model, SS("selectwriteconnection") TSRMLS_CC) == SUCCESS)) {
+		zephir_call_method_p3(connection, model, "selectwriteconnection", intermediate, bindParams, bindTypes);
+		if ((Z_TYPE_P(connection) != IS_OBJECT)) {
+			ZEPHIR_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "'selectWriteConnection' didn't return a valid connection");
+			return;
+		}
+	} else {
+		zephir_call_method(connection, model, "getwriteconnection");
+	}
 	ZEPHIR_INIT_VAR(dialect);
 	zephir_call_method(dialect, connection, "getdialect");
 	zephir_array_fetch_string(&fields, intermediate, SL("fields"), PH_NOISY | PH_READONLY TSRMLS_CC);
@@ -2911,7 +2927,15 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _executeUpdate) {
 		RETURN_MM();
 	}
 	ZEPHIR_INIT_BNVAR(connection);
-	zephir_call_method(connection, model, "getwriteconnection");
+	if ((zephir_method_exists_ex(model, SS("selectwriteconnection") TSRMLS_CC) == SUCCESS)) {
+		zephir_call_method_p3(connection, model, "selectwriteconnection", intermediate, bindParams, bindTypes);
+		if ((Z_TYPE_P(connection) != IS_OBJECT)) {
+			ZEPHIR_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "'selectWriteConnection' didn't return a valid connection");
+			return;
+		}
+	} else {
+		zephir_call_method(connection, model, "getwriteconnection");
+	}
 	zephir_call_method_noret(connection, "begin");
 	ZEPHIR_INIT_NVAR(_6);
 	zephir_call_func_p1(_6, "iterator", records);
@@ -2978,7 +3002,15 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _executeDelete) {
 		RETURN_MM();
 	}
 	ZEPHIR_INIT_VAR(connection);
-	zephir_call_method(connection, model, "getwriteconnection");
+	if ((zephir_method_exists_ex(model, SS("selectwriteconnection") TSRMLS_CC) == SUCCESS)) {
+		zephir_call_method_p3(connection, model, "selectwriteconnection", intermediate, bindParams, bindTypes);
+		if ((Z_TYPE_P(connection) != IS_OBJECT)) {
+			ZEPHIR_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "'selectWriteConnection' didn't return a valid connection");
+			return;
+		}
+	} else {
+		zephir_call_method(connection, model, "getwriteconnection");
+	}
 	zephir_call_method_noret(connection, "begin");
 	ZEPHIR_INIT_VAR(_2);
 	zephir_call_func_p1(_2, "iterator", records);

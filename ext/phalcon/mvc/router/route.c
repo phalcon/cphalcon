@@ -449,7 +449,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Route, reConfigure) {
 			if ((Z_TYPE_P(controllerName) != IS_NULL)) {
 				if (zephir_memnstr_str(controllerName, SL("\\"), "phalcon/mvc/router/route.zep", 330)) {
 					ZEPHIR_INIT_VAR(realClassName);
-					zephir_call_func_p1(realClassName, "get_class_ns", controllerName);
+					zephir_get_class_ns(realClassName, controllerName, 0);
 					ZEPHIR_INIT_VAR(namespaceName);
 					zephir_call_func_p1(namespaceName, "get_ns_class", controllerName);
 					if (zephir_is_true(namespaceName)) {
