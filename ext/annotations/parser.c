@@ -4,7 +4,7 @@
 /* First off, code is include which follows the "include" declaration
 ** in the input file. */
 #include <stdio.h>
-// 28 "parser.lemon"
+/* #line 28 "parser.lemon" */
 
 
 #ifdef HAVE_CONFIG_H
@@ -135,7 +135,7 @@ static zval *phannot_ret_annotation(phannot_parser_token *name, zval *arguments,
 }
 
 
-// 139 "parser.c"
+/* #line 139 "parser.c" */
 /* Next is all token values, in a form suitable for use by makeheaders.
 ** This section will be null unless lemon is run with the -m switch.
 */
@@ -494,7 +494,7 @@ static void jj_destructor(JJCODETYPE jjmajor, JJMINORTYPE *jjpminor){
     case 15:
     case 16:
     case 17:
-// 222 "parser.lemon"
+/* #line 222 "parser.lemon" */
 {
 	if ((jjpminor->jj0)) {
 		if ((jjpminor->jj0)->free_flag) {
@@ -503,7 +503,7 @@ static void jj_destructor(JJCODETYPE jjmajor, JJMINORTYPE *jjpminor){
 		efree((jjpminor->jj0));
 	}
 }
-// 507 "parser.c"
+/* #line 507 "parser.c" */
       break;
     case 20:
     case 21:
@@ -511,9 +511,9 @@ static void jj_destructor(JJCODETYPE jjmajor, JJMINORTYPE *jjpminor){
     case 23:
     case 24:
     case 25:
-// 235 "parser.lemon"
+/* #line 235 "parser.lemon" */
 { zval_ptr_dtor(&(jjpminor->jj36)); }
-// 517 "parser.c"
+/* #line 517 "parser.c" */
       break;
     default:  break;   /* If no destructor action specified: do nothing */
   }
@@ -745,172 +745,172 @@ static void jj_reduce(
   /* Beginning here are the reduction cases.  A typical example
   ** follows:
   **   case 0:
-  **  // <lineno> <grammarfile>
+  **  #line <lineno> <grammarfile>
   **     { ... }           // User supplied code
-  **  // <lineno> <thisfile>
+  **  #line <lineno> <thisfile>
   **     break;
   */
       case 0:
-// 231 "parser.lemon"
+/* #line 231 "parser.lemon" */
 {
 	status->ret = jjmsp[0].minor.jj36;
 }
-// 759 "parser.c"
+/* #line 759 "parser.c" */
         break;
       case 1:
       case 14:
       case 15:
-// 237 "parser.lemon"
+/* #line 237 "parser.lemon" */
 {
 	jjgotominor.jj36 = jjmsp[0].minor.jj36;
 }
-// 768 "parser.c"
+/* #line 768 "parser.c" */
         break;
       case 2:
-// 243 "parser.lemon"
+/* #line 243 "parser.lemon" */
 {
 	jjgotominor.jj36 = phannot_ret_zval_list(jjmsp[-1].minor.jj36, jjmsp[0].minor.jj36);
 }
-// 775 "parser.c"
+/* #line 775 "parser.c" */
         break;
       case 3:
       case 8:
-// 247 "parser.lemon"
+/* #line 247 "parser.lemon" */
 {
 	jjgotominor.jj36 = phannot_ret_zval_list(NULL, jjmsp[0].minor.jj36);
 }
-// 783 "parser.c"
+/* #line 783 "parser.c" */
         break;
       case 4:
-// 254 "parser.lemon"
+/* #line 254 "parser.lemon" */
 {
 	jjgotominor.jj36 = phannot_ret_annotation(jjmsp[-3].minor.jj0, jjmsp[-1].minor.jj36, status->scanner_state);
   jj_destructor(2,&jjmsp[-4].minor);
   jj_destructor(4,&jjmsp[-2].minor);
   jj_destructor(5,&jjmsp[0].minor);
 }
-// 793 "parser.c"
+/* #line 793 "parser.c" */
         break;
       case 5:
-// 258 "parser.lemon"
+/* #line 258 "parser.lemon" */
 {
 	jjgotominor.jj36 = phannot_ret_annotation(jjmsp[-2].minor.jj0, NULL, status->scanner_state);
   jj_destructor(2,&jjmsp[-3].minor);
   jj_destructor(4,&jjmsp[-1].minor);
   jj_destructor(5,&jjmsp[0].minor);
 }
-// 803 "parser.c"
+/* #line 803 "parser.c" */
         break;
       case 6:
-// 262 "parser.lemon"
+/* #line 262 "parser.lemon" */
 {
 	jjgotominor.jj36 = phannot_ret_annotation(jjmsp[0].minor.jj0, NULL, status->scanner_state);
   jj_destructor(2,&jjmsp[-1].minor);
 }
-// 811 "parser.c"
+/* #line 811 "parser.c" */
         break;
       case 7:
-// 268 "parser.lemon"
+/* #line 268 "parser.lemon" */
 {
 	jjgotominor.jj36 = phannot_ret_zval_list(jjmsp[-2].minor.jj36, jjmsp[0].minor.jj36);
   jj_destructor(1,&jjmsp[-1].minor);
 }
-// 819 "parser.c"
+/* #line 819 "parser.c" */
         break;
       case 9:
-// 278 "parser.lemon"
+/* #line 278 "parser.lemon" */
 {
 	jjgotominor.jj36 = phannot_ret_named_item(NULL, jjmsp[0].minor.jj36);
 }
-// 826 "parser.c"
+/* #line 826 "parser.c" */
         break;
       case 10:
       case 12:
-// 282 "parser.lemon"
+/* #line 282 "parser.lemon" */
 {
 	jjgotominor.jj36 = phannot_ret_named_item(jjmsp[-2].minor.jj0, jjmsp[0].minor.jj36);
   jj_destructor(7,&jjmsp[-1].minor);
 }
-// 835 "parser.c"
+/* #line 835 "parser.c" */
         break;
       case 11:
       case 13:
-// 286 "parser.lemon"
+/* #line 286 "parser.lemon" */
 {
 	jjgotominor.jj36 = phannot_ret_named_item(jjmsp[-2].minor.jj0, jjmsp[0].minor.jj36);
   jj_destructor(8,&jjmsp[-1].minor);
 }
-// 844 "parser.c"
+/* #line 844 "parser.c" */
         break;
       case 16:
-// 308 "parser.lemon"
+/* #line 308 "parser.lemon" */
 {
 	jjgotominor.jj36 = phannot_ret_literal_zval(PHANNOT_T_IDENTIFIER, jjmsp[0].minor.jj0);
 }
-// 851 "parser.c"
+/* #line 851 "parser.c" */
         break;
       case 17:
-// 312 "parser.lemon"
+/* #line 312 "parser.lemon" */
 {
 	jjgotominor.jj36 = phannot_ret_literal_zval(PHANNOT_T_INTEGER, jjmsp[0].minor.jj0);
 }
-// 858 "parser.c"
+/* #line 858 "parser.c" */
         break;
       case 18:
-// 316 "parser.lemon"
+/* #line 316 "parser.lemon" */
 {
 	jjgotominor.jj36 = phannot_ret_literal_zval(PHANNOT_T_STRING, jjmsp[0].minor.jj0);
 }
-// 865 "parser.c"
+/* #line 865 "parser.c" */
         break;
       case 19:
-// 320 "parser.lemon"
+/* #line 320 "parser.lemon" */
 {
 	jjgotominor.jj36 = phannot_ret_literal_zval(PHANNOT_T_DOUBLE, jjmsp[0].minor.jj0);
 }
-// 872 "parser.c"
+/* #line 872 "parser.c" */
         break;
       case 20:
-// 324 "parser.lemon"
+/* #line 324 "parser.lemon" */
 {
 	jjgotominor.jj36 = phannot_ret_literal_zval(PHANNOT_T_NULL, NULL);
   jj_destructor(11,&jjmsp[0].minor);
 }
-// 880 "parser.c"
+/* #line 880 "parser.c" */
         break;
       case 21:
-// 328 "parser.lemon"
+/* #line 328 "parser.lemon" */
 {
 	jjgotominor.jj36 = phannot_ret_literal_zval(PHANNOT_T_FALSE, NULL);
   jj_destructor(12,&jjmsp[0].minor);
 }
-// 888 "parser.c"
+/* #line 888 "parser.c" */
         break;
       case 22:
-// 332 "parser.lemon"
+/* #line 332 "parser.lemon" */
 {
 	jjgotominor.jj36 = phannot_ret_literal_zval(PHANNOT_T_TRUE, NULL);
   jj_destructor(13,&jjmsp[0].minor);
 }
-// 896 "parser.c"
+/* #line 896 "parser.c" */
         break;
       case 23:
-// 336 "parser.lemon"
+/* #line 336 "parser.lemon" */
 {
 	jjgotominor.jj36 = phannot_ret_array(jjmsp[-1].minor.jj36);
   jj_destructor(14,&jjmsp[-2].minor);
   jj_destructor(15,&jjmsp[0].minor);
 }
-// 905 "parser.c"
+/* #line 905 "parser.c" */
         break;
       case 24:
-// 340 "parser.lemon"
+/* #line 340 "parser.lemon" */
 {
 	jjgotominor.jj36 = phannot_ret_array(jjmsp[-1].minor.jj36);
   jj_destructor(16,&jjmsp[-2].minor);
   jj_destructor(17,&jjmsp[0].minor);
 }
-// 914 "parser.c"
+/* #line 914 "parser.c" */
         break;
   };
   jjgoto = jjRuleInfo[jjruleno].lhs;
@@ -952,7 +952,7 @@ static void jj_syntax_error(
 ){
   phannot_ARG_FETCH;
 #define JTOKEN (jjminor.jj0)
-// 159 "parser.lemon"
+/* #line 159 "parser.lemon" */
 
 	if (status->scanner_state->start_length) {
 		{
@@ -1015,7 +1015,7 @@ static void jj_syntax_error(
 
 	status->status = PHANNOT_PARSING_FAILED;
 
-// 1019 "parser.c"
+/* #line 1019 "parser.c" */
   phannot_ARG_STORE; /* Suppress warning about unused %extra_argument variable */
 }
 
@@ -1219,7 +1219,7 @@ const phannot_token_names phannot_tokens[] =
 	{ ")",              PHANNOT_T_PARENTHESES_CLOSE },
 	{ "{",              PHANNOT_T_BRACKET_OPEN },
 	{ "}",              PHANNOT_T_BRACKET_CLOSE },
-	{ "[",              PHANNOT_T_SBRACKET_OPEN },
+ 	{ "[",              PHANNOT_T_SBRACKET_OPEN },
 	{ "]",              PHANNOT_T_SBRACKET_CLOSE },
 	{ "ARBITRARY TEXT", PHANNOT_T_ARBITRARY_TEXT },
 	{ NULL, 0 }
@@ -1359,7 +1359,7 @@ void phannot_remove_comment_separators(zval *return_value, char *comment, int le
 
 				if (open_parentheses == 0) {
 
-					if ((ch >= 'A' && ch <= 'Z') || (ch >= 'a' && ch <= 'z')) {
+					if (isalnum(ch) || '_' == ch || '\\' == ch) {
 						smart_str_appendc(&processed_str, ch);
 						continue;
 					}
@@ -1376,15 +1376,11 @@ void phannot_remove_comment_separators(zval *return_value, char *comment, int le
 
 					if (ch == '(') {
 						open_parentheses++;
-					} else {
-						if (ch == ')') {
-							open_parentheses--;
-						} else {
-							if (ch == '\n') {
-								(*start_lines)++;
-								start_mode = 1;
-							}
-						}
+					} else if (ch == ')') {
+						open_parentheses--;
+					} else if (ch == '\n') {
+						(*start_lines)++;
+						start_mode = 1;
 					}
 
 					if (open_parentheses > 0) {

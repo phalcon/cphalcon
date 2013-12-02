@@ -30088,7 +30088,7 @@ static PHP_METHOD(Phalcon_Annotations_Reflection, __set_state){
 /* First off, code is include which follows the "include" declaration
 ** in the input file. */
 #include <stdio.h>
-// 28 "parser.lemon"
+/* #line 28 "parser.lemon" */
 
 
 #ifdef HAVE_CONFIG_H
@@ -30207,7 +30207,7 @@ static zval *phannot_ret_annotation(phannot_parser_token *name, zval *arguments,
 }
 
 
-// 139 "parser.c"
+/* #line 139 "parser.c" */
 /* Next is all token values, in a form suitable for use by makeheaders.
 ** This section will be null unless lemon is run with the -m switch.
 */
@@ -30526,7 +30526,7 @@ static void jj_destructor(JJCODETYPE jjmajor, JJMINORTYPE *jjpminor){
     case 15:
     case 16:
     case 17:
-// 222 "parser.lemon"
+/* #line 222 "parser.lemon" */
 {
 	if ((jjpminor->jj0)) {
 		if ((jjpminor->jj0)->free_flag) {
@@ -30535,7 +30535,7 @@ static void jj_destructor(JJCODETYPE jjmajor, JJMINORTYPE *jjpminor){
 		efree((jjpminor->jj0));
 	}
 }
-// 507 "parser.c"
+/* #line 507 "parser.c" */
       break;
     case 20:
     case 21:
@@ -30543,9 +30543,9 @@ static void jj_destructor(JJCODETYPE jjmajor, JJMINORTYPE *jjpminor){
     case 23:
     case 24:
     case 25:
-// 235 "parser.lemon"
+/* #line 235 "parser.lemon" */
 { zval_ptr_dtor(&(jjpminor->jj36)); }
-// 517 "parser.c"
+/* #line 517 "parser.c" */
       break;
     default:  break;   /* If no destructor action specified: do nothing */
   }
@@ -30734,172 +30734,172 @@ static void jj_reduce(
   /* Beginning here are the reduction cases.  A typical example
   ** follows:
   **   case 0:
-  **  // <lineno> <grammarfile>
+  **  #line <lineno> <grammarfile>
   **     { ... }           // User supplied code
-  **  // <lineno> <thisfile>
+  **  #line <lineno> <thisfile>
   **     break;
   */
       case 0:
-// 231 "parser.lemon"
+/* #line 231 "parser.lemon" */
 {
 	status->ret = jjmsp[0].minor.jj36;
 }
-// 759 "parser.c"
+/* #line 759 "parser.c" */
         break;
       case 1:
       case 14:
       case 15:
-// 237 "parser.lemon"
+/* #line 237 "parser.lemon" */
 {
 	jjgotominor.jj36 = jjmsp[0].minor.jj36;
 }
-// 768 "parser.c"
+/* #line 768 "parser.c" */
         break;
       case 2:
-// 243 "parser.lemon"
+/* #line 243 "parser.lemon" */
 {
 	jjgotominor.jj36 = phannot_ret_zval_list(jjmsp[-1].minor.jj36, jjmsp[0].minor.jj36);
 }
-// 775 "parser.c"
+/* #line 775 "parser.c" */
         break;
       case 3:
       case 8:
-// 247 "parser.lemon"
+/* #line 247 "parser.lemon" */
 {
 	jjgotominor.jj36 = phannot_ret_zval_list(NULL, jjmsp[0].minor.jj36);
 }
-// 783 "parser.c"
+/* #line 783 "parser.c" */
         break;
       case 4:
-// 254 "parser.lemon"
+/* #line 254 "parser.lemon" */
 {
 	jjgotominor.jj36 = phannot_ret_annotation(jjmsp[-3].minor.jj0, jjmsp[-1].minor.jj36, status->scanner_state);
   jj_destructor(2,&jjmsp[-4].minor);
   jj_destructor(4,&jjmsp[-2].minor);
   jj_destructor(5,&jjmsp[0].minor);
 }
-// 793 "parser.c"
+/* #line 793 "parser.c" */
         break;
       case 5:
-// 258 "parser.lemon"
+/* #line 258 "parser.lemon" */
 {
 	jjgotominor.jj36 = phannot_ret_annotation(jjmsp[-2].minor.jj0, NULL, status->scanner_state);
   jj_destructor(2,&jjmsp[-3].minor);
   jj_destructor(4,&jjmsp[-1].minor);
   jj_destructor(5,&jjmsp[0].minor);
 }
-// 803 "parser.c"
+/* #line 803 "parser.c" */
         break;
       case 6:
-// 262 "parser.lemon"
+/* #line 262 "parser.lemon" */
 {
 	jjgotominor.jj36 = phannot_ret_annotation(jjmsp[0].minor.jj0, NULL, status->scanner_state);
   jj_destructor(2,&jjmsp[-1].minor);
 }
-// 811 "parser.c"
+/* #line 811 "parser.c" */
         break;
       case 7:
-// 268 "parser.lemon"
+/* #line 268 "parser.lemon" */
 {
 	jjgotominor.jj36 = phannot_ret_zval_list(jjmsp[-2].minor.jj36, jjmsp[0].minor.jj36);
   jj_destructor(1,&jjmsp[-1].minor);
 }
-// 819 "parser.c"
+/* #line 819 "parser.c" */
         break;
       case 9:
-// 278 "parser.lemon"
+/* #line 278 "parser.lemon" */
 {
 	jjgotominor.jj36 = phannot_ret_named_item(NULL, jjmsp[0].minor.jj36);
 }
-// 826 "parser.c"
+/* #line 826 "parser.c" */
         break;
       case 10:
       case 12:
-// 282 "parser.lemon"
+/* #line 282 "parser.lemon" */
 {
 	jjgotominor.jj36 = phannot_ret_named_item(jjmsp[-2].minor.jj0, jjmsp[0].minor.jj36);
   jj_destructor(7,&jjmsp[-1].minor);
 }
-// 835 "parser.c"
+/* #line 835 "parser.c" */
         break;
       case 11:
       case 13:
-// 286 "parser.lemon"
+/* #line 286 "parser.lemon" */
 {
 	jjgotominor.jj36 = phannot_ret_named_item(jjmsp[-2].minor.jj0, jjmsp[0].minor.jj36);
   jj_destructor(8,&jjmsp[-1].minor);
 }
-// 844 "parser.c"
+/* #line 844 "parser.c" */
         break;
       case 16:
-// 308 "parser.lemon"
+/* #line 308 "parser.lemon" */
 {
 	jjgotominor.jj36 = phannot_ret_literal_zval(PHANNOT_T_IDENTIFIER, jjmsp[0].minor.jj0);
 }
-// 851 "parser.c"
+/* #line 851 "parser.c" */
         break;
       case 17:
-// 312 "parser.lemon"
+/* #line 312 "parser.lemon" */
 {
 	jjgotominor.jj36 = phannot_ret_literal_zval(PHANNOT_T_INTEGER, jjmsp[0].minor.jj0);
 }
-// 858 "parser.c"
+/* #line 858 "parser.c" */
         break;
       case 18:
-// 316 "parser.lemon"
+/* #line 316 "parser.lemon" */
 {
 	jjgotominor.jj36 = phannot_ret_literal_zval(PHANNOT_T_STRING, jjmsp[0].minor.jj0);
 }
-// 865 "parser.c"
+/* #line 865 "parser.c" */
         break;
       case 19:
-// 320 "parser.lemon"
+/* #line 320 "parser.lemon" */
 {
 	jjgotominor.jj36 = phannot_ret_literal_zval(PHANNOT_T_DOUBLE, jjmsp[0].minor.jj0);
 }
-// 872 "parser.c"
+/* #line 872 "parser.c" */
         break;
       case 20:
-// 324 "parser.lemon"
+/* #line 324 "parser.lemon" */
 {
 	jjgotominor.jj36 = phannot_ret_literal_zval(PHANNOT_T_NULL, NULL);
   jj_destructor(11,&jjmsp[0].minor);
 }
-// 880 "parser.c"
+/* #line 880 "parser.c" */
         break;
       case 21:
-// 328 "parser.lemon"
+/* #line 328 "parser.lemon" */
 {
 	jjgotominor.jj36 = phannot_ret_literal_zval(PHANNOT_T_FALSE, NULL);
   jj_destructor(12,&jjmsp[0].minor);
 }
-// 888 "parser.c"
+/* #line 888 "parser.c" */
         break;
       case 22:
-// 332 "parser.lemon"
+/* #line 332 "parser.lemon" */
 {
 	jjgotominor.jj36 = phannot_ret_literal_zval(PHANNOT_T_TRUE, NULL);
   jj_destructor(13,&jjmsp[0].minor);
 }
-// 896 "parser.c"
+/* #line 896 "parser.c" */
         break;
       case 23:
-// 336 "parser.lemon"
+/* #line 336 "parser.lemon" */
 {
 	jjgotominor.jj36 = phannot_ret_array(jjmsp[-1].minor.jj36);
   jj_destructor(14,&jjmsp[-2].minor);
   jj_destructor(15,&jjmsp[0].minor);
 }
-// 905 "parser.c"
+/* #line 905 "parser.c" */
         break;
       case 24:
-// 340 "parser.lemon"
+/* #line 340 "parser.lemon" */
 {
 	jjgotominor.jj36 = phannot_ret_array(jjmsp[-1].minor.jj36);
   jj_destructor(16,&jjmsp[-2].minor);
   jj_destructor(17,&jjmsp[0].minor);
 }
-// 914 "parser.c"
+/* #line 914 "parser.c" */
         break;
   };
   jjgoto = jjRuleInfo[jjruleno].lhs;
@@ -30935,7 +30935,7 @@ static void jj_syntax_error(
 ){
   phannot_ARG_FETCH;
 #define JTOKEN (jjminor.jj0)
-// 159 "parser.lemon"
+/* #line 159 "parser.lemon" */
 
 	if (status->scanner_state->start_length) {
 		{
@@ -30998,7 +30998,7 @@ static void jj_syntax_error(
 
 	status->status = PHANNOT_PARSING_FAILED;
 
-// 1019 "parser.c"
+/* #line 1019 "parser.c" */
   phannot_ARG_STORE; /* Suppress warning about unused %extra_argument variable */
 }
 
@@ -31182,7 +31182,7 @@ const phannot_token_names phannot_tokens[] =
 	{ ")",              PHANNOT_T_PARENTHESES_CLOSE },
 	{ "{",              PHANNOT_T_BRACKET_OPEN },
 	{ "}",              PHANNOT_T_BRACKET_CLOSE },
-	{ "[",              PHANNOT_T_SBRACKET_OPEN },
+ 	{ "[",              PHANNOT_T_SBRACKET_OPEN },
 	{ "]",              PHANNOT_T_SBRACKET_CLOSE },
 	{ "ARBITRARY TEXT", PHANNOT_T_ARBITRARY_TEXT },
 	{ NULL, 0 }
@@ -31304,7 +31304,7 @@ static void phannot_remove_comment_separators(zval *return_value, char *comment,
 
 				if (open_parentheses == 0) {
 
-					if ((ch >= 'A' && ch <= 'Z') || (ch >= 'a' && ch <= 'z')) {
+					if (isalnum(ch) || '_' == ch || '\\' == ch) {
 						smart_str_appendc(&processed_str, ch);
 						continue;
 					}
@@ -31321,15 +31321,11 @@ static void phannot_remove_comment_separators(zval *return_value, char *comment,
 
 					if (ch == '(') {
 						open_parentheses++;
-					} else {
-						if (ch == ')') {
-							open_parentheses--;
-						} else {
-							if (ch == '\n') {
-								(*start_lines)++;
-								start_mode = 1;
-							}
-						}
+					} else if (ch == ')') {
+						open_parentheses--;
+					} else if (ch == '\n') {
+						(*start_lines)++;
+						start_mode = 1;
 					}
 
 					if (open_parentheses > 0) {
@@ -31581,8 +31577,8 @@ PHALCON_INIT_CLASS(Phalcon_Annotations_AdapterInterface){
 
 
 
-/* Generated by re2c 0.13.5 on Fri Jun 28 19:00:52 2013 */
-// 1 "scanner.re"
+/* Generated by re2c 0.13.5 on Mon Dec  2 00:50:50 2013 */
+/* #line 1 "scanner.re" */
 
 
 #ifdef HAVE_CONFIG_H
@@ -31624,10 +31620,44 @@ static int phannot_get_token(phannot_scanner_state *s, phannot_scanner_token *to
 		} else {
 
 		
-// 66 "scanner.c"
+/* #line 66 "scanner.c" */
 		{
 			JJCTYPE jjch;
 			unsigned int jjaccept = 0;
+			static const unsigned char jjbm[] = {
+				  0,  96,  96,  96,  96,  96,  96,  96, 
+				 96, 104,  96,  96,  96, 104,  96,  96, 
+				 96,  96,  96,  96,  96,  96,  96,  96, 
+				 96,  96,  96,  96,  96,  96,  96,  96, 
+				104,  96,  32,  96,  96,  96,  96,  64, 
+				 96,  96,  96,  96,  96,  96,  96,  96, 
+				240, 240, 240, 240, 240, 240, 240, 240, 
+				240, 240,  96,  96,  96,  96,  96,  96, 
+				 96, 112, 112, 112, 112, 112, 112, 112, 
+				112, 112, 112, 112, 112, 112, 112, 112, 
+				112, 112, 112, 112, 112, 112, 112, 112, 
+				112, 112, 112,  96,   0,  96,  96, 112, 
+				 96, 112, 112, 112, 112, 112, 112, 112, 
+				112, 112, 112, 112, 112, 112, 112, 112, 
+				112, 112, 112, 112, 112, 112, 112, 112, 
+				112, 112, 112,  96,  96,  96,  96,  96, 
+				 96,  96,  96,  96,  96,  96,  96,  96, 
+				 96,  96,  96,  96,  96,  96,  96,  96, 
+				 96,  96,  96,  96,  96,  96,  96,  96, 
+				 96,  96,  96,  96,  96,  96,  96,  96, 
+				 96,  96,  96,  96,  96,  96,  96,  96, 
+				 96,  96,  96,  96,  96,  96,  96,  96, 
+				 96,  96,  96,  96,  96,  96,  96,  96, 
+				 96,  96,  96,  96,  96,  96,  96,  96, 
+				 96,  96,  96,  96,  96,  96,  96,  96, 
+				 96,  96,  96,  96,  96,  96,  96,  96, 
+				 96,  96,  96,  96,  96,  96,  96,  96, 
+				 96,  96,  96,  96,  96,  96,  96,  96, 
+				 96,  96,  96,  96,  96,  96,  96,  96, 
+				 96,  96,  96,  96,  96,  96,  96,  96, 
+				 96,  96,  96,  96,  96,  96,  96,  96, 
+				 96,  96,  96,  96,  96,  96,  96,  96, 
+			};
 
 			jjch = *JJCURSOR;
 			switch (jjch) {
@@ -31717,32 +31747,22 @@ static int phannot_get_token(phannot_scanner_state *s, phannot_scanner_token *to
 			}
 jj2:
 			++JJCURSOR;
-			switch ((jjch = *JJCURSOR)) {
-			case '0':
-			case '1':
-			case '2':
-			case '3':
-			case '4':
-			case '5':
-			case '6':
-			case '7':
-			case '8':
-			case '9':	goto jj68;
-			default:	goto jj3;
+			if (jjbm[0+(jjch = *JJCURSOR)] & 128) {
+				goto jj71;
 			}
 jj3:
-// 183 "scanner.re"
+/* #line 183 "scanner.re" */
 			{
 			status = PHANNOT_SCANNER_RETCODE_ERR;
 			break;
 		}
-// 178 "scanner.c"
+/* #line 202 "scanner.c" */
 jj4:
 			jjaccept = 0;
 			jjch = *(JJMARKER = ++JJCURSOR);
-			goto jj69;
+			goto jj72;
 jj5:
-// 67 "scanner.re"
+/* #line 67 "scanner.re" */
 			{
 			token->opcode = PHANNOT_T_INTEGER;
 			token->value = estrndup(start, JJCURSOR - start);
@@ -31750,16 +31770,15 @@ jj5:
 			q = JJCURSOR;
 			return 0;
 		}
-// 192 "scanner.c"
+/* #line 216 "scanner.c" */
 jj6:
-			++JJCURSOR;
-			switch ((jjch = *JJCURSOR)) {
-			case 'U':
-			case 'u':	goto jj63;
-			default:	goto jj44;
-			}
+			jjaccept = 1;
+			jjch = *(JJMARKER = ++JJCURSOR);
+			if (jjch == 'U') goto jj66;
+			if (jjch == 'u') goto jj66;
+			goto jj44;
 jj7:
-// 109 "scanner.re"
+/* #line 109 "scanner.re" */
 			{
 			token->opcode = PHANNOT_T_IDENTIFIER;
 			token->value = estrndup(start, JJCURSOR - start);
@@ -31767,145 +31786,152 @@ jj7:
 			q = JJCURSOR;
 			return 0;
 		}
-// 209 "scanner.c"
+/* #line 232 "scanner.c" */
 jj8:
-			jjch = *++JJCURSOR;
-			switch (jjch) {
-			case 'A':
-			case 'a':	goto jj58;
-			default:	goto jj44;
-			}
+			jjaccept = 1;
+			jjch = *(JJMARKER = ++JJCURSOR);
+			if (jjch == 'A') goto jj61;
+			if (jjch == 'a') goto jj61;
+			goto jj44;
 jj9:
-			jjch = *++JJCURSOR;
-			switch (jjch) {
-			case 'R':
-			case 'r':	goto jj54;
-			default:	goto jj44;
-			}
+			jjaccept = 1;
+			jjch = *(JJMARKER = ++JJCURSOR);
+			if (jjch == 'R') goto jj57;
+			if (jjch == 'r') goto jj57;
+			goto jj44;
 jj10:
-			jjaccept = 1;
+			jjaccept = 2;
 			jjch = *(JJMARKER = ++JJCURSOR);
 			if (jjch <= 0x00) goto jj3;
-			goto jj52;
+			goto jj55;
 jj11:
-			jjaccept = 1;
+			jjaccept = 2;
 			jjch = *(JJMARKER = ++JJCURSOR);
 			if (jjch <= 0x00) goto jj3;
-			goto jj46;
+			goto jj50;
 jj12:
 			jjch = *++JJCURSOR;
-			goto jj44;
+			if (jjch <= '^') {
+				if (jjch <= '@') goto jj3;
+				if (jjch <= 'Z') goto jj43;
+				goto jj3;
+			} else {
+				if (jjch == '`') goto jj3;
+				if (jjch <= 'z') goto jj43;
+				goto jj3;
+			}
 jj13:
-			jjch = *++JJCURSOR;
+			jjaccept = 1;
+			jjch = *(JJMARKER = ++JJCURSOR);
 			goto jj44;
 jj14:
 			++JJCURSOR;
-// 117 "scanner.re"
+/* #line 117 "scanner.re" */
 			{
 			token->opcode = PHANNOT_T_PARENTHESES_OPEN;
 			return 0;
 		}
-// 247 "scanner.c"
+/* #line 277 "scanner.c" */
 jj16:
 			++JJCURSOR;
-// 122 "scanner.re"
+/* #line 122 "scanner.re" */
 			{
 			token->opcode = PHANNOT_T_PARENTHESES_CLOSE;
 			return 0;
 		}
-// 255 "scanner.c"
+/* #line 285 "scanner.c" */
 jj18:
 			++JJCURSOR;
-// 127 "scanner.re"
+/* #line 127 "scanner.re" */
 			{
 			token->opcode = PHANNOT_T_BRACKET_OPEN;
 			return 0;
 		}
-// 263 "scanner.c"
+/* #line 293 "scanner.c" */
 jj20:
 			++JJCURSOR;
-// 132 "scanner.re"
+/* #line 132 "scanner.re" */
 			{
 			token->opcode = PHANNOT_T_BRACKET_CLOSE;
 			return 0;
 		}
-// 271 "scanner.c"
+/* #line 301 "scanner.c" */
 jj22:
 			++JJCURSOR;
-// 137 "scanner.re"
+/* #line 137 "scanner.re" */
 			{
 			token->opcode = PHANNOT_T_SBRACKET_OPEN;
 			return 0;
 		}
-// 279 "scanner.c"
+/* #line 309 "scanner.c" */
 jj24:
 			++JJCURSOR;
-// 142 "scanner.re"
+/* #line 142 "scanner.re" */
 			{
 			token->opcode = PHANNOT_T_SBRACKET_CLOSE;
 			return 0;
 		}
-// 287 "scanner.c"
+/* #line 317 "scanner.c" */
 jj26:
 			++JJCURSOR;
-// 147 "scanner.re"
+/* #line 147 "scanner.re" */
 			{
 			token->opcode = PHANNOT_T_AT;
 			return 0;
 		}
-// 295 "scanner.c"
+/* #line 325 "scanner.c" */
 jj28:
 			++JJCURSOR;
-// 152 "scanner.re"
+/* #line 152 "scanner.re" */
 			{
 			token->opcode = PHANNOT_T_EQUALS;
 			return 0;
 		}
-// 303 "scanner.c"
+/* #line 333 "scanner.c" */
 jj30:
 			++JJCURSOR;
-// 157 "scanner.re"
+/* #line 157 "scanner.re" */
 			{
 			token->opcode = PHANNOT_T_COLON;
 			return 0;
 		}
-// 311 "scanner.c"
+/* #line 341 "scanner.c" */
 jj32:
 			++JJCURSOR;
-// 162 "scanner.re"
+/* #line 162 "scanner.re" */
 			{
 			token->opcode = PHANNOT_T_COMMA;
 			return 0;
 		}
-// 319 "scanner.c"
+/* #line 349 "scanner.c" */
 jj34:
 			++JJCURSOR;
 			jjch = *JJCURSOR;
 			goto jj42;
 jj35:
-// 167 "scanner.re"
+/* #line 167 "scanner.re" */
 			{
 			token->opcode = PHANNOT_T_IGNORE;
 			return 0;
 		}
-// 330 "scanner.c"
+/* #line 360 "scanner.c" */
 jj36:
 			++JJCURSOR;
-// 172 "scanner.re"
+/* #line 172 "scanner.re" */
 			{
 			s->active_line++;
 			token->opcode = PHANNOT_T_IGNORE;
 			return 0;
 		}
-// 339 "scanner.c"
+/* #line 369 "scanner.c" */
 jj38:
 			++JJCURSOR;
-// 178 "scanner.re"
+/* #line 178 "scanner.re" */
 			{
 			status = PHANNOT_SCANNER_RETCODE_EOF;
 			break;
 		}
-// 347 "scanner.c"
+/* #line 377 "scanner.c" */
 jj40:
 			jjch = *++JJCURSOR;
 			goto jj3;
@@ -31913,109 +31939,92 @@ jj41:
 			++JJCURSOR;
 			jjch = *JJCURSOR;
 jj42:
-			switch (jjch) {
-			case '\t':
-			case '\r':
-			case ' ':	goto jj41;
-			default:	goto jj35;
+			if (jjbm[0+jjch] & 8) {
+				goto jj41;
 			}
+			goto jj35;
 jj43:
-			++JJCURSOR;
+			jjaccept = 1;
+			JJMARKER = ++JJCURSOR;
 			jjch = *JJCURSOR;
 jj44:
-			switch (jjch) {
-			case '0':
-			case '1':
-			case '2':
-			case '3':
-			case '4':
-			case '5':
-			case '6':
-			case '7':
-			case '8':
-			case '9':
-			case 'A':
-			case 'B':
-			case 'C':
-			case 'D':
-			case 'E':
-			case 'F':
-			case 'G':
-			case 'H':
-			case 'I':
-			case 'J':
-			case 'K':
-			case 'L':
-			case 'M':
-			case 'N':
-			case 'O':
-			case 'P':
-			case 'Q':
-			case 'R':
-			case 'S':
-			case 'T':
-			case 'U':
-			case 'V':
-			case 'W':
-			case 'X':
-			case 'Y':
-			case 'Z':
-			case '\\':
-			case '_':
-			case 'a':
-			case 'b':
-			case 'c':
-			case 'd':
-			case 'e':
-			case 'f':
-			case 'g':
-			case 'h':
-			case 'i':
-			case 'j':
-			case 'k':
-			case 'l':
-			case 'm':
-			case 'n':
-			case 'o':
-			case 'p':
-			case 'q':
-			case 'r':
-			case 's':
-			case 't':
-			case 'u':
-			case 'v':
-			case 'w':
-			case 'x':
-			case 'y':
-			case 'z':	goto jj43;
-			default:	goto jj7;
+			if (jjbm[0+jjch] & 16) {
+				goto jj43;
 			}
+			if (jjch != '\\') goto jj7;
 jj45:
 			++JJCURSOR;
 			jjch = *JJCURSOR;
+			if (jjch <= '^') {
+				if (jjch <= '@') goto jj46;
+				if (jjch <= 'Z') goto jj47;
+			} else {
+				if (jjch == '`') goto jj46;
+				if (jjch <= 'z') goto jj47;
+			}
 jj46:
-			switch (jjch) {
-			case 0x00:	goto jj47;
-			case '\'':	goto jj49;
-			case '\\':	goto jj48;
-			default:	goto jj45;
+			JJCURSOR = JJMARKER;
+			if (jjaccept <= 2) {
+				if (jjaccept <= 1) {
+					if (jjaccept <= 0) {
+						goto jj5;
+					} else {
+						goto jj7;
+					}
+				} else {
+					goto jj3;
+				}
+			} else {
+				if (jjaccept <= 4) {
+					if (jjaccept <= 3) {
+						goto jj60;
+					} else {
+						goto jj65;
+					}
+				} else {
+					goto jj69;
+				}
 			}
 jj47:
-			JJCURSOR = JJMARKER;
-			switch (jjaccept) {
-			case 0: 	goto jj5;
-			case 1: 	goto jj3;
-			}
-jj48:
-			++JJCURSOR;
+			jjaccept = 1;
+			JJMARKER = ++JJCURSOR;
 			jjch = *JJCURSOR;
-			switch (jjch) {
-			case '\n':	goto jj47;
-			default:	goto jj45;
+			if (jjch <= '[') {
+				if (jjch <= '9') {
+					if (jjch <= '/') goto jj7;
+					goto jj47;
+				} else {
+					if (jjch <= '@') goto jj7;
+					if (jjch <= 'Z') goto jj47;
+					goto jj7;
+				}
+			} else {
+				if (jjch <= '_') {
+					if (jjch <= '\\') goto jj45;
+					if (jjch <= '^') goto jj7;
+					goto jj47;
+				} else {
+					if (jjch <= '`') goto jj7;
+					if (jjch <= 'z') goto jj47;
+					goto jj7;
+				}
 			}
 jj49:
 			++JJCURSOR;
-// 100 "scanner.re"
+			jjch = *JJCURSOR;
+jj50:
+			if (jjbm[0+jjch] & 32) {
+				goto jj49;
+			}
+			if (jjch <= 0x00) goto jj46;
+			if (jjch <= '[') goto jj52;
+			++JJCURSOR;
+			jjch = *JJCURSOR;
+			if (jjch == '\n') goto jj46;
+			goto jj49;
+jj52:
+			++JJCURSOR;
+/* #line 100 "scanner.re" */
 			{
 			token->opcode = PHANNOT_T_STRING;
 			token->value = estrndup(q, JJCURSOR - q - 1);
@@ -32023,353 +32032,119 @@ jj49:
 			q = JJCURSOR;
 			return 0;
 		}
-// 465 "scanner.c"
-jj51:
-			++JJCURSOR;
-			jjch = *JJCURSOR;
-jj52:
-			switch (jjch) {
-			case 0x00:	goto jj47;
-			case '"':	goto jj49;
-			case '\\':	goto jj53;
-			default:	goto jj51;
-			}
-jj53:
-			++JJCURSOR;
-			jjch = *JJCURSOR;
-			switch (jjch) {
-			case '\n':	goto jj47;
-			default:	goto jj51;
-			}
+/* #line 478 "scanner.c" */
 jj54:
-			jjch = *++JJCURSOR;
-			switch (jjch) {
-			case 'U':
-			case 'u':	goto jj55;
-			default:	goto jj44;
-			}
-jj55:
-			jjch = *++JJCURSOR;
-			switch (jjch) {
-			case 'E':
-			case 'e':	goto jj56;
-			default:	goto jj44;
-			}
-jj56:
 			++JJCURSOR;
-			switch ((jjch = *JJCURSOR)) {
-			case '0':
-			case '1':
-			case '2':
-			case '3':
-			case '4':
-			case '5':
-			case '6':
-			case '7':
-			case '8':
-			case '9':
-			case 'A':
-			case 'B':
-			case 'C':
-			case 'D':
-			case 'E':
-			case 'F':
-			case 'G':
-			case 'H':
-			case 'I':
-			case 'J':
-			case 'K':
-			case 'L':
-			case 'M':
-			case 'N':
-			case 'O':
-			case 'P':
-			case 'Q':
-			case 'R':
-			case 'S':
-			case 'T':
-			case 'U':
-			case 'V':
-			case 'W':
-			case 'X':
-			case 'Y':
-			case 'Z':
-			case '\\':
-			case '_':
-			case 'a':
-			case 'b':
-			case 'c':
-			case 'd':
-			case 'e':
-			case 'f':
-			case 'g':
-			case 'h':
-			case 'i':
-			case 'j':
-			case 'k':
-			case 'l':
-			case 'm':
-			case 'n':
-			case 'o':
-			case 'p':
-			case 'q':
-			case 'r':
-			case 's':
-			case 't':
-			case 'u':
-			case 'v':
-			case 'w':
-			case 'x':
-			case 'y':
-			case 'z':	goto jj43;
-			default:	goto jj57;
+			jjch = *JJCURSOR;
+jj55:
+			if (jjbm[0+jjch] & 64) {
+				goto jj54;
 			}
+			if (jjch <= 0x00) goto jj46;
+			if (jjch <= '[') goto jj52;
+			++JJCURSOR;
+			jjch = *JJCURSOR;
+			if (jjch == '\n') goto jj46;
+			goto jj54;
 jj57:
-// 94 "scanner.re"
+			jjaccept = 1;
+			jjch = *(JJMARKER = ++JJCURSOR);
+			if (jjch == 'U') goto jj58;
+			if (jjch != 'u') goto jj44;
+jj58:
+			jjaccept = 1;
+			jjch = *(JJMARKER = ++JJCURSOR);
+			if (jjch == 'E') goto jj59;
+			if (jjch != 'e') goto jj44;
+jj59:
+			jjaccept = 3;
+			jjch = *(JJMARKER = ++JJCURSOR);
+			if (jjbm[0+jjch] & 16) {
+				goto jj43;
+			}
+			if (jjch == '\\') goto jj45;
+jj60:
+/* #line 94 "scanner.re" */
 			{
 			token->opcode = PHANNOT_T_TRUE;
 			return 0;
 		}
-// 572 "scanner.c"
-jj58:
-			jjch = *++JJCURSOR;
-			switch (jjch) {
-			case 'L':
-			case 'l':	goto jj59;
-			default:	goto jj44;
-			}
-jj59:
-			jjch = *++JJCURSOR;
-			switch (jjch) {
-			case 'S':
-			case 's':	goto jj60;
-			default:	goto jj44;
-			}
-jj60:
-			jjch = *++JJCURSOR;
-			switch (jjch) {
-			case 'E':
-			case 'e':	goto jj61;
-			default:	goto jj44;
-			}
+/* #line 515 "scanner.c" */
 jj61:
-			++JJCURSOR;
-			switch ((jjch = *JJCURSOR)) {
-			case '0':
-			case '1':
-			case '2':
-			case '3':
-			case '4':
-			case '5':
-			case '6':
-			case '7':
-			case '8':
-			case '9':
-			case 'A':
-			case 'B':
-			case 'C':
-			case 'D':
-			case 'E':
-			case 'F':
-			case 'G':
-			case 'H':
-			case 'I':
-			case 'J':
-			case 'K':
-			case 'L':
-			case 'M':
-			case 'N':
-			case 'O':
-			case 'P':
-			case 'Q':
-			case 'R':
-			case 'S':
-			case 'T':
-			case 'U':
-			case 'V':
-			case 'W':
-			case 'X':
-			case 'Y':
-			case 'Z':
-			case '\\':
-			case '_':
-			case 'a':
-			case 'b':
-			case 'c':
-			case 'd':
-			case 'e':
-			case 'f':
-			case 'g':
-			case 'h':
-			case 'i':
-			case 'j':
-			case 'k':
-			case 'l':
-			case 'm':
-			case 'n':
-			case 'o':
-			case 'p':
-			case 'q':
-			case 'r':
-			case 's':
-			case 't':
-			case 'u':
-			case 'v':
-			case 'w':
-			case 'x':
-			case 'y':
-			case 'z':	goto jj43;
-			default:	goto jj62;
-			}
+			jjaccept = 1;
+			jjch = *(JJMARKER = ++JJCURSOR);
+			if (jjch == 'L') goto jj62;
+			if (jjch != 'l') goto jj44;
 jj62:
-// 89 "scanner.re"
+			jjaccept = 1;
+			jjch = *(JJMARKER = ++JJCURSOR);
+			if (jjch == 'S') goto jj63;
+			if (jjch != 's') goto jj44;
+jj63:
+			jjaccept = 1;
+			jjch = *(JJMARKER = ++JJCURSOR);
+			if (jjch == 'E') goto jj64;
+			if (jjch != 'e') goto jj44;
+jj64:
+			jjaccept = 4;
+			jjch = *(JJMARKER = ++JJCURSOR);
+			if (jjbm[0+jjch] & 16) {
+				goto jj43;
+			}
+			if (jjch == '\\') goto jj45;
+jj65:
+/* #line 89 "scanner.re" */
 			{
 			token->opcode = PHANNOT_T_FALSE;
 			return 0;
 		}
-// 669 "scanner.c"
-jj63:
-			jjch = *++JJCURSOR;
-			switch (jjch) {
-			case 'L':
-			case 'l':	goto jj64;
-			default:	goto jj44;
-			}
-jj64:
-			jjch = *++JJCURSOR;
-			switch (jjch) {
-			case 'L':
-			case 'l':	goto jj65;
-			default:	goto jj44;
-			}
-jj65:
-			++JJCURSOR;
-			switch ((jjch = *JJCURSOR)) {
-			case '0':
-			case '1':
-			case '2':
-			case '3':
-			case '4':
-			case '5':
-			case '6':
-			case '7':
-			case '8':
-			case '9':
-			case 'A':
-			case 'B':
-			case 'C':
-			case 'D':
-			case 'E':
-			case 'F':
-			case 'G':
-			case 'H':
-			case 'I':
-			case 'J':
-			case 'K':
-			case 'L':
-			case 'M':
-			case 'N':
-			case 'O':
-			case 'P':
-			case 'Q':
-			case 'R':
-			case 'S':
-			case 'T':
-			case 'U':
-			case 'V':
-			case 'W':
-			case 'X':
-			case 'Y':
-			case 'Z':
-			case '\\':
-			case '_':
-			case 'a':
-			case 'b':
-			case 'c':
-			case 'd':
-			case 'e':
-			case 'f':
-			case 'g':
-			case 'h':
-			case 'i':
-			case 'j':
-			case 'k':
-			case 'l':
-			case 'm':
-			case 'n':
-			case 'o':
-			case 'p':
-			case 'q':
-			case 'r':
-			case 's':
-			case 't':
-			case 'u':
-			case 'v':
-			case 'w':
-			case 'x':
-			case 'y':
-			case 'z':	goto jj43;
-			default:	goto jj66;
-			}
+/* #line 544 "scanner.c" */
 jj66:
-// 84 "scanner.re"
+			jjaccept = 1;
+			jjch = *(JJMARKER = ++JJCURSOR);
+			if (jjch == 'L') goto jj67;
+			if (jjch != 'l') goto jj44;
+jj67:
+			jjaccept = 1;
+			jjch = *(JJMARKER = ++JJCURSOR);
+			if (jjch == 'L') goto jj68;
+			if (jjch != 'l') goto jj44;
+jj68:
+			jjaccept = 5;
+			jjch = *(JJMARKER = ++JJCURSOR);
+			if (jjbm[0+jjch] & 16) {
+				goto jj43;
+			}
+			if (jjch == '\\') goto jj45;
+jj69:
+/* #line 84 "scanner.re" */
 			{
 			token->opcode = PHANNOT_T_NULL;
 			return 0;
 		}
-// 759 "scanner.c"
-jj67:
+/* #line 568 "scanner.c" */
+jj70:
 			jjch = *++JJCURSOR;
-			switch (jjch) {
-			case '0':
-			case '1':
-			case '2':
-			case '3':
-			case '4':
-			case '5':
-			case '6':
-			case '7':
-			case '8':
-			case '9':	goto jj70;
-			default:	goto jj47;
-			}
-jj68:
+			if (jjch <= '/') goto jj46;
+			if (jjch <= '9') goto jj73;
+			goto jj46;
+jj71:
 			jjaccept = 0;
 			JJMARKER = ++JJCURSOR;
 			jjch = *JJCURSOR;
-jj69:
-			switch (jjch) {
-			case '.':	goto jj67;
-			case '0':
-			case '1':
-			case '2':
-			case '3':
-			case '4':
-			case '5':
-			case '6':
-			case '7':
-			case '8':
-			case '9':	goto jj68;
-			default:	goto jj5;
+jj72:
+			if (jjbm[0+jjch] & 128) {
+				goto jj71;
 			}
-jj70:
+			if (jjch == '.') goto jj70;
+			goto jj5;
+jj73:
 			++JJCURSOR;
 			jjch = *JJCURSOR;
-			switch (jjch) {
-			case '0':
-			case '1':
-			case '2':
-			case '3':
-			case '4':
-			case '5':
-			case '6':
-			case '7':
-			case '8':
-			case '9':	goto jj70;
-			default:	goto jj72;
-			}
-jj72:
-// 76 "scanner.re"
+			if (jjch <= '/') goto jj75;
+			if (jjch <= '9') goto jj73;
+jj75:
+/* #line 76 "scanner.re" */
 			{
 			token->opcode = PHANNOT_T_DOUBLE;
 			token->value = estrndup(start, JJCURSOR - start);
@@ -32377,9 +32152,9 @@ jj72:
 			q = JJCURSOR;
 			return 0;
 		}
-// 819 "scanner.c"
+/* #line 598 "scanner.c" */
 		}
-// 188 "scanner.re"
+/* #line 188 "scanner.re" */
 
 
 		}
