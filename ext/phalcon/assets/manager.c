@@ -666,7 +666,7 @@ PHP_METHOD(Phalcon_Assets_Manager, output) {
 			ZEPHIR_INIT_NVAR(attributes);
 			zephir_call_method(attributes, resource, "getattributes");
 			ZEPHIR_INIT_NVAR(local);
-			ZVAL_BOOL(local, 1);
+			zephir_call_method(local, collection, "gettargetlocal");
 			ZEPHIR_INIT_NVAR(parameters);
 			array_init(parameters);
 			if ((Z_TYPE_P(attributes) == IS_ARRAY)) {

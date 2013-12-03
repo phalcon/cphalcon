@@ -442,7 +442,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getModelSource) {
 	}
 	ZEPHIR_INIT_NVAR(source);
 	ZEPHIR_INIT_VAR(_0);
-	zephir_call_func_p1(_0, "get_class_ns", model);
+	zephir_get_class_ns(_0, model, 0);
 	zephir_uncamelize(source, _0);
 	zephir_update_property_array(this_ptr, SL("_sources"), entityName, source TSRMLS_CC);
 	RETURN_CCTOR(source);

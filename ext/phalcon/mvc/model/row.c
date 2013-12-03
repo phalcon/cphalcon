@@ -16,6 +16,7 @@
 #include "kernel/memory.h"
 #include "kernel/array.h"
 #include "kernel/exception.h"
+#include "kernel/fcall.h"
 
 
 /*
@@ -147,6 +148,20 @@ PHP_METHOD(Phalcon_Mvc_Model_Row, offsetUnset) {
 
 	ZEPHIR_THROW_EXCEPTION_STRW(phalcon_mvc_model_exception_ce, "Row is an immutable ArrayAccess object");
 	return;
+
+}
+
+/**
+ * Returns the instance as an array representation
+ *
+ * @return array
+ */
+PHP_METHOD(Phalcon_Mvc_Model_Row, toArray) {
+
+	ZEPHIR_MM_GROW();
+
+	zephir_call_func_p1(return_value, "get_object_vars", this_ptr);
+	RETURN_MM();
 
 }
 
