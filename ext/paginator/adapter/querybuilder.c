@@ -65,7 +65,6 @@ PHALCON_INIT_CLASS(Phalcon_Paginator_Adapter_QueryBuilder){
 
 	PHALCON_REGISTER_CLASS(Phalcon\\Paginator\\Adapter, QueryBuilder, paginator_adapter_querybuilder, phalcon_paginator_adapter_querybuilder_method_entry, 0);
 
-	zend_declare_property_null(phalcon_paginator_adapter_querybuilder_ce, SL("_config"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_paginator_adapter_querybuilder_ce, SL("_builder"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_paginator_adapter_querybuilder_ce, SL("_limitRows"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_long(phalcon_paginator_adapter_querybuilder_ce, SL("_page"), 1, ZEND_ACC_PROTECTED TSRMLS_CC);
@@ -84,36 +83,27 @@ PHP_METHOD(Phalcon_Paginator_Adapter_QueryBuilder, __construct){
 
 	zval *config, *builder, *limit, *page;
 
-	PHALCON_MM_GROW();
+	phalcon_fetch_params(0, 1, 0, &config);
+	
+	if (!phalcon_array_isset_string_fetch(&builder, config, SS("builder"))) {
+		PHALCON_THROW_EXCEPTION_STRW(phalcon_paginator_exception_ce, "Parameter 'builder' is required");
+		return;
+	}
+	
+	PHALCON_VERIFY_INTERFACE_EX(builder, phalcon_mvc_model_query_builderinterface_ce, phalcon_paginator_exception_ce, 0);
 
-	phalcon_fetch_params(1, 1, 0, &config);
-	
-	phalcon_update_property_this(this_ptr, SL("_config"), config TSRMLS_CC);
-	if (!phalcon_array_isset_string(config, SS("builder"))) {
-		PHALCON_THROW_EXCEPTION_STR(phalcon_paginator_exception_ce, "Parameter 'builder' is required");
+	phalcon_update_property_this(this_ptr, SL("_builder"), builder TSRMLS_CC);
+
+	if (!phalcon_array_isset_string_fetch(&limit, config, SS("limit"))) {
+		PHALCON_THROW_EXCEPTION_STRW(phalcon_paginator_exception_ce, "Parameter 'limit' is required");
 		return;
-	} else {
-		PHALCON_OBS_VAR(builder);
-		phalcon_array_fetch_string(&builder, config, SL("builder"), PH_NOISY);
-		phalcon_update_property_this(this_ptr, SL("_builder"), builder TSRMLS_CC);
 	}
+
+	phalcon_update_property_this(this_ptr, SL("_limitRows"), limit TSRMLS_CC);
 	
-	if (!phalcon_array_isset_string(config, SS("limit"))) {
-		PHALCON_THROW_EXCEPTION_STR(phalcon_paginator_exception_ce, "Parameter 'limit' is required");
-		return;
-	} else {
-		PHALCON_OBS_VAR(limit);
-		phalcon_array_fetch_string(&limit, config, SL("limit"), PH_NOISY);
-		phalcon_update_property_this(this_ptr, SL("_limitRows"), limit TSRMLS_CC);
-	}
-	
-	if (phalcon_array_isset_string(config, SS("page"))) {
-		PHALCON_OBS_VAR(page);
-		phalcon_array_fetch_string(&page, config, SL("page"), PH_NOISY);
+	if (phalcon_array_isset_string_fetch(&page, config, SS("page"))) {
 		phalcon_update_property_this(this_ptr, SL("_page"), page TSRMLS_CC);
 	}
-	
-	PHALCON_MM_RESTORE();
 }
 
 /**
@@ -123,11 +113,12 @@ PHP_METHOD(Phalcon_Paginator_Adapter_QueryBuilder, __construct){
  */
 PHP_METHOD(Phalcon_Paginator_Adapter_QueryBuilder, setCurrentPage){
 
-	zval *current_page;
+	zval **current_page;
 
-	phalcon_fetch_params(0, 1, 0, &current_page);
+	phalcon_fetch_params_ex(1, 0, &current_page);
+	PHALCON_ENSURE_IS_LONG(current_page);
 	
-	phalcon_update_property_this(this_ptr, SL("_page"), current_page TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_page"), *current_page TSRMLS_CC);
 	RETURN_THISW();
 }
 
@@ -139,134 +130,95 @@ PHP_METHOD(Phalcon_Paginator_Adapter_QueryBuilder, setCurrentPage){
 PHP_METHOD(Phalcon_Paginator_Adapter_QueryBuilder, getPaginate){
 
 	zval *original_builder, *builder, *total_builder;
-	zval *limit, *number_page = NULL, *z_one, *prev_number_page;
-	zval *number, *query, *page, *before = NULL, *items, *select_count;
-	zval *null_order, *total_query, *result, *row, *rowcount;
-	zval *total_pages = NULL, *int_total_pages, *next = NULL;
+	zval *limit, *number_page;
+	zval *query, *items, *select_count;
+	zval *total_query, *result, *row, *rowcount;
+	long int i_limit, i_number_page, i_number, i_before, i_rowcount;
+	long int i_total_pages, i_next;
+	ldiv_t tp;
 
 	PHALCON_MM_GROW();
 
-	PHALCON_OBS_VAR(original_builder);
-	phalcon_read_property_this(&original_builder, this_ptr, SL("_builder"), PH_NOISY_CC);
+	original_builder = phalcon_fetch_nproperty_this(this_ptr, SL("_builder"), PH_NOISY_CC);
 	
-	/** 
-	 * We make a copy of the original builder to leave it as it is
-	 */
+	/* Make a copy of the original builder to leave it as it is */
 	PHALCON_INIT_VAR(builder);
 	if (phalcon_clone(builder, original_builder TSRMLS_CC) == FAILURE) {
 		RETURN_MM();
 	}
 	
-	/** 
-	 * We make a copy of the original builder to count the total of records
-	 */
+	/* make a copy of the original builder to count the total of records */
 	PHALCON_INIT_VAR(total_builder);
 	if (phalcon_clone(total_builder, builder TSRMLS_CC) == FAILURE) {
 		RETURN_MM();
 	}
 	
-	PHALCON_OBS_VAR(limit);
-	phalcon_read_property_this(&limit, this_ptr, SL("_limitRows"), PH_NOISY_CC);
-	
-	PHALCON_OBS_VAR(number_page);
-	phalcon_read_property_this(&number_page, this_ptr, SL("_page"), PH_NOISY_CC);
-	
-	z_one = PHALCON_GLOBAL(z_one);
-	if (!zend_is_true(number_page)) {
-		PHALCON_CPY_WRT_CTOR(number_page, z_one);
+	limit         = phalcon_fetch_nproperty_this(this_ptr, SL("_limitRows"), PH_NOISY_CC);
+	number_page   = phalcon_fetch_nproperty_this(this_ptr, SL("_page"), PH_NOISY_CC);
+	i_limit       = phalcon_get_intval(limit);
+	i_number_page = phalcon_get_intval(number_page);
+
+	if (!i_number_page) {
+		i_number_page = 1;
 	}
-	
-	PHALCON_INIT_VAR(prev_number_page);
-	sub_function(prev_number_page, number_page, z_one TSRMLS_CC);
-	
-	PHALCON_INIT_VAR(number);
-	mul_function(number, limit, prev_number_page TSRMLS_CC);
-	
-	/** 
-	 * Set the limit clause avoiding negative offsets
-	 */
-	if (PHALCON_LT(number, limit)) {
+
+	i_number = (i_number_page - 1) * i_limit;
+	i_before = (i_number_page == 1) ? 1 : (i_number_page - 1);
+
+	/* Set the limit clause avoiding negative offsets */
+	if (i_number < i_limit) {
 		phalcon_call_method_p1_noret(builder, "limit", limit);
 	} else {
+		zval *number;
+		PHALCON_ALLOC_GHOST_ZVAL(number);
+		ZVAL_LONG(number, i_number);
 		phalcon_call_method_p2_noret(builder, "limit", limit, number);
 	}
 	
-	PHALCON_INIT_VAR(query);
-	phalcon_call_method(query, builder, "getquery");
-	
-	PHALCON_INIT_VAR(page);
-	object_init(page);
-	phalcon_update_property_zval(page, SL("first"), z_one TSRMLS_CC);
-	if (PHALCON_IS_EQUAL(number_page, z_one)) {
-		PHALCON_CPY_WRT_CTOR(before, z_one);
-	} else {
-		PHALCON_INIT_NVAR(before);
-		sub_function(before, number_page, z_one TSRMLS_CC);
-	}
-	
-	phalcon_update_property_zval(page, SL("before"), before TSRMLS_CC);
-	
-	/** 
-	 * Execute the query an return the requested slice of data
-	 */
-	PHALCON_INIT_VAR(items);
-	phalcon_call_method(items, query, "execute");
-	phalcon_update_property_zval(page, SL("items"), items TSRMLS_CC);
-	
-	PHALCON_INIT_VAR(select_count);
+	PHALCON_OBS_VAR(query);
+	PHALCON_OBS_VAR(items);
+	PHALCON_OBS_VAR(total_query);
+	PHALCON_OBS_VAR(result);
+	PHALCON_OBS_VAR(row);
+
+	phalcon_call_method_p0_ex(query, &query, builder, "getquery");
+
+	/* Execute the query an return the requested slice of data */
+	phalcon_call_method_p0_ex(items, &items, query, "execute");
+
+	PHALCON_ALLOC_GHOST_ZVAL(select_count);
 	ZVAL_STRING(select_count, "COUNT(*) [rowcount]", 1);
 	
-	/** 
-	 * Change the queried columns by a COUNT(*)
-	 */
+	/* Change the queried columns by a COUNT(*) */
 	phalcon_call_method_p1_noret(total_builder, "columns", select_count);
 	
-	/** 
-	 * Remove the 'ORDER BY' clause, PostgreSQL requires this
-	 */
-	PHALCON_INIT_VAR(null_order);
-	phalcon_call_method_p1_noret(total_builder, "orderby", null_order);
+	/* Remove the 'ORDER BY' clause, PostgreSQL requires this */
+	phalcon_call_method_p1_noret(total_builder, "orderby", PHALCON_GLOBAL(z_null));
 	
-	/** 
-	 * Obtain the PHQL for the total query
-	 */
-	PHALCON_INIT_VAR(total_query);
-	phalcon_call_method(total_query, total_builder, "getquery");
+	/* Obtain the PHQL for the total query */
+	phalcon_call_method_p0_ex(total_query, &total_query, total_builder, "getquery");
 	
-	/** 
-	 * Obtain the result of the total query
-	 */
-	PHALCON_INIT_VAR(result);
-	phalcon_call_method(result, total_query, "execute");
-	
-	PHALCON_INIT_VAR(row);
-	phalcon_call_method(row, result, "getfirst");
+	/* Obtain the result of the total query */
+	phalcon_call_method_p0_ex(result, &result, total_query, "execute");
+	phalcon_call_method_p0_ex(row, &row, result, "getfirst");
 	
 	PHALCON_OBS_VAR(rowcount);
 	phalcon_read_property(&rowcount, row, SL("rowcount"), PH_NOISY_CC);
 	
-	PHALCON_INIT_VAR(total_pages);
-	div_function(total_pages, rowcount, limit TSRMLS_CC);
-	
-	PHALCON_INIT_VAR(int_total_pages);
-	ZVAL_LONG(int_total_pages, phalcon_get_intval(total_pages));
-	if (!PHALCON_IS_EQUAL(int_total_pages, total_pages)) {
-		phalcon_add_function(total_pages, int_total_pages, z_one TSRMLS_CC);
-	}
-	
-	if (PHALCON_LT(number_page, total_pages)) {
-		PHALCON_INIT_VAR(next);
-		phalcon_add_function(next, number_page, z_one TSRMLS_CC);
-	} else {
-		PHALCON_CPY_WRT(next, total_pages);
-	}
-	
-	phalcon_update_property_zval(page, SL("next"), next TSRMLS_CC);
-	phalcon_update_property_zval(page, SL("last"), total_pages TSRMLS_CC);
-	phalcon_update_property_zval(page, SL("current"), number_page TSRMLS_CC);
-	phalcon_update_property_zval(page, SL("total_pages"), total_pages TSRMLS_CC);
-	phalcon_update_property_zval(page, SL("total_items"), rowcount TSRMLS_CC);
-	
-	RETURN_CTOR(page);
-}
+	i_rowcount    = phalcon_get_intval(rowcount);
+	tp            = ldiv(i_rowcount, i_limit);
+	i_total_pages = tp.quot + (tp.rem ? 1 : 0);
+	i_next        = (i_number_page < i_total_pages) ? (i_number_page + 1) : i_total_pages;
 
+	object_init(return_value);
+	phalcon_update_property_zval(return_value, SL("items"),       items TSRMLS_CC);
+	phalcon_update_property_long(return_value, SL("before"),      i_before TSRMLS_CC);
+	phalcon_update_property_long(return_value, SL("first"),       1 TSRMLS_CC);
+	phalcon_update_property_long(return_value, SL("next"),        i_next TSRMLS_CC);
+	phalcon_update_property_long(return_value, SL("last"),        i_total_pages TSRMLS_CC);
+	phalcon_update_property_long(return_value, SL("current"),     i_number_page TSRMLS_CC);
+	phalcon_update_property_long(return_value, SL("total_pages"), i_total_pages TSRMLS_CC);
+	phalcon_update_property_long(return_value, SL("total_items"), i_rowcount TSRMLS_CC);
+	
+	PHALCON_MM_RESTORE();
+}
