@@ -64,18 +64,19 @@ PHALCON_INIT_CLASS(Phalcon_Queue_Beanstalk_Job){
  *
  * @param Phalcon\Queue\Beanstalk $queue
  * @param string $id
- * @param string $body
+ * @param mixed $body
  */
 PHP_METHOD(Phalcon_Queue_Beanstalk_Job, __construct){
 
-	zval *queue, *id, *body;
+	zval **queue, **id, **body;
 
-	phalcon_fetch_params(0, 3, 0, &queue, &id, &body);
-	
-	phalcon_update_property_this(this_ptr, SL("_queue"), queue TSRMLS_CC);
-	phalcon_update_property_this(this_ptr, SL("_id"), id TSRMLS_CC);
-	phalcon_update_property_this(this_ptr, SL("_body"), body TSRMLS_CC);
-	
+	phalcon_fetch_params_ex(3, 0, &queue, &id, &body);
+	PHALCON_VERIFY_CLASS_EX(*queue, phalcon_queue_beanstalk_ce, phalcon_exception_ce, 0);
+	PHALCON_ENSURE_IS_STRING(id);
+
+	phalcon_update_property_this(this_ptr, SL("_queue"), *queue TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_id"),    *id    TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_body"),  *body  TSRMLS_CC);
 }
 
 /**
@@ -92,7 +93,7 @@ PHP_METHOD(Phalcon_Queue_Beanstalk_Job, getId){
 /**
  * Returns the job body
  *
- * @return string
+ * @return mixed
  */
 PHP_METHOD(Phalcon_Queue_Beanstalk_Job, getBody){
 
@@ -103,7 +104,7 @@ PHP_METHOD(Phalcon_Queue_Beanstalk_Job, getBody){
 /**
  * Removes a job from the server entirely
  *
- * @param integer $id
+ * @param string $id
  * @return boolean
  */
 PHP_METHOD(Phalcon_Queue_Beanstalk_Job, delete){
@@ -112,14 +113,11 @@ PHP_METHOD(Phalcon_Queue_Beanstalk_Job, delete){
 
 	PHALCON_MM_GROW();
 
-	PHALCON_OBS_VAR(id);
-	phalcon_read_property_this(&id, this_ptr, SL("_id"), PH_NOISY_CC);
+	id    = phalcon_fetch_nproperty_this(this_ptr, SL("_id"), PH_NOISY_CC);
+	queue = phalcon_fetch_nproperty_this(this_ptr, SL("_queue"), PH_NOISY_CC);
 	
-	PHALCON_INIT_VAR(command);
+	PHALCON_ALLOC_GHOST_ZVAL(command);
 	PHALCON_CONCAT_SV(command, "delete ", id);
-	
-	PHALCON_OBS_VAR(queue);
-	phalcon_read_property_this(&queue, this_ptr, SL("_queue"), PH_NOISY_CC);
 	phalcon_call_method_p1_noret(queue, "write", command);
 	
 	PHALCON_INIT_VAR(response);
@@ -134,3 +132,14 @@ PHP_METHOD(Phalcon_Queue_Beanstalk_Job, delete){
 	RETURN_MM_FALSE;
 }
 
+PHP_METHOD(Phalcon_Queue_Beanstalk_Job, __wakeup) {
+
+	zval *id    = phalcon_fetch_nproperty_this(this_ptr, SL("_id"), PH_NOISY_CC);
+	zval *queue = phalcon_fetch_nproperty_this(this_ptr, SL("_queue"), PH_NOISY_CC);
+
+	PHALCON_VERIFY_CLASS_EX(queue, phalcon_queue_beanstalk_ce, phalcon_exception_ce, 0);
+
+	if (Z_TYPE_P(id) != IS_STRING) {
+		zend_throw_exception_ex(phalcon_exception_ce, 0 TSRMLS_CC, "Unexpected inconsistency in %s - possible break-in attempt!", "Phalcon\\Queue\\Beanstalk\\Job::__wakeup()");
+	}
+}
