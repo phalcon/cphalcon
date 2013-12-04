@@ -82,6 +82,7 @@ PHALCON_INIT_CLASS(Phalcon_Paginator_Adapter_QueryBuilder){
 PHP_METHOD(Phalcon_Paginator_Adapter_QueryBuilder, __construct){
 
 	zval *config, *builder, *limit, *page;
+	long int i_limit;
 
 	phalcon_fetch_params(0, 1, 0, &config);
 	
@@ -96,6 +97,12 @@ PHP_METHOD(Phalcon_Paginator_Adapter_QueryBuilder, __construct){
 
 	if (!phalcon_array_isset_string_fetch(&limit, config, SS("limit"))) {
 		PHALCON_THROW_EXCEPTION_STRW(phalcon_paginator_exception_ce, "Parameter 'limit' is required");
+		return;
+	}
+
+	i_limit = phalcon_get_intval(limit);
+	if (i_limit < 1) {
+		PHALCON_THROW_EXCEPTION_STRW(phalcon_paginator_exception_ce, "'limit' should be positive");
 		return;
 	}
 
@@ -157,6 +164,11 @@ PHP_METHOD(Phalcon_Paginator_Adapter_QueryBuilder, getPaginate){
 	number_page   = phalcon_fetch_nproperty_this(this_ptr, SL("_page"), PH_NOISY_CC);
 	i_limit       = phalcon_get_intval(limit);
 	i_number_page = phalcon_get_intval(number_page);
+
+	if (i_limit < 1) {
+		/* This should never happen unless someone deliberately modified the properties of the object */
+		i_limit = 10;
+	}
 
 	if (!i_number_page) {
 		i_number_page = 1;
