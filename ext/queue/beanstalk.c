@@ -74,7 +74,7 @@ PHALCON_INIT_CLASS(Phalcon_Queue_Beanstalk){
  */
 PHP_METHOD(Phalcon_Queue_Beanstalk, __construct){
 
-	zval *options = NULL, *parameters = NULL;
+	zval *options = NULL, *parameters = NULL, *tmp;
 
 	PHALCON_MM_GROW();
 
@@ -86,20 +86,26 @@ PHP_METHOD(Phalcon_Queue_Beanstalk, __construct){
 	
 	if (Z_TYPE_P(options) != IS_ARRAY) { 
 		PHALCON_INIT_VAR(parameters);
-		array_init(parameters);
+		array_init_size(parameters, 2);
 	} else {
-		PHALCON_CPY_WRT(parameters, options);
+		PHALCON_CPY_WRT_CTOR(parameters, options);
 	}
-	if (!phalcon_array_isset_string(parameters, SS("host"))) {
-		phalcon_array_update_string_string(&parameters, SL("host"), SL("127.0.0.1"), PH_SEPARATE);
+
+	if (!phalcon_array_isset_string_fetch(&tmp, parameters, SS("host"))) {
+		phalcon_array_update_string_string(&parameters, SL("host"), SL("127.0.0.1"), 0);
+	}
+	else {
+		convert_to_string(tmp);
 	}
 	
-	if (!phalcon_array_isset_string(parameters, SS("port"))) {
-		phalcon_array_update_string_long(&parameters, SL("port"), 11300, PH_SEPARATE);
+	if (!phalcon_array_isset_string_fetch(&tmp, parameters, SS("port"))) {
+		phalcon_array_update_string_long(&parameters, SL("port"), 11300, 0);
+	}
+	else {
+		convert_to_long(tmp);
 	}
 	
 	phalcon_update_property_this(this_ptr, SL("_parameters"), parameters TSRMLS_CC);
-	
 	PHALCON_MM_RESTORE();
 }
 
@@ -600,3 +606,35 @@ PHP_METHOD(Phalcon_Queue_Beanstalk, disconnect){
 	RETURN_TRUE;
 }
 
+PHP_METHOD(Phalcon_Queue_Beanstalk, __sleep){
+
+	array_init_size(return_value, 1);
+	add_next_index_string(return_value, "_parameters", 1);
+}
+
+PHP_METHOD(Phalcon_Queue_Beanstalk, __wakeup){
+
+	zval *params, *host, *port;
+	int fail;
+
+	zend_update_property_null(phalcon_queue_beanstalk_ce, getThis(), SL("_connection") TSRMLS_CC);
+
+	params = phalcon_fetch_nproperty_this(this_ptr, SL("_parameters"), PH_NOISY_CC);
+	if (
+			Z_TYPE_P(params) != IS_ARRAY
+		 || !phalcon_array_isset_string_fetch(&host, params, SS("host"))
+		 || !phalcon_array_isset_string_fetch(&port, params, SS("port"))
+	) {
+		fail = 1;
+	}
+	else if (Z_TYPE_P(host) != IS_STRING || Z_TYPE_P(port) != IS_LONG) {
+		fail = 1;
+	}
+	else {
+		fail = 0;
+	}
+
+	if (fail) {
+		zend_throw_exception_ex(phalcon_exception_ce, 0 TSRMLS_CC, "Invalid serialization data");
+	}
+}
