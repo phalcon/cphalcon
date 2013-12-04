@@ -94,7 +94,7 @@ PHP_METHOD(Phalcon_Paginator_Adapter_Model, setCurrentPage){
 	phalcon_fetch_params(0, 1, 0, &page);
 	
 	phalcon_update_property_this(this_ptr, SL("_page"), page TSRMLS_CC);
-	
+	RETURN_THISW();
 }
 
 /**
