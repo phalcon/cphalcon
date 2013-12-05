@@ -182,7 +182,7 @@ PHP_METHOD(Phalcon_DI_Injectable, __get){
 		ZVAL_STRING(service, "sessionBag", 1);
 
 		phalcon_return_call_method_p2(dependency_injector, "get", service, arguments);
-		phalcon_update_property_this(this_ptr, SL("persistent"), (return_value_ptr ? *return_value_ptr : return_value) TSRMLS_CC);
+		zend_update_property(phalcon_di_injectable_ce, getThis(), SL("persistent"), (return_value_ptr ? *return_value_ptr : return_value) TSRMLS_CC);
 		RETURN_MM();
 	}
 
