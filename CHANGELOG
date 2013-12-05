@@ -4,7 +4,7 @@
  - Camelize does not ignore the last character of a string anymore (#1436)
  - APC tests do not run under CLI when apc.enable_cli is 0 (#1449)
  - Phalcon\Debug::uri now supports both http and https (#987)
- - Fixed inconsistency in Tag::stylesheetLink/javascriptInclude w.r.t local URLs (#1486)
+ - Fixed inconsistency in Tag::stylesheetLink/javascriptInclude w.r.t. local URLs (#1486)
  - Fixed bug in Phalcon\Queue\Beanstalk::read() (#1348, #1612)
  - Phalcon\Flash\Session::getMessages() incorrectly removed all messages (#1575)
  - Fixed bug in phalcon_fix_path() (#1601)
@@ -12,6 +12,8 @@
  - Added support for POINT type in MySQL (#1536)
  - Phalcon\Mvc\Model\Validator::getOption() returns NULL if the option does not exist (#1530)
  - Fixed parsing of annotations containing / (#1480)
+ - Make sure that 'persistent' is resolved only when accessed for the first time (#1637)
+ - Fix Phalcon\Session\Bag::remove() (#1637)
 
 1.2.4
  - Fixed broken ACL inheritance (#905)
