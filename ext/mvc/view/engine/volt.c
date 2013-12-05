@@ -196,7 +196,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, render){
 #ifdef ZTS
 			TSRMLS_CC
 #else
-			NULL
+			, NULL
 #endif
 		);
 	}
