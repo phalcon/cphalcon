@@ -429,7 +429,7 @@ class Builder
 	 * @param array bindTypes
 	 * @return Phalcon\Mvc\Model\Query\Builder
 	 */
-	public function where(string! conditions, bindParams=null, bindTypes=null) -> <Phalcon\Mvc\Model\Query\Builder>
+	public function where(conditions, bindParams=null, bindTypes=null) -> <Phalcon\Mvc\Model\Query\Builder>
 	{
 		var currentBindParams, currentBindTypes, mergedParams, mergedTypes;
 
@@ -1113,7 +1113,7 @@ class Builder
 		 */
 		if typeof conditions == "string" {
 			if !empty conditions {
-				let phql .= " WHERE ".conditions;
+				let phql .= " WHERE " . conditions;
 			}
 		}
 
