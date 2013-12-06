@@ -369,13 +369,41 @@ PHP_METHOD(Phalcon_Queue_Beanstalk, watch){
 	
 	PHALCON_OBS_VAR(status);
 	phalcon_array_fetch_long(&status, response, 0, PH_NOISY);
-	if (PHALCON_IS_STRING(status, "WATCH")) {
+	if (PHALCON_IS_STRING(status, "WATCHING")) {
 		PHALCON_OBS_VAR(watching_tube);
 		phalcon_array_fetch_long(&watching_tube, response, 1, PH_NOISY);
 		RETURN_CCTOR(watching_tube);
 	}
 	
 	RETURN_MM_FALSE;
+}
+
+static void phalcon_queue_beanstalk_peek_common(zval *return_value, zval *this_ptr, zval *response TSRMLS_DC)
+{
+	zval *job_id, *length, *serialized = NULL, *body;
+
+	if (!phalcon_array_isset_long_fetch(&job_id, response, 1)) {
+		job_id = PHALCON_GLOBAL(z_null);
+	}
+
+	if (!phalcon_array_isset_long_fetch(&length, response, 2)) {
+		length = PHALCON_GLOBAL(z_null);
+	}
+
+	phalcon_call_method_params(serialized, &serialized, this_ptr, SL("read"), zend_inline_hash_func(SS("read")) TSRMLS_CC, 1, length);
+	if (EG(exception)) {
+		return;
+	}
+
+	MAKE_STD_ZVAL(body);
+	phalcon_unserialize(body, serialized TSRMLS_CC);
+	zval_ptr_dtor(&serialized);
+	if (Z_REFCOUNT_P(body) >= 1) {
+		Z_DELREF_P(body);
+	}
+
+	object_init_ex(return_value, phalcon_queue_beanstalk_job_ce);
+	phalcon_call_method_params(NULL, NULL, return_value, SL("__construct"), zend_inline_hash_func(SS("__construct")) TSRMLS_CC, 3, this_ptr, job_id, body);
 }
 
 /**
@@ -385,8 +413,7 @@ PHP_METHOD(Phalcon_Queue_Beanstalk, watch){
  */
 PHP_METHOD(Phalcon_Queue_Beanstalk, peekReady){
 
-	zval *command, *response, *status, *job_id, *length;
-	zval *serialized_body, *body;
+	zval *command, *response, *status;
 
 	PHALCON_MM_GROW();
 
@@ -400,23 +427,66 @@ PHP_METHOD(Phalcon_Queue_Beanstalk, peekReady){
 	PHALCON_OBS_VAR(status);
 	phalcon_array_fetch_long(&status, response, 0, PH_NOISY);
 	if (PHALCON_IS_STRING(status, "FOUND")) {
-		PHALCON_OBS_VAR(job_id);
-		phalcon_array_fetch_long(&job_id, response, 1, PH_NOISY);
-	
-		PHALCON_OBS_VAR(length);
-		phalcon_array_fetch_long(&length, response, 2, PH_NOISY);
-	
-		PHALCON_INIT_VAR(serialized_body);
-		phalcon_call_method_p1(serialized_body, this_ptr, "read", length);
-	
-		PHALCON_INIT_VAR(body);
-		phalcon_unserialize(body, serialized_body TSRMLS_CC);
-		object_init_ex(return_value, phalcon_queue_beanstalk_job_ce);
-		phalcon_call_method_p3_noret(return_value, "__construct", this_ptr, job_id, body);
-	
+		phalcon_queue_beanstalk_peek_common(return_value, getThis(), response TSRMLS_CC);
 		RETURN_MM();
 	}
 	
+	RETURN_MM_FALSE;
+}
+
+/**
+ * Return the delayed job with the shortest delay left
+ *
+ * @return boolean|Phalcon\Queue\Beanstalk\Job
+ */
+PHP_METHOD(Phalcon_Queue_Beanstalk, peekDelayed){
+
+	zval *command, *response, *status;
+
+	PHALCON_MM_GROW();
+
+	PHALCON_INIT_VAR(command);
+	ZVAL_STRING(command, "peek-delayed", 1);
+	phalcon_call_method_p1_noret(this_ptr, "write", command);
+
+	PHALCON_INIT_VAR(response);
+	phalcon_call_method(response, this_ptr, "readstatus");
+
+	PHALCON_OBS_VAR(status);
+	phalcon_array_fetch_long(&status, response, 0, PH_NOISY);
+	if (PHALCON_IS_STRING(status, "FOUND")) {
+		phalcon_queue_beanstalk_peek_common(return_value, getThis(), response TSRMLS_CC);
+		RETURN_MM();
+	}
+
+	RETURN_MM_FALSE;
+}
+
+/**
+ * Return the next job in the list of buried jobs
+ *
+ * @return boolean|Phalcon\Queue\Beanstalk\Job
+ */
+PHP_METHOD(Phalcon_Queue_Beanstalk, peekBuried){
+
+	zval *command, *response, *status;
+
+	PHALCON_MM_GROW();
+
+	PHALCON_INIT_VAR(command);
+	ZVAL_STRING(command, "peek-buried", 1);
+	phalcon_call_method_p1_noret(this_ptr, "write", command);
+
+	PHALCON_INIT_VAR(response);
+	phalcon_call_method(response, this_ptr, "readstatus");
+
+	PHALCON_OBS_VAR(status);
+	phalcon_array_fetch_long(&status, response, 0, PH_NOISY);
+	if (PHALCON_IS_STRING(status, "FOUND")) {
+		phalcon_queue_beanstalk_peek_common(return_value, getThis(), response TSRMLS_CC);
+		RETURN_MM();
+	}
+
 	RETURN_MM_FALSE;
 }
 

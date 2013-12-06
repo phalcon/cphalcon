@@ -28,6 +28,8 @@ PHP_METHOD(Phalcon_Queue_Beanstalk, reserve);
 PHP_METHOD(Phalcon_Queue_Beanstalk, choose);
 PHP_METHOD(Phalcon_Queue_Beanstalk, watch);
 PHP_METHOD(Phalcon_Queue_Beanstalk, peekReady);
+PHP_METHOD(Phalcon_Queue_Beanstalk, peekDelayed);
+PHP_METHOD(Phalcon_Queue_Beanstalk, peekBuried);
 PHP_METHOD(Phalcon_Queue_Beanstalk, readStatus);
 PHP_METHOD(Phalcon_Queue_Beanstalk, read);
 PHP_METHOD(Phalcon_Queue_Beanstalk, write);
@@ -68,6 +70,8 @@ PHALCON_INIT_FUNCS(phalcon_queue_beanstalk_method_entry){
 	PHP_ME(Phalcon_Queue_Beanstalk, choose, arginfo_phalcon_queue_beanstalk_choose, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Queue_Beanstalk, watch, arginfo_phalcon_queue_beanstalk_watch, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Queue_Beanstalk, peekReady, NULL, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Queue_Beanstalk, peekDelayed, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Queue_Beanstalk, peekBuried, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Queue_Beanstalk, readStatus, NULL, ZEND_ACC_PROTECTED) 
 	PHP_ME(Phalcon_Queue_Beanstalk, read, arginfo_phalcon_queue_beanstalk_read, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Queue_Beanstalk, write, NULL, ZEND_ACC_PROTECTED) 
