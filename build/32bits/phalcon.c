@@ -99629,7 +99629,7 @@ static PHP_METHOD(Phalcon_Queue_Beanstalk, watch){
 	
 	PHALCON_OBS_VAR(status);
 	phalcon_array_fetch_long(&status, response, 0, PH_NOISY);
-	if (PHALCON_IS_STRING(status, "WATCH")) {
+	if (PHALCON_IS_STRING(status, "WATCHING")) {
 		PHALCON_OBS_VAR(watching_tube);
 		phalcon_array_fetch_long(&watching_tube, response, 1, PH_NOISY);
 		RETURN_CCTOR(watching_tube);
