@@ -14,6 +14,7 @@
  - Fixed parsing of annotations containing / (#1480)
  - Make sure that 'persistent' is resolved only when accessed for the first time (#1637)
  - Fix Phalcon\Session\Bag::remove() (#1637)
+ - Bug fixes in beanstalkd protocol implementation
 
 1.2.4
  - Fixed broken ACL inheritance (#905)
