@@ -54,10 +54,10 @@ class Inclusionin extends Phalcon\Mvc\Model\Validator implements Phalcon\Mvc\Mod
 	 */
 	public function validate(<Phalcon\Mvc\ModelInterface> record) -> boolean
 	{
- 		var fieldName, visSet, domain, value, message, joinedDomain;
+ 		var field, visSet, domain, value, message, joinedDomain;
 
-		let fieldName = this->getOption("field");
-		if typeof fieldName != "string" {
+		let field = this->getOption("field");
+		if typeof field != "string" {
 			throw new Phalcon\Mvc\Model\Exception("Field name must be a string");
 		}
  
@@ -74,7 +74,7 @@ class Inclusionin extends Phalcon\Mvc\Model\Validator implements Phalcon\Mvc\Mod
 			throw new Phalcon\Mvc\Model\Exception("Option 'domain' must be an array");
 		}
  
-		let value = record->readAttribute(fieldName);
+		let value = record->readAttribute(field);
  
 		/**
 		 * Check if the value is contained in the array
@@ -86,11 +86,10 @@ class Inclusionin extends Phalcon\Mvc\Model\Validator implements Phalcon\Mvc\Mod
 			 */
 			let message = this->getOption("message");
 			if(!message){
-				let joinedDomain = join(", ", domain);
-				let message = "Value of field '".fieldName."' must be part of list: ".joinedDomain;
+                                let message = strrt("Value of field :field must be part of list: :domain", [':field': field, ':domain':  join(", ", domain)]);
 			}
  
-			this->appendMessage(message, fieldName, "Inclusion");
+			this->appendMessage(strrt(message, [':field': field, ':domain':  join(", ", domain)]), field, "Inclusion");
 			return false;
 		}
  

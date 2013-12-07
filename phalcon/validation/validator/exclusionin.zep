@@ -40,14 +40,14 @@ class ExclusionIn extends Phalcon\Validation\Validator implements Phalcon\Valida
 	 * Executes the validation
 	 *
 	 * @param Phalcon\Validation validator
-	 * @param string attribute
+	 * @param string field
 	 * @return boolean
 	 */
-	public function validate(<Phalcon\Validation> validator, string! attribute) -> boolean
+	public function validate(<Phalcon\Validation> validator, string! field) -> boolean
 	{
 		var value, domain, message;
 
-		let value = validator->getValue(attribute);
+		let value = validator->getValue(field);
 
 		/**
 		 * A domain is an array with a list of valid values
@@ -64,10 +64,10 @@ class ExclusionIn extends Phalcon\Validation\Validator implements Phalcon\Valida
 
 			let message = this->getOption("message");
 			if empty message {
-				let message = "Value of field '" . attribute . "' must not be part of list: " . join(", ", domain);
+                                let message = strrt("Value of field :field must not be part of list: :domain", [':field': field, ':domain':  join(", ", domain)]);
 			}
 
-			validator->appendMessage(new Phalcon\Validation\Message(message, attribute, "ExclusionIn"));
+			validator->appendMessage(new Phalcon\Validation\Message(strrt(message, [':field': field, ':domain':  join(", ", domain)]), field, "ExclusionIn"));
 			return false;
 		}
 

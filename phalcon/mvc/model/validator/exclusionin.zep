@@ -55,11 +55,11 @@ class Exclusionin extends Phalcon\Mvc\Model\Validator implements Phalcon\Mvc\Mod
 	 */
 	public function validate(<Phalcon\Mvc\ModelInterface> record) -> boolean
 	{
-		var fieldName, domain, value, message;
+		var field, domain, value, message;
 
-		let fieldName = this->getOption("field");
+		let field = this->getOption("field");
 
-		if fieldName != "string" {
+		if field != "string" {
 			throw new Phalcon\Mvc\Model\Exception("Field name must be a string");
 		}
 
@@ -75,7 +75,7 @@ class Exclusionin extends Phalcon\Mvc\Model\Validator implements Phalcon\Mvc\Mod
 			throw new Phalcon\Mvc\Model\Exception("Option 'domain' must be an array");
 		}
 
-		let value = record->readAttribute(fieldName);
+		let value = record->readAttribute(field);
 
 		/**
 		 * We check if the value contained into the array
@@ -87,10 +87,10 @@ class Exclusionin extends Phalcon\Mvc\Model\Validator implements Phalcon\Mvc\Mod
 			 */
 			let message = this->getOption("message");
 			if !message {
-				let message = "Value of field '" . fieldName . " must not be part of list: " . join(", ", domain);
+                                let message = strrt("Value of field :field must not be part of list: :domain", [':field': field, ':domain':  join(", ", domain)]);
 			}
 
-			this->appendMessage(message, fieldName, "Exclusion");
+			this->appendMessage(strrt(message, [':field': field, ':domain':  join(", ", domain)]), field, "Exclusion");
 			return false;
 		}
 

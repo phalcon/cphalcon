@@ -59,11 +59,11 @@ class StringLength extends Phalcon\Mvc\Model\Validator implements Phalcon\Mvc\Mo
 	 */
 	public function validate(<Phalcon\Mvc\ModelInterface> record) -> boolean
 	{
-		var fieldName, isSetMin, isSetMax, isSetOption, value, length, invalidMaximum, invalidMinimum,
+		var field, isSetMin, isSetMax, isSetOption, value, length, invalidMaximum, invalidMinimum,
 			maximum, minimum, message;
 
-		let fieldName = this->getOption("field");
-		if typeof fieldName != "string" {
+		let field = this->getOption("field");
+		if typeof field != "string" {
 			throw new Phalcon\Mvc\Model\Exception("Field name must be a string");
 		}
  
@@ -107,10 +107,10 @@ class StringLength extends Phalcon\Mvc\Model\Validator implements Phalcon\Mvc\Mo
 				 */
 				let message = this->getOption("messageMaximum");
 				if(!message){
-		 			let message = "Value of field '"."field"."' exceeds the maximum ".maximum." characters";
+                                        let message = strrt("Value of field :field exceeds the maximum :max characters", [':field': field, ':max':  maximum]);
 		 		}
  
-		 		this->appendMessage(message, fieldName, "TooLong");
+		 		this->appendMessage(strrt(message, [':field': field, ':max':  maximum]), field, "TooLong");
 				return false;
 			}
 		}
@@ -130,10 +130,10 @@ class StringLength extends Phalcon\Mvc\Model\Validator implements Phalcon\Mvc\Mo
 				 */
 				let message = this->getOption("messageMinimum");
 				if !message {
-		 			let message = "Value of field '".fieldName."' is less than the minimum ".minimum." characters";
+                                        let message = strrt("Value of field :field is less than the minimum :min characters", [':field': field, ':min':  minimum]);
 		 		}
  
-		 		this->appendMessage(message, fieldName, "TooShort");
+		 		this->appendMessage(strrt(message, [':field': field, ':min':  minimum]), field, "TooShort");
 				return false;
 			}
 		}
