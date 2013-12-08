@@ -96669,7 +96669,7 @@ static PHP_METHOD(Phalcon_Paginator_Adapter_Model, setCurrentPage){
 	phalcon_fetch_params(0, 1, 0, &page);
 	
 	phalcon_update_property_this_quick(this_ptr, SL("_page"), page, 6953243428065UL TSRMLS_CC);
-	
+	RETURN_THISW();
 }
 
 static PHP_METHOD(Phalcon_Paginator_Adapter_Model, getPaginate){
@@ -96739,11 +96739,13 @@ static PHP_METHOD(Phalcon_Paginator_Adapter_Model, getPaginate){
 	array_init(page_items);
 	if (PHALCON_GT(n, zero)) {
 	
-		if (PHALCON_LE(start, n)) {
+		if (PHALCON_LT(start, n)) {
 			phalcon_call_method_p1_key(NULL, items, "seek", start, 210727673805UL);
 		} else {
-			phalcon_call_method_p1_key(NULL, items, "seek", one, 210727673805UL);
+			phalcon_call_method_p1_key(NULL, items, "seek", zero, 210727673805UL);
 			PHALCON_CPY_WRT(page_number, one);
+			PHALCON_CPY_WRT(last_show_page, zero);
+			PHALCON_CPY_WRT(start, zero);
 		}
 	
 		PHALCON_INIT_VAR(i);
