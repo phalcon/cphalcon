@@ -31,7 +31,7 @@
 
 #include "kernel/main.h"
 #include "kernel/memory.h"
-
+#include "kernel/hash.h"
 #include "kernel/object.h"
 #include "kernel/array.h"
 #include "kernel/exception.h"
@@ -44,6 +44,90 @@
  * Represents a group of validation messages
  */
 
+static void phalcon_validation_message_group_dtor(zend_object_iterator *it TSRMLS_DC)
+{
+	zval_ptr_dtor((zval**)&it->data);
+	efree(it);
+}
+
+static int phalcon_validation_message_group_valid(zend_object_iterator *it TSRMLS_DC)
+{
+	zval *position, *messages;
+
+	position = phalcon_fetch_nproperty_this((zval*)it->data, SL("_position"), PH_NOISY TSRMLS_CC);
+	messages = phalcon_fetch_nproperty_this((zval*)it->data, SL("_messages"), PH_NOISY TSRMLS_CC);
+	if (phalcon_array_isset(messages, position)) {
+		return SUCCESS;
+	}
+
+	return FAILURE;
+}
+
+static void phalcon_validation_message_group_get_current_data(zend_object_iterator *it, zval ***data TSRMLS_DC)
+{
+	zval *position, *messages;
+
+	position = phalcon_fetch_nproperty_this((zval*)it->data, SL("_position"), PH_NOISY_CC);
+	messages = phalcon_fetch_nproperty_this((zval*)it->data, SL("_messages"), PH_NOISY_CC);
+
+	*data = phalcon_hash_get(Z_ARRVAL_P(messages), position, BP_VAR_NA);
+}
+
+#if ZEND_MODULE_API_NO >= 20121212
+static void phalcon_validation_message_group_get_current_key(zend_object_iterator *it, zval *key TSRMLS_DC)
+{
+	zval *position;
+
+	position = phalcon_fetch_nproperty_this((zval*)it->data, SL("_position"), PH_NOISY_CC);
+	ZVAL_ZVAL(key, position, 1, 0);
+}
+#else
+static int phalcon_validation_message_group_get_current_key(zend_object_iterator *it, char **str_key, uint *str_key_len, ulong *int_key TSRMLS_DC)
+{
+	zval *position;
+
+	position = phalcon_fetch_nproperty_this((zval*)it->data, SL("_position"), PH_NOISY_CC);
+	*int_key = (IS_LONG == Z_TYPE_P(position)) ? Z_LVAL_P(position) : phalcon_get_intval(position);
+	return HASH_KEY_IS_LONG;
+}
+#endif
+
+static void phalcon_validation_message_group_move_forward(zend_object_iterator *it TSRMLS_DC)
+{
+	phalcon_property_incr((zval*)it->data, SL("_position") TSRMLS_CC);
+}
+
+static void phalcon_validation_message_group_rewind(zend_object_iterator *it TSRMLS_DC)
+{
+	phalcon_update_property_long((zval*)it->data, SL("_position"), 0 TSRMLS_CC);
+}
+
+static zend_object_iterator_funcs phalcon_validation_message_group_iterator_funcs = {
+	phalcon_validation_message_group_dtor,
+	phalcon_validation_message_group_valid,
+	phalcon_validation_message_group_get_current_data,
+	phalcon_validation_message_group_get_current_key,
+	phalcon_validation_message_group_move_forward,
+	phalcon_validation_message_group_rewind
+};
+
+static zend_object_iterator* phalcon_validation_message_group_get_iterator(zend_class_entry *ce, zval *object, int by_ref TSRMLS_DC)
+{
+	zend_object_iterator *result;
+
+	if (by_ref) {
+		zend_throw_exception_ex(phalcon_validation_exception_ce, 0 TSRMLS_CC, "Cannot iterate Phalcon\\Validation\\Message\\Group by reference");
+		return NULL;
+	}
+
+	result = emalloc(sizeof(zend_object_iterator));
+
+	Z_ADDREF_P(object);
+	result->data  = object;
+	result->funcs = &phalcon_validation_message_group_iterator_funcs;
+
+	return result;
+}
 
 /**
  * Phalcon\Validation\Message\Group initializer
@@ -54,6 +138,9 @@ PHALCON_INIT_CLASS(Phalcon_Validation_Message_Group){
 
 	zend_declare_property_null(phalcon_validation_message_group_ce, SL("_position"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_validation_message_group_ce, SL("_messages"), ZEND_ACC_PROTECTED TSRMLS_CC);
+
+	phalcon_validation_message_group_ce->get_iterator         = phalcon_validation_message_group_get_iterator;
+	phalcon_validation_message_group_ce->iterator_funcs.funcs = &phalcon_validation_message_group_iterator_funcs;
 
 	zend_class_implements(phalcon_validation_message_group_ce TSRMLS_CC, 3, spl_ce_Countable, zend_ce_arrayaccess, zend_ce_iterator);
 
@@ -212,8 +299,6 @@ PHP_METHOD(Phalcon_Validation_Message_Group, appendMessage){
 PHP_METHOD(Phalcon_Validation_Message_Group, appendMessages){
 
 	zval *messages, *current_messages, *final_messages = NULL;
-	zval *message = NULL;
-	zval *r0 = NULL;
 
 	PHALCON_MM_GROW();
 
@@ -241,25 +326,35 @@ PHP_METHOD(Phalcon_Validation_Message_Group, appendMessages){
 		}
 		phalcon_update_property_this(this_ptr, SL("_messages"), final_messages TSRMLS_CC);
 	} else {
+		zend_class_entry *ce     = Z_OBJCE_P(messages);
+		zend_object_iterator *it = ce->get_iterator(ce, messages, 0 TSRMLS_CC);
+
+		PHALCON_VERIFY_INTERFACE_EX(messages, zend_ce_iterator, phalcon_validation_exception_ce, 1);
+
+		assert(it != NULL);
+		assert(it->funcs->rewind != NULL);
+		assert(it->funcs->valid != NULL);
+		assert(it->funcs->get_current_data != NULL);
+		assert(it->funcs->move_forward != NULL);
+
 		/** 
 		 * A group of messages is iterated and appended one-by-one to the current list
 		 */
-		phalcon_call_method_noret(messages, "rewind");
+		it->funcs->rewind(it TSRMLS_CC);
+		while (!EG(exception) && SUCCESS == it->funcs->valid(it TSRMLS_CC)) {
+			zval **message;
 	
-		while (1) {
-	
-			PHALCON_INIT_NVAR(r0);
-			phalcon_call_method(r0, messages, "valid");
-			if (PHALCON_IS_NOT_FALSE(r0)) {
-			} else {
-				break;
+			it->funcs->get_current_data(it, &message TSRMLS_CC);
+			if (!EG(exception)) {
+				phalcon_call_method_params(NULL, NULL, this_ptr, SL("appendmessage"), zend_inline_hash_func(SS("appendmessage")) TSRMLS_CC, 1, *message);
 			}
-	
-			PHALCON_INIT_NVAR(message);
-			phalcon_call_method(message, messages, "current");
-			phalcon_call_method_p1_noret(this_ptr, "appendmessage", message);
-			phalcon_call_method_noret(messages, "next");
+
+			if (!EG(exception)) {
+				it->funcs->move_forward(it TSRMLS_CC);
+			}
 		}
+
+		it->funcs->dtor(it TSRMLS_CC);
 	}
 	
 	PHALCON_MM_RESTORE();
@@ -341,9 +436,9 @@ PHP_METHOD(Phalcon_Validation_Message_Group, count){
  */
 PHP_METHOD(Phalcon_Validation_Message_Group, rewind){
 
-
-	phalcon_update_property_long(this_ptr, SL("_position"), 0 TSRMLS_CC);
-	
+	zend_object_iterator it;
+	it.data = getThis();
+	phalcon_validation_message_group_iterator_funcs.rewind(&it TSRMLS_CC);
 }
 
 /**
@@ -353,14 +448,15 @@ PHP_METHOD(Phalcon_Validation_Message_Group, rewind){
  */
 PHP_METHOD(Phalcon_Validation_Message_Group, current){
 
-	zval *position, *messages, *message;
+	zval **ret;
+	zend_object_iterator it;
+	it.data = getThis();
 
-	position = phalcon_fetch_nproperty_this(this_ptr, SL("_position"), PH_NOISY_CC);
-	messages = phalcon_fetch_nproperty_this(this_ptr, SL("_messages"), PH_NOISY_CC);
-	if (phalcon_array_isset_fetch(&message, messages, position)) {
-		RETURN_ZVAL(message, 1, 0);
+	phalcon_validation_message_group_iterator_funcs.get_current_data(&it, &ret TSRMLS_CC);
+	if (ret) {
+		RETURN_ZVAL(*ret, 1, 0);
 	}
-	
+
 	RETURN_NULL();
 }
 
@@ -371,8 +467,22 @@ PHP_METHOD(Phalcon_Validation_Message_Group, current){
  */
 PHP_METHOD(Phalcon_Validation_Message_Group, key){
 
+	zend_object_iterator it;
+	it.data = getThis();
+#if ZEND_MODULE_API_NO >= 20121212
+	phalcon_validation_message_group_iterator_funcs.get_current_key(&it, return_value TSRMLS_CC);
+#else
+	{
+		char *str_key;
+		uint str_key_len;
+		ulong int_key;
+		if (HASH_KEY_IS_STRING == phalcon_validation_message_group_iterator_funcs.get_current_key(&it, &str_key, &str_key_len, &int_key TSRMLS_CC)) {
+			RETURN_STRINGL(str_key, str_key_len-1, 1);
+		}
 
-	RETURN_MEMBER(this_ptr, "_position");
+		RETURN_LONG(int_key);
+	}
+#endif
 }
 
 /**
@@ -381,9 +491,9 @@ PHP_METHOD(Phalcon_Validation_Message_Group, key){
  */
 PHP_METHOD(Phalcon_Validation_Message_Group, next){
 
-
-	phalcon_property_incr(this_ptr, SL("_position") TSRMLS_CC);
-	
+	zend_object_iterator it;
+	it.data = getThis();
+	phalcon_validation_message_group_iterator_funcs.move_forward(&it TSRMLS_CC);
 }
 
 /**
@@ -393,20 +503,9 @@ PHP_METHOD(Phalcon_Validation_Message_Group, next){
  */
 PHP_METHOD(Phalcon_Validation_Message_Group, valid){
 
-	zval *position, *messages;
-
-	PHALCON_MM_GROW();
-
-	PHALCON_OBS_VAR(position);
-	phalcon_read_property_this(&position, this_ptr, SL("_position"), PH_NOISY_CC);
-	
-	PHALCON_OBS_VAR(messages);
-	phalcon_read_property_this(&messages, this_ptr, SL("_messages"), PH_NOISY_CC);
-	if (phalcon_array_isset(messages, position)) {
-		RETURN_MM_TRUE;
-	}
-	
-	RETURN_MM_FALSE;
+	zend_object_iterator it;
+	it.data = getThis();
+	RETURN_BOOL(phalcon_validation_message_group_iterator_funcs.valid(&it TSRMLS_CC) == SUCCESS);
 }
 
 /**
