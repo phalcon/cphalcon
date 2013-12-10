@@ -238,7 +238,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Annotations, handle) {
 						ZEPHIR_INIT_NVAR(controllerName);
 						zephir_get_class_ns(controllerName, handler, 0);
 						zephir_uncamelize(lowerControllerName, controllerName);
-						zephir_call_func_p1(namespaceName, "get_ns_class", handler);
+						zephir_get_ns_class(namespaceName, handler, 0);
 					} else {
 						ZEPHIR_CPY_WRT(controllerName, handler);
 						zephir_uncamelize(lowerControllerName, controllerName);

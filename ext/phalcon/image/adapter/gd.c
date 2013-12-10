@@ -76,7 +76,7 @@ PHP_METHOD(Phalcon_Image_Adapter_Gd, check) {
 	zephir_call_func_p1(_3, "defined", &_1);
 	if (zephir_is_true(_3)) {
 		ZEPHIR_INIT_BNVAR(version);
-		ZVAL_STRING(version, "2.0.36", 1);
+		ZVAL_STRING(version, "2.0.35", 1);
 	} else {
 		ZEPHIR_INIT_VAR(info);
 		zephir_call_func(info, "gd_info");
@@ -287,7 +287,7 @@ PHP_METHOD(Phalcon_Image_Adapter_Gd, _resize) {
 
 	ZEPHIR_INIT_VAR(image);
 	ZEPHIR_SINIT_VAR(_0);
-	ZVAL_STRING(&_0, "5.4.22-1+debphp.org~precise+1", 0);
+	ZVAL_STRING(&_0, "5.3.17", 0);
 	ZEPHIR_SINIT_VAR(_1);
 	ZVAL_STRING(&_1, "5.5.0", 0);
 	ZEPHIR_INIT_VAR(_2);
@@ -406,7 +406,7 @@ PHP_METHOD(Phalcon_Image_Adapter_Gd, _crop) {
 
 	ZEPHIR_INIT_VAR(image);
 	ZEPHIR_SINIT_VAR(_0);
-	ZVAL_STRING(&_0, "5.4.22-1+debphp.org~precise+1", 0);
+	ZVAL_STRING(&_0, "5.3.17", 0);
 	ZEPHIR_SINIT_VAR(_1);
 	ZVAL_STRING(&_1, "5.5.0", 0);
 	ZEPHIR_INIT_VAR(_2);
@@ -544,7 +544,7 @@ PHP_METHOD(Phalcon_Image_Adapter_Gd, _flip) {
 
 
 	ZEPHIR_SINIT_VAR(_0);
-	ZVAL_STRING(&_0, "5.4.22-1+debphp.org~precise+1", 0);
+	ZVAL_STRING(&_0, "5.3.17", 0);
 	ZEPHIR_SINIT_VAR(_1);
 	ZVAL_STRING(&_1, "5.5.0", 0);
 	ZEPHIR_INIT_VAR(_2);
@@ -867,7 +867,9 @@ PHP_METHOD(Phalcon_Image_Adapter_Gd, _watermark) {
 		ZVAL_LONG(&_6, opacity);
 		ZEPHIR_INIT_VAR(color);
 		zephir_call_func_p5(color, "imagecolorallocatealpha", overlay, &_2, &_4, &_5, &_6);
-		zephir_call_func_p2_noret("imagelayereffect", overlay, ZEPHIR_GLOBAL(global_null));
+		ZEPHIR_SINIT_NVAR(_2);
+		ZVAL_LONG(&_2, 3);
+		zephir_call_func_p2_noret("imagelayereffect", overlay, &_2);
 		ZEPHIR_SINIT_NVAR(_2);
 		ZVAL_LONG(&_2, 0);
 		ZEPHIR_SINIT_NVAR(_4);

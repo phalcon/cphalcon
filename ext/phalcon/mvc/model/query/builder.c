@@ -572,18 +572,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, rightJoin) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, where) {
 
-	zval *conditions_param = NULL, *bindParams = NULL, *bindTypes = NULL, *currentBindParams, *currentBindTypes, *mergedParams = NULL, *mergedTypes = NULL;
-	zval *conditions = NULL;
+	zval *conditions, *bindParams = NULL, *bindTypes = NULL, *currentBindParams, *currentBindTypes, *mergedParams = NULL, *mergedTypes = NULL;
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 2, &conditions_param, &bindParams, &bindTypes);
-
-		if (Z_TYPE_P(conditions_param) != IS_STRING) {
-				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'conditions' must be a string") TSRMLS_CC);
-				RETURN_MM_NULL();
-		}
-
-		conditions = conditions_param;
+	zephir_fetch_params(1, 1, 2, &conditions, &bindParams, &bindTypes);
 
 	if (!bindParams || Z_TYPE_P(bindParams) == IS_NULL) {
 		bindParams = ZEPHIR_GLOBAL(global_null);
