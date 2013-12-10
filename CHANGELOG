@@ -15,6 +15,7 @@
  - Make sure that 'persistent' is resolved only when accessed for the first time (#1637)
  - Fix Phalcon\Session\Bag::remove() (#1637)
  - Bug fixes in beanstalkd protocol implementation
+ - Phalcon\Paginator\Adapter\Model returns correct results even when page number is incorrect (#1654)
 
 1.2.4
  - Fixed broken ACL inheritance (#905)
