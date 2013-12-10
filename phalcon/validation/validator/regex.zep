@@ -40,10 +40,10 @@ class Regex extends Phalcon\Validation\Validator implements Phalcon\Validation\V
 	 * Executes the validation
 	 *
 	 * @param  Phalcon\Validation validator
-	 * @param  string attribute
+	 * @param  string field
 	 * @return boolean
 	 */
-	public function validate(<Phalcon\Validation> validator, attribute) -> boolean
+	public function validate(<Phalcon\Validation> validator, field) -> boolean
 	{
 		var matches, failed, message, value;
 
@@ -52,7 +52,7 @@ class Regex extends Phalcon\Validation\Validator implements Phalcon\Validation\V
 		 * Check if the value match using preg_match in the PHP userland
 		 */
 		let matches = null;
-		let value = validator->getValue(attribute);
+		let value = validator->getValue(field);
 		if preg_match(this->getOption("pattern"), value, matches) {
 			let failed = matches[0] != value;
 		} else {
@@ -66,10 +66,10 @@ class Regex extends Phalcon\Validation\Validator implements Phalcon\Validation\V
 			 */
 			let message = this->getOption("message");
 			if !message {
-				let message = "Value of field '" . attribute . "' doesn't match regular expression";
+                                let message = strrt("Value of field :field doesn't match regular expression", [':field': field]);
 			}
 
-			validator->appendMessage(new Phalcon\Validation\Message(message, attribute, "Regex"));
+			validator->appendMessage(new Phalcon\Validation\Message(strrt(message, [':field': field]), field, "Regex"));
 			return false;
 		}
 

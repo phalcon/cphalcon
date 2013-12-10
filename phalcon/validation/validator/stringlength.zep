@@ -43,10 +43,10 @@ class StringLength extends Phalcon\Validation\Validator implements Phalcon\Valid
 	 * Executes the validation
 	 *
 	 * @param Phalcon\Validation validator
-	 * @param string attribute
+	 * @param string field
 	 * @return boolean
 	 */
-	public function validate(<Phalcon\Validation> validator, string! attribute) -> boolean
+	public function validate(<Phalcon\Validation> validator, string! field) -> boolean
 	{
 		var isSetMin, isSetMax, value, length, message, minimum, maximum;
 
@@ -60,7 +60,7 @@ class StringLength extends Phalcon\Validation\Validator implements Phalcon\Valid
 			throw new Phalcon\Mvc\Model\Exception("A minimum or maximum must be set");
 		}
 
-		let value = validator->getValue(attribute);
+		let value = validator->getValue(field);
 
 		/**
 		 * Check if mbstring is available to calculate the correct length
@@ -84,10 +84,10 @@ class StringLength extends Phalcon\Validation\Validator implements Phalcon\Valid
 				 */
 				let message = this->getOption("messageMaximum");
 				if empty message {
-		 			let message = "Value of field '" . attribute . "' exceeds the maximum " . maximum . " characters";
+		 			let message = strrt("Value of field :field exceeds the maximum :max characters", [':field': field, ':max':  maximum]);
 		 		}
 
-		 		validator->appendMessage(new Phalcon\Validation\Message(message, attribute, "TooLong"));
+		 		validator->appendMessage(new Phalcon\Validation\Message(strrt(message, [':field': field, ':max':  maximum]), field, "TooLong"));
 				return false;
 			}
 		}
@@ -105,10 +105,10 @@ class StringLength extends Phalcon\Validation\Validator implements Phalcon\Valid
 				 */
 				let message = this->getOption("messageMinimum");
 				if empty message {
-		 			let message = "Value of field '" . attribute . "' is less than the minimum " . minimum . " characters";
+                                        let message = strrt("Value of field :field is less than the minimum :min characters", [':field': field, ':min':  minimum]);
 		 		}
 
-		 		validator->appendMessage(new Phalcon\Validation\Message(message, attribute, "TooShort"));
+		 		validator->appendMessage(new Phalcon\Validation\Message(strrt(message, [':field': field, ':min':  minimum]), field, "TooShort"));
 				return false;
 			}
 		}

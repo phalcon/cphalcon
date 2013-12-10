@@ -41,21 +41,21 @@ class Identical extends Phalcon\Validation\Validator implements Phalcon\Validati
 	 * Executes the validation
 	 *
 	 * @param Phalcon\Validation validator
-	 * @param string             attribute
+	 * @param string             field
 	 * @return boolean
 	 */
-	public function validate(<Phalcon\Validation> validator, string! attribute)
+	public function validate(<Phalcon\Validation> validator, string! field)
 	{
 		var message;
 
-		if validator->getValue(attribute) != this->getOption("value") {
+		if validator->getValue(field) != this->getOption("value") {
 
 			let message = this->getOption("message");
 			if empty message {
-				let message = attribute . " does not have the expected value";
+                                let message = strrt(":field does not have the expected value", [':field': field]);
 			}
 
-			validator->appendMessage(new Phalcon\Validation\Message(message, attribute, "Identical"));
+			validator->appendMessage(new Phalcon\Validation\Message(strrt(message, [':field': field]), field, "Identical"));
 			return false;
 		}
 

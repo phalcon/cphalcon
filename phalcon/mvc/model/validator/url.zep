@@ -54,12 +54,7 @@ class Url extends Phalcon\Mvc\Model\Validator implements Phalcon\Mvc\Model\Valid
 	 */
 	public function validate(<Phalcon\Mvc\ModelInterface> record) -> boolean
 	{
-		var fieldName, field, value, isValid, message;
-
-		let fieldName = this->getOption("field");
-		if typeof fieldName != "string" {
-			throw new Phalcon\Mvc\Model\Exception("Field name must be a string");
-		}
+		var field, value, isValid, message;
  
 		let field = this->getOption("field");
 		if typeof field == "string" {
@@ -79,10 +74,10 @@ class Url extends Phalcon\Mvc\Model\Validator implements Phalcon\Mvc\Model\Valid
 			 */
 			let message = this->getOption("message");
 			if !message {
-				let message = "'".field."' does not have a valid url format";
+                                let message = strrt(":field does not have a valid url format", [':field': field]);
 			}
  
-			this->appendMessage(message, field, "Url");
+			this->appendMessage(strrt(message, [':field': field]), field, "Url");
 			return false;
 		}
  

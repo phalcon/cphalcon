@@ -56,14 +56,14 @@ class Email extends Phalcon\Mvc\Model\Validator implements Phalcon\Mvc\Model\Val
 	public function validate(<Phalcon\Mvc\ModelInterface> record) -> boolean
 	{
 
-		var fieldName, value, regs, invalid, message;
+		var field, value, regs, invalid, message;
 
-		let fieldName = this->getOption("field");
-		if typeof fieldName != "string" {
+		let field = this->getOption("field");
+		if typeof field != "string" {
 			throw new Phalcon\Mvc\Model\Exception("Field name must be a string");
 		}
 
-		let value = record->readAttribute(fieldName);
+		let value = record->readAttribute(field);
 
 		/**
 		 * We check if the email has a valid format using a regular expression
@@ -82,10 +82,10 @@ class Email extends Phalcon\Mvc\Model\Validator implements Phalcon\Mvc\Model\Val
 			 */
 			let message = this->getOption("message");
 			if message {
-				let message = "Value of field '" . fieldName . "' must have a valid e-mail format";
+                                let message = strrt("Value of field :field must have a valid e-mail format", [':field': field]);
 			}
 
-			this->appendMessage(message, fieldName, "Email");
+			this->appendMessage(strrt(message, [':field': field]), field, "Email");
 			return false;
 		}
 

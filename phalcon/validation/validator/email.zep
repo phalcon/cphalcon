@@ -39,22 +39,22 @@ class Email extends Phalcon\Validation\Validator implements Phalcon\Validation\V
 	 * Executes the validation
 	 *
 	 * @param  Phalcon\Validation validator
-	 * @param  string             attribute
+	 * @param  string             field
 	 * @return boolean
 	 */
-	public function validate(<Phalcon\Validatio> validator, string! attribute) -> boolean
+	public function validate(<Phalcon\Validatio> validator, string! field) -> boolean
 	{
 		var value, message;
 
-		let value = validator->getValue(attribute);
+		let value = validator->getValue(field);
 		if !filter_var(value, FILTER_VALIDATE_EMAIL) {
 
 			let message = this->getOption("message");
 			if empty message {
-				let message = "Value of field '" . attribute . "' must have a valid e-mail format";
+                                let message = strrt("Value of field :field must have a valid e-mail format", [':field': field]);
 			}
 
-			validator->appendMessage(new Phalcon\Validation\Message(message, attribute, "Email"));
+			validator->appendMessage(new Phalcon\Validation\Message(strrt(message, [':field': field]), field, "Email"));
 			return false;
 		}
 

@@ -55,17 +55,17 @@ class PresenceOf extends Phalcon\Mvc\Model\Validator implements Phalcon\Mvc\Mode
 	 */
 	public function validate(<Phalcon\Mvc\ModelInterface> record) -> boolean
 	{
- 		var fieldName, value, message;
+ 		var field, value, message;
 
-		let fieldName = this->getOption("field");
-		if typeof fieldName != "string" {
+		let field = this->getOption("field");
+		if typeof field != "string" {
 			throw new Phalcon\Mvc\Model\Exception("Field name must be a string");
 		}
  
 		/**
 		 * A value is null when it is identical to null or a empty string
 		 */
-		let value = record->readAttribute(fieldName);
+		let value = record->readAttribute(field);
 		if empty(value) {
  
 			/**
@@ -73,10 +73,10 @@ class PresenceOf extends Phalcon\Mvc\Model\Validator implements Phalcon\Mvc\Mode
 			 */
 			let message = this->getOption("message");
 			if !message{
-				let message = "'".fieldName."' is required";
+                                let message = strrt(":field is required", [':field': field]);
 			}
  
-			this->appendMessage(message, fieldName, "PresenceOf");
+			this->appendMessage(strrt(message, [':field': field]), field, "PresenceOf");
 			return false;
 		}
  
