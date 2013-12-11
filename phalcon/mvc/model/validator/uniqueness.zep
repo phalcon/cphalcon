@@ -232,10 +232,10 @@ class Uniqueness extends Phalcon\Mvc\Model\Validator implements Phalcon\Mvc\Mode
 			 * Check if the developer has defined a custom message
 			 */
 			let message = this->getOption("message");
-                        let replacePairs = [':field': field];
+                        let replacePairs = [":field": field];
 			if empty message {
 				if typeof field == "array" {
-					let replacePairs = [':fields': join(", ", field)];
+					let replacePairs = [":fields": join(", ", field)];
                                         let message = strrt("Value of fields: :fields are already present in another record", replacePairs);
 				} else {
                                         let message = strrt("Value of field: :field is already present in another record", replacePairs);

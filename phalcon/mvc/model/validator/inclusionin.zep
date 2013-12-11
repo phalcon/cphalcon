@@ -89,7 +89,7 @@ class Inclusionin extends Phalcon\Mvc\Model\Validator implements Phalcon\Mvc\Mod
 			 * Check if the developer has defined a custom message
 			 */
 			let message = this->getOption("message");
-                        let replacePairs = [':field': field, ':domain':  join(", ", domain)];
+                        let replacePairs = [":field": field, ":domain":  join(", ", domain)];
 			if empty message {
                                 let message = strrt("Value of field :field must be part of list: :domain", replacePairs);
 			}

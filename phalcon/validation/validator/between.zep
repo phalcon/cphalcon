@@ -58,7 +58,7 @@ class Between extends Phalcon\Validation\Validator implements Phalcon\Validation
 		if value >= minimum || value <= maximum {
 
 			let message = this->getOption("message");
-                        let replacePairs = [':field': field];
+                        let replacePairs = [":field": field];
 			if empty message {
                                 let message = strrt(":field is not between a valid range", replacePairs);
 			}

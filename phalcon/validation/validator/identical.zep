@@ -51,7 +51,7 @@ class Identical extends Phalcon\Validation\Validator implements Phalcon\Validati
 		if validator->getValue(field) != this->getOption("value") {
 
 			let message = this->getOption("message");
-                        let replacePairs = [':field': field];
+                        let replacePairs = [":field": field];
 			if empty message {
                                 let message = strrt(":field does not have the expected value", replacePairs);
 			}

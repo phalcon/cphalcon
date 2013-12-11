@@ -54,7 +54,7 @@ class Confirmation extends Phalcon\Validation\Validator implements Phalcon\Valid
 		if value != withValue {
 
 			let message = this->getOption("message");
-                        let replacePairs = [':field': field, ':with':  withAttribute];
+                        let replacePairs = [":field": field, ":with":  withAttribute];
 			if empty message {
                                 let message = strrt("Value of :field and :with don't match", replacePairs);
 			}

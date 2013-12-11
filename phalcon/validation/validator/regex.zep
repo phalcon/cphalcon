@@ -70,7 +70,7 @@ class Regex extends Phalcon\Validation\Validator implements Phalcon\Validation\V
 			 * <comment>Check if the developer has defined a custom message</comment>
 			 */
 			let message = this->getOption("message");
-                        let replacePairs = [':field': field];
+                        let replacePairs = [":field": field];
 			if empty message {
                                 let message = strrt("Value of field :field doesn't match regular expression", replacePairs);
 			}

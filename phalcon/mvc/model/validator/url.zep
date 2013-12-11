@@ -76,7 +76,7 @@ class Url extends Phalcon\Mvc\Model\Validator implements Phalcon\Mvc\Model\Valid
 			 * Check if the developer has defined a custom message
 			 */
 			let message = this->getOption("message");
-                        let replacePairs = [':field': field];
+                        let replacePairs = [":field": field];
 			if empty message {
                                 let message = strrt(":field does not have a valid url format", replacePairs);
 			}

@@ -55,7 +55,7 @@ class Email extends Phalcon\Validation\Validator implements Phalcon\Validation\V
 		if !filter_var(value, FILTER_VALIDATE_EMAIL) {
 
 			let message = this->getOption("message");
-                        let replacePairs = [':field': field];
+                        let replacePairs = [":field": field];
 			if empty message {
                                 let message = strrt("Value of field :field must have a valid e-mail format", replacePairs);
 			}
