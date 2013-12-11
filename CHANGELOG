@@ -124,6 +124,7 @@
    - Added support for HTML attributes to Phalcon\Forms\Form::label() (#1029)
    - Phalcon\Forms\Form::getMessages() does not generate a fatal error if the form is valid (#1349)
    - Improvements to Phalcon\Forms\Form::add() (#1386)
+   - Added Phalcon\Forms\Element\Radio class (#1646)
  - Phalcon\Http:
    - Phalcon\Http\Cookie can be used without sessions (#875)
    - Phalcon\Http\Cookie does not ignore expire time (#897)
