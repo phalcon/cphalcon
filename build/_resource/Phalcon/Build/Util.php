@@ -1,4 +1,5 @@
 <?php
+
 namespace Phalcon\Build;
 
 class Util
