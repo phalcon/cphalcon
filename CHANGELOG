@@ -180,6 +180,7 @@
    - Added Phalcon\Mvc\Model::selectWriteConnection() (#1519)
    - Added Phalcon\Mvc\Router\Group::convert()/getConverters() (#1555, #1572)
    - Faster Phalcon\Mvc\Model\Row (#1606)
+   - Bug fix: no arguments were passed to beforeMatch handler in Phalcon\Mvc\Router (#1556)
  - Phalcon\Flash:
    - Phalcon\Flash\Session::getMessage('key') returns now an empty array if the key is not found (#908, #920)
    - Phalcon\Flash\Session::getMessages() incorrectly removed all messages (#1575)
