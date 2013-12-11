@@ -50,11 +50,12 @@ class PresenceOf extends Phalcon\Validation\Validator implements Phalcon\Validat
 		if empty value {
 
 			let message = this->getOption("message");
+                        let replacePairs = [':field': field];
 			if empty message {
-				let message = strrt(":field is required", [':field': field]);
+				let message = strrt(":field is required", replacePairs);
 			}
 
-			validator->appendMessage(new Phalcon\Validation\Message(strrt(message, [':field': field]), field, "PresenceOf"));
+			validator->appendMessage(new Phalcon\Validation\Message(strrt(message, replacePairs), field, "PresenceOf"));
 			return false;
 		}
 
