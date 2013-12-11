@@ -209,6 +209,8 @@
    - Added Phalcon\Tag::setTitleSeparator() (#1365)
    - Added support for <optgroup> (#1422)
    - Fixed inconsistency in Tag::stylesheetLink/javascriptInclude w.r.t. local URLs (#1486)
+ - Phalcon\Translate:
+   - Optimized Phalcon\Translate\Adapter, Phalcon\Translate\Adapter\NativeArray by using object handlers (#1668)
  - Phalcon\Validation:
    - Added support for error codes (#1171)
    - Bug fixes (#1399)

@@ -93,6 +93,7 @@
 			<file>unit-tests/CryptTest.php</file>
 			<file>unit-tests/SecurityTest.php</file>
 			<file>unit-tests/BeanstalkTest.php</file>
+			<file>unit-tests/TranslateTest.php</file>
 
 			<!-- Complex components/Integral tests -->
 			<file>unit-tests/ModelsResultsetCacheTest.php</file>
