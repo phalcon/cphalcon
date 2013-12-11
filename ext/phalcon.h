@@ -230,6 +230,7 @@
 #include "forms/element/submit.h"
 #include "forms/element/password.h"
 #include "forms/element/textarea.h"
+#include "forms/element/radio.h"
 #include "crypt.h"
 #include "translate/exception.h"
 #include "translate/adapter/nativearray.h"

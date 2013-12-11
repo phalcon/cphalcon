@@ -72,6 +72,7 @@ forms/element/text.c \
 forms/element/select.c \
 forms/element/textarea.c \
 forms/element/check.c \
+forms/element/radio.c \
 forms/element/numeric.c \
 forms/element/submit.c \
 forms/element/date.c \
