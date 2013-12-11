@@ -381,11 +381,13 @@ PHP_METHOD(Phalcon_Image_Adapter_GD, _resize) {
 	PHALCON_INIT_NVAR(tmp_image);
 	PHALCON_CALL_FUNCTION(tmp_image, NULL, "imagescale", 3, image, width, height);
 
-	phalcon_call_func_p1_noret("imagedestroy", image);
-	phalcon_update_property_this(this_ptr, SL("_image"), tmp_image TSRMLS_CC);
+	if (Z_TYPE_P(tmp_image) == IS_RESOURCE) {
+		phalcon_call_func_p1_noret("imagedestroy", image);
+		phalcon_update_property_this(this_ptr, SL("_image"), tmp_image TSRMLS_CC);
 
-	phalcon_update_property_this(this_ptr, SL("_width"), width TSRMLS_CC);
-	phalcon_update_property_this(this_ptr, SL("_height"), height TSRMLS_CC);
+		phalcon_update_property_this(this_ptr, SL("_width"), width TSRMLS_CC);
+		phalcon_update_property_this(this_ptr, SL("_height"), height TSRMLS_CC);
+	}
 #endif
 
 	PHALCON_MM_RESTORE();
@@ -464,11 +466,13 @@ PHP_METHOD(Phalcon_Image_Adapter_GD, _crop) {
 	PHALCON_OBS_VAR(tmp_image);
 	PHALCON_CALL_FUNCTION(tmp_image, &tmp_image, "imagecrop", 2, image, rect);
 
-	phalcon_call_func_p1_noret("imagedestroy", image);
-	phalcon_update_property_this(this_ptr, SL("_image"), tmp_image TSRMLS_CC);
+	if (Z_TYPE_P(tmp_image) == IS_RESOURCE) {
+		phalcon_call_func_p1_noret("imagedestroy", image);
+		phalcon_update_property_this(this_ptr, SL("_image"), tmp_image TSRMLS_CC);
 
-	phalcon_update_property_this(this_ptr, SL("_width"), width TSRMLS_CC);
-	phalcon_update_property_this(this_ptr, SL("_height"), height TSRMLS_CC);
+		phalcon_update_property_this(this_ptr, SL("_width"), width TSRMLS_CC);
+		phalcon_update_property_this(this_ptr, SL("_height"), height TSRMLS_CC);
+	}
 #endif
 
 	PHALCON_MM_RESTORE();
