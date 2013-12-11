@@ -56,7 +56,7 @@ class Email extends Phalcon\Mvc\Model\Validator implements Phalcon\Mvc\Model\Val
 	public function validate(<Phalcon\Mvc\ModelInterface> record) -> boolean
 	{
 
-		var field, value, regs, invalid, message;
+		var field, value, invalid, message, replacePairs;
 
 		let field = this->getOption("field");
 		if typeof field != "string" {
@@ -65,27 +65,22 @@ class Email extends Phalcon\Mvc\Model\Validator implements Phalcon\Mvc\Model\Val
 
 		let value = record->readAttribute(field);
 
-		/**
-		 * We check if the email has a valid format using a regular expression
+                if this->isSetOption("notRequired") && (typeof value == "null" || value === '') {
+                    return true;
+                }
+
+                /**
+		 * Filters the format using FILTER_VALIDATE_EMAIL
 		 */
-		let regs = null;
-		if preg_match("/^[a-zA-Z0-9\-_\.\+]+@[a-zA-Z0-9_\-]+(\.[a-zA-Z0-9_\-]+)*/", value, regs) {
-			let invalid = regs[0] != value;
-		} else {
-			let invalid = true;
-		}
+		if !filter_var(value, FILTER_VALIDATE_EMAIL) {
 
-		if invalid === true {
-
-			/**
-			 * Check if the developer has defined a custom message
-			 */
 			let message = this->getOption("message");
-			if message {
-                                let message = strrt("Value of field :field must have a valid e-mail format", [':field': field]);
+                        let replacePairs = [":field": field];
+			if empty message {
+                                let message = strrt("Value of field :field must have a valid e-mail format", replacePairs);
 			}
 
-			this->appendMessage(strrt(message, [':field': field]), field, "Email");
+			this->appendMessage(strrt(message, replacePairs), field, "Email");
 			return false;
 		}
 

@@ -54,7 +54,7 @@ class Url extends Phalcon\Mvc\Model\Validator implements Phalcon\Mvc\Model\Valid
 	 */
 	public function validate(<Phalcon\Mvc\ModelInterface> record) -> boolean
 	{
-		var field, value, isValid, message;
+		var field, value, isValid, message, replacePairs;
  
 		let field = this->getOption("field");
 		if typeof field == "string" {
@@ -62,22 +62,26 @@ class Url extends Phalcon\Mvc\Model\Validator implements Phalcon\Mvc\Model\Valid
 		}
  
 		let value = record->readAttribute(field);
+
+                if this->isSetOption("notRequired") && (typeof value == "null" || value === '') {
+                    return true;
+                }
  
 		/**
 		 * Filters the format using FILTER_VALIDATE_URL
 		 */
-		let isValid = filter_var(value, FILTER_VALIDATE_URL);
-		if !isValid {
+		if !filter_var(value, FILTER_VALIDATE_URL) {
  
 			/**
 			 * Check if the developer has defined a custom message
 			 */
 			let message = this->getOption("message");
-			if !message {
-                                let message = strrt(":field does not have a valid url format", [':field': field]);
+                        let replacePairs = [":field": field];
+			if empty message {
+                                let message = strrt(":field does not have a valid url format", replacePairs);
 			}
  
-			this->appendMessage(strrt(message, [':field': field]), field, "Url");
+			this->appendMessage(strrt(message, replacePairs), field, "Url");
 			return false;
 		}
  

@@ -45,7 +45,7 @@ class Confirmation extends Phalcon\Validation\Validator implements Phalcon\Valid
 	 */
 	public function validate(<Phalcon\Validation> validator, string field) -> boolean
 	{
-		var withAttribute, value, withValue, message;
+		var withAttribute, value, withValue, message, replacePairs;
 
 		let withAttribute = this->getOption("with"),
 			value = validator->getValue(field),
@@ -54,11 +54,12 @@ class Confirmation extends Phalcon\Validation\Validator implements Phalcon\Valid
 		if value != withValue {
 
 			let message = this->getOption("message");
+                        let replacePairs = [":field": field, ":with":  withAttribute];
 			if empty message {
-                                let message = strrt("Value of :field and :with don't match", [':field': field, ':with':  withAttribute]);
+                                let message = strrt("Value of :field and :with don't match", replacePairs);
 			}
 
-			validator->appendMessage(new Phalcon\Validation\Message(strrt(message, [':field': field, ':with':  withAttribute]), field, "Confirmation"));
+			validator->appendMessage(new Phalcon\Validation\Message(strrt(message, replacePairs), field, "Confirmation"));
 			return false;
 		}
 

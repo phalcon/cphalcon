@@ -58,7 +58,7 @@ class Uniqueness extends Phalcon\Mvc\Model\Validator implements Phalcon\Mvc\Mode
 		var field, dependencyInjector, metaData, message, bindTypes, bindDataTypes,
 			columnMap, conditions, bindParams, number, composeField, value, columnField,
 			composeCondition, bindType, condition, operationMade, primaryFields, primaryField,
-			attributeField, joinConditions, params, className, joinFields;
+			attributeField, joinConditions, params, className, joinFields, replacePairs;
 
 		let field = this->getOption("field");
  
@@ -232,20 +232,20 @@ class Uniqueness extends Phalcon\Mvc\Model\Validator implements Phalcon\Mvc\Mode
 			 * Check if the developer has defined a custom message
 			 */
 			let message = this->getOption("message");
-			if !message {
+                        let replacePairs = [":field": field];
+			if empty message {
 				if typeof field == "array" {
-					let joinFields = join(", ", field);
-					let message = "";
-                                        let message = strrt("Value of fields: :fields are already present in another record", [':fields': joinFields]);
+					let replacePairs = [":fields": join(", ", field)];
+                                        let message = strrt("Value of fields: :fields are already present in another record", replacePairs);
 				} else {
-                                        let message = strrt("Value of field: :field is already present in another record", [':field': field]);
+                                        let message = strrt("Value of field: :field is already present in another record", replacePairs);
 				}
 			}
  
 			/**
 			 * Append the message to the validator
 			 */
-			this->appendMessage(strrt(message, [':field': field]), field, "Unique");
+			this->appendMessage(strrt(message, replacePairs), field, "Unique");
 			return false;
 		}
  

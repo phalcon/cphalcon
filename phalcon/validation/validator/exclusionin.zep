@@ -45,9 +45,13 @@ class ExclusionIn extends Phalcon\Validation\Validator implements Phalcon\Valida
 	 */
 	public function validate(<Phalcon\Validation> validator, string! field) -> boolean
 	{
-		var value, domain, message;
+		var value, domain, message, replacePairs;
 
 		let value = validator->getValue(field);
+
+                if this->isSetOption("notRequired") && (typeof value == "null" || value === '') {
+                    return true;
+                }
 
 		/**
 		 * A domain is an array with a list of valid values
@@ -63,11 +67,12 @@ class ExclusionIn extends Phalcon\Validation\Validator implements Phalcon\Valida
 		if in_array(value, domain) {
 
 			let message = this->getOption("message");
+                        let replacePairs = [":field": field, ":domain":  join(", ", domain)];
 			if empty message {
-                                let message = strrt("Value of field :field must not be part of list: :domain", [':field': field, ':domain':  join(", ", domain)]);
+                                let message = strrt("Value of field :field must not be part of list: :domain", replacePairs);
 			}
 
-			validator->appendMessage(new Phalcon\Validation\Message(strrt(message, [':field': field, ':domain':  join(", ", domain)]), field, "ExclusionIn"));
+			validator->appendMessage(new Phalcon\Validation\Message(strrt(message, replacePairs), field, "ExclusionIn"));
 			return false;
 		}
 

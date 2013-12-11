@@ -55,7 +55,7 @@ class Regex extends Phalcon\Mvc\Model\Validator implements Phalcon\Mvc\Model\Val
 	 */
 	public function validate(<Phalcon\Mvc\ModelInterface> record) -> boolean
 	{
- 		var field, visSet, value, failed, matches, pattern, matchPattern, matchZero, message;
+ 		var field, visSet, value, failed, matches, pattern, matchPattern, matchZero, message, replacePairs;
 
 		let field = this->getOption("field");
 		if typeof field != "string" {
@@ -73,6 +73,10 @@ class Regex extends Phalcon\Mvc\Model\Validator implements Phalcon\Mvc\Model\Val
 		let value = record->readAttribute(field);
  		let failed = false;
  		let matches = null;
+
+                if this->isSetOption("notRequired") && (typeof value == "null" || value === '') {
+                    return true;
+                }
 		
 		/**
 		 * The regular expression is set in the option 'pattern'
@@ -96,11 +100,12 @@ class Regex extends Phalcon\Mvc\Model\Validator implements Phalcon\Mvc\Model\Val
 			 * Check if the developer has defined a custom message
 			 */
 			let message = this->getOption("message");
-			if !message {
-                                let message = strrt("Value of field :field doesn't match regular expression", [':field': field]);
+                        let replacePairs = [":field": field];
+			if empty message {
+                                let message = strrt("Value of field :field doesn't match regular expression", replacePairs);
 			}
  
-			this->appendMessage(strrt(message, [':field': field]), field, "Regex");
+			this->appendMessage(strrt(message, replacePairs), field, "Regex");
 			return false;
 		}
  
