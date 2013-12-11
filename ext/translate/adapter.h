@@ -18,9 +18,11 @@
 */
 
 extern zend_class_entry *phalcon_translate_adapter_ce;
+zend_object_handlers phalcon_translate_adapter_object_handlers;
 
 PHALCON_INIT_CLASS(Phalcon_Translate_Adapter);
 
+PHP_METHOD(Phalcon_Translate_Adapter, __construct);
 PHP_METHOD(Phalcon_Translate_Adapter, _);
 PHP_METHOD(Phalcon_Translate_Adapter, offsetSet);
 PHP_METHOD(Phalcon_Translate_Adapter, offsetExists);
@@ -50,6 +52,7 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_translate_adapter_offsetget, 0, 0, 1)
 ZEND_END_ARG_INFO()
 
 PHALCON_INIT_FUNCS(phalcon_translate_adapter_method_entry){
+	PHP_ME(Phalcon_Translate_Adapter, __construct, NULL, ZEND_ACC_PUBLIC | ZEND_ACC_CTOR)
 	PHP_ME(Phalcon_Translate_Adapter, _, arginfo_phalcon_translate_adapter__, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Translate_Adapter, offsetSet, arginfo_phalcon_translate_adapter_offsetset, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Translate_Adapter, offsetExists, arginfo_phalcon_translate_adapter_offsetexists, ZEND_ACC_PUBLIC)
