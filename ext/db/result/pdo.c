@@ -441,7 +441,7 @@ PHP_METHOD(Phalcon_Db_Result_Pdo, setFetchMode){
 
 
 	long fetch_mode;
-	zval *pdo_statement, *fetch_type;
+	zval *pdo_statement;
 
 	PHALCON_MM_GROW();
 
@@ -449,23 +449,10 @@ PHP_METHOD(Phalcon_Db_Result_Pdo, setFetchMode){
 		RETURN_MM_NULL();
 	}
 
-	PHALCON_INIT_VAR(fetch_type);
+	if (Z_LVAL_P(fetch_mode) != 0) {
+		PHALCON_OBS_VAR(pdo_statement);
+		phalcon_read_property(&pdo_statement, this_ptr, SL("_pdoStatement"), PH_NOISY_CC);
 
-	PHALCON_OBS_VAR(pdo_statement);
-	phalcon_read_property(&pdo_statement, this_ptr, SL("_pdoStatement"), PH_NOISY_CC);
-	if (fetch_mode == 1) {
-		ZVAL_LONG(fetch_type, 2);
-	} else if (fetch_mode == 2) {
-		ZVAL_LONG(fetch_type, 4);
-	} else if (fetch_mode == 3) {
-		ZVAL_LONG(fetch_type, 3);
-	} else if (fetch_mode == 4) {
-		ZVAL_LONG(fetch_type, 5);
-	} else {
-		ZVAL_LONG(fetch_type, 0);
-	}
-
-	if (Z_LVAL_P(fetch_type) != 0) {
 		phalcon_call_method_p1_noret(pdo_statement, "setfetchmode", fetch_type);
 		phalcon_update_property_long(this_ptr, SL("_fetchMode"), Z_LVAL_P(fetch_type) TSRMLS_CC);
 	}
