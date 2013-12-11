@@ -29,6 +29,8 @@
 #include "Zend/zend_exceptions.h"
 #include "Zend/zend_interfaces.h"
 
+#include "ext/pdo/php_pdo_driver.h"
+
 #include "kernel/main.h"
 #include "kernel/memory.h"
 
@@ -156,7 +158,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Mysql, describeColumns){
 	 * We're using FETCH_NUM to fetch the columns
 	 */
 	PHALCON_INIT_VAR(fetch_num);
-	ZVAL_LONG(fetch_num, 3);
+	ZVAL_LONG(fetch_num, PDO_FETCH_NUM);
 	
 	/** 
 	 * Get the describe

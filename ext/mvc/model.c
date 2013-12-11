@@ -29,9 +29,10 @@
 #include "Zend/zend_exceptions.h"
 #include "Zend/zend_interfaces.h"
 
+#include "ext/pdo/php_pdo_driver.h"
+
 #include "kernel/main.h"
 #include "kernel/memory.h"
-
 #include "kernel/fcall.h"
 #include "kernel/exception.h"
 #include "kernel/object.h"
@@ -4919,7 +4920,7 @@ PHP_METHOD(Phalcon_Mvc_Model, refresh){
 	phalcon_call_method_p1(sql, dialect, "select", select);
 	
 	PHALCON_INIT_VAR(fetch_type);
-	ZVAL_LONG(fetch_type, 1);
+	ZVAL_LONG(fetch_type, PDO_FETCH_ASSOC);
 	
 	PHALCON_INIT_VAR(row);
 	phalcon_call_method_p4(row, read_connection, "fetchone", sql, fetch_type, unique_params, unique_types);

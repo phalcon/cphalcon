@@ -28,6 +28,8 @@
 #include "Zend/zend_exceptions.h"
 #include "Zend/zend_interfaces.h"
 
+#include "ext/pdo/php_pdo_driver.h"
+
 #include "kernel/main.h"
 #include "kernel/memory.h"
 
@@ -209,7 +211,7 @@ PHP_METHOD(Phalcon_Db_Adapter, fetchOne){
 	
 	if (!fetch_mode) {
 		PHALCON_INIT_VAR(fetch_mode);
-		ZVAL_LONG(fetch_mode, 2);
+		ZVAL_LONG(fetch_mode, PDO_FETCH_BOTH);
 	}
 	
 	if (!bind_params) {
@@ -271,7 +273,7 @@ PHP_METHOD(Phalcon_Db_Adapter, fetchAll){
 	
 	if (!fetch_mode) {
 		PHALCON_INIT_VAR(fetch_mode);
-		ZVAL_LONG(fetch_mode, 2);
+		ZVAL_LONG(fetch_mode, PDO_FETCH_BOTH);
 	}
 	
 	if (!bind_params) {
@@ -785,7 +787,7 @@ PHP_METHOD(Phalcon_Db_Adapter, tableExists){
 	phalcon_call_method_p2(sql, dialect, "tableexists", table_name, schema_name);
 	
 	PHALCON_INIT_VAR(fetch_num);
-	ZVAL_LONG(fetch_num, 3);
+	ZVAL_LONG(fetch_num, PDO_FETCH_NUM);
 	
 	PHALCON_INIT_VAR(num);
 	phalcon_call_method_p2(num, this_ptr, "fetchone", sql, fetch_num);
@@ -825,7 +827,7 @@ PHP_METHOD(Phalcon_Db_Adapter, viewExists){
 	phalcon_call_method_p2(sql, dialect, "viewexists", view_name, schema_name);
 	
 	PHALCON_INIT_VAR(fetch_num);
-	ZVAL_LONG(fetch_num, 3);
+	ZVAL_LONG(fetch_num, PDO_FETCH_NUM);
 	
 	PHALCON_INIT_VAR(num);
 	phalcon_call_method_p2(num, this_ptr, "fetchone", sql, fetch_num);
@@ -1303,7 +1305,7 @@ PHP_METHOD(Phalcon_Db_Adapter, listTables){
 	 * Use fetch Num
 	 */
 	PHALCON_INIT_VAR(fetch_num);
-	ZVAL_LONG(fetch_num, 3);
+	ZVAL_LONG(fetch_num, PDO_FETCH_NUM);
 	
 	/** 
 	 * Execute the SQL returning the tables
@@ -1367,7 +1369,7 @@ PHP_METHOD(Phalcon_Db_Adapter, listViews){
 	 * Use fetch Num
 	 */
 	PHALCON_INIT_VAR(fetch_num);
-	ZVAL_LONG(fetch_num, 3);
+	ZVAL_LONG(fetch_num, PDO_FETCH_NUM);
 	
 	/** 
 	 * Execute the SQL returning the tables
@@ -1427,7 +1429,7 @@ PHP_METHOD(Phalcon_Db_Adapter, describeIndexes){
 	 * We're using FETCH_NUM to fetch the columns
 	 */
 	PHALCON_INIT_VAR(fetch_num);
-	ZVAL_LONG(fetch_num, 3);
+	ZVAL_LONG(fetch_num, PDO_FETCH_NUM);
 	
 	/** 
 	 * Get the SQL required to describe indexes from the Dialect
@@ -1526,7 +1528,7 @@ PHP_METHOD(Phalcon_Db_Adapter, describeReferences){
 	 * We're using FETCH_NUM to fetch the columns
 	 */
 	PHALCON_INIT_VAR(fetch_num);
-	ZVAL_LONG(fetch_num, 3);
+	ZVAL_LONG(fetch_num, PDO_FETCH_NUM);
 	
 	/** 
 	 * Get the SQL required to describe the references from the Dialect
@@ -1651,7 +1653,7 @@ PHP_METHOD(Phalcon_Db_Adapter, tableOptions){
 	phalcon_call_method_p2(sql, dialect, "tableoptions", table_name, schema_name);
 	if (zend_is_true(sql)) {
 		PHALCON_INIT_VAR(fetch_assoc);
-		ZVAL_LONG(fetch_assoc, 1);
+		ZVAL_LONG(fetch_assoc, PDO_FETCH_ASSOC);
 	
 		PHALCON_INIT_VAR(describe);
 		phalcon_call_method_p2(describe, this_ptr, "fetchall", sql, fetch_assoc);
