@@ -111,7 +111,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Complex, __construct){
 	 */
 	if (Z_TYPE_P(result) == IS_OBJECT) {
 		PHALCON_INIT_VAR(fetch_assoc);
-		ZVAL_LONG(fetch_assoc, 1);
+		ZVAL_LONG(fetch_assoc, 2);
 		phalcon_call_method_p1_noret(result, "setfetchmode", fetch_assoc);
 	}
 	
