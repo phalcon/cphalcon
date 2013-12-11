@@ -29,10 +29,10 @@
 #include "Zend/zend_exceptions.h"
 #include "Zend/zend_interfaces.h"
 
+#include "ext/pdo/php_pdo_driver.h"
+
 #include "kernel/main.h"
 #include "kernel/memory.h"
-
-#include "ext/pdo/php_pdo_driver.h"
 #include "kernel/exception.h"
 #include "kernel/object.h"
 #include "kernel/fcall.h"
@@ -65,7 +65,7 @@ PHALCON_INIT_CLASS(Phalcon_Db_Result_Pdo){
 
 	zend_declare_property_null(phalcon_db_result_pdo_ce, SL("_connection"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_db_result_pdo_ce, SL("_result"), ZEND_ACC_PROTECTED TSRMLS_CC);
-	zend_declare_property_long(phalcon_db_result_pdo_ce, SL("_fetchMode"), 4, ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_long(phalcon_db_result_pdo_ce, SL("_fetchMode"), PDO_FETCH_OBJ, ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_db_result_pdo_ce, SL("_pdoStatement"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_db_result_pdo_ce, SL("_sqlStatement"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_db_result_pdo_ce, SL("_bindParams"), ZEND_ACC_PROTECTED TSRMLS_CC);
@@ -450,20 +450,10 @@ PHP_METHOD(Phalcon_Db_Result_Pdo, setFetchMode){
 	}
 
 	PHALCON_INIT_VAR(fetch_type);
+	ZVAL_LONG(fetch_type, fetch_mode);
 
 	PHALCON_OBS_VAR(pdo_statement);
 	phalcon_read_property(&pdo_statement, this_ptr, SL("_pdoStatement"), PH_NOISY_CC);
-	if (fetch_mode == 1) {
-		ZVAL_LONG(fetch_type, 2);
-	} else if (fetch_mode == 2) {
-		ZVAL_LONG(fetch_type, 4);
-	} else if (fetch_mode == 3) {
-		ZVAL_LONG(fetch_type, 3);
-	} else if (fetch_mode == 4) {
-		ZVAL_LONG(fetch_type, 5);
-	} else {
-		ZVAL_LONG(fetch_type, 0);
-	}
 
 	if (Z_LVAL_P(fetch_type) != 0) {
 		phalcon_call_method_p1_noret(pdo_statement, "setfetchmode", fetch_type);
