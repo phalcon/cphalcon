@@ -166,8 +166,12 @@ class FormsTest extends PHPUnit_Framework_TestCase
 		$element1 = new Text("name");
 		$element1->setAttributes(array('class' => 'big-input'));
 
+		$element2 = new \Phalcon\Forms\Element\Radio('radio');
+		$element2->setAttributes(array('value' => 0));
+
 		$this->assertEquals('<input type="text" id="name" name="name" value="" class="big-input" />', $element1->render());
 		$this->assertEquals('<input type="text" id="name" name="name" value="" class="big-input" />', (string) $element1);
+		$this->assertEquals('<input type="radio" id="radio" name="radio" value="0" />', (string)$element2);
 	}
 
 	public function testForm()
