@@ -714,7 +714,7 @@ PHP_METHOD(Phalcon_Mvc_Router, handle){
 				 * Call the function in the PHP userland
 				 */
 				PHALCON_INIT_NVAR(route_found);
-				PHALCON_CALL_USER_FUNC_ARRAY(route_found, before_match, params);
+				PHALCON_CALL_USER_FUNC_ARRAY(route_found, before_match, before_match_params);
 			}
 		}
 
