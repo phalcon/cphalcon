@@ -102,7 +102,7 @@ class TagTest extends PHPUnit_Framework_TestCase
 	 }
 
 	public function testIssue1486()
-        {
+	{
 		$di = new Phalcon\DI\FactoryDefault();
 		$di->getshared('url')->setBaseUri('/');
 		\Phalcon\Tag::setDI($di);
@@ -119,4 +119,15 @@ class TagTest extends PHPUnit_Framework_TestCase
 		$html = \Phalcon\Tag::javascriptInclude(array('js/phalcon.js'));
 		$this->assertEquals($html, '<script src="/js/phalcon.js" type="text/javascript"></script>'.PHP_EOL);
 	 }
+
+	public function testIssue1662()
+	{
+		$di = new Phalcon\DI\FactoryDefault();
+		\Phalcon\Tag::setDI($di);
+
+		\Phalcon\Tag::setDocType(Phalcon\Tag::HTML5);
+
+		$html = \Phalcon\Tag::getDocType();
+		$this->assertEquals($html, '<!DOCTYPE html>'.PHP_EOL);
+	}
 }
