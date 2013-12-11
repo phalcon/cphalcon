@@ -1452,7 +1452,7 @@ PHP_METHOD(Phalcon_Tag, stylesheetLink){
 	}
 
 	PHALCON_INIT_NVAR(local);
-	ZVAL_BOOL(local, 0);
+	ZVAL_BOOL(local, 1);
 	if (phalcon_array_isset_long(params, 1)) {
 		PHALCON_OBS_NVAR(local);
 		phalcon_array_fetch_long(&local, params, 1, PH_NOISY);
@@ -1560,7 +1560,7 @@ PHP_METHOD(Phalcon_Tag, javascriptInclude){
 	}
 
 	PHALCON_INIT_NVAR(local);
-	ZVAL_BOOL(local, 0);
+	ZVAL_BOOL(local, 1);
 	if (phalcon_array_isset_long(params, 1)) {
 		PHALCON_OBS_NVAR(local);
 		phalcon_array_fetch_long(&local, params, 1, PH_NOISY);
@@ -1775,6 +1775,9 @@ PHP_METHOD(Phalcon_Tag, getDocType){
 	}
 	else if (phalcon_compare_strict_long(doctype, 4 TSRMLS_CC)) {
 		RETVAL_STRING("<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.01 Frameset//EN\"" PHP_EOL"\t\"http://www.w3.org/TR/html4/frameset.dtd\">" PHP_EOL, 1);
+	}
+	else if (phalcon_compare_strict_long(doctype, 5 TSRMLS_CC)) {
+		RETVAL_STRING("<!DOCTYPE html>" PHP_EOL, 1);
 	}
 	else if (phalcon_compare_strict_long(doctype, 6 TSRMLS_CC)) {
 		RETVAL_STRING("<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\"" PHP_EOL "\t\"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">" PHP_EOL, 1);

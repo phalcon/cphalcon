@@ -6348,7 +6348,7 @@ static void phalcon_camelize(zval *return_value, const zval *str){
 	marker = Z_STRVAL_P(str);
 	len    = Z_STRLEN_P(str);
 
-	for (i = 0; i < len - 1; i++) {
+	for (i = 0; i < len; i++) {
 		ch = *marker;
 		if (i == 0 || ch == '-' || ch == '_') {
 			if (ch == '-' || ch == '_') {
@@ -9770,7 +9770,7 @@ static void phalcon_fix_path(zval **return_value, zval *path, zval *directory_se
 	}
 
 	if (Z_STRLEN_P(path) > 0 && Z_STRLEN_P(directory_separator) > 0) {
-		if (Z_STRVAL_P(path)[Z_STRLEN_P(path) - 1] != Z_STRVAL_P(directory_separator)[0]) {
+		if (Z_STRVAL_P(path)[Z_STRLEN_P(path) - 1] != '\\' && Z_STRVAL_P(path)[Z_STRLEN_P(path) - 1] != '/') {
 			PHALCON_CONCAT_VV(*return_value, path, directory_separator);
 			return;
 		}
@@ -13998,13 +13998,33 @@ static PHP_METHOD(Phalcon_Http_Cookie, __toString){
 	PHALCON_OBS_VAR(value);
 	phalcon_read_property_this_quick(&value, this_ptr, SL("_value"), 2935317441UL, PH_NOISY_CC);
 	if (Z_TYPE_P(value) == IS_NULL) {
-		PHALCON_INIT_NVAR(value);
-		phalcon_call_method_key(value, this_ptr, "getvalue", 31703298UL);
+		if (FAILURE == phalcon_call_method_params(return_value, this_ptr, SL("getvalue"), 0, NULL, zend_inline_hash_func(SS("getvalue")), 1 TSRMLS_CC)) {
+			if (EG(exception)) {
+				zval *e = EG(exception);
+				zval *m = zend_read_property(Z_OBJCE_P(e), e, SL("message"), 1 TSRMLS_CC);
+
+				Z_ADDREF_P(m);
+				if (Z_TYPE_P(m) != IS_STRING) {
+					convert_to_string_ex(&m);
+				}
+
+				if (return_value_ptr) {
+					ALLOC_INIT_ZVAL(*return_value_ptr);
+				}
+
+				zend_clear_exception(TSRMLS_C);
+				zend_error(E_ERROR, "%s", Z_STRVAL_P(m));
+				zval_ptr_dtor(&m);
+			}
+		}
+
+		convert_to_string(return_value);
+		RETURN_MM();
 	}
 	
-	RETURN_CCTOR(value);
+	RETVAL_ZVAL(value, 1, 0);
+	PHALCON_MM_RESTORE();
 }
-
 
 
 
@@ -23284,6 +23304,11 @@ static PHP_METHOD(Phalcon_Db_Adapter_Pdo_Mysql, describeColumns){
 	
 		while (1) {
 	
+			if (phalcon_memnstr_str(column_type, SL("point"))) {
+				phalcon_array_update_string_long(&definition, SL("type"), 2, PH_SEPARATE);
+				break;
+			}
+	
 			if (phalcon_memnstr_str(column_type, SL("enum"))) {
 				phalcon_array_update_string_long(&definition, SL("type"), 5, PH_SEPARATE);
 				break;
@@ -23995,7 +24020,7 @@ PHALCON_INIT_CLASS(Phalcon_Debug){
 
 	PHALCON_REGISTER_CLASS(Phalcon, Debug, debug, phalcon_debug_method_entry, 0);
 
-	zend_declare_property_string(phalcon_debug_ce, SL("_uri"), "http://static.phalconphp.com/debug/1.2.0/", ZEND_ACC_PUBLIC TSRMLS_CC);
+	zend_declare_property_string(phalcon_debug_ce, SL("_uri"), "//static.phalconphp.com/debug/1.2.0/", ZEND_ACC_PUBLIC TSRMLS_CC);
 	zend_declare_property_string(phalcon_debug_ce, SL("_theme"), "default", ZEND_ACC_PUBLIC TSRMLS_CC);
 	zend_declare_property_bool(phalcon_debug_ce, SL("_hideDocumentRoot"), 0, ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_bool(phalcon_debug_ce, SL("_showBackTrace"), 1, ZEND_ACC_PROTECTED TSRMLS_CC);
@@ -25373,6 +25398,7 @@ static PHP_METHOD(Phalcon_Flash_Session, message){
 static PHP_METHOD(Phalcon_Flash_Session, getMessages){
 
 	zval *type = NULL, *remove = NULL, *messages, *return_messages;
+	zval *do_remove;
 
 	PHALCON_MM_GROW();
 
@@ -25386,15 +25412,30 @@ static PHP_METHOD(Phalcon_Flash_Session, getMessages){
 		PHALCON_INIT_VAR(remove);
 		ZVAL_BOOL(remove, 1);
 	}
-	
+
+	if (Z_TYPE_P(type) != IS_NULL) {
+		PHALCON_INIT_VAR(do_remove);
+		ZVAL_FALSE(do_remove);
+	}
+	else {
+		do_remove = remove;
+	}
+
 	PHALCON_INIT_VAR(messages);
-	phalcon_call_method_p1_key(messages, this_ptr, "_getsessionmessages", remove, 1351193184UL);
-	if (Z_TYPE_P(messages) == IS_ARRAY) { 
-		if (likely(Z_TYPE_P(type) == IS_STRING)) {
+	phalcon_call_method_p1_key(messages, this_ptr, "_getsessionmessages", do_remove, 1351193184UL);
+	if (Z_TYPE_P(messages) == IS_ARRAY) {
+		if (likely(Z_TYPE_P(type) != IS_NULL)) {
 			if (phalcon_array_isset(messages, type)) {
 				PHALCON_OBS_VAR(return_messages);
 				phalcon_array_fetch(&return_messages, messages, type, PH_NOISY);
-				RETURN_CCTOR(return_messages);
+				RETVAL_ZVAL(return_messages, 1, 0);
+				if (zend_is_true(remove)) {
+					phalcon_array_unset(&messages, type, 0);
+					phalcon_call_method_p1_key(NULL, this_ptr, "_setsessionmessages", messages, 2596691308UL);
+				}
+
+				PHALCON_MM_RESTORE();
+				return;
 			}
 
 			RETURN_MM_EMPTY_ARRAY();
@@ -26765,7 +26806,7 @@ static PHP_METHOD(Phalcon_DI_Injectable, __get){
 
 		PHALCON_INIT_VAR(persistent);
 		phalcon_call_method_p2_key(persistent, dependency_injector, "get", service, arguments, 2090288933UL);
-		phalcon_update_property_this_quick(this_ptr, SL("persistent"), persistent, 2222052598UL TSRMLS_CC);
+		zend_update_property(phalcon_di_injectable_ce, this_ptr, SL("persistent"), persistent TSRMLS_CC);
 		RETURN_CCTOR(persistent);
 	}
 
@@ -30047,7 +30088,7 @@ static PHP_METHOD(Phalcon_Annotations_Reflection, __set_state){
 /* First off, code is include which follows the "include" declaration
 ** in the input file. */
 #include <stdio.h>
-// 28 "parser.lemon"
+/* #line 28 "parser.lemon" */
 
 
 #ifdef HAVE_CONFIG_H
@@ -30166,7 +30207,7 @@ static zval *phannot_ret_annotation(phannot_parser_token *name, zval *arguments,
 }
 
 
-// 139 "parser.c"
+/* #line 139 "parser.c" */
 /* Next is all token values, in a form suitable for use by makeheaders.
 ** This section will be null unless lemon is run with the -m switch.
 */
@@ -30485,7 +30526,7 @@ static void jj_destructor(JJCODETYPE jjmajor, JJMINORTYPE *jjpminor){
     case 15:
     case 16:
     case 17:
-// 222 "parser.lemon"
+/* #line 222 "parser.lemon" */
 {
 	if ((jjpminor->jj0)) {
 		if ((jjpminor->jj0)->free_flag) {
@@ -30494,7 +30535,7 @@ static void jj_destructor(JJCODETYPE jjmajor, JJMINORTYPE *jjpminor){
 		efree((jjpminor->jj0));
 	}
 }
-// 507 "parser.c"
+/* #line 507 "parser.c" */
       break;
     case 20:
     case 21:
@@ -30502,9 +30543,9 @@ static void jj_destructor(JJCODETYPE jjmajor, JJMINORTYPE *jjpminor){
     case 23:
     case 24:
     case 25:
-// 235 "parser.lemon"
+/* #line 235 "parser.lemon" */
 { zval_ptr_dtor(&(jjpminor->jj36)); }
-// 517 "parser.c"
+/* #line 517 "parser.c" */
       break;
     default:  break;   /* If no destructor action specified: do nothing */
   }
@@ -30693,172 +30734,172 @@ static void jj_reduce(
   /* Beginning here are the reduction cases.  A typical example
   ** follows:
   **   case 0:
-  **  // <lineno> <grammarfile>
+  **  #line <lineno> <grammarfile>
   **     { ... }           // User supplied code
-  **  // <lineno> <thisfile>
+  **  #line <lineno> <thisfile>
   **     break;
   */
       case 0:
-// 231 "parser.lemon"
+/* #line 231 "parser.lemon" */
 {
 	status->ret = jjmsp[0].minor.jj36;
 }
-// 759 "parser.c"
+/* #line 759 "parser.c" */
         break;
       case 1:
       case 14:
       case 15:
-// 237 "parser.lemon"
+/* #line 237 "parser.lemon" */
 {
 	jjgotominor.jj36 = jjmsp[0].minor.jj36;
 }
-// 768 "parser.c"
+/* #line 768 "parser.c" */
         break;
       case 2:
-// 243 "parser.lemon"
+/* #line 243 "parser.lemon" */
 {
 	jjgotominor.jj36 = phannot_ret_zval_list(jjmsp[-1].minor.jj36, jjmsp[0].minor.jj36);
 }
-// 775 "parser.c"
+/* #line 775 "parser.c" */
         break;
       case 3:
       case 8:
-// 247 "parser.lemon"
+/* #line 247 "parser.lemon" */
 {
 	jjgotominor.jj36 = phannot_ret_zval_list(NULL, jjmsp[0].minor.jj36);
 }
-// 783 "parser.c"
+/* #line 783 "parser.c" */
         break;
       case 4:
-// 254 "parser.lemon"
+/* #line 254 "parser.lemon" */
 {
 	jjgotominor.jj36 = phannot_ret_annotation(jjmsp[-3].minor.jj0, jjmsp[-1].minor.jj36, status->scanner_state);
   jj_destructor(2,&jjmsp[-4].minor);
   jj_destructor(4,&jjmsp[-2].minor);
   jj_destructor(5,&jjmsp[0].minor);
 }
-// 793 "parser.c"
+/* #line 793 "parser.c" */
         break;
       case 5:
-// 258 "parser.lemon"
+/* #line 258 "parser.lemon" */
 {
 	jjgotominor.jj36 = phannot_ret_annotation(jjmsp[-2].minor.jj0, NULL, status->scanner_state);
   jj_destructor(2,&jjmsp[-3].minor);
   jj_destructor(4,&jjmsp[-1].minor);
   jj_destructor(5,&jjmsp[0].minor);
 }
-// 803 "parser.c"
+/* #line 803 "parser.c" */
         break;
       case 6:
-// 262 "parser.lemon"
+/* #line 262 "parser.lemon" */
 {
 	jjgotominor.jj36 = phannot_ret_annotation(jjmsp[0].minor.jj0, NULL, status->scanner_state);
   jj_destructor(2,&jjmsp[-1].minor);
 }
-// 811 "parser.c"
+/* #line 811 "parser.c" */
         break;
       case 7:
-// 268 "parser.lemon"
+/* #line 268 "parser.lemon" */
 {
 	jjgotominor.jj36 = phannot_ret_zval_list(jjmsp[-2].minor.jj36, jjmsp[0].minor.jj36);
   jj_destructor(1,&jjmsp[-1].minor);
 }
-// 819 "parser.c"
+/* #line 819 "parser.c" */
         break;
       case 9:
-// 278 "parser.lemon"
+/* #line 278 "parser.lemon" */
 {
 	jjgotominor.jj36 = phannot_ret_named_item(NULL, jjmsp[0].minor.jj36);
 }
-// 826 "parser.c"
+/* #line 826 "parser.c" */
         break;
       case 10:
       case 12:
-// 282 "parser.lemon"
+/* #line 282 "parser.lemon" */
 {
 	jjgotominor.jj36 = phannot_ret_named_item(jjmsp[-2].minor.jj0, jjmsp[0].minor.jj36);
   jj_destructor(7,&jjmsp[-1].minor);
 }
-// 835 "parser.c"
+/* #line 835 "parser.c" */
         break;
       case 11:
       case 13:
-// 286 "parser.lemon"
+/* #line 286 "parser.lemon" */
 {
 	jjgotominor.jj36 = phannot_ret_named_item(jjmsp[-2].minor.jj0, jjmsp[0].minor.jj36);
   jj_destructor(8,&jjmsp[-1].minor);
 }
-// 844 "parser.c"
+/* #line 844 "parser.c" */
         break;
       case 16:
-// 308 "parser.lemon"
+/* #line 308 "parser.lemon" */
 {
 	jjgotominor.jj36 = phannot_ret_literal_zval(PHANNOT_T_IDENTIFIER, jjmsp[0].minor.jj0);
 }
-// 851 "parser.c"
+/* #line 851 "parser.c" */
         break;
       case 17:
-// 312 "parser.lemon"
+/* #line 312 "parser.lemon" */
 {
 	jjgotominor.jj36 = phannot_ret_literal_zval(PHANNOT_T_INTEGER, jjmsp[0].minor.jj0);
 }
-// 858 "parser.c"
+/* #line 858 "parser.c" */
         break;
       case 18:
-// 316 "parser.lemon"
+/* #line 316 "parser.lemon" */
 {
 	jjgotominor.jj36 = phannot_ret_literal_zval(PHANNOT_T_STRING, jjmsp[0].minor.jj0);
 }
-// 865 "parser.c"
+/* #line 865 "parser.c" */
         break;
       case 19:
-// 320 "parser.lemon"
+/* #line 320 "parser.lemon" */
 {
 	jjgotominor.jj36 = phannot_ret_literal_zval(PHANNOT_T_DOUBLE, jjmsp[0].minor.jj0);
 }
-// 872 "parser.c"
+/* #line 872 "parser.c" */
         break;
       case 20:
-// 324 "parser.lemon"
+/* #line 324 "parser.lemon" */
 {
 	jjgotominor.jj36 = phannot_ret_literal_zval(PHANNOT_T_NULL, NULL);
   jj_destructor(11,&jjmsp[0].minor);
 }
-// 880 "parser.c"
+/* #line 880 "parser.c" */
         break;
       case 21:
-// 328 "parser.lemon"
+/* #line 328 "parser.lemon" */
 {
 	jjgotominor.jj36 = phannot_ret_literal_zval(PHANNOT_T_FALSE, NULL);
   jj_destructor(12,&jjmsp[0].minor);
 }
-// 888 "parser.c"
+/* #line 888 "parser.c" */
         break;
       case 22:
-// 332 "parser.lemon"
+/* #line 332 "parser.lemon" */
 {
 	jjgotominor.jj36 = phannot_ret_literal_zval(PHANNOT_T_TRUE, NULL);
   jj_destructor(13,&jjmsp[0].minor);
 }
-// 896 "parser.c"
+/* #line 896 "parser.c" */
         break;
       case 23:
-// 336 "parser.lemon"
+/* #line 336 "parser.lemon" */
 {
 	jjgotominor.jj36 = phannot_ret_array(jjmsp[-1].minor.jj36);
   jj_destructor(14,&jjmsp[-2].minor);
   jj_destructor(15,&jjmsp[0].minor);
 }
-// 905 "parser.c"
+/* #line 905 "parser.c" */
         break;
       case 24:
-// 340 "parser.lemon"
+/* #line 340 "parser.lemon" */
 {
 	jjgotominor.jj36 = phannot_ret_array(jjmsp[-1].minor.jj36);
   jj_destructor(16,&jjmsp[-2].minor);
   jj_destructor(17,&jjmsp[0].minor);
 }
-// 914 "parser.c"
+/* #line 914 "parser.c" */
         break;
   };
   jjgoto = jjRuleInfo[jjruleno].lhs;
@@ -30894,7 +30935,7 @@ static void jj_syntax_error(
 ){
   phannot_ARG_FETCH;
 #define JTOKEN (jjminor.jj0)
-// 159 "parser.lemon"
+/* #line 159 "parser.lemon" */
 
 	if (status->scanner_state->start_length) {
 		{
@@ -30957,7 +30998,7 @@ static void jj_syntax_error(
 
 	status->status = PHANNOT_PARSING_FAILED;
 
-// 1019 "parser.c"
+/* #line 1019 "parser.c" */
   phannot_ARG_STORE; /* Suppress warning about unused %extra_argument variable */
 }
 
@@ -31141,7 +31182,7 @@ const phannot_token_names phannot_tokens[] =
 	{ ")",              PHANNOT_T_PARENTHESES_CLOSE },
 	{ "{",              PHANNOT_T_BRACKET_OPEN },
 	{ "}",              PHANNOT_T_BRACKET_CLOSE },
-	{ "[",              PHANNOT_T_SBRACKET_OPEN },
+ 	{ "[",              PHANNOT_T_SBRACKET_OPEN },
 	{ "]",              PHANNOT_T_SBRACKET_CLOSE },
 	{ "ARBITRARY TEXT", PHANNOT_T_ARBITRARY_TEXT },
 	{ NULL, 0 }
@@ -31263,7 +31304,7 @@ static void phannot_remove_comment_separators(zval *return_value, char *comment,
 
 				if (open_parentheses == 0) {
 
-					if ((ch >= 'A' && ch <= 'Z') || (ch >= 'a' && ch <= 'z')) {
+					if (isalnum(ch) || '_' == ch || '\\' == ch) {
 						smart_str_appendc(&processed_str, ch);
 						continue;
 					}
@@ -31280,15 +31321,11 @@ static void phannot_remove_comment_separators(zval *return_value, char *comment,
 
 					if (ch == '(') {
 						open_parentheses++;
-					} else {
-						if (ch == ')') {
-							open_parentheses--;
-						} else {
-							if (ch == '\n') {
-								(*start_lines)++;
-								start_mode = 1;
-							}
-						}
+					} else if (ch == ')') {
+						open_parentheses--;
+					} else if (ch == '\n') {
+						(*start_lines)++;
+						start_mode = 1;
 					}
 
 					if (open_parentheses > 0) {
@@ -31540,8 +31577,8 @@ PHALCON_INIT_CLASS(Phalcon_Annotations_AdapterInterface){
 
 
 
-/* Generated by re2c 0.13.5 on Fri Jun 28 19:00:52 2013 */
-// 1 "scanner.re"
+/* Generated by re2c 0.13.5 on Mon Dec  2 00:50:50 2013 */
+/* #line 1 "scanner.re" */
 
 
 #ifdef HAVE_CONFIG_H
@@ -31583,10 +31620,44 @@ static int phannot_get_token(phannot_scanner_state *s, phannot_scanner_token *to
 		} else {
 
 		
-// 66 "scanner.c"
+/* #line 66 "scanner.c" */
 		{
 			JJCTYPE jjch;
 			unsigned int jjaccept = 0;
+			static const unsigned char jjbm[] = {
+				  0,  96,  96,  96,  96,  96,  96,  96, 
+				 96, 104,  96,  96,  96, 104,  96,  96, 
+				 96,  96,  96,  96,  96,  96,  96,  96, 
+				 96,  96,  96,  96,  96,  96,  96,  96, 
+				104,  96,  32,  96,  96,  96,  96,  64, 
+				 96,  96,  96,  96,  96,  96,  96,  96, 
+				240, 240, 240, 240, 240, 240, 240, 240, 
+				240, 240,  96,  96,  96,  96,  96,  96, 
+				 96, 112, 112, 112, 112, 112, 112, 112, 
+				112, 112, 112, 112, 112, 112, 112, 112, 
+				112, 112, 112, 112, 112, 112, 112, 112, 
+				112, 112, 112,  96,   0,  96,  96, 112, 
+				 96, 112, 112, 112, 112, 112, 112, 112, 
+				112, 112, 112, 112, 112, 112, 112, 112, 
+				112, 112, 112, 112, 112, 112, 112, 112, 
+				112, 112, 112,  96,  96,  96,  96,  96, 
+				 96,  96,  96,  96,  96,  96,  96,  96, 
+				 96,  96,  96,  96,  96,  96,  96,  96, 
+				 96,  96,  96,  96,  96,  96,  96,  96, 
+				 96,  96,  96,  96,  96,  96,  96,  96, 
+				 96,  96,  96,  96,  96,  96,  96,  96, 
+				 96,  96,  96,  96,  96,  96,  96,  96, 
+				 96,  96,  96,  96,  96,  96,  96,  96, 
+				 96,  96,  96,  96,  96,  96,  96,  96, 
+				 96,  96,  96,  96,  96,  96,  96,  96, 
+				 96,  96,  96,  96,  96,  96,  96,  96, 
+				 96,  96,  96,  96,  96,  96,  96,  96, 
+				 96,  96,  96,  96,  96,  96,  96,  96, 
+				 96,  96,  96,  96,  96,  96,  96,  96, 
+				 96,  96,  96,  96,  96,  96,  96,  96, 
+				 96,  96,  96,  96,  96,  96,  96,  96, 
+				 96,  96,  96,  96,  96,  96,  96,  96, 
+			};
 
 			jjch = *JJCURSOR;
 			switch (jjch) {
@@ -31676,32 +31747,22 @@ static int phannot_get_token(phannot_scanner_state *s, phannot_scanner_token *to
 			}
 jj2:
 			++JJCURSOR;
-			switch ((jjch = *JJCURSOR)) {
-			case '0':
-			case '1':
-			case '2':
-			case '3':
-			case '4':
-			case '5':
-			case '6':
-			case '7':
-			case '8':
-			case '9':	goto jj68;
-			default:	goto jj3;
+			if (jjbm[0+(jjch = *JJCURSOR)] & 128) {
+				goto jj71;
 			}
 jj3:
-// 183 "scanner.re"
+/* #line 183 "scanner.re" */
 			{
 			status = PHANNOT_SCANNER_RETCODE_ERR;
 			break;
 		}
-// 178 "scanner.c"
+/* #line 202 "scanner.c" */
 jj4:
 			jjaccept = 0;
 			jjch = *(JJMARKER = ++JJCURSOR);
-			goto jj69;
+			goto jj72;
 jj5:
-// 67 "scanner.re"
+/* #line 67 "scanner.re" */
 			{
 			token->opcode = PHANNOT_T_INTEGER;
 			token->value = estrndup(start, JJCURSOR - start);
@@ -31709,16 +31770,15 @@ jj5:
 			q = JJCURSOR;
 			return 0;
 		}
-// 192 "scanner.c"
+/* #line 216 "scanner.c" */
 jj6:
-			++JJCURSOR;
-			switch ((jjch = *JJCURSOR)) {
-			case 'U':
-			case 'u':	goto jj63;
-			default:	goto jj44;
-			}
+			jjaccept = 1;
+			jjch = *(JJMARKER = ++JJCURSOR);
+			if (jjch == 'U') goto jj66;
+			if (jjch == 'u') goto jj66;
+			goto jj44;
 jj7:
-// 109 "scanner.re"
+/* #line 109 "scanner.re" */
 			{
 			token->opcode = PHANNOT_T_IDENTIFIER;
 			token->value = estrndup(start, JJCURSOR - start);
@@ -31726,145 +31786,152 @@ jj7:
 			q = JJCURSOR;
 			return 0;
 		}
-// 209 "scanner.c"
+/* #line 232 "scanner.c" */
 jj8:
-			jjch = *++JJCURSOR;
-			switch (jjch) {
-			case 'A':
-			case 'a':	goto jj58;
-			default:	goto jj44;
-			}
+			jjaccept = 1;
+			jjch = *(JJMARKER = ++JJCURSOR);
+			if (jjch == 'A') goto jj61;
+			if (jjch == 'a') goto jj61;
+			goto jj44;
 jj9:
-			jjch = *++JJCURSOR;
-			switch (jjch) {
-			case 'R':
-			case 'r':	goto jj54;
-			default:	goto jj44;
-			}
+			jjaccept = 1;
+			jjch = *(JJMARKER = ++JJCURSOR);
+			if (jjch == 'R') goto jj57;
+			if (jjch == 'r') goto jj57;
+			goto jj44;
 jj10:
-			jjaccept = 1;
+			jjaccept = 2;
 			jjch = *(JJMARKER = ++JJCURSOR);
 			if (jjch <= 0x00) goto jj3;
-			goto jj52;
+			goto jj55;
 jj11:
-			jjaccept = 1;
+			jjaccept = 2;
 			jjch = *(JJMARKER = ++JJCURSOR);
 			if (jjch <= 0x00) goto jj3;
-			goto jj46;
+			goto jj50;
 jj12:
 			jjch = *++JJCURSOR;
-			goto jj44;
+			if (jjch <= '^') {
+				if (jjch <= '@') goto jj3;
+				if (jjch <= 'Z') goto jj43;
+				goto jj3;
+			} else {
+				if (jjch == '`') goto jj3;
+				if (jjch <= 'z') goto jj43;
+				goto jj3;
+			}
 jj13:
-			jjch = *++JJCURSOR;
+			jjaccept = 1;
+			jjch = *(JJMARKER = ++JJCURSOR);
 			goto jj44;
 jj14:
 			++JJCURSOR;
-// 117 "scanner.re"
+/* #line 117 "scanner.re" */
 			{
 			token->opcode = PHANNOT_T_PARENTHESES_OPEN;
 			return 0;
 		}
-// 247 "scanner.c"
+/* #line 277 "scanner.c" */
 jj16:
 			++JJCURSOR;
-// 122 "scanner.re"
+/* #line 122 "scanner.re" */
 			{
 			token->opcode = PHANNOT_T_PARENTHESES_CLOSE;
 			return 0;
 		}
-// 255 "scanner.c"
+/* #line 285 "scanner.c" */
 jj18:
 			++JJCURSOR;
-// 127 "scanner.re"
+/* #line 127 "scanner.re" */
 			{
 			token->opcode = PHANNOT_T_BRACKET_OPEN;
 			return 0;
 		}
-// 263 "scanner.c"
+/* #line 293 "scanner.c" */
 jj20:
 			++JJCURSOR;
-// 132 "scanner.re"
+/* #line 132 "scanner.re" */
 			{
 			token->opcode = PHANNOT_T_BRACKET_CLOSE;
 			return 0;
 		}
-// 271 "scanner.c"
+/* #line 301 "scanner.c" */
 jj22:
 			++JJCURSOR;
-// 137 "scanner.re"
+/* #line 137 "scanner.re" */
 			{
 			token->opcode = PHANNOT_T_SBRACKET_OPEN;
 			return 0;
 		}
-// 279 "scanner.c"
+/* #line 309 "scanner.c" */
 jj24:
 			++JJCURSOR;
-// 142 "scanner.re"
+/* #line 142 "scanner.re" */
 			{
 			token->opcode = PHANNOT_T_SBRACKET_CLOSE;
 			return 0;
 		}
-// 287 "scanner.c"
+/* #line 317 "scanner.c" */
 jj26:
 			++JJCURSOR;
-// 147 "scanner.re"
+/* #line 147 "scanner.re" */
 			{
 			token->opcode = PHANNOT_T_AT;
 			return 0;
 		}
-// 295 "scanner.c"
+/* #line 325 "scanner.c" */
 jj28:
 			++JJCURSOR;
-// 152 "scanner.re"
+/* #line 152 "scanner.re" */
 			{
 			token->opcode = PHANNOT_T_EQUALS;
 			return 0;
 		}
-// 303 "scanner.c"
+/* #line 333 "scanner.c" */
 jj30:
 			++JJCURSOR;
-// 157 "scanner.re"
+/* #line 157 "scanner.re" */
 			{
 			token->opcode = PHANNOT_T_COLON;
 			return 0;
 		}
-// 311 "scanner.c"
+/* #line 341 "scanner.c" */
 jj32:
 			++JJCURSOR;
-// 162 "scanner.re"
+/* #line 162 "scanner.re" */
 			{
 			token->opcode = PHANNOT_T_COMMA;
 			return 0;
 		}
-// 319 "scanner.c"
+/* #line 349 "scanner.c" */
 jj34:
 			++JJCURSOR;
 			jjch = *JJCURSOR;
 			goto jj42;
 jj35:
-// 167 "scanner.re"
+/* #line 167 "scanner.re" */
 			{
 			token->opcode = PHANNOT_T_IGNORE;
 			return 0;
 		}
-// 330 "scanner.c"
+/* #line 360 "scanner.c" */
 jj36:
 			++JJCURSOR;
-// 172 "scanner.re"
+/* #line 172 "scanner.re" */
 			{
 			s->active_line++;
 			token->opcode = PHANNOT_T_IGNORE;
 			return 0;
 		}
-// 339 "scanner.c"
+/* #line 369 "scanner.c" */
 jj38:
 			++JJCURSOR;
-// 178 "scanner.re"
+/* #line 178 "scanner.re" */
 			{
 			status = PHANNOT_SCANNER_RETCODE_EOF;
 			break;
 		}
-// 347 "scanner.c"
+/* #line 377 "scanner.c" */
 jj40:
 			jjch = *++JJCURSOR;
 			goto jj3;
@@ -31872,109 +31939,92 @@ jj41:
 			++JJCURSOR;
 			jjch = *JJCURSOR;
 jj42:
-			switch (jjch) {
-			case '\t':
-			case '\r':
-			case ' ':	goto jj41;
-			default:	goto jj35;
+			if (jjbm[0+jjch] & 8) {
+				goto jj41;
 			}
+			goto jj35;
 jj43:
-			++JJCURSOR;
+			jjaccept = 1;
+			JJMARKER = ++JJCURSOR;
 			jjch = *JJCURSOR;
 jj44:
-			switch (jjch) {
-			case '0':
-			case '1':
-			case '2':
-			case '3':
-			case '4':
-			case '5':
-			case '6':
-			case '7':
-			case '8':
-			case '9':
-			case 'A':
-			case 'B':
-			case 'C':
-			case 'D':
-			case 'E':
-			case 'F':
-			case 'G':
-			case 'H':
-			case 'I':
-			case 'J':
-			case 'K':
-			case 'L':
-			case 'M':
-			case 'N':
-			case 'O':
-			case 'P':
-			case 'Q':
-			case 'R':
-			case 'S':
-			case 'T':
-			case 'U':
-			case 'V':
-			case 'W':
-			case 'X':
-			case 'Y':
-			case 'Z':
-			case '\\':
-			case '_':
-			case 'a':
-			case 'b':
-			case 'c':
-			case 'd':
-			case 'e':
-			case 'f':
-			case 'g':
-			case 'h':
-			case 'i':
-			case 'j':
-			case 'k':
-			case 'l':
-			case 'm':
-			case 'n':
-			case 'o':
-			case 'p':
-			case 'q':
-			case 'r':
-			case 's':
-			case 't':
-			case 'u':
-			case 'v':
-			case 'w':
-			case 'x':
-			case 'y':
-			case 'z':	goto jj43;
-			default:	goto jj7;
+			if (jjbm[0+jjch] & 16) {
+				goto jj43;
 			}
+			if (jjch != '\\') goto jj7;
 jj45:
 			++JJCURSOR;
 			jjch = *JJCURSOR;
+			if (jjch <= '^') {
+				if (jjch <= '@') goto jj46;
+				if (jjch <= 'Z') goto jj47;
+			} else {
+				if (jjch == '`') goto jj46;
+				if (jjch <= 'z') goto jj47;
+			}
 jj46:
-			switch (jjch) {
-			case 0x00:	goto jj47;
-			case '\'':	goto jj49;
-			case '\\':	goto jj48;
-			default:	goto jj45;
+			JJCURSOR = JJMARKER;
+			if (jjaccept <= 2) {
+				if (jjaccept <= 1) {
+					if (jjaccept <= 0) {
+						goto jj5;
+					} else {
+						goto jj7;
+					}
+				} else {
+					goto jj3;
+				}
+			} else {
+				if (jjaccept <= 4) {
+					if (jjaccept <= 3) {
+						goto jj60;
+					} else {
+						goto jj65;
+					}
+				} else {
+					goto jj69;
+				}
 			}
 jj47:
-			JJCURSOR = JJMARKER;
-			switch (jjaccept) {
-			case 0: 	goto jj5;
-			case 1: 	goto jj3;
-			}
-jj48:
-			++JJCURSOR;
+			jjaccept = 1;
+			JJMARKER = ++JJCURSOR;
 			jjch = *JJCURSOR;
-			switch (jjch) {
-			case '\n':	goto jj47;
-			default:	goto jj45;
+			if (jjch <= '[') {
+				if (jjch <= '9') {
+					if (jjch <= '/') goto jj7;
+					goto jj47;
+				} else {
+					if (jjch <= '@') goto jj7;
+					if (jjch <= 'Z') goto jj47;
+					goto jj7;
+				}
+			} else {
+				if (jjch <= '_') {
+					if (jjch <= '\\') goto jj45;
+					if (jjch <= '^') goto jj7;
+					goto jj47;
+				} else {
+					if (jjch <= '`') goto jj7;
+					if (jjch <= 'z') goto jj47;
+					goto jj7;
+				}
 			}
 jj49:
 			++JJCURSOR;
-// 100 "scanner.re"
+			jjch = *JJCURSOR;
+jj50:
+			if (jjbm[0+jjch] & 32) {
+				goto jj49;
+			}
+			if (jjch <= 0x00) goto jj46;
+			if (jjch <= '[') goto jj52;
+			++JJCURSOR;
+			jjch = *JJCURSOR;
+			if (jjch == '\n') goto jj46;
+			goto jj49;
+jj52:
+			++JJCURSOR;
+/* #line 100 "scanner.re" */
 			{
 			token->opcode = PHANNOT_T_STRING;
 			token->value = estrndup(q, JJCURSOR - q - 1);
@@ -31982,353 +32032,119 @@ jj49:
 			q = JJCURSOR;
 			return 0;
 		}
-// 465 "scanner.c"
-jj51:
-			++JJCURSOR;
-			jjch = *JJCURSOR;
-jj52:
-			switch (jjch) {
-			case 0x00:	goto jj47;
-			case '"':	goto jj49;
-			case '\\':	goto jj53;
-			default:	goto jj51;
-			}
-jj53:
-			++JJCURSOR;
-			jjch = *JJCURSOR;
-			switch (jjch) {
-			case '\n':	goto jj47;
-			default:	goto jj51;
-			}
+/* #line 478 "scanner.c" */
 jj54:
-			jjch = *++JJCURSOR;
-			switch (jjch) {
-			case 'U':
-			case 'u':	goto jj55;
-			default:	goto jj44;
-			}
-jj55:
-			jjch = *++JJCURSOR;
-			switch (jjch) {
-			case 'E':
-			case 'e':	goto jj56;
-			default:	goto jj44;
-			}
-jj56:
 			++JJCURSOR;
-			switch ((jjch = *JJCURSOR)) {
-			case '0':
-			case '1':
-			case '2':
-			case '3':
-			case '4':
-			case '5':
-			case '6':
-			case '7':
-			case '8':
-			case '9':
-			case 'A':
-			case 'B':
-			case 'C':
-			case 'D':
-			case 'E':
-			case 'F':
-			case 'G':
-			case 'H':
-			case 'I':
-			case 'J':
-			case 'K':
-			case 'L':
-			case 'M':
-			case 'N':
-			case 'O':
-			case 'P':
-			case 'Q':
-			case 'R':
-			case 'S':
-			case 'T':
-			case 'U':
-			case 'V':
-			case 'W':
-			case 'X':
-			case 'Y':
-			case 'Z':
-			case '\\':
-			case '_':
-			case 'a':
-			case 'b':
-			case 'c':
-			case 'd':
-			case 'e':
-			case 'f':
-			case 'g':
-			case 'h':
-			case 'i':
-			case 'j':
-			case 'k':
-			case 'l':
-			case 'm':
-			case 'n':
-			case 'o':
-			case 'p':
-			case 'q':
-			case 'r':
-			case 's':
-			case 't':
-			case 'u':
-			case 'v':
-			case 'w':
-			case 'x':
-			case 'y':
-			case 'z':	goto jj43;
-			default:	goto jj57;
+			jjch = *JJCURSOR;
+jj55:
+			if (jjbm[0+jjch] & 64) {
+				goto jj54;
 			}
+			if (jjch <= 0x00) goto jj46;
+			if (jjch <= '[') goto jj52;
+			++JJCURSOR;
+			jjch = *JJCURSOR;
+			if (jjch == '\n') goto jj46;
+			goto jj54;
 jj57:
-// 94 "scanner.re"
+			jjaccept = 1;
+			jjch = *(JJMARKER = ++JJCURSOR);
+			if (jjch == 'U') goto jj58;
+			if (jjch != 'u') goto jj44;
+jj58:
+			jjaccept = 1;
+			jjch = *(JJMARKER = ++JJCURSOR);
+			if (jjch == 'E') goto jj59;
+			if (jjch != 'e') goto jj44;
+jj59:
+			jjaccept = 3;
+			jjch = *(JJMARKER = ++JJCURSOR);
+			if (jjbm[0+jjch] & 16) {
+				goto jj43;
+			}
+			if (jjch == '\\') goto jj45;
+jj60:
+/* #line 94 "scanner.re" */
 			{
 			token->opcode = PHANNOT_T_TRUE;
 			return 0;
 		}
-// 572 "scanner.c"
-jj58:
-			jjch = *++JJCURSOR;
-			switch (jjch) {
-			case 'L':
-			case 'l':	goto jj59;
-			default:	goto jj44;
-			}
-jj59:
-			jjch = *++JJCURSOR;
-			switch (jjch) {
-			case 'S':
-			case 's':	goto jj60;
-			default:	goto jj44;
-			}
-jj60:
-			jjch = *++JJCURSOR;
-			switch (jjch) {
-			case 'E':
-			case 'e':	goto jj61;
-			default:	goto jj44;
-			}
+/* #line 515 "scanner.c" */
 jj61:
-			++JJCURSOR;
-			switch ((jjch = *JJCURSOR)) {
-			case '0':
-			case '1':
-			case '2':
-			case '3':
-			case '4':
-			case '5':
-			case '6':
-			case '7':
-			case '8':
-			case '9':
-			case 'A':
-			case 'B':
-			case 'C':
-			case 'D':
-			case 'E':
-			case 'F':
-			case 'G':
-			case 'H':
-			case 'I':
-			case 'J':
-			case 'K':
-			case 'L':
-			case 'M':
-			case 'N':
-			case 'O':
-			case 'P':
-			case 'Q':
-			case 'R':
-			case 'S':
-			case 'T':
-			case 'U':
-			case 'V':
-			case 'W':
-			case 'X':
-			case 'Y':
-			case 'Z':
-			case '\\':
-			case '_':
-			case 'a':
-			case 'b':
-			case 'c':
-			case 'd':
-			case 'e':
-			case 'f':
-			case 'g':
-			case 'h':
-			case 'i':
-			case 'j':
-			case 'k':
-			case 'l':
-			case 'm':
-			case 'n':
-			case 'o':
-			case 'p':
-			case 'q':
-			case 'r':
-			case 's':
-			case 't':
-			case 'u':
-			case 'v':
-			case 'w':
-			case 'x':
-			case 'y':
-			case 'z':	goto jj43;
-			default:	goto jj62;
-			}
+			jjaccept = 1;
+			jjch = *(JJMARKER = ++JJCURSOR);
+			if (jjch == 'L') goto jj62;
+			if (jjch != 'l') goto jj44;
 jj62:
-// 89 "scanner.re"
+			jjaccept = 1;
+			jjch = *(JJMARKER = ++JJCURSOR);
+			if (jjch == 'S') goto jj63;
+			if (jjch != 's') goto jj44;
+jj63:
+			jjaccept = 1;
+			jjch = *(JJMARKER = ++JJCURSOR);
+			if (jjch == 'E') goto jj64;
+			if (jjch != 'e') goto jj44;
+jj64:
+			jjaccept = 4;
+			jjch = *(JJMARKER = ++JJCURSOR);
+			if (jjbm[0+jjch] & 16) {
+				goto jj43;
+			}
+			if (jjch == '\\') goto jj45;
+jj65:
+/* #line 89 "scanner.re" */
 			{
 			token->opcode = PHANNOT_T_FALSE;
 			return 0;
 		}
-// 669 "scanner.c"
-jj63:
-			jjch = *++JJCURSOR;
-			switch (jjch) {
-			case 'L':
-			case 'l':	goto jj64;
-			default:	goto jj44;
-			}
-jj64:
-			jjch = *++JJCURSOR;
-			switch (jjch) {
-			case 'L':
-			case 'l':	goto jj65;
-			default:	goto jj44;
-			}
-jj65:
-			++JJCURSOR;
-			switch ((jjch = *JJCURSOR)) {
-			case '0':
-			case '1':
-			case '2':
-			case '3':
-			case '4':
-			case '5':
-			case '6':
-			case '7':
-			case '8':
-			case '9':
-			case 'A':
-			case 'B':
-			case 'C':
-			case 'D':
-			case 'E':
-			case 'F':
-			case 'G':
-			case 'H':
-			case 'I':
-			case 'J':
-			case 'K':
-			case 'L':
-			case 'M':
-			case 'N':
-			case 'O':
-			case 'P':
-			case 'Q':
-			case 'R':
-			case 'S':
-			case 'T':
-			case 'U':
-			case 'V':
-			case 'W':
-			case 'X':
-			case 'Y':
-			case 'Z':
-			case '\\':
-			case '_':
-			case 'a':
-			case 'b':
-			case 'c':
-			case 'd':
-			case 'e':
-			case 'f':
-			case 'g':
-			case 'h':
-			case 'i':
-			case 'j':
-			case 'k':
-			case 'l':
-			case 'm':
-			case 'n':
-			case 'o':
-			case 'p':
-			case 'q':
-			case 'r':
-			case 's':
-			case 't':
-			case 'u':
-			case 'v':
-			case 'w':
-			case 'x':
-			case 'y':
-			case 'z':	goto jj43;
-			default:	goto jj66;
-			}
+/* #line 544 "scanner.c" */
 jj66:
-// 84 "scanner.re"
+			jjaccept = 1;
+			jjch = *(JJMARKER = ++JJCURSOR);
+			if (jjch == 'L') goto jj67;
+			if (jjch != 'l') goto jj44;
+jj67:
+			jjaccept = 1;
+			jjch = *(JJMARKER = ++JJCURSOR);
+			if (jjch == 'L') goto jj68;
+			if (jjch != 'l') goto jj44;
+jj68:
+			jjaccept = 5;
+			jjch = *(JJMARKER = ++JJCURSOR);
+			if (jjbm[0+jjch] & 16) {
+				goto jj43;
+			}
+			if (jjch == '\\') goto jj45;
+jj69:
+/* #line 84 "scanner.re" */
 			{
 			token->opcode = PHANNOT_T_NULL;
 			return 0;
 		}
-// 759 "scanner.c"
-jj67:
+/* #line 568 "scanner.c" */
+jj70:
 			jjch = *++JJCURSOR;
-			switch (jjch) {
-			case '0':
-			case '1':
-			case '2':
-			case '3':
-			case '4':
-			case '5':
-			case '6':
-			case '7':
-			case '8':
-			case '9':	goto jj70;
-			default:	goto jj47;
-			}
-jj68:
+			if (jjch <= '/') goto jj46;
+			if (jjch <= '9') goto jj73;
+			goto jj46;
+jj71:
 			jjaccept = 0;
 			JJMARKER = ++JJCURSOR;
 			jjch = *JJCURSOR;
-jj69:
-			switch (jjch) {
-			case '.':	goto jj67;
-			case '0':
-			case '1':
-			case '2':
-			case '3':
-			case '4':
-			case '5':
-			case '6':
-			case '7':
-			case '8':
-			case '9':	goto jj68;
-			default:	goto jj5;
+jj72:
+			if (jjbm[0+jjch] & 128) {
+				goto jj71;
 			}
-jj70:
+			if (jjch == '.') goto jj70;
+			goto jj5;
+jj73:
 			++JJCURSOR;
 			jjch = *JJCURSOR;
-			switch (jjch) {
-			case '0':
-			case '1':
-			case '2':
-			case '3':
-			case '4':
-			case '5':
-			case '6':
-			case '7':
-			case '8':
-			case '9':	goto jj70;
-			default:	goto jj72;
-			}
-jj72:
-// 76 "scanner.re"
+			if (jjch <= '/') goto jj75;
+			if (jjch <= '9') goto jj73;
+jj75:
+/* #line 76 "scanner.re" */
 			{
 			token->opcode = PHANNOT_T_DOUBLE;
 			token->value = estrndup(start, JJCURSOR - start);
@@ -32336,9 +32152,9 @@ jj72:
 			q = JJCURSOR;
 			return 0;
 		}
-// 819 "scanner.c"
+/* #line 598 "scanner.c" */
 		}
-// 188 "scanner.re"
+/* #line 188 "scanner.re" */
 
 
 		}
@@ -35270,25 +35086,6 @@ static PHP_METHOD(Phalcon_Loader, getCheckedPath){
 
 
 	RETURN_MEMBER_QUICK(this_ptr, "_checkedPath", 2930914648UL);
-}
-
-
-
-
-
-#ifdef HAVE_CONFIG_H
-#endif
-
-
-
-
-
-
-PHALCON_INIT_CLASS(Phalcon_Translate){
-
-	PHALCON_REGISTER_CLASS(Phalcon, Translate, translate, NULL, ZEND_ACC_EXPLICIT_ABSTRACT_CLASS);
-
-	return SUCCESS;
 }
 
 
@@ -43212,7 +43009,7 @@ static PHP_METHOD(Phalcon_Mvc_Model_Validator, getOption){
 		RETURN_CCTOR(value);
 	}
 	
-	RETURN_MM_EMPTY_STRING();
+	RETURN_MM_NULL();
 }
 
 static PHP_METHOD(Phalcon_Mvc_Model_Validator, isSetOption){
@@ -57561,6 +57358,19 @@ static PHP_METHOD(Phalcon_Mvc_Model_Row, offsetUnset){
 	return;
 }
 
+static PHP_METHOD(Phalcon_Mvc_Model_Row, toArray){
+
+	HashTable *properties;
+
+	properties = Z_OBJ_HT_P(this_ptr)->get_properties(this_ptr TSRMLS_CC);
+
+	if (!properties) {
+		RETURN_FALSE;
+	}
+
+	array_init_size(return_value, zend_hash_num_elements(properties));
+	zend_hash_copy(Z_ARRVAL_P(return_value), properties, (copy_ctor_func_t)zval_add_ref, NULL, sizeof(zval*));
+}
 
 
 
@@ -93885,7 +93695,7 @@ PHALCON_INIT_CLASS(Phalcon_Session_Bag){
 	zend_declare_property_null(phalcon_session_bag_ce, SL("_dependencyInjector"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_session_bag_ce, SL("_name"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_session_bag_ce, SL("_data"), ZEND_ACC_PROTECTED TSRMLS_CC);
-	zend_declare_property_bool(phalcon_session_bag_ce, SL("_initalized"), 0, ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_bool(phalcon_session_bag_ce, SL("_initialized"), 0, ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_session_bag_ce, SL("_session"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
 	zend_class_implements(phalcon_session_bag_ce TSRMLS_CC, 2, phalcon_di_injectionawareinterface_ce, phalcon_session_baginterface_ce);
@@ -93895,16 +93705,11 @@ PHALCON_INIT_CLASS(Phalcon_Session_Bag){
 
 static PHP_METHOD(Phalcon_Session_Bag, __construct){
 
-	zval *name;
+	zval **name;
 
-	phalcon_fetch_params(0, 1, 0, &name);
-	
-	if (Z_TYPE_P(name) != IS_STRING) {
-		PHALCON_THROW_EXCEPTION_STRW(phalcon_session_exception_ce, "The name parameter must be a string");
-		return;
-	}
-	phalcon_update_property_this_quick(this_ptr, SL("_name"), name, 3983977829UL TSRMLS_CC);
-	
+	phalcon_fetch_params_ex(1, 0, &name);
+	PHALCON_ENSURE_IS_STRING(name);
+	phalcon_update_property_this(this_ptr, SL("_name"), *name TSRMLS_CC);
 }
 
 static PHP_METHOD(Phalcon_Session_Bag, setDI){
@@ -93971,20 +93776,20 @@ static PHP_METHOD(Phalcon_Session_Bag, initialize){
 	}
 	
 	phalcon_update_property_this_quick(this_ptr, SL("_data"), data, 3972126110UL TSRMLS_CC);
-	phalcon_update_property_bool(this_ptr, SL("_initalized"), 1 TSRMLS_CC);
+	phalcon_update_property_bool(this_ptr, SL("_initialized"), 1 TSRMLS_CC);
 	
 	PHALCON_MM_RESTORE();
 }
 
 static PHP_METHOD(Phalcon_Session_Bag, destroy){
 
-	zval *initalized, *name, *session;
+	zval *initialized, *name, *session;
 
 	PHALCON_MM_GROW();
 
-	PHALCON_OBS_VAR(initalized);
-	phalcon_read_property_this_quick(&initalized, this_ptr, SL("_initalized"), 4124099953UL, PH_NOISY_CC);
-	if (PHALCON_IS_FALSE(initalized)) {
+	PHALCON_OBS_VAR(initialized);
+	phalcon_read_property_this_quick(&initialized, this_ptr, SL("_initialized"), 3373198522UL, PH_NOISY_CC);
+	if (PHALCON_IS_FALSE(initialized)) {
 		phalcon_call_method_key(NULL, this_ptr, "initialize", 2896075127UL);
 	}
 	
@@ -94000,16 +93805,16 @@ static PHP_METHOD(Phalcon_Session_Bag, destroy){
 
 static PHP_METHOD(Phalcon_Session_Bag, set){
 
-	zval *property, *value, *initalized, *name, *data;
+	zval *property, *value, *initialized, *name, *data;
 	zval *session;
 
 	PHALCON_MM_GROW();
 
 	phalcon_fetch_params(1, 2, 0, &property, &value);
 	
-	PHALCON_OBS_VAR(initalized);
-	phalcon_read_property_this_quick(&initalized, this_ptr, SL("_initalized"), 4124099953UL, PH_NOISY_CC);
-	if (PHALCON_IS_FALSE(initalized)) {
+	PHALCON_OBS_VAR(initialized);
+	phalcon_read_property_this_quick(&initialized, this_ptr, SL("_initialized"), 3373198522UL, PH_NOISY_CC);
+	if (PHALCON_IS_FALSE(initialized)) {
 		phalcon_call_method_key(NULL, this_ptr, "initialize", 2896075127UL);
 	}
 	
@@ -94031,7 +93836,7 @@ static PHP_METHOD(Phalcon_Session_Bag, set){
 
 static PHP_METHOD(Phalcon_Session_Bag, get){
 
-	zval *property, *default_value = NULL, *initalized;
+	zval *property, *default_value = NULL, *initialized;
 	zval *data, *value;
 
 	PHALCON_MM_GROW();
@@ -94042,9 +93847,9 @@ static PHP_METHOD(Phalcon_Session_Bag, get){
 		PHALCON_INIT_VAR(default_value);
 	}
 	
-	PHALCON_OBS_VAR(initalized);
-	phalcon_read_property_this_quick(&initalized, this_ptr, SL("_initalized"), 4124099953UL, PH_NOISY_CC);
-	if (PHALCON_IS_FALSE(initalized)) {
+	PHALCON_OBS_VAR(initialized);
+	phalcon_read_property_this_quick(&initialized, this_ptr, SL("_initialized"), 3373198522UL, PH_NOISY_CC);
+	if (PHALCON_IS_FALSE(initialized)) {
 		phalcon_call_method_key(NULL, this_ptr, "initialize", 2896075127UL);
 	}
 	
@@ -94065,15 +93870,15 @@ static PHP_METHOD(Phalcon_Session_Bag, get){
 
 static PHP_METHOD(Phalcon_Session_Bag, has){
 
-	zval *property, *initalized, *data;
+	zval *property, *initialized, *data;
 
 	PHALCON_MM_GROW();
 
 	phalcon_fetch_params(1, 1, 0, &property);
 	
-	PHALCON_OBS_VAR(initalized);
-	phalcon_read_property_this_quick(&initalized, this_ptr, SL("_initalized"), 4124099953UL, PH_NOISY_CC);
-	if (PHALCON_IS_FALSE(initalized)) {
+	PHALCON_OBS_VAR(initialized);
+	phalcon_read_property_this_quick(&initialized, this_ptr, SL("_initialized"), 3373198522UL, PH_NOISY_CC);
+	if (PHALCON_IS_FALSE(initialized)) {
 		phalcon_call_method_key(NULL, this_ptr, "initialize", 2896075127UL);
 	}
 	
@@ -94090,11 +93895,18 @@ static PHP_METHOD(Phalcon_Session_Bag, has){
 static PHP_METHOD(Phalcon_Session_Bag, remove){
 
 	zval *property, *data = NULL, *name, *session;
+	zval *initialized;
 
 	PHALCON_MM_GROW();
 
 	phalcon_fetch_params(1, 1, 0, &property);
-	
+
+	PHALCON_OBS_VAR(initialized);
+	phalcon_read_property_this_quick(&initialized, this_ptr, SL("_initialized"), 3373198522UL, PH_NOISY_CC);
+	if (PHALCON_IS_FALSE(initialized)) {
+		phalcon_call_method_key(NULL, this_ptr, "initialize", 2896075127UL);
+	}
+
 	PHALCON_OBS_VAR(data);
 	phalcon_read_property_this_quick(&data, this_ptr, SL("_data"), 3972126110UL, PH_NOISY_CC);
 	if (phalcon_array_isset(data, property)) {
@@ -94586,7 +94398,6 @@ static PHP_METHOD(Phalcon_Logger_Formatter_Firephp, format) {
 
 
 
-
 #ifdef HAVE_CONFIG_H
 #endif
 
@@ -94616,7 +94427,7 @@ static PHP_METHOD(Phalcon_Logger_Formatter, getTypeString){
 	phalcon_fetch_params(0, 1, 0, &type);
 	
 	itype = phalcon_get_intval(type);
-	if (itype > 0 && itype < 10) {
+	if (itype >= 0 && itype < 10) {
 		RETURN_STRING(lut[itype], 1);
 	}
 	
@@ -95840,9 +95651,9 @@ static PHP_METHOD(Phalcon_Version, _getVersion){
 	array_init_size(version, 5);
 	add_next_index_long(version, 1);
 	add_next_index_long(version, 2);
-	add_next_index_long(version, 4);
-	add_next_index_long(version, 4);
-	add_next_index_long(version, 0);
+	add_next_index_long(version, 5);
+	add_next_index_long(version, 2);
+	add_next_index_long(version, 1);
 	RETURN_CTOR(version);
 }
 
@@ -96693,6 +96504,7 @@ static PHP_METHOD(Phalcon_Paginator_Adapter_QueryBuilder, getPaginate){
 	zval *number, *query, *page, *before = NULL, *items, *select_count;
 	zval *null_order, *total_query, *result, *row, *rowcount;
 	zval *total_pages = NULL, *int_total_pages, *next = NULL;
+	zval *rowcount_int;
 
 	PHALCON_MM_GROW();
 
@@ -96771,6 +96583,9 @@ static PHP_METHOD(Phalcon_Paginator_Adapter_QueryBuilder, getPaginate){
 	
 	PHALCON_OBS_VAR(rowcount);
 	phalcon_read_property(&rowcount, row, SL("rowcount"), PH_NOISY_CC);
+
+	PHALCON_INIT_VAR(rowcount_int);
+	ZVAL_LONG(rowcount_int, phalcon_get_intval(rowcount));
 	
 	PHALCON_INIT_VAR(total_pages);
 	div_function(total_pages, rowcount, limit TSRMLS_CC);
@@ -96792,7 +96607,7 @@ static PHP_METHOD(Phalcon_Paginator_Adapter_QueryBuilder, getPaginate){
 	phalcon_update_property_zval(page, SL("last"), total_pages TSRMLS_CC);
 	phalcon_update_property_zval(page, SL("current"), number_page TSRMLS_CC);
 	phalcon_update_property_zval(page, SL("total_pages"), total_pages TSRMLS_CC);
-	phalcon_update_property_zval(page, SL("total_items"), rowcount TSRMLS_CC);
+	phalcon_update_property_zval(page, SL("total_items"), rowcount_int TSRMLS_CC);
 	
 	RETURN_CTOR(page);
 }
@@ -96854,7 +96669,7 @@ static PHP_METHOD(Phalcon_Paginator_Adapter_Model, setCurrentPage){
 	phalcon_fetch_params(0, 1, 0, &page);
 	
 	phalcon_update_property_this_quick(this_ptr, SL("_page"), page, 3986343137UL TSRMLS_CC);
-	
+	RETURN_THISW();
 }
 
 static PHP_METHOD(Phalcon_Paginator_Adapter_Model, getPaginate){
@@ -96924,11 +96739,13 @@ static PHP_METHOD(Phalcon_Paginator_Adapter_Model, getPaginate){
 	array_init(page_items);
 	if (PHALCON_GT(n, zero)) {
 	
-		if (PHALCON_LE(start, n)) {
+		if (PHALCON_LT(start, n)) {
 			phalcon_call_method_p1_key(NULL, items, "seek", start, 274276301UL);
 		} else {
-			phalcon_call_method_p1_key(NULL, items, "seek", one, 274276301UL);
+			phalcon_call_method_p1_key(NULL, items, "seek", zero, 274276301UL);
 			PHALCON_CPY_WRT(page_number, one);
+			PHALCON_CPY_WRT(last_show_page, zero);
+			PHALCON_CPY_WRT(start, zero);
 		}
 	
 		PHALCON_INIT_VAR(i);
@@ -98224,7 +98041,7 @@ static PHP_METHOD(Phalcon_Tag, stylesheetLink){
 	}
 
 	PHALCON_INIT_NVAR(local);
-	ZVAL_BOOL(local, 0);
+	ZVAL_BOOL(local, 1);
 	if (phalcon_array_isset_long(params, 1)) {
 		PHALCON_OBS_NVAR(local);
 		phalcon_array_fetch_long(&local, params, 1, PH_NOISY);
@@ -98308,7 +98125,7 @@ static PHP_METHOD(Phalcon_Tag, javascriptInclude){
 	}
 
 	PHALCON_INIT_NVAR(local);
-	ZVAL_BOOL(local, 0);
+	ZVAL_BOOL(local, 1);
 	if (phalcon_array_isset_long(params, 1)) {
 		PHALCON_OBS_NVAR(local);
 		phalcon_array_fetch_long(&local, params, 1, PH_NOISY);
@@ -99814,7 +99631,7 @@ static PHP_METHOD(Phalcon_Queue_Beanstalk, watch){
 	
 	PHALCON_OBS_VAR(status);
 	phalcon_array_fetch_long(&status, response, 0, PH_NOISY);
-	if (PHALCON_IS_STRING(status, "WATCH")) {
+	if (PHALCON_IS_STRING(status, "WATCHING")) {
 		PHALCON_OBS_VAR(watching_tube);
 		phalcon_array_fetch_long(&watching_tube, response, 1, PH_NOISY);
 		RETURN_CCTOR(watching_tube);
@@ -99876,7 +99693,7 @@ static PHP_METHOD(Phalcon_Queue_Beanstalk, read){
 
 	zval *length = NULL, *connection = NULL, *is_eof, *eof_chars;
 	zval *total_length = NULL, *data, *meta, *timeout, *mask;
-	zval *packet = NULL, *end_of_file;
+	zval *packet = NULL;
 
 	PHALCON_MM_GROW();
 
@@ -99933,11 +99750,8 @@ static PHP_METHOD(Phalcon_Queue_Beanstalk, read){
 		PHALCON_INIT_NVAR(total_length);
 		ZVAL_LONG(total_length, 16384);
 	
-		PHALCON_INIT_VAR(end_of_file);
-		ZVAL_STRING(end_of_file, "\r\n", 1);
-	
 		PHALCON_INIT_NVAR(packet);
-		phalcon_call_func_p3(packet, "stream_get_line", connection, total_length, end_of_file);
+		phalcon_call_func_p2(packet, "fgets", connection, total_length);
 	}
 	
 	RETURN_CCTOR(packet);
@@ -100261,7 +100075,6 @@ zend_class_entry *phalcon_forms_elementinterface_ce;
 zend_class_entry *phalcon_forms_element_numeric_ce;
 zend_class_entry *phalcon_forms_element_password_ce;
 zend_class_entry *phalcon_crypt_ce;
-zend_class_entry *phalcon_translate_ce;
 zend_class_entry *phalcon_translate_exception_ce;
 zend_class_entry *phalcon_translate_adapter_ce;
 zend_class_entry *phalcon_translate_adapterinterface_ce;
@@ -100651,7 +100464,6 @@ static PHP_MINIT_FUNCTION(phalcon){
 	PHALCON_INIT(Phalcon_Forms_Element_Password);
 	PHALCON_INIT(Phalcon_Forms_Element_TextArea);
 	PHALCON_INIT(Phalcon_Crypt);
-	PHALCON_INIT(Phalcon_Translate);
 	PHALCON_INIT(Phalcon_Translate_Exception);
 	PHALCON_INIT(Phalcon_Translate_Adapter_NativeArray);
 	PHALCON_INIT(Phalcon_Crypt_Exception);

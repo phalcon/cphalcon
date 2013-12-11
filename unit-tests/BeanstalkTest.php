@@ -1,9 +1,10 @@
+<?php
 
 /*
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2013 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2012 Phalcon Team (http://www.phalconphp.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -14,39 +15,30 @@
   +------------------------------------------------------------------------+
   | Authors: Andres Gutierrez <andres@phalconphp.com>                      |
   |          Eduar Carvajal <eduar@phalconphp.com>                         |
+  |          Vladimir Kolesnikov <vladimir@extrememember.com>              |
   +------------------------------------------------------------------------+
 */
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
+class BeanstalkTest extends PHPUnit_Framework_TestCase
+{
+	public function testBasic()
+	{
+		$queue = new Phalcon\Queue\Beanstalk();
+		try {
+			@$queue->connect();
+		}
+		catch (Exception $e) {
+			$this->markTestSkipped($e->getMessage());
+			return;
+		}
 
-#include "php.h"
-#include "php_phalcon.h"
-#include "phalcon.h"
+		$expected = array('processVideo' => 4871);
 
-#include "Zend/zend_operators.h"
-#include "Zend/zend_exceptions.h"
-#include "Zend/zend_interfaces.h"
-
-#include "kernel/main.h"
-#include "kernel/memory.h"
-
-/**
- * Phalcon\Translate
- *
- * Translate component allows the creation of multi-language applications using
- * different adapters for translation lists.
- */
-
-
-/**
- * Phalcon\Translate initializer
- */
-PHALCON_INIT_CLASS(Phalcon_Translate){
-
-	PHALCON_REGISTER_CLASS(Phalcon, Translate, translate, NULL, ZEND_ACC_EXPLICIT_ABSTRACT_CLASS);
-
-	return SUCCESS;
+		$queue->put($expected);
+		while (($job = $queue->peekReady()) !== false) {
+			$actual = $job->getBody();
+			$job->delete();
+			$this->assertEquals($expected, $actual);
+		}
+	}
 }
-
