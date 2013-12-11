@@ -441,7 +441,7 @@ PHP_METHOD(Phalcon_Db_Result_Pdo, setFetchMode){
 
 
 	long fetch_mode;
-	zval *pdo_statement;
+	zval *pdo_statement, *fetch_type;
 
 	PHALCON_MM_GROW();
 
@@ -449,7 +449,10 @@ PHP_METHOD(Phalcon_Db_Result_Pdo, setFetchMode){
 		RETURN_MM_NULL();
 	}
 
-	if (Z_LVAL_P(fetch_mode) != 0) {
+	if (fetch_mode != 0) {
+		PHALCON_INIT_VAR(fetch_type);
+		ZVAL_LONG(fetch_type, fetch_mode);
+
 		PHALCON_OBS_VAR(pdo_statement);
 		phalcon_read_property(&pdo_statement, this_ptr, SL("_pdoStatement"), PH_NOISY_CC);
 
