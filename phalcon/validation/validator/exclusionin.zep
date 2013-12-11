@@ -45,7 +45,7 @@ class ExclusionIn extends Phalcon\Validation\Validator implements Phalcon\Valida
 	 */
 	public function validate(<Phalcon\Validation> validator, string! field) -> boolean
 	{
-		var value, domain, message;
+		var value, domain, message, replacePairs;
 
 		let value = validator->getValue(field);
 

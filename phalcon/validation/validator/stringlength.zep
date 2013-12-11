@@ -48,7 +48,7 @@ class StringLength extends Phalcon\Validation\Validator implements Phalcon\Valid
 	 */
 	public function validate(<Phalcon\Validation> validator, string! field) -> boolean
 	{
-		var isSetMin, isSetMax, value, length, message, minimum, maximum;
+		var isSetMin, isSetMax, value, length, message, minimum, maximum, replacePairs;
 
 		/**
 		 * At least one of 'min' or 'max' must be set

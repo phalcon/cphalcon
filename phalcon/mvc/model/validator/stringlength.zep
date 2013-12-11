@@ -60,7 +60,7 @@ class StringLength extends Phalcon\Mvc\Model\Validator implements Phalcon\Mvc\Mo
 	public function validate(<Phalcon\Mvc\ModelInterface> record) -> boolean
 	{
 		var field, isSetMin, isSetMax, isSetOption, value, length, invalidMaximum, invalidMinimum,
-			maximum, minimum, message;
+			maximum, minimum, message, replacePairs;
 
 		let field = this->getOption("field");
 		if typeof field != "string" {

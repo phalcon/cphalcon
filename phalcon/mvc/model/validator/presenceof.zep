@@ -55,7 +55,7 @@ class PresenceOf extends Phalcon\Mvc\Model\Validator implements Phalcon\Mvc\Mode
 	 */
 	public function validate(<Phalcon\Mvc\ModelInterface> record) -> boolean
 	{
- 		var field, value, message;
+ 		var field, value, message, replacePairs;
 
 		let field = this->getOption("field");
 		if typeof field != "string" {

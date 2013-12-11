@@ -56,7 +56,7 @@ class Email extends Phalcon\Mvc\Model\Validator implements Phalcon\Mvc\Model\Val
 	public function validate(<Phalcon\Mvc\ModelInterface> record) -> boolean
 	{
 
-		var field, value, regs, invalid, message;
+		var field, value, invalid, message, replacePairs;
 
 		let field = this->getOption("field");
 		if typeof field != "string" {

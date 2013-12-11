@@ -44,7 +44,7 @@ class Email extends Phalcon\Validation\Validator implements Phalcon\Validation\V
 	 */
 	public function validate(<Phalcon\Validatio> validator, string! field) -> boolean
 	{
-		var value, message;
+		var value, message, replacePairs;
 
 		let value = validator->getValue(field);
 

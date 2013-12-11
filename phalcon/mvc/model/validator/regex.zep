@@ -55,7 +55,7 @@ class Regex extends Phalcon\Mvc\Model\Validator implements Phalcon\Mvc\Model\Val
 	 */
 	public function validate(<Phalcon\Mvc\ModelInterface> record) -> boolean
 	{
- 		var field, visSet, value, failed, matches, pattern, matchPattern, matchZero, message;
+ 		var field, visSet, value, failed, matches, pattern, matchPattern, matchZero, message, replacePairs;
 
 		let field = this->getOption("field");
 		if typeof field != "string" {

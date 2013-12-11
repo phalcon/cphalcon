@@ -54,7 +54,7 @@ class Url extends Phalcon\Mvc\Model\Validator implements Phalcon\Mvc\Model\Valid
 	 */
 	public function validate(<Phalcon\Mvc\ModelInterface> record) -> boolean
 	{
-		var field, value, isValid, message;
+		var field, value, isValid, message, replacePairs;
  
 		let field = this->getOption("field");
 		if typeof field == "string" {

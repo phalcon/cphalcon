@@ -58,7 +58,7 @@ class Uniqueness extends Phalcon\Mvc\Model\Validator implements Phalcon\Mvc\Mode
 		var field, dependencyInjector, metaData, message, bindTypes, bindDataTypes,
 			columnMap, conditions, bindParams, number, composeField, value, columnField,
 			composeCondition, bindType, condition, operationMade, primaryFields, primaryField,
-			attributeField, joinConditions, params, className, joinFields;
+			attributeField, joinConditions, params, className, joinFields, replacePairs;
 
 		let field = this->getOption("field");
  

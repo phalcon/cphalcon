@@ -45,7 +45,7 @@ class Between extends Phalcon\Validation\Validator implements Phalcon\Validation
 	 */
 	public function validate(<Phalcon\Validation> validator, string! field) -> boolean
 	{
-		var value, minimum, maximum, message;
+		var value, minimum, maximum, message, replacePairs;
 
 		let value = validator->getValue(field),
                 minimum = this->getOption("minimum"),

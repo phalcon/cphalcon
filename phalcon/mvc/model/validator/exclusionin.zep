@@ -55,7 +55,7 @@ class Exclusionin extends Phalcon\Mvc\Model\Validator implements Phalcon\Mvc\Mod
 	 */
 	public function validate(<Phalcon\Mvc\ModelInterface> record) -> boolean
 	{
-		var field, domain, value, message;
+		var field, domain, value, message, replacePairs;
 
 		let field = this->getOption("field");
 

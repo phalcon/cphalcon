@@ -45,7 +45,7 @@ class Regex extends Phalcon\Validation\Validator implements Phalcon\Validation\V
 	 */
 	public function validate(<Phalcon\Validation> validator, field) -> boolean
 	{
-		var matches, failed, message, value;
+		var matches, failed, message, value, replacePairs;
 
 		/**
 		 * Regular expression is set in the option 'pattern'
