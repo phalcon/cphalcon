@@ -25,6 +25,10 @@ PHP_METHOD(Phalcon_Queue_Beanstalk_Job, __construct);
 PHP_METHOD(Phalcon_Queue_Beanstalk_Job, getId);
 PHP_METHOD(Phalcon_Queue_Beanstalk_Job, getBody);
 PHP_METHOD(Phalcon_Queue_Beanstalk_Job, delete);
+PHP_METHOD(Phalcon_Queue_Beanstalk_Job, release);
+PHP_METHOD(Phalcon_Queue_Beanstalk_Job, bury);
+PHP_METHOD(Phalcon_Queue_Beanstalk_Job, touch);
+PHP_METHOD(Phalcon_Queue_Beanstalk_Job, kick);
 PHP_METHOD(Phalcon_Queue_Beanstalk_Job, __wakeup);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_queue_beanstalk_job___construct, 0, 0, 3)
@@ -38,6 +42,10 @@ PHALCON_INIT_FUNCS(phalcon_queue_beanstalk_job_method_entry){
 	PHP_ME(Phalcon_Queue_Beanstalk_Job, getId, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Queue_Beanstalk_Job, getBody, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Queue_Beanstalk_Job, delete, NULL, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Queue_Beanstalk_Job, release, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Queue_Beanstalk_Job, bury, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Queue_Beanstalk_Job, touch, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Queue_Beanstalk_Job, kick, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Queue_Beanstalk_Job, __wakeup, NULL, ZEND_ACC_PUBLIC)
 	PHP_FE_END
 };

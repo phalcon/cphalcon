@@ -104,7 +104,6 @@ PHP_METHOD(Phalcon_Queue_Beanstalk_Job, getBody){
 /**
  * Removes a job from the server entirely
  *
- * @param string $id
  * @return boolean
  */
 PHP_METHOD(Phalcon_Queue_Beanstalk_Job, delete){
@@ -129,6 +128,152 @@ PHP_METHOD(Phalcon_Queue_Beanstalk_Job, delete){
 		RETURN_MM_TRUE;
 	}
 	
+	RETURN_MM_FALSE;
+}
+
+/**
+ * The release command puts a reserved job back into the ready queue (and marks
+ * its state as "ready") to be run by any client. It is normally used when the job
+ * fails because of a transitory error.
+ *
+ * @return boolean
+ */
+PHP_METHOD(Phalcon_Queue_Beanstalk_Job, release){
+
+	zval *priority = NULL, *delay = NULL;
+	zval *id, *command, *queue, *response, *status;
+
+	phalcon_fetch_params(0, 0, 2, &priority, &delay);
+
+	PHALCON_MM_GROW();
+
+	if (!priority) {
+		PHALCON_INIT_VAR(priority);
+		ZVAL_LONG(priority, 100);
+	}
+
+	if (!delay) {
+		delay = PHALCON_GLOBAL(z_zero);
+	}
+
+	id    = phalcon_fetch_nproperty_this(this_ptr, SL("_id"), PH_NOISY_CC);
+	queue = phalcon_fetch_nproperty_this(this_ptr, SL("_queue"), PH_NOISY_CC);
+
+	PHALCON_ALLOC_GHOST_ZVAL(command);
+	PHALCON_CONCAT_SVSVSV(command, "release ", id, " ", priority, " ", delay);
+	phalcon_call_method_p1_noret(queue, "write", command);
+
+	PHALCON_INIT_VAR(response);
+	phalcon_call_method(response, queue, "readstatus");
+
+	PHALCON_OBS_VAR(status);
+	phalcon_array_fetch_long(&status, response, 0, PH_NOISY);
+	if (PHALCON_IS_STRING(status, "RELEASED")) {
+		RETURN_MM_TRUE;
+	}
+
+	RETURN_MM_FALSE;
+}
+
+/**
+ * The bury command puts a job into the "buried" state. Buried jobs are put into
+ * a FIFO linked list and will not be touched by the server again until a client
+ * kicks them with the "kick" command.
+ *
+ * @return boolean
+ */
+PHP_METHOD(Phalcon_Queue_Beanstalk_Job, bury){
+
+	zval *priority = NULL;
+	zval *id, *command, *queue, *response, *status;
+
+	phalcon_fetch_params(0, 0, 1, &priority);
+
+	PHALCON_MM_GROW();
+
+	if (!priority) {
+		PHALCON_INIT_VAR(priority);
+		ZVAL_LONG(priority, 100);
+	}
+
+	id    = phalcon_fetch_nproperty_this(this_ptr, SL("_id"), PH_NOISY_CC);
+	queue = phalcon_fetch_nproperty_this(this_ptr, SL("_queue"), PH_NOISY_CC);
+
+	PHALCON_ALLOC_GHOST_ZVAL(command);
+	PHALCON_CONCAT_SVSV(command, "bury ", id, " ", priority);
+	phalcon_call_method_p1_noret(queue, "write", command);
+
+	PHALCON_INIT_VAR(response);
+	phalcon_call_method(response, queue, "readstatus");
+
+	PHALCON_OBS_VAR(status);
+	phalcon_array_fetch_long(&status, response, 0, PH_NOISY);
+	if (PHALCON_IS_STRING(status, "BURIED")) {
+		RETURN_MM_TRUE;
+	}
+
+	RETURN_MM_FALSE;
+}
+
+/**
+ * The bury command puts a job into the "buried" state. Buried jobs are put into
+ * a FIFO linked list and will not be touched by the server again until a client
+ * kicks them with the "kick" command.
+ *
+ * @return boolean
+ */
+PHP_METHOD(Phalcon_Queue_Beanstalk_Job, touch){
+
+	zval *id, *command, *queue, *response, *status;
+
+	PHALCON_MM_GROW();
+
+	id    = phalcon_fetch_nproperty_this(this_ptr, SL("_id"), PH_NOISY_CC);
+	queue = phalcon_fetch_nproperty_this(this_ptr, SL("_queue"), PH_NOISY_CC);
+
+	PHALCON_ALLOC_GHOST_ZVAL(command);
+	PHALCON_CONCAT_SV(command, "touch ", id);
+	phalcon_call_method_p1_noret(queue, "write", command);
+
+	PHALCON_INIT_VAR(response);
+	phalcon_call_method(response, queue, "readstatus");
+
+	PHALCON_OBS_VAR(status);
+	phalcon_array_fetch_long(&status, response, 0, PH_NOISY);
+	if (PHALCON_IS_STRING(status, "TOUCHED")) {
+		RETURN_MM_TRUE;
+	}
+
+	RETURN_MM_FALSE;
+}
+
+/**
+ * Move the job to the ready queue if it is delayed or buried.
+ *
+ * @return boolean
+ */
+PHP_METHOD(Phalcon_Queue_Beanstalk_Job, kick){
+
+	zval *id, *command, *queue, *response, *status;
+
+	PHALCON_MM_GROW();
+
+	id    = phalcon_fetch_nproperty_this(this_ptr, SL("_id"), PH_NOISY_CC);
+	queue = phalcon_fetch_nproperty_this(this_ptr, SL("_queue"), PH_NOISY_CC);
+
+	PHALCON_ALLOC_GHOST_ZVAL(command);
+	PHALCON_CONCAT_SV(command, "kick-job ", id);
+	phalcon_call_method_p1_noret(queue, "write", command);
+
+	PHALCON_INIT_VAR(response);
+	phalcon_call_method(response, queue, "readstatus");
+
+	PHALCON_OBS_VAR(status);
+	phalcon_array_fetch_long(&status, response, 0, PH_NOISY);
+	if (PHALCON_IS_STRING(status, "KICKED")) {
+		RETURN_MM_TRUE;
+	}
+
 	RETURN_MM_FALSE;
 }
 

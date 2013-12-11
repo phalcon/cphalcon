@@ -190,8 +190,10 @@
    - Optimized Phalcon\Paginator\Adapter\NativeArray (#1653)
  - Phalcon\Queue:
    - Fixed bug in Phalcon\Queue\Beanstalk::read() (#1348, #1612)
-   - Bug fixes in beanstalkd protocol implementation
+   - Bug fixes in beanstalkd protocol implementation (#1650)
    - Optimizations (#1621)
+   - Added peekDelayed() and peekburied() to Phalcon\Queue\Beanstalk (#1650)
+   - Added kick(), bury(), release(), touch() to Phalcon\Queue\Beanstalk\Job (#1650)
  - Phalcon\Security:
    - Phalcon\Security\Exception inherits from Phalcon\Exception, not from \Phalcon\DI\Exception
    - Added Phalcon\Security::computeHmac() (#1347)
