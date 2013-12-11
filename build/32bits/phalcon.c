@@ -61682,12 +61682,12 @@ static PHP_METHOD(Phalcon_Mvc_Router, handle){
 	
 				PHALCON_INIT_NVAR(before_match_params);
 				array_init_size(before_match_params, 3);
-				phalcon_array_append(&before_match_params, handled_uri, PH_SEPARATE);
-				phalcon_array_append(&before_match_params, route, PH_SEPARATE);
-				phalcon_array_append(&before_match_params, this_ptr, PH_SEPARATE);
+				phalcon_array_append(&before_match_params, handled_uri, 0);
+				phalcon_array_append(&before_match_params, route, 0);
+				phalcon_array_append(&before_match_params, this_ptr, 0);
 	
 				PHALCON_INIT_NVAR(route_found);
-				PHALCON_CALL_USER_FUNC_ARRAY(route_found, before_match, params);
+				PHALCON_CALL_USER_FUNC_ARRAY(route_found, before_match, before_match_params);
 			}
 		}
 	
