@@ -1,4 +1,3 @@
-
 /*
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
@@ -358,7 +357,7 @@ PHP_METHOD(Phalcon_Logger_Adapter, alert){
 }
 
 /**
- * Logs messages to the internal loggger. Appends logs to the
+ * Logs messages to the internal logger. Appends messages to the log
  *
  * @param string $message
  * @param int $type
