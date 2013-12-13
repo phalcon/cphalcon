@@ -102,10 +102,10 @@ class Regex extends Phalcon\Mvc\Model\Validator implements Phalcon\Mvc\Model\Val
 			let message = this->getOption("message");
                         let replacePairs = [":field": field];
 			if empty message {
-                                let message = strrt("Value of field :field doesn't match regular expression", replacePairs);
+                                let message = strtr("Value of field :field doesn't match regular expression", replacePairs);
 			}
  
-			this->appendMessage(strrt(message, replacePairs), field, "Regex");
+			this->appendMessage(strtr(message, replacePairs), field, "Regex");
 			return false;
 		}
  

@@ -57,10 +57,10 @@ class Email extends Phalcon\Validation\Validator implements Phalcon\Validation\V
 			let message = this->getOption("message");
                         let replacePairs = [":field": field];
 			if empty message {
-                                let message = strrt("Value of field :field must have a valid e-mail format", replacePairs);
+                                let message = strtr("Value of field :field must have a valid e-mail format", replacePairs);
 			}
 
-			validator->appendMessage(new Phalcon\Validation\Message(strrt(message, replacePairs), field, "Email"));
+			validator->appendMessage(new Phalcon\Validation\Message(strtr(message, replacePairs), field, "Email"));
 			return false;
 		}
 
