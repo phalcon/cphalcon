@@ -74,7 +74,7 @@ class Regex extends Phalcon\Mvc\Model\Validator implements Phalcon\Mvc\Model\Val
  		let failed = false;
  		let matches = null;
 
-                if this->isSetOption("notRequired") && (typeof value == "null" || value === '') {
+                if typeof this->getOption("allowEmpty") == "true" && (typeof value == "null" || empty value) {
                     return true;
                 }
 		

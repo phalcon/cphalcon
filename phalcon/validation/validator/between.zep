@@ -51,7 +51,7 @@ class Between extends Phalcon\Validation\Validator implements Phalcon\Validation
                 minimum = this->getOption("minimum"),
                 maximum = this->getOption("maximum");
 
-                if this->isSetOption("notRequired") && (typeof value == "null" || value === '') {
+                if typeof this->getOption("allowEmpty") == "true" && (typeof value == "null" || empty value) {
                     return true;
                 }
 

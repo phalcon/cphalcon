@@ -49,7 +49,7 @@ class InclusionIn extends Phalcon\Validation\Validator implements Phalcon\Valida
 
 		let value = validator->getValue(field);
 
-                if this->isSetOption("notRequired") && (typeof value == "null" || value === '') {
+                if typeof this->getOption("allowEmpty") == "true" && (typeof value == "null" || empty value) {
                     return true;
                 }
 

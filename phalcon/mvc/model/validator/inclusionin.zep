@@ -76,7 +76,7 @@ class Inclusionin extends Phalcon\Mvc\Model\Validator implements Phalcon\Mvc\Mod
  
 		let value = record->readAttribute(field);
 
-                if this->isSetOption("notRequired") && (typeof value == "null" || value === '') {
+                if typeof this->getOption("allowEmpty") == "true" && (typeof value == "null" || empty value) {
                     return true;
                 }
  
