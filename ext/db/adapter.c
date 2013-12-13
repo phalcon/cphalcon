@@ -264,8 +264,7 @@ PHP_METHOD(Phalcon_Db_Adapter, fetchOne){
 PHP_METHOD(Phalcon_Db_Adapter, fetchAll){
 
 	zval *sql_query, *fetch_mode = NULL, *bind_params = NULL, *bind_types = NULL;
-	zval *result, *row = NULL;
-	zval *r0 = NULL;
+	zval *result;
 
 	PHALCON_MM_GROW();
 
@@ -284,26 +283,14 @@ PHP_METHOD(Phalcon_Db_Adapter, fetchAll){
 		bind_types = PHALCON_GLOBAL(z_null);
 	}
 	
-	array_init(return_value);
-	
 	PHALCON_INIT_VAR(result);
 	phalcon_call_method_p3(result, this_ptr, "query", sql_query, bind_params, bind_types);
 	if (likely(Z_TYPE_P(result) == IS_OBJECT)) {
 		if (Z_TYPE_P(fetch_mode) != IS_NULL) {
 			phalcon_call_method_p1_noret(result, "setfetchmode", fetch_mode);
 		}
-	
-		while (1) {
-	
-			PHALCON_INIT_NVAR(r0);
-			phalcon_call_method(r0, result, "fetch");
-			PHALCON_CPY_WRT(row, r0);
-			if (!zend_is_true(row)) {
-				break;
-			}
-	
-			phalcon_array_append(&return_value, row, 0);
-		}
+
+		phalcon_return_call_method_p0(result, "fetchall");
 	}
 	
 	PHALCON_MM_RESTORE();
