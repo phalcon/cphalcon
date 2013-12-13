@@ -81,7 +81,7 @@ class StringLength extends Phalcon\Mvc\Model\Validator implements Phalcon\Mvc\Mo
  
 		let value = record->readAttribute("field");
 
-                if typeof this->getOption("allowEmpty") == "true" && (typeof value == "null" || empty value) {
+                if this->isSetOption("allowEmpty") && (typeof value == "null" || empty value) {
                     return true;
                 }
  
