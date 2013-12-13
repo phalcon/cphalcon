@@ -96,4 +96,3 @@ PHP_METHOD(Phalcon_Db_RawValue, __toString){
 
 	RETURN_MEMBER(this_ptr, "_value");
 }
-
