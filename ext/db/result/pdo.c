@@ -89,9 +89,7 @@ PHP_METHOD(Phalcon_Db_Result_Pdo, __construct){
 	zval *connection, *result, *sql_statement = NULL, *bind_params = NULL;
 	zval *bind_types = NULL;
 
-	PHALCON_MM_GROW();
-
-	phalcon_fetch_params(1, 2, 3, &connection, &result, &sql_statement, &bind_params, &bind_types);
+	phalcon_fetch_params(0, 2, 3, &connection, &result, &sql_statement, &bind_params, &bind_types);
 	
 	if (!sql_statement) {
 		sql_statement = PHALCON_GLOBAL(z_null);
@@ -106,7 +104,7 @@ PHP_METHOD(Phalcon_Db_Result_Pdo, __construct){
 	}
 	
 	if (Z_TYPE_P(result) != IS_OBJECT) {
-		PHALCON_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "Invalid PDOStatement supplied to Phalcon\\Db\\Result\\Pdo");
+		PHALCON_THROW_EXCEPTION_STRW(phalcon_db_exception_ce, "Invalid PDOStatement supplied to Phalcon\\Db\\Result\\Pdo");
 		return;
 	}
 	phalcon_update_property_this(this_ptr, SL("_connection"), connection TSRMLS_CC);
@@ -122,8 +120,6 @@ PHP_METHOD(Phalcon_Db_Result_Pdo, __construct){
 	if (Z_TYPE_P(bind_types) != IS_NULL) {
 		phalcon_update_property_this(this_ptr, SL("_bindTypes"), bind_types TSRMLS_CC);
 	}
-	
-	PHALCON_MM_RESTORE();
 }
 
 /**
@@ -138,10 +134,9 @@ PHP_METHOD(Phalcon_Db_Result_Pdo, execute){
 
 	PHALCON_MM_GROW();
 
-	PHALCON_OBS_VAR(pdo_statement);
-	phalcon_read_property_this(&pdo_statement, this_ptr, SL("_pdoStatement"), PH_NOISY_CC);
-	phalcon_call_method(return_value, pdo_statement, "execute");
-	RETURN_MM();
+	pdo_statement = phalcon_fetch_nproperty_this(this_ptr, SL("_pdoStatement"), PH_NOISY_CC);
+	phalcon_return_call_method_p0(pdo_statement, "execute");
+	PHALCON_MM_RESTORE();
 }
 
 /**
@@ -164,9 +159,8 @@ PHP_METHOD(Phalcon_Db_Result_Pdo, fetch){
 
 	PHALCON_MM_GROW();
 
-	PHALCON_OBS_VAR(pdo_statement);
-	phalcon_read_property_this(&pdo_statement, this_ptr, SL("_pdoStatement"), PH_NOISY_CC);
-	phalcon_call_method(return_value, pdo_statement, "fetch");
+	pdo_statement = phalcon_fetch_nproperty_this(this_ptr, SL("_pdoStatement"), PH_NOISY_CC);
+	phalcon_return_call_method_p0(pdo_statement, "fetch");
 	RETURN_MM();
 }
 
@@ -190,9 +184,8 @@ PHP_METHOD(Phalcon_Db_Result_Pdo, fetchArray){
 
 	PHALCON_MM_GROW();
 
-	PHALCON_OBS_VAR(pdo_statement);
-	phalcon_read_property_this(&pdo_statement, this_ptr, SL("_pdoStatement"), PH_NOISY_CC);
-	phalcon_call_method(return_value, pdo_statement, "fetch");
+	pdo_statement = phalcon_fetch_nproperty_this(this_ptr, SL("_pdoStatement"), PH_NOISY_CC);
+	phalcon_return_call_method_p0(pdo_statement, "fetch");
 	RETURN_MM();
 }
 
@@ -213,9 +206,8 @@ PHP_METHOD(Phalcon_Db_Result_Pdo, fetchAll){
 
 	PHALCON_MM_GROW();
 
-	PHALCON_OBS_VAR(pdo_statement);
-	phalcon_read_property_this(&pdo_statement, this_ptr, SL("_pdoStatement"), PH_NOISY_CC);
-	phalcon_call_method(return_value, pdo_statement, "fetchall");
+	pdo_statement = phalcon_fetch_nproperty_this(this_ptr, SL("_pdoStatement"), PH_NOISY_CC);
+	phalcon_return_call_method_p0(pdo_statement, "fetchall");
 	RETURN_MM();
 }
 
@@ -249,21 +241,10 @@ PHP_METHOD(Phalcon_Db_Result_Pdo, numRows){
 		phalcon_call_method(type, connection, "gettype");
 	
 		/** 
-		 * MySQL library property returns the number of records
+		 * MySQL/PostgreSQL library property returns the number of records
 		 */
-		if (PHALCON_IS_STRING(type, "mysql")) {
+		if (PHALCON_IS_STRING(type, "mysql") || PHALCON_IS_STRING(type, "pgsql")) {
 			PHALCON_OBS_VAR(pdo_statement);
-			phalcon_read_property_this(&pdo_statement, this_ptr, SL("_pdoStatement"), PH_NOISY_CC);
-	
-			PHALCON_INIT_NVAR(row_count);
-			phalcon_call_method(row_count, pdo_statement, "rowcount");
-		}
-	
-		/** 
-		 * PostgreSQL too
-		 */
-		if (PHALCON_IS_STRING(type, "pgsql")) {
-			PHALCON_OBS_NVAR(pdo_statement);
 			phalcon_read_property_this(&pdo_statement, this_ptr, SL("_pdoStatement"), PH_NOISY_CC);
 	
 			PHALCON_INIT_NVAR(row_count);
