@@ -78,7 +78,7 @@ class Url extends Phalcon\Mvc\Model\Validator implements Phalcon\Mvc\Model\Valid
 			let message = this->getOption("message");
                         let replacePairs = [":field": field];
 			if empty message {
-                                let message = strtr(":field does not have a valid url format", replacePairs);
+                                let message = ":field does not have a valid url format";
 			}
  
 			this->appendMessage(strtr(message, replacePairs), field, "Url");

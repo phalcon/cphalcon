@@ -69,7 +69,7 @@ class ExclusionIn extends Phalcon\Validation\Validator implements Phalcon\Valida
 			let message = this->getOption("message");
                         let replacePairs = [":field": field, ":domain":  join(", ", domain)];
 			if empty message {
-                                let message = strtr("Value of field :field must not be part of list: :domain", replacePairs);
+                                let message = "Value of field :field must not be part of list: :domain";
 			}
 
 			validator->appendMessage(new Phalcon\Validation\Message(strtr(message, replacePairs), field, "ExclusionIn"));

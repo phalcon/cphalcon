@@ -72,7 +72,7 @@ class Regex extends Phalcon\Validation\Validator implements Phalcon\Validation\V
 			let message = this->getOption("message");
                         let replacePairs = [":field": field];
 			if empty message {
-                                let message = strtr("Value of field :field doesn't match regular expression", replacePairs);
+                                let message = "Value of field :field doesn't match regular expression";
 			}
 
 			validator->appendMessage(new Phalcon\Validation\Message(strtr(message, replacePairs), field, "Regex"));

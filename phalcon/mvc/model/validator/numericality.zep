@@ -78,7 +78,7 @@ class Numericality extends Phalcon\Mvc\Model\Validator implements Phalcon\Mvc\Mo
 			let message = this->getOption("message");
                         let replacePairs = [":field": field];
 			if empty message {
-				let message = strtr("Value of field :field must be numeric", replacePairs);
+				let message = "Value of field :field must be numeric";
 			}
  
 			this->appendMessage(strtr(message, replacePairs), field, "Numericality");
