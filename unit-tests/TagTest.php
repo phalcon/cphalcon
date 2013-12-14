@@ -128,5 +128,8 @@ HTML;
 
 		$html = Phalcon\Tag::linkTo(array('http://phalconphp.com/en/', 'text' => 'Phalcon Home', 'local' => FALSE));
 		$this->assertEquals($html, '<a href="http://phalconphp.com/en/">Phalcon Home</a>');
+
+		$html = Phalcon\Tag::linkTo('mailto:dreamsxin@gmail.com', 'dreamsxin@gmail.com', FALSE);
+		$this->assertEquals($html, '<a href="mailto:dreamsxin@gmail.com">dreamsxin@gmail.com</a>');
 	 }
 }
