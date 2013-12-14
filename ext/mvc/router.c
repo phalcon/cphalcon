@@ -209,20 +209,16 @@ PHP_METHOD(Phalcon_Mvc_Router, getRewriteUri){
 	/**
 	 * The developer can change the URI source
 	 */
-	PHALCON_OBS_VAR(uri_source);
-	phalcon_read_property_this(&uri_source, this_ptr, SL("_uriSource"), PH_NOISY_CC);
+	uri_source = phalcon_fetch_nproperty_this(this_ptr, SL("_uriSource"), PH_NOISY_CC);
 
 	/**
 	 * By default we use $_GET['url'] to obtain the rewrite information
 	 */
 	if (!zend_is_true(uri_source)) {
 		phalcon_get_global(&_GET, SS("_GET") TSRMLS_CC);
-		if (phalcon_array_isset_string(_GET, SS("_url"))) {
-
-			PHALCON_OBS_VAR(url);
-			phalcon_array_fetch_string(&url, _GET, SL("_url"), PH_NOISY);
+		if (phalcon_array_isset_string_fetch(&url, _GET, SS("_url"))) {
 			if (PHALCON_IS_NOT_EMPTY(url)) {
-				RETURN_CCTOR(url);
+				RETURN_CTOR(url);
 			}
 		}
 	} else {
@@ -230,11 +226,7 @@ PHP_METHOD(Phalcon_Mvc_Router, getRewriteUri){
 		 * Otherwise use the standard $_SERVER['REQUEST_URI']
 		 */
 		phalcon_get_global(&_SERVER, SS("_SERVER") TSRMLS_CC);
-		if (phalcon_array_isset_string(_SERVER, SS("REQUEST_URI"))) {
-
-			PHALCON_OBS_NVAR(url);
-			phalcon_array_fetch_string(&url, _SERVER, SL("REQUEST_URI"), PH_NOISY);
-
+		if (phalcon_array_isset_string_fetch(&url, _SERVER, SS("REQUEST_URI"))) {
 			PHALCON_INIT_VAR(url_parts);
 			phalcon_fast_explode_str(url_parts, SL("?"), url);
 
