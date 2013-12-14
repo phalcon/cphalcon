@@ -91,15 +91,42 @@ HTML;
 		\Phalcon\Tag::setDI($di);
 
 		$html = \Phalcon\Tag::stylesheetLink('css/phalcon.css');
-		$this->assertEquals($html, '<link rel="stylesheet" href="/css/phalcon.css" type="text/css" />'.PHP_EOL);
+		$this->assertEquals($html, '<link rel="stylesheet" type="text/css" href="/css/phalcon.css" />'.PHP_EOL);
 
 		$html = \Phalcon\Tag::stylesheetLink(array('css/phalcon.css'));
-		$this->assertEquals($html, '<link rel="stylesheet" href="/css/phalcon.css" type="text/css" />'.PHP_EOL);
+		$this->assertEquals($html, '<link rel="stylesheet" type="text/css" href="/css/phalcon.css" />'.PHP_EOL);
 
 		$html = \Phalcon\Tag::javascriptInclude('js/phalcon.js');
-		$this->assertEquals($html, '<script src="/js/phalcon.js" type="text/javascript"></script>'.PHP_EOL);
+		$this->assertEquals($html, '<script type="text/javascript" src="/js/phalcon.js"></script>'.PHP_EOL);
 
 		$html = \Phalcon\Tag::javascriptInclude(array('js/phalcon.js'));
-		$this->assertEquals($html, '<script src="/js/phalcon.js" type="text/javascript"></script>'.PHP_EOL);
+		$this->assertEquals($html, '<script type="text/javascript" src="/js/phalcon.js"></script>'.PHP_EOL);
+	 }
+
+	public function testIssue1679()
+    {
+		$di = new Phalcon\DI\FactoryDefault();
+		$di->getshared('url')->setBaseUri('/');
+		\Phalcon\Tag::setDI($di);
+
+		// local
+		$html = Phalcon\Tag::linkTo('signup/register', 'Register Here!');
+		$this->assertEquals($html, '<a href="/signup/register">Register Here!</a>');
+
+		$html = Phalcon\Tag::linkTo(array('signup/register', 'Register Here!'));
+		$this->assertEquals($html, '<a href="/signup/register">Register Here!</a>');
+
+		$html = Phalcon\Tag::linkTo(array('signup/register', 'Register Here!', 'class' => 'btn-primary'));
+		$this->assertEquals($html, '<a href="/signup/register" class="btn-primary">Register Here!</a>');
+
+		// remote
+		$html = Phalcon\Tag::linkTo('http://phalconphp.com/en/', 'Phalcon Home', FALSE);
+		$this->assertEquals($html, '<a href="http://phalconphp.com/en/">Phalcon Home</a>');
+
+		$html = Phalcon\Tag::linkTo(array('http://phalconphp.com/en/', 'Phalcon Home', FALSE));
+		$this->assertEquals($html, '<a href="http://phalconphp.com/en/">Phalcon Home</a>');
+
+		$html = Phalcon\Tag::linkTo(array('http://phalconphp.com/en/', 'text' => 'Phalcon Home', 'local' => FALSE));
+		$this->assertEquals($html, '<a href="http://phalconphp.com/en/">Phalcon Home</a>');
 	 }
 }
