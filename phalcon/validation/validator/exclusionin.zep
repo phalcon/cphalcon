@@ -39,15 +39,15 @@ class ExclusionIn extends Phalcon\Validation\Validator implements Phalcon\Valida
 	/**
 	 * Executes the validation
 	 *
-	 * @param Phalcon\Validation validator
+	 * @param Phalcon\Validation validation
 	 * @param string field
 	 * @return boolean
 	 */
-	public function validate(<Phalcon\Validation> validator, string! field) -> boolean
+	public function validate(<Phalcon\Validation> validation, string! field) -> boolean
 	{
 		var value, domain, message, replacePairs;
 
-		let value = validator->getValue(field);
+		let value = validation->getValue(field);
 
                 if this->isSetOption("allowEmpty") && (typeof value == "null" || empty value) {
                     return true;
@@ -72,7 +72,7 @@ class ExclusionIn extends Phalcon\Validation\Validator implements Phalcon\Valida
                                 let message = "Value of field :field must not be part of list: :domain";
 			}
 
-			validator->appendMessage(new Phalcon\Validation\Message(strtr(message, replacePairs), field, "ExclusionIn"));
+			validation->appendMessage(new Phalcon\Validation\Message(strtr(message, replacePairs), field, "ExclusionIn"));
 			return false;
 		}
 

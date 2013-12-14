@@ -38,15 +38,15 @@ class PresenceOf extends Phalcon\Validation\Validator implements Phalcon\Validat
 	/**
 	 * Executes the validation
 	 *
-	 * @param Phalcon\Validation validator
+	 * @param Phalcon\Validation validation
 	 * @param string field
 	 * @return boolean
 	 */
-	public function validate(<Phalcon\Validation> validator, string! field)
+	public function validate(<Phalcon\Validation> validation, string! field)
 	{
 		var value, message, replacePairs;
 
-		let value = validator->getValue(field);
+		let value = validation->getValue(field);
 		if empty value {
 
 			let message = this->getOption("message");
@@ -55,7 +55,7 @@ class PresenceOf extends Phalcon\Validation\Validator implements Phalcon\Validat
 				let message = ":field is required";
 			}
 
-			validator->appendMessage(new Phalcon\Validation\Message(strtr(message, replacePairs), field, "PresenceOf"));
+			validation->appendMessage(new Phalcon\Validation\Message(strtr(message, replacePairs), field, "PresenceOf"));
 			return false;
 		}
 

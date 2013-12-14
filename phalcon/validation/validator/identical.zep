@@ -40,15 +40,15 @@ class Identical extends Phalcon\Validation\Validator implements Phalcon\Validati
 	/**
 	 * Executes the validation
 	 *
-	 * @param Phalcon\Validation validator
+	 * @param Phalcon\Validation validation
 	 * @param string             field
 	 * @return boolean
 	 */
-	public function validate(<Phalcon\Validation> validator, string! field)
+	public function validate(<Phalcon\Validation> validation, string! field)
 	{
 		var message, replacePairs;
 
-		if validator->getValue(field) != this->getOption("value") {
+		if validation->getValue(field) != this->getOption("value") {
 
 			let message = this->getOption("message");
                         let replacePairs = [":field": field];
@@ -56,7 +56,7 @@ class Identical extends Phalcon\Validation\Validator implements Phalcon\Validati
                                 let message = ":field does not have the expected value";
 			}
 
-			validator->appendMessage(new Phalcon\Validation\Message(strtr(message, replacePairs), field, "Identical"));
+			validation->appendMessage(new Phalcon\Validation\Message(strtr(message, replacePairs), field, "Identical"));
 			return false;
 		}
 
