@@ -1263,31 +1263,26 @@ PHP_METHOD(Phalcon_Mvc_Router, getRoutes){
  */
 PHP_METHOD(Phalcon_Mvc_Router, getRouteById){
 
-	zval *id, *routes, *route = NULL, *route_id = NULL;
-	HashTable *ah0;
+	zval *id, *routes, **route, *route_id = NULL;
 	HashPosition hp0;
-	zval **hd;
 
 	PHALCON_MM_GROW();
 
 	phalcon_fetch_params(1, 1, 0, &id);
 
-	PHALCON_OBS_VAR(routes);
-	phalcon_read_property_this(&routes, this_ptr, SL("_routes"), PH_NOISY_CC);
-
-	phalcon_is_iterable(routes, &ah0, &hp0, 0, 0);
-
-	while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
-
-		PHALCON_GET_HVALUE(route);
-
-		PHALCON_INIT_NVAR(route_id);
-		phalcon_call_method(route_id, route, "getrouteid");
-		if (PHALCON_IS_EQUAL(route_id, id)) {
-			RETURN_CCTOR(route);
+	routes = phalcon_fetch_nproperty_this(this_ptr, SL("_routes"), PH_NOISY_CC);
+	if (Z_TYPE_P(routes) == IS_ARRAY) {
+		for(
+			zend_hash_internal_pointer_reset_ex(Z_ARRVAL_P(routes), &hp0);
+			zend_hash_get_current_data_ex(Z_ARRVAL_P(routes), (void**)&route, &hp0) == SUCCESS;
+			zend_hash_move_forward_ex(Z_ARRVAL_P(routes), &hp0)
+		) {
+			PHALCON_INIT_NVAR(route_id);
+			phalcon_call_method(route_id, *route, "getrouteid");
+			if (phalcon_is_equal(route_id, id TSRMLS_CC)) {
+				RETURN_CTOR(*route);
+			}
 		}
-
-		zend_hash_move_forward_ex(ah0, &hp0);
 	}
 
 	RETURN_MM_FALSE;
@@ -1301,33 +1296,27 @@ PHP_METHOD(Phalcon_Mvc_Router, getRouteById){
  */
 PHP_METHOD(Phalcon_Mvc_Router, getRouteByName){
 
-	zval *name, *routes, *route = NULL, *route_name = NULL;
-	HashTable *ah0;
+	zval *name, *routes, **route, *route_name = NULL;
 	HashPosition hp0;
-	zval **hd;
 
 	PHALCON_MM_GROW();
 
 	phalcon_fetch_params(1, 1, 0, &name);
 
-	PHALCON_OBS_VAR(routes);
-	phalcon_read_property_this(&routes, this_ptr, SL("_routes"), PH_NOISY_CC);
-
-	phalcon_is_iterable(routes, &ah0, &hp0, 0, 0);
-
-	while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
-
-		PHALCON_GET_HVALUE(route);
-
-		PHALCON_INIT_NVAR(route_name);
-		phalcon_call_method(route_name, route, "getname");
-		if (PHALCON_IS_EQUAL(route_name, name)) {
-			RETURN_CCTOR(route);
+	routes = phalcon_fetch_nproperty_this(this_ptr, SL("_routes"), PH_NOISY_CC);
+	if (Z_TYPE_P(routes) == IS_ARRAY) {
+		for(
+			zend_hash_internal_pointer_reset_ex(Z_ARRVAL_P(routes), &hp0);
+			zend_hash_get_current_data_ex(Z_ARRVAL_P(routes), (void**)&route, &hp0) == SUCCESS;
+			zend_hash_move_forward_ex(Z_ARRVAL_P(routes), &hp0)
+		) {
+			PHALCON_INIT_NVAR(route_name);
+			phalcon_call_method(route_name, *route, "getname");
+			if (phalcon_is_equal(route_name, name TSRMLS_CC)) {
+				RETURN_CTOR(*route);
+			}
 		}
-
-		zend_hash_move_forward_ex(ah0, &hp0);
 	}
 
 	RETURN_MM_FALSE;
 }
-
