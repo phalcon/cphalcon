@@ -400,61 +400,39 @@ PHP_METHOD(Phalcon_Mvc_Router, setDefaults){
 	zval *defaults, *namespace_name, *module_name;
 	zval *controller_name, *action_name, *params;
 
-	PHALCON_MM_GROW();
-
-	phalcon_fetch_params(1, 1, 0, &defaults);
+	phalcon_fetch_params(0, 1, 0, &defaults);
 
 	if (Z_TYPE_P(defaults) != IS_ARRAY) {
-		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_router_exception_ce, "Defaults must be an array");
+		PHALCON_THROW_EXCEPTION_STRW(phalcon_mvc_router_exception_ce, "Defaults must be an array");
 		return;
 	}
 
-	/**
-	 * Set a default namespace
-	 */
-	if (phalcon_array_isset_string(defaults, SS("namespace"))) {
-		PHALCON_OBS_VAR(namespace_name);
-		phalcon_array_fetch_string(&namespace_name, defaults, SL("namespace"), PH_NOISY);
+	/* Set the default namespace */
+	if (phalcon_array_isset_string_fetch(&namespace_name, defaults, SS("namespace"))) {
 		phalcon_update_property_this(this_ptr, SL("_defaultNamespace"), namespace_name TSRMLS_CC);
 	}
 
-	/**
-	 * Set a default module
-	 */
-	if (phalcon_array_isset_string(defaults, SS("module"))) {
-		PHALCON_OBS_VAR(module_name);
-		phalcon_array_fetch_string(&module_name, defaults, SL("module"), PH_NOISY);
+	/* Set the default module */
+	if (phalcon_array_isset_string_fetch(&module_name, defaults, SS("module"))) {
 		phalcon_update_property_this(this_ptr, SL("_defaultModule"), module_name TSRMLS_CC);
 	}
 
-	/**
-	 * Set a default controller
-	 */
-	if (phalcon_array_isset_string(defaults, SS("controller"))) {
-		PHALCON_OBS_VAR(controller_name);
-		phalcon_array_fetch_string(&controller_name, defaults, SL("controller"), PH_NOISY);
+	/* Set the default controller */
+	if (phalcon_array_isset_string_fetch(&controller_name, defaults, SS("controller"))) {
 		phalcon_update_property_this(this_ptr, SL("_defaultController"), controller_name TSRMLS_CC);
 	}
 
-	/**
-	 * Set a default action
-	 */
-	if (phalcon_array_isset_string(defaults, SS("action"))) {
-		PHALCON_OBS_VAR(action_name);
-		phalcon_array_fetch_string(&action_name, defaults, SL("action"), PH_NOISY);
+	/* Set the default action */
+	if (phalcon_array_isset_string_fetch(&action_name, defaults, SS("action"))) {
 		phalcon_update_property_this(this_ptr, SL("_defaultAction"), action_name TSRMLS_CC);
 	}
 
-	/**
-	 * Set default parameters
-	 */
-	if (phalcon_array_isset_string(defaults, SS("params"))) {
-		PHALCON_OBS_VAR(params);
-		phalcon_array_fetch_string(&params, defaults, SL("params"), PH_NOISY);
+	/* Set default parameters */
+	if (phalcon_array_isset_string_fetch(&params, defaults, SS("params"))) {
 		phalcon_update_property_this(this_ptr, SL("_defaultParams"), params TSRMLS_CC);
 	}
 
-	RETURN_THIS();
+	RETURN_THISW();
 }
 
 /**
