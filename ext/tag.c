@@ -505,9 +505,9 @@ PHP_METHOD(Phalcon_Tag, resetInput){
  *	echo Phalcon\Tag::linkTo('signup/register', 'Register Here!');
  *	echo Phalcon\Tag::linkTo(array('signup/register', 'Register Here!'));
  *	echo Phalcon\Tag::linkTo(array('signup/register', 'Register Here!', 'class' => 'btn-primary'));
- *	echo Phalcon\Tag::linkTo('http://google.com/', 'Google', FALSE);
- *	echo Phalcon\Tag::linkTo(array('http://google.com/', 'Google', FALSE));
- *	echo Phalcon\Tag::linkTo(array('http://google.com/', 'Google', 'local' =>FALSE));
+ *	echo Phalcon\Tag::linkTo('http://phalconphp.com/', 'Google', FALSE);
+ *	echo Phalcon\Tag::linkTo(array('http://phalconphp.com/', 'Phalcon Home', FALSE));
+ *	echo Phalcon\Tag::linkTo(array('http://phalconphp.com/', 'Phalcon Home', 'local' =>FALSE));
  *</code>
  *
  * @param array|string $parameters
