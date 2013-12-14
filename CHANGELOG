@@ -96,6 +96,12 @@
    - Fixed issue with RawValue('default') on composite primary key (#1534)
    - Added support for the following fetch modes from PDO: FETCH_LAZY, FETCH_BOUND, FETCH_COLUMN, FETCH_CLASS, FETCH_INTO, FETCH_FUNC, FETCH_NAMED, FETCH_KEY_PAIR (#1642)
    - Added support for the following fetch mode modifiers from PDO: FETCH_GROUP, FETCH_UNIQUE, FETCH_CLASSTYPE, FETCH_SERIALIZE, FETCH_PROPS_LATE (#1642)
+   - Phalcon\Db optimizations (#1693)
+   - Phalcon\Db\Adapter optimizations (#1693)
+   - Phalcon\Db\Index optimizations (#1693)
+   - Phalcon\Db\Profiler optimizations (#1693)
+   - Phalcon\Db\Reference optimizations (#1693)
+   - Phalcon\Db\Result\Pdo optimizations (#1693)
  - Phalcon\Debug:
    - Added support for UTF-8 to \Phalcon\Debug (#1099)
    - Phalcon\Debug::uri now supports both http and https (#987)
