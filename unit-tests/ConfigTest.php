@@ -221,4 +221,10 @@ class ConfigTest extends PHPUnit_Framework_TestCase
 		$config = new Phalcon\Config\Adapter\Php('unit-tests/config/config.php');
 		$this->assertTrue($this->_compareConfig($this->_config, $config));
 	}
+
+	public function testJsonConfig()
+	{
+		$config = new Phalcon\Config\Adapter\Php('unit-tests/config/config.json');
+		$this->assertTrue($this->_compareConfig($this->_config, $config));
+	}
 }
