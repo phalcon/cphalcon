@@ -42,7 +42,7 @@ class Email extends Phalcon\Validation\Validator implements Phalcon\Validation\V
 	 * @param  string             field
 	 * @return boolean
 	 */
-	public function validate(<Phalcon\Validatio> validator, string! field) -> boolean
+	public function validate(<Phalcon\Validation> validator, string! field) -> boolean
 	{
 		var value, message, replacePairs;
 
