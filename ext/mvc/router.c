@@ -42,6 +42,8 @@
 #include "kernel/file.h"
 #include "kernel/hash.h"
 
+#include "interned-strings.h"
+
 /**
  * Phalcon\Mvc\Router
  *
@@ -923,6 +925,24 @@ PHP_METHOD(Phalcon_Mvc_Router, add){
 	RETURN_MM();
 }
 
+static void phalcon_mvc_router_add_helper(INTERNAL_FUNCTION_PARAMETERS, const char *method)
+{
+	zval *pattern, *paths = NULL, *http_method;
+
+	phalcon_fetch_params(0, 1, 1, &pattern, &paths);
+
+	if (!paths) {
+		paths = PHALCON_GLOBAL(z_null);
+	}
+
+	PHALCON_ALLOC_GHOST_ZVAL(http_method);
+	PHALCON_ZVAL_MAYBE_INTERNED_STRING(http_method, method);
+	phalcon_call_method_params(return_value, return_value_ptr, getThis(), SL("add"), zend_inline_hash_func(SS("add")) TSRMLS_CC, 3, pattern, paths, http_method);
+	if (return_value_ptr && EG(exception)) {
+		ALLOC_INIT_ZVAL(*return_value_ptr);
+	}
+}
+
 /**
  * Adds a route to the router that only match if the HTTP method is GET
  *
@@ -932,20 +952,7 @@ PHP_METHOD(Phalcon_Mvc_Router, add){
  */
 PHP_METHOD(Phalcon_Mvc_Router, addGet){
 
-	zval *pattern, *paths = NULL, *method;
-
-	PHALCON_MM_GROW();
-
-	phalcon_fetch_params(1, 1, 1, &pattern, &paths);
-
-	if (!paths) {
-		paths = PHALCON_GLOBAL(z_null);
-	}
-
-	PHALCON_INIT_VAR(method);
-	ZVAL_STRING(method, "GET", 1);
-	phalcon_call_method_p3(return_value, this_ptr, "add", pattern, paths, method);
-	RETURN_MM();
+	phalcon_mvc_router_add_helper(INTERNAL_FUNCTION_PARAM_PASSTHRU, phalcon_interned_GET);
 }
 
 /**
@@ -957,20 +964,7 @@ PHP_METHOD(Phalcon_Mvc_Router, addGet){
  */
 PHP_METHOD(Phalcon_Mvc_Router, addPost){
 
-	zval *pattern, *paths = NULL, *method;
-
-	PHALCON_MM_GROW();
-
-	phalcon_fetch_params(1, 1, 1, &pattern, &paths);
-
-	if (!paths) {
-		paths = PHALCON_GLOBAL(z_null);
-	}
-
-	PHALCON_INIT_VAR(method);
-	ZVAL_STRING(method, "POST", 1);
-	phalcon_call_method_p3(return_value, this_ptr, "add", pattern, paths, method);
-	RETURN_MM();
+	phalcon_mvc_router_add_helper(INTERNAL_FUNCTION_PARAM_PASSTHRU, phalcon_interned_POST);
 }
 
 /**
@@ -982,20 +976,7 @@ PHP_METHOD(Phalcon_Mvc_Router, addPost){
  */
 PHP_METHOD(Phalcon_Mvc_Router, addPut){
 
-	zval *pattern, *paths = NULL, *method;
-
-	PHALCON_MM_GROW();
-
-	phalcon_fetch_params(1, 1, 1, &pattern, &paths);
-
-	if (!paths) {
-		paths = PHALCON_GLOBAL(z_null);
-	}
-
-	PHALCON_INIT_VAR(method);
-	ZVAL_STRING(method, "PUT", 1);
-	phalcon_call_method_p3(return_value, this_ptr, "add", pattern, paths, method);
-	RETURN_MM();
+	phalcon_mvc_router_add_helper(INTERNAL_FUNCTION_PARAM_PASSTHRU, phalcon_interned_PUT);
 }
 
 /**
@@ -1007,20 +988,7 @@ PHP_METHOD(Phalcon_Mvc_Router, addPut){
  */
 PHP_METHOD(Phalcon_Mvc_Router, addPatch){
 
-	zval *pattern, *paths = NULL, *method;
-
-	PHALCON_MM_GROW();
-
-	phalcon_fetch_params(1, 1, 1, &pattern, &paths);
-
-	if (!paths) {
-		paths = PHALCON_GLOBAL(z_null);
-	}
-
-	PHALCON_INIT_VAR(method);
-	ZVAL_STRING(method, "PATCH", 1);
-	phalcon_call_method_p3(return_value, this_ptr, "add", pattern, paths, method);
-	RETURN_MM();
+	phalcon_mvc_router_add_helper(INTERNAL_FUNCTION_PARAM_PASSTHRU, phalcon_interned_PATCH);
 }
 
 /**
@@ -1032,20 +1000,7 @@ PHP_METHOD(Phalcon_Mvc_Router, addPatch){
  */
 PHP_METHOD(Phalcon_Mvc_Router, addDelete){
 
-	zval *pattern, *paths = NULL, *method;
-
-	PHALCON_MM_GROW();
-
-	phalcon_fetch_params(1, 1, 1, &pattern, &paths);
-
-	if (!paths) {
-		paths = PHALCON_GLOBAL(z_null);
-	}
-
-	PHALCON_INIT_VAR(method);
-	ZVAL_STRING(method, "DELETE", 1);
-	phalcon_call_method_p3(return_value, this_ptr, "add", pattern, paths, method);
-	RETURN_MM();
+	phalcon_mvc_router_add_helper(INTERNAL_FUNCTION_PARAM_PASSTHRU, phalcon_interned_DELETE);
 }
 
 /**
@@ -1057,20 +1012,7 @@ PHP_METHOD(Phalcon_Mvc_Router, addDelete){
  */
 PHP_METHOD(Phalcon_Mvc_Router, addOptions){
 
-	zval *pattern, *paths = NULL, *method;
-
-	PHALCON_MM_GROW();
-
-	phalcon_fetch_params(1, 1, 1, &pattern, &paths);
-
-	if (!paths) {
-		paths = PHALCON_GLOBAL(z_null);
-	}
-
-	PHALCON_INIT_VAR(method);
-	ZVAL_STRING(method, "OPTIONS", 1);
-	phalcon_call_method_p3(return_value, this_ptr, "add", pattern, paths, method);
-	RETURN_MM();
+	phalcon_mvc_router_add_helper(INTERNAL_FUNCTION_PARAM_PASSTHRU, phalcon_interned_OPTIONS);
 }
 
 /**
@@ -1082,20 +1024,7 @@ PHP_METHOD(Phalcon_Mvc_Router, addOptions){
  */
 PHP_METHOD(Phalcon_Mvc_Router, addHead){
 
-	zval *pattern, *paths = NULL, *method;
-
-	PHALCON_MM_GROW();
-
-	phalcon_fetch_params(1, 1, 1, &pattern, &paths);
-
-	if (!paths) {
-		paths = PHALCON_GLOBAL(z_null);
-	}
-
-	PHALCON_INIT_VAR(method);
-	ZVAL_STRING(method, "HEAD", 1);
-	phalcon_call_method_p3(return_value, this_ptr, "add", pattern, paths, method);
-	RETURN_MM();
+	phalcon_mvc_router_add_helper(INTERNAL_FUNCTION_PARAM_PASSTHRU, phalcon_interned_HEAD);
 }
 
 static int phalcon_router_call_convert(void *pDest TSRMLS_DC, int num_args, va_list args, zend_hash_key *hash_key)
