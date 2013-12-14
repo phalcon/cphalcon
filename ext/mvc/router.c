@@ -772,8 +772,8 @@ PHP_METHOD(Phalcon_Mvc_Router, handle){
 	 */
 	if (!zend_is_true(route_found)) {
 
-		tmp = phalcon_fetch_property_this(this_ptr, SL("_notFoundPaths"), PH_NOISY_CC);
-		if (tmp && Z_TYPE_P(tmp) != IS_NULL) {
+		tmp = phalcon_fetch_nproperty_this(this_ptr, SL("_notFoundPaths"), PH_NOISY_CC);
+		if (Z_TYPE_P(tmp) != IS_NULL) {
 			PHALCON_CPY_WRT(parts, tmp);
 
 			PHALCON_INIT_NVAR(route_found);
@@ -787,10 +787,7 @@ PHP_METHOD(Phalcon_Mvc_Router, handle){
 		 * Check for a namespace
 		 */
 		if (phalcon_array_isset_string_fetch(&namespace, parts, SS("namespace"))) {
-			if (!phalcon_is_numeric(namespace)) {
-				phalcon_update_property_this(this_ptr, SL("_namespace"), namespace TSRMLS_CC);
-			}
-
+			phalcon_update_property_this(this_ptr, SL("_namespace"), namespace TSRMLS_CC);
 			phalcon_array_unset_string(&parts, SS("namespace"), PH_SEPARATE);
 		} else {
 			tmp = phalcon_fetch_nproperty_this(this_ptr, SL("_defaultNamespace"), PH_NOISY_CC);
@@ -801,10 +798,7 @@ PHP_METHOD(Phalcon_Mvc_Router, handle){
 		 * Check for a module
 		 */
 		if (phalcon_array_isset_string_fetch(&module, parts, SS("module"))) {
-			if (!phalcon_is_numeric(module)) {
-				phalcon_update_property_this(this_ptr, SL("_module"), module TSRMLS_CC);
-			}
-
+			phalcon_update_property_this(this_ptr, SL("_module"), module TSRMLS_CC);
 			phalcon_array_unset_string(&parts, SS("module"), PH_SEPARATE);
 		} else {
 			tmp = phalcon_fetch_nproperty_this(this_ptr, SL("_defaultModule"), PH_NOISY_CC);
@@ -815,10 +809,7 @@ PHP_METHOD(Phalcon_Mvc_Router, handle){
 		 * Check for a controller
 		 */
 		if (phalcon_array_isset_string_fetch(&controller, parts, SS("controller"))) {
-			if (!phalcon_is_numeric(controller)) {
-				phalcon_update_property_this(this_ptr, SL("_controller"), controller TSRMLS_CC);
-			}
-
+			phalcon_update_property_this(this_ptr, SL("_controller"), controller TSRMLS_CC);
 			phalcon_array_unset_string(&parts, SS("controller"), PH_SEPARATE);
 		} else {
 			tmp = phalcon_fetch_nproperty_this(this_ptr, SL("_defaultController"), PH_NOISY_CC);
@@ -829,10 +820,7 @@ PHP_METHOD(Phalcon_Mvc_Router, handle){
 		 * Check for an action
 		 */
 		if (phalcon_array_isset_string_fetch(&action, parts, SS("action"))) {
-			if (!phalcon_is_numeric(action)) {
-				phalcon_update_property_this(this_ptr, SL("_action"), action TSRMLS_CC);
-			}
-
+			phalcon_update_property_this(this_ptr, SL("_action"), action TSRMLS_CC);
 			phalcon_array_unset_string(&parts, SS("action"), PH_SEPARATE);
 		} else {
 			tmp = phalcon_fetch_nproperty_this(this_ptr, SL("_defaultAction"), PH_NOISY_CC);
