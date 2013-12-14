@@ -1194,8 +1194,6 @@ void phalcon_json_decode(zval *return_value, zval **return_value_ptr, zval *v, z
 			ALLOC_INIT_ZVAL(*return_value_ptr);
 		}
 	}
-
-	zval_ptr_dtor(&zassoc);
 }
 
 #endif /* PHALCON_USE_PHP_JSON */
