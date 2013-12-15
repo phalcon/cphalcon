@@ -95,6 +95,7 @@
    - Added support for POINT type in MySQL (#1536)
    - Fixed issue with RawValue('default') on composite primary key (#1534)
    - Added support for AUTO_INCREMENT columns to addColumn() (MySQL, SQLite) and modifyColumn() (MySQL) (#1695)
+   - Phalcon\Db\Dialect\Mysql::getColumnDefinition() now returns INT instead of INT(0) (#1695)
    - Added support for the following fetch modes from PDO: FETCH_LAZY, FETCH_BOUND, FETCH_COLUMN, FETCH_CLASS, FETCH_INTO, FETCH_FUNC, FETCH_NAMED, FETCH_KEY_PAIR (#1642)
    - Added support for the following fetch mode modifiers from PDO: FETCH_GROUP, FETCH_UNIQUE, FETCH_CLASSTYPE, FETCH_SERIALIZE, FETCH_PROPS_LATE (#1642)
  - Phalcon\Debug:
