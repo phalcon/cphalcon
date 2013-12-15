@@ -1986,10 +1986,7 @@ PHP_METHOD(Phalcon_Mvc_Model, appendMessage){
  */
 PHP_METHOD(Phalcon_Mvc_Model, validate){
 
-	zval *validator, *status, *messages, *message = NULL;
-	HashTable *ah0;
-	HashPosition hp0;
-	zval **hd;
+	zval *validator, *status, *messages, *errors, *new_errors;
 
 	PHALCON_MM_GROW();
 
@@ -1998,10 +1995,7 @@ PHP_METHOD(Phalcon_Mvc_Model, validate){
 	/** 
 	 * Valid validators are objects
 	 */
-	if (Z_TYPE_P(validator) != IS_OBJECT) {
-		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Validator must be an Object");
-		return;
-	}
+	PHALCON_VERIFY_INTERFACE_EX(validator, phalcon_mvc_model_validatorinterface_ce, phalcon_mvc_model_exception_ce, 1);
 	
 	/** 
 	 * Call the validation, if it returns false we append the messages to the current
@@ -2013,18 +2007,27 @@ PHP_METHOD(Phalcon_Mvc_Model, validate){
 	
 		PHALCON_INIT_VAR(messages);
 		phalcon_call_method(messages, validator, "getmessages");
-	
-		phalcon_is_iterable(messages, &ah0, &hp0, 0, 0);
-	
-		while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
-	
-			PHALCON_GET_HVALUE(message);
-	
-			phalcon_update_property_array_append(this_ptr, SL("_errorMessages"), message TSRMLS_CC);
-	
-			zend_hash_move_forward_ex(ah0, &hp0);
+
+		if (Z_TYPE_P(messages) == IS_ARRAY) {
+			PHALCON_INIT_VAR(new_errors);
+			errors = phalcon_fetch_nproperty_this(this_ptr, SL("_errorMessages"), PH_NOISY TSRMLS_CC);
+			phalcon_fast_array_merge(new_errors, &errors, &messages TSRMLS_CC);
+			phalcon_update_property_this(this_ptr, SL("_errorMessages"), new_errors TSRMLS_CC);
 		}
-	
+		else {
+			int dup;
+#if PHP_VERSION_ID >= 50400
+			const
+#endif
+			char *name = "";
+			zend_uint name_len = 0;
+
+			dup = zend_get_object_classname(validator, &name, &name_len TSRMLS_CC);
+			zend_throw_exception_ex(spl_ce_LogicException, 0 TSRMLS_CC, "Validator '%s' returned false but did not call appendMessage()", name);
+			if (!dup) {
+				efree((char*)name);
+			}
+		}
 	}
 	
 	RETURN_THIS();
@@ -2059,17 +2062,12 @@ PHP_METHOD(Phalcon_Mvc_Model, validationHasFailed){
 
 	zval *error_messages;
 
-	PHALCON_MM_GROW();
-
-	PHALCON_OBS_VAR(error_messages);
-	phalcon_read_property_this(&error_messages, this_ptr, SL("_errorMessages"), PH_NOISY_CC);
-	if (Z_TYPE_P(error_messages) == IS_ARRAY) { 
-		if (phalcon_fast_count_ev(error_messages TSRMLS_CC)) {
-			RETURN_MM_TRUE;
-		}
+	error_messages = phalcon_fetch_nproperty_this(this_ptr, SL("_errorMessages"), PH_NOISY_CC);
+	if (Z_TYPE_P(error_messages) == IS_ARRAY && zend_hash_num_elements(Z_ARRVAL_P(error_messages))) {
+		RETURN_TRUE;
 	}
 	
-	RETURN_MM_FALSE;
+	RETURN_FALSE;
 }
 
 /**
