@@ -152,16 +152,13 @@ PHP_METHOD(Phalcon_Db_Dialect_Sqlite, getColumnDefinition){
 PHP_METHOD(Phalcon_Db_Dialect_Sqlite, addColumn){
 
 	zval *table_name, *schema_name, *column, *sql = NULL, *name;
-	zval *column_definition, *is_not_null;
+	zval *column_definition, *is_not_null, *is_autoincrement;
 
 	PHALCON_MM_GROW();
 
 	phalcon_fetch_params(1, 3, 0, &table_name, &schema_name, &column);
 
-	if (Z_TYPE_P(column) != IS_OBJECT) {
-		PHALCON_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "Column parameter must be an instance of Phalcon\\Db\\Column");
-		return;
-	}
+	PHALCON_VERIFY_INTERFACE_EX(column, phalcon_db_columninterface_ce, phalcon_db_exception_ce, 1);
 
 	PHALCON_INIT_VAR(sql);
 	if (zend_is_true(schema_name)) {
@@ -184,6 +181,15 @@ PHP_METHOD(Phalcon_Db_Dialect_Sqlite, addColumn){
 		phalcon_concat_self_str(&sql, SL(" NOT NULL") TSRMLS_CC);
 	}
 
+	PHALCON_INIT_VAR(is_autoincrement);
+	phalcon_call_method(is_autoincrement, column, "isautoincrement");
+	/*
+	 * See http://www.sqlite.org/syntaxdiagrams.html#column-constraint
+	 */
+	if (zend_is_true(is_autoincrement)) {
+		phalcon_concat_self_str(&sql, SL(" PRIMARY KEY AUTOINCREMENT") TSRMLS_CC);
+	}
+
 	RETURN_CTOR(sql);
 }
 
@@ -197,12 +203,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Sqlite, addColumn){
  */
 PHP_METHOD(Phalcon_Db_Dialect_Sqlite, modifyColumn){
 
-	zval *table_name, *schema_name, *column;
-
-	phalcon_fetch_params(0, 3, 0, &table_name, &schema_name, &column);
-	
 	PHALCON_THROW_EXCEPTION_STRW(phalcon_db_exception_ce, "Altering a DB column is not supported by SQLite");
-	return;
 }
 
 /**
@@ -215,12 +216,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Sqlite, modifyColumn){
  */
 PHP_METHOD(Phalcon_Db_Dialect_Sqlite, dropColumn){
 
-	zval *table_name, *schema_name, *column_name;
-
-	phalcon_fetch_params(0, 3, 0, &table_name, &schema_name, &column_name);
-	
 	PHALCON_THROW_EXCEPTION_STRW(phalcon_db_exception_ce, "Dropping DB column is not supported by SQLite");
-	return;
 }
 
 /**
@@ -240,10 +236,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Sqlite, addIndex){
 
 	phalcon_fetch_params(1, 3, 0, &table_name, &schema_name, &index);
 	
-	if (Z_TYPE_P(index) != IS_OBJECT) {
-		PHALCON_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "Index parameter must be an instance of Phalcon\\Db\\Index");
-		return;
-	}
+	PHALCON_VERIFY_INTERFACE_EX(index, phalcon_db_indexinterface_ce, phalcon_db_exception_ce, 1);
 
 	PHALCON_INIT_VAR(name);
 	phalcon_call_method(name, index, "getname");
@@ -304,12 +297,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Sqlite, dropIndex){
  */
 PHP_METHOD(Phalcon_Db_Dialect_Sqlite, addPrimaryKey){
 
-	zval *table_name, *schema_name, *index;
-
-	phalcon_fetch_params(0, 3, 0, &table_name, &schema_name, &index);
-	
 	PHALCON_THROW_EXCEPTION_STRW(phalcon_db_exception_ce, "Adding a primary key after table has been created is not supported by SQLite");
-	return;
 }
 
 /**
@@ -321,12 +309,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Sqlite, addPrimaryKey){
  */
 PHP_METHOD(Phalcon_Db_Dialect_Sqlite, dropPrimaryKey){
 
-	zval *table_name, *schema_name;
-
-	phalcon_fetch_params(0, 2, 0, &table_name, &schema_name);
-	
 	PHALCON_THROW_EXCEPTION_STRW(phalcon_db_exception_ce, "Removing a primary key after table has been created is not supported by SQLite");
-	return;
 }
 
 /**
@@ -339,12 +322,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Sqlite, dropPrimaryKey){
  */
 PHP_METHOD(Phalcon_Db_Dialect_Sqlite, addForeignKey){
 
-	zval *table_name, *schema_name, *reference;
-
-	phalcon_fetch_params(0, 3, 0, &table_name, &schema_name, &reference);
-	
 	PHALCON_THROW_EXCEPTION_STRW(phalcon_db_exception_ce, "Adding a foreign key constraint to an existing table is not supported by SQLite");
-	return;
 }
 
 /**
@@ -357,12 +335,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Sqlite, addForeignKey){
  */
 PHP_METHOD(Phalcon_Db_Dialect_Sqlite, dropForeignKey){
 
-	zval *table_name, *schema_name, *reference_name;
-
-	phalcon_fetch_params(0, 3, 0, &table_name, &schema_name, &reference_name);
-	
 	PHALCON_THROW_EXCEPTION_STRW(phalcon_db_exception_ce, "Dropping a foreign key constraint is not supported by SQLite");
-	return;
 }
 
 /**
@@ -653,4 +626,3 @@ PHP_METHOD(Phalcon_Db_Dialect_Sqlite, tableOptions){
 
 	RETURN_EMPTY_STRING();
 }
-
