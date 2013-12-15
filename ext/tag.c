@@ -505,30 +505,39 @@ PHP_METHOD(Phalcon_Tag, resetInput){
  *	echo Phalcon\Tag::linkTo('signup/register', 'Register Here!');
  *	echo Phalcon\Tag::linkTo(array('signup/register', 'Register Here!'));
  *	echo Phalcon\Tag::linkTo(array('signup/register', 'Register Here!', 'class' => 'btn-primary'));
+ *	echo Phalcon\Tag::linkTo('http://phalconphp.com/', 'Google', FALSE);
+ *	echo Phalcon\Tag::linkTo(array('http://phalconphp.com/', 'Phalcon Home', FALSE));
+ *	echo Phalcon\Tag::linkTo(array('http://phalconphp.com/', 'Phalcon Home', 'local' =>FALSE));
  *</code>
  *
  * @param array|string $parameters
- * @param   string $text
+ * @param string $text
+ * @param boolean $local
  * @return string
  */
 PHP_METHOD(Phalcon_Tag, linkTo){
 
-	zval *parameters, *text = NULL, *params = NULL, *action, *url, *internal_url, *link_text;
+	zval *parameters, *text = NULL, *local = NULL,  *params = NULL, *action, *url, *internal_url, *link_text, *z_local;
 	zval *code;
 
 	PHALCON_MM_GROW();
 
-	phalcon_fetch_params(1, 1, 1, &parameters, &text);
+	phalcon_fetch_params(1, 1, 2, &parameters, &text, &local);
 	
 	if (!text) {
 		text = PHALCON_GLOBAL(z_null);
 	}
+
+	if (!local) {
+		local = PHALCON_GLOBAL(z_true);
+	}
 	
 	if (Z_TYPE_P(parameters) != IS_ARRAY) { 
 		PHALCON_INIT_VAR(params);
-		array_init_size(params, 2);
+		array_init_size(params, 3);
 		phalcon_array_append(&params, parameters, 0);
 		phalcon_array_append(&params, text, 0);
+		phalcon_array_append(&params, local, 0);
 	} else {
 		PHALCON_CPY_WRT_CTOR(params, parameters);
 	}
@@ -550,14 +559,25 @@ PHP_METHOD(Phalcon_Tag, linkTo){
 		PHALCON_INIT_VAR(link_text);
 		ZVAL_EMPTY_STRING(link_text);
 	}
-	
-	PHALCON_INIT_VAR(url);
-	phalcon_call_self(url, this_ptr, "geturlservice");
-	
-	PHALCON_INIT_VAR(internal_url);
-	phalcon_call_method_p1(internal_url, url, "get", action);
 
-	phalcon_array_update_string(&params, SL("href"), &internal_url, PH_COPY);
+	if (phalcon_array_isset_long_fetch(&z_local, params, 2)) {
+	} else if (phalcon_array_isset_string_fetch(&z_local, params, SS("local"))) {
+		phalcon_array_unset_string(&params, SS("local"), 0);
+	} else {
+		PHALCON_INIT_VAR(z_local);
+		ZVAL_TRUE(z_local);
+	}
+
+	if (zend_is_true(z_local)) {
+		PHALCON_INIT_VAR(url);
+		phalcon_call_self(url, this_ptr, "geturlservice");
+		
+		PHALCON_INIT_VAR(internal_url);
+		phalcon_call_method_p1(internal_url, url, "get", action);
+		phalcon_array_update_string(&params, SL("href"), &internal_url, PH_COPY);
+	} else {
+		phalcon_array_update_string(&params, SL("href"), &action, PH_COPY);
+	}
 
 	PHALCON_INIT_VAR(code);
 	ZVAL_STRING(code, "<a", 1);
