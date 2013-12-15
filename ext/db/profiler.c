@@ -124,28 +124,26 @@ PHP_METHOD(Phalcon_Db_Profiler, startProfile){
 PHP_METHOD(Phalcon_Db_Profiler, stopProfile){
 
 	zval *final_time, *active_profile, *initial_time;
-	zval *diference, *total_seconds, *new_total_seconds;
+	zval *difference, *total_seconds, *new_total_seconds;
 
 	PHALCON_MM_GROW();
 
 	PHALCON_INIT_VAR(final_time);
 	phalcon_call_func_p1(final_time, "microtime", PHALCON_GLOBAL(z_true));
 	
-	PHALCON_OBS_VAR(active_profile);
-	phalcon_read_property_this(&active_profile, this_ptr, SL("_activeProfile"), PH_NOISY_CC);
+	active_profile = phalcon_fetch_nproperty_this(this_ptr, SL("_activeProfile"), PH_NOISY_CC);
 	phalcon_call_method_p1_noret(active_profile, "setfinaltime", final_time);
 	
 	PHALCON_INIT_VAR(initial_time);
 	phalcon_call_method(initial_time, active_profile, "getinitialtime");
 	
-	PHALCON_INIT_VAR(diference);
-	sub_function(diference, final_time, initial_time TSRMLS_CC);
+	PHALCON_INIT_VAR(difference);
+	sub_function(difference, final_time, initial_time TSRMLS_CC);
 	
-	PHALCON_OBS_VAR(total_seconds);
-	phalcon_read_property_this(&total_seconds, this_ptr, SL("_totalSeconds"), PH_NOISY_CC);
+	total_seconds = phalcon_fetch_nproperty_this(this_ptr, SL("_totalSeconds"), PH_NOISY_CC);
 	
 	PHALCON_INIT_VAR(new_total_seconds);
-	phalcon_add_function(new_total_seconds, total_seconds, diference TSRMLS_CC);
+	phalcon_add_function(new_total_seconds, total_seconds, difference TSRMLS_CC);
 	phalcon_update_property_this(this_ptr, SL("_totalSeconds"), new_total_seconds TSRMLS_CC);
 	phalcon_update_property_array_append(this_ptr, SL("_allProfiles"), active_profile TSRMLS_CC);
 	if (phalcon_method_exists_ex(this_ptr, SS("afterendprofile") TSRMLS_CC) == SUCCESS) {

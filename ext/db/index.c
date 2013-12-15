@@ -114,21 +114,16 @@ PHP_METHOD(Phalcon_Db_Index, __set_state){
 
 	phalcon_fetch_params(1, 1, 0, &data);
 	
-	if (!phalcon_array_isset_string(data, SS("_indexName"))) {
+	if (!phalcon_array_isset_string_fetch(&index_name, data, SS("_indexName"))) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "_indexName parameter is required");
 		return;
 	}
-	if (!phalcon_array_isset_string(data, SS("_columns"))) {
+
+	if (!phalcon_array_isset_string_fetch(&columns, data, SS("_columns"))) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "_columns parameter is required");
 		return;
 	}
-	
-	PHALCON_OBS_VAR(index_name);
-	phalcon_array_fetch_string(&index_name, data, SL("_indexName"), PH_NOISY);
-	
-	PHALCON_OBS_VAR(columns);
-	phalcon_array_fetch_string(&columns, data, SL("_columns"), PH_NOISY);
-	
+
 	/** 
 	 * Return a Phalcon\Db\Index as part of the returning state
 	 */
@@ -137,4 +132,3 @@ PHP_METHOD(Phalcon_Db_Index, __set_state){
 	
 	RETURN_MM();
 }
-
