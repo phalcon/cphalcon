@@ -83,6 +83,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, getColumnDefinition){
 	
 	PHALCON_INIT_VAR(size);
 	phalcon_call_method(size, column, "getsize");
+	convert_to_long(size);
 	
 	PHALCON_INIT_VAR(column_type);
 	phalcon_call_method(column_type, column, "gettype");
@@ -91,7 +92,12 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, getColumnDefinition){
 	
 		case 0:
 			PHALCON_INIT_VAR(column_sql);
-			PHALCON_CONCAT_SVS(column_sql, "INT(", size, ")");
+			if (Z_LVAL_P(size) > 0) {
+				PHALCON_CONCAT_SVS(column_sql, "INT(", size, ")");
+			}
+			else {
+				ZVAL_STRING(column_sql, "INT", 1);
+			}
 	
 			PHALCON_INIT_VAR(is_unsigned);
 			phalcon_call_method(is_unsigned, column, "isunsigned");
