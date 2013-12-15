@@ -63,7 +63,7 @@ class Numericality extends Phalcon\Mvc\Model\Validator implements Phalcon\Mvc\Mo
  
 		let value = record->readAttribute(field);
 
-                if this->isSetOption("notRequired") && (typeof value == "null" || value === '') {
+                if this->isSetOption("allowEmpty") && (typeof value == "null" || empty value) {
                     return true;
                 }
  
@@ -78,10 +78,10 @@ class Numericality extends Phalcon\Mvc\Model\Validator implements Phalcon\Mvc\Mo
 			let message = this->getOption("message");
                         let replacePairs = [":field": field];
 			if empty message {
-				let message = strrt("Value of field :field must be numeric", replacePairs);
+				let message = "Value of field :field must be numeric";
 			}
  
-			this->appendMessage(strrt(message, replacePairs), field, "Numericality");
+			this->appendMessage(strtr(message, replacePairs), field, "Numericality");
 			return false;
 		}
  

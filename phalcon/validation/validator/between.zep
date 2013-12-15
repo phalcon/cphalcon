@@ -39,19 +39,19 @@ class Between extends Phalcon\Validation\Validator implements Phalcon\Validation
 	/**
 	 * Executes the validation
 	 *
-	 * @param Phalcon\Validation validator
+	 * @param Phalcon\Validation validation
 	 * @param string field
 	 * @return boolean
 	 */
-	public function validate(<Phalcon\Validation> validator, string! field) -> boolean
+	public function validate(<Phalcon\Validation> validation, string! field) -> boolean
 	{
 		var value, minimum, maximum, message, replacePairs;
 
-		let value = validator->getValue(field),
+		let value = validation->getValue(field),
                 minimum = this->getOption("minimum"),
                 maximum = this->getOption("maximum");
 
-                if this->isSetOption("notRequired") && (typeof value == "null" || value === '') {
+                if this->isSetOption("allowEmpty") && (typeof value == "null" || empty value) {
                     return true;
                 }
 
@@ -60,10 +60,10 @@ class Between extends Phalcon\Validation\Validator implements Phalcon\Validation
 			let message = this->getOption("message");
                         let replacePairs = [":field": field];
 			if empty message {
-                                let message = strrt(":field is not between a valid range", replacePairs);
+                                let message = ":field is not between a valid range";
 			}
 
-			validator->appendMessage(new Phalcon\Validation\Message(strrt(message, replacePairs), field, "Between"));
+			validation->appendMessage(new Phalcon\Validation\Message(strtr(message, replacePairs), field, "Between"));
 			return false;
 		}
 

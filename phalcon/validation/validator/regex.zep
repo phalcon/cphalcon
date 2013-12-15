@@ -39,11 +39,11 @@ class Regex extends Phalcon\Validation\Validator implements Phalcon\Validation\V
 	/**
 	 * Executes the validation
 	 *
-	 * @param  Phalcon\Validation validator
+	 * @param  Phalcon\Validation validation
 	 * @param  string field
 	 * @return boolean
 	 */
-	public function validate(<Phalcon\Validation> validator, field) -> boolean
+	public function validate(<Phalcon\Validation> validation, field) -> boolean
 	{
 		var matches, failed, message, value, replacePairs;
 
@@ -52,9 +52,9 @@ class Regex extends Phalcon\Validation\Validator implements Phalcon\Validation\V
 		 * Check if the value match using preg_match in the PHP userland
 		 */
 		let matches = null;
-		let value = validator->getValue(field);
+		let value = validation->getValue(field);
 
-                if this->isSetOption("notRequired") && (typeof value == "null" || value === '') {
+                if this->isSetOption("allowEmpty") && (typeof value == "null" || empty value) {
                     return true;
                 }
 
@@ -72,10 +72,10 @@ class Regex extends Phalcon\Validation\Validator implements Phalcon\Validation\V
 			let message = this->getOption("message");
                         let replacePairs = [":field": field];
 			if empty message {
-                                let message = strrt("Value of field :field doesn't match regular expression", replacePairs);
+                                let message = "Value of field :field doesn't match regular expression";
 			}
 
-			validator->appendMessage(new Phalcon\Validation\Message(strrt(message, replacePairs), field, "Regex"));
+			validation->appendMessage(new Phalcon\Validation\Message(strtr(message, replacePairs), field, "Regex"));
 			return false;
 		}
 

@@ -38,17 +38,17 @@ class Email extends Phalcon\Validation\Validator implements Phalcon\Validation\V
 	/**
 	 * Executes the validation
 	 *
-	 * @param  Phalcon\Validation validator
+	 * @param  Phalcon\Validation validation
 	 * @param  string             field
 	 * @return boolean
 	 */
-	public function validate(<Phalcon\Validatio> validator, string! field) -> boolean
+	public function validate(<Phalcon\Validation> validation, string! field) -> boolean
 	{
 		var value, message, replacePairs;
 
-		let value = validator->getValue(field);
+		let value = validation->getValue(field);
 
-                if this->isSetOption("notRequired") && (typeof value == "null" || value === '') {
+                if this->isSetOption("allowEmpty") && (typeof value == "null" || empty value) {
                     return true;
                 }
 
@@ -57,10 +57,10 @@ class Email extends Phalcon\Validation\Validator implements Phalcon\Validation\V
 			let message = this->getOption("message");
                         let replacePairs = [":field": field];
 			if empty message {
-                                let message = strrt("Value of field :field must have a valid e-mail format", replacePairs);
+                                let message = "Value of field :field must have a valid e-mail format";
 			}
 
-			validator->appendMessage(new Phalcon\Validation\Message(strrt(message, replacePairs), field, "Email"));
+			validation->appendMessage(new Phalcon\Validation\Message(strtr(message, replacePairs), field, "Email"));
 			return false;
 		}
 

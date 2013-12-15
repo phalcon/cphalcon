@@ -42,11 +42,11 @@ class StringLength extends Phalcon\Validation\Validator implements Phalcon\Valid
 	/**
 	 * Executes the validation
 	 *
-	 * @param Phalcon\Validation validator
+	 * @param Phalcon\Validation validation
 	 * @param string field
 	 * @return boolean
 	 */
-	public function validate(<Phalcon\Validation> validator, string! field) -> boolean
+	public function validate(<Phalcon\Validation> validation, string! field) -> boolean
 	{
 		var isSetMin, isSetMax, value, length, message, minimum, maximum, replacePairs;
 
@@ -60,9 +60,9 @@ class StringLength extends Phalcon\Validation\Validator implements Phalcon\Valid
 			throw new Phalcon\Mvc\Model\Exception("A minimum or maximum must be set");
 		}
 
-		let value = validator->getValue(field);
+		let value = validation->getValue(field);
 
-                if this->isSetOption("notRequired") && (typeof value == "null" || value === '') {
+                if this->isSetOption("allowEmpty") && (typeof value == "null" || empty value) {
                     return true;
                 }
 
@@ -89,10 +89,10 @@ class StringLength extends Phalcon\Validation\Validator implements Phalcon\Valid
 				let message = this->getOption("messageMaximum");
                                 let replacePairs = [":field": field, ":max":  maximum];
 				if empty message {
-		 			let message = strrt("Value of field :field exceeds the maximum :max characters", replacePairs);
+		 			let message = "Value of field :field exceeds the maximum :max characters";
 		 		}
 
-		 		validator->appendMessage(new Phalcon\Validation\Message(strrt(message, replacePairs), field, "TooLong"));
+		 		validation->appendMessage(new Phalcon\Validation\Message(strtr(message, replacePairs), field, "TooLong"));
 				return false;
 			}
 		}
@@ -111,10 +111,10 @@ class StringLength extends Phalcon\Validation\Validator implements Phalcon\Valid
 				let message = this->getOption("messageMinimum");
                                 let replacePairs = [":field": field, ":min":  minimum];
 				if empty message {
-                                        let message = strrt("Value of field :field is less than the minimum :min characters", replacePairs);
+                                        let message = "Value of field :field is less than the minimum :min characters";
 		 		}
 
-		 		validator->appendMessage(new Phalcon\Validation\Message(strrt(message, replacePairs), field, "TooShort"));
+		 		validation->appendMessage(new Phalcon\Validation\Message(strtr(message, replacePairs), field, "TooShort"));
 				return false;
 			}
 		}

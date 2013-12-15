@@ -39,17 +39,17 @@ class InclusionIn extends Phalcon\Validation\Validator implements Phalcon\Valida
 	/**
 	 * Executes the validation
 	 *
-	 * @param Phalcon\Validation validator
+	 * @param Phalcon\Validation validation
 	 * @param string field
 	 * @return boolean
 	 */
-	public function validate(<Phalcon\Validation> validator, field) -> boolean
+	public function validate(<Phalcon\Validation> validation, field) -> boolean
 	{
 		var value, domain, message, replacePairs;
 
-		let value = validator->getValue(field);
+		let value = validation->getValue(field);
 
-                if this->isSetOption("notRequired") && (typeof value == "null" || value === '') {
+                if this->isSetOption("allowEmpty") && (typeof value == "null" || empty value) {
                     return true;
                 }
 
@@ -69,10 +69,10 @@ class InclusionIn extends Phalcon\Validation\Validator implements Phalcon\Valida
 			let message = this->getOption("message");
                         let replacePairs = [":field": field, ":domain":  join(", ", domain)];
 			if empty message {
-				let message = strrt("Value of field :field must be part of list: :domain", replacePairs);
+				let message = "Value of field :field must be part of list: :domain";
 			}
 
-			validator->appendMessage(new Phalcon\Validation\Message(strrt(message, replacePairs), field, "InclusionIn"));
+			validation->appendMessage(new Phalcon\Validation\Message(strtr(message, replacePairs), field, "InclusionIn"));
 			return false;
 		}
 
