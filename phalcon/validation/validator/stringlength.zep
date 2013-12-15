@@ -88,7 +88,7 @@ class StringLength extends Phalcon\Validation\Validator implements Phalcon\Valid
 				 */
 				let message = this->getOption("messageMaximum");
                                 let replacePairs = [":field": field, ":max":  maximum];
-				if !message {
+				if empty message {
 		 			let message = "Value of field :field exceeds the maximum :max characters";
 		 		}
 
@@ -110,7 +110,7 @@ class StringLength extends Phalcon\Validation\Validator implements Phalcon\Valid
 				 */
 				let message = this->getOption("messageMinimum");
                                 let replacePairs = [":field": field, ":min":  minimum];
-				if !message {
+				if empty message {
                                         let message = "Value of field :field is less than the minimum :min characters";
 		 		}
 
