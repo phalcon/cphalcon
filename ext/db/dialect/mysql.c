@@ -185,21 +185,20 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, getColumnDefinition){
  * @param string $schemaName
  * @param Phalcon\Db\ColumnInterface $column
  * @return string
+ * @see http://dev.mysql.com/doc/refman/5.5/en/example-auto-increment.html
  */
 PHP_METHOD(Phalcon_Db_Dialect_Mysql, addColumn){
 
 	zval *table_name, *schema_name, *column, *sql = NULL, *name;
-	zval *column_definition, *is_not_null, *is_first;
+	zval *column_definition, *is_not_null, *is_autoincrement, *is_first;
 	zval *after_position;
 
 	PHALCON_MM_GROW();
 
 	phalcon_fetch_params(1, 3, 0, &table_name, &schema_name, &column);
 	
-	if (Z_TYPE_P(column) != IS_OBJECT) {
-		PHALCON_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "Column parameter must be an instance of Phalcon\\Db\\Column");
-		return;
-	}
+	PHALCON_VERIFY_INTERFACE_EX(column, phalcon_db_columninterface_ce, phalcon_db_exception_ce, 1);
+
 	if (zend_is_true(schema_name)) {
 		PHALCON_INIT_VAR(sql);
 		PHALCON_CONCAT_SVSVS(sql, "ALTER TABLE `", schema_name, "`.`", table_name, "` ADD ");
@@ -221,6 +220,16 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, addColumn){
 		phalcon_concat_self_str(&sql, SL(" NOT NULL") TSRMLS_CC);
 	}
 	
+	PHALCON_INIT_VAR(is_autoincrement);
+	phalcon_call_method(is_autoincrement, column, "isautoincrement");
+	/*
+	 * In MySQL the AUTO_INCREMENT column has to be a part of the PRIMARY KEY
+	 * This is why we explicitly create PRIMARY KEY here, otherwise ALTER TABLE will fail.
+	 */
+	if (zend_is_true(is_autoincrement)) {
+		phalcon_concat_self_str(&sql, SL(" PRIMARY KEY AUTO_INCREMENT") TSRMLS_CC);
+	}
+
 	PHALCON_INIT_VAR(is_first);
 	phalcon_call_method(is_first, column, "isfirst");
 	if (zend_is_true(is_first)) {
@@ -247,16 +256,14 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, addColumn){
 PHP_METHOD(Phalcon_Db_Dialect_Mysql, modifyColumn){
 
 	zval *table_name, *schema_name, *column, *sql = NULL, *name;
-	zval *column_definition, *is_not_null;
+	zval *column_definition, *is_not_null, *is_autoincrement;
 
 	PHALCON_MM_GROW();
 
 	phalcon_fetch_params(1, 3, 0, &table_name, &schema_name, &column);
 	
-	if (Z_TYPE_P(column) != IS_OBJECT) {
-		PHALCON_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "Column parameter must be an instance of Phalcon\\Db\\Column");
-		return;
-	}
+	PHALCON_VERIFY_INTERFACE_EX(column, phalcon_db_columninterface_ce, phalcon_db_exception_ce, 1);
+
 	if (zend_is_true(schema_name)) {
 		PHALCON_INIT_VAR(sql);
 		PHALCON_CONCAT_SVSVS(sql, "ALTER TABLE `", schema_name, "`.`", table_name, "` MODIFY ");
@@ -278,6 +285,12 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, modifyColumn){
 		phalcon_concat_self_str(&sql, SL(" NOT NULL") TSRMLS_CC);
 	}
 	
+	PHALCON_INIT_VAR(is_autoincrement);
+	phalcon_call_method(is_autoincrement, column, "isautoincrement");
+	if (zend_is_true(is_autoincrement)) {
+		phalcon_concat_self_str(&sql, SL(" AUTO_INCREMENT") TSRMLS_CC);
+	}
+
 	RETURN_CTOR(sql);
 }
 
@@ -327,10 +340,8 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, addIndex){
 
 	phalcon_fetch_params(1, 3, 0, &table_name, &schema_name, &index);
 	
-	if (Z_TYPE_P(index) != IS_OBJECT) {
-		PHALCON_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "Index parameter must be an instance of Phalcon\\Db\\Index");
-		return;
-	}
+	PHALCON_VERIFY_INTERFACE_EX(index, phalcon_db_indexinterface_ce, phalcon_db_exception_ce, 1);
+
 	if (zend_is_true(schema_name)) {
 		PHALCON_INIT_VAR(sql);
 		PHALCON_CONCAT_SVSVS(sql, "ALTER TABLE `", schema_name, "`.`", table_name, "` ADD INDEX ");
@@ -398,10 +409,8 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, addPrimaryKey){
 
 	phalcon_fetch_params(1, 3, 0, &table_name, &schema_name, &index);
 	
-	if (Z_TYPE_P(index) != IS_OBJECT) {
-		PHALCON_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "Index parameter must be an instance of Phalcon\\Db\\Index");
-		return;
-	}
+	PHALCON_VERIFY_INTERFACE_EX(index, phalcon_db_indexinterface_ce, phalcon_db_exception_ce, 1);
+
 	if (zend_is_true(schema_name)) {
 		PHALCON_INIT_VAR(sql);
 		PHALCON_CONCAT_SVSVS(sql, "ALTER TABLE `", schema_name, "`.`", table_name, "` ADD PRIMARY KEY ");
@@ -465,10 +474,8 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, addForeignKey){
 
 	phalcon_fetch_params(1, 3, 0, &table_name, &schema_name, &reference);
 	
-	if (Z_TYPE_P(reference) != IS_OBJECT) {
-		PHALCON_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "Reference parameter must be an instance of Phalcon\\Db\\Reference");
-		return;
-	}
+	PHALCON_VERIFY_INTERFACE_EX(reference, phalcon_db_referenceinterface_ce, phalcon_db_exception_ce, 1);
+
 	if (zend_is_true(schema_name)) {
 		PHALCON_INIT_VAR(sql);
 		PHALCON_CONCAT_SVSVS(sql, "ALTER TABLE `", schema_name, "`.`", table_name, "` ADD FOREIGN KEY ");
