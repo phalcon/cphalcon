@@ -283,7 +283,7 @@ PHP_METHOD(Phalcon_Tag, getEscaperService){
 
 		PHALCON_VERIFY_INTERFACE(dependency_injector, phalcon_diinterface_ce);
 	
-		PHALCON_INIT_VAR(service);
+		PHALCON_ALLOC_GHOST_ZVAL(service);
 		PHALCON_ZVAL_MAYBE_INTERNED_STRING(service, phalcon_interned_escaper);
 	
 		PHALCON_INIT_VAR(escaper);
@@ -622,8 +622,9 @@ PHP_METHOD(Phalcon_Tag, _inputField){
 		PHALCON_CPY_WRT_CTOR(params, parameters);
 	}
 	
-	PHALCON_INIT_VAR(value);
 	if (PHALCON_IS_FALSE(as_value)) {
+		PHALCON_INIT_VAR(value);
+
 		if (!phalcon_array_isset_long_fetch(&id, params, 0)) {
 			PHALCON_OBS_VAR(id);
 			phalcon_array_fetch_string(&id, params, SL("id"), PH_NOISY);
@@ -638,8 +639,8 @@ PHP_METHOD(Phalcon_Tag, _inputField){
 		else {
 			phalcon_array_update_string(&params, ISL(name), &id, PH_COPY);
 		}
-	
-		/** 
+
+		/**
 		 * Automatically assign the id if the name is not an array
 		 */
 		if (!phalcon_memnstr_str(id, SL("["))) {
@@ -651,12 +652,11 @@ PHP_METHOD(Phalcon_Tag, _inputField){
 		phalcon_call_self_p2(value, this_ptr, "getvalue", id, params);
 		phalcon_array_update_string(&params, ISL(value), &value, PH_COPY);
 	} else {
-		/** 
+		/**
 		 * Use the 'id' as value if the user hadn't set it
 		 */
 		if (!phalcon_array_isset_string(params, SS("value"))) {
 			if (phalcon_array_isset_long_fetch(&value, params, 0)) {
-				Z_ADDREF_P(value); /* because of PHALCON_INIT_VAR() */
 				phalcon_array_update_string(&params, ISL(value), &value, PH_COPY);
 			}
 		}
@@ -800,9 +800,8 @@ static void phalcon_tag_generic_field(INTERNAL_FUNCTION_PARAMETERS, const char* 
 
 	phalcon_fetch_params(0, 1, 0, &parameters);
 
-	MAKE_STD_ZVAL(field_type);
+	PHALCON_ALLOC_GHOST_ZVAL(field_type);
 	ZVAL_STRING(field_type, type, 1);
-	Z_DELREF_P(field_type);
 
 	if (as_value) {
 		phalcon_call_self_func_params(return_value, return_value_ptr, this_ptr, SL("_inputfield") TSRMLS_CC, 3, field_type, parameters, PHALCON_GLOBAL(z_true));
