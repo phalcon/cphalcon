@@ -267,9 +267,9 @@ class Group implements Countable, ArrayAccess, Iterator
 	 * Magic __set_state helps to re-build messages variable when exporting
 	 *
 	 * @param array group
-	 * @return Phalcon\Mvc\Model\Message\Group
+	 * @return Phalcon\Validation\Message\Group
 	 */
-	public static function __set_state(group) -> <Phalcon\Mvc\Model\Message\Group>
+	public static function __set_state(group) -> <Phalcon\Validation\Message\Group>
 	{
 		return new self(group["_messages"]);
 	}
