@@ -318,18 +318,22 @@ class Tag
 	 *	echo Phalcon\Tag::linkTo('signup/register', 'Register Here!');
 	 *	echo Phalcon\Tag::linkTo(array('signup/register', 'Register Here!'));
 	 *	echo Phalcon\Tag::linkTo(array('signup/register', 'Register Here!', 'class' => 'btn-primary'));
+	 *	echo Phalcon\Tag::linkTo('http://phalconphp.com/', 'Phalcon', FALSE);
+	 *	echo Phalcon\Tag::linkTo(array('http://phalconphp.com/', 'Phalcon Home', FALSE));
+	 *	echo Phalcon\Tag::linkTo(array('http://phalconphp.com/', 'Phalcon Home', 'local' =>FALSE));
 	 *</code>
 	 *
-	 * @param	array|string parameters
-	 * @param   string text
-	 * @return	string
+	 * @param array|string parameters
+	 * @param string text
+	 * @param boolean local
+	 * @return string
 	 */
-	public static function linkTo(parameters, text=null)
+	public static function linkTo(parameters, text=null, local=true)
 	{
 		var key, value, params, action, url, code;
 
 		if typeof parameters != "array" {
-			let params = [parameters, text];
+			let params = [parameters, text, local];
 		} else {
 			let params = parameters;
 		}
@@ -350,8 +354,21 @@ class Tag
 			}
 		}
 
-		let url = self::getUrlService(),
-			code = "<a href=\"" . url->get(action) . "\"";
+		if !fetch local, params[2] {
+			if !fetch local, params["local"] {
+				let local = true;
+			} else {
+				unset params["local"];
+			}
+		}
+
+		if local {
+			let url = self::getUrlService(),
+				code = "<a href=\"" . url->get(action) . "\"";
+		} else {
+			let code = "<a href=\"" . action . "\"";
+		}
+		
 		for key, value in params {
 			if typeof key != "integer" {
 				let code .= " " . key . "=\"" . value . "\"";
