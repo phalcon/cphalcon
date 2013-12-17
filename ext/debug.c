@@ -1168,8 +1168,10 @@ PHP_METHOD(Phalcon_Debug, onUncaughtException){
 	
 			PHALCON_GET_HKEY(key_server, ah2, hp2);
 			PHALCON_GET_HVALUE(value);
-	
-			PHALCON_SCONCAT_SVSVS(html, "<tr><td class=\"key\">", key_server, "</td><td>", value, "</td></tr>");
+
+			PHALCON_INIT_NVAR(dumped_argument);
+			phalcon_call_method_p1(dumped_argument, this_ptr, "_getvardump", value);
+			PHALCON_SCONCAT_SVSVS(html, "<tr><td class=\"key\">", key_server, "</td><td>", dumped_argument, "</td></tr>");			
 	
 			zend_hash_move_forward_ex(ah2, &hp2);
 		}
