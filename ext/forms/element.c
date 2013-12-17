@@ -39,6 +39,8 @@
 #include "kernel/operators.h"
 #include "kernel/concat.h"
 #include "kernel/file.h"
+#include "kernel/hash.h"
+#include "kernel/string.h"
 
 /**
  * Phalcon\Forms\Element
@@ -188,8 +190,11 @@ PHP_METHOD(Phalcon_Forms_Element, addFilter){
 	} else {
 		PHALCON_INIT_VAR(new_filters);
 		array_init_size(new_filters, 2);
-		phalcon_array_append(&new_filters, filters, PH_SEPARATE);
-		phalcon_array_append(&new_filters, filter, PH_SEPARATE);
+		if (Z_TYPE_P(filters) == IS_STRING) {
+			phalcon_array_append(&new_filters, filters, 0);
+		}
+
+		phalcon_array_append(&new_filters, filter, 0);
 		phalcon_update_property_this(this_ptr, SL("_filters"), new_filters TSRMLS_CC);
 	}
 	
@@ -576,7 +581,7 @@ PHP_METHOD(Phalcon_Forms_Element, getLabel){
  */
 PHP_METHOD(Phalcon_Forms_Element, label){
 
-	zval *label, *attributes, *name = NULL, *html = NULL;
+	zval *label, *attributes, *name = NULL, *html = NULL, *escaped;
 
 	PHALCON_MM_GROW();
 
@@ -589,7 +594,7 @@ PHP_METHOD(Phalcon_Forms_Element, label){
 	/** 
 	 * Check if there is an 'id' attribute defined
 	 */
-	if (phalcon_array_isset_string(attributes, SS("id"))) {
+	if (attributes && phalcon_array_isset_string(attributes, SS("id"))) {
 		PHALCON_OBS_VAR(name);
 		phalcon_array_fetch_string(&name, attributes, SL("id"), PH_NOISY);
 	} else {
@@ -600,12 +605,14 @@ PHP_METHOD(Phalcon_Forms_Element, label){
 	/** 
 	 * Use the default label or leave the same name as label
 	 */
+	PHALCON_INIT_VAR(escaped);
+	phalcon_htmlspecialchars(escaped, name, NULL, NULL TSRMLS_CC);
 	if (zend_is_true(label)) {
 		PHALCON_INIT_VAR(html);
-		PHALCON_CONCAT_SVSVS(html, "<label for=\"", name, "\">", label, "</label>");
+		PHALCON_CONCAT_SVSVS(html, "<label for=\"", escaped, "\">", label, "</label>");
 	} else {
 		PHALCON_INIT_NVAR(html);
-		PHALCON_CONCAT_SVSVS(html, "<label for=\"", name, "\">", name, "</label>");
+		PHALCON_CONCAT_SVSVS(html, "<label for=\"", escaped, "\">", name, "</label>");
 	}
 	
 	RETURN_CTOR(html);
@@ -817,10 +824,26 @@ PHP_METHOD(Phalcon_Forms_Element, clear){
  */
 PHP_METHOD(Phalcon_Forms_Element, __toString){
 
-
 	PHALCON_MM_GROW();
 
-	phalcon_call_method(return_value, this_ptr, "render");
+	if (phalcon_call_method_params(return_value, this_ptr, SL("render"), 0, NULL, zend_inline_hash_func(SS("render")), 1 TSRMLS_CC) == FAILURE) {
+		if (EG(exception)) {
+			zval *e = EG(exception);
+			zval *m = zend_read_property(Z_OBJCE_P(e), e, SL("message"), 1 TSRMLS_CC);
+
+			Z_ADDREF_P(m);
+			if (Z_TYPE_P(m) != IS_STRING) {
+				convert_to_string_ex(&m);
+			}
+
+			zend_clear_exception(TSRMLS_C);
+			zend_error(E_ERROR, "%s", Z_STRVAL_P(m));
+			zval_ptr_dtor(&m);
+		}
+
+		return;
+	}
+
 	RETURN_MM();
 }
 

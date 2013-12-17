@@ -131,9 +131,11 @@ PHP_METHOD(Phalcon_Mvc_Collection, __construct){
 		PHALCON_INIT_NVAR(models_manager);
 		phalcon_call_method_p1(models_manager, dependency_injector, "getshared", service_name);
 		if (Z_TYPE_P(models_manager) != IS_OBJECT) {
-			PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "The injected service 'modelsManager' is not valid");
+			PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "The injected service 'collectionManager' is not valid");
 			return;
 		}
+
+		//PHALCON_VERIFY_INTERFACE(models_manager, phalcon_mvc_model_managerinterface_ce);
 	}
 	
 	/** 
@@ -810,7 +812,8 @@ PHP_METHOD(Phalcon_Mvc_Collection, _preSave){
 	 */
 	if (!zend_is_true(disable_events)) {
 	
-		PHALCON_INIT_VAR(event_name);
+		MAKE_STD_ZVAL(event_name);
+		Z_SET_REFCOUNT_P(event_name, 0); /* will be automatically destroyed by Zend on return from method call */
 		ZVAL_STRING(event_name, "beforeValidation", 1);
 	
 		PHALCON_INIT_VAR(status);
@@ -819,11 +822,11 @@ PHP_METHOD(Phalcon_Mvc_Collection, _preSave){
 			RETURN_MM_FALSE;
 		}
 	
+		MAKE_STD_ZVAL(event_name);
+		Z_SET_REFCOUNT_P(event_name, 0); /* will be automatically destroyed by Zend on return from method call */
 		if (!zend_is_true(exists)) {
-			PHALCON_INIT_NVAR(event_name);
 			ZVAL_STRING(event_name, "beforeValidationOnCreate", 1);
 		} else {
-			PHALCON_INIT_NVAR(event_name);
 			ZVAL_STRING(event_name, "beforeValidationOnUpdate", 1);
 		}
 	
@@ -837,14 +840,16 @@ PHP_METHOD(Phalcon_Mvc_Collection, _preSave){
 	/** 
 	 * Run validation
 	 */
-	PHALCON_INIT_NVAR(event_name);
+	MAKE_STD_ZVAL(event_name);
+	Z_SET_REFCOUNT_P(event_name, 0); /* will be automatically destroyed by Zend on return from method call */
 	ZVAL_STRING(event_name, "validation", 1);
 	
 	PHALCON_INIT_NVAR(status);
 	phalcon_call_method_p1(status, this_ptr, "fireeventcancel", event_name);
 	if (PHALCON_IS_FALSE(status)) {
 		if (!zend_is_true(disable_events)) {
-			PHALCON_INIT_NVAR(event_name);
+			MAKE_STD_ZVAL(event_name);
+			Z_SET_REFCOUNT_P(event_name, 0); /* will be automatically destroyed by Zend on return from method call */
 			ZVAL_STRING(event_name, "onValidationFails", 1);
 			phalcon_call_method_p1_noret(this_ptr, "fireevent", event_name);
 		}
@@ -856,11 +861,11 @@ PHP_METHOD(Phalcon_Mvc_Collection, _preSave){
 		/** 
 		 * Run Validation Callbacks After
 		 */
+		MAKE_STD_ZVAL(event_name);
+		Z_SET_REFCOUNT_P(event_name, 0); /* will be automatically destroyed by Zend on return from method call */
 		if (!zend_is_true(exists)) {
-			PHALCON_INIT_NVAR(event_name);
 			ZVAL_STRING(event_name, "afterValidationOnCreate", 1);
 		} else {
-			PHALCON_INIT_NVAR(event_name);
 			ZVAL_STRING(event_name, "afterValidationOnUpdate", 1);
 		}
 	
@@ -870,7 +875,8 @@ PHP_METHOD(Phalcon_Mvc_Collection, _preSave){
 			RETURN_MM_FALSE;
 		}
 	
-		PHALCON_INIT_NVAR(event_name);
+		MAKE_STD_ZVAL(event_name);
+		Z_SET_REFCOUNT_P(event_name, 0); /* will be automatically destroyed by Zend on return from method call */
 		ZVAL_STRING(event_name, "afterValidation", 1);
 	
 		PHALCON_INIT_NVAR(status);
@@ -882,7 +888,8 @@ PHP_METHOD(Phalcon_Mvc_Collection, _preSave){
 		/** 
 		 * Run Before Callbacks
 		 */
-		PHALCON_INIT_NVAR(event_name);
+		MAKE_STD_ZVAL(event_name);
+		Z_SET_REFCOUNT_P(event_name, 0); /* will be automatically destroyed by Zend on return from method call */
 		ZVAL_STRING(event_name, "beforeSave", 1);
 	
 		PHALCON_INIT_NVAR(status);
@@ -891,11 +898,11 @@ PHP_METHOD(Phalcon_Mvc_Collection, _preSave){
 			RETURN_MM_FALSE;
 		}
 	
+		MAKE_STD_ZVAL(event_name);
+		Z_SET_REFCOUNT_P(event_name, 0); /* will be automatically destroyed by Zend on return from method call */
 		if (zend_is_true(exists)) {
-			PHALCON_INIT_NVAR(event_name);
 			ZVAL_STRING(event_name, "beforeUpdate", 1);
 		} else {
-			PHALCON_INIT_NVAR(event_name);
 			ZVAL_STRING(event_name, "beforeCreate", 1);
 		}
 	
@@ -927,16 +934,17 @@ PHP_METHOD(Phalcon_Mvc_Collection, _postSave){
 	
 	if (PHALCON_IS_TRUE(success)) {
 		if (!zend_is_true(disable_events)) {
+			MAKE_STD_ZVAL(event_name);
+			Z_SET_REFCOUNT_P(event_name, 0); /* will be automatically destroyed by Zend on return from method call */
 			if (PHALCON_IS_TRUE(exists)) {
-				PHALCON_INIT_VAR(event_name);
 				ZVAL_STRING(event_name, "afterUpdate", 1);
 			} else {
-				PHALCON_INIT_NVAR(event_name);
 				ZVAL_STRING(event_name, "afterCreate", 1);
 			}
 			phalcon_call_method_p1_noret(this_ptr, "fireevent", event_name);
 	
-			PHALCON_INIT_NVAR(event_name);
+			MAKE_STD_ZVAL(event_name);
+			Z_SET_REFCOUNT_P(event_name, 0); /* will be automatically destroyed by Zend on return from method call */
 			ZVAL_STRING(event_name, "afterSave", 1);
 			phalcon_call_method_p1_noret(this_ptr, "fireevent", event_name);
 		}
@@ -944,7 +952,8 @@ PHP_METHOD(Phalcon_Mvc_Collection, _postSave){
 		RETURN_CCTOR(success);
 	}
 	if (!zend_is_true(disable_events)) {
-		PHALCON_INIT_NVAR(event_name);
+		MAKE_STD_ZVAL(event_name);
+		Z_SET_REFCOUNT_P(event_name, 0); /* will be automatically destroyed by Zend on return from method call */
 		ZVAL_STRING(event_name, "notSave", 1);
 		phalcon_call_method_p1_noret(this_ptr, "fireevent", event_name);
 	}
@@ -980,7 +989,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, _postSave){
  */
 PHP_METHOD(Phalcon_Mvc_Collection, validate){
 
-	zval *validator, *status, *messages, *message = NULL;
+	zval *validator, *status, *messages;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -1005,10 +1014,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, validate){
 	
 		while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
-			PHALCON_GET_HVALUE(message);
-	
-			phalcon_update_property_array_append(this_ptr, SL("_errorMessages"), message TSRMLS_CC);
-	
+			phalcon_update_property_array_append(this_ptr, SL("_errorMessages"), *hd TSRMLS_CC);
 			zend_hash_move_forward_ex(ah0, &hp0);
 		}
 	
@@ -1147,11 +1153,11 @@ PHP_METHOD(Phalcon_Mvc_Collection, _cancelOperation){
 	
 		PHALCON_OBS_VAR(operation_made);
 		phalcon_read_property_this(&operation_made, this_ptr, SL("_operationMade"), PH_NOISY_CC);
+		MAKE_STD_ZVAL(event_name);
+		Z_SET_REFCOUNT_P(event_name, 0); /* will be automatically destroyed by Zend on return from method call */
 		if (PHALCON_IS_LONG(operation_made, 3)) {
-			PHALCON_INIT_VAR(event_name);
 			ZVAL_STRING(event_name, "notDeleted", 1);
 		} else {
-			PHALCON_INIT_NVAR(event_name);
 			ZVAL_STRING(event_name, "notSaved", 1);
 		}
 	
@@ -1206,7 +1212,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, _exists){
 	
 		PHALCON_INIT_VAR(parameters);
 		array_init_size(parameters, 1);
-		phalcon_array_update_string(&parameters, SL("_id"), &mongo_id, PH_COPY | PH_SEPARATE);
+		phalcon_array_update_string(&parameters, SL("_id"), &mongo_id, PH_COPY);
 	
 		/** 
 		 * Perform the count using the function provided by the driver
@@ -1301,7 +1307,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, save){
 
 	zval *dependency_injector, *source, *connection;
 	zval *collection, *exists, *empty_array, *disable_events;
-	zval *status = NULL, *data, *reserved, *properties, *value = NULL;
+	zval *status = NULL, *data, *reserved, *properties;
 	zval *key = NULL, *success = NULL, *options, *ok, *id;
 	HashTable *ah0;
 	HashPosition hp0;
@@ -1363,9 +1369,6 @@ PHP_METHOD(Phalcon_Mvc_Collection, save){
 		RETURN_MM_FALSE;
 	}
 	
-	PHALCON_INIT_VAR(data);
-	array_init(data);
-	
 	PHALCON_INIT_VAR(reserved);
 	phalcon_call_method(reserved, this_ptr, "getreservedattributes");
 	
@@ -1377,32 +1380,32 @@ PHP_METHOD(Phalcon_Mvc_Collection, save){
 	 */
 	phalcon_is_iterable(properties, &ah0, &hp0, 0, 0);
 	
+	PHALCON_INIT_VAR(data);
+	array_init(data);
+
 	while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
 		PHALCON_GET_HKEY(key, ah0, hp0);
-		PHALCON_GET_HVALUE(value);
 	
 		if (PHALCON_IS_STRING(key, "_id")) {
 	
-			if (Z_TYPE_P(value) != IS_NULL) {
-				phalcon_array_update_zval(&data, key, &value, PH_COPY | PH_SEPARATE);
+			if (Z_TYPE_PP(hd) != IS_NULL) {
+				phalcon_array_update_zval(&data, key, hd, PH_COPY);
 			}
 		} else {
 			if (!phalcon_array_isset(reserved, key)) {
-				phalcon_array_update_zval(&data, key, &value, PH_COPY | PH_SEPARATE);
+				phalcon_array_update_zval(&data, key, hd, PH_COPY);
 			}
 		}
 	
 		zend_hash_move_forward_ex(ah0, &hp0);
 	}
 	
-	PHALCON_INIT_VAR(success);
-	ZVAL_BOOL(success, 0);
-	
 	/** 
 	 * We always use safe stores to get the success state
 	 */
-	PHALCON_INIT_VAR(options);
+	MAKE_STD_ZVAL(options);
+	Z_SET_REFCOUNT_P(options, 0); /* will be automatically destroyed by Zend on return from method call */
 	array_init_size(options, 1);
 	add_assoc_bool_ex(options, SS("safe"), 1);
 	
@@ -1410,13 +1413,11 @@ PHP_METHOD(Phalcon_Mvc_Collection, save){
 	 * Save the document
 	 */
 	PHALCON_INIT_NVAR(status);
-	Z_SET_ISREF_P(options);
-	Z_ADDREF_P(options);
 	phalcon_call_method_p2(status, collection, "save", data, options);
-	if (Z_REFCOUNT_P(options) > 1) {
-		Z_UNSET_ISREF_P(options);
-		Z_DELREF_P(options);
-	}
+
+	MAKE_STD_ZVAL(success);
+	Z_SET_REFCOUNT_P(success, 0); /* will be automatically destroyed by Zend on return from method call */
+	ZVAL_FALSE(success);
 
 	if (Z_TYPE_P(status) == IS_ARRAY) { 
 		if (phalcon_array_isset_string(status, SS("ok"))) {
@@ -1425,7 +1426,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, save){
 			phalcon_array_fetch_string(&ok, status, SL("ok"), PH_NOISY);
 			if (zend_is_true(ok)) {
 	
-				ZVAL_BOOL(success, 1);
+				ZVAL_TRUE(success);
 				if (PHALCON_IS_FALSE(exists)) {
 					if (phalcon_array_isset_string(data, SS("_id"))) {
 						PHALCON_OBS_VAR(id);
@@ -1435,9 +1436,6 @@ PHP_METHOD(Phalcon_Mvc_Collection, save){
 				}
 			}
 		}
-	} else {
-		PHALCON_INIT_NVAR(success);
-		ZVAL_BOOL(success, 0);
 	}
 	
 	/** 
@@ -1500,7 +1498,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, findById){
 	
 	PHALCON_INIT_VAR(conditions);
 	array_init_size(conditions, 1);
-	phalcon_array_update_string(&conditions, SL("_id"), &mongo_id, PH_COPY | PH_SEPARATE);
+	phalcon_array_update_string(&conditions, SL("_id"), &mongo_id, PH_COPY);
 	
 	PHALCON_INIT_VAR(parameters);
 	array_init_size(parameters, 1);
@@ -2107,6 +2105,8 @@ PHP_METHOD(Phalcon_Mvc_Collection, unserialize){
 				PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "The injected service 'collectionManager' is not valid");
 				return;
 			}
+
+			//PHALCON_VERIFY_INTERFACE(manager, phalcon_mvc_model_managerinterface_ce);
 	
 			/** 
 			 * Update the models manager

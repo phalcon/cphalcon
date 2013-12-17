@@ -383,6 +383,7 @@ PHP_METHOD(Phalcon_Dispatcher, getParam){
 	
 			PHALCON_INIT_VAR(filter);
 			phalcon_call_method_p1(filter, dependency_injector, "getshared", service);
+			PHALCON_VERIFY_INTERFACE(filter, phalcon_filterinterface_ce);
 			phalcon_call_method_p2(return_value, filter, "sanitize", param_value, filters);
 			RETURN_MM();
 		} else {
@@ -459,12 +460,13 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch){
 
 	zval *dependency_injector, *exception_code = NULL;
 	zval *exception_message = NULL, *events_manager;
-	zval *event_name = NULL, *status = NULL, *value = NULL, *handler = NULL, *number_dispatches;
+	zval *event_name = NULL, *status = NULL, *value = NULL, *handler = NULL;
 	zval *handler_suffix, *action_suffix, *finished = NULL;
 	zval *namespace_name = NULL, *handler_name = NULL, *action_name = NULL;
 	zval *camelized_class = NULL, *handler_class = NULL, *has_service = NULL;
 	zval *was_fresh = NULL, *action_method = NULL, *params = NULL, *call_object = NULL;
 	zval *exception = NULL;
+	int number_dispatches;
 
 	PHALCON_MM_GROW();
 
@@ -501,8 +503,7 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch){
 	
 	PHALCON_INIT_VAR(handler);
 	
-	PHALCON_INIT_VAR(number_dispatches);
-	ZVAL_LONG(number_dispatches, 0);
+	number_dispatches = 0;
 	
 	PHALCON_OBS_VAR(handler_suffix);
 	phalcon_read_property_this(&handler_suffix, this_ptr, SL("_handlerSuffix"), PH_NOISY_CC);
@@ -526,13 +527,12 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch){
 			break;
 		}
 	
-		PHALCON_SEPARATE(number_dispatches);
-		phalcon_increment(number_dispatches);
+		++number_dispatches;
 	
 		/** 
 		 * Throw an exception after 256 consecutive forwards
 		 */
-		if (PHALCON_IS_LONG(number_dispatches, 256)) {
+		if (number_dispatches >= 256) {
 			PHALCON_INIT_NVAR(exception_code);
 			ZVAL_LONG(exception_code, 1);
 	
@@ -607,6 +607,9 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch){
 		if (!phalcon_memnstr_str(handler_name, SL("\\"))) {
 			PHALCON_INIT_NVAR(camelized_class);
 			phalcon_camelize(camelized_class, handler_name);
+		} else if (phalcon_start_with_str(handler_name, SL("\\"))) {
+			PHALCON_INIT_NVAR(camelized_class);
+			ZVAL_STRINGL(camelized_class, Z_STRVAL_P(handler_name)+1, Z_STRLEN_P(handler_name)-1, 1);
 		} else {
 			PHALCON_CPY_WRT(camelized_class, handler_name);
 		}
@@ -1107,6 +1110,9 @@ PHP_METHOD(Phalcon_Dispatcher, getHandlerClass){
 	if (!phalcon_memnstr_str(handler_name, SL("\\"))) {
 		PHALCON_INIT_VAR(camelized_class);
 		phalcon_camelize(camelized_class, handler_name);
+	} else if (phalcon_start_with_str(handler_name, SL("\\"))) {
+		PHALCON_INIT_VAR(camelized_class);
+		ZVAL_STRINGL(camelized_class, Z_STRVAL_P(handler_name)+1, Z_STRLEN_P(handler_name)-1, 1);
 	} else {
 		PHALCON_CPY_WRT(camelized_class, handler_name);
 	}

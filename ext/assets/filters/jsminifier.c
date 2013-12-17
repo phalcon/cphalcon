@@ -48,11 +48,11 @@ typedef struct _jsmin_parser {
 	int script_pointer;
 	int inside_string;
 	smart_str *minified;
-	char theA;
-	char theB;
-	char theC;
-	char theX;
-	char theY;
+	unsigned char theA;
+	unsigned char theB;
+	unsigned char theC;
+	unsigned char theX;
+	unsigned char theY;
 } jsmin_parser;
 
 static void jsmin_error(jsmin_parser *parser, char* s, int s_length TSRMLS_DC) {
@@ -74,34 +74,34 @@ static int jsmin_isAlphanum(int c) {
 		linefeed.
 */
 
-static char jsmin_peek(jsmin_parser *parser){
-	char ch;
+static unsigned char jsmin_peek(jsmin_parser *parser){
+	unsigned char ch;
 	if (parser->script_pointer < Z_STRLEN_P(parser->script)) {
 		ch = Z_STRVAL_P(parser->script)[parser->script_pointer];
 		return ch;
 	}
-	return EOF;
+	return '\0';
 }
 
-static char jsmin_get(jsmin_parser *parser) {
+static unsigned char jsmin_get(jsmin_parser *parser) {
 
-	char c;
+	unsigned char c;
 
 	if (parser->script_pointer < Z_STRLEN_P(parser->script)) {
 		c = Z_STRVAL_P(parser->script)[parser->script_pointer];
 		parser->script_pointer++;
 	} else {
-		c = EOF;
+		c = '\0';
 	}
 
 	parser->theC = c;
 
 	if (parser->inside_string == 1) {
-		if (c >= ' ' || c == '\n' || c == '\t' || c == EOF) {
+		if (c >= ' ' || c == '\n' || c == '\t' || c == '\0') {
 			return c;
 		}
 	} else {
-		if (c >= ' ' || c == '\n' || c == EOF) {
+		if (c >= ' ' || c == '\n' || c == '\0') {
 			return c;
 		}
 	}
@@ -117,7 +117,7 @@ static char jsmin_get(jsmin_parser *parser) {
 */
 
 static int jsmin_next(jsmin_parser *parser TSRMLS_DC) {
-	char c = jsmin_get(parser);
+	unsigned char c = jsmin_get(parser);
 	if  (c == '/') {
 		switch (jsmin_peek(parser)) {
 			case '/':
@@ -138,7 +138,7 @@ static int jsmin_next(jsmin_parser *parser TSRMLS_DC) {
 							c = ' ';
 						}
 						break;
-					case EOF:
+					case '\0':
 						jsmin_error(parser, SL("Unterminated comment.") TSRMLS_CC);
 						return FAILURE;
 				}
@@ -159,7 +159,7 @@ static int jsmin_next(jsmin_parser *parser TSRMLS_DC) {
    action recognizes a regular expression if it is preceded by ( or , or =.
 */
 
-static int jsmin_action(jsmin_parser *parser, char d TSRMLS_DC) {
+static int jsmin_action(jsmin_parser *parser, unsigned char d TSRMLS_DC) {
 	switch (d) {
 		case JSMIN_ACTION_OUTPUT_NEXT:
 			smart_str_appendc(parser->minified, parser->theA);
@@ -185,7 +185,7 @@ static int jsmin_action(jsmin_parser *parser, char d TSRMLS_DC) {
 						smart_str_appendc(parser->minified, parser->theA);
 						parser->theA = jsmin_get(parser);
 					}
-					if (parser->theA == EOF) {
+					if (parser->theA == '\0') {
 						jsmin_error(parser, SL("Unterminated string literal.") TSRMLS_CC);
 						return FAILURE;
 					}
@@ -222,7 +222,7 @@ static int jsmin_action(jsmin_parser *parser, char d TSRMLS_DC) {
 								smart_str_appendc(parser->minified, parser->theA);
 								parser->theA = jsmin_get(parser);
 							}
-							if (parser->theA == EOF) {
+							if (parser->theA == '\0') {
 								jsmin_error(parser, SL("Unterminated set in Regular Expression literal.") TSRMLS_CC);
 								return FAILURE;
 							}
@@ -243,7 +243,7 @@ static int jsmin_action(jsmin_parser *parser, char d TSRMLS_DC) {
 							}
 						}
 					}
-					if (parser->theA == EOF) {
+					if (parser->theA == '\0') {
 						jsmin_error(parser, SL("Unterminated Regular Expression literal.") TSRMLS_CC);
 						return FAILURE;
 					}
@@ -273,8 +273,8 @@ int phalcon_jsmin_internal(zval *return_value, zval *script, zval **error TSRMLS
 	int status = SUCCESS;
 
 	parser.theA = '\n';
-	parser.theX = EOF;
-	parser.theY = EOF;
+	parser.theX = '\0';
+	parser.theY = '\0';
 	parser.script = script;
 	parser.error = error;
 	parser.script_pointer = 0;
@@ -285,7 +285,7 @@ int phalcon_jsmin_internal(zval *return_value, zval *script, zval **error TSRMLS
 		return FAILURE;
 	}
 
-	while (parser.theA != EOF) {
+	while (parser.theA != '\0') {
 		if (status == FAILURE) {
 			break;
 		}

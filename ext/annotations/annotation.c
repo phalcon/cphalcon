@@ -171,30 +171,37 @@ PHP_METHOD(Phalcon_Annotations_Annotation, getExpression){
 			PHALCON_OBS_VAR(value);
 			phalcon_array_fetch_string(&value, expr, SL("value"), PH_NOISY);
 			RETURN_CCTOR(value);
+			/* no break because the macro expands to return */
 	
 		case 302:
 			PHALCON_OBS_NVAR(value);
 			phalcon_array_fetch_string(&value, expr, SL("value"), PH_NOISY);
 			RETURN_CCTOR(value);
+			/* no break because the macro expands to return */
 	
 		case 303:
 			PHALCON_OBS_NVAR(value);
 			phalcon_array_fetch_string(&value, expr, SL("value"), PH_NOISY);
 			RETURN_CCTOR(value);
+			/* no break because the macro expands to return */
 	
 		case 307:
 			PHALCON_OBS_NVAR(value);
 			phalcon_array_fetch_string(&value, expr, SL("value"), PH_NOISY);
 			RETURN_CCTOR(value);
+			/* no break because the macro expands to return */
 	
 		case 304:
 			RETURN_MM_NULL();
+			/* no break because the macro expands to return */
 	
 		case 305:
 			RETURN_MM_FALSE;
+			/* no break because the macro expands to return */
 	
 		case 306:
 			RETURN_MM_TRUE;
+			/* no break because the macro expands to return */
 	
 		case 308:
 			PHALCON_INIT_VAR(array_value);
@@ -226,12 +233,14 @@ PHP_METHOD(Phalcon_Annotations_Annotation, getExpression){
 			}
 	
 			RETURN_CTOR(array_value);
+			/* no break because the macro expands to return */
 	
 		case 300:
 			object_init_ex(return_value, phalcon_annotations_annotation_ce);
 			phalcon_call_method_p1_noret(return_value, "__construct", expr);
 	
 			RETURN_MM();
+			/* no break because the macro expands to return */
 	
 		default:
 			PHALCON_INIT_VAR(exception_message);
@@ -273,16 +282,15 @@ PHP_METHOD(Phalcon_Annotations_Annotation, getArguments){
  */
 PHP_METHOD(Phalcon_Annotations_Annotation, numberArguments){
 
-	zval *arguments, *number;
+	zval *arguments;
 
 	PHALCON_MM_GROW();
 
 	PHALCON_OBS_VAR(arguments);
 	phalcon_read_property_this(&arguments, this_ptr, SL("_arguments"), PH_NOISY_CC);
 	
-	PHALCON_INIT_VAR(number);
-	phalcon_fast_count(number, arguments TSRMLS_CC);
-	RETURN_NCTOR(number);
+	phalcon_fast_count(return_value, arguments TSRMLS_CC);
+	PHALCON_MM_RESTORE();
 }
 
 /**
@@ -310,9 +318,9 @@ PHP_METHOD(Phalcon_Annotations_Annotation, getArgument){
 }
 
 /**
- * Returns an argument in a specific position
+ * Checks if the annotation has a specific argument
  *
- * @return mixed
+ * @return bool
  */
 PHP_METHOD(Phalcon_Annotations_Annotation, hasArgument){
 
@@ -337,69 +345,20 @@ PHP_METHOD(Phalcon_Annotations_Annotation, hasArgument){
  * @param string $name
  * @return mixed
  */
-PHP_METHOD(Phalcon_Annotations_Annotation, getNamedArgument){
-
-	zval *name, *arguments, *value;
-
-	PHALCON_MM_GROW();
-
-	phalcon_fetch_params(1, 1, 0, &name);
-	
-	PHALCON_OBS_VAR(arguments);
-	phalcon_read_property_this(&arguments, this_ptr, SL("_arguments"), PH_NOISY_CC);
-	if (phalcon_array_isset(arguments, name)) {
-		PHALCON_OBS_VAR(value);
-		phalcon_array_fetch(&value, arguments, name, PH_NOISY);
-		RETURN_CCTOR(value);
-	}
-	
-	RETURN_MM_NULL();
-}
+PHALCON_DOC_METHOD(Phalcon_Annotations_Annotation, getNamedArgument);
 
 /**
  * Returns a named argument (deprecated)
  *
+ * @deprecated
  * @param string $name
  * @return mixed
  */
-PHP_METHOD(Phalcon_Annotations_Annotation, getNamedParameter){
-
-	zval *name, *arguments, *value;
-
-	PHALCON_MM_GROW();
-
-	phalcon_fetch_params(1, 1, 0, &name);
-	
-	PHALCON_OBS_VAR(arguments);
-	phalcon_read_property_this(&arguments, this_ptr, SL("_arguments"), PH_NOISY_CC);
-	if (phalcon_array_isset(arguments, name)) {
-		PHALCON_OBS_VAR(value);
-		phalcon_array_fetch(&value, arguments, name, PH_NOISY);
-		RETURN_CCTOR(value);
-	}
-	
-	RETURN_MM_NULL();
-}
+PHALCON_DOC_METHOD(Phalcon_Annotations_Annotation, getNamedParameter);
 
 /**
  * Checks if the annotation has a specific named argument
  *
  * @return boolean
  */
-PHP_METHOD(Phalcon_Annotations_Annotation, hasNamedArgument){
-
-	zval *name, *arguments;
-
-	PHALCON_MM_GROW();
-
-	phalcon_fetch_params(1, 1, 0, &name);
-	
-	PHALCON_OBS_VAR(arguments);
-	phalcon_read_property_this(&arguments, this_ptr, SL("_arguments"), PH_NOISY_CC);
-	if (phalcon_array_isset(arguments, name)) {
-		RETURN_MM_TRUE;
-	}
-	
-	RETURN_MM_FALSE;
-}
-
+PHALCON_DOC_METHOD(Phalcon_Annotations_Annotation, hasNamedArgument);

@@ -804,11 +804,11 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, functionCall){
 			}
 	
 			if (phalcon_array_isset(array_helpers, name)) {
-				PHALCON_CONCAT_SVSVS(return_value, "Phalcon\\Tag::", method, "(array(", arguments, "))");
+				PHALCON_CONCAT_SVSVS(return_value, "$this->tag->", method, "(array(", arguments, "))");
 				RETURN_MM();
 			}
 	
-			PHALCON_CONCAT_SVSVS(return_value, "Phalcon\\Tag::", method, "(", arguments, ")");
+			PHALCON_CONCAT_SVSVS(return_value, "$this->tag->", method, "(", arguments, ")");
 	
 			RETURN_MM();
 		}
@@ -1565,11 +1565,11 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, expression){
 		/** 
 		 * Left part of expression is always resolved
 		 */
+		PHALCON_INIT_NVAR(left_code);
 		if (phalcon_array_isset_string(expr, SS("left"))) {
 			PHALCON_OBS_NVAR(left);
 			phalcon_array_fetch_string(&left, expr, SL("left"), PH_NOISY);
 	
-			PHALCON_INIT_NVAR(left_code);
 			phalcon_call_method_p1(left_code, this_ptr, "expression", left);
 		}
 	
@@ -1600,11 +1600,11 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, expression){
 		/** 
 		 * From here, right part of expression is always resolved
 		 */
+		PHALCON_INIT_NVAR(right_code);
 		if (phalcon_array_isset_string(expr, SS("right"))) {
 			PHALCON_OBS_NVAR(right);
 			phalcon_array_fetch_string(&right, expr, SL("right"), PH_NOISY);
 	
-			PHALCON_INIT_NVAR(right_code);
 			phalcon_call_method_p1(right_code, this_ptr, "expression", right);
 		}
 	
@@ -3592,8 +3592,10 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compile){
 	
 	PHALCON_INIT_VAR(stat);
 	ZVAL_BOOL(stat, 1);
-	PHALCON_CPY_WRT(compile_always, zfalse);
 	
+	PHALCON_INIT_VAR(compile_always);
+	ZVAL_FALSE(compile_always);
+
 	PHALCON_INIT_VAR(compiled_path);
 	ZVAL_STRING(compiled_path, "", 1);
 	PHALCON_CPY_WRT(prefix, znull);
@@ -3603,6 +3605,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compile){
 	
 	PHALCON_INIT_VAR(compiled_extension);
 	ZVAL_STRING(compiled_extension, ".php", 1);
+
 	PHALCON_CPY_WRT(compilation, znull);
 	
 	PHALCON_OBS_VAR(options);
@@ -3614,6 +3617,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compile){
 		 */
 		if (phalcon_array_isset_string(options, SS("compileAlways"))) {
 	
+			PHALCON_OBS_NVAR(compile_always);
 			phalcon_array_fetch_string(&compile_always, options, SL("compileAlways"), PH_NOISY);
 			if (Z_TYPE_P(compile_always) != IS_BOOL) {
 				PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_view_exception_ce, "compileAlways must be a bool value");
@@ -3626,6 +3630,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compile){
 		 */
 		if (phalcon_array_isset_string(options, SS("prefix"))) {
 	
+			PHALCON_OBS_NVAR(prefix);
 			phalcon_array_fetch_string(&prefix, options, SL("prefix"), PH_NOISY);
 			if (Z_TYPE_P(prefix) != IS_STRING) {
 				PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_view_exception_ce, "prefix must be a string");
@@ -3705,11 +3710,10 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compile){
 		/** 
 		 * In extends mode we add an additional 'e' suffix to the file
 		 */
+		PHALCON_INIT_VAR(compiled_template_path);
 		if (PHALCON_IS_TRUE(extends_mode)) {
-			PHALCON_INIT_VAR(compiled_template_path);
 			PHALCON_CONCAT_VVVVSVV(compiled_template_path, compiled_path, prefix, template_sep_path, compiled_separator, "e", compiled_separator, compiled_extension);
 		} else {
-			PHALCON_INIT_NVAR(compiled_template_path);
 			PHALCON_CONCAT_VVVV(compiled_template_path, compiled_path, prefix, template_sep_path, compiled_extension);
 		}
 	} else {
@@ -3721,9 +3725,9 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compile){
 	
 				PHALCON_INIT_VAR(params);
 				array_init_size(params, 3);
-				phalcon_array_append(&params, template_path, PH_SEPARATE);
-				phalcon_array_append(&params, options, PH_SEPARATE);
-				phalcon_array_append(&params, extends_mode, PH_SEPARATE);
+				phalcon_array_append(&params, template_path, 0);
+				phalcon_array_append(&params, options, 0);
+				phalcon_array_append(&params, extends_mode, 0);
 	
 				PHALCON_INIT_NVAR(compiled_template_path);
 				PHALCON_CALL_USER_FUNC_ARRAY(compiled_template_path, compiled_path, params);

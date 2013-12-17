@@ -31,7 +31,7 @@
 
 #include "kernel/main.h"
 #include "kernel/memory.h"
-
+#include "kernel/concat.h"
 #include "kernel/object.h"
 #include "kernel/fcall.h"
 #include "kernel/exception.h"
@@ -72,8 +72,9 @@ PHALCON_INIT_CLASS(Phalcon_Mvc_Dispatcher){
 	zend_declare_property_string(phalcon_mvc_dispatcher_ce, SL("_handlerSuffix"), "Controller", ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_string(phalcon_mvc_dispatcher_ce, SL("_defaultHandler"), "index", ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_string(phalcon_mvc_dispatcher_ce, SL("_defaultAction"), "index", ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_bool(phalcon_mvc_dispatcher_ce, SL("_isExactControllerName"), 0, ZEND_ACC_PROTECTED TSRMLS_CC);
 
-	zend_class_implements(phalcon_mvc_dispatcher_ce TSRMLS_CC, 1, phalcon_mvc_dispatcherinterface_ce);
+	zend_class_implements(phalcon_mvc_dispatcher_ce TSRMLS_CC, 2, phalcon_dispatcherinterface_ce, phalcon_mvc_dispatcherinterface_ce);
 
 	return SUCCESS;
 }
@@ -115,12 +116,22 @@ PHP_METHOD(Phalcon_Mvc_Dispatcher, setDefaultController){
  */
 PHP_METHOD(Phalcon_Mvc_Dispatcher, setControllerName){
 
-	zval *controller_name;
+	zval *controller_name, *is_exact = NULL;
 
-	phalcon_fetch_params(0, 1, 0, &controller_name);
+	phalcon_fetch_params(0, 1, 1, &controller_name, &is_exact);
 	
-	phalcon_update_property_this(this_ptr, SL("_handlerName"), controller_name TSRMLS_CC);
-	
+	if (is_exact && zend_is_true(is_exact)) {
+		zval *name;
+		MAKE_STD_ZVAL(name);
+		PHALCON_CONCAT_SV(name, "\\", controller_name);
+		phalcon_update_property_this(this_ptr, SL("_handlerName"), name TSRMLS_CC);
+		zval_ptr_dtor(&name);
+		phalcon_update_property_bool(this_ptr, SL("_isExactControllerName"), 1 TSRMLS_CC);
+	}
+	else {
+		phalcon_update_property_this(this_ptr, SL("_handlerName"), controller_name TSRMLS_CC);
+		phalcon_update_property_bool(this_ptr, SL("_isExactControllerName"), 0 TSRMLS_CC);
+	}
 }
 
 /**
@@ -130,8 +141,28 @@ PHP_METHOD(Phalcon_Mvc_Dispatcher, setControllerName){
  */
 PHP_METHOD(Phalcon_Mvc_Dispatcher, getControllerName){
 
+	zval *is_exact;
+	int i_exact;
 
-	RETURN_MEMBER(this_ptr, "_handlerName");
+	phalcon_read_property_this(&is_exact, getThis(), SL("_isExactControllerName"), PH_NOISY TSRMLS_CC);
+	i_exact = zend_is_true(is_exact);
+	zval_ptr_dtor(&is_exact);
+
+	if (!i_exact) {
+		RETURN_MEMBER(this_ptr, "_handlerName");
+	}
+
+	phalcon_return_property_quick(return_value, getThis(), SL("_handlerName"), zend_inline_hash_func(SS("_handlerName")) TSRMLS_CC);
+	if (likely(Z_TYPE_P(return_value) == IS_STRING) && Z_STRLEN_P(return_value) > 1) {
+		char *c = Z_STRVAL_P(return_value);
+		int len = Z_STRLEN_P(return_value);
+		memmove(c, c+1, len-1);
+		c[len-1] = 0;
+		c = erealloc(c, len);
+		if (likely(c != NULL)) {
+			RETVAL_STRINGL(c, len-1, 0);
+		}
+	}
 }
 
 /**

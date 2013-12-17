@@ -522,6 +522,18 @@ PHP_METHOD(Phalcon_Http_Response, redirect){
 	zval *header = NULL, *dependency_injector, *service;
 	zval *url, *status_text, *header_name;
 
+	static const char* redirect_phrases[] = {
+		/* 300 */ "Multiple Choices",
+		/* 301 */ "Moved Permanently",
+		/* 302 */ "Found",
+		/* 303 */ "See Other",
+		/* 304 */ "Not Modified",
+		/* 305 */ "Use Proxy",
+		/* 306 */ "Switch Proxy",
+		/* 307 */ "Temporary Redirect",
+		/* 308 */ "Permanent Redirect"
+	};
+
 	PHALCON_MM_GROW();
 
 	phalcon_fetch_params(1, 0, 3, &location, &external_redirect, &status_code);
@@ -539,6 +551,10 @@ PHP_METHOD(Phalcon_Http_Response, redirect){
 		PHALCON_INIT_VAR(status_code);
 		ZVAL_LONG(status_code, 302);
 	}
+	else if (unlikely(Z_TYPE_P(status_code) != IS_LONG)) {
+		PHALCON_SEPARATE_PARAM(status_code);
+		convert_to_long(status_code);
+	}
 	
 	if (zend_is_true(external_redirect)) {
 		PHALCON_CPY_WRT(header, location);
@@ -551,6 +567,7 @@ PHP_METHOD(Phalcon_Http_Response, redirect){
 	
 		PHALCON_INIT_VAR(url);
 		phalcon_call_method_p1(url, dependency_injector, "getshared", service);
+		PHALCON_VERIFY_INTERFACE(url, phalcon_mvc_urlinterface_ce);
 	
 		PHALCON_INIT_NVAR(header);
 		phalcon_call_method_p1(header, url, "get", location);
@@ -560,7 +577,13 @@ PHP_METHOD(Phalcon_Http_Response, redirect){
 	 * The HTTP status is 302 by default, a temporary redirection
 	 */
 	PHALCON_INIT_VAR(status_text);
-	ZVAL_STRING(status_text, "Redirect", 1);
+	if (Z_LVAL_P(status_code) < 300 || Z_LVAL_P(status_code) > 308) {
+		ZVAL_STRING(status_text, "Redirect", 1);
+	}
+	else {
+		ZVAL_STRING(status_text, redirect_phrases[Z_LVAL_P(status_code) - 300], 1);
+	}
+
 	phalcon_call_method_p2_noret(this_ptr, "setstatuscode", status_code, status_text);
 	
 	/** 

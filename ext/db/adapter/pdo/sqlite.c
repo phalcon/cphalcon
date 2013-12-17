@@ -1,4 +1,3 @@
-
 /*
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
@@ -128,7 +127,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Sqlite, describeColumns){
 	zval *table, *schema = NULL, *columns, *dialect, *size_pattern;
 	zval *sql, *fetch_num, *describe, *old_column = NULL, *field = NULL;
 	zval *definition = NULL, *column_type = NULL, *pos = NULL, *attribute = NULL;
-	zval *matches = NULL, *match_one = NULL, *column_name = NULL, *column = NULL;
+	zval *matches = NULL, *match_one = NULL, *match_two = NULL, *column_name = NULL, *column = NULL;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -148,7 +147,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Sqlite, describeColumns){
 	phalcon_read_property_this(&dialect, this_ptr, SL("_dialect"), PH_NOISY_CC);
 	
 	PHALCON_INIT_VAR(size_pattern);
-	ZVAL_STRING(size_pattern, "#\\(([0-9]+)(,[0-9]+)*\\)#", 1);
+	ZVAL_STRING(size_pattern, "#\\(([0-9]++)(?:,\\s*([0-9]++))?\\)#", 1);
 	
 	PHALCON_INIT_VAR(sql);
 	phalcon_call_method_p2(sql, dialect, "describecolumns", table, schema);
@@ -246,6 +245,11 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Sqlite, describeColumns){
 					phalcon_array_fetch_long(&match_one, matches, 1, PH_NOISY);
 					phalcon_array_update_string(&definition, SL("size"), &match_one, PH_COPY | PH_SEPARATE);
 				}
+				if (phalcon_array_isset_long(matches, 2)) {
+                                        PHALCON_OBS_NVAR(match_two);
+                                        phalcon_array_fetch_long(&match_two, matches, 2, PH_NOISY);
+                                        phalcon_array_update_string(&definition, SL("scale"), &match_two, PH_COPY | PH_SEPARATE);
+                                }
 			}
 		}
 	

@@ -1305,7 +1305,13 @@ int phannot_parse_annotations(zval *result, zval *comment, zval *file_path, zval
 	}
 
 	if(phannot_internal_parse_annotations(&result, comment, file_path, line, &error_msg TSRMLS_CC) == FAILURE){
-		phalcon_throw_exception_string(phalcon_annotations_exception_ce, Z_STRVAL_P(error_msg), Z_STRLEN_P(error_msg), 1 TSRMLS_CC);
+		if (error_msg != NULL) {
+			phalcon_throw_exception_string(phalcon_annotations_exception_ce, Z_STRVAL_P(error_msg), Z_STRLEN_P(error_msg), 1 TSRMLS_CC);
+		}
+		else {
+			phalcon_throw_exception_string(phalcon_annotations_exception_ce, SL("There was an error parsing annotation"), 1 TSRMLS_CC);
+		}
+
 		return FAILURE;
 	}
 

@@ -1,16 +1,16 @@
-Phalcon PHP Framework
-=====================
+Phalcon Framework
+=================
 
-Phalcon PHP is a web framework delivered as a C extension providing high performance and lower resource consumption.
+Phalcon is a web framework delivered as a C extension providing high performance and lower resource consumption.
 
 Get Started
 -----------
 
-Phalcon PHP is written in C with platform independence in mind. As a result, Phalcon PHP is available on Microsoft Windows, GNU/Linux, Mac OS X, You can either download a binary package for the system of your choice or build it from sources.
+Phalcon is written in C with platform independence in mind. As a result, Phalcon is available on Microsoft Windows, GNU/Linux, Mac OS X, You can either download a binary package for the system of your choice or build it from sources.
 
 ### Windows
 
-For use phalcon on windows you only should to download a DLL library (http://phalconphp.com/download). Edit your php.ini file and then add:
+For use Phalcon on windows you only should to download a DLL library (http://phalconphp.com/download). Edit your php.ini file and then add:
 
 ```bash
 extension=php_phalcon.dll
@@ -51,7 +51,7 @@ cd cphalcon/build
 sudo ./install
 ```
 
-Add extension to your php.ini
+Add the extension to your php.ini
 
 ```bash
 extension=phalcon.so
@@ -70,7 +70,7 @@ External Links
 Current Build Status
 --------------------
 
-Phalcon PHP Framework is built under Travis CI service. Every commit pushed to this repository will queue a build into the continuous integration service and will run all PHPUnit tests to ensure that everything is going well and the project is stable. The current build status is:
+Phalcon Framework is built under Travis CI service. Every commit pushed to this repository will queue a build into the continuous integration service and will run all PHPUnit tests to ensure that everything is going well and the project is stable. The current build status is:
 
 [![Build Status](https://secure.travis-ci.org/phalcon/cphalcon.png?branch=master)](http://travis-ci.org/phalcon/cphalcon)
 

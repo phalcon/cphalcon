@@ -109,21 +109,18 @@ PHP_METHOD(Phalcon_Security, getDI){
  */
 PHP_METHOD(Phalcon_Security, setRandomBytes){
 
-	zval *random_bytes;
+	zval **random_bytes;
 
-	phalcon_fetch_params(0, 1, 0, &random_bytes);
-	
-	if (Z_TYPE_P(random_bytes) != IS_LONG) {
-		PHALCON_THROW_EXCEPTION_STRW(phalcon_security_exception_ce, "Random bytes must be integer");
-		return;
-	}
-	if (PHALCON_LT_LONG(random_bytes, 16)) {
+	phalcon_fetch_params_ex(1, 0, &random_bytes);
+
+	PHALCON_ENSURE_IS_LONG(random_bytes);
+
+	if (PHALCON_LT_LONG(*random_bytes, 16)) {
 		PHALCON_THROW_EXCEPTION_STRW(phalcon_security_exception_ce, "At least 16 bytes are needed to produce a correct salt");
 		return;
 	}
 	
-	phalcon_update_property_this(this_ptr, SL("_numberBytes"), random_bytes TSRMLS_CC);
-	
+	phalcon_update_property_this(this_ptr, SL("_numberBytes"), *random_bytes TSRMLS_CC);
 }
 
 /**
@@ -144,16 +141,12 @@ PHP_METHOD(Phalcon_Security, getRandomBytes){
  */
 PHP_METHOD(Phalcon_Security, setWorkFactor){
 
-	zval *work_factor;
+	zval **work_factor;
 
-	phalcon_fetch_params(0, 1, 0, &work_factor);
+	phalcon_fetch_params_ex(1, 0, &work_factor);
 	
-	if (Z_TYPE_P(work_factor) != IS_LONG) {
-		PHALCON_THROW_EXCEPTION_STRW(phalcon_security_exception_ce, "Work factor must be integer");
-		return;
-	}
-	phalcon_update_property_this(this_ptr, SL("_workFactor"), work_factor TSRMLS_CC);
-	
+	PHALCON_ENSURE_IS_LONG(work_factor);
+	phalcon_update_property_this(this_ptr, SL("_workFactor"), *work_factor TSRMLS_CC);
 }
 
 /**
@@ -260,19 +253,29 @@ PHP_METHOD(Phalcon_Security, hash){
  *
  * @param string $password
  * @param string $passwordHash
+ * @param int $maxPasswordLength
  * @return boolean
  */
 PHP_METHOD(Phalcon_Security, checkHash){
 
-	zval *password, *password_hash, *hash;
+	zval **password, **password_hash, **max_pass_length = NULL, *hash;
+
+	phalcon_fetch_params_ex(2, 1, &password, &password_hash, &max_pass_length);
+	
+	PHALCON_ENSURE_IS_STRING(password);
+
+	if (max_pass_length) {
+		PHALCON_ENSURE_IS_LONG(max_pass_length);
+
+		if (Z_LVAL_PP(max_pass_length) > 0 && Z_STRLEN_PP(password) > Z_LVAL_PP(max_pass_length)) {
+			RETURN_FALSE;
+		}
+	}
 
 	PHALCON_MM_GROW();
-
-	phalcon_fetch_params(1, 2, 0, &password, &password_hash);
-	
 	PHALCON_INIT_VAR(hash);
-	phalcon_call_func_p2(hash, "crypt", password, password_hash);
-	is_equal_function(return_value, hash, password_hash TSRMLS_CC);
+	phalcon_call_func_p2(hash, "crypt", *password, *password_hash);
+	is_equal_function(return_value, hash, *password_hash TSRMLS_CC);
 	RETURN_MM();
 }
 
@@ -342,6 +345,7 @@ PHP_METHOD(Phalcon_Security, getTokenKey){
 	
 	PHALCON_INIT_VAR(session);
 	phalcon_call_method_p1(session, dependency_injector, "getshared", service);
+	PHALCON_VERIFY_INTERFACE(session, phalcon_session_adapterinterface_ce);
 	
 	PHALCON_INIT_VAR(key);
 	ZVAL_STRING(key, "$PHALCON/CSRF/KEY$", 1);
@@ -393,6 +397,7 @@ PHP_METHOD(Phalcon_Security, getToken){
 	
 	PHALCON_INIT_VAR(session);
 	phalcon_call_method_p1(session, dependency_injector, "getshared", service);
+	PHALCON_VERIFY_INTERFACE(session, phalcon_session_adapterinterface_ce);
 	
 	PHALCON_INIT_VAR(key);
 	ZVAL_STRING(key, "$PHALCON/CSRF$", 1);
@@ -439,6 +444,8 @@ PHP_METHOD(Phalcon_Security, checkToken){
 	
 	PHALCON_INIT_VAR(session);
 	phalcon_call_method_p1(session, dependency_injector, "getshared", service);
+	PHALCON_VERIFY_INTERFACE(session, phalcon_session_adapterinterface_ce);
+
 	if (Z_TYPE_P(token_key) == IS_NULL) {
 		PHALCON_INIT_VAR(key);
 		ZVAL_STRING(key, "$PHALCON/CSRF/KEY$", 1);
@@ -453,6 +460,7 @@ PHP_METHOD(Phalcon_Security, checkToken){
 	
 		PHALCON_INIT_VAR(request);
 		phalcon_call_method_p1(request, dependency_injector, "getshared", service);
+		PHALCON_VERIFY_INTERFACE(request, phalcon_http_requestinterface_ce);
 	
 		/** 
 		 * We always check if the value is correct in post
@@ -501,6 +509,7 @@ PHP_METHOD(Phalcon_Security, getSessionToken){
 	
 	PHALCON_INIT_VAR(session);
 	phalcon_call_method_p1(session, dependency_injector, "getshared", service);
+	PHALCON_VERIFY_INTERFACE(session, phalcon_session_adapterinterface_ce);
 	
 	PHALCON_INIT_VAR(key);
 	ZVAL_STRING(key, "$PHALCON/CSRF$", 1);
@@ -510,4 +519,3 @@ PHP_METHOD(Phalcon_Security, getSessionToken){
 	
 	RETURN_CCTOR(session_token);
 }
-

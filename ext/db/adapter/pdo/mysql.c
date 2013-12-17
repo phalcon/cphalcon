@@ -1,4 +1,3 @@
-
 /*
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
@@ -129,7 +128,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Mysql, describeColumns){
 	zval *table, *schema = NULL, *dialect, *ztrue, *sql, *fetch_num;
 	zval *describe, *old_column = NULL, *size_pattern, *columns;
 	zval *field = NULL, *definition = NULL, *column_type = NULL, *matches = NULL;
-	zval *pos = NULL, *match_one = NULL, *attribute = NULL, *column_name = NULL;
+	zval *pos = NULL, *match_one = NULL, *match_two = NULL, *attribute = NULL, *column_name = NULL;
 	zval *column = NULL;
 	HashTable *ah0;
 	HashPosition hp0;
@@ -170,7 +169,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Mysql, describeColumns){
 	PHALCON_INIT_VAR(old_column);
 	
 	PHALCON_INIT_VAR(size_pattern);
-	ZVAL_STRING(size_pattern, "#\\(([0-9]+)(,[0-9]+)*\\)#", 1);
+	ZVAL_STRING(size_pattern, "#\\(([0-9]++)(?:,\\s*([0-9]++))?\\)#", 1);
 	
 	PHALCON_INIT_VAR(columns);
 	array_init(columns);
@@ -278,6 +277,16 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Mysql, describeColumns){
 			}
 	
 			/** 
+			 * Double are floats
+			 */
+			if (phalcon_memnstr_str(column_type, SL("double"))) {
+				phalcon_array_update_string_long(&definition, SL("type"), 9, PH_SEPARATE);
+				phalcon_array_update_string(&definition, SL("isNumeric"), &ztrue, PH_COPY | PH_SEPARATE);
+				phalcon_array_update_string_long(&definition, SL("bindType"), 32, PH_SEPARATE);
+				break;
+			}
+	
+			/** 
 			 * By default is string
 			 */
 			phalcon_array_update_string_long(&definition, SL("type"), 2, PH_SEPARATE);
@@ -300,6 +309,11 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Mysql, describeColumns){
 					phalcon_array_fetch_long(&match_one, matches, 1, PH_NOISY);
 					phalcon_array_update_string(&definition, SL("size"), &match_one, PH_COPY | PH_SEPARATE);
 				}
+				if (phalcon_array_isset_long(matches, 2)) {
+                                        PHALCON_OBS_NVAR(match_two);
+                                        phalcon_array_fetch_long(&match_two, matches, 2, PH_NOISY);
+                                        phalcon_array_update_string(&definition, SL("scale"), &match_two, PH_COPY | PH_SEPARATE);
+                                }
 			}
 		}
 	

@@ -93,6 +93,7 @@ PHALCON_INIT_CLASS(Phalcon_Db_Column){
 	zend_declare_class_constant_long(phalcon_db_column_ce, SL("TYPE_TEXT"), 6 TSRMLS_CC);
 	zend_declare_class_constant_long(phalcon_db_column_ce, SL("TYPE_FLOAT"), 7 TSRMLS_CC);
 	zend_declare_class_constant_long(phalcon_db_column_ce, SL("TYPE_BOOLEAN"), 8 TSRMLS_CC);
+	zend_declare_class_constant_long(phalcon_db_column_ce, SL("TYPE_DOUBLE"), 9 TSRMLS_CC);
 	zend_declare_class_constant_long(phalcon_db_column_ce, SL("BIND_PARAM_NULL"), 0 TSRMLS_CC);
 	zend_declare_class_constant_long(phalcon_db_column_ce, SL("BIND_PARAM_INT"), 1 TSRMLS_CC);
 	zend_declare_class_constant_long(phalcon_db_column_ce, SL("BIND_PARAM_STR"), 2 TSRMLS_CC);
@@ -114,9 +115,8 @@ PHALCON_INIT_CLASS(Phalcon_Db_Column){
 PHP_METHOD(Phalcon_Db_Column, __construct){
 
 	zval *column_name, *definition, *type, *not_null;
-	zval *primary, *size, *is_numeric = NULL, *scale, *dunsigned;
+	zval *primary, *size, *is_numeric, *scale, *dunsigned;
 	zval *auto_increment, *first, *after, *bind_type;
-	zval *t0 = NULL, *t1 = NULL;
 
 	PHALCON_MM_GROW();
 
@@ -164,27 +164,15 @@ PHP_METHOD(Phalcon_Db_Column, __construct){
 	 * Check if the column has a decimal scale
 	 */
 	if (phalcon_array_isset_string(definition, SS("scale"))) {
+		int i_type = phalcon_get_intval(type);
 	
-		PHALCON_INIT_VAR(t0);
-		ZVAL_LONG(t0, 3);
-		PHALCON_INIT_VAR(is_numeric);
-		is_equal_function(is_numeric, type, t0 TSRMLS_CC);
-		if (PHALCON_IS_NOT_TRUE(is_numeric)) {
-			PHALCON_INIT_VAR(t1);
-			ZVAL_LONG(t1, 7);
-			is_equal_function(is_numeric, type, t1 TSRMLS_CC);
-		}
-	
-		if (PHALCON_IS_TRUE(is_numeric)) {
+		if (i_type == 3 || i_type == 7 || i_type == 9) {
 			PHALCON_OBS_VAR(scale);
 			phalcon_array_fetch_string(&scale, definition, SL("scale"), PH_NOISY);
 			phalcon_update_property_this(this_ptr, SL("_scale"), scale TSRMLS_CC);
-		} else {
-			PHALCON_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "Column type does not support scale parameter");
-			return;
 		}
 	}
-	
+
 	/** 
 	 * Check if the field is unsigned (only MySQL)
 	 */
@@ -193,12 +181,12 @@ PHP_METHOD(Phalcon_Db_Column, __construct){
 		phalcon_array_fetch_string(&dunsigned, definition, SL("unsigned"), PH_NOISY);
 		phalcon_update_property_this(this_ptr, SL("_unsigned"), dunsigned TSRMLS_CC);
 	}
-	
+
 	/** 
 	 * Check if the field is numeric
 	 */
 	if (phalcon_array_isset_string(definition, SS("isNumeric"))) {
-		PHALCON_OBS_NVAR(is_numeric);
+		PHALCON_OBS_VAR(is_numeric);
 		phalcon_array_fetch_string(&is_numeric, definition, SL("isNumeric"), PH_NOISY);
 		phalcon_update_property_this(this_ptr, SL("_isNumeric"), is_numeric TSRMLS_CC);
 	}
@@ -399,7 +387,7 @@ PHP_METHOD(Phalcon_Db_Column, getBindType){
 PHP_METHOD(Phalcon_Db_Column, __set_state){
 
 	zval *data, *definition, *column_name, *column_type;
-	zval *not_null, *primary, *size, *dunsigned, *after;
+	zval *not_null, *primary, *size, *scale, *dunsigned, *after;
 	zval *is_numeric, *first, *bind_type;
 
 	PHALCON_MM_GROW();
@@ -413,6 +401,7 @@ PHP_METHOD(Phalcon_Db_Column, __set_state){
 	
 	PHALCON_INIT_VAR(definition);
 	array_init(definition);
+
 	if (!phalcon_array_isset_string(data, SS("_columnName"))) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "Column name is required");
 		return;
@@ -420,58 +409,65 @@ PHP_METHOD(Phalcon_Db_Column, __set_state){
 	
 	PHALCON_OBS_VAR(column_name);
 	phalcon_array_fetch_string(&column_name, data, SL("_columnName"), PH_NOISY);
+
 	if (phalcon_array_isset_string(data, SS("_type"))) {
 		PHALCON_OBS_VAR(column_type);
 		phalcon_array_fetch_string(&column_type, data, SL("_type"), PH_NOISY);
-		phalcon_array_update_string(&definition, SL("type"), &column_type, PH_COPY | PH_SEPARATE);
+		phalcon_array_update_string(&definition, SL("type"), &column_type, PH_COPY);
 	}
 	
 	if (phalcon_array_isset_string(data, SS("_notNull"))) {
 		PHALCON_OBS_VAR(not_null);
 		phalcon_array_fetch_string(&not_null, data, SL("_notNull"), PH_NOISY);
-		phalcon_array_update_string(&definition, SL("notNull"), &not_null, PH_COPY | PH_SEPARATE);
+		phalcon_array_update_string(&definition, SL("notNull"), &not_null, PH_COPY);
 	}
 	
 	if (phalcon_array_isset_string(data, SS("_primary"))) {
 		PHALCON_OBS_VAR(primary);
 		phalcon_array_fetch_string(&primary, data, SL("_primary"), PH_NOISY);
-		phalcon_array_update_string(&definition, SL("primary"), &primary, PH_COPY | PH_SEPARATE);
+		phalcon_array_update_string(&definition, SL("primary"), &primary, PH_COPY);
 	}
 	
 	if (phalcon_array_isset_string(data, SS("_size"))) {
 		PHALCON_OBS_VAR(size);
 		phalcon_array_fetch_string(&size, data, SL("_size"), PH_NOISY);
-		phalcon_array_update_string(&definition, SL("size"), &size, PH_COPY | PH_SEPARATE);
+		phalcon_array_update_string(&definition, SL("size"), &size, PH_COPY);
+	}
+
+	if (phalcon_array_isset_string(data, SS("_scale"))) {
+		PHALCON_OBS_VAR(scale);
+		phalcon_array_fetch_string(&scale, data, SL("_scale"), PH_NOISY);
+		phalcon_array_update_string(&definition, SL("scale"), &scale, PH_COPY);
 	}
 	
 	if (phalcon_array_isset_string(data, SS("_unsigned"))) {
 		PHALCON_OBS_VAR(dunsigned);
 		phalcon_array_fetch_string(&dunsigned, data, SL("_unsigned"), PH_NOISY);
-		phalcon_array_update_string(&definition, SL("unsigned"), &dunsigned, PH_COPY | PH_SEPARATE);
+		phalcon_array_update_string(&definition, SL("unsigned"), &dunsigned, PH_COPY);
 	}
 	
 	if (phalcon_array_isset_string(data, SS("_after"))) {
 		PHALCON_OBS_VAR(after);
 		phalcon_array_fetch_string(&after, data, SL("_after"), PH_NOISY);
-		phalcon_array_update_string(&definition, SL("after"), &after, PH_COPY | PH_SEPARATE);
+		phalcon_array_update_string(&definition, SL("after"), &after, PH_COPY);
 	}
 	
 	if (phalcon_array_isset_string(data, SS("_isNumeric"))) {
 		PHALCON_OBS_VAR(is_numeric);
 		phalcon_array_fetch_string(&is_numeric, data, SL("_isNumeric"), PH_NOISY);
-		phalcon_array_update_string(&definition, SL("isNumeric"), &is_numeric, PH_COPY | PH_SEPARATE);
+		phalcon_array_update_string(&definition, SL("isNumeric"), &is_numeric, PH_COPY);
 	}
 	
 	if (phalcon_array_isset_string(data, SS("_first"))) {
 		PHALCON_OBS_VAR(first);
 		phalcon_array_fetch_string(&first, data, SL("_first"), PH_NOISY);
-		phalcon_array_update_string(&definition, SL("first"), &first, PH_COPY | PH_SEPARATE);
+		phalcon_array_update_string(&definition, SL("first"), &first, PH_COPY);
 	}
 	
 	if (phalcon_array_isset_string(data, SS("_bindType"))) {
 		PHALCON_OBS_VAR(bind_type);
 		phalcon_array_fetch_string(&bind_type, data, SL("_bindType"), PH_NOISY);
-		phalcon_array_update_string(&definition, SL("bindType"), &bind_type, PH_COPY | PH_SEPARATE);
+		phalcon_array_update_string(&definition, SL("bindType"), &bind_type, PH_COPY);
 	}
 	
 	object_init_ex(return_value, phalcon_db_column_ce);

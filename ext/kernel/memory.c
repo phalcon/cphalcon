@@ -46,87 +46,17 @@
  */
 
 /**
- * Initializes/Reinitializes a variable
- */
-inline void phalcon_init_nvar(zval **var TSRMLS_DC) {
-	if (*var) {
-		if (Z_REFCOUNT_PP(var) > 1) {
-			Z_DELREF_PP(var);
-			ALLOC_ZVAL(*var);
-			Z_SET_REFCOUNT_PP(var, 1);
-			Z_UNSET_ISREF_PP(var);
-		} else {
-			zval_ptr_dtor(var);
-			PHALCON_ALLOC_ZVAL(*var);
-		}
-	} else {
-		phalcon_memory_alloc(var TSRMLS_CC);
-	}
-}
-
-/**
- * Copy/Write variables caring of reference counting
- */
-inline void phalcon_cpy_wrt(zval **dest, zval *var TSRMLS_DC) {
-
-	if (*dest) {
-		if (Z_REFCOUNT_PP(dest) > 0) {
-			zval_ptr_dtor(dest);
-		}
-	} else {
-		phalcon_memory_observe(dest TSRMLS_CC);
-	}
-
-	Z_ADDREF_P(var);
-	*dest = var;
-}
-
-/**
- * Copy/Write variables caring of reference counting also duplicating the origin ctor
- */
-inline void phalcon_cpy_wrt_ctor(zval **dest, zval *var TSRMLS_DC) {
-
-	if (*dest) {
-		if (Z_REFCOUNT_PP(dest) > 0) {
-			zval_ptr_dtor(dest);
-		}
-	} else {
-		phalcon_memory_observe(dest TSRMLS_CC);
-	}
-
-	Z_ADDREF_P(var);
-	*dest = var;
-	zval_copy_ctor(*dest);
-	Z_SET_REFCOUNT_PP(dest, 1);
-	Z_UNSET_ISREF_PP(dest);
-}
-
-/**
  * Adds a memory frame in the current executed method
  */
 void PHALCON_FASTCALL phalcon_memory_grow_stack(TSRMLS_D) {
 
 	zend_phalcon_globals *phalcon_globals_ptr = PHALCON_VGLOBAL;
 
-	if (!phalcon_globals_ptr->start_memory) {
-		phalcon_memory_entry *start = (phalcon_memory_entry *) ecalloc(1, sizeof(phalcon_memory_entry));
-	/* ecalloc() will take care of these members
-		start->pointer   = 0;
-		start->capacity  = 0;
-		start->addresses = NULL;
-		start->hash_pointer   = 0;
-		start->hash_capacity  = 0;
-		start->hash_addresses = NULL;
-		start->prev = NULL;
-		start->next = NULL;
-	*/
-		phalcon_globals_ptr->start_memory  = start;
-		phalcon_globals_ptr->active_memory = start;
-	}
-	else if (!phalcon_globals_ptr->active_memory) {
+	assert(phalcon_globals_ptr->start_memory != NULL);
+
+	if (!phalcon_globals_ptr->active_memory) {
 		phalcon_globals_ptr->active_memory = phalcon_globals_ptr->start_memory;
-	}
-	else {
+	} else {
 		phalcon_memory_entry *entry = (phalcon_memory_entry *) ecalloc(1, sizeof(phalcon_memory_entry));
 	/* ecalloc() will take care of these members
 		entry->pointer   = 0;
@@ -177,6 +107,7 @@ int PHALCON_FASTCALL phalcon_memory_restore_stack(TSRMLS_D) {
 	 * Check for non freed hash key zvals, mark as null to avoid string freeing
 	 */
 	for (i = 0; i < active_memory->hash_pointer; ++i) {
+		assert(active_memory->hash_addresses[i] != NULL && *(active_memory->hash_addresses[i]) != NULL);
 		if (Z_REFCOUNT_PP(active_memory->hash_addresses[i]) <= 1) {
 			ZVAL_NULL(*active_memory->hash_addresses[i]);
 		} else {
@@ -188,14 +119,13 @@ int PHALCON_FASTCALL phalcon_memory_restore_stack(TSRMLS_D) {
 	 * Traverse all zvals allocated, reduce the reference counting or free them
 	 */
 	for (i = 0; i < active_memory->pointer; ++i) {
-		if (likely(active_memory->addresses[i] != NULL)) {
+		if (likely(active_memory->addresses[i] != NULL && *(active_memory->addresses[i]) != NULL)) {
 			if (Z_REFCOUNT_PP(active_memory->addresses[i]) == 1) {
 				zval_ptr_dtor(active_memory->addresses[i]);
 			} else {
 				Z_DELREF_PP(active_memory->addresses[i]);
 			}
 		}
-
 	}
 
 	prev = active_memory->prev;
@@ -223,21 +153,9 @@ int PHALCON_FASTCALL phalcon_memory_restore_stack(TSRMLS_D) {
 	return SUCCESS;
 }
 
-/**
- * Finishes memory stack when PHP throws a fatal error
- */
-int PHALCON_FASTCALL phalcon_clean_shutdown_stack(TSRMLS_D)
-{
-	#if !ZEND_DEBUG && PHP_VERSION_ID <= 50400
-	return phalcon_clean_restore_stack(TSRMLS_C);
-	#else
-	return SUCCESS;
-	#endif
-}
-
 static void phalcon_reallocate_memory(phalcon_memory_entry *frame)
 {
-	void *buf = erealloc(frame->addresses, sizeof(zval **) * (frame->capacity + 16));
+	void *buf = perealloc(frame->addresses, sizeof(zval **) * (frame->capacity + 16), unlikely(frame->prev == NULL));
 	if (likely(buf != NULL)) {
 		frame->capacity += 16;
 		frame->addresses = buf;
@@ -249,7 +167,7 @@ static void phalcon_reallocate_memory(phalcon_memory_entry *frame)
 
 static void phalcon_reallocate_hmemory(phalcon_memory_entry *frame)
 {
-	void *buf = erealloc(frame->hash_addresses, sizeof(zval **) * (frame->hash_capacity + 4));
+	void *buf = perealloc(frame->hash_addresses, sizeof(zval **) * (frame->hash_capacity + 4), unlikely(frame->prev == NULL));
 	if (likely(buf != NULL)) {
 		frame->hash_capacity += 4;
 		frame->hash_addresses = buf;
@@ -275,10 +193,11 @@ static inline void phalcon_do_memory_observe(zval **var, phalcon_memory_entry *f
 void PHALCON_FASTCALL phalcon_memory_observe(zval **var TSRMLS_DC) {
 
 	phalcon_do_memory_observe(var, PHALCON_GLOBAL(active_memory));
+	*var = NULL; /* In case an exception or error happens BEFORE the observed variable gets initialized */
 }
 
 /**
- * Observe a variable and allocates memory for it
+ * Observes a variable and allocates memory for it
  */
 void PHALCON_FASTCALL phalcon_memory_alloc(zval **var TSRMLS_DC) {
 
@@ -314,7 +233,7 @@ void PHALCON_FASTCALL phalcon_memory_remove(zval **var TSRMLS_DC) {
 }
 
 /**
- * Cleans the phalcon memory stack recursivery
+ * Cleans the phalcon memory stack recursivey
  */
 int PHALCON_FASTCALL phalcon_clean_restore_stack(TSRMLS_D) {
 
@@ -324,17 +243,61 @@ int PHALCON_FASTCALL phalcon_clean_restore_stack(TSRMLS_D) {
 		phalcon_memory_restore_stack(TSRMLS_C);
 	}
 
-	if (likely(phalcon_globals_ptr->start_memory != NULL)) {
-		if (phalcon_globals_ptr->start_memory->hash_addresses != NULL) {
-			efree(phalcon_globals_ptr->start_memory->hash_addresses);
+	return SUCCESS;
+}
+
+/**
+ * Finishes the current memory stack by releasing allocated memory
+ */
+int PHALCON_FASTCALL phalcon_memory_restore_stack_shutdown(TSRMLS_D) {
+
+	phalcon_memory_entry *prev, *active_memory;
+	zend_phalcon_globals *phalcon_globals_ptr = PHALCON_VGLOBAL;
+
+	active_memory = phalcon_globals_ptr->active_memory;
+	if (unlikely(active_memory == NULL)) {
+#ifndef PHALCON_RELEASE
+		fprintf(stderr, "WARNING: calling phalcon_memory_restore_stack() without an active memory frame!\n");
+		phalcon_print_backtrace();
+#endif
+		return FAILURE;
+	}
+
+	prev = active_memory->prev;
+
+	if (prev != NULL) {
+
+		if (active_memory->hash_addresses != NULL) {
+			efree(active_memory->hash_addresses);
 		}
 
-		if (likely(phalcon_globals_ptr->start_memory->addresses != NULL)) {
-			efree(phalcon_globals_ptr->start_memory->addresses);
+		if (likely(active_memory->addresses != NULL)) {
+			efree(active_memory->addresses);
 		}
 
-		efree(phalcon_globals_ptr->start_memory);
-		phalcon_globals_ptr->start_memory = NULL;
+		efree(phalcon_globals_ptr->active_memory);
+		phalcon_globals_ptr->active_memory = prev;
+		prev->next = NULL;
+	} else {
+		assert(phalcon_globals_ptr->start_memory == active_memory);
+		assert(active_memory->next == NULL);
+		active_memory->pointer      = 0;
+		active_memory->hash_pointer = 0;
+		phalcon_globals_ptr->active_memory = NULL;
+	}
+
+	return SUCCESS;
+}
+
+/**
+ * Cleans the phalcon memory stack recursivery
+ */
+int PHALCON_FASTCALL phalcon_clean_restore_stack_shutdown(TSRMLS_D) {
+
+	zend_phalcon_globals *phalcon_globals_ptr = PHALCON_VGLOBAL;
+
+	while (phalcon_globals_ptr->active_memory != NULL) {
+		phalcon_memory_restore_stack_shutdown(TSRMLS_C);
 	}
 
 	return SUCCESS;

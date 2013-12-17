@@ -317,7 +317,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getLastInitialized){
 PHP_METHOD(Phalcon_Mvc_Model_Manager, load){
 
 	zval *model_name, *new_instance = NULL, *initialized;
-	zval *lowercased, *model, *cloned, *dependency_injector;
+	zval *lowercased, *model, *dependency_injector;
 	zval *exception_message;
 	zend_class_entry *ce0;
 
@@ -344,11 +344,17 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, load){
 		PHALCON_OBS_VAR(model);
 		phalcon_array_fetch(&model, initialized, lowercased, PH_NOISY);
 		if (zend_is_true(new_instance)) {
-			PHALCON_INIT_VAR(cloned);
-			if (phalcon_clone(cloned, model TSRMLS_CC) == FAILURE) {
-				return;
+			PHALCON_OBS_VAR(dependency_injector);
+			phalcon_read_property_this(&dependency_injector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
+
+			ce0 = Z_OBJCE_P(model);
+			object_init_ex(return_value, ce0);
+
+			if (phalcon_has_constructor(return_value TSRMLS_CC)) {
+				phalcon_call_method_p2_noret(return_value, "__construct", dependency_injector, this_ptr);
 			}
-			RETURN_CCTOR(cloned);
+
+			RETURN_MM();
 		}
 	
 		RETURN_CCTOR(model);
@@ -783,7 +789,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getWriteConnectionService){
 PHP_METHOD(Phalcon_Mvc_Model_Manager, notifyEvent){
 
 	zval *event_name, *model, *status = NULL, *behaviors, *entity_name = NULL;
-	zval *models_behaviors, *behavior = NULL, *events_manager;
+	zval *models_behaviors, *behavior = NULL, *events_manager, *mgr;
 	zval *fire_event_name = NULL, *custom_events_manager;
 	HashTable *ah0;
 	HashPosition hp0;
@@ -857,12 +863,15 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, notifyEvent){
 		PHALCON_INIT_NVAR(entity_name);
 		phalcon_get_class(entity_name, model, 1 TSRMLS_CC);
 		if (phalcon_array_isset(custom_events_manager, entity_name)) {
+
+			PHALCON_OBS_VAR(mgr);
+			phalcon_array_fetch(&mgr, custom_events_manager, entity_name, PH_NOISY);
 	
 			PHALCON_INIT_NVAR(fire_event_name);
 			PHALCON_CONCAT_SV(fire_event_name, "model:", event_name);
 	
 			PHALCON_INIT_NVAR(status);
-			phalcon_call_method_p2(status, custom_events_manager, "fire", fire_event_name, model);
+			phalcon_call_method_p2(status, mgr, "fire", fire_event_name, model);
 			if (PHALCON_IS_FALSE(status)) {
 				RETURN_CCTOR(status);
 			}
@@ -1899,6 +1908,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getRelationRecords){
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
+	int i_reusable;
 
 	PHALCON_MM_GROW();
 
@@ -2169,7 +2179,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getRelationRecords){
 	 */
 	PHALCON_INIT_VAR(reusable);
 	phalcon_call_method(reusable, relation, "isreusable");
-	if (zend_is_true(reusable)) {
+	i_reusable = zend_is_true(reusable);
+	if (i_reusable) {
 	
 		PHALCON_INIT_VAR(unique_key);
 		phalcon_unique_key(unique_key, referenced_model, arguments TSRMLS_CC);
@@ -2201,7 +2212,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getRelationRecords){
 	/** 
 	 * Store the result in the cache if it's reusable
 	 */
-	if (zend_is_true(reusable)) {
+	if (i_reusable) {
 		phalcon_call_method_p3_noret(this_ptr, "setreusablerecords", referenced_model, unique_key, records);
 	}
 	

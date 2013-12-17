@@ -157,6 +157,7 @@ class CacheTest extends PHPUnit_Framework_TestCase
 	private function _prepareIgbinary()
 	{
 
+		return false;
 		if (!extension_loaded('igbinary')) {
 			$this->markTestSkipped('Warning: igbinary extension is not loaded');
 			return false;
@@ -680,5 +681,33 @@ class CacheTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($cachedContent, "sure, nothing interesting");
 
 		$this->assertTrue($cache->delete('test-data'));
+	}
+
+	public function testXcacheQueryKeys()
+	{
+		$ready = $this->_prepareXcache();
+		if (!$ready) {
+			return false;
+		}
+
+		$frontCache = new Phalcon\Cache\Frontend\None(array(
+			'lifetime' => 2
+		));
+
+		$cache = new Phalcon\Cache\Backend\Xcache($frontCache);
+
+
+		$cache->delete('test-output');
+		$cache->delete('test-data');
+
+		$cache->save('test-one', 'one');
+		$cache->save('test-two', 'two');
+
+		//Query keys
+		$keys = $cache->queryKeys();
+		$this->assertEquals($keys, array(
+			0 => 'test-one',
+			1 => 'test-two',
+		));
 	}
 }
