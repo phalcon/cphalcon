@@ -1,7 +1,7 @@
 1.3.0
  - Code cleanup: get rid of compiler warnings, dead code elimination, code deduplication, use static code analysers to eliminate possible bugs
    (#801, #802, #810, #825, #827, #838, #849, #942, #968, #1001, #1093, #1169, #1214, #1223, #1224, #1375, #1430)
- - Fixed various memory leaks (#469, #860, #910, #914, #916, #1031, #1067, #1249, #1273, #1291, #1309, #1345, #1455, #1470)
+ - Fixed various memory leaks (#469, #860, #910, #914, #916, #1031, #1067, #1249, #1273, #1291, #1309, #1345, #1455, #1470, #1700)
  - Fixed memory access violations / segmentation faults / etc (#469, #849, #851, #852, #858, #860, #861, #895, #911, #918, #927, #928, #1000, #1077, #1112, #1113, #1131, #1149, #1173,
    #1272, #1284, #1302, #1340, #1343, #1368, #1369, #1371, #1376, #1379, #1392, #1451, #1466, #1485, #1494, #1501, #1504, #1509, #1567, #1607)
  - Fixed PHP notices, warnings and other incompatibilities (#894, #1222, #1315, #1413, #1427, #1428, #1529)
