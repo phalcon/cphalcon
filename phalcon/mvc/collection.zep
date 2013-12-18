@@ -304,9 +304,8 @@ class Collection implements Phalcon\Mvc\CollectionInterface, Phalcon\Di\Injectio
 	 */
 	public function readAttribute(string! attribute)
 	{
-		var attributeValue;
-		if fetch attributeValue, this->attribute  {
-			return attributeValue;
+		if isset this->{attribute} {
+			return this->{attribute};
 		}
 		return null;
 	}

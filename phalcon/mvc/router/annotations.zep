@@ -351,7 +351,7 @@ class Annotations extends Phalcon\Mvc\Router
 			 * Add the converters
 			 */
 			let converts = annotation->getNamedArgument("converts");
-			if typeof converts != "array" {
+			if typeof converts == "array" {
 				for param, convert in converts {
 					route->convert(param, convert);
 				}
@@ -361,7 +361,7 @@ class Annotations extends Phalcon\Mvc\Router
 			 * Add the conversors
 			 */
 			let converts = annotation->getNamedArgument("conversors");
-			if typeof converts != "array" {
+			if typeof converts == "array" {
 				for conversorParam, convert in converts {
 					route->convert(conversorParam, convert);
 				}

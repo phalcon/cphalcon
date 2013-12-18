@@ -57,7 +57,7 @@ class StringLength extends Phalcon\Validation\Validator implements Phalcon\Valid
 			isSetMax = this->isSetOption("max");
 
 		if !isSetMin && !isSetMax {
-			throw new Phalcon\Mvc\Model\Exception("A minimum or maximum must be set");
+			throw new Phalcon\Validation\Exception("A minimum or maximum must be set");
 		}
 
 		let value = validation->getValue(field);
