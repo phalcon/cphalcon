@@ -354,7 +354,7 @@ PHP_METHOD(Phalcon_Image_Adapter_GD, _resize) {
 		
 		if (zend_is_true(ret)) {
 			phalcon_call_func_p1_noret("imagedestroy", image);
-			image = tmp_image;
+			PHALCON_CPY_WRT_CTOR(image, tmp_image);
 		}
 	} else {
 		PHALCON_INIT_VAR(pre_width);
