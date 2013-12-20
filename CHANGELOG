@@ -193,6 +193,7 @@
    - Bug fix: no arguments were passed to beforeMatch handler in Phalcon\Mvc\Router (#1556)
    - Added diagnostics when a validator returns false but does not call appendMessage() (#1664)
    - Fixed handling of numeric namespaces/modules/controllers/actions (#1688)
+   - Added Phalcon\Mvc\View::exists() and Phalcon\Mvc\View(\Simple)::getRegisteredEngines() (#1707)
  - Phalcon\Flash:
    - Phalcon\Flash\Session::getMessage('key') returns now an empty array if the key is not found (#908, #920)
    - Phalcon\Flash\Session::getMessages() incorrectly removed all messages (#1575)
