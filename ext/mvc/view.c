@@ -942,6 +942,58 @@ PHP_METHOD(Phalcon_Mvc_View, registerEngines){
 }
 
 /**
+ * Returns the registered templating engines
+ *
+ * @brief array Phalcon\Mvc\View::getRegisteredEngines()
+ */
+PHP_METHOD(Phalcon_Mvc_View, getRegisteredEngines) {
+
+	RETURN_MEMBER(getThis(), "_registeredEngines")
+}
+
+PHP_METHOD(Phalcon_Mvc_View, exists) {
+
+	zval **view, *base_dir, *view_dir, *engines;
+	HashPosition pos;
+	zval *path;
+	int exists = 0;
+
+	phalcon_fetch_params_ex(1, 0, &view);
+	PHALCON_ENSURE_IS_STRING(view);
+
+	base_dir = phalcon_fetch_nproperty_this(getThis(), SL("_basePath"), PH_NOISY TSRMLS_CC);
+	view_dir = phalcon_fetch_nproperty_this(getThis(), SL("_viewsDir"), PH_NOISY TSRMLS_CC);
+	engines  = phalcon_fetch_nproperty_this(getThis(), SL("_registeredEngines"), PH_NOISY TSRMLS_CC);
+
+	if (Z_TYPE_P(engines) != IS_ARRAY) {
+		MAKE_STD_ZVAL(engines);
+		array_init_size(engines, 1);
+		add_assoc_stringl_ex(engines, SS(".phtml"), (char*)phalcon_mvc_view_engine_php_ce->name, phalcon_mvc_view_engine_php_ce->name_length, !IS_INTERNED(phalcon_mvc_view_engine_php_ce->name));
+		phalcon_update_property_this(getThis(), SL("_registeredEngines"), engines TSRMLS_CC);
+		assert(Z_REFCOUNT_P(engines) > 1);
+		zval_ptr_dtor(&engines);
+	}
+
+	MAKE_STD_ZVAL(path);
+	for (
+		zend_hash_internal_pointer_reset_ex(Z_ARRVAL_P(engines), &pos);
+		!exists && HASH_KEY_NON_EXISTANT != zend_hash_get_current_key_type_ex(Z_ARRVAL_P(engines), &pos);
+		zend_hash_move_forward_ex(Z_ARRVAL_P(engines), &pos)
+	) {
+		zval ext = phalcon_get_current_key_w(Z_ARRVAL_P(engines), &pos);
+
+		PHALCON_CONCAT_VVVV(path, base_dir, view_dir, *view, &ext);
+		exists = (SUCCESS == phalcon_file_exists(path TSRMLS_CC));
+		zval_dtor(path);
+	}
+
+	ZVAL_NULL(path);
+	zval_ptr_dtor(&path);
+
+	RETURN_BOOL(exists);
+}
+
+/**
  * Executes render process from dispatching data
  *
  *<code>

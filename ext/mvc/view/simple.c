@@ -147,6 +147,16 @@ PHP_METHOD(Phalcon_Mvc_View_Simple, registerEngines){
 }
 
 /**
+ * Returns the registered templating engines
+ *
+ * @brief array Phalcon\Mvc\View\Simple::getRegisteredEngines()
+ */
+PHP_METHOD(Phalcon_Mvc_View_Simple, getRegisteredEngines) {
+
+	RETURN_MEMBER(getThis(), "_registeredEngines")
+}
+
+/**
  * Loads registered template engines, if none is registered it will use Phalcon\Mvc\View\Engine\Php
  *
  * @return array
