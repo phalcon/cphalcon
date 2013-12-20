@@ -105,6 +105,17 @@ class ViewTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals('index', $view->getActionName());
 	}
 
+	public function testExists()
+	{
+		$view = new View();
+		$view->setBasePath(__DIR__.'/../');
+		$view->setViewsDir('unit-tests/views/');
+
+		$this->assertTrue($view->exists('test2/index'));
+		$this->assertTrue($view->exists('test3/other'));
+		$this->assertFalse($view->exists('does_not_exist'));
+	}
+
 	public function testStandardRender()
 	{
 
