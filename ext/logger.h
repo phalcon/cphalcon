@@ -17,6 +17,17 @@
   +------------------------------------------------------------------------+
 */
 
+#define PHALCON_LOGGER_EMERGENCY  0
+#define PHALCON_LOGGER_CRITICAL   1
+#define PHALCON_LOGGER_ALERT      2
+#define PHALCON_LOGGER_ERROR      3
+#define PHALCON_LOGGER_WARNING    4
+#define PHALCON_LOGGER_NOTICE     5
+#define PHALCON_LOGGER_INFO       6
+#define PHALCON_LOGGER_DEBUG      7
+#define PHALCON_LOGGER_CUSTOM     8
+#define PHALCON_LOGGER_SPECIAL    9
+
 extern zend_class_entry *phalcon_logger_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Logger);
