@@ -87,6 +87,17 @@ PHP_METHOD(Phalcon_Session_Adapter, __construct){
 	PHALCON_MM_RESTORE();
 }
 
+PHP_METHOD(Phalcon_Session_Adapter, __destruct) {
+
+	zval *started;
+
+	started = phalcon_fetch_nproperty_this(getThis(), SL("_started"), PH_NOISY TSRMLS_CC);
+	if (zend_is_true(started)) {
+		phalcon_session_write_close(TSRMLS_C);
+		phalcon_update_property_bool(this_ptr, SL("_started"), 0 TSRMLS_CC);
+	}
+}
+
 /**
  * Starts the session (if headers are already sent the session will not be started)
  *
