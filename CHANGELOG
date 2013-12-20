@@ -17,6 +17,8 @@
  - Bug fixes in beanstalkd protocol implementation
  - Phalcon\Paginator\Adapter\Model returns correct results even when page number is incorrect (#1654)
  - Bug fix: no arguments were passed to beforeMatch handler in Phalcon\Mvc\Router (#1556)
+ - Phalcon\Logger\Adapter::setLogLevel() is honored by transactions (#1716)
+ - Bug fixes in Phalcon\Db\Adapter\Pdo::describeColumns() (#1562)
 
 1.2.4
  - Fixed broken ACL inheritance (#905)
