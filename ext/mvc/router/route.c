@@ -65,6 +65,7 @@ PHALCON_INIT_CLASS(Phalcon_Mvc_Router_Route){
 	zend_declare_property_null(phalcon_mvc_router_route_ce, SL("_id"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_mvc_router_route_ce, SL("_name"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_mvc_router_route_ce, SL("_beforeMatch"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_mvc_router_route_ce, SL("_group"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_mvc_router_route_ce, SL("_uniqueId"), ZEND_ACC_STATIC|ZEND_ACC_PROTECTED TSRMLS_CC);
 
 	zend_class_implements(phalcon_mvc_router_route_ce TSRMLS_CC, 1, phalcon_mvc_router_routeinterface_ce);
@@ -669,6 +670,33 @@ PHP_METHOD(Phalcon_Mvc_Router_Route, getHostname){
 
 
 	RETURN_MEMBER(this_ptr, "_hostname");
+}
+
+/**
+ * Sets the group associated with the route
+ *
+ * @param Phalcon\Mvc\Router\Group $group
+ * @return Phalcon\Mvc\RouteInterface
+ */
+PHP_METHOD(Phalcon_Mvc_Router_Route, setGroup) {
+
+	zval *group;
+
+	phalcon_fetch_params(0, 1, 0, &group);
+	PHALCON_VERIFY_CLASS_EX(group, phalcon_mvc_router_group_ce, phalcon_mvc_router_exception_ce, 0);
+
+	phalcon_update_property_this(getThis(), SL("_group"), group TSRMLS_CC);
+	RETURN_THISW();
+}
+
+/**
+ * Returns the group associated with the route
+ *
+ * @return Phalcon\Mvc\Router\Group|null
+ */
+PHP_METHOD(Phalcon_Mvc_Router_Route, getGroup) {
+
+	RETURN_MEMBER(this_ptr, "_group");
 }
 
 /**

@@ -501,6 +501,7 @@ class RouterMvcTest extends PHPUnit_Framework_TestCase
 			$this->assertEquals($paths['module'], $router->getModuleName());
 			$this->assertEquals($paths['controller'], $router->getControllerName());
 			$this->assertEquals($paths['action'], $router->getActionName());
+			$this->assertEquals($blog, $router->getMatchedRoute()->getGroup());
 		}
 	}
 
