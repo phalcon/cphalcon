@@ -158,6 +158,8 @@
    - Implemented Phalcon\Logger\Adapter::isTransaction() (#1238)
    - Fixed a bug preventing the EMERGENCY log type from being displayed correctly (#1498)
    - Added Phalcon\Logger\Adapter\File::getPath() (#1495, #1508)
+   - Phalcon\Logger optimizations (#1716)
+   - Phalcon\Logger\Adapter::setLogLevel() is honored by transactions (#1716)
  - Phalcon\Mvc:
    - Phalcon\Mvc\Application::handle() now checks whether the class exists before include()'ing its file (#812, #818)
    - Phalcon\Mvc\Model\Criteria::fromInput() now sets _modelName (#866, #873)
