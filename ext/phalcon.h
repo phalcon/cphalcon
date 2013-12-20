@@ -332,3 +332,5 @@
 #include "image/exception.h"
 #include "image/adapter/gd.h"
 #include "image/adapter/imagick.h"
+
+extern int nusphere_dbg_present;

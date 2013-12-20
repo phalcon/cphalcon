@@ -486,10 +486,13 @@ PHALCON_INIT_CLASS(Phalcon_DI){
 	phalcon_di_object_handlers.has_dimension   = phalcon_di_has_dimension;
 	phalcon_di_object_handlers.write_dimension = phalcon_di_write_dimension;
 	phalcon_di_object_handlers.unset_dimension = phalcon_di_unset_dimension;
-	phalcon_di_object_handlers.get_properties  = phalcon_di_get_properties;
 	phalcon_di_object_handlers.get_method      = phalcon_di_get_method;
 	phalcon_di_object_handlers.call_method     = (zend_object_call_method_t)phalcon_di_call_method;
 	phalcon_di_object_handlers.clone_obj       = phalcon_di_clone_obj;
+
+	if (!nusphere_dbg_present) {
+		phalcon_di_object_handlers.get_properties = phalcon_di_get_properties;
+	}
 
 	return SUCCESS;
 }
