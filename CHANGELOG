@@ -110,7 +110,7 @@
    - Fixed array to string conversion notice (#1103)
    - Add support for xdebug.file_link_format (#1401)
  - Phalcon\DI:
-   - Phalcon\Di optimizations (#1014)
+   - Phalcon\Di optimizations (#1014) with workarounds for NuSphere DBG (#1714)
    - Added Phalcon\Di\Service::isResolved() method (#1242)
    - Make sure that 'persistent' is resolved only when accessed for the first time (#1637)
    - Faster DI implementation by using object handlers (#1473)
