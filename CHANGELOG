@@ -220,6 +220,8 @@
  - Phalcon\Session:
    - Fix Phalcon\Session\Bag::remove() (#1637)
    - Phalcon\Session\Adapter::get() may optionally remove the data from session (#1358)
+   - Phalcon\Session\Adapter optimizations (#1624)
+   - Phalcon\Session\Adapter::__destruct() now calls session_write_close() (#1624)
  - Phalcon\Tag:
    - Fixed bugs (#903)
    - Fixed radio button generation (#947)
