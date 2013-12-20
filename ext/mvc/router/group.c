@@ -292,10 +292,10 @@ PHP_METHOD(Phalcon_Mvc_Router_Group, _addRoute){
 			PHALCON_INIT_VAR(merged_paths);
 			phalcon_fast_array_merge(merged_paths, &default_paths, &paths TSRMLS_CC);
 		} else {
-			PHALCON_CPY_WRT(merged_paths, default_paths);
+			merged_paths = default_paths;
 		}
 	} else {
-		PHALCON_CPY_WRT(merged_paths, paths);
+		merged_paths = paths;
 	}
 	
 	/** 
@@ -303,6 +303,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Group, _addRoute){
 	 */
 	object_init_ex(return_value, phalcon_mvc_router_route_ce);
 	phalcon_call_method_p3_noret(return_value, "__construct", prefix_pattern, merged_paths, http_methods);
+	phalcon_call_method_p1_noret(return_value, "setgroup", this_ptr);
 	
 	phalcon_update_property_array_append(this_ptr, SL("_routes"), return_value TSRMLS_CC);
 	
