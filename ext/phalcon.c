@@ -37,6 +37,8 @@
 
 #include "kernel/framework/orm.h"
 
+int nusphere_dbg_present;
+
 zend_class_entry *phalcon_di_ce;
 zend_class_entry *phalcon_acl_ce;
 zend_class_entry *phalcon_tag_ce;
@@ -496,6 +498,8 @@ static void phalcon_verify_permanent_zvals(int strict TSRMLS_DC)
 #endif
 
 static PHP_MINIT_FUNCTION(phalcon){
+
+	nusphere_dbg_present = zend_hash_exists(&module_registry, SS("DBG"));
 
 	PHALCON_INIT(Phalcon_DI_InjectionAwareInterface);
 	PHALCON_INIT(Phalcon_Forms_ElementInterface);
