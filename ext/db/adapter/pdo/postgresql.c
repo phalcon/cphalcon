@@ -200,65 +200,119 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Postgresql, describeColumns){
 		/** 
 		 * Check the column type to get the correct Phalcon type
 		 */
-		if (phalcon_memnstr_str(column_type, SL("int"))) {
-			phalcon_array_update_string_long(&definition, SL("type"), 0, PH_SEPARATE);
-			phalcon_array_update_string_bool(&definition, SL("isNumeric"), 1, PH_SEPARATE);
-			phalcon_array_update_string(&definition, SL("size"), &numeric_size, PH_COPY | PH_SEPARATE);
-			phalcon_array_update_string_long(&definition, SL("bindType"), 1, PH_SEPARATE);
-		} else {
+		while (1) {
+			/**
+			 * Tinyint(1) is boolean
+			 */
+			if (phalcon_memnstr_str(column_type, SL("smallint(1)"))) {
+				phalcon_array_update_string_long(&definition, SL("type"), 8, PH_SEPARATE);
+				phalcon_array_update_string_long(&definition, SL("bindType"), 5, PH_SEPARATE);
+				break;
+			}
+
+			/**
+			 * Smallint/Bigint/Integers/Int are int
+			 */
+			if (phalcon_memnstr_str(column_type, SL("int"))) {
+				phalcon_array_update_string_long(&definition, SL("type"), 0, PH_SEPARATE);
+				phalcon_array_update_string_bool(&definition, SL("isNumeric"), 1, PH_SEPARATE);
+				phalcon_array_update_string(&definition, SL("size"), &numeric_size, PH_COPY | PH_SEPARATE);
+				phalcon_array_update_string_long(&definition, SL("bindType"), 1, PH_SEPARATE);
+				break;
+			}
+
+			/**
+			 * Varchar
+			 */
 			if (phalcon_memnstr_str(column_type, SL("varying"))) {
 				phalcon_array_update_string_long(&definition, SL("type"), 2, PH_SEPARATE);
 				phalcon_array_update_string(&definition, SL("size"), &char_size, PH_COPY | PH_SEPARATE);
-			} else {
-				if (phalcon_memnstr_str(column_type, SL("date"))) {
-					phalcon_array_update_string_long(&definition, SL("type"), 1, PH_SEPARATE);
-					phalcon_array_update_string_long(&definition, SL("size"), 0, PH_SEPARATE);
-				} else {
-					if (phalcon_memnstr_str(column_type, SL("numeric"))) {
-						phalcon_array_update_string_long(&definition, SL("type"), 3, PH_SEPARATE);
-						phalcon_array_update_string_bool(&definition, SL("isNumeric"), 1, PH_SEPARATE);
-						phalcon_array_update_string(&definition, SL("size"), &numeric_size, PH_COPY | PH_SEPARATE);
-						phalcon_array_update_string(&definition, SL("scale"), &numeric_scale, PH_COPY | PH_SEPARATE);
-						phalcon_array_update_string_long(&definition, SL("bindType"), 32, PH_SEPARATE);
-					} else {
-						if (phalcon_memnstr_str(column_type, SL("char"))) {
-							phalcon_array_update_string_long(&definition, SL("type"), 5, PH_SEPARATE);
-							phalcon_array_update_string(&definition, SL("size"), &char_size, PH_COPY | PH_SEPARATE);
-						} else {
-							if (phalcon_memnstr_str(column_type, SL("timestamp"))) {
-								phalcon_array_update_string_long(&definition, SL("type"), 4, PH_SEPARATE);
-								phalcon_array_update_string_long(&definition, SL("size"), 0, PH_SEPARATE);
-							} else {
-								if (phalcon_memnstr_str(column_type, SL("text"))) {
-									phalcon_array_update_string_long(&definition, SL("type"), 6, PH_SEPARATE);
-									phalcon_array_update_string(&definition, SL("size"), &char_size, PH_COPY | PH_SEPARATE);
-								} else {
-									if (phalcon_memnstr_str(column_type, SL("float"))) {
-										phalcon_array_update_string_long(&definition, SL("type"), 7, PH_SEPARATE);
-										phalcon_array_update_string_bool(&definition, SL("isNumeric"), 1, PH_SEPARATE);
-										phalcon_array_update_string(&definition, SL("size"), &numeric_size, PH_COPY | PH_SEPARATE);
-										phalcon_array_update_string_long(&definition, SL("bindType"), 32, PH_SEPARATE);
-									} else {
-										if (phalcon_memnstr_str(column_type, SL("bool"))) {
-											phalcon_array_update_string_long(&definition, SL("type"), 8, PH_SEPARATE);
-											phalcon_array_update_string_long(&definition, SL("size"), 0, PH_SEPARATE);
-											phalcon_array_update_string_long(&definition, SL("bindType"), 5, PH_SEPARATE);
-										} else {
-											if (phalcon_memnstr_str(column_type, SL("uuid"))) {
-												phalcon_array_update_string_long(&definition, SL("type"), 5, PH_SEPARATE);
-												phalcon_array_update_string_long(&definition, SL("size"), 36, PH_SEPARATE);
-											} else {
-												phalcon_array_update_string_long(&definition, SL("type"), 5, PH_SEPARATE);
-												phalcon_array_update_string(&definition, SL("size"), &char_size, PH_COPY | PH_SEPARATE);
-											}
-										}
-									}
-								}
-							}
-						}
-					}
-				}
+				break;
 			}
+
+			/**
+			 * Special type for datetime
+			 */
+			if (phalcon_memnstr_str(column_type, SL("date"))) {
+				phalcon_array_update_string_long(&definition, SL("type"), 1, PH_SEPARATE);
+				phalcon_array_update_string_long(&definition, SL("size"), 0, PH_SEPARATE);
+				break;
+			}
+
+			/**
+			 * Numeric
+			 */
+			if (phalcon_memnstr_str(column_type, SL("numeric"))) {
+				phalcon_array_update_string_long(&definition, SL("type"), 3, PH_SEPARATE);
+				phalcon_array_update_string_bool(&definition, SL("isNumeric"), 1, PH_SEPARATE);
+				phalcon_array_update_string(&definition, SL("size"), &numeric_size, PH_COPY | PH_SEPARATE);
+				phalcon_array_update_string(&definition, SL("scale"), &numeric_scale, PH_COPY | PH_SEPARATE);
+				phalcon_array_update_string_long(&definition, SL("bindType"), 32, PH_SEPARATE);
+				break;
+			}
+
+			/**
+			 * Chars are chars
+			 */
+			if (phalcon_memnstr_str(column_type, SL("char"))) {
+				phalcon_array_update_string_long(&definition, SL("type"), 5, PH_SEPARATE);
+				phalcon_array_update_string(&definition, SL("size"), &char_size, PH_COPY | PH_SEPARATE);
+				break;
+			}
+
+			/**
+			 * Date
+			 */
+			if (phalcon_memnstr_str(column_type, SL("timestamp"))) {
+				phalcon_array_update_string_long(&definition, SL("type"), 4, PH_SEPARATE);
+				phalcon_array_update_string_long(&definition, SL("size"), 0, PH_SEPARATE);
+				break;
+			}
+
+			/**
+			 * Text are varchars
+			 */
+			if (phalcon_memnstr_str(column_type, SL("text"))) {
+				phalcon_array_update_string_long(&definition, SL("type"), 6, PH_SEPARATE);
+				phalcon_array_update_string(&definition, SL("size"), &char_size, PH_COPY | PH_SEPARATE);
+				break;
+			}
+
+			/**
+			 * Float/Smallfloats/Decimals are float
+			 */
+			if (phalcon_memnstr_str(column_type, SL("float"))) {
+				phalcon_array_update_string_long(&definition, SL("type"), 7, PH_SEPARATE);
+				phalcon_array_update_string_bool(&definition, SL("isNumeric"), 1, PH_SEPARATE);
+				phalcon_array_update_string(&definition, SL("size"), &numeric_size, PH_COPY | PH_SEPARATE);
+				phalcon_array_update_string_long(&definition, SL("bindType"), 32, PH_SEPARATE);
+				break;
+			}
+
+			/**
+			 * Boolean
+			 */
+			if (phalcon_memnstr_str(column_type, SL("bool"))) {
+				phalcon_array_update_string_long(&definition, SL("type"), 8, PH_SEPARATE);
+				phalcon_array_update_string_long(&definition, SL("size"), 0, PH_SEPARATE);
+				phalcon_array_update_string_long(&definition, SL("bindType"), 5, PH_SEPARATE);
+				break;
+			}
+
+			/**
+			 * UUID
+			 */
+			if (phalcon_memnstr_str(column_type, SL("uuid"))) {
+				phalcon_array_update_string_long(&definition, SL("type"), 5, PH_SEPARATE);
+				phalcon_array_update_string_long(&definition, SL("size"), 36, PH_SEPARATE);
+				break;
+			}
+
+			/**
+			 * By default is string
+			 */
+			phalcon_array_update_string_long(&definition, SL("type"), 2, PH_SEPARATE);
+			break;
 		}
 	
 		if (phalcon_memnstr_str(column_type, SL("unsigned"))) {
