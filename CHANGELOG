@@ -186,6 +186,7 @@
    - Added Phalcon\Mvc\View::getCurrentRenderLevel() (#907, #1326)
    - Bug fix in Phalcon\Mvc\Model\Resultset\Simple::toArray() (#1377)
    - Bug fixes in Volt compiler (#1387)
+   - Volt compiler optimizations (#1729)
    - Phalcon\Mvc\Model\Query\Builder optimizations (#1414)
    - Allow to set dirs without trailing slashes in Phalcon\Mvc\View (#406, #1440)
    - Phalcon\Mvc\Model\Validator::getOption() returns null if option does not exists (#1531)
