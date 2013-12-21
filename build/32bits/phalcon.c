@@ -2100,6 +2100,7 @@ static void phalcon_session_start(TSRMLS_D);
 static void phalcon_session_destroy(TSRMLS_D);
 static void phalcon_get_session_id(zval *return_value TSRMLS_DC);
 static void phalcon_set_session_id(zval *sid TSRMLS_DC);
+static void phalcon_session_write_close(TSRMLS_D);
 
 #endif /* KERNEL_SESSION_H */
 
@@ -10451,6 +10452,11 @@ static void phalcon_set_session_id(zval *sid TSRMLS_DC)
 
 	phalcon_call_func_params_w(NULL, SL("session_id"), 1, params TSRMLS_CC);
 #endif
+}
+
+static void phalcon_session_write_close(TSRMLS_D)
+{
+	phalcon_call_func_params_w(NULL, SL("session_write_close"), 0, NULL TSRMLS_CC);
 }
 
 
@@ -74842,7 +74848,7 @@ static PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, functionCall){
 			phalcon_read_property_this_quick(&array_helpers, this_ptr, SL("_arrayHelpers"), 3087512406UL, PH_NOISY_CC);
 			if (Z_TYPE_P(array_helpers) != IS_ARRAY) { 
 				PHALCON_INIT_NVAR(array_helpers);
-				array_init_size(array_helpers, 15);
+				array_init_size(array_helpers, 16);
 				add_assoc_bool_ex(array_helpers, SS("link_to"), 1);
 				add_assoc_bool_ex(array_helpers, SS("image"), 1);
 				add_assoc_bool_ex(array_helpers, SS("form"), 1);
@@ -74858,6 +74864,7 @@ static PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, functionCall){
 				add_assoc_bool_ex(array_helpers, SS("text_field"), 1);
 				add_assoc_bool_ex(array_helpers, SS("date_field"), 1);
 				add_assoc_bool_ex(array_helpers, SS("numeric_field"), 1);
+				add_assoc_bool_ex(array_helpers, SS("email_field"), 1);
 				phalcon_update_property_this_quick(this_ptr, SL("_arrayHelpers"), array_helpers, 3087512406UL TSRMLS_CC);
 			}
 	
@@ -93594,6 +93601,22 @@ static PHP_METHOD(Phalcon_Session_Adapter, __construct){
 		phalcon_call_method_p1_key(NULL, this_ptr, "setoptions", options, 1759822653UL);
 	}
 	
+	PHALCON_MM_RESTORE();
+}
+
+static PHP_METHOD(Phalcon_Session_Adapter, __destruct) {
+
+	zval *started;
+
+	PHALCON_MM_GROW();
+
+	PHALCON_OBS_VAR(started);
+	phalcon_read_property_this(&started, getThis(), SL("_started"), PH_NOISY TSRMLS_CC);
+	if (zend_is_true(started)) {
+		phalcon_session_write_close(TSRMLS_C);
+		phalcon_update_property_bool(this_ptr, SL("_started"), 0 TSRMLS_CC);
+	}
+
 	PHALCON_MM_RESTORE();
 }
 
