@@ -19,6 +19,8 @@
  - Bug fix: no arguments were passed to beforeMatch handler in Phalcon\Mvc\Router (#1556)
  - Phalcon\Logger\Adapter::setLogLevel() is honored by transactions (#1716)
  - Bug fixes in Phalcon\Db\Adapter\Pdo::describeColumns() (#1562)
+ - Phalcon\Session\Adapter::__destruct() now calls session_write_close() (#1624)
+ - Volt: fixed bug in email_filed() (#1723)
 
 1.2.4
  - Fixed broken ACL inheritance (#905)
