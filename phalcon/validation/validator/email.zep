@@ -48,7 +48,7 @@ class Email extends Phalcon\Validation\Validator implements Phalcon\Validation\V
 
 		let value = validation->getValue(field);
 
-                if this->isSetOption("allowEmpty") && (typeof value == "null" || empty value) {
+                if this->isSetOption("allowEmpty") && empty(value) {
                     return true;
                 }
 
@@ -56,7 +56,7 @@ class Email extends Phalcon\Validation\Validator implements Phalcon\Validation\V
 
 			let message = this->getOption("message");
                         let replacePairs = [":field": field];
-			if empty message {
+			if empty(message) {
                                 let message = "Value of field :field must have a valid e-mail format";
 			}
 
