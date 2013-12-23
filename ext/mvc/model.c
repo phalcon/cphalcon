@@ -1,4 +1,3 @@
-
 /*
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
@@ -6538,11 +6537,12 @@ PHP_METHOD(Phalcon_Mvc_Model, dump){
  * print_r($robot->toArray());
  *</code>
  *
+ * @param array $columns
  * @return array
  */
 PHP_METHOD(Phalcon_Mvc_Model, toArray){
 
-	zval *meta_data, *data, *null_value, *attributes;
+	zval *columns = NULL, *meta_data, *data, *null_value, *attributes;
 	zval *column_map, *attribute = NULL, *exception_message = NULL;
 	zval *attribute_field = NULL, *value = NULL;
 	HashTable *ah0;
@@ -6550,6 +6550,8 @@ PHP_METHOD(Phalcon_Mvc_Model, toArray){
 	zval **hd;
 
 	PHALCON_MM_GROW();
+
+	phalcon_fetch_params(1, 0, 1, &columns);
 
 	PHALCON_INIT_VAR(meta_data);
 	phalcon_call_method(meta_data, this_ptr, "getmodelsmetadata");
@@ -6576,7 +6578,14 @@ PHP_METHOD(Phalcon_Mvc_Model, toArray){
 	while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
 		PHALCON_GET_HVALUE(attribute);
-	
+
+		if (columns && Z_TYPE_P(columns) == IS_ARRAY) {
+			if (!phalcon_fast_in_array(attribute, columns TSRMLS_CC)) {
+				zend_hash_move_forward_ex(ah0, &hp0);
+				continue;
+			}
+		}
+
 		/** 
 		 * Check if the columns must be renamed
 		 */

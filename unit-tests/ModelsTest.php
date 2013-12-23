@@ -447,6 +447,15 @@ class ModelsTest extends PHPUnit_Framework_TestCase
 
 		$this->assertEquals($persona->toArray(), $expected);
 
+		// Issue 1701
+		$expected = array(
+			'nombres' => 'LOST CREATE',
+			'cupo' => 21000,
+			'estado' => 'A',
+		);
+
+		$this->assertEquals($persona->toArray(array('nombres', 'cupo', 'estado')), $expected);
+
 		//Refresh
 		$persona = Personas::findFirst();
 
