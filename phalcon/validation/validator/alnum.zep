@@ -20,19 +20,19 @@
 namespace Phalcon\Validation\Validator;
 
 /**
- * Phalcon\Validation\Validator\Email
+ * Phalcon\Validation\Validator\Alnum
  *
- * Checks if a value has a correct e-mail format
+ * Check for alphanumeric character(s)
  *
  *<code>
- *use Phalcon\Validation\Validator\Email as EmailValidator;
+ *use Phalcon\Validation\Validator\Alnum as AlnumValidator;
  *
- *$validator->add('email', new EmailValidator(array(
- *   'message' => 'The e-mail is not valid'
+ *$validator->add('username', new AlnumValidator(array(
+ *   'message' => ':field must contain only alphanumeric characters'
  *)));
  *</code>
  */
-class Email extends Phalcon\Validation\Validator implements Phalcon\Validation\ValidatorInterface
+class Alnum extends Phalcon\Validation\Validator implements Phalcon\Validation\ValidatorInterface
 {
 
 	/**
@@ -52,15 +52,15 @@ class Email extends Phalcon\Validation\Validator implements Phalcon\Validation\V
                     return true;
                 }
 
-		if !filter_var(value, FILTER_VALIDATE_EMAIL) {
+		if !ctype_alnum(value) {
 
 			let message = this->getOption("message");
                         let replacePairs = [":field": field];
 			if empty(message) {
-                                let message = "Value of field :field must have a valid e-mail format";
+                                let message = "Field :field must contain only alphanumeric characters";
 			}
 
-			validation->appendMessage(new Phalcon\Validation\Message(strtr(message, replacePairs), field, "Email"));
+			validation->appendMessage(new Phalcon\Validation\Message(strtr(message, replacePairs), field, "Alnum"));
 			return false;
 		}
 
