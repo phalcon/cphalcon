@@ -897,7 +897,7 @@ PHP_METHOD(Phalcon_Image_Adapter, render) {
 		zephir_get_strval(_3, _2);
 		ZEPHIR_CPY_WRT(ext, _3);
 	}
-	if ((0 == 0)) {
+	if (ZEPHIR_IS_EMPTY(ext)) {
 		ZEPHIR_INIT_NVAR(ext);
 		ZVAL_STRING(ext, "png", 1);
 	}

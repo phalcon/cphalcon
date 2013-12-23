@@ -145,7 +145,7 @@ class Annotations extends Phalcon\Mvc\Router
 						 */
 						let handler = scope[1];
 
-						if memnstr(handler, "\\") {
+						if memstr(handler, "\\") {
 
 							/**
 							 * Extract the real class name from the namespaced class

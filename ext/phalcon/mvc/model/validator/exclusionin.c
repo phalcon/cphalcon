@@ -16,7 +16,7 @@
 #include "kernel/memory.h"
 #include "kernel/operators.h"
 #include "kernel/exception.h"
-#include "kernel/concat.h"
+#include "kernel/array.h"
 #include "kernel/string.h"
 
 
@@ -80,7 +80,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_Validator_Exclusionin) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_Validator_Exclusionin, validate) {
 
-	zval *record, *fieldName, *domain, *value, *message = NULL, *_0, *_1, *_2 = NULL, *_3;
+	zval *record, *field, *domain, *value, *message = NULL, *replacePairs, *_0, *_1, *_2, *_3 = NULL, *_4;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &record);
@@ -89,9 +89,9 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Exclusionin, validate) {
 
 	ZEPHIR_INIT_VAR(_0);
 	ZVAL_STRING(_0, "field", 1);
-	ZEPHIR_INIT_VAR(fieldName);
-	zephir_call_method_p1(fieldName, this_ptr, "getoption", _0);
-	if (!ZEPHIR_IS_STRING(fieldName, "string")) {
+	ZEPHIR_INIT_VAR(field);
+	zephir_call_method_p1(field, this_ptr, "getoption", _0);
+	if (!ZEPHIR_IS_STRING(field, "string")) {
 		ZEPHIR_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Field name must be a string");
 		return;
 	}
@@ -112,23 +112,36 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Exclusionin, validate) {
 		return;
 	}
 	ZEPHIR_INIT_VAR(value);
-	zephir_call_method_p1(value, record, "readattribute", fieldName);
+	zephir_call_method_p1(value, record, "readattribute", field);
 	ZEPHIR_INIT_BNVAR(_1);
-	zephir_call_func_p2(_1, "in_array", value, domain);
-	if (zephir_is_true(_1)) {
-		ZEPHIR_INIT_VAR(_2);
-		ZVAL_STRING(_2, "message", 1);
-		ZEPHIR_INIT_VAR(message);
-		zephir_call_method_p1(message, this_ptr, "getoption", _2);
-		if (!(zephir_is_true(message))) {
-			ZEPHIR_INIT_NVAR(_2);
-			zephir_fast_join_str(_2, SL(", "), domain TSRMLS_CC);
-			ZEPHIR_INIT_NVAR(message);
-			ZEPHIR_CONCAT_SVSV(message, "Value of field '", fieldName, " must not be part of list: ", _2);
-		}
+	ZEPHIR_INIT_VAR(_2);
+	ZVAL_STRING(_2, "allowEmpty", 1);
+	zephir_call_method_p1(_1, this_ptr, "issetoption", _2);
+	if (zephir_is_true(_1) && ZEPHIR_IS_EMPTY(value)) {
+		RETURN_MM_BOOL(1);
+	}
+	ZEPHIR_INIT_BNVAR(_2);
+	zephir_call_func_p2(_2, "in_array", value, domain);
+	if (zephir_is_true(_2)) {
 		ZEPHIR_INIT_VAR(_3);
-		ZVAL_STRING(_3, "Exclusion", 1);
-		zephir_call_method_p3_noret(this_ptr, "appendmessage", message, fieldName, _3);
+		ZVAL_STRING(_3, "message", 1);
+		ZEPHIR_INIT_VAR(message);
+		zephir_call_method_p1(message, this_ptr, "getoption", _3);
+		ZEPHIR_INIT_VAR(replacePairs);
+		array_init(replacePairs);
+		zephir_array_update_string(&replacePairs, SL(":field"), &field, PH_COPY | PH_SEPARATE);
+		ZEPHIR_INIT_NVAR(_3);
+		zephir_fast_join_str(_3, SL(", "), domain TSRMLS_CC);
+		zephir_array_update_string(&replacePairs, SL(":domain"), &_3, PH_COPY | PH_SEPARATE);
+		if (ZEPHIR_IS_EMPTY(message)) {
+			ZEPHIR_INIT_NVAR(message);
+			ZVAL_STRING(message, "Value of field :field must not be part of list: :domain", 1);
+		}
+		ZEPHIR_INIT_NVAR(_3);
+		zephir_call_func_p2(_3, "strtr", message, replacePairs);
+		ZEPHIR_INIT_VAR(_4);
+		ZVAL_STRING(_4, "Exclusion", 1);
+		zephir_call_method_p3_noret(this_ptr, "appendmessage", _3, field, _4);
 		RETURN_MM_BOOL(0);
 	}
 	RETURN_MM_BOOL(1);

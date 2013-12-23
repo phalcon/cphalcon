@@ -401,7 +401,7 @@ PHP_METHOD(Phalcon_Assets_Resource, getContent) {
 
 	ZEPHIR_OBS_VAR(sourcePath);
 	zephir_read_property_this(&sourcePath, this_ptr, SL("_sourcePath"), PH_NOISY_CC);
-	if ((0 == 0)) {
+	if (ZEPHIR_IS_EMPTY(sourcePath)) {
 		ZEPHIR_OBS_NVAR(sourcePath);
 		zephir_read_property_this(&sourcePath, this_ptr, SL("_path"), PH_NOISY_CC);
 	}
@@ -451,7 +451,7 @@ PHP_METHOD(Phalcon_Assets_Resource, getRealTargetUri) {
 
 	ZEPHIR_OBS_VAR(targetUri);
 	zephir_read_property_this(&targetUri, this_ptr, SL("_targetUri"), PH_NOISY_CC);
-	if ((0 == 0)) {
+	if (ZEPHIR_IS_EMPTY(targetUri)) {
 		ZEPHIR_OBS_NVAR(targetUri);
 		zephir_read_property_this(&targetUri, this_ptr, SL("_path"), PH_NOISY_CC);
 	}
@@ -483,7 +483,7 @@ PHP_METHOD(Phalcon_Assets_Resource, getRealSourcePath) {
 
 	ZEPHIR_OBS_VAR(sourcePath);
 	zephir_read_property_this(&sourcePath, this_ptr, SL("_sourcePath"), PH_NOISY_CC);
-	if ((0 == 0)) {
+	if (ZEPHIR_IS_EMPTY(sourcePath)) {
 		ZEPHIR_OBS_NVAR(sourcePath);
 		zephir_read_property_this(&sourcePath, this_ptr, SL("_path"), PH_NOISY_CC);
 	}
@@ -522,7 +522,7 @@ PHP_METHOD(Phalcon_Assets_Resource, getRealTargetPath) {
 
 	ZEPHIR_OBS_VAR(targetPath);
 	zephir_read_property_this(&targetPath, this_ptr, SL("_targetPath"), PH_NOISY_CC);
-	if ((0 == 0)) {
+	if (ZEPHIR_IS_EMPTY(targetPath)) {
 		ZEPHIR_OBS_NVAR(targetPath);
 		zephir_read_property_this(&targetPath, this_ptr, SL("_path"), PH_NOISY_CC);
 	}

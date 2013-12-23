@@ -15,7 +15,7 @@
 #include "kernel/fcall.h"
 #include "kernel/memory.h"
 #include "kernel/operators.h"
-#include "kernel/concat.h"
+#include "kernel/array.h"
 
 
 /*
@@ -62,19 +62,19 @@ ZEPHIR_INIT_CLASS(Phalcon_Validation_Validator_Confirmation) {
 /**
  * Executes the validation
  *
- * @param Phalcon\Validation validator
- * @param string attribute
+ * @param Phalcon\Validation validation
+ * @param string field
  * @return boolean
  */
 PHP_METHOD(Phalcon_Validation_Validator_Confirmation, validate) {
 
-	zval *attribute = NULL;
-	zval *validator, *attribute_param = NULL, *withAttribute, *value, *withValue, *message = NULL, *_0, *_1;
+	zval *field = NULL;
+	zval *validation, *field_param = NULL, *withAttribute, *value, *withValue, *message = NULL, *replacePairs, *_0, *_1, *_2;
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 2, 0, &validator, &attribute_param);
+	zephir_fetch_params(1, 2, 0, &validation, &field_param);
 
-		zephir_get_strval(attribute, attribute_param);
+		zephir_get_strval(field, field_param);
 
 
 	ZEPHIR_INIT_VAR(_0);
@@ -82,24 +82,30 @@ PHP_METHOD(Phalcon_Validation_Validator_Confirmation, validate) {
 	ZEPHIR_INIT_VAR(withAttribute);
 	zephir_call_method_p1(withAttribute, this_ptr, "getoption", _0);
 	ZEPHIR_INIT_VAR(value);
-	zephir_call_method_p1(value, validator, "getvalue", attribute);
+	zephir_call_method_p1(value, validation, "getvalue", field);
 	ZEPHIR_INIT_VAR(withValue);
-	zephir_call_method_p1(withValue, validator, "getvalue", withAttribute);
+	zephir_call_method_p1(withValue, validation, "getvalue", withAttribute);
 	if (!ZEPHIR_IS_EQUAL(value, withValue)) {
 		ZEPHIR_INIT_BNVAR(_0);
 		ZVAL_STRING(_0, "message", 1);
 		ZEPHIR_INIT_VAR(message);
 		zephir_call_method_p1(message, this_ptr, "getoption", _0);
-		if ((0 == 0)) {
+		ZEPHIR_INIT_VAR(replacePairs);
+		array_init(replacePairs);
+		zephir_array_update_string(&replacePairs, SL(":field"), &field, PH_COPY | PH_SEPARATE);
+		zephir_array_update_string(&replacePairs, SL(":with"), &withAttribute, PH_COPY | PH_SEPARATE);
+		if (ZEPHIR_IS_EMPTY(message)) {
 			ZEPHIR_INIT_NVAR(message);
-			ZEPHIR_CONCAT_SVSVS(message, "Value of '", attribute, "' and '", withAttribute, "' don't match");
+			ZVAL_STRING(message, "Value of :field and :with don't match", 1);
 		}
 		ZEPHIR_INIT_BNVAR(_0);
 		object_init_ex(_0, phalcon_validation_message_ce);
 		ZEPHIR_INIT_VAR(_1);
-		ZVAL_STRING(_1, "Confirmation", 1);
-		zephir_call_method_p3_noret(_0, "__construct", message, attribute, _1);
-		zephir_call_method_p1_noret(validator, "appendmessage", _0);
+		zephir_call_func_p2(_1, "strtr", message, replacePairs);
+		ZEPHIR_INIT_VAR(_2);
+		ZVAL_STRING(_2, "Confirmation", 1);
+		zephir_call_method_p3_noret(_0, "__construct", _1, field, _2);
+		zephir_call_method_p1_noret(validation, "appendmessage", _0);
 		RETURN_MM_BOOL(0);
 	}
 	RETURN_MM_BOOL(1);

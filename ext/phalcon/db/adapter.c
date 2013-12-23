@@ -658,7 +658,7 @@ PHP_METHOD(Phalcon_Db_Adapter, delete) {
 		ZEPHIR_CPY_WRT(escapedTable, table);
 	}
 	ZEPHIR_INIT_VAR(sql);
-	if (!((0 == 0))) {
+	if (!(ZEPHIR_IS_EMPTY(whereCondition))) {
 		ZEPHIR_CONCAT_SVSV(sql, "DELETE FROM ", escapedTable, " WHERE ", whereCondition);
 	} else {
 		ZEPHIR_CONCAT_SV(sql, "DELETE FROM ", escapedTable);

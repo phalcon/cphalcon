@@ -25,17 +25,17 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_validation_validate, 0, 0, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_validation_add, 0, 0, 2)
-	ZEND_ARG_INFO(0, attribute)
+	ZEND_ARG_INFO(0, field)
 	ZEND_ARG_INFO(0, validator)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_validation_setfilters, 0, 0, 2)
-	ZEND_ARG_INFO(0, attribute)
+	ZEND_ARG_INFO(0, field)
 	ZEND_ARG_INFO(0, filters)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_validation_getfilters, 0, 0, 0)
-	ZEND_ARG_INFO(0, attribute)
+	ZEND_ARG_INFO(0, field)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_validation_appendmessage, 0, 0, 1)
@@ -48,7 +48,7 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_validation_bind, 0, 0, 2)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_validation_getvalue, 0, 0, 1)
-	ZEND_ARG_INFO(0, attribute)
+	ZEND_ARG_INFO(0, field)
 ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_validation_method_entry) {

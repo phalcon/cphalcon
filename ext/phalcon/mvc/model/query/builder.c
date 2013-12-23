@@ -1399,7 +1399,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getPhql) {
 		}
 	}
 	if ((Z_TYPE_P(conditions) == IS_STRING)) {
-		if (!((0 == 0))) {
+		if (!(ZEPHIR_IS_EMPTY(conditions))) {
 			ZEPHIR_INIT_LNVAR(_9);
 			ZEPHIR_CONCAT_SV(_9, " WHERE ", conditions);
 			zephir_concat_self(&phql, _9 TSRMLS_CC);
@@ -1452,7 +1452,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getPhql) {
 		}
 		having = zephir_fetch_nproperty_this(this_ptr, SL("_having"), PH_NOISY_CC);
 		if ((Z_TYPE_P(having) != IS_NULL)) {
-			if (!((0 == 0))) {
+			if (!(ZEPHIR_IS_EMPTY(having))) {
 				ZEPHIR_INIT_LNVAR(_9);
 				ZEPHIR_CONCAT_SV(_9, " HAVING ", having);
 				zephir_concat_self(&phql, _9 TSRMLS_CC);

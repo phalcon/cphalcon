@@ -15,7 +15,7 @@
 #include "kernel/fcall.h"
 #include "kernel/memory.h"
 #include "kernel/operators.h"
-#include "kernel/concat.h"
+#include "kernel/array.h"
 #include "ext/spl/spl_exceptions.h"
 #include "kernel/exception.h"
 
@@ -63,48 +63,60 @@ ZEPHIR_INIT_CLASS(Phalcon_Validation_Validator_Email) {
 /**
  * Executes the validation
  *
- * @param  Phalcon\Validation validator
- * @param  string             attribute
+ * @param  Phalcon\Validation validation
+ * @param  string             field
  * @return boolean
  */
 PHP_METHOD(Phalcon_Validation_Validator_Email, validate) {
 
-	zval *attribute = NULL;
-	zval *validator, *attribute_param = NULL, *value, *message = NULL, _0, *_1, *_2 = NULL, *_3;
+	zval *field = NULL;
+	zval *validation, *field_param = NULL, *value, *message = NULL, *replacePairs, *_0, *_1, _2, *_3 = NULL, *_4, *_5;
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 2, 0, &validator, &attribute_param);
+	zephir_fetch_params(1, 2, 0, &validation, &field_param);
 
-		if (Z_TYPE_P(attribute_param) != IS_STRING) {
-				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'attribute' must be a string") TSRMLS_CC);
+		if (Z_TYPE_P(field_param) != IS_STRING) {
+				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'field' must be a string") TSRMLS_CC);
 				RETURN_MM_NULL();
 		}
 
-		attribute = attribute_param;
+		field = field_param;
 
 
 
 	ZEPHIR_INIT_VAR(value);
-	zephir_call_method_p1(value, validator, "getvalue", attribute);
-	ZEPHIR_SINIT_VAR(_0);
-	ZVAL_LONG(&_0, 274);
+	zephir_call_method_p1(value, validation, "getvalue", field);
+	ZEPHIR_INIT_VAR(_0);
 	ZEPHIR_INIT_VAR(_1);
-	zephir_call_func_p2(_1, "filter_var", value, &_0);
+	ZVAL_STRING(_1, "allowEmpty", 1);
+	zephir_call_method_p1(_0, this_ptr, "issetoption", _1);
+	if (zephir_is_true(_0) && ZEPHIR_IS_EMPTY(value)) {
+		RETURN_MM_BOOL(1);
+	}
+	ZEPHIR_SINIT_VAR(_2);
+	ZVAL_LONG(&_2, 274);
+	ZEPHIR_INIT_BNVAR(_1);
+	zephir_call_func_p2(_1, "filter_var", value, &_2);
 	if (!(zephir_is_true(_1))) {
-		ZEPHIR_INIT_VAR(_2);
-		ZVAL_STRING(_2, "message", 1);
-		ZEPHIR_INIT_VAR(message);
-		zephir_call_method_p1(message, this_ptr, "getoption", _2);
-		if ((0 == 0)) {
-			ZEPHIR_INIT_NVAR(message);
-			ZEPHIR_CONCAT_SVS(message, "Value of field '", attribute, "' must have a valid e-mail format");
-		}
-		ZEPHIR_INIT_NVAR(_2);
-		object_init_ex(_2, phalcon_validation_message_ce);
 		ZEPHIR_INIT_VAR(_3);
-		ZVAL_STRING(_3, "Email", 1);
-		zephir_call_method_p3_noret(_2, "__construct", message, attribute, _3);
-		zephir_call_method_p1_noret(validator, "appendmessage", _2);
+		ZVAL_STRING(_3, "message", 1);
+		ZEPHIR_INIT_VAR(message);
+		zephir_call_method_p1(message, this_ptr, "getoption", _3);
+		ZEPHIR_INIT_VAR(replacePairs);
+		array_init(replacePairs);
+		zephir_array_update_string(&replacePairs, SL(":field"), &field, PH_COPY | PH_SEPARATE);
+		if (ZEPHIR_IS_EMPTY(message)) {
+			ZEPHIR_INIT_NVAR(message);
+			ZVAL_STRING(message, "Value of field :field must have a valid e-mail format", 1);
+		}
+		ZEPHIR_INIT_NVAR(_3);
+		object_init_ex(_3, phalcon_validation_message_ce);
+		ZEPHIR_INIT_VAR(_4);
+		zephir_call_func_p2(_4, "strtr", message, replacePairs);
+		ZEPHIR_INIT_VAR(_5);
+		ZVAL_STRING(_5, "Email", 1);
+		zephir_call_method_p3_noret(_3, "__construct", _4, field, _5);
+		zephir_call_method_p1_noret(validation, "appendmessage", _3);
 		RETURN_MM_BOOL(0);
 	}
 	RETURN_MM_BOOL(1);
