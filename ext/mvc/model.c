@@ -1,4 +1,3 @@
-
 /*
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
@@ -6582,6 +6581,7 @@ PHP_METHOD(Phalcon_Mvc_Model, toArray){
 
 		if (columns && Z_TYPE_P(columns) == IS_ARRAY) {
 			if (!phalcon_fast_in_array(attribute, columns TSRMLS_CC)) {
+				zend_hash_move_forward_ex(ah0, &hp0);
 				continue;
 			}
 		}
