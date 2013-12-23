@@ -22,6 +22,7 @@ extern zend_class_entry *phalcon_session_adapter_ce;
 PHALCON_INIT_CLASS(Phalcon_Session_Adapter);
 
 PHP_METHOD(Phalcon_Session_Adapter, __construct);
+PHP_METHOD(Phalcon_Session_Adapter, __destruct);
 PHP_METHOD(Phalcon_Session_Adapter, start);
 PHP_METHOD(Phalcon_Session_Adapter, setOptions);
 PHP_METHOD(Phalcon_Session_Adapter, getOptions);
@@ -62,6 +63,7 @@ ZEND_END_ARG_INFO()
 
 PHALCON_INIT_FUNCS(phalcon_session_adapter_method_entry){
 	PHP_ME(Phalcon_Session_Adapter, __construct, arginfo_phalcon_session_adapter___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR) 
+	PHP_ME(Phalcon_Session_Adapter, __destruct, NULL, ZEND_ACC_PUBLIC | ZEND_ACC_DTOR)
 	PHP_ME(Phalcon_Session_Adapter, start, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Session_Adapter, setOptions, arginfo_phalcon_session_adapter_setoptions, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Session_Adapter, getOptions, NULL, ZEND_ACC_PUBLIC) 

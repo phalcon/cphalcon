@@ -89,3 +89,8 @@ void phalcon_set_session_id(zval *sid TSRMLS_DC)
 	phalcon_call_func_params(NULL, NULL, SL("session_id") TSRMLS_CC, 1, sid);
 #endif
 }
+
+void phalcon_session_write_close(TSRMLS_D)
+{
+	phalcon_call_func_params(NULL, NULL, SL("session_write_close") TSRMLS_CC, 0);
+}

@@ -31,6 +31,7 @@
 #include "Zend/zend_operators.h"
 #include "Zend/zend_exceptions.h"
 #include "Zend/zend_interfaces.h"
+#include "Zend/zend_extensions.h"
 
 #include "kernel/main.h"
 #include "kernel/memory.h"
@@ -499,7 +500,7 @@ static void phalcon_verify_permanent_zvals(int strict TSRMLS_DC)
 
 static PHP_MINIT_FUNCTION(phalcon){
 
-	nusphere_dbg_present = zend_hash_exists(&module_registry, SS("DBG"));
+	nusphere_dbg_present = (zend_get_extension("DBG") != NULL);
 
 	PHALCON_INIT(Phalcon_DI_InjectionAwareInterface);
 	PHALCON_INIT(Phalcon_Forms_ElementInterface);
