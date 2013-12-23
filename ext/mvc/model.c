@@ -6580,7 +6580,7 @@ PHP_METHOD(Phalcon_Mvc_Model, toArray){
 	
 		PHALCON_GET_HVALUE(attribute);
 
-		if (Z_TYPE_P(columns) == IS_ARRAY) {
+		if (columns && Z_TYPE_P(columns) == IS_ARRAY) {
 			if (!phalcon_fast_in_array(attribute, columns TSRMLS_CC)) {
 				continue;
 			}
