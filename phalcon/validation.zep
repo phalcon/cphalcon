@@ -71,7 +71,7 @@ class Validation extends Phalcon\Di\Injectable
 	public function validate(data=null, entity=null) -> <Phalcon\Validation\Message\Group>
 	{
 		var validators, messages, cancelOnFail, scope,
-			attribute, validator;
+			field, validator;
 
 		let validators = this->_validators;
 		if typeof validators != "array" {
@@ -115,7 +115,7 @@ class Validation extends Phalcon\Di\Injectable
 				throw new Phalcon\Validation\Exception("The validator scope is not valid");
 			}
 
-			let attribute = scope[0],
+			let field = scope[0],
 				validator = scope[1];
 
 			if typeof validator != "object" {
@@ -125,7 +125,7 @@ class Validation extends Phalcon\Di\Injectable
 			/**
 			 * Check if the validation must be canceled if this validator fails
 			 */
-			if validator->validate(this, attribute) === false {
+			if validator->validate(this, field) === false {
 				if (validator->getOption(cancelOnFail)) {
 					break;
 				}
@@ -146,47 +146,47 @@ class Validation extends Phalcon\Di\Injectable
 	/**
 	 * Adds a validator to a field
 	 *
-	 * @param string attribute
+	 * @param string field
 	 * @param Phalcon\Validation\ValidatorInterface validator
 	 * @return Phalcon\Validation
 	 */
-	public function add(string attribute, <Phalcon\Validation\ValidatorInterface> validator) -> <Phalcon\Validation>
+	public function add(string field, <Phalcon\Validation\ValidatorInterface> validator) -> <Phalcon\Validation>
 	{
 
 		if typeof validator != "object" {
 			throw new Phalcon\Validation\Exception("The validator must be an object");
 		}
 
-		let this->_validators[] = [attribute, validator];
+		let this->_validators[] = [field, validator];
 		return this;
 	}
 
 	/**
 	 * Adds filters to the field
 	 *
-	 * @param string attribute
-	 * @param array|string attribute
+	 * @param string field
+	 * @param array|string field
 	 * @return Phalcon\Validation
 	 */
-	public function setFilters(string attribute, filters) -> <Phalcon\Validation>
+	public function setFilters(string field, filters) -> <Phalcon\Validation>
 	{
-		let this->_filters[attribute] = filters;
+		let this->_filters[field] = filters;
 		return this;
 	}
 
 	/**
 	 * Returns all the filters or a specific one
 	 *
-	 * @param string attribute
+	 * @param string field
 	 * @return mixed
 	 */
-	public function getFilters(var attribute=null)
+	public function getFilters(var field=null)
 	{
-		var filters, attributeFilters;
+		var filters, fieldFilters;
 		let filters = this->_filters;
-		if typeof attribute == "string" {
-			if fetch attributeFilters, filters[attribute] {
-				return attributeFilters;
+		if typeof field == "string" {
+			if fetch fieldFilters, filters[field] {
+				return fieldFilters;
 			}
 			return null;
 		}
@@ -266,10 +266,10 @@ class Validation extends Phalcon\Di\Injectable
 	/**
 	 * Gets the a value to validate in the array/object data source
 	 *
-	 * @param string attribute
+	 * @param string field
 	 * @return mixed
 	 */
-	public function getValue(string attribute)
+	public function getValue(string field)
 	{
 		var entity, method, value, data, values,
 			filters, fieldFilters, dependencyInjector,
@@ -281,15 +281,15 @@ class Validation extends Phalcon\Di\Injectable
 		 * If the entity is an object use it to retrieve the values
 		 */
 		if typeof entity == "object" {
-			let method = "get" . attribute;
+			let method = "get" . field;
 			if method_exists(entity, method) {
 				let value = entity->{method}();
 			} else {
 				if method_exists(entity, "readAttribute") {
-					let value = entity->readAttribute(attribute);
+					let value = entity->readAttribute(field);
 				} else {
-					if isset entity->{attribute} {
-						let value = entity->{attribute};
+					if isset entity->{field} {
+						let value = entity->{field};
 					} else {
 						let value = null;
 					}
@@ -310,19 +310,19 @@ class Validation extends Phalcon\Di\Injectable
 		 * Check if there is a calculated value
 		 */
 		let values = this->_values;
-		if fetch value, values[attribute] {
+		if fetch value, values[field] {
 			return value;
 		}
 
 		let value = null;
 		if typeof data == "array" {
-			if isset data[attribute] {
-				let value = data[attribute];
+			if isset data[field] {
+				let value = data[field];
 			}
 		} else  {
 			if typeof data == "object" {
-				if isset data->{attribute} {
-					let value = data->{attribute};
+				if isset data->{field} {
+					let value = data->{field};
 				}
 			}
 		}
@@ -332,7 +332,7 @@ class Validation extends Phalcon\Di\Injectable
 			let filters = this->_filters;
 			if typeof filters == "array" {
 
-				if fetch fieldFilters, filters[attribute] {
+				if fetch fieldFilters, filters[field] {
 
 					if fieldFilters {
 
@@ -357,7 +357,7 @@ class Validation extends Phalcon\Di\Injectable
 			/**
 			 * Cache the calculated value
 			 */
-			let this->_values[attribute] = value;
+			let this->_values[field] = value;
 
 			return value;
 		}

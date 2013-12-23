@@ -20,55 +20,50 @@
 namespace Phalcon\Validation\Validator;
 
 /**
- * Phalcon\Validation\Validator\Between
+ * Phalcon\Validation\Validator\Alpha
  *
- * Validates that a value is between a range of two values
+ * Check for alphabetic character(s)
  *
  *<code>
- *use Phalcon\Validation\Validator\Between;
+ *use Phalcon\Validation\Validator\Alpha as AlphaValidator;
  *
- *validator->add('name', new Between(array(
- *   'minimum' => 0,
- *   'maximum' => 100,
- *   'message' => 'The price must be between 0 and 100'
+ *$validator->add('username', new AlphaValidator(array(
+ *   'message' => ':field must contain only letters'
  *)));
  *</code>
  */
-class Between extends Phalcon\Validation\Validator implements Phalcon\Validation\ValidatorInterface {
+class Alpha extends Phalcon\Validation\Validator implements Phalcon\Validation\ValidatorInterface
+{
 
 	/**
 	 * Executes the validation
 	 *
-	 * @param Phalcon\Validation validation
-	 * @param string field
+	 * @param  Phalcon\Validation validation
+	 * @param  string             field
 	 * @return boolean
 	 */
 	public function validate(<Phalcon\Validation> validation, string! field) -> boolean
 	{
-		var value, minimum, maximum, message, replacePairs;
+		var value, message, replacePairs;
 
-		let value = validation->getValue(field),
-                minimum = this->getOption("minimum"),
-                maximum = this->getOption("maximum");
+		let value = validation->getValue(field);
 
                 if this->isSetOption("allowEmpty") && empty(value) {
                     return true;
                 }
 
-		if value >= minimum || value <= maximum {
+		if !ctype_alpha(value) {
 
 			let message = this->getOption("message");
-                        let replacePairs = [":field": field, ":min": minimum, ":max": maximum];
+                        let replacePairs = [":field": field];
 			if empty(message) {
-                                let message = ":field is not between a valid range";
+                                let message = "Field :field must contain only letters";
 			}
 
-			validation->appendMessage(new Phalcon\Validation\Message(strtr(message, replacePairs), field, "Between"));
+			validation->appendMessage(new Phalcon\Validation\Message(strtr(message, replacePairs), field, "Alpha"));
 			return false;
 		}
 
 		return true;
 	}
-
 }
-
