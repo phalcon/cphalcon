@@ -442,7 +442,7 @@ PHP_METHOD(Phalcon_Mvc_View, setTemplateAfter){
 }
 
 /**
- * Resets any template before layouts
+ * Resets any template after layouts
  *
  * @return Phalcon\Mvc\View
  */
