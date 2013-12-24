@@ -247,7 +247,7 @@ class Collection implements Phalcon\Mvc\CollectionInterface, Phalcon\Di\Injectio
 
 		let source = this->_source;
 		if !source {
-			let source = uncamelize(get_class_ns(this));
+			let source = uncamelize(get_class_ns(this, 0));
 			let this->_source = source;
 		}
 		return source;
