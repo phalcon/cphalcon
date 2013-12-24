@@ -1165,7 +1165,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _exists) {
 			ZEPHIR_INIT_NVAR(value);
 			ZVAL_NULL(value);
 			if (1) {
-				if ((0 == 0)) {
+				if (ZEPHIR_IS_EMPTY(value)) {
 					numberEmpty++;
 				}
 				zephir_array_append(&uniqueParams, value, PH_SEPARATE);
@@ -2218,7 +2218,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _preSave) {
 					if ((0 == 1)) {
 						if ((Z_TYPE_P(value) != IS_OBJECT)) {
 							if (!(zephir_array_isset(dataTypeNumeric, field))) {
-								if ((0 == 0)) {
+								if (ZEPHIR_IS_EMPTY(value)) {
 									isNull = 1;
 								}
 							} else {
@@ -2486,7 +2486,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _doLowInsert) {
 		}
 		ZEPHIR_OBS_NVAR(value);
 		if ((0 == 1)) {
-			if ((0 == 0)) {
+			if (ZEPHIR_IS_EMPTY(value)) {
 				if (useExplicitIdentity) {
 					zephir_array_append(&values, defaultValue, PH_SEPARATE);
 					zephir_array_append(&bindTypes, bindSkip, PH_SEPARATE);

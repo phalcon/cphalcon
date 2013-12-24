@@ -20,19 +20,19 @@
 namespace Phalcon\Validation\Validator;
 
 /**
- * Phalcon\Validation\Validator\Email
+ * Phalcon\Validation\Validator\Url
  *
- * Checks if a value has a correct e-mail format
+ * Checks if a value has a url format
  *
  *<code>
- *use Phalcon\Validation\Validator\Email as EmailValidator;
+ *use Phalcon\Validation\Validator\Url as UrlValidator;
  *
- *$validator->add('email', new EmailValidator(array(
- *   'message' => 'The e-mail is not valid'
+ *$validator->add('url', new UrlValidator(array(
+ *   'message' => ':field must be a url'
  *)));
  *</code>
  */
-class Email extends Phalcon\Validation\Validator implements Phalcon\Validation\ValidatorInterface
+class Url extends Phalcon\Validation\Validator implements Phalcon\Validation\ValidatorInterface
 {
 
 	/**
@@ -52,15 +52,15 @@ class Email extends Phalcon\Validation\Validator implements Phalcon\Validation\V
                     return true;
                 }
 
-		if !filter_var(value, FILTER_VALIDATE_EMAIL) {
+		if !filter_var(value, FILTER_VALIDATE_URL) {
 
 			let message = this->getOption("message");
                         let replacePairs = [":field": field];
 			if empty(message) {
-                                let message = "Value of field :field must have a valid e-mail format";
+                                let message = ":field does not have a valid url format";
 			}
 
-			validation->appendMessage(new Phalcon\Validation\Message(strtr(message, replacePairs), field, "Email"));
+			validation->appendMessage(new Phalcon\Validation\Message(strtr(message, replacePairs), field, "Url"));
 			return false;
 		}
 

@@ -164,18 +164,20 @@ PHP_METHOD(Phalcon_Http_Request_File, getType) {
  */
 PHP_METHOD(Phalcon_Http_Request_File, getRealType) {
 
-	zval *finfo, *mime, *_0;
+	zval *finfo, *mime, _0, *_1;
 
 	ZEPHIR_MM_GROW();
 
+	ZEPHIR_SINIT_VAR(_0);
+	ZVAL_LONG(&_0, 16);
 	ZEPHIR_INIT_VAR(finfo);
-	zephir_call_func_p1(finfo, "finfo_open", ZEPHIR_GLOBAL(global_null));
+	zephir_call_func_p1(finfo, "finfo_open", &_0);
 	if ((Z_TYPE_P(finfo) != IS_RESOURCE)) {
 		RETURN_MM_STRING("", 1);
 	}
-	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_tmp"), PH_NOISY_CC);
+	_1 = zephir_fetch_nproperty_this(this_ptr, SL("_tmp"), PH_NOISY_CC);
 	ZEPHIR_INIT_VAR(mime);
-	zephir_call_func_p2(mime, "finfo_file", finfo, _0);
+	zephir_call_func_p2(mime, "finfo_file", finfo, _1);
 	zephir_call_func_p1_noret("fclose", finfo);
 	RETURN_CCTOR(mime);
 

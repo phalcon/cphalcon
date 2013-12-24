@@ -148,6 +148,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, setId) {
 			ZEPHIR_INIT_VAR(mongoId);
 			_2 = zend_fetch_class(SL("MongoId"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
 			object_init_ex(mongoId, _2);
+			zephir_call_method_p1_noret(mongoId, "__construct", id);
 		} else {
 			ZEPHIR_CPY_WRT(mongoId, id);
 		}
@@ -422,7 +423,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, getConnection) {
  */
 PHP_METHOD(Phalcon_Mvc_Collection, readAttribute) {
 
-	zval *attribute_param = NULL, *attributeValue;
+	zval *attribute_param = NULL, *_0;
 	zval *attribute = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -437,8 +438,10 @@ PHP_METHOD(Phalcon_Mvc_Collection, readAttribute) {
 
 
 
-	if ((0 == 1)) {
-		RETURN_CTOR(attributeValue);
+	if (0 == 0) {
+		ZEPHIR_OBS_VAR(_0);
+		zephir_read_property_zval(&_0, this_ptr, attribute, PH_NOISY_CC);
+		RETURN_CCTOR(_0);
 	}
 	RETURN_MM_NULL();
 
@@ -544,7 +547,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, _getResultset) {
 
 	ZEPHIR_INIT_VAR(source);
 	zephir_call_method(source, collection, "getsource");
-	if ((0 == 0)) {
+	if (ZEPHIR_IS_EMPTY(source)) {
 		ZEPHIR_THROW_EXCEPTION_STR(phalcon_mvc_collection_exception_ce, "Method getSource() returns empty string");
 		return;
 	}
@@ -627,7 +630,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, _getGroupResultset) {
 
 	ZEPHIR_INIT_VAR(source);
 	zephir_call_method(source, collection, "getsource");
-	if ((0 == 0)) {
+	if (ZEPHIR_IS_EMPTY(source)) {
 		ZEPHIR_THROW_EXCEPTION_STR(phalcon_mvc_collection_exception_ce, "Method getSource() returns empty string");
 		return;
 	}
@@ -1038,6 +1041,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, _exists) {
 				ZEPHIR_INIT_VAR(mongoId);
 				_2 = zend_fetch_class(SL("MongoId"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
 				object_init_ex(mongoId, _2);
+				zephir_call_method_p1_noret(mongoId, "__construct", id);
 				zephir_update_property_this(this_ptr, SL("_id"), mongoId TSRMLS_CC);
 			} else {
 				ZEPHIR_CPY_WRT(mongoId, id);
@@ -1149,7 +1153,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, save) {
 	}
 	ZEPHIR_INIT_VAR(source);
 	zephir_call_method(source, this_ptr, "getsource");
-	if ((0 == 0)) {
+	if (ZEPHIR_IS_EMPTY(source)) {
 		ZEPHIR_THROW_EXCEPTION_STR(phalcon_mvc_collection_exception_ce, "Method getSource() returns empty string");
 		return;
 	}
@@ -1255,6 +1259,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, findById) {
 			ZEPHIR_INIT_VAR(mongoId);
 			_3 = zend_fetch_class(SL("MongoId"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
 			object_init_ex(mongoId, _3);
+			zephir_call_method_p1_noret(mongoId, "__construct", id);
 		} else {
 			ZEPHIR_CPY_WRT(mongoId, id);
 		}
@@ -1472,7 +1477,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, aggregate) {
 	zephir_call_method(connection, model, "getconnection");
 	ZEPHIR_INIT_VAR(source);
 	zephir_call_method(source, model, "getsource");
-	if ((0 == 0)) {
+	if (ZEPHIR_IS_EMPTY(source)) {
 		ZEPHIR_THROW_EXCEPTION_STR(phalcon_mvc_collection_exception_ce, "Method getSource() returns empty string");
 		return;
 	}
@@ -1520,7 +1525,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, summatory) {
 	zephir_call_method(connection, model, "getconnection");
 	ZEPHIR_INIT_VAR(source);
 	zephir_call_method(source, model, "getsource");
-	if ((0 == 0)) {
+	if (ZEPHIR_IS_EMPTY(source)) {
 		ZEPHIR_THROW_EXCEPTION_STR(phalcon_mvc_collection_exception_ce, "Method getSource() returns empty string");
 		return;
 	}
@@ -1592,7 +1597,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, delete) {
 	zephir_call_method(connection, this_ptr, "getconnection");
 	ZEPHIR_INIT_VAR(source);
 	zephir_call_method(source, this_ptr, "getsource");
-	if ((0 == 0)) {
+	if (ZEPHIR_IS_EMPTY(source)) {
 		ZEPHIR_THROW_EXCEPTION_STR(phalcon_mvc_collection_exception_ce, "Method getSource() returns empty string");
 		return;
 	}
@@ -1608,6 +1613,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, delete) {
 			ZEPHIR_INIT_VAR(mongoId);
 			_3 = zend_fetch_class(SL("MongoId"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
 			object_init_ex(mongoId, _3);
+			zephir_call_method_p1_noret(mongoId, "__construct", id);
 		} else {
 			ZEPHIR_CPY_WRT(mongoId, id);
 		}

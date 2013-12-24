@@ -405,7 +405,7 @@ PHP_METHOD(Phalcon_Mvc_Micro, mount) {
 	}
 	ZEPHIR_INIT_VAR(mainHandler);
 	zephir_call_method(mainHandler, collection, "gethandler");
-	if (!((0 == 0))) {
+	if (!(ZEPHIR_IS_EMPTY(mainHandler))) {
 		ZEPHIR_THROW_EXCEPTION_STR(phalcon_mvc_micro_exception_ce, "The collection requires a main handler");
 		return;
 	}
@@ -444,7 +444,7 @@ PHP_METHOD(Phalcon_Mvc_Micro, mount) {
 			array_init(realHandler);
 			zephir_array_fast_append(realHandler, lazyHandler);
 			zephir_array_fast_append(realHandler, subHandler);
-			if (!((0 == 0))) {
+			if (!(ZEPHIR_IS_EMPTY(prefix))) {
 				if (ZEPHIR_IS_LONG(pattern, '/')) {
 					ZEPHIR_CPY_WRT(prefixedPattern, prefix);
 				} else {

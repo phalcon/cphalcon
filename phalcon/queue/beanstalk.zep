@@ -71,7 +71,7 @@ class Beanstalk
  
 		let parameters = this->_parameters;
  
-		let connection = fsockopen( parameters["host"], parameters["port"], null, null);
+		let connection = fsockopen(parameters["host"], parameters["port"], null, null);
 		if !is_resource(connection) {
 			throw new Phalcon\Exception("Can't connect to Beanstalk server");
 		}

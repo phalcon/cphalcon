@@ -56,7 +56,7 @@ class Email extends Phalcon\Mvc\Model\Validator implements Phalcon\Mvc\Model\Val
 	public function validate(<Phalcon\Mvc\ModelInterface> record) -> boolean
 	{
 
-		var field, value, invalid, message, replacePairs;
+		var field, value, message, replacePairs;
 
 		let field = this->getOption("field");
 		if typeof field != "string" {
@@ -65,7 +65,7 @@ class Email extends Phalcon\Mvc\Model\Validator implements Phalcon\Mvc\Model\Val
 
 		let value = record->readAttribute(field);
 
-                if this->isSetOption("allowEmpty") && (typeof value == "null" || empty value) {
+                if this->isSetOption("allowEmpty") && empty(value) {
                     return true;
                 }
 
@@ -76,7 +76,7 @@ class Email extends Phalcon\Mvc\Model\Validator implements Phalcon\Mvc\Model\Val
 
 			let message = this->getOption("message");
                         let replacePairs = [":field": field];
-			if empty message {
+			if empty(message) {
                                 let message = "Value of field :field must have a valid e-mail format";
 			}
 

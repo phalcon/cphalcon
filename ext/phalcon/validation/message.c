@@ -95,7 +95,7 @@ PHP_METHOD(Phalcon_Validation_Message, __construct) {
  * Sets message type
  *
  * @param string $type
- * @return Phalcon\Mvc\Model\Message
+ * @return Phalcon\Validation\Message
  */
 PHP_METHOD(Phalcon_Validation_Message, setType) {
 
@@ -135,7 +135,7 @@ PHP_METHOD(Phalcon_Validation_Message, getType) {
  * Sets verbose message
  *
  * @param string message
- * @return Phalcon\Mvc\Model\Message
+ * @return Phalcon\Validation\Message
  */
 PHP_METHOD(Phalcon_Validation_Message, setMessage) {
 
@@ -175,7 +175,7 @@ PHP_METHOD(Phalcon_Validation_Message, getMessage) {
  * Sets field name related to message
  *
  * @param string field
- * @return Phalcon\Mvc\Model\Message
+ * @return Phalcon\Validation\Message
  */
 PHP_METHOD(Phalcon_Validation_Message, setField) {
 
@@ -227,7 +227,7 @@ PHP_METHOD(Phalcon_Validation_Message, __toString) {
  * Magic __set_state helps to recover messsages from serialization
  *
  * @param  array message
- * @return Phalcon\Mvc\Model\Message
+ * @return Phalcon\Validation\Message
  */
 PHP_METHOD(Phalcon_Validation_Message, __set_state) {
 

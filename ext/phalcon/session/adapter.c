@@ -169,7 +169,7 @@ PHP_METHOD(Phalcon_Session_Adapter, get) {
 	ZEPHIR_INIT_VAR(_1);
 	ZEPHIR_CONCAT_VV(_1, _0, index);
 	if (zephir_array_isset_fetch(&value, _SESSION, _1, 1 TSRMLS_CC)) {
-		if (!((0 == 0))) {
+		if (!(ZEPHIR_IS_EMPTY(value))) {
 			RETURN_CTOR(value);
 		}
 	}

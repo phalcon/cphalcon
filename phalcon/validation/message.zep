@@ -51,9 +51,9 @@ class Message
 	 * Sets message type
 	 *
 	 * @param string $type
-	 * @return Phalcon\Mvc\Model\Message
+	 * @return Phalcon\Validation\Message
 	 */
-	public function setType(string! type) -> <Phalcon\Mvc\Model\Message>
+	public function setType(string! type) -> <Phalcon\Validation\Message>
 	{
 		let this->_type = type;
 		return this;
@@ -73,9 +73,9 @@ class Message
 	 * Sets verbose message
 	 *
 	 * @param string message
-	 * @return Phalcon\Mvc\Model\Message
+	 * @return Phalcon\Validation\Message
 	 */
-	public function setMessage(string! message) -> <Phalcon\Mvc\Model\Message>
+	public function setMessage(string! message) -> <Phalcon\Validation\Message>
 	{
 		let this->_message = message;
 		return $this;
@@ -95,9 +95,9 @@ class Message
 	 * Sets field name related to message
 	 *
 	 * @param string field
-	 * @return Phalcon\Mvc\Model\Message
+	 * @return Phalcon\Validation\Message
 	 */
-	public function setField(string! field) -> <Phalcon\Mvc\Model\Message>
+	public function setField(string! field) -> <Phalcon\Validation\Message>
 	{
 		let this->_field = field;
 		return this;
@@ -127,9 +127,9 @@ class Message
 	 * Magic __set_state helps to recover messsages from serialization
 	 *
 	 * @param  array message
-	 * @return Phalcon\Mvc\Model\Message
+	 * @return Phalcon\Validation\Message
 	 */
-	public static function __set_state(message) -> <Phalcon\Mvc\Model\Message>
+	public static function __set_state(message) -> <Phalcon\Validation\Message>
 	{
 		return new self(message["_message"], message["_field"], message["_type"]);
 	}

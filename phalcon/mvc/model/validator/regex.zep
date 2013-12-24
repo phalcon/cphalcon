@@ -74,7 +74,7 @@ class Regex extends Phalcon\Mvc\Model\Validator implements Phalcon\Mvc\Model\Val
  		let failed = false;
  		let matches = null;
 
-                if this->isSetOption("allowEmpty") && (typeof value == "null" || empty value) {
+                if this->isSetOption("allowEmpty") && empty(value) {
                     return true;
                 }
 		
@@ -101,7 +101,7 @@ class Regex extends Phalcon\Mvc\Model\Validator implements Phalcon\Mvc\Model\Val
 			 */
 			let message = this->getOption("message");
                         let replacePairs = [":field": field];
-			if empty message {
+			if empty(message) {
                                 let message = "Value of field :field doesn't match regular expression";
 			}
  

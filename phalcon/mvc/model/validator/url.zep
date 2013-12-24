@@ -54,7 +54,7 @@ class Url extends Phalcon\Mvc\Model\Validator implements Phalcon\Mvc\Model\Valid
 	 */
 	public function validate(<Phalcon\Mvc\ModelInterface> record) -> boolean
 	{
-		var field, value, isValid, message, replacePairs;
+		var field, value, message, replacePairs;
  
 		let field = this->getOption("field");
 		if typeof field == "string" {
@@ -63,7 +63,7 @@ class Url extends Phalcon\Mvc\Model\Validator implements Phalcon\Mvc\Model\Valid
  
 		let value = record->readAttribute(field);
 
-                if this->isSetOption("allowEmpty") && (typeof value == "null" || empty value) {
+                if this->isSetOption("allowEmpty") && empty(value) {
                     return true;
                 }
  
@@ -77,7 +77,7 @@ class Url extends Phalcon\Mvc\Model\Validator implements Phalcon\Mvc\Model\Valid
 			 */
 			let message = this->getOption("message");
                         let replacePairs = [":field": field];
-			if empty message {
+			if empty(message) {
                                 let message = ":field does not have a valid url format";
 			}
  

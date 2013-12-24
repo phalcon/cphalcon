@@ -17,7 +17,7 @@
 #include "kernel/exception.h"
 #include "kernel/operators.h"
 #include "kernel/string.h"
-#include "kernel/concat.h"
+#include "kernel/array.h"
 #include "ext/spl/spl_exceptions.h"
 
 
@@ -68,24 +68,24 @@ ZEPHIR_INIT_CLASS(Phalcon_Validation_Validator_StringLength) {
 /**
  * Executes the validation
  *
- * @param Phalcon\Validation validator
- * @param string attribute
+ * @param Phalcon\Validation validation
+ * @param string field
  * @return boolean
  */
 PHP_METHOD(Phalcon_Validation_Validator_StringLength, validate) {
 
-	zval *attribute = NULL;
-	zval *validator, *attribute_param = NULL, *isSetMin, *isSetMax, *value, *length, *message = NULL, *minimum, *maximum, *_0, _1, *_2 = NULL, *_3 = NULL;
+	zval *field = NULL;
+	zval *validation, *field_param = NULL, *isSetMin, *isSetMax, *value, *length, *message = NULL, *minimum, *maximum, *replacePairs = NULL, *_0, *_1, _2, *_3 = NULL, *_4 = NULL, *_5 = NULL;
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 2, 0, &validator, &attribute_param);
+	zephir_fetch_params(1, 2, 0, &validation, &field_param);
 
-		if (Z_TYPE_P(attribute_param) != IS_STRING) {
-				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'attribute' must be a string") TSRMLS_CC);
+		if (Z_TYPE_P(field_param) != IS_STRING) {
+				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'field' must be a string") TSRMLS_CC);
 				RETURN_MM_NULL();
 		}
 
-		attribute = attribute_param;
+		field = field_param;
 
 
 
@@ -98,64 +98,83 @@ PHP_METHOD(Phalcon_Validation_Validator_StringLength, validate) {
 	ZEPHIR_INIT_VAR(isSetMax);
 	zephir_call_method_p1(isSetMax, this_ptr, "issetoption", _0);
 	if ((!zephir_is_true(isSetMin) && !zephir_is_true(isSetMax))) {
-		ZEPHIR_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "A minimum or maximum must be set");
+		ZEPHIR_THROW_EXCEPTION_STR(phalcon_validation_exception_ce, "A minimum or maximum must be set");
 		return;
 	}
 	ZEPHIR_INIT_VAR(value);
-	zephir_call_method_p1(value, validator, "getvalue", attribute);
-	ZEPHIR_INIT_VAR(length);
-	ZEPHIR_SINIT_VAR(_1);
-	ZVAL_STRING(&_1, "mb_strlen", 0);
+	zephir_call_method_p1(value, validation, "getvalue", field);
 	ZEPHIR_INIT_BNVAR(_0);
-	zephir_call_func_p1(_0, "function_exists", &_1);
-	if (zephir_is_true(_0)) {
+	ZEPHIR_INIT_VAR(_1);
+	ZVAL_STRING(_1, "allowEmpty", 1);
+	zephir_call_method_p1(_0, this_ptr, "issetoption", _1);
+	if (zephir_is_true(_0) && ZEPHIR_IS_EMPTY(value)) {
+		RETURN_MM_BOOL(1);
+	}
+	ZEPHIR_INIT_VAR(length);
+	ZEPHIR_SINIT_VAR(_2);
+	ZVAL_STRING(&_2, "mb_strlen", 0);
+	ZEPHIR_INIT_BNVAR(_1);
+	zephir_call_func_p1(_1, "function_exists", &_2);
+	if (zephir_is_true(_1)) {
 		zephir_call_func_p1(length, "mb_strlen", value);
 	} else {
 		ZVAL_LONG(length, zephir_fast_strlen_ev(value));
 	}
 	if (zephir_is_true(isSetMax)) {
-		ZEPHIR_INIT_VAR(_2);
-		ZVAL_STRING(_2, "max", 1);
+		ZEPHIR_INIT_VAR(_3);
+		ZVAL_STRING(_3, "max", 1);
 		ZEPHIR_INIT_VAR(maximum);
-		zephir_call_method_p1(maximum, this_ptr, "getoption", _2);
+		zephir_call_method_p1(maximum, this_ptr, "getoption", _3);
 		if (ZEPHIR_GT(length, maximum)) {
-			ZEPHIR_INIT_NVAR(_2);
-			ZVAL_STRING(_2, "messageMaximum", 1);
+			ZEPHIR_INIT_NVAR(_3);
+			ZVAL_STRING(_3, "messageMaximum", 1);
 			ZEPHIR_INIT_VAR(message);
-			zephir_call_method_p1(message, this_ptr, "getoption", _2);
-			if ((0 == 0)) {
+			zephir_call_method_p1(message, this_ptr, "getoption", _3);
+			ZEPHIR_INIT_VAR(replacePairs);
+			array_init(replacePairs);
+			zephir_array_update_string(&replacePairs, SL(":field"), &field, PH_COPY | PH_SEPARATE);
+			zephir_array_update_string(&replacePairs, SL(":max"), &maximum, PH_COPY | PH_SEPARATE);
+			if (ZEPHIR_IS_EMPTY(message)) {
 				ZEPHIR_INIT_NVAR(message);
-				ZEPHIR_CONCAT_SVSVS(message, "Value of field '", attribute, "' exceeds the maximum ", maximum, " characters");
+				ZVAL_STRING(message, "Value of field :field exceeds the maximum :max characters", 1);
 			}
-			ZEPHIR_INIT_NVAR(_2);
-			object_init_ex(_2, phalcon_validation_message_ce);
-			ZEPHIR_INIT_VAR(_3);
-			ZVAL_STRING(_3, "TooLong", 1);
-			zephir_call_method_p3_noret(_2, "__construct", message, attribute, _3);
-			zephir_call_method_p1_noret(validator, "appendmessage", _2);
+			ZEPHIR_INIT_NVAR(_3);
+			object_init_ex(_3, phalcon_validation_message_ce);
+			ZEPHIR_INIT_VAR(_4);
+			zephir_call_func_p2(_4, "strtr", message, replacePairs);
+			ZEPHIR_INIT_VAR(_5);
+			ZVAL_STRING(_5, "TooLong", 1);
+			zephir_call_method_p3_noret(_3, "__construct", _4, field, _5);
+			zephir_call_method_p1_noret(validation, "appendmessage", _3);
 			RETURN_MM_BOOL(0);
 		}
 	}
 	if (zephir_is_true(isSetMin)) {
-		ZEPHIR_INIT_NVAR(_2);
-		ZVAL_STRING(_2, "min", 1);
+		ZEPHIR_INIT_NVAR(_3);
+		ZVAL_STRING(_3, "min", 1);
 		ZEPHIR_INIT_VAR(minimum);
-		zephir_call_method_p1(minimum, this_ptr, "getoption", _2);
+		zephir_call_method_p1(minimum, this_ptr, "getoption", _3);
 		if (ZEPHIR_LT(length, minimum)) {
-			ZEPHIR_INIT_NVAR(_2);
-			ZVAL_STRING(_2, "messageMinimum", 1);
-			ZEPHIR_INIT_NVAR(message);
-			zephir_call_method_p1(message, this_ptr, "getoption", _2);
-			if ((0 == 0)) {
-				ZEPHIR_INIT_NVAR(message);
-				ZEPHIR_CONCAT_SVSVS(message, "Value of field '", attribute, "' is less than the minimum ", minimum, " characters");
-			}
-			ZEPHIR_INIT_NVAR(_2);
-			object_init_ex(_2, phalcon_validation_message_ce);
 			ZEPHIR_INIT_NVAR(_3);
-			ZVAL_STRING(_3, "TooShort", 1);
-			zephir_call_method_p3_noret(_2, "__construct", message, attribute, _3);
-			zephir_call_method_p1_noret(validator, "appendmessage", _2);
+			ZVAL_STRING(_3, "messageMinimum", 1);
+			ZEPHIR_INIT_NVAR(message);
+			zephir_call_method_p1(message, this_ptr, "getoption", _3);
+			ZEPHIR_INIT_NVAR(replacePairs);
+			array_init(replacePairs);
+			zephir_array_update_string(&replacePairs, SL(":field"), &field, PH_COPY | PH_SEPARATE);
+			zephir_array_update_string(&replacePairs, SL(":min"), &minimum, PH_COPY | PH_SEPARATE);
+			if (ZEPHIR_IS_EMPTY(message)) {
+				ZEPHIR_INIT_NVAR(message);
+				ZVAL_STRING(message, "Value of field :field is less than the minimum :min characters", 1);
+			}
+			ZEPHIR_INIT_NVAR(_3);
+			object_init_ex(_3, phalcon_validation_message_ce);
+			ZEPHIR_INIT_NVAR(_4);
+			zephir_call_func_p2(_4, "strtr", message, replacePairs);
+			ZEPHIR_INIT_NVAR(_5);
+			ZVAL_STRING(_5, "TooShort", 1);
+			zephir_call_method_p3_noret(_3, "__construct", _4, field, _5);
+			zephir_call_method_p1_noret(validation, "appendmessage", _3);
 			RETURN_MM_BOOL(0);
 		}
 	}

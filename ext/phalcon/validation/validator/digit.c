@@ -38,25 +38,23 @@
  +------------------------------------------------------------------------+
  */
 /**
- * Phalcon\Validation\Validator\Between
+ * Phalcon\Validation\Validator\Digit
  *
- * Validates that a value is between a range of two values
+ * Check for numeric character(s)
  *
  *<code>
- *use Phalcon\Validation\Validator\Between;
+ *use Phalcon\Validation\Validator\Digit as DigitValidator;
  *
- *validator->add('name', new Between(array(
- *   'minimum' => 0,
- *   'maximum' => 100,
- *   'message' => 'The price must be between 0 and 100'
+ *$validator->add('height', new DigitValidator(array(
+ *   'message' => ':field must be numeric'
  *)));
  *</code>
  */
-ZEPHIR_INIT_CLASS(Phalcon_Validation_Validator_Between) {
+ZEPHIR_INIT_CLASS(Phalcon_Validation_Validator_Digit) {
 
-	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Validation\\Validator, Between, phalcon, validation_validator_between, phalcon_validation_validator_ce, phalcon_validation_validator_between_method_entry, 0);
+	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Validation\\Validator, Digit, phalcon, validation_validator_digit, phalcon_validation_validator_ce, phalcon_validation_validator_digit_method_entry, 0);
 
-	zend_class_implements(phalcon_validation_validator_between_ce TSRMLS_CC, 1, phalcon_validation_validatorinterface_ce);
+	zend_class_implements(phalcon_validation_validator_digit_ce TSRMLS_CC, 1, phalcon_validation_validatorinterface_ce);
 
 	return SUCCESS;
 
@@ -65,14 +63,14 @@ ZEPHIR_INIT_CLASS(Phalcon_Validation_Validator_Between) {
 /**
  * Executes the validation
  *
- * @param Phalcon\Validation validation
- * @param string field
+ * @param  Phalcon\Validation validation
+ * @param  string             field
  * @return boolean
  */
-PHP_METHOD(Phalcon_Validation_Validator_Between, validate) {
+PHP_METHOD(Phalcon_Validation_Validator_Digit, validate) {
 
 	zval *field = NULL;
-	zval *validation, *field_param = NULL, *value, *minimum, *maximum, *message = NULL, *replacePairs, *_0, *_1, *_2, *_3;
+	zval *validation, *field_param = NULL, *value, *message = NULL, *replacePairs, *_0, *_1, *_2 = NULL, *_3, *_4;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &validation, &field_param);
@@ -89,42 +87,34 @@ PHP_METHOD(Phalcon_Validation_Validator_Between, validate) {
 	ZEPHIR_INIT_VAR(value);
 	zephir_call_method_p1(value, validation, "getvalue", field);
 	ZEPHIR_INIT_VAR(_0);
-	ZVAL_STRING(_0, "minimum", 1);
-	ZEPHIR_INIT_VAR(minimum);
-	zephir_call_method_p1(minimum, this_ptr, "getoption", _0);
-	ZEPHIR_INIT_BNVAR(_0);
-	ZVAL_STRING(_0, "maximum", 1);
-	ZEPHIR_INIT_VAR(maximum);
-	zephir_call_method_p1(maximum, this_ptr, "getoption", _0);
-	ZEPHIR_INIT_BNVAR(_0);
 	ZEPHIR_INIT_VAR(_1);
 	ZVAL_STRING(_1, "allowEmpty", 1);
 	zephir_call_method_p1(_0, this_ptr, "issetoption", _1);
 	if (zephir_is_true(_0) && ZEPHIR_IS_EMPTY(value)) {
 		RETURN_MM_BOOL(1);
 	}
-	if ((ZEPHIR_GE(value, minimum) || ZEPHIR_LE(value, maximum))) {
-		ZEPHIR_INIT_BNVAR(_1);
-		ZVAL_STRING(_1, "message", 1);
+	ZEPHIR_INIT_BNVAR(_1);
+	zephir_call_func_p1(_1, "ctype_digit", value);
+	if (!(zephir_is_true(_1))) {
+		ZEPHIR_INIT_VAR(_2);
+		ZVAL_STRING(_2, "message", 1);
 		ZEPHIR_INIT_VAR(message);
-		zephir_call_method_p1(message, this_ptr, "getoption", _1);
+		zephir_call_method_p1(message, this_ptr, "getoption", _2);
 		ZEPHIR_INIT_VAR(replacePairs);
 		array_init(replacePairs);
 		zephir_array_update_string(&replacePairs, SL(":field"), &field, PH_COPY | PH_SEPARATE);
-		zephir_array_update_string(&replacePairs, SL(":min"), &minimum, PH_COPY | PH_SEPARATE);
-		zephir_array_update_string(&replacePairs, SL(":max"), &maximum, PH_COPY | PH_SEPARATE);
 		if (ZEPHIR_IS_EMPTY(message)) {
 			ZEPHIR_INIT_NVAR(message);
-			ZVAL_STRING(message, ":field is not between a valid range", 1);
+			ZVAL_STRING(message, "Field :field must be numeric", 1);
 		}
-		ZEPHIR_INIT_BNVAR(_1);
-		object_init_ex(_1, phalcon_validation_message_ce);
-		ZEPHIR_INIT_VAR(_2);
-		zephir_call_func_p2(_2, "strtr", message, replacePairs);
+		ZEPHIR_INIT_NVAR(_2);
+		object_init_ex(_2, phalcon_validation_message_ce);
 		ZEPHIR_INIT_VAR(_3);
-		ZVAL_STRING(_3, "Between", 1);
-		zephir_call_method_p3_noret(_1, "__construct", _2, field, _3);
-		zephir_call_method_p1_noret(validation, "appendmessage", _1);
+		zephir_call_func_p2(_3, "strtr", message, replacePairs);
+		ZEPHIR_INIT_VAR(_4);
+		ZVAL_STRING(_4, "Digit", 1);
+		zephir_call_method_p3_noret(_2, "__construct", _3, field, _4);
+		zephir_call_method_p1_noret(validation, "appendmessage", _2);
 		RETURN_MM_BOOL(0);
 	}
 	RETURN_MM_BOOL(1);

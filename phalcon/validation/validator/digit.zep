@@ -20,19 +20,19 @@
 namespace Phalcon\Validation\Validator;
 
 /**
- * Phalcon\Validation\Validator\Email
+ * Phalcon\Validation\Validator\Digit
  *
- * Checks if a value has a correct e-mail format
+ * Check for numeric character(s)
  *
  *<code>
- *use Phalcon\Validation\Validator\Email as EmailValidator;
+ *use Phalcon\Validation\Validator\Digit as DigitValidator;
  *
- *$validator->add('email', new EmailValidator(array(
- *   'message' => 'The e-mail is not valid'
+ *$validator->add('height', new DigitValidator(array(
+ *   'message' => ':field must be numeric'
  *)));
  *</code>
  */
-class Email extends Phalcon\Validation\Validator implements Phalcon\Validation\ValidatorInterface
+class Digit extends Phalcon\Validation\Validator implements Phalcon\Validation\ValidatorInterface
 {
 
 	/**
@@ -52,15 +52,15 @@ class Email extends Phalcon\Validation\Validator implements Phalcon\Validation\V
                     return true;
                 }
 
-		if !filter_var(value, FILTER_VALIDATE_EMAIL) {
+		if !ctype_digit(value) {
 
 			let message = this->getOption("message");
                         let replacePairs = [":field": field];
 			if empty(message) {
-                                let message = "Value of field :field must have a valid e-mail format";
+                                let message = "Field :field must be numeric";
 			}
 
-			validation->appendMessage(new Phalcon\Validation\Message(strtr(message, replacePairs), field, "Email"));
+			validation->appendMessage(new Phalcon\Validation\Message(strtr(message, replacePairs), field, "Digit"));
 			return false;
 		}
 

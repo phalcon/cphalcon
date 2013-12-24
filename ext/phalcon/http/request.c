@@ -604,7 +604,7 @@ PHP_METHOD(Phalcon_Http_Request, getRawBody) {
 	ZEPHIR_MM_GROW();
 
 	rawBody = zephir_fetch_nproperty_this(this_ptr, SL("_rawBody"), PH_NOISY_CC);
-	if ((0 == 0)) {
+	if (ZEPHIR_IS_EMPTY(rawBody)) {
 		ZEPHIR_SINIT_VAR(_0);
 		ZVAL_STRING(&_0, "php://input", 0);
 		ZEPHIR_INIT_VAR(contents);

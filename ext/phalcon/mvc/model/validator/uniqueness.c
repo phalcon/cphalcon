@@ -86,7 +86,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Uniqueness, validate) {
 	zend_function *_5 = NULL, *_6 = NULL, *_7 = NULL, *_14 = NULL, *_15 = NULL, *_16 = NULL;
 	HashTable *_2, *_11;
 	HashPosition _1, _10;
-	zval *record, *field, *dependencyInjector, *metaData, *message = NULL, *bindTypes, *bindDataTypes, *columnMap, *conditions, *bindParams, *number = NULL, *composeField = NULL, *value = NULL, *columnField = NULL, *composeCondition = NULL, *bindType = NULL, *condition = NULL, *operationMade, *primaryFields, *primaryField = NULL, *attributeField = NULL, *joinConditions, *params, *className, *joinFields, *_0 = NULL, **_3, *_4 = NULL, *_9 = NULL, **_12, *_13 = NULL;
+	zval *record, *field, *dependencyInjector, *metaData, *message = NULL, *bindTypes, *bindDataTypes, *columnMap, *conditions, *bindParams, *number = NULL, *composeField = NULL, *value = NULL, *columnField = NULL, *composeCondition = NULL, *bindType = NULL, *condition = NULL, *operationMade, *primaryFields, *primaryField = NULL, *attributeField = NULL, *joinConditions, *params, *className, *replacePairs = NULL, *_0 = NULL, **_3, *_4 = NULL, *_9 = NULL, **_12, *_13 = NULL, *_17;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &record);
@@ -282,19 +282,27 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Uniqueness, validate) {
 		ZVAL_STRING(_0, "message", 1);
 		ZEPHIR_INIT_VAR(message);
 		zephir_call_method_p1(message, this_ptr, "getoption", _0);
-		if (!(zephir_is_true(message))) {
+		ZEPHIR_INIT_VAR(replacePairs);
+		array_init(replacePairs);
+		zephir_array_update_string(&replacePairs, SL(":field"), &field, PH_COPY | PH_SEPARATE);
+		if (ZEPHIR_IS_EMPTY(message)) {
 			ZEPHIR_INIT_NVAR(message);
 			if ((Z_TYPE_P(field) == IS_ARRAY)) {
-				ZEPHIR_INIT_VAR(joinFields);
-				zephir_fast_join_str(joinFields, SL(", "), field TSRMLS_CC);
-				ZEPHIR_CONCAT_SVS(message, "Value of fields: '", joinFields, "' are already present in another record");
+				ZEPHIR_INIT_NVAR(replacePairs);
+				array_init(replacePairs);
+				ZEPHIR_INIT_BNVAR(_0);
+				zephir_fast_join_str(_0, SL(", "), field TSRMLS_CC);
+				zephir_array_update_string(&replacePairs, SL(":fields"), &_0, PH_COPY | PH_SEPARATE);
+				ZVAL_STRING(message, "Value of fields :fields are already present in another record", 1);
 			} else {
-				ZEPHIR_CONCAT_SVS(message, "Value of field: '", field, "' is already present in another record");
+				ZVAL_STRING(message, "Value of field :field is already present in another record", 1);
 			}
 		}
 		ZEPHIR_INIT_BNVAR(_0);
-		ZVAL_STRING(_0, "Unique", 1);
-		zephir_call_method_p3_noret(this_ptr, "appendmessage", message, field, _0);
+		zephir_call_func_p2(_0, "strtr", message, replacePairs);
+		ZEPHIR_INIT_VAR(_17);
+		ZVAL_STRING(_17, "Unique", 1);
+		zephir_call_method_p3_noret(this_ptr, "appendmessage", _0, field, _17);
 		RETURN_MM_BOOL(0);
 	}
 	RETURN_MM_BOOL(1);

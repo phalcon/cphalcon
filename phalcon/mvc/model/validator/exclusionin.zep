@@ -77,7 +77,7 @@ class Exclusionin extends Phalcon\Mvc\Model\Validator implements Phalcon\Mvc\Mod
 
 		let value = record->readAttribute(field);
 
-                if this->isSetOption("allowEmpty") && (typeof value == "null" || empty value) {
+                if this->isSetOption("allowEmpty") && empty(value) {
                     return true;
                 }
 
@@ -91,7 +91,7 @@ class Exclusionin extends Phalcon\Mvc\Model\Validator implements Phalcon\Mvc\Mod
 			 */
 			let message = this->getOption("message");
                         let replacePairs = [":field": field, ":domain":  join(", ", domain)];
-			if empty message {
+			if empty(message) {
                                 let message = "Value of field :field must not be part of list: :domain";
 			}
 

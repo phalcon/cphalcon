@@ -294,16 +294,16 @@ PHP_METHOD(Phalcon_Http_Cookie, send) {
 	if (!ZEPHIR_IS_LONG(expire, 0)) {
 		zephir_array_update_string(&definition, SL("expire"), &expire, PH_COPY | PH_SEPARATE);
 	}
-	if (!((0 == 0))) {
+	if (!(ZEPHIR_IS_EMPTY(path))) {
 		zephir_array_update_string(&definition, SL("path"), &path, PH_COPY | PH_SEPARATE);
 	}
-	if (!((0 == 0))) {
+	if (!(ZEPHIR_IS_EMPTY(domain))) {
 		zephir_array_update_string(&definition, SL("domain"), &domain, PH_COPY | PH_SEPARATE);
 	}
-	if (!((0 == 0))) {
+	if (!(ZEPHIR_IS_EMPTY(secure))) {
 		zephir_array_update_string(&definition, SL("secure"), &secure, PH_COPY | PH_SEPARATE);
 	}
-	if (!((0 == 0))) {
+	if (!(ZEPHIR_IS_EMPTY(httpOnly))) {
 		zephir_array_update_string(&definition, SL("httpOnly"), &httpOnly, PH_COPY | PH_SEPARATE);
 	}
 	if (zephir_fast_count_int(definition TSRMLS_CC)) {
@@ -318,7 +318,7 @@ PHP_METHOD(Phalcon_Http_Cookie, send) {
 	}
 	_3 = zephir_fetch_nproperty_this(this_ptr, SL("_useEncryption"), PH_NOISY_CC);
 	if (zephir_is_true(_3)) {
-		if (!((0 == 0))) {
+		if (!(ZEPHIR_IS_EMPTY(value))) {
 			if ((Z_TYPE_P(dependencyInjector) != IS_OBJECT)) {
 				ZEPHIR_THROW_EXCEPTION_STR(phalcon_http_response_exception_ce, "A dependency injection object is required to access the 'filter' service");
 				return;

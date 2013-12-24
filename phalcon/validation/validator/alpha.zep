@@ -20,19 +20,19 @@
 namespace Phalcon\Validation\Validator;
 
 /**
- * Phalcon\Validation\Validator\Email
+ * Phalcon\Validation\Validator\Alpha
  *
- * Checks if a value has a correct e-mail format
+ * Check for alphabetic character(s)
  *
  *<code>
- *use Phalcon\Validation\Validator\Email as EmailValidator;
+ *use Phalcon\Validation\Validator\Alpha as AlphaValidator;
  *
- *$validator->add('email', new EmailValidator(array(
- *   'message' => 'The e-mail is not valid'
+ *$validator->add('username', new AlphaValidator(array(
+ *   'message' => ':field must contain only letters'
  *)));
  *</code>
  */
-class Email extends Phalcon\Validation\Validator implements Phalcon\Validation\ValidatorInterface
+class Alpha extends Phalcon\Validation\Validator implements Phalcon\Validation\ValidatorInterface
 {
 
 	/**
@@ -52,15 +52,15 @@ class Email extends Phalcon\Validation\Validator implements Phalcon\Validation\V
                     return true;
                 }
 
-		if !filter_var(value, FILTER_VALIDATE_EMAIL) {
+		if !ctype_alpha(value) {
 
 			let message = this->getOption("message");
                         let replacePairs = [":field": field];
 			if empty(message) {
-                                let message = "Value of field :field must have a valid e-mail format";
+                                let message = "Field :field must contain only letters";
 			}
 
-			validation->appendMessage(new Phalcon\Validation\Message(strtr(message, replacePairs), field, "Email"));
+			validation->appendMessage(new Phalcon\Validation\Message(strtr(message, replacePairs), field, "Alpha"));
 			return false;
 		}
 

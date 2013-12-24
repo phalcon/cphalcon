@@ -410,7 +410,7 @@ PHP_METHOD(Phalcon_Validation_Message_Group, valid) {
  * Magic __set_state helps to re-build messages variable when exporting
  *
  * @param array group
- * @return Phalcon\Mvc\Model\Message\Group
+ * @return Phalcon\Validation\Message\Group
  */
 PHP_METHOD(Phalcon_Validation_Message_Group, __set_state) {
 
