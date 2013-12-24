@@ -49,8 +49,9 @@ class File extends Phalcon\Validation\Validator implements Phalcon\Validation\Va
 	 */
 	public function validate(<Phalcon\Validation> validation, string! field) -> boolean
 	{
-		var value, message, replacePairs, types, byteUnits, maxSize, matches, bytes, tmp, width, height, minResolution, maxResolution, minWidth, maxWidth, minHeight, maxHeight;
-
+		var value, message, replacePairs, types, byteUnits, maxSize, matches, tmp, width, height, minResolution, maxResolution, minWidth, maxWidth, minHeight, maxHeight;
+                int bytes size;
+                
 		let value = validation->getValue(field);
 
                 if this->isSetOption("allowEmpty") && empty value {
@@ -105,8 +106,9 @@ class File extends Phalcon\Validation\Validator implements Phalcon\Validation\Va
 
                         preg_match("/^([0-9]+(?:\\.[0-9]+)?)(".implode("|", array_keys(byteUnits)).")?$/Di", maxSize, matches);
                         let bytes = matches[1] * pow(2, byteUnits[isset matches[2] ? matches[2] : "B"]);
-
-                        if value["size"] > bytes {
+                        let size = value["size"];
+                        
+                        if size > bytes {
 
                                 let message = this->getOption("messageSize");
                                 let replacePairs = [":field": field, ":max": maxSize];
