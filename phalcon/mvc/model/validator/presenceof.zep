@@ -66,14 +66,14 @@ class PresenceOf extends Phalcon\Mvc\Model\Validator implements Phalcon\Mvc\Mode
 		 * A value is null when it is identical to null or a empty string
 		 */
 		let value = record->readAttribute(field);
-		if empty(value) {
+		if empty value {
  
 			/**
 			 * Check if the developer has defined a custom message
 			 */
 			let message = this->getOption("message");
                         let replacePairs = [":field": field];
-			if empty(message) {
+			if empty message {
                                 let message = ":field is required";
 			}
  

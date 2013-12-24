@@ -233,7 +233,7 @@ class Uniqueness extends Phalcon\Mvc\Model\Validator implements Phalcon\Mvc\Mode
 			 */
 			let message = this->getOption("message");
                         let replacePairs = [":field": field];
-			if empty(message) {
+			if empty message {
 				if typeof field == "array" {
 					let replacePairs = [":fields": join(", ", field)];
                                         let message = "Value of fields :fields are already present in another record";

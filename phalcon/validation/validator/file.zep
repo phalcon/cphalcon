@@ -53,7 +53,7 @@ class File extends Phalcon\Validation\Validator implements Phalcon\Validation\Va
 
 		let value = validation->getValue(field);
 
-                if this->isSetOption("allowEmpty") && empty(value) {
+                if this->isSetOption("allowEmpty") && empty value {
                     return true;
                 } 
 
@@ -61,7 +61,7 @@ class File extends Phalcon\Validation\Validator implements Phalcon\Validation\Va
 
                         let message = this->getOption("messageValid");
                         let replacePairs = [":field": field];
-			if empty(message) {
+			if empty message {
                                 let message = "File :field is not valid";
 			}
 
@@ -74,7 +74,7 @@ class File extends Phalcon\Validation\Validator implements Phalcon\Validation\Va
                         
                         let message = this->getOption("messageEmpty");
                         let replacePairs = [":field": field];
-			if empty(message) {
+			if empty message {
                                 let message = "File :field must not be empty";
 			}
 
@@ -87,7 +87,7 @@ class File extends Phalcon\Validation\Validator implements Phalcon\Validation\Va
 
                         let message = this->getOption("messageIniSize");
                         let replacePairs = [":field": field];
-                        if empty(message) {
+                        if empty message {
                                 let message = "The uploaded file exceeds the max filesize";
                         }
 
@@ -103,14 +103,14 @@ class File extends Phalcon\Validation\Validator implements Phalcon\Validation\Va
                         let maxSize = this->getOption("maxSize"),
                                 matches = NULL;
 
-                        preg_match("/^([0-9]+(?:\.[0-9]+)?)(".implode("|", array_keys(byteUnits)).")?$/Di", maxSize, matches);
+                        preg_match("/^([0-9]+(?:\\.[0-9]+)?)(".implode("|", array_keys(byteUnits)).")?$/Di", maxSize, matches);
                         let bytes = matches[1] * pow(2, byteUnits[isset matches[2] ? matches[2] : "B"]);
 
                         if value["size"] > bytes {
 
                                 let message = this->getOption("messageSize");
                                 let replacePairs = [":field": field, ":max": maxSize];
-                                if empty(message) {
+                                if empty message {
                                         let message = "Max filesize of file :field is :max";
                                 }
 
@@ -130,7 +130,7 @@ class File extends Phalcon\Validation\Validator implements Phalcon\Validation\Va
 
                                 let message = this->getOption("messageType");
                                 let replacePairs = [":field": field, ":types": join(", ", types)];
-                                if empty(message) {
+                                if empty message {
                                         let message = "Type of :field is not valid";
                                 }
 
@@ -163,7 +163,7 @@ class File extends Phalcon\Validation\Validator implements Phalcon\Validation\Va
 
                                 let message = this->getOption("messageMinResolution");
                                 let replacePairs = [":field": field, ":min": this->getOption("minResolution")];
-                                if empty(message) {
+                                if empty message {
                                         let message = "Min resolution of :field is :min";
                                 }
 
@@ -181,7 +181,7 @@ class File extends Phalcon\Validation\Validator implements Phalcon\Validation\Va
 
                                         let message = this->getOption("messageMaxResolution");
                                         let replacePairs = [":field": field, ":max": this->getOption("maxResolution")];
-                                        if empty(message) {
+                                        if empty message {
                                                 let message = "Max resolution of :field is :max";
                                         }
 

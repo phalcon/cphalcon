@@ -48,7 +48,7 @@ class Url extends Phalcon\Validation\Validator implements Phalcon\Validation\Val
 
 		let value = validation->getValue(field);
 
-                if this->isSetOption("allowEmpty") && empty(value) {
+                if this->isSetOption("allowEmpty") && empty value {
                     return true;
                 }
 
@@ -56,7 +56,7 @@ class Url extends Phalcon\Validation\Validator implements Phalcon\Validation\Val
 
 			let message = this->getOption("message");
                         let replacePairs = [":field": field];
-			if empty(message) {
+			if empty message {
                                 let message = ":field does not have a valid url format";
 			}
 

@@ -76,7 +76,7 @@ class Inclusionin extends Phalcon\Mvc\Model\Validator implements Phalcon\Mvc\Mod
  
 		let value = record->readAttribute(field);
 
-                if this->isSetOption("allowEmpty") && empty(value) {
+                if this->isSetOption("allowEmpty") && empty value {
                     return true;
                 }
  
@@ -90,7 +90,7 @@ class Inclusionin extends Phalcon\Mvc\Model\Validator implements Phalcon\Mvc\Mod
 			 */
 			let message = this->getOption("message");
                         let replacePairs = [":field": field, ":domain":  join(", ", domain)];
-			if empty(message) {
+			if empty message {
                                 let message = "Value of field :field must be part of list: :domain";
 			}
  
