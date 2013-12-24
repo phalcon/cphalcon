@@ -50,7 +50,7 @@ class File extends Phalcon\Validation\Validator implements Phalcon\Validation\Va
 	public function validate(<Phalcon\Validation> validation, string! field) -> boolean
 	{
 		var value, message, replacePairs, types, byteUnits, maxSize, matches, tmp, width, height, minResolution, maxResolution, minWidth, maxWidth, minHeight, maxHeight;
-                int bytes size;
+                int bytes, size;
                 
 		let value = validation->getValue(field);
 
