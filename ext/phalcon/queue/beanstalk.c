@@ -378,7 +378,7 @@ PHP_METHOD(Phalcon_Queue_Beanstalk, read) {
 	ZEPHIR_INIT_VAR(packet);
 	if (zephir_is_true(length)) {
 		ZEPHIR_INIT_VAR(isEof);
-		ZVAL_BOOL(isEof, zephir_feof(connection));
+		ZVAL_BOOL(isEof, zephir_feof(connection TSRMLS_CC));
 		if (zephir_is_true(isEof)) {
 			RETURN_MM_BOOL(0);
 		}

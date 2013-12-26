@@ -257,7 +257,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, getModelsManager) {
  */
 PHP_METHOD(Phalcon_Mvc_Collection, getReservedAttributes) {
 
-	zval *reserved, *_0;
+	zval *reserved;
 
 	ZEPHIR_MM_GROW();
 
@@ -342,7 +342,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, getSource) {
 	if (!(zephir_is_true(source))) {
 		ZEPHIR_INIT_BNVAR(source);
 		ZEPHIR_INIT_VAR(_0);
-		zephir_get_class_ns(_0, this_ptr, 0);
+		zephir_get_class_ns(_0, this_ptr, 0 TSRMLS_CC);
 		zephir_uncamelize(source, _0);
 		zephir_update_property_this(this_ptr, SL("_source"), source TSRMLS_CC);
 	}

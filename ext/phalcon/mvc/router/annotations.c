@@ -232,9 +232,9 @@ PHP_METHOD(Phalcon_Mvc_Router_Annotations, handle) {
 					ZEPHIR_INIT_NVAR(namespaceName);
 					if (zephir_memnstr_str(handler, SL("\\"), "phalcon/mvc/router/annotations.zep", 148)) {
 						ZEPHIR_INIT_NVAR(controllerName);
-						zephir_get_class_ns(controllerName, handler, 0);
+						zephir_get_class_ns(controllerName, handler, 0 TSRMLS_CC);
 						zephir_uncamelize(lowerControllerName, controllerName);
-						zephir_get_ns_class(namespaceName, handler, 0);
+						zephir_get_ns_class(namespaceName, handler, 0 TSRMLS_CC);
 					} else {
 						ZEPHIR_CPY_WRT(controllerName, handler);
 						zephir_uncamelize(lowerControllerName, controllerName);
