@@ -49,13 +49,13 @@ class File extends Phalcon\Validation\Validator implements Phalcon\Validation\Va
 	 */
 	public function validate(<Phalcon\Validation> validation, string! field) -> boolean
 	{
-		var value, message, replacePairs, types, byteUnits, maxSize, matches, bytes, tmp, width, height, minResolution, maxResolution, minWidth, maxWidth, minHeight, maxHeight;
-                
+		var value, message, replacePairs, types, byteUnits, unit, maxSize, matches, bytes, tmp, width, height, minResolution, maxResolution, minWidth, maxWidth, minHeight, maxHeight;
+
 		let value = validation->getValue(field);
 
                 if this->isSetOption("allowEmpty") && empty value {
                     return true;
-                } 
+                }
 
                 if !isset value["error"] || !isset value["name"] || !isset value["type"] || !isset value["tmp_name"] || !isset value["size"] {
 
@@ -69,9 +69,9 @@ class File extends Phalcon\Validation\Validator implements Phalcon\Validation\Va
 			return false;
                 }
 
-                
+
                 if value["error"] !== UPLOAD_ERR_OK || !is_uploaded_file(value["tmp_name"]) {
-                        
+
                         let message = this->getOption("messageEmpty");
                         let replacePairs = [":field": field];
 			if empty message {
@@ -101,12 +101,17 @@ class File extends Phalcon\Validation\Validator implements Phalcon\Validation\Va
                         let byteUnits = ["B": 0, "K": 10, "M": 20, "G": 30, "T": 40,
                                                  "KB": 10, "MB": 20, "GB": 30, "TB": 40];
                         let maxSize = this->getOption("maxSize"),
-                                matches = NULL;
+                                matches = NULL,
+                                unit = "B";
 
                         preg_match("/^([0-9]+(?:\\.[0-9]+)?)(".implode("|", array_keys(byteUnits)).")?$/Di", maxSize, matches);
-                        let bytes = matches[1] * pow(2, byteUnits[isset matches[2] ? matches[2] : "B"]);
-                        
-                        if intval(value["size"]) > intval(bytes) {
+                        if isset matches[2] {
+                            let unit = matches[2];
+                        }
+
+                        let bytes = floatval(matches[1]) * pow(2, byteUnits[unit]);
+
+                        if floatval(value["size"]) > bytes {
 
                                 let message = this->getOption("messageSize");
                                 let replacePairs = [":field": field, ":max": maxSize];
@@ -120,12 +125,12 @@ class File extends Phalcon\Validation\Validator implements Phalcon\Validation\Va
                 }
 
                 if this->isSetOption("allowedTypes") {
-                        
+
                         let types = this->getOption("allowedTypes");
                         if typeof types != "array" {
                                 throw new Phalcon\Validation\Exception("Option 'allowedTypes' must be an array");
                         }
-                        
+
                         if !in_array(strtolower(pathinfo(value["name"], PATHINFO_EXTENSION)), types) {
 
                                 let message = this->getOption("messageType");
@@ -154,7 +159,7 @@ class File extends Phalcon\Validation\Validator implements Phalcon\Validation\Va
                                 let minWidth = minResolution[0],
                                         minHeight = minResolution[1];
                         } else {
-                                
+
                                 let minWidth = 1,
                                         minHeight = 1;
                         }
