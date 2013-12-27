@@ -356,7 +356,7 @@ class Loader implements Phalcon\Events\EventsAwareInterface
 					/**
 					 * Get the possible file path
 					 */
-					let fileName = phalcon_possible_autoload_filepath(nsPrefix, className, ds);
+					let fileName = phalcon_possible_autoload_filepath(nsPrefix, className, ds, "\\");
 					if fileName {
 
 						/**

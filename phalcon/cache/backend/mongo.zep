@@ -185,7 +185,7 @@ class Mongo extends Phalcon\Cache\Backend implements Phalcon\Cache\BackendInterf
 	 */
 	public function save(keyName=null, content=null, lifetime=null, stopBuffer=true)
 	{
-		var lastkey, prefix, frontend, cachedContent, tmp, tt1, collection, timestamp, conditions,
+		var lastkey, prefix, frontend, cachedContent, tmp, ttl, collection, timestamp, conditions,
 			document, preparedContent, isBuffering, data;
 
 		let conditions = [];
@@ -216,16 +216,16 @@ class Mongo extends Phalcon\Cache\Backend implements Phalcon\Cache\BackendInterf
 		if !lifetime {
 			let tmp = this->_lastLifetime;
 			if !tmp {
-				let tt1 = frontend->getLifetime();
+				let ttl = frontend->getLifetime();
 			} else {
-				let tt1 = tmp;
+				let ttl = tmp;
 			}
 		} else {
-			let tt1 = lifetime;
+			let ttl = lifetime;
 		}
 
 		let collection = this->_getCollection();
-		let timestamp = time() + intval(tt1);
+		let timestamp = time() + intval(ttl);
 		let conditions["key"] = lastkey;
 		let document = collection->findOne(conditions);
 		
@@ -304,7 +304,7 @@ class Mongo extends Phalcon\Cache\Backend implements Phalcon\Cache\BackendInterf
 
 		if prefix {
 			let pattern = "/^". prefix ."/";
-			let regex = MongoRegex(pattern);
+			let regex = new MongoRegex(pattern);
 			let conditions["key"] = regex; 
 		}
 
@@ -382,8 +382,8 @@ class Mongo extends Phalcon\Cache\Backend implements Phalcon\Cache\BackendInterf
 	*/
 	public function increment(keyName, value=1)
 	{
-		var frontend, prefix, prefixedKey, collection, conditions, document, timestamp, lifetime, 
-			tt1, modifiedTime, difference, notExpired, cachedContent, keys;
+		var frontend, prefix, prefixedKey, collection, document, timestamp, lifetime, 
+			ttl, modifiedTime, difference, notExpired, cachedContent, keys;
 
 		let frontend = this->_frontend;
 		let prefix = this->_prefix;
@@ -392,15 +392,14 @@ class Mongo extends Phalcon\Cache\Backend implements Phalcon\Cache\BackendInterf
 		let this->_lastKey = prefixedKey;
 		
 		let collection = this->_getCollection();
-		let conditions = ["key": prefixedKey];
-		let document = collection->findOne(conditions);
+		let document = collection->findOne(["key": prefixedKey]);
 		let timestamp = time();
 		let lifetime = this->_lastLifetime;
 		
 		if !lifetime {
-			let tt1 = frontend->getLifetime();
+			let ttl = frontend->getLifetime();
 		} else {
-			let tt1 = lifetime();
+			let ttl = lifetime;
 		}
 		
 		if !isset document["time"] {
@@ -408,7 +407,7 @@ class Mongo extends Phalcon\Cache\Backend implements Phalcon\Cache\BackendInterf
 		}
 		
 		let modifiedTime = document["time"];
-		let difference = timestamp - tt1;
+		let difference = timestamp - ttl;
 		let notExpired = difference < modifiedTime;
 
 		/** 
@@ -423,7 +422,7 @@ class Mongo extends Phalcon\Cache\Backend implements Phalcon\Cache\BackendInterf
 
         	if is_numeric(cachedContent) {
         		let keys = cachedContent + value;
-        		let tt1 = lifetime + timestamp;
+        		let ttl = lifetime + timestamp;
         		this->save(prefixedKey, keys);
         	}
         }
@@ -440,7 +439,7 @@ class Mongo extends Phalcon\Cache\Backend implements Phalcon\Cache\BackendInterf
 	public function decrement(keyName, value=1)
 	{
 		var frontend, prefix, prefixedKey, collection, conditions, document, timestamp, lifetime, 
-			tt1, modifiedTime, difference, notExpired, cachedContent, keys;
+			ttl, modifiedTime, difference, notExpired, cachedContent, keys;
 
 		let frontend = this->_frontend;
 		let prefix = this->_prefix;
@@ -455,9 +454,9 @@ class Mongo extends Phalcon\Cache\Backend implements Phalcon\Cache\BackendInterf
 		let lifetime = this->_lastLifetime;
 		
 		if !lifetime {
-			let tt1 = frontend->getLifetime();
+			let ttl = frontend->getLifetime();
 		} else {
-			let tt1 = lifetime();
+			let ttl = lifetime;
 		}
 		
 		if !isset document["time"] {
@@ -465,7 +464,7 @@ class Mongo extends Phalcon\Cache\Backend implements Phalcon\Cache\BackendInterf
 		}
 		
 		let modifiedTime = document["time"];
-		let difference = timestamp - tt1;
+		let difference = timestamp - ttl;
 		let notExpired = difference < modifiedTime;
 
 		/** 
@@ -480,7 +479,7 @@ class Mongo extends Phalcon\Cache\Backend implements Phalcon\Cache\BackendInterf
 
         	if is_numeric(cachedContent) {
         		let keys = cachedContent - value;
-        		let tt1 = lifetime + timestamp;
+        		let ttl = lifetime + timestamp;
         		this->save(prefixedKey, keys);
         	}
         }

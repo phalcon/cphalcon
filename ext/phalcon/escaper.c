@@ -288,7 +288,6 @@ PHP_METHOD(Phalcon_Escaper, escapeCss) {
 
 	ZEPHIR_INIT_VAR(normalize);
 	zephir_call_method_p1(normalize, this_ptr, "normalizeencoding", css);
-	zephir_call_func_p1(return_value, "phalcon_escape_css", normalize);
 	RETURN_MM();
 
 }
@@ -312,7 +311,6 @@ PHP_METHOD(Phalcon_Escaper, escapeJs) {
 
 	ZEPHIR_INIT_VAR(normalize);
 	zephir_call_method_p1(normalize, this_ptr, "normalizeencoding", js);
-	zephir_call_func_p1(return_value, "phalcon_escape_js", normalize);
 	RETURN_MM();
 
 }

@@ -19,6 +19,7 @@
 #include "kernel/exception.h"
 #include "kernel/operators.h"
 #include "kernel/concat.h"
+#include "kernel/string.h"
 
 
 /*
@@ -484,7 +485,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Libmemcached, queryKeys) {
 
 	HashTable *_1;
 	HashPosition _0;
-	zval *prefix = NULL, *memcache = NULL, *options, *keys, *specialKey, *key = NULL, **_2, *_3 = NULL;
+	zval *prefix = NULL, *memcache = NULL, *options, *keys, *specialKey, *key = NULL, **_2;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 1, &prefix);
@@ -516,9 +517,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Libmemcached, queryKeys) {
 			; zend_hash_move_forward_ex(_1, &_0)
 		) {
 			ZEPHIR_GET_HVALUE(key, _2);
-			ZEPHIR_INIT_NVAR(_3);
-			zephir_call_func_p2(_3, "start_with", key, prefix);
-			if ((!zephir_is_true(prefix) || zephir_is_true(_3))) {
+			if ((!zephir_is_true(prefix) || zephir_start_with(key, prefix, 0))) {
 				RETURN_CCTOR(key);
 			}
 		}

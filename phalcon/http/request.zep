@@ -845,15 +845,16 @@ class Request implements Phalcon\Http\RequestInterface, Phalcon\Di\InjectionAwar
 	 */
 	public function getBasicAuth()
 	{
-		var auth, username, password;
+		var auth;
 
 		if isset _SERVER["PHP_AUTH_USER"] && isset _SERVER["PHP_AUTH_PW"] {
 			let auth = [];
 			let auth["username"] = _SERVER["PHP_AUTH_USER"];
 			let auth["password"] = _SERVER["PHP_AUTH_PW"];
+			return auth;
 		}
 
-		return auth;
+		return null;
 	}
 
 	/**

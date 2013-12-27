@@ -321,7 +321,7 @@ class Memcache extends Phalcon\Cache\Backend implements Phalcon\Cache\BackendInt
 		let keys = memcache->get(specialKey);
 		if typeof keys == "array" {
 			for key in keys {
-				if !prefix || start_with(key, prefix) {
+				if !prefix || starts_with(key, prefix) {
 					return key;
 				}
 			}

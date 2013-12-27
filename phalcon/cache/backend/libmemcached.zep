@@ -399,7 +399,7 @@ class Libmemcached extends Phalcon\Cache\Backend implements Phalcon\Cache\Backen
 		let keys = memcache->get(specialKey);
 		if typeof keys == "array" {
 			for key in keys {
-				if !prefix || start_with(key, prefix) {
+				if !prefix || starts_with(key, prefix) {
 					return key;
 				}
 			}

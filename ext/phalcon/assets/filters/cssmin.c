@@ -12,7 +12,7 @@
 #include <Zend/zend_interfaces.h>
 
 #include "kernel/main.h"
-#include "kernel/fcall.h"
+#include "kernel/array.h"
 #include "ext/spl/spl_exceptions.h"
 #include "kernel/exception.h"
 #include "kernel/memory.h"
@@ -74,7 +74,6 @@ PHP_METHOD(Phalcon_Assets_Filters_Cssmin, filter) {
 
 
 
-	zephir_call_func_p1(return_value, "phalcon_cssmin", content);
 	RETURN_MM();
 
 }

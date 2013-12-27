@@ -378,7 +378,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Xcache, exists) {
 PHP_METHOD(Phalcon_Cache_Backend_Xcache, increment) {
 
 	long value;
-	zval *keyName, *value_param = NULL, *lastKey, *newVal, *origVal, *_0, _1, *_2, *_3;
+	zval *keyName, *value_param = NULL, *lastKey, *newVal, *origVal, *_0, _1 = zval_used_for_init, *_2;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 1, &keyName, &value_param);
@@ -406,9 +406,9 @@ PHP_METHOD(Phalcon_Cache_Backend_Xcache, increment) {
 	ZEPHIR_INIT_VAR(_2);
 	zephir_call_func_p1(_2, "function_exists", &_1);
 	if (zephir_is_true(_2)) {
-		ZEPHIR_INIT_VAR(_3);
-		ZVAL_LONG(_3, value);
-		zephir_call_func_p2(newVal, "xcache_inc", lastKey, _3);
+		ZEPHIR_SINIT_NVAR(_1);
+		ZVAL_LONG(&_1, value);
+		zephir_call_func_p2(newVal, "xcache_inc", lastKey, &_1);
 	} else {
 		ZEPHIR_INIT_VAR(origVal);
 		zephir_call_func_p1(origVal, "xcache_get", lastKey);
@@ -429,7 +429,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Xcache, increment) {
 PHP_METHOD(Phalcon_Cache_Backend_Xcache, decrement) {
 
 	long value;
-	zval *keyName, *value_param = NULL, *lastKey, *newVal, *origVal, *success, *_0, _1, *_2, *_3;
+	zval *keyName, *value_param = NULL, *lastKey, *newVal, *origVal, *success, *_0, _1 = zval_used_for_init, *_2;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 1, &keyName, &value_param);
@@ -457,9 +457,9 @@ PHP_METHOD(Phalcon_Cache_Backend_Xcache, decrement) {
 	ZEPHIR_INIT_VAR(_2);
 	zephir_call_func_p1(_2, "function_exists", &_1);
 	if (zephir_is_true(_2)) {
-		ZEPHIR_INIT_VAR(_3);
-		ZVAL_LONG(_3, value);
-		zephir_call_func_p2(newVal, "xcache_dec", lastKey, _3);
+		ZEPHIR_SINIT_NVAR(_1);
+		ZVAL_LONG(&_1, value);
+		zephir_call_func_p2(newVal, "xcache_dec", lastKey, &_1);
 	} else {
 		ZEPHIR_INIT_VAR(origVal);
 		zephir_call_func_p1(origVal, "xcache_get", lastKey);

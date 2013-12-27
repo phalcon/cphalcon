@@ -1397,8 +1397,9 @@ PHP_METHOD(Phalcon_Http_Request, getBasicAuth) {
 		zephir_array_update_string(&auth, SL("username"), &_0, PH_COPY | PH_SEPARATE);
 		zephir_array_fetch_string(&_1, _SERVER, SL("PHP_AUTH_PW"), PH_NOISY | PH_READONLY TSRMLS_CC);
 		zephir_array_update_string(&auth, SL("password"), &_1, PH_COPY | PH_SEPARATE);
+		RETURN_CCTOR(auth);
 	}
-	RETURN_CCTOR(auth);
+	RETURN_MM_NULL();
 
 }
 

@@ -18,7 +18,8 @@
  +------------------------------------------------------------------------+
  */
 
-class PhqlParsePhqlOptimizer
+class PhalconJsminOptimizer
+	extends OptimizerAbstract
 {
 
 	/**
@@ -29,12 +30,13 @@ class PhqlParsePhqlOptimizer
 	 */
 	public function optimize(array $expression, Call $call, CompilationContext $context)
 	{
+
 		if (!isset($expression['parameters'])) {
 			return false;
 		}
 
-		if (count($expression['parameters']) != 2) {
-			return false;
+		if (count($expression['parameters']) != 1) {
+			throw new CompilerException("phalcon_jsmin only accepts one parameter", $expression);
 		}
 
 		/**
