@@ -71,7 +71,7 @@ class Validation extends Phalcon\Di\Injectable
 	public function validate(data=null, entity=null) -> <Phalcon\Validation\Message\Group>
 	{
 		var validators, messages, cancelOnFail, scope,
-			field, validator;
+			field, validator, validate;
 
 		let validators = this->_validators;
 		if typeof validators != "array" {
@@ -125,7 +125,8 @@ class Validation extends Phalcon\Di\Injectable
 			/**
 			 * Check if the validation must be canceled if this validator fails
 			 */
-			if validator->validate(this, field) === false {
+                        let validate = "validate";
+			if validator->{validate}(this, field) === false {
 				if (validator->getOption(cancelOnFail)) {
 					break;
 				}
