@@ -111,7 +111,7 @@ class File extends Phalcon\Validation\Validator implements Phalcon\Validation\Va
 
                         let bytes = floatval(matches[1]) * pow(2, byteUnits[unit]);
 
-                        if floatval(value["size"]) > bytes {
+                        if floatval(value["size"]) > floatval(bytes) {
 
                                 let message = this->getOption("messageSize");
                                 let replacePairs = [":field": field, ":max": maxSize];
@@ -142,7 +142,6 @@ class File extends Phalcon\Validation\Validator implements Phalcon\Validation\Va
                                 validation->appendMessage(new Phalcon\Validation\Message(strtr(message, replacePairs), field, "FileType"));
                                 return false;
                         }
-                        return false;
                 }
 
 
