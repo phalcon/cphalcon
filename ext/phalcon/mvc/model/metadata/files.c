@@ -99,7 +99,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Files, __construct) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_MetaData_Files, read) {
 
-	zval *key_param = NULL, *path, *_0, *_1, *_2;
+	zval *key_param = NULL, *path, *_0, *_1, _2, *_3;
 	zval *key = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -116,14 +116,13 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Files, read) {
 
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_metaDataDir"), PH_NOISY_CC);
 	ZEPHIR_INIT_VAR(_1);
-	ZVAL_STRING(_1, "_", 1);
-	ZEPHIR_INIT_VAR(_2);
-	zephir_call_func_p2(_2, "phalcon_prepare_virtual_path", key, _1);
+	ZEPHIR_SINIT_VAR(_2);
+	ZVAL_STRING(&_2, "_", 0);
 	ZEPHIR_INIT_VAR(path);
-	ZEPHIR_CONCAT_VVS(path, _0, _2, ".php");
-	ZEPHIR_INIT_BNVAR(_1);
-	zephir_call_func_p1(_1, "file_exists", path);
-	if (zephir_is_true(_1)) {
+	ZEPHIR_CONCAT_VVS(path, _0, _1, ".php");
+	ZEPHIR_INIT_VAR(_3);
+	zephir_call_func_p1(_3, "file_exists", path);
+	if (zephir_is_true(_3)) {
 		RETURN_MM_BOOL((0 == 1));
 	}
 	RETURN_MM_NULL();
@@ -138,7 +137,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Files, read) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_MetaData_Files, write) {
 
-	zval *key_param = NULL, *data, *path, *_0, *_1, *_2, *_3, *_4;
+	zval *key_param = NULL, *data, *path, *_0, *_1, _2, *_3, *_4, *_5;
 	zval *key = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -155,18 +154,17 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Files, write) {
 
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_metaDataDir"), PH_NOISY_CC);
 	ZEPHIR_INIT_VAR(_1);
-	ZVAL_STRING(_1, "_", 1);
-	ZEPHIR_INIT_VAR(_2);
-	zephir_call_func_p2(_2, "phalcon_prepare_virtual_path", key, _1);
+	ZEPHIR_SINIT_VAR(_2);
+	ZVAL_STRING(&_2, "_", 0);
 	ZEPHIR_INIT_VAR(path);
-	ZEPHIR_CONCAT_VVS(path, _0, _2, ".php");
-	ZEPHIR_INIT_BNVAR(_1);
-	zephir_call_func_p2(_1, "var_export", data, ZEPHIR_GLOBAL(global_true));
+	ZEPHIR_CONCAT_VVS(path, _0, _1, ".php");
 	ZEPHIR_INIT_VAR(_3);
-	ZEPHIR_CONCAT_SVS(_3, "<?php return ", _1, "; ");
+	zephir_call_func_p2(_3, "var_export", data, ZEPHIR_GLOBAL(global_true));
 	ZEPHIR_INIT_VAR(_4);
-	zephir_call_func_p2(_4, "file_put_contents", path, _3);
-	if (ZEPHIR_IS_FALSE(_4)) {
+	ZEPHIR_CONCAT_SVS(_4, "<?php return ", _3, "; ");
+	ZEPHIR_INIT_VAR(_5);
+	zephir_call_func_p2(_5, "file_put_contents", path, _4);
+	if (ZEPHIR_IS_FALSE(_5)) {
 		ZEPHIR_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Meta-Data directory cannot be written");
 		return;
 	}

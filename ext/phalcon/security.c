@@ -279,7 +279,7 @@ PHP_METHOD(Phalcon_Security, checkHash) {
  */
 PHP_METHOD(Phalcon_Security, isLegacyHash) {
 
-	zval *password_param = NULL, *passwordHash_param = NULL, *_0, *_1;
+	zval *password_param = NULL, *passwordHash_param = NULL;
 	zval *password = NULL, *passwordHash = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -289,14 +289,7 @@ PHP_METHOD(Phalcon_Security, isLegacyHash) {
 		zephir_get_strval(passwordHash, passwordHash_param);
 
 
-	ZEPHIR_INIT_VAR(_0);
-	ZVAL_STRING(_0, "$2a$", 1);
-	ZEPHIR_INIT_VAR(_1);
-	zephir_call_func_p2(_1, "starts_with_str", passwordHash, _0);
-	if (zephir_is_true(_1)) {
-		RETURN_MM_BOOL(1);
-	}
-	RETURN_MM_BOOL(0);
+	RETURN_MM_BOOL(zephir_start_with_str(passwordHash, SL("$2a$")));
 
 }
 

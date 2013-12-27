@@ -730,7 +730,7 @@ class Manager implements Phalcon\Mvc\Model\ManagerInterface, Phalcon\Di\Injectio
 		var referencedFields, var options=null) -> <Phalcon\Mvc\Model\Relation>
 	{
 		var entityName, referencedEntity, relation,
-			keyRelation, relations, alias, lowerAlias, hasOneSingle, singleRelations;
+			keyRelation, relations, alias, lowerAlias, singleRelations;
 
 		let entityName = get_class_lower(model),
 			referencedEntity = strtolower(referencedModel);
@@ -812,8 +812,7 @@ class Manager implements Phalcon\Mvc\Model\ManagerInterface, Phalcon\Di\Injectio
 	public function addBelongsTo(<Phalcon\Mvc\ModelInterface> model, var fields, string! referencedModel,
 		var referencedFields, var options=null) -> <Phalcon\Mvc\Model\Relation>
 	{
-		var entityName, referencedEntity, belongsTo, relation,
-			keyRelation, relations, alias, lowerAlias, belongsToSingle, singleRelations;
+		var entityName, referencedEntity, relation, keyRelation, relations, alias, lowerAlias, singleRelations;
 
 		let entityName = get_class_lower(model),
 			referencedEntity = strtolower(referencedModel);

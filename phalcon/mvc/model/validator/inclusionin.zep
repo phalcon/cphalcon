@@ -54,7 +54,7 @@ class Inclusionin extends Phalcon\Mvc\Model\Validator implements Phalcon\Mvc\Mod
 	 */
 	public function validate(<Phalcon\Mvc\ModelInterface> record) -> boolean
 	{
- 		var field, visSet, domain, value, message, joinedDomain, replacePairs;
+ 		var field, visSet, domain, value, message, replacePairs;
 
 		let field = this->getOption("field");
 		if typeof field != "string" {

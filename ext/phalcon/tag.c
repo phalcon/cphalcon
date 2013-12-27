@@ -404,25 +404,33 @@ PHP_METHOD(Phalcon_Tag, resetInput) {
  *	echo Phalcon\Tag::linkTo('signup/register', 'Register Here!');
  *	echo Phalcon\Tag::linkTo(array('signup/register', 'Register Here!'));
  *	echo Phalcon\Tag::linkTo(array('signup/register', 'Register Here!', 'class' => 'btn-primary'));
+ *	echo Phalcon\Tag::linkTo('http://phalconphp.com/', 'Phalcon', FALSE);
+ *	echo Phalcon\Tag::linkTo(array('http://phalconphp.com/', 'Phalcon Home', FALSE));
+ *	echo Phalcon\Tag::linkTo(array('http://phalconphp.com/', 'Phalcon Home', 'local' =>FALSE));
  *</code>
  *
- * @param	array|string parameters
- * @param   string text
- * @return	string
+ * @param array|string parameters
+ * @param string text
+ * @param boolean local
+ * @return string
  */
 PHP_METHOD(Phalcon_Tag, linkTo) {
 
 	HashTable *_2;
 	HashPosition _1;
-	zval *parameters, *text = NULL, *key = NULL, *value = NULL, *params = NULL, *action = NULL, *url, *code, *_0, **_3, *_4 = NULL;
+	zval *parameters, *text = NULL, *local = NULL, *key = NULL, *value = NULL, *params = NULL, *action = NULL, *url, *code, *_0, **_3, *_4 = NULL;
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 1, &parameters, &text);
+	zephir_fetch_params(1, 1, 2, &parameters, &text, &local);
 
 	if (!text || Z_TYPE_P(text) == IS_NULL) {
 		ZEPHIR_CPY_WRT(text, ZEPHIR_GLOBAL(global_null));
 	}
 	ZEPHIR_SEPARATE_PARAM(text);
+	if (!local || Z_TYPE_P(local) == IS_NULL) {
+		ZEPHIR_CPY_WRT(local, ZEPHIR_GLOBAL(global_true));
+	}
+	ZEPHIR_SEPARATE_PARAM(local);
 
 
 	if ((Z_TYPE_P(parameters) != IS_ARRAY)) {
@@ -430,6 +438,7 @@ PHP_METHOD(Phalcon_Tag, linkTo) {
 		array_init(params);
 		zephir_array_fast_append(params, parameters);
 		zephir_array_fast_append(params, text);
+		zephir_array_fast_append(params, local);
 	} else {
 		ZEPHIR_CPY_WRT(params, parameters);
 	}
@@ -451,12 +460,25 @@ PHP_METHOD(Phalcon_Tag, linkTo) {
 		} else {
 		}
 	}
-	ZEPHIR_INIT_VAR(url);
-	zephir_call_self(url, this_ptr, "geturlservice");
-	ZEPHIR_INIT_VAR(_0);
-	zephir_call_method_p1(_0, url, "get", action);
+	ZEPHIR_OBS_NVAR(local);
+	if (!(zephir_array_isset_long_fetch(&local, params, 2, 0 TSRMLS_CC))) {
+		ZEPHIR_OBS_NVAR(local);
+		if (!(zephir_array_isset_string_fetch(&local, params, SS("local"), 0 TSRMLS_CC))) {
+			ZEPHIR_INIT_BNVAR(local);
+			ZVAL_BOOL(local, 1);
+		} else {
+		}
+	}
 	ZEPHIR_INIT_VAR(code);
-	ZEPHIR_CONCAT_SVS(code, "<a href=\"", _0, "\"");
+	if (zephir_is_true(local)) {
+		ZEPHIR_INIT_VAR(url);
+		zephir_call_self(url, this_ptr, "geturlservice");
+		ZEPHIR_INIT_VAR(_0);
+		zephir_call_method_p1(_0, url, "get", action);
+		ZEPHIR_CONCAT_SVS(code, "<a href=\"", _0, "\"");
+	} else {
+		ZEPHIR_CONCAT_SVS(code, "<a href=\"", action, "\"");
+	}
 	zephir_is_iterable(params, &_2, &_1, 0, 0);
 	for (
 		; zend_hash_get_current_data_ex(_2, (void**) &_3, &_1) == SUCCESS

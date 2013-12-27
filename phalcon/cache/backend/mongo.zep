@@ -90,51 +90,51 @@ class Mongo extends Phalcon\Cache\Backend implements Phalcon\Cache\BackendInterf
 		if typeof mongoCollection != "object" {
 			let options = this->_options;
 
-			/** 
-            * If mongo is defined a valid Mongo object must be passed
-            */
-            if isset options["mongo"] {
-            	let mongo = options["mongo"];
-            	if typeof mongo != "object" {
-            		throw new Phalcon\Cache\Exception("The 'mongo' parameter must be a valid Mongo instance");
-            	}
-            } else {
-            	/** 
-	            * Server must be defined otherwise
-	            */
-	            let server = options["server"];
-	            if !server || typeof server != "string" {
-	            	throw new Phalcon\Cache\Exception("The backend requires a valid MongoDB connection string");
-	            }
-	            let mongo = new Mongo();
-            }
+			/**
+			 * If mongo is defined a valid Mongo object must be passed
+			 */
+			if isset options["mongo"] {
+				let mongo = options["mongo"];
+				if typeof mongo != "object" {
+					throw new Phalcon\Cache\Exception("The 'mongo' parameter must be a valid Mongo instance");
+				}
+			} else {
+				/**
+				 * Server must be defined otherwise
+				 */
+				let server = options["server"];
+				if !server || typeof server != "string" {
+					throw new Phalcon\Cache\Exception("The backend requires a valid MongoDB connection string");
+				}
+				let mongo = new Mongo();
+			}
 
-            /** 
-            * Check if the database name is a string
-            */
-            let database = options["db"];
-            if !database || typeof database != "string" {
-            	throw new Phalcon\Cache\Exception("The backend requires a valid MongoDB db");
-            }
+			/**
+			 * Check if the database name is a string
+			 */
+			let database = options["db"];
+			if !database || typeof database != "string" {
+				throw new Phalcon\Cache\Exception("The backend requires a valid MongoDB db");
+			}
 
-            /** 
-            * Retrieve the connection name
-            */
-            let collection = options["collection"];
-            if !collection || typeof collection != "string" {
-            	throw new Phalcon\Cache\Exception("The backend requires a valid MongoDB collection");
-            }
+			/**
+			* Retrieve the connection name
+			*/
+			let collection = options["collection"];
+			if !collection || typeof collection != "string" {
+				throw new Phalcon\Cache\Exception("The backend requires a valid MongoDB collection");
+			}
 
-            /** 
-            * Make the connection and get the collection
-            */
-            let mongoDatabase = mongo->selectDb(database);
-            mongoDatabase->selectCollection(collection);
- 		} else {
- 			return mongoCollection;
- 		}
+			/**
+			* Make the connection and get the collection
+			*/
+			let mongoDatabase = mongo->selectDb(database);
+			mongoDatabase->selectCollection(collection);
+		} else {
+			return mongoCollection;
+		}
 
-	} 
+	}
 
 	/**
 	 * Returns a cached content
@@ -145,20 +145,16 @@ class Mongo extends Phalcon\Cache\Backend implements Phalcon\Cache\BackendInterf
 	 */
 	public function get(keyName, lifetime=null)
 	{
-		var frontend, prefix, prefixedKey, collection, conditions, timeCondition, document,
-			cachedContent;
+		var frontend, prefix, prefixedKey, conditions, document, cachedContent;
 
 		let conditions = [];
-		let timeCondition = [];
 		let frontend = this->_frontend;
-		let prefix = this->_prefix;
-		let prefixedKey = prefix . keyName;
+		let prefixedKey = this->_prefix . keyName;
 		let this->_lastKey = prefixedKey;
-		let collection = this->_getCollection();
+
 		let conditions["key"] = prefixedKey;
-		let timeCondition["$gt"] = time();
-		let conditions["time"] = timeCondition;
-		let document = collection->findOne(conditions);
+		let conditions["time"] = ["$gt": time()];
+		let document = this->_getCollection()->findOne(conditions);
 		if typeof document == "array" {
 			if isset document["data"] {
 				let cachedContent = document["data"];
@@ -228,7 +224,7 @@ class Mongo extends Phalcon\Cache\Backend implements Phalcon\Cache\BackendInterf
 		let timestamp = time() + intval(ttl);
 		let conditions["key"] = lastkey;
 		let document = collection->findOne(conditions);
-		
+
 		if typeof document == "array" {
 			let document["time"] = timestamp;
 			if !is_numeric(cachedContent) {
@@ -247,9 +243,9 @@ class Mongo extends Phalcon\Cache\Backend implements Phalcon\Cache\BackendInterf
 			}
 			collection->save(data);
 		}
-		
+
 		let isBuffering = frontend->isBuffering();
-		
+
 		if stopBuffer == true {
 			frontend->stop();
 		}
@@ -259,7 +255,7 @@ class Mongo extends Phalcon\Cache\Backend implements Phalcon\Cache\BackendInterf
 		}
 
 		let this->_started = false;
-	}	
+	}
 
 	/**
 	 * Deletes a value from the cache by its key
@@ -267,18 +263,11 @@ class Mongo extends Phalcon\Cache\Backend implements Phalcon\Cache\BackendInterf
 	 * @param int|string keyName
 	 * @return boolean
 	 */
-	public function delete(keyName)
+	public function delete(keyName) -> boolean
 	{
-		var prefix, prefixedKey, collection, conditions;
 
-		let conditions = [];
-		let prefix = this->_prefix;
-		let prefixedKey = prefix . keyName;
-		let collection = this->_getCollection();
-		let conditions["key"] = prefixedKey;
-		collection->remove(conditions);
-
-		if (int) rand() % 100 == 0 {
+		this->_getCollection()->remove(["key": this->_prefix . keyName]);
+		if ((int) rand()) % 100 == 0 {
 			this->gc();
 		}
 
@@ -303,18 +292,14 @@ class Mongo extends Phalcon\Cache\Backend implements Phalcon\Cache\BackendInterf
 		let conditions = [];
 
 		if prefix {
-			let pattern = "/^". prefix ."/";
-			let regex = new MongoRegex(pattern);
-			let conditions["key"] = regex; 
+			let conditions["key"] = new MongoRegex("/^". prefix ."/");
 		}
 
-		let timeCondition["$gt"] = time();
-		let conditions["time"] = timeCondition;
+		let conditions["time"] = ["$gt": time()];
 		let documents = collection->find(conditions, fields);
-		let keys = [];
-		let documentsArray = iterator_to_array(documents);
 
-		for index,key in documentsArray {
+		let keys = [];
+		for index, key in iterator_to_array(documents) {
 			if index == "key" {
 				let keys[] = key;
 			}
@@ -382,51 +367,51 @@ class Mongo extends Phalcon\Cache\Backend implements Phalcon\Cache\BackendInterf
 	*/
 	public function increment(keyName, value=1)
 	{
-		var frontend, prefix, prefixedKey, collection, document, timestamp, lifetime, 
+		var frontend, prefix, prefixedKey, collection, document, timestamp, lifetime,
 			ttl, modifiedTime, difference, notExpired, cachedContent, keys;
 
 		let frontend = this->_frontend;
 		let prefix = this->_prefix;
 		let prefixedKey = prefix . keyName;
-		
+
 		let this->_lastKey = prefixedKey;
-		
+
 		let collection = this->_getCollection();
 		let document = collection->findOne(["key": prefixedKey]);
 		let timestamp = time();
 		let lifetime = this->_lastLifetime;
-		
+
 		if !lifetime {
 			let ttl = frontend->getLifetime();
 		} else {
 			let ttl = lifetime;
 		}
-		
+
 		if !isset document["time"] {
 			throw new Phalcon\Cache\Exception("The cache is currupted");
 		}
-		
+
 		let modifiedTime = document["time"];
 		let difference = timestamp - ttl;
 		let notExpired = difference < modifiedTime;
 
-		/** 
-        * The expiration is based on the column 'time'
-        */
-        if notExpired == true {
-        	if !isset document["data"] {
-        		throw new Phalcon\Cache\Exception("The cache is currupted");
-        	}
+		/**
+		* The expiration is based on the column 'time'
+		*/
+		if notExpired == true {
+			if !isset document["data"] {
+				throw new Phalcon\Cache\Exception("The cache is currupted");
+			}
 
-        	let cachedContent = document["data"];
+			let cachedContent = document["data"];
 
-        	if is_numeric(cachedContent) {
-        		let keys = cachedContent + value;
-        		let ttl = lifetime + timestamp;
-        		this->save(prefixedKey, keys);
-        	}
-        }
-        return null;
+			if is_numeric(cachedContent) {
+				let keys = cachedContent + value;
+				let ttl = lifetime + timestamp;
+				this->save(prefixedKey, keys);
+			}
+		}
+		return null;
 	}
 
 	/**
@@ -438,66 +423,63 @@ class Mongo extends Phalcon\Cache\Backend implements Phalcon\Cache\BackendInterf
 	*/
 	public function decrement(keyName, value=1)
 	{
-		var frontend, prefix, prefixedKey, collection, conditions, document, timestamp, lifetime, 
+		var frontend, prefix, prefixedKey, collection, conditions, document, timestamp, lifetime,
 			ttl, modifiedTime, difference, notExpired, cachedContent, keys;
 
 		let frontend = this->_frontend;
 		let prefix = this->_prefix;
 		let prefixedKey = prefix . keyName;
-		
+
 		let this->_lastKey = prefixedKey;
-		
+
 		let collection = this->_getCollection();
 		let conditions = ["key": prefixedKey];
 		let document = collection->findOne(conditions);
 		let timestamp = time();
 		let lifetime = this->_lastLifetime;
-		
+
 		if !lifetime {
 			let ttl = frontend->getLifetime();
 		} else {
 			let ttl = lifetime;
 		}
-		
+
 		if !isset document["time"] {
 			throw new Phalcon\Cache\Exception("The cache is currupted");
 		}
-		
+
 		let modifiedTime = document["time"];
 		let difference = timestamp - ttl;
 		let notExpired = difference < modifiedTime;
 
-		/** 
-        * The expiration is based on the column 'time'
-        */
-        if notExpired == true {
-        	if !isset document["data"] {
-        		throw new Phalcon\Cache\Exception("The cache is currupted");
-        	}
+		/**
+		* The expiration is based on the column 'time'
+		*/
+		if notExpired == true {
+			if !isset document["data"] {
+				throw new Phalcon\Cache\Exception("The cache is currupted");
+			}
 
-        	let cachedContent = document["data"];
+			let cachedContent = document["data"];
 
-        	if is_numeric(cachedContent) {
-        		let keys = cachedContent - value;
-        		let ttl = lifetime + timestamp;
-        		this->save(prefixedKey, keys);
-        	}
-        }
-        return null;
+			if is_numeric(cachedContent) {
+				let keys = cachedContent - value;
+				let ttl = lifetime + timestamp;
+				this->save(prefixedKey, keys);
+			}
+		}
+		return null;
 	}
 
 	/**
 	* Immediately invalidates all existing items.
-	* 
+	*
 	* @return bool
 	*/
 	public function flush()
 	{
-		var collection;
 
-		let collection = this->_getCollection();
-		
-		collection->remove();
+		this->_getCollection()->remove();
 
 		if (int) rand() % 100 == 0 {
 			this->gc();

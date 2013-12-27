@@ -12,7 +12,7 @@
 #include <Zend/zend_interfaces.h>
 
 #include "kernel/main.h"
-#include "kernel/fcall.h"
+#include "kernel/array.h"
 #include "ext/spl/spl_exceptions.h"
 #include "kernel/exception.h"
 #include "kernel/memory.h"
@@ -54,7 +54,7 @@
  */
 ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_Query_Lang) {
 
-	ZEPHIR_REGISTER_CLASS(Phalcon\\Mvc\\Model\\Query, Lang, phalcon, mvc_model_query_lang, phalcon_mvc_model_query_lang_method_entry, 0);
+	ZEPHIR_REGISTER_CLASS(Phalcon\\Mvc\\Model\\Query, Lang, phalcon, mvc_model_query_lang, phalcon_mvc_model_query_lang_method_entry, ZEND_ACC_EXPLICIT_ABSTRACT_CLASS);
 
 
 	return SUCCESS;
@@ -84,7 +84,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Lang, parsePHQL) {
 
 
 
-	zephir_call_func_p1(return_value, "phql_parse_phql", phql);
 	RETURN_MM();
 
 }

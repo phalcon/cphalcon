@@ -186,10 +186,7 @@ class Security //implements Phalcon\Di\InjectionAwareInterface
 	*/
 	public function isLegacyHash(string password, string passwordHash)
 	{
-		if starts_with_str(passwordHash, "$2a$") {
-			return true;
-		} 	
-		return false;
+		return starts_with(passwordHash, "$2a$");
 	}
 
 	/**

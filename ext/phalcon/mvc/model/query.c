@@ -2294,7 +2294,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, parse) {
 	}
 	phql = zephir_fetch_nproperty_this(this_ptr, SL("_phql"), PH_NOISY_CC);
 	ZEPHIR_INIT_VAR(ast);
-	zephir_call_func_p1(ast, "phql_parse_phql", phql);
 	ZEPHIR_INIT_VAR(irPhql);
 	ZVAL_NULL(irPhql);
 	ZEPHIR_SINIT_VAR(irPhqlCache);

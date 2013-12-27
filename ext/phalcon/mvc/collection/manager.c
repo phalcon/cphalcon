@@ -174,7 +174,7 @@ PHP_METHOD(Phalcon_Mvc_Collection_Manager, getCustomEventsManager) {
 	customEventsManager = zephir_fetch_nproperty_this(this_ptr, SL("_customEventsManager"), PH_NOISY_CC);
 	if ((Z_TYPE_P(customEventsManager) == IS_ARRAY)) {
 		ZEPHIR_INIT_VAR(className);
-		zephir_call_func_p1(className, "get_calls", model);
+		zephir_call_func_p1(className, "get_class_lower", model);
 		if (zephir_array_isset(customEventsManager, className)) {
 			zephir_array_fetch(&_0, customEventsManager, className, PH_NOISY | PH_READONLY TSRMLS_CC);
 			RETURN_CTOR(_0);

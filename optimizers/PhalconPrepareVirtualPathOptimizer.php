@@ -18,7 +18,7 @@
  +------------------------------------------------------------------------+
  */
 
-class PhqlParsePhqlOptimizer
+class PhalconPrepareVirtualPathOptimizer
 	extends OptimizerAbstract
 {
 
@@ -34,7 +34,7 @@ class PhqlParsePhqlOptimizer
 			return false;
 		}
 
-		if (count($expression['parameters']) != 1) {
+		if (count($expression['parameters']) != 2) {
 			return false;
 		}
 

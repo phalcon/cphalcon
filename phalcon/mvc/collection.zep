@@ -362,7 +362,7 @@ class Collection implements Phalcon\Mvc\CollectionInterface, Phalcon\Di\Injectio
 	 * @param boolean unique
 	 * @return array
 	 */
-	protected static function _getResultset(params, collection, connection, boolean unique)
+	protected static function _getResultset(params, <Phalcon\Mvc\CollectionInterface> collection, connection, boolean unique)
 	{
 		var source, mongoCollection, conditions, base, documentsCursor,
 			fields, skip, limit, sort, document, collections;

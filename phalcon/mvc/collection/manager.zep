@@ -117,7 +117,7 @@ class Manager implements Phalcon\Di\InjectionAwareInterface, Phalcon\Events\Even
 
 		let customEventsManager = this->_customEventsManager;
 		if typeof customEventsManager == "array" {
-			let className = get_calls(model);
+			let className = get_class_lower(model);
 			if isset customEventsManager[className] {
 				return customEventsManager[className];
 			}
