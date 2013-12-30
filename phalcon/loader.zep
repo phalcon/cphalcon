@@ -362,7 +362,7 @@ class Loader implements Phalcon\Events\EventsAwareInterface
 						/**
 						 * Add a trailing directory separator if the user forgot to do that
 						 */
-						let fixedDirectory = phalcon_fix_path(directory, ds);
+						let fixedDirectory = rtrim(directory, ds) . ds;
 
 						for extension in extensions {
 
@@ -425,7 +425,7 @@ class Loader implements Phalcon\Events\EventsAwareInterface
 						/**
 						 * Add a trailing directory separator if the user forgot to do that
 						 */
-						let fixedDirectory = phalcon_fix_path(directory, ds);
+						let fixedDirectory = rtrim(directory, ds) . ds;
 
 						for extension in extensions {
 
@@ -476,7 +476,7 @@ class Loader implements Phalcon\Events\EventsAwareInterface
 				/**
 				 * Add a trailing directory separator if the user forgot to do that
 				 */
-				let fixedDirectory = phalcon_fix_path(directory, ds);
+				let fixedDirectory = rtrim(directory, ds) . ds;
 
 				for extension in extensions {
 
