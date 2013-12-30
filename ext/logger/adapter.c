@@ -167,6 +167,15 @@ PHP_METHOD(Phalcon_Logger_Adapter, commit){
 			phalcon_call_method(time, *message, "gettime");
 			phalcon_call_method_p3_noret(this_ptr, "loginternal", message_str, type, time);
 		}
+
+		if (Z_REFCOUNT_P(queue) == 1 || Z_ISREF_P(queue)) {
+			zend_hash_clean(Z_ARRVAL_P(queue));
+		}
+		else {
+			PHALCON_ALLOC_GHOST_ZVAL(queue);
+			array_init(queue);
+			phalcon_update_property_this(getThis(), SL("_queue"), queue TSRMLS_CC);
+		}
 	}
 	
 	RETURN_THIS();
