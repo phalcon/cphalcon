@@ -356,7 +356,7 @@ class Loader implements Phalcon\Events\EventsAwareInterface
 					/**
 					 * Get the possible file path
 					 */
-					let fileName = phalcon_possible_autoload_filepath(nsPrefix, className, ds, "\\");
+					let fileName = str_replace(namespaceSeparator, ds, ltrim(className, nsPrefix));
 					if fileName {
 
 						/**
@@ -418,7 +418,7 @@ class Loader implements Phalcon\Events\EventsAwareInterface
 					/**
 					 * Get the possible file path
 					 */
-					let fileName = phalcon_possible_autoload_filepath(prefix, className, ds, "_");
+					let fileName = str_replace(["_", namespaceSeparator], ds, ltrim(className, prefix));
 
 					if fileName {
 
