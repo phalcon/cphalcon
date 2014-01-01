@@ -65,7 +65,7 @@ class Between extends Phalcon\Validation\Validator implements Phalcon\Validation
 			let message = this->getOption("message");
                         let replacePairs = [":field": label, ":min": minimum, ":max": maximum];
 			if empty message {
-                                let message = ":field is not between a valid range";
+                                let message = validation->getDefaultMessage("Between");
 			}
 
 			validation->appendMessage(new Phalcon\Validation\Message(strtr(message, replacePairs), field, "Between"));

@@ -62,7 +62,7 @@ class Digit extends Phalcon\Validation\Validator implements Phalcon\Validation\V
 			let message = this->getOption("message");
                         let replacePairs = [":field": label];
 			if empty message {
-                                let message = "Field :field must be numeric";
+                                let message = validation->getDefaultMessage("Digit");
 			}
 
 			validation->appendMessage(new Phalcon\Validation\Message(strtr(message, replacePairs), field, "Digit"));

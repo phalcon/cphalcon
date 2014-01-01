@@ -58,7 +58,7 @@ class Identical extends Phalcon\Validation\Validator implements Phalcon\Validati
 			let message = this->getOption("message");
                         let replacePairs = [":field": label];
 			if empty message {
-                                let message = ":field does not have the expected value";
+                                let message = validation->getDefaultMessage("Identical");
 			}
 
 			validation->appendMessage(new Phalcon\Validation\Message(strtr(message, replacePairs), field, "Identical"));

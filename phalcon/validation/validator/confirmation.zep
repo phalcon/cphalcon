@@ -61,7 +61,7 @@ class Confirmation extends Phalcon\Validation\Validator implements Phalcon\Valid
 			let message = this->getOption("message");
                         let replacePairs = [":field": label, ":with":  withAttribute];
 			if empty message {
-                                let message = "Value of :field and :with don't match";
+                                let message = validation->getDefaultMessage("Confirmation");
 			}
 
 			validation->appendMessage(new Phalcon\Validation\Message(strtr(message, replacePairs), field, "Confirmation"));

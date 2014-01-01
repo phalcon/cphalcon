@@ -74,7 +74,7 @@ class InclusionIn extends Phalcon\Validation\Validator implements Phalcon\Valida
 			let message = this->getOption("message");
                         let replacePairs = [":field": label, ":domain":  join(", ", domain)];
 			if empty message {
-				let message = "Value of field :field must be part of list: :domain";
+				let message = validation->getDefaultMessage("InclusionIn");
 			}
 
 			validation->appendMessage(new Phalcon\Validation\Message(strtr(message, replacePairs), field, "InclusionIn"));

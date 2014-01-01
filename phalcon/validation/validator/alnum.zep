@@ -62,7 +62,7 @@ class Alnum extends Phalcon\Validation\Validator implements Phalcon\Validation\V
 			let message = this->getOption("message");
                         let replacePairs = [":field": label];
 			if empty message {
-                                let message = "Field :field must contain only alphanumeric characters";
+                                let message = validation->getDefaultMessage("Alnum");
 			}
 
 			validation->appendMessage(new Phalcon\Validation\Message(strtr(message, replacePairs), field, "Alnum"));

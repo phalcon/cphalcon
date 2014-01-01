@@ -62,7 +62,7 @@ class Url extends Phalcon\Validation\Validator implements Phalcon\Validation\Val
 			let message = this->getOption("message");
                         let replacePairs = [":field": label];
 			if empty message {
-                                let message = ":field does not have a valid url format";
+                                let message = validation->getDefaultMessage("Url");
 			}
 
 			validation->appendMessage(new Phalcon\Validation\Message(strtr(message, replacePairs), field, "Url"));
