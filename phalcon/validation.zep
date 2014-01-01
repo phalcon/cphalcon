@@ -257,7 +257,7 @@ class Validation extends Phalcon\Di\Injectable
                         "Url": ":field does not have a valid url format"
                 ];
 
-		let this->_defaultMessages = array_merge(defaultMessages, messages)
+		let this->_defaultMessages = array_merge(defaultMessages, messages);
                 return this->_defaultMessages;
 	}
 
