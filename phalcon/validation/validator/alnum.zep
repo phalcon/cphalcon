@@ -44,7 +44,7 @@ class Alnum extends Phalcon\Validation\Validator implements Phalcon\Validation\V
 	 */
 	public function validate(<Phalcon\Validation> validation, string! field) -> boolean
 	{
-		var value, message, replacePairs;
+		var value, message, label, replacePairs;
 
 		let value = validation->getValue(field);
 
@@ -54,8 +54,13 @@ class Alnum extends Phalcon\Validation\Validator implements Phalcon\Validation\V
 
 		if !ctype_alnum(value) {
 
+                        let label = this->getOption("label");
+                        if empty label {
+                                let label = field;
+			}
+
 			let message = this->getOption("message");
-                        let replacePairs = [":field": field];
+                        let replacePairs = [":field": label];
 			if empty message {
                                 let message = "Field :field must contain only alphanumeric characters";
 			}

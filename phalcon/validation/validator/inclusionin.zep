@@ -45,7 +45,7 @@ class InclusionIn extends Phalcon\Validation\Validator implements Phalcon\Valida
 	 */
 	public function validate(<Phalcon\Validation> validation, field) -> boolean
 	{
-		var value, domain, message, replacePairs;
+		var value, domain, message, label, replacePairs;
 
 		let value = validation->getValue(field);
 
@@ -66,8 +66,13 @@ class InclusionIn extends Phalcon\Validation\Validator implements Phalcon\Valida
 		 */
 		if !in_array(value, domain) {
 
+                        let label = this->getOption("label");
+                        if empty label {
+                                let label = field;
+			}
+
 			let message = this->getOption("message");
-                        let replacePairs = [":field": field, ":domain":  join(", ", domain)];
+                        let replacePairs = [":field": label, ":domain":  join(", ", domain)];
 			if empty message {
 				let message = "Value of field :field must be part of list: :domain";
 			}

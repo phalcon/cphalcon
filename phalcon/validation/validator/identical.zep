@@ -46,12 +46,17 @@ class Identical extends Phalcon\Validation\Validator implements Phalcon\Validati
 	 */
 	public function validate(<Phalcon\Validation> validation, string! field)
 	{
-		var message, replacePairs;
+		var message, label, replacePairs;
 
 		if validation->getValue(field) != this->getOption("accepted") {
 
+                        let label = this->getOption("label");
+                        if empty label {
+                                let label = field;
+			}
+
 			let message = this->getOption("message");
-                        let replacePairs = [":field": field];
+                        let replacePairs = [":field": label];
 			if empty message {
                                 let message = ":field does not have the expected value";
 			}

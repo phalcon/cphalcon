@@ -49,7 +49,7 @@ class File extends Phalcon\Validation\Validator implements Phalcon\Validation\Va
 	 */
 	public function validate(<Phalcon\Validation> validation, string! field) -> boolean
 	{
-		var value, message, replacePairs, types, byteUnits, unit, maxSize, matches, bytes, tmp, width, height, minResolution, maxResolution, minWidth, maxWidth, minHeight, maxHeight;
+		var value, message, label, replacePairs, types, byteUnits, unit, maxSize, matches, bytes, tmp, width, height, minResolution, maxResolution, minWidth, maxWidth, minHeight, maxHeight;
 
 		let value = validation->getValue(field);
 
@@ -57,10 +57,15 @@ class File extends Phalcon\Validation\Validator implements Phalcon\Validation\Va
                     return true;
                 }
 
+                let label = this->getOption("label");
+                if empty label {
+                        let label = field;
+                }
+
                 if !isset value["error"] || !isset value["name"] || !isset value["type"] || !isset value["tmp_name"] || !isset value["size"] {
 
                         let message = this->getOption("messageValid");
-                        let replacePairs = [":field": field];
+                        let replacePairs = [":field": label];
 			if empty message {
                                 let message = "File :field is not valid";
 			}
@@ -73,7 +78,7 @@ class File extends Phalcon\Validation\Validator implements Phalcon\Validation\Va
                 if value["error"] !== UPLOAD_ERR_OK || !is_uploaded_file(value["tmp_name"]) {
 
                         let message = this->getOption("messageEmpty");
-                        let replacePairs = [":field": field];
+                        let replacePairs = [":field": label];
 			if empty message {
                                 let message = "File :field must not be empty";
 			}
@@ -86,7 +91,7 @@ class File extends Phalcon\Validation\Validator implements Phalcon\Validation\Va
                 if (value["error"] === UPLOAD_ERR_INI_SIZE) {
 
                         let message = this->getOption("messageIniSize");
-                        let replacePairs = [":field": field];
+                        let replacePairs = [":field": label];
                         if empty message {
                                 let message = "The uploaded file exceeds the max filesize";
                         }
@@ -114,7 +119,7 @@ class File extends Phalcon\Validation\Validator implements Phalcon\Validation\Va
                         if floatval(value["size"]) > floatval(bytes) {
 
                                 let message = this->getOption("messageSize");
-                                let replacePairs = [":field": field, ":max": maxSize];
+                                let replacePairs = [":field": label, ":max": maxSize];
                                 if empty message {
                                         let message = "Max filesize of file :field is :max";
                                 }
@@ -134,7 +139,7 @@ class File extends Phalcon\Validation\Validator implements Phalcon\Validation\Va
                         if !in_array(strtolower(pathinfo(value["name"], PATHINFO_EXTENSION)), types) {
 
                                 let message = this->getOption("messageType");
-                                let replacePairs = [":field": field, ":types": join(", ", types)];
+                                let replacePairs = [":field": label, ":types": join(", ", types)];
                                 if empty message {
                                         let message = "Type of :field is not valid";
                                 }
@@ -166,7 +171,7 @@ class File extends Phalcon\Validation\Validator implements Phalcon\Validation\Va
                         if (width < minWidth || height < minHeight) {
 
                                 let message = this->getOption("messageMinResolution");
-                                let replacePairs = [":field": field, ":min": this->getOption("minResolution")];
+                                let replacePairs = [":field": label, ":min": this->getOption("minResolution")];
                                 if empty message {
                                         let message = "Min resolution of :field is :min";
                                 }
@@ -184,7 +189,7 @@ class File extends Phalcon\Validation\Validator implements Phalcon\Validation\Va
                                 if (width > maxWidth || height > maxHeight) {
 
                                         let message = this->getOption("messageMaxResolution");
-                                        let replacePairs = [":field": field, ":max": this->getOption("maxResolution")];
+                                        let replacePairs = [":field": label, ":max": this->getOption("maxResolution")];
                                         if empty message {
                                                 let message = "Max resolution of :field is :max";
                                         }
