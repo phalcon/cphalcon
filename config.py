@@ -25,10 +25,10 @@ PHP_INIT_FILE_PATH = ("/etc/php5/apache2/php.ini", "/etc/php5/cli/php.ini", "/et
 
 def devtools():
     print("Installing DevTools ... \n")
-    # os.chdir(PHALCON_DIR)
-    # check_call([GIT_PATH, "clone", DEV_TOOLS_REPO])
-    # proc = Popen(PHALCON_SCRIPT, shell=True, stdin=None, executable="/bin/bash")
-    # proc.wait()
+    os.chdir(PHALCON_DIR)
+    check_call([GIT_PATH, "clone", DEV_TOOLS_REPO])
+    proc = Popen(PHALCON_SCRIPT, shell=True, stdin=None, executable="/bin/bash")
+    proc.wait()
     os.chmod(PHALCON_COMMAND, stat.S_IXUSR | stat.S_IXGRP | stat.S_IXOTH)
     os.symlink(PHALCON_COMMAND, PHALCON_SCRIPT_BIN_PATH)
     print("Finish Installing DevTools \n")
