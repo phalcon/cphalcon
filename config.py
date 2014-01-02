@@ -55,6 +55,6 @@ def install_dependencies():
     print("Finish Installing Dependencies \n")
 
 if __name__ == '__main__':
-    # install_dependencies()
-    # install_phalcon()
+    install_dependencies()
+    install_phalcon()
     devtools()
