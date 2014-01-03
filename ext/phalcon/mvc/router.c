@@ -559,8 +559,11 @@ PHP_METHOD(Phalcon_Mvc_Router, handle) {
 		}
 		ZEPHIR_INIT_NVAR(pattern);
 		zephir_call_method_cache(pattern, route, "getcompiledpattern", &_14);
+		if ((Z_TYPE_P(pattern) != IS_STRING)) {
+			zephir_call_func_p1_noret("var_dump", this_ptr);
+		}
 		ZEPHIR_INIT_NVAR(routeFound);
-		if (zephir_memnstr_str(pattern, SL("^"), "phalcon/mvc/router.zep", 446)) {
+		if (zephir_memnstr_str(pattern, SL("^"), "phalcon/mvc/router.zep", 449)) {
 			Z_SET_ISREF_P(matches);
 			zephir_call_func_p3(routeFound, "preg_match", pattern, handledUri, matches);
 		} else {

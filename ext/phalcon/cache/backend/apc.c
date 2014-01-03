@@ -244,9 +244,6 @@ PHP_METHOD(Phalcon_Cache_Backend_Apc, queryKeys) {
 	_0 = zend_fetch_class(SL("APCIterator"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
 	object_init_ex(apc, _0);
 	ZEPHIR_INIT_VAR(_1);
-	ZVAL_STRING(_1, "user", 1);
-	zephir_call_method_p2_noret(apc, "__construct", _1, prefixPattern);
-	ZEPHIR_INIT_BNVAR(_1);
 	zephir_call_func_p1(_1, "iterator", apc);
 	zephir_is_iterable(_1, &_3, &_2, 0, 0);
 	for (

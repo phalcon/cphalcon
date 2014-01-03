@@ -188,10 +188,10 @@ class Manager implements Phalcon\Di\InjectionAwareInterface, Phalcon\Events\Even
 	/**
 	* Sets a connection service for a specific model
 	*
-	* @param Phalcon\Mvc\CollectionInterface $model
-	* @param string $connectionService
+	* @param Phalcon\Mvc\CollectionInterface model
+	* @param string connectionService
 	*/
-	public function setConnectionService(<Phalcon\Mvc\CollectionInterface> model, connectionService) -> void
+	public function setConnectionService(<Phalcon\Mvc\CollectionInterface> model, string! connectionService) -> void
 	{
 		if typeof model != "object" {
 			throw new Phalcon\Mvc\Collection\Exception("A valid collection instance is required");
@@ -204,10 +204,10 @@ class Manager implements Phalcon\Di\InjectionAwareInterface, Phalcon\Events\Even
 	/**
 	* Sets if a model must use implicit objects ids
 	*
-	* @param Phalcon\Mvc\CollectionInterface $model
-	* @param boolean $useImplicitObjectIds
+	* @param Phalcon\Mvc\CollectionInterface model
+	* @param boolean useImplicitObjectIds
 	*/
-	public function useImplicitObjectIds(<Phalcon\Mvc\CollectionInterface> model, useImplicitObjectIds) -> void
+	public function useImplicitObjectIds(<Phalcon\Mvc\CollectionInterface> model, boolean useImplicitObjectIds) -> void
 	{
 		if typeof model != "object" {
 			throw new Phalcon\Mvc\Collection\Exception("A valid collection instance is required");
@@ -219,7 +219,7 @@ class Manager implements Phalcon\Di\InjectionAwareInterface, Phalcon\Events\Even
 	/**
 	* Checks if a model is using implicit object ids
 	*
-	* @param Phalcon\Mvc\CollectionInterface $model
+	* @param Phalcon\Mvc\CollectionInterface model
 	* @return boolean
 	*/
 	public function isUsingImplicitObjectIds(<isUsingImplicitObjectIds> model) -> boolean
@@ -230,14 +230,14 @@ class Manager implements Phalcon\Di\InjectionAwareInterface, Phalcon\Events\Even
 			throw new Phalcon\Mvc\Collection\Exception("A valid collection instance is required");
 		}
 
-		/** 
-        * All collections use by default are using implicit object ids
-        */
-        if fetch implicit, this->_implicitObjectsIds[get_class(model)] {
-        	return implicit;
-        }
+		/**
+		* All collections use by default are using implicit object ids
+		*/
+		if fetch implicit, this->_implicitObjectsIds[get_class(model)] {
+			return implicit;
+		}
 
-        return true;
+		return true;
 	}
 
 	/**
@@ -259,12 +259,12 @@ class Manager implements Phalcon\Di\InjectionAwareInterface, Phalcon\Events\Even
 		if typeof connectionService == "array" {
 			let entityName = get_class(model);
 
-			/** 
-	        * Check if the model has a custom connection service
-	        */
-	        if isset connectionService[entityName] {
-	        	let service = connectionService[entityName];
-	        }
+			/**
+			* Check if the model has a custom connection service
+			*/
+			if isset connectionService[entityName] {
+				let service = connectionService[entityName];
+			}
 		}
 
 		let dependencyInjector = this->_dependencyInjector;
@@ -272,7 +272,7 @@ class Manager implements Phalcon\Di\InjectionAwareInterface, Phalcon\Events\Even
 			throw new Phalcon\Mvc\Collection\Exception("A dependency injector container is required to obtain the services related to the ORM");
 		}
 
-		/** 
+		/**
 		* Request the connection service from the DI
 		*/
 		let connection = dependencyInjector->getShared(service);
@@ -287,37 +287,37 @@ class Manager implements Phalcon\Di\InjectionAwareInterface, Phalcon\Events\Even
 	* Receives events generated in the models and dispatches them to a events-manager if available
 	* Notify the behaviors that are listening in the model
 	*
-	* @param string $eventName
-	* @param Phalcon\Mvc\CollectionInterface $model
+	* @param string eventName
+	* @param Phalcon\Mvc\CollectionInterface model
 	*/
-	public function notifyEvent(eventName, model)
+	public function notifyEvent(string! eventName, <Phalcon\Mvc\CollectionInterface> model)
 	{
 		var eventsManager, status, customEventsManager;
 
-		/** 
-        * Dispatch events to the global events manager
-        */
-        let eventsManager = this->_eventsManager;
-        if typeof eventsManager == "object" {
-        	let status = eventsManager->fire( "collection:". eventName, model);
-        	if !status {
-        		return status;
-        	} 
-        }
+		/**
+		* Dispatch events to the global events manager
+		*/
+		let eventsManager = this->_eventsManager;
+		if typeof eventsManager == "object" {
+			let status = eventsManager->fire( "collection:". eventName, model);
+			if !status {
+				return status;
+			}
+		}
 
-        /** 
-        * A model can has a specific events manager for it
-        */
-        let customEventsManager = this->_customEventsManager;
-        if typeof customEventsManager == "array" {
-        	if isset customEventsManager[get_calls(model)] {
-        		let status = customEventsManager->fire("collection:". eventName, model);
-        		if !status {
-        			return status;
-        		}
-        	}
-        }
-        return status;
+		/**
+		* A model can has a specific events manager for it
+		*/
+		let customEventsManager = this->_customEventsManager;
+		if typeof customEventsManager == "array" {
+			if isset customEventsManager[get_class_lower(model)] {
+				let status = customEventsManager->fire("collection:". eventName, model);
+				if !status {
+					return status;
+				}
+			}
+		}
+		return status;
 	}
 
 }

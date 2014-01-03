@@ -18,8 +18,9 @@
 #include "kernel/array.h"
 #include "kernel/string.h"
 #include "kernel/exception.h"
-#include "kernel/concat.h"
+#include "ext/spl/spl_exceptions.h"
 #include "kernel/operators.h"
+#include "kernel/concat.h"
 
 
 /*
@@ -258,15 +259,23 @@ PHP_METHOD(Phalcon_Mvc_Collection_Manager, getLastInitialized) {
 /**
  * Sets a connection service for a specific model
  *
- * @param Phalcon\Mvc\CollectionInterface $model
- * @param string $connectionService
+ * @param Phalcon\Mvc\CollectionInterface model
+ * @param string connectionService
  */
 PHP_METHOD(Phalcon_Mvc_Collection_Manager, setConnectionService) {
 
-	zval *model, *connectionService, *_0;
+	zval *connectionService = NULL;
+	zval *model, *connectionService_param = NULL, *_0;
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 2, 0, &model, &connectionService);
+	zephir_fetch_params(1, 2, 0, &model, &connectionService_param);
+
+		if (Z_TYPE_P(connectionService_param) != IS_STRING) {
+				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'connectionService' must be a string") TSRMLS_CC);
+				RETURN_MM_NULL();
+		}
+
+		connectionService = connectionService_param;
 
 
 
@@ -284,16 +293,18 @@ PHP_METHOD(Phalcon_Mvc_Collection_Manager, setConnectionService) {
 /**
  * Sets if a model must use implicit objects ids
  *
- * @param Phalcon\Mvc\CollectionInterface $model
- * @param boolean $useImplicitObjectIds
+ * @param Phalcon\Mvc\CollectionInterface model
+ * @param boolean useImplicitObjectIds
  */
 PHP_METHOD(Phalcon_Mvc_Collection_Manager, useImplicitObjectIds) {
 
-	zval *model, *useImplicitObjectIds, *_0;
+	zend_bool useImplicitObjectIds;
+	zval *model, *useImplicitObjectIds_param = NULL, *_0, *_1;
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 2, 0, &model, &useImplicitObjectIds);
+	zephir_fetch_params(1, 2, 0, &model, &useImplicitObjectIds_param);
 
+		useImplicitObjectIds = zephir_get_boolval(useImplicitObjectIds_param);
 
 
 	if ((Z_TYPE_P(model) != IS_OBJECT)) {
@@ -302,7 +313,9 @@ PHP_METHOD(Phalcon_Mvc_Collection_Manager, useImplicitObjectIds) {
 	}
 	ZEPHIR_INIT_VAR(_0);
 	zephir_call_func_p1(_0, "get_class", model);
-	zephir_update_property_array(this_ptr, SL("_implicitObjectsIds"), _0, useImplicitObjectIds TSRMLS_CC);
+	ZEPHIR_INIT_VAR(_1);
+	ZVAL_BOOL(_1, useImplicitObjectIds);
+	zephir_update_property_array(this_ptr, SL("_implicitObjectsIds"), _0, _1 TSRMLS_CC);
 	ZEPHIR_MM_RESTORE();
 
 }
@@ -310,7 +323,7 @@ PHP_METHOD(Phalcon_Mvc_Collection_Manager, useImplicitObjectIds) {
 /**
  * Checks if a model is using implicit object ids
  *
- * @param Phalcon\Mvc\CollectionInterface $model
+ * @param Phalcon\Mvc\CollectionInterface model
  * @return boolean
  */
 PHP_METHOD(Phalcon_Mvc_Collection_Manager, isUsingImplicitObjectIds) {
@@ -385,15 +398,23 @@ PHP_METHOD(Phalcon_Mvc_Collection_Manager, getConnection) {
  * Receives events generated in the models and dispatches them to a events-manager if available
  * Notify the behaviors that are listening in the model
  *
- * @param string $eventName
- * @param Phalcon\Mvc\CollectionInterface $model
+ * @param string eventName
+ * @param Phalcon\Mvc\CollectionInterface model
  */
 PHP_METHOD(Phalcon_Mvc_Collection_Manager, notifyEvent) {
 
-	zval *eventName, *model, *eventsManager, *status = NULL, *customEventsManager, *_0 = NULL, *_1;
+	zval *eventName_param = NULL, *model, *eventsManager, *status = NULL, *customEventsManager, *_0 = NULL, *_1;
+	zval *eventName = NULL;
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 2, 0, &eventName, &model);
+	zephir_fetch_params(1, 2, 0, &eventName_param, &model);
+
+		if (Z_TYPE_P(eventName_param) != IS_STRING) {
+				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'eventName' must be a string") TSRMLS_CC);
+				RETURN_MM_NULL();
+		}
+
+		eventName = eventName_param;
 
 
 
@@ -410,7 +431,7 @@ PHP_METHOD(Phalcon_Mvc_Collection_Manager, notifyEvent) {
 	customEventsManager = zephir_fetch_nproperty_this(this_ptr, SL("_customEventsManager"), PH_NOISY_CC);
 	if ((Z_TYPE_P(customEventsManager) == IS_ARRAY)) {
 		ZEPHIR_INIT_VAR(_1);
-		zephir_call_func_p1(_1, "get_calls", model);
+		zephir_call_func_p1(_1, "get_class_lower", model);
 		if (zephir_array_isset(customEventsManager, _1)) {
 			ZEPHIR_INIT_LNVAR(_0);
 			ZEPHIR_CONCAT_SV(_0, "collection:", eventName);
