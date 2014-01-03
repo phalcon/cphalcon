@@ -38,7 +38,7 @@ class Gd extends Phalcon\Image\Adapter implements Phalcon\Image\AdapterInterface
 			let version = GD_VERSION;
 		} else {
 			let info = gd_info(), matches = null;
-			if (preg_match("/\d+\.\d+(?:\.\d+)?/", info["GD Version"], matches)) {
+			if (preg_match("/\\d+\\.\\d+(?:\\.\\d+)?/", info["GD Version"], matches)) {
 				let version = matches[0];
 			}
 		}
