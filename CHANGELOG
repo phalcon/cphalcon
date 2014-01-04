@@ -21,6 +21,9 @@
  - Bug fixes in Phalcon\Db\Adapter\Pdo::describeColumns() (#1562)
  - Phalcon\Session\Adapter::__destruct() now calls session_write_close() (#1624)
  - Volt: fixed bug in email_filed() (#1723)
+ - Fixed PHP Notices in Phalcon\Debug::onUncaughtException() (#1683)
+ - Phalcon\Logger\Adapter::commit() clears the queue (#1748)
+ - Constant-time string comparison in Phalcon\Security::checkHash() (#1755)
 
 1.2.4
  - Fixed broken ACL inheritance (#905)
