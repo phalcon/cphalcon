@@ -597,53 +597,6 @@ PHP_METHOD(Phalcon_Security, computeHmac)
 #endif
 }
 
-#ifdef PHALCON_USE_PHP_HASH
-
-static inline void phalcon_string_xor_char(unsigned char *out, const unsigned char *in, unsigned char xor_with, const int length)
-{
-	int i;
-	for (i=0; i < length; i++) {
-		out[i] = in[i] ^ xor_with;
-	}
-}
-
-static inline void phalcon_prepare_hmac_key(unsigned char *K, const php_hash_ops *ops, void *ctx, const unsigned char *key, const int key_len)
-{
-	memset(K, 0, ops->block_size);
-	if (key_len > ops->block_size) {
-		ops->hash_init(ctx);
-		ops->hash_update(ctx, key, key_len);
-		ops->hash_final(K, ctx);
-	}
-	else {
-		memcpy(K, key, key_len);
-	}
-
-	/* XOR the key with 0x36 to get the ipad) */
-	phalcon_string_xor_char(K, K, 0x36, ops->block_size);
-}
-
-static inline void phalcon_hmac_round(unsigned char *final, const php_hash_ops *ops, void *ctx, const unsigned char *key, const unsigned char *data, long int data_size)
-{
-	ops->hash_init(ctx);
-	ops->hash_update(ctx, key, ops->block_size);
-	ops->hash_update(ctx, data, data_size);
-	ops->hash_final(final, ctx);
-}
-#endif
-
-#if defined(PHALCON_USE_PHP_HASH) || PHP_VERSION_ID < 50000
-
-static inline void phalcon_xor_strings(unsigned char *out, const unsigned char *in, const unsigned char *xor_with, const int length)
-{
-	int i;
-	for (i=0; i<length; ++i) {
-		out[i] = in[i] ^ xor_with[i];
-	}
-}
-
-#endif
-
 /**
  * @internal
  * @brief This method is used only for internal tests, use Phalcon\Security::deriveKey() instead
@@ -686,7 +639,7 @@ PHP_METHOD(Phalcon_Security, pbkdf2)
 
 	{
 		zval *algo, *tmp, *K1 = NULL, *K2 = NULL, *computed_salt, *result;
-		int i_hash_len, block_count, i, j;
+		int i_hash_len, block_count, i, j, k;
 		int salt_len = Z_STRLEN_PP(salt);
 		char *s;
 
@@ -726,15 +679,17 @@ PHP_METHOD(Phalcon_Security, pbkdf2)
 			PHALCON_CPY_WRT_CTOR(K2, K1);
 
 			for (j=1; j<i_iterations; ++j) {
+				char *k1, *k2;
+
 				PHALCON_INIT_NVAR(tmp);
 				phalcon_call_func_p4(tmp, "hash_hmac", algo, K1, *password, PHALCON_GLOBAL(z_true));
 				PHALCON_CPY_WRT(K1, tmp);
-				phalcon_xor_strings(
-					(unsigned char*)(Z_STRVAL_P(K2)),
-					(unsigned char*)(Z_STRVAL_P(K1)),
-					(unsigned char*)(Z_STRVAL_P(K2)),
-					Z_STRLEN_P(K1)
-				);
+
+				k1 = Z_STRVAL_P(K1);
+				k2 = Z_STRVAL_P(K2);
+				for (k=0; k<Z_STRLEN_P(K2); ++k) {
+					k2[k] ^= k1[k];
+				}
 			}
 
 			phalcon_concat_self(&result, K2 TSRMLS_CC);
@@ -806,6 +761,8 @@ PHP_METHOD(Phalcon_Security, deriveKey)
 		unsigned char *K1, *K2, *digest, *temp, *result, *computed_salt;
 		long int i, j, loops, digest_length;
 		int salt_len = Z_STRLEN_PP(salt);
+		int pass_len = Z_STRLEN_PP(password);
+		int k;
 
 		if (!ops) {
 			zend_throw_exception_ex(phalcon_security_exception_ce, 0 TSRMLS_CC, "Unknown hashing algorithm: %s", s_hash);
@@ -820,10 +777,21 @@ PHP_METHOD(Phalcon_Security, deriveKey)
 		digest = K2 + ops->block_size;
 		temp   = digest + ops->digest_size;
 
-		/* Setup Keys that will be used for all HMAC rounds */
-		phalcon_prepare_hmac_key(K1, ops, context, (unsigned char*)Z_STRVAL_PP(password), Z_STRLEN_PP(password));
-		/* Convert K1 to opad -- 0x6A = 0x36 ^ 0x5C */
-		phalcon_string_xor_char(K2, K1, 0x6A, ops->block_size);
+		/* Set up keys that will be used for all HMAC rounds */
+		memset(K1, 0, ops->block_size);
+		if (pass_len > ops->block_size) {
+			ops->hash_init(context);
+			ops->hash_update(context, (unsigned char*)Z_STRVAL_PP(password), pass_len);
+			ops->hash_final(K1, context);
+		}
+		else {
+			memcpy(K1, Z_STRVAL_PP(password), pass_len);
+		}
+
+		for (i=0; i<ops->block_size; ++i) {
+			K2[i] = K1[i] ^ 0x5C;
+			K1[i] = K1[i] ^ 0x36;
+		}
 
 		digest_length = (i_size) ? i_size : ops->digest_size;
 		loops         = ceil((float)digest_length / (float)ops->digest_size);
@@ -838,15 +806,32 @@ PHP_METHOD(Phalcon_Security, deriveKey)
 			computed_salt[salt_len+2] = (unsigned char)(i >> 8);
 			computed_salt[salt_len+3] = (unsigned char)(i);
 
-			phalcon_hmac_round(digest, ops, context, K1, computed_salt, (long int)(salt_len) + 4);
-			phalcon_hmac_round(digest, ops, context, K2, digest, ops->digest_size);
+			ops->hash_init(context);
+			ops->hash_update(context, K1, ops->block_size);
+			ops->hash_update(context, computed_salt, (long int)(salt_len) + 4);
+			ops->hash_final(digest, context);
+
+			ops->hash_init(context);
+			ops->hash_update(context, K2, ops->block_size);
+			ops->hash_update(context, digest, ops->digest_size);
+			ops->hash_final(digest, context);
 
 			memcpy(temp, digest, ops->digest_size);
 
 			for (j=1; j<i_iterations; ++j) {
-				phalcon_hmac_round(digest, ops, context, K1, digest, ops->digest_size);
-				phalcon_hmac_round(digest, ops, context, K2, digest, ops->digest_size);
-				phalcon_xor_strings(temp, temp, digest, ops->digest_size);
+				ops->hash_init(context);
+				ops->hash_update(context, K1, ops->block_size);
+				ops->hash_update(context, digest, ops->digest_size);
+				ops->hash_final(digest, context);
+
+				ops->hash_init(context);
+				ops->hash_update(context, K2, ops->block_size);
+				ops->hash_update(context, digest, ops->digest_size);
+				ops->hash_final(digest, context);
+
+				for (k=0; k<ops->digest_size; ++k) {
+					temp[k] ^= digest[k];
+				}
 			}
 
 			memcpy(result + (i-1)*ops->digest_size, temp, ops->digest_size);
