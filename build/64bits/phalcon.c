@@ -6474,6 +6474,9 @@ static int phalcon_memnstr_str(const zval *haystack, char *needle, unsigned int 
 
 static void phalcon_fast_strpos(zval *return_value, const zval *haystack, const zval *needle) {
 
+#if PHP_VERSION_ID >= 50600
+	const
+#endif
 	char *found = NULL;
 
 	if (unlikely(Z_TYPE_P(haystack) != IS_STRING || Z_TYPE_P(needle) != IS_STRING)) {
@@ -6500,6 +6503,9 @@ static void phalcon_fast_strpos(zval *return_value, const zval *haystack, const 
 
 static void phalcon_fast_strpos_str(zval *return_value, const zval *haystack, char *needle, unsigned int needle_length) {
 
+#if PHP_VERSION_ID >= 50600
+	const
+#endif
 	char *found = NULL;
 
 	if (unlikely(Z_TYPE_P(haystack) != IS_STRING)) {
@@ -6520,6 +6526,9 @@ static void phalcon_fast_strpos_str(zval *return_value, const zval *haystack, ch
 
 static void phalcon_fast_stripos_str(zval *return_value, zval *haystack, char *needle, unsigned int needle_length) {
 
+#if PHP_VERSION_ID >= 50600
+	const
+#endif
 	char *found = NULL;
 	char *needle_dup, *haystack_dup;
 
