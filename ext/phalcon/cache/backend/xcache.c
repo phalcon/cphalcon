@@ -270,6 +270,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Xcache, delete) {
 		ZEPHIR_INIT_BNVAR(keys);
 		array_init(keys);
 	}
+	zephir_array_unset(&keys, prefixedKey, PH_SEPARATE);
 	zephir_call_func_p2_noret("xcache_set", specialKey, keys);
 	ZEPHIR_MM_RESTORE();
 
@@ -502,6 +503,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Xcache, flush) {
 		) {
 			ZEPHIR_GET_HMKEY(key, _2, _1);
 			ZEPHIR_GET_HVALUE(value, _3);
+			zephir_array_unset(&keys, key, PH_SEPARATE);
 			zephir_call_func_p1_noret("xcache_unset", key);
 		}
 		zephir_call_func_p2_noret("xcache_set", specialKey, keys);

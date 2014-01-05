@@ -80,12 +80,12 @@ PHP_METHOD(Phalcon_Mvc_Router_Route, __construct) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 2, &pattern_param, &paths, &httpMethods);
 
-	if (Z_TYPE_P(pattern_param) != IS_STRING) {
-		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'pattern' must be a string") TSRMLS_CC);
-		RETURN_MM_NULL();
-	}
+		if (Z_TYPE_P(pattern_param) != IS_STRING) {
+				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'pattern' must be a string") TSRMLS_CC);
+				RETURN_MM_NULL();
+		}
 
-	pattern = pattern_param;
+		pattern = pattern_param;
 
 	if (!paths || Z_TYPE_P(paths) == IS_NULL) {
 		paths = ZEPHIR_GLOBAL(global_null);
@@ -93,6 +93,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Route, __construct) {
 	if (!httpMethods || Z_TYPE_P(httpMethods) == IS_NULL) {
 		httpMethods = ZEPHIR_GLOBAL(global_null);
 	}
+
 
 	zephir_call_method_p2_noret(this_ptr, "reconfigure", pattern, paths);
 	zephir_update_property_this(this_ptr, SL("_methods"), httpMethods TSRMLS_CC);
@@ -114,12 +115,15 @@ PHP_METHOD(Phalcon_Mvc_Router_Route, compilePattern) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &pattern_param);
 
-	if (Z_TYPE_P(pattern_param) != IS_STRING) {
-		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'pattern' must be a string") TSRMLS_CC);
-		RETURN_MM_NULL();
-	}
+		if (Z_TYPE_P(pattern_param) != IS_STRING) {
+				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'pattern' must be a string") TSRMLS_CC);
+				RETURN_MM_NULL();
+		}
 
-	pattern = pattern_param;
+		pattern = pattern_param;
+
+	ZEPHIR_SEPARATE_PARAM(pattern);
+
 
 	if (zephir_memnstr_str(pattern, SL(":"), "phalcon/mvc/router/route.zep", 77)) {
 		ZEPHIR_INIT_VAR(idPattern);

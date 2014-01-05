@@ -392,6 +392,7 @@ PHP_METHOD(Phalcon_Tag, resetInput) {
 	) {
 		ZEPHIR_GET_HMKEY(key, _3, _2);
 		ZEPHIR_GET_HVALUE(value, _4);
+		zephir_array_unset(&_POST, key, PH_SEPARATE);
 	}
 	ZEPHIR_MM_RESTORE();
 
@@ -449,6 +450,7 @@ PHP_METHOD(Phalcon_Tag, linkTo) {
 			ZEPHIR_INIT_BNVAR(action);
 			ZVAL_STRING(action, "", 1);
 		} else {
+			zephir_array_unset_string(&params, SS("action"), PH_SEPARATE);
 		}
 	}
 	ZEPHIR_OBS_NVAR(text);
@@ -458,6 +460,7 @@ PHP_METHOD(Phalcon_Tag, linkTo) {
 			ZEPHIR_INIT_BNVAR(text);
 			ZVAL_STRING(text, "", 1);
 		} else {
+			zephir_array_unset_string(&params, SS("text"), PH_SEPARATE);
 		}
 	}
 	ZEPHIR_OBS_NVAR(local);
@@ -467,6 +470,7 @@ PHP_METHOD(Phalcon_Tag, linkTo) {
 			ZEPHIR_INIT_BNVAR(local);
 			ZVAL_BOOL(local, 1);
 		} else {
+			zephir_array_unset_string(&params, SS("local"), PH_SEPARATE);
 		}
 	}
 	ZEPHIR_INIT_VAR(code);

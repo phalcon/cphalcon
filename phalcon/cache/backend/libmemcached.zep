@@ -358,7 +358,7 @@ class Libmemcached extends Phalcon\Cache\Backend implements Phalcon\Cache\Backen
 		let keys = memcache->get(specialKey);
 
 		if typeof keys == "array" {
-			unset(keys[prefixedKey]);
+			unset keys[prefixedKey];
 			memcache->set(specialKey, keys);
 		}
 

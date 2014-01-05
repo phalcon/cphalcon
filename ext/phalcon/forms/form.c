@@ -812,7 +812,7 @@ PHP_METHOD(Phalcon_Forms_Form, has) {
  */
 PHP_METHOD(Phalcon_Forms_Form, remove) {
 
-	zval *name_param = NULL, *elements;
+	zval *name_param = NULL, *elements, *_0;
 	zval *name = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -829,6 +829,8 @@ PHP_METHOD(Phalcon_Forms_Form, remove) {
 
 	elements = zephir_fetch_nproperty_this(this_ptr, SL("_elements"), PH_NOISY_CC);
 	if (zephir_array_isset(elements, name)) {
+		_0 = zephir_fetch_nproperty_this(this_ptr, SL("_elements"), PH_NOISY_CC);
+		zephir_array_unset(&_0, name, PH_SEPARATE);
 		RETURN_MM_BOOL(1);
 	}
 	zephir_update_property_this(this_ptr, SL("_elementsIndexed"), ZEPHIR_GLOBAL(global_null) TSRMLS_CC);

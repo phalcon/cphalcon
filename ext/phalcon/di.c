@@ -179,7 +179,7 @@ PHP_METHOD(Phalcon_Di, setShared) {
  */
 PHP_METHOD(Phalcon_Di, remove) {
 
-	zval *name_param = NULL;
+	zval *name_param = NULL, *_0;
 	zval *name = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -194,6 +194,8 @@ PHP_METHOD(Phalcon_Di, remove) {
 
 
 
+	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_services"), PH_NOISY_CC);
+	zephir_array_unset(&_0, name, PH_SEPARATE);
 	ZEPHIR_MM_RESTORE();
 
 }

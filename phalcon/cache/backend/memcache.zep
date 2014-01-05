@@ -280,7 +280,7 @@ class Memcache extends Phalcon\Cache\Backend implements Phalcon\Cache\BackendInt
 		let keys = memcache->get(specialKey);
 
 		if typeof keys == "array" {
-			unset(keys[prefixedKey]);
+			unset keys[prefixedKey];
 			memcache->set(specialKey, keys);
 		}
 

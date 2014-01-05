@@ -147,6 +147,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Libmemcached, _connect) {
 	ZEPHIR_INIT_VAR(memcache);
 	_0 = zend_fetch_class(SL("Memcached"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
 	object_init_ex(memcache, _0);
+	zephir_call_method_noret(memcache, "__construct");
 	if (!(zephir_array_isset_string(options, SS("servers")))) {
 		ZEPHIR_THROW_EXCEPTION_STR(phalcon_cache_exception_ce, "Servers must be an array");
 		return;
@@ -468,6 +469,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Libmemcached, delete) {
 	ZEPHIR_INIT_VAR(keys);
 	zephir_call_method_p1(keys, memcache, "get", specialKey);
 	if ((Z_TYPE_P(keys) == IS_ARRAY)) {
+		zephir_array_unset(&keys, prefixedKey, PH_SEPARATE);
 		zephir_call_method_p2_noret(memcache, "set", specialKey, keys);
 	}
 	zephir_call_method_p1_noret(memcache, "delete", prefixedKey);

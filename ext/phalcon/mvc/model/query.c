@@ -2896,6 +2896,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _executeUpdate) {
 				zephir_call_func_p3(wildcard, "str_replace", &_8, &_9, _6);
 				ZEPHIR_OBS_NVAR(updateValue);
 				if (zephir_array_isset_fetch(&updateValue, bindParams, wildcard, 0 TSRMLS_CC)) {
+					zephir_array_unset(&selectBindParams, wildcard, PH_SEPARATE);
+					zephir_array_unset(&selectBindTypes, wildcard, PH_SEPARATE);
 				} else {
 					ZEPHIR_INIT_NVAR(_10);
 					object_init_ex(_10, phalcon_mvc_model_exception_ce);
