@@ -388,20 +388,15 @@ PHP_METHOD(Phalcon_Validation_Message_Group, offsetUnset){
  * $messages->appendMessage(new Phalcon\Validation\Message('This is a message'));
  *</code>
  *
- * @param Phalcon\Validation\MessageInterface $message
+ * @param Phalcon\Validation\Message $message
  */
 PHP_METHOD(Phalcon_Validation_Message_Group, appendMessage){
 
 	zval *message;
 
 	phalcon_fetch_params(0, 1, 0, &message);
-	
-	if (Z_TYPE_P(message) != IS_OBJECT) {
-		PHALCON_THROW_EXCEPTION_STRW(phalcon_validation_exception_ce, "The message must be an object");
-		return;
-	}
+	PHALCON_VERIFY_CLASS_EX(message, phalcon_validation_message_ce, spl_ce_BadMethodCallException, 0);
 	phalcon_update_property_array_append(this_ptr, SL("_messages"), message TSRMLS_CC);
-	
 }
 
 /**
