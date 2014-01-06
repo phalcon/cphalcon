@@ -147,6 +147,13 @@ PHALCON_INIT_CLASS(Phalcon_Validation_Message_Group){
 	return SUCCESS;
 }
 
+void phalcon_validation_group_construct_helper(zval *object, zval *messages TSRMLS_DC)
+{
+	if (messages && Z_TYPE_P(messages) == IS_ARRAY) {
+		phalcon_update_property_this(object, SL("_messages"), messages TSRMLS_CC);
+	}
+}
+
 /**
  * Phalcon\Validation\Message\Group constructor
  *
@@ -154,13 +161,10 @@ PHALCON_INIT_CLASS(Phalcon_Validation_Message_Group){
  */
 PHP_METHOD(Phalcon_Validation_Message_Group, __construct){
 
-	zval *messages = NULL;
+	zval **messages = NULL;
 
-	phalcon_fetch_params(0, 0, 1, &messages);
-	
-	if (messages && Z_TYPE_P(messages) == IS_ARRAY) {
-		phalcon_update_property_this(this_ptr, SL("_messages"), messages TSRMLS_CC);
-	}
+	phalcon_fetch_params_ex(0, 1, &messages);
+	phalcon_validation_group_construct_helper(getThis(), (messages ? *messages : NULL) TSRMLS_CC);
 }
 
 /**
