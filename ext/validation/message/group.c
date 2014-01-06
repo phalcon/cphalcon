@@ -108,7 +108,8 @@ static zend_object_iterator_funcs phalcon_validation_message_group_iterator_func
 	phalcon_validation_message_group_get_current_data,
 	phalcon_validation_message_group_get_current_key,
 	phalcon_validation_message_group_move_forward,
-	phalcon_validation_message_group_rewind
+	phalcon_validation_message_group_rewind,
+	NULL
 };
 
 static zend_object_iterator* phalcon_validation_message_group_get_iterator(zend_class_entry *ce, zval *object, int by_ref TSRMLS_DC)
@@ -520,17 +521,15 @@ PHP_METHOD(Phalcon_Validation_Message_Group, valid){
  */
 PHP_METHOD(Phalcon_Validation_Message_Group, __set_state){
 
-	zval *group, *messages;
+	zval **group, *messages;
 
-	PHALCON_MM_GROW();
+	phalcon_fetch_params_ex(1, 0, &group);
 
-	phalcon_fetch_params(1, 1, 0, &group);
-	
-	PHALCON_OBS_VAR(messages);
-	phalcon_array_fetch_string(&messages, group, SL("_messages"), PH_NOISY);
-	object_init_ex(return_value, phalcon_validation_message_group_ce);
-	phalcon_call_method_p1_noret(return_value, "__construct", messages);
-	
-	RETURN_MM();
+	if (phalcon_array_isset_string_fetch(&messages, *group, SS("_messages"))) {
+		object_init_ex(return_value, phalcon_validation_message_group_ce);
+		phalcon_validation_group_construct_helper(return_value, messages TSRMLS_CC);
+	}
+	else {
+		zend_throw_exception_ex(spl_ce_BadMethodCallException, 0 TSRMLS_CC, "Invalid arguments passed to %s", "Phalcon\\Mvc\\Model\\Message\\Group::__set_state()");
+	}
 }
-
