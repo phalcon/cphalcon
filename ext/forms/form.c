@@ -727,33 +727,25 @@ PHP_METHOD(Phalcon_Forms_Form, add){
  */
 PHP_METHOD(Phalcon_Forms_Form, render){
 
-	zval *name, *attributes = NULL, *elements, *exception_message;
-	zval *element;
+	zval **name, **attributes = NULL, *elements, *element;
 
-	PHALCON_MM_GROW();
-
-	phalcon_fetch_params(1, 1, 1, &name, &attributes);
+	phalcon_fetch_params_ex(1, 1, &name, &attributes);
 	
+	PHALCON_ENSURE_IS_STRING(name);
 	if (!attributes) {
-		attributes = PHALCON_GLOBAL(z_null);
-	}
-	
-	if (Z_TYPE_P(name) != IS_STRING) {
-		PHALCON_THROW_EXCEPTION_STR(phalcon_forms_exception_ce, "The name must be a string");
-		return;
+		attributes = &PHALCON_GLOBAL(z_null);
 	}
 	
 	elements = phalcon_fetch_nproperty_this(this_ptr, SL("_elements"), PH_NOISY_CC);
-	if (!phalcon_array_isset_fetch(&element, elements, name)) {
-		PHALCON_INIT_VAR(exception_message);
-		PHALCON_CONCAT_SVS(exception_message, "Element with ID=", name, " is not part of the form");
-		PHALCON_THROW_EXCEPTION_ZVAL(phalcon_forms_exception_ce, exception_message);
+	if (!phalcon_array_isset_fetch(&element, elements, *name)) {
+		zend_throw_exception_ex(phalcon_forms_exception_ce, 0 TSRMLS_CC, "Element with ID=%s is not a part of the form", Z_STRVAL_P(*name));
 		return;
 	}
-	
-	phalcon_call_method_p1(return_value, element, "render", attributes);
-	
-	PHALCON_MM_RESTORE();
+
+	phalcon_call_method_params(return_value, return_value_ptr, element, SL("render"), zend_inline_hash_func(SS("render")) TSRMLS_CC, 1, *attributes);
+	if (return_value_ptr && EG(exception)) {
+		ALLOC_INIT_ZVAL(*return_value_ptr);
+	}
 }
 
 /**
