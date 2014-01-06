@@ -910,18 +910,15 @@ PHP_METHOD(Phalcon_Forms_Form, remove){
 	
 	elements = phalcon_fetch_nproperty_this(this_ptr, SL("_elements"), PH_NOISY_CC);
 	
-	/** 
-	 * Checks if the element is in the form
-	 */
 	if (phalcon_array_isset(elements, name)) {
 		phalcon_unset_property_array(this_ptr, SL("_elements"), name TSRMLS_CC);
+
+		/* Clean the iterator index */
+		phalcon_update_property_null(this_ptr, SL("_elementsIndexed") TSRMLS_CC);
+
 		RETURN_TRUE;
 	}
-	
-	/** 
-	 * Clean the iterator index
-	 */
-	phalcon_update_property_null(this_ptr, SL("_elementsIndexed") TSRMLS_CC);
+
 	RETURN_FALSE;
 }
 
