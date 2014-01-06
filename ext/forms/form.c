@@ -47,6 +47,8 @@
  * This component allows to build forms using an object-oriented interface
  */
 
+static zend_object_handlers phalcon_forms_form_object_handlers;
+
 static void phalcon_forms_form_dtor(zend_object_iterator *it TSRMLS_DC)
 {
 	zval_ptr_dtor((zval**)&it->data);
@@ -142,6 +144,26 @@ static zend_object_iterator* phalcon_forms_form_get_iterator(zend_class_entry *c
 	return result;
 }
 
+static int phalcon_forms_form_count_elements(zval *object, long int *count TSRMLS_DC)
+{
+	int res;
+	zval *cnt = NULL;
+
+	if (Z_OBJCE_P(object)->type == ZEND_INTERNAL_CLASS) {
+		zval *elements = phalcon_fetch_nproperty_this(object, SL("_elements"), PH_NOISY_CC);
+		*count = (Z_TYPE_P(elements) == IS_ARRAY) ? zend_hash_num_elements(Z_ARRVAL_P(elements)) : 0;
+		return SUCCESS;
+	}
+
+	res = phalcon_call_method_params(cnt, &cnt, object, SL("count"), zend_inline_hash_func(SS("count")) TSRMLS_CC, 0);
+	if (res == SUCCESS) {
+		*count = (Z_TYPE_P(cnt) == IS_LONG) ? Z_LVAL_P(cnt) : phalcon_get_intval(cnt);
+		zval_ptr_dtor(&cnt);
+	}
+
+	return res;
+}
+
 /**
  * Phalcon\Forms\Form initializer
  */
@@ -161,6 +183,9 @@ PHALCON_INIT_CLASS(Phalcon_Forms_Form){
 	phalcon_forms_form_ce->get_iterator         = phalcon_forms_form_get_iterator;
 	phalcon_forms_form_ce->iterator_funcs.funcs = &phalcon_forms_form_iterator_funcs;
 
+	phalcon_forms_form_object_handlers = *zend_get_std_object_handlers();
+	phalcon_forms_form_object_handlers.count_elements = phalcon_forms_form_count_elements;
+
 	zend_class_implements(phalcon_forms_form_ce TSRMLS_CC, 2, spl_ce_Countable, zend_ce_iterator);
 
 	return SUCCESS;
@@ -175,6 +200,8 @@ PHALCON_INIT_CLASS(Phalcon_Forms_Form){
 PHP_METHOD(Phalcon_Forms_Form, __construct){
 
 	zval *entity = NULL, *user_options = NULL;
+
+	Z_OBJ_HT_P(getThis()) = &phalcon_forms_form_object_handlers;
 
 	phalcon_fetch_params(0, 0, 2, &entity, &user_options);
 	
@@ -1073,10 +1100,13 @@ PHP_METHOD(Phalcon_Forms_Form, clear){
  */
 PHP_METHOD(Phalcon_Forms_Form, count){
 
-	zval *elements;
+	long int count;
 
-	elements = phalcon_fetch_nproperty_this(this_ptr, SL("_elements"), PH_NOISY_CC);
-	phalcon_fast_count(return_value, elements TSRMLS_CC);
+	if (SUCCESS == phalcon_forms_form_count_elements(getThis(), &count TSRMLS_CC)) {
+		RETURN_LONG(count);
+	}
+
+	RETURN_NULL();
 }
 
 /**
