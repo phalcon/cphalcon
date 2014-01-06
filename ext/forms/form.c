@@ -550,44 +550,37 @@ PHP_METHOD(Phalcon_Forms_Form, isValid){
  */
 PHP_METHOD(Phalcon_Forms_Form, getMessages){
 
-	zval *by_item_name = NULL, *messages;
-	HashTable *ah0;
-	HashPosition hp0;
-	zval **hd;
+	zval **by_item_name = NULL, *messages;
 
-	PHALCON_MM_GROW();
-
-	phalcon_fetch_params(1, 0, 1, &by_item_name);
-	
-	if (!by_item_name) {
-		by_item_name = PHALCON_GLOBAL(z_false);
-	}
+	phalcon_fetch_params_ex(0, 1, &by_item_name);
 	
 	messages = phalcon_fetch_nproperty_this(this_ptr, SL("_messages"), PH_NOISY_CC);
-	if (zend_is_true(by_item_name)) {
+	if (by_item_name && zend_is_true(*by_item_name)) {
 		if (Z_TYPE_P(messages) != IS_ARRAY) { 
 			object_init_ex(return_value, phalcon_validation_message_group_ce);
-			phalcon_call_method_noret(return_value, "__construct");
-	
-			RETURN_MM();
+			phalcon_validation_group_construct_helper(return_value, NULL TSRMLS_CC);
 		}
-	
-		RETURN_CTOR(messages);
+		else {
+			RETURN_ZVAL(messages, 1, 0);
+		}
 	}
-	
-	object_init_ex(return_value, phalcon_validation_message_group_ce);
-	phalcon_call_method_noret(return_value, "__construct");
-	
-	if (Z_TYPE_P(messages) == IS_ARRAY) {
-		phalcon_is_iterable(messages, &ah0, &hp0, 0, 0);
+	else {
+		object_init_ex(return_value, phalcon_validation_message_group_ce);
+		phalcon_validation_group_construct_helper(return_value, NULL TSRMLS_CC);
 
-		while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
-			phalcon_call_method_p1_noret(return_value, "appendmessages", *hd);
-			zend_hash_move_forward_ex(ah0, &hp0);
+		if (Z_TYPE_P(messages) == IS_ARRAY) {
+			HashPosition hp;
+			zval **v;
+
+			for (
+				zend_hash_internal_pointer_reset_ex(Z_ARRVAL_P(messages), &hp);
+				zend_hash_get_current_data_ex(Z_ARRVAL_P(messages), (void**)&v, &hp) == SUCCESS && !EG(exception);
+				zend_hash_move_forward_ex(Z_ARRVAL_P(messages), &hp)
+			) {
+				phalcon_call_method_params(NULL, NULL, return_value, SL("appendmessages"), zend_inline_hash_func(SS("appendmessages")) TSRMLS_CC, 1, *v);
+			}
 		}
 	}
-	
-	PHALCON_MM_RESTORE();
 }
 
 /**
@@ -607,8 +600,7 @@ PHP_METHOD(Phalcon_Forms_Form, getMessagesFor){
 	}
 	
 	object_init_ex(return_value, phalcon_validation_message_group_ce);
-	/* Do not call __construct*( because it does not do anything */
-	/* phalcon_call_method_noret(return_value, "__construct"); */
+	phalcon_validation_group_construct_helper(return_value, NULL TSRMLS_CC);
 }
 
 /**
