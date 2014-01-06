@@ -633,20 +633,14 @@ PHP_METHOD(Phalcon_Forms_Form, hasMessagesFor){
  */
 PHP_METHOD(Phalcon_Forms_Form, add){
 
-	zval *element, *pos = NULL, *type = NULL, *name, *values, *elements, *key = NULL, *tmp0, *tmp1, *length, *offset, *preserve_keys;
-	HashTable *ah0;
-	HashPosition hp0;
-	zval **hd;
+	zval *element, *pos = NULL, *type = NULL, *name, *values, *elements, *tmp0, *tmp1, *length, *offset, *preserve_keys;
 	int found = 0, i = 0;
 
 	PHALCON_MM_GROW();
 
 	phalcon_fetch_params(1, 1, 2, &element, &pos, &type);
 	
-	if (Z_TYPE_P(element) != IS_OBJECT) {
-		PHALCON_THROW_EXCEPTION_STR(phalcon_forms_exception_ce, "The element is not valid");
-		return;
-	}
+	PHALCON_VERIFY_INTERFACE_EX(element, phalcon_forms_elementinterface_ce, phalcon_forms_exception_ce, 1);
 	
 	/** 
 	 * Gets the element's name
@@ -659,17 +653,11 @@ PHP_METHOD(Phalcon_Forms_Form, add){
 	 */
 	phalcon_call_method_p1_noret(element, "setform", this_ptr);
 
-	if (!pos) {	
-		/** 
-		 * Append the element by its name
-		 */
+	if (!pos) {
+		/* Append the element by its name */
 		phalcon_update_property_array(this_ptr, SL("_elements"), name, element TSRMLS_CC);
 	} else {
-		if (!type) {
-			type = PHALCON_GLOBAL(z_false);
-		}
-
-		if (zend_is_true(type)) {
+		if (type && zend_is_true(type)) {
 			i = -1;
 		}
 
@@ -678,25 +666,24 @@ PHP_METHOD(Phalcon_Forms_Form, add){
 
 		phalcon_array_update_zval(&values, name, &element, PH_COPY);
 
-		PHALCON_OBS_VAR(elements);
-		phalcon_read_property_this(&elements, this_ptr, SL("_elements"), PH_NOISY_CC);
+		elements = phalcon_fetch_nproperty_this(this_ptr, SL("_elements"), PH_NOISY_CC);
 
-		if (Z_TYPE_P(elements) != IS_ARRAY) {
-			convert_to_array(elements);
-		}
+		if (Z_TYPE_P(elements) == IS_ARRAY) {
+			HashPosition hp;
 
-		phalcon_is_iterable(elements, &ah0, &hp0, 0, 0);
-		while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
-			PHALCON_GET_HKEY(key, ah0, hp0);
+			for (
+				zend_hash_internal_pointer_reset_ex(Z_ARRVAL_P(elements), &hp);
+				zend_hash_get_current_key_type_ex(Z_ARRVAL_P(elements), &hp) != HASH_KEY_NON_EXISTANT;
+				zend_hash_move_forward_ex(Z_ARRVAL_P(elements), &hp)
+			) {
+				zval key = phalcon_get_current_key_w(Z_ARRVAL_P(elements), &hp);
 
-			i++;
-
-			if (PHALCON_IS_EQUAL(key, pos)) {
-				found = 1;
-				break;
+				++i;
+				if (phalcon_is_equal(&key, pos TSRMLS_CC)) {
+					found = 1;
+					break;
+				}
 			}
-
-			zend_hash_move_forward_ex(ah0, &hp0);
 		}
 
 		if (!found) {
@@ -707,15 +694,13 @@ PHP_METHOD(Phalcon_Forms_Form, add){
 		PHALCON_INIT_VAR(offset);
 		ZVAL_LONG(offset, i);
 
-		PHALCON_INIT_VAR(length);
-		ZVAL_LONG(length, 0);
-
+		length        = PHALCON_GLOBAL(z_zero);
 		preserve_keys = PHALCON_GLOBAL(z_true);
 
 		PHALCON_INIT_VAR(tmp0);
 		phalcon_call_func_p4(tmp0, "array_slice", elements, length, offset, preserve_keys);
 
-		PHALCON_INIT_NVAR(length);
+		length = PHALCON_GLOBAL(z_null);
 
 		PHALCON_INIT_VAR(tmp1);
 		phalcon_call_func_p4(tmp1, "array_slice", elements, offset, length, preserve_keys);
