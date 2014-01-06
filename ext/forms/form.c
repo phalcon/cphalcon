@@ -597,23 +597,18 @@ PHP_METHOD(Phalcon_Forms_Form, getMessages){
  */
 PHP_METHOD(Phalcon_Forms_Form, getMessagesFor){
 
-	zval *name, *messages, *element_messages;
+	zval **name, *messages, *element_messages;
 
-	PHALCON_MM_GROW();
-
-	phalcon_fetch_params(1, 1, 0, &name);
+	phalcon_fetch_params_ex(1, 0, &name);
 	
 	messages = phalcon_fetch_nproperty_this(this_ptr, SL("_messages"), PH_NOISY_CC);
-	if (phalcon_array_isset_fetch(&element_messages, messages, name)) {
-		RETURN_CTOR(element_messages);
+	if (phalcon_array_isset_fetch(&element_messages, messages, *name)) {
+		RETURN_ZVAL(element_messages, 1, 0);
 	}
 	
 	object_init_ex(return_value, phalcon_validation_message_group_ce);
-	phalcon_call_method_noret(return_value, "__construct");
-	
-	phalcon_update_property_array(this_ptr, SL("_messages"), name, return_value TSRMLS_CC);
-	
-	PHALCON_MM_RESTORE();
+	/* Do not call __construct*( because it does not do anything */
+	/* phalcon_call_method_noret(return_value, "__construct"); */
 }
 
 /**
