@@ -140,6 +140,10 @@
    - Phalcon\Forms\Form::getMessages() does not generate a fatal error if the form is valid (#1349)
    - Improvements to Phalcon\Forms\Form::add() (#1386)
    - Added Phalcon\Forms\Element\Radio class (#1646)
+   - Phalcon\Forms\Form::hasMessagesFor() returns boolean (#1764)
+   - Iterators for Phalcon\Forms\Form implemented via Zend API (#1765)
+   - Phalcon\Forms\Form::count() implemented via Zend API (#1765)
+   - Phalcon\Forms\Form optimizations (#1765)
  - Phalcon\Http:
    - Phalcon\Http\Cookie can be used without sessions (#875)
    - Phalcon\Http\Cookie does not ignore expire time (#897)
@@ -240,6 +244,7 @@
    - Added support for error codes (#1171)
    - Bug fixes (#1399)
    - Optimized Phalcon\Validation\Message\Group by using native iterators (#1657)
+   - Optimized Phalcon\Validation\Message\Group by using object handlers (#1765)
  - Unit tests:
    - Travis CI imporvements (#819, #846, #949)
    - Use markTestSkipped() instead of echo (#862)
