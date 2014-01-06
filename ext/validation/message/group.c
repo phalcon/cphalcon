@@ -44,6 +44,8 @@
  * Represents a group of validation messages
  */
 
+static zend_object_handlers phalcon_validation_message_group_object_handlers;
+
 static void phalcon_validation_message_group_dtor(zend_object_iterator *it TSRMLS_DC)
 {
 	zval_ptr_dtor((zval**)&it->data);
@@ -130,6 +132,132 @@ static zend_object_iterator* phalcon_validation_message_group_get_iterator(zend_
 	return result;
 }
 
+static zval* phalcon_validation_message_group_read_dimension(zval *object, zval *offset, int type TSRMLS_DC)
+{
+	zval *messages;
+
+	if (Z_OBJCE_P(object)->type != ZEND_INTERNAL_CLASS) {
+		return zend_get_std_object_handlers()->read_dimension(object, offset, type TSRMLS_CC);
+	}
+
+	if (UNEXPECTED(!offset)) {
+		return EG(uninitialized_zval_ptr);
+	}
+
+	messages = phalcon_fetch_nproperty_this(object, SL("_messages"), PH_NOISY TSRMLS_CC);
+	if (Z_TYPE_P(messages) == IS_ARRAY) {
+		zval **res = phalcon_hash_get(Z_ARRVAL_P(messages), offset, type);
+		return res ? *res : NULL;
+	}
+
+	return NULL;
+}
+
+static void phalcon_validation_message_group_write_dimension(zval *object, zval *offset, zval *value TSRMLS_DC)
+{
+	zval *messages;
+	int separate;
+
+	if (Z_OBJCE_P(object)->type != ZEND_INTERNAL_CLASS) {
+		zend_get_std_object_handlers()->write_dimension(object, offset, value TSRMLS_CC);
+		return;
+	}
+
+	PHALCON_VERIFY_CLASS_EX(value, phalcon_validation_message_ce, spl_ce_BadMethodCallException, 0);
+
+	messages = phalcon_fetch_nproperty_this(object, SL("_messages"), PH_NOISY TSRMLS_CC);
+	separate = phalcon_maybe_separate_zval(&messages);
+	if (Z_TYPE_P(messages) != IS_ARRAY) {
+		zval_dtor(messages);
+		array_init_size(messages, 1);
+	}
+
+	Z_ADDREF_P(value);
+	phalcon_hash_update_or_insert(Z_ARRVAL_P(messages), offset, value);
+	if (separate) {
+		Z_DELREF_P(messages);
+		phalcon_update_property_this(object, SL("_messages"), messages TSRMLS_CC);
+	}
+}
+
+static int phalcon_validation_message_group_has_dimension(zval *object, zval *offset, int check_empty TSRMLS_DC)
+{
+	zval *messages;
+
+	if (Z_OBJCE_P(object)->type != ZEND_INTERNAL_CLASS) {
+		return zend_get_std_object_handlers()->has_dimension(object, offset, check_empty TSRMLS_CC);
+	}
+
+	messages = phalcon_fetch_nproperty_this(object, SL("_messages"), PH_NOISY TSRMLS_CC);
+	if (Z_TYPE_P(messages) == IS_ARRAY) {
+		zval **tmp = phalcon_hash_get(Z_ARRVAL_P(messages), offset, BP_VAR_NA);
+
+		if (!tmp) {
+			return 0;
+		}
+
+		if (0 == check_empty) {
+			return Z_TYPE_PP(tmp) != IS_NULL;
+		}
+
+		if (1 == check_empty) {
+			return zend_is_true(*tmp);
+		}
+
+		return 1;
+	}
+
+	return 0;
+}
+
+static void phalcon_validation_message_group_unset_dimension(zval *object, zval *offset TSRMLS_DC)
+{
+	zval *messages;
+	int separate;
+
+	if (Z_OBJCE_P(object)->type != ZEND_INTERNAL_CLASS) {
+		zend_get_std_object_handlers()->unset_dimension(object, offset TSRMLS_CC);
+		return;
+	}
+
+	messages = phalcon_fetch_nproperty_this(object, SL("_messages"), PH_NOISY TSRMLS_CC);
+	separate = phalcon_maybe_separate_zval(&messages);
+
+	if (Z_TYPE_P(messages) != IS_ARRAY) {
+		zval_dtor(messages);
+		array_init_size(messages, 0);
+	}
+	else {
+		phalcon_array_unset(&messages, offset, 0);
+	}
+
+	if (separate) {
+		Z_DELREF_P(messages);
+		phalcon_update_property_this(object, SL("_messages"), messages TSRMLS_CC);
+	}
+}
+
+static int phalcon_validation_message_group_count_elements(zval *object, long int *count TSRMLS_DC)
+{
+	int res;
+	zval *cnt = NULL;
+
+	if (Z_OBJCE_P(object)->type == ZEND_INTERNAL_CLASS) {
+
+		zval *messages = phalcon_fetch_nproperty_this(object, SL("_messages"), PH_NOISY TSRMLS_CC);
+		*count         = (Z_TYPE_P(messages) == IS_ARRAY) ? zend_hash_num_elements(Z_ARRVAL_P(messages)) : 0;
+		return SUCCESS;
+	}
+
+	res = phalcon_call_method_params(cnt, &cnt, object, SL("count"), zend_inline_hash_func(SS("count")) TSRMLS_CC, 0);
+	if (res == SUCCESS) {
+		*count = (Z_TYPE_P(cnt) == IS_LONG) ? Z_LVAL_P(cnt) : phalcon_get_intval(cnt);
+		zval_ptr_dtor(&cnt);
+	}
+
+	return res;
+}
+
 /**
  * Phalcon\Validation\Message\Group initializer
  */
@@ -143,6 +271,13 @@ PHALCON_INIT_CLASS(Phalcon_Validation_Message_Group){
 	phalcon_validation_message_group_ce->get_iterator         = phalcon_validation_message_group_get_iterator;
 	phalcon_validation_message_group_ce->iterator_funcs.funcs = &phalcon_validation_message_group_iterator_funcs;
 
+	phalcon_validation_message_group_object_handlers = *zend_get_std_object_handlers();
+	phalcon_validation_message_group_object_handlers.read_dimension  = phalcon_validation_message_group_read_dimension;
+	phalcon_validation_message_group_object_handlers.write_dimension = phalcon_validation_message_group_write_dimension;
+	phalcon_validation_message_group_object_handlers.has_dimension   = phalcon_validation_message_group_has_dimension;
+	phalcon_validation_message_group_object_handlers.unset_dimension = phalcon_validation_message_group_unset_dimension;
+	phalcon_validation_message_group_object_handlers.count_elements  = phalcon_validation_message_group_count_elements;
+
 	zend_class_implements(phalcon_validation_message_group_ce TSRMLS_CC, 3, spl_ce_Countable, zend_ce_arrayaccess, zend_ce_iterator);
 
 	return SUCCESS;
@@ -150,6 +285,8 @@ PHALCON_INIT_CLASS(Phalcon_Validation_Message_Group){
 
 void phalcon_validation_group_construct_helper(zval *object, zval *messages TSRMLS_DC)
 {
+	Z_OBJ_HT_P(object) = &phalcon_validation_message_group_object_handlers;
+
 	if (messages && Z_TYPE_P(messages) == IS_ARRAY) {
 		phalcon_update_property_this(object, SL("_messages"), messages TSRMLS_CC);
 	}
@@ -180,13 +317,12 @@ PHP_METHOD(Phalcon_Validation_Message_Group, __construct){
  */
 PHP_METHOD(Phalcon_Validation_Message_Group, offsetGet){
 
-	zval *index, *messages, *message;
+	zval **index, *ret;
 
-	phalcon_fetch_params(0, 1, 0, &index);
-	
-	messages = phalcon_fetch_nproperty_this(this_ptr, SL("_messages"), PH_NOISY_CC);
-	if (phalcon_array_isset_fetch(&message, messages, index)) {
-		RETURN_ZVAL(message, 1, 0);
+	phalcon_fetch_params_ex(1, 0, &index);
+	ret = phalcon_validation_message_group_read_dimension(getThis(), *index, BP_VAR_NA TSRMLS_CC);
+	if (ret) {
+		RETURN_ZVAL(ret, 1, 0);
 	}
 	
 	RETURN_NULL();
@@ -204,16 +340,10 @@ PHP_METHOD(Phalcon_Validation_Message_Group, offsetGet){
  */
 PHP_METHOD(Phalcon_Validation_Message_Group, offsetSet){
 
-	zval *index, *message;
+	zval **index, **message;
 
-	phalcon_fetch_params(0, 2, 0, &index, &message);
-	
-	if (Z_TYPE_P(message) != IS_OBJECT) {
-		PHALCON_THROW_EXCEPTION_STRW(phalcon_validation_exception_ce, "The message must be an object");
-		return;
-	}
-	phalcon_update_property_array(this_ptr, SL("_messages"), index, message TSRMLS_CC);
-	
+	phalcon_fetch_params_ex(2, 0, &index, &message);
+	phalcon_validation_message_group_write_dimension(getThis(), *index, *message TSRMLS_CC);
 }
 
 /**
@@ -228,19 +358,10 @@ PHP_METHOD(Phalcon_Validation_Message_Group, offsetSet){
  */
 PHP_METHOD(Phalcon_Validation_Message_Group, offsetExists){
 
-	zval *index, *messages;
+	zval **index;
 
-	PHALCON_MM_GROW();
-
-	phalcon_fetch_params(1, 1, 0, &index);
-	
-	PHALCON_OBS_VAR(messages);
-	phalcon_read_property_this(&messages, this_ptr, SL("_messages"), PH_NOISY_CC);
-	if (phalcon_array_isset(messages, index)) {
-		RETURN_MM_TRUE;
-	}
-	
-	RETURN_MM_FALSE;
+	phalcon_fetch_params_ex(1, 0, &index);
+	RETURN_BOOL(phalcon_validation_message_group_has_dimension(getThis(), *index, 0 TSRMLS_CC));
 }
 
 /**
@@ -254,19 +375,10 @@ PHP_METHOD(Phalcon_Validation_Message_Group, offsetExists){
  */
 PHP_METHOD(Phalcon_Validation_Message_Group, offsetUnset){
 
-	zval *index, *messages;
+	zval **index;
 
-	PHALCON_MM_GROW();
-
-	phalcon_fetch_params(1, 1, 0, &index);
-	
-	PHALCON_OBS_VAR(messages);
-	phalcon_read_property_this(&messages, this_ptr, SL("_messages"), PH_NOISY_CC);
-	if (phalcon_array_isset(messages, index)) {
-		phalcon_unset_property_array(this_ptr, SL("_messages"), index TSRMLS_CC);
-	}
-	
-	RETURN_MM_FALSE;
+	phalcon_fetch_params_ex(1, 0, &index);
+	phalcon_validation_message_group_unset_dimension(getThis(), *index TSRMLS_CC);
 }
 
 /**
@@ -426,14 +538,13 @@ PHP_METHOD(Phalcon_Validation_Message_Group, filter){
  */
 PHP_METHOD(Phalcon_Validation_Message_Group, count){
 
-	zval *messages;
+	long int count;
 
-	PHALCON_MM_GROW();
+	if (SUCCESS == phalcon_validation_message_group_count_elements(getThis(), &count TSRMLS_CC)) {
+		RETURN_LONG(count);
+	}
 
-	PHALCON_OBS_VAR(messages);
-	phalcon_read_property_this(&messages, this_ptr, SL("_messages"), PH_NOISY_CC);
-	phalcon_fast_count(return_value, messages TSRMLS_CC);
-	RETURN_MM();
+	RETURN_NULL();
 }
 
 /**
