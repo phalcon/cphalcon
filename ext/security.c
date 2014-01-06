@@ -25,6 +25,8 @@
 #include "php_phalcon.h"
 #include "phalcon.h"
 
+#include <math.h>
+
 #include "Zend/zend_operators.h"
 #include "Zend/zend_exceptions.h"
 #include "Zend/zend_interfaces.h"
@@ -613,5 +615,294 @@ PHP_METHOD(Phalcon_Security, computeHmac)
 	if (unlikely(EG(exception) != NULL) && return_value_ptr) {
 		ALLOC_INIT_ZVAL(*return_value_ptr);
 	}
+#endif
+}
+
+/**
+ * @internal
+ * @brief This method is used only for internal tests, use Phalcon\Security::deriveKey() instead
+ */
+PHP_METHOD(Phalcon_Security, pbkdf2)
+{
+	zval **password, **salt, **hash = NULL, **iterations = NULL, **size = NULL;
+	char* s_hash;
+	int i_iterations = 0, i_size = 0;
+
+	phalcon_fetch_params_ex(2, 3, &password, &salt, &hash, &iterations, &size);
+
+	PHALCON_ENSURE_IS_STRING(password);
+	PHALCON_ENSURE_IS_STRING(salt);
+
+	if (Z_STRLEN_PP(salt) > INT_MAX - 4) {
+		zend_throw_exception_ex(phalcon_security_exception_ce, 0 TSRMLS_CC, "Salt is too long: %d", Z_STRLEN_PP(salt));
+		return;
+	}
+
+	s_hash = (!hash || Z_TYPE_PP(hash) != IS_STRING) ? "sha512" : Z_STRVAL_PP(hash);
+
+	if (iterations) {
+		PHALCON_ENSURE_IS_LONG(iterations);
+		i_iterations = Z_LVAL_PP(iterations);
+	}
+
+	if (i_iterations <= 0) {
+		i_iterations = 5000;
+	}
+
+	if (size) {
+		PHALCON_ENSURE_IS_LONG(size);
+		i_size = Z_LVAL_PP(size);
+	}
+
+	if (i_size < 0) {
+		i_size = 0;
+	}
+
+	{
+		zval *algo, *tmp, *K1 = NULL, *K2 = NULL, *computed_salt, *result;
+		int i_hash_len, block_count, i, j, k;
+		int salt_len = Z_STRLEN_PP(salt);
+		char *s;
+
+		PHALCON_MM_GROW();
+
+		PHALCON_INIT_VAR(algo);
+		ZVAL_STRING(algo, s_hash, 1);
+
+		PHALCON_OBS_VAR(tmp);
+		phalcon_call_func_p3_ex(tmp, &tmp, "hash", algo, PHALCON_GLOBAL(z_null), PHALCON_GLOBAL(z_true));
+		if (PHALCON_IS_FALSE(tmp) || Z_TYPE_P(tmp) != IS_STRING) {
+			RETURN_MM_FALSE;
+		}
+
+		i_hash_len = Z_STRLEN_P(tmp);
+		if (!i_size) {
+			i_size = i_hash_len;
+		}
+
+		PHALCON_INIT_VAR(computed_salt);
+		s = safe_emalloc(salt_len, 1, 5);
+		s[salt_len + 4] = 0;
+		memcpy(s, Z_STRVAL_PP(salt), salt_len);
+		ZVAL_STRINGL(computed_salt, s, salt_len + 4, 0);
+
+		PHALCON_INIT_VAR(result);
+
+		block_count = ceil((float)i_size / i_hash_len);
+		for (i=1; i<=block_count; ++i) {
+			s[salt_len+0] = (unsigned char)(i >> 24);
+			s[salt_len+1] = (unsigned char)(i >> 16);
+			s[salt_len+2] = (unsigned char)(i >> 8);
+			s[salt_len+3] = (unsigned char)(i);
+
+			PHALCON_INIT_NVAR(K1);
+			phalcon_call_func_p4(K1, "hash_hmac", algo, computed_salt, *password, PHALCON_GLOBAL(z_true));
+			PHALCON_CPY_WRT_CTOR(K2, K1);
+
+			for (j=1; j<i_iterations; ++j) {
+				char *k1, *k2;
+
+				PHALCON_INIT_NVAR(tmp);
+				phalcon_call_func_p4(tmp, "hash_hmac", algo, K1, *password, PHALCON_GLOBAL(z_true));
+				PHALCON_CPY_WRT(K1, tmp);
+
+				k1 = Z_STRVAL_P(K1);
+				k2 = Z_STRVAL_P(K2);
+				for (k=0; k<Z_STRLEN_P(K2); ++k) {
+					k2[k] ^= k1[k];
+				}
+			}
+
+			phalcon_concat_self(&result, K2 TSRMLS_CC);
+		}
+
+		if (i_size == i_hash_len) {
+			RETVAL_STRINGL(Z_STRVAL_P(result), Z_STRLEN_P(result), 0);
+			ZVAL_NULL(result);
+		}
+		else {
+			phalcon_substr(return_value, result, 0, i_size);
+		}
+
+		PHALCON_MM_RESTORE();
+	}
+}
+
+/**
+ * Derives a key from the given password (PBKDF2).
+ *
+ * @param string $password Source password
+ * @param string $salt The salt to use for the derivation; this value should be generated randomly.
+ * @param string $hash Hash function (SHA-512 by default)
+ * @param int $iterations The number of internal iterations to perform for the derivation, by default 5000
+ * @param int $size The length of the output string. If 0 is passed (the default), the entire output of the supplied hash algorithm is used
+ * @return string The derived key
+ */
+PHP_METHOD(Phalcon_Security, deriveKey)
+{
+	zval **password, **salt, **hash = NULL, **iterations = NULL, **size = NULL;
+	char* s_hash;
+	int i_iterations = 0, i_size = 0;
+
+	phalcon_fetch_params_ex(2, 3, &password, &salt, &hash, &iterations, &size);
+
+	PHALCON_ENSURE_IS_STRING(password);
+	PHALCON_ENSURE_IS_STRING(salt);
+
+	if (Z_STRLEN_PP(salt) > INT_MAX - 4) {
+		zend_throw_exception_ex(phalcon_security_exception_ce, 0 TSRMLS_CC, "Salt is too long: %d", Z_STRLEN_PP(salt));
+		return;
+	}
+
+	s_hash = (!hash || Z_TYPE_PP(hash) != IS_STRING) ? "sha512" : Z_STRVAL_PP(hash);
+
+	if (iterations) {
+		PHALCON_ENSURE_IS_LONG(iterations);
+		i_iterations = Z_LVAL_PP(iterations);
+	}
+
+	if (i_iterations <= 0) {
+		i_iterations = 5000;
+	}
+
+	if (size) {
+		PHALCON_ENSURE_IS_LONG(size);
+		i_size = Z_LVAL_PP(size);
+	}
+
+	if (i_size < 0) {
+		i_size = 0;
+	}
+
+
+#if defined(PHALCON_USE_PHP_HASH)
+	{
+		const php_hash_ops *ops = php_hash_fetch_ops(s_hash, Z_STRLEN_PP(hash));
+		void *context;
+		unsigned char *K1, *K2, *digest, *temp, *result, *computed_salt;
+		long int i, j, loops, digest_length;
+		int salt_len = Z_STRLEN_PP(salt);
+		int pass_len = Z_STRLEN_PP(password);
+		int k;
+
+		if (!ops) {
+			zend_throw_exception_ex(phalcon_security_exception_ce, 0 TSRMLS_CC, "Unknown hashing algorithm: %s", s_hash);
+			return;
+		}
+
+		context = emalloc(ops->context_size);
+		ops->hash_init(context);
+
+		K1     = emalloc(2 * ops->block_size + 2 * ops->digest_size);
+		K2     = K1 + ops->block_size;
+		digest = K2 + ops->block_size;
+		temp   = digest + ops->digest_size;
+
+		/* Set up keys that will be used for all HMAC rounds */
+		memset(K1, 0, ops->block_size);
+		if (pass_len > ops->block_size) {
+			ops->hash_init(context);
+			ops->hash_update(context, (unsigned char*)Z_STRVAL_PP(password), pass_len);
+			ops->hash_final(K1, context);
+		}
+		else {
+			memcpy(K1, Z_STRVAL_PP(password), pass_len);
+		}
+
+		for (i=0; i<ops->block_size; ++i) {
+			K2[i] = K1[i] ^ 0x5C;
+			K1[i] = K1[i] ^ 0x36;
+		}
+
+		digest_length = (i_size) ? i_size : ops->digest_size;
+		loops         = ceil((float)digest_length / (float)ops->digest_size);
+
+		result        = safe_emalloc(loops, ops->digest_size, 1);
+		computed_salt = safe_emalloc(salt_len, 1, 4);
+		memcpy(computed_salt, Z_STRVAL_PP(salt), salt_len);
+
+		for (i=1; i<=loops; ++i) {
+			computed_salt[salt_len+0] = (unsigned char)(i >> 24);
+			computed_salt[salt_len+1] = (unsigned char)(i >> 16);
+			computed_salt[salt_len+2] = (unsigned char)(i >> 8);
+			computed_salt[salt_len+3] = (unsigned char)(i);
+
+			ops->hash_init(context);
+			ops->hash_update(context, K1, ops->block_size);
+			ops->hash_update(context, computed_salt, (long int)(salt_len) + 4);
+			ops->hash_final(digest, context);
+
+			ops->hash_init(context);
+			ops->hash_update(context, K2, ops->block_size);
+			ops->hash_update(context, digest, ops->digest_size);
+			ops->hash_final(digest, context);
+
+			memcpy(temp, digest, ops->digest_size);
+
+			for (j=1; j<i_iterations; ++j) {
+				ops->hash_init(context);
+				ops->hash_update(context, K1, ops->block_size);
+				ops->hash_update(context, digest, ops->digest_size);
+				ops->hash_final(digest, context);
+
+				ops->hash_init(context);
+				ops->hash_update(context, K2, ops->block_size);
+				ops->hash_update(context, digest, ops->digest_size);
+				ops->hash_final(digest, context);
+
+				for (k=0; k<ops->digest_size; ++k) {
+					temp[k] ^= digest[k];
+				}
+			}
+
+			memcpy(result + (i-1)*ops->digest_size, temp, ops->digest_size);
+		}
+
+		memset(K1, 0, 2*ops->block_size);
+		memset(computed_salt, 0, salt_len + 4);
+		efree(K1);
+		efree(computed_salt);
+		efree(context);
+
+		if (digest_length != ops->digest_size) {
+			char *retval = safe_emalloc(i_size, 1, 1);
+			memcpy(retval, result, i_size);
+			retval[i_size] = 0;
+			efree(result);
+			RETVAL_STRINGL(retval, i_size, 0);
+		}
+		else {
+			result[digest_length] = 0;
+			RETVAL_STRINGL((char*)result, digest_length, 0);
+		}
+	}
+#elif PHP_VERSION_ID >= 50000
+	{
+		zval *algo, *iter, *len;
+
+		MAKE_STD_ZVAL(algo);
+		ZVAL_STRING(algo, s_hash, 1);
+
+		MAKE_STD_ZVAL(iter);
+		ZVAL_LONG(iter, i_iterations);
+
+		MAKE_STD_ZVAL(len);
+		ZVAL_LONG(len, i_size);
+
+		phalcon_call_func_params(
+			return_value, return_value_ptr, SL("hash_pbkdf2") TSRMLS_CC, 6,
+			algo, *password, *salt, iter, len, PHALCON_GLOBAL(z_true)
+		);
+
+		if (UNEXPECTED(EG(exception) && return_value_ptr)) {
+			ALLOC_INIT_ZVAL(*return_value_ptr);
+		}
+
+		zval_ptr_dtor(&algo);
+		zval_ptr_dtor(&iter);
+		zval_ptr_dtor(&len);
+	}
+#else
+	ZEND_MN(Phalcon_Security_pbkdf2)(INTERNAL_FUNCTION_PARAM_PASSTHRU);
 #endif
 }

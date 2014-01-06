@@ -8,6 +8,10 @@ return <<<HEADER
 #include "config.h"
 #endif
 
+#include <math.h>
+#include <ctype.h>
+#include <stdlib.h>
+
 #include <main/php.h>
 
 #include "php_phalcon.h"
