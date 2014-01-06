@@ -623,16 +623,12 @@ PHP_METHOD(Phalcon_Forms_Form, getMessagesFor){
  */
 PHP_METHOD(Phalcon_Forms_Form, hasMessagesFor){
 
-	zval *name, *messages, *element_messages;
+	zval **name, *messages;
 
-	phalcon_fetch_params(0, 1, 0, &name);
+	phalcon_fetch_params_ex(1, 0, &name);
 	
 	messages = phalcon_fetch_nproperty_this(this_ptr, SL("_messages"), PH_NOISY_CC);
-	if (phalcon_array_isset_fetch(&element_messages, messages, name)) {
-		RETURN_ZVAL(element_messages, 1, 0);
-	}
-	
-	RETURN_FALSE;
+	RETURN_BOOL(phalcon_array_isset(messages, *name));
 }
 
 /**
