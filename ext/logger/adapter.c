@@ -175,6 +175,10 @@ PHP_METHOD(Phalcon_Logger_Adapter, commit){
 	
 	}
 	
+	PHALCON_INIT_NVAR(queue);
+	array_init(queue);
+	phalcon_update_property_this(this_ptr, SL("_queue"), queue TSRMLS_CC);
+
 	RETURN_THIS();
 }
 

@@ -6474,6 +6474,9 @@ static int phalcon_memnstr_str(const zval *haystack, char *needle, unsigned int 
 
 static void phalcon_fast_strpos(zval *return_value, const zval *haystack, const zval *needle) {
 
+#if PHP_VERSION_ID >= 50600
+	const
+#endif
 	char *found = NULL;
 
 	if (unlikely(Z_TYPE_P(haystack) != IS_STRING || Z_TYPE_P(needle) != IS_STRING)) {
@@ -6500,6 +6503,9 @@ static void phalcon_fast_strpos(zval *return_value, const zval *haystack, const 
 
 static void phalcon_fast_strpos_str(zval *return_value, const zval *haystack, char *needle, unsigned int needle_length) {
 
+#if PHP_VERSION_ID >= 50600
+	const
+#endif
 	char *found = NULL;
 
 	if (unlikely(Z_TYPE_P(haystack) != IS_STRING)) {
@@ -6520,6 +6526,9 @@ static void phalcon_fast_strpos_str(zval *return_value, const zval *haystack, ch
 
 static void phalcon_fast_stripos_str(zval *return_value, zval *haystack, char *needle, unsigned int needle_length) {
 
+#if PHP_VERSION_ID >= 50600
+	const
+#endif
 	char *found = NULL;
 	char *needle_dup, *haystack_dup;
 
@@ -11958,6 +11967,18 @@ static void phalcon_raw_url_encode(zval *return_value, zval *url) {
 		RETURN_NULL();
 	}
 }
+
+
+
+#ifndef PHALCON_DB_ADAPTER_MYSQLI_H
+#define PHALCON_DB_ADAPTER_MYSQLI_H
+
+
+zend_class_entry *phalcon_db_adapter_mysqli_ce;
+
+PHALCON_INIT_CLASS(Phalcon_Db_Adapter_Mysqli);
+
+#endif /* PHALCON_DB_ADAPTER_MYSQLI_H */
 
 
 
@@ -22009,6 +22030,326 @@ static PHP_METHOD(Phalcon_Db_Index, __set_state){
 
 
 
+
+zend_class_entry *phalcon_db_adapter_mysqli_ce;
+
+static static PHP_METHOD(Phalcon_Db_Adapter_Mysqli, __construct)
+{
+	zval *options;
+
+	PHALCON_MM_GROW();
+
+	phalcon_fetch_params(1, 1, 0, &options);
+
+	if (Z_TYPE_P(options) != IS_ARRAY) {
+		zend_throw_exception_ex(phalcon_db_exception_ce, 0 TSRMLS_CC, "The descriptor must be an array");
+		return;
+	}
+
+	phalcon_call_method_p1_noret(this_ptr, "connect", options);
+	phalcon_call_parent_p1_noret(this_ptr, phalcon_db_adapter_mysqli_ce, "__construct", options);
+	PHALCON_MM_RESTORE();
+}
+
+static static PHP_METHOD(Phalcon_Db_Adapter_Mysqli, connect)
+{
+	zval *descriptor = NULL, *mysqli;
+	zval *username, *password, *host, *database, *port, *socket, *flags, *options;
+	zval *key, *i_port, *i_flags;
+
+	phalcon_fetch_params(0, 0, 1, &descriptor);
+
+	PHALCON_MM_GROW();
+
+	if (!descriptor || Z_TYPE_P(descriptor) != IS_ARRAY) {
+		descriptor = phalcon_fetch_nproperty_this(getThis(), SL("_descriptor"), PH_NOISY TSRMLS_CC);
+	}
+
+	if (!phalcon_array_isset_string_fetch(&username, descriptor, SS("username"))) {
+		username = PHALCON_GLOBAL(z_null);
+	}
+
+	if (!phalcon_array_isset_string_fetch(&password, descriptor, SS("password"))) {
+		password = PHALCON_GLOBAL(z_null);
+	}
+
+	if (!phalcon_array_isset_string_fetch(&host, descriptor, SS("host"))) {
+		host = PHALCON_GLOBAL(z_null);
+	}
+
+	if (!phalcon_array_isset_string_fetch(&database, descriptor, SS("dbname"))) {
+		database = PHALCON_GLOBAL(z_null);
+	}
+
+	if (!phalcon_array_isset_string_fetch(&database, descriptor, SS("port"))) {
+		port = PHALCON_GLOBAL(z_zero);
+	}
+
+	if (!phalcon_array_isset_string_fetch(&socket, descriptor, SS("socket"))) {
+		socket = PHALCON_GLOBAL(z_null);
+	}
+
+	if (!phalcon_array_isset_string_fetch(&flags, descriptor, SS("flags"))) {
+		flags = PHALCON_GLOBAL(z_zero);
+	}
+
+	if (!phalcon_array_isset_string_fetch(&options, descriptor, SS("options"))) {
+		options = PHALCON_GLOBAL(z_null);
+	}
+
+	PHALCON_OBS_VAR(mysqli);
+	phalcon_call_func_p0_ex(mysqli, &mysqli, "mysql_init");
+	phalcon_update_property_this(getThis(), SL("_mysqli"), mysqli TSRMLS_CC);
+
+	if (Z_TYPE_P(options) == IS_ARRAY) {
+		HashTable *h = Z_ARRVAL_P(options);
+		HashPosition pos;
+		zval **value;
+
+		PHALCON_INIT_VAR(key);
+		for (
+			zend_hash_internal_pointer_reset_ex(h, &pos);
+			zend_hash_get_current_data_ex(h, (void**)&value, &pos) == SUCCESS;
+			zend_hash_move_forward_ex(h, &pos)
+		) {
+			if (zend_hash_get_current_key_type_ex(h, &pos) == HASH_KEY_IS_LONG) {
+				zval k = phalcon_get_current_key_w(h, &pos);
+				ZVAL_LONG(key, Z_LVAL(k));
+
+				phalcon_call_func_p3_noret("mysqli_option", mysqli, key, *value);
+			}
+		}
+	}
+
+	/* MySQLi may fail silently if port is not integer - http://www.php.net/manual/en/mysqli.construct.php#103521 */
+	if (Z_TYPE_P(port) == IS_LONG) {
+		i_port = port;
+	}
+	else {
+		PHALCON_INIT_VAR(i_port);
+		ZVAL_LONG(i_port, phalcon_get_intval(port));
+	}
+
+	/* Make sure flags is integer as well */
+	if (Z_TYPE_P(flags) == IS_LONG) {
+		i_flags = flags;
+	}
+	else {
+		PHALCON_INIT_VAR(i_flags);
+		ZVAL_LONG(i_flags, phalcon_get_intval(flags));
+	}
+
+	phalcon_call_func_params(
+		return_value, return_value_ptr, SL("mysqli_real_connect") TSRMLS_CC, 8,
+		mysqli, host, username, password, database, i_port, socket, i_flags
+	);
+
+	if (EG(exception) && return_value_ptr) {
+		ALLOC_INIT_ZVAL(*return_value_ptr);
+		RETURN_MM();
+	}
+
+	PHALCON_MM_RESTORE();
+}
+
+static static PHP_METHOD(Phalcon_Db_Adapter_Mysqli, prepare)
+{
+	zval *sql_statement, *mysqli;
+
+	PHALCON_MM_GROW();
+
+	phalcon_fetch_params(1, 1, 0, &sql_statement);
+
+	mysqli = phalcon_fetch_nproperty_this(getThis(), SL("_mysqli"), PH_NOISY TSRMLS_CC);
+	phalcon_return_call_method_p1(mysqli, "prepare", sql_statement);
+	PHALCON_MM_RESTORE();
+}
+
+static PHP_METHOD(Phalcon_Db_Adapter_Mysqli, executePrepared)
+{
+	zval *statement = NULL, *placeholders = NULL, *data_types = NULL;
+	zval *types, *data, *tmp = NULL, *bind_res, *func;
+	zval *blob_pos, *blob = NULL;
+
+	zval *z_one, *value = NULL, *placeholder = NULL, *parameter = NULL, *type = NULL, *cast_value = NULL;
+	HashTable *ah0;
+	HashPosition hp0;
+	zval **hd;
+
+	phalcon_fetch_params(0, 3, 0, &statement, &placeholders, &data_types);
+
+	PHALCON_MM_GROW();
+
+	if (Z_TYPE_P(placeholders) == IS_ARRAY) {
+		HashTable *h = Z_ARRVAL_P(placeholders);
+		HashPosition pos;
+		int cnt = zend_hash_num_elements(h);
+		char *s = ecalloc(cnt + 1, 1);
+		zval **value;
+		ulong n;
+		int has_blobs = 0;
+
+		PHALCON_INIT_VAR(types);
+		ZVAL_STRINGL(types, s, cnt, 0);
+
+		PHALCON_INIT_VAR(data);
+		array_init_size(data, cnt + 2);
+
+		add_next_index_zval(data, statement);
+		add_next_index_zval(data, types);
+
+		for (
+			zend_hash_internal_pointer_reset_ex(h, &pos), n=0;
+			zend_hash_get_current_data_ex(h, (void**)&value, &pos) == SUCCESS;
+			zend_hash_move_forward_ex(h, &pos), ++n
+		) {
+			zval **type;
+			if (
+					Z_TYPE_P(data_types) == IS_ARRAY
+				 && zend_hash_index_find(Z_ARRVAL_P(data_types), n, (void**)&type) == SUCCESS
+				 && Z_TYPE_PP(type) == IS_LONG
+			) {
+				switch (Z_LVAL_PP(type)) {
+					case PHALCON_DB_COLUMN_BIND_PARAM_LOB:
+						if (Z_TYPE_PP(value) != IS_NULL) {
+							has_blobs = 1;
+						}
+
+						s[cnt] = 'b';
+						PHALCON_INIT_NVAR(tmp);
+						break;
+
+					case PHALCON_DB_COLUMN_BIND_PARAM_NULL:
+						s[cnt] = 's';
+						PHALCON_INIT_NVAR(tmp);
+						break;
+
+					case PHALCON_DB_COLUMN_BIND_PARAM_INT:
+					case PHALCON_DB_COLUMN_BIND_PARAM_BOOL:
+						s[cnt] = 'i';
+						PHALCON_CPY_WRT_CTOR(tmp, *value);
+						break;
+
+					case PHALCON_DB_COLUMN_BIND_PARAM_DOUBLE:
+					case PHALCON_DB_COLUMN_BIND_PARAM_DECIMAL:
+						s[cnt] = 'd';
+						PHALCON_CPY_WRT_CTOR(tmp, *value);
+						break;
+
+					default:
+						s[cnt] = 's';
+						PHALCON_CPY_WRT_CTOR(tmp, *value);
+						break;
+				}
+			}
+			else {
+				switch (Z_TYPE_PP(value)) {
+					case IS_NULL:
+						s[cnt] = 's';
+						PHALCON_INIT_NVAR(tmp);
+						break;
+
+					case IS_BOOL:
+					case IS_LONG:
+						s[cnt] = 'i';
+						PHALCON_CPY_WRT_CTOR(tmp, *value);
+						break;
+
+					case IS_DOUBLE:
+						s[cnt] = 'd';
+						PHALCON_CPY_WRT_CTOR(tmp, *value);
+						break;
+
+					default:
+						s[cnt] = 's';
+						PHALCON_CPY_WRT_CTOR(tmp, *value);
+						break;
+				}
+			}
+
+			Z_SET_ISREF_P(tmp);
+			Z_ADDREF_P(tmp);
+			add_next_index_zval(data, tmp);
+		}
+
+		PHALCON_INIT_VAR(bind_res);
+		PHALCON_INIT_VAR(func);
+		ZVAL_STRING(func, "mysqli_stmt_bind_param", 1);
+		PHALCON_CALL_USER_FUNC_ARRAY(bind_res, func, data);
+
+		if (!zend_is_true(bind_res)) {
+			zend_throw_exception_ex(phalcon_db_exception_ce, 0 TSRMLS_CC, "mysqli_stmt_bind_param failed");
+			RETURN_MM();
+		}
+
+		if (has_blobs) {
+			PHALCON_INIT_VAR(blob_pos);
+
+			for (
+				zend_hash_internal_pointer_reset_ex(h, &pos), n=0;
+				zend_hash_get_current_data_ex(h, (void**)&value, &pos) == SUCCESS;
+				zend_hash_move_forward_ex(h, &pos), ++n
+			) {
+				zval **type;
+				if (
+						zend_hash_index_find(Z_ARRVAL_P(data_types), n, (void**)&type) == SUCCESS
+					 && Z_TYPE_PP(type) == IS_LONG
+					 && Z_LVAL_PP(type) == PHALCON_DB_COLUMN_BIND_PARAM_LOB
+					 && Z_TYPE_PP(value) != IS_NULL
+				) {
+					int pos = 0;
+
+					if (Z_TYPE_PP(value) != IS_STRING) {
+						PHALCON_CPY_WRT_CTOR(tmp, *value);
+						convert_to_string(tmp);
+					}
+					else {
+						tmp = *value;
+					}
+
+					PHALCON_INIT_NVAR(blob);
+					ZVAL_LONG(blob_pos, n);
+					while (pos < Z_STRLEN_P(tmp)) {
+						int chunk = (Z_STRLEN_P(tmp) - pos > 65536) ? 65536 : (Z_STRLEN_P(tmp) - pos);
+						ZVAL_STRINGL(blob, Z_STRVAL_P(tmp) + pos, chunk, 0);
+						phalcon_call_func_p3_noret("mysqli_stmt_send_long_data", statement, blob_pos, blob);
+					}
+				}
+			}
+		}
+	}
+
+	PHALCON_INIT_NVAR(bind_res);
+	phalcon_call_func_p1(bind_res, "mysqli_stmt_execute", statement);
+	RETVAL_ZVAL(statement, 1, 0);
+	PHALCON_MM_RESTORE();
+}
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_adapter_mysqli_prepare, 0, 0, 1)
+	ZEND_ARG_INFO(0, sqlStatement)
+ZEND_END_ARG_INFO()
+
+static const zend_function_entry phalcon_db_adapter_mysqli_method_entry[] = {
+	PHP_ME(Phalcon_Db_Adapter_Mysqli, __construct, arginfo_phalcon_db_adapterinterface___construct, ZEND_ACC_PUBLIC | ZEND_ACC_CTOR)
+	PHP_ME(Phalcon_Db_Adapter_Mysqli, connect, arginfo_phalcon_db_adapterinterface_connect, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Db_Adapter_Mysqli, prepare, arginfo_phalcon_db_adapter_mysqli_prepare, ZEND_ACC_PUBLIC)
+	PHP_FE_END
+};
+
+PHALCON_INIT_CLASS(Phalcon_Db_Adapter_Mysqli)
+{
+	PHALCON_REGISTER_CLASS_EX(Phalcon\\Db\\Adapter, Mysqli, db_adapter_mysqli, phalcon_db_adapter_ce, phalcon_db_adapter_mysqli_method_entry, ZEND_ACC_FINAL);
+
+	zend_declare_property_null(phalcon_db_adapter_mysqli_ce, SL("_mysqli"),              ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_db_adapter_mysqli_ce, SL("_affectedRows"),        ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_long(phalcon_db_adapter_mysqli_ce, SL("_transactionLevel"), 0, ZEND_ACC_PROTECTED TSRMLS_CC);
+
+	return SUCCESS;
+}
+
+
+
+
 #ifdef HAVE_CONFIG_H
 #endif
 
@@ -24921,7 +25262,9 @@ static PHP_METHOD(Phalcon_Debug, onUncaughtException){
 			PHALCON_GET_HKEY(key_server, ah2, hp2);
 			PHALCON_GET_HVALUE(value);
 	
-			PHALCON_SCONCAT_SVSVS(html, "<tr><td class=\"key\">", key_server, "</td><td>", value, "</td></tr>");
+			PHALCON_INIT_NVAR(dumped_argument);
+			phalcon_call_method_p1(dumped_argument, this_ptr, "_getvardump", value);
+			PHALCON_SCONCAT_SVSVS(html, "<tr><td class=\"key\">", key_server, "</td><td>", dumped_argument, "</td></tr>");
 	
 			zend_hash_move_forward_ex(ah2, &hp2);
 		}
@@ -92564,6 +92907,8 @@ static PHP_METHOD(Phalcon_Security, hash){
 static PHP_METHOD(Phalcon_Security, checkHash){
 
 	zval **password, **password_hash, **max_pass_length = NULL, *hash;
+	zval* params[2];
+	int check = 0;
 
 	phalcon_fetch_params_ex(2, 1, &password, &password_hash, &max_pass_length);
 	
@@ -92577,11 +92922,36 @@ static PHP_METHOD(Phalcon_Security, checkHash){
 		}
 	}
 
-	PHALCON_MM_GROW();
-	PHALCON_INIT_VAR(hash);
-	phalcon_call_func_p2(hash, "crypt", *password, *password_hash);
-	is_equal_function(return_value, hash, *password_hash TSRMLS_CC);
-	RETURN_MM();
+	params[0] = *password;
+	params[1] = *password_hash;
+
+	ALLOC_INIT_ZVAL(hash);
+	phalcon_call_func_params_w(hash, SL("crypt"), 2, params TSRMLS_CC);
+	if (UNEXPECTED(EG(exception) != NULL)) {
+		zval_ptr_dtor(&hash);
+		RETURN_NULL();
+	}
+
+	if (UNEXPECTED(Z_TYPE_P(hash) != IS_STRING)) {
+		convert_to_string(hash);
+	}
+
+	if (Z_STRLEN_P(hash) == Z_STRLEN_PP(password_hash)) {
+		int n    = Z_STRLEN_P(hash);
+		char *h1 = Z_STRVAL_P(hash);
+		char *h2 = Z_STRVAL_PP(password_hash);
+
+		while (n) {
+			check |= ((unsigned int)*h1) ^ ((unsigned int)*h2);
+			++h1;
+			++h2;
+			--n;
+		}
+
+		zval_ptr_dtor(&hash);
+	}
+
+	RETURN_BOOL(check == 0);
 }
 
 static PHP_METHOD(Phalcon_Security, isLegacyHash){
@@ -94915,6 +95285,10 @@ static PHP_METHOD(Phalcon_Logger_Adapter, commit){
 	
 	}
 	
+	PHALCON_INIT_NVAR(queue);
+	array_init(queue);
+	phalcon_update_property_this(this_ptr, SL("_queue"), queue TSRMLS_CC);
+
 	RETURN_THIS();
 }
 
