@@ -229,6 +229,11 @@ PHP_METHOD(Phalcon_Forms_Form, setEntity){
 
 	phalcon_fetch_params(0, 1, 0, &entity);
 	
+	if (Z_TYPE_P(entity) != IS_NULL && Z_TYPE_P(entity) != IS_OBJECT) {
+		zend_throw_exception_ex(phalcon_forms_exception_ce, 0 TSRMLS_CC, "'%s' must be an object or NULL", "entity");
+		return;
+	}
+
 	phalcon_update_property_this(this_ptr, SL("_entity"), entity TSRMLS_CC);
 	RETURN_THISW();
 }
