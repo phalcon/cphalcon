@@ -888,20 +888,12 @@ PHP_METHOD(Phalcon_Forms_Form, getValue){
  */
 PHP_METHOD(Phalcon_Forms_Form, has){
 
-	zval *name, *elements;
+	zval **name, *elements;
 
-	phalcon_fetch_params(0, 1, 0, &name);
+	phalcon_fetch_params_ex(1, 0, &name);
 	
 	elements = phalcon_fetch_nproperty_this(this_ptr, SL("_elements"), PH_NOISY_CC);
-	
-	/** 
-	 * Checks if the element is in the form
-	 */
-	if (phalcon_array_isset(elements, name)) {
-		RETURN_TRUE;
-	}
-	
-	RETURN_FALSE;
+	RETURN_BOOL(phalcon_array_isset(elements, *name));
 }
 
 /**
