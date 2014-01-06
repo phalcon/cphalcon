@@ -17,6 +17,14 @@
   +------------------------------------------------------------------------+
 */
 
+#ifndef PHALCON_KERNEL_MEMORY_H
+#define PHALCON_KERNEL_MEMORY_H
+
+#include "php_phalcon.h"
+
+#include <Zend/zend.h>
+#include "kernel/main.h"
+
 /* Memory Frames */
 #ifndef PHALCON_RELEASE
 void phalcon_dump_current_frame(TSRMLS_D);
@@ -157,3 +165,21 @@ extern void PHALCON_FASTCALL phalcon_copy_ctor(zval *destiny, zval *origin);
 		Z_SET_REFCOUNT_P(z, 1);\
 		Z_UNSET_ISREF_P(z);\
 	} while (0)
+
+static inline int phalcon_maybe_separate_zval(zval** z)
+{
+	if (Z_REFCOUNT_PP(z) > 1 && !Z_ISREF_PP(z)) {
+		zval *new_zv;
+
+		ALLOC_ZVAL(new_zv);
+		INIT_PZVAL_COPY(new_zv, *z);
+		*z = new_zv;
+		zval_copy_ctor(new_zv);
+
+		return 1;
+	}
+
+	return 0;
+}
+
+#endif /* PHALCON_KERNEL_MEMORY_H */

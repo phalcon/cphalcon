@@ -36,6 +36,8 @@ PHP_METHOD(Phalcon_Security, getToken);
 PHP_METHOD(Phalcon_Security, checkToken);
 PHP_METHOD(Phalcon_Security, getSessionToken);
 PHP_METHOD(Phalcon_Security, computeHmac);
+PHP_METHOD(Phalcon_Security, deriveKey);
+PHP_METHOD(Phalcon_Security, pbkdf2);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_security_setdi, 0, 0, 1)
 	ZEND_ARG_INFO(0, dependencyInjector)
@@ -84,6 +86,14 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_security_computehmac, 0, 0, 3)
 	ZEND_ARG_INFO(0, raw)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_security_derivekey, 0, 0, 2)
+	ZEND_ARG_INFO(0, password)
+	ZEND_ARG_INFO(0, salt)
+	ZEND_ARG_INFO(0, hash)
+	ZEND_ARG_INFO(0, iterations)
+	ZEND_ARG_INFO(0, size)
+ZEND_END_ARG_INFO()
+
 PHALCON_INIT_FUNCS(phalcon_security_method_entry){
 	PHP_ME(Phalcon_Security, setDI, arginfo_phalcon_security_setdi, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Security, getDI, NULL, ZEND_ACC_PUBLIC) 
@@ -100,5 +110,7 @@ PHALCON_INIT_FUNCS(phalcon_security_method_entry){
 	PHP_ME(Phalcon_Security, checkToken, arginfo_phalcon_security_checktoken, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Security, getSessionToken, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Security, computeHmac, arginfo_phalcon_security_computehmac, ZEND_ACC_PUBLIC | ZEND_ACC_STATIC)
+	PHP_ME(Phalcon_Security, deriveKey, arginfo_phalcon_security_derivekey, ZEND_ACC_PUBLIC | ZEND_ACC_STATIC)
+	PHP_ME(Phalcon_Security, pbkdf2, arginfo_phalcon_security_derivekey, ZEND_ACC_PUBLIC | ZEND_ACC_STATIC)
 	PHP_FE_END
 };

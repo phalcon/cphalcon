@@ -21,6 +21,8 @@ extern zend_class_entry *phalcon_validation_message_group_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Validation_Message_Group);
 
+PHALCON_STATIC void phalcon_validation_group_construct_helper(zval *object, zval *messages TSRMLS_DC);
+
 PHP_METHOD(Phalcon_Validation_Message_Group, __construct);
 PHP_METHOD(Phalcon_Validation_Message_Group, offsetGet);
 PHP_METHOD(Phalcon_Validation_Message_Group, offsetSet);
