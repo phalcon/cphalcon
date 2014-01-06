@@ -807,29 +807,24 @@ PHP_METHOD(Phalcon_Forms_Form, label){
  */
 PHP_METHOD(Phalcon_Forms_Form, getLabel){
 
-	zval *name, *elements, *exception_message, *element;
-	zval *label;
+	zval **name, *elements, *element, *label;
 
-	PHALCON_MM_GROW();
-
-	phalcon_fetch_params(1, 1, 0, &name);
+	phalcon_fetch_params_ex(1, 0, &name);
 	
 	elements = phalcon_fetch_nproperty_this(this_ptr, SL("_elements"), PH_NOISY_CC);
-	if (!phalcon_array_isset_fetch(&element, elements, name)) {
-		PHALCON_INIT_VAR(exception_message);
-		PHALCON_CONCAT_SVS(exception_message, "Element with ID=", name, " is not part of the form");
-		PHALCON_THROW_EXCEPTION_ZVAL(phalcon_forms_exception_ce, exception_message);
+	if (!phalcon_array_isset_fetch(&element, elements, *name)) {
+		PHALCON_ENSURE_IS_STRING(name);
+		zend_throw_exception_ex(phalcon_forms_exception_ce, 0 TSRMLS_CC, "Element with ID=%s is not a part of the form", Z_STRVAL_P(*name));
 		return;
 	}
 	
+	PHALCON_MM_GROW();
 	PHALCON_INIT_VAR(label);
 	phalcon_call_method(label, element, "getlabel");
 	
-	/** 
-	 * Use the element's name as label if the label is not available
-	 */
+	/* Use the element's name as label if the label is not available */
 	if (!zend_is_true(label)) {
-		RETURN_CTOR(name);
+		RETURN_CTOR(*name);
 	}
 	
 	RETURN_CTOR(label);
