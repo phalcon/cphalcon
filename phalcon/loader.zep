@@ -356,13 +356,13 @@ class Loader implements Phalcon\Events\EventsAwareInterface
 					/**
 					 * Get the possible file path
 					 */
-					let fileName = phalcon_possible_autoload_filepath(nsPrefix, className, ds, "\\");
+					let fileName = str_replace(namespaceSeparator, ds, ltrim(className, nsPrefix));
 					if fileName {
 
 						/**
 						 * Add a trailing directory separator if the user forgot to do that
 						 */
-						let fixedDirectory = phalcon_fix_path(directory, ds);
+						let fixedDirectory = rtrim(directory, ds) . ds;
 
 						for extension in extensions {
 
@@ -418,14 +418,14 @@ class Loader implements Phalcon\Events\EventsAwareInterface
 					/**
 					 * Get the possible file path
 					 */
-					let fileName = phalcon_possible_autoload_filepath(prefix, className, ds, "_");
+					let fileName = str_replace(["_", namespaceSeparator], ds, ltrim(className, prefix));
 
 					if fileName {
 
 						/**
 						 * Add a trailing directory separator if the user forgot to do that
 						 */
-						let fixedDirectory = phalcon_fix_path(directory, ds);
+						let fixedDirectory = rtrim(directory, ds) . ds;
 
 						for extension in extensions {
 
@@ -476,7 +476,7 @@ class Loader implements Phalcon\Events\EventsAwareInterface
 				/**
 				 * Add a trailing directory separator if the user forgot to do that
 				 */
-				let fixedDirectory = phalcon_fix_path(directory, ds);
+				let fixedDirectory = rtrim(directory, ds) . ds;
 
 				for extension in extensions {
 

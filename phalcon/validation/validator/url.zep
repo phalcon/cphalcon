@@ -44,7 +44,7 @@ class Url extends Phalcon\Validation\Validator implements Phalcon\Validation\Val
 	 */
 	public function validate(<Phalcon\Validation> validation, string! field) -> boolean
 	{
-		var value, message, replacePairs;
+		var value, message, label, replacePairs;
 
 		let value = validation->getValue(field);
 
@@ -54,10 +54,15 @@ class Url extends Phalcon\Validation\Validator implements Phalcon\Validation\Val
 
 		if !filter_var(value, FILTER_VALIDATE_URL) {
 
+                        let label = this->getOption("label");
+                        if empty label {
+                                let label = field;
+			}
+
 			let message = this->getOption("message");
-                        let replacePairs = [":field": field];
+                        let replacePairs = [":field": label];
 			if empty message {
-                                let message = ":field does not have a valid url format";
+                                let message = validation->getDefaultMessage("Url");
 			}
 
 			validation->appendMessage(new Phalcon\Validation\Message(strtr(message, replacePairs), field, "Url"));

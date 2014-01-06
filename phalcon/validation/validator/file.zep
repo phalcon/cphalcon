@@ -49,33 +49,38 @@ class File extends Phalcon\Validation\Validator implements Phalcon\Validation\Va
 	 */
 	public function validate(<Phalcon\Validation> validation, string! field) -> boolean
 	{
-		var value, message, replacePairs, types, byteUnits, maxSize, matches, bytes, tmp, width, height, minResolution, maxResolution, minWidth, maxWidth, minHeight, maxHeight;
-                
+		var value, message, label, replacePairs, types, byteUnits, unit, maxSize, matches, bytes, tmp, width, height, minResolution, maxResolution, minWidth, maxWidth, minHeight, maxHeight;
+
 		let value = validation->getValue(field);
 
                 if this->isSetOption("allowEmpty") && empty value {
                     return true;
-                } 
+                }
+
+                let label = this->getOption("label");
+                if empty label {
+                        let label = field;
+                }
 
                 if !isset value["error"] || !isset value["name"] || !isset value["type"] || !isset value["tmp_name"] || !isset value["size"] {
 
                         let message = this->getOption("messageValid");
-                        let replacePairs = [":field": field];
+                        let replacePairs = [":field": label];
 			if empty message {
-                                let message = "File :field is not valid";
+                                let message = validation->getDefaultMessage("FileValid");
 			}
 
 			validation->appendMessage(new Phalcon\Validation\Message(strtr(message, replacePairs), field, "FileValid"));
 			return false;
                 }
 
-                
+
                 if value["error"] !== UPLOAD_ERR_OK || !is_uploaded_file(value["tmp_name"]) {
-                        
+
                         let message = this->getOption("messageEmpty");
-                        let replacePairs = [":field": field];
+                        let replacePairs = [":field": label];
 			if empty message {
-                                let message = "File :field must not be empty";
+                                let message = validation->getDefaultMessage("FileEmpty");
 			}
 
 			validation->appendMessage(new Phalcon\Validation\Message(strtr(message, replacePairs), field, "FileEmpty"));
@@ -86,9 +91,9 @@ class File extends Phalcon\Validation\Validator implements Phalcon\Validation\Va
                 if (value["error"] === UPLOAD_ERR_INI_SIZE) {
 
                         let message = this->getOption("messageIniSize");
-                        let replacePairs = [":field": field];
+                        let replacePairs = [":field": label];
                         if empty message {
-                                let message = "The uploaded file exceeds the max filesize";
+                                let message = validation->getDefaultMessage("FileIniSize");
                         }
 
                         validation->appendMessage(new Phalcon\Validation\Message(strtr(message, replacePairs), field, "FileIniSize"));
@@ -101,17 +106,22 @@ class File extends Phalcon\Validation\Validator implements Phalcon\Validation\Va
                         let byteUnits = ["B": 0, "K": 10, "M": 20, "G": 30, "T": 40,
                                                  "KB": 10, "MB": 20, "GB": 30, "TB": 40];
                         let maxSize = this->getOption("maxSize"),
-                                matches = NULL;
+                                matches = NULL,
+                                unit = "B";
 
                         preg_match("/^([0-9]+(?:\\.[0-9]+)?)(".implode("|", array_keys(byteUnits)).")?$/Di", maxSize, matches);
-                        let bytes = matches[1] * pow(2, byteUnits[isset matches[2] ? matches[2] : "B"]);
-                        
-                        if intval(value["size"]) > intval(bytes) {
+                        if isset matches[2] {
+                            let unit = matches[2];
+                        }
+
+                        let bytes = floatval(matches[1]) * pow(2, byteUnits[unit]);
+
+                        if floatval(value["size"]) > floatval(bytes) {
 
                                 let message = this->getOption("messageSize");
-                                let replacePairs = [":field": field, ":max": maxSize];
+                                let replacePairs = [":field": label, ":max": maxSize];
                                 if empty message {
-                                        let message = "Max filesize of file :field is :max";
+                                        let message = validation->getDefaultMessage("FileSize");
                                 }
 
                                 validation->appendMessage(new Phalcon\Validation\Message(strtr(message, replacePairs), field, "FileSize"));
@@ -120,24 +130,23 @@ class File extends Phalcon\Validation\Validator implements Phalcon\Validation\Va
                 }
 
                 if this->isSetOption("allowedTypes") {
-                        
+
                         let types = this->getOption("allowedTypes");
                         if typeof types != "array" {
                                 throw new Phalcon\Validation\Exception("Option 'allowedTypes' must be an array");
                         }
-                        
+
                         if !in_array(strtolower(pathinfo(value["name"], PATHINFO_EXTENSION)), types) {
 
                                 let message = this->getOption("messageType");
-                                let replacePairs = [":field": field, ":types": join(", ", types)];
+                                let replacePairs = [":field": label, ":types": join(", ", types)];
                                 if empty message {
-                                        let message = "Type of :field is not valid";
+                                        let message = validation->getDefaultMessage("FileType");
                                 }
 
                                 validation->appendMessage(new Phalcon\Validation\Message(strtr(message, replacePairs), field, "FileType"));
                                 return false;
                         }
-                        return false;
                 }
 
 
@@ -154,7 +163,7 @@ class File extends Phalcon\Validation\Validator implements Phalcon\Validation\Va
                                 let minWidth = minResolution[0],
                                         minHeight = minResolution[1];
                         } else {
-                                
+
                                 let minWidth = 1,
                                         minHeight = 1;
                         }
@@ -162,9 +171,9 @@ class File extends Phalcon\Validation\Validator implements Phalcon\Validation\Va
                         if (width < minWidth || height < minHeight) {
 
                                 let message = this->getOption("messageMinResolution");
-                                let replacePairs = [":field": field, ":min": this->getOption("minResolution")];
+                                let replacePairs = [":field": label, ":min": this->getOption("minResolution")];
                                 if empty message {
-                                        let message = "Min resolution of :field is :min";
+                                        let message = validation->getDefaultMessage("FileMinResolution");
                                 }
 
                                 validation->appendMessage(new Phalcon\Validation\Message(strtr(message, replacePairs), field, "FileMinResolution"));
@@ -180,9 +189,9 @@ class File extends Phalcon\Validation\Validator implements Phalcon\Validation\Va
                                 if (width > maxWidth || height > maxHeight) {
 
                                         let message = this->getOption("messageMaxResolution");
-                                        let replacePairs = [":field": field, ":max": this->getOption("maxResolution")];
+                                        let replacePairs = [":field": label, ":max": this->getOption("maxResolution")];
                                         if empty message {
-                                                let message = "Max resolution of :field is :max";
+                                                let message = validation->getDefaultMessage("FileMaxResolution");
                                         }
 
                                         validation->appendMessage(new Phalcon\Validation\Message(strtr(message, replacePairs), field, "FileMaxResolution"));

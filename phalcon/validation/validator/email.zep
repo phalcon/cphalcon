@@ -44,7 +44,7 @@ class Email extends Phalcon\Validation\Validator implements Phalcon\Validation\V
 	 */
 	public function validate(<Phalcon\Validation> validation, string! field) -> boolean
 	{
-		var value, message, replacePairs;
+		var value, message, label, replacePairs;
 
 		let value = validation->getValue(field);
 
@@ -54,10 +54,15 @@ class Email extends Phalcon\Validation\Validator implements Phalcon\Validation\V
 
 		if !filter_var(value, FILTER_VALIDATE_EMAIL) {
 
+                        let label = this->getOption("label");
+                        if empty label {
+                                let label = field;
+			}
+
 			let message = this->getOption("message");
-                        let replacePairs = [":field": field];
+                        let replacePairs = [":field": label];
 			if empty message {
-                                let message = "Value of field :field must have a valid e-mail format";
+                                let message = validation->getDefaultMessage("Email");
 			}
 
 			validation->appendMessage(new Phalcon\Validation\Message(strtr(message, replacePairs), field, "Email"));

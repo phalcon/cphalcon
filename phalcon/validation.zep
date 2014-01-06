@@ -36,6 +36,8 @@ class Validation extends Phalcon\Di\Injectable
 
 	protected _messages;
 
+	protected _defaultMessages;
+
 	protected _values;
 
 	/**
@@ -52,6 +54,8 @@ class Validation extends Phalcon\Di\Injectable
 			}
 			let this->_validators = validators;
 		}
+
+                this->setDefaultMessages();
 
 		/**
 		 * Check for an 'initialize' method
@@ -70,8 +74,7 @@ class Validation extends Phalcon\Di\Injectable
 	 */
 	public function validate(data=null, entity=null) -> <Phalcon\Validation\Message\Group>
 	{
-		var validators, messages, cancelOnFail, scope,
-			field, validator;
+		var validators, messages, scope, field, validator, notCachedCall;
 
 		let validators = this->_validators;
 		if typeof validators != "array" {
@@ -107,8 +110,6 @@ class Validation extends Phalcon\Di\Injectable
 			}
 		}
 
-		let cancelOnFail = "cancelOnFail";
-
 		for scope in validators {
 
 			if typeof scope != "array" {
@@ -125,8 +126,10 @@ class Validation extends Phalcon\Di\Injectable
 			/**
 			 * Check if the validation must be canceled if this validator fails
 			 */
-			if validator->validate(this, field) === false {
-				if (validator->getOption(cancelOnFail)) {
+                        let notCachedCall = "validate";
+			if validator->{notCachedCall}(this, field) === false {
+                                let notCachedCall = "getOption";
+				if (validator->{notCachedCall}("cancelOnFail")) {
 					break;
 				}
 			}
@@ -211,6 +214,62 @@ class Validation extends Phalcon\Di\Injectable
 	public function getEntity()
 	{
 		return this->_entity;
+	}
+
+        /**
+	 * Adds default messages to validators
+	 *
+	 * @param array messages
+         * @return array
+	 */
+	public function setDefaultMessages(messages=null)
+	{
+                var defaultMessages;
+
+                if typeof messages == "null" {
+			let messages = [];
+		}
+                if typeof messages != "array" {
+                        throw new Phalcon\Validation\Exception("Messages must be an array");
+                }
+                let defaultMessages = [
+                        "Alnum": "Field :field must contain only alphanumeric characters",
+                        "Alpha": "Field :field must contain only letters",
+                        "Between": ":field is not between a valid range",
+                        "Confirmation": "Value of :field and :with don't match",
+                        "Digit": "Field :field must be numeric",
+                        "Email": "Value of field :field must have a valid e-mail format",
+                        "ExclusionIn": "Value of field :field must not be part of list: :domain",
+                        "FileValid": "File :field is not valid",
+                        "FileEmpty": "File :field must not be empty",
+                        "FileIniSize": "The uploaded file exceeds the max filesize",
+                        "FileSize": "Max filesize of file :field is :max",
+                        "FileType": "Type of :field is not valid",
+                        "FileMinResolution": "Min resolution of :field is :min",
+                        "FileMaxResolution": "Max resolution of :field is :max",
+                        "Identical": ":field does not have the expected value",
+                        "InclusionIn": "Value of field :field must be part of list: :domain",
+                        "PresenceOf": ":field is required",
+                        "Regex": "Value of field :field doesn't match regular expression",
+                        "TooLong": "Value of field :field exceeds the maximum :max characters",
+                        "TooShort": "Value of field :field is less than the minimum :min characters",
+                        "Uniqueness": ":field is already present in another record",
+                        "Url": ":field does not have a valid url format"
+                ];
+
+		let this->_defaultMessages = array_merge(defaultMessages, messages);
+                return this->_defaultMessages;
+	}
+
+        /**
+	 * Get default message for validator type
+	 *
+	 * @param string type
+	 * @return string
+	 */
+	public function getDefaultMessage(string! type)
+	{
+		return this->_defaultMessages[type];
 	}
 
 	/**
