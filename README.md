@@ -3,76 +3,69 @@ Phalcon Framework
 
 Phalcon is an open source web framework delivered as a C extension for the PHP language providing high performance and lower resource consumption.
 
+This readme provides an introduction to contributing to Phalcon 2.0
+
 Get Started
 -----------
 
-Phalcon is written in C with platform independence in mind. As a result, Phalcon is available on Microsoft Windows, GNU/Linux, Mac OS X, You can either download a binary package for the system of your choice or build it from sources.
+Clone phalcon 2.0 repo:
 
-### Windows
+    git clone -b 2.0.0 https://github.com/phalcon/cphalcon.git
 
-For use phalcon on windows you only should to download a DLL library (http://phalconphp.com/download). Edit your php.ini file and then add:
+Clone zephir repo:
 
-```bash
-extension=php_phalcon.dll
-```
+    git clone https://github.com/phalcon/zephir.git
 
-Finally restart your webserver.
+clone json-c repo:
 
-### Linux/Unix/Mac
+    git clone https://github.com/json-c/json-c.git
 
-On a Unix based platform you can easily compile and install the extension from sources.
+Install required packages:
 
-#### Requirements
-We need some packages previously installed.
+    sudo apt-get install php5-dev php5-mysql gcc make re2c libpcre3-dev
 
-* PHP 5.x development resources
-* GCC compiler
+Compile json-c
 
-Ubuntu:
+    cd json-c
+    sudo sh autogen.sh
+    sudo ./configure
+    sudo make
+    sudo make install
+    cd ..
 
-```bash
-sudo apt-get install php5-dev php5-mysql gcc make
-```
+Compile zephir
 
-Suse:
+    cp zephir
+    sudo ./install
+    cd ..
 
-```bash
-yast2 -i php5-pear php5-devel libmysqlclient gcc make autoconf2.13
-```
+Compile phalcon
 
-Compilation
------------
+    cd cphalcon
+    ../zephir/bin/zephir generate
+    ../zephir/bin/zephir compile
 
-Follow these instructions to generate a binary extension for your platform:
-
-```bash
-git clone git://github.com/phalcon/cphalcon.git
-cd cphalcon/build
-sudo ./install
-```
 
 Add extension to your php.ini
 
-```bash
-extension=phalcon.so
-```
+    extension=phalcon.so
+
 
 Finally restart the webserver
+
 
 External Links
 --------------
 
-* [Documentation](http://docs.phalconphp.com/)
-* [Support](http://phalconphp.com/support)
-* [Blog](http://blog.phalconphp.com)
-* [Twitter](http://twitter.com/phalconphp)
+* [Phalcon Documentation](http://docs.phalconphp.com/)
+* [Zephir Documentation](http://zephir-lang.com/)
 
 Current Build Status
 --------------------
 
 Phalcon Framework is built under Travis CI service. Every commit pushed to this repository will queue a build into the continuous integration service and will run all PHPUnit tests to ensure that everything is going well and the project is stable. The current build status is:
 
-[![Build Status](https://secure.travis-ci.org/phalcon/cphalcon.png?branch=master)](http://travis-ci.org/phalcon/cphalcon)
+[![Build Status](https://secure.travis-ci.org/phalcon/cphalcon.png?branch=2.0.0)](http://travis-ci.org/phalcon/cphalcon)
 
 License
 -------
