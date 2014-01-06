@@ -3,7 +3,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2013 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -250,7 +250,7 @@ int phalcon_alt_call_method(zend_fcall_info *fci, zend_class_entry *ce, unsigned
 
 		} else {
 
-			PHALCON_ALLOC_ZVAL(fci->function_name);
+			MAKE_STD_ZVAL(fci->function_name);
 			ZVAL_STRINGL(fci->function_name, method_name, method_len, 0);
 
 			/** Use the slow function instead */
@@ -603,7 +603,7 @@ int phalcon_alt_call_method(zend_fcall_info *fci, zend_class_entry *ce, unsigned
 			}
 		} else {
 
-			PHALCON_ALLOC_ZVAL(fci->function_name);
+			MAKE_STD_ZVAL(fci->function_name);
 			ZVAL_STRINGL(fci->function_name, method_name, method_len, 0);
 
 			/** Use the slow function instead */
