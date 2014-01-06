@@ -334,6 +334,7 @@ validation/validator/identical.c \
 validation/validator/between.c \
 validation/validator/inclusionin.c \
 validation/validator/stringlength.c \
+validation/validator/url.c \
 validation/validator.c \
 session.c \
 assets/filters/jsminifier.c \

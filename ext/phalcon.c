@@ -85,6 +85,7 @@ zend_class_entry *phalcon_validation_validator_identical_ce;
 zend_class_entry *phalcon_validation_validator_presenceof_ce;
 zend_class_entry *phalcon_validation_validator_stringlength_ce;
 zend_class_entry *phalcon_validation_validator_confirmation_ce;
+zend_class_entry *phalcon_validation_validator_url_ce;
 zend_class_entry *phalcon_db_index_ce;
 zend_class_entry *phalcon_db_exception_ce;
 zend_class_entry *phalcon_db_dialect_ce;
@@ -625,6 +626,7 @@ static PHP_MINIT_FUNCTION(phalcon){
 	PHALCON_INIT(Phalcon_Validation_Validator_StringLength);
 	PHALCON_INIT(Phalcon_Validation_Validator_ExclusionIn);
 	PHALCON_INIT(Phalcon_Validation_Validator_Confirmation);
+	PHALCON_INIT(Phalcon_Validation_Validator_Url);
 	PHALCON_INIT(Phalcon_Db_Index);
 	PHALCON_INIT(Phalcon_Db_Column);
 	PHALCON_INIT(Phalcon_Db_Adapter_Pdo_Sqlite);
