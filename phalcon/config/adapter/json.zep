@@ -19,4 +19,19 @@
 
 namespace Phalcon\Config\Adapter;
 
-class Json { }
+class Json  extends Phalcon\Config
+{
+
+        /**
+	 * Phalcon\Config\Adapter\Json constructor
+	 *
+	 * @param string filePath
+	 */
+        public function __construct(string! filePath)
+        {
+                var config;
+                let config = json_decode(file_get_contents(filePath), true);
+                parent::__construct(config);
+        }
+
+}
