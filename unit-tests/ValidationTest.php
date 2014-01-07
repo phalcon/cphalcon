@@ -26,7 +26,8 @@ use Phalcon\Validation\Validator\PresenceOf,
 	Phalcon\Validation\Validator\ExclusionIn,
 	Phalcon\Validation\Validator\StringLength,
 	Phalcon\Validation\Validator\Email,
-	Phalcon\Validation\Validator\Between;
+	Phalcon\Validation\Validator\Between,
+	Phalcon\Validation\Validator\Url;
 
 class ValidationTest extends PHPUnit_Framework_TestCase
 {
@@ -864,5 +865,79 @@ class ValidationTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($filtered, $expectedMessages);
 
 		$_POST = array();
+	}
+
+	public function testValidationUrl()
+	{
+		$_POST = array();
+
+		$validation = new Phalcon\Validation();
+
+		$validation->add('url', new Url());
+
+		$messages = $validation->validate($_POST);
+
+		$expectedMessages = Phalcon\Validation\Message\Group::__set_state(array(
+			'_messages' => array(
+				0 => Phalcon\Validation\Message::__set_state(array(
+						'_type' => 'Url',
+						'_message' => 'Value of field \'url\' must have a valid url format',
+						'_field' => 'url',
+						'_code' => 0,
+					))
+			)
+		));
+
+		$this->assertEquals($expectedMessages, $messages);
+
+		$_POST = array('url' => 'x=1');
+
+		$messages = $validation->validate($_POST);
+
+		$this->assertEquals($expectedMessages, $messages);
+
+		$_POST = array('url' => 'http://phalconphp.com');
+
+		$messages = $validation->validate($_POST);
+
+		$this->assertEquals(count($messages), 0);
+	}
+
+	public function testValidationUrlCustomMessage()
+	{
+		$_POST = array();
+
+		$validation = new Phalcon\Validation();
+
+		$validation->add('url', new Url(array(
+			'message' => 'The url is not valid'
+		)));
+
+		$messages = $validation->validate($_POST);
+
+		$expectedMessages = Phalcon\Validation\Message\Group::__set_state(array(
+			'_messages' => array(
+				0 => Phalcon\Validation\Message::__set_state(array(
+						'_type' => 'Url',
+						'_message' => 'The url is not valid',
+						'_field' => 'url',
+						'_code' => '0',
+					))
+			)
+		));
+
+		$this->assertEquals($expectedMessages, $messages);
+
+		$_POST = array('url' => 'x=1');
+
+		$messages = $validation->validate($_POST);
+
+		$this->assertEquals($expectedMessages, $messages);
+
+		$_POST = array('url' => 'http://phalconphp.com');
+
+		$messages = $validation->validate($_POST);
+
+		$this->assertEquals(count($messages), 0);
 	}
 }

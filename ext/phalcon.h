@@ -141,6 +141,7 @@
 #include "validation/validator/stringlength.h"
 #include "validation/validator/exclusionin.h"
 #include "validation/validator/confirmation.h"
+#include "validation/validator/url.h"
 #include "db/index.h"
 #include "db/column.h"
 #include "db/adapter/pdo/sqlite.h"
