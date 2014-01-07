@@ -29,6 +29,7 @@
 #include <Zend/zend_exceptions.h>
 #include <Zend/zend_interfaces.h>
 
+#include "di/injectable.h"
 #include "filterinterface.h"
 #include "validation.h"
 

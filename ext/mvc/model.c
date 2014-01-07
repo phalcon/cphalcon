@@ -29,6 +29,8 @@
 #include <Zend/zend_interfaces.h>
 
 #include "diinterface.h"
+#include "di/injectionawareinterface.h"
+#include "db/rawvalue.h"
 
 #include <ext/pdo/php_pdo_driver.h>
 

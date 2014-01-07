@@ -26,6 +26,7 @@
 #include "phalcon.h"
 
 #include "diinterface.h"
+#include "di/injectionawareinterface.h"
 
 #include <Zend/zend_operators.h>
 #include <Zend/zend_exceptions.h>

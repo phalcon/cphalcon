@@ -30,6 +30,7 @@
 #include <Zend/zend_interfaces.h>
 
 #include "diinterface.h"
+#include "di/injectionawareinterface.h"
 
 #include "kernel/main.h"
 #include "kernel/memory.h"

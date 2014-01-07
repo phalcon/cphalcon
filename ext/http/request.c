@@ -30,6 +30,7 @@
 #include <Zend/zend_interfaces.h>
 
 #include "diinterface.h"
+#include "di/injectionawareinterface.h"
 #include "filterinterface.h"
 
 #include <main/php_variables.h>

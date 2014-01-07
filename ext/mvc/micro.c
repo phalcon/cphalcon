@@ -31,10 +31,11 @@
 #include <Zend/zend_interfaces.h>
 
 #include "diinterface.h"
+#include "di/injectable.h"
+#include "di/factorydefault.h"
 
 #include "kernel/main.h"
 #include "kernel/memory.h"
-
 #include "kernel/fcall.h"
 #include "kernel/exception.h"
 #include "kernel/object.h"

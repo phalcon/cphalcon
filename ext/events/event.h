@@ -26,23 +26,4 @@ extern zend_class_entry *phalcon_events_event_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Events_Event);
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_events_event___construct, 0, 0, 2)
-	ZEND_ARG_INFO(0, type)
-	ZEND_ARG_INFO(0, source)
-	ZEND_ARG_INFO(0, data)
-	ZEND_ARG_INFO(0, cancelable)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_events_event_settype, 0, 0, 1)
-	ZEND_ARG_INFO(0, eventType)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_events_event_setdata, 0, 0, 1)
-	ZEND_ARG_INFO(0, data)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_events_event_setcancelable, 0, 0, 1)
-	ZEND_ARG_INFO(0, cancelable)
-ZEND_END_ARG_INFO()
-
 #endif /* PHALCON_EVENT_H */

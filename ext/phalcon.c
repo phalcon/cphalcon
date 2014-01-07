@@ -30,41 +30,188 @@
 #include "interned-strings.h"
 
 #include "acl.h"
+#include "acl/adapter.h"
+#include "acl/adapterinterface.h"
+#include "acl/adapter/memory.h"
+#include "acl/exception.h"
+#include "acl/resource.h"
+#include "acl/resourceinterface.h"
+#include "acl/role.h"
+#include "acl/roleinterface.h"
+
+#include "annotations/adapter.h"
+#include "annotations/adapterinterface.h"
+#include "annotations/adapter/apc.h"
+#include "annotations/adapter/files.h"
+#include "annotations/adapter/memory.h"
+#include "annotations/adapter/xcache.h"
+#include "annotations/annotation.h"
+#include "annotations/collection.h"
+#include "annotations/exception.h"
+#include "annotations/reader.h"
+#include "annotations/readerinterface.h"
+#include "annotations/reflection.h"
+
+#include "assets/collection.h"
+#include "assets/exception.h"
+#include "assets/filterinterface.h"
+#include "assets/filters/none.h"
+#include "assets/filters/cssmin.h"
+#include "assets/filters/jsmin.h"
+#include "assets/manager.h"
+#include "assets/resource.h"
+#include "assets/resource/js.h"
+#include "assets/resource/css.h"
+
+#include "cache/backend.h"
+#include "cache/backendinterface.h"
+#include "cache/backend/apc.h"
+#include "cache/backend/file.h"
+#include "cache/backend/libmemcached.h"
+#include "cache/backend/memcache.h"
+#include "cache/backend/memory.h"
+#include "cache/backend/mongo.h"
+#include "cache/backend/xcache.h"
+#include "cache/exception.h"
+#include "cache/frontendinterface.h"
+#include "cache/frontend/base64.h"
+#include "cache/frontend/data.h"
+#include "cache/frontend/igbinary.h"
+#include "cache/frontend/json.h"
+#include "cache/frontend/none.h"
+#include "cache/frontend/output.h"
+#include "cache/multiple.h"
+
+#include "cli/console.h"
+#include "cli/console/exception.h"
+#include "cli/dispatcher.h"
+#include "cli/dispatcher/exception.h"
+#include "cli/router.h"
+#include "cli/router/exception.h"
+#include "cli/task.h"
+
 #include "pconfig.h"
+#include "config/adapter/ini.h"
+#include "config/adapter/json.h"
+#include "config/adapter/configphp.h"
+#include "config/exception.h"
+
 #include "crypt.h"
 #include "cryptinterface.h"
+#include "crypt/exception.h"
+
 #include "db.h"
+#include "db/adapter.h"
+#include "db/adapterinterface.h"
+#include "db/adapter/pdo.h"
+#include "db/adapter/pdo/mysql.h"
+#include "db/adapter/pdo/oracle.h"
+#include "db/adapter/pdo/postgresql.h"
+#include "db/adapter/pdo/sqlite.h"
+#include "db/column.h"
+#include "db/columninterface.h"
+#include "db/dialect.h"
+#include "db/dialectinterface.h"
+#include "db/dialect/mysql.h"
+#include "db/dialect/oracle.h"
+#include "db/dialect/postgresql.h"
+#include "db/dialect/sqlite.h"
+#include "db/exception.h"
+#include "db/index.h"
+#include "db/indexinterface.h"
+#include "db/profiler.h"
+#include "db/profiler/item.h"
+#include "db/rawvalue.h"
+#include "db/reference.h"
+#include "db/referenceinterface.h"
+#include "db/resultinterface.h"
+#include "db/result/pdo.h"
+
 #include "debug.h"
+
 #include "di.h"
 #include "diinterface.h"
+#include "di/exception.h"
+#include "di/factorydefault.h"
+#include "di/factorydefault/cli.h"
+#include "di/injectionawareinterface.h"
+#include "di/injectable.h"
+#include "di/service.h"
+#include "di/serviceinterface.h"
+#include "di/service/builder.h"
+
 #include "dispatcher.h"
 #include "dispatcherinterface.h"
+
 #include "escaper.h"
 #include "escaperinterface.h"
+#include "escaper/exception.h"
+
+#include "events/event.h"
+#include "events/eventsawareinterface.h"
+#include "events/exception.h"
+#include "events/managerinterface.h"
+#include "events/manager.h"
+
 #include "exception.h"
+
 #include "filter.h"
 #include "filterinterface.h"
+#include "filter/exception.h"
+#include "filter/userfilterinterface.h"
+
 #include "flash.h"
 #include "flashinterface.h"
+#include "flash/direct.h"
+#include "flash/exception.h"
+#include "flash/session.h"
+
 #include "image.h"
+
 #include "kernel.h"
+
 #include "loader.h"
+#include "loader/exception.h"
+
 #include "logger.h"
+
+#include "mvc/user/component.h"
+#include "mvc/user/module.h"
+#include "mvc/user/plugin.h"
+
+#include "paginator/adapterinterface.h"
+#include "paginator/adapter/model.h"
+#include "paginator/adapter/nativearray.h"
+#include "paginator/adapter/querybuilder.h"
+#include "paginator/exception.h"
+
 #include "security.h"
+#include "security/exception.h"
+
 #include "session/adapter.h"
 #include "session/adapterinterface.h"
 #include "session/adapter/files.h"
 #include "session/bag.h"
 #include "session/baginterface.h"
 #include "session/exception.h"
+
 #include "tag.h"
+#include "tag/exception.h"
+#include "tag/select.h"
+
+#include "translate/adapter.h"
+#include "translate/adapterinterface.h"
+#include "translate/adapter/nativearray.h"
+#include "translate/exception.h"
+
 #include "text.h"
+
 #include "validation.h"
+
 #include "version.h"
 
 int nusphere_dbg_present;
 
-zend_class_entry *phalcon_tag_select_ce;
 zend_class_entry *phalcon_validation_validator_ce;
 zend_class_entry *phalcon_validation_exception_ce;
 zend_class_entry *phalcon_validation_message_ce;
@@ -80,9 +227,6 @@ zend_class_entry *phalcon_validation_validator_presenceof_ce;
 zend_class_entry *phalcon_validation_validator_stringlength_ce;
 zend_class_entry *phalcon_validation_validator_confirmation_ce;
 zend_class_entry *phalcon_validation_validator_url_ce;
-zend_class_entry *phalcon_flash_direct_ce;
-zend_class_entry *phalcon_flash_session_ce;
-zend_class_entry *phalcon_flash_exception_ce;
 zend_class_entry *phalcon_logger_item_ce;
 zend_class_entry *phalcon_logger_formatter_ce;
 zend_class_entry *phalcon_logger_exception_ce;
@@ -135,8 +279,6 @@ zend_class_entry *phalcon_mvc_view_ce;
 zend_class_entry *phalcon_mvc_router_ce;
 zend_class_entry *phalcon_mvc_model_ce;
 zend_class_entry *phalcon_mvc_micro_ce;
-zend_class_entry *phalcon_mvc_user_module_ce;
-zend_class_entry *phalcon_mvc_user_plugin_ce;
 zend_class_entry *phalcon_mvc_urlinterface_ce;
 zend_class_entry *phalcon_mvc_view_engine_ce;
 zend_class_entry *phalcon_mvc_view_simple_ce;
@@ -219,7 +361,6 @@ zend_class_entry *phalcon_mvc_router_exception_ce;
 zend_class_entry *phalcon_mvc_routerinterface_ce;
 zend_class_entry *phalcon_mvc_router_annotations_ce;
 zend_class_entry *phalcon_mvc_router_routeinterface_ce;
-zend_class_entry *phalcon_mvc_user_component_ce;
 zend_class_entry *phalcon_mvc_url_exception_ce;
 zend_class_entry *phalcon_mvc_view_exception_ce;
 zend_class_entry *phalcon_mvc_view_engine_php_ce;
@@ -627,12 +768,12 @@ static PHP_MINIT_FUNCTION(phalcon){
 	PHALCON_INIT(Phalcon_Mvc_Application);
 	PHALCON_INIT(Phalcon_Mvc_Application_Exception);
 	PHALCON_INIT(Phalcon_Mvc_Collection);
+	PHALCON_INIT(Phalcon_Mvc_ControllerInterface);
 	PHALCON_INIT(Phalcon_Mvc_Controller);
 	PHALCON_INIT(Phalcon_Mvc_Collection_Exception);
 	PHALCON_INIT(Phalcon_Mvc_Collection_Document);
 	PHALCON_INIT(Phalcon_Mvc_Collection_ManagerInterface);
 	PHALCON_INIT(Phalcon_Mvc_Collection_Manager);
-	PHALCON_INIT(Phalcon_Mvc_ControllerInterface);
 	PHALCON_INIT(Phalcon_Mvc_Dispatcher);
 	PHALCON_INIT(Phalcon_Mvc_Dispatcher_Exception);
 	PHALCON_INIT(Phalcon_Mvc_Model_Row);

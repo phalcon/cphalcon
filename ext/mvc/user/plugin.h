@@ -17,6 +17,13 @@
   +------------------------------------------------------------------------+
 */
 
+#ifndef PHALCON_MVC_USER_PLUGIN_H
+#define PHALCON_MVC_USER_PLUGIN_H
+
+#include "php_phalcon.h"
+
 extern zend_class_entry *phalcon_mvc_user_plugin_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Mvc_User_Plugin);
+
+#endif /* PHALCON_MVC_USER_PLUGIN_H */

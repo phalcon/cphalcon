@@ -17,20 +17,9 @@
   +------------------------------------------------------------------------+
 */
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
-
-#include "php.h"
-#include "php_phalcon.h"
-#include "phalcon.h"
-
-#include <Zend/zend_operators.h>
-#include <Zend/zend_exceptions.h>
-#include <Zend/zend_interfaces.h>
-
+#include "mvc/user/module.h"
+#include "di/injectable.h"
 #include "kernel/main.h"
-#include "kernel/memory.h"
 
 /**
  * Phalcon\Mvc\User\Module
@@ -38,7 +27,7 @@
  * This class can be used to provide user modules easy access to services
  * in the application
  */
-
+zend_class_entry *phalcon_mvc_user_module_ce;
 
 /**
  * Phalcon\Mvc\User\Module initializer
@@ -49,4 +38,3 @@ PHALCON_INIT_CLASS(Phalcon_Mvc_User_Module){
 
 	return SUCCESS;
 }
-

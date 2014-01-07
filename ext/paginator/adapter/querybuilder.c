@@ -21,6 +21,7 @@
 
 #include "paginator/adapter/querybuilder.h"
 #include "paginator/adapterinterface.h"
+#include "paginator/exception.h"
 
 #include "kernel/main.h"
 #include "kernel/memory.h"

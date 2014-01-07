@@ -17,14 +17,13 @@
   +------------------------------------------------------------------------+
 */
 
+#ifndef PHALCON_MVC_CONTROLLER_H
+#define PHALCON_MVC_CONTROLLER_H
+
+#include "php_phalcon.h"
+
 extern zend_class_entry *phalcon_mvc_controller_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Mvc_Controller);
 
-PHP_METHOD(Phalcon_Mvc_Controller, __construct);
-
-PHALCON_INIT_FUNCS(phalcon_mvc_controller_method_entry){
-	PHP_ME(Phalcon_Mvc_Controller, __construct, NULL, ZEND_ACC_PUBLIC|ZEND_ACC_FINAL|ZEND_ACC_CTOR) 
-	PHP_FE_END
-};
-
+#endif /* PHALCON_MVC_CONTROLLER_H */

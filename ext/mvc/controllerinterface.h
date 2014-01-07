@@ -17,6 +17,13 @@
   +------------------------------------------------------------------------+
 */
 
+#ifndef PHALCON_MVC_CONTROLLERINTERFACE_H
+#define PHALCON_MVC_CONTROLLERINTERFACE_H
+
+#include "php_phalcon.h"
+
 extern zend_class_entry *phalcon_mvc_controllerinterface_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Mvc_ControllerInterface);
+
+#endif /* PHALCON_MVC_CONTROLLERINTERFACE_H */
