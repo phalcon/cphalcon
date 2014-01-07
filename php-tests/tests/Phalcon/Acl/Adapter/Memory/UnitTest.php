@@ -7,7 +7,7 @@
  *
  * PhalconPHP Framework
  *
- * @copyright (c) 2011-2013 Phalcon Team
+ * @copyright (c) 2011-2014 Phalcon Team
  * @link      http://www.phalconphp.com
  * @author    Andres Gutierrez <andres@phalconphp.com>
  * @author    Eduar Carvajal <eduar@phalconphp.com>

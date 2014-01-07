@@ -3,7 +3,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2013 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -122,7 +122,7 @@ PHP_METHOD(Phalcon_Logger_Formatter_Firephp, format) {
 
 	/**
 	 * We intentionally do not use Phalcon's MM for better performance.
-	 * All variables allocated with PHALCON_ALLOC_ZVAL() will have
+	 * All variables allocated with ALLOC_INIT_ZVAL() will have
 	 * their reference count set to 1 and therefore they can be nicely
 	 * put into the result array; when that array will be destroyed,
 	 * all inserted variables will be automatically destroyed, too
@@ -140,7 +140,7 @@ PHP_METHOD(Phalcon_Logger_Formatter_Firephp, format) {
 	 * 5.3.6+ allows us to skip the function arguments which will save some memory
 	 * For 5.4+ there is an extra argument.
 	 */
-	PHALCON_ALLOC_ZVAL(backtrace);
+	ALLOC_INIT_ZVAL(backtrace);
 	if (zend_is_true(show_backtrace)) {
 #if PHP_VERSION_ID < 50306
 		zend_fetch_debug_backtrace(backtrace, 1, 0 TSRMLS_CC);
@@ -225,7 +225,7 @@ PHP_METHOD(Phalcon_Logger_Formatter_Firephp, format) {
 	MAKE_STD_ZVAL(payload);
 	array_init_size(payload, 2);
 
-	PHALCON_ALLOC_ZVAL(meta);
+	ALLOC_INIT_ZVAL(meta);
 	array_init_size(meta, 4);
 	add_assoc_zval_ex(meta, SS("Type"), type_str);
 	Z_ADDREF_P(message);

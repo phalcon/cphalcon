@@ -3,7 +3,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2013 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -62,12 +62,9 @@ extern int phalcon_set_symbol_str(char *key_name, unsigned int key_length, zval 
 extern void PHALCON_FASTCALL phalcon_copy_ctor(zval *destiny, zval *origin);
 
 /* Memory macros */
-#define PHALCON_ALLOC_ZVAL(z) \
-	ALLOC_INIT_ZVAL(z)
-
 #define PHALCON_ALLOC_GHOST_ZVAL(z) \
 	do { \
-		ALLOC_INIT_ZVAL(z); \
+		MAKE_STD_ZVAL(z); \
 		Z_SET_REFCOUNT_P(z, 0); \
 	} while (0)
 
