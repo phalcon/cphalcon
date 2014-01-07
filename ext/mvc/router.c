@@ -31,6 +31,7 @@
 
 #include "diinterface.h"
 #include "di/injectionawareinterface.h"
+#include "http/requestinterface.h"
 
 #include "kernel/main.h"
 #include "kernel/memory.h"

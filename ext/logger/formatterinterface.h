@@ -27,7 +27,7 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_logger_formatterinterface_format, 0, 0, 3
 	ZEND_ARG_INFO(0, timestamp)
 ZEND_END_ARG_INFO()
 
-PHALCON_INIT_FUNCS(phalcon_logger_formatterinterface_method_entry){
+static const zend_function_entry phalcon_logger_formatterinterface_method_entry[] = {
 	PHP_ABSTRACT_ME(Phalcon_Logger_FormatterInterface, format, arginfo_phalcon_logger_formatterinterface_format)
 	PHP_FE_END
 };

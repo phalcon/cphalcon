@@ -45,7 +45,7 @@ zend_class_entry *phalcon_di_factorydefault_cli_ce;
 
 PHP_METHOD(Phalcon_DI_FactoryDefault_CLI, __construct);
 
-PHALCON_INIT_FUNCS(phalcon_di_factorydefault_cli_method_entry){
+static const zend_function_entry phalcon_di_factorydefault_cli_method_entry[] = {
 	PHP_ME(Phalcon_DI_FactoryDefault_CLI, __construct, NULL, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
 	PHP_FE_END
 };

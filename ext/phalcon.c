@@ -166,7 +166,27 @@
 #include "flash/exception.h"
 #include "flash/session.h"
 
+#include "http/cookie.h"
+#include "http/cookie/exception.h"
+#include "http/request.h"
+#include "http/requestinterface.h"
+#include "http/request/exception.h"
+#include "http/request/file.h"
+#include "http/request/fileinterface.h"
+#include "http/response.h"
+#include "http/responseinterface.h"
+#include "http/response/cookies.h"
+#include "http/response/cookiesinterface.h"
+#include "http/response/exception.h"
+#include "http/response/headers.h"
+#include "http/response/headersinterface.h"
+
 #include "image.h"
+#include "image/adapter.h"
+#include "image/adapterinterface.h"
+#include "image/adapter/gd.h"
+#include "image/adapter/imagick.h"
+#include "image/exception.h"
 
 #include "kernel.h"
 
@@ -258,20 +278,6 @@ zend_class_entry *phalcon_forms_element_textarea_ce;
 zend_class_entry *phalcon_forms_elementinterface_ce;
 zend_class_entry *phalcon_forms_element_numeric_ce;
 zend_class_entry *phalcon_forms_element_password_ce;
-zend_class_entry *phalcon_http_request_ce;
-zend_class_entry *phalcon_http_cookie_ce;
-zend_class_entry *phalcon_http_response_ce;
-zend_class_entry *phalcon_http_request_file_ce;
-zend_class_entry *phalcon_http_cookie_exception_ce;
-zend_class_entry *phalcon_http_responseinterface_ce;
-zend_class_entry *phalcon_http_requestinterface_ce;
-zend_class_entry *phalcon_http_response_exception_ce;
-zend_class_entry *phalcon_http_response_cookies_ce;
-zend_class_entry *phalcon_http_response_headers_ce;
-zend_class_entry *phalcon_http_request_exception_ce;
-zend_class_entry *phalcon_http_request_fileinterface_ce;
-zend_class_entry *phalcon_http_response_headersinterface_ce;
-zend_class_entry *phalcon_http_response_cookiesinterface_ce;
 zend_class_entry *phalcon_queue_beanstalk_ce;
 zend_class_entry *phalcon_queue_beanstalk_job_ce;
 zend_class_entry *phalcon_mvc_url_ce;
@@ -368,11 +374,6 @@ zend_class_entry *phalcon_mvc_viewinterface_ce;
 zend_class_entry *phalcon_mvc_view_engine_volt_ce;
 zend_class_entry *phalcon_mvc_view_engineinterface_ce;
 zend_class_entry *phalcon_mvc_view_engine_volt_compiler_ce;
-zend_class_entry *phalcon_image_adapter_ce;
-zend_class_entry *phalcon_image_adapterinterface_ce;
-zend_class_entry *phalcon_image_exception_ce;
-zend_class_entry *phalcon_image_adapter_gd_ce;
-zend_class_entry *phalcon_image_adapter_imagick_ce;
 
 ZEND_DECLARE_MODULE_GLOBALS(phalcon)
 

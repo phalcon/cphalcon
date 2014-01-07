@@ -17,15 +17,20 @@
   +------------------------------------------------------------------------+
 */
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
-
-#include "php.h"
-#include "php_phalcon.h"
-#include "phalcon.h"
-
+#include "http/response/headersinterface.h"
 #include "kernel/main.h"
+
+zend_class_entry *phalcon_http_response_headersinterface_ce;
+
+static const zend_function_entry phalcon_http_response_headersinterface_method_entry[] = {
+	PHP_ABSTRACT_ME(Phalcon_Http_Response_HeadersInterface, set, arginfo_phalcon_http_response_headersinterface_set)
+	PHP_ABSTRACT_ME(Phalcon_Http_Response_HeadersInterface, get, arginfo_phalcon_http_response_headersinterface_get)
+	PHP_ABSTRACT_ME(Phalcon_Http_Response_HeadersInterface, setRaw, arginfo_phalcon_http_response_headersinterface_setraw)
+	PHP_ABSTRACT_ME(Phalcon_Http_Response_HeadersInterface, send, NULL)
+	PHP_ABSTRACT_ME(Phalcon_Http_Response_HeadersInterface, reset, NULL)
+	PHP_ABSTRACT_ME(Phalcon_Http_Response_HeadersInterface, toArray, NULL)
+	PHP_FE_END
+};
 
 /**
  * Phalcon\Http\Response\HeadersInterface initializer
@@ -87,4 +92,3 @@ PHALCON_DOC_METHOD(Phalcon_Http_Response_HeadersInterface, toArray);
  * @return Phalcon\Http\Response\HeadersInterface
  */
 PHALCON_DOC_METHOD(Phalcon_Http_Response_HeadersInterface, __set_state);
-

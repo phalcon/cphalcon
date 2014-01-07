@@ -28,7 +28,7 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_validation_validator_identical_validate, 
 	ZEND_ARG_INFO(0, attribute)
 ZEND_END_ARG_INFO()
 
-PHALCON_INIT_FUNCS(phalcon_validation_validator_identical_method_entry){
+static const zend_function_entry phalcon_validation_validator_identical_method_entry[] = {
 	PHP_ME(Phalcon_Validation_Validator_Identical, validate, arginfo_phalcon_validation_validator_identical_validate, ZEND_ACC_PUBLIC) 
 	PHP_FE_END
 };

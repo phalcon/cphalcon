@@ -29,7 +29,7 @@ PHP_METHOD(Phalcon_Logger_Adapter_Firephp, getFormatter);
 PHP_METHOD(Phalcon_Logger_Adapter_Firephp, logInternal);
 PHP_METHOD(Phalcon_Logger_Adapter_Firephp, close);
 
-PHALCON_INIT_FUNCS(phalcon_logger_adapter_firephp_method_entry){
+static const zend_function_entry phalcon_logger_adapter_firephp_method_entry[] = {
 	PHP_ME(Phalcon_Logger_Adapter_Firephp, getFormatter, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Logger_Adapter_Firephp, logInternal, arginfo_phalcon_logger_adapter_file_loginternal, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Logger_Adapter_Firephp, close, NULL, ZEND_ACC_PUBLIC)

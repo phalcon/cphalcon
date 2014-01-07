@@ -33,6 +33,7 @@
 #include "diinterface.h"
 #include "di/injectable.h"
 #include "di/factorydefault.h"
+#include "http/responseinterface.h"
 
 #include "kernel/main.h"
 #include "kernel/memory.h"
@@ -571,7 +572,7 @@ PHP_METHOD(Phalcon_Mvc_Micro, handle){
 	zval *before = NULL, *is_middleware = NULL, *stopped = NULL, *params = NULL;
 	zval *returned_value = NULL, *after_handlers, *after = NULL;
 	zval *not_found_handler, *finish_handlers;
-	zval *finish = NULL, *returned_response, *returned_response_sent;
+	zval *finish = NULL, *returned_response_sent;
 	HashTable *ah0, *ah1, *ah2;
 	HashPosition hp0, hp1, hp2;
 	zval **hd;
@@ -935,13 +936,15 @@ PHP_METHOD(Phalcon_Mvc_Micro, handle){
 	 * Check if the returned object is already a response
 	 */
 	if (Z_TYPE_P(returned_value) == IS_OBJECT) {
-	
-		PHALCON_INIT_VAR(returned_response);
+		int returned_response =
+				(Z_TYPE_P(returned_value) == IS_OBJECT)
+			 && (instanceof_function_ex(Z_OBJCE_P(returned_value), phalcon_http_responseinterface_ce, 1 TSRMLS_CC))
+		;
+
 		PHALCON_INIT_VAR(returned_response_sent);
-		phalcon_instance_of(returned_response, returned_value, phalcon_http_responseinterface_ce TSRMLS_CC);
 		phalcon_call_method(returned_response_sent, returned_value, "isSent");
 		
-		if (PHALCON_IS_TRUE(returned_response) && PHALCON_IS_FALSE(returned_response_sent)) {
+		if (returned_response && PHALCON_IS_FALSE(returned_response_sent)) {
 			/** 
 			 * Automatically send the responses
 			 */

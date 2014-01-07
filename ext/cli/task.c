@@ -55,7 +55,7 @@
  */
 zend_class_entry *phalcon_cli_task_ce;
 
-PHALCON_INIT_FUNCS(phalcon_cli_task_method_entry){
+static const zend_function_entry phalcon_cli_task_method_entry[] = {
 	PHP_FE_END
 };
 

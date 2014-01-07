@@ -142,7 +142,7 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_forms_form_clear, 0, 0, 0)
 	ZEND_ARG_INFO(0, fields)
 ZEND_END_ARG_INFO()
 
-PHALCON_INIT_FUNCS(phalcon_forms_form_method_entry){
+static const zend_function_entry phalcon_forms_form_method_entry[] = {
 	PHP_ME(Phalcon_Forms_Form, __construct, arginfo_phalcon_forms_form___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR) 
 	PHP_ME(Phalcon_Forms_Form, setAction, arginfo_phalcon_forms_form_setaction, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Forms_Form, getAction, NULL, ZEND_ACC_PUBLIC) 

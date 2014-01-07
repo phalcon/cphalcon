@@ -62,7 +62,7 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_queue_beanstalk_read, 0, 0, 0)
 	ZEND_ARG_INFO(0, length)
 ZEND_END_ARG_INFO()
 
-PHALCON_INIT_FUNCS(phalcon_queue_beanstalk_method_entry){
+static const zend_function_entry phalcon_queue_beanstalk_method_entry[] = {
 	PHP_ME(Phalcon_Queue_Beanstalk, __construct, arginfo_phalcon_queue_beanstalk___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR) 
 	PHP_ME(Phalcon_Queue_Beanstalk, connect, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Queue_Beanstalk, put, arginfo_phalcon_queue_beanstalk_put, ZEND_ACC_PUBLIC) 

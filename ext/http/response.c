@@ -17,20 +17,13 @@
   +------------------------------------------------------------------------+
 */
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
-
-#include "php.h"
-#include "php_phalcon.h"
-#include "phalcon.h"
-
-#include <Zend/zend_operators.h>
-#include <Zend/zend_exceptions.h>
-#include <Zend/zend_interfaces.h>
-
+#include "http/response.h"
+#include "http/responseinterface.h"
+#include "http/response/exception.h"
+#include "http/response/headers.h"
 #include "diinterface.h"
 #include "di/injectionawareinterface.h"
+#include "mvc/urlinterface.h"
 
 #include "kernel/main.h"
 #include "kernel/memory.h"
@@ -58,7 +51,80 @@
  *	$response->send();
  *</code>
  */
+zend_class_entry *phalcon_http_response_ce;
 
+PHP_METHOD(Phalcon_Http_Response, __construct);
+PHP_METHOD(Phalcon_Http_Response, setDI);
+PHP_METHOD(Phalcon_Http_Response, getDI);
+PHP_METHOD(Phalcon_Http_Response, setStatusCode);
+PHP_METHOD(Phalcon_Http_Response, setHeaders);
+PHP_METHOD(Phalcon_Http_Response, getHeaders);
+PHP_METHOD(Phalcon_Http_Response, setCookies);
+PHP_METHOD(Phalcon_Http_Response, getCookies);
+PHP_METHOD(Phalcon_Http_Response, setHeader);
+PHP_METHOD(Phalcon_Http_Response, setRawHeader);
+PHP_METHOD(Phalcon_Http_Response, resetHeaders);
+PHP_METHOD(Phalcon_Http_Response, setExpires);
+PHP_METHOD(Phalcon_Http_Response, setNotModified);
+PHP_METHOD(Phalcon_Http_Response, setContentType);
+PHP_METHOD(Phalcon_Http_Response, setEtag);
+PHP_METHOD(Phalcon_Http_Response, redirect);
+PHP_METHOD(Phalcon_Http_Response, setContent);
+PHP_METHOD(Phalcon_Http_Response, setJsonContent);
+PHP_METHOD(Phalcon_Http_Response, appendContent);
+PHP_METHOD(Phalcon_Http_Response, getContent);
+PHP_METHOD(Phalcon_Http_Response, isSent);
+PHP_METHOD(Phalcon_Http_Response, sendHeaders);
+PHP_METHOD(Phalcon_Http_Response, sendCookies);
+PHP_METHOD(Phalcon_Http_Response, send);
+PHP_METHOD(Phalcon_Http_Response, setFileToSend);
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_http_response___construct, 0, 0, 0)
+	ZEND_ARG_INFO(0, content)
+	ZEND_ARG_INFO(0, code)
+	ZEND_ARG_INFO(0, status)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_http_response_setheaders, 0, 0, 1)
+	ZEND_ARG_INFO(0, headers)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_http_response_setcookies, 0, 0, 1)
+	ZEND_ARG_INFO(0, cookies)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_http_response_setetag, 0, 0, 1)
+	ZEND_ARG_INFO(0, etag)
+ZEND_END_ARG_INFO()
+
+static const zend_function_entry phalcon_http_response_method_entry[] = {
+	PHP_ME(Phalcon_Http_Response, __construct, arginfo_phalcon_http_response___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
+	PHP_ME(Phalcon_Http_Response, setDI, arginfo_phalcon_di_injectionawareinterface_setdi, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Http_Response, getDI, arginfo_phalcon_di_injectionawareinterface_getdi, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Http_Response, setStatusCode, arginfo_phalcon_http_responseinterface_setstatuscode, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Http_Response, setHeaders, arginfo_phalcon_http_response_setheaders, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Http_Response, getHeaders, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Http_Response, setCookies, arginfo_phalcon_http_response_setcookies, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Http_Response, getCookies, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Http_Response, setHeader, arginfo_phalcon_http_responseinterface_setheader, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Http_Response, setRawHeader, arginfo_phalcon_http_responseinterface_setrawheader, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Http_Response, resetHeaders, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Http_Response, setExpires, arginfo_phalcon_http_responseinterface_setexpires, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Http_Response, setNotModified, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Http_Response, setContentType, arginfo_phalcon_http_responseinterface_setcontenttype, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Http_Response, setEtag, arginfo_phalcon_http_response_setetag, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Http_Response, redirect, arginfo_phalcon_http_responseinterface_redirect, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Http_Response, setContent, arginfo_phalcon_http_responseinterface_setcontent, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Http_Response, setJsonContent, arginfo_phalcon_http_responseinterface_setjsoncontent, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Http_Response, appendContent, arginfo_phalcon_http_responseinterface_appendcontent, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Http_Response, getContent, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Http_Response, isSent, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Http_Response, sendHeaders, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Http_Response, sendCookies, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Http_Response, send, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Http_Response, setFileToSend, arginfo_phalcon_http_responseinterface_setfiletosend, ZEND_ACC_PUBLIC)
+	PHP_FE_END
+};
 
 /**
  * Phalcon\Http\Response initializer
@@ -90,9 +156,7 @@ PHP_METHOD(Phalcon_Http_Response, __construct){
 
 	zval *content = NULL, *code = NULL, *status = NULL;
 
-	PHALCON_MM_GROW();
-
-	phalcon_fetch_params(1, 0, 3, &content, &code, &status);
+	phalcon_fetch_params(0, 0, 3, &content, &code, &status);
 	
 	if (!status) {
 		status = PHALCON_GLOBAL(z_null);
@@ -101,11 +165,12 @@ PHP_METHOD(Phalcon_Http_Response, __construct){
 	if (content && Z_TYPE_P(content) != IS_NULL) {
 		phalcon_update_property_this(this_ptr, SL("_content"), content TSRMLS_CC);
 	}
+
 	if (code && Z_TYPE_P(code) != IS_NULL) {
+		PHALCON_MM_GROW();
 		phalcon_call_method_p2_noret(this_ptr, "setstatuscode", code, status);
+		PHALCON_MM_RESTORE();
 	}
-	
-	PHALCON_MM_RESTORE();
 }
 
 /**
@@ -141,9 +206,11 @@ PHP_METHOD(Phalcon_Http_Response, getDI){
 		phalcon_call_static(dependency_injector, "phalcon\\di", "getdefault");
 	
 		if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
-			PHALCON_THROW_EXCEPTION_STR(phalcon_http_request_exception_ce, "A dependency injection object is required to access the 'url' service");
+			PHALCON_THROW_EXCEPTION_STR(phalcon_http_response_exception_ce, "A dependency injection object is required to access the 'url' service");
 			return;
 		}
+
+		PHALCON_VERIFY_INTERFACE_EX(dependency_injector, phalcon_diinterface_ce, phalcon_http_response_exception_ce, 1);
 	
 		phalcon_update_property_this(this_ptr, SL("_dependencyInjector"), dependency_injector TSRMLS_CC);
 	}

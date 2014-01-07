@@ -16,23 +16,13 @@
   +------------------------------------------------------------------------+
 */
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
+#include "http/response/headers.h"
+#include "http/response/headersinterface.h"
 
-#include "php.h"
-#include "php_phalcon.h"
-#include "phalcon.h"
-
-#include <Zend/zend_operators.h>
-#include <Zend/zend_exceptions.h>
-#include <Zend/zend_interfaces.h>
-
-#include "main/SAPI.h"
+#include <main/SAPI.h>
 
 #include "kernel/main.h"
 #include "kernel/memory.h"
-
 #include "kernel/object.h"
 #include "kernel/array.h"
 #include "kernel/fcall.h"
@@ -45,7 +35,30 @@
  *
  * This class is a bag to manage the response headers
  */
+zend_class_entry *phalcon_http_response_headers_ce;
 
+PHP_METHOD(Phalcon_Http_Response_Headers, set);
+PHP_METHOD(Phalcon_Http_Response_Headers, get);
+PHP_METHOD(Phalcon_Http_Response_Headers, setRaw);
+PHP_METHOD(Phalcon_Http_Response_Headers, send);
+PHP_METHOD(Phalcon_Http_Response_Headers, reset);
+PHP_METHOD(Phalcon_Http_Response_Headers, toArray);
+PHP_METHOD(Phalcon_Http_Response_Headers, __set_state);
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_http_response_headers___set_state, 0, 0, 1)
+	ZEND_ARG_INFO(0, data)
+ZEND_END_ARG_INFO()
+
+static const zend_function_entry phalcon_http_response_headers_method_entry[] = {
+	PHP_ME(Phalcon_Http_Response_Headers, set, arginfo_phalcon_http_response_headersinterface_set, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Http_Response_Headers, get, arginfo_phalcon_http_response_headersinterface_get, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Http_Response_Headers, setRaw, arginfo_phalcon_http_response_headersinterface_setraw, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Http_Response_Headers, send, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Http_Response_Headers, reset, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Http_Response_Headers, toArray, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Http_Response_Headers, __set_state, arginfo_phalcon_http_response_headers___set_state, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
+	PHP_FE_END
+};
 
 /**
  * Phalcon\Http\Response\Headers initializer
@@ -239,4 +252,3 @@ PHP_METHOD(Phalcon_Http_Response_Headers, __set_state){
 	
 	RETURN_CTOR(headers);
 }
-
