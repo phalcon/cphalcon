@@ -73,7 +73,7 @@ PHP_METHOD(Phalcon_Flash, __construct) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 1, &cssClasses);
 
-	if (!cssClasses || Z_TYPE_P(cssClasses) == IS_NULL) {
+	if (!cssClasses) {
 		ZEPHIR_CPY_WRT(cssClasses, ZEPHIR_GLOBAL(global_null));
 	}
 	ZEPHIR_SEPARATE_PARAM(cssClasses);

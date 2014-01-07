@@ -101,13 +101,13 @@ PHP_METHOD(Phalcon_Mvc_Model_Message, __construct) {
 
 		message = message_param;
 
-	if (!field || Z_TYPE_P(field) == IS_NULL) {
+	if (!field) {
 		field = ZEPHIR_GLOBAL(global_null);
 	}
-	if (!type || Z_TYPE_P(type) == IS_NULL) {
+	if (!type) {
 		type = ZEPHIR_GLOBAL(global_null);
 	}
-	if (!model || Z_TYPE_P(model) == IS_NULL) {
+	if (!model) {
 		model = ZEPHIR_GLOBAL(global_null);
 	}
 

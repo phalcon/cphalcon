@@ -70,7 +70,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Validation_Validator_Alnum) {
 PHP_METHOD(Phalcon_Validation_Validator_Alnum, validate) {
 
 	zval *field = NULL;
-	zval *validation, *field_param = NULL, *value, *message = NULL, *replacePairs, *_0, *_1, *_2 = NULL, *_3, *_4;
+	zval *validation, *field_param = NULL, *value, *message = NULL, *label = NULL, *replacePairs, *_0, *_1, *_2 = NULL, *_3, *_4;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &validation, &field_param);
@@ -97,15 +97,24 @@ PHP_METHOD(Phalcon_Validation_Validator_Alnum, validate) {
 	zephir_call_func_p1(_1, "ctype_alnum", value);
 	if (!(zephir_is_true(_1))) {
 		ZEPHIR_INIT_VAR(_2);
+		ZVAL_STRING(_2, "label", 1);
+		ZEPHIR_INIT_VAR(label);
+		zephir_call_method_p1(label, this_ptr, "getoption", _2);
+		if (ZEPHIR_IS_EMPTY(label)) {
+			ZEPHIR_CPY_WRT(label, field);
+		}
+		ZEPHIR_INIT_NVAR(_2);
 		ZVAL_STRING(_2, "message", 1);
 		ZEPHIR_INIT_VAR(message);
 		zephir_call_method_p1(message, this_ptr, "getoption", _2);
 		ZEPHIR_INIT_VAR(replacePairs);
 		array_init(replacePairs);
-		zephir_array_update_string(&replacePairs, SL(":field"), &field, PH_COPY | PH_SEPARATE);
+		zephir_array_update_string(&replacePairs, SL(":field"), &label, PH_COPY | PH_SEPARATE);
 		if (ZEPHIR_IS_EMPTY(message)) {
+			ZEPHIR_INIT_NVAR(_2);
+			ZVAL_STRING(_2, "Alnum", 1);
 			ZEPHIR_INIT_NVAR(message);
-			ZVAL_STRING(message, "Field :field must contain only alphanumeric characters", 1);
+			zephir_call_method_p1(message, validation, "getdefaultmessage", _2);
 		}
 		ZEPHIR_INIT_NVAR(_2);
 		object_init_ex(_2, phalcon_validation_message_ce);

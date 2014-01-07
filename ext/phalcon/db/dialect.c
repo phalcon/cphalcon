@@ -222,7 +222,7 @@ PHP_METHOD(Phalcon_Db_Dialect, getSqlExpression) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 1, &expression, &escapeChar_param);
 
-	if (!escapeChar_param || Z_TYPE_P(escapeChar_param) == IS_NULL) {
+	if (!escapeChar_param) {
 		ZEPHIR_INIT_VAR(escapeChar);
 		ZVAL_EMPTY_STRING(escapeChar);
 	} else {
@@ -402,7 +402,7 @@ PHP_METHOD(Phalcon_Db_Dialect, getSqlTable) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 1, &table, &escapeChar_param);
 
-	if (!escapeChar_param || Z_TYPE_P(escapeChar_param) == IS_NULL) {
+	if (!escapeChar_param) {
 		ZEPHIR_INIT_VAR(escapeChar);
 		ZVAL_EMPTY_STRING(escapeChar);
 	} else {

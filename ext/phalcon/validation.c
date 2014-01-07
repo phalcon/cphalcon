@@ -18,6 +18,7 @@
 #include "kernel/memory.h"
 #include "kernel/operators.h"
 #include "kernel/array.h"
+#include "ext/spl/spl_exceptions.h"
 #include "kernel/concat.h"
 
 
@@ -52,6 +53,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Validation) {
 	zend_declare_property_null(phalcon_validation_ce, SL("_validators"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_validation_ce, SL("_filters"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_validation_ce, SL("_messages"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_validation_ce, SL("_defaultMessages"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_validation_ce, SL("_values"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
 	return SUCCESS;
@@ -70,7 +72,7 @@ PHP_METHOD(Phalcon_Validation, __construct) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 1, &validators);
 
-	if (!validators || Z_TYPE_P(validators) == IS_NULL) {
+	if (!validators) {
 		validators = ZEPHIR_GLOBAL(global_null);
 	}
 
@@ -82,6 +84,7 @@ PHP_METHOD(Phalcon_Validation, __construct) {
 		}
 		zephir_update_property_this(this_ptr, SL("_validators"), validators TSRMLS_CC);
 	}
+	zephir_call_method_noret(this_ptr, "setdefaultmessages");
 	if ((zephir_method_exists_ex(this_ptr, SS("initialize") TSRMLS_CC) == SUCCESS)) {
 		zephir_call_method_noret(this_ptr, "initialize");
 	}
@@ -98,18 +101,17 @@ PHP_METHOD(Phalcon_Validation, __construct) {
  */
 PHP_METHOD(Phalcon_Validation, validate) {
 
-	zend_function *_4 = NULL, *_6 = NULL;
 	HashTable *_2;
 	HashPosition _1;
-	zval *data = NULL, *entity = NULL, *validators, *messages = NULL, *cancelOnFail, *scope = NULL, *field, *validator, *_0 = NULL, **_3, *_5 = NULL;
+	zval *data = NULL, *entity = NULL, *validators, *messages = NULL, *scope = NULL, *field, *validator, *notCachedCall = NULL, *_0 = NULL, **_3, *_4 = NULL, *_5 = NULL;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 2, &data, &entity);
 
-	if (!data || Z_TYPE_P(data) == IS_NULL) {
+	if (!data) {
 		data = ZEPHIR_GLOBAL(global_null);
 	}
-	if (!entity || Z_TYPE_P(entity) == IS_NULL) {
+	if (!entity) {
 		entity = ZEPHIR_GLOBAL(global_null);
 	}
 
@@ -138,8 +140,6 @@ PHP_METHOD(Phalcon_Validation, validate) {
 			zephir_update_property_this(this_ptr, SL("_data"), data TSRMLS_CC);
 		}
 	}
-	ZEPHIR_INIT_VAR(cancelOnFail);
-	ZVAL_STRING(cancelOnFail, "cancelOnFail", 1);
 	zephir_is_iterable(validators, &_2, &_1, 0, 0);
 	for (
 		; zend_hash_get_current_data_ex(_2, (void**) &_3, &_1) == SUCCESS
@@ -156,12 +156,18 @@ PHP_METHOD(Phalcon_Validation, validate) {
 			ZEPHIR_THROW_EXCEPTION_STR(phalcon_validation_exception_ce, "One of the validators is not valid");
 			return;
 		}
+		ZEPHIR_INIT_NVAR(notCachedCall);
+		ZVAL_STRING(notCachedCall, "validate", 1);
 		ZEPHIR_INIT_NVAR(_0);
-		zephir_call_method_p2_cache(_0, validator, "validate", &_4, this_ptr, field);
+		zephir_call_method_zval_p2(_0, validator, notCachedCall, this_ptr, field);
 		if (ZEPHIR_IS_FALSE(_0)) {
+			ZEPHIR_INIT_NVAR(notCachedCall);
+			ZVAL_STRING(notCachedCall, "getOption", 1);
+			ZEPHIR_INIT_NVAR(_4);
 			ZEPHIR_INIT_NVAR(_5);
-			zephir_call_method_p1_cache(_5, validator, "getoption", &_6, cancelOnFail);
-			if (zephir_is_true(_5)) {
+			ZVAL_STRING(_5, "cancelOnFail", 1);
+			zephir_call_method_zval_p1(_4, validator, notCachedCall, _5);
+			if (zephir_is_true(_4)) {
 				break;
 			}
 		}
@@ -241,7 +247,7 @@ PHP_METHOD(Phalcon_Validation, getFilters) {
 
 	zephir_fetch_params(0, 0, 1, &field);
 
-	if (!field || Z_TYPE_P(field) == IS_NULL) {
+	if (!field) {
 		field = ZEPHIR_GLOBAL(global_null);
 	}
 
@@ -278,6 +284,93 @@ PHP_METHOD(Phalcon_Validation, getEntity) {
 
 
 	RETURN_MEMBER(this_ptr, "_entity");
+
+}
+
+/**
+ * Adds default messages to validators
+ *
+ * @param array messages
+ * @return array
+ */
+PHP_METHOD(Phalcon_Validation, setDefaultMessages) {
+
+	zval *messages = NULL, *defaultMessages, *_0;
+
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 0, 1, &messages);
+
+	if (!messages) {
+		ZEPHIR_CPY_WRT(messages, ZEPHIR_GLOBAL(global_null));
+	}
+	ZEPHIR_SEPARATE_PARAM(messages);
+
+
+	if ((Z_TYPE_P(messages) == IS_NULL)) {
+		ZEPHIR_INIT_NVAR(messages);
+		array_init(messages);
+	}
+	if ((Z_TYPE_P(messages) != IS_ARRAY)) {
+		ZEPHIR_THROW_EXCEPTION_STR(phalcon_validation_exception_ce, "Messages must be an array");
+		return;
+	}
+	ZEPHIR_INIT_VAR(defaultMessages);
+	array_init(defaultMessages);
+	add_assoc_stringl_ex(defaultMessages, SS("Alnum"), SL("Field :field must contain only alphanumeric characters"), 1);
+	add_assoc_stringl_ex(defaultMessages, SS("Alpha"), SL("Field :field must contain only letters"), 1);
+	add_assoc_stringl_ex(defaultMessages, SS("Between"), SL(":field is not between a valid range"), 1);
+	add_assoc_stringl_ex(defaultMessages, SS("Confirmation"), SL("Value of :field and :with don't match"), 1);
+	add_assoc_stringl_ex(defaultMessages, SS("Digit"), SL("Field :field must be numeric"), 1);
+	add_assoc_stringl_ex(defaultMessages, SS("Email"), SL("Value of field :field must have a valid e-mail format"), 1);
+	add_assoc_stringl_ex(defaultMessages, SS("ExclusionIn"), SL("Value of field :field must not be part of list: :domain"), 1);
+	add_assoc_stringl_ex(defaultMessages, SS("FileValid"), SL("File :field is not valid"), 1);
+	add_assoc_stringl_ex(defaultMessages, SS("FileEmpty"), SL("File :field must not be empty"), 1);
+	add_assoc_stringl_ex(defaultMessages, SS("FileIniSize"), SL("The uploaded file exceeds the max filesize"), 1);
+	add_assoc_stringl_ex(defaultMessages, SS("FileSize"), SL("Max filesize of file :field is :max"), 1);
+	add_assoc_stringl_ex(defaultMessages, SS("FileType"), SL("Type of :field is not valid"), 1);
+	add_assoc_stringl_ex(defaultMessages, SS("FileMinResolution"), SL("Min resolution of :field is :min"), 1);
+	add_assoc_stringl_ex(defaultMessages, SS("FileMaxResolution"), SL("Max resolution of :field is :max"), 1);
+	add_assoc_stringl_ex(defaultMessages, SS("Identical"), SL(":field does not have the expected value"), 1);
+	add_assoc_stringl_ex(defaultMessages, SS("InclusionIn"), SL("Value of field :field must be part of list: :domain"), 1);
+	add_assoc_stringl_ex(defaultMessages, SS("PresenceOf"), SL(":field is required"), 1);
+	add_assoc_stringl_ex(defaultMessages, SS("Regex"), SL("Value of field :field doesn't match regular expression"), 1);
+	add_assoc_stringl_ex(defaultMessages, SS("TooLong"), SL("Value of field :field exceeds the maximum :max characters"), 1);
+	add_assoc_stringl_ex(defaultMessages, SS("TooShort"), SL("Value of field :field is less than the minimum :min characters"), 1);
+	add_assoc_stringl_ex(defaultMessages, SS("Uniqueness"), SL(":field is already present in another record"), 1);
+	add_assoc_stringl_ex(defaultMessages, SS("Url"), SL(":field does not have a valid url format"), 1);
+	ZEPHIR_INIT_VAR(_0);
+	zephir_fast_array_merge(_0, &(defaultMessages), &(messages) TSRMLS_CC);
+	zephir_update_property_this(this_ptr, SL("_defaultMessages"), _0 TSRMLS_CC);
+	RETURN_MM_MEMBER(this_ptr, "_defaultMessages");
+
+}
+
+/**
+ * Get default message for validator type
+ *
+ * @param string type
+ * @return string
+ */
+PHP_METHOD(Phalcon_Validation, getDefaultMessage) {
+
+	zval *type_param = NULL, *_0, *_1;
+	zval *type = NULL;
+
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 1, 0, &type_param);
+
+		if (Z_TYPE_P(type_param) != IS_STRING) {
+				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'type' must be a string") TSRMLS_CC);
+				RETURN_MM_NULL();
+		}
+
+		type = type_param;
+
+
+
+	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_defaultMessages"), PH_NOISY_CC);
+	zephir_array_fetch(&_1, _0, type, PH_NOISY | PH_READONLY TSRMLS_CC);
+	RETURN_CTOR(_1);
 
 }
 

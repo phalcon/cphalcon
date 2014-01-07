@@ -85,7 +85,7 @@ PHP_METHOD(Phalcon_Annotations_Collection, __construct) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 1, &reflectionData);
 
-	if (!reflectionData || Z_TYPE_P(reflectionData) == IS_NULL) {
+	if (!reflectionData) {
 		reflectionData = ZEPHIR_GLOBAL(global_null);
 	}
 

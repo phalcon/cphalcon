@@ -70,7 +70,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Validation_Validator_Email) {
 PHP_METHOD(Phalcon_Validation_Validator_Email, validate) {
 
 	zval *field = NULL;
-	zval *validation, *field_param = NULL, *value, *message = NULL, *replacePairs, *_0, *_1, _2, *_3 = NULL, *_4, *_5;
+	zval *validation, *field_param = NULL, *value, *message = NULL, *label = NULL, *replacePairs, *_0, *_1, _2, *_3 = NULL, *_4, *_5;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &validation, &field_param);
@@ -99,15 +99,24 @@ PHP_METHOD(Phalcon_Validation_Validator_Email, validate) {
 	zephir_call_func_p2(_1, "filter_var", value, &_2);
 	if (!(zephir_is_true(_1))) {
 		ZEPHIR_INIT_VAR(_3);
+		ZVAL_STRING(_3, "label", 1);
+		ZEPHIR_INIT_VAR(label);
+		zephir_call_method_p1(label, this_ptr, "getoption", _3);
+		if (ZEPHIR_IS_EMPTY(label)) {
+			ZEPHIR_CPY_WRT(label, field);
+		}
+		ZEPHIR_INIT_NVAR(_3);
 		ZVAL_STRING(_3, "message", 1);
 		ZEPHIR_INIT_VAR(message);
 		zephir_call_method_p1(message, this_ptr, "getoption", _3);
 		ZEPHIR_INIT_VAR(replacePairs);
 		array_init(replacePairs);
-		zephir_array_update_string(&replacePairs, SL(":field"), &field, PH_COPY | PH_SEPARATE);
+		zephir_array_update_string(&replacePairs, SL(":field"), &label, PH_COPY | PH_SEPARATE);
 		if (ZEPHIR_IS_EMPTY(message)) {
+			ZEPHIR_INIT_NVAR(_3);
+			ZVAL_STRING(_3, "Email", 1);
 			ZEPHIR_INIT_NVAR(message);
-			ZVAL_STRING(message, "Value of field :field must have a valid e-mail format", 1);
+			zephir_call_method_p1(message, validation, "getdefaultmessage", _3);
 		}
 		ZEPHIR_INIT_NVAR(_3);
 		object_init_ex(_3, phalcon_validation_message_ce);

@@ -87,11 +87,11 @@ PHP_METHOD(Phalcon_Mvc_Collection, __construct) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 2, &dependencyInjector, &modelsManager);
 
-	if (!dependencyInjector || Z_TYPE_P(dependencyInjector) == IS_NULL) {
+	if (!dependencyInjector) {
 		ZEPHIR_CPY_WRT(dependencyInjector, ZEPHIR_GLOBAL(global_null));
 	}
 	ZEPHIR_SEPARATE_PARAM(dependencyInjector);
-	if (!modelsManager || Z_TYPE_P(modelsManager) == IS_NULL) {
+	if (!modelsManager) {
 		ZEPHIR_CPY_WRT(modelsManager, ZEPHIR_GLOBAL(global_null));
 	}
 	ZEPHIR_SEPARATE_PARAM(modelsManager);
@@ -333,18 +333,17 @@ PHP_METHOD(Phalcon_Mvc_Collection, setSource) {
  */
 PHP_METHOD(Phalcon_Mvc_Collection, getSource) {
 
-	zval *source, *_0, _1;
+	zval *source, *collection = NULL, *_0;
 
 	ZEPHIR_MM_GROW();
 
 	ZEPHIR_OBS_VAR(source);
 	zephir_read_property_this(&source, this_ptr, SL("_source"), PH_NOISY_CC);
 	if (!(zephir_is_true(source))) {
+		ZEPHIR_CPY_WRT(collection, this_ptr);
 		ZEPHIR_INIT_BNVAR(source);
 		ZEPHIR_INIT_VAR(_0);
-		ZEPHIR_SINIT_VAR(_1);
-		ZVAL_LONG(&_1, 0);
-		zephir_get_class_ns(_0, this_ptr, &_1);
+		zephir_get_class_ns(_0, collection, 0);
 		zephir_uncamelize(source, _0);
 		zephir_update_property_this(this_ptr, SL("_source"), source TSRMLS_CC);
 	}
@@ -1314,7 +1313,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, findFirst) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 1, &parameters);
 
-	if (!parameters || Z_TYPE_P(parameters) == IS_NULL) {
+	if (!parameters) {
 		parameters = ZEPHIR_GLOBAL(global_null);
 	}
 
@@ -1383,7 +1382,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, find) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 1, &parameters);
 
-	if (!parameters || Z_TYPE_P(parameters) == IS_NULL) {
+	if (!parameters) {
 		parameters = ZEPHIR_GLOBAL(global_null);
 	}
 
@@ -1424,7 +1423,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, count) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 1, &parameters);
 
-	if (!parameters || Z_TYPE_P(parameters) == IS_NULL) {
+	if (!parameters) {
 		parameters = ZEPHIR_GLOBAL(global_null);
 	}
 
@@ -1506,10 +1505,10 @@ PHP_METHOD(Phalcon_Mvc_Collection, summatory) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 2, &field, &conditions, &finalize);
 
-	if (!conditions || Z_TYPE_P(conditions) == IS_NULL) {
+	if (!conditions) {
 		conditions = ZEPHIR_GLOBAL(global_null);
 	}
-	if (!finalize || Z_TYPE_P(finalize) == IS_NULL) {
+	if (!finalize) {
 		finalize = ZEPHIR_GLOBAL(global_null);
 	}
 

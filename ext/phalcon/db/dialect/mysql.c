@@ -881,7 +881,7 @@ PHP_METHOD(Phalcon_Db_Dialect_MySQL, dropTable) {
 
 		schemaName = schemaName_param;
 
-	if (!ifExists || Z_TYPE_P(ifExists) == IS_NULL) {
+	if (!ifExists) {
 		ifExists = ZEPHIR_GLOBAL(global_true);
 	}
 
@@ -980,7 +980,7 @@ PHP_METHOD(Phalcon_Db_Dialect_MySQL, dropView) {
 
 		schemaName = schemaName_param;
 
-	if (!ifExists_param || Z_TYPE_P(ifExists_param) == IS_NULL) {
+	if (!ifExists_param) {
 		ifExists = 1;
 	} else {
 		ifExists = zephir_get_boolval(ifExists_param);
@@ -1030,7 +1030,7 @@ PHP_METHOD(Phalcon_Db_Dialect_MySQL, tableExists) {
 
 		tableName = tableName_param;
 
-	if (!schemaName || Z_TYPE_P(schemaName) == IS_NULL) {
+	if (!schemaName) {
 		schemaName = ZEPHIR_GLOBAL(global_null);
 	}
 
@@ -1066,7 +1066,7 @@ PHP_METHOD(Phalcon_Db_Dialect_MySQL, viewExists) {
 
 		viewName = viewName_param;
 
-	if (!schemaName || Z_TYPE_P(schemaName) == IS_NULL) {
+	if (!schemaName) {
 		schemaName = ZEPHIR_GLOBAL(global_null);
 	}
 
@@ -1106,7 +1106,7 @@ PHP_METHOD(Phalcon_Db_Dialect_MySQL, describeColumns) {
 
 		table = table_param;
 
-	if (!schema || Z_TYPE_P(schema) == IS_NULL) {
+	if (!schema) {
 		schema = ZEPHIR_GLOBAL(global_null);
 	}
 
@@ -1138,7 +1138,7 @@ PHP_METHOD(Phalcon_Db_Dialect_MySQL, listTables) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 1, &schemaName_param);
 
-	if (!schemaName_param || Z_TYPE_P(schemaName_param) == IS_NULL) {
+	if (!schemaName_param) {
 		ZEPHIR_INIT_VAR(schemaName);
 		ZVAL_EMPTY_STRING(schemaName);
 	} else {
@@ -1168,7 +1168,7 @@ PHP_METHOD(Phalcon_Db_Dialect_MySQL, listViews) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 1, &schemaName_param);
 
-	if (!schemaName_param || Z_TYPE_P(schemaName_param) == IS_NULL) {
+	if (!schemaName_param) {
 		ZEPHIR_INIT_VAR(schemaName);
 		ZVAL_EMPTY_STRING(schemaName);
 	} else {
@@ -1206,7 +1206,7 @@ PHP_METHOD(Phalcon_Db_Dialect_MySQL, describeIndexes) {
 
 		table = table_param;
 
-	if (!schema || Z_TYPE_P(schema) == IS_NULL) {
+	if (!schema) {
 		schema = ZEPHIR_GLOBAL(global_null);
 	}
 
@@ -1242,7 +1242,7 @@ PHP_METHOD(Phalcon_Db_Dialect_MySQL, describeReferences) {
 
 		table = table_param;
 
-	if (!schema || Z_TYPE_P(schema) == IS_NULL) {
+	if (!schema) {
 		schema = ZEPHIR_GLOBAL(global_null);
 	}
 	ZEPHIR_INIT_VAR(sql);
@@ -1284,7 +1284,7 @@ PHP_METHOD(Phalcon_Db_Dialect_MySQL, tableOptions) {
 
 		table = table_param;
 
-	if (!schema || Z_TYPE_P(schema) == IS_NULL) {
+	if (!schema) {
 		schema = ZEPHIR_GLOBAL(global_null);
 	}
 	ZEPHIR_INIT_VAR(sql);

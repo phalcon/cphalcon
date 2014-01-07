@@ -87,10 +87,10 @@ PHP_METHOD(Phalcon_Mvc_Router_Route, __construct) {
 
 		pattern = pattern_param;
 
-	if (!paths || Z_TYPE_P(paths) == IS_NULL) {
+	if (!paths) {
 		paths = ZEPHIR_GLOBAL(global_null);
 	}
-	if (!httpMethods || Z_TYPE_P(httpMethods) == IS_NULL) {
+	if (!httpMethods) {
 		httpMethods = ZEPHIR_GLOBAL(global_null);
 	}
 
@@ -400,7 +400,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Route, reConfigure) {
 
 		pattern = pattern_param;
 
-	if (!paths || Z_TYPE_P(paths) == IS_NULL) {
+	if (!paths) {
 		paths = ZEPHIR_GLOBAL(global_null);
 	}
 

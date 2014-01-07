@@ -10,6 +10,8 @@ PHP_METHOD(Phalcon_Validation, setFilters);
 PHP_METHOD(Phalcon_Validation, getFilters);
 PHP_METHOD(Phalcon_Validation, getValidators);
 PHP_METHOD(Phalcon_Validation, getEntity);
+PHP_METHOD(Phalcon_Validation, setDefaultMessages);
+PHP_METHOD(Phalcon_Validation, getDefaultMessage);
 PHP_METHOD(Phalcon_Validation, getMessages);
 PHP_METHOD(Phalcon_Validation, appendMessage);
 PHP_METHOD(Phalcon_Validation, bind);
@@ -38,6 +40,14 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_validation_getfilters, 0, 0, 0)
 	ZEND_ARG_INFO(0, field)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_validation_setdefaultmessages, 0, 0, 0)
+	ZEND_ARG_INFO(0, messages)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_validation_getdefaultmessage, 0, 0, 1)
+	ZEND_ARG_INFO(0, type)
+ZEND_END_ARG_INFO()
+
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_validation_appendmessage, 0, 0, 1)
 	ZEND_ARG_INFO(0, message)
 ZEND_END_ARG_INFO()
@@ -59,6 +69,8 @@ ZEPHIR_INIT_FUNCS(phalcon_validation_method_entry) {
 	PHP_ME(Phalcon_Validation, getFilters, arginfo_phalcon_validation_getfilters, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Validation, getValidators, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Validation, getEntity, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Validation, setDefaultMessages, arginfo_phalcon_validation_setdefaultmessages, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Validation, getDefaultMessage, arginfo_phalcon_validation_getdefaultmessage, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Validation, getMessages, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Validation, appendMessage, arginfo_phalcon_validation_appendmessage, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Validation, bind, arginfo_phalcon_validation_bind, ZEND_ACC_PUBLIC)

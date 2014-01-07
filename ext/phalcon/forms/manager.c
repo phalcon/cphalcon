@@ -65,10 +65,10 @@ PHP_METHOD(Phalcon_Forms_Manager, create) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 2, &name, &entity);
 
-	if (!name || Z_TYPE_P(name) == IS_NULL) {
+	if (!name) {
 		name = ZEPHIR_GLOBAL(global_null);
 	}
-	if (!entity || Z_TYPE_P(entity) == IS_NULL) {
+	if (!entity) {
 		entity = ZEPHIR_GLOBAL(global_null);
 	}
 

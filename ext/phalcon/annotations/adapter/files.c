@@ -71,7 +71,7 @@ PHP_METHOD(Phalcon_Annotations_Adapter_Files, __construct) {
 
 	zephir_fetch_params(0, 0, 1, &options);
 
-	if (!options || Z_TYPE_P(options) == IS_NULL) {
+	if (!options) {
 		options = ZEPHIR_GLOBAL(global_null);
 	}
 

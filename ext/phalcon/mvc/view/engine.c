@@ -64,7 +64,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine, __construct) {
 
 	zephir_fetch_params(0, 1, 1, &view, &dependencyInjector);
 
-	if (!dependencyInjector || Z_TYPE_P(dependencyInjector) == IS_NULL) {
+	if (!dependencyInjector) {
 		dependencyInjector = ZEPHIR_GLOBAL(global_null);
 	}
 
@@ -113,7 +113,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine, partial) {
 
 		partialPath = partialPath_param;
 
-	if (!params || Z_TYPE_P(params) == IS_NULL) {
+	if (!params) {
 		params = ZEPHIR_GLOBAL(global_null);
 	}
 

@@ -96,7 +96,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Annotations, addResource) {
 
 		handler = handler_param;
 
-	if (!prefix_param || Z_TYPE_P(prefix_param) == IS_NULL) {
+	if (!prefix_param) {
 		ZEPHIR_INIT_VAR(prefix);
 		ZVAL_EMPTY_STRING(prefix);
 	} else {
@@ -146,7 +146,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Annotations, addModuleResource) {
 
 		handler = handler_param;
 
-	if (!prefix_param || Z_TYPE_P(prefix_param) == IS_NULL) {
+	if (!prefix_param) {
 		ZEPHIR_INIT_VAR(prefix);
 		ZVAL_EMPTY_STRING(prefix);
 	} else {
@@ -181,7 +181,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Annotations, handle) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 1, &uri_param);
 
-	if (!uri_param || Z_TYPE_P(uri_param) == IS_NULL) {
+	if (!uri_param) {
 		ZEPHIR_INIT_VAR(uri);
 		ZVAL_EMPTY_STRING(uri);
 	} else {

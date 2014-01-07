@@ -108,7 +108,7 @@ PHP_METHOD(Phalcon_Translate_Adapter_NativeArray, query) {
 
 		index = index_param;
 
-	if (!placeholders || Z_TYPE_P(placeholders) == IS_NULL) {
+	if (!placeholders) {
 		placeholders = ZEPHIR_GLOBAL(global_null);
 	}
 

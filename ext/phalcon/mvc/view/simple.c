@@ -81,7 +81,7 @@ PHP_METHOD(Phalcon_Mvc_View_Simple, __construct) {
 
 	zephir_fetch_params(0, 0, 1, &options);
 
-	if (!options || Z_TYPE_P(options) == IS_NULL) {
+	if (!options) {
 		options = ZEPHIR_GLOBAL(global_null);
 	}
 
@@ -354,7 +354,7 @@ PHP_METHOD(Phalcon_Mvc_View_Simple, render) {
 
 		path = path_param;
 
-	if (!params || Z_TYPE_P(params) == IS_NULL) {
+	if (!params) {
 		params = ZEPHIR_GLOBAL(global_null);
 	}
 
@@ -452,7 +452,7 @@ PHP_METHOD(Phalcon_Mvc_View_Simple, partial) {
 
 		partialPath = partialPath_param;
 
-	if (!params || Z_TYPE_P(params) == IS_NULL) {
+	if (!params) {
 		params = ZEPHIR_GLOBAL(global_null);
 	}
 
@@ -585,7 +585,7 @@ PHP_METHOD(Phalcon_Mvc_View_Simple, cache) {
 
 	zephir_fetch_params(0, 0, 1, &options);
 
-	if (!options || Z_TYPE_P(options) == IS_NULL) {
+	if (!options) {
 		options = ZEPHIR_GLOBAL(global_true);
 	}
 
@@ -656,7 +656,7 @@ PHP_METHOD(Phalcon_Mvc_View_Simple, setVars) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 1, &params, &merge_param);
 
-	if (!merge_param || Z_TYPE_P(merge_param) == IS_NULL) {
+	if (!merge_param) {
 		merge = 1;
 	} else {
 		merge = zephir_get_boolval(merge_param);

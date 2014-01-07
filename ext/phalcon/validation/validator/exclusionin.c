@@ -72,7 +72,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Validation_Validator_ExclusionIn) {
 PHP_METHOD(Phalcon_Validation_Validator_ExclusionIn, validate) {
 
 	zval *field = NULL;
-	zval *validation, *field_param = NULL, *value, *domain, *message = NULL, *replacePairs, *_0, *_1, *_2 = NULL, *_3, *_4;
+	zval *validation, *field_param = NULL, *value, *domain, *message = NULL, *label = NULL, *replacePairs, *_0, *_1, *_2 = NULL, *_3, *_4;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &validation, &field_param);
@@ -107,18 +107,27 @@ PHP_METHOD(Phalcon_Validation_Validator_ExclusionIn, validate) {
 	zephir_call_func_p2(_1, "in_array", value, domain);
 	if (zephir_is_true(_1)) {
 		ZEPHIR_INIT_VAR(_2);
+		ZVAL_STRING(_2, "label", 1);
+		ZEPHIR_INIT_VAR(label);
+		zephir_call_method_p1(label, this_ptr, "getoption", _2);
+		if (ZEPHIR_IS_EMPTY(label)) {
+			ZEPHIR_CPY_WRT(label, field);
+		}
+		ZEPHIR_INIT_NVAR(_2);
 		ZVAL_STRING(_2, "message", 1);
 		ZEPHIR_INIT_VAR(message);
 		zephir_call_method_p1(message, this_ptr, "getoption", _2);
 		ZEPHIR_INIT_VAR(replacePairs);
 		array_init(replacePairs);
-		zephir_array_update_string(&replacePairs, SL(":field"), &field, PH_COPY | PH_SEPARATE);
+		zephir_array_update_string(&replacePairs, SL(":field"), &label, PH_COPY | PH_SEPARATE);
 		ZEPHIR_INIT_NVAR(_2);
 		zephir_fast_join_str(_2, SL(", "), domain TSRMLS_CC);
 		zephir_array_update_string(&replacePairs, SL(":domain"), &_2, PH_COPY | PH_SEPARATE);
 		if (ZEPHIR_IS_EMPTY(message)) {
+			ZEPHIR_INIT_NVAR(_2);
+			ZVAL_STRING(_2, "ExclusionIn", 1);
 			ZEPHIR_INIT_NVAR(message);
-			ZVAL_STRING(message, "Value of field :field must not be part of list: :domain", 1);
+			zephir_call_method_p1(message, validation, "getdefaultmessage", _2);
 		}
 		ZEPHIR_INIT_NVAR(_2);
 		object_init_ex(_2, phalcon_validation_message_ce);

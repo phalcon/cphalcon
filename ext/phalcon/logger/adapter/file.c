@@ -100,7 +100,7 @@ PHP_METHOD(Phalcon_Logger_Adapter_File, __construct) {
 
 		name = name_param;
 
-	if (!options || Z_TYPE_P(options) == IS_NULL) {
+	if (!options) {
 		options = ZEPHIR_GLOBAL(global_null);
 	}
 

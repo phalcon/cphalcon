@@ -525,7 +525,7 @@ PHP_METHOD(Phalcon_Mvc_Micro, setService) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 1, &serviceName, &definition, &shared);
 
-	if (!shared || Z_TYPE_P(shared) == IS_NULL) {
+	if (!shared) {
 		shared = ZEPHIR_GLOBAL(global_false);
 	}
 
@@ -643,7 +643,7 @@ PHP_METHOD(Phalcon_Mvc_Micro, handle) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 1, &uri);
 
-	if (!uri || Z_TYPE_P(uri) == IS_NULL) {
+	if (!uri) {
 		uri = ZEPHIR_GLOBAL(global_null);
 	}
 

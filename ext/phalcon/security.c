@@ -363,7 +363,7 @@ PHP_METHOD(Phalcon_Security, getToken) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 1, &numberBytes_param);
 
-	if (!numberBytes_param || Z_TYPE_P(numberBytes_param) == IS_NULL) {
+	if (!numberBytes_param) {
 		numberBytes = 0;
 	} else {
 		numberBytes = zephir_get_intval(numberBytes_param);
@@ -415,11 +415,11 @@ PHP_METHOD(Phalcon_Security, checkToken) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 2, &tokenKey, &tokenValue);
 
-	if (!tokenKey || Z_TYPE_P(tokenKey) == IS_NULL) {
+	if (!tokenKey) {
 		ZEPHIR_CPY_WRT(tokenKey, ZEPHIR_GLOBAL(global_null));
 	}
 	ZEPHIR_SEPARATE_PARAM(tokenKey);
-	if (!tokenValue || Z_TYPE_P(tokenValue) == IS_NULL) {
+	if (!tokenValue) {
 		tokenValue = ZEPHIR_GLOBAL(global_null);
 	}
 
@@ -499,7 +499,7 @@ PHP_METHOD(Phalcon_Security, computeHmac) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 3, 1, &data, &key, &algo, &raw);
 
-	if (!raw || Z_TYPE_P(raw) == IS_NULL) {
+	if (!raw) {
 		raw = ZEPHIR_GLOBAL(global_false);
 	}
 

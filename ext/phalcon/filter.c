@@ -120,7 +120,7 @@ PHP_METHOD(Phalcon_Filter, sanitize) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 1, &value, &filters, &noRecursive_param);
 
-	if (!noRecursive_param || Z_TYPE_P(noRecursive_param) == IS_NULL) {
+	if (!noRecursive_param) {
 		noRecursive = 0;
 	} else {
 		noRecursive = zephir_get_boolval(noRecursive_param);

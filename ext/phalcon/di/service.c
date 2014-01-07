@@ -88,7 +88,7 @@ PHP_METHOD(Phalcon_Di_Service, __construct) {
 
 		name = name_param;
 
-	if (!shared_param || Z_TYPE_P(shared_param) == IS_NULL) {
+	if (!shared_param) {
 		shared = 0;
 	} else {
 		shared = zephir_get_boolval(shared_param);
@@ -206,10 +206,10 @@ PHP_METHOD(Phalcon_Di_Service, resolve) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 2, &parameters, &dependencyInjector);
 
-	if (!parameters || Z_TYPE_P(parameters) == IS_NULL) {
+	if (!parameters) {
 		parameters = ZEPHIR_GLOBAL(global_null);
 	}
-	if (!dependencyInjector || Z_TYPE_P(dependencyInjector) == IS_NULL) {
+	if (!dependencyInjector) {
 		dependencyInjector = ZEPHIR_GLOBAL(global_null);
 	}
 

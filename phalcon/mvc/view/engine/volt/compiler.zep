@@ -32,6 +32,20 @@ namespace Phalcon\Mvc\View\Engine\Volt;
  *	require $compiler->getCompiledTemplatePath();
  *</code>
  */
+
+/**
+ * Phalcon\Mvc\View\Engine\Volt\Compiler
+ *
+ * This class reads and compiles Volt templates into PHP plain code
+ *
+ *<code>
+ *	$compiler = new \Phalcon\Mvc\View\Engine\Volt\Compiler();
+ *
+ *	$compiler->compile('views/partials/header.volt');
+ *
+ *	require $compiler->getCompiledTemplatePath();
+ *</code>
+ */
 class Compiler implements Phalcon\Di\InjectionAwareInterface
 {
 
@@ -98,6 +112,9 @@ class Compiler implements Phalcon\Di\InjectionAwareInterface
 	 */
 	public function setDI(<Phalcon\DiInterface> dependencyInjector)
 	{
+		if typeof dependencyInjector != "object" {
+			throw new Phalcon\Mvc\View\Exception("Dependency Injector is invalid");
+		}
 		let this->_dependencyInjector = dependencyInjector;
 	}
 
@@ -118,6 +135,9 @@ class Compiler implements Phalcon\Di\InjectionAwareInterface
 	 */
 	public function setOptions(options)
 	{
+		if typeof options != "array" {
+			throw new Phalcon\Mvc\View\Exception("Options must be an array");
+		}
 		let this->_options = options;
 	}
 
@@ -141,13 +161,22 @@ class Compiler implements Phalcon\Di\InjectionAwareInterface
 	 *	require $compiler->getCompiledTemplatePath();
 	 *</code>
 	 *
-	 * @param  string  templatePath
-	 * @param  boolean extendsMode
+	 * @param string templatePath
+	 * @param boolean extendsMode
 	 * @return string|array
 	 */
 	public function compile(string! templatePath, boolean extendsMode=false)
 	{
+	}
 
+	/**
+	 * Returns the path that is currently being compiled
+	 *
+	 * @return string
+	 */
+	public function getTemplatePath()
+	{
+		return this->_currentPath;
 	}
 
 	/**
@@ -155,7 +184,7 @@ class Compiler implements Phalcon\Di\InjectionAwareInterface
 	 *
 	 * @return string
 	 */
-	public function getCompiledTemplatePath() -> string
+	public function getCompiledTemplatePath()
 	{
 		return this->_compiledTemplatePath;
 	}

@@ -300,7 +300,7 @@ PHP_METHOD(Phalcon_Mvc_Url, get) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 1, &uri);
 
-	if (!uri || Z_TYPE_P(uri) == IS_NULL) {
+	if (!uri) {
 		uri = ZEPHIR_GLOBAL(global_null);
 	}
 
@@ -368,7 +368,7 @@ PHP_METHOD(Phalcon_Mvc_Url, getStatic) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 1, &uri);
 
-	if (!uri || Z_TYPE_P(uri) == IS_NULL) {
+	if (!uri) {
 		uri = ZEPHIR_GLOBAL(global_null);
 	}
 
@@ -397,7 +397,7 @@ PHP_METHOD(Phalcon_Mvc_Url, path) {
 
 	zephir_fetch_params(0, 0, 1, &path);
 
-	if (!path || Z_TYPE_P(path) == IS_NULL) {
+	if (!path) {
 		path = ZEPHIR_GLOBAL(global_null);
 	}
 

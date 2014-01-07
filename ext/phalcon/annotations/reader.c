@@ -17,6 +17,8 @@
 #include "kernel/array.h"
 #include "kernel/object.h"
 #include "kernel/operators.h"
+#include "phalcon/annotations/scanner.h"
+#include "phalcon/annotations/annot.h"
 
 
 /*
@@ -87,6 +89,7 @@ PHP_METHOD(Phalcon_Annotations_Reader, parse) {
 		zephir_call_method(_1, reflection, "getfilename");
 		ZEPHIR_INIT_VAR(_2);
 		zephir_call_method(_2, reflection, "getstartline");
+		phannot_parse_annotations(classAnnotations, comment, _1, _2 TSRMLS_CC);
 		if ((Z_TYPE_P(classAnnotations) == IS_ARRAY)) {
 			zephir_array_update_string(&annotations, SL("class"), &classAnnotations, PH_COPY | PH_SEPARATE);
 		}
@@ -111,6 +114,7 @@ PHP_METHOD(Phalcon_Annotations_Reader, parse) {
 				zephir_call_method_cache(_1, reflection, "getfilename", &_7);
 				ZEPHIR_SINIT_NVAR(_8);
 				ZVAL_LONG(&_8, line);
+				phannot_parse_annotations(propertyAnnotations, comment, _1, &_8 TSRMLS_CC);
 				if ((Z_TYPE_P(propertyAnnotations) == IS_ARRAY)) {
 					ZEPHIR_OBS_NVAR(_9);
 					zephir_read_property(&_9, property, SL("name"), PH_NOISY_CC);
@@ -141,6 +145,7 @@ PHP_METHOD(Phalcon_Annotations_Reader, parse) {
 				zephir_call_method_cache(_1, method, "getfilename", &_14);
 				ZEPHIR_INIT_NVAR(_2);
 				zephir_call_method_cache(_2, method, "getstartline", &_15);
+				phannot_parse_annotations(methodAnnotations, comment, _1, _2 TSRMLS_CC);
 				if ((Z_TYPE_P(methodAnnotations) == IS_ARRAY)) {
 					ZEPHIR_OBS_NVAR(_9);
 					zephir_read_property(&_9, method, SL("name"), PH_NOISY_CC);
@@ -171,11 +176,11 @@ PHP_METHOD(Phalcon_Annotations_Reader, parseDocBlock) {
 	zephir_fetch_params(1, 1, 2, &docBlock_param, &file, &line);
 
 		zephir_get_strval(docBlock, docBlock_param);
-	if (!file || Z_TYPE_P(file) == IS_NULL) {
+	if (!file) {
 		ZEPHIR_CPY_WRT(file, ZEPHIR_GLOBAL(global_null));
 	}
 	ZEPHIR_SEPARATE_PARAM(file);
-	if (!line || Z_TYPE_P(line) == IS_NULL) {
+	if (!line) {
 		line = ZEPHIR_GLOBAL(global_null);
 	}
 
@@ -184,6 +189,7 @@ PHP_METHOD(Phalcon_Annotations_Reader, parseDocBlock) {
 		ZEPHIR_INIT_NVAR(file);
 		ZVAL_STRING(file, "eval code", 1);
 	}
+	phannot_parse_annotations(return_value, docBlock, file, line TSRMLS_CC);
 	RETURN_MM();
 
 }

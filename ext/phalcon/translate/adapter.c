@@ -72,7 +72,7 @@ PHP_METHOD(Phalcon_Translate_Adapter, t) {
 
 		translateKey = translateKey_param;
 
-	if (!placeholders || Z_TYPE_P(placeholders) == IS_NULL) {
+	if (!placeholders) {
 		placeholders = ZEPHIR_GLOBAL(global_null);
 	}
 

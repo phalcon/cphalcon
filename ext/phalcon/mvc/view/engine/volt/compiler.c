@@ -14,8 +14,8 @@
 #include "kernel/main.h"
 #include "kernel/object.h"
 #include "kernel/memory.h"
-#include "ext/spl/spl_exceptions.h"
 #include "kernel/exception.h"
+#include "ext/spl/spl_exceptions.h"
 #include "kernel/operators.h"
 
 
@@ -35,6 +35,19 @@
  | Authors: Andres Gutierrez <andres@phalconphp.com>                      |
  |          Eduar Carvajal <eduar@phalconphp.com>                         |
  +------------------------------------------------------------------------+
+ */
+/**
+ * Phalcon\Mvc\View\Engine\Volt\Compiler
+ *
+ * This class reads and compiles Volt templates into PHP plain code
+ *
+ *<code>
+ *	$compiler = new \Phalcon\Mvc\View\Engine\Volt\Compiler();
+ *
+ *	$compiler->compile('views/partials/header.volt');
+ *
+ *	require $compiler->getCompiledTemplatePath();
+ *</code>
  */
 /**
  * Phalcon\Mvc\View\Engine\Volt\Compiler
@@ -93,7 +106,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, __construct) {
 
 	zephir_fetch_params(0, 0, 1, &view);
 
-	if (!view || Z_TYPE_P(view) == IS_NULL) {
+	if (!view) {
 		view = ZEPHIR_GLOBAL(global_null);
 	}
 
@@ -117,6 +130,10 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, setDI) {
 
 
 
+	if ((Z_TYPE_P(dependencyInjector) != IS_OBJECT)) {
+		ZEPHIR_THROW_EXCEPTION_STRW(phalcon_mvc_view_exception_ce, "Dependency Injector is invalid");
+		return;
+	}
 	zephir_update_property_this(this_ptr, SL("_dependencyInjector"), dependencyInjector TSRMLS_CC);
 
 }
@@ -146,6 +163,10 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, setOptions) {
 
 
 
+	if ((Z_TYPE_P(options) != IS_ARRAY)) {
+		ZEPHIR_THROW_EXCEPTION_STRW(phalcon_mvc_view_exception_ce, "Options must be an array");
+		return;
+	}
 	zephir_update_property_this(this_ptr, SL("_options"), options TSRMLS_CC);
 
 }
@@ -187,8 +208,8 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, setOption) {
  *	require $compiler->getCompiledTemplatePath();
  *</code>
  *
- * @param  string  templatePath
- * @param  boolean extendsMode
+ * @param string templatePath
+ * @param boolean extendsMode
  * @return string|array
  */
 PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compile) {
@@ -207,13 +228,25 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compile) {
 
 		templatePath = templatePath_param;
 
-	if (!extendsMode_param || Z_TYPE_P(extendsMode_param) == IS_NULL) {
+	if (!extendsMode_param) {
 		extendsMode = 0;
 	} else {
 		extendsMode = zephir_get_boolval(extendsMode_param);
 	}
 
 
+
+}
+
+/**
+ * Returns the path that is currently being compiled
+ *
+ * @return string
+ */
+PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, getTemplatePath) {
+
+
+	RETURN_MEMBER(this_ptr, "_currentPath");
 
 }
 

@@ -69,7 +69,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Validation_Validator_Regex) {
 PHP_METHOD(Phalcon_Validation_Validator_Regex, validate) {
 
 	zend_bool failed;
-	zval *validation, *field, *matches, *message = NULL, *value, *replacePairs, *_0, *_1, *_2, *_3, *_4 = NULL, *_5, *_6;
+	zval *validation, *field, *matches, *message = NULL, *value, *label = NULL, *replacePairs, *_0, *_1, *_2, *_3, *_4 = NULL, *_5, *_6;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &validation, &field);
@@ -102,15 +102,24 @@ PHP_METHOD(Phalcon_Validation_Validator_Regex, validate) {
 	}
 	if ((failed == 1)) {
 		ZEPHIR_INIT_VAR(_4);
+		ZVAL_STRING(_4, "label", 1);
+		ZEPHIR_INIT_VAR(label);
+		zephir_call_method_p1(label, this_ptr, "getoption", _4);
+		if (ZEPHIR_IS_EMPTY(label)) {
+			ZEPHIR_CPY_WRT(label, field);
+		}
+		ZEPHIR_INIT_NVAR(_4);
 		ZVAL_STRING(_4, "message", 1);
 		ZEPHIR_INIT_VAR(message);
 		zephir_call_method_p1(message, this_ptr, "getoption", _4);
 		ZEPHIR_INIT_VAR(replacePairs);
 		array_init(replacePairs);
-		zephir_array_update_string(&replacePairs, SL(":field"), &field, PH_COPY | PH_SEPARATE);
+		zephir_array_update_string(&replacePairs, SL(":field"), &label, PH_COPY | PH_SEPARATE);
 		if (ZEPHIR_IS_EMPTY(message)) {
+			ZEPHIR_INIT_NVAR(_4);
+			ZVAL_STRING(_4, "Regex", 1);
 			ZEPHIR_INIT_NVAR(message);
-			ZVAL_STRING(message, "Value of field :field doesn't match regular expression", 1);
+			zephir_call_method_p1(message, validation, "getdefaultmessage", _4);
 		}
 		ZEPHIR_INIT_NVAR(_4);
 		object_init_ex(_4, phalcon_validation_message_ce);

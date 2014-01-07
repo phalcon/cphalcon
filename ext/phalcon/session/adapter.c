@@ -67,7 +67,7 @@ PHP_METHOD(Phalcon_Session_Adapter, __construct) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 1, &options);
 
-	if (!options || Z_TYPE_P(options) == IS_NULL) {
+	if (!options) {
 		options = ZEPHIR_GLOBAL(global_null);
 	}
 
@@ -159,7 +159,7 @@ PHP_METHOD(Phalcon_Session_Adapter, get) {
 	zephir_fetch_params(1, 1, 1, &index_param, &defaultValue);
 
 		zephir_get_strval(index, index_param);
-	if (!defaultValue || Z_TYPE_P(defaultValue) == IS_NULL) {
+	if (!defaultValue) {
 		defaultValue = ZEPHIR_GLOBAL(global_null);
 	}
 

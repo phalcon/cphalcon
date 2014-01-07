@@ -109,7 +109,7 @@ PHP_METHOD(Phalcon_Mvc_Router, __construct) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 1, &defaultRoutes_param);
 
-	if (!defaultRoutes_param || Z_TYPE_P(defaultRoutes_param) == IS_NULL) {
+	if (!defaultRoutes_param) {
 		defaultRoutes = 1;
 	} else {
 		defaultRoutes = zephir_get_boolval(defaultRoutes_param);
@@ -457,7 +457,7 @@ PHP_METHOD(Phalcon_Mvc_Router, handle) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 1, &uri);
 
-	if (!uri || Z_TYPE_P(uri) == IS_NULL) {
+	if (!uri) {
 		uri = ZEPHIR_GLOBAL(global_null);
 	}
 
@@ -732,10 +732,10 @@ PHP_METHOD(Phalcon_Mvc_Router, add) {
 
 		pattern = pattern_param;
 
-	if (!paths || Z_TYPE_P(paths) == IS_NULL) {
+	if (!paths) {
 		paths = ZEPHIR_GLOBAL(global_null);
 	}
-	if (!httpMethods || Z_TYPE_P(httpMethods) == IS_NULL) {
+	if (!httpMethods) {
 		httpMethods = ZEPHIR_GLOBAL(global_null);
 	}
 
@@ -770,7 +770,7 @@ PHP_METHOD(Phalcon_Mvc_Router, addGet) {
 
 		pattern = pattern_param;
 
-	if (!paths || Z_TYPE_P(paths) == IS_NULL) {
+	if (!paths) {
 		paths = ZEPHIR_GLOBAL(global_null);
 	}
 
@@ -804,7 +804,7 @@ PHP_METHOD(Phalcon_Mvc_Router, addPost) {
 
 		pattern = pattern_param;
 
-	if (!paths || Z_TYPE_P(paths) == IS_NULL) {
+	if (!paths) {
 		paths = ZEPHIR_GLOBAL(global_null);
 	}
 
@@ -838,7 +838,7 @@ PHP_METHOD(Phalcon_Mvc_Router, addPut) {
 
 		pattern = pattern_param;
 
-	if (!paths || Z_TYPE_P(paths) == IS_NULL) {
+	if (!paths) {
 		paths = ZEPHIR_GLOBAL(global_null);
 	}
 
@@ -872,7 +872,7 @@ PHP_METHOD(Phalcon_Mvc_Router, addPatch) {
 
 		pattern = pattern_param;
 
-	if (!paths || Z_TYPE_P(paths) == IS_NULL) {
+	if (!paths) {
 		paths = ZEPHIR_GLOBAL(global_null);
 	}
 
@@ -906,7 +906,7 @@ PHP_METHOD(Phalcon_Mvc_Router, addDelete) {
 
 		pattern = pattern_param;
 
-	if (!paths || Z_TYPE_P(paths) == IS_NULL) {
+	if (!paths) {
 		paths = ZEPHIR_GLOBAL(global_null);
 	}
 
@@ -940,7 +940,7 @@ PHP_METHOD(Phalcon_Mvc_Router, addOptions) {
 
 		pattern = pattern_param;
 
-	if (!paths || Z_TYPE_P(paths) == IS_NULL) {
+	if (!paths) {
 		paths = ZEPHIR_GLOBAL(global_null);
 	}
 
@@ -974,7 +974,7 @@ PHP_METHOD(Phalcon_Mvc_Router, addHead) {
 
 		pattern = pattern_param;
 
-	if (!paths || Z_TYPE_P(paths) == IS_NULL) {
+	if (!paths) {
 		paths = ZEPHIR_GLOBAL(global_null);
 	}
 

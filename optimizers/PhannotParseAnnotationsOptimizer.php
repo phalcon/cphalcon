@@ -53,12 +53,13 @@ class PhannotParseAnnotationsOptimizer
 			$symbolVariable->initVariant($context);
 		}
 
-		$context->headersManager->add('kernel/array');
+		$context->headersManager->add('phalcon/annotations/scanner', HeadersManager::POSITION_LAST);
+		$context->headersManager->add('phalcon/annotations/annot', HeadersManager::POSITION_LAST);
 
 		$symbolVariable->setDynamicTypes('array');
 
 		$resolvedParams = $call->getReadOnlyResolvedParams($expression['parameters'], $context, $expression);
-		//$context->codePrinter->output('zephir_fast_array_merge(' . $symbolVariable->getName() . ', &(' . $resolvedParams[0] . '), &(' . $resolvedParams[1] . ') TSRMLS_CC);');
+		$context->codePrinter->output('phannot_parse_annotations(' . $symbolVariable->getName() . ', ' . $resolvedParams[0] . ', ' . $resolvedParams[1] . ', ' . $resolvedParams[2] . ' TSRMLS_CC);');
 		return new CompiledExpression('variable', $symbolVariable->getRealName(), $expression);
 	}
 

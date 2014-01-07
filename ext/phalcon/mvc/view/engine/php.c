@@ -78,7 +78,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Php, render) {
 
 		path = path_param;
 
-	if (!mustClean_param || Z_TYPE_P(mustClean_param) == IS_NULL) {
+	if (!mustClean_param) {
 		mustClean = 0;
 	} else {
 		mustClean = zephir_get_boolval(mustClean_param);
