@@ -47,4 +47,26 @@
 class Config //implements ArrayAccess
 {
 
+        /**
+	 * Phalcon\Config constructor
+	 *
+	 * @param array config
+	 */
+        public function __construct(config)
+        {
+                var key, value;
+                if typeof config != "array" {
+			throw new Phalcon\Config\Exception("Config must be an array");
+		}
+
+                for key, value in config {
+                        if typeof value == "array" {
+                                let this->{key} = new self(value);
+                        } else {
+                                let this->{key} = value;
+                        }
+
+                }
+        }
+
 }
