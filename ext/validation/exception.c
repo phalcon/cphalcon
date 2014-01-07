@@ -17,20 +17,9 @@
   +------------------------------------------------------------------------+
 */
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
-
-#include "php.h"
-#include "php_phalcon.h"
-#include "phalcon.h"
-
-#include <Zend/zend_operators.h>
-#include <Zend/zend_exceptions.h>
-#include <Zend/zend_interfaces.h>
-
+#include "validation/exception.h"
+#include "validation/../exception.h"
 #include "kernel/main.h"
-#include "kernel/memory.h"
 
 /**
  * Phalcon\Validation\Exception
@@ -38,7 +27,7 @@
  * Exceptions thrown in Phalcon\Validation\* classes will use this class
  *
  */
-
+zend_class_entry *phalcon_validation_exception_ce;
 
 /**
  * Phalcon\Validation\Exception initializer
@@ -49,4 +38,3 @@ PHALCON_INIT_CLASS(Phalcon_Validation_Exception){
 
 	return SUCCESS;
 }
-

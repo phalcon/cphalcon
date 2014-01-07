@@ -17,17 +17,9 @@
   +------------------------------------------------------------------------+
 */
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
-
-#include "php.h"
-#include "php_phalcon.h"
-#include "phalcon.h"
-
-#include <Zend/zend_operators.h>
-#include <Zend/zend_exceptions.h>
-#include <Zend/zend_interfaces.h>
+#include "mvc/micro/collection.h"
+#include "mvc/micro/collectioninterface.h"
+#include "interned-strings.h"
 
 #include "kernel/main.h"
 #include "kernel/memory.h"
@@ -56,7 +48,42 @@
  *</code>
  *
  */
+zend_class_entry *phalcon_mvc_micro_collection_ce;
 
+PHP_METHOD(Phalcon_Mvc_Micro_Collection, setPrefix);
+PHP_METHOD(Phalcon_Mvc_Micro_Collection, getPrefix);
+PHP_METHOD(Phalcon_Mvc_Micro_Collection, getHandlers);
+PHP_METHOD(Phalcon_Mvc_Micro_Collection, setHandler);
+PHP_METHOD(Phalcon_Mvc_Micro_Collection, setLazy);
+PHP_METHOD(Phalcon_Mvc_Micro_Collection, isLazy);
+PHP_METHOD(Phalcon_Mvc_Micro_Collection, getHandler);
+PHP_METHOD(Phalcon_Mvc_Micro_Collection, map);
+PHP_METHOD(Phalcon_Mvc_Micro_Collection, get);
+PHP_METHOD(Phalcon_Mvc_Micro_Collection, post);
+PHP_METHOD(Phalcon_Mvc_Micro_Collection, put);
+PHP_METHOD(Phalcon_Mvc_Micro_Collection, patch);
+PHP_METHOD(Phalcon_Mvc_Micro_Collection, head);
+PHP_METHOD(Phalcon_Mvc_Micro_Collection, delete);
+PHP_METHOD(Phalcon_Mvc_Micro_Collection, options);
+
+static const zend_function_entry phalcon_mvc_micro_collection_method_entry[] = {
+	PHP_ME(Phalcon_Mvc_Micro_Collection, setPrefix, arginfo_phalcon_mvc_micro_collectioninterface_setprefix, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Micro_Collection, getPrefix, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Micro_Collection, getHandlers, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Micro_Collection, setHandler, arginfo_phalcon_mvc_micro_collectioninterface_sethandler, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Micro_Collection, setLazy, arginfo_phalcon_mvc_micro_collectioninterface_setlazy, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Micro_Collection, isLazy, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Micro_Collection, getHandler, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Micro_Collection, map, arginfo_phalcon_mvc_micro_collectioninterface_map, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Micro_Collection, get, arginfo_phalcon_mvc_micro_collectioninterface_get, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Micro_Collection, post, arginfo_phalcon_mvc_micro_collectioninterface_post, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Micro_Collection, put, arginfo_phalcon_mvc_micro_collectioninterface_put, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Micro_Collection, patch, arginfo_phalcon_mvc_micro_collectioninterface_patch, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Micro_Collection, head, arginfo_phalcon_mvc_micro_collectioninterface_head, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Micro_Collection, delete, arginfo_phalcon_mvc_micro_collectioninterface_delete, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Micro_Collection, options, arginfo_phalcon_mvc_micro_collectioninterface_options, ZEND_ACC_PUBLIC)
+	PHP_FE_END
+};
 
 /**
  * Phalcon\Mvc\Micro\Collection initializer

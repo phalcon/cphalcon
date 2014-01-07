@@ -17,6 +17,13 @@
   +------------------------------------------------------------------------+
 */
 
+#ifndef PHALCON_LOGGER_EXCEPTION_H
+#define PHALCON_LOGGER_EXCEPTION_H
+
+#include "php_phalcon.h"
+
 extern zend_class_entry *phalcon_logger_exception_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Logger_Exception);
+
+#endif /* PHALCON_LOGGER_EXCEPTION_H */

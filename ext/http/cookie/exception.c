@@ -17,20 +17,9 @@
   +------------------------------------------------------------------------+
 */
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
-
-#include "php.h"
-#include "php_phalcon.h"
-#include "phalcon.h"
-
-#include <Zend/zend_operators.h>
-#include <Zend/zend_exceptions.h>
-#include <Zend/zend_interfaces.h>
-
+#include "http/cookie/exception.h"
+#include "http/../exception.h"
 #include "kernel/main.h"
-#include "kernel/memory.h"
 
 /**
  * Phalcon\Http\Cookie\Exception
@@ -38,7 +27,7 @@
  * Exceptions thrown in Phalcon\Http\Cookie will use this class
  *
  */
-
+zend_class_entry *phalcon_http_cookie_exception_ce;
 
 /**
  * Phalcon\Http\Cookie\Exception initializer
@@ -49,4 +38,3 @@ PHALCON_INIT_CLASS(Phalcon_Http_Cookie_Exception){
 
 	return SUCCESS;
 }
-

@@ -17,19 +17,10 @@
   +------------------------------------------------------------------------+
 */
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
+#include "session/adapter.h"
+#include "session/adapterinterface.h"
 
-#include "php.h"
-#include "php_phalcon.h"
-#include "phalcon.h"
-
-#include <Zend/zend_operators.h>
-#include <Zend/zend_exceptions.h>
-#include <Zend/zend_interfaces.h>
-
-#include "main/SAPI.h"
+#include <main/SAPI.h>
 
 #include "kernel/main.h"
 #include "kernel/memory.h"
@@ -47,7 +38,36 @@
  *
  * Base class for Phalcon\Session adapters
  */
+zend_class_entry *phalcon_session_adapter_ce;
 
+PHP_METHOD(Phalcon_Session_Adapter, __construct);
+PHP_METHOD(Phalcon_Session_Adapter, __destruct);
+PHP_METHOD(Phalcon_Session_Adapter, start);
+PHP_METHOD(Phalcon_Session_Adapter, setOptions);
+PHP_METHOD(Phalcon_Session_Adapter, getOptions);
+PHP_METHOD(Phalcon_Session_Adapter, get);
+PHP_METHOD(Phalcon_Session_Adapter, set);
+PHP_METHOD(Phalcon_Session_Adapter, has);
+PHP_METHOD(Phalcon_Session_Adapter, remove);
+PHP_METHOD(Phalcon_Session_Adapter, getId);
+PHP_METHOD(Phalcon_Session_Adapter, isStarted);
+PHP_METHOD(Phalcon_Session_Adapter, destroy);
+
+static const zend_function_entry phalcon_session_adapter_method_entry[] = {
+	PHP_ME(Phalcon_Session_Adapter, __construct, arginfo_phalcon_session_adapterinterface___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
+	PHP_ME(Phalcon_Session_Adapter, __destruct, NULL, ZEND_ACC_PUBLIC | ZEND_ACC_DTOR)
+	PHP_ME(Phalcon_Session_Adapter, start, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Session_Adapter, setOptions, arginfo_phalcon_session_adapterinterface_setoptions, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Session_Adapter, getOptions, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Session_Adapter, get, arginfo_phalcon_session_adapterinterface_get, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Session_Adapter, set, arginfo_phalcon_session_adapterinterface_set, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Session_Adapter, has, arginfo_phalcon_session_adapterinterface_has, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Session_Adapter, remove, arginfo_phalcon_session_adapterinterface_remove, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Session_Adapter, getId, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Session_Adapter, isStarted, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Session_Adapter, destroy, NULL, ZEND_ACC_PUBLIC)
+	PHP_FE_END
+};
 
 /**
  * Phalcon\Session\Adapter initializer

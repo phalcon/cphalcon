@@ -17,20 +17,10 @@
   +------------------------------------------------------------------------+
 */
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
-
-#include "php.h"
-#include "php_phalcon.h"
-#include "phalcon.h"
-
-#include <Zend/zend_operators.h>
-#include <Zend/zend_exceptions.h>
-#include <Zend/zend_interfaces.h>
-
+#include "session/adapter/files.h"
+#include "session/adapter.h"
+#include "session/adapterinterface.h"
 #include "kernel/main.h"
-#include "kernel/memory.h"
 
 /**
  * Phalcon\Session\Adapter\Files
@@ -49,7 +39,7 @@
  * echo $session->get('var');
  *</code>
  */
-
+zend_class_entry *phalcon_session_adapter_files_ce;
 
 /**
  * Phalcon\Session\Adapter\Files initializer
@@ -62,4 +52,3 @@ PHALCON_INIT_CLASS(Phalcon_Session_Adapter_Files){
 
 	return SUCCESS;
 }
-

@@ -29,9 +29,10 @@
 #include <Zend/zend_exceptions.h>
 #include <Zend/zend_interfaces.h>
 
+#include "logger.h"
+
 #include "kernel/main.h"
 #include "kernel/memory.h"
-
 #include "kernel/exception.h"
 #include "kernel/object.h"
 #include "kernel/fcall.h"
@@ -190,8 +191,8 @@ PHP_METHOD(Phalcon_Logger_Multiple, emergency){
 
 	phalcon_fetch_params(1, 1, 0, &message);
 	
-	PHALCON_INIT_VAR(type);
-	PHALCON_GET_CLASS_CONSTANT(type, phalcon_logger_ce, "EMERGENCY");
+	PHALCON_ALLOC_GHOST_ZVAL(type);
+	ZVAL_LONG(type, PHALCON_LOGGER_EMERGENCY);
 	phalcon_call_method_p2_noret(this_ptr, "log", message, type);
 	
 	PHALCON_MM_RESTORE();
@@ -211,8 +212,8 @@ PHP_METHOD(Phalcon_Logger_Multiple, debug){
 
 	phalcon_fetch_params(1, 1, 0, &message);
 	
-	PHALCON_INIT_VAR(type);
-	PHALCON_GET_CLASS_CONSTANT(type, phalcon_logger_ce, "DEBUG");
+	PHALCON_ALLOC_GHOST_ZVAL(type);
+	ZVAL_LONG(type, PHALCON_LOGGER_DEBUG);
 	phalcon_call_method_p2_noret(this_ptr, "log", message, type);
 	
 	PHALCON_MM_RESTORE();
@@ -231,8 +232,8 @@ PHP_METHOD(Phalcon_Logger_Multiple, error){
 
 	phalcon_fetch_params(1, 1, 0, &message);
 	
-	PHALCON_INIT_VAR(type);
-	PHALCON_GET_CLASS_CONSTANT(type, phalcon_logger_ce, "ERROR");
+	PHALCON_ALLOC_GHOST_ZVAL(type);
+	ZVAL_LONG(type, PHALCON_LOGGER_ERROR);
 	phalcon_call_method_p2_noret(this_ptr, "log", message, type);
 	
 	PHALCON_MM_RESTORE();
@@ -251,8 +252,8 @@ PHP_METHOD(Phalcon_Logger_Multiple, info){
 
 	phalcon_fetch_params(1, 1, 0, &message);
 	
-	PHALCON_INIT_VAR(type);
-	PHALCON_GET_CLASS_CONSTANT(type, phalcon_logger_ce, "INFO");
+	PHALCON_ALLOC_GHOST_ZVAL(type);
+	ZVAL_LONG(type, PHALCON_LOGGER_INFO);
 	phalcon_call_method_p2_noret(this_ptr, "log", message, type);
 	
 	PHALCON_MM_RESTORE();
@@ -271,8 +272,8 @@ PHP_METHOD(Phalcon_Logger_Multiple, notice){
 
 	phalcon_fetch_params(1, 1, 0, &message);
 	
-	PHALCON_INIT_VAR(type);
-	PHALCON_GET_CLASS_CONSTANT(type, phalcon_logger_ce, "NOTICE");
+	PHALCON_ALLOC_GHOST_ZVAL(type);
+	ZVAL_LONG(type, PHALCON_LOGGER_NOTICE);
 	phalcon_call_method_p2_noret(this_ptr, "log", message, type);
 	
 	PHALCON_MM_RESTORE();
@@ -291,8 +292,8 @@ PHP_METHOD(Phalcon_Logger_Multiple, warning){
 
 	phalcon_fetch_params(1, 1, 0, &message);
 	
-	PHALCON_INIT_VAR(type);
-	PHALCON_GET_CLASS_CONSTANT(type, phalcon_logger_ce, "WARNING");
+	PHALCON_ALLOC_GHOST_ZVAL(type);
+	ZVAL_LONG(type, PHALCON_LOGGER_WARNING);
 	phalcon_call_method_p2_noret(this_ptr, "log", message, type);
 	
 	PHALCON_MM_RESTORE();
@@ -311,10 +312,9 @@ PHP_METHOD(Phalcon_Logger_Multiple, alert){
 
 	phalcon_fetch_params(1, 1, 0, &message);
 	
-	PHALCON_INIT_VAR(type);
-	PHALCON_GET_CLASS_CONSTANT(type, phalcon_logger_ce, "ALERT");
+	PHALCON_ALLOC_GHOST_ZVAL(type);
+	ZVAL_LONG(type, PHALCON_LOGGER_ALERT);
 	phalcon_call_method_p2_noret(this_ptr, "log", message, type);
 	
 	PHALCON_MM_RESTORE();
 }
-

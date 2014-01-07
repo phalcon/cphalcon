@@ -29,8 +29,10 @@
 #include <Zend/zend_exceptions.h>
 #include <Zend/zend_interfaces.h>
 
-#include "ext/standard/file.h"
-#include "main/php_streams.h"
+#include "exception.h"
+
+#include <ext/standard/file.h>
+#include <main/php_streams.h>
 
 #include "kernel/main.h"
 #include "kernel/memory.h"

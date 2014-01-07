@@ -17,21 +17,15 @@
   +------------------------------------------------------------------------+
 */
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
-
-#include "php.h"
-#include "php_phalcon.h"
-#include "phalcon.h"
-
-#include <Zend/zend_operators.h>
-#include <Zend/zend_exceptions.h>
-#include <Zend/zend_interfaces.h>
+#include "session/bag.h"
+#include "session/baginterface.h"
+#include "session/exception.h"
+#include "session/adapterinterface.h"
+#include "di/injectionawareinterface.h"
+#include "diinterface.h"
 
 #include "kernel/main.h"
 #include "kernel/memory.h"
-
 #include "kernel/exception.h"
 #include "kernel/object.h"
 #include "kernel/fcall.h"
@@ -50,7 +44,46 @@
  *	$user->age = 22;
  *</code>
  */
+zend_class_entry *phalcon_session_bag_ce;
 
+PHP_METHOD(Phalcon_Session_Bag, __construct);
+PHP_METHOD(Phalcon_Session_Bag, setDI);
+PHP_METHOD(Phalcon_Session_Bag, getDI);
+PHP_METHOD(Phalcon_Session_Bag, initialize);
+PHP_METHOD(Phalcon_Session_Bag, destroy);
+PHP_METHOD(Phalcon_Session_Bag, set);
+PHP_METHOD(Phalcon_Session_Bag, get);
+PHP_METHOD(Phalcon_Session_Bag, has);
+PHP_METHOD(Phalcon_Session_Bag, remove);
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_session_bag___construct, 0, 0, 1)
+	ZEND_ARG_INFO(0, name)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_session_bag___get, 0, 0, 1)
+	ZEND_ARG_INFO(0, property)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_session_bag_remove, 0, 0, 1)
+	ZEND_ARG_INFO(0, property)
+ZEND_END_ARG_INFO()
+
+static const zend_function_entry phalcon_session_bag_method_entry[] = {
+	PHP_ME(Phalcon_Session_Bag, __construct, arginfo_phalcon_session_bag___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
+	PHP_ME(Phalcon_Session_Bag, setDI, arginfo_phalcon_di_injectionawareinterface_setdi, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Session_Bag, getDI, arginfo_phalcon_di_injectionawareinterface_getdi, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Session_Bag, initialize, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Session_Bag, destroy, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Session_Bag, set, arginfo_phalcon_session_baginterface_set, ZEND_ACC_PUBLIC)
+	PHP_MALIAS(Phalcon_Session_Bag, __set, set, arginfo_phalcon_session_baginterface_set, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Session_Bag, get, arginfo_phalcon_session_baginterface_get, ZEND_ACC_PUBLIC)
+	PHP_MALIAS(Phalcon_Session_Bag, __get, get, arginfo_phalcon_session_bag___get, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Session_Bag, has, arginfo_phalcon_session_baginterface_has, ZEND_ACC_PUBLIC)
+	PHP_MALIAS(Phalcon_Session_Bag, __isset, has, arginfo_phalcon_session_baginterface_has, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Session_Bag, remove, arginfo_phalcon_session_bag_remove, ZEND_ACC_PUBLIC)
+	PHP_MALIAS(Phalcon_Session_Bag, __unset, remove, arginfo_phalcon_session_bag_remove, ZEND_ACC_PUBLIC)
+	PHP_FE_END
+};
 
 /**
  * Phalcon\Session\Bag initializer

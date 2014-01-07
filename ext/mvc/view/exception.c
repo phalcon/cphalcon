@@ -17,27 +17,16 @@
   +------------------------------------------------------------------------+
 */
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
-
-#include "php.h"
-#include "php_phalcon.h"
-#include "phalcon.h"
-
-#include <Zend/zend_operators.h>
-#include <Zend/zend_exceptions.h>
-#include <Zend/zend_interfaces.h>
-
+#include "mvc/view/exception.h"
+#include "mvc/../exception.h"
 #include "kernel/main.h"
-#include "kernel/memory.h"
 
 /**
  * Phalcon\Mvc\View\Exception
  *
  * Class for exceptions thrown by Phalcon\Mvc\View
  */
-
+zend_class_entry *phalcon_mvc_view_exception_ce;
 
 /**
  * Phalcon\Mvc\View\Exception initializer
@@ -48,4 +37,3 @@ PHALCON_INIT_CLASS(Phalcon_Mvc_View_Exception){
 
 	return SUCCESS;
 }
-

@@ -86,21 +86,18 @@ PHALCON_INIT_CLASS(Phalcon_Filter){
  */
 PHP_METHOD(Phalcon_Filter, add){
 
-	zval *name, *handler;
+	zval **name, **handler;
 
-	phalcon_fetch_params(0, 2, 0, &name, &handler);
+	phalcon_fetch_params_ex(2, 0, &name, &handler);
+
+	PHALCON_ENSURE_IS_STRING(name);
 	
-	if (Z_TYPE_P(name) != IS_STRING) {
-		PHALCON_THROW_EXCEPTION_STRW(phalcon_filter_exception_ce, "Filter name must be string");
-		return;
-	}
-	if (Z_TYPE_P(handler) != IS_OBJECT) {
+	if (Z_TYPE_PP(handler) != IS_OBJECT) {
 		PHALCON_THROW_EXCEPTION_STRW(phalcon_filter_exception_ce, "Filter must be an object");
 		return;
 	}
 	
-	phalcon_update_property_array(this_ptr, SL("_filters"), name, handler TSRMLS_CC);
-	
+	phalcon_update_property_array(this_ptr, SL("_filters"), *name, *handler TSRMLS_CC);
 	RETURN_THISW();
 }
 

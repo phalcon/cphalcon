@@ -17,21 +17,15 @@
   +------------------------------------------------------------------------+
 */
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
-
-#include "php.h"
-#include "php_phalcon.h"
-#include "phalcon.h"
-
-#include <Zend/zend_operators.h>
-#include <Zend/zend_exceptions.h>
-#include <Zend/zend_interfaces.h>
+#include "mvc/dispatcher.h"
+#include "mvc/dispatcherinterface.h"
+#include "mvc/../dispatcher.h"
+#include "mvc/../dispatcherinterface.h"
+#include "mvc/dispatcher/exception.h"
+#include "http/responseinterface.h"
 
 #include "kernel/main.h"
 #include "kernel/memory.h"
-
 #include "kernel/object.h"
 #include "kernel/fcall.h"
 #include "kernel/exception.h"
@@ -61,6 +55,32 @@
  *</code>
  */
 
+PHP_METHOD(Phalcon_Mvc_Dispatcher, setControllerSuffix);
+PHP_METHOD(Phalcon_Mvc_Dispatcher, setDefaultController);
+PHP_METHOD(Phalcon_Mvc_Dispatcher, setControllerName);
+PHP_METHOD(Phalcon_Mvc_Dispatcher, getControllerName);
+PHP_METHOD(Phalcon_Mvc_Dispatcher, _throwDispatchException);
+PHP_METHOD(Phalcon_Mvc_Dispatcher, _handleException);
+PHP_METHOD(Phalcon_Mvc_Dispatcher, getControllerClass);
+PHP_METHOD(Phalcon_Mvc_Dispatcher, getLastController);
+PHP_METHOD(Phalcon_Mvc_Dispatcher, getActiveController);
+PHP_METHOD(Phalcon_Mvc_Dispatcher, getPreviousControllerName);
+PHP_METHOD(Phalcon_Mvc_Dispatcher, getPreviousActionName);
+
+static const zend_function_entry phalcon_mvc_dispatcher_method_entry[] = {
+	PHP_ME(Phalcon_Mvc_Dispatcher, setControllerSuffix, arginfo_phalcon_mvc_dispatcherinterface_setcontrollersuffix, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Dispatcher, setDefaultController, arginfo_phalcon_mvc_dispatcherinterface_setdefaultcontroller, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Dispatcher, setControllerName, arginfo_phalcon_mvc_dispatcherinterface_setcontrollername, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Dispatcher, getControllerName, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Dispatcher, _throwDispatchException, NULL, ZEND_ACC_PROTECTED)
+	PHP_ME(Phalcon_Mvc_Dispatcher, _handleException, NULL, ZEND_ACC_PROTECTED)
+	PHP_ME(Phalcon_Mvc_Dispatcher, getControllerClass, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Dispatcher, getLastController, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Dispatcher, getActiveController, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Dispatcher, getPreviousControllerName, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Dispatcher, getPreviousActionName, NULL, ZEND_ACC_PUBLIC)
+	PHP_FE_END
+};
 
 /**
  * Phalcon\Mvc\Dispatcher initializer

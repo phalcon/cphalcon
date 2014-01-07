@@ -29,9 +29,11 @@
 #include <Zend/zend_exceptions.h>
 #include <Zend/zend_interfaces.h>
 
-#include "main/php_variables.h"
-#include "main/SAPI.h"
+#include "diinterface.h"
+#include "filterinterface.h"
 
+#include <main/php_variables.h>
+#include <main/SAPI.h>
 #include <ext/standard/php_smart_str.h>
 
 #include "kernel/main.h"

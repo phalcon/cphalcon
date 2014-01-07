@@ -17,6 +17,13 @@
   +------------------------------------------------------------------------+
 */
 
+#ifndef PHALCON_MVC_MICRO_EXCEPTION_H
+#define PHALCON_MVC_MICRO_EXCEPTION_H
+
+#include "php_phalcon.h"
+
 extern zend_class_entry *phalcon_mvc_micro_exception_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Mvc_Micro_Exception);
+
+#endif /* PHALCON_MVC_MICRO_EXCEPTION_H */

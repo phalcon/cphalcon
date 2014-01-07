@@ -17,19 +17,13 @@
   +------------------------------------------------------------------------+
 */
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
-
-#include "php.h"
+#include "php_phalcon.h"
 
 #ifdef PHP_WIN32
-#include "php_string.h"
+#include <ext/standard/php_string.h>
 #endif
 
-#include "php_phalcon.h"
-#include "phalcon.h"
-
+#include "kernel/../exception.h"
 #include "kernel/main.h"
 #include "kernel/memory.h"
 #include "kernel/object.h"

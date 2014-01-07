@@ -31,6 +31,8 @@
 #include <Zend/zend_exceptions.h>
 #include <Zend/zend_interfaces.h>
 
+#include "image.h"
+
 #include <ext/standard/php_versioning.h>
 
 #include "kernel/main.h"

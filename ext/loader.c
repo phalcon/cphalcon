@@ -156,14 +156,10 @@ PHP_METHOD(Phalcon_Loader, __construct){
 
 	zval *extensions;
 
-	PHALCON_MM_GROW();
-
-	PHALCON_INIT_VAR(extensions);
+	PHALCON_ALLOC_GHOST_ZVAL(extensions);
 	array_init_size(extensions, 1);
 	add_next_index_stringl(extensions, SL("php"), 1);
 	phalcon_update_property_this(this_ptr, SL("_extensions"), extensions TSRMLS_CC);
-	
-	PHALCON_MM_RESTORE();
 }
 
 /**

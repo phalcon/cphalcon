@@ -17,18 +17,8 @@
   +------------------------------------------------------------------------+
 */
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
-
-#include "php.h"
-#include "php_phalcon.h"
-#include "phalcon.h"
-
-#include <Zend/zend_operators.h>
-#include <Zend/zend_exceptions.h>
-#include <Zend/zend_interfaces.h>
-
+#include "logger/exception.h"
+#include "logger/../exception.h"
 #include "kernel/main.h"
 #include "kernel/memory.h"
 
@@ -38,7 +28,7 @@
  * Exceptions thrown in Phalcon\Logger will use this class
  *
  */
-
+zend_class_entry *phalcon_logger_exception_ce;
 
 /**
  * Phalcon\Logger\Exception initializer
@@ -49,4 +39,3 @@ PHALCON_INIT_CLASS(Phalcon_Logger_Exception){
 
 	return SUCCESS;
 }
-

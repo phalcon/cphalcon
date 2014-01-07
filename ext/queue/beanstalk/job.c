@@ -29,6 +29,8 @@
 #include <Zend/zend_exceptions.h>
 #include <Zend/zend_interfaces.h>
 
+#include "exception.h"
+
 #include "kernel/main.h"
 #include "kernel/memory.h"
 
