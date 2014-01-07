@@ -102,6 +102,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator, appendMessage) {
 	}
 	if (!type) {
 		ZEPHIR_CPY_WRT(type, ZEPHIR_GLOBAL(global_null));
+	} else {
 		ZEPHIR_SEPARATE_PARAM(type);
 	}
 

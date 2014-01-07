@@ -178,6 +178,7 @@ PHP_METHOD(Phalcon_Annotations_Reader, parseDocBlock) {
 		zephir_get_strval(docBlock, docBlock_param);
 	if (!file) {
 		ZEPHIR_CPY_WRT(file, ZEPHIR_GLOBAL(global_null));
+	} else {
 		ZEPHIR_SEPARATE_PARAM(file);
 	}
 	if (!line) {

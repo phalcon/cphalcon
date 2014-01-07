@@ -361,6 +361,7 @@ PHP_METHOD(Phalcon_Forms_Form, isValid) {
 
 	if (!data) {
 		ZEPHIR_CPY_WRT(data, ZEPHIR_GLOBAL(global_null));
+	} else {
 		ZEPHIR_SEPARATE_PARAM(data);
 	}
 	if (!entity) {

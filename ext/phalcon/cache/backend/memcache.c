@@ -95,6 +95,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Memcache, __construct) {
 
 	if (!options) {
 		ZEPHIR_CPY_WRT(options, ZEPHIR_GLOBAL(global_null));
+	} else {
 		ZEPHIR_SEPARATE_PARAM(options);
 	}
 

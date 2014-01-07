@@ -213,6 +213,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction, rollback) {
 
 	if (!rollbackMessage) {
 		ZEPHIR_CPY_WRT(rollbackMessage, ZEPHIR_GLOBAL(global_null));
+	} else {
 		ZEPHIR_SEPARATE_PARAM(rollbackMessage);
 	}
 	if (!rollbackRecord) {

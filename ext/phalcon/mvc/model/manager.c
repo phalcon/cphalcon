@@ -1600,6 +1600,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getRelationRecords) {
 
 	if (!parameters) {
 		ZEPHIR_CPY_WRT(parameters, ZEPHIR_GLOBAL(global_null));
+	} else {
 		ZEPHIR_SEPARATE_PARAM(parameters);
 	}
 

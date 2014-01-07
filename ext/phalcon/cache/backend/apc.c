@@ -129,6 +129,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Apc, save) {
 	}
 	if (!lifetime) {
 		ZEPHIR_CPY_WRT(lifetime, ZEPHIR_GLOBAL(global_null));
+	} else {
 		ZEPHIR_SEPARATE_PARAM(lifetime);
 	}
 	if (!stopBuffer) {
