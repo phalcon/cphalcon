@@ -6,6 +6,7 @@
  - Fixed memory access violations / segmentation faults / etc (#469, #849, #851, #852, #858, #860, #861, #895, #911, #918, #927, #928, #1000, #1077, #1112, #1113, #1131, #1149, #1173,
    #1272, #1284, #1302, #1340, #1343, #1368, #1369, #1371, #1376, #1379, #1392, #1451, #1466, #1485, #1494, #1501, #1504, #1509, #1567, #1607)
  - Fixed PHP notices, warnings and other incompatibilities (#894, #1222, #1315, #1413, #1427, #1428, #1529)
+ - Fixed inheritance chain for Phalcon\Forms\Exception, Phalcon\Loader\Exception, Phalcon\Http\Request\Exception (#1770)
  - Security fixes:
    - Hardening fixes (#1044)
    - Interface validation (#1043, #1048)
