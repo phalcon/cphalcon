@@ -133,8 +133,8 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, connect) {
 
 	if (!descriptor) {
 		ZEPHIR_CPY_WRT(descriptor, ZEPHIR_GLOBAL(global_null));
+		ZEPHIR_SEPARATE_PARAM(descriptor);
 	}
-	ZEPHIR_SEPARATE_PARAM(descriptor);
 
 
 	if ((Z_TYPE_P(descriptor) == IS_NULL)) {

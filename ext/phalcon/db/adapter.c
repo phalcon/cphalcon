@@ -756,8 +756,6 @@ PHP_METHOD(Phalcon_Db_Adapter, tableExists) {
 	if (!schemaName_param) {
 		ZEPHIR_INIT_VAR(schemaName);
 		ZVAL_EMPTY_STRING(schemaName);
-	} else {
-		zephir_get_strval(schemaName, schemaName_param);
 	}
 
 
@@ -958,8 +956,6 @@ PHP_METHOD(Phalcon_Db_Adapter, dropTable) {
 	if (!schemaName_param) {
 		ZEPHIR_INIT_VAR(schemaName);
 		ZVAL_EMPTY_STRING(schemaName);
-	} else {
-		zephir_get_strval(schemaName, schemaName_param);
 	}
 	if (!ifExists) {
 		ifExists = ZEPHIR_GLOBAL(global_true);
@@ -1050,8 +1046,6 @@ PHP_METHOD(Phalcon_Db_Adapter, dropView) {
 	if (!schemaName_param) {
 		ZEPHIR_INIT_VAR(schemaName);
 		ZVAL_EMPTY_STRING(schemaName);
-	} else {
-		zephir_get_strval(schemaName, schemaName_param);
 	}
 	if (!ifExists) {
 		ifExists = ZEPHIR_GLOBAL(global_true);
@@ -1477,8 +1471,6 @@ PHP_METHOD(Phalcon_Db_Adapter, listTables) {
 	if (!schemaName_param) {
 		ZEPHIR_INIT_VAR(schemaName);
 		ZVAL_EMPTY_STRING(schemaName);
-	} else {
-		zephir_get_strval(schemaName, schemaName_param);
 	}
 
 
@@ -1527,8 +1519,6 @@ PHP_METHOD(Phalcon_Db_Adapter, listViews) {
 	if (!schemaName_param) {
 		ZEPHIR_INIT_VAR(schemaName);
 		ZVAL_EMPTY_STRING(schemaName);
-	} else {
-		zephir_get_strval(schemaName, schemaName_param);
 	}
 
 
@@ -1660,8 +1650,6 @@ PHP_METHOD(Phalcon_Db_Adapter, describeReferences) {
 	if (!schema_param) {
 		ZEPHIR_INIT_VAR(schema);
 		ZVAL_EMPTY_STRING(schema);
-	} else {
-		zephir_get_strval(schema, schema_param);
 	}
 
 

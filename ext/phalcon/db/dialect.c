@@ -225,8 +225,6 @@ PHP_METHOD(Phalcon_Db_Dialect, getSqlExpression) {
 	if (!escapeChar_param) {
 		ZEPHIR_INIT_VAR(escapeChar);
 		ZVAL_EMPTY_STRING(escapeChar);
-	} else {
-		zephir_get_strval(escapeChar, escapeChar_param);
 	}
 
 
@@ -405,8 +403,6 @@ PHP_METHOD(Phalcon_Db_Dialect, getSqlTable) {
 	if (!escapeChar_param) {
 		ZEPHIR_INIT_VAR(escapeChar);
 		ZVAL_EMPTY_STRING(escapeChar);
-	} else {
-		zephir_get_strval(escapeChar, escapeChar_param);
 	}
 
 

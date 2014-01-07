@@ -129,8 +129,8 @@ PHP_METHOD(Phalcon_Cache_Backend_Apc, save) {
 	}
 	if (!lifetime) {
 		ZEPHIR_CPY_WRT(lifetime, ZEPHIR_GLOBAL(global_null));
+		ZEPHIR_SEPARATE_PARAM(lifetime);
 	}
-	ZEPHIR_SEPARATE_PARAM(lifetime);
 	if (!stopBuffer) {
 		stopBuffer = ZEPHIR_GLOBAL(global_true);
 	}
@@ -227,8 +227,6 @@ PHP_METHOD(Phalcon_Cache_Backend_Apc, queryKeys) {
 	if (!prefix_param) {
 		ZEPHIR_INIT_VAR(prefix);
 		ZVAL_EMPTY_STRING(prefix);
-	} else {
-		zephir_get_strval(prefix, prefix_param);
 	}
 
 

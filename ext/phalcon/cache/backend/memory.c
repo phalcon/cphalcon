@@ -301,8 +301,8 @@ PHP_METHOD(Phalcon_Cache_Backend_Memory, increment) {
 	}
 	if (!value) {
 		ZEPHIR_CPY_WRT(value, ZEPHIR_GLOBAL(global_null));
+		ZEPHIR_SEPARATE_PARAM(value);
 	}
-	ZEPHIR_SEPARATE_PARAM(value);
 
 
 	if (!(zephir_is_true(keyName))) {
@@ -351,8 +351,8 @@ PHP_METHOD(Phalcon_Cache_Backend_Memory, decrement) {
 	}
 	if (!value) {
 		ZEPHIR_CPY_WRT(value, ZEPHIR_GLOBAL(global_null));
+		ZEPHIR_SEPARATE_PARAM(value);
 	}
-	ZEPHIR_SEPARATE_PARAM(value);
 
 
 	if (!(zephir_is_true(keyName))) {

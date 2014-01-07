@@ -89,12 +89,12 @@ PHP_METHOD(Phalcon_Mvc_Collection, __construct) {
 
 	if (!dependencyInjector) {
 		ZEPHIR_CPY_WRT(dependencyInjector, ZEPHIR_GLOBAL(global_null));
+		ZEPHIR_SEPARATE_PARAM(dependencyInjector);
 	}
-	ZEPHIR_SEPARATE_PARAM(dependencyInjector);
 	if (!modelsManager) {
 		ZEPHIR_CPY_WRT(modelsManager, ZEPHIR_GLOBAL(global_null));
+		ZEPHIR_SEPARATE_PARAM(modelsManager);
 	}
-	ZEPHIR_SEPARATE_PARAM(modelsManager);
 
 
 	if ((Z_TYPE_P(dependencyInjector) != IS_OBJECT)) {

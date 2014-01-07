@@ -126,8 +126,6 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Mysql, describeColumns) {
 	if (!schema_param) {
 		ZEPHIR_INIT_VAR(schema);
 		ZVAL_EMPTY_STRING(schema);
-	} else {
-		zephir_get_strval(schema, schema_param);
 	}
 
 

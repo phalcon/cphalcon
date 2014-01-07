@@ -17,8 +17,8 @@
 #include "kernel/object.h"
 #include "ext/spl/spl_exceptions.h"
 #include "kernel/exception.h"
-#include "kernel/operators.h"
 #include "kernel/fcall.h"
+#include "kernel/operators.h"
 #include "kernel/string.h"
 #include "kernel/concat.h"
 #include "kernel/hash.h"
@@ -99,8 +99,6 @@ PHP_METHOD(Phalcon_Mvc_Router_Annotations, addResource) {
 	if (!prefix_param) {
 		ZEPHIR_INIT_VAR(prefix);
 		ZVAL_EMPTY_STRING(prefix);
-	} else {
-		zephir_get_strval(prefix, prefix_param);
 	}
 
 
@@ -149,8 +147,6 @@ PHP_METHOD(Phalcon_Mvc_Router_Annotations, addModuleResource) {
 	if (!prefix_param) {
 		ZEPHIR_INIT_VAR(prefix);
 		ZVAL_EMPTY_STRING(prefix);
-	} else {
-		zephir_get_strval(prefix, prefix_param);
 	}
 
 
@@ -184,8 +180,6 @@ PHP_METHOD(Phalcon_Mvc_Router_Annotations, handle) {
 	if (!uri_param) {
 		ZEPHIR_INIT_VAR(uri);
 		ZVAL_EMPTY_STRING(uri);
-	} else {
-		zephir_get_strval(uri, uri_param);
 	}
 
 

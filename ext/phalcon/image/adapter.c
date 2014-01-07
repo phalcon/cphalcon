@@ -603,8 +603,6 @@ PHP_METHOD(Phalcon_Image_Adapter, text) {
 	if (!color_param) {
 		ZEPHIR_INIT_VAR(color);
 		ZVAL_STRING(color, "000000", 1);
-	} else {
-		zephir_get_strval(color, color_param);
 	}
 	if (!size_param) {
 		size = 12;	} else {
@@ -613,8 +611,6 @@ PHP_METHOD(Phalcon_Image_Adapter, text) {
 	if (!fontfile_param) {
 		ZEPHIR_INIT_VAR(fontfile);
 		ZVAL_EMPTY_STRING(fontfile);
-	} else {
-		zephir_get_strval(fontfile, fontfile_param);
 	}
 
 
@@ -832,8 +828,6 @@ PHP_METHOD(Phalcon_Image_Adapter, save) {
 	if (!file_param) {
 		ZEPHIR_INIT_VAR(file);
 		ZVAL_EMPTY_STRING(file);
-	} else {
-		zephir_get_strval(file, file_param);
 	}
 	if (!quality_param) {
 		quality = 100;	} else {
@@ -880,8 +874,6 @@ PHP_METHOD(Phalcon_Image_Adapter, render) {
 	if (!ext_param) {
 		ZEPHIR_INIT_VAR(ext);
 		ZVAL_EMPTY_STRING(ext);
-	} else {
-		zephir_get_strval(ext, ext_param);
 	}
 	if (!quality_param) {
 		quality = 100;	} else {

@@ -122,12 +122,12 @@ PHP_METHOD(Phalcon_Mvc_Model, __construct) {
 
 	if (!dependencyInjector) {
 		ZEPHIR_CPY_WRT(dependencyInjector, ZEPHIR_GLOBAL(global_null));
+		ZEPHIR_SEPARATE_PARAM(dependencyInjector);
 	}
-	ZEPHIR_SEPARATE_PARAM(dependencyInjector);
 	if (!modelsManager) {
 		ZEPHIR_CPY_WRT(modelsManager, ZEPHIR_GLOBAL(global_null));
+		ZEPHIR_SEPARATE_PARAM(modelsManager);
 	}
-	ZEPHIR_SEPARATE_PARAM(modelsManager);
 
 
 	if ((Z_TYPE_P(dependencyInjector) != IS_OBJECT)) {
@@ -1070,8 +1070,8 @@ PHP_METHOD(Phalcon_Mvc_Model, query) {
 
 	if (!dependencyInjector) {
 		ZEPHIR_CPY_WRT(dependencyInjector, ZEPHIR_GLOBAL(global_null));
+		ZEPHIR_SEPARATE_PARAM(dependencyInjector);
 	}
-	ZEPHIR_SEPARATE_PARAM(dependencyInjector);
 
 
 	if ((Z_TYPE_P(dependencyInjector) != IS_OBJECT)) {
@@ -1109,8 +1109,8 @@ PHP_METHOD(Phalcon_Mvc_Model, _exists) {
 
 	if (!table) {
 		ZEPHIR_CPY_WRT(table, ZEPHIR_GLOBAL(global_null));
+		ZEPHIR_SEPARATE_PARAM(table);
 	}
-	ZEPHIR_SEPARATE_PARAM(table);
 
 
 	ZEPHIR_INIT_VAR(uniqueParams);

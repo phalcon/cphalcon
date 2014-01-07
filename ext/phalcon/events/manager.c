@@ -222,8 +222,6 @@ PHP_METHOD(Phalcon_Events_Manager, dettachAll) {
 	if (!type_param) {
 		ZEPHIR_INIT_VAR(type);
 		ZVAL_EMPTY_STRING(type);
-	} else {
-		zephir_get_strval(type, type_param);
 	}
 
 

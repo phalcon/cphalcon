@@ -101,8 +101,8 @@ PHP_METHOD(Phalcon_Cache_Backend_Libmemcached, __construct) {
 
 	if (!options) {
 		ZEPHIR_CPY_WRT(options, ZEPHIR_GLOBAL(global_null));
+		ZEPHIR_SEPARATE_PARAM(options);
 	}
-	ZEPHIR_SEPARATE_PARAM(options);
 
 
 	if ((Z_TYPE_P(options) != IS_ARRAY)) {
@@ -360,8 +360,8 @@ PHP_METHOD(Phalcon_Cache_Backend_Libmemcached, increment) {
 	}
 	if (!value) {
 		ZEPHIR_CPY_WRT(value, ZEPHIR_GLOBAL(global_null));
+		ZEPHIR_SEPARATE_PARAM(value);
 	}
-	ZEPHIR_SEPARATE_PARAM(value);
 
 
 	if (!(zephir_is_true(value))) {
@@ -407,8 +407,8 @@ PHP_METHOD(Phalcon_Cache_Backend_Libmemcached, decrement) {
 	}
 	if (!value) {
 		ZEPHIR_CPY_WRT(value, ZEPHIR_GLOBAL(global_null));
+		ZEPHIR_SEPARATE_PARAM(value);
 	}
-	ZEPHIR_SEPARATE_PARAM(value);
 
 
 	if (!(zephir_is_true(value))) {

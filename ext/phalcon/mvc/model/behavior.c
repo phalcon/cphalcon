@@ -116,8 +116,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Behavior, getOptions) {
 	if (!eventName_param) {
 		ZEPHIR_INIT_VAR(eventName);
 		ZVAL_EMPTY_STRING(eventName);
-	} else {
-		zephir_get_strval(eventName, eventName_param);
 	}
 
 

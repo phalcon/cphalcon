@@ -417,8 +417,8 @@ PHP_METHOD(Phalcon_Security, checkToken) {
 
 	if (!tokenKey) {
 		ZEPHIR_CPY_WRT(tokenKey, ZEPHIR_GLOBAL(global_null));
+		ZEPHIR_SEPARATE_PARAM(tokenKey);
 	}
-	ZEPHIR_SEPARATE_PARAM(tokenKey);
 	if (!tokenValue) {
 		tokenValue = ZEPHIR_GLOBAL(global_null);
 	}

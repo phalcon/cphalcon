@@ -75,8 +75,8 @@ PHP_METHOD(Phalcon_Flash, __construct) {
 
 	if (!cssClasses) {
 		ZEPHIR_CPY_WRT(cssClasses, ZEPHIR_GLOBAL(global_null));
+		ZEPHIR_SEPARATE_PARAM(cssClasses);
 	}
-	ZEPHIR_SEPARATE_PARAM(cssClasses);
 
 
 	if ((Z_TYPE_P(cssClasses) != IS_ARRAY)) {

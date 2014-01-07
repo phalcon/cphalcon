@@ -161,8 +161,6 @@ PHP_METHOD(Phalcon_Http_Response_Cookies, set) {
 	if (!path_param) {
 		ZEPHIR_INIT_VAR(path);
 		ZVAL_STRING(path, "/", 1);
-	} else {
-		zephir_get_strval(path, path_param);
 	}
 	if (!secure) {
 		secure = ZEPHIR_GLOBAL(global_null);
@@ -170,8 +168,6 @@ PHP_METHOD(Phalcon_Http_Response_Cookies, set) {
 	if (!domain_param) {
 		ZEPHIR_INIT_VAR(domain);
 		ZVAL_EMPTY_STRING(domain);
-	} else {
-		zephir_get_strval(domain, domain_param);
 	}
 	if (!httpOnly) {
 		httpOnly = ZEPHIR_GLOBAL(global_null);

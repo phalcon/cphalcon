@@ -302,8 +302,8 @@ PHP_METHOD(Phalcon_Validation, setDefaultMessages) {
 
 	if (!messages) {
 		ZEPHIR_CPY_WRT(messages, ZEPHIR_GLOBAL(global_null));
+		ZEPHIR_SEPARATE_PARAM(messages);
 	}
-	ZEPHIR_SEPARATE_PARAM(messages);
 
 
 	if ((Z_TYPE_P(messages) == IS_NULL)) {

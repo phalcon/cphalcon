@@ -107,8 +107,6 @@ PHP_METHOD(Phalcon_Acl_Resource, __construct) {
 	if (!description_param) {
 		ZEPHIR_INIT_VAR(description);
 		ZVAL_EMPTY_STRING(description);
-	} else {
-		zephir_get_strval(description, description_param);
 	}
 
 

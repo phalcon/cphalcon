@@ -426,12 +426,12 @@ PHP_METHOD(Phalcon_Tag, linkTo) {
 
 	if (!text) {
 		ZEPHIR_CPY_WRT(text, ZEPHIR_GLOBAL(global_null));
+		ZEPHIR_SEPARATE_PARAM(text);
 	}
-	ZEPHIR_SEPARATE_PARAM(text);
 	if (!local) {
 		ZEPHIR_CPY_WRT(local, ZEPHIR_GLOBAL(global_true));
+		ZEPHIR_SEPARATE_PARAM(local);
 	}
-	ZEPHIR_SEPARATE_PARAM(local);
 
 
 	if ((Z_TYPE_P(parameters) != IS_ARRAY)) {

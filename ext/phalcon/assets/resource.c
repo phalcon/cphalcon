@@ -394,8 +394,6 @@ PHP_METHOD(Phalcon_Assets_Resource, getContent) {
 	if (!basePath_param) {
 		ZEPHIR_INIT_VAR(basePath);
 		ZVAL_EMPTY_STRING(basePath);
-	} else {
-		zephir_get_strval(basePath, basePath_param);
 	}
 
 
@@ -476,8 +474,6 @@ PHP_METHOD(Phalcon_Assets_Resource, getRealSourcePath) {
 	if (!basePath_param) {
 		ZEPHIR_INIT_VAR(basePath);
 		ZVAL_EMPTY_STRING(basePath);
-	} else {
-		zephir_get_strval(basePath, basePath_param);
 	}
 
 
@@ -515,8 +511,6 @@ PHP_METHOD(Phalcon_Assets_Resource, getRealTargetPath) {
 	if (!basePath_param) {
 		ZEPHIR_INIT_VAR(basePath);
 		ZVAL_EMPTY_STRING(basePath);
-	} else {
-		zephir_get_strval(basePath, basePath_param);
 	}
 
 

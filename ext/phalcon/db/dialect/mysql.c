@@ -1141,8 +1141,6 @@ PHP_METHOD(Phalcon_Db_Dialect_MySQL, listTables) {
 	if (!schemaName_param) {
 		ZEPHIR_INIT_VAR(schemaName);
 		ZVAL_EMPTY_STRING(schemaName);
-	} else {
-		zephir_get_strval(schemaName, schemaName_param);
 	}
 
 
@@ -1171,8 +1169,6 @@ PHP_METHOD(Phalcon_Db_Dialect_MySQL, listViews) {
 	if (!schemaName_param) {
 		ZEPHIR_INIT_VAR(schemaName);
 		ZVAL_EMPTY_STRING(schemaName);
-	} else {
-		zephir_get_strval(schemaName, schemaName_param);
 	}
 
 
