@@ -24,7 +24,6 @@ class RouterMvcTest extends PHPUnit_Framework_TestCase
 	private function _runTest($router, $test)
 	{
 		$router->handle($test['uri']);
-		var_dump($router->getParams());
 		$this->assertEquals($router->getControllerName(), $test['controller']);
 		$this->assertEquals($router->getActionName(),     $test['action']);
 		$this->assertEquals($router->getParams(),         $test['params']);
@@ -198,7 +197,7 @@ class RouterMvcTest extends PHPUnit_Framework_TestCase
 		$router->add("/show/{id:video([0-9]+)}/{title:[a-z\-]+}", "Videos::show");
 
 		foreach ($tests as $n => $test) {
-			echo "Testing $n\n";
+			//echo "Testing $n\n";
 			$this->_runTest($router, $test);
 		}
 

@@ -340,7 +340,8 @@ class Router
 		 * Remove extra slashes in the route
 		 */
 		if this->_removeExtraSlashes {
-			let handledUri = this->doRemoveExtraSlashes(realUri);
+			//let handledUri = this->doRemoveExtraSlashes(realUri);
+			let handledUri = rtrim(realUri, "/");
 		} else {
 			let handledUri = realUri;
 		}
@@ -501,7 +502,7 @@ class Router
 							 */
 							if typeof converters == "array" {
 								if fetch converter, converters[part] {
-									let parts[part] = {converter}(matchPosition);
+									let parts[part] = call_user_func_array(converter, [matchPosition]);
 									continue;
 								}
 							}
@@ -517,7 +518,7 @@ class Router
 							 */
 							if typeof converters == "array" {
 								if fetch converter, converters[part] {
-									let parts[part] = {converter}(matchPosition);
+									let parts[part] = call_user_func_array(converter, [matchPosition]);
 								}
 							}
 						}

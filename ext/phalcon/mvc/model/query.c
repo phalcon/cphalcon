@@ -445,7 +445,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getExpression) {
 	HashTable *_7;
 	HashPosition _6;
 	zend_bool quoting, tempNotQuoting;
-	zval *expr, *quoting_param = NULL, *exprType, *exprLeft, *exprRight, *left, *right, *listItems, *exprListItem = NULL, *exprReturn = NULL, *value, *escapedValue = NULL, *exprValue = NULL, *_0 = NULL, *_1, _2, _3, *_4 = NULL, *_5 = NULL, **_8;
+	zval *expr, *quoting_param = NULL, *exprType, *exprLeft, *exprRight, *left, *right, *listItems, *exprListItem = NULL, *exprReturn = NULL, *value, *escapedValue = NULL, *exprValue = NULL, *_0 = NULL, *_1 = NULL, *_2, _3, _4, *_5 = NULL, **_8;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 1, &expr, &quoting_param);
@@ -673,23 +673,23 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getExpression) {
 				ZEPHIR_INIT_NVAR(exprReturn);
 				array_init_size(exprReturn, 3);
 				add_assoc_stringl_ex(exprReturn, SS("type"), SL("placeholder"), 1);
-				zephir_array_fetch_string(&_1, expr, SL("value"), PH_NOISY | PH_READONLY TSRMLS_CC);
-				ZEPHIR_SINIT_VAR(_2);
-				ZVAL_STRING(&_2, "?", 0);
+				ZEPHIR_INIT_VAR(_1);
+				zephir_array_fetch_string(&_2, expr, SL("value"), PH_NOISY | PH_READONLY TSRMLS_CC);
 				ZEPHIR_SINIT_VAR(_3);
-				ZVAL_STRING(&_3, ":", 0);
-				ZEPHIR_INIT_VAR(_4);
-				zephir_call_func_p3(_4, "str_replace", &_2, &_3, _1);
-				zephir_array_update_string(&exprReturn, SL("value"), &_4, PH_COPY | PH_SEPARATE);
+				ZVAL_STRING(&_3, "?", 0);
+				ZEPHIR_SINIT_VAR(_4);
+				ZVAL_STRING(&_4, ":", 0);
+				zephir_fast_str_replace(_1, &_3, &_4, _2);
+				zephir_array_update_string(&exprReturn, SL("value"), &_1, PH_COPY | PH_SEPARATE);
 				break;
 			}
 			if (ZEPHIR_IS_LONG(exprType, 274)) {
 				ZEPHIR_INIT_NVAR(exprReturn);
 				array_init_size(exprReturn, 3);
 				add_assoc_stringl_ex(exprReturn, SS("type"), SL("placeholder"), 1);
-				zephir_array_fetch_string(&_1, expr, SL("value"), PH_NOISY | PH_READONLY TSRMLS_CC);
+				zephir_array_fetch_string(&_2, expr, SL("value"), PH_NOISY | PH_READONLY TSRMLS_CC);
 				ZEPHIR_INIT_VAR(_5);
-				ZEPHIR_CONCAT_SV(_5, ":", _1);
+				ZEPHIR_CONCAT_SV(_5, ":", _2);
 				zephir_array_update_string(&exprReturn, SL("value"), &_5, PH_COPY | PH_SEPARATE);
 				break;
 			}
@@ -834,12 +834,12 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getExpression) {
 				zephir_call_method_p1(exprReturn, this_ptr, "_getfunctioncall", expr);
 				break;
 			}
-			ZEPHIR_INIT_NVAR(_4);
-			object_init_ex(_4, phalcon_mvc_model_exception_ce);
+			ZEPHIR_INIT_NVAR(_1);
+			object_init_ex(_1, phalcon_mvc_model_exception_ce);
 			ZEPHIR_INIT_LNVAR(_5);
 			ZEPHIR_CONCAT_SV(_5, "Unknown expression type ", exprType);
-			zephir_call_method_p1_noret(_4, "__construct", _5);
-			zephir_throw_exception(_4 TSRMLS_CC);
+			zephir_call_method_p1_noret(_1, "__construct", _5);
+			zephir_throw_exception(_1 TSRMLS_CC);
 			ZEPHIR_MM_RESTORE();
 			return;
 		} while(0);
@@ -859,9 +859,9 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getExpression) {
 			; zend_hash_move_forward_ex(_7, &_6)
 		) {
 			ZEPHIR_GET_HVALUE(exprListItem, _8);
-			ZEPHIR_INIT_NVAR(_4);
-			zephir_call_method_p1_cache(_4, this_ptr, "_getexpression", &_9, exprListItem);
-			zephir_array_append(&listItems, _4, PH_SEPARATE);
+			ZEPHIR_INIT_NVAR(_1);
+			zephir_call_method_p1_cache(_1, this_ptr, "_getexpression", &_9, exprListItem);
+			zephir_array_append(&listItems, _1, PH_SEPARATE);
 		}
 		array_init_size(return_value, 3);
 		add_assoc_stringl_ex(return_value, SS("type"), SL("list"), 1);
@@ -2743,14 +2743,14 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _executeInsert) {
 					ZEPHIR_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Bound parameter cannot be replaced because placeholders is not an array");
 					return;
 				}
+				ZEPHIR_INIT_NVAR(wildcard);
 				ZEPHIR_INIT_NVAR(_6);
 				zephir_call_method_p1_cache(_6, dialect, "getsqlexpression", &_7, exprValue);
 				ZEPHIR_SINIT_NVAR(_8);
 				ZVAL_STRING(&_8, ":", 0);
 				ZEPHIR_SINIT_NVAR(_9);
 				ZVAL_STRING(&_9, "", 0);
-				ZEPHIR_INIT_NVAR(wildcard);
-				zephir_call_func_p3(wildcard, "str_replace", &_8, &_9, _6);
+				zephir_fast_str_replace(wildcard, &_8, &_9, _6);
 				ZEPHIR_OBS_NVAR(insertValue);
 				if (!(zephir_array_isset_fetch(&insertValue, bindParams, wildcard, 0 TSRMLS_CC))) {
 					ZEPHIR_INIT_NVAR(_10);
@@ -2886,14 +2886,14 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _executeUpdate) {
 					ZEPHIR_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Bound parameter cannot be replaced because placeholders is not an array");
 					return;
 				}
+				ZEPHIR_INIT_NVAR(wildcard);
 				ZEPHIR_INIT_NVAR(_6);
 				zephir_call_method_p1_cache(_6, dialect, "getsqlexpression", &_7, exprValue);
 				ZEPHIR_SINIT_NVAR(_8);
 				ZVAL_STRING(&_8, ":", 0);
 				ZEPHIR_SINIT_NVAR(_9);
 				ZVAL_STRING(&_9, "", 0);
-				ZEPHIR_INIT_NVAR(wildcard);
-				zephir_call_func_p3(wildcard, "str_replace", &_8, &_9, _6);
+				zephir_fast_str_replace(wildcard, &_8, &_9, _6);
 				ZEPHIR_OBS_NVAR(updateValue);
 				if (zephir_array_isset_fetch(&updateValue, bindParams, wildcard, 0 TSRMLS_CC)) {
 					zephir_array_unset(&selectBindParams, wildcard, PH_SEPARATE);

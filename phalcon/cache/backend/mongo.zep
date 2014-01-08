@@ -282,7 +282,7 @@ class Mongo extends Phalcon\Cache\Backend implements Phalcon\Cache\BackendInterf
 	 */
 	public function queryKeys(prefix=null)
 	{
-		var collection, fields, conditions, pattern, timeCondition, documents, keys, index, key;
+		var collection, fields, conditions, timeCondition, documents, keys, index, key;
 
 		let fields = [];
 		let timeCondition = [];
