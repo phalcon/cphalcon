@@ -192,7 +192,7 @@ PHP_METHOD(Phalcon_Mvc_View_Simple, _loadTemplateEngines) {
 				return;
 			}
 			ZEPHIR_INIT_VAR(arguments);
-			array_init_size(arguments, Resource id #1596);
+			array_init_size(arguments, 3);
 			zephir_array_fast_append(arguments, this_ptr);
 			zephir_array_fast_append(arguments, dependencyInjector);
 			zephir_is_iterable(registeredEngines, &_2, &_1, 0, 0);

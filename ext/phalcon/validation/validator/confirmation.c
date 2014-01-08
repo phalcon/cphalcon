@@ -98,7 +98,7 @@ PHP_METHOD(Phalcon_Validation_Validator_Confirmation, validate) {
 		ZEPHIR_INIT_VAR(message);
 		zephir_call_method_p1(message, this_ptr, "getoption", _0);
 		ZEPHIR_INIT_VAR(replacePairs);
-		array_init_size(replacePairs, Resource id #1690);
+		array_init_size(replacePairs, 3);
 		zephir_array_update_string(&replacePairs, SL(":field"), &label, PH_COPY | PH_SEPARATE);
 		zephir_array_update_string(&replacePairs, SL(":with"), &withAttribute, PH_COPY | PH_SEPARATE);
 		if (ZEPHIR_IS_EMPTY(message)) {

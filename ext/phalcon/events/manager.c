@@ -307,7 +307,7 @@ PHP_METHOD(Phalcon_Events_Manager, fireQueue) {
 				if (zephir_is_instance_of(handler, SL("Closure") TSRMLS_CC)) {
 					if ((Z_TYPE_P(arguments) == IS_NULL)) {
 						ZEPHIR_INIT_NVAR(arguments);
-						array_init_size(arguments, Resource id #807);
+						array_init_size(arguments, 5);
 						zephir_array_fast_append(arguments, event);
 						zephir_array_fast_append(arguments, source);
 						zephir_array_fast_append(arguments, data);
@@ -353,7 +353,7 @@ PHP_METHOD(Phalcon_Events_Manager, fireQueue) {
 				if (zephir_is_instance_of(handler, SL("Closure") TSRMLS_CC)) {
 					if ((Z_TYPE_P(arguments) == IS_NULL)) {
 						ZEPHIR_INIT_NVAR(arguments);
-						array_init_size(arguments, Resource id #809);
+						array_init_size(arguments, 5);
 						zephir_array_fast_append(arguments, event);
 						zephir_array_fast_append(arguments, source);
 						zephir_array_fast_append(arguments, data);

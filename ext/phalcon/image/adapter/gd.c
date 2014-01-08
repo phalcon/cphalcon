@@ -445,7 +445,7 @@ PHP_METHOD(Phalcon_Image_Adapter_Gd, _crop) {
 		}
 	} else {
 		ZEPHIR_INIT_VAR(rect);
-		array_init_size(rect, Resource id #921);
+		array_init_size(rect, 5);
 		ZEPHIR_INIT_NVAR(_10);
 		ZVAL_LONG(_10, offset_x);
 		zephir_array_update_string(&rect, SL("x"), &_10, PH_COPY | PH_SEPARATE);
@@ -648,9 +648,9 @@ PHP_METHOD(Phalcon_Image_Adapter_Gd, _sharpen) {
 	zephir_call_func_p2(_2, "round", _1, &_0);
 	amount = zephir_get_intval(_2);
 	ZEPHIR_INIT_VAR(matrix);
-	array_init_size(matrix, Resource id #923);
+	array_init_size(matrix, 5);
 	ZEPHIR_INIT_BNVAR(_2);
-	array_init_size(_2, Resource id #925);
+	array_init_size(_2, 5);
 	ZEPHIR_INIT_VAR(_3);
 	ZVAL_LONG(_3, -1);
 	zephir_array_fast_append(_2, _3);
@@ -662,7 +662,7 @@ PHP_METHOD(Phalcon_Image_Adapter_Gd, _sharpen) {
 	zephir_array_fast_append(_2, _3);
 	zephir_array_fast_append(matrix, _2);
 	ZEPHIR_INIT_BNVAR(_2);
-	array_init_size(_2, Resource id #927);
+	array_init_size(_2, 5);
 	ZEPHIR_INIT_BNVAR(_3);
 	ZVAL_LONG(_3, -1);
 	zephir_array_fast_append(_2, _3);
@@ -674,7 +674,7 @@ PHP_METHOD(Phalcon_Image_Adapter_Gd, _sharpen) {
 	zephir_array_fast_append(_2, _3);
 	zephir_array_fast_append(matrix, _2);
 	ZEPHIR_INIT_BNVAR(_2);
-	array_init_size(_2, Resource id #929);
+	array_init_size(_2, 5);
 	ZEPHIR_INIT_BNVAR(_3);
 	ZVAL_LONG(_3, -1);
 	zephir_array_fast_append(_2, _3);

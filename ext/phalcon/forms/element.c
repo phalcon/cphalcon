@@ -202,7 +202,7 @@ PHP_METHOD(Phalcon_Forms_Element, addFilter) {
 		zephir_update_property_array_append(this_ptr, SL("_filters"), filter TSRMLS_CC);
 	} else {
 		ZEPHIR_INIT_VAR(_0);
-		array_init_size(_0, Resource id #847);
+		array_init_size(_0, 3);
 		zephir_array_fast_append(_0, filters);
 		zephir_array_fast_append(_0, filter);
 		zephir_update_property_this(this_ptr, SL("_filters"), _0 TSRMLS_CC);

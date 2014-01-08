@@ -336,7 +336,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, addFrom) {
 		ZEPHIR_INIT_BNVAR(models);
 		if ((Z_TYPE_P(models) != IS_NULL)) {
 			ZEPHIR_CPY_WRT(currentModel, models);
-			array_init_size(models, Resource id #1391);
+			array_init_size(models, 2);
 			zephir_array_fast_append(models, currentModel);
 		} else {
 			array_init(models);
@@ -407,7 +407,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, join) {
 
 
 	ZEPHIR_INIT_VAR(_0);
-	array_init_size(_0, Resource id #1393);
+	array_init_size(_0, 5);
 	zephir_array_fast_append(_0, model);
 	zephir_array_fast_append(_0, conditions);
 	zephir_array_fast_append(_0, alias);
@@ -457,7 +457,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, innerJoin) {
 
 
 	ZEPHIR_INIT_VAR(_0);
-	array_init_size(_0, Resource id #1395);
+	array_init_size(_0, 5);
 	zephir_array_fast_append(_0, model);
 	zephir_array_fast_append(_0, conditions);
 	zephir_array_fast_append(_0, alias);
@@ -505,7 +505,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, leftJoin) {
 
 
 	ZEPHIR_INIT_VAR(_0);
-	array_init_size(_0, Resource id #1397);
+	array_init_size(_0, 5);
 	zephir_array_fast_append(_0, model);
 	zephir_array_fast_append(_0, conditions);
 	zephir_array_fast_append(_0, alias);
@@ -545,7 +545,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, rightJoin) {
 
 
 	ZEPHIR_INIT_VAR(_0);
-	array_init_size(_0, Resource id #1399);
+	array_init_size(_0, 5);
 	zephir_array_fast_append(_0, model);
 	zephir_array_fast_append(_0, conditions);
 	zephir_array_fast_append(_0, alias);
@@ -785,7 +785,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, betweenWhere) {
 	ZEPHIR_INIT_VAR(_0);
 	ZEPHIR_CONCAT_VSVSVS(_0, expr, " BETWEEN :", minimumKey, ": AND :", maximumKey, ":");
 	ZEPHIR_INIT_VAR(_1);
-	array_init_size(_1, Resource id #1401);
+	array_init_size(_1, 3);
 	zephir_array_update_zval(&_1, minimumKey, &minimum, PH_COPY);
 	zephir_array_update_zval(&_1, maximumKey, &maximum, PH_COPY);
 	zephir_call_method_p2_noret(this_ptr, "andwhere", _0, _1);
@@ -835,7 +835,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, notBetweenWhere) {
 	ZEPHIR_INIT_VAR(_0);
 	ZEPHIR_CONCAT_VSVSVS(_0, expr, " NOT BETWEEN :", minimumKey, ": AND :", maximumKey, ":");
 	ZEPHIR_INIT_VAR(_1);
-	array_init_size(_1, Resource id #1403);
+	array_init_size(_1, 3);
 	zephir_array_update_zval(&_1, minimumKey, &minimum, PH_COPY);
 	zephir_array_update_zval(&_1, maximumKey, &maximum, PH_COPY);
 	zephir_call_method_p2_noret(this_ptr, "andwhere", _0, _1);
