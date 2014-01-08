@@ -6,5 +6,5 @@ if [ -f Makefile ]; then
 	sudo phpize --silent --clean
 fi
 phpize --silent
-./configure --silent --enable-test
+./configure --silent --enable-phalcon
 make --silent && sudo make --silent install
