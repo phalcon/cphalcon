@@ -885,7 +885,7 @@ class ValidationTest extends PHPUnit_Framework_TestCase
 				)),
                                 1 => Phalcon\Validation\Message::__set_state(array(
 					'_type' => 'Email',
-					'_message' => 'The E-mail is required',
+					'_message' => 'The E-mail must be email',
 					'_field' => 'email',
 				)),
                                 2 => Phalcon\Validation\Message::__set_state(array(
