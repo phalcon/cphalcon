@@ -3,7 +3,7 @@
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
  +------------------------------------------------------------------------+
- | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
+ | Copyright (c) 2011-2013 Phalcon Team (http://www.phalconphp.com)       |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled     |
  | with this package in the file docs/LICENSE.txt.                        |
@@ -20,51 +20,47 @@
 namespace Phalcon\Validation\Validator;
 
 /**
- * Phalcon\Validation\Validator\ExclusionIn
+ * Phalcon\Validation\Validator\Uniqueness
  *
- * Check if a value is not included into a list of values
+ * Check for alphanumeric character(s)
  *
  *<code>
- *use Phalcon\Validation\Validator\ExclusionIn;
+ *use Phalcon\Validation\Validator\Uniqueness as UniquenessValidator;
  *
- *$validator->add('status', new ExclusionIn(array(
- *   'message' => 'The status must not be A or B',
- *   'domain' => array('A', 'B')
+ *$validator->add('username', new UniquenessValidator(array(
+ *   'message' => ':field must be unique'
  *)));
  *</code>
  */
-class ExclusionIn extends Phalcon\Validation\Validator implements Phalcon\Validation\ValidatorInterface
+class Uniqueness extends Phalcon\Validation\Validator implements Phalcon\Validation\ValidatorInterface
 {
 
 	/**
 	 * Executes the validation
 	 *
-	 * @param Phalcon\Validation validation
-	 * @param string field
+	 * @param  Phalcon\Validation validation
+	 * @param  string             field
 	 * @return boolean
 	 */
 	public function validate(<Phalcon\Validation> validation, string! field) -> boolean
 	{
-		var value, domain, message, label, replacePairs;
+		var value, di, metaData, params, model, number, message, label, replacePairs;
 
 		let value = validation->getValue(field);
 
-                if this->isSetOption("allowEmpty") && empty value {
-                    return true;
-                }
+                let di = validation->getDI();
+		let metaData = di->getShared("modelsMetadata");
 
-		/**
-		 * A domain is an array with a list of valid values
-		 */
-		let domain = this->getOption("domain");
-		if typeof domain != "array" {
-			throw new Phalcon\Validation\Exception("Option 'domain' must be an array");
-		}
+                let params = [];
+                let params["di"] = di,
+                        params["conditions"] = ["[".field."] = ?0"],
+                        params["bind"] = [value],
+                        params["bindTypes"] = [metaData->getBindTypes(field)];
 
-		/**
-		 * Check if the value is contained by the array
-		 */
-		if in_array(value, domain) {
+                let model = this->getOption("model");
+		let number = {model}::count(params);
+
+		if number {
 
                         let label = this->getOption("label");
                         if empty label {
@@ -75,16 +71,15 @@ class ExclusionIn extends Phalcon\Validation\Validator implements Phalcon\Valida
 			}
 
 			let message = this->getOption("message");
-                        let replacePairs = [":field": label, ":domain":  join(", ", domain)];
+                        let replacePairs = [":field": label];
 			if empty message {
-                                let message = validation->getDefaultMessage("ExclusionIn");
+                                let message = validation->getDefaultMessage("Uniqueness");
 			}
 
-			validation->appendMessage(new Phalcon\Validation\Message(strtr(message, replacePairs), field, "ExclusionIn"));
+			validation->appendMessage(new Phalcon\Validation\Message(strtr(message, replacePairs), field, "Uniqueness"));
 			return false;
 		}
 
 		return true;
 	}
-
 }

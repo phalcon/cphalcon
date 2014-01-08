@@ -38,6 +38,8 @@ class Validation extends Phalcon\Di\Injectable
 
 	protected _defaultMessages;
 
+        protected _labels;
+
 	protected _values;
 
 	/**
@@ -280,6 +282,35 @@ class Validation extends Phalcon\Di\Injectable
 	public function getMessages() -> <Phalcon\Validation\Message\Group>
 	{
 		return this->_messages;
+	}
+
+        /**
+	 * Adds labels for fields
+	 *
+	 * @param array labels
+         * @return array
+	 */
+	public function setLabels(array! labels)
+	{
+                let this->_labels = labels;
+        }
+
+        /**
+	 * Get label for field
+	 *
+	 * @param string field
+	 * @return mixed
+	 */
+	public function getLabel(string! field)
+	{
+		var labels, value;
+		let labels = this->_labels;
+		if typeof labels == "array" {
+			if fetch value, labels[field] {
+				return value;
+			}
+		}
+		return null;
 	}
 
 	/**

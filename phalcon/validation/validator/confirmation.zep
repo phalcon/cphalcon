@@ -45,21 +45,32 @@ class Confirmation extends Phalcon\Validation\Validator implements Phalcon\Valid
 	 */
 	public function validate(<Phalcon\Validation> validation, string field) -> boolean
 	{
-		var withAttribute, value, withValue, message, label, replacePairs;
+		var fieldWith, value, valueWith, message, label, labelWith, replacePairs;
 
-		let withAttribute = this->getOption("with"),
+		let fieldWith = this->getOption("with"),
 			value = validation->getValue(field),
-			withValue = validation->getValue(withAttribute);
+			valueWith = validation->getValue(fieldWith);
 
-		if value != withValue {
+		if value != valueWith {
 
                         let label = this->getOption("label");
                         if empty label {
-                                let label = field;
+                                let label = validation->getLabel(field);
+                                if empty label {
+                                        let label = field;
+                                }
+			}
+
+                        let labelWith = this->getOption("labelWith");
+                        if empty labelWith {
+                                let labelWith = validation->getLabel(fieldWith);
+                                if empty labelWith {
+                                        let labelWith = fieldWith;
+                                }
 			}
 
 			let message = this->getOption("message");
-                        let replacePairs = [":field": label, ":with":  withAttribute];
+                        let replacePairs = [":field": label, ":with":  labelWith];
 			if empty message {
                                 let message = validation->getDefaultMessage("Confirmation");
 			}

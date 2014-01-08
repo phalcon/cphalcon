@@ -59,7 +59,10 @@ class File extends Phalcon\Validation\Validator implements Phalcon\Validation\Va
 
                 let label = this->getOption("label");
                 if empty label {
-                        let label = field;
+                        let label = validation->getLabel(field);
+                        if empty label {
+                                let label = field;
+                        }
                 }
 
                 if !isset value["error"] || !isset value["name"] || !isset value["type"] || !isset value["tmp_name"] || !isset value["size"] {
