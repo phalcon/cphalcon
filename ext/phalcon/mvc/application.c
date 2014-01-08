@@ -20,6 +20,7 @@
 #include "ext/spl/spl_exceptions.h"
 #include "kernel/fcall.h"
 #include "kernel/concat.h"
+#include "kernel/require.h"
 
 
 /*
@@ -335,7 +336,9 @@ PHP_METHOD(Phalcon_Mvc_Application, handle) {
 					ZEPHIR_INIT_VAR(_4);
 					zephir_call_func_p1(_4, "file_exists", path);
 					if (zephir_is_true(_4)) {
-						//missing require
+						if (zephir_require(path TSRMLS_CC) == FAILURE) {
+							RETURN_MM_NULL();
+						}
 					} else {
 						ZEPHIR_INIT_VAR(_5);
 						object_init_ex(_5, phalcon_mvc_application_exception_ce);

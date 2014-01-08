@@ -145,7 +145,7 @@ class Mongo extends Phalcon\Cache\Backend implements Phalcon\Cache\BackendInterf
 	 */
 	public function get(keyName, lifetime=null)
 	{
-		var frontend, prefix, prefixedKey, conditions, document, cachedContent;
+		var frontend, prefixedKey, conditions, document, cachedContent;
 
 		let conditions = [];
 		let frontend = this->_frontend;
@@ -282,8 +282,7 @@ class Mongo extends Phalcon\Cache\Backend implements Phalcon\Cache\BackendInterf
 	 */
 	public function queryKeys(prefix=null)
 	{
-		var collection, fields, conditions, pattern, regex, timeCondition, documents,
-			documentsArray, keys, index, key;
+		var collection, fields, conditions, pattern, timeCondition, documents, keys, index, key;
 
 		let fields = [];
 		let timeCondition = [];

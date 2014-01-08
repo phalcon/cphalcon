@@ -18,6 +18,7 @@
 #include "kernel/exception.h"
 #include "kernel/operators.h"
 #include "kernel/fcall.h"
+#include "kernel/require.h"
 #include "kernel/hash.h"
 #include "kernel/string.h"
 #include "kernel/concat.h"
@@ -474,7 +475,9 @@ PHP_METHOD(Phalcon_Loader, autoLoad) {
 				ZVAL_STRING(_0, "loader:pathFound", 1);
 				zephir_call_method_p3_noret(eventsManager, "fire", _0, this_ptr, filePath);
 			}
-			//missing require
+			if (zephir_require(filePath TSRMLS_CC) == FAILURE) {
+				RETURN_MM_NULL();
+			}
 			RETURN_MM_BOOL(1);
 		}
 	}
@@ -525,7 +528,9 @@ PHP_METHOD(Phalcon_Loader, autoLoad) {
 								ZVAL_STRING(_10, "loader:pathFound", 1);
 								zephir_call_method_p3_cache_noret(eventsManager, "fire", &_11, _10, this_ptr, filePath);
 							}
-							//missing require
+							if (zephir_require(filePath TSRMLS_CC) == FAILURE) {
+								RETURN_MM_NULL();
+							}
 							RETURN_MM_BOOL(1);
 						}
 					}
@@ -581,7 +586,9 @@ PHP_METHOD(Phalcon_Loader, autoLoad) {
 								ZVAL_STRING(_10, "loader:pathFound", 1);
 								zephir_call_method_p3_cache_noret(eventsManager, "fire", &_19, _10, this_ptr, filePath);
 							}
-							//missing require
+							if (zephir_require(filePath TSRMLS_CC) == FAILURE) {
+								RETURN_MM_NULL();
+							}
 							RETURN_MM_BOOL(1);
 						}
 					}
@@ -632,7 +639,9 @@ PHP_METHOD(Phalcon_Loader, autoLoad) {
 						ZVAL_STRING(_8, "loader:pathFound", 1);
 						zephir_call_method_p3_cache_noret(eventsManager, "fire", &_28, _8, this_ptr, filePath);
 					}
-					//missing require
+					if (zephir_require(filePath TSRMLS_CC) == FAILURE) {
+						RETURN_MM_NULL();
+					}
 					RETURN_MM_BOOL(1);
 				}
 			}

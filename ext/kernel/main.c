@@ -175,7 +175,7 @@ int zephir_fast_count_ev(zval *value TSRMLS_DC) {
 	long count = 0;
 
 	if (Z_TYPE_P(value) == IS_ARRAY) {
-		return (int) zend_hash_num_elements(Z_ARRVAL_P(value)) > 0;
+		return zend_hash_num_elements(Z_ARRVAL_P(value)) > 0;
 	}
 
 	if (Z_TYPE_P(value) == IS_OBJECT) {
@@ -220,7 +220,7 @@ int zephir_fast_count_int(zval *value TSRMLS_DC) {
 	long count = 0;
 
 	if (Z_TYPE_P(value) == IS_ARRAY) {
-		return (int) zend_hash_num_elements(Z_ARRVAL_P(value));
+		return zend_hash_num_elements(Z_ARRVAL_P(value));
 	}
 
 	if (Z_TYPE_P(value) == IS_OBJECT) {

@@ -751,7 +751,7 @@ int zephir_array_update_string_string(zval **arr, const char *index, uint index_
  * @arg @c PH_SEPARATE: separate @a arr if its reference count is greater than 1; @c *arr will contain the separated version
  * @arg @c PH_COPY: increment the reference count on @c **value
  */
-int zephir_array_update_long(zval **arr, unsigned long index, zval **value, int flags){
+int zephir_array_update_long(zval **arr, unsigned long index, zval **value, int flags ZEPHIR_DEBUG_PARAMS){
 
 	if (Z_TYPE_PP(arr) != IS_ARRAY) {
 		zend_error(E_WARNING, "Cannot use a scalar value as an array");
@@ -1277,7 +1277,7 @@ int zephir_array_update_multi(zval **arr, zval **value TSRMLS_DC, const char *ty
 				if (zephir_array_isset_long_fetch(&fetched, p, ll, 1 TSRMLS_CC)) {
 					if (Z_TYPE_P(fetched) == IS_ARRAY) {
 						if (i == (types_length - 1)) {
-							zephir_array_update_long(&fetched, ll, value, PH_COPY | PH_SEPARATE);
+							zephir_array_update_long(&fetched, ll, value, PH_COPY | PH_SEPARATE, "", 0);
 						} else {
 							p = fetched;
 						}
@@ -1285,11 +1285,11 @@ int zephir_array_update_multi(zval **arr, zval **value TSRMLS_DC, const char *ty
 					}
 				}
 				if (i == (types_length - 1)) {
-					zephir_array_update_long(&p, ll, value, PH_COPY | PH_SEPARATE);
+					zephir_array_update_long(&p, ll, value, PH_COPY | PH_SEPARATE, "", 0);
 				} else {
 					MAKE_STD_ZVAL(tmp);
 					array_init(tmp);
-					zephir_array_update_long(&p, ll, &tmp, PH_SEPARATE);
+					zephir_array_update_long(&p, ll, &tmp, PH_SEPARATE, "", 0);
 					p = tmp;
 				}
 				break;

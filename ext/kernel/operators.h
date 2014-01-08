@@ -32,11 +32,11 @@
 #define ZEPHIR_IS_NOT_TRUE(var)    (Z_TYPE_P(var) != IS_BOOL || (Z_TYPE_P(var) == IS_BOOL && !Z_BVAL_P(var)))
 
 /** SQL null empty **/
-#define ZEPHIR_IS_EMPTY(var)       (Z_TYPE_P(var) == IS_NULL || (Z_TYPE_P(var) == IS_STRING && !Z_STRLEN_P(var)))
-#define ZEPHIR_IS_NOT_EMPTY(var)   (!(Z_TYPE_P(var) == IS_NULL || (Z_TYPE_P(var) == IS_STRING && !Z_STRLEN_P(var))))
+#define ZEPHIR_IS_EMPTY(var)       (Z_TYPE_P(var) == IS_NULL || (Z_TYPE_P(var) == IS_STRING && !Z_STRLEN_P(var)) || (Z_TYPE_P(var) == IS_ARRAY && zend_hash_num_elements(Z_ARRVAL_P(var)) == 0))
+#define ZEPHIR_IS_NOT_EMPTY(var)   (!ZEPHIR_IS_EMPTY(var))
 
 /** Is scalar */
-#define ZEPHIR_IS_SCALAR(var)      (!(Z_TYPE_P(var) == IS_NULL || Z_TYPE_P(var) == IS_ARRAY || Z_TYPE_P(var) == IS_OBJECT || Z_TYPE_P(var) == IS_RESOURCE))
+#define ZEPHIR_IS_SCALAR(var)      (!ZEPHIR_IS_NOT_SCALAR(var))
 #define ZEPHIR_IS_NOT_SCALAR(var)  (Z_TYPE_P(var) == IS_NULL || Z_TYPE_P(var) == IS_ARRAY || Z_TYPE_P(var) == IS_OBJECT || Z_TYPE_P(var) == IS_RESOURCE)
 
 /** Equals/Identical */

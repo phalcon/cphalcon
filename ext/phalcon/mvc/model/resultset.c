@@ -666,7 +666,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, filter) {
 		; zend_hash_move_forward_ex(_2, &_1)
 	) {
 		ZEPHIR_GET_HVALUE(record, _3);
-		zephir_array_update_long(&parameters, 0, &record, PH_COPY | PH_SEPARATE);
+		zephir_array_update_long(&parameters, 0, &record, PH_COPY | PH_SEPARATE, "phalcon/mvc/model/resultset.zep", 512);
 		ZEPHIR_INIT_NVAR(processedRecord);
 		zephir_call_func_p2(processedRecord, "call_user_func_array", filter, parameters);
 		if ((Z_TYPE_P(processedRecord) != IS_OBJECT)) {

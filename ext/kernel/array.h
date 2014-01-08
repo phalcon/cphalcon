@@ -47,7 +47,7 @@ int zephir_array_append_string(zval **arr, char *value, uint value_length, int s
 /** Modify arrays */
 int zephir_array_update_zval(zval **arr, zval *index, zval **value, int flags);
 int zephir_array_update_string(zval **arr, const char *index, uint index_length, zval **value, int flags);
-int zephir_array_update_long(zval **arr, unsigned long index, zval **value, int flags);
+int zephir_array_update_long(zval **arr, unsigned long index, zval **value, int flags ZEPHIR_DEBUG_PARAMS);
 
 /** Fetch items from arrays */
 int zephir_array_fetch(zval **return_value, zval *arr, zval *index, int flags TSRMLS_DC);

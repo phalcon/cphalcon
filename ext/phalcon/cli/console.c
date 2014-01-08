@@ -19,6 +19,7 @@
 #include "kernel/fcall.h"
 #include "kernel/operators.h"
 #include "kernel/concat.h"
+#include "kernel/require.h"
 
 
 /*
@@ -297,7 +298,9 @@ PHP_METHOD(Phalcon_Cli_Console, handle) {
 				ZEPHIR_MM_RESTORE();
 				return;
 			}
-			//missing require
+			if (zephir_require(path TSRMLS_CC) == FAILURE) {
+				RETURN_MM_NULL();
+			}
 		}
 		ZEPHIR_OBS_VAR(className);
 		if (!(zephir_array_isset_string_fetch(&className, module, SS("className"), 0 TSRMLS_CC))) {

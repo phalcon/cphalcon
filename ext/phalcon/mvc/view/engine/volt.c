@@ -17,6 +17,7 @@
 #include "kernel/memory.h"
 #include "kernel/fcall.h"
 #include "kernel/hash.h"
+#include "kernel/require.h"
 #include "ext/spl/spl_exceptions.h"
 #include "kernel/operators.h"
 #include "kernel/string.h"
@@ -173,7 +174,9 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, render) {
 			ZEPHIR_GET_HVALUE(value, _2);
 		}
 	}
-	//missing require
+	if (zephir_require(compiledTemplatePath TSRMLS_CC) == FAILURE) {
+		RETURN_MM_NULL();
+	}
 	if ((mustClean == 1)) {
 		_3 = zephir_fetch_nproperty_this(this_ptr, SL("_view"), PH_NOISY_CC);
 		ZEPHIR_INIT_VAR(_4);

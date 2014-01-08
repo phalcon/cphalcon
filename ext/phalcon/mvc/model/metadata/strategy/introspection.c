@@ -175,18 +175,18 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Introspection, getMetaData) {
 		zephir_array_update_zval(&fieldBindTypes, fieldName, &_16, PH_COPY | PH_SEPARATE);
 	}
 	array_init(return_value);
-	zephir_array_update_long(&return_value, 0, &attributes, PH_COPY);
-	zephir_array_update_long(&return_value, 1, &primaryKeys, PH_COPY);
-	zephir_array_update_long(&return_value, 2, &nonPrimaryKeys, PH_COPY);
-	zephir_array_update_long(&return_value, 3, &notNull, PH_COPY);
-	zephir_array_update_long(&return_value, 4, &fieldTypes, PH_COPY);
-	zephir_array_update_long(&return_value, 5, &numericTyped, PH_COPY);
+	zephir_array_update_long(&return_value, 0, &attributes, PH_COPY, "phalcon/mvc/model/metadata/strategy/introspection.zep", 156);
+	zephir_array_update_long(&return_value, 1, &primaryKeys, PH_COPY, "phalcon/mvc/model/metadata/strategy/introspection.zep", 156);
+	zephir_array_update_long(&return_value, 2, &nonPrimaryKeys, PH_COPY, "phalcon/mvc/model/metadata/strategy/introspection.zep", 156);
+	zephir_array_update_long(&return_value, 3, &notNull, PH_COPY, "phalcon/mvc/model/metadata/strategy/introspection.zep", 156);
+	zephir_array_update_long(&return_value, 4, &fieldTypes, PH_COPY, "phalcon/mvc/model/metadata/strategy/introspection.zep", 156);
+	zephir_array_update_long(&return_value, 5, &numericTyped, PH_COPY, "phalcon/mvc/model/metadata/strategy/introspection.zep", 156);
 	ZEPHIR_INIT_NVAR(_1);
 	ZVAL_BOOL(_1, identityField);
-	zephir_array_update_long(&return_value, 8, &_1, PH_COPY);
-	zephir_array_update_long(&return_value, 9, &fieldBindTypes, PH_COPY);
-	zephir_array_update_long(&return_value, 10, &automaticDefault, PH_COPY);
-	zephir_array_update_long(&return_value, 11, &automaticDefault, PH_COPY);
+	zephir_array_update_long(&return_value, 8, &_1, PH_COPY, "phalcon/mvc/model/metadata/strategy/introspection.zep", 156);
+	zephir_array_update_long(&return_value, 9, &fieldBindTypes, PH_COPY, "phalcon/mvc/model/metadata/strategy/introspection.zep", 156);
+	zephir_array_update_long(&return_value, 10, &automaticDefault, PH_COPY, "phalcon/mvc/model/metadata/strategy/introspection.zep", 156);
+	zephir_array_update_long(&return_value, 11, &automaticDefault, PH_COPY, "phalcon/mvc/model/metadata/strategy/introspection.zep", 156);
 	RETURN_MM();
 
 }

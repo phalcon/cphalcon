@@ -330,7 +330,7 @@ PHP_METHOD(Phalcon_Forms_Element, prepareAttributes) {
 	} else {
 		ZEPHIR_CPY_WRT(widgetAttributes, attributes);
 	}
-	zephir_array_update_long(&widgetAttributes, 0, &name, PH_COPY | PH_SEPARATE);
+	zephir_array_update_long(&widgetAttributes, 0, &name, PH_COPY | PH_SEPARATE, "phalcon/forms/element.zep", 219);
 	defaultAttributes = zephir_fetch_nproperty_this(this_ptr, SL("_attributes"), PH_NOISY_CC);
 	if ((Z_TYPE_P(defaultAttributes) == IS_ARRAY)) {
 		ZEPHIR_INIT_VAR(mergedAttributes);

@@ -320,11 +320,11 @@ PHP_METHOD(Phalcon_Di_Service, setParameter) {
 	}
 	ZEPHIR_OBS_VAR(arguments);
 	if (zephir_array_isset_string_fetch(&arguments, definition, SS("arguments"), 0 TSRMLS_CC)) {
-		zephir_array_update_long(&arguments, position, &parameter, PH_COPY | PH_SEPARATE);
+		zephir_array_update_long(&arguments, position, &parameter, PH_COPY | PH_SEPARATE, "phalcon/di/service.zep", 234);
 	} else {
 		ZEPHIR_INIT_BNVAR(arguments);
 		array_init(arguments);
-		zephir_array_update_long(&arguments, position, &parameter, PH_COPY);
+		zephir_array_update_long(&arguments, position, &parameter, PH_COPY, "phalcon/di/service.zep", 236);
 	}
 	zephir_array_update_string(&definition, SL("arguments"), &arguments, PH_COPY | PH_SEPARATE);
 	zephir_update_property_this(this_ptr, SL("_definition"), definition TSRMLS_CC);
