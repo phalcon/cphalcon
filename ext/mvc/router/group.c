@@ -92,6 +92,7 @@ PHALCON_INIT_CLASS(Phalcon_Mvc_Router_Group){
 	zend_declare_property_null(phalcon_mvc_router_group_ce, SL("_routes"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_mvc_router_group_ce, SL("_beforeMatch"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_mvc_router_group_ce, SL("_converters"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_mvc_router_group_ce, SL("_name"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
 	return SUCCESS;
 }
@@ -472,4 +473,31 @@ PHP_METHOD(Phalcon_Mvc_Router_Group, convert){
 PHP_METHOD(Phalcon_Mvc_Router_Group, getConverters) {
 
 	RETURN_MEMBER(this_ptr, "_converters");
+}
+
+/**
+ * Set the name of the group
+ *
+ * @param string $hostname
+ * @return Phalcon\Mvc\Router\Group
+ */
+PHP_METHOD(Phalcon_Mvc_Router_Group, setName){
+
+	zval **name;
+
+	phalcon_fetch_params_ex(1, 0, &name);
+
+	phalcon_update_property_this(this_ptr, SL("_name"), *name TSRMLS_CC);
+	RETURN_THISW();
+}
+
+/**
+ * Returns the name of this group
+ *
+ * @return string
+ */
+PHP_METHOD(Phalcon_Mvc_Router_Group, getName){
+
+
+	RETURN_MEMBER(this_ptr, "_name");
 }
