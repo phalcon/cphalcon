@@ -196,7 +196,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Mongo, get) {
 	zephir_update_property_this(this_ptr, SL("_lastKey"), prefixedKey TSRMLS_CC);
 	zephir_array_update_string(&conditions, SL("key"), &prefixedKey, PH_COPY | PH_SEPARATE);
 	ZEPHIR_INIT_VAR(_1);
-	array_init(_1);
+	array_init_size(_1, Resource id #605);
 	ZEPHIR_INIT_VAR(_2);
 	zephir_call_func(_2, "time");
 	zephir_array_update_string(&_1, SL("$gt"), &_2, PH_COPY | PH_SEPARATE);
@@ -351,7 +351,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Mongo, delete) {
 	ZEPHIR_INIT_VAR(_0);
 	zephir_call_method(_0, this_ptr, "_getcollection");
 	ZEPHIR_INIT_VAR(_1);
-	array_init(_1);
+	array_init_size(_1, Resource id #607);
 	_2 = zephir_fetch_nproperty_this(this_ptr, SL("_prefix"), PH_NOISY_CC);
 	ZEPHIR_INIT_VAR(_3);
 	ZEPHIR_CONCAT_VV(_3, _2, keyName);
@@ -408,7 +408,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Mongo, queryKeys) {
 		zephir_array_update_string(&conditions, SL("key"), &_1, PH_COPY | PH_SEPARATE);
 	}
 	ZEPHIR_INIT_NVAR(_1);
-	array_init(_1);
+	array_init_size(_1, Resource id #609);
 	ZEPHIR_INIT_VAR(_4);
 	zephir_call_func(_4, "time");
 	zephir_array_update_string(&_1, SL("$gt"), &_4, PH_COPY | PH_SEPARATE);
@@ -498,12 +498,12 @@ PHP_METHOD(Phalcon_Cache_Backend_Mongo, gc) {
 	ZEPHIR_MM_GROW();
 
 	ZEPHIR_INIT_VAR(timeCondition);
-	array_init(timeCondition);
+	array_init_size(timeCondition, Resource id #612);
 	ZEPHIR_INIT_VAR(_0);
 	zephir_call_func(_0, "time");
 	zephir_array_update_string(&timeCondition, SL("$gt"), &_0, PH_COPY | PH_SEPARATE);
 	ZEPHIR_INIT_VAR(conditions);
-	array_init(conditions);
+	array_init_size(conditions, Resource id #614);
 	zephir_array_update_string(&conditions, SL("time"), &timeCondition, PH_COPY | PH_SEPARATE);
 	ZEPHIR_INIT_VAR(collection);
 	zephir_call_method(collection, this_ptr, "_getcollection");
@@ -541,7 +541,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Mongo, increment) {
 	ZEPHIR_INIT_VAR(collection);
 	zephir_call_method(collection, this_ptr, "_getcollection");
 	ZEPHIR_INIT_VAR(_0);
-	array_init(_0);
+	array_init_size(_0, Resource id #616);
 	zephir_array_update_string(&_0, SL("key"), &prefixedKey, PH_COPY | PH_SEPARATE);
 	ZEPHIR_INIT_VAR(document);
 	zephir_call_method_p1(document, collection, "findone", _0);
@@ -609,7 +609,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Mongo, decrement) {
 	ZEPHIR_INIT_VAR(collection);
 	zephir_call_method(collection, this_ptr, "_getcollection");
 	ZEPHIR_INIT_VAR(conditions);
-	array_init(conditions);
+	array_init_size(conditions, Resource id #618);
 	zephir_array_update_string(&conditions, SL("key"), &prefixedKey, PH_COPY | PH_SEPARATE);
 	ZEPHIR_INIT_VAR(document);
 	zephir_call_method_p1(document, collection, "findone", conditions);

@@ -158,7 +158,7 @@ PHP_METHOD(Phalcon_Escaper, detectEncoding) {
 		RETURN_MM_NULL();
 	}
 	ZEPHIR_INIT_VAR(charsets);
-	array_init(charsets);
+	array_init_size(charsets, Resource id #790);
 	ZEPHIR_INIT_VAR(_2);
 	ZVAL_STRING(_2, "UTF-32", 1);
 	zephir_array_fast_append(charsets, _2);

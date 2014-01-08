@@ -112,12 +112,12 @@ PHP_METHOD(Phalcon_Cache_Backend_Libmemcached, __construct) {
 	}
 	if (!(zephir_array_isset_string(options, SS("servers")))) {
 		ZEPHIR_INIT_VAR(config);
-		array_init(config);
+		array_init_size(config, Resource id #594);
 		add_assoc_stringl_ex(config, SS("host"), SL("127.0.0.1"), 1);
 		add_assoc_long_ex(config, SS("port"), 11211);
 		add_assoc_long_ex(config, SS("weigth"), 1);
 		ZEPHIR_INIT_VAR(_0);
-		array_init(_0);
+		array_init_size(_0, Resource id #596);
 		zephir_array_fast_append(_0, config);
 		zephir_array_update_string(&options, SL("servers"), &_0, PH_COPY | PH_SEPARATE);
 	}

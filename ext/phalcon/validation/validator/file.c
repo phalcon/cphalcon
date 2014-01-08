@@ -113,7 +113,7 @@ PHP_METHOD(Phalcon_Validation_Validator_File, validate) {
 		ZEPHIR_INIT_VAR(message);
 		zephir_call_method_p1(message, this_ptr, "getoption", _1);
 		ZEPHIR_INIT_VAR(replacePairs);
-		array_init(replacePairs);
+		array_init_size(replacePairs, Resource id #1710);
 		zephir_array_update_string(&replacePairs, SL(":field"), &label, PH_COPY | PH_SEPARATE);
 		if (ZEPHIR_IS_EMPTY(message)) {
 			ZEPHIR_INIT_BNVAR(_1);
@@ -141,7 +141,7 @@ PHP_METHOD(Phalcon_Validation_Validator_File, validate) {
 		ZEPHIR_INIT_NVAR(message);
 		zephir_call_method_p1(message, this_ptr, "getoption", _3);
 		ZEPHIR_INIT_NVAR(replacePairs);
-		array_init(replacePairs);
+		array_init_size(replacePairs, Resource id #1712);
 		zephir_array_update_string(&replacePairs, SL(":field"), &label, PH_COPY | PH_SEPARATE);
 		if (ZEPHIR_IS_EMPTY(message)) {
 			ZEPHIR_INIT_NVAR(_3);
@@ -166,7 +166,7 @@ PHP_METHOD(Phalcon_Validation_Validator_File, validate) {
 		ZEPHIR_INIT_NVAR(message);
 		zephir_call_method_p1(message, this_ptr, "getoption", _2);
 		ZEPHIR_INIT_NVAR(replacePairs);
-		array_init(replacePairs);
+		array_init_size(replacePairs, Resource id #1714);
 		zephir_array_update_string(&replacePairs, SL(":field"), &label, PH_COPY | PH_SEPARATE);
 		if (ZEPHIR_IS_EMPTY(message)) {
 			ZEPHIR_INIT_NVAR(_2);
@@ -190,7 +190,7 @@ PHP_METHOD(Phalcon_Validation_Validator_File, validate) {
 	zephir_call_method_p1(_2, this_ptr, "issetoption", _3);
 	if (zephir_is_true(_2)) {
 		ZEPHIR_INIT_VAR(byteUnits);
-		array_init(byteUnits);
+		array_init_size(byteUnits, Resource id #1716);
 		add_assoc_long_ex(byteUnits, SS("B"), 0);
 		add_assoc_long_ex(byteUnits, SS("K"), 10);
 		add_assoc_long_ex(byteUnits, SS("M"), 20);
@@ -243,7 +243,7 @@ PHP_METHOD(Phalcon_Validation_Validator_File, validate) {
 			ZEPHIR_INIT_NVAR(message);
 			zephir_call_method_p1(message, this_ptr, "getoption", _15);
 			ZEPHIR_INIT_NVAR(replacePairs);
-			array_init(replacePairs);
+			array_init_size(replacePairs, Resource id #1718);
 			zephir_array_update_string(&replacePairs, SL(":field"), &label, PH_COPY | PH_SEPARATE);
 			zephir_array_update_string(&replacePairs, SL(":max"), &maxSize, PH_COPY | PH_SEPARATE);
 			if (ZEPHIR_IS_EMPTY(message)) {
@@ -291,7 +291,7 @@ PHP_METHOD(Phalcon_Validation_Validator_File, validate) {
 			ZEPHIR_INIT_NVAR(message);
 			zephir_call_method_p1(message, this_ptr, "getoption", _13);
 			ZEPHIR_INIT_NVAR(replacePairs);
-			array_init(replacePairs);
+			array_init_size(replacePairs, Resource id #1720);
 			zephir_array_update_string(&replacePairs, SL(":field"), &label, PH_COPY | PH_SEPARATE);
 			ZEPHIR_INIT_NVAR(_13);
 			zephir_fast_join_str(_13, SL(", "), types TSRMLS_CC);
@@ -358,7 +358,7 @@ PHP_METHOD(Phalcon_Validation_Validator_File, validate) {
 			ZEPHIR_INIT_NVAR(message);
 			zephir_call_method_p1(message, this_ptr, "getoption", _13);
 			ZEPHIR_INIT_NVAR(replacePairs);
-			array_init(replacePairs);
+			array_init_size(replacePairs, Resource id #1722);
 			zephir_array_update_string(&replacePairs, SL(":field"), &label, PH_COPY | PH_SEPARATE);
 			ZEPHIR_INIT_NVAR(_13);
 			ZEPHIR_INIT_NVAR(_15);
@@ -402,7 +402,7 @@ PHP_METHOD(Phalcon_Validation_Validator_File, validate) {
 				ZEPHIR_INIT_NVAR(message);
 				zephir_call_method_p1(message, this_ptr, "getoption", _17);
 				ZEPHIR_INIT_NVAR(replacePairs);
-				array_init(replacePairs);
+				array_init_size(replacePairs, Resource id #1724);
 				zephir_array_update_string(&replacePairs, SL(":field"), &label, PH_COPY | PH_SEPARATE);
 				ZEPHIR_INIT_NVAR(_17);
 				ZEPHIR_INIT_VAR(_19);

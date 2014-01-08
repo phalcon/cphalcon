@@ -371,7 +371,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Route, extractNamedParams) {
 			zephir_concat_self_char(&route, ch TSRMLS_CC);
 		}
 	}
-	array_init(return_value);
+	array_init_size(return_value, Resource id #1548);
 	zephir_array_fast_append(return_value, route);
 	zephir_array_fast_append(return_value, matches);
 	RETURN_MM();

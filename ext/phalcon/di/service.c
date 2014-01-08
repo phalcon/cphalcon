@@ -323,7 +323,7 @@ PHP_METHOD(Phalcon_Di_Service, setParameter) {
 		zephir_array_update_long(&arguments, position, &parameter, PH_COPY | PH_SEPARATE, "phalcon/di/service.zep", 234);
 	} else {
 		ZEPHIR_INIT_BNVAR(arguments);
-		array_init(arguments);
+		array_init_size(arguments, Resource id #766);
 		zephir_array_update_long(&arguments, position, &parameter, PH_COPY, "phalcon/di/service.zep", 236);
 	}
 	zephir_array_update_string(&definition, SL("arguments"), &arguments, PH_COPY | PH_SEPARATE);

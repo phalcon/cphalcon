@@ -277,7 +277,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, get) {
 		_1 = zephir_fetch_nproperty_this(this_ptr, SL("_rollbackPendent"), PH_NOISY_CC);
 		if (zephir_is_true(_1)) {
 			ZEPHIR_INIT_VAR(_2);
-			array_init(_2);
+			array_init_size(_2, Resource id #1461);
 			zephir_array_fast_append(_2, this_ptr);
 			ZEPHIR_INIT_VAR(_3);
 			ZVAL_STRING(_3, "rollbackPendent", 1);

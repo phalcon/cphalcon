@@ -721,7 +721,7 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch) {
 			}
 		}
 		ZEPHIR_INIT_NVAR(_10);
-		array_init(_10);
+		array_init_size(_10, Resource id #782);
 		zephir_array_fast_append(_10, handler);
 		zephir_array_fast_append(_10, actionMethod);
 		ZEPHIR_INIT_NVAR(_16);

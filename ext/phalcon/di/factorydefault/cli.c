@@ -63,7 +63,7 @@ PHP_METHOD(Phalcon_Di_FactoryDefault_Cli, __construct) {
 
 	zephir_call_parent_noret(this_ptr, phalcon_di_factorydefault_cli_ce, "__construct");
 	ZEPHIR_INIT_VAR(_0);
-	array_init(_0);
+	array_init_size(_0, Resource id #754);
 	ZEPHIR_INIT_VAR(_1);
 	object_init_ex(_1, phalcon_di_service_ce);
 	ZEPHIR_INIT_VAR(_2);

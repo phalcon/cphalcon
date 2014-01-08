@@ -1178,7 +1178,7 @@ PHP_METHOD(Phalcon_Http_Request, _getQualityHeader) {
 			quality = 1.0;
 		}
 		ZEPHIR_INIT_NVAR(_6);
-		array_init(_6);
+		array_init_size(_6, Resource id #889);
 		ZEPHIR_OBS_NVAR(_7);
 		zephir_array_fetch_long(&_7, headerParts, 0, PH_NOISY TSRMLS_CC);
 		zephir_array_update_string(&_6, SL("name"), &_7, PH_COPY);

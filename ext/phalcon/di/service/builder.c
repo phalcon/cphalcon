@@ -310,7 +310,7 @@ PHP_METHOD(Phalcon_Di_Service_Builder, build) {
 				return;
 			}
 			ZEPHIR_INIT_NVAR(methodCall);
-			array_init(methodCall);
+			array_init_size(methodCall, Resource id #771);
 			zephir_array_fast_append(methodCall, instance);
 			zephir_array_fast_append(methodCall, methodName);
 			ZEPHIR_OBS_NVAR(arguments);

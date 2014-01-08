@@ -110,7 +110,7 @@ PHP_METHOD(Phalcon_Validation_Validator_Email, validate) {
 		ZEPHIR_INIT_VAR(message);
 		zephir_call_method_p1(message, this_ptr, "getoption", _3);
 		ZEPHIR_INIT_VAR(replacePairs);
-		array_init(replacePairs);
+		array_init_size(replacePairs, Resource id #1700);
 		zephir_array_update_string(&replacePairs, SL(":field"), &label, PH_COPY | PH_SEPARATE);
 		if (ZEPHIR_IS_EMPTY(message)) {
 			ZEPHIR_INIT_NVAR(_3);
