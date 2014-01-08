@@ -15,8 +15,8 @@
 #include "kernel/exception.h"
 #include "kernel/object.h"
 #include "kernel/memory.h"
-#include "kernel/fcall.h"
 #include "kernel/array.h"
+#include "kernel/fcall.h"
 #include "kernel/operators.h"
 #include "kernel/hash.h"
 
@@ -114,7 +114,7 @@ PHP_METHOD(Phalcon_Annotations_Adapter, get) {
 
 	if ((Z_TYPE_P(className) == IS_OBJECT)) {
 		ZEPHIR_INIT_VAR(realClassName);
-		zephir_call_func_p1(realClassName, "get_class", className);
+		zephir_get_class(realClassName, className, 0 TSRMLS_CC);
 	} else {
 		ZEPHIR_CPY_WRT(realClassName, className);
 	}

@@ -17,6 +17,7 @@
 #include "kernel/fcall.h"
 #include "kernel/concat.h"
 #include "kernel/operators.h"
+#include "kernel/string.h"
 
 
 /*
@@ -133,7 +134,7 @@ PHP_METHOD(Phalcon_Version, get) {
 	} while(0);
 
 	zephir_concat_self(&result, suffix TSRMLS_CC);
-	zephir_call_func_p1(return_value, "trim", result);
+	zephir_fast_trim(return_value, result, ZEPHIR_TRIM_BOTH TSRMLS_CC);
 	RETURN_MM();
 
 }

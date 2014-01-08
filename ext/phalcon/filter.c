@@ -253,7 +253,7 @@ PHP_METHOD(Phalcon_Filter, _sanitize) {
 			RETURN_MM();
 		}
 		if (ZEPHIR_IS_STRING(filter, "trim")) {
-			zephir_call_func_p1(return_value, "trim", value);
+			zephir_fast_trim(return_value, value, ZEPHIR_TRIM_BOTH TSRMLS_CC);
 			RETURN_MM();
 		}
 		if (ZEPHIR_IS_STRING(filter, "striptags")) {
@@ -281,7 +281,7 @@ PHP_METHOD(Phalcon_Filter, _sanitize) {
 				zephir_call_func_p1(return_value, "mb_strtoupper", value);
 				RETURN_MM();
 			}
-			zephir_call_func_p1(return_value, "strtoupper", value);
+			zephir_fast_strtoupper(return_value, value);
 			RETURN_MM();
 		}
 		ZEPHIR_INIT_NVAR(_1);

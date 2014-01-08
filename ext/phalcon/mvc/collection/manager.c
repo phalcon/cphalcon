@@ -14,8 +14,8 @@
 #include "kernel/main.h"
 #include "kernel/object.h"
 #include "kernel/memory.h"
-#include "kernel/fcall.h"
 #include "kernel/array.h"
+#include "kernel/fcall.h"
 #include "kernel/string.h"
 #include "kernel/exception.h"
 #include "ext/spl/spl_exceptions.h"
@@ -151,7 +151,7 @@ PHP_METHOD(Phalcon_Mvc_Collection_Manager, setCustomEventsManager) {
 
 
 	ZEPHIR_INIT_VAR(_0);
-	zephir_call_func_p1(_0, "get_class", model);
+	zephir_get_class(_0, model, 0 TSRMLS_CC);
 	zephir_update_property_array(this_ptr, SL("_customEventsManager"), _0, eventsManager TSRMLS_CC);
 	ZEPHIR_MM_RESTORE();
 
@@ -200,7 +200,7 @@ PHP_METHOD(Phalcon_Mvc_Collection_Manager, initialize) {
 
 
 	ZEPHIR_INIT_VAR(className);
-	zephir_call_func_p1(className, "get_class", model);
+	zephir_get_class(className, model, 0 TSRMLS_CC);
 	initialized = zephir_fetch_nproperty_this(this_ptr, SL("_initialized"), PH_NOISY_CC);
 	if (!(zephir_array_isset(initialized, className))) {
 		if ((zephir_method_exists_ex(model, SS("initialize") TSRMLS_CC) == SUCCESS)) {
@@ -284,7 +284,7 @@ PHP_METHOD(Phalcon_Mvc_Collection_Manager, setConnectionService) {
 		return;
 	}
 	ZEPHIR_INIT_VAR(_0);
-	zephir_call_func_p1(_0, "get_class", model);
+	zephir_get_class(_0, model, 0 TSRMLS_CC);
 	zephir_update_property_array(this_ptr, SL("_connectionServices"), _0, connectionService TSRMLS_CC);
 	ZEPHIR_MM_RESTORE();
 
@@ -312,7 +312,7 @@ PHP_METHOD(Phalcon_Mvc_Collection_Manager, useImplicitObjectIds) {
 		return;
 	}
 	ZEPHIR_INIT_VAR(_0);
-	zephir_call_func_p1(_0, "get_class", model);
+	zephir_get_class(_0, model, 0 TSRMLS_CC);
 	ZEPHIR_INIT_VAR(_1);
 	ZVAL_BOOL(_1, useImplicitObjectIds);
 	zephir_update_property_array(this_ptr, SL("_implicitObjectsIds"), _0, _1 TSRMLS_CC);
@@ -341,7 +341,7 @@ PHP_METHOD(Phalcon_Mvc_Collection_Manager, isUsingImplicitObjectIds) {
 	}
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_implicitObjectsIds"), PH_NOISY_CC);
 	ZEPHIR_INIT_VAR(_1);
-	zephir_call_func_p1(_1, "get_class", model);
+	zephir_get_class(_1, model, 0 TSRMLS_CC);
 	if (zephir_array_isset_fetch(&implicit, _0, _1, 1 TSRMLS_CC)) {
 		RETURN_CTOR(implicit);
 	}
@@ -373,7 +373,7 @@ PHP_METHOD(Phalcon_Mvc_Collection_Manager, getConnection) {
 	connectionService = zephir_fetch_nproperty_this(this_ptr, SL("_connectionServices"), PH_NOISY_CC);
 	if ((Z_TYPE_P(connectionService) == IS_ARRAY)) {
 		ZEPHIR_INIT_VAR(entityName);
-		zephir_call_func_p1(entityName, "get_class", model);
+		zephir_get_class(entityName, model, 0 TSRMLS_CC);
 		if (zephir_array_isset(connectionService, entityName)) {
 			ZEPHIR_OBS_NVAR(service);
 			zephir_array_fetch(&service, connectionService, entityName, PH_NOISY TSRMLS_CC);

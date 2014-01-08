@@ -13,11 +13,11 @@
 
 #include "kernel/main.h"
 #include "kernel/memory.h"
-#include "kernel/fcall.h"
-#include "kernel/operators.h"
 #include "kernel/object.h"
+#include "kernel/operators.h"
 #include "kernel/array.h"
 #include "kernel/concat.h"
+#include "kernel/fcall.h"
 #include "kernel/exception.h"
 #include "kernel/string.h"
 
@@ -104,7 +104,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, _initialize) {
 	ZEPHIR_INIT_VAR(strategy);
 	ZVAL_NULL(strategy);
 	ZEPHIR_INIT_VAR(className);
-	zephir_call_func_p1(className, "get_class", model);
+	zephir_get_class(className, model, 0 TSRMLS_CC);
 	if ((Z_TYPE_P(key) != IS_NULL)) {
 		metaData = zephir_fetch_nproperty_this(this_ptr, SL("_metaData"), PH_NOISY_CC);
 		if (!(zephir_array_isset(metaData, key))) {

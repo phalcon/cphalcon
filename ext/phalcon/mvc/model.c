@@ -2732,7 +2732,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _preSaveRelatedRecords) {
 	nesting = 0;
 	zephir_call_method_p1_noret(connection, "begin", (nesting ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false)));
 	ZEPHIR_INIT_VAR(className);
-	zephir_call_func_p1(className, "get_class", this_ptr);
+	zephir_get_class(className, this_ptr, 0 TSRMLS_CC);
 	ZEPHIR_INIT_VAR(manager);
 	zephir_call_method(manager, this_ptr, "getmodelsmanager");
 	zephir_is_iterable(related, &_1, &_0, 0, 0);
@@ -2815,7 +2815,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _postSaveRelatedRecords) {
 
 	nesting = 0;
 	ZEPHIR_INIT_VAR(className);
-	zephir_call_func_p1(className, "get_class", this_ptr);
+	zephir_get_class(className, this_ptr, 0 TSRMLS_CC);
 	ZEPHIR_INIT_VAR(manager);
 	zephir_call_method(manager, this_ptr, "getmodelsmanager");
 	zephir_is_iterable(related, &_1, &_0, 0, 0);
@@ -4467,7 +4467,7 @@ PHP_METHOD(Phalcon_Mvc_Model, getRelated) {
 
 	manager = zephir_fetch_nproperty_this(this_ptr, SL("_modelsManager"), PH_NOISY_CC);
 	ZEPHIR_INIT_VAR(className);
-	zephir_call_func_p1(className, "get_class", this_ptr);
+	zephir_get_class(className, this_ptr, 0 TSRMLS_CC);
 	ZEPHIR_INIT_VAR(relation);
 	zephir_call_method_p2(relation, manager, "getrelationbyalias", className, alias);
 	if ((Z_TYPE_P(relation) != IS_OBJECT)) {
@@ -4586,7 +4586,7 @@ PHP_METHOD(Phalcon_Mvc_Model, __call) {
 
 
 	ZEPHIR_INIT_VAR(modelName);
-	zephir_call_func_p1(modelName, "get_class", this_ptr);
+	zephir_get_class(modelName, this_ptr, 0 TSRMLS_CC);
 	ZEPHIR_INIT_VAR(records);
 	zephir_call_method_p3(records, this_ptr, "_getrelatedrecords", modelName, method, arguments);
 	if ((Z_TYPE_P(records) != IS_NULL)) {
@@ -4787,7 +4787,7 @@ PHP_METHOD(Phalcon_Mvc_Model, __get) {
 
 
 	ZEPHIR_INIT_VAR(modelName);
-	zephir_call_func_p1(modelName, "get_class", this_ptr);
+	zephir_get_class(modelName, this_ptr, 0 TSRMLS_CC);
 	ZEPHIR_INIT_VAR(manager);
 	zephir_call_method(manager, this_ptr, "getmodelsmanager");
 	ZEPHIR_INIT_VAR(lowerProperty);
@@ -4847,7 +4847,7 @@ PHP_METHOD(Phalcon_Mvc_Model, __isset) {
 
 
 	ZEPHIR_INIT_VAR(modelName);
-	zephir_call_func_p1(modelName, "get_class", this_ptr);
+	zephir_get_class(modelName, this_ptr, 0 TSRMLS_CC);
 	ZEPHIR_INIT_VAR(manager);
 	zephir_call_method(manager, this_ptr, "getmodelsmanager");
 	ZEPHIR_INIT_VAR(relation);

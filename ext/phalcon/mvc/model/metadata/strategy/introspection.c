@@ -17,8 +17,8 @@
 #include "kernel/operators.h"
 #include "kernel/concat.h"
 #include "kernel/exception.h"
-#include "kernel/array.h"
 #include "kernel/object.h"
+#include "kernel/array.h"
 #include "kernel/hash.h"
 
 
@@ -91,7 +91,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Introspection, getMetaData) {
 		ZEPHIR_INIT_VAR(_1);
 		object_init_ex(_1, phalcon_mvc_model_exception_ce);
 		ZEPHIR_INIT_VAR(_2);
-		zephir_call_func_p1(_2, "get_class", model);
+		zephir_get_class(_2, model, 0 TSRMLS_CC);
 		ZEPHIR_INIT_VAR(_3);
 		ZEPHIR_CONCAT_SVSV(_3, "Table '", completeTable, "' doesn't exist on database when dumping meta-data for ", _2);
 		zephir_call_method_p1_noret(_1, "__construct", _3);
@@ -111,7 +111,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Introspection, getMetaData) {
 		ZEPHIR_INIT_NVAR(_1);
 		object_init_ex(_1, phalcon_mvc_model_exception_ce);
 		ZEPHIR_INIT_NVAR(_2);
-		zephir_call_func_p1(_2, "get_class", model);
+		zephir_get_class(_2, model, 0 TSRMLS_CC);
 		ZEPHIR_INIT_LNVAR(_3);
 		ZEPHIR_CONCAT_SVSV(_3, "Cannot obtain table columns for the mapped source '", completeTable, "' used in model ", _2);
 		zephir_call_method_p1_noret(_1, "__construct", _3);

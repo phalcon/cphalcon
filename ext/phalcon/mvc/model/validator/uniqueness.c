@@ -19,6 +19,7 @@
 #include "kernel/concat.h"
 #include "kernel/operators.h"
 #include "kernel/string.h"
+#include "kernel/object.h"
 
 
 /*
@@ -274,7 +275,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Uniqueness, validate) {
 	zephir_array_update_string(&params, SL("bind"), &bindParams, PH_COPY | PH_SEPARATE);
 	zephir_array_update_string(&params, SL("bindTypes"), &bindTypes, PH_COPY | PH_SEPARATE);
 	ZEPHIR_INIT_VAR(className);
-	zephir_call_func_p1(className, "get_class", record);
+	zephir_get_class(className, record, 0 TSRMLS_CC);
 	ZEPHIR_INIT_BNVAR(number);
 	ZVAL_NULL(number);
 	if (!ZEPHIR_IS_LONG(number, 0)) {

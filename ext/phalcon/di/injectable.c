@@ -188,7 +188,7 @@ PHP_METHOD(Phalcon_Di_Injectable, __get) {
 		ZEPHIR_INIT_VAR(_2);
 		array_init(_2);
 		ZEPHIR_INIT_VAR(_3);
-		zephir_call_func_p1(_3, "get_class", this_ptr);
+		zephir_get_class(_3, this_ptr, 0 TSRMLS_CC);
 		zephir_array_fast_append(_2, _3);
 		ZEPHIR_INIT_NVAR(_3);
 		ZVAL_STRING(_3, "sessionBag", 1);

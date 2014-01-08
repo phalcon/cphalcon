@@ -307,7 +307,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getQualified) {
 		}
 		ZEPHIR_OBS_NVAR(source);
 		ZEPHIR_INIT_NVAR(_0);
-		zephir_call_func_p1(_0, "get_class", (hasModel ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false)));
+		zephir_get_class(_0, (hasModel ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false)), 0 TSRMLS_CC);
 		if (!(zephir_array_isset_fetch(&source, models, _0, 0 TSRMLS_CC))) {
 			ZEPHIR_INIT_NVAR(_7);
 			object_init_ex(_7, phalcon_mvc_model_exception_ce);
@@ -3065,7 +3065,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getRelatedRecords) {
 	array_init(_2);
 	add_assoc_stringl_ex(_2, SS("type"), SL("object"), 1);
 	ZEPHIR_INIT_VAR(_3);
-	zephir_call_func_p1(_3, "get_class", model);
+	zephir_get_class(_3, model, 0 TSRMLS_CC);
 	zephir_array_update_string(&_2, SL("model"), &_3, PH_COPY | PH_SEPARATE);
 	ZEPHIR_INIT_BNVAR(_3);
 	zephir_call_method(_3, model, "getsource");
