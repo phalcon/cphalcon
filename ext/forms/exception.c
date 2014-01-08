@@ -26,7 +26,7 @@
  *
  * Exceptions thrown in Phalcon\Forms will use this class
  */
-
+zend_class_entry *phalcon_forms_exception_ce;
 
 /**
  * Phalcon\Forms\Exception initializer

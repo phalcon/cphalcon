@@ -20,6 +20,8 @@
 #include "logger/adapterinterface.h"
 #include "kernel/main.h"
 
+zend_class_entry *phalcon_logger_adapterinterface_ce;
+
 static const zend_function_entry phalcon_logger_adapterinterface_method_entry[] = {
 	PHP_ABSTRACT_ME(Phalcon_Logger_AdapterInterface, setFormatter, arginfo_phalcon_logger_adapterinterface_setformatter)
 	PHP_ABSTRACT_ME(Phalcon_Logger_AdapterInterface, getFormatter, NULL)

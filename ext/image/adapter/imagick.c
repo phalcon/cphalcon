@@ -85,7 +85,7 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_image_adapter_imagick_setresourcelimit, 0
 	ZEND_ARG_INFO(0, limit)
 ZEND_END_ARG_INFO()
 
-PHALCON_INIT_FUNCS(phalcon_image_adapter_imagick_method_entry) {
+static const zend_function_entry phalcon_image_adapter_imagick_method_entry[] = {
 	PHP_ME(Phalcon_Image_Adapter_Imagick, check, NULL, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Image_Adapter_Imagick, __construct, arginfo_phalcon_image_adapter_imagick___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
 	PHP_ME(Phalcon_Image_Adapter_Imagick, _resize, arginfo_phalcon_image_adapterinterface_resize, ZEND_ACC_PROTECTED)

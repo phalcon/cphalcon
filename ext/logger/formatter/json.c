@@ -17,17 +17,9 @@
   +------------------------------------------------------------------------+
 */
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
-
-#include "php.h"
-#include "php_phalcon.h"
-#include "phalcon.h"
-
-#include <Zend/zend_operators.h>
-#include <Zend/zend_exceptions.h>
-#include <Zend/zend_interfaces.h>
+#include "logger/formatter/json.h"
+#include "logger/formatter.h"
+#include "logger/formatterinterface.h"
 
 #include "kernel/main.h"
 #include "kernel/memory.h"
@@ -41,7 +33,14 @@
  *
  * Formats messages using JSON encoding
  */
+zend_class_entry *phalcon_logger_formatter_json_ce;
 
+PHP_METHOD(Phalcon_Logger_Formatter_Json, format);
+
+static const zend_function_entry phalcon_logger_formatter_json_method_entry[] = {
+	PHP_ME(Phalcon_Logger_Formatter_Json, format, arginfo_phalcon_logger_formatterinterface_format, ZEND_ACC_PUBLIC)
+	PHP_FE_END
+};
 
 /**
  * Phalcon\Logger\Formatter\Json initializer
@@ -76,10 +75,9 @@ PHP_METHOD(Phalcon_Logger_Formatter_Json, format){
 	
 	PHALCON_INIT_VAR(log);
 	array_init_size(log, 3);
-	phalcon_array_update_string(&log, SL("type"), &type_str, PH_COPY | PH_SEPARATE);
-	phalcon_array_update_string(&log, SL("message"), &message, PH_COPY | PH_SEPARATE);
-	phalcon_array_update_string(&log, SL("timestamp"), &timestamp, PH_COPY | PH_SEPARATE);
+	phalcon_array_update_string(&log, SL("type"), &type_str, PH_COPY);
+	phalcon_array_update_string(&log, SL("message"), &message, PH_COPY);
+	phalcon_array_update_string(&log, SL("timestamp"), &timestamp, PH_COPY);
 	phalcon_json_encode(return_value, return_value_ptr, log, 0 TSRMLS_CC);
 	RETURN_MM();
 }
-

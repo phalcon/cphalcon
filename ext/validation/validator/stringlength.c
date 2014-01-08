@@ -17,26 +17,19 @@
   +------------------------------------------------------------------------+
 */
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
-
-#include "php.h"
-#include "php_phalcon.h"
-#include "phalcon.h"
-
-#include <Zend/zend_operators.h>
-#include <Zend/zend_exceptions.h>
-#include <Zend/zend_interfaces.h>
+#include "validation/validator/stringlength.h"
+#include "validation/validator.h"
+#include "validation/validatorinterface.h"
+#include "validation/message.h"
+#include "validation/exception.h"
 
 #include "kernel/main.h"
 #include "kernel/memory.h"
-
 #include "kernel/fcall.h"
-#include "kernel/exception.h"
-#include "kernel/string.h"
 #include "kernel/operators.h"
 #include "kernel/concat.h"
+#include "kernel/string.h"
+#include "kernel/exception.h"
 
 /**
  * Phalcon\Validation\Validator\StringLength
@@ -55,7 +48,14 @@
  *</code>
  *
  */
+zend_class_entry *phalcon_validation_validator_stringlength_ce;
 
+PHP_METHOD(Phalcon_Validation_Validator_StringLength, validate);
+
+static const zend_function_entry phalcon_validation_validator_stringlength_method_entry[] = {
+	PHP_ME(Phalcon_Validation_Validator_StringLength, validate, arginfo_phalcon_validation_validatorinterface_validate, ZEND_ACC_PUBLIC)
+	PHP_FE_END
+};
 
 /**
  * Phalcon\Validation\Validator\StringLength initializer
@@ -103,7 +103,7 @@ PHP_METHOD(Phalcon_Validation_Validator_StringLength, validate){
 	phalcon_call_method_p1(is_set_max, this_ptr, "issetoption", option);
 	if (!zend_is_true(is_set_min)) {
 		if (!zend_is_true(is_set_max)) {
-			PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "A minimum or maximum must be set");
+			PHALCON_THROW_EXCEPTION_STR(phalcon_validation_exception_ce, "A minimum or maximum must be set");
 			return;
 		}
 	}

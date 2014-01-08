@@ -18,28 +18,19 @@
   +------------------------------------------------------------------------+
 */
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
+#include "logger/adapter/firephp.h"
+#include "logger/adapter.h"
+#include "logger/adapterinterface.h"
+#include "logger/formatter/firephp.h"
 
-#include "php.h"
-#include "php_phalcon.h"
-#include "phalcon.h"
-
-#include "main/SAPI.h"
+#include <main/SAPI.h>
 #include <ext/standard/php_smart_str.h>
-
-#include <Zend/zend_operators.h>
-#include <Zend/zend_exceptions.h>
-#include <Zend/zend_interfaces.h>
 
 #include "kernel/main.h"
 #include "kernel/memory.h"
 #include "kernel/fcall.h"
 #include "kernel/object.h"
 #include "kernel/exception.h"
-
-#include "logger/adapter/firephp.h"
 
 /**
  * Phalcon\Logger\Adapter\Firephp
@@ -53,7 +44,24 @@
  *	$logger->error("This is another error");
  *</code>
  */
+zend_class_entry *phalcon_logger_adapter_firephp_ce;
 
+PHP_METHOD(Phalcon_Logger_Adapter_Firephp, getFormatter);
+PHP_METHOD(Phalcon_Logger_Adapter_Firephp, logInternal);
+PHP_METHOD(Phalcon_Logger_Adapter_Firephp, close);
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_logger_adapter_firephp_loginternal, 0, 0, 3)
+	ZEND_ARG_INFO(0, message)
+	ZEND_ARG_INFO(0, type)
+	ZEND_ARG_INFO(0, time)
+ZEND_END_ARG_INFO()
+
+static const zend_function_entry phalcon_logger_adapter_firephp_method_entry[] = {
+	PHP_ME(Phalcon_Logger_Adapter_Firephp, getFormatter, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Logger_Adapter_Firephp, logInternal, arginfo_phalcon_logger_adapter_firephp_loginternal, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Logger_Adapter_Firephp, close, NULL, ZEND_ACC_PUBLIC)
+	PHP_FE_END
+};
 
 /**
  * Phalcon\Logger\Adapter\Firephp initializer
@@ -145,8 +153,7 @@ PHP_METHOD(Phalcon_Logger_Adapter_Firephp, logInternal){
 	PHALCON_INIT_VAR(applied_format);
 	phalcon_call_method_p3(applied_format, formatter, "format", message, type, time);
 	if (Z_TYPE_P(applied_format) != IS_STRING) {
-		PHALCON_THROW_EXCEPTION_STR(phalcon_logger_exception_ce, "The formatted message is not valid");
-		return;
+		convert_to_string(applied_format);
 	}
 
 	index = phalcon_fetch_static_property_ce(phalcon_logger_adapter_firephp_ce, SL("_index") TSRMLS_CC);

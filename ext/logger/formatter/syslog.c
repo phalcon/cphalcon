@@ -17,21 +17,11 @@
   +------------------------------------------------------------------------+
 */
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
-
-#include "php.h"
-#include "php_phalcon.h"
-#include "phalcon.h"
-
-#include <Zend/zend_operators.h>
-#include <Zend/zend_exceptions.h>
-#include <Zend/zend_interfaces.h>
+#include "logger/formatter/syslog.h"
+#include "logger/formatter.h"
+#include "logger/formatterinterface.h"
 
 #include "kernel/main.h"
-#include "kernel/memory.h"
-
 #include "kernel/array.h"
 
 /**
@@ -39,7 +29,14 @@
  *
  * Prepares a message to be used in a Syslog backend
  */
+zend_class_entry *phalcon_logger_formatter_syslog_ce;
 
+PHP_METHOD(Phalcon_Logger_Formatter_Syslog, format);
+
+static const zend_function_entry phalcon_logger_formatter_syslog_method_entry[] = {
+	PHP_ME(Phalcon_Logger_Formatter_Syslog, format, arginfo_phalcon_logger_formatterinterface_format, ZEND_ACC_PUBLIC)
+	PHP_FE_END
+};
 
 /**
  * Phalcon\Logger\Formatter\Syslog initializer
@@ -68,8 +65,7 @@ PHP_METHOD(Phalcon_Logger_Formatter_Syslog, format){
 	phalcon_fetch_params(0, 3, 0, &message, &type, &timestamp);
 	
 	array_init_size(return_value, 2);
-	phalcon_array_append(&return_value, type, PH_SEPARATE);
-	phalcon_array_append(&return_value, message, PH_SEPARATE);
+	phalcon_array_append(&return_value, type, 0);
+	phalcon_array_append(&return_value, message, 0);
 	return;
 }
-

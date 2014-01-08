@@ -17,21 +17,13 @@
   +------------------------------------------------------------------------+
 */
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
-
-#include "php.h"
-#include "php_phalcon.h"
-#include "phalcon.h"
-
-#include <Zend/zend_operators.h>
-#include <Zend/zend_exceptions.h>
-#include <Zend/zend_interfaces.h>
+#include "validation/validator/presenceof.h"
+#include "validation/validator.h"
+#include "validation/validatorinterface.h"
+#include "validation/message.h"
 
 #include "kernel/main.h"
 #include "kernel/memory.h"
-
 #include "kernel/fcall.h"
 #include "kernel/operators.h"
 #include "kernel/concat.h"
@@ -49,7 +41,14 @@
  *)));
  *</code>
  */
+zend_class_entry *phalcon_validation_validator_presenceof_ce;
 
+PHP_METHOD(Phalcon_Validation_Validator_PresenceOf, validate);
+
+static const zend_function_entry phalcon_validation_validator_presenceof_method_entry[] = {
+	PHP_ME(Phalcon_Validation_Validator_PresenceOf, validate, arginfo_phalcon_validation_validatorinterface_validate, ZEND_ACC_PUBLIC)
+	PHP_FE_END
+};
 
 /**
  * Phalcon\Validation\Validator\PresenceOf initializer

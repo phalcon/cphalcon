@@ -124,8 +124,6 @@ ZEND_EXTERN_MODULE_GLOBALS(phalcon)
 extern zend_module_entry phalcon_module_entry;
 #define phpext_phalcon_ptr &phalcon_module_entry
 
-#define PHALCON_INIT_FUNCS(class_functions) static const zend_function_entry class_functions[] =
-
 #ifndef PHP_FE_END
 	#define PHP_FE_END { NULL, NULL, NULL, 0, 0 }
 #endif

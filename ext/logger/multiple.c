@@ -17,18 +17,9 @@
   +------------------------------------------------------------------------+
 */
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
-
-#include "php.h"
-#include "php_phalcon.h"
-#include "phalcon.h"
-
-#include <Zend/zend_operators.h>
-#include <Zend/zend_exceptions.h>
-#include <Zend/zend_interfaces.h>
-
+#include "logger/multiple.h"
+#include "logger/adapterinterface.h"
+#include "logger/exception.h"
 #include "logger.h"
 
 #include "kernel/main.h"
@@ -42,7 +33,41 @@
  *
  * Handles multiples logger handlers
  */
+zend_class_entry *phalcon_logger_multiple_ce;
 
+PHP_METHOD(Phalcon_Logger_Multiple, push);
+PHP_METHOD(Phalcon_Logger_Multiple, getLoggers);
+PHP_METHOD(Phalcon_Logger_Multiple, setFormatter);
+PHP_METHOD(Phalcon_Logger_Multiple, getFormatter);
+PHP_METHOD(Phalcon_Logger_Multiple, log);
+PHP_METHOD(Phalcon_Logger_Multiple, emergency);
+PHP_METHOD(Phalcon_Logger_Multiple, debug);
+PHP_METHOD(Phalcon_Logger_Multiple, error);
+PHP_METHOD(Phalcon_Logger_Multiple, info);
+PHP_METHOD(Phalcon_Logger_Multiple, notice);
+PHP_METHOD(Phalcon_Logger_Multiple, warning);
+PHP_METHOD(Phalcon_Logger_Multiple, alert);
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_logger_multiple_push, 0, 0, 1)
+	ZEND_ARG_INFO(0, logger)
+ZEND_END_ARG_INFO()
+
+static const zend_function_entry phalcon_logger_multiple_method_entry[] = {
+	PHP_ME(Phalcon_Logger_Multiple, push, arginfo_phalcon_logger_multiple_push, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Logger_Multiple, getLoggers, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Logger_Multiple, setFormatter, arginfo_phalcon_logger_adapterinterface_setformatter, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Logger_Multiple, getFormatter, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Logger_Multiple, log, arginfo_phalcon_logger_adapterinterface_log, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Logger_Multiple, emergency, arginfo_phalcon_logger_adapterinterface_emergency, ZEND_ACC_PUBLIC)
+	PHP_MALIAS(Phalcon_Logger_Multiple, emergence, emergency, arginfo_phalcon_logger_adapterinterface_emergency, ZEND_ACC_PUBLIC | ZEND_ACC_DEPRECATED)
+	PHP_ME(Phalcon_Logger_Multiple, debug, arginfo_phalcon_logger_adapterinterface_debug, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Logger_Multiple, error, arginfo_phalcon_logger_adapterinterface_error, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Logger_Multiple, info, arginfo_phalcon_logger_adapterinterface_info, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Logger_Multiple, notice, arginfo_phalcon_logger_adapterinterface_notice, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Logger_Multiple, warning, arginfo_phalcon_logger_adapterinterface_warning, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Logger_Multiple, alert, arginfo_phalcon_logger_adapterinterface_alert, ZEND_ACC_PUBLIC)
+	PHP_FE_END
+};
 
 /**
  * Phalcon\Logger\Multiple initializer
@@ -68,12 +93,8 @@ PHP_METHOD(Phalcon_Logger_Multiple, push){
 
 	phalcon_fetch_params(0, 1, 0, &logger);
 	
-	if (Z_TYPE_P(logger) != IS_OBJECT) {
-		PHALCON_THROW_EXCEPTION_STRW(phalcon_logger_exception_ce, "The logger is invalid");
-		return;
-	}
+	PHALCON_VERIFY_INTERFACE_EX(logger, phalcon_logger_adapterinterface_ce, phalcon_logger_exception_ce, 0)
 	phalcon_update_property_array_append(this_ptr, SL("_loggers"), logger TSRMLS_CC);
-	
 }
 
 /**
@@ -155,7 +176,7 @@ PHP_METHOD(Phalcon_Logger_Multiple, log){
 	
 	if (!type) {
 		PHALCON_INIT_VAR(type);
-		ZVAL_LONG(type, 7);
+		ZVAL_LONG(type, PHALCON_LOGGER_DEBUG);
 	}
 	
 	PHALCON_OBS_VAR(loggers);

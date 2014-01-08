@@ -18,18 +18,12 @@
   +------------------------------------------------------------------------+
 */
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
-
-#include "php.h"
-#include "php_phalcon.h"
-#include "phalcon.h"
+#include "logger/formatter/firephp.h"
+#include "logger/formatter.h"
+#include "logger/formatterinterface.h"
 
 #include <ext/standard/php_smart_str.h>
-
 #include <Zend/zend_builtin_functions.h>
-#include <Zend/zend_interfaces.h>
 
 #include "kernel/main.h"
 #include "kernel/memory.h"
@@ -38,13 +32,33 @@
 #include "kernel/operators.h"
 #include "kernel/string.h"
 
-#include "logger/formatter/firephp.h"
 
 /**
  * Phalcon\Logger\Formatter\Firephp
  *
  * Formats messages so that they can be sent to FirePHP
  */
+zend_class_entry *phalcon_logger_formatter_firephp_ce;
+
+PHP_METHOD(Phalcon_Logger_Formatter_Firephp, getTypeString);
+PHP_METHOD(Phalcon_Logger_Formatter_Firephp, getShowBacktrace);
+PHP_METHOD(Phalcon_Logger_Formatter_Firephp, setShowBacktrace);
+PHP_METHOD(Phalcon_Logger_Formatter_Firephp, format);
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_logger_formatter_firephp_getshowbacktrace, 0, 0, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_logger_formatter_firephp_setshowbacktrace, 0, 0, 0)
+	ZEND_ARG_INFO(0, show)
+ZEND_END_ARG_INFO()
+
+static const zend_function_entry phalcon_logger_formatter_firephp_method_entry[] = {
+	PHP_ME(Phalcon_Logger_Formatter_Firephp, getTypeString, arginfo_phalcon_logger_formatter_gettypestring, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Logger_Formatter_Firephp, getShowBacktrace, arginfo_phalcon_logger_formatter_firephp_getshowbacktrace, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Logger_Formatter_Firephp, setShowBacktrace, arginfo_phalcon_logger_formatter_firephp_setshowbacktrace, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Logger_Formatter_Firephp, format, arginfo_phalcon_logger_formatterinterface_format, ZEND_ACC_PUBLIC)
+	PHP_FE_END
+};
 
 /**
  * Phalcon\Logger\Formatter\Firephp initializer
@@ -88,12 +102,13 @@ PHP_METHOD(Phalcon_Logger_Formatter_Firephp, getTypeString) {
 		"INFO",  "INFO",  "LOG",  "INFO",  "LOG"
 	};
 
-	zval *type;
+	zval **type;
 	int itype;
 
-	phalcon_fetch_params(0, 1, 0, &type);
+	phalcon_fetch_params_ex(1, 0, &type);
+	PHALCON_ENSURE_IS_LONG(type);
 
-	itype = phalcon_get_intval(type);
+	itype = Z_LVAL_PP(type);
 	if (itype > 0 && itype < 10) {
 		RETURN_STRING(lut[itype], 1);
 	}

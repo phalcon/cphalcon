@@ -172,25 +172,6 @@ int phalcon_fetch_parameters_ex(int dummy TSRMLS_DC, int n_req, int n_opt, ...);
 	return;
 
 /**
- * Check for ctor on the same return_value
- */
-#define RETURN_SCTOR() \
-	if (Z_TYPE_P(return_value) > IS_BOOL) { \
-		zval_copy_ctor(return_value); \
-	} \
-	PHALCON_MM_RESTORE(); \
-	return;
-
-/**
- * Check for ctor on the same return_value, without restoring the memory stack
- */
-#define RETURN_SCTORW() \
-	if (Z_TYPE_P(return_value) > IS_BOOL) { \
-		zval_copy_ctor(return_value); \
-	} \
-	return;
-
-/**
  * Returns a zval in an object member
  */
 #define RETURN_MEMBER(object, member_name) \

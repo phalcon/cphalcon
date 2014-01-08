@@ -166,6 +166,24 @@
 #include "flash/exception.h"
 #include "flash/session.h"
 
+#include "forms/element.h"
+#include "forms/elementinterface.h"
+#include "forms/element/check.h"
+#include "forms/element/date.h"
+#include "forms/element/email.h"
+#include "forms/element/file.h"
+#include "forms/element/hidden.h"
+#include "forms/element/numeric.h"
+#include "forms/element/password.h"
+#include "forms/element/radio.h"
+#include "forms/element/select.h"
+#include "forms/element/submit.h"
+#include "forms/element/text.h"
+#include "forms/element/textarea.h"
+#include "forms/exception.h"
+#include "forms/form.h"
+#include "forms/manager.h"
+
 #include "http/cookie.h"
 #include "http/cookie/exception.h"
 #include "http/request.h"
@@ -194,6 +212,21 @@
 #include "loader/exception.h"
 
 #include "logger.h"
+#include "logger/adapter.h"
+#include "logger/adapterinterface.h"
+#include "logger/adapter/file.h"
+#include "logger/adapter/firephp.h"
+#include "logger/adapter/stream.h"
+#include "logger/adapter/syslog.h"
+#include "logger/exception.h"
+#include "logger/formatter.h"
+#include "logger/formatterinterface.h"
+#include "logger/formatter/firephp.h"
+#include "logger/formatter/json.h"
+#include "logger/formatter/line.h"
+#include "logger/formatter/syslog.h"
+#include "logger/item.h"
+#include "logger/multiple.h"
 
 #include "mvc/user/component.h"
 #include "mvc/user/module.h"
@@ -204,6 +237,9 @@
 #include "paginator/adapter/nativearray.h"
 #include "paginator/adapter/querybuilder.h"
 #include "paginator/exception.h"
+
+#include "queue/beanstalk.h"
+#include "queue/beanstalk/job.h"
 
 #include "security.h"
 #include "security/exception.h"
@@ -227,59 +263,26 @@
 #include "text.h"
 
 #include "validation.h"
+#include "validation/exception.h"
+#include "validation/message.h"
+#include "validation/message/group.h"
+#include "validation/validator.h"
+#include "validation/validatorinterface.h"
+#include "validation/validator/between.h"
+#include "validation/validator/confirmation.h"
+#include "validation/validator/email.h"
+#include "validation/validator/exclusionin.h"
+#include "validation/validator/identical.h"
+#include "validation/validator/inclusionin.h"
+#include "validation/validator/presenceof.h"
+#include "validation/validator/regex.h"
+#include "validation/validator/stringlength.h"
+#include "validation/validator/url.h"
 
 #include "version.h"
 
 int nusphere_dbg_present;
 
-zend_class_entry *phalcon_validation_validator_ce;
-zend_class_entry *phalcon_validation_exception_ce;
-zend_class_entry *phalcon_validation_message_ce;
-zend_class_entry *phalcon_validation_message_group_ce;
-zend_class_entry *phalcon_validation_validator_between_ce;
-zend_class_entry *phalcon_validation_validator_email_ce;
-zend_class_entry *phalcon_validation_validator_regex_ce;
-zend_class_entry *phalcon_validation_validator_exclusionin_ce;
-zend_class_entry *phalcon_validation_validator_inclusionin_ce;
-zend_class_entry *phalcon_validation_validatorinterface_ce;
-zend_class_entry *phalcon_validation_validator_identical_ce;
-zend_class_entry *phalcon_validation_validator_presenceof_ce;
-zend_class_entry *phalcon_validation_validator_stringlength_ce;
-zend_class_entry *phalcon_validation_validator_confirmation_ce;
-zend_class_entry *phalcon_validation_validator_url_ce;
-zend_class_entry *phalcon_logger_item_ce;
-zend_class_entry *phalcon_logger_formatter_ce;
-zend_class_entry *phalcon_logger_exception_ce;
-zend_class_entry *phalcon_logger_multiple_ce;
-zend_class_entry *phalcon_logger_adapter_ce;
-zend_class_entry *phalcon_logger_adapter_file_ce;
-zend_class_entry *phalcon_logger_adapter_syslog_ce;
-zend_class_entry *phalcon_logger_adapter_firephp_ce;
-zend_class_entry *phalcon_logger_adapterinterface_ce;
-zend_class_entry *phalcon_logger_formatter_json_ce;
-zend_class_entry *phalcon_logger_formatter_line_ce;
-zend_class_entry *phalcon_logger_formatter_firephp_ce;
-zend_class_entry *phalcon_logger_adapter_stream_ce;
-zend_class_entry *phalcon_logger_formatter_syslog_ce;
-zend_class_entry *phalcon_logger_formatterinterface_ce;
-zend_class_entry *phalcon_forms_form_ce;
-zend_class_entry *phalcon_forms_element_ce;
-zend_class_entry *phalcon_forms_exception_ce;
-zend_class_entry *phalcon_forms_manager_ce;
-zend_class_entry *phalcon_forms_element_check_ce;
-zend_class_entry *phalcon_forms_element_email_ce;
-zend_class_entry *phalcon_forms_element_submit_ce;
-zend_class_entry *phalcon_forms_element_select_ce;
-zend_class_entry *phalcon_forms_element_file_ce;
-zend_class_entry *phalcon_forms_element_date_ce;
-zend_class_entry *phalcon_forms_element_hidden_ce;
-zend_class_entry *phalcon_forms_element_text_ce;
-zend_class_entry *phalcon_forms_element_textarea_ce;
-zend_class_entry *phalcon_forms_elementinterface_ce;
-zend_class_entry *phalcon_forms_element_numeric_ce;
-zend_class_entry *phalcon_forms_element_password_ce;
-zend_class_entry *phalcon_queue_beanstalk_ce;
-zend_class_entry *phalcon_queue_beanstalk_job_ce;
 zend_class_entry *phalcon_mvc_url_ce;
 zend_class_entry *phalcon_mvc_view_ce;
 zend_class_entry *phalcon_mvc_router_ce;

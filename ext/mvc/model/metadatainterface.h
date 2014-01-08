@@ -17,6 +17,11 @@
   +------------------------------------------------------------------------+
 */
 
+#ifndef PHALCON_MVC_MODEL_METADADTAINTERFACE_H
+#define PHALCON_MVC_MODEL_METADADTAINTERFACE_H
+
+#include "php_phalcon.h"
+
 extern zend_class_entry *phalcon_mvc_model_metadatainterface_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Mvc_Model_MetaDataInterface);
@@ -154,3 +159,4 @@ static const zend_function_entry phalcon_mvc_model_metadatainterface_method_entr
 	PHP_FE_END
 };
 
+#endif /* PHALCON_MVC_MODEL_METADADTAINTERFACE_H */

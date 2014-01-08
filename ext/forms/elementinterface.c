@@ -20,6 +20,8 @@
 #include "forms/elementinterface.h"
 #include "kernel/main.h"
 
+zend_class_entry *phalcon_forms_elementinterface_ce;
+
 static const zend_function_entry phalcon_forms_elementinterface_method_entry[] = {
 	PHP_ABSTRACT_ME(Phalcon_Forms_ElementInterface, setForm, arginfo_phalcon_forms_elementinterface_setform)
 	PHP_ABSTRACT_ME(Phalcon_Forms_ElementInterface, getForm, NULL)

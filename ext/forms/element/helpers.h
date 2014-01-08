@@ -1,4 +1,3 @@
-
 /*
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
@@ -14,16 +13,44 @@
   +------------------------------------------------------------------------+
   | Authors: Andres Gutierrez <andres@phalconphp.com>                      |
   |          Eduar Carvajal <eduar@phalconphp.com>                         |
+  |          Vladimir Kolesnikov <vladimir@extrememember.com>              |
   +------------------------------------------------------------------------+
 */
 
-#ifndef PHALCON_FORMS_ELEMENT_HIDDEN_H
-#define PHALCON_FORMS_ELEMENT_HIDDEN_H
+#ifndef PHALCON_FORMS_ELEMENT_HELPERS_H
+#define PHALCON_FORMS_ELEMENT_HELPERS_H
 
 #include "php_phalcon.h"
+#include "kernel/main.h"
+#include "kernel/fcall.h"
 
-extern zend_class_entry *phalcon_forms_element_hidden_ce;
+static inline void phalcon_forms_element_render_helper(const char *method, int use_checked, INTERNAL_FUNCTION_PARAMETERS)
+{
+	zval **attributes = NULL, *widget_attributes = NULL, *uc;
 
-PHALCON_INIT_CLASS(Phalcon_Forms_Element_Hidden);
+	phalcon_fetch_params_ex(0, 1, &attributes);
 
-#endif /* PHALCON_FORMS_ELEMENT_HIDDEN_H */
+	if (!attributes) {
+		attributes = &PHALCON_GLOBAL(z_null);
+	}
+
+	uc = use_checked ? PHALCON_GLOBAL(z_true) : PHALCON_GLOBAL(z_false);
+
+	phalcon_call_method_params(
+		widget_attributes, &widget_attributes,
+		getThis(), SL("prepareattributes"),
+		zend_inline_hash_func(SS("prepareattributes")) TSRMLS_CC,
+		2, *attributes, uc
+	);
+
+	if (!EG(exception)) {
+		phalcon_call_static_func_params(return_value, return_value_ptr, SL("phalcon\\tag"), method, strlen(method) TSRMLS_CC, 1, widget_attributes);
+		if (EG(exception) && return_value_ptr) {
+			ALLOC_INIT_ZVAL(*return_value_ptr);
+		}
+
+		zval_ptr_dtor(&widget_attributes);
+	}
+}
+
+#endif /* PHALCON_FORMS_ELEMENT_HELPERS_H */

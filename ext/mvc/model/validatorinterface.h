@@ -17,6 +17,11 @@
   +------------------------------------------------------------------------+
 */
 
+#ifndef PHALCON_MVC_MODEL_VALIDATORINTERFACE_H
+#define PHALCON_MVC_MODEL_VALIDATORINTERFACE_H
+
+#include "php_phalcon.h"
+
 extern zend_class_entry *phalcon_mvc_model_validatorinterface_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Mvc_Model_ValidatorInterface);
@@ -31,3 +36,4 @@ static const zend_function_entry phalcon_mvc_model_validatorinterface_method_ent
 	PHP_FE_END
 };
 
+#endif /* PHALCON_MVC_MODEL_VALIDATORINTERFACE_H */
