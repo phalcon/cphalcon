@@ -175,7 +175,7 @@ PHP_METHOD(Phalcon_Mvc_Collection_Manager, getCustomEventsManager) {
 	customEventsManager = zephir_fetch_nproperty_this(this_ptr, SL("_customEventsManager"), PH_NOISY_CC);
 	if ((Z_TYPE_P(customEventsManager) == IS_ARRAY)) {
 		ZEPHIR_INIT_VAR(className);
-		zephir_call_func_p1(className, "get_class_lower", model);
+		zephir_get_class(className, model, 1 TSRMLS_CC);
 		if (zephir_array_isset(customEventsManager, className)) {
 			zephir_array_fetch(&_0, customEventsManager, className, PH_NOISY | PH_READONLY TSRMLS_CC);
 			RETURN_CTOR(_0);
@@ -431,7 +431,7 @@ PHP_METHOD(Phalcon_Mvc_Collection_Manager, notifyEvent) {
 	customEventsManager = zephir_fetch_nproperty_this(this_ptr, SL("_customEventsManager"), PH_NOISY_CC);
 	if ((Z_TYPE_P(customEventsManager) == IS_ARRAY)) {
 		ZEPHIR_INIT_VAR(_1);
-		zephir_call_func_p1(_1, "get_class_lower", model);
+		zephir_get_class(_1, model, 1 TSRMLS_CC);
 		if (zephir_array_isset(customEventsManager, _1)) {
 			ZEPHIR_INIT_LNVAR(_0);
 			ZEPHIR_CONCAT_SV(_0, "collection:", eventName);

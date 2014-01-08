@@ -270,7 +270,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, readMetaData) {
 	ZEPHIR_INIT_VAR(schema);
 	zephir_call_method(schema, model, "getschema");
 	ZEPHIR_INIT_VAR(_0);
-	zephir_call_func_p1(_0, "get_class_lower", model);
+	zephir_get_class(_0, model, 1 TSRMLS_CC);
 	ZEPHIR_INIT_VAR(key);
 	ZEPHIR_CONCAT_VVV(key, _0, schema, source);
 	metaData = zephir_fetch_nproperty_this(this_ptr, SL("_metaData"), PH_NOISY_CC);
@@ -310,7 +310,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, readMetaDataIndex) {
 	ZEPHIR_INIT_VAR(schema);
 	zephir_call_method(schema, model, "getschema");
 	ZEPHIR_INIT_VAR(_0);
-	zephir_call_func_p1(_0, "get_class_lower", model);
+	zephir_get_class(_0, model, 1 TSRMLS_CC);
 	ZEPHIR_INIT_VAR(key);
 	ZEPHIR_CONCAT_VVV(key, _0, schema, source);
 	metaData = zephir_fetch_nproperty_this(this_ptr, SL("_metaData"), PH_NOISY_CC);
@@ -358,7 +358,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, writeMetaDataIndex) {
 	ZEPHIR_INIT_VAR(schema);
 	zephir_call_method(schema, model, "getschema");
 	ZEPHIR_INIT_VAR(_0);
-	zephir_call_func_p1(_0, "get_class_lower", model);
+	zephir_get_class(_0, model, 1 TSRMLS_CC);
 	ZEPHIR_INIT_VAR(key);
 	ZEPHIR_CONCAT_VSVV(key, _0, "-", schema, source);
 	metaData = zephir_fetch_nproperty_this(this_ptr, SL("_metaData"), PH_NOISY_CC);
@@ -391,7 +391,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, readColumnMap) {
 
 
 	ZEPHIR_INIT_VAR(keyName);
-	zephir_call_func_p1(keyName, "get_class_lower", model);
+	zephir_get_class(keyName, model, 1 TSRMLS_CC);
 	columnMap = zephir_fetch_nproperty_this(this_ptr, SL("_columnMap"), PH_NOISY_CC);
 	ZEPHIR_OBS_VAR(data);
 	if (!(zephir_array_isset_fetch(&data, columnMap, keyName, 0 TSRMLS_CC))) {
@@ -426,7 +426,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, readColumnMapIndex) {
 
 
 	ZEPHIR_INIT_VAR(keyName);
-	zephir_call_func_p1(keyName, "get_class_lower", model);
+	zephir_get_class(keyName, model, 1 TSRMLS_CC);
 	ZEPHIR_OBS_VAR(columnMapModel);
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_columnMap"), PH_NOISY_CC);
 	if (!(zephir_array_isset_fetch(&columnMapModel, _0, keyName, 0 TSRMLS_CC))) {

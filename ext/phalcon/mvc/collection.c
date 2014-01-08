@@ -345,7 +345,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, getSource) {
 		ZEPHIR_CPY_WRT(collection, this_ptr);
 		ZEPHIR_INIT_BNVAR(source);
 		ZEPHIR_INIT_VAR(_0);
-		zephir_get_class_ns(_0, collection, 0);
+		zephir_get_class_ns(_0, collection, 0 TSRMLS_CC);
 		zephir_uncamelize(source, _0);
 		zephir_update_property_this(this_ptr, SL("_source"), source TSRMLS_CC);
 	}
