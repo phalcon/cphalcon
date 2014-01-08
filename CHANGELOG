@@ -204,6 +204,7 @@
    - Added Phalcon\Mvc\Model::selectWriteConnection() (#1519)
    - Added Phalcon\Mvc\Router\Group::convert()/getConverters() (#1555, #1572)
    - Added Phalcon\Mvc\Router\Route::getGroup() (#1682)
+   - Added Phalcon\Mvc\Router\Group::getName() and setName() (#1682)
    - Faster Phalcon\Mvc\Model\Row (#1606)
    - Optimized Phalcon\Mvc\Router\Group (#1682)
    - Bug fix: no arguments were passed to beforeMatch handler in Phalcon\Mvc\Router (#1556)
