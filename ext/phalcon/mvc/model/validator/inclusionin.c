@@ -128,7 +128,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Inclusionin, validate) {
 		ZEPHIR_INIT_VAR(message);
 		zephir_call_method_p1(message, this_ptr, "getoption", _2);
 		ZEPHIR_INIT_VAR(replacePairs);
-		array_init_size(replacePairs, 3);
+		array_init(replacePairs);
 		zephir_array_update_string(&replacePairs, SL(":field"), &field, PH_COPY | PH_SEPARATE);
 		ZEPHIR_INIT_NVAR(_2);
 		zephir_fast_join_str(_2, SL(", "), domain TSRMLS_CC);

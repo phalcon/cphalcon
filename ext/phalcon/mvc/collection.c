@@ -266,7 +266,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, getReservedAttributes) {
 	zephir_read_static_property_ce(&reserved, phalcon_mvc_collection_ce, SL("_reserved") TSRMLS_CC);
 	if ((Z_TYPE_P(reserved) == IS_NULL)) {
 		ZEPHIR_INIT_VAR(reserved);
-		array_init_size(reserved, 7);
+		array_init(reserved);
 		zephir_array_update_string(&reserved, SL("_connection"), &ZEPHIR_GLOBAL(global_true), PH_COPY | PH_SEPARATE);
 		zephir_array_update_string(&reserved, SL("_dependencyInjector"), &ZEPHIR_GLOBAL(global_true), PH_COPY | PH_SEPARATE);
 		zephir_array_update_string(&reserved, SL("_source"), &ZEPHIR_GLOBAL(global_true), PH_COPY | PH_SEPARATE);
@@ -1052,7 +1052,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, _exists) {
 		}
 		ZEPHIR_INIT_NVAR(_1);
 		ZEPHIR_INIT_VAR(_3);
-		array_init_size(_3, 2);
+		array_init(_3);
 		zephir_array_update_string(&_3, SL("_id"), &mongoId, PH_COPY | PH_SEPARATE);
 		zephir_call_method_p1(_1, collection, "count", _3);
 		RETURN_MM_BOOL(ZEPHIR_GT_LONG(_1, 0));
@@ -1209,7 +1209,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, save) {
 	}
 	success = 0;
 	ZEPHIR_INIT_VAR(_6);
-	array_init_size(_6, 2);
+	array_init(_6);
 	zephir_array_update_string(&_6, SL("safe"), &ZEPHIR_GLOBAL(global_true), PH_COPY | PH_SEPARATE);
 	ZEPHIR_INIT_VAR(status);
 	zephir_call_method_p2(status, collection, "save", data, _6);
@@ -1270,9 +1270,9 @@ PHP_METHOD(Phalcon_Mvc_Collection, findById) {
 		ZEPHIR_CPY_WRT(mongoId, id);
 	}
 	ZEPHIR_INIT_NVAR(_1);
-	array_init_size(_1, 2);
+	array_init(_1);
 	ZEPHIR_INIT_NVAR(_2);
-	array_init_size(_2, 2);
+	array_init(_2);
 	zephir_array_update_string(&_2, SL("_id"), &mongoId, PH_COPY | PH_SEPARATE);
 	zephir_array_fast_append(_1, _2);
 	zephir_call_self_p1(return_value, this_ptr, "findfirst", _1);
@@ -1539,7 +1539,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, summatory) {
 	ZEPHIR_INIT_VAR(emptyArray);
 	array_init(emptyArray);
 	ZEPHIR_INIT_VAR(initial);
-	array_init_size(initial, 2);
+	array_init(initial);
 	zephir_array_update_string(&initial, SL("summatory"), &emptyArray, PH_COPY | PH_SEPARATE);
 	ZEPHIR_INIT_VAR(reduce);
 	ZEPHIR_CONCAT_SVSVSVS(reduce, "function (curr, result) { if (typeof result.summatory[curr.", field, "] === \"undefined\") { result.summatory[curr.", field, "] = 1; } else { result.summatory[curr.", field, "]++; } }");
@@ -1623,10 +1623,10 @@ PHP_METHOD(Phalcon_Mvc_Collection, delete) {
 	}
 	success = 0;
 	ZEPHIR_INIT_NVAR(_0);
-	array_init_size(_0, 2);
+	array_init(_0);
 	zephir_array_update_string(&_0, SL("_id"), &mongoId, PH_COPY | PH_SEPARATE);
 	ZEPHIR_INIT_NVAR(_1);
-	array_init_size(_1, 2);
+	array_init(_1);
 	zephir_array_update_string(&_1, SL("safe"), &ZEPHIR_GLOBAL(global_true), PH_COPY | PH_SEPARATE);
 	ZEPHIR_INIT_VAR(status);
 	zephir_call_method_p2(status, collection, "remove", _0, _1);

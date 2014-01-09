@@ -161,7 +161,7 @@ PHP_METHOD(Phalcon_Logger_Formatter_Line, __construct) {
 PHP_METHOD(Phalcon_Logger_Formatter_Line, format) {
 
 	int type, timestamp;
-	zval *message_param = NULL, *type_param = NULL, *timestamp_param = NULL, *format = NULL, *_0 = NULL, *_1, _2 = zval_used_for_init, *_3 = NULL, *_4;
+	zval *message_param = NULL, *type_param = NULL, *timestamp_param = NULL, *format = NULL, *_0, _1 = zval_used_for_init, *_2 = NULL, *_3 = NULL;
 	zval *message = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -181,33 +181,33 @@ PHP_METHOD(Phalcon_Logger_Formatter_Line, format) {
 	ZEPHIR_OBS_VAR(format);
 	zephir_read_property_this(&format, this_ptr, SL("_format"), PH_NOISY_CC);
 	if (zephir_memnstr_str(format, SL("%date%"), "phalcon/logger/formatter/line.zep", 77)) {
-		ZEPHIR_INIT_VAR(_0);
-		_1 = zephir_fetch_nproperty_this(this_ptr, SL("_dateFormat"), PH_NOISY_CC);
-		ZEPHIR_SINIT_VAR(_2);
-		ZVAL_LONG(&_2, timestamp);
+		_0 = zephir_fetch_nproperty_this(this_ptr, SL("_dateFormat"), PH_NOISY_CC);
+		ZEPHIR_SINIT_VAR(_1);
+		ZVAL_LONG(&_1, timestamp);
+		ZEPHIR_INIT_VAR(_2);
+		zephir_call_func_p2(_2, "date", _0, &_1);
+		ZEPHIR_SINIT_NVAR(_1);
+		ZVAL_STRING(&_1, "%date%", 0);
 		ZEPHIR_INIT_VAR(_3);
-		zephir_call_func_p2(_3, "date", _1, &_2);
-		ZEPHIR_SINIT_NVAR(_2);
-		ZVAL_STRING(&_2, "%date%", 0);
-		zephir_fast_str_replace(_0, &_2, _3, format);
-		ZEPHIR_CPY_WRT(format, _0);
+		zephir_call_func_p3(_3, "str_replace", &_1, _2, format);
+		ZEPHIR_CPY_WRT(format, _3);
 	}
 	if (zephir_memnstr_str(format, SL("%type%"), "phalcon/logger/formatter/line.zep", 84)) {
-		ZEPHIR_INIT_NVAR(_0);
+		ZEPHIR_INIT_NVAR(_2);
 		ZEPHIR_INIT_NVAR(_3);
-		ZEPHIR_INIT_VAR(_4);
-		ZVAL_LONG(_4, type);
-		zephir_call_method_p1(_3, this_ptr, "gettypestring", _4);
-		ZEPHIR_SINIT_NVAR(_2);
-		ZVAL_STRING(&_2, "%type%", 0);
-		zephir_fast_str_replace(_0, &_2, _3, format);
-		ZEPHIR_CPY_WRT(format, _0);
+		ZVAL_LONG(_3, type);
+		zephir_call_method_p1(_2, this_ptr, "gettypestring", _3);
+		ZEPHIR_SINIT_NVAR(_1);
+		ZVAL_STRING(&_1, "%type%", 0);
+		ZEPHIR_INIT_NVAR(_3);
+		zephir_call_func_p3(_3, "str_replace", &_1, _2, format);
+		ZEPHIR_CPY_WRT(format, _3);
 	}
-	ZEPHIR_INIT_NVAR(_0);
-	ZEPHIR_SINIT_NVAR(_2);
-	ZVAL_STRING(&_2, "%message%", 0);
-	zephir_fast_str_replace(_0, &_2, message, format);
-	ZEPHIR_CONCAT_VS(return_value, _0, "\n");
+	ZEPHIR_SINIT_NVAR(_1);
+	ZVAL_STRING(&_1, "%message%", 0);
+	ZEPHIR_INIT_NVAR(_2);
+	zephir_call_func_p3(_2, "str_replace", &_1, message, format);
+	ZEPHIR_CONCAT_VS(return_value, _2, "\n");
 	RETURN_MM();
 
 }

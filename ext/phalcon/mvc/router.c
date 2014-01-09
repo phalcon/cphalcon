@@ -122,7 +122,7 @@ PHP_METHOD(Phalcon_Mvc_Router, __construct) {
 		ZEPHIR_INIT_VAR(_0);
 		object_init_ex(_0, phalcon_mvc_router_route_ce);
 		ZEPHIR_INIT_VAR(_1);
-		array_init_size(_1, 2);
+		array_init(_1);
 		add_assoc_long_ex(_1, SS("controller"), 1);
 		ZEPHIR_INIT_VAR(_2);
 		ZVAL_STRING(_2, "#^/([a-zA-Z0-9\\_\\-]+)[/]{0,1}$#", 1);
@@ -131,7 +131,7 @@ PHP_METHOD(Phalcon_Mvc_Router, __construct) {
 		ZEPHIR_INIT_NVAR(_2);
 		object_init_ex(_2, phalcon_mvc_router_route_ce);
 		ZEPHIR_INIT_VAR(_3);
-		array_init_size(_3, 5);
+		array_init(_3);
 		add_assoc_long_ex(_3, SS("controller"), 1);
 		add_assoc_long_ex(_3, SS("action"), 2);
 		add_assoc_long_ex(_3, SS("params"), 3);
@@ -600,7 +600,7 @@ PHP_METHOD(Phalcon_Mvc_Router, handle) {
 							ZEPHIR_OBS_NVAR(converter);
 							if (zephir_array_isset_fetch(&converter, converters, part, 0 TSRMLS_CC)) {
 								ZEPHIR_INIT_NVAR(_8);
-								array_init_size(_8, 2);
+								array_init(_8);
 								zephir_array_fast_append(_8, matchPosition);
 								ZEPHIR_INIT_NVAR(_9);
 								zephir_call_func_p2(_9, "call_user_func_array", converter, _8);
@@ -614,7 +614,7 @@ PHP_METHOD(Phalcon_Mvc_Router, handle) {
 							ZEPHIR_OBS_NVAR(converter);
 							if (zephir_array_isset_fetch(&converter, converters, part, 0 TSRMLS_CC)) {
 								ZEPHIR_INIT_NVAR(_22);
-								array_init_size(_22, 2);
+								array_init(_22);
 								zephir_array_fast_append(_22, matchPosition);
 								ZEPHIR_INIT_NVAR(_23);
 								zephir_call_func_p2(_23, "call_user_func_array", converter, _22);
@@ -643,6 +643,7 @@ PHP_METHOD(Phalcon_Mvc_Router, handle) {
 		}
 	}
 	if (zephir_is_true(routeFound)) {
+		zephir_call_func_p1_noret("print_r", parts);
 		if (zephir_array_isset_string_fetch(&vnamespace, parts, SS("namespace"), 1 TSRMLS_CC)) {
 			if (!(zephir_is_numeric(vnamespace))) {
 				zephir_update_property_this(this_ptr, SL("_namespace"), vnamespace TSRMLS_CC);
@@ -1261,14 +1262,12 @@ PHP_METHOD(Phalcon_Mvc_Router, getRouteByName) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &name_param);
 
-		if (Z_TYPE_P(name_param) != IS_STRING) {
-				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'name' must be a string") TSRMLS_CC);
-				RETURN_MM_NULL();
-		}
+	if (Z_TYPE_P(name_param) != IS_STRING) {
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'name' must be a string") TSRMLS_CC);
+		RETURN_MM_NULL();
+	}
 
-		name = name_param;
-
-
+	name = name_param;
 
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_routes"), PH_NOISY_CC);
 	zephir_is_iterable(_0, &_2, &_1, 0, 0);

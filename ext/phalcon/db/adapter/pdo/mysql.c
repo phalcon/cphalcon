@@ -149,7 +149,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Mysql, describeColumns) {
 	) {
 		ZEPHIR_GET_HVALUE(field, _4);
 		ZEPHIR_INIT_NVAR(definition);
-		array_init_size(definition, 2);
+		array_init(definition);
 		add_assoc_long_ex(definition, SS("bindType"), 2);
 		zephir_array_fetch_long(&columnType, field, 1, PH_NOISY | PH_READONLY TSRMLS_CC);
 		while (1) {

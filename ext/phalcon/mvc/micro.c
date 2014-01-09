@@ -441,7 +441,7 @@ PHP_METHOD(Phalcon_Mvc_Micro, mount) {
 			zephir_array_fetch_long(&pattern, handler, 1, PH_NOISY | PH_READONLY TSRMLS_CC);
 			zephir_array_fetch_long(&subHandler, handler, 2, PH_NOISY | PH_READONLY TSRMLS_CC);
 			ZEPHIR_INIT_NVAR(realHandler);
-			array_init_size(realHandler, 3);
+			array_init(realHandler);
 			zephir_array_fast_append(realHandler, lazyHandler);
 			zephir_array_fast_append(realHandler, subHandler);
 			if (!(ZEPHIR_IS_EMPTY(prefix))) {
@@ -820,7 +820,7 @@ PHP_METHOD(Phalcon_Mvc_Micro, handle) {
 			}
 			if ((Z_TYPE_P(params) == IS_NULL)) {
 				ZEPHIR_INIT_NVAR(params);
-				array_init_size(params, 2);
+				array_init(params);
 				zephir_array_fast_append(params, this_ptr);
 			}
 			ZEPHIR_INIT_NVAR(status);

@@ -186,7 +186,7 @@ PHP_METHOD(Phalcon_Di_Injectable, __get) {
 	if (ZEPHIR_IS_STRING(propertyName, "persistent")) {
 		ZEPHIR_INIT_VAR(_1);
 		ZEPHIR_INIT_VAR(_2);
-		array_init_size(_2, 2);
+		array_init(_2);
 		ZEPHIR_INIT_VAR(_3);
 		zephir_get_class(_3, this_ptr, 0 TSRMLS_CC);
 		zephir_array_fast_append(_2, _3);

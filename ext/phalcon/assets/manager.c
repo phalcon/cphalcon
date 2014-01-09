@@ -710,7 +710,7 @@ PHP_METHOD(Phalcon_Assets_Manager, outputCss) {
 		zephir_call_method_p1(collection, this_ptr, "get", collectionName);
 	}
 	ZEPHIR_INIT_VAR(_0);
-	array_init_size(_0, 3);
+	array_init(_0);
 	ZEPHIR_INIT_VAR(_1);
 	ZVAL_STRING(_1, "Phalcon\\Tag", 1);
 	zephir_array_fast_append(_0, _1);
@@ -745,7 +745,7 @@ PHP_METHOD(Phalcon_Assets_Manager, outputJs) {
 		zephir_call_method_p1(collection, this_ptr, "get", collectionName);
 	}
 	ZEPHIR_INIT_VAR(_0);
-	array_init_size(_0, 3);
+	array_init(_0);
 	ZEPHIR_INIT_VAR(_1);
 	ZVAL_STRING(_1, "Phalcon\\Tag", 1);
 	zephir_array_fast_append(_0, _1);

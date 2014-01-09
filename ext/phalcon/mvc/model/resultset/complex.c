@@ -19,7 +19,6 @@
 #include "kernel/hash.h"
 #include "kernel/array.h"
 #include "kernel/concat.h"
-#include "kernel/string.h"
 #include "kernel/exception.h"
 
 
@@ -216,10 +215,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Complex, valid) {
 					if (zephir_array_isset_string(column, SS("balias"))) {
 						ZEPHIR_CPY_WRT(attribute, alias);
 					} else {
-						ZEPHIR_INIT_NVAR(attribute);
 						ZEPHIR_SINIT_NVAR(_11);
 						ZVAL_STRING(&_11, "", 0);
-						zephir_fast_str_replace(attribute, underscore, &_11, alias);
+						ZEPHIR_INIT_NVAR(attribute);
+						zephir_call_func_p3(attribute, "str_replace", underscore, &_11, alias);
 					}
 				}
 				do {
@@ -290,7 +289,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Complex, serialize) {
 	columnTypes = zephir_fetch_nproperty_this(this_ptr, SL("_columnTypes"), PH_NOISY_CC);
 	hydrateMode = zephir_fetch_nproperty_this(this_ptr, SL("_hydrateMode"), PH_NOISY_CC);
 	ZEPHIR_INIT_VAR(_0);
-	array_init_size(_0, 5);
+	array_init(_0);
 	zephir_array_update_string(&_0, SL("cache"), &cache, PH_COPY | PH_SEPARATE);
 	zephir_array_update_string(&_0, SL("rows"), &records, PH_COPY | PH_SEPARATE);
 	zephir_array_update_string(&_0, SL("columnTypes"), &columnTypes, PH_COPY | PH_SEPARATE);

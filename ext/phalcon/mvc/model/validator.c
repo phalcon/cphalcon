@@ -16,7 +16,6 @@
 #include "kernel/object.h"
 #include "kernel/memory.h"
 #include "kernel/operators.h"
-#include "kernel/string.h"
 #include "kernel/fcall.h"
 #include "ext/spl/spl_exceptions.h"
 #include "kernel/array.h"
@@ -109,14 +108,14 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator, appendMessage) {
 
 
 	if (!(zephir_is_true(type))) {
-		ZEPHIR_INIT_NVAR(type);
 		ZEPHIR_INIT_VAR(_0);
 		zephir_get_class(_0, this_ptr, 0 TSRMLS_CC);
 		ZEPHIR_SINIT_VAR(_1);
 		ZVAL_STRING(&_1, "Validator", 0);
 		ZEPHIR_SINIT_VAR(_2);
 		ZVAL_STRING(&_2, "", 0);
-		zephir_fast_str_replace(type, &_1, &_2, _0);
+		ZEPHIR_INIT_NVAR(type);
+		zephir_call_func_p3(type, "str_replace", &_1, &_2, _0);
 	}
 	ZEPHIR_INIT_NVAR(_0);
 	object_init_ex(_0, phalcon_mvc_model_message_ce);

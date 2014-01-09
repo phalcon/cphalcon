@@ -150,7 +150,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_StringLength, validate) {
 			ZEPHIR_INIT_VAR(message);
 			zephir_call_method_p1(message, this_ptr, "getoption", _3);
 			ZEPHIR_INIT_VAR(replacePairs);
-			array_init_size(replacePairs, 3);
+			array_init(replacePairs);
 			zephir_array_update_string(&replacePairs, SL(":field"), &field, PH_COPY | PH_SEPARATE);
 			zephir_array_update_string(&replacePairs, SL(":max"), &maximum, PH_COPY | PH_SEPARATE);
 			if (ZEPHIR_IS_EMPTY(message)) {
@@ -177,7 +177,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_StringLength, validate) {
 			ZEPHIR_INIT_NVAR(message);
 			zephir_call_method_p1(message, this_ptr, "getoption", _3);
 			ZEPHIR_INIT_NVAR(replacePairs);
-			array_init_size(replacePairs, 3);
+			array_init(replacePairs);
 			zephir_array_update_string(&replacePairs, SL(":field"), &field, PH_COPY | PH_SEPARATE);
 			zephir_array_update_string(&replacePairs, SL(":min"), &minimum, PH_COPY | PH_SEPARATE);
 			if (ZEPHIR_IS_EMPTY(message)) {
