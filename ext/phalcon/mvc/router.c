@@ -196,7 +196,7 @@ PHP_METHOD(Phalcon_Mvc_Router, getRewriteUri) {
 		ZEPHIR_OBS_VAR(url);
 		zephir_get_global(&_GET, SS("_GET") TSRMLS_CC);
 		if (zephir_array_isset_string_fetch(&url, _GET, SS("_url"), 0 TSRMLS_CC)) {
-			if (!(zephir_is_true(url))) {
+			if (!(ZEPHIR_IS_EMPTY(url))) {
 				RETURN_CCTOR(url);
 			}
 		}
@@ -209,7 +209,7 @@ PHP_METHOD(Phalcon_Mvc_Router, getRewriteUri) {
 			ZEPHIR_INIT_VAR(urlParts);
 			zephir_call_func_p2(urlParts, "explode", &_1, url);
 			zephir_array_fetch_long(&realUri, urlParts, 0, PH_NOISY | PH_READONLY TSRMLS_CC);
-			if (!(zephir_is_true(realUri))) {
+			if (!(ZEPHIR_IS_EMPTY(realUri))) {
 				RETURN_CTOR(realUri);
 			}
 		}
@@ -615,7 +615,7 @@ PHP_METHOD(Phalcon_Mvc_Router, handle) {
 							if (zephir_array_isset_fetch(&converter, converters, part, 0 TSRMLS_CC)) {
 								ZEPHIR_INIT_NVAR(_22);
 								array_init(_22);
-								zephir_array_fast_append(_22, matchPosition);
+								zephir_array_fast_append(_22, position);
 								ZEPHIR_INIT_NVAR(_23);
 								zephir_call_func_p2(_23, "call_user_func_array", converter, _22);
 								zephir_array_update_zval(&parts, part, &_23, PH_COPY | PH_SEPARATE);
@@ -1262,12 +1262,14 @@ PHP_METHOD(Phalcon_Mvc_Router, getRouteByName) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &name_param);
 
-	if (Z_TYPE_P(name_param) != IS_STRING) {
-		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'name' must be a string") TSRMLS_CC);
-		RETURN_MM_NULL();
-	}
+		if (Z_TYPE_P(name_param) != IS_STRING) {
+				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'name' must be a string") TSRMLS_CC);
+				RETURN_MM_NULL();
+		}
 
-	name = name_param;
+		name = name_param;
+
+
 
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_routes"), PH_NOISY_CC);
 	zephir_is_iterable(_0, &_2, &_1, 0, 0);

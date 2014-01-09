@@ -152,7 +152,7 @@ class Router
 		 */
 		if !this->_uriSource {
 			if fetch url, _GET["_url"] {
-				if !url {
+				if !empty url {
 					return url;
 				}
 			}
@@ -163,7 +163,7 @@ class Router
 			if fetch url, _SERVER["REQUEST_URI"] {
 				let urlParts = explode("?", url),
 					realUri = urlParts[0];
-				if !realUri {
+				if !empty realUri {
 					return realUri;
 				}
 			}
@@ -518,7 +518,7 @@ class Router
 							 */
 							if typeof converters == "array" {
 								if fetch converter, converters[part] {
-									let parts[part] = call_user_func_array(converter, [matchPosition]);
+									let parts[part] = call_user_func_array(converter, [position]);
 								}
 							}
 						}
@@ -556,6 +556,8 @@ class Router
 		}
 
 		if routeFound {
+
+			print_r(parts);
 
 			/**
 			 * Check for a namespace
