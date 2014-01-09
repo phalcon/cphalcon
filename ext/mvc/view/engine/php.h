@@ -17,13 +17,13 @@
   +------------------------------------------------------------------------+
 */
 
-#ifndef PHALCON_CONFIG_CONFIGPHP_H
-#define PHALCON_CONFIG_CONFIGPHP_H
+#ifndef PHALCON_MVC_VIEW_ENGINE_PHP_H
+#define PHALCON_MVC_VIEW_ENGINE_PHP_H
 
 #include "php_phalcon.h"
 
-extern zend_class_entry *phalcon_config_adapter_php_ce;
+extern zend_class_entry *phalcon_mvc_view_engine_php_ce;
 
-PHALCON_INIT_CLASS(Phalcon_Config_Adapter_Php);
+PHALCON_INIT_CLASS(Phalcon_Mvc_View_Engine_Php);
 
-#endif /* PHALCON_CONFIG_CONFIGPHP_H */
+#endif /* PHALCON_MVC_VIEW_ENGINE_PHP_H */

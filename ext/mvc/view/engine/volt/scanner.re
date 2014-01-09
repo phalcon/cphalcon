@@ -17,14 +17,8 @@
   +------------------------------------------------------------------------+
 */
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
-
-#include "php.h"
 #include "php_phalcon.h"
-
-#include "scanner.h"
+#include "mvc/view/engine/volt/scanner.h"
 
 #define YYCTYPE unsigned char
 #define YYCURSOR (s->start)

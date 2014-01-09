@@ -54,6 +54,7 @@
  *
  *</code>
  */
+zend_class_entry *phalcon_mvc_dispatcher_ce;
 
 PHP_METHOD(Phalcon_Mvc_Dispatcher, setControllerSuffix);
 PHP_METHOD(Phalcon_Mvc_Dispatcher, setDefaultController);

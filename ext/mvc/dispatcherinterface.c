@@ -17,14 +17,7 @@
   +------------------------------------------------------------------------+
 */
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
-
-#include "php.h"
-#include "php_phalcon.h"
-#include "phalcon.h"
-
+#include "mvc/dispatcherinterface.h"
 #include "mvc/../dispatcherinterface.h"
 #include "kernel/main.h"
 
@@ -91,4 +84,3 @@ PHALCON_DOC_METHOD(Phalcon_Mvc_DispatcherInterface, getLastController);
  * @return Phalcon\Mvc\ControllerInterface
  */
 PHALCON_DOC_METHOD(Phalcon_Mvc_DispatcherInterface, getActiveController);
-

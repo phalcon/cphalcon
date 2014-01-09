@@ -27,7 +27,7 @@
  * Exceptions thrown in Phalcon\Mvc\Router will use this class
  *
  */
-
+zend_class_entry *phalcon_mvc_router_exception_ce;
 
 /**
  * Phalcon\Mvc\Router\Exception initializer

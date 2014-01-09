@@ -392,16 +392,11 @@ PHP_METHOD(Phalcon_Mvc_Collection, getReservedAttributes){
 		zval *dummy = PHALCON_GLOBAL(z_true);
 	
 		array_init_size(return_value, 5);
-		Z_ADDREF_P(dummy);
-		add_assoc_zval_ex(return_value, SS("_connection"), dummy);
-		Z_ADDREF_P(dummy);
-		add_assoc_zval_ex(return_value, SS("_dependencyInjector"), dummy);
-		Z_ADDREF_P(dummy);
-		add_assoc_zval_ex(return_value, SS("_source"), dummy);
-		Z_ADDREF_P(dummy);
-		add_assoc_zval_ex(return_value, SS("_operationMade"), dummy);
-		Z_ADDREF_P(dummy);
-		add_assoc_zval_ex(return_value, SS("_errorMessages"), dummy);
+		Z_ADDREF_P(dummy); add_assoc_zval_ex(return_value, SS("_connection"), dummy);
+		Z_ADDREF_P(dummy); add_assoc_zval_ex(return_value, SS("_dependencyInjector"), dummy);
+		Z_ADDREF_P(dummy); add_assoc_zval_ex(return_value, SS("_source"), dummy);
+		Z_ADDREF_P(dummy); add_assoc_zval_ex(return_value, SS("_operationMade"), dummy);
+		Z_ADDREF_P(dummy); add_assoc_zval_ex(return_value, SS("_errorMessages"), dummy);
 
 		phalcon_update_static_property_ce(phalcon_mvc_collection_ce, SL("_reserved"), return_value TSRMLS_CC);
 		return;

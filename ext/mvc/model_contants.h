@@ -17,5 +17,9 @@
   +------------------------------------------------------------------------+
 */
 
+#ifndef PHALCON_MVC_MODEL_CONSTANTS_H
+#define PHALCON_MVC_MODEL_CONSTANTS_H
+
 #define PH_MODELS_AUTOMATIC_DEFAULT_INSERT 10
 
+#endif /* PHALCON_MVC_MODEL_CONSTANTS_H */

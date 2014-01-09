@@ -93,7 +93,7 @@
 #include "pconfig.h"
 #include "config/adapter/ini.h"
 #include "config/adapter/json.h"
-#include "config/adapter/configphp.h"
+#include "config/adapter/php.h"
 #include "config/exception.h"
 
 #include "crypt.h"
@@ -228,9 +228,50 @@
 #include "logger/item.h"
 #include "logger/multiple.h"
 
+#include "mvc/application.h"
+#include "mvc/application/exception.h"
+#include "mvc/collection.h"
+#include "mvc/collectioninterface.h"
+#include "mvc/collection/document.h"
+#include "mvc/collection/exception.h"
+#include "mvc/collection/manager.h"
+#include "mvc/collection/managerinterface.h"
+#include "mvc/controller.h"
+#include "mvc/controllerinterface.h"
+#include "mvc/dispatcher.h"
+#include "mvc/dispatcherinterface.h"
+#include "mvc/dispatcher/exception.h"
+#include "mvc/micro.h"
+#include "mvc/micro/collection.h"
+#include "mvc/micro/collectioninterface.h"
+#include "mvc/micro/exception.h"
+#include "mvc/micro/lazyloader.h"
+#include "mvc/micro/middlewareinterface.h"
+#include "mvc/model.h"
+#include "mvc/modelinterface.h"
+#include "mvc/moduledefinitioninterface.h"
+#include "mvc/router.h"
+#include "mvc/routerinterface.h"
+#include "mvc/router/annotations.h"
+#include "mvc/router/exception.h"
+#include "mvc/router/group.h"
+#include "mvc/router/route.h"
+#include "mvc/router/routeinterface.h"
+#include "mvc/url.h"
+#include "mvc/urlinterface.h"
+#include "mvc/url/exception.h"
 #include "mvc/user/component.h"
 #include "mvc/user/module.h"
 #include "mvc/user/plugin.h"
+#include "mvc/view.h"
+#include "mvc/viewinterface.h"
+#include "mvc/view/engine.h"
+#include "mvc/view/engineinterface.h"
+#include "mvc/view/engine/php.h"
+#include "mvc/view/engine/volt.h"
+#include "mvc/view/engine/volt/compiler.h"
+#include "mvc/view/exception.h"
+#include "mvc/view/simple.h"
 
 #include "paginator/adapterinterface.h"
 #include "paginator/adapter/model.h"
@@ -283,47 +324,18 @@
 
 int nusphere_dbg_present;
 
-zend_class_entry *phalcon_mvc_url_ce;
-zend_class_entry *phalcon_mvc_view_ce;
-zend_class_entry *phalcon_mvc_router_ce;
-zend_class_entry *phalcon_mvc_model_ce;
-zend_class_entry *phalcon_mvc_micro_ce;
-zend_class_entry *phalcon_mvc_urlinterface_ce;
-zend_class_entry *phalcon_mvc_view_engine_ce;
-zend_class_entry *phalcon_mvc_view_simple_ce;
-zend_class_entry *phalcon_mvc_dispatcher_ce;
-zend_class_entry *phalcon_mvc_collection_ce;
-zend_class_entry *phalcon_mvc_application_ce;
-zend_class_entry *phalcon_mvc_controller_ce;
 zend_class_entry *phalcon_mvc_model_row_ce;
-zend_class_entry *phalcon_mvc_router_route_ce;
-zend_class_entry *phalcon_mvc_router_group_ce;
 zend_class_entry *phalcon_mvc_model_query_ce;
-zend_class_entry *phalcon_mvc_application_exception_ce;
-zend_class_entry *phalcon_mvc_collection_manager_ce;
-zend_class_entry *phalcon_mvc_controllerinterface_ce;
-zend_class_entry *phalcon_mvc_collection_document_ce;
-zend_class_entry *phalcon_mvc_collectioninterface_ce;
-zend_class_entry *phalcon_mvc_collection_exception_ce;
-zend_class_entry *phalcon_mvc_collection_managerinterface_ce;
-zend_class_entry *phalcon_mvc_dispatcher_exception_ce;
-zend_class_entry *phalcon_mvc_dispatcherinterface_ce;
 zend_class_entry *phalcon_mvc_model_criteria_ce;
 zend_class_entry *phalcon_mvc_model_behavior_ce;
 zend_class_entry *phalcon_mvc_model_metadata_ce;
-zend_class_entry *phalcon_mvc_micro_lazyloader_ce;
-zend_class_entry *phalcon_mvc_micro_collection_ce;
 zend_class_entry *phalcon_mvc_model_message_ce;
 zend_class_entry *phalcon_mvc_model_manager_ce;
 zend_class_entry *phalcon_mvc_model_relation_ce;
-zend_class_entry *phalcon_mvc_micro_exception_ce;
 zend_class_entry *phalcon_mvc_model_resultset_ce;
 zend_class_entry *phalcon_mvc_model_exception_ce;
 zend_class_entry *phalcon_mvc_model_validator_ce;
-zend_class_entry *phalcon_mvc_modelinterface_ce;
 zend_class_entry *phalcon_mvc_model_query_lang_ce;
-zend_class_entry *phalcon_mvc_micro_collectioninterface_ce;
-zend_class_entry *phalcon_mvc_micro_middlewareinterface_ce;
 zend_class_entry *phalcon_mvc_model_query_builder_ce;
 zend_class_entry *phalcon_mvc_model_validator_url_ce;
 zend_class_entry *phalcon_mvc_model_transaction_ce;
@@ -365,18 +377,6 @@ zend_class_entry *phalcon_mvc_model_behavior_softdelete_ce;
 zend_class_entry *phalcon_mvc_model_metadata_strategy_annotations_ce;
 zend_class_entry *phalcon_mvc_model_transaction_managerinterface_ce;
 zend_class_entry *phalcon_mvc_model_metadata_strategy_introspection_ce;
-zend_class_entry *phalcon_mvc_moduledefinitioninterface_ce;
-zend_class_entry *phalcon_mvc_router_exception_ce;
-zend_class_entry *phalcon_mvc_routerinterface_ce;
-zend_class_entry *phalcon_mvc_router_annotations_ce;
-zend_class_entry *phalcon_mvc_router_routeinterface_ce;
-zend_class_entry *phalcon_mvc_url_exception_ce;
-zend_class_entry *phalcon_mvc_view_exception_ce;
-zend_class_entry *phalcon_mvc_view_engine_php_ce;
-zend_class_entry *phalcon_mvc_viewinterface_ce;
-zend_class_entry *phalcon_mvc_view_engine_volt_ce;
-zend_class_entry *phalcon_mvc_view_engineinterface_ce;
-zend_class_entry *phalcon_mvc_view_engine_volt_compiler_ce;
 
 ZEND_DECLARE_MODULE_GLOBALS(phalcon)
 

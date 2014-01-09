@@ -653,12 +653,12 @@ PHP_METHOD(Phalcon_Mvc_Application, handle){
 	}
 	
 	/** 
-	 * Headers are automatically send
+	 * Headers are automatically sent
 	 */
 	phalcon_call_method_noret(response, "sendheaders");
 	
 	/** 
-	 * Cookies are automatically send
+	 * Cookies are automatically sent
 	 */
 	phalcon_call_method_noret(response, "sendcookies");
 	

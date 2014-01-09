@@ -17,15 +17,20 @@
   +------------------------------------------------------------------------+
 */
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
-
-#include "php.h"
-#include "php_phalcon.h"
-#include "phalcon.h"
-
+#include "mvc/urlinterface.h"
 #include "kernel/main.h"
+
+zend_class_entry *phalcon_mvc_urlinterface_ce;
+
+static const zend_function_entry phalcon_mvc_urlinterface_method_entry[] = {
+	PHP_ABSTRACT_ME(Phalcon_Mvc_UrlInterface, setBaseUri, arginfo_phalcon_mvc_urlinterface_setbaseuri)
+	PHP_ABSTRACT_ME(Phalcon_Mvc_UrlInterface, getBaseUri, NULL)
+	PHP_ABSTRACT_ME(Phalcon_Mvc_UrlInterface, setBasePath, arginfo_phalcon_mvc_urlinterface_setbasepath)
+	PHP_ABSTRACT_ME(Phalcon_Mvc_UrlInterface, getBasePath, NULL)
+	PHP_ABSTRACT_ME(Phalcon_Mvc_UrlInterface, get, arginfo_phalcon_mvc_urlinterface_get)
+	PHP_ABSTRACT_ME(Phalcon_Mvc_UrlInterface, path, arginfo_phalcon_mvc_urlinterface_path)
+	PHP_FE_END
+};
 
 /**
  * Phalcon\Mvc\UrlInterface initializer
@@ -80,4 +85,3 @@ PHALCON_DOC_METHOD(Phalcon_Mvc_UrlInterface, get);
  * @return string
  */
 PHALCON_DOC_METHOD(Phalcon_Mvc_UrlInterface, path);
-

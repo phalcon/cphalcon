@@ -8,8 +8,8 @@ scanner.c: scanner.re Makefile
 	sed -i 's!^#line.*$$!/* & */!g' "$@"
 	sed -i 's/YY/KK/g; s/yy/kk/g' "$@"
 
-parser.c: parser.lemon base.c Makefile ../../../../../lemon/lemon
-	../../../../../lemon/lemon -s -q "$<"
+parser.c: parser.y base.c Makefile ../../../../../lemon/lemon
+	../../../../../lemon/lemon -m -s -q "$<"
 	cat base.c >> "$@"
 	sed -i 's!^#line.*$$!/* & */!g' "$@"
 	sed -i 's/YY/KK/g; s/yy/kk/g; s/TOKEN/KTOKEN/g' "$@"

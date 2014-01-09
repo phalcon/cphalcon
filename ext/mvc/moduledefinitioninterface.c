@@ -17,15 +17,17 @@
   +------------------------------------------------------------------------+
 */
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
-
-#include "php.h"
-#include "php_phalcon.h"
-#include "phalcon.h"
-
+#include "mvc/moduledefinitioninterface.h"
 #include "kernel/main.h"
+
+zend_class_entry *phalcon_mvc_moduledefinitioninterface_ce;
+
+static const zend_function_entry phalcon_mvc_moduledefinitioninterface_method_entry[] = {
+	PHP_ABSTRACT_ME(Phalcon_Mvc_ModuleDefinitionInterface, registerAutoloaders, NULL)
+	PHP_ABSTRACT_ME(Phalcon_Mvc_ModuleDefinitionInterface, registerServices, arginfo_phalcon_mvc_moduledefinitioninterface_registerservices)
+	PHP_FE_END
+};
+
 
 /**
  * Phalcon\Mvc\ModuleDefinitionInterface initializer
@@ -50,4 +52,3 @@ PHALCON_DOC_METHOD(Phalcon_Mvc_ModuleDefinitionInterface, registerAutoloaders);
  * @param Phalcon\DiInterface $dependencyInjector
  */
 PHALCON_DOC_METHOD(Phalcon_Mvc_ModuleDefinitionInterface, registerServices);
-

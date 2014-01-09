@@ -19,7 +19,7 @@
 
 #include "php_phalcon.h"
 
-#include "config/adapter/configphp.h"
+#include "config/adapter/php.h"
 #include "config/exception.h"
 #include "pconfig.h"
 
