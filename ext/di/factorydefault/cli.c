@@ -17,17 +17,12 @@
   +------------------------------------------------------------------------+
 */
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
-
-#include "php.h"
 #include "php_phalcon.h"
-#include "phalcon.h"
 
-#include "Zend/zend_operators.h"
-#include "Zend/zend_exceptions.h"
-#include "Zend/zend_interfaces.h"
+#include "di.h"
+#include "di/factorydefault/cli.h"
+#include "di/factorydefault.h"
+#include "di/service.h"
 
 #include "kernel/main.h"
 #include "kernel/memory.h"
@@ -46,7 +41,14 @@
  * Thanks to this, the developer does not need to register each service individually.
  * This class is specially suitable for CLI applications
  */
+zend_class_entry *phalcon_di_factorydefault_cli_ce;
 
+PHP_METHOD(Phalcon_DI_FactoryDefault_CLI, __construct);
+
+static const zend_function_entry phalcon_di_factorydefault_cli_method_entry[] = {
+	PHP_ME(Phalcon_DI_FactoryDefault_CLI, __construct, NULL, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
+	PHP_FE_END
+};
 
 /**
  * Phalcon\DI\FactoryDefault\CLI initializer
@@ -206,4 +208,3 @@ PHP_METHOD(Phalcon_DI_FactoryDefault_CLI, __construct){
 
 	PHALCON_MM_RESTORE();
 }
-

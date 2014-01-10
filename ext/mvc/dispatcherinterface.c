@@ -17,15 +17,21 @@
   +------------------------------------------------------------------------+
 */
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
-
-#include "php.h"
-#include "php_phalcon.h"
-#include "phalcon.h"
-
+#include "mvc/dispatcherinterface.h"
+#include "mvc/../dispatcherinterface.h"
 #include "kernel/main.h"
+
+zend_class_entry *phalcon_mvc_dispatcherinterface_ce;
+
+static const zend_function_entry phalcon_mvc_dispatcherinterface_method_entry[] = {
+	PHP_ABSTRACT_ME(Phalcon_Mvc_DispatcherInterface, setControllerSuffix, arginfo_phalcon_mvc_dispatcherinterface_setcontrollersuffix)
+	PHP_ABSTRACT_ME(Phalcon_Mvc_DispatcherInterface, setDefaultController, arginfo_phalcon_mvc_dispatcherinterface_setdefaultcontroller)
+	PHP_ABSTRACT_ME(Phalcon_Mvc_DispatcherInterface, setControllerName, arginfo_phalcon_mvc_dispatcherinterface_setcontrollername)
+	PHP_ABSTRACT_ME(Phalcon_Mvc_DispatcherInterface, getControllerName, NULL)
+	PHP_ABSTRACT_ME(Phalcon_Mvc_DispatcherInterface, getLastController, NULL)
+	PHP_ABSTRACT_ME(Phalcon_Mvc_DispatcherInterface, getActiveController, NULL)
+	PHP_FE_END
+};
 
 /**
  * Phalcon\Mvc\DispatcherInterface initializer
@@ -78,4 +84,3 @@ PHALCON_DOC_METHOD(Phalcon_Mvc_DispatcherInterface, getLastController);
  * @return Phalcon\Mvc\ControllerInterface
  */
 PHALCON_DOC_METHOD(Phalcon_Mvc_DispatcherInterface, getActiveController);
-

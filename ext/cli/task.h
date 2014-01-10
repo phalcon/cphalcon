@@ -18,14 +18,13 @@
   +------------------------------------------------------------------------+
 */
 
+#ifndef PHALCON_CLI_TASK_H
+#define PHALCON_CLI_TASK_H
+
+#include "php_phalcon.h"
+
 extern zend_class_entry *phalcon_cli_task_ce;
 
 PHALCON_INIT_CLASS(Phalcon_CLI_Task);
 
-PHP_METHOD(Phalcon_CLI_Task, __construct);
-
-PHALCON_INIT_FUNCS(phalcon_cli_task_method_entry){
-	PHP_ME(Phalcon_CLI_Task, __construct, NULL, ZEND_ACC_PUBLIC|ZEND_ACC_FINAL|ZEND_ACC_CTOR) 
-	PHP_FE_END
-};
-
+#endif /* PHALCON_CLI_TASK_H */

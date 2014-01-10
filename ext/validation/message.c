@@ -17,21 +17,10 @@
   +------------------------------------------------------------------------+
 */
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
-
-#include "php.h"
-#include "php_phalcon.h"
-#include "phalcon.h"
-
-#include "Zend/zend_operators.h"
-#include "Zend/zend_exceptions.h"
-#include "Zend/zend_interfaces.h"
+#include "validation/message.h"
 
 #include "kernel/main.h"
 #include "kernel/memory.h"
-
 #include "kernel/object.h"
 #include "kernel/array.h"
 #include "kernel/fcall.h"
@@ -41,7 +30,61 @@
  *
  * Encapsulates validation info generated in the validation process
  */
+zend_class_entry *phalcon_validation_message_ce;
 
+PHP_METHOD(Phalcon_Validation_Message, __construct);
+PHP_METHOD(Phalcon_Validation_Message, setType);
+PHP_METHOD(Phalcon_Validation_Message, getType);
+PHP_METHOD(Phalcon_Validation_Message, setCode);
+PHP_METHOD(Phalcon_Validation_Message, getCode);
+PHP_METHOD(Phalcon_Validation_Message, setMessage);
+PHP_METHOD(Phalcon_Validation_Message, getMessage);
+PHP_METHOD(Phalcon_Validation_Message, setField);
+PHP_METHOD(Phalcon_Validation_Message, getField);
+PHP_METHOD(Phalcon_Validation_Message, __toString);
+PHP_METHOD(Phalcon_Validation_Message, __set_state);
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_validation_message___construct, 0, 0, 1)
+	ZEND_ARG_INFO(0, message)
+	ZEND_ARG_INFO(0, field)
+	ZEND_ARG_INFO(0, type)
+	ZEND_ARG_INFO(0, code)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_validation_message_settype, 0, 0, 1)
+	ZEND_ARG_INFO(0, type)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_validation_message_setmessage, 0, 0, 1)
+	ZEND_ARG_INFO(0, message)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_validation_message_setfield, 0, 0, 1)
+	ZEND_ARG_INFO(0, field)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_validation_message_setcode, 0, 0, 1)
+	ZEND_ARG_INFO(0, code)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_validation_message___set_state, 0, 0, 1)
+	ZEND_ARG_INFO(0, message)
+ZEND_END_ARG_INFO()
+
+static const zend_function_entry phalcon_validation_message_method_entry[] = {
+	PHP_ME(Phalcon_Validation_Message, __construct, arginfo_phalcon_validation_message___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
+	PHP_ME(Phalcon_Validation_Message, setType, arginfo_phalcon_validation_message_settype, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Validation_Message, getType, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Validation_Message, setCode, arginfo_phalcon_validation_message_setcode, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Validation_Message, getCode, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Validation_Message, setMessage, arginfo_phalcon_validation_message_setmessage, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Validation_Message, getMessage, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Validation_Message, setField, arginfo_phalcon_validation_message_setfield, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Validation_Message, getField, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Validation_Message, __toString, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Validation_Message, __set_state, arginfo_phalcon_validation_message___set_state, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
+	PHP_FE_END
+};
 
 /**
  * Phalcon\Validation\Message initializer
@@ -231,12 +274,11 @@ PHP_METHOD(Phalcon_Validation_Message, __set_state){
 	PHALCON_OBS_VAR(type);
 	phalcon_array_fetch_string(&type, message, SL("_type"), PH_NOISY);
 
-    PHALCON_OBS_VAR(code);
-    phalcon_array_fetch_string(&code, message, SL("_code"), PH_NOISY);
+	PHALCON_OBS_VAR(code);
+	phalcon_array_fetch_string(&code, message, SL("_code"), PH_NOISY);
 
 	object_init_ex(return_value, phalcon_validation_message_ce);
 	phalcon_call_method_p4_noret(return_value, "__construct", message_text, field, type, code);
 	
 	RETURN_MM();
 }
-

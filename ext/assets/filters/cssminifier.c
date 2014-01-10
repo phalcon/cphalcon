@@ -36,14 +36,12 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
-
-#include "php.h"
 #include "php_phalcon.h"
-#include "phalcon.h"
-#include "ext/standard/php_smart_str.h"
+
+#include <ext/standard/php_smart_str.h>
+
+#include "assets/filters/cssminifier.h"
+#include "assets/exception.h"
 
 #include "kernel/main.h"
 #include "kernel/memory.h"

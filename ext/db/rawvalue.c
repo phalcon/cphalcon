@@ -17,21 +17,8 @@
   +------------------------------------------------------------------------+
 */
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
-
-#include "php.h"
-#include "php_phalcon.h"
-#include "phalcon.h"
-
-#include "Zend/zend_operators.h"
-#include "Zend/zend_exceptions.h"
-#include "Zend/zend_interfaces.h"
-
+#include "db/rawvalue.h"
 #include "kernel/main.h"
-#include "kernel/memory.h"
-
 #include "kernel/object.h"
 
 /**
@@ -48,7 +35,22 @@
  *	$subscriber->save();
  *</code>
  */
+zend_class_entry *phalcon_db_rawvalue_ce;
 
+PHP_METHOD(Phalcon_Db_RawValue, __construct);
+PHP_METHOD(Phalcon_Db_RawValue, getValue);
+PHP_METHOD(Phalcon_Db_RawValue, __toString);
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_rawvalue___construct, 0, 0, 1)
+	ZEND_ARG_INFO(0, value)
+ZEND_END_ARG_INFO()
+
+static const zend_function_entry phalcon_db_rawvalue_method_entry[] = {
+	PHP_ME(Phalcon_Db_RawValue, __construct, arginfo_phalcon_db_rawvalue___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
+	PHP_ME(Phalcon_Db_RawValue, getValue, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Db_RawValue, __toString, NULL, ZEND_ACC_PUBLIC)
+	PHP_FE_END
+};
 
 /**
  * Phalcon\Db\RawValue initializer

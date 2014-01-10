@@ -18,20 +18,12 @@
   +------------------------------------------------------------------------+
 */
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
-
-#include "php.h"
 #include "php_phalcon.h"
-#include "phalcon.h"
 
-#include "Zend/zend_operators.h"
-#include "Zend/zend_exceptions.h"
-#include "Zend/zend_interfaces.h"
+#include "cli/task.h"
+#include "di/injectable.h"
 
 #include "kernel/main.h"
-#include "kernel/memory.h"
 
 /**
  * Phalcon\CLI\Task
@@ -61,6 +53,12 @@
  *
  *</code>
  */
+zend_class_entry *phalcon_cli_task_ce;
+
+static const zend_function_entry phalcon_cli_task_method_entry[] = {
+	PHP_FE_END
+};
+
 
 
 /**
@@ -72,13 +70,3 @@ PHALCON_INIT_CLASS(Phalcon_CLI_Task){
 
 	return SUCCESS;
 }
-
-/**
- * Phalcon_CLI_Task constructor
- */
-PHP_METHOD(Phalcon_CLI_Task, __construct){
-
-
-	
-}
-

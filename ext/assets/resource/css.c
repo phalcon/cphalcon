@@ -17,21 +17,13 @@
   +------------------------------------------------------------------------+
 */
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
-
-#include "php.h"
 #include "php_phalcon.h"
-#include "phalcon.h"
 
-#include "Zend/zend_operators.h"
-#include "Zend/zend_exceptions.h"
-#include "Zend/zend_interfaces.h"
+#include "assets/resource/css.h"
+#include "assets/resource.h"
 
 #include "kernel/main.h"
 #include "kernel/memory.h"
-
 #include "kernel/fcall.h"
 
 /**
@@ -39,7 +31,21 @@
  *
  * Represents CSS resources
  */
+zend_class_entry *phalcon_assets_resource_css_ce;
 
+PHP_METHOD(Phalcon_Assets_Resource_Css, __construct);
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_assets_resource_css___construct, 0, 0, 1)
+	ZEND_ARG_INFO(0, path)
+	ZEND_ARG_INFO(0, local)
+	ZEND_ARG_INFO(0, filter)
+	ZEND_ARG_INFO(0, attributes)
+ZEND_END_ARG_INFO()
+
+static const zend_function_entry phalcon_assets_resource_css_method_entry[] = {
+	PHP_ME(Phalcon_Assets_Resource_Css, __construct, arginfo_phalcon_assets_resource_css___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
+	PHP_FE_END
+};
 
 /**
  * Phalcon\Assets\Resource\Css initializer
@@ -67,7 +73,7 @@ PHP_METHOD(Phalcon_Assets_Resource_Css, __construct){
 
 	phalcon_fetch_params(1, 1, 3, &path, &local, &filter, &attributes);
 	
-	PHALCON_INIT_VAR(type);
+	PHALCON_ALLOC_GHOST_ZVAL(type);
 	ZVAL_STRING(type, "css", 1);
 	
 	phalcon_call_parent_p5_noret(

@@ -17,6 +17,11 @@
   +------------------------------------------------------------------------+
 */
 
+#ifndef PHALCON_LOGGER_ADAPTERINTERFACE_H
+#define PHALCON_LOGGER_ADAPTERINTERFACE_H
+
+#include "php_phalcon.h"
+
 extern zend_class_entry *phalcon_logger_adapterinterface_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Logger_AdapterInterface);
@@ -58,22 +63,8 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_logger_adapterinterface_alert, 0, 0, 1)
 	ZEND_ARG_INFO(0, message)
 ZEND_END_ARG_INFO()
 
-PHALCON_INIT_FUNCS(phalcon_logger_adapterinterface_method_entry){
-	PHP_ABSTRACT_ME(Phalcon_Logger_AdapterInterface, setFormatter, arginfo_phalcon_logger_adapterinterface_setformatter)
-	PHP_ABSTRACT_ME(Phalcon_Logger_AdapterInterface, getFormatter, NULL)
-	PHP_ABSTRACT_ME(Phalcon_Logger_AdapterInterface, setLogLevel, arginfo_phalcon_logger_adapterinterface_setloglevel)
-	PHP_ABSTRACT_ME(Phalcon_Logger_AdapterInterface, getLogLevel, NULL)
-	PHP_ABSTRACT_ME(Phalcon_Logger_AdapterInterface, log, arginfo_phalcon_logger_adapterinterface_log)
-	PHP_ABSTRACT_ME(Phalcon_Logger_AdapterInterface, begin, NULL)
-	PHP_ABSTRACT_ME(Phalcon_Logger_AdapterInterface, commit, NULL)
-	PHP_ABSTRACT_ME(Phalcon_Logger_AdapterInterface, rollback, NULL)
-	PHP_ABSTRACT_ME(Phalcon_Logger_AdapterInterface, close, NULL)
-	PHP_ABSTRACT_ME(Phalcon_Logger_AdapterInterface, debug, arginfo_phalcon_logger_adapterinterface_debug)
-	PHP_ABSTRACT_ME(Phalcon_Logger_AdapterInterface, error, arginfo_phalcon_logger_adapterinterface_error)
-	PHP_ABSTRACT_ME(Phalcon_Logger_AdapterInterface, info, arginfo_phalcon_logger_adapterinterface_info)
-	PHP_ABSTRACT_ME(Phalcon_Logger_AdapterInterface, notice, arginfo_phalcon_logger_adapterinterface_notice)
-	PHP_ABSTRACT_ME(Phalcon_Logger_AdapterInterface, warning, arginfo_phalcon_logger_adapterinterface_warning)
-	PHP_ABSTRACT_ME(Phalcon_Logger_AdapterInterface, alert, arginfo_phalcon_logger_adapterinterface_alert)
-	PHP_FE_END
-};
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_logger_adapterinterface_emergency, 0, 0, 1)
+	ZEND_ARG_INFO(0, message)
+ZEND_END_ARG_INFO()
 
+#endif /* PHALCON_LOGGER_ADAPTERINTERFACE_H */

@@ -18,21 +18,15 @@
   +------------------------------------------------------------------------+
 */
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
-
-#include "php.h"
-#include "php_phalcon.h"
-#include "phalcon.h"
-
-#include "Zend/zend_operators.h"
-#include "Zend/zend_exceptions.h"
-#include "Zend/zend_interfaces.h"
+#include "mvc/collection/manager.h"
+#include "mvc/collection/managerinterface.h"
+#include "mvc/collection/exception.h"
+#include "diinterface.h"
+#include "di/injectionawareinterface.h"
+#include "events/eventsawareinterface.h"
 
 #include "kernel/main.h"
 #include "kernel/memory.h"
-
 #include "kernel/exception.h"
 #include "kernel/object.h"
 #include "kernel/fcall.h"
@@ -59,7 +53,40 @@
  * $robot = new Robots($di);
  * </code>
  */
+zend_class_entry *phalcon_mvc_collection_manager_ce;
 
+PHP_METHOD(Phalcon_Mvc_Collection_Manager, setDI);
+PHP_METHOD(Phalcon_Mvc_Collection_Manager, getDI);
+PHP_METHOD(Phalcon_Mvc_Collection_Manager, setEventsManager);
+PHP_METHOD(Phalcon_Mvc_Collection_Manager, getEventsManager);
+PHP_METHOD(Phalcon_Mvc_Collection_Manager, setCustomEventsManager);
+PHP_METHOD(Phalcon_Mvc_Collection_Manager, getCustomEventsManager);
+PHP_METHOD(Phalcon_Mvc_Collection_Manager, initialize);
+PHP_METHOD(Phalcon_Mvc_Collection_Manager, isInitialized);
+PHP_METHOD(Phalcon_Mvc_Collection_Manager, getLastInitialized);
+PHP_METHOD(Phalcon_Mvc_Collection_Manager, setConnectionService);
+PHP_METHOD(Phalcon_Mvc_Collection_Manager, useImplicitObjectIds);
+PHP_METHOD(Phalcon_Mvc_Collection_Manager, isUsingImplicitObjectIds);
+PHP_METHOD(Phalcon_Mvc_Collection_Manager, getConnection);
+PHP_METHOD(Phalcon_Mvc_Collection_Manager, notifyEvent);
+
+static const zend_function_entry phalcon_mvc_collection_manager_method_entry[] = {
+	PHP_ME(Phalcon_Mvc_Collection_Manager, setDI, arginfo_phalcon_di_injectionawareinterface_setdi, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Collection_Manager, getDI, arginfo_phalcon_di_injectionawareinterface_getdi, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Collection_Manager, setEventsManager, arginfo_phalcon_events_eventsawareinterface_seteventsmanager, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Collection_Manager, getEventsManager, arginfo_phalcon_events_eventsawareinterface_geteventsmanager, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Collection_Manager, setCustomEventsManager, arginfo_phalcon_mvc_collection_managerinterface_setcustomeventsmanager, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Collection_Manager, getCustomEventsManager, arginfo_phalcon_mvc_collection_managerinterface_getcustomeventsmanager, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Collection_Manager, initialize, arginfo_phalcon_mvc_collection_managerinterface_initialize, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Collection_Manager, isInitialized, arginfo_phalcon_mvc_collection_managerinterface_isinitialized, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Collection_Manager, getLastInitialized, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Collection_Manager, setConnectionService, arginfo_phalcon_mvc_collection_managerinterface_setconnectionservice, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Collection_Manager, useImplicitObjectIds, arginfo_phalcon_mvc_collection_managerinterface_useimplicitobjectids, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Collection_Manager, isUsingImplicitObjectIds, arginfo_phalcon_mvc_collection_managerinterface_isusingimplicitobjectids, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Collection_Manager, getConnection, arginfo_phalcon_mvc_collection_managerinterface_getconnection, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Collection_Manager, notifyEvent, arginfo_phalcon_mvc_collection_managerinterface_notifyevent, ZEND_ACC_PUBLIC)
+	PHP_FE_END
+};
 
 /**
  * Phalcon\Mvc\Collection\Manager initializer
@@ -91,7 +118,7 @@ PHP_METHOD(Phalcon_Mvc_Collection_Manager, setDI){
 	zval *dependency_injector;
 
 	phalcon_fetch_params(0, 1, 0, &dependency_injector);
-	PHALCON_VERIFY_INTERFACE_EX(dependency_injector, phalcon_diinterface_ce, phalcon_mvc_model_exception_ce, 0);
+	PHALCON_VERIFY_INTERFACE_EX(dependency_injector, phalcon_diinterface_ce, phalcon_mvc_collection_exception_ce, 0);
 	phalcon_update_property_this(this_ptr, SL("_dependencyInjector"), dependency_injector TSRMLS_CC);
 }
 
@@ -393,7 +420,7 @@ PHP_METHOD(Phalcon_Mvc_Collection_Manager, getConnection){
 	PHALCON_OBS_VAR(dependency_injector);
 	phalcon_read_property_this(&dependency_injector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
 	if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
-		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "A dependency injector container is required to obtain the services related to the ORM");
+		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_collection_exception_ce, "A dependency injector container is required to obtain the services related to the ORM");
 		return;
 	}
 	
@@ -403,7 +430,7 @@ PHP_METHOD(Phalcon_Mvc_Collection_Manager, getConnection){
 	PHALCON_INIT_VAR(connection);
 	phalcon_call_method_p1(connection, dependency_injector, "getshared", service);
 	if (Z_TYPE_P(connection) != IS_OBJECT) {
-		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Invalid injected connection service");
+		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_collection_exception_ce, "Invalid injected connection service");
 		return;
 	}
 	

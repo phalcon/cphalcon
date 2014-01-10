@@ -17,6 +17,11 @@
   +------------------------------------------------------------------------+
 */
 
+#ifndef PHALCON_MVC_MODEL_TRANSACTION_MANAGERINTERFACE_H
+#define PHALCON_MVC_MODEL_TRANSACTION_MANAGERINTERFACE_H
+
+#include "php_phalcon.h"
+
 extern zend_class_entry *phalcon_mvc_model_transaction_managerinterface_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Mvc_Model_Transaction_ManagerInterface);
@@ -41,16 +46,4 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_transaction_managerinterface_no
 	ZEND_ARG_INFO(0, transaction)
 ZEND_END_ARG_INFO()
 
-PHALCON_INIT_FUNCS(phalcon_mvc_model_transaction_managerinterface_method_entry){
-	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_Transaction_ManagerInterface, __construct, arginfo_phalcon_mvc_model_transaction_managerinterface___construct)
-	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_Transaction_ManagerInterface, has, NULL)
-	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_Transaction_ManagerInterface, get, arginfo_phalcon_mvc_model_transaction_managerinterface_get)
-	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_Transaction_ManagerInterface, rollbackPendent, NULL)
-	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_Transaction_ManagerInterface, commit, NULL)
-	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_Transaction_ManagerInterface, rollback, arginfo_phalcon_mvc_model_transaction_managerinterface_rollback)
-	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_Transaction_ManagerInterface, notifyRollback, arginfo_phalcon_mvc_model_transaction_managerinterface_notifyrollback)
-	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_Transaction_ManagerInterface, notifyCommit, arginfo_phalcon_mvc_model_transaction_managerinterface_notifycommit)
-	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_Transaction_ManagerInterface, collectTransactions, NULL)
-	PHP_FE_END
-};
-
+#endif /* PHALCON_MVC_MODEL_TRANSACTION_MANAGERINTERFACE_H */

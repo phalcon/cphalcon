@@ -38,17 +38,12 @@
 
 %include {
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
-
-#include "php.h"
 #include "php_phalcon.h"
-#include "phalcon.h"
 
-#include "parser.h"
-#include "scanner.h"
-#include "phql.h"
+#include "mvc/model/query/parser.h"
+#include "mvc/model/query/scanner.h"
+#include "mvc/model/query/phql.h"
+#include "mvc/model/exception.h"
 
 #include "kernel/main.h"
 #include "kernel/memory.h"

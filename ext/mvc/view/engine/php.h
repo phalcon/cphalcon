@@ -17,4 +17,13 @@
   +------------------------------------------------------------------------+
 */
 
-zval *phalcon_std_read_property(zval *object, zval *member, int type TSRMLS_DC);
+#ifndef PHALCON_MVC_VIEW_ENGINE_PHP_H
+#define PHALCON_MVC_VIEW_ENGINE_PHP_H
+
+#include "php_phalcon.h"
+
+extern zend_class_entry *phalcon_mvc_view_engine_php_ce;
+
+PHALCON_INIT_CLASS(Phalcon_Mvc_View_Engine_Php);
+
+#endif /* PHALCON_MVC_VIEW_ENGINE_PHP_H */

@@ -18,21 +18,13 @@
   +------------------------------------------------------------------------+
 */
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
-
-#include "php.h"
-#include "php_phalcon.h"
-#include "phalcon.h"
-
-#include "Zend/zend_operators.h"
-#include "Zend/zend_exceptions.h"
-#include "Zend/zend_interfaces.h"
+#include "db/dialect/oracle.h"
+#include "db/dialect.h"
+#include "db/dialectinterface.h"
+#include "db/exception.h"
 
 #include "kernel/main.h"
 #include "kernel/memory.h"
-
 #include "kernel/array.h"
 #include "kernel/object.h"
 #include "kernel/string.h"
@@ -44,9 +36,75 @@
 /**
  * Phalcon\Db\Dialect\Oracle
  *
- * Generates database specific SQL for the Oracle RBDM
+ * Generates database specific SQL for the Oracle RBDMS
  */
+zend_class_entry *phalcon_db_dialect_oracle_ce;
 
+PHP_METHOD(Phalcon_Db_Dialect_Oracle, getColumnDefinition);
+PHP_METHOD(Phalcon_Db_Dialect_Oracle, addColumn);
+PHP_METHOD(Phalcon_Db_Dialect_Oracle, modifyColumn);
+PHP_METHOD(Phalcon_Db_Dialect_Oracle, dropColumn);
+PHP_METHOD(Phalcon_Db_Dialect_Oracle, addIndex);
+PHP_METHOD(Phalcon_Db_Dialect_Oracle, dropIndex);
+PHP_METHOD(Phalcon_Db_Dialect_Oracle, addPrimaryKey);
+PHP_METHOD(Phalcon_Db_Dialect_Oracle, dropPrimaryKey);
+PHP_METHOD(Phalcon_Db_Dialect_Oracle, addForeignKey);
+PHP_METHOD(Phalcon_Db_Dialect_Oracle, dropForeignKey);
+PHP_METHOD(Phalcon_Db_Dialect_Oracle, _getTableOptions);
+PHP_METHOD(Phalcon_Db_Dialect_Oracle, createTable);
+PHP_METHOD(Phalcon_Db_Dialect_Oracle, dropTable);
+PHP_METHOD(Phalcon_Db_Dialect_Oracle, createView);
+PHP_METHOD(Phalcon_Db_Dialect_Oracle, dropView);
+PHP_METHOD(Phalcon_Db_Dialect_Oracle, tableExists);
+PHP_METHOD(Phalcon_Db_Dialect_Oracle, viewExists);
+PHP_METHOD(Phalcon_Db_Dialect_Oracle, describeColumns);
+PHP_METHOD(Phalcon_Db_Dialect_Oracle, listTables);
+PHP_METHOD(Phalcon_Db_Dialect_Oracle, listViews);
+PHP_METHOD(Phalcon_Db_Dialect_Oracle, describeIndexes);
+PHP_METHOD(Phalcon_Db_Dialect_Oracle, describeReferences);
+PHP_METHOD(Phalcon_Db_Dialect_Oracle, tableOptions);
+PHP_METHOD(Phalcon_Db_Dialect_Oracle, getSqlTable);
+PHP_METHOD(Phalcon_Db_Dialect_Oracle, limit);
+PHP_METHOD(Phalcon_Db_Dialect_Oracle, select);
+PHP_METHOD(Phalcon_Db_Dialect_Oracle, supportsSavepoints);
+PHP_METHOD(Phalcon_Db_Dialect_Oracle, supportsReleaseSavepoints);
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_dialect_oracle_getsqltable, 0, 0, 1)
+	ZEND_ARG_INFO(0, table)
+	ZEND_ARG_INFO(0, escapeChar)
+ZEND_END_ARG_INFO()
+
+static const zend_function_entry phalcon_db_dialect_oracle_method_entry[] = {
+	PHP_ME(Phalcon_Db_Dialect_Oracle, getColumnDefinition, arginfo_phalcon_db_dialectinterface_getcolumndefinition, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Db_Dialect_Oracle, addColumn, arginfo_phalcon_db_dialectinterface_addcolumn, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Db_Dialect_Oracle, modifyColumn, arginfo_phalcon_db_dialectinterface_modifycolumn, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Db_Dialect_Oracle, dropColumn, arginfo_phalcon_db_dialectinterface_dropcolumn, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Db_Dialect_Oracle, addIndex, arginfo_phalcon_db_dialectinterface_addindex, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Db_Dialect_Oracle, dropIndex, arginfo_phalcon_db_dialectinterface_dropindex, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Db_Dialect_Oracle, addPrimaryKey, arginfo_phalcon_db_dialectinterface_addprimarykey, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Db_Dialect_Oracle, dropPrimaryKey, arginfo_phalcon_db_dialectinterface_dropprimarykey, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Db_Dialect_Oracle, addForeignKey, arginfo_phalcon_db_dialectinterface_addforeignkey, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Db_Dialect_Oracle, dropForeignKey, arginfo_phalcon_db_dialectinterface_dropforeignkey, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Db_Dialect_Oracle, _getTableOptions, NULL, ZEND_ACC_PROTECTED)
+	PHP_ME(Phalcon_Db_Dialect_Oracle, createTable, arginfo_phalcon_db_dialectinterface_createtable, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Db_Dialect_Oracle, dropTable, arginfo_phalcon_db_dialectinterface_droptable, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Db_Dialect_Oracle, createView, arginfo_phalcon_db_dialectinterface_createview, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Db_Dialect_Oracle, dropView, arginfo_phalcon_db_dialectinterface_dropview, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Db_Dialect_Oracle, tableExists, arginfo_phalcon_db_dialectinterface_tableexists, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Db_Dialect_Oracle, viewExists, arginfo_phalcon_db_dialectinterface_viewexists, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Db_Dialect_Oracle, describeColumns, arginfo_phalcon_db_dialectinterface_describecolumns, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Db_Dialect_Oracle, listTables, arginfo_phalcon_db_dialectinterface_listtables, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Db_Dialect_Oracle, listViews, arginfo_phalcon_db_dialectinterface_listtables, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Db_Dialect_Oracle, describeIndexes, arginfo_phalcon_db_dialectinterface_describeindexes, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Db_Dialect_Oracle, describeReferences, arginfo_phalcon_db_dialectinterface_describereferences, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Db_Dialect_Oracle, tableOptions, arginfo_phalcon_db_dialectinterface_tableoptions, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Db_Dialect_Oracle, getSqlTable, arginfo_phalcon_db_dialect_oracle_getsqltable, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Db_Dialect_Oracle, limit, arginfo_phalcon_db_dialectinterface_limit, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Db_Dialect_Oracle, select, arginfo_phalcon_db_dialectinterface_select, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Db_Dialect_Oracle, supportsSavepoints, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Db_Dialect_Oracle, supportsReleaseSavepoints, NULL, ZEND_ACC_PUBLIC)
+	PHP_FE_END
+};
 
 /**
  * Phalcon\Db\Dialect\Oracle initializer

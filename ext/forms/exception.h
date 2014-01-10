@@ -17,6 +17,13 @@
   +------------------------------------------------------------------------+
 */
 
+#ifndef PHALCON_FORMS_EXCEPTION_H
+#define PHALCON_FORMS_EXCEPTION_H
+
+#include "php_phalcon.h"
+
 extern zend_class_entry *phalcon_forms_exception_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Forms_Exception);
+
+#endif /* PHALCON_FORMS_EXCEPTION_H */

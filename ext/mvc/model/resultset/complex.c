@@ -17,23 +17,16 @@
   +------------------------------------------------------------------------+
 */
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
+#include "mvc/model/resultset/complex.h"
+#include "mvc/model/resultset.h"
+#include "mvc/model/resultsetinterface.h"
+#include "mvc/model/row.h"
+#include "mvc/model/exception.h"
 
-#include "php.h"
-#include "php_phalcon.h"
-#include "phalcon.h"
-
-#include "Zend/zend_operators.h"
-#include "Zend/zend_exceptions.h"
-#include "Zend/zend_interfaces.h"
-
-#include "ext/pdo/php_pdo_driver.h"
+#include <ext/pdo/php_pdo_driver.h>
 
 #include "kernel/main.h"
 #include "kernel/memory.h"
-
 #include "kernel/object.h"
 #include "kernel/fcall.h"
 #include "kernel/operators.h"
@@ -50,7 +43,32 @@
  * Complex resultsets may include complete objects and scalar values.
  * This class builds every complex row as it is required
  */
+zend_class_entry *phalcon_mvc_model_resultset_complex_ce;
 
+PHP_METHOD(Phalcon_Mvc_Model_Resultset_Complex, __construct);
+PHP_METHOD(Phalcon_Mvc_Model_Resultset_Complex, valid);
+PHP_METHOD(Phalcon_Mvc_Model_Resultset_Complex, toArray);
+PHP_METHOD(Phalcon_Mvc_Model_Resultset_Complex, serialize);
+PHP_METHOD(Phalcon_Mvc_Model_Resultset_Complex, unserialize);
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_resultset_complex___construct, 0, 0, 2)
+	ZEND_ARG_INFO(0, columnsTypes)
+	ZEND_ARG_INFO(0, result)
+	ZEND_ARG_INFO(0, cache)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_resultset_complex_unserialize, 0, 0, 1)
+	ZEND_ARG_INFO(0, data)
+ZEND_END_ARG_INFO()
+
+static const zend_function_entry phalcon_mvc_model_resultset_complex_method_entry[] = {
+	PHP_ME(Phalcon_Mvc_Model_Resultset_Complex, __construct, arginfo_phalcon_mvc_model_resultset_complex___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
+	PHP_ME(Phalcon_Mvc_Model_Resultset_Complex, valid, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Model_Resultset_Complex, toArray, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Model_Resultset_Complex, serialize, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Model_Resultset_Complex, unserialize, arginfo_phalcon_mvc_model_resultset_complex_unserialize, ZEND_ACC_PUBLIC)
+	PHP_FE_END
+};
 
 /**
  * Phalcon\Mvc\Model\Resultset\Complex initializer

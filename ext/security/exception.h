@@ -17,6 +17,11 @@
   +------------------------------------------------------------------------+
 */
 
+#ifndef PHALCON_SECURITY_EXCEPTION_H
+#define PHALCON_SECURITY_EXCEPTION_H
+
 extern zend_class_entry *phalcon_security_exception_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Security_Exception);
+
+#endif /* PHALCON_SECURITY_EXCEPTION_H */

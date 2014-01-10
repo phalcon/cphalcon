@@ -17,6 +17,13 @@
   +------------------------------------------------------------------------+
 */
 
+#ifndef PHALCON_LOADER_EXCEPTION_H
+#define PHALCON_LOADER_EXCEPTION_H
+
+#include "php_phalcon.h"
+
 extern zend_class_entry *phalcon_loader_exception_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Loader_Exception);
+
+#endif /* PHALCON_LOADER_EXCEPTION_H */

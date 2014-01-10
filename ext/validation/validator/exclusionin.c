@@ -17,21 +17,14 @@
   +------------------------------------------------------------------------+
 */
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
-
-#include "php.h"
-#include "php_phalcon.h"
-#include "phalcon.h"
-
-#include "Zend/zend_operators.h"
-#include "Zend/zend_exceptions.h"
-#include "Zend/zend_interfaces.h"
+#include "validation/validator/exclusionin.h"
+#include "validation/validator.h"
+#include "validation/validatorinterface.h"
+#include "validation/message.h"
+#include "validation/exception.h"
 
 #include "kernel/main.h"
 #include "kernel/memory.h"
-
 #include "kernel/fcall.h"
 #include "kernel/exception.h"
 #include "kernel/array.h"
@@ -52,7 +45,14 @@
  *)));
  *</code>
  */
+zend_class_entry *phalcon_validation_validator_exclusionin_ce;
 
+PHP_METHOD(Phalcon_Validation_Validator_ExclusionIn, validate);
+
+static const zend_function_entry phalcon_validation_validator_exclusionin_method_entry[] = {
+	PHP_ME(Phalcon_Validation_Validator_ExclusionIn, validate, arginfo_phalcon_validation_validatorinterface_validate, ZEND_ACC_PUBLIC)
+	PHP_FE_END
+};
 
 /**
  * Phalcon\Validation\Validator\ExclusionIn initializer

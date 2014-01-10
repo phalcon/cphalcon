@@ -17,36 +17,39 @@
   +------------------------------------------------------------------------+
 */
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
-
-#include "php.h"
 #include "php_phalcon.h"
-#include "phalcon.h"
 
-#include "Zend/zend_operators.h"
-#include "Zend/zend_exceptions.h"
-#include "Zend/zend_interfaces.h"
+#include "di/service/builder.h"
+#include "di/exception.h"
 
 #include "kernel/main.h"
 #include "kernel/memory.h"
-
 #include "kernel/concat.h"
 #include "kernel/exception.h"
 #include "kernel/array.h"
-#include "kernel/operators.h"
 #include "kernel/fcall.h"
-#include "kernel/hash.h"
-#include "kernel/file.h"
 #include "kernel/object.h"
+#include "kernel/operators.h"
+#include "kernel/hash.h"
 
 /**
  * Phalcon\DI\Service\Builder
  *
  * This class builds instances based on complex definitions
  */
+zend_class_entry *phalcon_di_service_builder_ce;
 
+PHP_METHOD(Phalcon_DI_Service_Builder, _buildParameter);
+PHP_METHOD(Phalcon_DI_Service_Builder, _buildParameters);
+PHP_METHOD(Phalcon_DI_Service_Builder, build);
+
+
+static const zend_function_entry phalcon_di_service_builder_method_entry[] = {
+	PHP_ME(Phalcon_DI_Service_Builder, _buildParameter, NULL, ZEND_ACC_PROTECTED)
+	PHP_ME(Phalcon_DI_Service_Builder, _buildParameters, NULL, ZEND_ACC_PROTECTED)
+	PHP_ME(Phalcon_DI_Service_Builder, build, arginfo_phalcon_di_service_builder_build, ZEND_ACC_PUBLIC)
+	PHP_FE_END
+};
 
 /**
  * Phalcon\DI\Service\Builder initializer

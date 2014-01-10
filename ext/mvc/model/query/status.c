@@ -16,21 +16,11 @@
   +------------------------------------------------------------------------+
 */
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
-
-#include "php.h"
-#include "php_phalcon.h"
-#include "phalcon.h"
-
-#include "Zend/zend_operators.h"
-#include "Zend/zend_exceptions.h"
-#include "Zend/zend_interfaces.h"
+#include "mvc/model/query/status.h"
+#include "mvc/model/query/statusinterface.h"
 
 #include "kernel/main.h"
 #include "kernel/memory.h"
-
 #include "kernel/object.h"
 #include "kernel/fcall.h"
 
@@ -57,7 +47,20 @@
  * }
  *</code>
  */
+zend_class_entry *phalcon_mvc_model_query_status_ce;
 
+PHP_METHOD(Phalcon_Mvc_Model_Query_Status, __construct);
+PHP_METHOD(Phalcon_Mvc_Model_Query_Status, getModel);
+PHP_METHOD(Phalcon_Mvc_Model_Query_Status, getMessages);
+PHP_METHOD(Phalcon_Mvc_Model_Query_Status, success);
+
+static const zend_function_entry phalcon_mvc_model_query_status_method_entry[] = {
+	PHP_ME(Phalcon_Mvc_Model_Query_Status, __construct, arginfo_phalcon_mvc_model_query_statusinterface___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
+	PHP_ME(Phalcon_Mvc_Model_Query_Status, getModel, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Model_Query_Status, getMessages, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Model_Query_Status, success, NULL, ZEND_ACC_PUBLIC)
+	PHP_FE_END
+};
 
 /**
  * Phalcon\Mvc\Model\Query\Status initializer

@@ -17,25 +17,18 @@
   +------------------------------------------------------------------------+
 */
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
-
-#include "php.h"
 #include "php_phalcon.h"
-#include "phalcon.h"
 
-#include "Zend/zend_operators.h"
-#include "Zend/zend_exceptions.h"
-#include "Zend/zend_interfaces.h"
+#include "translate/adapter/nativearray.h"
+#include "translate/adapter.h"
+#include "translate/adapterinterface.h"
+#include "translate/exception.h"
 
 #include "kernel/main.h"
 #include "kernel/memory.h"
-
 #include "kernel/exception.h"
 #include "kernel/array.h"
 #include "kernel/object.h"
-#include "kernel/file.h"
 #include "kernel/hash.h"
 #include "kernel/concat.h"
 #include "kernel/fcall.h"
@@ -47,6 +40,7 @@
  * Allows to define translation lists using PHP arrays
  *
  */
+zend_class_entry *phalcon_translate_adapter_nativearray_ce;
 
 static zend_object_handlers phalcon_translate_adapter_nativearray_object_handlers;
 
@@ -82,6 +76,16 @@ static int phalcon_translate_adapter_nativearray_has_dimension(zval *object, zva
 	return (1 == check_empty) ? zend_is_true(translation) : 1;
 }
 
+PHP_METHOD(Phalcon_Translate_Adapter_NativeArray, __construct);
+PHP_METHOD(Phalcon_Translate_Adapter_NativeArray, query);
+PHP_METHOD(Phalcon_Translate_Adapter_NativeArray, exists);
+
+static const zend_function_entry phalcon_translate_adapter_nativearray_method_entry[] = {
+	PHP_ME(Phalcon_Translate_Adapter_NativeArray, __construct, arginfo_phalcon_translate_adapterinterface___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
+	PHP_ME(Phalcon_Translate_Adapter_NativeArray, query, arginfo_phalcon_translate_adapterinterface_query, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Translate_Adapter_NativeArray, exists, arginfo_phalcon_translate_adapterinterface_exists, ZEND_ACC_PUBLIC)
+	PHP_FE_END
+};
 
 /**
  * Phalcon\Translate\Adapter\NativeArray initializer
@@ -188,7 +192,7 @@ PHP_METHOD(Phalcon_Translate_Adapter_NativeArray, query){
 /**
  * Check whether is defined a translation key in the internal array
  *
- * @param 	string $index
+ * @param string $index
  * @return bool
  */
 PHP_METHOD(Phalcon_Translate_Adapter_NativeArray, exists){

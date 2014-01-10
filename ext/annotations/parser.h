@@ -1,3 +1,6 @@
+#ifndef PHALCON_ANNOTATIONS_PARSER_H
+#define PHALCON_ANNOTATIONS_PARSER_H
+
 #define PHANNOT_COMMA                           1
 #define PHANNOT_AT                              2
 #define PHANNOT_IDENTIFIER                      3
@@ -15,3 +18,5 @@
 #define PHANNOT_BRACKET_CLOSE                  15
 #define PHANNOT_SBRACKET_OPEN                  16
 #define PHANNOT_SBRACKET_CLOSE                 17
+
+#endif /* PHALCON_ANNOTATIONS_PARSER_H */

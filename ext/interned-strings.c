@@ -17,15 +17,9 @@
   +------------------------------------------------------------------------+
 */
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
-
 #include "php_phalcon.h"
-#include "kernel/main.h"
-#include "kernel/string.h"
-
 #include "interned-strings.h"
+#include "kernel/string.h"
 
 const char *phalcon_interned_DELETE         = NULL;
 const char *phalcon_interned_GET            = NULL;
@@ -89,63 +83,63 @@ const char *phalcon_interned_where          = NULL;
 
 PHALCON_STATIC void phalcon_init_interned_strings(TSRMLS_D)
 {
-	phalcon_interned_DELETE         = zend_new_interned_string(SS("DELETE"), 0 TSRMLS_CC);
-	phalcon_interned_GET            = zend_new_interned_string(SS("GET"), 0 TSRMLS_CC);
-	phalcon_interned_HEAD           = zend_new_interned_string(SS("HEAD"), 0 TSRMLS_CC);
-	phalcon_interned_OPTIONS        = zend_new_interned_string(SS("OPTIONS"), 0 TSRMLS_CC);
-	phalcon_interned_PATCH          = zend_new_interned_string(SS("PATCH"), 0 TSRMLS_CC);
-	phalcon_interned_POST           = zend_new_interned_string(SS("POST"), 0 TSRMLS_CC);
-	phalcon_interned_PUT            = zend_new_interned_string(SS("PUT"), 0 TSRMLS_CC);
-	phalcon_interned_alias          = zend_new_interned_string(SS("alias"), 0 TSRMLS_CC);
-	phalcon_interned_all            = zend_new_interned_string(SS("all"), 0 TSRMLS_CC);
-	phalcon_interned_arguments      = zend_new_interned_string(SS("arguments"), 0 TSRMLS_CC);
-	phalcon_interned_balias         = zend_new_interned_string(SS("balias"), 0 TSRMLS_CC);
-	phalcon_interned_binary_op      = zend_new_interned_string(SS("binary-op"), 0 TSRMLS_CC);
-	phalcon_interned_column         = zend_new_interned_string(SS("column"), 0 TSRMLS_CC);
-	phalcon_interned_columns        = zend_new_interned_string(SS("columns"), 0 TSRMLS_CC);
-	phalcon_interned_conditions     = zend_new_interned_string(SS("conditions"), 0 TSRMLS_CC);
-	phalcon_interned_delete         = zend_new_interned_string(SS("delete"), 0 TSRMLS_CC);
-	phalcon_interned_distinct       = zend_new_interned_string(SS("distinct"), 0 TSRMLS_CC);
-	phalcon_interned_domain         = zend_new_interned_string(SS("domain"), 0 TSRMLS_CC);
-	phalcon_interned_escaper        = zend_new_interned_string(SS("escaper"), 0 TSRMLS_CC);
-	phalcon_interned_expr           = zend_new_interned_string(SS("expr"), 0 TSRMLS_CC);
-	phalcon_interned_fields         = zend_new_interned_string(SS("fields"), 0 TSRMLS_CC);
-	phalcon_interned_file           = zend_new_interned_string(SS("file"), 0 TSRMLS_CC);
-	phalcon_interned_filter         = zend_new_interned_string(SS("filter"), 0 TSRMLS_CC);
-	phalcon_interned_functionCall   = zend_new_interned_string(SS("functionCall"), 0 TSRMLS_CC);
-	phalcon_interned_group          = zend_new_interned_string(SS("group"), 0 TSRMLS_CC);
-	phalcon_interned_groupBy        = zend_new_interned_string(SS("groupBy"), 0 TSRMLS_CC);
-	phalcon_interned_having         = zend_new_interned_string(SS("having"), 0 TSRMLS_CC);
-	phalcon_interned_items          = zend_new_interned_string(SS("items"), 0 TSRMLS_CC);
-	phalcon_interned_joins          = zend_new_interned_string(SS("joins"), 0 TSRMLS_CC);
-	phalcon_interned_left           = zend_new_interned_string(SS("left"), 0 TSRMLS_CC);
-	phalcon_interned_limit          = zend_new_interned_string(SS("limit"), 0 TSRMLS_CC);
-	phalcon_interned_line           = zend_new_interned_string(SS("line"), 0 TSRMLS_CC);
-	phalcon_interned_model          = zend_new_interned_string(SS("model"), 0 TSRMLS_CC);
-	phalcon_interned_models         = zend_new_interned_string(SS("models"), 0 TSRMLS_CC);
-	phalcon_interned_modelsCache    = zend_new_interned_string(SS("modelsCache"), 0 TSRMLS_CC);
-	phalcon_interned_modelsManager  = zend_new_interned_string(SS("modelsManager"), 0 TSRMLS_CC);
-	phalcon_interned_modelsMetadata = zend_new_interned_string(SS("modelsMetadata"), 0 TSRMLS_CC);
-	phalcon_interned_name           = zend_new_interned_string(SS("name"), 0 TSRMLS_CC);
-	phalcon_interned_ns_alias       = zend_new_interned_string(SS("ns-alias"), 0 TSRMLS_CC);
-	phalcon_interned_number         = zend_new_interned_string(SS("number"), 0 TSRMLS_CC);
-	phalcon_interned_offset         = zend_new_interned_string(SS("offset"), 0 TSRMLS_CC);
-	phalcon_interned_op             = zend_new_interned_string(SS("op"), 0 TSRMLS_CC);
-	phalcon_interned_order          = zend_new_interned_string(SS("order"), 0 TSRMLS_CC);
-	phalcon_interned_orderBy        = zend_new_interned_string(SS("orderBy"), 0 TSRMLS_CC);
-	phalcon_interned_qualified      = zend_new_interned_string(SS("qualified"), 0 TSRMLS_CC);
-	phalcon_interned_qualifiedName  = zend_new_interned_string(SS("qualifiedName"), 0 TSRMLS_CC);
-	phalcon_interned_right          = zend_new_interned_string(SS("right"), 0 TSRMLS_CC);
-	phalcon_interned_select         = zend_new_interned_string(SS("select"), 0 TSRMLS_CC);
-	phalcon_interned_sort           = zend_new_interned_string(SS("sort"), 0 TSRMLS_CC);
-	phalcon_interned_source         = zend_new_interned_string(SS("source"), 0 TSRMLS_CC);
-	phalcon_interned_sqlAlias       = zend_new_interned_string(SS("sqlAlias"), 0 TSRMLS_CC);
-	phalcon_interned_table          = zend_new_interned_string(SS("table"), 0 TSRMLS_CC);
-	phalcon_interned_tables         = zend_new_interned_string(SS("tables"), 0 TSRMLS_CC);
-	phalcon_interned_type           = zend_new_interned_string(SS("type"), 0 TSRMLS_CC);
-	phalcon_interned_update         = zend_new_interned_string(SS("update"), 0 TSRMLS_CC);
-	phalcon_interned_url            = zend_new_interned_string(SS("url"), 0 TSRMLS_CC);
-	phalcon_interned_value          = zend_new_interned_string(SS("value"), 0 TSRMLS_CC);
-	phalcon_interned_values         = zend_new_interned_string(SS("values"), 0 TSRMLS_CC);
-	phalcon_interned_where          = zend_new_interned_string(SS("where"), 0 TSRMLS_CC);
+	phalcon_interned_DELETE         = zend_new_interned_string(ZEND_STRS("DELETE"), 0 TSRMLS_CC);
+	phalcon_interned_GET            = zend_new_interned_string(ZEND_STRS("GET"), 0 TSRMLS_CC);
+	phalcon_interned_HEAD           = zend_new_interned_string(ZEND_STRS("HEAD"), 0 TSRMLS_CC);
+	phalcon_interned_OPTIONS        = zend_new_interned_string(ZEND_STRS("OPTIONS"), 0 TSRMLS_CC);
+	phalcon_interned_PATCH          = zend_new_interned_string(ZEND_STRS("PATCH"), 0 TSRMLS_CC);
+	phalcon_interned_POST           = zend_new_interned_string(ZEND_STRS("POST"), 0 TSRMLS_CC);
+	phalcon_interned_PUT            = zend_new_interned_string(ZEND_STRS("PUT"), 0 TSRMLS_CC);
+	phalcon_interned_alias          = zend_new_interned_string(ZEND_STRS("alias"), 0 TSRMLS_CC);
+	phalcon_interned_all            = zend_new_interned_string(ZEND_STRS("all"), 0 TSRMLS_CC);
+	phalcon_interned_arguments      = zend_new_interned_string(ZEND_STRS("arguments"), 0 TSRMLS_CC);
+	phalcon_interned_balias         = zend_new_interned_string(ZEND_STRS("balias"), 0 TSRMLS_CC);
+	phalcon_interned_binary_op      = zend_new_interned_string(ZEND_STRS("binary-op"), 0 TSRMLS_CC);
+	phalcon_interned_column         = zend_new_interned_string(ZEND_STRS("column"), 0 TSRMLS_CC);
+	phalcon_interned_columns        = zend_new_interned_string(ZEND_STRS("columns"), 0 TSRMLS_CC);
+	phalcon_interned_conditions     = zend_new_interned_string(ZEND_STRS("conditions"), 0 TSRMLS_CC);
+	phalcon_interned_delete         = zend_new_interned_string(ZEND_STRS("delete"), 0 TSRMLS_CC);
+	phalcon_interned_distinct       = zend_new_interned_string(ZEND_STRS("distinct"), 0 TSRMLS_CC);
+	phalcon_interned_domain         = zend_new_interned_string(ZEND_STRS("domain"), 0 TSRMLS_CC);
+	phalcon_interned_escaper        = zend_new_interned_string(ZEND_STRS("escaper"), 0 TSRMLS_CC);
+	phalcon_interned_expr           = zend_new_interned_string(ZEND_STRS("expr"), 0 TSRMLS_CC);
+	phalcon_interned_fields         = zend_new_interned_string(ZEND_STRS("fields"), 0 TSRMLS_CC);
+	phalcon_interned_file           = zend_new_interned_string(ZEND_STRS("file"), 0 TSRMLS_CC);
+	phalcon_interned_filter         = zend_new_interned_string(ZEND_STRS("filter"), 0 TSRMLS_CC);
+	phalcon_interned_functionCall   = zend_new_interned_string(ZEND_STRS("functionCall"), 0 TSRMLS_CC);
+	phalcon_interned_group          = zend_new_interned_string(ZEND_STRS("group"), 0 TSRMLS_CC);
+	phalcon_interned_groupBy        = zend_new_interned_string(ZEND_STRS("groupBy"), 0 TSRMLS_CC);
+	phalcon_interned_having         = zend_new_interned_string(ZEND_STRS("having"), 0 TSRMLS_CC);
+	phalcon_interned_items          = zend_new_interned_string(ZEND_STRS("items"), 0 TSRMLS_CC);
+	phalcon_interned_joins          = zend_new_interned_string(ZEND_STRS("joins"), 0 TSRMLS_CC);
+	phalcon_interned_left           = zend_new_interned_string(ZEND_STRS("left"), 0 TSRMLS_CC);
+	phalcon_interned_limit          = zend_new_interned_string(ZEND_STRS("limit"), 0 TSRMLS_CC);
+	phalcon_interned_line           = zend_new_interned_string(ZEND_STRS("line"), 0 TSRMLS_CC);
+	phalcon_interned_model          = zend_new_interned_string(ZEND_STRS("model"), 0 TSRMLS_CC);
+	phalcon_interned_models         = zend_new_interned_string(ZEND_STRS("models"), 0 TSRMLS_CC);
+	phalcon_interned_modelsCache    = zend_new_interned_string(ZEND_STRS("modelsCache"), 0 TSRMLS_CC);
+	phalcon_interned_modelsManager  = zend_new_interned_string(ZEND_STRS("modelsManager"), 0 TSRMLS_CC);
+	phalcon_interned_modelsMetadata = zend_new_interned_string(ZEND_STRS("modelsMetadata"), 0 TSRMLS_CC);
+	phalcon_interned_name           = zend_new_interned_string(ZEND_STRS("name"), 0 TSRMLS_CC);
+	phalcon_interned_ns_alias       = zend_new_interned_string(ZEND_STRS("ns-alias"), 0 TSRMLS_CC);
+	phalcon_interned_number         = zend_new_interned_string(ZEND_STRS("number"), 0 TSRMLS_CC);
+	phalcon_interned_offset         = zend_new_interned_string(ZEND_STRS("offset"), 0 TSRMLS_CC);
+	phalcon_interned_op             = zend_new_interned_string(ZEND_STRS("op"), 0 TSRMLS_CC);
+	phalcon_interned_order          = zend_new_interned_string(ZEND_STRS("order"), 0 TSRMLS_CC);
+	phalcon_interned_orderBy        = zend_new_interned_string(ZEND_STRS("orderBy"), 0 TSRMLS_CC);
+	phalcon_interned_qualified      = zend_new_interned_string(ZEND_STRS("qualified"), 0 TSRMLS_CC);
+	phalcon_interned_qualifiedName  = zend_new_interned_string(ZEND_STRS("qualifiedName"), 0 TSRMLS_CC);
+	phalcon_interned_right          = zend_new_interned_string(ZEND_STRS("right"), 0 TSRMLS_CC);
+	phalcon_interned_select         = zend_new_interned_string(ZEND_STRS("select"), 0 TSRMLS_CC);
+	phalcon_interned_sort           = zend_new_interned_string(ZEND_STRS("sort"), 0 TSRMLS_CC);
+	phalcon_interned_source         = zend_new_interned_string(ZEND_STRS("source"), 0 TSRMLS_CC);
+	phalcon_interned_sqlAlias       = zend_new_interned_string(ZEND_STRS("sqlAlias"), 0 TSRMLS_CC);
+	phalcon_interned_table          = zend_new_interned_string(ZEND_STRS("table"), 0 TSRMLS_CC);
+	phalcon_interned_tables         = zend_new_interned_string(ZEND_STRS("tables"), 0 TSRMLS_CC);
+	phalcon_interned_type           = zend_new_interned_string(ZEND_STRS("type"), 0 TSRMLS_CC);
+	phalcon_interned_update         = zend_new_interned_string(ZEND_STRS("update"), 0 TSRMLS_CC);
+	phalcon_interned_url            = zend_new_interned_string(ZEND_STRS("url"), 0 TSRMLS_CC);
+	phalcon_interned_value          = zend_new_interned_string(ZEND_STRS("value"), 0 TSRMLS_CC);
+	phalcon_interned_values         = zend_new_interned_string(ZEND_STRS("values"), 0 TSRMLS_CC);
+	phalcon_interned_where          = zend_new_interned_string(ZEND_STRS("where"), 0 TSRMLS_CC);
 }

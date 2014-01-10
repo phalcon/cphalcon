@@ -18,24 +18,14 @@
   +------------------------------------------------------------------------+
 */
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
-
-#include "php.h"
 #include "php_phalcon.h"
-#include "phalcon.h"
 
 #include "cache/frontend/data.h"
 #include "cache/frontend/igbinary.h"
-
-#include "Zend/zend_operators.h"
-#include "Zend/zend_exceptions.h"
-#include "Zend/zend_interfaces.h"
+#include "cache/frontendinterface.h"
 
 #include "kernel/main.h"
 #include "kernel/memory.h"
-
 #include "kernel/fcall.h"
 
 /**
@@ -76,7 +66,16 @@
  *	}
  *</code>
  */
+zend_class_entry *phalcon_cache_frontend_igbinary_ce;
 
+PHP_METHOD(Phalcon_Cache_Frontend_Igbinary, beforeStore);
+PHP_METHOD(Phalcon_Cache_Frontend_Igbinary, afterRetrieve);
+
+static const zend_function_entry phalcon_cache_frontend_igbinary_method_entry[] = {
+	PHP_ME(Phalcon_Cache_Frontend_Igbinary, beforeStore, arginfo_phalcon_cache_frontendinterface_beforestore, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Cache_Frontend_Igbinary, afterRetrieve, arginfo_phalcon_cache_frontendinterface_afterretrieve, ZEND_ACC_PUBLIC)
+	PHP_FE_END
+};
 
 /**
  * Phalcon\Cache\Frontend\Igbinary initializer
@@ -125,4 +124,3 @@ PHP_METHOD(Phalcon_Cache_Frontend_Igbinary, afterRetrieve){
 	phalcon_return_call_func_p1("igbinary_unserialize", data);
 	RETURN_MM();
 }
-

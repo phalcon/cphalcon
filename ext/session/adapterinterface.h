@@ -17,6 +17,11 @@
   +------------------------------------------------------------------------+
 */
 
+#ifndef PHALCON_SESSION_ADAPTERINTERFACE_H
+#define PHALCON_SESSION_ADAPTERINTERFACE_H
+
+#include "php_phalcon.h"
+
 extern zend_class_entry *phalcon_session_adapterinterface_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Session_AdapterInterface);
@@ -47,18 +52,4 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_session_adapterinterface_remove, 0, 0, 1)
 	ZEND_ARG_INFO(0, index)
 ZEND_END_ARG_INFO()
 
-PHALCON_INIT_FUNCS(phalcon_session_adapterinterface_method_entry){
-	PHP_ABSTRACT_ME(Phalcon_Session_AdapterInterface, __construct, arginfo_phalcon_session_adapterinterface___construct)
-	PHP_ABSTRACT_ME(Phalcon_Session_AdapterInterface, start, NULL)
-	PHP_ABSTRACT_ME(Phalcon_Session_AdapterInterface, setOptions, arginfo_phalcon_session_adapterinterface_setoptions)
-	PHP_ABSTRACT_ME(Phalcon_Session_AdapterInterface, getOptions, NULL)
-	PHP_ABSTRACT_ME(Phalcon_Session_AdapterInterface, get, arginfo_phalcon_session_adapterinterface_get)
-	PHP_ABSTRACT_ME(Phalcon_Session_AdapterInterface, set, arginfo_phalcon_session_adapterinterface_set)
-	PHP_ABSTRACT_ME(Phalcon_Session_AdapterInterface, has, arginfo_phalcon_session_adapterinterface_has)
-	PHP_ABSTRACT_ME(Phalcon_Session_AdapterInterface, remove, arginfo_phalcon_session_adapterinterface_remove)
-	PHP_ABSTRACT_ME(Phalcon_Session_AdapterInterface, getId, NULL)
-	PHP_ABSTRACT_ME(Phalcon_Session_AdapterInterface, isStarted, NULL)
-	PHP_ABSTRACT_ME(Phalcon_Session_AdapterInterface, destroy, NULL)
-	PHP_FE_END
-};
-
+#endif /* PHALCON_SESSION_ADAPTERINTERFACE_H */

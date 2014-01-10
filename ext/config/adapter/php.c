@@ -17,30 +17,17 @@
   +------------------------------------------------------------------------+
 */
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
-
-#include "php.h"
 #include "php_phalcon.h"
-#include "phalcon.h"
 
-#include "Zend/zend_operators.h"
-#include "Zend/zend_exceptions.h"
-#include "Zend/zend_interfaces.h"
+#include "config/adapter/php.h"
+#include "config/exception.h"
+#include "pconfig.h"
 
 #include "kernel/main.h"
 #include "kernel/memory.h"
-
 #include "kernel/fcall.h"
-#include "kernel/operators.h"
-#include "kernel/concat.h"
-#include "kernel/exception.h"
-#include "kernel/hash.h"
-#include "kernel/string.h"
 #include "kernel/array.h"
 #include "kernel/require.h"
-#include "kernel/file.h"
 
 /**
  * Phalcon\Config\Adapter\Php
@@ -76,6 +63,18 @@
  *</code>
  *
  */
+zend_class_entry *phalcon_config_adapter_php_ce;
+
+PHP_METHOD(Phalcon_Config_Adapter_Php, __construct);
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_config_adapter_php___construct, 0, 0, 1)
+	ZEND_ARG_INFO(0, filePath)
+ZEND_END_ARG_INFO()
+
+static const zend_function_entry phalcon_config_adapter_php_method_entry[] = {
+	PHP_ME(Phalcon_Config_Adapter_Php, __construct, arginfo_phalcon_config_adapter_php___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
+	PHP_FE_END
+};
 
 /**
  * Phalcon\Config\Adapter\Php phptializer
@@ -94,17 +93,17 @@ PHALCON_INIT_CLASS(Phalcon_Config_Adapter_Php){
  */
 PHP_METHOD(Phalcon_Config_Adapter_Php, __construct){
 
-	zval *file_path, *config, *exception_message;
+	zval **file_path, *config;
+
+	phalcon_fetch_params_ex(1, 0, &file_path);
+	PHALCON_ENSURE_IS_STRING(file_path);
 
 	PHALCON_MM_GROW();
 
-	phalcon_fetch_params(1, 1, 0, &file_path);
-
 	PHALCON_INIT_VAR(config);
-	if (phalcon_require_ret(config, file_path TSRMLS_CC) == FAILURE) {			
-		PHALCON_INIT_VAR(exception_message);
-		PHALCON_CONCAT_SVS(exception_message, "Configuration file ", file_path, " can't be loaded");
-		PHALCON_THROW_EXCEPTION_ZVAL(phalcon_config_exception_ce, exception_message);
+	if (phalcon_require_ret(config, *file_path TSRMLS_CC) == FAILURE) {
+		zend_throw_exception_ex(phalcon_config_exception_ce, 0 TSRMLS_CC, "Configuration file '%s' cannot be loaded", Z_STRVAL_PP(file_path));
+		PHALCON_MM_RESTORE();
 		return;
 	}
 	
@@ -115,4 +114,3 @@ PHP_METHOD(Phalcon_Config_Adapter_Php, __construct){
 	
 	PHALCON_MM_RESTORE();
 }
-

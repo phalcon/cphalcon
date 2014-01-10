@@ -17,6 +17,16 @@
   +------------------------------------------------------------------------+
 */
 
+#ifndef PHALCON_ACL_H
+#define PHALCON_ACL_H
+
+#include "php_phalcon.h"
+
+#define PHALCON_ACL_DENY   0
+#define PHALCON_ACL_ALLOW  1
+
 extern zend_class_entry *phalcon_acl_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Acl);
+
+#endif /* PHALCON_ACL_H */

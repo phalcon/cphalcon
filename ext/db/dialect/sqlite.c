@@ -19,21 +19,15 @@
   +------------------------------------------------------------------------+
 */
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
-
-#include "php.h"
-#include "php_phalcon.h"
-#include "phalcon.h"
-
-#include "Zend/zend_operators.h"
-#include "Zend/zend_exceptions.h"
-#include "Zend/zend_interfaces.h"
+#include "db/dialect/sqlite.h"
+#include "db/dialect.h"
+#include "db/dialectinterface.h"
+#include "db/columninterface.h"
+#include "db/indexinterface.h"
+#include "db/exception.h"
 
 #include "kernel/main.h"
 #include "kernel/memory.h"
-
 #include "kernel/operators.h"
 #include "kernel/exception.h"
 #include "kernel/fcall.h"
@@ -43,9 +37,66 @@
 /**
  * Phalcon\Db\Dialect\Sqlite
  *
- * Generates database specific SQL for the Sqlite RBDM
+ * Generates database specific SQL for the SQLite RDBMS
  */
+zend_class_entry *phalcon_db_dialect_sqlite_ce;
 
+PHP_METHOD(Phalcon_Db_Dialect_Sqlite, getColumnDefinition);
+PHP_METHOD(Phalcon_Db_Dialect_Sqlite, addColumn);
+PHP_METHOD(Phalcon_Db_Dialect_Sqlite, modifyColumn);
+PHP_METHOD(Phalcon_Db_Dialect_Sqlite, dropColumn);
+PHP_METHOD(Phalcon_Db_Dialect_Sqlite, addIndex);
+PHP_METHOD(Phalcon_Db_Dialect_Sqlite, dropIndex);
+PHP_METHOD(Phalcon_Db_Dialect_Sqlite, addPrimaryKey);
+PHP_METHOD(Phalcon_Db_Dialect_Sqlite, dropPrimaryKey);
+PHP_METHOD(Phalcon_Db_Dialect_Sqlite, addForeignKey);
+PHP_METHOD(Phalcon_Db_Dialect_Sqlite, dropForeignKey);
+PHP_METHOD(Phalcon_Db_Dialect_Sqlite, _getTableOptions);
+PHP_METHOD(Phalcon_Db_Dialect_Sqlite, createTable);
+PHP_METHOD(Phalcon_Db_Dialect_Sqlite, dropTable);
+PHP_METHOD(Phalcon_Db_Dialect_Sqlite, createView);
+PHP_METHOD(Phalcon_Db_Dialect_Sqlite, dropView);
+PHP_METHOD(Phalcon_Db_Dialect_Sqlite, tableExists);
+PHP_METHOD(Phalcon_Db_Dialect_Sqlite, viewExists);
+PHP_METHOD(Phalcon_Db_Dialect_Sqlite, describeColumns);
+PHP_METHOD(Phalcon_Db_Dialect_Sqlite, listTables);
+PHP_METHOD(Phalcon_Db_Dialect_Sqlite, listViews);
+PHP_METHOD(Phalcon_Db_Dialect_Sqlite, describeIndexes);
+PHP_METHOD(Phalcon_Db_Dialect_Sqlite, describeIndex);
+PHP_METHOD(Phalcon_Db_Dialect_Sqlite, describeReferences);
+PHP_METHOD(Phalcon_Db_Dialect_Sqlite, tableOptions);
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_dialect_sqlite_describeindex, 0, 0, 1)
+	ZEND_ARG_INFO(0, indexName)
+ZEND_END_ARG_INFO()
+
+static const zend_function_entry phalcon_db_dialect_sqlite_method_entry[] = {
+	PHP_ME(Phalcon_Db_Dialect_Sqlite, getColumnDefinition, arginfo_phalcon_db_dialectinterface_getcolumndefinition, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Db_Dialect_Sqlite, addColumn, arginfo_phalcon_db_dialectinterface_addcolumn, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Db_Dialect_Sqlite, modifyColumn, arginfo_phalcon_db_dialectinterface_modifycolumn, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Db_Dialect_Sqlite, dropColumn, arginfo_phalcon_db_dialectinterface_dropcolumn, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Db_Dialect_Sqlite, addIndex, arginfo_phalcon_db_dialectinterface_addindex, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Db_Dialect_Sqlite, dropIndex, arginfo_phalcon_db_dialectinterface_dropindex, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Db_Dialect_Sqlite, addPrimaryKey, arginfo_phalcon_db_dialectinterface_addprimarykey, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Db_Dialect_Sqlite, dropPrimaryKey, arginfo_phalcon_db_dialectinterface_dropprimarykey, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Db_Dialect_Sqlite, addForeignKey, arginfo_phalcon_db_dialectinterface_addforeignkey, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Db_Dialect_Sqlite, dropForeignKey, arginfo_phalcon_db_dialectinterface_dropforeignkey, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Db_Dialect_Sqlite, _getTableOptions, NULL, ZEND_ACC_PROTECTED)
+	PHP_ME(Phalcon_Db_Dialect_Sqlite, createTable, arginfo_phalcon_db_dialectinterface_createtable, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Db_Dialect_Sqlite, dropTable, arginfo_phalcon_db_dialectinterface_droptable, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Db_Dialect_Sqlite, createView, arginfo_phalcon_db_dialectinterface_createview, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Db_Dialect_Sqlite, dropView, arginfo_phalcon_db_dialectinterface_dropview, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Db_Dialect_Sqlite, tableExists, arginfo_phalcon_db_dialectinterface_tableexists, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Db_Dialect_Sqlite, viewExists, arginfo_phalcon_db_dialectinterface_viewexists, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Db_Dialect_Sqlite, describeColumns, arginfo_phalcon_db_dialectinterface_describecolumns, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Db_Dialect_Sqlite, listTables, arginfo_phalcon_db_dialectinterface_listtables, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Db_Dialect_Sqlite, listViews, arginfo_phalcon_db_dialectinterface_listtables, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Db_Dialect_Sqlite, describeIndexes, arginfo_phalcon_db_dialectinterface_describeindexes, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Db_Dialect_Sqlite, describeIndex, arginfo_phalcon_db_dialect_sqlite_describeindex, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Db_Dialect_Sqlite, describeReferences, arginfo_phalcon_db_dialectinterface_describereferences, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Db_Dialect_Sqlite, tableOptions, arginfo_phalcon_db_dialectinterface_tableoptions, ZEND_ACC_PUBLIC)
+	PHP_FE_END
+};
 
 /**
  * Phalcon\Db\Dialect\Sqlite initializer

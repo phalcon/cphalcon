@@ -17,14 +17,13 @@
   +------------------------------------------------------------------------+
 */
 
-extern int phalcon_di_use_cache(TSRMLS_D);
+#ifndef PHALCON_CONFIG_ADAPTER_PHP_H
+#define PHALCON_CONFIG_ADAPTER_PHP_H
 
-extern int phalcon_di_get_default(zval *return_value TSRMLS_DC);
+#include "php_phalcon.h"
 
-extern int phalcon_di_get_shared_str(zval *return_value, char *name, int name_length, zval *arguments TSRMLS_DC);
-extern int phalcon_di_get_shared(zval *return_value, zval *name, zval *arguments TSRMLS_DC);
+extern zend_class_entry *phalcon_config_adapter_php_ce;
 
-extern int phalcon_di_has_str(char *name, int name_length TSRMLS_DC);
-extern int phalcon_di_has(zval *name TSRMLS_DC);
+PHALCON_INIT_CLASS(Phalcon_Config_Adapter_Php);
 
-extern void phalcon_di_set_shared(zval *service_name, zval *service TSRMLS_DC);
+#endif /* PHALCON_CONFIG_ADAPTER_PHP_H */

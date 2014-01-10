@@ -18,12 +18,19 @@
 */
 
 #ifndef PHP_PHALCON_H
-#define PHP_PHALCON_H 1
+#define PHP_PHALCON_H
+
+#ifdef HAVE_CONFIG_H
+#include "config.h"
+#endif
+
+#include <main/php.h>
+#ifdef ZTS
+#include <TSRM/TSRM.h>
+#endif
 
 #define PHP_PHALCON_VERSION "1.3.0"
 #define PHP_PHALCON_EXTNAME "phalcon"
-
-#include "main/php.h"
 
 /** Memory frame */
 typedef struct _phalcon_memory_entry {
@@ -103,47 +110,31 @@ ZEND_BEGIN_MODULE_GLOBALS(phalcon)
 
 ZEND_END_MODULE_GLOBALS(phalcon)
 
-#ifdef ZTS
-#include "TSRM.h"
-#endif
 
 ZEND_EXTERN_MODULE_GLOBALS(phalcon)
 
 #ifdef ZTS
 	#define PHALCON_GLOBAL(v) TSRMG(phalcon_globals_id, zend_phalcon_globals *, v)
+	#define PHALCON_VGLOBAL   ((zend_phalcon_globals *) (*((void ***) tsrm_ls))[TSRM_UNSHUFFLE_RSRC_ID(phalcon_globals_id)])
 #else
 	#define PHALCON_GLOBAL(v) (phalcon_globals.v)
-#endif
-
-#ifdef ZTS
-	#define PHALCON_VGLOBAL ((zend_phalcon_globals *) (*((void ***) tsrm_ls))[TSRM_UNSHUFFLE_RSRC_ID(phalcon_globals_id)])
-#else
 	#define PHALCON_VGLOBAL &(phalcon_globals)
 #endif
 
 extern zend_module_entry phalcon_module_entry;
 #define phpext_phalcon_ptr &phalcon_module_entry
 
-#endif
-
-#if PHP_VERSION_ID >= 50400
-	#define PHALCON_INIT_FUNCS(class_functions) static const zend_function_entry class_functions[] =
-#else
-	#define PHALCON_INIT_FUNCS(class_functions) static const function_entry class_functions[] =
-#endif
+extern int nusphere_dbg_present;
 
 #ifndef PHP_FE_END
 	#define PHP_FE_END { NULL, NULL, NULL, 0, 0 }
 #endif
 
-/** Define FASTCALL */
-#define PHALCON_FASTCALL ZEND_FASTCALL
-
 #define PHALCON_INIT_CLASS(name) \
-	int phalcon_ ##name## _init(INIT_FUNC_ARGS)
+	int phalcon_ ##name## _init(TSRMLS_D)
 
 #define PHALCON_INIT(name) \
-	if (phalcon_ ##name## _init(INIT_FUNC_ARGS_PASSTHRU) == FAILURE) { \
+	if (phalcon_ ##name## _init(TSRMLS_C) == FAILURE) { \
 		return FAILURE; \
 	}
 
@@ -211,3 +202,5 @@ extern zend_module_entry phalcon_module_entry;
 #	endif
 
 #endif /* !defined(__CYGWIN__) && !defined(WIN32) && defined(HAVE_CONFIG_H) */
+
+#endif /* PHP_PHALCON_H */

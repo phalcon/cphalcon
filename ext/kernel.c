@@ -17,27 +17,30 @@
   +------------------------------------------------------------------------+
 */
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
-
-#include "php.h"
-#include "php_phalcon.h"
-#include "phalcon.h"
-
-#include "Zend/zend_operators.h"
-#include "Zend/zend_exceptions.h"
-#include "Zend/zend_interfaces.h"
-
+#include "kernel.h"
 #include "kernel/main.h"
-#include "kernel/memory.h"
 
 /**
  * Phalcon\Kernel
  *
  * This class allows to change the internal behavior of the framework in runtime
  */
+zend_class_entry *phalcon_kernel_ce;
 
+PHP_METHOD(Phalcon_Kernel, preComputeHashKey);
+PHP_METHOD(Phalcon_Kernel, preComputeHashKey32);
+PHP_METHOD(Phalcon_Kernel, preComputeHashKey64);
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_kernel_precomputehashkey, 0, 0, 1)
+	ZEND_ARG_INFO(0, arrKey)
+ZEND_END_ARG_INFO()
+
+static const zend_function_entry phalcon_kernel_method_entry[] = {
+	PHP_ME(Phalcon_Kernel, preComputeHashKey,   arginfo_phalcon_kernel_precomputehashkey, ZEND_ACC_PUBLIC | ZEND_ACC_STATIC)
+	PHP_ME(Phalcon_Kernel, preComputeHashKey32, arginfo_phalcon_kernel_precomputehashkey, ZEND_ACC_PUBLIC | ZEND_ACC_STATIC)
+	PHP_ME(Phalcon_Kernel, preComputeHashKey64, arginfo_phalcon_kernel_precomputehashkey, ZEND_ACC_PUBLIC | ZEND_ACC_STATIC)
+	PHP_FE_END
+};
 
 /**
  * Phalcon\Kernel initializer
@@ -166,4 +169,3 @@ PHP_METHOD(Phalcon_Kernel, preComputeHashKey64){
 
 	RETURN_STRING(strKey, 0);
 }
-

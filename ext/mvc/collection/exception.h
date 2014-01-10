@@ -17,6 +17,13 @@
   +------------------------------------------------------------------------+
 */
 
+#ifndef PHALCON_MVC_COLLECTION_EXCEPTION_H
+#define PHALCON_MVC_COLLECTION_EXCEPTION_H
+
+#include "php_phalcon.h"
+
 extern zend_class_entry *phalcon_mvc_collection_exception_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Mvc_Collection_Exception);
+
+#endif /* PHALCON_MVC_COLLECTION_EXCEPTION_H */

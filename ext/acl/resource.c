@@ -17,24 +17,17 @@
   +------------------------------------------------------------------------+
 */
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
-
-#include "php.h"
 #include "php_phalcon.h"
-#include "phalcon.h"
 
-#include "Zend/zend_operators.h"
-#include "Zend/zend_exceptions.h"
-#include "Zend/zend_interfaces.h"
+#include "acl/resource.h"
+#include "acl/resourceinterface.h"
+#include "acl/exception.h"
 
 #include "kernel/main.h"
 #include "kernel/memory.h"
-
-#include "kernel/operators.h"
 #include "kernel/exception.h"
 #include "kernel/object.h"
+#include "kernel/operators.h"
 
 /**
  * Phalcon\Acl\Resource
@@ -42,6 +35,20 @@
  * This class defines resource entity and its description
  *
  */
+zend_class_entry *phalcon_acl_resource_ce;
+
+PHP_METHOD(Phalcon_Acl_Resource, __construct);
+PHP_METHOD(Phalcon_Acl_Resource, getName);
+PHP_METHOD(Phalcon_Acl_Resource, getDescription);
+PHP_METHOD(Phalcon_Acl_Resource, __toString);
+
+static const zend_function_entry phalcon_acl_resource_method_entry[] = {
+	PHP_ME(Phalcon_Acl_Resource, __construct, arginfo_phalcon_acl_resourceinterface___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
+	PHP_ME(Phalcon_Acl_Resource, getName, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Acl_Resource, getDescription, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Acl_Resource, __toString, NULL, ZEND_ACC_PUBLIC)
+	PHP_FE_END
+};
 
 
 /**

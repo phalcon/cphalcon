@@ -17,24 +17,18 @@
   +------------------------------------------------------------------------+
 */
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
-
-#include "php.h"
 #include "php_phalcon.h"
-#include "phalcon.h"
 
-#include "Zend/zend_operators.h"
-#include "Zend/zend_exceptions.h"
-#include "Zend/zend_interfaces.h"
+#include <ext/standard/php_smart_str.h>
+#include <ext/standard/php_var.h>
 
-#include "ext/standard/php_smart_str.h"
-#include "ext/standard/php_var.h"
+#include "annotations/adapter/files.h"
+#include "annotations/adapterinterface.h"
+#include "annotations/adapter.h"
+#include "annotations/exception.h"
 
 #include "kernel/main.h"
 #include "kernel/memory.h"
-
 #include "kernel/array.h"
 #include "kernel/object.h"
 #include "kernel/fcall.h"
@@ -55,7 +49,31 @@
  * ));
  *</code>
  */
+zend_class_entry *phalcon_annotations_adapter_files_ce;
 
+PHP_METHOD(Phalcon_Annotations_Adapter_Files, __construct);
+PHP_METHOD(Phalcon_Annotations_Adapter_Files, read);
+PHP_METHOD(Phalcon_Annotations_Adapter_Files, write);
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_annotations_adapter_files___construct, 0, 0, 0)
+	ZEND_ARG_INFO(0, options)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_annotations_adapter_files_read, 0, 0, 1)
+	ZEND_ARG_INFO(0, key)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_annotations_adapter_files_write, 0, 0, 2)
+	ZEND_ARG_INFO(0, key)
+	ZEND_ARG_INFO(0, data)
+ZEND_END_ARG_INFO()
+
+static const zend_function_entry phalcon_annotations_adapter_files_method_entry[] = {
+	PHP_ME(Phalcon_Annotations_Adapter_Files, __construct, arginfo_phalcon_annotations_adapter_files___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
+	PHP_ME(Phalcon_Annotations_Adapter_Files, read, arginfo_phalcon_annotations_adapter_files_read, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Annotations_Adapter_Files, write, arginfo_phalcon_annotations_adapter_files_write, ZEND_ACC_PUBLIC)
+	PHP_FE_END
+};
 
 /**
  * Phalcon\Annotations\Adapter\Files initializer

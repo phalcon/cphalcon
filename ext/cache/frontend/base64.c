@@ -17,27 +17,13 @@
   +------------------------------------------------------------------------+
 */
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
-
-#include "php.h"
 #include "php_phalcon.h"
-#include "phalcon.h"
 
 #include "cache/frontend/data.h"
 #include "cache/frontend/base64.h"
-
-#include "Zend/zend_operators.h"
-#include "Zend/zend_exceptions.h"
-#include "Zend/zend_interfaces.h"
+#include "cache/frontendinterface.h"
 
 #include "kernel/main.h"
-#include "kernel/memory.h"
-
-#include "kernel/object.h"
-#include "kernel/array.h"
-#include "kernel/fcall.h"
 #include "kernel/string.h"
 
 /**
@@ -74,6 +60,16 @@
  * echo $image;
  *</code>
  */
+zend_class_entry *phalcon_cache_frontend_base64_ce;
+
+PHP_METHOD(Phalcon_Cache_Frontend_Base64, beforeStore);
+PHP_METHOD(Phalcon_Cache_Frontend_Base64, afterRetrieve);
+
+static const zend_function_entry phalcon_cache_frontend_base64_method_entry[] = {
+	PHP_ME(Phalcon_Cache_Frontend_Base64, beforeStore, arginfo_phalcon_cache_frontendinterface_beforestore, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Cache_Frontend_Base64, afterRetrieve, arginfo_phalcon_cache_frontendinterface_afterretrieve, ZEND_ACC_PUBLIC)
+	PHP_FE_END
+};
 
 
 /**

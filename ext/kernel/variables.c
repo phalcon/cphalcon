@@ -17,15 +17,11 @@
   +------------------------------------------------------------------------+
 */
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
-
-#include "php.h"
 #include "php_phalcon.h"
 
-#include "ext/standard/php_smart_str.h"
-#include "ext/standard/php_var.h"
+#include <ext/standard/php_smart_str.h>
+#include <ext/standard/php_var.h>
+#include "kernel/variables.h"
 
 /**
  * Serializes php variables without using the PHP userland

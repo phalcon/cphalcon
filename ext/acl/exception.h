@@ -17,6 +17,13 @@
   +------------------------------------------------------------------------+
 */
 
+#ifndef PHALCON_ACL_EXCEPTION_H
+#define PHALCON_ACL_EXCEPTION_H
+
+#include "php_phalcon.h"
+
 extern zend_class_entry *phalcon_acl_exception_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Acl_Exception);
+
+#endif /* PHALCON_ACL_EXCEPTION_H */

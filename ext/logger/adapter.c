@@ -16,21 +16,15 @@
   +------------------------------------------------------------------------+
 */
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
-
-#include "php.h"
-#include "php_phalcon.h"
-#include "phalcon.h"
-
-#include "Zend/zend_operators.h"
-#include "Zend/zend_exceptions.h"
-#include "Zend/zend_interfaces.h"
+#include "logger/adapter.h"
+#include "logger/adapterinterface.h"
+#include "logger/exception.h"
+#include "logger/formatterinterface.h"
+#include "logger/item.h"
+#include "logger.h"
 
 #include "kernel/main.h"
 #include "kernel/memory.h"
-
 #include "kernel/exception.h"
 #include "kernel/object.h"
 #include "kernel/fcall.h"
@@ -41,7 +35,43 @@
  *
  * Base class for Phalcon\Logger adapters
  */
+zend_class_entry *phalcon_logger_adapter_ce;
 
+PHP_METHOD(Phalcon_Logger_Adapter, setLogLevel);
+PHP_METHOD(Phalcon_Logger_Adapter, getLogLevel);
+PHP_METHOD(Phalcon_Logger_Adapter, setFormatter);
+PHP_METHOD(Phalcon_Logger_Adapter, isTransaction);
+PHP_METHOD(Phalcon_Logger_Adapter, begin);
+PHP_METHOD(Phalcon_Logger_Adapter, commit);
+PHP_METHOD(Phalcon_Logger_Adapter, rollback);
+PHP_METHOD(Phalcon_Logger_Adapter, emergency);
+PHP_METHOD(Phalcon_Logger_Adapter, debug);
+PHP_METHOD(Phalcon_Logger_Adapter, error);
+PHP_METHOD(Phalcon_Logger_Adapter, info);
+PHP_METHOD(Phalcon_Logger_Adapter, notice);
+PHP_METHOD(Phalcon_Logger_Adapter, warning);
+PHP_METHOD(Phalcon_Logger_Adapter, alert);
+PHP_METHOD(Phalcon_Logger_Adapter, log);
+
+static const zend_function_entry phalcon_logger_adapter_method_entry[] = {
+	PHP_ME(Phalcon_Logger_Adapter, setLogLevel, arginfo_phalcon_logger_adapterinterface_setloglevel, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Logger_Adapter, getLogLevel, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Logger_Adapter, setFormatter, arginfo_phalcon_logger_adapterinterface_setformatter, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Logger_Adapter, isTransaction, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Logger_Adapter, begin, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Logger_Adapter, commit, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Logger_Adapter, rollback, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Logger_Adapter, emergency, arginfo_phalcon_logger_adapterinterface_emergency, ZEND_ACC_PUBLIC)
+	PHP_MALIAS(Phalcon_Logger_Adapter, emergence, emergency, arginfo_phalcon_logger_adapterinterface_emergency, ZEND_ACC_PUBLIC | ZEND_ACC_DEPRECATED)
+	PHP_ME(Phalcon_Logger_Adapter, debug, arginfo_phalcon_logger_adapterinterface_debug, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Logger_Adapter, error, arginfo_phalcon_logger_adapterinterface_error, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Logger_Adapter, info, arginfo_phalcon_logger_adapterinterface_info, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Logger_Adapter, notice, arginfo_phalcon_logger_adapterinterface_notice, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Logger_Adapter, warning, arginfo_phalcon_logger_adapterinterface_warning, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Logger_Adapter, alert, arginfo_phalcon_logger_adapterinterface_alert, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Logger_Adapter, log, arginfo_phalcon_logger_adapterinterface_log, ZEND_ACC_PUBLIC)
+	PHP_FE_END
+};
 
 /**
  * Phalcon\Logger\Adapter initializer

@@ -28,27 +28,27 @@
 /* Memory Frames */
 #ifndef PHALCON_RELEASE
 void phalcon_dump_current_frame(TSRMLS_D);
-void PHALCON_FASTCALL phalcon_memory_grow_stack(const char *func TSRMLS_DC);
-int PHALCON_FASTCALL phalcon_memory_restore_stack(const char *func TSRMLS_DC);
+void ZEND_FASTCALL phalcon_memory_grow_stack(const char *func TSRMLS_DC);
+int ZEND_FASTCALL phalcon_memory_restore_stack(const char *func TSRMLS_DC);
 
 #define PHALCON_MM_GROW() phalcon_memory_grow_stack(__func__ TSRMLS_CC)
 #define PHALCON_MM_RESTORE() phalcon_memory_restore_stack(__func__ TSRMLS_CC)
 
 #else
-void PHALCON_FASTCALL phalcon_memory_grow_stack(TSRMLS_D);
-int PHALCON_FASTCALL phalcon_memory_restore_stack(TSRMLS_D);
+void ZEND_FASTCALL phalcon_memory_grow_stack(TSRMLS_D);
+int ZEND_FASTCALL phalcon_memory_restore_stack(TSRMLS_D);
 
 #define PHALCON_MM_GROW() phalcon_memory_grow_stack(TSRMLS_C)
 #define PHALCON_MM_RESTORE() phalcon_memory_restore_stack(TSRMLS_C)
 
 #endif
 
-extern void PHALCON_FASTCALL phalcon_memory_observe(zval **var TSRMLS_DC);
-extern void PHALCON_FASTCALL phalcon_memory_remove(zval **var TSRMLS_DC);
-extern void PHALCON_FASTCALL phalcon_memory_alloc(zval **var TSRMLS_DC);
-extern void PHALCON_FASTCALL phalcon_memory_alloc_pnull(zval **var TSRMLS_DC);
+extern void ZEND_FASTCALL phalcon_memory_observe(zval **var TSRMLS_DC);
+extern void ZEND_FASTCALL phalcon_memory_remove(zval **var TSRMLS_DC);
+extern void ZEND_FASTCALL phalcon_memory_alloc(zval **var TSRMLS_DC);
+extern void ZEND_FASTCALL phalcon_memory_alloc_pnull(zval **var TSRMLS_DC);
 
-extern int PHALCON_FASTCALL phalcon_clean_restore_stack(TSRMLS_D);
+extern int ZEND_FASTCALL phalcon_clean_restore_stack(TSRMLS_D);
 
 /* Virtual symbol tables */
 extern void phalcon_create_symbol_table(TSRMLS_D);
@@ -59,7 +59,7 @@ extern void phalcon_clean_symbol_tables(TSRMLS_D);
 extern int phalcon_set_symbol(zval *key_name, zval *value TSRMLS_DC);
 extern int phalcon_set_symbol_str(char *key_name, unsigned int key_length, zval *value TSRMLS_DC);
 
-extern void PHALCON_FASTCALL phalcon_copy_ctor(zval *destiny, zval *origin);
+extern void ZEND_FASTCALL phalcon_copy_ctor(zval *destiny, zval *origin);
 
 /* Memory macros */
 #define PHALCON_ALLOC_GHOST_ZVAL(z) \

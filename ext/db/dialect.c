@@ -17,21 +17,12 @@
   +------------------------------------------------------------------------+
 */
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
-
-#include "php.h"
-#include "php_phalcon.h"
-#include "phalcon.h"
-
-#include "Zend/zend_operators.h"
-#include "Zend/zend_exceptions.h"
-#include "Zend/zend_interfaces.h"
+#include "db/dialect.h"
+#include "db/dialectinterface.h"
+#include "db/exception.h"
 
 #include "kernel/main.h"
 #include "kernel/memory.h"
-
 #include "kernel/operators.h"
 #include "kernel/fcall.h"
 #include "kernel/concat.h"
@@ -39,7 +30,6 @@
 #include "kernel/array.h"
 #include "kernel/string.h"
 #include "kernel/exception.h"
-#include "kernel/file.h"
 
 /**
  * Phalcon\Db\Dialect
@@ -47,7 +37,46 @@
  * This is the base class to each database dialect. This implements
  * common methods to transform intermediate code into its RDBM related syntax
  */
+zend_class_entry *phalcon_db_dialect_ce;
 
+PHP_METHOD(Phalcon_Db_Dialect, limit);
+PHP_METHOD(Phalcon_Db_Dialect, forUpdate);
+PHP_METHOD(Phalcon_Db_Dialect, sharedLock);
+PHP_METHOD(Phalcon_Db_Dialect, getColumnList);
+PHP_METHOD(Phalcon_Db_Dialect, getSqlExpression);
+PHP_METHOD(Phalcon_Db_Dialect, getSqlTable);
+PHP_METHOD(Phalcon_Db_Dialect, select);
+PHP_METHOD(Phalcon_Db_Dialect, supportsSavepoints);
+PHP_METHOD(Phalcon_Db_Dialect, supportsReleaseSavepoints);
+PHP_METHOD(Phalcon_Db_Dialect, createSavepoint);
+PHP_METHOD(Phalcon_Db_Dialect, releaseSavepoint);
+PHP_METHOD(Phalcon_Db_Dialect, rollbackSavepoint);
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_dialect_getsqlexpression, 0, 0, 1)
+	ZEND_ARG_INFO(0, expression)
+	ZEND_ARG_INFO(0, escapeChar)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_dialect_getsqltable, 0, 0, 1)
+	ZEND_ARG_INFO(0, table)
+	ZEND_ARG_INFO(0, escapeChar)
+ZEND_END_ARG_INFO()
+
+static const zend_function_entry phalcon_db_dialect_method_entry[] = {
+	PHP_ME(Phalcon_Db_Dialect, limit, arginfo_phalcon_db_dialectinterface_limit, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Db_Dialect, forUpdate, arginfo_phalcon_db_dialectinterface_forupdate, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Db_Dialect, sharedLock, arginfo_phalcon_db_dialectinterface_sharedlock, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Db_Dialect, getColumnList, arginfo_phalcon_db_dialectinterface_getcolumnlist, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Db_Dialect, getSqlExpression, arginfo_phalcon_db_dialect_getsqlexpression, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Db_Dialect, getSqlTable, arginfo_phalcon_db_dialect_getsqltable, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Db_Dialect, select, arginfo_phalcon_db_dialectinterface_select, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Db_Dialect, supportsSavepoints, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Db_Dialect, supportsReleaseSavepoints, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Db_Dialect, createSavepoint, arginfo_phalcon_db_dialectinterface_createsavepoint, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Db_Dialect, releaseSavepoint, arginfo_phalcon_db_dialectinterface_releasesavepoint, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Db_Dialect, rollbackSavepoint, arginfo_phalcon_db_dialectinterface_rollbacksavepoint, ZEND_ACC_PUBLIC)
+	PHP_FE_END
+};
 
 /**
  * Phalcon\Db\Dialect initializer
@@ -77,18 +106,17 @@ PHP_METHOD(Phalcon_Db_Dialect, limit){
 
 	zval *sql_query, *number, *limit;
 
-	PHALCON_MM_GROW();
-
 	phalcon_fetch_params(1, 2, 0, &sql_query, &number);
 	
 	if (phalcon_is_numeric(number)) {
+		PHALCON_MM_GROW();
 		PHALCON_INIT_VAR(limit);
 		ZVAL_LONG(limit, phalcon_get_intval(number));
 		PHALCON_CONCAT_VSV(return_value, sql_query, " LIMIT ", limit);
 		RETURN_MM();
 	}
 	
-	RETURN_CTOR(sql_query);
+	RETURN_ZVAL(sql_query, 1, 0);
 }
 
 /**
@@ -1029,4 +1057,3 @@ PHP_METHOD(Phalcon_Db_Dialect, rollbackSavepoint){
 	PHALCON_CONCAT_SV(return_value, "ROLLBACK TO SAVEPOINT ", name);
 	return;
 }
-

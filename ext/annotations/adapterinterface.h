@@ -17,6 +17,11 @@
   +------------------------------------------------------------------------+
 */
 
+#ifndef PHALCON_ANNOTATIONS_ADAPTERINTERFACE_H
+#define PHALCON_ANNOTATIONS_ADAPTERINTERFACE_H
+
+#include "php_phalcon.h"
+
 extern zend_class_entry *phalcon_annotations_adapterinterface_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Annotations_AdapterInterface);
@@ -47,14 +52,4 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_annotations_adapterinterface_getproperty,
 	ZEND_ARG_INFO(0, propertyName)
 ZEND_END_ARG_INFO()
 
-PHALCON_INIT_FUNCS(phalcon_annotations_adapterinterface_method_entry){
-	PHP_ABSTRACT_ME(Phalcon_Annotations_AdapterInterface, setReader, arginfo_phalcon_annotations_adapterinterface_setreader)
-	PHP_ABSTRACT_ME(Phalcon_Annotations_AdapterInterface, getReader, NULL)
-	PHP_ABSTRACT_ME(Phalcon_Annotations_AdapterInterface, get, arginfo_phalcon_annotations_adapterinterface_get)
-	PHP_ABSTRACT_ME(Phalcon_Annotations_AdapterInterface, getMethods, arginfo_phalcon_annotations_adapterinterface_getmethods)
-	PHP_ABSTRACT_ME(Phalcon_Annotations_AdapterInterface, getMethod, arginfo_phalcon_annotations_adapterinterface_getmethod)
-	PHP_ABSTRACT_ME(Phalcon_Annotations_AdapterInterface, getProperties, arginfo_phalcon_annotations_adapterinterface_getproperties)
-	PHP_ABSTRACT_ME(Phalcon_Annotations_AdapterInterface, getProperty, arginfo_phalcon_annotations_adapterinterface_getproperty)
-	PHP_FE_END
-};
-
+#endif /* PHALCON_ANNOTATIONS_ADAPTERINTERFACE_H */

@@ -17,26 +17,19 @@
   +------------------------------------------------------------------------+
 */
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
-
-#include "php.h"
 #include "php_phalcon.h"
-#include "phalcon.h"
 
-#include "Zend/zend_operators.h"
-#include "Zend/zend_exceptions.h"
-#include "Zend/zend_interfaces.h"
+#include "annotations/reader.h"
+#include "annotations/readerinterface.h"
+#include "annotations/annot.h"
+#include "annotations/exception.h"
+#include "annotations/scanner.h"
 
 #include "kernel/main.h"
 #include "kernel/memory.h"
-
 #include "kernel/exception.h"
 #include "kernel/object.h"
 #include "kernel/fcall.h"
-#include "annotations/scanner.h"
-#include "annotations/annot.h"
 #include "kernel/array.h"
 #include "kernel/file.h"
 
@@ -45,7 +38,16 @@
  *
  * Parses docblocks returning an array with the found annotations
  */
+zend_class_entry *phalcon_annotations_reader_ce;
 
+PHP_METHOD(Phalcon_Annotations_Reader, parse);
+PHP_METHOD(Phalcon_Annotations_Reader, parseDocBlock);
+
+static const zend_function_entry phalcon_annotations_reader_method_entry[] = {
+	PHP_ME(Phalcon_Annotations_Reader, parse, arginfo_phalcon_annotations_readerinterface_parse, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Annotations_Reader, parseDocBlock, arginfo_phalcon_annotations_readerinterface_parsedocblock, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
+	PHP_FE_END
+};
 
 /**
  * Phalcon\Annotations\Reader initializer

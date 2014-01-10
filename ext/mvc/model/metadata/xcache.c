@@ -18,21 +18,12 @@
   +------------------------------------------------------------------------+
 */
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
-
-#include "php.h"
-#include "php_phalcon.h"
-#include "phalcon.h"
-
-#include "Zend/zend_operators.h"
-#include "Zend/zend_exceptions.h"
-#include "Zend/zend_interfaces.h"
+#include "mvc/model/metadata/xcache.h"
+#include "mvc/model/metadata.h"
+#include "mvc/model/metadatainterface.h"
 
 #include "kernel/main.h"
 #include "kernel/memory.h"
-
 #include "kernel/array.h"
 #include "kernel/object.h"
 #include "kernel/concat.h"
@@ -54,7 +45,22 @@
  *	));
  *</code>
  */
+zend_class_entry *phalcon_mvc_model_metadata_xcache_ce;
 
+PHP_METHOD(Phalcon_Mvc_Model_MetaData_Xcache, __construct);
+PHP_METHOD(Phalcon_Mvc_Model_MetaData_Xcache, read);
+PHP_METHOD(Phalcon_Mvc_Model_MetaData_Xcache, write);
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_metadata_xcache___construct, 0, 0, 0)
+	ZEND_ARG_INFO(0, options)
+ZEND_END_ARG_INFO()
+
+static const zend_function_entry phalcon_mvc_model_metadata_xcache_method_entry[] = {
+	PHP_ME(Phalcon_Mvc_Model_MetaData_Xcache, __construct, arginfo_phalcon_mvc_model_metadata_xcache___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
+	PHP_ME(Phalcon_Mvc_Model_MetaData_Xcache, read, arginfo_phalcon_mvc_model_metadatainterface_read, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Model_MetaData_Xcache, write, arginfo_phalcon_mvc_model_metadatainterface_write, ZEND_ACC_PUBLIC)
+	PHP_FE_END
+};
 
 /**
  * Phalcon\Mvc\Model\MetaData\Xcache initializer
@@ -163,4 +169,3 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Xcache, write){
 	
 	PHALCON_MM_RESTORE();
 }
-

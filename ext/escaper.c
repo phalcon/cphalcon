@@ -17,23 +17,14 @@
   +------------------------------------------------------------------------+
 */
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
+#include "escaper.h"
+#include "escaperinterface.h"
+#include "escaper/exception.h"
 
-#include "php.h"
-#include "php_phalcon.h"
-#include "phalcon.h"
-
-#include "Zend/zend_operators.h"
-#include "Zend/zend_exceptions.h"
-#include "Zend/zend_interfaces.h"
-
-#include "ext/standard/html.h"
+#include <ext/standard/html.h>
 
 #include "kernel/main.h"
 #include "kernel/memory.h"
-
 #include "kernel/exception.h"
 #include "kernel/object.h"
 #include "kernel/fcall.h"
@@ -55,7 +46,40 @@
  *	echo $escaped; // font\2D family\3A \20 \3C Verdana\3E
  *</code>
  */
+zend_class_entry *phalcon_escaper_ce;
 
+PHP_METHOD(Phalcon_Escaper, setEncoding);
+PHP_METHOD(Phalcon_Escaper, getEncoding);
+PHP_METHOD(Phalcon_Escaper, setHtmlQuoteType);
+PHP_METHOD(Phalcon_Escaper, detectEncoding);
+PHP_METHOD(Phalcon_Escaper, normalizeEncoding);
+PHP_METHOD(Phalcon_Escaper, escapeHtml);
+PHP_METHOD(Phalcon_Escaper, escapeHtmlAttr);
+PHP_METHOD(Phalcon_Escaper, escapeCss);
+PHP_METHOD(Phalcon_Escaper, escapeJs);
+PHP_METHOD(Phalcon_Escaper, escapeUrl);
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_escaper_detectencoding, 0, 0, 1)
+	ZEND_ARG_INFO(0, str)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_escaper_normalizeencoding, 0, 0, 1)
+	ZEND_ARG_INFO(0, str)
+ZEND_END_ARG_INFO()
+
+static const zend_function_entry phalcon_escaper_method_entry[] = {
+	PHP_ME(Phalcon_Escaper, setEncoding, arginfo_phalcon_escaperinterface_setencoding, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Escaper, getEncoding, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Escaper, setHtmlQuoteType, arginfo_phalcon_escaperinterface_sethtmlquotetype, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Escaper, detectEncoding, arginfo_phalcon_escaper_detectencoding, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Escaper, normalizeEncoding, arginfo_phalcon_escaper_normalizeencoding, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Escaper, escapeHtml, arginfo_phalcon_escaperinterface_escapehtml, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Escaper, escapeHtmlAttr, arginfo_phalcon_escaperinterface_escapehtmlattr, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Escaper, escapeCss, arginfo_phalcon_escaperinterface_escapecss, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Escaper, escapeJs, arginfo_phalcon_escaperinterface_escapejs, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Escaper, escapeUrl, arginfo_phalcon_escaperinterface_escapeurl, ZEND_ACC_PUBLIC)
+	PHP_FE_END
+};
 
 /**
  * Phalcon\Escaper initializer
@@ -398,4 +422,3 @@ PHP_METHOD(Phalcon_Escaper, escapeUrl){
 	phalcon_raw_url_encode(return_value, url);
 	return;
 }
-

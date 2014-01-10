@@ -17,6 +17,13 @@
   +------------------------------------------------------------------------+
 */
 
+#ifndef PHALCON_HTTP_COOKIE_EXCEPTION_H
+#define PHALCON_HTTP_COOKIE_EXCEPTION_H
+
+#include "php_phalcon.h"
+
 extern zend_class_entry *phalcon_http_cookie_exception_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Http_Cookie_Exception);
+
+#endif /* PHALCON_HTTP_COOKIE_EXCEPTION_H */

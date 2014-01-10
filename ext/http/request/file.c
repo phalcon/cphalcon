@@ -16,23 +16,14 @@
   +------------------------------------------------------------------------+
 */
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
+#include "http/request/file.h"
+#include "http/request/fileinterface.h"
+#include "http/request/exception.h"
 
-#include "php.h"
-#include "php_phalcon.h"
-#include "phalcon.h"
-
-#include "Zend/zend_operators.h"
-#include "Zend/zend_exceptions.h"
-#include "Zend/zend_interfaces.h"
-
-#include "main/SAPI.h"
+#include <main/SAPI.h>
 
 #include "kernel/main.h"
 #include "kernel/memory.h"
-
 #include "kernel/exception.h"
 #include "kernel/array.h"
 #include "kernel/object.h"
@@ -62,7 +53,38 @@
  *	}
  *</code>
  */
+zend_class_entry *phalcon_http_request_file_ce;
 
+PHP_METHOD(Phalcon_Http_Request_File, __construct);
+PHP_METHOD(Phalcon_Http_Request_File, getSize);
+PHP_METHOD(Phalcon_Http_Request_File, getName);
+PHP_METHOD(Phalcon_Http_Request_File, getTempName);
+PHP_METHOD(Phalcon_Http_Request_File, getType);
+PHP_METHOD(Phalcon_Http_Request_File, getRealType);
+PHP_METHOD(Phalcon_Http_Request_File, getError);
+PHP_METHOD(Phalcon_Http_Request_File, getKey);
+PHP_METHOD(Phalcon_Http_Request_File, isUploadedFile);
+PHP_METHOD(Phalcon_Http_Request_File, moveTo);
+PHP_METHOD(Phalcon_Http_Request_File, __set_state);
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_http_request_file___set_state, 0, 0, 1)
+	ZEND_ARG_INFO(0, params)
+ZEND_END_ARG_INFO()
+
+static const zend_function_entry phalcon_http_request_file_method_entry[] = {
+	PHP_ME(Phalcon_Http_Request_File, __construct, arginfo_phalcon_http_request_fileinterface___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
+	PHP_ME(Phalcon_Http_Request_File, getSize, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Http_Request_File, getName, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Http_Request_File, getTempName, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Http_Request_File, getType, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Http_Request_File, getRealType, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Http_Request_File, getError, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Http_Request_File, getKey, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Http_Request_File, isUploadedFile, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Http_Request_File, moveTo, arginfo_phalcon_http_request_fileinterface_moveto, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Http_Request_File, __set_state, arginfo_phalcon_http_request_file___set_state, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
+	PHP_FE_END
+};
 
 /**
  * Phalcon\Http\Request\File initializer

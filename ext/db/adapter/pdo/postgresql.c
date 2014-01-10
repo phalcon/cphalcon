@@ -18,23 +18,17 @@
   +------------------------------------------------------------------------+
 */
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
-
-#include "php.h"
-#include "php_phalcon.h"
-#include "phalcon.h"
-
-#include "Zend/zend_operators.h"
-#include "Zend/zend_exceptions.h"
-#include "Zend/zend_interfaces.h"
+#include "db/adapter/pdo/postgresql.h"
+#include "db/adapter/pdo.h"
+#include "db/adapterinterface.h"
+#include "db/column.h"
+#include "db/rawvalue.h"
+#include "db/reference.h"
 
 #include "ext/pdo/php_pdo_driver.h"
 
 #include "kernel/main.h"
 #include "kernel/memory.h"
-
 #include "kernel/object.h"
 #include "kernel/array.h"
 #include "kernel/fcall.h"
@@ -59,7 +53,22 @@
  *
  * </code>
  */
+zend_class_entry *phalcon_db_adapter_pdo_postgresql_ce;
 
+PHP_METHOD(Phalcon_Db_Adapter_Pdo_Postgresql, connect);
+PHP_METHOD(Phalcon_Db_Adapter_Pdo_Postgresql, describeColumns);
+PHP_METHOD(Phalcon_Db_Adapter_Pdo_Postgresql, useExplicitIdValue);
+PHP_METHOD(Phalcon_Db_Adapter_Pdo_Postgresql, getDefaultIdValue);
+PHP_METHOD(Phalcon_Db_Adapter_Pdo_Postgresql, supportSequences);
+
+static const zend_function_entry phalcon_db_adapter_pdo_postgresql_method_entry[] = {
+	PHP_ME(Phalcon_Db_Adapter_Pdo_Postgresql, connect, arginfo_phalcon_db_adapterinterface_connect, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Db_Adapter_Pdo_Postgresql, describeColumns, arginfo_phalcon_db_adapterinterface_describecolumns, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Db_Adapter_Pdo_Postgresql, useExplicitIdValue, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Db_Adapter_Pdo_Postgresql, getDefaultIdValue, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Db_Adapter_Pdo_Postgresql, supportSequences, NULL, ZEND_ACC_PUBLIC)
+	PHP_FE_END
+};
 
 /**
  * Phalcon\Db\Adapter\Pdo\Postgresql initializer

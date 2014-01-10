@@ -18,21 +18,14 @@
   +------------------------------------------------------------------------+
 */
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
-
-#include "php.h"
 #include "php_phalcon.h"
-#include "phalcon.h"
 
-#include "Zend/zend_operators.h"
-#include "Zend/zend_exceptions.h"
-#include "Zend/zend_interfaces.h"
+#include "di/factorydefault.h"
+#include "di/service.h"
+#include "di.h"
 
 #include "kernel/main.h"
 #include "kernel/memory.h"
-
 #include "kernel/fcall.h"
 #include "kernel/array.h"
 #include "kernel/object.h"
@@ -47,6 +40,14 @@
  * registers all the services provided by the framework. Thanks to this, the developer does not need
  * to register each service individually providing a full stack framework
  */
+zend_class_entry *phalcon_di_factorydefault_ce;
+
+PHP_METHOD(Phalcon_DI_FactoryDefault, __construct);
+
+static const zend_function_entry phalcon_di_factorydefault_method_entry[] = {
+	PHP_ME(Phalcon_DI_FactoryDefault, __construct, NULL, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
+	PHP_FE_END
+};
 
 
 /**
@@ -354,4 +355,3 @@ PHP_METHOD(Phalcon_DI_FactoryDefault, __construct){
 	
 	PHALCON_MM_RESTORE();
 }
-

@@ -17,14 +17,13 @@
   +------------------------------------------------------------------------+
 */
 
+#ifndef PHALCON_DI_FACTORYDEFAULT_CLI_H
+#define PHALCON_DI_FACTORYDEFAULT_CLI_H
+
+#include "php_phalcon.h"
+
 extern zend_class_entry *phalcon_di_factorydefault_cli_ce;
 
 PHALCON_INIT_CLASS(Phalcon_DI_FactoryDefault_CLI);
 
-PHP_METHOD(Phalcon_DI_FactoryDefault_CLI, __construct);
-
-PHALCON_INIT_FUNCS(phalcon_di_factorydefault_cli_method_entry){
-	PHP_ME(Phalcon_DI_FactoryDefault_CLI, __construct, NULL, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR) 
-	PHP_FE_END
-};
-
+#endif /* PHALCON_DI_FACTORYDEFAULT_CLI_H */

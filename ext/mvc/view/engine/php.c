@@ -17,21 +17,13 @@
   +------------------------------------------------------------------------+
 */
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
-
-#include "php.h"
-#include "php_phalcon.h"
-#include "phalcon.h"
-
-#include "Zend/zend_operators.h"
-#include "Zend/zend_exceptions.h"
-#include "Zend/zend_interfaces.h"
+#include "mvc/view/engine/php.h"
+#include "mvc/view/engine.h"
+#include "mvc/view/engineinterface.h"
+#include "mvc/view/engine/helpers.h"
 
 #include "kernel/main.h"
 #include "kernel/memory.h"
-
 #include "kernel/operators.h"
 #include "kernel/fcall.h"
 #include "kernel/output.h"
@@ -39,14 +31,19 @@
 #include "kernel/require.h"
 #include "kernel/object.h"
 
-#include "mvc/view/engine/helpers.h"
-
 /**
  * Phalcon\Mvc\View\Engine\Php
  *
  * Adapter to use PHP itself as templating engine
  */
+zend_class_entry *phalcon_mvc_view_engine_php_ce;
 
+PHP_METHOD(Phalcon_Mvc_View_Engine_Php, render);
+
+static const zend_function_entry phalcon_mvc_view_engine_php_method_entry[] = {
+	PHP_ME(Phalcon_Mvc_View_Engine_Php, render, arginfo_phalcon_mvc_view_engineinterface_render, ZEND_ACC_PUBLIC)
+	PHP_FE_END
+};
 
 /**
  * Phalcon\Mvc\View\Engine\Php initializer

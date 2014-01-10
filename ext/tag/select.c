@@ -17,21 +17,12 @@
   +------------------------------------------------------------------------+
 */
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
-
-#include "php.h"
-#include "php_phalcon.h"
-#include "phalcon.h"
-
-#include "Zend/zend_operators.h"
-#include "Zend/zend_exceptions.h"
-#include "Zend/zend_interfaces.h"
+#include "tag/select.h"
+#include "tag.h"
+#include "tag/exception.h"
 
 #include "kernel/main.h"
 #include "kernel/memory.h"
-
 #include "kernel/array.h"
 #include "kernel/string.h"
 #include "kernel/fcall.h"
@@ -41,14 +32,28 @@
 #include "kernel/exception.h"
 #include "kernel/object.h"
 
-#include "tag.h"
-
 /**
  * Phalcon\Tag\Select
  *
  * Generates a SELECT html tag using a static array of values or a Phalcon\Mvc\Model resultset
  */
+zend_class_entry *phalcon_tag_select_ce;
 
+PHP_METHOD(Phalcon_Tag_Select, selectField);
+PHP_METHOD(Phalcon_Tag_Select, _optionsFromResultset);
+PHP_METHOD(Phalcon_Tag_Select, _optionsFromArray);
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_tag_select_selectfield, 0, 0, 1)
+	ZEND_ARG_INFO(0, parameters)
+	ZEND_ARG_INFO(0, data)
+ZEND_END_ARG_INFO()
+
+static const zend_function_entry phalcon_tag_select_method_entry[] = {
+	PHP_ME(Phalcon_Tag_Select, selectField, arginfo_phalcon_tag_select_selectfield, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
+	PHP_ME(Phalcon_Tag_Select, _optionsFromResultset, NULL, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
+	PHP_ME(Phalcon_Tag_Select, _optionsFromArray, NULL, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
+	PHP_FE_END
+};
 
 /**
  * Phalcon\Tag\Select initializer

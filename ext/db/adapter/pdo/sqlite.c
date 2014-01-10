@@ -18,23 +18,18 @@
   +------------------------------------------------------------------------+
 */
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
-
-#include "php.h"
-#include "php_phalcon.h"
-#include "phalcon.h"
-
-#include "Zend/zend_operators.h"
-#include "Zend/zend_exceptions.h"
-#include "Zend/zend_interfaces.h"
+#include "db/adapter/pdo/sqlite.h"
+#include "db/adapter/pdo.h"
+#include "db/adapterinterface.h"
+#include "db/column.h"
+#include "db/exception.h"
+#include "db/index.h"
+#include "db/reference.h"
 
 #include "ext/pdo/php_pdo_driver.h"
 
 #include "kernel/main.h"
 #include "kernel/memory.h"
-
 #include "kernel/operators.h"
 #include "kernel/concat.h"
 #include "kernel/object.h"
@@ -58,7 +53,22 @@
  *
  * </code>
  */
+zend_class_entry *phalcon_db_adapter_pdo_sqlite_ce;
 
+PHP_METHOD(Phalcon_Db_Adapter_Pdo_Sqlite, connect);
+PHP_METHOD(Phalcon_Db_Adapter_Pdo_Sqlite, describeColumns);
+PHP_METHOD(Phalcon_Db_Adapter_Pdo_Sqlite, describeIndexes);
+PHP_METHOD(Phalcon_Db_Adapter_Pdo_Sqlite, describeReferences);
+PHP_METHOD(Phalcon_Db_Adapter_Pdo_Sqlite, useExplicitIdValue);
+
+static const zend_function_entry phalcon_db_adapter_pdo_sqlite_method_entry[] = {
+	PHP_ME(Phalcon_Db_Adapter_Pdo_Sqlite, connect, arginfo_phalcon_db_adapterinterface_connect, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Db_Adapter_Pdo_Sqlite, describeColumns, arginfo_phalcon_db_adapterinterface_describecolumns, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Db_Adapter_Pdo_Sqlite, describeIndexes, arginfo_phalcon_db_adapterinterface_describeindexes, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Db_Adapter_Pdo_Sqlite, describeReferences, arginfo_phalcon_db_adapterinterface_describereferences, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Db_Adapter_Pdo_Sqlite, useExplicitIdValue, NULL, ZEND_ACC_PUBLIC)
+	PHP_FE_END
+};
 
 /**
  * Phalcon\Db\Adapter\Pdo\Sqlite initializer

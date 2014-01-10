@@ -17,21 +17,15 @@
   +------------------------------------------------------------------------+
 */
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
-
-#include "php.h"
-#include "php_phalcon.h"
-#include "phalcon.h"
-
-#include "Zend/zend_operators.h"
-#include "Zend/zend_exceptions.h"
-#include "Zend/zend_interfaces.h"
+#include "mvc/url.h"
+#include "mvc/urlinterface.h"
+#include "mvc/url/exception.h"
+#include "mvc/routerinterface.h"
+#include "diinterface.h"
+#include "di/injectionawareinterface.h"
 
 #include "kernel/main.h"
 #include "kernel/memory.h"
-
 #include "kernel/exception.h"
 #include "kernel/object.h"
 #include "kernel/array.h"
@@ -56,7 +50,42 @@
  *
  *</code>
  */
+zend_class_entry *phalcon_mvc_url_ce;
 
+PHP_METHOD(Phalcon_Mvc_Url, setDI);
+PHP_METHOD(Phalcon_Mvc_Url, getDI);
+PHP_METHOD(Phalcon_Mvc_Url, setBaseUri);
+PHP_METHOD(Phalcon_Mvc_Url, setStaticBaseUri);
+PHP_METHOD(Phalcon_Mvc_Url, getBaseUri);
+PHP_METHOD(Phalcon_Mvc_Url, getStaticBaseUri);
+PHP_METHOD(Phalcon_Mvc_Url, setBasePath);
+PHP_METHOD(Phalcon_Mvc_Url, getBasePath);
+PHP_METHOD(Phalcon_Mvc_Url, get);
+PHP_METHOD(Phalcon_Mvc_Url, getStatic);
+PHP_METHOD(Phalcon_Mvc_Url, path);
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_url_setstaticbaseuri, 0, 0, 1)
+	ZEND_ARG_INFO(0, staticBaseUri)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_url_getstatic, 0, 0, 0)
+	ZEND_ARG_INFO(0, uri)
+ZEND_END_ARG_INFO()
+
+static const zend_function_entry phalcon_mvc_url_method_entry[] = {
+	PHP_ME(Phalcon_Mvc_Url, setDI, arginfo_phalcon_di_injectionawareinterface_setdi, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Url, getDI, arginfo_phalcon_di_injectionawareinterface_getdi, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Url, setBaseUri, arginfo_phalcon_mvc_urlinterface_setbaseuri, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Url, setStaticBaseUri, arginfo_phalcon_mvc_url_setstaticbaseuri, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Url, getBaseUri, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Url, getStaticBaseUri, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Url, setBasePath, arginfo_phalcon_mvc_urlinterface_setbasepath, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Url, getBasePath, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Url, get, arginfo_phalcon_mvc_urlinterface_get, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Url, getStatic, arginfo_phalcon_mvc_url_getstatic, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Url, path, arginfo_phalcon_mvc_urlinterface_path, ZEND_ACC_PUBLIC)
+	PHP_FE_END
+};
 
 /**
  * Phalcon\Mvc\Url initializer

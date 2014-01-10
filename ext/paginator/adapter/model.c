@@ -17,21 +17,14 @@
   +------------------------------------------------------------------------+
 */
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
-
-#include "php.h"
 #include "php_phalcon.h"
-#include "phalcon.h"
 
-#include "Zend/zend_operators.h"
-#include "Zend/zend_exceptions.h"
-#include "Zend/zend_interfaces.h"
+#include "paginator/adapter/model.h"
+#include "paginator/adapterinterface.h"
+#include "paginator/exception.h"
 
 #include "kernel/main.h"
 #include "kernel/memory.h"
-
 #include "kernel/object.h"
 #include "kernel/array.h"
 #include "kernel/operators.h"
@@ -43,7 +36,18 @@
  *
  * This adapter allows to paginate data using a Phalcon\Mvc\Model resultset as base
  */
+zend_class_entry *phalcon_paginator_adapter_model_ce;
 
+PHP_METHOD(Phalcon_Paginator_Adapter_Model, __construct);
+PHP_METHOD(Phalcon_Paginator_Adapter_Model, setCurrentPage);
+PHP_METHOD(Phalcon_Paginator_Adapter_Model, getPaginate);
+
+static const zend_function_entry phalcon_paginator_adapter_model_method_entry[] = {
+	PHP_ME(Phalcon_Paginator_Adapter_Model, __construct, arginfo_phalcon_paginator_adapterinterface___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
+	PHP_ME(Phalcon_Paginator_Adapter_Model, setCurrentPage, arginfo_phalcon_paginator_adapterinterface_setcurrentpage, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Paginator_Adapter_Model, getPaginate, arginfo_phalcon_paginator_adapterinterface_getcurrentpage, ZEND_ACC_PUBLIC)
+	PHP_FE_END
+};
 
 /**
  * Phalcon\Paginator\Adapter\Model initializer

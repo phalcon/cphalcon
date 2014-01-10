@@ -17,20 +17,10 @@
   +------------------------------------------------------------------------+
 */
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
-
-#include "php.h"
-#include "php_phalcon.h"
-#include "phalcon.h"
-
-#include "Zend/zend_operators.h"
-#include "Zend/zend_exceptions.h"
-#include "Zend/zend_interfaces.h"
+#include "flash/exception.h"
+#include "flash/../exception.h"
 
 #include "kernel/main.h"
-#include "kernel/memory.h"
 
 /**
  * Phalcon\Flash\Exception
@@ -38,7 +28,7 @@
  * Exceptions thrown in Phalcon\Flash will use this class
  *
  */
-
+zend_class_entry *phalcon_flash_exception_ce;
 
 /**
  * Phalcon\Flash\Exception initializer
@@ -49,4 +39,3 @@ PHALCON_INIT_CLASS(Phalcon_Flash_Exception){
 
 	return SUCCESS;
 }
-

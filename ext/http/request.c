@@ -17,26 +17,20 @@
   +------------------------------------------------------------------------+
 */
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
+#include "http/request.h"
+#include "http/requestinterface.h"
+#include "http/request/exception.h"
+#include "http/request/file.h"
+#include "diinterface.h"
+#include "di/injectionawareinterface.h"
+#include "filterinterface.h"
 
-#include "php.h"
-#include "php_phalcon.h"
-#include "phalcon.h"
-
-#include "Zend/zend_operators.h"
-#include "Zend/zend_exceptions.h"
-#include "Zend/zend_interfaces.h"
-
-#include "main/php_variables.h"
-#include "main/SAPI.h"
-
-#include "ext/standard/php_smart_str.h"
+#include <main/php_variables.h>
+#include <main/SAPI.h>
+#include <ext/standard/php_smart_str.h>
 
 #include "kernel/main.h"
 #include "kernel/memory.h"
-
 #include "kernel/object.h"
 #include "kernel/array.h"
 #include "kernel/exception.h"
@@ -67,7 +61,108 @@
  *</code>
  *
  */
+zend_class_entry *phalcon_http_request_ce;
 
+PHP_METHOD(Phalcon_Http_Request, setDI);
+PHP_METHOD(Phalcon_Http_Request, getDI);
+PHP_METHOD(Phalcon_Http_Request, get);
+PHP_METHOD(Phalcon_Http_Request, getPost);
+PHP_METHOD(Phalcon_Http_Request, getPut);
+PHP_METHOD(Phalcon_Http_Request, getQuery);
+PHP_METHOD(Phalcon_Http_Request, getServer);
+PHP_METHOD(Phalcon_Http_Request, has);
+PHP_METHOD(Phalcon_Http_Request, hasPost);
+PHP_METHOD(Phalcon_Http_Request, hasPut);
+PHP_METHOD(Phalcon_Http_Request, hasQuery);
+PHP_METHOD(Phalcon_Http_Request, hasServer);
+PHP_METHOD(Phalcon_Http_Request, getHeader);
+PHP_METHOD(Phalcon_Http_Request, getScheme);
+PHP_METHOD(Phalcon_Http_Request, isAjax);
+PHP_METHOD(Phalcon_Http_Request, isSoapRequested);
+PHP_METHOD(Phalcon_Http_Request, isSecureRequest);
+PHP_METHOD(Phalcon_Http_Request, getRawBody);
+PHP_METHOD(Phalcon_Http_Request, getJsonRawBody);
+PHP_METHOD(Phalcon_Http_Request, getServerAddress);
+PHP_METHOD(Phalcon_Http_Request, getServerName);
+PHP_METHOD(Phalcon_Http_Request, getHttpHost);
+PHP_METHOD(Phalcon_Http_Request, getClientAddress);
+PHP_METHOD(Phalcon_Http_Request, getMethod);
+PHP_METHOD(Phalcon_Http_Request, getURI);
+PHP_METHOD(Phalcon_Http_Request, getUserAgent);
+PHP_METHOD(Phalcon_Http_Request, isMethod);
+PHP_METHOD(Phalcon_Http_Request, isPost);
+PHP_METHOD(Phalcon_Http_Request, isGet);
+PHP_METHOD(Phalcon_Http_Request, isPut);
+PHP_METHOD(Phalcon_Http_Request, isPatch);
+PHP_METHOD(Phalcon_Http_Request, isHead);
+PHP_METHOD(Phalcon_Http_Request, isDelete);
+PHP_METHOD(Phalcon_Http_Request, isOptions);
+PHP_METHOD(Phalcon_Http_Request, hasFiles);
+PHP_METHOD(Phalcon_Http_Request, getUploadedFiles);
+PHP_METHOD(Phalcon_Http_Request, getHeaders);
+PHP_METHOD(Phalcon_Http_Request, getHTTPReferer);
+PHP_METHOD(Phalcon_Http_Request, _getQualityHeader);
+PHP_METHOD(Phalcon_Http_Request, _getBestQuality);
+PHP_METHOD(Phalcon_Http_Request, getAcceptableContent);
+PHP_METHOD(Phalcon_Http_Request, getBestAccept);
+PHP_METHOD(Phalcon_Http_Request, getClientCharsets);
+PHP_METHOD(Phalcon_Http_Request, getBestCharset);
+PHP_METHOD(Phalcon_Http_Request, getLanguages);
+PHP_METHOD(Phalcon_Http_Request, getBestLanguage);
+PHP_METHOD(Phalcon_Http_Request, getBasicAuth);
+PHP_METHOD(Phalcon_Http_Request, getDigestAuth);
+
+static const zend_function_entry phalcon_http_request_method_entry[] = {
+	PHP_ME(Phalcon_Http_Request, setDI, arginfo_phalcon_di_injectionawareinterface_setdi, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Http_Request, getDI, arginfo_phalcon_di_injectionawareinterface_getdi, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Http_Request, get, arginfo_phalcon_http_requestinterface_get, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Http_Request, getPost, arginfo_phalcon_http_requestinterface_getpost, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Http_Request, getPut, arginfo_phalcon_http_requestinterface_getput, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Http_Request, getQuery, arginfo_phalcon_http_requestinterface_getquery, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Http_Request, getServer, arginfo_phalcon_http_requestinterface_getserver, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Http_Request, has, arginfo_phalcon_http_requestinterface_has, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Http_Request, hasPost, arginfo_phalcon_http_requestinterface_haspost, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Http_Request, hasPut, arginfo_phalcon_http_requestinterface_haspost, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Http_Request, hasQuery, arginfo_phalcon_http_requestinterface_hasquery, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Http_Request, hasServer, arginfo_phalcon_http_requestinterface_hasserver, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Http_Request, getHeader, arginfo_phalcon_http_requestinterface_getheader, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Http_Request, getScheme, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Http_Request, isAjax, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Http_Request, isSoapRequested, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Http_Request, isSecureRequest, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Http_Request, getRawBody, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Http_Request, getJsonRawBody, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Http_Request, getServerAddress, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Http_Request, getServerName, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Http_Request, getHttpHost, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Http_Request, getClientAddress, arginfo_phalcon_http_requestinterface_getclientaddress, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Http_Request, getMethod, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Http_Request, getURI, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Http_Request, getUserAgent, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Http_Request, isMethod, arginfo_phalcon_http_requestinterface_ismethod, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Http_Request, isPost, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Http_Request, isGet, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Http_Request, isPut, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Http_Request, isPatch, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Http_Request, isHead, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Http_Request, isDelete, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Http_Request, isOptions, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Http_Request, hasFiles, arginfo_phalcon_http_requestinterface_hasfiles, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Http_Request, getUploadedFiles, arginfo_phalcon_http_requestinterface_getuploadedfiles, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Http_Request, getHeaders, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Http_Request, getHTTPReferer, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Http_Request, _getQualityHeader, NULL, ZEND_ACC_PROTECTED)
+	PHP_ME(Phalcon_Http_Request, _getBestQuality, NULL, ZEND_ACC_PROTECTED)
+	PHP_ME(Phalcon_Http_Request, getAcceptableContent, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Http_Request, getBestAccept, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Http_Request, getClientCharsets, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Http_Request, getBestCharset, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Http_Request, getLanguages, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Http_Request, getBestLanguage, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Http_Request, getBasicAuth, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Http_Request, getDigestAuth, NULL, ZEND_ACC_PUBLIC)
+	PHP_FE_END
+};
 
 /**
  * Phalcon\Http\Request initializer

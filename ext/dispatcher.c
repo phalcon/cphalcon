@@ -18,21 +18,16 @@
   +------------------------------------------------------------------------+
 */
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
-
-#include "php.h"
-#include "php_phalcon.h"
-#include "phalcon.h"
-
-#include "Zend/zend_operators.h"
-#include "Zend/zend_exceptions.h"
-#include "Zend/zend_interfaces.h"
+#include "dispatcher.h"
+#include "dispatcherinterface.h"
+#include "diinterface.h"
+#include "di/injectionawareinterface.h"
+#include "events/eventsawareinterface.h"
+#include "exception.h"
+#include "filterinterface.h"
 
 #include "kernel/main.h"
 #include "kernel/memory.h"
-
 #include "kernel/object.h"
 #include "kernel/fcall.h"
 #include "kernel/array.h"
@@ -47,7 +42,78 @@
  * This is the base class for Phalcon\Mvc\Dispatcher and Phalcon\CLI\Dispatcher.
  * This class can't be instantiated directly, you can use it to create your own dispatchers
  */
+zend_class_entry *phalcon_dispatcher_ce;
 
+PHP_METHOD(Phalcon_Dispatcher, __construct);
+PHP_METHOD(Phalcon_Dispatcher, setDI);
+PHP_METHOD(Phalcon_Dispatcher, getDI);
+PHP_METHOD(Phalcon_Dispatcher, setEventsManager);
+PHP_METHOD(Phalcon_Dispatcher, getEventsManager);
+PHP_METHOD(Phalcon_Dispatcher, setActionSuffix);
+PHP_METHOD(Phalcon_Dispatcher, setModuleName);
+PHP_METHOD(Phalcon_Dispatcher, getModuleName);
+PHP_METHOD(Phalcon_Dispatcher, setNamespaceName);
+PHP_METHOD(Phalcon_Dispatcher, getNamespaceName);
+PHP_METHOD(Phalcon_Dispatcher, setDefaultNamespace);
+PHP_METHOD(Phalcon_Dispatcher, getDefaultNamespace);
+PHP_METHOD(Phalcon_Dispatcher, setDefaultAction);
+PHP_METHOD(Phalcon_Dispatcher, setActionName);
+PHP_METHOD(Phalcon_Dispatcher, getActionName);
+PHP_METHOD(Phalcon_Dispatcher, setParams);
+PHP_METHOD(Phalcon_Dispatcher, getParams);
+PHP_METHOD(Phalcon_Dispatcher, setParam);
+PHP_METHOD(Phalcon_Dispatcher, getParam);
+PHP_METHOD(Phalcon_Dispatcher, getActiveMethod);
+PHP_METHOD(Phalcon_Dispatcher, isFinished);
+PHP_METHOD(Phalcon_Dispatcher, setReturnedValue);
+PHP_METHOD(Phalcon_Dispatcher, getReturnedValue);
+PHP_METHOD(Phalcon_Dispatcher, dispatch);
+PHP_METHOD(Phalcon_Dispatcher, forward);
+PHP_METHOD(Phalcon_Dispatcher, wasForwarded);
+PHP_METHOD(Phalcon_Dispatcher, getHandlerClass);
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_dispatcher_setmodulename, 0, 0, 1)
+	ZEND_ARG_INFO(0, moduleName)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_dispatcher_setnamespacename, 0, 0, 1)
+	ZEND_ARG_INFO(0, namespaceName)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_dispatcher_setreturnedvalue, 0, 0, 1)
+	ZEND_ARG_INFO(0, value)
+ZEND_END_ARG_INFO()
+
+static const zend_function_entry phalcon_dispatcher_method_entry[] = {
+	PHP_ME(Phalcon_Dispatcher, __construct, NULL, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
+	PHP_ME(Phalcon_Dispatcher, setDI, arginfo_phalcon_di_injectionawareinterface_setdi, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Dispatcher, getDI, arginfo_phalcon_di_injectionawareinterface_getdi, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Dispatcher, setEventsManager, arginfo_phalcon_events_eventsawareinterface_seteventsmanager, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Dispatcher, getEventsManager, arginfo_phalcon_events_eventsawareinterface_geteventsmanager, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Dispatcher, setActionSuffix, arginfo_phalcon_dispatcherinterface_setactionsuffix, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Dispatcher, setModuleName, arginfo_phalcon_dispatcher_setmodulename, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Dispatcher, getModuleName, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Dispatcher, setNamespaceName, arginfo_phalcon_dispatcher_setnamespacename, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Dispatcher, getNamespaceName, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Dispatcher, setDefaultNamespace, arginfo_phalcon_dispatcherinterface_setdefaultnamespace, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Dispatcher, getDefaultNamespace, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Dispatcher, setDefaultAction, arginfo_phalcon_dispatcherinterface_setdefaultaction, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Dispatcher, setActionName, arginfo_phalcon_dispatcherinterface_setactionname, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Dispatcher, getActionName, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Dispatcher, setParams, arginfo_phalcon_dispatcherinterface_setparams, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Dispatcher, getParams, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Dispatcher, setParam, arginfo_phalcon_dispatcherinterface_setparam, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Dispatcher, getParam, arginfo_phalcon_dispatcherinterface_getparam, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Dispatcher, getActiveMethod, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Dispatcher, isFinished, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Dispatcher, setReturnedValue, arginfo_phalcon_dispatcher_setreturnedvalue, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Dispatcher, getReturnedValue, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Dispatcher, dispatch, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Dispatcher, forward, arginfo_phalcon_dispatcherinterface_forward, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Dispatcher, wasForwarded, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Dispatcher, getHandlerClass, NULL, ZEND_ACC_PUBLIC)
+	PHP_FE_END
+};
 
 /**
  * Phalcon\Dispatcher initializer

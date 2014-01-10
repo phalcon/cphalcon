@@ -17,6 +17,13 @@
   +------------------------------------------------------------------------+
 */
 
+#ifndef PHALCON_VALIDATION_EXCEPTION_H
+#define PHALCON_VALIDATION_EXCEPTION_H
+
+#include "php_phalcon.h"
+
 extern zend_class_entry *phalcon_validation_exception_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Validation_Exception);
+
+#endif /* PHALCON_VALIDATION_EXCEPTION_H */

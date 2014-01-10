@@ -17,6 +17,11 @@
   +------------------------------------------------------------------------+
 */
 
+#ifndef PHALCON_HTTP_REQUEST_COOKIESINTERFACE_H
+#define PHALCON_HTTP_REQUEST_COOKIESINTERFACE_H
+
+#include "php_phalcon.h"
+
 extern zend_class_entry *phalcon_http_response_cookiesinterface_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Http_Response_CookiesInterface);
@@ -47,15 +52,4 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_http_response_cookiesinterface_delete, 0,
 	ZEND_ARG_INFO(0, name)
 ZEND_END_ARG_INFO()
 
-PHALCON_INIT_FUNCS(phalcon_http_response_cookiesinterface_method_entry){
-	PHP_ABSTRACT_ME(Phalcon_Http_Response_CookiesInterface, useEncryption, arginfo_phalcon_http_response_cookiesinterface_useencryption)
-	PHP_ABSTRACT_ME(Phalcon_Http_Response_CookiesInterface, isUsingEncryption, NULL)
-	PHP_ABSTRACT_ME(Phalcon_Http_Response_CookiesInterface, set, arginfo_phalcon_http_response_cookiesinterface_set)
-	PHP_ABSTRACT_ME(Phalcon_Http_Response_CookiesInterface, get, arginfo_phalcon_http_response_cookiesinterface_get)
-	PHP_ABSTRACT_ME(Phalcon_Http_Response_CookiesInterface, has, arginfo_phalcon_http_response_cookiesinterface_has)
-	PHP_ABSTRACT_ME(Phalcon_Http_Response_CookiesInterface, delete, arginfo_phalcon_http_response_cookiesinterface_delete)
-	PHP_ABSTRACT_ME(Phalcon_Http_Response_CookiesInterface, send, NULL)
-	PHP_ABSTRACT_ME(Phalcon_Http_Response_CookiesInterface, reset, NULL)
-	PHP_FE_END
-};
-
+#endif /* PHALCON_HTTP_REQUEST_COOKIESINTERFACE_H */

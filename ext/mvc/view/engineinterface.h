@@ -17,6 +17,11 @@
   +------------------------------------------------------------------------+
 */
 
+#ifndef PHALCON_MVC_VIEW_ENGINEINTERFACE_H
+#define PHALCON_MVC_VIEW_ENGINEINTERFACE_H
+
+#include "php_phalcon.h"
+
 extern zend_class_entry *phalcon_mvc_view_engineinterface_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Mvc_View_EngineInterface);
@@ -36,11 +41,4 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_view_engineinterface_render, 0, 0, 2)
 	ZEND_ARG_INFO(0, mustClean)
 ZEND_END_ARG_INFO()
 
-PHALCON_INIT_FUNCS(phalcon_mvc_view_engineinterface_method_entry){
-	PHP_ABSTRACT_ME(Phalcon_Mvc_View_EngineInterface, __construct, arginfo_phalcon_mvc_view_engineinterface___construct)
-	PHP_ABSTRACT_ME(Phalcon_Mvc_View_EngineInterface, getContent, NULL)
-	PHP_ABSTRACT_ME(Phalcon_Mvc_View_EngineInterface, partial, arginfo_phalcon_mvc_view_engineinterface_partial)
-	PHP_ABSTRACT_ME(Phalcon_Mvc_View_EngineInterface, render, arginfo_phalcon_mvc_view_engineinterface_render)
-	PHP_FE_END
-};
-
+#endif /* PHALCON_MVC_VIEW_ENGINEINTERFACE_H */

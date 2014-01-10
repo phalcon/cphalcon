@@ -20,8 +20,8 @@
 #ifndef PHALCON_MVC_VIEW_ENGINE_HELPERS_H
 #define PHALCON_MVC_VIEW_ENGINE_HELPERS_H
 
-#include <Zend/zend.h>
+#include "php_phalcon.h"
 
-zend_bool phalcon_mvc_view_engine_php_symtable_merger(HashTable *ht, void *pData, zend_hash_key *hash_key, void *pParam);
+PHALCON_STATIC zend_bool phalcon_mvc_view_engine_php_symtable_merger(HashTable *ht, void *pData, zend_hash_key *hash_key, void *pParam);
 
 #endif /* PHALCON_MBC_VIEW_ENGINE_HELPERS_H */

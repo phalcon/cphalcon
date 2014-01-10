@@ -17,6 +17,12 @@
 	+------------------------------------------------------------------------+
 */
 
+#ifndef PHALCON_ANNOTATIONS_ANNOT_H
+#define PHALCON_ANNOTATIONS_ANNOT_H
+
+#include <Zend/zend.h>
+#include "annotations/scanner.h"
+
 typedef struct _phannot_parser_token {
 	char *token;
 	int opcode;
@@ -38,3 +44,5 @@ typedef struct _phannot_parser_status {
 
 int phannot_parse_annotations(zval *result, zval *view_code, zval *template_path, zval *line TSRMLS_DC);
 int phannot_internal_parse_annotations(zval **result, zval *view_code, zval *template_path, zval *line, zval **error_msg TSRMLS_DC);
+
+#endif /* PHALCON_ANNOTATIONS_ANNOT_H */

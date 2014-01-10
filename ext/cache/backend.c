@@ -17,22 +17,15 @@
   +------------------------------------------------------------------------+
 */
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
-
-#include "php.h"
 #include "php_phalcon.h"
-#include "phalcon.h"
 
-#include "Zend/zend_operators.h"
-#include "Zend/zend_exceptions.h"
-#include "Zend/zend_interfaces.h"
+#include "cache/backend.h"
+#include "cache/backendinterface.h"
+#include "cache/frontendinterface.h"
+#include "cache/exception.h"
 
 #include "kernel/main.h"
 #include "kernel/memory.h"
-
-#include "kernel/exception.h"
 #include "kernel/array.h"
 #include "kernel/object.h"
 #include "kernel/fcall.h"
@@ -43,7 +36,37 @@
  *
  * This class implements common functionality for backend adapters. A backend cache adapter may extend this class
  */
+zend_class_entry *phalcon_cache_backend_ce;
 
+PHP_METHOD(Phalcon_Cache_Backend, __construct);
+PHP_METHOD(Phalcon_Cache_Backend, start);
+PHP_METHOD(Phalcon_Cache_Backend, stop);
+PHP_METHOD(Phalcon_Cache_Backend, getFrontend);
+PHP_METHOD(Phalcon_Cache_Backend, getOptions);
+PHP_METHOD(Phalcon_Cache_Backend, isFresh);
+PHP_METHOD(Phalcon_Cache_Backend, isStarted);
+PHP_METHOD(Phalcon_Cache_Backend, setLastKey);
+PHP_METHOD(Phalcon_Cache_Backend, getLastKey);
+PHP_METHOD(Phalcon_Cache_Backend, getLifetime);
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_cache_backend___construct, 0, 0, 1)
+	ZEND_ARG_INFO(0, frontend)
+	ZEND_ARG_INFO(0, options)
+ZEND_END_ARG_INFO()
+
+static const zend_function_entry phalcon_cache_backend_method_entry[] = {
+	PHP_ME(Phalcon_Cache_Backend, __construct, arginfo_phalcon_cache_backend___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
+	PHP_ME(Phalcon_Cache_Backend, start, arginfo_phalcon_cache_backendinterface_start, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Cache_Backend, stop, arginfo_phalcon_cache_backendinterface_stop, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Cache_Backend, getFrontend, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Cache_Backend, getOptions, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Cache_Backend, isFresh, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Cache_Backend, isStarted, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Cache_Backend, setLastKey, arginfo_phalcon_cache_backendinterface_setlastkey, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Cache_Backend, getLastKey, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Cache_Backend, getLifetime, NULL, ZEND_ACC_PUBLIC)
+	PHP_FE_END
+};
 
 /**
  * Phalcon\Cache\Backend initializer
@@ -73,11 +96,9 @@ PHP_METHOD(Phalcon_Cache_Backend, __construct){
 
 	zval *frontend, *options = NULL, *prefix;
 
-	PHALCON_MM_GROW();
-
-	phalcon_fetch_params(1, 1, 1, &frontend, &options);
+	phalcon_fetch_params(0, 1, 1, &frontend, &options);
 	
-	PHALCON_VERIFY_INTERFACE(frontend, phalcon_cache_frontendinterface_ce);
+	PHALCON_VERIFY_INTERFACE_EX(frontend, phalcon_cache_frontendinterface_ce, phalcon_cache_exception_ce, 0);
 
 	if (options) {
 		/**
@@ -91,7 +112,6 @@ PHP_METHOD(Phalcon_Cache_Backend, __construct){
 	}
 
 	phalcon_update_property_this(this_ptr, SL("_frontend"), frontend TSRMLS_CC);
-	PHALCON_MM_RESTORE();
 }
 
 /**
@@ -152,8 +172,10 @@ PHP_METHOD(Phalcon_Cache_Backend, stop){
 	phalcon_fetch_params(0, 0, 1, &stop_buffer);
 	
 	if (!stop_buffer || PHALCON_IS_TRUE(stop_buffer)) {
+		PHALCON_MM_GROW();
 		frontend = phalcon_fetch_nproperty_this(this_ptr, SL("_frontend"), PH_NOISY_CC);
 		phalcon_call_method_noret(frontend, "stop");
+		PHALCON_MM_RESTORE();
 	}
 
 	phalcon_update_property_bool(this_ptr, SL("_started"), 0 TSRMLS_CC);

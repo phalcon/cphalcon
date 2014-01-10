@@ -17,21 +17,13 @@
   +------------------------------------------------------------------------+
 */
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
-
-#include "php.h"
-#include "php_phalcon.h"
-#include "phalcon.h"
-
-#include "Zend/zend_operators.h"
-#include "Zend/zend_exceptions.h"
-#include "Zend/zend_interfaces.h"
+#include "mvc/model/validator.h"
+#include "mvc/model/validatorinterface.h"
+#include "mvc/model/exception.h"
+#include "mvc/model/message.h"
 
 #include "kernel/main.h"
 #include "kernel/memory.h"
-
 #include "kernel/exception.h"
 #include "kernel/object.h"
 #include "kernel/fcall.h"
@@ -43,7 +35,24 @@
  *
  * This is a base class for Phalcon\Mvc\Model validators
  */
+zend_class_entry *phalcon_mvc_model_validator_ce;
 
+PHP_METHOD(Phalcon_Mvc_Model_Validator, __construct);
+PHP_METHOD(Phalcon_Mvc_Model_Validator, appendMessage);
+PHP_METHOD(Phalcon_Mvc_Model_Validator, getMessages);
+PHP_METHOD(Phalcon_Mvc_Model_Validator, getOptions);
+PHP_METHOD(Phalcon_Mvc_Model_Validator, getOption);
+PHP_METHOD(Phalcon_Mvc_Model_Validator, isSetOption);
+
+static const zend_function_entry phalcon_mvc_model_validator_method_entry[] = {
+	PHP_ME(Phalcon_Mvc_Model_Validator, __construct, arginfo_phalcon_mvc_model_validator___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
+	PHP_ME(Phalcon_Mvc_Model_Validator, appendMessage, NULL, ZEND_ACC_PROTECTED)
+	PHP_ME(Phalcon_Mvc_Model_Validator, getMessages, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Model_Validator, getOptions, NULL, ZEND_ACC_PROTECTED)
+	PHP_ME(Phalcon_Mvc_Model_Validator, getOption, NULL, ZEND_ACC_PROTECTED)
+	PHP_ME(Phalcon_Mvc_Model_Validator, isSetOption, NULL, ZEND_ACC_PROTECTED)
+	PHP_FE_END
+};
 
 /**
  * Phalcon\Mvc\Model\Validator initializer

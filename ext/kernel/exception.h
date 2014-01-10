@@ -17,10 +17,10 @@
   +------------------------------------------------------------------------+
 */
 
-#ifndef PHALCON_KERNEL_EXCEPTIONS_H
-#define PHALCON_KERNEL_EXCEPTIONS_H
+#ifndef PHALCON_KERNEL_EXCEPTION_H
+#define PHALCON_KERNEL_EXCEPTION_H
 
-#include "Zend/zend.h"
+#include "php_phalcon.h"
 
 /** Exceptions */
 #define PHALCON_THROW_EXCEPTION_STR(class_entry, message) \
@@ -35,7 +35,7 @@
 		PHALCON_MM_RESTORE(); \
 	} while (0)
 
-#define PHALCON_THROW_EXCEPTION_STRW(class_entry, message) phalcon_throw_exception_string(class_entry, message TSRMLS_CC)
+#define PHALCON_THROW_EXCEPTION_STRW(class_entry, message)  phalcon_throw_exception_string(class_entry, message TSRMLS_CC)
 #define PHALCON_THROW_EXCEPTION_ZVALW(class_entry, message) phalcon_throw_exception_zval(class_entry, message TSRMLS_CC)
 
 /** Throw Exceptions */
@@ -44,4 +44,4 @@ void phalcon_throw_exception_string(zend_class_entry *ce, const char *message TS
 void phalcon_throw_exception_zval(zend_class_entry *ce, zval *message TSRMLS_DC);
 void phalcon_throw_exception_internal(zval *exception TSRMLS_DC);
 
-#endif /* PHALCON_KERNEL_EXCEPTIONS_H */
+#endif /* PHALCON_KERNEL_EXCEPTION_H */

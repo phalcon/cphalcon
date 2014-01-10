@@ -17,29 +17,25 @@
   +------------------------------------------------------------------------+
 */
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
-
-#include "php.h"
-#include "php_phalcon.h"
-#include "phalcon.h"
-
-#include "Zend/zend_operators.h"
-#include "Zend/zend_exceptions.h"
-#include "Zend/zend_interfaces.h"
-
+#include "forms/element/numeric.h"
+#include "forms/element.h"
+#include "forms/elementinterface.h"
+#include "forms/element/helpers.h"
 #include "kernel/main.h"
-#include "kernel/memory.h"
-
-#include "kernel/fcall.h"
 
 /**
  * Phalcon\Forms\Element\Numeric
  *
  * Component INPUT[type=number] for forms
  */
+zend_class_entry *phalcon_forms_element_numeric_ce;
 
+PHP_METHOD(Phalcon_Forms_Element_Numeric, render);
+
+static const zend_function_entry phalcon_forms_element_numeric_method_entry[] = {
+	PHP_ME(Phalcon_Forms_Element_Numeric, render, arginfo_phalcon_forms_elementinterface_render, ZEND_ACC_PUBLIC)
+	PHP_FE_END
+};
 
 /**
  * Phalcon\Forms\Element\Numeric initializer
@@ -61,19 +57,5 @@ PHALCON_INIT_CLASS(Phalcon_Forms_Element_Numeric){
  */
 PHP_METHOD(Phalcon_Forms_Element_Numeric, render){
 
-	zval *attributes = NULL, *widget_attributes;
-
-	PHALCON_MM_GROW();
-
-	phalcon_fetch_params(1, 0, 1, &attributes);
-	
-	if (!attributes) {
-		attributes = PHALCON_GLOBAL(z_null);
-	}
-	
-	PHALCON_INIT_VAR(widget_attributes);
-	phalcon_call_method_p1(widget_attributes, this_ptr, "prepareattributes", attributes);
-	phalcon_call_static_p1(return_value, "phalcon\\tag", "numericfield", widget_attributes);
-	RETURN_MM();
+	phalcon_forms_element_render_helper("numericfield", 0, INTERNAL_FUNCTION_PARAM_PASSTHRU);
 }
-

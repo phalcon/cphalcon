@@ -17,19 +17,13 @@
   +------------------------------------------------------------------------+
 */
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
+#include "db/result/pdo.h"
+#include "db/resultinterface.h"
+#include "db/exception.h"
 
-#include "php.h"
-#include "php_phalcon.h"
-#include "phalcon.h"
+#include <ext/pdo/php_pdo_driver.h>
 
-#include "Zend/zend_operators.h"
-#include "Zend/zend_exceptions.h"
-#include "Zend/zend_interfaces.h"
-
-#include "ext/pdo/php_pdo_driver.h"
+#include <ext/pdo/php_pdo_driver.h>
 
 #include "kernel/main.h"
 #include "kernel/memory.h"
@@ -54,7 +48,30 @@
  *	}
  * </code>
  */
+zend_class_entry *phalcon_db_result_pdo_ce;
 
+PHP_METHOD(Phalcon_Db_Result_Pdo, __construct);
+PHP_METHOD(Phalcon_Db_Result_Pdo, execute);
+PHP_METHOD(Phalcon_Db_Result_Pdo, fetch);
+PHP_METHOD(Phalcon_Db_Result_Pdo, fetchArray);
+PHP_METHOD(Phalcon_Db_Result_Pdo, fetchAll);
+PHP_METHOD(Phalcon_Db_Result_Pdo, numRows);
+PHP_METHOD(Phalcon_Db_Result_Pdo, dataSeek);
+PHP_METHOD(Phalcon_Db_Result_Pdo, setFetchMode);
+PHP_METHOD(Phalcon_Db_Result_Pdo, getInternalResult);
+
+static const zend_function_entry phalcon_db_result_pdo_method_entry[] = {
+	PHP_ME(Phalcon_Db_Result_Pdo, __construct, arginfo_phalcon_db_resultinterface___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
+	PHP_ME(Phalcon_Db_Result_Pdo, execute, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Db_Result_Pdo, fetch, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Db_Result_Pdo, fetchArray, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Db_Result_Pdo, fetchAll, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Db_Result_Pdo, numRows, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Db_Result_Pdo, dataSeek, arginfo_phalcon_db_resultinterface_dataseek, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Db_Result_Pdo, setFetchMode, arginfo_phalcon_db_resultinterface_setfetchmode, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Db_Result_Pdo, getInternalResult, NULL, ZEND_ACC_PUBLIC)
+	PHP_FE_END
+};
 
 /**
  * Phalcon\Db\Result\Pdo initializer

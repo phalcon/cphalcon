@@ -17,23 +17,17 @@
   +------------------------------------------------------------------------+
 */
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
-
-#include "php.h"
 #include "php_phalcon.h"
-#include "phalcon.h"
 
-#include "Zend/zend_operators.h"
-#include "Zend/zend_exceptions.h"
-#include "Zend/zend_interfaces.h"
+#include <ext/spl/spl_directory.h>
 
-#include "ext/spl/spl_directory.h"
+#include "cache/backend/file.h"
+#include "cache/backend.h"
+#include "cache/backendinterface.h"
+#include "cache/exception.h"
 
 #include "kernel/main.h"
 #include "kernel/memory.h"
-
 #include "kernel/array.h"
 #include "kernel/exception.h"
 #include "kernel/fcall.h"
@@ -74,7 +68,35 @@
  *	}
  *</code>
  */
+zend_class_entry *phalcon_cache_backend_file_ce;
 
+PHP_METHOD(Phalcon_Cache_Backend_File, __construct);
+PHP_METHOD(Phalcon_Cache_Backend_File, get);
+PHP_METHOD(Phalcon_Cache_Backend_File, save);
+PHP_METHOD(Phalcon_Cache_Backend_File, delete);
+PHP_METHOD(Phalcon_Cache_Backend_File, queryKeys);
+PHP_METHOD(Phalcon_Cache_Backend_File, exists);
+PHP_METHOD(Phalcon_Cache_Backend_File, increment);
+PHP_METHOD(Phalcon_Cache_Backend_File, decrement);
+PHP_METHOD(Phalcon_Cache_Backend_File, flush);
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_cache_backend_file___construct, 0, 0, 1)
+	ZEND_ARG_INFO(0, frontend)
+	ZEND_ARG_INFO(0, options)
+ZEND_END_ARG_INFO()
+
+static const zend_function_entry phalcon_cache_backend_file_method_entry[] = {
+	PHP_ME(Phalcon_Cache_Backend_File, __construct, arginfo_phalcon_cache_backend_file___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
+	PHP_ME(Phalcon_Cache_Backend_File, get, arginfo_phalcon_cache_backendinterface_get, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Cache_Backend_File, save, arginfo_phalcon_cache_backendinterface_save, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Cache_Backend_File, delete, arginfo_phalcon_cache_backendinterface_delete, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Cache_Backend_File, queryKeys, arginfo_phalcon_cache_backendinterface_querykeys, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Cache_Backend_File, exists, arginfo_phalcon_cache_backendinterface_exists, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Cache_Backend_File, increment, arginfo_phalcon_cache_backendinterface_increment, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Cache_Backend_File, decrement, arginfo_phalcon_cache_backendinterface_decrement, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Cache_Backend_File, flush, NULL, ZEND_ACC_PUBLIC)
+	PHP_FE_END
+};
 
 /**
  * Phalcon\Cache\Backend\File initializer

@@ -41,19 +41,13 @@
 
 %include {
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
-
-#include "php.h"
 #include "php_phalcon.h"
-#include "phalcon.h"
+#include "mvc/view/engine/volt/parser.h"
+#include "mvc/view/engine/volt/scanner.h"
+#include "mvc/view/engine/volt/volt.h"
+#include "mvc/view/exception.h"
 
-#include "ext/standard/php_smart_str.h"
-
-#include "parser.h"
-#include "scanner.h"
-#include "volt.h"
+#include <ext/standard/php_smart_str.h>
 
 #include "kernel/main.h"
 #include "kernel/memory.h"

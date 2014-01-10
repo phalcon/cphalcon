@@ -24,15 +24,15 @@
 #include "php.h"
 #include "php_phalcon.h"
 #include "php_main.h"
-#include "ext/spl/spl_exceptions.h"
+#include <ext/spl/spl_exceptions.h>
 
 #include "kernel/main.h"
 #include "kernel/memory.h"
 #include "kernel/fcall.h"
 #include "kernel/exception.h"
 
-#include "Zend/zend_exceptions.h"
-#include "Zend/zend_interfaces.h"
+#include <Zend/zend_exceptions.h>
+#include <Zend/zend_interfaces.h>
 
 /**
  * Initialize globals on each request or each thread started
@@ -134,6 +134,47 @@ int phalcon_get_global(zval **arr, const char *global, unsigned int global_lengt
 	array_init(*arr);
 
 	return SUCCESS;
+}
+
+/**
+ * Makes fast count on implicit array types
+ */
+long int phalcon_fast_count_int(zval *value TSRMLS_DC) {
+
+	if (Z_TYPE_P(value) == IS_ARRAY) {
+		return zend_hash_num_elements(Z_ARRVAL_P(value));
+	}
+
+	if (Z_TYPE_P(value) == IS_OBJECT) {
+		if (Z_OBJ_HT_P(value)->count_elements) {
+			long int result;
+			if (SUCCESS == Z_OBJ_HT(*value)->count_elements(value, &result TSRMLS_CC)) {
+				return result;
+			}
+		}
+
+		if (Z_OBJ_HT_P(value)->get_class_entry && instanceof_function_ex(Z_OBJCE_P(value), spl_ce_Countable, 1 TSRMLS_CC)) {
+			zval *retval    = NULL;
+			long int result = 0;
+
+			zend_call_method_with_0_params(&value, Z_OBJCE_P(value), NULL, "count", &retval);
+			if (retval) {
+				convert_to_long_ex(&retval);
+				result = Z_LVAL_P(retval);
+				zval_ptr_dtor(&retval);
+			}
+
+			return result;
+		}
+
+		return 0;
+	}
+
+	if (Z_TYPE_P(value) == IS_NULL) {
+		return 0;
+	}
+
+	return 1;
 }
 
 /**

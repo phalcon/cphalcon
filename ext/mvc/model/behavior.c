@@ -17,21 +17,10 @@
   +------------------------------------------------------------------------+
 */
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
-
-#include "php.h"
-#include "php_phalcon.h"
-#include "phalcon.h"
-
-#include "Zend/zend_operators.h"
-#include "Zend/zend_exceptions.h"
-#include "Zend/zend_interfaces.h"
+#include "mvc/model/behavior.h"
+#include "mvc/model/behaviorinterface.h"
 
 #include "kernel/main.h"
-#include "kernel/memory.h"
-
 #include "kernel/object.h"
 #include "kernel/array.h"
 
@@ -40,7 +29,22 @@
  *
  * This is an optional base class for ORM behaviors
  */
+zend_class_entry *phalcon_mvc_model_behavior_ce;
 
+PHP_METHOD(Phalcon_Mvc_Model_Behavior, __construct);
+PHP_METHOD(Phalcon_Mvc_Model_Behavior, mustTakeAction);
+PHP_METHOD(Phalcon_Mvc_Model_Behavior, getOptions);
+PHP_METHOD(Phalcon_Mvc_Model_Behavior, notify);
+PHP_METHOD(Phalcon_Mvc_Model_Behavior, missingMethod);
+
+static const zend_function_entry phalcon_mvc_model_behavior_method_entry[] = {
+	PHP_ME(Phalcon_Mvc_Model_Behavior, __construct, arginfo_phalcon_mvc_model_behaviorinterface___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
+	PHP_ME(Phalcon_Mvc_Model_Behavior, mustTakeAction, NULL, ZEND_ACC_PROTECTED)
+	PHP_ME(Phalcon_Mvc_Model_Behavior, getOptions, NULL, ZEND_ACC_PROTECTED)
+	PHP_ME(Phalcon_Mvc_Model_Behavior, notify, arginfo_phalcon_mvc_model_behaviorinterface_notify, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Model_Behavior, missingMethod, arginfo_phalcon_mvc_model_behaviorinterface_missingmethod, ZEND_ACC_PUBLIC)
+	PHP_FE_END
+};
 
 /**
  * Phalcon\Mvc\Model\Behavior initializer

@@ -17,24 +17,16 @@
   +------------------------------------------------------------------------+
 */
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
-
-#include "php.h"
 #include "php_phalcon.h"
-#include "phalcon.h"
 
-#include "Zend/zend_operators.h"
-#include "Zend/zend_exceptions.h"
-#include "Zend/zend_interfaces.h"
+#include "acl/role.h"
+#include "acl/roleinterface.h"
+#include "acl/exception.h"
 
 #include "kernel/main.h"
-#include "kernel/memory.h"
-
-#include "kernel/operators.h"
 #include "kernel/exception.h"
 #include "kernel/object.h"
+#include "kernel/operators.h"
 
 /**
  * Phalcon\Acl\Role
@@ -42,6 +34,20 @@
  * This class defines role entity and its description
  *
  */
+zend_class_entry *phalcon_acl_role_ce;
+
+PHP_METHOD(Phalcon_Acl_Role, __construct);
+PHP_METHOD(Phalcon_Acl_Role, getName);
+PHP_METHOD(Phalcon_Acl_Role, getDescription);
+PHP_METHOD(Phalcon_Acl_Role, __toString);
+
+static const zend_function_entry phalcon_acl_role_method_entry[] = {
+	PHP_ME(Phalcon_Acl_Role, __construct, arginfo_phalcon_acl_roleinterface___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
+	PHP_ME(Phalcon_Acl_Role, getName, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Acl_Role, getDescription, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Acl_Role, __toString, NULL, ZEND_ACC_PUBLIC)
+	PHP_FE_END
+};
 
 
 /**

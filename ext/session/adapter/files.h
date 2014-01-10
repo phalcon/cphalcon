@@ -17,6 +17,13 @@
   +------------------------------------------------------------------------+
 */
 
+#ifndef PHALCON_SESSION_ADAPTER_FILES_H
+#define PHALCON_SESSION_ADAPTER_FILES_H
+
+#include "php_phalcon.h"
+
 extern zend_class_entry *phalcon_session_adapter_files_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Session_Adapter_Files);
+
+#endif /* PHALCON_SESSION_ADAPTER_FILES_H */

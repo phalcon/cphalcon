@@ -17,15 +17,15 @@
   +------------------------------------------------------------------------+
 */
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
-
-#include "php.h"
-#include "php_phalcon.h"
-#include "phalcon.h"
-
+#include "logger/formatterinterface.h"
 #include "kernel/main.h"
+
+zend_class_entry *phalcon_logger_formatterinterface_ce;
+
+static const zend_function_entry phalcon_logger_formatterinterface_method_entry[] = {
+	PHP_ABSTRACT_ME(Phalcon_Logger_FormatterInterface, format, arginfo_phalcon_logger_formatterinterface_format)
+	PHP_FE_END
+};
 
 /**
  * Phalcon\Logger\FormatterInterface initializer
@@ -45,4 +45,3 @@ PHALCON_INIT_CLASS(Phalcon_Logger_FormatterInterface){
  * @param int $timestamp
  */
 PHALCON_DOC_METHOD(Phalcon_Logger_FormatterInterface, format);
-

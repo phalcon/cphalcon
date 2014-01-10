@@ -17,6 +17,11 @@
   +------------------------------------------------------------------------+
 */
 
+#ifndef PHALCON_DI_SERVICEINTERFACE_H
+#define PHALCON_DI_SERVICEINTERFACE_H
+
+#include "php_phalcon.h"
+
 extern zend_class_entry *phalcon_di_serviceinterface_ce;
 
 PHALCON_INIT_CLASS(Phalcon_DI_ServiceInterface);
@@ -40,20 +45,7 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_di_serviceinterface_resolve, 0, 0, 0)
 	ZEND_ARG_INFO(0, dependencyInjector)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_di_serviceinterface___set_state, 0, 0, 1)
-	ZEND_ARG_INFO(0, attributes)
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_di_serviceinterface_empty, 0, 0, 0)
 ZEND_END_ARG_INFO()
 
-PHALCON_INIT_FUNCS(phalcon_di_serviceinterface_method_entry){
-	PHP_ABSTRACT_ME(Phalcon_DI_ServiceInterface, __construct, arginfo_phalcon_di_serviceinterface___construct)
-	PHP_ABSTRACT_ME(Phalcon_DI_ServiceInterface, getName, NULL)
-	PHP_ABSTRACT_ME(Phalcon_DI_ServiceInterface, setShared, arginfo_phalcon_di_serviceinterface_setshared)
-	PHP_ABSTRACT_ME(Phalcon_DI_ServiceInterface, isShared, NULL)
-	PHP_ABSTRACT_ME(Phalcon_DI_ServiceInterface, setDefinition, arginfo_phalcon_di_serviceinterface_setdefinition)
-	PHP_ABSTRACT_ME(Phalcon_DI_ServiceInterface, getDefinition, NULL)
-	PHP_ABSTRACT_ME(Phalcon_DI_ServiceInterface, isResolved, NULL)
-	PHP_ABSTRACT_ME(Phalcon_DI_ServiceInterface, resolve, arginfo_phalcon_di_serviceinterface_resolve)
-	ZEND_FENTRY(__set_state, NULL, arginfo_phalcon_di_serviceinterface___set_state, ZEND_ACC_STATIC|ZEND_ACC_ABSTRACT|ZEND_ACC_PUBLIC)
-	PHP_FE_END
-};
-
+#endif /* PHALCON_DI_SERVICEINTERFACE_H */

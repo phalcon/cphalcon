@@ -17,21 +17,14 @@
   +------------------------------------------------------------------------+
 */
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
-
-#include "php.h"
 #include "php_phalcon.h"
-#include "phalcon.h"
 
-#include "Zend/zend_operators.h"
-#include "Zend/zend_exceptions.h"
-#include "Zend/zend_interfaces.h"
+#include "annotations/adapter/apc.h"
+#include "annotations/adapter.h"
+#include "annotations/adapterinterface.h"
 
 #include "kernel/main.h"
 #include "kernel/memory.h"
-
 #include "kernel/concat.h"
 #include "kernel/fcall.h"
 #include "kernel/string.h"
@@ -45,7 +38,25 @@
  * $annotations = new \Phalcon\Annotations\Adapter\Apc();
  *</code>
  */
+zend_class_entry *phalcon_annotations_adapter_apc_ce;
 
+PHP_METHOD(Phalcon_Annotations_Adapter_Apc, read);
+PHP_METHOD(Phalcon_Annotations_Adapter_Apc, write);
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_annotations_adapter_apc_read, 0, 0, 1)
+	ZEND_ARG_INFO(0, key)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_annotations_adapter_apc_write, 0, 0, 2)
+	ZEND_ARG_INFO(0, key)
+	ZEND_ARG_INFO(0, data)
+ZEND_END_ARG_INFO()
+
+static const zend_function_entry phalcon_annotations_adapter_apc_method_entry[] = {
+	PHP_ME(Phalcon_Annotations_Adapter_Apc, read, arginfo_phalcon_annotations_adapter_apc_read, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Annotations_Adapter_Apc, write, arginfo_phalcon_annotations_adapter_apc_write, ZEND_ACC_PUBLIC)
+	PHP_FE_END
+};
 
 /**
  * Phalcon\Annotations\Adapter\Apc initializer

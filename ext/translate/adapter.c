@@ -17,21 +17,14 @@
   +------------------------------------------------------------------------+
 */
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
-
-#include "php.h"
 #include "php_phalcon.h"
-#include "phalcon.h"
 
-#include "Zend/zend_operators.h"
-#include "Zend/zend_exceptions.h"
-#include "Zend/zend_interfaces.h"
+#include "translate/adapter.h"
+#include "translate/adapterinterface.h"
+#include "translate/exception.h"
 
 #include "kernel/main.h"
 #include "kernel/memory.h"
-
 #include "kernel/fcall.h"
 #include "kernel/exception.h"
 
@@ -40,7 +33,44 @@
  *
  * Base class for Phalcon\Translate adapters
  */
+zend_class_entry *phalcon_translate_adapter_ce;
 
+PHP_METHOD(Phalcon_Translate_Adapter, _);
+PHP_METHOD(Phalcon_Translate_Adapter, offsetSet);
+PHP_METHOD(Phalcon_Translate_Adapter, offsetExists);
+PHP_METHOD(Phalcon_Translate_Adapter, offsetUnset);
+PHP_METHOD(Phalcon_Translate_Adapter, offsetGet);
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_translate_adapter__, 0, 0, 1)
+	ZEND_ARG_INFO(0, translateKey)
+	ZEND_ARG_INFO(0, placeholders)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_translate_adapter_offsetset, 0, 0, 2)
+	ZEND_ARG_INFO(0, offset)
+	ZEND_ARG_INFO(0, value)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_translate_adapter_offsetexists, 0, 0, 1)
+	ZEND_ARG_INFO(0, translateKey)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_translate_adapter_offsetunset, 0, 0, 1)
+	ZEND_ARG_INFO(0, offset)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_translate_adapter_offsetget, 0, 0, 1)
+	ZEND_ARG_INFO(0, translateKey)
+ZEND_END_ARG_INFO()
+
+static const zend_function_entry phalcon_translate_adapter_method_entry[] = {
+	PHP_ME(Phalcon_Translate_Adapter, _, arginfo_phalcon_translate_adapter__, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Translate_Adapter, offsetSet, arginfo_phalcon_translate_adapter_offsetset, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Translate_Adapter, offsetExists, arginfo_phalcon_translate_adapter_offsetexists, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Translate_Adapter, offsetUnset, arginfo_phalcon_translate_adapter_offsetunset, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Translate_Adapter, offsetGet, arginfo_phalcon_translate_adapter_offsetget, ZEND_ACC_PUBLIC)
+	PHP_FE_END
+};
 
 PHALCON_STATIC zend_object_handlers phalcon_translate_adapter_object_handlers;
 
@@ -109,7 +139,7 @@ PHALCON_INIT_CLASS(Phalcon_Translate_Adapter){
 	phalcon_translate_adapter_object_handlers.has_dimension   = phalcon_translate_adapter_has_dimension;
 	phalcon_translate_adapter_object_handlers.unset_dimension = phalcon_translate_adapter_unset_dimension;
 
-	zend_class_implements(phalcon_translate_adapter_ce TSRMLS_CC, 1, zend_ce_arrayaccess);
+	zend_class_implements(phalcon_translate_adapter_ce TSRMLS_CC, 2, zend_ce_arrayaccess, phalcon_translate_adapterinterface_ce);
 
 	return SUCCESS;
 }

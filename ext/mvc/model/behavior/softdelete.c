@@ -17,21 +17,13 @@
   +------------------------------------------------------------------------+
 */
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
-
-#include "php.h"
-#include "php_phalcon.h"
-#include "phalcon.h"
-
-#include "Zend/zend_operators.h"
-#include "Zend/zend_exceptions.h"
-#include "Zend/zend_interfaces.h"
+#include "mvc/model/behavior/softdelete.h"
+#include "mvc/model/behavior.h"
+#include "mvc/model/behaviorinterface.h"
+#include "mvc/model/exception.h"
 
 #include "kernel/main.h"
 #include "kernel/memory.h"
-
 #include "kernel/operators.h"
 #include "kernel/fcall.h"
 #include "kernel/array.h"
@@ -44,7 +36,14 @@
  * Instead of permanently delete a record it marks the record as
  * deleted changing the value of a flag column
  */
+zend_class_entry *phalcon_mvc_model_behavior_softdelete_ce;
 
+PHP_METHOD(Phalcon_Mvc_Model_Behavior_SoftDelete, notify);
+
+static const zend_function_entry phalcon_mvc_model_behavior_softdelete_method_entry[] = {
+	PHP_ME(Phalcon_Mvc_Model_Behavior_SoftDelete, notify, arginfo_phalcon_mvc_model_behaviorinterface_notify, ZEND_ACC_PUBLIC)
+	PHP_FE_END
+};
 
 /**
  * Phalcon\Mvc\Model\Behavior\SoftDelete initializer

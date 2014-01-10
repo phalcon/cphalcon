@@ -17,21 +17,14 @@
   +------------------------------------------------------------------------+
 */
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
-
-#include "php.h"
 #include "php_phalcon.h"
-#include "phalcon.h"
 
-#include "Zend/zend_operators.h"
-#include "Zend/zend_exceptions.h"
-#include "Zend/zend_interfaces.h"
+#include "annotations/annotation.h"
+#include "annotations/exception.h"
+#include "annotations/scanner.h"
 
 #include "kernel/main.h"
 #include "kernel/memory.h"
-
 #include "kernel/exception.h"
 #include "kernel/array.h"
 #include "kernel/object.h"
@@ -39,14 +32,53 @@
 #include "kernel/operators.h"
 #include "kernel/concat.h"
 
-#include "annotations/scanner.h"
 
 /**
  * Phalcon\Annotations\Annotation
  *
  * Represents a single annotation in an annotations collection
  */
+zend_class_entry *phalcon_annotations_annotation_ce;
 
+PHP_METHOD(Phalcon_Annotations_Annotation, __construct);
+PHP_METHOD(Phalcon_Annotations_Annotation, getName);
+PHP_METHOD(Phalcon_Annotations_Annotation, getExpression);
+PHP_METHOD(Phalcon_Annotations_Annotation, getExprArguments);
+PHP_METHOD(Phalcon_Annotations_Annotation, getArguments);
+PHP_METHOD(Phalcon_Annotations_Annotation, numberArguments);
+PHP_METHOD(Phalcon_Annotations_Annotation, getArgument);
+PHP_METHOD(Phalcon_Annotations_Annotation, hasArgument);
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_annotations_annotation___construct, 0, 0, 1)
+	ZEND_ARG_INFO(0, reflectionData)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_annotations_annotation_getexpression, 0, 0, 1)
+	ZEND_ARG_INFO(0, expr)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_annotations_annotation_getargument, 0, 0, 1)
+	ZEND_ARG_INFO(0, position)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_annotations_annotation_hasargument, 0, 0, 1)
+	ZEND_ARG_INFO(0, position)
+ZEND_END_ARG_INFO()
+
+static const zend_function_entry phalcon_annotations_annotation_method_entry[] = {
+	PHP_ME(Phalcon_Annotations_Annotation, __construct, arginfo_phalcon_annotations_annotation___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
+	PHP_ME(Phalcon_Annotations_Annotation, getName, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Annotations_Annotation, getExpression, arginfo_phalcon_annotations_annotation_getexpression, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Annotations_Annotation, getExprArguments, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Annotations_Annotation, getArguments, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Annotations_Annotation, numberArguments, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Annotations_Annotation, getArgument, arginfo_phalcon_annotations_annotation_getargument, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Annotations_Annotation, hasArgument, arginfo_phalcon_annotations_annotation_hasargument, ZEND_ACC_PUBLIC)
+	PHP_MALIAS(Phalcon_Annotations_Annotation, getNamedArgument, getArgument, arginfo_phalcon_annotations_annotation_getargument, ZEND_ACC_PUBLIC)
+	PHP_MALIAS(Phalcon_Annotations_Annotation, getNamedParameter, getArgument, arginfo_phalcon_annotations_annotation_getargument, ZEND_ACC_PUBLIC | ZEND_ACC_DEPRECATED)
+	PHP_MALIAS(Phalcon_Annotations_Annotation, hasNamedArgument, hasArgument, arginfo_phalcon_annotations_annotation_hasargument, ZEND_ACC_PUBLIC)
+	PHP_FE_END
+};
 
 /**
  * Phalcon\Annotations\Annotation initializer

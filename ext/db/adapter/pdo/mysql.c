@@ -16,23 +16,15 @@
   +------------------------------------------------------------------------+
 */
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
-
-#include "php.h"
-#include "php_phalcon.h"
-#include "phalcon.h"
-
-#include "Zend/zend_operators.h"
-#include "Zend/zend_exceptions.h"
-#include "Zend/zend_interfaces.h"
+#include "db/adapter/pdo/mysql.h"
+#include "db/adapter/pdo.h"
+#include "db/adapterinterface.h"
+#include "db/column.h"
 
 #include "ext/pdo/php_pdo_driver.h"
 
 #include "kernel/main.h"
 #include "kernel/memory.h"
-
 #include "kernel/array.h"
 #include "kernel/concat.h"
 #include "kernel/object.h"
@@ -59,7 +51,16 @@
  *
  *</code>
  */
+zend_class_entry *phalcon_db_adapter_pdo_mysql_ce;
 
+PHP_METHOD(Phalcon_Db_Adapter_Pdo_Mysql, escapeIdentifier);
+PHP_METHOD(Phalcon_Db_Adapter_Pdo_Mysql, describeColumns);
+
+static const zend_function_entry phalcon_db_adapter_pdo_mysql_method_entry[] = {
+	PHP_ME(Phalcon_Db_Adapter_Pdo_Mysql, escapeIdentifier, arginfo_phalcon_db_adapterinterface_escapeidentifier, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Db_Adapter_Pdo_Mysql, describeColumns, arginfo_phalcon_db_adapterinterface_describecolumns, ZEND_ACC_PUBLIC)
+	PHP_FE_END
+};
 
 /**
  * Phalcon\Db\Adapter\Pdo\Mysql initializer
@@ -407,4 +408,3 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Mysql, describeColumns){
 	
 	RETURN_CTOR(columns);
 }
-

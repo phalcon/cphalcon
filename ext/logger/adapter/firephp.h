@@ -21,19 +21,10 @@
 #ifndef PHALCON_LOGGER_ADAPTER_FIREPHP_H
 #define PHALCON_LOGGER_ADAPTER_FIREPHP_H
 
+#include "php_phalcon.h"
+
 extern zend_class_entry *phalcon_logger_adapter_firephp_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Logger_Adapter_Firephp);
-
-PHP_METHOD(Phalcon_Logger_Adapter_Firephp, getFormatter);
-PHP_METHOD(Phalcon_Logger_Adapter_Firephp, logInternal);
-PHP_METHOD(Phalcon_Logger_Adapter_Firephp, close);
-
-PHALCON_INIT_FUNCS(phalcon_logger_adapter_firephp_method_entry){
-	PHP_ME(Phalcon_Logger_Adapter_Firephp, getFormatter, NULL, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Logger_Adapter_Firephp, logInternal, arginfo_phalcon_logger_adapter_file_loginternal, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Logger_Adapter_Firephp, close, NULL, ZEND_ACC_PUBLIC)
-	PHP_FE_END
-};
 
 #endif /* PHALCON_LOGGER_ADAPTER_FIREPHP_H */

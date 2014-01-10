@@ -17,27 +17,22 @@
   +------------------------------------------------------------------------+
 */
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
-
-#include "php.h"
 #include "php_phalcon.h"
-#include "phalcon.h"
 
-#include "Zend/zend_operators.h"
-#include "Zend/zend_exceptions.h"
-#include "Zend/zend_interfaces.h"
+#include "di/exception.h"
+#include "di/injectable.h"
+#include "di/injectionawareinterface.h"
+#include "events/eventsawareinterface.h"
+#include "diinterface.h"
 
 #include "kernel/main.h"
 #include "kernel/memory.h"
-
 #include "kernel/exception.h"
 #include "kernel/object.h"
 #include "kernel/fcall.h"
-#include "kernel/operators.h"
-#include "kernel/array.h"
 #include "kernel/concat.h"
+#include "kernel/array.h"
+#include "kernel/operators.h"
 
 /**
  * Phalcon\DI\Injectable
@@ -45,6 +40,22 @@
  * This class allows to access services in the services container by just only accessing a public property
  * with the same name of a registered service
  */
+zend_class_entry *phalcon_di_injectable_ce;
+
+PHP_METHOD(Phalcon_DI_Injectable, setDI);
+PHP_METHOD(Phalcon_DI_Injectable, getDI);
+PHP_METHOD(Phalcon_DI_Injectable, setEventsManager);
+PHP_METHOD(Phalcon_DI_Injectable, getEventsManager);
+PHP_METHOD(Phalcon_DI_Injectable, __get);
+
+static const zend_function_entry phalcon_di_injectable_method_entry[] = {
+	PHP_ME(Phalcon_DI_Injectable, setDI, arginfo_phalcon_di_injectionawareinterface_setdi, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_DI_Injectable, getDI, arginfo_phalcon_di_injectionawareinterface_getdi, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_DI_Injectable, setEventsManager, arginfo_phalcon_events_eventsawareinterface_seteventsmanager, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_DI_Injectable, getEventsManager, arginfo_phalcon_events_eventsawareinterface_geteventsmanager, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_DI_Injectable, __get, arginfo_phalcon_di_injectable___get, ZEND_ACC_PUBLIC)
+	PHP_FE_END
+};
 
 
 /**
@@ -85,17 +96,16 @@ PHP_METHOD(Phalcon_DI_Injectable, setDI){
  */
 PHP_METHOD(Phalcon_DI_Injectable, getDI){
 
-	zval *dependency_injector = NULL;
-
-	PHALCON_MM_GROW();
+	zval *dependency_injector ;
 
 	dependency_injector = phalcon_fetch_nproperty_this(this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
 	if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
+		PHALCON_MM_GROW();
 		phalcon_return_call_static_p0("phalcon\\di", "getdefault");
 		RETURN_MM();
 	}
 	
-	RETURN_CTOR(dependency_injector);
+	RETURN_ZVAL(dependency_injector, 1, 0);
 }
 
 /**

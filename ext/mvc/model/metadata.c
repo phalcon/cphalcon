@@ -16,21 +16,15 @@
   +------------------------------------------------------------------------+
 */
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
-
-#include "php.h"
-#include "php_phalcon.h"
-#include "phalcon.h"
-
-#include "Zend/zend_operators.h"
-#include "Zend/zend_exceptions.h"
-#include "Zend/zend_interfaces.h"
+#include "mvc/model/metadata.h"
+#include "mvc/model/metadatainterface.h"
+#include "mvc/model/metadata/strategy/introspection.h"
+#include "mvc/model/exception.h"
+#include "diinterface.h"
+#include "di/injectionawareinterface.h"
 
 #include "kernel/main.h"
 #include "kernel/memory.h"
-
 #include "kernel/fcall.h"
 #include "kernel/object.h"
 #include "kernel/hash.h"
@@ -56,7 +50,66 @@
  * </code>
  *
  */
+zend_class_entry *phalcon_mvc_model_metadata_ce;
 
+PHP_METHOD(Phalcon_Mvc_Model_MetaData, _initialize);
+PHP_METHOD(Phalcon_Mvc_Model_MetaData, setDI);
+PHP_METHOD(Phalcon_Mvc_Model_MetaData, getDI);
+PHP_METHOD(Phalcon_Mvc_Model_MetaData, setStrategy);
+PHP_METHOD(Phalcon_Mvc_Model_MetaData, getStrategy);
+PHP_METHOD(Phalcon_Mvc_Model_MetaData, readMetaData);
+PHP_METHOD(Phalcon_Mvc_Model_MetaData, readMetaDataIndex);
+PHP_METHOD(Phalcon_Mvc_Model_MetaData, writeMetaDataIndex);
+PHP_METHOD(Phalcon_Mvc_Model_MetaData, readColumnMap);
+PHP_METHOD(Phalcon_Mvc_Model_MetaData, readColumnMapIndex);
+PHP_METHOD(Phalcon_Mvc_Model_MetaData, getAttributes);
+PHP_METHOD(Phalcon_Mvc_Model_MetaData, getPrimaryKeyAttributes);
+PHP_METHOD(Phalcon_Mvc_Model_MetaData, getNonPrimaryKeyAttributes);
+PHP_METHOD(Phalcon_Mvc_Model_MetaData, getNotNullAttributes);
+PHP_METHOD(Phalcon_Mvc_Model_MetaData, getDataTypes);
+PHP_METHOD(Phalcon_Mvc_Model_MetaData, getDataTypesNumeric);
+PHP_METHOD(Phalcon_Mvc_Model_MetaData, getIdentityField);
+PHP_METHOD(Phalcon_Mvc_Model_MetaData, getBindTypes);
+PHP_METHOD(Phalcon_Mvc_Model_MetaData, getAutomaticCreateAttributes);
+PHP_METHOD(Phalcon_Mvc_Model_MetaData, getAutomaticUpdateAttributes);
+PHP_METHOD(Phalcon_Mvc_Model_MetaData, setAutomaticCreateAttributes);
+PHP_METHOD(Phalcon_Mvc_Model_MetaData, setAutomaticUpdateAttributes);
+PHP_METHOD(Phalcon_Mvc_Model_MetaData, getColumnMap);
+PHP_METHOD(Phalcon_Mvc_Model_MetaData, getReverseColumnMap);
+PHP_METHOD(Phalcon_Mvc_Model_MetaData, hasAttribute);
+PHP_METHOD(Phalcon_Mvc_Model_MetaData, isEmpty);
+PHP_METHOD(Phalcon_Mvc_Model_MetaData, reset);
+
+static const zend_function_entry phalcon_mvc_model_metadata_method_entry[] = {
+	PHP_ME(Phalcon_Mvc_Model_MetaData, _initialize, NULL, ZEND_ACC_PROTECTED)
+	PHP_ME(Phalcon_Mvc_Model_MetaData, setDI, arginfo_phalcon_di_injectionawareinterface_setdi, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Model_MetaData, getDI, arginfo_phalcon_di_injectionawareinterface_getdi, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Model_MetaData, setStrategy, arginfo_phalcon_mvc_model_metadatainterface_setstrategy, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Model_MetaData, getStrategy, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Model_MetaData, readMetaData, arginfo_phalcon_mvc_model_metadatainterface_readmetadata, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Model_MetaData, readMetaDataIndex, arginfo_phalcon_mvc_model_metadatainterface_readmetadataindex, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Model_MetaData, writeMetaDataIndex, arginfo_phalcon_mvc_model_metadatainterface_writemetadataindex, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Model_MetaData, readColumnMap, arginfo_phalcon_mvc_model_metadatainterface_readcolumnmap, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Model_MetaData, readColumnMapIndex, arginfo_phalcon_mvc_model_metadatainterface_readcolumnmapindex, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Model_MetaData, getAttributes, arginfo_phalcon_mvc_model_metadatainterface_getattributes, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Model_MetaData, getPrimaryKeyAttributes, arginfo_phalcon_mvc_model_metadatainterface_getprimarykeyattributes, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Model_MetaData, getNonPrimaryKeyAttributes, arginfo_phalcon_mvc_model_metadatainterface_getnonprimarykeyattributes, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Model_MetaData, getNotNullAttributes, arginfo_phalcon_mvc_model_metadatainterface_getnotnullattributes, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Model_MetaData, getDataTypes, arginfo_phalcon_mvc_model_metadatainterface_getdatatypes, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Model_MetaData, getDataTypesNumeric, arginfo_phalcon_mvc_model_metadatainterface_getdatatypesnumeric, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Model_MetaData, getIdentityField, arginfo_phalcon_mvc_model_metadatainterface_getidentityfield, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Model_MetaData, getBindTypes, arginfo_phalcon_mvc_model_metadatainterface_getbindtypes, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Model_MetaData, getAutomaticCreateAttributes, arginfo_phalcon_mvc_model_metadatainterface_getautomaticcreateattributes, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Model_MetaData, getAutomaticUpdateAttributes, arginfo_phalcon_mvc_model_metadatainterface_getautomaticupdateattributes, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Model_MetaData, setAutomaticCreateAttributes, arginfo_phalcon_mvc_model_metadatainterface_setautomaticcreateattributes, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Model_MetaData, setAutomaticUpdateAttributes, arginfo_phalcon_mvc_model_metadatainterface_setautomaticupdateattributes, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Model_MetaData, getColumnMap, arginfo_phalcon_mvc_model_metadatainterface_getcolumnmap, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Model_MetaData, getReverseColumnMap, arginfo_phalcon_mvc_model_metadatainterface_getreversecolumnmap, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Model_MetaData, hasAttribute, arginfo_phalcon_mvc_model_metadatainterface_hasattribute, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Model_MetaData, isEmpty, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Model_MetaData, reset, NULL, ZEND_ACC_PUBLIC)
+	PHP_FE_END
+};
 
 /**
  * Phalcon\Mvc\Model\MetaData initializer
@@ -1120,4 +1173,3 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, reset){
 	
 	PHALCON_MM_RESTORE();
 }
-

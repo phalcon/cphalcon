@@ -17,15 +17,19 @@
   +------------------------------------------------------------------------+
 */
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
-
-#include "php.h"
-#include "php_phalcon.h"
-#include "phalcon.h"
-
+#include "flashinterface.h"
 #include "kernel/main.h"
+
+zend_class_entry *phalcon_flashinterface_ce;
+
+static const zend_function_entry phalcon_flashinterface_method_entry[] = {
+	PHP_ABSTRACT_ME(Phalcon_FlashInterface, error, arginfo_phalcon_flashinterface_error)
+	PHP_ABSTRACT_ME(Phalcon_FlashInterface, notice, arginfo_phalcon_flashinterface_notice)
+	PHP_ABSTRACT_ME(Phalcon_FlashInterface, success, arginfo_phalcon_flashinterface_success)
+	PHP_ABSTRACT_ME(Phalcon_FlashInterface, warning, arginfo_phalcon_flashinterface_warning)
+	PHP_ABSTRACT_ME(Phalcon_FlashInterface, message, arginfo_phalcon_flashinterface_message)
+	PHP_FE_END
+};
 
 /**
  * Phalcon\FlashInterface initializer
@@ -77,4 +81,3 @@ PHALCON_DOC_METHOD(Phalcon_FlashInterface, warning);
  * @return string
  */
 PHALCON_DOC_METHOD(Phalcon_FlashInterface, message);
-

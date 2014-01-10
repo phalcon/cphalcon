@@ -20,19 +20,10 @@
 #ifndef PHALCON_CACHE_FRONTEND_NONE_H
 #define PHALCON_CACHE_FRONTEND_NONE_H
 
+#include "php_phalcon.h"
+
 extern zend_class_entry *phalcon_cache_frontend_none_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Cache_Frontend_None);
-
-PHP_METHOD(Phalcon_Cache_Frontend_None, getLifetime);
-PHP_METHOD(Phalcon_Cache_Frontend_None, beforeStore);
-PHP_METHOD(Phalcon_Cache_Frontend_None, afterRetrieve);
-
-PHALCON_INIT_FUNCS(phalcon_cache_frontend_none_method_entry){
-	PHP_ME(Phalcon_Cache_Frontend_None, getLifetime, arginfo_phalcon_cache_frontendinterface_empty, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Cache_Frontend_None, beforeStore, arginfo_phalcon_cache_frontendinterface_beforestore, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Cache_Frontend_None, afterRetrieve, arginfo_phalcon_cache_frontendinterface_afterretrieve, ZEND_ACC_PUBLIC)
-	PHP_FE_END
-};
 
 #endif /* PHALCON_CACHE_FRONTEND_NONE_H */

@@ -17,21 +17,12 @@
   +------------------------------------------------------------------------+
 */
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
-
-#include "php.h"
-#include "php_phalcon.h"
-#include "phalcon.h"
-
-#include "Zend/zend_operators.h"
-#include "Zend/zend_exceptions.h"
-#include "Zend/zend_interfaces.h"
+#include "mvc/model/resultset.h"
+#include "mvc/model/resultsetinterface.h"
+#include "mvc/model/exception.h"
 
 #include "kernel/main.h"
 #include "kernel/memory.h"
-
 #include "kernel/object.h"
 #include "kernel/operators.h"
 #include "kernel/fcall.h"
@@ -65,7 +56,54 @@
  * </code>
  *
  */
+zend_class_entry *phalcon_mvc_model_resultset_ce;
 
+PHP_METHOD(Phalcon_Mvc_Model_Resultset, next);
+PHP_METHOD(Phalcon_Mvc_Model_Resultset, key);
+PHP_METHOD(Phalcon_Mvc_Model_Resultset, rewind);
+PHP_METHOD(Phalcon_Mvc_Model_Resultset, seek);
+PHP_METHOD(Phalcon_Mvc_Model_Resultset, count);
+PHP_METHOD(Phalcon_Mvc_Model_Resultset, offsetExists);
+PHP_METHOD(Phalcon_Mvc_Model_Resultset, offsetGet);
+PHP_METHOD(Phalcon_Mvc_Model_Resultset, offsetSet);
+PHP_METHOD(Phalcon_Mvc_Model_Resultset, offsetUnset);
+PHP_METHOD(Phalcon_Mvc_Model_Resultset, getType);
+PHP_METHOD(Phalcon_Mvc_Model_Resultset, getFirst);
+PHP_METHOD(Phalcon_Mvc_Model_Resultset, getLast);
+PHP_METHOD(Phalcon_Mvc_Model_Resultset, setIsFresh);
+PHP_METHOD(Phalcon_Mvc_Model_Resultset, isFresh);
+PHP_METHOD(Phalcon_Mvc_Model_Resultset, setHydrateMode);
+PHP_METHOD(Phalcon_Mvc_Model_Resultset, getHydrateMode);
+PHP_METHOD(Phalcon_Mvc_Model_Resultset, getCache);
+PHP_METHOD(Phalcon_Mvc_Model_Resultset, current);
+PHP_METHOD(Phalcon_Mvc_Model_Resultset, getMessages);
+PHP_METHOD(Phalcon_Mvc_Model_Resultset, delete);
+PHP_METHOD(Phalcon_Mvc_Model_Resultset, filter);
+
+static const zend_function_entry phalcon_mvc_model_resultset_method_entry[] = {
+	PHP_ME(Phalcon_Mvc_Model_Resultset, next, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Model_Resultset, key, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Model_Resultset, rewind, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Model_Resultset, seek, arginfo_phalcon_mvc_model_resultset_seek, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Model_Resultset, count, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Model_Resultset, offsetExists, arginfo_phalcon_mvc_model_resultset_offsetexists, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Model_Resultset, offsetGet, arginfo_phalcon_mvc_model_resultset_offsetget, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Model_Resultset, offsetSet, arginfo_phalcon_mvc_model_resultset_offsetset, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Model_Resultset, offsetUnset, arginfo_phalcon_mvc_model_resultset_offsetunset, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Model_Resultset, getType, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Model_Resultset, getFirst, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Model_Resultset, getLast, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Model_Resultset, setIsFresh, arginfo_phalcon_mvc_model_resultsetinterface_setisfresh, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Model_Resultset, isFresh, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Model_Resultset, setHydrateMode, arginfo_phalcon_mvc_model_resultset_sethydratemode, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Model_Resultset, getHydrateMode, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Model_Resultset, getCache, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Model_Resultset, current, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Model_Resultset, getMessages, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Model_Resultset, delete, arginfo_phalcon_mvc_model_resultset_delete, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Model_Resultset, filter, arginfo_phalcon_mvc_model_resultset_filter, ZEND_ACC_PUBLIC)
+	PHP_FE_END
+};
 
 /**
  * Phalcon\Mvc\Model\Resultset initializer
@@ -755,4 +793,3 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, filter){
 	
 	RETURN_CTOR(records);
 }
-
