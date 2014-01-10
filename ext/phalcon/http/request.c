@@ -816,14 +816,16 @@ PHP_METHOD(Phalcon_Http_Request, isMethod) {
 	if ((Z_TYPE_P(methods) == IS_STRING)) {
 		RETURN_MM_BOOL(ZEPHIR_IS_EQUAL(methods, httpMethod));
 	} else {
-		zephir_is_iterable(methods, &_1, &_0, 0, 0);
-		for (
-			; zend_hash_get_current_data_ex(_1, (void**) &_2, &_0) == SUCCESS
-			; zend_hash_move_forward_ex(_1, &_0)
-		) {
-			ZEPHIR_GET_HVALUE(method, _2);
-			if (ZEPHIR_IS_EQUAL(method, httpMethod)) {
-				RETURN_MM_BOOL(1);
+		if ((Z_TYPE_P(methods) == IS_ARRAY)) {
+			zephir_is_iterable(methods, &_1, &_0, 0, 0);
+			for (
+				; zend_hash_get_current_data_ex(_1, (void**) &_2, &_0) == SUCCESS
+				; zend_hash_move_forward_ex(_1, &_0)
+			) {
+				ZEPHIR_GET_HVALUE(method, _2);
+				if (ZEPHIR_IS_EQUAL(method, httpMethod)) {
+					RETURN_MM_BOOL(1);
+				}
 			}
 		}
 	}

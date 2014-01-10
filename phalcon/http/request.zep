@@ -541,12 +541,15 @@ class Request implements Phalcon\Http\RequestInterface, Phalcon\Di\InjectionAwar
 		var httpMethod, method;
 
 		let httpMethod = this->getMethod();
+
 		if typeof methods == "string" {
 			return methods == httpMethod;
 		} else {
-			for method in methods {
-				if method == httpMethod {
-					return true;
+			if typeof methods == "array" {
+				for method in methods {
+					if method == httpMethod {
+						return true;
+					}
 				}
 			}
 		}
@@ -837,7 +840,7 @@ class Request implements Phalcon\Http\RequestInterface, Phalcon\Di\InjectionAwar
 		return this->_getBestQuality(this->getLanguages(), "language");
 	}
 
-	
+
 	/**
 	 * Gets auth info accepted by the browser/client from $_SERVER['PHP_AUTH_USER']
 	 *

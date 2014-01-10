@@ -416,7 +416,7 @@ class Router
 				/**
 				 * No HTTP_HOST, maybe in CLI mode?
 				 */
-				if typeof currentHostName != "null" {
+				if typeof currentHostName == "null" {
 					continue;
 				}
 
@@ -424,7 +424,7 @@ class Router
 				 * Check if the hostname restriction is the same as the current in the route
 				 */
 				if memstr(hostname, "(") {
-					if memstr(hostname, "#") {
+					if !memstr(hostname, "#") {
 						let regexHostName = "#^" . hostname . "$#";
 					} else {
 						let regexHostName = hostname;
@@ -464,14 +464,14 @@ class Router
 					/**
 					 * Check first if the callback is callable
 					 */
-					if is_callable(beforeMatch) {
+					if !is_callable(beforeMatch) {
 						throw new Phalcon\Mvc\Router\Exception("Before-Match callback is not callable in matched route");
 					}
 
 					/**
 					 * Check first if the callback is callable
 					 */
-					let routeFound = {beforeMatch}(handledUri, route, this);
+					let routeFound = call_user_func_array(beforeMatch, [handledUri, route, this]);
 				}
 			}
 
@@ -556,8 +556,6 @@ class Router
 		}
 
 		if routeFound {
-
-			print_r(parts);
 
 			/**
 			 * Check for a namespace
