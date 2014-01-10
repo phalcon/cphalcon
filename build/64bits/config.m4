@@ -88,7 +88,7 @@ if test "$PHP_PHALCON" = "yes"; then
 
 	CPPFLAGS=$old_CPPFLAGS
 
-	PHP_ADD_MAKEFILE_FRAGMENT
+	PHP_ADD_MAKEFILE_FRAGMENT([Makefile.frag])
 fi
 
 PHP_ARG_ENABLE(coverage,  whether to include code coverage symbols,
@@ -150,4 +150,10 @@ if test "$PHP_COVERAGE" = "yes"; then
 	CFLAGS="$CFLAGS -O0 --coverage"
 	CXXFLAGS="$CXXFLAGS -O0 --coverage"
 	EXTRA_LDFLAGS="$EXTRA_LDFLAGS -precious-files-regex \.gcno\\\$$"
+
+	PHP_ADD_MAKEFILE_FRAGMENT([Makefile.frag.coverage])
+fi
+
+if test "$GCC" = "yes"; then
+	PHP_ADD_MAKEFILE_FRAGMENT([Makefile.frag.deps])
 fi
