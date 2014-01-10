@@ -3,7 +3,7 @@
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
  +------------------------------------------------------------------------+
- | Copyright (c) 2011-2013 Phalcon Team (http://www.phalconphp.com)       |
+ | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled     |
  | with this package in the file docs/LICENSE.txt.                        |
@@ -251,7 +251,7 @@ class Annotations extends Phalcon\Mvc\Router
 	public function processActionAnnotation(string! module, string! namespaceName, string! controller, string! action,
 		<Phalcon\Annotations\Annotation> annotation)
 	{
-		var isRoute, name, actionName, routePrefix, paths, value, uri, 
+		var isRoute, name, actionName, routePrefix, paths, value, uri,
 			route, methods, converts, param, convert, conversorParam, routeName;
 
 		let isRoute = false, methods = null;

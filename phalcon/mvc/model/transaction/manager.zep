@@ -3,7 +3,7 @@
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
  +------------------------------------------------------------------------+
- | Copyright (c) 2011-2013 Phalcon Team (http://www.phalconphp.com)       |
+ | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled     |
  | with this package in the file docs/LICENSE.txt.                        |
@@ -304,7 +304,7 @@ class Manager implements Phalcon\Mvc\Model\Transaction\ManagerInterface, Phalcon
 	protected function _collectTransaction(<Phalcon\Mvc\Model\TransactionInterface> transaction)
 	{
 		var transactions, newTransactions, managedTransaction;
-	
+
 		let transactions = this->_transactions;
 		if count(transactions) {
 			let newTransactions = [];

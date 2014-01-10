@@ -3,7 +3,7 @@
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
  +------------------------------------------------------------------------+
- | Copyright (c) 2011-2013 Phalcon Team (http://www.phalconphp.com)       |
+ | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled     |
  | with this package in the file docs/LICENSE.txt.                        |
@@ -61,7 +61,7 @@ class Regex extends Phalcon\Mvc\Model\Validator implements Phalcon\Mvc\Model\Val
 		if typeof field != "string" {
 			throw new Phalcon\Mvc\Model\Exception("Field name must be a string");
 		}
- 
+
 		/**
 		 * The 'pattern' option must be a valid regular expression
 		 */
@@ -69,7 +69,7 @@ class Regex extends Phalcon\Mvc\Model\Validator implements Phalcon\Mvc\Model\Val
 		if !visSet {
 			throw new Phalcon\Mvc\Model\Exception("Validator requires a perl-compatible regex pattern");
 		}
- 
+
 		let value = record->readAttribute(field);
  		let failed = false;
  		let matches = null;
@@ -77,12 +77,12 @@ class Regex extends Phalcon\Mvc\Model\Validator implements Phalcon\Mvc\Model\Val
                 if this->isSetOption("allowEmpty") && empty value {
                     return true;
                 }
-		
+
 		/**
 		 * The regular expression is set in the option 'pattern'
 		 */
 		let pattern = this->getOption("pattern");
- 
+
 		/**
 		 * Check if the value match using preg_match in the PHP userland
 		 */
@@ -93,9 +93,9 @@ class Regex extends Phalcon\Mvc\Model\Validator implements Phalcon\Mvc\Model\Val
 		} else {
 			let failed = true;
 		}
- 
+
 		if failed===true {
- 
+
 			/**
 			 * Check if the developer has defined a custom message
 			 */
@@ -104,12 +104,12 @@ class Regex extends Phalcon\Mvc\Model\Validator implements Phalcon\Mvc\Model\Val
 			if empty message {
                                 let message = "Value of field :field doesn't match regular expression";
 			}
- 
+
 			this->appendMessage(strtr(message, replacePairs), field, "Regex");
 			return false;
 		}
- 
+
 		return true;
- 
+
 	}
 }

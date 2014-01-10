@@ -3,7 +3,7 @@
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
  +------------------------------------------------------------------------+
- | Copyright (c) 2011-2013 Phalcon Team (http://www.phalconphp.com)       |
+ | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled     |
  | with this package in the file docs/LICENSE.txt.                        |
@@ -60,7 +60,7 @@ class Inclusionin extends Phalcon\Mvc\Model\Validator implements Phalcon\Mvc\Mod
 		if typeof field != "string" {
 			throw new Phalcon\Mvc\Model\Exception("Field name must be a string");
 		}
- 
+
 		/**
 		 * The 'domain' option must be a valid array of not allowed values
 		 */
@@ -68,23 +68,23 @@ class Inclusionin extends Phalcon\Mvc\Model\Validator implements Phalcon\Mvc\Mod
 		if visSet===false {
 			throw new Phalcon\Mvc\Model\Exception("The option 'domain' is required for this validator");
 		}
- 
+
 		let domain = this->getOption("domain");
 		if typeof domain != "array" {
 			throw new Phalcon\Mvc\Model\Exception("Option 'domain' must be an array");
 		}
- 
+
 		let value = record->readAttribute(field);
 
                 if this->isSetOption("allowEmpty") && empty value {
                     return true;
                 }
- 
+
 		/**
 		 * Check if the value is contained in the array
 		 */
 		if !in_array(value, domain) {
- 
+
 			/**
 			 * Check if the developer has defined a custom message
 			 */
@@ -93,11 +93,11 @@ class Inclusionin extends Phalcon\Mvc\Model\Validator implements Phalcon\Mvc\Mod
 			if empty message {
                                 let message = "Value of field :field must be part of list: :domain";
 			}
- 
+
 			this->appendMessage(strtr(message, replacePairs), field, "Inclusion");
 			return false;
 		}
- 
+
 		return true;
 	}
 }

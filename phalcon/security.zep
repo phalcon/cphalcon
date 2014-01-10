@@ -3,7 +3,7 @@
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
  +------------------------------------------------------------------------+
- | Copyright (c) 2011-2013 Phalcon Team (http://www.phalconphp.com)       |
+ | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled     |
  | with this package in the file docs/LICENSE.txt.                        |
@@ -111,8 +111,8 @@ class Security //implements Phalcon\Di\InjectionAwareInterface
 			let randomBytes = openssl_random_pseudo_bytes(numberBytes);
 			let base64Bytes = base64_encode(randomBytes);
 			let filter = new Phalcon\Filter();
-			let safeBytes = filter->sanitize(base64Bytes, "alphnum"); 
-			
+			let safeBytes = filter->sanitize(base64Bytes, "alphnum");
+
 			if !safeBytes {
 				continue;
 			}
@@ -210,9 +210,9 @@ class Security //implements Phalcon\Di\InjectionAwareInterface
 		let randomBytes = openssl_random_pseudo_bytes(numberBytes);
 		let base64Bytes = base64_encode(randomBytes);
 		let filter = new Phalcon\Filter();
-		let safeBytes = filter->sanitize(base64Bytes, "alphnum"); 
+		let safeBytes = filter->sanitize(base64Bytes, "alphnum");
 		let dependencyInjector = this->_dependencyInjector;
-		
+
 		if typeof dependencyInjector != "object" {
 			throw new Phalcon\Security\Exception("A dependency injection container is required to access the 'session' service");
 		}
@@ -243,7 +243,7 @@ class Security //implements Phalcon\Di\InjectionAwareInterface
 
 		let token = openssl_random_pseudo_bytes(numberBytes);
 		let dependencyInjector = this->_dependencyInjector;
-		
+
 		if typeof dependencyInjector != "object" {
 			throw new Phalcon\Security\Exception("A dependency injection container is required to access the 'session' service");
 		}
@@ -266,7 +266,7 @@ class Security //implements Phalcon\Di\InjectionAwareInterface
 		var dependencyInjector, session, request, token, sessionToken;
 
 		let dependencyInjector = this->_dependencyInjector;
-		
+
 		if typeof dependencyInjector != "object" {
 			throw new Phalcon\Security\Exception("A dependency injection container is required to access the 'session' service");
 		}
@@ -280,7 +280,7 @@ class Security //implements Phalcon\Di\InjectionAwareInterface
 		if !tokenValue {
 			let request = dependencyInjector->getShared("request");
 
-			/** 
+			/**
             * We always check if the value is correct in post
             */
             let token = request->getPost(tokenKey);
@@ -290,7 +290,7 @@ class Security //implements Phalcon\Di\InjectionAwareInterface
 
 		let sessionToken = session->get("$PHALCON/CSRF$");
 
-		/** 
+		/**
         * The value is the same?
         */
         if token == sessionToken {
@@ -310,7 +310,7 @@ class Security //implements Phalcon\Di\InjectionAwareInterface
 		var dependencyInjector, session;
 
 		let dependencyInjector = this->_dependencyInjector;
-	
+
 		if typeof dependencyInjector != "object" {
 			throw new Phalcon\Security\Exception("A dependency injection container is required to access the 'session' service");
 		}

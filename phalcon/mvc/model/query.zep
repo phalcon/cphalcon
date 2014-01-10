@@ -3,7 +3,7 @@
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
  +------------------------------------------------------------------------+
- | Copyright (c) 2011-2013 Phalcon Team (http://www.phalconphp.com)       |
+ | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled     |
  | with this package in the file docs/LICENSE.txt.                        |
@@ -2488,7 +2488,7 @@ class Query implements Phalcon\Mvc\Model\QueryInterface, Phalcon\Di\InjectionAwa
 			if typeof connection != "object" {
 				throw new Phalcon\Mvc\Model\Exception("'selectWriteConnection' didn't return a valid connection");
 			}
-		} else {			
+		} else {
 			let connection = model->getWriteConnection();
 		}
 
@@ -2621,13 +2621,13 @@ class Query implements Phalcon\Mvc\Model\QueryInterface, Phalcon\Di\InjectionAwa
 		if !fetch model, this->_modelsInstances[modelName] {
 			let model = this->_manager->load(modelName);
 		}
-			
+
 		if method_exists(model, "selectWriteConnection") {
 			let connection = model->selectWriteConnection(intermediate, bindParams, bindTypes);
 			if typeof connection != "object" {
 				throw new Phalcon\Mvc\Model\Exception("'selectWriteConnection' didn't return a valid connection");
 			}
-		} else {			
+		} else {
 			let connection = model->getWriteConnection();
 		}
 
@@ -2706,7 +2706,7 @@ class Query implements Phalcon\Mvc\Model\QueryInterface, Phalcon\Di\InjectionAwa
 			if typeof connection != "object" {
 				throw new Phalcon\Mvc\Model\Exception("'selectWriteConnection' didn't return a valid connection");
 			}
-		} else {			
+		} else {
 			let connection = model->getWriteConnection();
 		}
 
@@ -2783,7 +2783,7 @@ class Query implements Phalcon\Mvc\Model\QueryInterface, Phalcon\Di\InjectionAwa
 			if typeof connection != "object" {
 				throw new Phalcon\Mvc\Model\Exception("'selectWriteConnection' didn't return a valid connection");
 			}
-		} else {			
+		} else {
 			let connection = model->getWriteConnection();
 		}
 

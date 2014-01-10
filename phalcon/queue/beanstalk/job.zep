@@ -3,7 +3,7 @@
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
  +------------------------------------------------------------------------+
- | Copyright (c) 2011-2013 Phalcon Team (http://www.phalconphp.com)       |
+ | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled     |
  | with this package in the file docs/LICENSE.txt.                        |
@@ -27,11 +27,11 @@ namespace Phalcon\Queue\Beanstalk;
 class Job
 {
 	protected _id {get};
-	
+
 	protected _body {get};
-	
+
 	protected _queue;
-	
+
 	/**
 	* Phalcon\Queue\Beanstalk\Job
 	*
@@ -45,7 +45,7 @@ class Job
 		let this->_id = id;
 		let this->_body = body;
 	}
- 
+
 	/**
 	 * Removes a job from the server entirely
 	 *
@@ -57,14 +57,14 @@ class Job
 
 		let queue = this->_queue;
 		queue->write("delete ".this->_id);
- 
+
 		let response = queue->readStatus();
 		let status = response[0];
- 
+
 		if status=="DELETED" {
 			return true;
 		}
- 
+
 		return false;
 	}
 

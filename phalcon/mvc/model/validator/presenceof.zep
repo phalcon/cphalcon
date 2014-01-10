@@ -3,7 +3,7 @@
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
  +------------------------------------------------------------------------+
- | Copyright (c) 2011-2013 Phalcon Team (http://www.phalconphp.com)       |
+ | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled     |
  | with this package in the file docs/LICENSE.txt.                        |
@@ -61,13 +61,13 @@ class PresenceOf extends Phalcon\Mvc\Model\Validator implements Phalcon\Mvc\Mode
 		if typeof field != "string" {
 			throw new Phalcon\Mvc\Model\Exception("Field name must be a string");
 		}
- 
+
 		/**
 		 * A value is null when it is identical to null or a empty string
 		 */
 		let value = record->readAttribute(field);
 		if empty value {
- 
+
 			/**
 			 * Check if the developer has defined a custom message
 			 */
@@ -76,12 +76,12 @@ class PresenceOf extends Phalcon\Mvc\Model\Validator implements Phalcon\Mvc\Mode
 			if empty message {
                                 let message = ":field is required";
 			}
- 
+
 			this->appendMessage(strtr(message, replacePairs), field, "PresenceOf");
 			return false;
 		}
- 
+
 		return true;
- 
+
 	}
 }

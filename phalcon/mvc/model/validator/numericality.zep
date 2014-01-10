@@ -3,7 +3,7 @@
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
  +------------------------------------------------------------------------+
- | Copyright (c) 2011-2013 Phalcon Team (http://www.phalconphp.com)       |
+ | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled     |
  | with this package in the file docs/LICENSE.txt.                        |
@@ -60,18 +60,18 @@ class Numericality extends Phalcon\Mvc\Model\Validator implements Phalcon\Mvc\Mo
 		if typeof field != "string" {
 			throw new Phalcon\Mvc\Model\Exception("Field name must be a string");
 		}
- 
+
 		let value = record->readAttribute(field);
 
                 if this->isSetOption("allowEmpty") && empty value {
                     return true;
                 }
- 
+
 		/**
 		 * Check if the value is numeric using is_numeric in the PHP userland
 		 */
 		if !is_numeric(value) {
- 
+
 			/**
 			 * Check if the developer has defined a custom message
 			 */
@@ -80,12 +80,12 @@ class Numericality extends Phalcon\Mvc\Model\Validator implements Phalcon\Mvc\Mo
 			if empty message {
 				let message = "Value of field :field must be numeric";
 			}
- 
+
 			this->appendMessage(strtr(message, replacePairs), field, "Numericality");
 			return false;
 		}
- 
+
 		return true;
- 
+
 	}
 }

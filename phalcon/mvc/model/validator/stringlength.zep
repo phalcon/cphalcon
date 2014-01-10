@@ -3,7 +3,7 @@
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
  +------------------------------------------------------------------------+
- | Copyright (c) 2011-2013 Phalcon Team (http://www.phalconphp.com)       |
+ | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled     |
  | with this package in the file docs/LICENSE.txt.                        |
@@ -66,25 +66,25 @@ class StringLength extends Phalcon\Mvc\Model\Validator implements Phalcon\Mvc\Mo
 		if typeof field != "string" {
 			throw new Phalcon\Mvc\Model\Exception("Field name must be a string");
 		}
- 
+
 		/**
 		 * At least one of 'min' or 'max' must be set
 		 */
 		let isSetMin = this->isSetOption("min");
 		let isSetMax = this->isSetOption("max");
- 
+
 		if !isSetMin {
 			if !isSetMax {
 				throw new Phalcon\Mvc\Model\Exception("A minimum or maximum must be set");
 			}
 		}
- 
+
 		let value = record->readAttribute("field");
 
                 if this->isSetOption("allowEmpty") && empty value {
                     return true;
                 }
- 
+
 		/**
 		 * Check if mbstring is available to calculate the correct length
 		 */
@@ -93,18 +93,18 @@ class StringLength extends Phalcon\Mvc\Model\Validator implements Phalcon\Mvc\Mo
 		} else {
 			let length = strlen(value);
 		}
- 
+
 		let invalidMaximum = false;
 		let invalidMinimum = false;
- 
+
 		/**
 		 * Maximum length
 		 */
 		if isSetMax {
- 
+
 			let maximum = this->getOption("max");
 			let invalidMaximum = length>maximum;
- 
+
 			if invalidMaximum===true {
 				/**
 				 * Check if the developer has defined a custom message
@@ -114,22 +114,22 @@ class StringLength extends Phalcon\Mvc\Model\Validator implements Phalcon\Mvc\Mo
 				if empty message {
                                         let message = "Value of field :field exceeds the maximum :max characters";
 		 		}
- 
+
 		 		this->appendMessage(strtr(message, replacePairs), field, "TooLong");
 				return false;
 			}
 		}
- 
+
 		/**
 		 * Minimum length
 		 */
 		if isSetMin {
- 
+
 			let minimum = this->getOption("min");
 			let invalidMinimum = length < minimum;
- 
+
 			if invalidMinimum===true {
- 
+
 				/**
 				 * Check if the developer has defined a custom message
 				 */
@@ -138,12 +138,12 @@ class StringLength extends Phalcon\Mvc\Model\Validator implements Phalcon\Mvc\Mo
 				if empty message {
                                         let message = "Value of field :field is less than the minimum :min characters";
 		 		}
- 
+
 		 		this->appendMessage(strtr(message, replacePairs), field, "TooShort");
 				return false;
 			}
 		}
- 
+
 		return true;
 	}
 }

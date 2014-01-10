@@ -3,7 +3,7 @@
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
  +------------------------------------------------------------------------+
- | Copyright (c) 2011-2013 Phalcon Team (http://www.phalconphp.com)       |
+ | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled     |
  | with this package in the file docs/LICENSE.txt.                        |
@@ -253,7 +253,7 @@ abstract class Pdo extends Phalcon\Db\Adapter
 	 * @param  array bindTypes
 	 * @return Phalcon\Db\ResultInterface|bool
 	 */
-	public function query(string! sqlStatement, bindParams=null, bindTypes=null) 
+	public function query(string! sqlStatement, bindParams=null, bindTypes=null)
 		-> <Phalcon\Db\ResultInterface> | boolean
 	{
 		var eventsManager, pdo, statement;
