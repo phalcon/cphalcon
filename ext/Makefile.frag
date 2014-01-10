@@ -30,6 +30,6 @@ clean-deps:
 %.d : %.c
 	$(CC) -MM -MP -MF"$@" -MT"$(@:%.d=%.lo)" -MT"$@" $(COMMON_FLAGS) "$<"
 
-ifneq ($(MAKECMDGOALS),clean)
+ifeq (,$(findstring clean,$(MAKECMDGOALS)))
 -include $(SOURCE_DEPS)
 endif
