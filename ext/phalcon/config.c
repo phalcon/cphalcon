@@ -14,9 +14,9 @@
 #include "kernel/main.h"
 #include "kernel/exception.h"
 #include "kernel/hash.h"
+#include "kernel/object.h"
 #include "kernel/memory.h"
 #include "kernel/fcall.h"
-#include "kernel/object.h"
 #include "kernel/array.h"
 #include "ext/spl/spl_exceptions.h"
 
@@ -80,10 +80,11 @@ ZEPHIR_INIT_CLASS(Phalcon_Config) {
  */
 PHP_METHOD(Phalcon_Config, __construct) {
 
-	zend_function *_4 = NULL;
-	HashTable *_1;
-	HashPosition _0;
-	zval *arrayConfig = NULL, *key = NULL, *value = NULL, **_2, *_3 = NULL;
+	zend_function *_7 = NULL;
+	HashTable *_1, *_4;
+	HashPosition _0, _3;
+	zend_bool hasNumericKey;
+	zval *arrayConfig = NULL, *key = NULL, *value = NULL, *subkey = NULL, *subvalue = NULL, **_2, **_5, *_6 = NULL;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 1, &arrayConfig);
@@ -113,10 +114,27 @@ PHP_METHOD(Phalcon_Config, __construct) {
 			return;
 		}
 		if ((Z_TYPE_P(value) == IS_ARRAY)) {
-			ZEPHIR_INIT_NVAR(_3);
-			object_init_ex(_3, phalcon_config_ce);
-			zephir_call_method_p1_cache_noret(_3, "__construct", &_4, value);
-			zephir_update_property_zval_zval(this_ptr, key, _3 TSRMLS_CC);
+			hasNumericKey = 0;
+			zephir_is_iterable(value, &_4, &_3, 0, 0);
+			for (
+				; zend_hash_get_current_data_ex(_4, (void**) &_5, &_3) == SUCCESS
+				; zend_hash_move_forward_ex(_4, &_3)
+			) {
+				ZEPHIR_GET_HMKEY(subkey, _4, _3);
+				ZEPHIR_GET_HVALUE(subvalue, _5);
+				if ((Z_TYPE_P(subkey) == IS_LONG)) {
+					hasNumericKey = 1;
+					break;
+				}
+			}
+			if (hasNumericKey) {
+				zephir_update_property_zval_zval(this_ptr, key, value TSRMLS_CC);
+			} else {
+				ZEPHIR_INIT_NVAR(_6);
+				object_init_ex(_6, phalcon_config_ce);
+				zephir_call_method_p1_cache_noret(_6, "__construct", &_7, value);
+				zephir_update_property_zval_zval(this_ptr, key, _6 TSRMLS_CC);
+			}
 		} else {
 			zephir_update_property_zval_zval(this_ptr, key, value TSRMLS_CC);
 		}

@@ -54,7 +54,7 @@ class Config implements ArrayAccess
 	 */
 	public function __construct(arrayConfig=null)
 	{
-		var key, value;
+		var key, value, subkey, subvalue, hasNumericKey;
 
 		/**
 		 * Throw exceptions if bad parameters are passed
@@ -77,7 +77,18 @@ class Config implements ArrayAccess
 			}
 
 			if typeof value == "array" {
-				let this->{key} = new Phalcon\Config(value);
+				let hasNumericKey = false;
+				for subkey, subvalue in value {
+					if typeof subkey == "int" {
+						let hasNumericKey = true;
+						break;
+					}
+				}
+				if hasNumericKey {
+					let this->{key} = value;
+				} else {
+					let this->{key} = new Phalcon\Config(value);
+				}
 			} else {
 				let this->{key} = value;
 			}
