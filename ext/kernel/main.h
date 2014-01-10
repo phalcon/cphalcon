@@ -45,7 +45,6 @@
 
 
 /* Startup functions */
-void php_zephir_init_globals(zend_zephir_globals *zephir_globals TSRMLS_DC);
 zend_class_entry *zephir_register_internal_interface_ex(zend_class_entry *orig_ce, zend_class_entry *parent_ce TSRMLS_DC);
 
 /* Globals functions */

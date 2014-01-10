@@ -15,10 +15,10 @@
 #include "kernel/exception.h"
 #include "kernel/hash.h"
 #include "kernel/memory.h"
-#include "kernel/object.h"
-#include "ext/spl/spl_exceptions.h"
 #include "kernel/fcall.h"
+#include "kernel/object.h"
 #include "kernel/array.h"
+#include "ext/spl/spl_exceptions.h"
 
 
 /*
@@ -80,7 +80,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Config) {
  */
 PHP_METHOD(Phalcon_Config, __construct) {
 
-	zend_class_entry *_4;
+	zend_function *_4 = NULL;
 	HashTable *_1;
 	HashPosition _0;
 	zval *arrayConfig = NULL, *key = NULL, *value = NULL, **_2, *_3 = NULL;
@@ -114,8 +114,8 @@ PHP_METHOD(Phalcon_Config, __construct) {
 		}
 		if ((Z_TYPE_P(value) == IS_ARRAY)) {
 			ZEPHIR_INIT_NVAR(_3);
-			_4 = zend_fetch_class(SL("Phalcon_Config"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
-			object_init_ex(_3, _4);
+			object_init_ex(_3, phalcon_config_ce);
+			zephir_call_method_p1_cache_noret(_3, "__construct", &_4, value);
 			zephir_update_property_zval_zval(this_ptr, key, _3 TSRMLS_CC);
 		} else {
 			zephir_update_property_zval_zval(this_ptr, key, value TSRMLS_CC);
@@ -132,17 +132,27 @@ PHP_METHOD(Phalcon_Config, __construct) {
  * var_dump(isset($config['database']));
  *</code>
  *
- * @param string $index
+ * @param string index
  * @return boolean
  */
 PHP_METHOD(Phalcon_Config, offsetExists) {
 
-	zval *index;
+	zval *index_param = NULL;
+	zval *index = NULL;
 
-	zephir_fetch_params(0, 1, 0, &index);
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 1, 0, &index_param);
+
+		if (Z_TYPE_P(index_param) != IS_STRING) {
+				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'index' must be a string") TSRMLS_CC);
+				RETURN_MM_NULL();
+		}
+
+		index = index_param;
 
 
 
+	RETURN_MM_BOOL(0 == 0);
 
 }
 

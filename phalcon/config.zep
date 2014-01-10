@@ -77,7 +77,7 @@ class Config implements ArrayAccess
 			}
 
 			if typeof value == "array" {
-				let this->{key} = new Phalcon_Config($value);
+				let this->{key} = new Phalcon\Config(value);
 			} else {
 				let this->{key} = value;
 			}
@@ -92,12 +92,12 @@ class Config implements ArrayAccess
 	 * var_dump(isset($config['database']));
 	 *</code>
 	 *
-	 * @param string $index
+	 * @param string index
 	 * @return boolean
 	 */
-	public function offsetExists(index)
+	public function offsetExists(string! index)
 	{
-
+		return isset this->{index};
 	}
 
 	/**
