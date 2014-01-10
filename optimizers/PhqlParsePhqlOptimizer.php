@@ -35,7 +35,7 @@ class PhqlParsePhqlOptimizer
 		}
 
 		if (count($expression['parameters']) != 1) {
-			return false;
+			throw new CompilerException("'phql_parse_phql' only accepts one parameter", $expression);
 		}
 
 		/**
@@ -57,7 +57,14 @@ class PhqlParsePhqlOptimizer
 		$symbolVariable->setDynamicTypes('array');
 
 		$resolvedParams = $call->getReadOnlyResolvedParams($expression['parameters'], $context, $expression);
-		//$context->codePrinter->output('zephir_fast_array_merge(' . $symbolVariable->getName() . ', &(' . $resolvedParams[0] . '), &(' . $resolvedParams[1] . ') TSRMLS_CC);');
+
+		$context->headersManager->add('phalcon/mvc/model/query/scanner', HeadersManager::POSITION_LAST);
+		$context->headersManager->add('phalcon/mvc/model/query/phql', HeadersManager::POSITION_LAST);
+
+		$context->codePrinter->output('if (phql_parse_phql(' . $symbolVariable->getName() . ', ' . $resolvedParams[0] . ' TSRMLS_CC) == FAILURE) {');
+        $context->codePrinter->output("\t" . 'RETURN_MM();');
+        $context->codePrinter->output('}');
+
 		return new CompiledExpression('variable', $symbolVariable->getRealName(), $expression);
 	}
 

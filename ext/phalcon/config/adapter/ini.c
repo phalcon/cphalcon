@@ -22,7 +22,7 @@
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
  +------------------------------------------------------------------------+
- | Copyright (c) 2011-2013 Phalcon Team (http://www.phalconphp.com)       |
+ | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled     |
  | with this package in the file docs/LICENSE.txt.                        |
@@ -51,7 +51,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Config_Adapter_Ini) {
  */
 PHP_METHOD(Phalcon_Config_Adapter_Ini, __construct) {
 
-	zval *filePath_param = NULL, *config;
+	zval *filePath_param = NULL, *_0;
 	zval *filePath = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -66,9 +66,9 @@ PHP_METHOD(Phalcon_Config_Adapter_Ini, __construct) {
 
 
 
-	ZEPHIR_INIT_VAR(config);
-	zephir_call_func_p2(config, "parse_ini_file", filePath, ZEPHIR_GLOBAL(global_true));
-	zephir_call_parent_p1_noret(this_ptr, phalcon_config_adapter_ini_ce, "__construct", config);
+	ZEPHIR_INIT_VAR(_0);
+	zephir_call_func_p2(_0, "parse_ini_file", filePath, ZEPHIR_GLOBAL(global_true));
+	zephir_call_parent_p1_noret(this_ptr, phalcon_config_adapter_ini_ce, "__construct", _0);
 	ZEPHIR_MM_RESTORE();
 
 }

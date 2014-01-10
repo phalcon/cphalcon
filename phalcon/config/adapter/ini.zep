@@ -22,16 +22,14 @@ namespace Phalcon\Config\Adapter;
 class Ini extends Phalcon\Config
 {
 
-        /**
+	/**
 	 * Phalcon\Config\Adapter\Ini constructor
 	 *
 	 * @param string filePath
 	 */
-        public function __construct(string! filePath)
-        {
-                var config;
-                let config = parse_ini_file(filePath, true);
-                parent::__construct(config);
-        }
+	public function __construct(string! filePath)
+	{
+		parent::__construct(parse_ini_file(filePath, true));
+	}
 
 }

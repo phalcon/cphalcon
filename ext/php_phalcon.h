@@ -11,13 +11,17 @@
 typedef struct _zephir_struct_db {
 	zend_bool escape_identifiers;
 } zephir_struct_db;
+
 typedef struct _zephir_struct_orm {
 	zend_bool column_renaming;
 	zend_bool events;
+	int cache_level;
 	zend_bool virtual_foreign_keys;
 	zend_bool not_null_validations;
 	zend_bool exception_on_failed_save;
+	zend_bool enable_literals;
 } zephir_struct_orm;
+
 
 
 ZEND_BEGIN_MODULE_GLOBALS(phalcon)

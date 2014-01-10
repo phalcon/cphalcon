@@ -47,26 +47,167 @@
 class Config //implements ArrayAccess
 {
 
-        /**
+	/**
 	 * Phalcon\Config constructor
 	 *
-	 * @param array config
+	 * @param	array arrayConfig
 	 */
-        public function __construct(config)
-        {
-                var key, value;
-                if typeof config != "array" {
-			throw new Phalcon\Config\Exception("Config must be an array");
+	public function __construct(arrayConfig=null)
+	{
+		var key, value;
+
+		/**
+		 * Throw exceptions if bad parameters are passed
+		 */
+		if typeof arrayConfig != "array" {
+			if typeof arrayConfig != "null" {
+				throw new Phalcon\Config\Exception("The configuration must be an Array");
+			} else {
+				return;
+			}
 		}
 
-                for key, value in config {
-                        if typeof value == "array" {
-                                let this->{key} = new self(value);
-                        } else {
-                                let this->{key} = value;
-                        }
+		for key, value in arrayConfig {
 
-                }
-        }
+			/**
+			 * Phalcon\Config does not support numeric keys as properties
+			 */
+			if typeof key != "string" {
+				throw new Phalcon\Config\Exception("Only string keys are allowed as configuration properties");
+			}
+
+			if typeof value == "array" {
+				let this->{key} = new Phalcon_Config($value);
+			} else {
+				let this->{key} = value;
+			}
+
+		}
+	}
+
+	/**
+	 * Allows to check whether an attribute is defined using the array-syntax
+	 *
+	 *<code>
+	 * var_dump(isset($config['database']));
+	 *</code>
+	 *
+	 * @param string $index
+	 * @return boolean
+	 */
+	public function offsetExists(index)
+	{
+
+	}
+
+	/**
+	 * Gets an attribute from the configuration, if the attribute isn't defined returns null
+	 * If the value is exactly null or is not defined the default value will be used instead
+	 *
+	 *<code>
+	 * echo $config->get('controllersDir', '../app/controllers/');
+	 *</code>
+	 *
+	 * @param string index
+	 * @param mixed defaultValue
+	 * @return mixed
+	 */
+	public function get(index, defaultValue=null)
+	{
+
+	}
+
+	/**
+	 * Gets an attribute using the array-syntax
+	 *
+	 *<code>
+	 * print_r($config['database']);
+	 *</code>
+	 *
+	 * @param string index
+	 * @return string
+	 */
+	public function offsetGet(string! index)
+	{
+		return this->{index};
+	}
+
+	/**
+	 * Sets an attribute using the array-syntax
+	 *
+	 *<code>
+	 * $config['database'] = array('type' => 'Sqlite');
+	 *</code>
+	 *
+	 * @param string $index
+	 * @param mixed $value
+	 */
+	public function offsetSet($index, $value)
+	{
+	}
+
+	/**
+	 * Unsets an attribute using the array-syntax
+	 *
+	 *<code>
+	 * unset($config['database']);
+	 *</code>
+	 *
+	 * @param string index
+	 */
+	public function offsetUnset(index)
+	{
+		return true;
+	}
+
+	/**
+	 * Merges a configuration into the current one
+	 *
+	 *<code>
+	 *	$appConfig = new Phalcon\Config(array('database' => array('host' => 'localhost')));
+	 *	$globalConfig->merge($config2);
+	 *</code>
+	 *
+	 * @param Phalcon\Config $config
+	 */
+	public function merge(config)
+	{
+
+	}
+
+	/**
+	 * Converts recursively the object to an array
+	 *
+	 *<code>
+	 *	print_r($config->toArray());
+	 *</code>
+	 *
+	 * @return array
+	 */
+	public function toArray()
+	{
+		var key, value, arrayConfig;
+
+		let arrayConfig = [];
+		for key, value in get_object_vars(this) {
+			if typeof value == "object" {
+				if method_exists(value, "toArray") {
+					let arrayConfig[key] = value->toArray();
+				}
+			}
+		}
+		return arrayConfig;
+	}
+
+	/**
+	 * Restores the state of a Phalcon\Config object
+	 *
+	 * @param array data
+	 * @return Phalcon\Config
+	 */
+	public static function __set_state(data) -> <Phalcon\Config>
+	{
+		return new self(data);
+	}
 
 }

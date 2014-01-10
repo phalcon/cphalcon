@@ -1,19 +1,19 @@
 {
-	"static-type-inference":true,
-	"static-type-inference-second-pass":true,
-	"local-context-pass":true,
-	"constant-folding":true,
-	"static-constant-class-folding":true,
+	"static-type-inference": true,
+	"static-type-inference-second-pass": true,
+	"local-context-pass": true,
+	"constant-folding": true,
+	"static-constant-class-folding": true,
 	"namespace":"phalcon",
 	"name":"",
 	"description":"",
 	"author":"Phalcon Team",
-	"optimizations":{
-		"static-type-inference":true,
-		"static-type-inference-second-pass":true,
-		"local-context-pass":true,
-		"constant-folding":true,
-		"static-constant-class-folding":true
+	"optimizations": {
+		"static-type-inference": true,
+		"static-type-inference-second-pass": true,
+		"local-context-pass": true,
+		"constant-folding": true,
+		"static-constant-class-folding": true
 	},
 	"optimizer-dirs": [
 		"optimizers"
@@ -24,7 +24,9 @@
 	],
 	"extra-sources": [
 		"phalcon\/annotations\/scanner.c",
-		"phalcon\/annotations\/parser.c"
+		"phalcon\/annotations\/parser.c",
+		"phalcon\/mvc\/model\/query\/scanner.c",
+		"phalcon\/mvc\/model\/query\/parser.c"
 	],
 	"globals":{
 		"db.escape_identifiers":{
@@ -39,6 +41,10 @@
 			"type": "bool",
 			"default": true
 		},
+		"orm.cache_level": {
+			"type": "int",
+			"default": 3
+		},
 		"orm.virtual_foreign_keys":{
 			"type": "bool",
 			"default": true
@@ -50,6 +56,10 @@
 		"orm.exception_on_failed_save":{
 			"type": "bool",
 			"default": false
+		},
+		"orm.enable_literals": {
+			"type": "bool",
+			"default": true
 		}
 	},
 	"verbose": false

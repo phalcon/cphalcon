@@ -22,13 +22,15 @@
 #include "kernel/string.h"
 #include "kernel/hash.h"
 #include "ext/spl/spl_exceptions.h"
+#include "phalcon/mvc/model/query/scanner.h"
+#include "phalcon/mvc/model/query/phql.h"
 
 
 /*
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
  +------------------------------------------------------------------------+
- | Copyright (c) 2011-2013 Phalcon Team (http://www.phalconphp.com)       |
+ | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled     |
  | with this package in the file docs/LICENSE.txt.                        |
@@ -2294,6 +2296,9 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, parse) {
 	}
 	phql = zephir_fetch_nproperty_this(this_ptr, SL("_phql"), PH_NOISY_CC);
 	ZEPHIR_INIT_VAR(ast);
+	if (phql_parse_phql(ast, phql TSRMLS_CC) == FAILURE) {
+		RETURN_MM();
+	}
 	ZEPHIR_INIT_VAR(irPhql);
 	ZVAL_NULL(irPhql);
 	ZEPHIR_SINIT_VAR(irPhqlCache);

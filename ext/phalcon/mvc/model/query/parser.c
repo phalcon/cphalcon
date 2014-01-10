@@ -414,10 +414,10 @@ static zval *phql_ret_func_call(phql_parser_token *name, zval *arguments)
 /* Next is all token values, in a form suitable for use by makeheaders.
 ** This section will be null unless lemon is run with the -m switch.
 */
-/* 
+/*
 ** These constants (all generated automatically by the parser generator)
 ** specify the various kinds of tokens (terminals) that the parser
-** understands. 
+** understands.
 **
 ** Each symbol here is a terminal symbol in the grammar.
 */
@@ -434,7 +434,7 @@ static zval *phql_ret_func_call(phql_parser_token *name, zval *arguments)
 **                       and nonterminals.  "int" is used otherwise.
 **    YYNOCODE           is a number of type YYCODETYPE which corresponds
 **                       to no legal terminal or nonterminal number.  This
-**                       number is used to fill in empty slots of the hash 
+**                       number is used to fill in empty slots of the hash
 **                       table.
 **    YYFALLBACK         If defined, this indicates that one or more tokens
 **                       have fall-back values which should be used if the
@@ -443,7 +443,7 @@ static zval *phql_ret_func_call(phql_parser_token *name, zval *arguments)
 **                       and nonterminal numbers.  "unsigned char" is
 **                       used if there are fewer than 250 rules and
 **                       states combined.  "int" is used otherwise.
-**    phql_TOKENTYPE     is the data type used for minor tokens given 
+**    phql_TOKENTYPE     is the data type used for minor tokens given
 **                       directly to the parser from the tokenizer.
 **    YYMINORTYPE        is the data type used for all minor tokens.
 **                       This is typically a union of many types, one of
@@ -484,7 +484,7 @@ typedef union {
 /* Next are that tables used to determine what action to take based on the
 ** current state and lookahead token.  These tables are used to implement
 ** functions that take a state number and lookahead value and return an
-** action integer.  
+** action integer.
 **
 ** Suppose the action integer is N.  Then the action is determined as
 ** follows
@@ -509,7 +509,7 @@ typedef union {
 ** If the index value yy_shift_ofst[S]+X is out of range or if the value
 ** yy_lookahead[yy_shift_ofst[S]+X] is not equal to X or if yy_shift_ofst[S]
 ** is equal to YY_SHIFT_USE_DFLT, it means that the action is not in the table
-** and that yy_default[S] should be used instead.  
+** and that yy_default[S] should be used instead.
 **
 ** The formula above is for computing the action when the lookahead is
 ** a terminal symbol.  If the lookahead is a non-terminal (as occurs after
@@ -769,7 +769,7 @@ static YYACTIONTYPE yy_default[] = {
 
 /* The next table maps tokens into fallback tokens.  If a construct
 ** like the following:
-** 
+**
 **      %fallback ID X Y Z.
 **
 ** appears in the grammer, then ID becomes a fallback token for X, Y,
@@ -820,10 +820,10 @@ static char *yyTracePrompt = 0;
 #endif /* NDEBUG */
 
 #ifndef NDEBUG
-/* 
+/*
 ** Turn parser tracing on by giving a stream to which to write the trace
 ** and a prompt to preface each trace message.  Tracing is turned off
-** by making either argument NULL 
+** by making either argument NULL
 **
 ** Inputs:
 ** <ul>
@@ -848,34 +848,34 @@ void phql_Trace(FILE *TraceFILE, char *zTracePrompt){
 #ifndef NDEBUG
 /* For tracing shifts, the names of all terminals and nonterminals
 ** are required.  The following table supplies these names */
-static const char *yyTokenName[] = { 
-  "$",             "AGAINST",       "BETWEEN",       "EQUALS",      
+static const char *yyTokenName[] = {
+  "$",             "AGAINST",       "BETWEEN",       "EQUALS",
   "NOTEQUALS",     "LESS",          "GREATER",       "GREATEREQUAL",
-  "LESSEQUAL",     "AND",           "OR",            "LIKE",        
-  "ILIKE",         "BITWISE_AND",   "BITWISE_OR",    "BITWISE_XOR", 
-  "DIVIDE",        "TIMES",         "MOD",           "PLUS",        
-  "MINUS",         "IS",            "IN",            "DISTINCT",    
-  "NOT",           "BITWISE_NOT",   "SELECT",        "FROM",        
-  "COMMA",         "IDENTIFIER",    "DOT",           "AS",          
-  "JOIN",          "INNER",         "CROSS",         "LEFT",        
-  "OUTER",         "RIGHT",         "FULL",          "ON",          
+  "LESSEQUAL",     "AND",           "OR",            "LIKE",
+  "ILIKE",         "BITWISE_AND",   "BITWISE_OR",    "BITWISE_XOR",
+  "DIVIDE",        "TIMES",         "MOD",           "PLUS",
+  "MINUS",         "IS",            "IN",            "DISTINCT",
+  "NOT",           "BITWISE_NOT",   "SELECT",        "FROM",
+  "COMMA",         "IDENTIFIER",    "DOT",           "AS",
+  "JOIN",          "INNER",         "CROSS",         "LEFT",
+  "OUTER",         "RIGHT",         "FULL",          "ON",
   "INSERT",        "INTO",          "VALUES",        "PARENTHESES_OPEN",
-  "PARENTHESES_CLOSE",  "UPDATE",        "SET",           "DELETE",      
-  "WHERE",         "ORDER",         "BY",            "ASC",         
-  "DESC",          "GROUP",         "HAVING",        "LIMIT",       
+  "PARENTHESES_CLOSE",  "UPDATE",        "SET",           "DELETE",
+  "WHERE",         "ORDER",         "BY",            "ASC",
+  "DESC",          "GROUP",         "HAVING",        "LIMIT",
   "OFFSET",        "INTEGER",       "NPLACEHOLDER",  "SPLACEHOLDER",
-  "CAST",          "CONVERT",       "USING",         "NULL",        
-  "STRING",        "DOUBLE",        "TRUE",          "FALSE",       
+  "CAST",          "CONVERT",       "USING",         "NULL",
+  "STRING",        "DOUBLE",        "TRUE",          "FALSE",
   "COLON",         "error",         "program",       "query_language",
   "select_statement",  "insert_statement",  "update_statement",  "delete_statement",
   "select_clause",  "where_clause",  "order_clause",  "group_clause",
   "having_clause",  "select_limit_clause",  "column_list",   "associated_name_list",
   "join_list",     "column_item",   "expr",          "associated_name",
   "join_item",     "join_clause",   "join_type",     "aliased_or_qualified_name",
-  "join_associated_name",  "join_conditions",  "values_list",   "field_list",  
+  "join_associated_name",  "join_conditions",  "values_list",   "field_list",
   "value_list",    "value_item",    "field_item",    "update_clause",
   "limit_clause",  "update_item_list",  "update_item",   "qualified_name",
-  "new_value",     "delete_clause",  "order_list",    "order_item",  
+  "new_value",     "delete_clause",  "order_list",    "order_item",
   "group_list",    "group_item",    "integer_or_placeholder",  "argument_list",
   "function_call",  "argument_item",
 };
@@ -1061,7 +1061,7 @@ const char *phql_TokenName(int tokenType){
 #endif
 }
 
-/* 
+/*
 ** This function allocates a new parser.
 ** The only argument is a pointer to a function which works like
 ** malloc.
@@ -1092,7 +1092,7 @@ static void yy_destructor(YYCODETYPE yymajor, YYMINORTYPE *yypminor){
     /* Here is inserted the actions which take place when a
     ** terminal or non-terminal is destroyed.  This can happen
     ** when the symbol is popped from the stack during a
-    ** reduce or during error processing or when a parser is 
+    ** reduce or during error processing or when a parser is
     ** being destroyed before it is finished parsing.
     **
     ** Note: during a reduce, the only symbols destroyed are those
@@ -1251,7 +1251,7 @@ static int yy_pop_parser_stack(yyParser *pParser){
   return yymajor;
 }
 
-/* 
+/*
 ** Deallocate and destroy a parser.  Destructors are all called for
 ** all stack elements before shutting the parser down.
 **
@@ -1287,7 +1287,7 @@ static int yy_find_shift_action(
 ){
   int i;
   int stateno = pParser->yystack[pParser->yyidx].stateno;
- 
+
   /* if( pParser->yyidx<0 ) return YY_NO_ACTION;  */
   i = yy_shift_ofst[stateno];
   if( i==YY_SHIFT_USE_DFLT ){
@@ -1331,7 +1331,7 @@ static int yy_find_reduce_action(
 ){
   int i;
   int stateno = pParser->yystack[pParser->yyidx].stateno;
- 
+
   i = yy_reduce_ofst[stateno];
   if( i==YY_REDUCE_USE_DFLT ){
     return yy_default[stateno];
@@ -1572,7 +1572,7 @@ static void yy_reduce(
   phql_ARG_FETCH;
   yymsp = &yypParser->yystack[yypParser->yyidx];
 #ifndef NDEBUG
-  if( yyTraceFILE && yyruleno>=0 
+  if( yyTraceFILE && yyruleno>=0
         && yyruleno<sizeof(yyRuleName)/sizeof(yyRuleName[0]) ){
     fprintf(yyTraceFILE, "%sReduce [%s].\n", yyTracePrompt,
       yyRuleName[yyruleno]);
@@ -2813,7 +2813,7 @@ void phql_(
 #ifdef YYERRORSYMBOL
       /* A syntax error has occurred.
       ** The response to an error depends upon whether or not the
-      ** grammar defines an error token "ERROR".  
+      ** grammar defines an error token "ERROR".
       **
       ** This is what we do if the grammar does define ERROR:
       **
@@ -3012,7 +3012,7 @@ static void phql_scanner_error_msg(phql_parser_status *parser_status, zval **err
 	unsigned int length;
 	phql_scanner_state *state = parser_status->scanner_state;
 
-	PHALCON_INIT_VAR(*error_msg);
+	ZEPHIR_INIT_VAR(*error_msg);
 	if (state->start) {
 		length = 64 + state->start_length + parser_status->phql_length;
 		error = emalloc(sizeof(char) * length);
@@ -3044,7 +3044,7 @@ int phql_parse_phql(zval *result, zval *phql TSRMLS_DC) {
 	ZVAL_NULL(result);
 
 	if (phql_internal_parse_phql(&result, Z_STRVAL_P(phql), Z_STRLEN_P(phql), &error_msg TSRMLS_CC) == FAILURE) {
-		PHALCON_THROW_EXCEPTION_STRW(phalcon_mvc_model_exception_ce, Z_STRVAL_P(error_msg));
+		ZEPHIR_THROW_EXCEPTION_STRW(phalcon_mvc_model_exception_ce, Z_STRVAL_P(error_msg));
 		return FAILURE;
 	}
 
@@ -3056,7 +3056,7 @@ int phql_parse_phql(zval *result, zval *phql TSRMLS_DC) {
  */
 int phql_internal_parse_phql(zval **result, char *phql, unsigned int phql_length, zval **error_msg TSRMLS_DC) {
 
-	zend_phalcon_globals *phalcon_globals_ptr = PHALCON_VGLOBAL;
+	zend_phalcon_globals *phalcon_globals_ptr = ZEPHIR_VGLOBAL;
 	phql_parser_status *parser_status = NULL;
 	int scanner_status, status = SUCCESS, error_length, cache_level;
 	phql_scanner_state *state;
@@ -3067,7 +3067,7 @@ int phql_internal_parse_phql(zval **result, char *phql, unsigned int phql_length
 	zval **temp_ast;
 
 	if (!phql) {
-		PHALCON_INIT_VAR(*error_msg);
+		ZEPHIR_INIT_VAR(*error_msg);
 		ZVAL_STRING(*error_msg, "PHQL statement cannot be NULL", 1);
 		return FAILURE;
 	}
@@ -3077,13 +3077,13 @@ int phql_internal_parse_phql(zval **result, char *phql, unsigned int phql_length
 
 		phql_key = zend_inline_hash_func(phql, phql_length + 1);
 
-		if (phalcon_globals_ptr->orm.parser_cache != NULL) {
+		/*if (phalcon_globals_ptr->orm.parser_cache != NULL) {
 			if (zend_hash_index_find(phalcon_globals_ptr->orm.parser_cache, phql_key, (void**) &temp_ast) == SUCCESS) {
 				ZVAL_ZVAL(*result, *temp_ast, 1, 0);
 				Z_SET_REFCOUNT_P(*result, 1);
 				return SUCCESS;
 			}
-		}
+		}*/
 	}
 
 	phql_parser = phql_Alloc(phql_wrapper_alloc);
@@ -3205,7 +3205,7 @@ int phql_internal_parse_phql(zval **result, char *phql, unsigned int phql_length
 				if (parser_status->enable_literals) {
 					phql_parse_with_token(phql_parser, PHQL_T_INTEGER, PHQL_INTEGER, &token, parser_status);
 				} else {
-					PHALCON_INIT_VAR(*error_msg);
+					ZEPHIR_INIT_VAR(*error_msg);
 					ZVAL_STRING(*error_msg, "Literals are disabled in PHQL statements", 1);
 					parser_status->status = PHQL_PARSING_FAILED;
 				}
@@ -3214,7 +3214,7 @@ int phql_internal_parse_phql(zval **result, char *phql, unsigned int phql_length
 				if (parser_status->enable_literals) {
 					phql_parse_with_token(phql_parser, PHQL_T_DOUBLE, PHQL_DOUBLE, &token, parser_status);
 				} else {
-					PHALCON_INIT_VAR(*error_msg);
+					ZEPHIR_INIT_VAR(*error_msg);
 					ZVAL_STRING(*error_msg, "Literals are disabled in PHQL statements", 1);
 					parser_status->status = PHQL_PARSING_FAILED;
 				}
@@ -3223,7 +3223,7 @@ int phql_internal_parse_phql(zval **result, char *phql, unsigned int phql_length
 				if (parser_status->enable_literals) {
 					phql_parse_with_token(phql_parser, PHQL_T_STRING, PHQL_STRING, &token, parser_status);
 				} else {
-					PHALCON_INIT_VAR(*error_msg);
+					ZEPHIR_INIT_VAR(*error_msg);
 					ZVAL_STRING(*error_msg, "Literals are disabled in PHQL statements", 1);
 					parser_status->status = PHQL_PARSING_FAILED;
 				}
@@ -3232,7 +3232,7 @@ int phql_internal_parse_phql(zval **result, char *phql, unsigned int phql_length
 				if (parser_status->enable_literals) {
 					phql_(phql_parser, PHQL_TRUE, NULL, parser_status);
 				} else {
-					PHALCON_INIT_VAR(*error_msg);
+					ZEPHIR_INIT_VAR(*error_msg);
 					ZVAL_STRING(*error_msg, "Literals are disabled in PHQL statements", 1);
 					parser_status->status = PHQL_PARSING_FAILED;
 				}
@@ -3241,7 +3241,7 @@ int phql_internal_parse_phql(zval **result, char *phql, unsigned int phql_length
 				if (parser_status->enable_literals) {
 					phql_(phql_parser, PHQL_FALSE, NULL, parser_status);
 				} else {
-					PHALCON_INIT_VAR(*error_msg);
+					ZEPHIR_INIT_VAR(*error_msg);
 					ZVAL_STRING(*error_msg, "Literals are disabled in PHQL statements", 1);
 					parser_status->status = PHQL_PARSING_FAILED;
 				}
@@ -3365,7 +3365,7 @@ int phql_internal_parse_phql(zval **result, char *phql, unsigned int phql_length
 				error = emalloc(error_length);
 				snprintf(error, error_length, "Scanner: Unknown opcode %c", token.opcode);
 				error[error_length - 1] = '\0';
-				PHALCON_INIT_VAR(*error_msg);
+				ZEPHIR_INIT_VAR(*error_msg);
 				ZVAL_STRING(*error_msg, error, 1);
 				efree(error);
 				break;
@@ -3402,7 +3402,7 @@ int phql_internal_parse_phql(zval **result, char *phql, unsigned int phql_length
 		status = FAILURE;
 		if (parser_status->syntax_error) {
 			if (!*error_msg) {
-				PHALCON_INIT_VAR(*error_msg);
+				ZEPHIR_INIT_VAR(*error_msg);
 				ZVAL_STRING(*error_msg, parser_status->syntax_error, 1);
 			}
 			efree(parser_status->syntax_error);
@@ -3418,11 +3418,11 @@ int phql_internal_parse_phql(zval **result, char *phql, unsigned int phql_length
 				/**
 				 * Set a unique id for the parsed ast
 				 */
-				if (phalcon_globals_ptr->orm.cache_level >= 1) {
+				/*if (phalcon_globals_ptr->orm.cache_level >= 1) {
 					if (Z_TYPE_P(parser_status->ret) == IS_ARRAY) {
 						add_assoc_long(parser_status->ret, "id", phalcon_globals_ptr->orm.unique_cache_id++);
 					}
-				}
+				}*/
 
 				ZVAL_ZVAL(*result, parser_status->ret, 0, 0);
 				ZVAL_NULL(parser_status->ret);
@@ -3433,7 +3433,7 @@ int phql_internal_parse_phql(zval **result, char *phql, unsigned int phql_length
 				 */
 				if (cache_level >= 0) {
 
-					if (!phalcon_globals_ptr->orm.parser_cache) {
+					/*if (!phalcon_globals_ptr->orm.parser_cache) {
 						ALLOC_HASHTABLE(phalcon_globals_ptr->orm.parser_cache);
 						zend_hash_init(phalcon_globals_ptr->orm.parser_cache, 0, NULL, ZVAL_PTR_DTOR, 0);
 					}
@@ -3446,7 +3446,7 @@ int phql_internal_parse_phql(zval **result, char *phql, unsigned int phql_length
 						result,
 						sizeof(zval *),
 						NULL
-					);
+					);*/
 				}
 
 			} else {

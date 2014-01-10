@@ -35,24 +35,6 @@
 #include "Zend/zend_interfaces.h"
 
 /**
- * Initialize globals on each request or each thread started
- */
-void php_zephir_init_globals(zend_zephir_globals *zephir_globals TSRMLS_DC) {
-
-	/* Memory options */
-	zephir_globals->active_memory = NULL;
-
-	/* Virtual Symbol Tables */
-	zephir_globals->active_symbol_table = NULL;
-
-	/* Cache options */
-	zephir_globals->function_cache = NULL;
-
-	/* Recursive Lock */
-	zephir_globals->recursive_lock = 0;
-}
-
-/**
  * Initializes internal interface with extends
  */
 zend_class_entry *zephir_register_internal_interface_ex(zend_class_entry *orig_ce, zend_class_entry *parent_ce TSRMLS_DC) {

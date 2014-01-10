@@ -15,15 +15,17 @@
 #include "kernel/exception.h"
 #include "kernel/hash.h"
 #include "kernel/memory.h"
-#include "kernel/fcall.h"
 #include "kernel/object.h"
+#include "ext/spl/spl_exceptions.h"
+#include "kernel/fcall.h"
+#include "kernel/array.h"
 
 
 /*
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
  +------------------------------------------------------------------------+
- | Copyright (c) 2011-2013 Phalcon Team (http://www.phalconphp.com)       |
+ | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled     |
  | with this package in the file docs/LICENSE.txt.                        |
@@ -73,41 +75,257 @@ ZEPHIR_INIT_CLASS(Phalcon_Config) {
 /**
  * Phalcon\Config constructor
  *
- * @param array config
+ * @param	array arrayConfig
  */
 PHP_METHOD(Phalcon_Config, __construct) {
 
-	zend_function *_4 = NULL;
+	zend_class_entry *_4;
 	HashTable *_1;
 	HashPosition _0;
-	zval *config, *key = NULL, *value = NULL, **_2, *_3 = NULL;
+	zval *arrayConfig = NULL, *key = NULL, *value = NULL, **_2, *_3 = NULL;
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 0, &config);
+	zephir_fetch_params(1, 0, 1, &arrayConfig);
 
-
-
-	if ((Z_TYPE_P(config) != IS_ARRAY)) {
-		ZEPHIR_THROW_EXCEPTION_STR(phalcon_config_exception_ce, "Config must be an array");
-		return;
+	if (!arrayConfig) {
+		arrayConfig = ZEPHIR_GLOBAL(global_null);
 	}
-	zephir_is_iterable(config, &_1, &_0, 0, 0);
+
+
+	if ((Z_TYPE_P(arrayConfig) != IS_ARRAY)) {
+		if ((Z_TYPE_P(arrayConfig) != IS_NULL)) {
+			ZEPHIR_THROW_EXCEPTION_STR(phalcon_config_exception_ce, "The configuration must be an Array");
+			return;
+		} else {
+			RETURN_MM_NULL();
+		}
+	}
+	zephir_is_iterable(arrayConfig, &_1, &_0, 0, 0);
 	for (
 		; zend_hash_get_current_data_ex(_1, (void**) &_2, &_0) == SUCCESS
 		; zend_hash_move_forward_ex(_1, &_0)
 	) {
 		ZEPHIR_GET_HMKEY(key, _1, _0);
 		ZEPHIR_GET_HVALUE(value, _2);
+		if ((Z_TYPE_P(key) != IS_STRING)) {
+			ZEPHIR_THROW_EXCEPTION_STR(phalcon_config_exception_ce, "Only string keys are allowed as configuration properties");
+			return;
+		}
 		if ((Z_TYPE_P(value) == IS_ARRAY)) {
 			ZEPHIR_INIT_NVAR(_3);
-			object_init_ex(_3, phalcon_config_ce);
-			zephir_call_method_p1_cache_noret(_3, "__construct", &_4, value);
+			_4 = zend_fetch_class(SL("Phalcon_Config"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
+			object_init_ex(_3, _4);
 			zephir_update_property_zval_zval(this_ptr, key, _3 TSRMLS_CC);
 		} else {
 			zephir_update_property_zval_zval(this_ptr, key, value TSRMLS_CC);
 		}
 	}
 	ZEPHIR_MM_RESTORE();
+
+}
+
+/**
+ * Allows to check whether an attribute is defined using the array-syntax
+ *
+ *<code>
+ * var_dump(isset($config['database']));
+ *</code>
+ *
+ * @param string $index
+ * @return boolean
+ */
+PHP_METHOD(Phalcon_Config, offsetExists) {
+
+	zval *index;
+
+	zephir_fetch_params(0, 1, 0, &index);
+
+
+
+
+}
+
+/**
+ * Gets an attribute from the configuration, if the attribute isn't defined returns null
+ * If the value is exactly null or is not defined the default value will be used instead
+ *
+ *<code>
+ * echo $config->get('controllersDir', '../app/controllers/');
+ *</code>
+ *
+ * @param string index
+ * @param mixed defaultValue
+ * @return mixed
+ */
+PHP_METHOD(Phalcon_Config, get) {
+
+	zval *index, *defaultValue = NULL;
+
+	zephir_fetch_params(0, 1, 1, &index, &defaultValue);
+
+	if (!defaultValue) {
+		defaultValue = ZEPHIR_GLOBAL(global_null);
+	}
+
+
+
+}
+
+/**
+ * Gets an attribute using the array-syntax
+ *
+ *<code>
+ * print_r($config['database']);
+ *</code>
+ *
+ * @param string index
+ * @return string
+ */
+PHP_METHOD(Phalcon_Config, offsetGet) {
+
+	zval *index_param = NULL, *_0;
+	zval *index = NULL;
+
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 1, 0, &index_param);
+
+		if (Z_TYPE_P(index_param) != IS_STRING) {
+				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'index' must be a string") TSRMLS_CC);
+				RETURN_MM_NULL();
+		}
+
+		index = index_param;
+
+
+
+	ZEPHIR_OBS_VAR(_0);
+	zephir_read_property_zval(&_0, this_ptr, index, PH_NOISY_CC);
+	RETURN_CCTOR(_0);
+
+}
+
+/**
+ * Sets an attribute using the array-syntax
+ *
+ *<code>
+ * $config['database'] = array('type' => 'Sqlite');
+ *</code>
+ *
+ * @param string $index
+ * @param mixed $value
+ */
+PHP_METHOD(Phalcon_Config, offsetSet) {
+
+	zval *index, *value;
+
+	zephir_fetch_params(0, 2, 0, &index, &value);
+
+
+
+
+}
+
+/**
+ * Unsets an attribute using the array-syntax
+ *
+ *<code>
+ * unset($config['database']);
+ *</code>
+ *
+ * @param string index
+ */
+PHP_METHOD(Phalcon_Config, offsetUnset) {
+
+	zval *index;
+
+	zephir_fetch_params(0, 1, 0, &index);
+
+
+
+	RETURN_BOOL(1);
+
+}
+
+/**
+ * Merges a configuration into the current one
+ *
+ *<code>
+ *	$appConfig = new Phalcon\Config(array('database' => array('host' => 'localhost')));
+ *	$globalConfig->merge($config2);
+ *</code>
+ *
+ * @param Phalcon\Config $config
+ */
+PHP_METHOD(Phalcon_Config, merge) {
+
+	zval *config;
+
+	zephir_fetch_params(0, 1, 0, &config);
+
+
+
+
+}
+
+/**
+ * Converts recursively the object to an array
+ *
+ *<code>
+ *	print_r($config->toArray());
+ *</code>
+ *
+ * @return array
+ */
+PHP_METHOD(Phalcon_Config, toArray) {
+
+	zend_function *_5 = NULL;
+	HashTable *_2;
+	HashPosition _1;
+	zval *key = NULL, *value = NULL, *arrayConfig, *_0, **_3, *_4 = NULL;
+
+	ZEPHIR_MM_GROW();
+
+	ZEPHIR_INIT_VAR(arrayConfig);
+	array_init(arrayConfig);
+	ZEPHIR_INIT_VAR(_0);
+	zephir_call_func_p1(_0, "get_object_vars", this_ptr);
+	zephir_is_iterable(_0, &_2, &_1, 0, 0);
+	for (
+		; zend_hash_get_current_data_ex(_2, (void**) &_3, &_1) == SUCCESS
+		; zend_hash_move_forward_ex(_2, &_1)
+	) {
+		ZEPHIR_GET_HMKEY(key, _2, _1);
+		ZEPHIR_GET_HVALUE(value, _3);
+		if ((Z_TYPE_P(value) == IS_OBJECT)) {
+			if ((zephir_method_exists_ex(value, SS("toarray") TSRMLS_CC) == SUCCESS)) {
+				ZEPHIR_INIT_NVAR(_4);
+				zephir_call_method_cache(_4, value, "toarray", &_5);
+				zephir_array_update_zval(&arrayConfig, key, &_4, PH_COPY | PH_SEPARATE);
+			}
+		}
+	}
+	RETURN_CCTOR(arrayConfig);
+
+}
+
+/**
+ * Restores the state of a Phalcon\Config object
+ *
+ * @param array data
+ * @return Phalcon\Config
+ */
+PHP_METHOD(Phalcon_Config, __set_state) {
+
+	zval *data;
+
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 1, 0, &data);
+
+
+
+	object_init_ex(return_value, phalcon_config_ce);
+	zephir_call_method_p1_noret(return_value, "__construct", data);
+	RETURN_MM();
 
 }
 
