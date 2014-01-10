@@ -67,6 +67,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Config) {
 
 	ZEPHIR_REGISTER_CLASS(Phalcon, Config, phalcon, config, phalcon_config_method_entry, 0);
 
+	zend_class_implements(phalcon_config_ce TSRMLS_CC, 1, zend_ce_arrayaccess);
 
 	return SUCCESS;
 
