@@ -671,6 +671,25 @@ static PHP_MSHUTDOWN_FUNCTION(phalcon){
 }
 #endif
 
+/**
+ * Initialize globals on each request or each thread started
+ */
+static void php_zephir_init_globals(zend_zephir_globals *zephir_globals TSRMLS_DC) {
+
+	/* Memory options */
+	zephir_globals->active_memory = NULL;
+
+	/* Virtual Symbol Tables */
+	zephir_globals->active_symbol_table = NULL;
+
+	/* Cache options */
+	zephir_globals->function_cache = NULL;
+
+	/* Recursive Lock */
+	zephir_globals->recursive_lock = 0;
+
+}
+
 static PHP_RINIT_FUNCTION(phalcon){
 
 	php_zephir_init_globals(ZEPHIR_VGLOBAL TSRMLS_CC);
