@@ -124,6 +124,8 @@ ZEND_EXTERN_MODULE_GLOBALS(phalcon)
 extern zend_module_entry phalcon_module_entry;
 #define phpext_phalcon_ptr &phalcon_module_entry
 
+extern int nusphere_dbg_present;
+
 #ifndef PHP_FE_END
 	#define PHP_FE_END { NULL, NULL, NULL, 0, 0 }
 #endif

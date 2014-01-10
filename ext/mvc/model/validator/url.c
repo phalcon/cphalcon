@@ -17,21 +17,13 @@
   +------------------------------------------------------------------------+
 */
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
-
-#include "php.h"
-#include "php_phalcon.h"
-#include "phalcon.h"
-
-#include <Zend/zend_operators.h>
-#include <Zend/zend_exceptions.h>
-#include <Zend/zend_interfaces.h>
+#include "mvc/model/validator/url.h"
+#include "mvc/model/validator.h"
+#include "mvc/model/validatorinterface.h"
+#include "mvc/model/exception.h"
 
 #include "kernel/main.h"
 #include "kernel/memory.h"
-
 #include "kernel/fcall.h"
 #include "kernel/exception.h"
 #include "kernel/concat.h"
@@ -61,7 +53,14 @@
  *</code>
  *
  */
+zend_class_entry *phalcon_mvc_model_validator_url_ce;
 
+PHP_METHOD(Phalcon_Mvc_Model_Validator_Url, validate);
+
+static const zend_function_entry phalcon_mvc_model_validator_url_method_entry[] = {
+	PHP_ME(Phalcon_Mvc_Model_Validator_Url, validate, arginfo_phalcon_mvc_model_validatorinterface_validate, ZEND_ACC_PUBLIC)
+	PHP_FE_END
+};
 
 /**
  * Phalcon\Mvc\Model\Validator\Url initializer
@@ -150,4 +149,3 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Url, validate){
 	
 	RETURN_MM_TRUE;
 }
-

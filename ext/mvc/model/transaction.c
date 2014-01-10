@@ -17,21 +17,13 @@
   +------------------------------------------------------------------------+
 */
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
-
-#include "php.h"
-#include "php_phalcon.h"
-#include "phalcon.h"
-
-#include <Zend/zend_operators.h>
-#include <Zend/zend_exceptions.h>
-#include <Zend/zend_interfaces.h>
+#include "mvc/model/transaction.h"
+#include "mvc/model/transactioninterface.h"
+#include "mvc/model/transaction/exception.h"
+#include "mvc/model/transaction/failed.h"
 
 #include "kernel/main.h"
 #include "kernel/memory.h"
-
 #include "kernel/exception.h"
 #include "kernel/fcall.h"
 #include "kernel/object.h"
@@ -74,7 +66,36 @@
  *
  *</code>
  */
+zend_class_entry *phalcon_mvc_model_transaction_ce;
 
+PHP_METHOD(Phalcon_Mvc_Model_Transaction, __construct);
+PHP_METHOD(Phalcon_Mvc_Model_Transaction, setTransactionManager);
+PHP_METHOD(Phalcon_Mvc_Model_Transaction, begin);
+PHP_METHOD(Phalcon_Mvc_Model_Transaction, commit);
+PHP_METHOD(Phalcon_Mvc_Model_Transaction, rollback);
+PHP_METHOD(Phalcon_Mvc_Model_Transaction, getConnection);
+PHP_METHOD(Phalcon_Mvc_Model_Transaction, setIsNewTransaction);
+PHP_METHOD(Phalcon_Mvc_Model_Transaction, setRollbackOnAbort);
+PHP_METHOD(Phalcon_Mvc_Model_Transaction, isManaged);
+PHP_METHOD(Phalcon_Mvc_Model_Transaction, getMessages);
+PHP_METHOD(Phalcon_Mvc_Model_Transaction, isValid);
+PHP_METHOD(Phalcon_Mvc_Model_Transaction, setRollbackedRecord);
+
+static const zend_function_entry phalcon_mvc_model_transaction_method_entry[] = {
+	PHP_ME(Phalcon_Mvc_Model_Transaction, __construct, arginfo_phalcon_mvc_model_transactioninterface___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
+	PHP_ME(Phalcon_Mvc_Model_Transaction, setTransactionManager, arginfo_phalcon_mvc_model_transactioninterface_settransactionmanager, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Model_Transaction, begin, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Model_Transaction, commit, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Model_Transaction, rollback, arginfo_phalcon_mvc_model_transactioninterface_rollback, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Model_Transaction, getConnection, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Model_Transaction, setIsNewTransaction, arginfo_phalcon_mvc_model_transactioninterface_setisnewtransaction, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Model_Transaction, setRollbackOnAbort, arginfo_phalcon_mvc_model_transactioninterface_setrollbackonabort, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Model_Transaction, isManaged, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Model_Transaction, getMessages, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Model_Transaction, isValid, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Model_Transaction, setRollbackedRecord, arginfo_phalcon_mvc_model_transactioninterface_setrollbackedrecord, ZEND_ACC_PUBLIC)
+	PHP_FE_END
+};
 
 /**
  * Phalcon\Mvc\Model\Transaction initializer

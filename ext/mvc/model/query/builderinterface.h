@@ -17,8 +17,8 @@
   +------------------------------------------------------------------------+
 */
 
-#ifndef PHALCON_MVC_MODEL_QUERY_BUILDER_H
-#define PHALCON_MVC_MODEL_QUERY_BUILDER_H
+#ifndef PHALCON_MVC_MODEL_QUERY_BUILDERINTERFACE_H
+#define PHALCON_MVC_MODEL_QUERY_BUILDERINTERFACE_H
 
 #include "php_phalcon.h"
 
@@ -128,4 +128,4 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_query_builderinterface_groupby,
 	ZEND_ARG_INFO(0, group)
 ZEND_END_ARG_INFO()
 
-#endif /* PHALCON_MVC_MODEL_QUERY_BUILDER_H */
+#endif /* PHALCON_MVC_MODEL_QUERY_BUILDERINTERFACE_H */

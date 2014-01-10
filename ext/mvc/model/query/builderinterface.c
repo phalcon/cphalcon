@@ -20,6 +20,8 @@
 #include "mvc/model/query/builderinterface.h"
 #include "kernel/main.h"
 
+zend_class_entry *phalcon_mvc_model_query_builderinterface_ce;
+
 static const zend_function_entry phalcon_mvc_model_query_builderinterface_method_entry[] = {
 	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_Query_BuilderInterface, __construct, arginfo_phalcon_mvc_model_query_builderinterface___construct)
 	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_Query_BuilderInterface, distinct, arginfo_phalcon_mvc_model_query_builderinterface_distinct)

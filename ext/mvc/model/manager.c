@@ -30,7 +30,6 @@
 
 #include "kernel/main.h"
 #include "kernel/memory.h"
-
 #include "kernel/exception.h"
 #include "kernel/object.h"
 #include "kernel/fcall.h"
@@ -3218,11 +3217,5 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getNamespaceAliases){
  */
 PHP_METHOD(Phalcon_Mvc_Model_Manager, __destruct){
 
-
-	PHALCON_MM_GROW();
-
 	phalcon_orm_destroy_cache(TSRMLS_C);
-	
-	PHALCON_MM_RESTORE();
 }
-

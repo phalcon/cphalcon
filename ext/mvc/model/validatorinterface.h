@@ -30,10 +30,4 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_validatorinterface_validate, 0,
 	ZEND_ARG_INFO(0, record)
 ZEND_END_ARG_INFO()
 
-static const zend_function_entry phalcon_mvc_model_validatorinterface_method_entry[] = {
-	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_ValidatorInterface, getMessages, NULL)
-	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_ValidatorInterface, validate, arginfo_phalcon_mvc_model_validatorinterface_validate)
-	PHP_FE_END
-};
-
 #endif /* PHALCON_MVC_MODEL_VALIDATORINTERFACE_H */

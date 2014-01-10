@@ -17,11 +17,10 @@
   +------------------------------------------------------------------------+
 */
 
-#include "phalcon.h"
-
 #include "paginator/adapter/querybuilder.h"
 #include "paginator/adapterinterface.h"
 #include "paginator/exception.h"
+#include "mvc/model/query/builderinterface.h"
 
 #include "kernel/main.h"
 #include "kernel/memory.h"

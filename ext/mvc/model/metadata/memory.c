@@ -17,21 +17,12 @@
   +------------------------------------------------------------------------+
 */
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
-
-#include "php.h"
-#include "php_phalcon.h"
-#include "phalcon.h"
-
-#include <Zend/zend_operators.h>
-#include <Zend/zend_exceptions.h>
-#include <Zend/zend_interfaces.h>
+#include "mvc/model/metadata/memory.h"
+#include "mvc/model/metadata.h"
+#include "mvc/model/metadatainterface.h"
 
 #include "kernel/main.h"
 #include "kernel/memory.h"
-
 #include "kernel/object.h"
 
 /**
@@ -40,7 +31,22 @@
  * Stores model meta-data in memory. Data will be erased when the request finishes
  *
  */
+zend_class_entry *phalcon_mvc_model_metadata_memory_ce;
 
+PHP_METHOD(Phalcon_Mvc_Model_MetaData_Memory, __construct);
+PHP_METHOD(Phalcon_Mvc_Model_MetaData_Memory, read);
+PHP_METHOD(Phalcon_Mvc_Model_MetaData_Memory, write);
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_metadata_memory___construct, 0, 0, 0)
+	ZEND_ARG_INFO(0, options)
+ZEND_END_ARG_INFO()
+
+static const zend_function_entry phalcon_mvc_model_metadata_memory_method_entry[] = {
+	PHP_ME(Phalcon_Mvc_Model_MetaData_Memory, __construct, arginfo_phalcon_mvc_model_metadata_memory___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
+	PHP_ME(Phalcon_Mvc_Model_MetaData_Memory, read, arginfo_phalcon_mvc_model_metadatainterface_read, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Model_MetaData_Memory, write, arginfo_phalcon_mvc_model_metadatainterface_write, ZEND_ACC_PUBLIC)
+	PHP_FE_END
+};
 
 /**
  * Phalcon\Mvc\Model\MetaData\Memory initializer
@@ -107,4 +113,3 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Memory, write){
 	
 	RETURN_NULL();
 }
-

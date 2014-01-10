@@ -19,7 +19,6 @@
 */
 
 #include "di.h"
-#include "phalcon.h"
 #include "diinterface.h"
 #include "di/exception.h"
 #include "di/injectionawareinterface.h"

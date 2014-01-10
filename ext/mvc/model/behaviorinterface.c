@@ -17,15 +17,17 @@
   +------------------------------------------------------------------------+
 */
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
-
-#include "php.h"
-#include "php_phalcon.h"
-#include "phalcon.h"
-
+#include "mvc/model/behaviorinterface.h"
 #include "kernel/main.h"
+
+zend_class_entry *phalcon_mvc_model_behaviorinterface_ce;
+
+static const zend_function_entry phalcon_mvc_model_behaviorinterface_method_entry[] = {
+	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_BehaviorInterface, __construct, arginfo_phalcon_mvc_model_behaviorinterface___construct)
+	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_BehaviorInterface, notify, arginfo_phalcon_mvc_model_behaviorinterface_notify)
+	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_BehaviorInterface, missingMethod, arginfo_phalcon_mvc_model_behaviorinterface_missingmethod)
+	PHP_FE_END
+};
 
 /**
  * Phalcon\Mvc\Model\BehaviorInterface initializer
@@ -60,4 +62,3 @@ PHALCON_DOC_METHOD(Phalcon_Mvc_Model_BehaviorInterface, notify);
  * @param array $arguments
  */
 PHALCON_DOC_METHOD(Phalcon_Mvc_Model_BehaviorInterface, missingMethod);
-

@@ -17,7 +17,11 @@
  +------------------------------------------------------------------------+
 */
 
+#ifndef PHALCON_MVC_MODEL_QUERY_PHQL_H
+#define PHALCON_MVC_MODEL_QUERY_PHQL_H
+
 #include "php_phalcon.h"
+#include "mvc/model/query/scanner.h"
 
 typedef struct _phql_parser_token {
 	char *token;
@@ -43,3 +47,5 @@ typedef struct _phql_parser_status {
 
 int phql_parse_phql(zval *result, zval *phql TSRMLS_DC) PHALCON_ATTR_NONNULL;
 int phql_internal_parse_phql(zval **result, char *phql, unsigned int phql_length, zval **error_msg TSRMLS_DC) PHALCON_ATTR_NONNULL2(1, 4);
+
+#endif /* PHALCON_MVC_MODEL_QUERY_PHQL_H */

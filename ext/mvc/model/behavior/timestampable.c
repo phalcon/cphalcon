@@ -17,21 +17,13 @@
   +------------------------------------------------------------------------+
 */
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
-
-#include "php.h"
-#include "php_phalcon.h"
-#include "phalcon.h"
-
-#include <Zend/zend_operators.h>
-#include <Zend/zend_exceptions.h>
-#include <Zend/zend_interfaces.h>
+#include "mvc/model/behavior/timestampable.h"
+#include "mvc/model/behavior.h"
+#include "mvc/model/behaviorinterface.h"
+#include "mvc/model/exception.h"
 
 #include "kernel/main.h"
 #include "kernel/memory.h"
-
 #include "kernel/fcall.h"
 #include "kernel/operators.h"
 #include "kernel/array.h"
@@ -45,7 +37,14 @@
  * Allows to automatically update a model’s attribute saving the
  * datetime when a record is created or updated
  */
+zend_class_entry *phalcon_mvc_model_behavior_timestampable_ce;
 
+PHP_METHOD(Phalcon_Mvc_Model_Behavior_Timestampable, notify);
+
+static const zend_function_entry phalcon_mvc_model_behavior_timestampable_method_entry[] = {
+	PHP_ME(Phalcon_Mvc_Model_Behavior_Timestampable, notify, arginfo_phalcon_mvc_model_behaviorinterface_notify, ZEND_ACC_PUBLIC)
+	PHP_FE_END
+};
 
 /**
  * Phalcon\Mvc\Model\Behavior\Timestampable initializer
@@ -158,4 +157,3 @@ PHP_METHOD(Phalcon_Mvc_Model_Behavior_Timestampable, notify){
 	
 	PHALCON_MM_RESTORE();
 }
-

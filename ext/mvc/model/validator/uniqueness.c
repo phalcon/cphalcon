@@ -17,21 +17,14 @@
   +------------------------------------------------------------------------+
 */
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
-
-#include "php.h"
-#include "php_phalcon.h"
-#include "phalcon.h"
-
-#include <Zend/zend_operators.h>
-#include <Zend/zend_exceptions.h>
-#include <Zend/zend_interfaces.h>
+#include "mvc/model/validator/uniqueness.h"
+#include "mvc/model/validator.h"
+#include "mvc/model/validatorinterface.h"
+#include "mvc/model/exception.h"
+#include "mvc/model/metadatainterface.h"
 
 #include "kernel/main.h"
 #include "kernel/memory.h"
-
 #include "kernel/fcall.h"
 #include "kernel/array.h"
 #include "kernel/concat.h"
@@ -66,7 +59,14 @@
  *</code>
  *
  */
+zend_class_entry *phalcon_mvc_model_validator_uniqueness_ce;
 
+PHP_METHOD(Phalcon_Mvc_Model_Validator_Uniqueness, validate);
+
+static const zend_function_entry phalcon_mvc_model_validator_uniqueness_method_entry[] = {
+	PHP_ME(Phalcon_Mvc_Model_Validator_Uniqueness, validate, arginfo_phalcon_mvc_model_validatorinterface_validate, ZEND_ACC_PUBLIC)
+	PHP_FE_END
+};
 
 /**
  * Phalcon\Mvc\Model\Validator\Uniqueness initializer
@@ -388,4 +388,3 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Uniqueness, validate){
 	
 	RETURN_MM_TRUE;
 }
-
