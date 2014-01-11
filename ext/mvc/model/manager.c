@@ -2152,20 +2152,18 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getRelationRecords){
 		PHALCON_INIT_VAR(type);
 		phalcon_call_method(type, relation, "gettype");
 	
+		PHALCON_INIT_VAR(retrieve_method);
 		switch (phalcon_get_intval(type)) {
 	
 			case 0:
-				PHALCON_INIT_VAR(retrieve_method);
 				ZVAL_STRING(retrieve_method, "findFirst", 1);
 				break;
 	
 			case 1:
-				PHALCON_INIT_NVAR(retrieve_method);
 				ZVAL_STRING(retrieve_method, "findFirst", 1);
 				break;
 	
 			case 2:
-				PHALCON_INIT_NVAR(retrieve_method);
 				ZVAL_STRING(retrieve_method, "find", 1);
 				break;
 	
