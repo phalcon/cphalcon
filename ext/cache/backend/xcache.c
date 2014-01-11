@@ -185,7 +185,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Xcache, save){
 
 	zval *key_name = NULL, *content = NULL, *lifetime = NULL, *stop_buffer = NULL;
 	zval *cached_content,  *keys, *last_key, *frontend;
-	zval *prepared_content, *ttl, *success, *is_buffering;
+	zval *prepared_content = NULL, *ttl, *success, *is_buffering;
 	zval *prefix, *options, *special_key, *z_zero, *tmp;
 
 	PHALCON_MM_GROW();
@@ -238,7 +238,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Xcache, save){
 	
 	PHALCON_OBS_VAR(success);
 
-	if (phalcon_is_numeric(cached_content)) {
+	if (!prepared_content) {
 		phalcon_call_func_p3_ex(success, &success, "xcache_set", last_key, cached_content, ttl);
 	} else {
 		phalcon_call_func_p3_ex(success, &success, "xcache_set", last_key, prepared_content, ttl);

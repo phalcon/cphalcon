@@ -155,7 +155,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Apc, save){
 
 	zval *key_name = NULL, *content = NULL, *lifetime = NULL, *stop_buffer = NULL;
 	zval *cached_content;
-	zval *prepared_content, *ttl = NULL, *is_buffering;
+	zval *prepared_content = NULL, *ttl = NULL, *is_buffering;
 	zval *last_key, *prefix, *frontend;
 
 	PHALCON_MM_GROW();
@@ -210,7 +210,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Apc, save){
 	 * Call apc_store in the PHP userland since most of the time it isn't available at
 	 * compile time
 	 */
-	if (phalcon_is_numeric(cached_content)) {
+	if (!prepared_content) {
 		phalcon_call_func_p3_noret("apc_store", last_key, cached_content, ttl);
 	} else {
 		phalcon_call_func_p3_noret("apc_store", last_key, prepared_content, ttl);
