@@ -3,7 +3,7 @@
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
  +------------------------------------------------------------------------+
- | Copyright (c) 2011-2013 Phalcon Team (http://www.phalconphp.com)       |
+ | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled     |
  | with this package in the file docs/LICENSE.txt.                        |
@@ -44,21 +44,21 @@ class Uniqueness extends Phalcon\Validation\Validator implements Phalcon\Validat
 	 */
 	public function validate(<Phalcon\Validation> validation, string! field) -> boolean
 	{
-		var value, di, metaData, params, model, number, message, label, replacePairs;
+		var attribute, value, di, metaData, params, model, number, message, label, replacePairs;
 
-		let value = validation->getValue(field);
-
-                let di = validation->getDI();
-		let metaData = di->getShared("modelsMetadata");
-
-                let params = [];
-                let params["di"] = di,
-                        params["conditions"] = ["[".field."] = ?0"],
-                        params["bind"] = [value],
-                        params["bindTypes"] = [metaData->getBindTypes(field)];
-
-                let model = this->getOption("model");
-		let number = {model}::count(params);
+		let value = validation->getValue(field),
+                        model = this->getOption("model"),
+                        attribute = this->getOption("attribute");
+                
+                if empty model {
+                        throw new Phalcon\Validation\Exception("Model must be set");
+                }
+                
+                if empty attribute {
+                        let attribute = field;
+                }
+                
+		let number = {model}::count([attribute . "=:value:", "bind": ["value" : value]]);
 
 		if number {
 
