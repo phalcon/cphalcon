@@ -17,17 +17,14 @@
   +------------------------------------------------------------------------+
 */
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
-
-#include "php.h"
-#include <ext/standard/php_string.h>
 #include "php_phalcon.h"
+
+#include <ext/standard/php_string.h>
+#include <Zend/zend_operators.h>
+
 #include "kernel/main.h"
 #include "kernel/memory.h"
 
-#include <Zend/zend_operators.h>
 
 void phalcon_make_printable_zval(zval *expr, zval *expr_copy, int *use_copy){
 	zend_make_printable_zval(expr, expr_copy, use_copy);

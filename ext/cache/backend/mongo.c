@@ -298,7 +298,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Mongo, save){
 
 	zval *key_name = NULL, *content = NULL, *lifetime = NULL, *stop_buffer = NULL;
 	zval *last_key, *frontend, *cached_content = NULL;
-	zval *prepared_content, *ttl = NULL, *collection, *timestamp;
+	zval *prepared_content = NULL, *ttl = NULL, *collection, *timestamp;
 	zval *conditions, *document, *data, *is_buffering;
 
 	PHALCON_MM_GROW();
@@ -361,7 +361,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Mongo, save){
 
 	if (Z_TYPE_P(document) == IS_ARRAY) { 
 		phalcon_array_update_string(&document, SL("time"), &timestamp, PH_COPY);
-		if (!phalcon_is_numeric(cached_content)) {
+		if (prepared_content) {
 			phalcon_array_update_string(&document, SL("data"), &prepared_content, PH_COPY);
 		} else {
 			phalcon_array_update_string(&document, SL("data"), &cached_content, PH_COPY);
@@ -373,7 +373,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Mongo, save){
 		phalcon_array_update_string(&data, SL("key"), &last_key, PH_COPY);
 		phalcon_array_update_string(&data, SL("time"), &timestamp, PH_COPY);
 
-		if (!phalcon_is_numeric(cached_content)) {
+		if (prepared_content) {
 			phalcon_array_update_string(&data, SL("data"), &prepared_content, PH_COPY);
 		} else {
 			phalcon_array_update_string(&data, SL("data"), &cached_content, PH_COPY);

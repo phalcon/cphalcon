@@ -20,7 +20,7 @@
 #ifndef PHALCON_CACHE_EXCEPTION_H
 #define PHALCON_CACHE_EXCEPTION_H
 
-#include "php_config.h"
+#include "php_phalcon.h"
 
 extern zend_class_entry *phalcon_cache_exception_ce;
 

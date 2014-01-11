@@ -32,20 +32,6 @@
 
 int nusphere_dbg_present;
 
-zend_class_entry *phalcon_mvc_model_row_ce;
-zend_class_entry *phalcon_mvc_model_criteria_ce;
-zend_class_entry *phalcon_mvc_model_message_ce;
-zend_class_entry *phalcon_mvc_model_manager_ce;
-zend_class_entry *phalcon_mvc_model_relation_ce;
-zend_class_entry *phalcon_mvc_model_exception_ce;
-zend_class_entry *phalcon_mvc_model_queryinterface_ce;
-zend_class_entry *phalcon_mvc_model_resultinterface_ce;
-zend_class_entry *phalcon_mvc_model_managerinterface_ce;
-zend_class_entry *phalcon_mvc_model_criteriainterface_ce;
-zend_class_entry *phalcon_mvc_model_relationinterface_ce;
-zend_class_entry *phalcon_mvc_model_messageinterface_ce;
-zend_class_entry *phalcon_mvc_model_validationfailed_ce;
-
 ZEND_DECLARE_MODULE_GLOBALS(phalcon)
 
 #if PHP_VERSION_ID >= 50500
@@ -676,6 +662,7 @@ const
 #endif
 zend_module_dep phalcon_deps[] = {
 	ZEND_MOD_REQUIRED("spl")
+	ZEND_MOD_REQUIRED("date")
 #if PHALCON_USE_PHP_JSON
 	ZEND_MOD_REQUIRED("json")
 #else

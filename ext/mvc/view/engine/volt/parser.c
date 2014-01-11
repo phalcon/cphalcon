@@ -1555,7 +1555,7 @@ static const char *kkRuleName[] = {
 */
 const char *phvolt_TokenName(int tokenType){
 #ifndef NDEBUG
-  if( tokenType>0 && tokenType<(sizeof(kkTokenName)/sizeof(kkTokenName[0])) ){
+  if( tokenType>0 && (size_t)tokenType<(sizeof(kkTokenName)/sizeof(kkTokenName[0])) ){
     return kkTokenName[tokenType];
   }else{
     return "Unknown";
@@ -1802,7 +1802,7 @@ static int kk_find_shift_action(
     return KK_NO_ACTION;
   }
   i += iLookAhead;
-  if( i<0 || i>=KK_SZ_ACTTAB || kk_lookahead[i]!=iLookAhead ){
+  if( i<0 || i>=(int)KK_SZ_ACTTAB || kk_lookahead[i]!=iLookAhead ){
 #ifdef KKFALLBACK
     int iFallback;            /* Fallback token */
     if( iLookAhead<sizeof(kkFallback)/sizeof(kkFallback[0])
@@ -1845,7 +1845,7 @@ static int kk_find_reduce_action(
     return KK_NO_ACTION;
   }
   i += iLookAhead;
-  if( i<0 || i>=KK_SZ_ACTTAB || kk_lookahead[i]!=iLookAhead ){
+  if( i<0 || i>=(int)KK_SZ_ACTTAB || kk_lookahead[i]!=iLookAhead ){
     return kk_default[stateno];
   }else{
     return kk_action[i];
@@ -2054,7 +2054,7 @@ static void kk_reduce(
   kkmsp = &kkpParser->kkstack[kkpParser->kkidx];
 #ifndef NDEBUG
   if( kkTraceFILE && kkruleno>=0 
-        && kkruleno<sizeof(kkRuleName)/sizeof(kkRuleName[0]) ){
+        && kkruleno<(int)(sizeof(kkRuleName)/sizeof(kkRuleName[0])) ){
     fprintf(kkTraceFILE, "%sReduce [%s].\n", kkTracePrompt,
       kkRuleName[kkruleno]);
   }
@@ -3078,7 +3078,7 @@ static void kk_syntax_error(
 		char *token_name = NULL;
 		const phvolt_token_names *tokens = phvolt_tokens;
 		int token_len = 0;
-		int active_token = status->scanner_state->active_token;
+		uint active_token = status->scanner_state->active_token;
 
 		if (status->scanner_state->start_length) {
 
@@ -3551,10 +3551,10 @@ int phvolt_parse_view(zval *result, zval *view_code, zval *template_path TSRMLS_
 int phvolt_is_blank_string(phvolt_scanner_token *token){
 
 	char *marker = token->value;
-	unsigned int ch, i;
+	int i;
 
 	for (i = 0; i < token->len; i++) {
-		ch = *marker;
+		char ch = *marker;
 		if (ch != ' ' && ch != '\t' && ch != '\n' && ch != '\r' && ch != 11) {
 			return 0;
 		}

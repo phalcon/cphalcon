@@ -17,22 +17,17 @@
   +------------------------------------------------------------------------+
 */
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
-
-#include "php.h"
 #include "php_phalcon.h"
-#include "php_main.h"
+
 #include <ext/spl/spl_exceptions.h>
+#include <Zend/zend_exceptions.h>
+#include <Zend/zend_interfaces.h>
 
 #include "kernel/main.h"
 #include "kernel/memory.h"
 #include "kernel/fcall.h"
 #include "kernel/exception.h"
 
-#include <Zend/zend_exceptions.h>
-#include <Zend/zend_interfaces.h>
 
 /**
  * Initialize globals on each request or each thread started

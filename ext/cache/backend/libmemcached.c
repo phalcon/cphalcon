@@ -281,7 +281,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Libmemcached, save){
 
 	zval *key_name = NULL, *content = NULL, *lifetime = NULL, *stop_buffer = NULL;
 	zval *last_key, *frontend, *memcache, *cached_content;
-	zval *prepared_content, *ttl, *success;
+	zval *prepared_content = NULL, *ttl, *success;
 	zval *options, *special_key, *keys = NULL, *is_buffering;
 
 	PHALCON_MM_GROW();
@@ -343,7 +343,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Libmemcached, save){
 	}
 
 	PHALCON_OBS_VAR(success);
-	if (phalcon_is_numeric(cached_content)) {
+	if (!prepared_content) {
 		phalcon_call_method_p3_ex(success, &success, memcache, "set", last_key, cached_content, ttl);
 	} else {
 		phalcon_call_method_p3_ex(success, &success, memcache, "set", last_key, prepared_content, ttl);

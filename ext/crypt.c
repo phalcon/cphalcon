@@ -316,7 +316,7 @@ static void phalcon_crypt_unpad_text(zval *return_value, zval *text, zval *mode,
 	int i;
 	char *str_mode;
 	char *str_text;
-	int text_len;
+	uint text_len;
 
 	assert(Z_TYPE_P(text) == IS_STRING);
 	assert(Z_TYPE_P(mode) == IS_STRING);
@@ -324,12 +324,12 @@ static void phalcon_crypt_unpad_text(zval *return_value, zval *text, zval *mode,
 	padding_size = 0;
 	str_mode = Z_STRVAL_P(mode);
 	str_text = Z_STRVAL_P(text);
-	text_len   = Z_STRLEN_P(text);
+	text_len = Z_STRLEN_P(text);
 
 	if (text_len && (text_len % block_size == 0) && (!strcmp(str_mode, "ecb") || !strcmp(str_mode, "cbc"))) {
 		switch (padding_type) {
 			case PHALCON_CRYPT_PADDING_ANSI_X_923:
-				if (str_text[text_len-1] <= block_size) {
+				if ((unsigned char)(str_text[text_len-1]) <= block_size) {
 					padding_size = str_text[text_len-1];
 
 					memset(padding, 0, padding_size - 1);
@@ -343,7 +343,7 @@ static void phalcon_crypt_unpad_text(zval *return_value, zval *text, zval *mode,
 				break;
 
 			case PHALCON_CRYPT_PADDING_PKCS7:
-				if (str_text[text_len-1] <= block_size) {
+				if ((unsigned char)(str_text[text_len-1]) <= block_size) {
 					padding_size = str_text[text_len-1];
 
 					memset(padding, padding_size, padding_size);

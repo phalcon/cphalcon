@@ -201,7 +201,7 @@ void phalcon_hash_update_or_insert(HashTable *ht, zval *key, zval *value)
 		case IS_DOUBLE:
 		case IS_BOOL:
 		case IS_LONG:
-			zend_hash_index_update(ht, ((Z_TYPE_P(key) == IS_DOUBLE) ? (ulong)Z_DVAL_P(key) : Z_LVAL_P(key)), (void*)&value, sizeof(zval*), NULL);
+			zend_hash_index_update(ht, ((Z_TYPE_P(key) == IS_DOUBLE) ? (ulong)Z_DVAL_P(key) : (ulong)Z_LVAL_P(key)), (void*)&value, sizeof(zval*), NULL);
 			return;
 
 		default:
