@@ -17,20 +17,15 @@
   +------------------------------------------------------------------------+
 */
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
-
-#include "php.h"
 #include "php_phalcon.h"
-
-#include "kernel/main.h"
-#include "kernel/fcall.h"
-#include "kernel/session.h"
 
 #ifdef PHALCON_USE_PHP_SESSION
 #include <ext/session/php_session.h>
 #endif
+
+#include "kernel/main.h"
+#include "kernel/fcall.h"
+#include "kernel/session.h"
 
 void phalcon_session_start(TSRMLS_D)
 {

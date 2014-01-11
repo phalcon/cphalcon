@@ -17,18 +17,15 @@
   +------------------------------------------------------------------------+
 */
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
-
-#include "php.h"
 #include "php_phalcon.h"
-#include "php_main.h"
+
+#include <main/php_main.h>
+#include <Zend/zend_exceptions.h>
+
 #include "kernel/main.h"
 #include "kernel/require.h"
 #include "kernel/memory.h"
 #include "kernel/debug.h"
-#include <Zend/zend_exceptions.h>
 
 int ZEND_FASTCALL phalcon_internal_require(zval *return_value, const zval *require_path TSRMLS_DC){
 

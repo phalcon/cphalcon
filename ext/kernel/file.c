@@ -17,14 +17,11 @@
   +------------------------------------------------------------------------+
 */
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
-
-#include "php.h"
 #include "php_phalcon.h"
-#include "php_main.h"
-#include "main/php_streams.h"
+
+#include <main/php_streams.h>
+#include <Zend/zend_exceptions.h>
+#include <Zend/zend_interfaces.h>
 #include <ext/standard/file.h>
 #include <ext/standard/php_smart_str.h>
 #include <ext/standard/php_filestat.h>
@@ -35,9 +32,6 @@
 #include "kernel/concat.h"
 #include "kernel/operators.h"
 #include "kernel/file.h"
-
-#include <Zend/zend_exceptions.h>
-#include <Zend/zend_interfaces.h>
 
 /**
  * Checks if a file exist

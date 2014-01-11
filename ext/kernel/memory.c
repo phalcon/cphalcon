@@ -17,11 +17,6 @@
   +------------------------------------------------------------------------+
 */
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
-
-#include "main/php.h"
 #include "php_phalcon.h"
 
 #include <Zend/zend_alloc.h>

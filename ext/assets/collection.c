@@ -17,10 +17,6 @@
   +------------------------------------------------------------------------+
 */
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
-
 #include "php_phalcon.h"
 #include "assets/collection.h"
 #include "assets/exception.h"
