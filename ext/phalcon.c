@@ -662,6 +662,7 @@ const
 #endif
 zend_module_dep phalcon_deps[] = {
 	ZEND_MOD_REQUIRED("spl")
+	ZEND_MOD_REQUIRED("date")
 #if PHALCON_USE_PHP_JSON
 	ZEND_MOD_REQUIRED("json")
 #else
