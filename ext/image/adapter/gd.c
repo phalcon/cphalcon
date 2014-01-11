@@ -722,7 +722,7 @@ PHP_METHOD(Phalcon_Image_Adapter_GD, _sharpen) {
 	}
 
 	PHALCON_INIT_NVAR(tmp_amount);
-	ZVAL_LONG(tmp_amount, floor(a*100+0.5)/100);
+	ZVAL_LONG(tmp_amount, (long int)(floor(a*100.0+0.5)/100));
 
 	PHALCON_INIT_VAR(matrix);
 	array_init_size(matrix, 3);
@@ -931,13 +931,13 @@ PHP_METHOD(Phalcon_Image_Adapter_GD, _watermark) {
 
 	int_opacity = Z_LVAL_P(opacity);
 	if (int_opacity < 100) {
-		num = (int_opacity * 127 / 100) - 127;
+		num = (int_opacity * 127.0 / 100) - 127;
 
 		if (num < 0) {
-			num = num * -1;
+			num = -num;
 		}
 
-		int_opacity = num;
+		int_opacity = (int)num;
 
 		PHALCON_INIT_VAR(op);
 		ZVAL_LONG(op, int_opacity);
@@ -1288,13 +1288,13 @@ PHP_METHOD(Phalcon_Image_Adapter_GD, _background) {
 
 	int_opacity = Z_LVAL_P(opacity);
 
-	num = (int_opacity * 127 / 100) - 127;
+	num = (int_opacity * 127.0 / 100) - 127;
 
 	if (num < 0) {
 		num = -num;
 	}
 
-	int_opacity = num;
+	int_opacity = (int)num;
 
 	PHALCON_OBS_VAR(background);
 	phalcon_call_method_p2_ex(background, &background, this_ptr, "_create", width, height);

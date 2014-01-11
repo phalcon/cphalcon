@@ -24,7 +24,7 @@
 #include "http/requestinterface.h"
 #include "session/adapterinterface.h"
 
-#include <math.h>
+#include <stdlib.h>
 
 #ifdef PHALCON_USE_PHP_HASH
 #include <ext/hash/php_hash.h>
@@ -751,6 +751,7 @@ PHP_METHOD(Phalcon_Security, pbkdf2)
 		int i_hash_len, block_count, i, j, k;
 		int salt_len = Z_STRLEN_PP(salt);
 		char *s;
+		div_t d;
 
 		PHALCON_MM_GROW();
 
@@ -776,7 +777,9 @@ PHP_METHOD(Phalcon_Security, pbkdf2)
 
 		PHALCON_INIT_VAR(result);
 
-		block_count = ceil((float)i_size / i_hash_len);
+		d           = div(i_size, i_hash_len);
+		block_count = d.quot + (d.rem ? 1 : 0);
+
 		for (i=1; i<=block_count; ++i) {
 			s[salt_len+0] = (unsigned char)(i >> 24);
 			s[salt_len+1] = (unsigned char)(i >> 16);

@@ -23,6 +23,8 @@
 #include "paginator/adapterinterface.h"
 #include "paginator/exception.h"
 
+#include <math.h>
+
 #include "kernel/main.h"
 #include "kernel/memory.h"
 #include "kernel/object.h"
@@ -157,7 +159,7 @@ PHP_METHOD(Phalcon_Paginator_Adapter_Model, getPaginate){
 	}
 	
 	PHALCON_INIT_VAR(total_pages);
-	ZVAL_LONG(total_pages, ceil(Z_DVAL_P(possible_pages)));
+	ZVAL_LONG(total_pages, (long int)ceil(Z_DVAL_P(possible_pages)));
 	if (Z_TYPE_P(items) != IS_OBJECT) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_paginator_exception_ce, "Invalid data for paginator");
 		return;
