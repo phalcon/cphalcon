@@ -1489,6 +1489,168 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, _statementListOrExtends) {
 }
 
 /**
+ * Compiles a "foreach" intermediate code representation into plain PHP code
+ *
+ * @param array statement
+ * @param boolean extendsMode
+ * @return string
+ */
+PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compileForeach) {
+
+	HashTable *_1;
+	HashPosition _0;
+	zend_bool extendsMode;
+	zval *statement, *extendsMode_param = NULL, *compilation, *prefix, *level, *prefixLevel, *expr, *exprCode, *bstatement = NULL, *type, *blockStatements, *forElse = NULL, *code, *loopContext, *iterator = NULL, *key, *ifExpr, *variable, **_2, *_3 = NULL, *_4 = NULL, *_5 = NULL, *_6 = NULL, *_7 = NULL, *_8 = NULL, *_9 = NULL, *_10, *_11;
+
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 1, 1, &statement, &extendsMode_param);
+
+	if (!extendsMode_param) {
+		extendsMode = 0;
+	} else {
+		extendsMode = zephir_get_boolval(extendsMode_param);
+	}
+
+
+	if (!(zephir_array_isset_string(statement, SS("expr")))) {
+		ZEPHIR_THROW_EXCEPTION_STR(phalcon_mvc_view_exception_ce, "Corrupted statement");
+		return;
+	}
+	ZEPHIR_INIT_VAR(compilation);
+	ZVAL_STRING(compilation, "", 1);
+	ZEPHIR_INIT_VAR(forElse);
+	ZVAL_NULL(forElse);
+	ZEPHIR_INIT_VAR(prefix);
+	zephir_call_method(prefix, this_ptr, "getuniqueprefix");
+	level = zephir_fetch_nproperty_this(this_ptr, SL("_foreachLevel"), PH_NOISY_CC);
+	ZEPHIR_INIT_VAR(prefixLevel);
+	ZEPHIR_CONCAT_VV(prefixLevel, prefix, level);
+	zephir_array_fetch_string(&expr, statement, SL("expr"), PH_NOISY | PH_READONLY TSRMLS_CC);
+	ZEPHIR_INIT_VAR(exprCode);
+	zephir_call_method_p1(exprCode, this_ptr, "expression", expr);
+	zephir_array_fetch_string(&blockStatements, statement, SL("block_statements"), PH_NOISY | PH_READONLY TSRMLS_CC);
+	ZEPHIR_INIT_BNVAR(forElse);
+	ZVAL_BOOL(forElse, 0);
+	if ((Z_TYPE_P(blockStatements) == IS_ARRAY)) {
+		zephir_is_iterable(blockStatements, &_1, &_0, 0, 0);
+		for (
+			; zend_hash_get_current_data_ex(_1, (void**) &_2, &_0) == SUCCESS
+			; zend_hash_move_forward_ex(_1, &_0)
+		) {
+			ZEPHIR_GET_HVALUE(bstatement, _2);
+			if ((Z_TYPE_P(bstatement) != IS_ARRAY)) {
+				break;
+			}
+			if (!(zephir_array_isset_string_fetch(&type, bstatement, SS("type"), 1 TSRMLS_CC))) {
+				break;
+			}
+			if (ZEPHIR_IS_LONG(type, 321)) {
+				ZEPHIR_INIT_LNVAR(_3);
+				ZEPHIR_CONCAT_SVS(_3, "<?php $", prefixLevel, "iterated = false; ?>");
+				zephir_concat_self(&compilation, _3 TSRMLS_CC);
+				ZEPHIR_CPY_WRT(forElse, prefixLevel);
+				zephir_update_property_array(this_ptr, SL("_forElsePointers"), level, forElse TSRMLS_CC);
+				break;
+			}
+		}
+	}
+	ZEPHIR_INIT_VAR(code);
+	ZVAL_NULL(code);
+	loopContext = zephir_fetch_nproperty_this(this_ptr, SL("_loopPointers"), PH_NOISY_CC);
+	if (zephir_array_isset(loopContext, level)) {
+		ZEPHIR_INIT_LNVAR(_3);
+		ZEPHIR_CONCAT_SVSVS(_3, "<?php $", prefixLevel, "iterator = ", exprCode, "; ");
+		zephir_concat_self(&compilation, _3 TSRMLS_CC);
+		ZEPHIR_INIT_VAR(_4);
+		ZEPHIR_CONCAT_SVS(_4, "$", prefixLevel, "incr = 0; ");
+		zephir_concat_self(&compilation, _4 TSRMLS_CC);
+		ZEPHIR_INIT_VAR(_5);
+		ZEPHIR_CONCAT_SVS(_5, "$", prefixLevel, "loop = new stdClass(); ");
+		zephir_concat_self(&compilation, _5 TSRMLS_CC);
+		ZEPHIR_INIT_VAR(_6);
+		ZEPHIR_CONCAT_SVSVS(_6, "$", prefixLevel, "loop->length = count(", prefixLevel, "iterator); ");
+		zephir_concat_self(&compilation, _6 TSRMLS_CC);
+		ZEPHIR_INIT_VAR(_7);
+		ZEPHIR_CONCAT_SVS(_7, "$", prefixLevel, "loop->index = 1; ");
+		zephir_concat_self(&compilation, _7 TSRMLS_CC);
+		ZEPHIR_INIT_VAR(_8);
+		ZEPHIR_CONCAT_SVS(_8, "$", prefixLevel, "loop->index0 = 1; ");
+		zephir_concat_self(&compilation, _8 TSRMLS_CC);
+		ZEPHIR_INIT_VAR(_9);
+		ZEPHIR_CONCAT_SVSVS(_9, "$", prefixLevel, "loop->revindex = ", prefixLevel, "loop->length; ");
+		zephir_concat_self(&compilation, _9 TSRMLS_CC);
+		ZEPHIR_INIT_VAR(_10);
+		ZEPHIR_CONCAT_SVSVS(_10, "$", prefixLevel, "loop->revindex0 = ", prefixLevel, "loop->length - 1; ?>");
+		zephir_concat_self(&compilation, _10 TSRMLS_CC);
+		ZEPHIR_INIT_VAR(iterator);
+		ZEPHIR_CONCAT_SVS(iterator, "$", prefixLevel, "iterator");
+	} else {
+		ZEPHIR_CPY_WRT(iterator, exprCode);
+	}
+	zephir_array_fetch_string(&variable, statement, SL("variable"), PH_NOISY | PH_READONLY TSRMLS_CC);
+	if (zephir_array_isset_string_fetch(&key, statement, SS("key"), 1 TSRMLS_CC)) {
+		ZEPHIR_INIT_LNVAR(_4);
+		ZEPHIR_CONCAT_SVSVSVS(_4, "<?php foreach (", iterator, " as ", key, " => ", variable, ") { ");
+		zephir_concat_self(&compilation, _4 TSRMLS_CC);
+	} else {
+		ZEPHIR_INIT_LNVAR(_4);
+		ZEPHIR_CONCAT_SVSVS(_4, "<?php foreach (", iterator, " as ", variable, ") { ");
+		zephir_concat_self(&compilation, _4 TSRMLS_CC);
+	}
+	if (zephir_array_isset_string_fetch(&ifExpr, statement, SS("if_expr"), 1 TSRMLS_CC)) {
+		ZEPHIR_INIT_VAR(_11);
+		zephir_call_method_p1(_11, this_ptr, "expression", ifExpr);
+		ZEPHIR_INIT_LNVAR(_4);
+		ZEPHIR_CONCAT_SVS(_4, "if (", _11, ") { ?>");
+		zephir_concat_self(&compilation, _4 TSRMLS_CC);
+	} else {
+		zephir_concat_self_str(&compilation, SL("?>") TSRMLS_CC);
+	}
+	if (zephir_array_isset(loopContext, level)) {
+		ZEPHIR_INIT_LNVAR(_4);
+		ZEPHIR_CONCAT_SVSVS(_4, "<?php $", prefixLevel, "loop->first = (", prefixLevel, "incr == 0); ");
+		zephir_concat_self(&compilation, _4 TSRMLS_CC);
+		ZEPHIR_INIT_LNVAR(_5);
+		ZEPHIR_CONCAT_SVSVS(_5, "$", prefixLevel, "loop->index = ", prefixLevel, "incr + 1; ");
+		zephir_concat_self(&compilation, _5 TSRMLS_CC);
+		ZEPHIR_INIT_LNVAR(_6);
+		ZEPHIR_CONCAT_SVSVS(_6, "$", prefixLevel, "loop->index0 = ", prefixLevel, "incr; ");
+		zephir_concat_self(&compilation, _6 TSRMLS_CC);
+		ZEPHIR_INIT_LNVAR(_7);
+		ZEPHIR_CONCAT_SVSVSVS(_7, "$", prefixLevel, "loop->revindex = ", prefixLevel, "loop->length - ", prefixLevel, "incr; ");
+		zephir_concat_self(&compilation, _7 TSRMLS_CC);
+		ZEPHIR_INIT_LNVAR(_8);
+		ZEPHIR_CONCAT_SVSVSVS(_8, "$", prefixLevel, "loop->revindex0 = ", prefixLevel, "loop->length - (", prefixLevel, "incr + 1); ");
+		zephir_concat_self(&compilation, _8 TSRMLS_CC);
+		ZEPHIR_INIT_LNVAR(_9);
+		ZEPHIR_CONCAT_SVSVSVS(_9, "$", prefixLevel, "loop->last = (", prefixLevel, "incr == (", prefixLevel, "loop->length - 1)); ?>");
+		zephir_concat_self(&compilation, _9 TSRMLS_CC);
+	}
+	if ((Z_TYPE_P(forElse) == IS_STRING)) {
+		ZEPHIR_INIT_LNVAR(_4);
+		ZEPHIR_CONCAT_SVS(_4, "<?php $", forElse, "iterated = true; ?>");
+		zephir_concat_self(&compilation, _4 TSRMLS_CC);
+	}
+	zephir_concat_self(&compilation, code TSRMLS_CC);
+	if (zephir_array_isset_string(statement, SS("if_expr"))) {
+		zephir_concat_self_str(&compilation, SL("<?php } ?>") TSRMLS_CC);
+	}
+	if ((Z_TYPE_P(forElse) == IS_STRING)) {
+		zephir_concat_self_str(&compilation, SL("<?php } ?>") TSRMLS_CC);
+	} else {
+		if (zephir_array_isset(loopContext, level)) {
+			ZEPHIR_INIT_LNVAR(_4);
+			ZEPHIR_CONCAT_SVS(_4, "<?php $", prefixLevel, "incr++; } ?>");
+			zephir_concat_self(&compilation, _4 TSRMLS_CC);
+		} else {
+			zephir_concat_self_str(&compilation, SL("<?php } ?>") TSRMLS_CC);
+		}
+	}
+	RETURN_CCTOR(compilation);
+
+}
+
+/**
  * Compiles a template into a string
  *
  *<code>

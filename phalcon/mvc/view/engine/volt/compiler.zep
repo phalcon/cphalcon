@@ -1380,6 +1380,166 @@ class Compiler implements Phalcon\Di\InjectionAwareInterface
 	}
 
 	/**
+	 * Compiles a "foreach" intermediate code representation into plain PHP code
+	 *
+	 * @param array statement
+	 * @param boolean extendsMode
+	 * @return string
+	 */
+	public function compileForeach(var statement, boolean extendsMode=false) -> string
+	{
+		var compilation, prefix, level, prefixLevel, expr,
+			exprCode, bstatement, type, blockStatements, forElse, code,
+			loopContext, iterator, key, ifExpr, variable;
+
+		/**
+		 * A valid expression is required
+		 */
+		if !isset statement["expr"] {
+			throw new Phalcon\Mvc\View\Exception("Corrupted statement");
+		}
+
+		let compilation = "", forElse = null;
+
+		let this->_foreachLevel++;
+
+		let prefix = this->getUniquePrefix();
+		let level = this->_foreachLevel;
+
+		/**
+		 * prefixLevel is used to prefix every temporal variable
+		 */
+		let prefixLevel = prefix . level;
+
+		/**
+		 * Evaluate common expressions
+		 */
+		let expr = statement["expr"];
+		let exprCode = this->expression(expr);
+
+		/**
+		 * Process the block statements
+		 */
+		let blockStatements = statement["block_statements"];
+
+		let forElse = false;
+		if typeof blockStatements == "array" {
+
+			for bstatement in blockStatements {
+
+				if typeof bstatement != "array" {
+					break;
+				}
+
+				/**
+				 * Check if the statement is valid
+				 */
+				if !fetch type, bstatement["type"] {
+					break;
+				}
+
+				if type == 321 {
+					let compilation .= "<?php $" . prefixLevel . "iterated = false; ?>";
+					let forElse = prefixLevel;
+					let this->_forElsePointers[level] = forElse;
+					break;
+				}
+
+			}
+		}
+
+		/**
+		 * Process statements block
+		 */
+		//let code = this->_statementList(blockStatements, extendsMode);
+		let code = null;
+
+		let loopContext = this->_loopPointers;
+
+		/**
+		 * Generate the loop context for the "foreach"
+		 */
+		if isset loopContext[level] {
+			let compilation .= "<?php $" . prefixLevel . "iterator = " . exprCode . "; ";
+			let compilation .= "$" . prefixLevel . "incr = 0; ";
+			let compilation .= "$" . prefixLevel . "loop = new stdClass(); ";
+			let compilation .= "$" . prefixLevel . "loop->length = count(" . prefixLevel . "iterator); ";
+			let compilation .= "$" . prefixLevel . "loop->index = 1; ";
+			let compilation .= "$" . prefixLevel . "loop->index0 = 1; ";
+			let compilation .= "$" . prefixLevel . "loop->revindex = " . prefixLevel . "loop->length; ";
+			let compilation .= "$" . prefixLevel . "loop->revindex0 = " . prefixLevel . "loop->length - 1; ?>";
+			let iterator = "$" . prefixLevel . "iterator";
+		} else {
+			let iterator = exprCode;
+		}
+
+		/**
+		 * Foreach statement
+		 */
+		let variable = statement["variable"];
+
+		/**
+		 * Check if a "key" variable needs to be calculated
+		 */
+		if fetch key, statement["key"] {
+			let compilation .= "<?php foreach (" . iterator . " as " . key . " => " . variable . ") { ";
+		} else {
+			let compilation .= "<?php foreach (" . iterator . " as " . variable . ") { ";
+		}
+
+		/**
+		 * Check for an "if" expr in the block
+		 */
+		if fetch ifExpr, statement["if_expr"] {
+			let compilation .= "if (" . this->expression(ifExpr) . ") { ?>";
+		} else {
+			let compilation .= "?>";
+		}
+
+		/**
+		 * Generate the loop context inside the cycle
+		 */
+		if isset loopContext[level] {
+			let compilation .= "<?php $" . prefixLevel . "loop->first = (" . prefixLevel . "incr == 0); ";
+			let compilation .= "$" . prefixLevel . "loop->index = " . prefixLevel . "incr + 1; ";
+			let compilation .= "$" . prefixLevel . "loop->index0 = " . prefixLevel . "incr; ";
+			let compilation .= "$" . prefixLevel . "loop->revindex = " . prefixLevel . "loop->length - " . prefixLevel . "incr; ";
+			let compilation .= "$" . prefixLevel . "loop->revindex0 = " . prefixLevel . "loop->length - (" . prefixLevel . "incr + 1); ";
+			let compilation .= "$" . prefixLevel . "loop->last = (" . prefixLevel . "incr == (" . prefixLevel . "loop->length - 1)); ?>";
+		}
+
+		/**
+		 * Update the forelse var if it"s iterated at least one time
+		 */
+		if typeof forElse == "string" {
+			let compilation .= "<?php $" . forElse . "iterated = true; ?>";
+		}
+
+		/**
+		 * Append the internal block compilation
+		 */
+		let compilation .= code;
+
+		if isset statement["if_expr"] {
+			let compilation .= "<?php } ?>";
+		}
+
+		if typeof forElse == "string" {
+			let compilation .= "<?php } ?>";
+		} else {
+			if isset loopContext[level] {
+				let compilation .= "<?php $" . prefixLevel . "incr++; } ?>";
+			} else {
+				let compilation .= "<?php } ?>";
+			}
+		}
+
+		let this->_foreachLevel--;
+
+		return compilation;
+	}
+
+	/**
 	 * Compiles a template into a string
 	 *
 	 *<code>
