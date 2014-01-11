@@ -54,7 +54,8 @@ class Config implements ArrayAccess
 	 */
 	public function __construct(arrayConfig=null)
 	{
-		var key, value, subkey, subvalue, hasNumericKey;
+		var key, value, subkey, subvalue;
+		boolean hasNumericKey;
 
 		/**
 		 * Throw exceptions if bad parameters are passed
