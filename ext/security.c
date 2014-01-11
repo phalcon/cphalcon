@@ -865,7 +865,7 @@ PHP_METHOD(Phalcon_Security, deriveKey)
 
 #if defined(PHALCON_USE_PHP_HASH)
 	{
-		const php_hash_ops *ops = php_hash_fetch_ops(s_hash, Z_STRLEN_PP(hash));
+		const php_hash_ops *ops = php_hash_fetch_ops(s_hash, hash ? (size_t)(Z_STRLEN_PP(hash)) : strlen(s_hash));
 		void *context;
 		unsigned char *K1, *K2, *digest, *temp, *result, *computed_salt;
 		long int i, j, loops, digest_length;
