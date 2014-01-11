@@ -204,7 +204,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, valid){
 			PHALCON_INIT_NVAR(row);
 			phalcon_array_get_current(row, rows);
 			if (PHALCON_IS_NOT_FALSE(row)) {
-				phalcon_array_next(rows);
+				zend_hash_move_forward(Z_ARRVAL_P(rows));
 			}
 		} else {
 			PHALCON_INIT_NVAR(row);

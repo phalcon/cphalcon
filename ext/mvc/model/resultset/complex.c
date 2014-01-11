@@ -179,7 +179,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Complex, valid){
 		if (Z_TYPE_P(rows) == IS_ARRAY) { 
 			phalcon_array_get_current(row, rows);
 			if (Z_TYPE_P(row) == IS_OBJECT) {
-				phalcon_array_next(rows);
+				zend_hash_move_forward(Z_ARRVAL_P(rows));
 			}
 		} else {
 			ZVAL_FALSE(row);

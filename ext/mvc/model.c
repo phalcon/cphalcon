@@ -4787,7 +4787,7 @@ PHP_METHOD(Phalcon_Mvc_Model, update){
 	
 			PHALCON_INIT_VAR(messages);
 			array_init_size(messages, 1);
-			phalcon_array_append(&messages, model_message, PH_SEPARATE);
+			phalcon_array_append(&messages, model_message, 0);
 			phalcon_update_property_this(this_ptr, SL("_errorMessages"), messages TSRMLS_CC);
 			RETURN_MM_FALSE;
 		}
