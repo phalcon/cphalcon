@@ -211,10 +211,10 @@ int phvolt_parse_view(zval *result, zval *view_code, zval *template_path TSRMLS_
 int phvolt_is_blank_string(phvolt_scanner_token *token){
 
 	char *marker = token->value;
-	unsigned int ch, i;
+	int i;
 
 	for (i = 0; i < token->len; i++) {
-		ch = *marker;
+		char ch = *marker;
 		if (ch != ' ' && ch != '\t' && ch != '\n' && ch != '\r' && ch != 11) {
 			return 0;
 		}

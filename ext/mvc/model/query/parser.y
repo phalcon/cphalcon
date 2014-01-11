@@ -466,8 +466,8 @@ static zval *phql_ret_func_call(phql_parser_token *name, zval *arguments, zval *
 			int token_found = 0;
 			unsigned int token_length;
 			const phql_token_names *tokens = phql_tokens;
-			int active_token = status->scanner_state->active_token;
-			int near_length = status->scanner_state->start_length;
+			uint active_token = status->scanner_state->active_token;
+			uint near_length = status->scanner_state->start_length;
 
 			if (active_token) {
 

@@ -604,7 +604,7 @@ static zval *phvolt_ret_macro_call_statement(zval *expr, zval *arguments, zval *
 		char *token_name = NULL;
 		const phvolt_token_names *tokens = phvolt_tokens;
 		int token_len = 0;
-		int active_token = status->scanner_state->active_token;
+		uint active_token = status->scanner_state->active_token;
 
 		if (status->scanner_state->start_length) {
 

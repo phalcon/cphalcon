@@ -274,7 +274,7 @@ void phalcon_camelize(zval *return_value, const zval *str){
  */
 void phalcon_uncamelize(zval *return_value, const zval *str){
 
-	unsigned int i;
+	int i;
 	smart_str uncamelize_str = {0};
 	char *marker, ch;
 
@@ -369,7 +369,7 @@ int phalcon_memnstr_str(const zval *haystack, char *needle, unsigned int needle_
 		return 0;
 	}
 
-	if (Z_STRLEN_P(haystack) >= needle_length) {
+	if ((uint)(Z_STRLEN_P(haystack)) >= needle_length) {
 		return php_memnstr(Z_STRVAL_P(haystack), needle, needle_length, Z_STRVAL_P(haystack) + Z_STRLEN_P(haystack)) ? 1 : 0;
 	}
 
@@ -655,7 +655,7 @@ int phalcon_start_with(const zval *str, const zval *compared, zval *case_sensiti
  */
 int phalcon_start_with_str(const zval *str, char *compared, unsigned int compared_length){
 
-	if (Z_TYPE_P(str) != IS_STRING || compared_length > Z_STRLEN_P(str)) {
+	if (Z_TYPE_P(str) != IS_STRING || compared_length > (uint)(Z_STRLEN_P(str))) {
 		return 0;
 	}
 
@@ -723,7 +723,7 @@ int phalcon_end_with_str(const zval *str, char *compared, unsigned int compared_
 		return 0;
 	}
 
-	if (!compared_length || !Z_STRLEN_P(str) || compared_length > Z_STRLEN_P(str)) {
+	if (!compared_length || !Z_STRLEN_P(str) || compared_length > (uint)(Z_STRLEN_P(str))) {
 		return 0;
 	}
 
@@ -873,6 +873,7 @@ int phalcon_spprintf(char **message, int max_len, char *format, ...)
  */
 void phalcon_substr(zval *return_value, zval *str, unsigned long from, unsigned long length) {
 
+	uint str_len = (uint)(Z_STRLEN_P(str));
 	if (Z_TYPE_P(str) != IS_STRING) {
 
 		if (Z_TYPE_P(str) == IS_NULL || Z_TYPE_P(str) == IS_BOOL) {
@@ -887,19 +888,19 @@ void phalcon_substr(zval *return_value, zval *str, unsigned long from, unsigned 
 		RETURN_FALSE;
 	}
 
-	if (Z_STRLEN_P(str) < from){
+	if (str_len < from){
 		RETURN_FALSE;
 	}
 
-	if (!length || (Z_STRLEN_P(str) < (length + from))) {
-		length = Z_STRLEN_P(str) - from;
+	if (!length || (str_len < length + from)) {
+		length = str_len - from;
 	}
 
-	if (length <= 0){
+	if (!length){
 		RETURN_EMPTY_STRING();
 	}
 
-	RETURN_STRINGL(Z_STRVAL_P(str) + from, length, 1);
+	RETURN_STRINGL(Z_STRVAL_P(str) + from, (int)length, 1);
 }
 
 void phalcon_append_printable_array(smart_str *implstr, zval *value TSRMLS_DC) {

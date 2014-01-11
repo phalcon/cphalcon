@@ -28,8 +28,8 @@
 void phvolt_rtrim(phvolt_scanner_token *token) {
 
 	char *cursor, *removed_str;
-	unsigned int i;
-	unsigned char ch;
+	int i;
+	char ch;
 
 	if (token->len > 0) {
 
@@ -58,14 +58,13 @@ void phvolt_rtrim(phvolt_scanner_token *token) {
 void phvolt_ltrim(phvolt_scanner_token *token) {
 
 	char *cursor, *removed_str;
-	unsigned int i;
-	unsigned char ch;
+	int i;
 
 	if (token->len > 0) {
 
 		cursor = token->value;
 		for (i = 0; i < token->len; i++) {
-			ch = (*cursor);
+			char ch = (*cursor);
 			if (ch == '\t' || ch == '\n' || ch == '\r' || ch == ' ' || ch == '\v') {
 				cursor++;
 				continue;

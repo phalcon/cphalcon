@@ -122,7 +122,7 @@ void phalcon_fix_path(zval **return_value, zval *path, zval *directory_separator
  */
 void phalcon_prepare_virtual_path(zval *return_value, zval *path, zval *virtual_separator TSRMLS_DC) {
 
-	unsigned int i;
+	int i;
 	unsigned char ch;
 	smart_str virtual_str = {0};
 
@@ -189,7 +189,7 @@ void phalcon_realpath(zval *return_value, zval *filename TSRMLS_DC) {
 		RETURN_FALSE;
 	}
 
-	if (strlen(Z_STRVAL_P(filename)) != Z_STRLEN_P(filename)) {
+	if (strlen(Z_STRVAL_P(filename)) != (size_t)(Z_STRLEN_P(filename))) {
 		RETURN_FALSE;
 	}
 
@@ -205,7 +205,7 @@ void phalcon_realpath(zval *return_value, zval *filename TSRMLS_DC) {
  */
 void phalcon_possible_autoload_filepath(zval *return_value, zval *prefix, zval *class_name, zval *virtual_separator, zval *separator TSRMLS_DC) {
 
-	unsigned int i, length;
+	int i, length;
 	unsigned char ch;
 	smart_str virtual_str = {0};
 
@@ -415,7 +415,7 @@ void phalcon_unlink(zval *return_value, zval *path TSRMLS_DC)
 		php_stream_wrapper *wrapper;
 		zval *zctx = NULL;
 
-		if (unlikely(strlen(Z_STRVAL_P(path)) != Z_STRLEN_P(path))) {
+		if (unlikely(strlen(Z_STRVAL_P(path)) != (size_t)(Z_STRLEN_P(path)))) {
 			ZVAL_FALSE(return_value);
 			return;
 		}

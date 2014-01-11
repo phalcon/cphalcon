@@ -260,7 +260,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Memory, queryKeys){
 				(type = zend_hash_get_current_key_ex(Z_ARRVAL_P(data), &str_index, &str_index_len, &num_index, 0, &pos)) != HASH_KEY_NON_EXISTANT;
 				zend_hash_move_forward_ex(Z_ARRVAL_P(data), &pos)
 			) {
-				if (type == HASH_KEY_IS_STRING && str_index_len > Z_STRLEN_P(prefix) && !memcmp(Z_STRVAL_P(prefix), str_index, str_index_len-1)) {
+				if (type == HASH_KEY_IS_STRING && str_index_len > (uint)(Z_STRLEN_P(prefix)) && !memcmp(Z_STRVAL_P(prefix), str_index, str_index_len-1)) {
 					add_next_index_stringl(return_value, str_index, str_index_len-1, 1);
 				}
 				else if (unlikely(type == HASH_KEY_IS_LONG)) {

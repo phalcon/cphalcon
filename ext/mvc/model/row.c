@@ -135,7 +135,8 @@ static void phalcon_mvc_model_row_write_dimension(zval *object, zval *offset, zv
 	phalcon_mvc_model_row_object* obj = phalcon_mvc_model_row_get_object(object TSRMLS_CC);
 
 	if (UNEXPECTED(obj->obj.ce->type != ZEND_INTERNAL_CLASS)) {
-		return zend_get_std_object_handlers()->write_dimension(object, offset, value TSRMLS_CC);
+		zend_get_std_object_handlers()->write_dimension(object, offset, value TSRMLS_CC);
+		return;
 	}
 
 	zend_throw_exception_ex(phalcon_mvc_model_exception_ce, 0 TSRMLS_CC, "Phalcon\\Mvc\\Row is an immutable ArrayAccess object");

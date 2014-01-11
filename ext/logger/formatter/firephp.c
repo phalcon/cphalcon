@@ -130,7 +130,7 @@ PHP_METHOD(Phalcon_Logger_Formatter_Firephp, format) {
 	zval *payload, *body, *backtrace, *meta, *encoded;
 	zval *show_backtrace;
 	smart_str result = { NULL, 0, 0 };
-	int i;
+	uint i;
 	Bucket *p;
 
 	phalcon_fetch_params(0, 3, 0, &message, &type, &timestamp);
@@ -299,7 +299,7 @@ PHP_METHOD(Phalcon_Logger_Formatter_Firephp, format) {
 	 * memory reallocations.
 	 */
 	if (Z_TYPE_P(encoded) == IS_STRING && Z_STRVAL_P(encoded) != NULL) {
-		smart_str_alloc4(&result, Z_STRLEN_P(encoded) + 2 + 5, 0, i);
+		smart_str_alloc4(&result, (uint)(Z_STRLEN_P(encoded) + 2 + 5), 0, i);
 
 		/**
 		 * The format is:

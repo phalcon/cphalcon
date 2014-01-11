@@ -331,7 +331,7 @@ PHALCON_STATIC void phalcon_tag_render_attributes(zval *code, zval *attributes T
 	zval *escaper, *escaped = NULL, *attrs;
 	zval **value;
 	HashPosition hp;
-	int i;
+	uint i;
 
 	struct str_size_t {
 		const char *str;

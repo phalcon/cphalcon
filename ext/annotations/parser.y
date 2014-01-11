@@ -157,8 +157,8 @@ static zval *phannot_ret_annotation(phannot_parser_token *name, zval *arguments,
 			char *token_name = NULL;
 			const phannot_token_names *tokens = phannot_tokens;
 			int token_found = 0;
-			int active_token = status->scanner_state->active_token;
-			int near_length = status->scanner_state->start_length;
+			uint active_token = status->scanner_state->active_token;
+			uint near_length = status->scanner_state->start_length;
 
 			if (active_token) {
 				do {

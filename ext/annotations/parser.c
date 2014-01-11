@@ -6,6 +6,7 @@
 #include <stdio.h>
 /* #line 28 "parser.y" */
 
+
 #include "php_phalcon.h"
 
 #include <ext/standard/php_smart_str.h>
@@ -128,7 +129,7 @@ static zval *phannot_ret_annotation(phannot_parser_token *name, zval *arguments,
 }
 
 
-/* #line 139 "parser.c" */
+/* #line 133 "parser.c" */
 /* Next is all token values, in a form suitable for use by makeheaders.
 ** This section will be null unless lemon is run with the -m switch.
 */
@@ -422,7 +423,7 @@ static const char *jjRuleName[] = {
 */
 const char *phannot_TokenName(int tokenType){
 #ifndef NDEBUG
-  if( tokenType>0 && tokenType<(sizeof(jjTokenName)/sizeof(jjTokenName[0])) ){
+  if( tokenType>0 && (size_t)tokenType<(sizeof(jjTokenName)/sizeof(jjTokenName[0])) ){
     return jjTokenName[tokenType];
   }else{
     return "Unknown";
@@ -487,7 +488,7 @@ static void jj_destructor(JJCODETYPE jjmajor, JJMINORTYPE *jjpminor){
     case 15:
     case 16:
     case 17:
-/* #line 222 "parser.y" */
+/* #line 216 "parser.y" */
 {
 	if ((jjpminor->jj0)) {
 		if ((jjpminor->jj0)->free_flag) {
@@ -496,7 +497,7 @@ static void jj_destructor(JJCODETYPE jjmajor, JJMINORTYPE *jjpminor){
 		efree((jjpminor->jj0));
 	}
 }
-/* #line 507 "parser.c" */
+/* #line 501 "parser.c" */
       break;
     case 20:
     case 21:
@@ -504,9 +505,9 @@ static void jj_destructor(JJCODETYPE jjmajor, JJMINORTYPE *jjpminor){
     case 23:
     case 24:
     case 25:
-/* #line 235 "parser.y" */
+/* #line 229 "parser.y" */
 { zval_ptr_dtor(&(jjpminor->jj36)); }
-/* #line 517 "parser.c" */
+/* #line 511 "parser.c" */
       break;
     default:  break;   /* If no destructor action specified: do nothing */
   }
@@ -584,7 +585,7 @@ static int jj_find_shift_action(
     return JJ_NO_ACTION;
   }
   i += iLookAhead;
-  if( i<0 || i>=JJ_SZ_ACTTAB || jj_lookahead[i]!=iLookAhead ){
+  if( i<0 || i>=(int)JJ_SZ_ACTTAB || jj_lookahead[i]!=iLookAhead ){
 #ifdef JJFALLBACK
     int iFallback;            /* Fallback token */
     if( iLookAhead<sizeof(jjFallback)/sizeof(jjFallback[0])
@@ -627,7 +628,7 @@ static int jj_find_reduce_action(
     return JJ_NO_ACTION;
   }
   i += iLookAhead;
-  if( i<0 || i>=JJ_SZ_ACTTAB || jj_lookahead[i]!=iLookAhead ){
+  if( i<0 || i>=(int)JJ_SZ_ACTTAB || jj_lookahead[i]!=iLookAhead ){
     return jj_default[stateno];
   }else{
     return jj_action[i];
@@ -728,7 +729,7 @@ static void jj_reduce(
   jjmsp = &jjpParser->jjstack[jjpParser->jjidx];
 #ifndef NDEBUG
   if( jjTraceFILE && jjruleno>=0 
-        && jjruleno<sizeof(jjRuleName)/sizeof(jjRuleName[0]) ){
+        && jjruleno<(int)(sizeof(jjRuleName)/sizeof(jjRuleName[0])) ){
     fprintf(jjTraceFILE, "%sReduce [%s].\n", jjTracePrompt,
       jjRuleName[jjruleno]);
   }
@@ -744,166 +745,166 @@ static void jj_reduce(
   **     break;
   */
       case 0:
-/* #line 231 "parser.y" */
+/* #line 225 "parser.y" */
 {
 	status->ret = jjmsp[0].minor.jj36;
 }
-/* #line 759 "parser.c" */
+/* #line 753 "parser.c" */
         break;
       case 1:
       case 14:
       case 15:
-/* #line 237 "parser.y" */
+/* #line 231 "parser.y" */
 {
 	jjgotominor.jj36 = jjmsp[0].minor.jj36;
 }
-/* #line 768 "parser.c" */
+/* #line 762 "parser.c" */
         break;
       case 2:
-/* #line 243 "parser.y" */
+/* #line 237 "parser.y" */
 {
 	jjgotominor.jj36 = phannot_ret_zval_list(jjmsp[-1].minor.jj36, jjmsp[0].minor.jj36);
 }
-/* #line 775 "parser.c" */
+/* #line 769 "parser.c" */
         break;
       case 3:
       case 8:
-/* #line 247 "parser.y" */
+/* #line 241 "parser.y" */
 {
 	jjgotominor.jj36 = phannot_ret_zval_list(NULL, jjmsp[0].minor.jj36);
 }
-/* #line 783 "parser.c" */
+/* #line 777 "parser.c" */
         break;
       case 4:
-/* #line 254 "parser.y" */
+/* #line 248 "parser.y" */
 {
 	jjgotominor.jj36 = phannot_ret_annotation(jjmsp[-3].minor.jj0, jjmsp[-1].minor.jj36, status->scanner_state);
   jj_destructor(2,&jjmsp[-4].minor);
   jj_destructor(4,&jjmsp[-2].minor);
   jj_destructor(5,&jjmsp[0].minor);
 }
-/* #line 793 "parser.c" */
+/* #line 787 "parser.c" */
         break;
       case 5:
-/* #line 258 "parser.y" */
+/* #line 252 "parser.y" */
 {
 	jjgotominor.jj36 = phannot_ret_annotation(jjmsp[-2].minor.jj0, NULL, status->scanner_state);
   jj_destructor(2,&jjmsp[-3].minor);
   jj_destructor(4,&jjmsp[-1].minor);
   jj_destructor(5,&jjmsp[0].minor);
 }
-/* #line 803 "parser.c" */
+/* #line 797 "parser.c" */
         break;
       case 6:
-/* #line 262 "parser.y" */
+/* #line 256 "parser.y" */
 {
 	jjgotominor.jj36 = phannot_ret_annotation(jjmsp[0].minor.jj0, NULL, status->scanner_state);
   jj_destructor(2,&jjmsp[-1].minor);
 }
-/* #line 811 "parser.c" */
+/* #line 805 "parser.c" */
         break;
       case 7:
-/* #line 268 "parser.y" */
+/* #line 262 "parser.y" */
 {
 	jjgotominor.jj36 = phannot_ret_zval_list(jjmsp[-2].minor.jj36, jjmsp[0].minor.jj36);
   jj_destructor(1,&jjmsp[-1].minor);
 }
-/* #line 819 "parser.c" */
+/* #line 813 "parser.c" */
         break;
       case 9:
-/* #line 278 "parser.y" */
+/* #line 272 "parser.y" */
 {
 	jjgotominor.jj36 = phannot_ret_named_item(NULL, jjmsp[0].minor.jj36);
 }
-/* #line 826 "parser.c" */
+/* #line 820 "parser.c" */
         break;
       case 10:
       case 12:
-/* #line 282 "parser.y" */
+/* #line 276 "parser.y" */
 {
 	jjgotominor.jj36 = phannot_ret_named_item(jjmsp[-2].minor.jj0, jjmsp[0].minor.jj36);
   jj_destructor(7,&jjmsp[-1].minor);
 }
-/* #line 835 "parser.c" */
+/* #line 829 "parser.c" */
         break;
       case 11:
       case 13:
-/* #line 286 "parser.y" */
+/* #line 280 "parser.y" */
 {
 	jjgotominor.jj36 = phannot_ret_named_item(jjmsp[-2].minor.jj0, jjmsp[0].minor.jj36);
   jj_destructor(8,&jjmsp[-1].minor);
 }
-/* #line 844 "parser.c" */
+/* #line 838 "parser.c" */
         break;
       case 16:
-/* #line 308 "parser.y" */
+/* #line 302 "parser.y" */
 {
 	jjgotominor.jj36 = phannot_ret_literal_zval(PHANNOT_T_IDENTIFIER, jjmsp[0].minor.jj0);
 }
-/* #line 851 "parser.c" */
+/* #line 845 "parser.c" */
         break;
       case 17:
-/* #line 312 "parser.y" */
+/* #line 306 "parser.y" */
 {
 	jjgotominor.jj36 = phannot_ret_literal_zval(PHANNOT_T_INTEGER, jjmsp[0].minor.jj0);
 }
-/* #line 858 "parser.c" */
+/* #line 852 "parser.c" */
         break;
       case 18:
-/* #line 316 "parser.y" */
+/* #line 310 "parser.y" */
 {
 	jjgotominor.jj36 = phannot_ret_literal_zval(PHANNOT_T_STRING, jjmsp[0].minor.jj0);
 }
-/* #line 865 "parser.c" */
+/* #line 859 "parser.c" */
         break;
       case 19:
-/* #line 320 "parser.y" */
+/* #line 314 "parser.y" */
 {
 	jjgotominor.jj36 = phannot_ret_literal_zval(PHANNOT_T_DOUBLE, jjmsp[0].minor.jj0);
 }
-/* #line 872 "parser.c" */
+/* #line 866 "parser.c" */
         break;
       case 20:
-/* #line 324 "parser.y" */
+/* #line 318 "parser.y" */
 {
 	jjgotominor.jj36 = phannot_ret_literal_zval(PHANNOT_T_NULL, NULL);
   jj_destructor(11,&jjmsp[0].minor);
 }
-/* #line 880 "parser.c" */
+/* #line 874 "parser.c" */
         break;
       case 21:
-/* #line 328 "parser.y" */
+/* #line 322 "parser.y" */
 {
 	jjgotominor.jj36 = phannot_ret_literal_zval(PHANNOT_T_FALSE, NULL);
   jj_destructor(12,&jjmsp[0].minor);
 }
-/* #line 888 "parser.c" */
+/* #line 882 "parser.c" */
         break;
       case 22:
-/* #line 332 "parser.y" */
+/* #line 326 "parser.y" */
 {
 	jjgotominor.jj36 = phannot_ret_literal_zval(PHANNOT_T_TRUE, NULL);
   jj_destructor(13,&jjmsp[0].minor);
 }
-/* #line 896 "parser.c" */
+/* #line 890 "parser.c" */
         break;
       case 23:
-/* #line 336 "parser.y" */
+/* #line 330 "parser.y" */
 {
 	jjgotominor.jj36 = phannot_ret_array(jjmsp[-1].minor.jj36);
   jj_destructor(14,&jjmsp[-2].minor);
   jj_destructor(15,&jjmsp[0].minor);
 }
-/* #line 905 "parser.c" */
+/* #line 899 "parser.c" */
         break;
       case 24:
-/* #line 340 "parser.y" */
+/* #line 334 "parser.y" */
 {
 	jjgotominor.jj36 = phannot_ret_array(jjmsp[-1].minor.jj36);
   jj_destructor(16,&jjmsp[-2].minor);
   jj_destructor(17,&jjmsp[0].minor);
 }
-/* #line 914 "parser.c" */
+/* #line 908 "parser.c" */
         break;
   };
   jjgoto = jjRuleInfo[jjruleno].lhs;
@@ -945,7 +946,7 @@ static void jj_syntax_error(
 ){
   phannot_ARG_FETCH;
 #define JTOKEN (jjminor.jj0)
-/* #line 159 "parser.y" */
+/* #line 153 "parser.y" */
 
 	if (status->scanner_state->start_length) {
 		{
@@ -953,8 +954,8 @@ static void jj_syntax_error(
 			char *token_name = NULL;
 			const phannot_token_names *tokens = phannot_tokens;
 			int token_found = 0;
-			int active_token = status->scanner_state->active_token;
-			int near_length = status->scanner_state->start_length;
+			uint active_token = status->scanner_state->active_token;
+			uint near_length = status->scanner_state->start_length;
 
 			if (active_token) {
 				do {
@@ -1008,7 +1009,7 @@ static void jj_syntax_error(
 
 	status->status = PHANNOT_PARSING_FAILED;
 
-/* #line 1019 "parser.c" */
+/* #line 1013 "parser.c" */
   phannot_ARG_STORE; /* Suppress warning about unused %extra_argument variable */
 }
 

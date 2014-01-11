@@ -28,9 +28,9 @@ zval *phalcon_replace_marker(int named, zval *paths, zval *replacements, unsigne
 
 	zval **zv, **tmp;
 	int result = FAILURE;
-	unsigned int length = 0, variable_length, ch;
+	unsigned int length = 0, variable_length, ch, j;
 	char *item = NULL, *cursor_var, *variable = NULL;
-	int not_valid = 0, j;
+	int not_valid = 0;
 
 	if (named) {
 		length = cursor - marker - 1;
@@ -107,10 +107,11 @@ zval *phalcon_replace_marker(int named, zval *paths, zval *replacements, unsigne
 void phalcon_replace_paths(zval *return_value, zval *pattern, zval *paths, zval *replacements TSRMLS_DC){
 
 	char *cursor, *marker = NULL;
-	unsigned int i, bracket_count = 0, parentheses_count = 0, intermediate = 0;
+	unsigned int bracket_count = 0, parentheses_count = 0, intermediate = 0;
 	unsigned char ch;
 	smart_str route_str = {0};
-	unsigned long position = 1;
+	ulong position = 1;
+	int i;
 	zval *replace, replace_copy;
 	int use_copy, looking_placeholder = 0;
 
@@ -268,8 +269,9 @@ void phalcon_replace_paths(zval *return_value, zval *pattern, zval *paths, zval 
  */
 void phalcon_extract_named_params(zval *return_value, zval *str, zval *matches){
 
-	unsigned int i, j, k, bracket_count = 0, parentheses_count = 0, ch;
-	unsigned int intermediate = 0, length, number_matches = 0, found_pattern;
+	int i, k;
+	uint j, bracket_count = 0, parentheses_count = 0, ch;
+	uint intermediate = 0, length, number_matches = 0, found_pattern;
 	int variable_length, regexp_length = 0, not_valid = 0;
 	char *cursor, *cursor_var, *marker = NULL;
 	char *item, *variable = NULL, *regexp = NULL;

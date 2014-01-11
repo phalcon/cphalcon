@@ -111,8 +111,9 @@ PHP_METHOD(Phalcon_Logger_Adapter_Firephp, logInternal){
 	zval *initialized, *index;
 	sapi_header_line h = { NULL, 0, 0 };
 	smart_str str      = { NULL, 0, 0 };
-	int size, offset, num_bytes;
+	int size, offset;
 	int separate_index = 0;
+	size_t num_bytes;
 	const int chunk = 4500;
 
 	/* If headers has already been sent, we can do nothing. Exit early. */
@@ -171,7 +172,7 @@ PHP_METHOD(Phalcon_Logger_Adapter_Firephp, logInternal){
 	 * We need to send the data in chunks not exceeding 5,000 bytes.
 	 * Allocate the smart string once to avoid performance penalties.
 	 */
-	smart_str_alloc4(&str, (size > chunk ? chunk : size), 0, num_bytes);
+	smart_str_alloc4(&str, (uint)(size > chunk ? chunk : size), 0, num_bytes);
 
 	while (size > 0) {
 		smart_str_appends(&str, "X-Wf-1-1-1-");
