@@ -288,10 +288,12 @@ class Validation extends Phalcon\Di\Injectable
 	 * Adds labels for fields
 	 *
 	 * @param array labels
-         * @return array
 	 */
-	public function setLabels(array! labels)
+	public function setLabels(labels)
 	{
+                if typeof labels != "array" {
+                        throw new Phalcon\Validation\Exception("Labels must be an array");
+                }
                 let this->_labels = labels;
         }
 
