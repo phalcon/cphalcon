@@ -426,7 +426,7 @@ PHP_METHOD(Phalcon_Http_Request, getPost){
 PHP_METHOD(Phalcon_Http_Request, getPut){
 
 	zval *name = NULL, *filters = NULL, *default_value = NULL, *not_allow_empty = NULL, *norecursive = NULL;
-	zval *is_put, *put, *raw, *value, *filter = NULL, *dependency_injector, *service;
+	zval *is_put, *put = NULL, *raw, *value, *filter = NULL, *dependency_injector, *service, *_PUT;
 	char *tmp;
 
 	PHALCON_MM_GROW();
@@ -454,26 +454,28 @@ PHP_METHOD(Phalcon_Http_Request, getPut){
 	}
 
 	PHALCON_INIT_VAR(is_put);
-	phalcon_call_method(is_put, this_ptr, "isPut");
+	phalcon_call_method(is_put, this_ptr, "isput");
 
 	if (!zend_is_true(is_put)) {
-		RETURN_CTOR(default_value);
+		phalcon_get_global(&_PUT, SS("_PUT") TSRMLS_CC);
+		PHALCON_CPY_WRT(put, _PUT);
 	}
+	else {
+		PHALCON_OBS_VAR(put);
+		phalcon_read_property_this(&put, this_ptr, SL("_put"), PH_NOISY_CC);
+		if (Z_TYPE_P(put) != IS_ARRAY) {
+			PHALCON_INIT_VAR(raw);
+			phalcon_call_method(raw, this_ptr, "getRawBody");
 
-	PHALCON_OBS_VAR(put);
-	phalcon_read_property_this(&put, this_ptr, SL("_put"), PH_NOISY_CC);
-	if (Z_TYPE_P(put) != IS_ARRAY) {
-		PHALCON_INIT_VAR(raw);
-		phalcon_call_method(raw, this_ptr, "getRawBody");
+			PHALCON_INIT_NVAR(put);
+			array_init(put);
 
-		PHALCON_INIT_NVAR(put);
-		array_init(put);
+			PHALCON_ENSURE_IS_STRING(&raw);
+			tmp = estrndup(Z_STRVAL_P(raw), Z_STRLEN_P(raw));
+			sapi_module.treat_data(PARSE_STRING, tmp, put TSRMLS_CC);
 
-		PHALCON_ENSURE_IS_STRING(&raw);
-		tmp = estrndup(Z_STRVAL_P(raw), Z_STRLEN_P(raw));
-		sapi_module.treat_data(PARSE_STRING, tmp, put TSRMLS_CC);
-
-		phalcon_update_property_this(getThis(), SL("_put"), put TSRMLS_CC);
+			phalcon_update_property_this(getThis(), SL("_put"), put TSRMLS_CC);
+		}
 	}
 	
 	if (Z_TYPE_P(name) != IS_NULL) {
@@ -700,7 +702,7 @@ PHP_METHOD(Phalcon_Http_Request, hasPost){
  */
 PHP_METHOD(Phalcon_Http_Request, hasPut){
 
-	zval *name, *is_put, *put, *raw;
+	zval *name, *is_put, *put = NULL, *raw, *_PUT;
 	char *tmp;
 
 	PHALCON_MM_GROW();
@@ -711,30 +713,29 @@ PHP_METHOD(Phalcon_Http_Request, hasPut){
 	phalcon_call_method(is_put, this_ptr, "isPut");
 
 	if (!zend_is_true(is_put)) {
-		RETURN_MM_FALSE;
+		phalcon_get_global(&_PUT, SS("_PUT") TSRMLS_CC);
+		PHALCON_CPY_WRT(put, _PUT);
+	}
+	else {
+		PHALCON_OBS_VAR(put);
+		phalcon_read_property_this(&put, this_ptr, SL("_put"), PH_NOISY_CC);
+		if (Z_TYPE_P(put) != IS_ARRAY) {
+			PHALCON_INIT_VAR(raw);
+			phalcon_call_method(raw, this_ptr, "getRawBody");
+
+			PHALCON_INIT_NVAR(put);
+			array_init(put);
+
+			PHALCON_ENSURE_IS_STRING(&raw);
+			tmp = estrndup(Z_STRVAL_P(raw), Z_STRLEN_P(raw));
+			sapi_module.treat_data(PARSE_STRING, tmp, put TSRMLS_CC);
+
+			phalcon_update_property_this(getThis(), SL("_put"), put TSRMLS_CC);
+		}
 	}
 
-	PHALCON_OBS_VAR(put);
-	phalcon_read_property_this(&put, this_ptr, SL("_put"), PH_NOISY_CC);
-	if (Z_TYPE_P(put) != IS_ARRAY) {
-		PHALCON_INIT_VAR(raw);
-		phalcon_call_method(raw, this_ptr, "getRawBody");
-
-		PHALCON_INIT_NVAR(put);
-		array_init(put);
-
-		PHALCON_ENSURE_IS_STRING(&raw);
-		tmp = estrndup(Z_STRVAL_P(raw), Z_STRLEN_P(raw));
-		sapi_module.treat_data(PARSE_STRING, tmp, put TSRMLS_CC);
-
-		phalcon_update_property_this(getThis(), SL("_put"), put TSRMLS_CC);
-	}
-
-	if (phalcon_array_isset(put, name)) {
-		RETURN_MM_TRUE;
-	}
-
-	RETURN_MM_FALSE;
+	RETVAL_BOOL(phalcon_array_isset(put, name));
+	PHALCON_MM_RESTORE();
 }
 
 /**
