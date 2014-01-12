@@ -197,11 +197,8 @@ PHP_METHOD(Phalcon_Mvc_Url, getBaseUri){
 	
 		PHALCON_INIT_VAR(slash);
 		ZVAL_STRING(slash, "/", 1);
-		phalcon_get_global(&_SERVER, SS("_SERVER") TSRMLS_CC);
-		if (phalcon_array_isset_string(_SERVER, SS("PHP_SELF"))) {
-			PHALCON_OBS_VAR(php_self);
-			phalcon_array_fetch_string(&php_self, _SERVER, SL("PHP_SELF"), PH_NOISY);
-	
+		_SERVER = phalcon_get_global(SS("_SERVER") TSRMLS_CC);
+		if (phalcon_array_isset_string_fetch(&php_self, _SERVER, SS("PHP_SELF"))) {
 			PHALCON_INIT_VAR(uri);
 			phalcon_get_uri(uri, php_self);
 		} else {

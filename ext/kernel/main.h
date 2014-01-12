@@ -52,8 +52,8 @@ extern void php_phalcon_init_globals(zend_phalcon_globals *phalcon_globals TSRML
 extern zend_class_entry *phalcon_register_internal_interface_ex(zend_class_entry *orig_ce, zend_class_entry *parent_ce TSRMLS_DC);
 
 /* Globals functions */
-extern int phalcon_init_global(char *global, unsigned int global_length TSRMLS_DC);
-extern int phalcon_get_global(zval **arr, const char *global, unsigned int global_length TSRMLS_DC);
+int phalcon_init_global(char *global, unsigned int global_length TSRMLS_DC);
+zval* phalcon_get_global(const char *global, unsigned int global_length TSRMLS_DC);
 
 extern int phalcon_is_callable(zval *var TSRMLS_DC);
 extern int phalcon_function_exists(const zval *function_name TSRMLS_DC);
