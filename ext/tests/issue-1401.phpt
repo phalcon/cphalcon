@@ -18,4 +18,4 @@ $d->listen(true, true);
 do_it();
 ?>
 --EXPECTREGEX--
-.*<\/h1><span class="error-file"><a href="file:\/\/.*?\/issue-1401\.phpt?\#[0-9]+">.+?<a href="file:\/\/.*?\/issue-1401\.phpt?\#[0-9]+">.*
+.*<\/h1><span class="error-file"><a href="file:\/\/.*?(?:\/|\\)issue-1401\.phpt?\#[0-9]+">.+?<a href="file:\/\/.*?(?:\/|\\)issue-1401\.phpt?\#[0-9]+">.*
