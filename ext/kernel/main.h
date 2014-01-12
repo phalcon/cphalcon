@@ -48,17 +48,17 @@
 
 
 /* Startup functions */
-extern void php_phalcon_init_globals(zend_phalcon_globals *phalcon_globals TSRMLS_DC);
-extern zend_class_entry *phalcon_register_internal_interface_ex(zend_class_entry *orig_ce, zend_class_entry *parent_ce TSRMLS_DC);
+void php_phalcon_init_globals(zend_phalcon_globals *phalcon_globals TSRMLS_DC);
+zend_class_entry *phalcon_register_internal_interface_ex(zend_class_entry *orig_ce, zend_class_entry *parent_ce TSRMLS_DC);
 
 /* Globals functions */
-extern int phalcon_init_global(char *global, unsigned int global_length TSRMLS_DC);
-extern int phalcon_get_global(zval **arr, const char *global, unsigned int global_length TSRMLS_DC);
+int phalcon_init_global(char *global, unsigned int global_length TSRMLS_DC);
+int phalcon_get_global(zval **arr, const char *global, unsigned int global_length TSRMLS_DC);
 
-extern int phalcon_is_callable(zval *var TSRMLS_DC);
-extern int phalcon_function_exists(const zval *function_name TSRMLS_DC);
-extern int phalcon_function_exists_ex(const char *func_name, unsigned int func_len TSRMLS_DC);
-extern int phalcon_function_quick_exists_ex(const char *func_name, unsigned int func_len, unsigned long key TSRMLS_DC);
+int phalcon_is_callable(zval *var TSRMLS_DC);
+int phalcon_function_exists(const zval *function_name TSRMLS_DC);
+int phalcon_function_exists_ex(const char *func_name, unsigned int func_len TSRMLS_DC);
+int phalcon_function_quick_exists_ex(const char *func_name, unsigned int func_len, unsigned long key TSRMLS_DC);
 
 /* Count */
 long int phalcon_fast_count_int(zval *value TSRMLS_DC);
@@ -66,12 +66,12 @@ void phalcon_fast_count(zval *result, zval *array TSRMLS_DC);
 int phalcon_fast_count_ev(zval *array TSRMLS_DC);
 
 /* Utils functions */
-extern int phalcon_is_iterable_ex(zval *arr, HashTable **arr_hash, HashPosition *hash_position, int duplicate, int reverse);
+int phalcon_is_iterable_ex(zval *arr, HashTable **arr_hash, HashPosition *hash_position, int duplicate, int reverse);
 void phalcon_safe_zval_ptr_dtor(zval *pzval);
 
 
 /* Fetch Parameters */
-extern int phalcon_fetch_parameters(int num_args TSRMLS_DC, int required_args, int optional_args, ...);
+int phalcon_fetch_parameters(int num_args TSRMLS_DC, int required_args, int optional_args, ...);
 int phalcon_fetch_parameters_ex(int dummy TSRMLS_DC, int n_req, int n_opt, ...);
 
 /* Compatibility macros for PHP 5.3 */
