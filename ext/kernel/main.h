@@ -212,32 +212,6 @@ int phalcon_fetch_parameters_ex(int dummy TSRMLS_DC, int n_req, int n_opt, ...);
 #define PHALCON_GET_HKEY(var, hash, hash_position) \
 	phalcon_get_current_key(&var, hash, &hash_position TSRMLS_CC);
 
-/** Get current hash key copying the hash_value if needed */
-#define PHALCON_GET_HMKEY(var, hash, hash_pointer) \
-	{\
-		int hash_type; \
-		char *hash_index; \
-		uint hash_index_len; \
-		ulong hash_num; \
-		 \
-		PHALCON_INIT_NVAR(var); \
-		hash_type = zend_hash_get_current_key_ex(hash, &hash_index, &hash_index_len, &hash_num, 0, &hash_pointer); \
-		if (hash_type == HASH_KEY_IS_STRING) { \
-			if (IS_INTERNED(hash_index)) { \
-				ZVAL_STRINGL(var, hash_index, hash_index_len - 1, 0); \
-			} else { \
-				ZVAL_STRINGL(var, hash_index, hash_index_len - 1, 1); \
-			} \
-		} else { \
-			if (hash_type == HASH_KEY_IS_LONG) { \
-				ZVAL_LONG(var, hash_num); \
-			}\
-		}\
-	}
-
-/** Foreach */
-#define PHALCON_GET_FOREACH_KEY(var, hash, hash_pointer) PHALCON_GET_HMKEY(var, hash, hash_pointer)
-
 /** Check if an array is iterable or not */
 #define phalcon_is_iterable(var, array_hash, hash_pointer, duplicate, reverse) \
 	if (!phalcon_is_iterable_ex(var, array_hash, hash_pointer, duplicate, reverse)) { \
