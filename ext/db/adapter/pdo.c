@@ -247,7 +247,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, connect){
 		while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 
 			PHALCON_GET_FOREACH_KEY(key, ah0, hp0);
-			PHALCON_GET_FOREACH_VALUE(value);
+			PHALCON_GET_HVALUE(value);
 
 			PHALCON_INIT_NVAR(dsn_attribute);
 			PHALCON_CONCAT_VSV(dsn_attribute, key, "=", value);
@@ -360,7 +360,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, executePrepared){
 	while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 
 		PHALCON_GET_FOREACH_KEY(wildcard, ah0, hp0);
-		PHALCON_GET_FOREACH_VALUE(value);
+		PHALCON_GET_HVALUE(value);
 
 		if (Z_TYPE_P(wildcard) == IS_LONG) {
 			PHALCON_INIT_NVAR(parameter);

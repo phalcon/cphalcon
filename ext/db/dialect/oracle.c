@@ -875,7 +875,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Oracle, select){
 
 		while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 
-			PHALCON_GET_FOREACH_VALUE(column);
+			PHALCON_GET_HVALUE(column);
 
 			/**
 			 * Escape column name
@@ -967,7 +967,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Oracle, select){
 
 		while (zend_hash_get_current_data_ex(ah1, (void**) &hd, &hp1) == SUCCESS) {
 
-			PHALCON_GET_FOREACH_VALUE(table);
+			PHALCON_GET_HVALUE(table);
 
 			PHALCON_INIT_NVAR(sql_table);
 			phalcon_call_method_p2(sql_table, this_ptr, "getsqltable", table, escape_char);
@@ -1011,7 +1011,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Oracle, select){
 
 		while (zend_hash_get_current_data_ex(ah2, (void**) &hd, &hp2) == SUCCESS) {
 
-			PHALCON_GET_FOREACH_VALUE(join);
+			PHALCON_GET_HVALUE(join);
 
 			PHALCON_OBS_NVAR(type);
 			phalcon_array_fetch_string(&type, join, SL("type"), PH_NOISY);
@@ -1042,7 +1042,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Oracle, select){
 
 					while (zend_hash_get_current_data_ex(ah3, (void**) &hd, &hp3) == SUCCESS) {
 
-						PHALCON_GET_FOREACH_VALUE(join_condition);
+						PHALCON_GET_HVALUE(join_condition);
 
 						PHALCON_INIT_NVAR(join_expression);
 						phalcon_call_method_p2(join_expression, this_ptr, "getsqlexpression", join_condition, escape_char);
@@ -1095,7 +1095,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Oracle, select){
 
 		while (zend_hash_get_current_data_ex(ah4, (void**) &hd, &hp4) == SUCCESS) {
 
-			PHALCON_GET_FOREACH_VALUE(group_field);
+			PHALCON_GET_HVALUE(group_field);
 
 			PHALCON_INIT_NVAR(group_expression);
 			phalcon_call_method_p2(group_expression, this_ptr, "getsqlexpression", group_field, escape_char);
@@ -1139,7 +1139,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Oracle, select){
 
 		while (zend_hash_get_current_data_ex(ah5, (void**) &hd, &hp5) == SUCCESS) {
 
-			PHALCON_GET_FOREACH_VALUE(order_item);
+			PHALCON_GET_HVALUE(order_item);
 
 			PHALCON_OBS_NVAR(order_expression);
 			phalcon_array_fetch_long(&order_expression, order_item, 0, PH_NOISY);

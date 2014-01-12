@@ -246,11 +246,6 @@ int phalcon_fetch_parameters_ex(int dummy TSRMLS_DC, int n_req, int n_opt, ...);
 		return; \
 	}
 
-#define PHALCON_GET_FOREACH_VALUE(var) \
-	PHALCON_OBS_NVAR(var); \
-	var = *hd; \
-	Z_ADDREF_P(var);
-
 #define PHALCON_GET_HVALUE(var) \
 	PHALCON_OBS_NVAR(var); \
 	var = *hd; \
