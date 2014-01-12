@@ -51,13 +51,23 @@
 zend_class_entry *phalcon_paginator_adapter_querybuilder_ce;
 
 PHP_METHOD(Phalcon_Paginator_Adapter_QueryBuilder, __construct);
-PHP_METHOD(Phalcon_Paginator_Adapter_QueryBuilder, setCurrentPage);
 PHP_METHOD(Phalcon_Paginator_Adapter_QueryBuilder, getPaginate);
+PHP_METHOD(Phalcon_Paginator_Adapter_QueryBuilder, setCurrentPage);
+PHP_METHOD(Phalcon_Paginator_Adapter_QueryBuilder, getCurrentPage);
+PHP_METHOD(Phalcon_Paginator_Adapter_QueryBuilder, setLimit);
+PHP_METHOD(Phalcon_Paginator_Adapter_QueryBuilder, getLimit);
+PHP_METHOD(Phalcon_Paginator_Adapter_QueryBuilder, setQueryBuilder);
+PHP_METHOD(Phalcon_Paginator_Adapter_QueryBuilder, getQueryBuilder);
 
 static const zend_function_entry phalcon_paginator_adapter_querybuilder_method_entry[] = {
 	PHP_ME(Phalcon_Paginator_Adapter_QueryBuilder, __construct, arginfo_phalcon_paginator_adapterinterface___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
-	PHP_ME(Phalcon_Paginator_Adapter_QueryBuilder, setCurrentPage, arginfo_phalcon_paginator_adapterinterface_setcurrentpage, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Paginator_Adapter_QueryBuilder, getPaginate, arginfo_phalcon_paginator_adapterinterface_getcurrentpage, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Paginator_Adapter_QueryBuilder, setLimit, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Paginator_Adapter_QueryBuilder, getLimit, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Paginator_Adapter_QueryBuilder, setCurrentPage, arginfo_phalcon_paginator_adapterinterface_setcurrentpage, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Paginator_Adapter_QueryBuilder, getCurrentPage, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Paginator_Adapter_QueryBuilder, setQueryBuilder, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Paginator_Adapter_QueryBuilder, getQueryBuilder, NULL, ZEND_ACC_PUBLIC)
 	PHP_FE_END
 };
 
@@ -117,7 +127,7 @@ PHP_METHOD(Phalcon_Paginator_Adapter_QueryBuilder, __construct){
 }
 
 /**
- * Set the current page number
+ * Set current page number
  *
  * @param int $page
  */
@@ -130,6 +140,73 @@ PHP_METHOD(Phalcon_Paginator_Adapter_QueryBuilder, setCurrentPage){
 	
 	phalcon_update_property_this(this_ptr, SL("_page"), *current_page TSRMLS_CC);
 	RETURN_THISW();
+}
+
+/**
+ * Get current page number
+ *
+ * @param int $page
+ */
+PHP_METHOD(Phalcon_Paginator_Adapter_QueryBuilder, getCurrentPage){
+
+	RETURN_MEMBER(this_ptr, "_page");
+}
+
+/**
+ * Set current rows limit
+ *
+ * @param int $limit
+ *
+ * @return Phalcon\Paginator\Adapter\QueryBuilder $this Fluent interface
+ */
+PHP_METHOD(Phalcon_Paginator_Adapter_QueryBuilder, setLimit){
+
+	zval **current_limit;
+
+	phalcon_fetch_params_ex(1, 0, &current_limit);
+	PHALCON_ENSURE_IS_LONG(current_limit);
+
+	phalcon_update_property_this(this_ptr, SL("_limitRows"), *current_limit TSRMLS_CC);
+	RETURN_THISW();
+}
+
+/**
+ * Get current rows limit
+ *
+ * @return int $limit
+ */
+PHP_METHOD(Phalcon_Paginator_Adapter_QueryBuilder, getLimit){
+
+	RETURN_MEMBER(this_ptr, "_limitRows");
+}
+
+/**
+ * Set query builder object
+ *
+ * @param Phalcon\Mvc\Model\Query\BuilderInterface $builder
+ *
+ * @return Phalcon\Paginator\Adapter\QueryBuilder $this Fluent interface
+ */
+PHP_METHOD(Phalcon_Paginator_Adapter_QueryBuilder, setQueryBuilder){
+
+	zval *query_builder;
+
+	phalcon_fetch_params(0, 1, 0, &query_builder);
+	PHALCON_VERIFY_INTERFACE_EX(query_builder, phalcon_mvc_model_query_builderinterface_ce, phalcon_paginator_exception_ce, 0);
+
+	phalcon_update_property_this(this_ptr, SL("_builder"), query_builder TSRMLS_CC);
+
+	RETURN_THISW();
+}
+
+/**
+ * Get query builder object
+ *
+ * @return Phalcon\Mvc\Model\Query\BuilderInterface $builder
+ */
+PHP_METHOD(Phalcon_Paginator_Adapter_QueryBuilder, getQueryBuilder){
+
+	RETURN_MEMBER(this_ptr, "_builder");
 }
 
 /**
