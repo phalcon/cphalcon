@@ -1149,7 +1149,7 @@ PHP_METHOD(Phalcon_Debug, onUncaughtException){
 	phalcon_call_method(line, exception, "getline");
 	
 	link_format = zend_ini_string_ex(SS("xdebug.file_link_format"), 0, &ini_exists);
-	if (!link_format || !ini_exists) {
+	if (!link_format || !ini_exists || !strlen(link_format)) {
 		link_format = "file://%f#%l";
 	}
 

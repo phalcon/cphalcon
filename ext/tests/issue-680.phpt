@@ -2,6 +2,7 @@
 Implement getPut() - https://github.com/phalcon/cphalcon/issues/680
 --SKIPIF--
 <?php include('skipif.inc'); ?>
+<?php if (!preg_match('/^cgi/', PHP_SAPI)) die('skip CGI SAPI is required'); ?>
 --PUT--
 string=hello&array[string]=world
 --FILE--

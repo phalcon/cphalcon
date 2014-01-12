@@ -2,6 +2,8 @@
 Phalcon\Debug and link to file with an error - https://github.com/phalcon/cphalcon/issues/1401
 --SKIPIF--
 <?php include('skipif.inc'); ?>
+--INI--
+xdebug.file_link_format=file://%f#%l
 --FILE--
 <?php
 include('skipif.inc'); // This is to make sure the list of the included files is not empty
