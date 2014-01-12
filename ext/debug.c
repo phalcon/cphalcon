@@ -817,11 +817,12 @@ PHP_METHOD(Phalcon_Debug, showTraceItem){
 	} else {
 		PHALCON_OBS_NVAR(function_name);
 		phalcon_array_fetch_string(&function_name, trace, SL("function"), PH_NOISY);
+		convert_to_string(function_name);
 	
 		/** 
 		 * Check if the function exists
 		 */
-		if (phalcon_function_exists(function_name TSRMLS_CC) == SUCCESS) {
+		if (phalcon_function_exists_ex(Z_STRVAL_P(function_name), Z_STRLEN_P(function_name)+1 TSRMLS_CC) == SUCCESS) {
 			ce1 = zend_fetch_class(SL("ReflectionFunction"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
 			PHALCON_INIT_VAR(function_reflection);
 			object_init_ex(function_reflection, ce1);

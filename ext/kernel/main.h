@@ -17,13 +17,16 @@
   +------------------------------------------------------------------------+
 */
 
+#ifndef PHALCON_KERNEL_MAIN_H
+#define PHALCON_KERNEL_MAIN_H
+
+#include "php_phalcon.h"
+
 #include <Zend/zend_exceptions.h>
 #include <Zend/zend_interfaces.h>
 
 #include <ext/spl/spl_exceptions.h>
 #include <ext/spl/spl_iterators.h>
-
-#include "php_phalcon.h"
 
 #include "kernel/memory.h"
 #include "kernel/backtrace.h"
@@ -35,7 +38,6 @@
 #define PH_SILENT 1
 
 #define PH_NOISY_CC PH_NOISY TSRMLS_CC
-#define PH_SILENT_CC PH_SILENT TSRMLS_CC
 
 #define PH_SEPARATE 256
 #define PH_COPY 1024
@@ -52,13 +54,28 @@ void php_phalcon_init_globals(zend_phalcon_globals *phalcon_globals TSRMLS_DC);
 zend_class_entry *phalcon_register_internal_interface_ex(zend_class_entry *orig_ce, zend_class_entry *parent_ce TSRMLS_DC);
 
 /* Globals functions */
-int phalcon_init_global(char *global, unsigned int global_length TSRMLS_DC);
 int phalcon_get_global(zval **arr, const char *global, unsigned int global_length TSRMLS_DC);
 
 int phalcon_is_callable(zval *var TSRMLS_DC);
-int phalcon_function_exists(const zval *function_name TSRMLS_DC);
-int phalcon_function_exists_ex(const char *func_name, unsigned int func_len TSRMLS_DC);
 int phalcon_function_quick_exists_ex(const char *func_name, unsigned int func_len, unsigned long key TSRMLS_DC);
+
+/**
+ * Check if a function exists using explicit char param
+ *
+ * @param function_name
+ * @param function_len strlen(function_name)+1
+ */
+PHALCON_ATTR_NONNULL static inline int phalcon_function_exists_ex(const char *function_name, unsigned int function_len TSRMLS_DC)
+{
+#ifdef __GNUC__
+	if (__builtin_constant_p(function_name) && __builtin_constant_p(function_len)) {
+		return phalcon_function_quick_exists_ex(function_name, function_len, zend_inline_hash_func(function_name, function_len) TSRMLS_CC);
+	}
+#endif
+
+	return phalcon_function_quick_exists_ex(function_name, function_len, zend_hash_func(function_name, function_len) TSRMLS_CC);
+}
+
 
 /* Count */
 long int phalcon_fast_count_int(zval *value TSRMLS_DC);
@@ -67,7 +84,17 @@ int phalcon_fast_count_ev(zval *array TSRMLS_DC);
 
 /* Utils functions */
 int phalcon_is_iterable_ex(zval *arr, HashTable **arr_hash, HashPosition *hash_position, int duplicate, int reverse);
-void phalcon_safe_zval_ptr_dtor(zval *pzval);
+
+/**
+ * @brief destroys @c pzval if it is not @c NULL
+ * @param pzval
+ */
+static inline void phalcon_safe_zval_ptr_dtor(zval *pzval)
+{
+	if (pzval) {
+		zval_ptr_dtor(&pzval);
+	}
+}
 
 
 /* Fetch Parameters */
@@ -86,14 +113,6 @@ int phalcon_fetch_parameters_ex(int dummy TSRMLS_DC, int n_req, int n_opt, ...);
   (z)->value = (v)->value;\
   Z_TYPE_P(z) = Z_TYPE_P(v);
 #endif
-
-/** Symbols */
-#define PHALCON_READ_SYMBOL(var, auxarr, name) \
-	if (EG(active_symbol_table) && zend_hash_find(EG(active_symbol_table), name, sizeof(name), (void **)&auxarr) == SUCCESS) { \
-		var = *auxarr; \
-	} else { \
-		ZVAL_NULL(var); \
-	}
 
 /**
  * Return zval checking if it's needed to ctor
@@ -160,15 +179,6 @@ int phalcon_fetch_parameters_ex(int dummy TSRMLS_DC, int n_req, int n_opt, ...);
 		INIT_PZVAL(return_value) \
 	} \
 	PHALCON_MM_RESTORE(); \
-	return;
-
-/**
- * Returns variables without ctor, without restoring the memory stack
- */
-#define RETURN_NCTORW(var) { \
-		*(return_value) = *(var); \
-		INIT_PZVAL(return_value) \
-	} \
 	return;
 
 /**
@@ -387,3 +397,5 @@ int phalcon_fetch_parameters_ex(int dummy TSRMLS_DC, int n_req, int n_opt, ...);
 #define PHALCON_ENSURE_IS_DOUBLE(ppzv)    convert_to_explicit_type_ex(ppzv, IS_DOUBLE)
 #define PHALCON_ENSURE_IS_BOOL(ppzv)      convert_to_explicit_type_ex(ppzv, IS_BOOL)
 #define PHALCON_ENSURE_IS_ARRAY(ppzv)     convert_to_explicit_type_ex(ppzv, IS_ARRAY)
+
+#endif /* PHALCON_KERNEL_MAIN_H */
