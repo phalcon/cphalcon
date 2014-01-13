@@ -94,7 +94,7 @@ class Dump
          */
         public function output(variable, name=null, tab=1)
         {
-                var key, value, output, space, type;
+                var key, value, output, space, type, attr;
                 let space = "  ",
                         output = "";
 
@@ -119,9 +119,25 @@ class Dump
                                 let output .= strtr(" <b style=':style'>extends</b> :parent", [":style": this->getStyle("obj"), ":parent": get_parent_class(variable)]);
                         }
                         let output .= " (\n";
-                        for key, value in get_object_vars(variable) {
-                                let output .= space . strtr("-><span style=':style'>:key</span> = ", [":style": this->getStyle("obj"), ":key": key]);
+                        reset(variable);
+                        while 1 {
+                                let attr = explode(chr(ord("\x00")), key(variable)),
+                                        key = end(attr);
+                                if !key {
+                                        break;
+                                }
+                                let type = "public",
+                                        value = current(variable);
+                                        
+                                if isset attr[1] {
+                                        let type = "private";
+                                        if attr[1] == "*" {
+                                                let type = "protected";
+                                        }
+                                }
+                                let output .= space . strtr("-><span style=':style'>:key</span> (<span style=':style'>:type</span>) = ", [":style": this->getStyle("obj"), ":key": key, ":type": type]);
                                 let output .= this->output(value, "", tab + 1) . "\n";
+                                next(variable);
                         }
                         let output .= space . strtr(":class <b style=':style'>:methods</b>: (<span style=':style'>:count</span>)\n", [":style": this->getStyle("obj"), ":class": get_class(variable), ":count": count(get_class_methods(variable))]);
                         for key, value in get_class_methods(variable) {
@@ -150,10 +166,9 @@ class Dump
                         return strtr("<b style=':style'>String</b> (<span style=':style'>:length</span>) \"<span style=':style'>:var</span>\"", [":style": this->getStyle("str"), ":length": strlen(variable), ":var": nl2br(htmlentities(variable, ENT_IGNORE, "utf-8"))]);
                 }
                 if is_bool(variable) {
+                        let type = "FALSE";
                         if variable {
                                 let type = "TRUE";
-                        } else {
-                                let type = "FALSE";
                         }
                         return strtr("<b style=':style'>Boolean</b> (<span style=':style'>:var</span>)", [":style": this->getStyle("bool"), ":var": type]);
                 }
