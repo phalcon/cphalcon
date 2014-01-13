@@ -7481,7 +7481,7 @@ static long phalcon_unpack(char *data, int size, int issigned, int *map)
 static inline char *phalcon_longtohex(unsigned long value) {
 
 	static char digits[] = "0123456789abcdef";
-	char buf[(sizeof(unsigned long) << 3) + 1];
+	char buf[(sizeof(unsigned long) << 1) + 1];
 	char *ptr, *end;
 
 	end = ptr = buf + sizeof(buf) - 1;
@@ -7552,7 +7552,7 @@ static void phalcon_escape_multi(zval *return_value, zval *param, const char *es
 			RETURN_FALSE;
 		}
 
-		if (value < 256 && isalnum(value)) {
+		if (value > 32 && value < 127 && isalnum(value)) {
 			smart_str_appendc(&escaped_str, (unsigned char) value);
 			continue;
 		}
@@ -7584,6 +7584,8 @@ static void phalcon_escape_multi(zval *return_value, zval *param, const char *es
 				case ';':
 				case '_':
 				case '|':
+				case '~':
+				case '`':
 					smart_str_appendc(&escaped_str, (unsigned char) value);
 					continue;
 			}
