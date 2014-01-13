@@ -33,7 +33,7 @@ static const zend_function_entry phalcon_session_adapterinterface_method_entry[]
 	PHP_ABSTRACT_ME(Phalcon_Session_AdapterInterface, remove, arginfo_phalcon_session_adapterinterface_remove)
 	PHP_ABSTRACT_ME(Phalcon_Session_AdapterInterface, getId, NULL)
 	PHP_ABSTRACT_ME(Phalcon_Session_AdapterInterface, isStarted, NULL)
-	PHP_ABSTRACT_ME(Phalcon_Session_AdapterInterface, destroy, NULL)
+	PHP_ABSTRACT_ME(Phalcon_Session_AdapterInterface, destroy, arginfo_phalcon_session_adapterinterface_destroy)
 	PHP_FE_END
 };
 

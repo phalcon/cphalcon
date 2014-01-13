@@ -8,6 +8,7 @@
  - Fixed PHP notices, warnings and other incompatibilities (#894, #1222, #1315, #1413, #1427, #1428, #1529)
  - Fixed inheritance chain for Phalcon\Forms\Exception, Phalcon\Loader\Exception, Phalcon\Http\Request\Exception (#1770)
  - Major source coede optimizations (#1785)
+ - Control Phalcon behavior via INI settings (#1796)
  - Security fixes:
    - Hardening fixes (#1044)
    - Interface validation (#1043, #1048)
@@ -124,11 +125,13 @@
    - Implemented afterInitialize event (#782)
    - Phalcon\Dispatcher optimizations (#782)
    - Added getPreviousControllerName(), getPreviousActionName() (#1462)
+   - If an event handler throws an exception, call dispatch:beforeException and break the dispatch loop (#1763)
  - Phalcon\Element:
    - Phalcon\Element::addFilter() incorrectly prepends NULL as the first element (#1019)
  - Phalcon\Escaper:
    - Fixed bugs in Phalcon\Escaper (#917)
    - Phalcon\Escaper optimizations (#1015)
+   - Fix phalcon_escape_multi() to generate valid UTF-8 (#1681)
  - Phalcon\Events:
    - Added support for weak references (#663)
    - Bug fix in Phalcon\Events\manager::attach() (#1331, #1337)
@@ -213,6 +216,7 @@
    - Fixed handling of numeric namespaces/modules/controllers/actions (#1688)
    - Added Phalcon\Mvc\View::exists() and Phalcon\Mvc\View(\Simple)::getRegisteredEngines() (#1707)
    - Volt: fixed bug in email_filed() (#1723)
+   - Fixed deprecation warnings in Phalcon\Mvc\Collection::save() and Phalcon\Mvc\Collection::delete() (#1783)
  - Phalcon\Paginator:
    - Phalcon\Paginator\Adapter\Model returns correct results even when page number is incorrect (#1654)
    - Optimized Phalcon\Paginator\Adapter\QueryBuilder (#1632)
@@ -234,6 +238,7 @@
    - Phalcon\Session\Adapter::get() may optionally remove the data from session (#1358)
    - Phalcon\Session\Adapter optimizations (#1624)
    - Phalcon\Session\Adapter::__destruct() now calls session_write_close() (#1624)
+   - Phalcon\Session\AdapterInterface is compatible with SessionHandlerInterface (#1108)
  - Phalcon\Tag:
    - Fixed bugs (#903)
    - Fixed radio button generation (#947)

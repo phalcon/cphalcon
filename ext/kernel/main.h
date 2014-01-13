@@ -54,7 +54,7 @@ void php_phalcon_init_globals(zend_phalcon_globals *phalcon_globals TSRMLS_DC);
 zend_class_entry *phalcon_register_internal_interface_ex(zend_class_entry *orig_ce, zend_class_entry *parent_ce TSRMLS_DC);
 
 /* Globals functions */
-int phalcon_get_global(zval **arr, const char *global, unsigned int global_length TSRMLS_DC);
+zval* phalcon_get_global(const char *global, unsigned int global_length TSRMLS_DC);
 
 int phalcon_is_callable(zval *var TSRMLS_DC);
 int phalcon_function_quick_exists_ex(const char *func_name, unsigned int func_len, unsigned long key TSRMLS_DC);
@@ -75,7 +75,6 @@ PHALCON_ATTR_NONNULL static inline int phalcon_function_exists_ex(const char *fu
 
 	return phalcon_function_quick_exists_ex(function_name, function_len, zend_hash_func(function_name, function_len) TSRMLS_CC);
 }
-
 
 /* Count */
 long int phalcon_fast_count_int(zval *value TSRMLS_DC);

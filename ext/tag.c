@@ -647,13 +647,8 @@ PHP_METHOD(Phalcon_Tag, hasValue){
 	/**
 	 * Check if there is a post value for the item
 	 */
-	PHALCON_MM_GROW();
-	phalcon_get_global(&_POST, SS("_POST") TSRMLS_CC);
-	if (phalcon_array_isset(_POST, name)) {
-		RETURN_MM_TRUE;
-	}
-	
-	RETURN_MM_FALSE;
+	_POST = phalcon_get_global(SS("_POST") TSRMLS_CC);
+	RETURN_BOOL(phalcon_array_isset(_POST, name));
 }
 
 /**
@@ -682,16 +677,11 @@ PHP_METHOD(Phalcon_Tag, getValue){
 
 			assert(value == NULL);
 
-			/**
-			 * Check if there is a post value for the item
-			 */
-			PHALCON_MM_GROW();
-			phalcon_get_global(&_POST, SS("_POST") TSRMLS_CC);
+			/* Check if there is a post value for the item */
+			_POST = phalcon_get_global(SS("_POST") TSRMLS_CC);
 			if (!phalcon_array_isset_fetch(&value, _POST, name)) {
-				RETURN_MM_NULL();
+				RETURN_NULL();
 			}
-
-			PHALCON_MM_RESTORE();
 		}
 	}
 	
