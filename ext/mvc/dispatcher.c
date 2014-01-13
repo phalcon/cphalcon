@@ -245,6 +245,9 @@ PHP_METHOD(Phalcon_Mvc_Dispatcher, _throwDispatchException){
  * Handles a user exception
  *
  * @param \Exception $exception
+ *
+ * @warning If any additional logic is to be implemented here, please check
+ * phalcon_dispatcher_fire_event() first
  */
 PHP_METHOD(Phalcon_Mvc_Dispatcher, _handleException){
 

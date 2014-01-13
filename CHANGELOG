@@ -125,6 +125,7 @@
    - Implemented afterInitialize event (#782)
    - Phalcon\Dispatcher optimizations (#782)
    - Added getPreviousControllerName(), getPreviousActionName() (#1462)
+   - If an event handler throws an exception, call dispatch:beforeException and break the dispatch loop (#1763)
  - Phalcon\Element:
    - Phalcon\Element::addFilter() incorrectly prepends NULL as the first element (#1019)
  - Phalcon\Escaper:

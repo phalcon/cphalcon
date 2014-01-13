@@ -503,7 +503,7 @@ PHP_METHOD(Phalcon_Dispatcher, getReturnedValue){
 	RETURN_MEMBER(this_ptr, "_returnedValue");
 }
 
-static inline int phalcon_dispatcher_fire_event(zval *return_value, zval *mgr, const char *event, zval *source, zval *data TSRMLS_DC)
+static int phalcon_dispatcher_fire_event(zval *return_value, zval *mgr, const char *event, zval *source, zval *data TSRMLS_DC)
 {
 	if (mgr) {
 		zval *event_name;
@@ -513,6 +513,28 @@ static inline int phalcon_dispatcher_fire_event(zval *return_value, zval *mgr, c
 		ZVAL_STRING(event_name, event, 0);
 
 		status = phalcon_call_method_params(return_value, NULL, mgr, SL("fire"), zend_inline_hash_func(SS("fire")) TSRMLS_CC, (data ? 3 : 2), event_name, source, data);
+
+		if (EG(exception)) {
+			zval *exception = EG(exception);
+			Z_ADDREF_P(exception);
+
+			zend_clear_exception(TSRMLS_C);
+
+			assert(Z_REFCOUNT_P(exception) == 1);
+			/* exception will be destroyed automatically after return from _handleexception */
+			Z_DELREF_P(exception);
+
+			/* source == this_ptr */
+			assert(Z_TYPE_P(source) == IS_OBJECT && instanceof_function_ex(Z_OBJCE_P(source), phalcon_dispatcherinterface_ce, 1 TSRMLS_CC));
+			if (Z_OBJCE_P(source)->type == ZEND_INTERNAL_CLASS) {
+				/* Shortcut, save one method call */
+				ZVAL_STRING(event_name, "dispatch:beforeException", 0);
+				phalcon_call_method_params(NULL, NULL, mgr, SL("fire"), zend_inline_hash_func(SS("fire")) TSRMLS_CC, 3, event_name, source, exception);
+			}
+			else {
+				phalcon_call_method_params(NULL, NULL, source, SL("_handleexception"), zend_inline_hash_func(SS("_handleexception")) TSRMLS_CC, 1, exception);
+			}
+		}
 
 		ZVAL_NULL(event_name);
 		zval_ptr_dtor(&event_name);
