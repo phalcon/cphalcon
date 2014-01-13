@@ -235,6 +235,7 @@
    - Phalcon\Session\Adapter::get() may optionally remove the data from session (#1358)
    - Phalcon\Session\Adapter optimizations (#1624)
    - Phalcon\Session\Adapter::__destruct() now calls session_write_close() (#1624)
+   - Phalcon\Session\AdapterInterface is compatible with SessionHandlerInterface (#1108)
  - Phalcon\Tag:
    - Fixed bugs (#903)
    - Fixed radio button generation (#947)

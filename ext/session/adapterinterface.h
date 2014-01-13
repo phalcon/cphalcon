@@ -34,6 +34,10 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_session_adapterinterface_setoptions, 0, 0
 	ZEND_ARG_INFO(0, options)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_session_adapterinterface_destroy, 0, 0, 0)
+	ZEND_ARG_INFO(0, session_id)
+ZEND_END_ARG_INFO()
+
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_session_adapterinterface_get, 0, 0, 1)
 	ZEND_ARG_INFO(0, index)
 	ZEND_ARG_INFO(0, defaultValue)
