@@ -1149,7 +1149,7 @@ PHP_METHOD(Phalcon_Debug, onUncaughtException){
 	phalcon_call_method(line, exception, "getline");
 	
 	link_format = zend_ini_string_ex(SS("xdebug.file_link_format"), 0, &ini_exists);
-	if (!link_format || !ini_exists) {
+	if (!link_format || !ini_exists || !strlen(link_format)) {
 		link_format = "file://%f#%l";
 	}
 
@@ -1223,22 +1223,24 @@ PHP_METHOD(Phalcon_Debug, onUncaughtException){
 		 */
 		phalcon_concat_self_str(&html, SL("<div id=\"error-tabs-2\"><table cellspacing=\"0\" align=\"center\" class=\"superglobal-detail\">") TSRMLS_CC);
 		phalcon_concat_self_str(&html, SL("<tr><th>Key</th><th>Value</th></tr>") TSRMLS_CC);
-		phalcon_get_global(&_REQUEST, SS("_REQUEST") TSRMLS_CC);
+		_REQUEST = phalcon_get_global(SS("_REQUEST") TSRMLS_CC);
 	
-		phalcon_is_iterable(_REQUEST, &ah1, &hp1, 0, 0);
-	
-		while (zend_hash_get_current_data_ex(ah1, (void**) &hd, &hp1) == SUCCESS) {
-			PHALCON_GET_HKEY(key_request, ah1, hp1);
-			PHALCON_GET_HVALUE(value);
+		if (Z_TYPE_P(_REQUEST) == IS_ARRAY) {
+			phalcon_is_iterable(_REQUEST, &ah1, &hp1, 0, 0);
 
-			if (Z_TYPE_P(value) == IS_ARRAY) {
-				PHALCON_INIT_NVAR(joined_value);
-				phalcon_call_method_p1(joined_value, this_ptr, "_getvardump", value);
-				PHALCON_SCONCAT_SVSVS(html, "<tr><td class=\"key\">", key_request, "</td><td>", joined_value, "</td></tr>");
-			} else {
-				PHALCON_SCONCAT_SVSVS(html, "<tr><td class=\"key\">", key_request, "</td><td>", value, "</td></tr>");
+			while (zend_hash_get_current_data_ex(ah1, (void**) &hd, &hp1) == SUCCESS) {
+				PHALCON_GET_HKEY(key_request, ah1, hp1);
+				PHALCON_GET_HVALUE(value);
+	
+				if (Z_TYPE_P(value) == IS_ARRAY) {
+					PHALCON_INIT_NVAR(joined_value);
+					phalcon_call_method_p1(joined_value, this_ptr, "_getvardump", value);
+					PHALCON_SCONCAT_SVSVS(html, "<tr><td class=\"key\">", key_request, "</td><td>", joined_value, "</td></tr>");
+				} else {
+					PHALCON_SCONCAT_SVSVS(html, "<tr><td class=\"key\">", key_request, "</td><td>", value, "</td></tr>");
+				}
+				zend_hash_move_forward_ex(ah1, &hp1);
 			}
-			zend_hash_move_forward_ex(ah1, &hp1);
 		}
 	
 		phalcon_concat_self_str(&html, SL("</table></div>") TSRMLS_CC);
@@ -1248,20 +1250,22 @@ PHP_METHOD(Phalcon_Debug, onUncaughtException){
 		 */
 		phalcon_concat_self_str(&html, SL("<div id=\"error-tabs-3\"><table cellspacing=\"0\" align=\"center\" class=\"superglobal-detail\">") TSRMLS_CC);
 		phalcon_concat_self_str(&html, SL("<tr><th>Key</th><th>Value</th></tr>") TSRMLS_CC);
-		phalcon_get_global(&_SERVER, SS("_SERVER") TSRMLS_CC);
+		_SERVER = phalcon_get_global(SS("_SERVER") TSRMLS_CC);
 	
-		phalcon_is_iterable(_SERVER, &ah2, &hp2, 0, 0);
-	
-		while (zend_hash_get_current_data_ex(ah2, (void**) &hd, &hp2) == SUCCESS) {
-	
-			PHALCON_GET_HKEY(key_server, ah2, hp2);
-			PHALCON_GET_HVALUE(value);
+		if (Z_TYPE_P(_SERVER) == IS_ARRAY) {
+			phalcon_is_iterable(_SERVER, &ah2, &hp2, 0, 0);
 
-			PHALCON_INIT_NVAR(dumped_argument);
-			phalcon_call_method_p1(dumped_argument, this_ptr, "_getvardump", value);
-			PHALCON_SCONCAT_SVSVS(html, "<tr><td class=\"key\">", key_server, "</td><td>", dumped_argument, "</td></tr>");
+			while (zend_hash_get_current_data_ex(ah2, (void**) &hd, &hp2) == SUCCESS) {
+
+				PHALCON_GET_HKEY(key_server, ah2, hp2);
+				PHALCON_GET_HVALUE(value);
 	
-			zend_hash_move_forward_ex(ah2, &hp2);
+				PHALCON_INIT_NVAR(dumped_argument);
+				phalcon_call_method_p1(dumped_argument, this_ptr, "_getvardump", value);
+				PHALCON_SCONCAT_SVSVS(html, "<tr><td class=\"key\">", key_server, "</td><td>", dumped_argument, "</td></tr>");
+
+				zend_hash_move_forward_ex(ah2, &hp2);
+			}
 		}
 	
 		phalcon_concat_self_str(&html, SL("</table></div>") TSRMLS_CC);

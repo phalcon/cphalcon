@@ -336,29 +336,18 @@ PHP_METHOD(Phalcon_Http_Response_Cookies, has){
 
 	zval *name, *cookies, *_COOKIE;
 
-	PHALCON_MM_GROW();
-
-	phalcon_fetch_params(1, 1, 0, &name);
+	phalcon_fetch_params(0, 1, 0, &name);
 	
-	PHALCON_OBS_VAR(cookies);
-	phalcon_read_property_this(&cookies, this_ptr, SL("_cookies"), PH_NOISY_CC);
+	cookies = phalcon_fetch_nproperty_this(this_ptr, SL("_cookies"), PH_NOISY_CC);
 	
-	/** 
-	 * Check the internal bag
-	 */
+	/* Check the internal bag */
 	if (phalcon_array_isset(cookies, name)) {
-		RETURN_MM_TRUE;
+		RETURN_TRUE;
 	}
 	
-	/** 
-	 * Check the superglobal
-	 */
-	phalcon_get_global(&_COOKIE, SS("_COOKIE") TSRMLS_CC);
-	if (phalcon_array_isset(_COOKIE, name)) {
-		RETURN_MM_TRUE;
-	}
-	
-	RETURN_MM_FALSE;
+	/* Check the superglobal */
+	_COOKIE = phalcon_get_global(SS("_COOKIE") TSRMLS_CC);
+	RETURN_BOOL(phalcon_array_isset(_COOKIE, name));
 }
 
 /**

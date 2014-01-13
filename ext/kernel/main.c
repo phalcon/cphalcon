@@ -100,35 +100,31 @@ int phalcon_init_global(char *global, unsigned int global_length TSRMLS_DC) {
 /**
  * Gets the global zval into PG macro
  */
-int phalcon_get_global(zval **arr, const char *global, unsigned int global_length TSRMLS_DC) {
-
-	zval **gv;
+zval* phalcon_get_global(const char *global, unsigned int global_length TSRMLS_DC) {
 
 	zend_bool jit_initialization = PG(auto_globals_jit);
 	if (jit_initialization) {
-		zend_is_auto_global(global, global_length - 1 TSRMLS_CC);
-	}
-
-	if (&EG(symbol_table)) {
-		if (zend_hash_find(&EG(symbol_table), global, global_length, (void **) &gv) == SUCCESS) {
-			if (Z_TYPE_PP(gv) == IS_ARRAY) {
-				*arr = *gv;
-				if (!*arr) {
-					PHALCON_INIT_VAR(*arr);
-					array_init(*arr);
-				}
-			} else {
-				PHALCON_INIT_VAR(*arr);
-				array_init(*arr);
-			}
-			return SUCCESS;
+#if defined(__GNUC__) && PHP_VERSION_ID >= 50400
+		if (__builtin_constant_p(global) && __builtin_constant_p(global_length)) {
+			zend_is_auto_global_quick(global, global_length - 1, zend_inline_hash_func(global, global_length) TSRMLS_CC);
+		}
+		else
+#endif
+		{
+			zend_is_auto_global(global, global_length - 1 TSRMLS_CC);
 		}
 	}
 
-	PHALCON_INIT_VAR(*arr);
-	array_init(*arr);
+	if (&EG(symbol_table)) {
+		zval **gv;
+		if (zend_hash_find(&EG(symbol_table), global, global_length, (void **) &gv) == SUCCESS) {
+			if (gv && *gv && Z_TYPE_PP(gv) == IS_ARRAY) {
+				return *gv;
+			}
+		}
+	}
 
-	return SUCCESS;
+	return PHALCON_GLOBAL(z_null);
 }
 
 /**

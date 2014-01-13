@@ -295,11 +295,9 @@ PHP_METHOD(Phalcon_Http_Cookie, getValue){
 	
 		PHALCON_OBS_VAR(name);
 		phalcon_read_property_this(&name, this_ptr, SL("_name"), PH_NOISY_CC);
-		phalcon_get_global(&_COOKIE, SS("_COOKIE") TSRMLS_CC);
-		if (phalcon_array_isset(_COOKIE, name)) {
-	
-			PHALCON_OBS_VAR(value);
-			phalcon_array_fetch(&value, _COOKIE, name, PH_NOISY);
+
+		_COOKIE = phalcon_get_global(SS("_COOKIE") TSRMLS_CC);
+		if (phalcon_array_isset_fetch(&value, _COOKIE, name)) {
 	
 			PHALCON_OBS_VAR(encryption);
 			phalcon_read_property_this(&encryption, this_ptr, SL("_useEncryption"), PH_NOISY_CC);

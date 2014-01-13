@@ -193,7 +193,8 @@ PHP_METHOD(Phalcon_Session_Adapter, get){
 	
 	PHALCON_INIT_VAR(key);
 	PHALCON_CONCAT_VV(key, unique_id, index);
-	phalcon_get_global(&_SESSION, SS("_SESSION") TSRMLS_CC);
+
+	_SESSION = phalcon_get_global(SS("_SESSION") TSRMLS_CC);
 	if (phalcon_array_isset_fetch(&value, _SESSION, key)) {
 		if (PHALCON_IS_NOT_EMPTY(value)) {
 			RETVAL_ZVAL(value, 1, 0);
@@ -235,7 +236,7 @@ PHP_METHOD(Phalcon_Session_Adapter, set){
 	
 	PHALCON_INIT_VAR(key);
 	PHALCON_CONCAT_VV(key, unique_id, index);
-	phalcon_get_global(&_SESSION, SS("_SESSION") TSRMLS_CC);
+	_SESSION = phalcon_get_global(SS("_SESSION") TSRMLS_CC);
 	phalcon_array_update_zval(&_SESSION, key, &value, PH_COPY);
 	
 	PHALCON_MM_RESTORE();
@@ -263,12 +264,9 @@ PHP_METHOD(Phalcon_Session_Adapter, has){
 	
 	PHALCON_INIT_VAR(key);
 	PHALCON_CONCAT_VV(key, unique_id, index);
-	phalcon_get_global(&_SESSION, SS("_SESSION") TSRMLS_CC);
-	if (phalcon_array_isset(_SESSION, key)) {
-		RETURN_MM_TRUE;
-	}
-	
-	RETURN_MM_FALSE;
+	_SESSION = phalcon_get_global(SS("_SESSION") TSRMLS_CC);
+	RETVAL_BOOL(phalcon_array_isset(_SESSION, key));
+	PHALCON_MM_RESTORE();
 }
 
 /**
@@ -292,7 +290,7 @@ PHP_METHOD(Phalcon_Session_Adapter, remove){
 	
 	PHALCON_INIT_VAR(key);
 	PHALCON_CONCAT_VV(key, unique_id, index);
-	phalcon_get_global(&_SESSION, SS("_SESSION") TSRMLS_CC);
+	_SESSION = phalcon_get_global(SS("_SESSION") TSRMLS_CC);
 	phalcon_array_unset(&_SESSION, key, 0);
 
 	PHALCON_MM_RESTORE();

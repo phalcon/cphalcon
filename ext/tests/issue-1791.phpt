@@ -1,12 +1,12 @@
 --TEST--
-Implement getPut() - https://github.com/phalcon/cphalcon/issues/680
+Regression in /ext/tests/issue-680.phpt - https://github.com/phalcon/cphalcon/issues/1791
 --SKIPIF--
 <?php include('skipif.inc'); ?>
-<?php if (!preg_match('/^cgi/', PHP_SAPI)) die('skip CGI SAPI is required'); ?>
---PUT--
-string=hello&array[string]=world
 --FILE--
 <?php
+$_PUT['string'] = 'hello';
+$_PUT['array']  = array('string' => 'world');
+
 $di = new \Phalcon\DI\FactoryDefault();
 
 $request = new \Phalcon\Http\Request();
