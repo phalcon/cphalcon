@@ -214,6 +214,7 @@
    - Fixed handling of numeric namespaces/modules/controllers/actions (#1688)
    - Added Phalcon\Mvc\View::exists() and Phalcon\Mvc\View(\Simple)::getRegisteredEngines() (#1707)
    - Volt: fixed bug in email_filed() (#1723)
+   - Fixed deprecation warnings in Phalcon\Mvc\Collection::save() and Phalcon\Mvc\Collection::delete() (#1783)
  - Phalcon\Paginator:
    - Phalcon\Paginator\Adapter\Model returns correct results even when page number is incorrect (#1654)
    - Optimized Phalcon\Paginator\Adapter\QueryBuilder (#1632)
