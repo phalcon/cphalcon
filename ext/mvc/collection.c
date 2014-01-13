@@ -1407,7 +1407,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, save){
 	MAKE_STD_ZVAL(options);
 	Z_SET_REFCOUNT_P(options, 0); /* will be automatically destroyed by Zend on return from method call */
 	array_init_size(options, 1);
-	add_assoc_bool_ex(options, SS("safe"), 1);
+	add_assoc_long_ex(options, SS("w"), 1);
 	
 	/** 
 	 * Save the document
@@ -1941,7 +1941,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, delete){
 	
 	PHALCON_INIT_VAR(options);
 	array_init_size(options, 1);
-	add_assoc_bool_ex(options, SS("safe"), 1);
+	add_assoc_long_ex(options, SS("w"), 1);
 	
 	/** 
 	 * Remove the instance
