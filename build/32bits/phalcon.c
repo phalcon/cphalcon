@@ -79998,7 +79998,7 @@ static PHP_METHOD(Phalcon_Mvc_Collection, save){
 	MAKE_STD_ZVAL(options);
 	Z_SET_REFCOUNT_P(options, 0); /* will be automatically destroyed by Zend on return from method call */
 	array_init_size(options, 1);
-	add_assoc_bool_ex(options, SS("safe"), 1);
+	add_assoc_long_ex(options, SS("w"), 1);
 	
 	PHALCON_INIT_NVAR(status);
 	phalcon_call_method_p2_key(status, collection, "save", data, options, 274150868UL);
@@ -80400,7 +80400,7 @@ static PHP_METHOD(Phalcon_Mvc_Collection, delete){
 	
 	PHALCON_INIT_VAR(options);
 	array_init_size(options, 1);
-	add_assoc_bool_ex(options, SS("safe"), 1);
+	add_assoc_long_ex(options, SS("w"), 1);
 	
 	PHALCON_INIT_NVAR(status);
 	phalcon_call_method_p2_key(status, collection, "remove", id_condition, options, 1052443347UL);
