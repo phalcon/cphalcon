@@ -44,7 +44,7 @@ class Uniqueness extends Phalcon\Validation\Validator implements Phalcon\Validat
 	 */
 	public function validate(<Phalcon\Validation> validation, string! field) -> boolean
 	{
-		var attribute, value, di, metaData, params, model, number, message, label, replacePairs;
+		var attribute, value, model, number, message, label, replacePairs;
 
 		let value = validation->getValue(field),
                         model = this->getOption("model"),
