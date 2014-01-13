@@ -8,11 +8,11 @@
 #define PHP_PHALCON_VERSION "0.0.1"
 #define PHP_PHALCON_EXTNAME "phalcon"
 
-typedef struct _zephir_struct_db {
+typedef struct _zephir_struct_db { 
 	zend_bool escape_identifiers;
 } zephir_struct_db;
 
-typedef struct _zephir_struct_orm {
+typedef struct _zephir_struct_orm { 
 	zend_bool column_renaming;
 	zend_bool events;
 	int cache_level;

@@ -1370,7 +1370,7 @@ class Compiler implements Phalcon\Di\InjectionAwareInterface
 		 * Resolve the statement list as normal
 		 */
 		if isStatementList === true {
-			//return this->_statementList(statements);
+			return this->_statementList(statements);
 		}
 
 		/**
@@ -1451,8 +1451,7 @@ class Compiler implements Phalcon\Di\InjectionAwareInterface
 		/**
 		 * Process statements block
 		 */
-		//let code = this->_statementList(blockStatements, extendsMode);
-		let code = null;
+		let code = this->_statementList(blockStatements, extendsMode);
 
 		let loopContext = this->_loopPointers;
 
@@ -1540,14 +1539,744 @@ class Compiler implements Phalcon\Di\InjectionAwareInterface
 	}
 
 	/**
+	 * Generates a 'forelse' PHP code
+	 *
+	 * @return string
+	 */
+	public function compileForElse() -> string
+	{
+		var level, prefix;
+
+		let level = this->_foreachLevel;
+		if fetch prefix, this->_forElsePointers[level] {
+			if isset this->_loopPointers[level] {
+				return "<?php $" . prefix . "incr++; } if (!$" . prefix . "iterated) { ?>";
+			} else {
+				return "<?php } if (!$" . prefix . "iterated) { ?>";
+			}
+		}
+		return "";
+	}
+
+	/**
+	 * Compiles a 'if' statement returning PHP code
+	 *
+	 * @param array statement
+	 * @param boolean extendsMode
+	 * @return string
+	 */
+	public function compileIf(statement, boolean extendsMode=false) -> string
+	{
+		var compilation, blockStatements, expr;
+
+		/**
+		 * A valid expression is required
+		 */
+		if !fetch expr, statement["expr"] {
+			throw new Phalcon\Mvc\View\Exception("Corrupted statement");
+		}
+
+		/**
+		 * Process statements in the "true" block
+		 */
+		let compilation = "<?php if (" . this->expression(expr) . ") { ?>" . this->_statementList(statement["true_statements"], extendsMode);
+
+		/**
+		 * Check for a "else"/"elseif" block
+		 */
+		if fetch blockStatements, statement["false_statements"] {
+
+			/**
+			 * Process statements in the "false" block
+			 */
+			let compilation .= "<?php } else { ?>" . this->_statementList(blockStatements, extendsMode);
+		}
+
+		let compilation .= "<?php } ?>";
+
+		return compilation;
+	}
+
+	/**
+	 * Compiles a "elseif" statement returning PHP code
+	 *
+	 * @param array statement
+	 * @return string
+	 */
+	public function compileElseIf(statement) -> string
+	{
+		var expr;
+
+		/**
+		 * A valid expression is required
+		 */
+		if !fetch expr, statement["expr"] {
+			throw new Phalcon\Mvc\View\Exception("Corrupted statement");
+		}
+
+		/**
+		 * "elseif" statement
+		 */
+		return "<?php } elseif (" . this->expression(expr) . ") { ?>";
+	}
+
+	/**
+	 * Compiles a "cache" statement returning PHP code
+	 *
+	 * @param array statement
+	 * @param boolean extendsMode
+	 * @return string
+	 */
+	public function compileCache(statement, extendsMode=false) -> string
+	{
+		var compilation, expr, exprCode, lifetime;
+
+		/**
+		 * A valid expression is required
+		 */
+		if !fetch expr, statement["expr"] {
+			throw new Phalcon\Mvc\View\Exception("Corrupted statement");
+		}
+
+		/**
+		 * Cache statement
+		 */
+		let exprCode = this->expression(expr);
+		let compilation = "<?php $_cache[" . this->expression(expr) . "] = $this->di->get(\"viewCache\"); ";
+		if fetch lifetime, statement["lifetime"] {
+			let compilation .= "$_cacheKey[" . exprCode . "]";
+			let compilation .= " = $_cache[" . exprCode . "]->start(" . exprCode . ", " . lifetime . "); ";
+		} else {
+			let compilation .= "$_cacheKey[" . exprCode . "] = $_cache[" . exprCode."]->start(" . exprCode . "); ";
+		}
+		let compilation .= "if ($_cacheKey[" . exprCode . "] === null) { ?>";
+
+		/**
+		 * Get the code in the block
+		 */
+		let compilation .= this->_statementList(statement["block_statements"], extendsMode);
+
+		/**
+		 * Check if the cache has a lifetime
+		 */
+		if fetch lifetime, statement["lifetime"] {
+			let compilation .= "<?php $_cache[" . exprCode . "]->save(" . exprCode . ", null, " . lifetime . "); ";
+			let compilation .= "} else { echo $_cacheKey[" . exprCode . "]; } ?>";
+		} else {
+			let compilation .= "<?php $_cache[" . exprCode . "]->save(" . exprCode . "); } else { echo $_cacheKey[" . exprCode . "]; } ?>";
+		}
+
+		return compilation;
+	}
+
+	/**
+	 * Compiles a "set" statement returning PHP code
+	 *
+	 * @param array statement
+	 * @return string
+	 */
+	public function compileSet(statement) -> string
+	{
+		var assignments, assignment, exprCode, variable, compilation;
+
+		/**
+		 * A valid assigment list is required
+		 */
+		if !fetch assignments, statement["assignments"] {
+			throw new Phalcon\Mvc\View\Exception("Corrupted statement");
+		}
+
+		let compilation = "<?php";
+
+		/**
+		 * A single set can have several assigments
+		 */
+		for assignment in assignments {
+
+			let exprCode = this->expression(assignment["expr"]);
+
+			/**
+			 * Set statement
+			 */
+			let variable = assignment["variable"];
+
+			/**
+			 * Assignment operator
+			 * Generate the right operator
+			 */
+			switch assignment["op"] {
+				case 281:
+					let compilation .= " $" . variable . " += " . exprCode . ";";
+					break;
+				case 282:
+					let compilation .= " $" . variable . " -= " . exprCode . ";";
+					break;
+				case 283:
+					let compilation .= " $" . variable . " *= " . exprCode . ";";
+					break;
+				case 284:
+					let compilation .= " $" . variable . " /= " . exprCode . ";";
+					break;
+				default:
+					let compilation .= " $" . variable . " = " . exprCode . ";";
+					break;
+			}
+
+		}
+
+		let compilation .= " ?>";
+		return compilation;
+	}
+
+	/**
+	 * Compiles a "do" statement returning PHP code
+	 *
+	 * @param array statement
+	 * @return string
+	 */
+	public function compileDo(statement) -> string
+	{
+		var expr;
+
+		/**
+		 * A valid expression is required
+		 */
+		if !fetch expr, statement["expr"] {
+			throw new Phalcon\Mvc\View\Exception("Corrupted statement");
+		}
+
+		/**
+		 * "Do" statement
+		 */
+		return "<?php " . this->expression(expr) . "; ?>";
+	}
+
+	/**
+	 * Compiles a "return" statement returning PHP code
+	 *
+	 * @param array statement
+	 * @return string
+	 */
+	public function compileReturn(statement) -> string
+	{
+		var expr;
+
+		/**
+		 * A valid expression is required
+		 */
+		if !fetch expr, statement["expr"] {
+			throw new Phalcon\Mvc\View\Exception("Corrupted statement");
+		}
+
+		/**
+		 * "Return" statement
+		 */
+		return "<?php return " . this->expression(expr) . "; ?>";
+	}
+
+	/**
+	 * Compiles a "autoescape" statement returning PHP code
+	 *
+	 * @param array   statement
+	 * @param boolean extendsMode
+	 * @return string
+	 */
+	public function compileAutoEscape(statement, boolean extendsMode) -> string
+	{
+		var autoescape, oldAutoescape, compilation;
+
+		/**
+		 * A valid option is required
+		 */
+		if !fetch autoescape, statement["enable"] {
+			throw new Phalcon\Mvc\View\Exception("Corrupted statement");
+		}
+
+		/**
+		 * "autoescape" mode
+		 */
+		let oldAutoescape = this->_autoescape,
+			this->_autoescape = autoescape;
+
+		let compilation = this->_statementList(statement["block_statements"], extendsMode),
+			this->_autoescape = oldAutoescape;
+
+		return compilation;
+	}
+
+	/**
+	 * Compiles a '{{' '}}' statement returning PHP code
+	 *
+	 * @param array   statement
+	 * @param boolean extendsMode
+	 * @return string
+	 */
+	public function compileEcho(statement)
+	{
+		var expr, exprCode, name;
+
+		/**
+		 * A valid expression is required
+		 */
+		if !fetch expr, statement["expr"] {
+			throw new Phalcon\Mvc\View\Exception("Corrupted statement");
+		}
+
+		/**
+		 * Evaluate common expressions
+		 */
+		let exprCode = this->expression(expr);
+
+		if expr["type"] == 350  {
+
+			let name = expr["name"];
+
+			if name["type"] == 265 {
+
+				/**
+				 * super() is a function however the return of this function must be output as it is
+				 */
+				if name["value"] == "super" {
+					return exprCode;
+				}
+			}
+		}
+
+		/**
+		 * Echo statement
+		 */
+		if this->_autoescape {
+			return "<?php echo $this->escaper->escapeHtml(" . exprCode . "); ?>";
+		}
+		return "<?php echo " . exprCode . "; ?>";
+	}
+
+	/**
+	 * Compiles a 'include' statement returning PHP code
+	 *
+	 * @param  array statement
+	 * @return string
+	 */
+	public function compileInclude(statement) -> string
+	{
+		var pathExpr, path, view, subCompiler, finalPath, compilation, params;
+
+		/**
+		 * Include statement
+		 * A valid expression is required
+		 */
+		if !fetch pathExpr, statement["path"] {
+			throw new Phalcon\Mvc\View\Exception("Corrupted statement");
+		}
+
+		/**
+		 * Check if the expression is a string
+		 * If the path is an string try to make an static compilation
+		 */
+		if pathExpr["type"] == 260 {
+
+			/**
+			 * Static compilation cannot be performed if the user passed extra parameters
+			 */
+			if !isset statement["params"]  {
+
+				/**
+				 * Get the static path
+				 */
+				let path = pathExpr["value"];
+
+				let view = this->_view;
+				if typeof view == "object" {
+					let finalPath = view->getViewsDir() . path;
+				} else {
+					let finalPath = path;
+				}
+
+				/**
+				 * Clone the original compiler
+				 * Perform a subcompilation of the included file
+				 * If the compilation doesn"t return anything we include the compiled path
+				 */
+				let subCompiler = clone this;
+				let compilation = subCompiler->compile(finalPath, false);
+				if typeof compilation == "null" {
+
+					/**
+					 * Use file-get-contents to respect the openbase_dir directive
+					 */
+					let compilation = file_get_contents(subCompiler->getCompiledTemplatePath());
+				}
+
+				return compilation;
+			}
+
+		}
+
+		/**
+		 * Resolve the path's expression
+		 */
+		let path = this->expression(pathExpr);
+
+		/**
+		 * Use partial
+		 */
+		if !fetch params, statement["params"] {
+			return "<?php $this->partial(" . path . "); ?>";
+		}
+
+		return "<?php $this->partial(" . path . ", " . this->expression(params) . "); ?>";
+	}
+
+	/**
+	 * Compiles macros
+	 *
+	 * @param array   statement
+	 * @param boolean extendsMode
+	 * @return string
+	 */
+	public function compileMacro(statement, boolean extendsMode) -> string
+	{
+		var code, name, parameters, position, parameter, variableName, blockStatements;
+
+		/**
+		 * A valid name is required
+		 */
+		if !fetch name, statement["name"] {
+			throw new Phalcon\Mvc\View\Exception("Corrupted statement");
+		}
+
+		/**
+		 * Check if the macro is already defined
+		 */
+		if isset this->_macros[name] {
+			throw new Phalcon\Mvc\View\Exception("Macro '" . name . "' is already defined");
+		} else {
+			/**
+			 * Register the macro
+			 */
+			let this->_macros[name] = name;
+		}
+
+		let code = "<?php function vmacro_";
+
+		if !fetch parameters, statement["parameters"] {
+			let code .=  name . "() { ?>";
+		} else {
+
+			/**
+			 * Parameters are always received as an array
+			 */
+			let code .=  name . "($__p) { ";
+			for position, parameter in parameters {
+
+				let variableName = parameter["variable"];
+
+				let code .= "if (isset($__p[" . position . "])) { ";
+				let code .= "$" . variableName . " = $__p[" . position."];";
+				let code .= " } else { ";
+				let code .= "if (isset($__p[\"" . variableName."\"])) { ";
+				let code .= "$" . variableName . " = $__p[\"" . variableName."\"];";
+				let code .= " } else { ";
+				let code .= " throw new \\Phalcon\\Mvc\\View\\Exception(\"Macro " . name . " was called without parameter: " . variableName . "\"); ";
+				let code .= " } } ";
+			}
+
+			let code .= " ?>";
+		}
+
+		/**
+		 * Block statements are allowed
+		 */
+		if fetch blockStatements, statement["block_statements"] {
+
+			/**
+			 * Process statements block
+			 */
+			let code .= this->_statementList(blockStatements, extendsMode) . "<?php } ?>";
+		}  else {
+			let code .= "<?php } ?>";
+		}
+
+		return code;
+	}
+
+	/**
+	 * Compiles calls to macros
+	 *
+	 * @param array $statement
+	 * @param boolean $extendsMode
+	 * @return string
+	 */
+	public function compileCall($statement, $extendsMode)
+	{
+
+	}
+
+	/**
+	 * Traverses a statement list compiling each of its nodes
+	 *
+	 * @param array statement
+	 * @return string
+	 */
+	protected function _statementList(statements, boolean extendsMode=false)
+	{
+		var extended, blockMode, compilation, extensions,
+			statement, tempCompilation, type, blockName, blockStatements,
+			blocks, path, view, finalPath, subCompiler, level;
+
+		/**
+		 * Nothing to compile
+		 */
+		if !count(statements) {
+			return "";
+		}
+
+		/**
+		 * Increase the statement recursion level in extends mode
+		 */
+		let extended = this->_extended;
+		let blockMode = extended || extendsMode;
+		if blockMode === true {
+			let this->_blockLevel++;
+		}
+
+		let this->_level++;
+
+		let compilation = null;
+
+		let extensions = this->_extensions;
+		for statement in statements {
+
+			/**
+			 * All statements must be arrays
+			 */
+			if typeof statement != "array" {
+				throw new Phalcon\Mvc\View\Exception("Corrupted statement");
+			}
+
+			/**
+			 * Check if the statement is valid
+			 */
+			if !isset statement["type"] {
+				throw new Phalcon\Mvc\View\Exception("Invalid statement in " . statement["file"] . " on line " . statement["line"]);
+			}
+
+			/**
+			 * Check if extensions have implemented custom compilation for this statement
+			 */
+			if typeof extensions != "array" {
+
+				/**
+				 * Notify the extensions about being resolving a statement
+				 */
+				let tempCompilation = this->fireExtensionEvent("compileStatement", [statement]);
+				if typeof tempCompilation != "string" {
+					let compilation .= tempCompilation;
+					continue;
+				}
+			}
+
+			/**
+			 * Get the statement type
+			 */
+			let type = statement["type"];
+
+			/**
+			 * Compile the statement according to the statement"s type
+			 */
+			switch type {
+
+				case 357:
+					/**
+					 * Raw output statement
+					 */
+					let compilation .= statement["value"];
+					break;
+
+				case 300:
+					let compilation .= this->compileIf(statement, extendsMode);
+					break;
+
+				case 302:
+					let compilation .= this->compileElseIf(statement);
+					break;
+
+				case 304:
+					let compilation .= this->compileForeach(statement, extendsMode);
+					break;
+
+				case 306:
+					let compilation .= this->compileSet(statement);
+					break;
+
+				case 359:
+					let compilation .= this->compileEcho(statement);
+					break;
+
+				case 307:
+
+					/**
+					 * Block statement
+					 */
+					let blockName = statement["name"];
+
+					fetch blockStatements, statement["block_statements"];
+
+					let blocks = this->_blocks;
+					if blockMode {
+
+						if typeof blocks != "array" {
+							let blocks = [];
+						}
+
+						/**
+						 * Create a unamed block
+						 */
+						if typeof compilation != "null" {
+							let blocks[] = compilation;
+							let compilation = null;
+						}
+
+						/**
+						 * In extends mode we add the block statements to the blocks variable
+						 */
+						let blocks[blockName] = blockStatements;
+						let this->_blocks = blocks;
+
+					} else {
+						if typeof blockStatements == "array" {
+							let compilation .= this->_statementList(blockStatements, extendsMode);
+						}
+					}
+					break;
+
+				case 310:
+
+					/**
+					 * Extends statement
+					 */
+					let path = statement["path"];
+					let view = this->_view;
+					if typeof view == "object" {
+						let finalPath = view->getViewsDir() . path;
+					} else {
+						let finalPath = path;
+					}
+
+					let extended = true;
+
+					/**
+					 * Perform a subcompilation of the extended file
+					 */
+					let subCompiler = clone this;
+					let tempCompilation = subCompiler->compile(finalPath, extended);
+
+					/**
+					 * If the compilation doesn"t return anything we include the compiled path
+					 */
+					if typeof tempCompilation == "null" {
+						let tempCompilation = file_get_contents(subCompiler->getCompiledTemplatePath());
+					}
+
+					let this->_extended = true;
+					let this->_extendedBlocks = tempCompilation;
+					let blockMode = extended;
+					break;
+
+				case 313:
+					let compilation .= this->compileInclude(statement);
+					break;
+
+				case 314:
+					let compilation .= this->compileCache(statement, extendsMode);
+					break;
+
+				case 316:
+					let compilation .= this->compileDo(statement);
+					break;
+
+				case 327:
+					let compilation .= this->compileReturn(statement);
+					break;
+
+				case 317:
+					let compilation .= this->compileAutoEscape(statement, extendsMode);
+					break;
+
+				case 319:
+					/**
+					 * "Continue" statement
+					 */
+					let compilation .= "<?php continue; ?>";
+					break;
+
+				case 320:
+					/**
+					 * "Break" statement
+					 */
+					let compilation .= "<?php break; ?>";
+					break;
+
+				case 321:
+					/**
+					 * "Forelse" condition
+					 */
+					let compilation .= this->compileForElse();
+					break;
+
+				case 322:
+					/**
+					 * Define a macro
+					 */
+					let compilation .= this->compileMacro(statement, extendsMode);
+					break;
+
+				case 325:
+					/**
+					 * "Call" statement
+					 */
+					let compilation .= this->compileCall(statement, extendsMode);
+					break;
+
+				case 358:
+					/**
+					 * Empty statement
+					 */
+					break;
+
+				default:
+					throw new Phalcon\Mvc\View\Exception("Unknown statement " . type . " in " . statement["file"] . " on line " . statement["line"]);
+
+			}
+		}
+
+		/**
+		 * Reduce the statement level nesting
+		 */
+		if blockMode === true {
+			let level = this->_blockLevel;
+			if level == 1 {
+				if typeof compilation != "null" {
+					let this->_blocks[] = compilation;
+				}
+			}
+			let this->_blockLevel--;
+		}
+
+		let this->_level--;
+
+		return compilation;
+	}
+
+	/**
 	 * Compiles a template into a string
 	 *
 	 *<code>
 	 * echo $compiler->compileString('{{ "hello world" }}');
 	 *</code>
 	 *
-	 * @param string  viewCode
-	 * @param boolean extendsMode
+	 * @param  string  viewCode
+	 * @param  boolean extendsMode
 	 * @return string
 	 */
 	public function compileString(string! viewCode, boolean extendsMode=false) -> string
@@ -1629,8 +2358,7 @@ class Compiler implements Phalcon\Di\InjectionAwareInterface
 	 */
 	public function compile(string! templatePath, boolean extendsMode=false)
 	{
-		var stat, compileAlways;
-		var prefix, compiledPath, compiledSeparator, blocksCode,
+		var stat, compileAlways, prefix, compiledPath, compiledSeparator, blocksCode,
 			compiledExtension, compilation, options, realCompiledPath,
 			compiledTemplatePath, realTemplatePath, templateSepPath;
 
