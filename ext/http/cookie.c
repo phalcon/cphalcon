@@ -37,6 +37,8 @@
 #include "kernel/file.h"
 #include "kernel/concat.h"
 
+#include "interned-strings.h"
+
 /**
  * Phalcon\Http\Cookie
  *
@@ -343,7 +345,7 @@ PHP_METHOD(Phalcon_Http_Cookie, getValue){
 					}
 	
 					PHALCON_INIT_NVAR(service);
-					ZVAL_STRING(service, "filter", 1);
+					PHALCON_ZVAL_MAYBE_INTERNED_STRING(service, phalcon_interned_filter);
 	
 					PHALCON_INIT_NVAR(filter);
 					phalcon_call_method_p1(filter, dependency_injector, "getshared", service);

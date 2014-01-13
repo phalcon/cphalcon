@@ -79,7 +79,7 @@ PHP_METHOD(Phalcon_DI_FactoryDefault, __construct){
 	shared = PHALCON_GLOBAL(z_true);
 	
 	PHALCON_INIT_VAR(name);
-	ZVAL_STRING(name, "router", 1);
+	PHALCON_ZVAL_MAYBE_INTERNED_STRING(name, phalcon_interned_router);
 	
 	PHALCON_INIT_VAR(definition);
 	ZVAL_STRING(definition, "Phalcon\\Mvc\\Router", 1);
@@ -89,7 +89,7 @@ PHP_METHOD(Phalcon_DI_FactoryDefault, __construct){
 	phalcon_call_method_p3_noret(router, "__construct", name, definition, shared);
 	
 	PHALCON_INIT_NVAR(name);
-	ZVAL_STRING(name, "dispatcher", 1);
+	PHALCON_ZVAL_MAYBE_INTERNED_STRING(name, phalcon_interned_dispatcher);
 	
 	PHALCON_INIT_NVAR(definition);
 	ZVAL_STRING(definition, "Phalcon\\Mvc\\Dispatcher", 1);
@@ -138,7 +138,7 @@ PHP_METHOD(Phalcon_DI_FactoryDefault, __construct){
 	 * Request/Response are always shared
 	 */
 	PHALCON_INIT_NVAR(name);
-	ZVAL_STRING(name, "response", 1);
+	PHALCON_ZVAL_MAYBE_INTERNED_STRING(name, phalcon_interned_response);
 	
 	PHALCON_INIT_NVAR(definition);
 	ZVAL_STRING(definition, "Phalcon\\Http\\Response", 1);
@@ -158,7 +158,7 @@ PHP_METHOD(Phalcon_DI_FactoryDefault, __construct){
 	phalcon_call_method_p3_noret(cookies, "__construct", name, definition, shared);
 	
 	PHALCON_INIT_NVAR(name);
-	ZVAL_STRING(name, "request", 1);
+	PHALCON_ZVAL_MAYBE_INTERNED_STRING(name, phalcon_interned_request);
 	
 	PHALCON_INIT_NVAR(definition);
 	ZVAL_STRING(definition, "Phalcon\\Http\\Request", 1);
@@ -171,7 +171,7 @@ PHP_METHOD(Phalcon_DI_FactoryDefault, __construct){
 	 * Filter/Escaper services are always shared
 	 */
 	PHALCON_INIT_NVAR(name);
-	ZVAL_STRING(name, "filter", 1);
+	PHALCON_ZVAL_MAYBE_INTERNED_STRING(name, phalcon_interned_filter);
 	
 	PHALCON_INIT_NVAR(definition);
 	ZVAL_STRING(definition, "Phalcon\\Filter", 1);
@@ -326,15 +326,15 @@ PHP_METHOD(Phalcon_DI_FactoryDefault, __construct){
 	 */
 	PHALCON_INIT_VAR(services);
 	array_init_size(services, 21);
-	phalcon_array_update_string(&services, SL("router"), &router, PH_COPY);
-	phalcon_array_update_string(&services, SL("dispatcher"), &dispatcher, PH_COPY);
+	phalcon_array_update_string(&services, ISL(router), &router, PH_COPY);
+	phalcon_array_update_string(&services, ISL(dispatcher), &dispatcher, PH_COPY);
 	phalcon_array_update_string(&services, ISL(url), &url, PH_COPY);
 	phalcon_array_update_string(&services, ISL(modelsManager), &models_manager, PH_COPY);
 	phalcon_array_update_string(&services, ISL(modelsMetadata), &models_metadata, PH_COPY);
-	phalcon_array_update_string(&services, SL("response"), &response, PH_COPY);
+	phalcon_array_update_string(&services, ISL(response), &response, PH_COPY);
 	phalcon_array_update_string(&services, SL("cookies"), &cookies, PH_COPY);
-	phalcon_array_update_string(&services, SL("request"), &request, PH_COPY);
-	phalcon_array_update_string(&services, SL("filter"), &filter, PH_COPY);
+	phalcon_array_update_string(&services, ISL(request), &request, PH_COPY);
+	phalcon_array_update_string(&services, ISL(filter), &filter, PH_COPY);
 	phalcon_array_update_string(&services, ISL(escaper), &escaper, PH_COPY);
 	phalcon_array_update_string(&services, SL("security"), &security, PH_COPY);
 	phalcon_array_update_string(&services, SL("crypt"), &crypt, PH_COPY);

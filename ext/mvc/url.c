@@ -35,6 +35,8 @@
 #include "kernel/string.h"
 #include "kernel/framework/router.h"
 
+#include "interned-strings.h"
+
 /**
  * Phalcon\Mvc\Url
  *
@@ -325,7 +327,7 @@ PHP_METHOD(Phalcon_Mvc_Url, get){
 			}
 	
 			PHALCON_INIT_VAR(service);
-			ZVAL_STRING(service, "router", 1);
+			PHALCON_ZVAL_MAYBE_INTERNED_STRING(service, phalcon_interned_router);
 	
 			PHALCON_INIT_NVAR(router);
 			phalcon_call_method_p1(router, dependency_injector, "getshared", service);
