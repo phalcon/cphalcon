@@ -3,7 +3,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2013 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -228,7 +228,6 @@
 #include "forms/element/password.h"
 #include "forms/element/textarea.h"
 #include "crypt.h"
-#include "translate.h"
 #include "translate/exception.h"
 #include "translate/adapter/nativearray.h"
 #include "crypt/exception.h"

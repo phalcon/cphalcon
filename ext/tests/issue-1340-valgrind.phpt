@@ -1,7 +1,12 @@
 --TEST--
 Memory corruption in zim_Phalcon_Security_hash() - https://github.com/phalcon/cphalcon/issues/1340 - run under Valgrind!
 --SKIPIF--
-<?php include('skipif.inc'); ?>
+<?php
+include('skipif.inc');
+if (!extension_loaded('openssl')) {
+	die('skip OpenSSL extension is not loaded');
+}
+?>
 --FILE--
 <?php
 $s = new \Phalcon\Security();

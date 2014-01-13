@@ -2,7 +2,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2013 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -24,5 +24,6 @@ void phalcon_session_start(TSRMLS_D);
 void phalcon_session_destroy(TSRMLS_D);
 void phalcon_get_session_id(zval *return_value TSRMLS_DC);
 void phalcon_set_session_id(zval *sid TSRMLS_DC);
+void phalcon_session_write_close(TSRMLS_D);
 
 #endif /* KERNEL_SESSION_H */

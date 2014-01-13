@@ -3,7 +3,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2013 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -259,6 +259,8 @@ PHP_METHOD(Phalcon_Security, hash){
 PHP_METHOD(Phalcon_Security, checkHash){
 
 	zval **password, **password_hash, **max_pass_length = NULL, *hash;
+	zval* params[2];
+	int check = 0;
 
 	phalcon_fetch_params_ex(2, 1, &password, &password_hash, &max_pass_length);
 	
@@ -272,11 +274,36 @@ PHP_METHOD(Phalcon_Security, checkHash){
 		}
 	}
 
-	PHALCON_MM_GROW();
-	PHALCON_INIT_VAR(hash);
-	phalcon_call_func_p2(hash, "crypt", *password, *password_hash);
-	is_equal_function(return_value, hash, *password_hash TSRMLS_CC);
-	RETURN_MM();
+	params[0] = *password;
+	params[1] = *password_hash;
+
+	ALLOC_INIT_ZVAL(hash);
+	phalcon_call_func_params_w(hash, SL("crypt"), 2, params TSRMLS_CC);
+	if (UNEXPECTED(EG(exception) != NULL)) {
+		zval_ptr_dtor(&hash);
+		RETURN_NULL();
+	}
+
+	if (UNEXPECTED(Z_TYPE_P(hash) != IS_STRING)) {
+		convert_to_string(hash);
+	}
+
+	if (Z_STRLEN_P(hash) == Z_STRLEN_PP(password_hash)) {
+		int n    = Z_STRLEN_P(hash);
+		char *h1 = Z_STRVAL_P(hash);
+		char *h2 = Z_STRVAL_PP(password_hash);
+
+		while (n) {
+			check |= ((unsigned int)*h1) ^ ((unsigned int)*h2);
+			++h1;
+			++h2;
+			--n;
+		}
+
+		zval_ptr_dtor(&hash);
+	}
+
+	RETURN_BOOL(check == 0);
 }
 
 /**

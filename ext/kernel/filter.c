@@ -3,7 +3,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2013 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -170,7 +170,7 @@ static long phalcon_unpack(char *data, int size, int issigned, int *map)
 static inline char *phalcon_longtohex(unsigned long value) {
 
 	static char digits[] = "0123456789abcdef";
-	char buf[(sizeof(unsigned long) << 3) + 1];
+	char buf[(sizeof(unsigned long) << 1) + 1];
 	char *ptr, *end;
 
 	end = ptr = buf + sizeof(buf) - 1;
@@ -257,7 +257,7 @@ void phalcon_escape_multi(zval *return_value, zval *param, const char *escape_ch
 		/**
 		 * Alphanumeric characters are not escaped
 		 */
-		if (value < 256 && isalnum(value)) {
+		if (value > 32 && value < 127 && isalnum(value)) {
 			smart_str_appendc(&escaped_str, (unsigned char) value);
 			continue;
 		}
@@ -292,6 +292,8 @@ void phalcon_escape_multi(zval *return_value, zval *param, const char *escape_ch
 				case ';':
 				case '_':
 				case '|':
+				case '~':
+				case '`':
 					smart_str_appendc(&escaped_str, (unsigned char) value);
 					continue;
 			}

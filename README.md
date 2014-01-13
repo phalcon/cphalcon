@@ -10,13 +10,15 @@ Phalcon is written in C with platform independence in mind. As a result, Phalcon
 
 ### Windows
 
-For use Phalcon on windows you only should to download a DLL library (http://phalconphp.com/download). Edit your php.ini file and then add:
+For use Phalcon on Windows, you only should to [download a DLL library](http://phalconphp.com/en/download/windows), place it in your `/php/ext` folder and then append at the last line (or whatever line you wish) of your `php.ini`:
 
 ```bash
 extension=php_phalcon.dll
 ```
 
-Finally restart your webserver.
+Finally, just restart your webserver and voilà!
+
+**Hint:** To ensure that your Phalcon's installation was successful, debug with `<?php phpinfo(); ?>` and search for the a section mentioning the Phalcon extension.
 
 ### Linux/Unix/Mac
 
@@ -73,6 +75,13 @@ Current Build Status
 Phalcon Framework is built under Travis CI service. Every commit pushed to this repository will queue a build into the continuous integration service and will run all PHPUnit tests to ensure that everything is going well and the project is stable. The current build status is:
 
 [![Build Status](https://secure.travis-ci.org/phalcon/cphalcon.png?branch=master)](http://travis-ci.org/phalcon/cphalcon)
+
+Meet the Incubator
+-----------
+Our community is developing amazing extra features for Phalcon everyday via [Incubator](https://github.com/phalcon/incubator). There are resources to enhance your experience with the framework and that enlarge the main features.
+
+Just give a try and help us improve more & more our PHP's stronghold.
+
 
 License
 -------

@@ -3,7 +3,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2013 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -237,7 +237,7 @@ void phalcon_camelize(zval *return_value, const zval *str){
 	marker = Z_STRVAL_P(str);
 	len    = Z_STRLEN_P(str);
 
-	for (i = 0; i < len - 1; i++) {
+	for (i = 0; i < len; i++) {
 		ch = *marker;
 		if (i == 0 || ch == '-' || ch == '_') {
 			if (ch == '-' || ch == '_') {
@@ -380,6 +380,9 @@ int phalcon_memnstr_str(const zval *haystack, char *needle, unsigned int needle_
  */
 void phalcon_fast_strpos(zval *return_value, const zval *haystack, const zval *needle) {
 
+#if PHP_VERSION_ID >= 50600
+	const
+#endif
 	char *found = NULL;
 
 	if (unlikely(Z_TYPE_P(haystack) != IS_STRING || Z_TYPE_P(needle) != IS_STRING)) {
@@ -409,6 +412,9 @@ void phalcon_fast_strpos(zval *return_value, const zval *haystack, const zval *n
  */
 void phalcon_fast_strpos_str(zval *return_value, const zval *haystack, char *needle, unsigned int needle_length) {
 
+#if PHP_VERSION_ID >= 50600
+	const
+#endif
 	char *found = NULL;
 
 	if (unlikely(Z_TYPE_P(haystack) != IS_STRING)) {
@@ -432,6 +438,9 @@ void phalcon_fast_strpos_str(zval *return_value, const zval *haystack, char *nee
  */
 void phalcon_fast_stripos_str(zval *return_value, zval *haystack, char *needle, unsigned int needle_length) {
 
+#if PHP_VERSION_ID >= 50600
+	const
+#endif
 	char *found = NULL;
 	char *needle_dup, *haystack_dup;
 

@@ -100,4 +100,34 @@ class TagTest extends PHPUnit_Framework_TestCase
 		$pos = strpos($html, 'checked="checked"');
 		$this->assertTrue($pos !== FALSE);
 	 }
+
+	public function testIssue1486()
+	{
+		$di = new Phalcon\DI\FactoryDefault();
+		$di->getshared('url')->setBaseUri('/');
+		\Phalcon\Tag::setDI($di);
+
+		$html = \Phalcon\Tag::stylesheetLink('css/phalcon.css');
+		$this->assertEquals($html, '<link rel="stylesheet" href="/css/phalcon.css" type="text/css" />'.PHP_EOL);
+
+		$html = \Phalcon\Tag::stylesheetLink(array('css/phalcon.css'));
+		$this->assertEquals($html, '<link rel="stylesheet" href="/css/phalcon.css" type="text/css" />'.PHP_EOL);
+
+		$html = \Phalcon\Tag::javascriptInclude('js/phalcon.js');
+		$this->assertEquals($html, '<script src="/js/phalcon.js" type="text/javascript"></script>'.PHP_EOL);
+
+		$html = \Phalcon\Tag::javascriptInclude(array('js/phalcon.js'));
+		$this->assertEquals($html, '<script src="/js/phalcon.js" type="text/javascript"></script>'.PHP_EOL);
+	 }
+
+	public function testIssue1662()
+	{
+		$di = new Phalcon\DI\FactoryDefault();
+		\Phalcon\Tag::setDI($di);
+
+		\Phalcon\Tag::setDocType(Phalcon\Tag::HTML5);
+
+		$html = \Phalcon\Tag::getDocType();
+		$this->assertEquals($html, '<!DOCTYPE html>'.PHP_EOL);
+	}
 }

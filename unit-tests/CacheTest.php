@@ -364,6 +364,11 @@ class CacheTest extends PHPUnit_Framework_TestCase
 			return false;
 		}
 
+		if (ini_get('apc.enable_cli') != 1) {
+			$this->markTestSkipped('apc.enable_cli must be set to 1');
+			return false;
+		}
+
 		return true;
 	}
 

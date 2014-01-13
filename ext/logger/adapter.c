@@ -1,9 +1,8 @@
-
 /*
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2013 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -176,6 +175,10 @@ PHP_METHOD(Phalcon_Logger_Adapter, commit){
 	
 	}
 	
+	PHALCON_INIT_NVAR(queue);
+	array_init(queue);
+	phalcon_update_property_this(this_ptr, SL("_queue"), queue TSRMLS_CC);
+
 	RETURN_THIS();
 }
 
@@ -348,7 +351,7 @@ PHP_METHOD(Phalcon_Logger_Adapter, alert){
 }
 
 /**
- * Logs messages to the internal loggger. Appends logs to the
+ * Logs messages to the internal logger. Appends messages to the log
  *
  * @param string $message
  * @param int $type
@@ -370,28 +373,25 @@ PHP_METHOD(Phalcon_Logger_Adapter, log){
 	
 	PHALCON_INIT_VAR(timestamp);
 	ZVAL_LONG(timestamp, (long) time(NULL));
-	
-	PHALCON_OBS_VAR(transaction);
-	phalcon_read_property_this(&transaction, this_ptr, SL("_transaction"), PH_NOISY_CC);
-	if (zend_is_true(transaction)) {
-		PHALCON_INIT_VAR(queue_item);
-		object_init_ex(queue_item, phalcon_logger_item_ce);
-		phalcon_call_method_p3_noret(queue_item, "__construct", message, type, timestamp);
-	
-		phalcon_update_property_array_append(this_ptr, SL("_queue"), queue_item TSRMLS_CC);
-		RETURN_THIS();
-	}
-	
+
 	PHALCON_OBS_VAR(log_level);
 	phalcon_read_property_this(&log_level, this_ptr, SL("_logLevel"), PH_NOISY_CC);
-	
-	/** 
-	 * Checks if the log is valid respecting the current log level
-	 */
+
+	/* Only log the message if this is allowed by the current log level */
 	if (PHALCON_GE(log_level, type)) {
-		phalcon_call_method_p3_noret(this_ptr, "loginternal", message, type, timestamp);
+		PHALCON_OBS_VAR(transaction);
+		phalcon_read_property_this(&transaction, this_ptr, SL("_transaction"), PH_NOISY_CC);
+		if (zend_is_true(transaction)) {
+			PHALCON_INIT_VAR(queue_item);
+			object_init_ex(queue_item, phalcon_logger_item_ce);
+			phalcon_call_method_p3_noret(queue_item, "__construct", message, type, timestamp);
+
+			phalcon_update_property_array_append(this_ptr, SL("_queue"), queue_item TSRMLS_CC);
+		}
+		else {
+			phalcon_call_method_p3_noret(this_ptr, "loginternal", message, type, timestamp);
+		}
 	}
 	
 	RETURN_THIS();
 }
-

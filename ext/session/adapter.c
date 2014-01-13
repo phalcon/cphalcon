@@ -3,7 +3,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2013 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -84,6 +84,22 @@ PHP_METHOD(Phalcon_Session_Adapter, __construct){
 		phalcon_call_method_p1_noret(this_ptr, "setoptions", options);
 	}
 	
+	PHALCON_MM_RESTORE();
+}
+
+PHP_METHOD(Phalcon_Session_Adapter, __destruct) {
+
+	zval *started;
+
+	PHALCON_MM_GROW();
+
+	PHALCON_OBS_VAR(started);
+	phalcon_read_property_this(&started, getThis(), SL("_started"), PH_NOISY TSRMLS_CC);
+	if (zend_is_true(started)) {
+		phalcon_session_write_close(TSRMLS_C);
+		phalcon_update_property_bool(this_ptr, SL("_started"), 0 TSRMLS_CC);
+	}
+
 	PHALCON_MM_RESTORE();
 }
 

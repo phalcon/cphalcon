@@ -1,9 +1,8 @@
-
 /*
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2013 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -252,7 +251,7 @@ PHP_METHOD(Phalcon_Mvc_View, setBasePath){
  *
  * <code>
  * 	//Render the view related to the controller only
- * 	$this->view->setRenderLevel(View::LEVEL_VIEW);
+ * 	$this->view->setRenderLevel(View::LEVEL_LAYOUT);
  * </code>
  *
  * @param string $level
