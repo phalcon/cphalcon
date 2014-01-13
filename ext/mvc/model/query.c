@@ -3842,7 +3842,9 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _executeSelect){
 	
 	while (zend_hash_get_current_data_ex(ah2, (void**) &hd, &hp2) == SUCCESS) {
 	
-		PHALCON_GET_HMKEY(alias_copy, ah2, hp2);
+		zval key = phalcon_get_current_key_w(ah2, &hp2);
+		PHALCON_CPY_WRT_CTOR(alias_copy, &key);
+
 		PHALCON_GET_HVALUE(column);
 	
 		PHALCON_OBS_NVAR(type);
