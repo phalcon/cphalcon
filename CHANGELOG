@@ -24,6 +24,7 @@
  - Fixed PHP Notices in Phalcon\Debug::onUncaughtException() (#1683)
  - Phalcon\Logger\Adapter::commit() clears the queue (#1748)
  - Constant-time string comparison in Phalcon\Security::checkHash() (#1755)
+ - Fix phalcon_escape_multi() to generate valid UTF-8 (#1681)
 
 1.2.4
  - Fixed broken ACL inheritance (#905)
