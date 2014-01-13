@@ -176,7 +176,26 @@ static void phalcon_verify_permanent_zvals(int strict TSRMLS_DC)
 
 #endif
 
+PHP_INI_BEGIN()
+	/* Enables/Disables globally the internal events */
+	STD_PHP_INI_BOOLEAN("phalcon.orm.events",                   "1", PHP_INI_ALL, OnUpdateBool, orm.events,                   zend_phalcon_globals, phalcon_globals)
+	/* Enables/Disables virtual foreign keys */
+	STD_PHP_INI_BOOLEAN("phalcon.orm.virtual_foreign_keys",     "1", PHP_INI_ALL, OnUpdateBool, orm.virtual_foreign_keys,     zend_phalcon_globals, phalcon_globals)
+	/* Enables/Disables column renaming */
+	STD_PHP_INI_BOOLEAN("phalcon.orm.column_renaming",          "1", PHP_INI_ALL, OnUpdateBool, orm.column_renaming,          zend_phalcon_globals, phalcon_globals)
+	/* Enables/Disables automatic NOT NULL validation */
+	STD_PHP_INI_BOOLEAN("phalcon.orm.not_null_validations",     "1", PHP_INI_ALL, OnUpdateBool, orm.not_null_validations,     zend_phalcon_globals, phalcon_globals)
+	/* Enables/Disables throwing an exception if save fails */
+	STD_PHP_INI_BOOLEAN("phalcon.orm.exception_on_failed_save", "0", PHP_INI_ALL, OnUpdateBool, orm.exception_on_failed_save, zend_phalcon_globals, phalcon_globals)
+	/* Enables/Disables literals in PHQL */
+	STD_PHP_INI_BOOLEAN("phalcon.orm.enable_literals",          "1", PHP_INI_ALL, OnUpdateBool, orm.enable_literals,          zend_phalcon_globals, phalcon_globals)
+	/* Not used? */
+	STD_PHP_INI_BOOLEAN("phalcon.db.escape_identifiers",        "1", PHP_INI_ALL, OnUpdateBool, db.escape_identifiers,        zend_phalcon_globals, phalcon_globals)
+PHP_INI_END()
+
 static PHP_MINIT_FUNCTION(phalcon){
+
+	REGISTER_INI_ENTRIES();
 
 	nusphere_dbg_present = (zend_get_extension("DBG") != NULL);
 
@@ -509,6 +528,8 @@ static PHP_MSHUTDOWN_FUNCTION(phalcon){
 	assert(PHALCON_GLOBAL(orm).parser_cache == NULL);
 	assert(PHALCON_GLOBAL(orm).ast_cache == NULL);
 
+	UNREGISTER_INI_ENTRIES();
+
 	zend_execute_internal = orig_execute_internal;
 	return SUCCESS;
 }
@@ -548,6 +569,8 @@ static PHP_MINFO_FUNCTION(phalcon)
 	php_info_print_table_row(2, "Phalcon Framework", "enabled");
 	php_info_print_table_row(2, "Phalcon Version", PHP_PHALCON_VERSION);
 	php_info_print_table_end();
+
+	DISPLAY_INI_ENTRIES();
 }
 
 static PHP_GINIT_FUNCTION(phalcon)
@@ -703,7 +726,7 @@ zend_module_dep phalcon_deps[] = {
 
 zend_module_entry phalcon_module_entry = {
 	STANDARD_MODULE_HEADER_EX,
-	NULL,
+	ini_entries,
 	phalcon_deps,
 	PHP_PHALCON_EXTNAME,
 	NULL,

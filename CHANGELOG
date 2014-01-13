@@ -8,6 +8,7 @@
  - Fixed PHP notices, warnings and other incompatibilities (#894, #1222, #1315, #1413, #1427, #1428, #1529)
  - Fixed inheritance chain for Phalcon\Forms\Exception, Phalcon\Loader\Exception, Phalcon\Http\Request\Exception (#1770)
  - Major source coede optimizations (#1785)
+ - Control Phalcon behavior via INI settings (#1796)
  - Security fixes:
    - Hardening fixes (#1044)
    - Interface validation (#1043, #1048)
