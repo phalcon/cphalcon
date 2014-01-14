@@ -116,9 +116,8 @@ PHP_METHOD(Phalcon_Validation_Validator_Url, validate){
 			ZVAL_LONG(code, 0);
 		}
 
-		PHALCON_INIT_VAR(message);
-		object_init_ex(message, phalcon_validation_message_ce);
-		phalcon_call_method_p4_noret(message, "__construct", message_str, attribute, type, code);
+		message = phalcon_validation_message_construct_helper(message_str, attribute, type, code TSRMLS_CC);
+		Z_DELREF_P(message);
 	
 		phalcon_call_method_p1_noret(validator, "appendmessage", message);
 		RETURN_MM_FALSE;
