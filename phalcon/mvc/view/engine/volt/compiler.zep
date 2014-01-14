@@ -321,7 +321,8 @@ class Compiler implements Phalcon\Di\InjectionAwareInterface
 		 * If the unique prefix is not set we use a hash using the modified Berstein algotithm
 		 */
 		if !prefix {
-			let prefix = phalcon_unique_path_key(this->_currentPath);
+			//let prefix = phalcon_unique_path_key(this->_currentPath);
+			let prefix = md5(this->_currentPath);
 			let this->_prefix = prefix;
 		}
 
@@ -2003,11 +2004,11 @@ class Compiler implements Phalcon\Di\InjectionAwareInterface
 	/**
 	 * Compiles calls to macros
 	 *
-	 * @param array $statement
-	 * @param boolean $extendsMode
+	 * @param array    statement
+	 * @param boolean  extendsMode
 	 * @return string
 	 */
-	public function compileCall($statement, $extendsMode)
+	public function compileCall(statement, extendsMode)
 	{
 
 	}
@@ -2016,9 +2017,10 @@ class Compiler implements Phalcon\Di\InjectionAwareInterface
 	 * Traverses a statement list compiling each of its nodes
 	 *
 	 * @param array statement
+	 * @param boolean extendsMode
 	 * @return string
 	 */
-	protected function _statementList(statements, boolean extendsMode=false)
+	protected function _statementList(statements, boolean extendsMode=false) -> string
 	{
 		var extended, blockMode, compilation, extensions,
 			statement, tempCompilation, type, blockName, blockStatements,
@@ -2064,13 +2066,13 @@ class Compiler implements Phalcon\Di\InjectionAwareInterface
 			/**
 			 * Check if extensions have implemented custom compilation for this statement
 			 */
-			if typeof extensions != "array" {
+			if typeof extensions == "array" {
 
 				/**
 				 * Notify the extensions about being resolving a statement
 				 */
 				let tempCompilation = this->fireExtensionEvent("compileStatement", [statement]);
-				if typeof tempCompilation != "string" {
+				if typeof tempCompilation == "string" {
 					let compilation .= tempCompilation;
 					continue;
 				}
@@ -2101,7 +2103,7 @@ class Compiler implements Phalcon\Di\InjectionAwareInterface
 					let compilation .= this->compileElseIf(statement);
 					break;
 
-				case 304:
+				case PHVOLT_T_FOR:
 					let compilation .= this->compileForeach(statement, extendsMode);
 					break;
 
@@ -2109,7 +2111,7 @@ class Compiler implements Phalcon\Di\InjectionAwareInterface
 					let compilation .= this->compileSet(statement);
 					break;
 
-				case 359:
+				case PHVOLT_T_ECHO:
 					let compilation .= this->compileEcho(statement);
 					break;
 
@@ -2269,6 +2271,111 @@ class Compiler implements Phalcon\Di\InjectionAwareInterface
 	}
 
 	/**
+	 * Compiles a Volt source code returning a PHP plain version
+	 *
+	 * @param string  viewCode
+	 * @param boolean extendsMode
+	 * @return string
+	 */
+	protected function _compileSource(string! viewCode, boolean extendsMode=false) -> string
+	{
+		var currentPath, intermediate, extended,
+			finalCompilation, blocks, extendedBlocks, name, block,
+			blockCompilation, localBlock, compilation;
+
+		let currentPath = this->_currentPath,
+			intermediate = phvolt_parse_view(viewCode, currentPath);
+
+		/**
+		 * The parsing must return a valid array
+		 */
+		if typeof intermediate == "array" {
+
+			let compilation = this->_statementList(intermediate, extendsMode);
+
+			/**
+			 * Check if the template is extending another
+			 */
+			let extended = this->_extended;
+			if extended === true {
+
+				/**
+				 * Multiple-Inheritance is allowed
+				 */
+				if extendsMode === true {
+					let finalCompilation = [];
+				} else {
+					let finalCompilation = null;
+				}
+
+				let blocks = this->_blocks;
+				let extendedBlocks = this->_extendedBlocks;
+				for name, block in extendedBlocks {
+
+					/**
+					 * If name is a string then is a block name
+					 */
+					if typeof name == "string" {
+
+						if typeof block == "array" {
+							if isset blocks[name] {
+								/**
+								 * The block is set in the local template
+								 */
+								let localBlock = blocks[name],
+									this->_currentBlock = name,
+									blockCompilation = this->_statementList(localBlock);
+							} else {
+								/**
+								 * The block is not set local only in the extended template
+								 */
+								let blockCompilation = this->_statementList(block);
+							}
+						} else {
+							if isset blocks[name] {
+								/**
+								 * The block is set in the local template
+								 */
+								let localBlock = blocks[name],
+									this->_currentBlock = name,
+									blockCompilation = this->_statementList(localBlock);
+							} else {
+								let blockCompilation = block;
+							}
+						}
+
+						if extendsMode === true {
+							let finalCompilation[name] = blockCompilation;
+						} else {
+							let finalCompilation .= blockCompilation;
+						}
+					} else {
+						/**
+						 * Here the block is an already compiled text
+						 */
+						if extendsMode === true {
+							let finalCompilation[] = block;
+						} else {
+							let finalCompilation .= block;
+						}
+					}
+				}
+				return finalCompilation;
+			}
+
+			if extendsMode === true {
+				/**
+				 * In extends mode we return the template blocks instead of the compilation
+				 */
+				return this->_blocks;
+			}
+			return compilation;
+		}
+
+		throw new Phalcon\Mvc\View\Exception("Invalid intermediate representation");
+	}
+
+	/**
 	 * Compiles a template into a string
 	 *
 	 *<code>
@@ -2282,8 +2389,7 @@ class Compiler implements Phalcon\Di\InjectionAwareInterface
 	public function compileString(string! viewCode, boolean extendsMode=false) -> string
 	{
 		let this->_currentPath = "eval code";
-		//return this->_compileSource(viewCode, extendsMode);
-		return "";
+		return this->_compileSource(viewCode, extendsMode);
 	}
 
 	/**
@@ -2322,7 +2428,7 @@ class Compiler implements Phalcon\Di\InjectionAwareInterface
 		}
 
 		let this->_currentPath = path;
-		let compilation = null; //this->_compileSource(viewCode, extendsMode);
+		let compilation = this->_compileSource(viewCode, extendsMode);
 
 		/**
 		 * We store the file serialized if it's an array of blocks

@@ -18,7 +18,7 @@
  +------------------------------------------------------------------------+
  */
 
-class PhqlParsePhqlOptimizer
+class PhvoltParseViewOptimizer
 	extends OptimizerAbstract
 {
 
@@ -34,8 +34,8 @@ class PhqlParsePhqlOptimizer
 			return false;
 		}
 
-		if (count($expression['parameters']) != 1) {
-			throw new CompilerException("'phql_parse_phql' only accepts one parameter", $expression);
+		if (count($expression['parameters']) != 2) {
+			throw new CompilerException("'phvolt_parse_view' only accepts two parameters", $expression);
 		}
 
 		/**
@@ -56,10 +56,10 @@ class PhqlParsePhqlOptimizer
 
 		$resolvedParams = $call->getReadOnlyResolvedParams($expression['parameters'], $context, $expression);
 
-		$context->headersManager->add('phalcon/mvc/model/query/scanner', HeadersManager::POSITION_LAST);
-		$context->headersManager->add('phalcon/mvc/model/query/phql', HeadersManager::POSITION_LAST);
+		$context->headersManager->add('phalcon/mvc/view/engine/volt/scanner', HeadersManager::POSITION_LAST);
+		$context->headersManager->add('phalcon/mvc/view/engine/volt/volt',    HeadersManager::POSITION_LAST);
 
-		$context->codePrinter->output('if (phql_parse_phql(' . $symbolVariable->getName() . ', ' . $resolvedParams[0] . ' TSRMLS_CC) == FAILURE) {');
+		$context->codePrinter->output('if (phvolt_parse_view(' . $symbolVariable->getName() . ', ' . $resolvedParams[0] . ', ' . $resolvedParams[1] . ' TSRMLS_CC) == FAILURE) {');
         $context->codePrinter->output("\t" . 'RETURN_MM();');
         $context->codePrinter->output('}');
 
