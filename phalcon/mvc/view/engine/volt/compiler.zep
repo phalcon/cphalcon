@@ -353,7 +353,7 @@ class Compiler implements Phalcon\Di\InjectionAwareInterface
 	public function attributeReader(expr)
 	{
 		var exprCode, loopContext, left, leftType, variable,
-			level, prefix, dependencyInjector, leftCode, right;
+			level, dependencyInjector, leftCode, right;
 
 		let exprCode = null, loopContext = null;
 

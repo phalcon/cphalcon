@@ -4,10 +4,11 @@
 	"local-context-pass": true,
 	"constant-folding": true,
 	"static-constant-class-folding": true,
-	"namespace":"phalcon",
-	"name":"",
-	"description":"",
+	"namespace": "phalcon",
+	"name": "",
+	"description": "",
 	"author":"Phalcon Team",
+	"version": "2.0.0a",
 	"optimizations": {
 		"static-type-inference": true,
 		"static-type-inference-second-pass": true,
@@ -32,15 +33,15 @@
 		"phalcon/mvc/view/engine/volt/scanner.c"
 	],
 	"globals":{
-		"db.escape_identifiers":{
+		"db.escape_identifiers": {
 			"type": "bool",
 			"default": true
 		},
-		"orm.column_renaming":{
+		"orm.column_renaming": {
 			"type": "bool",
 			"default": true
 		},
-		"orm.events":{
+		"orm.events": {
 			"type": "bool",
 			"default": true
 		},
@@ -48,15 +49,15 @@
 			"type": "int",
 			"default": 3
 		},
-		"orm.virtual_foreign_keys":{
+		"orm.virtual_foreign_keys": {
 			"type": "bool",
 			"default": true
 		},
-		"orm.not_null_validations":{
+		"orm.not_null_validations": {
 			"type": "bool",
 			"default": true
 		},
-		"orm.exception_on_failed_save":{
+		"orm.exception_on_failed_save": {
 			"type": "bool",
 			"default": false
 		},

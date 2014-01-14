@@ -6,7 +6,7 @@
 #include "kernel/globals.h"
 
 #define PHP_PHALCON_NAME    ""
-#define PHP_PHALCON_VERSION "0.0.1"
+#define PHP_PHALCON_VERSION "2.0.0a"
 #define PHP_PHALCON_EXTNAME "phalcon"
 
 typedef struct _zephir_struct_db { 
