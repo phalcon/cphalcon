@@ -26,6 +26,7 @@
 #include "kernel/exception.h"
 #include "kernel/object.h"
 #include "kernel/array.h"
+#include "kernel/fcall.h"
 
 /**
  * Phalcon\Validation\Validator
@@ -61,6 +62,28 @@ PHALCON_INIT_CLASS(Phalcon_Validation_Validator){
 	zend_declare_property_null(phalcon_validation_validator_ce, SL("_options"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
 	return SUCCESS;
+}
+
+int phalcon_validation_validator_getoption_helper(const zend_class_entry *ce, zval *result, zval *this_ptr, const char *option TSRMLS_DC)
+{
+	zval *opt;
+	if (is_phalcon_class(ce)) {
+		zval *value;
+		zval *options = phalcon_fetch_nproperty_this(this_ptr, SL("_options"), PH_NOISY TSRMLS_CC);
+
+		if (phalcon_array_isset_string_fetch(&value, options, option, strlen(option)+1)) {
+			ZVAL_ZVAL(result, value, 1, 0);
+		}
+		else {
+			ZVAL_NULL(result);
+		}
+
+		return SUCCESS;
+	}
+
+	PHALCON_ALLOC_GHOST_ZVAL(opt);
+	ZVAL_STRING(opt, option, 1);
+	return phalcon_call_method_params(result, NULL, this_ptr, SL("getoption"), zend_inline_hash_func(SS("getoption")) TSRMLS_CC, 1, opt);
 }
 
 /**
@@ -113,16 +136,11 @@ PHP_METHOD(Phalcon_Validation_Validator, isSetOption){
  */
 PHP_METHOD(Phalcon_Validation_Validator, getOption){
 
-	zval *key, *options, *value;
+	zval **key;
 
-	phalcon_fetch_params(0, 1, 0, &key);
-	
-	options = phalcon_fetch_nproperty_this(this_ptr, SL("_options"), PH_NOISY_CC);
-	if (phalcon_array_isset_fetch(&value, options, key)) {
-		RETURN_ZVAL(value, 1, 0);
-	}
-	
-	RETURN_NULL();
+	phalcon_fetch_params_ex(1, 0, &key);
+	PHALCON_ENSURE_IS_STRING(key);
+	phalcon_validation_validator_getoption_helper(Z_OBJCE_P(getThis()), return_value, getThis(), Z_STRVAL_PP(key) TSRMLS_CC);
 }
 
 /**
