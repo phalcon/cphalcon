@@ -209,7 +209,7 @@ class Di implements Phalcon\DiInterface
 			 * The DI also acts as builder for any class even if it isn't defined in the DI
 			 */
 			if class_exists(name) {
-				if typeof parameters == "string" {
+				if typeof parameters == "array" {
 					if count(parameters) {
 						let instance = create_instance_params(name, parameters);
 					} else {

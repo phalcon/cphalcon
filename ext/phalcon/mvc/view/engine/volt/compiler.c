@@ -22,6 +22,7 @@
 #include "kernel/concat.h"
 #include "kernel/string.h"
 #include "kernel/hash.h"
+#include "kernel/file.h"
 #include "phalcon/mvc/view/engine/volt/scanner.h"
 #include "phalcon/mvc/view/engine/volt/volt.h"
 
@@ -2660,7 +2661,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compileFile) {
 		ZEPHIR_CPY_WRT(finalCompilation, compilation);
 	}
 	ZEPHIR_INIT_NVAR(_1);
-	zephir_call_func_p2(_1, "file_put_contents", compiledPath, finalCompilation);
+	zephir_file_put_contents(_1, compiledPath, finalCompilation TSRMLS_CC);
 	if (ZEPHIR_IS_FALSE(_1)) {
 		ZEPHIR_THROW_EXCEPTION_STR(phalcon_mvc_view_exception_ce, "Volt directory can't be written");
 		return;
@@ -2783,6 +2784,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compile) {
 			ZEPHIR_INIT_VAR(realTemplatePath);
 			zephir_call_func_p1(realTemplatePath, "realpath", templatePath);
 			ZEPHIR_INIT_VAR(templateSepPath);
+			zephir_call_func_p1(templateSepPath, "md5", realTemplatePath);
 		} else {
 			ZEPHIR_CPY_WRT(templateSepPath, templatePath);
 		}

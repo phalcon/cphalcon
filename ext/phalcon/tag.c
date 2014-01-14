@@ -946,3 +946,121 @@ PHP_METHOD(Phalcon_Tag, textArea) {
 
 }
 
+/**
+ * Builds a HTML close FORM tag
+ *
+ * @return	string
+ */
+PHP_METHOD(Phalcon_Tag, endForm) {
+
+
+	RETURN_STRING("</form>", 1);
+
+}
+
+/**
+ * Set the title of view content
+ *
+ *<code>
+ * Phalcon\Tag::setTitle('Welcome to my Page');
+ *</code>
+ *
+ * @param string title
+ */
+PHP_METHOD(Phalcon_Tag, setTitle) {
+
+	zval *title_param = NULL, *_0;
+	zval *title = NULL;
+
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 1, 0, &title_param);
+
+		zephir_get_strval(title, title_param);
+
+
+	zephir_update_static_property_ce(phalcon_tag_ce, SL("_documentTitle"), title TSRMLS_CC);
+	ZEPHIR_MM_RESTORE();
+
+}
+
+/**
+ * Appends a text to current document title
+ *
+ * @param string title
+ */
+PHP_METHOD(Phalcon_Tag, appendTitle) {
+
+	zval *title_param = NULL, *_0;
+	zval *title = NULL;
+
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 1, 0, &title_param);
+
+		zephir_get_strval(title, title_param);
+
+
+	zephir_update_static_property_ce(phalcon_tag_ce, SL("_documentTitle"), title TSRMLS_CC);
+	ZEPHIR_MM_RESTORE();
+
+}
+
+/**
+ * Prepends a text to current document title
+ *
+ * @param string title
+ */
+PHP_METHOD(Phalcon_Tag, prependTitle) {
+
+	zval *title_param = NULL, *_0, *_1, *_2;
+	zval *title = NULL;
+
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 1, 0, &title_param);
+
+		zephir_get_strval(title, title_param);
+
+
+	zephir_read_static_property_ce(&_1, phalcon_tag_ce, SL("_documentTitle") TSRMLS_CC);
+	ZEPHIR_INIT_VAR(_2);
+	ZEPHIR_CONCAT_VV(_2, title, _1);
+	zephir_update_static_property_ce(phalcon_tag_ce, SL("_documentTitle"), _2 TSRMLS_CC);
+	ZEPHIR_MM_RESTORE();
+
+}
+
+/**
+ * Gets the current document title
+ *
+ * <code>
+ * 	echo Phalcon\Tag::getTitle();
+ * </code>
+ *
+ * <code>
+ * 	{{ get_title() }}
+ * </code>
+ *
+ * @return string
+ */
+PHP_METHOD(Phalcon_Tag, getTitle) {
+
+	zval *tags_param = NULL, *documentTitle;
+	zend_bool tags;
+
+	zephir_fetch_params(0, 0, 1, &tags_param);
+
+	if (!tags_param) {
+		tags = 1;
+	} else {
+		tags = zephir_get_boolval(tags_param);
+	}
+
+
+	zephir_read_static_property_ce(&documentTitle, phalcon_tag_ce, SL("_documentTitle") TSRMLS_CC);
+	if (tags) {
+		ZEPHIR_CONCAT_SVSS(return_value, "<title>", documentTitle, "</title>", "\n");
+		return;
+	}
+	RETURN_CCTORW(documentTitle);
+
+}
+

@@ -643,4 +643,71 @@ class Tag
 	{
 	}
 
+	/**
+	 * Builds a HTML close FORM tag
+	 *
+	 * @return	string
+	 */
+	public static function endForm()
+	{
+		return "</form>";
+	}
+
+	/**
+	 * Set the title of view content
+	 *
+	 *<code>
+	 * Phalcon\Tag::setTitle('Welcome to my Page');
+	 *</code>
+	 *
+	 * @param string title
+	 */
+	public static function setTitle(string title)
+	{
+		let self::_documentTitle = title;
+	}
+
+	/**
+	 * Appends a text to current document title
+	 *
+	 * @param string title
+	 */
+	public static function appendTitle(string title)
+	{
+		let self::_documentTitle .= title;
+	}
+
+	/**
+	 * Prepends a text to current document title
+	 *
+	 * @param string title
+	 */
+	public static function prependTitle(string title)
+	{
+		let self::_documentTitle = title . self::_documentTitle;
+	}
+
+	/**
+	 * Gets the current document title
+	 *
+	 * <code>
+	 * 	echo Phalcon\Tag::getTitle();
+	 * </code>
+	 *
+	 * <code>
+	 * 	{{ get_title() }}
+	 * </code>
+	 *
+	 * @return string
+	 */
+	public static function getTitle(boolean tags=true) -> string
+	{
+		var documentTitle;
+		let documentTitle = self::_documentTitle;
+		if tags {
+			return "<title>" . documentTitle . "</title>" . PHP_EOL;
+		}
+		return documentTitle;
+	}
+
 }

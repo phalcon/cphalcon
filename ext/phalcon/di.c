@@ -386,21 +386,21 @@ PHP_METHOD(Phalcon_Di, get) {
 		ZEPHIR_INIT_VAR(_1);
 		zephir_call_func_p1(_1, "class_exists", name);
 		if (zephir_is_true(_1)) {
-			if ((Z_TYPE_P(parameters) == IS_STRING)) {
+			if ((Z_TYPE_P(parameters) == IS_ARRAY)) {
 				ZEPHIR_INIT_NVAR(instance);
 				if (zephir_fast_count_int(parameters TSRMLS_CC)) {
 					if (zephir_create_instance_params(instance, name, parameters TSRMLS_CC) == FAILURE) {
-						return;
+						RETURN_MM();
 					}
 				} else {
 					if (zephir_create_instance(instance, name TSRMLS_CC) == FAILURE) {
-						return;
+						RETURN_MM();
 					}
 				}
 			} else {
 				ZEPHIR_INIT_NVAR(instance);
 				if (zephir_create_instance(instance, name TSRMLS_CC) == FAILURE) {
-					return;
+					RETURN_MM();
 				}
 			}
 		} else {

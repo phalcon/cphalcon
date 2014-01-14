@@ -20,6 +20,7 @@
 #include "ext/spl/spl_exceptions.h"
 #include "kernel/array.h"
 #include "kernel/concat.h"
+#include "kernel/file.h"
 
 
 /*
@@ -618,7 +619,7 @@ PHP_METHOD(Phalcon_Assets_Manager, output) {
 				}
 			}
 			if (!(zephir_is_true(join))) {
-				zephir_call_func_p2_noret("file_put_contents", targetPath, filteredContent);
+				zephir_file_put_contents(NULL, targetPath, filteredContent TSRMLS_CC);
 			}
 		}
 		if (!(zephir_is_true(join))) {
@@ -654,7 +655,7 @@ PHP_METHOD(Phalcon_Assets_Manager, output) {
 	}
 	if ((Z_TYPE_P(filters) == IS_ARRAY)) {
 		if (ZEPHIR_IS_TRUE(join)) {
-			zephir_call_func_p2_noret("file_put_contents", completeTargetPath, filteredJoinedContent);
+			zephir_file_put_contents(NULL, completeTargetPath, filteredJoinedContent TSRMLS_CC);
 			ZEPHIR_INIT_VAR(targetUri);
 			zephir_call_method(targetUri, collection, "gettargeturi");
 			if (zephir_is_true(prefix)) {

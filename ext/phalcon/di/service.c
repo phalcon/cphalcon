@@ -233,17 +233,17 @@ PHP_METHOD(Phalcon_Di_Service, resolve) {
 				ZEPHIR_INIT_BNVAR(instance);
 				if (zephir_fast_count_int(parameters TSRMLS_CC)) {
 					if (zephir_create_instance_params(instance, definition, parameters TSRMLS_CC) == FAILURE) {
-						return;
+						RETURN_MM();
 					}
 				} else {
 					if (zephir_create_instance(instance, definition TSRMLS_CC) == FAILURE) {
-						return;
+						RETURN_MM();
 					}
 				}
 			} else {
 				ZEPHIR_INIT_BNVAR(instance);
 				if (zephir_create_instance(instance, definition TSRMLS_CC) == FAILURE) {
-					return;
+					RETURN_MM();
 				}
 			}
 		} else {

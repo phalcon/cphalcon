@@ -2560,7 +2560,8 @@ class Compiler implements Phalcon\Di\InjectionAwareInterface
 				/**
 				 * Create the virtual path replacing the directory separator by the compiled separator
 				 */
-				let templateSepPath = phalcon_prepare_virtual_path(realTemplatePath, compiledSeparator);
+				//let templateSepPath = phalcon_prepare_virtual_path(realTemplatePath, compiledSeparator);
+				let templateSepPath = md5(realTemplatePath);
 			} else {
 				let templateSepPath = templatePath;
 			}

@@ -19,6 +19,7 @@
 #include "kernel/object.h"
 #include "kernel/concat.h"
 #include "kernel/operators.h"
+#include "kernel/file.h"
 #include "kernel/string.h"
 
 
@@ -242,9 +243,9 @@ PHP_METHOD(Phalcon_Cache_Backend_File, save) {
 	zephir_call_method_p1(preparedContent, frontend, "beforestore", cachedContent);
 	ZEPHIR_INIT_VAR(status);
 	if (!(zephir_is_numeric(cachedContent))) {
-		zephir_call_func_p2(status, "file_put_contents", cacheFile, preparedContent);
+		zephir_file_put_contents(status, cacheFile, preparedContent TSRMLS_CC);
 	} else {
-		zephir_call_func_p2(status, "file_put_contents", cacheFile, cachedContent);
+		zephir_file_put_contents(status, cacheFile, cachedContent TSRMLS_CC);
 	}
 	if (!(zephir_is_true(status))) {
 		ZEPHIR_THROW_EXCEPTION_STR(phalcon_cache_exception_ce, "Cache directory is not writable");
@@ -481,7 +482,7 @@ PHP_METHOD(Phalcon_Cache_Backend_File, increment) {
 				ZEPHIR_INIT_VAR(result);
 				ZVAL_LONG(result, (value + zephir_get_numberval(cachedContent)));
 				ZEPHIR_INIT_NVAR(_6);
-				zephir_call_func_p2(_6, "file_put_contents", cacheFile, result);
+				zephir_file_put_contents(_6, cacheFile, result TSRMLS_CC);
 				if (!(zephir_is_true(_6))) {
 					ZEPHIR_THROW_EXCEPTION_STR(phalcon_cache_exception_ce, "Cache directory can't be written");
 					return;
@@ -561,7 +562,7 @@ PHP_METHOD(Phalcon_Cache_Backend_File, decrement) {
 				ZEPHIR_INIT_VAR(result);
 				ZVAL_LONG(result, (value - zephir_get_numberval(cachedContent)));
 				ZEPHIR_INIT_VAR(status);
-				zephir_call_func_p2(status, "file_put_contents", cacheFile, result);
+				zephir_file_put_contents(status, cacheFile, result TSRMLS_CC);
 				if (!(zephir_is_true(status))) {
 					ZEPHIR_THROW_EXCEPTION_STR(phalcon_cache_exception_ce, "Cache directory can't be written");
 					return;

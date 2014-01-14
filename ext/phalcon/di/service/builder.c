@@ -250,11 +250,11 @@ PHP_METHOD(Phalcon_Di_Service_Builder, build) {
 		ZEPHIR_INIT_VAR(instance);
 		if (zephir_fast_count_int(parameters TSRMLS_CC)) {
 			if (zephir_create_instance_params(instance, className, parameters TSRMLS_CC) == FAILURE) {
-				return;
+				RETURN_MM();
 			}
 		} else {
 			if (zephir_create_instance(instance, className TSRMLS_CC) == FAILURE) {
-				return;
+				RETURN_MM();
 			}
 		}
 	} else {
@@ -264,11 +264,11 @@ PHP_METHOD(Phalcon_Di_Service_Builder, build) {
 			ZEPHIR_INIT_VAR(_0);
 			zephir_call_method_p2(_0, this_ptr, "_buildparameters", dependencyInjector, arguments);
 			if (zephir_create_instance_params(instance, className, _0 TSRMLS_CC) == FAILURE) {
-				return;
+				RETURN_MM();
 			}
 		} else {
 			if (zephir_create_instance(instance, className TSRMLS_CC) == FAILURE) {
-				return;
+				RETURN_MM();
 			}
 		}
 	}

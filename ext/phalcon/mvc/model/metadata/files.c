@@ -20,6 +20,7 @@
 #include "kernel/operators.h"
 #include "ext/spl/spl_exceptions.h"
 #include "kernel/exception.h"
+#include "kernel/file.h"
 
 
 /*
@@ -159,12 +160,12 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Files, write) {
 	ZEPHIR_INIT_VAR(path);
 	ZEPHIR_CONCAT_VVS(path, _0, _1, ".php");
 	ZEPHIR_INIT_VAR(_3);
-	zephir_call_func_p2(_3, "var_export", data, ZEPHIR_GLOBAL(global_true));
 	ZEPHIR_INIT_VAR(_4);
-	ZEPHIR_CONCAT_SVS(_4, "<?php return ", _3, "; ");
+	zephir_call_func_p2(_4, "var_export", data, ZEPHIR_GLOBAL(global_true));
 	ZEPHIR_INIT_VAR(_5);
-	zephir_call_func_p2(_5, "file_put_contents", path, _4);
-	if (ZEPHIR_IS_FALSE(_5)) {
+	ZEPHIR_CONCAT_SVS(_5, "<?php return ", _4, "; ");
+	zephir_file_put_contents(_3, path, _5 TSRMLS_CC);
+	if (ZEPHIR_IS_FALSE(_3)) {
 		ZEPHIR_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Meta-Data directory cannot be written");
 		return;
 	}
