@@ -682,7 +682,7 @@ class ValidationTest extends PHPUnit_Framework_TestCase
 			'_messages' => array(
 				0 => Phalcon\Validation\Message::__set_state(array(
 					'_type' => 'Between',
-					'_message' => 'price is not between a valid range',
+					'_message' => 'price is not in the valid range',
 					'_field' => 'price',
 					'_code' => '0',
 				))
