@@ -881,7 +881,7 @@ class ValidationTest extends PHPUnit_Framework_TestCase
 			'_messages' => array(
 				0 => Phalcon\Validation\Message::__set_state(array(
 						'_type' => 'Url',
-						'_message' => 'Value of field \'url\' must have a valid url format',
+						'_message' => 'url is not a valid URL',
 						'_field' => 'url',
 						'_code' => 0,
 					))
