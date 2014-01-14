@@ -1,4 +1,3 @@
-
 /*
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
@@ -37,7 +36,7 @@ abstract class Validator
 	{
 		if typeof options != "array" {
 			if typeof options != "null" {
-				throw new Phalcon\Validation\Exception("The attribute must be a string");
+				throw new Phalcon\Validation\Exception("Options must be an array");
 			}
 		} else {
 			let this->_options = options;
