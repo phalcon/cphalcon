@@ -462,9 +462,9 @@ class ValidationTest extends PHPUnit_Framework_TestCase
 			'_messages' => array(
 				0 => Phalcon\Validation\Message::__set_state(array(
 					'_type' => 'ExclusionIn',
-					'_message' => 'Value of field \'status\' must not be part of list: A, I',
+					'_message' => 'Value of field status must not be a part of the list: A, I',
 					'_field' => 'status',
-					'_code' => '0',
+					'_code' => 0,
 				))
 			)
 		));

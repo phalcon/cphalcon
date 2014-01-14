@@ -22,6 +22,7 @@
 #include "validation/validatorinterface.h"
 #include "validation/message.h"
 #include "validation/exception.h"
+#include "validation.h"
 
 #include "kernel/main.h"
 #include "kernel/memory.h"
@@ -75,24 +76,29 @@ PHALCON_INIT_CLASS(Phalcon_Validation_Validator_ExclusionIn){
  */
 PHP_METHOD(Phalcon_Validation_Validator_ExclusionIn, validate){
 
-	zval *validator, *attribute, *value, *option = NULL, *domain;
-	zval *message_str = NULL, *joined_domain, *type, *message, *is_set_code, *code;
+	zval *validator, *attribute, *value, *domain;
+	zval *message_str, *joined_domain, *type, *message, *code;
+	zval *allow_empty, *label, *pairs, *prepared;
+	zend_class_entry *ce = Z_OBJCE_P(getThis());
 
 	PHALCON_MM_GROW();
 
 	phalcon_fetch_params(1, 2, 0, &validator, &attribute);
 	
-	PHALCON_INIT_VAR(value);
-	phalcon_call_method_p1(value, validator, "getvalue", attribute);
-	
-	/** 
-	 * A domain is an array with a list of valid values
-	 */
-	PHALCON_INIT_VAR(option);
-	ZVAL_STRING(option, "domain", 1);
-	
+	PHALCON_VERIFY_CLASS_EX(validator, phalcon_validation_ce, phalcon_validation_exception_ce, 1);
+
+	PHALCON_OBS_VAR(value);
+	phalcon_call_method_p1_ex(value, &value, validator, "getvalue", attribute);
+
+	PHALCON_INIT_VAR(allow_empty);
+	RETURN_MM_ON_FAILURE(phalcon_validation_validator_getoption_helper(ce, allow_empty, getThis(), "allowEmpty" TSRMLS_CC));
+	if (zend_is_true(allow_empty) && phalcon_validation_validator_isempty_helper(value)) {
+		RETURN_MM_TRUE;
+	}
+
+	/* A domain is an array with a list of valid values */
 	PHALCON_INIT_VAR(domain);
-	phalcon_call_method_p1(domain, this_ptr, "getoption", option);
+	RETURN_MM_ON_FAILURE(phalcon_validation_validator_getoption_helper(ce, domain, getThis(), "domain" TSRMLS_CC));
 	if (Z_TYPE_P(domain) != IS_ARRAY) { 
 		PHALCON_THROW_EXCEPTION_STR(phalcon_validation_exception_ce, "Option 'domain' must be an array");
 		return;
@@ -102,39 +108,41 @@ PHP_METHOD(Phalcon_Validation_Validator_ExclusionIn, validate){
 	 * Check if the value is contained by the array
 	 */
 	if (phalcon_fast_in_array(value, domain TSRMLS_CC)) {
-	
-		PHALCON_INIT_NVAR(option);
-		ZVAL_STRING(option, "message", 1);
-	
-		PHALCON_INIT_VAR(message_str);
-		phalcon_call_method_p1(message_str, this_ptr, "getoption", option);
-		if (!zend_is_true(message_str)) {
-			PHALCON_INIT_VAR(joined_domain);
-			phalcon_fast_join_str(joined_domain, SL(", "), domain TSRMLS_CC);
-	
-			PHALCON_INIT_NVAR(message_str);
-			PHALCON_CONCAT_SVSV(message_str, "Value of field '", attribute, "' must not be part of list: ", joined_domain);
+
+		PHALCON_INIT_VAR(label);
+		RETURN_MM_ON_FAILURE(phalcon_validation_validator_getoption_helper(ce, label, getThis(), "label" TSRMLS_CC));
+		if (!zend_is_true(label)) {
+			PHALCON_CPY_WRT(label, attribute);
 		}
+
+		ALLOC_INIT_ZVAL(joined_domain);
+		phalcon_fast_join_str(joined_domain, SL(", "), domain TSRMLS_CC);
+
+		PHALCON_ALLOC_GHOST_ZVAL(pairs);
+		array_init_size(pairs, 2);
+		Z_ADDREF_P(label); add_assoc_zval_ex(pairs, SS(":field"), label);
+		add_assoc_zval_ex(pairs, SS(":domain"), joined_domain);
+
+		PHALCON_INIT_VAR(message_str);
+		RETURN_MM_ON_FAILURE(phalcon_validation_validator_getoption_helper(ce, message_str, getThis(), "message" TSRMLS_CC));
+		if (!zend_is_true(message_str)) {
+			PHALCON_INIT_NVAR(message_str);
+			RETURN_MM_ON_FAILURE(phalcon_validation_getdefaultmessage_helper(Z_OBJCE_P(validator), message_str, validator, "ExclusionIn" TSRMLS_CC));
+		}
+	
+		PHALCON_INIT_VAR(code);
+		RETURN_MM_ON_FAILURE(phalcon_validation_validator_getoption_helper(ce, code, getThis(), "code" TSRMLS_CC));
+		if (Z_TYPE_P(code) == IS_NULL) {
+			ZVAL_LONG(code, 0);
+		}
+
+		PHALCON_OBS_VAR(prepared);
+		phalcon_call_func_p2_ex(prepared, &prepared, "strtr", message_str, pairs);
 	
 		PHALCON_INIT_VAR(type);
 		ZVAL_STRING(type, "ExclusionIn", 1);
 
-		/*
-		 * Is code set
-		 */
-		PHALCON_INIT_NVAR(option);
-		ZVAL_STRING(option, "code", 1);
-
-		PHALCON_INIT_VAR(is_set_code);
-		phalcon_call_method_p1(is_set_code, this_ptr, "issetoption", option);
-		PHALCON_INIT_VAR(code);
-		if (zend_is_true(is_set_code)) {
-			phalcon_call_method_p1(code, this_ptr, "getoption", option);
-		} else {
-			ZVAL_LONG(code, 0);
-		}
-	
-		message = phalcon_validation_message_construct_helper(message_str, attribute, type, code TSRMLS_CC);
+		message = phalcon_validation_message_construct_helper(prepared, attribute, type, code TSRMLS_CC);
 		Z_DELREF_P(message);
 	
 		phalcon_call_method_p1_noret(validator, "appendmessage", message);
@@ -143,4 +151,3 @@ PHP_METHOD(Phalcon_Validation_Validator_ExclusionIn, validate){
 	
 	RETURN_MM_TRUE;
 }
-
