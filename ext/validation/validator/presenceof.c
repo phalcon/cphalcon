@@ -21,6 +21,8 @@
 #include "validation/validator.h"
 #include "validation/validatorinterface.h"
 #include "validation/message.h"
+#include "validation/exception.h"
+#include "validation.h"
 
 #include "kernel/main.h"
 #include "kernel/memory.h"
@@ -71,46 +73,51 @@ PHALCON_INIT_CLASS(Phalcon_Validation_Validator_PresenceOf){
  */
 PHP_METHOD(Phalcon_Validation_Validator_PresenceOf, validate){
 
-	zval *validator, *attribute, *value, *type, *option, *is_set_code, *code;
-	zval *message_str = NULL, *message;
+	zval *validator, *attribute, *value, *type, *code;
+	zval *message_str, *message;
+	zval *label, *pairs, *prepared;
+	zend_class_entry *ce = Z_OBJCE_P(getThis());
 
 	PHALCON_MM_GROW();
 
 	phalcon_fetch_params(1, 2, 0, &validator, &attribute);
 	
-	PHALCON_INIT_VAR(value);
-	phalcon_call_method_p1(value, validator, "getvalue", attribute);
+	PHALCON_VERIFY_CLASS_EX(validator, phalcon_validation_ce, phalcon_validation_exception_ce, 1);
+
+	PHALCON_OBS_VAR(value);
+	phalcon_call_method_p1_ex(value, &value, validator, "getvalue", attribute);
+
 	if (PHALCON_IS_EMPTY(value)) {
 	
-		PHALCON_INIT_VAR(type);
-		ZVAL_STRING(type, "PresenceOf", 1);
-	
-		PHALCON_INIT_VAR(option);
-		ZVAL_STRING(option, "message", 1);
-	
+		PHALCON_INIT_VAR(label);
+		RETURN_MM_ON_FAILURE(phalcon_validation_validator_getoption_helper(ce, label, getThis(), "label" TSRMLS_CC));
+		if (!zend_is_true(label)) {
+			PHALCON_CPY_WRT(label, attribute);
+		}
+
+		PHALCON_ALLOC_GHOST_ZVAL(pairs);
+		array_init_size(pairs, 1);
+		Z_ADDREF_P(label); add_assoc_zval_ex(pairs, SS(":field"), label);
+
 		PHALCON_INIT_VAR(message_str);
-		phalcon_call_method_p1(message_str, this_ptr, "getoption", option);
+		RETURN_MM_ON_FAILURE(phalcon_validation_validator_getoption_helper(ce, message_str, getThis(), "message" TSRMLS_CC));
 		if (!zend_is_true(message_str)) {
 			PHALCON_INIT_NVAR(message_str);
-			PHALCON_CONCAT_VS(message_str, attribute, " is required");
+			RETURN_MM_ON_FAILURE(phalcon_validation_getdefaultmessage_helper(Z_OBJCE_P(validator), message_str, validator, "PresenceOf" TSRMLS_CC));
 		}
 
-		/*
-		 * Is code set
-		 */
-		PHALCON_INIT_NVAR(option);
-		ZVAL_STRING(option, "code", 1);
-
-		PHALCON_INIT_VAR(is_set_code);
-		phalcon_call_method_p1(is_set_code, this_ptr, "issetoption", option);
 		PHALCON_INIT_VAR(code);
-		if (zend_is_true(is_set_code)) {
-			phalcon_call_method_p1(code, this_ptr, "getoption", option);
-		} else {
+		RETURN_MM_ON_FAILURE(phalcon_validation_validator_getoption_helper(ce, code, getThis(), "code" TSRMLS_CC));
+		if (Z_TYPE_P(code) == IS_NULL) {
 			ZVAL_LONG(code, 0);
 		}
-	
-		message = phalcon_validation_message_construct_helper(message_str, attribute, type, code TSRMLS_CC);
+
+		PHALCON_OBS_VAR(prepared);
+		phalcon_call_func_p2_ex(prepared, &prepared, "strtr", message_str, pairs);
+
+		PHALCON_INIT_VAR(type);
+		ZVAL_STRING(type, "PresenceOf", 1);
+		message = phalcon_validation_message_construct_helper(prepared, attribute, type, code TSRMLS_CC);
 		Z_DELREF_P(message);
 	
 		phalcon_call_method_p1_noret(validator, "appendmessage", message);
@@ -119,4 +126,3 @@ PHP_METHOD(Phalcon_Validation_Validator_PresenceOf, validate){
 	
 	RETURN_MM_TRUE;
 }
-
