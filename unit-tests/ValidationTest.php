@@ -539,9 +539,9 @@ class ValidationTest extends PHPUnit_Framework_TestCase
 			'_messages' => array(
 				0 => Phalcon\Validation\Message::__set_state(array(
 					'_type' => 'TooShort',
-					'_message' => 'Value of field \'name\' is less than the minimum 3 characters',
+					'_message' => 'Value of field name is less than the minimum 3 characters',
 					'_field' => 'name',
-					'_code' => '0',
+					'_code' => 0,
 				))
 			)
 		));
@@ -616,9 +616,9 @@ class ValidationTest extends PHPUnit_Framework_TestCase
 			'_messages' => array(
 				0 => Phalcon\Validation\Message::__set_state(array(
 					'_type' => 'TooLong',
-					'_message' => 'Value of field \'name\' exceeds the maximum 4 characters',
+					'_message' => 'Value of field name exceeds the maximum 4 characters',
 					'_field' => 'name',
-					'_code' => '0',
+					'_code' => 0,
 				))
 			)
 		));

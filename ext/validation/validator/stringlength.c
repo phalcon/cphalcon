@@ -22,6 +22,7 @@
 #include "validation/validatorinterface.h"
 #include "validation/message.h"
 #include "validation/exception.h"
+#include "validation.h"
 
 #include "kernel/main.h"
 #include "kernel/memory.h"
@@ -78,101 +79,88 @@ PHALCON_INIT_CLASS(Phalcon_Validation_Validator_StringLength){
  */
 PHP_METHOD(Phalcon_Validation_Validator_StringLength, validate){
 
-	zval *validator, *attribute, *option = NULL, *is_set_min;
-	zval *is_set_max, *value, *length = NULL, *invalid_maximum = NULL;
-	zval *invalid_minimum = NULL, *maximum, *message_str = NULL;
-	zval *type = NULL, *message = NULL, *minimum, *is_set_code, *code;
+	zval *validator, *attribute;
+	zval *value, *length, *invalid_maximum;
+	zval *invalid_minimum, *maximum, *message_str = NULL;
+	zval *type = NULL, *message, *minimum, *code;
+	zval *allow_empty, *label, *pairs, *prepared = NULL;
+	zend_class_entry *ce = Z_OBJCE_P(getThis());
 
 	PHALCON_MM_GROW();
 
 	phalcon_fetch_params(1, 2, 0, &validator, &attribute);
 	
-	/** 
-	 * At least one of 'min' or 'max' must be set
-	 */
-	PHALCON_INIT_VAR(option);
-	ZVAL_STRING(option, "min", 1);
-	
-	PHALCON_INIT_VAR(is_set_min);
-	phalcon_call_method_p1(is_set_min, this_ptr, "issetoption", option);
-	
-	PHALCON_INIT_NVAR(option);
-	ZVAL_STRING(option, "max", 1);
-	
-	PHALCON_INIT_VAR(is_set_max);
-	phalcon_call_method_p1(is_set_max, this_ptr, "issetoption", option);
-	if (!zend_is_true(is_set_min)) {
-		if (!zend_is_true(is_set_max)) {
-			PHALCON_THROW_EXCEPTION_STR(phalcon_validation_exception_ce, "A minimum or maximum must be set");
-			return;
-		}
+	PHALCON_VERIFY_CLASS_EX(validator, phalcon_validation_ce, phalcon_validation_exception_ce, 1);
+
+	PHALCON_OBS_VAR(value);
+	phalcon_call_method_p1_ex(value, &value, validator, "getvalue", attribute);
+
+	PHALCON_INIT_VAR(allow_empty);
+	RETURN_MM_ON_FAILURE(phalcon_validation_validator_getoption_helper(ce, allow_empty, getThis(), "allowEmpty" TSRMLS_CC));
+	if (zend_is_true(allow_empty) && phalcon_validation_validator_isempty_helper(value)) {
+		RETURN_MM_TRUE;
+	}
+
+	PHALCON_INIT_VAR(maximum);
+	RETURN_MM_ON_FAILURE(phalcon_validation_validator_getoption_helper(ce, maximum, getThis(), "max" TSRMLS_CC));
+
+	PHALCON_INIT_VAR(minimum);
+	RETURN_MM_ON_FAILURE(phalcon_validation_validator_getoption_helper(ce, minimum, getThis(), "min" TSRMLS_CC));
+
+	/* At least one of 'min' or 'max' must be set */
+	if (Z_TYPE_P(minimum) == IS_NULL && Z_TYPE_P(maximum) == IS_NULL) {
+		PHALCON_THROW_EXCEPTION_STR(phalcon_validation_exception_ce, "A minimum or maximum must be set");
+		return;
 	}
 	
-	PHALCON_INIT_VAR(value);
-	phalcon_call_method_p1(value, validator, "getvalue", attribute);
-	
-	/** 
-	 * Check if mbstring is available to calculate the correct length
-	 */
+	/* Check if mbstring is available to calculate the correct length */
 	PHALCON_INIT_VAR(length);
 	if (phalcon_function_exists_ex(SS("mb_strlen") TSRMLS_CC) == SUCCESS) {
 		phalcon_call_func_p1(length, "mb_strlen", value);
 	} else {
-		phalcon_fast_strlen(length, value);
+		convert_to_string(value);
+		ZVAL_LONG(length, Z_STRLEN_P(value));
 	}
 	
 	PHALCON_INIT_VAR(invalid_maximum);
-	ZVAL_FALSE(invalid_maximum);
-	
 	PHALCON_INIT_VAR(invalid_minimum);
-	ZVAL_FALSE(invalid_minimum);
 	
-	/** 
-	 * Maximum length
-	 */
-	if (zend_is_true(is_set_max)) {
-	
-		PHALCON_INIT_NVAR(option);
-		ZVAL_STRING(option, "max", 1);
-	
-		PHALCON_INIT_VAR(maximum);
-		phalcon_call_method_p1(maximum, this_ptr, "getoption", option);
+	PHALCON_INIT_VAR(label);
+	RETURN_MM_ON_FAILURE(phalcon_validation_validator_getoption_helper(ce, label, getThis(), "label" TSRMLS_CC));
+	if (!zend_is_true(label)) {
+		PHALCON_CPY_WRT(label, attribute);
+	}
+
+	PHALCON_INIT_VAR(code);
+	RETURN_MM_ON_FAILURE(phalcon_validation_validator_getoption_helper(ce, code, getThis(), "code" TSRMLS_CC));
+	if (Z_TYPE_P(code) == IS_NULL) {
+		ZVAL_LONG(code, 0);
+	}
+
+	/* Maximum length */
+	if (Z_TYPE_P(maximum) != IS_NULL) {
 	
 		is_smaller_function(invalid_maximum, maximum, length TSRMLS_CC);
 		if (PHALCON_IS_TRUE(invalid_maximum)) {
 	
-			/** 
-			 * Check if the developer has defined a custom message
-			 */
-			PHALCON_INIT_NVAR(option);
-			ZVAL_STRING(option, "messageMaximum", 1);
-	
+			PHALCON_ALLOC_GHOST_ZVAL(pairs);
+			array_init_size(pairs, 2);
+			Z_ADDREF_P(label);   add_assoc_zval_ex(pairs, SS(":field"), label);
+			Z_ADDREF_P(maximum); add_assoc_zval_ex(pairs, SS(":max"), maximum);
+
 			PHALCON_INIT_VAR(message_str);
-			phalcon_call_method_p1(message_str, this_ptr, "getoption", option);
+			RETURN_MM_ON_FAILURE(phalcon_validation_validator_getoption_helper(ce, message_str, getThis(), "messageMaximum" TSRMLS_CC));
 			if (!zend_is_true(message_str)) {
 				PHALCON_INIT_NVAR(message_str);
-				PHALCON_CONCAT_SVSVS(message_str, "Value of field '", attribute, "' exceeds the maximum ", maximum, " characters");
+				RETURN_MM_ON_FAILURE(phalcon_validation_getdefaultmessage_helper(Z_OBJCE_P(validator), message_str, validator, "TooLong" TSRMLS_CC));
 			}
-	
+
+			PHALCON_OBS_VAR(prepared);
+			phalcon_call_func_p2_ex(prepared, &prepared, "strtr", message_str, pairs);
+
 			PHALCON_INIT_VAR(type);
 			ZVAL_STRING(type, "TooLong", 1);
-	
-			/*
-			 * Is code set
-			 */
-			PHALCON_INIT_NVAR(option);
-			ZVAL_STRING(option, "code", 1);
-
-			PHALCON_INIT_VAR(is_set_code);
-			phalcon_call_method_p1(is_set_code, this_ptr, "issetoption", option);
-			PHALCON_INIT_VAR(code);
-			if (zend_is_true(is_set_code)) {
-				phalcon_call_method_p1(code, this_ptr, "getoption", option);
-			} else {
-				ZVAL_LONG(code, 0);
-			}
-
-			message = phalcon_validation_message_construct_helper(message_str, attribute, type, code TSRMLS_CC);
+			message = phalcon_validation_message_construct_helper(prepared, attribute, type, code TSRMLS_CC);
 			Z_DELREF_P(message);
 	
 			phalcon_call_method_p1_noret(validator, "appendmessage", message);
@@ -180,52 +168,30 @@ PHP_METHOD(Phalcon_Validation_Validator_StringLength, validate){
 		}
 	}
 	
-	/** 
-	 * Minimum length
-	 */
-	if (zend_is_true(is_set_min)) {
-	
-		PHALCON_INIT_NVAR(option);
-		ZVAL_STRING(option, "min", 1);
-	
-		PHALCON_INIT_VAR(minimum);
-		phalcon_call_method_p1(minimum, this_ptr, "getoption", option);
+	/* Minimum length */
+	if (Z_TYPE_P(minimum) != IS_NULL) {
 	
 		is_smaller_function(invalid_minimum, length, minimum TSRMLS_CC);
 		if (PHALCON_IS_TRUE(invalid_minimum)) {
 	
-			/** 
-			 * Check if the developer has defined a custom message
-			 */
-			PHALCON_INIT_NVAR(option);
-			ZVAL_STRING(option, "messageMinimum", 1);
-	
+			PHALCON_ALLOC_GHOST_ZVAL(pairs);
+			array_init_size(pairs, 2);
+			Z_ADDREF_P(label);   add_assoc_zval_ex(pairs, SS(":field"), label);
+			Z_ADDREF_P(minimum); add_assoc_zval_ex(pairs, SS(":min"), minimum);
+
 			PHALCON_INIT_NVAR(message_str);
-			phalcon_call_method_p1(message_str, this_ptr, "getoption", option);
+			RETURN_MM_ON_FAILURE(phalcon_validation_validator_getoption_helper(ce, message_str, getThis(), "messageMinimum" TSRMLS_CC));
 			if (!zend_is_true(message_str)) {
 				PHALCON_INIT_NVAR(message_str);
-				PHALCON_CONCAT_SVSVS(message_str, "Value of field '", attribute, "' is less than the minimum ", minimum, " characters");
+				RETURN_MM_ON_FAILURE(phalcon_validation_getdefaultmessage_helper(Z_OBJCE_P(validator), message_str, validator, "TooShort" TSRMLS_CC));
 			}
-	
+
+			PHALCON_OBS_NVAR(prepared);
+			phalcon_call_func_p2_ex(prepared, &prepared, "strtr", message_str, pairs);
+
 			PHALCON_INIT_NVAR(type);
 			ZVAL_STRING(type, "TooShort", 1);
-
-			/*
-			 * Is code set
-			 */
-			PHALCON_INIT_NVAR(option);
-			ZVAL_STRING(option, "code", 1);
-
-			PHALCON_INIT_VAR(is_set_code);
-			phalcon_call_method_p1(is_set_code, this_ptr, "issetoption", option);
-			PHALCON_INIT_VAR(code);
-			if (zend_is_true(is_set_code)) {
-				phalcon_call_method_p1(code, this_ptr, "getoption", option);
-			} else {
-				ZVAL_LONG(code, 0);
-			}
-	
-			message = phalcon_validation_message_construct_helper(message_str, attribute, type, code TSRMLS_CC);
+			message = phalcon_validation_message_construct_helper(prepared, attribute, type, code TSRMLS_CC);
 			Z_DELREF_P(message);
 	
 			phalcon_call_method_p1_noret(validator, "appendmessage", message);
@@ -235,4 +201,3 @@ PHP_METHOD(Phalcon_Validation_Validator_StringLength, validate){
 	
 	RETURN_MM_TRUE;
 }
-
