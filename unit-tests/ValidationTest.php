@@ -246,7 +246,7 @@ class ValidationTest extends PHPUnit_Framework_TestCase
 			'_messages' => array(
 				0 => Phalcon\Validation\Message::__set_state(array(
 					'_type' => 'Regex',
-					'_message' => 'Value of field \'car_plate\' doesn\'t match regular expression',
+					'_message' => 'Value of field car_plate does not match the regular expression',
 					'_field' => 'car_plate',
 					'_code' => '0',
 				))
