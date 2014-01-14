@@ -34,6 +34,8 @@
 #include "kernel/array.h"
 #include "kernel/hash.h"
 
+#include "interned-strings.h"
+
 /**
  * Phalcon\Flash\Session
  *
@@ -140,7 +142,7 @@ PHP_METHOD(Phalcon_Flash_Session, _getSessionMessages){
 	}
 	
 	PHALCON_INIT_VAR(service);
-	ZVAL_STRING(service, "session", 1);
+	PHALCON_ZVAL_MAYBE_INTERNED_STRING(service, phalcon_interned_session);
 	
 	PHALCON_INIT_VAR(session);
 	phalcon_call_method_p1(session, dependency_injector, "getshared", service);
@@ -178,7 +180,7 @@ PHP_METHOD(Phalcon_Flash_Session, _setSessionMessages){
 	}
 	
 	PHALCON_INIT_VAR(service);
-	ZVAL_STRING(service, "session", 1);
+	PHALCON_ZVAL_MAYBE_INTERNED_STRING(service, phalcon_interned_session);
 	
 	PHALCON_INIT_VAR(session);
 	phalcon_call_method_p1(session, dependency_injector, "getshared", service);

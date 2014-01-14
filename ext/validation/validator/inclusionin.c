@@ -32,6 +32,8 @@
 #include "kernel/string.h"
 #include "kernel/concat.h"
 
+#include "interned-strings.h"
+
 /**
  * Phalcon\Validation\Validator\InclusionIn
  *
@@ -91,14 +93,14 @@ PHP_METHOD(Phalcon_Validation_Validator_InclusionIn, validate){
 	phalcon_call_method_p1_ex(value, &value, validator, "getvalue", attribute);
 
 	PHALCON_INIT_VAR(allow_empty);
-	RETURN_MM_ON_FAILURE(phalcon_validation_validator_getoption_helper(ce, allow_empty, getThis(), "allowEmpty" TSRMLS_CC));
+	RETURN_MM_ON_FAILURE(phalcon_validation_validator_getoption_helper(ce, allow_empty, getThis(), phalcon_interned_allowEmpty TSRMLS_CC));
 	if (zend_is_true(allow_empty) && phalcon_validation_validator_isempty_helper(value)) {
 		RETURN_MM_TRUE;
 	}
 
 	/* A domain is an array with a list of valid values */
 	PHALCON_INIT_VAR(domain);
-	RETURN_MM_ON_FAILURE(phalcon_validation_validator_getoption_helper(ce, domain, getThis(), "domain" TSRMLS_CC));
+	RETURN_MM_ON_FAILURE(phalcon_validation_validator_getoption_helper(ce, domain, getThis(), phalcon_interned_domain TSRMLS_CC));
 	if (Z_TYPE_P(domain) != IS_ARRAY) { 
 		PHALCON_THROW_EXCEPTION_STR(phalcon_validation_exception_ce, "Option 'domain' must be an array");
 		return;
@@ -110,7 +112,7 @@ PHP_METHOD(Phalcon_Validation_Validator_InclusionIn, validate){
 	if (!phalcon_fast_in_array(value, domain TSRMLS_CC)) {
 
 		PHALCON_INIT_VAR(label);
-		RETURN_MM_ON_FAILURE(phalcon_validation_validator_getoption_helper(ce, label, getThis(), "label" TSRMLS_CC));
+		RETURN_MM_ON_FAILURE(phalcon_validation_validator_getoption_helper(ce, label, getThis(), phalcon_interned_label TSRMLS_CC));
 		if (!zend_is_true(label)) {
 			PHALCON_CPY_WRT(label, attribute);
 		}
@@ -124,14 +126,14 @@ PHP_METHOD(Phalcon_Validation_Validator_InclusionIn, validate){
 		add_assoc_zval_ex(pairs, SS(":domain"), joined_domain);
 
 		PHALCON_INIT_VAR(message_str);
-		RETURN_MM_ON_FAILURE(phalcon_validation_validator_getoption_helper(ce, message_str, getThis(), "message" TSRMLS_CC));
+		RETURN_MM_ON_FAILURE(phalcon_validation_validator_getoption_helper(ce, message_str, getThis(), phalcon_interned_message TSRMLS_CC));
 		if (!zend_is_true(message_str)) {
 			PHALCON_INIT_NVAR(message_str);
 			RETURN_MM_ON_FAILURE(phalcon_validation_getdefaultmessage_helper(Z_OBJCE_P(validator), message_str, validator, "InclusionIn" TSRMLS_CC));
 		}
 	
 		PHALCON_INIT_VAR(code);
-		RETURN_MM_ON_FAILURE(phalcon_validation_validator_getoption_helper(ce, code, getThis(), "code" TSRMLS_CC));
+		RETURN_MM_ON_FAILURE(phalcon_validation_validator_getoption_helper(ce, code, getThis(), phalcon_interned_code TSRMLS_CC));
 		if (Z_TYPE_P(code) == IS_NULL) {
 			ZVAL_LONG(code, 0);
 		}
@@ -148,4 +150,3 @@ PHP_METHOD(Phalcon_Validation_Validator_InclusionIn, validate){
 	
 	RETURN_MM_TRUE;
 }
-

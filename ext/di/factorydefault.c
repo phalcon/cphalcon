@@ -269,7 +269,7 @@ PHP_METHOD(Phalcon_DI_FactoryDefault, __construct){
 	 * Session is always shared
 	 */
 	PHALCON_INIT_NVAR(name);
-	ZVAL_STRING(name, "session", 1);
+	PHALCON_ZVAL_MAYBE_INTERNED_STRING(name, phalcon_interned_session);
 	
 	PHALCON_INIT_NVAR(definition);
 	ZVAL_STRING(definition, "Phalcon\\Session\\Adapter\\Files", 1);
@@ -342,7 +342,7 @@ PHP_METHOD(Phalcon_DI_FactoryDefault, __construct){
 	phalcon_array_update_string(&services, SL("flash"), &flash, PH_COPY);
 	phalcon_array_update_string(&services, SL("flashSession"), &flash_session, PH_COPY);
 	phalcon_array_update_string(&services, SL("tag"), &tag, PH_COPY);
-	phalcon_array_update_string(&services, SL("session"), &session, PH_COPY);
+	phalcon_array_update_string(&services, ISL(session), &session, PH_COPY);
 	phalcon_array_update_string(&services, SL("sessionBag"), &session_bag, PH_COPY);
 	phalcon_array_update_string(&services, SL("eventsManager"), &events_manager, PH_COPY);
 	phalcon_array_update_string(&services, SL("transactionManager"), &transaction_manager, PH_COPY);

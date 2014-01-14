@@ -450,7 +450,7 @@ PHP_METHOD(Phalcon_Security, getTokenKey){
 	}
 	
 	PHALCON_INIT_VAR(service);
-	ZVAL_STRING(service, "session", 1);
+	PHALCON_ZVAL_MAYBE_INTERNED_STRING(service, phalcon_interned_session);
 	
 	PHALCON_INIT_VAR(session);
 	phalcon_call_method_p1(session, dependency_injector, "getshared", service);
@@ -501,7 +501,7 @@ PHP_METHOD(Phalcon_Security, getToken){
 	}
 	
 	PHALCON_ALLOC_GHOST_ZVAL(service);
-	ZVAL_STRING(service, "session", 1);
+	PHALCON_ZVAL_MAYBE_INTERNED_STRING(service, phalcon_interned_session);
 	
 	PHALCON_INIT_VAR(session);
 	phalcon_call_method_p1(session, dependency_injector, "getshared", service);
@@ -542,7 +542,7 @@ PHP_METHOD(Phalcon_Security, checkToken){
 	}
 	
 	PHALCON_INIT_VAR(service);
-	ZVAL_STRING(service, "session", 1);
+	PHALCON_ZVAL_MAYBE_INTERNED_STRING(service, phalcon_interned_session);
 	
 	PHALCON_INIT_VAR(session);
 	phalcon_call_method_p1(session, dependency_injector, "getshared", service);
@@ -606,7 +606,7 @@ PHP_METHOD(Phalcon_Security, getSessionToken){
 	}
 	
 	PHALCON_ALLOC_GHOST_ZVAL(service);
-	ZVAL_STRING(service, "session", 1);
+	PHALCON_ZVAL_MAYBE_INTERNED_STRING(service, phalcon_interned_session);
 	
 	PHALCON_INIT_VAR(session);
 	phalcon_call_method_p1(session, dependency_injector, "getshared", service);
