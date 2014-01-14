@@ -70,7 +70,7 @@ int phalcon_return_property_quick(zval *return_value, zval **return_value_ptr, z
 /** Updating properties */
 int phalcon_update_property_this(zval *object, char *property_name, unsigned int property_length, zval *value TSRMLS_DC);
 int phalcon_update_property_long(zval *obj, char *property_name, unsigned int property_length, long value TSRMLS_DC);
-int phalcon_update_property_string(zval *object, char *property_name, unsigned int property_length, char *str, unsigned int str_length TSRMLS_DC);
+int phalcon_update_property_string(zval *object, char *property_name, unsigned int property_length, const char *str, unsigned int str_length TSRMLS_DC);
 int phalcon_update_property_bool(zval *obj, char *property_name, unsigned int property_length, int value TSRMLS_DC);
 int phalcon_update_property_null(zval *obj, char *property_name, unsigned int property_length TSRMLS_DC);
 int phalcon_update_property_zval(zval *obj, char *property_name, unsigned int property_length, zval *value TSRMLS_DC);

@@ -101,7 +101,7 @@ PHALCON_INIT_CLASS(Phalcon_Validation_Message){
 	return SUCCESS;
 }
 
-zval* phalcon_validation_message_construct_helper(zval *message, zval *field, zval *type, zval *code TSRMLS_DC)
+zval* phalcon_validation_message_construct_helper(zval *message, zval *field, const char *type, zval *code TSRMLS_DC)
 {
 	zval *result;
 
@@ -110,7 +110,7 @@ zval* phalcon_validation_message_construct_helper(zval *message, zval *field, zv
 
 	phalcon_update_property_this(result, SL("_message"), message TSRMLS_CC);
 	phalcon_update_property_this(result, SL("_field"), field TSRMLS_CC);
-	phalcon_update_property_this(result, SL("_type"), type TSRMLS_CC);
+	phalcon_update_property_string(result, SL("_type"), type, strlen(type) TSRMLS_CC);
 	phalcon_update_property_this(result, SL("_code"), code TSRMLS_CC);
 
 	return result;

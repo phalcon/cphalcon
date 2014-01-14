@@ -76,7 +76,7 @@ PHALCON_INIT_CLASS(Phalcon_Validation_Validator_Identical){
 PHP_METHOD(Phalcon_Validation_Validator_Identical, validate){
 
 	zval *validator, *attribute, *value, *identical_value;
-	zval *message_str, *type, *message, *code;
+	zval *message_str, *message, *code;
 	zval *label, *pairs, *prepared;
 	zend_class_entry *ce = Z_OBJCE_P(getThis());
 
@@ -120,9 +120,7 @@ PHP_METHOD(Phalcon_Validation_Validator_Identical, validate){
 		PHALCON_OBS_VAR(prepared);
 		phalcon_call_func_p2_ex(prepared, &prepared, "strtr", message_str, pairs);
 
-		PHALCON_INIT_VAR(type);
-		ZVAL_STRING(type, "Identical", 1);
-		message = phalcon_validation_message_construct_helper(prepared, attribute, type, code TSRMLS_CC);
+		message = phalcon_validation_message_construct_helper(prepared, attribute, "Identical", code TSRMLS_CC);
 		Z_DELREF_P(message);
 	
 		phalcon_call_method_p1_noret(validator, "appendmessage", message);

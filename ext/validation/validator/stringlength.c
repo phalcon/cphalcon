@@ -82,7 +82,7 @@ PHP_METHOD(Phalcon_Validation_Validator_StringLength, validate){
 	zval *validator, *attribute;
 	zval *value, *length, *invalid_maximum;
 	zval *invalid_minimum, *maximum, *message_str = NULL;
-	zval *type = NULL, *message, *minimum, *code;
+	zval *message, *minimum, *code;
 	zval *allow_empty, *label, *pairs, *prepared = NULL;
 	zend_class_entry *ce = Z_OBJCE_P(getThis());
 
@@ -158,9 +158,7 @@ PHP_METHOD(Phalcon_Validation_Validator_StringLength, validate){
 			PHALCON_OBS_VAR(prepared);
 			phalcon_call_func_p2_ex(prepared, &prepared, "strtr", message_str, pairs);
 
-			PHALCON_INIT_VAR(type);
-			ZVAL_STRING(type, "TooLong", 1);
-			message = phalcon_validation_message_construct_helper(prepared, attribute, type, code TSRMLS_CC);
+			message = phalcon_validation_message_construct_helper(prepared, attribute, "TooLong", code TSRMLS_CC);
 			Z_DELREF_P(message);
 	
 			phalcon_call_method_p1_noret(validator, "appendmessage", message);
@@ -189,9 +187,7 @@ PHP_METHOD(Phalcon_Validation_Validator_StringLength, validate){
 			PHALCON_OBS_NVAR(prepared);
 			phalcon_call_func_p2_ex(prepared, &prepared, "strtr", message_str, pairs);
 
-			PHALCON_INIT_NVAR(type);
-			ZVAL_STRING(type, "TooShort", 1);
-			message = phalcon_validation_message_construct_helper(prepared, attribute, type, code TSRMLS_CC);
+			message = phalcon_validation_message_construct_helper(prepared, attribute, "TooShort", code TSRMLS_CC);
 			Z_DELREF_P(message);
 	
 			phalcon_call_method_p1_noret(validator, "appendmessage", message);

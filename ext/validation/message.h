@@ -26,6 +26,6 @@ extern zend_class_entry *phalcon_validation_message_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Validation_Message);
 
-PHALCON_STATIC zval* phalcon_validation_message_construct_helper(zval *message, zval *field, zval *type, zval *code TSRMLS_DC) PHALCON_ATTR_NONNULL;
+PHALCON_STATIC zval* phalcon_validation_message_construct_helper(zval *message, zval *field, const char *type, zval *code TSRMLS_DC) PHALCON_ATTR_NONNULL;
 
 #endif /* PHALCON_VALIDATION_MESSAGE_H */
