@@ -101,6 +101,21 @@ PHALCON_INIT_CLASS(Phalcon_Validation_Message){
 	return SUCCESS;
 }
 
+zval* phalcon_validation_message_construct_helper(zval *message, zval *field, const char *type, zval *code TSRMLS_DC)
+{
+	zval *result;
+
+	MAKE_STD_ZVAL(result);
+	object_init_ex(result, phalcon_validation_message_ce);
+
+	phalcon_update_property_this(result, SL("_message"), message TSRMLS_CC);
+	phalcon_update_property_this(result, SL("_field"), field TSRMLS_CC);
+	phalcon_update_property_string(result, SL("_type"), type, strlen(type) TSRMLS_CC);
+	phalcon_update_property_this(result, SL("_code"), code TSRMLS_CC);
+
+	return result;
+}
+
 /**
  * Phalcon\Validation\Message constructor
  *

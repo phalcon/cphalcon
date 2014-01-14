@@ -749,7 +749,7 @@ int phalcon_update_property_long(zval *object, char *property_name, unsigned int
 /**
  * Checks whether obj is an object and updates property with string value
  */
-int phalcon_update_property_string(zval *object, char *property_name, unsigned int property_length, char *str, unsigned int str_length TSRMLS_DC) {
+int phalcon_update_property_string(zval *object, char *property_name, unsigned int property_length, const char *str, unsigned int str_length TSRMLS_DC) {
 
 	zval *value;
 	int res;

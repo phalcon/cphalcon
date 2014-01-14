@@ -26,4 +26,15 @@ extern zend_class_entry *phalcon_validation_validator_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Validation_Validator);
 
+PHALCON_STATIC int phalcon_validation_validator_getoption_helper(const zend_class_entry *ce, zval *result, zval *this_ptr, const char *option TSRMLS_DC);
+
+static inline int phalcon_validation_validator_isempty_helper(const zval *v)
+{
+	return
+			Z_TYPE_P(v) == IS_NULL
+		 || (Z_TYPE_P(v) == IS_STRING && !Z_STRLEN_P(v))
+		 || (Z_TYPE_P(v) == IS_ARRAY && !zend_hash_num_elements(Z_ARRVAL_P(v)))
+	;
+}
+
 #endif /* PHALCON_VALIDATION_VALIDATOR_H */

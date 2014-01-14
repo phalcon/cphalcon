@@ -246,7 +246,7 @@ class ValidationTest extends PHPUnit_Framework_TestCase
 			'_messages' => array(
 				0 => Phalcon\Validation\Message::__set_state(array(
 					'_type' => 'Regex',
-					'_message' => 'Value of field \'car_plate\' doesn\'t match regular expression',
+					'_message' => 'Value of field car_plate does not match the regular expression',
 					'_field' => 'car_plate',
 					'_code' => '0',
 				))
@@ -309,9 +309,9 @@ class ValidationTest extends PHPUnit_Framework_TestCase
 			'_messages' => array(
 				0 => Phalcon\Validation\Message::__set_state(array(
 					'_type' => 'Email',
-					'_message' => 'Value of field \'email\' must have a valid e-mail format',
+					'_message' => 'Value of field email is not a valid e-mail',
 					'_field' => 'email',
-					'_code' => '0',
+					'_code' => 0,
 				))
 			)
 		));
@@ -385,9 +385,9 @@ class ValidationTest extends PHPUnit_Framework_TestCase
 			'_messages' => array(
 				0 => Phalcon\Validation\Message::__set_state(array(
 					'_type' => 'InclusionIn',
-					'_message' => 'Value of field \'status\' must be part of list: A, I',
+					'_message' => 'Value of field status must be a part of the list: A, I',
 					'_field' => 'status',
-					'_code' => '0',
+					'_code' => 0,
 				))
 			)
 		));
@@ -462,9 +462,9 @@ class ValidationTest extends PHPUnit_Framework_TestCase
 			'_messages' => array(
 				0 => Phalcon\Validation\Message::__set_state(array(
 					'_type' => 'ExclusionIn',
-					'_message' => 'Value of field \'status\' must not be part of list: A, I',
+					'_message' => 'Value of field status must not be a part of the list: A, I',
 					'_field' => 'status',
-					'_code' => '0',
+					'_code' => 0,
 				))
 			)
 		));
@@ -539,9 +539,9 @@ class ValidationTest extends PHPUnit_Framework_TestCase
 			'_messages' => array(
 				0 => Phalcon\Validation\Message::__set_state(array(
 					'_type' => 'TooShort',
-					'_message' => 'Value of field \'name\' is less than the minimum 3 characters',
+					'_message' => 'Value of field name is less than the minimum 3 characters',
 					'_field' => 'name',
-					'_code' => '0',
+					'_code' => 0,
 				))
 			)
 		));
@@ -616,9 +616,9 @@ class ValidationTest extends PHPUnit_Framework_TestCase
 			'_messages' => array(
 				0 => Phalcon\Validation\Message::__set_state(array(
 					'_type' => 'TooLong',
-					'_message' => 'Value of field \'name\' exceeds the maximum 4 characters',
+					'_message' => 'Value of field name exceeds the maximum 4 characters',
 					'_field' => 'name',
-					'_code' => '0',
+					'_code' => 0,
 				))
 			)
 		));
@@ -682,7 +682,7 @@ class ValidationTest extends PHPUnit_Framework_TestCase
 			'_messages' => array(
 				0 => Phalcon\Validation\Message::__set_state(array(
 					'_type' => 'Between',
-					'_message' => 'price is not between a valid range',
+					'_message' => 'price is not in the valid range',
 					'_field' => 'price',
 					'_code' => '0',
 				))
@@ -881,7 +881,7 @@ class ValidationTest extends PHPUnit_Framework_TestCase
 			'_messages' => array(
 				0 => Phalcon\Validation\Message::__set_state(array(
 						'_type' => 'Url',
-						'_message' => 'Value of field \'url\' must have a valid url format',
+						'_message' => 'url is not a valid URL',
 						'_field' => 'url',
 						'_code' => 0,
 					))

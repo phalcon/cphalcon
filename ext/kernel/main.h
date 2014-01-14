@@ -95,6 +95,20 @@ static inline void phalcon_safe_zval_ptr_dtor(zval *pzval)
 	}
 }
 
+static inline int is_phalcon_class(const zend_class_entry *ce)
+{
+#if PHP_VERSION_ID >= 50400
+	return
+			ce->type == ZEND_INTERNAL_CLASS
+		 && ce->info.internal.module->module_number == phalcon_module_entry.module_number
+	;
+#else
+	return
+			ce->type == ZEND_INTERNAL_CLASS
+		 && ce->module->module_number == phalcon_module_entry.module_number
+	;
+#endif
+}
 
 /* Fetch Parameters */
 int phalcon_fetch_parameters(int num_args TSRMLS_DC, int required_args, int optional_args, ...);
@@ -193,6 +207,17 @@ int phalcon_fetch_parameters_ex(int dummy TSRMLS_DC, int n_req, int n_opt, ...);
 #define RETURN_MEMBER_QUICK(object, member_name, key) \
  	phalcon_return_property_quick(return_value, return_value_ptr, object, SL(member_name), key TSRMLS_CC); \
 	return;
+
+#define RETURN_ON_FAILURE(what) \
+	if (FAILURE == what) { \
+		return;            \
+	}
+
+#define RETURN_MM_ON_FAILURE(what) \
+	if (FAILURE == what) {    \
+		PHALCON_MM_RESTORE(); \
+		return;               \
+	}
 
 /** Return without change return_value */
 #define RETURN_MM() PHALCON_MM_RESTORE(); return;
