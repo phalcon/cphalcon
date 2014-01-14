@@ -207,7 +207,9 @@ PHP_METHOD(Phalcon_Logger_Formatter_Line, format) {
 	ZVAL_STRING(&_1, "%message%", 0);
 	ZEPHIR_INIT_NVAR(_2);
 	zephir_call_func_p3(_2, "str_replace", &_1, message, format);
-	ZEPHIR_CONCAT_VS(return_value, _2, "\n");
+	ZEPHIR_INIT_NVAR(_3);
+	ZEPHIR_GET_CONSTANT(_3, "PHP_EOL");
+	ZEPHIR_CONCAT_VV(return_value, _2, _3);
 	RETURN_MM();
 
 }

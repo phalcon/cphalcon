@@ -43,6 +43,7 @@
 #define ISL(str) (zephir_interned_##str), (sizeof(#str)-1)
 #define ISS(str) (zephir_interned_##str), (sizeof(#str))
 
+#include "Zend/zend_constants.h"
 
 /* Startup functions */
 zend_class_entry *zephir_register_internal_interface_ex(zend_class_entry *orig_ce, zend_class_entry *parent_ce TSRMLS_DC);
@@ -412,6 +413,14 @@ int zephir_fetch_parameters(int num_args TSRMLS_DC, int required_args, int optio
 			} \
 			ZEPHIR_THROW_EXCEPTION_STR(spl_ce_LogicException, buf); \
 			efree(buf); \
+			return; \
+		} \
+	} while (0)
+
+#define ZEPHIR_GET_CONSTANT(return_value, const_name) \
+	do { \
+		if (FAILURE == zend_get_constant(SL(const_name), return_value TSRMLS_CC)) { \
+			ZEPHIR_MM_RESTORE(); \
 			return; \
 		} \
 	} while (0)

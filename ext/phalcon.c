@@ -716,6 +716,7 @@ static PHP_RSHUTDOWN_FUNCTION(phalcon){
 static PHP_MINFO_FUNCTION(phalcon)
 {
 	php_info_print_table_start();
+	php_info_print_table_header(2, PHP_PHALCON_NAME, "enabled");
 	php_info_print_table_row(2, "Version", PHP_PHALCON_VERSION);
 	php_info_print_table_end();
 }

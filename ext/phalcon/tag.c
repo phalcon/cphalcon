@@ -1043,10 +1043,11 @@ PHP_METHOD(Phalcon_Tag, prependTitle) {
  */
 PHP_METHOD(Phalcon_Tag, getTitle) {
 
-	zval *tags_param = NULL, *documentTitle;
+	zval *tags_param = NULL, *documentTitle, *_0;
 	zend_bool tags;
 
-	zephir_fetch_params(0, 0, 1, &tags_param);
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 0, 1, &tags_param);
 
 	if (!tags_param) {
 		tags = 1;
@@ -1057,10 +1058,12 @@ PHP_METHOD(Phalcon_Tag, getTitle) {
 
 	zephir_read_static_property_ce(&documentTitle, phalcon_tag_ce, SL("_documentTitle") TSRMLS_CC);
 	if (tags) {
-		ZEPHIR_CONCAT_SVSS(return_value, "<title>", documentTitle, "</title>", "\n");
-		return;
+		ZEPHIR_INIT_VAR(_0);
+		ZEPHIR_GET_CONSTANT(_0, "PHP_EOL");
+		ZEPHIR_CONCAT_SVSV(return_value, "<title>", documentTitle, "</title>", _0);
+		RETURN_MM();
 	}
-	RETURN_CCTORW(documentTitle);
+	RETURN_CCTOR(documentTitle);
 
 }
 

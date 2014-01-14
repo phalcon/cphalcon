@@ -307,7 +307,7 @@ PHP_METHOD(Phalcon_Flash, outputMessage) {
 			ZVAL_STRING(cssClasses, "", 1);
 		}
 		ZEPHIR_INIT_VAR(eol);
-		ZVAL_STRING(eol, "\n", 1);
+		ZEPHIR_GET_CONSTANT(eol, "PHP_EOL");
 	}
 	ZEPHIR_OBS_NVAR(_0);
 	zephir_read_property_this(&_0, this_ptr, SL("_implicitFlush"), PH_NOISY_CC);
