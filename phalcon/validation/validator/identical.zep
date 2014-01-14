@@ -48,7 +48,7 @@ class Identical extends Phalcon\Validation\Validator implements Phalcon\Validati
 	{
 		var message, label, replacePairs;
 
-		if validation->getValue(field) != this->getOption("accepted") {
+		if validation->getValue(field) != this->getOption("value") {
 
                         let label = this->getOption("label");
                         if empty label {
