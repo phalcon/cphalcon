@@ -180,7 +180,7 @@ static zval* phalcon_config_read_property(zval *object, zval *offset, int type Z
 {
 	phalcon_config_object *obj = fetchPhalconConfigObject(object TSRMLS_CC);
 
-	if (obj->obj.ce->type != ZEND_INTERNAL_CLASS) {
+	if (!is_phalcon_class(obj->obj.ce)) {
 		if (BP_VAR_IS == type && !zend_get_std_object_handlers()->has_property(object, offset, 0 ZLK_CC TSRMLS_CC)) {
 			return EG(uninitialized_zval_ptr);
 		}
@@ -198,7 +198,7 @@ static zval* phalcon_config_read_dimension(zval *object, zval *offset, int type 
 {
 	phalcon_config_object *obj = fetchPhalconConfigObject(object TSRMLS_CC);
 
-	if (obj->obj.ce->type != ZEND_INTERNAL_CLASS) {
+	if (!is_phalcon_class(obj->obj.ce)) {
 		if (BP_VAR_IS == type && !zend_get_std_object_handlers()->has_dimension(object, offset, 0 TSRMLS_CC)) {
 			return EG(uninitialized_zval_ptr);
 		}
@@ -243,7 +243,7 @@ static void phalcon_config_write_property(zval *object, zval *offset, zval *valu
 {
 	phalcon_config_object *obj = fetchPhalconConfigObject(object TSRMLS_CC);
 
-	if (obj->obj.ce->type != ZEND_INTERNAL_CLASS) {
+	if (!is_phalcon_class(obj->obj.ce)) {
 		zend_get_std_object_handlers()->write_property(object, offset, value ZLK_CC TSRMLS_CC);
 		return;
 	}
@@ -258,7 +258,7 @@ static void phalcon_config_write_dimension(zval *object, zval *offset, zval *val
 {
 	phalcon_config_object *obj = fetchPhalconConfigObject(object TSRMLS_CC);
 
-	if (obj->obj.ce->type != ZEND_INTERNAL_CLASS) {
+	if (!is_phalcon_class(obj->obj.ce)) {
 		zend_get_std_object_handlers()->write_dimension(object, offset, value TSRMLS_CC);
 		return;
 	}
@@ -292,7 +292,7 @@ static int phalcon_config_has_property(zval *object, zval *offset, int has_set_e
 {
 	phalcon_config_object *obj = fetchPhalconConfigObject(object TSRMLS_CC);
 
-	if (obj->obj.ce->type != ZEND_INTERNAL_CLASS) {
+	if (!is_phalcon_class(obj->obj.ce)) {
 		return zend_get_std_object_handlers()->has_property(object, offset, has_set_exists ZLK_CC TSRMLS_CC);
 	}
 
@@ -303,7 +303,7 @@ static int phalcon_config_has_dimension(zval *object, zval *offset, int check_em
 {
 	phalcon_config_object *obj = fetchPhalconConfigObject(object TSRMLS_CC);
 
-	if (obj->obj.ce->type != ZEND_INTERNAL_CLASS) {
+	if (!is_phalcon_class(obj->obj.ce)) {
 		return zend_get_std_object_handlers()->has_dimension(object, offset, check_empty TSRMLS_CC);
 	}
 
@@ -322,7 +322,7 @@ static void phalcon_config_unset_property(zval *object, zval *member ZLK_DC TSRM
 {
 	phalcon_config_object *obj = fetchPhalconConfigObject(object TSRMLS_CC);
 
-	if (obj->obj.ce->type != ZEND_INTERNAL_CLASS) {
+	if (!is_phalcon_class(obj->obj.ce)) {
 		zend_get_std_object_handlers()->unset_property(object, member ZLK_CC TSRMLS_CC);
 		return;
 	}
@@ -334,7 +334,7 @@ static void phalcon_config_unset_dimension(zval *object, zval *offset TSRMLS_DC)
 {
 	phalcon_config_object *obj = fetchPhalconConfigObject(object TSRMLS_CC);
 
-	if (obj->obj.ce->type != ZEND_INTERNAL_CLASS) {
+	if (!is_phalcon_class(obj->obj.ce)) {
 		zend_get_std_object_handlers()->unset_dimension(object, offset TSRMLS_CC);
 		return;
 	}

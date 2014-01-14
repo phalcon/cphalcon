@@ -48,7 +48,7 @@ static zval* phalcon_translate_adapter_nativearray_read_dimension(zval *object, 
 {
 	zval *translate, *translation;
 
-	if (Z_OBJCE_P(object)->type != ZEND_INTERNAL_CLASS) {
+	if (!is_phalcon_class(Z_OBJCE_P(object))) {
 		return zend_get_std_object_handlers()->read_dimension(object, offset, type TSRMLS_CC);
 	}
 
@@ -64,7 +64,7 @@ static int phalcon_translate_adapter_nativearray_has_dimension(zval *object, zva
 {
 	zval *translate, *translation;
 
-	if (Z_OBJCE_P(object)->type != ZEND_INTERNAL_CLASS) {
+	if (!is_phalcon_class(Z_OBJCE_P(object))) {
 		return zend_get_std_object_handlers()->has_dimension(object, offset, check_empty TSRMLS_CC);
 	}
 

@@ -201,7 +201,7 @@ static zval* phalcon_validation_message_group_read_dimension(zval *object, zval 
 {
 	zval *messages;
 
-	if (Z_OBJCE_P(object)->type != ZEND_INTERNAL_CLASS) {
+	if (!is_phalcon_class(Z_OBJCE_P(object))) {
 		return zend_get_std_object_handlers()->read_dimension(object, offset, type TSRMLS_CC);
 	}
 
@@ -223,7 +223,7 @@ static void phalcon_validation_message_group_write_dimension(zval *object, zval 
 	zval *messages;
 	int separate;
 
-	if (Z_OBJCE_P(object)->type != ZEND_INTERNAL_CLASS) {
+	if (!is_phalcon_class(Z_OBJCE_P(object))) {
 		zend_get_std_object_handlers()->write_dimension(object, offset, value TSRMLS_CC);
 		return;
 	}
@@ -249,7 +249,7 @@ static int phalcon_validation_message_group_has_dimension(zval *object, zval *of
 {
 	zval *messages;
 
-	if (Z_OBJCE_P(object)->type != ZEND_INTERNAL_CLASS) {
+	if (!is_phalcon_class(Z_OBJCE_P(object))) {
 		return zend_get_std_object_handlers()->has_dimension(object, offset, check_empty TSRMLS_CC);
 	}
 
@@ -280,7 +280,7 @@ static void phalcon_validation_message_group_unset_dimension(zval *object, zval 
 	zval *messages;
 	int separate;
 
-	if (Z_OBJCE_P(object)->type != ZEND_INTERNAL_CLASS) {
+	if (!is_phalcon_class(Z_OBJCE_P(object))) {
 		zend_get_std_object_handlers()->unset_dimension(object, offset TSRMLS_CC);
 		return;
 	}
@@ -307,8 +307,7 @@ static int phalcon_validation_message_group_count_elements(zval *object, long in
 	int res;
 	zval *cnt = NULL;
 
-	if (Z_OBJCE_P(object)->type == ZEND_INTERNAL_CLASS) {
-
+	if (is_phalcon_class(Z_OBJCE_P(object))) {
 		zval *messages = phalcon_fetch_nproperty_this(object, SL("_messages"), PH_NOISY TSRMLS_CC);
 		*count         = (Z_TYPE_P(messages) == IS_ARRAY) ? zend_hash_num_elements(Z_ARRVAL_P(messages)) : 0;
 		return SUCCESS;
