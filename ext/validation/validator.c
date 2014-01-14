@@ -80,7 +80,7 @@ PHP_METHOD(Phalcon_Validation_Validator, __construct){
 	
 	if (Z_TYPE_P(options) != IS_ARRAY) { 
 		if (Z_TYPE_P(options) != IS_NULL) {
-			PHALCON_THROW_EXCEPTION_STRW(phalcon_validation_exception_ce, "The attribute must be a string");
+			PHALCON_THROW_EXCEPTION_STRW(phalcon_validation_exception_ce, "Options must be an array");
 			return;
 		}
 	} else {
@@ -98,19 +98,10 @@ PHP_METHOD(Phalcon_Validation_Validator, isSetOption){
 
 	zval *key, *options;
 
-	PHALCON_MM_GROW();
-
-	phalcon_fetch_params(1, 1, 0, &key);
+	phalcon_fetch_params(0, 1, 0, &key);
 	
-	PHALCON_OBS_VAR(options);
-	phalcon_read_property_this(&options, this_ptr, SL("_options"), PH_NOISY_CC);
-	if (Z_TYPE_P(options) == IS_ARRAY) { 
-		if (phalcon_array_isset(options, key)) {
-			RETURN_MM_TRUE;
-		}
-	}
-	
-	RETURN_MM_FALSE;
+	options = phalcon_fetch_nproperty_this(this_ptr, SL("_options"), PH_NOISY_CC);
+	RETURN_BOOL(phalcon_array_isset(options, key));
 }
 
 /**
