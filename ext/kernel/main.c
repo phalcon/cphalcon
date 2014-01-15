@@ -40,9 +40,6 @@ void php_phalcon_init_globals(zend_phalcon_globals *phalcon_globals TSRMLS_DC) {
 	/* Virtual Symbol Tables */
 	phalcon_globals->active_symbol_table = NULL;
 
-	/* Cache options */
-	phalcon_globals->function_cache = NULL;
-
 	/* Recursive Lock */
 	phalcon_globals->recursive_lock = 0;
 
@@ -60,7 +57,6 @@ void php_phalcon_init_globals(zend_phalcon_globals *phalcon_globals TSRMLS_DC) {
 
 	/* DB options */
 	phalcon_globals->db.escape_identifiers = 1;
-
 }
 
 /**

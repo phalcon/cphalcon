@@ -212,7 +212,7 @@ int phalcon_alt_call_method(zend_fcall_info *fci, zend_class_entry *ce, unsigned
 	EX(object) = NULL;
 
 	/* Check if a fci_cache is already loaded for this method */
-	if (hash_key > 0 && phalcon_globals_ptr->function_cache) {
+	if (hash_key > 0) {
 		if (zend_hash_index_find(phalcon_globals_ptr->function_cache, hash_key, (void**) &function_handler) == SUCCESS) {
 			fci_cache->function_handler = *function_handler;
 			exists = 1;
@@ -267,22 +267,14 @@ int phalcon_alt_call_method(zend_fcall_info *fci, zend_class_entry *ce, unsigned
 		}
 
 		/* Store the function in the cache only if it is a zend internal function */
-		if (is_phalcon_function) {
-			if (fci_cache->function_handler->type == ZEND_INTERNAL_FUNCTION) {
-
-				if (!phalcon_globals_ptr->function_cache) {
-					ALLOC_HASHTABLE(phalcon_globals_ptr->function_cache);
-					zend_hash_init(phalcon_globals_ptr->function_cache, 0, NULL, NULL, 0);
-				}
-
-				zend_hash_index_update(
-					phalcon_globals_ptr->function_cache,
-					hash_key,
-					&fci_cache->function_handler,
-					sizeof(zend_function *),
-					NULL
-				);
-			}
+		if (is_phalcon_function && fci_cache->function_handler->type == ZEND_INTERNAL_FUNCTION) {
+			zend_hash_index_update(
+				phalcon_globals_ptr->function_cache,
+				hash_key,
+				&fci_cache->function_handler,
+				sizeof(zend_function *),
+				NULL
+			);
 		}
 
 	} else {
@@ -557,7 +549,7 @@ int phalcon_alt_call_method(zend_fcall_info *fci, zend_class_entry *ce, unsigned
 	EX(object) = NULL;
 
 	/* Check if a fci_cache is already loaded for this method */
-	if (hash_key > 0 && phalcon_globals_ptr->function_cache) {
+	if (hash_key > 0) {
 		if (zend_hash_index_find(phalcon_globals_ptr->function_cache, hash_key, (void**) &function_handler) == SUCCESS) {
 			fci_cache->function_handler = *function_handler;
 			exists = 1;
@@ -567,11 +559,7 @@ int phalcon_alt_call_method(zend_fcall_info *fci, zend_class_entry *ce, unsigned
 
 	/** Check if it's a Phalcon function */
 	if (!is_phalcon_function) {
-		if (ce->type == ZEND_INTERNAL_CLASS) {
-			if (ce->name_length > 10) {
-				is_phalcon_function =  !memcmp(ce->name, SL("Phalcon\\"));
-			}
-		}
+		is_phalcon_function = is_phalcon_class(ce);
 	}
 
 	/* The fci_cache doesn't exist, so we check it */
@@ -620,22 +608,14 @@ int phalcon_alt_call_method(zend_fcall_info *fci, zend_class_entry *ce, unsigned
 		}
 
 		/* Store the function in the cache only if it is a zend internal function */
-		if (is_phalcon_function) {
-			if (likely(fci_cache->function_handler->type == ZEND_INTERNAL_FUNCTION)) {
-
-				if (!phalcon_globals_ptr->function_cache) {
-					ALLOC_HASHTABLE(phalcon_globals_ptr->function_cache);
-					zend_hash_init(phalcon_globals_ptr->function_cache, 0, NULL, NULL, 0);
-				}
-
-				zend_hash_index_update(
-					phalcon_globals_ptr->function_cache,
-					hash_key,
-					&fci_cache->function_handler,
-					sizeof(zend_function *),
-					NULL
-				);
-			}
+		if (is_phalcon_function && likely(fci_cache->function_handler->type == ZEND_INTERNAL_FUNCTION)) {
+			zend_hash_index_update(
+				phalcon_globals_ptr->function_cache,
+				hash_key,
+				&fci_cache->function_handler,
+				sizeof(zend_function *),
+				NULL
+			);
 		}
 
 	} else {
