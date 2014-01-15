@@ -634,7 +634,7 @@ PHP_METHOD(Phalcon_Mvc_Router, handle){
 	array_init(params);
 
 	PHALCON_INIT_VAR(service);
-	ZVAL_STRING(service, "request", 1);
+	PHALCON_ZVAL_MAYBE_INTERNED_STRING(service, phalcon_interned_request);
 
 	PHALCON_INIT_VAR(matches);
 	phalcon_update_property_bool(this_ptr, SL("_wasMatched"), 0 TSRMLS_CC);

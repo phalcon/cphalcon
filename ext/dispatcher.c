@@ -36,6 +36,8 @@
 #include "kernel/string.h"
 #include "kernel/exception.h"
 
+#include "interned-strings.h"
+
 /**
  * Phalcon\Dispatcher
  *
@@ -432,7 +434,7 @@ PHP_METHOD(Phalcon_Dispatcher, getParam){
 			}
 	
 			PHALCON_INIT_VAR(service);
-			ZVAL_STRING(service, "filter", 1);
+			PHALCON_ZVAL_MAYBE_INTERNED_STRING(service, phalcon_interned_filter);
 	
 			PHALCON_INIT_VAR(filter);
 			phalcon_call_method_p1(filter, dependency_injector, "getshared", service);

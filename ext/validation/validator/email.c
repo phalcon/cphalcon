@@ -29,6 +29,8 @@
 #include "kernel/fcall.h"
 #include "kernel/concat.h"
 
+#include "interned-strings.h"
+
 /**
  * Phalcon\Validation\Validator\Email
  *
@@ -87,7 +89,7 @@ PHP_METHOD(Phalcon_Validation_Validator_Email, validate){
 	phalcon_call_method_p1_ex(value, &value, validator, "getvalue", attribute);
 	
 	PHALCON_INIT_VAR(allow_empty);
-	RETURN_MM_ON_FAILURE(phalcon_validation_validator_getoption_helper(ce, allow_empty, getThis(), "allowEmpty" TSRMLS_CC));
+	RETURN_MM_ON_FAILURE(phalcon_validation_validator_getoption_helper(ce, allow_empty, getThis(), phalcon_interned_allowEmpty TSRMLS_CC));
 	if (zend_is_true(allow_empty) && phalcon_validation_validator_isempty_helper(value)) {
 		RETURN_MM_TRUE;
 	}
@@ -100,7 +102,7 @@ PHP_METHOD(Phalcon_Validation_Validator_Email, validate){
 	if (!zend_is_true(validation)) {
 	
 		PHALCON_INIT_VAR(label);
-		RETURN_MM_ON_FAILURE(phalcon_validation_validator_getoption_helper(ce, label, getThis(), "label" TSRMLS_CC));
+		RETURN_MM_ON_FAILURE(phalcon_validation_validator_getoption_helper(ce, label, getThis(), phalcon_interned_label TSRMLS_CC));
 		if (!zend_is_true(label)) {
 			PHALCON_CPY_WRT(label, attribute);
 		}
@@ -110,14 +112,14 @@ PHP_METHOD(Phalcon_Validation_Validator_Email, validate){
 		Z_ADDREF_P(label); add_assoc_zval_ex(pairs, SS(":field"), label);
 
 		PHALCON_INIT_VAR(message_str);
-		RETURN_MM_ON_FAILURE(phalcon_validation_validator_getoption_helper(ce, message_str, getThis(), "message" TSRMLS_CC));
+		RETURN_MM_ON_FAILURE(phalcon_validation_validator_getoption_helper(ce, message_str, getThis(), phalcon_interned_message TSRMLS_CC));
 		if (!zend_is_true(message_str)) {
 			PHALCON_INIT_NVAR(message_str);
 			RETURN_MM_ON_FAILURE(phalcon_validation_getdefaultmessage_helper(Z_OBJCE_P(validator), message_str, validator, "Email" TSRMLS_CC));
 		}
 	
 		PHALCON_INIT_VAR(code);
-		RETURN_MM_ON_FAILURE(phalcon_validation_validator_getoption_helper(ce, code, getThis(), "code" TSRMLS_CC));
+		RETURN_MM_ON_FAILURE(phalcon_validation_validator_getoption_helper(ce, code, getThis(), phalcon_interned_code TSRMLS_CC));
 		if (Z_TYPE_P(code) == IS_NULL) {
 			ZVAL_LONG(code, 0);
 		}

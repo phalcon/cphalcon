@@ -32,6 +32,8 @@
 #include "kernel/operators.h"
 #include "kernel/array.h"
 
+#include "interned-strings.h"
+
 /**
  * Phalcon\Session\Bag
  *
@@ -170,7 +172,7 @@ PHP_METHOD(Phalcon_Session_Bag, initialize){
 		}
 	
 		PHALCON_INIT_VAR(service);
-		ZVAL_STRING(service, "session", 1);
+		PHALCON_ZVAL_MAYBE_INTERNED_STRING(service, phalcon_interned_session);
 	
 		PHALCON_INIT_NVAR(session);
 		phalcon_call_method_p1(session, dependency_injector, "getshared", service);

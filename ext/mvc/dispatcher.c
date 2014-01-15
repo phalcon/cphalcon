@@ -31,6 +31,8 @@
 #include "kernel/exception.h"
 #include "kernel/operators.h"
 
+#include "interned-strings.h"
+
 /**
  * Phalcon\Mvc\Dispatcher
  *
@@ -197,7 +199,7 @@ PHP_METHOD(Phalcon_Mvc_Dispatcher, _throwDispatchException){
 	}
 	
 	PHALCON_INIT_VAR(service);
-	ZVAL_STRING(service, "response", 1);
+	PHALCON_ZVAL_MAYBE_INTERNED_STRING(service, phalcon_interned_response);
 	
 	PHALCON_INIT_VAR(response);
 	phalcon_call_method_p1(response, dependency_injector, "getshared", service);

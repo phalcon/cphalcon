@@ -1404,15 +1404,6 @@ void phalcon_addslashes(zval *return_value, zval *str TSRMLS_DC)
 	}
 }
 
-#if PHP_VERSION_ID < 50400
-
-const char* zend_new_interned_string(const char *arKey, int nKeyLength, int free_src TSRMLS_DC)
-{
-	return arKey;
-}
-
-#endif
-
 void phalcon_add_trailing_slash(zval** v)
 {
 	PHALCON_ENSURE_IS_STRING(v);

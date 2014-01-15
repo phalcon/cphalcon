@@ -37,6 +37,8 @@
 #include "kernel/operators.h"
 #include "kernel/file.h"
 
+#include "interned-strings.h"
+
 /**
  * Phalcon\Forms\Form
  *
@@ -614,7 +616,7 @@ PHP_METHOD(Phalcon_Forms_Form, bind){
 		if (zend_is_true(filters)) {
 			if (Z_TYPE_P(filter) != IS_OBJECT) {
 				PHALCON_INIT_NVAR(service_name);
-				ZVAL_STRING(service_name, "filter", 1);
+				PHALCON_ZVAL_MAYBE_INTERNED_STRING(service_name, phalcon_interned_filter);
 	
 				PHALCON_INIT_NVAR(dependency_injector);
 				phalcon_call_method(dependency_injector, this_ptr, "getdi");

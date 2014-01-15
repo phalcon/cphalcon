@@ -39,6 +39,8 @@
 #include "kernel/file.h"
 #include "kernel/require.h"
 
+#include "interned-strings.h"
+
 /**
  * Phalcon\CLI\Console
  *
@@ -299,7 +301,7 @@ PHP_METHOD(Phalcon_CLI_Console, handle){
 	phalcon_read_property_this(&events_manager, this_ptr, SL("_eventsManager"), PH_NOISY_CC);
 	
 	PHALCON_INIT_VAR(service);
-	ZVAL_STRING(service, "router", 1);
+	PHALCON_ZVAL_MAYBE_INTERNED_STRING(service, phalcon_interned_router);
 	
 	PHALCON_INIT_VAR(router);
 	phalcon_call_method_p1(router, dependency_injector, "getshared", service);
@@ -389,7 +391,7 @@ PHP_METHOD(Phalcon_CLI_Console, handle){
 	phalcon_call_method(params, router, "getparams");
 	
 	PHALCON_INIT_NVAR(service);
-	ZVAL_STRING(service, "dispatcher", 1);
+	PHALCON_ZVAL_MAYBE_INTERNED_STRING(service, phalcon_interned_dispatcher);
 	
 	PHALCON_INIT_VAR(dispatcher);
 	phalcon_call_method_p1(dispatcher, dependency_injector, "getshared", service);

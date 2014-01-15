@@ -36,6 +36,8 @@
 #include "kernel/fcall.h"
 #include "kernel/operators.h"
 
+#include "interned-strings.h"
+
 /**
  * Phalcon\Http\Response\Cookies
  *
@@ -253,7 +255,7 @@ PHP_METHOD(Phalcon_Http_Response_Cookies, set){
 		}
 	
 		PHALCON_INIT_VAR(service);
-		ZVAL_STRING(service, "response", 1);
+		PHALCON_ZVAL_MAYBE_INTERNED_STRING(service, phalcon_interned_response);
 	
 		PHALCON_INIT_VAR(response);
 		phalcon_call_method_p1(response, dependency_injector, "getshared", service);

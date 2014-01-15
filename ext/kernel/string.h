@@ -100,23 +100,4 @@ void phalcon_date(zval *return_value, zval *format, zval *timestamp TSRMLS_DC);
 void phalcon_addslashes(zval *return_value, zval *str TSRMLS_DC);
 void phalcon_add_trailing_slash(zval** v);
 
-#if PHP_VERSION_ID < 50400
-
-const char* zend_new_interned_string(const char *arKey, int nKeyLength, int free_src TSRMLS_DC);
-#define PHALCON_ZVAL_MAYBE_INTERNED_STRING(pz, string)  ZVAL_STRING(pz, string, 1);
-
-#else
-
-#define PHALCON_ZVAL_MAYBE_INTERNED_STRING(pz, string) \
-	do { \
-		if (IS_INTERNED(string)) { \
-			ZVAL_STRINGL(pz, string, INTERNED_LEN(string)-1, 0); \
-		} \
-		else { \
-			ZVAL_STRING(pz, string, 1); \
-		} \
-	} while (0)
-
-#endif /* PHP_VERSION_ID < 50400 */
-
 #endif /* PHALCON_KERNEL_STRING_H */

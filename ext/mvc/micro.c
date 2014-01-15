@@ -38,6 +38,8 @@
 #include "kernel/array.h"
 #include "kernel/concat.h"
 
+#include "interned-strings.h"
+
 /**
  * Phalcon\Mvc\Micro
  *
@@ -571,7 +573,7 @@ PHP_METHOD(Phalcon_Mvc_Micro, getRouter){
 		PHALCON_MM_GROW();
 
 		PHALCON_INIT_VAR(service_name);
-		ZVAL_STRING(service_name, "router", 1);
+		PHALCON_ZVAL_MAYBE_INTERNED_STRING(service_name, phalcon_interned_router);
 	
 		phalcon_call_method_p1(return_value, this_ptr, "getsharedservice", service_name);
 		PHALCON_VERIFY_INTERFACE(return_value, phalcon_mvc_routerinterface_ce);
@@ -764,7 +766,7 @@ PHP_METHOD(Phalcon_Mvc_Micro, handle){
 	 * Handling routing information
 	 */
 	PHALCON_INIT_VAR(service);
-	ZVAL_STRING(service, "router", 1);
+	PHALCON_ZVAL_MAYBE_INTERNED_STRING(service, phalcon_interned_router);
 	
 	PHALCON_INIT_VAR(router);
 	phalcon_call_method_p1(router, dependency_injector, "getshared", service);

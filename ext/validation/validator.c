@@ -28,6 +28,8 @@
 #include "kernel/array.h"
 #include "kernel/fcall.h"
 
+#include "interned-strings.h"
+
 /**
  * Phalcon\Validation\Validator
  *
@@ -82,7 +84,7 @@ int phalcon_validation_validator_getoption_helper(const zend_class_entry *ce, zv
 	}
 
 	PHALCON_ALLOC_GHOST_ZVAL(opt);
-	ZVAL_STRING(opt, option, 1);
+	PHALCON_ZVAL_MAYBE_INTERNED_STRING(opt, option);
 	return phalcon_call_method_params(result, NULL, this_ptr, SL("getoption"), zend_inline_hash_func(SS("getoption")) TSRMLS_CC, 1, opt);
 }
 

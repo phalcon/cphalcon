@@ -29,6 +29,8 @@
 #include "kernel/operators.h"
 #include "kernel/concat.h"
 
+#include "interned-strings.h"
+
 /**
  * Phalcon\Mvc\Model\Validator\PresenceOf
  *
@@ -112,7 +114,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_PresenceOf, validate){
 		 * Check if the developer has defined a custom message
 		 */
 		PHALCON_INIT_NVAR(option);
-		ZVAL_STRING(option, "message", 1);
+		PHALCON_ZVAL_MAYBE_INTERNED_STRING(option, phalcon_interned_message);
 	
 		PHALCON_INIT_VAR(message);
 		phalcon_call_method_p1(message, this_ptr, "getoption", option);
@@ -128,7 +130,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_PresenceOf, validate){
 		 * Is code set
 		 */
 		PHALCON_INIT_NVAR(option);
-		ZVAL_STRING(option, "code", 1);
+		PHALCON_ZVAL_MAYBE_INTERNED_STRING(option, phalcon_interned_code);
 
 		PHALCON_INIT_VAR(is_set_code);
 		phalcon_call_method_p1(is_set_code, this_ptr, "issetoption", option);

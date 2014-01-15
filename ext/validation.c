@@ -34,6 +34,8 @@
 #include "kernel/concat.h"
 #include "kernel/operators.h"
 
+#include "interned-strings.h"
+
 /**
  * Phalcon\Validation
  *
@@ -545,7 +547,7 @@ PHP_METHOD(Phalcon_Validation, getValue){
 				if (zend_is_true(field_filters)) {
 	
 					PHALCON_INIT_VAR(service_name);
-					ZVAL_STRING(service_name, "filter", 1);
+					PHALCON_ZVAL_MAYBE_INTERNED_STRING(service_name, phalcon_interned_filter);
 	
 					PHALCON_INIT_VAR(dependency_injector);
 					phalcon_call_method(dependency_injector, this_ptr, "getdi");
