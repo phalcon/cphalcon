@@ -17,8 +17,8 @@
 #include "kernel/object.h"
 #include "kernel/memory.h"
 #include "kernel/hash.h"
+#include "kernel/string.h"
 #include "kernel/concat.h"
-#include "kernel/fcall.h"
 #include "ext/spl/spl_exceptions.h"
 
 
@@ -125,11 +125,11 @@ PHP_METHOD(Phalcon_Translate_Adapter_NativeArray, query) {
 				) {
 					ZEPHIR_GET_HMKEY(key, _2, _1);
 					ZEPHIR_GET_HVALUE(value, _3);
-					ZEPHIR_INIT_LNVAR(_4);
-					ZEPHIR_CONCAT_SVS(_4, "%", key, "%");
-					ZEPHIR_INIT_NVAR(_5);
-					zephir_call_func_p3(_5, "str_replace", _4, value, traslation);
-					ZEPHIR_CPY_WRT(traslation, _5);
+					ZEPHIR_INIT_NVAR(_4);
+					ZEPHIR_INIT_LNVAR(_5);
+					ZEPHIR_CONCAT_SVS(_5, "%", key, "%");
+					zephir_fast_str_replace(_4, _5, value, traslation);
+					ZEPHIR_CPY_WRT(traslation, _4);
 				}
 			}
 		}

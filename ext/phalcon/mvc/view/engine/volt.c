@@ -172,7 +172,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, render) {
 		) {
 			ZEPHIR_GET_HMKEY(key, _1, _0);
 			ZEPHIR_GET_HVALUE(value, _2);
-			if (zephir_set_symbol(key, value TSRMLS_CC) == FAILURE){
+			if (phalcon_set_symbol(key, value TSRMLS_CC) == FAILURE){
 				return;
 			}
 		}
@@ -260,7 +260,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, isIncluded) {
 			zephir_call_func_p2(return_value, "mb_strpos", haystack, needle);
 			RETURN_MM();
 		}
-		zephir_call_func_p2(return_value, "strpos", haystack, needle);
+		zephir_fast_strpos(return_value, haystack, needle, 0 );
 		RETURN_MM();
 	}
 	ZEPHIR_THROW_EXCEPTION_STR(phalcon_mvc_view_exception_ce, "Invalid haystack");
@@ -404,10 +404,10 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, slice) {
 		RETURN_MM();
 	}
 	if ((Z_TYPE_P(length) != IS_NULL)) {
-		zephir_call_func_p3(return_value, "substr", value, start, length);
+		zephir_substr(return_value, value, Z_LVAL_P(start) , Z_LVAL_P(length) );
 		RETURN_MM();
 	}
-	zephir_call_func_p2(return_value, "substr", value, start);
+	zephir_substr(return_value, value, Z_LVAL_P(start) , 0 );
 	RETURN_MM();
 
 }

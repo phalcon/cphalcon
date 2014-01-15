@@ -652,7 +652,7 @@ PHP_METHOD(Phalcon_Db_Dialect_MySQL, dropForeignKey) {
  */
 PHP_METHOD(Phalcon_Db_Dialect_MySQL, _getTableOptions) {
 
-	zval *definition, *options, *engine, *autoIncrement, *tableCollation, *collationParts, *tableOptions, *_0 = NULL, _1, *_2, *_3;
+	zval *definition, *options, *engine, *autoIncrement, *tableCollation, *collationParts, *tableOptions, *_0 = NULL, *_1, *_2;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &definition);
@@ -678,17 +678,15 @@ PHP_METHOD(Phalcon_Db_Dialect_MySQL, _getTableOptions) {
 		}
 		if (zephir_array_isset_string_fetch(&tableCollation, options, SS("TABLE_COLLATION"), 1 TSRMLS_CC)) {
 			if (zephir_is_true(tableCollation)) {
-				ZEPHIR_SINIT_VAR(_1);
-				ZVAL_STRING(&_1, "_", 0);
 				ZEPHIR_INIT_VAR(collationParts);
-				zephir_call_func_p2(collationParts, "explode", &_1, tableCollation);
-				zephir_array_fetch_long(&_2, collationParts, 0, PH_NOISY | PH_READONLY TSRMLS_CC);
+				zephir_fast_explode_str(collationParts, SL("_"), tableCollation, 9223372036854775807  TSRMLS_CC);
+				zephir_array_fetch_long(&_1, collationParts, 0, PH_NOISY | PH_READONLY TSRMLS_CC);
 				ZEPHIR_INIT_LNVAR(_0);
-				ZEPHIR_CONCAT_SV(_0, "DEFAULT CHARSET=", _2);
+				ZEPHIR_CONCAT_SV(_0, "DEFAULT CHARSET=", _1);
 				zephir_array_append(&tableOptions, _0, PH_SEPARATE);
-				ZEPHIR_INIT_VAR(_3);
-				ZEPHIR_CONCAT_SV(_3, "COLLATE=", tableCollation);
-				zephir_array_append(&tableOptions, _3, PH_SEPARATE);
+				ZEPHIR_INIT_VAR(_2);
+				ZEPHIR_CONCAT_SV(_2, "COLLATE=", tableCollation);
+				zephir_array_append(&tableOptions, _2, PH_SEPARATE);
 			}
 		}
 		if (zephir_fast_count_int(tableOptions TSRMLS_CC)) {

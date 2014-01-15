@@ -174,7 +174,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Introspection, getMetaData) {
 		zephir_call_method_cache(_16, column, "getbindtype", &_17);
 		zephir_array_update_zval(&fieldBindTypes, fieldName, &_16, PH_COPY | PH_SEPARATE);
 	}
-	array_init(return_value);
+	array_init_size(return_value, 11);
 	zephir_array_update_long(&return_value, 0, &attributes, PH_COPY, "phalcon/mvc/model/metadata/strategy/introspection.zep", 156);
 	zephir_array_update_long(&return_value, 1, &primaryKeys, PH_COPY, "phalcon/mvc/model/metadata/strategy/introspection.zep", 156);
 	zephir_array_update_long(&return_value, 2, &nonPrimaryKeys, PH_COPY, "phalcon/mvc/model/metadata/strategy/introspection.zep", 156);
@@ -233,7 +233,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Introspection, getColumnMaps) {
 			zephir_array_update_zval(&reversedColumnMap, userName, &name, PH_COPY | PH_SEPARATE);
 		}
 	}
-	array_init(return_value);
+	array_init_size(return_value, 3);
 	zephir_array_fast_append(return_value, orderedColumnMap);
 	zephir_array_fast_append(return_value, reversedColumnMap);
 	RETURN_MM();

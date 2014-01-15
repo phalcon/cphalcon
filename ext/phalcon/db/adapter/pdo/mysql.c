@@ -149,7 +149,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Mysql, describeColumns) {
 	) {
 		ZEPHIR_GET_HVALUE(field, _4);
 		ZEPHIR_INIT_NVAR(definition);
-		array_init(definition);
+		array_init_size(definition, 2);
 		add_assoc_long_ex(definition, SS("bindType"), 2);
 		zephir_array_fetch_long(&columnType, field, 1, PH_NOISY | PH_READONLY TSRMLS_CC);
 		while (1) {
@@ -212,7 +212,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Mysql, describeColumns) {
 			ZEPHIR_SINIT_NVAR(_7);
 			ZVAL_STRING(&_7, "float", 0);
 			ZEPHIR_INIT_NVAR(_5);
-			zephir_call_func_p2(_5, "strpos", columnType, &_7);
+			zephir_fast_strpos(_5, columnType, &_7, 0 );
 			if (zephir_is_true(_5)) {
 				ZEPHIR_INIT_NVAR(_6);
 				ZVAL_LONG(_6, 7);
@@ -231,9 +231,8 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Mysql, describeColumns) {
 		if (zephir_memnstr_str(columnType, SL("("), "phalcon/db/adapter/pdo/mysql.zep", 208)) {
 			ZEPHIR_INIT_NVAR(matches);
 			ZVAL_NULL(matches);
-			Z_SET_ISREF_P(matches);
 			ZEPHIR_INIT_NVAR(_6);
-			zephir_call_func_p3(_6, "preg_match", sizePattern, columnType, matches);
+			zephir_preg_match(_6, &(_6), sizePattern, columnType, matches TSRMLS_CC);
 			if (zephir_is_true(_6)) {
 				if (zephir_array_isset_long_fetch(&matchOne, matches, 1, 1 TSRMLS_CC)) {
 					zephir_array_update_string(&definition, SL("size"), &matchOne, PH_COPY | PH_SEPARATE);

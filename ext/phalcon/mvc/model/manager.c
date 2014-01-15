@@ -1691,7 +1691,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getRelationRecords) {
 	}
 	ZEPHIR_INIT_NVAR(conditions);
 	if ((Z_TYPE_P(preConditions) != IS_NULL)) {
-		array_init(conditions);
+		array_init_size(conditions, 2);
 		zephir_array_fast_append(conditions, preConditions);
 	} else {
 		array_init(conditions);
@@ -1729,7 +1729,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getRelationRecords) {
 		}
 	}
 	ZEPHIR_INIT_VAR(findParams);
-	array_init(findParams);
+	array_init_size(findParams, 4);
 	ZEPHIR_INIT_NVAR(_2);
 	zephir_fast_join_str(_2, SL(" AND "), conditions TSRMLS_CC);
 	zephir_array_fast_append(findParams, _2);
@@ -1739,7 +1739,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getRelationRecords) {
 	zephir_array_update_string(&findParams, SL("di"), &_2, PH_COPY | PH_SEPARATE);
 	if ((Z_TYPE_P(parameters) == IS_ARRAY)) {
 		ZEPHIR_INIT_VAR(findArguments);
-		array_init(findArguments);
+		array_init_size(findArguments, 3);
 		zephir_array_fast_append(findArguments, findParams);
 		zephir_array_fast_append(findArguments, parameters);
 	} else {
@@ -1767,7 +1767,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getRelationRecords) {
 		ZEPHIR_CPY_WRT(retrieveMethod, method);
 	}
 	ZEPHIR_INIT_VAR(arguments);
-	array_init(arguments);
+	array_init_size(arguments, 2);
 	zephir_array_fast_append(arguments, findArguments);
 	ZEPHIR_INIT_NVAR(_2);
 	zephir_call_method(_2, relation, "isreusable");
@@ -1782,7 +1782,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getRelationRecords) {
 		}
 	}
 	ZEPHIR_INIT_NVAR(_2);
-	array_init(_2);
+	array_init_size(_2, 3);
 	ZEPHIR_INIT_NVAR(_3);
 	zephir_call_method_p1(_3, this_ptr, "load", referencedModel);
 	zephir_array_fast_append(_2, _3);

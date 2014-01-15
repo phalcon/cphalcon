@@ -343,7 +343,7 @@ void zephir_uncamelize(zval *return_value, const zval *str){
 /**
  * Fast call to explode php function
  */
-void zephir_fast_explode(zval *result, zval *delimiter, zval *str){
+void zephir_fast_explode(zval *result, zval *delimiter, zval *str, long limit TSRMLS_DC){
 
 	if (unlikely(Z_TYPE_P(str) != IS_STRING || Z_TYPE_P(delimiter) != IS_STRING)) {
 		ZVAL_NULL(result);
@@ -352,13 +352,13 @@ void zephir_fast_explode(zval *result, zval *delimiter, zval *str){
 	}
 
 	array_init(result);
-	php_explode(delimiter, str, result, LONG_MAX);
+	php_explode(delimiter, str, result, limit);
 }
 
 /**
  * Fast call to explode php function
  */
-void zephir_fast_explode_str(zval *result, const char *delimiter, int delimiter_length, zval *str){
+void zephir_fast_explode_str(zval *result, const char *delimiter, int delimiter_length, zval *str, long limit TSRMLS_DC){
 
 	zval delimiter_zval;
 
@@ -371,7 +371,7 @@ void zephir_fast_explode_str(zval *result, const char *delimiter, int delimiter_
 	ZVAL_STRINGL(&delimiter_zval, delimiter, delimiter_length, 0);
 
 	array_init(result);
-	php_explode(&delimiter_zval, str, result, LONG_MAX);
+	php_explode(&delimiter_zval, str, result, limit);
 }
 
 /**
@@ -419,7 +419,7 @@ int zephir_memnstr_str(const zval *haystack, char *needle, unsigned int needle_l
 /**
  * Inmediate function resolution for strpos function
  */
-void zephir_fast_strpos(zval *return_value, const zval *haystack, const zval *needle) {
+void zephir_fast_strpos(zval *return_value, const zval *haystack, const zval *needle, unsigned int offset) {
 
 	char *found = NULL;
 
@@ -429,13 +429,19 @@ void zephir_fast_strpos(zval *return_value, const zval *haystack, const zval *ne
 		return;
 	}
 
+	if (offset < 0 || offset > Z_STRLEN_P(haystack)) {
+		ZVAL_NULL(return_value);
+		zend_error(E_WARNING, "Offset not contained in string");
+		return;
+	}
+
 	if (!Z_STRLEN_P(needle)) {
 		ZVAL_NULL(return_value);
 		zend_error(E_WARNING, "Empty delimiter");
 		return;
 	}
 
-	found = php_memnstr(Z_STRVAL_P(haystack), Z_STRVAL_P(needle), Z_STRLEN_P(needle), Z_STRVAL_P(haystack) + Z_STRLEN_P(haystack));
+	found = php_memnstr(Z_STRVAL_P(haystack)+offset, Z_STRVAL_P(needle), Z_STRLEN_P(needle), Z_STRVAL_P(haystack) + Z_STRLEN_P(haystack));
 
 	if (found) {
 		ZVAL_LONG(return_value, found-Z_STRVAL_P(haystack));
@@ -900,9 +906,9 @@ int zephir_spprintf(char **message, int max_len, char *format, ...)
 }
 
 /**
- * Makes a substr like the PHP function. This function doesn't support negative lengths
+ * Makes a substr like the PHP function. This function SUPPORT negative from and length
  */
-void zephir_substr(zval *return_value, zval *str, unsigned long from, unsigned long length) {
+void zephir_substr(zval *return_value, zval *str, long f, long l) {
 
 	if (Z_TYPE_P(str) != IS_STRING) {
 
@@ -918,19 +924,60 @@ void zephir_substr(zval *return_value, zval *str, unsigned long from, unsigned l
 		RETURN_FALSE;
 	}
 
-	if (Z_STRLEN_P(str) < from){
-		RETURN_FALSE;
-	}
+        long str_len = Z_STRLEN_P(str);
 
-	if (!length || (Z_STRLEN_P(str) < (length + from))) {
-		length = Z_STRLEN_P(str) - from;
-	}
+        if ((l < 0 && -l > str_len)) {
+            RETURN_FALSE;
+        } else if (l > str_len) {
+            l = str_len;
+        } else if (l == 0) {
+            l = str_len;
+        }
 
-	if (length <= 0){
+        if (f > str_len) {
+            RETURN_FALSE;
+        } else if (f < 0 && -f > str_len) {
+            f = 0;
+        }
+
+        if (l < 0 && (l + str_len - f) < 0) {
+            RETURN_FALSE;
+        }
+
+
+        /* if "from" position is negative, count start position from the end
+         * of the string
+         */
+        if (f < 0) {
+            f = str_len + f;
+            if (f < 0) {
+                f = 0;
+            }
+        }
+
+        /* if "length" position is negative, set it to the length
+         * needed to stop that many chars from the end of the string
+         */
+        if (l < 0) {
+            l = (str_len - f) + l;
+            if (l < 0) {
+                l = 0;
+            }
+        }
+
+        if (f >= str_len) {
+            RETURN_FALSE;
+        }
+
+        if ((f + l) > str_len) {
+            l = str_len - f;
+        }
+
+	if (l <= 0){
 		RETURN_EMPTY_STRING();
 	}
 
-	RETURN_STRINGL(Z_STRVAL_P(str) + from, length, 1);
+	RETURN_STRINGL(Z_STRVAL_P(str) + f, l, 1);
 }
 
 void zephir_append_printable_array(smart_str *implstr, zval *value TSRMLS_DC) {

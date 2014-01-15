@@ -307,7 +307,7 @@ PHP_METHOD(Phalcon_Events_Manager, fireQueue) {
 				if (zephir_is_instance_of(handler, SL("Closure") TSRMLS_CC)) {
 					if ((Z_TYPE_P(arguments) == IS_NULL)) {
 						ZEPHIR_INIT_NVAR(arguments);
-						array_init(arguments);
+						array_init_size(arguments, 4);
 						zephir_array_fast_append(arguments, event);
 						zephir_array_fast_append(arguments, source);
 						zephir_array_fast_append(arguments, data);
@@ -353,7 +353,7 @@ PHP_METHOD(Phalcon_Events_Manager, fireQueue) {
 				if (zephir_is_instance_of(handler, SL("Closure") TSRMLS_CC)) {
 					if ((Z_TYPE_P(arguments) == IS_NULL)) {
 						ZEPHIR_INIT_NVAR(arguments);
-						array_init(arguments);
+						array_init_size(arguments, 4);
 						zephir_array_fast_append(arguments, event);
 						zephir_array_fast_append(arguments, source);
 						zephir_array_fast_append(arguments, data);
@@ -409,7 +409,7 @@ PHP_METHOD(Phalcon_Events_Manager, fireQueue) {
 PHP_METHOD(Phalcon_Events_Manager, fire) {
 
 	zend_bool cancelable;
-	zval *eventType_param = NULL, *source, *data = NULL, *cancelable_param = NULL, *events, *eventParts, *type, *eventName, *event, *status, *fireEvents = NULL, *_0, *_1, _2, *_3;
+	zval *eventType_param = NULL, *source, *data = NULL, *cancelable_param = NULL, *events, *eventParts, *type, *eventName, *event, *status, *fireEvents = NULL, *_0, *_1, *_2;
 	zval *eventType = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -446,16 +446,14 @@ PHP_METHOD(Phalcon_Events_Manager, fire) {
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
-	ZEPHIR_SINIT_VAR(_2);
-	ZVAL_STRING(&_2, ":", 0);
 	ZEPHIR_INIT_VAR(eventParts);
-	zephir_call_func_p2(eventParts, "explode", &_2, eventType);
+	zephir_fast_explode_str(eventParts, SL(":"), eventType, 9223372036854775807  TSRMLS_CC);
 	zephir_array_fetch_long(&type, eventParts, 0, PH_NOISY | PH_READONLY TSRMLS_CC);
 	zephir_array_fetch_long(&eventName, eventParts, 1, PH_NOISY | PH_READONLY TSRMLS_CC);
 	ZEPHIR_INIT_VAR(status);
 	ZVAL_NULL(status);
-	_3 = zephir_fetch_nproperty_this(this_ptr, SL("_collect"), PH_NOISY_CC);
-	if (zephir_is_true(_3)) {
+	_2 = zephir_fetch_nproperty_this(this_ptr, SL("_collect"), PH_NOISY_CC);
+	if (zephir_is_true(_2)) {
 		zephir_update_property_this(this_ptr, SL("_responses"), ZEPHIR_GLOBAL(global_null) TSRMLS_CC);
 	}
 	ZEPHIR_INIT_VAR(event);

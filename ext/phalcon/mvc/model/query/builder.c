@@ -16,11 +16,11 @@
 #include "kernel/memory.h"
 #include "kernel/object.h"
 #include "kernel/fcall.h"
+#include "kernel/string.h"
 #include "kernel/operators.h"
 #include "ext/spl/spl_exceptions.h"
 #include "kernel/exception.h"
 #include "kernel/concat.h"
-#include "kernel/string.h"
 #include "kernel/hash.h"
 
 
@@ -102,7 +102,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, __construct) {
 
 	HashTable *_1;
 	HashPosition _0;
-	zval *params = NULL, *dependencyInjector = NULL, *conditions = NULL, *columns, *groupClause, *havingClause, *limitClause, *forUpdate, *sharedLock, *orderClause, *offsetClause, *joinsClause, *singleConditionArray = NULL, *limit, *offset, *fromClause, *mergedConditions = NULL, *mergedParams = NULL, *mergedTypes = NULL, *singleCondition, *singleParams, *singleTypes, **_2, *_3 = NULL, _4, *_5, *_6;
+	zval *params = NULL, *dependencyInjector = NULL, *conditions = NULL, *columns, *groupClause, *havingClause, *limitClause, *forUpdate, *sharedLock, *orderClause, *offsetClause, *joinsClause, *singleConditionArray = NULL, *limit, *offset, *fromClause, *mergedConditions = NULL, *mergedParams = NULL, *mergedTypes = NULL, *singleCondition, *singleParams, *singleTypes, **_2, *_3 = NULL, *_4, *_5;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 2, &params, &dependencyInjector);
@@ -154,10 +154,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, __construct) {
 							}
 						}
 					}
-					ZEPHIR_SINIT_VAR(_4);
-					ZVAL_STRING(&_4, " AND ", 0);
 					ZEPHIR_INIT_NVAR(_3);
-					zephir_call_func_p2(_3, "implode", &_4, mergedConditions);
+					zephir_fast_join_str(_3, SL(" AND "), mergedConditions TSRMLS_CC);
 					zephir_update_property_this(this_ptr, SL("_conditions"), _3 TSRMLS_CC);
 					zephir_update_property_this(this_ptr, SL("_bindParams"), mergedParams TSRMLS_CC);
 					zephir_update_property_this(this_ptr, SL("_bindTypes"), mergedTypes TSRMLS_CC);
@@ -186,14 +184,14 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, __construct) {
 		}
 		if (zephir_array_isset_string_fetch(&limitClause, params, SS("limit"), 1 TSRMLS_CC)) {
 			if ((Z_TYPE_P(limitClause) == IS_ARRAY)) {
-				ZEPHIR_INIT_VAR(_5);
-				zephir_call_func_p1(_5, "is_int", limit);
-				if (zephir_is_true(_5)) {
+				ZEPHIR_INIT_VAR(_4);
+				zephir_call_func_p1(_4, "is_int", limit);
+				if (zephir_is_true(_4)) {
 					zephir_update_property_this(this_ptr, SL("_limit"), limit TSRMLS_CC);
 				}
-				ZEPHIR_INIT_VAR(_6);
-				zephir_call_func_p1(_6, "is_int", offset);
-				if (zephir_is_true(_6)) {
+				ZEPHIR_INIT_VAR(_5);
+				zephir_call_func_p1(_5, "is_int", offset);
+				if (zephir_is_true(_5)) {
 					zephir_update_property_this(this_ptr, SL("_offset"), offset TSRMLS_CC);
 				}
 			} else {
@@ -336,7 +334,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, addFrom) {
 		ZEPHIR_INIT_BNVAR(models);
 		if ((Z_TYPE_P(models) != IS_NULL)) {
 			ZEPHIR_CPY_WRT(currentModel, models);
-			array_init(models);
+			array_init_size(models, 2);
 			zephir_array_fast_append(models, currentModel);
 		} else {
 			array_init(models);
@@ -407,7 +405,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, join) {
 
 
 	ZEPHIR_INIT_VAR(_0);
-	array_init(_0);
+	array_init_size(_0, 5);
 	zephir_array_fast_append(_0, model);
 	zephir_array_fast_append(_0, conditions);
 	zephir_array_fast_append(_0, alias);
@@ -457,7 +455,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, innerJoin) {
 
 
 	ZEPHIR_INIT_VAR(_0);
-	array_init(_0);
+	array_init_size(_0, 5);
 	zephir_array_fast_append(_0, model);
 	zephir_array_fast_append(_0, conditions);
 	zephir_array_fast_append(_0, alias);
@@ -505,7 +503,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, leftJoin) {
 
 
 	ZEPHIR_INIT_VAR(_0);
-	array_init(_0);
+	array_init_size(_0, 5);
 	zephir_array_fast_append(_0, model);
 	zephir_array_fast_append(_0, conditions);
 	zephir_array_fast_append(_0, alias);
@@ -545,7 +543,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, rightJoin) {
 
 
 	ZEPHIR_INIT_VAR(_0);
-	array_init(_0);
+	array_init_size(_0, 5);
 	zephir_array_fast_append(_0, model);
 	zephir_array_fast_append(_0, conditions);
 	zephir_array_fast_append(_0, alias);
@@ -785,7 +783,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, betweenWhere) {
 	ZEPHIR_INIT_VAR(_0);
 	ZEPHIR_CONCAT_VSVSVS(_0, expr, " BETWEEN :", minimumKey, ": AND :", maximumKey, ":");
 	ZEPHIR_INIT_VAR(_1);
-	array_init(_1);
+	array_init_size(_1, 3);
 	zephir_array_update_zval(&_1, minimumKey, &minimum, PH_COPY);
 	zephir_array_update_zval(&_1, maximumKey, &maximum, PH_COPY);
 	zephir_call_method_p2_noret(this_ptr, "andwhere", _0, _1);
@@ -835,7 +833,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, notBetweenWhere) {
 	ZEPHIR_INIT_VAR(_0);
 	ZEPHIR_CONCAT_VSVSVS(_0, expr, " NOT BETWEEN :", minimumKey, ": AND :", maximumKey, ":");
 	ZEPHIR_INIT_VAR(_1);
-	array_init(_1);
+	array_init_size(_1, 3);
 	zephir_array_update_zval(&_1, minimumKey, &minimum, PH_COPY);
 	zephir_array_update_zval(&_1, maximumKey, &maximum, PH_COPY);
 	zephir_call_method_p2_noret(this_ptr, "andwhere", _0, _1);

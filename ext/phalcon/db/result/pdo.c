@@ -226,7 +226,7 @@ PHP_METHOD(Phalcon_Db_Result_Pdo, fetchAll) {
  */
 PHP_METHOD(Phalcon_Db_Result_Pdo, numRows) {
 
-	zval *sqlStatement, *rowCount = NULL, *connection, *type, *pdoStatement, *matches, *result, *row, *_0, *_1, *_2, *_3, *_4, *_5;
+	zval *sqlStatement, *rowCount = NULL, *connection, *type, *pdoStatement, *matches, *result, *row, *_0, _1, *_2, *_3, *_4, *_5;
 
 	ZEPHIR_MM_GROW();
 
@@ -247,11 +247,10 @@ PHP_METHOD(Phalcon_Db_Result_Pdo, numRows) {
 				ZEPHIR_INIT_VAR(matches);
 				ZVAL_NULL(matches);
 				ZEPHIR_INIT_VAR(_0);
-				ZVAL_STRING(_0, "/^SELECT\\s+(.*)/i", 1);
-				Z_SET_ISREF_P(matches);
-				ZEPHIR_INIT_VAR(_1);
-				zephir_call_func_p3(_1, "preg_match", _0, sqlStatement, matches);
-				if (zephir_is_true(_1)) {
+				ZEPHIR_SINIT_VAR(_1);
+				ZVAL_STRING(&_1, "/^SELECT\\s+(.*)/i", 0);
+				zephir_preg_match(_0, &(_0), &_1, sqlStatement, matches TSRMLS_CC);
+				if (zephir_is_true(_0)) {
 					zephir_array_fetch_long(&_2, matches, 1, PH_NOISY | PH_READONLY TSRMLS_CC);
 					ZEPHIR_INIT_VAR(_3);
 					ZEPHIR_CONCAT_SVS(_3, "SELECT COUNT(*) \"numrows\" FROM (SELECT ", _2, ")");

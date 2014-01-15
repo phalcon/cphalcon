@@ -103,7 +103,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Annotations, addResource) {
 
 
 	ZEPHIR_INIT_VAR(_0);
-	array_init(_0);
+	array_init_size(_0, 3);
 	zephir_array_fast_append(_0, prefix);
 	zephir_array_fast_append(_0, handler);
 	zephir_update_property_array_append(this_ptr, SL("_handlers"), _0 TSRMLS_CC);
@@ -151,7 +151,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Annotations, addModuleResource) {
 
 
 	ZEPHIR_INIT_VAR(_0);
-	array_init(_0);
+	array_init_size(_0, 4);
 	zephir_array_fast_append(_0, prefix);
 	zephir_array_fast_append(_0, handler);
 	zephir_array_fast_append(_0, module);
@@ -347,7 +347,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Annotations, processActionAnnotation) {
 	HashTable *_5, *_9;
 	HashPosition _4, _8;
 	zend_bool isRoute;
-	zval *module_param = NULL, *namespaceName_param = NULL, *controller_param = NULL, *action_param = NULL, *annotation, *name, *actionName, *routePrefix, *paths = NULL, *value, *uri = NULL, *route, *methods, *converts = NULL, *param = NULL, *convert = NULL, *conversorParam = NULL, *routeName, *_0, _1, *_2, *_3 = NULL, **_6, **_10;
+	zval *module_param = NULL, *namespaceName_param = NULL, *controller_param = NULL, *action_param = NULL, *annotation, *name, *actionName, *routePrefix, *paths = NULL, *value, *uri = NULL, *route, *methods, *converts = NULL, *param = NULL, *convert = NULL, *conversorParam = NULL, *routeName, *_0, *_1, _2, *_3 = NULL, **_6, **_10;
 	zval *module = NULL, *namespaceName = NULL, *controller = NULL, *action = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -417,12 +417,12 @@ PHP_METHOD(Phalcon_Mvc_Router_Annotations, processActionAnnotation) {
 	}
 	if ((isRoute == 1)) {
 		ZEPHIR_INIT_VAR(actionName);
-		_0 = zephir_fetch_nproperty_this(this_ptr, SL("_actionSuffix"), PH_NOISY_CC);
-		ZEPHIR_SINIT_VAR(_1);
-		ZVAL_STRING(&_1, "", 0);
-		ZEPHIR_INIT_VAR(_2);
-		zephir_call_func_p3(_2, "str_replace", _0, &_1, action);
-		zephir_fast_strtolower(actionName, _2);
+		ZEPHIR_INIT_VAR(_0);
+		_1 = zephir_fetch_nproperty_this(this_ptr, SL("_actionSuffix"), PH_NOISY_CC);
+		ZEPHIR_SINIT_VAR(_2);
+		ZVAL_STRING(&_2, "", 0);
+		zephir_fast_str_replace(_0, _1, &_2, action);
+		zephir_fast_strtolower(actionName, _0);
 		routePrefix = zephir_fetch_nproperty_this(this_ptr, SL("_routePrefix"), PH_NOISY_CC);
 		ZEPHIR_INIT_VAR(_3);
 		ZVAL_STRING(_3, "paths", 1);

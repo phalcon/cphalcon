@@ -19,6 +19,7 @@
 #include "kernel/operators.h"
 #include "kernel/exception.h"
 #include "kernel/hash.h"
+#include "kernel/string.h"
 #include "kernel/array.h"
 
 
@@ -219,7 +220,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Apc, queryKeys) {
 	HashTable *_3;
 	HashPosition _2;
 	zend_class_entry *_0;
-	zval *prefix_param = NULL, *prefixPattern, *apc, *keys, *key = NULL, *item = NULL, *_1, **_4, _5 = zval_used_for_init, *_6 = NULL;
+	zval *prefix_param = NULL, *prefixPattern, *apc, *keys, *key = NULL, *item = NULL, *_1, **_4, *_5 = NULL;
 	zval *prefix = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -251,11 +252,9 @@ PHP_METHOD(Phalcon_Cache_Backend_Apc, queryKeys) {
 	) {
 		ZEPHIR_GET_HMKEY(key, _3, _2);
 		ZEPHIR_GET_HVALUE(item, _4);
-		ZEPHIR_SINIT_NVAR(_5);
-		ZVAL_LONG(&_5, 5);
-		ZEPHIR_INIT_NVAR(_6);
-		zephir_call_func_p2(_6, "substr", key, &_5);
-		zephir_array_append(&keys, _6, PH_SEPARATE);
+		ZEPHIR_INIT_NVAR(_5);
+		zephir_substr(_5, key, 5 , 0 );
+		zephir_array_append(&keys, _5, PH_SEPARATE);
 	}
 	RETURN_CCTOR(keys);
 

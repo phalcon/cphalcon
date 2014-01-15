@@ -277,7 +277,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, get) {
 		_1 = zephir_fetch_nproperty_this(this_ptr, SL("_rollbackPendent"), PH_NOISY_CC);
 		if (zephir_is_true(_1)) {
 			ZEPHIR_INIT_VAR(_2);
-			array_init(_2);
+			array_init_size(_2, 3);
 			zephir_array_fast_append(_2, this_ptr);
 			ZEPHIR_INIT_VAR(_3);
 			ZVAL_STRING(_3, "rollbackPendent", 1);
@@ -525,6 +525,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, collectTransactions) {
 	HashPosition _0;
 	zval *transactions, *managedTransaction = NULL, **_2;
 
+	ZEPHIR_MM_GROW();
 
 	transactions = zephir_fetch_nproperty_this(this_ptr, SL("_transactions"), PH_NOISY_CC);
 	if (zephir_fast_count_int(transactions TSRMLS_CC)) {
@@ -537,6 +538,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, collectTransactions) {
 		}
 		zephir_update_property_this(this_ptr, SL("_transactions"), ZEPHIR_GLOBAL(global_null) TSRMLS_CC);
 	}
+	ZEPHIR_MM_RESTORE();
 
 }
 

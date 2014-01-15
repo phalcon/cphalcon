@@ -581,7 +581,7 @@ PHP_METHOD(Phalcon_Image_Adapter, watermark) {
 PHP_METHOD(Phalcon_Image_Adapter, text) {
 
 	int offset_x, offset_y, opacity, size;
-	zval *text_param = NULL, *offset_x_param = NULL, *offset_y_param = NULL, *opacity_param = NULL, *color_param = NULL, *size_param = NULL, *fontfile_param = NULL, *colors, _0 = zval_used_for_init, _1 = zval_used_for_init, *_2, *_3 = NULL, *_4, *_5, *_6, *_7, *_8, *_9, *_10;
+	zval *text_param = NULL, *offset_x_param = NULL, *offset_y_param = NULL, *opacity_param = NULL, *color_param = NULL, *size_param = NULL, *fontfile_param = NULL, *colors, *_0, *_1 = NULL, _2 = zval_used_for_init, _3, *_4, *_5, *_6, *_7, *_8, *_9, *_10;
 	zval *text = NULL, *color = NULL, *fontfile = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -621,36 +621,30 @@ PHP_METHOD(Phalcon_Image_Adapter, text) {
 			opacity = 100;
 		}
 	}
-	ZEPHIR_SINIT_VAR(_0);
-	ZVAL_LONG(&_0, 0);
-	ZEPHIR_SINIT_VAR(_1);
-	ZVAL_LONG(&_1, 1);
-	ZEPHIR_INIT_VAR(_2);
-	zephir_call_func_p3(_2, "substr", color, &_0, &_1);
-	if (((zephir_fast_strlen_ev(color) > 1) && ZEPHIR_IS_STRING(_2, "#"))) {
-		ZEPHIR_SINIT_NVAR(_0);
-		ZVAL_LONG(&_0, 1);
-		ZEPHIR_INIT_VAR(_3);
-		zephir_call_func_p2(_3, "substr", color, &_0);
-		ZEPHIR_CPY_WRT(color, _3);
+	ZEPHIR_INIT_VAR(_0);
+	zephir_substr(_0, color, 0 , 1 );
+	if (((zephir_fast_strlen_ev(color) > 1) && ZEPHIR_IS_STRING(_0, "#"))) {
+		ZEPHIR_INIT_VAR(_1);
+		zephir_substr(_1, color, 1 , 0 );
+		ZEPHIR_CPY_WRT(color, _1);
 	}
 	if ((zephir_fast_strlen_ev(color) == 3)) {
-		ZEPHIR_SINIT_NVAR(_0);
-		ZVAL_STRING(&_0, "/./", 0);
-		ZEPHIR_SINIT_NVAR(_1);
-		ZVAL_STRING(&_1, "$0$0", 0);
-		ZEPHIR_INIT_NVAR(_3);
-		zephir_call_func_p3(_3, "preg_replace", &_0, &_1, color);
-		ZEPHIR_CPY_WRT(color, _3);
+		ZEPHIR_SINIT_VAR(_2);
+		ZVAL_STRING(&_2, "/./", 0);
+		ZEPHIR_SINIT_VAR(_3);
+		ZVAL_STRING(&_3, "$0$0", 0);
+		ZEPHIR_INIT_NVAR(_1);
+		zephir_call_func_p3(_1, "preg_replace", &_2, &_3, color);
+		ZEPHIR_CPY_WRT(color, _1);
 	}
-	ZEPHIR_SINIT_NVAR(_0);
-	ZVAL_LONG(&_0, 2);
-	ZEPHIR_INIT_NVAR(_3);
-	zephir_call_func_p2(_3, "str_split", color, &_0);
-	ZEPHIR_SINIT_NVAR(_0);
-	ZVAL_STRING(&_0, "hexdec", 0);
+	ZEPHIR_SINIT_NVAR(_2);
+	ZVAL_LONG(&_2, 2);
+	ZEPHIR_INIT_NVAR(_1);
+	zephir_call_func_p2(_1, "str_split", color, &_2);
+	ZEPHIR_SINIT_NVAR(_2);
+	ZVAL_STRING(&_2, "hexdec", 0);
 	ZEPHIR_INIT_VAR(colors);
-	zephir_call_func_p2(colors, "array_map", &_0, _3);
+	zephir_call_func_p2(colors, "array_map", &_2, _1);
 	zephir_array_fetch_long(&_4, colors, 0, PH_NOISY | PH_READONLY TSRMLS_CC);
 	zephir_array_fetch_long(&_5, colors, 1, PH_NOISY | PH_READONLY TSRMLS_CC);
 	zephir_array_fetch_long(&_6, colors, 2, PH_NOISY | PH_READONLY TSRMLS_CC);
@@ -697,7 +691,7 @@ PHP_METHOD(Phalcon_Image_Adapter, mask) {
 PHP_METHOD(Phalcon_Image_Adapter, background) {
 
 	int opacity;
-	zval *color_param = NULL, *opacity_param = NULL, *colors, _0 = zval_used_for_init, _1 = zval_used_for_init, *_2, *_3 = NULL, *_4, *_5, *_6, *_7;
+	zval *color_param = NULL, *opacity_param = NULL, *colors, *_0, *_1 = NULL, _2 = zval_used_for_init, _3, *_4, *_5, *_6, *_7;
 	zval *color = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -711,36 +705,30 @@ PHP_METHOD(Phalcon_Image_Adapter, background) {
 	}
 
 
-	ZEPHIR_SINIT_VAR(_0);
-	ZVAL_LONG(&_0, 0);
-	ZEPHIR_SINIT_VAR(_1);
-	ZVAL_LONG(&_1, 1);
-	ZEPHIR_INIT_VAR(_2);
-	zephir_call_func_p3(_2, "substr", color, &_0, &_1);
-	if (((zephir_fast_strlen_ev(color) > 1) && ZEPHIR_IS_STRING(_2, "#"))) {
-		ZEPHIR_SINIT_NVAR(_0);
-		ZVAL_LONG(&_0, 1);
-		ZEPHIR_INIT_VAR(_3);
-		zephir_call_func_p2(_3, "substr", color, &_0);
-		ZEPHIR_CPY_WRT(color, _3);
+	ZEPHIR_INIT_VAR(_0);
+	zephir_substr(_0, color, 0 , 1 );
+	if (((zephir_fast_strlen_ev(color) > 1) && ZEPHIR_IS_STRING(_0, "#"))) {
+		ZEPHIR_INIT_VAR(_1);
+		zephir_substr(_1, color, 1 , 0 );
+		ZEPHIR_CPY_WRT(color, _1);
 	}
 	if ((zephir_fast_strlen_ev(color) == 3)) {
-		ZEPHIR_SINIT_NVAR(_0);
-		ZVAL_STRING(&_0, "/./", 0);
-		ZEPHIR_SINIT_NVAR(_1);
-		ZVAL_STRING(&_1, "$0$0", 0);
-		ZEPHIR_INIT_NVAR(_3);
-		zephir_call_func_p3(_3, "preg_replace", &_0, &_1, color);
-		ZEPHIR_CPY_WRT(color, _3);
+		ZEPHIR_SINIT_VAR(_2);
+		ZVAL_STRING(&_2, "/./", 0);
+		ZEPHIR_SINIT_VAR(_3);
+		ZVAL_STRING(&_3, "$0$0", 0);
+		ZEPHIR_INIT_NVAR(_1);
+		zephir_call_func_p3(_1, "preg_replace", &_2, &_3, color);
+		ZEPHIR_CPY_WRT(color, _1);
 	}
-	ZEPHIR_SINIT_NVAR(_0);
-	ZVAL_LONG(&_0, 2);
-	ZEPHIR_INIT_NVAR(_3);
-	zephir_call_func_p2(_3, "str_split", color, &_0);
-	ZEPHIR_SINIT_NVAR(_0);
-	ZVAL_STRING(&_0, "hexdec", 0);
+	ZEPHIR_SINIT_NVAR(_2);
+	ZVAL_LONG(&_2, 2);
+	ZEPHIR_INIT_NVAR(_1);
+	zephir_call_func_p2(_1, "str_split", color, &_2);
+	ZEPHIR_SINIT_NVAR(_2);
+	ZVAL_STRING(&_2, "hexdec", 0);
 	ZEPHIR_INIT_VAR(colors);
-	zephir_call_func_p2(colors, "array_map", &_0, _3);
+	zephir_call_func_p2(colors, "array_map", &_2, _1);
 	zephir_array_fetch_long(&_4, colors, 0, PH_NOISY | PH_READONLY TSRMLS_CC);
 	zephir_array_fetch_long(&_5, colors, 1, PH_NOISY | PH_READONLY TSRMLS_CC);
 	zephir_array_fetch_long(&_6, colors, 2, PH_NOISY | PH_READONLY TSRMLS_CC);

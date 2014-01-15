@@ -18,6 +18,7 @@
 #include "kernel/concat.h"
 #include "kernel/fcall.h"
 #include "kernel/exception.h"
+#include "kernel/file.h"
 
 
 /*
@@ -421,7 +422,7 @@ PHP_METHOD(Phalcon_Assets_Resource, getContent) {
 		}
 	}
 	ZEPHIR_INIT_VAR(content);
-	zephir_call_func_p1(content, "file_get_contents", completePath);
+	zephir_file_get_contents(content, completePath TSRMLS_CC);
 	if (ZEPHIR_IS_FALSE(content)) {
 		ZEPHIR_INIT_NVAR(_1);
 		object_init_ex(_1, phalcon_assets_exception_ce);

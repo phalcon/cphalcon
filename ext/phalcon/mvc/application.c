@@ -359,7 +359,7 @@ PHP_METHOD(Phalcon_Mvc_Application, handle) {
 		} else {
 			if (zephir_is_instance_of(module, SL("Closure") TSRMLS_CC)) {
 				ZEPHIR_INIT_NVAR(_4);
-				array_init(_4);
+				array_init_size(_4, 2);
 				zephir_array_fast_append(_4, dependencyInjector);
 				ZEPHIR_INIT_BNVAR(moduleObject);
 				zephir_call_func_p2(moduleObject, "call_user_func_array", module, _4);

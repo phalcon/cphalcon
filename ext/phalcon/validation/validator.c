@@ -70,7 +70,7 @@ PHP_METHOD(Phalcon_Validation_Validator, __construct) {
 
 	if ((Z_TYPE_P(options) != IS_ARRAY)) {
 		if ((Z_TYPE_P(options) != IS_NULL)) {
-			ZEPHIR_THROW_EXCEPTION_STRW(phalcon_validation_exception_ce, "The attribute must be a string");
+			ZEPHIR_THROW_EXCEPTION_STRW(phalcon_validation_exception_ce, "Options must be an array");
 			return;
 		}
 	} else {

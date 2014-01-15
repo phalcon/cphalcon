@@ -14,6 +14,8 @@
 #include "kernel/main.h"
 #include "kernel/fcall.h"
 #include "kernel/memory.h"
+#include "kernel/string.h"
+#include "kernel/file.h"
 #include "ext/spl/spl_exceptions.h"
 #include "kernel/exception.h"
 
@@ -67,10 +69,10 @@ PHP_METHOD(Phalcon_Config_Adapter_Json, __construct) {
 
 
 	ZEPHIR_INIT_VAR(_0);
-	zephir_call_func_p1(_0, "file_get_contents", filePath);
 	ZEPHIR_INIT_VAR(_1);
-	zephir_call_func_p2(_1, "json_decode", _0, ZEPHIR_GLOBAL(global_true));
-	zephir_call_parent_p1_noret(this_ptr, phalcon_config_adapter_json_ce, "__construct", _1);
+	zephir_file_get_contents(_1, filePath TSRMLS_CC);
+	zephir_json_decode(_0, &(_0), _1, Z_LVAL_P(ZEPHIR_GLOBAL(global_true))  TSRMLS_CC);
+	zephir_call_parent_p1_noret(this_ptr, phalcon_config_adapter_json_ce, "__construct", _0);
 	ZEPHIR_MM_RESTORE();
 
 }

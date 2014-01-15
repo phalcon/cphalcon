@@ -38,9 +38,9 @@ void zephir_fast_strtolower(zval *return_value, zval *str);
 void zephir_strtolower_inplace(zval *s);
 void zephir_fast_join(zval *result, zval *glue, zval *pieces TSRMLS_DC);
 void zephir_fast_join_str(zval *result, char *glue, unsigned int glue_length, zval *pieces TSRMLS_DC);
-void zephir_fast_explode(zval *result, zval *delimiter, zval *str);
-void zephir_fast_explode_str(zval *result, const char *delimiter, int delimiter_length, zval *str);
-void zephir_fast_strpos(zval *return_value, const zval *haystack, const zval *needle);
+void zephir_fast_explode(zval *result, zval *delimiter, zval *str, long limit TSRMLS_DC);
+void zephir_fast_explode_str(zval *result, const char *delimiter, int delimiter_length, zval *str, long limit TSRMLS_DC);
+void zephir_fast_strpos(zval *return_value, const zval *haystack, const zval *needle, unsigned int offset);
 void zephir_fast_strpos_str(zval *return_value, const zval *haystack, char *needle, unsigned int needle_length);
 void zephir_fast_stripos_str(zval *return_value, zval *haystack, char *needle, unsigned int needle_length);
 void zephir_fast_str_replace(zval *return_value, zval *search, zval *replace, zval *subject);
@@ -72,7 +72,7 @@ void zephir_unique_key(zval *return_value, zval *prefix, zval *value TSRMLS_DC);
 int zephir_spprintf(char **message, int max_len, char *format, ...);
 
 /* Substr */
-void zephir_substr(zval *return_value, zval *str, unsigned long from, unsigned long length);
+void zephir_substr(zval *return_value, zval *str, long from, long length);
 
 /** EOL */
 zval *zephir_eol(int eol TSRMLS_DC);

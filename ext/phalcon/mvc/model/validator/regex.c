@@ -16,6 +16,7 @@
 #include "kernel/memory.h"
 #include "kernel/exception.h"
 #include "kernel/operators.h"
+#include "kernel/string.h"
 #include "kernel/array.h"
 
 
@@ -120,9 +121,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Regex, validate) {
 	ZVAL_STRING(_1, "pattern", 1);
 	ZEPHIR_INIT_VAR(pattern);
 	zephir_call_method_p1(pattern, this_ptr, "getoption", _1);
-	Z_SET_ISREF_P(matches);
 	ZEPHIR_INIT_VAR(matchPattern);
-	zephir_call_func_p3(matchPattern, "preg_match", pattern, value, matches);
+	zephir_preg_match(matchPattern, &(matchPattern), pattern, value, matches TSRMLS_CC);
 	if (zephir_is_true(matchPattern)) {
 		zephir_array_fetch_long(&matchZero, matches, 0, PH_NOISY | PH_READONLY TSRMLS_CC);
 		failed = (!ZEPHIR_IS_EQUAL(matchZero, value));
@@ -135,7 +135,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Regex, validate) {
 		ZEPHIR_INIT_VAR(message);
 		zephir_call_method_p1(message, this_ptr, "getoption", _1);
 		ZEPHIR_INIT_VAR(replacePairs);
-		array_init(replacePairs);
+		array_init_size(replacePairs, 2);
 		zephir_array_update_string(&replacePairs, SL(":field"), &field, PH_COPY | PH_SEPARATE);
 		if (ZEPHIR_IS_EMPTY(message)) {
 			ZEPHIR_INIT_NVAR(message);

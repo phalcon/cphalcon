@@ -162,7 +162,7 @@ PHP_METHOD(Phalcon_Cache_Backend_File, get) {
 		modifiedTime = zephir_get_intval(_1);
 		if (!(((zephir_get_numberval(now) - ttl) > modifiedTime))) {
 			ZEPHIR_INIT_VAR(cachedContent);
-			zephir_call_func_p1(cachedContent, "file_get_contents", cacheFile);
+			zephir_file_get_contents(cachedContent, cacheFile TSRMLS_CC);
 			if (!(zephir_is_true(cachedContent))) {
 				ZEPHIR_INIT_NVAR(_1);
 				object_init_ex(_1, phalcon_cache_exception_ce);
@@ -467,7 +467,7 @@ PHP_METHOD(Phalcon_Cache_Backend_File, increment) {
 		zephir_call_func_p1(_5, "filemtime", cacheFile);
 		if (ZEPHIR_LT(_4, _5)) {
 			ZEPHIR_INIT_VAR(cachedContent);
-			zephir_call_func_p1(cachedContent, "file_get_contents", cacheFile);
+			zephir_file_get_contents(cachedContent, cacheFile TSRMLS_CC);
 			if (!(zephir_is_true(cachedContent))) {
 				ZEPHIR_INIT_VAR(_6);
 				object_init_ex(_6, phalcon_cache_exception_ce);
@@ -547,7 +547,7 @@ PHP_METHOD(Phalcon_Cache_Backend_File, decrement) {
 		zephir_call_func_p1(_6, "filemtime", cacheFile);
 		if (ZEPHIR_LT(_5, _6)) {
 			ZEPHIR_INIT_VAR(cachedContent);
-			zephir_call_func_p1(cachedContent, "file_get_contents", cacheFile);
+			zephir_file_get_contents(cachedContent, cacheFile TSRMLS_CC);
 			if (!(zephir_is_true(cachedContent))) {
 				ZEPHIR_INIT_VAR(_7);
 				object_init_ex(_7, phalcon_cache_exception_ce);

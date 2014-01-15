@@ -19,6 +19,7 @@
 #include "kernel/concat.h"
 #include "kernel/operators.h"
 #include "kernel/exception.h"
+#include "kernel/string.h"
 #include "kernel/hash.h"
 
 
@@ -287,7 +288,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Xcache, queryKeys) {
 
 	HashTable *_1;
 	HashPosition _0;
-	zval *prefix = NULL, *options, *prefixed, *specialKey, *keys, *retval, *key = NULL, *realKey = NULL, **_2, _3 = zval_used_for_init, _4 = zval_used_for_init;
+	zval *prefix = NULL, *options, *prefixed, *specialKey, *keys, *retval, *key = NULL, *realKey = NULL, **_2;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 1, &prefix);
@@ -320,12 +321,8 @@ PHP_METHOD(Phalcon_Cache_Backend_Xcache, queryKeys) {
 			; zend_hash_move_forward_ex(_1, &_0)
 		) {
 			ZEPHIR_GET_HVALUE(key, _2);
-			ZEPHIR_SINIT_NVAR(_3);
-			ZVAL_LONG(&_3, 5);
-			ZEPHIR_SINIT_NVAR(_4);
-			ZVAL_LONG(&_4, 0);
 			ZEPHIR_INIT_NVAR(realKey);
-			zephir_call_func_p3(realKey, "substr", key, &_3, &_4);
+			zephir_substr(realKey, key, 5 , 0 );
 			zephir_array_append(&retval, realKey, PH_SEPARATE);
 		}
 	}

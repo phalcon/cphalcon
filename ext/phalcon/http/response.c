@@ -18,6 +18,7 @@
 #include "kernel/memory.h"
 #include "kernel/exception.h"
 #include "kernel/concat.h"
+#include "kernel/string.h"
 
 
 /*
@@ -588,7 +589,7 @@ PHP_METHOD(Phalcon_Http_Response, setJsonContent) {
 
 
 	ZEPHIR_INIT_VAR(_0);
-	zephir_call_func_p2(_0, "json_encode", content, jsonOptions);
+	zephir_json_encode(_0, &(_0), content, Z_LVAL_P(jsonOptions)  TSRMLS_CC);
 	zephir_update_property_this(this_ptr, SL("_content"), _0 TSRMLS_CC);
 	RETURN_THIS();
 

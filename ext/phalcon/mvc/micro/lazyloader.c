@@ -115,7 +115,7 @@ PHP_METHOD(Phalcon_Mvc_Micro_LazyLoader, __call) {
 		zephir_update_property_this(this_ptr, SL("_handler"), handler TSRMLS_CC);
 	}
 	ZEPHIR_INIT_VAR(_1);
-	array_init(_1);
+	array_init_size(_1, 3);
 	zephir_array_fast_append(_1, handler);
 	zephir_array_fast_append(_1, method);
 	zephir_call_func_p2(return_value, "call_user_func_array", _1, arguments);

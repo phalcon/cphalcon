@@ -19,6 +19,7 @@
 #include "kernel/fcall.h"
 #include "kernel/operators.h"
 #include "kernel/file.h"
+#include "kernel/variables.h"
 #include "kernel/exception.h"
 #include "ext/spl/spl_exceptions.h"
 
@@ -150,7 +151,7 @@ PHP_METHOD(Phalcon_Annotations_Adapter_Files, write) {
 	ZEPHIR_CONCAT_VVS(path, _0, _2, ".php");
 	ZEPHIR_INIT_BNVAR(_1);
 	ZEPHIR_INIT_VAR(_3);
-	zephir_call_func_p2(_3, "var_export", data, ZEPHIR_GLOBAL(global_true));
+	zephir_var_export_ex(_3, &(data) TSRMLS_CC);
 	ZEPHIR_INIT_VAR(_4);
 	ZEPHIR_CONCAT_SVS(_4, "<?php return ", _3, "; ");
 	zephir_file_put_contents(_1, path, _4 TSRMLS_CC);
