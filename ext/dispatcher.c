@@ -528,7 +528,7 @@ static int phalcon_dispatcher_fire_event(zval *return_value, zval *mgr, const ch
 
 			/* source == this_ptr */
 			assert(Z_TYPE_P(source) == IS_OBJECT && instanceof_function_ex(Z_OBJCE_P(source), phalcon_dispatcherinterface_ce, 1 TSRMLS_CC));
-			if (Z_OBJCE_P(source)->type == ZEND_INTERNAL_CLASS) {
+			if (is_phalcon_class(Z_OBJCE_P(source))) {
 				/* Shortcut, save one method call */
 				ZVAL_STRING(event_name, "dispatch:beforeException", 0);
 				phalcon_call_method_params(NULL, NULL, mgr, SL("fire"), zend_inline_hash_func(SS("fire")) TSRMLS_CC, 3, event_name, source, exception);

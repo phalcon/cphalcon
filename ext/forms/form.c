@@ -303,7 +303,7 @@ static int phalcon_forms_form_count_elements(zval *object, long int *count TSRML
 	int res;
 	zval *cnt = NULL;
 
-	if (Z_OBJCE_P(object)->type == ZEND_INTERNAL_CLASS) {
+	if (is_phalcon_class(Z_OBJCE_P(object))) {
 		zval *elements = phalcon_fetch_nproperty_this(object, SL("_elements"), PH_NOISY_CC);
 		*count = (Z_TYPE_P(elements) == IS_ARRAY) ? zend_hash_num_elements(Z_ARRVAL_P(elements)) : 0;
 		return SUCCESS;
