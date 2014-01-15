@@ -337,7 +337,7 @@ PHP_METHOD(Phalcon_Validation_Validator_File, validate) {
 			ZEPHIR_INIT_NVAR(_14);
 			ZVAL_STRING(_14, "minResolution", 1);
 			zephir_call_method_p1(_7, this_ptr, "getoption", _14);
-			zephir_fast_explode_str(minResolution, SL("x"), _7, 9223372036854775807  TSRMLS_CC);
+			zephir_fast_explode_str(minResolution, SL("x"), _7, LONG_MAX TSRMLS_CC);
 			ZEPHIR_OBS_VAR(minWidth);
 			zephir_array_fetch_long(&minWidth, minResolution, 0, PH_NOISY TSRMLS_CC);
 			ZEPHIR_OBS_VAR(minHeight);
@@ -387,7 +387,7 @@ PHP_METHOD(Phalcon_Validation_Validator_File, validate) {
 			ZEPHIR_INIT_NVAR(_18);
 			ZVAL_STRING(_18, "maxResolution", 1);
 			zephir_call_method_p1(_17, this_ptr, "getoption", _18);
-			zephir_fast_explode_str(maxResolution, SL("x"), _17, 9223372036854775807  TSRMLS_CC);
+			zephir_fast_explode_str(maxResolution, SL("x"), _17, LONG_MAX TSRMLS_CC);
 			zephir_array_fetch_long(&maxWidth, maxResolution, 0, PH_NOISY | PH_READONLY TSRMLS_CC);
 			zephir_array_fetch_long(&maxHeight, maxResolution, 1, PH_NOISY | PH_READONLY TSRMLS_CC);
 			if ((ZEPHIR_GT(width, maxWidth) || ZEPHIR_GT(height, maxHeight))) {

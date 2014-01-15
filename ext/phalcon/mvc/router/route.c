@@ -270,7 +270,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Route, extractNamedParams) {
 							ZEPHIR_SINIT_NVAR(_2);
 							ZVAL_LONG(&_2, (cursor - marker));
 							ZEPHIR_INIT_NVAR(_3);
-							zephir_substr(_3, pattern, Z_LVAL_P(&_1) , Z_LVAL_P(&_2) );
+							zephir_substr(_3, pattern, zephir_get_intval(&_1) , zephir_get_intval(&_2) );
 							zephir_get_strval(_4, _3);
 							ZEPHIR_CPY_WRT(item, _4);
 							for (_5 = 0; _5 < Z_STRLEN_P(item); _5++) {
@@ -288,13 +288,13 @@ PHP_METHOD(Phalcon_Mvc_Router_Route, extractNamedParams) {
 										ZEPHIR_SINIT_NVAR(_6);
 										ZVAL_LONG(&_6, cursorVar);
 										ZEPHIR_INIT_NVAR(_7);
-										zephir_substr(_7, item, 0 , Z_LVAL_P(&_6) );
+										zephir_substr(_7, item, 0 , zephir_get_intval(&_6) );
 										zephir_get_strval(_8, _7);
 										ZEPHIR_CPY_WRT(variable, _8);
 										ZEPHIR_SINIT_NVAR(_9);
 										ZVAL_LONG(&_9, (cursorVar + 1));
 										ZEPHIR_INIT_NVAR(_10);
-										zephir_substr(_10, item, Z_LVAL_P(&_9) , 0 );
+										zephir_substr(_10, item, zephir_get_intval(&_9) , 0 );
 										zephir_get_strval(_11, _10);
 										ZEPHIR_CPY_WRT(regexp, _11);
 										break;
@@ -412,7 +412,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Route, reConfigure) {
 			ZEPHIR_INIT_VAR(actionName);
 			ZVAL_NULL(actionName);
 			ZEPHIR_INIT_VAR(parts);
-			zephir_fast_explode_str(parts, SL("::"), paths, 9223372036854775807  TSRMLS_CC);
+			zephir_fast_explode_str(parts, SL("::"), paths, LONG_MAX TSRMLS_CC);
 			do {
 				_0 = zephir_fast_count_int(parts TSRMLS_CC);
 				if ((_0 == 3)) {

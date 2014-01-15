@@ -206,7 +206,7 @@ PHP_METHOD(Phalcon_Mvc_Router, getRewriteUri) {
 		zephir_get_global(&_SERVER, SS("_SERVER") TSRMLS_CC);
 		if (zephir_array_isset_string_fetch(&url, _SERVER, SS("REQUEST_URI"), 0 TSRMLS_CC)) {
 			ZEPHIR_INIT_VAR(urlParts);
-			zephir_fast_explode_str(urlParts, SL("?"), url, 9223372036854775807  TSRMLS_CC);
+			zephir_fast_explode_str(urlParts, SL("?"), url, LONG_MAX TSRMLS_CC);
 			zephir_array_fetch_long(&realUri, urlParts, 0, PH_NOISY | PH_READONLY TSRMLS_CC);
 			if (!(ZEPHIR_IS_EMPTY(realUri))) {
 				RETURN_CTOR(realUri);
@@ -690,7 +690,7 @@ PHP_METHOD(Phalcon_Mvc_Router, handle) {
 			zephir_substr(strParams, paramsStr, 1 , 0 );
 			if (zephir_is_true(strParams)) {
 				ZEPHIR_INIT_BNVAR(params);
-				zephir_fast_explode_str(params, SL("/"), strParams, 9223372036854775807  TSRMLS_CC);
+				zephir_fast_explode_str(params, SL("/"), strParams, LONG_MAX TSRMLS_CC);
 			}
 			zephir_array_unset_string(&parts, SS("params"), PH_SEPARATE);
 		}

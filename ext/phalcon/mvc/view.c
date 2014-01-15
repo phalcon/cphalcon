@@ -1168,7 +1168,7 @@ PHP_METHOD(Phalcon_Mvc_View, pick) {
 		ZVAL_NULL(layout);
 		if (zephir_memnstr_str(renderView, SL("/"), "phalcon/mvc/view.zep", 973)) {
 			ZEPHIR_INIT_VAR(parts);
-			zephir_fast_explode_str(parts, SL("/"), renderView, 9223372036854775807  TSRMLS_CC);
+			zephir_fast_explode_str(parts, SL("/"), renderView, LONG_MAX TSRMLS_CC);
 			ZEPHIR_OBS_NVAR(layout);
 			zephir_array_fetch_long(&layout, parts, 0, PH_NOISY TSRMLS_CC);
 		}

@@ -172,7 +172,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, render) {
 		) {
 			ZEPHIR_GET_HMKEY(key, _1, _0);
 			ZEPHIR_GET_HVALUE(value, _2);
-			if (phalcon_set_symbol(key, value TSRMLS_CC) == FAILURE){
+			if (zephir_set_symbol(key, value TSRMLS_CC) == FAILURE){
 				return;
 			}
 		}
@@ -404,10 +404,10 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, slice) {
 		RETURN_MM();
 	}
 	if ((Z_TYPE_P(length) != IS_NULL)) {
-		zephir_substr(return_value, value, Z_LVAL_P(start) , Z_LVAL_P(length) );
+		zephir_substr(return_value, value, zephir_get_intval(start) , zephir_get_intval(length) );
 		RETURN_MM();
 	}
-	zephir_substr(return_value, value, Z_LVAL_P(start) , 0 );
+	zephir_substr(return_value, value, zephir_get_intval(start) , 0 );
 	RETURN_MM();
 
 }

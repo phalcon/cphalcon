@@ -447,7 +447,7 @@ PHP_METHOD(Phalcon_Events_Manager, fire) {
 		return;
 	}
 	ZEPHIR_INIT_VAR(eventParts);
-	zephir_fast_explode_str(eventParts, SL(":"), eventType, 9223372036854775807  TSRMLS_CC);
+	zephir_fast_explode_str(eventParts, SL(":"), eventType, LONG_MAX TSRMLS_CC);
 	zephir_array_fetch_long(&type, eventParts, 0, PH_NOISY | PH_READONLY TSRMLS_CC);
 	zephir_array_fetch_long(&eventName, eventParts, 1, PH_NOISY | PH_READONLY TSRMLS_CC);
 	ZEPHIR_INIT_VAR(status);

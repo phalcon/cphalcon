@@ -336,7 +336,7 @@ PHP_METHOD(Phalcon_Queue_Beanstalk, readStatus) {
 
 	ZEPHIR_INIT_VAR(_0);
 	zephir_call_method(_0, this_ptr, "read");
-	zephir_fast_explode_str(return_value, SL(" "), _0, 9223372036854775807  TSRMLS_CC);
+	zephir_fast_explode_str(return_value, SL(" "), _0, LONG_MAX TSRMLS_CC);
 	RETURN_MM();
 
 }

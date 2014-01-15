@@ -97,7 +97,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Php, render) {
 		) {
 			ZEPHIR_GET_HMKEY(key, _1, _0);
 			ZEPHIR_GET_HVALUE(value, _2);
-			if (phalcon_set_symbol(key, value TSRMLS_CC) == FAILURE){
+			if (zephir_set_symbol(key, value TSRMLS_CC) == FAILURE){
 				return;
 			}
 		}

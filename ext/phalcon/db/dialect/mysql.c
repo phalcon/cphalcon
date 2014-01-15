@@ -679,7 +679,7 @@ PHP_METHOD(Phalcon_Db_Dialect_MySQL, _getTableOptions) {
 		if (zephir_array_isset_string_fetch(&tableCollation, options, SS("TABLE_COLLATION"), 1 TSRMLS_CC)) {
 			if (zephir_is_true(tableCollation)) {
 				ZEPHIR_INIT_VAR(collationParts);
-				zephir_fast_explode_str(collationParts, SL("_"), tableCollation, 9223372036854775807  TSRMLS_CC);
+				zephir_fast_explode_str(collationParts, SL("_"), tableCollation, LONG_MAX TSRMLS_CC);
 				zephir_array_fetch_long(&_1, collationParts, 0, PH_NOISY | PH_READONLY TSRMLS_CC);
 				ZEPHIR_INIT_LNVAR(_0);
 				ZEPHIR_CONCAT_SV(_0, "DEFAULT CHARSET=", _1);

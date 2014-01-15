@@ -747,7 +747,7 @@ PHP_METHOD(Phalcon_Http_Request, getClientAddress) {
 	if ((Z_TYPE_P(address) == IS_STRING)) {
 		if (zephir_memnstr_str(address, SL(","), "phalcon/http/request.zep", 491)) {
 			ZEPHIR_INIT_VAR(_0);
-			zephir_fast_explode_str(_0, SL(","), address, 9223372036854775807  TSRMLS_CC);
+			zephir_fast_explode_str(_0, SL(","), address, LONG_MAX TSRMLS_CC);
 			zephir_array_fetch_long(&_1, _0, 0, PH_NOISY | PH_READONLY TSRMLS_CC);
 			RETURN_CTOR(_1);
 		}
@@ -1166,7 +1166,7 @@ PHP_METHOD(Phalcon_Http_Request, _getQualityHeader) {
 	) {
 		ZEPHIR_GET_HVALUE(part, _5);
 		ZEPHIR_INIT_NVAR(headerParts);
-		zephir_fast_explode_str(headerParts, SL(";"), part, 9223372036854775807  TSRMLS_CC);
+		zephir_fast_explode_str(headerParts, SL(";"), part, LONG_MAX TSRMLS_CC);
 		if (zephir_array_isset_long_fetch(&qualityPart, headerParts, 1, 1 TSRMLS_CC)) {
 			ZEPHIR_INIT_NVAR(_6);
 			zephir_substr(_6, qualityPart, 2 , 0 );
