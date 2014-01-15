@@ -524,7 +524,6 @@ static PHP_MINIT_FUNCTION(phalcon){
 
 static PHP_MSHUTDOWN_FUNCTION(phalcon){
 
-	assert(PHALCON_GLOBAL(function_cache) == NULL);
 	assert(PHALCON_GLOBAL(orm).parser_cache == NULL);
 	assert(PHALCON_GLOBAL(orm).ast_cache == NULL);
 
@@ -546,12 +545,6 @@ static PHP_RSHUTDOWN_FUNCTION(phalcon){
 
 	if (PHALCON_GLOBAL(start_memory) != NULL) {
 		phalcon_clean_restore_stack(TSRMLS_C);
-	}
-
-	if (PHALCON_GLOBAL(function_cache) != NULL) {
-		zend_hash_destroy(PHALCON_GLOBAL(function_cache));
-		FREE_HASHTABLE(PHALCON_GLOBAL(function_cache));
-		PHALCON_GLOBAL(function_cache) = NULL;
 	}
 
 	phalcon_orm_destroy_cache(TSRMLS_C);
@@ -593,6 +586,9 @@ static PHP_GINIT_FUNCTION(phalcon)
 
 	phalcon_globals->start_memory = start;
 
+	phalcon_globals->function_cache = pemalloc(sizeof(HashTable), 1);
+	zend_hash_init(phalcon_globals->function_cache, 128, NULL, NULL, 1);
+
 	/* 'Allocator sizeof operand mismatch' warning can be safely ignored */
 	ALLOC_PERMANENT_ZVAL(phalcon_globals->z_null);
 	INIT_ZVAL(*phalcon_globals->z_null);
@@ -631,6 +627,10 @@ static PHP_GSHUTDOWN_FUNCTION(phalcon)
 	pefree(phalcon_globals->start_memory->addresses, 1);
 	pefree(phalcon_globals->start_memory, 1);
 	phalcon_globals->start_memory = NULL;
+
+	zend_hash_destroy(phalcon_globals->function_cache);
+	pefree(phalcon_globals->function_cache, 1);
+	phalcon_globals->function_cache = NULL;
 
 #ifndef PHALCON_RELEASE
 	phalcon_verify_permanent_zvals(1 TSRMLS_CC);
