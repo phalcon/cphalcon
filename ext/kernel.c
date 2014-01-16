@@ -83,14 +83,19 @@ PHP_METHOD(Phalcon_Kernel, preComputeHashKey){
 	}
 
 	switch (nKeyLength) {
-		case 7: hash = ((hash << 5) + hash) + *arKey++; /* fallthrough... */
-		case 6: hash = ((hash << 5) + hash) + *arKey++; /* fallthrough... */
-		case 5: hash = ((hash << 5) + hash) + *arKey++; /* fallthrough... */
-		case 4: hash = ((hash << 5) + hash) + *arKey++; /* fallthrough... */
-		case 3: hash = ((hash << 5) + hash) + *arKey++; /* fallthrough... */
-		case 2: hash = ((hash << 5) + hash) + *arKey++; /* fallthrough... */
+		case 7: hash = ((hash << 5) + hash) + *arKey++;
+		/* no break */
+		case 6: hash = ((hash << 5) + hash) + *arKey++;
+		/* no break */
+		case 5: hash = ((hash << 5) + hash) + *arKey++;
+		/* no break */
+		case 4: hash = ((hash << 5) + hash) + *arKey++;
+		/* no break */
+		case 3: hash = ((hash << 5) + hash) + *arKey++;
+		/* no break */
+		case 2: hash = ((hash << 5) + hash) + *arKey++;
+		/* no break */
 		case 1: hash = ((hash << 5) + hash) + *arKey++; break;
-		case 0: break;
 	}
 
 	strKey = emalloc(24);
@@ -154,14 +159,19 @@ PHP_METHOD(Phalcon_Kernel, preComputeHashKey64){
 	}
 
 	switch (nKeyLength) {
-		case 7: hash = ((hash << 5) + hash) + *arKey++; /* fallthrough... */
-		case 6: hash = ((hash << 5) + hash) + *arKey++; /* fallthrough... */
-		case 5: hash = ((hash << 5) + hash) + *arKey++; /* fallthrough... */
-		case 4: hash = ((hash << 5) + hash) + *arKey++; /* fallthrough... */
-		case 3: hash = ((hash << 5) + hash) + *arKey++; /* fallthrough... */
-		case 2: hash = ((hash << 5) + hash) + *arKey++; /* fallthrough... */
+		case 7: hash = ((hash << 5) + hash) + *arKey++;
+		/* no break */
+		case 6: hash = ((hash << 5) + hash) + *arKey++;
+		/* no break */
+		case 5: hash = ((hash << 5) + hash) + *arKey++;
+		/* no break */
+		case 4: hash = ((hash << 5) + hash) + *arKey++;
+		/* no break */
+		case 3: hash = ((hash << 5) + hash) + *arKey++;
+		/* no break */
+		case 2: hash = ((hash << 5) + hash) + *arKey++;
+		/* no break */
 		case 1: hash = ((hash << 5) + hash) + *arKey++; break;
-		case 0: break;
 	}
 
 	strKey = emalloc(24);

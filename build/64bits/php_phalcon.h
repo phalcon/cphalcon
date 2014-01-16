@@ -126,9 +126,24 @@ extern zend_module_entry phalcon_module_entry;
 
 extern int nusphere_dbg_present;
 
+/* Compatibility macros for PHP 5.3 */
 #ifndef PHP_FE_END
 	#define PHP_FE_END { NULL, NULL, NULL, 0, 0 }
 #endif
+
+#ifndef INIT_PZVAL_COPY
+#	define INIT_PZVAL_COPY(z, v) \
+		ZVAL_COPY_VALUE(z, v); \
+		Z_SET_REFCOUNT_P(z, 1); \
+		Z_UNSET_ISREF_P(z);
+#endif
+
+#ifndef ZVAL_COPY_VALUE
+#	define ZVAL_COPY_VALUE(z, v) \
+		(z)->value  = (v)->value; \
+		Z_TYPE_P(z) = Z_TYPE_P(v);
+#endif
+
 
 #define PHALCON_INIT_CLASS(name) \
 	int phalcon_ ##name## _init(TSRMLS_D)
@@ -143,31 +158,31 @@ extern int nusphere_dbg_present;
 #define unlikely(x)     UNEXPECTED(x)
 
 #if defined(__GNUC__) && (defined(__clang__) || ((__GNUC__ * 100 + __GNUC_MINOR__) >= 405))
-#define UNREACHABLE() __builtin_unreachable()
-#define ASSUME(x)     if (x) {} else __builtin_unreachable()
+#	define UNREACHABLE() __builtin_unreachable()
+#	define ASSUME(x)     if (x) {} else __builtin_unreachable()
 #else
-#define UNREACHABLE() assert(0)
-#define ASSUME(x)     assert(!!(x));
+#	define UNREACHABLE() assert(0)
+#	define ASSUME(x)     assert(!!(x));
 #endif
 
 #if defined(__GNUC__) || defined(__clang__)
-#define PHALCON_ATTR_NONNULL            __attribute__((nonnull))
-#define PHALCON_ATTR_NONNULL1(x)        __attribute__((nonnull (x)))
-#define PHALCON_ATTR_NONNULL2(x, y)     __attribute__((nonnull (x, y)))
-#define PHALCON_ATTR_NONNULL3(x, y, z)  __attribute__((nonnull (x, y, z)))
+#	define PHALCON_ATTR_NONNULL            __attribute__((nonnull))
+#	define PHALCON_ATTR_NONNULL1(x)        __attribute__((nonnull (x)))
+#	define PHALCON_ATTR_NONNULL2(x, y)     __attribute__((nonnull (x, y)))
+#	define PHALCON_ATTR_NONNULL3(x, y, z)  __attribute__((nonnull (x, y, z)))
 #else
-#define PHALCON_ATTR_NONNULL
-#define PHALCON_ATTR_NONNULL1(x)
-#define PHALCON_ATTR_NONNULL2(x, y)
-#define PHALCON_ATTR_NONNULL3(x, y, z)
+#	define PHALCON_ATTR_NONNULL
+#	define PHALCON_ATTR_NONNULL1(x)
+#	define PHALCON_ATTR_NONNULL2(x, y)
+#	define PHALCON_ATTR_NONNULL3(x, y, z)
 #endif
 
 #ifndef ZEND_MOD_END
-#define ZEND_MOD_END { NULL, NULL, NULL, 0 }
+#	define ZEND_MOD_END { NULL, NULL, NULL, 0 }
 #endif
 
 #ifndef __func__
-#define __func__ __FUNCTION__
+#	define __func__ __FUNCTION__
 #endif
 
 #if PHP_VERSION_ID > 50399

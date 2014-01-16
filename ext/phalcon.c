@@ -23,6 +23,10 @@
 #include <ext/standard/info.h>
 #include <Zend/zend_extensions.h>
 
+#if PHP_VERSION_ID < 50500
+#include <locale.h>
+#endif
+
 #include "kernel/main.h"
 #include "kernel/memory.h"
 #include "kernel/framework/orm.h"
@@ -193,7 +197,12 @@ PHP_INI_BEGIN()
 	STD_PHP_INI_BOOLEAN("phalcon.db.escape_identifiers",        "1", PHP_INI_ALL, OnUpdateBool, db.escape_identifiers,        zend_phalcon_globals, phalcon_globals)
 PHP_INI_END()
 
-static PHP_MINIT_FUNCTION(phalcon){
+static PHP_MINIT_FUNCTION(phalcon)
+{
+#if PHP_VERSION_ID < 50500
+	const char* old_lc_all = setlocale(LC_ALL, NULL);
+	setlocale(LC_ALL, "C");
+#endif
 
 	REGISTER_INI_ENTRIES();
 
@@ -513,6 +522,10 @@ static PHP_MINIT_FUNCTION(phalcon){
 	PHALCON_INIT(Phalcon_Image_Exception);
 	PHALCON_INIT(Phalcon_Image_Adapter_GD);
 	PHALCON_INIT(Phalcon_Image_Adapter_Imagick);
+
+#if PHP_VERSION_ID < 50500
+	setlocale(LC_ALL, old_lc_all);
+#endif
 
 	orig_execute_internal = zend_execute_internal;
 	if (!zend_execute_internal && !getenv("PHALCON_NO_RVO")) {
