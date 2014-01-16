@@ -44,7 +44,7 @@ void zephir_fast_strpos(zval *return_value, const zval *haystack, const zval *ne
 void zephir_fast_strpos_str(zval *return_value, const zval *haystack, char *needle, unsigned int needle_length);
 void zephir_fast_stripos_str(zval *return_value, zval *haystack, char *needle, unsigned int needle_length);
 void zephir_fast_str_replace(zval *return_value, zval *search, zval *replace, zval *subject);
-void zephir_fast_trim(zval *return_value, zval *str, int where TSRMLS_DC);
+void zephir_fast_trim(zval *return_value, zval *str, zval *charlist, int where TSRMLS_DC);
 void zephir_fast_strip_tags(zval *return_value, zval *str);
 void zephir_fast_strtoupper(zval *return_value, zval *str);
 

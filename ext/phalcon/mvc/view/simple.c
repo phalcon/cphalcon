@@ -21,6 +21,7 @@
 #include "kernel/array.h"
 #include "kernel/hash.h"
 #include "kernel/concat.h"
+#include "kernel/file.h"
 
 
 /*
@@ -247,11 +248,11 @@ PHP_METHOD(Phalcon_Mvc_View_Simple, _loadTemplateEngines) {
  */
 PHP_METHOD(Phalcon_Mvc_View_Simple, _internalRender) {
 
-	zend_function *_7 = NULL, *_8 = NULL, *_9 = NULL;
+	zend_function *_6 = NULL, *_7 = NULL, *_8 = NULL;
 	HashTable *_4;
 	HashPosition _3;
 	zend_bool notExists, mustClean;
-	zval *path_param = NULL, *params, *eventsManager, *engines, *extension = NULL, *engine = NULL, *viewEnginePath = NULL, *viewsDirPath, *_0 = NULL, *_1 = NULL, *_2, **_5, *_6 = NULL, *_10;
+	zval *path_param = NULL, *params, *eventsManager, *engines, *extension = NULL, *engine = NULL, *viewEnginePath = NULL, *viewsDirPath, *_0 = NULL, *_1 = NULL, *_2, **_5, *_9;
 	zval *path = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -299,24 +300,22 @@ PHP_METHOD(Phalcon_Mvc_View_Simple, _internalRender) {
 		ZEPHIR_GET_HVALUE(engine, _5);
 		ZEPHIR_INIT_NVAR(viewEnginePath);
 		ZEPHIR_CONCAT_VV(viewEnginePath, viewsDirPath, extension);
-		ZEPHIR_INIT_NVAR(_0);
-		zephir_call_func_p1(_0, "file_exists", viewEnginePath);
-		if (zephir_is_true(_0)) {
+		if (zephir_file_exists(viewEnginePath TSRMLS_CC) == SUCCESS) {
 			if ((Z_TYPE_P(eventsManager) == IS_OBJECT)) {
+				ZEPHIR_INIT_NVAR(_0);
 				ZEPHIR_INIT_NVAR(_1);
-				ZEPHIR_INIT_NVAR(_6);
-				ZVAL_STRING(_6, "view:beforeRenderView", 1);
-				zephir_call_method_p3_cache(_1, eventsManager, "fire", &_7, _6, this_ptr, viewEnginePath);
-				if (ZEPHIR_IS_FALSE(_1)) {
+				ZVAL_STRING(_1, "view:beforeRenderView", 1);
+				zephir_call_method_p3_cache(_0, eventsManager, "fire", &_6, _1, this_ptr, viewEnginePath);
+				if (ZEPHIR_IS_FALSE(_0)) {
 					continue;
 				}
 			}
-			zephir_call_method_p3_cache_noret(engine, "render", &_8, viewEnginePath, params, (mustClean ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false)));
+			zephir_call_method_p3_cache_noret(engine, "render", &_7, viewEnginePath, params, (mustClean ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false)));
 			notExists = 0;
 			if ((Z_TYPE_P(eventsManager) == IS_OBJECT)) {
-				ZEPHIR_INIT_NVAR(_6);
-				ZVAL_STRING(_6, "view:afterRenderView", 1);
-				zephir_call_method_p2_cache_noret(eventsManager, "fire", &_9, _6, this_ptr);
+				ZEPHIR_INIT_NVAR(_1);
+				ZVAL_STRING(_1, "view:afterRenderView", 1);
+				zephir_call_method_p2_cache_noret(eventsManager, "fire", &_8, _1, this_ptr);
 			}
 			break;
 		}
@@ -324,9 +323,9 @@ PHP_METHOD(Phalcon_Mvc_View_Simple, _internalRender) {
 	if ((notExists == 1)) {
 		ZEPHIR_INIT_NVAR(_0);
 		object_init_ex(_0, phalcon_mvc_view_exception_ce);
-		ZEPHIR_INIT_VAR(_10);
-		ZEPHIR_CONCAT_SVS(_10, "View '", viewsDirPath, "' was not found in the views directory");
-		zephir_call_method_p1_noret(_0, "__construct", _10);
+		ZEPHIR_INIT_VAR(_9);
+		ZEPHIR_CONCAT_SVS(_9, "View '", viewsDirPath, "' was not found in the views directory");
+		zephir_call_method_p1_noret(_0, "__construct", _9);
 		zephir_throw_exception(_0 TSRMLS_CC);
 		ZEPHIR_MM_RESTORE();
 		return;

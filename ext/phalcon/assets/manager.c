@@ -416,7 +416,7 @@ PHP_METHOD(Phalcon_Assets_Manager, output) {
 	HashTable *_4, *_21;
 	HashPosition _3, _20;
 	zend_bool filterNeeded;
-	zval *collection, *callback, *type = NULL, *output, *resources, *filters, *prefix, *sourceBasePath, *targetBasePath, *options, *collectionSourcePath, *completeSourcePath = NULL, *collectionTargetPath, *completeTargetPath = NULL, *filteredJoinedContent = NULL, *join, *resource = NULL, *local = NULL, *sourcePath = NULL, *targetPath = NULL, *path = NULL, *prefixedPath = NULL, *attributes = NULL, *parameters = NULL, *html = NULL, *useImplicitOutput, *content = NULL, *mustFilter = NULL, *filter = NULL, *filteredContent = NULL, *typeCss, *targetUri, *_0 = NULL, *_1 = NULL, *_2 = NULL, **_5, *_13 = NULL, **_22;
+	zval *collection, *callback, *type = NULL, *output, *resources, *filters, *prefix, *sourceBasePath, *targetBasePath, *options, *collectionSourcePath, *completeSourcePath = NULL, *collectionTargetPath, *completeTargetPath = NULL, *filteredJoinedContent = NULL, *join, *resource = NULL, *local = NULL, *sourcePath = NULL, *targetPath = NULL, *path = NULL, *prefixedPath = NULL, *attributes = NULL, *parameters = NULL, *html = NULL, *useImplicitOutput, *content = NULL, *mustFilter = NULL, *filter = NULL, *filteredContent = NULL, *typeCss, *targetUri, *_0 = NULL, *_1 = NULL, *_2, **_5, *_13 = NULL, **_22;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 3, 0, &collection, &callback, &type);
@@ -545,12 +545,10 @@ PHP_METHOD(Phalcon_Assets_Manager, output) {
 						ZEPHIR_MM_RESTORE();
 						return;
 					}
-					ZEPHIR_INIT_NVAR(_0);
-					zephir_call_func_p1(_0, "file_exists", targetPath);
-					if (zephir_is_true(_0)) {
-						ZEPHIR_INIT_NVAR(_2);
-						zephir_call_func_p2(_2, "compare_mtime", targetPath, sourcePath);
-						if (zephir_is_true(_2)) {
+					if (zephir_file_exists(targetPath TSRMLS_CC) == SUCCESS) {
+						ZEPHIR_INIT_NVAR(_0);
+						zephir_call_func_p2(_0, "compare_mtime", targetPath, sourcePath);
+						if (zephir_is_true(_0)) {
 							filterNeeded = 1;
 						}
 					} else {

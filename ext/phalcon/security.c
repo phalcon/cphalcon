@@ -154,16 +154,12 @@ PHP_METHOD(Phalcon_Security, getRandomBytes) {
  */
 PHP_METHOD(Phalcon_Security, getSaltBytes) {
 
-	zend_function *_3 = NULL;
-	zval *numberBytes, *randomBytes = NULL, *safeBytes = NULL, *bytesLength = NULL, *base64Bytes = NULL, *filter = NULL, _0, *_1, *_2 = NULL;
+	zend_function *_1 = NULL;
+	zval *numberBytes, *randomBytes = NULL, *safeBytes = NULL, *bytesLength = NULL, *base64Bytes = NULL, *filter = NULL, *_0 = NULL;
 
 	ZEPHIR_MM_GROW();
 
-	ZEPHIR_SINIT_VAR(_0);
-	ZVAL_STRING(&_0, "openssl_random_pseudo_bytes", 0);
-	ZEPHIR_INIT_VAR(_1);
-	zephir_call_func_p1(_1, "function_exists", &_0);
-	if (!(zephir_is_true(_1))) {
+	if (!((zephir_function_exists_ex(SS("openssl_random_pseudo_bytes") TSRMLS_CC) == SUCCESS))) {
 		ZEPHIR_THROW_EXCEPTION_STR(phalcon_security_exception_ce, "Openssl extension must be loaded");
 		return;
 	}
@@ -178,10 +174,10 @@ PHP_METHOD(Phalcon_Security, getSaltBytes) {
 		zephir_call_func_p1(base64Bytes, "base64_encode", randomBytes);
 		ZEPHIR_INIT_NVAR(filter);
 		object_init_ex(filter, phalcon_filter_ce);
-		ZEPHIR_INIT_NVAR(_2);
-		ZVAL_STRING(_2, "alphnum", 1);
+		ZEPHIR_INIT_NVAR(_0);
+		ZVAL_STRING(_0, "alphnum", 1);
 		ZEPHIR_INIT_NVAR(safeBytes);
-		zephir_call_method_p2_cache(safeBytes, filter, "sanitize", &_3, base64Bytes, _2);
+		zephir_call_method_p2_cache(safeBytes, filter, "sanitize", &_1, base64Bytes, _0);
 		if (!(zephir_is_true(safeBytes))) {
 			continue;
 		}
@@ -301,7 +297,7 @@ PHP_METHOD(Phalcon_Security, isLegacyHash) {
  */
 PHP_METHOD(Phalcon_Security, getTokenKey) {
 
-	zval *numberBytes_param = NULL, *randomBytes, *base64Bytes, *filter, *safeBytes, *dependencyInjector, *session, _0 = zval_used_for_init, *_1, *_2;
+	zval *numberBytes_param = NULL, *randomBytes, *base64Bytes, *filter, *safeBytes, *dependencyInjector, *session, _0, *_1;
 	int numberBytes;
 
 	ZEPHIR_MM_GROW();
@@ -313,15 +309,11 @@ PHP_METHOD(Phalcon_Security, getTokenKey) {
 	if (!(numberBytes)) {
 		numberBytes = 12;
 	}
-	ZEPHIR_SINIT_VAR(_0);
-	ZVAL_STRING(&_0, "openssl_random_pseudo_bytes", 0);
-	ZEPHIR_INIT_VAR(_1);
-	zephir_call_func_p1(_1, "function_exists", &_0);
-	if (!(zephir_is_true(_1))) {
+	if (!((zephir_function_exists_ex(SS("openssl_random_pseudo_bytes") TSRMLS_CC) == SUCCESS))) {
 		ZEPHIR_THROW_EXCEPTION_STR(phalcon_security_exception_ce, "Openssl extension must be loaded");
 		return;
 	}
-	ZEPHIR_SINIT_NVAR(_0);
+	ZEPHIR_SINIT_VAR(_0);
 	ZVAL_LONG(&_0, numberBytes);
 	ZEPHIR_INIT_VAR(randomBytes);
 	zephir_call_func_p1(randomBytes, "openssl_random_pseudo_bytes", &_0);
@@ -329,22 +321,22 @@ PHP_METHOD(Phalcon_Security, getTokenKey) {
 	zephir_call_func_p1(base64Bytes, "base64_encode", randomBytes);
 	ZEPHIR_INIT_VAR(filter);
 	object_init_ex(filter, phalcon_filter_ce);
-	ZEPHIR_INIT_VAR(_2);
-	ZVAL_STRING(_2, "alphnum", 1);
+	ZEPHIR_INIT_VAR(_1);
+	ZVAL_STRING(_1, "alphnum", 1);
 	ZEPHIR_INIT_VAR(safeBytes);
-	zephir_call_method_p2(safeBytes, filter, "sanitize", base64Bytes, _2);
+	zephir_call_method_p2(safeBytes, filter, "sanitize", base64Bytes, _1);
 	dependencyInjector = zephir_fetch_nproperty_this(this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
 	if ((Z_TYPE_P(dependencyInjector) != IS_OBJECT)) {
 		ZEPHIR_THROW_EXCEPTION_STR(phalcon_security_exception_ce, "A dependency injection container is required to access the 'session' service");
 		return;
 	}
-	ZEPHIR_INIT_BNVAR(_2);
-	ZVAL_STRING(_2, "session", 1);
+	ZEPHIR_INIT_BNVAR(_1);
+	ZVAL_STRING(_1, "session", 1);
 	ZEPHIR_INIT_VAR(session);
-	zephir_call_method_p1(session, dependencyInjector, "getshared", _2);
-	ZEPHIR_INIT_BNVAR(_2);
-	ZVAL_STRING(_2, "$PHALCON/CSRF/KEY$", 1);
-	zephir_call_method_p2_noret(session, "set", _2, safeBytes);
+	zephir_call_method_p1(session, dependencyInjector, "getshared", _1);
+	ZEPHIR_INIT_BNVAR(_1);
+	ZVAL_STRING(_1, "$PHALCON/CSRF/KEY$", 1);
+	zephir_call_method_p2_noret(session, "set", _1, safeBytes);
 	RETURN_CCTOR(safeBytes);
 
 }
@@ -357,7 +349,7 @@ PHP_METHOD(Phalcon_Security, getTokenKey) {
  */
 PHP_METHOD(Phalcon_Security, getToken) {
 
-	zval *numberBytes_param = NULL, *token, *dependencyInjector, *session, _0 = zval_used_for_init, *_1, *_2;
+	zval *numberBytes_param = NULL, *token, *dependencyInjector, *session, _0, *_1;
 	int numberBytes;
 
 	ZEPHIR_MM_GROW();
@@ -373,15 +365,11 @@ PHP_METHOD(Phalcon_Security, getToken) {
 	if (!(numberBytes)) {
 		numberBytes = 12;
 	}
-	ZEPHIR_SINIT_VAR(_0);
-	ZVAL_STRING(&_0, "openssl_random_pseudo_bytes", 0);
-	ZEPHIR_INIT_VAR(_1);
-	zephir_call_func_p1(_1, "function_exists", &_0);
-	if (!(zephir_is_true(_1))) {
+	if (!((zephir_function_exists_ex(SS("openssl_random_pseudo_bytes") TSRMLS_CC) == SUCCESS))) {
 		ZEPHIR_THROW_EXCEPTION_STR(phalcon_security_exception_ce, "Openssl extension must be loaded");
 		return;
 	}
-	ZEPHIR_SINIT_NVAR(_0);
+	ZEPHIR_SINIT_VAR(_0);
 	ZVAL_LONG(&_0, numberBytes);
 	ZEPHIR_INIT_VAR(token);
 	zephir_call_func_p1(token, "openssl_random_pseudo_bytes", &_0);
@@ -390,13 +378,13 @@ PHP_METHOD(Phalcon_Security, getToken) {
 		ZEPHIR_THROW_EXCEPTION_STR(phalcon_security_exception_ce, "A dependency injection container is required to access the 'session' service");
 		return;
 	}
-	ZEPHIR_INIT_VAR(_2);
-	ZVAL_STRING(_2, "session", 1);
+	ZEPHIR_INIT_VAR(_1);
+	ZVAL_STRING(_1, "session", 1);
 	ZEPHIR_INIT_VAR(session);
-	zephir_call_method_p1(session, dependencyInjector, "getshared", _2);
-	ZEPHIR_INIT_BNVAR(_2);
-	ZVAL_STRING(_2, "$PHALCON/CSRF/KEY$", 1);
-	zephir_call_method_p2_noret(session, "set", _2, token);
+	zephir_call_method_p1(session, dependencyInjector, "getshared", _1);
+	ZEPHIR_INIT_BNVAR(_1);
+	ZVAL_STRING(_1, "$PHALCON/CSRF/KEY$", 1);
+	zephir_call_method_p2_noret(session, "set", _1, token);
 	RETURN_CCTOR(token);
 
 }

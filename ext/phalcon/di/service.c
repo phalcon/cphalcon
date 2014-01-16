@@ -205,7 +205,7 @@ PHP_METHOD(Phalcon_Di_Service, getDefinition) {
 PHP_METHOD(Phalcon_Di_Service, resolve) {
 
 	zend_bool found;
-	zval *parameters = NULL, *dependencyInjector = NULL, *shared, *definition, *sharedInstance, *instance = NULL, *builder, *_0 = NULL, *_1, *_2;
+	zval *parameters = NULL, *dependencyInjector = NULL, *shared, *definition, *sharedInstance, *instance = NULL, *builder, *_0, *_1, *_2;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 2, &parameters, &dependencyInjector);
@@ -230,9 +230,7 @@ PHP_METHOD(Phalcon_Di_Service, resolve) {
 	ZVAL_NULL(instance);
 	definition = zephir_fetch_nproperty_this(this_ptr, SL("_definition"), PH_NOISY_CC);
 	if ((Z_TYPE_P(definition) == IS_STRING)) {
-		ZEPHIR_INIT_VAR(_0);
-		zephir_call_func_p1(_0, "class_exists", definition);
-		if (zephir_is_true(_0)) {
+		if (zephir_class_exists(definition, 1  TSRMLS_CC)) {
 			if ((Z_TYPE_P(parameters) == IS_ARRAY)) {
 				ZEPHIR_INIT_BNVAR(instance);
 				if (zephir_fast_count_int(parameters TSRMLS_CC)) {
@@ -277,7 +275,7 @@ PHP_METHOD(Phalcon_Di_Service, resolve) {
 		}
 	}
 	if ((found == 0)) {
-		ZEPHIR_INIT_NVAR(_0);
+		ZEPHIR_INIT_VAR(_0);
 		object_init_ex(_0, phalcon_di_exception_ce);
 		_1 = zephir_fetch_nproperty_this(this_ptr, SL("_name"), PH_NOISY_CC);
 		ZEPHIR_INIT_VAR(_2);

@@ -303,6 +303,24 @@ int zephir_class_exists(const zval *class_name, int autoload TSRMLS_DC) {
 }
 
 /**
+ * Checks if a interface exist
+ */
+int zephir_interface_exists(const zval *class_name, int autoload TSRMLS_DC) {
+
+	zend_class_entry **ce;
+
+	if (Z_TYPE_P(class_name) == IS_STRING) {
+		if (zend_lookup_class(Z_STRVAL_P(class_name), Z_STRLEN_P(class_name), &ce TSRMLS_CC) == SUCCESS) {
+			return (((*ce)->ce_flags & ZEND_ACC_INTERFACE) > 0);
+		}
+		return 0;
+	}
+
+	php_error_docref(NULL TSRMLS_CC, E_WARNING, "interface name must be a string");
+	return 0;
+}
+
+/**
  * Clones an object from obj to destination
  */
 int zephir_clone(zval *destination, zval *obj TSRMLS_DC) {

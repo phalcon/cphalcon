@@ -146,7 +146,6 @@ PHP_METHOD(Phalcon_Cache_Backend_Mongo, _getCollection) {
 			ZEPHIR_INIT_NVAR(mongo);
 			_0 = zend_fetch_class(SL("Mongo"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
 			object_init_ex(mongo, _0);
-			zephir_call_method_noret(mongo, "__construct");
 		}
 		zephir_array_fetch_string(&database, options, SL("db"), PH_NOISY | PH_READONLY TSRMLS_CC);
 		if ((!zephir_is_true(database) || (Z_TYPE_P(database) != IS_STRING))) {
@@ -374,10 +373,10 @@ PHP_METHOD(Phalcon_Cache_Backend_Mongo, delete) {
  */
 PHP_METHOD(Phalcon_Cache_Backend_Mongo, queryKeys) {
 
-	HashTable *_6;
-	HashPosition _5;
+	HashTable *_5;
+	HashPosition _4;
 	zend_class_entry *_2;
-	zval *prefix = NULL, *collection, *fields, *conditions, *timeCondition, *documents, *keys, *index = NULL, *key = NULL, *_0, *_1 = NULL, *_3, *_4, **_7;
+	zval *prefix = NULL, *collection, *fields, *conditions, *timeCondition, *documents, *keys, *index = NULL, *key = NULL, *_0, *_1 = NULL, *_3, **_6;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 1, &prefix);
@@ -402,30 +401,27 @@ PHP_METHOD(Phalcon_Cache_Backend_Mongo, queryKeys) {
 		ZEPHIR_INIT_VAR(_1);
 		_2 = zend_fetch_class(SL("MongoRegex"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
 		object_init_ex(_1, _2);
-		ZEPHIR_INIT_VAR(_3);
-		ZEPHIR_CONCAT_SVS(_3, "/^", prefix, "/");
-		zephir_call_method_p1_noret(_1, "__construct", _3);
 		zephir_array_update_string(&conditions, SL("key"), &_1, PH_COPY | PH_SEPARATE);
 	}
 	ZEPHIR_INIT_NVAR(_1);
 	array_init_size(_1, 2);
-	ZEPHIR_INIT_VAR(_4);
-	zephir_call_func(_4, "time");
-	zephir_array_update_string(&_1, SL("$gt"), &_4, PH_COPY | PH_SEPARATE);
+	ZEPHIR_INIT_VAR(_3);
+	zephir_call_func(_3, "time");
+	zephir_array_update_string(&_1, SL("$gt"), &_3, PH_COPY | PH_SEPARATE);
 	zephir_array_update_string(&conditions, SL("time"), &_1, PH_COPY | PH_SEPARATE);
 	ZEPHIR_INIT_VAR(documents);
 	zephir_call_method_p2(documents, collection, "find", conditions, fields);
 	ZEPHIR_INIT_VAR(keys);
 	array_init(keys);
-	ZEPHIR_INIT_BNVAR(_4);
-	zephir_call_func_p1(_4, "iterator_to_array", documents);
-	zephir_is_iterable(_4, &_6, &_5, 0, 0);
+	ZEPHIR_INIT_BNVAR(_3);
+	zephir_call_func_p1(_3, "iterator_to_array", documents);
+	zephir_is_iterable(_3, &_5, &_4, 0, 0);
 	for (
-		; zend_hash_get_current_data_ex(_6, (void**) &_7, &_5) == SUCCESS
-		; zend_hash_move_forward_ex(_6, &_5)
+		; zend_hash_get_current_data_ex(_5, (void**) &_6, &_4) == SUCCESS
+		; zend_hash_move_forward_ex(_5, &_4)
 	) {
-		ZEPHIR_GET_HMKEY(index, _6, _5);
-		ZEPHIR_GET_HVALUE(key, _7);
+		ZEPHIR_GET_HMKEY(index, _5, _4);
+		ZEPHIR_GET_HVALUE(key, _6);
 		if (ZEPHIR_IS_STRING(index, "key")) {
 			zephir_array_append(&keys, key, PH_SEPARATE);
 		}

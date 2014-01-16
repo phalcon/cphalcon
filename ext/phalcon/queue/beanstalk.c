@@ -393,7 +393,7 @@ PHP_METHOD(Phalcon_Queue_Beanstalk, read) {
 		}
 		ZEPHIR_SINIT_VAR(_2);
 		ZVAL_STRING(&_2, "\r\n", 0);
-		zephir_call_func_p2(packet, "rtrim", data, &_2);
+		zephir_fast_trim(packet, data, &_2, ZEPHIR_TRIM_RIGHT TSRMLS_CC);
 	} else {
 		ZEPHIR_SINIT_NVAR(_2);
 		ZVAL_LONG(&_2, 16384);

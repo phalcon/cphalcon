@@ -574,7 +574,7 @@ void zephir_fast_str_replace(zval *return_value, zval *search, zval *replace, zv
 /**
  * Fast call to PHP trim() function
  */
-void zephir_fast_trim(zval *return_value, zval *str, int where TSRMLS_DC) {
+void zephir_fast_trim(zval *return_value, zval *str, zval *charlist, int where TSRMLS_DC) {
 
 	zval copy;
 	int use_copy = 0;
@@ -585,8 +585,11 @@ void zephir_fast_trim(zval *return_value, zval *str, int where TSRMLS_DC) {
 			str = &copy;
 		}
 	}
-
-	php_trim(Z_STRVAL_P(str), Z_STRLEN_P(str), NULL, 0, return_value, where TSRMLS_CC);
+        if (charlist && Z_TYPE_P(charlist) == IS_STRING) {
+            php_trim(Z_STRVAL_P(str), Z_STRLEN_P(str), Z_STRVAL_P(charlist), Z_STRLEN_P(charlist), return_value, where TSRMLS_CC);
+        } else {
+            php_trim(Z_STRVAL_P(str), Z_STRLEN_P(str), NULL, 0, return_value, where TSRMLS_CC);
+        }
 
 	if (use_copy) {
 		zval_dtor(&copy);

@@ -12,10 +12,10 @@
 #include <Zend/zend_interfaces.h>
 
 #include "kernel/main.h"
+#include "kernel/object.h"
 #include "kernel/fcall.h"
 #include "kernel/memory.h"
 #include "kernel/operators.h"
-#include "kernel/object.h"
 #include "kernel/array.h"
 #include "ext/spl/spl_exceptions.h"
 #include "kernel/exception.h"
@@ -84,14 +84,21 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Micro) {
  */
 PHP_METHOD(Phalcon_Mvc_Micro, __construct) {
 
-	zval *dependencyInjector;
+	zval *dependencyInjector = NULL;
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 0, &dependencyInjector);
+	zephir_fetch_params(1, 0, 1, &dependencyInjector);
+
+	if (!dependencyInjector) {
+		dependencyInjector = ZEPHIR_GLOBAL(global_null);
+	}
 
 
-
-	zephir_call_method_p1_noret(this_ptr, "setdi", dependencyInjector);
+	if ((Z_TYPE_P(dependencyInjector) == IS_OBJECT)) {
+		if (zephir_is_instance_of(dependencyInjector, SL("Phalcon\\DiInterface") TSRMLS_CC)) {
+			zephir_call_method_p1_noret(this_ptr, "setdi", dependencyInjector);
+		}
+	}
 	ZEPHIR_MM_RESTORE();
 
 }

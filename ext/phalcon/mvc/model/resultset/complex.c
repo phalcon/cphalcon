@@ -123,11 +123,9 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Complex, valid) {
 		if ((Z_TYPE_P(rows) == IS_ARRAY)) {
 			Z_SET_ISREF_P(rows);
 			zephir_call_func_p1(row, "current", rows);
-			Z_UNSET_ISREF_P(rows);
 			if ((Z_TYPE_P(row) == IS_OBJECT)) {
 				Z_SET_ISREF_P(rows);
 				zephir_call_func_p1_noret("next", rows);
-				Z_UNSET_ISREF_P(rows);
 			}
 		} else {
 			ZVAL_BOOL(row, 0);

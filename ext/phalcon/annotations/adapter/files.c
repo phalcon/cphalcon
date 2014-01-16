@@ -17,8 +17,8 @@
 #include "kernel/memory.h"
 #include "kernel/concat.h"
 #include "kernel/fcall.h"
-#include "kernel/operators.h"
 #include "kernel/file.h"
+#include "kernel/operators.h"
 #include "kernel/variables.h"
 #include "kernel/exception.h"
 #include "ext/spl/spl_exceptions.h"
@@ -110,9 +110,7 @@ PHP_METHOD(Phalcon_Annotations_Adapter_Files, read) {
 	zephir_call_func_p2(_2, "prepare_virtual_path", key, _1);
 	ZEPHIR_INIT_VAR(path);
 	ZEPHIR_CONCAT_VVS(path, _0, _2, ".php");
-	ZEPHIR_INIT_BNVAR(_1);
-	zephir_call_func_p1(_1, "file_exists", path);
-	if (zephir_is_true(_1)) {
+	if (zephir_file_exists(path TSRMLS_CC) == SUCCESS) {
 		RETURN_MM_BOOL((0 == 1));
 	}
 	RETURN_MM_BOOL(0);

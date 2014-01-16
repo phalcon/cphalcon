@@ -140,7 +140,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, __construct) {
 								Z_SET_ISREF_P(mergedConditions);
 								ZEPHIR_INIT_NVAR(_3);
 								zephir_call_func_p2(_3, "array_push", mergedConditions, singleCondition);
-								Z_UNSET_ISREF_P(mergedConditions);
 								ZEPHIR_CPY_WRT(mergedConditions, _3);
 							}
 							if ((Z_TYPE_P(singleParams) == IS_ARRAY)) {

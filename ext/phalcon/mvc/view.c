@@ -21,6 +21,7 @@
 #include "kernel/fcall.h"
 #include "kernel/hash.h"
 #include "kernel/concat.h"
+#include "kernel/file.h"
 #include "kernel/string.h"
 
 
@@ -799,13 +800,13 @@ PHP_METHOD(Phalcon_Mvc_View, _loadTemplateEngines) {
  */
 PHP_METHOD(Phalcon_Mvc_View, _engineRender) {
 
-	zend_function *_8 = NULL, *_9 = NULL, *_10 = NULL;
+	zend_function *_7 = NULL, *_8 = NULL, *_9 = NULL;
 	HashTable *_5;
 	HashPosition _4;
 	int renderLevel, cacheLevel;
 	zend_bool silence, mustClean, notExists;
 	zval *viewPath = NULL;
-	zval *engines, *viewPath_param = NULL, *silence_param = NULL, *mustClean_param = NULL, *cache, *key = NULL, *lifetime = NULL, *viewsDir, *basePath, *viewsDirPath, *viewOptions, *cacheOptions, *cachedView, *viewParams, *eventsManager = NULL, *extension = NULL, *engine = NULL, *viewEnginePath = NULL, *_0 = NULL, *_1 = NULL, *_2 = NULL, *_3, **_6, *_7 = NULL, *_11;
+	zval *engines, *viewPath_param = NULL, *silence_param = NULL, *mustClean_param = NULL, *cache, *key = NULL, *lifetime = NULL, *viewsDir, *basePath, *viewsDirPath, *viewOptions, *cacheOptions, *cachedView, *viewParams, *eventsManager = NULL, *extension = NULL, *engine = NULL, *viewEnginePath = NULL, *_0 = NULL, *_1 = NULL, *_2 = NULL, *_3, **_6, *_10;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 5, 0, &engines, &viewPath_param, &silence_param, &mustClean_param, &cache);
@@ -875,25 +876,23 @@ PHP_METHOD(Phalcon_Mvc_View, _engineRender) {
 		ZEPHIR_GET_HVALUE(engine, _6);
 		ZEPHIR_INIT_NVAR(viewEnginePath);
 		ZEPHIR_CONCAT_VV(viewEnginePath, viewsDirPath, extension);
-		ZEPHIR_INIT_NVAR(_1);
-		zephir_call_func_p1(_1, "file_exists", viewEnginePath);
-		if (zephir_is_true(_1)) {
+		if (zephir_file_exists(viewEnginePath TSRMLS_CC) == SUCCESS) {
 			if ((Z_TYPE_P(eventsManager) == IS_OBJECT)) {
 				zephir_update_property_this(this_ptr, SL("_activeRenderPath"), viewEnginePath TSRMLS_CC);
+				ZEPHIR_INIT_NVAR(_1);
 				ZEPHIR_INIT_NVAR(_2);
-				ZEPHIR_INIT_NVAR(_7);
-				ZVAL_STRING(_7, "view:beforeRenderView", 1);
-				zephir_call_method_p3_cache(_2, eventsManager, "fire", &_8, _7, this_ptr, viewEnginePath);
-				if (ZEPHIR_IS_FALSE(_2)) {
+				ZVAL_STRING(_2, "view:beforeRenderView", 1);
+				zephir_call_method_p3_cache(_1, eventsManager, "fire", &_7, _2, this_ptr, viewEnginePath);
+				if (ZEPHIR_IS_FALSE(_1)) {
 					continue;
 				}
 			}
-			zephir_call_method_p3_cache_noret(engine, "render", &_9, viewEnginePath, viewParams, (mustClean ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false)));
+			zephir_call_method_p3_cache_noret(engine, "render", &_8, viewEnginePath, viewParams, (mustClean ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false)));
 			notExists = 0;
 			if ((Z_TYPE_P(eventsManager) == IS_OBJECT)) {
-				ZEPHIR_INIT_NVAR(_7);
-				ZVAL_STRING(_7, "view:afterRenderView", 1);
-				zephir_call_method_p2_cache_noret(eventsManager, "fire", &_10, _7, this_ptr);
+				ZEPHIR_INIT_NVAR(_2);
+				ZVAL_STRING(_2, "view:afterRenderView", 1);
+				zephir_call_method_p2_cache_noret(eventsManager, "fire", &_9, _2, this_ptr);
 			}
 			break;
 		}
@@ -908,9 +907,9 @@ PHP_METHOD(Phalcon_Mvc_View, _engineRender) {
 		if (!(silence)) {
 			ZEPHIR_INIT_NVAR(_1);
 			object_init_ex(_1, phalcon_mvc_view_exception_ce);
-			ZEPHIR_INIT_VAR(_11);
-			ZEPHIR_CONCAT_SVS(_11, "View '", viewsDirPath, "' was not found in the views directory");
-			zephir_call_method_p1_noret(_1, "__construct", _11);
+			ZEPHIR_INIT_VAR(_10);
+			ZEPHIR_CONCAT_SVS(_10, "View '", viewsDirPath, "' was not found in the views directory");
+			zephir_call_method_p1_noret(_1, "__construct", _10);
 			zephir_throw_exception(_1 TSRMLS_CC);
 			ZEPHIR_MM_RESTORE();
 			return;

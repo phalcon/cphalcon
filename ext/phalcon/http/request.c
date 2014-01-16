@@ -1456,7 +1456,6 @@ PHP_METHOD(Phalcon_Http_Request, getDigestAuth) {
 		Z_SET_ISREF_P(matches);
 		ZEPHIR_INIT_VAR(_2);
 		zephir_call_func_p4(_2, "preg_match_all", _0, digest, matches, _1);
-		Z_UNSET_ISREF_P(matches);
 		if (!(zephir_is_true(_2))) {
 			RETURN_CCTOR(auth);
 		}

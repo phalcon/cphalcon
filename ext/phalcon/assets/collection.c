@@ -20,6 +20,7 @@
 #include "kernel/exception.h"
 #include "kernel/array.h"
 #include "kernel/concat.h"
+#include "kernel/file.h"
 
 
 /*
@@ -498,7 +499,7 @@ PHP_METHOD(Phalcon_Assets_Collection, join) {
  */
 PHP_METHOD(Phalcon_Assets_Collection, getRealTargetPath) {
 
-	zval *basePath_param = NULL, *targetPath, *completePath, *_0;
+	zval *basePath_param = NULL, *targetPath, *completePath;
 	zval *basePath = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -520,9 +521,7 @@ PHP_METHOD(Phalcon_Assets_Collection, getRealTargetPath) {
 	targetPath = zephir_fetch_nproperty_this(this_ptr, SL("_targetPath"), PH_NOISY_CC);
 	ZEPHIR_INIT_VAR(completePath);
 	ZEPHIR_CONCAT_VV(completePath, basePath, targetPath);
-	ZEPHIR_INIT_VAR(_0);
-	zephir_call_func_p1(_0, "file_exists", completePath);
-	if (zephir_is_true(_0)) {
+	if (zephir_file_exists(completePath TSRMLS_CC) == SUCCESS) {
 		zephir_call_func_p1(return_value, "realpath", completePath);
 		RETURN_MM();
 	}

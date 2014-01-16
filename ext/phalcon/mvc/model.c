@@ -2736,7 +2736,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _doLowUpdate) {
 		}
 	}
 	ZEPHIR_INIT_BNVAR(_0);
-	array_init_size(_0, 5);
+	array_init_size(_0, 4);
 	zephir_array_update_string(&_0, SL("conditions"), &uniqueKey, PH_COPY | PH_SEPARATE);
 	zephir_array_update_string(&_0, SL("bind"), &uniqueParams, PH_COPY | PH_SEPARATE);
 	zephir_array_update_string(&_0, SL("bindTypes"), &uniqueTypes, PH_COPY | PH_SEPARATE);
@@ -3634,7 +3634,7 @@ PHP_METHOD(Phalcon_Mvc_Model, refresh) {
 	zephir_call_method(dialect, readConnection, "getdialect");
 	ZEPHIR_INIT_NVAR(_1);
 	ZEPHIR_INIT_NVAR(_5);
-	array_init_size(_5, 5);
+	array_init_size(_5, 4);
 	zephir_array_update_string(&_5, SL("columns"), &fields, PH_COPY | PH_SEPARATE);
 	ZEPHIR_INIT_VAR(_6);
 	zephir_call_method_p1(_6, readConnection, "escapeidentifier", table);

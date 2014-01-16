@@ -16,12 +16,11 @@
 #include "kernel/object.h"
 #include "kernel/memory.h"
 #include "kernel/concat.h"
-#include "kernel/fcall.h"
-#include "kernel/operators.h"
+#include "kernel/file.h"
 #include "ext/spl/spl_exceptions.h"
 #include "kernel/exception.h"
-#include "kernel/file.h"
 #include "kernel/variables.h"
+#include "kernel/operators.h"
 
 
 /*
@@ -101,7 +100,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Files, __construct) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_MetaData_Files, read) {
 
-	zval *key_param = NULL, *path, *_0, *_1, _2, *_3;
+	zval *key_param = NULL, *path, *_0, *_1, _2;
 	zval *key = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -126,9 +125,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Files, read) {
 	ZVAL_STRING(&_2, "_", 0);
 	ZEPHIR_INIT_VAR(path);
 	ZEPHIR_CONCAT_VVS(path, _0, _1, ".php");
-	ZEPHIR_INIT_VAR(_3);
-	zephir_call_func_p1(_3, "file_exists", path);
-	if (zephir_is_true(_3)) {
+	if (zephir_file_exists(path TSRMLS_CC) == SUCCESS) {
 		RETURN_MM_BOOL((0 == 1));
 	}
 	RETURN_MM_NULL();

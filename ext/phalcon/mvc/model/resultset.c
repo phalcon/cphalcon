@@ -155,7 +155,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, rewind) {
 		if ((Z_TYPE_P(rows) == IS_ARRAY)) {
 			Z_SET_ISREF_P(rows);
 			zephir_call_func_p1_noret("reset", rows);
-			Z_UNSET_ISREF_P(rows);
 		}
 	}
 	ZEPHIR_INIT_ZVAL_NREF(_1);
@@ -208,7 +207,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, seek) {
 			if ((Z_TYPE_P(rows) == IS_ARRAY)) {
 				Z_SET_ISREF_P(rows);
 				zephir_call_func_p1_noret("reset", rows);
-				Z_UNSET_ISREF_P(rows);
 				_5 = position;
 				_4 = 0;
 				_3 = 0;
@@ -225,7 +223,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, seek) {
 						i = _4;
 						Z_SET_ISREF_P(rows);
 						zephir_call_func_p1_noret("next", rows);
-						Z_UNSET_ISREF_P(rows);
 					}
 				}
 			}

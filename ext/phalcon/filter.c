@@ -192,7 +192,7 @@ PHP_METHOD(Phalcon_Filter, sanitize) {
 PHP_METHOD(Phalcon_Filter, _sanitize) {
 
 	zval *filter = NULL;
-	zval *value, *filter_param = NULL, *filterObject, *_0, *_1 = NULL, _2 = zval_used_for_init, _3, _4, *_5 = NULL, *_6;
+	zval *value, *filter_param = NULL, *filterObject, *_0, *_1 = NULL, _2 = zval_used_for_init, _3, _4, *_5, *_6;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &value, &filter_param);
@@ -261,7 +261,7 @@ PHP_METHOD(Phalcon_Filter, _sanitize) {
 			RETURN_MM();
 		}
 		if (ZEPHIR_IS_STRING(filter, "trim")) {
-			zephir_fast_trim(return_value, value, ZEPHIR_TRIM_BOTH TSRMLS_CC);
+			zephir_fast_trim(return_value, value, NULL , ZEPHIR_TRIM_BOTH TSRMLS_CC);
 			RETURN_MM();
 		}
 		if (ZEPHIR_IS_STRING(filter, "striptags")) {
@@ -269,11 +269,7 @@ PHP_METHOD(Phalcon_Filter, _sanitize) {
 			RETURN_MM();
 		}
 		if (ZEPHIR_IS_STRING(filter, "lower")) {
-			ZEPHIR_SINIT_NVAR(_2);
-			ZVAL_STRING(&_2, "mb_strtolower", 0);
-			ZEPHIR_INIT_NVAR(_5);
-			zephir_call_func_p1(_5, "function_exists", &_2);
-			if (zephir_is_true(_5)) {
+			if ((zephir_function_exists_ex(SS("mb_strtolower") TSRMLS_CC) == SUCCESS)) {
 				zephir_call_func_p1(return_value, "mb_strtolower", value);
 				RETURN_MM();
 			}
@@ -281,11 +277,7 @@ PHP_METHOD(Phalcon_Filter, _sanitize) {
 			RETURN_MM();
 		}
 		if (ZEPHIR_IS_STRING(filter, "upper")) {
-			ZEPHIR_SINIT_NVAR(_2);
-			ZVAL_STRING(&_2, "mb_strtoupper", 0);
-			ZEPHIR_INIT_NVAR(_1);
-			zephir_call_func_p1(_1, "function_exists", &_2);
-			if (zephir_is_true(_1)) {
+			if ((zephir_function_exists_ex(SS("mb_strtoupper") TSRMLS_CC) == SUCCESS)) {
 				zephir_call_func_p1(return_value, "mb_strtoupper", value);
 				RETURN_MM();
 			}
