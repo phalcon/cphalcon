@@ -1097,7 +1097,7 @@ PHP_METHOD(Phalcon_Mvc_Micro, handle){
 		;
 
 		PHALCON_INIT_VAR(returned_response_sent);
-		phalcon_call_method(returned_response_sent, returned_value, "isSent");
+		phalcon_call_method(returned_response_sent, returned_value, "issent");
 		
 		if (returned_response && PHALCON_IS_FALSE(returned_response_sent)) {
 			/** 

@@ -459,7 +459,7 @@ PHP_METHOD(Phalcon_Http_Request, getPut){
 		phalcon_read_property_this(&put, this_ptr, SL("_put"), PH_NOISY_CC);
 		if (Z_TYPE_P(put) != IS_ARRAY) {
 			PHALCON_INIT_VAR(raw);
-			phalcon_call_method(raw, this_ptr, "getRawBody");
+			phalcon_call_method(raw, this_ptr, "getrawbody");
 
 			PHALCON_INIT_NVAR(put);
 			array_init(put);
@@ -692,7 +692,7 @@ PHP_METHOD(Phalcon_Http_Request, hasPut){
 	phalcon_fetch_params(1, 1, 0, &name);
 	
 	PHALCON_INIT_VAR(is_put);
-	phalcon_call_method(is_put, this_ptr, "isPut");
+	phalcon_call_method(is_put, this_ptr, "isput");
 
 	if (!zend_is_true(is_put)) {
 		put = phalcon_get_global(SS("_PUT") TSRMLS_CC);
@@ -702,7 +702,7 @@ PHP_METHOD(Phalcon_Http_Request, hasPut){
 		phalcon_read_property_this(&put, this_ptr, SL("_put"), PH_NOISY_CC);
 		if (Z_TYPE_P(put) != IS_ARRAY) {
 			PHALCON_INIT_VAR(raw);
-			phalcon_call_method(raw, this_ptr, "getRawBody");
+			phalcon_call_method(raw, this_ptr, "getrawbody");
 
 			PHALCON_INIT_NVAR(put);
 			array_init(put);
