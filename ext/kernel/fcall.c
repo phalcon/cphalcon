@@ -128,9 +128,9 @@ static int phalcon_call_user_function(HashTable *function_table, zval **object_p
 	return ex_retval;
 }
 
-
-static void phalcon_check_return_value(zval *return_value) {
 #ifndef PHALCON_RELEASE
+static void phalcon_check_return_value(zval *return_value)
+{
 	int valid_return_value = 1;
 
 	assert(return_value != NULL);
@@ -147,8 +147,25 @@ static void phalcon_check_return_value(zval *return_value) {
 		phalcon_print_backtrace();
 		abort();
 	}
-#endif
 }
+
+static void phalcon_check_method_case(const char *method_name, uint method_len)
+{
+/*
+	if (strspn(method_name, "abcdefghijklmnopqrstuvwxyz0123456789_\\:") != method_len) {
+		fprintf(stderr, "ERROR: %s: method name (%s) is not lowercased!\n", __func__, method_name);
+		phalcon_print_backtrace();
+		abort();
+	}
+*/
+}
+
+#else
+
+static inline void phalcon_check_return_value(zval *return_value) {}
+static inline void phalcon_check_method_case(const char *method_name, uint method_len) {}
+
+#endif
 
 static int phalcon_call_func_vparams(zval *return_value, zval **return_value_ptr, zval *func TSRMLS_DC, int param_count, va_list ap)
 {
@@ -207,7 +224,7 @@ static int phalcon_call_func_vparams(zval *return_value, zval **return_value_ptr
 	return status;
 }
 
-int phalcon_call_method_vparams(zval *return_value, zval **return_value_ptr, zval *object, const char *method_name, int method_len, ulong method_key TSRMLS_DC, int param_count, va_list ap) {
+int phalcon_call_method_vparams(zval *return_value, zval **return_value_ptr, zval *object, const char *method_name, uint method_len, ulong method_key TSRMLS_DC, int param_count, va_list ap) {
 
 	int i, status, free_params = -0, caller_wants_result = 1;
 	zend_class_entry *ce, *active_scope = NULL;
@@ -218,6 +235,8 @@ int phalcon_call_method_vparams(zval *return_value, zval **return_value_ptr, zva
 		php_error_docref(NULL TSRMLS_CC, E_ERROR, "Call to method %s() on a non object", method_name);
 		return FAILURE;
 	}
+
+	phalcon_check_method_case(method_name, method_len);
 
 	if (!return_value) {
 		ALLOC_INIT_ZVAL(return_value);
@@ -282,6 +301,8 @@ static int phalcon_call_static_zval_str_func_vparams(zval *return_value, zval **
 	zval **params_ptr, **params = NULL, *fn;
 	zval *static_params[10];
 	int free_params = 0, i, status, caller_wants_result = 1;
+
+	phalcon_check_method_case(method_name, method_len);
 
 	if (!return_value) {
 		ALLOC_INIT_ZVAL(return_value);
@@ -358,10 +379,12 @@ static int phalcon_call_static_zval_str_func_vparams(zval *return_value, zval **
  * @retval @c SUCCESS
  * @retval @c FAILURE
  */
-int phalcon_call_func_params(zval *return_value, zval **return_value_ptr, const char *func_name, int func_length TSRMLS_DC, int param_count, ...) {
+int phalcon_call_func_params(zval *return_value, zval **return_value_ptr, const char *func_name, uint func_length TSRMLS_DC, int param_count, ...) {
 	zval fn;
 	int status;
 	va_list ap;
+
+	phalcon_check_method_case(func_name, func_length);
 
 	INIT_ZVAL(fn);
 	ZVAL_STRINGL(&fn, func_name, func_length, 0);
@@ -385,7 +408,7 @@ int phalcon_call_func_params(zval *return_value, zval **return_value_ptr, const 
  * @retval @c SUCCESS
  * @retval @c FAILURE
  */
-int phalcon_call_method_params(zval *return_value, zval **return_value_ptr, zval *object, const char *method_name, int method_len, ulong method_key TSRMLS_DC, int param_count, ...) {
+int phalcon_call_method_params(zval *return_value, zval **return_value_ptr, zval *object, const char *method_name, uint method_len, ulong method_key TSRMLS_DC, int param_count, ...) {
 
 	int status;
 	va_list ap;
@@ -419,7 +442,7 @@ int phalcon_call_method_zval_params(zval *return_value, zval **return_value_ptr,
 /**
  * Call single static function that requires an arbitrary number of parameters
  */
-int phalcon_call_static_func_params(zval *return_value, zval **return_value_ptr, const char *class_name, int class_length, const char *method_name, int method_length TSRMLS_DC, int param_count, ...) {
+int phalcon_call_static_func_params(zval *return_value, zval **return_value_ptr, const char *class_name, uint class_length, const char *method_name, uint method_length TSRMLS_DC, int param_count, ...) {
 
 	zval cls;
 	va_list ap;
@@ -440,7 +463,7 @@ int phalcon_call_static_func_params(zval *return_value, zval **return_value_ptr,
 /**
  * Call parent static function that requires an arbitrary number of parameters
  */
-int phalcon_call_parent_func_params(zval *return_value, zval **return_value_ptr, zval *object, zend_class_entry *active_class_ce, const char *method_name, int method_len TSRMLS_DC, int param_count, ...) {
+int phalcon_call_parent_func_params(zval *return_value, zval **return_value_ptr, zval *object, zend_class_entry *active_class_ce, const char *method_name, uint method_len TSRMLS_DC, int param_count, ...) {
 
 	zval cls;
 	int status;
@@ -469,7 +492,7 @@ int phalcon_call_parent_func_params(zval *return_value, zval **return_value_ptr,
 /**
  * Call self-class static function which requires parameters
  */
-int phalcon_call_self_func_params(zval *return_value, zval **return_value_ptr, zval *object, const char *method_name, int method_len TSRMLS_DC, int param_count, ...) {
+int phalcon_call_self_func_params(zval *return_value, zval **return_value_ptr, zval *object, const char *method_name, uint method_len TSRMLS_DC, int param_count, ...) {
 
 	int status;
 	zend_class_entry *active_scope;
@@ -515,7 +538,7 @@ int phalcon_call_static_zval_func_params(zval *return_value, zval **return_value
 	return FAILURE;
 }
 
-int phalcon_call_static_zval_str_func_params(zval *return_value, zval **return_value_ptr, zval *mixed_name, const char *method_name, int method_len TSRMLS_DC, int param_count, ...) {
+int phalcon_call_static_zval_str_func_params(zval *return_value, zval **return_value_ptr, zval *mixed_name, const char *method_name, uint method_len TSRMLS_DC, int param_count, ...) {
 
 	int status;
 	va_list ap;
