@@ -479,7 +479,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, addExtension){
 
 	zval *extension;
 
-	phalcon_fetch_params(1, 1, 0, &extension);
+	phalcon_fetch_params(0, 1, 0, &extension);
 
 	if (Z_TYPE_P(extension) != IS_OBJECT) {
 		PHALCON_THROW_EXCEPTION_STRW(phalcon_mvc_view_exception_ce, "The extension is not valid");
@@ -550,7 +550,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, addFilter){
 
 	zval **name, **definition;
 
-	phalcon_fetch_params(0, 2, 0, &name, &definition);
+	phalcon_fetch_params_ex(2, 0, &name, &definition);
 	PHALCON_ENSURE_IS_STRING(name);
 	
 	phalcon_update_property_array(this_ptr, SL("_filters"), *name, *definition TSRMLS_CC);
