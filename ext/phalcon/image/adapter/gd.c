@@ -17,10 +17,10 @@
 #include "kernel/memory.h"
 #include "kernel/fcall.h"
 #include "kernel/exception.h"
-#include "kernel/string.h"
 #include "kernel/array.h"
 #include "kernel/concat.h"
 #include "ext/spl/spl_exceptions.h"
+#include "kernel/string.h"
 
 
 /*
@@ -52,7 +52,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Image_Adapter_Gd) {
 
 PHP_METHOD(Phalcon_Image_Adapter_Gd, check) {
 
-	zval *version = NULL, *info, *matches, *_0, _1 = zval_used_for_init, *_2, *_3, *_4 = NULL, *_5, _6, _7, *_8, *_9, *_10;
+	zval *version = NULL, *info, *matches, *_0, _1 = zval_used_for_init, *_2, *_3, *_4, *_5 = NULL, *_6 = NULL, _7, *_8, *_9;
 
 	ZEPHIR_MM_GROW();
 
@@ -82,35 +82,37 @@ PHP_METHOD(Phalcon_Image_Adapter_Gd, check) {
 		zephir_call_func(info, "gd_info");
 		ZEPHIR_INIT_VAR(matches);
 		ZVAL_NULL(matches);
-		ZEPHIR_INIT_VAR(_4);
-		zephir_array_fetch_string(&_5, info, SL("GD Version"), PH_NOISY | PH_READONLY TSRMLS_CC);
-		ZEPHIR_SINIT_NVAR(_1);
-		ZVAL_STRING(&_1, "/\\d+\\.\\d+(?:\\.\\d+)?/", 0);
-		zephir_preg_match(_4, &(_4), &_1, _5, matches TSRMLS_CC);
-		if (zephir_is_true(_4)) {
+		zephir_array_fetch_string(&_4, info, SL("GD Version"), PH_NOISY | PH_READONLY TSRMLS_CC);
+		ZEPHIR_INIT_VAR(_5);
+		ZVAL_STRING(_5, "/\\d+\\.\\d+(?:\\.\\d+)?/", 1);
+		Z_SET_ISREF_P(matches);
+		ZEPHIR_INIT_VAR(_6);
+		zephir_call_func_p3(_6, "preg_match", _5, _4, matches);
+		Z_UNSET_ISREF_P(matches);
+		if (zephir_is_true(_6)) {
 			ZEPHIR_OBS_NVAR(version);
 			zephir_array_fetch_long(&version, matches, 0, PH_NOISY TSRMLS_CC);
 		}
 	}
-	ZEPHIR_SINIT_VAR(_6);
-	ZVAL_STRING(&_6, "2.0.1", 0);
+	ZEPHIR_SINIT_NVAR(_1);
+	ZVAL_STRING(&_1, "2.0.1", 0);
 	ZEPHIR_SINIT_VAR(_7);
 	ZVAL_STRING(&_7, ">=", 0);
-	ZEPHIR_INIT_NVAR(_4);
-	zephir_call_func_p3(_4, "version_compare", version, &_6, &_7);
-	if (!(zephir_is_true(_4))) {
+	ZEPHIR_INIT_NVAR(_5);
+	zephir_call_func_p3(_5, "version_compare", version, &_1, &_7);
+	if (!(zephir_is_true(_5))) {
+		ZEPHIR_INIT_NVAR(_6);
+		object_init_ex(_6, phalcon_image_exception_ce);
 		ZEPHIR_INIT_VAR(_8);
-		object_init_ex(_8, phalcon_image_exception_ce);
-		ZEPHIR_INIT_VAR(_9);
-		ZEPHIR_CONCAT_SV(_9, "Phalcon\\Image\\Adapter\\GD requires GD version '2.0.1' or greater, you have ", version);
-		zephir_call_method_p1_noret(_8, "__construct", _9);
-		zephir_throw_exception(_8 TSRMLS_CC);
+		ZEPHIR_CONCAT_SV(_8, "Phalcon\\Image\\Adapter\\GD requires GD version '2.0.1' or greater, you have ", version);
+		zephir_call_method_p1_noret(_6, "__construct", _8);
+		zephir_throw_exception(_6 TSRMLS_CC);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
 	zephir_update_static_property_ce(phalcon_image_adapter_gd_ce, SL("_checked"), ZEPHIR_GLOBAL(global_true) TSRMLS_CC);
-	_10 = zephir_fetch_static_property_ce(phalcon_image_adapter_gd_ce, SL("_checked") TSRMLS_CC);
-	RETURN_CTOR(_10);
+	_9 = zephir_fetch_static_property_ce(phalcon_image_adapter_gd_ce, SL("_checked") TSRMLS_CC);
+	RETURN_CTOR(_9);
 
 }
 

@@ -962,6 +962,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, resolveFilter) {
 			zephir_array_update_string(&_0, SL("line"), &line, PH_COPY | PH_SEPARATE);
 			Z_SET_ISREF_P(funcArguments);
 			zephir_call_func_p2_noret("array_unshift", funcArguments, _0);
+			Z_UNSET_ISREF_P(funcArguments);
 		}
 		ZEPHIR_INIT_BNVAR(arguments);
 		zephir_call_method_p1(arguments, this_ptr, "expression", funcArguments);

@@ -231,8 +231,10 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Mysql, describeColumns) {
 		if (zephir_memnstr_str(columnType, SL("("), "phalcon/db/adapter/pdo/mysql.zep", 208)) {
 			ZEPHIR_INIT_NVAR(matches);
 			ZVAL_NULL(matches);
+			Z_SET_ISREF_P(matches);
 			ZEPHIR_INIT_NVAR(_6);
-			zephir_preg_match(_6, &(_6), sizePattern, columnType, matches TSRMLS_CC);
+			zephir_call_func_p3(_6, "preg_match", sizePattern, columnType, matches);
+			Z_UNSET_ISREF_P(matches);
 			if (zephir_is_true(_6)) {
 				if (zephir_array_isset_long_fetch(&matchOne, matches, 1, 1 TSRMLS_CC)) {
 					zephir_array_update_string(&definition, SL("size"), &matchOne, PH_COPY | PH_SEPARATE);
