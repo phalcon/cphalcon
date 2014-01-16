@@ -361,7 +361,7 @@ PHP_METHOD(Phalcon_Image_Adapter, liquidRescale){
 		PHALCON_ENSURE_IS_LONG(rigidity);
 	}
 
-	phalcon_call_method_p4_noret(this_ptr, "_liquidRescale", *width, *height, *delta_x, *rigidity);
+	phalcon_call_method_p4_noret(this_ptr, "_liquidrescale", *width, *height, *delta_x, *rigidity);
 
 	RETURN_THIS();
 }
