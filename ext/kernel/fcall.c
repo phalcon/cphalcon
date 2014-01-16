@@ -92,7 +92,7 @@ static int phalcon_call_user_function(zval **object_pp, const zend_class_entry *
 	zend_fcall_info_cache fcic;
 	zend_phalcon_globals *phalcon_globals_ptr = PHALCON_VGLOBAL;
 	char *name = NULL;
-	int len;
+	uint len;
 
 	if (retval_ptr_ptr && *retval_ptr_ptr) {
 		zval_ptr_dtor(retval_ptr_ptr);
@@ -149,6 +149,13 @@ static int phalcon_call_user_function(zval **object_pp, const zend_class_entry *
 			len  = Z_STRLEN_PP(v);
 		}
 	}
+
+#ifndef PHALCON_RELEASE
+	if (obj_ce && name && is_phalcon_class(obj_ce) && strspn(name, "abcdefghijklmnopqrstuvwxyz0123456789_") != len) {
+		fprintf(stderr, "Warning: method name is not lowercased: %s\n", name);
+		phalcon_print_backtrace();
+	}
+#endif
 
 	if (name && zend_hash_find(fci.function_table, name, len+1, (void **) &fcic.function_handler) != FAILURE) {
 		fcic.initialized   = 1;
