@@ -381,9 +381,10 @@ PHP_METHOD(Phalcon_Db_Adapter, fetchAll) {
 PHP_METHOD(Phalcon_Db_Adapter, insert) {
 
 	zend_function *_9 = NULL;
+	zval *_5 = NULL;
 	HashTable *_3, *_7;
 	HashPosition _2, _6;
-	zval *table, *values, *fields = NULL, *dataTypes = NULL, *placeholders, *insertValues, *bindDataTypes = NULL, *bindType, *position = NULL, *value = NULL, *escapedTable = NULL, *joinedValues, *escapedFields = NULL, *field = NULL, *insertSql, *_0 = NULL, *_1, **_4, *_5 = NULL, **_8;
+	zval *table, *values, *fields = NULL, *dataTypes = NULL, *placeholders, *insertValues, *bindDataTypes = NULL, *bindType, *position = NULL, *value = NULL, *escapedTable = NULL, *joinedValues, *escapedFields = NULL, *field = NULL, *insertSql, *_0 = NULL, *_1, **_4, **_8, *_10;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 2, &table, &values, &fields, &dataTypes);
@@ -428,15 +429,17 @@ PHP_METHOD(Phalcon_Db_Adapter, insert) {
 		ZEPHIR_GET_HMKEY(position, _3, _2);
 		ZEPHIR_GET_HVALUE(value, _4);
 		if ((Z_TYPE_P(value) == IS_OBJECT)) {
+			zephir_get_strval(_5, value);
+			zephir_array_append(&placeholders, _5, PH_SEPARATE);
 		} else {
 			if ((Z_TYPE_P(value) == IS_NULL)) {
 				ZEPHIR_INIT_NVAR(_0);
 				ZVAL_STRING(_0, "null", 1);
 				zephir_array_append(&placeholders, _0, PH_SEPARATE);
 			} else {
-				ZEPHIR_INIT_NVAR(_5);
-				ZVAL_STRING(_5, "?", 1);
-				zephir_array_append(&placeholders, _5, PH_SEPARATE);
+				ZEPHIR_INIT_NVAR(_0);
+				ZVAL_STRING(_0, "?", 1);
+				zephir_array_append(&placeholders, _0, PH_SEPARATE);
 				zephir_array_append(&insertValues, value, PH_SEPARATE);
 				if ((Z_TYPE_P(dataTypes) == IS_ARRAY)) {
 					if (!(zephir_array_isset_fetch(&bindType, dataTypes, position, 1 TSRMLS_CC))) {
@@ -474,9 +477,9 @@ PHP_METHOD(Phalcon_Db_Adapter, insert) {
 		} else {
 			ZEPHIR_CPY_WRT(escapedFields, fields);
 		}
-		ZEPHIR_INIT_NVAR(_5);
-		zephir_fast_join_str(_5, SL(", "), escapedFields TSRMLS_CC);
-		ZEPHIR_CONCAT_SVSVSVS(insertSql, "INSERT INTO ", escapedTable, " (", _5, ") VALUES (", joinedValues, ")");
+		ZEPHIR_INIT_VAR(_10);
+		zephir_fast_join_str(_10, SL(", "), escapedFields TSRMLS_CC);
+		ZEPHIR_CONCAT_SVSVSVS(insertSql, "INSERT INTO ", escapedTable, " (", _10, ") VALUES (", joinedValues, ")");
 	} else {
 		ZEPHIR_CONCAT_SVSVS(insertSql, "INSERT INTO ", escapedTable, " VALUES (", joinedValues, ")");
 	}

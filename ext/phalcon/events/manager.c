@@ -122,6 +122,9 @@ PHP_METHOD(Phalcon_Events_Manager, attach) {
 		} else {
 			array_init(priorityQueue);
 		}
+	} else {
+		ZEPHIR_INIT_BNVAR(priorityQueue);
+		array_init(priorityQueue);
 	}
 	if ((Z_TYPE_P(priorityQueue) == IS_OBJECT)) {
 		ZEPHIR_INIT_NVAR(_2);
@@ -311,7 +314,7 @@ PHP_METHOD(Phalcon_Events_Manager, fireQueue) {
 				if (zephir_is_instance_of(handler, SL("Closure") TSRMLS_CC)) {
 					if ((Z_TYPE_P(arguments) == IS_NULL)) {
 						ZEPHIR_INIT_NVAR(arguments);
-						array_init_size(arguments, 4);
+						array_init_size(arguments, 5);
 						zephir_array_fast_append(arguments, event);
 						zephir_array_fast_append(arguments, source);
 						zephir_array_fast_append(arguments, data);
@@ -357,7 +360,7 @@ PHP_METHOD(Phalcon_Events_Manager, fireQueue) {
 				if (zephir_is_instance_of(handler, SL("Closure") TSRMLS_CC)) {
 					if ((Z_TYPE_P(arguments) == IS_NULL)) {
 						ZEPHIR_INIT_NVAR(arguments);
-						array_init_size(arguments, 4);
+						array_init_size(arguments, 5);
 						zephir_array_fast_append(arguments, event);
 						zephir_array_fast_append(arguments, source);
 						zephir_array_fast_append(arguments, data);
@@ -444,7 +447,7 @@ PHP_METHOD(Phalcon_Events_Manager, fire) {
 	if ((Z_TYPE_P(events) != IS_ARRAY)) {
 		RETURN_MM_NULL();
 	}
-	if (!(zephir_memnstr_str(eventType, SL(":"), "phalcon/events/manager.zep", 425))) {
+	if (!(zephir_memnstr_str(eventType, SL(":"), "phalcon/events/manager.zep", 427))) {
 		ZEPHIR_INIT_VAR(_0);
 		object_init_ex(_0, phalcon_events_exception_ce);
 		ZEPHIR_INIT_VAR(_1);
@@ -500,7 +503,7 @@ PHP_METHOD(Phalcon_Events_Manager, fire) {
  */
 PHP_METHOD(Phalcon_Events_Manager, hasListeners) {
 
-	zval *type_param = NULL, *events;
+	zval *type_param = NULL, *_0;
 	zval *type = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -519,11 +522,8 @@ PHP_METHOD(Phalcon_Events_Manager, hasListeners) {
 	}
 
 
-	events = zephir_fetch_nproperty_this(this_ptr, SL("_events"), PH_NOISY_CC);
-	if ((Z_TYPE_P(events) == IS_ARRAY)) {
-		RETURN_MM_BOOL(zephir_array_isset(events, type));
-	}
-	RETURN_MM_BOOL(0);
+	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_events"), PH_NOISY_CC);
+	RETURN_MM_BOOL(zephir_array_isset(_0, type));
 
 }
 

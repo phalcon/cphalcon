@@ -97,10 +97,6 @@ PHP_METHOD(Phalcon_Cli_Console, setDI) {
 
 
 
-	if ((Z_TYPE_P(dependencyInjector) != IS_OBJECT)) {
-		ZEPHIR_THROW_EXCEPTION_STRW(phalcon_cli_console_exception_ce, "Dependency Injector is invalid");
-		return;
-	}
 	zephir_update_property_this(this_ptr, SL("_dependencyInjector"), dependencyInjector TSRMLS_CC);
 
 }

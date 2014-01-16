@@ -278,17 +278,6 @@ PHP_METHOD(Phalcon_Mvc_Url, getBasePath) {
 
 }
 
-PHP_METHOD(Phalcon_Mvc_Url, replacePaths) {
-
-	zval *pattern, *paths, *uri;
-
-	zephir_fetch_params(0, 3, 0, &pattern, &paths, &uri);
-
-
-
-
-}
-
 /**
  * Generates a URL
  *
@@ -354,12 +343,12 @@ PHP_METHOD(Phalcon_Mvc_Url, get) {
 			return;
 		}
 		ZEPHIR_INIT_NVAR(_1);
+		zephir_call_method(_1, route, "getpattern");
 		ZEPHIR_INIT_NVAR(_2);
-		zephir_call_method(_2, route, "getpattern");
+		zephir_call_method(_2, route, "getreversedpaths");
 		ZEPHIR_INIT_VAR(_4);
-		zephir_call_method(_4, route, "getreversedpaths");
-		zephir_call_method_p3(_1, this_ptr, "replacepaths", _2, _4, uri);
-		ZEPHIR_CONCAT_VV(return_value, baseUri, _1);
+		zephir_call_func_p3(_4, "phalcon_replace_paths", _1, _2, uri);
+		ZEPHIR_CONCAT_VV(return_value, baseUri, _4);
 		RETURN_MM();
 	}
 	ZEPHIR_CONCAT_VV(return_value, baseUri, uri);

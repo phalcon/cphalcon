@@ -257,7 +257,7 @@ PHP_METHOD(Phalcon_Annotations_Annotation, numberArguments) {
  */
 PHP_METHOD(Phalcon_Annotations_Annotation, getArgument) {
 
-	zval *position_param = NULL, *arguments, *argument;
+	zval *position_param = NULL, *argument, *_0;
 	int position;
 
 	zephir_fetch_params(0, 1, 0, &position_param);
@@ -265,8 +265,8 @@ PHP_METHOD(Phalcon_Annotations_Annotation, getArgument) {
 		position = zephir_get_intval(position_param);
 
 
-	arguments = zephir_fetch_nproperty_this(this_ptr, SL("_arguments"), PH_NOISY_CC);
-	if (zephir_array_isset_long_fetch(&argument, arguments, position, 1 TSRMLS_CC)) {
+	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_arguments"), PH_NOISY_CC);
+	if (zephir_array_isset_long_fetch(&argument, _0, position, 1 TSRMLS_CC)) {
 		RETURN_CTORW(argument);
 	}
 
@@ -280,7 +280,7 @@ PHP_METHOD(Phalcon_Annotations_Annotation, getArgument) {
  */
 PHP_METHOD(Phalcon_Annotations_Annotation, hasArgument) {
 
-	zval *position_param = NULL, *arguments;
+	zval *position_param = NULL, *_0;
 	int position;
 
 	zephir_fetch_params(0, 1, 0, &position_param);
@@ -288,8 +288,8 @@ PHP_METHOD(Phalcon_Annotations_Annotation, hasArgument) {
 		position = zephir_get_intval(position_param);
 
 
-	arguments = zephir_fetch_nproperty_this(this_ptr, SL("_arguments"), PH_NOISY_CC);
-	RETURN_BOOL(zephir_array_isset_long(arguments, position));
+	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_arguments"), PH_NOISY_CC);
+	RETURN_BOOL(zephir_array_isset_long(_0, position));
 
 }
 
@@ -301,7 +301,7 @@ PHP_METHOD(Phalcon_Annotations_Annotation, hasArgument) {
  */
 PHP_METHOD(Phalcon_Annotations_Annotation, getNamedArgument) {
 
-	zval *name_param = NULL, *arguments, *argument;
+	zval *name_param = NULL, *argument, *_0;
 	zval *name = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -320,8 +320,8 @@ PHP_METHOD(Phalcon_Annotations_Annotation, getNamedArgument) {
 	}
 
 
-	arguments = zephir_fetch_nproperty_this(this_ptr, SL("_arguments"), PH_NOISY_CC);
-	if (zephir_array_isset_fetch(&argument, arguments, name, 1 TSRMLS_CC)) {
+	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_arguments"), PH_NOISY_CC);
+	if (zephir_array_isset_fetch(&argument, _0, name, 1 TSRMLS_CC)) {
 		RETURN_CTOR(argument);
 	}
 	ZEPHIR_MM_RESTORE();

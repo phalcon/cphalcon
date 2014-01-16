@@ -197,15 +197,15 @@ PHP_METHOD(Phalcon_Mvc_Model, getDI) {
  */
 PHP_METHOD(Phalcon_Mvc_Model, setEventsManager) {
 
-	zval *eventsManager, *modelsManager;
+	zval *eventsManager, *_0;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &eventsManager);
 
 
 
-	modelsManager = zephir_fetch_nproperty_this(this_ptr, SL("_modelsManager"), PH_NOISY_CC);
-	zephir_call_method_p2_noret(modelsManager, "setcustomeventsmanager", this_ptr, eventsManager);
+	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_modelsManager"), PH_NOISY_CC);
+	zephir_call_method_p2_noret(_0, "setcustomeventsmanager", this_ptr, eventsManager);
 	ZEPHIR_MM_RESTORE();
 
 }
@@ -338,7 +338,7 @@ PHP_METHOD(Phalcon_Mvc_Model, setTransaction) {
  */
 PHP_METHOD(Phalcon_Mvc_Model, setSource) {
 
-	zval *source_param = NULL, *modelsManager = NULL, *_0;
+	zval *source_param = NULL, *_0;
 	zval *source = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -358,8 +358,7 @@ PHP_METHOD(Phalcon_Mvc_Model, setSource) {
 
 
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_modelsManager"), PH_NOISY_CC);
-	ZEPHIR_CPY_WRT(modelsManager, _0);
-	zephir_call_method_p2_noret(modelsManager, "setmodelsource", this_ptr, source);
+	zephir_call_method_p2_noret(_0, "setmodelsource", this_ptr, source);
 	RETURN_THIS();
 
 }
@@ -2736,7 +2735,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _doLowUpdate) {
 		}
 	}
 	ZEPHIR_INIT_BNVAR(_0);
-	array_init_size(_0, 4);
+	array_init_size(_0, 5);
 	zephir_array_update_string(&_0, SL("conditions"), &uniqueKey, PH_COPY | PH_SEPARATE);
 	zephir_array_update_string(&_0, SL("bind"), &uniqueParams, PH_COPY | PH_SEPARATE);
 	zephir_array_update_string(&_0, SL("bindTypes"), &uniqueTypes, PH_COPY | PH_SEPARATE);
@@ -3634,7 +3633,7 @@ PHP_METHOD(Phalcon_Mvc_Model, refresh) {
 	zephir_call_method(dialect, readConnection, "getdialect");
 	ZEPHIR_INIT_NVAR(_1);
 	ZEPHIR_INIT_NVAR(_5);
-	array_init_size(_5, 4);
+	array_init_size(_5, 5);
 	zephir_array_update_string(&_5, SL("columns"), &fields, PH_COPY | PH_SEPARATE);
 	ZEPHIR_INIT_VAR(_6);
 	zephir_call_method_p1(_6, readConnection, "escapeidentifier", table);

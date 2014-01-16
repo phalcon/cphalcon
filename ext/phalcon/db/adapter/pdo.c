@@ -566,7 +566,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, escapeIdentifier) {
  */
 PHP_METHOD(Phalcon_Db_Adapter_Pdo, escapeString) {
 
-	zval *str_param = NULL, *pdo;
+	zval *str_param = NULL, *_0;
 	zval *str = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -585,8 +585,8 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, escapeString) {
 	}
 
 
-	pdo = zephir_fetch_nproperty_this(this_ptr, SL("_pdo"), PH_NOISY_CC);
-	zephir_call_method_p1(return_value, pdo, "quote", str);
+	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_pdo"), PH_NOISY_CC);
+	zephir_call_method_p1(return_value, _0, "quote", str);
 	RETURN_MM();
 
 }

@@ -71,14 +71,15 @@ abstract class Backend
 	 */
 	public function start(var keyName, lifetime=null)
 	{
-		var existingCache, fresh, frontend;
+		var existingCache, fresh;
 
 		/**
 		 * Get the cache content verifying if it was expired
 		 */
 		let existingCache = this->{"get"}(keyName, lifetime);
 		if existingCache === null {
-			let fresh = true, this->_frontend->start();
+			let fresh = true; 
+			this->_frontend->start();
 		} else {
 			let fresh = false;
 		}

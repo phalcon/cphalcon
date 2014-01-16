@@ -13,9 +13,11 @@
 
 #include "kernel/main.h"
 #include "kernel/array.h"
+#include "kernel/operators.h"
 #include "kernel/memory.h"
 #include "kernel/object.h"
 #include "kernel/exception.h"
+#include "ext/spl/spl_exceptions.h"
 
 
 /*
@@ -59,16 +61,16 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Collection_Document) {
  */
 PHP_METHOD(Phalcon_Mvc_Collection_Document, offsetExists) {
 
-	zval *index;
+	zval *index_param = NULL;
+	zval *index = NULL;
 
-	zephir_fetch_params(0, 1, 0, &index);
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 1, 0, &index_param);
+
+		zephir_get_strval(index, index_param);
 
 
-
-	if (0 == 0) {
-		RETURN_BOOL(1);
-	}
-	RETURN_BOOL(0);
+	RETURN_MM_BOOL(0 == 0);
 
 }
 
@@ -174,13 +176,27 @@ PHP_METHOD(Phalcon_Mvc_Collection_Document, readAttribute) {
  */
 PHP_METHOD(Phalcon_Mvc_Collection_Document, writeAttribute) {
 
-	zval *attribute, *value;
+	zval *attribute_param = NULL, *value;
+	zval *attribute = NULL;
 
-	zephir_fetch_params(0, 2, 0, &attribute, &value);
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 2, 0, &attribute_param, &value);
 
+	if (Z_TYPE_P(attribute_param) != IS_STRING && Z_TYPE_P(attribute_param) != IS_NULL) {
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'attribute' must be a string") TSRMLS_CC);
+		RETURN_MM_NULL();
+	}
+
+	if (Z_TYPE_P(attribute_param) == IS_STRING) {
+		attribute = attribute_param;
+	} else {
+		ZEPHIR_INIT_VAR(attribute);
+		ZVAL_EMPTY_STRING(attribute);
+	}
 
 
 	zephir_update_property_zval_zval(this_ptr, attribute, value TSRMLS_CC);
+	ZEPHIR_MM_RESTORE();
 
 }
 

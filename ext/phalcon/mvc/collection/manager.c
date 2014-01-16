@@ -188,7 +188,7 @@ PHP_METHOD(Phalcon_Mvc_Collection_Manager, getCustomEventsManager) {
 /**
  * Initializes a model in the models manager
  *
- * @param Phalcon\Mvc\CollectionInterface $model
+ * @param Phalcon\Mvc\CollectionInterface model
  */
 PHP_METHOD(Phalcon_Mvc_Collection_Manager, initialize) {
 
