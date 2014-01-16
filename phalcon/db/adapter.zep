@@ -292,7 +292,7 @@ abstract class Adapter implements Phalcon\Events\EventsAwareInterface
 		 */
 		for position, value in values {
 			if typeof value == "object" {
-				//let placeholders[] = (string) value;
+				let placeholders[] = (string) value;
 			} else {
 				if typeof value == "null" {
 					let placeholders[] = "null";

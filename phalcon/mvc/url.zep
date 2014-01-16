@@ -167,12 +167,7 @@ class Url implements Phalcon\Mvc\UrlInterface, Phalcon\Di\InjectionAwareInterfac
 	public function getBasePath() -> string
 	{
 		return this->_basePath;
-	}
-
-	private function replacePaths(pattern, paths, uri)
-	{
-
-	}
+	}	
 
 	/**
 	 * Generates a URL
@@ -229,7 +224,7 @@ class Url implements Phalcon\Mvc\UrlInterface, Phalcon\Di\InjectionAwareInterfac
 			/**
 			 * Replace the patterns by its variables
 			 */
-			return baseUri . this->replacePaths(route->getPattern(), route->getReversedPaths(), uri);
+			return baseUri . phalcon_replace_paths(route->getPattern(), route->getReversedPaths(), uri);
 		}
 
 		return baseUri . uri;

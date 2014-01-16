@@ -171,10 +171,8 @@ abstract class Model implements Phalcon\Mvc\ModelInterface, Phalcon\Mvc\Model\Re
 	 * @param Phalcon\Events\ManagerInterface eventsManager
 	 */
 	protected function setEventsManager(<Phalcon\Events\ManagerInterface> eventsManager)
-	{
-		var modelsManager;
-		let modelsManager = this->_modelsManager;
-		modelsManager->setCustomEventsManager(this, eventsManager);
+	{		
+		this->_modelsManager->setCustomEventsManager(this, eventsManager);
 	}
 
 	/**
@@ -288,10 +286,8 @@ abstract class Model implements Phalcon\Mvc\ModelInterface, Phalcon\Mvc\Model\Re
 	 * @return Phalcon\Mvc\Model
 	 */
 	protected function setSource(string! source) -> <Phalcon\Mvc\Model>
-	{
-		var modelsManager;
-		let modelsManager = <Phalcon\Mvc\Model\ManagerInterface> this->_modelsManager;
-		modelsManager->setModelSource(this, source);
+	{		
+		(<Phalcon\Mvc\Model\ManagerInterface> this->_modelsManager)->setModelSource(this, source);
 		return this;
 	}
 
@@ -1610,7 +1606,10 @@ abstract class Model implements Phalcon\Mvc\ModelInterface, Phalcon\Mvc\Model\Re
 						 * We don't trust the actual values in the object and then we're passing the values using bound parameters
 						 * Let's make the checking
 						 */
-						let resulset = referencedModel->find([join(" AND ", conditions), "bind": bindParams]);
+						let resulset = referencedModel->find([
+							join(" AND ", conditions), 
+							"bind": bindParams
+						]);
 
 						/**
 						 * Delete the resultset
@@ -1773,7 +1772,7 @@ abstract class Model implements Phalcon\Mvc\ModelInterface, Phalcon\Mvc\Model\Re
 			/**
 			 * Call the beforeValidation
 			 */
-			if this->fireEventCancel("beforeValidation") ===false {
+			if this->fireEventCancel("beforeValidation") === false {
 				return false;
 			}
 

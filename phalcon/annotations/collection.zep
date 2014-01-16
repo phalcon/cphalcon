@@ -92,9 +92,8 @@ class Collection implements \Iterator, \Countable
 	 */
 	public function current() -> <Phalcon\Annotations\Annotation> | boolean
 	{
-		var annotation, annotations;
-		let annotations = this->_annotations;
-		if fetch annotation, annotations[this->_position] {
+		var annotation;
+		if fetch annotation, this->_annotations[this->_position] {
 			return annotation;
 		}
 		return false;
@@ -125,10 +124,8 @@ class Collection implements \Iterator, \Countable
 	 * @return boolean
 	 */
 	public function valid() -> boolean
-	{
-		var annotations;
-		let annotations = this->_annotations;
-		return annotations[this->_position];
+	{		
+		return this->_annotations[this->_position];
 	}
 
 	/**

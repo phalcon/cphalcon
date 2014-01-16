@@ -90,13 +90,12 @@ class Reflection
 	 */
 	public function getMethodsAnnotations()
 	{
-		var annotations, reflectionData, reflectionMethods,
+		var annotations, reflectionMethods,
 			collections, methodName, reflectionMethod;
 
 		let annotations = this->_methodAnnotations;
-		if typeof annotations != "object" {
-			let reflectionData = this->_reflectionData;
-			if fetch reflectionMethods, reflectionData["methods"] {
+		if typeof annotations != "object" {			
+			if fetch reflectionMethods, this->_reflectionData["methods"] {
 				if count(reflectionMethods) {
 					let collections = [];
 					for methodName, reflectionMethod in reflectionMethods {
@@ -123,9 +122,8 @@ class Reflection
 			collections, property, reflectionProperty;
 
 		let annotations = this->_propertyAnnotations;
-		if typeof annotations != "object" {
-			let reflectionData = this->_reflectionData;
-			if fetch reflectionProperties, reflectionData["properties"] {
+		if typeof annotations != "object" {			
+			if fetch reflectionProperties, this->_reflectionData["properties"] {
 				if count(reflectionProperties) {
 					let collections = [];
 					for property, reflectionProperty in reflectionProperties {

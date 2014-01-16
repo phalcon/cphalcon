@@ -78,9 +78,7 @@ abstract class Backend
 		 */
 		let existingCache = this->{"get"}(keyName, lifetime);
 		if existingCache === null {
-			let fresh = true,
-				frontend = this->_frontend;
-			frontend->start();
+			let fresh = true, this->_frontend->start();
 		} else {
 			let fresh = false;
 		}
@@ -104,11 +102,9 @@ abstract class Backend
 	 * @param boolean stopBuffer
 	 */
 	public function stop(boolean stopBuffer=true)
-	{
-		var frontend;
-		if stopBuffer === true {
-			let frontend = this->_frontend;
-			frontend->stop();
+	{		
+		if stopBuffer === true {			
+			this->_frontend->stop();
 		}
 		let this->_started = false;
 	}

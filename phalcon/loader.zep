@@ -377,7 +377,7 @@ class Loader implements Phalcon\Events\EventsAwareInterface
 							}
 
 							/**
-							 * This is probably a good path, let's check if the file exist
+							 * This is probably a good path, let's check if the file does exist
 							 */
 							if file_exists(filePath) {
 

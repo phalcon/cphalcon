@@ -197,7 +197,7 @@ class Group
 	 * @param array httpMethods
 	 * @return Phalcon\Mvc\Router\Route
 	 */
-	protected function _addRoute(string! pattern, paths=null, httpMethods=null) -> <Phalcon\Mvc\Router\Route>
+	private function _addRoute(string! pattern, paths=null, httpMethods=null) -> <Phalcon\Mvc\Router\Route>
 	{
 		var mergedPaths, route, defaultPaths;
 

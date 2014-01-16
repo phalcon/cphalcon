@@ -109,7 +109,8 @@ class Base64 implements Phalcon\Cache\FrontendInterface
 	 *
 	 * @return string
 	 */
-	public function getContent(){
+	public function getContent()
+	{
 		return null;
 	}
 

@@ -127,7 +127,7 @@ class Manager implements Phalcon\Di\InjectionAwareInterface, Phalcon\Events\Even
 	/**
 	* Initializes a model in the models manager
 	*
-	* @param Phalcon\Mvc\CollectionInterface $model
+	* @param Phalcon\Mvc\CollectionInterface model
 	*/
 	public function initialize(<Phalcon\Mvc\CollectionInterface> model) -> void
 	{

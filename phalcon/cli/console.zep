@@ -54,10 +54,7 @@ class Console implements Phalcon\Di\InjectionAwareInterface, Phalcon\Events\Even
 	 * @param Phalcon\DiInterface dependencyInjector
 	 */
 	public function setDI(<Phalcon\DiInterface> dependencyInjector)
-	{
-		if typeof dependencyInjector != "object" {
-			throw new Phalcon\Cli\Console\Exception("Dependency Injector is invalid");
-		}
+	{		
 		let this->_dependencyInjector = dependencyInjector;
 	}
 

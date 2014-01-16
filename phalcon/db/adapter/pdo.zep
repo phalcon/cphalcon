@@ -418,10 +418,8 @@ abstract class Pdo extends Phalcon\Db\Adapter
 	 * @return string
 	 */
 	public function escapeString(string! str) -> string
-	{
-		var pdo;
-		let pdo = this->_pdo;
-		return pdo->quote(str);
+	{		
+		return this->_pdo->quote(str);
 	}
 
 	/**

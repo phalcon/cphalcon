@@ -175,9 +175,8 @@ class Annotation
 	 */
 	public function getArgument(int position)
 	{
-		var arguments, argument;
-		let arguments = this->_arguments;
-		if fetch argument, arguments[position] {
+		var argument;		
+		if fetch argument, this->_arguments[position] {
 			return argument;
 		}
 	}
@@ -189,10 +188,8 @@ class Annotation
 	 * @return boolean
 	 */
 	public function hasArgument(int position) -> boolean
-	{
-		var arguments;
-		let arguments = this->_arguments;
-		return isset arguments[position];
+	{		
+		return isset this->_arguments[position];
 	}
 
 	/**
@@ -203,9 +200,8 @@ class Annotation
 	 */
 	public function getNamedArgument(string! name)
 	{
-		var arguments, argument;
-		let arguments = this->_arguments;
-		if fetch argument, arguments[name] {
+		var argument;		
+		if fetch argument, this->_arguments[name] {
  			return argument;
 		}
 	}

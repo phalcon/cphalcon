@@ -83,6 +83,8 @@ class Manager implements Phalcon\Events\ManagerInterface
 				let priorityQueue = [];
 			}
 
+		} else {
+			let priorityQueue = [];
 		}
 
 		/**
@@ -494,12 +496,7 @@ class Manager implements Phalcon\Events\ManagerInterface
 	 */
 	public function hasListeners(string! type)
 	{
-		var events;
-		let events = this->_events;
-		if typeof events == "array" {
-			return isset events[type];
-		}
-		return false;
+		return isset this->_events[type];		
 	}
 
 	/**

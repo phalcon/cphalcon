@@ -33,12 +33,9 @@ class Document implements ArrayAccess
 	* @param int index
 	* @return boolean
 	*/
-	public function offsetExists(index) -> boolean
+	public function offsetExists(string index) -> boolean
 	{
-		if isset this->{index} {
-			return true;
-		}
-		return false;
+		return isset this->{index};
 	}
 
 	/**
@@ -105,7 +102,7 @@ class Document implements ArrayAccess
 	* @param string attribute
 	* @param mixed value
 	*/
-	public function writeAttribute(attribute, value) -> void
+	public function writeAttribute(string! attribute, value) -> void
 	{
 		let this->{attribute} = value;
 	}
