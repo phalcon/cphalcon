@@ -168,7 +168,7 @@
  - Phalcon\Image:
    - Added Phalcon\Image\Adapter, Phalcon\Image\Adapter\Gd, Phalcon\Image\Adapter\Imagick (#902, #1025, #1030, #1041, #1050, #1063, #1076, #1081, #1114, #1120, #1158, #1195, #1206, #1214, #1370)
  - Phalcon\Logger:
-   - Added FirePHP Log Adapter and Formatter (#845, #1333)
+   - Added FirePHP Log Adapter and Formatter (#845, #1333, #1483)
    - Implemented Phalcon\Logger\Adapter::isTransaction() (#1238)
    - Fixed a bug preventing the EMERGENCY log type from being displayed correctly (#1498)
    - Added Phalcon\Logger\Adapter\File::getPath() (#1495, #1508)
