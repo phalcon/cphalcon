@@ -1425,6 +1425,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, fromInput){
 PHP_METHOD(Phalcon_Mvc_Model_Criteria, execute){
 
 	zval *model, *params;
+	zend_class_entry *ce;
 
 	PHALCON_MM_GROW();
 
@@ -1437,7 +1438,13 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, execute){
 	PHALCON_INIT_VAR(params);
 	phalcon_call_method(params, this_ptr, "getparams");
 	
-	phalcon_call_zval_str_static_p1(return_value, model, "find", params);
+	ce = phalcon_fetch_class(model TSRMLS_CC);
+	if (!ce) {
+		zend_throw_exception_ex(phalcon_mvc_model_exception_ce, 0 TSRMLS_CC, "Class '%s' does not exist", Z_STRVAL_P(model));
+		RETURN_MM();
+	}
+
+	phalcon_call_ce_static_p1(return_value, ce, "find", params);
 	
 	PHALCON_MM_RESTORE();
 }
