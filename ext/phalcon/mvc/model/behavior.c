@@ -85,13 +85,19 @@ PHP_METHOD(Phalcon_Mvc_Model_Behavior, mustTakeAction) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &eventName_param);
 
-		if (Z_TYPE_P(eventName_param) != IS_STRING) {
-				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'eventName' must be a string") TSRMLS_CC);
-				RETURN_MM_NULL();
+	if (Z_TYPE_P(eventName_param) != IS_STRING) {
+		if (Z_TYPE_P(eventName_param) != IS_NULL) {
+			zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'eventName' must be a string") TSRMLS_CC);
+			RETURN_MM_NULL();
 		}
+	}
 
+	if (Z_TYPE_P(eventName_param) == IS_STRING) {
 		eventName = eventName_param;
-
+	} else {
+		ZEPHIR_INIT_VAR(eventName);
+		ZVAL_EMPTY_STRING(eventName);
+	}
 
 
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_options"), PH_NOISY_CC);

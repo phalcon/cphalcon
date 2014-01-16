@@ -299,7 +299,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, serialize) {
 
 	zephir_update_property_this(this_ptr, SL("_activeRow"), (0) ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
 	ZEPHIR_INIT_VAR(_0);
-	array_init_size(_0, 6);
+	array_init_size(_0, 7);
 	ZEPHIR_OBS_VAR(_1);
 	zephir_read_property_this(&_1, this_ptr, SL("_model"), PH_NOISY_CC);
 	zephir_array_update_string(&_0, SL("model"), &_1, PH_COPY | PH_SEPARATE);
@@ -333,13 +333,19 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, unserialize) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &data_param);
 
-		if (Z_TYPE_P(data_param) != IS_STRING) {
-				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'data' must be a string") TSRMLS_CC);
-				RETURN_MM_NULL();
+	if (Z_TYPE_P(data_param) != IS_STRING) {
+		if (Z_TYPE_P(data_param) != IS_NULL) {
+			zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'data' must be a string") TSRMLS_CC);
+			RETURN_MM_NULL();
 		}
+	}
 
+	if (Z_TYPE_P(data_param) == IS_STRING) {
 		data = data_param;
-
+	} else {
+		ZEPHIR_INIT_VAR(data);
+		ZVAL_EMPTY_STRING(data);
+	}
 
 
 	ZEPHIR_INIT_ZVAL_NREF(_0);

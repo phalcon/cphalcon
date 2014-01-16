@@ -80,13 +80,19 @@ PHP_METHOD(Phalcon_Events_Manager, attach) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 1, &eventType_param, &handler, &priority_param);
 
-		if (Z_TYPE_P(eventType_param) != IS_STRING) {
-				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'eventType' must be a string") TSRMLS_CC);
-				RETURN_MM_NULL();
+	if (Z_TYPE_P(eventType_param) != IS_STRING) {
+		if (Z_TYPE_P(eventType_param) != IS_NULL) {
+			zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'eventType' must be a string") TSRMLS_CC);
+			RETURN_MM_NULL();
 		}
+	}
 
+	if (Z_TYPE_P(eventType_param) == IS_STRING) {
 		eventType = eventType_param;
-
+	} else {
+		ZEPHIR_INIT_VAR(eventType);
+		ZVAL_EMPTY_STRING(eventType);
+	}
 	if (!priority_param) {
 		priority = 100;	} else {
 		priority = zephir_get_intval(priority_param);
@@ -307,7 +313,7 @@ PHP_METHOD(Phalcon_Events_Manager, fireQueue) {
 				if (zephir_is_instance_of(handler, SL("Closure") TSRMLS_CC)) {
 					if ((Z_TYPE_P(arguments) == IS_NULL)) {
 						ZEPHIR_INIT_NVAR(arguments);
-						array_init_size(arguments, 4);
+						array_init_size(arguments, 5);
 						zephir_array_fast_append(arguments, event);
 						zephir_array_fast_append(arguments, source);
 						zephir_array_fast_append(arguments, data);
@@ -353,7 +359,7 @@ PHP_METHOD(Phalcon_Events_Manager, fireQueue) {
 				if (zephir_is_instance_of(handler, SL("Closure") TSRMLS_CC)) {
 					if ((Z_TYPE_P(arguments) == IS_NULL)) {
 						ZEPHIR_INIT_NVAR(arguments);
-						array_init_size(arguments, 4);
+						array_init_size(arguments, 5);
 						zephir_array_fast_append(arguments, event);
 						zephir_array_fast_append(arguments, source);
 						zephir_array_fast_append(arguments, data);
@@ -415,13 +421,19 @@ PHP_METHOD(Phalcon_Events_Manager, fire) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 2, &eventType_param, &source, &data, &cancelable_param);
 
-		if (Z_TYPE_P(eventType_param) != IS_STRING) {
-				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'eventType' must be a string") TSRMLS_CC);
-				RETURN_MM_NULL();
+	if (Z_TYPE_P(eventType_param) != IS_STRING) {
+		if (Z_TYPE_P(eventType_param) != IS_NULL) {
+			zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'eventType' must be a string") TSRMLS_CC);
+			RETURN_MM_NULL();
 		}
+	}
 
+	if (Z_TYPE_P(eventType_param) == IS_STRING) {
 		eventType = eventType_param;
-
+	} else {
+		ZEPHIR_INIT_VAR(eventType);
+		ZVAL_EMPTY_STRING(eventType);
+	}
 	if (!data) {
 		data = ZEPHIR_GLOBAL(global_null);
 	}
@@ -498,13 +510,19 @@ PHP_METHOD(Phalcon_Events_Manager, hasListeners) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &type_param);
 
-		if (Z_TYPE_P(type_param) != IS_STRING) {
-				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'type' must be a string") TSRMLS_CC);
-				RETURN_MM_NULL();
+	if (Z_TYPE_P(type_param) != IS_STRING) {
+		if (Z_TYPE_P(type_param) != IS_NULL) {
+			zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'type' must be a string") TSRMLS_CC);
+			RETURN_MM_NULL();
 		}
+	}
 
+	if (Z_TYPE_P(type_param) == IS_STRING) {
 		type = type_param;
-
+	} else {
+		ZEPHIR_INIT_VAR(type);
+		ZVAL_EMPTY_STRING(type);
+	}
 
 
 	events = zephir_fetch_nproperty_this(this_ptr, SL("_events"), PH_NOISY_CC);
@@ -529,13 +547,19 @@ PHP_METHOD(Phalcon_Events_Manager, getListeners) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &type_param);
 
-		if (Z_TYPE_P(type_param) != IS_STRING) {
-				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'type' must be a string") TSRMLS_CC);
-				RETURN_MM_NULL();
+	if (Z_TYPE_P(type_param) != IS_STRING) {
+		if (Z_TYPE_P(type_param) != IS_NULL) {
+			zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'type' must be a string") TSRMLS_CC);
+			RETURN_MM_NULL();
 		}
+	}
 
+	if (Z_TYPE_P(type_param) == IS_STRING) {
 		type = type_param;
-
+	} else {
+		ZEPHIR_INIT_VAR(type);
+		ZVAL_EMPTY_STRING(type);
+	}
 
 
 	events = zephir_fetch_nproperty_this(this_ptr, SL("_events"), PH_NOISY_CC);

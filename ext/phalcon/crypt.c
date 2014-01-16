@@ -80,13 +80,19 @@ PHP_METHOD(Phalcon_Crypt, setCipher) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &cipher_param);
 
-		if (Z_TYPE_P(cipher_param) != IS_STRING) {
-				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'cipher' must be a string") TSRMLS_CC);
-				RETURN_MM_NULL();
+	if (Z_TYPE_P(cipher_param) != IS_STRING) {
+		if (Z_TYPE_P(cipher_param) != IS_NULL) {
+			zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'cipher' must be a string") TSRMLS_CC);
+			RETURN_MM_NULL();
 		}
+	}
 
+	if (Z_TYPE_P(cipher_param) == IS_STRING) {
 		cipher = cipher_param;
-
+	} else {
+		ZEPHIR_INIT_VAR(cipher);
+		ZVAL_EMPTY_STRING(cipher);
+	}
 
 
 	zephir_update_property_this(this_ptr, SL("_cipher"), cipher TSRMLS_CC);
@@ -151,13 +157,19 @@ PHP_METHOD(Phalcon_Crypt, setKey) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &key_param);
 
-		if (Z_TYPE_P(key_param) != IS_STRING) {
-				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'key' must be a string") TSRMLS_CC);
-				RETURN_MM_NULL();
+	if (Z_TYPE_P(key_param) != IS_STRING) {
+		if (Z_TYPE_P(key_param) != IS_NULL) {
+			zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'key' must be a string") TSRMLS_CC);
+			RETURN_MM_NULL();
 		}
+	}
 
+	if (Z_TYPE_P(key_param) == IS_STRING) {
 		key = key_param;
-
+	} else {
+		ZEPHIR_INIT_VAR(key);
+		ZVAL_EMPTY_STRING(key);
+	}
 
 
 	zephir_update_property_this(this_ptr, SL("_key"), key TSRMLS_CC);
@@ -196,13 +208,19 @@ PHP_METHOD(Phalcon_Crypt, encrypt) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 1, &text_param, &key);
 
-		if (Z_TYPE_P(text_param) != IS_STRING) {
-				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'text' must be a string") TSRMLS_CC);
-				RETURN_MM_NULL();
+	if (Z_TYPE_P(text_param) != IS_STRING) {
+		if (Z_TYPE_P(text_param) != IS_NULL) {
+			zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'text' must be a string") TSRMLS_CC);
+			RETURN_MM_NULL();
 		}
+	}
 
+	if (Z_TYPE_P(text_param) == IS_STRING) {
 		text = text_param;
-
+	} else {
+		ZEPHIR_INIT_VAR(text);
+		ZVAL_EMPTY_STRING(text);
+	}
 	if (!key) {
 		key = ZEPHIR_GLOBAL(global_null);
 	}
@@ -230,13 +248,19 @@ PHP_METHOD(Phalcon_Crypt, decrypt) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 1, &text_param, &key);
 
-		if (Z_TYPE_P(text_param) != IS_STRING) {
-				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'text' must be a string") TSRMLS_CC);
-				RETURN_MM_NULL();
+	if (Z_TYPE_P(text_param) != IS_STRING) {
+		if (Z_TYPE_P(text_param) != IS_NULL) {
+			zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'text' must be a string") TSRMLS_CC);
+			RETURN_MM_NULL();
 		}
+	}
 
+	if (Z_TYPE_P(text_param) == IS_STRING) {
 		text = text_param;
-
+	} else {
+		ZEPHIR_INIT_VAR(text);
+		ZVAL_EMPTY_STRING(text);
+	}
 	if (!key) {
 		key = ZEPHIR_GLOBAL(global_null);
 	}
@@ -260,13 +284,19 @@ PHP_METHOD(Phalcon_Crypt, encryptBase64) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 1, &text_param, &key);
 
-		if (Z_TYPE_P(text_param) != IS_STRING) {
-				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'text' must be a string") TSRMLS_CC);
-				RETURN_MM_NULL();
+	if (Z_TYPE_P(text_param) != IS_STRING) {
+		if (Z_TYPE_P(text_param) != IS_NULL) {
+			zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'text' must be a string") TSRMLS_CC);
+			RETURN_MM_NULL();
 		}
+	}
 
+	if (Z_TYPE_P(text_param) == IS_STRING) {
 		text = text_param;
-
+	} else {
+		ZEPHIR_INIT_VAR(text);
+		ZVAL_EMPTY_STRING(text);
+	}
 	if (!key) {
 		key = ZEPHIR_GLOBAL(global_null);
 	}
@@ -290,13 +320,19 @@ PHP_METHOD(Phalcon_Crypt, decryptBase64) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 1, &text_param, &key);
 
-		if (Z_TYPE_P(text_param) != IS_STRING) {
-				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'text' must be a string") TSRMLS_CC);
-				RETURN_MM_NULL();
+	if (Z_TYPE_P(text_param) != IS_STRING) {
+		if (Z_TYPE_P(text_param) != IS_NULL) {
+			zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'text' must be a string") TSRMLS_CC);
+			RETURN_MM_NULL();
 		}
+	}
 
+	if (Z_TYPE_P(text_param) == IS_STRING) {
 		text = text_param;
-
+	} else {
+		ZEPHIR_INIT_VAR(text);
+		ZVAL_EMPTY_STRING(text);
+	}
 	if (!key) {
 		key = ZEPHIR_GLOBAL(global_null);
 	}

@@ -150,6 +150,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, setId) {
 			ZEPHIR_INIT_VAR(mongoId);
 			_2 = zend_fetch_class(SL("MongoId"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
 			object_init_ex(mongoId, _2);
+			zephir_call_method_p1_noret(mongoId, "__construct", id);
 		} else {
 			ZEPHIR_CPY_WRT(mongoId, id);
 		}
@@ -265,7 +266,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, getReservedAttributes) {
 	zephir_read_static_property_ce(&reserved, phalcon_mvc_collection_ce, SL("_reserved") TSRMLS_CC);
 	if ((Z_TYPE_P(reserved) == IS_NULL)) {
 		ZEPHIR_INIT_VAR(reserved);
-		array_init_size(reserved, 6);
+		array_init_size(reserved, 7);
 		zephir_array_update_string(&reserved, SL("_connection"), &ZEPHIR_GLOBAL(global_true), PH_COPY | PH_SEPARATE);
 		zephir_array_update_string(&reserved, SL("_dependencyInjector"), &ZEPHIR_GLOBAL(global_true), PH_COPY | PH_SEPARATE);
 		zephir_array_update_string(&reserved, SL("_source"), &ZEPHIR_GLOBAL(global_true), PH_COPY | PH_SEPARATE);
@@ -313,13 +314,19 @@ PHP_METHOD(Phalcon_Mvc_Collection, setSource) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &source_param);
 
-		if (Z_TYPE_P(source_param) != IS_STRING) {
-				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'source' must be a string") TSRMLS_CC);
-				RETURN_MM_NULL();
+	if (Z_TYPE_P(source_param) != IS_STRING) {
+		if (Z_TYPE_P(source_param) != IS_NULL) {
+			zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'source' must be a string") TSRMLS_CC);
+			RETURN_MM_NULL();
 		}
+	}
 
+	if (Z_TYPE_P(source_param) == IS_STRING) {
 		source = source_param;
-
+	} else {
+		ZEPHIR_INIT_VAR(source);
+		ZVAL_EMPTY_STRING(source);
+	}
 
 
 	zephir_update_property_this(this_ptr, SL("_source"), source TSRMLS_CC);
@@ -431,13 +438,19 @@ PHP_METHOD(Phalcon_Mvc_Collection, readAttribute) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &attribute_param);
 
-		if (Z_TYPE_P(attribute_param) != IS_STRING) {
-				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'attribute' must be a string") TSRMLS_CC);
-				RETURN_MM_NULL();
+	if (Z_TYPE_P(attribute_param) != IS_STRING) {
+		if (Z_TYPE_P(attribute_param) != IS_NULL) {
+			zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'attribute' must be a string") TSRMLS_CC);
+			RETURN_MM_NULL();
 		}
+	}
 
+	if (Z_TYPE_P(attribute_param) == IS_STRING) {
 		attribute = attribute_param;
-
+	} else {
+		ZEPHIR_INIT_VAR(attribute);
+		ZVAL_EMPTY_STRING(attribute);
+	}
 
 
 	if (0 == 0) {
@@ -467,13 +480,19 @@ PHP_METHOD(Phalcon_Mvc_Collection, writeAttribute) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &attribute_param, &value);
 
-		if (Z_TYPE_P(attribute_param) != IS_STRING) {
-				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'attribute' must be a string") TSRMLS_CC);
-				RETURN_MM_NULL();
+	if (Z_TYPE_P(attribute_param) != IS_STRING) {
+		if (Z_TYPE_P(attribute_param) != IS_NULL) {
+			zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'attribute' must be a string") TSRMLS_CC);
+			RETURN_MM_NULL();
 		}
+	}
 
+	if (Z_TYPE_P(attribute_param) == IS_STRING) {
 		attribute = attribute_param;
-
+	} else {
+		ZEPHIR_INIT_VAR(attribute);
+		ZVAL_EMPTY_STRING(attribute);
+	}
 
 
 	zephir_update_property_zval_zval(this_ptr, attribute, value TSRMLS_CC);
@@ -928,13 +947,19 @@ PHP_METHOD(Phalcon_Mvc_Collection, fireEvent) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &eventName_param);
 
-		if (Z_TYPE_P(eventName_param) != IS_STRING) {
-				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'eventName' must be a string") TSRMLS_CC);
-				RETURN_MM_NULL();
+	if (Z_TYPE_P(eventName_param) != IS_STRING) {
+		if (Z_TYPE_P(eventName_param) != IS_NULL) {
+			zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'eventName' must be a string") TSRMLS_CC);
+			RETURN_MM_NULL();
 		}
+	}
 
+	if (Z_TYPE_P(eventName_param) == IS_STRING) {
 		eventName = eventName_param;
-
+	} else {
+		ZEPHIR_INIT_VAR(eventName);
+		ZVAL_EMPTY_STRING(eventName);
+	}
 
 
 	if ((zephir_method_exists(this_ptr, eventName TSRMLS_CC)  == SUCCESS)) {
@@ -960,13 +985,19 @@ PHP_METHOD(Phalcon_Mvc_Collection, fireEventCancel) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &eventName_param);
 
-		if (Z_TYPE_P(eventName_param) != IS_STRING) {
-				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'eventName' must be a string") TSRMLS_CC);
-				RETURN_MM_NULL();
+	if (Z_TYPE_P(eventName_param) != IS_STRING) {
+		if (Z_TYPE_P(eventName_param) != IS_NULL) {
+			zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'eventName' must be a string") TSRMLS_CC);
+			RETURN_MM_NULL();
 		}
+	}
 
+	if (Z_TYPE_P(eventName_param) == IS_STRING) {
 		eventName = eventName_param;
-
+	} else {
+		ZEPHIR_INIT_VAR(eventName);
+		ZVAL_EMPTY_STRING(eventName);
+	}
 
 
 	if ((zephir_method_exists(this_ptr, eventName TSRMLS_CC)  == SUCCESS)) {
@@ -1043,6 +1074,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, _exists) {
 				ZEPHIR_INIT_VAR(mongoId);
 				_2 = zend_fetch_class(SL("MongoId"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
 				object_init_ex(mongoId, _2);
+				zephir_call_method_p1_noret(mongoId, "__construct", id);
 				zephir_update_property_this(this_ptr, SL("_id"), mongoId TSRMLS_CC);
 			} else {
 				ZEPHIR_CPY_WRT(mongoId, id);
@@ -1260,6 +1292,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, findById) {
 			ZEPHIR_INIT_VAR(mongoId);
 			_3 = zend_fetch_class(SL("MongoId"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
 			object_init_ex(mongoId, _3);
+			zephir_call_method_p1_noret(mongoId, "__construct", id);
 		} else {
 			ZEPHIR_CPY_WRT(mongoId, id);
 		}
@@ -1613,6 +1646,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, delete) {
 			ZEPHIR_INIT_VAR(mongoId);
 			_3 = zend_fetch_class(SL("MongoId"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
 			object_init_ex(mongoId, _3);
+			zephir_call_method_p1_noret(mongoId, "__construct", id);
 		} else {
 			ZEPHIR_CPY_WRT(mongoId, id);
 		}

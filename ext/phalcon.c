@@ -751,6 +751,7 @@ static PHP_GINIT_FUNCTION(phalcon)
 	INIT_PZVAL(phalcon_globals->global_null);
 	ZVAL_NULL(phalcon_globals->global_null);
 	Z_ADDREF_P(phalcon_globals->global_null);
+
 }
 
 static PHP_GSHUTDOWN_FUNCTION(phalcon)

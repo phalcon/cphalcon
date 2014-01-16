@@ -336,13 +336,19 @@ PHP_METHOD(Phalcon_Assets_Collection, addJs) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 3, 1, &path_param, &local, &filter_param, &attributes);
 
-		if (Z_TYPE_P(path_param) != IS_STRING) {
-				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'path' must be a string") TSRMLS_CC);
-				RETURN_MM_NULL();
+	if (Z_TYPE_P(path_param) != IS_STRING) {
+		if (Z_TYPE_P(path_param) != IS_NULL) {
+			zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'path' must be a string") TSRMLS_CC);
+			RETURN_MM_NULL();
 		}
+	}
 
+	if (Z_TYPE_P(path_param) == IS_STRING) {
 		path = path_param;
-
+	} else {
+		ZEPHIR_INIT_VAR(path);
+		ZVAL_EMPTY_STRING(path);
+	}
 		filter = zephir_get_boolval(filter_param);
 	if (!attributes) {
 		attributes = ZEPHIR_GLOBAL(global_null);
@@ -500,13 +506,19 @@ PHP_METHOD(Phalcon_Assets_Collection, getRealTargetPath) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &basePath_param);
 
-		if (Z_TYPE_P(basePath_param) != IS_STRING) {
-				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'basePath' must be a string") TSRMLS_CC);
-				RETURN_MM_NULL();
+	if (Z_TYPE_P(basePath_param) != IS_STRING) {
+		if (Z_TYPE_P(basePath_param) != IS_NULL) {
+			zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'basePath' must be a string") TSRMLS_CC);
+			RETURN_MM_NULL();
 		}
+	}
 
+	if (Z_TYPE_P(basePath_param) == IS_STRING) {
 		basePath = basePath_param;
-
+	} else {
+		ZEPHIR_INIT_VAR(basePath);
+		ZVAL_EMPTY_STRING(basePath);
+	}
 
 
 	targetPath = zephir_fetch_nproperty_this(this_ptr, SL("_targetPath"), PH_NOISY_CC);

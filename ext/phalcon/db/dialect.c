@@ -77,13 +77,19 @@ PHP_METHOD(Phalcon_Db_Dialect, limit) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &sqlQuery_param, &number_param);
 
-		if (Z_TYPE_P(sqlQuery_param) != IS_STRING) {
-				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'sqlQuery' must be a string") TSRMLS_CC);
-				RETURN_MM_NULL();
+	if (Z_TYPE_P(sqlQuery_param) != IS_STRING) {
+		if (Z_TYPE_P(sqlQuery_param) != IS_NULL) {
+			zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'sqlQuery' must be a string") TSRMLS_CC);
+			RETURN_MM_NULL();
 		}
+	}
 
+	if (Z_TYPE_P(sqlQuery_param) == IS_STRING) {
 		sqlQuery = sqlQuery_param;
-
+	} else {
+		ZEPHIR_INIT_VAR(sqlQuery);
+		ZVAL_EMPTY_STRING(sqlQuery);
+	}
 		number = zephir_get_intval(number_param);
 
 
@@ -118,13 +124,19 @@ PHP_METHOD(Phalcon_Db_Dialect, forUpdate) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &sqlQuery_param);
 
-		if (Z_TYPE_P(sqlQuery_param) != IS_STRING) {
-				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'sqlQuery' must be a string") TSRMLS_CC);
-				RETURN_MM_NULL();
+	if (Z_TYPE_P(sqlQuery_param) != IS_STRING) {
+		if (Z_TYPE_P(sqlQuery_param) != IS_NULL) {
+			zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'sqlQuery' must be a string") TSRMLS_CC);
+			RETURN_MM_NULL();
 		}
+	}
 
+	if (Z_TYPE_P(sqlQuery_param) == IS_STRING) {
 		sqlQuery = sqlQuery_param;
-
+	} else {
+		ZEPHIR_INIT_VAR(sqlQuery);
+		ZVAL_EMPTY_STRING(sqlQuery);
+	}
 
 
 	ZEPHIR_CONCAT_VS(return_value, sqlQuery, " FOR UPDATE");
@@ -151,13 +163,19 @@ PHP_METHOD(Phalcon_Db_Dialect, sharedLock) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &sqlQuery_param);
 
-		if (Z_TYPE_P(sqlQuery_param) != IS_STRING) {
-				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'sqlQuery' must be a string") TSRMLS_CC);
-				RETURN_MM_NULL();
+	if (Z_TYPE_P(sqlQuery_param) != IS_STRING) {
+		if (Z_TYPE_P(sqlQuery_param) != IS_NULL) {
+			zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'sqlQuery' must be a string") TSRMLS_CC);
+			RETURN_MM_NULL();
 		}
+	}
 
+	if (Z_TYPE_P(sqlQuery_param) == IS_STRING) {
 		sqlQuery = sqlQuery_param;
-
+	} else {
+		ZEPHIR_INIT_VAR(sqlQuery);
+		ZVAL_EMPTY_STRING(sqlQuery);
+	}
 
 
 	ZEPHIR_CONCAT_VS(return_value, sqlQuery, " LOCK IN SHARE MODE");
@@ -735,13 +753,19 @@ PHP_METHOD(Phalcon_Db_Dialect, createSavepoint) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &name_param);
 
-		if (Z_TYPE_P(name_param) != IS_STRING) {
-				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'name' must be a string") TSRMLS_CC);
-				RETURN_MM_NULL();
+	if (Z_TYPE_P(name_param) != IS_STRING) {
+		if (Z_TYPE_P(name_param) != IS_NULL) {
+			zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'name' must be a string") TSRMLS_CC);
+			RETURN_MM_NULL();
 		}
+	}
 
+	if (Z_TYPE_P(name_param) == IS_STRING) {
 		name = name_param;
-
+	} else {
+		ZEPHIR_INIT_VAR(name);
+		ZVAL_EMPTY_STRING(name);
+	}
 
 
 	ZEPHIR_CONCAT_SV(return_value, "SAVEPOINT ", name);
@@ -763,13 +787,19 @@ PHP_METHOD(Phalcon_Db_Dialect, releaseSavepoint) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &name_param);
 
-		if (Z_TYPE_P(name_param) != IS_STRING) {
-				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'name' must be a string") TSRMLS_CC);
-				RETURN_MM_NULL();
+	if (Z_TYPE_P(name_param) != IS_STRING) {
+		if (Z_TYPE_P(name_param) != IS_NULL) {
+			zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'name' must be a string") TSRMLS_CC);
+			RETURN_MM_NULL();
 		}
+	}
 
+	if (Z_TYPE_P(name_param) == IS_STRING) {
 		name = name_param;
-
+	} else {
+		ZEPHIR_INIT_VAR(name);
+		ZVAL_EMPTY_STRING(name);
+	}
 
 
 	ZEPHIR_CONCAT_SV(return_value, "RELEASE SAVEPOINT ", name);
@@ -791,13 +821,19 @@ PHP_METHOD(Phalcon_Db_Dialect, rollbackSavepoint) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &name_param);
 
-		if (Z_TYPE_P(name_param) != IS_STRING) {
-				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'name' must be a string") TSRMLS_CC);
-				RETURN_MM_NULL();
+	if (Z_TYPE_P(name_param) != IS_STRING) {
+		if (Z_TYPE_P(name_param) != IS_NULL) {
+			zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'name' must be a string") TSRMLS_CC);
+			RETURN_MM_NULL();
 		}
+	}
 
+	if (Z_TYPE_P(name_param) == IS_STRING) {
 		name = name_param;
-
+	} else {
+		ZEPHIR_INIT_VAR(name);
+		ZVAL_EMPTY_STRING(name);
+	}
 
 
 	ZEPHIR_CONCAT_SV(return_value, "ROLLBACK TO SAVEPOINT ", name);

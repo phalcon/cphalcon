@@ -91,13 +91,19 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator, appendMessage) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 2, &message_param, &field, &type);
 
-		if (Z_TYPE_P(message_param) != IS_STRING) {
-				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'message' must be a string") TSRMLS_CC);
-				RETURN_MM_NULL();
+	if (Z_TYPE_P(message_param) != IS_STRING) {
+		if (Z_TYPE_P(message_param) != IS_NULL) {
+			zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'message' must be a string") TSRMLS_CC);
+			RETURN_MM_NULL();
 		}
+	}
 
+	if (Z_TYPE_P(message_param) == IS_STRING) {
 		message = message_param;
-
+	} else {
+		ZEPHIR_INIT_VAR(message);
+		ZVAL_EMPTY_STRING(message);
+	}
 	if (!field) {
 		field = ZEPHIR_GLOBAL(global_null);
 	}
@@ -164,13 +170,19 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator, getOption) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &option_param);
 
-		if (Z_TYPE_P(option_param) != IS_STRING) {
-				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'option' must be a string") TSRMLS_CC);
-				RETURN_MM_NULL();
+	if (Z_TYPE_P(option_param) != IS_STRING) {
+		if (Z_TYPE_P(option_param) != IS_NULL) {
+			zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'option' must be a string") TSRMLS_CC);
+			RETURN_MM_NULL();
 		}
+	}
 
+	if (Z_TYPE_P(option_param) == IS_STRING) {
 		option = option_param;
-
+	} else {
+		ZEPHIR_INIT_VAR(option);
+		ZVAL_EMPTY_STRING(option);
+	}
 
 
 	options = zephir_fetch_nproperty_this(this_ptr, SL("_options"), PH_NOISY_CC);
@@ -195,13 +207,19 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator, isSetOption) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &option_param);
 
-		if (Z_TYPE_P(option_param) != IS_STRING) {
-				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'option' must be a string") TSRMLS_CC);
-				RETURN_MM_NULL();
+	if (Z_TYPE_P(option_param) != IS_STRING) {
+		if (Z_TYPE_P(option_param) != IS_NULL) {
+			zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'option' must be a string") TSRMLS_CC);
+			RETURN_MM_NULL();
 		}
+	}
 
+	if (Z_TYPE_P(option_param) == IS_STRING) {
 		option = option_param;
-
+	} else {
+		ZEPHIR_INIT_VAR(option);
+		ZVAL_EMPTY_STRING(option);
+	}
 
 
 	options = zephir_fetch_nproperty_this(this_ptr, SL("_options"), PH_NOISY_CC);

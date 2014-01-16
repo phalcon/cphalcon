@@ -176,13 +176,19 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, setDbService) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &service_param);
 
-		if (Z_TYPE_P(service_param) != IS_STRING) {
-				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'service' must be a string") TSRMLS_CC);
-				RETURN_MM_NULL();
+	if (Z_TYPE_P(service_param) != IS_STRING) {
+		if (Z_TYPE_P(service_param) != IS_NULL) {
+			zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'service' must be a string") TSRMLS_CC);
+			RETURN_MM_NULL();
 		}
+	}
 
+	if (Z_TYPE_P(service_param) == IS_STRING) {
 		service = service_param;
-
+	} else {
+		ZEPHIR_INIT_VAR(service);
+		ZVAL_EMPTY_STRING(service);
+	}
 
 
 	zephir_update_property_this(this_ptr, SL("_service"), service TSRMLS_CC);

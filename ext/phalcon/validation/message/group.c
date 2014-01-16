@@ -98,8 +98,8 @@ PHP_METHOD(Phalcon_Validation_Message_Group, offsetGet) {
 	zephir_fetch_params(0, 1, 0, &index_param);
 
 		if (Z_TYPE_P(index_param) != IS_LONG) {
-				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'index' must be a long/integer") TSRMLS_CC);
-				RETURN_NULL();
+			zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'index' must be a long/integer") TSRMLS_CC);
+			RETURN_NULL();
 		}
 
 		index = Z_LVAL_P(index_param);
@@ -132,8 +132,8 @@ PHP_METHOD(Phalcon_Validation_Message_Group, offsetSet) {
 	zephir_fetch_params(0, 2, 0, &index_param, &message);
 
 		if (Z_TYPE_P(index_param) != IS_LONG) {
-				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'index' must be a long/integer") TSRMLS_CC);
-				RETURN_NULL();
+			zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'index' must be a long/integer") TSRMLS_CC);
+			RETURN_NULL();
 		}
 
 		index = Z_LVAL_P(index_param);
@@ -290,13 +290,19 @@ PHP_METHOD(Phalcon_Validation_Message_Group, filter) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &fieldName_param);
 
-		if (Z_TYPE_P(fieldName_param) != IS_STRING) {
-				zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'fieldName' must be a string") TSRMLS_CC);
-				RETURN_MM_NULL();
+	if (Z_TYPE_P(fieldName_param) != IS_STRING) {
+		if (Z_TYPE_P(fieldName_param) != IS_NULL) {
+			zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'fieldName' must be a string") TSRMLS_CC);
+			RETURN_MM_NULL();
 		}
+	}
 
+	if (Z_TYPE_P(fieldName_param) == IS_STRING) {
 		fieldName = fieldName_param;
-
+	} else {
+		ZEPHIR_INIT_VAR(fieldName);
+		ZVAL_EMPTY_STRING(fieldName);
+	}
 
 
 	ZEPHIR_INIT_VAR(filtered);
