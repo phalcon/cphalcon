@@ -66,11 +66,9 @@ PHP_METHOD(Phalcon_Mvc_Micro_LazyLoader, __construct) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &definition_param);
 
-	if (Z_TYPE_P(definition_param) != IS_STRING) {
-		if (Z_TYPE_P(definition_param) != IS_NULL) {
-			zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'definition' must be a string") TSRMLS_CC);
-			RETURN_MM_NULL();
-		}
+	if (Z_TYPE_P(definition_param) != IS_STRING && Z_TYPE_P(definition_param) != IS_NULL) {
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'definition' must be a string") TSRMLS_CC);
+		RETURN_MM_NULL();
 	}
 
 	if (Z_TYPE_P(definition_param) == IS_STRING) {
@@ -102,11 +100,9 @@ PHP_METHOD(Phalcon_Mvc_Micro_LazyLoader, __call) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &method_param, &arguments);
 
-	if (Z_TYPE_P(method_param) != IS_STRING) {
-		if (Z_TYPE_P(method_param) != IS_NULL) {
-			zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'method' must be a string") TSRMLS_CC);
-			RETURN_MM_NULL();
-		}
+	if (Z_TYPE_P(method_param) != IS_STRING && Z_TYPE_P(method_param) != IS_NULL) {
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'method' must be a string") TSRMLS_CC);
+		RETURN_MM_NULL();
 	}
 
 	if (Z_TYPE_P(method_param) == IS_STRING) {

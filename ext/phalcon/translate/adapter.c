@@ -65,11 +65,9 @@ PHP_METHOD(Phalcon_Translate_Adapter, t) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 1, &translateKey_param, &placeholders);
 
-	if (Z_TYPE_P(translateKey_param) != IS_STRING) {
-		if (Z_TYPE_P(translateKey_param) != IS_NULL) {
-			zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'translateKey' must be a string") TSRMLS_CC);
-			RETURN_MM_NULL();
-		}
+	if (Z_TYPE_P(translateKey_param) != IS_STRING && Z_TYPE_P(translateKey_param) != IS_NULL) {
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'translateKey' must be a string") TSRMLS_CC);
+		RETURN_MM_NULL();
 	}
 
 	if (Z_TYPE_P(translateKey_param) == IS_STRING) {
@@ -121,11 +119,9 @@ PHP_METHOD(Phalcon_Translate_Adapter, offsetExists) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &translateKey_param);
 
-	if (Z_TYPE_P(translateKey_param) != IS_STRING) {
-		if (Z_TYPE_P(translateKey_param) != IS_NULL) {
-			zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'translateKey' must be a string") TSRMLS_CC);
-			RETURN_MM_NULL();
-		}
+	if (Z_TYPE_P(translateKey_param) != IS_STRING && Z_TYPE_P(translateKey_param) != IS_NULL) {
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'translateKey' must be a string") TSRMLS_CC);
+		RETURN_MM_NULL();
 	}
 
 	if (Z_TYPE_P(translateKey_param) == IS_STRING) {
@@ -168,11 +164,9 @@ PHP_METHOD(Phalcon_Translate_Adapter, offsetGet) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &translateKey_param);
 
-	if (Z_TYPE_P(translateKey_param) != IS_STRING) {
-		if (Z_TYPE_P(translateKey_param) != IS_NULL) {
-			zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'translateKey' must be a string") TSRMLS_CC);
-			RETURN_MM_NULL();
-		}
+	if (Z_TYPE_P(translateKey_param) != IS_STRING && Z_TYPE_P(translateKey_param) != IS_NULL) {
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'translateKey' must be a string") TSRMLS_CC);
+		RETURN_MM_NULL();
 	}
 
 	if (Z_TYPE_P(translateKey_param) == IS_STRING) {

@@ -75,11 +75,9 @@ PHP_METHOD(Phalcon_Validation_Validator_Url, validate) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &validation, &field_param);
 
-	if (Z_TYPE_P(field_param) != IS_STRING) {
-		if (Z_TYPE_P(field_param) != IS_NULL) {
-			zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'field' must be a string") TSRMLS_CC);
-			RETURN_MM_NULL();
-		}
+	if (Z_TYPE_P(field_param) != IS_STRING && Z_TYPE_P(field_param) != IS_NULL) {
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'field' must be a string") TSRMLS_CC);
+		RETURN_MM_NULL();
 	}
 
 	if (Z_TYPE_P(field_param) == IS_STRING) {
@@ -88,6 +86,7 @@ PHP_METHOD(Phalcon_Validation_Validator_Url, validate) {
 		ZEPHIR_INIT_VAR(field);
 		ZVAL_EMPTY_STRING(field);
 	}
+
 
 	ZEPHIR_INIT_VAR(value);
 	zephir_call_method_p1(value, validation, "getvalue", field);

@@ -86,11 +86,9 @@ PHP_METHOD(Phalcon_Mvc_Model_Relation, __construct) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 4, 1, &type, &referencedModel_param, &fields, &referencedFields, &options);
 
-	if (Z_TYPE_P(referencedModel_param) != IS_STRING) {
-		if (Z_TYPE_P(referencedModel_param) != IS_NULL) {
-			zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'referencedModel' must be a string") TSRMLS_CC);
-			RETURN_MM_NULL();
-		}
+	if (Z_TYPE_P(referencedModel_param) != IS_STRING && Z_TYPE_P(referencedModel_param) != IS_NULL) {
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'referencedModel' must be a string") TSRMLS_CC);
+		RETURN_MM_NULL();
 	}
 
 	if (Z_TYPE_P(referencedModel_param) == IS_STRING) {
@@ -128,11 +126,9 @@ PHP_METHOD(Phalcon_Mvc_Model_Relation, setIntermediateRelation) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 3, 0, &intermediateFields, &intermediateModel_param, &intermediateReferencedFields);
 
-	if (Z_TYPE_P(intermediateModel_param) != IS_STRING) {
-		if (Z_TYPE_P(intermediateModel_param) != IS_NULL) {
-			zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'intermediateModel' must be a string") TSRMLS_CC);
-			RETURN_MM_NULL();
-		}
+	if (Z_TYPE_P(intermediateModel_param) != IS_STRING && Z_TYPE_P(intermediateModel_param) != IS_NULL) {
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'intermediateModel' must be a string") TSRMLS_CC);
+		RETURN_MM_NULL();
 	}
 
 	if (Z_TYPE_P(intermediateModel_param) == IS_STRING) {
