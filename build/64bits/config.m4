@@ -5,6 +5,8 @@ if test "$PHP_PHALCON" = "yes"; then
 	PHP_NEW_EXTENSION(phalcon, phalcon.c, $ext_shared)
 	PHP_ADD_EXTENSION_DEP([phalcon], [spl])
 
+	PHP_C_BIGENDIAN
+
 	old_CPPFLAGS=$CPPFLAGS
 	CPPFLAGS="$CPPFLAGS $INCLUDES"
 

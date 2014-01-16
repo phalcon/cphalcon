@@ -642,7 +642,7 @@ PHALCON_INIT_CLASS(Phalcon_Cache_Backend_Xcache);
 #ifndef PHALCON_CACHE_EXCEPTION_H
 #define PHALCON_CACHE_EXCEPTION_H
 
-#include "php_config.h"
+#include "php_phalcon.h"
 
 zend_class_entry *phalcon_cache_exception_ce;
 
@@ -5774,6 +5774,10 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_session_adapterinterface_setoptions, 0, 0
 	ZEND_ARG_INFO(0, options)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_session_adapterinterface_destroy, 0, 0, 0)
+	ZEND_ARG_INFO(0, session_id)
+ZEND_END_ARG_INFO()
+
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_session_adapterinterface_get, 0, 0, 1)
 	ZEND_ARG_INFO(0, index)
 	ZEND_ARG_INFO(0, defaultValue)
@@ -5988,6 +5992,8 @@ zend_class_entry *phalcon_validation_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Validation);
 
+static int phalcon_validation_getdefaultmessage_helper(const zend_class_entry *ce, zval *return_value, zval *this_ptr, const char *type TSRMLS_DC);
+
 #endif /* PHALCON_VALIDATION_H */
 
 
@@ -6011,6 +6017,8 @@ PHALCON_INIT_CLASS(Phalcon_Validation_Exception);
 zend_class_entry *phalcon_validation_message_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Validation_Message);
+
+static zval* phalcon_validation_message_construct_helper(zval *message, zval *field, const char *type, zval *code TSRMLS_DC) PHALCON_ATTR_NONNULL;
 
 #endif /* PHALCON_VALIDATION_MESSAGE_H */
 
@@ -6037,6 +6045,17 @@ static void phalcon_validation_group_construct_helper(zval *object, zval *messag
 zend_class_entry *phalcon_validation_validator_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Validation_Validator);
+
+static int phalcon_validation_validator_getoption_helper(const zend_class_entry *ce, zval *result, zval *this_ptr, const char *option TSRMLS_DC);
+
+static inline int phalcon_validation_validator_isempty_helper(const zval *v)
+{
+	return
+			Z_TYPE_P(v) == IS_NULL
+		 || (Z_TYPE_P(v) == IS_STRING && !Z_STRLEN_P(v))
+		 || (Z_TYPE_P(v) == IS_ARRAY && !zend_hash_num_elements(Z_ARRVAL_P(v)))
+	;
+}
 
 #endif /* PHALCON_VALIDATION_VALIDATOR_H */
 
