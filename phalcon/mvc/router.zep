@@ -341,7 +341,11 @@ class Router
 		 */
 		if this->_removeExtraSlashes {
 			//let handledUri = this->doRemoveExtraSlashes(realUri);
-			let handledUri = rtrim(realUri, "/");
+			if realUri != "/" {
+				let handledUri = rtrim(realUri, "/");
+			} else {
+				let handledUri = realUri;
+			}
 		} else {
 			let handledUri = realUri;
 		}

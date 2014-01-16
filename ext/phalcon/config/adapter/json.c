@@ -75,7 +75,7 @@ PHP_METHOD(Phalcon_Config_Adapter_Json, __construct) {
 	ZEPHIR_INIT_VAR(_0);
 	ZEPHIR_INIT_VAR(_1);
 	zephir_file_get_contents(_1, filePath TSRMLS_CC);
-	zephir_json_decode(_0, &(_0), _1, Z_LVAL_P(ZEPHIR_GLOBAL(global_true))  TSRMLS_CC);
+	zephir_json_decode(_0, &(_0), _1, zephir_get_intval(ZEPHIR_GLOBAL(global_true))  TSRMLS_CC);
 	zephir_call_parent_p1_noret(this_ptr, phalcon_config_adapter_json_ce, "__construct", _0);
 	ZEPHIR_MM_RESTORE();
 
