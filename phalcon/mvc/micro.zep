@@ -66,9 +66,13 @@ class Micro extends Phalcon\Di\Injectable //implements ArrayAccess
 	*
 	* @param Phalcon\DiInterface $dependencyInjector
 	*/
-	public function __construct(<Phalcon\DiInterface> dependencyInjector)
+	public function __construct(<Phalcon\DiInterface> dependencyInjector=null)
 	{
-		this->setDi(dependencyInjector);
+		if typeof dependencyInjector == "object" {
+			if dependencyInjector instanceof Phalcon\DiInterface {
+				this->setDi(dependencyInjector);
+			}
+		}
 	}
 
 	/**
