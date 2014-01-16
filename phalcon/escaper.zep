@@ -81,158 +81,127 @@ class Escaper implements Phalcon\EscaperInterface
 	}
 
 	/**
-	* Detect the character encoding of a string to be handled by an encoder
-	* Special-handling for chr(172) and chr(128) to chr(159) which fail to be detected by mb_detect_encoding()
-	*
-	* @param string $str
-	* @return string/null
-	*/
+	 * Detect the character encoding of a string to be handled by an encoder
+	 * Special-handling for chr(172) and chr(128) to chr(159) which fail to be detected by mb_detect_encoding()
+	 *
+	 * @param string str
+	 * @return string/null
+	 */
 	public function detectEncoding(str)
 	{
-		var charset, detected, charsets;
+		var charset;
 
 		/**
-        * Check if charset is ASCII or ISO-8859-1
-        */
-        let charset = phalcon_is_basic_charset(str);
-        if typeof charset == "string" {
-        	return charset;
-        }
+		* Check if charset is ASCII or ISO-8859-1
+		*/
+		let charset = phalcon_is_basic_charset(str);
+		if typeof charset == "string" {
+			return charset;
+		}
 
-        /**
-        * We require mbstring extension here
-        */
-        if !function_exists("mb_detect_encoding") {
-        	return null;
-        }
+		/**
+		* We require mbstring extension here
+		*/
+		if !function_exists("mb_detect_encoding") {
+			return null;
+		}		
 
-        /**
-        * Strict encoding detection with fallback to non-strict detection.
-        */
-        let charsets = ["UTF-32", "UTF-8", "ISO-8859-1", "ASCII"];
+		/**
+		 * Strict encoding detection with fallback to non-strict detection.
+		 * Check encoding
+		 */
+		for charset in ["UTF-32", "UTF-8", "ISO-8859-1", "ASCII"] {			
+			if mb_detect_encoding(str, charset, true) {
+				return charset;
+			}
+		}
 
-        /**
-        * Check encoding
-        */
-        for charset in charsets {
-        	let detected = mb_detect_encoding(str, charset, true);
-
-        	if detected {
-        		return charset;
-        	}
-        }
-
-        /**
-        * Fallback to global detection
-        */
-        return mb_detect_encoding(str);
+		/**
+		 * Fallback to global detection
+		 */
+		return mb_detect_encoding(str);
 	}
 
 	/**
-	* Utility to normalize a string's encoding to UTF-32.
-	*
-	* @param string $str
-	* @return string
-	*/
+	 * Utility to normalize a string's encoding to UTF-32.
+	 *
+	 * @param string $str
+	 * @return string
+	 */
 	public function normalizeEncoding(str) -> string
 	{
-		var encoding;
+		/**
+		 * mbstring is required here
+		 */
+		if !function_exists("mb_convert_encoding") {
+			throw new Phalcon\Escaper\Exception("Extension 'mbstring' is required");
+		}
 
 		/**
-        * mbstring is required here
-        */
-        if !function_exists("mb_convert_encoding") {
-        	throw new Phalcon\Escaper\Exception("Extension 'mbstring' is required");
-        }
-
-        let encoding = this->detectEncoding(str);
-
-        /**
-        * Convert to UTF-32 (4 byte characters, regardless of actual number of bytes in
-        * the character).
-        */
-        return mb_convert_encoding(str, "UTF-32", encoding);
+		 * Convert to UTF-32 (4 byte characters, regardless of actual number of bytes in
+		 * the character).
+		 */
+		return mb_convert_encoding(str, "UTF-32", this->detectEncoding(str));
 	}
 
 	/**
-	* Escapes a HTML string. Internally uses htmlspecialchars
-	*
-	* @param string $text
-	* @return string
-	*/
+	 * Escapes a HTML string. Internally uses htmlspecialchars
+	 *
+	 * @param string $text
+	 * @return string
+	 */
 	public function escapeHtml(string text) -> string
 	{
-		var htmlQuoteType, encoding;
-
-		let htmlQuoteType = this->_htmlQuoteType;
-		let encoding = this->_encoding;
-
-		return htmlspecialchars(text, htmlQuoteType, encoding);
+		return htmlspecialchars(text, this->_htmlQuoteType, this->_encoding);
 	}
 
 	/**
-	* Escapes a HTML attribute string
-	*
-	* @param string $attribute
-	* @return string
-	*/
+	 * Escapes a HTML attribute string
+	 *
+	 * @param string $attribute
+	 * @return string
+	 */
 	public function escapeHtmlAttr(string attribute) -> string
 	{
-		var encoding;
-
-		let encoding = this->_encoding;
-
-		return htmlspecialchars(attribute, ENT_QUOTES, encoding);
+		return htmlspecialchars(attribute, ENT_QUOTES, this->_encoding);
 	}
 
 	/**
-	* Escape CSS strings by replacing non-alphanumeric chars by their hexadecimal escaped representation
-	*
-	* @param string $css
-	* @return string
-	*/
+	 * Escape CSS strings by replacing non-alphanumeric chars by their hexadecimal escaped representation
+	 *
+	 * @param string $css
+	 * @return string
+	 */
 	public function escapeCss(string css) -> string
 	{
-		var normalize;
-
 		/**
-	    * Normalize encoding to UTF-32
-	    */
-	    let normalize = this->normalizeEncoding(css);
-
-	    /**
-        * Escape the string
-        */
-        return phalcon_escape_css(normalize);
+		 * Normalize encoding to UTF-32
+		 * Escape the string
+		 */
+		return phalcon_escape_css(this->normalizeEncoding(css));
 	}
 
 	/**
-	* Escape javascript strings by replacing non-alphanumeric chars by their hexadecimal escaped representation
-	*
-	* @param string $js
-	* @return string
-	*/
+	 * Escape javascript strings by replacing non-alphanumeric chars by their hexadecimal escaped representation
+	 *
+	 * @param string $js
+	 * @return string
+	 */
 	public function escapeJs(string js) -> string
 	{
-		var normalize;
-
 		/**
-	    * Normalize encoding to UTF-32
-	    */
-	    let normalize = this->normalizeEncoding(js);
-
-	    /**
-        * Escape the string
-        */
-        return phalcon_escape_js(normalize);
+		 * Normalize encoding to UTF-32
+		 * Escape the string
+		 */
+		return phalcon_escape_js(this->normalizeEncoding(js));
 	}
 
 	/**
-	* Escapes a URL. Internally uses rawurlencode
-	*
-	* @param string $url
-	* @return string
-	*/
+	 * Escapes a URL. Internally uses rawurlencode
+	 *
+	 * @param string $url
+	 * @return string
+	 */
 	public function escapeUrl(string url) -> string
 	{
 		return rawurlencode(url);
