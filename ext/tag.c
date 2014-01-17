@@ -311,8 +311,7 @@ static void phalcon_tag_get_escaper(zval **return_value_ptr, zval *params TSRMLS
 	}
 
 	if (zend_is_true(autoescape)) {
-		phalcon_call_static_func_params(result, &result, SL("phalcon\\tag"), SL("getescaperservice") TSRMLS_CC, 0);
-		if (EG(exception)) {
+		if (FAILURE == phalcon_call_static_ce_func_params(result, &result, phalcon_tag_ce, SL("getescaperservice") TSRMLS_CC, 0)) {
 			assert(result == NULL);
 		}
 	}
@@ -1005,6 +1004,7 @@ PHP_METHOD(Phalcon_Tag, _inputFieldChecked){
 static void phalcon_tag_generic_field(INTERNAL_FUNCTION_PARAMETERS, const char* type, int as_value)
 {
 	zval *parameters, *field_type;
+	int status;
 
 	phalcon_fetch_params(0, 1, 0, &parameters);
 
@@ -1012,13 +1012,13 @@ static void phalcon_tag_generic_field(INTERNAL_FUNCTION_PARAMETERS, const char* 
 	ZVAL_STRING(field_type, type, 1);
 
 	if (as_value) {
-		phalcon_call_self_func_params(return_value, return_value_ptr, SL("_inputfield") TSRMLS_CC, 3, field_type, parameters, PHALCON_GLOBAL(z_true));
+		status = phalcon_call_self_func_params(return_value, return_value_ptr, SL("_inputfield") TSRMLS_CC, 3, field_type, parameters, PHALCON_GLOBAL(z_true));
 	}
 	else {
-		phalcon_call_self_func_params(return_value, return_value_ptr, SL("_inputfield") TSRMLS_CC, 2, field_type, parameters);
+		status = phalcon_call_self_func_params(return_value, return_value_ptr, SL("_inputfield") TSRMLS_CC, 2, field_type, parameters);
 	}
 
-	if (return_value_ptr && EG(exception)) {
+	if (FAILURE == status && return_value_ptr && EG(exception)) {
 		ALLOC_INIT_ZVAL(*return_value_ptr);
 	}
 }
@@ -1033,9 +1033,10 @@ static void phalcon_tag_generic_field_checked(INTERNAL_FUNCTION_PARAMETERS, cons
 	ZVAL_STRING(field_type, type, 1);
 	Z_DELREF_P(field_type);
 
-	phalcon_call_self_func_params(return_value, return_value_ptr, SL("_inputfieldchecked") TSRMLS_CC, 2, field_type, parameters);
-	if (return_value_ptr && EG(exception)) {
-		ALLOC_INIT_ZVAL(*return_value_ptr);
+	if (FAILURE == phalcon_call_self_func_params(return_value, return_value_ptr, SL("_inputfieldchecked") TSRMLS_CC, 2, field_type, parameters)) {
+		if (return_value_ptr && EG(exception)) {
+			ALLOC_INIT_ZVAL(*return_value_ptr);
+		}
 	}
 }
 

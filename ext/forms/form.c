@@ -857,10 +857,10 @@ PHP_METHOD(Phalcon_Forms_Form, getMessages){
 
 			for (
 				zend_hash_internal_pointer_reset_ex(Z_ARRVAL_P(messages), &hp);
-				zend_hash_get_current_data_ex(Z_ARRVAL_P(messages), (void**)&v, &hp) == SUCCESS && !EG(exception);
+				zend_hash_get_current_data_ex(Z_ARRVAL_P(messages), (void**)&v, &hp) == SUCCESS;
 				zend_hash_move_forward_ex(Z_ARRVAL_P(messages), &hp)
 			) {
-				phalcon_call_method_params(NULL, NULL, return_value, SL("appendmessages"), zend_inline_hash_func(SS("appendmessages")) TSRMLS_CC, 1, *v);
+				RETURN_ON_FAILURE(phalcon_call_method_params(NULL, NULL, return_value, SL("appendmessages"), zend_inline_hash_func(SS("appendmessages")) TSRMLS_CC, 1, *v));
 			}
 		}
 	}
@@ -1020,9 +1020,12 @@ PHP_METHOD(Phalcon_Forms_Form, render){
 		return;
 	}
 
-	phalcon_call_method_params(return_value, return_value_ptr, element, SL("render"), zend_inline_hash_func(SS("render")) TSRMLS_CC, 1, *attributes);
-	if (return_value_ptr && EG(exception)) {
-		ALLOC_INIT_ZVAL(*return_value_ptr);
+	if (FAILURE == phalcon_call_method_params(return_value, return_value_ptr, element, SL("render"), zend_inline_hash_func(SS("render")) TSRMLS_CC, 1, *attributes)) {
+		if (return_value_ptr && EG(exception)) {
+			ALLOC_INIT_ZVAL(*return_value_ptr);
+		}
+
+		return;
 	}
 }
 
@@ -1071,9 +1074,12 @@ PHP_METHOD(Phalcon_Forms_Form, label){
 		return;
 	}
 	
-	phalcon_call_method_params(return_value, return_value_ptr, element, SL("label"), zend_inline_hash_func(SS("label")) TSRMLS_CC, 1, *attributes);
-	if (return_value_ptr && EG(exception)) {
-		ALLOC_INIT_ZVAL(*return_value_ptr);
+	if (FAILURE == phalcon_call_method_params(return_value, return_value_ptr, element, SL("label"), zend_inline_hash_func(SS("label")) TSRMLS_CC, 1, *attributes)) {
+		if (return_value_ptr && EG(exception)) {
+			ALLOC_INIT_ZVAL(*return_value_ptr);
+		}
+
+		return;
 	}
 }
 

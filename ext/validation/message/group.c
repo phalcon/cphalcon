@@ -522,7 +522,9 @@ PHP_METHOD(Phalcon_Validation_Message_Group, appendMessages){
 	
 			it->funcs->get_current_data(it, &message TSRMLS_CC);
 			if (!EG(exception)) {
-				phalcon_call_method_params(NULL, NULL, this_ptr, SL("appendmessage"), zend_inline_hash_func(SS("appendmessage")) TSRMLS_CC, 1, *message);
+				if (FAILURE == phalcon_call_method_params(NULL, NULL, this_ptr, SL("appendmessage"), zend_inline_hash_func(SS("appendmessage")) TSRMLS_CC, 1, *message)) {
+					break;
+				}
 			}
 
 			if (!EG(exception)) {

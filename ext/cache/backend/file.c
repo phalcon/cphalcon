@@ -405,11 +405,15 @@ PHP_METHOD(Phalcon_Cache_Backend_File, queryKeys){
 		it->funcs->get_current_data(it, &item TSRMLS_CC);
 
 		PHALCON_OBS_NVAR(is_directory);
-		phalcon_call_method_params(is_directory, &is_directory, *item, SL("isdir"), zend_inline_hash_func(SS("isdir")) TSRMLS_CC, 0);
+		if (FAILURE == phalcon_call_method_params(is_directory, &is_directory, *item, SL("isdir"), zend_inline_hash_func(SS("isdir")) TSRMLS_CC, 0)) {
+			break;
+		}
 
 		if (!EG(exception) && PHALCON_IS_FALSE(is_directory)) {
 			PHALCON_OBS_NVAR(key);
-			phalcon_call_method_params(key, &key, *item, SL("getfilename"), zend_inline_hash_func(SS("getfilename")) TSRMLS_CC, 0);
+			if (FAILURE == phalcon_call_method_params(key, &key, *item, SL("getfilename"), zend_inline_hash_func(SS("getfilename")) TSRMLS_CC, 0)) {
+				break;
+			}
 
 			if (!EG(exception) && (!prefix || phalcon_start_with(key, prefix, NULL))) {
 				phalcon_array_append(&return_value, key, 0);
@@ -747,16 +751,22 @@ PHP_METHOD(Phalcon_Cache_Backend_File, flush){
 		it->funcs->get_current_data(it, &item TSRMLS_CC);
 
 		PHALCON_OBS_NVAR(is_file);
-		phalcon_call_method_params(is_file, &is_file, *item, SL("isfile"), zend_inline_hash_func(SS("isfile")) TSRMLS_CC, 0);
+		if (FAILURE == phalcon_call_method_params(is_file, &is_file, *item, SL("isfile"), zend_inline_hash_func(SS("isfile")) TSRMLS_CC, 0)) {
+			break;
+		}
 
-		if (!EG(exception) && PHALCON_IS_TRUE(is_file)) {
+		if (PHALCON_IS_TRUE(is_file)) {
 			PHALCON_OBS_NVAR(key);
-			phalcon_call_method_params(key, &key, *item, SL("getfilename"), zend_inline_hash_func(SS("getfilename")) TSRMLS_CC, 0);
+			if (FAILURE == phalcon_call_method_params(key, &key, *item, SL("getfilename"), zend_inline_hash_func(SS("getfilename")) TSRMLS_CC, 0)) {
+				break;
+			}
 
 			PHALCON_OBS_NVAR(cache_file);
-			phalcon_call_method_params(cache_file, &cache_file, *item, SL("getpathname"), zend_inline_hash_func(SS("getpathname")) TSRMLS_CC, 0);
+			if (FAILURE == phalcon_call_method_params(cache_file, &cache_file, *item, SL("getpathname"), zend_inline_hash_func(SS("getpathname")) TSRMLS_CC, 0)) {
+				break;
+			}
 
-			if (!EG(exception) && (PHALCON_IS_EMPTY(prefix) || phalcon_start_with(key, prefix, NULL))) {
+			if (PHALCON_IS_EMPTY(prefix) || phalcon_start_with(key, prefix, NULL)) {
 				phalcon_unlink(return_value, cache_file TSRMLS_CC);
 			}
 		}

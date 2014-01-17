@@ -180,15 +180,13 @@ PHP_METHOD(Phalcon_Validation, __construct){
 		phalcon_update_property_this(this_ptr, SL("_validators"), validators TSRMLS_CC);
 	}
 	
-	if (FAILURE == phalcon_call_method_params(NULL, NULL, getThis(), SL("setdefaultmessages"), zend_inline_hash_func(SS("setdefaultmessages")) TSRMLS_CC, 0)) {
-		return;
-	}
+	RETURN_ON_FAILURE(phalcon_call_method_params(NULL, NULL, getThis(), SL("setdefaultmessages"), zend_inline_hash_func(SS("setdefaultmessages")) TSRMLS_CC, 0));
 
-	/** 
+	/*
 	 * Check for an 'initialize' method
 	 */
 	if (phalcon_method_exists_ex(this_ptr, SS("initialize") TSRMLS_CC) == SUCCESS) {
-		phalcon_call_method_params(NULL, NULL, this_ptr, SL("initialize"), zend_inline_hash_func(SS("initialize")) TSRMLS_CC, 0);
+		RETURN_ON_FAILURE(phalcon_call_method_params(NULL, NULL, this_ptr, SL("initialize"), zend_inline_hash_func(SS("initialize")) TSRMLS_CC, 0));
 	}
 }
 

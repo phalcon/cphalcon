@@ -1521,7 +1521,7 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, __destruct){
 	im = phalcon_fetch_nproperty_this(this_ptr, SL("_image"), PH_NOISY_CC);
 
 	if (Z_TYPE_P(im) == IS_OBJECT) {
-		phalcon_call_method_params(NULL, NULL, im, SL("destroy"), zend_inline_hash_func(SS("destroy")) TSRMLS_CC, 0);
+		RETURN_ON_FAILURE(phalcon_call_method_params(NULL, NULL, im, SL("destroy"), zend_inline_hash_func(SS("destroy")) TSRMLS_CC, 0));
 	}
 }
 
@@ -1542,7 +1542,10 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, setResourceLimit)
 	if (EXPECTED(imagick_ce != NULL)) {
 		MAKE_STD_ZVAL(im);
 		object_init_ex(im, imagick_ce);
-		phalcon_call_method_params(NULL, NULL, im, SL("setresourcelimit"), zend_inline_hash_func(SS("setresourcelimit")) TSRMLS_CC, 2, *resource, *limit);
+		if (FAILURE == phalcon_call_method_params(NULL, NULL, im, SL("setresourcelimit"), zend_inline_hash_func(SS("setresourcelimit")) TSRMLS_CC, 2, *resource, *limit)) {
+			;
+		}
+
 		zval_ptr_dtor(&im);
 	}
 }

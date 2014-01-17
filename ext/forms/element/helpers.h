@@ -36,21 +36,15 @@ static inline void phalcon_forms_element_render_helper(const char *method, int u
 
 	uc = use_checked ? PHALCON_GLOBAL(z_true) : PHALCON_GLOBAL(z_false);
 
-	phalcon_call_method_params(
-		widget_attributes, &widget_attributes,
-		getThis(), SL("prepareattributes"),
-		zend_inline_hash_func(SS("prepareattributes")) TSRMLS_CC,
-		2, *attributes, uc
-	);
+	RETURN_ON_FAILURE(phalcon_call_method_params(widget_attributes, &widget_attributes, getThis(), SL("prepareattributes"), zend_inline_hash_func(SS("prepareattributes")) TSRMLS_CC, 2, *attributes, uc));
 
-	if (!EG(exception)) {
-		phalcon_call_static_func_params(return_value, return_value_ptr, SL("phalcon\\tag"), method, strlen(method) TSRMLS_CC, 1, widget_attributes);
+	if (FAILURE == phalcon_call_static_func_params(return_value, return_value_ptr, SL("phalcon\\tag"), method, strlen(method) TSRMLS_CC, 1, widget_attributes)) {
 		if (EG(exception) && return_value_ptr) {
 			ALLOC_INIT_ZVAL(*return_value_ptr);
 		}
-
-		zval_ptr_dtor(&widget_attributes);
 	}
+
+	zval_ptr_dtor(&widget_attributes);
 }
 
 #endif /* PHALCON_FORMS_ELEMENT_HELPERS_H */

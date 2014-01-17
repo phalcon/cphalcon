@@ -380,14 +380,18 @@ static int phalcon_mvc_model_get_messages_from_model(zval *this_ptr, zval *model
 
 	for (
 		zend_hash_internal_pointer_reset_ex(Z_ARRVAL_P(messages), &hp);
-		zend_hash_get_current_data_ex(Z_ARRVAL_P(messages), (void**)&message, &hp) == SUCCESS && !EG(exception);
+		zend_hash_get_current_data_ex(Z_ARRVAL_P(messages), (void**)&message, &hp) == SUCCESS;
 		zend_hash_move_forward_ex(Z_ARRVAL_P(messages), &hp)
 	) {
 		if (Z_TYPE_PP(message) == IS_OBJECT) {
-			phalcon_call_method_params(NULL, NULL, *message, SL("setmodel"), zend_inline_hash_func(SS("setmodel")) TSRMLS_CC, 1, target);
+			if (FAILURE == phalcon_call_method_params(NULL, NULL, *message, SL("setmodel"), zend_inline_hash_func(SS("setmodel")) TSRMLS_CC, 1, target)) {
+				break;
+			}
 		}
 
-		phalcon_call_method_params(NULL, NULL, this_ptr, SL("appendmessage"), zend_inline_hash_func(SS("appendmessage")) TSRMLS_CC, 1, *message);
+		if (FAILURE == phalcon_call_method_params(NULL, NULL, this_ptr, SL("appendmessage"), zend_inline_hash_func(SS("appendmessage")) TSRMLS_CC, 1, *message)) {
+			break;
+		}
 	}
 
 	zval_ptr_dtor(&messages);

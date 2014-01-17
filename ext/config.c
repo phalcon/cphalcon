@@ -698,7 +698,9 @@ PHP_METHOD(Phalcon_Config, merge){
 		if (active_value) {
 			if ((Z_TYPE_PP(hd)  == IS_OBJECT || Z_TYPE_PP(hd) == IS_ARRAY) && Z_TYPE_P(active_value) == IS_OBJECT) {
 				if (phalcon_method_exists_ex(active_value, SS("merge") TSRMLS_CC) == SUCCESS) { /* Path AAA in the test */
-					phalcon_call_method_params(NULL, NULL, active_value, SL("merge"), zend_inline_hash_func(SS("merge")) TSRMLS_CC, 1, *hd);
+					if (FAILURE == phalcon_call_method_params(NULL, NULL, active_value, SL("merge"), zend_inline_hash_func(SS("merge")) TSRMLS_CC, 1, *hd)) {
+						break;
+					}
 				}
 				else { /* Path AAB in the test */
 					phalcon_config_write_internal(obj, &key, *hd TSRMLS_CC);

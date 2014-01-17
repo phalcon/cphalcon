@@ -99,7 +99,7 @@ PHP_METHOD(Phalcon_Session_Adapter, __construct){
 	}
 	
 	if (Z_TYPE_P(options) == IS_ARRAY) {
-		phalcon_call_method_params(NULL, NULL, this_ptr, SL("setoptions"), zend_inline_hash_func(SS("setoptions")) TSRMLS_CC, 1, options);
+		RETURN_ON_FAILURE(phalcon_call_method_params(NULL, NULL, this_ptr, SL("setoptions"), zend_inline_hash_func(SS("setoptions")) TSRMLS_CC, 1, options));
 	}
 }
 

@@ -244,9 +244,10 @@ static void phalcon_logger_adapter_log_helper(INTERNAL_FUNCTION_PARAMETERS, int 
 	PHALCON_ALLOC_GHOST_ZVAL(type);
 	ZVAL_LONG(type, level);
 
-	phalcon_call_method_params(return_value, return_value_ptr, getThis(), SL("log"), zend_inline_hash_func(SS("log")) TSRMLS_CC, 2, message, type);
-	if (return_value_ptr && EG(exception)) {
-		ALLOC_INIT_ZVAL(*return_value_ptr);
+	if (FAILURE == phalcon_call_method_params(return_value, return_value_ptr, getThis(), SL("log"), zend_inline_hash_func(SS("log")) TSRMLS_CC, 2, message, type)) {
+		if (return_value_ptr && EG(exception)) {
+			ALLOC_INIT_ZVAL(*return_value_ptr);
+		}
 	}
 	else {
 		RETURN_ZVAL(getThis(), 1, 0);

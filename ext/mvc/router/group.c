@@ -231,7 +231,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Group, __construct){
 	}
 
 	if (phalcon_method_exists_ex(this_ptr, SS("initialize") TSRMLS_CC) == SUCCESS) {
-		phalcon_call_method_params(NULL, NULL, this_ptr, SL("initialize"), zend_inline_hash_func(SS("initialize")) TSRMLS_CC, 1, paths);
+		RETURN_ON_FAILURE(phalcon_call_method_params(NULL, NULL, this_ptr, SL("initialize"), zend_inline_hash_func(SS("initialize")) TSRMLS_CC, 1, paths));
 	}
 }
 
@@ -459,9 +459,12 @@ static void phalcon_mvc_router_group_add_helper(INTERNAL_FUNCTION_PARAMETERS, co
 
 	PHALCON_ALLOC_GHOST_ZVAL(http_method);
 	PHALCON_ZVAL_MAYBE_INTERNED_STRING(http_method, method);
-	phalcon_call_method_params(return_value, return_value_ptr, getThis(), SL("_addroute"), zend_inline_hash_func(SS("_addroute")) TSRMLS_CC, 3, pattern, paths, http_method);
-	if (return_value_ptr && EG(exception)) {
-		ALLOC_INIT_ZVAL(*return_value_ptr);
+	if (FAILURE == phalcon_call_method_params(return_value, return_value_ptr, getThis(), SL("_addroute"), zend_inline_hash_func(SS("_addroute")) TSRMLS_CC, 3, pattern, paths, http_method)) {
+		if (return_value_ptr && EG(exception)) {
+			ALLOC_INIT_ZVAL(*return_value_ptr);
+		}
+
+		return;
 	}
 }
 
