@@ -1040,7 +1040,7 @@ PHP_METHOD(Phalcon_Image_Adapter, save){
 	PHALCON_CALL_FUNCTION(&ret, "is_file", file);
 
 	if (zend_is_true(ret)) {
-		PHALCON_OBS_SEP_NVAR(ret);
+		PHALCON_OBSERVE_OR_NULLIFY_VAR(ret);
 		PHALCON_CALL_FUNCTION(&ret, "is_writable", file);
 		if (!zend_is_true(ret)) {
 			zend_throw_exception_ex(phalcon_image_exception_ce, 0 TSRMLS_CC, "File must be writable: '%s'", Z_STRVAL_P(file));
@@ -1052,7 +1052,7 @@ PHP_METHOD(Phalcon_Image_Adapter, save){
 			RETURN_MM();
 		}
 
-		PHALCON_OBS_SEP_NVAR(ret);
+		PHALCON_OBSERVE_OR_NULLIFY_VAR(ret);
 		PHALCON_CALL_FUNCTION(&ret, "pathinfo", file, constant);
 
 		PHALCON_INIT_VAR(dir);
@@ -1067,7 +1067,7 @@ PHP_METHOD(Phalcon_Image_Adapter, save){
 			RETURN_MM();
 		}
 
-		PHALCON_OBS_SEP_NVAR(ret);
+		PHALCON_OBSERVE_OR_NULLIFY_VAR(ret);
 		PHALCON_CALL_FUNCTION(&ret, "is_writable", dir);
 		if (!zend_is_true(ret)) {
 			zend_throw_exception_ex(phalcon_image_exception_ce, 0 TSRMLS_CC, "Directory must be writable: '%s'", Z_STRVAL_P(dir));
@@ -1102,7 +1102,7 @@ PHP_METHOD(Phalcon_Image_Adapter, render){
 			RETURN_MM();
 		}
 
-		PHALCON_OBS_SEP_NVAR(ext);
+		PHALCON_OBSERVE_OR_NULLIFY_VAR(ext);
 		PHALCON_CALL_FUNCTION(&ext, "pathinfo", file, constant);
 
 		if (!PHALCON_IS_NOT_EMPTY(ext)) {

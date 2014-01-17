@@ -209,7 +209,7 @@ PHP_METHOD(Phalcon_Escaper, detectEncoding){
 	/**
 	 * Check for UTF-16 encoding
 	 */
-	PHALCON_OBS_SEP_NVAR(detected);
+	PHALCON_OBSERVE_OR_NULLIFY_VAR(detected);
 	PHALCON_CALL_FUNCTION(&detected, "mb_detect_encoding", str, charset, strict_check);
 	if (zend_is_true(detected)) {
 		RETURN_CTOR(charset);
@@ -221,7 +221,7 @@ PHP_METHOD(Phalcon_Escaper, detectEncoding){
 	/**
 	 * Check for UTF-8 encoding
 	 */
-	PHALCON_OBS_SEP_NVAR(detected);
+	PHALCON_OBSERVE_OR_NULLIFY_VAR(detected);
 	PHALCON_CALL_FUNCTION(&detected, "mb_detect_encoding", str, charset, strict_check);
 	if (zend_is_true(detected)) {
 		RETURN_CTOR(charset);
@@ -233,7 +233,7 @@ PHP_METHOD(Phalcon_Escaper, detectEncoding){
 	/**
 	 * Check for ISO-8859-1 encoding
 	 */
-	PHALCON_OBS_SEP_NVAR(detected);
+	PHALCON_OBSERVE_OR_NULLIFY_VAR(detected);
 	PHALCON_CALL_FUNCTION(&detected, "mb_detect_encoding", str, charset, strict_check);
 	if (zend_is_true(detected)) {
 		RETURN_CTOR(charset);
@@ -245,7 +245,7 @@ PHP_METHOD(Phalcon_Escaper, detectEncoding){
 	/**
 	 * Check for ASCII encoding
 	 */
-	PHALCON_OBS_SEP_NVAR(detected);
+	PHALCON_OBSERVE_OR_NULLIFY_VAR(detected);
 	PHALCON_CALL_FUNCTION(&detected, "mb_detect_encoding", str, charset, strict_check);
 	if (zend_is_true(detected)) {
 		RETURN_CTOR(charset);

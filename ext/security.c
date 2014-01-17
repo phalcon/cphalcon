@@ -277,7 +277,7 @@ PHP_METHOD(Phalcon_Security, getSaltBytes){
 	
 	while (1) {
 	
-		PHALCON_OBS_SEP_NVAR(random_bytes);
+		PHALCON_OBSERVE_OR_NULLIFY_VAR(random_bytes);
 		PHALCON_CALL_FUNCTION(&random_bytes, "openssl_random_pseudo_bytes", number_bytes);
 	
 		PHALCON_INIT_NVAR(base64bytes);
@@ -789,14 +789,14 @@ PHP_METHOD(Phalcon_Security, pbkdf2)
 			s[salt_len+2] = (unsigned char)(i >> 8);
 			s[salt_len+3] = (unsigned char)(i);
 
-			PHALCON_OBS_SEP_NVAR(K1);
+			PHALCON_OBSERVE_OR_NULLIFY_VAR(K1);
 			PHALCON_CALL_FUNCTION(&K1, "hash_hmac", algo, computed_salt, *password, PHALCON_GLOBAL(z_true));
 			PHALCON_CPY_WRT_CTOR(K2, K1);
 
 			for (j=1; j<i_iterations; ++j) {
 				char *k1, *k2;
 
-				PHALCON_OBS_SEP_NVAR(tmp);
+				PHALCON_OBSERVE_OR_NULLIFY_VAR(tmp);
 				PHALCON_CALL_FUNCTION(&tmp, "hash_hmac", algo, K1, *password, PHALCON_GLOBAL(z_true));
 				PHALCON_CPY_WRT(K1, tmp);
 

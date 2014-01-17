@@ -143,7 +143,7 @@ extern void ZEND_FASTCALL phalcon_copy_ctor(zval *destiny, zval *origin);
 		phalcon_memory_observe(&z TSRMLS_CC); \
 	}
 
-#define PHALCON_OBS_SEP_NVAR(z)\
+#define PHALCON_OBSERVE_OR_NULLIFY_VAR(z)\
 	if (z) { \
 		zval_ptr_dtor(&z); \
 		z = NULL; \

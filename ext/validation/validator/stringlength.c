@@ -187,7 +187,7 @@ PHP_METHOD(Phalcon_Validation_Validator_StringLength, validate){
 				RETURN_MM_ON_FAILURE(phalcon_validation_getdefaultmessage_helper(Z_OBJCE_P(validator), message_str, validator, "TooShort" TSRMLS_CC));
 			}
 
-			PHALCON_OBS_SEP_NVAR(prepared);
+			PHALCON_OBSERVE_OR_NULLIFY_VAR(prepared);
 			PHALCON_CALL_FUNCTION(&prepared, "strtr", message_str, pairs);
 
 			message = phalcon_validation_message_construct_helper(prepared, attribute, "TooShort", code TSRMLS_CC);
