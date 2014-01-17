@@ -9,11 +9,9 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, setModelName);
 PHP_METHOD(Phalcon_Mvc_Model_Criteria, getModelName);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_criteria_setdi, 0, 0, 1)
-	ZEND_ARG_INFO(0, dependencyInjector)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_criteria_setmodelname, 0, 0, 1)
-	ZEND_ARG_INFO(0, modelName)
 ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_mvc_model_criteria_method_entry) {

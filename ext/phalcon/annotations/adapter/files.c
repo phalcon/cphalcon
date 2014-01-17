@@ -110,7 +110,7 @@ PHP_METHOD(Phalcon_Annotations_Adapter_Files, read) {
 	zephir_call_func_p2(_2, "prepare_virtual_path", key, _1);
 	ZEPHIR_INIT_VAR(path);
 	ZEPHIR_CONCAT_VVS(path, _0, _2, ".php");
-	if (zephir_file_exists(path TSRMLS_CC) == SUCCESS) {
+	if ((zephir_file_exists(path TSRMLS_CC) == SUCCESS)) {
 		RETURN_MM_BOOL((0 == 1));
 	}
 	RETURN_MM_BOOL(0);

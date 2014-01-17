@@ -19,17 +19,9 @@ PHP_METHOD(Phalcon_Mvc_Model_Relation, getIntermediateModel);
 PHP_METHOD(Phalcon_Mvc_Model_Relation, getIntermediateReferencedFields);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_relation___construct, 0, 0, 4)
-	ZEND_ARG_INFO(0, type)
-	ZEND_ARG_INFO(0, referencedModel)
-	ZEND_ARG_INFO(0, fields)
-	ZEND_ARG_INFO(0, referencedFields)
-	ZEND_ARG_INFO(0, options)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_relation_setintermediaterelation, 0, 0, 3)
-	ZEND_ARG_INFO(0, intermediateFields)
-	ZEND_ARG_INFO(0, intermediateModel)
-	ZEND_ARG_INFO(0, intermediateReferencedFields)
 ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_mvc_model_relation_method_entry) {

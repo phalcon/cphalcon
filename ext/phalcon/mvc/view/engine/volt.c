@@ -421,6 +421,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, sort) {
 
 	Z_SET_ISREF_P(value);
 	zephir_call_func_p1_noret("asort", value);
+	Z_UNSET_ISREF_P(value);
 	RETURN_CCTOR(value);
 
 }

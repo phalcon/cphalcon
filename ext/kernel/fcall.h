@@ -14,6 +14,7 @@
   +------------------------------------------------------------------------+
   | Authors: Andres Gutierrez <andres@zephir-lang.com>                     |
   |          Eduar Carvajal <eduar@zephir-lang.com>                        |
+  |          Vladimir Kolesnikov <vladimir@extrememember.com>              |
   +------------------------------------------------------------------------+
 */
 
@@ -689,6 +690,18 @@
 #define zephir_call_method_p8(return_value, object, method_name, p1, p2, p3, p4, p5, p6, p7, p8)                            zephir_call_method_p8_ex(return_value, NULL, object, method_name, p1, p2, p3, p4, p5, p6, p7, p8)
 #define zephir_call_method_p9(return_value, object, method_name, p1, p2, p3, p4, p5, p6, p7, p8, p9)                        zephir_call_method_p9_ex(return_value, NULL, object, method_name, p1, p2, p3, p4, p5, p6, p7, p8, p9)
 #define zephir_call_method_p10(return_value, object, method_name, p1, p2, p3, p4, p5, p6, p7, p8, p9, p10)                  zephir_call_method_p10_ex(return_value, NULL, object, method_name, p1, p2, p3, p4, p5, p6, p7, p8, p9, p10)
+
+#define zephir_call_internal_method(return_value, object, method_name)                                                      zephir_call_internal_method_p0_ex(return_value, NULL, object, method_name)
+#define zephir_call_internal_method_p1(return_value, object, method_name, p1)                                               zephir_call_internal_method_p1_ex(return_value, NULL, object, method_name, p1)
+#define zephir_call_internal_method_p2(return_value, object, method_name, p1, p2)                                           zephir_call_internal_method_p2_ex(return_value, NULL, object, method_name, p1, p2)
+#define zephir_call_internal_method_p3(return_value, object, method_name, p1, p2, p3)                                       zephir_call_internal_method_p3_ex(return_value, NULL, object, method_name, p1, p2, p3)
+#define zephir_call_internal_method_p4(return_value, object, method_name, p1, p2, p3, p4)                                   zephir_call_internal_method_p4_ex(return_value, NULL, object, method_name, p1, p2, p3, p4)
+#define zephir_call_internal_method_p5(return_value, object, method_name, p1, p2, p3, p4, p5)                               zephir_call_internal_method_p5_ex(return_value, NULL, object, method_name, p1, p2, p3, p4, p5)
+#define zephir_call_internal_method_p6(return_value, object, method_name, p1, p2, p3, p4, p5, p6)                           zephir_call_internal_method_p6_ex(return_value, NULL, object, method_name, p1, p2, p3, p4, p5, p6)
+#define zephir_call_internal_method_p7(return_value, object, method_name, p1, p2, p3, p4, p5, p6, p7)                       zephir_call_internal_method_p7_ex(return_value, NULL, object, method_name, p1, p2, p3, p4, p5, p6, p7)
+#define zephir_call_internal_method_p8(return_value, object, method_name, p1, p2, p3, p4, p5, p6, p7, p8)                   zephir_call_internal_method_p8_ex(return_value, NULL, object, method_name, p1, p2, p3, p4, p5, p6, p7, p8)
+#define zephir_call_internal_method_p9(return_value, object, method_name, p1, p2, p3, p4, p5, p6, p7, p8, p9)               zephir_call_internal_method_p9_ex(return_value, NULL, object, method_name, p1, p2, p3, p4, p5, p6, p7, p8, p9)
+#define zephir_call_internal_method_p10(return_value, object, method_name, p1, p2, p3, p4, p5, p6, p7, p8, p9, p10)         zephir_call_internal_method_p10_ex(return_value, NULL, object, method_name, p1, p2, p3, p4, p5, p6, p7, p8, p9, p10) 
 
 #define zephir_call_method_noret(object, method_name)                                                                       zephir_call_method_p0_ex(NULL, NULL, object, method_name)
 #define zephir_call_method_p1_noret(object, method_name, p1)                                                                zephir_call_method_p1_ex(NULL, NULL, object, method_name, p1)

@@ -10,15 +10,12 @@ PHP_METHOD(Phalcon_Di_Injectable, getEventsManager);
 PHP_METHOD(Phalcon_Di_Injectable, __get);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_di_injectable_setdi, 0, 0, 1)
-	ZEND_ARG_INFO(0, dependencyInjector)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_di_injectable_seteventsmanager, 0, 0, 1)
-	ZEND_ARG_INFO(0, eventsManager)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_di_injectable___get, 0, 0, 1)
-	ZEND_ARG_INFO(0, propertyName)
 ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_di_injectable_method_entry) {

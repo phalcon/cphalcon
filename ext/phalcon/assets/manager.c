@@ -545,7 +545,7 @@ PHP_METHOD(Phalcon_Assets_Manager, output) {
 						ZEPHIR_MM_RESTORE();
 						return;
 					}
-					if (zephir_file_exists(targetPath TSRMLS_CC) == SUCCESS) {
+					if ((zephir_file_exists(targetPath TSRMLS_CC) == SUCCESS)) {
 						ZEPHIR_INIT_NVAR(_0);
 						zephir_call_func_p2(_0, "compare_mtime", targetPath, sourcePath);
 						if (zephir_is_true(_0)) {

@@ -20,51 +20,33 @@ PHP_METHOD(Phalcon_Security, getSessionToken);
 PHP_METHOD(Phalcon_Security, computeHmac);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_security_setworkfactor, 0, 0, 1)
-	ZEND_ARG_INFO(0, workFactor)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_security_setdi, 0, 0, 1)
-	ZEND_ARG_INFO(0, dependencyInjector)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_security_setrandombytes, 0, 0, 1)
-	ZEND_ARG_INFO(0, randomBytes)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_security_hash, 0, 0, 2)
-	ZEND_ARG_INFO(0, password)
-	ZEND_ARG_INFO(0, workFactor)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_security_checkhash, 0, 0, 3)
-	ZEND_ARG_INFO(0, password)
-	ZEND_ARG_INFO(0, passwordHash)
-	ZEND_ARG_INFO(0, maxPassLength)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_security_islegacyhash, 0, 0, 2)
-	ZEND_ARG_INFO(0, password)
-	ZEND_ARG_INFO(0, passwordHash)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_security_gettokenkey, 0, 0, 1)
-	ZEND_ARG_INFO(0, numberBytes)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_security_gettoken, 0, 0, 0)
-	ZEND_ARG_INFO(0, numberBytes)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_security_checktoken, 0, 0, 0)
-	ZEND_ARG_INFO(0, tokenKey)
-	ZEND_ARG_INFO(0, tokenValue)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_security_computehmac, 0, 0, 3)
-	ZEND_ARG_INFO(0, data)
-	ZEND_ARG_INFO(0, key)
-	ZEND_ARG_INFO(0, algo)
-	ZEND_ARG_INFO(0, raw)
 ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_security_method_entry) {

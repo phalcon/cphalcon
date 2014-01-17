@@ -283,7 +283,7 @@ PHP_METHOD(Phalcon_Cli_Console, handle) {
 			return;
 		}
 		if (zephir_array_isset_string_fetch(&path, module, SS("path"), 1 TSRMLS_CC)) {
-			if (!(zephir_file_exists(path TSRMLS_CC) == SUCCESS)) {
+			if (!((zephir_file_exists(path TSRMLS_CC) == SUCCESS))) {
 				ZEPHIR_INIT_BNVAR(_2);
 				object_init_ex(_2, phalcon_cli_console_exception_ce);
 				ZEPHIR_INIT_LNVAR(_3);

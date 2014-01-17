@@ -38,73 +38,51 @@ PHP_METHOD(Phalcon_Assets_Collection, join);
 PHP_METHOD(Phalcon_Assets_Collection, getRealTargetPath);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_assets_collection_setprefix, 0, 0, 1)
-	ZEND_ARG_INFO(0, prefix)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_assets_collection_setlocal, 0, 0, 1)
-	ZEND_ARG_INFO(0, local)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_assets_collection_setresources, 0, 0, 1)
-	ZEND_ARG_INFO(0, resources)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_assets_collection_setposition, 0, 0, 1)
-	ZEND_ARG_INFO(0, position)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_assets_collection_setfilters, 0, 0, 1)
-	ZEND_ARG_INFO(0, filters)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_assets_collection_setattributes, 0, 0, 1)
-	ZEND_ARG_INFO(0, attributes)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_assets_collection_setjoin, 0, 0, 1)
-	ZEND_ARG_INFO(0, join)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_assets_collection_settargeturi, 0, 0, 1)
-	ZEND_ARG_INFO(0, targetUri)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_assets_collection_settargetpath, 0, 0, 1)
-	ZEND_ARG_INFO(0, targetPath)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_assets_collection_settargetlocal, 0, 0, 1)
-	ZEND_ARG_INFO(0, targetLocal)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_assets_collection_setsourcepath, 0, 0, 1)
-	ZEND_ARG_INFO(0, sourcePath)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_assets_collection_add, 0, 0, 1)
-	ZEND_ARG_INFO(0, resource)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_assets_collection_addcss, 0, 0, 3)
-	ZEND_ARG_INFO(0, path)
-	ZEND_ARG_INFO(0, local)
-	ZEND_ARG_INFO(0, filter)
-	ZEND_ARG_INFO(0, attributes)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_assets_collection_addjs, 0, 0, 3)
-	ZEND_ARG_INFO(0, path)
-	ZEND_ARG_INFO(0, local)
-	ZEND_ARG_INFO(0, filter)
-	ZEND_ARG_INFO(0, attributes)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_assets_collection_join, 0, 0, 1)
-	ZEND_ARG_INFO(0, join)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_assets_collection_getrealtargetpath, 0, 0, 1)
-	ZEND_ARG_INFO(0, basePath)
 ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_assets_collection_method_entry) {

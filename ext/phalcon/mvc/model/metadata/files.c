@@ -125,7 +125,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Files, read) {
 	ZVAL_STRING(&_2, "_", 0);
 	ZEPHIR_INIT_VAR(path);
 	ZEPHIR_CONCAT_VVS(path, _0, _1, ".php");
-	if (zephir_file_exists(path TSRMLS_CC) == SUCCESS) {
+	if ((zephir_file_exists(path TSRMLS_CC) == SUCCESS)) {
 		RETURN_MM_BOOL((0 == 1));
 	}
 	RETURN_MM_NULL();

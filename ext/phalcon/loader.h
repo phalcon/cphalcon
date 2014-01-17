@@ -23,35 +23,24 @@ PHP_METHOD(Phalcon_Loader, getFoundPath);
 PHP_METHOD(Phalcon_Loader, getCheckedPath);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_loader_seteventsmanager, 0, 0, 1)
-	ZEND_ARG_INFO(0, eventsManager)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_loader_setextensions, 0, 0, 1)
-	ZEND_ARG_INFO(0, extensions)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_loader_registernamespaces, 0, 0, 1)
-	ZEND_ARG_INFO(0, namespaces)
-	ZEND_ARG_INFO(0, merge)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_loader_registerprefixes, 0, 0, 1)
-	ZEND_ARG_INFO(0, prefixes)
-	ZEND_ARG_INFO(0, merge)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_loader_registerdirs, 0, 0, 1)
-	ZEND_ARG_INFO(0, directories)
-	ZEND_ARG_INFO(0, merge)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_loader_registerclasses, 0, 0, 1)
-	ZEND_ARG_INFO(0, classes)
-	ZEND_ARG_INFO(0, merge)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_loader_autoload, 0, 0, 1)
-	ZEND_ARG_INFO(0, className)
 ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_loader_method_entry) {

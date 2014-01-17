@@ -14,6 +14,7 @@
   +------------------------------------------------------------------------+
   | Authors: Andres Gutierrez <andres@zephir-lang.com>                     |
   |          Eduar Carvajal <eduar@zephir-lang.com>                        |
+  |          Vladimir Kolesnikov <vladimir@extrememember.com>              |
   +------------------------------------------------------------------------+
 */
 
@@ -52,7 +53,7 @@ int zephir_has_constructor_ce(zend_class_entry *ce) {
 /**
  * Check if an object has a constructor
  */
-int zephir_has_constructor(const zval *object TSRMLS_DC){
+int zephir_has_constructor(const zval *object TSRMLS_DC) {
 	return zephir_has_constructor_ce(Z_OBJCE_P(object));
 }
 
@@ -322,7 +323,7 @@ static int zephir_call_static_zval_str_func_vparams(zval *return_value, zval **r
 		free_params = 1;
 		params      = (zval**)emalloc(param_count * sizeof(zval*));
 		params_ptr  = params;
-		for (i=0; i<param_count; ++i) {
+		for (i = 0; i < param_count; ++i) {
 			params[i] = va_arg(ap, zval*);
 		}
 	}

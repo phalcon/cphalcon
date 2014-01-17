@@ -524,7 +524,7 @@ PHP_METHOD(Phalcon_Loader, autoLoad) {
 							ZVAL_STRING(_8, "loader:beforeCheckPath", 1);
 							zephir_call_method_p2_cache_noret(eventsManager, "fire", &_9, _8, this_ptr);
 						}
-						if (zephir_file_exists(filePath TSRMLS_CC) == SUCCESS) {
+						if ((zephir_file_exists(filePath TSRMLS_CC) == SUCCESS)) {
 							if ((Z_TYPE_P(eventsManager) == IS_OBJECT)) {
 								zephir_update_property_this(this_ptr, SL("_foundPath"), filePath TSRMLS_CC);
 								ZEPHIR_INIT_NVAR(_8);
@@ -580,7 +580,7 @@ PHP_METHOD(Phalcon_Loader, autoLoad) {
 							ZVAL_STRING(_17, "loader:beforeCheckPath", 1);
 							zephir_call_method_p3_cache_noret(eventsManager, "fire", &_18, _17, this_ptr, filePath);
 						}
-						if (zephir_file_exists(filePath TSRMLS_CC) == SUCCESS) {
+						if ((zephir_file_exists(filePath TSRMLS_CC) == SUCCESS)) {
 							if ((Z_TYPE_P(eventsManager) == IS_OBJECT)) {
 								zephir_update_property_this(this_ptr, SL("_foundPath"), filePath TSRMLS_CC);
 								ZEPHIR_INIT_NVAR(_8);
@@ -631,7 +631,7 @@ PHP_METHOD(Phalcon_Loader, autoLoad) {
 					ZVAL_STRING(_4, "loader:beforeCheckPath", 1);
 					zephir_call_method_p3_cache_noret(eventsManager, "fire", &_28, _4, this_ptr, filePath);
 				}
-				if (zephir_file_exists(filePath TSRMLS_CC) == SUCCESS) {
+				if ((zephir_file_exists(filePath TSRMLS_CC) == SUCCESS)) {
 					if ((Z_TYPE_P(eventsManager) == IS_OBJECT)) {
 						zephir_update_property_this(this_ptr, SL("_foundPath"), filePath TSRMLS_CC);
 						ZEPHIR_INIT_NVAR(_4);

@@ -8,11 +8,9 @@ PHP_METHOD(Phalcon_Paginator_Adapter_Model, setCurrentPage);
 PHP_METHOD(Phalcon_Paginator_Adapter_Model, getPaginate);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_paginator_adapter_model___construct, 0, 0, 1)
-	ZEND_ARG_INFO(0, config)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_paginator_adapter_model_setcurrentpage, 0, 0, 1)
-	ZEND_ARG_INFO(0, page)
 ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_paginator_adapter_model_method_entry) {

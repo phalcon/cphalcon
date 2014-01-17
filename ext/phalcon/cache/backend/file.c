@@ -139,7 +139,7 @@ PHP_METHOD(Phalcon_Cache_Backend_File, get) {
 	}
 	ZEPHIR_INIT_VAR(cacheFile);
 	ZEPHIR_CONCAT_VV(cacheFile, cacheDir, prefixedKey);
-	if ((zephir_file_exists(cacheFile TSRMLS_CC) == SUCCESS == true)) {
+	if (((zephir_file_exists(cacheFile TSRMLS_CC) == SUCCESS) == 1)) {
 		frontend = zephir_fetch_nproperty_this(this_ptr, SL("_frontend"), PH_NOISY_CC);
 		ZEPHIR_INIT_VAR(now);
 		zephir_call_func(now, "time");
@@ -287,7 +287,7 @@ PHP_METHOD(Phalcon_Cache_Backend_File, delete) {
 	}
 	ZEPHIR_INIT_VAR(cacheFile);
 	ZEPHIR_CONCAT_VV(cacheFile, cacheDir, prefixedKey);
-	if (zephir_file_exists(cacheFile TSRMLS_CC) == SUCCESS) {
+	if ((zephir_file_exists(cacheFile TSRMLS_CC) == SUCCESS)) {
 		zephir_call_func_p1(return_value, "unlink", cacheFile);
 		RETURN_MM();
 	}
@@ -387,7 +387,7 @@ PHP_METHOD(Phalcon_Cache_Backend_File, exists) {
 		zephir_array_fetch_string(&cacheDir, _0, SL("cacheDir"), PH_NOISY | PH_READONLY TSRMLS_CC);
 		ZEPHIR_INIT_VAR(cacheFile);
 		ZEPHIR_CONCAT_VV(cacheFile, cacheDir, lastKey);
-		if (zephir_file_exists(cacheFile TSRMLS_CC) == SUCCESS) {
+		if ((zephir_file_exists(cacheFile TSRMLS_CC) == SUCCESS)) {
 			if (!(lifetime)) {
 				_1 = zephir_fetch_nproperty_this(this_ptr, SL("_frontend"), PH_NOISY_CC);
 				ZEPHIR_INIT_VAR(_2);
@@ -442,7 +442,7 @@ PHP_METHOD(Phalcon_Cache_Backend_File, increment) {
 	zephir_array_fetch_string(&_2, _1, SL("cacheDir"), PH_NOISY | PH_READONLY TSRMLS_CC);
 	ZEPHIR_INIT_VAR(cacheFile);
 	ZEPHIR_CONCAT_VV(cacheFile, _2, prefixedKey);
-	if (zephir_file_exists(cacheFile TSRMLS_CC) == SUCCESS) {
+	if ((zephir_file_exists(cacheFile TSRMLS_CC) == SUCCESS)) {
 		frontend = zephir_fetch_nproperty_this(this_ptr, SL("_frontend"), PH_NOISY_CC);
 		ZEPHIR_INIT_VAR(timestamp);
 		zephir_call_func(timestamp, "time");
@@ -520,7 +520,7 @@ PHP_METHOD(Phalcon_Cache_Backend_File, decrement) {
 	zephir_array_fetch_string(&_2, _1, SL("cacheDir"), PH_NOISY | PH_READONLY TSRMLS_CC);
 	ZEPHIR_INIT_VAR(cacheFile);
 	ZEPHIR_CONCAT_VV(cacheFile, _2, prefixedKey);
-	if (zephir_file_exists(cacheFile TSRMLS_CC) == SUCCESS) {
+	if ((zephir_file_exists(cacheFile TSRMLS_CC) == SUCCESS)) {
 		ZEPHIR_INIT_VAR(timestamp);
 		zephir_call_func(timestamp, "time");
 		lifetime = zephir_fetch_nproperty_this(this_ptr, SL("_lastLifetime"), PH_NOISY_CC);

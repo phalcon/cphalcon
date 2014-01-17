@@ -13,15 +13,12 @@ PHP_METHOD(Phalcon_Cache_Frontend_Base64, beforeStore);
 PHP_METHOD(Phalcon_Cache_Frontend_Base64, afterRetrieve);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_cache_frontend_base64___construct, 0, 0, 0)
-	ZEND_ARG_INFO(0, frontendOptions)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_cache_frontend_base64_beforestore, 0, 0, 1)
-	ZEND_ARG_INFO(0, data)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_cache_frontend_base64_afterretrieve, 0, 0, 1)
-	ZEND_ARG_INFO(0, data)
 ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_cache_frontend_base64_method_entry) {

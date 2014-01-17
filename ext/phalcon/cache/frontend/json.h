@@ -13,15 +13,12 @@ PHP_METHOD(Phalcon_Cache_Frontend_Json, beforeStore);
 PHP_METHOD(Phalcon_Cache_Frontend_Json, afterRetrieve);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_cache_frontend_json___construct, 0, 0, 0)
-	ZEND_ARG_INFO(0, frontendOptions)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_cache_frontend_json_beforestore, 0, 0, 1)
-	ZEND_ARG_INFO(0, data)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_cache_frontend_json_afterretrieve, 0, 0, 1)
-	ZEND_ARG_INFO(0, data)
 ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_cache_frontend_json_method_entry) {

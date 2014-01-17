@@ -375,6 +375,10 @@ int zephir_fetch_parameters(int num_args TSRMLS_DC, int required_args, int optio
 /** Method declaration for API generation */
 #define ZEPHIR_DOC_METHOD(class_name, method)
 
+/** Internal private methods */
+//#define ZEPHIR_INTERNAL_METHOD(classname, method) static void zim_ ##classname## _ ##method## (zval *return_value TSRMLS_DC)
+//#define ZEPHIR_INTERNAL_METHOD(classname, method, number_params, ...) static void zim_ ##classname## _ ##method## (zval *return_value TSRMLS_DC, int INP, __VA_ARGS__)
+
 /** Low overhead parse/fetch parameters */
 #define zephir_fetch_params(memory_grow, required_params, optional_params, ...) \
 	if (zephir_fetch_parameters(ZEND_NUM_ARGS() TSRMLS_CC, required_params, optional_params, __VA_ARGS__) == FAILURE) { \
@@ -384,6 +388,19 @@ int zephir_fetch_parameters(int num_args TSRMLS_DC, int required_args, int optio
 			RETURN_NULL(); \
 		} \
 	}
+
+/** Low overhead parse/fetch parameters */
+#define zephir_fetch_internal_params(memory_grow, variadic_list, variadic_param_count, required_params, optional_params, ...) \
+	va_start(variadic_list, variadic_param_count); \
+	if (zephir_fetch_internal_parameters(ZEND_NUM_ARGS() TSRMLS_CC, required_params, optional_params, __VA_ARGS__) == FAILURE) { \
+		va_end(variadic_list); \
+		if (memory_grow) { \
+			RETURN_MM_NULL(); \
+		} else { \
+			RETURN_NULL(); \
+		} \
+	} \
+	va_end(variadic_list);
 
 #define ZEPHIR_VERIFY_INTERFACE(instance, interface_ce) \
 	do { \

@@ -30,72 +30,48 @@ PHP_METHOD(Phalcon_Http_Response, send);
 PHP_METHOD(Phalcon_Http_Response, setFileToSend);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_http_response___construct, 0, 0, 0)
-	ZEND_ARG_INFO(0, content)
-	ZEND_ARG_INFO(0, code)
-	ZEND_ARG_INFO(0, status)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_http_response_setdi, 0, 0, 1)
-	ZEND_ARG_INFO(0, dependencyInjector)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_http_response_setstatuscode, 0, 0, 2)
-	ZEND_ARG_INFO(0, code)
-	ZEND_ARG_INFO(0, message)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_http_response_setheaders, 0, 0, 1)
-	ZEND_ARG_INFO(0, headers)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_http_response_setcookies, 0, 0, 1)
-	ZEND_ARG_INFO(0, cookies)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_http_response_setheader, 0, 0, 2)
-	ZEND_ARG_INFO(0, name)
-	ZEND_ARG_INFO(0, value)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_http_response_setrawheader, 0, 0, 1)
-	ZEND_ARG_INFO(0, header)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_http_response_setexpires, 0, 0, 1)
-	ZEND_ARG_INFO(0, datetime)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_http_response_setcontenttype, 0, 0, 1)
-	ZEND_ARG_INFO(0, contentType)
-	ZEND_ARG_INFO(0, charset)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_http_response_setetag, 0, 0, 1)
-	ZEND_ARG_INFO(0, etag)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_http_response_redirect, 0, 0, 0)
-	ZEND_ARG_INFO(0, location)
-	ZEND_ARG_INFO(0, externalRedirect)
-	ZEND_ARG_INFO(0, statusCode)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_http_response_setcontent, 0, 0, 1)
-	ZEND_ARG_INFO(0, content)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_http_response_setjsoncontent, 0, 0, 1)
-	ZEND_ARG_INFO(0, content)
-	ZEND_ARG_INFO(0, jsonOptions)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_http_response_appendcontent, 0, 0, 1)
-	ZEND_ARG_INFO(0, content)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_http_response_setfiletosend, 0, 0, 1)
-	ZEND_ARG_INFO(0, filePath)
-	ZEND_ARG_INFO(0, attachmentName)
 ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_http_response_method_entry) {

@@ -9,9 +9,6 @@ PHP_METHOD(Phalcon_Queue_Beanstalk_Job, __construct);
 PHP_METHOD(Phalcon_Queue_Beanstalk_Job, delete);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_queue_beanstalk_job___construct, 0, 0, 3)
-	ZEND_ARG_INFO(0, queue)
-	ZEND_ARG_INFO(0, id)
-	ZEND_ARG_INFO(0, body)
 ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_queue_beanstalk_job_method_entry) {

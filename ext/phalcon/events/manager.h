@@ -16,41 +16,27 @@ PHP_METHOD(Phalcon_Events_Manager, hasListeners);
 PHP_METHOD(Phalcon_Events_Manager, getListeners);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_events_manager_attach, 0, 0, 2)
-	ZEND_ARG_INFO(0, eventType)
-	ZEND_ARG_INFO(0, handler)
-	ZEND_ARG_INFO(0, priority)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_events_manager_enablepriorities, 0, 0, 1)
-	ZEND_ARG_INFO(0, enablePriorities)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_events_manager_collectresponses, 0, 0, 1)
-	ZEND_ARG_INFO(0, collect)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_events_manager_dettachall, 0, 0, 0)
-	ZEND_ARG_INFO(0, type)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_events_manager_firequeue, 0, 0, 2)
-	ZEND_ARG_INFO(0, queue)
-	ZEND_ARG_INFO(0, event)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_events_manager_fire, 0, 0, 2)
-	ZEND_ARG_INFO(0, eventType)
-	ZEND_ARG_INFO(0, source)
-	ZEND_ARG_INFO(0, data)
-	ZEND_ARG_INFO(0, cancelable)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_events_manager_haslisteners, 0, 0, 1)
-	ZEND_ARG_INFO(0, type)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_events_manager_getlisteners, 0, 0, 1)
-	ZEND_ARG_INFO(0, type)
 ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_events_manager_method_entry) {

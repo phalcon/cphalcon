@@ -11,11 +11,9 @@ PHP_METHOD(Phalcon_Annotations_Reflection, getReflectionData);
 PHP_METHOD(Phalcon_Annotations_Reflection, __set_state);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_annotations_reflection___construct, 0, 0, 0)
-	ZEND_ARG_INFO(0, reflectionData)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_annotations_reflection___set_state, 0, 0, 1)
-	ZEND_ARG_INFO(0, data)
 ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_annotations_reflection_method_entry) {

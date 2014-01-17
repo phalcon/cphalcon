@@ -300,7 +300,7 @@ PHP_METHOD(Phalcon_Mvc_View_Simple, _internalRender) {
 		ZEPHIR_GET_HVALUE(engine, _5);
 		ZEPHIR_INIT_NVAR(viewEnginePath);
 		ZEPHIR_CONCAT_VV(viewEnginePath, viewsDirPath, extension);
-		if (zephir_file_exists(viewEnginePath TSRMLS_CC) == SUCCESS) {
+		if ((zephir_file_exists(viewEnginePath TSRMLS_CC) == SUCCESS)) {
 			if ((Z_TYPE_P(eventsManager) == IS_OBJECT)) {
 				ZEPHIR_INIT_NVAR(_0);
 				ZEPHIR_INIT_NVAR(_1);
