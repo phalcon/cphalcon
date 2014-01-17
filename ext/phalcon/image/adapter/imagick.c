@@ -63,7 +63,7 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, check) {
 	}
 	ZEPHIR_SINIT_VAR(_1);
 	ZVAL_STRING(&_1, "imagick", 0);
-	if (!(zephir_class_exists(&_1, 1  TSRMLS_CC))) {
+	if (!(zephir_class_exists(&_1, 1 TSRMLS_CC))) {
 		ZEPHIR_INIT_VAR(_2);
 		object_init_ex(_2, phalcon_image_exception_ce);
 		ZEPHIR_INIT_VAR(_3);

@@ -415,7 +415,7 @@ PHP_METHOD(Phalcon_Di, get) {
 		ZEPHIR_INIT_VAR(instance);
 		zephir_call_method_p2(instance, service, "resolve", parameters, this_ptr);
 	} else {
-		if (zephir_class_exists(name, 1  TSRMLS_CC)) {
+		if (zephir_class_exists(name, 1 TSRMLS_CC)) {
 			if ((Z_TYPE_P(parameters) == IS_ARRAY)) {
 				ZEPHIR_INIT_NVAR(instance);
 				if (zephir_fast_count_int(parameters TSRMLS_CC)) {

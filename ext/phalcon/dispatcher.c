@@ -606,7 +606,7 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch) {
 		zephir_call_method_p1_cache(_2, dependencyInjector, "has", &_6, handlerClass);
 		hasService = zephir_get_boolval(_2);
 		if (!(hasService)) {
-			hasService = zephir_class_exists(handlerClass, 1  TSRMLS_CC);
+			hasService = zephir_class_exists(handlerClass, 1 TSRMLS_CC);
 		}
 		if (!(hasService)) {
 			ZEPHIR_INIT_LNVAR(_7);

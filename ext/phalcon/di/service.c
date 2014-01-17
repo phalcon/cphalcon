@@ -230,7 +230,7 @@ PHP_METHOD(Phalcon_Di_Service, resolve) {
 	ZVAL_NULL(instance);
 	definition = zephir_fetch_nproperty_this(this_ptr, SL("_definition"), PH_NOISY_CC);
 	if ((Z_TYPE_P(definition) == IS_STRING)) {
-		if (zephir_class_exists(definition, 1  TSRMLS_CC)) {
+		if (zephir_class_exists(definition, 1 TSRMLS_CC)) {
 			if ((Z_TYPE_P(parameters) == IS_ARRAY)) {
 				ZEPHIR_INIT_BNVAR(instance);
 				if (zephir_fast_count_int(parameters TSRMLS_CC)) {

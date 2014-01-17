@@ -376,7 +376,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, load) {
 		}
 		RETURN_CTOR(model);
 	}
-	if (zephir_class_exists(modelName, 1  TSRMLS_CC)) {
+	if (zephir_class_exists(modelName, 1 TSRMLS_CC)) {
 		_1 = zend_fetch_class(Z_STRVAL_P(modelName), Z_STRLEN_P(modelName), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
 		object_init_ex(return_value, _1);
 		RETURN_MM();
