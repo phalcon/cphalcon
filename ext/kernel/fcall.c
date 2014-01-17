@@ -65,8 +65,8 @@ static inline void phalcon_check_return_value(zval *return_value) {}
 #endif
 
 
-int phalcon_has_constructor_ce(const zend_class_entry *ce) {
-
+int phalcon_has_constructor_ce(const zend_class_entry *ce)
+{
 	while (ce) {
 		if (ce->constructor) {
 			return 1;
@@ -92,7 +92,7 @@ static int phalcon_call_user_function(zval **object_pp, const zend_class_entry *
 	zend_fcall_info_cache fcic;
 	zend_phalcon_globals *phalcon_globals_ptr = PHALCON_VGLOBAL;
 	char *name = NULL;
-	uint len;
+	uint len = 0;
 
 	if (retval_ptr_ptr && *retval_ptr_ptr) {
 		zval_ptr_dtor(retval_ptr_ptr);
@@ -192,16 +192,43 @@ static int phalcon_call_user_function(zval **object_pp, const zend_class_entry *
 	return status;
 }
 
-static int phalcon_call_func_vparams(zval **return_value_ptr, const char *func_name, uint func_length TSRMLS_DC, int param_count, va_list ap)
+int phalcon_call_func_aparams(zval *return_value, zval **return_value_ptr, const char *func_name, uint func_length TSRMLS_DC, uint param_count, zval **params)
 {
-	zval **params_ptr, **params = NULL;
-	zval *static_params[10];
-	int free_params = 0, i, status;
+	int status;
+	zval *rv = NULL, **rvp = return_value_ptr ? return_value_ptr : &rv;
 	zval func = zval_used_for_init;
 
 	if (return_value_ptr && *return_value_ptr) {
 		phalcon_check_return_value(*return_value_ptr);
 	}
+
+	ZVAL_STRINGL(&func, func_name, func_length, 0);
+	status = phalcon_call_user_function(NULL, NULL, &func, rvp, param_count, params TSRMLS_CC);
+
+	if (status == FAILURE && !EG(exception)) {
+		zend_error(E_ERROR, "Call to undefined function %s()", func_name);
+	}
+	else if (EG(exception)) {
+		status = FAILURE;
+	}
+
+	if (rv) {
+		if (return_value) {
+			COPY_PZVAL_TO_ZVAL(*return_value, rv);
+		}
+		else {
+			zval_ptr_dtor(&rv);
+		}
+	}
+
+	return status;
+}
+
+int phalcon_call_func_vparams(zval *return_value, zval **return_value_ptr, const char *func_name, uint func_length TSRMLS_DC, int param_count, va_list ap)
+{
+	zval **params_ptr, **params = NULL;
+	zval *static_params[10];
+	int free_params = 0, i, status;
 
 	if (param_count < 0) {
 		params      = va_arg(ap, zval**);
@@ -226,18 +253,10 @@ static int phalcon_call_func_vparams(zval **return_value_ptr, const char *func_n
 		params_ptr = NULL;
 	}
 
-	ZVAL_STRINGL(&func, func_name, func_length, 0);
-	status = phalcon_call_user_function(NULL, NULL, &func, return_value_ptr, param_count, params_ptr TSRMLS_CC);
+	status = phalcon_call_func_aparams(return_value, return_value_ptr, func_name, func_length TSRMLS_CC, param_count, params_ptr);
 
 	if (unlikely(free_params)) {
 		efree(params);
-	}
-
-	if (status == FAILURE && !EG(exception)) {
-		php_error_docref(NULL TSRMLS_CC, E_ERROR, "Call to undefined function %s()", func_name);
-	}
-	else if (EG(exception)) {
-		status = FAILURE;
 	}
 
 	return status;
@@ -256,28 +275,18 @@ static int phalcon_call_func_vparams(zval **return_value_ptr, const char *func_n
  */
 int phalcon_call_func_params(zval *return_value, zval **return_value_ptr, const char *func_name, uint func_length TSRMLS_DC, int param_count, ...)
 {
-	zval *rv = NULL, **rvp = return_value_ptr ? return_value_ptr : &rv;
 	int status;
 	va_list ap;
 
 	va_start(ap, param_count);
-	status = phalcon_call_func_vparams(rvp, func_name, func_length TSRMLS_CC, param_count, ap);
+	status = phalcon_call_func_vparams(return_value, return_value_ptr, func_name, func_length TSRMLS_CC, param_count, ap);
 	va_end(ap);
-
-	if (rv) {
-		if (return_value) {
-			COPY_PZVAL_TO_ZVAL(*return_value, rv);
-		}
-		else {
-			zval_ptr_dtor(&rv);
-		}
-	}
 
 	return status;
 }
 
-int phalcon_call_method_vparams(zval *return_value, zval **return_value_ptr, zval *object, const char *method_name, uint method_len, ulong method_key TSRMLS_DC, int param_count, va_list ap) {
-
+int phalcon_call_method_vparams(zval *return_value, zval **return_value_ptr, zval *object, const char *method_name, uint method_len, ulong method_key TSRMLS_DC, int param_count, va_list ap)
+{
 	int i, status, free_params = -0, caller_wants_result = 1;
 	zend_class_entry *ce, *active_scope = NULL;
 	zval **params_ptr, **params = NULL;
@@ -339,6 +348,30 @@ int phalcon_call_method_vparams(zval *return_value, zval **return_value_ptr, zva
 	if (!caller_wants_result) {
 		zval_ptr_dtor(&return_value);
 	}
+
+	return status;
+}
+
+/**
+ * @brief Calls method @a method_name from @a object which accepts @a param_count arguments @a params
+ * @param[out] Return value; set to @c NULL if the return value is not needed
+ * @param object Object
+ * @param method_name Method name
+ * @param method_length Length of the method name
+ * @param param_count Number of arguments
+ * @param params Arguments
+ * @return Whether the call succeeded
+ * @retval @c SUCCESS
+ * @retval @c FAILURE
+ */
+int phalcon_call_method_params(zval *return_value, zval **return_value_ptr, zval *object, const char *method_name, uint method_len, ulong method_key TSRMLS_DC, int param_count, ...)
+{
+	int status;
+	va_list ap;
+
+	va_start(ap, param_count);
+	status = phalcon_call_method_vparams(return_value, return_value_ptr, object, method_name, method_len, method_key TSRMLS_CC, param_count, ap);
+	va_end(ap);
 
 	return status;
 }

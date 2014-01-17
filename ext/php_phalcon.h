@@ -170,11 +170,15 @@ extern int nusphere_dbg_present;
 #	define PHALCON_ATTR_NONNULL1(x)        __attribute__((nonnull (x)))
 #	define PHALCON_ATTR_NONNULL2(x, y)     __attribute__((nonnull (x, y)))
 #	define PHALCON_ATTR_NONNULL3(x, y, z)  __attribute__((nonnull (x, y, z)))
+#	define PHALCON_ATTR_PURE               __attribute__((pure))
+#	define PHALCON_ATTR_CONST              __attribute__((const))
 #else
 #	define PHALCON_ATTR_NONNULL
 #	define PHALCON_ATTR_NONNULL1(x)
 #	define PHALCON_ATTR_NONNULL2(x, y)
 #	define PHALCON_ATTR_NONNULL3(x, y, z)
+#	define PHALCON_ATTR_PURE
+#	define PHALCON_ATTR_CONST
 #endif
 
 #ifndef ZEND_MOD_END
