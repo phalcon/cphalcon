@@ -109,7 +109,7 @@ PHP_METHOD(Phalcon_Session_Adapter, __destruct) {
 
 	started = phalcon_fetch_nproperty_this(getThis(), SL("_started"), PH_NOISY TSRMLS_CC);
 	if (zend_is_true(started)) {
-		phalcon_session_write_close(TSRMLS_C);
+		RETURN_ON_FAILURE(phalcon_session_write_close(TSRMLS_C));
 		phalcon_update_property_bool(this_ptr, SL("_started"), 0 TSRMLS_CC);
 	}
 }
@@ -122,7 +122,7 @@ PHP_METHOD(Phalcon_Session_Adapter, __destruct) {
 PHP_METHOD(Phalcon_Session_Adapter, start){
 
 	if (!SG(headers_sent)) {
-		phalcon_session_start(TSRMLS_C);
+		RETURN_ON_FAILURE(phalcon_session_start(TSRMLS_C));
 		phalcon_update_property_bool(this_ptr, SL("_started"), 1 TSRMLS_CC);
 		RETURN_TRUE;
 	}
@@ -307,8 +307,7 @@ PHP_METHOD(Phalcon_Session_Adapter, remove){
  */
 PHP_METHOD(Phalcon_Session_Adapter, getId){
 
-
-	phalcon_get_session_id(return_value, return_value_ptr TSRMLS_CC);
+	RETURN_ON_FAILURE(phalcon_get_session_id(return_value, return_value_ptr TSRMLS_CC));
 }
 
 /**
@@ -338,6 +337,6 @@ PHP_METHOD(Phalcon_Session_Adapter, isStarted){
 PHP_METHOD(Phalcon_Session_Adapter, destroy){
 
 	phalcon_update_property_bool(this_ptr, SL("_started"), 0 TSRMLS_CC);
-	phalcon_session_destroy(TSRMLS_C);
+	RETURN_ON_FAILURE(phalcon_session_destroy(TSRMLS_C));
 	RETURN_TRUE;
 }

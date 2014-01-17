@@ -117,8 +117,8 @@ PHP_METHOD(Phalcon_Db_Profiler, startProfile){
 	object_init_ex(active_profile, phalcon_db_profiler_item_ce);
 	phalcon_call_method_p1_noret(active_profile, "setsqlstatement", sql_statement);
 	
-	PHALCON_INIT_VAR(time);
-	phalcon_call_func_p1(time, "microtime", PHALCON_GLOBAL(z_true));
+	PHALCON_OBS_VAR(time);
+	PHALCON_CALL_FUNCTION(&time, "microtime", PHALCON_GLOBAL(z_true));
 	phalcon_call_method_p1_noret(active_profile, "setinitialtime", time);
 	if (phalcon_method_exists_ex(this_ptr, SS("beforestartprofile") TSRMLS_CC) == SUCCESS) {
 		phalcon_call_method_p1_noret(this_ptr, "beforestartprofile", active_profile);
@@ -141,8 +141,8 @@ PHP_METHOD(Phalcon_Db_Profiler, stopProfile){
 
 	PHALCON_MM_GROW();
 
-	PHALCON_INIT_VAR(final_time);
-	phalcon_call_func_p1(final_time, "microtime", PHALCON_GLOBAL(z_true));
+	PHALCON_OBS_VAR(final_time);
+	PHALCON_CALL_FUNCTION(&final_time, "microtime", PHALCON_GLOBAL(z_true));
 	
 	active_profile = phalcon_fetch_nproperty_this(this_ptr, SL("_activeProfile"), PH_NOISY_CC);
 	phalcon_call_method_p1_noret(active_profile, "setfinaltime", final_time);

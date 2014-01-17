@@ -268,7 +268,7 @@ PHP_METHOD(Phalcon_Debug, listenExceptions){
 	array_init_size(handler, 2);
 	phalcon_array_append(&handler, this_ptr, PH_SEPARATE);
 	add_next_index_stringl(handler, SL("onUncaughtException"), 1);
-	phalcon_call_func_p1_noret("set_exception_handler", handler);
+	PHALCON_CALL_FUNCTION_NORET("set_exception_handler", handler);
 	RETURN_THIS();
 }
 
@@ -287,7 +287,7 @@ PHP_METHOD(Phalcon_Debug, listenLowSeverity){
 	array_init_size(handler, 2);
 	phalcon_array_append(&handler, this_ptr, PH_SEPARATE);
 	add_next_index_stringl(handler, SL("onUncaughtLowSeverity"), 1);
-	phalcon_call_func_p1_noret("set_exception_handler", handler);
+	PHALCON_CALL_FUNCTION_NORET("set_exception_handler", handler);
 */
 	RETURN_THISW();
 }
@@ -750,7 +750,7 @@ PHP_METHOD(Phalcon_Debug, showTraceItem){
 		ZVAL_STRING(pattern, "/^Phalcon/", 1);
 	
 		PHALCON_INIT_VAR(is_phalcon_class);
-		phalcon_preg_match(is_phalcon_class, NULL, pattern, class_name, NULL TSRMLS_CC);
+		RETURN_MM_ON_FAILURE(phalcon_preg_match(is_phalcon_class, pattern, class_name, NULL TSRMLS_CC));
 	
 		/** 
 		 * We assume that classes starting by Phalcon are framework's classes
@@ -929,8 +929,8 @@ PHP_METHOD(Phalcon_Debug, showTraceItem){
 			/** 
 			 * Open the file to an array using 'file', this respects the openbase-dir directive
 			 */
-			PHALCON_INIT_VAR(lines);
-			phalcon_call_func_p1(lines, "file", file);
+			PHALCON_OBS_VAR(lines);
+			PHALCON_CALL_FUNCTION(&lines, "file", file);
 	
 			PHALCON_INIT_VAR(number_lines);
 			phalcon_fast_count(number_lines, lines TSRMLS_CC);
@@ -1021,7 +1021,7 @@ PHP_METHOD(Phalcon_Debug, showTraceItem){
 	
 						PHALCON_INIT_NVAR(is_comment);
 	
-						phalcon_preg_match(is_comment, NULL, comment_pattern, current_line, NULL TSRMLS_CC);
+						RETURN_MM_ON_FAILURE(phalcon_preg_match(is_comment, comment_pattern, current_line, NULL TSRMLS_CC));
 	
 						if (zend_is_true(is_comment)) {
 							PHALCON_INIT_NVAR(spaced_current_line);
@@ -1274,8 +1274,8 @@ PHP_METHOD(Phalcon_Debug, onUncaughtException){
 		/** 
 		 * Show included files
 		 */
-		PHALCON_INIT_VAR(files);
-		phalcon_call_func(files, "get_included_files");
+		PHALCON_OBS_VAR(files);
+		PHALCON_CALL_FUNCTION(&files, "get_included_files");
 		phalcon_concat_self_str(&html, SL("<div id=\"error-tabs-4\"><table cellspacing=\"0\" align=\"center\" class=\"superglobal-detail\">") TSRMLS_CC);
 		phalcon_concat_self_str(&html, SL("<tr><th>#</th><th>Path</th></tr>") TSRMLS_CC);
 	

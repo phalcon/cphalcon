@@ -297,7 +297,7 @@ PHP_METHOD(Phalcon_Db_Result_Pdo, numRows){
 				ZVAL_STRING(pattern, "/^SELECT\\s+(.*)$/i", 1);
 	
 				PHALCON_INIT_VAR(match);
-				phalcon_preg_match(match, NULL, pattern, sql_statement, matches TSRMLS_CC);
+				RETURN_MM_ON_FAILURE(phalcon_preg_match(match, pattern, sql_statement, matches TSRMLS_CC));
 	
 				if (zend_is_true(match)) {
 					PHALCON_OBS_VAR(else_clauses);

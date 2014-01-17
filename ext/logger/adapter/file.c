@@ -125,8 +125,8 @@ PHP_METHOD(Phalcon_Logger_Adapter_File, __construct){
 	/** 
 	 * We use 'fopen' to respect to open-basedir directive
 	 */
-	PHALCON_INIT_VAR(handler);
-	phalcon_call_func_p2(handler, "fopen", name, mode);
+	PHALCON_OBS_VAR(handler);
+	PHALCON_CALL_FUNCTION(&handler, "fopen", name, mode);
 	if (!zend_is_true(handler)) {
 		PHALCON_INIT_VAR(exception_message);
 		PHALCON_CONCAT_SVS(exception_message, "Can't open log file at '", name, "'");
@@ -193,7 +193,7 @@ PHP_METHOD(Phalcon_Logger_Adapter_File, logInternal){
 	
 	PHALCON_INIT_VAR(applied_format);
 	phalcon_call_method_p3(applied_format, formatter, "format", message, type, time);
-	phalcon_call_func_p2_noret("fwrite", file_handler, applied_format);
+	PHALCON_CALL_FUNCTION_NORET("fwrite", file_handler, applied_format);
 	
 	PHALCON_MM_RESTORE();
 }
@@ -209,9 +209,8 @@ PHP_METHOD(Phalcon_Logger_Adapter_File, close){
 
 	PHALCON_MM_GROW();
 
-	PHALCON_OBS_VAR(file_handler);
-	phalcon_read_property_this(&file_handler, this_ptr, SL("_fileHandler"), PH_NOISY_CC);
-	phalcon_call_func_p1(return_value, "fclose", file_handler);
+	file_handler = phalcon_fetch_nproperty_this(this_ptr, SL("_fileHandler"), PH_NOISY_CC);
+	PHALCON_RETURN_CALL_FUNCTION("fclose", file_handler);
 	RETURN_MM();
 }
 
@@ -258,8 +257,8 @@ PHP_METHOD(Phalcon_Logger_Adapter_File, __wakeup){
 	/**
 	 * Re-open the file handler if the logger was serialized
 	 */
-	PHALCON_INIT_VAR(file_handler);
-	phalcon_call_func_p2(file_handler, "fopen", path, mode);
+	PHALCON_OBS_VAR(file_handler);
+	PHALCON_CALL_FUNCTION(&file_handler, "fopen", path, mode);
 	phalcon_update_property_this(this_ptr, SL("_fileHandler"), file_handler TSRMLS_CC);
 
 	PHALCON_MM_RESTORE();

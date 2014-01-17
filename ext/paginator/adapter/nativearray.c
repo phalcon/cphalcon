@@ -139,6 +139,7 @@ PHP_METHOD(Phalcon_Paginator_Adapter_NativeArray, getPaginate){
 
 	zval *items, *limit, *number_page, *lim;
 	zval *start, *slice = NULL;
+	zval *params[3];
 	long int i_limit, i_number_page, i_number, i_before, i_rowcount;
 	long int i_total_pages, i_next;
 	ldiv_t tp;
@@ -174,10 +175,11 @@ PHP_METHOD(Phalcon_Paginator_Adapter_NativeArray, getPaginate){
 	PHALCON_ALLOC_GHOST_ZVAL(lim);
 	ZVAL_LONG(start, i_number);
 	ZVAL_LONG(lim, i_limit);
-	phalcon_call_func_params(slice, &slice, SL("array_slice") TSRMLS_CC, 3, items, start, lim);
-	if (UNEXPECTED(EG(exception) != NULL)) {
-		return;
-	}
+
+	params[0] = items;
+	params[1] = start;
+	params[2] = lim;
+	RETURN_ON_FAILURE(phalcon_call_func_aparams(&slice, SL("array_slice"), 3, params TSRMLS_CC));
 
 	Z_DELREF_P(slice);
 	

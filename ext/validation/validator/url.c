@@ -100,7 +100,7 @@ PHP_METHOD(Phalcon_Validation_Validator_Url, validate){
 	ZVAL_LONG(validate_url, 273);
 	
 	PHALCON_OBS_VAR(validation);
-	phalcon_call_func_p2_ex(validation, &validation, "filter_var", value, validate_url);
+	PHALCON_CALL_FUNCTION(&validation, "filter_var", value, validate_url);
 	if (!zend_is_true(validation)) {
 	
 		PHALCON_INIT_VAR(label);
@@ -127,7 +127,7 @@ PHP_METHOD(Phalcon_Validation_Validator_Url, validate){
 		}
 
 		PHALCON_OBS_VAR(prepared);
-		phalcon_call_func_p2_ex(prepared, &prepared, "strtr", message_str, pairs);
+		PHALCON_CALL_FUNCTION(&prepared, "strtr", message_str, pairs);
 
 		message = phalcon_validation_message_construct_helper(prepared, attribute, "Url", code TSRMLS_CC);
 		Z_DELREF_P(message);

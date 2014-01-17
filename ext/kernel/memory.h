@@ -143,6 +143,14 @@ extern void ZEND_FASTCALL phalcon_copy_ctor(zval *destiny, zval *origin);
 		phalcon_memory_observe(&z TSRMLS_CC); \
 	}
 
+#define PHALCON_OBS_SEP_NVAR(z)\
+	if (z) { \
+		zval_ptr_dtor(&z); \
+		z = NULL; \
+	} else { \
+		phalcon_memory_observe(&z TSRMLS_CC); \
+	}
+
 #define PHALCON_SEPARATE_ARRAY(a) \
 	{ \
 		if (Z_REFCOUNT_P(a) > 1) { \

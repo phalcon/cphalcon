@@ -133,8 +133,8 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Apc, read){
 	PHALCON_INIT_VAR(apc_key);
 	PHALCON_CONCAT_SVV(apc_key, "$PMM$", prefix, key);
 	
-	PHALCON_INIT_VAR(data);
-	phalcon_call_func_p1(data, "apc_fetch", apc_key);
+	PHALCON_OBS_VAR(data);
+	PHALCON_CALL_FUNCTION(&data, "apc_fetch", apc_key);
 	if (Z_TYPE_P(data) == IS_ARRAY) { 
 		RETURN_CCTOR(data);
 	}
@@ -164,7 +164,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Apc, write){
 	
 	PHALCON_OBS_VAR(ttl);
 	phalcon_read_property_this(&ttl, this_ptr, SL("_ttl"), PH_NOISY_CC);
-	phalcon_call_func_p3_noret("apc_store", apc_key, data, ttl);
+	PHALCON_CALL_FUNCTION_NORET("apc_store", apc_key, data, ttl);
 	
 	PHALCON_MM_RESTORE();
 }

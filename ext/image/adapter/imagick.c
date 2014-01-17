@@ -908,8 +908,8 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, _text) {
 	PHALCON_INIT_VAR(format);
 	ZVAL_STRING(format, "rgb(%d, %d, %d)", 1);
 
-	PHALCON_INIT_VAR(color);
-	phalcon_call_func_p4(color, "sprintf", format, *r, *g, *b);
+	PHALCON_OBS_VAR(color);
+	PHALCON_CALL_FUNCTION(&color, "sprintf", format, *r, *g, *b);
 
 	PHALCON_INIT_VAR(pixel);
 	object_init_ex(pixel, imagick_pixel_ce);
@@ -1182,8 +1182,8 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, _background) {
 	PHALCON_INIT_VAR(format);
 	ZVAL_STRING(format, "rgb(%d, %d, %d)", 1);
 
-	PHALCON_INIT_VAR(color);
-	phalcon_call_func_p4(color, "sprintf", format, r, g, b);
+	PHALCON_OBS_VAR(color);
+	PHALCON_CALL_FUNCTION(&color, "sprintf", format, r, g, b);
 	
 	PHALCON_INIT_VAR(background);
 	object_init_ex(background, imagick_ce);
@@ -1360,8 +1360,8 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, _save) {
 		RETURN_MM();
 	}
 
-	PHALCON_INIT_VAR(ret);
-	phalcon_call_func_p2(ret, "pathinfo", file, constant);
+	PHALCON_OBS_VAR(ret);
+	PHALCON_CALL_FUNCTION(&ret, "pathinfo", file, constant);
 
 	PHALCON_INIT_VAR(extension);
 	phalcon_fast_strtolower(extension, ret);
@@ -1398,8 +1398,8 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, _save) {
 		PHALCON_INIT_VAR(mode);
 		ZVAL_STRING(mode, "w", 1);
 
-		PHALCON_INIT_VAR(fp);
-		phalcon_call_func_p2(fp, "fopen", file, mode);
+		PHALCON_OBS_VAR(fp);
+		PHALCON_CALL_FUNCTION(&fp, "fopen", file, mode);
 
 		if (Z_TYPE_P(fp) != IS_RESOURCE) {
 			PHALCON_THROW_EXCEPTION_STR(phalcon_image_exception_ce, "The image file cannot be saved");
@@ -1408,7 +1408,7 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, _save) {
 
 		PHALCON_INIT_NVAR(ret);
 		phalcon_call_method_p1(ret, im, "writeImagesFile", fp);
-		phalcon_call_func_p1_noret("fclose", fp);
+		PHALCON_CALL_FUNCTION_NORET("fclose", fp);
 	} else {
 		if (phalcon_get_intval(type) == 2) {
 			PHALCON_INIT_VAR(compression);
@@ -1424,8 +1424,8 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, _save) {
 	if (zend_is_true(ret)) {
 		phalcon_update_property_this(this_ptr, SL("_type"), type TSRMLS_CC);
 
-		PHALCON_INIT_VAR(mime);
-		phalcon_call_func_p1(mime, "image_type_to_mime_type", type);
+		PHALCON_OBS_VAR(mime);
+		PHALCON_CALL_FUNCTION(&mime, "image_type_to_mime_type", type);
 
 		phalcon_update_property_this(this_ptr, SL("_mime"), mime TSRMLS_CC);
 
@@ -1487,8 +1487,8 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, _render) {
 
 	phalcon_update_property_this(this_ptr, SL("_type"), type TSRMLS_CC);
 
-	PHALCON_INIT_VAR(mime);
-	phalcon_call_func_p1(mime, "image_type_to_mime_type", type);
+	PHALCON_OBS_VAR(mime);
+	PHALCON_CALL_FUNCTION(&mime, "image_type_to_mime_type", type);
 
 	phalcon_update_property_this(this_ptr, SL("_mime"), mime TSRMLS_CC);
 

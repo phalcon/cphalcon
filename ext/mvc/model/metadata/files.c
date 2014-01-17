@@ -170,8 +170,8 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Files, write){
 	PHALCON_INIT_VAR(path);
 	PHALCON_CONCAT_VVS(path, meta_data_dir, virtual_key, ".php");
 	
-	PHALCON_INIT_VAR(export);
-	phalcon_call_func_p2(export, "var_export", data, PHALCON_GLOBAL(z_true));
+	PHALCON_OBS_VAR(export);
+	PHALCON_CALL_FUNCTION(&export, "var_export", data, PHALCON_GLOBAL(z_true));
 	
 	PHALCON_INIT_VAR(php_export);
 	PHALCON_CONCAT_SVS(php_export, "<?php return ", export, "; ");

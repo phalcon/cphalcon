@@ -110,8 +110,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Url, validate){
 	/** 
 	 * Filters the format using FILTER_VALIDATE_URL
 	 */
-	PHALCON_INIT_VAR(is_valid);
-	phalcon_call_func_p2(is_valid, "filter_var", value, flag);
+	PHALCON_OBS_VAR(is_valid);
+	PHALCON_CALL_FUNCTION(&is_valid, "filter_var", value, flag);
 	if (!zend_is_true(is_valid)) {
 	
 		/** 

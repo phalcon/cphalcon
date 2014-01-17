@@ -486,7 +486,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Mongo, queryKeys){
 	array_init(return_value);
 	
 	PHALCON_OBS_VAR(documents_array);
-	phalcon_call_func_p1_ex(documents_array, &documents_array, "iterator_to_array", documents);
+	PHALCON_CALL_FUNCTION(&documents_array, "iterator_to_array", documents);
 
 	phalcon_is_iterable(documents_array, &ah0, &hp0, 0, 0);
 	

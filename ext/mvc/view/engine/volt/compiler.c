@@ -619,8 +619,8 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, getUniquePrefix){
 			array_init_size(parameters, 1);
 			phalcon_array_append(&parameters, this_ptr, 0);
 	
-			PHALCON_INIT_VAR(calculated_prefix);
-			phalcon_call_func_p2(calculated_prefix, "call_user_func_array", prefix, parameters);
+			PHALCON_OBS_VAR(calculated_prefix);
+			PHALCON_CALL_FUNCTION(&calculated_prefix, "call_user_func_array", prefix, parameters);
 			phalcon_update_property_this(this_ptr, SL("_prefix"), calculated_prefix TSRMLS_CC);
 			PHALCON_CPY_WRT(prefix, calculated_prefix);
 		}
@@ -832,7 +832,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, functionCall){
 						array_init_size(parameters, 2);
 						phalcon_array_append(&parameters, arguments, 0);
 						phalcon_array_append(&parameters, func_arguments, 0);
-						phalcon_call_func_p2(return_value, "call_user_func_array", definition, parameters);
+						PHALCON_RETURN_CALL_FUNCTION("call_user_func_array", definition, parameters);
 						RETURN_MM();
 					}
 				}
@@ -1335,7 +1335,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, resolveFilter){
 					array_init_size(parameters, 2);
 					phalcon_array_append(&parameters, arguments, 0);
 					phalcon_array_append(&parameters, func_arguments, 0);
-					phalcon_return_call_func_p2("call_user_func_array", definition, parameters);
+					PHALCON_RETURN_CALL_FUNCTION("call_user_func_array", definition, parameters);
 					RETURN_MM();
 				}
 			}

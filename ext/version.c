@@ -178,11 +178,11 @@ PHP_METHOD(Phalcon_Version, getId){
 	PHALCON_INIT_VAR(format);
 	ZVAL_STRING(format, "%02s", 1);
 
-	PHALCON_INIT_VAR(real_medium);
-	phalcon_call_func_p2(real_medium, "sprintf", format, medium);
+	PHALCON_OBS_VAR(real_medium);
+	PHALCON_CALL_FUNCTION(&real_medium, "sprintf", format, medium);
 
-	PHALCON_INIT_VAR(real_minor);
-	phalcon_call_func_p2(real_minor, "sprintf", format, minor);
+	PHALCON_OBS_VAR(real_minor);
+	PHALCON_CALL_FUNCTION(&real_minor, "sprintf", format, minor);
 	PHALCON_CONCAT_VVVVV(return_value, major, real_medium, real_minor, special, special_number);
 	RETURN_MM();
 }

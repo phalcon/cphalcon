@@ -78,6 +78,6 @@ PHP_METHOD(Phalcon_Logger_Formatter_Json, format){
 	phalcon_array_update_string(&log, SL("type"), &type_str, PH_COPY);
 	phalcon_array_update_string(&log, SL("message"), &message, PH_COPY);
 	phalcon_array_update_string(&log, SL("timestamp"), &timestamp, PH_COPY);
-	phalcon_json_encode(return_value, return_value_ptr, log, 0 TSRMLS_CC);
+	RETURN_MM_ON_FAILURE(phalcon_json_encode(return_value, log, 0 TSRMLS_CC));
 	RETURN_MM();
 }

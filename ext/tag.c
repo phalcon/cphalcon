@@ -2019,8 +2019,8 @@ PHP_METHOD(Phalcon_Tag, friendlyTitle){
 	PHALCON_INIT_VAR(pattern);
 	ZVAL_STRING(pattern, "~[^a-z0-9A-Z]+~", 1);
 	
-	PHALCON_INIT_VAR(friendly);
-	phalcon_call_func_p3(friendly, "preg_replace", pattern, separator, text);
+	PHALCON_OBS_VAR(friendly);
+	PHALCON_CALL_FUNCTION(&friendly, "preg_replace", pattern, separator, text);
 	if (zend_is_true(lowercase)) {
 		phalcon_fast_strtolower(return_value, friendly);
 	} else {

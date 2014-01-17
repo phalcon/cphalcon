@@ -938,7 +938,7 @@ PHP_METHOD(Phalcon_Http_Request, getJsonRawBody){
 	PHALCON_INIT_VAR(raw_body);
 	phalcon_call_method(raw_body, this_ptr, "getrawbody");
 	if (Z_TYPE_P(raw_body) == IS_STRING) {
-		phalcon_json_decode(return_value, return_value_ptr, raw_body, ac TSRMLS_CC);
+		RETURN_MM_ON_FAILURE(phalcon_json_decode(return_value, raw_body, ac TSRMLS_CC));
 		RETURN_MM();
 	}
 	
@@ -1762,8 +1762,8 @@ PHP_METHOD(Phalcon_Http_Request, _getQualityHeader){
 	
 	PHALCON_INIT_VAR(pattern);
 	ZVAL_STRING(pattern, "/,\\s*/", 1);
-	PHALCON_INIT_VAR(parts);
-	phalcon_call_func_p2(parts, "preg_split", pattern, http_server);
+	PHALCON_OBS_VAR(parts);
+	PHALCON_CALL_FUNCTION(&parts, "preg_split", pattern, http_server);
 	
 	phalcon_is_iterable(parts, &ah0, &hp0, 0, 0);
 	
@@ -2060,10 +2060,10 @@ PHP_METHOD(Phalcon_Http_Request, getDigestAuth){
 		ZVAL_LONG(set_order, 2);
 
 		PHALCON_INIT_VAR(matches);
-		PHALCON_INIT_VAR(ret);
+		PHALCON_OBS_VAR(ret);
 
 		Z_SET_ISREF_P(matches);
-		phalcon_call_func_p4(ret, "preg_match_all", pattern, digest, matches, set_order);
+		PHALCON_CALL_FUNCTION(&ret, "preg_match_all", pattern, digest, matches, set_order);
 		Z_UNSET_ISREF_P(matches);
 
 		if (zend_is_true(ret) && Z_TYPE_P(matches) == IS_ARRAY) {

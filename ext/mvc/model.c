@@ -6775,7 +6775,7 @@ PHP_METHOD(Phalcon_Mvc_Model, dump){
 
 	PHALCON_MM_GROW();
 
-	phalcon_call_func_p1(return_value, "get_object_vars", this_ptr);
+	PHALCON_RETURN_CALL_FUNCTION("get_object_vars", this_ptr);
 	RETURN_MM();
 }
 

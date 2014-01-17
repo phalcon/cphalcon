@@ -192,15 +192,19 @@ static int phalcon_call_user_function(zval **object_pp, const zend_class_entry *
 	return status;
 }
 
-int phalcon_call_func_aparams(zval *return_value, zval **return_value_ptr, const char *func_name, uint func_length TSRMLS_DC, uint param_count, zval **params)
+int phalcon_call_func_aparams(zval **return_value_ptr, const char *func_name, uint func_length, uint param_count, zval **params TSRMLS_DC)
 {
 	int status;
 	zval *rv = NULL, **rvp = return_value_ptr ? return_value_ptr : &rv;
 	zval func = zval_used_for_init;
 
+#ifndef PHALCON_RELEASE
 	if (return_value_ptr && *return_value_ptr) {
-		phalcon_check_return_value(*return_value_ptr);
+		fprintf(stderr, "%s: *return_value_ptr must be NULL\n", __func__);
+		phalcon_print_backtrace();
+		abort();
 	}
+#endif
 
 	ZVAL_STRINGL(&func, func_name, func_length, 0);
 	status = phalcon_call_user_function(NULL, NULL, &func, rvp, param_count, params TSRMLS_CC);
@@ -210,21 +214,19 @@ int phalcon_call_func_aparams(zval *return_value, zval **return_value_ptr, const
 	}
 	else if (EG(exception)) {
 		status = FAILURE;
+		if (return_value_ptr) {
+			*return_value_ptr = NULL;
+		}
 	}
 
 	if (rv) {
-		if (return_value) {
-			COPY_PZVAL_TO_ZVAL(*return_value, rv);
-		}
-		else {
-			zval_ptr_dtor(&rv);
-		}
+		zval_ptr_dtor(&rv);
 	}
 
 	return status;
 }
 
-int phalcon_call_func_vparams(zval *return_value, zval **return_value_ptr, const char *func_name, uint func_length TSRMLS_DC, int param_count, va_list ap)
+int phalcon_call_func_vparams(zval **return_value_ptr, const char *func_name, uint func_length, int param_count, va_list ap TSRMLS_DC)
 {
 	zval **params_ptr, **params = NULL;
 	zval *static_params[10];
@@ -253,7 +255,7 @@ int phalcon_call_func_vparams(zval *return_value, zval **return_value_ptr, const
 		params_ptr = NULL;
 	}
 
-	status = phalcon_call_func_aparams(return_value, return_value_ptr, func_name, func_length TSRMLS_CC, param_count, params_ptr);
+	status = phalcon_call_func_aparams(return_value_ptr, func_name, func_length, param_count, params_ptr TSRMLS_CC);
 
 	if (unlikely(free_params)) {
 		efree(params);
@@ -273,13 +275,13 @@ int phalcon_call_func_vparams(zval *return_value, zval **return_value_ptr, const
  * @retval @c SUCCESS
  * @retval @c FAILURE
  */
-int phalcon_call_func_params(zval *return_value, zval **return_value_ptr, const char *func_name, uint func_length TSRMLS_DC, int param_count, ...)
+int phalcon_call_func_params(zval **return_value_ptr, const char *func_name, uint func_length TSRMLS_DC, int param_count, ...)
 {
 	int status;
 	va_list ap;
 
 	va_start(ap, param_count);
-	status = phalcon_call_func_vparams(return_value, return_value_ptr, func_name, func_length TSRMLS_CC, param_count, ap);
+	status = phalcon_call_func_vparams(return_value_ptr, func_name, func_length, param_count, ap TSRMLS_CC);
 	va_end(ap);
 
 	return status;

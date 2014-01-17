@@ -977,30 +977,6 @@ void phalcon_unique_key(zval *return_value, zval *prefix, zval *value TSRMLS_DC)
 }
 
 /**
- * Returns the PHP_EOL (if the passed parameter is TRUE)
- */
-zval *phalcon_eol(int eol TSRMLS_DC) {
-
-	zval *local_eol;
-
-	/**
-	 * Initialize local var
-	 */
-    PHALCON_INIT_VAR(local_eol);
-
-    /**
-     * Check if the eol is true and return PHP_EOL or empty string
-     */
-    if (eol) {
-	    ZVAL_STRING(local_eol, PHP_EOL, 1);
-    } else {
-        ZVAL_EMPTY_STRING(local_eol);
-    }
-
-    return local_eol;
-}
-
-/**
  * Base 64 encode
  */
 void phalcon_base64_encode(zval *return_value, zval *data) {
@@ -1087,7 +1063,7 @@ void phalcon_md5(zval *return_value, zval *str) {
 /**
  * Execute preg-match without function lookup in the PHP userland
  */
-void phalcon_preg_match(zval *return_value, zval **return_value_ptr, zval *regex, zval *subject, zval *matches TSRMLS_DC)
+int phalcon_preg_match(zval *return_value, zval *regex, zval *subject, zval *matches TSRMLS_DC)
 {
 	zval copy;
 	int use_copy = 0;
@@ -1095,7 +1071,8 @@ void phalcon_preg_match(zval *return_value, zval **return_value_ptr, zval *regex
 
 	if (Z_TYPE_P(regex) != IS_STRING) {
 		zend_error(E_WARNING, "Invalid arguments supplied for phalcon_preg_match()");
-		RETURN_FALSE;
+		ZVAL_FALSE(return_value);
+		return SUCCESS;
 	}
 
 	if (Z_TYPE_P(subject) != IS_STRING) {
@@ -1112,7 +1089,8 @@ void phalcon_preg_match(zval *return_value, zval **return_value_ptr, zval *regex
 			zval_dtor(subject);
 		}
 
-		RETURN_FALSE;
+		ZVAL_FALSE(return_value);
+		return SUCCESS;
 	}
 
 	php_pcre_match_impl(pce, Z_STRVAL_P(subject), Z_STRLEN_P(subject), return_value, matches, 0, 0, 0, 0 TSRMLS_CC);
@@ -1120,37 +1098,45 @@ void phalcon_preg_match(zval *return_value, zval **return_value_ptr, zval *regex
 	if (use_copy) {
 		zval_dtor(&copy);
 	}
+
+	return SUCCESS;
 }
 
 #else
 
-void phalcon_preg_match(zval *return_value, zval **return_value_ptr, zval *regex, zval *subject, zval *matches TSRMLS_DC)
+int phalcon_preg_match(zval *return_value, zval **return_value_ptr, zval *regex, zval *subject, zval *matches TSRMLS_DC)
 {
+	zval *params[] = { regex, subject, matches };
+	int result;
+
 	if (matches) {
 		Z_SET_ISREF_P(matches);
 	}
 
-	phalcon_call_func_params(return_value, return_value_ptr, SL("preg_match") TSRMLS_CC, (matches ? 3 : 2), regex, subject, matches);
+	result = phalcon_return_call_function(return_value, NULL, SL("preg_match"), (matches ? 3 : 2), params TSRMLS_CC);
 
 	if (matches) {
 		Z_UNSET_ISREF_P(matches);
 	}
+
+	return result;
 }
 
 #endif /* PHALCON_USE_PHP_PCRE */
 
 #ifdef PHALCON_USE_PHP_JSON
 
-void phalcon_json_encode(zval *return_value, zval **return_value_ptr, zval *v, int opts TSRMLS_DC)
+int phalcon_json_encode(zval *return_value, zval *v, int opts TSRMLS_DC)
 {
 	smart_str buf = { NULL, 0, 0 };
 
 	php_json_encode(&buf, v, opts TSRMLS_CC);
 	smart_str_0(&buf);
 	ZVAL_STRINGL(return_value, buf.c, buf.len, 0);
+	return SUCCESS;
 }
 
-void phalcon_json_decode(zval *return_value, zval **return_value_ptr, zval *v, zend_bool assoc TSRMLS_DC)
+int phalcon_json_decode(zval *return_value, zval *v, zend_bool assoc TSRMLS_DC)
 {
 	zval copy;
 	int use_copy = 0;
@@ -1167,35 +1153,35 @@ void phalcon_json_decode(zval *return_value, zval **return_value_ptr, zval *v, z
 	if (unlikely(use_copy)) {
 		zval_dtor(&copy);
 	}
+
+	return SUCCESS;
 }
 
 #else
 
-void phalcon_json_encode(zval *return_value, zval **return_value_ptr, zval *v, int opts TSRMLS_DC)
+int phalcon_json_encode(zval *return_value, zval *v, int opts TSRMLS_DC)
 {
 	zval *zopts;
+	zval params[2];
+	int result;
 
 	MAKE_STD_ZVAL(zopts);
 	ZVAL_LONG(zopts, opts);
 
-	if (FAILURE == phalcon_call_func_params(return_value, return_value_ptr, ZEND_STRL("json_encode") TSRMLS_CC, 2, v, zopts)) {
-		if (return_value_ptr && EG(exception)) {
-			ALLOC_INIT_ZVAL(*return_value_ptr);
-		}
-	}
+	params[0] = v;
+	params[1] = zopts;
+	result = phalcon_return_call_function(return_value, NULL, ZEND_STRL("json_encode"), 2, params TSRMLS_CC);
 
 	zval_ptr_dtor(&zopts);
+	return result;
 }
 
-void phalcon_json_decode(zval *return_value, zval **return_value_ptr, zval *v, zend_bool assoc TSRMLS_DC)
+int phalcon_json_decode(zval *return_value, zval *v, zend_bool assoc TSRMLS_DC)
 {
 	zval *zassoc = assoc ? PHALCON_GLOBAL(z_true) : PHALCON_GLOBAL(z_false);
+	zval params[] = { v, zassoc };
 
-	if (FAILURE == phalcon_call_func_params(return_value, return_value_ptr, ZEND_STRL("json_decode") TSRMLS_CC, 2, v, zassoc)) {
-		if (return_value_ptr && EG(exception)) {
-			ALLOC_INIT_ZVAL(*return_value_ptr);
-		}
-	}
+	return phalcon_return_call_function(return_value, NULL, ZEND_STRL("json_decode"), 2, params TSRMLS_CC);
 }
 
 #endif /* PHALCON_USE_PHP_JSON */

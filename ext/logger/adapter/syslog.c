@@ -128,7 +128,7 @@ PHP_METHOD(Phalcon_Logger_Adapter_Syslog, __construct){
 			ZVAL_LONG(facility, 8);
 		}
 	
-		phalcon_call_func_p3_noret("openlog", name, option, facility);
+		PHALCON_CALL_FUNCTION_NORET("openlog", name, option, facility);
 		phalcon_update_property_bool(this_ptr, SL("_opened"), 1 TSRMLS_CC);
 	}
 	
@@ -188,7 +188,7 @@ PHP_METHOD(Phalcon_Logger_Adapter_Syslog, logInternal){
 	
 	PHALCON_OBS_VAR(syslog_message);
 	phalcon_array_fetch_long(&syslog_message, applied_format, 1, PH_NOISY);
-	phalcon_call_func_p2_noret("syslog", syslog_type, syslog_message);
+	PHALCON_CALL_FUNCTION_NORET("syslog", syslog_type, syslog_message);
 	
 	PHALCON_MM_RESTORE();
 }
@@ -207,10 +207,9 @@ PHP_METHOD(Phalcon_Logger_Adapter_Syslog, close){
 	PHALCON_OBS_VAR(opened);
 	phalcon_read_property_this(&opened, this_ptr, SL("_opened"), PH_NOISY_CC);
 	if (zend_is_true(opened)) {
-		phalcon_call_func_noret("closelog");
+		PHALCON_CALL_FUNCTION_NORET("closelog");
 	}
 	
 	RETVAL_TRUE;
 	PHALCON_MM_RESTORE();
 }
-

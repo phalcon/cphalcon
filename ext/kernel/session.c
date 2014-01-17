@@ -27,38 +27,38 @@
 #include "kernel/fcall.h"
 #include "kernel/session.h"
 
-void phalcon_session_start(TSRMLS_D)
+int phalcon_session_start(TSRMLS_D)
 {
 #ifdef PHALCON_USE_PHP_SESSION
 	php_session_start(TSRMLS_C);
+	return SUCCESS;
 #else
-	phalcon_call_func_params(NULL, NULL, SL("session_start") TSRMLS_CC, 0);
+	return phalcon_call_func_aparams(NULL, SL("session_start"), 0, NULL TSRMLS_CC);
 #endif
 }
 
-void phalcon_session_destroy(TSRMLS_D)
+int phalcon_session_destroy(TSRMLS_D)
 {
-	phalcon_call_func_params(NULL, NULL, SL("session_destroy") TSRMLS_CC, 0);
+	return phalcon_call_func_aparams(NULL, SL("session_destroy"), 0, NULL TSRMLS_CC);
 }
 
-void phalcon_get_session_id(zval *return_value, zval **return_value_ptr TSRMLS_DC)
+int phalcon_get_session_id(zval *return_value, zval **return_value_ptr TSRMLS_DC)
 {
 #ifdef PHALCON_USE_PHP_SESSION
 	if (PS(id)) {
-		RETURN_STRING(PS(id), 1);
+		RETVAL_STRING(PS(id), 1);
+	}
+	else {
+		RETVAL_EMPTY_STRING();
 	}
 
-	RETURN_EMPTY_STRING();
+	return SUCCESS;
 #else
-	if (FAILURE == phalcon_call_func_params(return_value, return_value_ptr, SL("session_id") TSRMLS_CC, 0)) {
-		if (return_value_ptr && EG(exception)) {
-			ALLOC_INIT_ZVAL(*return_value_ptr);
-		}
-	}
+	return phalcon_return_call_function(return_value, return_value_ptr, SL("session_id"), 0, NULL TSRMLS_CC);
 #endif
 }
 
-void phalcon_set_session_id(zval *sid TSRMLS_DC)
+int phalcon_set_session_id(zval *sid TSRMLS_DC)
 {
 #ifdef PHALCON_USE_PHP_SESSION
 	zval copy;
@@ -80,12 +80,15 @@ void phalcon_set_session_id(zval *sid TSRMLS_DC)
 	if (unlikely(use_copy)) {
 		zval_dtor(&copy);
 	}
+
+	return SUCCESS;
 #else
-	phalcon_call_func_params(NULL, NULL, SL("session_id") TSRMLS_CC, 1, sid);
+	zval *params = { sid };
+	return phalcon_call_func_aparams(NULL, SL("session_id"), 1, params TSRMLS_CC);
 #endif
 }
 
-void phalcon_session_write_close(TSRMLS_D)
+int phalcon_session_write_close(TSRMLS_D)
 {
-	phalcon_call_func_params(NULL, NULL, SL("session_write_close") TSRMLS_CC, 0);
+	return phalcon_call_func_aparams(NULL, SL("session_write_close"), 0, NULL TSRMLS_CC);
 }
