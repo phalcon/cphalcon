@@ -427,7 +427,7 @@ PHALCON_ATTR_WARN_UNUSED_RESULT static inline int phalcon_call_user_func_array(z
 }
 
 /** Check constructors */
-PHALCON_STATIC int phalcon_has_constructor_ce(const zend_class_entry *ce) PHALCON_ATTR_PURE PHALCON_ATTR_NONNULL;
+int phalcon_has_constructor_ce(const zend_class_entry *ce) PHALCON_ATTR_PURE PHALCON_ATTR_NONNULL;
 
 /**
  * Check if an object has a constructor
