@@ -509,7 +509,7 @@ static int phalcon_dispatcher_fire_event(zval *return_value, zval *mgr, const ch
 {
 	if (mgr) {
 		zval *event_name;
-		int status;
+		int status, status2;
 
 		MAKE_STD_ZVAL(event_name);
 		ZVAL_STRING(event_name, event, 0);
@@ -531,11 +531,15 @@ static int phalcon_dispatcher_fire_event(zval *return_value, zval *mgr, const ch
 			if (is_phalcon_class(Z_OBJCE_P(source))) {
 				/* Shortcut, save one method call */
 				ZVAL_STRING(event_name, "dispatch:beforeException", 0);
-				phalcon_call_method_params(NULL, NULL, mgr, SL("fire"), zend_inline_hash_func(SS("fire")) TSRMLS_CC, 3, event_name, source, exception);
+				status2 = phalcon_call_method_params(NULL, NULL, mgr, SL("fire"), zend_inline_hash_func(SS("fire")) TSRMLS_CC, 3, event_name, source, exception);
 			}
 			else {
-				phalcon_call_method_params(NULL, NULL, source, SL("_handleexception"), zend_inline_hash_func(SS("_handleexception")) TSRMLS_CC, 1, exception);
+				status2 = phalcon_call_method_params(NULL, NULL, source, SL("_handleexception"), zend_inline_hash_func(SS("_handleexception")) TSRMLS_CC, 1, exception);
 			}
+		}
+
+		if (FAILURE == status2) {
+			status = FAILURE;
 		}
 
 		ZVAL_NULL(event_name);

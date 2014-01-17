@@ -311,7 +311,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, get){
 			array_init_size(rollback_pendent, 2);
 			phalcon_array_append(&rollback_pendent, this_ptr, PH_SEPARATE);
 			add_next_index_stringl(rollback_pendent, SL("rollbackPendent"), 1);
-			phalcon_call_func_p1_noret("register_shutdown_function", rollback_pendent);
+			PHALCON_CALL_FUNCTION_NORET("register_shutdown_function", rollback_pendent);
 		}
 	
 		phalcon_update_property_bool(this_ptr, SL("_initialized"), 1 TSRMLS_CC);

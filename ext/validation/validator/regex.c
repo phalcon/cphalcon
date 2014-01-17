@@ -109,7 +109,7 @@ PHP_METHOD(Phalcon_Validation_Validator_Regex, validate){
 	 * Check if the value match using preg_match in the PHP userland
 	 */
 	PHALCON_INIT_VAR(match_pattern);
-	phalcon_preg_match(match_pattern, NULL, pattern, value, matches TSRMLS_CC);
+	RETURN_MM_ON_FAILURE(phalcon_preg_match(match_pattern, pattern, value, matches TSRMLS_CC));
 	
 	PHALCON_INIT_VAR(failed);
 	if (zend_is_true(match_pattern)) {
@@ -147,7 +147,7 @@ PHP_METHOD(Phalcon_Validation_Validator_Regex, validate){
 		}
 
 		PHALCON_OBS_VAR(prepared);
-		phalcon_call_func_p2_ex(prepared, &prepared, "strtr", message_str, pairs);
+		PHALCON_CALL_FUNCTION(&prepared, "strtr", message_str, pairs);
 
 		message = phalcon_validation_message_construct_helper(prepared, attribute, "Regex", code TSRMLS_CC);
 		Z_DELREF_P(message);

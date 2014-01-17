@@ -277,8 +277,8 @@ PHP_METHOD(Phalcon_Security, getSaltBytes){
 	
 	while (1) {
 	
-		PHALCON_INIT_NVAR(random_bytes);
-		phalcon_call_func_p1(random_bytes, "openssl_random_pseudo_bytes", number_bytes);
+		PHALCON_OBSERVE_OR_NULLIFY_VAR(random_bytes);
+		PHALCON_CALL_FUNCTION(&random_bytes, "openssl_random_pseudo_bytes", number_bytes);
 	
 		PHALCON_INIT_NVAR(base64bytes);
 		phalcon_base64_encode(base64bytes, random_bytes);
@@ -324,15 +324,16 @@ PHP_METHOD(Phalcon_Security, hash){
 	PHALCON_INIT_VAR(format);
 	ZVAL_STRING(format, "%02s", 1);
 	
-	PHALCON_INIT_VAR(factor);
-	phalcon_call_func_p2(factor, "sprintf", format, work_factor);
+	PHALCON_OBS_VAR(factor);
+	PHALCON_CALL_FUNCTION(&factor, "sprintf", format, work_factor);
 	
 	PHALCON_INIT_VAR(salt_bytes);
 	phalcon_call_method(salt_bytes, this_ptr, "getsaltbytes");
 	
 	PHALCON_INIT_VAR(salt);
 	PHALCON_CONCAT_SVSV(salt, "$2a$", factor, "$", salt_bytes);
-	phalcon_call_func_p2(return_value, "crypt", password, salt);
+	PHALCON_RETURN_CALL_FUNCTION("crypt", password, salt);
+
 	RETURN_MM();
 }
 
@@ -347,6 +348,7 @@ PHP_METHOD(Phalcon_Security, hash){
 PHP_METHOD(Phalcon_Security, checkHash){
 
 	zval **password, **password_hash, **max_pass_length = NULL, *hash = NULL;
+	zval *params[2];
 	int check = 0;
 
 	phalcon_fetch_params_ex(2, 1, &password, &password_hash, &max_pass_length);
@@ -361,10 +363,9 @@ PHP_METHOD(Phalcon_Security, checkHash){
 		}
 	}
 
-	phalcon_call_func_params(hash, &hash, SL("crypt") TSRMLS_CC, 2, *password, *password_hash);
-	if (UNEXPECTED(EG(exception) != NULL)) {
-		RETURN_NULL();
-	}
+	params[0] = *password;
+	params[1] = *password_hash;
+	RETURN_ON_FAILURE(phalcon_call_func_aparams(&hash, SL("crypt"), 2, params TSRMLS_CC));
 
 	if (UNEXPECTED(Z_TYPE_P(hash) != IS_STRING)) {
 		convert_to_string(hash);
@@ -433,8 +434,8 @@ PHP_METHOD(Phalcon_Security, getTokenKey){
 		return;
 	}
 	
-	PHALCON_INIT_VAR(random_bytes);
-	phalcon_call_func_p1(random_bytes, "openssl_random_pseudo_bytes", number_bytes);
+	PHALCON_OBS_VAR(random_bytes);
+	PHALCON_CALL_FUNCTION(&random_bytes, "openssl_random_pseudo_bytes", number_bytes);
 	
 	PHALCON_INIT_VAR(base64bytes);
 	phalcon_base64_encode(base64bytes, random_bytes);
@@ -488,8 +489,8 @@ PHP_METHOD(Phalcon_Security, getToken){
 		return;
 	}
 	
-	PHALCON_INIT_VAR(random_bytes);
-	phalcon_call_func_p1(random_bytes, "openssl_random_pseudo_bytes", number_bytes);
+	PHALCON_OBS_VAR(random_bytes);
+	PHALCON_CALL_FUNCTION(&random_bytes, "openssl_random_pseudo_bytes", number_bytes);
 	
 	PHALCON_INIT_VAR(token);
 	phalcon_md5(token, random_bytes);
@@ -701,9 +702,9 @@ PHP_METHOD(Phalcon_Security, computeHmac)
 
 	RETURN_STRINGL((char*)digest, ops->digest_size, 0);
 #else
-	phalcon_call_func_params(return_value, return_value_ptr, SL("hash_hmac") TSRMLS_CC, 4, *algo, *data, *key, *raw);
-	if (unlikely(EG(exception) != NULL) && return_value_ptr) {
-		ALLOC_INIT_ZVAL(*return_value_ptr);
+	{
+		zval params[] = { *algo, *data, *key, *raw };
+		RETURN_ON_FAILURE(phalcon_return_call_function(return_value, return_value_ptr, SL("hash_hmac"), 4, params TSRMLS_CC));
 	}
 #endif
 }
@@ -761,7 +762,7 @@ PHP_METHOD(Phalcon_Security, pbkdf2)
 		ZVAL_STRING(algo, s_hash, 1);
 
 		PHALCON_OBS_VAR(tmp);
-		phalcon_call_func_p3_ex(tmp, &tmp, "hash", algo, PHALCON_GLOBAL(z_null), PHALCON_GLOBAL(z_true));
+		PHALCON_CALL_FUNCTION(&tmp, "hash", algo, PHALCON_GLOBAL(z_null), PHALCON_GLOBAL(z_true));
 		if (PHALCON_IS_FALSE(tmp) || Z_TYPE_P(tmp) != IS_STRING) {
 			RETURN_MM_FALSE;
 		}
@@ -788,15 +789,15 @@ PHP_METHOD(Phalcon_Security, pbkdf2)
 			s[salt_len+2] = (unsigned char)(i >> 8);
 			s[salt_len+3] = (unsigned char)(i);
 
-			PHALCON_INIT_NVAR(K1);
-			phalcon_call_func_p4(K1, "hash_hmac", algo, computed_salt, *password, PHALCON_GLOBAL(z_true));
+			PHALCON_OBSERVE_OR_NULLIFY_VAR(K1);
+			PHALCON_CALL_FUNCTION(&K1, "hash_hmac", algo, computed_salt, *password, PHALCON_GLOBAL(z_true));
 			PHALCON_CPY_WRT_CTOR(K2, K1);
 
 			for (j=1; j<i_iterations; ++j) {
 				char *k1, *k2;
 
-				PHALCON_INIT_NVAR(tmp);
-				phalcon_call_func_p4(tmp, "hash_hmac", algo, K1, *password, PHALCON_GLOBAL(z_true));
+				PHALCON_OBSERVE_OR_NULLIFY_VAR(tmp);
+				PHALCON_CALL_FUNCTION(&tmp, "hash_hmac", algo, K1, *password, PHALCON_GLOBAL(z_true));
 				PHALCON_CPY_WRT(K1, tmp);
 
 				k1 = Z_STRVAL_P(K1);
@@ -982,13 +983,11 @@ PHP_METHOD(Phalcon_Security, deriveKey)
 		MAKE_STD_ZVAL(len);
 		ZVAL_LONG(len, i_size);
 
-		phalcon_call_func_params(
-			return_value, return_value_ptr, SL("hash_pbkdf2") TSRMLS_CC, 6,
-			algo, *password, *salt, iter, len, PHALCON_GLOBAL(z_true)
-		);
-
-		if (UNEXPECTED(EG(exception) && return_value_ptr)) {
-			ALLOC_INIT_ZVAL(*return_value_ptr);
+		{
+			zval params[] = { algo, *password, *salt, iter, len, PHALCON_GLOBAL(z_true) };
+			if (FAILURE == phalcon_return_call_function(return_value, return_value_ptr, SL("hash_pbkdf2"), 6, params TSRMLS_CC)) {
+				;
+			}
 		}
 
 		zval_ptr_dtor(&algo);

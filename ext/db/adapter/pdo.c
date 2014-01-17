@@ -738,8 +738,8 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, convertBoundParams){
 	ZVAL_STRING(bind_pattern, "/\\?([0-9]+)|:([a-zA-Z0-9_]+):/", 1);
 	Z_SET_ISREF_P(matches);
 	
-	PHALCON_INIT_VAR(status);
-	phalcon_call_func_p4(status, "preg_match_all", bind_pattern, sql, matches, set_order);
+	PHALCON_OBS_VAR(status);
+	PHALCON_CALL_FUNCTION(&status, "preg_match_all", bind_pattern, sql, matches, set_order);
 	Z_UNSET_ISREF_P(matches);
 	if (zend_is_true(status)) {
 	
@@ -780,8 +780,8 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, convertBoundParams){
 		PHALCON_INIT_VAR(question);
 		ZVAL_STRING(question, "?", 1);
 	
-		PHALCON_INIT_VAR(bound_sql);
-		phalcon_call_func_p3(bound_sql, "preg_replace", bind_pattern, question, sql);
+		PHALCON_OBS_VAR(bound_sql);
+		PHALCON_CALL_FUNCTION(&bound_sql, "preg_replace", bind_pattern, question, sql);
 	} else {
 		PHALCON_CPY_WRT(bound_sql, sql);
 	}
@@ -790,8 +790,8 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, convertBoundParams){
 	 * Returns an array with the processed SQL and parameters
 	 */
 	array_init_size(return_value, 2);
-	phalcon_array_update_string(&return_value, SL("sql"), &bound_sql, PH_COPY | PH_SEPARATE);
-	phalcon_array_update_string(&return_value, SL("params"), &placeholders, PH_COPY | PH_SEPARATE);
+	phalcon_array_update_string(&return_value, SL("sql"), &bound_sql, PH_COPY);
+	phalcon_array_update_string(&return_value, SL("params"), &placeholders, PH_COPY);
 	
 	RETURN_MM();
 }

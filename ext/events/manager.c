@@ -477,7 +477,7 @@ PHP_METHOD(Phalcon_Events_Manager, fireQueue){
 						 * Call the function in the PHP userland
 						 */
 						PHALCON_INIT_NVAR(status);
-						phalcon_call_method_zval_p3(status, handler, event_name, event, source, data);
+						phalcon_call_method_p3(status, handler, Z_STRVAL_P(event_name), event, source, data);
 	
 						/** 
 						 * Collect the response
@@ -592,7 +592,7 @@ PHP_METHOD(Phalcon_Events_Manager, fireQueue){
 						 * Call the function in the PHP userland
 						 */
 						PHALCON_INIT_NVAR(status);
-						phalcon_call_method_zval_p3(status, handler, event_name, event, source, data);
+						phalcon_call_method_p3(status, handler, Z_STRVAL_P(event_name), event, source, data);
 	
 						/** 
 						 * Collect the response

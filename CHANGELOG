@@ -42,6 +42,7 @@
    - Use preallocated permanent zvals instead of null, true, false, 0 and 1 (#1302)
    - Bug fix in phalcon_fix_path() (#1591)
    - Persistent function cache for Phalcon methods (#1825)
+   - Function call optimization (#1846)
  - Phalcon\Acl:
    - Fixed broken ACL inheritance (#905)
    - Bug fix when ACL allowed access to forbidden resources (#1303)

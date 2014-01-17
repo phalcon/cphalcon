@@ -77,13 +77,14 @@ PHALCON_STATIC zend_object_handlers phalcon_translate_adapter_object_handlers;
 static zval* phalcon_translate_adapter_read_dimension(zval *object, zval *offset, int type TSRMLS_DC)
 {
 	zval *ret = NULL;
+	int status;
 
 	if (!is_phalcon_class(Z_OBJCE_P(object))) {
 		return zend_get_std_object_handlers()->read_dimension(object, offset, type TSRMLS_CC);
 	}
 
-	phalcon_call_method_params(ret, &ret, object, SL("query"), zend_inline_hash_func(SS("query")) TSRMLS_CC, 2, offset, PHALCON_GLOBAL(z_null));
-	return UNEXPECTED(EG(exception) != NULL) ? NULL : ret;
+	status = phalcon_call_method_params(ret, &ret, object, SL("query"), zend_inline_hash_func(SS("query")) TSRMLS_CC, 2, offset, PHALCON_GLOBAL(z_null));
+	return UNEXPECTED(status == FAILURE) ? NULL : ret;
 }
 
 static void phalcon_translate_adapter_write_dimension(zval *object, zval *offset, zval *value TSRMLS_DC)
@@ -105,8 +106,7 @@ static int phalcon_translate_adapter_has_dimension(zval *object, zval *offset, i
 		return zend_get_std_object_handlers()->has_dimension(object, offset, check_empty TSRMLS_CC);
 	}
 
-	phalcon_call_method_params(exists, &exists, object, SL("exists"), zend_inline_hash_func(SS("exists")) TSRMLS_CC, 1, offset);
-	if (UNEXPECTED(EG(exception) != NULL)) {
+	if (FAILURE == phalcon_call_method_params(exists, &exists, object, SL("exists"), zend_inline_hash_func(SS("exists")) TSRMLS_CC, 1, offset)) {
 		return 0;
 	}
 
@@ -168,9 +168,10 @@ PHP_METHOD(Phalcon_Translate_Adapter, _){
 		placeholders = PHALCON_GLOBAL(z_null);
 	}
 
-	phalcon_call_method_params(return_value, return_value_ptr, this_ptr, SL("query"), zend_inline_hash_func(SS("query")) TSRMLS_CC, 2, translate_key, placeholders);
-	if (return_value_ptr && EG(exception)) {
-		ALLOC_INIT_ZVAL(*return_value_ptr);
+	if (FAILURE == phalcon_call_method_params(return_value, return_value_ptr, this_ptr, SL("query"), zend_inline_hash_func(SS("query")) TSRMLS_CC, 2, translate_key, placeholders)) {
+		if (return_value_ptr && EG(exception)) {
+			ALLOC_INIT_ZVAL(*return_value_ptr);
+		}
 	}
 }
 

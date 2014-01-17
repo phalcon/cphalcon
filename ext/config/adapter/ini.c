@@ -153,8 +153,8 @@ PHP_METHOD(Phalcon_Config_Adapter_Ini, __construct){
 	/** 
 	 * Use the standard parse_ini_file
 	 */
-	PHALCON_INIT_VAR(ini_config);
-	phalcon_call_func_p2(ini_config, "parse_ini_file", *file_path, PHALCON_GLOBAL(z_true));
+	PHALCON_OBS_VAR(ini_config);
+	PHALCON_CALL_FUNCTION(&ini_config, "parse_ini_file", *file_path, PHALCON_GLOBAL(z_true));
 	
 	/** 
 	 * Check if the file had errors

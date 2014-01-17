@@ -461,7 +461,7 @@ PHP_METHOD(Phalcon_Crypt, encrypt){
 	mode   = phalcon_fetch_nproperty_this(this_ptr, SL("_mode"), PH_NOISY_CC);
 	
 	PHALCON_OBS_VAR(iv_size);
-	phalcon_call_func_p2_ex(iv_size, &iv_size, "mcrypt_get_iv_size", cipher, mode);
+	PHALCON_CALL_FUNCTION(&iv_size, "mcrypt_get_iv_size", cipher, mode);
 	if (unlikely(Z_TYPE_P(iv_size) != IS_LONG)) {
 		convert_to_long(iv_size);
 	}
@@ -475,13 +475,13 @@ PHP_METHOD(Phalcon_Crypt, encrypt){
 	ZVAL_LONG(rand, 2);
 	
 	PHALCON_OBS_VAR(iv);
-	phalcon_call_func_p2_ex(iv, &iv, "mcrypt_create_iv", iv_size, rand);
+	PHALCON_CALL_FUNCTION(&iv, "mcrypt_create_iv", iv_size, rand);
 	if (unlikely(Z_TYPE_P(iv) != IS_STRING)) {
 		convert_to_string(iv);
 	}
 	
 	PHALCON_OBS_VAR(block_size);
-	phalcon_call_func_p2_ex(block_size, &block_size, "mcrypt_get_block_size", cipher, mode);
+	PHALCON_CALL_FUNCTION(&block_size, "mcrypt_get_block_size", cipher, mode);
 	if (unlikely(Z_TYPE_P(block_size) != IS_LONG)) {
 		convert_to_long(block_size);
 	}
@@ -498,7 +498,7 @@ PHP_METHOD(Phalcon_Crypt, encrypt){
 	assert(Z_TYPE_P(padded) == IS_STRING);
 
 	PHALCON_OBS_VAR(encrypt);
-	phalcon_call_func_p5_ex(encrypt, &encrypt, "mcrypt_encrypt", cipher, encrypt_key, padded, mode, iv);
+	PHALCON_CALL_FUNCTION(&encrypt, "mcrypt_encrypt", cipher, encrypt_key, padded, mode, iv);
 	
 	PHALCON_CONCAT_VV(return_value, iv, encrypt);
 	RETURN_MM();
@@ -545,7 +545,7 @@ PHP_METHOD(Phalcon_Crypt, decrypt){
 	mode   = phalcon_fetch_nproperty_this(this_ptr, SL("_mode"), PH_NOISY_CC);
 	
 	PHALCON_OBS_VAR(iv_size);
-	phalcon_call_func_p2_ex(iv_size, &iv_size, "mcrypt_get_iv_size", cipher, mode);
+	PHALCON_CALL_FUNCTION(&iv_size, "mcrypt_get_iv_size", cipher, mode);
 	if (unlikely(Z_TYPE_P(iv_size) != IS_LONG)) {
 		convert_to_long(iv_size);
 	}
@@ -571,13 +571,13 @@ PHP_METHOD(Phalcon_Crypt, decrypt){
 	phalcon_substr(text_to_decipher, text, Z_LVAL_P(iv_size), 0);
 
 	PHALCON_OBS_VAR(decrypted);
-	phalcon_call_func_p5_ex(decrypted, &decrypted, "mcrypt_decrypt", cipher, decrypt_key, text_to_decipher, mode, iv);
+	PHALCON_CALL_FUNCTION(&decrypted, "mcrypt_decrypt", cipher, decrypt_key, text_to_decipher, mode, iv);
 	if (unlikely(Z_TYPE_P(decrypted) != IS_STRING)) {
 		convert_to_string(decrypted);
 	}
 
 	PHALCON_OBS_VAR(block_size);
-	phalcon_call_func_p2_ex(block_size, &block_size, "mcrypt_get_block_size", cipher, mode);
+	PHALCON_CALL_FUNCTION(&block_size, "mcrypt_get_block_size", cipher, mode);
 	if (unlikely(Z_TYPE_P(block_size) != IS_LONG)) {
 		convert_to_long(block_size);
 	}
@@ -602,7 +602,7 @@ PHP_METHOD(Phalcon_Crypt, decrypt){
  */
 PHP_METHOD(Phalcon_Crypt, encryptBase64){
 
-	zval *text, *key = NULL, *safe = NULL, *encrypted, *from, *to;
+	zval *text, *key = NULL, *safe = NULL, *encrypted;
 
 	PHALCON_MM_GROW();
 
@@ -621,13 +621,7 @@ PHP_METHOD(Phalcon_Crypt, encryptBase64){
 	phalcon_base64_encode(return_value, encrypted);
 
 	if (zend_is_true(safe)) {
-		PHALCON_INIT_VAR(from);
-		ZVAL_STRING(from, "+/", 1);
-
-		PHALCON_INIT_VAR(to);
-		ZVAL_STRING(to, "-_", 1);
-
-		php_strtr(Z_STRVAL_P(return_value), Z_STRLEN_P(return_value), Z_STRVAL_P(from), Z_STRVAL_P(to), MIN(Z_STRLEN_P(from), Z_STRLEN_P(to)));
+		php_strtr(Z_STRVAL_P(return_value), Z_STRLEN_P(return_value), "+/", "-_", 2);
 	}
 	
 	RETURN_MM();
@@ -642,7 +636,7 @@ PHP_METHOD(Phalcon_Crypt, encryptBase64){
  */
 PHP_METHOD(Phalcon_Crypt, decryptBase64){
 
-	zval *text, *key = NULL, *safe = NULL, *decrypt_text, *from, *to;
+	zval *text, *key = NULL, *safe = NULL, *decrypt_text;
 
 	PHALCON_MM_GROW();
 
@@ -657,18 +651,12 @@ PHP_METHOD(Phalcon_Crypt, decryptBase64){
 	}
 
 	if (zend_is_true(safe)) {
-		PHALCON_INIT_VAR(from);
-		ZVAL_STRING(from, "-_", 1);
-
-		PHALCON_INIT_VAR(to);
-		ZVAL_STRING(to, "+/", 1);
-
-		php_strtr(Z_STRVAL_P(text), Z_STRLEN_P(text), Z_STRVAL_P(from), Z_STRVAL_P(to), MIN(Z_STRLEN_P(from), Z_STRLEN_P(to)));
+		php_strtr(Z_STRVAL_P(text), Z_STRLEN_P(text), "-_", "+/", 2);
 	}
 	
 	PHALCON_INIT_VAR(decrypt_text);
 	phalcon_base64_decode(decrypt_text, text);
-	phalcon_call_method_p2(return_value, this_ptr, "decrypt", decrypt_text, key);
+	phalcon_return_call_method_p2(this_ptr, "decrypt", decrypt_text, key);
 	RETURN_MM();
 }
 
@@ -679,10 +667,7 @@ PHP_METHOD(Phalcon_Crypt, decryptBase64){
  */
 PHP_METHOD(Phalcon_Crypt, getAvailableCiphers){
 
-	phalcon_call_func_params(return_value, return_value_ptr, SL("mcrypt_list_algorithms") TSRMLS_CC, 0);
-	if (return_value_ptr && EG(exception)) {
-		ALLOC_INIT_ZVAL(*return_value_ptr);
-	}
+	PHALCON_RETURN_CALL_FUNCTIONW("mcrypt_list_algorithms");
 }
 
 /**
@@ -692,8 +677,5 @@ PHP_METHOD(Phalcon_Crypt, getAvailableCiphers){
  */
 PHP_METHOD(Phalcon_Crypt, getAvailableModes){
 
-	phalcon_call_func_params(return_value, return_value_ptr, SL("mcrypt_list_modes") TSRMLS_CC, 0);
-	if (return_value_ptr && EG(exception)) {
-		ALLOC_INIT_ZVAL(*return_value_ptr);
-	}
+	PHALCON_RETURN_CALL_FUNCTIONW("mcrypt_list_modes");
 }

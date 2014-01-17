@@ -220,7 +220,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction, commit){
 		PHALCON_INIT_VAR(arguments);
 		array_init_size(arguments, 1);
 		phalcon_array_append(&arguments, this_ptr, PH_SEPARATE);
-		phalcon_call_func_p2_noret("call_user_func_array", call_object, arguments);
+		PHALCON_CALL_FUNCTION_NORET("call_user_func_array", call_object, arguments);
 	}
 	
 	PHALCON_OBS_VAR(connection);
@@ -270,7 +270,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction, rollback){
 		PHALCON_INIT_VAR(arguments);
 		array_init_size(arguments, 1);
 		phalcon_array_append(&arguments, this_ptr, PH_SEPARATE);
-		phalcon_call_func_p2_noret("call_user_func_array", call_object, arguments);
+		PHALCON_CALL_FUNCTION_NORET("call_user_func_array", call_object, arguments);
 	}
 	
 	PHALCON_OBS_VAR(connection);

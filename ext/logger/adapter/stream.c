@@ -118,9 +118,9 @@ PHP_METHOD(Phalcon_Logger_Adapter_Stream, __construct){
 	/** 
 	 * We use 'fopen' to respect to open-basedir directive
 	 */
-	PHALCON_INIT_VAR(stream);
-	phalcon_call_func_p2(stream, "fopen", name, mode);
-	if (!zend_is_true(stream)) {
+	PHALCON_OBS_VAR(stream);
+	PHALCON_CALL_FUNCTION(&stream, "fopen", name, mode);
+	if (Z_TYPE_P(stream) != IS_RESOURCE) {
 		PHALCON_INIT_VAR(exception_message);
 		PHALCON_CONCAT_SVS(exception_message, "Can't open stream '", name, "'");
 		PHALCON_THROW_EXCEPTION_ZVAL(phalcon_logger_exception_ce, exception_message);
@@ -183,7 +183,7 @@ PHP_METHOD(Phalcon_Logger_Adapter_Stream, logInternal){
 	
 	PHALCON_INIT_VAR(applied_format);
 	phalcon_call_method_p3(applied_format, formatter, "format", message, type, time);
-	phalcon_call_func_p2_noret("fwrite", stream, applied_format);
+	PHALCON_CALL_FUNCTION_NORET("fwrite", stream, applied_format);
 	
 	PHALCON_MM_RESTORE();
 }
@@ -199,9 +199,7 @@ PHP_METHOD(Phalcon_Logger_Adapter_Stream, close){
 
 	PHALCON_MM_GROW();
 
-	PHALCON_OBS_VAR(stream);
-	phalcon_read_property_this(&stream, this_ptr, SL("_stream"), PH_NOISY_CC);
-	phalcon_call_func_p1(return_value, "fclose", stream);
+	stream = phalcon_fetch_nproperty_this(this_ptr, SL("_stream"), PH_NOISY_CC);
+	PHALCON_RETURN_CALL_FUNCTION("fclose", stream);
 	RETURN_MM();
 }
-

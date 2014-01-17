@@ -20,10 +20,12 @@
 #ifndef PHALCON_KERNEL_SESSION_H
 #define PHALCON_KERNEL_SESSION_H
 
-void phalcon_session_start(TSRMLS_D);
-void phalcon_session_destroy(TSRMLS_D);
-void phalcon_get_session_id(zval *return_value, zval **return_value_ptr TSRMLS_DC);
-void phalcon_set_session_id(zval *sid TSRMLS_DC);
-void phalcon_session_write_close(TSRMLS_D);
+#include "php_phalcon.h"
+
+int phalcon_session_start(TSRMLS_D) PHALCON_ATTR_WARN_UNUSED_RESULT;
+int phalcon_session_destroy(TSRMLS_D) PHALCON_ATTR_WARN_UNUSED_RESULT;
+int phalcon_get_session_id(zval *return_value, zval **return_value_ptr TSRMLS_DC) PHALCON_ATTR_WARN_UNUSED_RESULT;
+int phalcon_set_session_id(zval *sid TSRMLS_DC) PHALCON_ATTR_WARN_UNUSED_RESULT;
+int phalcon_session_write_close(TSRMLS_D) PHALCON_ATTR_WARN_UNUSED_RESULT;
 
 #endif /* PHALCON_KERNEL_SESSION_H */

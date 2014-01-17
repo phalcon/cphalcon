@@ -137,10 +137,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_StringLength, validate){
 	 * Check if mbstring is available to calculate the correct length
 	 */
 	if (phalcon_function_exists_ex(SS("mb_strlen") TSRMLS_CC) == SUCCESS) {
-		PHALCON_INIT_VAR(length);
-		phalcon_call_func_p1(length, "mb_strlen", value);
+		PHALCON_OBS_VAR(length);
+		PHALCON_CALL_FUNCTION(&length, "mb_strlen", value);
 	} else {
-		PHALCON_INIT_NVAR(length);
+		PHALCON_INIT_VAR(length);
 		phalcon_fast_strlen(length, value);
 	}
 	

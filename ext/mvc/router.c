@@ -728,7 +728,7 @@ PHP_METHOD(Phalcon_Mvc_Router, handle){
 					PHALCON_CPY_WRT(regex_host_name, hostname);
 				}
 
-				phalcon_preg_match(matched, NULL, regex_host_name, current_host_name, NULL TSRMLS_CC);
+				RETURN_MM_ON_FAILURE(phalcon_preg_match(matched, regex_host_name, current_host_name, NULL TSRMLS_CC));
 			} else {
 				is_equal_function(matched, current_host_name, hostname TSRMLS_CC);
 			}
@@ -747,7 +747,7 @@ PHP_METHOD(Phalcon_Mvc_Router, handle){
 
 		PHALCON_INIT_NVAR(route_found);
 		if (Z_TYPE_P(pattern) == IS_STRING && Z_STRLEN_P(pattern) > 3 && Z_STRVAL_P(pattern)[1] == '^') {
-			phalcon_preg_match(route_found, NULL, pattern, handled_uri, matches TSRMLS_CC);
+			RETURN_MM_ON_FAILURE(phalcon_preg_match(route_found, pattern, handled_uri, matches TSRMLS_CC));
 		} else {
 			is_equal_function(route_found, pattern, handled_uri TSRMLS_CC);
 		}
@@ -1028,9 +1028,12 @@ static void phalcon_mvc_router_add_helper(INTERNAL_FUNCTION_PARAMETERS, const ch
 
 	PHALCON_ALLOC_GHOST_ZVAL(http_method);
 	PHALCON_ZVAL_MAYBE_INTERNED_STRING(http_method, method);
-	phalcon_call_method_params(return_value, return_value_ptr, getThis(), SL("add"), zend_inline_hash_func(SS("add")) TSRMLS_CC, 3, pattern, paths, http_method);
-	if (return_value_ptr && EG(exception)) {
-		ALLOC_INIT_ZVAL(*return_value_ptr);
+	if (FAILURE == phalcon_call_method_params(return_value, return_value_ptr, getThis(), SL("add"), zend_inline_hash_func(SS("add")) TSRMLS_CC, 3, pattern, paths, http_method)) {
+		if (return_value_ptr && EG(exception)) {
+			ALLOC_INIT_ZVAL(*return_value_ptr);
+		}
+
+		return;
 	}
 }
 
@@ -1131,7 +1134,10 @@ static int phalcon_router_call_convert(void *pDest TSRMLS_DC, int num_args, va_l
 		ZVAL_LONG(&key, hash_key->h);
 	}
 
-	phalcon_call_method_params(NULL, NULL, route, SL("convert"), zend_inline_hash_func(SS("convert")) TSRMLS_CC, 2, &key, *((zval**)pDest));
+	if (FAILURE == phalcon_call_method_params(NULL, NULL, route, SL("convert"), zend_inline_hash_func(SS("convert")) TSRMLS_CC, 2, &key, *((zval**)pDest))) {
+		return ZEND_HASH_APPLY_STOP;
+	}
+
 	return ZEND_HASH_APPLY_KEEP;
 }
 

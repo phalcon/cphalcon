@@ -180,15 +180,13 @@ PHP_METHOD(Phalcon_Validation, __construct){
 		phalcon_update_property_this(this_ptr, SL("_validators"), validators TSRMLS_CC);
 	}
 	
-	if (FAILURE == phalcon_call_method_params(NULL, NULL, getThis(), SL("setdefaultmessages"), zend_inline_hash_func(SS("setdefaultmessages")) TSRMLS_CC, 0)) {
-		return;
-	}
+	RETURN_ON_FAILURE(phalcon_call_method_params(NULL, NULL, getThis(), SL("setdefaultmessages"), zend_inline_hash_func(SS("setdefaultmessages")) TSRMLS_CC, 0));
 
-	/** 
+	/*
 	 * Check for an 'initialize' method
 	 */
 	if (phalcon_method_exists_ex(this_ptr, SS("initialize") TSRMLS_CC) == SUCCESS) {
-		phalcon_call_method_params(NULL, NULL, this_ptr, SL("initialize"), zend_inline_hash_func(SS("initialize")) TSRMLS_CC, 0);
+		RETURN_ON_FAILURE(phalcon_call_method_params(NULL, NULL, this_ptr, SL("initialize"), zend_inline_hash_func(SS("initialize")) TSRMLS_CC, 0));
 	}
 }
 
@@ -483,9 +481,10 @@ PHP_METHOD(Phalcon_Validation, getValue){
 	
 		PHALCON_INIT_VAR(method);
 		PHALCON_CONCAT_SV(method, "get", attribute);
-		if (phalcon_method_exists(entity, method TSRMLS_CC) == SUCCESS) {
+		zend_str_tolower(Z_STRVAL_P(method), Z_STRLEN_P(method));
+		if (phalcon_method_exists_ex(entity, Z_STRVAL_P(method), Z_STRLEN_P(method)+1 TSRMLS_CC) == SUCCESS) {
 			PHALCON_INIT_VAR(value);
-			phalcon_call_method_zval(value, entity, method);
+			phalcon_call_method(value, entity, Z_STRVAL_P(method));
 		} else if (phalcon_method_exists_ex(entity, SS("readattribute") TSRMLS_CC) == SUCCESS) {
 			PHALCON_INIT_VAR(value);
 			phalcon_call_method_p1(value, entity, "readattribute", attribute);

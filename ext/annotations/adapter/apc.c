@@ -93,7 +93,7 @@ PHP_METHOD(Phalcon_Annotations_Adapter_Apc, read){
 		return_value_ptr = &return_value;
 	}
 
-	phalcon_return_call_func_p1("apc_fetch", prefixed_key);
+	PHALCON_RETURN_CALL_FUNCTION("apc_fetch", prefixed_key);
 	if (Z_TYPE_PP(return_value_ptr) != IS_OBJECT) {
 		zval_dtor(*return_value_ptr);
 		ZVAL_NULL(*return_value_ptr);
@@ -120,7 +120,7 @@ PHP_METHOD(Phalcon_Annotations_Adapter_Apc, write){
 	PHALCON_CONCAT_SV(prefixed_key, "_PHAN", key);
 	
 	phalcon_strtolower_inplace(prefixed_key);
-	phalcon_call_func_p2_noret("apc_store", prefixed_key, data);
+	PHALCON_CALL_FUNCTION_NORET("apc_store", prefixed_key, data);
 	
 	PHALCON_MM_RESTORE();
 }

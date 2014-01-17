@@ -151,7 +151,7 @@ PHP_METHOD(Phalcon_Logger_Formatter_Firephp, getTypeString) {
 PHP_METHOD(Phalcon_Logger_Formatter_Firephp, format) {
 
 	zval *message, *type, *type_str = NULL, *timestamp;
-	zval *payload, *body, *backtrace, *meta, *encoded;
+	zval *payload, *body, *backtrace = NULL, *meta, *encoded;
 	zval *show_backtrace, *enable_labels;
 	int i_show_backtrace, i_enable_labels;
 	smart_str result = { NULL, 0, 0 };
@@ -326,7 +326,11 @@ PHP_METHOD(Phalcon_Logger_Formatter_Firephp, format) {
 
 	/* Convert everything to JSON */
 	ALLOC_INIT_ZVAL(encoded);
-	phalcon_json_encode(encoded, NULL, payload, 0 TSRMLS_CC);
+	if (FAILURE == phalcon_json_encode(encoded, payload, 0 TSRMLS_CC)) {
+		zval_ptr_dtor(&payload);
+		zval_ptr_dtor(&encoded);
+		return;
+	}
 
 	/* As promised, kill the payload and all associated elements */
 	zval_ptr_dtor(&payload);

@@ -441,10 +441,7 @@ static void phalcon_queue_beanstalk_peek_common(zval *return_value, zval *this_p
 		length = PHALCON_GLOBAL(z_null);
 	}
 
-	phalcon_call_method_params(serialized, &serialized, this_ptr, SL("read"), zend_inline_hash_func(SS("read")) TSRMLS_CC, 1, length);
-	if (EG(exception)) {
-		return;
-	}
+	RETURN_ON_FAILURE(phalcon_call_method_params(serialized, &serialized, this_ptr, SL("read"), zend_inline_hash_func(SS("read")) TSRMLS_CC, 1, length));
 
 	MAKE_STD_ZVAL(body);
 	phalcon_unserialize(body, serialized TSRMLS_CC);
@@ -454,7 +451,7 @@ static void phalcon_queue_beanstalk_peek_common(zval *return_value, zval *this_p
 	}
 
 	object_init_ex(return_value, phalcon_queue_beanstalk_job_ce);
-	phalcon_call_method_params(NULL, NULL, return_value, SL("__construct"), zend_inline_hash_func(SS("__construct")) TSRMLS_CC, 3, this_ptr, job_id, body);
+	RETURN_ON_FAILURE(phalcon_call_method_params(NULL, NULL, return_value, SL("__construct"), zend_inline_hash_func(SS("__construct")) TSRMLS_CC, 3, this_ptr, job_id, body));
 }
 
 /**

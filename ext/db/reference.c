@@ -253,5 +253,5 @@ PHP_METHOD(Phalcon_Db_Reference, __set_state){
 	phalcon_array_update_string(&definition, SL("referencedColumns"), &referenced_columns, PH_COPY);
 
 	object_init_ex(return_value, phalcon_db_reference_ce);
-	phalcon_call_method_params(NULL, NULL, return_value, SL("__construct"), zend_inline_hash_func(SS("__construct")) TSRMLS_CC, 2, constraint_name, definition);
+	RETURN_ON_FAILURE(phalcon_call_method_params(NULL, NULL, return_value, SL("__construct"), zend_inline_hash_func(SS("__construct")) TSRMLS_CC, 2, constraint_name, definition));
 }

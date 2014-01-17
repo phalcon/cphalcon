@@ -261,8 +261,8 @@ PHP_METHOD(Phalcon_Filter, _sanitize){
 		PHALCON_INIT_VAR(escaped);
 		phalcon_fast_str_replace(escaped, quote, empty_str, value);
 	
-		PHALCON_INIT_VAR(filtered);
-		phalcon_call_func_p2(filtered, "filter_var", escaped, type);
+		PHALCON_OBS_VAR(filtered);
+		PHALCON_CALL_FUNCTION(&filtered, "filter_var", escaped, type);
 		goto ph_end_0;
 	}
 	
@@ -273,8 +273,8 @@ PHP_METHOD(Phalcon_Filter, _sanitize){
 		PHALCON_INIT_NVAR(type);
 		ZVAL_LONG(type, 519); /* FILTER_SANITIZE_NUMBER_INT */
 	
-		PHALCON_INIT_NVAR(filtered);
-		phalcon_call_func_p2(filtered, "filter_var", value, type);
+		PHALCON_OBSERVE_OR_NULLIFY_VAR(filtered);
+		PHALCON_CALL_FUNCTION(&filtered, "filter_var", value, type);
 		goto ph_end_0;
 	}
 	
@@ -282,8 +282,8 @@ PHP_METHOD(Phalcon_Filter, _sanitize){
 		PHALCON_INIT_NVAR(type);
 		ZVAL_LONG(type, 513); /* FILTER_SANITIZE_STRING */
 	
-		PHALCON_INIT_NVAR(filtered);
-		phalcon_call_func_p2(filtered, "filter_var", value, type);
+		PHALCON_OBSERVE_OR_NULLIFY_VAR(filtered);
+		PHALCON_CALL_FUNCTION(&filtered, "filter_var", value, type);
 		goto ph_end_0;
 	}
 	
@@ -296,13 +296,13 @@ PHP_METHOD(Phalcon_Filter, _sanitize){
 	
 		PHALCON_INIT_VAR(options);
 		array_init_size(options, 1);
-		phalcon_array_update_string(&options, SL("flags"), &allow_fraction, PH_COPY | PH_SEPARATE);
+		phalcon_array_update_string(&options, SL("flags"), &allow_fraction, PH_COPY);
 	
 		PHALCON_INIT_NVAR(type);
 		ZVAL_LONG(type, 520);
 	
-		PHALCON_INIT_NVAR(filtered);
-		phalcon_call_func_p3(filtered, "filter_var", value, type, options);
+		PHALCON_OBSERVE_OR_NULLIFY_VAR(filtered);
+		PHALCON_CALL_FUNCTION(&filtered, "filter_var", value, type, options);
 		goto ph_end_0;
 	}
 	
@@ -330,8 +330,8 @@ PHP_METHOD(Phalcon_Filter, _sanitize){
 			 * 'lower' checks for the mbstring extension to make a correct lowercase
 			 * transformation
 			 */
-			PHALCON_INIT_NVAR(filtered);
-			phalcon_call_func_p1(filtered, "mb_strtolower", value);
+			PHALCON_OBSERVE_OR_NULLIFY_VAR(filtered);
+			PHALCON_CALL_FUNCTION(&filtered, "mb_strtolower", value);
 		} else {
 			PHALCON_INIT_NVAR(filtered);
 			phalcon_fast_strtolower(filtered, value);
@@ -345,8 +345,8 @@ PHP_METHOD(Phalcon_Filter, _sanitize){
 			 * 'upper' checks for the mbstring extension to make a correct lowercase
 			 * transformation
 			 */
-			PHALCON_INIT_NVAR(filtered);
-			phalcon_call_func_p1(filtered, "mb_strtoupper", value);
+			PHALCON_OBSERVE_OR_NULLIFY_VAR(filtered);
+			PHALCON_CALL_FUNCTION(&filtered, "mb_strtoupper", value);
 		} else {
 			PHALCON_INIT_NVAR(filtered);
 			phalcon_fast_strtoupper(filtered, value);

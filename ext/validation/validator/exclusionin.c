@@ -139,7 +139,7 @@ PHP_METHOD(Phalcon_Validation_Validator_ExclusionIn, validate){
 		}
 
 		PHALCON_OBS_VAR(prepared);
-		phalcon_call_func_p2_ex(prepared, &prepared, "strtr", message_str, pairs);
+		PHALCON_CALL_FUNCTION(&prepared, "strtr", message_str, pairs);
 	
 		message = phalcon_validation_message_construct_helper(prepared, attribute, "ExclusionIn", code TSRMLS_CC);
 		Z_DELREF_P(message);

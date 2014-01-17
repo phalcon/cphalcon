@@ -91,7 +91,7 @@ PHP_METHOD(Phalcon_Cache_Frontend_Json, beforeStore){
 	zval *data;
 
 	phalcon_fetch_params(0, 1, 0, &data);
-	phalcon_json_encode(return_value, return_value_ptr, data, 0 TSRMLS_CC);
+	RETURN_ON_FAILURE(phalcon_json_encode(return_value, data, 0 TSRMLS_CC));
 }
 
 /**
@@ -105,5 +105,5 @@ PHP_METHOD(Phalcon_Cache_Frontend_Json, afterRetrieve){
 	zval *data;
 
 	phalcon_fetch_params(0, 1, 0, &data);
-	phalcon_json_decode(return_value, return_value_ptr, data, 0 TSRMLS_CC);
+	RETURN_ON_FAILURE(phalcon_json_decode(return_value, data, 0 TSRMLS_CC));
 }
