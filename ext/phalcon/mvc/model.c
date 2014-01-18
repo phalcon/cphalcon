@@ -1841,11 +1841,11 @@ PHP_METHOD(Phalcon_Mvc_Model, getMessages) {
  */
 PHP_METHOD(Phalcon_Mvc_Model, _checkForeignKeysRestrict) {
 
-	zend_function *_4 = NULL, *_6 = NULL, *_7 = NULL, *_8 = NULL, *_9 = NULL, *_17 = NULL, *_20 = NULL, *_21 = NULL;
-	HashTable *_2, *_11;
-	HashPosition _1, _10;
+	zend_function *_5 = NULL, *_15 = NULL, *_16 = NULL;
+	HashTable *_2, *_7;
+	HashPosition _1, _6;
 	zend_bool error;
-	zval *manager = NULL, *belongsTo, *foreignKey = NULL, *relation = NULL, *conditions = NULL, *position = NULL, *bindParams = NULL, *extraConditions, *message = NULL, *fields = NULL, *referencedFields = NULL, *field = NULL, *action = NULL, *referencedModel = NULL, *value = NULL, *_0, **_3, *_5 = NULL, **_12, *_13 = NULL, *_14 = NULL, *_15 = NULL, *_16 = NULL, *_18 = NULL, *_19 = NULL;
+	zval *manager = NULL, *belongsTo, *foreignKey = NULL, *relation = NULL, *conditions = NULL, *position = NULL, *bindParams = NULL, *extraConditions, *message = NULL, *fields = NULL, *referencedFields = NULL, *field = NULL, *action = NULL, *referencedModel = NULL, *value = NULL, *_0, **_3, *_4 = NULL, **_8, *_9 = NULL, *_10 = NULL, *_11 = NULL, *_12 = NULL, *_13 = NULL, *_14 = NULL;
 
 	ZEPHIR_MM_GROW();
 
@@ -1862,7 +1862,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _checkForeignKeysRestrict) {
 		) {
 			ZEPHIR_GET_HVALUE(relation, _3);
 			ZEPHIR_INIT_NVAR(foreignKey);
-			zephir_call_method_cache(foreignKey, relation, "getforeignkey", &_4);
+			zephir_call_method(foreignKey, relation, "getforeignkey");
 			if (!ZEPHIR_IS_FALSE(foreignKey)) {
 				ZEPHIR_INIT_NVAR(action);
 				ZVAL_LONG(action, 1);
@@ -1870,69 +1870,69 @@ PHP_METHOD(Phalcon_Mvc_Model, _checkForeignKeysRestrict) {
 					ZEPHIR_OBS_NVAR(action);
 				}
 				if (ZEPHIR_IS_LONG(action, 1)) {
-					ZEPHIR_INIT_NVAR(_5);
-					zephir_call_method_cache(_5, relation, "getreferencedmodel", &_6);
+					ZEPHIR_INIT_NVAR(_4);
+					zephir_call_method(_4, relation, "getreferencedmodel");
 					ZEPHIR_INIT_NVAR(referencedModel);
-					zephir_call_method_p1_cache(referencedModel, manager, "load", &_7, _5);
+					zephir_call_method_p1_cache(referencedModel, manager, "load", &_5, _4);
 					ZEPHIR_INIT_NVAR(conditions);
 					array_init(conditions);
 					ZEPHIR_INIT_NVAR(bindParams);
 					array_init(bindParams);
 					ZEPHIR_INIT_NVAR(fields);
-					zephir_call_method_cache(fields, relation, "getfields", &_8);
+					zephir_call_method(fields, relation, "getfields");
 					ZEPHIR_INIT_NVAR(referencedFields);
-					zephir_call_method_cache(referencedFields, relation, "getreferencedfields", &_9);
+					zephir_call_method(referencedFields, relation, "getreferencedfields");
 					if ((Z_TYPE_P(fields) == IS_ARRAY)) {
-						zephir_is_iterable(fields, &_11, &_10, 0, 0);
+						zephir_is_iterable(fields, &_7, &_6, 0, 0);
 						for (
-							; zend_hash_get_current_data_ex(_11, (void**) &_12, &_10) == SUCCESS
-							; zend_hash_move_forward_ex(_11, &_10)
+							; zend_hash_get_current_data_ex(_7, (void**) &_8, &_6) == SUCCESS
+							; zend_hash_move_forward_ex(_7, &_6)
 						) {
-							ZEPHIR_GET_HMKEY(position, _11, _10);
-							ZEPHIR_GET_HVALUE(field, _12);
+							ZEPHIR_GET_HMKEY(position, _7, _6);
+							ZEPHIR_GET_HVALUE(field, _8);
 							ZEPHIR_OBS_NVAR(value);
 							zephir_array_fetch(&_0, referencedFields, position, PH_NOISY | PH_READONLY TSRMLS_CC);
-							ZEPHIR_INIT_LNVAR(_13);
-							ZEPHIR_CONCAT_SVSV(_13, "[", _0, "] = ?", position);
-							zephir_array_append(&conditions, _13, PH_SEPARATE);
+							ZEPHIR_INIT_LNVAR(_9);
+							ZEPHIR_CONCAT_SVSV(_9, "[", _0, "] = ?", position);
+							zephir_array_append(&conditions, _9, PH_SEPARATE);
 							zephir_array_append(&bindParams, value, PH_SEPARATE);
 						}
 					} else {
 						ZEPHIR_OBS_NVAR(value);
-						ZEPHIR_INIT_LNVAR(_13);
-						ZEPHIR_CONCAT_SVS(_13, "[", referencedFields, "] = ?0");
-						zephir_array_append(&conditions, _13, PH_SEPARATE);
+						ZEPHIR_INIT_LNVAR(_9);
+						ZEPHIR_CONCAT_SVS(_9, "[", referencedFields, "] = ?0");
+						zephir_array_append(&conditions, _9, PH_SEPARATE);
 						zephir_array_append(&bindParams, value, PH_SEPARATE);
 					}
 					if (zephir_array_isset_string_fetch(&extraConditions, foreignKey, SS("conditions"), 1 TSRMLS_CC)) {
 						zephir_array_append(&conditions, extraConditions, PH_SEPARATE);
 					}
-					ZEPHIR_INIT_NVAR(_14);
-					ZEPHIR_INIT_NVAR(_15);
-					array_init_size(_15, 3);
-					ZEPHIR_INIT_NVAR(_16);
-					zephir_fast_join_str(_16, SL(" AND "), conditions TSRMLS_CC);
-					zephir_array_fast_append(_15, _16);
-					zephir_array_update_string(&_15, SL("bind"), &bindParams, PH_COPY | PH_SEPARATE);
-					zephir_call_method_p1_cache(_14, referencedModel, "count", &_17, _15);
-					if (!(zephir_is_true(_14))) {
+					ZEPHIR_INIT_NVAR(_10);
+					ZEPHIR_INIT_NVAR(_11);
+					array_init_size(_11, 3);
+					ZEPHIR_INIT_NVAR(_12);
+					zephir_fast_join_str(_12, SL(" AND "), conditions TSRMLS_CC);
+					zephir_array_fast_append(_11, _12);
+					zephir_array_update_string(&_11, SL("bind"), &bindParams, PH_COPY | PH_SEPARATE);
+					zephir_call_method_p1(_10, referencedModel, "count", _11);
+					if (!(zephir_is_true(_10))) {
 						ZEPHIR_OBS_NVAR(message);
 						if (!(zephir_array_isset_string_fetch(&message, foreignKey, SS("message"), 0 TSRMLS_CC))) {
 							ZEPHIR_INIT_NVAR(message);
 							if ((Z_TYPE_P(fields) == IS_ARRAY)) {
-								ZEPHIR_INIT_NVAR(_16);
-								zephir_fast_join_str(_16, SL(", "), fields TSRMLS_CC);
-								ZEPHIR_CONCAT_SVS(message, "Value of fields '", _16, "' does not exist on referenced table");
+								ZEPHIR_INIT_NVAR(_12);
+								zephir_fast_join_str(_12, SL(", "), fields TSRMLS_CC);
+								ZEPHIR_CONCAT_SVS(message, "Value of fields '", _12, "' does not exist on referenced table");
 							} else {
 								ZEPHIR_CONCAT_SVS(message, "Value of field '", fields, "' does not exist on referenced table");
 							}
 						}
-						ZEPHIR_INIT_NVAR(_18);
-						object_init_ex(_18, phalcon_mvc_model_message_ce);
-						ZEPHIR_INIT_NVAR(_19);
-						ZVAL_STRING(_19, "ConstraintViolation", 1);
-						zephir_call_method_p3_cache_noret(_18, "__construct", &_20, message, fields, _19);
-						zephir_call_method_p1_cache_noret(this_ptr, "appendmessage", &_21, _18);
+						ZEPHIR_INIT_NVAR(_13);
+						object_init_ex(_13, phalcon_mvc_model_message_ce);
+						ZEPHIR_INIT_NVAR(_14);
+						ZVAL_STRING(_14, "ConstraintViolation", 1);
+						zephir_call_method_p3_cache_noret(_13, "__construct", &_15, message, fields, _14);
+						zephir_call_method_p1_cache_noret(this_ptr, "appendmessage", &_16, _13);
 						error = 1;
 						break;
 					}
@@ -1941,9 +1941,9 @@ PHP_METHOD(Phalcon_Mvc_Model, _checkForeignKeysRestrict) {
 		}
 		if ((error == 1)) {
 			if (ZEPHIR_GLOBAL(orm).events) {
-				ZEPHIR_INIT_NVAR(_5);
-				ZVAL_STRING(_5, "onValidationFails", 1);
-				zephir_call_method_p1_noret(this_ptr, "fireevent", _5);
+				ZEPHIR_INIT_NVAR(_4);
+				ZVAL_STRING(_4, "onValidationFails", 1);
+				zephir_call_method_p1_noret(this_ptr, "fireevent", _4);
 				zephir_call_method_noret(this_ptr, "_canceloperation");
 			}
 			RETURN_MM_BOOL(0);
@@ -1960,10 +1960,10 @@ PHP_METHOD(Phalcon_Mvc_Model, _checkForeignKeysRestrict) {
  */
 PHP_METHOD(Phalcon_Mvc_Model, _checkForeignKeysReverseCascade) {
 
-	zend_function *_4 = NULL, *_6 = NULL, *_7 = NULL, *_8 = NULL, *_9 = NULL, *_16 = NULL, *_17 = NULL;
-	HashTable *_2, *_11;
-	HashPosition _1, _10;
-	zval *manager = NULL, *relations, *relation = NULL, *foreignKey = NULL, *resulset = NULL, *conditions = NULL, *bindParams = NULL, *referencedModel = NULL, *referencedFields = NULL, *action = NULL, *fields = NULL, *field = NULL, *position = NULL, *value = NULL, *extraConditions, *_0, **_3, *_5 = NULL, **_12, *_13 = NULL, *_14 = NULL, *_15 = NULL;
+	zend_function *_5 = NULL;
+	HashTable *_2, *_7;
+	HashPosition _1, _6;
+	zval *manager = NULL, *relations, *relation = NULL, *foreignKey = NULL, *resulset = NULL, *conditions = NULL, *bindParams = NULL, *referencedModel = NULL, *referencedFields = NULL, *action = NULL, *fields = NULL, *field = NULL, *position = NULL, *value = NULL, *extraConditions, *_0, **_3, *_4 = NULL, **_8, *_9 = NULL, *_10 = NULL, *_11 = NULL;
 
 	ZEPHIR_MM_GROW();
 
@@ -1979,7 +1979,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _checkForeignKeysReverseCascade) {
 		) {
 			ZEPHIR_GET_HVALUE(relation, _3);
 			ZEPHIR_INIT_NVAR(foreignKey);
-			zephir_call_method_cache(foreignKey, relation, "getforeignkey", &_4);
+			zephir_call_method(foreignKey, relation, "getforeignkey");
 			if (!ZEPHIR_IS_FALSE(foreignKey)) {
 				ZEPHIR_INIT_NVAR(action);
 				ZVAL_LONG(action, 0);
@@ -1987,54 +1987,54 @@ PHP_METHOD(Phalcon_Mvc_Model, _checkForeignKeysReverseCascade) {
 					ZEPHIR_OBS_NVAR(action);
 				}
 				if (ZEPHIR_IS_LONG(action, 2)) {
-					ZEPHIR_INIT_NVAR(_5);
-					zephir_call_method_cache(_5, relation, "getreferencedmodel", &_6);
+					ZEPHIR_INIT_NVAR(_4);
+					zephir_call_method(_4, relation, "getreferencedmodel");
 					ZEPHIR_INIT_NVAR(referencedModel);
-					zephir_call_method_p1_cache(referencedModel, manager, "load", &_7, _5);
+					zephir_call_method_p1_cache(referencedModel, manager, "load", &_5, _4);
 					ZEPHIR_INIT_NVAR(fields);
-					zephir_call_method_cache(fields, relation, "getfields", &_8);
+					zephir_call_method(fields, relation, "getfields");
 					ZEPHIR_INIT_NVAR(referencedFields);
-					zephir_call_method_cache(referencedFields, relation, "getreferencedfields", &_9);
+					zephir_call_method(referencedFields, relation, "getreferencedfields");
 					ZEPHIR_INIT_NVAR(conditions);
 					array_init(conditions);
 					ZEPHIR_INIT_NVAR(bindParams);
 					array_init(bindParams);
 					if ((Z_TYPE_P(fields) == IS_ARRAY)) {
-						zephir_is_iterable(fields, &_11, &_10, 0, 0);
+						zephir_is_iterable(fields, &_7, &_6, 0, 0);
 						for (
-							; zend_hash_get_current_data_ex(_11, (void**) &_12, &_10) == SUCCESS
-							; zend_hash_move_forward_ex(_11, &_10)
+							; zend_hash_get_current_data_ex(_7, (void**) &_8, &_6) == SUCCESS
+							; zend_hash_move_forward_ex(_7, &_6)
 						) {
-							ZEPHIR_GET_HMKEY(position, _11, _10);
-							ZEPHIR_GET_HVALUE(field, _12);
+							ZEPHIR_GET_HMKEY(position, _7, _6);
+							ZEPHIR_GET_HVALUE(field, _8);
 							ZEPHIR_OBS_NVAR(value);
 							zephir_array_fetch(&_0, referencedFields, position, PH_NOISY | PH_READONLY TSRMLS_CC);
-							ZEPHIR_INIT_LNVAR(_13);
-							ZEPHIR_CONCAT_SVSV(_13, "[", _0, "] = ?", position);
-							zephir_array_append(&conditions, _13, PH_SEPARATE);
+							ZEPHIR_INIT_LNVAR(_9);
+							ZEPHIR_CONCAT_SVSV(_9, "[", _0, "] = ?", position);
+							zephir_array_append(&conditions, _9, PH_SEPARATE);
 							zephir_array_append(&bindParams, value, PH_SEPARATE);
 						}
 					} else {
 						ZEPHIR_OBS_NVAR(value);
-						ZEPHIR_INIT_LNVAR(_13);
-						ZEPHIR_CONCAT_SVS(_13, "[", referencedFields, "] = ?0");
-						zephir_array_append(&conditions, _13, PH_SEPARATE);
+						ZEPHIR_INIT_LNVAR(_9);
+						ZEPHIR_CONCAT_SVS(_9, "[", referencedFields, "] = ?0");
+						zephir_array_append(&conditions, _9, PH_SEPARATE);
 						zephir_array_append(&bindParams, value, PH_SEPARATE);
 					}
 					if (zephir_array_isset_string_fetch(&extraConditions, foreignKey, SS("conditions"), 1 TSRMLS_CC)) {
 						zephir_array_append(&conditions, extraConditions, PH_SEPARATE);
 					}
-					ZEPHIR_INIT_NVAR(_14);
-					array_init_size(_14, 3);
-					ZEPHIR_INIT_NVAR(_15);
-					zephir_fast_join_str(_15, SL(" AND "), conditions TSRMLS_CC);
-					zephir_array_fast_append(_14, _15);
-					zephir_array_update_string(&_14, SL("bind"), &bindParams, PH_COPY | PH_SEPARATE);
+					ZEPHIR_INIT_NVAR(_10);
+					array_init_size(_10, 3);
+					ZEPHIR_INIT_NVAR(_11);
+					zephir_fast_join_str(_11, SL(" AND "), conditions TSRMLS_CC);
+					zephir_array_fast_append(_10, _11);
+					zephir_array_update_string(&_10, SL("bind"), &bindParams, PH_COPY | PH_SEPARATE);
 					ZEPHIR_INIT_NVAR(resulset);
-					zephir_call_method_p1_cache(resulset, referencedModel, "find", &_16, _14);
-					ZEPHIR_INIT_NVAR(_15);
-					zephir_call_method_cache(_15, resulset, "delete", &_17);
-					if (ZEPHIR_IS_FALSE(_15)) {
+					zephir_call_method_p1(resulset, referencedModel, "find", _10);
+					ZEPHIR_INIT_NVAR(_11);
+					zephir_call_method(_11, resulset, "delete");
+					if (ZEPHIR_IS_FALSE(_11)) {
 						RETURN_MM_BOOL(0);
 					}
 				}
@@ -2052,10 +2052,10 @@ PHP_METHOD(Phalcon_Mvc_Model, _checkForeignKeysReverseCascade) {
  */
 PHP_METHOD(Phalcon_Mvc_Model, _checkForeignKeysReverseRestrict) {
 
-	zend_function *_3 = NULL, *_4 = NULL, *_5 = NULL, *_6 = NULL, *_7 = NULL, *_16 = NULL, *_18 = NULL, *_19 = NULL;
-	HashTable *_1, *_9;
-	HashPosition _0, _8;
-	zval *manager, *relations, *foreignKey = NULL, *action = NULL, *relation = NULL, *relationClass = NULL, *referencedModel = NULL, *fields = NULL, *referencedFields = NULL, *conditions = NULL, *bindParams = NULL, *position = NULL, *field = NULL, *value = NULL, *extraConditions, *message = NULL, **_2, **_10, *_11, *_12 = NULL, *_13 = NULL, *_14 = NULL, *_15 = NULL, *_17 = NULL;
+	zend_function *_12 = NULL, *_13 = NULL;
+	HashTable *_1, *_4;
+	HashPosition _0, _3;
+	zval *manager, *relations, *foreignKey = NULL, *action = NULL, *relation = NULL, *relationClass = NULL, *referencedModel = NULL, *fields = NULL, *referencedFields = NULL, *conditions = NULL, *bindParams = NULL, *position = NULL, *field = NULL, *value = NULL, *extraConditions, *message = NULL, **_2, **_5, *_6, *_7 = NULL, *_8 = NULL, *_9 = NULL, *_10 = NULL, *_11 = NULL;
 	zend_bool error;
 
 	ZEPHIR_MM_GROW();
@@ -2072,7 +2072,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _checkForeignKeysReverseRestrict) {
 		) {
 			ZEPHIR_GET_HVALUE(relation, _2);
 			ZEPHIR_INIT_NVAR(foreignKey);
-			zephir_call_method_cache(foreignKey, relation, "getforeignkey", &_3);
+			zephir_call_method(foreignKey, relation, "getforeignkey");
 			if (!ZEPHIR_IS_FALSE(foreignKey)) {
 				ZEPHIR_INIT_NVAR(action);
 				ZVAL_LONG(action, 1);
@@ -2081,62 +2081,62 @@ PHP_METHOD(Phalcon_Mvc_Model, _checkForeignKeysReverseRestrict) {
 				}
 				if (ZEPHIR_IS_LONG(action, 1)) {
 					ZEPHIR_INIT_NVAR(relationClass);
-					zephir_call_method_cache(relationClass, relation, "getreferencedmodel", &_4);
+					zephir_call_method(relationClass, relation, "getreferencedmodel");
 					ZEPHIR_INIT_NVAR(referencedModel);
-					zephir_call_method_p1_cache(referencedModel, manager, "load", &_5, relationClass);
+					zephir_call_method_p1(referencedModel, manager, "load", relationClass);
 					ZEPHIR_INIT_NVAR(fields);
-					zephir_call_method_cache(fields, relation, "getfields", &_6);
+					zephir_call_method(fields, relation, "getfields");
 					ZEPHIR_INIT_NVAR(referencedFields);
-					zephir_call_method_cache(referencedFields, relation, "getreferencedfields", &_7);
+					zephir_call_method(referencedFields, relation, "getreferencedfields");
 					ZEPHIR_INIT_NVAR(conditions);
 					array_init(conditions);
 					ZEPHIR_INIT_NVAR(bindParams);
 					array_init(bindParams);
 					if ((Z_TYPE_P(fields) == IS_ARRAY)) {
-						zephir_is_iterable(fields, &_9, &_8, 0, 0);
+						zephir_is_iterable(fields, &_4, &_3, 0, 0);
 						for (
-							; zend_hash_get_current_data_ex(_9, (void**) &_10, &_8) == SUCCESS
-							; zend_hash_move_forward_ex(_9, &_8)
+							; zend_hash_get_current_data_ex(_4, (void**) &_5, &_3) == SUCCESS
+							; zend_hash_move_forward_ex(_4, &_3)
 						) {
-							ZEPHIR_GET_HMKEY(position, _9, _8);
-							ZEPHIR_GET_HVALUE(field, _10);
+							ZEPHIR_GET_HMKEY(position, _4, _3);
+							ZEPHIR_GET_HVALUE(field, _5);
 							ZEPHIR_OBS_NVAR(value);
-							zephir_array_fetch(&_11, referencedFields, position, PH_NOISY | PH_READONLY TSRMLS_CC);
-							ZEPHIR_INIT_LNVAR(_12);
-							ZEPHIR_CONCAT_SVSV(_12, "[", _11, "] = ?", position);
-							zephir_array_append(&conditions, _12, PH_SEPARATE);
+							zephir_array_fetch(&_6, referencedFields, position, PH_NOISY | PH_READONLY TSRMLS_CC);
+							ZEPHIR_INIT_LNVAR(_7);
+							ZEPHIR_CONCAT_SVSV(_7, "[", _6, "] = ?", position);
+							zephir_array_append(&conditions, _7, PH_SEPARATE);
 							zephir_array_append(&bindParams, value, PH_SEPARATE);
 						}
 					} else {
 						ZEPHIR_OBS_NVAR(value);
-						ZEPHIR_INIT_LNVAR(_12);
-						ZEPHIR_CONCAT_SVS(_12, "[", referencedFields, "] = ?0");
-						zephir_array_append(&conditions, _12, PH_SEPARATE);
+						ZEPHIR_INIT_LNVAR(_7);
+						ZEPHIR_CONCAT_SVS(_7, "[", referencedFields, "] = ?0");
+						zephir_array_append(&conditions, _7, PH_SEPARATE);
 						zephir_array_append(&bindParams, value, PH_SEPARATE);
 					}
 					if (zephir_array_isset_string_fetch(&extraConditions, foreignKey, SS("conditions"), 1 TSRMLS_CC)) {
 						zephir_array_append(&conditions, extraConditions, PH_SEPARATE);
 					}
-					ZEPHIR_INIT_NVAR(_13);
-					ZEPHIR_INIT_NVAR(_14);
-					array_init_size(_14, 3);
-					ZEPHIR_INIT_NVAR(_15);
-					zephir_fast_join_str(_15, SL(" AND "), conditions TSRMLS_CC);
-					zephir_array_fast_append(_14, _15);
-					zephir_array_update_string(&_14, SL("bind"), &bindParams, PH_COPY | PH_SEPARATE);
-					zephir_call_method_p1_cache(_13, referencedModel, "count", &_16, _14);
-					if (zephir_is_true(_13)) {
+					ZEPHIR_INIT_NVAR(_8);
+					ZEPHIR_INIT_NVAR(_9);
+					array_init_size(_9, 3);
+					ZEPHIR_INIT_NVAR(_10);
+					zephir_fast_join_str(_10, SL(" AND "), conditions TSRMLS_CC);
+					zephir_array_fast_append(_9, _10);
+					zephir_array_update_string(&_9, SL("bind"), &bindParams, PH_COPY | PH_SEPARATE);
+					zephir_call_method_p1(_8, referencedModel, "count", _9);
+					if (zephir_is_true(_8)) {
 						ZEPHIR_OBS_NVAR(message);
 						if (!(zephir_array_isset_string_fetch(&message, foreignKey, SS("message"), 0 TSRMLS_CC))) {
 							ZEPHIR_INIT_NVAR(message);
 							ZEPHIR_CONCAT_SV(message, "Record is referenced by model ", relationClass);
 						}
-						ZEPHIR_INIT_NVAR(_15);
-						object_init_ex(_15, phalcon_mvc_model_message_ce);
-						ZEPHIR_INIT_NVAR(_17);
-						ZVAL_STRING(_17, "ConstraintViolation", 1);
-						zephir_call_method_p3_cache_noret(_15, "__construct", &_18, message, fields, _17);
-						zephir_call_method_p1_cache_noret(this_ptr, "appendmessage", &_19, _15);
+						ZEPHIR_INIT_NVAR(_10);
+						object_init_ex(_10, phalcon_mvc_model_message_ce);
+						ZEPHIR_INIT_NVAR(_11);
+						ZVAL_STRING(_11, "ConstraintViolation", 1);
+						zephir_call_method_p3_cache_noret(_10, "__construct", &_12, message, fields, _11);
+						zephir_call_method_p1_cache_noret(this_ptr, "appendmessage", &_13, _10);
 						error = 1;
 						break;
 					}
@@ -2145,9 +2145,9 @@ PHP_METHOD(Phalcon_Mvc_Model, _checkForeignKeysReverseRestrict) {
 		}
 		if ((error == 1)) {
 			if (ZEPHIR_GLOBAL(orm).events) {
-				ZEPHIR_INIT_NVAR(_13);
-				ZVAL_STRING(_13, "onValidationFails", 1);
-				zephir_call_method_p1_noret(this_ptr, "fireevent", _13);
+				ZEPHIR_INIT_NVAR(_8);
+				ZVAL_STRING(_8, "onValidationFails", 1);
+				zephir_call_method_p1_noret(this_ptr, "fireevent", _8);
 				zephir_call_method_noret(this_ptr, "_canceloperation");
 			}
 			RETURN_MM_BOOL(0);
@@ -2753,11 +2753,11 @@ PHP_METHOD(Phalcon_Mvc_Model, _doLowUpdate) {
  */
 PHP_METHOD(Phalcon_Mvc_Model, _preSaveRelatedRecords) {
 
-	zend_function *_3 = NULL, *_4 = NULL, *_5 = NULL, *_6 = NULL, *_7 = NULL, *_8 = NULL, *_9 = NULL, *_11 = NULL, *_13 = NULL, *_17 = NULL, *_18 = NULL, *_19 = NULL, *_20 = NULL;
-	HashTable *_1, *_15;
-	HashPosition _0, _14;
+	zend_function *_3 = NULL, *_4 = NULL, *_5 = NULL, *_11 = NULL, *_12 = NULL;
+	HashTable *_1, *_9;
+	HashPosition _0, _8;
 	zend_bool nesting;
-	zval *connection, *related, *className, *manager, *type = NULL, *relation = NULL, *columns = NULL, *referencedFields = NULL, *referencedModel = NULL, *message = NULL, *name = NULL, *record = NULL, **_2, *_10 = NULL, *_12 = NULL, **_16;
+	zval *connection, *related, *className, *manager, *type = NULL, *relation = NULL, *columns = NULL, *referencedFields = NULL, *referencedModel = NULL, *message = NULL, *name = NULL, *record = NULL, **_2, *_6 = NULL, *_7 = NULL, **_10;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &connection, &related);
@@ -2781,46 +2781,46 @@ PHP_METHOD(Phalcon_Mvc_Model, _preSaveRelatedRecords) {
 		zephir_call_method_p2_cache(relation, manager, "getrelationbyalias", &_3, className, name);
 		if ((Z_TYPE_P(relation) == IS_OBJECT)) {
 			ZEPHIR_INIT_NVAR(type);
-			zephir_call_method_cache(type, relation, "gettype", &_4);
+			zephir_call_method(type, relation, "gettype");
 			if (ZEPHIR_IS_LONG(type, 0)) {
 				if ((Z_TYPE_P(record) != IS_OBJECT)) {
-					zephir_call_method_p1_cache_noret(connection, "rollback", &_5, (nesting ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false)));
+					zephir_call_method_p1_cache_noret(connection, "rollback", &_4, (nesting ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false)));
 					ZEPHIR_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Only objects can be stored as part of belongs-to relations");
 					return;
 				}
 				ZEPHIR_INIT_NVAR(columns);
-				zephir_call_method_cache(columns, relation, "getfields", &_6);
+				zephir_call_method(columns, relation, "getfields");
 				ZEPHIR_INIT_NVAR(referencedModel);
-				zephir_call_method_cache(referencedModel, relation, "getreferencedmodel", &_7);
+				zephir_call_method(referencedModel, relation, "getreferencedmodel");
 				ZEPHIR_INIT_NVAR(referencedFields);
-				zephir_call_method_cache(referencedFields, relation, "getreferencedfields", &_8);
+				zephir_call_method(referencedFields, relation, "getreferencedfields");
 				if ((Z_TYPE_P(columns) == IS_ARRAY)) {
-					zephir_call_method_p1_cache_noret(connection, "rollback", &_9, (nesting ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false)));
+					zephir_call_method_p1_cache_noret(connection, "rollback", &_5, (nesting ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false)));
 					ZEPHIR_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Not implemented");
 					return;
 				}
-				ZEPHIR_INIT_NVAR(_10);
-				zephir_call_method_cache(_10, record, "save", &_11);
-				if (!(zephir_is_true(_10))) {
-					ZEPHIR_INIT_NVAR(_12);
-					zephir_call_method_cache(_12, record, "getmessages", &_13);
-					zephir_is_iterable(_12, &_15, &_14, 0, 0);
+				ZEPHIR_INIT_NVAR(_6);
+				zephir_call_method(_6, record, "save");
+				if (!(zephir_is_true(_6))) {
+					ZEPHIR_INIT_NVAR(_7);
+					zephir_call_method(_7, record, "getmessages");
+					zephir_is_iterable(_7, &_9, &_8, 0, 0);
 					for (
-						; zend_hash_get_current_data_ex(_15, (void**) &_16, &_14) == SUCCESS
-						; zend_hash_move_forward_ex(_15, &_14)
+						; zend_hash_get_current_data_ex(_9, (void**) &_10, &_8) == SUCCESS
+						; zend_hash_move_forward_ex(_9, &_8)
 					) {
-						ZEPHIR_GET_HVALUE(message, _16);
+						ZEPHIR_GET_HVALUE(message, _10);
 						if ((Z_TYPE_P(record) == IS_OBJECT)) {
-							zephir_call_method_p1_cache_noret(message, "setmodel", &_17, record);
+							zephir_call_method_p1_noret(message, "setmodel", record);
 						}
-						zephir_call_method_p1_cache_noret(this_ptr, "appendmessage", &_18, message);
+						zephir_call_method_p1_cache_noret(this_ptr, "appendmessage", &_11, message);
 					}
-					zephir_call_method_p1_cache_noret(connection, "rollback", &_19, (nesting ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false)));
+					zephir_call_method_p1_cache_noret(connection, "rollback", &_12, (nesting ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false)));
 					RETURN_MM_BOOL(0);
 				}
-				ZEPHIR_INIT_NVAR(_12);
-				zephir_call_method_p1_cache(_12, record, "readattribute", &_20, referencedFields);
-				zephir_update_property_zval_zval(this_ptr, columns, _12 TSRMLS_CC);
+				ZEPHIR_INIT_NVAR(_7);
+				zephir_call_method_p1(_7, record, "readattribute", referencedFields);
+				zephir_update_property_zval_zval(this_ptr, columns, _7 TSRMLS_CC);
 			}
 		}
 	}
@@ -2837,11 +2837,11 @@ PHP_METHOD(Phalcon_Mvc_Model, _preSaveRelatedRecords) {
  */
 PHP_METHOD(Phalcon_Mvc_Model, _postSaveRelatedRecords) {
 
-	zend_function *_3 = NULL, *_5 = NULL, *_6 = NULL, *_7 = NULL, *_8 = NULL, *_9 = NULL, *_10 = NULL, *_11 = NULL, *_14 = NULL, *_15 = NULL, *_16 = NULL, *_17 = NULL, *_18 = NULL, *_22 = NULL, *_23 = NULL, *_24 = NULL, *_25 = NULL, *_26 = NULL, *_28 = NULL, *_32 = NULL, *_33 = NULL, *_34 = NULL, *_35 = NULL, *_37 = NULL, *_41 = NULL, *_42 = NULL, *_43 = NULL, *_44 = NULL, *_45 = NULL;
-	HashTable *_1, *_20, *_30, *_39;
-	HashPosition _0, _19, _29, _38;
+	zend_function *_3 = NULL, *_5 = NULL, *_6 = NULL, *_7 = NULL, *_10 = NULL, *_14 = NULL, *_19 = NULL, *_20 = NULL, *_25 = NULL, *_26 = NULL, *_27 = NULL, *_28 = NULL;
+	HashTable *_1, *_12, *_17, *_23;
+	HashPosition _0, _11, _16, _22;
 	zend_bool nesting, isThrough;
-	zval *connection, *related, *className, *manager, *relation = NULL, *name = NULL, *record = NULL, *message = NULL, *columns = NULL, *referencedModel = NULL, *referencedFields = NULL, *relatedRecords = NULL, *value, *recordAfter = NULL, *intermediateModel = NULL, *intermediateFields = NULL, *intermediateValue = NULL, *intermediateModelName = NULL, *intermediateReferencedFields = NULL, **_2, *_4 = NULL, *_12 = NULL, *_13 = NULL, **_21, *_27 = NULL, **_31, *_36 = NULL, **_40;
+	zval *connection, *related, *className, *manager, *relation = NULL, *name = NULL, *record = NULL, *message = NULL, *columns = NULL, *referencedModel = NULL, *referencedFields = NULL, *relatedRecords = NULL, *value, *recordAfter = NULL, *intermediateModel = NULL, *intermediateFields = NULL, *intermediateValue = NULL, *intermediateModelName = NULL, *intermediateReferencedFields = NULL, **_2, *_4 = NULL, *_8 = NULL, *_9 = NULL, **_13, *_15 = NULL, **_18, *_21 = NULL, **_24;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &connection, &related);
@@ -2864,25 +2864,25 @@ PHP_METHOD(Phalcon_Mvc_Model, _postSaveRelatedRecords) {
 		zephir_call_method_p2_cache(relation, manager, "getrelationbyalias", &_3, className, name);
 		if ((Z_TYPE_P(relation) == IS_OBJECT)) {
 			ZEPHIR_INIT_NVAR(_4);
-			zephir_call_method_cache(_4, relation, "gettype", &_5);
+			zephir_call_method(_4, relation, "gettype");
 			if (ZEPHIR_IS_LONG(_4, 0)) {
 				continue;
 			}
 			if ((Z_TYPE_P(record) != IS_OBJECT)) {
 				if ((Z_TYPE_P(record) != IS_ARRAY)) {
-					zephir_call_method_p1_cache_noret(connection, "rollback", &_6, (nesting ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false)));
+					zephir_call_method_p1_cache_noret(connection, "rollback", &_5, (nesting ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false)));
 					ZEPHIR_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Only objects/arrays can be stored as part of has-many/has-one/has-many-to-many relations");
 					return;
 				}
 			}
 			ZEPHIR_INIT_NVAR(columns);
-			zephir_call_method_cache(columns, relation, "getfields", &_7);
+			zephir_call_method(columns, relation, "getfields");
 			ZEPHIR_INIT_NVAR(referencedModel);
-			zephir_call_method_cache(referencedModel, relation, "getreferencedmodel", &_8);
+			zephir_call_method(referencedModel, relation, "getreferencedmodel");
 			ZEPHIR_INIT_NVAR(referencedFields);
-			zephir_call_method_cache(referencedFields, relation, "getreferencedfields", &_9);
+			zephir_call_method(referencedFields, relation, "getreferencedfields");
 			if ((Z_TYPE_P(columns) == IS_ARRAY)) {
-				zephir_call_method_p1_cache_noret(connection, "rollback", &_10, (nesting ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false)));
+				zephir_call_method_p1_cache_noret(connection, "rollback", &_6, (nesting ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false)));
 				ZEPHIR_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Not implemented");
 				return;
 			}
@@ -2894,90 +2894,90 @@ PHP_METHOD(Phalcon_Mvc_Model, _postSaveRelatedRecords) {
 				ZEPHIR_CPY_WRT(relatedRecords, record);
 			}
 			if (!((0 == 1))) {
-				zephir_call_method_p1_cache_noret(connection, "rollback", &_11, (nesting ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false)));
-				ZEPHIR_INIT_NVAR(_12);
-				object_init_ex(_12, phalcon_mvc_model_exception_ce);
-				ZEPHIR_INIT_LNVAR(_13);
-				ZEPHIR_CONCAT_SVS(_13, "The column '", columns, "' needs to be present in the model");
-				zephir_call_method_p1_cache_noret(_12, "__construct", &_14, _13);
-				zephir_throw_exception(_12 TSRMLS_CC);
+				zephir_call_method_p1_cache_noret(connection, "rollback", &_7, (nesting ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false)));
+				ZEPHIR_INIT_NVAR(_8);
+				object_init_ex(_8, phalcon_mvc_model_exception_ce);
+				ZEPHIR_INIT_LNVAR(_9);
+				ZEPHIR_CONCAT_SVS(_9, "The column '", columns, "' needs to be present in the model");
+				zephir_call_method_p1_cache_noret(_8, "__construct", &_10, _9);
+				zephir_throw_exception(_8 TSRMLS_CC);
 				ZEPHIR_MM_RESTORE();
 				return;
 			}
-			ZEPHIR_INIT_NVAR(_12);
-			zephir_call_method_cache(_12, relation, "isthrough", &_15);
-			isThrough = zephir_get_boolval(_12);
+			ZEPHIR_INIT_NVAR(_8);
+			zephir_call_method(_8, relation, "isthrough");
+			isThrough = zephir_get_boolval(_8);
 			if (isThrough) {
 				ZEPHIR_INIT_NVAR(intermediateModelName);
-				zephir_call_method_cache(intermediateModelName, relation, "getintermediatemodel", &_16);
+				zephir_call_method(intermediateModelName, relation, "getintermediatemodel");
 				ZEPHIR_INIT_NVAR(intermediateFields);
-				zephir_call_method_cache(intermediateFields, relation, "getintermediatefields", &_17);
+				zephir_call_method(intermediateFields, relation, "getintermediatefields");
 				ZEPHIR_INIT_NVAR(intermediateReferencedFields);
-				zephir_call_method_cache(intermediateReferencedFields, relation, "getintermediatereferencedfields", &_18);
+				zephir_call_method(intermediateReferencedFields, relation, "getintermediatereferencedfields");
 			}
-			zephir_is_iterable(relatedRecords, &_20, &_19, 0, 0);
+			zephir_is_iterable(relatedRecords, &_12, &_11, 0, 0);
 			for (
-				; zend_hash_get_current_data_ex(_20, (void**) &_21, &_19) == SUCCESS
-				; zend_hash_move_forward_ex(_20, &_19)
+				; zend_hash_get_current_data_ex(_12, (void**) &_13, &_11) == SUCCESS
+				; zend_hash_move_forward_ex(_12, &_11)
 			) {
-				ZEPHIR_GET_HVALUE(recordAfter, _21);
+				ZEPHIR_GET_HVALUE(recordAfter, _13);
 				if (!(isThrough)) {
-					zephir_call_method_p2_cache_noret(recordAfter, "writeattribute", &_22, referencedFields, value);
+					zephir_call_method_p2_noret(recordAfter, "writeattribute", referencedFields, value);
 				} else {
 					ZEPHIR_INIT_NVAR(intermediateModel);
-					zephir_call_method_p2_cache(intermediateModel, manager, "load", &_23, intermediateModelName, ZEPHIR_GLOBAL(global_true));
-					zephir_call_method_p2_cache_noret(intermediateModel, "writeattribute", &_24, intermediateFields, value);
+					zephir_call_method_p2_cache(intermediateModel, manager, "load", &_14, intermediateModelName, ZEPHIR_GLOBAL(global_true));
+					zephir_call_method_p2_noret(intermediateModel, "writeattribute", intermediateFields, value);
 					ZEPHIR_OBS_NVAR(intermediateValue);
 					zephir_read_property_zval(&intermediateValue, recordAfter, referencedFields, PH_NOISY_CC);
-					zephir_call_method_p2_cache_noret(intermediateModel, "writeattribute", &_25, intermediateReferencedFields, intermediateValue);
-					ZEPHIR_INIT_NVAR(_12);
-					zephir_call_method_cache(_12, intermediateModel, "save", &_26);
-					if (!(zephir_is_true(_12))) {
-						ZEPHIR_INIT_NVAR(_27);
-						zephir_call_method_cache(_27, intermediateModel, "getmessages", &_28);
-						zephir_is_iterable(_27, &_30, &_29, 0, 0);
+					zephir_call_method_p2_noret(intermediateModel, "writeattribute", intermediateReferencedFields, intermediateValue);
+					ZEPHIR_INIT_NVAR(_8);
+					zephir_call_method(_8, intermediateModel, "save");
+					if (!(zephir_is_true(_8))) {
+						ZEPHIR_INIT_NVAR(_15);
+						zephir_call_method(_15, intermediateModel, "getmessages");
+						zephir_is_iterable(_15, &_17, &_16, 0, 0);
 						for (
-							; zend_hash_get_current_data_ex(_30, (void**) &_31, &_29) == SUCCESS
-							; zend_hash_move_forward_ex(_30, &_29)
+							; zend_hash_get_current_data_ex(_17, (void**) &_18, &_16) == SUCCESS
+							; zend_hash_move_forward_ex(_17, &_16)
 						) {
-							ZEPHIR_GET_HVALUE(message, _31);
+							ZEPHIR_GET_HVALUE(message, _18);
 							if ((Z_TYPE_P(message) != IS_OBJECT)) {
-								zephir_call_method_p1_cache_noret(message, "setmodel", &_32, record);
+								zephir_call_method_p1_noret(message, "setmodel", record);
 							}
-							zephir_call_method_p1_cache_noret(this_ptr, "appendmessage", &_33, message);
+							zephir_call_method_p1_cache_noret(this_ptr, "appendmessage", &_19, message);
 						}
-						zephir_call_method_p1_cache_noret(connection, "rollback", &_34, (nesting ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false)));
+						zephir_call_method_p1_cache_noret(connection, "rollback", &_20, (nesting ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false)));
 						RETURN_MM_BOOL(0);
 					}
 				}
-				ZEPHIR_INIT_NVAR(_27);
-				zephir_call_method_cache(_27, recordAfter, "save", &_35);
-				if (!(zephir_is_true(_27))) {
-					ZEPHIR_INIT_NVAR(_36);
-					zephir_call_method_cache(_36, recordAfter, "getmessages", &_37);
-					zephir_is_iterable(_36, &_39, &_38, 0, 0);
+				ZEPHIR_INIT_NVAR(_15);
+				zephir_call_method(_15, recordAfter, "save");
+				if (!(zephir_is_true(_15))) {
+					ZEPHIR_INIT_NVAR(_21);
+					zephir_call_method(_21, recordAfter, "getmessages");
+					zephir_is_iterable(_21, &_23, &_22, 0, 0);
 					for (
-						; zend_hash_get_current_data_ex(_39, (void**) &_40, &_38) == SUCCESS
-						; zend_hash_move_forward_ex(_39, &_38)
+						; zend_hash_get_current_data_ex(_23, (void**) &_24, &_22) == SUCCESS
+						; zend_hash_move_forward_ex(_23, &_22)
 					) {
-						ZEPHIR_GET_HVALUE(message, _40);
+						ZEPHIR_GET_HVALUE(message, _24);
 						if ((Z_TYPE_P(message) == IS_OBJECT)) {
-							zephir_call_method_p1_cache_noret(message, "setmodel", &_41, record);
+							zephir_call_method_p1_noret(message, "setmodel", record);
 						}
-						zephir_call_method_p1_cache_noret(this_ptr, "appendmessage", &_42, message);
+						zephir_call_method_p1_cache_noret(this_ptr, "appendmessage", &_25, message);
 					}
-					zephir_call_method_p1_cache_noret(connection, "rollback", &_43, (nesting ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false)));
+					zephir_call_method_p1_cache_noret(connection, "rollback", &_26, (nesting ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false)));
 					RETURN_MM_BOOL(0);
 				}
 			}
 		} else {
 			if ((Z_TYPE_P(record) != IS_ARRAY)) {
-				zephir_call_method_p1_cache_noret(connection, "rollback", &_44, (nesting ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false)));
+				zephir_call_method_p1_cache_noret(connection, "rollback", &_27, (nesting ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false)));
 				ZEPHIR_INIT_NVAR(_4);
 				object_init_ex(_4, phalcon_mvc_model_exception_ce);
-				ZEPHIR_INIT_LNVAR(_13);
-				ZEPHIR_CONCAT_SVSVS(_13, "There are no defined relations for the model '", className, "' using alias '", name, "'");
-				zephir_call_method_p1_cache_noret(_4, "__construct", &_45, _13);
+				ZEPHIR_INIT_LNVAR(_9);
+				ZEPHIR_CONCAT_SVSVS(_9, "There are no defined relations for the model '", className, "' using alias '", name, "'");
+				zephir_call_method_p1_cache_noret(_4, "__construct", &_28, _9);
 				zephir_throw_exception(_4 TSRMLS_CC);
 				ZEPHIR_MM_RESTORE();
 				return;

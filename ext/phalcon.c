@@ -729,10 +729,10 @@ static PHP_GINIT_FUNCTION(phalcon)
 
 	/* Start Memory Frame */
 	start = (zephir_memory_entry *) pecalloc(1, sizeof(zephir_memory_entry), 1);
-	start->addresses       = pecalloc(24, sizeof(zval*), 1);
-	start->capacity        = 24;
-	start->hash_addresses  = pecalloc(8, sizeof(zval*), 1);
-	start->hash_capacity   = 8;
+	start->addresses       = pecalloc(16, sizeof(zval*), 1);
+	start->capacity        = 16;
+	start->hash_addresses  = pecalloc(4, sizeof(zval*), 1);
+	start->hash_capacity   = 4;
 
 	phalcon_globals->start_memory = start;
 

@@ -588,7 +588,6 @@ PHP_METHOD(Phalcon_Cache_Backend_Libmemcached, exists) {
  */
 PHP_METHOD(Phalcon_Cache_Backend_Libmemcached, flush) {
 
-	zend_function *_3 = NULL;
 	HashTable *_1;
 	HashPosition _0;
 	zval *memcache = NULL, *options, *keys, *specialKey, *key = NULL, **_2;
@@ -617,7 +616,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Libmemcached, flush) {
 			; zend_hash_move_forward_ex(_1, &_0)
 		) {
 			ZEPHIR_GET_HVALUE(key, _2);
-			zephir_call_method_p1_cache_noret(memcache, "delete", &_3, key);
+			zephir_call_method_p1_noret(memcache, "delete", key);
 		}
 		zephir_call_method_p2_noret(memcache, "set", specialKey, keys);
 	}

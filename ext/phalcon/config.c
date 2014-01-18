@@ -315,7 +315,6 @@ PHP_METHOD(Phalcon_Config, merge) {
  */
 PHP_METHOD(Phalcon_Config, toArray) {
 
-	zend_function *_5 = NULL;
 	HashTable *_2;
 	HashPosition _1;
 	zval *key = NULL, *value = NULL, *arrayConfig, *_0, **_3, *_4 = NULL;
@@ -336,7 +335,7 @@ PHP_METHOD(Phalcon_Config, toArray) {
 		if ((Z_TYPE_P(value) == IS_OBJECT)) {
 			if ((zephir_method_exists_ex(value, SS("toarray") TSRMLS_CC) == SUCCESS)) {
 				ZEPHIR_INIT_NVAR(_4);
-				zephir_call_method_cache(_4, value, "toarray", &_5);
+				zephir_call_method(_4, value, "toarray");
 				zephir_array_update_zval(&arrayConfig, key, &_4, PH_COPY | PH_SEPARATE);
 			}
 		}

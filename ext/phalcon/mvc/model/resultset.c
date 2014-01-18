@@ -571,11 +571,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, getMessages) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_Resultset, delete) {
 
-	zend_function *_4 = NULL, *_5 = NULL, *_8 = NULL, *_9 = NULL, *_10 = NULL;
 	HashTable *_2;
 	HashPosition _1;
 	zend_bool transaction;
-	zval *conditionCallback = NULL, *record = NULL, *connection = NULL, *_0, **_3, *_6 = NULL, *_7 = NULL;
+	zval *conditionCallback = NULL, *record = NULL, *connection = NULL, *_0, **_3, *_4 = NULL, *_5 = NULL;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 1, &conditionCallback);
@@ -600,27 +599,27 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, delete) {
 				return;
 			}
 			ZEPHIR_INIT_NVAR(connection);
-			zephir_call_method_cache(connection, record, "getwriteconnection", &_4);
+			zephir_call_method(connection, record, "getwriteconnection");
 			transaction = 1;
-			zephir_call_method_cache_noret(connection, "begin", &_5);
+			zephir_call_method_noret(connection, "begin");
 		}
 		if ((Z_TYPE_P(conditionCallback) == IS_OBJECT)) {
-			ZEPHIR_INIT_NVAR(_6);
-			array_init_size(_6, 2);
-			zephir_array_fast_append(_6, record);
-			ZEPHIR_INIT_NVAR(_7);
-			zephir_call_func_p2(_7, "call_user_func_array", conditionCallback, _6);
-			if (ZEPHIR_IS_FALSE(_7)) {
+			ZEPHIR_INIT_NVAR(_4);
+			array_init_size(_4, 2);
+			zephir_array_fast_append(_4, record);
+			ZEPHIR_INIT_NVAR(_5);
+			zephir_call_func_p2(_5, "call_user_func_array", conditionCallback, _4);
+			if (ZEPHIR_IS_FALSE(_5)) {
 				continue;
 			}
 		}
-		ZEPHIR_INIT_NVAR(_6);
-		zephir_call_method_cache(_6, record, "delete", &_8);
-		if (!(zephir_is_true(_6))) {
-			ZEPHIR_INIT_NVAR(_7);
-			zephir_call_method_cache(_7, record, "getmessages", &_9);
-			zephir_update_property_this(this_ptr, SL("_errorMessages"), _7 TSRMLS_CC);
-			zephir_call_method_cache_noret(connection, "rollback", &_10);
+		ZEPHIR_INIT_NVAR(_4);
+		zephir_call_method(_4, record, "delete");
+		if (!(zephir_is_true(_4))) {
+			ZEPHIR_INIT_NVAR(_5);
+			zephir_call_method(_5, record, "getmessages");
+			zephir_update_property_this(this_ptr, SL("_errorMessages"), _5 TSRMLS_CC);
+			zephir_call_method_noret(connection, "rollback");
 			transaction = 0;
 			break;
 		}

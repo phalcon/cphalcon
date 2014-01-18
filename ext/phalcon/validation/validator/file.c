@@ -17,6 +17,7 @@
 #include "kernel/operators.h"
 #include "kernel/array.h"
 #include "kernel/concat.h"
+#include "kernel/extended/array.h"
 #include "kernel/string.h"
 #include "kernel/exception.h"
 #include "ext/spl/spl_exceptions.h"
@@ -214,7 +215,7 @@ PHP_METHOD(Phalcon_Validation_Validator_File, validate) {
 		ZVAL_STRING(unit, "B", 1);
 		ZEPHIR_INIT_NVAR(_3);
 		ZEPHIR_INIT_NVAR(_6);
-		zephir_call_func_p1(_6, "array_keys", byteUnits);
+		zephir_array_keys(_6, byteUnits TSRMLS_CC);
 		zephir_fast_join_str(_3, SL("|"), _6 TSRMLS_CC);
 		ZEPHIR_INIT_VAR(_9);
 		ZEPHIR_CONCAT_SVS(_9, "/^([0-9]+(?:\\.[0-9]+)?)(", _3, ")?$/Di");

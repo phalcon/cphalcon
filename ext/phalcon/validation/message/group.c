@@ -281,7 +281,6 @@ PHP_METHOD(Phalcon_Validation_Message_Group, appendMessages) {
  */
 PHP_METHOD(Phalcon_Validation_Message_Group, filter) {
 
-	zend_function *_4 = NULL;
 	HashTable *_1;
 	HashPosition _0;
 	zval *fieldName_param = NULL, *filtered, *messages, *message = NULL, **_2, *_3 = NULL;
@@ -315,7 +314,7 @@ PHP_METHOD(Phalcon_Validation_Message_Group, filter) {
 			ZEPHIR_GET_HVALUE(message, _2);
 			if ((zephir_method_exists_ex(message, SS("getfield") TSRMLS_CC) == SUCCESS)) {
 				ZEPHIR_INIT_NVAR(_3);
-				zephir_call_method_cache(_3, message, "getfield", &_4);
+				zephir_call_method(_3, message, "getfield");
 				if (ZEPHIR_IS_EQUAL(fieldName, _3)) {
 					zephir_array_append(&filtered, message, PH_SEPARATE);
 				}

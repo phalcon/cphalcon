@@ -118,7 +118,7 @@ PHP_METHOD(Phalcon_Cache_Backend_File, __construct) {
 PHP_METHOD(Phalcon_Cache_Backend_File, get) {
 
 	int ttl, modifiedTime;
-	zval *keyName, *lifetime = NULL, *options, *prefix, *prefixedKey, *cacheDir, *cacheFile, *frontend, *now, *lastLifetime, *tmp, *cachedContent, *_0 = NULL, *_1;
+	zval *keyName, *lifetime = NULL, *options, *prefix, *prefixedKey, *cacheDir, *cacheFile, *frontend, *now, *lastLifetime, *tmp, *cachedContent, *_0, *_1, *_2;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 1, &keyName, &lifetime);
@@ -162,12 +162,12 @@ PHP_METHOD(Phalcon_Cache_Backend_File, get) {
 			ZEPHIR_INIT_VAR(cachedContent);
 			zephir_file_get_contents(cachedContent, cacheFile TSRMLS_CC);
 			if (!(zephir_is_true(cachedContent))) {
-				ZEPHIR_INIT_NVAR(_0);
-				object_init_ex(_0, phalcon_cache_exception_ce);
 				ZEPHIR_INIT_VAR(_1);
-				ZEPHIR_CONCAT_SVS(_1, "Cache file ", cacheFile, " could not be opened");
-				zephir_call_method_p1_noret(_0, "__construct", _1);
-				zephir_throw_exception(_0 TSRMLS_CC);
+				object_init_ex(_1, phalcon_cache_exception_ce);
+				ZEPHIR_INIT_VAR(_2);
+				ZEPHIR_CONCAT_SVS(_2, "Cache file ", cacheFile, " could not be opened");
+				zephir_call_method_p1_noret(_1, "__construct", _2);
+				zephir_throw_exception(_1 TSRMLS_CC);
 				ZEPHIR_MM_RESTORE();
 				return;
 			}
@@ -303,7 +303,6 @@ PHP_METHOD(Phalcon_Cache_Backend_File, delete) {
  */
 PHP_METHOD(Phalcon_Cache_Backend_File, queryKeys) {
 
-	zend_function *_8 = NULL, *_9 = NULL;
 	HashTable *_5;
 	HashPosition _4;
 	zend_class_entry *_2;
@@ -337,10 +336,10 @@ PHP_METHOD(Phalcon_Cache_Backend_File, queryKeys) {
 	) {
 		ZEPHIR_GET_HVALUE(item, _6);
 		ZEPHIR_INIT_NVAR(_7);
-		zephir_call_method_cache(_7, item, "isdir", &_8);
+		zephir_call_method(_7, item, "isdir");
 		if (ZEPHIR_IS_FALSE(_7)) {
 			ZEPHIR_INIT_NVAR(key);
-			zephir_call_method_cache(key, item, "getfilename", &_9);
+			zephir_call_method(key, item, "getfilename");
 			if (zephir_start_with(key, prefix, 0)) {
 				zephir_array_append(&ret, key, PH_SEPARATE);
 			}

@@ -337,9 +337,8 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, convertEncoding) {
  */
 PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, slice) {
 
-	zend_function *_1 = NULL, *_3 = NULL, *_4 = NULL;
 	int position;
-	zval *value, *start, *end = NULL, *length = NULL, *slice, *_0 = NULL, *_2 = NULL, *_5;
+	zval *value, *start, *end = NULL, *length = NULL, *slice, *_0 = NULL, *_1 = NULL, *_2;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 1, &value, &start, &end);
@@ -361,25 +360,25 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, slice) {
 		array_init(slice);
 		while (1) {
 			ZEPHIR_INIT_NVAR(_0);
-			zephir_call_method_cache(_0, value, "valid", &_1);
+			zephir_call_method(_0, value, "valid");
 			if (!(zephir_is_true(_0))) {
 				break;
 			}
 			if (ZEPHIR_GE_LONG(start, position)) {
-				ZEPHIR_INIT_NVAR(_2);
-				zephir_call_method_cache(_2, value, "current", &_3);
-				zephir_array_append(&slice, _2, PH_SEPARATE);
+				ZEPHIR_INIT_NVAR(_1);
+				zephir_call_method(_1, value, "current");
+				zephir_array_append(&slice, _1, PH_SEPARATE);
 			}
-			zephir_call_method_cache_noret(value, "next", &_4);
+			zephir_call_method_noret(value, "next");
 			position++;
 		}
 		RETURN_CCTOR(slice);
 	}
 	ZEPHIR_INIT_NVAR(length);
 	if ((Z_TYPE_P(end) != IS_NULL)) {
-		ZEPHIR_INIT_VAR(_5);
-		sub_function(_5, end, start TSRMLS_CC);
-		ZVAL_LONG(length, (zephir_get_numberval(_5) + 1));
+		ZEPHIR_INIT_VAR(_2);
+		sub_function(_2, end, start TSRMLS_CC);
+		ZVAL_LONG(length, (zephir_get_numberval(_2) + 1));
 	} else {
 		ZVAL_NULL(length);
 	}

@@ -40,11 +40,11 @@
 #include "ext/date/php_date.h"
 
 #ifdef ZEPHIR_USE_PHP_PCRE
-#include "ext/pcre/php_pcre.h"
+#include <ext/pcre/php_pcre.h>
 #endif
 
 #ifdef ZEPHIR_USE_PHP_JSON
-#include "ext/json/php_json.h"
+#include <ext/json/php_json.h>
 #endif
 
 #include "kernel/main.h"

@@ -225,10 +225,9 @@ PHP_METHOD(Phalcon_Annotations_Collection, getAnnotations) {
  */
 PHP_METHOD(Phalcon_Annotations_Collection, get) {
 
-	zend_function *_4 = NULL;
 	HashTable *_1;
 	HashPosition _0;
-	zval *name_param = NULL, *annotation = NULL, *annotations, **_2, *_3 = NULL, *_5;
+	zval *name_param = NULL, *annotation = NULL, *annotations, **_2, *_3 = NULL, *_4;
 	zval *name = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -246,7 +245,7 @@ PHP_METHOD(Phalcon_Annotations_Collection, get) {
 		) {
 			ZEPHIR_GET_HVALUE(annotation, _2);
 			ZEPHIR_INIT_NVAR(_3);
-			zephir_call_method_cache(_3, annotation, "getname", &_4);
+			zephir_call_method(_3, annotation, "getname");
 			if (ZEPHIR_IS_EQUAL(name, _3)) {
 				RETURN_CCTOR(annotation);
 			}
@@ -254,9 +253,9 @@ PHP_METHOD(Phalcon_Annotations_Collection, get) {
 	}
 	ZEPHIR_INIT_NVAR(_3);
 	object_init_ex(_3, phalcon_annotations_exception_ce);
-	ZEPHIR_INIT_VAR(_5);
-	ZEPHIR_CONCAT_SVS(_5, "The collection doesn't have an annotation called '", name, "'");
-	zephir_call_method_p1_noret(_3, "__construct", _5);
+	ZEPHIR_INIT_VAR(_4);
+	ZEPHIR_CONCAT_SVS(_4, "The collection doesn't have an annotation called '", name, "'");
+	zephir_call_method_p1_noret(_3, "__construct", _4);
 	zephir_throw_exception(_3 TSRMLS_CC);
 	ZEPHIR_MM_RESTORE();
 	return;
@@ -271,7 +270,6 @@ PHP_METHOD(Phalcon_Annotations_Collection, get) {
  */
 PHP_METHOD(Phalcon_Annotations_Collection, getAll) {
 
-	zend_function *_4 = NULL;
 	HashTable *_1;
 	HashPosition _0;
 	zval *name_param = NULL, *annotations, *found, *annotation = NULL, **_2, *_3 = NULL;
@@ -294,7 +292,7 @@ PHP_METHOD(Phalcon_Annotations_Collection, getAll) {
 		) {
 			ZEPHIR_GET_HVALUE(annotation, _2);
 			ZEPHIR_INIT_NVAR(_3);
-			zephir_call_method_cache(_3, annotation, "getname", &_4);
+			zephir_call_method(_3, annotation, "getname");
 			if (ZEPHIR_IS_EQUAL(name, _3)) {
 				zephir_array_append(&found, annotation, PH_SEPARATE);
 			}
@@ -312,7 +310,6 @@ PHP_METHOD(Phalcon_Annotations_Collection, getAll) {
  */
 PHP_METHOD(Phalcon_Annotations_Collection, has) {
 
-	zend_function *_4 = NULL;
 	HashTable *_1;
 	HashPosition _0;
 	zval *name_param = NULL, *annotations, *annotation = NULL, **_2, *_3 = NULL;
@@ -333,7 +330,7 @@ PHP_METHOD(Phalcon_Annotations_Collection, has) {
 		) {
 			ZEPHIR_GET_HVALUE(annotation, _2);
 			ZEPHIR_INIT_NVAR(_3);
-			zephir_call_method_cache(_3, annotation, "getname", &_4);
+			zephir_call_method(_3, annotation, "getname");
 			if (ZEPHIR_IS_EQUAL(name, _3)) {
 				RETURN_MM_BOOL(1);
 			}

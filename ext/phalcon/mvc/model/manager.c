@@ -778,10 +778,9 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getWriteConnectionService) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_Manager, notifyEvent) {
 
-	zend_function *_4 = NULL;
 	HashTable *_2;
 	HashPosition _1;
-	zval *eventName_param = NULL, *model, *status = NULL, *behavior = NULL, *modelsBehaviors, *eventsManager, *customEventsManager = NULL, *behaviors, *_0 = NULL, **_3, *_5 = NULL;
+	zval *eventName_param = NULL, *model, *status = NULL, *behavior = NULL, *modelsBehaviors, *eventsManager, *customEventsManager = NULL, *behaviors, *_0 = NULL, **_3, *_4 = NULL;
 	zval *eventName = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -814,7 +813,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, notifyEvent) {
 			) {
 				ZEPHIR_GET_HVALUE(behavior, _3);
 				ZEPHIR_INIT_NVAR(status);
-				zephir_call_method_p2_cache(status, behavior, "notify", &_4, eventName, model);
+				zephir_call_method_p2(status, behavior, "notify", eventName, model);
 				if (ZEPHIR_IS_FALSE(status)) {
 					RETURN_MM_BOOL(0);
 				}
@@ -823,10 +822,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, notifyEvent) {
 	}
 	eventsManager = zephir_fetch_nproperty_this(this_ptr, SL("_eventsManager"), PH_NOISY_CC);
 	if ((Z_TYPE_P(eventsManager) == IS_OBJECT)) {
-		ZEPHIR_INIT_VAR(_5);
-		ZEPHIR_CONCAT_SV(_5, "model:", eventName);
+		ZEPHIR_INIT_VAR(_4);
+		ZEPHIR_CONCAT_SV(_4, "model:", eventName);
 		ZEPHIR_INIT_BNVAR(status);
-		zephir_call_method_p2(status, eventsManager, "fire", _5, model);
+		zephir_call_method_p2(status, eventsManager, "fire", _4, model);
 		if (ZEPHIR_IS_FALSE(status)) {
 			RETURN_CCTOR(status);
 		}
@@ -838,10 +837,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, notifyEvent) {
 		ZEPHIR_INIT_NVAR(_0);
 		zephir_get_class(_0, model, 1 TSRMLS_CC);
 		if (zephir_array_isset_fetch(&customEventsManager, customEventsManager, _0, 0 TSRMLS_CC)) {
-			ZEPHIR_INIT_LNVAR(_5);
-			ZEPHIR_CONCAT_SV(_5, "model:", eventName);
+			ZEPHIR_INIT_LNVAR(_4);
+			ZEPHIR_CONCAT_SV(_4, "model:", eventName);
 			ZEPHIR_INIT_BNVAR(status);
-			zephir_call_method_p2(status, customEventsManager, "fire", _5, model);
+			zephir_call_method_p2(status, customEventsManager, "fire", _4, model);
 			if (ZEPHIR_IS_FALSE(status)) {
 				RETURN_MM_BOOL(0);
 			}
@@ -863,11 +862,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, notifyEvent) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_Manager, missingMethod) {
 
-	zend_function *_4 = NULL;
 	HashTable *_2;
 	HashPosition _1;
 	zval *eventName = NULL;
-	zval *model, *eventName_param = NULL, *data, *behaviors, *modelsBehaviors, *result = NULL, *eventsManager, *behavior = NULL, *_0, **_3, *_5;
+	zval *model, *eventName_param = NULL, *data, *behaviors, *modelsBehaviors, *result = NULL, *eventsManager, *behavior = NULL, *_0, **_3, *_4;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 3, 0, &model, &eventName_param, &data);
@@ -897,7 +895,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, missingMethod) {
 			) {
 				ZEPHIR_GET_HVALUE(behavior, _3);
 				ZEPHIR_INIT_NVAR(result);
-				zephir_call_method_p3_cache(result, behavior, "missingmethod", &_4, model, eventName, data);
+				zephir_call_method_p3(result, behavior, "missingmethod", model, eventName, data);
 				if ((Z_TYPE_P(result) != IS_NULL)) {
 					RETURN_CCTOR(result);
 				}
@@ -906,9 +904,9 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, missingMethod) {
 	}
 	eventsManager = zephir_fetch_nproperty_this(this_ptr, SL("_eventsManager"), PH_NOISY_CC);
 	if ((Z_TYPE_P(eventsManager) == IS_OBJECT)) {
-		ZEPHIR_INIT_VAR(_5);
-		ZEPHIR_CONCAT_SV(_5, "model:", eventName);
-		zephir_call_method_p3(return_value, eventsManager, "fire", _5, model, data);
+		ZEPHIR_INIT_VAR(_4);
+		ZEPHIR_CONCAT_SV(_4, "model:", eventName);
+		zephir_call_method_p3(return_value, eventsManager, "fire", _4, model, data);
 		RETURN_MM();
 	}
 	RETURN_MM_BOOL(0);

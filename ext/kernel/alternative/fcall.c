@@ -412,7 +412,7 @@ int zephir_alt_call_method(zend_fcall_info *fci, zend_class_entry *ce, unsigned 
 	#if PHP_VERSION_ID < 50500
 	zend_vm_stack_push_nocheck((void*)(zend_uintptr_t)fci->param_count TSRMLS_CC);
 	#else
-	zend_vm_stack_push_nocheck((void*)(zend_uintptr_t)fci->param_count TSRMLS_CC);
+	zend_vm_stack_push((void*)(zend_uintptr_t)fci->param_count TSRMLS_CC);
 	#endif
 
 	current_scope = EG(scope);

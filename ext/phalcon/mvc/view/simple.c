@@ -172,10 +172,10 @@ PHP_METHOD(Phalcon_Mvc_View_Simple, registerEngines) {
  */
 PHP_METHOD(Phalcon_Mvc_View_Simple, _loadTemplateEngines) {
 
-	zend_function *_4 = NULL, *_6 = NULL;
+	zend_function *_5 = NULL;
 	HashTable *_2;
 	HashPosition _1;
-	zval *engines, *dependencyInjector, *registeredEngines, *arguments, *extension = NULL, *engineService = NULL, *engineObject = NULL, *_0 = NULL, **_3, *_5 = NULL;
+	zval *engines, *dependencyInjector, *registeredEngines, *arguments, *extension = NULL, *engineService = NULL, *engineObject = NULL, *_0 = NULL, **_3, *_4 = NULL;
 
 	ZEPHIR_MM_GROW();
 
@@ -217,13 +217,13 @@ PHP_METHOD(Phalcon_Mvc_View_Simple, _loadTemplateEngines) {
 				} else {
 					if ((Z_TYPE_P(engineService) == IS_STRING)) {
 						ZEPHIR_INIT_NVAR(engineObject);
-						zephir_call_method_p2_cache(engineObject, dependencyInjector, "getshared", &_4, engineService, arguments);
+						zephir_call_method_p2(engineObject, dependencyInjector, "getshared", engineService, arguments);
 					} else {
 						ZEPHIR_INIT_NVAR(_0);
 						object_init_ex(_0, phalcon_mvc_view_exception_ce);
-						ZEPHIR_INIT_LNVAR(_5);
-						ZEPHIR_CONCAT_SV(_5, "Invalid template engine registration for extension: ", extension);
-						zephir_call_method_p1_cache_noret(_0, "__construct", &_6, _5);
+						ZEPHIR_INIT_LNVAR(_4);
+						ZEPHIR_CONCAT_SV(_4, "Invalid template engine registration for extension: ", extension);
+						zephir_call_method_p1_cache_noret(_0, "__construct", &_5, _4);
 						zephir_throw_exception(_0 TSRMLS_CC);
 						ZEPHIR_MM_RESTORE();
 						return;
@@ -248,11 +248,10 @@ PHP_METHOD(Phalcon_Mvc_View_Simple, _loadTemplateEngines) {
  */
 PHP_METHOD(Phalcon_Mvc_View_Simple, _internalRender) {
 
-	zend_function *_6 = NULL, *_7 = NULL, *_8 = NULL;
 	HashTable *_4;
 	HashPosition _3;
 	zend_bool notExists, mustClean;
-	zval *path_param = NULL, *params, *eventsManager, *engines, *extension = NULL, *engine = NULL, *viewEnginePath = NULL, *viewsDirPath, *_0 = NULL, *_1 = NULL, *_2, **_5, *_9;
+	zval *path_param = NULL, *params, *eventsManager, *engines, *extension = NULL, *engine = NULL, *viewEnginePath = NULL, *viewsDirPath, *_0 = NULL, *_1 = NULL, *_2, **_5, *_6;
 	zval *path = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -305,17 +304,17 @@ PHP_METHOD(Phalcon_Mvc_View_Simple, _internalRender) {
 				ZEPHIR_INIT_NVAR(_0);
 				ZEPHIR_INIT_NVAR(_1);
 				ZVAL_STRING(_1, "view:beforeRenderView", 1);
-				zephir_call_method_p3_cache(_0, eventsManager, "fire", &_6, _1, this_ptr, viewEnginePath);
+				zephir_call_method_p3(_0, eventsManager, "fire", _1, this_ptr, viewEnginePath);
 				if (ZEPHIR_IS_FALSE(_0)) {
 					continue;
 				}
 			}
-			zephir_call_method_p3_cache_noret(engine, "render", &_7, viewEnginePath, params, (mustClean ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false)));
+			zephir_call_method_p3_noret(engine, "render", viewEnginePath, params, (mustClean ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false)));
 			notExists = 0;
 			if ((Z_TYPE_P(eventsManager) == IS_OBJECT)) {
 				ZEPHIR_INIT_NVAR(_1);
 				ZVAL_STRING(_1, "view:afterRenderView", 1);
-				zephir_call_method_p2_cache_noret(eventsManager, "fire", &_8, _1, this_ptr);
+				zephir_call_method_p2_noret(eventsManager, "fire", _1, this_ptr);
 			}
 			break;
 		}
@@ -323,9 +322,9 @@ PHP_METHOD(Phalcon_Mvc_View_Simple, _internalRender) {
 	if ((notExists == 1)) {
 		ZEPHIR_INIT_NVAR(_0);
 		object_init_ex(_0, phalcon_mvc_view_exception_ce);
-		ZEPHIR_INIT_VAR(_9);
-		ZEPHIR_CONCAT_SVS(_9, "View '", viewsDirPath, "' was not found in the views directory");
-		zephir_call_method_p1_noret(_0, "__construct", _9);
+		ZEPHIR_INIT_VAR(_6);
+		ZEPHIR_CONCAT_SVS(_6, "View '", viewsDirPath, "' was not found in the views directory");
+		zephir_call_method_p1_noret(_0, "__construct", _6);
 		zephir_throw_exception(_0 TSRMLS_CC);
 		ZEPHIR_MM_RESTORE();
 		return;

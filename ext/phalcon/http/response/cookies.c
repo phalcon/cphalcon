@@ -352,7 +352,6 @@ PHP_METHOD(Phalcon_Http_Response_Cookies, delete) {
  */
 PHP_METHOD(Phalcon_Http_Response_Cookies, send) {
 
-	zend_function *_5 = NULL;
 	HashTable *_3;
 	HashPosition _2;
 	zval *cookie = NULL, *_0, *_1, **_4;
@@ -369,7 +368,7 @@ PHP_METHOD(Phalcon_Http_Response_Cookies, send) {
 			; zend_hash_move_forward_ex(_3, &_2)
 		) {
 			ZEPHIR_GET_HVALUE(cookie, _4);
-			zephir_call_method_cache_noret(cookie, "send", &_5);
+			zephir_call_method_noret(cookie, "send");
 		}
 		RETURN_MM_BOOL(1);
 	}

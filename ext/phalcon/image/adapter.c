@@ -138,7 +138,7 @@ PHP_METHOD(Phalcon_Image_Adapter, getMime) {
 PHP_METHOD(Phalcon_Image_Adapter, resize) {
 
 	double ratio;
-	zval *width_param = NULL, *height_param = NULL, *master_param = NULL, *_0, *_1, *_2, *_3, *_4, *_5 = NULL, _6 = zval_used_for_init, *_7, *_8, *_9, *_10;
+	zval *width_param = NULL, *height_param = NULL, *master_param = NULL, *_0, *_1, *_2, *_3, *_4, *_5 = NULL, _6 = zval_used_for_init, *_7, *_8, *_9, *_10, *_11, *_12;
 	int width, height, master;
 
 	ZEPHIR_MM_GROW();
@@ -249,18 +249,18 @@ PHP_METHOD(Phalcon_Image_Adapter, resize) {
 	width = zephir_get_intval(_8);
 	ZEPHIR_SINIT_NVAR(_6);
 	ZVAL_LONG(&_6, height);
-	ZEPHIR_INIT_BNVAR(_8);
-	zephir_call_func_p1(_8, "round", &_6);
+	ZEPHIR_INIT_VAR(_9);
+	zephir_call_func_p1(_9, "round", &_6);
 	ZEPHIR_SINIT_NVAR(_6);
 	ZVAL_LONG(&_6, 1);
-	ZEPHIR_INIT_VAR(_9);
-	zephir_call_func_p2(_9, "max", _8, &_6);
-	height = zephir_get_intval(_9);
-	ZEPHIR_INIT_BNVAR(_9);
-	ZVAL_LONG(_9, width);
 	ZEPHIR_INIT_VAR(_10);
-	ZVAL_LONG(_10, height);
-	zephir_call_method_p2_noret(this_ptr, "_resize", _9, _10);
+	zephir_call_func_p2(_10, "max", _9, &_6);
+	height = zephir_get_intval(_10);
+	ZEPHIR_INIT_VAR(_11);
+	ZVAL_LONG(_11, width);
+	ZEPHIR_INIT_VAR(_12);
+	ZVAL_LONG(_12, height);
+	zephir_call_method_p2_noret(this_ptr, "_resize", _11, _12);
 	RETURN_THIS();
 
 }

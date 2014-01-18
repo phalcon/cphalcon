@@ -203,9 +203,10 @@ static int zephir_call_func_vparams(zval *return_value, zval **return_value_ptr,
 
 	if (status == FAILURE) {
 		php_error_docref(NULL TSRMLS_CC, E_ERROR, "Call to undefined function %s()", Z_STRVAL_P(func));
-	}
-	else if (EG(exception)) {
-		status = FAILURE;
+	} else {
+		if (EG(exception)) {
+			status = FAILURE;
+		}
 	}
 
 	if (!caller_wants_result) {
@@ -411,6 +412,73 @@ int zephir_call_method_params(zval *return_value, zval **return_value_ptr, zval 
 	va_end(ap);
 
 	return status;
+}
+
+/**
+ * @brief Calls methid @a method_name from @a object which accepts @a param_count arguments @a params
+ * @param[out] Return value; set to @c NULL if the return value is not needed
+ * @param object Object
+ * @param method_name Method name
+ * @param method_length Length of the method name
+ * @param param_count Number of arguments
+ * @param params Arguments
+ * @return Whether the call succeeded
+ * @retval @c SUCCESS
+ * @retval @c FAILURE
+ */
+int zephir_call_internal_method_params(zval *return_value, zval **return_value_ptr, zval *object, char *method_name, int method_len, void (* function_ptr)(INTERNAL_FUNCTION_PARAMETERS) TSRMLS_DC, int param_count, ...) {
+
+	va_list va;
+	int i;
+
+	if (unlikely(Z_TYPE_P(object) != IS_OBJECT)) {
+		php_error_docref(NULL TSRMLS_CC, E_ERROR, "Call to method %s() on a non object", method_name);
+		return FAILURE;
+	}
+
+	if (!return_value) {
+		ALLOC_INIT_ZVAL(return_value);
+		//caller_wants_result = 0;
+	} else {
+		zephir_check_return_value(return_value);
+	}
+
+	ZEND_VM_STACK_GROW_IF_NEEDED(param_count + 1);
+
+	va_start(va, param_count);
+	for (i = 0; i < param_count; ++i) {
+
+		zval *param = va_arg(va, zval*);
+		Z_ADDREF_P(param);
+
+		#if PHP_VERSION_ID < 50500
+		zend_vm_stack_push_nocheck(param TSRMLS_CC);
+		#else
+		zend_vm_stack_push(param TSRMLS_CC);
+		#endif
+
+	}
+	va_end(va);
+
+	#if PHP_VERSION_ID < 50500
+	zend_vm_stack_push_nocheck((void*)(zend_uintptr_t) param_count TSRMLS_CC);
+	#else
+	zend_vm_stack_push((void*)(zend_uintptr_t) param_count TSRMLS_CC);
+	#endif
+
+	function_ptr(param_count, return_value, &return_value, object, 1 TSRMLS_CC);
+
+	#if PHP_VERSION_ID < 50500
+	zend_vm_stack_clear_multiple(TSRMLS_C);
+	#else
+	zend_vm_stack_clear_multiple(0 TSRMLS_CC);
+	#endif
+
+	if (EG(exception)) {
+		zephir_throw_exception_internal(NULL TSRMLS_CC);
+	}
+
+	return SUCCESS;
 }
 
 int zephir_call_method_cache_params(zval *return_value, zval **return_value_ptr, zval *object,
