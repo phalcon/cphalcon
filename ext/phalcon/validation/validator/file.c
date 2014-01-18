@@ -17,7 +17,6 @@
 #include "kernel/operators.h"
 #include "kernel/array.h"
 #include "kernel/concat.h"
-#include "kernel/extended/array.h"
 #include "kernel/string.h"
 #include "kernel/exception.h"
 #include "ext/spl/spl_exceptions.h"
@@ -215,7 +214,7 @@ PHP_METHOD(Phalcon_Validation_Validator_File, validate) {
 		ZVAL_STRING(unit, "B", 1);
 		ZEPHIR_INIT_NVAR(_3);
 		ZEPHIR_INIT_NVAR(_6);
-		zephir_array_keys(_6, byteUnits TSRMLS_CC);
+		zephir_array_keys(_6, byteUnits);
 		zephir_fast_join_str(_3, SL("|"), _6 TSRMLS_CC);
 		ZEPHIR_INIT_VAR(_9);
 		ZEPHIR_CONCAT_SVS(_9, "/^([0-9]+(?:\\.[0-9]+)?)(", _3, ")?$/Di");
@@ -287,33 +286,31 @@ PHP_METHOD(Phalcon_Validation_Validator_File, validate) {
 		ZEPHIR_INIT_NVAR(_6);
 		zephir_call_func_p2(_6, "pathinfo", _10, &_12);
 		zephir_fast_strtolower(_3, _6);
-		ZEPHIR_INIT_NVAR(_7);
-		zephir_call_func_p2(_7, "in_array", _3, types);
-		if (!(zephir_is_true(_7))) {
-			ZEPHIR_INIT_NVAR(_13);
-			ZVAL_STRING(_13, "messageType", 1);
+		if (!(zephir_fast_in_array(_3, types TSRMLS_CC))) {
+			ZEPHIR_INIT_NVAR(_7);
+			ZVAL_STRING(_7, "messageType", 1);
 			ZEPHIR_INIT_NVAR(message);
-			zephir_call_method_p1(message, this_ptr, "getoption", _13);
+			zephir_call_method_p1(message, this_ptr, "getoption", _7);
 			ZEPHIR_INIT_NVAR(replacePairs);
 			array_init_size(replacePairs, 3);
 			zephir_array_update_string(&replacePairs, SL(":field"), &label, PH_COPY | PH_SEPARATE);
-			ZEPHIR_INIT_NVAR(_13);
-			zephir_fast_join_str(_13, SL(", "), types TSRMLS_CC);
-			zephir_array_update_string(&replacePairs, SL(":types"), &_13, PH_COPY | PH_SEPARATE);
+			ZEPHIR_INIT_NVAR(_7);
+			zephir_fast_join_str(_7, SL(", "), types TSRMLS_CC);
+			zephir_array_update_string(&replacePairs, SL(":types"), &_7, PH_COPY | PH_SEPARATE);
 			if (ZEPHIR_IS_EMPTY(message)) {
-				ZEPHIR_INIT_NVAR(_13);
-				ZVAL_STRING(_13, "FileType", 1);
+				ZEPHIR_INIT_NVAR(_7);
+				ZVAL_STRING(_7, "FileType", 1);
 				ZEPHIR_INIT_NVAR(message);
-				zephir_call_method_p1(message, validation, "getdefaultmessage", _13);
+				zephir_call_method_p1(message, validation, "getdefaultmessage", _7);
 			}
+			ZEPHIR_INIT_NVAR(_7);
+			object_init_ex(_7, phalcon_validation_message_ce);
 			ZEPHIR_INIT_NVAR(_13);
-			object_init_ex(_13, phalcon_validation_message_ce);
+			zephir_call_func_p2(_13, "strtr", message, replacePairs);
 			ZEPHIR_INIT_NVAR(_15);
-			zephir_call_func_p2(_15, "strtr", message, replacePairs);
-			ZEPHIR_INIT_NVAR(_16);
-			ZVAL_STRING(_16, "FileType", 1);
-			zephir_call_method_p3_noret(_13, "__construct", _15, field, _16);
-			zephir_call_method_p1_noret(validation, "appendmessage", _13);
+			ZVAL_STRING(_15, "FileType", 1);
+			zephir_call_method_p3_noret(_7, "__construct", _13, field, _15);
+			zephir_call_method_p1_noret(validation, "appendmessage", _7);
 			RETURN_MM_BOOL(0);
 		}
 	}

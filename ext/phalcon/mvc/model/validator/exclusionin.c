@@ -80,7 +80,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_Validator_Exclusionin) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_Validator_Exclusionin, validate) {
 
-	zval *record, *field, *domain, *value, *message = NULL, *replacePairs, *_0, *_1, *_2, *_3 = NULL, *_4;
+	zval *record, *field, *domain, *value, *message = NULL, *replacePairs, *_0, *_1, *_2, *_3;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &record);
@@ -120,28 +120,26 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Exclusionin, validate) {
 	if (zephir_is_true(_1) && ZEPHIR_IS_EMPTY(value)) {
 		RETURN_MM_BOOL(1);
 	}
-	ZEPHIR_INIT_BNVAR(_2);
-	zephir_call_func_p2(_2, "in_array", value, domain);
-	if (zephir_is_true(_2)) {
-		ZEPHIR_INIT_VAR(_3);
-		ZVAL_STRING(_3, "message", 1);
+	if (zephir_fast_in_array(value, domain TSRMLS_CC)) {
+		ZEPHIR_INIT_BNVAR(_2);
+		ZVAL_STRING(_2, "message", 1);
 		ZEPHIR_INIT_VAR(message);
-		zephir_call_method_p1(message, this_ptr, "getoption", _3);
+		zephir_call_method_p1(message, this_ptr, "getoption", _2);
 		ZEPHIR_INIT_VAR(replacePairs);
 		array_init_size(replacePairs, 3);
 		zephir_array_update_string(&replacePairs, SL(":field"), &field, PH_COPY | PH_SEPARATE);
-		ZEPHIR_INIT_NVAR(_3);
-		zephir_fast_join_str(_3, SL(", "), domain TSRMLS_CC);
-		zephir_array_update_string(&replacePairs, SL(":domain"), &_3, PH_COPY | PH_SEPARATE);
+		ZEPHIR_INIT_BNVAR(_2);
+		zephir_fast_join_str(_2, SL(", "), domain TSRMLS_CC);
+		zephir_array_update_string(&replacePairs, SL(":domain"), &_2, PH_COPY | PH_SEPARATE);
 		if (ZEPHIR_IS_EMPTY(message)) {
 			ZEPHIR_INIT_NVAR(message);
 			ZVAL_STRING(message, "Value of field :field must not be part of list: :domain", 1);
 		}
-		ZEPHIR_INIT_NVAR(_3);
-		zephir_call_func_p2(_3, "strtr", message, replacePairs);
-		ZEPHIR_INIT_VAR(_4);
-		ZVAL_STRING(_4, "Exclusion", 1);
-		zephir_call_method_p3_noret(this_ptr, "appendmessage", _3, field, _4);
+		ZEPHIR_INIT_BNVAR(_2);
+		zephir_call_func_p2(_2, "strtr", message, replacePairs);
+		ZEPHIR_INIT_VAR(_3);
+		ZVAL_STRING(_3, "Exclusion", 1);
+		zephir_call_method_p3_noret(this_ptr, "appendmessage", _2, field, _3);
 		RETURN_MM_BOOL(0);
 	}
 	RETURN_MM_BOOL(1);

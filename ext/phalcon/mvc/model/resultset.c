@@ -16,9 +16,9 @@
 #include "kernel/operators.h"
 #include "kernel/memory.h"
 #include "kernel/fcall.h"
+#include "kernel/array.h"
 #include "kernel/exception.h"
 #include "ext/spl/spl_exceptions.h"
-#include "kernel/array.h"
 
 
 /*
@@ -223,9 +223,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, seek) {
 							_3 = 1;
 						}
 						i = _4;
-						Z_SET_ISREF_P(rows);
-						zephir_call_func_p1_noret("next", rows);
-						Z_UNSET_ISREF_P(rows);
+						zephir_array_next(rows TSRMLS_CC);
 					}
 				}
 			}

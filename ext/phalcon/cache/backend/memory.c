@@ -19,7 +19,6 @@
 #include "kernel/array.h"
 #include "kernel/fcall.h"
 #include "kernel/exception.h"
-#include "kernel/extended/array.h"
 #include "kernel/hash.h"
 
 
@@ -227,7 +226,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Memory, queryKeys) {
 	if ((Z_TYPE_P(data) == IS_ARRAY)) {
 		if (!(zephir_is_true(prefix))) {
 			ZEPHIR_INIT_BNVAR(keys);
-			zephir_array_keys(keys, data TSRMLS_CC);
+			zephir_array_keys(keys, data);
 		} else {
 			zephir_is_iterable(data, &_1, &_0, 0, 0);
 			for (

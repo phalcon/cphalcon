@@ -268,10 +268,10 @@ PHP_METHOD(Phalcon_Forms_Form, getElements) {
  */
 PHP_METHOD(Phalcon_Forms_Form, bind) {
 
-	zend_function *_4 = NULL, *_6 = NULL, *_7 = NULL;
+	zend_function *_3 = NULL, *_6 = NULL, *_7 = NULL;
 	HashTable *_1;
 	HashPosition _0;
-	zval *data, *entity, *whitelist = NULL, *elements, *filter = NULL, *key = NULL, *value = NULL, *element, *filters = NULL, *dependencyInjector = NULL, *filteredValue = NULL, *method = NULL, **_2, *_3 = NULL, *_5 = NULL;
+	zval *data, *entity, *whitelist = NULL, *elements, *filter = NULL, *key = NULL, *value = NULL, *element, *filters = NULL, *dependencyInjector = NULL, *filteredValue = NULL, *method = NULL, **_2, *_4 = NULL, *_5 = NULL;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 1, &data, &entity, &whitelist);
@@ -304,9 +304,7 @@ PHP_METHOD(Phalcon_Forms_Form, bind) {
 			continue;
 		}
 		if ((Z_TYPE_P(whitelist) == IS_ARRAY)) {
-			ZEPHIR_INIT_NVAR(_3);
-			zephir_call_func_p2(_3, "in_array", key, whitelist);
-			if (!(zephir_is_true(_3))) {
+			if (!(zephir_fast_in_array(key, whitelist TSRMLS_CC))) {
 				continue;
 			}
 		}
@@ -316,12 +314,12 @@ PHP_METHOD(Phalcon_Forms_Form, bind) {
 		if (zephir_is_true(filters)) {
 			if ((Z_TYPE_P(filter) != IS_OBJECT)) {
 				ZEPHIR_INIT_NVAR(dependencyInjector);
-				zephir_call_method_cache(dependencyInjector, this_ptr, "getdi", &_4);
-				ZEPHIR_INIT_NVAR(_3);
+				zephir_call_method_cache(dependencyInjector, this_ptr, "getdi", &_3);
+				ZEPHIR_INIT_NVAR(_4);
 				ZEPHIR_INIT_NVAR(_5);
 				ZVAL_STRING(_5, "filter", 1);
-				zephir_call_method_p1_cache(_3, dependencyInjector, "getshared", &_6, _5);
-				ZEPHIR_CPY_WRT(filter, _3);
+				zephir_call_method_p1_cache(_4, dependencyInjector, "getshared", &_6, _5);
+				ZEPHIR_CPY_WRT(filter, _4);
 			}
 			ZEPHIR_INIT_NVAR(filteredValue);
 			zephir_call_method_p2_cache(filteredValue, filter, "sanitize", &_7, value, filters);
@@ -877,7 +875,7 @@ PHP_METHOD(Phalcon_Forms_Form, clear) {
 
 	HashTable *_1;
 	HashPosition _0;
-	zval *fields = NULL, *elements, *element = NULL, **_2, *_3 = NULL, *_4 = NULL;
+	zval *fields = NULL, *elements, *element = NULL, **_2, *_3 = NULL;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 1, &fields);
@@ -900,9 +898,7 @@ PHP_METHOD(Phalcon_Forms_Form, clear) {
 			} else {
 				ZEPHIR_INIT_NVAR(_3);
 				zephir_call_method(_3, element, "getname");
-				ZEPHIR_INIT_NVAR(_4);
-				zephir_call_func_p2(_4, "in_array", _3, fields);
-				if (zephir_is_true(_4)) {
+				if (zephir_fast_in_array(_3, fields TSRMLS_CC)) {
 					zephir_call_method_noret(element, "clear");
 				}
 			}

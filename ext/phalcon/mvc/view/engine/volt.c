@@ -248,8 +248,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, isIncluded) {
 
 
 	if ((Z_TYPE_P(haystack) == IS_ARRAY)) {
-		zephir_call_func_p2(return_value, "in_array", needle, haystack);
-		RETURN_MM();
+		RETURN_MM_BOOL(zephir_fast_in_array(needle, haystack TSRMLS_CC));
 	}
 	if ((Z_TYPE_P(haystack) == IS_STRING)) {
 		if ((zephir_function_exists_ex(SS("mb_strpos") TSRMLS_CC) == SUCCESS)) {

@@ -16,8 +16,8 @@
 #include "kernel/operators.h"
 #include "kernel/fcall.h"
 #include "kernel/memory.h"
-#include "kernel/hash.h"
 #include "kernel/array.h"
+#include "kernel/hash.h"
 #include "kernel/concat.h"
 #include "kernel/string.h"
 #include "kernel/exception.h"
@@ -125,9 +125,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Complex, valid) {
 			zephir_call_func_p1(row, "current", rows);
 			Z_UNSET_ISREF_P(rows);
 			if ((Z_TYPE_P(row) == IS_OBJECT)) {
-				Z_SET_ISREF_P(rows);
-				zephir_call_func_p1_noret("next", rows);
-				Z_UNSET_ISREF_P(rows);
+				zephir_array_next(rows TSRMLS_CC);
 			}
 		} else {
 			ZVAL_BOOL(row, 0);
