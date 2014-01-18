@@ -112,35 +112,58 @@
 		} \
 	} while (0)
 
-#define PHALCON_CALL_PARENT(return_value, return_value_ptr, this_ptr, class_entry, method, nparams, ...) \
+#define PHALCON_CALL_PARENTW(return_value_ptr, class_entry, this_ptr, method, ...) \
 	do { \
+		zval *params_[] = {__VA_ARGS__}; \
 		if (__builtin_constant_p(method)) { \
-			RETURN_MM_ON_FAILURE(phalcon_call_parent_func_params(return_value, return_value_ptr, this_ptr, class_entry, method, sizeof(method)-1 TSRMLS_CC, nparams, __VA_ARGS__)); \
+			RETURN_ON_FAILURE(phalcon_call_parent_func_aparams(return_value_ptr, class_entry, this_ptr, method, sizeof(method)-1, sizeof(params_)/sizeof(zval*), params_ TSRMLS_CC)); \
 		} \
 		else { \
-			RETURN_MM_ON_FAILURE(phalcon_call_parent_func_params(return_value, return_value_ptr, this_ptr, class_entry, method, strlen(method) TSRMLS_CC, nparams, __VA_ARGS__)); \
+			RETURN_ON_FAILURE(phalcon_call_parent_func_aparams(return_value_ptr, class_entry, this_ptr, method, strlen(method), sizeof(params_)/sizeof(zval*), params_ TSRMLS_CC)); \
 		} \
 	} while (0)
 
-#define PHALCON_RETURN_CALL_PARENT(this_ptr, class_entry, method, nparams, ...) \
+#define PHALCON_CALL_PARENT(return_value_ptr, class_entry, this_ptr, method, ...) \
 	do { \
+		zval *params_[] = {__VA_ARGS__}; \
 		if (__builtin_constant_p(method)) { \
-			if (phalcon_call_parent_func_params(return_value, return_value_ptr, this_ptr, class_entry, method, sizeof(method)-1 TSRMLS_CC, nparams, __VA_ARGS__) == FAILURE) { \
-				if (return_value_ptr && EG(exception)) { \
-					ALLOC_INIT_ZVAL(*return_value_ptr); \
-				} \
-				PHALCON_MM_RESTORE(); \
-				return; \
-			} \
+			RETURN_MM_ON_FAILURE(phalcon_call_parent_func_aparams(return_value_ptr, class_entry, this_ptr, method, sizeof(method)-1, sizeof(params_)/sizeof(zval*), params_ TSRMLS_CC)); \
 		} \
 		else { \
-			if (phalcon_call_parent_func_params(return_value, return_value_ptr, this_ptr, class_entry, method, strlen(method) TSRMLS_CC, nparams, __VA_ARGS__) == FAILURE) { \
-				if (return_value_ptr && EG(exception)) { \
-					ALLOC_INIT_ZVAL(*return_value_ptr); \
-				} \
-				PHALCON_MM_RESTORE(); \
-				return; \
-			} \
+			RETURN_MM_ON_FAILURE(phalcon_call_parent_func_aparams(return_value_ptr, class_entry, this_ptr, method, strlen(method), sizeof(params_)/sizeof(zval*), params_ TSRMLS_CC)); \
+		} \
+	} while (0)
+
+#define PHALCON_CALL_PARENT_NORET(class_entry, this_ptr, method, ...) \
+	do { \
+		zval *params_[] = {__VA_ARGS__}; \
+		if (__builtin_constant_p(method)) { \
+			RETURN_MM_ON_FAILURE(phalcon_call_parent_func_aparams(NULL, class_entry, this_ptr, method, sizeof(method)-1, sizeof(params_)/sizeof(zval*), params_ TSRMLS_CC)); \
+		} \
+		else { \
+			RETURN_MM_ON_FAILURE(phalcon_call_parent_func_aparams(NULL, class_entry, this_ptr, method, strlen(method), sizeof(params_)/sizeof(zval*), params_ TSRMLS_CC)); \
+		} \
+	} while (0)
+
+#define PHALCON_RETURN_CALL_PARENTW(class_entry, this_ptr, method, ...) \
+	do { \
+		zval *params_[] = {__VA_ARGS__}; \
+		if (__builtin_constant_p(method)) { \
+			RETURN_ON_FAILURE(phalcon_return_call_parent_func(return_value, return_value_ptr, class_entry, this_ptr, method, sizeof(method)-1, sizeof(params_)/sizeof(zval*), params_ TSRMLS_CC)); \
+		} \
+		else { \
+			RETURN_ON_FAILURE(phalcon_return_call_parent_func(return_value, return_value_ptr, class_entry, this_ptr, method, strlen(method), sizeof(params_)/sizeof(zval*), params_ TSRMLS_CC)); \
+		} \
+	} while (0)
+
+#define PHALCON_RETURN_CALL_PARENT(class_entry, this_ptr, method, ...) \
+	do { \
+		zval *params_[] = {__VA_ARGS__}; \
+		if (__builtin_constant_p(method)) { \
+			RETURN_MM_ON_FAILURE(phalcon_return_call_parent_func(return_value, return_value_ptr, class_entry, this_ptr, method, sizeof(method)-1, sizeof(params_)/sizeof(zval*), params_ TSRMLS_CC)); \
+		} \
+		else { \
+			RETURN_MM_ON_FAILURE(phalcon_return_call_parent_func(return_value, return_value_ptr, class_entry, this_ptr, method, strlen(method), sizeof(params_)/sizeof(zval*), params_ TSRMLS_CC)); \
 		} \
 	} while (0)
 
@@ -341,18 +364,6 @@
 #define phalcon_call_method_p4_key(return_value, object, method_name, key, p1, p2, p3, p4)                           phalcon_call_method_p4_key_ex(return_value, NULL, object, method_name, key, p1, p2, p3, p4)
 #define phalcon_call_method_p5_key(return_value, object, method_name, key, p1, p2, p3, p4, p5)                       phalcon_call_method_p5_key_ex(return_value, NULL, object, method_name, key, p1, p2, p3, p4, p5)
 
-/** Use these macros to call functions in the parent class */
-#define phalcon_call_parent(return_value, object, active_class, method)                 PHALCON_CALL_PARENT(return_value, NULL, object, active_class, method, 0, NULL)
-#define phalcon_call_parent_p1(return_value, object, active_class, method, p1)          PHALCON_CALL_PARENT(return_value, NULL, object, active_class, method, 1, p1)
-#define phalcon_call_parent_p2(return_value, object, active_class, method, p1, p2)      PHALCON_CALL_PARENT(return_value, NULL, object, active_class, method, 2, p1, p2)
-
-#define phalcon_call_parent_noret(object, active_class, method)                         PHALCON_CALL_PARENT(NULL, NULL, object, active_class, method, 0, NULL)
-#define phalcon_call_parent_p1_noret(object, active_class, method, p1)                  PHALCON_CALL_PARENT(NULL, NULL, object, active_class, method, 1, p1)
-#define phalcon_call_parent_p2_noret(object, active_class, method, p1, p2)              PHALCON_CALL_PARENT(NULL, NULL, object, active_class, method, 2, p1, p2)
-#define phalcon_call_parent_p3_noret(object, active_class, method, p1, p2, p3)          PHALCON_CALL_PARENT(NULL, NULL, object, active_class, method, 3, p1, p2, p3)
-#define phalcon_call_parent_p4_noret(object, active_class, method, p1, p2, p3, p4)      PHALCON_CALL_PARENT(NULL, NULL, object, active_class, method, 4, p1, p2, p3, p4)
-#define phalcon_call_parent_p5_noret(object, active_class, method, p1, p2, p3, p4, p5)  PHALCON_CALL_PARENT(NULL, NULL, object, active_class, method, 5, p1, p2, p3, p4, p5)
-
 /** Use these functions to call static functions on the current class */
 #define phalcon_call_self(return_value, method)                     PHALCON_CALL_SELF(return_value, NULL, method, 0, NULL)
 #define phalcon_call_self_p1(return_value, method, p1)              PHALCON_CALL_SELF(return_value, NULL, method, 1, p1)
@@ -428,9 +439,47 @@ PHALCON_ATTR_WARN_UNUSED_RESULT static inline int phalcon_return_call_class_meth
 	return SUCCESS;
 }
 
-int phalcon_call_parent_func_params(zval *return_value, zval **return_value_ptr, zval *object, zend_class_entry *active_class_ce, const char *method_name, uint method_len TSRMLS_DC, int param_count, ...) PHALCON_ATTR_WARN_UNUSED_RESULT;
 int phalcon_call_self_func_params(zval *return_value, zval **return_value_ptr, const char *method_name, uint method_len TSRMLS_DC, int param_count, ...) PHALCON_ATTR_WARN_UNUSED_RESULT;
 int phalcon_call_static_func_params(zval **return_value_ptr, const char *class_name, uint class_length, const char *method_name, uint method_length TSRMLS_DC, int param_count, ...) PHALCON_ATTR_WARN_UNUSED_RESULT;
+
+static inline int phalcon_call_parent_func_aparams(zval **return_value_ptr, zend_class_entry *ce, zval *object, const char *method_name, uint method_len, uint param_count, zval **params TSRMLS_DC)
+{
+	if (!ce) {
+		ce = EG(scope);
+		if (!ce) {
+			zend_error(E_ERROR, "Cannot access parent:: when no class scope is active");
+			return FAILURE;
+		}
+	}
+
+	ce = ce->parent;
+	if (!ce) {
+		zend_error(E_ERROR, "Cannot access parent:: when current class scope has no parent");
+		return FAILURE;
+	}
+
+	return phalcon_call_class_method_aparams(return_value_ptr, ce, object, method_name, method_len, param_count, params TSRMLS_CC);
+}
+
+static inline int phalcon_return_call_parent_func(zval *return_value, zval **return_value_ptr, zend_class_entry *ce, zval *object, const char *method_name, uint method_len, uint param_count, zval **params TSRMLS_DC)
+{
+	if (!ce) {
+		ce = EG(scope);
+		if (!ce) {
+			zend_error(E_ERROR, "Cannot access parent:: when no class scope is active");
+			return FAILURE;
+		}
+	}
+
+	ce = ce->parent;
+	if (!ce) {
+		zend_error(E_ERROR, "Cannot access parent:: when current class scope has no parent");
+		return FAILURE;
+	}
+
+	return phalcon_return_call_class_method(return_value, return_value_ptr, ce, object, method_name, method_len, param_count, params TSRMLS_CC);
+}
+
 
 int phalcon_call_method_vparams(zval *return_value, zval **return_value_ptr, zval *object, const char *method_name, uint method_len, ulong method_key TSRMLS_DC, int param_count, va_list ap) PHALCON_ATTR_WARN_UNUSED_RESULT;
 int phalcon_call_method_params(zval *return_value, zval **return_value_ptr, zval *object, const char *method_name, uint method_len, ulong method_key TSRMLS_DC, int param_count, ...) PHALCON_ATTR_WARN_UNUSED_RESULT;
