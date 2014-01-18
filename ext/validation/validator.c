@@ -1,4 +1,3 @@
-
 /*
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
@@ -142,7 +141,7 @@ PHP_METHOD(Phalcon_Validation_Validator, getOption){
 
 	phalcon_fetch_params_ex(1, 0, &key);
 	PHALCON_ENSURE_IS_STRING(key);
-	phalcon_validation_validator_getoption_helper(Z_OBJCE_P(getThis()), return_value, getThis(), Z_STRVAL_PP(key) TSRMLS_CC);
+	phalcon_validation_validator_getoption_helper(phalcon_validation_validator_ce, return_value, getThis(), Z_STRVAL_PP(key) TSRMLS_CC);
 }
 
 /**
