@@ -385,13 +385,11 @@ int phalcon_call_class_method_aparams(zval **return_value_ptr, const zend_class_
 	int status;
 
 #ifndef PHALCON_RELEASE
-/*
 	if (return_value_ptr && *return_value_ptr) {
 		fprintf(stderr, "%s: *return_value_ptr must be NULL\n", __func__);
 		phalcon_print_backtrace();
 		abort();
 	}
-*/
 #endif
 
 	array_init_size(&fn, 2);

@@ -222,6 +222,61 @@
 		} \
 	} while (0)
 
+#define PHALCON_CALL_STATICW(return_value_ptr, method, ...) \
+	do { \
+		zval *params_[] = {__VA_ARGS__}; \
+		if (__builtin_constant_p(method)) { \
+			RETURN_ON_FAILURE(phalcon_call_static_func_aparams(return_value_ptr, method, sizeof(method)-1, sizeof(params_)/sizeof(zval*), params_ TSRMLS_CC)); \
+		} \
+		else { \
+			RETURN_ON_FAILURE(phalcon_call_static_func_aparams(return_value_ptr, method, strlen(method), sizeof(params_)/sizeof(zval*), params_ TSRMLS_CC)); \
+		} \
+	} while (0)
+
+#define PHALCON_CALL_STATIC(return_value_ptr, method, ...) \
+	do { \
+		zval *params_[] = {__VA_ARGS__}; \
+		if (__builtin_constant_p(method)) { \
+			RETURN_MM_ON_FAILURE(phalcon_call_static_func_aparams(return_value_ptr, method, sizeof(method)-1, sizeof(params_)/sizeof(zval*), params_ TSRMLS_CC)); \
+		} \
+		else { \
+			RETURN_MM_ON_FAILURE(phalcon_call_static_func_aparams(return_value_ptr, method, strlen(method), sizeof(params_)/sizeof(zval*), params_ TSRMLS_CC)); \
+		} \
+	} while (0)
+
+#define PHALCON_CALL_STATIC_NORET(method, ...) \
+	do { \
+		zval *params_[] = {__VA_ARGS__}; \
+		if (__builtin_constant_p(method)) { \
+			RETURN_MM_ON_FAILURE(phalcon_call_self_func_aparams(NULL, method, sizeof(method)-1, sizeof(params_)/sizeof(zval*), params_ TSRMLS_CC)); \
+		} \
+		else { \
+			RETURN_MM_ON_FAILURE(phalcon_call_self_func_aparams(NULL, method, strlen(method), sizeof(params_)/sizeof(zval*), params_ TSRMLS_CC)); \
+		} \
+	} while (0)
+
+#define PHALCON_RETURN_CALL_STATICW(method, ...) \
+	do { \
+		zval *params_[] = {__VA_ARGS__}; \
+		if (__builtin_constant_p(method)) { \
+			RETURN_ON_FAILURE(phalcon_return_call_static_func(return_value, return_value_ptr, method, sizeof(method)-1, sizeof(params_)/sizeof(zval*), params_ TSRMLS_CC)); \
+		} \
+		else { \
+			RETURN_ON_FAILURE(phalcon_return_call_static_func(return_value, return_value_ptr, method, strlen(method), sizeof(params_)/sizeof(zval*), params_ TSRMLS_CC)); \
+		} \
+	} while (0)
+
+#define PHALCON_RETURN_STATIC_SELF(method, ...) \
+	do { \
+		zval *params_[] = {__VA_ARGS__}; \
+		if (__builtin_constant_p(method)) { \
+			RETURN_MM_ON_FAILURE(phalcon_return_call_static_func(return_value, return_value_ptr, method, sizeof(method)-1, sizeof(params_)/sizeof(zval*), params_ TSRMLS_CC)); \
+		} \
+		else { \
+			RETURN_MM_ON_FAILURE(phalcon_return_call_static_func(return_value, return_value_ptr, method, strlen(method), sizeof(params_)/sizeof(zval*), params_ TSRMLS_CC)); \
+		} \
+	} while (0)
+
 #define PHALCON_CALL_CE_STATICW(return_value_ptr, class_entry, method, ...) \
 	do { \
 		zval *params[] = {__VA_ARGS__}; \
@@ -501,6 +556,26 @@ PHALCON_ATTR_WARN_UNUSED_RESULT static inline int phalcon_return_call_self_func(
 {
 	if (!EG(scope)) {
 		zend_error(E_ERROR, "Cannot access self:: when no class scope is active");
+		return FAILURE;
+	}
+
+	return phalcon_return_call_class_method(return_value, return_value_ptr, EG(scope), NULL, method_name, method_len, param_count, params TSRMLS_CC);
+}
+
+PHALCON_ATTR_WARN_UNUSED_RESULT static inline int phalcon_call_static_func_aparams(zval **return_value_ptr, const char *method_name, uint method_len, uint param_count, zval **params TSRMLS_DC)
+{
+	if (!EG(called_scope)) {
+		zend_error(E_ERROR, "Cannot access static:: when no class scope is active");
+		return FAILURE;
+	}
+
+	return phalcon_call_class_method_aparams(return_value_ptr, EG(scope), NULL, method_name, method_len, param_count, params TSRMLS_CC);
+}
+
+PHALCON_ATTR_WARN_UNUSED_RESULT static inline int phalcon_return_call_static_func(zval *return_value, zval **return_value_ptr, const char *method_name, uint method_len, uint param_count, zval **params TSRMLS_DC)
+{
+	if (!EG(called_scope)) {
+		zend_error(E_ERROR, "Cannot access static:: when no class scope is active");
 		return FAILURE;
 	}
 
