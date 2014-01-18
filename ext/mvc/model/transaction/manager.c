@@ -21,6 +21,7 @@
 #include "mvc/model/transaction/managerinterface.h"
 #include "mvc/model/transaction.h"
 #include "mvc/model/transaction/exception.h"
+#include "di.h"
 #include "diinterface.h"
 #include "di/injectionawareinterface.h"
 
@@ -176,7 +177,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, __construct){
 		phalcon_update_property_this(this_ptr, SL("_dependencyInjector"), dependency_injector TSRMLS_CC);
 	} else {
 		PHALCON_INIT_NVAR(dependency_injector);
-		phalcon_call_static(dependency_injector, "phalcon\\di", "getdefault");
+		phalcon_call_ce_static_p0(dependency_injector, phalcon_di_ce, "getdefault");
 		phalcon_update_property_this(this_ptr, SL("_dependencyInjector"), dependency_injector TSRMLS_CC);
 	}
 	if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {

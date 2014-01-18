@@ -19,6 +19,8 @@
 
 #include "tag.h"
 #include "tag/exception.h"
+#include "tag/select.h"
+#include "di.h"
 #include "diinterface.h"
 #include "escaperinterface.h"
 #include "mvc/urlinterface.h"
@@ -451,7 +453,7 @@ PHP_METHOD(Phalcon_Tag, getUrlService){
 		dependency_injector = phalcon_fetch_static_property_ce(phalcon_tag_ce, SL("_dependencyInjector") TSRMLS_CC);
 		if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
 			PHALCON_INIT_VAR(dependency_injector);
-			phalcon_call_static(dependency_injector, "phalcon\\di", "getdefault");
+			phalcon_call_ce_static_p0(dependency_injector, phalcon_di_ce, "getdefault");
 		}
 	
 		if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
@@ -490,7 +492,7 @@ PHP_METHOD(Phalcon_Tag, getEscaperService){
 		dependency_injector = phalcon_fetch_static_property_ce(phalcon_tag_ce, SL("_dependencyInjector") TSRMLS_CC);
 		if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
 			PHALCON_INIT_VAR(dependency_injector);
-			phalcon_call_static(dependency_injector, "phalcon\\di", "getdefault");
+			phalcon_call_ce_static_p0(dependency_injector, phalcon_di_ce, "getdefault");
 		}
 	
 		if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
@@ -1353,7 +1355,7 @@ PHP_METHOD(Phalcon_Tag, selectStatic){
 		data = PHALCON_GLOBAL(z_null);
 	}
 	
-	phalcon_return_call_static_p2("phalcon\\tag\\select", "selectfield", parameters, data);
+	phalcon_return_call_ce_static_p2(phalcon_tag_select_ce, "selectfield", parameters, data);
 	RETURN_MM();
 }
 
@@ -1389,7 +1391,7 @@ PHP_METHOD(Phalcon_Tag, select){
 		data = PHALCON_GLOBAL(z_null);
 	}
 	
-	phalcon_call_static_p2(return_value, "phalcon\\tag\\select", "selectfield", parameters, data);
+	phalcon_call_ce_static_p2(return_value, phalcon_tag_select_ce, "selectfield", parameters, data);
 	RETURN_MM();
 }
 

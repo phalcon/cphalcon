@@ -20,6 +20,7 @@
 #include "forms/element/select.h"
 #include "forms/element.h"
 #include "forms/elementinterface.h"
+#include "tag/select.h"
 
 #include "kernel/main.h"
 #include "kernel/memory.h"
@@ -173,6 +174,6 @@ PHP_METHOD(Phalcon_Forms_Element_Select, render){
 	 */
 	PHALCON_INIT_VAR(widget_attributes);
 	phalcon_call_method_p1(widget_attributes, this_ptr, "prepareattributes", attributes);
-	phalcon_call_static_p2(return_value, "phalcon\\tag\\select", "selectfield", widget_attributes, options);
+	phalcon_call_ce_static_p2(return_value, phalcon_tag_select_ce, "selectfield", widget_attributes, options);
 	RETURN_MM();
 }

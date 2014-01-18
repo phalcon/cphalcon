@@ -124,7 +124,7 @@ PHP_METHOD(Phalcon_Tag_Select, selectField){
 	
 	if (!phalcon_array_isset_string(params, SS("value"))) {
 		PHALCON_INIT_VAR(value);
-		phalcon_call_static_p2(value, "phalcon\\tag", "getvalue", id, params);
+		phalcon_call_ce_static_p2(value, phalcon_tag_ce, "getvalue", id, params);
 	} else {
 		PHALCON_OBS_NVAR(value);
 		phalcon_array_fetch_string(&value, params, SL("value"), PH_NOISY);

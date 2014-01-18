@@ -21,6 +21,7 @@
 #include "forms/elementinterface.h"
 #include "forms/exception.h"
 #include "validation/message/group.h"
+#include "tag.h"
 
 #include "kernel/main.h"
 #include "kernel/memory.h"
@@ -735,7 +736,7 @@ PHP_METHOD(Phalcon_Forms_Element, getValue){
 		 * Check if the tag has a default value
 		 */
 		PHALCON_INIT_VAR(has_default_value);
-		phalcon_call_static_p1(has_default_value, "phalcon\\tag", "hasvalue", name);
+		phalcon_call_ce_static_p1(has_default_value, phalcon_tag_ce, "hasvalue", name);
 		if (!zend_is_true(has_default_value)) {
 			/** 
 			 * Gets the possible value for the widget
@@ -867,7 +868,7 @@ PHP_METHOD(Phalcon_Forms_Element, clear){
 	PHALCON_MM_GROW();
 
 	name = phalcon_fetch_nproperty_this(this_ptr, SL("_name"), PH_NOISY_CC);
-	phalcon_call_static_p2_noret("phalcon\\tag", "setdefault", name, PHALCON_GLOBAL(z_null));
+	phalcon_call_ce_static_p2_noret(phalcon_tag_ce, "setdefault", name, PHALCON_GLOBAL(z_null));
 	RETURN_THIS();
 }
 

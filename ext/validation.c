@@ -22,6 +22,7 @@
 #include "validation/message/group.h"
 #include "validation/validator.h"
 #include "validation/validatorinterface.h"
+#include "di.h"
 #include "di/injectable.h"
 #include "filterinterface.h"
 
@@ -553,7 +554,7 @@ PHP_METHOD(Phalcon_Validation, getValue){
 					if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
 	
 						PHALCON_INIT_NVAR(dependency_injector);
-						phalcon_call_static(dependency_injector, "phalcon\\di", "getdefault");
+						phalcon_call_ce_static_p0(dependency_injector, phalcon_di_ce, "getdefault");
 	
 						if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
 							PHALCON_THROW_EXCEPTION_STR(phalcon_validation_exception_ce, "A dependency injector is required to obtain the 'filter' service");

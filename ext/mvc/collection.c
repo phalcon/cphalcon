@@ -24,6 +24,7 @@
 #include "mvc/collection/exception.h"
 #include "mvc/collection/managerinterface.h"
 #include "mvc/model/exception.h"
+#include "di.h"
 #include "diinterface.h"
 #include "di/injectionawareinterface.h"
 
@@ -204,7 +205,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, __construct){
 	 */
 	if (!dependency_injector || Z_TYPE_PP(dependency_injector) != IS_OBJECT) {
 		PHALCON_INIT_VAR(di);
-		phalcon_call_static(di, "phalcon\\di", "getdefault");
+		phalcon_call_ce_static_p0(di, phalcon_di_ce, "getdefault");
 	}
 	else {
 		di = *dependency_injector;
@@ -2167,7 +2168,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, unserialize){
 			 * Obtain the default DI
 			 */
 			PHALCON_INIT_VAR(dependency_injector);
-			phalcon_call_static(dependency_injector, "phalcon\\di", "getdefault");
+			phalcon_call_ce_static_p0(dependency_injector, phalcon_di_ce, "getdefault");
 	
 			if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
 				PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "A dependency injector container is required to obtain the services related to the ODM");

@@ -179,7 +179,7 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, __construct){
 	checked = phalcon_fetch_static_property_ce(phalcon_image_adapter_imagick_ce, SL("_checked") TSRMLS_CC);
 
 	if (!zend_is_true(checked)) {
-		phalcon_call_static_noret("phalcon\\image\\adapter\\imagick", "check");
+		phalcon_call_ce_static_p0_noret(phalcon_image_adapter_imagick_ce, "check");
 	}
 
 	phalcon_update_property_this(this_ptr, SL("_file"), *file TSRMLS_CC);
