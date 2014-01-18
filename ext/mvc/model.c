@@ -430,8 +430,8 @@ PHP_METHOD(Phalcon_Mvc_Model, __construct){
 	 * We use a default DI if the user doesn't define one
 	 */
 	if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
-		PHALCON_INIT_NVAR(dependency_injector);
-		phalcon_call_ce_static_p0(dependency_injector, phalcon_di_ce, "getdefault");
+		PHALCON_OBSERVE_OR_NULLIFY_VAR(dependency_injector);
+		PHALCON_CALL_CE_STATIC(&dependency_injector, phalcon_di_ce, "getdefault");
 	}
 	if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "A dependency injector container is required to obtain the services related to the ORM");
@@ -1477,8 +1477,8 @@ PHP_METHOD(Phalcon_Mvc_Model, query){
 	 * Use the global dependency injector if there is no one defined
 	 */
 	if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
-		PHALCON_INIT_NVAR(dependency_injector);
-		phalcon_call_ce_static_p0(dependency_injector, phalcon_di_ce, "getdefault");
+		PHALCON_OBSERVE_OR_NULLIFY_VAR(dependency_injector);
+		PHALCON_CALL_CE_STATIC(&dependency_injector, phalcon_di_ce, "getdefault");
 	}
 	
 	object_init_ex(return_value, phalcon_mvc_model_criteria_ce);
@@ -6461,7 +6461,7 @@ PHP_METHOD(Phalcon_Mvc_Model, __callStatic){
 	/** 
 	 * Execute the query
 	 */
-	phalcon_call_ce_static_p1(return_value, ce0, type, parameters);
+	PHALCON_RETURN_CALL_CE_STATIC(ce0, type, parameters);
 	RETURN_MM();
 }
 
@@ -6705,8 +6705,8 @@ PHP_METHOD(Phalcon_Mvc_Model, unserialize){
 			/** 
 			 * Obtain the default DI
 			 */
-			PHALCON_INIT_VAR(dependency_injector);
-			phalcon_call_ce_static_p0(dependency_injector, phalcon_di_ce, "getdefault");
+			PHALCON_OBS_VAR(dependency_injector);
+			PHALCON_CALL_CE_STATIC(&dependency_injector, phalcon_di_ce, "getdefault");
 	
 			if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
 				PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "A dependency injector container is required to obtain the services related to the ORM");

@@ -176,8 +176,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, __construct){
 	if (zend_is_true(dependency_injector)) {
 		phalcon_update_property_this(this_ptr, SL("_dependencyInjector"), dependency_injector TSRMLS_CC);
 	} else {
-		PHALCON_INIT_NVAR(dependency_injector);
-		phalcon_call_ce_static_p0(dependency_injector, phalcon_di_ce, "getdefault");
+		PHALCON_OBSERVE_OR_NULLIFY_VAR(dependency_injector);
+		PHALCON_CALL_CE_STATIC(&dependency_injector, phalcon_di_ce, "getdefault");
 		phalcon_update_property_this(this_ptr, SL("_dependencyInjector"), dependency_injector TSRMLS_CC);
 	}
 	if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {

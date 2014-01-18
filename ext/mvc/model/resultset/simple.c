@@ -245,7 +245,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, valid){
 	/** 
 	 * Hydrate based on the current hydration
 	 */
-	
+	PHALCON_OBS_VAR(active_row);
 	switch (phalcon_get_intval(hydrate_mode)) {
 	
 		case 0:
@@ -258,16 +258,14 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, valid){
 			/** 
 			 * Performs the standard hydration based on objects
 			 */
-			PHALCON_INIT_VAR(active_row);
-			phalcon_call_ce_static_p5(active_row, phalcon_mvc_model_ce, "cloneresultmap", model, row, column_map, dirty_state, keep_snapshots);
+			PHALCON_CALL_CE_STATIC(&active_row, phalcon_mvc_model_ce, "cloneresultmap", model, row, column_map, dirty_state, keep_snapshots);
 			break;
 	
 		default:
 			/** 
 			 * Other kinds of hydrations
 			 */
-			PHALCON_INIT_NVAR(active_row);
-			phalcon_call_ce_static_p3(active_row, phalcon_mvc_model_ce, "cloneresultmaphydrate", row, column_map, hydrate_mode);
+			PHALCON_CALL_CE_STATIC(&active_row, phalcon_mvc_model_ce, "cloneresultmaphydrate", row, column_map, hydrate_mode);
 			break;
 	
 	}

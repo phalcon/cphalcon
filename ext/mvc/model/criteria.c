@@ -1444,7 +1444,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, execute){
 		RETURN_MM();
 	}
 
-	phalcon_call_ce_static_p1(return_value, ce, "find", params);
+	PHALCON_RETURN_CALL_CE_STATIC(ce, "find", params);
 	
 	PHALCON_MM_RESTORE();
 }

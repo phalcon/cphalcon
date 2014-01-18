@@ -122,11 +122,10 @@ PHP_METHOD(Phalcon_Tag_Select, selectField){
 		}
 	}
 	
+	PHALCON_OBS_VAR(value);
 	if (!phalcon_array_isset_string(params, SS("value"))) {
-		PHALCON_INIT_VAR(value);
-		phalcon_call_ce_static_p2(value, phalcon_tag_ce, "getvalue", id, params);
+		PHALCON_CALL_CE_STATIC(&value, phalcon_tag_ce, "getvalue", id, params);
 	} else {
-		PHALCON_OBS_NVAR(value);
 		phalcon_array_fetch_string(&value, params, SL("value"), PH_NOISY);
 		phalcon_array_unset_string(&params, SS("value"), PH_SEPARATE);
 	}

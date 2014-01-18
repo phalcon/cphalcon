@@ -204,8 +204,8 @@ PHP_METHOD(Phalcon_Mvc_Collection, __construct){
 	 * We use a default DI if the user doesn't define one
 	 */
 	if (!dependency_injector || Z_TYPE_PP(dependency_injector) != IS_OBJECT) {
-		PHALCON_INIT_VAR(di);
-		phalcon_call_ce_static_p0(di, phalcon_di_ce, "getdefault");
+		PHALCON_OBS_VAR(di);
+		PHALCON_CALL_CE_STATIC(&di, phalcon_di_ce, "getdefault");
 	}
 	else {
 		di = *dependency_injector;
@@ -2167,8 +2167,8 @@ PHP_METHOD(Phalcon_Mvc_Collection, unserialize){
 			/** 
 			 * Obtain the default DI
 			 */
-			PHALCON_INIT_VAR(dependency_injector);
-			phalcon_call_ce_static_p0(dependency_injector, phalcon_di_ce, "getdefault");
+			PHALCON_OBS_VAR(dependency_injector);
+			PHALCON_CALL_CE_STATIC(&dependency_injector, phalcon_di_ce, "getdefault");
 	
 			if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
 				PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "A dependency injector container is required to obtain the services related to the ODM");

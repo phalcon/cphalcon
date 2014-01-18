@@ -290,7 +290,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Complex, valid){
 					/** 
 					 * Generate the column value according to the hydration type
 					 */
-					PHALCON_INIT_NVAR(value);
+					PHALCON_OBSERVE_OR_NULLIFY_VAR(value);
 					switch (phalcon_get_intval(hydrate_mode)) {
 	
 						case 0: {
@@ -314,7 +314,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Complex, valid){
 							/** 
 							 * Assign the values to the attributes using a column map
 							 */
-							phalcon_call_ce_static_p5(value, phalcon_mvc_model_ce, "cloneresultmap", instance, row_model, column_map, dirty_state, keep_snapshots);
+							PHALCON_CALL_CE_STATIC(&value, phalcon_mvc_model_ce, "cloneresultmap", instance, row_model, column_map, dirty_state, keep_snapshots);
 							break;
 						}
 	
@@ -322,7 +322,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Complex, valid){
 							/** 
 							 * Other kinds of hydrations
 							 */
-							phalcon_call_ce_static_p3(value, phalcon_mvc_model_ce, "cloneresultmaphydrate", row_model, column_map, hydrate_mode);
+							PHALCON_CALL_CE_STATIC(&value, phalcon_mvc_model_ce, "cloneresultmaphydrate", row_model, column_map, hydrate_mode);
 							break;
 	
 					}

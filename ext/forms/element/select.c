@@ -174,6 +174,6 @@ PHP_METHOD(Phalcon_Forms_Element_Select, render){
 	 */
 	PHALCON_INIT_VAR(widget_attributes);
 	phalcon_call_method_p1(widget_attributes, this_ptr, "prepareattributes", attributes);
-	phalcon_call_ce_static_p2(return_value, phalcon_tag_select_ce, "selectfield", widget_attributes, options);
+	PHALCON_RETURN_CALL_CE_STATIC(phalcon_tag_select_ce, "selectfield", widget_attributes, options);
 	RETURN_MM();
 }

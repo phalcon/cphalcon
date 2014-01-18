@@ -313,7 +313,7 @@ static void phalcon_tag_get_escaper(zval **return_value_ptr, zval *params TSRMLS
 	}
 
 	if (zend_is_true(autoescape)) {
-		if (FAILURE == phalcon_call_static_ce_func_params(result, &result, phalcon_tag_ce, SL("getescaperservice") TSRMLS_CC, 0)) {
+		if (FAILURE == phalcon_call_class_method_aparams(&result, phalcon_tag_ce, NULL, SL("getescaperservice"), 0, NULL TSRMLS_CC)) {
 			assert(result == NULL);
 		}
 	}
@@ -452,8 +452,8 @@ PHP_METHOD(Phalcon_Tag, getUrlService){
 	
 		dependency_injector = phalcon_fetch_static_property_ce(phalcon_tag_ce, SL("_dependencyInjector") TSRMLS_CC);
 		if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
-			PHALCON_INIT_VAR(dependency_injector);
-			phalcon_call_ce_static_p0(dependency_injector, phalcon_di_ce, "getdefault");
+			PHALCON_OBS_VAR(dependency_injector);
+			PHALCON_CALL_CE_STATIC(&dependency_injector, phalcon_di_ce, "getdefault");
 		}
 	
 		if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
@@ -491,8 +491,8 @@ PHP_METHOD(Phalcon_Tag, getEscaperService){
 	
 		dependency_injector = phalcon_fetch_static_property_ce(phalcon_tag_ce, SL("_dependencyInjector") TSRMLS_CC);
 		if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
-			PHALCON_INIT_VAR(dependency_injector);
-			phalcon_call_ce_static_p0(dependency_injector, phalcon_di_ce, "getdefault");
+			PHALCON_OBS_VAR(dependency_injector);
+			PHALCON_CALL_CE_STATIC(&dependency_injector, phalcon_di_ce, "getdefault");
 		}
 	
 		if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
@@ -1355,7 +1355,7 @@ PHP_METHOD(Phalcon_Tag, selectStatic){
 		data = PHALCON_GLOBAL(z_null);
 	}
 	
-	phalcon_return_call_ce_static_p2(phalcon_tag_select_ce, "selectfield", parameters, data);
+	PHALCON_RETURN_CALL_CE_STATIC(phalcon_tag_select_ce, "selectfield", parameters, data);
 	RETURN_MM();
 }
 
@@ -1391,7 +1391,7 @@ PHP_METHOD(Phalcon_Tag, select){
 		data = PHALCON_GLOBAL(z_null);
 	}
 	
-	phalcon_call_ce_static_p2(return_value, phalcon_tag_select_ce, "selectfield", parameters, data);
+	PHALCON_RETURN_CALL_CE_STATIC(phalcon_tag_select_ce, "selectfield", parameters, data);
 	RETURN_MM();
 }
 
