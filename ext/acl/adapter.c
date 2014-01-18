@@ -17,9 +17,8 @@
   +------------------------------------------------------------------------+
 */
 
-#include "php_phalcon.h"
-
 #include "acl/adapter.h"
+#include "acl/adapterinterface.h"
 #include "events/eventsawareinterface.h"
 
 #include "kernel/main.h"
@@ -65,7 +64,7 @@ PHALCON_INIT_CLASS(Phalcon_Acl_Adapter){
 	zend_declare_property_null(phalcon_acl_adapter_ce, SL("_activeResource"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_acl_adapter_ce, SL("_activeAccess"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
-	zend_class_implements(phalcon_acl_adapter_ce TSRMLS_CC, 1, phalcon_events_eventsawareinterface_ce);
+	zend_class_implements(phalcon_acl_adapter_ce TSRMLS_CC, 2, phalcon_events_eventsawareinterface_ce, phalcon_acl_adapterinterface_ce);
 
 	return SUCCESS;
 }

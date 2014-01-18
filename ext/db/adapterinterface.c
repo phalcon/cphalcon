@@ -23,7 +23,6 @@
 zend_class_entry *phalcon_db_adapterinterface_ce;
 
 static const zend_function_entry phalcon_db_adapterinterface_method_entry[] = {
-	PHP_ABSTRACT_ME(Phalcon_Db_AdapterInterface, __construct, arginfo_phalcon_db_adapterinterface___construct)
 	PHP_ABSTRACT_ME(Phalcon_Db_AdapterInterface, fetchOne, arginfo_phalcon_db_adapterinterface_fetchone)
 	PHP_ABSTRACT_ME(Phalcon_Db_AdapterInterface, fetchAll, arginfo_phalcon_db_adapterinterface_fetchall)
 	PHP_ABSTRACT_ME(Phalcon_Db_AdapterInterface, insert, arginfo_phalcon_db_adapterinterface_insert)
@@ -100,13 +99,6 @@ PHALCON_INIT_CLASS(Phalcon_Db_AdapterInterface){
 
 	return SUCCESS;
 }
-
-/**
- * Constructor for Phalcon\Db\Adapter
- *
- * @param array $descriptor
- */
-PHALCON_DOC_METHOD(Phalcon_Db_AdapterInterface, __construct);
 
 /**
  * Returns the first row in a SQL query result

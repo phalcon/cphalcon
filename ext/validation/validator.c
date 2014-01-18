@@ -62,6 +62,8 @@ PHALCON_INIT_CLASS(Phalcon_Validation_Validator){
 
 	zend_declare_property_null(phalcon_validation_validator_ce, SL("_options"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
+	zend_class_implements(phalcon_validation_validator_ce TSRMLS_CC, 1, phalcon_validation_validatorinterface_ce);
+
 	return SUCCESS;
 }
 
