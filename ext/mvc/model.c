@@ -1897,7 +1897,7 @@ PHP_METHOD(Phalcon_Mvc_Model, count){
 	
 	PHALCON_INIT_VAR(alias);
 	ZVAL_STRING(alias, "rowcount", 1);
-	phalcon_call_self_p3(return_value, "_groupresult", function, alias, parameters);
+	PHALCON_RETURN_CALL_SELF("_groupresult", function, alias, parameters);
 	RETURN_MM();
 }
 
@@ -1936,7 +1936,7 @@ PHP_METHOD(Phalcon_Mvc_Model, sum){
 	
 	PHALCON_INIT_VAR(alias);
 	ZVAL_STRING(alias, "sumatory", 1);
-	phalcon_call_self_p3(return_value, "_groupresult", function, alias, parameters);
+	PHALCON_RETURN_CALL_SELF("_groupresult", function, alias, parameters);
 	RETURN_MM();
 }
 
@@ -1975,7 +1975,7 @@ PHP_METHOD(Phalcon_Mvc_Model, maximum){
 	
 	PHALCON_INIT_VAR(alias);
 	ZVAL_STRING(alias, "maximum", 1);
-	phalcon_call_self_p3(return_value, "_groupresult", function, alias, parameters);
+	PHALCON_RETURN_CALL_SELF("_groupresult", function, alias, parameters);
 	RETURN_MM();
 }
 
@@ -2014,7 +2014,7 @@ PHP_METHOD(Phalcon_Mvc_Model, minimum){
 	
 	PHALCON_INIT_VAR(alias);
 	ZVAL_STRING(alias, "minimum", 1);
-	phalcon_call_self_p3(return_value, "_groupresult", function, alias, parameters);
+	PHALCON_RETURN_CALL_SELF("_groupresult", function, alias, parameters);
 	RETURN_MM();
 }
 
@@ -2053,7 +2053,7 @@ PHP_METHOD(Phalcon_Mvc_Model, average){
 	
 	PHALCON_INIT_VAR(alias);
 	ZVAL_STRING(alias, "average", 1);
-	phalcon_call_self_p3(return_value, "_groupresult", function, alias, parameters);
+	PHALCON_RETURN_CALL_SELF("_groupresult", function, alias, parameters);
 	RETURN_MM();
 }
 

@@ -198,15 +198,15 @@ PHP_METHOD(Phalcon_Tag_Select, selectField){
 		/** 
 		 * Create the SELECT's option from a resultset
 		 */
-		PHALCON_INIT_VAR(resultset_options);
-		phalcon_call_self_p4(resultset_options, "_optionsfromresultset", options, using, value, close_option);
+		PHALCON_OBS_VAR(resultset_options);
+		PHALCON_CALL_SELF(&resultset_options, "_optionsfromresultset", options, using, value, close_option);
 		phalcon_concat_self(&code, resultset_options TSRMLS_CC);
 	} else if (Z_TYPE_P(options) == IS_ARRAY) {
 		/**
 		 * Create the SELECT's option from an array
 		 */
-		PHALCON_INIT_VAR(array_options);
-		phalcon_call_self_p3(array_options, "_optionsfromarray", options, value, close_option);
+		PHALCON_OBS_VAR(array_options);
+		PHALCON_CALL_SELF(&array_options, "_optionsfromarray", options, value, close_option);
 		phalcon_concat_self(&code, array_options TSRMLS_CC);
 	} else {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_tag_exception_ce, "Invalid data provided to SELECT helper");
@@ -386,8 +386,8 @@ PHP_METHOD(Phalcon_Tag_Select, _optionsFromArray){
 			phalcon_htmlspecialchars(escaped, option_value, NULL, NULL TSRMLS_CC);
 
 
-			PHALCON_INIT_NVAR(array_options);
-			phalcon_call_self_p3(array_options, "_optionsfromarray", option_text, value, close_option);
+			PHALCON_OBSERVE_OR_NULLIFY_VAR(array_options);
+			PHALCON_CALL_SELF(&array_options, "_optionsfromarray", option_text, value, close_option);
 
 			PHALCON_SCONCAT_SVSVS(code, "\t<optgroup label=\"", escaped, "\">" PHP_EOL, array_options, "\t</optgroup>" PHP_EOL);
 		} else {

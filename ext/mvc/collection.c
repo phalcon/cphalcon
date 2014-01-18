@@ -733,7 +733,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, _getResultset){
 			/** 
 			 * Assign the values to the base object
 			 */
-			phalcon_call_self_p2(return_value, "cloneresult", base, document);
+			PHALCON_RETURN_CALL_SELF("cloneresult", base, document);
 			RETURN_MM();
 		}
 	
@@ -758,8 +758,8 @@ PHP_METHOD(Phalcon_Mvc_Collection, _getResultset){
 		/** 
 		 * Assign the values to the base object
 		 */
-		PHALCON_INIT_NVAR(collection_cloned);
-		phalcon_call_self_p2(collection_cloned, "cloneresult", base, document);
+		PHALCON_OBSERVE_OR_NULLIFY_VAR(collection_cloned);
+		PHALCON_CALL_SELF(&collection_cloned, "cloneresult", base, document);
 		phalcon_array_append(&collections, collection_cloned, PH_SEPARATE);
 	
 		zend_hash_move_forward_ex(ah0, &hp0);
@@ -1593,7 +1593,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, findById){
 	PHALCON_INIT_VAR(parameters);
 	array_init_size(parameters, 1);
 	phalcon_array_append(&parameters, conditions, 0);
-	phalcon_call_self_p1(return_value, "findfirst", parameters);
+	PHALCON_RETURN_CALL_SELF("findfirst", parameters);
 	RETURN_MM();
 }
 
@@ -1659,7 +1659,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, findFirst){
 	phalcon_call_method(connection, collection, "getconnection");
 
 	unique = PHALCON_GLOBAL(z_true);
-	phalcon_call_self_p4(return_value, "_getresultset", parameters, collection, connection, unique);
+	PHALCON_RETURN_CALL_SELF("_getresultset", parameters, collection, connection, unique);
 	RETURN_MM();
 }
 
@@ -1736,7 +1736,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, find){
 	phalcon_call_method(connection, collection, "getconnection");
 	
 	unique = PHALCON_GLOBAL(z_false);
-	phalcon_call_self_p4(return_value, "_getresultset", parameters, collection, connection, unique);
+	PHALCON_RETURN_CALL_SELF("_getresultset", parameters, collection, connection, unique);
 	RETURN_MM();
 }
 
@@ -1782,7 +1782,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, count){
 	
 	PHALCON_INIT_VAR(connection);
 	phalcon_call_method(connection, collection, "getconnection");
-	phalcon_call_self_p3(return_value, "_getgroupresultset", parameters, collection, connection);
+	PHALCON_RETURN_CALL_SELF("_getgroupresultset", parameters, collection, connection);
 	RETURN_MM();
 }
 
@@ -2271,7 +2271,6 @@ PHP_METHOD(Phalcon_Mvc_Collection, execute){
 	phalcon_call_method(connection, collection, "getconnection");
 
 	unique = PHALCON_GLOBAL(z_true);
-	phalcon_call_self_p4(return_value, "_getresultset", parameters, collection, connection, unique);
+	PHALCON_RETURN_CALL_SELF("_getresultset", parameters, collection, connection, unique);
 	RETURN_MM();
 }
-

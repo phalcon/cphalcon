@@ -472,56 +472,6 @@ int phalcon_call_class_method_params(zval **return_value_ptr, const zend_class_e
 }
 
 /**
- * Call single static function that requires an arbitrary number of parameters
- */
-int phalcon_call_static_func_params(zval **return_value_ptr, const char *class_name, uint class_length, const char *method_name, uint method_length TSRMLS_DC, int param_count, ...)
-{
-	zend_class_entry *ce = zend_fetch_class(class_name, class_length, ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
-	va_list ap;
-	int status;
-
-	if (!ce) {
-		return FAILURE;
-	}
-
-	va_start(ap, param_count);
-	status = phalcon_call_class_method_vparams(return_value_ptr, ce, NULL, method_name, method_length, param_count, ap TSRMLS_CC);
-	va_end(ap);
-
-	return status;
-}
-
-/**
- * Call self-class static function which requires parameters
- */
-int phalcon_call_self_func_params(zval *return_value, zval **return_value_ptr, const char *method_name, uint method_len TSRMLS_DC, int param_count, ...)
-{
-	zval *rv = NULL, **rvp = return_value_ptr ? return_value_ptr : &rv;
-	int status;
-	va_list ap;
-
-	if (!EG(scope)) {
-		zend_error(E_ERROR, "Cannot access self:: when no class scope is active");
-		return FAILURE;
-	}
-
-	va_start(ap, param_count);
-	status = phalcon_call_class_method_vparams(rvp, EG(scope), NULL, method_name, method_len, param_count, ap TSRMLS_CC);
-	va_end(ap);
-
-	if (rv) {
-		if (return_value) {
-			COPY_PZVAL_TO_ZVAL(*return_value, rv);
-		}
-		else {
-			zval_ptr_dtor(&rv);
-		}
-	}
-
-	return status;
-}
-
-/**
  * Replaces call_user_func_array avoiding function lookup
  * This function does not return FAILURE if an exception has ocurred
  */
