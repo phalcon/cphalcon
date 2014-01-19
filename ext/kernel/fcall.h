@@ -25,6 +25,19 @@
 #include <Zend/zend_hash.h>
 #include <Zend/zend.h>
 
+/**
+ * @addtogroup callfuncs Calling Functions
+ * @{
+ */
+
+/**
+ * @brief Invokes a function @a func_name and returns if the function fails due to an error or exception.
+ * @param[out] return_value_ptr function return value (<tt>zval**</tt>); can be @c NULL (in this case it is assumed that the caller is not interested in the return value)
+ * @param[in] func_name name of the function to call (<tt>const char*</tt>)
+ * @param arguments function arguments (<tt>zval*</tt>)
+ * @note If the call fails or an exception occurs, the memory frame is @em not restored.
+ * In this case if @c return_value_ptr is not @c NULL, <tt>*return_value_ptr</tt> is set to @c NULL
+ */
 #define PHALCON_CALL_FUNCTIONW(return_value_ptr, func_name, ...) \
 	do { \
 		zval *params_[] = {__VA_ARGS__}; \
@@ -36,6 +49,14 @@
 		} \
 	} while (0)
 
+/**
+ * @brief Invokes a function @a func_name and returns if the function fails due to an error or exception.
+ * @param[out] return_value_ptr function return value (<tt>zval**</tt>); can be @c NULL (in this case it is assumed that the caller is not interested in the return value)
+ * @param[in] func_name name of the function to call (<tt>const char*</tt>)
+ * @param arguments function arguments (<tt>zval*</tt>)
+ * @note If the call fails or an exception occurs, the memory frame is restored.
+ * In this case if @c return_value_ptr is not @c NULL, <tt>*return_value_ptr</tt> is set to @c NULL
+ */
 #define PHALCON_CALL_FUNCTION(return_value_ptr, func_name, ...) \
 	do { \
 		zval *params_[] = {__VA_ARGS__}; \
@@ -47,6 +68,14 @@
 		} \
 	} while (0)
 
+/**
+ * @brief Invokes a function @a func_name and returns if the function fails due to an error or exception.
+ * @param[in] func_name name of the function to call (<tt>const char*</tt>)
+ * @param arguments function arguments (<tt>zval*</tt>)
+ * @note If the call fails or an exception occurs, the memory frame is restored.
+ * In this case if @c return_value_ptr is not @c NULL, <tt>*return_value_ptr</tt> is set to @c NULL
+ * @details This is equivalent to <tt>PHALCON_CALL_FUNCTION(NULL, func_name, parameters)</tt>
+ */
 #define PHALCON_CALL_FUNCTION_NORET(func_name, ...) \
 	do { \
 		zval *params_[] = {__VA_ARGS__}; \
@@ -58,6 +87,15 @@
 		} \
 	} while (0)
 
+/**
+ * @brief Invokes a function @a func_name passing @c return_value and @c return_value_ptr
+ * as return value address; returns if the function fails due to an error or exception.
+ * @param[in] func_name name of the function to call (<tt>const char*</tt>)
+ * @param arguments function arguments (<tt>zval*</tt>)
+ * @note If the call fails or an exception occurs, the memory frame is @em not restored.
+ * @li if @c return_value_ptr is not @c NULL, @c *return_value_ptr is initialized with @c ALLOC_INIT_ZVAL
+ * @li otherwise, if @c return_value is not @c NULL, @c return_value and @c *return_value are not changed
+ */
 #define PHALCON_RETURN_CALL_FUNCTIONW(func_name, ...) \
 	do { \
 		zval *params_[] = {__VA_ARGS__}; \
@@ -69,6 +107,15 @@
 		} \
 	} while (0)
 
+/**
+ * @brief Invokes a function @a func_name passing @c return_value and @c return_value_ptr
+ * as return value address; returns if the function fails due to an error or exception.
+ * @param[in] func_name name of the function to call (<tt>const char*</tt>)
+ * @param arguments function arguments (<tt>zval*</tt>)
+ * @note If the call fails or an exception occurs, the memory frame is restored.
+ * @li if @c return_value_ptr is not @c NULL, @c *return_value_ptr is initialized with @c ALLOC_INIT_ZVAL
+ * @li otherwise, if @c return_value is not @c NULL, @c return_value and @c *return_value are not changed
+ */
 #define PHALCON_RETURN_CALL_FUNCTION(func_name, ...) \
 	do { \
 		zval *params_[] = {__VA_ARGS__}; \
@@ -79,6 +126,10 @@
 			RETURN_MM_ON_FAILURE(phalcon_return_call_function(return_value, return_value_ptr, func_name, strlen(func_name), sizeof(params_)/sizeof(zval*), params_ TSRMLS_CC)); \
 		} \
 	} while (0)
+
+/**
+ * @}
+ */
 
 #define PHALCON_CALL_METHOD(return_value, return_value_ptr, object, method, key, nparams, ...) \
 	do { \
@@ -446,6 +497,15 @@ int phalcon_call_func_params(zval **return_value_ptr, const char *func_name, uin
 int phalcon_call_func_vparams(zval **return_value_ptr, const char *func_name, uint func_length, int param_count, va_list ap TSRMLS_DC) PHALCON_ATTR_WARN_UNUSED_RESULT;
 int phalcon_call_func_aparams(zval **return_value_ptr, const char *func_name, uint func_length, uint param_count, zval **params TSRMLS_DC) PHALCON_ATTR_WARN_UNUSED_RESULT;
 
+/**
+ * @ingroup callfuncs
+ * @brief Calls a function @a func
+ * @param return_value Calling function's @c return_value
+ * @param return_value_ptr Calling function's @c return_value_ptr
+ * @param func Function name
+ * @param func_len Length of @a func (<tt>strlen(func)</tt>)
+ * @param param_count Number of parameters
+ */
 PHALCON_ATTR_WARN_UNUSED_RESULT static inline int phalcon_return_call_function(zval *return_value, zval **return_value_ptr, const char *func, uint func_len, uint param_count, zval **params TSRMLS_DC)
 {
 	zval *rv = NULL, **rvp = return_value_ptr ? return_value_ptr : &rv;
@@ -597,13 +657,21 @@ PHALCON_ATTR_WARN_UNUSED_RESULT static inline int phalcon_call_user_func_array(z
 	return (EG(exception)) ? FAILURE : status;
 }
 
-/** Check constructors */
+/**
+ * @brief Checks if the class defines a constructor
+ * @param ce Class entry
+ * @return Whether the class defines a constructor
+ */
 int phalcon_has_constructor_ce(const zend_class_entry *ce) PHALCON_ATTR_PURE PHALCON_ATTR_NONNULL;
 
 /**
- * Check if an object has a constructor
+ * @brief Checks if an object has a constructor
+ * @param object Object to check
+ * @return Whether @a object has a constructor
+ * @retval 0 @a object is not an object or does not have a constructor
+ * @retval 1 @a object has a constructor
  */
-PHALCON_ATTR_WARN_UNUSED_RESULT static inline int phalcon_has_constructor(const zval *object TSRMLS_DC)
+PHALCON_ATTR_WARN_UNUSED_RESULT PHALCON_ATTR_NONNULL static inline int phalcon_has_constructor(const zval *object TSRMLS_DC)
 {
 	return Z_TYPE_P(object) == IS_OBJECT ? phalcon_has_constructor_ce(Z_OBJCE_P(object)) : 0;
 }
