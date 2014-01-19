@@ -3,7 +3,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2013 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -17,15 +17,20 @@
   +------------------------------------------------------------------------+
 */
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
-
-#include "php.h"
-#include "php_phalcon.h"
-#include "phalcon.h"
-
+#include "http/response/headersinterface.h"
 #include "kernel/main.h"
+
+zend_class_entry *phalcon_http_response_headersinterface_ce;
+
+static const zend_function_entry phalcon_http_response_headersinterface_method_entry[] = {
+	PHP_ABSTRACT_ME(Phalcon_Http_Response_HeadersInterface, set, arginfo_phalcon_http_response_headersinterface_set)
+	PHP_ABSTRACT_ME(Phalcon_Http_Response_HeadersInterface, get, arginfo_phalcon_http_response_headersinterface_get)
+	PHP_ABSTRACT_ME(Phalcon_Http_Response_HeadersInterface, setRaw, arginfo_phalcon_http_response_headersinterface_setraw)
+	PHP_ABSTRACT_ME(Phalcon_Http_Response_HeadersInterface, send, NULL)
+	PHP_ABSTRACT_ME(Phalcon_Http_Response_HeadersInterface, reset, NULL)
+	PHP_ABSTRACT_ME(Phalcon_Http_Response_HeadersInterface, toArray, NULL)
+	PHP_FE_END
+};
 
 /**
  * Phalcon\Http\Response\HeadersInterface initializer
@@ -74,10 +79,16 @@ PHALCON_DOC_METHOD(Phalcon_Http_Response_HeadersInterface, send);
 PHALCON_DOC_METHOD(Phalcon_Http_Response_HeadersInterface, reset);
 
 /**
+ * Returns the current headers as an array
+ *
+ * @return array
+ */
+PHALCON_DOC_METHOD(Phalcon_Http_Response_HeadersInterface, toArray);
+
+/**
  * Restore a Phalcon\Http\Response\Headers object
  *
  * @param array $data
  * @return Phalcon\Http\Response\HeadersInterface
  */
 PHALCON_DOC_METHOD(Phalcon_Http_Response_HeadersInterface, __set_state);
-

@@ -4,7 +4,7 @@
 	+------------------------------------------------------------------------+
 	| Phalcon Framework                                                      |
 	+------------------------------------------------------------------------+
-	| Copyright (c) 2011-2013 Phalcon Team (http://www.phalconphp.com)       |
+	| Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
 	+------------------------------------------------------------------------+
 	| This source file is subject to the New BSD License that is bundled     |
 	| with this package in the file docs/LICENSE.txt.                        |
@@ -21,6 +21,9 @@
 class CryptTest extends PHPUnit_Framework_TestCase
 {
 
+	/**
+	 * @requires extension mcrypt
+	 */
 	public function testEncryption()
 	{
 
@@ -49,6 +52,9 @@ class CryptTest extends PHPUnit_Framework_TestCase
 		}
 	}
 
+	/**
+	 * @requires extension mcrypt
+	 */
 	public function testPadding()
 	{
 		$texts = array('');
@@ -80,5 +86,25 @@ class CryptTest extends PHPUnit_Framework_TestCase
 				}
 			}
 		}
+	}
+
+	/**
+	 * @requires extension mcrypt
+	 */
+	public function testEncryptBase64()
+	{
+		$crypt = new \Phalcon\Crypt();
+		$crypt->setPadding(\Phalcon\Crypt::PADDING_ANSI_X_923);
+
+		$key = 'phalcon';
+		$text = 'https://github.com/phalcon/cphalcon/issues?state=open';
+
+		$encrypted = $crypt->encryptBase64($text, $key);
+		$actual = $crypt->decryptBase64($encrypted, $key);
+		$this->assertEquals($actual, $text);
+
+		$encrypted = $crypt->encryptBase64($text, $key, TRUE);
+		$actual = $crypt->decryptBase64($encrypted, $key, TRUE);
+		$this->assertEquals($actual, $text);
 	}
 }

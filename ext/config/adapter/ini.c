@@ -3,7 +3,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2013 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -17,28 +17,21 @@
   +------------------------------------------------------------------------+
 */
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
-
-#include "php.h"
 #include "php_phalcon.h"
-#include "phalcon.h"
 
-#include "Zend/zend_operators.h"
-#include "Zend/zend_exceptions.h"
-#include "Zend/zend_interfaces.h"
+#include "config/adapter/ini.h"
+#include "config/exception.h"
+#include "pconfig.h"
 
 #include "kernel/main.h"
 #include "kernel/memory.h"
-
 #include "kernel/fcall.h"
-#include "kernel/operators.h"
 #include "kernel/concat.h"
 #include "kernel/exception.h"
-#include "kernel/hash.h"
 #include "kernel/string.h"
 #include "kernel/array.h"
+#include "kernel/hash.h"
+#include "kernel/operators.h"
 
 /**
  * Phalcon\Config\Adapter\Ini
@@ -70,6 +63,16 @@
  *</code>
  *
  */
+zend_class_entry *phalcon_config_adapter_ini_ce;
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_config_adapter_ini___construct, 0, 0, 1)
+	ZEND_ARG_INFO(0, filePath)
+ZEND_END_ARG_INFO()
+
+static const zend_function_entry phalcon_config_adapter_ini_method_entry[] = {
+	PHP_ME(Phalcon_Config_Adapter_Ini, __construct, arginfo_phalcon_config_adapter_ini___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
+	PHP_FE_END
+};
 
 static inline void phalcon_config_adapter_ini_update_zval_directive(zval **arr, zval *section, zval *directive, zval **value, int flags TSRMLS_DC) {
 	zval *temp1 = NULL, *temp2 = NULL, *index = NULL;
@@ -123,7 +126,7 @@ static inline void phalcon_config_adapter_ini_update_zval_directive(zval **arr, 
  */
 PHALCON_INIT_CLASS(Phalcon_Config_Adapter_Ini){
 
-	PHALCON_REGISTER_CLASS_EX(Phalcon\\Config\\Adapter, Ini, config_adapter_ini, "phalcon\\config", phalcon_config_adapter_ini_method_entry, 0);
+	PHALCON_REGISTER_CLASS_EX(Phalcon\\Config\\Adapter, Ini, config_adapter_ini, phalcon_config_ce, phalcon_config_adapter_ini_method_entry, 0);
 
 	return SUCCESS;
 }
@@ -135,33 +138,30 @@ PHALCON_INIT_CLASS(Phalcon_Config_Adapter_Ini){
  */
 PHP_METHOD(Phalcon_Config_Adapter_Ini, __construct){
 
-	zval *file_path, *process_sections, *ini_config;
-	zval *exception_message, *config, *directives = NULL;
+	zval **file_path, *ini_config;
+	zval *config, *directives = NULL;
 	zval *section = NULL, *value = NULL, *key = NULL, *directive_parts = NULL;
 	HashTable *ah0, *ah1;
 	HashPosition hp0, hp1;
 	zval **hd;
 
+	phalcon_fetch_params_ex(1, 0, &file_path);
+	PHALCON_ENSURE_IS_STRING(file_path);
+
 	PHALCON_MM_GROW();
 
-	phalcon_fetch_params(1, 1, 0, &file_path);
-	
-	PHALCON_INIT_VAR(process_sections);
-	ZVAL_BOOL(process_sections, 1);
-	
 	/** 
 	 * Use the standard parse_ini_file
 	 */
-	PHALCON_INIT_VAR(ini_config);
-	phalcon_call_func_p2(ini_config, "parse_ini_file", file_path, process_sections);
+	PHALCON_OBS_VAR(ini_config);
+	PHALCON_CALL_FUNCTION(&ini_config, "parse_ini_file", *file_path, PHALCON_GLOBAL(z_true));
 	
 	/** 
 	 * Check if the file had errors
 	 */
 	if (PHALCON_IS_FALSE(ini_config)) {
-		PHALCON_INIT_VAR(exception_message);
-		PHALCON_CONCAT_SVS(exception_message, "Configuration file ", file_path, " can't be loaded");
-		PHALCON_THROW_EXCEPTION_ZVAL(phalcon_config_exception_ce, exception_message);
+		zend_throw_exception_ex(phalcon_config_exception_ce, 0 TSRMLS_CC, "Configuration file '%s' cannot be loaded", Z_STRVAL_PP(file_path));
+		PHALCON_MM_RESTORE();
 		return;
 	}
 	
@@ -215,8 +215,7 @@ PHP_METHOD(Phalcon_Config_Adapter_Ini, __construct){
 	/** 
 	 * Calls the Phalcon\Config constructor
 	 */
-	PHALCON_CALL_PARENT_PARAMS_1_NORETURN(this_ptr, "Phalcon\\Config\\Adapter\\Ini", "__construct", config);
+	phalcon_call_parent_p1_noret(this_ptr, phalcon_config_adapter_ini_ce, "__construct", config);
 	
 	PHALCON_MM_RESTORE();
 }
-

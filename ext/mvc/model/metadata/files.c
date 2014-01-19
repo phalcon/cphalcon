@@ -3,7 +3,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2013 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -17,21 +17,13 @@
   +------------------------------------------------------------------------+
 */
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
-
-#include "php.h"
-#include "php_phalcon.h"
-#include "phalcon.h"
-
-#include "Zend/zend_operators.h"
-#include "Zend/zend_exceptions.h"
-#include "Zend/zend_interfaces.h"
+#include "mvc/model/metadata/files.h"
+#include "mvc/model/metadata.h"
+#include "mvc/model/metadatainterface.h"
+#include "mvc/model/exception.h"
 
 #include "kernel/main.h"
 #include "kernel/memory.h"
-
 #include "kernel/array.h"
 #include "kernel/object.h"
 #include "kernel/fcall.h"
@@ -52,14 +44,29 @@
  * ));
  *</code>
  */
+zend_class_entry *phalcon_mvc_model_metadata_files_ce;
 
+PHP_METHOD(Phalcon_Mvc_Model_MetaData_Files, __construct);
+PHP_METHOD(Phalcon_Mvc_Model_MetaData_Files, read);
+PHP_METHOD(Phalcon_Mvc_Model_MetaData_Files, write);
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_metadata_files___construct, 0, 0, 0)
+	ZEND_ARG_INFO(0, options)
+ZEND_END_ARG_INFO()
+
+static const zend_function_entry phalcon_mvc_model_metadata_files_method_entry[] = {
+	PHP_ME(Phalcon_Mvc_Model_MetaData_Files, __construct, arginfo_phalcon_mvc_model_metadata_files___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
+	PHP_ME(Phalcon_Mvc_Model_MetaData_Files, read, arginfo_phalcon_mvc_model_metadatainterface_read, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Model_MetaData_Files, write, arginfo_phalcon_mvc_model_metadatainterface_write, ZEND_ACC_PUBLIC)
+	PHP_FE_END
+};
 
 /**
  * Phalcon\Mvc\Model\MetaData\Files initializer
  */
 PHALCON_INIT_CLASS(Phalcon_Mvc_Model_MetaData_Files){
 
-	PHALCON_REGISTER_CLASS_EX(Phalcon\\Mvc\\Model\\MetaData, Files, mvc_model_metadata_files, "phalcon\\mvc\\model\\metadata", phalcon_mvc_model_metadata_files_method_entry, 0);
+	PHALCON_REGISTER_CLASS_EX(Phalcon\\Mvc\\Model\\MetaData, Files, mvc_model_metadata_files, phalcon_mvc_model_metadata_ce, phalcon_mvc_model_metadata_files_method_entry, 0);
 
 	zend_declare_property_string(phalcon_mvc_model_metadata_files_ce, SL("_metaDataDir"), "./", ZEND_ACC_PROTECTED TSRMLS_CC);
 
@@ -82,13 +89,11 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Files, __construct){
 	phalcon_fetch_params(1, 0, 1, &options);
 	
 	if (!options) {
-		PHALCON_INIT_VAR(options);
+		options = PHALCON_GLOBAL(z_null);
 	}
 	
 	if (Z_TYPE_P(options) == IS_ARRAY) { 
-		if (phalcon_array_isset_string(options, SS("metaDataDir"))) {
-			PHALCON_OBS_VAR(meta_data_dir);
-			phalcon_array_fetch_string(&meta_data_dir, options, SL("metaDataDir"), PH_NOISY);
+		if (phalcon_array_isset_string_fetch(&meta_data_dir, options, SS("metaDataDir"))) {
 			phalcon_update_property_this(this_ptr, SL("_metaDataDir"), meta_data_dir TSRMLS_CC);
 		}
 	}
@@ -130,7 +135,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Files, read){
 	if (phalcon_file_exists(path TSRMLS_CC) == SUCCESS) {
 		PHALCON_INIT_VAR(data);
 		if (phalcon_require_ret(data, path TSRMLS_CC) == FAILURE) {
-			return;
+			RETURN_MM();
 		}
 		RETURN_CCTOR(data);
 	}
@@ -147,7 +152,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Files, read){
 PHP_METHOD(Phalcon_Mvc_Model_MetaData_Files, write){
 
 	zval *key, *data, *separator, *meta_data_dir, *virtual_key;
-	zval *path, *to_string, *export, *php_export, *status;
+	zval *path, *export, *php_export, *status;
 
 	PHALCON_MM_GROW();
 
@@ -165,11 +170,8 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Files, write){
 	PHALCON_INIT_VAR(path);
 	PHALCON_CONCAT_VVS(path, meta_data_dir, virtual_key, ".php");
 	
-	PHALCON_INIT_VAR(to_string);
-	ZVAL_BOOL(to_string, 1);
-	
-	PHALCON_INIT_VAR(export);
-	phalcon_call_func_p2(export, "var_export", data, to_string);
+	PHALCON_OBS_VAR(export);
+	PHALCON_CALL_FUNCTION(&export, "var_export", data, PHALCON_GLOBAL(z_true));
 	
 	PHALCON_INIT_VAR(php_export);
 	PHALCON_CONCAT_SVS(php_export, "<?php return ", export, "; ");
@@ -183,4 +185,3 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Files, write){
 	
 	PHALCON_MM_RESTORE();
 }
-

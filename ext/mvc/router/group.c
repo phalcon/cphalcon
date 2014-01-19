@@ -3,7 +3,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2013 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -17,25 +17,18 @@
   +------------------------------------------------------------------------+
 */
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
-
-#include "php.h"
-#include "php_phalcon.h"
-#include "phalcon.h"
-
-#include "Zend/zend_operators.h"
-#include "Zend/zend_exceptions.h"
-#include "Zend/zend_interfaces.h"
+#include "mvc/router/group.h"
+#include "mvc/router/route.h"
 
 #include "kernel/main.h"
 #include "kernel/memory.h"
-
+#include "kernel/string.h"
 #include "kernel/object.h"
 #include "kernel/fcall.h"
 #include "kernel/concat.h"
 #include "kernel/array.h"
+
+#include "interned-strings.h"
 
 /**
  * Phalcon\Mvc\Router\Group
@@ -75,7 +68,130 @@
  *</code>
  *
  */
+zend_class_entry *phalcon_mvc_router_group_ce;
 
+PHP_METHOD(Phalcon_Mvc_Router_Group, __construct);
+PHP_METHOD(Phalcon_Mvc_Router_Group, setHostname);
+PHP_METHOD(Phalcon_Mvc_Router_Group, getHostname);
+PHP_METHOD(Phalcon_Mvc_Router_Group, setPrefix);
+PHP_METHOD(Phalcon_Mvc_Router_Group, getPrefix);
+PHP_METHOD(Phalcon_Mvc_Router_Group, beforeMatch);
+PHP_METHOD(Phalcon_Mvc_Router_Group, getBeforeMatch);
+PHP_METHOD(Phalcon_Mvc_Router_Group, setPaths);
+PHP_METHOD(Phalcon_Mvc_Router_Group, getPaths);
+PHP_METHOD(Phalcon_Mvc_Router_Group, getRoutes);
+PHP_METHOD(Phalcon_Mvc_Router_Group, _addRoute);
+PHP_METHOD(Phalcon_Mvc_Router_Group, add);
+PHP_METHOD(Phalcon_Mvc_Router_Group, addGet);
+PHP_METHOD(Phalcon_Mvc_Router_Group, addPost);
+PHP_METHOD(Phalcon_Mvc_Router_Group, addPut);
+PHP_METHOD(Phalcon_Mvc_Router_Group, addPatch);
+PHP_METHOD(Phalcon_Mvc_Router_Group, addDelete);
+PHP_METHOD(Phalcon_Mvc_Router_Group, addOptions);
+PHP_METHOD(Phalcon_Mvc_Router_Group, addHead);
+PHP_METHOD(Phalcon_Mvc_Router_Group, clear);
+PHP_METHOD(Phalcon_Mvc_Router_Group, convert);
+PHP_METHOD(Phalcon_Mvc_Router_Group, getConverters);
+PHP_METHOD(Phalcon_Mvc_Router_Group, setName);
+PHP_METHOD(Phalcon_Mvc_Router_Group, getName);
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_router_group___construct, 0, 0, 0)
+	ZEND_ARG_INFO(0, paths)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_router_group_sethostname, 0, 0, 1)
+	ZEND_ARG_INFO(0, hostname)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_router_group_setprefix, 0, 0, 1)
+	ZEND_ARG_INFO(0, prefix)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_router_group_beforematch, 0, 0, 1)
+	ZEND_ARG_INFO(0, beforeMatch)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_router_group_setpaths, 0, 0, 1)
+	ZEND_ARG_INFO(0, paths)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_router_group_add, 0, 0, 1)
+	ZEND_ARG_INFO(0, pattern)
+	ZEND_ARG_INFO(0, paths)
+	ZEND_ARG_INFO(0, httpMethods)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_router_group_addget, 0, 0, 1)
+	ZEND_ARG_INFO(0, pattern)
+	ZEND_ARG_INFO(0, paths)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_router_group_addpost, 0, 0, 1)
+	ZEND_ARG_INFO(0, pattern)
+	ZEND_ARG_INFO(0, paths)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_router_group_addput, 0, 0, 1)
+	ZEND_ARG_INFO(0, pattern)
+	ZEND_ARG_INFO(0, paths)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_router_group_addpatch, 0, 0, 1)
+	ZEND_ARG_INFO(0, pattern)
+	ZEND_ARG_INFO(0, paths)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_router_group_adddelete, 0, 0, 1)
+	ZEND_ARG_INFO(0, pattern)
+	ZEND_ARG_INFO(0, paths)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_router_group_addoptions, 0, 0, 1)
+	ZEND_ARG_INFO(0, pattern)
+	ZEND_ARG_INFO(0, paths)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_router_group_addhead, 0, 0, 1)
+	ZEND_ARG_INFO(0, pattern)
+	ZEND_ARG_INFO(0, paths)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_router_group_convert, 0, 0, 2)
+	ZEND_ARG_INFO(0, name)
+	ZEND_ARG_INFO(0, converter)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_router_group_setname, 0, 0, 1)
+	ZEND_ARG_INFO(0, name)
+ZEND_END_ARG_INFO()
+
+static const zend_function_entry phalcon_mvc_router_group_method_entry[] = {
+	PHP_ME(Phalcon_Mvc_Router_Group, __construct, arginfo_phalcon_mvc_router_group___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
+	PHP_ME(Phalcon_Mvc_Router_Group, setHostname, arginfo_phalcon_mvc_router_group_sethostname, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Router_Group, getHostname, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Router_Group, setPrefix, arginfo_phalcon_mvc_router_group_setprefix, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Router_Group, getPrefix, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Router_Group, beforeMatch, arginfo_phalcon_mvc_router_group_beforematch, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Router_Group, getBeforeMatch, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Router_Group, setPaths, arginfo_phalcon_mvc_router_group_setpaths, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Router_Group, getPaths, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Router_Group, getRoutes, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Router_Group, _addRoute, NULL, ZEND_ACC_PROTECTED)
+	PHP_ME(Phalcon_Mvc_Router_Group, add, arginfo_phalcon_mvc_router_group_add, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Router_Group, addGet, arginfo_phalcon_mvc_router_group_addget, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Router_Group, addPost, arginfo_phalcon_mvc_router_group_addpost, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Router_Group, addPut, arginfo_phalcon_mvc_router_group_addput, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Router_Group, addPatch, arginfo_phalcon_mvc_router_group_addpatch, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Router_Group, addDelete, arginfo_phalcon_mvc_router_group_adddelete, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Router_Group, addOptions, arginfo_phalcon_mvc_router_group_addoptions, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Router_Group, addHead, arginfo_phalcon_mvc_router_group_addhead, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Router_Group, clear, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Router_Group, convert, arginfo_phalcon_mvc_router_group_convert, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Router_Group, getConverters, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Router_Group, setName, arginfo_phalcon_mvc_router_group_setname, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Router_Group, getName, NULL, ZEND_ACC_PUBLIC)
+	PHP_FE_END
+};
 
 /**
  * Phalcon\Mvc\Router\Group initializer
@@ -89,6 +205,8 @@ PHALCON_INIT_CLASS(Phalcon_Mvc_Router_Group){
 	zend_declare_property_null(phalcon_mvc_router_group_ce, SL("_paths"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_mvc_router_group_ce, SL("_routes"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_mvc_router_group_ce, SL("_beforeMatch"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_mvc_router_group_ce, SL("_converters"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_mvc_router_group_ce, SL("_name"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
 	return SUCCESS;
 }
@@ -102,26 +220,19 @@ PHP_METHOD(Phalcon_Mvc_Router_Group, __construct){
 
 	zval *paths = NULL;
 
-	PHALCON_MM_GROW();
-
-	phalcon_fetch_params(1, 0, 1, &paths);
+	phalcon_fetch_params(0, 0, 1, &paths);
 	
 	if (!paths) {
-		PHALCON_INIT_VAR(paths);
+		paths = PHALCON_GLOBAL(z_null);
 	}
 	
-	if (Z_TYPE_P(paths) == IS_ARRAY) { 
+	if (Z_TYPE_P(paths) == IS_ARRAY || Z_TYPE_P(paths) == IS_STRING) {
 		phalcon_update_property_this(this_ptr, SL("_paths"), paths TSRMLS_CC);
-	} else {
-		if (Z_TYPE_P(paths) == IS_STRING) {
-			phalcon_update_property_this(this_ptr, SL("_paths"), paths TSRMLS_CC);
-		}
 	}
+
 	if (phalcon_method_exists_ex(this_ptr, SS("initialize") TSRMLS_CC) == SUCCESS) {
-		phalcon_call_method_p1_noret(this_ptr, "initialize", paths);
+		RETURN_ON_FAILURE(phalcon_call_method_params(NULL, NULL, this_ptr, SL("initialize"), zend_inline_hash_func(SS("initialize")) TSRMLS_CC, 1, paths));
 	}
-	
-	PHALCON_MM_RESTORE();
 }
 
 /**
@@ -254,18 +365,18 @@ PHP_METHOD(Phalcon_Mvc_Router_Group, getRoutes){
 PHP_METHOD(Phalcon_Mvc_Router_Group, _addRoute){
 
 	zval *pattern, *paths = NULL, *http_methods = NULL, *prefix, *prefix_pattern;
-	zval *default_paths, *merged_paths = NULL, *route;
+	zval *default_paths, *merged_paths = NULL;
 
 	PHALCON_MM_GROW();
 
 	phalcon_fetch_params(1, 1, 2, &pattern, &paths, &http_methods);
 	
 	if (!paths) {
-		PHALCON_INIT_VAR(paths);
+		paths = PHALCON_GLOBAL(z_null);
 	}
 	
 	if (!http_methods) {
-		PHALCON_INIT_VAR(http_methods);
+		http_methods = PHALCON_GLOBAL(z_null);
 	}
 	
 	PHALCON_OBS_VAR(prefix);
@@ -277,36 +388,31 @@ PHP_METHOD(Phalcon_Mvc_Router_Group, _addRoute){
 	PHALCON_INIT_VAR(prefix_pattern);
 	PHALCON_CONCAT_VV(prefix_pattern, prefix, pattern);
 	
-	PHALCON_OBS_VAR(default_paths);
-	phalcon_read_property_this(&default_paths, this_ptr, SL("_paths"), PH_NOISY_CC);
+	default_paths = phalcon_fetch_nproperty_this(this_ptr, SL("_paths"), PH_NOISY_CC);
 	
 	/** 
 	 * Check if the paths need to be merged with current paths
 	 */
-	if (Z_TYPE_P(default_paths) == IS_ARRAY) { 
-		if (Z_TYPE_P(paths) == IS_ARRAY) { 
-			/** 
-			 * Merge the paths with the default paths
-			 */
-			PHALCON_INIT_VAR(merged_paths);
-			phalcon_fast_array_merge(merged_paths, &default_paths, &paths TSRMLS_CC);
-		} else {
-			PHALCON_CPY_WRT(merged_paths, default_paths);
-		}
+	if (Z_TYPE_P(default_paths) == IS_ARRAY && Z_TYPE_P(paths) == IS_ARRAY) {
+		/**
+		 * Merge the paths with the default paths
+		 */
+		PHALCON_INIT_VAR(merged_paths);
+		phalcon_fast_array_merge(merged_paths, &default_paths, &paths TSRMLS_CC);
 	} else {
-		PHALCON_CPY_WRT(merged_paths, paths);
+		merged_paths = paths;
 	}
 	
 	/** 
 	 * Every route is internally stored as a Phalcon\Mvc\Router\Route
 	 */
-	PHALCON_INIT_VAR(route);
-	object_init_ex(route, phalcon_mvc_router_route_ce);
-	phalcon_call_method_p3_noret(route, "__construct", prefix_pattern, merged_paths, http_methods);
+	object_init_ex(return_value, phalcon_mvc_router_route_ce);
+	phalcon_call_method_p3_noret(return_value, "__construct", prefix_pattern, merged_paths, http_methods);
+	phalcon_call_method_p1_noret(return_value, "setgroup", this_ptr);
 	
-	phalcon_update_property_array_append(this_ptr, SL("_routes"), route TSRMLS_CC);
+	phalcon_update_property_array_append(this_ptr, SL("_routes"), return_value TSRMLS_CC);
 	
-	RETURN_CTOR(route);
+	PHALCON_MM_RESTORE();
 }
 
 /**
@@ -330,15 +436,36 @@ PHP_METHOD(Phalcon_Mvc_Router_Group, add){
 	phalcon_fetch_params(1, 1, 2, &pattern, &paths, &http_methods);
 	
 	if (!paths) {
-		PHALCON_INIT_VAR(paths);
+		paths = PHALCON_GLOBAL(z_null);
 	}
 	
 	if (!http_methods) {
-		PHALCON_INIT_VAR(http_methods);
+		http_methods = PHALCON_GLOBAL(z_null);
 	}
 	
 	phalcon_call_method_p3(return_value, this_ptr, "_addroute", pattern, paths, http_methods);
 	RETURN_MM();
+}
+
+static void phalcon_mvc_router_group_add_helper(INTERNAL_FUNCTION_PARAMETERS, const char *method)
+{
+	zval *pattern, *paths = NULL, *http_method;
+
+	phalcon_fetch_params(0, 1, 1, &pattern, &paths);
+
+	if (!paths) {
+		paths = PHALCON_GLOBAL(z_null);
+	}
+
+	PHALCON_ALLOC_GHOST_ZVAL(http_method);
+	PHALCON_ZVAL_MAYBE_INTERNED_STRING(http_method, method);
+	if (FAILURE == phalcon_call_method_params(return_value, return_value_ptr, getThis(), SL("_addroute"), zend_inline_hash_func(SS("_addroute")) TSRMLS_CC, 3, pattern, paths, http_method)) {
+		if (return_value_ptr && EG(exception)) {
+			ALLOC_INIT_ZVAL(*return_value_ptr);
+		}
+
+		return;
+	}
 }
 
 /**
@@ -350,20 +477,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Group, add){
  */
 PHP_METHOD(Phalcon_Mvc_Router_Group, addGet){
 
-	zval *pattern, *paths = NULL, *method;
-
-	PHALCON_MM_GROW();
-
-	phalcon_fetch_params(1, 1, 1, &pattern, &paths);
-	
-	if (!paths) {
-		PHALCON_INIT_VAR(paths);
-	}
-	
-	PHALCON_INIT_VAR(method);
-	ZVAL_STRING(method, "GET", 1);
-	phalcon_call_method_p3(return_value, this_ptr, "_addroute", pattern, paths, method);
-	RETURN_MM();
+	phalcon_mvc_router_group_add_helper(INTERNAL_FUNCTION_PARAM_PASSTHRU, phalcon_interned_GET);
 }
 
 /**
@@ -375,20 +489,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Group, addGet){
  */
 PHP_METHOD(Phalcon_Mvc_Router_Group, addPost){
 
-	zval *pattern, *paths = NULL, *method;
-
-	PHALCON_MM_GROW();
-
-	phalcon_fetch_params(1, 1, 1, &pattern, &paths);
-	
-	if (!paths) {
-		PHALCON_INIT_VAR(paths);
-	}
-	
-	PHALCON_INIT_VAR(method);
-	ZVAL_STRING(method, "POST", 1);
-	phalcon_call_method_p3(return_value, this_ptr, "_addroute", pattern, paths, method);
-	RETURN_MM();
+	phalcon_mvc_router_group_add_helper(INTERNAL_FUNCTION_PARAM_PASSTHRU, phalcon_interned_POST);
 }
 
 /**
@@ -400,20 +501,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Group, addPost){
  */
 PHP_METHOD(Phalcon_Mvc_Router_Group, addPut){
 
-	zval *pattern, *paths = NULL, *method;
-
-	PHALCON_MM_GROW();
-
-	phalcon_fetch_params(1, 1, 1, &pattern, &paths);
-	
-	if (!paths) {
-		PHALCON_INIT_VAR(paths);
-	}
-	
-	PHALCON_INIT_VAR(method);
-	ZVAL_STRING(method, "PUT", 1);
-	phalcon_call_method_p3(return_value, this_ptr, "_addroute", pattern, paths, method);
-	RETURN_MM();
+	phalcon_mvc_router_group_add_helper(INTERNAL_FUNCTION_PARAM_PASSTHRU, phalcon_interned_PUT);
 }
 
 /**
@@ -425,20 +513,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Group, addPut){
  */
 PHP_METHOD(Phalcon_Mvc_Router_Group, addPatch){
 
-	zval *pattern, *paths = NULL, *method;
-
-	PHALCON_MM_GROW();
-
-	phalcon_fetch_params(1, 1, 1, &pattern, &paths);
-	
-	if (!paths) {
-		PHALCON_INIT_VAR(paths);
-	}
-	
-	PHALCON_INIT_VAR(method);
-	ZVAL_STRING(method, "PATCH", 1);
-	phalcon_call_method_p3(return_value, this_ptr, "_addroute", pattern, paths, method);
-	RETURN_MM();
+	phalcon_mvc_router_group_add_helper(INTERNAL_FUNCTION_PARAM_PASSTHRU, phalcon_interned_PATCH);
 }
 
 /**
@@ -450,20 +525,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Group, addPatch){
  */
 PHP_METHOD(Phalcon_Mvc_Router_Group, addDelete){
 
-	zval *pattern, *paths = NULL, *method;
-
-	PHALCON_MM_GROW();
-
-	phalcon_fetch_params(1, 1, 1, &pattern, &paths);
-	
-	if (!paths) {
-		PHALCON_INIT_VAR(paths);
-	}
-	
-	PHALCON_INIT_VAR(method);
-	ZVAL_STRING(method, "DELETE", 1);
-	phalcon_call_method_p3(return_value, this_ptr, "_addroute", pattern, paths, method);
-	RETURN_MM();
+	phalcon_mvc_router_group_add_helper(INTERNAL_FUNCTION_PARAM_PASSTHRU, phalcon_interned_DELETE);
 }
 
 /**
@@ -475,20 +537,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Group, addDelete){
  */
 PHP_METHOD(Phalcon_Mvc_Router_Group, addOptions){
 
-	zval *pattern, *paths = NULL, *method;
-
-	PHALCON_MM_GROW();
-
-	phalcon_fetch_params(1, 1, 1, &pattern, &paths);
-	
-	if (!paths) {
-		PHALCON_INIT_VAR(paths);
-	}
-	
-	PHALCON_INIT_VAR(method);
-	ZVAL_STRING(method, "OPTIONS", 1);
-	phalcon_call_method_p3(return_value, this_ptr, "_addroute", pattern, paths, method);
-	RETURN_MM();
+	phalcon_mvc_router_group_add_helper(INTERNAL_FUNCTION_PARAM_PASSTHRU, phalcon_interned_OPTIONS);
 }
 
 /**
@@ -500,20 +549,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Group, addOptions){
  */
 PHP_METHOD(Phalcon_Mvc_Router_Group, addHead){
 
-	zval *pattern, *paths = NULL, *method;
-
-	PHALCON_MM_GROW();
-
-	phalcon_fetch_params(1, 1, 1, &pattern, &paths);
-	
-	if (!paths) {
-		PHALCON_INIT_VAR(paths);
-	}
-	
-	PHALCON_INIT_VAR(method);
-	ZVAL_STRING(method, "HEAD", 1);
-	phalcon_call_method_p3(return_value, this_ptr, "_addroute", pattern, paths, method);
-	RETURN_MM();
+	phalcon_mvc_router_group_add_helper(INTERNAL_FUNCTION_PARAM_PASSTHRU, phalcon_interned_HEAD);
 }
 
 /**
@@ -523,12 +559,62 @@ PHP_METHOD(Phalcon_Mvc_Router_Group, clear){
 
 	zval *empty_routes;
 
-	PHALCON_MM_GROW();
-
-	PHALCON_INIT_VAR(empty_routes);
+	MAKE_STD_ZVAL(empty_routes);
 	array_init(empty_routes);
 	phalcon_update_property_this(this_ptr, SL("_routes"), empty_routes TSRMLS_CC);
-	
-	PHALCON_MM_RESTORE();
+	zval_ptr_dtor(&empty_routes);
 }
 
+/**
+ * Adds a converter to perform an additional transformation for certain parameter
+ *
+ * @param string $name
+ * @param callable $converter
+ * @return Phalcon\Mvc\Router\Group
+ */
+PHP_METHOD(Phalcon_Mvc_Router_Group, convert){
+
+	zval **name, **converter;
+
+	phalcon_fetch_params_ex(2, 0, &name, &converter);
+
+	phalcon_update_property_array(this_ptr, SL("_converters"), *name, *converter TSRMLS_CC);
+	RETURN_THISW();
+}
+
+/**
+ * Returns the router converter
+ *
+ * @return array|null
+ */
+PHP_METHOD(Phalcon_Mvc_Router_Group, getConverters) {
+
+	RETURN_MEMBER(this_ptr, "_converters");
+}
+
+/**
+ * Set the name of the group
+ *
+ * @param string $hostname
+ * @return Phalcon\Mvc\Router\Group
+ */
+PHP_METHOD(Phalcon_Mvc_Router_Group, setName){
+
+	zval **name;
+
+	phalcon_fetch_params_ex(1, 0, &name);
+
+	phalcon_update_property_this(this_ptr, SL("_name"), *name TSRMLS_CC);
+	RETURN_THISW();
+}
+
+/**
+ * Returns the name of this group
+ *
+ * @return string
+ */
+PHP_METHOD(Phalcon_Mvc_Router_Group, getName){
+
+
+	RETURN_MEMBER(this_ptr, "_name");
+}

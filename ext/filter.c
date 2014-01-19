@@ -3,7 +3,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2013 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -17,21 +17,12 @@
   +------------------------------------------------------------------------+
 */
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
-
-#include "php.h"
-#include "php_phalcon.h"
-#include "phalcon.h"
-
-#include "Zend/zend_operators.h"
-#include "Zend/zend_exceptions.h"
-#include "Zend/zend_interfaces.h"
+#include "filter.h"
+#include "filterinterface.h"
+#include "filter/exception.h"
 
 #include "kernel/main.h"
 #include "kernel/memory.h"
-
 #include "kernel/exception.h"
 #include "kernel/hash.h"
 #include "kernel/fcall.h"
@@ -57,7 +48,20 @@
  *	$filter->sanitize("!100a019.01a", "float"); // returns "100019.01"
  *</code>
  */
+zend_class_entry *phalcon_filter_ce;
 
+PHP_METHOD(Phalcon_Filter, add);
+PHP_METHOD(Phalcon_Filter, sanitize);
+PHP_METHOD(Phalcon_Filter, _sanitize);
+PHP_METHOD(Phalcon_Filter, getFilters);
+
+static const zend_function_entry phalcon_filter_method_entry[] = {
+	PHP_ME(Phalcon_Filter, add, arginfo_phalcon_filterinterface_add, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Filter, sanitize, arginfo_phalcon_filterinterface_sanitize, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Filter, _sanitize, NULL, ZEND_ACC_PROTECTED)
+	PHP_ME(Phalcon_Filter, getFilters, NULL, ZEND_ACC_PUBLIC)
+	PHP_FE_END
+};
 
 /**
  * Phalcon\Filter initializer
@@ -82,21 +86,18 @@ PHALCON_INIT_CLASS(Phalcon_Filter){
  */
 PHP_METHOD(Phalcon_Filter, add){
 
-	zval *name, *handler;
+	zval **name, **handler;
 
-	phalcon_fetch_params(0, 2, 0, &name, &handler);
+	phalcon_fetch_params_ex(2, 0, &name, &handler);
+
+	PHALCON_ENSURE_IS_STRING(name);
 	
-	if (Z_TYPE_P(name) != IS_STRING) {
-		PHALCON_THROW_EXCEPTION_STRW(phalcon_filter_exception_ce, "Filter name must be string");
-		return;
-	}
-	if (Z_TYPE_P(handler) != IS_OBJECT) {
+	if (Z_TYPE_PP(handler) != IS_OBJECT) {
 		PHALCON_THROW_EXCEPTION_STRW(phalcon_filter_exception_ce, "Filter must be an object");
 		return;
 	}
 	
-	phalcon_update_property_array(this_ptr, SL("_filters"), name, handler TSRMLS_CC);
-	
+	phalcon_update_property_array(this_ptr, SL("_filters"), *name, *handler TSRMLS_CC);
 	RETURN_THISW();
 }
 
@@ -109,7 +110,7 @@ PHP_METHOD(Phalcon_Filter, add){
  */
 PHP_METHOD(Phalcon_Filter, sanitize){
 
-	zval *value, *filters, *new_value = NULL, *filter = NULL, *array_value = NULL;
+	zval *value, *filters, *norecursive = NULL, *new_value = NULL, *filter = NULL, *array_value = NULL;
 	zval *item_value = NULL, *item_key = NULL, *filter_value = NULL, *sanizited_value = NULL;
 	zval *key = NULL;
 	HashTable *ah0, *ah1, *ah2;
@@ -118,7 +119,11 @@ PHP_METHOD(Phalcon_Filter, sanitize){
 
 	PHALCON_MM_GROW();
 
-	phalcon_fetch_params(1, 2, 0, &value, &filters);
+	phalcon_fetch_params(1, 2, 1, &value, &filters, &norecursive);
+
+	if (!norecursive) {
+		norecursive = PHALCON_GLOBAL(z_false);
+	}
 	
 	/** 
 	 * Apply an array of filters
@@ -136,7 +141,7 @@ PHP_METHOD(Phalcon_Filter, sanitize){
 				/** 
 				 * If the value to filter is an array we apply the filters recursively
 				 */
-				if (Z_TYPE_P(new_value) == IS_ARRAY) { 
+				if (Z_TYPE_P(new_value) == IS_ARRAY && !zend_is_true(norecursive)) { 
 	
 					PHALCON_INIT_NVAR(array_value);
 					array_init(array_value);
@@ -173,8 +178,8 @@ PHP_METHOD(Phalcon_Filter, sanitize){
 	/** 
 	 * Apply a single filter value
 	 */
-	if (Z_TYPE_P(value) == IS_ARRAY) { 
-	
+	if (Z_TYPE_P(value) == IS_ARRAY && !zend_is_true(norecursive)) { 
+
 		PHALCON_INIT_VAR(sanizited_value);
 		array_init(sanizited_value);
 	
@@ -245,7 +250,7 @@ PHP_METHOD(Phalcon_Filter, _sanitize){
 		 * The 'email' filter uses the filter extension
 		 */
 		PHALCON_INIT_VAR(type);
-		ZVAL_LONG(type, 517);
+		ZVAL_LONG(type, 517); /* FILTER_SANITIZE_EMAIL */
 	
 		PHALCON_INIT_VAR(quote);
 		ZVAL_STRING(quote, "'", 1);
@@ -256,8 +261,8 @@ PHP_METHOD(Phalcon_Filter, _sanitize){
 		PHALCON_INIT_VAR(escaped);
 		phalcon_fast_str_replace(escaped, quote, empty_str, value);
 	
-		PHALCON_INIT_VAR(filtered);
-		phalcon_call_func_p2(filtered, "filter_var", escaped, type);
+		PHALCON_OBS_VAR(filtered);
+		PHALCON_CALL_FUNCTION(&filtered, "filter_var", escaped, type);
 		goto ph_end_0;
 	}
 	
@@ -266,19 +271,19 @@ PHP_METHOD(Phalcon_Filter, _sanitize){
 		 * 'int' filter sanitizes a numeric input
 		 */
 		PHALCON_INIT_NVAR(type);
-		ZVAL_LONG(type, 519);
+		ZVAL_LONG(type, 519); /* FILTER_SANITIZE_NUMBER_INT */
 	
-		PHALCON_INIT_NVAR(filtered);
-		phalcon_call_func_p2(filtered, "filter_var", value, type);
+		PHALCON_OBSERVE_OR_NULLIFY_VAR(filtered);
+		PHALCON_CALL_FUNCTION(&filtered, "filter_var", value, type);
 		goto ph_end_0;
 	}
 	
 	if (PHALCON_IS_STRING(filter, "string")) {
 		PHALCON_INIT_NVAR(type);
-		ZVAL_LONG(type, 513);
+		ZVAL_LONG(type, 513); /* FILTER_SANITIZE_STRING */
 	
-		PHALCON_INIT_NVAR(filtered);
-		phalcon_call_func_p2(filtered, "filter_var", value, type);
+		PHALCON_OBSERVE_OR_NULLIFY_VAR(filtered);
+		PHALCON_CALL_FUNCTION(&filtered, "filter_var", value, type);
 		goto ph_end_0;
 	}
 	
@@ -291,13 +296,13 @@ PHP_METHOD(Phalcon_Filter, _sanitize){
 	
 		PHALCON_INIT_VAR(options);
 		array_init_size(options, 1);
-		phalcon_array_update_string(&options, SL("flags"), &allow_fraction, PH_COPY | PH_SEPARATE);
+		phalcon_array_update_string(&options, SL("flags"), &allow_fraction, PH_COPY);
 	
 		PHALCON_INIT_NVAR(type);
 		ZVAL_LONG(type, 520);
 	
-		PHALCON_INIT_NVAR(filtered);
-		phalcon_call_func_p3(filtered, "filter_var", value, type, options);
+		PHALCON_OBSERVE_OR_NULLIFY_VAR(filtered);
+		PHALCON_CALL_FUNCTION(&filtered, "filter_var", value, type, options);
 		goto ph_end_0;
 	}
 	
@@ -325,8 +330,8 @@ PHP_METHOD(Phalcon_Filter, _sanitize){
 			 * 'lower' checks for the mbstring extension to make a correct lowercase
 			 * transformation
 			 */
-			PHALCON_INIT_NVAR(filtered);
-			phalcon_call_func_p1(filtered, "mb_strtolower", value);
+			PHALCON_OBSERVE_OR_NULLIFY_VAR(filtered);
+			PHALCON_CALL_FUNCTION(&filtered, "mb_strtolower", value);
 		} else {
 			PHALCON_INIT_NVAR(filtered);
 			phalcon_fast_strtolower(filtered, value);
@@ -340,8 +345,8 @@ PHP_METHOD(Phalcon_Filter, _sanitize){
 			 * 'upper' checks for the mbstring extension to make a correct lowercase
 			 * transformation
 			 */
-			PHALCON_INIT_NVAR(filtered);
-			phalcon_call_func_p1(filtered, "mb_strtoupper", value);
+			PHALCON_OBSERVE_OR_NULLIFY_VAR(filtered);
+			PHALCON_CALL_FUNCTION(&filtered, "mb_strtoupper", value);
 		} else {
 			PHALCON_INIT_NVAR(filtered);
 			phalcon_fast_strtoupper(filtered, value);
@@ -369,4 +374,3 @@ PHP_METHOD(Phalcon_Filter, getFilters){
 
 	RETURN_MEMBER(this_ptr, "_filters");
 }
-

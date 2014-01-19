@@ -3,7 +3,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2013 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -17,15 +17,46 @@
   +------------------------------------------------------------------------+
 */
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
-
-#include "php.h"
-#include "php_phalcon.h"
-#include "phalcon.h"
-
+#include "db/dialectinterface.h"
 #include "kernel/main.h"
+
+zend_class_entry *phalcon_db_dialectinterface_ce;
+
+static const zend_function_entry phalcon_db_dialectinterface_method_entry[] = {
+	PHP_ABSTRACT_ME(Phalcon_Db_DialectInterface, limit, arginfo_phalcon_db_dialectinterface_limit)
+	PHP_ABSTRACT_ME(Phalcon_Db_DialectInterface, forUpdate, arginfo_phalcon_db_dialectinterface_forupdate)
+	PHP_ABSTRACT_ME(Phalcon_Db_DialectInterface, sharedLock, arginfo_phalcon_db_dialectinterface_sharedlock)
+	PHP_ABSTRACT_ME(Phalcon_Db_DialectInterface, select, arginfo_phalcon_db_dialectinterface_select)
+	PHP_ABSTRACT_ME(Phalcon_Db_DialectInterface, getColumnList, arginfo_phalcon_db_dialectinterface_getcolumnlist)
+	PHP_ABSTRACT_ME(Phalcon_Db_DialectInterface, getColumnDefinition, arginfo_phalcon_db_dialectinterface_getcolumndefinition)
+	PHP_ABSTRACT_ME(Phalcon_Db_DialectInterface, addColumn, arginfo_phalcon_db_dialectinterface_addcolumn)
+	PHP_ABSTRACT_ME(Phalcon_Db_DialectInterface, modifyColumn, arginfo_phalcon_db_dialectinterface_modifycolumn)
+	PHP_ABSTRACT_ME(Phalcon_Db_DialectInterface, dropColumn, arginfo_phalcon_db_dialectinterface_dropcolumn)
+	PHP_ABSTRACT_ME(Phalcon_Db_DialectInterface, addIndex, arginfo_phalcon_db_dialectinterface_addindex)
+	PHP_ABSTRACT_ME(Phalcon_Db_DialectInterface, dropIndex, arginfo_phalcon_db_dialectinterface_dropindex)
+	PHP_ABSTRACT_ME(Phalcon_Db_DialectInterface, addPrimaryKey, arginfo_phalcon_db_dialectinterface_addprimarykey)
+	PHP_ABSTRACT_ME(Phalcon_Db_DialectInterface, dropPrimaryKey, arginfo_phalcon_db_dialectinterface_dropprimarykey)
+	PHP_ABSTRACT_ME(Phalcon_Db_DialectInterface, addForeignKey, arginfo_phalcon_db_dialectinterface_addforeignkey)
+	PHP_ABSTRACT_ME(Phalcon_Db_DialectInterface, dropForeignKey, arginfo_phalcon_db_dialectinterface_dropforeignkey)
+	PHP_ABSTRACT_ME(Phalcon_Db_DialectInterface, createTable, arginfo_phalcon_db_dialectinterface_createtable)
+	PHP_ABSTRACT_ME(Phalcon_Db_DialectInterface, dropTable, arginfo_phalcon_db_dialectinterface_droptable)
+	PHP_ABSTRACT_ME(Phalcon_Db_DialectInterface, createView, arginfo_phalcon_db_dialectinterface_createview)
+	PHP_ABSTRACT_ME(Phalcon_Db_DialectInterface, dropView, arginfo_phalcon_db_dialectinterface_dropview)
+	PHP_ABSTRACT_ME(Phalcon_Db_DialectInterface, tableExists, arginfo_phalcon_db_dialectinterface_tableexists)
+	PHP_ABSTRACT_ME(Phalcon_Db_DialectInterface, viewExists, arginfo_phalcon_db_dialectinterface_viewexists)
+	PHP_ABSTRACT_ME(Phalcon_Db_DialectInterface, describeColumns, arginfo_phalcon_db_dialectinterface_describecolumns)
+	PHP_ABSTRACT_ME(Phalcon_Db_DialectInterface, listTables, arginfo_phalcon_db_dialectinterface_listtables)
+	PHP_ABSTRACT_ME(Phalcon_Db_DialectInterface, listViews, arginfo_phalcon_db_dialectinterface_listtables)
+	PHP_ABSTRACT_ME(Phalcon_Db_DialectInterface, describeIndexes, arginfo_phalcon_db_dialectinterface_describeindexes)
+	PHP_ABSTRACT_ME(Phalcon_Db_DialectInterface, describeReferences, arginfo_phalcon_db_dialectinterface_describereferences)
+	PHP_ABSTRACT_ME(Phalcon_Db_DialectInterface, tableOptions, arginfo_phalcon_db_dialectinterface_tableoptions)
+	PHP_ABSTRACT_ME(Phalcon_Db_DialectInterface, supportsSavepoints, NULL)
+	PHP_ABSTRACT_ME(Phalcon_Db_DialectInterface, supportsReleaseSavepoints, NULL)
+	PHP_ABSTRACT_ME(Phalcon_Db_DialectInterface, createSavepoint, arginfo_phalcon_db_dialectinterface_createsavepoint)
+	PHP_ABSTRACT_ME(Phalcon_Db_DialectInterface, releaseSavepoint, arginfo_phalcon_db_dialectinterface_releasesavepoint)
+	PHP_ABSTRACT_ME(Phalcon_Db_DialectInterface, rollbackSavepoint, arginfo_phalcon_db_dialectinterface_rollbacksavepoint)
+	PHP_FE_END
+};
 
 /**
  * Phalcon\Db\DialectInterface initializer
@@ -177,12 +208,22 @@ PHALCON_DOC_METHOD(Phalcon_Db_DialectInterface, dropForeignKey);
 /**
  * Generates SQL to create a table
  *
- * @param 	string $tableName
+ * @param string $tableName
  * @param string $schemaName
  * @param array $definition
- * @return 	string
+ * @return string
  */
 PHALCON_DOC_METHOD(Phalcon_Db_DialectInterface, createTable);
+
+/**
+ * Generates SQL to create a view
+ *
+ * @param string $viewName
+ * @param string $schemaName
+ * @param array $definition
+ * @return string
+ */
+PHALCON_DOC_METHOD(Phalcon_Db_DialectInterface, createView);
 
 /**
  * Generates SQL to drop a table
@@ -194,6 +235,15 @@ PHALCON_DOC_METHOD(Phalcon_Db_DialectInterface, createTable);
 PHALCON_DOC_METHOD(Phalcon_Db_DialectInterface, dropTable);
 
 /**
+ * Generates SQL to drop a view
+ *
+ * @param string $viewName
+ * @param string $schemaName
+ * @return string
+ */
+PHALCON_DOC_METHOD(Phalcon_Db_DialectInterface, dropView);
+
+/**
  * Generates SQL checking for the existence of a schema.table
  *
  * @param string $tableName
@@ -201,6 +251,15 @@ PHALCON_DOC_METHOD(Phalcon_Db_DialectInterface, dropTable);
  * @return string
  */
 PHALCON_DOC_METHOD(Phalcon_Db_DialectInterface, tableExists);
+
+/**
+ * Generates SQL checking for the existence of a schema.view
+ *
+ * @param string $viewName
+ * @param string $schemaName
+ * @return string
+ */
+PHALCON_DOC_METHOD(Phalcon_Db_DialectInterface, viewExists);
 
 /**
  * Generates SQL to describe a table
@@ -214,10 +273,18 @@ PHALCON_DOC_METHOD(Phalcon_Db_DialectInterface, describeColumns);
 /**
  * List all tables on database
  *
- * @param       string $schemaName
- * @return      array
+ * @param string $schemaName
+ * @return array
  */
 PHALCON_DOC_METHOD(Phalcon_Db_DialectInterface, listTables);
+
+/**
+ * List all views on database
+ *
+ * @param string $schemaName
+ * @return array
+ */
+PHALCON_DOC_METHOD(Phalcon_Db_DialectInterface, listViews);
 
 /**
  * Generates SQL to query indexes on a table
@@ -283,4 +350,3 @@ PHALCON_DOC_METHOD(Phalcon_Db_DialectInterface, releaseSavepoint);
  * @return string
  */
 PHALCON_DOC_METHOD(Phalcon_Db_DialectInterface, rollbackSavepoint);
-

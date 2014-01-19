@@ -3,7 +3,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2013 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -17,21 +17,10 @@
   +------------------------------------------------------------------------+
 */
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
-
-#include "php.h"
-#include "php_phalcon.h"
-#include "phalcon.h"
-
-#include "Zend/zend_operators.h"
-#include "Zend/zend_exceptions.h"
-#include "Zend/zend_interfaces.h"
+#include "text.h"
 
 #include "kernel/main.h"
 #include "kernel/memory.h"
-
 #include "kernel/fcall.h"
 #include "kernel/string.h"
 #include "kernel/array.h"
@@ -43,7 +32,66 @@
  *
  * Provides utilities to work with texts
  */
+zend_class_entry *phalcon_text_ce;
 
+PHP_METHOD(Phalcon_Text, camelize);
+PHP_METHOD(Phalcon_Text, uncamelize);
+PHP_METHOD(Phalcon_Text, increment);
+PHP_METHOD(Phalcon_Text, random);
+PHP_METHOD(Phalcon_Text, startsWith);
+PHP_METHOD(Phalcon_Text, endsWith);
+PHP_METHOD(Phalcon_Text, lower);
+PHP_METHOD(Phalcon_Text, upper);
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_text_camelize, 0, 0, 1)
+	ZEND_ARG_INFO(0, str)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_text_uncamelize, 0, 0, 1)
+	ZEND_ARG_INFO(0, str)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_text_increment, 0, 0, 1)
+	ZEND_ARG_INFO(0, str)
+	ZEND_ARG_INFO(0, separator)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_text_random, 0, 0, 1)
+	ZEND_ARG_INFO(0, type)
+	ZEND_ARG_INFO(0, length)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_text_startswith, 0, 0, 2)
+	ZEND_ARG_INFO(0, str)
+	ZEND_ARG_INFO(0, start)
+	ZEND_ARG_INFO(0, ignoreCase)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_text_endswith, 0, 0, 2)
+	ZEND_ARG_INFO(0, str)
+	ZEND_ARG_INFO(0, end)
+	ZEND_ARG_INFO(0, ignoreCase)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_text_lower, 0, 0, 1)
+	ZEND_ARG_INFO(0, str)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_text_upper, 0, 0, 1)
+	ZEND_ARG_INFO(0, str)
+ZEND_END_ARG_INFO()
+
+static const zend_function_entry phalcon_text_method_entry[] = {
+	PHP_ME(Phalcon_Text, camelize, arginfo_phalcon_text_camelize, ZEND_ACC_STATIC|ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Text, uncamelize, arginfo_phalcon_text_uncamelize, ZEND_ACC_STATIC|ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Text, increment, arginfo_phalcon_text_increment, ZEND_ACC_STATIC|ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Text, random, arginfo_phalcon_text_random, ZEND_ACC_STATIC|ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Text, startsWith, arginfo_phalcon_text_startswith, ZEND_ACC_STATIC|ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Text, endsWith, arginfo_phalcon_text_endswith, ZEND_ACC_STATIC|ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Text, lower, arginfo_phalcon_text_lower, ZEND_ACC_STATIC|ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Text, upper, arginfo_phalcon_text_upper, ZEND_ACC_STATIC|ZEND_ACC_PUBLIC)
+	PHP_FE_END
+};
 
 /**
  * Phalcon\Text initializer
@@ -52,11 +100,11 @@ PHALCON_INIT_CLASS(Phalcon_Text){
 
 	PHALCON_REGISTER_CLASS(Phalcon, Text, text, phalcon_text_method_entry, ZEND_ACC_EXPLICIT_ABSTRACT_CLASS);
 
-	zend_declare_class_constant_long(phalcon_text_ce, SL("RANDOM_ALNUM"), 0 TSRMLS_CC);
-	zend_declare_class_constant_long(phalcon_text_ce, SL("RANDOM_ALPHA"), 1 TSRMLS_CC);
-	zend_declare_class_constant_long(phalcon_text_ce, SL("RANDOM_HEXDEC"), 2 TSRMLS_CC);
-	zend_declare_class_constant_long(phalcon_text_ce, SL("RANDOM_NUMERIC"), 3 TSRMLS_CC);
-	zend_declare_class_constant_long(phalcon_text_ce, SL("RANDOM_NOZERO"), 4 TSRMLS_CC);
+	zend_declare_class_constant_long(phalcon_text_ce, SL("RANDOM_ALNUM"),   PHALCON_TEXT_RANDOM_ALNUM   TSRMLS_CC);
+	zend_declare_class_constant_long(phalcon_text_ce, SL("RANDOM_ALPHA"),   PHALCON_TEXT_RANDOM_ALPHA   TSRMLS_CC);
+	zend_declare_class_constant_long(phalcon_text_ce, SL("RANDOM_HEXDEC"),  PHALCON_TEXT_RANDOM_HEXDEC  TSRMLS_CC);
+	zend_declare_class_constant_long(phalcon_text_ce, SL("RANDOM_NUMERIC"), PHALCON_TEXT_RANDOM_NUMERIC TSRMLS_CC);
+	zend_declare_class_constant_long(phalcon_text_ce, SL("RANDOM_NOZERO"),  PHALCON_TEXT_RANDOM_NOZERO  TSRMLS_CC);
 
 	return SUCCESS;
 }
@@ -85,7 +133,7 @@ PHP_METHOD(Phalcon_Text, camelize){
  * Uncamelize strings which are camelized
  *
  *<code>
- *	echo Phalcon\Text::camelize('CocoBongo'); //coco_bongo
+ *	echo Phalcon\Text::uncamelize('CocoBongo'); //coco_bongo
  *</code>
  *
  * @param string $str
@@ -140,8 +188,7 @@ PHP_METHOD(Phalcon_Text, increment){
 		SEPARATE_ZVAL(&number);
 		phalcon_increment(number);
 	} else {
-		PHALCON_INIT_VAR(number);
-		ZVAL_LONG(number, 1);
+		number = PHALCON_GLOBAL(z_one);
 	}
 	
 	PHALCON_OBS_VAR(first_part);
@@ -196,20 +243,18 @@ PHP_METHOD(Phalcon_Text, random){
 PHP_METHOD(Phalcon_Text, startsWith){
 
 	zval *str, *start, *ignore_case = NULL;
+	zval *case_sensitive;
 
-	PHALCON_MM_GROW();
-
-	phalcon_fetch_params(1, 2, 1, &str, &start, &ignore_case);
+	phalcon_fetch_params(0, 2, 1, &str, &start, &ignore_case);
 	
 	if (!ignore_case) {
-		PHALCON_INIT_VAR(ignore_case);
-		ZVAL_BOOL(ignore_case, 1);
+		case_sensitive = PHALCON_GLOBAL(z_false);
 	}
-	
-	if (phalcon_start_with(str, start, ignore_case)) {
-		RETURN_MM_TRUE;
+	else {
+		case_sensitive = zend_is_true(ignore_case) ? PHALCON_GLOBAL(z_false) : PHALCON_GLOBAL(z_true);
 	}
-	RETURN_MM_FALSE;
+
+	RETURN_BOOL(phalcon_start_with(str, start, case_sensitive));
 }
 
 /**
@@ -229,20 +274,18 @@ PHP_METHOD(Phalcon_Text, startsWith){
 PHP_METHOD(Phalcon_Text, endsWith){
 
 	zval *str, *end, *ignore_case = NULL;
+	zval *case_sensitive;
 
-	PHALCON_MM_GROW();
-
-	phalcon_fetch_params(1, 2, 1, &str, &end, &ignore_case);
+	phalcon_fetch_params(0, 2, 1, &str, &end, &ignore_case);
 	
 	if (!ignore_case) {
-		PHALCON_INIT_VAR(ignore_case);
-		ZVAL_BOOL(ignore_case, 1);
+		case_sensitive = PHALCON_GLOBAL(z_false);
 	}
-	
-	if (phalcon_end_with(str, end, ignore_case)) {
-		RETURN_MM_TRUE;
+	else {
+		case_sensitive = zend_is_true(ignore_case) ? PHALCON_GLOBAL(z_false) : PHALCON_GLOBAL(z_true);
 	}
-	RETURN_MM_FALSE;
+
+	RETURN_BOOL(phalcon_end_with(str, end, case_sensitive));
 }
 
 /**
@@ -255,20 +298,19 @@ PHP_METHOD(Phalcon_Text, lower){
 
 	zval *str;
 
-	PHALCON_MM_GROW();
-
-	phalcon_fetch_params(1, 1, 0, &str);
+	phalcon_fetch_params(0, 1, 0, &str);
 	
 	/** 
 	 * 'lower' checks for the mbstring extension to make a correct lowercase
 	 * transformation
 	 */
 	if (phalcon_function_exists_ex(SS("mb_strtolower") TSRMLS_CC) == SUCCESS) {
-		phalcon_call_func_p1(return_value, "mb_strtolower", str);
+		PHALCON_MM_GROW();
+		PHALCON_RETURN_CALL_FUNCTION("mb_strtolower", str);
 		RETURN_MM();
 	}
+
 	phalcon_fast_strtolower(return_value, str);
-	RETURN_MM();
 }
 
 /**
@@ -281,19 +323,17 @@ PHP_METHOD(Phalcon_Text, upper){
 
 	zval *str;
 
-	PHALCON_MM_GROW();
-
-	phalcon_fetch_params(1, 1, 0, &str);
+	phalcon_fetch_params(0, 1, 0, &str);
 	
 	/** 
 	 * 'upper' checks for the mbstring extension to make a correct lowercase
 	 * transformation
 	 */
 	if (phalcon_function_exists_ex(SS("mb_strtoupper") TSRMLS_CC) == SUCCESS) {
-		phalcon_call_func_p1(return_value, "mb_strtoupper", str);
+		PHALCON_MM_GROW();
+		PHALCON_RETURN_CALL_FUNCTION("mb_strtoupper", str);
 		RETURN_MM();
 	}
-	phalcon_fast_strtoupper(return_value, str);
-	RETURN_MM();
-}
 
+	phalcon_fast_strtoupper(return_value, str);
+}

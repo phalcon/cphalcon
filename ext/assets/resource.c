@@ -3,7 +3,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2013 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -17,26 +17,18 @@
   +------------------------------------------------------------------------+
 */
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
-
-#include "php.h"
 #include "php_phalcon.h"
-#include "phalcon.h"
 
-#include "Zend/zend_operators.h"
-#include "Zend/zend_exceptions.h"
-#include "Zend/zend_interfaces.h"
+#include "assets/resource.h"
+#include "assets/exception.h"
 
 #include "kernel/main.h"
 #include "kernel/memory.h"
-
 #include "kernel/object.h"
 #include "kernel/operators.h"
 #include "kernel/concat.h"
-#include "kernel/file.h"
 #include "kernel/exception.h"
+#include "kernel/file.h"
 #include "kernel/fcall.h"
 
 /**
@@ -49,7 +41,106 @@
  *</code>
  *
  */
+zend_class_entry *phalcon_assets_resource_ce;
 
+PHP_METHOD(Phalcon_Assets_Resource, __construct);
+PHP_METHOD(Phalcon_Assets_Resource, setType);
+PHP_METHOD(Phalcon_Assets_Resource, getType);
+PHP_METHOD(Phalcon_Assets_Resource, setPath);
+PHP_METHOD(Phalcon_Assets_Resource, getPath);
+PHP_METHOD(Phalcon_Assets_Resource, setLocal);
+PHP_METHOD(Phalcon_Assets_Resource, getLocal);
+PHP_METHOD(Phalcon_Assets_Resource, setFilter);
+PHP_METHOD(Phalcon_Assets_Resource, getFilter);
+PHP_METHOD(Phalcon_Assets_Resource, setAttributes);
+PHP_METHOD(Phalcon_Assets_Resource, getAttributes);
+PHP_METHOD(Phalcon_Assets_Resource, setTargetUri);
+PHP_METHOD(Phalcon_Assets_Resource, getTargetUri);
+PHP_METHOD(Phalcon_Assets_Resource, setSourcePath);
+PHP_METHOD(Phalcon_Assets_Resource, getSourcePath);
+PHP_METHOD(Phalcon_Assets_Resource, setTargetPath);
+PHP_METHOD(Phalcon_Assets_Resource, getTargetPath);
+PHP_METHOD(Phalcon_Assets_Resource, getContent);
+PHP_METHOD(Phalcon_Assets_Resource, getRealTargetUri);
+PHP_METHOD(Phalcon_Assets_Resource, getRealSourcePath);
+PHP_METHOD(Phalcon_Assets_Resource, getRealTargetPath);
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_assets_resource___construct, 0, 0, 2)
+	ZEND_ARG_INFO(0, type)
+	ZEND_ARG_INFO(0, path)
+	ZEND_ARG_INFO(0, local)
+	ZEND_ARG_INFO(0, filter)
+	ZEND_ARG_INFO(0, attributes)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_assets_resource_settype, 0, 0, 1)
+	ZEND_ARG_INFO(0, type)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_assets_resource_setpath, 0, 0, 1)
+	ZEND_ARG_INFO(0, path)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_assets_resource_setlocal, 0, 0, 1)
+	ZEND_ARG_INFO(0, local)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_assets_resource_setfilter, 0, 0, 1)
+	ZEND_ARG_INFO(0, filter)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_assets_resource_setattributes, 0, 0, 1)
+	ZEND_ARG_INFO(0, attributes)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_assets_resource_settargeturi, 0, 0, 1)
+	ZEND_ARG_INFO(0, targetUri)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_assets_resource_setsourcepath, 0, 0, 1)
+	ZEND_ARG_INFO(0, sourcePath)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_assets_resource_settargetpath, 0, 0, 1)
+	ZEND_ARG_INFO(0, targetPath)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_assets_resource_getcontent, 0, 0, 0)
+	ZEND_ARG_INFO(0, basePath)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_assets_resource_getrealsourcepath, 0, 0, 0)
+	ZEND_ARG_INFO(0, basePath)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_assets_resource_getrealtargetpath, 0, 0, 0)
+	ZEND_ARG_INFO(0, basePath)
+ZEND_END_ARG_INFO()
+
+static const zend_function_entry phalcon_assets_resource_method_entry[] = {
+	PHP_ME(Phalcon_Assets_Resource, __construct, arginfo_phalcon_assets_resource___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
+	PHP_ME(Phalcon_Assets_Resource, setType, arginfo_phalcon_assets_resource_settype, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Assets_Resource, getType, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Assets_Resource, setPath, arginfo_phalcon_assets_resource_setpath, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Assets_Resource, getPath, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Assets_Resource, setLocal, arginfo_phalcon_assets_resource_setlocal, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Assets_Resource, getLocal, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Assets_Resource, setFilter, arginfo_phalcon_assets_resource_setfilter, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Assets_Resource, getFilter, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Assets_Resource, setAttributes, arginfo_phalcon_assets_resource_setattributes, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Assets_Resource, getAttributes, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Assets_Resource, setTargetUri, arginfo_phalcon_assets_resource_settargeturi, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Assets_Resource, getTargetUri, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Assets_Resource, setSourcePath, arginfo_phalcon_assets_resource_setsourcepath, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Assets_Resource, getSourcePath, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Assets_Resource, setTargetPath, arginfo_phalcon_assets_resource_settargetpath, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Assets_Resource, getTargetPath, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Assets_Resource, getContent, arginfo_phalcon_assets_resource_getcontent, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Assets_Resource, getRealTargetUri, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Assets_Resource, getRealSourcePath, arginfo_phalcon_assets_resource_getrealsourcepath, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Assets_Resource, getRealTargetPath, arginfo_phalcon_assets_resource_getrealtargetpath, ZEND_ACC_PUBLIC)
+	PHP_FE_END
+};
 
 /**
  * Phalcon\Assets\Resource initializer
@@ -83,22 +174,18 @@ PHP_METHOD(Phalcon_Assets_Resource, __construct){
 
 	zval *type, *path, *local = NULL, *filter = NULL, *attributes = NULL;
 
-	PHALCON_MM_GROW();
-
-	phalcon_fetch_params(1, 2, 3, &type, &path, &local, &filter, &attributes);
+	phalcon_fetch_params(0, 2, 3, &type, &path, &local, &filter, &attributes);
 	
 	if (!local) {
-		PHALCON_INIT_VAR(local);
-		ZVAL_BOOL(local, 1);
+		local = PHALCON_GLOBAL(z_true);
 	}
 	
 	if (!filter) {
-		PHALCON_INIT_VAR(filter);
-		ZVAL_BOOL(filter, 1);
+		filter = PHALCON_GLOBAL(z_true);
 	}
 	
 	if (!attributes) {
-		PHALCON_INIT_VAR(attributes);
+		attributes = PHALCON_GLOBAL(z_null);
 	}
 	
 	phalcon_update_property_this(this_ptr, SL("_type"), type TSRMLS_CC);
@@ -108,8 +195,6 @@ PHP_METHOD(Phalcon_Assets_Resource, __construct){
 	if (Z_TYPE_P(attributes) == IS_ARRAY) { 
 		phalcon_update_property_this(this_ptr, SL("_attributes"), attributes TSRMLS_CC);
 	}
-	
-	PHALCON_MM_RESTORE();
 }
 
 /**
@@ -338,14 +423,14 @@ PHP_METHOD(Phalcon_Assets_Resource, getTargetPath){
 PHP_METHOD(Phalcon_Assets_Resource, getContent){
 
 	zval *base_path = NULL, *source_path = NULL, *complete_path;
-	zval *local, *exception_message = NULL, *content;
+	zval *local, *exception_message = NULL;
 
 	PHALCON_MM_GROW();
 
 	phalcon_fetch_params(1, 0, 1, &base_path);
 	
 	if (!base_path) {
-		PHALCON_INIT_VAR(base_path);
+		base_path = PHALCON_GLOBAL(z_null);
 	}
 	
 	PHALCON_OBS_VAR(source_path);
@@ -383,16 +468,15 @@ PHP_METHOD(Phalcon_Assets_Resource, getContent){
 	/** 
 	 * Use file_get_contents to respect the openbase_dir. Access urls must be enabled
 	 */
-	PHALCON_INIT_VAR(content);
-	phalcon_file_get_contents(content, complete_path TSRMLS_CC);
-	if (PHALCON_IS_FALSE(content)) {
+	phalcon_file_get_contents(return_value, complete_path TSRMLS_CC);
+	if (PHALCON_IS_FALSE(return_value)) {
 		PHALCON_INIT_NVAR(exception_message);
 		PHALCON_CONCAT_SVS(exception_message, "Resource's content for \"", complete_path, "\" cannot be read");
 		PHALCON_THROW_EXCEPTION_ZVAL(phalcon_assets_exception_ce, exception_message);
 		return;
 	}
 	
-	RETURN_CCTOR(content);
+	PHALCON_MM_RESTORE();
 }
 
 /**
@@ -402,18 +486,14 @@ PHP_METHOD(Phalcon_Assets_Resource, getContent){
  */
 PHP_METHOD(Phalcon_Assets_Resource, getRealTargetUri){
 
-	zval *target_uri = NULL;
+	zval *target_uri;
 
-	PHALCON_MM_GROW();
-
-	PHALCON_OBS_VAR(target_uri);
-	phalcon_read_property_this(&target_uri, this_ptr, SL("_targetUri"), PH_NOISY_CC);
+	target_uri = phalcon_fetch_nproperty_this(this_ptr, SL("_targetUri"), PH_NOISY_CC);
 	if (PHALCON_IS_EMPTY(target_uri)) {
-		PHALCON_OBS_NVAR(target_uri);
-		phalcon_read_property_this(&target_uri, this_ptr, SL("_path"), PH_NOISY_CC);
+		target_uri = phalcon_fetch_nproperty_this(this_ptr, SL("_path"), PH_NOISY_CC);
 	}
 	
-	RETURN_CCTOR(target_uri);
+	RETURN_ZVAL(target_uri, 1, 0);
 }
 
 /**
@@ -431,7 +511,7 @@ PHP_METHOD(Phalcon_Assets_Resource, getRealSourcePath){
 	phalcon_fetch_params(1, 0, 1, &base_path);
 	
 	if (!base_path) {
-		PHALCON_INIT_VAR(base_path);
+		base_path = PHALCON_GLOBAL(z_null);
 	}
 	
 	PHALCON_OBS_VAR(source_path);
@@ -453,7 +533,7 @@ PHP_METHOD(Phalcon_Assets_Resource, getRealSourcePath){
 		/** 
 		 * Get the real template path
 		 */
-		phalcon_call_func_p1(return_value, "realpath", complete_path);
+		phalcon_realpath(return_value, complete_path TSRMLS_CC);
 		RETURN_MM();
 	}
 	
@@ -475,7 +555,7 @@ PHP_METHOD(Phalcon_Assets_Resource, getRealTargetPath){
 	phalcon_fetch_params(1, 0, 1, &base_path);
 	
 	if (!base_path) {
-		PHALCON_INIT_VAR(base_path);
+		base_path = PHALCON_GLOBAL(z_null);
 	}
 	
 	PHALCON_OBS_VAR(target_path);
@@ -499,7 +579,7 @@ PHP_METHOD(Phalcon_Assets_Resource, getRealTargetPath){
 		 * Get the real template path, the target path can optionally don't exist
 		 */
 		if (phalcon_file_exists(complete_path TSRMLS_CC) == SUCCESS) {
-			phalcon_call_func_p1(return_value, "realpath", complete_path);
+			phalcon_realpath(return_value, complete_path TSRMLS_CC);
 			RETURN_MM();
 		}
 	
@@ -508,4 +588,3 @@ PHP_METHOD(Phalcon_Assets_Resource, getRealTargetPath){
 	
 	RETURN_CCTOR(target_path);
 }
-

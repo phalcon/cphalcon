@@ -3,7 +3,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2013 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -17,24 +17,21 @@
   +------------------------------------------------------------------------+
 */
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
-
-#include "php.h"
 #include "php_phalcon.h"
-#include "phalcon.h"
 
-#include "Zend/zend_operators.h"
-#include "Zend/zend_exceptions.h"
-#include "Zend/zend_interfaces.h"
+#include "di.h"
+#include "di/factorydefault/cli.h"
+#include "di/factorydefault.h"
+#include "di/service.h"
 
 #include "kernel/main.h"
 #include "kernel/memory.h"
-
+#include "kernel/string.h"
 #include "kernel/fcall.h"
 #include "kernel/array.h"
 #include "kernel/object.h"
+
+#include "interned-strings.h"
 
 /**
  * Phalcon\DI\FactoryDefault\CLI
@@ -44,14 +41,21 @@
  * Thanks to this, the developer does not need to register each service individually.
  * This class is specially suitable for CLI applications
  */
+zend_class_entry *phalcon_di_factorydefault_cli_ce;
 
+PHP_METHOD(Phalcon_DI_FactoryDefault_CLI, __construct);
+
+static const zend_function_entry phalcon_di_factorydefault_cli_method_entry[] = {
+	PHP_ME(Phalcon_DI_FactoryDefault_CLI, __construct, NULL, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
+	PHP_FE_END
+};
 
 /**
  * Phalcon\DI\FactoryDefault\CLI initializer
  */
 PHALCON_INIT_CLASS(Phalcon_DI_FactoryDefault_CLI){
 
-	PHALCON_REGISTER_CLASS_EX(Phalcon\\DI\\FactoryDefault, CLI, di_factorydefault_cli, "phalcon\\di\\factorydefault", phalcon_di_factorydefault_cli_method_entry, 0);
+	PHALCON_REGISTER_CLASS_EX(Phalcon\\DI\\FactoryDefault, CLI, di_factorydefault_cli, phalcon_di_factorydefault_ce, phalcon_di_factorydefault_cli_method_entry, 0);
 
 	return SUCCESS;
 }
@@ -68,13 +72,12 @@ PHP_METHOD(Phalcon_DI_FactoryDefault_CLI, __construct){
 
 	PHALCON_MM_GROW();
 
-	PHALCON_CALL_PARENT_NORETURN(this_ptr, "Phalcon\\DI\\FactoryDefault\\CLI", "__construct");
+	phalcon_call_parent_noret(this_ptr, phalcon_di_factorydefault_cli_ce, "__construct");
 	
-	PHALCON_INIT_VAR(shared);
-	ZVAL_BOOL(shared, 1);
+	shared = PHALCON_GLOBAL(z_true);
 	
 	PHALCON_INIT_VAR(name);
-	ZVAL_STRING(name, "router", 1);
+	PHALCON_ZVAL_MAYBE_INTERNED_STRING(name, phalcon_interned_router);
 	
 	PHALCON_INIT_VAR(definition);
 	ZVAL_STRING(definition, "Phalcon\\CLI\\Router", 1);
@@ -84,7 +87,7 @@ PHP_METHOD(Phalcon_DI_FactoryDefault_CLI, __construct){
 	phalcon_call_method_p2_noret(router, "__construct", name, definition);
 	
 	PHALCON_INIT_NVAR(name);
-	ZVAL_STRING(name, "dispatcher", 1);
+	PHALCON_ZVAL_MAYBE_INTERNED_STRING(name, phalcon_interned_dispatcher);
 	
 	PHALCON_INIT_NVAR(definition);
 	ZVAL_STRING(definition, "Phalcon\\CLI\\Dispatcher", 1);
@@ -97,7 +100,7 @@ PHP_METHOD(Phalcon_DI_FactoryDefault_CLI, __construct){
 	 * Models manager for ORM
 	 */
 	PHALCON_INIT_NVAR(name);
-	ZVAL_STRING(name, "modelsManager", 1);
+	PHALCON_ZVAL_MAYBE_INTERNED_STRING(name, phalcon_interned_modelsManager);
 	
 	PHALCON_INIT_NVAR(definition);
 	ZVAL_STRING(definition, "Phalcon\\Mvc\\Model\\Manager", 1);
@@ -110,7 +113,7 @@ PHP_METHOD(Phalcon_DI_FactoryDefault_CLI, __construct){
 	 * Models meta-data using the Memory adapter
 	 */
 	PHALCON_INIT_NVAR(name);
-	ZVAL_STRING(name, "modelsMetadata", 1);
+	PHALCON_ZVAL_MAYBE_INTERNED_STRING(name, phalcon_interned_modelsMetadata);
 	
 	PHALCON_INIT_NVAR(definition);
 	ZVAL_STRING(definition, "Phalcon\\Mvc\\Model\\Metadata\\Memory", 1);
@@ -123,7 +126,7 @@ PHP_METHOD(Phalcon_DI_FactoryDefault_CLI, __construct){
 	 * Filter/Escaper services are always shared
 	 */
 	PHALCON_INIT_NVAR(name);
-	ZVAL_STRING(name, "filter", 1);
+	PHALCON_ZVAL_MAYBE_INTERNED_STRING(name, phalcon_interned_filter);
 	
 	PHALCON_INIT_NVAR(definition);
 	ZVAL_STRING(definition, "Phalcon\\Filter", 1);
@@ -133,7 +136,7 @@ PHP_METHOD(Phalcon_DI_FactoryDefault_CLI, __construct){
 	phalcon_call_method_p3_noret(filter, "__construct", name, definition, shared);
 	
 	PHALCON_INIT_NVAR(name);
-	ZVAL_STRING(name, "escaper", 1);
+	PHALCON_ZVAL_MAYBE_INTERNED_STRING(name, phalcon_interned_escaper);
 	
 	PHALCON_INIT_NVAR(definition);
 	ZVAL_STRING(definition, "Phalcon\\Escaper", 1);
@@ -190,18 +193,18 @@ PHP_METHOD(Phalcon_DI_FactoryDefault_CLI, __construct){
 	
 	PHALCON_INIT_VAR(services);
 	array_init_size(services, 10);
-	phalcon_array_update_string(&services, SL("router"), &router, PH_COPY | PH_SEPARATE);
-	phalcon_array_update_string(&services, SL("dispatcher"), &dispatcher, PH_COPY | PH_SEPARATE);
-	phalcon_array_update_string(&services, SL("modelsManager"), &models_manager, PH_COPY | PH_SEPARATE);
-	phalcon_array_update_string(&services, SL("modelsMetadata"), &models_metadata, PH_COPY | PH_SEPARATE);
-	phalcon_array_update_string(&services, SL("filter"), &filter, PH_COPY | PH_SEPARATE);
-	phalcon_array_update_string(&services, SL("escaper"), &escaper, PH_COPY | PH_SEPARATE);
-	phalcon_array_update_string(&services, SL("annotations"), &annotations, PH_COPY | PH_SEPARATE);
-	phalcon_array_update_string(&services, SL("security"), &security, PH_COPY | PH_SEPARATE);
-	phalcon_array_update_string(&services, SL("eventsManager"), &events_manager, PH_COPY | PH_SEPARATE);
-	phalcon_array_update_string(&services, SL("transactionManager"), &transaction_manager, PH_COPY | PH_SEPARATE);
-	phalcon_update_property_this(this_ptr, SL("_services"), services TSRMLS_CC);
+	phalcon_array_update_string(&services, ISL(router), &router, PH_COPY);
+	phalcon_array_update_string(&services, ISL(dispatcher), &dispatcher, PH_COPY);
+	phalcon_array_update_string(&services, ISL(modelsManager), &models_manager, PH_COPY);
+	phalcon_array_update_string(&services, ISL(modelsMetadata), &models_metadata, PH_COPY);
+	phalcon_array_update_string(&services, ISL(filter), &filter, PH_COPY);
+	phalcon_array_update_string(&services, ISL(escaper), &escaper, PH_COPY);
+	phalcon_array_update_string(&services, SL("annotations"), &annotations, PH_COPY);
+	phalcon_array_update_string(&services, SL("security"), &security, PH_COPY);
+	phalcon_array_update_string(&services, SL("eventsManager"), &events_manager, PH_COPY);
+	phalcon_array_update_string(&services, SL("transactionManager"), &transaction_manager, PH_COPY);
 	
+	phalcon_di_set_services(this_ptr, services TSRMLS_CC);
+
 	PHALCON_MM_RESTORE();
 }
-

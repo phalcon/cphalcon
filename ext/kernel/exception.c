@@ -3,7 +3,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2013 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -17,20 +17,14 @@
   +------------------------------------------------------------------------+
 */
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
-
-#include "php.h"
 #include "php_phalcon.h"
-#include "php_main.h"
-#include "ext/standard/php_string.h"
 
+#include <Zend/zend_exceptions.h>
+#include "kernel/exception.h"
 #include "kernel/main.h"
 #include "kernel/memory.h"
 #include "kernel/fcall.h"
 
-#include "Zend/zend_exceptions.h"
 
 /**
  * Throws a zval object as exception
@@ -38,37 +32,28 @@
 void phalcon_throw_exception(zval *object TSRMLS_DC){
 	Z_ADDREF_P(object);
 	zend_throw_exception_object(object TSRMLS_CC);
-	phalcon_memory_restore_stack(TSRMLS_C);
 }
 
 /**
  * Throws an exception with a single string parameter
  */
-void phalcon_throw_exception_string(zend_class_entry *ce, const char *message, zend_uint message_len, int restore_stack TSRMLS_DC){
+void phalcon_throw_exception_string(zend_class_entry *ce, const char *message TSRMLS_DC){
 
 	zend_throw_exception_ex(ce, 0 TSRMLS_CC, "%s", message);
-
-	if (restore_stack) {
-		phalcon_memory_restore_stack(TSRMLS_C);
-	}
 }
 
 /**
  * Throws an exception with a single zval parameter
  */
-void phalcon_throw_exception_zval(zend_class_entry *ce, zval *message, int restore_stack TSRMLS_DC){
+void phalcon_throw_exception_zval(zend_class_entry *ce, zval *message TSRMLS_DC){
 
 	zval *object;
 
-	ALLOC_INIT_ZVAL(object);
+	MAKE_STD_ZVAL(object);
 	object_init_ex(object, ce);
 
-	phalcon_call_method_p1_noret(object, "__construct", message);
-
-	zend_throw_exception_object(object TSRMLS_CC);
-
-	if (restore_stack) {
-		phalcon_memory_restore_stack(TSRMLS_C);
+	if (SUCCESS == phalcon_call_method_params(NULL, NULL, object, SL("__construct"), zend_inline_hash_func(SS("__construct")) TSRMLS_CC, 1, message)) {
+		zend_throw_exception_object(object TSRMLS_CC);
 	}
 }
 
@@ -94,11 +79,11 @@ void phalcon_throw_exception_internal(zval *exception TSRMLS_DC) {
 	}
 
 	if (zend_throw_exception_hook) {
-    	zend_throw_exception_hook(exception TSRMLS_CC);
+		zend_throw_exception_hook(exception TSRMLS_CC);
 	}
 
 	if (EG(current_execute_data)->opline == NULL ||
-    	(EG(current_execute_data)->opline + 1)->opcode == ZEND_HANDLE_EXCEPTION) {
+		(EG(current_execute_data)->opline + 1)->opcode == ZEND_HANDLE_EXCEPTION) {
 		/* no need to rethrow the exception */
 		return;
 	}

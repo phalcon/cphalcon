@@ -3,7 +3,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2013 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -17,15 +17,19 @@
   +------------------------------------------------------------------------+
 */
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
-
-#include "php.h"
-#include "php_phalcon.h"
-#include "phalcon.h"
-
+#include "events/managerinterface.h"
 #include "kernel/main.h"
+
+zend_class_entry *phalcon_events_managerinterface_ce;
+
+static const zend_function_entry phalcon_events_managerinterface_method_entry[] = {
+	PHP_ABSTRACT_ME(Phalcon_Events_ManagerInterface, attach, arginfo_phalcon_events_managerinterface_attach)
+	PHP_ABSTRACT_ME(Phalcon_Events_ManagerInterface, detachAll, arginfo_phalcon_events_managerinterface_detachall)
+	PHP_ABSTRACT_ME(Phalcon_Events_ManagerInterface, fire, arginfo_phalcon_events_managerinterface_fire)
+	PHP_ABSTRACT_ME(Phalcon_Events_ManagerInterface, getListeners, arginfo_phalcon_events_managerinterface_getlisteners)
+	PHP_FE_END
+};
+
 
 /**
  * Phalcon\Events\ManagerInterface initializer
@@ -50,7 +54,7 @@ PHALCON_DOC_METHOD(Phalcon_Events_ManagerInterface, attach);
  *
  * @param string $type
  */
-PHALCON_DOC_METHOD(Phalcon_Events_ManagerInterface, dettachAll);
+PHALCON_DOC_METHOD(Phalcon_Events_ManagerInterface, detachAll);
 
 /**
  * Fires a event in the events manager causing that the acive listeners will be notified about it
@@ -69,4 +73,3 @@ PHALCON_DOC_METHOD(Phalcon_Events_ManagerInterface, fire);
  * @return array
  */
 PHALCON_DOC_METHOD(Phalcon_Events_ManagerInterface, getListeners);
-

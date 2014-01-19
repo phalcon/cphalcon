@@ -3,7 +3,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2013 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -17,21 +17,15 @@
   +------------------------------------------------------------------------+
 */
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
-
-#include "php.h"
-#include "php_phalcon.h"
-#include "phalcon.h"
-
-#include "Zend/zend_operators.h"
-#include "Zend/zend_exceptions.h"
-#include "Zend/zend_interfaces.h"
+#include "mvc/url.h"
+#include "mvc/urlinterface.h"
+#include "mvc/url/exception.h"
+#include "mvc/routerinterface.h"
+#include "diinterface.h"
+#include "di/injectionawareinterface.h"
 
 #include "kernel/main.h"
 #include "kernel/memory.h"
-
 #include "kernel/exception.h"
 #include "kernel/object.h"
 #include "kernel/array.h"
@@ -40,6 +34,8 @@
 #include "kernel/concat.h"
 #include "kernel/string.h"
 #include "kernel/framework/router.h"
+
+#include "interned-strings.h"
 
 /**
  * Phalcon\Mvc\Url
@@ -56,7 +52,42 @@
  *
  *</code>
  */
+zend_class_entry *phalcon_mvc_url_ce;
 
+PHP_METHOD(Phalcon_Mvc_Url, setDI);
+PHP_METHOD(Phalcon_Mvc_Url, getDI);
+PHP_METHOD(Phalcon_Mvc_Url, setBaseUri);
+PHP_METHOD(Phalcon_Mvc_Url, setStaticBaseUri);
+PHP_METHOD(Phalcon_Mvc_Url, getBaseUri);
+PHP_METHOD(Phalcon_Mvc_Url, getStaticBaseUri);
+PHP_METHOD(Phalcon_Mvc_Url, setBasePath);
+PHP_METHOD(Phalcon_Mvc_Url, getBasePath);
+PHP_METHOD(Phalcon_Mvc_Url, get);
+PHP_METHOD(Phalcon_Mvc_Url, getStatic);
+PHP_METHOD(Phalcon_Mvc_Url, path);
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_url_setstaticbaseuri, 0, 0, 1)
+	ZEND_ARG_INFO(0, staticBaseUri)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_url_getstatic, 0, 0, 0)
+	ZEND_ARG_INFO(0, uri)
+ZEND_END_ARG_INFO()
+
+static const zend_function_entry phalcon_mvc_url_method_entry[] = {
+	PHP_ME(Phalcon_Mvc_Url, setDI, arginfo_phalcon_di_injectionawareinterface_setdi, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Url, getDI, arginfo_phalcon_di_injectionawareinterface_getdi, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Url, setBaseUri, arginfo_phalcon_mvc_urlinterface_setbaseuri, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Url, setStaticBaseUri, arginfo_phalcon_mvc_url_setstaticbaseuri, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Url, getBaseUri, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Url, getStaticBaseUri, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Url, setBasePath, arginfo_phalcon_mvc_urlinterface_setbasepath, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Url, getBasePath, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Url, get, arginfo_phalcon_mvc_urlinterface_get, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Url, getStatic, arginfo_phalcon_mvc_url_getstatic, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Url, path, arginfo_phalcon_mvc_urlinterface_path, ZEND_ACC_PUBLIC)
+	PHP_FE_END
+};
 
 /**
  * Phalcon\Mvc\Url initializer
@@ -86,13 +117,8 @@ PHP_METHOD(Phalcon_Mvc_Url, setDI){
 	zval *dependency_injector;
 
 	phalcon_fetch_params(0, 1, 0, &dependency_injector);
-	
-	if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
-		PHALCON_THROW_EXCEPTION_STRW(phalcon_mvc_url_exception_ce, "The dependency injector must be an Object");
-		return;
-	}
+	PHALCON_VERIFY_INTERFACE_EX(dependency_injector, phalcon_diinterface_ce, phalcon_mvc_url_exception_ce, 0);
 	phalcon_update_property_this(this_ptr, SL("_dependencyInjector"), dependency_injector TSRMLS_CC);
-	
 }
 
 /**
@@ -173,11 +199,8 @@ PHP_METHOD(Phalcon_Mvc_Url, getBaseUri){
 	
 		PHALCON_INIT_VAR(slash);
 		ZVAL_STRING(slash, "/", 1);
-		phalcon_get_global(&_SERVER, SS("_SERVER") TSRMLS_CC);
-		if (phalcon_array_isset_string(_SERVER, SS("PHP_SELF"))) {
-			PHALCON_OBS_VAR(php_self);
-			phalcon_array_fetch_string(&php_self, _SERVER, SL("PHP_SELF"), PH_NOISY);
-	
+		_SERVER = phalcon_get_global(SS("_SERVER") TSRMLS_CC);
+		if (phalcon_array_isset_string_fetch(&php_self, _SERVER, SS("PHP_SELF"))) {
 			PHALCON_INIT_VAR(uri);
 			phalcon_get_uri(uri, php_self);
 		} else {
@@ -277,7 +300,7 @@ PHP_METHOD(Phalcon_Mvc_Url, get){
 	phalcon_fetch_params(1, 0, 2, &uri, &args);
 	
 	if (!uri) {
-		PHALCON_INIT_VAR(uri);
+		uri = PHALCON_GLOBAL(z_null);
 	}
 	
 	PHALCON_INIT_VAR(base_uri);
@@ -304,10 +327,11 @@ PHP_METHOD(Phalcon_Mvc_Url, get){
 			}
 	
 			PHALCON_INIT_VAR(service);
-			ZVAL_STRING(service, "router", 1);
+			PHALCON_ZVAL_MAYBE_INTERNED_STRING(service, phalcon_interned_router);
 	
 			PHALCON_INIT_NVAR(router);
 			phalcon_call_method_p1(router, dependency_injector, "getshared", service);
+			PHALCON_VERIFY_INTERFACE(router, phalcon_mvc_routerinterface_ce);
 			phalcon_update_property_this(this_ptr, SL("_router"), router TSRMLS_CC);
 		}
 	
@@ -377,7 +401,7 @@ PHP_METHOD(Phalcon_Mvc_Url, getStatic){
 	phalcon_fetch_params(1, 0, 1, &uri);
 	
 	if (!uri) {
-		PHALCON_INIT_VAR(uri);
+		uri = PHALCON_GLOBAL(z_null);
 	}
 	
 	PHALCON_OBS_VAR(static_base_uri);
@@ -404,17 +428,13 @@ PHP_METHOD(Phalcon_Mvc_Url, path){
 
 	zval *path = NULL, *base_path;
 
-	PHALCON_MM_GROW();
-
-	phalcon_fetch_params(1, 0, 1, &path);
+	phalcon_fetch_params(0, 0, 1, &path);
 	
 	if (!path) {
-		PHALCON_INIT_VAR(path);
+		path = PHALCON_GLOBAL(z_null);
 	}
 	
-	PHALCON_OBS_VAR(base_path);
-	phalcon_read_property_this(&base_path, this_ptr, SL("_basePath"), PH_NOISY_CC);
+	base_path = phalcon_fetch_nproperty_this(this_ptr, SL("_basePath"), PH_NOISY_CC);
 	PHALCON_CONCAT_VV(return_value, base_path, path);
-	RETURN_MM();
 }
 

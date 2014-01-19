@@ -3,7 +3,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2013 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -17,26 +17,19 @@
   +------------------------------------------------------------------------+
 */
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
-
-#include "php.h"
 #include "php_phalcon.h"
-#include "phalcon.h"
 
-#include "Zend/zend_operators.h"
-#include "Zend/zend_exceptions.h"
-#include "Zend/zend_interfaces.h"
+#include "annotations/reader.h"
+#include "annotations/readerinterface.h"
+#include "annotations/annot.h"
+#include "annotations/exception.h"
+#include "annotations/scanner.h"
 
 #include "kernel/main.h"
 #include "kernel/memory.h"
-
 #include "kernel/exception.h"
 #include "kernel/object.h"
 #include "kernel/fcall.h"
-#include "annotations/scanner.h"
-#include "annotations/annot.h"
 #include "kernel/array.h"
 #include "kernel/file.h"
 
@@ -45,7 +38,16 @@
  *
  * Parses docblocks returning an array with the found annotations
  */
+zend_class_entry *phalcon_annotations_reader_ce;
 
+PHP_METHOD(Phalcon_Annotations_Reader, parse);
+PHP_METHOD(Phalcon_Annotations_Reader, parseDocBlock);
+
+static const zend_function_entry phalcon_annotations_reader_method_entry[] = {
+	PHP_ME(Phalcon_Annotations_Reader, parse, arginfo_phalcon_annotations_readerinterface_parse, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Annotations_Reader, parseDocBlock, arginfo_phalcon_annotations_readerinterface_parsedocblock, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
+	PHP_FE_END
+};
 
 /**
  * Phalcon\Annotations\Reader initializer
@@ -122,7 +124,7 @@ PHP_METHOD(Phalcon_Annotations_Reader, parse){
 		 */
 		PHALCON_INIT_VAR(class_annotations);
 		if (phannot_parse_annotations(class_annotations, comment, file, line TSRMLS_CC) == FAILURE) {
-			return;
+			RETURN_MM();
 		}
 	
 		/** 
@@ -173,7 +175,7 @@ PHP_METHOD(Phalcon_Annotations_Reader, parse){
 				 */
 				PHALCON_INIT_NVAR(property_annotations);
 				if (phannot_parse_annotations(property_annotations, comment, file, line TSRMLS_CC) == FAILURE) {
-					return;
+					RETURN_MM();
 				}
 				if (Z_TYPE_P(property_annotations) == IS_ARRAY) { 
 					PHALCON_OBS_NVAR(name);
@@ -230,7 +232,7 @@ PHP_METHOD(Phalcon_Annotations_Reader, parse){
 				 */
 				PHALCON_INIT_NVAR(method_annotations);
 				if (phannot_parse_annotations(method_annotations, comment, file, line TSRMLS_CC) == FAILURE) {
-					return;
+					RETURN_MM();
 				}
 				if (Z_TYPE_P(method_annotations) == IS_ARRAY) { 
 					PHALCON_OBS_NVAR(name);
@@ -273,7 +275,7 @@ PHP_METHOD(Phalcon_Annotations_Reader, parseDocBlock){
 	}
 	
 	if (!line) {
-		PHALCON_INIT_VAR(line);
+		line = PHALCON_GLOBAL(z_null);
 	}
 	
 	if (Z_TYPE_P(file) != IS_STRING) {
@@ -281,8 +283,9 @@ PHP_METHOD(Phalcon_Annotations_Reader, parseDocBlock){
 		ZVAL_STRING(file, "eval code", 1);
 	}
 	if (phannot_parse_annotations(return_value, doc_block, file, line TSRMLS_CC) == FAILURE) {
-		return;
+		RETURN_MM();
 	}
+
 	RETURN_MM();
 }
 

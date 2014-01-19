@@ -15,8 +15,18 @@ $f2 = $f1;
 $s->setWorkFactor($f2);
 $hash = $s->hash('password', null);
 
+$d = new \Phalcon\Debug();
+$f1 = 1;
+$f2 = $f1;
+$d->setCharset($f2);
+
 $f1 = "1";
 $f2 = $f1;
+$d->setLinesBeforeContext($f2);
+$d->setLinesAfterContext($f2);
+
+$b = new \Phalcon\Mvc\Model\Query\Builder();
+$b->distinct($f2);
 
 $l = new \Phalcon\Logger\Formatter\FirePhp();
 $l->setShowBacktrace($f2);

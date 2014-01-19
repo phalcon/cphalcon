@@ -3,7 +3,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2013 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -17,15 +17,18 @@
   +------------------------------------------------------------------------+
 */
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
-
-#include "php.h"
-#include "php_phalcon.h"
-#include "phalcon.h"
-
+#include "validation/validatorinterface.h"
 #include "kernel/main.h"
+
+zend_class_entry *phalcon_validation_validatorinterface_ce;
+
+static const zend_function_entry phalcon_validation_validatorinterface_method_entry[] = {
+	PHP_ABSTRACT_ME(Phalcon_Validation_ValidatorInterface, isSetOption, arginfo_phalcon_validation_validatorinterface_issetoption)
+	PHP_ABSTRACT_ME(Phalcon_Validation_ValidatorInterface, getOption, arginfo_phalcon_validation_validatorinterface_getoption)
+	PHP_ABSTRACT_ME(Phalcon_Validation_ValidatorInterface, setOption, arginfo_phalcon_validation_validatorinterface_setoption)
+	PHP_ABSTRACT_ME(Phalcon_Validation_ValidatorInterface, validate, arginfo_phalcon_validation_validatorinterface_validate)
+	PHP_FE_END
+};
 
 /**
  * Phalcon\Validation\ValidatorInterface initializer
@@ -55,6 +58,14 @@ PHALCON_DOC_METHOD(Phalcon_Validation_ValidatorInterface, isSetOption);
 PHALCON_DOC_METHOD(Phalcon_Validation_ValidatorInterface, getOption);
 
 /**
+ * Sets the validator's option
+ *
+ * @param string $key
+ * @param mixed $value
+ */
+PHALCON_DOC_METHOD(Phalcon_Validation_ValidatorInterface, setOption);
+
+/**
  * Executes the validation
  *
  * @param Phalcon\Validator $validator
@@ -62,4 +73,3 @@ PHALCON_DOC_METHOD(Phalcon_Validation_ValidatorInterface, getOption);
  * @return Phalcon\Validation\Message\Group
  */
 PHALCON_DOC_METHOD(Phalcon_Validation_ValidatorInterface, validate);
-

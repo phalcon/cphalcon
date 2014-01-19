@@ -3,7 +3,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2013 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -17,21 +17,10 @@
   +------------------------------------------------------------------------+
 */
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
-
-#include "php.h"
-#include "php_phalcon.h"
-#include "phalcon.h"
-
-#include "Zend/zend_operators.h"
-#include "Zend/zend_exceptions.h"
-#include "Zend/zend_interfaces.h"
+#include "mvc/micro/lazyloader.h"
 
 #include "kernel/main.h"
 #include "kernel/memory.h"
-
 #include "kernel/exception.h"
 #include "kernel/object.h"
 #include "kernel/fcall.h"
@@ -42,7 +31,25 @@
  *
  * Lazy-Load of handlers for Mvc\Micro using auto-loading
  */
+zend_class_entry *phalcon_mvc_micro_lazyloader_ce;
 
+PHP_METHOD(Phalcon_Mvc_Micro_LazyLoader, __construct);
+PHP_METHOD(Phalcon_Mvc_Micro_LazyLoader, __call);
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_micro_lazyloader___construct, 0, 0, 1)
+	ZEND_ARG_INFO(0, definition)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_micro_lazyloader___call, 0, 0, 2)
+	ZEND_ARG_INFO(0, method)
+	ZEND_ARG_INFO(0, arguments)
+ZEND_END_ARG_INFO()
+
+static const zend_function_entry phalcon_mvc_micro_lazyloader_method_entry[] = {
+	PHP_ME(Phalcon_Mvc_Micro_LazyLoader, __construct, arginfo_phalcon_mvc_micro_lazyloader___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
+	PHP_ME(Phalcon_Mvc_Micro_LazyLoader, __call, arginfo_phalcon_mvc_micro_lazyloader___call, ZEND_ACC_PUBLIC)
+	PHP_FE_END
+};
 
 /**
  * Phalcon\Mvc\Micro\LazyLoader initializer
@@ -64,16 +71,12 @@ PHALCON_INIT_CLASS(Phalcon_Mvc_Micro_LazyLoader){
  */
 PHP_METHOD(Phalcon_Mvc_Micro_LazyLoader, __construct){
 
-	zval *definition;
+	zval **definition;
 
-	phalcon_fetch_params(0, 1, 0, &definition);
+	phalcon_fetch_params_ex(1, 0, &definition);
+	PHALCON_ENSURE_IS_STRING(definition);
 	
-	if (Z_TYPE_P(definition) != IS_STRING) {
-		PHALCON_THROW_EXCEPTION_STRW(phalcon_mvc_micro_exception_ce, "Only strings can be lazy loaded");
-		return;
-	}
-	phalcon_update_property_this(this_ptr, SL("_definition"), definition TSRMLS_CC);
-	
+	phalcon_update_property_this(this_ptr, SL("_definition"), *definition TSRMLS_CC);
 }
 
 /**
@@ -110,8 +113,8 @@ PHP_METHOD(Phalcon_Mvc_Micro_LazyLoader, __call){
 	
 	PHALCON_INIT_VAR(call_handler);
 	array_init_size(call_handler, 2);
-	phalcon_array_append(&call_handler, handler, PH_SEPARATE);
-	phalcon_array_append(&call_handler, method, PH_SEPARATE);
+	phalcon_array_append(&call_handler, handler, 0);
+	phalcon_array_append(&call_handler, method, 0);
 	
 	/** 
 	 * Call the handler
@@ -119,4 +122,3 @@ PHP_METHOD(Phalcon_Mvc_Micro_LazyLoader, __call){
 	PHALCON_CALL_USER_FUNC_ARRAY(return_value, call_handler, arguments);
 	RETURN_MM();
 }
-

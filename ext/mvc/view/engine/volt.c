@@ -3,7 +3,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2013 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -17,21 +17,15 @@
   +------------------------------------------------------------------------+
 */
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
-
-#include "php.h"
-#include "php_phalcon.h"
-#include "phalcon.h"
-
-#include "Zend/zend_operators.h"
-#include "Zend/zend_exceptions.h"
-#include "Zend/zend_interfaces.h"
+#include "mvc/view/engine/volt.h"
+#include "mvc/view/engine/volt/compiler.h"
+#include "mvc/view/engine.h"
+#include "mvc/view/engineinterface.h"
+#include "mvc/view/engine/helpers.h"
+#include "mvc/view/exception.h"
 
 #include "kernel/main.h"
 #include "kernel/memory.h"
-
 #include "kernel/exception.h"
 #include "kernel/object.h"
 #include "kernel/fcall.h"
@@ -47,14 +41,66 @@
  *
  * Designer friendly and fast template engine for PHP written in C
  */
+zend_class_entry *phalcon_mvc_view_engine_volt_ce;
 
+PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, setOptions);
+PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, getOptions);
+PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, getCompiler);
+PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, render);
+PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, length);
+PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, isIncluded);
+PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, convertEncoding);
+PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, slice);
+PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, sort);
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_view_engine_volt_setoptions, 0, 0, 1)
+	ZEND_ARG_INFO(0, options)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_view_engine_volt_length, 0, 0, 1)
+	ZEND_ARG_INFO(0, item)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_view_engine_volt_isincluded, 0, 0, 2)
+	ZEND_ARG_INFO(0, needle)
+	ZEND_ARG_INFO(0, haystack)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_view_engine_volt_convertencoding, 0, 0, 3)
+	ZEND_ARG_INFO(0, text)
+	ZEND_ARG_INFO(0, from)
+	ZEND_ARG_INFO(0, to)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_view_engine_volt_slice, 0, 0, 2)
+	ZEND_ARG_INFO(0, value)
+	ZEND_ARG_INFO(0, start)
+	ZEND_ARG_INFO(0, end)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_view_engine_volt_sort, 0, 0, 1)
+	ZEND_ARG_INFO(0, value)
+ZEND_END_ARG_INFO()
+
+static const zend_function_entry phalcon_mvc_view_engine_volt_method_entry[] = {
+	PHP_ME(Phalcon_Mvc_View_Engine_Volt, setOptions, arginfo_phalcon_mvc_view_engine_volt_setoptions, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_View_Engine_Volt, getOptions, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_View_Engine_Volt, getCompiler, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_View_Engine_Volt, render, arginfo_phalcon_mvc_view_engineinterface_render, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_View_Engine_Volt, length, arginfo_phalcon_mvc_view_engine_volt_length, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_View_Engine_Volt, isIncluded, arginfo_phalcon_mvc_view_engine_volt_isincluded, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_View_Engine_Volt, convertEncoding, arginfo_phalcon_mvc_view_engine_volt_convertencoding, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_View_Engine_Volt, slice, arginfo_phalcon_mvc_view_engine_volt_slice, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_View_Engine_Volt, sort, arginfo_phalcon_mvc_view_engine_volt_sort, ZEND_ACC_PUBLIC)
+	PHP_FE_END
+};
 
 /**
  * Phalcon\Mvc\View\Engine\Volt initializer
  */
 PHALCON_INIT_CLASS(Phalcon_Mvc_View_Engine_Volt){
 
-	PHALCON_REGISTER_CLASS_EX(Phalcon\\Mvc\\View\\Engine, Volt, mvc_view_engine_volt, "phalcon\\mvc\\view\\engine", phalcon_mvc_view_engine_volt_method_entry, 0);
+	PHALCON_REGISTER_CLASS_EX(Phalcon\\Mvc\\View\\Engine, Volt, mvc_view_engine_volt, phalcon_mvc_view_engine_ce, phalcon_mvc_view_engine_volt_method_entry, 0);
 
 	zend_declare_property_null(phalcon_mvc_view_engine_volt_ce, SL("_options"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_mvc_view_engine_volt_ce, SL("_compiler"), ZEND_ACC_PROTECTED TSRMLS_CC);
@@ -152,19 +198,15 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, getCompiler){
 PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, render){
 
 	zval *template_path, *params, *must_clean = NULL, *compiler;
-	zval *compiled_template_path, *value = NULL, *key = NULL, *contents;
+	zval *compiled_template_path, *contents;
 	zval *view;
-	HashTable *ah0;
-	HashPosition hp0;
-	zval **hd;
 
 	PHALCON_MM_GROW();
 
 	phalcon_fetch_params(1, 2, 1, &template_path, &params, &must_clean);
 	
 	if (!must_clean) {
-		PHALCON_INIT_VAR(must_clean);
-		ZVAL_BOOL(must_clean, 0);
+		must_clean = PHALCON_GLOBAL(z_false);
 	}
 	
 	if (PHALCON_IS_TRUE(must_clean)) {
@@ -182,38 +224,40 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, render){
 	phalcon_call_method(compiled_template_path, compiler, "getcompiledtemplatepath");
 	
 	/** 
-	 * Export the variables the current symbol table
+	 * Export the variables into the current symbol table
 	 */
 	if (Z_TYPE_P(params) == IS_ARRAY) { 
-	
-		phalcon_is_iterable(params, &ah0, &hp0, 0, 0);
-	
-		while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
-	
-			PHALCON_GET_HKEY(key, ah0, hp0);
-			PHALCON_GET_HVALUE(value);
-	
-			if (phalcon_set_symbol(key, value TSRMLS_CC) == FAILURE){
-				return;
-			}
-	
-			zend_hash_move_forward_ex(ah0, &hp0);
+		if (!EG(active_symbol_table)) {
+			zend_rebuild_symbol_table(TSRMLS_C);
 		}
-	
+
+		zend_hash_merge_ex(
+			EG(active_symbol_table),
+			Z_ARRVAL_P(params),
+			(copy_ctor_func_t)zval_add_ref,
+			sizeof(zval*),
+			phalcon_mvc_view_engine_php_symtable_merger
+#ifdef ZTS
+			TSRMLS_CC
+#else
+			, NULL
+#endif
+		);
 	}
 	
 	if (phalcon_require(compiled_template_path TSRMLS_CC) == FAILURE) {
-		return;
+		RETVAL_FALSE;
+		RETURN_MM();
 	}
 	if (PHALCON_IS_TRUE(must_clean)) {
 		PHALCON_INIT_VAR(contents);
 		phalcon_ob_get_contents(contents TSRMLS_CC);
 	
-		PHALCON_OBS_VAR(view);
-		phalcon_read_property_this(&view, this_ptr, SL("_view"), PH_NOISY_CC);
+		view = phalcon_fetch_nproperty_this(this_ptr, SL("_view"), PH_NOISY_CC);
 		phalcon_call_method_p1_noret(view, "setcontent", contents);
 	}
 	
+	RETVAL_TRUE;
 	PHALCON_MM_RESTORE();
 }
 
@@ -225,32 +269,19 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, render){
  */
 PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, length){
 
-	zval *item, *length = NULL;
+	zval *item;
 
-	PHALCON_MM_GROW();
-
-	phalcon_fetch_params(1, 1, 0, &item);
+	phalcon_fetch_params(0, 1, 0, &item);
 	
-	PHALCON_INIT_VAR(length);
-	ZVAL_LONG(length, 0);
-	if (Z_TYPE_P(item) == IS_OBJECT) {
-		phalcon_fast_count(length, item TSRMLS_CC);
+	if (Z_TYPE_P(item) == IS_OBJECT || Z_TYPE_P(item) == IS_ARRAY) {
+		phalcon_fast_count(return_value, item TSRMLS_CC);
+	} else if (phalcon_function_exists_ex(SS("mb_strlen") TSRMLS_CC) == SUCCESS) {
+		PHALCON_MM_GROW();
+		PHALCON_RETURN_CALL_FUNCTION("mb_strlen", item);
+		PHALCON_MM_RESTORE();
 	} else {
-		if (Z_TYPE_P(item) == IS_ARRAY) { 
-			PHALCON_INIT_NVAR(length);
-			phalcon_fast_count(length, item TSRMLS_CC);
-		} else {
-			if (phalcon_function_exists_ex(SS("mb_strlen") TSRMLS_CC) == SUCCESS) {
-				PHALCON_INIT_NVAR(length);
-				phalcon_call_func_p1(length, "mb_strlen", item);
-			} else {
-				PHALCON_INIT_NVAR(length);
-				phalcon_fast_strlen(length, item);
-			}
-		}
+		phalcon_fast_strlen(return_value, item);
 	}
-	
-	RETURN_CCTOR(length);
 }
 
 /**
@@ -264,25 +295,23 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, isIncluded){
 
 	zval *needle, *haystack;
 
-	PHALCON_MM_GROW();
-
-	phalcon_fetch_params(1, 2, 0, &needle, &haystack);
+	phalcon_fetch_params(0, 2, 0, &needle, &haystack);
 	
 	if (Z_TYPE_P(haystack) == IS_ARRAY) { 
-		phalcon_call_func_p2(return_value, "in_array", needle, haystack);
-		RETURN_MM();
+		RETURN_BOOL(phalcon_fast_in_array(needle, haystack TSRMLS_CC));
 	}
+
 	if (Z_TYPE_P(haystack) == IS_STRING) {
 		if (phalcon_function_exists_ex(SS("mb_strpos") TSRMLS_CC) == SUCCESS) {
-			phalcon_call_func_p2(return_value, "mb_strpos", haystack, needle);
+			PHALCON_MM_GROW();
+			PHALCON_RETURN_CALL_FUNCTION("mb_strpos", haystack, needle);
 			RETURN_MM();
 		}
+
 		phalcon_fast_strpos(return_value, haystack, needle);
-		RETURN_MM();
 	}
 	
-	PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_view_exception_ce, "Invalid haystack");
-	return;
+	PHALCON_THROW_EXCEPTION_STRW(phalcon_mvc_view_exception_ce, "Invalid haystack");
 }
 
 /**
@@ -306,7 +335,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, convertEncoding){
 	 */
 	if (PHALCON_IS_STRING(from, "latin1")) {
 		if (PHALCON_IS_STRING(to, "utf8")) {
-			phalcon_call_func_p1(return_value, "utf8_encode", text);
+			PHALCON_RETURN_CALL_FUNCTION("utf8_encode", text);
 			RETURN_MM();
 		}
 	}
@@ -316,7 +345,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, convertEncoding){
 	 */
 	if (PHALCON_IS_STRING(to, "latin1")) {
 		if (PHALCON_IS_STRING(from, "utf8")) {
-			phalcon_call_func_p1(return_value, "utf8_decode", text);
+			PHALCON_RETURN_CALL_FUNCTION("utf8_decode", text);
 			RETURN_MM();
 		}
 	}
@@ -325,7 +354,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, convertEncoding){
 	 * Fallback to mb_convert_encoding
 	 */
 	if (phalcon_function_exists_ex(SS("mb_convert_encoding") TSRMLS_CC) == SUCCESS) {
-		phalcon_call_func_p3(return_value, "mb_convert_encoding", text, from, to);
+		PHALCON_RETURN_CALL_FUNCTION("mb_convert_encoding", text, from, to);
 		RETURN_MM();
 	}
 	
@@ -333,7 +362,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, convertEncoding){
 	 * Fallback to iconv
 	 */
 	if (phalcon_function_exists_ex(SS("iconv") TSRMLS_CC) == SUCCESS) {
-		phalcon_call_func_p3(return_value, "iconv", from, to, text);
+		PHALCON_RETURN_CALL_FUNCTION("iconv", from, to, text);
 		RETURN_MM();
 	}
 	
@@ -352,7 +381,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, convertEncoding){
 PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, slice){
 
 	zval *value, *start, *end = NULL, *slice, *length = NULL, *position;
-	zval *current = NULL, *one, *range;
+	zval *current = NULL, *range;
 	zval *r0 = NULL;
 
 	PHALCON_MM_GROW();
@@ -360,7 +389,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, slice){
 	phalcon_fetch_params(1, 2, 1, &value, &start, &end);
 	
 	if (!end) {
-		PHALCON_INIT_VAR(end);
+		end = PHALCON_GLOBAL(z_null);
 	}
 	
 	/** 
@@ -408,14 +437,11 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, slice){
 	 * Calculate the slice length
 	 */
 	if (Z_TYPE_P(end) != IS_NULL) {
-		PHALCON_INIT_VAR(one);
-		ZVAL_LONG(one, 1);
-	
 		PHALCON_INIT_VAR(range);
 		sub_function(range, end, start TSRMLS_CC);
 	
 		PHALCON_INIT_NVAR(length);
-		phalcon_add_function(length, range, one TSRMLS_CC);
+		phalcon_add_function(length, range, PHALCON_GLOBAL(z_one) TSRMLS_CC);
 	} else {
 		PHALCON_INIT_NVAR(length);
 	}
@@ -424,7 +450,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, slice){
 	 * Use array_slice on arrays
 	 */
 	if (Z_TYPE_P(value) == IS_ARRAY) { 
-		phalcon_call_func_p3(return_value, "array_slice", value, start, length);
+		PHALCON_RETURN_CALL_FUNCTION("array_slice", value, start, length);
 		RETURN_MM();
 	}
 	
@@ -433,10 +459,10 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, slice){
 	 */
 	if (phalcon_function_exists_ex(SS("mb_substr") TSRMLS_CC) == SUCCESS) {
 		if (Z_TYPE_P(length) != IS_NULL) {
-			phalcon_call_func_p3(return_value, "mb_substr", value, start, length);
+			PHALCON_RETURN_CALL_FUNCTION("mb_substr", value, start, length);
 			RETURN_MM();
 		}
-		phalcon_call_func_p2(return_value, "mb_substr", value, start);
+		PHALCON_RETURN_CALL_FUNCTION("mb_substr", value, start);
 		RETURN_MM();
 	}
 	
@@ -444,11 +470,11 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, slice){
 	 * Use the standard substr function
 	 */
 	if (Z_TYPE_P(length) != IS_NULL) {
-		phalcon_call_func_p3(return_value, "substr", value, start, length);
+		PHALCON_RETURN_CALL_FUNCTION("substr", value, start, length);
 		RETURN_MM();
 	}
 	
-	phalcon_call_func_p2(return_value, "substr", value, start);
+	PHALCON_RETURN_CALL_FUNCTION("substr", value, start);
 	RETURN_MM();
 }
 
@@ -465,10 +491,10 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, sort){
 	PHALCON_MM_GROW();
 
 	phalcon_fetch_params(1, 1, 0, &value);
+	PHALCON_SEPARATE_PARAM(value);
 	
 	Z_SET_ISREF_P(value);
-	phalcon_call_func_p1_noret("asort", value);
+	PHALCON_CALL_FUNCTION_NORET("asort", value);
 	Z_UNSET_ISREF_P(value);
-	RETURN_CCTOR(value);
+	RETURN_CTOR(value);
 }
-

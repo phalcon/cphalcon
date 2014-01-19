@@ -3,7 +3,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2013 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -18,14 +18,9 @@
   +------------------------------------------------------------------------+
 */
 
-#ifndef PHALCON_RELEASE
+#ifndef PHALCON_KERNEL_BACKTRACE_H
+#define PHALCON_KERNEL_BACKTRACE_H
 
-extern void phalcon_print_backtrace(void);
+void phalcon_print_backtrace(void);
 
-#else
-
-#ifndef phalcon_print_backtrace
-#define phalcon_print_backtrace()
-#endif
-
-#endif
+#endif /* PHALCON_KERNEL_BACKTRACE_H */

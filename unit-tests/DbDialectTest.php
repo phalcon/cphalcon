@@ -327,10 +327,10 @@ class DbDialectTest extends PHPUnit_Framework_TestCase
 		$references = $this->getReferences();
 
 		//Add Foreign Key
-		$this->assertEquals($dialect->addForeignKey('table', null, $references['fk1']), 'ALTER TABLE `table` ADD FOREIGN KEY `fk1`(`column1`) REFERENCES `ref_table`(`column2`)');
-		$this->assertEquals($dialect->addForeignKey('table', 'schema', $references['fk1']), 'ALTER TABLE `schema`.`table` ADD FOREIGN KEY `fk1`(`column1`) REFERENCES `ref_table`(`column2`)');
-		$this->assertEquals($dialect->addForeignKey('table', null, $references['fk2']), 'ALTER TABLE `table` ADD FOREIGN KEY `fk2`(`column3`, `column4`) REFERENCES `ref_table`(`column5`, `column6`)');
-		$this->assertEquals($dialect->addForeignKey('table', 'schema', $references['fk2']), 'ALTER TABLE `schema`.`table` ADD FOREIGN KEY `fk2`(`column3`, `column4`) REFERENCES `ref_table`(`column5`, `column6`)');
+		$this->assertEquals($dialect->addForeignKey('table', null, $references['fk1']), 'ALTER TABLE `table` ADD CONSTRAINT `fk1` FOREIGN KEY (`column1`) REFERENCES `ref_table`(`column2`)');
+		$this->assertEquals($dialect->addForeignKey('table', 'schema', $references['fk1']), 'ALTER TABLE `schema`.`table` ADD CONSTRAINT `fk1` FOREIGN KEY (`column1`) REFERENCES `ref_table`(`column2`)');
+		$this->assertEquals($dialect->addForeignKey('table', null, $references['fk2']), 'ALTER TABLE `table` ADD CONSTRAINT `fk2` FOREIGN KEY (`column3`, `column4`) REFERENCES `ref_table`(`column5`, `column6`)');
+		$this->assertEquals($dialect->addForeignKey('table', 'schema', $references['fk2']), 'ALTER TABLE `schema`.`table` ADD CONSTRAINT `fk2` FOREIGN KEY (`column3`, `column4`) REFERENCES `ref_table`(`column5`, `column6`)');
 
 		$this->assertEquals($dialect->dropForeignKey('table', null, 'fk1'), 'ALTER TABLE `table` DROP FOREIGN KEY `fk1`');
 		$this->assertEquals($dialect->dropForeignKey('table', 'schema', 'fk1'), 'ALTER TABLE `schema`.`table` DROP FOREIGN KEY `fk1`');
@@ -342,10 +342,12 @@ class DbDialectTest extends PHPUnit_Framework_TestCase
 				$columns['column2'],
 			)
 		);
-		$this->assertEquals($dialect->createTable('table', null, $definition), 'CREATE TABLE `table` (
-	`column1` VARCHAR(10),
-	`column2` INT(18) UNSIGNED
-)');
+
+		$expected  = "CREATE TABLE `table` (\n";
+		$expected .= "	`column1` VARCHAR(10),\n";
+		$expected .= "	`column2` INT(18) UNSIGNED\n";
+		$expected .= ")";
+		$this->assertEquals($dialect->createTable('table', null, $definition), $expected);
 
 		$definition = array(
 			'columns' => array(
@@ -357,12 +359,14 @@ class DbDialectTest extends PHPUnit_Framework_TestCase
 				$indexes['PRIMARY']
 			)
 		);
-		$this->assertEquals($dialect->createTable('table', null, $definition), 'CREATE TABLE `table` (
-	`column2` INT(18) UNSIGNED,
-	`column3` DECIMAL(10,2) NOT NULL,
-	`column1` VARCHAR(10),
-	PRIMARY KEY (`column3`)
-)');
+
+		$expected  = "CREATE TABLE `table` (\n";
+		$expected .= "	`column2` INT(18) UNSIGNED,\n";
+		$expected .= "	`column3` DECIMAL(10,2) NOT NULL,\n";
+		$expected .= "	`column1` VARCHAR(10),\n";
+		$expected .= "	PRIMARY KEY (`column3`)\n";
+		$expected .= ")";
+		$this->assertEquals($dialect->createTable('table', null, $definition), $expected);
 
 	}
 

@@ -129,7 +129,7 @@ class ModelsCriteriaTest extends PHPUnit_Framework_TestCase
 
 		$personas = Personas::query()
 			->where("estado='A'")
-			->order("nombres")
+			->orderBy("nombres")
 			->execute();
 		$people = People::find(array(
 			"estado='A'",
@@ -144,7 +144,7 @@ class ModelsCriteriaTest extends PHPUnit_Framework_TestCase
 		//Order + limit
 		$personas = Personas::query()
 			->where("estado='A'")
-			->order("nombres")
+			->orderBy("nombres")
 			->limit(100)
 			->execute();
 		$people = People::find(array(
@@ -162,7 +162,7 @@ class ModelsCriteriaTest extends PHPUnit_Framework_TestCase
 		$personas = Personas::query()
 			->where("estado=?1")
 			->bind(array(1 => "A"))
-			->order("nombres")
+			->orderBy("nombres")
 			->limit(100)
 			->execute();
 
@@ -182,7 +182,7 @@ class ModelsCriteriaTest extends PHPUnit_Framework_TestCase
 		$personas = Personas::query()
 			->where("estado=?1")
 			->bind(array(1 => "A"))
-			->order("nombres")
+			->orderBy("nombres")
 			->limit(100, 10)
 			->execute();
 
@@ -201,7 +201,7 @@ class ModelsCriteriaTest extends PHPUnit_Framework_TestCase
 		$personas = Personas::query()
 			->where("estado=:estado:")
 			->bind(array("estado" => "A"))
-			->order("nombres")
+			->orderBy("nombres")
 			->limit(100)
 			->execute();
 
@@ -236,7 +236,7 @@ class ModelsCriteriaTest extends PHPUnit_Framework_TestCase
 
 		$personers = Personers::query()
 			->where("status='A'")
-			->order("navnes")
+			->orderBy("navnes")
 			->execute();
 		$this->assertTrue(is_object($personers));
 		$this->assertEquals(get_class($personers), 'Phalcon\Mvc\Model\Resultset\Simple');
@@ -247,7 +247,7 @@ class ModelsCriteriaTest extends PHPUnit_Framework_TestCase
 
 		$personers  = Personers::query()
 			->where("status='A'")
-			->order("navnes")
+			->orderBy("navnes")
 			->limit(100)
 			->execute();
 		$this->assertTrue(is_object($personers));
@@ -260,7 +260,7 @@ class ModelsCriteriaTest extends PHPUnit_Framework_TestCase
 		$personers = Personers::query()
 			->where("status=?1")
 			->bind(array(1 => "A"))
-			->order("navnes")
+			->orderBy("navnes")
 			->limit(100)
 			->execute();
 		$this->assertTrue(is_object($personers));
@@ -273,7 +273,7 @@ class ModelsCriteriaTest extends PHPUnit_Framework_TestCase
 		$personers = Personers::query()
 			->where("status=:status:")
 			->bind(array("status" => "A"))
-			->order("navnes")
+			->orderBy("navnes")
 			->limit(100)->execute();
 		$this->assertTrue(is_object($personers));
 		$this->assertEquals(get_class($personers), 'Phalcon\Mvc\Model\Resultset\Simple');

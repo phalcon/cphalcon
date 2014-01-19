@@ -3,7 +3,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2013 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -17,21 +17,14 @@
   +------------------------------------------------------------------------+
 */
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
-
-#include "php.h"
-#include "php_phalcon.h"
-#include "phalcon.h"
-
-#include "Zend/zend_operators.h"
-#include "Zend/zend_exceptions.h"
-#include "Zend/zend_interfaces.h"
+#include "logger/adapter/syslog.h"
+#include "logger/adapter.h"
+#include "logger/adapterinterface.h"
+#include "logger/exception.h"
+#include "logger/formatter/syslog.h"
 
 #include "kernel/main.h"
 #include "kernel/memory.h"
-
 #include "kernel/array.h"
 #include "kernel/fcall.h"
 #include "kernel/object.h"
@@ -52,14 +45,38 @@
  *	$logger->error("This is another error");
  *</code>
  */
+zend_class_entry *phalcon_logger_adapter_syslog_ce;
 
+PHP_METHOD(Phalcon_Logger_Adapter_Syslog, __construct);
+PHP_METHOD(Phalcon_Logger_Adapter_Syslog, getFormatter);
+PHP_METHOD(Phalcon_Logger_Adapter_Syslog, logInternal);
+PHP_METHOD(Phalcon_Logger_Adapter_Syslog, close);
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_logger_adapter_syslog___construct, 0, 0, 1)
+	ZEND_ARG_INFO(0, name)
+	ZEND_ARG_INFO(0, options)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_logger_adapter_syslog_loginternal, 0, 0, 3)
+	ZEND_ARG_INFO(0, message)
+	ZEND_ARG_INFO(0, type)
+	ZEND_ARG_INFO(0, time)
+ZEND_END_ARG_INFO()
+
+static const zend_function_entry phalcon_logger_adapter_syslog_method_entry[] = {
+	PHP_ME(Phalcon_Logger_Adapter_Syslog, __construct, arginfo_phalcon_logger_adapter_syslog___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
+	PHP_ME(Phalcon_Logger_Adapter_Syslog, getFormatter, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Logger_Adapter_Syslog, logInternal, arginfo_phalcon_logger_adapter_syslog_loginternal, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Logger_Adapter_Syslog, close, NULL, ZEND_ACC_PUBLIC)
+	PHP_FE_END
+};
 
 /**
  * Phalcon\Logger\Adapter\Syslog initializer
  */
 PHALCON_INIT_CLASS(Phalcon_Logger_Adapter_Syslog){
 
-	PHALCON_REGISTER_CLASS_EX(Phalcon\\Logger\\Adapter, Syslog, logger_adapter_syslog, "phalcon\\logger\\adapter", phalcon_logger_adapter_syslog_method_entry, 0);
+	PHALCON_REGISTER_CLASS_EX(Phalcon\\Logger\\Adapter, Syslog, logger_adapter_syslog, phalcon_logger_adapter_ce, phalcon_logger_adapter_syslog_method_entry, 0);
 
 	zend_declare_property_bool(phalcon_logger_adapter_syslog_ce, SL("_opened"), 0, ZEND_ACC_PROTECTED TSRMLS_CC);
 
@@ -83,7 +100,7 @@ PHP_METHOD(Phalcon_Logger_Adapter_Syslog, __construct){
 	phalcon_fetch_params(1, 1, 1, &name, &options);
 	
 	if (!options) {
-		PHALCON_INIT_VAR(options);
+		options = PHALCON_GLOBAL(z_null);
 	}
 	
 	/** 
@@ -111,7 +128,7 @@ PHP_METHOD(Phalcon_Logger_Adapter_Syslog, __construct){
 			ZVAL_LONG(facility, 8);
 		}
 	
-		phalcon_call_func_p3_noret("openlog", name, option, facility);
+		PHALCON_CALL_FUNCTION_NORET("openlog", name, option, facility);
 		phalcon_update_property_bool(this_ptr, SL("_opened"), 1 TSRMLS_CC);
 	}
 	
@@ -137,7 +154,7 @@ PHP_METHOD(Phalcon_Logger_Adapter_Syslog, getFormatter){
 		phalcon_update_property_this(this_ptr, SL("_formatter"), formatter TSRMLS_CC);
 	}
 	
-	RETURN_CCTOR(formatter);
+	RETURN_CTOR(formatter);
 }
 
 /**
@@ -162,7 +179,7 @@ PHP_METHOD(Phalcon_Logger_Adapter_Syslog, logInternal){
 	PHALCON_INIT_VAR(applied_format);
 	phalcon_call_method_p3(applied_format, formatter, "format", message, type, time);
 	if (Z_TYPE_P(applied_format) != IS_ARRAY) { 
-		PHALCON_THROW_EXCEPTION_STR(phalcon_logger_exception_ce, "The formatted message is not valid");
+		convert_to_string(applied_format);
 		return;
 	}
 	
@@ -171,7 +188,7 @@ PHP_METHOD(Phalcon_Logger_Adapter_Syslog, logInternal){
 	
 	PHALCON_OBS_VAR(syslog_message);
 	phalcon_array_fetch_long(&syslog_message, applied_format, 1, PH_NOISY);
-	phalcon_call_func_p2_noret("syslog", syslog_type, syslog_message);
+	PHALCON_CALL_FUNCTION_NORET("syslog", syslog_type, syslog_message);
 	
 	PHALCON_MM_RESTORE();
 }
@@ -190,9 +207,9 @@ PHP_METHOD(Phalcon_Logger_Adapter_Syslog, close){
 	PHALCON_OBS_VAR(opened);
 	phalcon_read_property_this(&opened, this_ptr, SL("_opened"), PH_NOISY_CC);
 	if (zend_is_true(opened)) {
-		phalcon_call_func_noret("closelog");
+		PHALCON_CALL_FUNCTION_NORET("closelog");
 	}
 	
+	RETVAL_TRUE;
 	PHALCON_MM_RESTORE();
 }
-

@@ -3,7 +3,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2013 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -17,21 +17,14 @@
   +------------------------------------------------------------------------+
 */
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
-
-#include "php.h"
-#include "php_phalcon.h"
-#include "phalcon.h"
-
-#include "Zend/zend_operators.h"
-#include "Zend/zend_exceptions.h"
-#include "Zend/zend_interfaces.h"
+#include "mvc/model/validator/uniqueness.h"
+#include "mvc/model/validator.h"
+#include "mvc/model/validatorinterface.h"
+#include "mvc/model/exception.h"
+#include "mvc/model/metadatainterface.h"
 
 #include "kernel/main.h"
 #include "kernel/memory.h"
-
 #include "kernel/fcall.h"
 #include "kernel/array.h"
 #include "kernel/concat.h"
@@ -39,6 +32,8 @@
 #include "kernel/operators.h"
 #include "kernel/string.h"
 #include "kernel/object.h"
+
+#include "interned-strings.h"
 
 /**
  * Phalcon\Mvc\Model\Validator\Uniqueness
@@ -66,14 +61,21 @@
  *</code>
  *
  */
+zend_class_entry *phalcon_mvc_model_validator_uniqueness_ce;
 
+PHP_METHOD(Phalcon_Mvc_Model_Validator_Uniqueness, validate);
+
+static const zend_function_entry phalcon_mvc_model_validator_uniqueness_method_entry[] = {
+	PHP_ME(Phalcon_Mvc_Model_Validator_Uniqueness, validate, arginfo_phalcon_mvc_model_validatorinterface_validate, ZEND_ACC_PUBLIC)
+	PHP_FE_END
+};
 
 /**
  * Phalcon\Mvc\Model\Validator\Uniqueness initializer
  */
 PHALCON_INIT_CLASS(Phalcon_Mvc_Model_Validator_Uniqueness){
 
-	PHALCON_REGISTER_CLASS_EX(Phalcon\\Mvc\\Model\\Validator, Uniqueness, mvc_model_validator_uniqueness, "phalcon\\mvc\\model\\validator", phalcon_mvc_model_validator_uniqueness_method_entry, 0);
+	PHALCON_REGISTER_CLASS_EX(Phalcon\\Mvc\\Model\\Validator, Uniqueness, mvc_model_validator_uniqueness, phalcon_mvc_model_validator_ce, phalcon_mvc_model_validator_uniqueness_method_entry, 0);
 
 	zend_class_implements(phalcon_mvc_model_validator_uniqueness_ce TSRMLS_CC, 1, phalcon_mvc_model_validatorinterface_ce);
 
@@ -95,8 +97,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Uniqueness, validate){
 	zval *exception_message = NULL, *value = NULL, *compose_condition = NULL;
 	zval *bind_type = NULL, *condition = NULL, *operation_made;
 	zval *primary_fields, *primary_field = NULL, *attribute_field = NULL;
-	zval *join_conditions, *params, *class_name;
-	zval *message = NULL, *join_fields, *type;
+	zval *join_conditions, *params;
+	zval *message = NULL, *join_fields, *type, *is_set_code, *code;
 	HashTable *ah0, *ah1;
 	HashPosition hp0, hp1;
 	zval **hd;
@@ -119,6 +121,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Uniqueness, validate){
 	
 	PHALCON_INIT_VAR(meta_data);
 	phalcon_call_method_p1(meta_data, dependency_injector, "getshared", service);
+	PHALCON_VERIFY_INTERFACE(meta_data, phalcon_mvc_model_metadatainterface_ce);
 	
 	/** 
 	 * PostgreSQL check if the compared constant has the same type as the column, so we
@@ -324,26 +327,23 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Uniqueness, validate){
 	 * We don't trust the user, so we pass the parameters as bound parameters
 	 */
 	PHALCON_INIT_VAR(params);
-	array_init(params);
-	phalcon_array_update_string(&params, SL("di"), &dependency_injector, PH_COPY | PH_SEPARATE);
-	phalcon_array_update_string(&params, SL("conditions"), &join_conditions, PH_COPY | PH_SEPARATE);
-	phalcon_array_update_string(&params, SL("bind"), &bind_params, PH_COPY | PH_SEPARATE);
-	phalcon_array_update_string(&params, SL("bindTypes"), &bind_types, PH_COPY | PH_SEPARATE);
-	
-	PHALCON_INIT_VAR(class_name);
-	phalcon_get_class(class_name, record, 0 TSRMLS_CC);
+	array_init_size(params, 4);
+	phalcon_array_update_string(&params, SL("di"), &dependency_injector, PH_COPY);
+	phalcon_array_update_string(&params, SL("conditions"), &join_conditions, PH_COPY);
+	phalcon_array_update_string(&params, SL("bind"), &bind_params, PH_COPY);
+	phalcon_array_update_string(&params, SL("bindTypes"), &bind_types, PH_COPY);
 	
 	/** 
 	 * Check using a standard count
 	 */
-	phalcon_call_zval_str_static_p1(number, class_name, "count", params);
+	phalcon_call_ce_static_p1(number, Z_OBJCE_P(record), "count", params);
 	if (!PHALCON_IS_LONG(number, 0)) {
 	
 		/** 
 		 * Check if the developer has defined a custom message
 		 */
 		PHALCON_INIT_NVAR(option);
-		ZVAL_STRING(option, "message", 1);
+		PHALCON_ZVAL_MAYBE_INTERNED_STRING(option, phalcon_interned_message);
 	
 		PHALCON_INIT_VAR(message);
 		phalcon_call_method_p1(message, this_ptr, "getoption", option);
@@ -365,10 +365,25 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Uniqueness, validate){
 		 */
 		PHALCON_INIT_VAR(type);
 		ZVAL_STRING(type, "Unique", 1);
-		phalcon_call_method_p3_noret(this_ptr, "appendmessage", message, field, type);
+
+		/*
+		 * Is code set
+		 */
+		PHALCON_INIT_NVAR(option);
+		PHALCON_ZVAL_MAYBE_INTERNED_STRING(option, phalcon_interned_code);
+
+		PHALCON_INIT_VAR(is_set_code);
+		phalcon_call_method_p1(is_set_code, this_ptr, "issetoption", option);
+		PHALCON_INIT_VAR(code);
+		if (zend_is_true(is_set_code)) {
+			phalcon_call_method_p1(code, this_ptr, "getoption", option);
+		} else {
+			ZVAL_LONG(code, 0);
+		}
+
+		phalcon_call_method_p4_noret(this_ptr, "appendmessage", message, field, type, code);
 		RETURN_MM_FALSE;
 	}
 	
 	RETURN_MM_TRUE;
 }
-

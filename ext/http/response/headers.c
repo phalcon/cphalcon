@@ -2,7 +2,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2013 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -16,23 +16,13 @@
   +------------------------------------------------------------------------+
 */
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
+#include "http/response/headers.h"
+#include "http/response/headersinterface.h"
 
-#include "php.h"
-#include "php_phalcon.h"
-#include "phalcon.h"
-
-#include "Zend/zend_operators.h"
-#include "Zend/zend_exceptions.h"
-#include "Zend/zend_interfaces.h"
-
-#include "main/SAPI.h"
+#include <main/SAPI.h>
 
 #include "kernel/main.h"
 #include "kernel/memory.h"
-
 #include "kernel/object.h"
 #include "kernel/array.h"
 #include "kernel/fcall.h"
@@ -45,7 +35,30 @@
  *
  * This class is a bag to manage the response headers
  */
+zend_class_entry *phalcon_http_response_headers_ce;
 
+PHP_METHOD(Phalcon_Http_Response_Headers, set);
+PHP_METHOD(Phalcon_Http_Response_Headers, get);
+PHP_METHOD(Phalcon_Http_Response_Headers, setRaw);
+PHP_METHOD(Phalcon_Http_Response_Headers, send);
+PHP_METHOD(Phalcon_Http_Response_Headers, reset);
+PHP_METHOD(Phalcon_Http_Response_Headers, toArray);
+PHP_METHOD(Phalcon_Http_Response_Headers, __set_state);
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_http_response_headers___set_state, 0, 0, 1)
+	ZEND_ARG_INFO(0, data)
+ZEND_END_ARG_INFO()
+
+static const zend_function_entry phalcon_http_response_headers_method_entry[] = {
+	PHP_ME(Phalcon_Http_Response_Headers, set, arginfo_phalcon_http_response_headersinterface_set, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Http_Response_Headers, get, arginfo_phalcon_http_response_headersinterface_get, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Http_Response_Headers, setRaw, arginfo_phalcon_http_response_headersinterface_setraw, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Http_Response_Headers, send, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Http_Response_Headers, reset, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Http_Response_Headers, toArray, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Http_Response_Headers, __set_state, arginfo_phalcon_http_response_headers___set_state, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
+	PHP_FE_END
+};
 
 /**
  * Phalcon\Http\Response\Headers initializer
@@ -87,19 +100,14 @@ PHP_METHOD(Phalcon_Http_Response_Headers, get){
 
 	zval *name, *headers, *header_value;
 
-	PHALCON_MM_GROW();
-
-	phalcon_fetch_params(1, 1, 0, &name);
+	phalcon_fetch_params(0, 1, 0, &name);
 	
-	PHALCON_OBS_VAR(headers);
-	phalcon_read_property_this(&headers, this_ptr, SL("_headers"), PH_NOISY_CC);
-	if (phalcon_array_isset(headers, name)) {
-		PHALCON_OBS_VAR(header_value);
-		phalcon_array_fetch(&header_value, headers, name, PH_NOISY);
-		RETURN_CCTOR(header_value);
+	headers = phalcon_fetch_nproperty_this(this_ptr, SL("_headers"), PH_NOISY_CC);
+	if (phalcon_array_isset_fetch(&header_value, headers, name)) {
+		RETURN_ZVAL(header_value, 1, 0);
 	}
 	
-	RETURN_MM_FALSE;
+	RETURN_FALSE;
 }
 
 /**
@@ -109,16 +117,11 @@ PHP_METHOD(Phalcon_Http_Response_Headers, get){
  */
 PHP_METHOD(Phalcon_Http_Response_Headers, setRaw){
 
-	zval *header, *zval_null;
+	zval *header;
 
-	PHALCON_MM_GROW();
-
-	phalcon_fetch_params(1, 1, 0, &header);
+	phalcon_fetch_params(0, 1, 0, &header);
 	
-	PHALCON_INIT_VAR(zval_null);
-	phalcon_update_property_array(this_ptr, SL("_headers"), header, zval_null TSRMLS_CC);
-	
-	PHALCON_MM_RESTORE();
+	phalcon_update_property_array(this_ptr, SL("_headers"), header, PHALCON_GLOBAL(z_null) TSRMLS_CC);
 }
 
 /**
@@ -199,6 +202,17 @@ PHP_METHOD(Phalcon_Http_Response_Headers, reset){
 }
 
 /**
+ * Returns the current headers as an array
+ *
+ * @return array
+ */
+PHP_METHOD(Phalcon_Http_Response_Headers, toArray){
+
+
+	RETURN_MEMBER(this_ptr, "_headers");
+}
+
+/**
  * Restore a Phalcon\Http\Response\Headers object
  *
  * @param array $data
@@ -238,4 +252,3 @@ PHP_METHOD(Phalcon_Http_Response_Headers, __set_state){
 	
 	RETURN_CTOR(headers);
 }
-

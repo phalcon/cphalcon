@@ -109,6 +109,11 @@ class ModelsMetadataAdaptersTest extends PHPUnit_Framework_TestCase
 
 	public function testMetadataMemory()
 	{
+		require 'unit-tests/config.db.php';
+		if (empty($configMysql)) {
+			$this->markTestSkipped('Test skipped');
+			return;
+		}
 
 		$di = $this->_getDI();
 
@@ -132,8 +137,13 @@ class ModelsMetadataAdaptersTest extends PHPUnit_Framework_TestCase
 
 	public function testMetadataSession()
 	{
-
 		@session_start();
+
+		require 'unit-tests/config.db.php';
+		if (empty($configMysql)) {
+			$this->markTestSkipped('Test skipped');
+			return;
+		}
 
 		$di = $this->_getDI();
 
@@ -165,6 +175,11 @@ class ModelsMetadataAdaptersTest extends PHPUnit_Framework_TestCase
 
 	public function testMetadataApc()
 	{
+		require 'unit-tests/config.db.php';
+		if (empty($configMysql)) {
+			$this->markTestSkipped('Test skipped');
+			return;
+		}
 
 		if (!function_exists('apc_fetch')) {
 			$this->markTestSkipped('apc extension is not loaded');
@@ -201,6 +216,11 @@ class ModelsMetadataAdaptersTest extends PHPUnit_Framework_TestCase
 
 	public function testMetadataXcache()
 	{
+		require 'unit-tests/config.db.php';
+		if (empty($configMysql)) {
+			$this->markTestSkipped('Test skipped');
+			return;
+		}
 
 		if (!function_exists('xcache_get')) {
 			$this->markTestSkipped('xcache extension is not loaded');
@@ -237,6 +257,11 @@ class ModelsMetadataAdaptersTest extends PHPUnit_Framework_TestCase
 
 	public function testMetadataFiles()
 	{
+		require 'unit-tests/config.db.php';
+		if (empty($configMysql)) {
+			$this->markTestSkipped('Test skipped');
+			return;
+		}
 
 		$di = $this->_getDI();
 

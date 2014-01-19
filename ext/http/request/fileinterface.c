@@ -3,7 +3,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2013 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -17,15 +17,21 @@
   +------------------------------------------------------------------------+
 */
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
-
-#include "php.h"
-#include "php_phalcon.h"
-#include "phalcon.h"
-
+#include "http/request/fileinterface.h"
 #include "kernel/main.h"
+
+zend_class_entry *phalcon_http_request_fileinterface_ce;
+
+static const zend_function_entry phalcon_http_request_fileinterface_method_entry[] = {
+	PHP_ABSTRACT_ME(Phalcon_Http_Request_FileInterface, __construct, arginfo_phalcon_http_request_fileinterface___construct)
+	PHP_ABSTRACT_ME(Phalcon_Http_Request_FileInterface, getSize, NULL)
+	PHP_ABSTRACT_ME(Phalcon_Http_Request_FileInterface, getName, NULL)
+	PHP_ABSTRACT_ME(Phalcon_Http_Request_FileInterface, getTempName, NULL)
+	PHP_ABSTRACT_ME(Phalcon_Http_Request_FileInterface, getType, NULL)
+	PHP_ABSTRACT_ME(Phalcon_Http_Request_FileInterface, getRealType, NULL)
+	PHP_ABSTRACT_ME(Phalcon_Http_Request_FileInterface, moveTo, arginfo_phalcon_http_request_fileinterface_moveto)
+	PHP_FE_END
+};
 
 /**
  * Phalcon\Http\Request\FileInterface initializer
@@ -87,4 +93,3 @@ PHALCON_DOC_METHOD(Phalcon_Http_Request_FileInterface, getRealType);
  * @return boolean
  */
 PHALCON_DOC_METHOD(Phalcon_Http_Request_FileInterface, moveTo);
-

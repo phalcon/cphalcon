@@ -3,7 +3,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2013 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -17,15 +17,22 @@
   +------------------------------------------------------------------------+
 */
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
-
-#include "php.h"
-#include "php_phalcon.h"
-#include "phalcon.h"
-
+#include "mvc/model/messageinterface.h"
 #include "kernel/main.h"
+
+zend_class_entry *phalcon_mvc_model_messageinterface_ce;
+
+static const zend_function_entry phalcon_mvc_model_messageinterface_method_entry[] = {
+	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_MessageInterface, __construct, arginfo_phalcon_mvc_model_messageinterface___construct)
+	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_MessageInterface, setType, arginfo_phalcon_mvc_model_messageinterface_settype)
+	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_MessageInterface, getType, NULL)
+	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_MessageInterface, setMessage, arginfo_phalcon_mvc_model_messageinterface_setmessage)
+	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_MessageInterface, getMessage, NULL)
+	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_MessageInterface, setField, arginfo_phalcon_mvc_model_messageinterface_setfield)
+	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_MessageInterface, getField, NULL)
+	ZEND_FENTRY(__set_state, NULL, arginfo_phalcon_mvc_model_messageinterface___set_state, ZEND_ACC_STATIC|ZEND_ACC_ABSTRACT|ZEND_ACC_PUBLIC)
+	PHP_FE_END
+};
 
 /**
  * Phalcon\Mvc\Model\MessageInterface initializer
@@ -89,17 +96,9 @@ PHALCON_DOC_METHOD(Phalcon_Mvc_Model_MessageInterface, setField);
 PHALCON_DOC_METHOD(Phalcon_Mvc_Model_MessageInterface, getField);
 
 /**
- * Magic __toString method returns verbose message
- *
- * @return string
- */
-PHALCON_DOC_METHOD(Phalcon_Mvc_Model_MessageInterface, __toString);
-
-/**
  * Magic __set_state helps to recover messsages from serialization
  *
  * @param array $message
  * @return Phalcon\Mvc\Model\MessageInterface
  */
 PHALCON_DOC_METHOD(Phalcon_Mvc_Model_MessageInterface, __set_state);
-

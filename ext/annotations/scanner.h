@@ -3,7 +3,7 @@
 	+------------------------------------------------------------------------+
 	| Phalcon Framework                                                      |
 	+------------------------------------------------------------------------+
-	| Copyright (c) 2011-2013 Phalcon Team (http://www.phalconphp.com)       |
+	| Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
 	+------------------------------------------------------------------------+
 	| This source file is subject to the New BSD License that is bundled     |
 	| with this package in the file docs/LICENSE.txt.                        |
@@ -16,6 +16,9 @@
 	|          Eduar Carvajal <eduar@phalconphp.com>                         |
 	+------------------------------------------------------------------------+
 */
+
+#ifndef PHALCON_ANNOTATIONS_SCANNER_H
+#define PHALCON_ANNOTATIONS_SCANNER_H
 
 #define PHANNOT_SCANNER_RETCODE_EOF -1
 #define PHANNOT_SCANNER_RETCODE_ERR -2
@@ -81,3 +84,5 @@ typedef struct _phannot_scanner_token {
 int phannot_get_token(phannot_scanner_state *s, phannot_scanner_token *token);
 
 extern const phannot_token_names phannot_tokens[];
+
+#endif /* PHALCON_ANNOTATIONS_SCANNER_H */

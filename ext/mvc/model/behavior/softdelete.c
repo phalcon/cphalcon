@@ -3,7 +3,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2013 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -17,21 +17,13 @@
   +------------------------------------------------------------------------+
 */
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
-
-#include "php.h"
-#include "php_phalcon.h"
-#include "phalcon.h"
-
-#include "Zend/zend_operators.h"
-#include "Zend/zend_exceptions.h"
-#include "Zend/zend_interfaces.h"
+#include "mvc/model/behavior/softdelete.h"
+#include "mvc/model/behavior.h"
+#include "mvc/model/behaviorinterface.h"
+#include "mvc/model/exception.h"
 
 #include "kernel/main.h"
 #include "kernel/memory.h"
-
 #include "kernel/operators.h"
 #include "kernel/fcall.h"
 #include "kernel/array.h"
@@ -44,14 +36,21 @@
  * Instead of permanently delete a record it marks the record as
  * deleted changing the value of a flag column
  */
+zend_class_entry *phalcon_mvc_model_behavior_softdelete_ce;
 
+PHP_METHOD(Phalcon_Mvc_Model_Behavior_SoftDelete, notify);
+
+static const zend_function_entry phalcon_mvc_model_behavior_softdelete_method_entry[] = {
+	PHP_ME(Phalcon_Mvc_Model_Behavior_SoftDelete, notify, arginfo_phalcon_mvc_model_behaviorinterface_notify, ZEND_ACC_PUBLIC)
+	PHP_FE_END
+};
 
 /**
  * Phalcon\Mvc\Model\Behavior\SoftDelete initializer
  */
 PHALCON_INIT_CLASS(Phalcon_Mvc_Model_Behavior_SoftDelete){
 
-	PHALCON_REGISTER_CLASS_EX(Phalcon\\Mvc\\Model\\Behavior, SoftDelete, mvc_model_behavior_softdelete, "phalcon\\mvc\\model\\behavior", phalcon_mvc_model_behavior_softdelete_method_entry, 0);
+	PHALCON_REGISTER_CLASS_EX(Phalcon\\Mvc\\Model\\Behavior, SoftDelete, mvc_model_behavior_softdelete, phalcon_mvc_model_behavior_ce, phalcon_mvc_model_behavior_softdelete_method_entry, 0);
 
 	zend_class_implements(phalcon_mvc_model_behavior_softdelete_ce TSRMLS_CC, 1, phalcon_mvc_model_behaviorinterface_ce);
 
@@ -66,7 +65,7 @@ PHALCON_INIT_CLASS(Phalcon_Mvc_Model_Behavior_SoftDelete){
  */
 PHP_METHOD(Phalcon_Mvc_Model_Behavior_SoftDelete, notify){
 
-	zval *type, *model, *options, *skip, *value, *field, *actual_value;
+	zval *type, *model, *options, *value, *field, *actual_value;
 	zval *update_model, *status, *messages, *message = NULL;
 	HashTable *ah0;
 	HashPosition hp0;
@@ -90,13 +89,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Behavior_SoftDelete, notify){
 			return;
 		}
 	
-		PHALCON_INIT_VAR(skip);
-		ZVAL_BOOL(skip, 1);
-	
 		/** 
 		 * Skip the current operation
 		 */
-		phalcon_call_method_p1_noret(model, "skipoperation", skip);
+		phalcon_call_method_p1_noret(model, "skipoperation", PHALCON_GLOBAL(z_true));
 	
 		/** 
 		 * 'value' is the value to be updated instead of delete the record
@@ -123,8 +119,9 @@ PHP_METHOD(Phalcon_Mvc_Model_Behavior_SoftDelete, notify){
 			 */
 			PHALCON_INIT_VAR(update_model);
 			if (phalcon_clone(update_model, model TSRMLS_CC) == FAILURE) {
-				return;
+				RETURN_MM();
 			}
+
 			phalcon_call_method_p2_noret(update_model, "writeattribute", field, value);
 	
 			/** 

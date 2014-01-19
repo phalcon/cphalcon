@@ -3,7 +3,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2013 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -17,36 +17,39 @@
   +------------------------------------------------------------------------+
 */
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
-
-#include "php.h"
 #include "php_phalcon.h"
-#include "phalcon.h"
 
-#include "Zend/zend_operators.h"
-#include "Zend/zend_exceptions.h"
-#include "Zend/zend_interfaces.h"
+#include "di/service/builder.h"
+#include "di/exception.h"
 
 #include "kernel/main.h"
 #include "kernel/memory.h"
-
 #include "kernel/concat.h"
 #include "kernel/exception.h"
 #include "kernel/array.h"
-#include "kernel/operators.h"
 #include "kernel/fcall.h"
-#include "kernel/hash.h"
-#include "kernel/file.h"
 #include "kernel/object.h"
+#include "kernel/operators.h"
+#include "kernel/hash.h"
 
 /**
  * Phalcon\DI\Service\Builder
  *
  * This class builds instances based on complex definitions
  */
+zend_class_entry *phalcon_di_service_builder_ce;
 
+PHP_METHOD(Phalcon_DI_Service_Builder, _buildParameter);
+PHP_METHOD(Phalcon_DI_Service_Builder, _buildParameters);
+PHP_METHOD(Phalcon_DI_Service_Builder, build);
+
+
+static const zend_function_entry phalcon_di_service_builder_method_entry[] = {
+	PHP_ME(Phalcon_DI_Service_Builder, _buildParameter, NULL, ZEND_ACC_PROTECTED)
+	PHP_ME(Phalcon_DI_Service_Builder, _buildParameters, NULL, ZEND_ACC_PROTECTED)
+	PHP_ME(Phalcon_DI_Service_Builder, build, arginfo_phalcon_di_service_builder_build, ZEND_ACC_PUBLIC)
+	PHP_FE_END
+};
 
 /**
  * Phalcon\DI\Service\Builder initializer
@@ -254,7 +257,7 @@ PHP_METHOD(Phalcon_DI_Service_Builder, build){
 	phalcon_fetch_params(1, 2, 1, &dependency_injector, &definition, &parameters);
 	
 	if (!parameters) {
-		PHALCON_INIT_VAR(parameters);
+		parameters = PHALCON_GLOBAL(z_null);
 	}
 	
 	if (Z_TYPE_P(definition) != IS_ARRAY) { 
@@ -277,16 +280,9 @@ PHP_METHOD(Phalcon_DI_Service_Builder, build){
 		/** 
 		 * Build the instance overriding the definition constructor parameters
 		 */
-		if (phalcon_fast_count_ev(parameters TSRMLS_CC)) {
-			PHALCON_INIT_VAR(instance);
-			if (phalcon_create_instance_params(instance, class_name, parameters TSRMLS_CC) == FAILURE) {
-				return;
-			}
-		} else {
-			PHALCON_INIT_NVAR(instance);
-			if (phalcon_create_instance(instance, class_name TSRMLS_CC) == FAILURE) {
-				return;
-			}
+		PHALCON_INIT_VAR(instance);
+		if (phalcon_create_instance_params(instance, class_name, parameters TSRMLS_CC) == FAILURE) {
+			RETURN_MM();
 		}
 	} else {
 		/** 
@@ -307,12 +303,12 @@ PHP_METHOD(Phalcon_DI_Service_Builder, build){
 			 */
 			PHALCON_INIT_NVAR(instance);
 			if (phalcon_create_instance_params(instance, class_name, build_arguments TSRMLS_CC) == FAILURE) {
-				return;
+				RETURN_MM();
 			}
 		} else {
 			PHALCON_INIT_NVAR(instance);
 			if (phalcon_create_instance(instance, class_name TSRMLS_CC) == FAILURE) {
-				return;
+				RETURN_MM();
 			}
 		}
 	}

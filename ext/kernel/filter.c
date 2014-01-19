@@ -3,7 +3,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2013 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -17,32 +17,25 @@
   +------------------------------------------------------------------------+
 */
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
+#include "php_phalcon.h"
 
 #include <ctype.h>
-
-#include "php.h"
-#include "php_phalcon.h"
-#include "php_main.h"
-#include "ext/standard/php_smart_str.h"
-#include "ext/standard/php_math.h"
-#include "ext/standard/html.h"
+#include <Zend/zend_exceptions.h>
+#include <Zend/zend_interfaces.h>
+#include <ext/standard/php_smart_str.h>
+#include <ext/standard/php_math.h>
+#include <ext/standard/html.h>
 
 #include "kernel/main.h"
 #include "kernel/memory.h"
-
-#include "Zend/zend_exceptions.h"
-#include "Zend/zend_interfaces.h"
 
 /**
  * Filter alphanum string
  */
 void phalcon_filter_alphanum(zval *return_value, zval *param){
 
-	unsigned int i;
-	unsigned char ch;
+	int i;
+	char ch;
 	smart_str filtered_str = {0};
 	zval copy;
 	int use_copy = 0;
@@ -82,8 +75,8 @@ void phalcon_filter_alphanum(zval *return_value, zval *param){
  */
 void phalcon_filter_identifier(zval *return_value, zval *param){
 
-	unsigned int i;
-	unsigned char ch;
+	int i;
+	char ch;
 	zval copy;
 	smart_str filtered_str = {0};
 	int use_copy = 0;
@@ -124,17 +117,17 @@ void phalcon_filter_identifier(zval *return_value, zval *param){
  */
 void phalcon_is_basic_charset(zval *return_value, const zval *param){
 
-	unsigned int i;
-	unsigned int ch;
+	int i;
+	unsigned char ch;
 	int iso88591 = 0;
 
 	for (i = 0; i < Z_STRLEN_P(param); i++) {
-		ch = Z_STRVAL_P(param)[i];
+		ch = (unsigned char)(Z_STRVAL_P(param)[i]);
 		if (ch != '\0') {
 			if (ch == 172 || (ch >= 128 && ch <= 159)) {
 				continue;
 			}
-			if (ch >= 160 && ch <= 255) {
+			if (ch >= 160) {
 				iso88591 = 1;
 				continue;
 			}
@@ -170,7 +163,7 @@ static long phalcon_unpack(char *data, int size, int issigned, int *map)
 static inline char *phalcon_longtohex(unsigned long value) {
 
 	static char digits[] = "0123456789abcdef";
-	char buf[(sizeof(unsigned long) << 3) + 1];
+	char buf[(sizeof(unsigned long) << 1) + 1];
 	char *ptr, *end;
 
 	end = ptr = buf + sizeof(buf) - 1;
@@ -188,14 +181,14 @@ static inline char *phalcon_longtohex(unsigned long value) {
  */
 void phalcon_escape_multi(zval *return_value, zval *param, const char *escape_char, unsigned int escape_length, char escape_extra, int use_whitelist) {
 
-	unsigned int i;
+	int i;
 	zval copy;
 	smart_str escaped_str = {0};
-	char machine_little_endian, *hex;
+	char *hex;
 	int big_endian_long_map[4];
-	int use_copy = 0, machine_endian_check = 1;
+	int use_copy = 0;
 	int issigned = 0;
-	long value;
+	long int value;
 
 	if (Z_TYPE_P(param) != IS_STRING) {
 		zend_make_printable_zval(param, &copy, &use_copy);
@@ -211,19 +204,17 @@ void phalcon_escape_multi(zval *return_value, zval *param, const char *escape_ch
 	/**
 	 * This is how the big_ending_long_map is calculated as in 'pack'
 	 */
-	machine_little_endian = ((char *) &machine_endian_check)[0];
-	if (machine_little_endian) {
-		big_endian_long_map[0] = 3;
-		big_endian_long_map[1] = 2;
-		big_endian_long_map[2] = 1;
-		big_endian_long_map[3] = 0;
-	} else {
-		int size = sizeof(Z_LVAL_P(param));
-		big_endian_long_map[0] = size - 4;
-		big_endian_long_map[1] = size - 3;
-		big_endian_long_map[2] = size - 2;
-		big_endian_long_map[3] = size - 1;
-	}
+#ifndef WORDS_BIGENDIAN
+	big_endian_long_map[0] = 3;
+	big_endian_long_map[1] = 2;
+	big_endian_long_map[2] = 1;
+	big_endian_long_map[3] = 0;
+#else
+	big_endian_long_map[0] = 0;
+	big_endian_long_map[1] = 1;
+	big_endian_long_map[2] = 2;
+	big_endian_long_map[3] = 3;
+#endif
 
 	/**
 	 * The input must be a valid UTF-32 string
@@ -257,7 +248,7 @@ void phalcon_escape_multi(zval *return_value, zval *param, const char *escape_ch
 		/**
 		 * Alphanumeric characters are not escaped
 		 */
-		if (value < 256 && isalnum(value)) {
+		if (value > 32 && value < 127 && isalnum(value)) {
 			smart_str_appendc(&escaped_str, (unsigned char) value);
 			continue;
 		}
@@ -292,6 +283,8 @@ void phalcon_escape_multi(zval *return_value, zval *param, const char *escape_ch
 				case ';':
 				case '_':
 				case '|':
+				case '~':
+				case '`':
 					smart_str_appendc(&escaped_str, (unsigned char) value);
 					continue;
 			}

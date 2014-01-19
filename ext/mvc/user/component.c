@@ -3,7 +3,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2013 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -17,20 +17,9 @@
   +------------------------------------------------------------------------+
 */
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
-
-#include "php.h"
-#include "php_phalcon.h"
-#include "phalcon.h"
-
-#include "Zend/zend_operators.h"
-#include "Zend/zend_exceptions.h"
-#include "Zend/zend_interfaces.h"
-
+#include "mvc/user/component.h"
+#include "di/injectable.h"
 #include "kernel/main.h"
-#include "kernel/memory.h"
 
 /**
  * Phalcon\Mvc\User\Component
@@ -38,15 +27,14 @@
  * This class can be used to provide user components easy access to services
  * in the application
  */
-
+zend_class_entry *phalcon_mvc_user_component_ce;
 
 /**
  * Phalcon\Mvc\User\Component initializer
  */
 PHALCON_INIT_CLASS(Phalcon_Mvc_User_Component){
 
-	PHALCON_REGISTER_CLASS_EX(Phalcon\\Mvc\\User, Component, mvc_user_component, "phalcon\\di\\injectable", NULL, 0);
+	PHALCON_REGISTER_CLASS_EX(Phalcon\\Mvc\\User, Component, mvc_user_component, phalcon_di_injectable_ce, NULL, 0);
 
 	return SUCCESS;
 }
-

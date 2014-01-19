@@ -1,3 +1,6 @@
+#ifndef PHALCON_MVC_VIEW_ENGINE_VOLT_PARSER_H
+#define PHALCON_MVC_VIEW_ENGINE_VOLT_PARSER_H
+
 #define PHVOLT_OPEN_DELIMITER                  1
 #define PHVOLT_COMMA                           2
 #define PHVOLT_IN                              3
@@ -74,3 +77,5 @@
 #define PHVOLT_SBRACKET_CLOSE                 74
 #define PHVOLT_CBRACKET_OPEN                  75
 #define PHVOLT_CBRACKET_CLOSE                 76
+
+#endif /* PHALCON_MVC_VIEW_ENGINE_VOLT_PARSER_H */

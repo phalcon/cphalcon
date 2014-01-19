@@ -407,6 +407,13 @@ class ModelsQueryExecuteTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals(count($result), 2);
 		$this->assertInstanceOf('Phalcon\Mvc\Model\Row', $result[0]);
 
+		// Issue 1011
+		$result = $manager->executeQuery('SELECT r.name le_name FROM Robots r ORDER BY r.name ASC LIMIT ?1,?2', array(1 => 1, 2 => 2), array(1 => \Phalcon\Db\Column::BIND_PARAM_INT, 2 => \Phalcon\Db\Column::BIND_PARAM_INT));
+		$this->assertInstanceOf('Phalcon\Mvc\Model\Resultset\Simple', $result);
+		$this->assertEquals(count($result), 2);
+		$this->assertInstanceOf('Phalcon\Mvc\Model\Row', $result[0]);
+		$this->assertTrue(isset($result[0]->le_name));
+		$this->assertEquals($result[0]->le_name, 'Robotina');
 	}
 
 	public function _testSelectRenamedExecute($di)
@@ -639,6 +646,7 @@ class ModelsQueryExecuteTest extends PHPUnit_Framework_TestCase
 				'_type' => NULL,
 				'_message' => 'Sorry Marina, but you are not allowed here',
 				'_field' => NULL,
+				'_code' => 0,
 			)),
 		));
 
@@ -649,6 +657,7 @@ class ModelsQueryExecuteTest extends PHPUnit_Framework_TestCase
 				'_type' => 'Email',
 				'_message' => "Value of field 'email' must have a valid e-mail format",
 				'_field' => 'email',
+				'_code' => 0,
 			)),
 		));
 
@@ -689,6 +698,7 @@ class ModelsQueryExecuteTest extends PHPUnit_Framework_TestCase
 				'_type' => NULL,
 				'_message' => 'Désolé Marina, mais vous n\'êtes pas autorisé ici',
 				'_field' => NULL,
+				'_code' => 0,
 			)),
 		));
 
@@ -702,6 +712,7 @@ class ModelsQueryExecuteTest extends PHPUnit_Framework_TestCase
 				'_type' => 'Email',
 				'_message' => "Le courrier électronique est invalide",
 				'_field' => 'courrierElectronique',
+				'_code' => 0,
 			)),
 		));
 
@@ -755,6 +766,17 @@ class ModelsQueryExecuteTest extends PHPUnit_Framework_TestCase
 		));
 		$this->assertTrue($status->success());
 
+		// Issue 1011
+		$status = $manager->executeQuery(
+			'UPDATE Subscriptores SET status = :status: WHERE email = :email: LIMIT :limit:',
+			array(
+				"status" => "I",
+				"email" => "le-marina@hotmail.com",
+				"limit" => 1,
+			),
+			array('email' => \Phalcon\Db\Column::BIND_PARAM_STR, 'limit' => \Phalcon\Db\Column::BIND_PARAM_INT)
+		);
+		$this->assertTrue($status->success());
 	}
 
 	public function _testUpdateRenamedExecute($di)
@@ -794,6 +816,17 @@ class ModelsQueryExecuteTest extends PHPUnit_Framework_TestCase
 		));
 		$this->assertTrue($status->success());
 
+		// Issue 1011
+		$status = $manager->executeQuery(
+			'DELETE FROM Subscriptores WHERE status = :status: AND email <> :email: LIMIT :limit:',
+			array(
+				"status" => "P",
+				"email" => "fuego@hotmail.com",
+				"limit" => 1,
+			),
+			array('email' => \Phalcon\Db\Column::BIND_PARAM_STR, 'limit' => \Phalcon\Db\Column::BIND_PARAM_INT)
+		);
+		$this->assertTrue($status->success());
 	}
 
 	public function _testDeleteRenamedExecute($di)

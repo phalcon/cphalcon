@@ -224,6 +224,12 @@ class PaginatorTest extends PHPUnit_Framework_TestCase
 
 	public function testModelPaginator()
 	{
+		require 'unit-tests/config.db.php';
+		if (empty($configMysql)) {
+			$this->markTestSkipped('Test skipped');
+			return;
+		}
+
 		$this->_loadDI();
 
 		$personnes = Personnes::find();
@@ -280,6 +286,12 @@ class PaginatorTest extends PHPUnit_Framework_TestCase
 
 	public function testModelPaginatorBind()
 	{
+		require 'unit-tests/config.db.php';
+		if (empty($configMysql)) {
+			$this->markTestSkipped('Test skipped');
+			return;
+		}
+
 		$this->_loadDI();
 
 		$personnes = Personnes::find(array(
@@ -311,13 +323,18 @@ class PaginatorTest extends PHPUnit_Framework_TestCase
 
 	public function testQueryBuilderPaginator()
 	{
+		require 'unit-tests/config.db.php';
+		if (empty($configMysql)) {
+			$this->markTestSkipped('Test skipped');
+			return;
+		}
 
 		$di = $this->_loadDI();
 
 		$builder = $di['modelsManager']->createBuilder()
-	        		->columns('cedula, nombres')
-	        		->from('Personnes')
-	        		->orderBy('cedula');
+					->columns('cedula, nombres')
+					->from('Personnes')
+					->orderBy('cedula');
 
 		$paginator = new Phalcon\Paginator\Adapter\QueryBuilder(array(
 			"builder" => $builder,
@@ -369,32 +386,34 @@ class PaginatorTest extends PHPUnit_Framework_TestCase
 
 		$this->assertEquals($page->current, 218);
 		$this->assertEquals($page->total_pages, 218);
-	}
 
-	public function testIssue826()
-	{
-		$this->_loadDI();
+		// test of getter/setters of querybuilder adapter
 
-		$personnes = Personnes::find();
+        // -- current page --
+		$currentPage = $paginator->getCurrentPage();
+		$this->assertEquals($currentPage, 218);
 
-		$paginator = new Phalcon\Paginator\Adapter\Model(array(
-			'data' => $personnes,
-			'limit' => 1,
-			'page' => 1
-		));
+		// -- limit --
+		$rowsLimit = $paginator->getLimit();
+		$this->assertEquals($rowsLimit, 10);
 
-		$paginator->setCurrentPage(2179);
+		$setterResult = $paginator->setLimit(25);
+		$rowsLimit = $paginator->getLimit();
+		$this->assertEquals($rowsLimit, 25);
+		$this->assertEquals($setterResult, $paginator);
 
-		$page = $paginator->getPaginate();
+		// -- builder --
+		$queryBuilder = $paginator->getQueryBuilder();
+		$this->assertEquals($builder, $queryBuilder);
 
-		$this->assertEquals(count($page->items), 1);
+		$builder2 = $di['modelsManager']->createBuilder()
+			->columns('cedula, nombres')
+			->from('Personnes');
 
-		$this->assertEquals($page->before, 2178);
-		$this->assertEquals($page->next, 2180);
-		$this->assertEquals($page->last, 2180);
-
-		$this->assertEquals($page->current, 2179);
-		$this->assertEquals($page->total_pages, 2180);
+		$setterResult = $paginator->setQueryBuilder($builder2);
+		$queryBuilder = $paginator->getQueryBuilder();
+		$this->assertEquals($builder2, $queryBuilder);
+		$this->assertEquals($setterResult, $paginator);
 	}
 
 }

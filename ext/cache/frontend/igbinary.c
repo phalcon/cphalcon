@@ -3,7 +3,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2013 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -18,21 +18,14 @@
   +------------------------------------------------------------------------+
 */
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
-
-#include "php.h"
 #include "php_phalcon.h"
-#include "phalcon.h"
 
-#include "Zend/zend_operators.h"
-#include "Zend/zend_exceptions.h"
-#include "Zend/zend_interfaces.h"
+#include "cache/frontend/data.h"
+#include "cache/frontend/igbinary.h"
+#include "cache/frontendinterface.h"
 
 #include "kernel/main.h"
 #include "kernel/memory.h"
-
 #include "kernel/fcall.h"
 
 /**
@@ -73,14 +66,23 @@
  *	}
  *</code>
  */
+zend_class_entry *phalcon_cache_frontend_igbinary_ce;
 
+PHP_METHOD(Phalcon_Cache_Frontend_Igbinary, beforeStore);
+PHP_METHOD(Phalcon_Cache_Frontend_Igbinary, afterRetrieve);
+
+static const zend_function_entry phalcon_cache_frontend_igbinary_method_entry[] = {
+	PHP_ME(Phalcon_Cache_Frontend_Igbinary, beforeStore, arginfo_phalcon_cache_frontendinterface_beforestore, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Cache_Frontend_Igbinary, afterRetrieve, arginfo_phalcon_cache_frontendinterface_afterretrieve, ZEND_ACC_PUBLIC)
+	PHP_FE_END
+};
 
 /**
  * Phalcon\Cache\Frontend\Igbinary initializer
  */
 PHALCON_INIT_CLASS(Phalcon_Cache_Frontend_Igbinary){
 
-	PHALCON_REGISTER_CLASS_EX(Phalcon\\Cache\\Frontend, Igbinary, cache_frontend_igbinary, "phalcon\\cache\\frontend\\data", phalcon_cache_frontend_igbinary_method_entry, 0);
+	PHALCON_REGISTER_CLASS_EX(Phalcon\\Cache\\Frontend, Igbinary, cache_frontend_igbinary, phalcon_cache_frontend_data_ce, phalcon_cache_frontend_igbinary_method_entry, 0);
 
 	zend_class_implements(phalcon_cache_frontend_igbinary_ce TSRMLS_CC, 1, phalcon_cache_frontendinterface_ce);
 
@@ -101,7 +103,7 @@ PHP_METHOD(Phalcon_Cache_Frontend_Igbinary, beforeStore){
 
 	phalcon_fetch_params(1, 1, 0, &data);
 	
-	phalcon_call_func_p1(return_value, "igbinary_serialize", data);
+	PHALCON_RETURN_CALL_FUNCTION("igbinary_serialize", data);
 	RETURN_MM();
 }
 
@@ -119,7 +121,6 @@ PHP_METHOD(Phalcon_Cache_Frontend_Igbinary, afterRetrieve){
 
 	phalcon_fetch_params(1, 1, 0, &data);
 	
-	phalcon_call_func_p1(return_value, "igbinary_unserialize", data);
+	PHALCON_RETURN_CALL_FUNCTION("igbinary_unserialize", data);
 	RETURN_MM();
 }
-

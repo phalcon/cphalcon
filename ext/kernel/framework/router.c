@@ -3,7 +3,7 @@
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
  +------------------------------------------------------------------------+
- | Copyright (c) 2011-2013 Phalcon Team (http://www.phalconphp.com)       |
+ | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled     |
  | with this package in the file docs/LICENSE.txt.                        |
@@ -21,16 +21,16 @@
 #include "php_phalcon.h"
 #include "php_main.h"
 
-#include "ext/standard/php_smart_str.h"
-#include "ext/standard/php_string.h"
+#include <ext/standard/php_smart_str.h>
+#include <ext/standard/php_string.h>
 
 zval *phalcon_replace_marker(int named, zval *paths, zval *replacements, unsigned long *position, char *cursor, char *marker){
 
 	zval **zv, **tmp;
 	int result = FAILURE;
-	unsigned int length, variable_length, ch;
+	unsigned int length = 0, variable_length, ch, j;
 	char *item = NULL, *cursor_var, *variable = NULL;
-	int not_valid = 0, j;
+	int not_valid = 0;
 
 	if (named) {
 		length = cursor - marker - 1;
@@ -107,10 +107,11 @@ zval *phalcon_replace_marker(int named, zval *paths, zval *replacements, unsigne
 void phalcon_replace_paths(zval *return_value, zval *pattern, zval *paths, zval *replacements TSRMLS_DC){
 
 	char *cursor, *marker = NULL;
-	unsigned int i, bracket_count = 0, parentheses_count = 0, intermediate = 0;
+	unsigned int bracket_count = 0, parentheses_count = 0, intermediate = 0;
 	unsigned char ch;
 	smart_str route_str = {0};
-	unsigned long position = 1;
+	ulong position = 1;
+	int i;
 	zval *replace, replace_copy;
 	int use_copy, looking_placeholder = 0;
 
@@ -121,7 +122,7 @@ void phalcon_replace_paths(zval *return_value, zval *pattern, zval *paths, zval 
 	}
 
 	if (Z_STRLEN_P(pattern) <= 0) {
-		ZVAL_BOOL(return_value, 0);
+		ZVAL_FALSE(return_value);
 		return;
 	}
 
@@ -268,25 +269,16 @@ void phalcon_replace_paths(zval *return_value, zval *pattern, zval *paths, zval 
  */
 void phalcon_extract_named_params(zval *return_value, zval *str, zval *matches){
 
-	unsigned int i, j, k, bracket_count = 0, parentheses_count = 0, ch;
-	unsigned int intermediate = 0, length, number_matches = 0, found_pattern;
+	int i, k;
+	uint j, bracket_count = 0, parentheses_count = 0, ch;
+	uint intermediate = 0, length, number_matches = 0, found_pattern;
 	int variable_length, regexp_length = 0, not_valid = 0;
 	char *cursor, *cursor_var, *marker = NULL;
-	char *item, *variable = NULL, *regexp;
+	char *item, *variable = NULL, *regexp = NULL;
 	smart_str route_str = {0};
 
-	if (Z_TYPE_P(str) != IS_STRING) {
-		ZVAL_BOOL(return_value, 0);
-		return;
-	}
-
-	if (Z_STRLEN_P(str) <= 0) {
-		ZVAL_BOOL(return_value, 0);
-		return;
-	}
-
-	if (Z_TYPE_P(matches) != IS_ARRAY) {
-		ZVAL_BOOL(return_value, 0);
+	if (Z_TYPE_P(str) != IS_STRING || Z_STRLEN_P(str) <= 0 || Z_TYPE_P(matches) != IS_ARRAY) {
+		ZVAL_FALSE(return_value);
 		return;
 	}
 
@@ -346,11 +338,12 @@ void phalcon_extract_named_params(zval *return_value, zval *str, zval *matches){
 							if (!not_valid) {
 								{
 									zval *tmp;
-									ALLOC_INIT_ZVAL(tmp);
+									MAKE_STD_ZVAL(tmp);
 									ZVAL_LONG(tmp, number_matches);
 
 									if (variable) {
 										if (regexp_length > 0) {
+											ASSUME(regexp != NULL);
 
 											/**
 											 * Check if we need to add parentheses to the expression

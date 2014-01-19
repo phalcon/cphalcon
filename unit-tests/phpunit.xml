@@ -80,6 +80,7 @@
 			<file>unit-tests/ViewEnginesTest.php</file>
 			<!--<file>unit-tests/ViewEnginesVoltTest.php</file>-->
 			<file>unit-tests/ViewCacheTest.php</file>
+			<file>unit-tests/ViewSimpleTest.php</file>
 
 			<!-- Other components -->
 			<file>unit-tests/ControllersTest.php</file>
@@ -90,6 +91,9 @@
 			<file>unit-tests/FormsTest.php</file>
 			<file>unit-tests/AssetsTest.php</file>
 			<file>unit-tests/CryptTest.php</file>
+			<file>unit-tests/SecurityTest.php</file>
+			<file>unit-tests/BeanstalkTest.php</file>
+			<file>unit-tests/TranslateTest.php</file>
 
 			<!-- Complex components/Integral tests -->
 			<file>unit-tests/ModelsResultsetCacheTest.php</file>
@@ -106,6 +110,11 @@
 			<file>unit-tests/TasksCliTest.php</file>
 			<file>unit-tests/ConsoleCliTest.php</file>
 
+			<!-- Image -->
+			<file>unit-tests/ImageTest.php</file>
+		</testsuite>
+		<testsuite name="PHPT Test Suite">
+			<file>unit-tests/PHPTTestSuite.php</file>
 		</testsuite>
 	</testsuites>
 </phpunit>

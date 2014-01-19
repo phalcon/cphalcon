@@ -106,6 +106,11 @@ class ModelsMetadataStrategyTest extends PHPUnit_Framework_TestCase
 
 	public function testMetadataDatabaseIntrospection()
 	{
+		require 'unit-tests/config.db.php';
+		if (empty($configMysql)) {
+			$this->markTestSkipped('Test skipped');
+			return;
+		}
 
 		$di = $this->_getDI();
 
@@ -128,6 +133,11 @@ class ModelsMetadataStrategyTest extends PHPUnit_Framework_TestCase
 
 	public function testMetadataAnnotations()
 	{
+		require 'unit-tests/config.db.php';
+		if (empty($configMysql)) {
+			$this->markTestSkipped('Test skipped');
+			return;
+		}
 
 		$di = $this->_getDI();
 

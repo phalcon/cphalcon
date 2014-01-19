@@ -3,7 +3,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2013 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -17,15 +17,21 @@
   +------------------------------------------------------------------------+
 */
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
-
-#include "php.h"
 #include "php_phalcon.h"
-#include "phalcon.h"
 
+#include "assets/filterinterface.h"
 #include "kernel/main.h"
+
+zend_class_entry *phalcon_assets_filterinterface_ce;
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_assets_filterinterface_filter, 0, 0, 1)
+	ZEND_ARG_INFO(0, content)
+ZEND_END_ARG_INFO()
+
+static const zend_function_entry phalcon_assets_filterinterface_method_entry[] = {
+	PHP_ABSTRACT_ME(Phalcon_Assets_FilterInterface, filter, arginfo_phalcon_assets_filterinterface_filter)
+	PHP_FE_END
+};
 
 /**
  * Phalcon\Assets\FilterInterface initializer
@@ -44,4 +50,3 @@ PHALCON_INIT_CLASS(Phalcon_Assets_FilterInterface){
  * @return $content
  */
 PHALCON_DOC_METHOD(Phalcon_Assets_FilterInterface, filter);
-

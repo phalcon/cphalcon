@@ -3,7 +3,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2013 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -17,20 +17,17 @@
   +------------------------------------------------------------------------+
 */
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
-
-#include "php.h"
 #include "php_phalcon.h"
-#include "php_main.h"
+
+#include <main/php_main.h>
+#include <Zend/zend_exceptions.h>
+
 #include "kernel/main.h"
 #include "kernel/require.h"
 #include "kernel/memory.h"
 #include "kernel/debug.h"
-#include "Zend/zend_exceptions.h"
 
-int PHALCON_FASTCALL phalcon_internal_require(zval *return_value, const zval *require_path TSRMLS_DC){
+int ZEND_FASTCALL phalcon_internal_require(zval *return_value, const zval *require_path TSRMLS_DC){
 
 	int ret;
 	char *file_path;
@@ -137,23 +134,19 @@ int PHALCON_FASTCALL phalcon_internal_require(zval *return_value, const zval *re
 
 	}
 
-	if (status == FAILURE) {
-		phalcon_memory_restore_stack(TSRMLS_C);
-	}
-
 	return status;
 }
 
 /**
  * Do an internal require to a plain php file without taking care of the value returned by the file
  */
-int PHALCON_FASTCALL phalcon_require(const zval *require_path TSRMLS_DC){
+int ZEND_FASTCALL phalcon_require(const zval *require_path TSRMLS_DC){
 	return phalcon_internal_require(NULL, require_path TSRMLS_CC);
 }
 
 /**
  * Do an internal require to a plain php file taking care of the value returned by the file
  */
-int PHALCON_FASTCALL phalcon_require_ret(zval *return_value, const zval *require_path TSRMLS_DC){
+int ZEND_FASTCALL phalcon_require_ret(zval *return_value, const zval *require_path TSRMLS_DC){
 	return phalcon_internal_require(return_value, require_path TSRMLS_CC);
 }

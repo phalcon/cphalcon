@@ -3,7 +3,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2013 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -17,24 +17,14 @@
   +------------------------------------------------------------------------+
 */
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
-
-#include "php.h"
 #include "php_phalcon.h"
-#include "phalcon.h"
 
-#include "Zend/zend_operators.h"
-#include "Zend/zend_exceptions.h"
-#include "Zend/zend_interfaces.h"
+#include "cache/frontend/output.h"
+#include "cache/frontendinterface.h"
 
 #include "kernel/main.h"
-#include "kernel/memory.h"
-
 #include "kernel/object.h"
 #include "kernel/array.h"
-#include "kernel/fcall.h"
 #include "kernel/output.h"
 
 /**
@@ -84,7 +74,32 @@
  * }
  *</code>
  */
+zend_class_entry *phalcon_cache_frontend_output_ce;
 
+PHP_METHOD(Phalcon_Cache_Frontend_Output, __construct);
+PHP_METHOD(Phalcon_Cache_Frontend_Output, getLifetime);
+PHP_METHOD(Phalcon_Cache_Frontend_Output, isBuffering);
+PHP_METHOD(Phalcon_Cache_Frontend_Output, start);
+PHP_METHOD(Phalcon_Cache_Frontend_Output, getContent);
+PHP_METHOD(Phalcon_Cache_Frontend_Output, stop);
+PHP_METHOD(Phalcon_Cache_Frontend_Output, beforeStore);
+PHP_METHOD(Phalcon_Cache_Frontend_Output, afterRetrieve);
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_cache_frontend_output___construct, 0, 0, 0)
+	ZEND_ARG_INFO(0, frontendOptions)
+ZEND_END_ARG_INFO()
+
+static const zend_function_entry phalcon_cache_frontend_output_method_entry[] = {
+	PHP_ME(Phalcon_Cache_Frontend_Output, __construct, arginfo_phalcon_cache_frontend_output___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
+	PHP_ME(Phalcon_Cache_Frontend_Output, getLifetime, arginfo_phalcon_cache_frontendinterface_empty, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Cache_Frontend_Output, isBuffering, arginfo_phalcon_cache_frontendinterface_empty, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Cache_Frontend_Output, start, arginfo_phalcon_cache_frontendinterface_empty, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Cache_Frontend_Output, getContent, arginfo_phalcon_cache_frontendinterface_empty, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Cache_Frontend_Output, stop, arginfo_phalcon_cache_frontendinterface_empty, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Cache_Frontend_Output, beforeStore, arginfo_phalcon_cache_frontendinterface_beforestore, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Cache_Frontend_Output, afterRetrieve, arginfo_phalcon_cache_frontendinterface_afterretrieve, ZEND_ACC_PUBLIC)
+	PHP_FE_END
+};
 
 /**
  * Phalcon\Cache\Frontend\Output initializer
@@ -110,17 +125,11 @@ PHP_METHOD(Phalcon_Cache_Frontend_Output, __construct){
 
 	zval *frontend_options = NULL;
 
-	PHALCON_MM_GROW();
-
-	phalcon_fetch_params(1, 0, 1, &frontend_options);
+	phalcon_fetch_params(0, 0, 1, &frontend_options);
 	
-	if (!frontend_options) {
-		PHALCON_INIT_VAR(frontend_options);
+	if (frontend_options) {
+		phalcon_update_property_this(this_ptr, SL("_frontendOptions"), frontend_options TSRMLS_CC);
 	}
-	
-	phalcon_update_property_this(this_ptr, SL("_frontendOptions"), frontend_options TSRMLS_CC);
-	
-	PHALCON_MM_RESTORE();
 }
 
 /**
@@ -132,20 +141,13 @@ PHP_METHOD(Phalcon_Cache_Frontend_Output, getLifetime){
 
 	zval *options, *lifetime;
 
-	PHALCON_MM_GROW();
-
-	PHALCON_OBS_VAR(options);
-	phalcon_read_property_this(&options, this_ptr, SL("_frontendOptions"), PH_NOISY_CC);
-	if (Z_TYPE_P(options) == IS_ARRAY) { 
-		if (phalcon_array_isset_string(options, SS("lifetime"))) {
-			PHALCON_OBS_VAR(lifetime);
-			phalcon_array_fetch_string(&lifetime, options, SL("lifetime"), PH_NOISY);
-			RETURN_CCTOR(lifetime);
-		}
+	options = phalcon_fetch_nproperty_this(this_ptr, SL("_frontendOptions"), PH_NOISY_CC);
+	if (phalcon_array_isset_string_fetch(&lifetime, options, SS("lifetime"))) {
+		RETURN_ZVAL(lifetime, 1, 0);
 	}
-	
-	PHALCON_MM_RESTORE();
-	RETURN_LONG(1);
+	else {
+		RETURN_LONG(1);
+	}
 }
 
 /**
@@ -164,13 +166,8 @@ PHP_METHOD(Phalcon_Cache_Frontend_Output, isBuffering){
  */
 PHP_METHOD(Phalcon_Cache_Frontend_Output, start){
 
-
-	PHALCON_MM_GROW();
-
 	phalcon_update_property_bool(this_ptr, SL("_buffering"), 1 TSRMLS_CC);
 	phalcon_ob_start(TSRMLS_C);
-	
-	PHALCON_MM_RESTORE();
 }
 
 /**
@@ -182,16 +179,10 @@ PHP_METHOD(Phalcon_Cache_Frontend_Output, getContent){
 
 	zval *buffering;
 
-	PHALCON_MM_GROW();
-
-	PHALCON_OBS_VAR(buffering);
-	phalcon_read_property_this(&buffering, this_ptr, SL("_buffering"), PH_NOISY_CC);
+	buffering = phalcon_fetch_nproperty_this(this_ptr, SL("_buffering"), PH_NOISY_CC);
 	if (zend_is_true(buffering)) {
 		phalcon_ob_get_contents(return_value TSRMLS_CC);
-		RETURN_MM();
 	}
-	
-	RETURN_MM_NULL();
 }
 
 /**
@@ -201,17 +192,12 @@ PHP_METHOD(Phalcon_Cache_Frontend_Output, stop){
 
 	zval *buffering;
 
-	PHALCON_MM_GROW();
-
-	PHALCON_OBS_VAR(buffering);
-	phalcon_read_property_this(&buffering, this_ptr, SL("_buffering"), PH_NOISY_CC);
+	buffering = phalcon_fetch_nproperty_this(this_ptr, SL("_buffering"), PH_NOISY_CC);
 	if (zend_is_true(buffering)) {
 		phalcon_ob_end_clean(TSRMLS_C);
 	}
 	
 	phalcon_update_property_bool(this_ptr, SL("_buffering"), 0 TSRMLS_CC);
-	
-	PHALCON_MM_RESTORE();
 }
 
 /**
@@ -225,8 +211,7 @@ PHP_METHOD(Phalcon_Cache_Frontend_Output, beforeStore){
 	zval *data;
 
 	phalcon_fetch_params(0, 1, 0, &data);
-	
-	RETURN_CCTORW(data);
+	RETURN_ZVAL(data, 1, 0);
 }
 
 /**
@@ -240,7 +225,5 @@ PHP_METHOD(Phalcon_Cache_Frontend_Output, afterRetrieve){
 	zval *data;
 
 	phalcon_fetch_params(0, 1, 0, &data);
-	
-	RETURN_CCTORW(data);
+	RETURN_ZVAL(data, 1, 0);
 }
-

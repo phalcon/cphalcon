@@ -77,6 +77,17 @@ class CacheResultsetTest extends PHPUnit_Framework_TestCase
 					"port" => "11211"
 				));
 				break;
+			case 'Libmemcached':
+				$cache = new Phalcon\Cache\Backend\Libmemcached($frontCache, array(
+					"servers" => array(
+						array(
+							"host" => "localhost",
+							"port" => "11211",
+							"weight" => "1",
+						)
+					)
+				));
+				break;
 			default:
 				throw new Exception("Unknown cache adapter");
 		}
@@ -90,6 +101,11 @@ class CacheResultsetTest extends PHPUnit_Framework_TestCase
 
 	public function testCacheResultsetNormal()
 	{
+		require 'unit-tests/config.db.php';
+		if (empty($configMysql)) {
+			$this->markTestSkipped('Test skipped');
+			return;
+		}
 
 		$cache = $this->_getCache();
 
@@ -107,6 +123,11 @@ class CacheResultsetTest extends PHPUnit_Framework_TestCase
 
 	public function testCacheResultsetBinding()
 	{
+		require 'unit-tests/config.db.php';
+		if (empty($configMysql)) {
+			$this->markTestSkipped('Test skipped');
+			return;
+		}
 
 		$cache = $this->_getCache();
 
@@ -131,6 +152,11 @@ class CacheResultsetTest extends PHPUnit_Framework_TestCase
 
 	public function testCacheResultsetSimple()
 	{
+		require 'unit-tests/config.db.php';
+		if (empty($configMysql)) {
+			$this->markTestSkipped('Test skipped');
+			return;
+		}
 
 		$cache = $this->_getCache();
 
@@ -152,6 +178,11 @@ class CacheResultsetTest extends PHPUnit_Framework_TestCase
 
 	public function testCacheResultsetSimpleNoComplete()
 	{
+		require 'unit-tests/config.db.php';
+		if (empty($configMysql)) {
+			$this->markTestSkipped('Test skipped');
+			return;
+		}
 
 		$cache = $this->_getCache();
 
@@ -173,6 +204,11 @@ class CacheResultsetTest extends PHPUnit_Framework_TestCase
 
 	public function testCacheResultsetSimpleNoComplex()
 	{
+		require 'unit-tests/config.db.php';
+		if (empty($configMysql)) {
+			$this->markTestSkipped('Test skipped');
+			return;
+		}
 
 		$cache = $this->_getCache();
 
@@ -194,6 +230,12 @@ class CacheResultsetTest extends PHPUnit_Framework_TestCase
 
 	public function testCacheResultsetSimpleMemcached()
 	{
+		require 'unit-tests/config.db.php';
+		if (empty($configMysql)) {
+			$this->markTestSkipped('Test skipped');
+			return;
+		}
+
 		if (!class_exists('Memcache')) {
 			$this->markTestSkipped("Memcache class does not exist, test skipped");
 			return;
@@ -271,6 +313,94 @@ class CacheResultsetTest extends PHPUnit_Framework_TestCase
 			$number++;
 		}
 		$this->assertEquals($number, 35);
+	}
+
+	public function testCacheResultsetSimpleLibmemcached()
+	{
+		require 'unit-tests/config.db.php';
+		if (empty($configMysql)) {
+			$this->markTestSkipped('Test skipped');
+			return;
+		}
+
+		if (!class_exists('Memcached')) {
+			$this->markTestSkipped("Memcached class does not exist, test skipped");
+			return;
+		}
+
+		$cache = $this->_getCache('Libmemcached');
+
+		$key = 'test-resultset-'.mt_rand(0, 9999);
+
+		//Single
+		$people = People::findFirst(array(
+			'cache' => array(
+				'key' => $key
+			)
+		));
+
+		$this->assertTrue(is_object($people));
+
+		$people = $cache->get($key);
+		$this->assertEquals(get_class($people->getFirst()), 'People');
+
+		$people = $cache->get($key);
+		$this->assertEquals(get_class($people->getFirst()), 'People');
+
+		//Re-get from the cache
+		$people = People::findFirst(array(
+			'cache' => array(
+				'key' => $key
+			)
+		));
+
+		$this->assertTrue(is_object($people));
+
+		$key = 'test-resultset-'.mt_rand(0, 9999);
+
+		//Multiple
+		$people = People::find(array(
+			'limit' => 35,
+			'cache' => array(
+				'key' => $key
+			)
+		));
+
+		$number = 0;
+		foreach ($people as $individual) {
+			$this->assertTrue(is_object($individual));
+			$number++;
+		}
+		$this->assertEquals($number, 35);
+
+		$people = $cache->get($key);
+		$this->assertEquals(get_class($people), 'Phalcon\Mvc\Model\Resultset\Simple');
+
+		$number = 0;
+		foreach ($people as $individual) {
+			$this->assertTrue(is_object($individual));
+			$number++;
+		}
+		$this->assertEquals($number, 35);
+
+		$people = $cache->get($key);
+		$this->assertEquals(get_class($people), 'Phalcon\Mvc\Model\Resultset\Simple');
+
+		//Re-get the data from the cache
+		$people = People::find(array(
+			'limit' => 35,
+			'cache' => array(
+				'key' => $key
+			)
+		));
+
+		$number = 0;
+		foreach ($people as $individual) {
+			$this->assertTrue(is_object($individual));
+			$number++;
+		}
+		$this->assertEquals($number, 35);
+
 	}
 
 }

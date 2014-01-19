@@ -3,7 +3,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2013 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -17,22 +17,40 @@
   +------------------------------------------------------------------------+
 */
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
+#include "diinterface.h"
 
-#include "php.h"
-#include "php_phalcon.h"
-#include "phalcon.h"
+#include <Zend/zend_interfaces.h>
 
 #include "kernel/main.h"
+
+zend_class_entry *phalcon_diinterface_ce;
+
+static const zend_function_entry phalcon_diinterface_method_entry[] = {
+	PHP_ABSTRACT_ME(Phalcon_DiInterface, set, arginfo_phalcon_diinterface_set)
+	PHP_ABSTRACT_ME(Phalcon_DiInterface, setShared, arginfo_phalcon_diinterface_setshared)
+	PHP_ABSTRACT_ME(Phalcon_DiInterface, remove, arginfo_phalcon_diinterface_remove)
+	PHP_ABSTRACT_ME(Phalcon_DiInterface, attempt, arginfo_phalcon_diinterface_attempt)
+	PHP_ABSTRACT_ME(Phalcon_DiInterface, get, arginfo_phalcon_diinterface_get)
+	PHP_ABSTRACT_ME(Phalcon_DiInterface, getShared, arginfo_phalcon_diinterface_getshared)
+	PHP_ABSTRACT_ME(Phalcon_DiInterface, setRaw, arginfo_phalcon_diinterface_setraw)
+	PHP_ABSTRACT_ME(Phalcon_DiInterface, getRaw, arginfo_phalcon_diinterface_getraw)
+	PHP_ABSTRACT_ME(Phalcon_DiInterface, getService, arginfo_phalcon_diinterface_getservice)
+	PHP_ABSTRACT_ME(Phalcon_DiInterface, has, arginfo_phalcon_diinterface_has)
+	PHP_ABSTRACT_ME(Phalcon_DiInterface, wasFreshInstance, NULL)
+	PHP_ABSTRACT_ME(Phalcon_DiInterface, getServices, NULL)
+	ZEND_FENTRY(setDefault, NULL, arginfo_phalcon_diinterface_setdefault, ZEND_ACC_STATIC|ZEND_ACC_ABSTRACT|ZEND_ACC_PUBLIC)
+	ZEND_FENTRY(getDefault, NULL, NULL, ZEND_ACC_STATIC|ZEND_ACC_ABSTRACT|ZEND_ACC_PUBLIC)
+	ZEND_FENTRY(reset, NULL, NULL, ZEND_ACC_STATIC|ZEND_ACC_ABSTRACT|ZEND_ACC_PUBLIC)
+	PHP_FE_END
+};
+
 
 /**
  * Phalcon\DiInterface initializer
  */
 PHALCON_INIT_CLASS(Phalcon_DiInterface){
 
-	PHALCON_REGISTER_INTERFACE_EX(Phalcon, DiInterface, diinterface, "arrayaccess", phalcon_diinterface_method_entry);
+	PHALCON_REGISTER_INTERFACE_EX(Phalcon, DiInterface, diinterface, zend_ce_arrayaccess, phalcon_diinterface_method_entry);
 
 	return SUCCESS;
 }
@@ -158,4 +176,3 @@ PHALCON_DOC_METHOD(Phalcon_DiInterface, getDefault);
  * Resets the internal default DI
  */
 PHALCON_DOC_METHOD(Phalcon_DiInterface, reset);
-

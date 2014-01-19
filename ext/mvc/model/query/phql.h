@@ -3,7 +3,7 @@
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
  +------------------------------------------------------------------------+
- | Copyright (c) 2011-2013 Phalcon Team (http://www.phalconphp.com)       |
+ | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled     |
  | with this package in the file docs/LICENSE.txt.                        |
@@ -16,6 +16,12 @@
  |          Eduar Carvajal <eduar@phalconphp.com>                         |
  +------------------------------------------------------------------------+
 */
+
+#ifndef PHALCON_MVC_MODEL_QUERY_PHQL_H
+#define PHALCON_MVC_MODEL_QUERY_PHQL_H
+
+#include "php_phalcon.h"
+#include "mvc/model/query/scanner.h"
 
 typedef struct _phql_parser_token {
 	char *token;
@@ -39,5 +45,7 @@ typedef struct _phql_parser_status {
 #define PHQL_PARSING_OK 1
 #define PHQL_PARSING_FAILED 0
 
-extern int phql_parse_phql(zval *result, zval *phql TSRMLS_DC);
-extern int phql_internal_parse_phql(zval **result, char *phql, unsigned int phql_length, zval **error_msg TSRMLS_DC);
+int phql_parse_phql(zval *result, zval *phql TSRMLS_DC) PHALCON_ATTR_NONNULL;
+int phql_internal_parse_phql(zval **result, char *phql, unsigned int phql_length, zval **error_msg TSRMLS_DC) PHALCON_ATTR_NONNULL2(1, 4);
+
+#endif /* PHALCON_MVC_MODEL_QUERY_PHQL_H */

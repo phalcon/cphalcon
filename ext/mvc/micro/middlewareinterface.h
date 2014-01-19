@@ -3,7 +3,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2013 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -17,6 +17,11 @@
   +------------------------------------------------------------------------+
 */
 
+#ifndef PHALCON_MVC_MICRO_MIDDLEWAREINTERFACE_H
+#define PHALCON_MVC_MICRO_MIDDLEWAREINTERFACE_H
+
+#include "php_phalcon.h"
+
 extern zend_class_entry *phalcon_mvc_micro_middlewareinterface_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Mvc_Micro_MiddlewareInterface);
@@ -25,8 +30,4 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_micro_middlewareinterface_call, 0, 0,
 	ZEND_ARG_INFO(0, application)
 ZEND_END_ARG_INFO()
 
-PHALCON_INIT_FUNCS(phalcon_mvc_micro_middlewareinterface_method_entry){
-	PHP_ABSTRACT_ME(Phalcon_Mvc_Micro_MiddlewareInterface, call, arginfo_phalcon_mvc_micro_middlewareinterface_call)
-	PHP_FE_END
-};
-
+#endif /* PHALCON_MVC_MICRO_MIDDLEWAREINTERFACE_H */

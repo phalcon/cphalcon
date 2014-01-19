@@ -4,13 +4,13 @@ Segmentation Fault in Phalcon\Validation::bind() - https://github.com/phalcon/cp
 <?php include('skipif.inc'); ?>
 --FILE--
 <?php
-$v = new \Phalcon\Validation();
+$v = new \Phalcon\Validation;
 try {
 	$v->bind(0, 0);
-	assert(false);
 }
 catch (Exception $e) {
-	assert(true);
+	echo $e->getMessage(), PHP_EOL;
 }
 ?>
 --EXPECT--
+The entity must be an object

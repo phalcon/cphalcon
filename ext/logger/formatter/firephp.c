@@ -3,7 +3,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2013 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -18,18 +18,12 @@
   +------------------------------------------------------------------------+
 */
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
+#include "logger/formatter/firephp.h"
+#include "logger/formatter.h"
+#include "logger/formatterinterface.h"
 
-#include "php.h"
-#include "php_phalcon.h"
-#include "phalcon.h"
-
-#include "ext/standard/php_smart_str.h"
-
-#include "Zend/zend_builtin_functions.h"
-#include "Zend/zend_interfaces.h"
+#include <ext/standard/php_smart_str.h>
+#include <Zend/zend_builtin_functions.h>
 
 #include "kernel/main.h"
 #include "kernel/memory.h"
@@ -38,22 +32,51 @@
 #include "kernel/operators.h"
 #include "kernel/string.h"
 
-#include "logger/formatter/firephp.h"
 
 /**
  * Phalcon\Logger\Formatter\Firephp
  *
  * Formats messages so that they can be sent to FirePHP
  */
+zend_class_entry *phalcon_logger_formatter_firephp_ce;
+
+PHP_METHOD(Phalcon_Logger_Formatter_Firephp, getTypeString);
+PHP_METHOD(Phalcon_Logger_Formatter_Firephp, getShowBacktrace);
+PHP_METHOD(Phalcon_Logger_Formatter_Firephp, setShowBacktrace);
+PHP_METHOD(Phalcon_Logger_Formatter_Firephp, enableLabels);
+PHP_METHOD(Phalcon_Logger_Formatter_Firephp, labelsEnabled);
+PHP_METHOD(Phalcon_Logger_Formatter_Firephp, format);
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_logger_formatter_firephp_empty, 0, 0, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_logger_formatter_firephp_setshowbacktrace, 0, 0, 0)
+	ZEND_ARG_INFO(0, show)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_logger_formatter_firephp_enablelabels, 0, 0, 0)
+	ZEND_ARG_INFO(0, enable)
+ZEND_END_ARG_INFO()
+
+static const zend_function_entry phalcon_logger_formatter_firephp_method_entry[] = {
+	PHP_ME(Phalcon_Logger_Formatter_Firephp, getTypeString, arginfo_phalcon_logger_formatter_gettypestring, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Logger_Formatter_Firephp, getShowBacktrace, arginfo_phalcon_logger_formatter_firephp_empty, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Logger_Formatter_Firephp, setShowBacktrace, arginfo_phalcon_logger_formatter_firephp_setshowbacktrace, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Logger_Formatter_Firephp, enableLabels, arginfo_phalcon_logger_formatter_firephp_enablelabels, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Logger_Formatter_Firephp, labelsEnabled, arginfo_phalcon_logger_formatter_firephp_empty, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Logger_Formatter_Firephp, format, arginfo_phalcon_logger_formatterinterface_format, ZEND_ACC_PUBLIC)
+	PHP_FE_END
+};
 
 /**
  * Phalcon\Logger\Formatter\Firephp initializer
  */
 PHALCON_INIT_CLASS(Phalcon_Logger_Formatter_Firephp){
 
-	PHALCON_REGISTER_CLASS_EX(Phalcon\\Logger\\Formatter, Firephp, logger_formatter_firephp, "phalcon\\logger\\formatter", phalcon_logger_formatter_firephp_method_entry, 0);
+	PHALCON_REGISTER_CLASS_EX(Phalcon\\Logger\\Formatter, Firephp, logger_formatter_firephp, phalcon_logger_formatter_ce, phalcon_logger_formatter_firephp_method_entry, 0);
 
 	zend_declare_property_bool(phalcon_logger_formatter_firephp_ce, SL("_showBacktrace"), 1, ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_bool(phalcon_logger_formatter_firephp_ce, SL("_enableLabels"), 1, ZEND_ACC_PROTECTED TSRMLS_CC);
 
 	zend_class_implements(phalcon_logger_formatter_firephp_ce TSRMLS_CC, 1, phalcon_logger_formatterinterface_ce);
 
@@ -75,6 +98,21 @@ PHP_METHOD(Phalcon_Logger_Formatter_Firephp, setShowBacktrace) {
 	phalcon_update_property_this(getThis(), SL("_showBacktrace"), *show TSRMLS_CC);
 }
 
+PHP_METHOD(Phalcon_Logger_Formatter_Firephp, enableLabels) {
+
+	zval **enable;
+
+	phalcon_fetch_params_ex(1, 0, &enable);
+
+	PHALCON_ENSURE_IS_BOOL(enable);
+	phalcon_update_property_this(getThis(), SL("_enableLabels"), *enable TSRMLS_CC);
+}
+
+PHP_METHOD(Phalcon_Logger_Formatter_Firephp, labelsEnabled) {
+
+	RETURN_MEMBER(getThis(), "_enableLabels");
+}
+
 /**
  * Returns the string meaning of a logger constant
  *
@@ -88,12 +126,13 @@ PHP_METHOD(Phalcon_Logger_Formatter_Firephp, getTypeString) {
 		"INFO",  "INFO",  "LOG",  "INFO",  "LOG"
 	};
 
-	zval *type;
+	zval **type;
 	int itype;
 
-	phalcon_fetch_params(0, 1, 0, &type);
+	phalcon_fetch_params_ex(1, 0, &type);
+	PHALCON_ENSURE_IS_LONG(type);
 
-	itype = phalcon_get_intval(type);
+	itype = Z_LVAL_PP(type);
 	if (itype > 0 && itype < 10) {
 		RETURN_STRING(lut[itype], 1);
 	}
@@ -112,36 +151,41 @@ PHP_METHOD(Phalcon_Logger_Formatter_Firephp, getTypeString) {
 PHP_METHOD(Phalcon_Logger_Formatter_Firephp, format) {
 
 	zval *message, *type, *type_str = NULL, *timestamp;
-	zval *payload, *body, *backtrace, *meta, *encoded;
-	zval *show_backtrace;
+	zval *payload, *body, *backtrace = NULL, *meta, *encoded;
+	zval *show_backtrace, *enable_labels;
+	int i_show_backtrace, i_enable_labels;
 	smart_str result = { NULL, 0, 0 };
-	int i;
+	uint i;
 	Bucket *p;
 
 	phalcon_fetch_params(0, 3, 0, &message, &type, &timestamp);
 
-	/**
+	/*
 	 * We intentionally do not use Phalcon's MM for better performance.
-	 * All variables allocated with PHALCON_ALLOC_ZVAL() will have
+	 * All variables allocated with ALLOC_INIT_ZVAL() will have
 	 * their reference count set to 1 and therefore they can be nicely
 	 * put into the result array; when that array will be destroyed,
 	 * all inserted variables will be automatically destroyed, too
 	 * and we will just save some time by not using Z_ADDREF_P and Z_DELREF_P
 	 */
 
-	PHALCON_ALLOC_ZVAL(type_str);
-	phalcon_call_method_p1(type_str, this_ptr, "gettypestring", type);
+	if (FAILURE == phalcon_call_method_params(type_str, &type_str, this_ptr, SL("gettypestring"), zend_inline_hash_func(SS("gettypestring")) TSRMLS_CC, 1, type)) {
+		return;
+	}
 
-	phalcon_read_property_this(&show_backtrace, getThis(), SL("_showBacktrace"), PH_NOISY TSRMLS_CC);
-	Z_DELREF_P(show_backtrace);
+	show_backtrace   = phalcon_fetch_nproperty_this(getThis(), SL("_showBacktrace"), PH_NOISY TSRMLS_CC);
+	enable_labels    = phalcon_fetch_nproperty_this(getThis(), SL("_enableLabels"), PH_NOISY TSRMLS_CC);
+	i_show_backtrace = zend_is_true(show_backtrace);
+	i_enable_labels  = zend_is_true(enable_labels);
 
-	/**
-	 * Get the backtrace. This differs for differemt PHP versions.
+	/*
+	 * Get the backtrace. This differs for different PHP versions.
 	 * 5.3.6+ allows us to skip the function arguments which will save some memory
 	 * For 5.4+ there is an extra argument.
 	 */
-	PHALCON_ALLOC_ZVAL(backtrace);
-	if (zend_is_true(show_backtrace)) {
+	if (i_show_backtrace) {
+		ALLOC_INIT_ZVAL(backtrace);
+
 #if PHP_VERSION_ID < 50306
 		zend_fetch_debug_backtrace(backtrace, 1, 0 TSRMLS_CC);
 #elif PHP_VERSION_ID < 50400
@@ -159,7 +203,7 @@ PHP_METHOD(Phalcon_Logger_Formatter_Firephp, format) {
 			char *key;
 			uint key_len;
 
-			/**
+			/*
 			 * At this point we know that the backtrace is the array.
 			 * Again, we intentionally do not use Phalcon's API because we know
 			 * that we are working with the array / hash table and thus we can
@@ -175,28 +219,28 @@ PHP_METHOD(Phalcon_Logger_Formatter_Firephp, format) {
 				zend_hash_move_forward_ex(ht, &pos);
 
 				if (Z_TYPE_PP(ppzval) == IS_ARRAY) {
-					/**
+					/*
 					 * Here we need to skip the latest calls into Phalcon's core.
 					 * Calls to Zend internal functions will have "file" index not set.
 					 * We remove these entries from the array.
 					 */
-					if (!found && !zend_hash_exists(Z_ARRVAL_PP(ppzval), SS("file"))) {
+					if (!found && !zend_hash_quick_exists(Z_ARRVAL_PP(ppzval), SS("file"), zend_inline_hash_func(SS("file")))) {
 						zend_hash_index_del(ht, idx);
 					}
 					else {
-						/**
+						/*
 						 * Remove args and object indices. They usually give
 						 * too much information; this is not suitable to send
 						 * in the HTTP headers
 						 */
-						zend_hash_del(Z_ARRVAL_PP(ppzval), "args", sizeof("args"));
-						zend_hash_del(Z_ARRVAL_PP(ppzval), "object", sizeof("object"));
+						zend_hash_quick_del(Z_ARRVAL_PP(ppzval), "args", sizeof("args"), zend_inline_hash_func(SS("args")));
+						zend_hash_quick_del(Z_ARRVAL_PP(ppzval), "object", sizeof("object"), zend_inline_hash_func(SS("object")));
 						found = 1;
 					}
 				}
 			}
 
-			/**
+			/*
 			 * Now we need to renumber the hash table because we removed several
 			 * heading elements. If we don't do this, json_encode() will convert
 			 * this array to a JavaScript object which is an unwanted side effect
@@ -214,7 +258,7 @@ PHP_METHOD(Phalcon_Logger_Formatter_Firephp, format) {
 		}
 	}
 
-	/**
+	/*
 	 * The result will looks like this:
 	 *
 	 * array(
@@ -225,13 +269,16 @@ PHP_METHOD(Phalcon_Logger_Formatter_Firephp, format) {
 	MAKE_STD_ZVAL(payload);
 	array_init_size(payload, 2);
 
-	PHALCON_ALLOC_ZVAL(meta);
+	MAKE_STD_ZVAL(meta);
 	array_init_size(meta, 4);
 	add_assoc_zval_ex(meta, SS("Type"), type_str);
-	Z_ADDREF_P(message);
-	add_assoc_zval_ex(meta, SS("Label"), message);
 
-	if (Z_TYPE_P(backtrace) == IS_ARRAY) {
+	if (i_enable_labels) {
+		Z_ADDREF_P(message);
+		add_assoc_zval_ex(meta, SS("Label"), message);
+	}
+
+	if (i_show_backtrace && Z_TYPE_P(backtrace) == IS_ARRAY) {
 		zval **ppzval;
 
 		if (likely(SUCCESS == zend_hash_index_find(Z_ARRVAL_P(backtrace), 0, (void**)&ppzval)) && likely(Z_TYPE_PP(ppzval) == IS_ARRAY)) {
@@ -252,53 +299,67 @@ PHP_METHOD(Phalcon_Logger_Formatter_Firephp, format) {
 		}
 	}
 
-	MAKE_STD_ZVAL(body);
-	array_init_size(body, 1);
-
-	if (zend_is_true(show_backtrace)) {
-		add_assoc_zval_ex(body, SS("backtrace"), backtrace);
+	if (!i_enable_labels && !i_show_backtrace) {
+		body = message;
+		Z_ADDREF_P(body);
+	}
+	else if (i_enable_labels && !i_show_backtrace) {
+		MAKE_STD_ZVAL(body);
+		ZVAL_EMPTY_STRING(body);
 	}
 	else {
-		zval_ptr_dtor(&backtrace);
+		MAKE_STD_ZVAL(body);
+		array_init_size(body, 2);
+
+		if (i_show_backtrace) {
+			add_assoc_zval_ex(body, SS("backtrace"), backtrace);
+		}
+
+		if (!i_enable_labels) {
+			Z_ADDREF_P(message);
+			add_assoc_zval_ex(body, SS("message"), message);
+		}
 	}
 
 	add_next_index_zval(payload, meta);
 	add_next_index_zval(payload, body);
 
-	/**
-	 * Convert everything to JSON
-	 */
+	/* Convert everything to JSON */
 	ALLOC_INIT_ZVAL(encoded);
-	phalcon_json_encode(encoded, payload, 0 TSRMLS_CC);
+	if (FAILURE == phalcon_json_encode(encoded, payload, 0 TSRMLS_CC)) {
+		zval_ptr_dtor(&payload);
+		zval_ptr_dtor(&encoded);
+		return;
+	}
 
-	/**
-	 * As promised, kill the payload and all associated elements
-	 */
+	/* As promised, kill the payload and all associated elements */
 	zval_ptr_dtor(&payload);
 
-	/**
+	/*
 	 * We don't want to use Phalcon's concatenation API because it
 	 * requires the memory manager. Therefore we fall back to using smart strings.
 	 * smart_str_alloc4() will allocate all required memory amount (plus some more)
 	 * in one go and this allows us to avoid performance penalties due to
 	 * memory reallocations.
 	 */
-	smart_str_alloc4(&result, Z_STRLEN_P(encoded) + 2 + 5, 0, i);
+	if (Z_TYPE_P(encoded) == IS_STRING && Z_STRVAL_P(encoded) != NULL) {
+		smart_str_alloc4(&result, (uint)(Z_STRLEN_P(encoded) + 2 + 5), 0, i);
 
-	/**
-	 * The format is:
-	 *
-	 * <size>|[meta,body]|
-	 *
-	 * Meta and body are contained in encoded inside the array, as required
-	 * by the protocol specification
-	 * @see http://www.firephp.org/Wiki/Reference/Protocol
-	 */
-	smart_str_append_long(&result, Z_STRLEN_P(encoded));
-	smart_str_appendc(&result, '|');
-	smart_str_appendl(&result, Z_STRVAL_P(encoded), Z_STRLEN_P(encoded));
-	smart_str_appendc(&result, '|');
-	smart_str_0(&result);
+		/*
+		 * The format is:
+		 *
+		 * <size>|[meta,body]|
+		 *
+		 * Meta and body are contained in encoded inside the array, as required
+		 * by the protocol specification
+		 * @see http://www.firephp.org/Wiki/Reference/Protocol
+		 */
+		smart_str_append_long(&result, Z_STRLEN_P(encoded));
+		smart_str_appendc(&result, '|');
+		smart_str_appendl(&result, Z_STRVAL_P(encoded), Z_STRLEN_P(encoded));
+		smart_str_appendc(&result, '|');
+		smart_str_0(&result);
+	}
 
 	/* We don't need the JSON message anymore */
 	zval_ptr_dtor(&encoded);

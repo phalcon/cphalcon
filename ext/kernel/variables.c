@@ -3,7 +3,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2013 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -17,20 +17,16 @@
   +------------------------------------------------------------------------+
 */
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
-
-#include "php.h"
 #include "php_phalcon.h"
 
-#include "ext/standard/php_smart_str.h"
-#include "ext/standard/php_var.h"
+#include <ext/standard/php_smart_str.h>
+#include <ext/standard/php_var.h>
+#include "kernel/variables.h"
 
 /**
  * Serializes php variables without using the PHP userland
  */
-void phalcon_serialize(zval *return_value, zval **var  TSRMLS_DC) {
+void phalcon_serialize(zval *return_value, zval **var TSRMLS_DC) {
 
 	php_serialize_data_t var_hash;
 	smart_str buf = {0};
@@ -72,6 +68,7 @@ void phalcon_unserialize(zval *return_value, zval *var TSRMLS_DC) {
 	if (!php_var_unserialize(&return_value, &p, p + Z_STRLEN_P(var), &var_hash TSRMLS_CC)) {
 		PHP_VAR_UNSERIALIZE_DESTROY(var_hash);
 		zval_dtor(return_value);
+		ZVAL_NULL(return_value);
 		if (!EG(exception)) {
 			php_error_docref(NULL TSRMLS_CC, E_NOTICE, "Error at offset %ld of %d bytes", (long)((char*)p - Z_STRVAL_P(var)), Z_STRLEN_P(var));
 		}

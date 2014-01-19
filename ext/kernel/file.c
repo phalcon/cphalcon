@@ -3,7 +3,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2013 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -17,25 +17,21 @@
   +------------------------------------------------------------------------+
 */
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
-
-#include "php.h"
 #include "php_phalcon.h"
-#include "php_main.h"
-#include "main/php_streams.h"
-#include "ext/standard/file.h"
-#include "ext/standard/php_smart_str.h"
-#include "ext/standard/php_filestat.h"
+
+#include <main/php_streams.h>
+#include <Zend/zend_exceptions.h>
+#include <Zend/zend_interfaces.h>
+#include <ext/standard/file.h>
+#include <ext/standard/php_smart_str.h>
+#include <ext/standard/php_filestat.h>
+#include <ext/standard/php_string.h>
 
 #include "kernel/main.h"
 #include "kernel/memory.h"
 #include "kernel/concat.h"
 #include "kernel/operators.h"
-
-#include "Zend/zend_exceptions.h"
-#include "Zend/zend_interfaces.h"
+#include "kernel/file.h"
 
 /**
  * Checks if a file exist
@@ -110,7 +106,7 @@ void phalcon_fix_path(zval **return_value, zval *path, zval *directory_separator
 	}
 
 	if (Z_STRLEN_P(path) > 0 && Z_STRLEN_P(directory_separator) > 0) {
-		if (Z_STRVAL_P(path)[Z_STRLEN_P(path) - 1] != Z_STRVAL_P(directory_separator)[0]) {
+		if (Z_STRVAL_P(path)[Z_STRLEN_P(path) - 1] != '\\' && Z_STRVAL_P(path)[Z_STRLEN_P(path) - 1] != '/') {
 			PHALCON_CONCAT_VV(*return_value, path, directory_separator);
 			return;
 		}
@@ -126,7 +122,7 @@ void phalcon_fix_path(zval **return_value, zval *path, zval *directory_separator
  */
 void phalcon_prepare_virtual_path(zval *return_value, zval *path, zval *virtual_separator TSRMLS_DC) {
 
-	unsigned int i;
+	int i;
 	unsigned char ch;
 	smart_str virtual_str = {0};
 
@@ -146,12 +142,9 @@ void phalcon_prepare_virtual_path(zval *return_value, zval *path, zval *virtual_
 		}
 		if (ch == '/' || ch == '\\' || ch == ':') {
 			smart_str_appendl(&virtual_str, Z_STRVAL_P(virtual_separator), Z_STRLEN_P(virtual_separator));
-			continue;
 		}
-		if (ch >= 'A' && ch <= 'Z') {
-			smart_str_appendc(&virtual_str, ch + 32);
-		} else {
-			smart_str_appendc(&virtual_str, ch);
+		else {
+			smart_str_appendc(&virtual_str, tolower(ch));
 		}
 	}
 
@@ -196,7 +189,7 @@ void phalcon_realpath(zval *return_value, zval *filename TSRMLS_DC) {
 		RETURN_FALSE;
 	}
 
-	if (strlen(Z_STRVAL_P(filename)) != Z_STRLEN_P(filename)) {
+	if (strlen(Z_STRVAL_P(filename)) != (size_t)(Z_STRLEN_P(filename))) {
 		RETURN_FALSE;
 	}
 
@@ -212,7 +205,7 @@ void phalcon_realpath(zval *return_value, zval *filename TSRMLS_DC) {
  */
 void phalcon_possible_autoload_filepath(zval *return_value, zval *prefix, zval *class_name, zval *virtual_separator, zval *separator TSRMLS_DC) {
 
-	unsigned int i, length;
+	int i, length;
 	unsigned char ch;
 	smart_str virtual_str = {0};
 
@@ -403,4 +396,66 @@ void phalcon_file_put_contents(zval *return_value, zval *filename, zval *data TS
 		RETURN_LONG(numbytes);
 	}
 	return;
+}
+
+void phalcon_is_dir(zval *return_value, zval *path TSRMLS_DC)
+{
+	if (likely(Z_TYPE_P(path) == IS_STRING)) {
+		php_stat(Z_STRVAL_P(path), (php_stat_len)(Z_STRLEN_P(path)), FS_IS_DIR, return_value TSRMLS_CC);
+	}
+	else {
+		ZVAL_FALSE(return_value);
+	}
+}
+
+void phalcon_unlink(zval *return_value, zval *path TSRMLS_DC)
+{
+	if (likely(Z_TYPE_P(path) == IS_STRING)) {
+		php_stream_context *context;
+		php_stream_wrapper *wrapper;
+		zval *zctx = NULL;
+
+		if (unlikely(strlen(Z_STRVAL_P(path)) != (size_t)(Z_STRLEN_P(path)))) {
+			ZVAL_FALSE(return_value);
+			return;
+		}
+
+		context = php_stream_context_from_zval(zctx, 0);
+		wrapper = php_stream_locate_url_wrapper(Z_STRVAL_P(path), NULL, 0 TSRMLS_CC);
+
+		if (!wrapper || !wrapper->wops || !wrapper->wops->unlink) {
+			ZVAL_FALSE(return_value);
+			return;
+		}
+
+		ZVAL_BOOL(return_value, wrapper->wops->unlink(wrapper, Z_STRVAL_P(path), REPORT_ERRORS, context TSRMLS_CC));
+		return;
+	}
+
+	ZVAL_FALSE(return_value);
+	return;
+}
+
+void phalcon_filemtime(zval *return_value, zval *path TSRMLS_DC)
+{
+	if (likely(Z_TYPE_P(path) == IS_STRING)) {
+		php_stat(Z_STRVAL_P(path), (php_stat_len)(Z_STRLEN_P(path)), FS_MTIME, return_value TSRMLS_CC);
+	}
+	else {
+		ZVAL_FALSE(return_value);
+	}
+}
+
+void phalcon_basename(zval *return_value, zval *path TSRMLS_DC)
+{
+	if (likely(Z_TYPE_P(path) == IS_STRING)) {
+		char *ret;
+		size_t ret_len;
+
+		php_basename(Z_STRVAL_P(path), Z_STRLEN_P(path), NULL, 0, &ret, &ret_len TSRMLS_CC);
+		ZVAL_STRINGL(return_value, ret, (int)ret_len, 0);
+	}
+	else {
+		ZVAL_FALSE(return_value);
+	}
 }

@@ -3,7 +3,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2013 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -18,21 +18,16 @@
   +------------------------------------------------------------------------+
 */
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
-
-#include "php.h"
-#include "php_phalcon.h"
-#include "phalcon.h"
-
-#include "Zend/zend_operators.h"
-#include "Zend/zend_exceptions.h"
-#include "Zend/zend_interfaces.h"
+#include "dispatcher.h"
+#include "dispatcherinterface.h"
+#include "diinterface.h"
+#include "di/injectionawareinterface.h"
+#include "events/eventsawareinterface.h"
+#include "exception.h"
+#include "filterinterface.h"
 
 #include "kernel/main.h"
 #include "kernel/memory.h"
-
 #include "kernel/object.h"
 #include "kernel/fcall.h"
 #include "kernel/array.h"
@@ -41,13 +36,86 @@
 #include "kernel/string.h"
 #include "kernel/exception.h"
 
+#include "interned-strings.h"
+
 /**
  * Phalcon\Dispatcher
  *
  * This is the base class for Phalcon\Mvc\Dispatcher and Phalcon\CLI\Dispatcher.
  * This class can't be instantiated directly, you can use it to create your own dispatchers
  */
+zend_class_entry *phalcon_dispatcher_ce;
 
+PHP_METHOD(Phalcon_Dispatcher, __construct);
+PHP_METHOD(Phalcon_Dispatcher, setDI);
+PHP_METHOD(Phalcon_Dispatcher, getDI);
+PHP_METHOD(Phalcon_Dispatcher, setEventsManager);
+PHP_METHOD(Phalcon_Dispatcher, getEventsManager);
+PHP_METHOD(Phalcon_Dispatcher, setActionSuffix);
+PHP_METHOD(Phalcon_Dispatcher, setModuleName);
+PHP_METHOD(Phalcon_Dispatcher, getModuleName);
+PHP_METHOD(Phalcon_Dispatcher, setNamespaceName);
+PHP_METHOD(Phalcon_Dispatcher, getNamespaceName);
+PHP_METHOD(Phalcon_Dispatcher, setDefaultNamespace);
+PHP_METHOD(Phalcon_Dispatcher, getDefaultNamespace);
+PHP_METHOD(Phalcon_Dispatcher, setDefaultAction);
+PHP_METHOD(Phalcon_Dispatcher, setActionName);
+PHP_METHOD(Phalcon_Dispatcher, getActionName);
+PHP_METHOD(Phalcon_Dispatcher, setParams);
+PHP_METHOD(Phalcon_Dispatcher, getParams);
+PHP_METHOD(Phalcon_Dispatcher, setParam);
+PHP_METHOD(Phalcon_Dispatcher, getParam);
+PHP_METHOD(Phalcon_Dispatcher, getActiveMethod);
+PHP_METHOD(Phalcon_Dispatcher, isFinished);
+PHP_METHOD(Phalcon_Dispatcher, setReturnedValue);
+PHP_METHOD(Phalcon_Dispatcher, getReturnedValue);
+PHP_METHOD(Phalcon_Dispatcher, dispatch);
+PHP_METHOD(Phalcon_Dispatcher, forward);
+PHP_METHOD(Phalcon_Dispatcher, wasForwarded);
+PHP_METHOD(Phalcon_Dispatcher, getHandlerClass);
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_dispatcher_setmodulename, 0, 0, 1)
+	ZEND_ARG_INFO(0, moduleName)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_dispatcher_setnamespacename, 0, 0, 1)
+	ZEND_ARG_INFO(0, namespaceName)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_dispatcher_setreturnedvalue, 0, 0, 1)
+	ZEND_ARG_INFO(0, value)
+ZEND_END_ARG_INFO()
+
+static const zend_function_entry phalcon_dispatcher_method_entry[] = {
+	PHP_ME(Phalcon_Dispatcher, __construct, NULL, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
+	PHP_ME(Phalcon_Dispatcher, setDI, arginfo_phalcon_di_injectionawareinterface_setdi, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Dispatcher, getDI, arginfo_phalcon_di_injectionawareinterface_getdi, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Dispatcher, setEventsManager, arginfo_phalcon_events_eventsawareinterface_seteventsmanager, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Dispatcher, getEventsManager, arginfo_phalcon_events_eventsawareinterface_geteventsmanager, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Dispatcher, setActionSuffix, arginfo_phalcon_dispatcherinterface_setactionsuffix, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Dispatcher, setModuleName, arginfo_phalcon_dispatcher_setmodulename, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Dispatcher, getModuleName, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Dispatcher, setNamespaceName, arginfo_phalcon_dispatcher_setnamespacename, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Dispatcher, getNamespaceName, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Dispatcher, setDefaultNamespace, arginfo_phalcon_dispatcherinterface_setdefaultnamespace, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Dispatcher, getDefaultNamespace, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Dispatcher, setDefaultAction, arginfo_phalcon_dispatcherinterface_setdefaultaction, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Dispatcher, setActionName, arginfo_phalcon_dispatcherinterface_setactionname, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Dispatcher, getActionName, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Dispatcher, setParams, arginfo_phalcon_dispatcherinterface_setparams, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Dispatcher, getParams, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Dispatcher, setParam, arginfo_phalcon_dispatcherinterface_setparam, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Dispatcher, getParam, arginfo_phalcon_dispatcherinterface_getparam, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Dispatcher, getActiveMethod, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Dispatcher, isFinished, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Dispatcher, setReturnedValue, arginfo_phalcon_dispatcher_setreturnedvalue, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Dispatcher, getReturnedValue, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Dispatcher, dispatch, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Dispatcher, forward, arginfo_phalcon_dispatcherinterface_forward, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Dispatcher, wasForwarded, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Dispatcher, getHandlerClass, NULL, ZEND_ACC_PUBLIC)
+	PHP_FE_END
+};
 
 /**
  * Phalcon\Dispatcher initializer
@@ -73,6 +141,8 @@ PHALCON_INIT_CLASS(Phalcon_Dispatcher){
 	zend_declare_property_string(phalcon_dispatcher_ce, SL("_defaultAction"), "", ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_string(phalcon_dispatcher_ce, SL("_handlerSuffix"), "", ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_string(phalcon_dispatcher_ce, SL("_actionSuffix"), "Action", ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_dispatcher_ce, SL("_previousHandlerName"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_dispatcher_ce, SL("_previousActionName"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
 	zend_declare_class_constant_long(phalcon_dispatcher_ce, SL("EXCEPTION_NO_DI"), 0 TSRMLS_CC);
 	zend_declare_class_constant_long(phalcon_dispatcher_ce, SL("EXCEPTION_CYCLIC_ROUTING"), 1 TSRMLS_CC);
@@ -106,9 +176,8 @@ PHP_METHOD(Phalcon_Dispatcher, setDI){
 	zval *dependency_injector;
 
 	phalcon_fetch_params(0, 1, 0, &dependency_injector);
-	
+	PHALCON_VERIFY_INTERFACE_EX(dependency_injector, phalcon_diinterface_ce, phalcon_exception_ce, 0);
 	phalcon_update_property_this(this_ptr, SL("_dependencyInjector"), dependency_injector TSRMLS_CC);
-	
 }
 
 /**
@@ -291,19 +360,17 @@ PHP_METHOD(Phalcon_Dispatcher, setParams){
 
 	zval *params, *exception_message;
 
-	PHALCON_MM_GROW();
-
-	phalcon_fetch_params(1, 1, 0, &params);
+	phalcon_fetch_params(0, 1, 0, &params);
 	
-	if (Z_TYPE_P(params) != IS_ARRAY) { 
+	if (Z_TYPE_P(params) != IS_ARRAY) {
+		PHALCON_MM_GROW();
 		PHALCON_INIT_VAR(exception_message);
 		ZVAL_STRING(exception_message, "Parameters must be an Array", 1);
 		phalcon_call_method_p1_noret(this_ptr, "_throwdispatchexception", exception_message);
 		RETURN_MM_NULL();
 	}
+
 	phalcon_update_property_this(this_ptr, SL("_params"), params TSRMLS_CC);
-	
-	PHALCON_MM_RESTORE();
 }
 
 /**
@@ -343,32 +410,19 @@ PHP_METHOD(Phalcon_Dispatcher, setParam){
  */
 PHP_METHOD(Phalcon_Dispatcher, getParam){
 
-	zval *param, *filters = NULL, *default_value = NULL, *params;
-	zval *param_value, *dependency_injector, *exception_code;
+	zval *param, *filters = NULL, *default_value = NULL;
+	zval *exception_code;
 	zval *exception_message, *service, *filter;
+	zval *params, *param_value, *dependency_injector;
 
-	PHALCON_MM_GROW();
-
-	phalcon_fetch_params(1, 1, 2, &param, &filters, &default_value);
+	phalcon_fetch_params(0, 1, 2, &param, &filters, &default_value);
 	
-	if (!filters) {
-		PHALCON_INIT_VAR(filters);
-	}
+	params = phalcon_fetch_nproperty_this(this_ptr, SL("_params"), PH_NOISY_CC);
+	if (phalcon_array_isset_fetch(&param_value, params, param)) {
 	
-	if (!default_value) {
-		PHALCON_INIT_VAR(default_value);
-	}
-	
-	PHALCON_OBS_VAR(params);
-	phalcon_read_property_this(&params, this_ptr, SL("_params"), PH_NOISY_CC);
-	if (phalcon_array_isset(params, param)) {
-	
-		PHALCON_OBS_VAR(param_value);
-		phalcon_array_fetch(&param_value, params, param, PH_NOISY);
-		if (Z_TYPE_P(filters) != IS_NULL) {
-	
-			PHALCON_OBS_VAR(dependency_injector);
-			phalcon_read_property_this(&dependency_injector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
+		if (filters && Z_TYPE_P(filters) != IS_NULL) {
+			PHALCON_MM_GROW();
+			dependency_injector = phalcon_fetch_nproperty_this(this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
 			if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
 				PHALCON_INIT_VAR(exception_code);
 				ZVAL_LONG(exception_code, 0);
@@ -376,10 +430,11 @@ PHP_METHOD(Phalcon_Dispatcher, getParam){
 				PHALCON_INIT_VAR(exception_message);
 				ZVAL_STRING(exception_message, "A dependency injection object is required to access the 'filter' service", 1);
 				phalcon_call_method_p2_noret(this_ptr, "_throwdispatchexception", exception_message, exception_code);
+				RETURN_MM();
 			}
 	
 			PHALCON_INIT_VAR(service);
-			ZVAL_STRING(service, "filter", 1);
+			PHALCON_ZVAL_MAYBE_INTERNED_STRING(service, phalcon_interned_filter);
 	
 			PHALCON_INIT_VAR(filter);
 			phalcon_call_method_p1(filter, dependency_injector, "getshared", service);
@@ -387,11 +442,15 @@ PHP_METHOD(Phalcon_Dispatcher, getParam){
 			phalcon_call_method_p2(return_value, filter, "sanitize", param_value, filters);
 			RETURN_MM();
 		} else {
-			RETURN_CCTOR(param_value);
+			RETURN_ZVAL(param_value, 1, 0);
 		}
 	}
-	
-	RETURN_CCTOR(default_value);
+
+	if (default_value) {
+		RETURN_ZVAL(default_value, 1, 0);
+	}
+
+	RETURN_NULL();
 }
 
 /**
@@ -403,15 +462,10 @@ PHP_METHOD(Phalcon_Dispatcher, getActiveMethod){
 
 	zval *suffix, *action_name;
 
-	PHALCON_MM_GROW();
+	suffix      = phalcon_fetch_nproperty_this(this_ptr, SL("_actionSuffix"), PH_NOISY_CC);
+	action_name = phalcon_fetch_nproperty_this(this_ptr, SL("_actionName"), PH_NOISY_CC);
 
-	PHALCON_OBS_VAR(suffix);
-	phalcon_read_property_this(&suffix, this_ptr, SL("_actionSuffix"), PH_NOISY_CC);
-	
-	PHALCON_OBS_VAR(action_name);
-	phalcon_read_property_this(&action_name, this_ptr, SL("_actionName"), PH_NOISY_CC);
 	PHALCON_CONCAT_VV(return_value, action_name, suffix);
-	RETURN_MM();
 }
 
 /**
@@ -451,6 +505,51 @@ PHP_METHOD(Phalcon_Dispatcher, getReturnedValue){
 	RETURN_MEMBER(this_ptr, "_returnedValue");
 }
 
+static int phalcon_dispatcher_fire_event(zval *return_value, zval *mgr, const char *event, zval *source, zval *data TSRMLS_DC)
+{
+	if (mgr) {
+		zval *event_name;
+		int status, status2;
+
+		MAKE_STD_ZVAL(event_name);
+		ZVAL_STRING(event_name, event, 0);
+
+		status = phalcon_call_method_params(return_value, NULL, mgr, SL("fire"), zend_inline_hash_func(SS("fire")) TSRMLS_CC, (data ? 3 : 2), event_name, source, data);
+
+		if (EG(exception)) {
+			zval *exception = EG(exception);
+			Z_ADDREF_P(exception);
+
+			zend_clear_exception(TSRMLS_C);
+
+			assert(Z_REFCOUNT_P(exception) == 1);
+			/* exception will be destroyed automatically after return from _handleexception */
+			Z_DELREF_P(exception);
+
+			/* source == this_ptr */
+			assert(Z_TYPE_P(source) == IS_OBJECT && instanceof_function_ex(Z_OBJCE_P(source), phalcon_dispatcherinterface_ce, 1 TSRMLS_CC));
+			if (is_phalcon_class(Z_OBJCE_P(source))) {
+				/* Shortcut, save one method call */
+				ZVAL_STRING(event_name, "dispatch:beforeException", 0);
+				status2 = phalcon_call_method_params(NULL, NULL, mgr, SL("fire"), zend_inline_hash_func(SS("fire")) TSRMLS_CC, 3, event_name, source, exception);
+			}
+			else {
+				status2 = phalcon_call_method_params(NULL, NULL, source, SL("_handleexception"), zend_inline_hash_func(SS("_handleexception")) TSRMLS_CC, 1, exception);
+			}
+		}
+
+		if (FAILURE == status2) {
+			status = FAILURE;
+		}
+
+		ZVAL_NULL(event_name);
+		zval_ptr_dtor(&event_name);
+		return status;
+	}
+
+	return SUCCESS;
+}
+
 /**
  * Dispatches a handle action taking into account the routing parameters
  *
@@ -458,81 +557,74 @@ PHP_METHOD(Phalcon_Dispatcher, getReturnedValue){
  */
 PHP_METHOD(Phalcon_Dispatcher, dispatch){
 
-	zval *dependency_injector, *exception_code = NULL;
-	zval *exception_message = NULL, *events_manager;
-	zval *event_name = NULL, *status = NULL, *value = NULL, *handler = NULL;
-	zval *handler_suffix, *action_suffix, *finished = NULL;
-	zval *namespace_name = NULL, *handler_name = NULL, *action_name = NULL;
+	zval *exception_code = NULL;
+	zval *exception_message = NULL;
+	zval *status = NULL, *value = NULL, *handler = NULL;
 	zval *camelized_class = NULL, *handler_class = NULL, *has_service = NULL;
 	zval *was_fresh = NULL, *action_method = NULL, *params = NULL, *call_object = NULL;
 	zval *exception = NULL;
-	int number_dispatches;
+	zval *dependency_injector, *events_manager, *tmp;
+	zval *handler_suffix, *action_suffix, *namespace_name, *handler_name, *action_name;
+	int number_dispatches = 0;
 
 	PHALCON_MM_GROW();
 
-	PHALCON_OBS_VAR(dependency_injector);
-	phalcon_read_property_this(&dependency_injector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
-	if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
+	dependency_injector = phalcon_fetch_property_this(this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
+	if (!dependency_injector || Z_TYPE_P(dependency_injector) != IS_OBJECT) {
 		PHALCON_INIT_VAR(exception_code);
 		ZVAL_LONG(exception_code, 0);
 	
 		PHALCON_INIT_VAR(exception_message);
 		ZVAL_STRING(exception_message, "A dependency injection container is required to access related dispatching services", 1);
 		phalcon_call_method_p2_noret(this_ptr, "_throwdispatchexception", exception_message, exception_code);
-		RETURN_MM_FALSE;
+		RETURN_MM();
 	}
 	
+	events_manager = phalcon_fetch_property_this(this_ptr, SL("_eventsManager"), PH_NOISY_CC);
+	if (events_manager && Z_TYPE_P(events_manager) != IS_OBJECT) {
+		events_manager = NULL;
+	}
+
 	/** 
 	 * Calling beforeDispatchLoop
 	 */
-	PHALCON_OBS_VAR(events_manager);
-	phalcon_read_property_this(&events_manager, this_ptr, SL("_eventsManager"), PH_NOISY_CC);
-	if (Z_TYPE_P(events_manager) == IS_OBJECT) {
-	
-		PHALCON_INIT_VAR(event_name);
-		ZVAL_STRING(event_name, "dispatch:beforeDispatchLoop", 1);
-	
-		PHALCON_INIT_VAR(status);
-		phalcon_call_method_p2(status, events_manager, "fire", event_name, this_ptr);
-		if (PHALCON_IS_FALSE(status)) {
-			RETURN_MM_FALSE;
-		}
+	PHALCON_INIT_NVAR(status);
+	if (FAILURE == phalcon_dispatcher_fire_event(status, events_manager, "dispatch:beforeDispatchLoop", this_ptr, NULL TSRMLS_CC)) {
+		RETURN_MM();
+	}
+
+	if (PHALCON_IS_FALSE(status)) {
+		RETURN_MM_FALSE;
 	}
 	
 	PHALCON_INIT_VAR(value);
 	
 	PHALCON_INIT_VAR(handler);
 	
-	number_dispatches = 0;
-	
-	PHALCON_OBS_VAR(handler_suffix);
-	phalcon_read_property_this(&handler_suffix, this_ptr, SL("_handlerSuffix"), PH_NOISY_CC);
-	
-	PHALCON_OBS_VAR(action_suffix);
-	phalcon_read_property_this(&action_suffix, this_ptr, SL("_actionSuffix"), PH_NOISY_CC);
+	handler_suffix = phalcon_fetch_nproperty_this(this_ptr, SL("_handlerSuffix"), PH_NOISY_CC);
+	action_suffix  = phalcon_fetch_nproperty_this(this_ptr, SL("_actionSuffix"), PH_NOISY_CC);
 	
 	/** 
 	 * Do at least one dispatch
 	 */
-	phalcon_update_property_bool(this_ptr, SL("_finished"), 0 TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_finished"), PHALCON_GLOBAL(z_false) TSRMLS_CC);
 	
 	while (1) {
 	
 		/** 
 		 * Loop until finished is false
 		 */
-		PHALCON_OBS_NVAR(finished);
-		phalcon_read_property_this(&finished, this_ptr, SL("_finished"), PH_NOISY_CC);
-		if (zend_is_true(finished)) {
+		tmp = phalcon_fetch_nproperty_this(this_ptr, SL("_finished"), PH_NOISY_CC);
+		if (zend_is_true(tmp)) {
 			break;
 		}
-	
+
 		++number_dispatches;
 	
 		/** 
 		 * Throw an exception after 256 consecutive forwards
 		 */
-		if (number_dispatches >= 256) {
+		if (number_dispatches == 256) {
 			PHALCON_INIT_NVAR(exception_code);
 			ZVAL_LONG(exception_code, 1);
 	
@@ -542,91 +634,78 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch){
 			break;
 		}
 	
-		phalcon_update_property_bool(this_ptr, SL("_finished"), 1 TSRMLS_CC);
+		phalcon_update_property_this(this_ptr, SL("_finished"), PHALCON_GLOBAL(z_true) TSRMLS_CC);
 	
 		/** 
 		 * If the current namespace is null we used the set in this_ptr::_defaultNamespace
 		 */
-		PHALCON_OBS_NVAR(namespace_name);
-		phalcon_read_property_this(&namespace_name, this_ptr, SL("_namespaceName"), PH_NOISY_CC);
+		namespace_name = phalcon_fetch_nproperty_this(this_ptr, SL("_namespaceName"), PH_NOISY_CC);
 		if (!zend_is_true(namespace_name)) {
-			PHALCON_OBS_NVAR(namespace_name);
-			phalcon_read_property_this(&namespace_name, this_ptr, SL("_defaultNamespace"), PH_NOISY_CC);
+			namespace_name = phalcon_fetch_nproperty_this(this_ptr, SL("_defaultNamespace"), PH_NOISY_CC);
 			phalcon_update_property_this(this_ptr, SL("_namespaceName"), namespace_name TSRMLS_CC);
 		}
 	
 		/** 
 		 * If the handler is null we use the set in this_ptr::_defaultHandler
 		 */
-		PHALCON_OBS_NVAR(handler_name);
-		phalcon_read_property_this(&handler_name, this_ptr, SL("_handlerName"), PH_NOISY_CC);
+		handler_name = phalcon_fetch_nproperty_this(this_ptr, SL("_handlerName"), PH_NOISY_CC);
 		if (!zend_is_true(handler_name)) {
-			PHALCON_OBS_NVAR(handler_name);
-			phalcon_read_property_this(&handler_name, this_ptr, SL("_defaultHandler"), PH_NOISY_CC);
+			handler_name = phalcon_fetch_nproperty_this(this_ptr, SL("_defaultHandler"), PH_NOISY_CC);
 			phalcon_update_property_this(this_ptr, SL("_handlerName"), handler_name TSRMLS_CC);
 		}
 	
 		/** 
 		 * If the action is null we use the set in this_ptr::_defaultAction
 		 */
-		PHALCON_OBS_NVAR(action_name);
-		phalcon_read_property_this(&action_name, this_ptr, SL("_actionName"), PH_NOISY_CC);
+		action_name = phalcon_fetch_nproperty_this(this_ptr, SL("_actionName"), PH_NOISY_CC);
 		if (!zend_is_true(action_name)) {
-			PHALCON_OBS_NVAR(action_name);
-			phalcon_read_property_this(&action_name, this_ptr, SL("_defaultAction"), PH_NOISY_CC);
+			action_name = phalcon_fetch_nproperty_this(this_ptr, SL("_defaultAction"), PH_NOISY_CC);
 			phalcon_update_property_this(this_ptr, SL("_actionName"), action_name TSRMLS_CC);
 		}
 	
 		/** 
 		 * Calling beforeDispatch
 		 */
-		if (Z_TYPE_P(events_manager) == IS_OBJECT) {
-	
-			PHALCON_INIT_NVAR(event_name);
-			ZVAL_STRING(event_name, "dispatch:beforeDispatch", 1);
-	
+		if (events_manager) {
 			PHALCON_INIT_NVAR(status);
-			phalcon_call_method_p2(status, events_manager, "fire", event_name, this_ptr);
+			if (FAILURE == phalcon_dispatcher_fire_event(status, events_manager, "dispatch:beforeDispatch", this_ptr, NULL TSRMLS_CC)) {
+				RETURN_MM();
+			}
+
 			if (PHALCON_IS_FALSE(status)) {
 				continue;
 			}
-	
-			/** 
+
+			/**
 			 * Check if the user made a forward in the listener
 			 */
-			PHALCON_OBS_NVAR(finished);
-			phalcon_read_property_this(&finished, this_ptr, SL("_finished"), PH_NOISY_CC);
-			if (PHALCON_IS_FALSE(finished)) {
+			tmp = phalcon_fetch_nproperty_this(this_ptr, SL("_finished"), PH_NOISY_CC);
+			if (PHALCON_IS_FALSE(tmp)) {
 				continue;
 			}
 		}
-	
+
 		/** 
 		 * We don't camelize the classes if they are in namespaces
 		 */
 		if (!phalcon_memnstr_str(handler_name, SL("\\"))) {
 			PHALCON_INIT_NVAR(camelized_class);
 			phalcon_camelize(camelized_class, handler_name);
-		} else if (phalcon_start_with_str(handler_name, SL("\\"))) {
-			PHALCON_INIT_NVAR(camelized_class);
-			ZVAL_STRINGL(camelized_class, Z_STRVAL_P(handler_name)+1, Z_STRLEN_P(handler_name)-1, 1);
 		} else {
-			PHALCON_CPY_WRT(camelized_class, handler_name);
+			camelized_class = handler_name;
 		}
 	
 		/** 
 		 * Create the complete controller class name prepending the namespace
 		 */
+		PHALCON_INIT_NVAR(handler_class);
 		if (zend_is_true(namespace_name)) {
 			if (phalcon_end_with_str(namespace_name, SL("\\"))) {
-				PHALCON_INIT_NVAR(handler_class);
 				PHALCON_CONCAT_VVV(handler_class, namespace_name, camelized_class, handler_suffix);
 			} else {
-				PHALCON_INIT_NVAR(handler_class);
 				PHALCON_CONCAT_VSVV(handler_class, namespace_name, "\\", camelized_class, handler_suffix);
 			}
 		} else {
-			PHALCON_INIT_NVAR(handler_class);
 			PHALCON_CONCAT_VV(handler_class, camelized_class, handler_suffix);
 		}
 	
@@ -644,7 +723,7 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch){
 		}
 	
 		/** 
-		 * If the service can be loaded we throw an exception
+		 * If the service cannot be loaded we throw an exception
 		 */
 		if (!zend_is_true(has_service)) {
 	
@@ -661,9 +740,8 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch){
 				/** 
 				 * Check if the user made a forward in the listener
 				 */
-				PHALCON_OBS_NVAR(finished);
-				phalcon_read_property_this(&finished, this_ptr, SL("_finished"), PH_NOISY_CC);
-				if (PHALCON_IS_FALSE(finished)) {
+				tmp = phalcon_fetch_nproperty_this(this_ptr, SL("_finished"), PH_NOISY_CC);
+				if (PHALCON_IS_FALSE(tmp)) {
 					continue;
 				}
 			}
@@ -688,9 +766,8 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch){
 			phalcon_call_method_p2(status, this_ptr, "_throwdispatchexception", exception_message, exception_code);
 			if (PHALCON_IS_FALSE(status)) {
 	
-				PHALCON_OBS_NVAR(finished);
-				phalcon_read_property_this(&finished, this_ptr, SL("_finished"), PH_NOISY_CC);
-				if (PHALCON_IS_FALSE(finished)) {
+				tmp = phalcon_fetch_nproperty_this(this_ptr, SL("_finished"), PH_NOISY_CC);
+				if (PHALCON_IS_FALSE(tmp)) {
 					continue;
 				}
 			}
@@ -719,20 +796,18 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch){
 			/** 
 			 * Call beforeNotFoundAction
 			 */
-			if (Z_TYPE_P(events_manager) == IS_OBJECT) {
-	
-				PHALCON_INIT_NVAR(event_name);
-				ZVAL_STRING(event_name, "dispatch:beforeNotFoundAction", 1);
-	
+			if (events_manager) {
 				PHALCON_INIT_NVAR(status);
-				phalcon_call_method_p2(status, events_manager, "fire", event_name, this_ptr);
+				if (FAILURE == phalcon_dispatcher_fire_event(status, events_manager, "dispatch:beforeNotFoundAction", this_ptr, NULL TSRMLS_CC)) {
+					RETURN_MM();
+				}
+	
 				if (PHALCON_IS_FALSE(status)) {
 					continue;
 				}
 	
-				PHALCON_OBS_NVAR(finished);
-				phalcon_read_property_this(&finished, this_ptr, SL("_finished"), PH_NOISY_CC);
-				if (PHALCON_IS_FALSE(finished)) {
+				tmp = phalcon_fetch_nproperty_this(this_ptr, SL("_finished"), PH_NOISY_CC);
+				if (PHALCON_IS_FALSE(tmp)) {
 					continue;
 				}
 			}
@@ -750,9 +825,8 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch){
 			phalcon_call_method_p2(status, this_ptr, "_throwdispatchexception", exception_message, exception_code);
 			if (PHALCON_IS_FALSE(status)) {
 	
-				PHALCON_OBS_NVAR(finished);
-				phalcon_read_property_this(&finished, this_ptr, SL("_finished"), PH_NOISY_CC);
-				if (PHALCON_IS_FALSE(finished)) {
+				tmp = phalcon_fetch_nproperty_this(this_ptr, SL("_finished"), PH_NOISY_CC);
+				if (PHALCON_IS_FALSE(tmp)) {
 					continue;
 				}
 			}
@@ -763,13 +837,13 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch){
 		/** 
 		 * Calling beforeExecuteRoute
 		 */
-		if (Z_TYPE_P(events_manager) == IS_OBJECT) {
-	
-			PHALCON_INIT_NVAR(event_name);
-			ZVAL_STRING(event_name, "dispatch:beforeExecuteRoute", 1);
+		if (events_manager) {
 	
 			PHALCON_INIT_NVAR(status);
-			phalcon_call_method_p2(status, events_manager, "fire", event_name, this_ptr);
+			if (FAILURE == phalcon_dispatcher_fire_event(status, events_manager, "dispatch:beforeExecuteRoute", this_ptr, NULL TSRMLS_CC)) {
+				RETURN_MM();
+			}
+
 			if (PHALCON_IS_FALSE(status)) {
 				continue;
 			}
@@ -777,9 +851,8 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch){
 			/** 
 			 * Check if the user made a forward in the listener
 			 */
-			PHALCON_OBS_NVAR(finished);
-			phalcon_read_property_this(&finished, this_ptr, SL("_finished"), PH_NOISY_CC);
-			if (PHALCON_IS_FALSE(finished)) {
+			tmp = phalcon_fetch_nproperty_this(this_ptr, SL("_finished"), PH_NOISY_CC);
+			if (PHALCON_IS_FALSE(tmp)) {
 				continue;
 			}
 		}
@@ -798,64 +871,84 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch){
 			/** 
 			 * Check if the user made a forward in the listener
 			 */
-			PHALCON_OBS_NVAR(finished);
-			phalcon_read_property_this(&finished, this_ptr, SL("_finished"), PH_NOISY_CC);
-			if (PHALCON_IS_FALSE(finished)) {
+			tmp = phalcon_fetch_nproperty_this(this_ptr, SL("_finished"), PH_NOISY_CC);
+			if (PHALCON_IS_FALSE(tmp)) {
 				continue;
 			}
 		}
 	
-		/** 
-		 * Check if the params is an array
-		 */
-		PHALCON_OBS_NVAR(params);
-		phalcon_read_property_this(&params, this_ptr, SL("_params"), PH_NOISY_CC);
-		if (Z_TYPE_P(params) != IS_ARRAY) { 
-	
-			PHALCON_INIT_NVAR(exception_code);
-			ZVAL_LONG(exception_code, 4);
-	
-			PHALCON_INIT_NVAR(exception_message);
-			ZVAL_STRING(exception_message, "Action parameters must be an Array", 1);
-	
-			/** 
-			 * An invalid parameter variable was passed throw an exception
-			 */
-			PHALCON_INIT_NVAR(status);
-			phalcon_call_method_p2(status, this_ptr, "_throwdispatchexception", exception_message, exception_code);
-			if (PHALCON_IS_FALSE(status)) {
-	
-				PHALCON_OBS_NVAR(finished);
-				phalcon_read_property_this(&finished, this_ptr, SL("_finished"), PH_NOISY_CC);
-				if (PHALCON_IS_FALSE(finished)) {
-					continue;
-				}
-			}
-	
-			break;
-		}
-	
-		/** 
+		/**
 		 * Call the 'initialize' method just once per request
 		 */
 		if (PHALCON_IS_TRUE(was_fresh)) {
 			if (phalcon_method_exists_ex(handler, SS("initialize") TSRMLS_CC) == SUCCESS) {
 				phalcon_call_method_noret(handler, "initialize");
 			}
+
+			/**
+			 * Calling afterInitialize
+			 */
+			if (events_manager) {
+				PHALCON_INIT_NVAR(status);
+				if (FAILURE == phalcon_dispatcher_fire_event(status, events_manager, "dispatch:afterInitialize", this_ptr, NULL TSRMLS_CC)) {
+					RETURN_MM();
+				}
+
+				if (PHALCON_IS_FALSE(status)) {
+					continue;
+				}
+
+				/**
+				 * Check if the user made a forward in the listener
+				 */
+				tmp = phalcon_fetch_nproperty_this(this_ptr, SL("_finished"), PH_NOISY_CC);
+				if (PHALCON_IS_FALSE(tmp)) {
+					continue;
+				}
+			}
 		}
-	
-		/** 
+
+		/**
+		 * Check if the params is an array
+		 */
+		PHALCON_OBS_NVAR(params);
+		phalcon_read_property_this(&params, this_ptr, SL("_params"), PH_NOISY_CC);
+		if (Z_TYPE_P(params) != IS_ARRAY) {
+
+			PHALCON_INIT_NVAR(exception_code);
+			ZVAL_LONG(exception_code, 4);
+
+			PHALCON_INIT_NVAR(exception_message);
+			ZVAL_STRING(exception_message, "Action parameters must be an Array", 1);
+
+			/**
+			 * An invalid parameter variable was passed throw an exception
+			 */
+			PHALCON_INIT_NVAR(status);
+			phalcon_call_method_p2(status, this_ptr, "_throwdispatchexception", exception_message, exception_code);
+			if (PHALCON_IS_FALSE(status)) {
+
+				tmp = phalcon_fetch_nproperty_this(this_ptr, SL("_finished"), PH_NOISY_CC);
+				if (PHALCON_IS_FALSE(tmp)) {
+					continue;
+				}
+			}
+
+			break;
+		}
+
+		/**
 		 * Create a call handler
 		 */
 		PHALCON_INIT_NVAR(call_object);
 		array_init_size(call_object, 2);
-		phalcon_array_append(&call_object, handler, PH_SEPARATE);
-		phalcon_array_append(&call_object, action_method, PH_SEPARATE);
+		phalcon_array_append(&call_object, handler, 0);
+		phalcon_array_append(&call_object, action_method, 0);
 	
 		/** 
 		 * Call the method with/without exceptions if an events manager is present
 		 */
-		if (Z_TYPE_P(events_manager) == IS_OBJECT) {
+		if (events_manager) {
 	
 			/** 
 			 * Call the method allowing exceptions
@@ -885,9 +978,8 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch){
 				phalcon_call_method_p1(status, this_ptr, "_handleexception", exception);
 				if (PHALCON_IS_FALSE(status)) {
 	
-					PHALCON_OBS_NVAR(finished);
-					phalcon_read_property_this(&finished, this_ptr, SL("_finished"), PH_NOISY_CC);
-					if (PHALCON_IS_FALSE(finished)) {
+					tmp = phalcon_fetch_nproperty_this(this_ptr, SL("_finished"), PH_NOISY_CC);
+					if (PHALCON_IS_FALSE(tmp)) {
 						continue;
 					}
 				} else {
@@ -895,7 +987,7 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch){
 					 * Exception wasn't handled, re throw it
 					 */
 					phalcon_throw_exception(exception TSRMLS_CC);
-					return;
+					RETURN_MM();
 				}
 			} else {
 				/** 
@@ -918,33 +1010,30 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch){
 	
 		phalcon_update_property_this(this_ptr, SL("_lastHandler"), handler TSRMLS_CC);
 	
-		/** 
-		 * Calling afterExecuteRoute
-		 */
-		if (Z_TYPE_P(events_manager) == IS_OBJECT) {
-	
-			PHALCON_INIT_NVAR(event_name);
-			ZVAL_STRING(event_name, "dispatch:afterExecuteRoute", 1);
-	
+		if (events_manager) {
+			/**
+			 * Call afterExecuteRoute
+			 */
 			PHALCON_INIT_NVAR(status);
-			phalcon_call_method_p3(status, events_manager, "fire", event_name, this_ptr, value);
+			if (FAILURE == phalcon_dispatcher_fire_event(status, events_manager, "dispatch:afterExecuteRoute", this_ptr, value TSRMLS_CC)) {
+				RETURN_MM();
+			}
+
 			if (PHALCON_IS_FALSE(status)) {
 				continue;
 			}
-	
-			PHALCON_OBS_NVAR(finished);
-			phalcon_read_property_this(&finished, this_ptr, SL("_finished"), PH_NOISY_CC);
-			if (PHALCON_IS_FALSE(finished)) {
+
+			tmp = phalcon_fetch_nproperty_this(this_ptr, SL("_finished"), PH_NOISY_CC);
+			if (PHALCON_IS_FALSE(tmp)) {
 				continue;
 			}
-	
-			PHALCON_INIT_NVAR(event_name);
-			ZVAL_STRING(event_name, "dispatch:afterDispatch", 1);
 	
 			/** 
 			 * Call afterDispatch
 			 */
-			phalcon_call_method_p2_noret(events_manager, "fire", event_name, this_ptr);
+			if (FAILURE == phalcon_dispatcher_fire_event(NULL, events_manager, "dispatch:afterDispatch", this_ptr, NULL TSRMLS_CC)) {
+				RETURN_MM();
+			}
 		}
 	
 		/** 
@@ -958,9 +1047,8 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch){
 				continue;
 			}
 	
-			PHALCON_OBS_NVAR(finished);
-			phalcon_read_property_this(&finished, this_ptr, SL("_finished"), PH_NOISY_CC);
-			if (PHALCON_IS_FALSE(finished)) {
+			tmp = phalcon_fetch_nproperty_this(this_ptr, SL("_finished"), PH_NOISY_CC);
+			if (PHALCON_IS_FALSE(tmp)) {
 				continue;
 			}
 		}
@@ -969,10 +1057,8 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch){
 	/** 
 	 * Call afterDispatchLoop
 	 */
-	if (Z_TYPE_P(events_manager) == IS_OBJECT) {
-		PHALCON_INIT_NVAR(event_name);
-		ZVAL_STRING(event_name, "dispatch:afterDispatchLoop", 1);
-		phalcon_call_method_p2_noret(events_manager, "fire", event_name, this_ptr);
+	if (FAILURE == phalcon_dispatcher_fire_event(NULL, events_manager, "dispatch:afterDispatchLoop", this_ptr, NULL TSRMLS_CC)) {
+		RETURN_MM();
 	}
 	
 	RETURN_CCTOR(handler);
@@ -990,67 +1076,57 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch){
  */
 PHP_METHOD(Phalcon_Dispatcher, forward){
 
-	zval *forward, *exception_message, *namespace_name;
-	zval *controller_name, *task_name, *action_name;
-	zval *params;
+	zval *forward, *exception_message;
+	zval *namespace_name, *controller_name, *task_name, *action_name, *params, *previous_controller_name, *previous_action_name;
 
-	PHALCON_MM_GROW();
-
-	phalcon_fetch_params(1, 1, 0, &forward);
+	phalcon_fetch_params(0, 1, 0, &forward);
 	
 	if (Z_TYPE_P(forward) != IS_ARRAY) { 
+		PHALCON_MM_GROW();
 		PHALCON_INIT_VAR(exception_message);
 		ZVAL_STRING(exception_message, "Forward parameter must be an Array", 1);
 		phalcon_call_method_p1_noret(this_ptr, "_throwdispatchexception", exception_message);
 		RETURN_MM_NULL();
 	}
+
+	previous_controller_name = phalcon_fetch_nproperty_this(this_ptr, SL("_handlerName"), PH_NOISY_CC);
+	phalcon_update_property_this(this_ptr, SL("_previousHandlerName"), previous_controller_name TSRMLS_CC);
+
+	previous_action_name = phalcon_fetch_nproperty_this(this_ptr, SL("_actionName"), PH_NOISY_CC);
+	phalcon_update_property_this(this_ptr, SL("_previousActionName"), previous_action_name TSRMLS_CC);
 	
 	/** 
 	 * Check if we need to forward to another namespace
 	 */
-	if (phalcon_array_isset_string(forward, SS("namespace"))) {
-		PHALCON_OBS_VAR(namespace_name);
-		phalcon_array_fetch_string(&namespace_name, forward, SL("namespace"), PH_NOISY);
+	if (phalcon_array_isset_string_fetch(&namespace_name, forward, SS("namespace"))) {
 		phalcon_update_property_this(this_ptr, SL("_namespaceName"), namespace_name TSRMLS_CC);
 	}
 	
 	/** 
 	 * Check if we need to forward to another controller
 	 */
-	if (phalcon_array_isset_string(forward, SS("controller"))) {
-		PHALCON_OBS_VAR(controller_name);
-		phalcon_array_fetch_string(&controller_name, forward, SL("controller"), PH_NOISY);
+	if (phalcon_array_isset_string_fetch(&controller_name, forward, SS("controller"))) {
 		phalcon_update_property_this(this_ptr, SL("_handlerName"), controller_name TSRMLS_CC);
-	} else {
-		if (phalcon_array_isset_string(forward, SS("task"))) {
-			PHALCON_OBS_VAR(task_name);
-			phalcon_array_fetch_string(&task_name, forward, SL("task"), PH_NOISY);
-			phalcon_update_property_this(this_ptr, SL("_handlerName"), task_name TSRMLS_CC);
-		}
+	} else if (phalcon_array_isset_string_fetch(&task_name, forward, SS("task"))) {
+		phalcon_update_property_this(this_ptr, SL("_handlerName"), task_name TSRMLS_CC);
 	}
 	
 	/** 
 	 * Check if we need to forward to another action
 	 */
-	if (phalcon_array_isset_string(forward, SS("action"))) {
-		PHALCON_OBS_VAR(action_name);
-		phalcon_array_fetch_string(&action_name, forward, SL("action"), PH_NOISY);
+	if (phalcon_array_isset_string_fetch(&action_name, forward, SS("action"))) {
 		phalcon_update_property_this(this_ptr, SL("_actionName"), action_name TSRMLS_CC);
 	}
 	
 	/** 
 	 * Check if we need to forward changing the current parameters
 	 */
-	if (phalcon_array_isset_string(forward, SS("params"))) {
-		PHALCON_OBS_VAR(params);
-		phalcon_array_fetch_string(&params, forward, SL("params"), PH_NOISY);
+	if (phalcon_array_isset_string_fetch(&params, forward, SS("params"))) {
 		phalcon_update_property_this(this_ptr, SL("_params"), params TSRMLS_CC);
 	}
 	
-	phalcon_update_property_bool(this_ptr, SL("_finished"), 0 TSRMLS_CC);
-	phalcon_update_property_bool(this_ptr, SL("_forwarded"), 1 TSRMLS_CC);
-	
-	PHALCON_MM_RESTORE();
+	phalcon_update_property_this(this_ptr, SL("_finished"), PHALCON_GLOBAL(z_false) TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_forwarded"), PHALCON_GLOBAL(z_true) TSRMLS_CC);
 }
 
 /**
@@ -1071,36 +1147,31 @@ PHP_METHOD(Phalcon_Dispatcher, wasForwarded){
  */
 PHP_METHOD(Phalcon_Dispatcher, getHandlerClass){
 
-	zval *handler_suffix, *namespace_name = NULL, *handler_name = NULL;
-	zval *camelized_class = NULL, *handler_class = NULL;
+	zval *camelized_class = NULL;
+	zval *handler_suffix, *namespace_name, *handler_name;
 
 	PHALCON_MM_GROW();
 
 	/** 
 	 * The handler suffix
 	 */
-	PHALCON_OBS_VAR(handler_suffix);
-	phalcon_read_property_this(&handler_suffix, this_ptr, SL("_handlerSuffix"), PH_NOISY_CC);
+	handler_suffix = phalcon_fetch_nproperty_this(this_ptr, SL("_handlerSuffix"), PH_NOISY_CC);
 	
 	/** 
 	 * If the current namespace is null we used the set in this_ptr::_defaultNamespace
 	 */
-	PHALCON_OBS_VAR(namespace_name);
-	phalcon_read_property_this(&namespace_name, this_ptr, SL("_namespaceName"), PH_NOISY_CC);
+	namespace_name = phalcon_fetch_nproperty_this(this_ptr, SL("_namespaceName"), PH_NOISY_CC);
 	if (!zend_is_true(namespace_name)) {
-		PHALCON_OBS_NVAR(namespace_name);
-		phalcon_read_property_this(&namespace_name, this_ptr, SL("_defaultNamespace"), PH_NOISY_CC);
+		namespace_name = phalcon_fetch_nproperty_this(this_ptr, SL("_defaultNamespace"), PH_NOISY_CC);
 		phalcon_update_property_this(this_ptr, SL("_namespaceName"), namespace_name TSRMLS_CC);
 	}
 	
 	/** 
 	 * If the handler is null we use the set in this_ptr::_defaultHandler
 	 */
-	PHALCON_OBS_VAR(handler_name);
-	phalcon_read_property_this(&handler_name, this_ptr, SL("_handlerName"), PH_NOISY_CC);
+	handler_name = phalcon_fetch_nproperty_this(this_ptr, SL("_handlerName"), PH_NOISY_CC);
 	if (!zend_is_true(handler_name)) {
-		PHALCON_OBS_NVAR(handler_name);
-		phalcon_read_property_this(&handler_name, this_ptr, SL("_defaultHandler"), PH_NOISY_CC);
+		handler_name = phalcon_fetch_nproperty_this(this_ptr, SL("_defaultHandler"), PH_NOISY_CC);
 		phalcon_update_property_this(this_ptr, SL("_handlerName"), handler_name TSRMLS_CC);
 	}
 	
@@ -1110,11 +1181,8 @@ PHP_METHOD(Phalcon_Dispatcher, getHandlerClass){
 	if (!phalcon_memnstr_str(handler_name, SL("\\"))) {
 		PHALCON_INIT_VAR(camelized_class);
 		phalcon_camelize(camelized_class, handler_name);
-	} else if (phalcon_start_with_str(handler_name, SL("\\"))) {
-		PHALCON_INIT_VAR(camelized_class);
-		ZVAL_STRINGL(camelized_class, Z_STRVAL_P(handler_name)+1, Z_STRLEN_P(handler_name)-1, 1);
 	} else {
-		PHALCON_CPY_WRT(camelized_class, handler_name);
+		camelized_class = handler_name;
 	}
 	
 	/** 
@@ -1122,17 +1190,13 @@ PHP_METHOD(Phalcon_Dispatcher, getHandlerClass){
 	 */
 	if (zend_is_true(namespace_name)) {
 		if (phalcon_end_with_str(namespace_name, SL("\\"))) {
-			PHALCON_INIT_VAR(handler_class);
-			PHALCON_CONCAT_VVV(handler_class, namespace_name, camelized_class, handler_suffix);
+			PHALCON_CONCAT_VVV(return_value, namespace_name, camelized_class, handler_suffix);
 		} else {
-			PHALCON_INIT_NVAR(handler_class);
-			PHALCON_CONCAT_VSVV(handler_class, namespace_name, "\\", camelized_class, handler_suffix);
+			PHALCON_CONCAT_VSVV(return_value, namespace_name, "\\", camelized_class, handler_suffix);
 		}
 	} else {
-		PHALCON_INIT_NVAR(handler_class);
-		PHALCON_CONCAT_VV(handler_class, camelized_class, handler_suffix);
+		PHALCON_CONCAT_VV(return_value, camelized_class, handler_suffix);
 	}
 	
-	RETURN_CTOR(handler_class);
+	PHALCON_MM_RESTORE();
 }
-

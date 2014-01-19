@@ -3,7 +3,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2013 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -17,23 +17,15 @@
   +------------------------------------------------------------------------+
 */
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
-
-#include "php.h"
 #include "php_phalcon.h"
-#include "phalcon.h"
 
-#include "Zend/zend_operators.h"
-#include "Zend/zend_exceptions.h"
-#include "Zend/zend_interfaces.h"
+#include "assets/filters/jsmin.h"
+#include "assets/filters/jsminifier.h"
+#include "assets/filterinterface.h"
 
 #include "kernel/main.h"
 #include "kernel/memory.h"
-
 #include "kernel/fcall.h"
-#include "assets/filters/jsminifier.h"
 
 /**
  * Phalcon\Assets\Filters\Jsmin
@@ -42,7 +34,18 @@
  * replaced with spaces. Carriage returns will be replaced with linefeeds.
  * Most spaces and linefeeds will be removed.
  */
+zend_class_entry *phalcon_assets_filters_jsmin_ce;
 
+PHP_METHOD(Phalcon_Assets_Filters_Jsmin, filter);
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_assets_filters_jsmin_filter, 0, 0, 1)
+	ZEND_ARG_INFO(0, content)
+ZEND_END_ARG_INFO()
+
+static const zend_function_entry phalcon_assets_filters_jsmin_method_entry[] = {
+	PHP_ME(Phalcon_Assets_Filters_Jsmin, filter, arginfo_phalcon_assets_filters_jsmin_filter, ZEND_ACC_PUBLIC)
+	PHP_FE_END
+};
 
 /**
  * Phalcon\Assets\Filters\Jsmin initializer
@@ -51,6 +54,7 @@ PHALCON_INIT_CLASS(Phalcon_Assets_Filters_Jsmin){
 
 	PHALCON_REGISTER_CLASS(Phalcon\\Assets\\Filters, Jsmin, assets_filters_jsmin, phalcon_assets_filters_jsmin_method_entry, 0);
 
+	zend_class_implements(phalcon_assets_filters_jsmin_ce TSRMLS_CC, 1, phalcon_assets_filterinterface_ce);
 	return SUCCESS;
 }
 
@@ -64,14 +68,10 @@ PHP_METHOD(Phalcon_Assets_Filters_Jsmin, filter){
 
 	zval *content;
 
-	PHALCON_MM_GROW();
-
-	phalcon_fetch_params(1, 1, 0, &content);
+	phalcon_fetch_params(0, 1, 0, &content);
 	
 	if (phalcon_jsmin(return_value, content TSRMLS_CC) == FAILURE) {
 		return;
 	}
-	
-	RETURN_MM();
 }
 

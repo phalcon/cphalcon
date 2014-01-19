@@ -3,7 +3,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2013 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -17,17 +17,14 @@
   +------------------------------------------------------------------------+
 */
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
-
-#include "php.h"
-#include "ext/standard/php_string.h"
 #include "php_phalcon.h"
+
+#include <ext/standard/php_string.h>
+#include <Zend/zend_operators.h>
+
 #include "kernel/main.h"
 #include "kernel/memory.h"
 
-#include "Zend/zend_operators.h"
 
 void phalcon_make_printable_zval(zval *expr, zval *expr_copy, int *use_copy){
 	zend_make_printable_zval(expr, expr_copy, use_copy);
@@ -248,10 +245,6 @@ void phalcon_cast(zval *result, zval *var, zend_uint type){
  */
 long phalcon_get_intval(const zval *op) {
 
-	int type;
-	long long_value;
-	double double_value;
-
 	switch (Z_TYPE_P(op)) {
 		case IS_LONG:
 			return Z_LVAL_P(op);
@@ -259,18 +252,21 @@ long phalcon_get_intval(const zval *op) {
 			return Z_BVAL_P(op);
 		case IS_DOUBLE:
 			return (long) Z_DVAL_P(op);
-		case IS_STRING:
-			if ((type = is_numeric_string(Z_STRVAL_P(op), Z_STRLEN_P(op), &long_value, &double_value, 0))) {
-				if (type == IS_LONG) {
-					return long_value;
-				} else {
-					if (type == IS_DOUBLE) {
-						return double_value;
-					} else {
-						return 0;
-					}
-				}
+		case IS_STRING: {
+			long long_value;
+			double double_value;
+			zend_uchar type;
+			
+			ASSUME(Z_STRVAL_P(op) != NULL);
+			type = is_numeric_string(Z_STRVAL_P(op), Z_STRLEN_P(op), &long_value, &double_value, 0);
+			if (type == IS_LONG) {
+				return long_value;
 			}
+			if (type == IS_DOUBLE) {
+				return (long)double_value;
+			}
+			return 0;
+		}
 	}
 
 	return 0;

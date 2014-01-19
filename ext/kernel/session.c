@@ -2,7 +2,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2013 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -17,49 +17,48 @@
   +------------------------------------------------------------------------+
 */
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
-
-#include "php.h"
 #include "php_phalcon.h"
+
+#ifdef PHALCON_USE_PHP_SESSION
+#include <ext/session/php_session.h>
+#endif
 
 #include "kernel/main.h"
 #include "kernel/fcall.h"
 #include "kernel/session.h"
 
-#ifdef PHALCON_USE_PHP_SESSION
-#include "ext/session/php_session.h"
-#endif
-
-void phalcon_session_start(TSRMLS_D)
+int phalcon_session_start(TSRMLS_D)
 {
 #ifdef PHALCON_USE_PHP_SESSION
 	php_session_start(TSRMLS_C);
+	return SUCCESS;
 #else
-	phalcon_call_func_params_w(NULL, SL("session_start"), 0, NULL TSRMLS_CC);
+	return phalcon_call_func_aparams(NULL, SL("session_start"), 0, NULL TSRMLS_CC);
 #endif
 }
 
-void phalcon_session_destroy(TSRMLS_D)
+int phalcon_session_destroy(TSRMLS_D)
 {
-	phalcon_call_func_params_w(NULL, SL("session_destroy"), 0, NULL TSRMLS_CC);
+	return phalcon_call_func_aparams(NULL, SL("session_destroy"), 0, NULL TSRMLS_CC);
 }
 
-void phalcon_get_session_id(zval *return_value TSRMLS_DC)
+int phalcon_get_session_id(zval *return_value, zval **return_value_ptr TSRMLS_DC)
 {
 #ifdef PHALCON_USE_PHP_SESSION
 	if (PS(id)) {
-		RETURN_STRING(PS(id), 1);
+		RETVAL_STRING(PS(id), 1);
+	}
+	else {
+		RETVAL_EMPTY_STRING();
 	}
 
-	RETURN_EMPTY_STRING();
+	return SUCCESS;
 #else
-	phalcon_call_func_params_w(return_value, SL("session_id"), 0, NULL TSRMLS_CC);
+	return phalcon_return_call_function(return_value, return_value_ptr, SL("session_id"), 0, NULL TSRMLS_CC);
 #endif
 }
 
-void phalcon_set_session_id(zval *sid TSRMLS_DC)
+int phalcon_set_session_id(zval *sid TSRMLS_DC)
 {
 #ifdef PHALCON_USE_PHP_SESSION
 	zval copy;
@@ -81,9 +80,15 @@ void phalcon_set_session_id(zval *sid TSRMLS_DC)
 	if (unlikely(use_copy)) {
 		zval_dtor(&copy);
 	}
-#else
-	zval *params[] = { sid };
 
-	phalcon_call_func_params_w(NULL, SL("session_id"), 1, params TSRMLS_CC);
+	return SUCCESS;
+#else
+	zval *params = { sid };
+	return phalcon_call_func_aparams(NULL, SL("session_id"), 1, params TSRMLS_CC);
 #endif
+}
+
+int phalcon_session_write_close(TSRMLS_D)
+{
+	return phalcon_call_func_aparams(NULL, SL("session_write_close"), 0, NULL TSRMLS_CC);
 }

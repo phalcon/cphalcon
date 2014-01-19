@@ -3,7 +3,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2013 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -18,21 +18,14 @@
   +------------------------------------------------------------------------+
 */
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
-
-#include "php.h"
 #include "php_phalcon.h"
-#include "phalcon.h"
 
-#include "Zend/zend_operators.h"
-#include "Zend/zend_exceptions.h"
-#include "Zend/zend_interfaces.h"
+#include "annotations/adapter/xcache.h"
+#include "annotations/adapter.h"
+#include "annotations/adapterinterface.h"
 
 #include "kernel/main.h"
 #include "kernel/memory.h"
-
 #include "kernel/concat.h"
 #include "kernel/fcall.h"
 #include "kernel/string.h"
@@ -47,6 +40,25 @@
  * $annotations = new \Phalcon\Annotations\Adapter\Xcache();
  *</code>
  */
+zend_class_entry *phalcon_annotations_adapter_xcache_ce;
+
+PHP_METHOD(Phalcon_Annotations_Adapter_Xcache, read);
+PHP_METHOD(Phalcon_Annotations_Adapter_Xcache, write);
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_annotations_adapter_xcache_read, 0, 0, 1)
+	ZEND_ARG_INFO(0, key)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_annotations_adapter_xcache_write, 0, 0, 2)
+	ZEND_ARG_INFO(0, key)
+	ZEND_ARG_INFO(0, data)
+ZEND_END_ARG_INFO()
+
+static const zend_function_entry phalcon_annotations_adapter_xcache_method_entry[] = {
+	PHP_ME(Phalcon_Annotations_Adapter_Xcache, read, arginfo_phalcon_annotations_adapter_xcache_read, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Annotations_Adapter_Xcache, write, arginfo_phalcon_annotations_adapter_xcache_write, ZEND_ACC_PUBLIC)
+	PHP_FE_END
+};
 
 
 /**
@@ -54,7 +66,7 @@
  */
 PHALCON_INIT_CLASS(Phalcon_Annotations_Adapter_Xcache){
 
-	PHALCON_REGISTER_CLASS_EX(Phalcon\\Annotations\\Adapter, Xcache, annotations_adapter_xcache, "phalcon\\annotations\\adapter", phalcon_annotations_adapter_xcache_method_entry, 0);
+	PHALCON_REGISTER_CLASS_EX(Phalcon\\Annotations\\Adapter, Xcache, annotations_adapter_xcache, phalcon_annotations_adapter_ce, phalcon_annotations_adapter_xcache_method_entry, 0);
 
 	zend_class_implements(phalcon_annotations_adapter_xcache_ce TSRMLS_CC, 1, phalcon_annotations_adapterinterface_ce);
 
@@ -69,8 +81,7 @@ PHALCON_INIT_CLASS(Phalcon_Annotations_Adapter_Xcache){
  */
 PHP_METHOD(Phalcon_Annotations_Adapter_Xcache, read){
 
-	zval *key, *prefixed_key, *prefixed_lower, *serialized;
-	zval *data;
+	zval *key, *prefixed_key, *serialized;
 
 	PHALCON_MM_GROW();
 
@@ -79,21 +90,19 @@ PHP_METHOD(Phalcon_Annotations_Adapter_Xcache, read){
 	PHALCON_INIT_VAR(prefixed_key);
 	PHALCON_CONCAT_SV(prefixed_key, "_PHAN", key);
 	
-	PHALCON_INIT_VAR(prefixed_lower);
-	phalcon_fast_strtolower(prefixed_lower, prefixed_key);
+	phalcon_strtolower_inplace(prefixed_key);
 	
-	PHALCON_INIT_VAR(serialized);
-	phalcon_call_func_p1(serialized, "xcache_get", prefixed_lower);
+	PHALCON_OBS_VAR(serialized);
+	PHALCON_CALL_FUNCTION(&serialized, "xcache_get", prefixed_key);
 	if (Z_TYPE_P(serialized) == IS_STRING) {
-	
-		PHALCON_INIT_VAR(data);
-		phalcon_unserialize(data, serialized TSRMLS_CC);
-		if (Z_TYPE_P(data) == IS_OBJECT) {
-			RETURN_CTOR(data);
+		phalcon_unserialize(return_value, serialized TSRMLS_CC);
+		if (Z_TYPE_P(return_value) != IS_OBJECT) {
+			zval_dtor(return_value);
+			RETVAL_NULL();
 		}
 	}
 	
-	RETURN_MM_NULL();
+	PHALCON_MM_RESTORE();
 }
 
 /**
@@ -104,7 +113,7 @@ PHP_METHOD(Phalcon_Annotations_Adapter_Xcache, read){
  */
 PHP_METHOD(Phalcon_Annotations_Adapter_Xcache, write){
 
-	zval *key, *data, *prefixed_key, *prefixed_lower;
+	zval *key, *data, *prefixed_key;
 	zval *serialized;
 
 	PHALCON_MM_GROW();
@@ -114,13 +123,11 @@ PHP_METHOD(Phalcon_Annotations_Adapter_Xcache, write){
 	PHALCON_INIT_VAR(prefixed_key);
 	PHALCON_CONCAT_SV(prefixed_key, "_PHAN", key);
 	
-	PHALCON_INIT_VAR(prefixed_lower);
-	phalcon_fast_strtolower(prefixed_lower, prefixed_key);
+	phalcon_strtolower_inplace(prefixed_key);
 	
 	PHALCON_INIT_VAR(serialized);
 	phalcon_serialize(serialized, &data TSRMLS_CC);
-	phalcon_call_func_p2_noret("xcache_set", prefixed_lower, serialized);
+	PHALCON_CALL_FUNCTION_NORET("xcache_set", prefixed_key, serialized);
 	
 	PHALCON_MM_RESTORE();
 }
-

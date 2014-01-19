@@ -3,7 +3,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2013 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -17,21 +17,11 @@
   +------------------------------------------------------------------------+
 */
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
-
-#include "php.h"
-#include "php_phalcon.h"
-#include "phalcon.h"
-
-#include "Zend/zend_operators.h"
-#include "Zend/zend_exceptions.h"
-#include "Zend/zend_interfaces.h"
+#include "mvc/model/metadata/strategy/introspection.h"
+#include "mvc/model/exception.h"
 
 #include "kernel/main.h"
 #include "kernel/memory.h"
-
 #include "kernel/fcall.h"
 #include "kernel/object.h"
 #include "kernel/concat.h"
@@ -46,7 +36,26 @@
  *
  * Queries the table meta-data in order to instrospect the model's metadata
  */
+zend_class_entry *phalcon_mvc_model_metadata_strategy_introspection_ce;
 
+PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Introspection, getMetaData);
+PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Introspection, getColumnMaps);
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_metadata_strategy_introspection_getmetadata, 0, 0, 2)
+	ZEND_ARG_INFO(0, model)
+	ZEND_ARG_INFO(0, dependencyInjector)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_metadata_strategy_introspection_getcolumnmaps, 0, 0, 2)
+	ZEND_ARG_INFO(0, model)
+	ZEND_ARG_INFO(0, dependencyInjector)
+ZEND_END_ARG_INFO()
+
+static const zend_function_entry phalcon_mvc_model_metadata_strategy_introspection_method_entry[] = {
+	PHP_ME(Phalcon_Mvc_Model_MetaData_Strategy_Introspection, getMetaData, arginfo_phalcon_mvc_model_metadata_strategy_introspection_getmetadata, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Model_MetaData_Strategy_Introspection, getColumnMaps, arginfo_phalcon_mvc_model_metadata_strategy_introspection_getcolumnmaps, ZEND_ACC_PUBLIC)
+	PHP_FE_END
+};
 
 /**
  * Phalcon\Mvc\Model\MetaData\Strategy\Introspection initializer
@@ -74,7 +83,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Introspection, getMetaData){
 	zval *numeric_typed, *not_null, *field_types;
 	zval *field_bind_types, *automatic_default;
 	zval *identity_field = NULL, *column = NULL, *field_name = NULL, *feature = NULL;
-	zval *type = NULL, *bind_type = NULL, *model_metadata;
+	zval *type = NULL, *bind_type = NULL;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -167,7 +176,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Introspection, getMetaData){
 	array_init(automatic_default);
 	
 	PHALCON_INIT_VAR(identity_field);
-	ZVAL_BOOL(identity_field, 0);
+	ZVAL_FALSE(identity_field);
 	
 	phalcon_is_iterable(columns, &ah0, &hp0, 0, 0);
 	
@@ -237,20 +246,19 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Introspection, getMetaData){
 	/** 
 	 * Create an array using the MODELS_* constants as indexes
 	 */
-	PHALCON_INIT_VAR(model_metadata);
-	array_init(model_metadata);
-	phalcon_array_update_long(&model_metadata, 0, &attributes, PH_COPY | PH_SEPARATE);
-	phalcon_array_update_long(&model_metadata, 1, &primary_keys, PH_COPY | PH_SEPARATE);
-	phalcon_array_update_long(&model_metadata, 2, &non_primary_keys, PH_COPY | PH_SEPARATE);
-	phalcon_array_update_long(&model_metadata, 3, &not_null, PH_COPY | PH_SEPARATE);
-	phalcon_array_update_long(&model_metadata, 4, &field_types, PH_COPY | PH_SEPARATE);
-	phalcon_array_update_long(&model_metadata, 5, &numeric_typed, PH_COPY | PH_SEPARATE);
-	phalcon_array_update_long(&model_metadata, 8, &identity_field, PH_COPY | PH_SEPARATE);
-	phalcon_array_update_long(&model_metadata, 9, &field_bind_types, PH_COPY | PH_SEPARATE);
-	phalcon_array_update_long(&model_metadata, 10, &automatic_default, PH_COPY | PH_SEPARATE);
-	phalcon_array_update_long(&model_metadata, 11, &automatic_default, PH_COPY | PH_SEPARATE);
+	array_init_size(return_value, 10);
+	phalcon_array_update_long(&return_value, 0, &attributes, PH_COPY);
+	phalcon_array_update_long(&return_value, 1, &primary_keys, PH_COPY);
+	phalcon_array_update_long(&return_value, 2, &non_primary_keys, PH_COPY);
+	phalcon_array_update_long(&return_value, 3, &not_null, PH_COPY);
+	phalcon_array_update_long(&return_value, 4, &field_types, PH_COPY);
+	phalcon_array_update_long(&return_value, 5, &numeric_typed, PH_COPY);
+	phalcon_array_update_long(&return_value, 8, &identity_field, PH_COPY);
+	phalcon_array_update_long(&return_value, 9, &field_bind_types, PH_COPY);
+	phalcon_array_update_long(&return_value, 10, &automatic_default, PH_COPY);
+	phalcon_array_update_long(&return_value, 11, &automatic_default, PH_COPY);
 	
-	RETURN_CTOR(model_metadata);
+	PHALCON_MM_RESTORE();
 }
 
 /**
@@ -264,7 +272,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Introspection, getColumnMaps){
 
 	zval *model, *dependency_injector, *ordered_column_map = NULL;
 	zval *reversed_column_map = NULL, *user_column_map;
-	zval *user_name = NULL, *name = NULL, *model_column_map;
+	zval *user_name = NULL, *name = NULL;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -299,7 +307,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Introspection, getColumnMaps){
 			PHALCON_GET_HKEY(name, ah0, hp0);
 			PHALCON_GET_HVALUE(user_name);
 	
-			phalcon_array_update_zval(&reversed_column_map, user_name, &name, PH_COPY | PH_SEPARATE);
+			phalcon_array_update_zval(&reversed_column_map, user_name, &name, PH_COPY);
 	
 			zend_hash_move_forward_ex(ah0, &hp0);
 		}
@@ -309,11 +317,9 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Introspection, getColumnMaps){
 	/** 
 	 * Store the column map
 	 */
-	PHALCON_INIT_VAR(model_column_map);
-	array_init(model_column_map);
-	phalcon_array_update_long(&model_column_map, 0, &ordered_column_map, PH_COPY | PH_SEPARATE);
-	phalcon_array_update_long(&model_column_map, 1, &reversed_column_map, PH_COPY | PH_SEPARATE);
+	array_init_size(return_value, 2);
+	phalcon_array_update_long(&return_value, 0, &ordered_column_map, PH_COPY);
+	phalcon_array_update_long(&return_value, 1, &reversed_column_map, PH_COPY);
 	
-	RETURN_CTOR(model_column_map);
+	PHALCON_MM_RESTORE();
 }
-

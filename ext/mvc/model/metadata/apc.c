@@ -3,7 +3,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2013 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -17,21 +17,12 @@
   +------------------------------------------------------------------------+
 */
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
-
-#include "php.h"
-#include "php_phalcon.h"
-#include "phalcon.h"
-
-#include "Zend/zend_operators.h"
-#include "Zend/zend_exceptions.h"
-#include "Zend/zend_interfaces.h"
+#include "mvc/model/metadata/apc.h"
+#include "mvc/model/metadata.h"
+#include "mvc/model/metadatainterface.h"
 
 #include "kernel/main.h"
 #include "kernel/memory.h"
-
 #include "kernel/array.h"
 #include "kernel/object.h"
 #include "kernel/concat.h"
@@ -53,14 +44,29 @@
  *	));
  *</code>
  */
+zend_class_entry *phalcon_mvc_model_metadata_apc_ce;
 
+PHP_METHOD(Phalcon_Mvc_Model_MetaData_Apc, __construct);
+PHP_METHOD(Phalcon_Mvc_Model_MetaData_Apc, read);
+PHP_METHOD(Phalcon_Mvc_Model_MetaData_Apc, write);
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_metadata_apc___construct, 0, 0, 0)
+	ZEND_ARG_INFO(0, options)
+ZEND_END_ARG_INFO()
+
+static const zend_function_entry phalcon_mvc_model_metadata_apc_method_entry[] = {
+	PHP_ME(Phalcon_Mvc_Model_MetaData_Apc, __construct, arginfo_phalcon_mvc_model_metadata_apc___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
+	PHP_ME(Phalcon_Mvc_Model_MetaData_Apc, read, arginfo_phalcon_mvc_model_metadatainterface_read, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Model_MetaData_Apc, write, arginfo_phalcon_mvc_model_metadatainterface_write, ZEND_ACC_PUBLIC)
+	PHP_FE_END
+};
 
 /**
  * Phalcon\Mvc\Model\MetaData\Apc initializer
  */
 PHALCON_INIT_CLASS(Phalcon_Mvc_Model_MetaData_Apc){
 
-	PHALCON_REGISTER_CLASS_EX(Phalcon\\Mvc\\Model\\MetaData, Apc, mvc_model_metadata_apc, "phalcon\\mvc\\model\\metadata", phalcon_mvc_model_metadata_apc_method_entry, 0);
+	PHALCON_REGISTER_CLASS_EX(Phalcon\\Mvc\\Model\\MetaData, Apc, mvc_model_metadata_apc, phalcon_mvc_model_metadata_ce, phalcon_mvc_model_metadata_apc_method_entry, 0);
 
 	zend_declare_property_string(phalcon_mvc_model_metadata_apc_ce, SL("_prefix"), "", ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_long(phalcon_mvc_model_metadata_apc_ce, SL("_ttl"), 172800, ZEND_ACC_PROTECTED TSRMLS_CC);
@@ -84,7 +90,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Apc, __construct){
 	phalcon_fetch_params(1, 0, 1, &options);
 	
 	if (!options) {
-		PHALCON_INIT_VAR(options);
+		options = PHALCON_GLOBAL(z_null);
 	}
 	
 	if (Z_TYPE_P(options) == IS_ARRAY) { 
@@ -127,8 +133,8 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Apc, read){
 	PHALCON_INIT_VAR(apc_key);
 	PHALCON_CONCAT_SVV(apc_key, "$PMM$", prefix, key);
 	
-	PHALCON_INIT_VAR(data);
-	phalcon_call_func_p1(data, "apc_fetch", apc_key);
+	PHALCON_OBS_VAR(data);
+	PHALCON_CALL_FUNCTION(&data, "apc_fetch", apc_key);
 	if (Z_TYPE_P(data) == IS_ARRAY) { 
 		RETURN_CCTOR(data);
 	}
@@ -158,8 +164,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Apc, write){
 	
 	PHALCON_OBS_VAR(ttl);
 	phalcon_read_property_this(&ttl, this_ptr, SL("_ttl"), PH_NOISY_CC);
-	phalcon_call_func_p3_noret("apc_store", apc_key, data, ttl);
+	PHALCON_CALL_FUNCTION_NORET("apc_store", apc_key, data, ttl);
 	
 	PHALCON_MM_RESTORE();
 }
-

@@ -3,7 +3,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2013 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -18,20 +18,14 @@
   +------------------------------------------------------------------------+
 */
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
-
-#include "php.h"
 #include "php_phalcon.h"
-#include "phalcon.h"
-
-#include "kernel/main.h"
-#include "kernel/memory.h"
-#include "kernel/file.h"
-#include "kernel/string.h"
 
 #include "config/adapter/json.h"
+#include "pconfig.h"
+
+#include "kernel/main.h"
+#include "kernel/file.h"
+#include "kernel/string.h"
 
 /**
  * Phalcon\Config\Adapter\Json
@@ -53,6 +47,18 @@
  *</code>
  *
  */
+zend_class_entry *phalcon_config_adapter_json_ce;
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_config_adapter_json___construct, 0, 0, 1)
+	ZEND_ARG_INFO(0, filePath)
+ZEND_END_ARG_INFO()
+
+PHP_METHOD(Phalcon_Config_Adapter_Json, __construct);
+
+static const zend_function_entry phalcon_config_adapter_json_method_entry[] = {
+	PHP_ME(Phalcon_Config_Adapter_Json, __construct, arginfo_phalcon_config_adapter_json___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
+	PHP_FE_END
+};
 
 
 /**
@@ -60,7 +66,7 @@
  */
 PHALCON_INIT_CLASS(Phalcon_Config_Adapter_Json){
 
-	PHALCON_REGISTER_CLASS_EX(Phalcon\\Config\\Adapter, Json, config_adapter_json, "phalcon\\config", phalcon_config_adapter_json_method_entry, 0);
+	PHALCON_REGISTER_CLASS_EX(Phalcon\\Config\\Adapter, Json, config_adapter_json, phalcon_config_ce, phalcon_config_adapter_json_method_entry, 0);
 
 	return SUCCESS;
 }
@@ -81,7 +87,11 @@ PHP_METHOD(Phalcon_Config_Adapter_Json, __construct){
 	phalcon_file_get_contents(contents, file_path TSRMLS_CC);
 
 	if (Z_TYPE_P(contents) == IS_STRING) {
-		phalcon_json_decode(array, contents, 1 TSRMLS_CC);
+		if (FAILURE == phalcon_json_decode(array, contents, 1 TSRMLS_CC)) {
+			zval_ptr_dtor(&contents);
+			zval_ptr_dtor(&array);
+			return;
+		}
 	}
 
 	zval_ptr_dtor(&contents);

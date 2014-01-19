@@ -3,7 +3,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2013 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -17,21 +17,8 @@
   +------------------------------------------------------------------------+
 */
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
-
-#include "php.h"
-#include "php_phalcon.h"
-#include "phalcon.h"
-
-#include "Zend/zend_operators.h"
-#include "Zend/zend_exceptions.h"
-#include "Zend/zend_interfaces.h"
-
+#include "db/profiler/item.h"
 #include "kernel/main.h"
-#include "kernel/memory.h"
-
 #include "kernel/object.h"
 
 /**
@@ -40,7 +27,38 @@
  * This class identifies each profile in a Phalcon\Db\Profiler
  *
  */
+zend_class_entry *phalcon_db_profiler_item_ce;
 
+PHP_METHOD(Phalcon_Db_Profiler_Item, setSQLStatement);
+PHP_METHOD(Phalcon_Db_Profiler_Item, getSQLStatement);
+PHP_METHOD(Phalcon_Db_Profiler_Item, setInitialTime);
+PHP_METHOD(Phalcon_Db_Profiler_Item, setFinalTime);
+PHP_METHOD(Phalcon_Db_Profiler_Item, getInitialTime);
+PHP_METHOD(Phalcon_Db_Profiler_Item, getFinalTime);
+PHP_METHOD(Phalcon_Db_Profiler_Item, getTotalElapsedSeconds);
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_profiler_item_setsqlstatement, 0, 0, 1)
+	ZEND_ARG_INFO(0, sqlStatement)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_profiler_item_setinitialtime, 0, 0, 1)
+	ZEND_ARG_INFO(0, initialTime)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_profiler_item_setfinaltime, 0, 0, 1)
+	ZEND_ARG_INFO(0, finalTime)
+ZEND_END_ARG_INFO()
+
+static const zend_function_entry phalcon_db_profiler_item_method_entry[] = {
+	PHP_ME(Phalcon_Db_Profiler_Item, setSQLStatement, arginfo_phalcon_db_profiler_item_setsqlstatement, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Db_Profiler_Item, getSQLStatement, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Db_Profiler_Item, setInitialTime, arginfo_phalcon_db_profiler_item_setinitialtime, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Db_Profiler_Item, setFinalTime, arginfo_phalcon_db_profiler_item_setfinaltime, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Db_Profiler_Item, getInitialTime, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Db_Profiler_Item, getFinalTime, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Db_Profiler_Item, getTotalElapsedSeconds, NULL, ZEND_ACC_PUBLIC)
+	PHP_FE_END
+};
 
 /**
  * Phalcon\Db\Profiler\Item initializer
@@ -143,14 +161,7 @@ PHP_METHOD(Phalcon_Db_Profiler_Item, getTotalElapsedSeconds){
 
 	zval *final_time, *initial_time;
 
-	PHALCON_MM_GROW();
-
-	PHALCON_OBS_VAR(final_time);
-	phalcon_read_property_this(&final_time, this_ptr, SL("_finalTime"), PH_NOISY_CC);
-	
-	PHALCON_OBS_VAR(initial_time);
-	phalcon_read_property_this(&initial_time, this_ptr, SL("_initialTime"), PH_NOISY_CC);
+	final_time   = phalcon_fetch_nproperty_this(this_ptr, SL("_finalTime"), PH_NOISY_CC);
+	initial_time = phalcon_fetch_nproperty_this(this_ptr, SL("_initialTime"), PH_NOISY_CC);
 	sub_function(return_value, final_time, initial_time TSRMLS_CC);
-	RETURN_MM();
 }
-

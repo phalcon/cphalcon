@@ -3,7 +3,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2013 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -17,6 +17,11 @@
   +------------------------------------------------------------------------+
 */
 
+#ifndef PHALCON_EVENTS_MANAGERINTERFACE_H
+#define PHALCON_EVENTS_MANAGERINTERFACE_H
+
+#include "php_phalcon.h"
+
 extern zend_class_entry *phalcon_events_managerinterface_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Events_ManagerInterface);
@@ -26,7 +31,7 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_events_managerinterface_attach, 0, 0, 2)
 	ZEND_ARG_INFO(0, handler)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_events_managerinterface_dettachall, 0, 0, 0)
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_events_managerinterface_detachall, 0, 0, 0)
 	ZEND_ARG_INFO(0, type)
 ZEND_END_ARG_INFO()
 
@@ -40,11 +45,4 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_events_managerinterface_getlisteners, 0, 
 	ZEND_ARG_INFO(0, type)
 ZEND_END_ARG_INFO()
 
-PHALCON_INIT_FUNCS(phalcon_events_managerinterface_method_entry){
-	PHP_ABSTRACT_ME(Phalcon_Events_ManagerInterface, attach, arginfo_phalcon_events_managerinterface_attach)
-	PHP_ABSTRACT_ME(Phalcon_Events_ManagerInterface, dettachAll, arginfo_phalcon_events_managerinterface_dettachall)
-	PHP_ABSTRACT_ME(Phalcon_Events_ManagerInterface, fire, arginfo_phalcon_events_managerinterface_fire)
-	PHP_ABSTRACT_ME(Phalcon_Events_ManagerInterface, getListeners, arginfo_phalcon_events_managerinterface_getlisteners)
-	PHP_FE_END
-};
-
+#endif /* PHALCON_EVENTS_MANAGERINTERFACE_H */

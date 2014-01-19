@@ -3,7 +3,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2013 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -17,15 +17,22 @@
   +------------------------------------------------------------------------+
 */
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
-
-#include "php.h"
-#include "php_phalcon.h"
-#include "phalcon.h"
-
+#include "http/response/cookiesinterface.h"
 #include "kernel/main.h"
+
+zend_class_entry *phalcon_http_response_cookiesinterface_ce;
+
+static const zend_function_entry phalcon_http_response_cookiesinterface_method_entry[] = {
+	PHP_ABSTRACT_ME(Phalcon_Http_Response_CookiesInterface, useEncryption, arginfo_phalcon_http_response_cookiesinterface_useencryption)
+	PHP_ABSTRACT_ME(Phalcon_Http_Response_CookiesInterface, isUsingEncryption, NULL)
+	PHP_ABSTRACT_ME(Phalcon_Http_Response_CookiesInterface, set, arginfo_phalcon_http_response_cookiesinterface_set)
+	PHP_ABSTRACT_ME(Phalcon_Http_Response_CookiesInterface, get, arginfo_phalcon_http_response_cookiesinterface_get)
+	PHP_ABSTRACT_ME(Phalcon_Http_Response_CookiesInterface, has, arginfo_phalcon_http_response_cookiesinterface_has)
+	PHP_ABSTRACT_ME(Phalcon_Http_Response_CookiesInterface, delete, arginfo_phalcon_http_response_cookiesinterface_delete)
+	PHP_ABSTRACT_ME(Phalcon_Http_Response_CookiesInterface, send, NULL)
+	PHP_ABSTRACT_ME(Phalcon_Http_Response_CookiesInterface, reset, NULL)
+	PHP_FE_END
+};
 
 /**
  * Phalcon\Http\Response\CookiesInterface initializer
@@ -104,4 +111,3 @@ PHALCON_DOC_METHOD(Phalcon_Http_Response_CookiesInterface, send);
  * @return Phalcon\Http\Response\CookiesInterface
  */
 PHALCON_DOC_METHOD(Phalcon_Http_Response_CookiesInterface, reset);
-

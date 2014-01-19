@@ -3,7 +3,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2013 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -17,19 +17,8 @@
   +------------------------------------------------------------------------+
 */
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
-
-#include "php.h"
-#include "php_phalcon.h"
-#include "phalcon.h"
-
-#include "Zend/zend_operators.h"
-#include "Zend/zend_exceptions.h"
-#include "Zend/zend_interfaces.h"
-
-#include "kernel/main.h"
+#include "mvc/model/transaction/exception.h"
+#include "mvc/model/exception.h"
 #include "kernel/memory.h"
 
 /**
@@ -38,15 +27,14 @@
  * Exceptions thrown in Phalcon\Mvc\Model\Transaction will use this class
  *
  */
-
+zend_class_entry *phalcon_mvc_model_transaction_exception_ce;
 
 /**
  * Phalcon\Mvc\Model\Transaction\Exception initializer
  */
 PHALCON_INIT_CLASS(Phalcon_Mvc_Model_Transaction_Exception){
 
-	PHALCON_REGISTER_CLASS_EX(Phalcon\\Mvc\\Model\\Transaction, Exception, mvc_model_transaction_exception, "phalcon\\mvc\\model\\exception", NULL, 0);
+	PHALCON_REGISTER_CLASS_EX(Phalcon\\Mvc\\Model\\Transaction, Exception, mvc_model_transaction_exception, phalcon_mvc_model_exception_ce, NULL, 0);
 
 	return SUCCESS;
 }
-

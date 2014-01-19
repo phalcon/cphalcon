@@ -3,7 +3,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2013 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -17,6 +17,24 @@
   +------------------------------------------------------------------------+
 */
 
+#ifndef PHALCON_LOGGER_H
+#define PHALCON_LOGGER_H
+
+#include "php_phalcon.h"
+
+#define PHALCON_LOGGER_EMERGENCY  0
+#define PHALCON_LOGGER_CRITICAL   1
+#define PHALCON_LOGGER_ALERT      2
+#define PHALCON_LOGGER_ERROR      3
+#define PHALCON_LOGGER_WARNING    4
+#define PHALCON_LOGGER_NOTICE     5
+#define PHALCON_LOGGER_INFO       6
+#define PHALCON_LOGGER_DEBUG      7
+#define PHALCON_LOGGER_CUSTOM     8
+#define PHALCON_LOGGER_SPECIAL    9
+
 extern zend_class_entry *phalcon_logger_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Logger);
+
+#endif /* PHALCON_LOGGER_H */

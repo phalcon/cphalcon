@@ -120,6 +120,24 @@ class ViewEnginesTest extends PHPUnit_Framework_TestCase
 		return true;
 	}
 
+	public function testGetRegisteredEngines()
+	{
+		$expected = array(
+			'.mhtml' => 'My_Mustache_Engine',
+			'.phtml' => 'Phalcon\Mvc\View\Engine\Php',
+			'.twig'  => 'My_Twig_Engine',
+			'.volt'  => 'Phalcon\Mvc\View\Engine\Volt',
+		);
+
+		$di   = new Phalcon\DI();
+		$view = new Phalcon\Mvc\View();
+		$view->setDI($di);
+		$view->setViewsDir('unit-tests/views/');
+
+		$view->registerEngines($expected);
+		$this->assertEquals($expected, $view->getRegisteredEngines());
+	}
+
 	public function testMustacheEngine()
 	{
 

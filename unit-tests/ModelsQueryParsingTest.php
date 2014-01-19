@@ -67,6 +67,11 @@ class ModelsQueryParsingTest extends PHPUnit_Framework_TestCase
 
 	public function testSelectParsing()
 	{
+		require 'unit-tests/config.db.php';
+		if (empty($configMysql)) {
+			$this->markTestSkipped('Test skipped');
+			return;
+		}
 
 		$di = $this->_getDI();
 
@@ -2810,7 +2815,10 @@ class ModelsQueryParsingTest extends PHPUnit_Framework_TestCase
 				),
 			),
 			'limit' => array(
-				'number' => '100',
+				'number' => array(
+					'type' => 'literal',
+					'value' => '100',
+				),
 			),
 		);
 		$query = new Query('SELECT * FROM Robots r LIMIT 100');
@@ -2836,8 +2844,14 @@ class ModelsQueryParsingTest extends PHPUnit_Framework_TestCase
 				),
 			),
 			'limit' => array(
-				'number' => '100',
-				'offset' => '10',
+				'number' => array(
+					'type' => 'literal',
+					'value' => '100',
+				),
+				'offset' => array(
+					'type' => 'literal',
+					'value' => '10',
+				),
 			),
 		);
 		$query = new Query('SELECT * FROM Robots r LIMIT 10,100');
@@ -2863,8 +2877,14 @@ class ModelsQueryParsingTest extends PHPUnit_Framework_TestCase
 				),
 			),
 			'limit' => array(
-				'number' => '100',
-				'offset' => '10',
+				'number' => array(
+					'type' => 'literal',
+					'value' => '100',
+				),
+				'offset' => array(
+					'type' => 'literal',
+					'value' => '10',
+				),
 			),
 		);
 		$query = new Query('SELECT * FROM Robots r LIMIT 100 OFFSET 10');
@@ -2904,7 +2924,10 @@ class ModelsQueryParsingTest extends PHPUnit_Framework_TestCase
 				),
 			),
 			'limit' => array(
-				'number' => '100',
+				'number' => array(
+					'type' => 'literal',
+					'value' => '100',
+				),
 			),
 		);
 		$query = new Query('SELECT * FROM Some\Products p WHERE p.name = "Artichoke" LIMIT 100');
@@ -3244,7 +3267,10 @@ class ModelsQueryParsingTest extends PHPUnit_Framework_TestCase
 				),
 			),
 			'limit' => array(
-				'number' => '5',
+				'number' => array(
+					'type' => 'literal',
+					'value' => '5',
+				),
 			),
 		);
 		$query = new Query('SELECT * FROM Robots r WHERE r.name <> "shaggy" ORDER BY 1, 2 LIMIT 5');
@@ -3300,7 +3326,10 @@ class ModelsQueryParsingTest extends PHPUnit_Framework_TestCase
 				),
 			),
 			'limit' => array(
-				'number' => '5',
+				'number' => array(
+					'type' => 'literal',
+					'value' => '5',
+				),
 			),
 		);
 		$query = new Query('SELECT * FROM Robots r WHERE r.name <> "shaggy" ORDER BY 1 ASC, 2 DESC LIMIT 5');
@@ -3581,7 +3610,10 @@ class ModelsQueryParsingTest extends PHPUnit_Framework_TestCase
 				),
 			),
 			'limit' => array(
-				'number' => '10',
+				'number' => array(
+					'type' => 'literal',
+					'value' => '10',
+				),
 			),
 		);
 		$query = new Query('SELECT * FROM Robots WHERE Robots.id > 5 GROUP BY Robots.name LIMIT 10');
@@ -3635,7 +3667,10 @@ class ModelsQueryParsingTest extends PHPUnit_Framework_TestCase
 				),
 			),
 			'limit' => array(
-				'number' => '10',
+				'number' => array(
+					'type' => 'literal',
+					'value' => '10',
+				),
 			),
 		);
 		$query = new Query('SELECT * FROM Robots WHERE Robots.id > 5 GROUP BY Robots.name ORDER BY Robots.id LIMIT 10');
@@ -3941,16 +3976,13 @@ class ModelsQueryParsingTest extends PHPUnit_Framework_TestCase
 						'name' => 'COUNT',
 						'arguments' => array(
 							array(
-								'type' => 'unary-op',
-								'op' => 'DISTINCT ',
-								'right' => array(
-									'type' => 'qualified',
-									'domain' => 'le_products',
-									'name' => 'type',
-									'balias' => 'type',
-								),
+								'type' => 'qualified',
+								'domain' => 'le_products',
+								'name' => 'type',
+								'balias' => 'type',
 							),
 						),
+						'distinct' => 1,
 					),
 					'balias' => 'price',
 					'sqlAlias' => 'price',
@@ -3976,16 +4008,13 @@ class ModelsQueryParsingTest extends PHPUnit_Framework_TestCase
 						'name' => 'COUNT',
 						'arguments' => array(
 							array(
-								'type' => 'unary-op',
-								'op' => 'DISTINCT ',
-								'right' => array(
-									'type' => 'qualified',
-									'domain' => 'le_products',
-									'name' => 'type',
-									'balias' => 'type',
-								),
+								'type' => 'qualified',
+								'domain' => 'le_products',
+								'name' => 'type',
+								'balias' => 'type',
 							),
 						),
+						'distinct' => 1,
 					),
 					'balias' => 'price',
 					'sqlAlias' => 'price',
@@ -4236,7 +4265,10 @@ class ModelsQueryParsingTest extends PHPUnit_Framework_TestCase
 				),
 			),
 			'limit' => array(
-				'number' => '15',
+				'number' => array(
+					'type' => 'literal',
+					'value' => '15',
+				),
 			),
 		);
 		$query = new Query('SELECT Robots.name, COUNT(*) FROM Robots WHERE Robots.type = "virtual" GROUP BY Robots.name HAVING COUNT(*)>100 ORDER BY 2 LIMIT 15');
@@ -4309,7 +4341,10 @@ class ModelsQueryParsingTest extends PHPUnit_Framework_TestCase
 				),
 			),
 			'limit' => array(
-				'number' => '15',
+				'number' => array(
+					'type' => 'literal',
+					'value' => '15',
+				),
 			),
 		);
 		$query = new Query('SELECT Robots.name, COUNT(*) FROM Robots GROUP BY Robots.name HAVING COUNT(*)>100 ORDER BY 2 LIMIT 15');
@@ -4388,7 +4423,10 @@ class ModelsQueryParsingTest extends PHPUnit_Framework_TestCase
 				),
 			),
 			'limit' => array(
-				'number' => '15',
+				'number' => array(
+					'type' => 'literal',
+					'value' => '15',
+				),
 			),
 		);
 		$query = new Query('SELECT name, COUNT(*) FROM Robots WHERE type = "virtual" GROUP BY name HAVING COUNT(*)>100 LIMIT 15');
@@ -4467,7 +4505,10 @@ class ModelsQueryParsingTest extends PHPUnit_Framework_TestCase
 				),
 			),
 			'limit' => array(
-				'number' => '15',
+				'number' => array(
+					'type' => 'literal',
+					'value' => '15',
+				),
 			),
 		);
 		$query = new Query('SELECT Robots.name, COUNT(*) FROM Robots WHERE Robots.type = "virtual" GROUP BY Robots.name HAVING COUNT(*)>100 LIMIT 15');
@@ -4532,7 +4573,10 @@ class ModelsQueryParsingTest extends PHPUnit_Framework_TestCase
 				),
 			),
 			'limit' => array(
-				'number' => '15',
+				'number' => array(
+					'type' => 'literal',
+					'value' => '15',
+				),
 			),
 		);
 		$query = new Query('SELECT Robots.name, COUNT(*) FROM Robots GROUP BY Robots.name HAVING COUNT(*)>100 LIMIT 15');
@@ -6613,7 +6657,10 @@ class ModelsQueryParsingTest extends PHPUnit_Framework_TestCase
 				),
 			),
 			'limit' => array(
-				'number' => '5',
+				'number' => array(
+					'type' => 'literal',
+					'value' => '5',
+				),
 			),
 		);
 		$query = new Query('SELECT * FROM Robotters r WHERE r.theName <> "shaggy" ORDER BY 1, 2 LIMIT 5');
@@ -6669,7 +6716,10 @@ class ModelsQueryParsingTest extends PHPUnit_Framework_TestCase
 				),
 			),
 			'limit' => array(
-				'number' => '5',
+				'number' => array(
+					'type' => 'literal',
+					'value' => '5',
+				),
 			),
 		);
 		$query = new Query('SELECT * FROM Robotters r WHERE r.theName <> "shaggy" ORDER BY 1 ASC, 2 DESC LIMIT 5');
@@ -6736,10 +6786,92 @@ class ModelsQueryParsingTest extends PHPUnit_Framework_TestCase
 		$query->setDI($di);
 		$this->assertEquals($query->parse(), $expected);
 
+		// Issue 1011
+		$expected = array(
+			'models' => array(
+				'Robots',
+			),
+			'tables' => array(
+				array(
+					'robots',
+					NULL,
+					'r',
+				),
+			),
+			'columns' => array(
+				array(
+					'type' => 'object',
+					'model' => 'Robots',
+					'column' => 'r',
+				),
+			),
+			'limit' => array(
+				'number' => array(
+					'type' => 'placeholder',
+					'value' => ':limit',
+				),
+				'offset' => array(
+					'type' => 'placeholder',
+					'value' => ':1',
+				),
+			),
+		);
+		$query = new Query('SELECT * FROM Robots r LIMIT ?1,:limit:');
+		$query->setDI($di);
+		$this->assertEquals($query->parse(), $expected);
+
+		// SELECT DISTINCT and SELECT ALL
+		$expected = array(
+			'distinct' => 1,
+			'models' => array(
+				'Robots',
+			),
+			'tables' => array(
+				'robots',
+			),
+			'columns' => array(
+				'id' => array(
+					'type' => 'scalar',
+					'balias' => 'id',
+					'sqlAlias' => 'id',
+					'column' => array(
+						'type' => 'qualified',
+						'domain' => 'robots',
+						'name' => 'id',
+						'balias' => 'id',
+					),
+				),
+				'name' => array(
+					'type' => 'scalar',
+					'balias' => 'name',
+					'sqlAlias' => 'name',
+					'column' => array(
+						'type' => 'qualified',
+						'domain' => 'robots',
+						'name' => 'name',
+						'balias' => 'name',
+					),
+				),
+			),
+		);
+
+		$query = new Query('SELECT DISTINCT id, name FROM Robots');
+		$query->setDI($di);
+		$this->assertEquals($query->parse(), $expected);
+
+		$query = new Query('SELECT ALL id, name FROM Robots');
+		$query->setDI($di);
+		$expected['distinct'] = 0;
+		$this->assertEquals($query->parse(), $expected);
 	}
 
 	public function testInsertParsing()
 	{
+		require 'unit-tests/config.db.php';
+		if (empty($configMysql)) {
+			$this->markTestSkipped('Test skipped');
+			return;
+		}
 
 		$di = $this->_getDI();
 
@@ -7100,6 +7232,11 @@ class ModelsQueryParsingTest extends PHPUnit_Framework_TestCase
 
 	public function testUpdateParsing()
 	{
+		require 'unit-tests/config.db.php';
+		if (empty($configMysql)) {
+			$this->markTestSkipped('Test skipped');
+			return;
+		}
 
 		$di = $this->_getDI();
 
@@ -7595,7 +7732,10 @@ class ModelsQueryParsingTest extends PHPUnit_Framework_TestCase
 				),
 			),
 			'limit' => array(
-				'number' => '10',
+				'number' => array(
+					'type' => 'literal',
+					'value' => '10',
+				),
 			),
 		);
 		$query = new Query('UPDATE Robots AS r SET r.name = \'some name\' LIMIT 10');
@@ -7631,7 +7771,10 @@ class ModelsQueryParsingTest extends PHPUnit_Framework_TestCase
 				),
 			),
 			'limit' => array(
-				'number' => '10',
+				'number' => array(
+					'type' => 'literal',
+					'value' => '10',
+				),
 			),
 		);
 		$query = new Query('UPDATE Robots r SET r.name = \'some name\' LIMIT 10');
@@ -7681,20 +7824,66 @@ class ModelsQueryParsingTest extends PHPUnit_Framework_TestCase
 				),
 			),
 			'limit' => array(
-				'number' => '10',
+				'number' => array(
+					'type' => 'literal',
+					'value' => '10',
+				),
 			),
 		);
 		$query = new Query('UPDATE Robots AS r SET r.name = \'some name\' WHERE r.id > 100 LIMIT 10');
 		$query->setDI($di);
 		$this->assertEquals($query->parse(), $expected);
 
+		// Issue 1011
+		$expected = array(
+			'tables' => array(
+				array(
+					'robots',
+					NULL,
+					'r',
+				),
+			),
+			'models' => array(
+				'Robots',
+			),
+			'fields' => array(
+				array(
+					'type' => 'qualified',
+					'domain' => 'r',
+					'name' => 'name',
+					'balias' => 'name',
+				),
+			),
+			'values' => array(
+				array(
+					'type' => 260,
+					'value' => array(
+						'type' => 'literal',
+						'value' => 'some name',
+					),
+				),
+			),
+			'limit' => array(
+				'number' => array(
+					'type' => 'placeholder',
+					'value' => ':1',
+				),
+			),
+		);
+		$query = new Query('UPDATE Robots r SET r.name = \'some name\' LIMIT ?1');
+		$query->setDI($di);
+		$this->assertEquals($query->parse(), $expected);
 	}
 
 	public function testDeleteParsing()
 	{
+		require 'unit-tests/config.db.php';
+		if (empty($configMysql)) {
+			$this->markTestSkipped('Test skipped');
+			return;
+		}
 
 		$di = $this->_getDI();
-
 
 		$expected = array(
 			'tables' => array(
@@ -7810,7 +7999,10 @@ class ModelsQueryParsingTest extends PHPUnit_Framework_TestCase
 				'Robots',
 			),
 			'limit' => array(
-				'number' => '10',
+				'number' => array(
+					'type' => 'literal',
+					'value' => '10',
+				),
 			),
 		);
 		$query = new Query('DELETE FROM Robots r LIMIT 10');
@@ -7843,10 +8035,50 @@ class ModelsQueryParsingTest extends PHPUnit_Framework_TestCase
 				),
 			),
 			'limit' => array(
-				'number' => '10',
+				'number' => array(
+					'type' => 'literal',
+					'value' => '10',
+				),
 			),
 		);
 		$query = new Query('DELETE FROM Robots r WHERE r.id > 100 LIMIT 10');
+		$query->setDI($di);
+		$this->assertEquals($query->parse(), $expected);
+
+		// Issue 1011
+		$expected = array(
+			'tables' => array(
+				array(
+					'robots',
+					NULL,
+					'r',
+				),
+			),
+			'models' => array(
+				'Robots',
+			),
+			'where' => array(
+				'type' => 'binary-op',
+				'op' => '>',
+				'left' => array(
+					'type' => 'qualified',
+					'domain' => 'r',
+					'name' => 'id',
+					'balias' => 'id',
+				),
+				'right' => array(
+					'type' => 'literal',
+					'value' => '100',
+				),
+			),
+			'limit' => array(
+				'number' => array(
+					'type' => 'placeholder',
+					'value' => ':limit',
+				),
+			),
+		);
+		$query = new Query('DELETE FROM Robots r WHERE r.id > 100 LIMIT :limit:');
 		$query->setDI($di);
 		$this->assertEquals($query->parse(), $expected);
 	}

@@ -3,7 +3,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2013 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -17,21 +17,11 @@
   +------------------------------------------------------------------------+
 */
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
-
-#include "php.h"
-#include "php_phalcon.h"
-#include "phalcon.h"
-
-#include "Zend/zend_operators.h"
-#include "Zend/zend_exceptions.h"
-#include "Zend/zend_interfaces.h"
+#include "mvc/collection/document.h"
+#include "mvc/collection/exception.h"
 
 #include "kernel/main.h"
 #include "kernel/memory.h"
-
 #include "kernel/object.h"
 #include "kernel/exception.h"
 
@@ -41,7 +31,50 @@
  * This component allows Phalcon\Mvc\Collection to return rows without an associated entity.
  * This objects implements the ArrayAccess interface to allow access the object as object->x or array[x].
  */
+zend_class_entry *phalcon_mvc_collection_document_ce;
 
+PHP_METHOD(Phalcon_Mvc_Collection_Document, offsetExists);
+PHP_METHOD(Phalcon_Mvc_Collection_Document, offsetGet);
+PHP_METHOD(Phalcon_Mvc_Collection_Document, offsetSet);
+PHP_METHOD(Phalcon_Mvc_Collection_Document, offsetUnset);
+PHP_METHOD(Phalcon_Mvc_Collection_Document, readAttribute);
+PHP_METHOD(Phalcon_Mvc_Collection_Document, writeAttribute);
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_collection_document_offsetexists, 0, 0, 1)
+	ZEND_ARG_INFO(0, index)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_collection_document_offsetget, 0, 0, 1)
+	ZEND_ARG_INFO(0, index)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_collection_document_offsetset, 0, 0, 2)
+	ZEND_ARG_INFO(0, index)
+	ZEND_ARG_INFO(0, value)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_collection_document_offsetunset, 0, 0, 1)
+	ZEND_ARG_INFO(0, offset)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_collection_document_readattribute, 0, 0, 1)
+	ZEND_ARG_INFO(0, attribute)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_collection_document_writeattribute, 0, 0, 2)
+	ZEND_ARG_INFO(0, attribute)
+	ZEND_ARG_INFO(0, value)
+ZEND_END_ARG_INFO()
+
+static const zend_function_entry phalcon_mvc_collection_document_method_entry[] = {
+	PHP_ME(Phalcon_Mvc_Collection_Document, offsetExists, arginfo_phalcon_mvc_collection_document_offsetexists, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Collection_Document, offsetGet, arginfo_phalcon_mvc_collection_document_offsetget, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Collection_Document, offsetSet, arginfo_phalcon_mvc_collection_document_offsetset, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Collection_Document, offsetUnset, arginfo_phalcon_mvc_collection_document_offsetunset, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Collection_Document, readAttribute, arginfo_phalcon_mvc_collection_document_readattribute, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Collection_Document, writeAttribute, arginfo_phalcon_mvc_collection_document_writeattribute, ZEND_ACC_PUBLIC)
+	PHP_FE_END
+};
 
 /**
  * Phalcon\Mvc\Collection\Document initializer
@@ -90,7 +123,7 @@ PHP_METHOD(Phalcon_Mvc_Collection_Document, offsetGet){
 	if (phalcon_isset_property_zval(this_ptr, index TSRMLS_CC)) {
 		PHALCON_OBS_VAR(value);
 		phalcon_read_property_zval(&value, this_ptr, index, PH_NOISY_CC);
-		RETURN_CCTOR(value);
+		RETURN_CTOR(value);
 	}
 	PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_collection_exception_ce, "The index does not exist in the row");
 	return;
@@ -149,7 +182,7 @@ PHP_METHOD(Phalcon_Mvc_Collection_Document, readAttribute){
 	if (phalcon_isset_property_zval(this_ptr, attribute TSRMLS_CC)) {
 		PHALCON_OBS_VAR(attribute_value);
 		phalcon_read_property_zval(&attribute_value, this_ptr, attribute, PH_NOISY_CC);
-		RETURN_CCTOR(attribute_value);
+		RETURN_CTOR(attribute_value);
 	}
 	RETURN_MM_NULL();
 }

@@ -3,7 +3,7 @@
 	+------------------------------------------------------------------------+
 	| Phalcon Framework                                                      |
 	+------------------------------------------------------------------------+
-	| Copyright (c) 2011-2013 Phalcon Team (http://www.phalconphp.com)       |
+	| Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
 	+------------------------------------------------------------------------+
 	| This source file is subject to the New BSD License that is bundled     |
 	| with this package in the file docs/LICENSE.txt.                        |
@@ -16,6 +16,9 @@
 	|          Eduar Carvajal <eduar@phalconphp.com>                         |
 	+------------------------------------------------------------------------+
 */
+
+#ifndef PHALCON_MVC_MODEL_QUERY_SCANNER_H
+#define PHALCON_MVC_MODEL_QUERY_SCANNER_H
 
 #define PHQL_SCANNER_RETCODE_EOF -1
 #define PHQL_SCANNER_RETCODE_ERR -2
@@ -102,11 +105,12 @@
 #define PHQL_T_FALSE 334
 #define PHQL_T_CONVERT 335
 #define PHQL_T_USING 336
+#define PHQL_T_ALL 337
 
 /** Special Tokens */
 #define PHQL_T_FCALL 350
 #define PHQL_T_NLIKE 351
-#define PHQL_T_ALL 352
+#define PHQL_T_STARALL 352
 #define PHQL_T_DOMAINALL 353
 #define PHQL_T_EXPR 354
 #define PHQL_T_QUALIFIED 355
@@ -148,3 +152,5 @@ typedef struct _phql_scanner_token {
 int phql_get_token(phql_scanner_state *s, phql_scanner_token *token);
 
 extern const phql_token_names phql_tokens[];
+
+#endif /* PHALCON_MVC_MODEL_QUERY_SCANNER_H */

@@ -3,7 +3,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2013 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -17,21 +17,12 @@
   +------------------------------------------------------------------------+
 */
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
-
-#include "php.h"
-#include "php_phalcon.h"
-#include "phalcon.h"
-
-#include "Zend/zend_operators.h"
-#include "Zend/zend_exceptions.h"
-#include "Zend/zend_interfaces.h"
+#include "db/dialect.h"
+#include "db/dialectinterface.h"
+#include "db/exception.h"
 
 #include "kernel/main.h"
 #include "kernel/memory.h"
-
 #include "kernel/operators.h"
 #include "kernel/fcall.h"
 #include "kernel/concat.h"
@@ -39,7 +30,6 @@
 #include "kernel/array.h"
 #include "kernel/string.h"
 #include "kernel/exception.h"
-#include "kernel/file.h"
 
 /**
  * Phalcon\Db\Dialect
@@ -47,7 +37,46 @@
  * This is the base class to each database dialect. This implements
  * common methods to transform intermediate code into its RDBM related syntax
  */
+zend_class_entry *phalcon_db_dialect_ce;
 
+PHP_METHOD(Phalcon_Db_Dialect, limit);
+PHP_METHOD(Phalcon_Db_Dialect, forUpdate);
+PHP_METHOD(Phalcon_Db_Dialect, sharedLock);
+PHP_METHOD(Phalcon_Db_Dialect, getColumnList);
+PHP_METHOD(Phalcon_Db_Dialect, getSqlExpression);
+PHP_METHOD(Phalcon_Db_Dialect, getSqlTable);
+PHP_METHOD(Phalcon_Db_Dialect, select);
+PHP_METHOD(Phalcon_Db_Dialect, supportsSavepoints);
+PHP_METHOD(Phalcon_Db_Dialect, supportsReleaseSavepoints);
+PHP_METHOD(Phalcon_Db_Dialect, createSavepoint);
+PHP_METHOD(Phalcon_Db_Dialect, releaseSavepoint);
+PHP_METHOD(Phalcon_Db_Dialect, rollbackSavepoint);
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_dialect_getsqlexpression, 0, 0, 1)
+	ZEND_ARG_INFO(0, expression)
+	ZEND_ARG_INFO(0, escapeChar)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_dialect_getsqltable, 0, 0, 1)
+	ZEND_ARG_INFO(0, table)
+	ZEND_ARG_INFO(0, escapeChar)
+ZEND_END_ARG_INFO()
+
+static const zend_function_entry phalcon_db_dialect_method_entry[] = {
+	PHP_ME(Phalcon_Db_Dialect, limit, arginfo_phalcon_db_dialectinterface_limit, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Db_Dialect, forUpdate, arginfo_phalcon_db_dialectinterface_forupdate, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Db_Dialect, sharedLock, arginfo_phalcon_db_dialectinterface_sharedlock, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Db_Dialect, getColumnList, arginfo_phalcon_db_dialectinterface_getcolumnlist, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Db_Dialect, getSqlExpression, arginfo_phalcon_db_dialect_getsqlexpression, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Db_Dialect, getSqlTable, arginfo_phalcon_db_dialect_getsqltable, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Db_Dialect, select, arginfo_phalcon_db_dialectinterface_select, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Db_Dialect, supportsSavepoints, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Db_Dialect, supportsReleaseSavepoints, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Db_Dialect, createSavepoint, arginfo_phalcon_db_dialectinterface_createsavepoint, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Db_Dialect, releaseSavepoint, arginfo_phalcon_db_dialectinterface_releasesavepoint, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Db_Dialect, rollbackSavepoint, arginfo_phalcon_db_dialectinterface_rollbacksavepoint, ZEND_ACC_PUBLIC)
+	PHP_FE_END
+};
 
 /**
  * Phalcon\Db\Dialect initializer
@@ -77,18 +106,17 @@ PHP_METHOD(Phalcon_Db_Dialect, limit){
 
 	zval *sql_query, *number, *limit;
 
-	PHALCON_MM_GROW();
-
 	phalcon_fetch_params(1, 2, 0, &sql_query, &number);
 	
 	if (phalcon_is_numeric(number)) {
+		PHALCON_MM_GROW();
 		PHALCON_INIT_VAR(limit);
 		ZVAL_LONG(limit, phalcon_get_intval(number));
 		PHALCON_CONCAT_VSV(return_value, sql_query, " LIMIT ", limit);
 		RETURN_MM();
 	}
 	
-	RETURN_CCTOR(sql_query);
+	RETURN_ZVAL(sql_query, 1, 0);
 }
 
 /**
@@ -259,7 +287,7 @@ PHP_METHOD(Phalcon_Db_Dialect, getSqlExpression){
 			RETURN_CTOR(escaped_domain);
 		}
 	
-		RETURN_CCTOR(escaped_name);
+		RETURN_CTOR(escaped_name);
 	}
 	
 	/** 
@@ -268,7 +296,7 @@ PHP_METHOD(Phalcon_Db_Dialect, getSqlExpression){
 	if (PHALCON_IS_STRING(type, "literal")) {
 		PHALCON_OBS_VAR(value);
 		phalcon_array_fetch_string(&value, expression, SL("value"), PH_NOISY);
-		RETURN_CCTOR(value);
+		RETURN_CTOR(value);
 	}
 	
 	/** 
@@ -334,7 +362,7 @@ PHP_METHOD(Phalcon_Db_Dialect, getSqlExpression){
 	if (PHALCON_IS_STRING(type, "placeholder")) {
 		PHALCON_OBS_NVAR(value);
 		phalcon_array_fetch_string(&value, expression, SL("value"), PH_NOISY);
-		RETURN_CCTOR(value);
+		RETURN_CTOR(value);
 	}
 	
 	/** 
@@ -382,7 +410,12 @@ PHP_METHOD(Phalcon_Db_Dialect, getSqlExpression){
 	
 			PHALCON_INIT_VAR(arguments_joined);
 			phalcon_fast_join_str(arguments_joined, SL(", "), sql_arguments TSRMLS_CC);
-			PHALCON_CONCAT_VSVS(return_value, name, "(", arguments_joined, ")");
+			if (phalcon_array_isset_string(expression, SS("distinct"))) {
+				PHALCON_CONCAT_VSVS(return_value, name, "(DISTINCT ", arguments_joined, ")");
+			}
+			else {
+				PHALCON_CONCAT_VSVS(return_value, name, "(", arguments_joined, ")");
+			}
 	
 			RETURN_MM();
 		} else {
@@ -522,7 +555,7 @@ PHP_METHOD(Phalcon_Db_Dialect, getSqlTable){
 		 */
 		PHALCON_OBS_VAR(schema_name);
 		phalcon_array_fetch_long(&schema_name, table, 1, PH_NOISY);
-		if (Z_TYPE_P(schema_name) != IS_NULL) {
+		if (PHALCON_IS_NOT_EMPTY(schema_name)) {
 			if (PHALCON_GLOBAL(db).escape_identifiers) {
 				PHALCON_INIT_VAR(sql_schema);
 				PHALCON_CONCAT_VVVSV(sql_schema, escape_char, schema_name, escape_char, ".", sql_table);
@@ -552,7 +585,7 @@ PHP_METHOD(Phalcon_Db_Dialect, getSqlTable){
 			PHALCON_CPY_WRT(sql_table_alias, sql_schema);
 		}
 	
-		RETURN_CCTOR(sql_table_alias);
+		RETURN_CTOR(sql_table_alias);
 	}
 	
 	if (PHALCON_GLOBAL(db).escape_identifiers) {
@@ -560,7 +593,7 @@ PHP_METHOD(Phalcon_Db_Dialect, getSqlTable){
 		RETURN_MM();
 	}
 	
-	RETURN_CCTOR(table);
+	RETURN_CTOR(table);
 }
 
 /**
@@ -571,7 +604,7 @@ PHP_METHOD(Phalcon_Db_Dialect, getSqlTable){
  */
 PHP_METHOD(Phalcon_Db_Dialect, select){
 
-	zval *definition, *escape_char = NULL, *columns, *selected_columns;
+	zval *definition, *escape_char = NULL, *columns, *selected_columns, *distinct;
 	zval *column = NULL, *column_item = NULL, *column_sql = NULL, *column_domain = NULL;
 	zval *column_domain_sql = NULL, *column_alias = NULL, *column_alias_sql = NULL;
 	zval *columns_sql = NULL, *tables, *selected_tables;
@@ -584,7 +617,8 @@ PHP_METHOD(Phalcon_Db_Dialect, select){
 	zval *group_clause, *having_conditions, *having_expression;
 	zval *order_fields, *order_items, *order_item = NULL;
 	zval *order_expression = NULL, *order_sql_item = NULL, *sql_order_type = NULL;
-	zval *order_sql_item_type = NULL, *order_sql, *limit_value;
+	zval *order_sql_item_type = NULL, *order_sql, *tmp1 = NULL, *tmp2 = NULL;
+	zval *limit_value;
 	zval *number, *offset;
 	HashTable *ah0, *ah1, *ah2, *ah3, *ah4, *ah5;
 	HashPosition hp0, hp1, hp2, hp3, hp4, hp5;
@@ -732,9 +766,25 @@ PHP_METHOD(Phalcon_Db_Dialect, select){
 	} else {
 		PHALCON_CPY_WRT(tables_sql, tables);
 	}
-	
+
 	PHALCON_INIT_VAR(sql);
-	PHALCON_CONCAT_SVSV(sql, "SELECT ", columns_sql, " FROM ", tables_sql);
+	if (phalcon_array_isset_string_fetch(&distinct, definition, SS("definition"))) {
+		assert(Z_TYPE_P(distinct) == IS_LONG);
+		if (Z_LVAL_P(distinct) == 0) {
+			ZVAL_STRING(sql, "SELECT ALL ", 1);
+		}
+		else if (Z_LVAL_P(distinct) == 1) {
+			ZVAL_STRING(sql, "SELECT DISTINCT ", 1);
+		}
+		else {
+			ZVAL_STRING(sql, "SELECT ", 1);
+		}
+	}
+	else {
+		ZVAL_STRING(sql, "SELECT ", 1);
+	}
+	
+	PHALCON_SCONCAT_VSV(sql, columns_sql, " FROM ", tables_sql);
 	
 	/** 
 	 * Check for joins
@@ -910,24 +960,22 @@ PHP_METHOD(Phalcon_Db_Dialect, select){
 	/** 
 	 * Check for a LIMIT condition
 	 */
-	if (phalcon_array_isset_string(definition, SS("limit"))) {
-	
-		PHALCON_OBS_VAR(limit_value);
-		phalcon_array_fetch_string(&limit_value, definition, SL("limit"), PH_NOISY);
-		if (Z_TYPE_P(limit_value) == IS_ARRAY) { 
-	
-			PHALCON_OBS_VAR(number);
-			phalcon_array_fetch_string(&number, limit_value, SL("number"), PH_NOISY);
-	
-			/** 
-			 * Check for a OFFSET condition
-			 */
-			if (phalcon_array_isset_string(limit_value, SS("offset"))) {
-				PHALCON_OBS_VAR(offset);
-				phalcon_array_fetch_string(&offset, limit_value, SL("offset"), PH_NOISY);
-				PHALCON_SCONCAT_SVSV(sql, " LIMIT ", number, " OFFSET ", offset);
-			} else {
-				PHALCON_SCONCAT_SV(sql, " LIMIT ", number);
+	if (phalcon_array_isset_string_fetch(&limit_value, definition, SS("limit"))) {
+		if (likely(Z_TYPE_P(limit_value) == IS_ARRAY)) {
+			if (likely(phalcon_array_isset_string_fetch(&number, limit_value, SS("number")))) {
+				PHALCON_OBS_NVAR(tmp1);
+				phalcon_array_fetch_string(&tmp1, number, SL("value"), PH_NOISY);
+
+				/**
+				 * Check for a OFFSET condition
+				 */
+				if (phalcon_array_isset_string_fetch(&offset, limit_value, SS("offset"))) {
+					PHALCON_OBS_NVAR(tmp2);
+					phalcon_array_fetch_string(&tmp2, offset, SL("value"), PH_NOISY);
+					PHALCON_SCONCAT_SVSV(sql, " LIMIT ", tmp1, " OFFSET ", tmp2);
+				} else {
+					PHALCON_SCONCAT_SV(sql, " LIMIT ", tmp1);
+				}
 			}
 		} else {
 			PHALCON_SCONCAT_SV(sql, " LIMIT ", limit_value);
@@ -1009,4 +1057,3 @@ PHP_METHOD(Phalcon_Db_Dialect, rollbackSavepoint){
 	PHALCON_CONCAT_SV(return_value, "ROLLBACK TO SAVEPOINT ", name);
 	return;
 }
-

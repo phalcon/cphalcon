@@ -3,7 +3,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2013 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -17,23 +17,19 @@
   +------------------------------------------------------------------------+
 */
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
-
-#include "php.h"
-#include "php_phalcon.h"
-#include "phalcon.h"
-
-#include "Zend/zend_operators.h"
-#include "Zend/zend_exceptions.h"
-#include "Zend/zend_interfaces.h"
+#include "validation/validator/email.h"
+#include "validation/validator.h"
+#include "validation/validatorinterface.h"
+#include "validation/message.h"
+#include "validation/exception.h"
+#include "validation.h"
 
 #include "kernel/main.h"
 #include "kernel/memory.h"
-
 #include "kernel/fcall.h"
 #include "kernel/concat.h"
+
+#include "interned-strings.h"
 
 /**
  * Phalcon\Validation\Validator\Email
@@ -48,14 +44,21 @@
  *)));
  *</code>
  */
+zend_class_entry *phalcon_validation_validator_email_ce;
 
+PHP_METHOD(Phalcon_Validation_Validator_Email, validate);
+
+static const zend_function_entry phalcon_validation_validator_email_method_entry[] = {
+	PHP_ME(Phalcon_Validation_Validator_Email, validate, arginfo_phalcon_validation_validatorinterface_validate, ZEND_ACC_PUBLIC)
+	PHP_FE_END
+};
 
 /**
  * Phalcon\Validation\Validator\Email initializer
  */
 PHALCON_INIT_CLASS(Phalcon_Validation_Validator_Email){
 
-	PHALCON_REGISTER_CLASS_EX(Phalcon\\Validation\\Validator, Email, validation_validator_email, "phalcon\\validation\\validator", phalcon_validation_validator_email_method_entry, 0);
+	PHALCON_REGISTER_CLASS_EX(Phalcon\\Validation\\Validator, Email, validation_validator_email, phalcon_validation_validator_ce, phalcon_validation_validator_email_method_entry, 0);
 
 	zend_class_implements(phalcon_validation_validator_email_ce TSRMLS_CC, 1, phalcon_validation_validatorinterface_ce);
 
@@ -72,39 +75,60 @@ PHALCON_INIT_CLASS(Phalcon_Validation_Validator_Email){
 PHP_METHOD(Phalcon_Validation_Validator_Email, validate){
 
 	zval *validator, *attribute, *value, *validate_email;
-	zval *validation, *option, *message_str = NULL, *type;
-	zval *message;
+	zval *validation, *message_str, *message, *code;
+	zval *allow_empty, *label, *pairs, *prepared;
+	zend_class_entry *ce = Z_OBJCE_P(getThis());
 
 	PHALCON_MM_GROW();
 
 	phalcon_fetch_params(1, 2, 0, &validator, &attribute);
 	
-	PHALCON_INIT_VAR(value);
-	phalcon_call_method_p1(value, validator, "getvalue", attribute);
+	PHALCON_VERIFY_CLASS_EX(validator, phalcon_validation_ce, phalcon_validation_exception_ce, 1);
+
+	PHALCON_OBS_VAR(value);
+	phalcon_call_method_p1_ex(value, &value, validator, "getvalue", attribute);
 	
-	PHALCON_INIT_VAR(validate_email);
+	PHALCON_INIT_VAR(allow_empty);
+	RETURN_MM_ON_FAILURE(phalcon_validation_validator_getoption_helper(ce, allow_empty, getThis(), phalcon_interned_allowEmpty TSRMLS_CC));
+	if (zend_is_true(allow_empty) && phalcon_validation_validator_isempty_helper(value)) {
+		RETURN_MM_TRUE;
+	}
+
+	PHALCON_ALLOC_GHOST_ZVAL(validate_email);
 	ZVAL_LONG(validate_email, 274);
 	
-	PHALCON_INIT_VAR(validation);
-	phalcon_call_func_p2(validation, "filter_var", value, validate_email);
+	PHALCON_OBS_VAR(validation);
+	PHALCON_CALL_FUNCTION(&validation, "filter_var", value, validate_email);
 	if (!zend_is_true(validation)) {
 	
-		PHALCON_INIT_VAR(option);
-		ZVAL_STRING(option, "message", 1);
-	
+		PHALCON_INIT_VAR(label);
+		RETURN_MM_ON_FAILURE(phalcon_validation_validator_getoption_helper(ce, label, getThis(), phalcon_interned_label TSRMLS_CC));
+		if (!zend_is_true(label)) {
+			PHALCON_CPY_WRT(label, attribute);
+		}
+
+		PHALCON_ALLOC_GHOST_ZVAL(pairs);
+		array_init_size(pairs, 1);
+		Z_ADDREF_P(label); add_assoc_zval_ex(pairs, SS(":field"), label);
+
 		PHALCON_INIT_VAR(message_str);
-		phalcon_call_method_p1(message_str, this_ptr, "getoption", option);
+		RETURN_MM_ON_FAILURE(phalcon_validation_validator_getoption_helper(ce, message_str, getThis(), phalcon_interned_message TSRMLS_CC));
 		if (!zend_is_true(message_str)) {
 			PHALCON_INIT_NVAR(message_str);
-			PHALCON_CONCAT_SVS(message_str, "Value of field '", attribute, "' must have a valid e-mail format");
+			RETURN_MM_ON_FAILURE(phalcon_validation_getdefaultmessage_helper(Z_OBJCE_P(validator), message_str, validator, "Email" TSRMLS_CC));
 		}
 	
-		PHALCON_INIT_VAR(type);
-		ZVAL_STRING(type, "Email", 1);
-	
-		PHALCON_INIT_VAR(message);
-		object_init_ex(message, phalcon_validation_message_ce);
-		phalcon_call_method_p3_noret(message, "__construct", message_str, attribute, type);
+		PHALCON_INIT_VAR(code);
+		RETURN_MM_ON_FAILURE(phalcon_validation_validator_getoption_helper(ce, code, getThis(), phalcon_interned_code TSRMLS_CC));
+		if (Z_TYPE_P(code) == IS_NULL) {
+			ZVAL_LONG(code, 0);
+		}
+
+		PHALCON_OBS_VAR(prepared);
+		PHALCON_CALL_FUNCTION(&prepared, "strtr", message_str, pairs);
+
+		message = phalcon_validation_message_construct_helper(prepared, attribute, "Email", code TSRMLS_CC);
+		Z_DELREF_P(message);
 	
 		phalcon_call_method_p1_noret(validator, "appendmessage", message);
 		RETURN_MM_FALSE;
@@ -112,4 +136,3 @@ PHP_METHOD(Phalcon_Validation_Validator_Email, validate){
 	
 	RETURN_MM_TRUE;
 }
-

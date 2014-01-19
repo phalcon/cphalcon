@@ -3,7 +3,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2013 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -17,12 +17,10 @@
   +------------------------------------------------------------------------+
 */
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
-
-#include "php.h"
 #include "php_phalcon.h"
+
+#include <Zend/zend_alloc.h>
+
 #include "kernel/memory.h"
 #include "kernel/fcall.h"
 #include "kernel/backtrace.h"
@@ -45,18 +43,15 @@
  * Not all methods must grown/restore the phalcon_memory_entry.
  */
 
-/**
- * Adds a memory frame in the current executed method
- */
-void PHALCON_FASTCALL phalcon_memory_grow_stack(TSRMLS_D) {
-
-	zend_phalcon_globals *phalcon_globals_ptr = PHALCON_VGLOBAL;
-
+static phalcon_memory_entry* phalcon_memory_grow_stack_common(zend_phalcon_globals *phalcon_globals_ptr)
+{
 	assert(phalcon_globals_ptr->start_memory != NULL);
-
 	if (!phalcon_globals_ptr->active_memory) {
 		phalcon_globals_ptr->active_memory = phalcon_globals_ptr->start_memory;
-	} else {
+		return phalcon_globals_ptr->start_memory;
+	}
+
+	{
 		phalcon_memory_entry *entry = (phalcon_memory_entry *) ecalloc(1, sizeof(phalcon_memory_entry));
 	/* ecalloc() will take care of these members
 		entry->pointer   = 0;
@@ -70,60 +65,99 @@ void PHALCON_FASTCALL phalcon_memory_grow_stack(TSRMLS_D) {
 		entry->prev       = phalcon_globals_ptr->active_memory;
 		entry->prev->next = entry;
 		phalcon_globals_ptr->active_memory = entry;
+		return entry;
 	}
 }
 
-/**
- * Finishes the current memory stack by releasing allocated memory
- */
-int PHALCON_FASTCALL phalcon_memory_restore_stack(TSRMLS_D) {
+static void phalcon_memory_restore_stack_common(zend_phalcon_globals *phalcon_globals_ptr TSRMLS_DC) {
 
 	size_t i;
 	phalcon_memory_entry *prev, *active_memory;
 	phalcon_symbol_table *active_symbol_table;
-	zend_phalcon_globals *phalcon_globals_ptr = PHALCON_VGLOBAL;
+/*
+#if ZEND_DEBUG
+	char* __zend_filename = __FILE__;
+	char* __zend_orig_filename = __FILE__;
+	int __zend_lineno = 0;
+	int __zend_orig_lineno = 0;
+#endif
+*/
 
 	active_memory = phalcon_globals_ptr->active_memory;
-	if (unlikely(active_memory == NULL)) {
-#ifndef PHALCON_RELEASE
-		fprintf(stderr, "WARNING: calling phalcon_memory_restore_stack() without an active memory frame!\n");
-		phalcon_print_backtrace();
+	assert(active_memory != NULL);
+
+	if (likely(!CG(unclean_shutdown))) {
+		/* Clean active symbol table */
+		if (phalcon_globals_ptr->active_symbol_table) {
+			active_symbol_table = phalcon_globals_ptr->active_symbol_table;
+			if (active_symbol_table->scope == active_memory) {
+				zend_hash_destroy(EG(active_symbol_table));
+				FREE_HASHTABLE(EG(active_symbol_table));
+				EG(active_symbol_table) = active_symbol_table->symbol_table;
+				phalcon_globals_ptr->active_symbol_table = active_symbol_table->prev;
+				efree(active_symbol_table);
+			}
+		}
+
+		/**
+		 * Check for non freed hash key zvals, mark as null to avoid string freeing
+		 */
+		for (i = 0; i < active_memory->hash_pointer; ++i) {
+			assert(active_memory->hash_addresses[i] != NULL && *(active_memory->hash_addresses[i]) != NULL);
+/*
+#if ZEND_DEBUG
+			_mem_block_check(*active_memory->hash_addresses[i], 1 ZEND_FILE_LINE_RELAY_CC ZEND_FILE_LINE_ORIG_RELAY_CC);
 #endif
-		return FAILURE;
-	}
-
-	if (phalcon_globals_ptr->active_symbol_table) {
-		active_symbol_table = phalcon_globals_ptr->active_symbol_table;
-		if (active_symbol_table->scope == active_memory) {
-			zend_hash_destroy(EG(active_symbol_table));
-			FREE_HASHTABLE(EG(active_symbol_table));
-			EG(active_symbol_table) = active_symbol_table->symbol_table;
-			phalcon_globals_ptr->active_symbol_table = active_symbol_table->prev;
-			efree(active_symbol_table);
-		}
-	}
-
-	/**
-	 * Check for non freed hash key zvals, mark as null to avoid string freeing
-	 */
-	for (i = 0; i < active_memory->hash_pointer; ++i) {
-		assert(active_memory->hash_addresses[i] != NULL && *(active_memory->hash_addresses[i]) != NULL);
-		if (Z_REFCOUNT_PP(active_memory->hash_addresses[i]) <= 1) {
-			ZVAL_NULL(*active_memory->hash_addresses[i]);
-		} else {
-			zval_copy_ctor(*active_memory->hash_addresses[i]);
-		}
-	}
-
-	/**
-	 * Traverse all zvals allocated, reduce the reference counting or free them
-	 */
-	for (i = 0; i < active_memory->pointer; ++i) {
-		if (likely(active_memory->addresses[i] != NULL && *(active_memory->addresses[i]) != NULL)) {
-			if (Z_REFCOUNT_PP(active_memory->addresses[i]) == 1) {
-				zval_ptr_dtor(active_memory->addresses[i]);
+*/
+			if (Z_REFCOUNT_PP(active_memory->hash_addresses[i]) <= 1) {
+				ZVAL_NULL(*active_memory->hash_addresses[i]);
 			} else {
-				Z_DELREF_PP(active_memory->addresses[i]);
+				zval_copy_ctor(*active_memory->hash_addresses[i]);
+			}
+		}
+
+#ifndef PHALCON_RELEASE
+		for (i = 0; i < active_memory->pointer; ++i) {
+			if (likely(active_memory->addresses[i] != NULL && *(active_memory->addresses[i]) != NULL)) {
+				zval **var = active_memory->addresses[i];
+/*
+#if ZEND_DEBUG
+				_mem_block_check(*var, 1 ZEND_FILE_LINE_RELAY_CC ZEND_FILE_LINE_ORIG_RELAY_CC);
+#endif
+*/
+#if PHP_VERSION_ID < 50400
+				if (Z_TYPE_PP(var) > IS_CONSTANT_ARRAY) {
+					fprintf(stderr, "%s: observed variable #%d (%p) has invalid type %u\n", __func__, (int)i, *var, Z_TYPE_PP(var));
+				}
+#else
+				if (Z_TYPE_PP(var) > IS_CALLABLE) {
+					fprintf(stderr, "%s: observed variable #%d (%p) has invalid type %u\n", __func__, (int)i, *var, Z_TYPE_PP(var));
+				}
+#endif
+
+				if (Z_REFCOUNT_PP(var) == 0) {
+					fprintf(stderr, "%s: observed variable #%d (%p) has 0 references\n", __func__, (int)i, *var);
+				}
+				else if (Z_REFCOUNT_PP(var) >= 1000000) {
+					fprintf(stderr, "%s: observed variable #%d (%p) has too many references (%u)\n", __func__, (int)i, *var, Z_REFCOUNT_PP(var));
+				}
+				else if (Z_REFCOUNT_PP(var) == 1 && Z_ISREF_PP(var)) {
+					fprintf(stderr, "%s: observed variable #%d (%p) is a reference with reference count = 1\n", __func__, (int)i, *var);
+				}
+			}
+		}
+#endif
+
+		/**
+		 * Traverse all zvals allocated, reduce the reference counting or free them
+		 */
+		for (i = 0; i < active_memory->pointer; ++i) {
+			if (likely(active_memory->addresses[i] != NULL && *(active_memory->addresses[i]) != NULL)) {
+				if (Z_REFCOUNT_PP(active_memory->addresses[i]) == 1) {
+					zval_ptr_dtor(active_memory->addresses[i]);
+				} else {
+					Z_DELREF_PP(active_memory->addresses[i]);
+				}
 			}
 		}
 	}
@@ -149,9 +183,105 @@ int PHALCON_FASTCALL phalcon_memory_restore_stack(TSRMLS_D) {
 		active_memory->hash_pointer = 0;
 		phalcon_globals_ptr->active_memory = NULL;
 	}
+}
 
+#ifndef PHALCON_RELEASE
+
+void phalcon_dump_current_frame(TSRMLS_D)
+{
+	zend_phalcon_globals *phalcon_globals_ptr = PHALCON_VGLOBAL;
+	phalcon_memory_entry *active_memory;
+	size_t i;
+
+	if (unlikely(phalcon_globals_ptr->active_memory == NULL)) {
+		fprintf(stderr, "WARNING: calling phalcon_dump_current_frame() without an active memory frame!\n");
+		phalcon_print_backtrace();
+		return;
+	}
+
+	active_memory = phalcon_globals_ptr->active_memory;
+	assert(active_memory != NULL);
+
+	fprintf(stderr, "Dump of the memory frame %p\n", active_memory);
+
+	if (active_memory->hash_pointer) {
+		for (i = 0; i < active_memory->hash_pointer; ++i) {
+			assert(active_memory->hash_addresses[i] != NULL && *(active_memory->hash_addresses[i]) != NULL);
+			fprintf(stderr, "Hash ptr %lu (%p => %p), type=%u, refcnt=%u\n", (ulong)i, active_memory->hash_addresses[i], *active_memory->hash_addresses[i], Z_TYPE_PP(active_memory->hash_addresses[i]), Z_REFCOUNT_PP(active_memory->hash_addresses[i]));
+		}
+	}
+
+	for (i = 0; i < active_memory->pointer; ++i) {
+		if (likely(active_memory->addresses[i] != NULL && *(active_memory->addresses[i]) != NULL)) {
+			zval **var = active_memory->addresses[i];
+			fprintf(stderr, "Obs var %lu (%p => %p), type=%u, refcnt=%u; ", (ulong)i, var, *var, Z_TYPE_PP(var), Z_REFCOUNT_PP(var));
+			switch (Z_TYPE_PP(var)) {
+				case IS_NULL:     fprintf(stderr, "value=NULL\n"); break;
+				case IS_LONG:     fprintf(stderr, "value=%ld\n", Z_LVAL_PP(var)); break;
+				case IS_DOUBLE:   fprintf(stderr, "value=%E\n", Z_DVAL_PP(var)); break;
+				case IS_BOOL:     fprintf(stderr, "value=(bool)%d\n", Z_BVAL_PP(var)); break;
+				case IS_ARRAY:    fprintf(stderr, "value=array(%p), %d elements\n", Z_ARRVAL_PP(var), zend_hash_num_elements(Z_ARRVAL_PP(var))); break;
+				case IS_OBJECT:   fprintf(stderr, "value=object(%u), %s\n", Z_OBJ_HANDLE_PP(var), Z_OBJCE_PP(var)->name); break;
+				case IS_STRING:   fprintf(stderr, "value=%*s (%p)\n", Z_STRLEN_PP(var), Z_STRVAL_PP(var), Z_STRVAL_PP(var)); break;
+				case IS_RESOURCE: fprintf(stderr, "value=(resource)%ld\n", Z_LVAL_PP(var)); break;
+				default:          fprintf(stderr, "\n"); break;
+			}
+		}
+	}
+
+	fprintf(stderr, "End of the dump of the memory frame %p\n", active_memory);
+}
+
+/**
+ * Finishes the current memory stack by releasing allocated memory
+ */
+int ZEND_FASTCALL phalcon_memory_restore_stack(const char *func TSRMLS_DC)
+{
+	zend_phalcon_globals *phalcon_globals_ptr = PHALCON_VGLOBAL;
+
+	if (unlikely(phalcon_globals_ptr->active_memory == NULL)) {
+		fprintf(stderr, "WARNING: calling phalcon_memory_restore_stack() without an active memory frame!\n");
+		phalcon_print_backtrace();
+		return FAILURE;
+	}
+
+	if (unlikely(phalcon_globals_ptr->active_memory->func != func)) {
+		fprintf(stderr, "Trying to free someone else's memory frame!\n");
+		fprintf(stderr, "The frame was created by %s\n", phalcon_globals_ptr->active_memory->func);
+		fprintf(stderr, "Calling function: %s\n", func);
+		phalcon_print_backtrace();
+	}
+
+	phalcon_globals_ptr->active_memory->func = NULL;
+
+	phalcon_memory_restore_stack_common(phalcon_globals_ptr TSRMLS_CC);
 	return SUCCESS;
 }
+
+/**
+ * Adds a memory frame in the current executed method
+ */
+void ZEND_FASTCALL phalcon_memory_grow_stack(const char *func TSRMLS_DC) {
+
+	phalcon_memory_entry *entry = phalcon_memory_grow_stack_common(PHALCON_VGLOBAL);
+	entry->func = func;
+}
+#else
+/**
+ * Adds a memory frame in the current executed method
+ */
+void ZEND_FASTCALL phalcon_memory_grow_stack(TSRMLS_D) {
+	phalcon_memory_grow_stack_common(PHALCON_VGLOBAL);
+}
+
+/**
+ * Finishes the current memory stack by releasing allocated memory
+ */
+int ZEND_FASTCALL phalcon_memory_restore_stack(TSRMLS_D) {
+	phalcon_memory_restore_stack_common(PHALCON_VGLOBAL TSRMLS_CC);
+	return SUCCESS;
+}
+#endif
 
 static void phalcon_reallocate_memory(phalcon_memory_entry *frame)
 {
@@ -179,6 +309,16 @@ static void phalcon_reallocate_hmemory(phalcon_memory_entry *frame)
 
 static inline void phalcon_do_memory_observe(zval **var, phalcon_memory_entry *frame)
 {
+#ifndef PHALCON_RELEASE
+	if (unlikely(frame == NULL)) {
+		TSRMLS_FETCH();
+		fprintf(stderr, "PHALCON_MM_GROW() must be called before using any of MM functions or macros!");
+		phalcon_memory_grow_stack("N/A" TSRMLS_CC);
+		frame = PHALCON_GLOBAL(active_memory);
+		ASSUME(frame != NULL);
+	}
+#endif
+
 	if (unlikely(frame->pointer == frame->capacity)) {
 		phalcon_reallocate_memory(frame);
 	}
@@ -190,7 +330,7 @@ static inline void phalcon_do_memory_observe(zval **var, phalcon_memory_entry *f
 /**
  * Observes a memory pointer to release its memory at the end of the request
  */
-void PHALCON_FASTCALL phalcon_memory_observe(zval **var TSRMLS_DC) {
+void ZEND_FASTCALL phalcon_memory_observe(zval **var TSRMLS_DC) {
 
 	phalcon_do_memory_observe(var, PHALCON_GLOBAL(active_memory));
 	*var = NULL; /* In case an exception or error happens BEFORE the observed variable gets initialized */
@@ -199,7 +339,7 @@ void PHALCON_FASTCALL phalcon_memory_observe(zval **var TSRMLS_DC) {
 /**
  * Observes a variable and allocates memory for it
  */
-void PHALCON_FASTCALL phalcon_memory_alloc(zval **var TSRMLS_DC) {
+void ZEND_FASTCALL phalcon_memory_alloc(zval **var TSRMLS_DC) {
 
 	phalcon_do_memory_observe(var, PHALCON_GLOBAL(active_memory));
 	ALLOC_INIT_ZVAL(*var);
@@ -209,9 +349,19 @@ void PHALCON_FASTCALL phalcon_memory_alloc(zval **var TSRMLS_DC) {
  * Observes a variable and allocates memory for it
  * Marks hash key zvals to be nulled before freeing
  */
-void PHALCON_FASTCALL phalcon_memory_alloc_pnull(zval **var TSRMLS_DC) {
+void ZEND_FASTCALL phalcon_memory_alloc_pnull(zval **var TSRMLS_DC) {
 
 	phalcon_memory_entry *active_memory = PHALCON_GLOBAL(active_memory);
+
+#ifndef PHALCON_RELEASE
+	if (unlikely(active_memory == NULL)) {
+		TSRMLS_FETCH();
+		fprintf(stderr, "PHALCON_MM_GROW() must be called before using any of MM functions or macros!");
+		phalcon_memory_grow_stack("N/A" TSRMLS_CC);
+		active_memory = PHALCON_GLOBAL(active_memory);
+		ASSUME(active_memory != NULL);
+	}
+#endif
 
 	phalcon_do_memory_observe(var, active_memory);
 	ALLOC_INIT_ZVAL(*var);
@@ -227,77 +377,20 @@ void PHALCON_FASTCALL phalcon_memory_alloc_pnull(zval **var TSRMLS_DC) {
 /**
  * Removes a memory pointer from the active memory pool
  */
-void PHALCON_FASTCALL phalcon_memory_remove(zval **var TSRMLS_DC) {
+void ZEND_FASTCALL phalcon_memory_remove(zval **var TSRMLS_DC) {
 	zval_ptr_dtor(var);
 	*var = NULL;
 }
 
 /**
- * Cleans the phalcon memory stack recursivey
- */
-int PHALCON_FASTCALL phalcon_clean_restore_stack(TSRMLS_D) {
-
-	zend_phalcon_globals *phalcon_globals_ptr = PHALCON_VGLOBAL;
-
-	while (phalcon_globals_ptr->active_memory != NULL) {
-		phalcon_memory_restore_stack(TSRMLS_C);
-	}
-
-	return SUCCESS;
-}
-
-/**
- * Finishes the current memory stack by releasing allocated memory
- */
-int PHALCON_FASTCALL phalcon_memory_restore_stack_shutdown(TSRMLS_D) {
-
-	phalcon_memory_entry *prev, *active_memory;
-	zend_phalcon_globals *phalcon_globals_ptr = PHALCON_VGLOBAL;
-
-	active_memory = phalcon_globals_ptr->active_memory;
-	if (unlikely(active_memory == NULL)) {
-#ifndef PHALCON_RELEASE
-		fprintf(stderr, "WARNING: calling phalcon_memory_restore_stack() without an active memory frame!\n");
-		phalcon_print_backtrace();
-#endif
-		return FAILURE;
-	}
-
-	prev = active_memory->prev;
-
-	if (prev != NULL) {
-
-		if (active_memory->hash_addresses != NULL) {
-			efree(active_memory->hash_addresses);
-		}
-
-		if (likely(active_memory->addresses != NULL)) {
-			efree(active_memory->addresses);
-		}
-
-		efree(phalcon_globals_ptr->active_memory);
-		phalcon_globals_ptr->active_memory = prev;
-		prev->next = NULL;
-	} else {
-		assert(phalcon_globals_ptr->start_memory == active_memory);
-		assert(active_memory->next == NULL);
-		active_memory->pointer      = 0;
-		active_memory->hash_pointer = 0;
-		phalcon_globals_ptr->active_memory = NULL;
-	}
-
-	return SUCCESS;
-}
-
-/**
  * Cleans the phalcon memory stack recursivery
  */
-int PHALCON_FASTCALL phalcon_clean_restore_stack_shutdown(TSRMLS_D) {
+int ZEND_FASTCALL phalcon_clean_restore_stack(TSRMLS_D) {
 
 	zend_phalcon_globals *phalcon_globals_ptr = PHALCON_VGLOBAL;
 
 	while (phalcon_globals_ptr->active_memory != NULL) {
-		phalcon_memory_restore_stack_shutdown(TSRMLS_C);
+		phalcon_memory_restore_stack_common(phalcon_globals_ptr TSRMLS_CC);
 	}
 
 	return SUCCESS;
@@ -306,7 +399,7 @@ int PHALCON_FASTCALL phalcon_clean_restore_stack_shutdown(TSRMLS_D) {
 /**
  * Copies a variable only if its refcount is greater than 1
  */
-void PHALCON_FASTCALL phalcon_copy_ctor(zval *destination, zval *origin) {
+void ZEND_FASTCALL phalcon_copy_ctor(zval *destination, zval *origin) {
 	if (Z_REFCOUNT_P(origin) > 1) {
 		zval_copy_ctor(destination);
 	} else {
@@ -323,13 +416,13 @@ void phalcon_create_symbol_table(TSRMLS_D) {
 	zend_phalcon_globals *phalcon_globals_ptr = PHALCON_VGLOBAL;
 	HashTable *symbol_table;
 
-	#ifndef PHALCON_RELEASE
+#ifndef PHALCON_RELEASE
 	if (!phalcon_globals_ptr->active_memory) {
 		fprintf(stderr, "ERROR: Trying to create a virtual symbol table without a memory frame");
 		phalcon_print_backtrace();
 		return;
 	}
-	#endif
+#endif
 
 	entry = (phalcon_symbol_table *) emalloc(sizeof(phalcon_symbol_table));
 	entry->scope = phalcon_globals_ptr->active_memory;

@@ -3,7 +3,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2013 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -17,20 +17,11 @@
   +------------------------------------------------------------------------+
 */
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
-
-#include "php.h"
 #include "php_phalcon.h"
-#include "phalcon.h"
 
-#include "Zend/zend_operators.h"
-#include "Zend/zend_exceptions.h"
-#include "Zend/zend_interfaces.h"
-
+#include "security/exception.h"
+#include "security/../exception.h"
 #include "kernel/main.h"
-#include "kernel/memory.h"
 
 /**
  * Phalcon\Security\Exception
@@ -38,15 +29,14 @@
  * Exceptions thrown in Phalcon\Security will use this class
  *
  */
-
+zend_class_entry *phalcon_security_exception_ce;
 
 /**
  * Phalcon\Security\Exception initializer
  */
 PHALCON_INIT_CLASS(Phalcon_Security_Exception){
 
-	PHALCON_REGISTER_CLASS_EX(Phalcon\\Security, Exception, security_exception, "phalcon\\exception", NULL, 0);
+	PHALCON_REGISTER_CLASS_EX(Phalcon\\Security, Exception, security_exception, phalcon_exception_ce, NULL, 0);
 
 	return SUCCESS;
 }
-

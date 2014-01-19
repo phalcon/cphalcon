@@ -3,7 +3,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2013 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -16,6 +16,11 @@
   |          Eduar Carvajal <eduar@phalconphp.com>                         |
   +------------------------------------------------------------------------+
 */
+
+#ifndef PHALCON_FORMS_ELEMENTINTERFACE_H
+#define PHALCON_FORMS_ELEMENTINTERFACE_H
+
+#include "php_phalcon.h"
 
 extern zend_class_entry *phalcon_forms_elementinterface_ce;
 
@@ -99,38 +104,4 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_forms_elementinterface_render, 0, 0, 0)
 	ZEND_ARG_INFO(0, attributes)
 ZEND_END_ARG_INFO()
 
-PHALCON_INIT_FUNCS(phalcon_forms_elementinterface_method_entry){
-	PHP_ABSTRACT_ME(Phalcon_Forms_ElementInterface, setForm, arginfo_phalcon_forms_elementinterface_setform)
-	PHP_ABSTRACT_ME(Phalcon_Forms_ElementInterface, getForm, NULL)
-	PHP_ABSTRACT_ME(Phalcon_Forms_ElementInterface, setName, arginfo_phalcon_forms_elementinterface_setname)
-	PHP_ABSTRACT_ME(Phalcon_Forms_ElementInterface, getName, NULL)
-	PHP_ABSTRACT_ME(Phalcon_Forms_ElementInterface, setFilters, arginfo_phalcon_forms_elementinterface_setfilters)
-	PHP_ABSTRACT_ME(Phalcon_Forms_ElementInterface, addFilter, arginfo_phalcon_forms_elementinterface_addfilter)
-	PHP_ABSTRACT_ME(Phalcon_Forms_ElementInterface, getFilters, NULL)
-	PHP_ABSTRACT_ME(Phalcon_Forms_ElementInterface, addValidators, arginfo_phalcon_forms_elementinterface_addvalidators)
-	PHP_ABSTRACT_ME(Phalcon_Forms_ElementInterface, addValidator, arginfo_phalcon_forms_elementinterface_addvalidator)
-	PHP_ABSTRACT_ME(Phalcon_Forms_ElementInterface, getValidators, NULL)
-	PHP_ABSTRACT_ME(Phalcon_Forms_ElementInterface, prepareAttributes, arginfo_phalcon_forms_elementinterface_prepareattributes)
-	PHP_ABSTRACT_ME(Phalcon_Forms_ElementInterface, setAttribute, arginfo_phalcon_forms_elementinterface_setattribute)
-	PHP_ABSTRACT_ME(Phalcon_Forms_ElementInterface, getAttribute, arginfo_phalcon_forms_elementinterface_getattribute)
-	PHP_ABSTRACT_ME(Phalcon_Forms_ElementInterface, setAttributes, arginfo_phalcon_forms_elementinterface_setattributes)
-	PHP_ABSTRACT_ME(Phalcon_Forms_ElementInterface, getAttributes, NULL)
-	PHP_ABSTRACT_ME(Phalcon_Forms_ElementInterface, setUserOption, arginfo_phalcon_forms_elementinterface_setuseroption)
-	PHP_ABSTRACT_ME(Phalcon_Forms_ElementInterface, getUserOption, arginfo_phalcon_forms_elementinterface_getuseroption)
-	PHP_ABSTRACT_ME(Phalcon_Forms_ElementInterface, setUserOptions, arginfo_phalcon_forms_elementinterface_setuseroptions)
-	PHP_ABSTRACT_ME(Phalcon_Forms_ElementInterface, getUserOptions, NULL)
-	PHP_ABSTRACT_ME(Phalcon_Forms_ElementInterface, setLabel, arginfo_phalcon_forms_elementinterface_setlabel)
-	PHP_ABSTRACT_ME(Phalcon_Forms_ElementInterface, getLabel, NULL)
-	PHP_ABSTRACT_ME(Phalcon_Forms_ElementInterface, label, NULL)
-	PHP_ABSTRACT_ME(Phalcon_Forms_ElementInterface, setDefault, arginfo_phalcon_forms_elementinterface_setdefault)
-	PHP_ABSTRACT_ME(Phalcon_Forms_ElementInterface, getDefault, NULL)
-	PHP_ABSTRACT_ME(Phalcon_Forms_ElementInterface, getValue, NULL)
-	PHP_ABSTRACT_ME(Phalcon_Forms_ElementInterface, getMessages, NULL)
-	PHP_ABSTRACT_ME(Phalcon_Forms_ElementInterface, hasMessages, NULL)
-	PHP_ABSTRACT_ME(Phalcon_Forms_ElementInterface, setMessages, arginfo_phalcon_forms_elementinterface_setmessages)
-	PHP_ABSTRACT_ME(Phalcon_Forms_ElementInterface, appendMessage, arginfo_phalcon_forms_elementinterface_appendmessage)
-	PHP_ABSTRACT_ME(Phalcon_Forms_ElementInterface, clear, NULL)
-	PHP_ABSTRACT_ME(Phalcon_Forms_ElementInterface, render, arginfo_phalcon_forms_elementinterface_render)
-	PHP_FE_END
-};
-
+#endif /* PHALCON_FORMS_ELEMENTINTERFACE_H */

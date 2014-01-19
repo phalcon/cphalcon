@@ -3,7 +3,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2013 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -17,21 +17,14 @@
   +------------------------------------------------------------------------+
 */
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
-
-#include "php.h"
-#include "php_phalcon.h"
-#include "phalcon.h"
-
-#include "Zend/zend_operators.h"
-#include "Zend/zend_exceptions.h"
-#include "Zend/zend_interfaces.h"
+#include "logger/adapter/file.h"
+#include "logger/adapter.h"
+#include "logger/adapterinterface.h"
+#include "logger/exception.h"
+#include "logger/formatter/line.h"
 
 #include "kernel/main.h"
 #include "kernel/memory.h"
-
 #include "kernel/array.h"
 #include "kernel/string.h"
 #include "kernel/exception.h"
@@ -52,14 +45,42 @@
  *	$logger->close();
  *</code>
  */
+zend_class_entry *phalcon_logger_adapter_file_ce;
 
+PHP_METHOD(Phalcon_Logger_Adapter_File, __construct);
+PHP_METHOD(Phalcon_Logger_Adapter_File, getFormatter);
+PHP_METHOD(Phalcon_Logger_Adapter_File, logInternal);
+PHP_METHOD(Phalcon_Logger_Adapter_File, close);
+PHP_METHOD(Phalcon_Logger_Adapter_File, getPath);
+PHP_METHOD(Phalcon_Logger_Adapter_File, __wakeup);
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_logger_adapter_file___construct, 0, 0, 1)
+	ZEND_ARG_INFO(0, name)
+	ZEND_ARG_INFO(0, options)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_logger_adapter_file_loginternal, 0, 0, 3)
+	ZEND_ARG_INFO(0, message)
+	ZEND_ARG_INFO(0, type)
+	ZEND_ARG_INFO(0, time)
+ZEND_END_ARG_INFO()
+
+static const zend_function_entry phalcon_logger_adapter_file_method_entry[] = {
+	PHP_ME(Phalcon_Logger_Adapter_File, __construct, arginfo_phalcon_logger_adapter_file___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
+	PHP_ME(Phalcon_Logger_Adapter_File, getFormatter, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Logger_Adapter_File, logInternal, arginfo_phalcon_logger_adapter_file_loginternal, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Logger_Adapter_File, close, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Logger_Adapter_File, getPath, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Logger_Adapter_File, __wakeup, NULL, ZEND_ACC_PUBLIC)
+	PHP_FE_END
+};
 
 /**
  * Phalcon\Logger\Adapter\File initializer
  */
 PHALCON_INIT_CLASS(Phalcon_Logger_Adapter_File){
 
-	PHALCON_REGISTER_CLASS_EX(Phalcon\\Logger\\Adapter, File, logger_adapter_file, "phalcon\\logger\\adapter", phalcon_logger_adapter_file_method_entry, 0);
+	PHALCON_REGISTER_CLASS_EX(Phalcon\\Logger\\Adapter, File, logger_adapter_file, phalcon_logger_adapter_ce, phalcon_logger_adapter_file_method_entry, 0);
 
 	zend_declare_property_null(phalcon_logger_adapter_file_ce, SL("_fileHandler"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_logger_adapter_file_ce, SL("_path"), ZEND_ACC_PROTECTED TSRMLS_CC);
@@ -85,7 +106,7 @@ PHP_METHOD(Phalcon_Logger_Adapter_File, __construct){
 	phalcon_fetch_params(1, 1, 1, &name, &options);
 	
 	if (!options) {
-		PHALCON_INIT_VAR(options);
+		options = PHALCON_GLOBAL(z_null);
 	}
 	
 	if (phalcon_array_isset_string(options, SS("mode"))) {
@@ -104,8 +125,8 @@ PHP_METHOD(Phalcon_Logger_Adapter_File, __construct){
 	/** 
 	 * We use 'fopen' to respect to open-basedir directive
 	 */
-	PHALCON_INIT_VAR(handler);
-	phalcon_call_func_p2(handler, "fopen", name, mode);
+	PHALCON_OBS_VAR(handler);
+	PHALCON_CALL_FUNCTION(&handler, "fopen", name, mode);
 	if (!zend_is_true(handler)) {
 		PHALCON_INIT_VAR(exception_message);
 		PHALCON_CONCAT_SVS(exception_message, "Can't open log file at '", name, "'");
@@ -141,7 +162,7 @@ PHP_METHOD(Phalcon_Logger_Adapter_File, getFormatter){
 		phalcon_update_property_this(this_ptr, SL("_formatter"), formatter TSRMLS_CC);
 	}
 	
-	RETURN_CCTOR(formatter);
+	RETURN_CTOR(formatter);
 }
 
 /**
@@ -172,7 +193,7 @@ PHP_METHOD(Phalcon_Logger_Adapter_File, logInternal){
 	
 	PHALCON_INIT_VAR(applied_format);
 	phalcon_call_method_p3(applied_format, formatter, "format", message, type, time);
-	phalcon_call_func_p2_noret("fwrite", file_handler, applied_format);
+	PHALCON_CALL_FUNCTION_NORET("fwrite", file_handler, applied_format);
 	
 	PHALCON_MM_RESTORE();
 }
@@ -188,10 +209,18 @@ PHP_METHOD(Phalcon_Logger_Adapter_File, close){
 
 	PHALCON_MM_GROW();
 
-	PHALCON_OBS_VAR(file_handler);
-	phalcon_read_property_this(&file_handler, this_ptr, SL("_fileHandler"), PH_NOISY_CC);
-	phalcon_call_func_p1(return_value, "fclose", file_handler);
+	file_handler = phalcon_fetch_nproperty_this(this_ptr, SL("_fileHandler"), PH_NOISY_CC);
+	PHALCON_RETURN_CALL_FUNCTION("fclose", file_handler);
 	RETURN_MM();
+}
+
+/**
+ * Returns the file path
+ *
+ */
+PHP_METHOD(Phalcon_Logger_Adapter_File, getPath) {
+
+	RETURN_MEMBER(getThis(), "_path");
 }
 
 /**
@@ -228,10 +257,9 @@ PHP_METHOD(Phalcon_Logger_Adapter_File, __wakeup){
 	/**
 	 * Re-open the file handler if the logger was serialized
 	 */
-	PHALCON_INIT_VAR(file_handler);
-	phalcon_call_func_p2(file_handler, "fopen", path, mode);
+	PHALCON_OBS_VAR(file_handler);
+	PHALCON_CALL_FUNCTION(&file_handler, "fopen", path, mode);
 	phalcon_update_property_this(this_ptr, SL("_fileHandler"), file_handler TSRMLS_CC);
-	
+
 	PHALCON_MM_RESTORE();
 }
-

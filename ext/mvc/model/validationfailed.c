@@ -3,7 +3,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2013 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -17,21 +17,11 @@
   +------------------------------------------------------------------------+
 */
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
-
-#include "php.h"
-#include "php_phalcon.h"
-#include "phalcon.h"
-
-#include "Zend/zend_operators.h"
-#include "Zend/zend_exceptions.h"
-#include "Zend/zend_interfaces.h"
+#include "mvc/model/validationfailed.h"
+#include "mvc/model/exception.h"
 
 #include "kernel/main.h"
 #include "kernel/memory.h"
-
 #include "kernel/file.h"
 #include "kernel/array.h"
 #include "kernel/fcall.h"
@@ -43,14 +33,30 @@
  * This exception is generated when a model fails to save a record
  * Phalcon\Mvc\Model must be set up to have this behavior
  */
+zend_class_entry *phalcon_mvc_model_validationfailed_ce;
 
+PHP_METHOD(Phalcon_Mvc_Model_ValidationFailed, __construct);
+PHP_METHOD(Phalcon_Mvc_Model_ValidationFailed, getMessages);
+PHP_METHOD(Phalcon_Mvc_Model_ValidationFailed, getModel);
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_validationfailed___construct, 0, 0, 2)
+	ZEND_ARG_INFO(0, model)
+	ZEND_ARG_INFO(0, validationMessages)
+ZEND_END_ARG_INFO()
+
+static const zend_function_entry phalcon_mvc_model_validationfailed_method_entry[] = {
+	PHP_ME(Phalcon_Mvc_Model_ValidationFailed, __construct, arginfo_phalcon_mvc_model_validationfailed___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
+	PHP_ME(Phalcon_Mvc_Model_ValidationFailed, getMessages, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Model_ValidationFailed, getModel, NULL, ZEND_ACC_PUBLIC)
+	PHP_FE_END
+};
 
 /**
  * Phalcon\Mvc\Model\ValidationFailed initializer
  */
 PHALCON_INIT_CLASS(Phalcon_Mvc_Model_ValidationFailed){
 
-	PHALCON_REGISTER_CLASS_EX(Phalcon\\Mvc\\Model, ValidationFailed, mvc_model_validationfailed, "phalcon\\mvc\\model\\exception", phalcon_mvc_model_validationfailed_method_entry, 0);
+	PHALCON_REGISTER_CLASS_EX(Phalcon\\Mvc\\Model, ValidationFailed, mvc_model_validationfailed, phalcon_mvc_model_exception_ce, phalcon_mvc_model_validationfailed_method_entry, 0);
 
 	zend_declare_property_null(phalcon_mvc_model_validationfailed_ce, SL("_model"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_mvc_model_validationfailed_ce, SL("_messages"), ZEND_ACC_PROTECTED TSRMLS_CC);
@@ -91,7 +97,7 @@ PHP_METHOD(Phalcon_Mvc_Model_ValidationFailed, __construct){
 	}
 	phalcon_update_property_this(this_ptr, SL("_model"), model TSRMLS_CC);
 	phalcon_update_property_this(this_ptr, SL("_messages"), validation_messages TSRMLS_CC);
-	PHALCON_CALL_PARENT_PARAMS_1_NORETURN(this_ptr, "Phalcon\\Mvc\\Model\\ValidationFailed", "__construct", message_str);
+	phalcon_call_parent_p1_noret(this_ptr, phalcon_mvc_model_validationfailed_ce, "__construct", message_str);
 	
 	PHALCON_MM_RESTORE();
 }
@@ -117,4 +123,3 @@ PHP_METHOD(Phalcon_Mvc_Model_ValidationFailed, getModel){
 
 	RETURN_MEMBER(this_ptr, "_model");
 }
-

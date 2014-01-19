@@ -3,7 +3,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2013 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -17,15 +17,21 @@
   +------------------------------------------------------------------------+
 */
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
-
-#include "php.h"
-#include "php_phalcon.h"
-#include "phalcon.h"
-
+#include "db/referenceinterface.h"
 #include "kernel/main.h"
+
+zend_class_entry *phalcon_db_referenceinterface_ce;
+
+static const zend_function_entry phalcon_db_referenceinterface_method_entry[] = {
+	PHP_ABSTRACT_ME(Phalcon_Db_ReferenceInterface, __construct, arginfo_phalcon_db_referenceinterface___construct)
+	PHP_ABSTRACT_ME(Phalcon_Db_ReferenceInterface, getName, NULL)
+	PHP_ABSTRACT_ME(Phalcon_Db_ReferenceInterface, getSchemaName, NULL)
+	PHP_ABSTRACT_ME(Phalcon_Db_ReferenceInterface, getReferencedSchema, NULL)
+	PHP_ABSTRACT_ME(Phalcon_Db_ReferenceInterface, getColumns, NULL)
+	PHP_ABSTRACT_ME(Phalcon_Db_ReferenceInterface, getReferencedTable, NULL)
+	PHP_ABSTRACT_ME(Phalcon_Db_ReferenceInterface, getReferencedColumns, NULL)
+	PHP_FE_END
+};
 
 /**
  * Phalcon\Db\ReferenceInterface initializer
@@ -86,12 +92,3 @@ PHALCON_DOC_METHOD(Phalcon_Db_ReferenceInterface, getReferencedTable);
  * @return array
  */
 PHALCON_DOC_METHOD(Phalcon_Db_ReferenceInterface, getReferencedColumns);
-
-/**
- * Restore a Phalcon\Db\Reference object from export
- *
- * @param array $data
- * @return Phalcon\Db\ReferenceInterface
- */
-PHALCON_DOC_METHOD(Phalcon_Db_ReferenceInterface, __set_state);
-

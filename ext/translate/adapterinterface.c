@@ -3,7 +3,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2013 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -17,15 +17,20 @@
   +------------------------------------------------------------------------+
 */
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
-
-#include "php.h"
 #include "php_phalcon.h"
-#include "phalcon.h"
+
+#include "translate/adapterinterface.h"
 
 #include "kernel/main.h"
+
+zend_class_entry *phalcon_translate_adapterinterface_ce;
+
+static const zend_function_entry phalcon_translate_adapterinterface_method_entry[] = {
+	PHP_ABSTRACT_ME(Phalcon_Translate_AdapterInterface, __construct, arginfo_phalcon_translate_adapterinterface___construct)
+	PHP_ABSTRACT_ME(Phalcon_Translate_AdapterInterface, query, arginfo_phalcon_translate_adapterinterface_query)
+	PHP_ABSTRACT_ME(Phalcon_Translate_AdapterInterface, exists, arginfo_phalcon_translate_adapterinterface_exists)
+	PHP_FE_END
+};
 
 /**
  * Phalcon\Translate\AdapterInterface initializer
@@ -69,4 +74,3 @@ PHALCON_DOC_METHOD(Phalcon_Translate_AdapterInterface, query);
  * @return bool
  */
 PHALCON_DOC_METHOD(Phalcon_Translate_AdapterInterface, exists);
-

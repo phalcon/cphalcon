@@ -3,7 +3,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2013 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -17,21 +17,11 @@
   +------------------------------------------------------------------------+
 */
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
-
-#include "php.h"
-#include "php_phalcon.h"
-#include "phalcon.h"
-
-#include "Zend/zend_operators.h"
-#include "Zend/zend_exceptions.h"
-#include "Zend/zend_interfaces.h"
+#include "pconfig.h"
+#include "config/exception.h"
 
 #include "kernel/main.h"
 #include "kernel/memory.h"
-
 #include "kernel/exception.h"
 #include "kernel/hash.h"
 #include "kernel/fcall.h"
@@ -64,6 +54,81 @@
  *</code>
  *
  */
+zend_class_entry *phalcon_config_ce;
+
+PHP_METHOD(Phalcon_Config, __construct);
+PHP_METHOD(Phalcon_Config, offsetExists);
+PHP_METHOD(Phalcon_Config, get);
+PHP_METHOD(Phalcon_Config, offsetGet);
+PHP_METHOD(Phalcon_Config, offsetSet);
+PHP_METHOD(Phalcon_Config, offsetUnset);
+PHP_METHOD(Phalcon_Config, merge);
+PHP_METHOD(Phalcon_Config, toArray);
+PHP_METHOD(Phalcon_Config, count);
+PHP_METHOD(Phalcon_Config, __wakeup);
+PHP_METHOD(Phalcon_Config, __set_state);
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_config___construct, 0, 0, 0)
+	ZEND_ARG_INFO(0, arrayConfig)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_config_offsetexists, 0, 0, 1)
+	ZEND_ARG_INFO(0, index)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_config_get, 0, 0, 1)
+	ZEND_ARG_INFO(0, index)
+	ZEND_ARG_INFO(0, defaultValue)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_config_offsetget, 0, 0, 1)
+	ZEND_ARG_INFO(0, index)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_config_offsetset, 0, 0, 2)
+	ZEND_ARG_INFO(0, index)
+	ZEND_ARG_INFO(0, value)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_config_offsetunset, 0, 0, 1)
+	ZEND_ARG_INFO(0, index)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_config_merge, 0, 0, 1)
+	ZEND_ARG_INFO(0, config)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_config_toarray, 0, 0, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_config_count, 0, 0, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_config___wakeup, 0, 0, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_config___set_state, 0, 0, 1)
+	ZEND_ARG_INFO(0, data)
+ZEND_END_ARG_INFO()
+
+static const zend_function_entry phalcon_config_method_entry[] = {
+	PHP_ME(Phalcon_Config, __construct, arginfo_phalcon_config___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
+	PHP_ME(Phalcon_Config, offsetExists, arginfo_phalcon_config_offsetexists, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Config, get, arginfo_phalcon_config_get, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Config, offsetGet, arginfo_phalcon_config_offsetget, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Config, offsetSet, arginfo_phalcon_config_offsetset, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Config, offsetUnset, arginfo_phalcon_config_offsetunset, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Config, merge, arginfo_phalcon_config_merge, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Config, toArray, arginfo_phalcon_config_toarray, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Config, count, arginfo_phalcon_config_count, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Config, __wakeup, arginfo_phalcon_config___wakeup, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Config, __set_state, arginfo_phalcon_config___set_state, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
+	PHP_MALIAS(Phalcon_Config, __get, offsetGet, arginfo_phalcon_config_offsetget, ZEND_ACC_PUBLIC)
+	PHP_MALIAS(Phalcon_Config, __set, offsetSet, arginfo_phalcon_config_offsetset, ZEND_ACC_PUBLIC)
+	PHP_MALIAS(Phalcon_Config, __isset, offsetExists, arginfo_phalcon_config_offsetexists, ZEND_ACC_PUBLIC)
+	PHP_FE_END
+};
+
 
 static zend_object_handlers phalcon_config_object_handlers;
 
@@ -99,6 +164,7 @@ static int phalcon_config_count_elements(zval *object, long int *count TSRMLS_DC
 static zval* phalcon_config_read_internal(phalcon_config_object *object, zval *key, int type TSRMLS_DC)
 {
 	zval **retval;
+
 	if (UNEXPECTED(!key)) {
 		return EG(uninitialized_zval_ptr);
 	}
@@ -114,7 +180,11 @@ static zval* phalcon_config_read_property(zval *object, zval *offset, int type Z
 {
 	phalcon_config_object *obj = fetchPhalconConfigObject(object TSRMLS_CC);
 
-	if (obj->obj.ce->type != ZEND_INTERNAL_CLASS) {
+	if (!is_phalcon_class(obj->obj.ce)) {
+		if (BP_VAR_IS == type && !zend_get_std_object_handlers()->has_property(object, offset, 0 ZLK_CC TSRMLS_CC)) {
+			return EG(uninitialized_zval_ptr);
+		}
+
 		return zend_get_std_object_handlers()->read_property(object, offset, type ZLK_CC TSRMLS_CC);
 	}
 
@@ -128,7 +198,11 @@ static zval* phalcon_config_read_dimension(zval *object, zval *offset, int type 
 {
 	phalcon_config_object *obj = fetchPhalconConfigObject(object TSRMLS_CC);
 
-	if (obj->obj.ce->type != ZEND_INTERNAL_CLASS) {
+	if (!is_phalcon_class(obj->obj.ce)) {
+		if (BP_VAR_IS == type && !zend_get_std_object_handlers()->has_dimension(object, offset, 0 TSRMLS_CC)) {
+			return EG(uninitialized_zval_ptr);
+		}
+
 		return zend_get_std_object_handlers()->read_dimension(object, offset, type TSRMLS_CC);
 	}
 
@@ -142,10 +216,19 @@ static void phalcon_config_write_internal(phalcon_config_object *object, zval *o
 {
 	if (Z_TYPE_P(value) == IS_ARRAY) {
 		zval *instance;
-		ALLOC_INIT_ZVAL(instance);
-		object_init_ex(instance, phalcon_config_ce);
-		phalcon_config_construct_internal(instance, value TSRMLS_CC);
-		phalcon_hash_update_or_insert(object->props, offset, instance);
+		HashTable *h = Z_ARRVAL_P(value);
+
+		if (!h->nApplyCount) {
+			++h->nApplyCount;
+			MAKE_STD_ZVAL(instance);
+			object_init_ex(instance, phalcon_config_ce);
+			phalcon_config_construct_internal(instance, value TSRMLS_CC);
+			phalcon_hash_update_or_insert(object->props, offset, instance);
+			--h->nApplyCount;
+		}
+		else {
+			php_error_docref(NULL TSRMLS_CC, E_WARNING, "Recursion detected");
+		}
 	}
 	else {
 		Z_ADDREF_P(value);
@@ -160,7 +243,7 @@ static void phalcon_config_write_property(zval *object, zval *offset, zval *valu
 {
 	phalcon_config_object *obj = fetchPhalconConfigObject(object TSRMLS_CC);
 
-	if (obj->obj.ce->type != ZEND_INTERNAL_CLASS) {
+	if (!is_phalcon_class(obj->obj.ce)) {
 		zend_get_std_object_handlers()->write_property(object, offset, value ZLK_CC TSRMLS_CC);
 		return;
 	}
@@ -175,7 +258,7 @@ static void phalcon_config_write_dimension(zval *object, zval *offset, zval *val
 {
 	phalcon_config_object *obj = fetchPhalconConfigObject(object TSRMLS_CC);
 
-	if (obj->obj.ce->type != ZEND_INTERNAL_CLASS) {
+	if (!is_phalcon_class(obj->obj.ce)) {
 		zend_get_std_object_handlers()->write_dimension(object, offset, value TSRMLS_CC);
 		return;
 	}
@@ -209,18 +292,18 @@ static int phalcon_config_has_property(zval *object, zval *offset, int has_set_e
 {
 	phalcon_config_object *obj = fetchPhalconConfigObject(object TSRMLS_CC);
 
-	if (obj->obj.ce->type != ZEND_INTERNAL_CLASS) {
+	if (!is_phalcon_class(obj->obj.ce)) {
 		return zend_get_std_object_handlers()->has_property(object, offset, has_set_exists ZLK_CC TSRMLS_CC);
 	}
 
-	return phalcon_config_has_internal(obj, offset, 2 TSRMLS_CC);
+	return phalcon_config_has_internal(obj, offset, 0 TSRMLS_CC);
 }
 
 static int phalcon_config_has_dimension(zval *object, zval *offset, int check_empty TSRMLS_DC)
 {
 	phalcon_config_object *obj = fetchPhalconConfigObject(object TSRMLS_CC);
 
-	if (obj->obj.ce->type != ZEND_INTERNAL_CLASS) {
+	if (!is_phalcon_class(obj->obj.ce)) {
 		return zend_get_std_object_handlers()->has_dimension(object, offset, check_empty TSRMLS_CC);
 	}
 
@@ -239,7 +322,7 @@ static void phalcon_config_unset_property(zval *object, zval *member ZLK_DC TSRM
 {
 	phalcon_config_object *obj = fetchPhalconConfigObject(object TSRMLS_CC);
 
-	if (obj->obj.ce->type != ZEND_INTERNAL_CLASS) {
+	if (!is_phalcon_class(obj->obj.ce)) {
 		zend_get_std_object_handlers()->unset_property(object, member ZLK_CC TSRMLS_CC);
 		return;
 	}
@@ -251,7 +334,7 @@ static void phalcon_config_unset_dimension(zval *object, zval *offset TSRMLS_DC)
 {
 	phalcon_config_object *obj = fetchPhalconConfigObject(object TSRMLS_CC);
 
-	if (obj->obj.ce->type != ZEND_INTERNAL_CLASS) {
+	if (!is_phalcon_class(obj->obj.ce)) {
 		zend_get_std_object_handlers()->unset_dimension(object, offset TSRMLS_CC);
 		return;
 	}
@@ -305,11 +388,8 @@ static void phalcon_config_object_dtor(void* v TSRMLS_DC)
 {
 	phalcon_config_object* obj = v;
 
-	if (obj->props) {
-		zend_hash_destroy(obj->props);
-		FREE_HASHTABLE(obj->props);
-	}
-
+	zend_hash_destroy(obj->props);
+	FREE_HASHTABLE(obj->props);
 	zend_object_std_dtor(&(obj->obj) TSRMLS_CC);
 	efree(obj);
 }
@@ -413,21 +493,28 @@ void phalcon_config_construct_internal(zval* this_ptr, zval *array_config TSRMLS
  * Internal implementation of non-recursive @c toArray(). Used as an alternative
  * to @c get_object_properties().
  */
-static void phalcon_config_toarray_internal(zval *return_value, zval *this_ptr TSRMLS_DC)
+PHALCON_ATTR_WARN_UNUSED_RESULT static int phalcon_config_toarray_internal(zval **return_value_ptr, zval *this_ptr TSRMLS_DC)
 {
 	phalcon_config_object *obj = fetchPhalconConfigObject(this_ptr TSRMLS_CC);
+	int result;
 
+	assert(!EG(exception));
 	if (likely(obj->obj.ce == phalcon_config_ce)) {
 		zval *tmp;
-		array_init_size(return_value, zend_hash_num_elements(obj->props));
-		zend_hash_copy(Z_ARRVAL_P(return_value), obj->props, (copy_ctor_func_t)zval_add_ref, (void*)&tmp, sizeof(zval*));
+		array_init_size(*return_value_ptr, zend_hash_num_elements(obj->props));
+		zend_hash_copy(Z_ARRVAL_PP(return_value_ptr), obj->props, (copy_ctor_func_t)zval_add_ref, (void*)&tmp, sizeof(zval*));
+		return SUCCESS;
 	}
-	else if (phalcon_method_exists_ex(this_ptr, SS("toarray") TSRMLS_CC) == SUCCESS) {
-		phalcon_call_method_params_w(return_value, this_ptr, SL("toarray"), 0, NULL, 0, 0 TSRMLS_CC);
+
+	if (phalcon_method_exists_ex(this_ptr, SS("toarray") TSRMLS_CC) == SUCCESS) {
+		result = phalcon_call_method_params(*return_value_ptr, return_value_ptr, this_ptr, SL("toarray"), zend_inline_hash_func(SS("toarray")) TSRMLS_CC, 0);
 	}
 	else {
-		phalcon_call_func_params_w(return_value, SL("get_object_vars"), 0, NULL TSRMLS_CC);
+		zval *params[] = { this_ptr };
+		result = phalcon_call_func_aparams(return_value_ptr, SL("get_object_vars"), 1, params TSRMLS_CC);
 	}
+
+	return result;
 }
 
 /**
@@ -579,13 +666,16 @@ PHP_METHOD(Phalcon_Config, merge){
 	phalcon_fetch_params(0, 1, 0, &config);
 	
 	if (Z_TYPE_P(config) != IS_OBJECT && Z_TYPE_P(config) != IS_ARRAY) {
-		PHALCON_THROW_EXCEPTION_STRW(phalcon_config_exception_ce, "Configuration must be an object or array");
+		zend_throw_exception_ex(phalcon_config_exception_ce, 0 TSRMLS_CC, "Configuration must be an object or array");
 		return;
 	}
 
 	if (Z_TYPE_P(config) == IS_OBJECT) {
 		ALLOC_INIT_ZVAL(array_config);
-		phalcon_config_toarray_internal(array_config, config TSRMLS_CC);
+		if (FAILURE == phalcon_config_toarray_internal(&array_config, config TSRMLS_CC)) {
+			zval_ptr_dtor(&array_config);
+			return;
+		}
 	}
 	else {
 		array_config = config;
@@ -608,8 +698,9 @@ PHP_METHOD(Phalcon_Config, merge){
 		if (active_value) {
 			if ((Z_TYPE_PP(hd)  == IS_OBJECT || Z_TYPE_PP(hd) == IS_ARRAY) && Z_TYPE_P(active_value) == IS_OBJECT) {
 				if (phalcon_method_exists_ex(active_value, SS("merge") TSRMLS_CC) == SUCCESS) { /* Path AAA in the test */
-					zval *params[] = {*hd};
-					phalcon_call_method_params_w(NULL, active_value, SL("merge"), 1, params, 0, 0 TSRMLS_CC);
+					if (FAILURE == phalcon_call_method_params(NULL, NULL, active_value, SL("merge"), zend_inline_hash_func(SS("merge")) TSRMLS_CC, 1, *hd)) {
+						break;
+					}
 				}
 				else { /* Path AAB in the test */
 					phalcon_config_write_internal(obj, &key, *hd TSRMLS_CC);
@@ -645,7 +736,7 @@ PHP_METHOD(Phalcon_Config, merge){
  */
 PHP_METHOD(Phalcon_Config, toArray){
 
-	zval key, *array_value = NULL, *recursive = NULL, *tmp;
+	zval key, *array_value, *recursive = NULL, *tmp;
 	HashPosition hp;
 	zval **value;
 	phalcon_config_object *obj;
@@ -665,9 +756,10 @@ PHP_METHOD(Phalcon_Config, toArray){
 			key = phalcon_get_current_key_w(Z_ARRVAL_P(return_value), &hp);
 
 			if (Z_TYPE_PP(value) == IS_OBJECT && phalcon_method_exists_ex(*value, SS("toarray") TSRMLS_CC) == SUCCESS) {
-				ALLOC_INIT_ZVAL(array_value);
-				phalcon_call_method_params(array_value, *value, SL("toarray"), 0, NULL, zend_inline_hash_func(SS("toarray")), 0 TSRMLS_CC);
-				phalcon_array_update_zval(&return_value, &key, &array_value, 0);
+				array_value = NULL;
+				if (SUCCESS == phalcon_call_method_params(array_value, &array_value, *value, SL("toarray"), zend_inline_hash_func(SS("toarray")) TSRMLS_CC, 0)) {
+					phalcon_array_update_zval(&return_value, &key, &array_value, 0);
+				}
 			}
 		}
 	}

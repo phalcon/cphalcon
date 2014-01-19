@@ -3,7 +3,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2013 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -17,24 +17,18 @@
   +------------------------------------------------------------------------+
 */
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
-
-#include "php.h"
-#include "php_phalcon.h"
-#include "phalcon.h"
-
-#include "Zend/zend_operators.h"
-#include "Zend/zend_exceptions.h"
-#include "Zend/zend_interfaces.h"
+#include "mvc/model/validator/url.h"
+#include "mvc/model/validator.h"
+#include "mvc/model/validatorinterface.h"
+#include "mvc/model/exception.h"
 
 #include "kernel/main.h"
 #include "kernel/memory.h"
-
 #include "kernel/fcall.h"
 #include "kernel/exception.h"
 #include "kernel/concat.h"
+
+#include "interned-strings.h"
 
 /**
  * Phalcon\Mvc\Model\Validator\Url
@@ -61,14 +55,21 @@
  *</code>
  *
  */
+zend_class_entry *phalcon_mvc_model_validator_url_ce;
 
+PHP_METHOD(Phalcon_Mvc_Model_Validator_Url, validate);
+
+static const zend_function_entry phalcon_mvc_model_validator_url_method_entry[] = {
+	PHP_ME(Phalcon_Mvc_Model_Validator_Url, validate, arginfo_phalcon_mvc_model_validatorinterface_validate, ZEND_ACC_PUBLIC)
+	PHP_FE_END
+};
 
 /**
  * Phalcon\Mvc\Model\Validator\Url initializer
  */
 PHALCON_INIT_CLASS(Phalcon_Mvc_Model_Validator_Url){
 
-	PHALCON_REGISTER_CLASS_EX(Phalcon\\Mvc\\Model\\Validator, Url, mvc_model_validator_url, "phalcon\\mvc\\model\\validator", phalcon_mvc_model_validator_url_method_entry, 0);
+	PHALCON_REGISTER_CLASS_EX(Phalcon\\Mvc\\Model\\Validator, Url, mvc_model_validator_url, phalcon_mvc_model_validator_ce, phalcon_mvc_model_validator_url_method_entry, 0);
 
 	zend_class_implements(phalcon_mvc_model_validator_url_ce TSRMLS_CC, 1, phalcon_mvc_model_validatorinterface_ce);
 
@@ -84,7 +85,7 @@ PHALCON_INIT_CLASS(Phalcon_Mvc_Model_Validator_Url){
 PHP_METHOD(Phalcon_Mvc_Model_Validator_Url, validate){
 
 	zval *record, *option = NULL, *field, *value, *flag, *is_valid;
-	zval *message = NULL, *type;
+	zval *message = NULL, *type, *is_set_code, *code;
 
 	PHALCON_MM_GROW();
 
@@ -109,15 +110,15 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Url, validate){
 	/** 
 	 * Filters the format using FILTER_VALIDATE_URL
 	 */
-	PHALCON_INIT_VAR(is_valid);
-	phalcon_call_func_p2(is_valid, "filter_var", value, flag);
+	PHALCON_OBS_VAR(is_valid);
+	PHALCON_CALL_FUNCTION(&is_valid, "filter_var", value, flag);
 	if (!zend_is_true(is_valid)) {
 	
 		/** 
 		 * Check if the developer has defined a custom message
 		 */
 		PHALCON_INIT_NVAR(option);
-		ZVAL_STRING(option, "message", 1);
+		PHALCON_ZVAL_MAYBE_INTERNED_STRING(option, phalcon_interned_message);
 	
 		PHALCON_INIT_VAR(message);
 		phalcon_call_method_p1(message, this_ptr, "getoption", option);
@@ -128,10 +129,25 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Url, validate){
 	
 		PHALCON_INIT_VAR(type);
 		ZVAL_STRING(type, "Url", 1);
-		phalcon_call_method_p3_noret(this_ptr, "appendmessage", message, field, type);
+
+		/*
+		 * Is code set
+		 */
+		PHALCON_INIT_NVAR(option);
+		PHALCON_ZVAL_MAYBE_INTERNED_STRING(option, phalcon_interned_code);
+
+		PHALCON_INIT_VAR(is_set_code);
+		phalcon_call_method_p1(is_set_code, this_ptr, "issetoption", option);
+		PHALCON_INIT_VAR(code);
+		if (zend_is_true(is_set_code)) {
+			phalcon_call_method_p1(code, this_ptr, "getoption", option);
+		} else {
+			ZVAL_LONG(code, 0);
+		}
+
+		phalcon_call_method_p4_noret(this_ptr, "appendmessage", message, field, type, code);
 		RETURN_MM_FALSE;
 	}
 	
 	RETURN_MM_TRUE;
 }
-

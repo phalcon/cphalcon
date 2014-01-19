@@ -9,4 +9,4 @@ $d->listen(true, true);
 throw new \Exception('Тест');
 ?>
 --EXPECTREGEX--
-^.*?<meta http-equiv="Content-Type" content="text\/html; charset=utf-8"\/>.*$
+.*?<meta http-equiv="Content-Type" content="text\/html; charset=utf-8"\/>.*

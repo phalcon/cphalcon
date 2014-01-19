@@ -1,9 +1,8 @@
-
 /*
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2013 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -17,29 +16,22 @@
   +------------------------------------------------------------------------+
 */
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
-
-#include "php.h"
-#include "php_phalcon.h"
-#include "phalcon.h"
-
-#include "Zend/zend_operators.h"
-#include "Zend/zend_exceptions.h"
-#include "Zend/zend_interfaces.h"
-
+#include "logger/formatter.h"
 #include "kernel/main.h"
-#include "kernel/memory.h"
-
-#include "kernel/operators.h"
 
 /**
  * Phalcon\Logger\Formatter
  *
  * This is a base class for logger formatters
  */
+zend_class_entry *phalcon_logger_formatter_ce;
 
+PHP_METHOD(Phalcon_Logger_Formatter, getTypeString);
+
+static const zend_function_entry phalcon_logger_formatter_method_entry[] = {
+	PHP_ME(Phalcon_Logger_Formatter, getTypeString, arginfo_phalcon_logger_formatter_gettypestring, ZEND_ACC_PUBLIC)
+	PHP_FE_END
+};
 
 /**
  * Phalcon\Logger\Formatter initializer
@@ -64,16 +56,16 @@ PHP_METHOD(Phalcon_Logger_Formatter, getTypeString){
 		"NOTICE",    "INFO",     "DEBUG", "CUSTOM", "SPECIAL"
 	};
 
-	zval *type;
+	zval **type;
 	int itype;
 
-	phalcon_fetch_params(0, 1, 0, &type);
+	phalcon_fetch_params_ex(1, 0, &type);
+	PHALCON_ENSURE_IS_LONG(type);
 	
-	itype = phalcon_get_intval(type);
-	if (itype > 0 && itype < 10) {
+	itype = Z_LVAL_PP(type);
+	if (itype >= 0 && itype < 10) {
 		RETURN_STRING(lut[itype], 1);
 	}
 	
 	RETURN_STRING("CUSTOM", 1);
 }
-

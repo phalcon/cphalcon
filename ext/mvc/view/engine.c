@@ -3,7 +3,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2013 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -17,21 +17,12 @@
   +------------------------------------------------------------------------+
 */
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
-
-#include "php.h"
-#include "php_phalcon.h"
-#include "phalcon.h"
-
-#include "Zend/zend_operators.h"
-#include "Zend/zend_exceptions.h"
-#include "Zend/zend_interfaces.h"
+#include "mvc/view/engine.h"
+#include "mvc/view/engineinterface.h"
+#include "di/injectable.h"
 
 #include "kernel/main.h"
 #include "kernel/memory.h"
-
 #include "kernel/object.h"
 #include "kernel/fcall.h"
 
@@ -41,14 +32,32 @@
  * All the template engine adapters must inherit this class. This provides
  * basic interfacing between the engine and the Phalcon\Mvc\View component.
  */
+zend_class_entry *phalcon_mvc_view_engine_ce;
 
+PHP_METHOD(Phalcon_Mvc_View_Engine, __construct);
+PHP_METHOD(Phalcon_Mvc_View_Engine, getContent);
+PHP_METHOD(Phalcon_Mvc_View_Engine, partial);
+PHP_METHOD(Phalcon_Mvc_View_Engine, getView);
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_view_engine___construct, 0, 0, 1)
+	ZEND_ARG_INFO(0, view)
+	ZEND_ARG_INFO(0, dependencyInjector)
+ZEND_END_ARG_INFO()
+
+static const zend_function_entry phalcon_mvc_view_engine_method_entry[] = {
+	PHP_ME(Phalcon_Mvc_View_Engine, __construct, arginfo_phalcon_mvc_view_engine___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
+	PHP_ME(Phalcon_Mvc_View_Engine, getContent, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_View_Engine, partial, arginfo_phalcon_mvc_view_engineinterface_partial, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_View_Engine, getView, NULL, ZEND_ACC_PUBLIC)
+	PHP_FE_END
+};
 
 /**
  * Phalcon\Mvc\View\Engine initializer
  */
 PHALCON_INIT_CLASS(Phalcon_Mvc_View_Engine){
 
-	PHALCON_REGISTER_CLASS_EX(Phalcon\\Mvc\\View, Engine, mvc_view_engine, "phalcon\\di\\injectable", phalcon_mvc_view_engine_method_entry, ZEND_ACC_EXPLICIT_ABSTRACT_CLASS);
+	PHALCON_REGISTER_CLASS_EX(Phalcon\\Mvc\\View, Engine, mvc_view_engine, phalcon_di_injectable_ce, phalcon_mvc_view_engine_method_entry, ZEND_ACC_EXPLICIT_ABSTRACT_CLASS);
 
 	zend_declare_property_null(phalcon_mvc_view_engine_ce, SL("_view"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
@@ -65,18 +74,14 @@ PHP_METHOD(Phalcon_Mvc_View_Engine, __construct){
 
 	zval *view, *dependency_injector = NULL;
 
-	PHALCON_MM_GROW();
-
-	phalcon_fetch_params(1, 1, 1, &view, &dependency_injector);
+	phalcon_fetch_params(0, 1, 1, &view, &dependency_injector);
 	
 	if (!dependency_injector) {
-		PHALCON_INIT_VAR(dependency_injector);
+		dependency_injector = PHALCON_GLOBAL(z_null);
 	}
 	
 	phalcon_update_property_this(this_ptr, SL("_view"), view TSRMLS_CC);
 	phalcon_update_property_this(this_ptr, SL("_dependencyInjector"), dependency_injector TSRMLS_CC);
-	
-	PHALCON_MM_RESTORE();
 }
 
 /**
@@ -112,7 +117,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine, partial){
 	phalcon_fetch_params(1, 1, 1, &partial_path, &params);
 	
 	if (!params) {
-		PHALCON_INIT_VAR(params);
+		params = PHALCON_GLOBAL(z_null);
 	}
 	
 	PHALCON_OBS_VAR(view);

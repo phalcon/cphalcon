@@ -3,7 +3,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2013 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -17,27 +17,25 @@
   +------------------------------------------------------------------------+
 */
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
-
-#include "php.h"
-#include "php_phalcon.h"
-#include "phalcon.h"
-
-#include "Zend/zend_operators.h"
-#include "Zend/zend_exceptions.h"
-#include "Zend/zend_interfaces.h"
+#include "http/response.h"
+#include "http/responseinterface.h"
+#include "http/response/exception.h"
+#include "http/response/headers.h"
+#include "diinterface.h"
+#include "di/injectionawareinterface.h"
+#include "mvc/urlinterface.h"
 
 #include "kernel/main.h"
 #include "kernel/memory.h"
-
 #include "kernel/object.h"
 #include "kernel/fcall.h"
 #include "kernel/exception.h"
 #include "kernel/concat.h"
 #include "kernel/operators.h"
 #include "kernel/string.h"
+#include "kernel/file.h"
+
+#include "interned-strings.h"
 
 /**
  * Phalcon\Http\Response
@@ -53,7 +51,80 @@
  *	$response->send();
  *</code>
  */
+zend_class_entry *phalcon_http_response_ce;
 
+PHP_METHOD(Phalcon_Http_Response, __construct);
+PHP_METHOD(Phalcon_Http_Response, setDI);
+PHP_METHOD(Phalcon_Http_Response, getDI);
+PHP_METHOD(Phalcon_Http_Response, setStatusCode);
+PHP_METHOD(Phalcon_Http_Response, setHeaders);
+PHP_METHOD(Phalcon_Http_Response, getHeaders);
+PHP_METHOD(Phalcon_Http_Response, setCookies);
+PHP_METHOD(Phalcon_Http_Response, getCookies);
+PHP_METHOD(Phalcon_Http_Response, setHeader);
+PHP_METHOD(Phalcon_Http_Response, setRawHeader);
+PHP_METHOD(Phalcon_Http_Response, resetHeaders);
+PHP_METHOD(Phalcon_Http_Response, setExpires);
+PHP_METHOD(Phalcon_Http_Response, setNotModified);
+PHP_METHOD(Phalcon_Http_Response, setContentType);
+PHP_METHOD(Phalcon_Http_Response, setEtag);
+PHP_METHOD(Phalcon_Http_Response, redirect);
+PHP_METHOD(Phalcon_Http_Response, setContent);
+PHP_METHOD(Phalcon_Http_Response, setJsonContent);
+PHP_METHOD(Phalcon_Http_Response, appendContent);
+PHP_METHOD(Phalcon_Http_Response, getContent);
+PHP_METHOD(Phalcon_Http_Response, isSent);
+PHP_METHOD(Phalcon_Http_Response, sendHeaders);
+PHP_METHOD(Phalcon_Http_Response, sendCookies);
+PHP_METHOD(Phalcon_Http_Response, send);
+PHP_METHOD(Phalcon_Http_Response, setFileToSend);
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_http_response___construct, 0, 0, 0)
+	ZEND_ARG_INFO(0, content)
+	ZEND_ARG_INFO(0, code)
+	ZEND_ARG_INFO(0, status)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_http_response_setheaders, 0, 0, 1)
+	ZEND_ARG_INFO(0, headers)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_http_response_setcookies, 0, 0, 1)
+	ZEND_ARG_INFO(0, cookies)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_http_response_setetag, 0, 0, 1)
+	ZEND_ARG_INFO(0, etag)
+ZEND_END_ARG_INFO()
+
+static const zend_function_entry phalcon_http_response_method_entry[] = {
+	PHP_ME(Phalcon_Http_Response, __construct, arginfo_phalcon_http_response___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
+	PHP_ME(Phalcon_Http_Response, setDI, arginfo_phalcon_di_injectionawareinterface_setdi, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Http_Response, getDI, arginfo_phalcon_di_injectionawareinterface_getdi, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Http_Response, setStatusCode, arginfo_phalcon_http_responseinterface_setstatuscode, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Http_Response, setHeaders, arginfo_phalcon_http_response_setheaders, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Http_Response, getHeaders, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Http_Response, setCookies, arginfo_phalcon_http_response_setcookies, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Http_Response, getCookies, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Http_Response, setHeader, arginfo_phalcon_http_responseinterface_setheader, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Http_Response, setRawHeader, arginfo_phalcon_http_responseinterface_setrawheader, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Http_Response, resetHeaders, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Http_Response, setExpires, arginfo_phalcon_http_responseinterface_setexpires, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Http_Response, setNotModified, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Http_Response, setContentType, arginfo_phalcon_http_responseinterface_setcontenttype, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Http_Response, setEtag, arginfo_phalcon_http_response_setetag, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Http_Response, redirect, arginfo_phalcon_http_responseinterface_redirect, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Http_Response, setContent, arginfo_phalcon_http_responseinterface_setcontent, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Http_Response, setJsonContent, arginfo_phalcon_http_responseinterface_setjsoncontent, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Http_Response, appendContent, arginfo_phalcon_http_responseinterface_appendcontent, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Http_Response, getContent, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Http_Response, isSent, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Http_Response, sendHeaders, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Http_Response, sendCookies, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Http_Response, send, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Http_Response, setFileToSend, arginfo_phalcon_http_responseinterface_setfiletosend, ZEND_ACC_PUBLIC)
+	PHP_FE_END
+};
 
 /**
  * Phalcon\Http\Response initializer
@@ -85,30 +156,21 @@ PHP_METHOD(Phalcon_Http_Response, __construct){
 
 	zval *content = NULL, *code = NULL, *status = NULL;
 
-	PHALCON_MM_GROW();
-
-	phalcon_fetch_params(1, 0, 3, &content, &code, &status);
-	
-	if (!content) {
-		PHALCON_INIT_VAR(content);
-	}
-	
-	if (!code) {
-		PHALCON_INIT_VAR(code);
-	}
+	phalcon_fetch_params(0, 0, 3, &content, &code, &status);
 	
 	if (!status) {
-		PHALCON_INIT_VAR(status);
+		status = PHALCON_GLOBAL(z_null);
 	}
 	
-	if (Z_TYPE_P(content) != IS_NULL) {
+	if (content && Z_TYPE_P(content) != IS_NULL) {
 		phalcon_update_property_this(this_ptr, SL("_content"), content TSRMLS_CC);
 	}
-	if (Z_TYPE_P(code) != IS_NULL) {
+
+	if (code && Z_TYPE_P(code) != IS_NULL) {
+		PHALCON_MM_GROW();
 		phalcon_call_method_p2_noret(this_ptr, "setstatuscode", code, status);
+		PHALCON_MM_RESTORE();
 	}
-	
-	PHALCON_MM_RESTORE();
 }
 
 /**
@@ -121,9 +183,8 @@ PHP_METHOD(Phalcon_Http_Response, setDI){
 	zval *dependency_injector;
 
 	phalcon_fetch_params(0, 1, 0, &dependency_injector);
-	
+	PHALCON_VERIFY_INTERFACE_EX(dependency_injector, phalcon_diinterface_ce, phalcon_http_response_exception_ce, 0);
 	phalcon_update_property_this(this_ptr, SL("_dependencyInjector"), dependency_injector TSRMLS_CC);
-	
 }
 
 /**
@@ -142,12 +203,14 @@ PHP_METHOD(Phalcon_Http_Response, getDI){
 	if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
 	
 		PHALCON_INIT_NVAR(dependency_injector);
-		PHALCON_CALL_STATIC(dependency_injector, "phalcon\\di", "getdefault");
+		phalcon_call_static(dependency_injector, "phalcon\\di", "getdefault");
 	
 		if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
-			PHALCON_THROW_EXCEPTION_STR(phalcon_http_request_exception_ce, "A dependency injection object is required to access the 'url' service");
+			PHALCON_THROW_EXCEPTION_STR(phalcon_http_response_exception_ce, "A dependency injection object is required to access the 'url' service");
 			return;
 		}
+
+		PHALCON_VERIFY_INTERFACE_EX(dependency_injector, phalcon_diinterface_ce, phalcon_http_response_exception_ce, 1);
 	
 		phalcon_update_property_this(this_ptr, SL("_dependencyInjector"), dependency_injector TSRMLS_CC);
 	}
@@ -221,23 +284,20 @@ PHP_METHOD(Phalcon_Http_Response, setHeaders){
  */
 PHP_METHOD(Phalcon_Http_Response, getHeaders){
 
-	zval *headers = NULL;
+	zval *headers;
 
-	PHALCON_MM_GROW();
-
-	PHALCON_OBS_VAR(headers);
-	phalcon_read_property_this(&headers, this_ptr, SL("_headers"), PH_NOISY_CC);
+	headers = phalcon_fetch_nproperty_this(this_ptr, SL("_headers"), PH_NOISY_CC);
 	if (Z_TYPE_P(headers) == IS_NULL) {
 		/** 
 		 * A Phalcon\Http\Response\Headers bag is temporary used to manage the headers
-		 * before sent them to the client
+		 * before sending them to the client
 		 */
-		PHALCON_INIT_NVAR(headers);
-		object_init_ex(headers, phalcon_http_response_headers_ce);
-		phalcon_update_property_this(this_ptr, SL("_headers"), headers TSRMLS_CC);
+		object_init_ex(return_value, phalcon_http_response_headers_ce);
+		phalcon_update_property_this(this_ptr, SL("_headers"), return_value TSRMLS_CC);
+		return;
 	}
 	
-	RETURN_CCTOR(headers);
+	RETURN_ZVAL(headers, 1, 0);
 }
 
 /**
@@ -368,7 +428,7 @@ PHP_METHOD(Phalcon_Http_Response, setExpires){
 	
 	PHALCON_INIT_VAR(date);
 	if (phalcon_clone(date, datetime TSRMLS_CC) == FAILURE) {
-		return;
+		RETURN_MM();
 	}
 	
 	/** 
@@ -449,7 +509,7 @@ PHP_METHOD(Phalcon_Http_Response, setContentType){
 	phalcon_fetch_params(1, 1, 1, &content_type, &charset);
 	
 	if (!charset) {
-		PHALCON_INIT_VAR(charset);
+		charset = PHALCON_GLOBAL(z_null);
 	}
 	
 	PHALCON_INIT_VAR(headers);
@@ -539,12 +599,11 @@ PHP_METHOD(Phalcon_Http_Response, redirect){
 	phalcon_fetch_params(1, 0, 3, &location, &external_redirect, &status_code);
 	
 	if (!location) {
-		PHALCON_INIT_VAR(location);
+		location = PHALCON_GLOBAL(z_null);
 	}
 	
 	if (!external_redirect) {
-		PHALCON_INIT_VAR(external_redirect);
-		ZVAL_BOOL(external_redirect, 0);
+		external_redirect = PHALCON_GLOBAL(z_false);
 	}
 	
 	if (!status_code) {
@@ -563,7 +622,7 @@ PHP_METHOD(Phalcon_Http_Response, redirect){
 		phalcon_call_method(dependency_injector, this_ptr, "getdi");
 	
 		PHALCON_INIT_VAR(service);
-		ZVAL_STRING(service, "url", 1);
+		PHALCON_ZVAL_MAYBE_INTERNED_STRING(service, phalcon_interned_url);
 	
 		PHALCON_INIT_VAR(url);
 		phalcon_call_method_p1(url, dependency_injector, "getshared", service);
@@ -621,10 +680,11 @@ PHP_METHOD(Phalcon_Http_Response, setContent){
  *
  *<code>
  *	$response->setJsonContent(array("status" => "OK"));
- *</code>
+ *	$response->setJsonContent(array("status" => "OK"), JSON_NUMERIC_CHECK);
+*</code>
  *
  * @param string $content
- * @param int $jsonOptions
+ * @param int $jsonOptions bitmask consisting on http://www.php.net/manual/en/json.constants.php
  * @return Phalcon\Http\ResponseInterface
  */
 PHP_METHOD(Phalcon_Http_Response, setJsonContent){
@@ -641,7 +701,7 @@ PHP_METHOD(Phalcon_Http_Response, setJsonContent){
 	}
 	
 	PHALCON_INIT_VAR(json_content);
-	phalcon_json_encode(json_content, content, options TSRMLS_CC);
+	RETURN_MM_ON_FAILURE(phalcon_json_encode(json_content, content, options TSRMLS_CC));
 	phalcon_update_property_this(this_ptr, SL("_content"), json_content TSRMLS_CC);
 	RETURN_THIS();
 }
@@ -655,7 +715,7 @@ PHP_METHOD(Phalcon_Http_Response, setJsonContent){
 PHP_METHOD(Phalcon_Http_Response, appendContent){
 
 	zval *content, *_content;
-	zval *r0 = NULL;
+	zval *temp_content = NULL;
 
 	PHALCON_MM_GROW();
 
@@ -663,9 +723,9 @@ PHP_METHOD(Phalcon_Http_Response, appendContent){
 	
 	PHALCON_OBS_VAR(_content);
 	phalcon_read_property_this(&_content, this_ptr, SL("_content"), PH_NOISY_CC);
-	PHALCON_ALLOC_ZVAL_MM(r0);
-	concat_function(r0, _content, content TSRMLS_CC);
-	phalcon_update_property_this(this_ptr, SL("_content"), r0 TSRMLS_CC);
+	PHALCON_INIT_VAR(temp_content);
+	concat_function(temp_content, _content, content TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_content"), temp_content TSRMLS_CC);
 	RETURN_THIS();
 }
 
@@ -810,22 +870,21 @@ PHP_METHOD(Phalcon_Http_Response, setFileToSend){
 	phalcon_fetch_params(1, 1, 2, &file_path, &attachment_name, &attachment);
 	
 	if (!attachment_name) {
-		PHALCON_INIT_VAR(attachment_name);
+		attachment_name = PHALCON_GLOBAL(z_null);
 	}
 
-	if (!attachment) {		
-		PHALCON_INIT_VAR(attachment);
-		ZVAL_BOOL(attachment, 1);
+	if (!attachment) {
+		attachment = PHALCON_GLOBAL(z_true);
 	}
 	
 	if (Z_TYPE_P(attachment_name) != IS_STRING) {
 		PHALCON_INIT_VAR(base_path);
-		phalcon_call_func_p1(base_path, "basename", file_path);
+		phalcon_basename(base_path, file_path TSRMLS_CC);
 	} else {
 		PHALCON_CPY_WRT(base_path, attachment_name);
 	}
 	
-	if (zend_is_true(attachment)) {		
+	if (zend_is_true(attachment)) {
 		PHALCON_INIT_VAR(headers);
 		phalcon_call_method(headers, this_ptr, "getheaders");
 

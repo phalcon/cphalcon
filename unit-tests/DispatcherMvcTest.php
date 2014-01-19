@@ -164,7 +164,38 @@ class DispatcherMvcTest extends PHPUnit_Framework_TestCase
 		$dispatcher->dispatch();
 		$value = $dispatcher->getReturnedValue();
 		$this->assertEquals($value, "hello");
+	}
 
+	public function testDispatcherForward()
+	{
+		Phalcon\DI::reset();
+
+		$di = new Phalcon\DI();
+
+		//$di->set('response', new \Phalcon\Http\Response());
+
+		$dispatcher = new Phalcon\Mvc\Dispatcher();
+		$dispatcher->setDI($di);
+
+		$di->set('dispatcher', $dispatcher);
+
+		$dispatcher->setControllerName('test2');
+		$dispatcher->setActionName('index');
+		$dispatcher->setParams(array());
+
+		$dispatcher->forward(array('controller' => 'test3', 'action' => 'other'));
+
+		$value = $dispatcher->getControllerName();
+		$this->assertEquals($value, 'test3');
+
+		$value = $dispatcher->getActionName();
+		$this->assertEquals($value, 'other');
+
+		$value = $dispatcher->getPreviousControllerName();
+		$this->assertEquals($value, 'test2');
+
+		$value = $dispatcher->getPreviousActionName();
+		$this->assertEquals($value, 'index');
 	}
 
 }

@@ -3,7 +3,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2013 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -18,33 +18,33 @@
   +------------------------------------------------------------------------+
 */
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
-
-#include "php.h"
-#include "php_phalcon.h"
-#include "phalcon.h"
-
-#include "Zend/zend_operators.h"
-#include "Zend/zend_exceptions.h"
-#include "Zend/zend_interfaces.h"
+#include "version.h"
 
 #include "kernel/main.h"
 #include "kernel/memory.h"
-
 #include "kernel/fcall.h"
 #include "kernel/array.h"
 #include "kernel/concat.h"
-#include "kernel/operators.h"
 #include "kernel/string.h"
+#include "kernel/operators.h"
 
 /**
  * Phalcon\Version
  *
  * This class allows to get the installed version of the framework
  */
+zend_class_entry *phalcon_version_ce;
 
+PHP_METHOD(Phalcon_Version, _getVersion);
+PHP_METHOD(Phalcon_Version, get);
+PHP_METHOD(Phalcon_Version, getId);
+
+static const zend_function_entry phalcon_version_method_entry[] = {
+	PHP_ME(Phalcon_Version, _getVersion, NULL, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
+	PHP_ME(Phalcon_Version, get, NULL, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
+	PHP_ME(Phalcon_Version, getId, NULL, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
+	PHP_FE_END
+};
 
 /**
  * Phalcon\Version initializer
@@ -64,22 +64,16 @@ PHALCON_INIT_CLASS(Phalcon_Version){
  * B - Med version (two digits)
  * C - Min version (two digits)
  * D - Special release: 1 = Alpha, 2 = Beta, 3 = RC, 4 = Stable
- * E - Special release version i.e. RC1, Beta2 etc. 
+ * E - Special release version i.e. RC1, Beta2 etc.
  */
 PHP_METHOD(Phalcon_Version, _getVersion){
 
-	zval *version;
-
-	PHALCON_MM_GROW();
-
-	PHALCON_INIT_VAR(version);
-	array_init_size(version, 5);
-	add_next_index_long(version, 1);
-	add_next_index_long(version, 2);
-	add_next_index_long(version, 4);
-	add_next_index_long(version, 4);
-	add_next_index_long(version, 0);
-	RETURN_CTOR(version);
+	array_init_size(return_value, 5);
+	add_next_index_long(return_value, 1);
+	add_next_index_long(return_value, 3);
+	add_next_index_long(return_value, 0);
+	add_next_index_long(return_value, 2);
+	add_next_index_long(return_value, 1);
 }
 
 /**
@@ -99,7 +93,7 @@ PHP_METHOD(Phalcon_Version, get){
 	PHALCON_MM_GROW();
 
 	PHALCON_INIT_VAR(version);
-	PHALCON_CALL_SELF(version, this_ptr, "_getversion");
+	phalcon_call_self(version, "_getversion");
 
 	PHALCON_OBS_VAR(major);
 	phalcon_array_fetch_long(&major, version, 0, PH_NOISY);
@@ -164,7 +158,7 @@ PHP_METHOD(Phalcon_Version, getId){
 	PHALCON_MM_GROW();
 
 	PHALCON_INIT_VAR(version);
-	PHALCON_CALL_SELF(version, this_ptr, "_getversion");
+	phalcon_call_self(version, "_getversion");
 
 	PHALCON_OBS_VAR(major);
 	phalcon_array_fetch_long(&major, version, 0, PH_NOISY);
@@ -184,12 +178,11 @@ PHP_METHOD(Phalcon_Version, getId){
 	PHALCON_INIT_VAR(format);
 	ZVAL_STRING(format, "%02s", 1);
 
-	PHALCON_INIT_VAR(real_medium);
-	phalcon_call_func_p2(real_medium, "sprintf", format, medium);
+	PHALCON_OBS_VAR(real_medium);
+	PHALCON_CALL_FUNCTION(&real_medium, "sprintf", format, medium);
 
-	PHALCON_INIT_VAR(real_minor);
-	phalcon_call_func_p2(real_minor, "sprintf", format, minor);
+	PHALCON_OBS_VAR(real_minor);
+	PHALCON_CALL_FUNCTION(&real_minor, "sprintf", format, minor);
 	PHALCON_CONCAT_VVVVV(return_value, major, real_medium, real_minor, special, special_number);
 	RETURN_MM();
 }
-

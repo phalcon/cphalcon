@@ -13,4 +13,7 @@
     <testsuite name="PhalconPHP - Testsuite">
         <directory>./</directory>
     </testsuite>
+    <testsuite name="PHPT Test Suite">
+        <file>tests/PHPTTestSuite.php</file>
+    </testsuite>
 </phpunit>

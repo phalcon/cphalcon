@@ -18,86 +18,118 @@
   +------------------------------------------------------------------------+
 */
 
-class DIDescendant extends Phalcon\DI {}
+use Phalcon\Tag as Tag;
 
 class TagTest extends PHPUnit_Framework_TestCase
 {
 
-	public function setUp()
+	public function testSelect()
 	{
-	}
+		$data = array(
+			"status",
+			array("Active" => array('A1' => 'A One', 'A2' => 'A Two'), "B" => "B One")
+		);
 
-	public function testIssue744()
-	{
-		$v = new Phalcon\Tag;
+		$html = <<<HTML
+<select id="status" name="status">
+	<optgroup label="Active">
+	<option value="A1">A One</option>
+	<option value="A2">A Two</option>
+	</optgroup>
+	<option value="B">B One</option>
+</select>
+HTML;
 
-		try {
-			$v->setDI(0);
-			$this->assertTrue(false);
-		}
-		catch (Exception $e) {
-			$this->assertTrue(true);
-		}
-
-		try {
-			$v->setDI(new stdClass());
-			$this->assertTrue(false);
-		}
-		catch (Exception $e) {
-			$this->assertTrue(true);
-		}
-
-		try {
-			$v->setDI(new Phalcon\DI());
-			$this->assertTrue(true);
-		}
-		catch (Exception $e) {
-			$this->assertTrue(false);
-		}
-
-		try {
-			$v->setDI(new DIDescendant());
-			$this->assertTrue(true);
-		}
-		catch (Exception $e) {
-			$this->assertTrue(false);
-		}
-
-		try {
-			$v->setDefaults(0);
-			$this->assertTrue(false);
-		}
-		catch (Exception $e) {
-			$this->assertTrue(true);
-		}
-	}
-
-	public function testIssue947()
-        {
 		$di = new Phalcon\DI\FactoryDefault();
+		Tag::setDI($di);
+		$ret = Tag::selectStatic($data);
+
+		$this->assertEquals($ret, $html);
+
+		$html = <<<HTML
+<select id="status" name="status">
+	<optgroup label="Active">
+	<option selected="selected" value="A1">A One</option>
+	<option value="A2">A Two</option>
+	</optgroup>
+	<option value="B">B One</option>
+</select>
+HTML;
+		Tag::setDefault("status", "A1");
+
+		$ret = Tag::selectStatic($data);
+
+		$this->assertEquals($ret, $html);
+	}
+
+	public function testSetTitleSeparator()
+	{
+
+		Tag::setTitle('Title');
+		Tag::appendTitle('Class');
+
+		$this->assertEquals(Tag::getTitle(), '<title>TitleClass</title>'.PHP_EOL);
+
+		Tag::setTitle('Title');
+		Tag::setTitleSeparator('|');
+		Tag::appendTitle('Class');
+
+		$this->assertEquals(Tag::getTitle(), '<title>Title|Class</title>'.PHP_EOL);
+		$this->assertEquals(Tag::getTitleSeparator(), '|');
+
+		Tag::setTitle('Title');
+		Tag::setTitleSeparator('|');
+		Tag::prependTitle('Class');
+
+		$this->assertEquals(Tag::getTitle(), '<title>Class|Title</title>'.PHP_EOL);
+	}
+
+	public function testIssue1486()
+    {
+		$di = new Phalcon\DI\FactoryDefault();
+		$di->getshared('url')->setBaseUri('/');
 		\Phalcon\Tag::setDI($di);
 
-		$html = \Phalcon\Tag::radioField(array(
-		    'test',
-		    'value' => 1,
-		    'checked' => 'checked'
-		));
-		$pos = strpos($html, 'checked="checked"');
-		$this->assertTrue($pos !== FALSE);
+		$html = \Phalcon\Tag::stylesheetLink('css/phalcon.css');
+		$this->assertEquals($html, '<link rel="stylesheet" type="text/css" href="/css/phalcon.css" />'.PHP_EOL);
 
-		$html = \Phalcon\Tag::radioField(array(
-		    'test',
-		    'value' => 0
-		));
-		$pos = strpos($html, 'checked="checked"');
-		$this->assertTrue($pos === FALSE);
+		$html = \Phalcon\Tag::stylesheetLink(array('css/phalcon.css'));
+		$this->assertEquals($html, '<link rel="stylesheet" type="text/css" href="/css/phalcon.css" />'.PHP_EOL);
 
-		\Phalcon\Tag::setDefault("test", "0");
-		$html = \Phalcon\Tag::radioField(array(
-		    'test',
-		    'value' => 0
-		));
-		$pos = strpos($html, 'checked="checked"');
-		$this->assertTrue($pos !== FALSE);
+		$html = \Phalcon\Tag::javascriptInclude('js/phalcon.js');
+		$this->assertEquals($html, '<script type="text/javascript" src="/js/phalcon.js"></script>'.PHP_EOL);
+
+		$html = \Phalcon\Tag::javascriptInclude(array('js/phalcon.js'));
+		$this->assertEquals($html, '<script type="text/javascript" src="/js/phalcon.js"></script>'.PHP_EOL);
+	 }
+
+	public function testIssue1679()
+    {
+		$di = new Phalcon\DI\FactoryDefault();
+		$di->getshared('url')->setBaseUri('/');
+		\Phalcon\Tag::setDI($di);
+
+		// local
+		$html = Phalcon\Tag::linkTo('signup/register', 'Register Here!');
+		$this->assertEquals($html, '<a href="/signup/register">Register Here!</a>');
+
+		$html = Phalcon\Tag::linkTo(array('signup/register', 'Register Here!'));
+		$this->assertEquals($html, '<a href="/signup/register">Register Here!</a>');
+
+		$html = Phalcon\Tag::linkTo(array('signup/register', 'Register Here!', 'class' => 'btn-primary'));
+		$this->assertEquals($html, '<a href="/signup/register" class="btn-primary">Register Here!</a>');
+
+		// remote
+		$html = Phalcon\Tag::linkTo('http://phalconphp.com/en/', 'Phalcon Home', FALSE);
+		$this->assertEquals($html, '<a href="http://phalconphp.com/en/">Phalcon Home</a>');
+
+		$html = Phalcon\Tag::linkTo(array('http://phalconphp.com/en/', 'Phalcon Home', FALSE));
+		$this->assertEquals($html, '<a href="http://phalconphp.com/en/">Phalcon Home</a>');
+
+		$html = Phalcon\Tag::linkTo(array('http://phalconphp.com/en/', 'text' => 'Phalcon Home', 'local' => FALSE));
+		$this->assertEquals($html, '<a href="http://phalconphp.com/en/">Phalcon Home</a>');
+
+		$html = Phalcon\Tag::linkTo('mailto:dreamsxin@gmail.com', 'dreamsxin@gmail.com', FALSE);
+		$this->assertEquals($html, '<a href="mailto:dreamsxin@gmail.com">dreamsxin@gmail.com</a>');
 	 }
 }

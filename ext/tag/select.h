@@ -3,7 +3,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2013 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -17,23 +17,13 @@
   +------------------------------------------------------------------------+
 */
 
+#ifndef PHALCON_TAG_SELECT_H
+#define PHALCON_TAG_SELECT_H
+
+#include "php_phalcon.h"
+
 extern zend_class_entry *phalcon_tag_select_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Tag_Select);
 
-PHP_METHOD(Phalcon_Tag_Select, selectField);
-PHP_METHOD(Phalcon_Tag_Select, _optionsFromResultset);
-PHP_METHOD(Phalcon_Tag_Select, _optionsFromArray);
-
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_tag_select_selectfield, 0, 0, 1)
-	ZEND_ARG_INFO(0, parameters)
-	ZEND_ARG_INFO(0, data)
-ZEND_END_ARG_INFO()
-
-PHALCON_INIT_FUNCS(phalcon_tag_select_method_entry){
-	PHP_ME(Phalcon_Tag_Select, selectField, arginfo_phalcon_tag_select_selectfield, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC) 
-	PHP_ME(Phalcon_Tag_Select, _optionsFromResultset, NULL, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC) 
-	PHP_ME(Phalcon_Tag_Select, _optionsFromArray, NULL, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC) 
-	PHP_FE_END
-};
-
+#endif /* PHALCON_TAG_SELECT_H */

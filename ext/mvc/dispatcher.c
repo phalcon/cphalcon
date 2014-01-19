@@ -3,7 +3,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2013 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -17,25 +17,21 @@
   +------------------------------------------------------------------------+
 */
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
-
-#include "php.h"
-#include "php_phalcon.h"
-#include "phalcon.h"
-
-#include "Zend/zend_operators.h"
-#include "Zend/zend_exceptions.h"
-#include "Zend/zend_interfaces.h"
+#include "mvc/dispatcher.h"
+#include "mvc/dispatcherinterface.h"
+#include "mvc/../dispatcher.h"
+#include "mvc/../dispatcherinterface.h"
+#include "mvc/dispatcher/exception.h"
+#include "http/responseinterface.h"
 
 #include "kernel/main.h"
 #include "kernel/memory.h"
-#include "kernel/concat.h"
 #include "kernel/object.h"
 #include "kernel/fcall.h"
 #include "kernel/exception.h"
 #include "kernel/operators.h"
+
+#include "interned-strings.h"
 
 /**
  * Phalcon\Mvc\Dispatcher
@@ -60,19 +56,45 @@
  *
  *</code>
  */
+zend_class_entry *phalcon_mvc_dispatcher_ce;
 
+PHP_METHOD(Phalcon_Mvc_Dispatcher, setControllerSuffix);
+PHP_METHOD(Phalcon_Mvc_Dispatcher, setDefaultController);
+PHP_METHOD(Phalcon_Mvc_Dispatcher, setControllerName);
+PHP_METHOD(Phalcon_Mvc_Dispatcher, getControllerName);
+PHP_METHOD(Phalcon_Mvc_Dispatcher, _throwDispatchException);
+PHP_METHOD(Phalcon_Mvc_Dispatcher, _handleException);
+PHP_METHOD(Phalcon_Mvc_Dispatcher, getControllerClass);
+PHP_METHOD(Phalcon_Mvc_Dispatcher, getLastController);
+PHP_METHOD(Phalcon_Mvc_Dispatcher, getActiveController);
+PHP_METHOD(Phalcon_Mvc_Dispatcher, getPreviousControllerName);
+PHP_METHOD(Phalcon_Mvc_Dispatcher, getPreviousActionName);
+
+static const zend_function_entry phalcon_mvc_dispatcher_method_entry[] = {
+	PHP_ME(Phalcon_Mvc_Dispatcher, setControllerSuffix, arginfo_phalcon_mvc_dispatcherinterface_setcontrollersuffix, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Dispatcher, setDefaultController, arginfo_phalcon_mvc_dispatcherinterface_setdefaultcontroller, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Dispatcher, setControllerName, arginfo_phalcon_mvc_dispatcherinterface_setcontrollername, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Dispatcher, getControllerName, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Dispatcher, _throwDispatchException, NULL, ZEND_ACC_PROTECTED)
+	PHP_ME(Phalcon_Mvc_Dispatcher, _handleException, NULL, ZEND_ACC_PROTECTED)
+	PHP_ME(Phalcon_Mvc_Dispatcher, getControllerClass, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Dispatcher, getLastController, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Dispatcher, getActiveController, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Dispatcher, getPreviousControllerName, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Dispatcher, getPreviousActionName, NULL, ZEND_ACC_PUBLIC)
+	PHP_FE_END
+};
 
 /**
  * Phalcon\Mvc\Dispatcher initializer
  */
 PHALCON_INIT_CLASS(Phalcon_Mvc_Dispatcher){
 
-	PHALCON_REGISTER_CLASS_EX(Phalcon\\Mvc, Dispatcher, mvc_dispatcher, "phalcon\\dispatcher", phalcon_mvc_dispatcher_method_entry, 0);
+	PHALCON_REGISTER_CLASS_EX(Phalcon\\Mvc, Dispatcher, mvc_dispatcher, phalcon_dispatcher_ce, phalcon_mvc_dispatcher_method_entry, 0);
 
 	zend_declare_property_string(phalcon_mvc_dispatcher_ce, SL("_handlerSuffix"), "Controller", ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_string(phalcon_mvc_dispatcher_ce, SL("_defaultHandler"), "index", ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_string(phalcon_mvc_dispatcher_ce, SL("_defaultAction"), "index", ZEND_ACC_PROTECTED TSRMLS_CC);
-	zend_declare_property_bool(phalcon_mvc_dispatcher_ce, SL("_isExactControllerName"), 0, ZEND_ACC_PROTECTED TSRMLS_CC);
 
 	zend_class_implements(phalcon_mvc_dispatcher_ce TSRMLS_CC, 2, phalcon_dispatcherinterface_ce, phalcon_mvc_dispatcherinterface_ce);
 
@@ -116,22 +138,12 @@ PHP_METHOD(Phalcon_Mvc_Dispatcher, setDefaultController){
  */
 PHP_METHOD(Phalcon_Mvc_Dispatcher, setControllerName){
 
-	zval *controller_name, *is_exact = NULL;
+	zval *controller_name;
 
-	phalcon_fetch_params(0, 1, 1, &controller_name, &is_exact);
+	phalcon_fetch_params(0, 1, 0, &controller_name);
 	
-	if (is_exact && zend_is_true(is_exact)) {
-		zval *name;
-		MAKE_STD_ZVAL(name);
-		PHALCON_CONCAT_SV(name, "\\", controller_name);
-		phalcon_update_property_this(this_ptr, SL("_handlerName"), name TSRMLS_CC);
-		zval_ptr_dtor(&name);
-		phalcon_update_property_bool(this_ptr, SL("_isExactControllerName"), 1 TSRMLS_CC);
-	}
-	else {
-		phalcon_update_property_this(this_ptr, SL("_handlerName"), controller_name TSRMLS_CC);
-		phalcon_update_property_bool(this_ptr, SL("_isExactControllerName"), 0 TSRMLS_CC);
-	}
+	phalcon_update_property_this(this_ptr, SL("_handlerName"), controller_name TSRMLS_CC);
+	
 }
 
 /**
@@ -141,28 +153,8 @@ PHP_METHOD(Phalcon_Mvc_Dispatcher, setControllerName){
  */
 PHP_METHOD(Phalcon_Mvc_Dispatcher, getControllerName){
 
-	zval *is_exact;
-	int i_exact;
 
-	phalcon_read_property_this(&is_exact, getThis(), SL("_isExactControllerName"), PH_NOISY TSRMLS_CC);
-	i_exact = zend_is_true(is_exact);
-	zval_ptr_dtor(&is_exact);
-
-	if (!i_exact) {
-		RETURN_MEMBER(this_ptr, "_handlerName");
-	}
-
-	phalcon_return_property_quick(return_value, getThis(), SL("_handlerName"), zend_inline_hash_func(SS("_handlerName")) TSRMLS_CC);
-	if (likely(Z_TYPE_P(return_value) == IS_STRING) && Z_STRLEN_P(return_value) > 1) {
-		char *c = Z_STRVAL_P(return_value);
-		int len = Z_STRLEN_P(return_value);
-		memmove(c, c+1, len-1);
-		c[len-1] = 0;
-		c = erealloc(c, len);
-		if (likely(c != NULL)) {
-			RETVAL_STRINGL(c, len-1, 0);
-		}
-	}
+	RETURN_MEMBER(this_ptr, "_handlerName");
 }
 
 /**
@@ -203,17 +195,18 @@ PHP_METHOD(Phalcon_Mvc_Dispatcher, _throwDispatchException){
 		phalcon_call_method_p2_noret(exception, "__construct", exception_message, exception_code);
 	
 		phalcon_throw_exception(exception TSRMLS_CC);
-		return;
+		RETURN_MM();
 	}
 	
 	PHALCON_INIT_VAR(service);
-	ZVAL_STRING(service, "response", 1);
+	PHALCON_ZVAL_MAYBE_INTERNED_STRING(service, phalcon_interned_response);
 	
 	PHALCON_INIT_VAR(response);
 	phalcon_call_method_p1(response, dependency_injector, "getshared", service);
+	PHALCON_VERIFY_INTERFACE(response, phalcon_http_responseinterface_ce);
 	
 	/** 
-	 * Dispatcher exceptions automatically sends 404 status
+	 * Dispatcher exceptions automatically send 404 status
 	 */
 	PHALCON_INIT_VAR(status_code);
 	ZVAL_LONG(status_code, 404);
@@ -247,13 +240,16 @@ PHP_METHOD(Phalcon_Mvc_Dispatcher, _throwDispatchException){
 	 * Throw the exception if it wasn't handled
 	 */
 	phalcon_throw_exception(exception TSRMLS_CC);
-	return;
+	RETURN_MM();
 }
 
 /**
  * Handles a user exception
  *
  * @param \Exception $exception
+ *
+ * @warning If any additional logic is to be implemented here, please check
+ * phalcon_dispatcher_fire_event() first
  */
 PHP_METHOD(Phalcon_Mvc_Dispatcher, _handleException){
 
@@ -315,5 +311,27 @@ PHP_METHOD(Phalcon_Mvc_Dispatcher, getActiveController){
 
 
 	RETURN_MEMBER(this_ptr, "_activeHandler");
+}
+
+/**
+ * Returns the previous controller in the dispatcher
+ *
+ * @return string
+ */
+PHP_METHOD(Phalcon_Mvc_Dispatcher, getPreviousControllerName){
+
+
+	RETURN_MEMBER(this_ptr, "_previousHandlerName");
+}
+
+/**
+ * Returns the previous action in the dispatcher
+ *
+ * @return string
+ */
+PHP_METHOD(Phalcon_Mvc_Dispatcher, getPreviousActionName){
+
+
+	RETURN_MEMBER(this_ptr, "_previousActionName");
 }
 

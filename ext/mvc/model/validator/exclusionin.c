@@ -3,7 +3,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2013 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -17,27 +17,21 @@
   +------------------------------------------------------------------------+
 */
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
-
-#include "php.h"
-#include "php_phalcon.h"
-#include "phalcon.h"
-
-#include "Zend/zend_operators.h"
-#include "Zend/zend_exceptions.h"
-#include "Zend/zend_interfaces.h"
+#include "mvc/model/validator/exclusionin.h"
+#include "mvc/model/validator.h"
+#include "mvc/model/validatorinterface.h"
+#include "mvc/model/exception.h"
 
 #include "kernel/main.h"
 #include "kernel/memory.h"
-
 #include "kernel/fcall.h"
 #include "kernel/exception.h"
 #include "kernel/operators.h"
 #include "kernel/array.h"
 #include "kernel/string.h"
 #include "kernel/concat.h"
+
+#include "interned-strings.h"
 
 /**
  * Phalcon\Mvc\Model\Validator\ExclusionIn
@@ -64,14 +58,21 @@
  *	}
  *</code>
  */
+zend_class_entry *phalcon_mvc_model_validator_exclusionin_ce;
 
+PHP_METHOD(Phalcon_Mvc_Model_Validator_Exclusionin, validate);
+
+static const zend_function_entry phalcon_mvc_model_validator_exclusionin_method_entry[] = {
+	PHP_ME(Phalcon_Mvc_Model_Validator_Exclusionin, validate, arginfo_phalcon_mvc_model_validatorinterface_validate, ZEND_ACC_PUBLIC)
+	PHP_FE_END
+};
 
 /**
  * Phalcon\Mvc\Model\Validator\Exclusionin initializer
  */
 PHALCON_INIT_CLASS(Phalcon_Mvc_Model_Validator_Exclusionin){
 
-	PHALCON_REGISTER_CLASS_EX(Phalcon\\Mvc\\Model\\Validator, Exclusionin, mvc_model_validator_exclusionin, "phalcon\\mvc\\model\\validator", phalcon_mvc_model_validator_exclusionin_method_entry, 0);
+	PHALCON_REGISTER_CLASS_EX(Phalcon\\Mvc\\Model\\Validator, Exclusionin, mvc_model_validator_exclusionin, phalcon_mvc_model_validator_ce, phalcon_mvc_model_validator_exclusionin_method_entry, 0);
 
 	zend_class_implements(phalcon_mvc_model_validator_exclusionin_ce TSRMLS_CC, 1, phalcon_mvc_model_validatorinterface_ce);
 
@@ -87,7 +88,7 @@ PHALCON_INIT_CLASS(Phalcon_Mvc_Model_Validator_Exclusionin){
 PHP_METHOD(Phalcon_Mvc_Model_Validator_Exclusionin, validate){
 
 	zval *record, *option = NULL, *field_name, *is_set, *domain;
-	zval *value, *message = NULL, *joined_domain, *type;
+	zval *value, *message = NULL, *joined_domain, *type, *is_set_code, *code;
 
 	PHALCON_MM_GROW();
 
@@ -139,7 +140,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Exclusionin, validate){
 		 * Check if the developer has defined a custom message
 		 */
 		PHALCON_INIT_NVAR(option);
-		ZVAL_STRING(option, "message", 1);
+		PHALCON_ZVAL_MAYBE_INTERNED_STRING(option, phalcon_interned_message);
 	
 		PHALCON_INIT_VAR(message);
 		phalcon_call_method_p1(message, this_ptr, "getoption", option);
@@ -153,7 +154,23 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Exclusionin, validate){
 	
 		PHALCON_INIT_VAR(type);
 		ZVAL_STRING(type, "Exclusion", 1);
-		phalcon_call_method_p3_noret(this_ptr, "appendmessage", message, field_name, type);
+
+		/*
+		 * Is code set
+		 */
+		PHALCON_INIT_NVAR(option);
+		PHALCON_ZVAL_MAYBE_INTERNED_STRING(option, phalcon_interned_code);
+
+		PHALCON_INIT_VAR(is_set_code);
+		phalcon_call_method_p1(is_set_code, this_ptr, "issetoption", option);
+		PHALCON_INIT_VAR(code);
+		if (zend_is_true(is_set_code)) {
+			phalcon_call_method_p1(code, this_ptr, "getoption", option);
+		} else {
+			ZVAL_LONG(code, 0);
+		}
+
+		phalcon_call_method_p4_noret(this_ptr, "appendmessage", message, field_name, type, code);
 		RETURN_MM_FALSE;
 	}
 	

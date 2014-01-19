@@ -3,7 +3,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2013 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -17,21 +17,15 @@
   +------------------------------------------------------------------------+
 */
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
-
-#include "php.h"
-#include "php_phalcon.h"
-#include "phalcon.h"
-
-#include "Zend/zend_operators.h"
-#include "Zend/zend_exceptions.h"
-#include "Zend/zend_interfaces.h"
+#include "mvc/model/criteria.h"
+#include "mvc/model/criteriainterface.h"
+#include "mvc/model/metadatainterface.h"
+#include "mvc/model/exception.h"
+#include "diinterface.h"
+#include "di/injectionawareinterface.h"
 
 #include "kernel/main.h"
 #include "kernel/memory.h"
-
 #include "kernel/exception.h"
 #include "kernel/object.h"
 #include "kernel/array.h"
@@ -41,6 +35,8 @@
 #include "kernel/string.h"
 #include "kernel/file.h"
 #include "kernel/hash.h"
+
+#include "interned-strings.h"
 
 /**
  * Phalcon\Mvc\Model\Criteria
@@ -57,7 +53,94 @@
  *    ->execute();
  *</code>
  */
+zend_class_entry *phalcon_mvc_model_criteria_ce;
 
+PHP_METHOD(Phalcon_Mvc_Model_Criteria, setDI);
+PHP_METHOD(Phalcon_Mvc_Model_Criteria, getDI);
+PHP_METHOD(Phalcon_Mvc_Model_Criteria, setModelName);
+PHP_METHOD(Phalcon_Mvc_Model_Criteria, getModelName);
+PHP_METHOD(Phalcon_Mvc_Model_Criteria, bind);
+PHP_METHOD(Phalcon_Mvc_Model_Criteria, bindTypes);
+PHP_METHOD(Phalcon_Mvc_Model_Criteria, columns);
+PHP_METHOD(Phalcon_Mvc_Model_Criteria, join);
+PHP_METHOD(Phalcon_Mvc_Model_Criteria, innerJoin);
+PHP_METHOD(Phalcon_Mvc_Model_Criteria, leftJoin);
+PHP_METHOD(Phalcon_Mvc_Model_Criteria, rightJoin);
+PHP_METHOD(Phalcon_Mvc_Model_Criteria, where);
+PHP_METHOD(Phalcon_Mvc_Model_Criteria, andWhere);
+PHP_METHOD(Phalcon_Mvc_Model_Criteria, orWhere);
+PHP_METHOD(Phalcon_Mvc_Model_Criteria, betweenWhere);
+PHP_METHOD(Phalcon_Mvc_Model_Criteria, notBetweenWhere);
+PHP_METHOD(Phalcon_Mvc_Model_Criteria, inWhere);
+PHP_METHOD(Phalcon_Mvc_Model_Criteria, notInWhere);
+PHP_METHOD(Phalcon_Mvc_Model_Criteria, conditions);
+PHP_METHOD(Phalcon_Mvc_Model_Criteria, orderBy);
+PHP_METHOD(Phalcon_Mvc_Model_Criteria, limit);
+PHP_METHOD(Phalcon_Mvc_Model_Criteria, forUpdate);
+PHP_METHOD(Phalcon_Mvc_Model_Criteria, sharedLock);
+PHP_METHOD(Phalcon_Mvc_Model_Criteria, getWhere);
+PHP_METHOD(Phalcon_Mvc_Model_Criteria, getColumns);
+PHP_METHOD(Phalcon_Mvc_Model_Criteria, getConditions);
+PHP_METHOD(Phalcon_Mvc_Model_Criteria, getLimit);
+PHP_METHOD(Phalcon_Mvc_Model_Criteria, getOrder);
+PHP_METHOD(Phalcon_Mvc_Model_Criteria, getParams);
+PHP_METHOD(Phalcon_Mvc_Model_Criteria, fromInput);
+PHP_METHOD(Phalcon_Mvc_Model_Criteria, execute);
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_criteria_innerjoin, 0, 0, 1)
+	ZEND_ARG_INFO(0, model)
+	ZEND_ARG_INFO(0, conditions)
+	ZEND_ARG_INFO(0, alias)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_criteria_leftjoin, 0, 0, 1)
+	ZEND_ARG_INFO(0, model)
+	ZEND_ARG_INFO(0, conditions)
+	ZEND_ARG_INFO(0, alias)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_criteria_rightjoin, 0, 0, 1)
+	ZEND_ARG_INFO(0, model)
+	ZEND_ARG_INFO(0, conditions)
+	ZEND_ARG_INFO(0, alias)
+ZEND_END_ARG_INFO()
+
+static const zend_function_entry phalcon_mvc_model_criteria_method_entry[] = {
+	PHP_ME(Phalcon_Mvc_Model_Criteria, setDI, arginfo_phalcon_di_injectionawareinterface_setdi, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Model_Criteria, getDI, arginfo_phalcon_di_injectionawareinterface_getdi, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Model_Criteria, setModelName, arginfo_phalcon_mvc_model_criteriainterface_setmodelname, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Model_Criteria, getModelName, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Model_Criteria, bind, arginfo_phalcon_mvc_model_criteriainterface_bind, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Model_Criteria, bindTypes, arginfo_phalcon_mvc_model_criteriainterface_bindtypes, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Model_Criteria, columns, arginfo_phalcon_mvc_model_criteriainterface_columns, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Model_Criteria, join, arginfo_phalcon_mvc_model_criteriainterface_join, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Model_Criteria, innerJoin, arginfo_phalcon_mvc_model_criteria_innerjoin, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Model_Criteria, leftJoin, arginfo_phalcon_mvc_model_criteria_leftjoin, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Model_Criteria, rightJoin, arginfo_phalcon_mvc_model_criteria_rightjoin, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Model_Criteria, where, arginfo_phalcon_mvc_model_criteriainterface_where, ZEND_ACC_PUBLIC)
+	PHP_MALIAS(Phalcon_Mvc_Model_Criteria, addWhere, andWhere, arginfo_phalcon_mvc_model_criteriainterface_andwhere, ZEND_ACC_PUBLIC | ZEND_ACC_DEPRECATED)
+	PHP_ME(Phalcon_Mvc_Model_Criteria, andWhere, arginfo_phalcon_mvc_model_criteriainterface_andwhere, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Model_Criteria, orWhere, arginfo_phalcon_mvc_model_criteriainterface_orwhere, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Model_Criteria, betweenWhere, arginfo_phalcon_mvc_model_criteriainterface_betweenwhere, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Model_Criteria, notBetweenWhere, arginfo_phalcon_mvc_model_criteriainterface_notbetweenwhere, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Model_Criteria, inWhere, arginfo_phalcon_mvc_model_criteriainterface_inwhere, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Model_Criteria, notInWhere, arginfo_phalcon_mvc_model_criteriainterface_notinwhere, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Model_Criteria, conditions, arginfo_phalcon_mvc_model_criteriainterface_conditions, ZEND_ACC_PUBLIC)
+	PHP_MALIAS(Phalcon_Mvc_Model_Criteria, order, orderBy, arginfo_phalcon_mvc_model_criteriainterface_orderby, ZEND_ACC_PUBLIC | ZEND_ACC_DEPRECATED)
+	PHP_ME(Phalcon_Mvc_Model_Criteria, orderBy, arginfo_phalcon_mvc_model_criteriainterface_orderby, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Model_Criteria, limit, arginfo_phalcon_mvc_model_criteriainterface_limit, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Model_Criteria, forUpdate, arginfo_phalcon_mvc_model_criteriainterface_forupdate, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Model_Criteria, sharedLock, arginfo_phalcon_mvc_model_criteriainterface_sharedlock, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Model_Criteria, getWhere, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Model_Criteria, getColumns, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Model_Criteria, getConditions, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Model_Criteria, getLimit, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Model_Criteria, getOrder, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Model_Criteria, getParams, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Model_Criteria, fromInput, arginfo_phalcon_mvc_model_criteriainterface_frominput, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
+	PHP_ME(Phalcon_Mvc_Model_Criteria, execute, NULL, ZEND_ACC_PUBLIC)
+	PHP_FE_END
+};
 
 /**
  * Phalcon\Mvc\Model\Criteria initializer
@@ -85,13 +168,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, setDI){
 	zval *dependency_injector;
 
 	phalcon_fetch_params(0, 1, 0, &dependency_injector);
-	
-	if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
-		PHALCON_THROW_EXCEPTION_STRW(phalcon_mvc_model_exception_ce, "Dependency Injector is invalid");
-		return;
-	}
+	PHALCON_VERIFY_INTERFACE_EX(dependency_injector, phalcon_diinterface_ce, phalcon_mvc_model_exception_ce, 0);
 	phalcon_update_property_array_string(this_ptr, SL("_params"), SS("di"), dependency_injector TSRMLS_CC);
-	
 }
 
 /**
@@ -103,17 +181,12 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, getDI){
 
 	zval *params, *dependency_injector;
 
-	PHALCON_MM_GROW();
-
-	PHALCON_OBS_VAR(params);
-	phalcon_read_property_this(&params, this_ptr, SL("_params"), PH_NOISY_CC);
-	if (phalcon_array_isset_string(params, SS("di"))) {
-		PHALCON_OBS_VAR(dependency_injector);
-		phalcon_array_fetch_string(&dependency_injector, params, SL("di"), PH_NOISY);
-		RETURN_CCTOR(dependency_injector);
+	params = phalcon_fetch_nproperty_this(this_ptr, SL("_params"), PH_NOISY_CC);
+	if (phalcon_array_isset_string_fetch(&dependency_injector, params, SS("di"))) {
+		RETURN_ZVAL(dependency_injector, 1, 0);
 	}
 	
-	RETURN_MM_NULL();
+	RETURN_NULL();
 }
 
 /**
@@ -146,11 +219,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, getModelName){
 
 	zval *model;
 
-	PHALCON_MM_GROW();
-
-	PHALCON_OBS_VAR(model);
-	phalcon_read_property_this(&model, this_ptr, SL("_model"), PH_NOISY_CC);
-	RETURN_CCTOR(model);
+	model = phalcon_fetch_nproperty_this(this_ptr, SL("_model"), PH_NOISY_CC);
+	RETURN_ZVAL(model, 1, 0);
 }
 
 /**
@@ -218,7 +288,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, columns){
 }
 
 /**
- * Adds a INNER join to the query
+ * Adds a join to the query
  *
  *<code>
  *	$criteria->join('Robots');
@@ -243,23 +313,23 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, join){
 	phalcon_fetch_params(1, 1, 3, &model, &conditions, &alias, &type);
 	
 	if (!conditions) {
-		PHALCON_INIT_VAR(conditions);
+		conditions = PHALCON_GLOBAL(z_null);
 	}
 	
 	if (!alias) {
-		PHALCON_INIT_VAR(alias);
+		alias = PHALCON_GLOBAL(z_null);
 	}
 	
 	if (!type) {
-		PHALCON_INIT_VAR(type);
+		type = PHALCON_GLOBAL(z_null);
 	}
 	
 	PHALCON_INIT_VAR(join);
 	array_init_size(join, 4);
-	phalcon_array_append(&join, model, PH_SEPARATE);
-	phalcon_array_append(&join, conditions, PH_SEPARATE);
-	phalcon_array_append(&join, alias, PH_SEPARATE);
-	phalcon_array_append(&join, type, PH_SEPARATE);
+	phalcon_array_append(&join, model, 0);
+	phalcon_array_append(&join, conditions, 0);
+	phalcon_array_append(&join, alias, 0);
+	phalcon_array_append(&join, type, 0);
 	
 	PHALCON_OBS_VAR(params);
 	phalcon_read_property_this(&params, this_ptr, SL("_params"), PH_NOISY_CC);
@@ -276,7 +346,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, join){
 	} else {
 		PHALCON_INIT_NVAR(merged_joins);
 		array_init_size(merged_joins, 1);
-		phalcon_array_append(&merged_joins, join, PH_SEPARATE);
+		phalcon_array_append(&merged_joins, join, 0);
 	}
 	
 	phalcon_update_property_array_string(this_ptr, SL("_params"), SS("joins"), merged_joins TSRMLS_CC);
@@ -309,11 +379,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, innerJoin){
 	phalcon_fetch_params(1, 1, 2, &model, &conditions, &alias);
 	
 	if (!conditions) {
-		PHALCON_INIT_VAR(conditions);
+		conditions = PHALCON_GLOBAL(z_null);
 	}
 	
 	if (!alias) {
-		PHALCON_INIT_VAR(alias);
+		alias = PHALCON_GLOBAL(z_null);
 	}
 	
 	PHALCON_INIT_VAR(type);
@@ -321,10 +391,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, innerJoin){
 	
 	PHALCON_INIT_VAR(join);
 	array_init_size(join, 4);
-	phalcon_array_append(&join, model, PH_SEPARATE);
-	phalcon_array_append(&join, conditions, PH_SEPARATE);
-	phalcon_array_append(&join, alias, PH_SEPARATE);
-	phalcon_array_append(&join, type, PH_SEPARATE);
+	phalcon_array_append(&join, model, 0);
+	phalcon_array_append(&join, conditions, 0);
+	phalcon_array_append(&join, alias, 0);
+	phalcon_array_append(&join, type, 0);
 	
 	PHALCON_OBS_VAR(params);
 	phalcon_read_property_this(&params, this_ptr, SL("_params"), PH_NOISY_CC);
@@ -371,11 +441,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, leftJoin){
 	phalcon_fetch_params(1, 1, 2, &model, &conditions, &alias);
 	
 	if (!conditions) {
-		PHALCON_INIT_VAR(conditions);
+		conditions = PHALCON_GLOBAL(z_null);
 	}
 	
 	if (!alias) {
-		PHALCON_INIT_VAR(alias);
+		alias = PHALCON_GLOBAL(z_null);
 	}
 	
 	PHALCON_INIT_VAR(type);
@@ -383,10 +453,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, leftJoin){
 	
 	PHALCON_INIT_VAR(join);
 	array_init_size(join, 4);
-	phalcon_array_append(&join, model, PH_SEPARATE);
-	phalcon_array_append(&join, conditions, PH_SEPARATE);
-	phalcon_array_append(&join, alias, PH_SEPARATE);
-	phalcon_array_append(&join, type, PH_SEPARATE);
+	phalcon_array_append(&join, model, 0);
+	phalcon_array_append(&join, conditions, 0);
+	phalcon_array_append(&join, alias, 0);
+	phalcon_array_append(&join, type, 0);
 	
 	PHALCON_OBS_VAR(params);
 	phalcon_read_property_this(&params, this_ptr, SL("_params"), PH_NOISY_CC);
@@ -433,11 +503,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, rightJoin){
 	phalcon_fetch_params(1, 1, 2, &model, &conditions, &alias);
 	
 	if (!conditions) {
-		PHALCON_INIT_VAR(conditions);
+		conditions = PHALCON_GLOBAL(z_null);
 	}
 	
 	if (!alias) {
-		PHALCON_INIT_VAR(alias);
+		alias = PHALCON_GLOBAL(z_null);
 	}
 	
 	PHALCON_INIT_VAR(type);
@@ -445,10 +515,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, rightJoin){
 	
 	PHALCON_INIT_VAR(join);
 	array_init_size(join, 4);
-	phalcon_array_append(&join, model, PH_SEPARATE);
-	phalcon_array_append(&join, conditions, PH_SEPARATE);
-	phalcon_array_append(&join, alias, PH_SEPARATE);
-	phalcon_array_append(&join, type, PH_SEPARATE);
+	phalcon_array_append(&join, model, 0);
+	phalcon_array_append(&join, conditions, 0);
+	phalcon_array_append(&join, alias, 0);
+	phalcon_array_append(&join, type, 0);
 	
 	PHALCON_OBS_VAR(params);
 	phalcon_read_property_this(&params, this_ptr, SL("_params"), PH_NOISY_CC);
@@ -492,11 +562,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, where){
 	phalcon_fetch_params(1, 1, 2, &conditions, &bind_params, &bind_types);
 	
 	if (!bind_params) {
-		PHALCON_INIT_VAR(bind_params);
+		bind_params = PHALCON_GLOBAL(z_null);
 	}
 	
 	if (!bind_types) {
-		PHALCON_INIT_VAR(bind_types);
+		bind_types = PHALCON_GLOBAL(z_null);
 	}
 	
 	if (Z_TYPE_P(conditions) != IS_STRING) {
@@ -556,25 +626,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, where){
  * @param array $bindTypes
  * @return Phalcon\Mvc\Model\CriteriaInterface
  */
-PHP_METHOD(Phalcon_Mvc_Model_Criteria, addWhere){
-
-	zval *conditions, *bind_params = NULL, *bind_types = NULL;
-
-	PHALCON_MM_GROW();
-
-	phalcon_fetch_params(1, 1, 2, &conditions, &bind_params, &bind_types);
-	
-	if (!bind_params) {
-		PHALCON_INIT_VAR(bind_params);
-	}
-	
-	if (!bind_types) {
-		PHALCON_INIT_VAR(bind_types);
-	}
-	
-	phalcon_call_method_p3_noret(this_ptr, "andwhere", conditions, bind_params, bind_types);
-	RETURN_THIS();
-}
+PHALCON_DOC_METHOD(Phalcon_Mvc_Model_Criteria, addWhere);
 
 /**
  * Appends a condition to the current conditions using an AND operator
@@ -596,11 +648,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, andWhere){
 	phalcon_fetch_params(1, 1, 2, &conditions, &bind_params, &bind_types);
 	
 	if (!bind_params) {
-		PHALCON_INIT_VAR(bind_params);
+		bind_params = PHALCON_GLOBAL(z_null);
 	}
 	
 	if (!bind_types) {
-		PHALCON_INIT_VAR(bind_types);
+		bind_types = PHALCON_GLOBAL(z_null);
 	}
 	
 	if (Z_TYPE_P(conditions) != IS_STRING) {
@@ -685,11 +737,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, orWhere){
 	phalcon_fetch_params(1, 1, 2, &conditions, &bind_params, &bind_types);
 	
 	if (!bind_params) {
-		PHALCON_INIT_VAR(bind_params);
+		bind_params = PHALCON_GLOBAL(z_null);
 	}
 	
 	if (!bind_types) {
-		PHALCON_INIT_VAR(bind_types);
+		bind_types = PHALCON_GLOBAL(z_null);
 	}
 	
 	if (Z_TYPE_P(conditions) != IS_STRING) {
@@ -768,7 +820,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, orWhere){
  */
 PHP_METHOD(Phalcon_Mvc_Model_Criteria, betweenWhere){
 
-	zval *expr, *minimum, *maximum, *hidden_param, *one;
+	zval *expr, *minimum, *maximum, *hidden_param;
 	zval *next_hidden_param, *minimum_key, *maximum_key;
 	zval *conditions, *bind_params;
 
@@ -779,11 +831,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, betweenWhere){
 	PHALCON_OBS_VAR(hidden_param);
 	phalcon_read_property_this(&hidden_param, this_ptr, SL("_hiddenParamNumber"), PH_NOISY_CC);
 	
-	PHALCON_INIT_VAR(one);
-	ZVAL_LONG(one, 1);
-	
 	PHALCON_INIT_VAR(next_hidden_param);
-	phalcon_add_function(next_hidden_param, hidden_param, one TSRMLS_CC);
+	phalcon_add_function(next_hidden_param, hidden_param, PHALCON_GLOBAL(z_one) TSRMLS_CC);
 	
 	/** 
 	 * Minimum key with auto bind-params
@@ -805,8 +854,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, betweenWhere){
 	
 	PHALCON_INIT_VAR(bind_params);
 	array_init_size(bind_params, 2);
-	phalcon_array_update_zval(&bind_params, minimum_key, &minimum, PH_COPY | PH_SEPARATE);
-	phalcon_array_update_zval(&bind_params, maximum_key, &maximum, PH_COPY | PH_SEPARATE);
+	phalcon_array_update_zval(&bind_params, minimum_key, &minimum, PH_COPY);
+	phalcon_array_update_zval(&bind_params, maximum_key, &maximum, PH_COPY);
 	
 	/** 
 	 * Append the BETWEEN to the current conditions using and 'and'
@@ -831,7 +880,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, betweenWhere){
  */
 PHP_METHOD(Phalcon_Mvc_Model_Criteria, notBetweenWhere){
 
-	zval *expr, *minimum, *maximum, *hidden_param, *one;
+	zval *expr, *minimum, *maximum, *hidden_param;
 	zval *next_hidden_param, *minimum_key, *maximum_key;
 	zval *conditions, *bind_params;
 
@@ -842,11 +891,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, notBetweenWhere){
 	PHALCON_OBS_VAR(hidden_param);
 	phalcon_read_property_this(&hidden_param, this_ptr, SL("_hiddenParamNumber"), PH_NOISY_CC);
 	
-	PHALCON_INIT_VAR(one);
-	ZVAL_LONG(one, 1);
-	
 	PHALCON_INIT_VAR(next_hidden_param);
-	phalcon_add_function(next_hidden_param, hidden_param, one TSRMLS_CC);
+	phalcon_add_function(next_hidden_param, hidden_param, PHALCON_GLOBAL(z_one) TSRMLS_CC);
 	
 	/** 
 	 * Minimum key with auto bind-params
@@ -1063,20 +1109,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, conditions){
  * @param string $orderColumns
  * @return Phalcon\Mvc\Model\CriteriaInterface
  */
-PHP_METHOD(Phalcon_Mvc_Model_Criteria, order){
-
-	zval *order_columns;
-
-	phalcon_fetch_params(0, 1, 0, &order_columns);
-	
-	if (Z_TYPE_P(order_columns) != IS_STRING) {
-		PHALCON_THROW_EXCEPTION_STRW(phalcon_mvc_model_exception_ce, "Order columns must be string");
-		return;
-	}
-	phalcon_update_property_array_string(this_ptr, SL("_params"), SS("order"), order_columns TSRMLS_CC);
-	
-	RETURN_THISW();
-}
+PHALCON_DOC_METHOD(Phalcon_Mvc_Model_Criteria, order)
 
 /**
  * Adds the order-by parameter to the criteria
@@ -1115,7 +1148,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, limit){
 	phalcon_fetch_params(1, 1, 1, &limit, &offset);
 	
 	if (!offset) {
-		PHALCON_INIT_VAR(offset);
+		offset = PHALCON_GLOBAL(z_null);
 	}
 	
 	if (!phalcon_is_numeric(limit)) {
@@ -1127,8 +1160,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, limit){
 	} else {
 		PHALCON_INIT_VAR(limit_clause);
 		array_init_size(limit_clause, 2);
-		phalcon_array_update_string(&limit_clause, SL("number"), &limit, PH_COPY | PH_SEPARATE);
-		phalcon_array_update_string(&limit_clause, SL("offset"), &offset, PH_COPY | PH_SEPARATE);
+		phalcon_array_update_string(&limit_clause, SL("number"), &limit, PH_COPY);
+		phalcon_array_update_string(&limit_clause, SL("offset"), &offset, PH_COPY);
 		phalcon_update_property_array_string(this_ptr, SL("_params"), SS("limit"), limit_clause TSRMLS_CC);
 	}
 	
@@ -1145,17 +1178,14 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, forUpdate){
 
 	zval *for_update = NULL;
 
-	PHALCON_MM_GROW();
-
-	phalcon_fetch_params(1, 0, 1, &for_update);
+	phalcon_fetch_params(0, 0, 1, &for_update);
 	
 	if (!for_update) {
-		PHALCON_INIT_VAR(for_update);
-		ZVAL_BOOL(for_update, 1);
+		for_update = PHALCON_GLOBAL(z_true);
 	}
 	
 	phalcon_update_property_array_string(this_ptr, SL("_params"), SS("for_update"), for_update TSRMLS_CC);
-	RETURN_THIS();
+	RETURN_THISW();
 }
 
 /**
@@ -1168,17 +1198,14 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, sharedLock){
 
 	zval *shared_lock = NULL;
 
-	PHALCON_MM_GROW();
-
-	phalcon_fetch_params(1, 0, 1, &shared_lock);
+	phalcon_fetch_params(0, 0, 1, &shared_lock);
 	
 	if (!shared_lock) {
-		PHALCON_INIT_VAR(shared_lock);
-		ZVAL_BOOL(shared_lock, 1);
+		shared_lock = PHALCON_GLOBAL(z_true);
 	}
 	
 	phalcon_update_property_array_string(this_ptr, SL("_params"), SS("shared_lock"), shared_lock TSRMLS_CC);
-	RETURN_THIS();
+	RETURN_THISW();
 }
 
 /**
@@ -1190,17 +1217,12 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, getWhere){
 
 	zval *params, *conditions;
 
-	PHALCON_MM_GROW();
-
-	PHALCON_OBS_VAR(params);
-	phalcon_read_property_this(&params, this_ptr, SL("_params"), PH_NOISY_CC);
-	if (phalcon_array_isset_string(params, SS("conditions"))) {
-		PHALCON_OBS_VAR(conditions);
-		phalcon_array_fetch_string(&conditions, params, SL("conditions"), PH_NOISY);
-		RETURN_CCTOR(conditions);
+	params = phalcon_fetch_nproperty_this(this_ptr, SL("_params"), PH_NOISY_CC);
+	if (phalcon_array_isset_string_fetch(&conditions, params, SS("conditions"))) {
+		RETURN_ZVAL(conditions, 1, 0);
 	}
 	
-	RETURN_MM_NULL();
+	RETURN_NULL();
 }
 
 /**
@@ -1212,17 +1234,12 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, getColumns){
 
 	zval *params, *columns;
 
-	PHALCON_MM_GROW();
-
-	PHALCON_OBS_VAR(params);
-	phalcon_read_property_this(&params, this_ptr, SL("_params"), PH_NOISY_CC);
-	if (phalcon_array_isset_string(params, SS("columns"))) {
-		PHALCON_OBS_VAR(columns);
-		phalcon_array_fetch_string(&columns, params, SL("columns"), PH_NOISY);
-		RETURN_CCTOR(columns);
+	params = phalcon_fetch_nproperty_this(this_ptr, SL("_params"), PH_NOISY_CC);
+	if (phalcon_array_isset_string_fetch(&columns, params, SS("columns"))) {
+		RETURN_ZVAL(columns, 1, 0);
 	}
 	
-	RETURN_MM_NULL();
+	RETURN_NULL();
 }
 
 /**
@@ -1234,17 +1251,12 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, getConditions){
 
 	zval *params, *conditions;
 
-	PHALCON_MM_GROW();
-
-	PHALCON_OBS_VAR(params);
-	phalcon_read_property_this(&params, this_ptr, SL("_params"), PH_NOISY_CC);
-	if (phalcon_array_isset_string(params, SS("conditions"))) {
-		PHALCON_OBS_VAR(conditions);
-		phalcon_array_fetch_string(&conditions, params, SL("conditions"), PH_NOISY);
-		RETURN_CCTOR(conditions);
+	params = phalcon_fetch_nproperty_this(this_ptr, SL("_params"), PH_NOISY_CC);
+	if (phalcon_array_isset_string_fetch(&conditions, params, SS("conditions"))) {
+		RETURN_ZVAL(conditions, 1, 0);
 	}
 	
-	RETURN_MM_NULL();
+	RETURN_NULL();
 }
 
 /**
@@ -1254,19 +1266,14 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, getConditions){
  */
 PHP_METHOD(Phalcon_Mvc_Model_Criteria, getLimit){
 
-	zval *params, *conditions;
+	zval *params, *limit;
 
-	PHALCON_MM_GROW();
-
-	PHALCON_OBS_VAR(params);
-	phalcon_read_property_this(&params, this_ptr, SL("_params"), PH_NOISY_CC);
-	if (phalcon_array_isset_string(params, SS("limit"))) {
-		PHALCON_OBS_VAR(conditions);
-		phalcon_array_fetch_string(&conditions, params, SL("limit"), PH_NOISY);
-		RETURN_CCTOR(conditions);
+	params = phalcon_fetch_nproperty_this(this_ptr, SL("_params"), PH_NOISY_CC);
+	if (phalcon_array_isset_string_fetch(&limit, params, SS("limit"))) {
+		RETURN_ZVAL(limit, 1, 0);
 	}
 	
-	RETURN_MM_NULL();
+	RETURN_NULL();
 }
 
 /**
@@ -1276,19 +1283,14 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, getLimit){
  */
 PHP_METHOD(Phalcon_Mvc_Model_Criteria, getOrder){
 
-	zval *params, *conditions;
+	zval *params, *order;
 
-	PHALCON_MM_GROW();
-
-	PHALCON_OBS_VAR(params);
-	phalcon_read_property_this(&params, this_ptr, SL("_params"), PH_NOISY_CC);
-	if (phalcon_array_isset_string(params, SS("order"))) {
-		PHALCON_OBS_VAR(conditions);
-		phalcon_array_fetch_string(&conditions, params, SL("order"), PH_NOISY);
-		RETURN_CCTOR(conditions);
+	params = phalcon_fetch_nproperty_this(this_ptr, SL("_params"), PH_NOISY_CC);
+	if (phalcon_array_isset_string_fetch(&order, params, SS("order"))) {
+		RETURN_ZVAL(order, 1, 0);
 	}
 	
-	RETURN_MM_NULL();
+	RETURN_NULL();
 }
 
 /**
@@ -1313,7 +1315,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, getParams){
 PHP_METHOD(Phalcon_Mvc_Model_Criteria, fromInput){
 
 	zval *dependency_injector, *model_name, *data;
-	zval *conditions = NULL, *service, *meta_data, *model;
+	zval *conditions, *service, *meta_data, *model;
 	zval *data_types, *bind, *value = NULL, *field = NULL, *type = NULL, *condition = NULL;
 	zval *value_pattern = NULL, *join_conditions;
 	HashTable *ah0;
@@ -1334,15 +1336,16 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, fromInput){
 		return;
 	}
 	
-	if (phalcon_fast_count_ev(data TSRMLS_CC)) {
-		PHALCON_INIT_VAR(conditions);
-		array_init(conditions);
+	object_init_ex(return_value, phalcon_mvc_model_criteria_ce);
+
+	if (zend_hash_num_elements(Z_ARRVAL_P(data))) {
 	
 		PHALCON_INIT_VAR(service);
-		ZVAL_STRING(service, "modelsMetadata", 1);
+		PHALCON_ZVAL_MAYBE_INTERNED_STRING(service, phalcon_interned_modelsMetadata);
 	
 		PHALCON_INIT_VAR(meta_data);
 		phalcon_call_method_p1(meta_data, dependency_injector, "getshared", service);
+		PHALCON_VERIFY_INTERFACE(meta_data, phalcon_mvc_model_metadatainterface_ce);
 		ce0 = phalcon_fetch_class(model_name TSRMLS_CC);
 	
 		PHALCON_INIT_VAR(model);
@@ -1357,6 +1360,9 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, fromInput){
 		PHALCON_INIT_VAR(bind);
 		array_init(bind);
 	
+		PHALCON_INIT_VAR(conditions);
+		array_init(conditions);
+
 		/** 
 		 * We look for attributes in the array passed as data
 		 */
@@ -1382,17 +1388,17 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, fromInput){
 	
 							PHALCON_INIT_NVAR(value_pattern);
 							PHALCON_CONCAT_SVS(value_pattern, "%", value, "%");
-							phalcon_array_update_zval(&bind, field, &value_pattern, PH_COPY | PH_SEPARATE);
+							phalcon_array_update_zval(&bind, field, &value_pattern, PH_COPY);
 						} else {
 							/** 
 							 * For the rest of data types we use a plain = operator
 							 */
 							PHALCON_INIT_NVAR(condition);
 							PHALCON_CONCAT_VSVS(condition, field, "=:", field, ":");
-							phalcon_array_update_zval(&bind, field, &value, PH_COPY | PH_SEPARATE);
+							phalcon_array_update_zval(&bind, field, &value, PH_COPY);
 						}
 	
-						phalcon_array_append(&conditions, condition, PH_SEPARATE);
+						phalcon_array_append(&conditions, condition, 0);
 					}
 				}
 			}
@@ -1400,17 +1406,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, fromInput){
 			zend_hash_move_forward_ex(ah0, &hp0);
 		}
 	
-	}
-	
-	/** 
-	 * Create an object instance and pass the paramaters to it
-	 */
-	object_init_ex(return_value, phalcon_mvc_model_criteria_ce);
-	if (conditions && phalcon_fast_count_ev(conditions TSRMLS_CC)) {
-		PHALCON_INIT_VAR(join_conditions);
-		phalcon_fast_join_str(join_conditions, SL(" AND "), conditions TSRMLS_CC);
-		phalcon_call_method_p1_noret(return_value, "where", join_conditions);
-		phalcon_call_method_p1_noret(return_value, "bind", bind);
+		if (zend_hash_num_elements(Z_ARRVAL_P(conditions))) {
+			PHALCON_INIT_VAR(join_conditions);
+			phalcon_fast_join_str(join_conditions, SL(" AND "), conditions TSRMLS_CC);
+			phalcon_call_method_p2_noret(return_value, "where", join_conditions, bind);
+		}
 	}
 	
 	phalcon_call_method_p1_noret(return_value, "setmodelname", model_name);
@@ -1424,12 +1424,12 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, fromInput){
  */
 PHP_METHOD(Phalcon_Mvc_Model_Criteria, execute){
 
-	zval *model, *params, *resultset;
+	zval *model, *params;
+	zend_class_entry *ce;
 
 	PHALCON_MM_GROW();
 
-	PHALCON_OBS_VAR(model);
-	phalcon_read_property_this(&model, this_ptr, SL("_model"), PH_NOISY_CC);
+	model = phalcon_fetch_nproperty_this(this_ptr, SL("_model"), PH_NOISY_CC);
 	if (Z_TYPE_P(model) != IS_STRING) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Model name must be string");
 		return;
@@ -1438,9 +1438,13 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, execute){
 	PHALCON_INIT_VAR(params);
 	phalcon_call_method(params, this_ptr, "getparams");
 	
-	PHALCON_INIT_VAR(resultset);
-	phalcon_call_zval_str_static_p1(resultset, model, "find", params);
-	
-	RETURN_CCTOR(resultset);
-}
+	ce = phalcon_fetch_class(model TSRMLS_CC);
+	if (!ce) {
+		zend_throw_exception_ex(phalcon_mvc_model_exception_ce, 0 TSRMLS_CC, "Class '%s' does not exist", Z_STRVAL_P(model));
+		RETURN_MM();
+	}
 
+	phalcon_call_ce_static_p1(return_value, ce, "find", params);
+	
+	PHALCON_MM_RESTORE();
+}

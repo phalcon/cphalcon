@@ -3,7 +3,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2013 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -17,15 +17,39 @@
   +------------------------------------------------------------------------+
 */
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
-
-#include "php.h"
-#include "php_phalcon.h"
-#include "phalcon.h"
-
+#include "mvc/model/criteriainterface.h"
 #include "kernel/main.h"
+
+zend_class_entry *phalcon_mvc_model_criteriainterface_ce;
+
+static const zend_function_entry phalcon_mvc_model_criteriainterface_method_entry[] = {
+	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_CriteriaInterface, setModelName, arginfo_phalcon_mvc_model_criteriainterface_setmodelname)
+	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_CriteriaInterface, getModelName, NULL)
+	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_CriteriaInterface, bind, arginfo_phalcon_mvc_model_criteriainterface_bind)
+	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_CriteriaInterface, bindTypes, arginfo_phalcon_mvc_model_criteriainterface_bindtypes)
+	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_CriteriaInterface, columns, arginfo_phalcon_mvc_model_criteriainterface_columns)
+	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_CriteriaInterface, join, arginfo_phalcon_mvc_model_criteriainterface_join)
+	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_CriteriaInterface, where, arginfo_phalcon_mvc_model_criteriainterface_where)
+	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_CriteriaInterface, conditions, arginfo_phalcon_mvc_model_criteriainterface_conditions)
+	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_CriteriaInterface, orderBy, arginfo_phalcon_mvc_model_criteriainterface_orderby)
+	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_CriteriaInterface, limit, arginfo_phalcon_mvc_model_criteriainterface_limit)
+	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_CriteriaInterface, forUpdate, arginfo_phalcon_mvc_model_criteriainterface_forupdate)
+	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_CriteriaInterface, sharedLock, arginfo_phalcon_mvc_model_criteriainterface_sharedlock)
+	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_CriteriaInterface, andWhere, arginfo_phalcon_mvc_model_criteriainterface_andwhere)
+	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_CriteriaInterface, orWhere, arginfo_phalcon_mvc_model_criteriainterface_orwhere)
+	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_CriteriaInterface, betweenWhere, arginfo_phalcon_mvc_model_criteriainterface_betweenwhere)
+	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_CriteriaInterface, notBetweenWhere, arginfo_phalcon_mvc_model_criteriainterface_notbetweenwhere)
+	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_CriteriaInterface, inWhere, arginfo_phalcon_mvc_model_criteriainterface_inwhere)
+	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_CriteriaInterface, notInWhere, arginfo_phalcon_mvc_model_criteriainterface_notinwhere)
+	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_CriteriaInterface, getWhere, NULL)
+	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_CriteriaInterface, getConditions, NULL)
+	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_CriteriaInterface, getLimit, NULL)
+	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_CriteriaInterface, getOrder, NULL)
+	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_CriteriaInterface, getParams, NULL)
+	ZEND_FENTRY(fromInput, NULL, arginfo_phalcon_mvc_model_criteriainterface_frominput, ZEND_ACC_STATIC|ZEND_ACC_ABSTRACT|ZEND_ACC_PUBLIC)
+	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_CriteriaInterface, execute, NULL)
+	PHP_FE_END
+};
 
 /**
  * Phalcon\Mvc\Model\CriteriaInterface initializer
@@ -142,7 +166,7 @@ PHALCON_DOC_METHOD(Phalcon_Mvc_Model_CriteriaInterface, orWhere);
  * Appends a BETWEEN condition to the current conditions
  *
  *<code>
- *	$builder->betweenWhere('price', 100.25, 200.50);
+ *	$criteria->betweenWhere('price', 100.25, 200.50);
  *</code>
  *
  * @param string $expr
@@ -156,7 +180,7 @@ PHALCON_DOC_METHOD(Phalcon_Mvc_Model_CriteriaInterface, betweenWhere);
  * Appends a NOT BETWEEN condition to the current conditions
  *
  *<code>
- *	$builder->notBetweenWhere('price', 100.25, 200.50);
+ *	$criteria->notBetweenWhere('price', 100.25, 200.50);
  *</code>
  *
  * @param string $expr
@@ -170,7 +194,7 @@ PHALCON_DOC_METHOD(Phalcon_Mvc_Model_CriteriaInterface, notBetweenWhere);
  * Appends an IN condition to the current conditions
  *
  *<code>
- *	$builder->inWhere('id', [1, 2, 3]);
+ *	$criteria->inWhere('id', [1, 2, 3]);
  *</code>
  *
  * @param string $expr
@@ -183,7 +207,7 @@ PHALCON_DOC_METHOD(Phalcon_Mvc_Model_CriteriaInterface, inWhere);
  * Appends a NOT IN condition to the current conditions
  *
  *<code>
- *	$builder->notInWhere('id', [1, 2, 3]);
+ *	$criteria->notInWhere('id', [1, 2, 3]);
  *</code>
  *
  * @param string $expr
@@ -244,3 +268,32 @@ PHALCON_DOC_METHOD(Phalcon_Mvc_Model_CriteriaInterface, fromInput);
  */
 PHALCON_DOC_METHOD(Phalcon_Mvc_Model_CriteriaInterface, execute);
 
+/**
+ * Sets the columns to be queried
+ *
+ *<code>
+ *	$criteria->columns(array('id', 'name'));
+ *</code>
+ *
+ * @param string|array $columns
+ * @return Phalcon\Mvc\Model\CriteriaInterface
+ */
+PHALCON_DOC_METHOD(Phalcon_Mvc_Model_CriteriaInterface, columns);
+
+/**
+ * Adds a join to the query
+ *
+ *<code>
+ *	$criteria->join('Robots');
+ *	$criteria->join('Robots', 'r.id = RobotsParts.robots_id');
+ *	$criteria->join('Robots', 'r.id = RobotsParts.robots_id', 'r');
+ *	$criteria->join('Robots', 'r.id = RobotsParts.robots_id', 'r', 'LEFT');
+ *</code>
+ *
+ * @param string $model
+ * @param string $conditions
+ * @param string $alias
+ * @param string $type
+ * @return Phalcon\Mvc\Model\CriteriaInterface
+ */
+PHALCON_DOC_METHOD(Phalcon_Mvc_Model_CriteriaInterface, join)

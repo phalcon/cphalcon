@@ -3,7 +3,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2013 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -17,21 +17,13 @@
   +------------------------------------------------------------------------+
 */
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
-
-#include "php.h"
-#include "php_phalcon.h"
-#include "phalcon.h"
-
-#include "Zend/zend_operators.h"
-#include "Zend/zend_exceptions.h"
-#include "Zend/zend_interfaces.h"
+#include "mvc/micro/collection.h"
+#include "mvc/micro/collectioninterface.h"
+#include "interned-strings.h"
 
 #include "kernel/main.h"
 #include "kernel/memory.h"
-
+#include "kernel/string.h"
 #include "kernel/array.h"
 #include "kernel/object.h"
 #include "kernel/fcall.h"
@@ -56,7 +48,42 @@
  *</code>
  *
  */
+zend_class_entry *phalcon_mvc_micro_collection_ce;
 
+PHP_METHOD(Phalcon_Mvc_Micro_Collection, setPrefix);
+PHP_METHOD(Phalcon_Mvc_Micro_Collection, getPrefix);
+PHP_METHOD(Phalcon_Mvc_Micro_Collection, getHandlers);
+PHP_METHOD(Phalcon_Mvc_Micro_Collection, setHandler);
+PHP_METHOD(Phalcon_Mvc_Micro_Collection, setLazy);
+PHP_METHOD(Phalcon_Mvc_Micro_Collection, isLazy);
+PHP_METHOD(Phalcon_Mvc_Micro_Collection, getHandler);
+PHP_METHOD(Phalcon_Mvc_Micro_Collection, map);
+PHP_METHOD(Phalcon_Mvc_Micro_Collection, get);
+PHP_METHOD(Phalcon_Mvc_Micro_Collection, post);
+PHP_METHOD(Phalcon_Mvc_Micro_Collection, put);
+PHP_METHOD(Phalcon_Mvc_Micro_Collection, patch);
+PHP_METHOD(Phalcon_Mvc_Micro_Collection, head);
+PHP_METHOD(Phalcon_Mvc_Micro_Collection, delete);
+PHP_METHOD(Phalcon_Mvc_Micro_Collection, options);
+
+static const zend_function_entry phalcon_mvc_micro_collection_method_entry[] = {
+	PHP_ME(Phalcon_Mvc_Micro_Collection, setPrefix, arginfo_phalcon_mvc_micro_collectioninterface_setprefix, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Micro_Collection, getPrefix, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Micro_Collection, getHandlers, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Micro_Collection, setHandler, arginfo_phalcon_mvc_micro_collectioninterface_sethandler, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Micro_Collection, setLazy, arginfo_phalcon_mvc_micro_collectioninterface_setlazy, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Micro_Collection, isLazy, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Micro_Collection, getHandler, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Micro_Collection, map, arginfo_phalcon_mvc_micro_collectioninterface_map, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Micro_Collection, get, arginfo_phalcon_mvc_micro_collectioninterface_get, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Micro_Collection, post, arginfo_phalcon_mvc_micro_collectioninterface_post, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Micro_Collection, put, arginfo_phalcon_mvc_micro_collectioninterface_put, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Micro_Collection, patch, arginfo_phalcon_mvc_micro_collectioninterface_patch, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Micro_Collection, head, arginfo_phalcon_mvc_micro_collectioninterface_head, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Micro_Collection, delete, arginfo_phalcon_mvc_micro_collectioninterface_delete, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Micro_Collection, options, arginfo_phalcon_mvc_micro_collectioninterface_options, ZEND_ACC_PUBLIC)
+	PHP_FE_END
+};
 
 /**
  * Phalcon\Mvc\Micro\Collection initializer
@@ -148,18 +175,15 @@ PHP_METHOD(Phalcon_Mvc_Micro_Collection, setHandler){
 
 	zval *handler, *lazy = NULL;
 
-	PHALCON_MM_GROW();
-
-	phalcon_fetch_params(1, 1, 1, &handler, &lazy);
+	phalcon_fetch_params(0, 1, 1, &handler, &lazy);
 	
 	if (!lazy) {
-		PHALCON_INIT_VAR(lazy);
-		ZVAL_FALSE(lazy);
+		lazy = PHALCON_GLOBAL(z_false);
 	}
 	
 	phalcon_update_property_this(this_ptr, SL("_handler"), handler TSRMLS_CC);
 	phalcon_update_property_this(this_ptr, SL("_lazy"), lazy TSRMLS_CC);
-	RETURN_THIS();
+	RETURN_THISW();
 }
 
 /**
@@ -233,7 +257,7 @@ PHP_METHOD(Phalcon_Mvc_Micro_Collection, get){
 	phalcon_fetch_params(0, 2, 0, &route_pattern, &handler);
 	
 	ALLOC_INIT_ZVAL(method);
-	ZVAL_STRING(method, "GET", 1);
+	PHALCON_ZVAL_MAYBE_INTERNED_STRING(method, phalcon_interned_GET);
 	phalcon_mvc_collection_addmap(getThis(), method, route_pattern, handler TSRMLS_CC);
 	zval_ptr_dtor(&method);
 	RETURN_ZVAL(getThis(), 1, 0);
@@ -253,7 +277,7 @@ PHP_METHOD(Phalcon_Mvc_Micro_Collection, post){
 	phalcon_fetch_params(0, 2, 0, &route_pattern, &handler);
 	
 	ALLOC_INIT_ZVAL(method);
-	ZVAL_STRING(method, "POST", 1);
+	PHALCON_ZVAL_MAYBE_INTERNED_STRING(method, phalcon_interned_POST);
 	phalcon_mvc_collection_addmap(getThis(), method, route_pattern, handler TSRMLS_CC);
 	zval_ptr_dtor(&method);
 	RETURN_ZVAL(getThis(), 1, 0);
@@ -273,7 +297,7 @@ PHP_METHOD(Phalcon_Mvc_Micro_Collection, put){
 	phalcon_fetch_params(0, 2, 0, &route_pattern, &handler);
 	
 	ALLOC_INIT_ZVAL(method);
-	ZVAL_STRING(method, "PUT", 1);
+	PHALCON_ZVAL_MAYBE_INTERNED_STRING(method, phalcon_interned_PUT);
 	phalcon_mvc_collection_addmap(getThis(), method, route_pattern, handler TSRMLS_CC);
 	zval_ptr_dtor(&method);
 	RETURN_ZVAL(getThis(), 1, 0);
@@ -293,7 +317,7 @@ PHP_METHOD(Phalcon_Mvc_Micro_Collection, patch){
 	phalcon_fetch_params(0, 2, 0, &route_pattern, &handler);
 	
 	ALLOC_INIT_ZVAL(method);
-	ZVAL_STRING(method, "PATCH", 1);
+	PHALCON_ZVAL_MAYBE_INTERNED_STRING(method, phalcon_interned_PATCH);
 	phalcon_mvc_collection_addmap(getThis(), method, route_pattern, handler TSRMLS_CC);
 	zval_ptr_dtor(&method);
 	RETURN_ZVAL(getThis(), 1, 0);
@@ -313,7 +337,7 @@ PHP_METHOD(Phalcon_Mvc_Micro_Collection, head){
 	phalcon_fetch_params(0, 2, 0, &route_pattern, &handler);
 	
 	ALLOC_INIT_ZVAL(method);
-	ZVAL_STRING(method, "HEAD", 1);
+	PHALCON_ZVAL_MAYBE_INTERNED_STRING(method, phalcon_interned_HEAD);
 	phalcon_mvc_collection_addmap(getThis(), method, route_pattern, handler TSRMLS_CC);
 	zval_ptr_dtor(&method);
 	RETURN_ZVAL(getThis(), 1, 0);
@@ -333,7 +357,7 @@ PHP_METHOD(Phalcon_Mvc_Micro_Collection, delete){
 	phalcon_fetch_params(0, 2, 0, &route_pattern, &handler);
 	
 	ALLOC_INIT_ZVAL(method);
-	ZVAL_STRING(method, "DELETE", 1);
+	PHALCON_ZVAL_MAYBE_INTERNED_STRING(method, phalcon_interned_DELETE);
 	phalcon_mvc_collection_addmap(getThis(), method, route_pattern, handler TSRMLS_CC);
 	zval_ptr_dtor(&method);
 	RETURN_ZVAL(getThis(), 1, 0);
@@ -353,7 +377,7 @@ PHP_METHOD(Phalcon_Mvc_Micro_Collection, options){
 	phalcon_fetch_params(0, 2, 0, &route_pattern, &handler);
 	
 	ALLOC_INIT_ZVAL(method);
-	ZVAL_STRING(method, "OPTIONS", 1);
+	PHALCON_ZVAL_MAYBE_INTERNED_STRING(method, phalcon_interned_OPTIONS);
 	phalcon_mvc_collection_addmap(getThis(), method, route_pattern, handler TSRMLS_CC);
 	zval_ptr_dtor(&method);
 	RETURN_ZVAL(getThis(), 1, 0);

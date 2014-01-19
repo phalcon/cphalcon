@@ -79,6 +79,20 @@ class PHPUnit_Framework_TestCase
 		}
 	}
 
+	public function assertCount($cnt, $a)
+	{
+		if (count($a) != $cnt) {
+			throw new Exception('count');
+		}
+	}
+
+	public function assertEmpty($v)
+	{
+		if (!empty($v)) {
+			throw new Exception('not empty');
+		}
+	}
+
 	public function assertGreaterThan($a, $b)
 	{
 		if ($b <= $a){
@@ -89,33 +103,6 @@ class PHPUnit_Framework_TestCase
 	public function markTestSkipped($message)
 	{
 		echo 'Skipped: ' . $message . PHP_EOL;
-	}
-
-	public function assertContainsOnlyInstancesOf($classname, $haystack, $message = '')
-	{
-		if (!(is_array($haystack) || is_object($haystack) && $haystack instanceof Traversable)) {
-			throw new Exception('$haystack has to be an array or iterator');
-		}
-
-		foreach ($haystack as $item) {
-			if (!($item instanceof $classname)) {
-				throw new Exception('assertContainsOnlyInstancesOf');
-			}
-		}
-	}
-
-	public function assertCount($expected, $haystack, $message = '')
-	{
-		if (count($haystack) != $expected) {
-			throw new Exception('assertCount');
-		}
-	}
-
-	public function assertEmpty($haystack, $message = '')
-	{
-		if (!empty($haystack)) {
-			throw new Exception('empty');
-		}
 	}
 
 	public static function main($className)
@@ -130,6 +117,8 @@ class PHPUnit_Framework_TestCase
 
 			$reflectionClass = new ReflectionClass($class);
 			$hasSetup = $reflectionClass->hasMethod('setUp');
+
+			gc_collect_cycles();
 
 			$m = microtime(true);
 			$mm = memory_get_usage(true);

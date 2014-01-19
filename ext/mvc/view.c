@@ -1,9 +1,8 @@
-
 /*
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2013 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -17,21 +16,17 @@
   +------------------------------------------------------------------------+
 */
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
-
-#include "php.h"
-#include "php_phalcon.h"
-#include "phalcon.h"
-
-#include "Zend/zend_operators.h"
-#include "Zend/zend_exceptions.h"
-#include "Zend/zend_interfaces.h"
+#include "mvc/view.h"
+#include "mvc/viewinterface.h"
+#include "mvc/view/engine.h"
+#include "mvc/view/engineinterface.h"
+#include "mvc/view/engine/php.h"
+#include "mvc/view/exception.h"
+#include "cache/backendinterface.h"
+#include "di/injectable.h"
 
 #include "kernel/main.h"
 #include "kernel/memory.h"
-
 #include "kernel/object.h"
 #include "kernel/exception.h"
 #include "kernel/array.h"
@@ -64,19 +59,170 @@
  * echo $view->getContent();
  * </code>
  */
+zend_class_entry *phalcon_mvc_view_ce;
 
+PHP_METHOD(Phalcon_Mvc_View, __construct);
+PHP_METHOD(Phalcon_Mvc_View, setViewsDir);
+PHP_METHOD(Phalcon_Mvc_View, getViewsDir);
+PHP_METHOD(Phalcon_Mvc_View, setLayoutsDir);
+PHP_METHOD(Phalcon_Mvc_View, getLayoutsDir);
+PHP_METHOD(Phalcon_Mvc_View, setPartialsDir);
+PHP_METHOD(Phalcon_Mvc_View, getPartialsDir);
+PHP_METHOD(Phalcon_Mvc_View, setBasePath);
+PHP_METHOD(Phalcon_Mvc_View, getCurrentRenderLevel);
+PHP_METHOD(Phalcon_Mvc_View, getRenderLevel);
+PHP_METHOD(Phalcon_Mvc_View, setRenderLevel);
+PHP_METHOD(Phalcon_Mvc_View, disableLevel);
+PHP_METHOD(Phalcon_Mvc_View, getDisabledLevels);
+PHP_METHOD(Phalcon_Mvc_View, setMainView);
+PHP_METHOD(Phalcon_Mvc_View, getMainView);
+PHP_METHOD(Phalcon_Mvc_View, setLayout);
+PHP_METHOD(Phalcon_Mvc_View, getLayout);
+PHP_METHOD(Phalcon_Mvc_View, setTemplateBefore);
+PHP_METHOD(Phalcon_Mvc_View, cleanTemplateBefore);
+PHP_METHOD(Phalcon_Mvc_View, setTemplateAfter);
+PHP_METHOD(Phalcon_Mvc_View, cleanTemplateAfter);
+PHP_METHOD(Phalcon_Mvc_View, setParamToView);
+PHP_METHOD(Phalcon_Mvc_View, setVars);
+PHP_METHOD(Phalcon_Mvc_View, setVar);
+PHP_METHOD(Phalcon_Mvc_View, getVar);
+PHP_METHOD(Phalcon_Mvc_View, getParamsToView);
+PHP_METHOD(Phalcon_Mvc_View, getControllerName);
+PHP_METHOD(Phalcon_Mvc_View, getActionName);
+PHP_METHOD(Phalcon_Mvc_View, getParams);
+PHP_METHOD(Phalcon_Mvc_View, start);
+PHP_METHOD(Phalcon_Mvc_View, _loadTemplateEngines);
+PHP_METHOD(Phalcon_Mvc_View, _engineRender);
+PHP_METHOD(Phalcon_Mvc_View, registerEngines);
+PHP_METHOD(Phalcon_Mvc_View, getRegisteredEngines);
+PHP_METHOD(Phalcon_Mvc_View, exists);
+PHP_METHOD(Phalcon_Mvc_View, render);
+PHP_METHOD(Phalcon_Mvc_View, pick);
+PHP_METHOD(Phalcon_Mvc_View, partial);
+PHP_METHOD(Phalcon_Mvc_View, getRender);
+PHP_METHOD(Phalcon_Mvc_View, finish);
+PHP_METHOD(Phalcon_Mvc_View, _createCache);
+PHP_METHOD(Phalcon_Mvc_View, isCaching);
+PHP_METHOD(Phalcon_Mvc_View, getCache);
+PHP_METHOD(Phalcon_Mvc_View, cache);
+PHP_METHOD(Phalcon_Mvc_View, setContent);
+PHP_METHOD(Phalcon_Mvc_View, getContent);
+PHP_METHOD(Phalcon_Mvc_View, getActiveRenderPath);
+PHP_METHOD(Phalcon_Mvc_View, disable);
+PHP_METHOD(Phalcon_Mvc_View, enable);
+PHP_METHOD(Phalcon_Mvc_View, isDisabled);
+PHP_METHOD(Phalcon_Mvc_View, reset);
+PHP_METHOD(Phalcon_Mvc_View, __set);
+PHP_METHOD(Phalcon_Mvc_View, __get);
+PHP_METHOD(Phalcon_Mvc_View, __isset);
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_view___construct, 0, 0, 0)
+	ZEND_ARG_INFO(0, options)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_view_disablelevel, 0, 0, 1)
+	ZEND_ARG_INFO(0, level)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_view_setvars, 0, 0, 1)
+	ZEND_ARG_INFO(0, params)
+	ZEND_ARG_INFO(0, merge)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_view_getvar, 0, 0, 1)
+	ZEND_ARG_INFO(0, key)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_view_exists, 0, 0, 1)
+	ZEND_ARG_INFO(0, view)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_view_getrender, 0, 0, 2)
+	ZEND_ARG_INFO(0, controllerName)
+	ZEND_ARG_INFO(0, actionName)
+	ZEND_ARG_INFO(0, params)
+	ZEND_ARG_INFO(0, configCallback)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_view___set, 0, 0, 2)
+	ZEND_ARG_INFO(0, key)
+	ZEND_ARG_INFO(0, value)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_view___get, 0, 0, 1)
+	ZEND_ARG_INFO(0, key)
+ZEND_END_ARG_INFO()
+
+static const zend_function_entry phalcon_mvc_view_method_entry[] = {
+	PHP_ME(Phalcon_Mvc_View, __construct, arginfo_phalcon_mvc_view___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
+	PHP_ME(Phalcon_Mvc_View, setViewsDir, arginfo_phalcon_mvc_viewinterface_setviewsdir, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_View, getViewsDir, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_View, setLayoutsDir, arginfo_phalcon_mvc_viewinterface_setlayoutsdir, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_View, getLayoutsDir, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_View, setPartialsDir, arginfo_phalcon_mvc_viewinterface_setpartialsdir, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_View, getPartialsDir, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_View, setBasePath, arginfo_phalcon_mvc_viewinterface_setbasepath, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_View, getCurrentRenderLevel, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_View, getRenderLevel, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_View, setRenderLevel, arginfo_phalcon_mvc_viewinterface_setrenderlevel, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_View, disableLevel, arginfo_phalcon_mvc_view_disablelevel, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_View, getDisabledLevels, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_View, setMainView, arginfo_phalcon_mvc_viewinterface_setmainview, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_View, getMainView, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_View, setLayout, arginfo_phalcon_mvc_viewinterface_setlayout, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_View, getLayout, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_View, setTemplateBefore, arginfo_phalcon_mvc_viewinterface_settemplatebefore, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_View, cleanTemplateBefore, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_View, setTemplateAfter, arginfo_phalcon_mvc_viewinterface_settemplateafter, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_View, cleanTemplateAfter, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_View, setParamToView, arginfo_phalcon_mvc_viewinterface_setparamtoview, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_View, setVars, arginfo_phalcon_mvc_view_setvars, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_View, setVar, arginfo_phalcon_mvc_viewinterface_setvar, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_View, getVar, arginfo_phalcon_mvc_view_getvar, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_View, getParamsToView, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_View, getControllerName, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_View, getActionName, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_View, getParams, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_View, start, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_View, _loadTemplateEngines, NULL, ZEND_ACC_PROTECTED)
+	PHP_ME(Phalcon_Mvc_View, _engineRender, NULL, ZEND_ACC_PROTECTED)
+	PHP_ME(Phalcon_Mvc_View, registerEngines, arginfo_phalcon_mvc_viewinterface_registerengines, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_View, getRegisteredEngines, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_View, exists, arginfo_phalcon_mvc_view_exists, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_View, render, arginfo_phalcon_mvc_viewinterface_render, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_View, pick, arginfo_phalcon_mvc_viewinterface_pick, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_View, partial, arginfo_phalcon_mvc_viewinterface_partial, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_View, getRender, arginfo_phalcon_mvc_view_getrender, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_View, finish, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_View, _createCache, NULL, ZEND_ACC_PROTECTED)
+	PHP_ME(Phalcon_Mvc_View, isCaching, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_View, getCache, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_View, cache, arginfo_phalcon_mvc_viewinterface_cache, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_View, setContent, arginfo_phalcon_mvc_viewinterface_setcontent, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_View, getContent, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_View, getActiveRenderPath, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_View, disable, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_View, enable, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_View, isDisabled, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_View, reset, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_View, __set, arginfo_phalcon_mvc_view___set, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_View, __get, arginfo_phalcon_mvc_view___get, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_View, __isset, arginfo_phalcon_mvc_view___get, ZEND_ACC_PUBLIC)
+	PHP_FE_END
+};
 
 /**
  * Phalcon\Mvc\View initializer
  */
 PHALCON_INIT_CLASS(Phalcon_Mvc_View){
 
-	PHALCON_REGISTER_CLASS_EX(Phalcon\\Mvc, View, mvc_view, "phalcon\\di\\injectable", phalcon_mvc_view_method_entry, 0);
+	PHALCON_REGISTER_CLASS_EX(Phalcon\\Mvc, View, mvc_view, phalcon_di_injectable_ce, phalcon_mvc_view_method_entry, 0);
 
 	zend_declare_property_null(phalcon_mvc_view_ce, SL("_options"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_string(phalcon_mvc_view_ce, SL("_basePath"), "", ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_string(phalcon_mvc_view_ce, SL("_content"), "", ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_long(phalcon_mvc_view_ce, SL("_renderLevel"), 5, ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_long(phalcon_mvc_view_ce, SL("_currentRenderLevel"), 0, ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_mvc_view_ce, SL("_disabledLevels"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_mvc_view_ce, SL("_viewParams"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_mvc_view_ce, SL("_layout"), ZEND_ACC_PROTECTED TSRMLS_CC);
@@ -118,19 +264,11 @@ PHP_METHOD(Phalcon_Mvc_View, __construct){
 
 	zval *options = NULL;
 
-	PHALCON_MM_GROW();
-
-	phalcon_fetch_params(1, 0, 1, &options);
+	phalcon_fetch_params(0, 0, 1, &options);
 	
-	if (!options) {
-		PHALCON_INIT_VAR(options);
-	}
-	
-	if (Z_TYPE_P(options) == IS_ARRAY) { 
+	if (options && Z_TYPE_P(options) == IS_ARRAY) {
 		phalcon_update_property_this(this_ptr, SL("_options"), options TSRMLS_CC);
 	}
-	
-	PHALCON_MM_RESTORE();
 }
 
 /**
@@ -141,15 +279,11 @@ PHP_METHOD(Phalcon_Mvc_View, __construct){
  */
 PHP_METHOD(Phalcon_Mvc_View, setViewsDir){
 
-	zval *views_dir;
+	zval **views_dir;
 
-	phalcon_fetch_params(0, 1, 0, &views_dir);
-	
-	if (Z_TYPE_P(views_dir) != IS_STRING) {
-		PHALCON_THROW_EXCEPTION_STRW(phalcon_mvc_view_exception_ce, "The views directory must be a string");
-		return;
-	}
-	phalcon_update_property_this(this_ptr, SL("_viewsDir"), views_dir TSRMLS_CC);
+	phalcon_fetch_params_ex(1, 0, &views_dir);
+	phalcon_add_trailing_slash(views_dir);
+	phalcon_update_property_this(this_ptr, SL("_viewsDir"), *views_dir TSRMLS_CC);
 	
 	RETURN_THISW();
 }
@@ -177,11 +311,11 @@ PHP_METHOD(Phalcon_Mvc_View, getViewsDir){
  */
 PHP_METHOD(Phalcon_Mvc_View, setLayoutsDir){
 
-	zval *layouts_dir;
+	zval **layouts_dir;
 
-	phalcon_fetch_params(0, 1, 0, &layouts_dir);
-	
-	phalcon_update_property_this(this_ptr, SL("_layoutsDir"), layouts_dir TSRMLS_CC);
+	phalcon_fetch_params_ex(1, 0, &layouts_dir);
+	phalcon_add_trailing_slash(layouts_dir);
+	phalcon_update_property_this(this_ptr, SL("_layoutsDir"), *layouts_dir TSRMLS_CC);
 	RETURN_THISW();
 }
 
@@ -208,11 +342,11 @@ PHP_METHOD(Phalcon_Mvc_View, getLayoutsDir){
  */
 PHP_METHOD(Phalcon_Mvc_View, setPartialsDir){
 
-	zval *partials_dir;
+	zval **partials_dir;
 
-	phalcon_fetch_params(0, 1, 0, &partials_dir);
-	
-	phalcon_update_property_this(this_ptr, SL("_partialsDir"), partials_dir TSRMLS_CC);
+	phalcon_fetch_params_ex(1, 0, &partials_dir);
+	phalcon_add_trailing_slash(partials_dir);
+	phalcon_update_property_this(this_ptr, SL("_partialsDir"), *partials_dir TSRMLS_CC);
 	RETURN_THISW();
 }
 
@@ -239,12 +373,33 @@ PHP_METHOD(Phalcon_Mvc_View, getPartialsDir){
  */
 PHP_METHOD(Phalcon_Mvc_View, setBasePath){
 
-	zval *base_path;
+	zval **base_path;
 
-	phalcon_fetch_params(0, 1, 0, &base_path);
-	
-	phalcon_update_property_this(this_ptr, SL("_basePath"), base_path TSRMLS_CC);
+	phalcon_fetch_params_ex(1, 0, &base_path);
+
+	phalcon_add_trailing_slash(base_path);
+	phalcon_update_property_this(this_ptr, SL("_basePath"), *base_path TSRMLS_CC);
 	RETURN_THISW();
+}
+
+/**
+ * Returns the render level for the view
+ *
+ * @return int
+ */
+PHP_METHOD(Phalcon_Mvc_View, getCurrentRenderLevel) {
+
+	RETURN_MEMBER(getThis(), "_currentRenderLevel");
+}
+
+/**
+ * Returns the render level for the view
+ *
+ * @return int
+ */
+PHP_METHOD(Phalcon_Mvc_View, getRenderLevel) {
+
+	RETURN_MEMBER(getThis(), "_renderLevel");
 }
 
 /**
@@ -252,7 +407,7 @@ PHP_METHOD(Phalcon_Mvc_View, setBasePath){
  *
  * <code>
  * 	//Render the view related to the controller only
- * 	$this->view->setRenderLevel(View::LEVEL_VIEW);
+ * 	$this->view->setRenderLevel(View::LEVEL_LAYOUT);
  * </code>
  *
  * @param string $level
@@ -281,21 +436,27 @@ PHP_METHOD(Phalcon_Mvc_View, setRenderLevel){
  */
 PHP_METHOD(Phalcon_Mvc_View, disableLevel){
 
-	zval *level, *disabled;
+	zval *level;
 
-	PHALCON_MM_GROW();
-
-	phalcon_fetch_params(1, 1, 0, &level);
+	phalcon_fetch_params(0, 1, 0, &level);
 	
 	if (Z_TYPE_P(level) == IS_ARRAY) { 
 		phalcon_update_property_this(this_ptr, SL("_disabledLevels"), level TSRMLS_CC);
 	} else {
-		PHALCON_INIT_VAR(disabled);
-		ZVAL_BOOL(disabled, 1);
-		phalcon_update_property_array(this_ptr, SL("_disabledLevels"), level, disabled TSRMLS_CC);
+		phalcon_update_property_array(this_ptr, SL("_disabledLevels"), level, PHALCON_GLOBAL(z_true) TSRMLS_CC);
 	}
 	
-	RETURN_THIS();
+	RETURN_THISW();
+}
+
+/**
+ * Returns an array with disabled render levels
+ *
+ * @return array
+ */
+PHP_METHOD(Phalcon_Mvc_View, getDisabledLevels) {
+
+	RETURN_MEMBER(getThis(), "_disabledLevels");
 }
 
 /**
@@ -378,7 +539,7 @@ PHP_METHOD(Phalcon_Mvc_View, setTemplateBefore){
 	if (Z_TYPE_P(template_before) != IS_ARRAY) { 
 		PHALCON_INIT_VAR(array_template);
 		array_init_size(array_template, 1);
-		phalcon_array_append(&array_template, template_before, PH_SEPARATE);
+		phalcon_array_append(&array_template, template_before, 0);
 		phalcon_update_property_this(this_ptr, SL("_templatesBefore"), array_template TSRMLS_CC);
 	} else {
 		phalcon_update_property_this(this_ptr, SL("_templatesBefore"), template_before TSRMLS_CC);
@@ -416,7 +577,7 @@ PHP_METHOD(Phalcon_Mvc_View, setTemplateAfter){
 	if (Z_TYPE_P(template_after) != IS_ARRAY) { 
 		PHALCON_INIT_VAR(array_template);
 		array_init_size(array_template, 1);
-		phalcon_array_append(&array_template, template_after, PH_SEPARATE);
+		phalcon_array_append(&array_template, template_after, 0);
 		phalcon_update_property_this(this_ptr, SL("_templatesAfter"), array_template TSRMLS_CC);
 	} else {
 		phalcon_update_property_this(this_ptr, SL("_templatesAfter"), template_after TSRMLS_CC);
@@ -426,7 +587,7 @@ PHP_METHOD(Phalcon_Mvc_View, setTemplateAfter){
 }
 
 /**
- * Resets any template before layouts
+ * Resets any template after layouts
  *
  * @return Phalcon\Mvc\View
  */
@@ -478,8 +639,7 @@ PHP_METHOD(Phalcon_Mvc_View, setVars){
 	phalcon_fetch_params(1, 1, 1, &params, &merge);
 	
 	if (!merge) {
-		PHALCON_INIT_VAR(merge);
-		ZVAL_BOOL(merge, 1);
+		merge = PHALCON_GLOBAL(z_true);
 	}
 	
 	if (Z_TYPE_P(params) != IS_ARRAY) { 
@@ -536,19 +696,14 @@ PHP_METHOD(Phalcon_Mvc_View, getVar){
 
 	zval *key, *params, *value;
 
-	PHALCON_MM_GROW();
-
-	phalcon_fetch_params(1, 1, 0, &key);
+	phalcon_fetch_params(0, 1, 0, &key);
 	
-	PHALCON_OBS_VAR(params);
-	phalcon_read_property_this(&params, this_ptr, SL("_viewParams"), PH_NOISY_CC);
-	if (phalcon_array_isset(params, key)) {
-		PHALCON_OBS_VAR(value);
-		phalcon_array_fetch(&value, params, key, PH_NOISY);
-		RETURN_CCTOR(value);
+	params = phalcon_fetch_nproperty_this(this_ptr, SL("_viewParams"), PH_NOISY_CC);
+	if (phalcon_array_isset_fetch(&value, params, key)) {
+		RETURN_ZVAL(value, 1, 0);
 	}
 	
-	RETURN_MM_NULL();
+	RETURN_NULL();
 }
 
 /**
@@ -602,12 +757,9 @@ PHP_METHOD(Phalcon_Mvc_View, getParams){
  */
 PHP_METHOD(Phalcon_Mvc_View, start){
 
-
-	PHALCON_MM_GROW();
-
 	phalcon_update_property_null(this_ptr, SL("_content") TSRMLS_CC);
 	phalcon_ob_start(TSRMLS_C);
-	RETURN_THIS();
+	RETURN_THISW();
 }
 
 /**
@@ -650,7 +802,7 @@ PHP_METHOD(Phalcon_Mvc_View, _loadTemplateEngines){
 			object_init_ex(php_engine, phalcon_mvc_view_engine_php_ce);
 			phalcon_call_method_p2_noret(php_engine, "__construct", this_ptr, dependency_injector);
 	
-			phalcon_array_update_string(&engines, SL(".phtml"), &php_engine, PH_COPY | PH_SEPARATE);
+			phalcon_array_update_string(&engines, SL(".phtml"), &php_engine, PH_COPY);
 		} else {
 			if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
 				PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_view_exception_ce, "A dependency injector container is required to obtain the application services");
@@ -659,8 +811,8 @@ PHP_METHOD(Phalcon_Mvc_View, _loadTemplateEngines){
 	
 			PHALCON_INIT_VAR(arguments);
 			array_init_size(arguments, 2);
-			phalcon_array_append(&arguments, this_ptr, PH_SEPARATE);
-			phalcon_array_append(&arguments, dependency_injector, PH_SEPARATE);
+			phalcon_array_append(&arguments, this_ptr, 0);
+			phalcon_array_append(&arguments, dependency_injector, 0);
 	
 			phalcon_is_iterable(registered_engines, &ah0, &hp0, 0, 0);
 	
@@ -687,6 +839,7 @@ PHP_METHOD(Phalcon_Mvc_View, _loadTemplateEngines){
 					if (Z_TYPE_P(engine_service) == IS_STRING) {
 						PHALCON_INIT_NVAR(engine_object);
 						phalcon_call_method_p2(engine_object, dependency_injector, "getshared", engine_service, arguments);
+						PHALCON_VERIFY_INTERFACE(engine_object, phalcon_mvc_view_engineinterface_ce);
 					} else {
 						PHALCON_INIT_NVAR(exception_message);
 						PHALCON_CONCAT_SV(exception_message, "Invalid template engine registration for extension: ", extension);
@@ -694,7 +847,7 @@ PHP_METHOD(Phalcon_Mvc_View, _loadTemplateEngines){
 						return;
 					}
 				}
-				phalcon_array_update_zval(&engines, extension, &engine_object, PH_COPY | PH_SEPARATE);
+				phalcon_array_update_zval(&engines, extension, &engine_object, PH_COPY | 0);
 	
 				zend_hash_move_forward_ex(ah0, &hp0);
 			}
@@ -738,7 +891,7 @@ PHP_METHOD(Phalcon_Mvc_View, _engineRender){
 	phalcon_fetch_params(1, 5, 0, &engines, &view_path, &silence, &must_clean, &cache);
 	
 	PHALCON_INIT_VAR(not_exists);
-	ZVAL_BOOL(not_exists, 1);
+	ZVAL_TRUE(not_exists);
 	
 	PHALCON_OBS_VAR(views_dir);
 	phalcon_read_property_this(&views_dir, this_ptr, SL("_viewsDir"), PH_NOISY_CC);
@@ -867,7 +1020,8 @@ PHP_METHOD(Phalcon_Mvc_View, _engineRender){
 			 * Call afterRenderView if there is a events manager available
 			 */
 			PHALCON_INIT_NVAR(not_exists);
-			ZVAL_BOOL(not_exists, 0);
+			ZVAL_FALSE(not_exists);
+
 			if (Z_TYPE_P(events_manager) == IS_OBJECT) {
 				PHALCON_INIT_NVAR(event_name);
 				ZVAL_STRING(event_name, "view:afterRenderView", 1);
@@ -933,6 +1087,58 @@ PHP_METHOD(Phalcon_Mvc_View, registerEngines){
 }
 
 /**
+ * Returns the registered templating engines
+ *
+ * @brief array Phalcon\Mvc\View::getRegisteredEngines()
+ */
+PHP_METHOD(Phalcon_Mvc_View, getRegisteredEngines) {
+
+	RETURN_MEMBER(getThis(), "_registeredEngines")
+}
+
+PHP_METHOD(Phalcon_Mvc_View, exists) {
+
+	zval **view, *base_dir, *view_dir, *engines;
+	HashPosition pos;
+	zval *path;
+	int exists = 0;
+
+	phalcon_fetch_params_ex(1, 0, &view);
+	PHALCON_ENSURE_IS_STRING(view);
+
+	base_dir = phalcon_fetch_nproperty_this(getThis(), SL("_basePath"), PH_NOISY TSRMLS_CC);
+	view_dir = phalcon_fetch_nproperty_this(getThis(), SL("_viewsDir"), PH_NOISY TSRMLS_CC);
+	engines  = phalcon_fetch_nproperty_this(getThis(), SL("_registeredEngines"), PH_NOISY TSRMLS_CC);
+
+	if (Z_TYPE_P(engines) != IS_ARRAY) {
+		MAKE_STD_ZVAL(engines);
+		array_init_size(engines, 1);
+		add_assoc_stringl_ex(engines, SS(".phtml"), (char*)phalcon_mvc_view_engine_php_ce->name, phalcon_mvc_view_engine_php_ce->name_length, !IS_INTERNED(phalcon_mvc_view_engine_php_ce->name));
+		phalcon_update_property_this(getThis(), SL("_registeredEngines"), engines TSRMLS_CC);
+		assert(Z_REFCOUNT_P(engines) > 1);
+		zval_ptr_dtor(&engines);
+	}
+
+	MAKE_STD_ZVAL(path);
+	for (
+		zend_hash_internal_pointer_reset_ex(Z_ARRVAL_P(engines), &pos);
+		!exists && HASH_KEY_NON_EXISTANT != zend_hash_get_current_key_type_ex(Z_ARRVAL_P(engines), &pos);
+		zend_hash_move_forward_ex(Z_ARRVAL_P(engines), &pos)
+	) {
+		zval ext = phalcon_get_current_key_w(Z_ARRVAL_P(engines), &pos);
+
+		PHALCON_CONCAT_VVVV(path, base_dir, view_dir, *view, &ext);
+		exists = (SUCCESS == phalcon_file_exists(path TSRMLS_CC));
+		zval_dtor(path);
+	}
+
+	ZVAL_NULL(path);
+	zval_ptr_dtor(&path);
+
+	RETURN_BOOL(exists);
+}
+
+/**
  * Executes render process from dispatching data
  *
  *<code>
@@ -951,7 +1157,7 @@ PHP_METHOD(Phalcon_Mvc_View, render){
 	zval *disabled, *contents = NULL, *layouts_dir = NULL, *layout;
 	zval *layout_name = NULL, *engines, *pick_view, *render_view = NULL;
 	zval *pick_view_action, *cache = NULL, *cache_level;
-	zval *events_manager, *event_name = NULL, *status, *must_clean;
+	zval *events_manager, *event_name = NULL, *status;
 	zval *silence = NULL, *disabled_levels, *render_level;
 	zval *templates_before, *template_before = NULL;
 	zval *view_temp_path = NULL, *templates_after, *template_after = NULL;
@@ -965,9 +1171,11 @@ PHP_METHOD(Phalcon_Mvc_View, render){
 	phalcon_fetch_params(1, 2, 1, &controller_name, &action_name, &params);
 	
 	if (!params) {
-		PHALCON_INIT_VAR(params);
+		params = PHALCON_GLOBAL(z_null);
 	}
 	
+	phalcon_update_property_this(this_ptr, SL("_currentRenderLevel"), PHALCON_GLOBAL(z_zero) TSRMLS_CC);
+
 	/** 
 	 * If the view is disabled we simply update the buffer from any output produced in
 	 * the controller
@@ -1075,9 +1283,6 @@ PHP_METHOD(Phalcon_Mvc_View, render){
 	phalcon_ob_get_contents(contents TSRMLS_CC);
 	phalcon_update_property_this(this_ptr, SL("_content"), contents TSRMLS_CC);
 	
-	PHALCON_INIT_VAR(must_clean);
-	ZVAL_BOOL(must_clean, 1);
-	
 	PHALCON_INIT_VAR(silence);
 	ZVAL_BOOL(silence, 1);
 	
@@ -1099,7 +1304,8 @@ PHP_METHOD(Phalcon_Mvc_View, render){
 		 */
 		if (PHALCON_GE_LONG(render_level, 1)) {
 			if (!phalcon_array_isset_long(disabled_levels, 1)) {
-				phalcon_call_method_p5_noret(this_ptr, "_enginerender", engines, render_view, silence, must_clean, cache);
+				phalcon_update_property_long(this_ptr, SL("_currentRenderLevel"), 1 TSRMLS_CC);
+				phalcon_call_method_p5_noret(this_ptr, "_enginerender", engines, render_view, silence, PHALCON_GLOBAL(z_true), cache);
 			}
 		}
 	
@@ -1108,6 +1314,7 @@ PHP_METHOD(Phalcon_Mvc_View, render){
 		 */
 		if (PHALCON_GE_LONG(render_level, 2)) {
 			if (!phalcon_array_isset_long(disabled_levels, 2)) {
+				phalcon_update_property_long(this_ptr, SL("_currentRenderLevel"), 2 TSRMLS_CC);
 	
 				PHALCON_OBS_VAR(templates_before);
 				phalcon_read_property_this(&templates_before, this_ptr, SL("_templatesBefore"), PH_NOISY_CC);
@@ -1117,7 +1324,6 @@ PHP_METHOD(Phalcon_Mvc_View, render){
 				 */
 				if (Z_TYPE_P(templates_before) == IS_ARRAY) { 
 	
-					PHALCON_INIT_NVAR(silence);
 					ZVAL_BOOL(silence, 0);
 	
 					phalcon_is_iterable(templates_before, &ah0, &hp0, 0, 0);
@@ -1128,7 +1334,7 @@ PHP_METHOD(Phalcon_Mvc_View, render){
 	
 						PHALCON_INIT_NVAR(view_temp_path);
 						PHALCON_CONCAT_VV(view_temp_path, layouts_dir, template_before);
-						phalcon_call_method_p5_noret(this_ptr, "_enginerender", engines, view_temp_path, silence, must_clean, cache);
+						phalcon_call_method_p5_noret(this_ptr, "_enginerender", engines, view_temp_path, silence, PHALCON_GLOBAL(z_true), cache);
 	
 						zend_hash_move_forward_ex(ah0, &hp0);
 					}
@@ -1144,9 +1350,11 @@ PHP_METHOD(Phalcon_Mvc_View, render){
 		 */
 		if (PHALCON_GE_LONG(render_level, 3)) {
 			if (!phalcon_array_isset_long(disabled_levels, 3)) {
+				phalcon_update_property_long(this_ptr, SL("_currentRenderLevel"), 3 TSRMLS_CC);
+
 				PHALCON_INIT_NVAR(view_temp_path);
 				PHALCON_CONCAT_VV(view_temp_path, layouts_dir, layout_name);
-				phalcon_call_method_p5_noret(this_ptr, "_enginerender", engines, view_temp_path, silence, must_clean, cache);
+				phalcon_call_method_p5_noret(this_ptr, "_enginerender", engines, view_temp_path, silence, PHALCON_GLOBAL(z_true), cache);
 			}
 		}
 	
@@ -1155,6 +1363,7 @@ PHP_METHOD(Phalcon_Mvc_View, render){
 		 */
 		if (PHALCON_GE_LONG(render_level, 4)) {
 			if (!phalcon_array_isset_long(disabled_levels, 4)) {
+				phalcon_update_property_long(this_ptr, SL("_currentRenderLevel"), 4 TSRMLS_CC);
 	
 				/** 
 				 * Templates after must be an array
@@ -1174,7 +1383,7 @@ PHP_METHOD(Phalcon_Mvc_View, render){
 	
 						PHALCON_INIT_NVAR(view_temp_path);
 						PHALCON_CONCAT_VV(view_temp_path, layouts_dir, template_after);
-						phalcon_call_method_p5_noret(this_ptr, "_enginerender", engines, view_temp_path, silence, must_clean, cache);
+						phalcon_call_method_p5_noret(this_ptr, "_enginerender", engines, view_temp_path, silence, PHALCON_GLOBAL(z_true), cache);
 	
 						zend_hash_move_forward_ex(ah1, &hp1);
 					}
@@ -1190,11 +1399,15 @@ PHP_METHOD(Phalcon_Mvc_View, render){
 		 */
 		if (PHALCON_GE_LONG(render_level, 5)) {
 			if (!phalcon_array_isset_long(disabled_levels, 5)) {
+				phalcon_update_property_long(this_ptr, SL("_currentRenderLevel"), 5 TSRMLS_CC);
+
 				PHALCON_OBS_VAR(main_view);
 				phalcon_read_property_this(&main_view, this_ptr, SL("_mainView"), PH_NOISY_CC);
-				phalcon_call_method_p5_noret(this_ptr, "_enginerender", engines, main_view, silence, must_clean, cache);
+				phalcon_call_method_p5_noret(this_ptr, "_enginerender", engines, main_view, silence, PHALCON_GLOBAL(z_true), cache);
 			}
 		}
+
+		phalcon_update_property_this(this_ptr, SL("_currentRenderLevel"), PHALCON_GLOBAL(z_zero) TSRMLS_CC);
 	
 		/** 
 		 * Store the data in the cache
@@ -1227,7 +1440,7 @@ PHP_METHOD(Phalcon_Mvc_View, render){
 		phalcon_call_method_p2_noret(events_manager, "fire", event_name, this_ptr);
 	}
 	
-	RETURN_MM_NULL();
+	RETURN_THIS();
 }
 
 /**
@@ -1272,10 +1485,10 @@ PHP_METHOD(Phalcon_Mvc_View, pick){
 		}
 	
 		PHALCON_INIT_NVAR(pick_view);
-		array_init_size(pick_view, 1);
-		phalcon_array_append(&pick_view, render_view, PH_SEPARATE);
+		array_init_size(pick_view, 2);
+		phalcon_array_append(&pick_view, render_view, 0);
 		if (Z_TYPE_P(layout) != IS_NULL) {
-			phalcon_array_append(&pick_view, layout, PH_SEPARATE);
+			phalcon_array_append(&pick_view, layout, 0);
 		}
 	}
 	phalcon_update_property_this(this_ptr, SL("_pickView"), pick_view TSRMLS_CC);
@@ -1301,15 +1514,15 @@ PHP_METHOD(Phalcon_Mvc_View, pick){
  */
 PHP_METHOD(Phalcon_Mvc_View, partial){
 
-	zval *partial_path, *params = NULL, *view_params = NULL, *new_params = NULL;
-	zval *zfalse, *partials_dir, *real_path, *engines;
+	zval *partial_path, *params = NULL, *view_params, *new_params = NULL;
+	zval *partials_dir, *real_path, *engines;
 
 	PHALCON_MM_GROW();
 
 	phalcon_fetch_params(1, 1, 1, &partial_path, &params);
 	
 	if (!params) {
-		PHALCON_INIT_VAR(params);
+		params = PHALCON_GLOBAL(z_null);
 	}
 	
 	/** 
@@ -1342,9 +1555,6 @@ PHP_METHOD(Phalcon_Mvc_View, partial){
 	
 	}
 	
-	PHALCON_INIT_VAR(zfalse);
-	ZVAL_BOOL(zfalse, 0);
-	
 	PHALCON_OBS_VAR(partials_dir);
 	phalcon_read_property_this(&partials_dir, this_ptr, SL("_partialsDir"), PH_NOISY_CC);
 	
@@ -1364,12 +1574,12 @@ PHP_METHOD(Phalcon_Mvc_View, partial){
 	/** 
 	 * Call engine render, this checks in every registered engine for the partial
 	 */
-	phalcon_call_method_p5_noret(this_ptr, "_enginerender", engines, real_path, zfalse, zfalse, zfalse);
+	phalcon_call_method_p5_noret(this_ptr, "_enginerender", engines, real_path, PHALCON_GLOBAL(z_false), PHALCON_GLOBAL(z_false), PHALCON_GLOBAL(z_false));
 	
 	/** 
 	 * Now we need to restore the original view parameters
 	 */
-	if (view_params) {
+	if (Z_TYPE_P(params) == IS_ARRAY) { 
 		/** 
 		 * Restore the original view params
 		 */
@@ -1395,7 +1605,7 @@ PHP_METHOD(Phalcon_Mvc_View, partial){
 PHP_METHOD(Phalcon_Mvc_View, getRender){
 
 	zval *controller_name, *action_name, *params = NULL;
-	zval *config_callback = NULL, *view, *status, *content;
+	zval *config_callback = NULL, *view, *status;
 
 	PHALCON_MM_GROW();
 
@@ -1408,7 +1618,7 @@ PHP_METHOD(Phalcon_Mvc_View, getRender){
 	}
 	
 	if (!config_callback) {
-		PHALCON_INIT_VAR(config_callback);
+		config_callback = PHALCON_GLOBAL(z_null);
 	}
 	
 	/** 
@@ -1416,7 +1626,7 @@ PHP_METHOD(Phalcon_Mvc_View, getRender){
 	 */
 	PHALCON_INIT_VAR(view);
 	if (phalcon_clone(view, this_ptr TSRMLS_CC) == FAILURE) {
-		return;
+		RETURN_MM();
 	}
 	
 	/** 
@@ -1437,7 +1647,7 @@ PHP_METHOD(Phalcon_Mvc_View, getRender){
 	if (Z_TYPE_P(config_callback) == IS_OBJECT) {
 		PHALCON_INIT_NVAR(params);
 		array_init_size(params, 1);
-		phalcon_array_append(&params, view, PH_SEPARATE);
+		phalcon_array_append(&params, view, 0);
 	
 		PHALCON_INIT_VAR(status);
 		PHALCON_CALL_USER_FUNC_ARRAY(status, config_callback, params);
@@ -1461,10 +1671,9 @@ PHP_METHOD(Phalcon_Mvc_View, getRender){
 	/** 
 	 * Get the processed content
 	 */
-	PHALCON_INIT_VAR(content);
-	phalcon_call_method(content, view, "getcontent");
+	phalcon_return_call_method_p0(view, "getcontent");
 	
-	RETURN_CCTOR(content);
+	PHALCON_MM_RESTORE();
 }
 
 /**
@@ -1474,11 +1683,8 @@ PHP_METHOD(Phalcon_Mvc_View, getRender){
  */
 PHP_METHOD(Phalcon_Mvc_View, finish){
 
-
-	PHALCON_MM_GROW();
-
 	phalcon_ob_end_clean(TSRMLS_C);
-	RETURN_THIS();
+	RETURN_THISW();
 }
 
 /**
@@ -1529,6 +1735,7 @@ PHP_METHOD(Phalcon_Mvc_View, _createCache){
 		return;
 	}
 	
+	PHALCON_VERIFY_INTERFACE(view_cache, phalcon_cache_backendinterface_ce);
 	RETURN_CCTOR(view_cache);
 }
 
@@ -1539,17 +1746,12 @@ PHP_METHOD(Phalcon_Mvc_View, _createCache){
  */
 PHP_METHOD(Phalcon_Mvc_View, isCaching){
 
-	zval *zero, *cache_level;
+	zval *z_zero, *cache_level;
 
-	PHALCON_MM_GROW();
-
-	PHALCON_INIT_VAR(zero);
-	ZVAL_LONG(zero, 0);
+	z_zero = PHALCON_GLOBAL(z_zero);
 	
-	PHALCON_OBS_VAR(cache_level);
-	phalcon_read_property_this(&cache_level, this_ptr, SL("_cacheLevel"), PH_NOISY_CC);
-	is_smaller_function(return_value, zero, cache_level TSRMLS_CC);
-	RETURN_MM();
+	cache_level = phalcon_fetch_nproperty_this(this_ptr, SL("_cacheLevel"), PH_NOISY_CC);
+	is_smaller_function(return_value, z_zero, cache_level TSRMLS_CC);
 }
 
 /**
@@ -1603,8 +1805,7 @@ PHP_METHOD(Phalcon_Mvc_View, cache){
 	phalcon_fetch_params(1, 0, 1, &options);
 	
 	if (!options) {
-		PHALCON_INIT_VAR(options);
-		ZVAL_BOOL(options, 1);
+		options = PHALCON_GLOBAL(z_true);
 	}
 	
 	if (Z_TYPE_P(options) == IS_ARRAY) { 
@@ -1738,26 +1939,36 @@ PHP_METHOD(Phalcon_Mvc_View, enable){
 }
 
 /**
+ * Whether automatic rendering is enabled
+ *
+ * @return bool
+ */
+PHP_METHOD(Phalcon_Mvc_View, isDisabled){
+
+	RETURN_MEMBER(this_ptr, "_disabled");
+}
+
+
+/**
  * Resets the view component to its factory default values
  *
  * @return Phalcon\Mvc\View
  */
 PHP_METHOD(Phalcon_Mvc_View, reset){
 
-	zval *znull;
+	zval *z_null  = PHALCON_GLOBAL(z_null);
+	zval *z_false = PHALCON_GLOBAL(z_false);
+	zval *z_zero  = PHALCON_GLOBAL(z_zero);
 
-	PHALCON_MM_GROW();
-
-	PHALCON_INIT_VAR(znull);
-	phalcon_update_property_bool(this_ptr, SL("_disabled"), 0 TSRMLS_CC);
-	phalcon_update_property_bool(this_ptr, SL("_engines"), 0 TSRMLS_CC);
-	phalcon_update_property_this(this_ptr, SL("_cache"), znull TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_disabled"), z_false TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_engines"), z_false TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_cache"), z_null TSRMLS_CC);
 	phalcon_update_property_long(this_ptr, SL("_renderLevel"), 5 TSRMLS_CC);
-	phalcon_update_property_long(this_ptr, SL("_cacheLevel"), 0 TSRMLS_CC);
-	phalcon_update_property_this(this_ptr, SL("_content"), znull TSRMLS_CC);
-	phalcon_update_property_this(this_ptr, SL("_templatesBefore"), znull TSRMLS_CC);
-	phalcon_update_property_this(this_ptr, SL("_templatesAfter"), znull TSRMLS_CC);
-	RETURN_THIS();
+	phalcon_update_property_zval(this_ptr, SL("_cacheLevel"), z_zero TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_content"), z_null TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_templatesBefore"), z_null TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_templatesAfter"), z_null TSRMLS_CC);
+	RETURN_THISW();
 }
 
 /**
@@ -1794,18 +2005,37 @@ PHP_METHOD(Phalcon_Mvc_View, __get){
 
 	zval *key, *params, *value;
 
-	PHALCON_MM_GROW();
-
-	phalcon_fetch_params(1, 1, 0, &key);
+	phalcon_fetch_params(0, 1, 0, &key);
 	
-	PHALCON_OBS_VAR(params);
-	phalcon_read_property_this(&params, this_ptr, SL("_viewParams"), PH_NOISY_CC);
-	if (phalcon_array_isset(params, key)) {
-		PHALCON_OBS_VAR(value);
-		phalcon_array_fetch(&value, params, key, PH_NOISY);
-		RETURN_CCTOR(value);
+	params = phalcon_fetch_nproperty_this(this_ptr, SL("_viewParams"), PH_NOISY_CC);
+	if (phalcon_array_isset_fetch(&value, params, key)) {
+		RETURN_ZVAL(value, 1, 0);
 	}
 	
-	RETURN_MM_NULL();
+	RETURN_NULL();
 }
 
+
+/**
+ * Magic method to inaccessible a variable passed to the view
+ *
+ *<code>
+ *	isset($this->view->products)
+ *</code>
+ *
+ * @param string $key
+ * @return mixed
+ */
+PHP_METHOD(Phalcon_Mvc_View, __isset){
+
+	zval *key, *params;
+
+	phalcon_fetch_params(0, 1, 0, &key);
+
+	params = phalcon_fetch_nproperty_this(this_ptr, SL("_viewParams"), PH_NOISY_CC);
+	if (phalcon_array_isset(params, key)) {
+		RETURN_TRUE;
+	}
+
+	RETURN_FALSE;
+}

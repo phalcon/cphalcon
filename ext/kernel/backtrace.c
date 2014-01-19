@@ -3,7 +3,7 @@
 	+------------------------------------------------------------------------+
 	| Phalcon Framework                                                      |
 	+------------------------------------------------------------------------+
-	| Copyright (c) 2011-2013 Phalcon Team (http://www.phalconphp.com)       |
+	| Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
 	+------------------------------------------------------------------------+
 	| This source file is subject to the New BSD License that is bundled     |
 	| with this package in the file docs/LICENSE.txt.                        |
@@ -18,12 +18,15 @@
 	+------------------------------------------------------------------------+
 */
 
+#include "php_phalcon.h"
+#include "kernel/backtrace.h"
+
 #ifndef PHALCON_RELEASE
 #if defined(linux)
 
 #include <execinfo.h>
-#include "Zend/zend.h"
-#include "ext/standard/php_smart_str.h"
+#include <Zend/zend.h>
+#include <ext/standard/php_smart_str.h>
 
 /**
  * A buffer for backtrace. It is better to have it allocated statically
@@ -63,5 +66,13 @@ void phalcon_print_backtrace(void)
 	 */
 }
 
-#endif
+#endif /* defined(linux) */
+
+#else
+
+/* Release mode */
+void phalcon_print_backtrace(void)
+{
+}
+
 #endif /* PHALCON_RELEASE */

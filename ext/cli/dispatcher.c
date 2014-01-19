@@ -3,7 +3,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2013 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -18,21 +18,15 @@
   +------------------------------------------------------------------------+
 */
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
-
-#include "php.h"
 #include "php_phalcon.h"
-#include "phalcon.h"
 
-#include "Zend/zend_operators.h"
-#include "Zend/zend_exceptions.h"
-#include "Zend/zend_interfaces.h"
+#include "cli/dispatcher.h"
+#include "cli/dispatcher/exception.h"
+#include "cli/../dispatcher.h"
+#include "dispatcherinterface.h"
 
 #include "kernel/main.h"
 #include "kernel/memory.h"
-
 #include "kernel/object.h"
 #include "kernel/fcall.h"
 #include "kernel/operators.h"
@@ -61,14 +55,49 @@
  *
  *</code>
  */
+zend_class_entry *phalcon_cli_dispatcher_ce;
 
+PHP_METHOD(Phalcon_CLI_Dispatcher, setTaskSuffix);
+PHP_METHOD(Phalcon_CLI_Dispatcher, setDefaultTask);
+PHP_METHOD(Phalcon_CLI_Dispatcher, setTaskName);
+PHP_METHOD(Phalcon_CLI_Dispatcher, getTaskName);
+PHP_METHOD(Phalcon_CLI_Dispatcher, _throwDispatchException);
+PHP_METHOD(Phalcon_CLI_Dispatcher, _handleException);
+PHP_METHOD(Phalcon_CLI_Dispatcher, getTaskClass);
+PHP_METHOD(Phalcon_CLI_Dispatcher, getLastTask);
+PHP_METHOD(Phalcon_CLI_Dispatcher, getActiveTask);
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_cli_dispatcher_settasksuffix, 0, 0, 1)
+	ZEND_ARG_INFO(0, taskSuffix)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_cli_dispatcher_setdefaulttask, 0, 0, 1)
+	ZEND_ARG_INFO(0, taskName)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_cli_dispatcher_settaskname, 0, 0, 1)
+	ZEND_ARG_INFO(0, taskName)
+ZEND_END_ARG_INFO()
+
+static const zend_function_entry phalcon_cli_dispatcher_method_entry[] = {
+	PHP_ME(Phalcon_CLI_Dispatcher, setTaskSuffix, arginfo_phalcon_cli_dispatcher_settasksuffix, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_CLI_Dispatcher, setDefaultTask, arginfo_phalcon_cli_dispatcher_setdefaulttask, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_CLI_Dispatcher, setTaskName, arginfo_phalcon_cli_dispatcher_settaskname, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_CLI_Dispatcher, getTaskName, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_CLI_Dispatcher, _throwDispatchException, NULL, ZEND_ACC_PROTECTED)
+	PHP_ME(Phalcon_CLI_Dispatcher, _handleException, NULL, ZEND_ACC_PROTECTED)
+	PHP_ME(Phalcon_CLI_Dispatcher, getTaskClass, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_CLI_Dispatcher, getLastTask, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_CLI_Dispatcher, getActiveTask, NULL, ZEND_ACC_PUBLIC)
+	PHP_FE_END
+};
 
 /**
  * Phalcon\CLI\Dispatcher initializer
  */
 PHALCON_INIT_CLASS(Phalcon_CLI_Dispatcher){
 
-	PHALCON_REGISTER_CLASS_EX(Phalcon\\CLI, Dispatcher, cli_dispatcher, "phalcon\\dispatcher", phalcon_cli_dispatcher_method_entry, 0);
+	PHALCON_REGISTER_CLASS_EX(Phalcon\\CLI, Dispatcher, cli_dispatcher, phalcon_dispatcher_ce, phalcon_cli_dispatcher_method_entry, 0);
 
 	zend_declare_property_string(phalcon_cli_dispatcher_ce, SL("_handlerSuffix"), "Task", ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_string(phalcon_cli_dispatcher_ce, SL("_defaultHandler"), "main", ZEND_ACC_PROTECTED TSRMLS_CC);
@@ -151,8 +180,7 @@ PHP_METHOD(Phalcon_CLI_Dispatcher, _throwDispatchException){
 	phalcon_fetch_params(1, 1, 1, &message, &exception_code);
 	
 	if (!exception_code) {
-		PHALCON_INIT_VAR(exception_code);
-		ZVAL_LONG(exception_code, 0);
+		exception_code = PHALCON_GLOBAL(z_zero);
 	}
 	
 	PHALCON_INIT_VAR(exception);
@@ -177,7 +205,7 @@ PHP_METHOD(Phalcon_CLI_Dispatcher, _throwDispatchException){
 	 * Throw the exception if it wasn't handled
 	 */
 	phalcon_throw_exception(exception TSRMLS_CC);
-	return;
+	RETURN_MM();
 }
 
 /**

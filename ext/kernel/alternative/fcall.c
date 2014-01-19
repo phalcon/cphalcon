@@ -3,7 +3,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2013 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -17,16 +17,12 @@
   +------------------------------------------------------------------------+
 */
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
-
-#include "php.h"
 #include "php_phalcon.h"
 
-#include "Zend/zend_API.h"
-#include "Zend/zend_exceptions.h"
-#include "Zend/zend_execute.h"
+#include <ext/standard/php_smart_str.h>
+#include <Zend/zend_API.h>
+#include <Zend/zend_exceptions.h>
+#include <Zend/zend_execute.h>
 
 #include "kernel/main.h"
 #include "kernel/hash.h"
@@ -216,7 +212,7 @@ int phalcon_alt_call_method(zend_fcall_info *fci, zend_class_entry *ce, unsigned
 	EX(object) = NULL;
 
 	/* Check if a fci_cache is already loaded for this method */
-	if (hash_key > 0 && phalcon_globals_ptr->function_cache) {
+	if (hash_key > 0) {
 		if (zend_hash_index_find(phalcon_globals_ptr->function_cache, hash_key, (void**) &function_handler) == SUCCESS) {
 			fci_cache->function_handler = *function_handler;
 			exists = 1;
@@ -248,7 +244,7 @@ int phalcon_alt_call_method(zend_fcall_info *fci, zend_class_entry *ce, unsigned
 
 		} else {
 
-			PHALCON_ALLOC_ZVAL(fci->function_name);
+			MAKE_STD_ZVAL(fci->function_name);
 			ZVAL_STRINGL(fci->function_name, method_name, method_len, 0);
 
 			/** Use the slow function instead */
@@ -271,22 +267,14 @@ int phalcon_alt_call_method(zend_fcall_info *fci, zend_class_entry *ce, unsigned
 		}
 
 		/* Store the function in the cache only if it is a zend internal function */
-		if (is_phalcon_function) {
-			if (fci_cache->function_handler->type == ZEND_INTERNAL_FUNCTION) {
-
-				if (!phalcon_globals_ptr->function_cache) {
-					ALLOC_HASHTABLE(phalcon_globals_ptr->function_cache);
-					zend_hash_init(phalcon_globals_ptr->function_cache, 0, NULL, NULL, 0);
-				}
-
-				zend_hash_index_update(
-					phalcon_globals_ptr->function_cache,
-					hash_key,
-					&fci_cache->function_handler,
-					sizeof(zend_function *),
-					NULL
-				);
-			}
+		if (is_phalcon_function && fci_cache->function_handler->type == ZEND_INTERNAL_FUNCTION) {
+			zend_hash_index_update(
+				phalcon_globals_ptr->function_cache,
+				hash_key,
+				&fci_cache->function_handler,
+				sizeof(zend_function *),
+				NULL
+			);
 		}
 
 	} else {
@@ -551,6 +539,7 @@ int phalcon_alt_call_method(zend_fcall_info *fci, zend_class_entry *ce, unsigned
 
 	fci_cache = &fci_local;
 
+	assert(*fci->retval_ptr_ptr == NULL);
 	*fci->retval_ptr_ptr = NULL;
 
 	/* Initialize execute_data */
@@ -560,7 +549,7 @@ int phalcon_alt_call_method(zend_fcall_info *fci, zend_class_entry *ce, unsigned
 	EX(object) = NULL;
 
 	/* Check if a fci_cache is already loaded for this method */
-	if (hash_key > 0 && phalcon_globals_ptr->function_cache) {
+	if (hash_key > 0) {
 		if (zend_hash_index_find(phalcon_globals_ptr->function_cache, hash_key, (void**) &function_handler) == SUCCESS) {
 			fci_cache->function_handler = *function_handler;
 			exists = 1;
@@ -570,11 +559,7 @@ int phalcon_alt_call_method(zend_fcall_info *fci, zend_class_entry *ce, unsigned
 
 	/** Check if it's a Phalcon function */
 	if (!is_phalcon_function) {
-		if (ce->type == ZEND_INTERNAL_CLASS) {
-			if (ce->name_length > 10) {
-				is_phalcon_function =  !memcmp(ce->name, SL("Phalcon\\"));
-			}
-		}
+		is_phalcon_function = is_phalcon_class(ce);
 	}
 
 	/* The fci_cache doesn't exist, so we check it */
@@ -600,7 +585,7 @@ int phalcon_alt_call_method(zend_fcall_info *fci, zend_class_entry *ce, unsigned
 			}
 		} else {
 
-			PHALCON_ALLOC_ZVAL(fci->function_name);
+			MAKE_STD_ZVAL(fci->function_name);
 			ZVAL_STRINGL(fci->function_name, method_name, method_len, 0);
 
 			/** Use the slow function instead */
@@ -623,22 +608,14 @@ int phalcon_alt_call_method(zend_fcall_info *fci, zend_class_entry *ce, unsigned
 		}
 
 		/* Store the function in the cache only if it is a zend internal function */
-		if (is_phalcon_function) {
-			if (likely(fci_cache->function_handler->type == ZEND_INTERNAL_FUNCTION)) {
-
-				if (!phalcon_globals_ptr->function_cache) {
-					ALLOC_HASHTABLE(phalcon_globals_ptr->function_cache);
-					zend_hash_init(phalcon_globals_ptr->function_cache, 0, NULL, NULL, 0);
-				}
-
-				zend_hash_index_update(
-					phalcon_globals_ptr->function_cache,
-					hash_key,
-					&fci_cache->function_handler,
-					sizeof(zend_function *),
-					NULL
-				);
-			}
+		if (is_phalcon_function && likely(fci_cache->function_handler->type == ZEND_INTERNAL_FUNCTION)) {
+			zend_hash_index_update(
+				phalcon_globals_ptr->function_cache,
+				hash_key,
+				&fci_cache->function_handler,
+				sizeof(zend_function *),
+				NULL
+			);
 		}
 
 	} else {
@@ -828,7 +805,7 @@ int phalcon_alt_call_method(zend_fcall_info *fci, zend_class_entry *ce, unsigned
 			{
 				INIT_PZVAL(*fci->retval_ptr_ptr);
 			}*/
-			if (executor_globals_ptr->exception && fci->retval_ptr_ptr) {
+			if (executor_globals_ptr->exception && fci->retval_ptr_ptr && *fci->retval_ptr_ptr) {
 				zval_ptr_dtor(fci->retval_ptr_ptr);
 				*fci->retval_ptr_ptr = NULL;
 			}
@@ -852,7 +829,7 @@ int phalcon_alt_call_method(zend_fcall_info *fci, zend_class_entry *ce, unsigned
 			}
 			efree(EX(function_state).function);
 
-			if (executor_globals_ptr->exception && fci->retval_ptr_ptr) {
+			if (executor_globals_ptr->exception && fci->retval_ptr_ptr && *fci->retval_ptr_ptr) {
 				zval_ptr_dtor(fci->retval_ptr_ptr);
 				*fci->retval_ptr_ptr = NULL;
 			}
@@ -875,6 +852,7 @@ int phalcon_alt_call_method(zend_fcall_info *fci, zend_class_entry *ce, unsigned
 	if (executor_globals_ptr->exception) {
 		phalcon_throw_exception_internal(NULL TSRMLS_CC);
 	}
+
 	return SUCCESS;
 }
 
@@ -883,7 +861,7 @@ int phalcon_alt_call_method(zend_fcall_info *fci, zend_class_entry *ce, unsigned
 /**
  * Calls a method caching its function handler
  */
-int phalcon_alt_call_user_method(zend_class_entry *ce, zval **object_pp, char *method_name, unsigned int method_len, zval *retval_ptr, zend_uint param_count, zval *params[], unsigned long method_key TSRMLS_DC)
+int phalcon_alt_call_user_method(zend_class_entry *ce, zval **object_pp, char *method_name, unsigned int method_len, zval *retval_ptr, zval **retval_ptr_ptr, zend_uint param_count, zval *params[], unsigned long method_key TSRMLS_DC)
 {
 	zend_phalcon_globals *phalcon_globals_ptr = PHALCON_VGLOBAL;
 	zval ***params_array = NULL;
@@ -891,7 +869,7 @@ int phalcon_alt_call_user_method(zend_class_entry *ce, zval **object_pp, char *m
 	zend_uint i;
 	int ex_retval;
 	zval *local_retval_ptr = NULL;
-	zend_fcall_info *fci, fci_local;
+	zend_fcall_info fci;
 	unsigned long hash_key = 0;
 
 	phalcon_globals_ptr->recursive_lock++;
@@ -929,26 +907,30 @@ int phalcon_alt_call_user_method(zend_class_entry *ce, zval **object_pp, char *m
 
 		}
 
-		fci = &fci_local;
-		fci->size = sizeof(fci);
-		fci->no_separation = 1;
-		fci->symbol_table = NULL;
-		fci->function_table = &ce->function_table;
-		fci->object_ptr = *object_pp;
-		fci->function_name = NULL;
-		fci->retval_ptr_ptr = &local_retval_ptr;
-		fci->param_count = param_count;
-		if (param_count > 5) {
-			fci->params = params_array;
-		} else{
-			fci->params = static_params_array;
+		if (retval_ptr_ptr && *retval_ptr_ptr) {
+			zval_ptr_dtor(retval_ptr_ptr);
+			*retval_ptr_ptr = NULL;
 		}
 
-		ex_retval = phalcon_alt_call_method(fci, ce, hash_key, method_name, method_len, method_key TSRMLS_CC);
+		fci.size = sizeof(fci);
+		fci.no_separation = 1;
+		fci.symbol_table = NULL;
+		fci.function_table = &ce->function_table;
+		fci.object_ptr = *object_pp;
+		fci.function_name = NULL;
+		fci.retval_ptr_ptr = retval_ptr_ptr ? retval_ptr_ptr : &local_retval_ptr;
+		fci.param_count = param_count;
+		if (param_count > 5) {
+			fci.params = params_array;
+		} else{
+			fci.params = static_params_array;
+		}
 
-		if (fci->function_name) {
-			ZVAL_NULL(fci->function_name);
-			zval_ptr_dtor(&fci->function_name);
+		ex_retval = phalcon_alt_call_method(&fci, ce, hash_key, method_name, method_len, method_key TSRMLS_CC);
+
+		if (fci.function_name) {
+			ZVAL_NULL(fci.function_name);
+			zval_ptr_dtor(&fci.function_name);
 		}
 	}
 
@@ -956,7 +938,7 @@ int phalcon_alt_call_user_method(zend_class_entry *ce, zval **object_pp, char *m
 
 	if (local_retval_ptr) {
 		COPY_PZVAL_TO_ZVAL(*retval_ptr, local_retval_ptr);
-	} else {
+	} else if (!retval_ptr_ptr) {
 		INIT_ZVAL(*retval_ptr);
 	}
 

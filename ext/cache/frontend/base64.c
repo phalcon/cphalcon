@@ -3,7 +3,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2013 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -17,24 +17,13 @@
   +------------------------------------------------------------------------+
 */
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
-
-#include "php.h"
 #include "php_phalcon.h"
-#include "phalcon.h"
 
-#include "Zend/zend_operators.h"
-#include "Zend/zend_exceptions.h"
-#include "Zend/zend_interfaces.h"
+#include "cache/frontend/data.h"
+#include "cache/frontend/base64.h"
+#include "cache/frontendinterface.h"
 
 #include "kernel/main.h"
-#include "kernel/memory.h"
-
-#include "kernel/object.h"
-#include "kernel/array.h"
-#include "kernel/fcall.h"
 #include "kernel/string.h"
 
 /**
@@ -71,6 +60,16 @@
  * echo $image;
  *</code>
  */
+zend_class_entry *phalcon_cache_frontend_base64_ce;
+
+PHP_METHOD(Phalcon_Cache_Frontend_Base64, beforeStore);
+PHP_METHOD(Phalcon_Cache_Frontend_Base64, afterRetrieve);
+
+static const zend_function_entry phalcon_cache_frontend_base64_method_entry[] = {
+	PHP_ME(Phalcon_Cache_Frontend_Base64, beforeStore, arginfo_phalcon_cache_frontendinterface_beforestore, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Cache_Frontend_Base64, afterRetrieve, arginfo_phalcon_cache_frontendinterface_afterretrieve, ZEND_ACC_PUBLIC)
+	PHP_FE_END
+};
 
 
 /**
@@ -78,100 +77,11 @@
  */
 PHALCON_INIT_CLASS(Phalcon_Cache_Frontend_Base64){
 
-	PHALCON_REGISTER_CLASS(Phalcon\\Cache\\Frontend, Base64, cache_frontend_base64, phalcon_cache_frontend_base64_method_entry, 0);
-
-	zend_declare_property_null(phalcon_cache_frontend_base64_ce, SL("_frontendOptions"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	PHALCON_REGISTER_CLASS_EX(Phalcon\\Cache\\Frontend, Base64, cache_frontend_base64, phalcon_cache_frontend_data_ce, phalcon_cache_frontend_base64_method_entry, 0);
 
 	zend_class_implements(phalcon_cache_frontend_base64_ce TSRMLS_CC, 1, phalcon_cache_frontendinterface_ce);
 
 	return SUCCESS;
-}
-
-/**
- * Phalcon\Cache\Frontend\Base64 constructor
- *
- * @param array $frontendOptions
- */
-PHP_METHOD(Phalcon_Cache_Frontend_Base64, __construct){
-
-	zval *frontend_options = NULL;
-
-	PHALCON_MM_GROW();
-
-	phalcon_fetch_params(1, 0, 1, &frontend_options);
-	
-	if (!frontend_options) {
-		PHALCON_INIT_VAR(frontend_options);
-	}
-	
-	phalcon_update_property_this(this_ptr, SL("_frontendOptions"), frontend_options TSRMLS_CC);
-	
-	PHALCON_MM_RESTORE();
-}
-
-/**
- * Returns the cache lifetime
- *
- * @return integer
- */
-PHP_METHOD(Phalcon_Cache_Frontend_Base64, getLifetime){
-
-	zval *options, *lifetime;
-
-	PHALCON_MM_GROW();
-
-	PHALCON_OBS_VAR(options);
-	phalcon_read_property_this(&options, this_ptr, SL("_frontendOptions"), PH_NOISY_CC);
-	if (Z_TYPE_P(options) == IS_ARRAY) { 
-		if (phalcon_array_isset_string(options, SS("lifetime"))) {
-			PHALCON_OBS_VAR(lifetime);
-			phalcon_array_fetch_string(&lifetime, options, SL("lifetime"), PH_NOISY);
-			RETURN_CCTOR(lifetime);
-		}
-	}
-	
-	PHALCON_MM_RESTORE();
-	RETURN_LONG(1);
-}
-
-/**
- * Check whether if frontend is buffering output
- *
- * @return boolean
- */
-PHP_METHOD(Phalcon_Cache_Frontend_Base64, isBuffering){
-
-
-	RETURN_FALSE;
-}
-
-/**
- * Starts output frontend. Actually, does nothing
- */
-PHP_METHOD(Phalcon_Cache_Frontend_Base64, start){
-
-
-	
-}
-
-/**
- * Returns output cached content
- *
- * @return string
- */
-PHP_METHOD(Phalcon_Cache_Frontend_Base64, getContent){
-
-
-	RETURN_NULL();
-}
-
-/**
- * Stops output frontend
- */
-PHP_METHOD(Phalcon_Cache_Frontend_Base64, stop){
-
-
-	
 }
 
 /**
@@ -184,12 +94,8 @@ PHP_METHOD(Phalcon_Cache_Frontend_Base64, beforeStore){
 
 	zval *data;
 
-	PHALCON_MM_GROW();
-
-	phalcon_fetch_params(1, 1, 0, &data);
-	
+	phalcon_fetch_params(0, 1, 0, &data);
 	phalcon_base64_encode(return_value, data);
-	RETURN_MM();
 }
 
 /**
@@ -202,11 +108,6 @@ PHP_METHOD(Phalcon_Cache_Frontend_Base64, afterRetrieve){
 
 	zval *data;
 
-	PHALCON_MM_GROW();
-
-	phalcon_fetch_params(1, 1, 0, &data);
-	
+	phalcon_fetch_params(0, 1, 0, &data);
 	phalcon_base64_decode(return_value, data);
-	RETURN_MM();
 }
-

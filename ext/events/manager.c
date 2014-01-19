@@ -2,7 +2,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2013 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -16,22 +16,15 @@
   +------------------------------------------------------------------------+
 */
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
+#include "events/manager.h"
+#include "events/managerinterface.h"
+#include "events/event.h"
+#include "events/exception.h"
 
-#include "php.h"
-#include "php_phalcon.h"
-#include "phalcon.h"
-
-#include "Zend/zend_operators.h"
-#include "Zend/zend_exceptions.h"
-#include "Zend/zend_interfaces.h"
+#include <ext/spl/spl_heap.h>
 
 #include "kernel/main.h"
 #include "kernel/memory.h"
-
-#include "ext/spl/spl_heap.h"
 #include "kernel/exception.h"
 #include "kernel/object.h"
 #include "kernel/array.h"
@@ -47,6 +40,52 @@
  * plugins that will offer monitoring of data, manipulation, conditional execution and much more.
  *
  */
+zend_class_entry *phalcon_events_manager_ce;
+
+PHP_METHOD(Phalcon_Events_Manager, attach);
+PHP_METHOD(Phalcon_Events_Manager, enablePriorities);
+PHP_METHOD(Phalcon_Events_Manager, arePrioritiesEnabled);
+PHP_METHOD(Phalcon_Events_Manager, collectResponses);
+PHP_METHOD(Phalcon_Events_Manager, isCollecting);
+PHP_METHOD(Phalcon_Events_Manager, getResponses);
+PHP_METHOD(Phalcon_Events_Manager, detachAll);
+PHP_METHOD(Phalcon_Events_Manager, fireQueue);
+PHP_METHOD(Phalcon_Events_Manager, fire);
+PHP_METHOD(Phalcon_Events_Manager, hasListeners);
+PHP_METHOD(Phalcon_Events_Manager, getListeners);
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_events_manager_enablepriorities, 0, 0, 1)
+	ZEND_ARG_INFO(0, enablePriorities)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_events_manager_collectresponses, 0, 0, 1)
+	ZEND_ARG_INFO(0, collect)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_events_manager_firequeue, 0, 0, 2)
+	ZEND_ARG_INFO(0, queue)
+	ZEND_ARG_INFO(0, event)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_events_manager_haslisteners, 0, 0, 1)
+	ZEND_ARG_INFO(0, type)
+ZEND_END_ARG_INFO()
+
+static const zend_function_entry phalcon_events_manager_method_entry[] = {
+	PHP_ME(Phalcon_Events_Manager, attach, arginfo_phalcon_events_managerinterface_attach, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Events_Manager, enablePriorities, arginfo_phalcon_events_manager_enablepriorities, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Events_Manager, arePrioritiesEnabled, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Events_Manager, collectResponses, arginfo_phalcon_events_manager_collectresponses, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Events_Manager, isCollecting, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Events_Manager, getResponses, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Events_Manager, detachAll, arginfo_phalcon_events_managerinterface_detachall, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Events_Manager, fireQueue, arginfo_phalcon_events_manager_firequeue, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Events_Manager, fire, arginfo_phalcon_events_managerinterface_fire, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Events_Manager, hasListeners, arginfo_phalcon_events_manager_haslisteners, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Events_Manager, getListeners, arginfo_phalcon_events_managerinterface_getlisteners, ZEND_ACC_PUBLIC)
+	PHP_MALIAS(Phalcon_Events_Manager, dettachAll, detachAll, arginfo_phalcon_events_managerinterface_detachall, ZEND_ACC_PUBLIC | ZEND_ACC_DEPRECATED)
+	PHP_FE_END
+};
 
 
 /**
@@ -97,10 +136,9 @@ PHP_METHOD(Phalcon_Events_Manager, attach){
 		return;
 	}
 	
-	PHALCON_OBS_VAR(events);
-	phalcon_read_property_this(&events, this_ptr, SL("_events"), PH_NOISY_CC);
-	if (Z_TYPE_P(events) != IS_ARRAY) { 
-		PHALCON_INIT_NVAR(events);
+	events = phalcon_fetch_nproperty_this(this_ptr, SL("_events"), PH_NOISY_CC);
+	if (Z_TYPE_P(events) != IS_ARRAY) {
+		PHALCON_INIT_VAR(events);
 		array_init(events);
 	}
 	
@@ -241,7 +279,7 @@ PHP_METHOD(Phalcon_Events_Manager, detachAll){
 	phalcon_fetch_params(1, 0, 1, &type);
 	
 	if (!type) {
-		PHALCON_INIT_VAR(type);
+		type = PHALCON_GLOBAL(z_null);
 	}
 	
 	PHALCON_OBS_VAR(events);
@@ -249,21 +287,15 @@ PHP_METHOD(Phalcon_Events_Manager, detachAll){
 	if (Z_TYPE_P(type) == IS_NULL) {
 		PHALCON_INIT_NVAR(events);
 	} else {
-		phalcon_array_unset(&events, type, PH_SEPARATE);
+		if (phalcon_array_isset(events, type)) {
+			phalcon_array_unset(&events, type, PH_SEPARATE);
+		}
 	}
-	
+
 	phalcon_update_property_this(this_ptr, SL("_events"), events TSRMLS_CC);
 	
 	PHALCON_MM_RESTORE();
 }
-
-/**
- * Removes all events from the EventsManager; alias of detachAll
- *
- * @deprecated
- * @param string $type
- */
-PHALCON_DOC_METHOD(Phalcon_Events_Manager, dettachAll)
 
 /**
  * Internal handler to call a queue of events
@@ -276,7 +308,7 @@ PHP_METHOD(Phalcon_Events_Manager, fireQueue){
 
 	zval *queue, *event, *status = NULL, *arguments = NULL, *event_name;
 	zval *source, *data, *cancelable, *collect, *iterator;
-	zval *handler = NULL, *is_stopped = NULL;
+	zval *handler = NULL, *is_stopped = NULL, *handler_referenced = NULL, *handler_embeded = NULL;
 	zval *r0 = NULL;
 	HashTable *ah0;
 	HashPosition hp0;
@@ -341,7 +373,7 @@ PHP_METHOD(Phalcon_Events_Manager, fireQueue){
 		 */
 		PHALCON_INIT_VAR(iterator);
 		if (phalcon_clone(iterator, queue TSRMLS_CC) == FAILURE) {
-			return;
+			RETURN_MM();
 		}
 	
 		/** 
@@ -361,13 +393,39 @@ PHP_METHOD(Phalcon_Events_Manager, fireQueue){
 			/** 
 			 * Get the current data
 			 */
-			PHALCON_INIT_NVAR(handler);
-			phalcon_call_method(handler, iterator, "current");
+			PHALCON_INIT_NVAR(handler_embeded);
+			phalcon_call_method(handler_embeded, iterator, "current");
 	
 			/** 
 			 * Only handler objects are valid
 			 */
-			if (likely(Z_TYPE_P(handler) == IS_OBJECT)) {
+			if (Z_TYPE_P(handler_embeded) == IS_OBJECT) {
+
+				/**
+				 * Check if the event is a weak reference.
+				 */
+				if (phalcon_is_instance_of(handler_embeded, SL("WeakRef") TSRMLS_CC)) {
+					/**
+					 * Checks whether the object referenced still exists.
+					 */
+					PHALCON_INIT_NVAR(handler_referenced);
+					phalcon_call_method(handler_referenced, handler_embeded, "valid");
+
+					if (zend_is_true(handler_referenced)) {
+						PHALCON_INIT_NVAR(handler);
+						phalcon_call_method(handler, handler_embeded, "get");
+					} else {
+						/**
+						 * Move the queue to the next handler
+						 */
+						phalcon_call_method_noret(iterator, "next");
+						continue;
+					}
+
+				} else {
+					PHALCON_INIT_NVAR(handler);
+					PHALCON_CPY_WRT(handler, handler_embeded);
+				}
 	
 				/** 
 				 * Check if the event is a closure
@@ -419,7 +477,7 @@ PHP_METHOD(Phalcon_Events_Manager, fireQueue){
 						 * Call the function in the PHP userland
 						 */
 						PHALCON_INIT_NVAR(status);
-						phalcon_call_method_zval_p3(status, handler, event_name, event, source, data);
+						phalcon_call_method_p3(status, handler, Z_STRVAL_P(event_name), event, source, data);
 	
 						/** 
 						 * Collect the response
@@ -454,12 +512,35 @@ PHP_METHOD(Phalcon_Events_Manager, fireQueue){
 	
 		while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
-			PHALCON_GET_HVALUE(handler);
+			PHALCON_GET_HVALUE(handler_embeded);
 	
 			/** 
 			 * Only handler objects are valid
 			 */
-			if (likely(Z_TYPE_P(handler) == IS_OBJECT)) {
+			if (Z_TYPE_P(handler_embeded) == IS_OBJECT) {
+
+				/**
+				  * Check if the event is a weak reference.
+				  */
+				if (phalcon_is_instance_of(handler_embeded, SL("WeakRef") TSRMLS_CC)) {
+					/**
+					 * Checks whether the object referenced still exists.
+					 */
+					PHALCON_INIT_NVAR(handler_referenced);
+					phalcon_call_method(handler_referenced, handler_embeded, "valid");
+
+					if (zend_is_true(handler_referenced)) {
+						PHALCON_INIT_NVAR(handler);
+						phalcon_call_method(handler, handler_embeded, "get");
+					} else {
+						zend_hash_move_forward_ex(ah0, &hp0);
+						continue;
+					}
+
+				} else {
+					PHALCON_INIT_NVAR(handler);
+					PHALCON_CPY_WRT(handler, handler_embeded);
+				}
 	
 				/** 
 				 * Check if the event is a closure
@@ -511,7 +592,7 @@ PHP_METHOD(Phalcon_Events_Manager, fireQueue){
 						 * Call the function in the PHP userland
 						 */
 						PHALCON_INIT_NVAR(status);
-						phalcon_call_method_zval_p3(status, handler, event_name, event, source, data);
+						phalcon_call_method_p3(status, handler, Z_STRVAL_P(event_name), event, source, data);
 	
 						/** 
 						 * Collect the response
@@ -567,12 +648,11 @@ PHP_METHOD(Phalcon_Events_Manager, fire){
 	phalcon_fetch_params(1, 2, 2, &event_type, &source, &data, &cancelable);
 	
 	if (!data) {
-		PHALCON_INIT_VAR(data);
+		data = PHALCON_GLOBAL(z_null);
 	}
 	
 	if (!cancelable) {
-		PHALCON_INIT_VAR(cancelable);
-		ZVAL_BOOL(cancelable, 1);
+		cancelable = PHALCON_GLOBAL(z_true);
 	}
 	
 	if (unlikely(Z_TYPE_P(event_type) != IS_STRING)) {
@@ -580,8 +660,7 @@ PHP_METHOD(Phalcon_Events_Manager, fire){
 		return;
 	}
 	
-	PHALCON_OBS_VAR(events);
-	phalcon_read_property_this(&events, this_ptr, SL("_events"), PH_NOISY_CC);
+	events = phalcon_fetch_nproperty_this(this_ptr, SL("_events"), PH_NOISY_CC);
 	if (Z_TYPE_P(events) != IS_ARRAY) { 
 		RETURN_MM_NULL();
 	}
@@ -608,10 +687,9 @@ PHP_METHOD(Phalcon_Events_Manager, fire){
 	PHALCON_INIT_VAR(status);
 	
 	/** 
-	 * Responses must be traced?
+	 * Should responses be traced?
 	 */
-	PHALCON_OBS_VAR(collect);
-	phalcon_read_property_this(&collect, this_ptr, SL("_collect"), PH_NOISY_CC);
+	collect = phalcon_fetch_nproperty_this(this_ptr, SL("_collect"), PH_NOISY_CC);
 	if (zend_is_true(collect)) {
 		phalcon_update_property_null(this_ptr, SL("_responses") TSRMLS_CC);
 	}
@@ -621,10 +699,7 @@ PHP_METHOD(Phalcon_Events_Manager, fire){
 	/** 
 	 * Check if events are grouped by type
 	 */
-	if (phalcon_array_isset(events, type)) {
-	
-		PHALCON_OBS_VAR(fire_events);
-		phalcon_array_fetch(&fire_events, events, type, PH_NOISY);
+	if (phalcon_array_isset_fetch(&fire_events, events, type)) {
 		if (Z_TYPE_P(fire_events) == IS_ARRAY || Z_TYPE_P(fire_events) == IS_OBJECT) {
 			/** 
 			 * Create the event context
@@ -642,12 +717,8 @@ PHP_METHOD(Phalcon_Events_Manager, fire){
 	/** 
 	 * Check if there are listeners for the event type itself
 	 */
-	if (phalcon_array_isset(events, event_type)) {
-	
-		PHALCON_OBS_NVAR(fire_events);
-		phalcon_array_fetch(&fire_events, events, event_type, PH_NOISY);
+	if (phalcon_array_isset_fetch(&fire_events, events, event_type)) {
 		if (Z_TYPE_P(fire_events) == IS_ARRAY || Z_TYPE_P(fire_events) == IS_OBJECT) {
-	
 			/** 
 			 * Create the event if it wasn't created before
 			 */
@@ -679,19 +750,14 @@ PHP_METHOD(Phalcon_Events_Manager, hasListeners){
 
 	zval *type, *events;
 
-	PHALCON_MM_GROW();
-
-	phalcon_fetch_params(1, 1, 0, &type);
+	phalcon_fetch_params(0, 1, 0, &type);
 	
-	PHALCON_OBS_VAR(events);
-	phalcon_read_property_this(&events, this_ptr, SL("_events"), PH_NOISY_CC);
-	if (Z_TYPE_P(events) == IS_ARRAY) { 
-		if (phalcon_array_isset(events, type)) {
-			RETURN_MM_TRUE;
-		}
+	events = phalcon_fetch_nproperty_this(this_ptr, SL("_events"), PH_NOISY_CC);
+	if (phalcon_array_isset(events, type)) {
+		RETURN_TRUE;
 	}
 	
-	RETURN_MM_FALSE;
+	RETURN_FALSE;
 }
 
 /**
@@ -704,20 +770,12 @@ PHP_METHOD(Phalcon_Events_Manager, getListeners){
 
 	zval *type, *events, *fire_events;
 
-	PHALCON_MM_GROW();
-
-	phalcon_fetch_params(1, 1, 0, &type);
+	phalcon_fetch_params(0, 1, 0, &type);
 	
-	PHALCON_OBS_VAR(events);
-	phalcon_read_property_this(&events, this_ptr, SL("_events"), PH_NOISY_CC);
-	if (Z_TYPE_P(events) == IS_ARRAY) { 
-		if (phalcon_array_isset(events, type)) {
-			PHALCON_OBS_VAR(fire_events);
-			phalcon_array_fetch(&fire_events, events, type, PH_NOISY);
-			RETURN_CCTOR(fire_events);
-		}
+	events = phalcon_fetch_nproperty_this(this_ptr, SL("_events"), PH_NOISY_CC);
+	if (phalcon_array_isset_fetch(&fire_events, events, type)) {
+		RETURN_ZVAL(fire_events, 1, 0);
 	}
 	
-	RETURN_MM_EMPTY_ARRAY();
+	array_init(return_value);
 }
-
