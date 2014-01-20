@@ -761,7 +761,7 @@ PHP_METHOD(Phalcon_Http_Request, getHeader){
 
 	zval *header, *_SERVER, *server_value, *key;
 
-	phalcon_fetch_params(1, 1, 0, &header);
+	phalcon_fetch_params(0, 1, 0, &header);
 	
 	_SERVER = phalcon_get_global(SS("_SERVER") TSRMLS_CC);
 	if (phalcon_array_isset_fetch(&server_value, _SERVER, header)) {
