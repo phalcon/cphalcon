@@ -130,7 +130,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Xcache, __construct){
 		phalcon_array_update_string_string(&options, SL("statsKey"), SL("_PHCX"), 0);
 	}
 	
-	phalcon_call_parent_p2_noret(this_ptr, phalcon_cache_backend_xcache_ce, "__construct", frontend, options);
+	PHALCON_CALL_PARENT_NORET(phalcon_cache_backend_xcache_ce, this_ptr, "__construct", frontend, options);
 	
 	PHALCON_MM_RESTORE();
 }

@@ -22,6 +22,7 @@
 #include "session/exception.h"
 #include "session/adapterinterface.h"
 #include "di/injectionawareinterface.h"
+#include "di.h"
 #include "diinterface.h"
 
 #include "kernel/main.h"
@@ -162,8 +163,8 @@ PHP_METHOD(Phalcon_Session_Bag, initialize){
 		phalcon_read_property_this(&dependency_injector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
 		if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
 	
-			PHALCON_INIT_NVAR(dependency_injector);
-			phalcon_call_static(dependency_injector, "phalcon\\di", "getdefault");
+			PHALCON_OBSERVE_OR_NULLIFY_VAR(dependency_injector);
+			PHALCON_CALL_CE_STATIC(&dependency_injector, phalcon_di_ce, "getdefault");
 	
 			if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
 				PHALCON_THROW_EXCEPTION_STR(phalcon_session_exception_ce, "A dependency injection object is required to access the 'session' service");

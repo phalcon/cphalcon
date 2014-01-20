@@ -27,6 +27,7 @@
 #include "mvc/model/resultinterface.h"
 #include "mvc/model/validationfailed.h"
 #include "mvc/model/validatorinterface.h"
+#include "di.h"
 #include "diinterface.h"
 #include "di/injectionawareinterface.h"
 #include "db/rawvalue.h"
@@ -429,8 +430,8 @@ PHP_METHOD(Phalcon_Mvc_Model, __construct){
 	 * We use a default DI if the user doesn't define one
 	 */
 	if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
-		PHALCON_INIT_NVAR(dependency_injector);
-		phalcon_call_static(dependency_injector, "phalcon\\di", "getdefault");
+		PHALCON_OBSERVE_OR_NULLIFY_VAR(dependency_injector);
+		PHALCON_CALL_CE_STATIC(&dependency_injector, phalcon_di_ce, "getdefault");
 	}
 	if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "A dependency injector container is required to obtain the services related to the ORM");
@@ -1457,7 +1458,7 @@ PHP_METHOD(Phalcon_Mvc_Model, findFirst){
  */
 PHP_METHOD(Phalcon_Mvc_Model, query){
 
-	zval *dependency_injector = NULL, *model_name, *criteria;
+	zval *dependency_injector = NULL, *model_name;
 
 	PHALCON_MM_GROW();
 
@@ -1470,22 +1471,21 @@ PHP_METHOD(Phalcon_Mvc_Model, query){
 	}
 	
 	PHALCON_INIT_VAR(model_name);
-	phalcon_get_called_class(model_name  TSRMLS_CC);
+	phalcon_get_called_class(model_name TSRMLS_CC);
 	
 	/** 
 	 * Use the global dependency injector if there is no one defined
 	 */
 	if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
-		PHALCON_INIT_NVAR(dependency_injector);
-		phalcon_call_static(dependency_injector, "phalcon\\di", "getdefault");
+		PHALCON_OBSERVE_OR_NULLIFY_VAR(dependency_injector);
+		PHALCON_CALL_CE_STATIC(&dependency_injector, phalcon_di_ce, "getdefault");
 	}
 	
-	PHALCON_INIT_VAR(criteria);
-	object_init_ex(criteria, phalcon_mvc_model_criteria_ce);
-	phalcon_call_method_p1_noret(criteria, "setdi", dependency_injector);
-	phalcon_call_method_p1_noret(criteria, "setmodelname", model_name);
+	object_init_ex(return_value, phalcon_mvc_model_criteria_ce);
+	phalcon_call_method_p1_noret(return_value, "setdi", dependency_injector);
+	phalcon_call_method_p1_noret(return_value, "setmodelname", model_name);
 	
-	RETURN_CTOR(criteria);
+	PHALCON_MM_RESTORE();
 }
 
 /**
@@ -1897,7 +1897,7 @@ PHP_METHOD(Phalcon_Mvc_Model, count){
 	
 	PHALCON_INIT_VAR(alias);
 	ZVAL_STRING(alias, "rowcount", 1);
-	phalcon_call_self_p3(return_value, "_groupresult", function, alias, parameters);
+	PHALCON_RETURN_CALL_SELF("_groupresult", function, alias, parameters);
 	RETURN_MM();
 }
 
@@ -1936,7 +1936,7 @@ PHP_METHOD(Phalcon_Mvc_Model, sum){
 	
 	PHALCON_INIT_VAR(alias);
 	ZVAL_STRING(alias, "sumatory", 1);
-	phalcon_call_self_p3(return_value, "_groupresult", function, alias, parameters);
+	PHALCON_RETURN_CALL_SELF("_groupresult", function, alias, parameters);
 	RETURN_MM();
 }
 
@@ -1975,7 +1975,7 @@ PHP_METHOD(Phalcon_Mvc_Model, maximum){
 	
 	PHALCON_INIT_VAR(alias);
 	ZVAL_STRING(alias, "maximum", 1);
-	phalcon_call_self_p3(return_value, "_groupresult", function, alias, parameters);
+	PHALCON_RETURN_CALL_SELF("_groupresult", function, alias, parameters);
 	RETURN_MM();
 }
 
@@ -2014,7 +2014,7 @@ PHP_METHOD(Phalcon_Mvc_Model, minimum){
 	
 	PHALCON_INIT_VAR(alias);
 	ZVAL_STRING(alias, "minimum", 1);
-	phalcon_call_self_p3(return_value, "_groupresult", function, alias, parameters);
+	PHALCON_RETURN_CALL_SELF("_groupresult", function, alias, parameters);
 	RETURN_MM();
 }
 
@@ -2053,7 +2053,7 @@ PHP_METHOD(Phalcon_Mvc_Model, average){
 	
 	PHALCON_INIT_VAR(alias);
 	ZVAL_STRING(alias, "average", 1);
-	phalcon_call_self_p3(return_value, "_groupresult", function, alias, parameters);
+	PHALCON_RETURN_CALL_SELF("_groupresult", function, alias, parameters);
 	RETURN_MM();
 }
 
@@ -6461,7 +6461,7 @@ PHP_METHOD(Phalcon_Mvc_Model, __callStatic){
 	/** 
 	 * Execute the query
 	 */
-	phalcon_call_ce_static_p1(return_value, ce0, type, parameters);
+	PHALCON_RETURN_CALL_CE_STATIC(ce0, type, parameters);
 	RETURN_MM();
 }
 
@@ -6705,8 +6705,8 @@ PHP_METHOD(Phalcon_Mvc_Model, unserialize){
 			/** 
 			 * Obtain the default DI
 			 */
-			PHALCON_INIT_VAR(dependency_injector);
-			phalcon_call_static(dependency_injector, "phalcon\\di", "getdefault");
+			PHALCON_OBS_VAR(dependency_injector);
+			PHALCON_CALL_CE_STATIC(&dependency_injector, phalcon_di_ce, "getdefault");
 	
 			if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
 				PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "A dependency injector container is required to obtain the services related to the ORM");

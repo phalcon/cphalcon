@@ -19,6 +19,8 @@
 
 #include "tag.h"
 #include "tag/exception.h"
+#include "tag/select.h"
+#include "di.h"
 #include "diinterface.h"
 #include "escaperinterface.h"
 #include "mvc/urlinterface.h"
@@ -311,7 +313,7 @@ static void phalcon_tag_get_escaper(zval **return_value_ptr, zval *params TSRMLS
 	}
 
 	if (zend_is_true(autoescape)) {
-		if (FAILURE == phalcon_call_static_ce_func_params(result, &result, phalcon_tag_ce, SL("getescaperservice") TSRMLS_CC, 0)) {
+		if (FAILURE == phalcon_call_class_method_aparams(&result, phalcon_tag_ce, NULL, SL("getescaperservice"), 0, NULL TSRMLS_CC)) {
 			assert(result == NULL);
 		}
 	}
@@ -450,8 +452,8 @@ PHP_METHOD(Phalcon_Tag, getUrlService){
 	
 		dependency_injector = phalcon_fetch_static_property_ce(phalcon_tag_ce, SL("_dependencyInjector") TSRMLS_CC);
 		if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
-			PHALCON_INIT_VAR(dependency_injector);
-			phalcon_call_static(dependency_injector, "phalcon\\di", "getdefault");
+			PHALCON_OBS_VAR(dependency_injector);
+			PHALCON_CALL_CE_STATIC(&dependency_injector, phalcon_di_ce, "getdefault");
 		}
 	
 		if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
@@ -489,8 +491,8 @@ PHP_METHOD(Phalcon_Tag, getEscaperService){
 	
 		dependency_injector = phalcon_fetch_static_property_ce(phalcon_tag_ce, SL("_dependencyInjector") TSRMLS_CC);
 		if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
-			PHALCON_INIT_VAR(dependency_injector);
-			phalcon_call_static(dependency_injector, "phalcon\\di", "getdefault");
+			PHALCON_OBS_VAR(dependency_injector);
+			PHALCON_CALL_CE_STATIC(&dependency_injector, phalcon_di_ce, "getdefault");
 		}
 	
 		if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
@@ -776,8 +778,8 @@ PHP_METHOD(Phalcon_Tag, linkTo){
 	}
 
 	if (zend_is_true(z_local)) {
-		PHALCON_INIT_VAR(url);
-		phalcon_call_self(url, "geturlservice");
+		PHALCON_OBS_VAR(url);
+		PHALCON_CALL_SELF(&url, "geturlservice");
 		
 		PHALCON_INIT_VAR(internal_url);
 		phalcon_call_method_p1(internal_url, url, "get", action);
@@ -830,8 +832,6 @@ PHP_METHOD(Phalcon_Tag, _inputField){
 	}
 	
 	if (PHALCON_IS_FALSE(as_value)) {
-		PHALCON_INIT_VAR(value);
-
 		if (!phalcon_array_isset_long_fetch(&id, params, 0)) {
 			PHALCON_OBS_VAR(id);
 			phalcon_array_fetch_string(&id, params, SL("id"), PH_NOISY);
@@ -856,7 +856,8 @@ PHP_METHOD(Phalcon_Tag, _inputField){
 			}
 		}
 
-		phalcon_call_self_p2(value, "getvalue", id, params);
+		PHALCON_OBS_VAR(value);
+		PHALCON_CALL_SELF(&value, "getvalue", id, params);
 		phalcon_array_update_string(&params, ISL(value), &value, PH_COPY);
 	} else {
 		/**
@@ -952,11 +953,11 @@ PHP_METHOD(Phalcon_Tag, _inputFieldChecked){
 	/**
 	 * Automatically check inputs
 	 */
-	PHALCON_INIT_VAR(value);
+	PHALCON_OBS_VAR(value);
 	if (phalcon_array_isset_string_fetch(&current_value, params, SS("value"))) {
 		phalcon_array_unset_string(&params, SS("value"), 0);
 
-		phalcon_call_self_p2(value, "getvalue", id, params);
+		PHALCON_CALL_SELF(&value, "getvalue", id, params);
 
 		if (Z_TYPE_P(value) != IS_NULL && PHALCON_IS_EQUAL(current_value, value)) {
 			phalcon_array_update_string_string(&params, SL("checked"), SL("checked"), 0);
@@ -964,7 +965,7 @@ PHP_METHOD(Phalcon_Tag, _inputFieldChecked){
 
 		phalcon_array_update_string(&params, ISL(value), &current_value, PH_COPY);
 	} else {
-		phalcon_call_self_p2(value, "getvalue", id, params);
+		PHALCON_CALL_SELF(&value, "getvalue", id, params);
 
 		/**
 		 * Evaluate the value in POST
@@ -1012,31 +1013,34 @@ static void phalcon_tag_generic_field(INTERNAL_FUNCTION_PARAMETERS, const char* 
 	ZVAL_STRING(field_type, type, 1);
 
 	if (as_value) {
-		status = phalcon_call_self_func_params(return_value, return_value_ptr, SL("_inputfield") TSRMLS_CC, 3, field_type, parameters, PHALCON_GLOBAL(z_true));
+		zval *params[] = { field_type, parameters, PHALCON_GLOBAL(z_true) };
+		status = phalcon_return_call_self_func(return_value, return_value_ptr, SL("_inputfield"), 3, params TSRMLS_CC);
 	}
 	else {
-		status = phalcon_call_self_func_params(return_value, return_value_ptr, SL("_inputfield") TSRMLS_CC, 2, field_type, parameters);
+		zval *params[] = { field_type, parameters };
+		status = phalcon_return_call_self_func(return_value, return_value_ptr, SL("_inputfield"), 2, params TSRMLS_CC);
 	}
 
-	if (FAILURE == status && return_value_ptr && EG(exception)) {
-		ALLOC_INIT_ZVAL(*return_value_ptr);
+	if (FAILURE == status) {
+		;
 	}
 }
 
 static void phalcon_tag_generic_field_checked(INTERNAL_FUNCTION_PARAMETERS, const char* type)
 {
 	zval *parameters, *field_type;
+	zval *params[2];
 
 	phalcon_fetch_params(0, 1, 0, &parameters);
 
-	MAKE_STD_ZVAL(field_type);
+	PHALCON_ALLOC_GHOST_ZVAL(field_type);
 	ZVAL_STRING(field_type, type, 1);
 	Z_DELREF_P(field_type);
 
-	if (FAILURE == phalcon_call_self_func_params(return_value, return_value_ptr, SL("_inputfieldchecked") TSRMLS_CC, 2, field_type, parameters)) {
-		if (return_value_ptr && EG(exception)) {
-			ALLOC_INIT_ZVAL(*return_value_ptr);
-		}
+	params[0] = field_type;
+	params[1] = parameters;
+	if (FAILURE == phalcon_return_call_self_func(return_value, return_value_ptr, SL("_inputfieldchecked"), 2, params TSRMLS_CC)) {
+		;
 	}
 }
 
@@ -1353,7 +1357,7 @@ PHP_METHOD(Phalcon_Tag, selectStatic){
 		data = PHALCON_GLOBAL(z_null);
 	}
 	
-	phalcon_return_call_static_p2("phalcon\\tag\\select", "selectfield", parameters, data);
+	PHALCON_RETURN_CALL_CE_STATIC(phalcon_tag_select_ce, "selectfield", parameters, data);
 	RETURN_MM();
 }
 
@@ -1389,7 +1393,7 @@ PHP_METHOD(Phalcon_Tag, select){
 		data = PHALCON_GLOBAL(z_null);
 	}
 	
-	phalcon_call_static_p2(return_value, "phalcon\\tag\\select", "selectfield", parameters, data);
+	PHALCON_RETURN_CALL_CE_STATIC(phalcon_tag_select_ce, "selectfield", parameters, data);
 	RETURN_MM();
 }
 
@@ -1442,8 +1446,8 @@ PHP_METHOD(Phalcon_Tag, textArea){
 		phalcon_array_update_string(&params, SL("id"), &id, PH_COPY | PH_SEPARATE);
 	}
 
-	PHALCON_INIT_NVAR(content);
-	phalcon_call_self_p2(content, "getvalue", id, params);
+	PHALCON_OBSERVE_OR_NULLIFY_VAR(content);
+	PHALCON_CALL_SELF(&content, "getvalue", id, params);
 
 	PHALCON_OBS_VAR(escaper);
 	phalcon_tag_get_escaper(&escaper, params TSRMLS_CC);
@@ -1531,8 +1535,8 @@ PHP_METHOD(Phalcon_Tag, form){
 	PHALCON_INIT_VAR(action);
 	
 	if (Z_TYPE_P(params_action) != IS_NULL) {
-		PHALCON_INIT_VAR(url);
-		phalcon_call_self(url, "geturlservice");
+		PHALCON_OBS_VAR(url);
+		PHALCON_CALL_SELF(&url, "geturlservice");
 	
 		phalcon_call_method_p1(action, url, "get", params_action);
 	}
@@ -1767,8 +1771,8 @@ PHP_METHOD(Phalcon_Tag, stylesheetLink){
 	 * URLs are generated through the 'url' service
 	 */
 	if (zend_is_true(z_local)) {
-		PHALCON_INIT_VAR(url);
-		phalcon_call_self(url, "geturlservice");
+		PHALCON_OBS_VAR(url);
+		PHALCON_CALL_SELF(&url, "geturlservice");
 	
 		PHALCON_OBS_VAR(url_href);
 		phalcon_array_fetch_string(&url_href, params, SL("href"), PH_NOISY);
@@ -1869,8 +1873,8 @@ PHP_METHOD(Phalcon_Tag, javascriptInclude){
 	 * URLs are generated through the 'url' service
 	 */
 	if (zend_is_true(z_local)) {
-		PHALCON_INIT_VAR(url);
-		phalcon_call_self(url, "geturlservice");
+		PHALCON_OBS_VAR(url);
+		PHALCON_CALL_SELF(&url, "geturlservice");
 	
 		PHALCON_OBS_VAR(params_src);
 		phalcon_array_fetch_string(&params_src, params, SL("src"), PH_NOISY);
@@ -1954,8 +1958,8 @@ PHP_METHOD(Phalcon_Tag, image){
 	 * Use the 'url' service if the URI is local
 	 */
 	if (zend_is_true(local)) {
-		PHALCON_INIT_VAR(url);
-		phalcon_call_self(url, "geturlservice");
+		PHALCON_OBS_VAR(url);
+		PHALCON_CALL_SELF(&url, "geturlservice");
 	
 		PHALCON_OBS_VAR(url_src);
 		phalcon_array_fetch_string(&url_src, params, SL("src"), PH_NOISY);

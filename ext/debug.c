@@ -18,6 +18,7 @@
 */
 
 #include "debug.h"
+#include "version.h"
 
 #include <ext/standard/php_string.h>
 #include <Zend/zend_builtin_functions.h>
@@ -593,8 +594,8 @@ PHP_METHOD(Phalcon_Debug, getMajorVersion){
 
 	PHALCON_MM_GROW();
 
-	PHALCON_INIT_VAR(version);
-	phalcon_call_static(version, "phalcon\\version", "get");
+	PHALCON_OBS_VAR(version);
+	PHALCON_CALL_CE_STATIC(&version, phalcon_version_ce, "get");
 	
 	PHALCON_INIT_VAR(parts);
 	phalcon_fast_explode_str(parts, SL(" "), version);

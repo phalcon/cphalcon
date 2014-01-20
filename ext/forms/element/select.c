@@ -20,6 +20,7 @@
 #include "forms/element/select.h"
 #include "forms/element.h"
 #include "forms/elementinterface.h"
+#include "tag/select.h"
 
 #include "kernel/main.h"
 #include "kernel/memory.h"
@@ -100,7 +101,7 @@ PHP_METHOD(Phalcon_Forms_Element_Select, __construct){
 	}
 	
 	phalcon_update_property_this(this_ptr, SL("_optionsValues"), options TSRMLS_CC);
-	phalcon_call_parent_p2_noret(this_ptr, phalcon_forms_element_select_ce, "__construct", name, attributes);
+	PHALCON_CALL_PARENT_NORET( phalcon_forms_element_select_ce, this_ptr, "__construct", name, attributes);
 	
 	PHALCON_MM_RESTORE();
 }
@@ -173,6 +174,6 @@ PHP_METHOD(Phalcon_Forms_Element_Select, render){
 	 */
 	PHALCON_INIT_VAR(widget_attributes);
 	phalcon_call_method_p1(widget_attributes, this_ptr, "prepareattributes", attributes);
-	phalcon_call_static_p2(return_value, "phalcon\\tag\\select", "selectfield", widget_attributes, options);
+	PHALCON_RETURN_CALL_CE_STATIC(phalcon_tag_select_ce, "selectfield", widget_attributes, options);
 	RETURN_MM();
 }
