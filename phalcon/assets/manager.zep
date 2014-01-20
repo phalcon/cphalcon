@@ -101,9 +101,28 @@ class Manager
 	* @param array attributes
 	* @return Phalcon\Assets\Manager
 	*/
-	public function addCss(string! path, local=true, filter=true, attributes)
+	public function addCss(string! path, local=true, filter=true, attributes=null)
 	{
-		this->addResourceByType("css", new Phalcon\Assets\Resource\Js(path, local, filter, attributes));
+		this->addResourceByType("css", new Phalcon\Assets\Resource\Css(path, local, filter, attributes));
+	}
+        
+	/**
+	* Adds a javascript resource to the 'js' collection
+	*
+	*<code>
+	*	$assets->addJs('scripts/jquery.js');
+        *       $assets->addJs('http://jquery.my-cdn.com/jquery.js', false);
+	*</code>
+	*
+	* @param string path
+	* @param boolean local
+	* @param boolean filter
+	* @param array attributes
+	* @return Phalcon\Assets\Manager
+	*/
+	public function addJs(string! path, local=true, filter=true, attributes=null)
+	{
+		this->addResourceByType("js", new Phalcon\Assets\Resource\Js(path, local, filter, attributes));
 	}
 
 	/**
