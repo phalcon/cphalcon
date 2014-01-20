@@ -48,10 +48,12 @@
    - Bug fix when ACL allowed access to forbidden resources (#1303)
    - Fixed bug with ACL * wildcard (#1409)
    - Fixed bug with numeric resources (#1513)
+   - Phalcon\Acl\Adapter now implements Phalcon\Acl\AdapterInterface (#1852)
  - Phalcon\Annotations:
    - Fixed getProperty() bug in AnnotationsAdapter (#996)
    - Phalcon\Annotations optimizations (#1141)
    - Fixed parsing of annotations containing / (#1480)
+   - Phalcon\Annotations\Adapter now implements Phalcon\Annotations\AdapterInterface (#1852)
  - Phalcon\Assets:
    - Fixed bugs when minifier produced no output at all (#811, #821)
    - Fixed joining issue (#951)
@@ -80,6 +82,7 @@
    - Phalcon\Cache\Backend\Libmemcached optimizations and bug fixes (#1093)
    - Added increment() and decrement() methods (#1374)
    - Added flush() method (#1352)
+   - Phalcon\Cache\Backend now implements Phalcon\Cache\BackendInterface (#1852)
  - Phalcon\Config:
    - Faster Phalcon\Config implementation using object handlers (#837, #1277)
    - Phalcon\Config now support numeric properties as well (#837)
@@ -110,6 +113,8 @@
    - Phalcon\Db\Profiler optimizations (#1693)
    - Phalcon\Db\Reference optimizations (#1693)
    - Phalcon\Db\Result\Pdo optimizations (#1693)
+   - Phalcon\Db\Adapter now implements Phalcon\Db\AdapterInterface (#1852)
+   - Phalcon\Db\Dialect now implements Phalcon\Db\DialectInterface (#1852)
  - Phalcon\Debug:
    - Added support for UTF-8 to \Phalcon\Debug (#1099)
    - Phalcon\Debug::uri now supports both http and https (#987)
@@ -151,6 +156,7 @@
    - Iterators for Phalcon\Forms\Form implemented via Zend API (#1765)
    - Phalcon\Forms\Form::count() implemented via Zend API (#1765)
    - Phalcon\Forms\Form optimizations (#1765)
+   - Phalcon\Forms\Element now implements Phalcon\Forms\ElementInterface (#1852)
  - Phalcon\Http:
    - Phalcon\Http\Cookie can be used without sessions (#875)
    - Phalcon\Http\Cookie does not ignore expire time (#897)
@@ -177,6 +183,8 @@
    - Phalcon\Logger optimizations (#1716)
    - Phalcon\Logger\Adapter::setLogLevel() is honored by transactions (#1716)
    - Phalcon\Logger\Adapter::commit() now clears the queue (#1742)
+   - Phalcon\Logger\Adapter now implements Phalcon\Logger\AdapterInterface (#1852)
+   - Phalcon\Logger\Formatter now implements Phalcon\Logger\FormatterInterface (#1852)
  - Phalcon\Mvc:
    - Phalcon\Mvc\Application::handle() now checks whether the class exists before include()'ing its file (#812, #818)
    - Phalcon\Mvc\Model\Criteria::fromInput() now sets _modelName (#866, #873)
@@ -219,6 +227,10 @@
    - Added Phalcon\Mvc\View::exists() and Phalcon\Mvc\View(\Simple)::getRegisteredEngines() (#1707)
    - Volt: fixed bug in email_filed() (#1723)
    - Fixed deprecation warnings in Phalcon\Mvc\Collection::save() and Phalcon\Mvc\Collection::delete() (#1783)
+   - Phalcon\Mvc\Model\Behavior now implements Phalcon\Mvc\Model\BehaviorInterface (#1852)
+   - Phalcon\Mvc\Model\Metadata now implements Phalcon\Mvc\Model\MetadataInterface (#1852)
+   - Phalcon\Mvc\Model\Valdator now implements Phalcon\Mvc\Model\ValidatorInterface (#1852)
+   - Phalcon\Mvc\View\Engine now implements Phalcon\Mvc\View\EngineInterface (#1852)
  - Phalcon\Paginator:
    - Phalcon\Paginator\Adapter\Model returns correct results even when page number is incorrect (#1654)
    - Optimized Phalcon\Paginator\Adapter\QueryBuilder (#1632)
@@ -241,6 +253,7 @@
    - Phalcon\Session\Adapter optimizations (#1624)
    - Phalcon\Session\Adapter::__destruct() now calls session_write_close() (#1624)
    - Phalcon\Session\AdapterInterface is compatible with SessionHandlerInterface (#1108)
+   - Phalcon\Session\Adapter now implements Phalcon\Session\AdapterInterface (#1852)
  - Phalcon\Tag:
    - Fixed bugs (#903)
    - Fixed radio button generation (#947)
@@ -256,6 +269,7 @@
    - Bug fixes (#1399)
    - Optimized Phalcon\Validation\Message\Group by using native iterators (#1657)
    - Optimized Phalcon\Validation\Message\Group by using object handlers (#1765)
+   - Phalcon\Validation\Validator now implements Phalcon\Validation\ValidatorInterface (#1852)
  - Unit tests:
    - Travis CI imporvements (#819, #846, #949)
    - Use markTestSkipped() instead of echo (#862)

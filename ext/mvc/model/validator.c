@@ -64,6 +64,8 @@ PHALCON_INIT_CLASS(Phalcon_Mvc_Model_Validator){
 	zend_declare_property_null(phalcon_mvc_model_validator_ce, SL("_options"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_mvc_model_validator_ce, SL("_messages"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
+	zend_class_implements(phalcon_mvc_model_validator_ce TSRMLS_CC, 1, phalcon_mvc_model_validatorinterface_ce);
+
 	return SUCCESS;
 }
 

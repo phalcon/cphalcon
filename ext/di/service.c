@@ -17,8 +17,6 @@
   +------------------------------------------------------------------------+
 */
 
-#include "php_phalcon.h"
-
 #include "di/service.h"
 #include "di/serviceinterface.h"
 #include "di/service/builder.h"

@@ -17,9 +17,8 @@
   +------------------------------------------------------------------------+
 */
 
-#include "php_phalcon.h"
-
 #include "annotations/adapter.h"
+#include "annotations/adapterinterface.h"
 #include "annotations/collection.h"
 #include "annotations/reader.h"
 #include "annotations/reflection.h"
@@ -96,6 +95,8 @@ PHALCON_INIT_CLASS(Phalcon_Annotations_Adapter){
 
 	zend_declare_property_null(phalcon_annotations_adapter_ce, SL("_reader"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_annotations_adapter_ce, SL("_annotations"), ZEND_ACC_PROTECTED TSRMLS_CC);
+
+	zend_class_implements(phalcon_annotations_adapter_ce TSRMLS_CC, 1, phalcon_annotations_adapterinterface_ce);
 
 	return SUCCESS;
 }
