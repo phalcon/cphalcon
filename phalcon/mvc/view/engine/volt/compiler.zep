@@ -2589,7 +2589,7 @@ class Compiler implements Phalcon\Di\InjectionAwareInterface
 					/**
 					 * The closure must return a valid path
 					 */
-					if typeof compiledTemplatePath == "string" {
+					if typeof compiledTemplatePath != "string" {
 						throw new Phalcon\Mvc\View\Exception("compiledPath closure didn't return a valid string");
 					}
 				} else {
