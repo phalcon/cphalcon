@@ -48421,19 +48421,18 @@ static PHP_METHOD(Phalcon_Mvc_Dispatcher, getControllerName){
 	MAKE_STD_ZVAL(temp_zval);
 	phalcon_return_property_quick(temp_zval, getThis(), SL("_handlerName"), zend_inline_hash_func(SS("_handlerName")) TSRMLS_CC);
 	if (likely(Z_TYPE_P(temp_zval) == IS_STRING) && Z_STRLEN_P(temp_zval) > 1) {
-		/*char *c = Z_STRVAL_P(return_value);
-		int len = Z_STRLEN_P(return_value);
-		memmove(c, c+1, len-1);
-		c[len-1] = 0;
-		c = erealloc(c, len);
-		if (likely(c != NULL)) {
-			RETVAL_STRINGL(c, len-1, 0);
-		}*/
-		RETURN_ZVAL(temp_zval, 1, 1);
+		if (Z_STRVAL_P(temp_zval)[0] == '\\') {
+			char *c; int len;
+			c = emalloc(sizeof(char) * Z_STRLEN_P(temp_zval));
+			memcpy(c, Z_STRVAL_P(temp_zval) + 1, Z_STRLEN_P(temp_zval) - 1);
+			c[Z_STRLEN_P(temp_zval)] = '\0';
+			RETVAL_STRINGL(c, Z_STRLEN_P(temp_zval) - 1, 0);
+		} else {
+			RETURN_ZVAL(temp_zval, 1, 1);
+		}
 	}
 
-	zval_ptr_dtor(&temp_zval);	
-	RETURN_NULL();
+	RETURN_ZVAL(temp_zval, 1, 1);
 }
 
 static PHP_METHOD(Phalcon_Mvc_Dispatcher, _throwDispatchException){
