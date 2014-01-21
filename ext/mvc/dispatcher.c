@@ -141,7 +141,7 @@ PHP_METHOD(Phalcon_Mvc_Dispatcher, setControllerName){
  */
 PHP_METHOD(Phalcon_Mvc_Dispatcher, getControllerName){
 
-	zval *is_exact, *temp_zval;
+	zval *is_exact;
 	int i_exact;
 
 	phalcon_read_property_this(&is_exact, getThis(), SL("_isExactControllerName"), PH_NOISY TSRMLS_CC);
@@ -152,21 +152,13 @@ PHP_METHOD(Phalcon_Mvc_Dispatcher, getControllerName){
 		RETURN_MEMBER(this_ptr, "_handlerName");
 	}
 
-	MAKE_STD_ZVAL(temp_zval);
-	phalcon_return_property_quick(temp_zval, getThis(), SL("_handlerName"), zend_inline_hash_func(SS("_handlerName")) TSRMLS_CC);
-	if (likely(Z_TYPE_P(temp_zval) == IS_STRING) && Z_STRLEN_P(temp_zval) > 1) {
-		if (Z_STRVAL_P(temp_zval)[0] == '\\') {
-			char *c; int len;
-                        c = emalloc(sizeof(char) * Z_STRLEN_P(temp_zval));
-                        memcpy(c, Z_STRVAL_P(temp_zval) + 1, Z_STRLEN_P(temp_zval) - 1);
-                        c[Z_STRLEN_P(temp_zval)] = '\0';
-                        RETVAL_STRINGL(c, Z_STRLEN_P(temp_zval) - 1, 0);
-		} else {
-			RETURN_ZVAL(temp_zval, 1, 1);
-		}
+	phalcon_return_property_quick(return_value, getThis(), SL("_handlerName"), zend_inline_hash_func(SS("_handlerName")) TSRMLS_CC);
+	if (likely(Z_TYPE_P(return_value) == IS_STRING) && Z_STRLEN_P(return_value) > 1) {
+		char *c = Z_STRVAL_P(return_value);
+		int len = Z_STRLEN_P(return_value);
+		memmove(c, c+1, len); /* This will include the trailing zero */
+		RETVAL_STRINGL(c, len - 1, 0);
 	}
-
-	RETURN_ZVAL(temp_zval, 1, 1);
 }
 
 /**
