@@ -83,7 +83,7 @@ int phalcon_set_session_id(zval *sid TSRMLS_DC)
 
 	return SUCCESS;
 #else
-	zval *params = { sid };
+	zval *params[] = { sid };
 	return phalcon_call_func_aparams(NULL, SL("session_id"), 1, params TSRMLS_CC);
 #endif
 }
