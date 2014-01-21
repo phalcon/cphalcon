@@ -120,7 +120,7 @@ class Dump
                         }
                         let output .= " (\n";
                         reset(variable);
-                        while 1 {
+                        do {
                                 let attr = explode(chr(ord("\x00")), key(variable)),
                                         key = end(attr);
                                 if !key {
@@ -137,8 +137,7 @@ class Dump
                                 }
                                 let output .= space . strtr("-><span style=':style'>:key</span> (<span style=':style'>:type</span>) = ", [":style": this->getStyle("obj"), ":key": key, ":type": type]);
                                 let output .= this->output(value, "", tab + 1) . "\n";
-                                next(variable);
-                        }
+                        } while next(variable);
                         let output .= space . strtr(":class <b style=':style'>:methods</b>: (<span style=':style'>:count</span>)\n", [":style": this->getStyle("obj"), ":class": get_class(variable), ":count": count(get_class_methods(variable))]);
                         for key, value in get_class_methods(variable) {
                                 if value == "__construct" {
