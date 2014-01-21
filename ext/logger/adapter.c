@@ -393,17 +393,47 @@ static int phalcon_logger_adapter_string_level_to_int(const zval *level)
  */
 PHP_METHOD(Phalcon_Logger_Adapter, log){
 
-	zval **message, **type, **context = NULL, *timestamp, *transaction;
-	zval *queue_item, *log_level, *z_type;
+	zval **message = NULL, **type, **context = NULL, *timestamp, *transaction;
+	zval *queue_item, *log_level, *level;
 	int i_level;
 
-	phalcon_fetch_params_ex(2, 1, &type, &message, &context);
+	phalcon_fetch_params_ex(1, 2, &type, &message, &context);
+
+	/*
+	 * Backwards compatibility.
+	 *
+	 * PSR-3 says:
+	 *
+	 * public function log($level, $message, array $context = array());
+	 *
+	 * Our old definition:
+	 *
+	 * public function log($message, $level = null)
+	 *
+	 * Now we want to implement PSR-3
+	 * Thus:
+	 *   - when $message === null, $level is $message and $level is DEBUG
+	 *   - when typeof($message) == 'int' && typeof($level) == 'string', then
+	 *     $message is $level and $level is $message.
+	 */
+	if (message == NULL) {
+		message = type;
+		type    = NULL;
+	}
+	else if (Z_TYPE_PP(message) == IS_LONG && Z_TYPE_PP(type) == IS_STRING) {
+		zval **tmp = message;
+		message    = type;
+		type       = tmp;
+	}
 
 	if (!context) {
 		context = &PHALCON_GLOBAL(z_null);
 	}
 
-	if (Z_TYPE_PP(type) == IS_STRING) {
+	if (!type) {
+		i_level = PHALCON_LOGGER_DEBUG;
+	}
+	else if (Z_TYPE_PP(type) == IS_STRING) {
 		i_level = phalcon_logger_adapter_string_level_to_int(*type);
 	}
 	else {
@@ -420,19 +450,19 @@ PHP_METHOD(Phalcon_Logger_Adapter, log){
 		PHALCON_INIT_VAR(timestamp);
 		ZVAL_LONG(timestamp, (long)time(NULL));
 
-		PHALCON_INIT_VAR(z_type);
-		ZVAL_LONG(z_type, i_level);
+		PHALCON_INIT_VAR(level);
+		ZVAL_LONG(level, i_level);
 
 		transaction = phalcon_fetch_nproperty_this(this_ptr, SL("_transaction"), PH_NOISY_CC);
 		if (zend_is_true(transaction)) {
 			PHALCON_INIT_VAR(queue_item);
 			object_init_ex(queue_item, phalcon_logger_item_ce);
-			phalcon_call_method_p4_noret(queue_item, "__construct", *message, z_type, timestamp, *context);
+			phalcon_call_method_p4_noret(queue_item, "__construct", *message, level, timestamp, *context);
 
 			phalcon_update_property_array_append(this_ptr, SL("_queue"), queue_item TSRMLS_CC);
 		}
 		else {
-			phalcon_call_method_p4_noret(this_ptr, "loginternal", *message, z_type, timestamp, *context);
+			phalcon_call_method_p4_noret(this_ptr, "loginternal", *message, level, timestamp, *context);
 		}
 
 		PHALCON_MM_RESTORE();
