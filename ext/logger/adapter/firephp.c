@@ -102,7 +102,7 @@ PHP_METHOD(Phalcon_Logger_Adapter_Firephp, getFormatter){
  */
 PHP_METHOD(Phalcon_Logger_Adapter_Firephp, logInternal){
 
-	zval *message, *type, *time, *context = NULL, *formatter, *applied_format;
+	zval *message, *type, *time, *context, *formatter, *applied_format;
 	zval *initialized, *index;
 	sapi_header_line h = { NULL, 0, 0 };
 	smart_str str      = { NULL, 0, 0 };
@@ -118,7 +118,7 @@ PHP_METHOD(Phalcon_Logger_Adapter_Firephp, logInternal){
 
 	PHALCON_MM_GROW();
 
-	phalcon_fetch_params(1, 3, 1, &message, &type, &time, &context);
+	phalcon_fetch_params(1, 4, 0, &message, &type, &time, &context);
 
 	PHALCON_INIT_VAR(formatter);
 	phalcon_call_method(formatter, this_ptr, "getformatter");
@@ -147,10 +147,8 @@ PHP_METHOD(Phalcon_Logger_Adapter_Firephp, logInternal){
 	}
 
 	PHALCON_INIT_VAR(applied_format);
-	phalcon_call_method_p3(applied_format, formatter, "format", message, type, time);
-	if (Z_TYPE_P(applied_format) != IS_STRING) {
-		convert_to_string(applied_format);
-	}
+	phalcon_call_method_p4(applied_format, formatter, "format", message, type, time, context);
+	convert_to_string(applied_format);
 
 	index = phalcon_fetch_static_property_ce(phalcon_logger_adapter_firephp_ce, SL("_index") TSRMLS_CC);
 	assert(Z_TYPE_P(index) == IS_LONG);

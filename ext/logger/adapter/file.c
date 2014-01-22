@@ -169,12 +169,12 @@ PHP_METHOD(Phalcon_Logger_Adapter_File, getFormatter){
  */
 PHP_METHOD(Phalcon_Logger_Adapter_File, logInternal){
 
-	zval *message, *type, *time, *file_handler, *formatter, *context = NULL;
+	zval *message, *type, *time, *file_handler, *formatter, *context;
 	zval *applied_format;
 
 	PHALCON_MM_GROW();
 
-	phalcon_fetch_params(1, 3, 1, &message, &type, &time, &context);
+	phalcon_fetch_params(1, 4, 0, &message, &type, &time, &context);
 	
 	PHALCON_OBS_VAR(file_handler);
 	phalcon_read_property_this(&file_handler, this_ptr, SL("_fileHandler"), PH_NOISY_CC);
@@ -187,7 +187,7 @@ PHP_METHOD(Phalcon_Logger_Adapter_File, logInternal){
 	phalcon_call_method(formatter, this_ptr, "getformatter");
 	
 	PHALCON_INIT_VAR(applied_format);
-	phalcon_call_method_p3(applied_format, formatter, "format", message, type, time);
+	phalcon_call_method_p4(applied_format, formatter, "format", message, type, time, context);
 	PHALCON_CALL_FUNCTION_NORET("fwrite", file_handler, applied_format);
 	
 	PHALCON_MM_RESTORE();

@@ -214,7 +214,7 @@ PHP_METHOD(Phalcon_Logger_Adapter, begin){
 PHP_METHOD(Phalcon_Logger_Adapter, commit){
 
 	zval *transaction, *queue, *message_str = NULL;
-	zval *type = NULL, *time = NULL;
+	zval *type = NULL, *time = NULL, *context = NULL;
 
 	PHALCON_MM_GROW();
 
@@ -242,11 +242,13 @@ PHP_METHOD(Phalcon_Logger_Adapter, commit){
 			PHALCON_INIT_NVAR(message_str);
 			PHALCON_INIT_NVAR(type);
 			PHALCON_INIT_NVAR(time);
+			PHALCON_INIT_NVAR(context);
 
 			phalcon_call_method(message_str, *message, "getmessage");
 			phalcon_call_method(type, *message, "gettype");
 			phalcon_call_method(time, *message, "gettime");
-			phalcon_call_method_p3_noret(this_ptr, "loginternal", message_str, type, time);
+			phalcon_call_method(context, *message, "getcontext");
+			phalcon_call_method_p4_noret(this_ptr, "loginternal", message_str, type, time, context);
 		}
 
 		if (Z_REFCOUNT_P(queue) == 1 || Z_ISREF_P(queue)) {
@@ -288,18 +290,19 @@ PHP_METHOD(Phalcon_Logger_Adapter, rollback){
 
 static void phalcon_logger_adapter_log_helper(INTERNAL_FUNCTION_PARAMETERS, int level)
 {
-	zval *message, *context = NULL, *type;
+	zval **message, **context = NULL, *type;
 
-	phalcon_fetch_params(0, 1, 1, &message, &context);
+	phalcon_fetch_params_ex(1, 1, &message, &context);
+	PHALCON_ENSURE_IS_STRING(message);
 
 	PHALCON_ALLOC_GHOST_ZVAL(type);
 	ZVAL_LONG(type, level);
 
 	if (!context) {
-		context = PHALCON_GLOBAL(z_null);
+		context = &PHALCON_GLOBAL(z_null);
 	}
 
-	if (FAILURE == phalcon_call_method_params(return_value, return_value_ptr, getThis(), SL("log"), zend_inline_hash_func(SS("log")) TSRMLS_CC, 3, type, message, context)) {
+	if (FAILURE == phalcon_call_method_params(return_value, return_value_ptr, getThis(), SL("log"), zend_inline_hash_func(SS("log")) TSRMLS_CC, 3, type, *message, *context)) {
 		if (return_value_ptr && EG(exception)) {
 			ALLOC_INIT_ZVAL(*return_value_ptr);
 		}
