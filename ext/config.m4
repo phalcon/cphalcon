@@ -348,7 +348,15 @@ image/adapter.c \
 image/adapterinterface.c \
 image/exception.c \
 image/adapter/gd.c \
-image/adapter/imagick.c"
+image/adapter/imagick.c \
+psr/log/abstractlogger.c \
+psr/log/invalidargumentexception.c \
+psr/log/loggerawareinterface.c \
+psr/log/loggerawaretrait.c \
+psr/log/loggerinterface.c \
+psr/log/loggertrait.c \
+psr/log/loglevel.c \
+psr/log/nulllogger.c"
 
 	PHP_NEW_EXTENSION(phalcon, $phalcon_sources, $ext_shared)
 	PHP_ADD_EXTENSION_DEP([phalcon], [spl])

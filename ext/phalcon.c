@@ -182,19 +182,21 @@ static void phalcon_verify_permanent_zvals(int strict TSRMLS_DC)
 
 PHP_INI_BEGIN()
 	/* Enables/Disables globally the internal events */
-	STD_PHP_INI_BOOLEAN("phalcon.orm.events",                   "1", PHP_INI_ALL, OnUpdateBool, orm.events,                   zend_phalcon_globals, phalcon_globals)
+	STD_PHP_INI_BOOLEAN("phalcon.orm.events",                   "1", PHP_INI_ALL,    OnUpdateBool, orm.events,                   zend_phalcon_globals, phalcon_globals)
 	/* Enables/Disables virtual foreign keys */
-	STD_PHP_INI_BOOLEAN("phalcon.orm.virtual_foreign_keys",     "1", PHP_INI_ALL, OnUpdateBool, orm.virtual_foreign_keys,     zend_phalcon_globals, phalcon_globals)
+	STD_PHP_INI_BOOLEAN("phalcon.orm.virtual_foreign_keys",     "1", PHP_INI_ALL,    OnUpdateBool, orm.virtual_foreign_keys,     zend_phalcon_globals, phalcon_globals)
 	/* Enables/Disables column renaming */
-	STD_PHP_INI_BOOLEAN("phalcon.orm.column_renaming",          "1", PHP_INI_ALL, OnUpdateBool, orm.column_renaming,          zend_phalcon_globals, phalcon_globals)
+	STD_PHP_INI_BOOLEAN("phalcon.orm.column_renaming",          "1", PHP_INI_ALL,    OnUpdateBool, orm.column_renaming,          zend_phalcon_globals, phalcon_globals)
 	/* Enables/Disables automatic NOT NULL validation */
-	STD_PHP_INI_BOOLEAN("phalcon.orm.not_null_validations",     "1", PHP_INI_ALL, OnUpdateBool, orm.not_null_validations,     zend_phalcon_globals, phalcon_globals)
+	STD_PHP_INI_BOOLEAN("phalcon.orm.not_null_validations",     "1", PHP_INI_ALL,    OnUpdateBool, orm.not_null_validations,     zend_phalcon_globals, phalcon_globals)
 	/* Enables/Disables throwing an exception if save fails */
-	STD_PHP_INI_BOOLEAN("phalcon.orm.exception_on_failed_save", "0", PHP_INI_ALL, OnUpdateBool, orm.exception_on_failed_save, zend_phalcon_globals, phalcon_globals)
+	STD_PHP_INI_BOOLEAN("phalcon.orm.exception_on_failed_save", "0", PHP_INI_ALL,    OnUpdateBool, orm.exception_on_failed_save, zend_phalcon_globals, phalcon_globals)
 	/* Enables/Disables literals in PHQL */
-	STD_PHP_INI_BOOLEAN("phalcon.orm.enable_literals",          "1", PHP_INI_ALL, OnUpdateBool, orm.enable_literals,          zend_phalcon_globals, phalcon_globals)
+	STD_PHP_INI_BOOLEAN("phalcon.orm.enable_literals",          "1", PHP_INI_ALL,    OnUpdateBool, orm.enable_literals,          zend_phalcon_globals, phalcon_globals)
 	/* Not used? */
-	STD_PHP_INI_BOOLEAN("phalcon.db.escape_identifiers",        "1", PHP_INI_ALL, OnUpdateBool, db.escape_identifiers,        zend_phalcon_globals, phalcon_globals)
+	STD_PHP_INI_BOOLEAN("phalcon.db.escape_identifiers",        "1", PHP_INI_ALL,    OnUpdateBool, db.escape_identifiers,        zend_phalcon_globals, phalcon_globals)
+	/* Whether to register PSR-3 classes */
+	STD_PHP_INI_BOOLEAN("phalcon.register_psr3_classes",        "0", PHP_INI_SYSTEM, OnUpdateBool, register_psr3_classes,        zend_phalcon_globals, phalcon_globals)
 PHP_INI_END()
 
 static PHP_MINIT_FUNCTION(phalcon)
@@ -316,7 +318,19 @@ static PHP_MINIT_FUNCTION(phalcon)
 	PHALCON_INIT(Phalcon_Translate_AdapterInterface);
 	PHALCON_INIT(Phalcon_Validation_ValidatorInterface);
 
-	/* 3. Register everything else */
+	/* 3. Register PSR-3 classes */
+	if (PHALCON_GLOBAL(register_psr3_classes)) {
+		PHALCON_INIT(Psr_Log_LoggerAwareInterface);
+		PHALCON_INIT(Psr_Log_LoggerInterface);
+		PHALCON_INIT(Psr_Log_InvalidArgumentException);
+		PHALCON_INIT(Psr_Log_LogLevel);
+		PHALCON_INIT(Psr_Log_AbstractLogger);
+		PHALCON_INIT(Psr_Log_NullLogger);
+		PHALCON_INIT(Psr_Log_LoggerAwareTrait);
+		PHALCON_INIT(Psr_Log_LoggerTrait);
+	}
+
+	/* 4. Register everything else */
 	PHALCON_INIT(Phalcon_Db_Adapter);
 	PHALCON_INIT(Phalcon_DI_Injectable);
 	PHALCON_INIT(Phalcon_DI);
@@ -607,6 +621,8 @@ static PHP_GINIT_FUNCTION(phalcon)
 
 	phalcon_globals->function_cache = pemalloc(sizeof(HashTable), 1);
 	zend_hash_init(phalcon_globals->function_cache, 128, NULL, NULL, 1);
+
+	phalcon_globals->register_psr3_classes = 0;
 
 	/* 'Allocator sizeof operand mismatch' warning can be safely ignored */
 	ALLOC_PERMANENT_ZVAL(phalcon_globals->z_null);
