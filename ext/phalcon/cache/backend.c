@@ -120,9 +120,7 @@ PHP_METHOD(Phalcon_Cache_Backend, __construct) {
 
 	zephir_fetch_params(0, 1, 1, &frontend, &options);
 
-	if (!options) {
 		options = ZEPHIR_GLOBAL(global_null);
-	}
 
 
 	if (zephir_array_isset_string_fetch(&prefix, options, SS("prefix"), 1 TSRMLS_CC)) {
@@ -148,9 +146,7 @@ PHP_METHOD(Phalcon_Cache_Backend, start) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 1, &keyName, &lifetime);
 
-	if (!lifetime) {
 		lifetime = ZEPHIR_GLOBAL(global_null);
-	}
 
 
 	ZEPHIR_INIT_VAR(existingCache);
@@ -184,11 +180,7 @@ PHP_METHOD(Phalcon_Cache_Backend, stop) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 1, &stopBuffer_param);
 
-	if (!stopBuffer_param) {
-		stopBuffer = 1;
-	} else {
 		stopBuffer = zephir_get_boolval(stopBuffer_param);
-	}
 
 
 	if ((stopBuffer == 1)) {

@@ -76,9 +76,7 @@ PHP_METHOD(Phalcon_Translate_Adapter, t) {
 		ZEPHIR_INIT_VAR(translateKey);
 		ZVAL_EMPTY_STRING(translateKey);
 	}
-	if (!placeholders) {
 		placeholders = ZEPHIR_GLOBAL(global_null);
-	}
 
 
 	zephir_call_method_p2(return_value, this_ptr, "query", translateKey, placeholders);

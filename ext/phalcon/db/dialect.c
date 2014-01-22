@@ -234,10 +234,8 @@ PHP_METHOD(Phalcon_Db_Dialect, getSqlExpression) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 1, &expression, &escapeChar_param);
 
-	if (!escapeChar_param) {
 		ZEPHIR_INIT_VAR(escapeChar);
 		ZVAL_EMPTY_STRING(escapeChar);
-	}
 
 
 	if (ZEPHIR_GLOBAL(db).escape_identifiers) {
@@ -412,10 +410,8 @@ PHP_METHOD(Phalcon_Db_Dialect, getSqlTable) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 1, &table, &escapeChar_param);
 
-	if (!escapeChar_param) {
 		ZEPHIR_INIT_VAR(escapeChar);
 		ZVAL_EMPTY_STRING(escapeChar);
-	}
 
 
 	if (ZEPHIR_IS_STRING(escapeChar, "")) {

@@ -39,6 +39,8 @@ class Tag
 	 */
 	protected static _documentTitle = null;
 
+	protected static _documentTitleSeparator = null;
+
 	protected static _documentType = 11;
 
 	/**
@@ -75,6 +77,60 @@ class Tag
 	const XHTML20 = 10;
 
 	const XHTML5 = 11;
+
+
+	public static function getEscaper(params)
+	{
+		var result, autoescape;
+
+		let result = null;
+		let autoescape = null;
+
+		if !fetch autoescape, params["escape"] {
+			let autoescape = self::_autoEscape;
+		}
+
+		if autoescape == true {
+			let result = self::getEscaperService();
+		}
+
+		return result;
+	}
+
+	public static function renderAttributes(String code, attributes)
+	{
+		var order, escaper, attrs, value, escaped, attribute, key;
+
+		let attrs = [];
+		let order = ["type","for","src","href","action","id","name","value","class"];
+		
+		let escaper = self::getEscaper(attributes);
+		
+		for attribute,value in attributes {
+			if isset order[attribute] {
+				let attrs[attribute] = value; 
+			}
+		}
+
+		let attrs = array_merge_recursive(attrs,attributes);
+
+		if isset attrs["escape"] {
+			unset attrs["escape"];
+		}
+		
+		for key,value in attrs {
+			if typeof key == "string" {
+				if escaper {
+					let escaped = escaper->escapeHtmlAttr(value);
+				} else {
+					let escaped = value;
+				}
+				let code .= " " . key . "=\"" . escaped . "\"";
+			}
+		}
+
+		return code;
+	}
 
 	/**
 	 * Sets the dependency injector container.
@@ -118,7 +174,7 @@ class Tag
 			}
 
 			if typeof dependencyInjector != "object" {
-				throw new Phalcon\Tag\Exception("A dependency injector container is required to obtain the 'url' service");
+				throw new Phalcon\Tag\Exception("A dependency injector container is required to obtain the \"url\" service");
 			}
 
 			let url = <Phalcon\Mvc\UrlInterface> dependencyInjector->getShared("url"),
@@ -146,7 +202,7 @@ class Tag
 			}
 
 			if typeof dependencyInjector != "object" {
-				throw new Phalcon\Tag\Exception("A dependency injector container is required to obtain the 'escaper' service");
+				throw new Phalcon\Tag\Exception("A dependency injector container is required to obtain the \"escaper\" service");
 			}
 
 			let escaper = <Phalcon\EscaperInterface> dependencyInjector->getShared("escaper"),
@@ -315,12 +371,12 @@ class Tag
 	 * Builds a HTML A tag using framework conventions
 	 *
 	 *<code>
-	 *	echo Phalcon\Tag::linkTo('signup/register', 'Register Here!');
-	 *	echo Phalcon\Tag::linkTo(array('signup/register', 'Register Here!'));
-	 *	echo Phalcon\Tag::linkTo(array('signup/register', 'Register Here!', 'class' => 'btn-primary'));
-	 *	echo Phalcon\Tag::linkTo('http://phalconphp.com/', 'Phalcon', FALSE);
-	 *	echo Phalcon\Tag::linkTo(array('http://phalconphp.com/', 'Phalcon Home', FALSE));
-	 *	echo Phalcon\Tag::linkTo(array('http://phalconphp.com/', 'Phalcon Home', 'local' =>FALSE));
+	 *	echo Phalcon\Tag::linkTo("signup/register", "Register Here!");
+	 *	echo Phalcon\Tag::linkTo(array("signup/register", "Register Here!"));
+	 *	echo Phalcon\Tag::linkTo(array("signup/register", "Register Here!", "class" => "btn-primary"));
+	 *	echo Phalcon\Tag::linkTo("http://phalconphp.com/", "Phalcon", FALSE);
+	 *	echo Phalcon\Tag::linkTo(array("http://phalconphp.com/", "Phalcon Home", FALSE));
+	 *	echo Phalcon\Tag::linkTo(array("http://phalconphp.com/", "Phalcon Home", "local" =>FALSE));
 	 *</code>
 	 *
 	 * @param array|string parameters
@@ -389,7 +445,77 @@ class Tag
 	 */
 	static protected function _inputField(string type, parameters, boolean asValue=false) -> string
 	{
+		var params, id, value, key, code, name, doctype;
 
+		let params = [];
+
+		if typeof parameters != "array" {
+			let params[] = parameters;
+		} else {
+			let params = parameters;
+		}
+
+		if asValue == false {
+			if !fetch id, params[0] {
+				let params[0] = params["id"];
+			}
+
+			if fetch name, params["name"] {
+				if empty name {
+					let params["name"] = id;
+				}
+			} else {
+				let params["name"] = id;
+			}
+
+			/**
+			* Automatically assign the id if the name is not an array
+			*/
+			if !strpos(id, "[") {
+				if !isset params["id"] {
+					let params["id"] = id;
+				}
+			}
+
+			/**
+			 * Use the parameter "value" if the developer had set it 
+			 */
+			if !isset params["value"] {
+				let value = self::getValue(id, params);
+				let params["value"] = value;
+			}
+
+		} else {
+			/**
+			 * Use the "id" as value if the user hadn"t set it
+			 */
+			if !isset params["value"] {
+				if isset params[0] {
+					let value = params[0];
+					let params["value"] = value;
+				}
+			}
+		}
+
+		let code = "<input type=\"".type."\"";
+		for key,value in params {
+			if typeof key != "integer" {
+				let code .= " ".key."=\"".value."\"";
+			}
+		}
+ 
+		let doctype = self::_documentType;
+ 
+		/**
+		 * Check if Doctype is XHTML
+		 */
+		if doctype > 5 {
+			let code .= " />";
+		} else {
+			let code .= ">";
+		}
+ 
+		return code;
 	}
 
 	/**
@@ -401,6 +527,93 @@ class Tag
 	 */
 	static protected function _inputFieldChecked(string type, parameters) -> string
 	{
+		var params, value, id, key, code, name, currentValue, doctype;
+
+		if  typeof parameters != "array" {
+			let params = [parameters];
+		} else {
+			let params = parameters;
+		}
+ 
+		let value = null;
+ 
+		if !isset params[0] {
+			let params[0] = params["id"];
+		}
+ 
+		let id = params[0];
+		if  !isset params["name"] {
+			let params["name"] = id;
+		} else {
+			let name = params["name"];
+			if  empty name {
+				let params["name"] = id;
+			}
+		}
+ 
+		/**
+		* Automatically assign the id if the name is not an array
+		*/
+		if !strpos(id, "[") {
+			if !isset params["id"] {
+				let params["id"] = id;
+			}
+		}
+ 
+		let value = self::getValue(id, params);
+ 
+		/**
+		 * Automatically check inputs
+		 */
+		if isset params["value"] {
+			let currentValue = params["value"];
+			if currentValue == value {
+				let params["checked"] = "checked";
+			}
+		} else {
+			/**
+			* Evaluate the value in POST
+			*/
+			if value {
+				let params["checked"] = "checked";
+			}
+ 
+			/**
+			* Update the value anyways
+			*/
+			let params["value"] = value;
+		}
+ 
+		let code = "<input type=\"".type."\"";
+		for key,value in params {
+			if typeof key != "integer" {
+				let code.= " ".key."=\"".value."\"";
+			}
+		}
+ 
+		let doctype = self::_documentType;
+ 
+		/**
+		* Check if Doctype is XHTML
+		*/
+		if doctype > 5 {
+			let code .= " />";
+		} else {
+			let code .= ">";
+		}
+ 
+		return code;
+	}
+
+	/**
+	* Builds a HTML input[type="color"] tag
+	*
+	* @param array parameters
+	* @return string
+	*/
+	static public function colorField(parameters) -> string
+	{
+		return self::_inputField("color", parameters);
 	}
 
 	/**
@@ -433,6 +646,18 @@ class Tag
 		return self::_inputField("number", parameters);
 	}
 
+
+	/**
+	* Builds a HTML input[type="range"] tag
+	*
+	* @param array parameters
+	* @return string
+	*/
+	static public function rangeField(parameters) -> string
+	{
+		return self::_inputField("range", parameters);
+	}
+
 	/**
 	 * Builds a HTML input[type="email"] tag
 	 *
@@ -461,6 +686,61 @@ class Tag
 	static public function dateField(parameters) -> string
 	{
 		return self::_inputField("date", parameters);
+	}
+
+	/**
+	* Builds a HTML input[type="datetime"] tag
+	*
+	* @param array parameters
+	* @return string
+	*/
+	static public function dateTimeField(parameters) -> string
+	{
+		return self::_inputField("datetime", parameters);
+	}
+
+	/**
+	* Builds a HTML input[type="datetime-local"] tag
+	*
+	* @param array parameters
+	* @return string
+	*/
+	static public function dateTimeLocalField(parameters) -> string
+	{
+		return self::_inputField("datetime-local", parameters);
+	}
+
+	/**
+	 * Builds a HTML input[type="month"] tag
+	 *
+	 * @param array parameters
+	 * @return string
+	 */
+	static public function monthField(parameters) -> string
+	{
+		return self::_inputField("month", parameters);
+	}
+
+	/**
+	 * Builds a HTML input[type="time"] tag
+	 *
+	 * @param array parameters
+	 * @return string
+	 */
+	static public function timeField(parameters) -> string
+	{
+		return self::_inputField("time", parameters);
+	}
+
+	/**
+	 * Builds a HTML input[type="week"] tag
+	 *
+	 * @param array parameters
+	 * @return string
+	 */
+	static public function weekField(parameters) -> string
+	{
+		return self::_inputField("week", parameters);
 	}
 
 	/**
@@ -509,6 +789,39 @@ class Tag
 	}
 
 	/**
+	 * Builds a HTML input[type="search"] tag
+	 *
+	 * @param array parameters
+	 * @return string
+	 */
+	static public function searchField(parameters) -> string
+	{
+		return self::_inputField("search", parameters);
+	}
+
+	/**
+	* Builds a HTML input[type="tel"] tag
+	*
+	* @param array parameters
+	* @return string
+	*/
+	static public function telField(parameters) -> string
+	{
+		return self::_inputField("tel", parameters);
+	}
+
+	/**
+	 * Builds a HTML input[type="url"] tag
+	 *
+	 * @param array parameters
+	 * @return string
+	 */
+	static public function urlField(parameters) -> string
+	{
+		return self::_inputField("url", parameters);
+	}
+
+	/**
 	 * Builds a HTML input[type="check"] tag
 	 *
 	 *<code>
@@ -532,7 +845,7 @@ class Tag
 	 *
 	 * Volt syntax:
 	 *<code>
-	 * {{ radio_field('Save') }}
+	 * {{ radio_field("Save") }}
 	 *</code>
 	 *
 	 * @param	array parameters
@@ -552,7 +865,7 @@ class Tag
 	 *
 	 * Volt syntax:
 	 *<code>
-	 * {{ image_input('src': '/img/button.png') }}
+	 * {{ image_input("src": "/img/button.png") }}
 	 *</code>
 	 *
 	 * @param	array parameters
@@ -572,7 +885,7 @@ class Tag
 	 *
 	 * Volt syntax:
 	 *<code>
-	 * {{ submit_button('Save') }}
+	 * {{ submit_button("Save") }}
 	 *</code>
 	 *
 	 * @param	array parameters
@@ -605,7 +918,7 @@ class Tag
 	 *<code>
 	 *	echo Phalcon\Tag::select(array(
 	 *		"robotId",
-	 *		Robots::find("type = 'mechanical'"),
+	 *		Robots::find("type = "mechanical""),
 	 *		"using" => array("id", "name")
 	 * 	));
 	 *</code>
@@ -615,8 +928,8 @@ class Tag
 	 * {{ select("robotId", robots, "using": ["id", "name"]) }}
 	 *</code>
 	 *
-	 * @param	array $parameters
-	 * @param   array $data
+	 * @param	array parameters
+	 * @param   array data
 	 * @return	string
 	 */
 	public static function select(parameters, data=null) -> string
@@ -636,11 +949,130 @@ class Tag
 	 * {{ text_area("comments", "cols": 10, "rows": 4) }}
 	 *</code>
 	 *
-	 * @param	array $parameters
+	 * @param	array parameters
 	 * @return	string
 	 */
 	static public function textArea(parameters) -> string
 	{
+		var params, id, key, name, avalue, content, code;
+
+		if typeof parameters != "array" {
+			let params = [parameters];
+		} else {
+			let params = parameters;
+		}
+ 
+		if !isset params[0] {
+			if isset params["id"] {
+				let params[0] = params["id"];
+			}
+		}
+
+		let id = params[0];
+		if !isset params["name"] {
+			let params["name"] = id;
+		} else {
+			let name = params["name"];
+			if empty name {
+				let params["name"] = id;
+			}
+		}
+ 
+		if !isset params["id"] {
+			let params["id"] = id;
+		}
+ 
+		if isset params["value"] {
+			let content = params["value"];
+			unset params["value"];
+		} else {
+			let content = self::getValue(id, params);
+		}
+ 
+		let code = "<textarea";
+		for key,avalue in params {
+			if typeof key != "integer" {
+				let code .=  " ".key."=\"".avalue."\"";
+			}
+		}
+ 
+		let code .= ">".content."</textarea>";
+ 
+		return code;
+	}
+
+	/**
+	 * Builds a HTML FORM tag
+	 *
+	 * <code>
+	 * echo Phalcon\Tag::form("posts/save");
+	 * echo Phalcon\Tag::form(array("posts/save", "method" => "post"));
+	 * </code>
+	 *
+	 * Volt syntax:
+	 * <code>
+	 * {{ form("posts/save") }}
+	 * {{ form("posts/save", "method": "post") }}
+	 * </code>
+	 *
+	 * @param array parameters
+	 * @return string
+	 */
+	static public function form(parameters) -> string
+	{
+		var params, paramsAction, action, url, code, key, avalue;
+
+		if typeof parameters != "array" {
+			let params = [parameters];
+		} else {
+			let params = parameters;
+		}
+ 
+		if isset params[0] {
+			let paramsAction = params[0];
+		} else {
+			if isset params["action"] {
+				let paramsAction = params["action"];
+			} else {
+				let paramsAction = null;
+			}
+		}
+ 
+		/**
+		 * By default the method is POST
+		 */
+		if !isset params["method"] {
+			let params["method"] = "post";
+		}
+ 
+		let action = null;
+ 
+		if !empty paramsAction {
+			let url = self::getUrlService();
+			let action = url->get(paramsAction);
+		}
+ 
+		/**
+		 * Check for extra parameters
+		 */
+		if isset params["parameters"] {
+			let parameters = params["parameters"];
+			let action .= "?".parameters;
+		}
+ 
+		if !empty action {
+			let params["action"] = action;
+		}
+ 
+		let code = "<form";
+		for key,avalue in params {
+			if typeof key != "integer" {
+				let code .= " ".key."=\"".avalue."\"";
+			}
+		}
+		let code .= ">";
+ 
+		return code;
 	}
 
 	/**
@@ -657,7 +1089,7 @@ class Tag
 	 * Set the title of view content
 	 *
 	 *<code>
-	 * Phalcon\Tag::setTitle('Welcome to my Page');
+	 * Phalcon\Tag::setTitle("Welcome to my Page");
 	 *</code>
 	 *
 	 * @param string title
@@ -665,6 +1097,20 @@ class Tag
 	public static function setTitle(string title)
 	{
 		let self::_documentTitle = title;
+	}
+
+	/**
+	 * Set the title separator of view content
+	 *
+	 *<code>
+	 * Phalcon\Tag::setTitleSeparator("-");
+	 *</code>
+	 *
+	 * @param string titleSeparator
+	 */
+	static public function setTitleSeparator(string titleSeparator)
+	{
+		let self::_documentTitleSeparator = titleSeparator;
 	}
 
 	/**
@@ -708,6 +1154,400 @@ class Tag
 			return "<title>" . documentTitle . "</title>" . PHP_EOL;
 		}
 		return documentTitle;
+	}
+
+	/**
+	* Gets the current document title separator
+	*
+	* <code>
+	*         echo Phalcon\Tag::getTitleSeparator();
+	* </code>
+	*
+	* <code>
+	*         {{ get_title_separator() }}
+	* </code>
+	*
+	* @return string
+	*/
+	public static function getTitleSeparator()
+	{
+		return this->_documentTitleSeparator;
+	}
+
+	/**
+	 * Builds a LINK[rel="stylesheet"] tag
+	 *
+	 * <code>
+	 * 	echo Phalcon\Tag::stylesheetLink("http://fonts.googleapis.com/css?family=Rosario", false);
+	 * 	echo Phalcon\Tag::stylesheetLink("css/style.css");
+	 * </code>
+	 *
+	 * Volt Syntax:
+	 *<code>
+	 * 	{{ stylesheet_link("http://fonts.googleapis.com/css?family=Rosario", false) }}
+	 * 	{{ stylesheet_link("css/style.css") }}
+	 *</code>
+	 *
+	 * @param	array parameters
+	 * @param   boolean local
+	 * @return	string
+	 */
+	public static function stylesheetLink(parameters=null, local=true)
+	{
+		var params, firstParam, url, code, key, value, doctype, eol;
+
+		if typeof parameters != "array" {
+			let params = [parameters, local];
+		} else {
+			let params = parameters;
+		}
+ 
+		if !isset params["href"] {
+			if isset params[0] {
+				let firstParam = params[0];
+				let params["href"] = firstParam;
+			} else {
+				let params["href"] = "";
+			}
+		}
+ 
+		let local = false;
+ 
+		if isset params[1] {
+			let local = params[1];
+		} else {
+			if isset params["local"] {
+				let local = params["local"];
+				unset params["local"];
+			}
+		}
+ 
+		if !isset params["type"] {
+			let params["type"] = "text/css";
+		}
+ 
+		/**
+		 * URLs are generated through the "url" service
+		 */
+		if local {
+			let url = self::getUrlService();
+			let params["href"] = url->getStatic(params["href"]);;
+		}
+ 
+		let code = "<link rel=\"stylesheet\"";
+		for key,value in params {
+			if typeof key != "integer" {
+				let code .= " ".key."=\"".value."\"";
+			}
+		}
+ 
+		let doctype = self::_documentType;
+ 
+		let eol = PHP_EOL;
+ 
+		/**
+		 * Check if Doctype is XHTML
+		 */
+		if doctype > 5 {
+			let code .= " />".eol;
+		} else {
+			let code .= ">".eol;
+		}
+ 
+		return code;
+	}
+
+	/**
+	 * Builds a SCRIPT[type="javascript"] tag
+	 *
+	 * <code>
+	 *         echo Phalcon\Tag::javascriptInclude("http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js", false);
+	 *         echo Phalcon\Tag::javascriptInclude("javascript/jquery.js");
+	 * </code>
+	 *
+	 * Volt syntax:
+	 * <code>
+	 * {{ javascript_include("http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js", false) }}
+	 * {{ javascript_include("javascript/jquery.js") }}
+	 * </code>
+	 *
+	 * @param array parameters
+	 * @param   boolean local
+	 * @return string
+	 */
+	public static function javascriptInclude(parameters=null, local=true)
+	{
+ 		var params, firstParam, code, url, eol, key, value;
+
+		if typeof parameters != "array" {
+			let params = [parameters, local];
+		} else {
+			let params = parameters;
+		}
+ 
+		if !isset params["src"] {
+			if isset params[0] {
+				let firstParam = params[0];
+				let params["src"] = firstParam;
+			} else {
+				let params["src"] = "";
+			}
+		}
+ 
+		let local = false;
+ 
+		if isset params[1] {
+			let local = params[1];
+		} else {
+			if isset params["local"] {
+				let local = params["local"];
+				unset params["local"];
+			}
+		}
+ 
+		if !isset params["type"] {
+			let params["type"] = "text/javascript";
+		}
+ 
+		/**
+		 * URLs are generated through the "url" service
+		 */
+		if local {
+			let url = self::getUrlService();
+			let params["src"] = url->getStatic(params["src"]);
+		}
+ 
+		let eol = PHP_EOL;
+ 
+		let code = "<script";
+		for key,value in params {
+			if typeof key != "integer" {
+				let code.= " ".key."=\"".value."\"";
+			}
+		}
+		let code.="></script>".eol;
+ 
+		return code;
+	}
+
+	/**
+	 * Builds HTML IMG tags
+	 *
+	 * <code>
+	 *         echo Phalcon\Tag::image("img/bg.png");
+	 *         echo Phalcon\Tag::image(array("img/photo.jpg", "alt" => "Some Photo"));
+	 * </code>
+	 *
+	 * Volt Syntax:
+	 * <code>
+	 *         {{ image("img/bg.png") }}
+	 *         {{ image("img/photo.jpg", "alt": "Some Photo") }}
+	 *         {{ image("http://static.mywebsite.com/img/bg.png", false) }}
+	 * </code>
+	 *
+	 * @param  array parameters
+	 * @param  boolean local
+	 * @return string
+	 */
+	public static function image(parameters=null, local=true)
+	{
+		var params, code, url, key, value, doctype;
+
+		if typeof parameters != "array" {
+			let params = [parameters];
+		} else {
+			let params = parameters;
+		}
+ 
+		if !isset params["src"] {
+			if isset params[0] {
+				let params["src"] = params[0];
+			} else {
+				let params["src"] = "";
+			}
+		}
+ 
+		/**
+		 * Use the "url" service if the URI is local
+		 */
+		if local {
+			let url = self::getUrlService();
+			let params["src"] = url->getStatic(params["src"]);
+		}
+ 
+		let code = "<img";
+		for key,value in params {
+			if typeof key != "integer" {
+				let code .= " ".key."=\"".value."\"";
+			}
+		}
+ 
+		let doctype = self::_documentType;
+ 
+		/**
+		 * Check if Doctype is XHTML
+		 */
+		if doctype > 5 {
+			let code .= " />";
+		} else {
+			let code .= ">";
+		}
+ 
+		return code;
+	}
+
+	/**
+	 * Converts texts into URL-friendly titles
+	 *
+	 *<code>
+	 * echo Phalcon\Tag::friendlyTitle("These are big important news", "-")
+	 *</code>
+	 *
+	 * @param string text
+	 * @param string separator
+	 * @param boolean lowercase
+	 * @return text
+	 */
+	public static function friendlyTitle(text, separator="-", lowercase=true) -> string
+	{
+		var pattern, friendly, friendlyText;
+
+		let pattern = "~[^a-z0-9A-Z]+~";
+		let friendly = preg_replace(pattern, separator, text);
+		if !empty lowercase {
+			let friendlyText = strtolower(friendly);
+		} else {
+			let friendlyText = friendly;
+		}
+		return friendlyText;
+	}
+
+	/**
+	 * Set the document type of content
+	 *
+	 * @param string doctype
+	 */
+	public static function setDocType(doctype) -> void
+	{
+		let self::_documentType = doctype;
+	}
+
+	/**
+	 * Get the document type declaration of content
+	 *
+	 * @return string
+	 */
+	public static function getDocType() -> string
+	{
+		var doctype;
+
+		let doctype = self::_documentType;
+		switch doctype 
+		{
+			case 1:  return "<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 3.2 Final//EN\">".PHP_EOL;
+            /* no break */
+            case 2:  return "<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.01//EN\"". PHP_EOL ."\t\"http://www.w3.org/TR/html4/strict.dtd\">".PHP_EOL;
+            /* no break */
+            case 3:  return "<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\"".PHP_EOL."\t\"http://www.w3.org/TR/html4/loose.dtd\">".PHP_EOL;
+            /* no break */
+            case 4:  return "<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.01 Frameset//EN\"".PHP_EOL."\t\"http://www.w3.org/TR/html4/frameset.dtd\">".PHP_EOL;
+            /* no break */
+            case 5:  return "<!DOCTYPE html>".PHP_EOL;
+            /* no break */
+            case 6:  return "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\"".PHP_EOL."\t\"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">".PHP_EOL;
+            /* no break */
+            case 7:  return "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\"".PHP_EOL."\t\"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">".PHP_EOL;
+            /* no break */
+            case 8:  return "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Frameset//EN\"".PHP_EOL."\t\"http://www.w3.org/TR/xhtml1/DTD/xhtml1-frameset.dtd\">".PHP_EOL;
+            /* no break */
+            case 9:  return "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.1//EN\"".PHP_EOL."\t\"http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd\">".PHP_EOL;
+            /* no break */
+            case 10: return "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 2.0//EN\"".PHP_EOL."\t\"http://www.w3.org/MarkUp/DTD/xhtml2.dtd\">".PHP_EOL;
+            /* no break */
+            default: return "";
+		}
+	}
+
+	/**
+	 * Builds a HTML tag
+	 *
+	 *<code>
+	 *        echo Phalcon\Tag::tagHtml(name, parameters, selfClose, onlyStart, eol);
+	 *</code>
+	 *
+	 * @param string tagName
+	 * @param array parameters
+	 * @param boolean selfClose
+	 * @param boolean onlyStart
+	 * @param boolean useEol
+	 * @return string
+	 */
+	public static function tagHtml(tagName, parameters=null, selfClose=false, onlyStart=false, useEol=false)
+	{
+ 		var params, localCode;
+
+		if typeof parameters != "array" {
+			let params = [parameters];
+		} else {
+			let params = parameters;
+		}
+ 
+		let localCode = "<".tagName;
+ 
+		for key,value in params {
+			if typeof key != "integer" {
+				let localCode .= " ".key."=\"".value."\"";
+			}
+		}
+ 
+		let doctype = self::_documentType;
+ 
+		/**
+		 * Check if Doctype is XHTML
+		 */
+		if doctype > 5 {
+			if selfClose {
+				let localCode .= " />";
+			} else {
+				let localCode .= ">";
+			}
+		} else {
+			if onlyStart {
+				let localCode .= ">";
+			} else {
+				let localCode .= "></". tagName . ">";
+			}
+		}
+ 
+		if useEol {
+			let localCode .= PHP_EOL;
+		}
+ 
+		return localCode;
+	}
+
+	/**
+	 * Builds a HTML tag closing tag
+	 *
+	 *<code>
+	 *        echo Phalcon\Tag::tagHtmlClose("script", true)
+	 *</code>
+	 *
+	 * @param string tagName
+	 * @param boolean useEol
+	 * @return string
+	 */
+	public static function tagHtmlClose(tagName, useEol=false)
+	{
+ 		var localCode;
+
+		let localCode = "</" . tagName . ">";
+ 
+		if useEol {
+			let localCode .= PHP_EOL;
+		}
+ 
+		return localCode;
 	}
 
 }

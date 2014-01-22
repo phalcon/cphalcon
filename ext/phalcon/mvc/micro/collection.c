@@ -181,11 +181,7 @@ PHP_METHOD(Phalcon_Mvc_Micro_Collection, setHandler) {
 
 	zephir_fetch_params(0, 1, 1, &handler, &lazy_param);
 
-	if (!lazy_param) {
-		lazy = 0;
-	} else {
 		lazy = zephir_get_boolval(lazy_param);
-	}
 
 
 	zephir_update_property_this(this_ptr, SL("_handler"), handler TSRMLS_CC);

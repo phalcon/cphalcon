@@ -135,10 +135,7 @@ PHP_METHOD(Phalcon_Logger_Multiple, log) {
 	zephir_fetch_params(1, 1, 1, &message_param, &type_param);
 
 		zephir_get_strval(message, message_param);
-	if (!type_param) {
-		type = 7;	} else {
 		type = zephir_get_intval(type_param);
-	}
 
 
 	loggers = zephir_fetch_nproperty_this(this_ptr, SL("_loggers"), PH_NOISY_CC);

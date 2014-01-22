@@ -58,9 +58,7 @@ PHP_METHOD(Phalcon_Tag_Select, selectField) {
 
 	zephir_fetch_params(0, 1, 1, &parameters, &data);
 
-	if (!data) {
 		data = ZEPHIR_GLOBAL(global_null);
-	}
 
 
 

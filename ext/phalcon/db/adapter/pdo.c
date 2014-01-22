@@ -131,11 +131,8 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, connect) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 1, &descriptor);
 
-	if (!descriptor) {
 		ZEPHIR_CPY_WRT(descriptor, ZEPHIR_GLOBAL(global_null));
-	} else {
 		ZEPHIR_SEPARATE_PARAM(descriptor);
-	}
 
 
 	if ((Z_TYPE_P(descriptor) == IS_NULL)) {
@@ -354,12 +351,8 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, query) {
 		ZEPHIR_INIT_VAR(sqlStatement);
 		ZVAL_EMPTY_STRING(sqlStatement);
 	}
-	if (!bindParams) {
 		bindParams = ZEPHIR_GLOBAL(global_null);
-	}
-	if (!bindTypes) {
 		bindTypes = ZEPHIR_GLOBAL(global_null);
-	}
 
 
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_eventsManager"), PH_NOISY_CC);
@@ -437,12 +430,8 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, execute) {
 		ZEPHIR_INIT_VAR(sqlStatement);
 		ZVAL_EMPTY_STRING(sqlStatement);
 	}
-	if (!bindParams) {
 		bindParams = ZEPHIR_GLOBAL(global_null);
-	}
-	if (!bindTypes) {
 		bindTypes = ZEPHIR_GLOBAL(global_null);
-	}
 
 
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_eventsManager"), PH_NOISY_CC);
@@ -616,9 +605,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, lastInsertId) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 1, &sequenceName);
 
-	if (!sequenceName) {
 		sequenceName = ZEPHIR_GLOBAL(global_null);
-	}
 
 
 	pdo = zephir_fetch_nproperty_this(this_ptr, SL("_pdo"), PH_NOISY_CC);
@@ -644,11 +631,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, begin) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 1, &nesting_param);
 
-	if (!nesting_param) {
-		nesting = 1;
-	} else {
 		nesting = zephir_get_boolval(nesting_param);
-	}
 
 
 	pdo = zephir_fetch_nproperty_this(this_ptr, SL("_pdo"), PH_NOISY_CC);
@@ -705,11 +688,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, rollback) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 1, &nesting_param);
 
-	if (!nesting_param) {
-		nesting = 1;
-	} else {
 		nesting = zephir_get_boolval(nesting_param);
-	}
 
 
 	pdo = zephir_fetch_nproperty_this(this_ptr, SL("_pdo"), PH_NOISY_CC);
@@ -772,11 +751,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, commit) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 1, &nesting_param);
 
-	if (!nesting_param) {
-		nesting = 1;
-	} else {
 		nesting = zephir_get_boolval(nesting_param);
-	}
 
 
 	pdo = zephir_fetch_nproperty_this(this_ptr, SL("_pdo"), PH_NOISY_CC);

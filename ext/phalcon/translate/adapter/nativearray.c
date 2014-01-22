@@ -112,9 +112,7 @@ PHP_METHOD(Phalcon_Translate_Adapter_NativeArray, query) {
 		ZEPHIR_INIT_VAR(index);
 		ZVAL_EMPTY_STRING(index);
 	}
-	if (!placeholders) {
 		placeholders = ZEPHIR_GLOBAL(global_null);
-	}
 
 
 	ZEPHIR_OBS_VAR(traslation);

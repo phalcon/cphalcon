@@ -120,16 +120,10 @@ PHP_METHOD(Phalcon_Mvc_Model, __construct) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 2, &dependencyInjector, &modelsManager);
 
-	if (!dependencyInjector) {
 		ZEPHIR_CPY_WRT(dependencyInjector, ZEPHIR_GLOBAL(global_null));
-	} else {
 		ZEPHIR_SEPARATE_PARAM(dependencyInjector);
-	}
-	if (!modelsManager) {
 		ZEPHIR_CPY_WRT(modelsManager, ZEPHIR_GLOBAL(global_null));
-	} else {
 		ZEPHIR_SEPARATE_PARAM(modelsManager);
-	}
 
 
 	if ((Z_TYPE_P(dependencyInjector) != IS_OBJECT)) {
@@ -663,9 +657,7 @@ PHP_METHOD(Phalcon_Mvc_Model, assign) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 1, &data, &columnMap);
 
-	if (!columnMap) {
 		columnMap = ZEPHIR_GLOBAL(global_null);
-	}
 
 
 	if ((Z_TYPE_P(data) != IS_ARRAY)) {
@@ -730,15 +722,8 @@ PHP_METHOD(Phalcon_Mvc_Model, cloneResultMap) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 3, 2, &base, &data, &columnMap, &dirtyState_param, &keepSnapshots_param);
 
-	if (!dirtyState_param) {
-		dirtyState = 0;	} else {
 		dirtyState = zephir_get_intval(dirtyState_param);
-	}
-	if (!keepSnapshots_param) {
-		keepSnapshots = 0;
-	} else {
 		keepSnapshots = zephir_get_boolval(keepSnapshots_param);
-	}
 
 
 	if ((Z_TYPE_P(data) != IS_ARRAY)) {
@@ -888,10 +873,7 @@ PHP_METHOD(Phalcon_Mvc_Model, cloneResult) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 1, &base, &data, &dirtyState_param);
 
-	if (!dirtyState_param) {
-		dirtyState = 0;	} else {
 		dirtyState = zephir_get_intval(dirtyState_param);
-	}
 
 
 	if ((Z_TYPE_P(data) != IS_ARRAY)) {
@@ -961,9 +943,7 @@ PHP_METHOD(Phalcon_Mvc_Model, find) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 1, &parameters);
 
-	if (!parameters) {
 		parameters = ZEPHIR_GLOBAL(global_null);
-	}
 
 
 	if ((Z_TYPE_P(parameters) != IS_ARRAY)) {
@@ -1034,9 +1014,7 @@ PHP_METHOD(Phalcon_Mvc_Model, findFirst) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 1, &parameters);
 
-	if (!parameters) {
 		parameters = ZEPHIR_GLOBAL(global_null);
-	}
 
 
 	if ((Z_TYPE_P(parameters) != IS_ARRAY)) {
@@ -1089,11 +1067,8 @@ PHP_METHOD(Phalcon_Mvc_Model, query) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 1, &dependencyInjector);
 
-	if (!dependencyInjector) {
 		ZEPHIR_CPY_WRT(dependencyInjector, ZEPHIR_GLOBAL(global_null));
-	} else {
 		ZEPHIR_SEPARATE_PARAM(dependencyInjector);
-	}
 
 
 	if ((Z_TYPE_P(dependencyInjector) != IS_OBJECT)) {
@@ -1129,11 +1104,8 @@ PHP_METHOD(Phalcon_Mvc_Model, _exists) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 1, &metaData, &connection, &table);
 
-	if (!table) {
 		ZEPHIR_CPY_WRT(table, ZEPHIR_GLOBAL(global_null));
-	} else {
 		ZEPHIR_SEPARATE_PARAM(table);
-	}
 
 
 	ZEPHIR_INIT_VAR(uniqueParams);
@@ -1395,9 +1367,7 @@ PHP_METHOD(Phalcon_Mvc_Model, count) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 1, &parameters);
 
-	if (!parameters) {
 		parameters = ZEPHIR_GLOBAL(global_null);
-	}
 
 
 	ZEPHIR_INIT_VAR(_0);
@@ -1434,9 +1404,7 @@ PHP_METHOD(Phalcon_Mvc_Model, sum) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 1, &parameters);
 
-	if (!parameters) {
 		parameters = ZEPHIR_GLOBAL(global_null);
-	}
 
 
 	ZEPHIR_INIT_VAR(_0);
@@ -1473,9 +1441,7 @@ PHP_METHOD(Phalcon_Mvc_Model, maximum) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 1, &parameters);
 
-	if (!parameters) {
 		parameters = ZEPHIR_GLOBAL(global_null);
-	}
 
 
 	ZEPHIR_INIT_VAR(_0);
@@ -1512,9 +1478,7 @@ PHP_METHOD(Phalcon_Mvc_Model, minimum) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 1, &parameters);
 
-	if (!parameters) {
 		parameters = ZEPHIR_GLOBAL(global_null);
-	}
 
 
 	ZEPHIR_INIT_VAR(_0);
@@ -1551,9 +1515,7 @@ PHP_METHOD(Phalcon_Mvc_Model, average) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 1, &parameters);
 
-	if (!parameters) {
 		parameters = ZEPHIR_GLOBAL(global_null);
-	}
 
 
 	ZEPHIR_INIT_VAR(_0);
@@ -3019,12 +2981,8 @@ PHP_METHOD(Phalcon_Mvc_Model, save) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 2, &data, &whiteList);
 
-	if (!data) {
 		data = ZEPHIR_GLOBAL(global_null);
-	}
-	if (!whiteList) {
 		whiteList = ZEPHIR_GLOBAL(global_null);
-	}
 
 
 	ZEPHIR_INIT_VAR(metaData);
@@ -3185,12 +3143,8 @@ PHP_METHOD(Phalcon_Mvc_Model, create) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 2, &data, &whiteList);
 
-	if (!data) {
 		data = ZEPHIR_GLOBAL(global_null);
-	}
-	if (!whiteList) {
 		whiteList = ZEPHIR_GLOBAL(global_null);
-	}
 
 
 	ZEPHIR_INIT_VAR(metaData);
@@ -3293,12 +3247,8 @@ PHP_METHOD(Phalcon_Mvc_Model, update) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 2, &data, &whiteList);
 
-	if (!data) {
 		data = ZEPHIR_GLOBAL(global_null);
-	}
-	if (!whiteList) {
 		whiteList = ZEPHIR_GLOBAL(global_null);
-	}
 
 
 	ZEPHIR_INIT_VAR(metaData);
@@ -3942,9 +3892,7 @@ PHP_METHOD(Phalcon_Mvc_Model, hasOne) {
 		ZEPHIR_INIT_VAR(referenceModel);
 		ZVAL_EMPTY_STRING(referenceModel);
 	}
-	if (!options) {
 		options = ZEPHIR_GLOBAL(global_null);
-	}
 
 
 	manager = zephir_fetch_nproperty_this(this_ptr, SL("_modelsManager"), PH_NOISY_CC);
@@ -3995,9 +3943,7 @@ PHP_METHOD(Phalcon_Mvc_Model, belongsTo) {
 		ZEPHIR_INIT_VAR(referenceModel);
 		ZVAL_EMPTY_STRING(referenceModel);
 	}
-	if (!options) {
 		options = ZEPHIR_GLOBAL(global_null);
-	}
 
 
 	manager = zephir_fetch_nproperty_this(this_ptr, SL("_modelsManager"), PH_NOISY_CC);
@@ -4048,9 +3994,7 @@ PHP_METHOD(Phalcon_Mvc_Model, hasMany) {
 		ZEPHIR_INIT_VAR(referenceModel);
 		ZVAL_EMPTY_STRING(referenceModel);
 	}
-	if (!options) {
 		options = ZEPHIR_GLOBAL(global_null);
-	}
 
 
 	manager = zephir_fetch_nproperty_this(this_ptr, SL("_modelsManager"), PH_NOISY_CC);
@@ -4113,9 +4057,7 @@ PHP_METHOD(Phalcon_Mvc_Model, hasManyToMany) {
 		ZVAL_EMPTY_STRING(intermediateModel);
 	}
 		zephir_get_strval(referenceModel, referenceModel_param);
-	if (!options) {
 		options = ZEPHIR_GLOBAL(global_null);
-	}
 
 
 	manager = zephir_fetch_nproperty_this(this_ptr, SL("_modelsManager"), PH_NOISY_CC);
@@ -4218,9 +4160,7 @@ PHP_METHOD(Phalcon_Mvc_Model, setSnapshotData) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 1, &data, &columnMap);
 
-	if (!columnMap) {
 		columnMap = ZEPHIR_GLOBAL(global_null);
-	}
 
 
 	if ((Z_TYPE_P(data) == IS_ARRAY)) {
@@ -4305,9 +4245,7 @@ PHP_METHOD(Phalcon_Mvc_Model, hasChanged) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 1, &fieldName);
 
-	if (!fieldName) {
 		fieldName = ZEPHIR_GLOBAL(global_null);
-	}
 
 
 	snapshot = zephir_fetch_nproperty_this(this_ptr, SL("_snapshot"), PH_NOISY_CC);
@@ -4513,9 +4451,7 @@ PHP_METHOD(Phalcon_Mvc_Model, getRelated) {
 	zephir_fetch_params(1, 1, 1, &alias_param, &arguments);
 
 		zephir_get_strval(alias, alias_param);
-	if (!arguments) {
 		arguments = ZEPHIR_GLOBAL(global_null);
-	}
 
 
 	manager = zephir_fetch_nproperty_this(this_ptr, SL("_modelsManager"), PH_NOISY_CC);
@@ -4629,9 +4565,7 @@ PHP_METHOD(Phalcon_Mvc_Model, __call) {
 	zephir_fetch_params(1, 1, 1, &method_param, &arguments);
 
 		zephir_get_strval(method, method_param);
-	if (!arguments) {
 		arguments = ZEPHIR_GLOBAL(global_null);
-	}
 
 
 	ZEPHIR_INIT_VAR(modelName);
@@ -4675,9 +4609,7 @@ PHP_METHOD(Phalcon_Mvc_Model, __callStatic) {
 	zephir_fetch_params(1, 1, 1, &method_param, &arguments);
 
 		zephir_get_strval(method, method_param);
-	if (!arguments) {
 		arguments = ZEPHIR_GLOBAL(global_null);
-	}
 
 
 	ZEPHIR_INIT_VAR(extraMethod);

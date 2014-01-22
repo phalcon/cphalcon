@@ -153,11 +153,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, render) {
 		ZEPHIR_INIT_VAR(templatePath);
 		ZVAL_EMPTY_STRING(templatePath);
 	}
-	if (!mustClean_param) {
-		mustClean = 0;
-	} else {
 		mustClean = zephir_get_boolval(mustClean_param);
-	}
 
 
 	if ((mustClean == 1)) {
@@ -342,9 +338,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, slice) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 1, &value, &start, &end);
 
-	if (!end) {
 		end = ZEPHIR_GLOBAL(global_null);
-	}
 
 
 	if ((Z_TYPE_P(value) == IS_OBJECT)) {

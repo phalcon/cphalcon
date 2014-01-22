@@ -291,9 +291,7 @@ PHP_METHOD(Phalcon_Assets_Collection, addCss) {
 
 		zephir_get_strval(path, path_param);
 		filter = zephir_get_boolval(filter_param);
-	if (!attributes) {
 		attributes = ZEPHIR_GLOBAL(global_null);
-	}
 
 
 	if (!(filter)) {
@@ -349,9 +347,7 @@ PHP_METHOD(Phalcon_Assets_Collection, addJs) {
 		ZVAL_EMPTY_STRING(path);
 	}
 		filter = zephir_get_boolval(filter_param);
-	if (!attributes) {
 		attributes = ZEPHIR_GLOBAL(global_null);
-	}
 
 
 	if (!(filter)) {

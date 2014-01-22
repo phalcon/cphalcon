@@ -357,11 +357,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, load) {
 		ZEPHIR_INIT_VAR(modelName);
 		ZVAL_EMPTY_STRING(modelName);
 	}
-	if (!newInstance_param) {
-		newInstance = 0;
-	} else {
 		newInstance = zephir_get_boolval(newInstance_param);
-	}
 
 
 	initialized = zephir_fetch_nproperty_this(this_ptr, SL("_initialized"), PH_NOISY_CC);
@@ -1080,9 +1076,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, addHasOne) {
 		ZEPHIR_INIT_VAR(referencedModel);
 		ZVAL_EMPTY_STRING(referencedModel);
 	}
-	if (!options) {
 		options = ZEPHIR_GLOBAL(global_null);
-	}
 
 
 	ZEPHIR_INIT_VAR(entityName);
@@ -1160,9 +1154,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, addBelongsTo) {
 		ZEPHIR_INIT_VAR(referencedModel);
 		ZVAL_EMPTY_STRING(referencedModel);
 	}
-	if (!options) {
 		options = ZEPHIR_GLOBAL(global_null);
-	}
 
 
 	ZEPHIR_INIT_VAR(entityName);
@@ -1239,9 +1231,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, addHasMany) {
 		ZEPHIR_INIT_VAR(referencedModel);
 		ZVAL_EMPTY_STRING(referencedModel);
 	}
-	if (!options) {
 		options = ZEPHIR_GLOBAL(global_null);
-	}
 
 
 	ZEPHIR_INIT_VAR(entityName);
@@ -1333,9 +1323,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, addHasManyToMany) {
 		ZEPHIR_INIT_VAR(referencedModel);
 		ZVAL_EMPTY_STRING(referencedModel);
 	}
-	if (!options) {
 		options = ZEPHIR_GLOBAL(global_null);
-	}
 
 
 	ZEPHIR_INIT_VAR(entityName);
@@ -1694,11 +1682,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getRelationRecords) {
 		ZEPHIR_INIT_VAR(method);
 		ZVAL_EMPTY_STRING(method);
 	}
-	if (!parameters) {
 		ZEPHIR_CPY_WRT(parameters, ZEPHIR_GLOBAL(global_null));
-	} else {
 		ZEPHIR_SEPARATE_PARAM(parameters);
-	}
 
 
 	ZEPHIR_INIT_VAR(preConditions);
@@ -2034,9 +2019,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getBelongsToRecords) {
 		ZEPHIR_INIT_VAR(modelName);
 		ZVAL_EMPTY_STRING(modelName);
 	}
-	if (!parameters) {
 		parameters = ZEPHIR_GLOBAL(global_null);
-	}
 
 
 	belongsTo = zephir_fetch_nproperty_this(this_ptr, SL("_hasMany"), PH_NOISY_CC);
@@ -2099,9 +2082,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getHasManyRecords) {
 		ZEPHIR_INIT_VAR(modelName);
 		ZVAL_EMPTY_STRING(modelName);
 	}
-	if (!parameters) {
 		parameters = ZEPHIR_GLOBAL(global_null);
-	}
 
 
 	hasMany = zephir_fetch_nproperty_this(this_ptr, SL("_hasMany"), PH_NOISY_CC);
@@ -2164,9 +2145,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getHasOneRecords) {
 		ZEPHIR_INIT_VAR(modelName);
 		ZVAL_EMPTY_STRING(modelName);
 	}
-	if (!parameters) {
 		parameters = ZEPHIR_GLOBAL(global_null);
-	}
 
 
 	hasOne = zephir_fetch_nproperty_this(this_ptr, SL("_hasOne"), PH_NOISY_CC);
@@ -2544,9 +2523,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, executeQuery) {
 		ZEPHIR_INIT_VAR(phql);
 		ZVAL_EMPTY_STRING(phql);
 	}
-	if (!placeholders) {
 		placeholders = ZEPHIR_GLOBAL(global_null);
-	}
 
 
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
@@ -2577,9 +2554,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, createBuilder) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 1, &params);
 
-	if (!params) {
 		params = ZEPHIR_GLOBAL(global_null);
-	}
 
 
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);

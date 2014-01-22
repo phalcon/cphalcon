@@ -78,19 +78,9 @@ PHP_METHOD(Phalcon_Assets_Resource_Css, __construct) {
 		ZEPHIR_INIT_VAR(path);
 		ZVAL_EMPTY_STRING(path);
 	}
-	if (!local_param) {
-		local = 1;
-	} else {
 		local = zephir_get_boolval(local_param);
-	}
-	if (!filter_param) {
-		filter = 1;
-	} else {
 		filter = zephir_get_boolval(filter_param);
-	}
-	if (!attributes) {
 		attributes = ZEPHIR_GLOBAL(global_null);
-	}
 
 
 	ZEPHIR_INIT_VAR(_0);

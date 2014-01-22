@@ -86,11 +86,8 @@ PHP_METHOD(Phalcon_Cache_Backend_Xcache, __construct) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 1, &frontend, &options);
 
-	if (!options) {
 		ZEPHIR_CPY_WRT(options, ZEPHIR_GLOBAL(global_null));
-	} else {
 		ZEPHIR_SEPARATE_PARAM(options);
-	}
 
 
 	if ((Z_TYPE_P(options) != IS_ARRAY)) {
@@ -121,9 +118,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Xcache, get) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 1, &keyName, &lifetime);
 
-	if (!lifetime) {
 		lifetime = ZEPHIR_GLOBAL(global_null);
-	}
 
 
 	frontend = zephir_fetch_nproperty_this(this_ptr, SL("_frontend"), PH_NOISY_CC);
@@ -161,18 +156,10 @@ PHP_METHOD(Phalcon_Cache_Backend_Xcache, save) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 4, &keyName, &content, &lifetime, &stopBuffer);
 
-	if (!keyName) {
 		keyName = ZEPHIR_GLOBAL(global_null);
-	}
-	if (!content) {
 		content = ZEPHIR_GLOBAL(global_null);
-	}
-	if (!lifetime) {
 		lifetime = ZEPHIR_GLOBAL(global_null);
-	}
-	if (!stopBuffer) {
 		stopBuffer = ZEPHIR_GLOBAL(global_true);
-	}
 
 
 	ZEPHIR_INIT_VAR(lastKey);
@@ -293,9 +280,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Xcache, queryKeys) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 1, &prefix);
 
-	if (!prefix) {
 		prefix = ZEPHIR_GLOBAL(global_null);
-	}
 
 
 	ZEPHIR_INIT_VAR(prefixed);
@@ -344,12 +329,8 @@ PHP_METHOD(Phalcon_Cache_Backend_Xcache, exists) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 2, &keyName, &lifetime);
 
-	if (!keyName) {
 		keyName = ZEPHIR_GLOBAL(global_null);
-	}
-	if (!lifetime) {
 		lifetime = ZEPHIR_GLOBAL(global_null);
-	}
 
 
 	ZEPHIR_INIT_VAR(lastKey);
@@ -382,10 +363,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Xcache, increment) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 1, &keyName, &value_param);
 
-	if (!value_param) {
-		value = 1;	} else {
 		value = zephir_get_intval(value_param);
-	}
 
 
 	ZEPHIR_INIT_VAR(lastKey);
@@ -429,10 +407,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Xcache, decrement) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 1, &keyName, &value_param);
 
-	if (!value_param) {
-		value = 1;	} else {
 		value = zephir_get_intval(value_param);
-	}
 
 
 	ZEPHIR_INIT_VAR(lastKey);

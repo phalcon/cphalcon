@@ -63,9 +63,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Behavior, __construct) {
 
 	zephir_fetch_params(0, 0, 1, &options);
 
-	if (!options) {
 		options = ZEPHIR_GLOBAL(global_null);
-	}
 
 
 	zephir_update_property_this(this_ptr, SL("_options"), options TSRMLS_CC);
@@ -117,10 +115,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Behavior, getOptions) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 1, &eventName_param);
 
-	if (!eventName_param) {
 		ZEPHIR_INIT_VAR(eventName);
 		ZVAL_EMPTY_STRING(eventName);
-	}
 
 
 	options = zephir_fetch_nproperty_this(this_ptr, SL("_options"), PH_NOISY_CC);
@@ -171,9 +167,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Behavior, missingMethod) {
 	zephir_fetch_params(1, 2, 1, &model, &method_param, &arguments);
 
 		zephir_get_strval(method, method_param);
-	if (!arguments) {
 		arguments = ZEPHIR_GLOBAL(global_null);
-	}
 
 
 	RETURN_MM_NULL();

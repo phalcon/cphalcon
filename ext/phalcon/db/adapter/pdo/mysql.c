@@ -123,10 +123,8 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Mysql, describeColumns) {
 	zephir_fetch_params(1, 1, 1, &table_param, &schema_param);
 
 		zephir_get_strval(table, table_param);
-	if (!schema_param) {
 		ZEPHIR_INIT_VAR(schema);
 		ZVAL_EMPTY_STRING(schema);
-	}
 
 
 	dialect = zephir_fetch_nproperty_this(this_ptr, SL("_dialect"), PH_NOISY_CC);

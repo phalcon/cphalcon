@@ -471,10 +471,7 @@ PHP_METHOD(Phalcon_Logger_Adapter, log) {
 		ZEPHIR_INIT_VAR(message);
 		ZVAL_EMPTY_STRING(message);
 	}
-	if (!type_param) {
-		type = 7;	} else {
 		type = zephir_get_intval(type_param);
-	}
 
 
 	ZEPHIR_INIT_VAR(timestamp);

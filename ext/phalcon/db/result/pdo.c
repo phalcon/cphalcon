@@ -92,15 +92,9 @@ PHP_METHOD(Phalcon_Db_Result_Pdo, __construct) {
 
 	zephir_fetch_params(0, 2, 3, &connection, &result, &sqlStatement, &bindParams, &bindTypes);
 
-	if (!sqlStatement) {
 		sqlStatement = ZEPHIR_GLOBAL(global_null);
-	}
-	if (!bindParams) {
 		bindParams = ZEPHIR_GLOBAL(global_null);
-	}
-	if (!bindTypes) {
 		bindTypes = ZEPHIR_GLOBAL(global_null);
-	}
 
 
 	if ((Z_TYPE_P(result) != IS_OBJECT)) {

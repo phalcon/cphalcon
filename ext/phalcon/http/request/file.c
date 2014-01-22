@@ -164,14 +164,14 @@ PHP_METHOD(Phalcon_Http_Request_File, getType) {
  */
 PHP_METHOD(Phalcon_Http_Request_File, getRealType) {
 
-	zval *finfo, *mime, _0, *_1;
+	zval *finfo, *mime, *_0, *_1;
 
 	ZEPHIR_MM_GROW();
 
-	ZEPHIR_SINIT_VAR(_0);
-	ZVAL_LONG(&_0, 16);
+	ZEPHIR_INIT_VAR(_0);
+	ZEPHIR_GET_CONSTANT(_0, "FILEINFO_MIME_TYPE");
 	ZEPHIR_INIT_VAR(finfo);
-	zephir_call_func_p1(finfo, "finfo_open", &_0);
+	zephir_call_func_p1(finfo, "finfo_open", _0);
 	if ((Z_TYPE_P(finfo) != IS_RESOURCE)) {
 		RETURN_MM_STRING("", 1);
 	}

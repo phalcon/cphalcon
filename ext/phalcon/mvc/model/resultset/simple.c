@@ -80,12 +80,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, __construct) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 3, 2, &columnMap, &model, &result, &cache, &keepSnapshots);
 
-	if (!cache) {
 		cache = ZEPHIR_GLOBAL(global_null);
-	}
-	if (!keepSnapshots) {
 		keepSnapshots = ZEPHIR_GLOBAL(global_null);
-	}
 
 
 	zephir_update_property_this(this_ptr, SL("_model"), model TSRMLS_CC);
@@ -199,11 +195,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, toArray) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 1, &renameColumns_param);
 
-	if (!renameColumns_param) {
-		renameColumns = 1;
-	} else {
 		renameColumns = zephir_get_boolval(renameColumns_param);
-	}
 
 
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_type"), PH_NOISY_CC);

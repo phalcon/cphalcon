@@ -69,9 +69,7 @@ PHP_METHOD(Phalcon_Validation_Message_Group, __construct) {
 
 	zephir_fetch_params(0, 0, 1, &messages);
 
-	if (!messages) {
 		messages = ZEPHIR_GLOBAL(global_null);
-	}
 
 
 	if ((Z_TYPE_P(messages) == IS_ARRAY)) {

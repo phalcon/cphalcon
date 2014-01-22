@@ -205,10 +205,7 @@ PHP_METHOD(Phalcon_Mvc_Dispatcher, _throwDispatchException) {
 		ZEPHIR_INIT_VAR(message);
 		ZVAL_EMPTY_STRING(message);
 	}
-	if (!exceptionCode_param) {
-		exceptionCode = 0;	} else {
 		exceptionCode = zephir_get_intval(exceptionCode_param);
-	}
 
 
 	dependencyInjector = zephir_fetch_nproperty_this(this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);

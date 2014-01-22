@@ -108,9 +108,7 @@ PHP_METHOD(Phalcon_Mvc_Application, __construct) {
 
 	zephir_fetch_params(0, 0, 1, &dependencyInjector);
 
-	if (!dependencyInjector) {
 		dependencyInjector = ZEPHIR_GLOBAL(global_null);
-	}
 
 
 	if ((Z_TYPE_P(dependencyInjector) == IS_OBJECT)) {
@@ -169,11 +167,7 @@ PHP_METHOD(Phalcon_Mvc_Application, registerModules) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 1, &modules, &merge_param);
 
-	if (!merge_param) {
-		merge = 0;
-	} else {
 		merge = zephir_get_boolval(merge_param);
-	}
 
 
 	if ((Z_TYPE_P(modules) != IS_ARRAY)) {
@@ -266,9 +260,7 @@ PHP_METHOD(Phalcon_Mvc_Application, handle) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 1, &uri);
 
-	if (!uri) {
 		uri = ZEPHIR_GLOBAL(global_null);
-	}
 
 
 	dependencyInjector = zephir_fetch_nproperty_this(this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);

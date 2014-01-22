@@ -72,9 +72,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Complex, __construct) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 1, &columnTypes, &result, &cache);
 
-	if (!cache) {
 		cache = ZEPHIR_GLOBAL(global_null);
-	}
 
 
 	zephir_update_property_this(this_ptr, SL("_columnTypes"), columnTypes TSRMLS_CC);

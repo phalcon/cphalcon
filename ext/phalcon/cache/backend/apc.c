@@ -87,9 +87,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Apc, get) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 1, &keyName, &lifetime);
 
-	if (!lifetime) {
 		lifetime = ZEPHIR_GLOBAL(global_null);
-	}
 
 
 	frontend = zephir_fetch_nproperty_this(this_ptr, SL("_frontend"), PH_NOISY_CC);
@@ -122,20 +120,11 @@ PHP_METHOD(Phalcon_Cache_Backend_Apc, save) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 4, &keyName, &content, &lifetime, &stopBuffer);
 
-	if (!keyName) {
 		keyName = ZEPHIR_GLOBAL(global_null);
-	}
-	if (!content) {
 		content = ZEPHIR_GLOBAL(global_null);
-	}
-	if (!lifetime) {
 		ZEPHIR_CPY_WRT(lifetime, ZEPHIR_GLOBAL(global_null));
-	} else {
 		ZEPHIR_SEPARATE_PARAM(lifetime);
-	}
-	if (!stopBuffer) {
 		stopBuffer = ZEPHIR_GLOBAL(global_true);
-	}
 
 
 	ZEPHIR_INIT_VAR(lastKey);
@@ -226,10 +215,8 @@ PHP_METHOD(Phalcon_Cache_Backend_Apc, queryKeys) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 1, &prefix_param);
 
-	if (!prefix_param) {
 		ZEPHIR_INIT_VAR(prefix);
 		ZVAL_EMPTY_STRING(prefix);
-	}
 
 
 	ZEPHIR_INIT_VAR(prefixPattern);
@@ -244,9 +231,6 @@ PHP_METHOD(Phalcon_Cache_Backend_Apc, queryKeys) {
 	_0 = zend_fetch_class(SL("APCIterator"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
 	object_init_ex(apc, _0);
 	ZEPHIR_INIT_VAR(_1);
-	ZVAL_STRING(_1, "user", 1);
-	zephir_call_method_p2_noret(apc, "__construct", _1, prefixPattern);
-	ZEPHIR_INIT_BNVAR(_1);
 	zephir_call_func_p1(_1, "iterator", apc);
 	zephir_is_iterable(_1, &_3, &_2, 0, 0);
 	for (
@@ -277,12 +261,8 @@ PHP_METHOD(Phalcon_Cache_Backend_Apc, exists) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 2, &keyName, &lifetime);
 
-	if (!keyName) {
 		keyName = ZEPHIR_GLOBAL(global_null);
-	}
-	if (!lifetime) {
 		lifetime = ZEPHIR_GLOBAL(global_null);
-	}
 
 
 	ZEPHIR_INIT_VAR(lastKey);

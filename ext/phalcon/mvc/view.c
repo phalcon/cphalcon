@@ -137,9 +137,7 @@ PHP_METHOD(Phalcon_Mvc_View, __construct) {
 
 	zephir_fetch_params(0, 0, 1, &options);
 
-	if (!options) {
 		options = ZEPHIR_GLOBAL(global_null);
-	}
 
 
 	if ((Z_TYPE_P(options) == IS_ARRAY)) {
@@ -553,11 +551,7 @@ PHP_METHOD(Phalcon_Mvc_View, setVars) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 1, &params, &merge_param);
 
-	if (!merge_param) {
-		merge = 1;
-	} else {
 		merge = zephir_get_boolval(merge_param);
-	}
 
 
 	if ((Z_TYPE_P(params) != IS_ARRAY)) {
@@ -998,9 +992,7 @@ PHP_METHOD(Phalcon_Mvc_View, render) {
 		ZEPHIR_INIT_VAR(actionName);
 		ZVAL_EMPTY_STRING(actionName);
 	}
-	if (!params) {
 		params = ZEPHIR_GLOBAL(global_null);
-	}
 
 
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_disabled"), PH_NOISY_CC);
@@ -1238,9 +1230,7 @@ PHP_METHOD(Phalcon_Mvc_View, partial) {
 		ZEPHIR_INIT_VAR(partialPath);
 		ZVAL_EMPTY_STRING(partialPath);
 	}
-	if (!params) {
 		params = ZEPHIR_GLOBAL(global_null);
-	}
 
 
 	if ((Z_TYPE_P(params) == IS_ARRAY)) {
@@ -1311,12 +1301,8 @@ PHP_METHOD(Phalcon_Mvc_View, getRender) {
 		ZEPHIR_INIT_VAR(actionName);
 		ZVAL_EMPTY_STRING(actionName);
 	}
-	if (!params) {
 		params = ZEPHIR_GLOBAL(global_null);
-	}
-	if (!configCallback) {
 		configCallback = ZEPHIR_GLOBAL(global_null);
-	}
 
 
 	ZEPHIR_INIT_VAR(view);
@@ -1456,9 +1442,7 @@ PHP_METHOD(Phalcon_Mvc_View, cache) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 1, &options);
 
-	if (!options) {
 		options = ZEPHIR_GLOBAL(global_true);
-	}
 
 
 	if ((Z_TYPE_P(options) == IS_ARRAY)) {

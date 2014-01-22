@@ -94,9 +94,7 @@ PHP_METHOD(Phalcon_Cache_Backend_File, __construct) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 1, &frontend, &options);
 
-	if (!options) {
 		options = ZEPHIR_GLOBAL(global_null);
-	}
 
 
 	if (!(zephir_array_isset_string(options, SS("cacheDir")))) {
@@ -123,9 +121,7 @@ PHP_METHOD(Phalcon_Cache_Backend_File, get) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 1, &keyName, &lifetime);
 
-	if (!lifetime) {
 		lifetime = ZEPHIR_GLOBAL(global_null);
-	}
 
 
 	options = zephir_fetch_nproperty_this(this_ptr, SL("_options"), PH_NOISY_CC);
@@ -198,18 +194,10 @@ PHP_METHOD(Phalcon_Cache_Backend_File, save) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 4, &keyName, &content, &lifetime, &stopBuffer);
 
-	if (!keyName) {
 		keyName = ZEPHIR_GLOBAL(global_null);
-	}
-	if (!content) {
 		content = ZEPHIR_GLOBAL(global_null);
-	}
-	if (!lifetime) {
 		lifetime = ZEPHIR_GLOBAL(global_null);
-	}
-	if (!stopBuffer) {
 		stopBuffer = ZEPHIR_GLOBAL(global_true);
-	}
 
 
 	if (!(zephir_is_true(keyName))) {
@@ -311,9 +299,7 @@ PHP_METHOD(Phalcon_Cache_Backend_File, queryKeys) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 1, &prefix);
 
-	if (!prefix) {
 		prefix = ZEPHIR_GLOBAL(global_null);
-	}
 
 
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_options"), PH_NOISY_CC);
@@ -364,14 +350,8 @@ PHP_METHOD(Phalcon_Cache_Backend_File, exists) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 2, &keyName, &lifetime_param);
 
-	if (!keyName) {
 		keyName = ZEPHIR_GLOBAL(global_null);
-	}
-	if (!lifetime_param) {
-		lifetime = 0;
-	} else {
 		lifetime = zephir_get_intval(lifetime_param);
-	}
 
 
 	ZEPHIR_INIT_VAR(lastKey);
@@ -423,14 +403,8 @@ PHP_METHOD(Phalcon_Cache_Backend_File, increment) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 2, &keyName, &value_param);
 
-	if (!keyName) {
 		keyName = ZEPHIR_GLOBAL(global_null);
-	}
-	if (!value_param) {
-		value = 0;
-	} else {
 		value = zephir_get_intval(value_param);
-	}
 
 
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_prefix"), PH_NOISY_CC);
@@ -501,14 +475,8 @@ PHP_METHOD(Phalcon_Cache_Backend_File, decrement) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 2, &keyName, &value_param);
 
-	if (!keyName) {
 		keyName = ZEPHIR_GLOBAL(global_null);
-	}
-	if (!value_param) {
-		value = 0;
-	} else {
 		value = zephir_get_intval(value_param);
-	}
 
 
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_prefix"), PH_NOISY_CC);

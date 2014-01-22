@@ -452,11 +452,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getExpression) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 1, &expr, &quoting_param);
 
-	if (!quoting_param) {
-		quoting = 1;
-	} else {
 		quoting = zephir_get_boolval(quoting_param);
-	}
 
 
 	if (zephir_array_isset_string_fetch(&exprType, expr, SS("type"), 1 TSRMLS_CC)) {
@@ -3119,12 +3115,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, execute) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 2, &bindParams, &bindTypes);
 
-	if (!bindParams) {
 		bindParams = ZEPHIR_GLOBAL(global_null);
-	}
-	if (!bindTypes) {
 		bindTypes = ZEPHIR_GLOBAL(global_null);
-	}
 
 
 	uniqueRow = zephir_fetch_nproperty_this(this_ptr, SL("_uniqueRow"), PH_NOISY_CC);
@@ -3260,12 +3252,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, getSingleResult) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 2, &bindParams, &bindTypes);
 
-	if (!bindParams) {
 		bindParams = ZEPHIR_GLOBAL(global_null);
-	}
-	if (!bindTypes) {
 		bindTypes = ZEPHIR_GLOBAL(global_null);
-	}
 
 
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_uniqueRow"), PH_NOISY_CC);

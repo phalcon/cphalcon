@@ -577,9 +577,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, delete) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 1, &conditionCallback);
 
-	if (!conditionCallback) {
 		conditionCallback = ZEPHIR_GLOBAL(global_null);
-	}
 
 
 	transaction = 0;

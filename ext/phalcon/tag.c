@@ -333,9 +333,7 @@ PHP_METHOD(Phalcon_Tag, getValue) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 1, &name, &params);
 
-	if (!params) {
 		params = ZEPHIR_GLOBAL(global_null);
-	}
 
 
 	zephir_read_static_property_ce(&displayValues, phalcon_tag_ce, SL("_displayValues") TSRMLS_CC);
@@ -424,16 +422,10 @@ PHP_METHOD(Phalcon_Tag, linkTo) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 2, &parameters, &text, &local);
 
-	if (!text) {
 		ZEPHIR_CPY_WRT(text, ZEPHIR_GLOBAL(global_null));
-	} else {
 		ZEPHIR_SEPARATE_PARAM(text);
-	}
-	if (!local) {
 		ZEPHIR_CPY_WRT(local, ZEPHIR_GLOBAL(global_true));
-	} else {
 		ZEPHIR_SEPARATE_PARAM(local);
-	}
 
 
 	if ((Z_TYPE_P(parameters) != IS_ARRAY)) {
@@ -523,11 +515,7 @@ PHP_METHOD(Phalcon_Tag, _inputField) {
 	zephir_fetch_params(1, 2, 1, &type_param, &parameters, &asValue_param);
 
 		zephir_get_strval(type, type_param);
-	if (!asValue_param) {
-		asValue = 0;
-	} else {
 		asValue = zephir_get_boolval(asValue_param);
-	}
 
 
 
@@ -873,9 +861,7 @@ PHP_METHOD(Phalcon_Tag, selectStatic) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 1, &parameters, &data);
 
-	if (!data) {
 		data = ZEPHIR_GLOBAL(global_null);
-	}
 
 
 	zephir_call_static_p2(return_value, "Phalcon\\Tag\\Select", "selectfield", parameters, data);
@@ -910,9 +896,7 @@ PHP_METHOD(Phalcon_Tag, select) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 1, &parameters, &data);
 
-	if (!data) {
 		data = ZEPHIR_GLOBAL(global_null);
-	}
 
 
 	zephir_call_static_p2(return_value, "Phalcon\\Tag\\Select", "selectfield", parameters, data);
@@ -1049,11 +1033,7 @@ PHP_METHOD(Phalcon_Tag, getTitle) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 1, &tags_param);
 
-	if (!tags_param) {
-		tags = 1;
-	} else {
 		tags = zephir_get_boolval(tags_param);
-	}
 
 
 	zephir_read_static_property_ce(&documentTitle, phalcon_tag_ce, SL("_documentTitle") TSRMLS_CC);

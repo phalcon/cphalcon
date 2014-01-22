@@ -114,9 +114,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, __construct) {
 
 	zephir_fetch_params(0, 0, 1, &view);
 
-	if (!view) {
 		view = ZEPHIR_GLOBAL(global_null);
-	}
 
 
 	if ((Z_TYPE_P(view) == IS_OBJECT)) {
@@ -286,9 +284,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, fireExtensionEvent) {
 		ZEPHIR_INIT_VAR(name);
 		ZVAL_EMPTY_STRING(name);
 	}
-	if (!arguments) {
 		arguments = ZEPHIR_GLOBAL(global_null);
-	}
 
 
 	extensions = zephir_fetch_nproperty_this(this_ptr, SL("_extensions"), PH_NOISY_CC);
@@ -1537,11 +1533,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compileForeach) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 1, &statement, &extendsMode_param);
 
-	if (!extendsMode_param) {
-		extendsMode = 0;
-	} else {
 		extendsMode = zephir_get_boolval(extendsMode_param);
-	}
 
 
 	if (!(zephir_array_isset_string(statement, SS("expr")))) {
@@ -1723,11 +1715,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compileIf) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 1, &statement, &extendsMode_param);
 
-	if (!extendsMode_param) {
-		extendsMode = 0;
-	} else {
 		extendsMode = zephir_get_boolval(extendsMode_param);
-	}
 
 
 	if (!(zephir_array_isset_string_fetch(&expr, statement, SS("expr"), 1 TSRMLS_CC))) {
@@ -1793,9 +1781,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compileCache) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 1, &statement, &extendsMode);
 
-	if (!extendsMode) {
 		extendsMode = ZEPHIR_GLOBAL(global_false);
-	}
 
 
 	if (!(zephir_array_isset_string_fetch(&expr, statement, SS("expr"), 1 TSRMLS_CC))) {
@@ -2230,11 +2216,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, _statementList) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 1, &statements, &extendsMode_param);
 
-	if (!extendsMode_param) {
-		extendsMode = 0;
-	} else {
 		extendsMode = zephir_get_boolval(extendsMode_param);
-	}
 
 
 	if (!(zephir_fast_count_int(statements TSRMLS_CC))) {
@@ -2489,11 +2471,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, _compileSource) {
 		ZEPHIR_INIT_VAR(viewCode);
 		ZVAL_EMPTY_STRING(viewCode);
 	}
-	if (!extendsMode_param) {
-		extendsMode = 0;
-	} else {
 		extendsMode = zephir_get_boolval(extendsMode_param);
-	}
 
 
 	currentPath = zephir_fetch_nproperty_this(this_ptr, SL("_currentPath"), PH_NOISY_CC);
@@ -2599,11 +2577,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compileString) {
 		ZEPHIR_INIT_VAR(viewCode);
 		ZVAL_EMPTY_STRING(viewCode);
 	}
-	if (!extendsMode_param) {
-		extendsMode = 0;
-	} else {
 		extendsMode = zephir_get_boolval(extendsMode_param);
-	}
 
 
 	ZEPHIR_INIT_ZVAL_NREF(_0);
@@ -2657,11 +2631,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compileFile) {
 		ZEPHIR_INIT_VAR(compiledPath);
 		ZVAL_EMPTY_STRING(compiledPath);
 	}
-	if (!extendsMode_param) {
-		extendsMode = 0;
-	} else {
 		extendsMode = zephir_get_boolval(extendsMode_param);
-	}
 
 
 	if (ZEPHIR_IS_EQUAL(path, compiledPath)) {
@@ -2742,11 +2712,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compile) {
 		ZEPHIR_INIT_VAR(templatePath);
 		ZVAL_EMPTY_STRING(templatePath);
 	}
-	if (!extendsMode_param) {
-		extendsMode = 0;
-	} else {
 		extendsMode = zephir_get_boolval(extendsMode_param);
-	}
 
 
 	zephir_update_property_this(this_ptr, SL("_extended"), (0) ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false) TSRMLS_CC);

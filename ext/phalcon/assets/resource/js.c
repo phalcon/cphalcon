@@ -62,15 +62,9 @@ PHP_METHOD(Phalcon_Assets_Resource_Js, __construct) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 3, &path, &local, &filter, &attributes);
 
-	if (!local) {
 		local = ZEPHIR_GLOBAL(global_true);
-	}
-	if (!filter) {
 		filter = ZEPHIR_GLOBAL(global_true);
-	}
-	if (!attributes) {
 		attributes = ZEPHIR_GLOBAL(global_null);
-	}
 
 
 	ZEPHIR_INIT_VAR(_0);

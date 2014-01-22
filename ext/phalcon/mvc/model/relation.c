@@ -97,9 +97,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Relation, __construct) {
 		ZEPHIR_INIT_VAR(referencedModel);
 		ZVAL_EMPTY_STRING(referencedModel);
 	}
-	if (!options) {
 		options = ZEPHIR_GLOBAL(global_null);
-	}
 
 
 	zephir_update_property_this(this_ptr, SL("_type"), type TSRMLS_CC);

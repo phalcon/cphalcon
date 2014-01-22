@@ -87,16 +87,10 @@ PHP_METHOD(Phalcon_Mvc_Collection, __construct) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 2, &dependencyInjector, &modelsManager);
 
-	if (!dependencyInjector) {
 		ZEPHIR_CPY_WRT(dependencyInjector, ZEPHIR_GLOBAL(global_null));
-	} else {
 		ZEPHIR_SEPARATE_PARAM(dependencyInjector);
-	}
-	if (!modelsManager) {
 		ZEPHIR_CPY_WRT(modelsManager, ZEPHIR_GLOBAL(global_null));
-	} else {
 		ZEPHIR_SEPARATE_PARAM(modelsManager);
-	}
 
 
 	if ((Z_TYPE_P(dependencyInjector) != IS_OBJECT)) {
@@ -150,7 +144,6 @@ PHP_METHOD(Phalcon_Mvc_Collection, setId) {
 			ZEPHIR_INIT_VAR(mongoId);
 			_2 = zend_fetch_class(SL("MongoId"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
 			object_init_ex(mongoId, _2);
-			zephir_call_method_p1_noret(mongoId, "__construct", id);
 		} else {
 			ZEPHIR_CPY_WRT(mongoId, id);
 		}
@@ -1064,7 +1057,6 @@ PHP_METHOD(Phalcon_Mvc_Collection, _exists) {
 				ZEPHIR_INIT_VAR(mongoId);
 				_2 = zend_fetch_class(SL("MongoId"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
 				object_init_ex(mongoId, _2);
-				zephir_call_method_p1_noret(mongoId, "__construct", id);
 				zephir_update_property_this(this_ptr, SL("_id"), mongoId TSRMLS_CC);
 			} else {
 				ZEPHIR_CPY_WRT(mongoId, id);
@@ -1282,7 +1274,6 @@ PHP_METHOD(Phalcon_Mvc_Collection, findById) {
 			ZEPHIR_INIT_VAR(mongoId);
 			_3 = zend_fetch_class(SL("MongoId"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
 			object_init_ex(mongoId, _3);
-			zephir_call_method_p1_noret(mongoId, "__construct", id);
 		} else {
 			ZEPHIR_CPY_WRT(mongoId, id);
 		}
@@ -1335,9 +1326,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, findFirst) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 1, &parameters);
 
-	if (!parameters) {
 		parameters = ZEPHIR_GLOBAL(global_null);
-	}
 
 
 	if (zephir_is_true(parameters)) {
@@ -1404,9 +1393,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, find) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 1, &parameters);
 
-	if (!parameters) {
 		parameters = ZEPHIR_GLOBAL(global_null);
-	}
 
 
 	if (zephir_is_true(parameters)) {
@@ -1445,9 +1432,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, count) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 1, &parameters);
 
-	if (!parameters) {
 		parameters = ZEPHIR_GLOBAL(global_null);
-	}
 
 
 	if (zephir_is_true(parameters)) {
@@ -1527,12 +1512,8 @@ PHP_METHOD(Phalcon_Mvc_Collection, summatory) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 2, &field, &conditions, &finalize);
 
-	if (!conditions) {
 		conditions = ZEPHIR_GLOBAL(global_null);
-	}
-	if (!finalize) {
 		finalize = ZEPHIR_GLOBAL(global_null);
-	}
 
 
 	if ((Z_TYPE_P(field) != IS_STRING)) {
@@ -1636,7 +1617,6 @@ PHP_METHOD(Phalcon_Mvc_Collection, delete) {
 			ZEPHIR_INIT_VAR(mongoId);
 			_3 = zend_fetch_class(SL("MongoId"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
 			object_init_ex(mongoId, _3);
-			zephir_call_method_p1_noret(mongoId, "__construct", id);
 		} else {
 			ZEPHIR_CPY_WRT(mongoId, id);
 		}

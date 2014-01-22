@@ -104,9 +104,7 @@ PHP_METHOD(Phalcon_Logger_Adapter_File, __construct) {
 		ZEPHIR_INIT_VAR(name);
 		ZVAL_EMPTY_STRING(name);
 	}
-	if (!options) {
 		options = ZEPHIR_GLOBAL(global_null);
-	}
 
 
 	if ((Z_TYPE_P(options) == IS_ARRAY)) {
