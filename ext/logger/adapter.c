@@ -22,6 +22,7 @@
 #include "logger/formatterinterface.h"
 #include "logger/item.h"
 #include "logger.h"
+#include "psr/log/loggerinterface.h"
 
 #include "kernel/main.h"
 #include "kernel/memory.h"
@@ -86,7 +87,12 @@ PHALCON_INIT_CLASS(Phalcon_Logger_Adapter){
 	zend_declare_property_null(phalcon_logger_adapter_ce, SL("_formatter"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_long(phalcon_logger_adapter_ce, SL("_logLevel"), PHALCON_LOGGER_SPECIAL, ZEND_ACC_PROTECTED TSRMLS_CC);
 
-	zend_class_implements(phalcon_logger_adapter_ce TSRMLS_CC, 1, phalcon_logger_adapterinterface_ce);
+	if (PHALCON_GLOBAL(register_psr3_classes)) {
+		zend_class_implements(phalcon_logger_adapter_ce TSRMLS_CC, 2, phalcon_logger_adapterinterface_ce, psr_log_loggerinterface_ce);
+	}
+	else {
+		zend_class_implements(phalcon_logger_adapter_ce TSRMLS_CC, 1, phalcon_logger_adapterinterface_ce);
+	}
 
 	return SUCCESS;
 }
