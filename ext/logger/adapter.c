@@ -91,6 +91,44 @@ PHALCON_INIT_CLASS(Phalcon_Logger_Adapter){
 	return SUCCESS;
 }
 
+static int phalcon_logger_adapter_string_level_to_int(const zval *level)
+{
+	const char *s = Z_STRVAL_P(level);
+	size_t len    = (size_t)(Z_STRLEN_P(level));
+	size_t i;
+
+	struct sl {
+		const char *str;
+		size_t len;
+		int level;
+	};
+
+	static struct sl lookup_table[] = {
+		{ ZEND_STRL("emergency"), PHALCON_LOGGER_EMERGENCY },
+		{ ZEND_STRL("alert"),     PHALCON_LOGGER_ALERT     },
+		{ ZEND_STRL("critical"),  PHALCON_LOGGER_CRITICAL  },
+		{ ZEND_STRL("error"),     PHALCON_LOGGER_ERROR     },
+		{ ZEND_STRL("warning"),   PHALCON_LOGGER_WARNING   },
+		{ ZEND_STRL("notice"),    PHALCON_LOGGER_NOTICE    },
+		{ ZEND_STRL("info"),      PHALCON_LOGGER_INFO      },
+		{ ZEND_STRL("debug"),     PHALCON_LOGGER_DEBUG     }
+	};
+
+	assert(Z_TYPE_P(level) == IS_STRING);
+
+	for (i=0; i<sizeof(lookup_table)/sizeof(lookup_table[0]); ++i) {
+		if (lookup_table[i].len == len && !memcmp(lookup_table[i].str, s, len)) {
+			return lookup_table[i].level;
+		}
+	}
+
+	{
+		TSRMLS_FETCH();
+		php_error_docref(NULL TSRMLS_CC, E_NOTICE, "Unrecognized log level '%s'", s);
+		return PHALCON_LOGGER_CUSTOM;
+	}
+}
+
 /**
  * Filters the logs sent to the handlers that are less or equal than a specific level
  *
@@ -99,12 +137,22 @@ PHALCON_INIT_CLASS(Phalcon_Logger_Adapter){
  */
 PHP_METHOD(Phalcon_Logger_Adapter, setLogLevel){
 
-	zval **level;
+	zval **level, *lvl;
 
 	phalcon_fetch_params_ex(1, 0, &level);
-	PHALCON_ENSURE_IS_LONG(level);
+	if (Z_TYPE_PP(level) == IS_STRING) {
+		PHALCON_ALLOC_GHOST_ZVAL(lvl);
+		ZVAL_LONG(lvl, phalcon_logger_adapter_string_level_to_int(*level));
+	}
+	else if (Z_TYPE_PP(level) != IS_LONG) {
+		PHALCON_ENSURE_IS_LONG(level);
+		lvl = *level;
+	}
+	else {
+		lvl = *level;
+	}
 
-	phalcon_update_property_this(this_ptr, SL("_logLevel"), *level TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_logLevel"), lvl TSRMLS_CC);
 	RETURN_THISW();
 }
 
@@ -343,44 +391,6 @@ PHP_METHOD(Phalcon_Logger_Adapter, warning){
 PHP_METHOD(Phalcon_Logger_Adapter, alert){
 
 	phalcon_logger_adapter_log_helper(INTERNAL_FUNCTION_PARAM_PASSTHRU, PHALCON_LOGGER_ALERT);
-}
-
-static int phalcon_logger_adapter_string_level_to_int(const zval *level)
-{
-	const char *s = Z_STRVAL_P(level);
-	size_t len    = (size_t)(Z_STRLEN_P(level));
-	size_t i;
-
-	struct sl {
-		const char *str;
-		size_t len;
-		int level;
-	};
-
-	static struct sl lookup_table[] = {
-		{ ZEND_STRL("emergency"), PHALCON_LOGGER_EMERGENCY },
-		{ ZEND_STRL("alert"),     PHALCON_LOGGER_ALERT     },
-		{ ZEND_STRL("critical"),  PHALCON_LOGGER_CRITICAL  },
-		{ ZEND_STRL("error"),     PHALCON_LOGGER_ERROR     },
-		{ ZEND_STRL("warning"),   PHALCON_LOGGER_WARNING   },
-		{ ZEND_STRL("notice"),    PHALCON_LOGGER_NOTICE    },
-		{ ZEND_STRL("info"),      PHALCON_LOGGER_INFO      },
-		{ ZEND_STRL("debug"),     PHALCON_LOGGER_DEBUG     }
-	};
-
-	assert(Z_TYPE_P(level) == IS_STRING);
-
-	for (i=0; i<sizeof(lookup_table)/sizeof(lookup_table[0]); ++i) {
-		if (lookup_table[i].len == len && !memcmp(lookup_table[i].str, s, len)) {
-			return lookup_table[i].level;
-		}
-	}
-
-	{
-		TSRMLS_FETCH();
-		php_error_docref(NULL TSRMLS_CC, E_NOTICE, "Unrecognized log level '%s'", s);
-		return PHALCON_LOGGER_CUSTOM;
-	}
 }
 
 /**
