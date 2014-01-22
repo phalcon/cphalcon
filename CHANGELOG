@@ -185,6 +185,7 @@
    - Phalcon\Logger\Adapter::commit() now clears the queue (#1742)
    - Phalcon\Logger\Adapter now implements Phalcon\Logger\AdapterInterface (#1852)
    - Phalcon\Logger\Formatter now implements Phalcon\Logger\FormatterInterface (#1852)
+   - Phalcon\Logger\Adapter is now PSR-3 compliant (#1873)
  - Phalcon\Mvc:
    - Phalcon\Mvc\Application::handle() now checks whether the class exists before include()'ing its file (#812, #818)
    - Phalcon\Mvc\Model\Criteria::fromInput() now sets _modelName (#866, #873)
