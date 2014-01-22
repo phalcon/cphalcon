@@ -7,8 +7,8 @@ Phalcon\Logger\Adapter::setLogLevel() is not working properly - https://github.c
 $logger = new \Phalcon\Logger\Adapter\Stream("php://stdout");
 $logger->setLogLevel(\Phalcon\Logger::CRITICAL);
 $logger->begin();
-$logger->log('info', \Phalcon\Logger::INFO);
-$logger->log('critical', \Phalcon\Logger::CRITICAL);
+$logger->log(\Phalcon\Logger::INFO, 'info');
+$logger->log(\Phalcon\Logger::CRITICAL, 'critical');
 $logger->commit();
 ?>
 --EXPECTF--

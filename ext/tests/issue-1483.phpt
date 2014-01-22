@@ -13,14 +13,14 @@ $formatter->setShowBacktrace(false);
 
 $logger = new \Phalcon\Logger\Adapter\Firephp("");
 $logger->setFormatter($formatter);
-$logger->log("This is a message");
-$logger->log("This is an error", \Phalcon\Logger::ERROR);
+$logger->log(\Phalcon\Logger::DEBUG, "This is a message");
+$logger->log(\Phalcon\Logger::ERROR, "This is an error");
 $logger->error("This is another error");
 $logger->warning(str_repeat('x', 5000));
 
 $formatter->enableLabels(false);
-$logger->log("This is a message");
-$logger->log("This is an error", \Phalcon\Logger::ERROR);
+$logger->log(\Phalcon\Logger::DEBUG, "This is a message");
+$logger->log(\Phalcon\Logger::ERROR, "This is an error");
 ?>
 --EXPECTHEADERS--
 X-Wf-Protocol-1: http://meta.wildfirehq.org/Protocol/JsonStream/0.2

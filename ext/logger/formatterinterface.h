@@ -26,10 +26,11 @@ extern zend_class_entry *phalcon_logger_formatterinterface_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Logger_FormatterInterface);
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_logger_formatterinterface_format, 0, 0, 3)
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_logger_formatterinterface_format, 0, 0, 4)
 	ZEND_ARG_INFO(0, message)
 	ZEND_ARG_INFO(0, type)
 	ZEND_ARG_INFO(0, timestamp)
+	ZEND_ARG_INFO(0, context)
 ZEND_END_ARG_INFO()
 
 #endif /* PHALCON_LOGGER_FORMATTERINTERFACE_H */

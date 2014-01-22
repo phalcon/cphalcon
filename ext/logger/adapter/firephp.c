@@ -50,15 +50,9 @@ PHP_METHOD(Phalcon_Logger_Adapter_Firephp, getFormatter);
 PHP_METHOD(Phalcon_Logger_Adapter_Firephp, logInternal);
 PHP_METHOD(Phalcon_Logger_Adapter_Firephp, close);
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_logger_adapter_firephp_loginternal, 0, 0, 3)
-	ZEND_ARG_INFO(0, message)
-	ZEND_ARG_INFO(0, type)
-	ZEND_ARG_INFO(0, time)
-ZEND_END_ARG_INFO()
-
 static const zend_function_entry phalcon_logger_adapter_firephp_method_entry[] = {
 	PHP_ME(Phalcon_Logger_Adapter_Firephp, getFormatter, NULL, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Logger_Adapter_Firephp, logInternal, arginfo_phalcon_logger_adapter_firephp_loginternal, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Logger_Adapter_Firephp, logInternal, arginfo_phalcon_logger_adapter_loginternal, ZEND_ACC_PROTECTED)
 	PHP_ME(Phalcon_Logger_Adapter_Firephp, close, NULL, ZEND_ACC_PUBLIC)
 	PHP_FE_END
 };
@@ -103,11 +97,12 @@ PHP_METHOD(Phalcon_Logger_Adapter_Firephp, getFormatter){
  * @param string $message
  * @param int $type
  * @param int $time
+ * @param array $context
  * @see http://www.firephp.org/Wiki/Reference/Protocol
  */
 PHP_METHOD(Phalcon_Logger_Adapter_Firephp, logInternal){
 
-	zval *message, *type, *time, *formatter, *applied_format;
+	zval *message, *type, *time, *context, *formatter, *applied_format;
 	zval *initialized, *index;
 	sapi_header_line h = { NULL, 0, 0 };
 	smart_str str      = { NULL, 0, 0 };
@@ -123,7 +118,7 @@ PHP_METHOD(Phalcon_Logger_Adapter_Firephp, logInternal){
 
 	PHALCON_MM_GROW();
 
-	phalcon_fetch_params(1, 3, 0, &message, &type, &time);
+	phalcon_fetch_params(1, 4, 0, &message, &type, &time, &context);
 
 	PHALCON_INIT_VAR(formatter);
 	phalcon_call_method(formatter, this_ptr, "getformatter");
@@ -152,10 +147,8 @@ PHP_METHOD(Phalcon_Logger_Adapter_Firephp, logInternal){
 	}
 
 	PHALCON_INIT_VAR(applied_format);
-	phalcon_call_method_p3(applied_format, formatter, "format", message, type, time);
-	if (Z_TYPE_P(applied_format) != IS_STRING) {
-		convert_to_string(applied_format);
-	}
+	phalcon_call_method_p4(applied_format, formatter, "format", message, type, time, context);
+	convert_to_string(applied_format);
 
 	index = phalcon_fetch_static_property_ce(phalcon_logger_adapter_firephp_ce, SL("_index") TSRMLS_CC);
 	assert(Z_TYPE_P(index) == IS_LONG);

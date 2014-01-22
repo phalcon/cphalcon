@@ -43,5 +43,6 @@ PHALCON_INIT_CLASS(Phalcon_Logger_FormatterInterface){
  * @param string $message
  * @param int $type
  * @param int $timestamp
+ * @param array $context
  */
 PHALCON_DOC_METHOD(Phalcon_Logger_FormatterInterface, format);

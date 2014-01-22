@@ -57,16 +57,10 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_logger_adapter_syslog___construct, 0, 0, 
 	ZEND_ARG_INFO(0, options)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_logger_adapter_syslog_loginternal, 0, 0, 3)
-	ZEND_ARG_INFO(0, message)
-	ZEND_ARG_INFO(0, type)
-	ZEND_ARG_INFO(0, time)
-ZEND_END_ARG_INFO()
-
 static const zend_function_entry phalcon_logger_adapter_syslog_method_entry[] = {
 	PHP_ME(Phalcon_Logger_Adapter_Syslog, __construct, arginfo_phalcon_logger_adapter_syslog___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
 	PHP_ME(Phalcon_Logger_Adapter_Syslog, getFormatter, NULL, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Logger_Adapter_Syslog, logInternal, arginfo_phalcon_logger_adapter_syslog_loginternal, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Logger_Adapter_Syslog, logInternal, arginfo_phalcon_logger_adapter_loginternal, ZEND_ACC_PROTECTED)
 	PHP_ME(Phalcon_Logger_Adapter_Syslog, close, NULL, ZEND_ACC_PUBLIC)
 	PHP_FE_END
 };
@@ -163,33 +157,35 @@ PHP_METHOD(Phalcon_Logger_Adapter_Syslog, getFormatter){
  * @param string $message
  * @param int $type
  * @param int $time
+ * @param array $context
  */
 PHP_METHOD(Phalcon_Logger_Adapter_Syslog, logInternal){
 
-	zval *message, *type, *time, *formatter, *applied_format;
+	zval *message, *type, *time, *context, *formatter, *applied_format;
 	zval *syslog_type, *syslog_message;
 
 	PHALCON_MM_GROW();
 
-	phalcon_fetch_params(1, 3, 0, &message, &type, &time);
+	phalcon_fetch_params(1, 4, 0, &message, &type, &time, &context);
 	
 	PHALCON_INIT_VAR(formatter);
 	phalcon_call_method(formatter, this_ptr, "getformatter");
 	
 	PHALCON_INIT_VAR(applied_format);
-	phalcon_call_method_p3(applied_format, formatter, "format", message, type, time);
+	phalcon_call_method_p4(applied_format, formatter, "format", message, type, time, context);
 	if (Z_TYPE_P(applied_format) != IS_ARRAY) { 
-		convert_to_string(applied_format);
-		return;
+		syslog_type    = type;
+		syslog_message = applied_format;
 	}
-	
-	PHALCON_OBS_VAR(syslog_type);
-	phalcon_array_fetch_long(&syslog_type, applied_format, 0, PH_NOISY);
-	
-	PHALCON_OBS_VAR(syslog_message);
-	phalcon_array_fetch_long(&syslog_message, applied_format, 1, PH_NOISY);
+	else {
+		PHALCON_OBS_VAR(syslog_type);
+		phalcon_array_fetch_long(&syslog_type, applied_format, 0, PH_NOISY);
+
+		PHALCON_OBS_VAR(syslog_message);
+		phalcon_array_fetch_long(&syslog_message, applied_format, 1, PH_NOISY);
+	}
+
 	PHALCON_CALL_FUNCTION_NORET("syslog", syslog_type, syslog_message);
-	
 	PHALCON_MM_RESTORE();
 }
 
@@ -202,14 +198,10 @@ PHP_METHOD(Phalcon_Logger_Adapter_Syslog, close){
 
 	zval *opened;
 
-	PHALCON_MM_GROW();
-
-	PHALCON_OBS_VAR(opened);
-	phalcon_read_property_this(&opened, this_ptr, SL("_opened"), PH_NOISY_CC);
+	opened = phalcon_fetch_nproperty_this(this_ptr, SL("_opened"), PH_NOISY_CC);
 	if (zend_is_true(opened)) {
-		PHALCON_CALL_FUNCTION_NORET("closelog");
+		PHALCON_CALL_FUNCTIONW(NULL, "closelog");
 	}
 	
-	RETVAL_TRUE;
-	PHALCON_MM_RESTORE();
+	RETURN_TRUE;
 }

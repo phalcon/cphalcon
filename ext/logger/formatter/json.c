@@ -64,19 +64,27 @@ PHALCON_INIT_CLASS(Phalcon_Logger_Formatter_Json){
  */
 PHP_METHOD(Phalcon_Logger_Formatter_Json, format){
 
-	zval *message, *type, *timestamp, *type_str, *log;
+	zval *message, *type, *timestamp, *context, *interpolated = NULL, *type_str, *log;
 
 	PHALCON_MM_GROW();
 
-	phalcon_fetch_params(1, 3, 0, &message, &type, &timestamp);
+	phalcon_fetch_params(1, 3, 0, &message, &type, &timestamp, &context);
 	
+	if (Z_TYPE_P(context) == IS_ARRAY) {
+		PHALCON_OBS_VAR(interpolated);
+		phalcon_call_method_p2_ex(interpolated, &interpolated, this_ptr, "interpolate", message, context);
+	}
+	else {
+		interpolated = message;
+	}
+
 	PHALCON_INIT_VAR(type_str);
 	phalcon_call_method_p1(type_str, this_ptr, "gettypestring", type);
 	
 	PHALCON_INIT_VAR(log);
 	array_init_size(log, 3);
 	phalcon_array_update_string(&log, SL("type"), &type_str, PH_COPY);
-	phalcon_array_update_string(&log, SL("message"), &message, PH_COPY);
+	phalcon_array_update_string(&log, SL("message"), &interpolated, PH_COPY);
 	phalcon_array_update_string(&log, SL("timestamp"), &timestamp, PH_COPY);
 	RETURN_MM_ON_FAILURE(phalcon_json_encode(return_value, log, 0 TSRMLS_CC));
 	RETURN_MM();

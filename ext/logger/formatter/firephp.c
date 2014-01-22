@@ -150,7 +150,7 @@ PHP_METHOD(Phalcon_Logger_Formatter_Firephp, getTypeString) {
  */
 PHP_METHOD(Phalcon_Logger_Formatter_Firephp, format) {
 
-	zval *message, *type, *type_str = NULL, *timestamp;
+	zval *message, *type, *type_str = NULL, *timestamp, *context, *interpolated = NULL;
 	zval *payload, *body, *backtrace = NULL, *meta, *encoded;
 	zval *show_backtrace, *enable_labels;
 	int i_show_backtrace, i_enable_labels;
@@ -158,7 +158,7 @@ PHP_METHOD(Phalcon_Logger_Formatter_Firephp, format) {
 	uint i;
 	Bucket *p;
 
-	phalcon_fetch_params(0, 3, 0, &message, &type, &timestamp);
+	phalcon_fetch_params(0, 4, 0, &message, &type, &timestamp, &context);
 
 	/*
 	 * We intentionally do not use Phalcon's MM for better performance.
@@ -169,7 +169,16 @@ PHP_METHOD(Phalcon_Logger_Formatter_Firephp, format) {
 	 * and we will just save some time by not using Z_ADDREF_P and Z_DELREF_P
 	 */
 
+	if (Z_TYPE_P(context) == IS_ARRAY) {
+		RETURN_ON_FAILURE(phalcon_call_method_params(interpolated, &interpolated, this_ptr, SL("interpolate"), zend_inline_hash_func(SS("interpolate")) TSRMLS_CC, 2, message, context));
+	}
+	else {
+		interpolated = message;
+		Z_ADDREF_P(interpolated);
+	}
+
 	if (FAILURE == phalcon_call_method_params(type_str, &type_str, this_ptr, SL("gettypestring"), zend_inline_hash_func(SS("gettypestring")) TSRMLS_CC, 1, type)) {
+		zval_ptr_dtor(&interpolated);
 		return;
 	}
 
@@ -273,11 +282,6 @@ PHP_METHOD(Phalcon_Logger_Formatter_Firephp, format) {
 	array_init_size(meta, 4);
 	add_assoc_zval_ex(meta, SS("Type"), type_str);
 
-	if (i_enable_labels) {
-		Z_ADDREF_P(message);
-		add_assoc_zval_ex(meta, SS("Label"), message);
-	}
-
 	if (i_show_backtrace && Z_TYPE_P(backtrace) == IS_ARRAY) {
 		zval **ppzval;
 
@@ -299,9 +303,12 @@ PHP_METHOD(Phalcon_Logger_Formatter_Firephp, format) {
 		}
 	}
 
+	if (i_enable_labels) {
+		add_assoc_zval_ex(meta, SS("Label"), interpolated);
+	}
+
 	if (!i_enable_labels && !i_show_backtrace) {
-		body = message;
-		Z_ADDREF_P(body);
+		body = interpolated;
 	}
 	else if (i_enable_labels && !i_show_backtrace) {
 		MAKE_STD_ZVAL(body);
@@ -316,8 +323,7 @@ PHP_METHOD(Phalcon_Logger_Formatter_Firephp, format) {
 		}
 
 		if (!i_enable_labels) {
-			Z_ADDREF_P(message);
-			add_assoc_zval_ex(body, SS("message"), message);
+			add_assoc_zval_ex(body, SS("message"), interpolated);
 		}
 	}
 
@@ -363,6 +369,6 @@ PHP_METHOD(Phalcon_Logger_Formatter_Firephp, format) {
 
 	/* We don't need the JSON message anymore */
 	zval_ptr_dtor(&encoded);
-	/* Do not free the samrt string because we steal its data for zval */
+	/* Do not free the smart string because we steal its data for zval */
 	RETURN_STRINGL(result.c, result.len, 0);
 }

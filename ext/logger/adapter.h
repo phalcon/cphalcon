@@ -26,4 +26,11 @@ extern zend_class_entry *phalcon_logger_adapter_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Logger_Adapter);
 
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_logger_adapter_loginternal, 0, 0, 4)
+	ZEND_ARG_INFO(0, message)
+	ZEND_ARG_INFO(0, type)
+	ZEND_ARG_INFO(0, time)
+	ZEND_ARG_INFO(0, context)
+ZEND_END_ARG_INFO()
+
 #endif /* PHALCON_LOGGER_ADAPTER_H */

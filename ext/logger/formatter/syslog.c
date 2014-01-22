@@ -23,6 +23,7 @@
 
 #include "kernel/main.h"
 #include "kernel/array.h"
+#include "kernel/fcall.h"
 
 /**
  * Phalcon\Logger\Formatter\Syslog
@@ -60,12 +61,20 @@ PHALCON_INIT_CLASS(Phalcon_Logger_Formatter_Syslog){
  */
 PHP_METHOD(Phalcon_Logger_Formatter_Syslog, format){
 
-	zval *message, *type, *timestamp;
+	zval *message, *type, *timestamp, *context, *interpolated = NULL;
 
-	phalcon_fetch_params(0, 3, 0, &message, &type, &timestamp);
+	phalcon_fetch_params(0, 4, 0, &message, &type, &timestamp, &context);
 	
+	if (Z_TYPE_P(context) == IS_ARRAY) {
+		RETURN_ON_FAILURE(phalcon_call_method_params(interpolated, &interpolated, this_ptr, SL("interpolate"), zend_inline_hash_func(SS("interpolate")) TSRMLS_CC, 2, message, context));
+	}
+	else {
+		interpolated = message;
+		Z_ADDREF_P(interpolated);
+	}
+
 	array_init_size(return_value, 2);
 	phalcon_array_append(&return_value, type, 0);
-	phalcon_array_append(&return_value, message, 0);
+	add_next_index_zval(return_value, interpolated);
 	return;
 }
