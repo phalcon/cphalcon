@@ -4895,9 +4895,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, execute){
 	
 	PHALCON_OBS_VAR(cache_options);
 	phalcon_read_property_this(&cache_options, this_ptr, SL("_cacheOptions"), PH_NOISY_CC);
-    
-	PHALCON_INIT_NVAR(frontend);
-	phalcon_call_method(frontend, cache, "getfrontend");
 	if (Z_TYPE_P(cache_options) != IS_NULL) {
 		if (Z_TYPE_P(cache_options) != IS_ARRAY) { 
 			PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Invalid caching options");
@@ -4922,6 +4919,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, execute){
 			PHALCON_OBS_VAR(lifetime);
 			phalcon_array_fetch_string(&lifetime, cache_options, SL("lifetime"), PH_NOISY);
 		} else {
+			PHALCON_INIT_NVAR(frontend);
+			phalcon_call_method(frontend, cache, "getfrontend");
 			PHALCON_INIT_NVAR(lifetime);
 			if (Z_TYPE_P(frontend) == IS_OBJECT) {
 				phalcon_call_method(lifetime, frontend, "getlifetime");
