@@ -90,13 +90,21 @@ PHALCON_INIT_CLASS(Phalcon_Logger_Adapter){
 	zend_declare_property_null(phalcon_logger_adapter_ce, SL("_formatter"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_long(phalcon_logger_adapter_ce, SL("_logLevel"), PHALCON_LOGGER_SPECIAL, ZEND_ACC_PROTECTED TSRMLS_CC);
 
+	/* Prior to PHP 5.3.9, a class could not implement two interfaces
+	 * that specified a method with the same name, since it would cause
+	 * ambiguity. More recent versions of PHP allow this as long as
+	 * the duplicate methods have the same signature.
+	 */
+#if PHP_VERSION_ID >= 50309
 	if (PHALCON_GLOBAL(register_psr3_classes)) {
 		zend_class_implements(phalcon_logger_adapter_ce TSRMLS_CC, 2, phalcon_logger_adapterinterface_ce, psr_log_loggerinterface_ce);
 	}
 	else {
 		zend_class_implements(phalcon_logger_adapter_ce TSRMLS_CC, 1, phalcon_logger_adapterinterface_ce);
 	}
-
+#else
+	zend_class_implements(phalcon_logger_adapter_ce TSRMLS_CC, 1, phalcon_logger_adapterinterface_ce);
+#endif
 	return SUCCESS;
 }
 
