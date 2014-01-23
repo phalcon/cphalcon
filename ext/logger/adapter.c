@@ -23,6 +23,7 @@
 #include "logger/item.h"
 #include "logger.h"
 #include "psr/log/loggerinterface.h"
+#include "psr/log/invalidargumentexception.h"
 
 #include "kernel/main.h"
 #include "kernel/memory.h"
@@ -184,9 +185,10 @@ PHP_METHOD(Phalcon_Logger_Adapter, getLogLevel){
 PHP_METHOD(Phalcon_Logger_Adapter, setFormatter){
 
 	zval *formatter;
+	zend_class_entry *exception = PHALCON_GLOBAL(register_psr3_classes) ? psr_log_invalidargumentexception_ce : phalcon_logger_exception_ce;
 
 	phalcon_fetch_params(0, 1, 0, &formatter);
-	PHALCON_VERIFY_INTERFACE_EX(formatter, phalcon_logger_formatterinterface_ce, phalcon_logger_exception_ce, 0);
+	PHALCON_VERIFY_INTERFACE_EX(formatter, phalcon_logger_formatterinterface_ce, exception, 0);
 
 	phalcon_update_property_this(this_ptr, SL("_formatter"), formatter TSRMLS_CC);
 	RETURN_THISW();
@@ -224,23 +226,21 @@ PHP_METHOD(Phalcon_Logger_Adapter, commit){
 	zval *transaction, *queue, *message_str = NULL;
 	zval *type = NULL, *time = NULL, *context = NULL;
 
-	PHALCON_MM_GROW();
-
 	transaction = phalcon_fetch_nproperty_this(this_ptr, SL("_transaction"), PH_NOISY_CC);
 	if (!zend_is_true(transaction)) {
-		PHALCON_THROW_EXCEPTION_STR(phalcon_logger_exception_ce, "There is no active transaction");
+		PHALCON_THROW_EXCEPTION_STRW(phalcon_logger_exception_ce, "There is no active transaction");
 		return;
 	}
 	
 	phalcon_update_property_bool(this_ptr, SL("_transaction"), 0 TSRMLS_CC);
 	
-	/** 
-	 * Check if the queue has something to log
-	 */
+	/* Check if the queue has something to log */
 	queue = phalcon_fetch_nproperty_this(this_ptr, SL("_queue"), PH_NOISY_CC);
 	if (Z_TYPE_P(queue) == IS_ARRAY) { 
 		HashPosition hp;
 		zval **message;
+
+		PHALCON_MM_GROW();
 
 		for (
 			zend_hash_internal_pointer_reset_ex(Z_ARRVAL_P(queue), &hp);
@@ -267,9 +267,11 @@ PHP_METHOD(Phalcon_Logger_Adapter, commit){
 			array_init(queue);
 			phalcon_update_property_this(getThis(), SL("_queue"), queue TSRMLS_CC);
 		}
+
+		PHALCON_MM_RESTORE();
 	}
 	
-	RETURN_THIS();
+	RETURN_THISW();
 }
 
 /**

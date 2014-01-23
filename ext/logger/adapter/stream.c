@@ -22,6 +22,7 @@
 #include "logger/adapterinterface.h"
 #include "logger/exception.h"
 #include "logger/formatter/line.h"
+#include "psr/log/invalidargumentexception.h"
 
 #include "kernel/main.h"
 #include "kernel/memory.h"
@@ -86,26 +87,25 @@ PHALCON_INIT_CLASS(Phalcon_Logger_Adapter_Stream){
  */
 PHP_METHOD(Phalcon_Logger_Adapter_Stream, __construct){
 
-	zval *name, *options = NULL, *mode = NULL, *stream, *exception_message;
+	zval **name, **options = NULL, *mode = NULL, *stream;
+	zend_class_entry *exception = PHALCON_GLOBAL(register_psr3_classes) ? psr_log_invalidargumentexception_ce : phalcon_logger_exception_ce;
+
+	phalcon_fetch_params_ex(1, 1, &name, &options);
+	PHALCON_ENSURE_IS_STRING(name);
 
 	PHALCON_MM_GROW();
-
-	phalcon_fetch_params(1, 1, 1, &name, &options);
 	
 	if (!options) {
-		options = PHALCON_GLOBAL(z_null);
+		options = &PHALCON_GLOBAL(z_null);
 	}
 	
-	if (phalcon_array_isset_string(options, SS("mode"))) {
-	
-		PHALCON_OBS_VAR(mode);
-		phalcon_array_fetch_string(&mode, options, SL("mode"), PH_NOISY);
+	if (phalcon_array_isset_string_fetch(&mode, *options, SS("mode"))) {
 		if (phalcon_memnstr_str(mode, SL("r"))) {
-			PHALCON_THROW_EXCEPTION_STR(phalcon_logger_exception_ce, "Stream must be opened in append or write mode");
+			PHALCON_THROW_EXCEPTION_STR(exception, "Stream must be opened in append or write mode");
 			return;
 		}
 	} else {
-		PHALCON_INIT_NVAR(mode);
+		PHALCON_INIT_VAR(mode);
 		ZVAL_STRING(mode, "ab", 1);
 	}
 	
@@ -113,15 +113,13 @@ PHP_METHOD(Phalcon_Logger_Adapter_Stream, __construct){
 	 * We use 'fopen' to respect to open-basedir directive
 	 */
 	PHALCON_OBS_VAR(stream);
-	PHALCON_CALL_FUNCTION(&stream, "fopen", name, mode);
+	PHALCON_CALL_FUNCTION(&stream, "fopen", *name, mode);
 	if (Z_TYPE_P(stream) != IS_RESOURCE) {
-		PHALCON_INIT_VAR(exception_message);
-		PHALCON_CONCAT_SVS(exception_message, "Can't open stream '", name, "'");
-		PHALCON_THROW_EXCEPTION_ZVAL(phalcon_logger_exception_ce, exception_message);
-		return;
+		zend_throw_exception_ex(exception, 0 TSRMLS_CC, "Cannot open stream '%s'", Z_STRVAL_PP(name));
 	}
-	
-	phalcon_update_property_this(this_ptr, SL("_stream"), stream TSRMLS_CC);
+	else {
+		phalcon_update_property_this(this_ptr, SL("_stream"), stream TSRMLS_CC);
+	}
 	
 	PHALCON_MM_RESTORE();
 }
@@ -166,9 +164,8 @@ PHP_METHOD(Phalcon_Logger_Adapter_Stream, logInternal){
 
 	phalcon_fetch_params(1, 4, 0, &message, &type, &time, &context);
 	
-	PHALCON_OBS_VAR(stream);
-	phalcon_read_property_this(&stream, this_ptr, SL("_stream"), PH_NOISY_CC);
-	if (!zend_is_true(stream)) {
+	stream = phalcon_fetch_nproperty_this(this_ptr, SL("_stream"), PH_NOISY_CC);
+	if (Z_TYPE_P(stream) != IS_RESOURCE) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_logger_exception_ce, "Cannot send message to the log because it is invalid");
 		return;
 	}
