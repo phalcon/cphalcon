@@ -89,7 +89,9 @@ PHP_METHOD(Phalcon_Mvc_Micro, __construct) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 1, &dependencyInjector);
 
+	if (!dependencyInjector) {
 		dependencyInjector = ZEPHIR_GLOBAL(global_null);
+	}
 
 
 	if ((Z_TYPE_P(dependencyInjector) == IS_OBJECT)) {
@@ -538,7 +540,9 @@ PHP_METHOD(Phalcon_Mvc_Micro, setService) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 1, &serviceName, &definition, &shared);
 
+	if (!shared) {
 		shared = ZEPHIR_GLOBAL(global_false);
+	}
 
 
 	ZEPHIR_OBS_VAR(dependencyInjector);
@@ -653,7 +657,9 @@ PHP_METHOD(Phalcon_Mvc_Micro, handle) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 1, &uri);
 
+	if (!uri) {
 		uri = ZEPHIR_GLOBAL(global_null);
+	}
 
 
 	dependencyInjector = zephir_fetch_nproperty_this(this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);

@@ -169,8 +169,12 @@ PHP_METHOD(Phalcon_Assets_Manager, addCss) {
 		ZEPHIR_INIT_VAR(path);
 		ZVAL_EMPTY_STRING(path);
 	}
+	if (!local) {
 		local = ZEPHIR_GLOBAL(global_true);
+	}
+	if (!filter) {
 		filter = ZEPHIR_GLOBAL(global_true);
+	}
 
 
 	ZEPHIR_INIT_VAR(_0);

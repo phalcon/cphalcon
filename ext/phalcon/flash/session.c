@@ -204,8 +204,12 @@ PHP_METHOD(Phalcon_Flash_Session, getMessages) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 2, &type, &remove);
 
+	if (!type) {
 		type = ZEPHIR_GLOBAL(global_null);
+	}
+	if (!remove) {
 		remove = ZEPHIR_GLOBAL(global_true);
+	}
 
 
 	ZEPHIR_INIT_VAR(messages);
@@ -240,7 +244,11 @@ PHP_METHOD(Phalcon_Flash_Session, output) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 1, &remove_param);
 
+	if (!remove_param) {
+		remove = 1;
+	} else {
 		remove = zephir_get_boolval(remove_param);
+	}
 
 
 	ZEPHIR_INIT_VAR(messages);

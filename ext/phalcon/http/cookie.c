@@ -97,14 +97,26 @@ PHP_METHOD(Phalcon_Http_Cookie, __construct) {
 		ZEPHIR_INIT_VAR(name);
 		ZVAL_EMPTY_STRING(name);
 	}
+	if (!value) {
 		value = ZEPHIR_GLOBAL(global_null);
+	}
+	if (!expire) {
 		ZEPHIR_INIT_VAR(expire);
 		ZVAL_LONG(expire, 0);
+	}
+	if (!path) {
 		ZEPHIR_INIT_VAR(path);
 		ZVAL_STRING(path, "/", 1);
+	}
+	if (!secure) {
 		secure = ZEPHIR_GLOBAL(global_null);
+	}
+	if (!domain) {
 		domain = ZEPHIR_GLOBAL(global_null);
+	}
+	if (!httpOnly) {
 		httpOnly = ZEPHIR_GLOBAL(global_null);
+	}
 
 
 	zephir_update_property_this(this_ptr, SL("_name"), name TSRMLS_CC);
@@ -191,8 +203,12 @@ PHP_METHOD(Phalcon_Http_Cookie, getValue) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 2, &filters, &defaultValue);
 
+	if (!filters) {
 		filters = ZEPHIR_GLOBAL(global_null);
+	}
+	if (!defaultValue) {
 		defaultValue = ZEPHIR_GLOBAL(global_null);
+	}
 
 
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_restored"), PH_NOISY_CC);

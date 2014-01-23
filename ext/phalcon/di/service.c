@@ -92,7 +92,11 @@ PHP_METHOD(Phalcon_Di_Service, __construct) {
 		ZEPHIR_INIT_VAR(name);
 		ZVAL_EMPTY_STRING(name);
 	}
+	if (!shared_param) {
+		shared = 0;
+	} else {
 		shared = zephir_get_boolval(shared_param);
+	}
 
 
 	zephir_update_property_this(this_ptr, SL("_name"), name TSRMLS_CC);
@@ -206,8 +210,12 @@ PHP_METHOD(Phalcon_Di_Service, resolve) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 2, &parameters, &dependencyInjector);
 
+	if (!parameters) {
 		parameters = ZEPHIR_GLOBAL(global_null);
+	}
+	if (!dependencyInjector) {
 		dependencyInjector = ZEPHIR_GLOBAL(global_null);
+	}
 
 
 	shared = zephir_fetch_nproperty_this(this_ptr, SL("_shared"), PH_NOISY_CC);

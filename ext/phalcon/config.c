@@ -89,7 +89,9 @@ PHP_METHOD(Phalcon_Config, __construct) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 1, &arrayConfig);
 
+	if (!arrayConfig) {
 		arrayConfig = ZEPHIR_GLOBAL(global_null);
+	}
 
 
 	if ((Z_TYPE_P(arrayConfig) != IS_ARRAY)) {
@@ -194,7 +196,9 @@ PHP_METHOD(Phalcon_Config, get) {
 
 	zephir_fetch_params(0, 1, 1, &index, &defaultValue);
 
+	if (!defaultValue) {
 		defaultValue = ZEPHIR_GLOBAL(global_null);
+	}
 
 
 

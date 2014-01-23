@@ -91,7 +91,16 @@ PHP_METHOD(Phalcon_Events_Manager, attach) {
 		ZEPHIR_INIT_VAR(eventType);
 		ZVAL_EMPTY_STRING(eventType);
 	}
-		priority = zephir_get_intval(priority_param);
+	if (!priority_param) {
+		priority = 100;
+	} else {
+		if (Z_TYPE_P(priority_param) != IS_LONG) {
+			zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'priority' must be a long/integer") TSRMLS_CC);
+			RETURN_MM_NULL();
+		}
+
+		priority = Z_LVAL_P(priority_param);
+	}
 
 
 	if ((Z_TYPE_P(handler) != IS_OBJECT)) {
@@ -223,8 +232,12 @@ PHP_METHOD(Phalcon_Events_Manager, dettachAll) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 1, &type_param);
 
+	if (!type_param) {
 		ZEPHIR_INIT_VAR(type);
 		ZVAL_EMPTY_STRING(type);
+	} else {
+		zephir_get_strval(type, type_param);
+	}
 
 
 	ZEPHIR_OBS_VAR(events);
@@ -308,7 +321,7 @@ PHP_METHOD(Phalcon_Events_Manager, fireQueue) {
 				if (zephir_is_instance_of(handler, SL("Closure") TSRMLS_CC)) {
 					if ((Z_TYPE_P(arguments) == IS_NULL)) {
 						ZEPHIR_INIT_NVAR(arguments);
-						array_init_size(arguments, 5);
+						array_init_size(arguments, 4);
 						zephir_array_fast_append(arguments, event);
 						zephir_array_fast_append(arguments, source);
 						zephir_array_fast_append(arguments, data);
@@ -354,7 +367,7 @@ PHP_METHOD(Phalcon_Events_Manager, fireQueue) {
 				if (zephir_is_instance_of(handler, SL("Closure") TSRMLS_CC)) {
 					if ((Z_TYPE_P(arguments) == IS_NULL)) {
 						ZEPHIR_INIT_NVAR(arguments);
-						array_init_size(arguments, 5);
+						array_init_size(arguments, 4);
 						zephir_array_fast_append(arguments, event);
 						zephir_array_fast_append(arguments, source);
 						zephir_array_fast_append(arguments, data);
@@ -427,8 +440,14 @@ PHP_METHOD(Phalcon_Events_Manager, fire) {
 		ZEPHIR_INIT_VAR(eventType);
 		ZVAL_EMPTY_STRING(eventType);
 	}
+	if (!data) {
 		data = ZEPHIR_GLOBAL(global_null);
+	}
+	if (!cancelable_param) {
+		cancelable = 1;
+	} else {
 		cancelable = zephir_get_boolval(cancelable_param);
+	}
 
 
 	events = zephir_fetch_nproperty_this(this_ptr, SL("_events"), PH_NOISY_CC);

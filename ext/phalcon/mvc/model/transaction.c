@@ -107,8 +107,14 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction, __construct) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 2, &dependencyInjector, &autoBegin_param, &service);
 
+	if (!autoBegin_param) {
+		autoBegin = 0;
+	} else {
 		autoBegin = zephir_get_boolval(autoBegin_param);
+	}
+	if (!service) {
 		service = ZEPHIR_GLOBAL(global_null);
+	}
 
 
 	ZEPHIR_INIT_VAR(connection);
@@ -205,9 +211,14 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction, rollback) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 2, &rollbackMessage, &rollbackRecord);
 
+	if (!rollbackMessage) {
 		ZEPHIR_CPY_WRT(rollbackMessage, ZEPHIR_GLOBAL(global_null));
+	} else {
 		ZEPHIR_SEPARATE_PARAM(rollbackMessage);
+	}
+	if (!rollbackRecord) {
 		rollbackRecord = ZEPHIR_GLOBAL(global_null);
+	}
 
 
 	manager = zephir_fetch_nproperty_this(this_ptr, SL("_manager"), PH_NOISY_CC);

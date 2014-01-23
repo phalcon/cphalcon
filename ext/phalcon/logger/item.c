@@ -118,7 +118,11 @@ PHP_METHOD(Phalcon_Logger_Item, __construct) {
 
 		zephir_get_strval(message, message_param);
 		type = zephir_get_intval(type_param);
+	if (!time_param) {
+		time = 0;
+	} else {
 		time = zephir_get_intval(time_param);
+	}
 
 
 	zephir_update_property_this(this_ptr, SL("_message"), message TSRMLS_CC);

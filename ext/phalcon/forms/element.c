@@ -77,7 +77,9 @@ PHP_METHOD(Phalcon_Forms_Element, __construct) {
 	zephir_fetch_params(1, 1, 1, &name_param, &attributes);
 
 		zephir_get_strval(name, name_param);
+	if (!attributes) {
 		attributes = ZEPHIR_GLOBAL(global_null);
+	}
 
 
 	zephir_update_property_this(this_ptr, SL("_name"), name TSRMLS_CC);
@@ -239,7 +241,11 @@ PHP_METHOD(Phalcon_Forms_Element, addValidators) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 1, &validators, &merge_param);
 
+	if (!merge_param) {
+		merge = 1;
+	} else {
 		merge = zephir_get_boolval(merge_param);
+	}
 
 
 	if ((Z_TYPE_P(validators) != IS_ARRAY)) {
@@ -311,8 +317,14 @@ PHP_METHOD(Phalcon_Forms_Element, prepareAttributes) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 2, &attributes, &useChecked_param);
 
+	if (!attributes) {
 		attributes = ZEPHIR_GLOBAL(global_null);
+	}
+	if (!useChecked_param) {
+		useChecked = 0;
+	} else {
 		useChecked = zephir_get_boolval(useChecked_param);
+	}
 
 
 	name = zephir_fetch_nproperty_this(this_ptr, SL("_name"), PH_NOISY_CC);
@@ -395,7 +407,9 @@ PHP_METHOD(Phalcon_Forms_Element, getAttribute) {
 	zephir_fetch_params(1, 1, 1, &attribute_param, &defaultValue);
 
 		zephir_get_strval(attribute, attribute_param);
+	if (!defaultValue) {
 		defaultValue = ZEPHIR_GLOBAL(global_null);
+	}
 
 
 	attributes = zephir_fetch_nproperty_this(this_ptr, SL("_attributes"), PH_NOISY_CC);
@@ -484,7 +498,9 @@ PHP_METHOD(Phalcon_Forms_Element, getUserOption) {
 
 	zephir_fetch_params(0, 1, 1, &option, &defaultValue);
 
+	if (!defaultValue) {
 		defaultValue = ZEPHIR_GLOBAL(global_null);
+	}
 
 
 	options = zephir_fetch_nproperty_this(this_ptr, SL("_options"), PH_NOISY_CC);

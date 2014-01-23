@@ -215,7 +215,9 @@ PHP_METHOD(Phalcon_Crypt, encrypt) {
 		ZEPHIR_INIT_VAR(text);
 		ZVAL_EMPTY_STRING(text);
 	}
+	if (!key) {
 		key = ZEPHIR_GLOBAL(global_null);
+	}
 
 
 
@@ -251,7 +253,9 @@ PHP_METHOD(Phalcon_Crypt, decrypt) {
 		ZEPHIR_INIT_VAR(text);
 		ZVAL_EMPTY_STRING(text);
 	}
+	if (!key) {
 		key = ZEPHIR_GLOBAL(global_null);
+	}
 
 
 
@@ -283,7 +287,9 @@ PHP_METHOD(Phalcon_Crypt, encryptBase64) {
 		ZEPHIR_INIT_VAR(text);
 		ZVAL_EMPTY_STRING(text);
 	}
+	if (!key) {
 		key = ZEPHIR_GLOBAL(global_null);
+	}
 
 
 
@@ -315,7 +321,9 @@ PHP_METHOD(Phalcon_Crypt, decryptBase64) {
 		ZEPHIR_INIT_VAR(text);
 		ZVAL_EMPTY_STRING(text);
 	}
+	if (!key) {
 		key = ZEPHIR_GLOBAL(global_null);
+	}
 
 
 

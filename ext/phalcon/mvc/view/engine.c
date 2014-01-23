@@ -64,7 +64,9 @@ PHP_METHOD(Phalcon_Mvc_View_Engine, __construct) {
 
 	zephir_fetch_params(0, 1, 1, &view, &dependencyInjector);
 
+	if (!dependencyInjector) {
 		dependencyInjector = ZEPHIR_GLOBAL(global_null);
+	}
 
 
 	zephir_update_property_this(this_ptr, SL("_view"), view TSRMLS_CC);
@@ -115,7 +117,9 @@ PHP_METHOD(Phalcon_Mvc_View_Engine, partial) {
 		ZEPHIR_INIT_VAR(partialPath);
 		ZVAL_EMPTY_STRING(partialPath);
 	}
+	if (!params) {
 		params = ZEPHIR_GLOBAL(global_null);
+	}
 
 
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_view"), PH_NOISY_CC);
