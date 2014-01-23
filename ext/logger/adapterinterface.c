@@ -27,16 +27,17 @@ static const zend_function_entry phalcon_logger_adapterinterface_method_entry[] 
 	PHP_ABSTRACT_ME(Phalcon_Logger_AdapterInterface, getFormatter, NULL)
 	PHP_ABSTRACT_ME(Phalcon_Logger_AdapterInterface, setLogLevel, arginfo_phalcon_logger_adapterinterface_setloglevel)
 	PHP_ABSTRACT_ME(Phalcon_Logger_AdapterInterface, getLogLevel, NULL)
-	PHP_ABSTRACT_ME(Phalcon_Logger_AdapterInterface, log, arginfo_phalcon_logger_adapterinterface_log)
 	PHP_ABSTRACT_ME(Phalcon_Logger_AdapterInterface, begin, NULL)
 	PHP_ABSTRACT_ME(Phalcon_Logger_AdapterInterface, commit, NULL)
 	PHP_ABSTRACT_ME(Phalcon_Logger_AdapterInterface, rollback, NULL)
 	PHP_ABSTRACT_ME(Phalcon_Logger_AdapterInterface, close, NULL)
+	PHP_ABSTRACT_ME(Phalcon_Logger_AdapterInterface, log, arginfo_phalcon_logger_adapterinterface_log)
 	PHP_ABSTRACT_ME(Phalcon_Logger_AdapterInterface, debug, arginfo_phalcon_logger_adapterinterface_debug)
-	PHP_ABSTRACT_ME(Phalcon_Logger_AdapterInterface, error, arginfo_phalcon_logger_adapterinterface_error)
 	PHP_ABSTRACT_ME(Phalcon_Logger_AdapterInterface, info, arginfo_phalcon_logger_adapterinterface_info)
 	PHP_ABSTRACT_ME(Phalcon_Logger_AdapterInterface, notice, arginfo_phalcon_logger_adapterinterface_notice)
 	PHP_ABSTRACT_ME(Phalcon_Logger_AdapterInterface, warning, arginfo_phalcon_logger_adapterinterface_warning)
+	PHP_ABSTRACT_ME(Phalcon_Logger_AdapterInterface, error, arginfo_phalcon_logger_adapterinterface_error)
+	PHP_ABSTRACT_ME(Phalcon_Logger_AdapterInterface, critical, arginfo_phalcon_logger_adapterinterface_critical)
 	PHP_ABSTRACT_ME(Phalcon_Logger_AdapterInterface, alert, arginfo_phalcon_logger_adapterinterface_alert)
 	PHP_ABSTRACT_ME(Phalcon_Logger_AdapterInterface, emergency, arginfo_phalcon_logger_adapterinterface_emergency)
 	PHP_FE_END
@@ -85,9 +86,10 @@ PHALCON_DOC_METHOD(Phalcon_Logger_AdapterInterface, getLogLevel);
 /**
  * Sends/Writes messages to the file log
  *
+ * @param int|string $type
  * @param string $message
- * @param int $type
- * @return Phalcon\Logger\Adapter
+ * @param array $context
+ * @return Phalcon\Logger\AdapterInterface
  */
 PHALCON_DOC_METHOD(Phalcon_Logger_AdapterInterface, log);
 
@@ -123,26 +125,17 @@ PHALCON_DOC_METHOD(Phalcon_Logger_AdapterInterface, close);
  * Sends/Writes a debug message to the log
  *
  * @param string $message
- * @param ing $type
- * @return Phalcon\Logger\Adapter
+ * @param array $context
+ * @return Phalcon\Logger\AdapterInterface
  */
 PHALCON_DOC_METHOD(Phalcon_Logger_AdapterInterface, debug);
-
-/**
- * Sends/Writes an error message to the log
- *
- * @param string $message
- * @param ing $type
- * @return Phalcon\Logger\Adapter
- */
-PHALCON_DOC_METHOD(Phalcon_Logger_AdapterInterface, error);
 
 /**
  * Sends/Writes an info message to the log
  *
  * @param string $message
- * @param ing $type
- * @return Phalcon\Logger\Adapter
+ * @param array $context
+ * @return Phalcon\Logger\AdapterInterface
  */
 PHALCON_DOC_METHOD(Phalcon_Logger_AdapterInterface, info);
 
@@ -150,8 +143,7 @@ PHALCON_DOC_METHOD(Phalcon_Logger_AdapterInterface, info);
  * Sends/Writes a notice message to the log
  *
  * @param string $message
- * @param ing $type
- * @return Phalcon\Logger\Adapter
+ * @return Phalcon\Logger\AdapterInterface
  */
 PHALCON_DOC_METHOD(Phalcon_Logger_AdapterInterface, notice);
 
@@ -159,16 +151,43 @@ PHALCON_DOC_METHOD(Phalcon_Logger_AdapterInterface, notice);
  * Sends/Writes a warning message to the log
  *
  * @param string $message
- * @param ing $type
- * @return Phalcon\Logger\Adapter
+ * @param array $context
+ * @return Phalcon\Logger\AdapterInterface
  */
 PHALCON_DOC_METHOD(Phalcon_Logger_AdapterInterface, warning);
+
+/**
+ * Sends/Writes an error message to the log
+ *
+ * @param string $message
+ * @param array $context
+ * @return Phalcon\Logger\AdapterInterface
+ */
+PHALCON_DOC_METHOD(Phalcon_Logger_AdapterInterface, error);
+
+/**
+ * Sends/Writes a critical message to the log
+ *
+ * @param string $message
+ * @param array $context
+ * @return Phalcon\Logger\AdapterInterface
+ */
+PHALCON_DOC_METHOD(Phalcon_Logger_AdapterInterface, critical);
 
 /**
  * Sends/Writes an alert message to the log
  *
  * @param string $message
- * @param ing $type
- * @return Phalcon\Logger\Adapter
+ * @param array $context
+ * @return Phalcon\Logger\AdapterInterface
  */
 PHALCON_DOC_METHOD(Phalcon_Logger_AdapterInterface, alert);
+
+/**
+ * Sends/Writes an emergency message to the log
+ *
+ * @param string $message
+ * @param array $context
+ * @return Phalcon\Logger\AdapterInterface
+ */
+PHALCON_DOC_METHOD(Phalcon_Logger_AdapterInterface, emergency);

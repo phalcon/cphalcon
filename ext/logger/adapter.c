@@ -22,6 +22,8 @@
 #include "logger/formatterinterface.h"
 #include "logger/item.h"
 #include "logger.h"
+#include "psr/log/loggerinterface.h"
+#include "psr/log/invalidargumentexception.h"
 
 #include "kernel/main.h"
 #include "kernel/memory.h"
@@ -45,12 +47,13 @@ PHP_METHOD(Phalcon_Logger_Adapter, begin);
 PHP_METHOD(Phalcon_Logger_Adapter, commit);
 PHP_METHOD(Phalcon_Logger_Adapter, rollback);
 PHP_METHOD(Phalcon_Logger_Adapter, emergency);
-PHP_METHOD(Phalcon_Logger_Adapter, debug);
-PHP_METHOD(Phalcon_Logger_Adapter, error);
-PHP_METHOD(Phalcon_Logger_Adapter, info);
-PHP_METHOD(Phalcon_Logger_Adapter, notice);
-PHP_METHOD(Phalcon_Logger_Adapter, warning);
 PHP_METHOD(Phalcon_Logger_Adapter, alert);
+PHP_METHOD(Phalcon_Logger_Adapter, critical);
+PHP_METHOD(Phalcon_Logger_Adapter, error);
+PHP_METHOD(Phalcon_Logger_Adapter, warning);
+PHP_METHOD(Phalcon_Logger_Adapter, notice);
+PHP_METHOD(Phalcon_Logger_Adapter, info);
+PHP_METHOD(Phalcon_Logger_Adapter, debug);
 PHP_METHOD(Phalcon_Logger_Adapter, log);
 
 static const zend_function_entry phalcon_logger_adapter_method_entry[] = {
@@ -61,15 +64,16 @@ static const zend_function_entry phalcon_logger_adapter_method_entry[] = {
 	PHP_ME(Phalcon_Logger_Adapter, begin, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Logger_Adapter, commit, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Logger_Adapter, rollback, NULL, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Logger_Adapter, emergency, arginfo_phalcon_logger_adapterinterface_emergency, ZEND_ACC_PUBLIC)
 	PHP_MALIAS(Phalcon_Logger_Adapter, emergence, emergency, arginfo_phalcon_logger_adapterinterface_emergency, ZEND_ACC_PUBLIC | ZEND_ACC_DEPRECATED)
+	PHP_ME(Phalcon_Logger_Adapter, log, arginfo_phalcon_logger_adapterinterface_log, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Logger_Adapter, debug, arginfo_phalcon_logger_adapterinterface_debug, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Logger_Adapter, error, arginfo_phalcon_logger_adapterinterface_error, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Logger_Adapter, info, arginfo_phalcon_logger_adapterinterface_info, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Logger_Adapter, notice, arginfo_phalcon_logger_adapterinterface_notice, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Logger_Adapter, warning, arginfo_phalcon_logger_adapterinterface_warning, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Logger_Adapter, error, arginfo_phalcon_logger_adapterinterface_error, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Logger_Adapter, critical, arginfo_phalcon_logger_adapterinterface_critical, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Logger_Adapter, alert, arginfo_phalcon_logger_adapterinterface_alert, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Logger_Adapter, log, arginfo_phalcon_logger_adapterinterface_log, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Logger_Adapter, emergency, arginfo_phalcon_logger_adapterinterface_emergency, ZEND_ACC_PUBLIC)
 	ZEND_FENTRY(logInternal, NULL, arginfo_phalcon_logger_adapter_loginternal, ZEND_ACC_PROTECTED | ZEND_ACC_ABSTRACT)
 	PHP_FE_END
 };
@@ -86,8 +90,21 @@ PHALCON_INIT_CLASS(Phalcon_Logger_Adapter){
 	zend_declare_property_null(phalcon_logger_adapter_ce, SL("_formatter"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_long(phalcon_logger_adapter_ce, SL("_logLevel"), PHALCON_LOGGER_SPECIAL, ZEND_ACC_PROTECTED TSRMLS_CC);
 
+	/* Prior to PHP 5.3.9, a class could not implement two interfaces
+	 * that specified a method with the same name, since it would cause
+	 * ambiguity. More recent versions of PHP allow this as long as
+	 * the duplicate methods have the same signature.
+	 */
+#if PHP_VERSION_ID >= 50309
+	if (PHALCON_GLOBAL(register_psr3_classes)) {
+		zend_class_implements(phalcon_logger_adapter_ce TSRMLS_CC, 2, phalcon_logger_adapterinterface_ce, psr_log_loggerinterface_ce);
+	}
+	else {
+		zend_class_implements(phalcon_logger_adapter_ce TSRMLS_CC, 1, phalcon_logger_adapterinterface_ce);
+	}
+#else
 	zend_class_implements(phalcon_logger_adapter_ce TSRMLS_CC, 1, phalcon_logger_adapterinterface_ce);
-
+#endif
 	return SUCCESS;
 }
 
@@ -176,9 +193,10 @@ PHP_METHOD(Phalcon_Logger_Adapter, getLogLevel){
 PHP_METHOD(Phalcon_Logger_Adapter, setFormatter){
 
 	zval *formatter;
+	zend_class_entry *exception = PHALCON_GLOBAL(register_psr3_classes) ? psr_log_invalidargumentexception_ce : phalcon_logger_exception_ce;
 
 	phalcon_fetch_params(0, 1, 0, &formatter);
-	PHALCON_VERIFY_INTERFACE_EX(formatter, phalcon_logger_formatterinterface_ce, phalcon_logger_exception_ce, 0);
+	PHALCON_VERIFY_INTERFACE_EX(formatter, phalcon_logger_formatterinterface_ce, exception, 0);
 
 	phalcon_update_property_this(this_ptr, SL("_formatter"), formatter TSRMLS_CC);
 	RETURN_THISW();
@@ -216,23 +234,21 @@ PHP_METHOD(Phalcon_Logger_Adapter, commit){
 	zval *transaction, *queue, *message_str = NULL;
 	zval *type = NULL, *time = NULL, *context = NULL;
 
-	PHALCON_MM_GROW();
-
 	transaction = phalcon_fetch_nproperty_this(this_ptr, SL("_transaction"), PH_NOISY_CC);
 	if (!zend_is_true(transaction)) {
-		PHALCON_THROW_EXCEPTION_STR(phalcon_logger_exception_ce, "There is no active transaction");
+		PHALCON_THROW_EXCEPTION_STRW(phalcon_logger_exception_ce, "There is no active transaction");
 		return;
 	}
 	
 	phalcon_update_property_bool(this_ptr, SL("_transaction"), 0 TSRMLS_CC);
 	
-	/** 
-	 * Check if the queue has something to log
-	 */
+	/* Check if the queue has something to log */
 	queue = phalcon_fetch_nproperty_this(this_ptr, SL("_queue"), PH_NOISY_CC);
 	if (Z_TYPE_P(queue) == IS_ARRAY) { 
 		HashPosition hp;
 		zval **message;
+
+		PHALCON_MM_GROW();
 
 		for (
 			zend_hash_internal_pointer_reset_ex(Z_ARRVAL_P(queue), &hp);
@@ -259,9 +275,11 @@ PHP_METHOD(Phalcon_Logger_Adapter, commit){
 			array_init(queue);
 			phalcon_update_property_this(getThis(), SL("_queue"), queue TSRMLS_CC);
 		}
+
+		PHALCON_MM_RESTORE();
 	}
 	
-	RETURN_THIS();
+	RETURN_THISW();
 }
 
 /**
@@ -317,7 +335,7 @@ static void phalcon_logger_adapter_log_helper(INTERNAL_FUNCTION_PARAMETERS, int 
  *
  * @param string $message
  * @param array $context
- * @return Phalcon\Logger\Adapter
+ * @return Phalcon\Logger\AdapterInterface
  */
 PHP_METHOD(Phalcon_Logger_Adapter, emergency){
 
@@ -329,7 +347,7 @@ PHP_METHOD(Phalcon_Logger_Adapter, emergency){
  *
  * @param string $message
  * @param array $context
- * @return Phalcon\Logger\Adapter
+ * @return Phalcon\Logger\AdapterInterface
  */
 PHP_METHOD(Phalcon_Logger_Adapter, debug){
 
@@ -341,7 +359,7 @@ PHP_METHOD(Phalcon_Logger_Adapter, debug){
  *
  * @param string $message
  * @param array $context
- * @return Phalcon\Logger\Adapter
+ * @return Phalcon\Logger\AdapterInterface
  */
 PHP_METHOD(Phalcon_Logger_Adapter, error){
 
@@ -353,7 +371,7 @@ PHP_METHOD(Phalcon_Logger_Adapter, error){
  *
  * @param string $message
  * @param array $context
- * @return Phalcon\Logger\Adapter
+ * @return Phalcon\Logger\AdapterInterface
  */
 PHP_METHOD(Phalcon_Logger_Adapter, info){
 
@@ -365,7 +383,7 @@ PHP_METHOD(Phalcon_Logger_Adapter, info){
  *
  * @param string $message
  * @param array $context
- * @return Phalcon\Logger\Adapter
+ * @return Phalcon\Logger\AdapterInterface
  */
 PHP_METHOD(Phalcon_Logger_Adapter, notice){
 
@@ -377,7 +395,7 @@ PHP_METHOD(Phalcon_Logger_Adapter, notice){
  *
  * @param string $message
  * @param array $context
- * @return Phalcon\Logger\Adapter
+ * @return Phalcon\Logger\AdapterInterface
  */
 PHP_METHOD(Phalcon_Logger_Adapter, warning){
 
@@ -389,11 +407,23 @@ PHP_METHOD(Phalcon_Logger_Adapter, warning){
  *
  * @param string $message
  * @param array $context
- * @return Phalcon\Logger\Adapter
+ * @return Phalcon\Logger\AdapterInterface
  */
 PHP_METHOD(Phalcon_Logger_Adapter, alert){
 
 	phalcon_logger_adapter_log_helper(INTERNAL_FUNCTION_PARAM_PASSTHRU, PHALCON_LOGGER_ALERT);
+}
+
+/**
+ * Sends/Writes a critical message to the log
+ *
+ * @param string $message
+ * @param array $context
+ * @return Phalcon\Logger\AdapterInterface
+ */
+PHP_METHOD(Phalcon_Logger_Adapter, critical){
+
+	phalcon_logger_adapter_log_helper(INTERNAL_FUNCTION_PARAM_PASSTHRU, PHALCON_LOGGER_CRITICAL);
 }
 
 /**

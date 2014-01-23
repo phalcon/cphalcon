@@ -185,7 +185,11 @@
    - Phalcon\Logger\Adapter::commit() now clears the queue (#1742)
    - Phalcon\Logger\Adapter now implements Phalcon\Logger\AdapterInterface (#1852)
    - Phalcon\Logger\Formatter now implements Phalcon\Logger\FormatterInterface (#1852)
-   - Phalcon\Logger\Adapter is now PSR-3 compliant (#1873)
+   - Phalcon\Logger\Adapter and Phalcon\Logger\AdapterInterface are now PSR-3 compliant (#1873, #1888)
+   - Added Phalcon\Logger\Adapter::critical() method (#1888)
+   - For PHP 5.3.9+ when phalcon.register_psr3_classes php.ini option is set, Phalcon\Logger\Adapter implements Psr\Log\LoggerInterface (#1888)
+   - When phalcon.register_psr3_classes php.ini option is set, Phalcon\Logger\Adapter and derived classes throw Psr\Log\InvalidArgumentException
+     instead of Phalcon\Logger\Exception when the arguments are not valid (#1888)
  - Phalcon\Mvc:
    - Phalcon\Mvc\Application::handle() now checks whether the class exists before include()'ing its file (#812, #818)
    - Phalcon\Mvc\Model\Criteria::fromInput() now sets _modelName (#866, #873)
@@ -272,6 +276,11 @@
    - Optimized Phalcon\Validation\Message\Group by using native iterators (#1657)
    - Optimized Phalcon\Validation\Message\Group by using object handlers (#1765)
    - Phalcon\Validation\Validator now implements Phalcon\Validation\ValidatorInterface (#1852)
+ - Psr\Log:
+   - when phalcon.register_psr3_classes php.ini option is set, Psr\Log\LoggerAwareInterface, Psr\Log\LoggerInterface,
+     Psr\Log\AbstractLogger, Psr\Log\InvalidArgumentException, Psr\Log\LogLevel, Psr\Log\NullLogger,
+     Psr\Log\LoggerAwareTrait (PHP 5.4+), Psr\Log\LoggerTrait (PHP 5.4+) are registered as internal interfaces/classes/traits
+     by Phalcon (#1888)
  - Unit tests:
    - Travis CI imporvements (#819, #846, #949)
    - Use markTestSkipped() instead of echo (#862)
