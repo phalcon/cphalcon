@@ -87,10 +87,16 @@ PHP_METHOD(Phalcon_Mvc_Collection, __construct) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 2, &dependencyInjector, &modelsManager);
 
+	if (!dependencyInjector) {
 		ZEPHIR_CPY_WRT(dependencyInjector, ZEPHIR_GLOBAL(global_null));
+	} else {
 		ZEPHIR_SEPARATE_PARAM(dependencyInjector);
+	}
+	if (!modelsManager) {
 		ZEPHIR_CPY_WRT(modelsManager, ZEPHIR_GLOBAL(global_null));
+	} else {
 		ZEPHIR_SEPARATE_PARAM(modelsManager);
+	}
 
 
 	if ((Z_TYPE_P(dependencyInjector) != IS_OBJECT)) {
@@ -259,7 +265,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, getReservedAttributes) {
 	zephir_read_static_property_ce(&reserved, phalcon_mvc_collection_ce, SL("_reserved") TSRMLS_CC);
 	if ((Z_TYPE_P(reserved) == IS_NULL)) {
 		ZEPHIR_INIT_VAR(reserved);
-		array_init_size(reserved, 7);
+		array_init_size(reserved, 6);
 		zephir_array_update_string(&reserved, SL("_connection"), &ZEPHIR_GLOBAL(global_true), PH_COPY | PH_SEPARATE);
 		zephir_array_update_string(&reserved, SL("_dependencyInjector"), &ZEPHIR_GLOBAL(global_true), PH_COPY | PH_SEPARATE);
 		zephir_array_update_string(&reserved, SL("_source"), &ZEPHIR_GLOBAL(global_true), PH_COPY | PH_SEPARATE);
@@ -1326,7 +1332,9 @@ PHP_METHOD(Phalcon_Mvc_Collection, findFirst) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 1, &parameters);
 
+	if (!parameters) {
 		parameters = ZEPHIR_GLOBAL(global_null);
+	}
 
 
 	if (zephir_is_true(parameters)) {
@@ -1393,7 +1401,9 @@ PHP_METHOD(Phalcon_Mvc_Collection, find) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 1, &parameters);
 
+	if (!parameters) {
 		parameters = ZEPHIR_GLOBAL(global_null);
+	}
 
 
 	if (zephir_is_true(parameters)) {
@@ -1432,7 +1442,9 @@ PHP_METHOD(Phalcon_Mvc_Collection, count) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 1, &parameters);
 
+	if (!parameters) {
 		parameters = ZEPHIR_GLOBAL(global_null);
+	}
 
 
 	if (zephir_is_true(parameters)) {
@@ -1512,8 +1524,12 @@ PHP_METHOD(Phalcon_Mvc_Collection, summatory) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 2, &field, &conditions, &finalize);
 
+	if (!conditions) {
 		conditions = ZEPHIR_GLOBAL(global_null);
+	}
+	if (!finalize) {
 		finalize = ZEPHIR_GLOBAL(global_null);
+	}
 
 
 	if ((Z_TYPE_P(field) != IS_STRING)) {

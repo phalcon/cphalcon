@@ -1167,7 +1167,7 @@ void zephir_md5(zval *return_value, zval *str) {
 /**
  * Execute preg-match without function lookup in the PHP userland
  */
-void zephir_preg_match(zval *return_value, zval **return_value_ptr, zval *regex, zval *subject, zval *matches TSRMLS_DC)
+void zephir_preg_match(zval *return_value, zval **return_value_ptr, zval *regex, zval *subject, zval *matches, int global TSRMLS_DC)
 {
 	zval copy;
 	int use_copy = 0;
@@ -1195,7 +1195,7 @@ void zephir_preg_match(zval *return_value, zval **return_value_ptr, zval *regex,
 		RETURN_FALSE;
 	}
 
-	php_pcre_match_impl(pce, Z_STRVAL_P(subject), Z_STRLEN_P(subject), return_value, matches, 0, 0, 0, 0 TSRMLS_CC);
+	php_pcre_match_impl(pce, Z_STRVAL_P(subject), Z_STRLEN_P(subject), return_value, matches, global, 0, 0, 0 TSRMLS_CC);
 
 	if (use_copy) {
 		zval_dtor(&copy);
@@ -1204,13 +1204,17 @@ void zephir_preg_match(zval *return_value, zval **return_value_ptr, zval *regex,
 
 #else
 
-void zephir_preg_match(zval *return_value, zval **return_value_ptr, zval *regex, zval *subject, zval *matches TSRMLS_DC)
+void zephir_preg_match(zval *return_value, zval **return_value_ptr, zval *regex, zval *subject, zval *matches, int global TSRMLS_DC)
 {
 	if (matches) {
 		Z_SET_ISREF_P(matches);
 	}
 
-	zephir_call_func_params(return_value, return_value_ptr, SL("preg_match") TSRMLS_CC, (matches ? 3 : 2), regex, subject, matches);
+        if (global) {
+            zephir_call_func_params(return_value, return_value_ptr, SL("preg_match_all") TSRMLS_CC, (matches ? 3 : 2), regex, subject, matches);
+        } else {
+            zephir_call_func_params(return_value, return_value_ptr, SL("preg_match") TSRMLS_CC, (matches ? 3 : 2), regex, subject, matches);
+        }
 
 	if (matches) {
 		Z_UNSET_ISREF_P(matches);
@@ -1473,6 +1477,26 @@ void zephir_addslashes(zval *return_value, zval *str TSRMLS_DC)
 	}
 
 	ZVAL_STRING(return_value, php_addslashes(Z_STRVAL_P(str), Z_STRLEN_P(str), &Z_STRLEN_P(return_value), 0 TSRMLS_CC), 0);
+
+	if (unlikely(use_copy)) {
+		zval_dtor(&copy);
+	}
+}
+
+void zephir_stripslashes(zval *return_value, zval *str TSRMLS_DC)
+{
+	zval copy;
+	int use_copy = 0;
+
+	if (unlikely(Z_TYPE_P(str) != IS_STRING)) {
+		zend_make_printable_zval(str, &copy, &use_copy);
+		if (use_copy) {
+			str = &copy;
+		}
+	}
+
+	ZVAL_STRINGL(return_value, Z_STRVAL_P(str), Z_STRLEN_P(str), 1);
+	php_stripslashes(Z_STRVAL_P(return_value), &Z_STRLEN_P(return_value) TSRMLS_CC);
 
 	if (unlikely(use_copy)) {
 		zval_dtor(&copy);

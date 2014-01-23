@@ -82,7 +82,9 @@ PHP_METHOD(Phalcon_Mvc_View_Simple, __construct) {
 
 	zephir_fetch_params(0, 0, 1, &options);
 
+	if (!options) {
 		options = ZEPHIR_GLOBAL(global_null);
+	}
 
 
 	if ((Z_TYPE_P(options) == IS_ARRAY)) {
@@ -362,7 +364,9 @@ PHP_METHOD(Phalcon_Mvc_View_Simple, render) {
 		ZEPHIR_INIT_VAR(path);
 		ZVAL_EMPTY_STRING(path);
 	}
+	if (!params) {
 		params = ZEPHIR_GLOBAL(global_null);
+	}
 
 
 	ZEPHIR_INIT_VAR(cache);
@@ -462,7 +466,9 @@ PHP_METHOD(Phalcon_Mvc_View_Simple, partial) {
 		ZEPHIR_INIT_VAR(partialPath);
 		ZVAL_EMPTY_STRING(partialPath);
 	}
+	if (!params) {
 		params = ZEPHIR_GLOBAL(global_null);
+	}
 
 
 	zephir_call_func_noret("ob_start");
@@ -593,7 +599,9 @@ PHP_METHOD(Phalcon_Mvc_View_Simple, cache) {
 
 	zephir_fetch_params(0, 0, 1, &options);
 
+	if (!options) {
 		options = ZEPHIR_GLOBAL(global_true);
+	}
 
 
 	if ((Z_TYPE_P(options) == IS_ARRAY)) {
@@ -666,7 +674,11 @@ PHP_METHOD(Phalcon_Mvc_View_Simple, setVars) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 1, &params, &merge_param);
 
+	if (!merge_param) {
+		merge = 1;
+	} else {
 		merge = zephir_get_boolval(merge_param);
+	}
 
 
 	if ((Z_TYPE_P(params) != IS_ARRAY)) {

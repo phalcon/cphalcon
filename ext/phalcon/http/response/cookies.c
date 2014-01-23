@@ -155,14 +155,42 @@ PHP_METHOD(Phalcon_Http_Response_Cookies, set) {
 		ZEPHIR_INIT_VAR(name);
 		ZVAL_EMPTY_STRING(name);
 	}
+	if (!value) {
 		value = ZEPHIR_GLOBAL(global_null);
+	}
+	if (!expire_param) {
+		expire = 0;
+	} else {
 		expire = zephir_get_intval(expire_param);
+	}
+	if (!path_param) {
 		ZEPHIR_INIT_VAR(path);
 		ZVAL_STRING(path, "/", 1);
+	} else {
+		zephir_get_strval(path, path_param);
+	}
+	if (!secure) {
 		secure = ZEPHIR_GLOBAL(global_null);
+	}
+	if (!domain_param) {
 		ZEPHIR_INIT_VAR(domain);
 		ZVAL_EMPTY_STRING(domain);
+	} else {
+	if (Z_TYPE_P(domain_param) != IS_STRING && Z_TYPE_P(domain_param) != IS_NULL) {
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'domain' must be a string") TSRMLS_CC);
+		RETURN_MM_NULL();
+	}
+
+	if (Z_TYPE_P(domain_param) == IS_STRING) {
+		domain = domain_param;
+	} else {
+		ZEPHIR_INIT_VAR(domain);
+		ZVAL_EMPTY_STRING(domain);
+	}
+	}
+	if (!httpOnly) {
 		httpOnly = ZEPHIR_GLOBAL(global_null);
+	}
 
 
 	encryption = zephir_fetch_nproperty_this(this_ptr, SL("_useEncryption"), PH_NOISY_CC);

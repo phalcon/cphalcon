@@ -133,8 +133,12 @@ PHP_METHOD(Phalcon_Logger_Formatter_Line, __construct) {
 
 	zephir_fetch_params(0, 0, 2, &format, &dateFormat);
 
+	if (!format) {
 		format = ZEPHIR_GLOBAL(global_null);
+	}
+	if (!dateFormat) {
 		dateFormat = ZEPHIR_GLOBAL(global_null);
+	}
 
 
 	if (zephir_is_true(format)) {

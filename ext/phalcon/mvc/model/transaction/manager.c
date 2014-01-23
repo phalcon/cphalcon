@@ -111,8 +111,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, __construct) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 1, &dependencyInjector);
 
+	if (!dependencyInjector) {
 		ZEPHIR_CPY_WRT(dependencyInjector, ZEPHIR_GLOBAL(global_null));
+	} else {
 		ZEPHIR_SEPARATE_PARAM(dependencyInjector);
+	}
 
 
 	if (zephir_is_true(dependencyInjector)) {
@@ -266,7 +269,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, get) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 1, &autoBegin_param);
 
+	if (!autoBegin_param) {
+		autoBegin = 1;
+	} else {
 		autoBegin = zephir_get_boolval(autoBegin_param);
+	}
 
 
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_initialized"), PH_NOISY_CC);
@@ -304,7 +311,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, getOrCreateTransaction) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 1, &autoBegin_param);
 
+	if (!autoBegin_param) {
+		autoBegin = 1;
+	} else {
 		autoBegin = zephir_get_boolval(autoBegin_param);
+	}
 
 
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
@@ -402,7 +413,9 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, rollback) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 1, &collect);
 
+	if (!collect) {
 		collect = ZEPHIR_GLOBAL(global_true);
+	}
 
 
 	transactions = zephir_fetch_nproperty_this(this_ptr, SL("_transactions"), PH_NOISY_CC);

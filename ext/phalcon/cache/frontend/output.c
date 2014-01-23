@@ -108,7 +108,9 @@ PHP_METHOD(Phalcon_Cache_Frontend_Output, __construct) {
 
 	zephir_fetch_params(0, 0, 1, &frontendOptions);
 
+	if (!frontendOptions) {
 		frontendOptions = ZEPHIR_GLOBAL(global_null);
+	}
 
 
 	zephir_update_property_this(this_ptr, SL("_frontendOptions"), frontendOptions TSRMLS_CC);

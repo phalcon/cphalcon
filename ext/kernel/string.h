@@ -78,7 +78,7 @@ void zephir_substr(zval *return_value, zval *str, long from, long length);
 zval *zephir_eol(int eol TSRMLS_DC);
 
 /** Preg-Match */
-void zephir_preg_match(zval *return_value, zval **return_value_ptr, zval *regex, zval *subject, zval *matches TSRMLS_DC);
+void zephir_preg_match(zval *return_value, zval **return_value_ptr, zval *regex, zval *subject, zval *matches, int global TSRMLS_DC);
 
 /** Base64 */
 void zephir_base64_encode(zval *return_value, zval *data);
@@ -100,6 +100,7 @@ void zephir_htmlentities(zval *return_value, zval *string, zval *quoting, zval *
 void zephir_strval(zval *return_value, zval *v);
 void zephir_date(zval *return_value, zval *format, zval *timestamp TSRMLS_DC);
 void zephir_addslashes(zval *return_value, zval *str TSRMLS_DC);
+void zephir_stripslashes(zval *return_value, zval *str TSRMLS_DC);
 
 #if PHP_VERSION_ID < 50400
 

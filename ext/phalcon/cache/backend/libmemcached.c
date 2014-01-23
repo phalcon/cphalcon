@@ -99,8 +99,11 @@ PHP_METHOD(Phalcon_Cache_Backend_Libmemcached, __construct) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 1, &frontend, &options);
 
+	if (!options) {
 		ZEPHIR_CPY_WRT(options, ZEPHIR_GLOBAL(global_null));
+	} else {
 		ZEPHIR_SEPARATE_PARAM(options);
+	}
 
 
 	if ((Z_TYPE_P(options) != IS_ARRAY)) {
@@ -109,7 +112,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Libmemcached, __construct) {
 	}
 	if (!(zephir_array_isset_string(options, SS("servers")))) {
 		ZEPHIR_INIT_VAR(config);
-		array_init_size(config, 5);
+		array_init_size(config, 4);
 		add_assoc_stringl_ex(config, SS("host"), SL("127.0.0.1"), 1);
 		add_assoc_long_ex(config, SS("port"), 11211);
 		add_assoc_long_ex(config, SS("weigth"), 1);
@@ -200,7 +203,9 @@ PHP_METHOD(Phalcon_Cache_Backend_Libmemcached, get) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 1, &keyName, &lifetime);
 
+	if (!lifetime) {
 		lifetime = ZEPHIR_GLOBAL(global_null);
+	}
 
 
 	ZEPHIR_OBS_VAR(memcache);
@@ -244,10 +249,18 @@ PHP_METHOD(Phalcon_Cache_Backend_Libmemcached, save) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 4, &keyName, &content, &lifetime, &stopBuffer);
 
+	if (!keyName) {
 		keyName = ZEPHIR_GLOBAL(global_null);
+	}
+	if (!content) {
 		content = ZEPHIR_GLOBAL(global_null);
+	}
+	if (!lifetime) {
 		lifetime = ZEPHIR_GLOBAL(global_null);
+	}
+	if (!stopBuffer) {
 		stopBuffer = ZEPHIR_GLOBAL(global_true);
+	}
 
 
 	ZEPHIR_INIT_VAR(lastKey);
@@ -343,9 +356,14 @@ PHP_METHOD(Phalcon_Cache_Backend_Libmemcached, increment) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 2, &keyName, &value);
 
+	if (!keyName) {
 		keyName = ZEPHIR_GLOBAL(global_null);
+	}
+	if (!value) {
 		ZEPHIR_CPY_WRT(value, ZEPHIR_GLOBAL(global_null));
+	} else {
 		ZEPHIR_SEPARATE_PARAM(value);
+	}
 
 
 	if (!(zephir_is_true(value))) {
@@ -386,9 +404,14 @@ PHP_METHOD(Phalcon_Cache_Backend_Libmemcached, decrement) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 2, &keyName, &value);
 
+	if (!keyName) {
 		keyName = ZEPHIR_GLOBAL(global_null);
+	}
+	if (!value) {
 		ZEPHIR_CPY_WRT(value, ZEPHIR_GLOBAL(global_null));
+	} else {
 		ZEPHIR_SEPARATE_PARAM(value);
+	}
 
 
 	if (!(zephir_is_true(value))) {
@@ -472,7 +495,9 @@ PHP_METHOD(Phalcon_Cache_Backend_Libmemcached, queryKeys) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 1, &prefix);
 
+	if (!prefix) {
 		prefix = ZEPHIR_GLOBAL(global_null);
+	}
 
 
 	ZEPHIR_OBS_VAR(memcache);
@@ -520,8 +545,12 @@ PHP_METHOD(Phalcon_Cache_Backend_Libmemcached, exists) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 2, &keyName, &lifetime);
 
+	if (!keyName) {
 		keyName = ZEPHIR_GLOBAL(global_null);
+	}
+	if (!lifetime) {
 		lifetime = ZEPHIR_GLOBAL(global_null);
+	}
 
 
 	ZEPHIR_INIT_VAR(lastKey);

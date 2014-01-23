@@ -16,8 +16,8 @@
 #include "kernel/fcall.h"
 #include "kernel/memory.h"
 #include "kernel/operators.h"
-#include "kernel/array.h"
 #include "kernel/hash.h"
+#include "kernel/array.h"
 #include "kernel/exception.h"
 #include "kernel/concat.h"
 #include "ext/spl/spl_exceptions.h"
@@ -80,8 +80,12 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, __construct) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 3, 2, &columnMap, &model, &result, &cache, &keepSnapshots);
 
+	if (!cache) {
 		cache = ZEPHIR_GLOBAL(global_null);
+	}
+	if (!keepSnapshots) {
 		keepSnapshots = ZEPHIR_GLOBAL(global_null);
+	}
 
 
 	zephir_update_property_this(this_ptr, SL("_model"), model TSRMLS_CC);
@@ -149,7 +153,9 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, valid) {
 			zephir_call_func_p1(row, "current", rows);
 			Z_UNSET_ISREF_P(rows);
 			if (!ZEPHIR_IS_FALSE(row)) {
-				zephir_array_next(rows TSRMLS_CC);
+				Z_SET_ISREF_P(rows);
+				zephir_call_func_p1_noret("next", rows);
+				Z_UNSET_ISREF_P(rows);
 			}
 		} else {
 			ZVAL_BOOL(row, 0);
@@ -195,7 +201,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, toArray) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 1, &renameColumns_param);
 
+	if (!renameColumns_param) {
+		renameColumns = 1;
+	} else {
 		renameColumns = zephir_get_boolval(renameColumns_param);
+	}
 
 
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_type"), PH_NOISY_CC);
@@ -291,7 +301,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, serialize) {
 
 	zephir_update_property_this(this_ptr, SL("_activeRow"), (0) ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
 	ZEPHIR_INIT_VAR(_0);
-	array_init_size(_0, 7);
+	array_init_size(_0, 6);
 	ZEPHIR_OBS_VAR(_1);
 	zephir_read_property_this(&_1, this_ptr, SL("_model"), PH_NOISY_CC);
 	zephir_array_update_string(&_0, SL("model"), &_1, PH_COPY | PH_SEPARATE);

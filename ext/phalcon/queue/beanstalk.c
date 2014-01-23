@@ -71,7 +71,9 @@ PHP_METHOD(Phalcon_Queue_Beanstalk, __construct) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 1, &options);
 
+	if (!options) {
 		options = ZEPHIR_GLOBAL(global_null);
+	}
 
 
 	if ((Z_TYPE_P(options) != IS_ARRAY)) {
@@ -140,7 +142,9 @@ PHP_METHOD(Phalcon_Queue_Beanstalk, put) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 1, &data, &options);
 
+	if (!options) {
 		options = ZEPHIR_GLOBAL(global_null);
+	}
 
 
 	if (zephir_array_isset_string(options, SS("priority"))) {
@@ -199,7 +203,9 @@ PHP_METHOD(Phalcon_Queue_Beanstalk, reserve) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 1, &timeout);
 
+	if (!timeout) {
 		timeout = ZEPHIR_GLOBAL(global_null);
+	}
 
 
 	ZEPHIR_INIT_VAR(command);
@@ -349,7 +355,9 @@ PHP_METHOD(Phalcon_Queue_Beanstalk, read) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 1, &length);
 
+	if (!length) {
 		length = ZEPHIR_GLOBAL(global_null);
+	}
 
 
 	ZEPHIR_OBS_VAR(connection);

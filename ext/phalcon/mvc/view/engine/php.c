@@ -83,7 +83,11 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Php, render) {
 		ZEPHIR_INIT_VAR(path);
 		ZVAL_EMPTY_STRING(path);
 	}
+	if (!mustClean_param) {
+		mustClean = 0;
+	} else {
 		mustClean = zephir_get_boolval(mustClean_param);
+	}
 
 
 	if ((mustClean == 1)) {

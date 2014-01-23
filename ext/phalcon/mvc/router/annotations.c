@@ -100,8 +100,22 @@ PHP_METHOD(Phalcon_Mvc_Router_Annotations, addResource) {
 		ZEPHIR_INIT_VAR(handler);
 		ZVAL_EMPTY_STRING(handler);
 	}
+	if (!prefix_param) {
 		ZEPHIR_INIT_VAR(prefix);
 		ZVAL_EMPTY_STRING(prefix);
+	} else {
+	if (Z_TYPE_P(prefix_param) != IS_STRING && Z_TYPE_P(prefix_param) != IS_NULL) {
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'prefix' must be a string") TSRMLS_CC);
+		RETURN_MM_NULL();
+	}
+
+	if (Z_TYPE_P(prefix_param) == IS_STRING) {
+		prefix = prefix_param;
+	} else {
+		ZEPHIR_INIT_VAR(prefix);
+		ZVAL_EMPTY_STRING(prefix);
+	}
+	}
 
 
 	ZEPHIR_INIT_VAR(_0);
@@ -154,12 +168,26 @@ PHP_METHOD(Phalcon_Mvc_Router_Annotations, addModuleResource) {
 		ZEPHIR_INIT_VAR(handler);
 		ZVAL_EMPTY_STRING(handler);
 	}
+	if (!prefix_param) {
 		ZEPHIR_INIT_VAR(prefix);
 		ZVAL_EMPTY_STRING(prefix);
+	} else {
+	if (Z_TYPE_P(prefix_param) != IS_STRING && Z_TYPE_P(prefix_param) != IS_NULL) {
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'prefix' must be a string") TSRMLS_CC);
+		RETURN_MM_NULL();
+	}
+
+	if (Z_TYPE_P(prefix_param) == IS_STRING) {
+		prefix = prefix_param;
+	} else {
+		ZEPHIR_INIT_VAR(prefix);
+		ZVAL_EMPTY_STRING(prefix);
+	}
+	}
 
 
 	ZEPHIR_INIT_VAR(_0);
-	array_init_size(_0, 5);
+	array_init_size(_0, 4);
 	zephir_array_fast_append(_0, prefix);
 	zephir_array_fast_append(_0, handler);
 	zephir_array_fast_append(_0, module);
@@ -185,8 +213,22 @@ PHP_METHOD(Phalcon_Mvc_Router_Annotations, handle) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 1, &uri_param);
 
+	if (!uri_param) {
 		ZEPHIR_INIT_VAR(uri);
 		ZVAL_EMPTY_STRING(uri);
+	} else {
+	if (Z_TYPE_P(uri_param) != IS_STRING && Z_TYPE_P(uri_param) != IS_NULL) {
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'uri' must be a string") TSRMLS_CC);
+		RETURN_MM_NULL();
+	}
+
+	if (Z_TYPE_P(uri_param) == IS_STRING) {
+		uri = uri_param;
+	} else {
+		ZEPHIR_INIT_VAR(uri);
+		ZVAL_EMPTY_STRING(uri);
+	}
+	}
 
 
 	if (!(uri && Z_STRLEN_P(uri))) {

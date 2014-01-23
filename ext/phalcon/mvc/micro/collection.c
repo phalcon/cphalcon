@@ -102,7 +102,7 @@ PHP_METHOD(Phalcon_Mvc_Micro_Collection, _addMap) {
 
 
 	ZEPHIR_INIT_VAR(_0);
-	array_init_size(_0, 5);
+	array_init_size(_0, 4);
 	zephir_array_fast_append(_0, method);
 	zephir_array_fast_append(_0, routePattern);
 	zephir_array_fast_append(_0, handler);
@@ -181,7 +181,11 @@ PHP_METHOD(Phalcon_Mvc_Micro_Collection, setHandler) {
 
 	zephir_fetch_params(0, 1, 1, &handler, &lazy_param);
 
+	if (!lazy_param) {
+		lazy = 0;
+	} else {
 		lazy = zephir_get_boolval(lazy_param);
+	}
 
 
 	zephir_update_property_this(this_ptr, SL("_handler"), handler TSRMLS_CC);

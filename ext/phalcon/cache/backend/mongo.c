@@ -91,7 +91,9 @@ PHP_METHOD(Phalcon_Cache_Backend_Mongo, __construct) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 1, &frontend, &options);
 
+	if (!options) {
 		options = ZEPHIR_GLOBAL(global_null);
+	}
 
 
 	if (!(zephir_array_isset_string(options, SS("mongo")))) {
@@ -179,7 +181,9 @@ PHP_METHOD(Phalcon_Cache_Backend_Mongo, get) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 1, &keyName, &lifetime);
 
+	if (!lifetime) {
 		lifetime = ZEPHIR_GLOBAL(global_null);
+	}
 
 
 	ZEPHIR_INIT_VAR(conditions);
@@ -235,10 +239,18 @@ PHP_METHOD(Phalcon_Cache_Backend_Mongo, save) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 4, &keyName, &content, &lifetime, &stopBuffer);
 
+	if (!keyName) {
 		keyName = ZEPHIR_GLOBAL(global_null);
+	}
+	if (!content) {
 		content = ZEPHIR_GLOBAL(global_null);
+	}
+	if (!lifetime) {
 		lifetime = ZEPHIR_GLOBAL(global_null);
+	}
+	if (!stopBuffer) {
 		stopBuffer = ZEPHIR_GLOBAL(global_true);
+	}
 
 
 	ZEPHIR_INIT_VAR(conditions);
@@ -369,7 +381,9 @@ PHP_METHOD(Phalcon_Cache_Backend_Mongo, queryKeys) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 1, &prefix);
 
+	if (!prefix) {
 		prefix = ZEPHIR_GLOBAL(global_null);
+	}
 
 
 	ZEPHIR_INIT_VAR(fields);
@@ -431,8 +445,12 @@ PHP_METHOD(Phalcon_Cache_Backend_Mongo, exists) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 2, &keyName, &lifetime);
 
+	if (!keyName) {
 		keyName = ZEPHIR_GLOBAL(global_null);
+	}
+	if (!lifetime) {
 		lifetime = ZEPHIR_GLOBAL(global_null);
+	}
 
 
 	ZEPHIR_INIT_VAR(conditions);
@@ -505,8 +523,10 @@ PHP_METHOD(Phalcon_Cache_Backend_Mongo, increment) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 1, &keyName, &value);
 
+	if (!value) {
 		ZEPHIR_INIT_VAR(value);
 		ZVAL_LONG(value, 1);
+	}
 
 
 	frontend = zephir_fetch_nproperty_this(this_ptr, SL("_frontend"), PH_NOISY_CC);
@@ -571,8 +591,10 @@ PHP_METHOD(Phalcon_Cache_Backend_Mongo, decrement) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 1, &keyName, &value);
 
+	if (!value) {
 		ZEPHIR_INIT_VAR(value);
 		ZVAL_LONG(value, 1);
+	}
 
 
 	frontend = zephir_fetch_nproperty_this(this_ptr, SL("_frontend"), PH_NOISY_CC);

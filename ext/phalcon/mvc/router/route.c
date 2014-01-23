@@ -91,8 +91,12 @@ PHP_METHOD(Phalcon_Mvc_Router_Route, __construct) {
 		ZEPHIR_INIT_VAR(pattern);
 		ZVAL_EMPTY_STRING(pattern);
 	}
+	if (!paths) {
 		paths = ZEPHIR_GLOBAL(global_null);
+	}
+	if (!httpMethods) {
 		httpMethods = ZEPHIR_GLOBAL(global_null);
+	}
 
 
 	zephir_call_method_p2_noret(this_ptr, "reconfigure", pattern, paths);
@@ -410,7 +414,9 @@ PHP_METHOD(Phalcon_Mvc_Router_Route, reConfigure) {
 		ZEPHIR_INIT_VAR(pattern);
 		ZVAL_EMPTY_STRING(pattern);
 	}
+	if (!paths) {
 		paths = ZEPHIR_GLOBAL(global_null);
+	}
 
 
 	if ((Z_TYPE_P(paths) != IS_NULL)) {

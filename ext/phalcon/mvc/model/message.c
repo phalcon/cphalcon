@@ -105,9 +105,15 @@ PHP_METHOD(Phalcon_Mvc_Model_Message, __construct) {
 		ZEPHIR_INIT_VAR(message);
 		ZVAL_EMPTY_STRING(message);
 	}
+	if (!field) {
 		field = ZEPHIR_GLOBAL(global_null);
+	}
+	if (!type) {
 		type = ZEPHIR_GLOBAL(global_null);
+	}
+	if (!model) {
 		model = ZEPHIR_GLOBAL(global_null);
+	}
 
 
 	zephir_update_property_this(this_ptr, SL("_message"), message TSRMLS_CC);

@@ -122,8 +122,12 @@ PHP_METHOD(Phalcon_Events_Event, __construct) {
 		ZEPHIR_INIT_VAR(type);
 		ZVAL_EMPTY_STRING(type);
 	}
+	if (!data) {
 		data = ZEPHIR_GLOBAL(global_null);
+	}
+	if (!cancelable) {
 		cancelable = ZEPHIR_GLOBAL(global_true);
+	}
 
 
 	zephir_update_property_this(this_ptr, SL("_type"), type TSRMLS_CC);

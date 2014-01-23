@@ -78,8 +78,12 @@ PHP_METHOD(Phalcon_Forms_Form, __construct) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 2, &entity, &userOptions);
 
+	if (!entity) {
 		entity = ZEPHIR_GLOBAL(global_null);
+	}
+	if (!userOptions) {
 		userOptions = ZEPHIR_GLOBAL(global_null);
+	}
 
 
 	if ((Z_TYPE_P(entity) != IS_NULL)) {
@@ -163,7 +167,9 @@ PHP_METHOD(Phalcon_Forms_Form, getUserOption) {
 
 	zephir_fetch_params(0, 1, 1, &option, &defaultValue);
 
+	if (!defaultValue) {
 		defaultValue = ZEPHIR_GLOBAL(global_null);
+	}
 
 
 	options = zephir_fetch_nproperty_this(this_ptr, SL("_options"), PH_NOISY_CC);
@@ -271,7 +277,9 @@ PHP_METHOD(Phalcon_Forms_Form, bind) {
 	zephir_fetch_params(1, 2, 1, &data, &entity, &whitelist);
 
 	ZEPHIR_SEPARATE_PARAM(entity);
+	if (!whitelist) {
 		whitelist = ZEPHIR_GLOBAL(global_null);
+	}
 
 
 	if ((Z_TYPE_P(data) != IS_ARRAY)) {
@@ -349,9 +357,14 @@ PHP_METHOD(Phalcon_Forms_Form, isValid) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 2, &data, &entity);
 
+	if (!data) {
 		ZEPHIR_CPY_WRT(data, ZEPHIR_GLOBAL(global_null));
+	} else {
 		ZEPHIR_SEPARATE_PARAM(data);
+	}
+	if (!entity) {
 		entity = ZEPHIR_GLOBAL(global_null);
+	}
 
 
 	elements = zephir_fetch_nproperty_this(this_ptr, SL("_elements"), PH_NOISY_CC);
@@ -449,7 +462,11 @@ PHP_METHOD(Phalcon_Forms_Form, getMessages) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 1, &byItemName_param);
 
+	if (!byItemName_param) {
+		byItemName = 0;
+	} else {
 		byItemName = zephir_get_boolval(byItemName_param);
+	}
 
 
 	messages = zephir_fetch_nproperty_this(this_ptr, SL("_messages"), PH_NOISY_CC);
@@ -574,7 +591,9 @@ PHP_METHOD(Phalcon_Forms_Form, render) {
 		ZEPHIR_INIT_VAR(name);
 		ZVAL_EMPTY_STRING(name);
 	}
+	if (!attributes) {
 		attributes = ZEPHIR_GLOBAL(global_null);
+	}
 
 
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_elements"), PH_NOISY_CC);
@@ -861,7 +880,9 @@ PHP_METHOD(Phalcon_Forms_Form, clear) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 1, &fields);
 
+	if (!fields) {
 		fields = ZEPHIR_GLOBAL(global_null);
+	}
 
 
 	elements = zephir_fetch_nproperty_this(this_ptr, SL("_elements"), PH_NOISY_CC);

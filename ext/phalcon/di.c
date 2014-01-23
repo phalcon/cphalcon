@@ -131,7 +131,9 @@ PHP_METHOD(Phalcon_Di, set) {
 		ZEPHIR_INIT_VAR(name);
 		ZVAL_EMPTY_STRING(name);
 	}
+	if (!shared) {
 		shared = ZEPHIR_GLOBAL(global_false);
+	}
 
 
 	ZEPHIR_INIT_VAR(service);
@@ -240,7 +242,11 @@ PHP_METHOD(Phalcon_Di, attempt) {
 		ZEPHIR_INIT_VAR(name);
 		ZVAL_EMPTY_STRING(name);
 	}
+	if (!shared_param) {
+		shared = 0;
+	} else {
 		shared = zephir_get_boolval(shared_param);
+	}
 
 
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_services"), PH_NOISY_CC);
@@ -399,7 +405,9 @@ PHP_METHOD(Phalcon_Di, get) {
 		ZEPHIR_INIT_VAR(name);
 		ZVAL_EMPTY_STRING(name);
 	}
+	if (!parameters) {
 		parameters = ZEPHIR_GLOBAL(global_null);
+	}
 
 
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_services"), PH_NOISY_CC);
@@ -471,7 +479,9 @@ PHP_METHOD(Phalcon_Di, getShared) {
 		ZEPHIR_INIT_VAR(name);
 		ZVAL_EMPTY_STRING(name);
 	}
+	if (!parameters) {
 		parameters = ZEPHIR_GLOBAL(global_null);
+	}
 
 
 	ZEPHIR_OBS_VAR(instance);
@@ -705,7 +715,9 @@ PHP_METHOD(Phalcon_Di, __call) {
 		ZEPHIR_INIT_VAR(method);
 		ZVAL_EMPTY_STRING(method);
 	}
+	if (!arguments) {
 		arguments = ZEPHIR_GLOBAL(global_null);
+	}
 
 
 	if (zephir_start_with_str(method, SL("get"))) {

@@ -12,7 +12,7 @@
 #include <Zend/zend_interfaces.h>
 
 #include "kernel/main.h"
-#include "kernel/array.h"
+#include "phalcon/assets/filters/jsminifier.h"
 #include "ext/spl/spl_exceptions.h"
 #include "kernel/exception.h"
 #include "kernel/memory.h"
@@ -78,6 +78,7 @@ PHP_METHOD(Phalcon_Assets_Filters_Jsmin, filter) {
 	}
 
 
+	phalcon_jsmin(return_value, content TSRMLS_CC);
 	RETURN_MM();
 
 }

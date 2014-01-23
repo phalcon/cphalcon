@@ -1437,7 +1437,7 @@ class Tag
 	 *
 	 * @return string
 	 */
-	public static function getDocType() -> string
+	public static function getDocType()
 	{
 		var doctype;
 
@@ -1484,7 +1484,7 @@ class Tag
 	 */
 	public static function tagHtml(tagName, parameters=null, selfClose=false, onlyStart=false, useEol=false)
 	{
- 		var params, localCode;
+ 		var params, localCode, key, value, doctype;
 
 		if typeof parameters != "array" {
 			let params = [parameters];

@@ -123,8 +123,12 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Mysql, describeColumns) {
 	zephir_fetch_params(1, 1, 1, &table_param, &schema_param);
 
 		zephir_get_strval(table, table_param);
+	if (!schema_param) {
 		ZEPHIR_INIT_VAR(schema);
 		ZVAL_EMPTY_STRING(schema);
+	} else {
+		zephir_get_strval(schema, schema_param);
+	}
 
 
 	dialect = zephir_fetch_nproperty_this(this_ptr, SL("_dialect"), PH_NOISY_CC);
@@ -229,10 +233,8 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Mysql, describeColumns) {
 		if (zephir_memnstr_str(columnType, SL("("), "phalcon/db/adapter/pdo/mysql.zep", 208)) {
 			ZEPHIR_INIT_NVAR(matches);
 			ZVAL_NULL(matches);
-			Z_SET_ISREF_P(matches);
 			ZEPHIR_INIT_NVAR(_6);
-			zephir_call_func_p3(_6, "preg_match", sizePattern, columnType, matches);
-			Z_UNSET_ISREF_P(matches);
+			zephir_preg_match(_6, &(_6), sizePattern, columnType, matches, 0 TSRMLS_CC);
 			if (zephir_is_true(_6)) {
 				if (zephir_array_isset_long_fetch(&matchOne, matches, 1, 1 TSRMLS_CC)) {
 					zephir_array_update_string(&definition, SL("size"), &matchOne, PH_COPY | PH_SEPARATE);
