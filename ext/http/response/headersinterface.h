@@ -39,4 +39,8 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_http_response_headersinterface_setraw, 0,
 	ZEND_ARG_INFO(0, header)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_http_response_headersinterface_remove, 0, 0, 1)
+	ZEND_ARG_INFO(0, header_index)
+ZEND_END_ARG_INFO()
+
 #endif /* PHALCON_HTTP_RESPONSE_HEADERSINTERFACE_H */

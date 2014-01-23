@@ -28,13 +28,16 @@
 
 #include "kernel/main.h"
 #include "kernel/memory.h"
-#include "kernel/object.h"
 #include "kernel/fcall.h"
 #include "kernel/exception.h"
+#include "kernel/object.h"
+#include "kernel/hash.h"
+#include "kernel/array.h"
 #include "kernel/concat.h"
 #include "kernel/operators.h"
 #include "kernel/string.h"
 #include "kernel/file.h"
+#include "kernel/variables.h"
 
 #include "interned-strings.h"
 
@@ -233,7 +236,10 @@ PHP_METHOD(Phalcon_Http_Response, getDI){
 PHP_METHOD(Phalcon_Http_Response, setStatusCode){
 
 	zval *code, *message, *headers, *header_value, *status_value;
-	zval *status_header;
+	zval *status_header, *current_headers_raw, *header_name = NULL;
+	HashTable *ah0;
+	HashPosition hp0;
+	zval **hd;
 
 	PHALCON_MM_GROW();
 
@@ -241,14 +247,35 @@ PHP_METHOD(Phalcon_Http_Response, setStatusCode){
 	
 	PHALCON_INIT_VAR(headers);
 	phalcon_call_method(headers, this_ptr, "getheaders");
-	
+
 	/** 
 	 * We use HTTP/1.1 instead of HTTP/1.0
+	 *
+	 * Before that we would like to unset any existing HTTP/x.y headers
 	 */
+	PHALCON_INIT_VAR(current_headers_raw);
+	phalcon_call_method(current_headers_raw, headers, "toarray");
+
+	if (Z_TYPE_P(current_headers_raw) == IS_ARRAY) {
+
+		phalcon_is_iterable(current_headers_raw, &ah0, &hp0, 0, 0);
+
+		while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
+
+			PHALCON_GET_HKEY(header_name, ah0, hp0);
+
+			if (Z_TYPE_P(header_name) == IS_STRING && Z_STRLEN_P(header_name) > sizeof("HTTP/x.y ")-1 && !memcmp(Z_STRVAL_P(header_name), "HTTP/", 5)) {
+				phalcon_call_method_p1_noret(headers, "remove", header_name);
+			}
+
+			zend_hash_move_forward_ex(ah0, &hp0);
+        }
+    }
+
 	PHALCON_INIT_VAR(header_value);
 	PHALCON_CONCAT_SVSV(header_value, "HTTP/1.1 ", code, " ", message);
 	phalcon_call_method_p1_noret(headers, "setraw", header_value);
-	
+
 	/** 
 	 * We also define a 'Status' header with the HTTP status
 	 */
