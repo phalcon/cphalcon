@@ -94,7 +94,7 @@ PHP_METHOD(Phalcon_Validation_Validator_Identical, validate) {
 	zephir_call_method_p1(_0, validation, "getvalue", field);
 	ZEPHIR_INIT_VAR(_1);
 	ZEPHIR_INIT_VAR(_2);
-	ZVAL_STRING(_2, "accepted", 1);
+	ZVAL_STRING(_2, "value", 1);
 	zephir_call_method_p1(_1, this_ptr, "getoption", _2);
 	if (!ZEPHIR_IS_EQUAL(_0, _1)) {
 		ZEPHIR_INIT_BNVAR(_2);
@@ -102,7 +102,11 @@ PHP_METHOD(Phalcon_Validation_Validator_Identical, validate) {
 		ZEPHIR_INIT_VAR(label);
 		zephir_call_method_p1(label, this_ptr, "getoption", _2);
 		if (ZEPHIR_IS_EMPTY(label)) {
-			ZEPHIR_CPY_WRT(label, field);
+			ZEPHIR_INIT_NVAR(label);
+			zephir_call_method_p1(label, validation, "getlabel", field);
+			if (ZEPHIR_IS_EMPTY(label)) {
+				ZEPHIR_CPY_WRT(label, field);
+			}
 		}
 		ZEPHIR_INIT_BNVAR(_2);
 		ZVAL_STRING(_2, "message", 1);

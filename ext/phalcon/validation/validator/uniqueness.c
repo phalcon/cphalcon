@@ -15,9 +15,9 @@
 #include "kernel/fcall.h"
 #include "kernel/memory.h"
 #include "kernel/operators.h"
+#include "kernel/exception.h"
 #include "kernel/array.h"
 #include "ext/spl/spl_exceptions.h"
-#include "kernel/exception.h"
 
 
 /*
@@ -38,23 +38,23 @@
  +------------------------------------------------------------------------+
  */
 /**
- * Phalcon\Validation\Validator\Url
+ * Phalcon\Validation\Validator\Uniqueness
  *
- * Checks if a value has a url format
+ * Check for alphanumeric character(s)
  *
  *<code>
- *use Phalcon\Validation\Validator\Url as UrlValidator;
+ *use Phalcon\Validation\Validator\Uniqueness as UniquenessValidator;
  *
- *$validator->add('url', new UrlValidator(array(
- *   'message' => ':field must be a url'
+ *$validator->add('username', new UniquenessValidator(array(
+ *   'message' => ':field must be unique'
  *)));
  *</code>
  */
-ZEPHIR_INIT_CLASS(Phalcon_Validation_Validator_Url) {
+ZEPHIR_INIT_CLASS(Phalcon_Validation_Validator_Uniqueness) {
 
-	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Validation\\Validator, Url, phalcon, validation_validator_url, phalcon_validation_validator_ce, phalcon_validation_validator_url_method_entry, 0);
+	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Validation\\Validator, Uniqueness, phalcon, validation_validator_uniqueness, phalcon_validation_validator_ce, phalcon_validation_validator_uniqueness_method_entry, 0);
 
-	zend_class_implements(phalcon_validation_validator_url_ce TSRMLS_CC, 1, phalcon_validation_validatorinterface_ce);
+	zend_class_implements(phalcon_validation_validator_uniqueness_ce TSRMLS_CC, 1, phalcon_validation_validatorinterface_ce);
 
 	return SUCCESS;
 
@@ -67,10 +67,10 @@ ZEPHIR_INIT_CLASS(Phalcon_Validation_Validator_Url) {
  * @param  string             field
  * @return boolean
  */
-PHP_METHOD(Phalcon_Validation_Validator_Url, validate) {
+PHP_METHOD(Phalcon_Validation_Validator_Uniqueness, validate) {
 
 	zval *field = NULL;
-	zval *validation, *field_param = NULL, *value, *message = NULL, *label = NULL, *replacePairs, *_0, *_1, _2, *_3 = NULL, *_4, *_5;
+	zval *validation, *field_param = NULL, *attribute = NULL, *value, *model, *number, *message = NULL, *label = NULL, *replacePairs, *_0, *_1, *_2;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &validation, &field_param);
@@ -91,21 +91,27 @@ PHP_METHOD(Phalcon_Validation_Validator_Url, validate) {
 	ZEPHIR_INIT_VAR(value);
 	zephir_call_method_p1(value, validation, "getvalue", field);
 	ZEPHIR_INIT_VAR(_0);
-	ZEPHIR_INIT_VAR(_1);
-	ZVAL_STRING(_1, "allowEmpty", 1);
-	zephir_call_method_p1(_0, this_ptr, "issetoption", _1);
-	if (zephir_is_true(_0) && ZEPHIR_IS_EMPTY(value)) {
-		RETURN_MM_BOOL(1);
+	ZVAL_STRING(_0, "model", 1);
+	ZEPHIR_INIT_VAR(model);
+	zephir_call_method_p1(model, this_ptr, "getoption", _0);
+	ZEPHIR_INIT_BNVAR(_0);
+	ZVAL_STRING(_0, "attribute", 1);
+	ZEPHIR_INIT_VAR(attribute);
+	zephir_call_method_p1(attribute, this_ptr, "getoption", _0);
+	if (ZEPHIR_IS_EMPTY(model)) {
+		ZEPHIR_THROW_EXCEPTION_STR(phalcon_validation_exception_ce, "Model must be set");
+		return;
 	}
-	ZEPHIR_SINIT_VAR(_2);
-	ZVAL_LONG(&_2, 273);
-	ZEPHIR_INIT_BNVAR(_1);
-	zephir_call_func_p2(_1, "filter_var", value, &_2);
-	if (!(zephir_is_true(_1))) {
-		ZEPHIR_INIT_VAR(_3);
-		ZVAL_STRING(_3, "label", 1);
+	if (ZEPHIR_IS_EMPTY(attribute)) {
+		ZEPHIR_CPY_WRT(attribute, field);
+	}
+	ZEPHIR_INIT_VAR(number);
+	ZVAL_NULL(number);
+	if (zephir_is_true(number)) {
+		ZEPHIR_INIT_BNVAR(_0);
+		ZVAL_STRING(_0, "label", 1);
 		ZEPHIR_INIT_VAR(label);
-		zephir_call_method_p1(label, this_ptr, "getoption", _3);
+		zephir_call_method_p1(label, this_ptr, "getoption", _0);
 		if (ZEPHIR_IS_EMPTY(label)) {
 			ZEPHIR_INIT_NVAR(label);
 			zephir_call_method_p1(label, validation, "getlabel", field);
@@ -113,27 +119,27 @@ PHP_METHOD(Phalcon_Validation_Validator_Url, validate) {
 				ZEPHIR_CPY_WRT(label, field);
 			}
 		}
-		ZEPHIR_INIT_NVAR(_3);
-		ZVAL_STRING(_3, "message", 1);
+		ZEPHIR_INIT_BNVAR(_0);
+		ZVAL_STRING(_0, "message", 1);
 		ZEPHIR_INIT_VAR(message);
-		zephir_call_method_p1(message, this_ptr, "getoption", _3);
+		zephir_call_method_p1(message, this_ptr, "getoption", _0);
 		ZEPHIR_INIT_VAR(replacePairs);
 		array_init_size(replacePairs, 2);
 		zephir_array_update_string(&replacePairs, SL(":field"), &label, PH_COPY | PH_SEPARATE);
 		if (ZEPHIR_IS_EMPTY(message)) {
-			ZEPHIR_INIT_NVAR(_3);
-			ZVAL_STRING(_3, "Url", 1);
+			ZEPHIR_INIT_BNVAR(_0);
+			ZVAL_STRING(_0, "Uniqueness", 1);
 			ZEPHIR_INIT_NVAR(message);
-			zephir_call_method_p1(message, validation, "getdefaultmessage", _3);
+			zephir_call_method_p1(message, validation, "getdefaultmessage", _0);
 		}
-		ZEPHIR_INIT_VAR(_4);
-		object_init_ex(_4, phalcon_validation_message_ce);
-		ZEPHIR_INIT_NVAR(_3);
-		zephir_call_func_p2(_3, "strtr", message, replacePairs);
-		ZEPHIR_INIT_VAR(_5);
-		ZVAL_STRING(_5, "Url", 1);
-		zephir_call_method_p3_noret(_4, "__construct", _3, field, _5);
-		zephir_call_method_p1_noret(validation, "appendmessage", _4);
+		ZEPHIR_INIT_BNVAR(_0);
+		object_init_ex(_0, phalcon_validation_message_ce);
+		ZEPHIR_INIT_VAR(_1);
+		zephir_call_func_p2(_1, "strtr", message, replacePairs);
+		ZEPHIR_INIT_VAR(_2);
+		ZVAL_STRING(_2, "Uniqueness", 1);
+		zephir_call_method_p3_noret(_0, "__construct", _1, field, _2);
+		zephir_call_method_p1_noret(validation, "appendmessage", _0);
 		RETURN_MM_BOOL(0);
 	}
 	RETURN_MM_BOOL(1);

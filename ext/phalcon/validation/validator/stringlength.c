@@ -120,7 +120,11 @@ PHP_METHOD(Phalcon_Validation_Validator_StringLength, validate) {
 	ZEPHIR_INIT_VAR(label);
 	zephir_call_method_p1(label, this_ptr, "getoption", _1);
 	if (ZEPHIR_IS_EMPTY(label)) {
-		ZEPHIR_CPY_WRT(label, field);
+		ZEPHIR_INIT_BNVAR(label);
+		zephir_call_method_p1(label, validation, "getlabel", field);
+		if (ZEPHIR_IS_EMPTY(label)) {
+			ZEPHIR_CPY_WRT(label, field);
+		}
 	}
 	ZEPHIR_INIT_VAR(length);
 	if ((zephir_function_exists_ex(SS("mb_strlen") TSRMLS_CC) == SUCCESS)) {

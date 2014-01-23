@@ -69,7 +69,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Validation_Validator_Confirmation) {
 PHP_METHOD(Phalcon_Validation_Validator_Confirmation, validate) {
 
 	zval *field = NULL;
-	zval *validation, *field_param = NULL, *withAttribute, *value, *withValue, *message = NULL, *label = NULL, *replacePairs, *_0, *_1, *_2;
+	zval *validation, *field_param = NULL, *fieldWith, *value, *valueWith, *message = NULL, *label = NULL, *labelWith = NULL, *replacePairs, *_0, *_1, *_2;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &validation, &field_param);
@@ -79,19 +79,34 @@ PHP_METHOD(Phalcon_Validation_Validator_Confirmation, validate) {
 
 	ZEPHIR_INIT_VAR(_0);
 	ZVAL_STRING(_0, "with", 1);
-	ZEPHIR_INIT_VAR(withAttribute);
-	zephir_call_method_p1(withAttribute, this_ptr, "getoption", _0);
+	ZEPHIR_INIT_VAR(fieldWith);
+	zephir_call_method_p1(fieldWith, this_ptr, "getoption", _0);
 	ZEPHIR_INIT_VAR(value);
 	zephir_call_method_p1(value, validation, "getvalue", field);
-	ZEPHIR_INIT_VAR(withValue);
-	zephir_call_method_p1(withValue, validation, "getvalue", withAttribute);
-	if (!ZEPHIR_IS_EQUAL(value, withValue)) {
+	ZEPHIR_INIT_VAR(valueWith);
+	zephir_call_method_p1(valueWith, validation, "getvalue", fieldWith);
+	if (!ZEPHIR_IS_EQUAL(value, valueWith)) {
 		ZEPHIR_INIT_BNVAR(_0);
 		ZVAL_STRING(_0, "label", 1);
 		ZEPHIR_INIT_VAR(label);
 		zephir_call_method_p1(label, this_ptr, "getoption", _0);
 		if (ZEPHIR_IS_EMPTY(label)) {
-			ZEPHIR_CPY_WRT(label, field);
+			ZEPHIR_INIT_NVAR(label);
+			zephir_call_method_p1(label, validation, "getlabel", field);
+			if (ZEPHIR_IS_EMPTY(label)) {
+				ZEPHIR_CPY_WRT(label, field);
+			}
+		}
+		ZEPHIR_INIT_BNVAR(_0);
+		ZVAL_STRING(_0, "labelWith", 1);
+		ZEPHIR_INIT_VAR(labelWith);
+		zephir_call_method_p1(labelWith, this_ptr, "getoption", _0);
+		if (ZEPHIR_IS_EMPTY(labelWith)) {
+			ZEPHIR_INIT_NVAR(labelWith);
+			zephir_call_method_p1(labelWith, validation, "getlabel", fieldWith);
+			if (ZEPHIR_IS_EMPTY(labelWith)) {
+				ZEPHIR_CPY_WRT(labelWith, fieldWith);
+			}
 		}
 		ZEPHIR_INIT_BNVAR(_0);
 		ZVAL_STRING(_0, "message", 1);
@@ -100,7 +115,7 @@ PHP_METHOD(Phalcon_Validation_Validator_Confirmation, validate) {
 		ZEPHIR_INIT_VAR(replacePairs);
 		array_init_size(replacePairs, 3);
 		zephir_array_update_string(&replacePairs, SL(":field"), &label, PH_COPY | PH_SEPARATE);
-		zephir_array_update_string(&replacePairs, SL(":with"), &withAttribute, PH_COPY | PH_SEPARATE);
+		zephir_array_update_string(&replacePairs, SL(":with"), &labelWith, PH_COPY | PH_SEPARATE);
 		if (ZEPHIR_IS_EMPTY(message)) {
 			ZEPHIR_INIT_BNVAR(_0);
 			ZVAL_STRING(_0, "Confirmation", 1);

@@ -54,6 +54,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Validation) {
 	zend_declare_property_null(phalcon_validation_ce, SL("_filters"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_validation_ce, SL("_messages"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_validation_ce, SL("_defaultMessages"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_validation_ce, SL("_labels"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_validation_ce, SL("_values"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
 	return SUCCESS;
@@ -388,6 +389,64 @@ PHP_METHOD(Phalcon_Validation, getMessages) {
 
 
 	RETURN_MEMBER(this_ptr, "_messages");
+
+}
+
+/**
+ * Adds labels for fields
+ *
+ * @param array labels
+ */
+PHP_METHOD(Phalcon_Validation, setLabels) {
+
+	zval *labels;
+
+	zephir_fetch_params(0, 1, 0, &labels);
+
+
+
+	if ((Z_TYPE_P(labels) != IS_ARRAY)) {
+		ZEPHIR_THROW_EXCEPTION_STRW(phalcon_validation_exception_ce, "Labels must be an array");
+		return;
+	}
+	zephir_update_property_this(this_ptr, SL("_labels"), labels TSRMLS_CC);
+
+}
+
+/**
+ * Get label for field
+ *
+ * @param string field
+ * @return mixed
+ */
+PHP_METHOD(Phalcon_Validation, getLabel) {
+
+	zval *field_param = NULL, *labels, *value;
+	zval *field = NULL;
+
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 1, 0, &field_param);
+
+	if (Z_TYPE_P(field_param) != IS_STRING && Z_TYPE_P(field_param) != IS_NULL) {
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'field' must be a string") TSRMLS_CC);
+		RETURN_MM_NULL();
+	}
+
+	if (Z_TYPE_P(field_param) == IS_STRING) {
+		field = field_param;
+	} else {
+		ZEPHIR_INIT_VAR(field);
+		ZVAL_EMPTY_STRING(field);
+	}
+
+
+	labels = zephir_fetch_nproperty_this(this_ptr, SL("_labels"), PH_NOISY_CC);
+	if ((Z_TYPE_P(labels) == IS_ARRAY)) {
+		if (zephir_array_isset_fetch(&value, labels, field, 1 TSRMLS_CC)) {
+			RETURN_CTOR(value);
+		}
+	}
+	RETURN_MM_NULL();
 
 }
 
