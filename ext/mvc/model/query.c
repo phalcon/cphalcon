@@ -4873,7 +4873,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, execute){
 
 	zval *bind_params = NULL, *bind_types = NULL, *unique_row;
 	zval *cache_options, *key, *lifetime = NULL, *cache_service = NULL;
-	zval *dependency_injector, *cache, *result = NULL, *is_fresh;
+	zval *dependency_injector, *cache, *frontend, *result = NULL, *is_fresh;
 	zval *prepared_result = NULL, *intermediate, *default_bind_params;
 	zval *merged_params = NULL, *default_bind_types;
 	zval *merged_types = NULL, *type, *exception_message;
