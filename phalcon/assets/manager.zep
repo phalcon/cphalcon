@@ -712,7 +712,7 @@ class Manager
 	 *
 	 * @param string collectionName
 	 */
-	public function outputCss(collectionName)
+	public function outputCss(collectionName=null)
 	{
 		var collection;
 
@@ -730,7 +730,7 @@ class Manager
 	 *
 	 * @param string collectionName
 	 */
-	public function outputJs(collectionName)
+	public function outputJs(collectionName=null)
 	{
 		var collection;
 
