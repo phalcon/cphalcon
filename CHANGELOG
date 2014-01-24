@@ -261,6 +261,7 @@
    - Phalcon\Session\Adapter::__destruct() now calls session_write_close() (#1624)
    - Phalcon\Session\AdapterInterface is compatible with SessionHandlerInterface (#1108)
    - Phalcon\Session\Adapter now implements Phalcon\Session\AdapterInterface (#1852)
+   - Phalcon\Session\Bag::__get() now returns by reference (unlike get()) (#1895)
  - Phalcon\Tag:
    - Fixed bugs (#903)
    - Fixed radio button generation (#947)
