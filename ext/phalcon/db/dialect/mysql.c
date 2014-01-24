@@ -1165,7 +1165,7 @@ PHP_METHOD(Phalcon_Db_Dialect_MySQL, dropView) {
 PHP_METHOD(Phalcon_Db_Dialect_MySQL, tableExists) {
 
 	zval *tableName_param = NULL, *schemaName = NULL;
-	zval *tableName = NULL, *_0;
+	zval *tableName = NULL;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 1, &tableName_param, &schemaName);
@@ -1190,9 +1190,8 @@ PHP_METHOD(Phalcon_Db_Dialect_MySQL, tableExists) {
 		ZEPHIR_CONCAT_SVSVS(return_value, "SELECT IF(COUNT(*)>0, 1 , 0) FROM `INFORMATION_SCHEMA`.`TABLES` WHERE `TABLE_NAME`= '", tableName, "' AND `TABLE_SCHEMA` = '", schemaName, "'");
 		RETURN_MM();
 	}
-	ZEPHIR_INIT_VAR(_0);
-	ZEPHIR_CONCAT_SVS(_0, "SELECT IF(COUNT(*)>0, 1 , 0) FROM `INFORMATION_SCHEMA`.`TABLES` WHERE `TABLE_NAME` = '", tableName, "'");
-	RETURN_CTOR(_0);
+	ZEPHIR_CONCAT_SVS(return_value, "SELECT IF(COUNT(*)>0, 1 , 0) FROM `INFORMATION_SCHEMA`.`TABLES` WHERE `TABLE_NAME` = '", tableName, "'");
+	RETURN_MM();
 
 }
 
@@ -1206,7 +1205,7 @@ PHP_METHOD(Phalcon_Db_Dialect_MySQL, tableExists) {
 PHP_METHOD(Phalcon_Db_Dialect_MySQL, viewExists) {
 
 	zval *viewName_param = NULL, *schemaName = NULL;
-	zval *viewName = NULL, *_0;
+	zval *viewName = NULL;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 1, &viewName_param, &schemaName);
@@ -1231,9 +1230,8 @@ PHP_METHOD(Phalcon_Db_Dialect_MySQL, viewExists) {
 		ZEPHIR_CONCAT_SVSVS(return_value, "SELECT IF(COUNT(*)>0, 1 , 0) FROM `INFORMATION_SCHEMA`.`VIEWS` WHERE `TABLE_NAME`= '", viewName, "' AND `TABLE_SCHEMA`='", schemaName, "'");
 		RETURN_MM();
 	}
-	ZEPHIR_INIT_VAR(_0);
-	ZEPHIR_CONCAT_SVS(_0, "SELECT IF(COUNT(*)>0, 1 , 0) FROM `INFORMATION_SCHEMA`.`VIEWS` WHERE `TABLE_NAME`='", viewName, "'");
-	RETURN_CTOR(_0);
+	ZEPHIR_CONCAT_SVS(return_value, "SELECT IF(COUNT(*)>0, 1 , 0) FROM `INFORMATION_SCHEMA`.`VIEWS` WHERE `TABLE_NAME`='", viewName, "'");
+	RETURN_MM();
 
 }
 
@@ -1251,7 +1249,7 @@ PHP_METHOD(Phalcon_Db_Dialect_MySQL, viewExists) {
 PHP_METHOD(Phalcon_Db_Dialect_MySQL, describeColumns) {
 
 	zval *table_param = NULL, *schema = NULL;
-	zval *table = NULL, *_0;
+	zval *table = NULL;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 1, &table_param, &schema);
@@ -1276,9 +1274,8 @@ PHP_METHOD(Phalcon_Db_Dialect_MySQL, describeColumns) {
 		ZEPHIR_CONCAT_SVSVS(return_value, "DESCRIBE `", schema, "`.`", table, "`");
 		RETURN_MM();
 	}
-	ZEPHIR_INIT_VAR(_0);
-	ZEPHIR_CONCAT_SVS(_0, "DESCRIBE `", table, "`");
-	RETURN_CTOR(_0);
+	ZEPHIR_CONCAT_SVS(return_value, "DESCRIBE `", table, "`");
+	RETURN_MM();
 
 }
 
@@ -1295,7 +1292,7 @@ PHP_METHOD(Phalcon_Db_Dialect_MySQL, describeColumns) {
 PHP_METHOD(Phalcon_Db_Dialect_MySQL, listTables) {
 
 	zval *schemaName_param = NULL;
-	zval *schemaName = NULL, *_0;
+	zval *schemaName = NULL;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 1, &schemaName_param);
@@ -1319,9 +1316,8 @@ PHP_METHOD(Phalcon_Db_Dialect_MySQL, listTables) {
 
 
 	if (schemaName && Z_STRLEN_P(schemaName)) {
-		ZEPHIR_INIT_VAR(_0);
-		ZEPHIR_CONCAT_SVS(_0, "SHOW TABLES FROM `", schemaName, "`");
-		RETURN_CTOR(_0);
+		ZEPHIR_CONCAT_SVS(return_value, "SHOW TABLES FROM `", schemaName, "`");
+		RETURN_MM();
 	}
 	RETURN_MM_STRING("SHOW TABLES", 1);
 
@@ -1336,7 +1332,7 @@ PHP_METHOD(Phalcon_Db_Dialect_MySQL, listTables) {
 PHP_METHOD(Phalcon_Db_Dialect_MySQL, listViews) {
 
 	zval *schemaName_param = NULL;
-	zval *schemaName = NULL, *_0;
+	zval *schemaName = NULL;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 1, &schemaName_param);
@@ -1360,9 +1356,8 @@ PHP_METHOD(Phalcon_Db_Dialect_MySQL, listViews) {
 
 
 	if (schemaName && Z_STRLEN_P(schemaName)) {
-		ZEPHIR_INIT_VAR(_0);
-		ZEPHIR_CONCAT_SVS(_0, "SELECT `TABLE_NAME` AS view_name FROM `INFORMATION_SCHEMA`.`VIEWS` WHERE `TABLE_SCHEMA` = '", schemaName, "' ORDER BY view_name");
-		RETURN_CTOR(_0);
+		ZEPHIR_CONCAT_SVS(return_value, "SELECT `TABLE_NAME` AS view_name FROM `INFORMATION_SCHEMA`.`VIEWS` WHERE `TABLE_SCHEMA` = '", schemaName, "' ORDER BY view_name");
+		RETURN_MM();
 	}
 	RETURN_MM_STRING("SELECT `TABLE_NAME` AS view_name FROM `INFORMATION_SCHEMA`.`VIEWS` ORDER BY view_name", 1);
 
@@ -1378,7 +1373,7 @@ PHP_METHOD(Phalcon_Db_Dialect_MySQL, listViews) {
 PHP_METHOD(Phalcon_Db_Dialect_MySQL, describeIndexes) {
 
 	zval *table_param = NULL, *schema = NULL;
-	zval *table = NULL, *_0;
+	zval *table = NULL;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 1, &table_param, &schema);
@@ -1403,9 +1398,8 @@ PHP_METHOD(Phalcon_Db_Dialect_MySQL, describeIndexes) {
 		ZEPHIR_CONCAT_SVSVS(return_value, "SHOW INDEXES FROM `", schema, "`.`", table, "`");
 		RETURN_MM();
 	}
-	ZEPHIR_INIT_VAR(_0);
-	ZEPHIR_CONCAT_SVS(_0, "SHOW INDEXES FROM `", table, "`");
-	RETURN_CTOR(_0);
+	ZEPHIR_CONCAT_SVS(return_value, "SHOW INDEXES FROM `", table, "`");
+	RETURN_MM();
 
 }
 
