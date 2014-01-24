@@ -27,6 +27,7 @@ namespace Phalcon\Debug;
 class Dump
 {
         protected _styles;
+        protected methods;
 
         /**
 	 * Phalcon\Debug\Dump constructor
@@ -41,6 +42,7 @@ class Dump
 			}
 		}
 		this->setStyles(styles);
+                let this->methods = [];
 	}
 
         /**
@@ -98,20 +100,20 @@ class Dump
                 let space = "  ",
                         output = "";
 
-                if tab > 1 {
-                        let space = str_repeat(space, tab);
-                }
-
                 if is_array(variable) {
                         let output .= strtr("<b style =':style'>Array</b> (<span style =':style'>:count</span>) (\n", [":style": this->getStyle("arr"), ":count": count(variable)]);
 
                         for key, value in variable {
-                                let output .= space . strtr("[<span style=':style'>:key</span>] => ", [":style": this->getStyle("arr"), ":key": key]);
-                                let output .= this->output(value, "", tab + 1) . "\n";
+                                let output .= str_repeat(space, tab) . strtr("[<span style=':style'>:key</span>] => ", [":style": this->getStyle("arr"), ":key": key]);
+                                if tab == 0 && name != "" && !is_int(key) && name == key {
+                                    continue;
+                                } else {
+                                        let output .= this->output(value, "", tab + 1) . "\n";
+                                }
                         }
-
                         return output . str_repeat(space, tab - 1) . ")";
                 }
+
                 if is_object(variable) {
                         let output .= strtr("<b style=':style'>Object</b> :class", [":style": this->getStyle("obj"), ":class": get_class(variable)]);
                         if get_parent_class(variable)
@@ -119,32 +121,45 @@ class Dump
                                 let output .= strtr(" <b style=':style'>extends</b> :parent", [":style": this->getStyle("obj"), ":parent": get_parent_class(variable)]);
                         }
                         let output .= " (\n";
-                        reset(variable);
+
                         do {
-                                let attr = explode(chr(ord("\x00")), key(variable)),
-                                        key = end(attr);
-                                if !key {
-                                        break;
+                                let attr = each(variable);
+                                if !attr {
+                                        continue;
                                 }
-                                let type = "public",
-                                        value = current(variable);
-                                        
-                                if isset attr[1] {
+                                let key = attr["key"],
+                                        value = attr["value"];
+
+                                if !key {
+                                        continue;
+                                }
+                                let key = explode(chr(ord("\x00")), key),
+                                        type = "public";
+
+                                if isset key[1] {
                                         let type = "private";
-                                        if attr[1] == "*" {
+                                        if key[1] == "*" {
                                                 let type = "protected";
                                         }
                                 }
-                                let output .= space . strtr("-><span style=':style'>:key</span> (<span style=':style'>:type</span>) = ", [":style": this->getStyle("obj"), ":key": key, ":type": type]);
+                                let output .= str_repeat(space, tab) . strtr("-><span style=':style'>:key</span> (<span style=':style'>:type</span>) = ", [":style": this->getStyle("obj"), ":key": end(key), ":type": type]);
                                 let output .= this->output(value, "", tab + 1) . "\n";
-                        } while next(variable);
-                        let output .= space . strtr(":class <b style=':style'>:methods</b>: (<span style=':style'>:count</span>)\n", [":style": this->getStyle("obj"), ":class": get_class(variable), ":count": count(get_class_methods(variable))]);
-                        for key, value in get_class_methods(variable) {
-                                if value == "__construct" {
-                                        let output .= space . strtr("-><span style=':style'>:method</span>(); [<b style=':style'>constructor</b>]\n", [":style": this->getStyle("obj"), ":method": value]);
-                                } else {
-                                        let output .= space . strtr("-><span style=':style'>:method</span>();\n", [":style": this->getStyle("obj"), ":method": value]);
+                        } while attr;
+
+                        let attr = get_class_methods(variable);
+                        let output .= str_repeat(space, tab) . strtr(":class <b style=':style'>:methods</b>: (<span style=':style'>:count</span>) (\n", [":style": this->getStyle("obj"), ":class": get_class(variable), ":count": count(attr)]);
+                        if (in_array(get_class(variable), this->methods)) {
+                                let output .= str_repeat(space, tab) . "[already listed]\n";
+                        } else {
+                                for key, value in attr {
+                                        let this->methods[] = get_class(variable);
+                                        if value == "__construct" {
+                                                let output .= str_repeat(space, tab + 1) . strtr("-><span style=':style'>:method</span>(); [<b style=':style'>constructor</b>]\n", [":style": this->getStyle("obj"), ":method": value]);
+                                        } else {
+                                                let output .= str_repeat(space, tab + 1) . strtr("-><span style=':style'>:method</span>();\n", [":style": this->getStyle("obj"), ":method": value]);
+                                        }
                                 }
+                                let output .= str_repeat(space, tab) . ")\n";
                         }
 
                         return output . str_repeat(space, tab - 1) . ")";
