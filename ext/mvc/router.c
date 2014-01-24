@@ -1398,7 +1398,7 @@ PHP_METHOD(Phalcon_Mvc_Router, getRouteById){
  */
 PHP_METHOD(Phalcon_Mvc_Router, getRouteByName){
 
-	zval *name, *routes, **route, *routes_name_lookup = NULL, *route_name = NULL;
+	zval *name, *routes, **route, *lookup_route = NULL, *routes_name_lookup = NULL, *route_name = NULL;
 	HashPosition hp0;
 	zval **hd;
 
@@ -1408,8 +1408,8 @@ PHP_METHOD(Phalcon_Mvc_Router, getRouteByName){
 	PHALCON_OBS_VAR(routes_name_lookup);
 	phalcon_read_property_this(&routes_name_lookup, this_ptr, SL("_routesNameLookup"), PH_NOISY_CC);
 	if(phalcon_hash_find(Z_ARRVAL_P(routes_name_lookup), Z_STRVAL_P(name), Z_STRLEN_P(name) + 1, (void **)&hd) == SUCCESS) {
-		PHALCON_GET_HVALUE(*route);
-		RETURN_CCTOR(*route);
+		PHALCON_GET_HVALUE(lookup_route);
+		RETURN_CTOR(lookup_route);
 	}
 
 	routes = phalcon_fetch_nproperty_this(this_ptr, SL("_routes"), PH_NOISY_CC);
