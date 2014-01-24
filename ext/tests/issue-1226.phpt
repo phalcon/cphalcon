@@ -2,6 +2,7 @@
 Default values in Phalcon\Http\Request::getQuery() - https://github.com/phalcon/cphalcon/issues/1226
 --SKIPIF--
 <?php include('skipif.inc'); ?>
+<?php if (PHP_SAPI == 'cli') die ('skip CGI SAPI is required'); ?>
 --GET--
 id=1&num=a1a&age=aa&phone=
 --POST--

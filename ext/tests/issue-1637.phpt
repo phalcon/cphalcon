@@ -2,6 +2,7 @@
 Cannot Remove A Property From Phalcon Persistent Storage - https://github.com/phalcon/cphalcon/issues/1637
 --SKIPIF--
 <?php include('skipif.inc'); ?>
+<?php if (PHP_SAPI == 'cli') die ('skip CGI SAPI is required'); ?>
 --GET--
 dummy=1
 --FILE--
@@ -35,7 +36,7 @@ class Test extends \Phalcon\Di\Injectable
 
 	public function dump($v)
 	{
-		echo $v, '=', var_dump($this->persistent->$v);
+		echo $v, '=', var_dump($this->persistent->get($v));
 		echo 'has(', $v, ')=', var_dump($this->persistent->has($v));
 		echo 'isset(', $v, ')=', var_dump(isset($this->persistent->$v));
 		echo PHP_EOL;

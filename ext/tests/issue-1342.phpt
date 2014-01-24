@@ -2,6 +2,7 @@
 Implement Phalcon\Flash\Session::isset() - https://github.com/phalcon/cphalcon/issues/1342
 --SKIPIF--
 <?php include('skipif.inc'); ?>
+<?php if (PHP_SAPI == 'cli') die ('skip CGI SAPI is required'); ?>
 --GET--
 dummy
 --FILE--
