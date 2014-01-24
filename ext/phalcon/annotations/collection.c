@@ -227,8 +227,8 @@ PHP_METHOD(Phalcon_Annotations_Collection, get) {
 
 	HashTable *_1;
 	HashPosition _0;
-	zval *name_param = NULL, *annotation = NULL, *annotations, **_2, *_3 = NULL, *_4;
-	zval *name = NULL;
+	zval *name_param = NULL, *annotation = NULL, *annotations, **_2, *_3 = NULL;
+	zval *name = NULL, *_4;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &name_param);

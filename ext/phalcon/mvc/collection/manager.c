@@ -407,8 +407,8 @@ PHP_METHOD(Phalcon_Mvc_Collection_Manager, getConnection) {
  */
 PHP_METHOD(Phalcon_Mvc_Collection_Manager, notifyEvent) {
 
-	zval *eventName_param = NULL, *model, *eventsManager, *status = NULL, *customEventsManager, *_0 = NULL, *_1;
-	zval *eventName = NULL;
+	zval *eventName_param = NULL, *model, *eventsManager, *status = NULL, *customEventsManager, *_1;
+	zval *eventName = NULL, *_0 = NULL;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &eventName_param, &model);

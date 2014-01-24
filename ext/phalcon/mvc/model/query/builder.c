@@ -889,8 +889,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, inWhere) {
 	HashTable *_2;
 	HashPosition _1;
 	int hiddenParam;
-	zval *expr_param = NULL, *values, *key = NULL, *queryKey = NULL, *value = NULL, *bindKeys, *bindParams, *_0, **_3, _4 = zval_used_for_init, *_5, *_6, *_7;
-	zval *expr = NULL;
+	zval *expr_param = NULL, *values, *key = NULL, *queryKey = NULL, *value = NULL, *bindKeys, *bindParams, *_0, **_3, _4 = zval_used_for_init, *_6, *_7, *_8;
+	zval *expr = NULL, *_5 = NULL;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &expr_param, &values);
@@ -927,22 +927,23 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, inWhere) {
 		ZEPHIR_GET_HVALUE(value, _3);
 		ZEPHIR_SINIT_NVAR(_4);
 		ZVAL_LONG(&_4, hiddenParam);
-		ZEPHIR_INIT_NVAR(key);
-		ZEPHIR_CONCAT_SV(key, "phi", &_4);
+		ZEPHIR_INIT_LNVAR(_5);
+		ZEPHIR_CONCAT_SV(_5, "phi", &_4);
+		ZEPHIR_CPY_WRT(key, _5);
 		ZEPHIR_INIT_NVAR(queryKey);
 		ZEPHIR_CONCAT_SVS(queryKey, ":", key, ":");
 		zephir_array_append(&bindKeys, queryKey, PH_SEPARATE);
 		zephir_array_update_zval(&bindParams, key, &value, PH_COPY | PH_SEPARATE);
 		hiddenParam++;
 	}
-	ZEPHIR_INIT_VAR(_5);
-	zephir_fast_join_str(_5, SL(", "), bindKeys TSRMLS_CC);
 	ZEPHIR_INIT_VAR(_6);
-	ZEPHIR_CONCAT_VSVS(_6, expr, " IN (", _5, ")");
-	zephir_call_method_p2_noret(this_ptr, "andwhere", _6, bindParams);
-	ZEPHIR_INIT_ZVAL_NREF(_7);
-	ZVAL_LONG(_7, hiddenParam);
-	zephir_update_property_zval(this_ptr, SL("_hiddenParamNumber"), _7 TSRMLS_CC);
+	zephir_fast_join_str(_6, SL(", "), bindKeys TSRMLS_CC);
+	ZEPHIR_INIT_VAR(_7);
+	ZEPHIR_CONCAT_VSVS(_7, expr, " IN (", _6, ")");
+	zephir_call_method_p2_noret(this_ptr, "andwhere", _7, bindParams);
+	ZEPHIR_INIT_ZVAL_NREF(_8);
+	ZVAL_LONG(_8, hiddenParam);
+	zephir_update_property_zval(this_ptr, SL("_hiddenParamNumber"), _8 TSRMLS_CC);
 	RETURN_THIS();
 
 }
@@ -963,8 +964,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, notInWhere) {
 	HashTable *_2;
 	HashPosition _1;
 	int hiddenParam;
-	zval *expr_param = NULL, *values, *key = NULL, *queryKey = NULL, *value = NULL, *bindKeys, *bindParams, *_0, **_3, _4 = zval_used_for_init, *_5, *_6, *_7;
-	zval *expr = NULL;
+	zval *expr_param = NULL, *values, *key = NULL, *queryKey = NULL, *value = NULL, *bindKeys, *bindParams, *_0, **_3, _4 = zval_used_for_init, *_6, *_7, *_8;
+	zval *expr = NULL, *_5 = NULL;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &expr_param, &values);
@@ -1001,22 +1002,23 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, notInWhere) {
 		ZEPHIR_GET_HVALUE(value, _3);
 		ZEPHIR_SINIT_NVAR(_4);
 		ZVAL_LONG(&_4, hiddenParam);
-		ZEPHIR_INIT_NVAR(key);
-		ZEPHIR_CONCAT_SV(key, "phi", &_4);
+		ZEPHIR_INIT_LNVAR(_5);
+		ZEPHIR_CONCAT_SV(_5, "phi", &_4);
+		ZEPHIR_CPY_WRT(key, _5);
 		ZEPHIR_INIT_NVAR(queryKey);
 		ZEPHIR_CONCAT_SVS(queryKey, ":", key, ":");
 		zephir_array_append(&bindKeys, queryKey, PH_SEPARATE);
 		zephir_array_update_zval(&bindParams, key, &value, PH_COPY | PH_SEPARATE);
 		hiddenParam++;
 	}
-	ZEPHIR_INIT_VAR(_5);
-	zephir_fast_join_str(_5, SL(", "), bindKeys TSRMLS_CC);
 	ZEPHIR_INIT_VAR(_6);
-	ZEPHIR_CONCAT_VSVS(_6, expr, " NOT IN (", _5, ")");
-	zephir_call_method_p2_noret(this_ptr, "andwhere", _6, bindParams);
-	ZEPHIR_INIT_ZVAL_NREF(_7);
-	ZVAL_LONG(_7, hiddenParam);
-	zephir_update_property_zval(this_ptr, SL("_hiddenParamNumber"), _7 TSRMLS_CC);
+	zephir_fast_join_str(_6, SL(", "), bindKeys TSRMLS_CC);
+	ZEPHIR_INIT_VAR(_7);
+	ZEPHIR_CONCAT_VSVS(_7, expr, " NOT IN (", _6, ")");
+	zephir_call_method_p2_noret(this_ptr, "andwhere", _7, bindParams);
+	ZEPHIR_INIT_ZVAL_NREF(_8);
+	ZVAL_LONG(_8, hiddenParam);
+	zephir_update_property_zval(this_ptr, SL("_hiddenParamNumber"), _8 TSRMLS_CC);
 	RETURN_THIS();
 
 }

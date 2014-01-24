@@ -452,8 +452,8 @@ PHP_METHOD(Phalcon_Validation, bind) {
  */
 PHP_METHOD(Phalcon_Validation, getValue) {
 
-	zval *field_param = NULL, *entity, *method, *value = NULL, *data, *values, *filters, *fieldFilters, *dependencyInjector = NULL, *filterService, *_0;
-	zval *field = NULL;
+	zval *field_param = NULL, *entity, *method = NULL, *value = NULL, *data, *values, *filters, *fieldFilters, *dependencyInjector = NULL, *filterService, *_1;
+	zval *field = NULL, *_0;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &field_param);
@@ -463,8 +463,9 @@ PHP_METHOD(Phalcon_Validation, getValue) {
 
 	entity = zephir_fetch_nproperty_this(this_ptr, SL("_entity"), PH_NOISY_CC);
 	if ((Z_TYPE_P(entity) == IS_OBJECT)) {
-		ZEPHIR_INIT_VAR(method);
-		ZEPHIR_CONCAT_SV(method, "get", field);
+		ZEPHIR_INIT_VAR(_0);
+		ZEPHIR_CONCAT_SV(_0, "get", field);
+		ZEPHIR_CPY_WRT(method, _0);
 		if ((zephir_method_exists(entity, method TSRMLS_CC)  == SUCCESS)) {
 			ZEPHIR_INIT_VAR(value);
 			zephir_call_method_zval(value, entity, method);
@@ -525,10 +526,10 @@ PHP_METHOD(Phalcon_Validation, getValue) {
 							return;
 						}
 					}
-					ZEPHIR_INIT_VAR(_0);
-					ZVAL_STRING(_0, "filter", 1);
+					ZEPHIR_INIT_VAR(_1);
+					ZVAL_STRING(_1, "filter", 1);
 					ZEPHIR_INIT_VAR(filterService);
-					zephir_call_method_p1(filterService, dependencyInjector, "getshared", _0);
+					zephir_call_method_p1(filterService, dependencyInjector, "getshared", _1);
 					if ((Z_TYPE_P(filterService) != IS_OBJECT)) {
 						ZEPHIR_THROW_EXCEPTION_STR(phalcon_validation_exception_ce, "Returned 'filter' service is invalid");
 						return;

@@ -87,8 +87,8 @@ ZEPHIR_INIT_CLASS(Phalcon_Logger_Adapter_File) {
  */
 PHP_METHOD(Phalcon_Logger_Adapter_File, __construct) {
 
-	zval *name_param = NULL, *options = NULL, *mode = NULL, *handler, *_0, *_1;
-	zval *name = NULL;
+	zval *name_param = NULL, *options = NULL, *mode = NULL, *handler, *_0;
+	zval *name = NULL, *_1;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 1, &name_param, &options);

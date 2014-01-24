@@ -183,7 +183,7 @@ PHP_METHOD(Phalcon_Validation_Message_Group, offsetExists) {
  */
 PHP_METHOD(Phalcon_Validation_Message_Group, offsetUnset) {
 
-	zval *index, *_0, *_1;
+	zval *index, *_0, *_1, *_2, *_3;
 
 	zephir_fetch_params(0, 1, 0, &index);
 
@@ -192,7 +192,9 @@ PHP_METHOD(Phalcon_Validation_Message_Group, offsetUnset) {
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_messages"), PH_NOISY_CC);
 	if (zephir_array_isset(_0, index)) {
 		_1 = zephir_fetch_nproperty_this(this_ptr, SL("_messages"), PH_NOISY_CC);
-		zephir_array_unset(&_1, index, PH_SEPARATE);
+		_2 = zephir_fetch_nproperty_this(this_ptr, SL("_messages"), PH_NOISY_CC);
+		zephir_array_fetch(&_3, _2, index, PH_NOISY | PH_READONLY TSRMLS_CC);
+		zephir_array_unset(&_1, _3, PH_SEPARATE);
 	}
 	RETURN_BOOL(0);
 

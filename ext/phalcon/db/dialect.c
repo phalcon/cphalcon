@@ -72,7 +72,7 @@ PHP_METHOD(Phalcon_Db_Dialect, limit) {
 
 	int number;
 	zval *sqlQuery_param = NULL, *number_param = NULL, _0, _1;
-	zval *sqlQuery = NULL;
+	zval *sqlQuery = NULL, *_2;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &sqlQuery_param, &number_param);
@@ -96,8 +96,9 @@ PHP_METHOD(Phalcon_Db_Dialect, limit) {
 	if (zephir_is_numeric(&_0)) {
 		ZEPHIR_SINIT_VAR(_1);
 		ZVAL_LONG(&_1, number);
-		ZEPHIR_CONCAT_VSV(return_value, sqlQuery, " LIMIT ", &_1);
-		RETURN_MM();
+		ZEPHIR_INIT_VAR(_2);
+		ZEPHIR_CONCAT_VSV(_2, sqlQuery, " LIMIT ", &_1);
+		RETURN_CTOR(_2);
 	}
 	RETURN_CTOR(sqlQuery);
 
@@ -117,7 +118,7 @@ PHP_METHOD(Phalcon_Db_Dialect, limit) {
 PHP_METHOD(Phalcon_Db_Dialect, forUpdate) {
 
 	zval *sqlQuery_param = NULL;
-	zval *sqlQuery = NULL;
+	zval *sqlQuery = NULL, *_0;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &sqlQuery_param);
@@ -135,8 +136,9 @@ PHP_METHOD(Phalcon_Db_Dialect, forUpdate) {
 	}
 
 
-	ZEPHIR_CONCAT_VS(return_value, sqlQuery, " FOR UPDATE");
-	RETURN_MM();
+	ZEPHIR_INIT_VAR(_0);
+	ZEPHIR_CONCAT_VS(_0, sqlQuery, " FOR UPDATE");
+	RETURN_CTOR(_0);
 
 }
 
@@ -154,7 +156,7 @@ PHP_METHOD(Phalcon_Db_Dialect, forUpdate) {
 PHP_METHOD(Phalcon_Db_Dialect, sharedLock) {
 
 	zval *sqlQuery_param = NULL;
-	zval *sqlQuery = NULL;
+	zval *sqlQuery = NULL, *_0;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &sqlQuery_param);
@@ -172,8 +174,9 @@ PHP_METHOD(Phalcon_Db_Dialect, sharedLock) {
 	}
 
 
-	ZEPHIR_CONCAT_VS(return_value, sqlQuery, " LOCK IN SHARE MODE");
-	RETURN_MM();
+	ZEPHIR_INIT_VAR(_0);
+	ZEPHIR_CONCAT_VS(_0, sqlQuery, " LOCK IN SHARE MODE");
+	RETURN_CTOR(_0);
 
 }
 
@@ -746,7 +749,7 @@ PHP_METHOD(Phalcon_Db_Dialect, supportsReleaseSavepoints) {
 PHP_METHOD(Phalcon_Db_Dialect, createSavepoint) {
 
 	zval *name_param = NULL;
-	zval *name = NULL;
+	zval *name = NULL, *_0;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &name_param);
@@ -764,8 +767,9 @@ PHP_METHOD(Phalcon_Db_Dialect, createSavepoint) {
 	}
 
 
-	ZEPHIR_CONCAT_SV(return_value, "SAVEPOINT ", name);
-	RETURN_MM();
+	ZEPHIR_INIT_VAR(_0);
+	ZEPHIR_CONCAT_SV(_0, "SAVEPOINT ", name);
+	RETURN_CTOR(_0);
 
 }
 
@@ -778,7 +782,7 @@ PHP_METHOD(Phalcon_Db_Dialect, createSavepoint) {
 PHP_METHOD(Phalcon_Db_Dialect, releaseSavepoint) {
 
 	zval *name_param = NULL;
-	zval *name = NULL;
+	zval *name = NULL, *_0;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &name_param);
@@ -796,8 +800,9 @@ PHP_METHOD(Phalcon_Db_Dialect, releaseSavepoint) {
 	}
 
 
-	ZEPHIR_CONCAT_SV(return_value, "RELEASE SAVEPOINT ", name);
-	RETURN_MM();
+	ZEPHIR_INIT_VAR(_0);
+	ZEPHIR_CONCAT_SV(_0, "RELEASE SAVEPOINT ", name);
+	RETURN_CTOR(_0);
 
 }
 
@@ -810,7 +815,7 @@ PHP_METHOD(Phalcon_Db_Dialect, releaseSavepoint) {
 PHP_METHOD(Phalcon_Db_Dialect, rollbackSavepoint) {
 
 	zval *name_param = NULL;
-	zval *name = NULL;
+	zval *name = NULL, *_0;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &name_param);
@@ -828,8 +833,9 @@ PHP_METHOD(Phalcon_Db_Dialect, rollbackSavepoint) {
 	}
 
 
-	ZEPHIR_CONCAT_SV(return_value, "ROLLBACK TO SAVEPOINT ", name);
-	RETURN_MM();
+	ZEPHIR_INIT_VAR(_0);
+	ZEPHIR_CONCAT_SV(_0, "ROLLBACK TO SAVEPOINT ", name);
+	RETURN_CTOR(_0);
 
 }
 

@@ -191,8 +191,8 @@ PHP_METHOD(Phalcon_Filter, sanitize) {
  */
 PHP_METHOD(Phalcon_Filter, _sanitize) {
 
-	zval *filter = NULL;
-	zval *value, *filter_param = NULL, *filterObject, *_0, *_1 = NULL, _2 = zval_used_for_init, _3, _4, *_5, *_6;
+	zval *filter = NULL, *_6;
+	zval *value, *filter_param = NULL, *filterObject, *_0, *_1 = NULL, _2 = zval_used_for_init, _3, _4, *_5;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &value, &filter_param);

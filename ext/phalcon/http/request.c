@@ -524,8 +524,8 @@ PHP_METHOD(Phalcon_Http_Request, hasServer) {
  */
 PHP_METHOD(Phalcon_Http_Request, getHeader) {
 
-	zval *header_param = NULL, *serverValue, *headerValue, *_SERVER, *_0;
-	zval *header = NULL;
+	zval *header_param = NULL, *serverValue, *headerValue, *_SERVER;
+	zval *header = NULL, *_0;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &header_param);

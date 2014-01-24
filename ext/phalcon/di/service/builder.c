@@ -63,8 +63,9 @@ ZEPHIR_INIT_CLASS(Phalcon_Di_Service_Builder) {
  */
 PHP_METHOD(Phalcon_Di_Service_Builder, _buildParameter) {
 
+	zval *_2 = NULL;
 	int position;
-	zval *dependencyInjector, *position_param = NULL, *argument, *type, *name = NULL, *value, *instanceArguments, *_0 = NULL, _1 = zval_used_for_init, *_2 = NULL;
+	zval *dependencyInjector, *position_param = NULL, *argument, *type, *name = NULL, *value, *instanceArguments, *_0 = NULL, _1 = zval_used_for_init;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 3, 0, &dependencyInjector, &position_param, &argument);

@@ -187,7 +187,7 @@ PHP_METHOD(Phalcon_Di, setShared) {
  */
 PHP_METHOD(Phalcon_Di, remove) {
 
-	zval *name_param = NULL, *_0;
+	zval *name_param = NULL, *_0, *_1, *_2;
 	zval *name = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -207,7 +207,9 @@ PHP_METHOD(Phalcon_Di, remove) {
 
 
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_services"), PH_NOISY_CC);
-	zephir_array_unset(&_0, name, PH_SEPARATE);
+	_1 = zephir_fetch_nproperty_this(this_ptr, SL("_services"), PH_NOISY_CC);
+	zephir_array_fetch(&_2, _1, name, PH_NOISY | PH_READONLY TSRMLS_CC);
+	zephir_array_unset(&_0, _2, PH_SEPARATE);
 	ZEPHIR_MM_RESTORE();
 
 }
@@ -302,8 +304,8 @@ PHP_METHOD(Phalcon_Di, setRaw) {
  */
 PHP_METHOD(Phalcon_Di, getRaw) {
 
-	zval *name_param = NULL, *service, *_0, *_1, *_2;
-	zval *name = NULL;
+	zval *name_param = NULL, *service, *_0, *_1;
+	zval *name = NULL, *_2;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &name_param);
@@ -345,8 +347,8 @@ PHP_METHOD(Phalcon_Di, getRaw) {
  */
 PHP_METHOD(Phalcon_Di, getService) {
 
-	zval *name_param = NULL, *service, *_0, *_1, *_2;
-	zval *name = NULL;
+	zval *name_param = NULL, *service, *_0, *_1;
+	zval *name = NULL, *_2;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &name_param);
@@ -388,8 +390,8 @@ PHP_METHOD(Phalcon_Di, getService) {
  */
 PHP_METHOD(Phalcon_Di, get) {
 
-	zval *name_param = NULL, *parameters = NULL, *service, *instance = NULL, *_0, *_1, *_2;
-	zval *name = NULL;
+	zval *name_param = NULL, *parameters = NULL, *service, *instance = NULL, *_0, *_1;
+	zval *name = NULL, *_2;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 1, &name_param, &parameters);
@@ -698,8 +700,8 @@ PHP_METHOD(Phalcon_Di, offsetUnset) {
  */
 PHP_METHOD(Phalcon_Di, __call) {
 
-	zval *method_param = NULL, *arguments = NULL, *instance, *possibleService, *services, *definition, *_0 = NULL, *_1, *_2;
-	zval *method = NULL;
+	zval *method_param = NULL, *arguments = NULL, *instance, *possibleService, *services, *definition, *_0 = NULL, *_1;
+	zval *method = NULL, *_2;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 1, &method_param, &arguments);

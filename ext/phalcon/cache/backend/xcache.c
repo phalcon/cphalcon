@@ -251,7 +251,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Xcache, save) {
  */
 PHP_METHOD(Phalcon_Cache_Backend_Xcache, delete) {
 
-	zval *keyName, *prefixedKey, *specialKey, *keys, *_0, *_1;
+	zval *keyName, *prefixedKey, *specialKey, *keys, *_0, *_1, *_2;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &keyName);
@@ -272,7 +272,8 @@ PHP_METHOD(Phalcon_Cache_Backend_Xcache, delete) {
 		ZEPHIR_INIT_BNVAR(keys);
 		array_init(keys);
 	}
-	zephir_array_unset(&keys, prefixedKey, PH_SEPARATE);
+	zephir_array_fetch(&_2, keys, prefixedKey, PH_NOISY | PH_READONLY TSRMLS_CC);
+	zephir_array_unset(&keys, _2, PH_SEPARATE);
 	zephir_call_func_p2_noret("xcache_set", specialKey, keys);
 	ZEPHIR_MM_RESTORE();
 
@@ -473,7 +474,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Xcache, flush) {
 
 	HashTable *_2;
 	HashPosition _1;
-	zval *prefixed, *options, *specialKey, *keys, *key = NULL, *value = NULL, *_0, **_3;
+	zval *prefixed, *options, *specialKey, *keys, *key = NULL, *value = NULL, *_0, **_3, *_4;
 
 	ZEPHIR_MM_GROW();
 
@@ -495,7 +496,8 @@ PHP_METHOD(Phalcon_Cache_Backend_Xcache, flush) {
 		) {
 			ZEPHIR_GET_HMKEY(key, _2, _1);
 			ZEPHIR_GET_HVALUE(value, _3);
-			zephir_array_unset(&keys, key, PH_SEPARATE);
+			zephir_array_fetch(&_4, keys, key, PH_NOISY | PH_READONLY TSRMLS_CC);
+			zephir_array_unset(&keys, _4, PH_SEPARATE);
 			zephir_call_func_p1_noret("xcache_unset", key);
 		}
 		zephir_call_func_p2_noret("xcache_set", specialKey, keys);

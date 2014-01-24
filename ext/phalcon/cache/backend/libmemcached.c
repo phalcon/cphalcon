@@ -112,7 +112,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Libmemcached, __construct) {
 	}
 	if (!(zephir_array_isset_string(options, SS("servers")))) {
 		ZEPHIR_INIT_VAR(config);
-		array_init_size(config, 4);
+		array_init_size(config, 5);
 		add_assoc_stringl_ex(config, SS("host"), SL("127.0.0.1"), 1);
 		add_assoc_long_ex(config, SS("port"), 11211);
 		add_assoc_long_ex(config, SS("weigth"), 1);
@@ -446,7 +446,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Libmemcached, decrement) {
  */
 PHP_METHOD(Phalcon_Cache_Backend_Libmemcached, delete) {
 
-	zval *keyName, *memcache = NULL, *prefix, *prefixedKey, *options, *keys, *specialKey;
+	zval *keyName, *memcache = NULL, *prefix, *prefixedKey, *options, *keys, *specialKey, *_0;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &keyName);
@@ -472,7 +472,8 @@ PHP_METHOD(Phalcon_Cache_Backend_Libmemcached, delete) {
 	ZEPHIR_INIT_VAR(keys);
 	zephir_call_method_p1(keys, memcache, "get", specialKey);
 	if ((Z_TYPE_P(keys) == IS_ARRAY)) {
-		zephir_array_unset(&keys, prefixedKey, PH_SEPARATE);
+		zephir_array_fetch(&_0, keys, prefixedKey, PH_NOISY | PH_READONLY TSRMLS_CC);
+		zephir_array_unset(&keys, _0, PH_SEPARATE);
 		zephir_call_method_p2_noret(memcache, "set", specialKey, keys);
 	}
 	zephir_call_method_p1_noret(memcache, "delete", prefixedKey);

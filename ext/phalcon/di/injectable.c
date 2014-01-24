@@ -147,8 +147,8 @@ PHP_METHOD(Phalcon_Di_Injectable, getEventsManager) {
  */
 PHP_METHOD(Phalcon_Di_Injectable, __get) {
 
-	zval *propertyName_param = NULL, *dependencyInjector = NULL, *hasService, *service, *persistent = NULL, *_0, *_1, *_2, *_3 = NULL, *_4;
-	zval *propertyName = NULL;
+	zval *propertyName_param = NULL, *dependencyInjector = NULL, *hasService, *service, *persistent = NULL, *_0, *_1, *_2, *_3 = NULL;
+	zval *propertyName = NULL, *_4;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &propertyName_param);

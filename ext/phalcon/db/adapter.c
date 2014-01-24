@@ -914,8 +914,8 @@ PHP_METHOD(Phalcon_Db_Adapter, sharedLock) {
  */
 PHP_METHOD(Phalcon_Db_Adapter, createTable) {
 
-	zval *tableName_param = NULL, *schemaName_param = NULL, *definition, *columns, *_0 = NULL, *_1, *_2;
-	zval *tableName = NULL, *schemaName = NULL;
+	zval *tableName_param = NULL, *schemaName_param = NULL, *definition, *columns, *_0 = NULL, *_2;
+	zval *tableName = NULL, *schemaName = NULL, *_1;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 3, 0, &tableName_param, &schemaName_param, &definition);
@@ -1036,8 +1036,8 @@ PHP_METHOD(Phalcon_Db_Adapter, dropTable) {
  */
 PHP_METHOD(Phalcon_Db_Adapter, createView) {
 
-	zval *viewName_param = NULL, *definition, *schemaName = NULL, *_0 = NULL, *_1, *_2;
-	zval *viewName = NULL;
+	zval *viewName_param = NULL, *definition, *schemaName = NULL, *_0 = NULL, *_2;
+	zval *viewName = NULL, *_1;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 1, &viewName_param, &definition, &schemaName);

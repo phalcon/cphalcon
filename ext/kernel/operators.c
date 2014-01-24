@@ -545,3 +545,69 @@ int zephir_is_identical(zval *op1, zval *op2 TSRMLS_DC) {
 	is_identical_function(&result, op1, op2 TSRMLS_CC);
 	return Z_BVAL(result);
 }
+
+/**
+ * Do bitwise_and function keeping ref_count and is_ref
+ */
+int zephir_bitwise_and_function(zval *result, zval *op1, zval *op2 TSRMLS_DC){
+	int status;
+	int ref_count = Z_REFCOUNT_P(result);
+	int is_ref = Z_ISREF_P(result);
+	status = bitwise_and_function(result, op1, op2 TSRMLS_CC);
+	Z_SET_REFCOUNT_P(result, ref_count);
+	Z_SET_ISREF_TO_P(result, is_ref);
+	return status;
+}
+
+/**
+ * Do bitwise_or function keeping ref_count and is_ref
+ */
+int zephir_bitwise_or_function(zval *result, zval *op1, zval *op2 TSRMLS_DC){
+	int status;
+	int ref_count = Z_REFCOUNT_P(result);
+	int is_ref = Z_ISREF_P(result);
+	status = bitwise_or_function(result, op1, op2 TSRMLS_CC);
+	Z_SET_REFCOUNT_P(result, ref_count);
+	Z_SET_ISREF_TO_P(result, is_ref);
+	return status;
+}
+
+/**
+ * Do bitwise_xor function keeping ref_count and is_ref
+ */
+int zephir_bitwise_xor_function(zval *result, zval *op1, zval *op2 TSRMLS_DC){
+	int status;
+	int ref_count = Z_REFCOUNT_P(result);
+	int is_ref = Z_ISREF_P(result);
+	status = bitwise_xor_function(result, op1, op2 TSRMLS_CC);
+	Z_SET_REFCOUNT_P(result, ref_count);
+	Z_SET_ISREF_TO_P(result, is_ref);
+	return status;
+}
+
+/**
+ * Do shiftleft function keeping ref_count and is_ref
+ */
+int zephir_shift_left_function(zval *result, zval *op1, zval *op2 TSRMLS_DC){
+	int status;
+	int ref_count = Z_REFCOUNT_P(result);
+	int is_ref = Z_ISREF_P(result);
+	status = shift_left_function(result, op1, op2 TSRMLS_CC);
+	Z_SET_REFCOUNT_P(result, ref_count);
+	Z_SET_ISREF_TO_P(result, is_ref);
+	return status;
+}
+
+/**
+ * Do shiftright function keeping ref_count and is_ref
+ */
+int zephir_shift_right_function(zval *result, zval *op1, zval *op2 TSRMLS_DC){
+	int status;
+	int ref_count = Z_REFCOUNT_P(result);
+	int is_ref = Z_ISREF_P(result);
+	status = shift_right_function(result, op1, op2 TSRMLS_CC);
+	Z_SET_REFCOUNT_P(result, ref_count);
+	Z_SET_ISREF_TO_P(result, is_ref);
+	return status;
+}
+

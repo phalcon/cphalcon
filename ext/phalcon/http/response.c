@@ -161,8 +161,8 @@ PHP_METHOD(Phalcon_Http_Response, getDI) {
  */
 PHP_METHOD(Phalcon_Http_Response, setStatusCode) {
 
-	zval *code_param = NULL, *message_param = NULL, *headers, *_0, *_1, *_2;
-	zval *code = NULL, *message = NULL;
+	zval *code_param = NULL, *message_param = NULL, *headers, *_2;
+	zval *code = NULL, *message = NULL, *_0, *_1;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &code_param, &message_param);

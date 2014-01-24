@@ -198,8 +198,7 @@ class Uniqueness extends Phalcon\Mvc\Model\Validator implements Phalcon\Mvc\Mode
 				 * Create a condition based on the renamed primary key
 				 */
 				let value = record->readAttribute(primaryField);
-				let condition = '[' . attributeField . "] <> ?".number;
-				let conditions[] = condition;
+				let conditions[] = "[" . attributeField . "] <> ?" . number;
 				let bindParams[] = value;
 
 				let bindType = bindDataTypes[primaryField];

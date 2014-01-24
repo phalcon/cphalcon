@@ -64,8 +64,8 @@ ZEPHIR_INIT_CLASS(Phalcon_Annotations_Adapter_Xcache) {
  */
 PHP_METHOD(Phalcon_Annotations_Adapter_Xcache, read) {
 
-	zval *key_param = NULL, *serialized, *data, *_0, *_1;
-	zval *key = NULL;
+	zval *key_param = NULL, *serialized, *data, *_0;
+	zval *key = NULL, *_1;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &key_param);
@@ -108,8 +108,8 @@ PHP_METHOD(Phalcon_Annotations_Adapter_Xcache, read) {
  */
 PHP_METHOD(Phalcon_Annotations_Adapter_Xcache, write) {
 
-	zval *key_param = NULL, *data, *_0, *_1, *_2;
-	zval *key = NULL;
+	zval *key_param = NULL, *data, *_0, *_2;
+	zval *key = NULL, *_1;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &key_param, &data);

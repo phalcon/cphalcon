@@ -93,8 +93,8 @@ PHP_METHOD(Phalcon_Forms_Manager, create) {
  */
 PHP_METHOD(Phalcon_Forms_Manager, get) {
 
-	zval *name_param = NULL, *form, *forms, *_0, *_1;
-	zval *name = NULL;
+	zval *name_param = NULL, *form, *forms, *_0;
+	zval *name = NULL, *_1;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &name_param);

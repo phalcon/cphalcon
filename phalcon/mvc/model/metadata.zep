@@ -253,7 +253,7 @@ abstract class MetaData implements Phalcon\Di\InjectionAwareInterface
 		/*
 		 * Unique key for meta-data is created using class-name-schema-source
 		 */
-		let key = get_class_lower(model) . '-' . schema . source;
+		let key = get_class_lower(model) . "-" . schema . source;
 
 		let metaData = this->_metaData;
 		if !isset metaData[key] {
@@ -284,7 +284,7 @@ abstract class MetaData implements Phalcon\Di\InjectionAwareInterface
 		/*
 		 * Unique key for meta-data is created using class-name-schema-source
 		 */
-		let key = get_class_lower(model) . '-' . schema . source;
+		let key = get_class_lower(model) . "-" . schema . source;
 
 		let metaData = this->_metaData;
 		if !isset metaData[key] {

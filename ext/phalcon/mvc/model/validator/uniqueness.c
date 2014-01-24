@@ -87,7 +87,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Uniqueness, validate) {
 	zend_function *_5 = NULL, *_6 = NULL, *_7 = NULL, *_14 = NULL, *_15 = NULL, *_16 = NULL;
 	HashTable *_2, *_11;
 	HashPosition _1, _10;
-	zval *record, *field, *dependencyInjector, *metaData, *message = NULL, *bindTypes, *bindDataTypes, *columnMap, *conditions, *bindParams, *number = NULL, *composeField = NULL, *value = NULL, *columnField = NULL, *composeCondition = NULL, *bindType = NULL, *condition = NULL, *operationMade, *primaryFields, *primaryField = NULL, *attributeField = NULL, *joinConditions, *params, *className, *replacePairs = NULL, *_0 = NULL, **_3, *_4 = NULL, *_9 = NULL, **_12, *_13 = NULL, *_17;
+	zval *record, *field, *dependencyInjector, *metaData, *message = NULL, *bindTypes, *bindDataTypes, *columnMap, *conditions, *bindParams, *number = NULL, *composeField = NULL, *value = NULL, *columnField = NULL, *composeCondition = NULL, *bindType = NULL, *condition, *operationMade, *primaryFields, *primaryField = NULL, *attributeField = NULL, *joinConditions, *params, *className, *replacePairs = NULL, *_0 = NULL, **_3, *_4 = NULL, *_9 = NULL, **_12, *_13 = NULL, *_17;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &record);
@@ -254,9 +254,9 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Uniqueness, validate) {
 			}
 			ZEPHIR_INIT_NVAR(value);
 			zephir_call_method_p1_cache(value, record, "readattribute", &_16, primaryField);
-			ZEPHIR_INIT_NVAR(condition);
-			ZEPHIR_CONCAT_VSV(condition, attributeField, "] <> ?", number);
-			zephir_array_append(&conditions, condition, PH_SEPARATE);
+			ZEPHIR_INIT_LNVAR(_4);
+			ZEPHIR_CONCAT_SVSV(_4, "[", attributeField, "] <> ?", number);
+			zephir_array_append(&conditions, _4, PH_SEPARATE);
 			zephir_array_append(&bindParams, value, PH_SEPARATE);
 			ZEPHIR_OBS_NVAR(bindType);
 			zephir_array_fetch(&bindType, bindDataTypes, primaryField, PH_NOISY TSRMLS_CC);

@@ -325,7 +325,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Memcache, save) {
  */
 PHP_METHOD(Phalcon_Cache_Backend_Memcache, delete) {
 
-	zval *keyName, *memcache = NULL, *prefix, *prefixedKey, *options, *keys, *specialKey;
+	zval *keyName, *memcache = NULL, *prefix, *prefixedKey, *options, *keys, *specialKey, *_0;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &keyName);
@@ -351,7 +351,8 @@ PHP_METHOD(Phalcon_Cache_Backend_Memcache, delete) {
 	ZEPHIR_INIT_VAR(keys);
 	zephir_call_method_p1(keys, memcache, "get", specialKey);
 	if ((Z_TYPE_P(keys) == IS_ARRAY)) {
-		zephir_array_unset(&keys, prefixedKey, PH_SEPARATE);
+		zephir_array_fetch(&_0, keys, prefixedKey, PH_NOISY | PH_READONLY TSRMLS_CC);
+		zephir_array_unset(&keys, _0, PH_SEPARATE);
 		zephir_call_method_p2_noret(memcache, "set", specialKey, keys);
 	}
 	zephir_call_method_p1_noret(memcache, "delete", prefixedKey);

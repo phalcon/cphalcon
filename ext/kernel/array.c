@@ -259,7 +259,7 @@ int ZEPHIR_FASTCALL zephir_array_unset(zval **arr, zval *index, int flags) {
 	HashTable *ht;
 
 	if (Z_TYPE_PP(arr) != IS_ARRAY) {
-		return 0;
+		return FAILURE;
 	}
 
 	if ((flags & PH_SEPARATE) == PH_SEPARATE) {
