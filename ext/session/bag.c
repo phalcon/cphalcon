@@ -57,13 +57,14 @@ PHP_METHOD(Phalcon_Session_Bag, destroy);
 PHP_METHOD(Phalcon_Session_Bag, set);
 PHP_METHOD(Phalcon_Session_Bag, get);
 PHP_METHOD(Phalcon_Session_Bag, has);
+PHP_METHOD(Phalcon_Session_Bag, __get);
 PHP_METHOD(Phalcon_Session_Bag, remove);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_session_bag___construct, 0, 0, 1)
 	ZEND_ARG_INFO(0, name)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_session_bag___get, 0, 0, 1)
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_session_bag___get, 0, 1, 1)
 	ZEND_ARG_INFO(0, property)
 ZEND_END_ARG_INFO()
 
@@ -80,7 +81,7 @@ static const zend_function_entry phalcon_session_bag_method_entry[] = {
 	PHP_ME(Phalcon_Session_Bag, set, arginfo_phalcon_session_baginterface_set, ZEND_ACC_PUBLIC)
 	PHP_MALIAS(Phalcon_Session_Bag, __set, set, arginfo_phalcon_session_baginterface_set, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Session_Bag, get, arginfo_phalcon_session_baginterface_get, ZEND_ACC_PUBLIC)
-	PHP_MALIAS(Phalcon_Session_Bag, __get, get, arginfo_phalcon_session_bag___get, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Session_Bag, __get, arginfo_phalcon_session_bag___get, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Session_Bag, has, arginfo_phalcon_session_baginterface_has, ZEND_ACC_PUBLIC)
 	PHP_MALIAS(Phalcon_Session_Bag, __isset, has, arginfo_phalcon_session_baginterface_has, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Session_Bag, remove, arginfo_phalcon_session_bag_remove, ZEND_ACC_PUBLIC)
@@ -155,8 +156,7 @@ PHP_METHOD(Phalcon_Session_Bag, initialize){
 
 	PHALCON_MM_GROW();
 
-	PHALCON_OBS_VAR(session);
-	phalcon_read_property_this(&session, this_ptr, SL("_session"), PH_NOISY_CC);
+	session = phalcon_fetch_nproperty_this(this_ptr, SL("_session"), PH_NOISY_CC);
 	if (Z_TYPE_P(session) != IS_OBJECT) {
 	
 		PHALCON_OBS_VAR(dependency_injector);
@@ -175,14 +175,13 @@ PHP_METHOD(Phalcon_Session_Bag, initialize){
 		PHALCON_INIT_VAR(service);
 		PHALCON_ZVAL_MAYBE_INTERNED_STRING(service, phalcon_interned_session);
 	
-		PHALCON_INIT_NVAR(session);
+		PHALCON_INIT_VAR(session);
 		phalcon_call_method_p1(session, dependency_injector, "getshared", service);
 		PHALCON_VERIFY_INTERFACE(session, phalcon_session_adapterinterface_ce);
 		phalcon_update_property_this(this_ptr, SL("_session"), session TSRMLS_CC);
 	}
 	
-	PHALCON_OBS_VAR(name);
-	phalcon_read_property_this(&name, this_ptr, SL("_name"), PH_NOISY_CC);
+	name = phalcon_fetch_nproperty_this(this_ptr, SL("_name"), PH_NOISY_CC);
 	
 	PHALCON_INIT_VAR(data);
 	phalcon_call_method_p1(data, session, "get", name);
@@ -198,7 +197,7 @@ PHP_METHOD(Phalcon_Session_Bag, initialize){
 }
 
 /**
- * Destroyes the session bag
+ * Destroys the session bag
  *
  *<code>
  * $user->destroy();
@@ -210,17 +209,13 @@ PHP_METHOD(Phalcon_Session_Bag, destroy){
 
 	PHALCON_MM_GROW();
 
-	PHALCON_OBS_VAR(initialized);
-	phalcon_read_property_this(&initialized, this_ptr, SL("_initialized"), PH_NOISY_CC);
+	initialized = phalcon_fetch_nproperty_this(this_ptr, SL("_initialized"), PH_NOISY_CC);
 	if (PHALCON_IS_FALSE(initialized)) {
 		phalcon_call_method_noret(this_ptr, "initialize");
 	}
 	
-	PHALCON_OBS_VAR(name);
-	phalcon_read_property_this(&name, this_ptr, SL("_name"), PH_NOISY_CC);
-	
-	PHALCON_OBS_VAR(session);
-	phalcon_read_property_this(&session, this_ptr, SL("_session"), PH_NOISY_CC);
+	name    = phalcon_fetch_nproperty_this(this_ptr, SL("_name"), PH_NOISY_CC);
+	session = phalcon_fetch_nproperty_this(this_ptr, SL("_session"), PH_NOISY_CC);
 	phalcon_call_method_p1_noret(session, "remove", name);
 	
 	PHALCON_MM_RESTORE();
@@ -238,29 +233,23 @@ PHP_METHOD(Phalcon_Session_Bag, destroy){
  */
 PHP_METHOD(Phalcon_Session_Bag, set){
 
-	zval *property, *value, *initialized, *name, *data;
-	zval *session;
+	zval *property, *value, *initialized;
+	zval *session, *name, *data;
 
 	PHALCON_MM_GROW();
 
 	phalcon_fetch_params(1, 2, 0, &property, &value);
 	
-	PHALCON_OBS_VAR(initialized);
-	phalcon_read_property_this(&initialized, this_ptr, SL("_initialized"), PH_NOISY_CC);
+	initialized = phalcon_fetch_nproperty_this(this_ptr, SL("_initialized"), PH_NOISY_CC);
 	if (PHALCON_IS_FALSE(initialized)) {
 		phalcon_call_method_noret(this_ptr, "initialize");
 	}
 	
 	phalcon_update_property_array(this_ptr, SL("_data"), property, value TSRMLS_CC);
 	
-	PHALCON_OBS_VAR(name);
-	phalcon_read_property_this(&name, this_ptr, SL("_name"), PH_NOISY_CC);
-	
-	PHALCON_OBS_VAR(data);
-	phalcon_read_property_this(&data, this_ptr, SL("_data"), PH_NOISY_CC);
-	
-	PHALCON_OBS_VAR(session);
-	phalcon_read_property_this(&session, this_ptr, SL("_session"), PH_NOISY_CC);
+	name    = phalcon_fetch_nproperty_this(this_ptr, SL("_name"), PH_NOISY_CC);
+	data    = phalcon_fetch_nproperty_this(this_ptr, SL("_data"), PH_NOISY_CC);
+	session = phalcon_fetch_nproperty_this(this_ptr, SL("_session"), PH_NOISY_CC);
 	phalcon_call_method_p2_noret(session, "set", name, data);
 	
 	PHALCON_MM_RESTORE();
@@ -295,43 +284,31 @@ PHP_METHOD(Phalcon_Session_Bag, get){
 	zval *property, *default_value = NULL, *initialized;
 	zval *data, *value;
 
-	PHALCON_MM_GROW();
-
-	phalcon_fetch_params(1, 1, 1, &property, &default_value);
+	phalcon_fetch_params(0, 1, 1, &property, &default_value);
 	
 	if (!default_value) {
 		default_value = PHALCON_GLOBAL(z_null);
 	}
 	
-	/** 
-	 * Check first if the bag is initialized
-	 */
-	PHALCON_OBS_VAR(initialized);
-	phalcon_read_property_this(&initialized, this_ptr, SL("_initialized"), PH_NOISY_CC);
+	/* Check first if the bag is initialized */
+	initialized = phalcon_fetch_nproperty_this(this_ptr, SL("_initialized"), PH_NOISY_CC);
 	if (PHALCON_IS_FALSE(initialized)) {
+		PHALCON_MM_GROW();
 		phalcon_call_method_noret(this_ptr, "initialize");
+		PHALCON_MM_RESTORE();
 	}
 	
-	/** 
-	 * Retrieve the data
-	 */
-	PHALCON_OBS_VAR(data);
-	phalcon_read_property_this(&data, this_ptr, SL("_data"), PH_NOISY_CC);
-	if (phalcon_array_isset(data, property)) {
-	
-		PHALCON_OBS_VAR(value);
-		phalcon_array_fetch(&value, data, property, PH_NOISY);
-		if (PHALCON_IS_NOT_EMPTY(value)) {
-			RETURN_CTOR(value);
-		}
+	/* Retrieve the data */
+	data = phalcon_fetch_nproperty_this(this_ptr, SL("_data"), PH_NOISY_CC);
+	if (phalcon_array_isset_fetch(&value, data, property)) {
+		RETURN_ZVAL(value, 1, 0);
 	}
-	
-	RETURN_CTOR(default_value);
+
+	RETURN_ZVAL(default_value, 1, 0);
 }
 
 /**
  * Magic getter to obtain values from the session bag.
- * Alias for Phalcon\Session\Bag::get()
  *
  *<code>
  * echo $user->name;
@@ -340,7 +317,36 @@ PHP_METHOD(Phalcon_Session_Bag, get){
  * @param string $property
  * @return string
  */
-PHALCON_DOC_METHOD(Phalcon_Session_Bag, __get);
+PHP_METHOD(Phalcon_Session_Bag, __get)
+{
+	zval *property, *initialized;
+	zval *data, *value;
+
+	assert(return_value_ptr != NULL);
+
+	phalcon_fetch_params(0, 1, 0, &property);
+
+	/* Check first if the bag is initialized */
+	initialized = phalcon_fetch_nproperty_this(this_ptr, SL("_initialized"), PH_NOISY_CC);
+	if (PHALCON_IS_FALSE(initialized)) {
+		PHALCON_MM_GROW();
+		phalcon_call_method_noret(this_ptr, "initialize");
+		PHALCON_MM_RESTORE();
+	}
+
+	/* Retrieve the data */
+	data = phalcon_fetch_nproperty_this(this_ptr, SL("_data"), PH_NOISY_CC);
+	if (phalcon_array_isset_fetch(&value, data, property)) {
+		zval_ptr_dtor(return_value_ptr);
+		*return_value_ptr = value;
+		Z_ADDREF_PP(return_value_ptr);
+		Z_SET_ISREF_PP(return_value_ptr);
+	}
+	else {
+		RETURN_NULL();
+	}
+}
+
 
 /**
  * Check whether a property is defined in the internal bag
@@ -356,23 +362,17 @@ PHP_METHOD(Phalcon_Session_Bag, has){
 
 	zval *property, *initialized, *data;
 
-	PHALCON_MM_GROW();
-
-	phalcon_fetch_params(1, 1, 0, &property);
+	phalcon_fetch_params(0, 1, 0, &property);
 	
-	PHALCON_OBS_VAR(initialized);
-	phalcon_read_property_this(&initialized, this_ptr, SL("_initialized"), PH_NOISY_CC);
+	initialized = phalcon_fetch_nproperty_this(this_ptr, SL("_initialized"), PH_NOISY_CC);
 	if (PHALCON_IS_FALSE(initialized)) {
+		PHALCON_MM_GROW();
 		phalcon_call_method_noret(this_ptr, "initialize");
+		PHALCON_MM_RESTORE();
 	}
 	
-	PHALCON_OBS_VAR(data);
-	phalcon_read_property_this(&data, this_ptr, SL("_data"), PH_NOISY_CC);
-	if (phalcon_array_isset(data, property)) {
-		RETURN_MM_TRUE;
-	}
-	
-	RETURN_MM_FALSE;
+	data = phalcon_fetch_nproperty_this(this_ptr, SL("_data"), PH_NOISY_CC);
+	RETURN_BOOL(phalcon_array_isset(data, property));
 }
 
 /**
@@ -407,25 +407,18 @@ PHP_METHOD(Phalcon_Session_Bag, remove){
 
 	phalcon_fetch_params(1, 1, 0, &property);
 
-	PHALCON_OBS_VAR(initialized);
-	phalcon_read_property_this(&initialized, this_ptr, SL("_initialized"), PH_NOISY_CC);
+	initialized = phalcon_fetch_nproperty_this(this_ptr, SL("_initialized"), PH_NOISY_CC);
 	if (PHALCON_IS_FALSE(initialized)) {
 		phalcon_call_method_noret(this_ptr, "initialize");
 	}
 
-	PHALCON_OBS_VAR(data);
-	phalcon_read_property_this(&data, this_ptr, SL("_data"), PH_NOISY_CC);
+	data = phalcon_fetch_nproperty_this(this_ptr, SL("_data"), PH_NOISY_CC);
 	if (phalcon_array_isset(data, property)) {
 		phalcon_unset_property_array(this_ptr, SL("_data"), property TSRMLS_CC);
-	
-		PHALCON_OBS_NVAR(data);
-		phalcon_read_property_this(&data, this_ptr, SL("_data"), PH_NOISY_CC);
-	
-		PHALCON_OBS_VAR(name);
-		phalcon_read_property_this(&name, this_ptr, SL("_name"), PH_NOISY_CC);
-	
-		PHALCON_OBS_VAR(session);
-		phalcon_read_property_this(&session, this_ptr, SL("_session"), PH_NOISY_CC);
+
+		data    = phalcon_fetch_nproperty_this(this_ptr, SL("_data"), PH_NOISY_CC);
+		name    = phalcon_fetch_nproperty_this(this_ptr, SL("_name"), PH_NOISY_CC);
+		session = phalcon_fetch_nproperty_this(this_ptr, SL("_session"), PH_NOISY_CC);
 		phalcon_call_method_p2_noret(session, "set", name, data);
 		RETURN_MM_TRUE;
 	}
