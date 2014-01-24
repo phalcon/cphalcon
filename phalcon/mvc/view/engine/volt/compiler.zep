@@ -1482,9 +1482,9 @@ class Compiler implements Phalcon\Di\InjectionAwareInterface
 		 * Check if a "key" variable needs to be calculated
 		 */
 		if fetch key, statement["key"] {
-			let compilation .= "<?php foreach (" . iterator . " as " . key . " => " . variable . ") { ";
+			let compilation .= "<?php foreach (" . iterator . " as $" . key . " => $" . variable . ") { ";
 		} else {
-			let compilation .= "<?php foreach (" . iterator . " as " . variable . ") { ";
+			let compilation .= "<?php foreach (" . iterator . " as $" . variable . ") { ";
 		}
 
 		/**
