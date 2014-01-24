@@ -42,7 +42,7 @@ class Manager
 	 *
 	 * @param array options
 	 */
-	public function __construct(options)
+	public function __construct(options=null)
 	{
 		if  typeof options == "array" {
 			let this->_options = options;
@@ -142,7 +142,8 @@ class Manager
 
 		let collections = this->_collections;
 		if !fetch collection, collections[type] {
-			let this->_collections[type] = new Phalcon\Assets\Collection();
+                        let collection = new Phalcon\Assets\Collection();
+			let this->_collections[type] = collection;
 		}
 
 		/**

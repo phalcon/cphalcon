@@ -20,7 +20,7 @@ PHP_METHOD(Phalcon_Assets_Manager, output);
 PHP_METHOD(Phalcon_Assets_Manager, outputCss);
 PHP_METHOD(Phalcon_Assets_Manager, outputJs);
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_assets_manager___construct, 0, 0, 1)
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_assets_manager___construct, 0, 0, 0)
 	ZEND_ARG_INFO(0, options)
 ZEND_END_ARG_INFO()
 

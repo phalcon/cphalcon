@@ -68,10 +68,13 @@ ZEPHIR_INIT_CLASS(Phalcon_Assets_Manager) {
  */
 PHP_METHOD(Phalcon_Assets_Manager, __construct) {
 
-	zval *options;
+	zval *options = NULL;
 
-	zephir_fetch_params(0, 1, 0, &options);
+	zephir_fetch_params(0, 0, 1, &options);
 
+	if (!options) {
+		options = ZEPHIR_GLOBAL(global_null);
+	}
 
 
 	if ((Z_TYPE_P(options) == IS_ARRAY)) {
@@ -257,7 +260,7 @@ PHP_METHOD(Phalcon_Assets_Manager, addJs) {
  */
 PHP_METHOD(Phalcon_Assets_Manager, addResourceByType) {
 
-	zval *type_param = NULL, *resource, *collections, *collection, *_0;
+	zval *type_param = NULL, *resource, *collections, *collection;
 	zval *type = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -640,7 +643,7 @@ PHP_METHOD(Phalcon_Assets_Manager, output) {
 			ZEPHIR_INIT_NVAR(parameters);
 			array_init(parameters);
 			if ((Z_TYPE_P(attributes) == IS_ARRAY)) {
-				zephir_array_update_long(&attributes, 0, &prefixedPath, PH_COPY | PH_SEPARATE, "phalcon/assets/manager.zep", 498);
+				zephir_array_update_long(&attributes, 0, &prefixedPath, PH_COPY | PH_SEPARATE, "phalcon/assets/manager.zep", 499);
 				zephir_array_append(&parameters, attributes, PH_SEPARATE);
 			} else {
 				zephir_array_append(&parameters, prefixedPath, PH_SEPARATE);
@@ -722,7 +725,7 @@ PHP_METHOD(Phalcon_Assets_Manager, output) {
 			ZEPHIR_INIT_NVAR(parameters);
 			array_init(parameters);
 			if ((Z_TYPE_P(attributes) == IS_ARRAY)) {
-				zephir_array_update_long(&attributes, 0, &prefixedPath, PH_COPY | PH_SEPARATE, "phalcon/assets/manager.zep", 624);
+				zephir_array_update_long(&attributes, 0, &prefixedPath, PH_COPY | PH_SEPARATE, "phalcon/assets/manager.zep", 625);
 				zephir_array_append(&parameters, attributes, PH_SEPARATE);
 			} else {
 				zephir_array_append(&parameters, prefixedPath, PH_SEPARATE);
@@ -755,7 +758,7 @@ PHP_METHOD(Phalcon_Assets_Manager, output) {
 			ZEPHIR_INIT_NVAR(parameters);
 			array_init(parameters);
 			if ((Z_TYPE_P(attributes) == IS_ARRAY)) {
-				zephir_array_update_long(&attributes, 0, &prefixedPath, PH_COPY | PH_SEPARATE, "phalcon/assets/manager.zep", 683);
+				zephir_array_update_long(&attributes, 0, &prefixedPath, PH_COPY | PH_SEPARATE, "phalcon/assets/manager.zep", 684);
 				zephir_array_append(&parameters, attributes, PH_SEPARATE);
 			} else {
 				zephir_array_append(&parameters, prefixedPath, PH_SEPARATE);
