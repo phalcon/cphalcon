@@ -357,6 +357,8 @@ class RouterMvcTest extends PHPUnit_Framework_TestCase
 		$usersAdd = $router->add('/api/users/add')->setHttpMethods('POST')->setName('usersAdd');
 
 		$this->assertEquals($usersAdd, $router->getRouteByName('usersAdd'));
+		//check call by lookup table
+		$this->assertEquals($usersAdd, $router->getRouteByName('usersAdd'));
 		$this->assertEquals($usersFind, $router->getRouteById(0));
 
 	}
