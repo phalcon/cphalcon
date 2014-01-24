@@ -4,7 +4,7 @@
 
 zend_class_entry *psr_log_nulllogger_ce;
 
-static PHP_METHOD(Psr_Log_NullLogger, log)
+PHP_METHOD(Psr_Log_NullLogger, log)
 {
 	zval *level, *message, *context = NULL;
 
