@@ -10,7 +10,11 @@ dummy=1
 $di = new \Phalcon\DI\FactoryDefault();
 $di['session']->start();
 $namespace = new \Phalcon\Session\Bag('test');
-$namespace->prop1 = array();
 $namespace->{'prop1'}['prop2'] = 'my value';
+var_dump($namespace->{'prop1'});
 ?>
 --EXPECT--
+array(1) {
+  ["prop2"]=>
+  string(8) "my value"
+}

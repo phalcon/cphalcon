@@ -336,15 +336,20 @@ PHP_METHOD(Phalcon_Session_Bag, __get)
 
 	/* Retrieve the data */
 	data = phalcon_fetch_nproperty_this(this_ptr, SL("_data"), PH_NOISY_CC);
+	zval_ptr_dtor(return_value_ptr);
 	if (phalcon_array_isset_fetch(&value, data, property)) {
-		zval_ptr_dtor(return_value_ptr);
 		*return_value_ptr = value;
-		Z_ADDREF_PP(return_value_ptr);
-		Z_SET_ISREF_PP(return_value_ptr);
 	}
 	else {
-		RETURN_NULL();
+		zval *tmp;
+		ALLOC_INIT_ZVAL(tmp);
+		Z_DELREF_P(tmp);
+		phalcon_update_property_array(this_ptr, SL("_data"), property, tmp TSRMLS_CC);
+		*return_value_ptr = tmp;
 	}
+
+	Z_ADDREF_PP(return_value_ptr);
+	Z_SET_ISREF_PP(return_value_ptr);
 }
 
 
