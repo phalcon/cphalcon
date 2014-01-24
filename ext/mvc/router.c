@@ -1419,7 +1419,7 @@ PHP_METHOD(Phalcon_Mvc_Router, getRouteByName){
 	phalcon_fetch_params(1, 1, 0, &name);
 	PHALCON_OBS_VAR(routesNameLookup);
 	phalcon_read_property_this(&routesNameLookup, this_ptr, SL("_routesNameLookup"), PH_NOISY_CC);
-	if(zend_hash_find(Z_ARRVAL_P(routesNameLookup) TSRMLS_CC, Z_STRVAL_P(name), Z_STRLEN_P(name) + 1, (void **)&hd) == SUCCESS) {
+	if(phalcon_hash_find(Z_ARRVAL_P(routesNameLookup) TSRMLS_CC, Z_STRVAL_P(name), Z_STRLEN_P(name) + 1, (void **)&hd) == SUCCESS) {
 		PHALCON_GET_HVALUE(route);
 		RETURN_CCTOR(route);
 	}
