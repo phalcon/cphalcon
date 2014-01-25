@@ -1,4 +1,3 @@
-
 /*
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
@@ -224,6 +223,7 @@ PHP_METHOD(Phalcon_Queue_Beanstalk, connect){
  *
  * @param string $data
  * @param array $options
+ * @return string|boolean
  */
 PHP_METHOD(Phalcon_Queue_Beanstalk, put){
 
