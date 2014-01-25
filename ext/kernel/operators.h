@@ -57,6 +57,8 @@
 #define ZEPHIR_GT_LONG(op1, op2)  ((Z_TYPE_P(op1) == IS_LONG && Z_LVAL_P(op1) > op2) || zephir_greater_long(op1, op2 TSRMLS_CC))
 #define ZEPHIR_GT_DOUBLE(op1, op2)  ((Z_TYPE_P(op1) == IS_DOUBLE && Z_DVAL_P(op1) > op2) || zephir_greater_double(op1, op2 TSRMLS_CC))
 
+#define ZEPHIR_STRING_OFFSET(op1, index) ((index >= 0 && index < Z_STRLEN_P(op1)) ? Z_STRVAL_P(op1)[index] : '\0')
+
 #if PHP_VERSION_ID < 50400
 #define zephir_increment(var) increment_function(var)
 #else

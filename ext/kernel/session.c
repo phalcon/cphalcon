@@ -30,7 +30,7 @@
 #include "kernel/session.h"
 
 #ifdef ZEPHIR_USE_PHP_SESSION
-#include "ext/session/php_session.h"
+#include <ext/session/php_session.h>
 #endif
 
 void zephir_session_start(TSRMLS_D)

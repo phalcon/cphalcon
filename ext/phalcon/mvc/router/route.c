@@ -18,8 +18,8 @@
 #include "kernel/exception.h"
 #include "kernel/memory.h"
 #include "kernel/string.h"
-#include "kernel/concat.h"
 #include "kernel/operators.h"
+#include "kernel/concat.h"
 #include "kernel/array.h"
 #include "kernel/hash.h"
 
@@ -141,28 +141,28 @@ PHP_METHOD(Phalcon_Mvc_Router_Route, compilePattern) {
 			ZEPHIR_SINIT_VAR(_1);
 			ZVAL_STRING(&_1, "/:module", 0);
 			zephir_fast_str_replace(_0, &_1, idPattern, pattern);
-			ZEPHIR_CPY_WRT(pattern, _0);
+			zephir_get_strval(pattern, _0);
 		}
 		if (zephir_memnstr_str(pattern, SL("/:controller"), "phalcon/mvc/router/route.zep", 88)) {
 			ZEPHIR_INIT_NVAR(_0);
 			ZEPHIR_SINIT_NVAR(_1);
 			ZVAL_STRING(&_1, "/:controller", 0);
 			zephir_fast_str_replace(_0, &_1, idPattern, pattern);
-			ZEPHIR_CPY_WRT(pattern, _0);
+			zephir_get_strval(pattern, _0);
 		}
 		if (zephir_memnstr_str(pattern, SL("/:namespace"), "phalcon/mvc/router/route.zep", 93)) {
 			ZEPHIR_INIT_NVAR(_0);
 			ZEPHIR_SINIT_NVAR(_1);
 			ZVAL_STRING(&_1, "/:namespace", 0);
 			zephir_fast_str_replace(_0, &_1, idPattern, pattern);
-			ZEPHIR_CPY_WRT(pattern, _0);
+			zephir_get_strval(pattern, _0);
 		}
 		if (zephir_memnstr_str(pattern, SL("/:action"), "phalcon/mvc/router/route.zep", 98)) {
 			ZEPHIR_INIT_NVAR(_0);
 			ZEPHIR_SINIT_NVAR(_1);
 			ZVAL_STRING(&_1, "/:action", 0);
 			zephir_fast_str_replace(_0, &_1, idPattern, pattern);
-			ZEPHIR_CPY_WRT(pattern, _0);
+			zephir_get_strval(pattern, _0);
 		}
 		if (zephir_memnstr_str(pattern, SL("/:params"), "phalcon/mvc/router/route.zep", 103)) {
 			ZEPHIR_INIT_NVAR(_0);
@@ -171,7 +171,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Route, compilePattern) {
 			ZEPHIR_SINIT_VAR(_2);
 			ZVAL_STRING(&_2, "(/.*)*", 0);
 			zephir_fast_str_replace(_0, &_1, &_2, pattern);
-			ZEPHIR_CPY_WRT(pattern, _0);
+			zephir_get_strval(pattern, _0);
 		}
 		if (zephir_memnstr_str(pattern, SL("/:int"), "phalcon/mvc/router/route.zep", 108)) {
 			ZEPHIR_INIT_NVAR(_0);
@@ -180,7 +180,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Route, compilePattern) {
 			ZEPHIR_SINIT_NVAR(_2);
 			ZVAL_STRING(&_2, "/([0-9]+)", 0);
 			zephir_fast_str_replace(_0, &_1, &_2, pattern);
-			ZEPHIR_CPY_WRT(pattern, _0);
+			zephir_get_strval(pattern, _0);
 		}
 	}
 	if (zephir_memnstr_str(pattern, SL("("), "phalcon/mvc/router/route.zep", 114)) {

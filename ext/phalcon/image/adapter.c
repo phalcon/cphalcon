@@ -639,7 +639,7 @@ PHP_METHOD(Phalcon_Image_Adapter, text) {
 	if (((zephir_fast_strlen_ev(color) > 1) && ZEPHIR_IS_STRING(_0, "#"))) {
 		ZEPHIR_INIT_VAR(_1);
 		zephir_substr(_1, color, 1 , 0 );
-		ZEPHIR_CPY_WRT(color, _1);
+		zephir_get_strval(color, _1);
 	}
 	if ((zephir_fast_strlen_ev(color) == 3)) {
 		ZEPHIR_SINIT_VAR(_2);
@@ -648,7 +648,7 @@ PHP_METHOD(Phalcon_Image_Adapter, text) {
 		ZVAL_STRING(&_3, "$0$0", 0);
 		ZEPHIR_INIT_NVAR(_1);
 		zephir_call_func_p3(_1, "preg_replace", &_2, &_3, color);
-		ZEPHIR_CPY_WRT(color, _1);
+		zephir_get_strval(color, _1);
 	}
 	ZEPHIR_SINIT_NVAR(_2);
 	ZVAL_LONG(&_2, 2);
@@ -724,7 +724,7 @@ PHP_METHOD(Phalcon_Image_Adapter, background) {
 	if (((zephir_fast_strlen_ev(color) > 1) && ZEPHIR_IS_STRING(_0, "#"))) {
 		ZEPHIR_INIT_VAR(_1);
 		zephir_substr(_1, color, 1 , 0 );
-		ZEPHIR_CPY_WRT(color, _1);
+		zephir_get_strval(color, _1);
 	}
 	if ((zephir_fast_strlen_ev(color) == 3)) {
 		ZEPHIR_SINIT_VAR(_2);
@@ -733,7 +733,7 @@ PHP_METHOD(Phalcon_Image_Adapter, background) {
 		ZVAL_STRING(&_3, "$0$0", 0);
 		ZEPHIR_INIT_NVAR(_1);
 		zephir_call_func_p3(_1, "preg_replace", &_2, &_3, color);
-		ZEPHIR_CPY_WRT(color, _1);
+		zephir_get_strval(color, _1);
 	}
 	ZEPHIR_SINIT_NVAR(_2);
 	ZVAL_LONG(&_2, 2);

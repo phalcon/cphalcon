@@ -21,7 +21,7 @@
 #include "config.h"
 #endif
 
-#include "php.h"
+#include <php.h>
 #include "php_ext.h"
 #include "kernel/debug.h"
 
