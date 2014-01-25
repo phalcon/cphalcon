@@ -94,7 +94,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_MetaData) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_MetaData, _initialize) {
 
-	zval *model, *key, *table, *schema, *strategy, *className, *metaData, *data = NULL, *modelMetadata, *dependencyInjector = NULL, *columnMap, *keyName, *prefixKey = NULL, *_0 = NULL, *_1, *_2;
+	zval *model, *key, *table, *schema, *strategy, *className, *metaData, *data = NULL, *modelMetadata, *dependencyInjector = NULL, *columnMap, *keyName, *prefixKey = NULL, *_0, *_1, *_2, *_3;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 4, 0, &model, &key, &table, &schema);
@@ -169,11 +169,11 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, _initialize) {
 		ZEPHIR_INIT_BNVAR(strategy);
 		zephir_call_method(strategy, this_ptr, "getstrategy");
 	}
-	ZEPHIR_INIT_NVAR(_0);
-	zephir_call_method_p2(_0, strategy, "getcolumnmaps", model, dependencyInjector);
-	zephir_update_property_array(this_ptr, SL("_columnMap"), keyName, _0 TSRMLS_CC);
-	_2 = zephir_fetch_nproperty_this(this_ptr, SL("_columnMap"), PH_NOISY_CC);
-	zephir_call_method_p2_noret(this_ptr, "write", prefixKey, _2);
+	ZEPHIR_INIT_VAR(_2);
+	zephir_call_method_p2(_2, strategy, "getcolumnmaps", model, dependencyInjector);
+	zephir_update_property_array(this_ptr, SL("_columnMap"), keyName, _2 TSRMLS_CC);
+	_3 = zephir_fetch_nproperty_this(this_ptr, SL("_columnMap"), PH_NOISY_CC);
+	zephir_call_method_p2_noret(this_ptr, "write", prefixKey, _3);
 	ZEPHIR_MM_RESTORE();
 
 }
@@ -240,6 +240,9 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, getStrategy) {
 	if ((Z_TYPE_P(strategy) == IS_NULL)) {
 		ZEPHIR_INIT_BNVAR(strategy);
 		object_init_ex(strategy, phalcon_mvc_model_metadata_strategy_introspection_ce);
+		if (zephir_has_constructor(strategy) TSRMLS_CC) {
+			zephir_call_method_noret(strategy, "__construct");
+		}
 		zephir_update_property_this(this_ptr, SL("_strategy"), strategy TSRMLS_CC);
 	}
 	RETURN_CCTOR(strategy);

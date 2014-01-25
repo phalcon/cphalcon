@@ -123,10 +123,10 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, __construct) {
  */
 PHP_METHOD(Phalcon_Db_Adapter_Pdo, connect) {
 
-	zend_class_entry *_7;
+	zend_class_entry *_6;
 	HashTable *_2;
 	HashPosition _1;
-	zval *descriptor = NULL, *username, *password, *dsnParts, *dsnAttributes, *persistent, *options, *key = NULL, *value = NULL, *_0, **_3, *_4 = NULL, *_5, *_6;
+	zval *descriptor = NULL, *username, *password, *dsnParts, *dsnAttributes, *persistent, *options, *key = NULL, *value = NULL, *_0, **_3, *_4 = NULL, *_5, *_7;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 1, &descriptor);
@@ -192,14 +192,14 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, connect) {
 			zephir_array_update_long(&options, 12, &ZEPHIR_GLOBAL(global_true), PH_COPY | PH_SEPARATE, "phalcon/db/adapter/pdo.zep", 146);
 		}
 	}
-	ZEPHIR_INIT_VAR(_6);
-	_7 = zend_fetch_class(SL("Pdo"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
-	object_init_ex(_6, _7);
-	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_type"), PH_NOISY_CC);
 	ZEPHIR_INIT_LNVAR(_4);
-	ZEPHIR_CONCAT_VSV(_4, _0, ":", dsnAttributes);
-	zephir_call_method_p4_noret(_6, "__construct", _4, username, password, options);
-	zephir_update_property_this(this_ptr, SL("_pdo"), _6 TSRMLS_CC);
+	_6 = zend_fetch_class(SL("Pdo"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
+	object_init_ex(_4, _6);
+	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_type"), PH_NOISY_CC);
+	ZEPHIR_INIT_VAR(_7);
+	ZEPHIR_CONCAT_VSV(_7, _0, ":", dsnAttributes);
+	zephir_call_method_p4_noret(_4, "__construct", _7, username, password, options);
+	zephir_update_property_this(this_ptr, SL("_pdo"), _4 TSRMLS_CC);
 	ZEPHIR_MM_RESTORE();
 
 }

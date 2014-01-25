@@ -700,8 +700,8 @@ PHP_METHOD(Phalcon_Di, offsetUnset) {
  */
 PHP_METHOD(Phalcon_Di, __call) {
 
-	zval *method_param = NULL, *arguments = NULL, *instance, *possibleService, *services, *definition, *_0 = NULL, *_1;
-	zval *method = NULL, *_2;
+	zval *method_param = NULL, *arguments = NULL, *instance, *possibleService, *services, *definition, *_0 = NULL, *_1, *_2;
+	zval *method = NULL, *_3;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 1, &method_param, &arguments);
@@ -748,12 +748,12 @@ PHP_METHOD(Phalcon_Di, __call) {
 			RETURN_MM_NULL();
 		}
 	}
-	ZEPHIR_INIT_NVAR(_0);
-	object_init_ex(_0, phalcon_di_exception_ce);
 	ZEPHIR_INIT_VAR(_2);
-	ZEPHIR_CONCAT_SVS(_2, "Call to undefined method or service '", method, "'");
-	zephir_call_method_p1_noret(_0, "__construct", _2);
-	zephir_throw_exception(_0 TSRMLS_CC);
+	object_init_ex(_2, phalcon_di_exception_ce);
+	ZEPHIR_INIT_VAR(_3);
+	ZEPHIR_CONCAT_SVS(_3, "Call to undefined method or service '", method, "'");
+	zephir_call_method_p1_noret(_2, "__construct", _3);
+	zephir_throw_exception(_2 TSRMLS_CC);
 	ZEPHIR_MM_RESTORE();
 	return;
 

@@ -418,7 +418,7 @@ PHP_METHOD(Phalcon_Cache_Backend_File, exists) {
 PHP_METHOD(Phalcon_Cache_Backend_File, increment) {
 
 	int value;
-	zval *keyName = NULL, *value_param = NULL, *prefixedKey, *cacheFile, *frontend, *timestamp, *lifetime, *ttl = NULL, *cachedContent, *result, *_0, *_1, *_2, *_3, *_4, *_5 = NULL, *_6;
+	zval *keyName = NULL, *value_param = NULL, *prefixedKey, *cacheFile, *frontend, *timestamp, *lifetime, *ttl = NULL, *cachedContent, *result, *_0, *_1, *_2, *_3, *_4, *_5, *_6, *_7;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 2, &keyName, &value_param);
@@ -472,9 +472,9 @@ PHP_METHOD(Phalcon_Cache_Backend_File, increment) {
 			if (zephir_is_numeric(cachedContent)) {
 				ZEPHIR_INIT_VAR(result);
 				ZVAL_LONG(result, (value + zephir_get_numberval(cachedContent)));
-				ZEPHIR_INIT_NVAR(_5);
-				zephir_file_put_contents(_5, cacheFile, result TSRMLS_CC);
-				if (!(zephir_is_true(_5))) {
+				ZEPHIR_INIT_VAR(_7);
+				zephir_file_put_contents(_7, cacheFile, result TSRMLS_CC);
+				if (!(zephir_is_true(_7))) {
 					ZEPHIR_THROW_EXCEPTION_STR(phalcon_cache_exception_ce, "Cache directory can't be written");
 					return;
 				}

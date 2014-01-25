@@ -296,7 +296,7 @@ PHP_METHOD(Phalcon_Mvc_Url, getBasePath) {
  */
 PHP_METHOD(Phalcon_Mvc_Url, get) {
 
-	zval *uri = NULL, *baseUri, *router = NULL, *dependencyInjector = NULL, *routeName, *route = NULL, *_0, *_1 = NULL, *_2 = NULL, *_3, *_4;
+	zval *uri = NULL, *baseUri, *router = NULL, *dependencyInjector = NULL, *routeName, *route = NULL, *_0, *_1 = NULL, *_2 = NULL, *_3, *_4, *_5;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 1, &uri);
@@ -333,12 +333,12 @@ PHP_METHOD(Phalcon_Mvc_Url, get) {
 		zephir_call_method_p1(_1, router, "getroutebyname", routeName);
 		ZEPHIR_CPY_WRT(route, _1);
 		if ((Z_TYPE_P(route) != IS_OBJECT)) {
-			ZEPHIR_INIT_NVAR(_1);
-			object_init_ex(_1, phalcon_mvc_url_exception_ce);
 			ZEPHIR_INIT_VAR(_3);
-			ZEPHIR_CONCAT_SVS(_3, "Cannot obtain a route using the name '", routeName, "'");
-			zephir_call_method_p1_noret(_1, "__construct", _3);
-			zephir_throw_exception(_1 TSRMLS_CC);
+			object_init_ex(_3, phalcon_mvc_url_exception_ce);
+			ZEPHIR_INIT_VAR(_4);
+			ZEPHIR_CONCAT_SVS(_4, "Cannot obtain a route using the name '", routeName, "'");
+			zephir_call_method_p1_noret(_3, "__construct", _4);
+			zephir_throw_exception(_3 TSRMLS_CC);
 			ZEPHIR_MM_RESTORE();
 			return;
 		}
@@ -346,9 +346,9 @@ PHP_METHOD(Phalcon_Mvc_Url, get) {
 		zephir_call_method(_1, route, "getpattern");
 		ZEPHIR_INIT_NVAR(_2);
 		zephir_call_method(_2, route, "getreversedpaths");
-		ZEPHIR_INIT_VAR(_4);
-		zephir_call_func_p3(_4, "phalcon_replace_paths", _1, _2, uri);
-		ZEPHIR_CONCAT_VV(return_value, baseUri, _4);
+		ZEPHIR_INIT_VAR(_5);
+		zephir_call_func_p3(_5, "phalcon_replace_paths", _1, _2, uri);
+		ZEPHIR_CONCAT_VV(return_value, baseUri, _5);
 		RETURN_MM();
 	}
 	ZEPHIR_CONCAT_VV(return_value, baseUri, uri);

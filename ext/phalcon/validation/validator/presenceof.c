@@ -111,14 +111,14 @@ PHP_METHOD(Phalcon_Validation_Validator_PresenceOf, validate) {
 			ZEPHIR_INIT_NVAR(message);
 			zephir_call_method_p1(message, validation, "getdefaultmessage", _0);
 		}
-		ZEPHIR_INIT_NVAR(_0);
-		object_init_ex(_0, phalcon_validation_message_ce);
 		ZEPHIR_INIT_VAR(_1);
-		zephir_call_func_p2(_1, "strtr", message, replacePairs);
+		object_init_ex(_1, phalcon_validation_message_ce);
+		ZEPHIR_INIT_NVAR(_0);
+		zephir_call_func_p2(_0, "strtr", message, replacePairs);
 		ZEPHIR_INIT_VAR(_2);
 		ZVAL_STRING(_2, "PresenceOf", 1);
-		zephir_call_method_p3_noret(_0, "__construct", _1, field, _2);
-		zephir_call_method_p1_noret(validation, "appendmessage", _0);
+		zephir_call_method_p3_noret(_1, "__construct", _0, field, _2);
+		zephir_call_method_p1_noret(validation, "appendmessage", _1);
 		RETURN_MM_BOOL(0);
 	}
 	RETURN_MM_BOOL(1);

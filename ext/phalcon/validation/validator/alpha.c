@@ -120,14 +120,14 @@ PHP_METHOD(Phalcon_Validation_Validator_Alpha, validate) {
 			ZEPHIR_INIT_NVAR(message);
 			zephir_call_method_p1(message, validation, "getdefaultmessage", _2);
 		}
-		ZEPHIR_INIT_NVAR(_2);
-		object_init_ex(_2, phalcon_validation_message_ce);
 		ZEPHIR_INIT_VAR(_3);
-		zephir_call_func_p2(_3, "strtr", message, replacePairs);
+		object_init_ex(_3, phalcon_validation_message_ce);
+		ZEPHIR_INIT_NVAR(_2);
+		zephir_call_func_p2(_2, "strtr", message, replacePairs);
 		ZEPHIR_INIT_VAR(_4);
 		ZVAL_STRING(_4, "Alpha", 1);
-		zephir_call_method_p3_noret(_2, "__construct", _3, field, _4);
-		zephir_call_method_p1_noret(validation, "appendmessage", _2);
+		zephir_call_method_p3_noret(_3, "__construct", _2, field, _4);
+		zephir_call_method_p1_noret(validation, "appendmessage", _3);
 		RETURN_MM_BOOL(0);
 	}
 	RETURN_MM_BOOL(1);

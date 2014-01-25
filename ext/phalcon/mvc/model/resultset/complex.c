@@ -145,6 +145,9 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Complex, valid) {
 				if (ZEPHIR_IS_LONG(hydrateMode, 0)) {
 					ZEPHIR_INIT_VAR(activeRow);
 					object_init_ex(activeRow, phalcon_mvc_model_row_ce);
+					if (zephir_has_constructor(activeRow) TSRMLS_CC) {
+						zephir_call_method_noret(activeRow, "__construct");
+					}
 					break;
 				}
 				if (ZEPHIR_IS_LONG(hydrateMode, 1)) {
@@ -155,6 +158,9 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Complex, valid) {
 				if (ZEPHIR_IS_LONG(hydrateMode, 2)) {
 					ZEPHIR_INIT_NVAR(activeRow);
 					object_init(activeRow);
+					if (zephir_has_constructor(activeRow) TSRMLS_CC) {
+						zephir_call_method_noret(activeRow, "__construct");
+					}
 					break;
 				}
 			} while(0);

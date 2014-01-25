@@ -57,7 +57,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Di_FactoryDefault_Cli) {
  */
 PHP_METHOD(Phalcon_Di_FactoryDefault_Cli, __construct) {
 
-	zval *_0, *_1, *_2, *_3;
+	zval *_0, *_1 = NULL, *_2, *_3;
 
 	ZEPHIR_MM_GROW();
 
@@ -72,7 +72,7 @@ PHP_METHOD(Phalcon_Di_FactoryDefault_Cli, __construct) {
 	ZVAL_STRING(_3, "Phalcon\\CLI\\Router", 1);
 	zephir_call_method_p2_noret(_1, "__construct", _2, _3);
 	zephir_array_update_string(&_0, SL("router"), &_1, PH_COPY | PH_SEPARATE);
-	ZEPHIR_INIT_BNVAR(_1);
+	ZEPHIR_INIT_LNVAR(_1);
 	object_init_ex(_1, phalcon_di_service_ce);
 	ZEPHIR_INIT_BNVAR(_2);
 	ZVAL_STRING(_2, "dispatcher", 1);
@@ -80,7 +80,7 @@ PHP_METHOD(Phalcon_Di_FactoryDefault_Cli, __construct) {
 	ZVAL_STRING(_3, "Phalcon\\CLI\\Dispatcher", 1);
 	zephir_call_method_p2_noret(_1, "__construct", _2, _3);
 	zephir_array_update_string(&_0, SL("dispatcher"), &_1, PH_COPY | PH_SEPARATE);
-	ZEPHIR_INIT_BNVAR(_1);
+	ZEPHIR_INIT_LNVAR(_1);
 	object_init_ex(_1, phalcon_di_service_ce);
 	ZEPHIR_INIT_BNVAR(_2);
 	ZVAL_STRING(_2, "modelsManager", 1);
@@ -88,7 +88,7 @@ PHP_METHOD(Phalcon_Di_FactoryDefault_Cli, __construct) {
 	ZVAL_STRING(_3, "Phalcon\\Mvc\\Model\\Manager", 1);
 	zephir_call_method_p2_noret(_1, "__construct", _2, _3);
 	zephir_array_update_string(&_0, SL("modelsManager"), &_1, PH_COPY | PH_SEPARATE);
-	ZEPHIR_INIT_BNVAR(_1);
+	ZEPHIR_INIT_LNVAR(_1);
 	object_init_ex(_1, phalcon_di_service_ce);
 	ZEPHIR_INIT_BNVAR(_2);
 	ZVAL_STRING(_2, "modelsMetadata", 1);
@@ -96,7 +96,7 @@ PHP_METHOD(Phalcon_Di_FactoryDefault_Cli, __construct) {
 	ZVAL_STRING(_3, "Phalcon\\Mvc\\Model\\Metadata\\Memory", 1);
 	zephir_call_method_p2_noret(_1, "__construct", _2, _3);
 	zephir_array_update_string(&_0, SL("modelsMetadata"), &_1, PH_COPY | PH_SEPARATE);
-	ZEPHIR_INIT_BNVAR(_1);
+	ZEPHIR_INIT_LNVAR(_1);
 	object_init_ex(_1, phalcon_di_service_ce);
 	ZEPHIR_INIT_BNVAR(_2);
 	ZVAL_STRING(_2, "filter", 1);
@@ -104,7 +104,7 @@ PHP_METHOD(Phalcon_Di_FactoryDefault_Cli, __construct) {
 	ZVAL_STRING(_3, "Phalcon\\Filter", 1);
 	zephir_call_method_p3_noret(_1, "__construct", _2, _3, ZEPHIR_GLOBAL(global_true));
 	zephir_array_update_string(&_0, SL("filter"), &_1, PH_COPY | PH_SEPARATE);
-	ZEPHIR_INIT_BNVAR(_1);
+	ZEPHIR_INIT_LNVAR(_1);
 	object_init_ex(_1, phalcon_di_service_ce);
 	ZEPHIR_INIT_BNVAR(_2);
 	ZVAL_STRING(_2, "escaper", 1);
@@ -112,7 +112,7 @@ PHP_METHOD(Phalcon_Di_FactoryDefault_Cli, __construct) {
 	ZVAL_STRING(_3, "Phalcon\\Escaper", 1);
 	zephir_call_method_p3_noret(_1, "__construct", _2, _3, ZEPHIR_GLOBAL(global_true));
 	zephir_array_update_string(&_0, SL("escaper"), &_1, PH_COPY | PH_SEPARATE);
-	ZEPHIR_INIT_BNVAR(_1);
+	ZEPHIR_INIT_LNVAR(_1);
 	object_init_ex(_1, phalcon_di_service_ce);
 	ZEPHIR_INIT_BNVAR(_2);
 	ZVAL_STRING(_2, "annotations", 1);
@@ -120,7 +120,7 @@ PHP_METHOD(Phalcon_Di_FactoryDefault_Cli, __construct) {
 	ZVAL_STRING(_3, "Phalcon\\Annotations\\Adapter\\Memory", 1);
 	zephir_call_method_p3_noret(_1, "__construct", _2, _3, ZEPHIR_GLOBAL(global_true));
 	zephir_array_update_string(&_0, SL("annotations"), &_1, PH_COPY | PH_SEPARATE);
-	ZEPHIR_INIT_BNVAR(_1);
+	ZEPHIR_INIT_LNVAR(_1);
 	object_init_ex(_1, phalcon_di_service_ce);
 	ZEPHIR_INIT_BNVAR(_2);
 	ZVAL_STRING(_2, "security", 1);
@@ -128,7 +128,7 @@ PHP_METHOD(Phalcon_Di_FactoryDefault_Cli, __construct) {
 	ZVAL_STRING(_3, "Phalcon\\Security", 1);
 	zephir_call_method_p3_noret(_1, "__construct", _2, _3, ZEPHIR_GLOBAL(global_true));
 	zephir_array_update_string(&_0, SL("security"), &_1, PH_COPY | PH_SEPARATE);
-	ZEPHIR_INIT_BNVAR(_1);
+	ZEPHIR_INIT_LNVAR(_1);
 	object_init_ex(_1, phalcon_di_service_ce);
 	ZEPHIR_INIT_BNVAR(_2);
 	ZVAL_STRING(_2, "eventsManager", 1);
@@ -136,7 +136,7 @@ PHP_METHOD(Phalcon_Di_FactoryDefault_Cli, __construct) {
 	ZVAL_STRING(_3, "Phalcon\\Events\\Manage", 1);
 	zephir_call_method_p3_noret(_1, "__construct", _2, _3, ZEPHIR_GLOBAL(global_true));
 	zephir_array_update_string(&_0, SL("eventsManager"), &_1, PH_COPY | PH_SEPARATE);
-	ZEPHIR_INIT_BNVAR(_1);
+	ZEPHIR_INIT_LNVAR(_1);
 	object_init_ex(_1, phalcon_di_service_ce);
 	ZEPHIR_INIT_BNVAR(_2);
 	ZVAL_STRING(_2, "transactionManager", 1);

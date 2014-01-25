@@ -143,6 +143,9 @@ PHP_METHOD(Phalcon_Cache_Backend_Memcache, _connect) {
 	ZEPHIR_INIT_VAR(memcache);
 	_0 = zend_fetch_class(SL("Memcache"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
 	object_init_ex(memcache, _0);
+	if (zephir_has_constructor(memcache) TSRMLS_CC) {
+		zephir_call_method_noret(memcache, "__construct");
+	}
 	if (((!zephir_array_isset_string(options, SS("host")) || !zephir_array_isset_string(options, SS("port"))) || !zephir_array_isset_string(options, SS("persistent")))) {
 		ZEPHIR_THROW_EXCEPTION_STR(phalcon_cache_exception_ce, "Unexpected inconsistency in options");
 		return;

@@ -454,7 +454,7 @@ PHP_METHOD(Phalcon_Logger_Adapter, alert) {
 PHP_METHOD(Phalcon_Logger_Adapter, log) {
 
 	int type;
-	zval *message_param = NULL, *type_param = NULL, *timestamp, *transaction, *_0 = NULL, *_1, *_2;
+	zval *message_param = NULL, *type_param = NULL, *timestamp, *transaction, *_0, *_1 = NULL, *_2;
 	zval *message = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -492,9 +492,9 @@ PHP_METHOD(Phalcon_Logger_Adapter, log) {
 	}
 	_2 = zephir_fetch_nproperty_this(this_ptr, SL("_logLevel"), PH_NOISY_CC);
 	if (ZEPHIR_GE_LONG(_2, type)) {
-		ZEPHIR_INIT_NVAR(_0);
-		ZVAL_LONG(_0, type);
-		zephir_call_method_p3_noret(this_ptr, "loginternal", message, _0, timestamp);
+		ZEPHIR_INIT_NVAR(_1);
+		ZVAL_LONG(_1, type);
+		zephir_call_method_p3_noret(this_ptr, "loginternal", message, _1, timestamp);
 	}
 	RETURN_THIS();
 

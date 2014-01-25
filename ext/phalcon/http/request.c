@@ -1103,13 +1103,13 @@ PHP_METHOD(Phalcon_Http_Request, getUploadedFiles) {
 					ZVAL_BOOL(error, 1);
 				}
 				if (!(zephir_is_true(error))) {
-					ZEPHIR_INIT_NVAR(_3);
+					ZEPHIR_INIT_LNVAR(_3);
 					object_init_ex(_3, phalcon_http_request_file_ce);
 					zephir_call_method_p1_cache_noret(_3, "__construct", &_4, file);
 					zephir_array_append(&files, _3, PH_SEPARATE);
 				}
 			} else {
-				ZEPHIR_INIT_NVAR(_3);
+				ZEPHIR_INIT_LNVAR(_3);
 				object_init_ex(_3, phalcon_http_request_file_ce);
 				zephir_call_method_p1_cache_noret(_3, "__construct", &_5, file);
 				zephir_array_append(&files, _3, PH_SEPARATE);

@@ -105,7 +105,7 @@ PHP_METHOD(Phalcon_Annotations_Collection, __construct) {
 			; zend_hash_move_forward_ex(_1, &_0)
 		) {
 			ZEPHIR_GET_HVALUE(annotationData, _2);
-			ZEPHIR_INIT_NVAR(_3);
+			ZEPHIR_INIT_LNVAR(_3);
 			object_init_ex(_3, phalcon_annotations_annotation_ce);
 			zephir_call_method_p1_cache_noret(_3, "__construct", &_4, annotationData);
 			zephir_array_append(&annotations, _3, PH_SEPARATE);
@@ -227,8 +227,8 @@ PHP_METHOD(Phalcon_Annotations_Collection, get) {
 
 	HashTable *_1;
 	HashPosition _0;
-	zval *name_param = NULL, *annotation = NULL, *annotations, **_2, *_3 = NULL;
-	zval *name = NULL, *_4;
+	zval *name_param = NULL, *annotation = NULL, *annotations, **_2, *_3 = NULL, *_4;
+	zval *name = NULL, *_5;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &name_param);
@@ -251,12 +251,12 @@ PHP_METHOD(Phalcon_Annotations_Collection, get) {
 			}
 		}
 	}
-	ZEPHIR_INIT_NVAR(_3);
-	object_init_ex(_3, phalcon_annotations_exception_ce);
 	ZEPHIR_INIT_VAR(_4);
-	ZEPHIR_CONCAT_SVS(_4, "The collection doesn't have an annotation called '", name, "'");
-	zephir_call_method_p1_noret(_3, "__construct", _4);
-	zephir_throw_exception(_3 TSRMLS_CC);
+	object_init_ex(_4, phalcon_annotations_exception_ce);
+	ZEPHIR_INIT_VAR(_5);
+	ZEPHIR_CONCAT_SVS(_5, "The collection doesn't have an annotation called '", name, "'");
+	zephir_call_method_p1_noret(_4, "__construct", _5);
+	zephir_throw_exception(_4 TSRMLS_CC);
 	ZEPHIR_MM_RESTORE();
 	return;
 

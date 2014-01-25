@@ -148,38 +148,38 @@ PHP_METHOD(Phalcon_Validation_Validator_StringLength, validate) {
 				ZEPHIR_INIT_NVAR(message);
 				zephir_call_method_p1(message, validation, "getdefaultmessage", _1);
 			}
-			ZEPHIR_INIT_BNVAR(_1);
-			object_init_ex(_1, phalcon_validation_message_ce);
 			ZEPHIR_INIT_VAR(_2);
-			zephir_call_func_p2(_2, "strtr", message, replacePairs);
+			object_init_ex(_2, phalcon_validation_message_ce);
+			ZEPHIR_INIT_BNVAR(_1);
+			zephir_call_func_p2(_1, "strtr", message, replacePairs);
 			ZEPHIR_INIT_VAR(_3);
 			ZVAL_STRING(_3, "TooLong", 1);
-			zephir_call_method_p3_noret(_1, "__construct", _2, field, _3);
-			zephir_call_method_p1_noret(validation, "appendmessage", _1);
+			zephir_call_method_p3_noret(_2, "__construct", _1, field, _3);
+			zephir_call_method_p1_noret(validation, "appendmessage", _2);
 			RETURN_MM_BOOL(0);
 		}
 	}
 	if (zephir_is_true(isSetMin)) {
-		ZEPHIR_INIT_NVAR(_2);
-		ZVAL_STRING(_2, "min", 1);
+		ZEPHIR_INIT_NVAR(_3);
+		ZVAL_STRING(_3, "min", 1);
 		ZEPHIR_INIT_VAR(minimum);
-		zephir_call_method_p1(minimum, this_ptr, "getoption", _2);
+		zephir_call_method_p1(minimum, this_ptr, "getoption", _3);
 		if (ZEPHIR_LT(length, minimum)) {
-			ZEPHIR_INIT_NVAR(_2);
-			ZVAL_STRING(_2, "messageMinimum", 1);
+			ZEPHIR_INIT_NVAR(_3);
+			ZVAL_STRING(_3, "messageMinimum", 1);
 			ZEPHIR_INIT_NVAR(message);
-			zephir_call_method_p1(message, this_ptr, "getoption", _2);
+			zephir_call_method_p1(message, this_ptr, "getoption", _3);
 			ZEPHIR_INIT_NVAR(replacePairs);
 			array_init_size(replacePairs, 3);
 			zephir_array_update_string(&replacePairs, SL(":field"), &label, PH_COPY | PH_SEPARATE);
 			zephir_array_update_string(&replacePairs, SL(":min"), &minimum, PH_COPY | PH_SEPARATE);
 			if (ZEPHIR_IS_EMPTY(message)) {
-				ZEPHIR_INIT_NVAR(_2);
-				ZVAL_STRING(_2, "TooShort", 1);
+				ZEPHIR_INIT_NVAR(_3);
+				ZVAL_STRING(_3, "TooShort", 1);
 				ZEPHIR_INIT_NVAR(message);
-				zephir_call_method_p1(message, validation, "getdefaultmessage", _2);
+				zephir_call_method_p1(message, validation, "getdefaultmessage", _3);
 			}
-			ZEPHIR_INIT_NVAR(_2);
+			ZEPHIR_INIT_LNVAR(_2);
 			object_init_ex(_2, phalcon_validation_message_ce);
 			ZEPHIR_INIT_NVAR(_3);
 			zephir_call_func_p2(_3, "strtr", message, replacePairs);

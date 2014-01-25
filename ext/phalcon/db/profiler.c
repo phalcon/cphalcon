@@ -112,6 +112,9 @@ PHP_METHOD(Phalcon_Db_Profiler, startProfile) {
 
 	ZEPHIR_INIT_VAR(activeProfile);
 	object_init_ex(activeProfile, phalcon_db_profiler_item_ce);
+	if (zephir_has_constructor(activeProfile) TSRMLS_CC) {
+		zephir_call_method_noret(activeProfile, "__construct");
+	}
 	zephir_call_method_p1_noret(activeProfile, "setsqlstatement", sqlStatement);
 	ZEPHIR_INIT_VAR(_0);
 	zephir_call_func_p1(_0, "microtime", ZEPHIR_GLOBAL(global_true));

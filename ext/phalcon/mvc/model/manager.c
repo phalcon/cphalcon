@@ -340,8 +340,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, load) {
 
 	zend_class_entry *_1;
 	zend_bool newInstance;
-	zval *modelName_param = NULL, *newInstance_param = NULL, *initialized, *model, *_0, *_2;
-	zval *modelName = NULL, *_3;
+	zval *modelName_param = NULL, *newInstance_param = NULL, *initialized, *model, *_0, *_2, *_3;
+	zval *modelName = NULL, *_4;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 1, &modelName_param, &newInstance_param);
@@ -379,14 +379,18 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, load) {
 	if (zephir_class_exists(modelName, 1 TSRMLS_CC)) {
 		_1 = zend_fetch_class(Z_STRVAL_P(modelName), Z_STRLEN_P(modelName), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
 		object_init_ex(return_value, _1);
+		if (zephir_has_constructor(return_value) TSRMLS_CC) {
+			_2 = zephir_fetch_nproperty_this(this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
+			zephir_call_method_p2_noret(return_value, "__construct", _2, this_ptr);
+		}
 		RETURN_MM();
 	}
-	ZEPHIR_INIT_VAR(_2);
-	object_init_ex(_2, phalcon_mvc_model_exception_ce);
 	ZEPHIR_INIT_VAR(_3);
-	ZEPHIR_CONCAT_SVS(_3, "Model '", modelName, "' could not be loaded");
-	zephir_call_method_p1_noret(_2, "__construct", _3);
-	zephir_throw_exception(_2 TSRMLS_CC);
+	object_init_ex(_3, phalcon_mvc_model_exception_ce);
+	ZEPHIR_INIT_VAR(_4);
+	ZEPHIR_CONCAT_SVS(_4, "Model '", modelName, "' could not be loaded");
+	zephir_call_method_p1_noret(_3, "__construct", _4);
+	zephir_throw_exception(_3 TSRMLS_CC);
 	ZEPHIR_MM_RESTORE();
 	return;
 
@@ -1828,7 +1832,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getRelationRecords) {
 		}
 	}
 	ZEPHIR_INIT_VAR(findParams);
-	array_init_size(findParams, 5);
+	array_init_size(findParams, 4);
 	ZEPHIR_INIT_NVAR(_3);
 	zephir_fast_join_str(_3, SL(" AND "), conditions TSRMLS_CC);
 	zephir_array_fast_append(findParams, _3);
@@ -2515,6 +2519,9 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, createQuery) {
 	}
 	ZEPHIR_INIT_VAR(query);
 	object_init_ex(query, phalcon_mvc_model_query_ce);
+	if (zephir_has_constructor(query) TSRMLS_CC) {
+		zephir_call_method_p1_noret(query, "__construct", phql);
+	}
 	zephir_call_method_p1_noret(query, "setdi", dependencyInjector);
 	zephir_update_property_this(this_ptr, SL("_lastQuery"), query TSRMLS_CC);
 	RETURN_CCTOR(query);
@@ -2560,6 +2567,9 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, executeQuery) {
 	}
 	ZEPHIR_INIT_VAR(query);
 	object_init_ex(query, phalcon_mvc_model_query_ce);
+	if (zephir_has_constructor(query) TSRMLS_CC) {
+		zephir_call_method_p1_noret(query, "__construct", phql);
+	}
 	zephir_call_method_p1_noret(query, "setdi", dependencyInjector);
 	zephir_update_property_this(this_ptr, SL("_lastQuery"), query TSRMLS_CC);
 	zephir_call_method_p1(return_value, query, "execute", placeholders);

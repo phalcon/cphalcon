@@ -118,14 +118,14 @@ PHP_METHOD(Phalcon_Validation_Validator_InclusionIn, validate) {
 			ZEPHIR_INIT_NVAR(message);
 			zephir_call_method_p1(message, validation, "getdefaultmessage", _1);
 		}
-		ZEPHIR_INIT_BNVAR(_1);
-		object_init_ex(_1, phalcon_validation_message_ce);
 		ZEPHIR_INIT_VAR(_2);
-		zephir_call_func_p2(_2, "strtr", message, replacePairs);
+		object_init_ex(_2, phalcon_validation_message_ce);
+		ZEPHIR_INIT_BNVAR(_1);
+		zephir_call_func_p2(_1, "strtr", message, replacePairs);
 		ZEPHIR_INIT_VAR(_3);
 		ZVAL_STRING(_3, "InclusionIn", 1);
-		zephir_call_method_p3_noret(_1, "__construct", _2, field, _3);
-		zephir_call_method_p1_noret(validation, "appendmessage", _1);
+		zephir_call_method_p3_noret(_2, "__construct", _1, field, _3);
+		zephir_call_method_p1_noret(validation, "appendmessage", _2);
 		RETURN_MM_BOOL(0);
 	}
 	RETURN_MM_BOOL(1);

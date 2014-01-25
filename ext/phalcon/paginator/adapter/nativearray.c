@@ -156,6 +156,9 @@ PHP_METHOD(Phalcon_Paginator_Adapter_NativeArray, getPaginate) {
 	}
 	ZEPHIR_INIT_VAR(page);
 	object_init(page);
+	if (zephir_has_constructor(page) TSRMLS_CC) {
+		zephir_call_method_noret(page, "__construct");
+	}
 	number = zephir_fast_count_int(items TSRMLS_CC);
 	roundedTotal = (double) ((number / show));
 	totalPages = (int) (roundedTotal);

@@ -374,10 +374,10 @@ PHP_METHOD(Phalcon_Cache_Backend_Mongo, delete) {
  */
 PHP_METHOD(Phalcon_Cache_Backend_Mongo, queryKeys) {
 
-	HashTable *_6;
-	HashPosition _5;
+	HashTable *_7;
+	HashPosition _6;
 	zend_class_entry *_2;
-	zval *prefix = NULL, *collection, *fields, *conditions, *timeCondition, *documents, *keys, *index = NULL, *key = NULL, *_0, *_1 = NULL, *_3, *_4, **_7;
+	zval *prefix = NULL, *collection, *fields, *conditions, *timeCondition, *documents, *keys, *index = NULL, *key = NULL, *_0, *_1, *_3, *_4, *_5, **_8;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 1, &prefix);
@@ -407,25 +407,25 @@ PHP_METHOD(Phalcon_Cache_Backend_Mongo, queryKeys) {
 		zephir_call_method_p1_noret(_1, "__construct", _3);
 		zephir_array_update_string(&conditions, SL("key"), &_1, PH_COPY | PH_SEPARATE);
 	}
-	ZEPHIR_INIT_NVAR(_1);
-	array_init_size(_1, 2);
 	ZEPHIR_INIT_VAR(_4);
-	zephir_call_func(_4, "time");
-	zephir_array_update_string(&_1, SL("$gt"), &_4, PH_COPY | PH_SEPARATE);
-	zephir_array_update_string(&conditions, SL("time"), &_1, PH_COPY | PH_SEPARATE);
+	array_init_size(_4, 2);
+	ZEPHIR_INIT_VAR(_5);
+	zephir_call_func(_5, "time");
+	zephir_array_update_string(&_4, SL("$gt"), &_5, PH_COPY | PH_SEPARATE);
+	zephir_array_update_string(&conditions, SL("time"), &_4, PH_COPY | PH_SEPARATE);
 	ZEPHIR_INIT_VAR(documents);
 	zephir_call_method_p2(documents, collection, "find", conditions, fields);
 	ZEPHIR_INIT_VAR(keys);
 	array_init(keys);
-	ZEPHIR_INIT_BNVAR(_4);
-	zephir_call_func_p1(_4, "iterator_to_array", documents);
-	zephir_is_iterable(_4, &_6, &_5, 0, 0);
+	ZEPHIR_INIT_BNVAR(_5);
+	zephir_call_func_p1(_5, "iterator_to_array", documents);
+	zephir_is_iterable(_5, &_7, &_6, 0, 0);
 	for (
-		; zend_hash_get_current_data_ex(_6, (void**) &_7, &_5) == SUCCESS
-		; zend_hash_move_forward_ex(_6, &_5)
+		; zend_hash_get_current_data_ex(_7, (void**) &_8, &_6) == SUCCESS
+		; zend_hash_move_forward_ex(_7, &_6)
 	) {
-		ZEPHIR_GET_HMKEY(index, _6, _5);
-		ZEPHIR_GET_HVALUE(key, _7);
+		ZEPHIR_GET_HMKEY(index, _7, _6);
+		ZEPHIR_GET_HVALUE(key, _8);
 		if (ZEPHIR_IS_STRING(index, "key")) {
 			zephir_array_append(&keys, key, PH_SEPARATE);
 		}

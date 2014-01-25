@@ -15,8 +15,8 @@
 #include "kernel/exception.h"
 #include "kernel/object.h"
 #include "kernel/memory.h"
-#include "kernel/array.h"
 #include "kernel/fcall.h"
+#include "kernel/array.h"
 #include "kernel/operators.h"
 #include "kernel/hash.h"
 
@@ -91,6 +91,9 @@ PHP_METHOD(Phalcon_Annotations_Adapter, getReader) {
 	if ((Z_TYPE_P(reader) != IS_OBJECT)) {
 		ZEPHIR_INIT_BNVAR(reader);
 		object_init_ex(reader, phalcon_annotations_reader_ce);
+		if (zephir_has_constructor(reader) TSRMLS_CC) {
+			zephir_call_method_noret(reader, "__construct");
+		}
 		zephir_update_property_this(this_ptr, SL("_reader"), reader TSRMLS_CC);
 	}
 	RETURN_CCTOR(reader);

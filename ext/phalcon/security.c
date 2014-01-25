@@ -174,6 +174,9 @@ PHP_METHOD(Phalcon_Security, getSaltBytes) {
 		zephir_call_func_p1(base64Bytes, "base64_encode", randomBytes);
 		ZEPHIR_INIT_NVAR(filter);
 		object_init_ex(filter, phalcon_filter_ce);
+		if (zephir_has_constructor(filter) TSRMLS_CC) {
+			zephir_call_method_noret(filter, "__construct");
+		}
 		ZEPHIR_INIT_NVAR(_0);
 		ZVAL_STRING(_0, "alphnum", 1);
 		ZEPHIR_INIT_NVAR(safeBytes);
@@ -321,6 +324,9 @@ PHP_METHOD(Phalcon_Security, getTokenKey) {
 	zephir_call_func_p1(base64Bytes, "base64_encode", randomBytes);
 	ZEPHIR_INIT_VAR(filter);
 	object_init_ex(filter, phalcon_filter_ce);
+	if (zephir_has_constructor(filter) TSRMLS_CC) {
+		zephir_call_method_noret(filter, "__construct");
+	}
 	ZEPHIR_INIT_VAR(_1);
 	ZVAL_STRING(_1, "alphnum", 1);
 	ZEPHIR_INIT_VAR(safeBytes);

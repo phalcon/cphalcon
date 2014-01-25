@@ -268,7 +268,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, toArray) {
 					ZEPHIR_GET_HMKEY(key, _6, _5);
 					ZEPHIR_GET_HVALUE(value, _7);
 					if (zephir_array_isset_fetch(&renamedKey, columnMap, key, 1 TSRMLS_CC)) {
-						ZEPHIR_INIT_NVAR(_8);
+						ZEPHIR_INIT_LNVAR(_8);
 						object_init_ex(_8, phalcon_mvc_model_exception_ce);
 						ZEPHIR_INIT_LNVAR(_9);
 						ZEPHIR_CONCAT_SVS(_9, "Column '", key, "' is not part of the column map");
@@ -301,7 +301,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, serialize) {
 
 	zephir_update_property_this(this_ptr, SL("_activeRow"), (0) ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
 	ZEPHIR_INIT_VAR(_0);
-	array_init_size(_0, 7);
+	array_init_size(_0, 6);
 	ZEPHIR_OBS_VAR(_1);
 	zephir_read_property_this(&_1, this_ptr, SL("_model"), PH_NOISY_CC);
 	zephir_array_update_string(&_0, SL("model"), &_1, PH_COPY | PH_SEPARATE);

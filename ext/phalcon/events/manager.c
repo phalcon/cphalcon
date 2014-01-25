@@ -120,6 +120,9 @@ PHP_METHOD(Phalcon_Events_Manager, attach) {
 		if (zephir_is_true(_0)) {
 			_1 = zend_fetch_class(SL("SplPriorityQueue"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
 			object_init_ex(priorityQueue, _1);
+			if (zephir_has_constructor(priorityQueue) TSRMLS_CC) {
+				zephir_call_method_noret(priorityQueue, "__construct");
+			}
 			ZEPHIR_INIT_VAR(_2);
 			ZVAL_LONG(_2, 1);
 			zephir_call_method_p1_noret(priorityQueue, "setextractflags", _2);
@@ -321,7 +324,7 @@ PHP_METHOD(Phalcon_Events_Manager, fireQueue) {
 				if (zephir_is_instance_of(handler, SL("Closure") TSRMLS_CC)) {
 					if ((Z_TYPE_P(arguments) == IS_NULL)) {
 						ZEPHIR_INIT_NVAR(arguments);
-						array_init_size(arguments, 5);
+						array_init_size(arguments, 4);
 						zephir_array_fast_append(arguments, event);
 						zephir_array_fast_append(arguments, source);
 						zephir_array_fast_append(arguments, data);
@@ -367,7 +370,7 @@ PHP_METHOD(Phalcon_Events_Manager, fireQueue) {
 				if (zephir_is_instance_of(handler, SL("Closure") TSRMLS_CC)) {
 					if ((Z_TYPE_P(arguments) == IS_NULL)) {
 						ZEPHIR_INIT_NVAR(arguments);
-						array_init_size(arguments, 5);
+						array_init_size(arguments, 4);
 						zephir_array_fast_append(arguments, event);
 						zephir_array_fast_append(arguments, source);
 						zephir_array_fast_append(arguments, data);

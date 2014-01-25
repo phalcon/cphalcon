@@ -188,7 +188,7 @@ PHP_METHOD(Phalcon_Mvc_Dispatcher, getControllerName) {
 PHP_METHOD(Phalcon_Mvc_Dispatcher, _throwDispatchException) {
 
 	int exceptionCode;
-	zval *message_param = NULL, *exceptionCode_param = NULL, *eventsManager = NULL, *dependencyInjector, *response = NULL, *exception, *_0 = NULL, *_1 = NULL, *_2, *_3;
+	zval *message_param = NULL, *exceptionCode_param = NULL, *eventsManager = NULL, *dependencyInjector, *response = NULL, *exception, *_0, *_1 = NULL, *_2 = NULL, *_3;
 	zval *message = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -225,29 +225,29 @@ PHP_METHOD(Phalcon_Mvc_Dispatcher, _throwDispatchException) {
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
-	ZEPHIR_INIT_NVAR(_0);
 	ZEPHIR_INIT_NVAR(_1);
-	ZVAL_STRING(_1, "response", 1);
-	zephir_call_method_p1(_0, dependencyInjector, "getshared", _1);
-	ZEPHIR_CPY_WRT(response, _0);
-	ZEPHIR_INIT_NVAR(_0);
-	ZVAL_LONG(_0, 404);
+	ZEPHIR_INIT_NVAR(_2);
+	ZVAL_STRING(_2, "response", 1);
+	zephir_call_method_p1(_1, dependencyInjector, "getshared", _2);
+	ZEPHIR_CPY_WRT(response, _1);
 	ZEPHIR_INIT_NVAR(_1);
-	ZVAL_STRING(_1, "Not Found", 1);
-	zephir_call_method_p2_noret(response, "setstatuscode", _0, _1);
+	ZVAL_LONG(_1, 404);
+	ZEPHIR_INIT_NVAR(_2);
+	ZVAL_STRING(_2, "Not Found", 1);
+	zephir_call_method_p2_noret(response, "setstatuscode", _1, _2);
 	ZEPHIR_INIT_VAR(exception);
 	object_init_ex(exception, phalcon_mvc_dispatcher_exception_ce);
-	ZEPHIR_INIT_NVAR(_0);
-	ZVAL_LONG(_0, exceptionCode);
-	zephir_call_method_p2_noret(exception, "__construct", message, _0);
+	ZEPHIR_INIT_NVAR(_1);
+	ZVAL_LONG(_1, exceptionCode);
+	zephir_call_method_p2_noret(exception, "__construct", message, _1);
 	_3 = zephir_fetch_nproperty_this(this_ptr, SL("_eventsManager"), PH_NOISY_CC);
 	ZEPHIR_CPY_WRT(eventsManager, _3);
 	if ((Z_TYPE_P(eventsManager) == IS_OBJECT)) {
-		ZEPHIR_INIT_NVAR(_0);
 		ZEPHIR_INIT_NVAR(_1);
-		ZVAL_STRING(_1, "dispatch:beforeException", 1);
-		zephir_call_method_p3(_0, eventsManager, "fire", _1, this_ptr, exception);
-		if (ZEPHIR_IS_FALSE(_0)) {
+		ZEPHIR_INIT_NVAR(_2);
+		ZVAL_STRING(_2, "dispatch:beforeException", 1);
+		zephir_call_method_p3(_1, eventsManager, "fire", _2, this_ptr, exception);
+		if (ZEPHIR_IS_FALSE(_1)) {
 			RETURN_MM_BOOL(0);
 		}
 	}

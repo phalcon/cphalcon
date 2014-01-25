@@ -122,14 +122,14 @@ PHP_METHOD(Phalcon_Validation_Validator_Url, validate) {
 			ZEPHIR_INIT_NVAR(message);
 			zephir_call_method_p1(message, validation, "getdefaultmessage", _3);
 		}
-		ZEPHIR_INIT_NVAR(_3);
-		object_init_ex(_3, phalcon_validation_message_ce);
 		ZEPHIR_INIT_VAR(_4);
-		zephir_call_func_p2(_4, "strtr", message, replacePairs);
+		object_init_ex(_4, phalcon_validation_message_ce);
+		ZEPHIR_INIT_NVAR(_3);
+		zephir_call_func_p2(_3, "strtr", message, replacePairs);
 		ZEPHIR_INIT_VAR(_5);
 		ZVAL_STRING(_5, "Url", 1);
-		zephir_call_method_p3_noret(_3, "__construct", _4, field, _5);
-		zephir_call_method_p1_noret(validation, "appendmessage", _3);
+		zephir_call_method_p3_noret(_4, "__construct", _3, field, _5);
+		zephir_call_method_p1_noret(validation, "appendmessage", _4);
 		RETURN_MM_BOOL(0);
 	}
 	RETURN_MM_BOOL(1);

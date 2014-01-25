@@ -130,7 +130,7 @@ PHP_METHOD(Phalcon_Config, __construct) {
 			if (hasNumericKey) {
 				zephir_update_property_zval_zval(this_ptr, key, value TSRMLS_CC);
 			} else {
-				ZEPHIR_INIT_NVAR(_6);
+				ZEPHIR_INIT_LNVAR(_6);
 				object_init_ex(_6, phalcon_config_ce);
 				zephir_call_method_p1_cache_noret(_6, "__construct", &_7, value);
 				zephir_update_property_zval_zval(this_ptr, key, _6 TSRMLS_CC);

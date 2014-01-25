@@ -191,8 +191,8 @@ PHP_METHOD(Phalcon_Filter, sanitize) {
  */
 PHP_METHOD(Phalcon_Filter, _sanitize) {
 
-	zval *filter = NULL, *_6;
-	zval *value, *filter_param = NULL, *filterObject, *_0, *_1 = NULL, _2 = zval_used_for_init, _3, _4, *_5;
+	zval *filter = NULL, *_7;
+	zval *value, *filter_param = NULL, *filterObject, *_0, *_1 = NULL, _2 = zval_used_for_init, _3, _4, *_5, *_6;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &value, &filter_param);
@@ -284,12 +284,12 @@ PHP_METHOD(Phalcon_Filter, _sanitize) {
 			zephir_fast_strtoupper(return_value, value);
 			RETURN_MM();
 		}
-		ZEPHIR_INIT_NVAR(_1);
-		object_init_ex(_1, phalcon_filter_exception_ce);
 		ZEPHIR_INIT_VAR(_6);
-		ZEPHIR_CONCAT_SVS(_6, "Sanitize filter '", filter, "' is not supported");
-		zephir_call_method_p1_noret(_1, "__construct", _6);
-		zephir_throw_exception(_1 TSRMLS_CC);
+		object_init_ex(_6, phalcon_filter_exception_ce);
+		ZEPHIR_INIT_VAR(_7);
+		ZEPHIR_CONCAT_SVS(_7, "Sanitize filter '", filter, "' is not supported");
+		zephir_call_method_p1_noret(_6, "__construct", _7);
+		zephir_throw_exception(_6 TSRMLS_CC);
 		ZEPHIR_MM_RESTORE();
 		return;
 	} while(0);

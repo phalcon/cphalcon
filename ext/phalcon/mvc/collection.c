@@ -266,7 +266,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, getReservedAttributes) {
 	zephir_read_static_property_ce(&reserved, phalcon_mvc_collection_ce, SL("_reserved") TSRMLS_CC);
 	if ((Z_TYPE_P(reserved) == IS_NULL)) {
 		ZEPHIR_INIT_VAR(reserved);
-		array_init_size(reserved, 7);
+		array_init_size(reserved, 6);
 		zephir_array_update_string(&reserved, SL("_connection"), &ZEPHIR_GLOBAL(global_true), PH_COPY | PH_SEPARATE);
 		zephir_array_update_string(&reserved, SL("_dependencyInjector"), &ZEPHIR_GLOBAL(global_true), PH_COPY | PH_SEPARATE);
 		zephir_array_update_string(&reserved, SL("_source"), &ZEPHIR_GLOBAL(global_true), PH_COPY | PH_SEPARATE);
@@ -594,6 +594,9 @@ PHP_METHOD(Phalcon_Mvc_Collection, _getResultset) {
 	if (zephir_array_isset_string(params, SS("fields"))) {
 		ZEPHIR_INIT_VAR(base);
 		object_init_ex(base, phalcon_mvc_collection_document_ce);
+		if (zephir_has_constructor(base) TSRMLS_CC) {
+			zephir_call_method_noret(base, "__construct");
+		}
 	} else {
 		ZEPHIR_CPY_WRT(base, collection);
 	}
@@ -1274,6 +1277,9 @@ PHP_METHOD(Phalcon_Mvc_Collection, findById) {
 		ZEPHIR_INIT_VAR(collection);
 		_0 = zend_fetch_class(Z_STRVAL_P(className), Z_STRLEN_P(className), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
 		object_init_ex(collection, _0);
+		if (zephir_has_constructor(collection) TSRMLS_CC) {
+			zephir_call_method_noret(collection, "__construct");
+		}
 		ZEPHIR_INIT_VAR(_1);
 		zephir_call_method(_1, collection, "getmodelsmanager");
 		ZEPHIR_INIT_VAR(_2);
@@ -1351,6 +1357,9 @@ PHP_METHOD(Phalcon_Mvc_Collection, findFirst) {
 	ZEPHIR_INIT_VAR(collection);
 	_0 = zend_fetch_class(Z_STRVAL_P(className), Z_STRLEN_P(className), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
 	object_init_ex(collection, _0);
+	if (zephir_has_constructor(collection) TSRMLS_CC) {
+		zephir_call_method_noret(collection, "__construct");
+	}
 	ZEPHIR_INIT_VAR(connection);
 	zephir_call_method(connection, collection, "getconnection");
 	zephir_call_self_p4(return_value, this_ptr, "_getresultset", parameters, collection, connection, ZEPHIR_GLOBAL(global_true));
@@ -1420,6 +1429,9 @@ PHP_METHOD(Phalcon_Mvc_Collection, find) {
 	ZEPHIR_INIT_VAR(collection);
 	_0 = zend_fetch_class(Z_STRVAL_P(className), Z_STRLEN_P(className), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
 	object_init_ex(collection, _0);
+	if (zephir_has_constructor(collection) TSRMLS_CC) {
+		zephir_call_method_noret(collection, "__construct");
+	}
 	ZEPHIR_INIT_VAR(_1);
 	zephir_call_method(_1, collection, "getconnection");
 	zephir_call_self_p4(return_value, this_ptr, "_getresultset", parameters, collection, _1, ZEPHIR_GLOBAL(global_false));
@@ -1461,6 +1473,9 @@ PHP_METHOD(Phalcon_Mvc_Collection, count) {
 	ZEPHIR_INIT_VAR(collection);
 	_0 = zend_fetch_class(SL("className"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
 	object_init_ex(collection, _0);
+	if (zephir_has_constructor(collection) TSRMLS_CC) {
+		zephir_call_method_noret(collection, "__construct");
+	}
 	ZEPHIR_INIT_VAR(connection);
 	zephir_call_method(connection, collection, "getconnection");
 	zephir_call_self_p3(return_value, this_ptr, "_getgroupresultset", parameters, collection, connection);
@@ -1496,6 +1511,9 @@ PHP_METHOD(Phalcon_Mvc_Collection, aggregate) {
 	ZEPHIR_INIT_VAR(model);
 	_0 = zend_fetch_class(Z_STRVAL_P(className), Z_STRLEN_P(className), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
 	object_init_ex(model, _0);
+	if (zephir_has_constructor(model) TSRMLS_CC) {
+		zephir_call_method_noret(model, "__construct");
+	}
 	ZEPHIR_INIT_VAR(connection);
 	zephir_call_method(connection, model, "getconnection");
 	ZEPHIR_INIT_VAR(source);
@@ -1544,6 +1562,9 @@ PHP_METHOD(Phalcon_Mvc_Collection, summatory) {
 	ZEPHIR_INIT_VAR(model);
 	_0 = zend_fetch_class(SL("className"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
 	object_init_ex(model, _0);
+	if (zephir_has_constructor(model) TSRMLS_CC) {
+		zephir_call_method_noret(model, "__construct");
+	}
 	ZEPHIR_INIT_VAR(connection);
 	zephir_call_method(connection, model, "getconnection");
 	ZEPHIR_INIT_VAR(source);
