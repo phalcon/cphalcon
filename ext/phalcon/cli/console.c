@@ -293,7 +293,8 @@ PHP_METHOD(Phalcon_Cli_Console, handle) {
 				ZEPHIR_MM_RESTORE();
 				return;
 			}
-			if (zephir_require(path TSRMLS_CC) == FAILURE) {
+			ZEPHIR_INIT_LNVAR(_3);
+			if (zephir_require_ret(_3, path TSRMLS_CC) == FAILURE) {
 				RETURN_MM_NULL();
 			}
 		}

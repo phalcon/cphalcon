@@ -14,9 +14,9 @@
 #include "kernel/main.h"
 #include "kernel/fcall.h"
 #include "kernel/hash.h"
+#include "kernel/memory.h"
 #include "kernel/require.h"
 #include "kernel/object.h"
-#include "kernel/memory.h"
 #include "ext/spl/spl_exceptions.h"
 #include "kernel/exception.h"
 #include "kernel/operators.h"
@@ -66,7 +66,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Php, render) {
 	HashTable *_1;
 	HashPosition _0;
 	zend_bool mustClean;
-	zval *path_param = NULL, *params, *mustClean_param = NULL, *key = NULL, *value = NULL, **_2, *_3, *_4;
+	zval *path_param = NULL, *params, *mustClean_param = NULL, *key = NULL, *value = NULL, **_2, *_3, *_4, *_5;
 	zval *path = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -106,14 +106,15 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Php, render) {
 			}
 		}
 	}
-	if (zephir_require(path TSRMLS_CC) == FAILURE) {
+	ZEPHIR_INIT_VAR(_3);
+	if (zephir_require_ret(_3, path TSRMLS_CC) == FAILURE) {
 		RETURN_MM_NULL();
 	}
 	if ((mustClean == 1)) {
-		_3 = zephir_fetch_nproperty_this(this_ptr, SL("_view"), PH_NOISY_CC);
-		ZEPHIR_INIT_VAR(_4);
-		zephir_call_func(_4, "ob_get_contents");
-		zephir_call_method_p1_noret(_3, "setcontent", _4);
+		_4 = zephir_fetch_nproperty_this(this_ptr, SL("_view"), PH_NOISY_CC);
+		ZEPHIR_INIT_VAR(_5);
+		zephir_call_func(_5, "ob_get_contents");
+		zephir_call_method_p1_noret(_4, "setcontent", _5);
 	}
 	ZEPHIR_MM_RESTORE();
 

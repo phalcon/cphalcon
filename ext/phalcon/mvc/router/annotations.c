@@ -187,7 +187,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Annotations, addModuleResource) {
 
 
 	ZEPHIR_INIT_VAR(_0);
-	array_init_size(_0, 5);
+	array_init_size(_0, 4);
 	zephir_array_fast_append(_0, prefix);
 	zephir_array_fast_append(_0, handler);
 	zephir_array_fast_append(_0, module);
@@ -395,11 +395,11 @@ PHP_METHOD(Phalcon_Mvc_Router_Annotations, processControllerAnnotation) {
  */
 PHP_METHOD(Phalcon_Mvc_Router_Annotations, processActionAnnotation) {
 
-	zend_function *_7 = NULL, *_11 = NULL;
-	HashTable *_5, *_9;
-	HashPosition _4, _8;
+	zend_function *_8 = NULL, *_12 = NULL;
+	HashTable *_6, *_10;
+	HashPosition _5, _9;
 	zend_bool isRoute;
-	zval *module_param = NULL, *namespaceName_param = NULL, *controller_param = NULL, *action_param = NULL, *annotation, *name, *actionName, *routePrefix, *paths = NULL, *value, *uri = NULL, *route, *methods, *converts = NULL, *param = NULL, *convert = NULL, *conversorParam = NULL, *routeName, *_0, *_1, _2, *_3 = NULL, **_6, **_10;
+	zval *module_param = NULL, *namespaceName_param = NULL, *controller_param = NULL, *action_param = NULL, *annotation, *name, *actionName, *routePrefix, *paths = NULL, *value, *uri = NULL, *route, *methods, *converts = NULL, *param = NULL, *convert = NULL, *conversorParam = NULL, *routeName, *_0, *_1, _2, *_3 = NULL, *_4 = NULL, **_7, **_11;
 	zval *module = NULL, *namespaceName = NULL, *controller = NULL, *action = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -512,7 +512,9 @@ PHP_METHOD(Phalcon_Mvc_Router_Annotations, processActionAnnotation) {
 		ZVAL_LONG(_3, 0);
 		ZEPHIR_INIT_VAR(value);
 		zephir_call_method_p1(value, annotation, "getargument", _3);
-		if (((0 == 1) != 0)) {
+		ZEPHIR_INIT_NVAR(_3);
+		zephir_call_func_p1(_3, "gettype", value);
+		if ((Z_TYPE_P(_3) != IS_NULL)) {
 			if (!ZEPHIR_IS_STRING(value, "/")) {
 				ZEPHIR_INIT_VAR(uri);
 				ZEPHIR_CONCAT_VV(uri, routePrefix, value);
@@ -526,10 +528,10 @@ PHP_METHOD(Phalcon_Mvc_Router_Annotations, processActionAnnotation) {
 		ZEPHIR_INIT_VAR(route);
 		zephir_call_method_p2(route, this_ptr, "add", uri, paths);
 		if ((Z_TYPE_P(methods) != IS_NULL)) {
-			ZEPHIR_INIT_NVAR(_3);
-			ZVAL_STRING(_3, "methods", 1);
+			ZEPHIR_INIT_VAR(_4);
+			ZVAL_STRING(_4, "methods", 1);
 			ZEPHIR_INIT_BNVAR(methods);
-			zephir_call_method_p1(methods, annotation, "getnamedargument", _3);
+			zephir_call_method_p1(methods, annotation, "getnamedargument", _4);
 			if ((Z_TYPE_P(methods) == IS_ARRAY)) {
 				zephir_call_method_p1_noret(route, "via", methods);
 			} else {
@@ -540,40 +542,40 @@ PHP_METHOD(Phalcon_Mvc_Router_Annotations, processActionAnnotation) {
 		} else {
 			zephir_call_method_p1_noret(route, "via", methods);
 		}
-		ZEPHIR_INIT_NVAR(_3);
-		ZVAL_STRING(_3, "converts", 1);
+		ZEPHIR_INIT_NVAR(_4);
+		ZVAL_STRING(_4, "converts", 1);
 		ZEPHIR_INIT_VAR(converts);
-		zephir_call_method_p1(converts, annotation, "getnamedargument", _3);
+		zephir_call_method_p1(converts, annotation, "getnamedargument", _4);
 		if ((Z_TYPE_P(converts) == IS_ARRAY)) {
-			zephir_is_iterable(converts, &_5, &_4, 0, 0);
+			zephir_is_iterable(converts, &_6, &_5, 0, 0);
 			for (
-				; zend_hash_get_current_data_ex(_5, (void**) &_6, &_4) == SUCCESS
-				; zend_hash_move_forward_ex(_5, &_4)
+				; zend_hash_get_current_data_ex(_6, (void**) &_7, &_5) == SUCCESS
+				; zend_hash_move_forward_ex(_6, &_5)
 			) {
-				ZEPHIR_GET_HMKEY(param, _5, _4);
-				ZEPHIR_GET_HVALUE(convert, _6);
-				zephir_call_method_p2_cache_noret(route, "convert", &_7, param, convert);
+				ZEPHIR_GET_HMKEY(param, _6, _5);
+				ZEPHIR_GET_HVALUE(convert, _7);
+				zephir_call_method_p2_cache_noret(route, "convert", &_8, param, convert);
 			}
 		}
-		ZEPHIR_INIT_NVAR(_3);
-		ZVAL_STRING(_3, "conversors", 1);
+		ZEPHIR_INIT_NVAR(_4);
+		ZVAL_STRING(_4, "conversors", 1);
 		ZEPHIR_INIT_NVAR(converts);
-		zephir_call_method_p1(converts, annotation, "getnamedargument", _3);
+		zephir_call_method_p1(converts, annotation, "getnamedargument", _4);
 		if ((Z_TYPE_P(converts) == IS_ARRAY)) {
-			zephir_is_iterable(converts, &_9, &_8, 0, 0);
+			zephir_is_iterable(converts, &_10, &_9, 0, 0);
 			for (
-				; zend_hash_get_current_data_ex(_9, (void**) &_10, &_8) == SUCCESS
-				; zend_hash_move_forward_ex(_9, &_8)
+				; zend_hash_get_current_data_ex(_10, (void**) &_11, &_9) == SUCCESS
+				; zend_hash_move_forward_ex(_10, &_9)
 			) {
-				ZEPHIR_GET_HMKEY(conversorParam, _9, _8);
-				ZEPHIR_GET_HVALUE(convert, _10);
-				zephir_call_method_p2_cache_noret(route, "convert", &_11, conversorParam, convert);
+				ZEPHIR_GET_HMKEY(conversorParam, _10, _9);
+				ZEPHIR_GET_HVALUE(convert, _11);
+				zephir_call_method_p2_cache_noret(route, "convert", &_12, conversorParam, convert);
 			}
 		}
-		ZEPHIR_INIT_NVAR(_3);
-		ZVAL_STRING(_3, "name", 1);
+		ZEPHIR_INIT_NVAR(_4);
+		ZVAL_STRING(_4, "name", 1);
 		ZEPHIR_INIT_VAR(routeName);
-		zephir_call_method_p1(routeName, annotation, "getnamedargument", _3);
+		zephir_call_method_p1(routeName, annotation, "getnamedargument", _4);
 		if ((Z_TYPE_P(routeName) == IS_STRING)) {
 			zephir_call_method_p1_noret(route, "setname", routeName);
 		}

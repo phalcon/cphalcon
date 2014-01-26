@@ -722,10 +722,10 @@ PHP_METHOD(Phalcon_Mvc_View, start) {
  */
 PHP_METHOD(Phalcon_Mvc_View, _loadTemplateEngines) {
 
-	zend_function *_7 = NULL, *_8 = NULL;
+	zend_function *_7 = NULL, *_9 = NULL;
 	HashTable *_3;
 	HashPosition _2;
-	zval *engines, *dependencyInjector = NULL, *registeredEngines, *arguments, *engineService = NULL, *extension = NULL, *_0, *_1 = NULL, **_4, *_5 = NULL, *_6 = NULL;
+	zval *engines, *dependencyInjector = NULL, *registeredEngines, *arguments, *engineService = NULL, *extension = NULL, *_0, *_1 = NULL, **_4, *_5 = NULL, *_6 = NULL, *_8 = NULL;
 
 	ZEPHIR_MM_GROW();
 
@@ -761,7 +761,7 @@ PHP_METHOD(Phalcon_Mvc_View, _loadTemplateEngines) {
 				if ((Z_TYPE_P(engineService) == IS_OBJECT)) {
 					if (zephir_is_instance_of(engineService, SL("Closure") TSRMLS_CC)) {
 						ZEPHIR_INIT_NVAR(_5);
-						zephir_call_func_p2(_5, "call_user_func_array", engineService, arguments);
+						ZEPHIR_CALL_USER_FUNC_ARRAY(_5, engineService, arguments);
 						zephir_array_update_zval(&engines, extension, &_5, PH_COPY | PH_SEPARATE);
 					} else {
 						zephir_array_update_zval(&engines, extension, &engineService, PH_COPY | PH_SEPARATE);
@@ -777,9 +777,9 @@ PHP_METHOD(Phalcon_Mvc_View, _loadTemplateEngines) {
 						ZEPHIR_MM_RESTORE();
 						return;
 					}
-					ZEPHIR_INIT_NVAR(_5);
-					zephir_call_method_p2_cache(_5, dependencyInjector, "getshared", &_8, engineService, arguments);
-					zephir_array_update_zval(&engines, extension, &_5, PH_COPY | PH_SEPARATE);
+					ZEPHIR_INIT_NVAR(_8);
+					zephir_call_method_p2_cache(_8, dependencyInjector, "getshared", &_9, engineService, arguments);
+					zephir_array_update_zval(&engines, extension, &_8, PH_COPY | PH_SEPARATE);
 				}
 			}
 		}
@@ -1284,7 +1284,7 @@ PHP_METHOD(Phalcon_Mvc_View, partial) {
  */
 PHP_METHOD(Phalcon_Mvc_View, getRender) {
 
-	zval *controllerName_param = NULL, *actionName_param = NULL, *params = NULL, *configCallback = NULL, *view, *_0;
+	zval *controllerName_param = NULL, *actionName_param = NULL, *params = NULL, *configCallback = NULL, *view, *_0, *_1;
 	zval *controllerName = NULL, *actionName = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -1330,9 +1330,10 @@ PHP_METHOD(Phalcon_Mvc_View, getRender) {
 	}
 	if ((Z_TYPE_P(configCallback) == IS_OBJECT)) {
 		ZEPHIR_INIT_VAR(_0);
-		array_init_size(_0, 2);
-		zephir_array_fast_append(_0, view);
-		zephir_call_func_p2_noret("call_user_func_array", configCallback, _0);
+		ZEPHIR_INIT_VAR(_1);
+		array_init_size(_1, 2);
+		zephir_array_fast_append(_1, view);
+		ZEPHIR_CALL_USER_FUNC_ARRAY(_0, configCallback, _1);
 	}
 	zephir_call_method_noret(view, "start");
 	zephir_call_method_p2_noret(view, "render", controllerName, actionName);

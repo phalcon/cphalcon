@@ -68,7 +68,7 @@ PHP_METHOD(Phalcon_Version, _getVersion) {
 
 	ZEPHIR_MM_GROW();
 
-	array_init_size(return_value, 7);
+	array_init_size(return_value, 6);
 	ZEPHIR_INIT_VAR(_0);
 	ZVAL_LONG(_0, 2);
 	zephir_array_fast_append(return_value, _0);

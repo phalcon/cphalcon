@@ -158,9 +158,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Complex, valid) {
 				if (ZEPHIR_IS_LONG(hydrateMode, 2)) {
 					ZEPHIR_INIT_NVAR(activeRow);
 					object_init(activeRow);
-					if (zephir_has_constructor(activeRow TSRMLS_CC)) {
-						zephir_call_method_noret(activeRow, "__construct");
-					}
 					break;
 				}
 			} while(0);

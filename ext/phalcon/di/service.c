@@ -205,7 +205,7 @@ PHP_METHOD(Phalcon_Di_Service, getDefinition) {
 PHP_METHOD(Phalcon_Di_Service, resolve) {
 
 	zend_bool found;
-	zval *parameters = NULL, *dependencyInjector = NULL, *shared, *definition, *sharedInstance, *instance = NULL, *builder, *_0, *_1, *_2;
+	zval *parameters = NULL, *dependencyInjector = NULL, *shared, *definition, *sharedInstance, *instance = NULL, *builder, *_0, *_1, *_2, *_3;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 2, &parameters, &dependencyInjector);
@@ -256,7 +256,9 @@ PHP_METHOD(Phalcon_Di_Service, resolve) {
 			if (zephir_is_instance_of(definition, SL("Closure") TSRMLS_CC)) {
 				ZEPHIR_INIT_BNVAR(instance);
 				if ((Z_TYPE_P(parameters) == IS_ARRAY)) {
-					zephir_call_func_p2(instance, "call_user_func_array", definition, parameters);
+					ZEPHIR_INIT_VAR(_0);
+					ZEPHIR_CALL_USER_FUNC_ARRAY(_0, definition, parameters);
+					ZEPHIR_CPY_WRT(instance, _0);
 				} else {
 					zephir_call_func_p1(instance, "call_user_func", definition);
 				}
@@ -270,7 +272,6 @@ PHP_METHOD(Phalcon_Di_Service, resolve) {
 				if (zephir_has_constructor(builder TSRMLS_CC)) {
 					zephir_call_method_noret(builder, "__construct");
 				}
-				ZEPHIR_INIT_BNVAR(instance);
 				zephir_call_method_p3(instance, builder, "build", dependencyInjector, definition, parameters);
 			} else {
 				found = 0;
@@ -278,13 +279,13 @@ PHP_METHOD(Phalcon_Di_Service, resolve) {
 		}
 	}
 	if ((found == 0)) {
-		ZEPHIR_INIT_VAR(_0);
-		object_init_ex(_0, phalcon_di_exception_ce);
-		_1 = zephir_fetch_nproperty_this(this_ptr, SL("_name"), PH_NOISY_CC);
-		ZEPHIR_INIT_VAR(_2);
-		ZEPHIR_CONCAT_SVS(_2, "Service '", _1, "' cannot be resolved");
-		zephir_call_method_p1_noret(_0, "__construct", _2);
-		zephir_throw_exception(_0 TSRMLS_CC);
+		ZEPHIR_INIT_VAR(_1);
+		object_init_ex(_1, phalcon_di_exception_ce);
+		_2 = zephir_fetch_nproperty_this(this_ptr, SL("_name"), PH_NOISY_CC);
+		ZEPHIR_INIT_VAR(_3);
+		ZEPHIR_CONCAT_SVS(_3, "Service '", _2, "' cannot be resolved");
+		zephir_call_method_p1_noret(_1, "__construct", _3);
+		zephir_throw_exception(_1 TSRMLS_CC);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}

@@ -267,9 +267,9 @@ int zephir_compare_strict_long(zval *op1, long op2 TSRMLS_DC){
 			return 0 == op2;
 		case IS_BOOL:
 			if (Z_BVAL_P(op1)) {
-				return 0 == op2;
-			} else {
 				return 1 == op2;
+			} else {
+				return 0 == op2;
 			}
 		default:
 			{

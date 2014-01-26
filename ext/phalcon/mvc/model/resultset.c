@@ -304,7 +304,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, offsetExists) {
 
 	ZEPHIR_INIT_VAR(_0);
 	zephir_call_method(_0, this_ptr, "count");
-	RETURN_MM_BOOL(ZEPHIR_LT_LONG(_0, index));
+	RETURN_MM_BOOL(ZEPHIR_GE_LONG(_0, index));
 
 }
 
@@ -332,7 +332,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, offsetGet) {
 
 	ZEPHIR_INIT_VAR(_0);
 	zephir_call_method(_0, this_ptr, "count");
-	if (ZEPHIR_LT_LONG(_0, index)) {
+	if (ZEPHIR_GE_LONG(_0, index)) {
 		_1 = zephir_fetch_nproperty_this(this_ptr, SL("_pointer"), PH_NOISY_CC);
 		if (ZEPHIR_IS_LONG(_1, index)) {
 			zephir_call_method(return_value, this_ptr, "current");
@@ -573,7 +573,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, delete) {
 	HashTable *_2;
 	HashPosition _1;
 	zend_bool transaction;
-	zval *conditionCallback = NULL, *record = NULL, *connection = NULL, *_0, **_3, *_4 = NULL, *_5 = NULL;
+	zval *conditionCallback = NULL, *record = NULL, *connection = NULL, *_0, **_3, *_4 = NULL, *_5 = NULL, *_6 = NULL;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 1, &conditionCallback);
@@ -604,20 +604,20 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, delete) {
 		}
 		if ((Z_TYPE_P(conditionCallback) == IS_OBJECT)) {
 			ZEPHIR_INIT_NVAR(_4);
-			array_init_size(_4, 2);
-			zephir_array_fast_append(_4, record);
 			ZEPHIR_INIT_NVAR(_5);
-			zephir_call_func_p2(_5, "call_user_func_array", conditionCallback, _4);
-			if (ZEPHIR_IS_FALSE(_5)) {
+			array_init_size(_5, 2);
+			zephir_array_fast_append(_5, record);
+			ZEPHIR_CALL_USER_FUNC_ARRAY(_4, conditionCallback, _5);
+			if (ZEPHIR_IS_FALSE(_4)) {
 				continue;
 			}
 		}
-		ZEPHIR_INIT_NVAR(_4);
-		zephir_call_method(_4, record, "delete");
-		if (!(zephir_is_true(_4))) {
-			ZEPHIR_INIT_NVAR(_5);
-			zephir_call_method(_5, record, "getmessages");
-			zephir_update_property_this(this_ptr, SL("_errorMessages"), _5 TSRMLS_CC);
+		ZEPHIR_INIT_NVAR(_5);
+		zephir_call_method(_5, record, "delete");
+		if (!(zephir_is_true(_5))) {
+			ZEPHIR_INIT_NVAR(_6);
+			zephir_call_method(_6, record, "getmessages");
+			zephir_update_property_this(this_ptr, SL("_errorMessages"), _6 TSRMLS_CC);
 			zephir_call_method_noret(connection, "rollback");
 			transaction = 0;
 			break;
@@ -648,7 +648,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, filter) {
 
 	HashTable *_2;
 	HashPosition _1;
-	zval *filter, *records, *record = NULL, *parameters, *processedRecord = NULL, *_0, **_3;
+	zval *filter, *records, *record = NULL, *parameters, *processedRecord = NULL, *_0, **_3, *_4 = NULL;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &filter);
@@ -668,8 +668,9 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, filter) {
 	) {
 		ZEPHIR_GET_HVALUE(record, _3);
 		zephir_array_update_long(&parameters, 0, &record, PH_COPY | PH_SEPARATE, "phalcon/mvc/model/resultset.zep", 512);
-		ZEPHIR_INIT_NVAR(processedRecord);
-		zephir_call_func_p2(processedRecord, "call_user_func_array", filter, parameters);
+		ZEPHIR_INIT_NVAR(_4);
+		ZEPHIR_CALL_USER_FUNC_ARRAY(_4, filter, parameters);
+		ZEPHIR_CPY_WRT(processedRecord, _4);
 		if ((Z_TYPE_P(processedRecord) != IS_OBJECT)) {
 			if ((Z_TYPE_P(processedRecord) != IS_ARRAY)) {
 				continue;

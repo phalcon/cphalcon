@@ -1682,7 +1682,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getRelationRecords) {
 	HashPosition _6;
 	zend_bool reusable;
 	zval *method = NULL;
-	zval *relation, *method_param = NULL, *record, *parameters = NULL, *preConditions = NULL, *placeholders = NULL, *referencedModel, *intermediateModel, *intermediateFields = NULL, *joinConditions, *query, *fields = NULL, *builder, *conditions = NULL, *refPosition = NULL, *field = NULL, *referencedFields, *findParams, *findArguments = NULL, *retrieveMethod = NULL, *uniqueKey, *records = NULL, *arguments, *_0, *_1, *_2 = NULL, *_3 = NULL, *_4 = NULL, *_5 = NULL, **_8, *_9 = NULL;
+	zval *relation, *method_param = NULL, *record, *parameters = NULL, *preConditions = NULL, *placeholders = NULL, *referencedModel, *intermediateModel, *intermediateFields = NULL, *joinConditions, *query, *fields = NULL, *builder, *conditions = NULL, *refPosition = NULL, *field = NULL, *referencedFields, *findParams, *findArguments = NULL, *retrieveMethod = NULL, *uniqueKey, *records = NULL, *arguments, *_0, *_1, *_2 = NULL, *_3 = NULL, *_4 = NULL, *_5 = NULL, **_8, *_9 = NULL, *_11;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 3, 1, &relation, &method_param, &record, &parameters);
@@ -1832,7 +1832,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getRelationRecords) {
 		}
 	}
 	ZEPHIR_INIT_VAR(findParams);
-	array_init_size(findParams, 5);
+	array_init_size(findParams, 4);
 	ZEPHIR_INIT_NVAR(_3);
 	zephir_fast_join_str(_3, SL(" AND "), conditions TSRMLS_CC);
 	zephir_array_fast_append(findParams, _3);
@@ -1884,14 +1884,15 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getRelationRecords) {
 			RETURN_CCTOR(records);
 		}
 	}
+	ZEPHIR_INIT_VAR(_11);
 	ZEPHIR_INIT_NVAR(_3);
 	array_init_size(_3, 3);
 	ZEPHIR_INIT_NVAR(_4);
 	zephir_call_method_p1(_4, this_ptr, "load", referencedModel);
 	zephir_array_fast_append(_3, _4);
 	zephir_array_fast_append(_3, retrieveMethod);
-	ZEPHIR_INIT_NVAR(records);
-	zephir_call_func_p2(records, "call_user_func_array", _3, arguments);
+	ZEPHIR_CALL_USER_FUNC_ARRAY(_11, _3, arguments);
+	ZEPHIR_CPY_WRT(records, _11);
 	if (reusable) {
 		zephir_call_method_p3_noret(this_ptr, "setreusablerecords", referencedModel, uniqueKey, records);
 	}

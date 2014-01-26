@@ -17,6 +17,7 @@
 #include "kernel/memory.h"
 #include "kernel/concat.h"
 #include "kernel/file.h"
+#include "kernel/require.h"
 #include "ext/spl/spl_exceptions.h"
 #include "kernel/exception.h"
 #include "kernel/variables.h"
@@ -126,7 +127,10 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Files, read) {
 	ZEPHIR_INIT_VAR(path);
 	ZEPHIR_CONCAT_VVS(path, _0, _1, ".php");
 	if ((zephir_file_exists(path TSRMLS_CC) == SUCCESS)) {
-		RETURN_MM_BOOL((0 == 1));
+		if (zephir_require_ret(return_value, path TSRMLS_CC) == FAILURE) {
+			RETURN_MM_NULL();
+		}
+		RETURN_MM();
 	}
 	RETURN_MM_NULL();
 

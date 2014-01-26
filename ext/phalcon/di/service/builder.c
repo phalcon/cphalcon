@@ -226,10 +226,10 @@ PHP_METHOD(Phalcon_Di_Service_Builder, _buildParameters) {
  */
 PHP_METHOD(Phalcon_Di_Service_Builder, build) {
 
-	zend_function *_6 = NULL, *_7 = NULL, *_8 = NULL, *_9 = NULL, *_13 = NULL, *_14 = NULL, *_15 = NULL, *_16 = NULL;
-	HashTable *_2, *_11;
-	HashPosition _1, _10;
-	zval *dependencyInjector, *definition, *parameters = NULL, *className, *arguments = NULL, *paramCalls = NULL, *methodPosition = NULL, *method = NULL, *methodName, *methodCall = NULL, *instance = NULL, *propertyPosition = NULL, *property = NULL, *propertyName, *propertyValue, *_0 = NULL, **_3, *_4 = NULL, *_5 = NULL, **_12;
+	zend_function *_6 = NULL, *_7 = NULL, *_8 = NULL, *_10 = NULL, *_14 = NULL, *_15 = NULL, *_16 = NULL, *_17 = NULL;
+	HashTable *_2, *_12;
+	HashPosition _1, _11;
+	zval *dependencyInjector, *definition, *parameters = NULL, *className, *arguments = NULL, *paramCalls = NULL, *methodPosition = NULL, *method = NULL, *methodName, *methodCall = NULL, *instance = NULL, *propertyPosition = NULL, *property = NULL, *propertyName, *propertyValue, *_0 = NULL, **_3, *_4 = NULL, *_5 = NULL, *_9 = NULL, **_13;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 1, &dependencyInjector, &definition, &parameters);
@@ -327,9 +327,10 @@ PHP_METHOD(Phalcon_Di_Service_Builder, build) {
 					return;
 				}
 				if (zephir_fast_count_int(arguments TSRMLS_CC)) {
+					ZEPHIR_INIT_NVAR(_9);
 					ZEPHIR_INIT_NVAR(_0);
-					zephir_call_method_p2_cache(_0, this_ptr, "_buildparameters", &_9, dependencyInjector, arguments);
-					zephir_call_func_p2_noret("call_user_func_array", methodCall, _0);
+					zephir_call_method_p2_cache(_0, this_ptr, "_buildparameters", &_10, dependencyInjector, arguments);
+					ZEPHIR_CALL_USER_FUNC_ARRAY(_9, methodCall, _0);
 					continue;
 				}
 			}
@@ -346,19 +347,19 @@ PHP_METHOD(Phalcon_Di_Service_Builder, build) {
 			ZEPHIR_THROW_EXCEPTION_STR(phalcon_di_exception_ce, "Setter injection parameters must be an array");
 			return;
 		}
-		zephir_is_iterable(paramCalls, &_11, &_10, 0, 0);
+		zephir_is_iterable(paramCalls, &_12, &_11, 0, 0);
 		for (
-			; zend_hash_get_current_data_ex(_11, (void**) &_12, &_10) == SUCCESS
-			; zend_hash_move_forward_ex(_11, &_10)
+			; zend_hash_get_current_data_ex(_12, (void**) &_13, &_11) == SUCCESS
+			; zend_hash_move_forward_ex(_12, &_11)
 		) {
-			ZEPHIR_GET_HMKEY(propertyPosition, _11, _10);
-			ZEPHIR_GET_HVALUE(property, _12);
+			ZEPHIR_GET_HMKEY(propertyPosition, _12, _11);
+			ZEPHIR_GET_HVALUE(property, _13);
 			if ((Z_TYPE_P(property) != IS_ARRAY)) {
 				ZEPHIR_INIT_LNVAR(_4);
 				object_init_ex(_4, phalcon_di_exception_ce);
 				ZEPHIR_INIT_LNVAR(_5);
 				ZEPHIR_CONCAT_SV(_5, "Property must be an array on position ", propertyPosition);
-				zephir_call_method_p1_cache_noret(_4, "__construct", &_13, _5);
+				zephir_call_method_p1_cache_noret(_4, "__construct", &_14, _5);
 				zephir_throw_exception(_4 TSRMLS_CC);
 				ZEPHIR_MM_RESTORE();
 				return;
@@ -368,7 +369,7 @@ PHP_METHOD(Phalcon_Di_Service_Builder, build) {
 				object_init_ex(_4, phalcon_di_exception_ce);
 				ZEPHIR_INIT_LNVAR(_5);
 				ZEPHIR_CONCAT_SV(_5, "The property name is required on position ", propertyPosition);
-				zephir_call_method_p1_cache_noret(_4, "__construct", &_14, _5);
+				zephir_call_method_p1_cache_noret(_4, "__construct", &_15, _5);
 				zephir_throw_exception(_4 TSRMLS_CC);
 				ZEPHIR_MM_RESTORE();
 				return;
@@ -378,13 +379,13 @@ PHP_METHOD(Phalcon_Di_Service_Builder, build) {
 				object_init_ex(_4, phalcon_di_exception_ce);
 				ZEPHIR_INIT_LNVAR(_5);
 				ZEPHIR_CONCAT_SV(_5, "The property value is required on position ", propertyPosition);
-				zephir_call_method_p1_cache_noret(_4, "__construct", &_15, _5);
+				zephir_call_method_p1_cache_noret(_4, "__construct", &_16, _5);
 				zephir_throw_exception(_4 TSRMLS_CC);
 				ZEPHIR_MM_RESTORE();
 				return;
 			}
 			ZEPHIR_INIT_NVAR(_0);
-			zephir_call_method_p3_cache(_0, this_ptr, "_buildparameter", &_16, dependencyInjector, propertyPosition, propertyValue);
+			zephir_call_method_p3_cache(_0, this_ptr, "_buildparameter", &_17, dependencyInjector, propertyPosition, propertyValue);
 			zephir_update_property_zval_zval(instance, propertyName, _0 TSRMLS_CC);
 		}
 	}

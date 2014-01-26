@@ -174,22 +174,23 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction, begin) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_Transaction, commit) {
 
-	zval *manager, *connection, *_0, *_1 = NULL;
+	zval *manager, *connection, *_0, *_1, *_2 = NULL;
 
 	ZEPHIR_MM_GROW();
 
 	manager = zephir_fetch_nproperty_this(this_ptr, SL("_manager"), PH_NOISY_CC);
 	if ((Z_TYPE_P(manager) == IS_OBJECT)) {
 		ZEPHIR_INIT_VAR(_0);
-		array_init_size(_0, 3);
-		zephir_array_fast_append(_0, manager);
 		ZEPHIR_INIT_VAR(_1);
-		ZVAL_STRING(_1, "notifyCommit", 1);
-		zephir_array_fast_append(_0, _1);
-		ZEPHIR_INIT_NVAR(_1);
-		array_init_size(_1, 2);
-		zephir_array_fast_append(_1, this_ptr);
-		zephir_call_func_p2_noret("call_user_func_array", _0, _1);
+		array_init_size(_1, 3);
+		zephir_array_fast_append(_1, manager);
+		ZEPHIR_INIT_VAR(_2);
+		ZVAL_STRING(_2, "notifyCommit", 1);
+		zephir_array_fast_append(_1, _2);
+		ZEPHIR_INIT_NVAR(_2);
+		array_init_size(_2, 2);
+		zephir_array_fast_append(_2, this_ptr);
+		ZEPHIR_CALL_USER_FUNC_ARRAY(_0, _1, _2);
 	}
 	connection = zephir_fetch_nproperty_this(this_ptr, SL("_connection"), PH_NOISY_CC);
 	zephir_call_method(return_value, connection, "commit");
@@ -206,7 +207,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction, commit) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_Transaction, rollback) {
 
-	zval *rollbackMessage = NULL, *rollbackRecord = NULL, *manager, *connection, *_0 = NULL, *_1 = NULL, *_2, *_3;
+	zval *rollbackMessage = NULL, *rollbackRecord = NULL, *manager, *connection, *_0, *_1 = NULL, *_2 = NULL, *_3, *_4;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 2, &rollbackMessage, &rollbackRecord);
@@ -224,20 +225,21 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction, rollback) {
 	manager = zephir_fetch_nproperty_this(this_ptr, SL("_manager"), PH_NOISY_CC);
 	if ((Z_TYPE_P(manager) == IS_OBJECT)) {
 		ZEPHIR_INIT_VAR(_0);
-		array_init_size(_0, 3);
-		zephir_array_fast_append(_0, manager);
 		ZEPHIR_INIT_VAR(_1);
-		ZVAL_STRING(_1, "notifyRollback", 1);
-		zephir_array_fast_append(_0, _1);
-		ZEPHIR_INIT_NVAR(_1);
-		array_init_size(_1, 2);
-		zephir_array_fast_append(_1, this_ptr);
-		zephir_call_func_p2_noret("call_user_func_array", _0, _1);
+		array_init_size(_1, 3);
+		zephir_array_fast_append(_1, manager);
+		ZEPHIR_INIT_VAR(_2);
+		ZVAL_STRING(_2, "notifyRollback", 1);
+		zephir_array_fast_append(_1, _2);
+		ZEPHIR_INIT_NVAR(_2);
+		array_init_size(_2, 2);
+		zephir_array_fast_append(_2, this_ptr);
+		ZEPHIR_CALL_USER_FUNC_ARRAY(_0, _1, _2);
 	}
 	connection = zephir_fetch_nproperty_this(this_ptr, SL("_connection"), PH_NOISY_CC);
-	ZEPHIR_INIT_NVAR(_0);
-	zephir_call_method(_0, connection, "rollback");
-	if (zephir_is_true(_0)) {
+	ZEPHIR_INIT_NVAR(_1);
+	zephir_call_method(_1, connection, "rollback");
+	if (zephir_is_true(_1)) {
 		if (!(zephir_is_true(rollbackMessage))) {
 			ZEPHIR_INIT_NVAR(rollbackMessage);
 			ZVAL_STRING(rollbackMessage, "Transaction aborted", 1);
@@ -245,11 +247,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction, rollback) {
 		if ((Z_TYPE_P(rollbackRecord) == IS_OBJECT)) {
 			zephir_update_property_this(this_ptr, SL("_rollbackRecord"), rollbackRecord TSRMLS_CC);
 		}
-		ZEPHIR_INIT_VAR(_2);
-		object_init_ex(_2, phalcon_mvc_model_transaction_failed_ce);
-		_3 = zephir_fetch_nproperty_this(this_ptr, SL("_rollbackRecord"), PH_NOISY_CC);
-		zephir_call_method_p2_noret(_2, "__construct", rollbackMessage, _3);
-		zephir_throw_exception(_2 TSRMLS_CC);
+		ZEPHIR_INIT_VAR(_3);
+		object_init_ex(_3, phalcon_mvc_model_transaction_failed_ce);
+		_4 = zephir_fetch_nproperty_this(this_ptr, SL("_rollbackRecord"), PH_NOISY_CC);
+		zephir_call_method_p2_noret(_3, "__construct", rollbackMessage, _4);
+		zephir_throw_exception(_3 TSRMLS_CC);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}

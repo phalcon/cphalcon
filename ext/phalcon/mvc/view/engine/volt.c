@@ -136,7 +136,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, render) {
 	HashTable *_1;
 	HashPosition _0;
 	zend_bool mustClean;
-	zval *templatePath_param = NULL, *params, *mustClean_param = NULL, *compiler, *compiledTemplatePath, *key = NULL, *value = NULL, **_2, *_3, *_4;
+	zval *templatePath_param = NULL, *params, *mustClean_param = NULL, *compiler, *compiledTemplatePath, *key = NULL, *value = NULL, **_2, *_3, *_4, *_5;
 	zval *templatePath = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -181,14 +181,15 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, render) {
 			}
 		}
 	}
-	if (zephir_require(compiledTemplatePath TSRMLS_CC) == FAILURE) {
+	ZEPHIR_INIT_VAR(_3);
+	if (zephir_require_ret(_3, compiledTemplatePath TSRMLS_CC) == FAILURE) {
 		RETURN_MM_NULL();
 	}
 	if ((mustClean == 1)) {
-		_3 = zephir_fetch_nproperty_this(this_ptr, SL("_view"), PH_NOISY_CC);
-		ZEPHIR_INIT_VAR(_4);
-		zephir_call_func(_4, "ob_get_contents");
-		zephir_call_method_p1_noret(_3, "setcontent", _4);
+		_4 = zephir_fetch_nproperty_this(this_ptr, SL("_view"), PH_NOISY_CC);
+		ZEPHIR_INIT_VAR(_5);
+		zephir_call_func(_5, "ob_get_contents");
+		zephir_call_method_p1_noret(_4, "setcontent", _5);
 	}
 	ZEPHIR_MM_RESTORE();
 
@@ -363,7 +364,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, slice) {
 			if (!(zephir_is_true(_0))) {
 				break;
 			}
-			if (ZEPHIR_GE_LONG(start, position)) {
+			if (ZEPHIR_LT_LONG(start, position)) {
 				ZEPHIR_INIT_NVAR(_1);
 				zephir_call_method(_1, value, "current");
 				zephir_array_append(&slice, _1, PH_SEPARATE);

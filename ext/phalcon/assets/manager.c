@@ -427,10 +427,10 @@ PHP_METHOD(Phalcon_Assets_Manager, collection) {
 PHP_METHOD(Phalcon_Assets_Manager, output) {
 
 	zend_function *_6 = NULL, *_8 = NULL, *_9 = NULL;
-	HashTable *_4, *_11;
-	HashPosition _3, _10;
+	HashTable *_4, *_12;
+	HashPosition _3, _11;
 	zend_bool filterNeeded;
-	zval *collection, *callback, *type = NULL, *output, *resources, *filters, *prefix, *sourceBasePath, *targetBasePath, *options, *collectionSourcePath, *completeSourcePath = NULL, *collectionTargetPath, *completeTargetPath = NULL, *filteredJoinedContent = NULL, *join, *resource = NULL, *local = NULL, *sourcePath = NULL, *targetPath = NULL, *path = NULL, *prefixedPath = NULL, *attributes = NULL, *parameters = NULL, *html = NULL, *useImplicitOutput, *content = NULL, *mustFilter = NULL, *filter = NULL, *filteredContent = NULL, *typeCss, *targetUri, *_0 = NULL, *_1 = NULL, *_2 = NULL, **_5, *_7 = NULL, **_12;
+	zval *collection, *callback, *type = NULL, *output, *resources, *filters, *prefix, *sourceBasePath, *targetBasePath, *options, *collectionSourcePath, *completeSourcePath = NULL, *collectionTargetPath, *completeTargetPath = NULL, *filteredJoinedContent = NULL, *join, *resource = NULL, *local = NULL, *sourcePath = NULL, *targetPath = NULL, *path = NULL, *prefixedPath = NULL, *attributes = NULL, *parameters = NULL, *html = NULL, *useImplicitOutput, *content = NULL, *mustFilter = NULL, *filter = NULL, *filteredContent = NULL, *typeCss, *targetUri, *_0 = NULL, *_1 = NULL, *_2 = NULL, **_5, *_7 = NULL, *_10 = NULL, **_13, *_14 = NULL, *_15;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 3, 0, &collection, &callback, &type);
@@ -589,8 +589,9 @@ PHP_METHOD(Phalcon_Assets_Manager, output) {
 				zephir_array_append(&parameters, prefixedPath, PH_SEPARATE);
 			}
 			zephir_array_append(&parameters, local, PH_SEPARATE);
-			ZEPHIR_INIT_NVAR(html);
-			zephir_call_func_p2(html, "call_user_func_array", callback, parameters);
+			ZEPHIR_INIT_NVAR(_10);
+			ZEPHIR_CALL_USER_FUNC_ARRAY(_10, callback, parameters);
+			ZEPHIR_CPY_WRT(html, _10);
 			if (ZEPHIR_IS_TRUE(useImplicitOutput)) {
 				zend_print_zval(html, 0);
 			} else {
@@ -604,12 +605,12 @@ PHP_METHOD(Phalcon_Assets_Manager, output) {
 			ZEPHIR_INIT_NVAR(mustFilter);
 			zephir_call_method(mustFilter, resource, "getfilter");
 			if (ZEPHIR_IS_TRUE(mustFilter)) {
-				zephir_is_iterable(filters, &_11, &_10, 0, 0);
+				zephir_is_iterable(filters, &_12, &_11, 0, 0);
 				for (
-					; zend_hash_get_current_data_ex(_11, (void**) &_12, &_10) == SUCCESS
-					; zend_hash_move_forward_ex(_11, &_10)
+					; zend_hash_get_current_data_ex(_12, (void**) &_13, &_11) == SUCCESS
+					; zend_hash_move_forward_ex(_12, &_11)
 				) {
-					ZEPHIR_GET_HVALUE(filter, _12);
+					ZEPHIR_GET_HVALUE(filter, _13);
 					if ((Z_TYPE_P(filter) != IS_OBJECT)) {
 						ZEPHIR_THROW_EXCEPTION_STR(phalcon_assets_exception_ce, "Filter is invalid");
 						return;
@@ -671,8 +672,9 @@ PHP_METHOD(Phalcon_Assets_Manager, output) {
 				zephir_array_append(&parameters, prefixedPath, PH_SEPARATE);
 			}
 			zephir_array_append(&parameters, local, PH_SEPARATE);
-			ZEPHIR_INIT_NVAR(html);
-			zephir_call_func_p2(html, "call_user_func_array", callback, parameters);
+			ZEPHIR_INIT_NVAR(_14);
+			ZEPHIR_CALL_USER_FUNC_ARRAY(_14, callback, parameters);
+			ZEPHIR_CPY_WRT(html, _14);
 			if (ZEPHIR_IS_TRUE(useImplicitOutput)) {
 				zend_print_zval(html, 0);
 			} else {
@@ -704,8 +706,9 @@ PHP_METHOD(Phalcon_Assets_Manager, output) {
 				zephir_array_append(&parameters, prefixedPath, PH_SEPARATE);
 			}
 			zephir_array_append(&parameters, local, PH_SEPARATE);
-			ZEPHIR_INIT_NVAR(html);
-			zephir_call_func_p2(html, "call_user_func_array", callback, parameters);
+			ZEPHIR_INIT_VAR(_15);
+			ZEPHIR_CALL_USER_FUNC_ARRAY(_15, callback, parameters);
+			ZEPHIR_CPY_WRT(html, _15);
 			if (ZEPHIR_IS_TRUE(useImplicitOutput)) {
 				zend_print_zval(html, 0);
 			} else {

@@ -266,7 +266,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, getReservedAttributes) {
 	zephir_read_static_property_ce(&reserved, phalcon_mvc_collection_ce, SL("_reserved") TSRMLS_CC);
 	if ((Z_TYPE_P(reserved) == IS_NULL)) {
 		ZEPHIR_INIT_VAR(reserved);
-		array_init_size(reserved, 7);
+		array_init_size(reserved, 6);
 		zephir_array_update_string(&reserved, SL("_connection"), &ZEPHIR_GLOBAL(global_true), PH_COPY | PH_SEPARATE);
 		zephir_array_update_string(&reserved, SL("_dependencyInjector"), &ZEPHIR_GLOBAL(global_true), PH_COPY | PH_SEPARATE);
 		zephir_array_update_string(&reserved, SL("_source"), &ZEPHIR_GLOBAL(global_true), PH_COPY | PH_SEPARATE);
