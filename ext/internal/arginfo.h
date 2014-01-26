@@ -70,6 +70,22 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_arrayaccess_offsetget, 0, 0, 1)
 	ZEND_ARG_INFO(0, property)
 ZEND_END_ARG_INFO()
 
+#if PHP_VERSION_ID >= 50304
+
+/** @brief & ArrayAccess::offsetGet($property) */
+ZEND_BEGIN_ARG_INFO_EX(arginfo_arrayaccess_offsetgetref, 0, 1, 1)
+	ZEND_ARG_INFO(0, property)
+ZEND_END_ARG_INFO()
+
+#else
+
+/** @brief ArrayAccess::offsetGet($property) */
+ZEND_BEGIN_ARG_INFO_EX(arginfo_arrayaccess_offsetgetref, 0, 0, 1)
+	ZEND_ARG_INFO(0, property)
+ZEND_END_ARG_INFO()
+
+#endif
+
 /** @brief ArrayAccess::offsetSet($property, $value) */
 ZEND_BEGIN_ARG_INFO_EX(arginfo_arrayaccess_offsetset, 0, 0, 2)
 	ZEND_ARG_INFO(0, property)

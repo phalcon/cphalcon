@@ -77,6 +77,10 @@ static const zend_function_entry phalcon_session_adapter_method_entry[] = {
 	PHP_MALIAS(Phalcon_Session_Adapter, __set, set, arginfo___set, ZEND_ACC_PUBLIC)
 	PHP_MALIAS(Phalcon_Session_Adapter, __isset, has, arginfo___isset, ZEND_ACC_PUBLIC)
 	PHP_MALIAS(Phalcon_Session_Adapter, __unset, remove, arginfo___unset, ZEND_ACC_PUBLIC)
+	PHP_MALIAS(Phalcon_Session_Adapter, offsetGet, __get, arginfo_arrayaccess_offsetgetref, ZEND_ACC_PUBLIC)
+	PHP_MALIAS(Phalcon_Session_Adapter, offsetSet, set, arginfo_arrayaccess_offsetset, ZEND_ACC_PUBLIC)
+	PHP_MALIAS(Phalcon_Session_Adapter, offsetExists, has, arginfo_arrayaccess_offsetexists, ZEND_ACC_PUBLIC)
+	PHP_MALIAS(Phalcon_Session_Adapter, offsetUnset, remove, arginfo_arrayaccess_offsetunset, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Session_Adapter, count, arginfo_countable_count, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Session_Adapter, getIterator, arginfo_iteratoraggregate_getiterator, ZEND_ACC_PUBLIC)
 	PHP_FE_END
@@ -220,6 +224,88 @@ static void phalcon_session_adapter_unset_property(zval *object, zval *member ZL
 	}
 }
 
+static zval* phalcon_session_adapter_read_dimension(zval *object, zval *offset, int type TSRMLS_DC)
+{
+	zval **ret;
+
+	if (!is_phalcon_class(Z_OBJCE_P(object))) {
+		return zend_get_std_object_handlers()->read_dimension(object, offset, type TSRMLS_CC);
+	}
+
+	if (UNEXPECTED(!offset)) {
+		return EG(uninitialized_zval_ptr);
+	}
+
+	ret = phalcon_session_adapter_get_property_ptr_ptr_internal(object, offset, type TSRMLS_CC);
+
+	/* For write context we need to return a reference */
+	if ((type == BP_VAR_W || type == BP_VAR_RW || type == BP_VAR_UNSET) && !Z_ISREF_PP(ret)) {
+		if ((type == BP_VAR_W || type == BP_VAR_RW || type == BP_VAR_UNSET) && !Z_ISREF_PP(ret)) {
+			zval *newval;
+
+			MAKE_STD_ZVAL(newval);
+			*newval = **ret;
+			zval_copy_ctor(newval);
+			Z_SET_REFCOUNT_P(newval, 1);
+
+			Z_DELREF_PP(ret);
+			*ret = newval;
+		}
+
+		Z_SET_ISREF_PP(ret);
+	}
+
+	return *ret;
+}
+
+static void phalcon_session_adapter_write_dimension(zval *object, zval *offset, zval *value TSRMLS_DC)
+{
+	if (!is_phalcon_class(Z_OBJCE_P(object))) {
+		zend_get_std_object_handlers()->write_dimension(object, offset, value TSRMLS_CC);
+		return;
+	}
+
+	if (!offset) {
+		offset = PHALCON_GLOBAL(z_null);
+	}
+
+	phalcon_session_adapter_write_property_internal(object, offset, value TSRMLS_CC);
+}
+
+static int phalcon_session_adapter_has_dimension(zval *object, zval *member, int check_empty TSRMLS_DC)
+{
+	zval **tmp;
+
+	if (!is_phalcon_class(Z_OBJCE_P(object))) {
+		return zend_get_std_object_handlers()->has_dimension(object, member, check_empty TSRMLS_CC);
+	}
+
+	tmp = phalcon_session_adapter_get_property_ptr_ptr_internal(object, member, BP_VAR_NA TSRMLS_CC);
+
+	if (!tmp) {
+		return 0;
+	}
+
+	if (0 == check_empty) {
+		return Z_TYPE_PP(tmp) != IS_NULL;
+	}
+
+	if (1 == check_empty) {
+		return zend_is_true(*tmp);
+	}
+
+	return 1;
+}
+
+static void phalcon_session_adapter_unset_dimension(zval *object, zval *offset TSRMLS_DC)
+{
+	if (!is_phalcon_class(Z_OBJCE_P(object))) {
+		return zend_get_std_object_handlers()->unset_dimension(object, offset TSRMLS_CC);
+	}
+
+	phalcon_session_adapter_unset_property_internal(object, offset TSRMLS_CC);
+}
+
 static int phalcon_session_adapter_count_elements(zval *object, long *count TSRMLS_DC)
 {
 	int res;
@@ -310,14 +396,19 @@ PHALCON_INIT_CLASS(Phalcon_Session_Adapter){
 	phalcon_session_adapter_object_handlers.write_property       = phalcon_session_adapter_write_property;
 	phalcon_session_adapter_object_handlers.unset_property       = phalcon_session_adapter_unset_property;
 	phalcon_session_adapter_object_handlers.count_elements       = phalcon_session_adapter_count_elements;
+	phalcon_session_adapter_object_handlers.read_dimension       = phalcon_session_adapter_read_dimension;
+	phalcon_session_adapter_object_handlers.write_dimension      = phalcon_session_adapter_write_dimension;
+	phalcon_session_adapter_object_handlers.has_dimension        = phalcon_session_adapter_has_dimension;
+	phalcon_session_adapter_object_handlers.unset_dimension      = phalcon_session_adapter_unset_dimension;
 
 	phalcon_session_adapter_ce->get_iterator = phalcon_session_adapter_get_iterator;
 
 	zend_class_implements(
-		phalcon_session_adapter_ce TSRMLS_CC, 3,
+		phalcon_session_adapter_ce TSRMLS_CC, 4,
 		phalcon_session_adapterinterface_ce,
 		spl_ce_Countable,
-		zend_ce_aggregate
+		zend_ce_aggregate,
+		zend_ce_arrayaccess
 	);
 
 	return SUCCESS;
