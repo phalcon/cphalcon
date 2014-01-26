@@ -19,6 +19,7 @@
 
 #include "session/adapter.h"
 #include "session/adapterinterface.h"
+#include "internal/arginfo.h"
 
 #include <main/SAPI.h>
 #include <ext/spl/spl_array.h>
@@ -59,35 +60,25 @@ PHP_METHOD(Phalcon_Session_Adapter, __get);
 PHP_METHOD(Phalcon_Session_Adapter, count);
 PHP_METHOD(Phalcon_Session_Adapter, getIterator);
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_session_adapter___get, 0, 1, 1)
-	ZEND_ARG_INFO(0, property)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_session_adapter_count, 0, 0, 0)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_session_adapter_getiterator, 0, 0, 0)
-ZEND_END_ARG_INFO()
-
 static const zend_function_entry phalcon_session_adapter_method_entry[] = {
 	PHP_ME(Phalcon_Session_Adapter, __construct, arginfo_phalcon_session_adapterinterface___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
-	PHP_ME(Phalcon_Session_Adapter, __destruct, NULL, ZEND_ACC_PUBLIC | ZEND_ACC_DTOR)
-	PHP_ME(Phalcon_Session_Adapter, start, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Session_Adapter, __destruct, arginfo_empty, ZEND_ACC_PUBLIC | ZEND_ACC_DTOR)
+	PHP_ME(Phalcon_Session_Adapter, start, arginfo_empty, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Session_Adapter, setOptions, arginfo_phalcon_session_adapterinterface_setoptions, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Session_Adapter, getOptions, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Session_Adapter, getOptions, arginfo_empty, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Session_Adapter, get, arginfo_phalcon_session_adapterinterface_get, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Session_Adapter, set, arginfo_phalcon_session_adapterinterface_set, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Session_Adapter, has, arginfo_phalcon_session_adapterinterface_has, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Session_Adapter, remove, arginfo_phalcon_session_adapterinterface_remove, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Session_Adapter, getId, NULL, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Session_Adapter, isStarted, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Session_Adapter, getId, arginfo_empty, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Session_Adapter, isStarted, arginfo_empty, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Session_Adapter, destroy, arginfo_phalcon_session_adapterinterface_destroy, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Session_Adapter, __get, arginfo_phalcon_session_adapter___get, ZEND_ACC_PUBLIC)
-	PHP_MALIAS(Phalcon_Session_Adapter, __set, set, arginfo_phalcon_session_adapterinterface_set, ZEND_ACC_PUBLIC)
-	PHP_MALIAS(Phalcon_Session_Adapter, __isset, has, arginfo_phalcon_session_adapterinterface_has, ZEND_ACC_PUBLIC)
-	PHP_MALIAS(Phalcon_Session_Adapter, __unset, remove, arginfo_phalcon_session_adapterinterface_remove, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Session_Adapter, count, arginfo_phalcon_session_adapter_count, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Session_Adapter, getIterator, arginfo_phalcon_session_adapter_getiterator, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Session_Adapter, __get, arginfo___getref, ZEND_ACC_PUBLIC)
+	PHP_MALIAS(Phalcon_Session_Adapter, __set, set, arginfo___set, ZEND_ACC_PUBLIC)
+	PHP_MALIAS(Phalcon_Session_Adapter, __isset, has, arginfo___isset, ZEND_ACC_PUBLIC)
+	PHP_MALIAS(Phalcon_Session_Adapter, __unset, remove, arginfo___unset, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Session_Adapter, count, arginfo_countable_count, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Session_Adapter, getIterator, arginfo_iteratoraggregate_getiterator, ZEND_ACC_PUBLIC)
 	PHP_FE_END
 };
 

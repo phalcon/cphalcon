@@ -24,6 +24,7 @@
 #include "di/injectionawareinterface.h"
 #include "di.h"
 #include "diinterface.h"
+#include "internal/arginfo.h"
 
 #include <ext/spl/spl_array.h>
 
@@ -67,28 +68,21 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_session_bag___construct, 0, 0, 1)
 	ZEND_ARG_INFO(0, name)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_session_bag___get, 0, 1, 1)
-	ZEND_ARG_INFO(0, property)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_session_bag_getiterator, 0, 0, 0)
-ZEND_END_ARG_INFO()
-
 static const zend_function_entry phalcon_session_bag_method_entry[] = {
 	PHP_ME(Phalcon_Session_Bag, __construct, arginfo_phalcon_session_bag___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
 	PHP_ME(Phalcon_Session_Bag, setDI, arginfo_phalcon_di_injectionawareinterface_setdi, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Session_Bag, getDI, arginfo_phalcon_di_injectionawareinterface_getdi, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Session_Bag, initialize, NULL, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Session_Bag, destroy, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Session_Bag, initialize, arginfo_empty, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Session_Bag, destroy, arginfo_empty, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Session_Bag, set, arginfo_phalcon_session_baginterface_set, ZEND_ACC_PUBLIC)
-	PHP_MALIAS(Phalcon_Session_Bag, __set, set, arginfo_phalcon_session_baginterface_set, ZEND_ACC_PUBLIC)
+	PHP_MALIAS(Phalcon_Session_Bag, __set, set, arginfo___set, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Session_Bag, get, arginfo_phalcon_session_baginterface_get, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Session_Bag, __get, arginfo_phalcon_session_bag___get, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Session_Bag, __get, arginfo___getref, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Session_Bag, has, arginfo_phalcon_session_baginterface_has, ZEND_ACC_PUBLIC)
-	PHP_MALIAS(Phalcon_Session_Bag, __isset, has, arginfo_phalcon_session_baginterface_has, ZEND_ACC_PUBLIC)
+	PHP_MALIAS(Phalcon_Session_Bag, __isset, has, arginfo___isset, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Session_Bag, remove, arginfo_phalcon_session_baginterface_remove, ZEND_ACC_PUBLIC)
-	PHP_MALIAS(Phalcon_Session_Bag, __unset, remove, arginfo_phalcon_session_baginterface_remove, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Session_Bag, getIterator, arginfo_phalcon_session_bag_getiterator, ZEND_ACC_PUBLIC)
+	PHP_MALIAS(Phalcon_Session_Bag, __unset, remove, arginfo___unset, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Session_Bag, getIterator, arginfo_iteratoraggregate_getiterator, ZEND_ACC_PUBLIC)
 	PHP_FE_END
 };
 
