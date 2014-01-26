@@ -223,7 +223,7 @@ PHP_METHOD(Phalcon_Assets_Manager, addResourceByType) {
 	if (!(zephir_array_isset_fetch(&collection, collections, type, 1 TSRMLS_CC))) {
 		ZEPHIR_INIT_VAR(_0);
 		object_init_ex(_0, phalcon_assets_collection_ce);
-		if (zephir_has_constructor(_0) TSRMLS_CC) {
+		if (zephir_has_constructor(_0 TSRMLS_CC)) {
 			zephir_call_method_noret(_0, "__construct");
 		}
 		zephir_update_property_array(this_ptr, SL("_collections"), type, _0 TSRMLS_CC);
@@ -354,7 +354,7 @@ PHP_METHOD(Phalcon_Assets_Manager, getCss) {
 	collections = zephir_fetch_nproperty_this(this_ptr, SL("_collections"), PH_NOISY_CC);
 	if (!(zephir_array_isset_string_fetch(&collection, collections, SS("css"), 1 TSRMLS_CC))) {
 		object_init_ex(return_value, phalcon_assets_collection_ce);
-		if (zephir_has_constructor(return_value) TSRMLS_CC) {
+		if (zephir_has_constructor(return_value TSRMLS_CC)) {
 			zephir_call_method_noret(return_value, "__construct");
 		}
 		RETURN_MM();
@@ -377,7 +377,7 @@ PHP_METHOD(Phalcon_Assets_Manager, getJs) {
 	collections = zephir_fetch_nproperty_this(this_ptr, SL("_collections"), PH_NOISY_CC);
 	if (!(zephir_array_isset_string_fetch(&collection, collections, SS("js"), 1 TSRMLS_CC))) {
 		object_init_ex(return_value, phalcon_assets_collection_ce);
-		if (zephir_has_constructor(return_value) TSRMLS_CC) {
+		if (zephir_has_constructor(return_value TSRMLS_CC)) {
 			zephir_call_method_noret(return_value, "__construct");
 		}
 		RETURN_MM();
@@ -408,7 +408,7 @@ PHP_METHOD(Phalcon_Assets_Manager, collection) {
 	if (!(zephir_array_isset_fetch(&collection, collections, name, 0 TSRMLS_CC))) {
 		ZEPHIR_INIT_BNVAR(collection);
 		object_init_ex(collection, phalcon_assets_collection_ce);
-		if (zephir_has_constructor(collection) TSRMLS_CC) {
+		if (zephir_has_constructor(collection TSRMLS_CC)) {
 			zephir_call_method_noret(collection, "__construct");
 		}
 		zephir_update_property_array(this_ptr, SL("_collections"), name, collection TSRMLS_CC);
@@ -561,8 +561,7 @@ PHP_METHOD(Phalcon_Assets_Manager, output) {
 					}
 					if ((zephir_file_exists(targetPath TSRMLS_CC) == SUCCESS)) {
 						ZEPHIR_INIT_NVAR(_2);
-						zephir_call_func_p2(_2, "compare_mtime", targetPath, sourcePath);
-						if (zephir_is_true(_2)) {
+						if (zephir_compare_mtime(targetPath, sourcePath TSRMLS_CC)) {
 							filterNeeded = 1;
 						}
 					} else {

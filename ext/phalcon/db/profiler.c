@@ -112,7 +112,7 @@ PHP_METHOD(Phalcon_Db_Profiler, startProfile) {
 
 	ZEPHIR_INIT_VAR(activeProfile);
 	object_init_ex(activeProfile, phalcon_db_profiler_item_ce);
-	if (zephir_has_constructor(activeProfile) TSRMLS_CC) {
+	if (zephir_has_constructor(activeProfile TSRMLS_CC)) {
 		zephir_call_method_noret(activeProfile, "__construct");
 	}
 	zephir_call_method_p1_noret(activeProfile, "setsqlstatement", sqlStatement);

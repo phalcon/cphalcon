@@ -168,7 +168,7 @@ PHP_METHOD(Phalcon_Db_Adapter, __construct) {
 		ZEPHIR_INIT_VAR(_1);
 		_2 = zend_fetch_class(Z_STRVAL_P(dialectClass), Z_STRLEN_P(dialectClass), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
 		object_init_ex(_1, _2);
-		if (zephir_has_constructor(_1) TSRMLS_CC) {
+		if (zephir_has_constructor(_1 TSRMLS_CC)) {
 			zephir_call_method_noret(_1, "__construct");
 		}
 		zephir_update_property_this(this_ptr, SL("_dialect"), _1 TSRMLS_CC);

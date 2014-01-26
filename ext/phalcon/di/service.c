@@ -267,7 +267,7 @@ PHP_METHOD(Phalcon_Di_Service, resolve) {
 			if ((Z_TYPE_P(definition) == IS_ARRAY)) {
 				ZEPHIR_INIT_VAR(builder);
 				object_init_ex(builder, phalcon_di_service_builder_ce);
-				if (zephir_has_constructor(builder) TSRMLS_CC) {
+				if (zephir_has_constructor(builder TSRMLS_CC)) {
 					zephir_call_method_noret(builder, "__construct");
 				}
 				ZEPHIR_INIT_BNVAR(instance);

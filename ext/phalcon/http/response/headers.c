@@ -187,7 +187,7 @@ PHP_METHOD(Phalcon_Http_Response_Headers, __set_state) {
 
 	ZEPHIR_INIT_VAR(headers);
 	object_init_ex(headers, phalcon_http_response_headers_ce);
-	if (zephir_has_constructor(headers) TSRMLS_CC) {
+	if (zephir_has_constructor(headers TSRMLS_CC)) {
 		zephir_call_method_noret(headers, "__construct");
 	}
 	if (zephir_array_isset_string_fetch(&dataHeaders, data, SS("_headers"), 1 TSRMLS_CC)) {

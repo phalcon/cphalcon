@@ -120,7 +120,7 @@ PHP_METHOD(Phalcon_Mvc_Micro_LazyLoader, __call) {
 		ZEPHIR_INIT_BNVAR(handler);
 		_0 = zend_fetch_class(Z_STRVAL_P(definition), Z_STRLEN_P(definition), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
 		object_init_ex(handler, _0);
-		if (zephir_has_constructor(handler) TSRMLS_CC) {
+		if (zephir_has_constructor(handler TSRMLS_CC)) {
 			zephir_call_method_noret(handler, "__construct");
 		}
 		zephir_update_property_this(this_ptr, SL("_handler"), handler TSRMLS_CC);

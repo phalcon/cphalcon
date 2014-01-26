@@ -221,7 +221,7 @@ PHP_METHOD(Phalcon_Http_Response, getHeaders) {
 	if ((Z_TYPE_P(headers) == IS_NULL)) {
 		ZEPHIR_INIT_BNVAR(headers);
 		object_init_ex(headers, phalcon_http_response_headers_ce);
-		if (zephir_has_constructor(headers) TSRMLS_CC) {
+		if (zephir_has_constructor(headers TSRMLS_CC)) {
 			zephir_call_method_noret(headers, "__construct");
 		}
 		zephir_update_property_this(this_ptr, SL("_headers"), headers TSRMLS_CC);

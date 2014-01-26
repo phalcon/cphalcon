@@ -194,7 +194,7 @@ PHP_METHOD(Phalcon_Validation_Validator_File, validate) {
 	zephir_call_method_p1(_3, this_ptr, "issetoption", _6);
 	if (zephir_is_true(_3)) {
 		ZEPHIR_INIT_VAR(byteUnits);
-		array_init_size(byteUnits, 10);
+		array_init_size(byteUnits, 11);
 		add_assoc_long_ex(byteUnits, SS("B"), 0);
 		add_assoc_long_ex(byteUnits, SS("K"), 10);
 		add_assoc_long_ex(byteUnits, SS("M"), 20);
@@ -215,7 +215,7 @@ PHP_METHOD(Phalcon_Validation_Validator_File, validate) {
 		ZEPHIR_INIT_VAR(_9);
 		ZEPHIR_INIT_NVAR(_6);
 		ZEPHIR_INIT_NVAR(_7);
-		zephir_array_keys(_7, byteUnits);
+		zephir_array_keys(_7, byteUnits TSRMLS_CC);
 		zephir_fast_join_str(_6, SL("|"), _7 TSRMLS_CC);
 		ZEPHIR_INIT_LNVAR(_2);
 		ZEPHIR_CONCAT_SVS(_2, "/^([0-9]+(?:\\.[0-9]+)?)(", _6, ")?$/Di");

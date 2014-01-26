@@ -642,7 +642,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, functionCall) {
 		extensions = zephir_fetch_nproperty_this(this_ptr, SL("_extensions"), PH_NOISY_CC);
 		if ((Z_TYPE_P(extensions) == IS_ARRAY)) {
 			ZEPHIR_INIT_VAR(_0);
-			array_init_size(_0, 4);
+			array_init_size(_0, 5);
 			zephir_array_fast_append(_0, name);
 			zephir_array_fast_append(_0, arguments);
 			zephir_array_fast_append(_0, funcArguments);
@@ -741,7 +741,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, functionCall) {
 			zephir_read_property_this(&arrayHelpers, this_ptr, SL("_arrayHelpers"), PH_NOISY_CC);
 			if ((Z_TYPE_P(arrayHelpers) != IS_ARRAY)) {
 				ZEPHIR_INIT_NVAR(arrayHelpers);
-				array_init_size(arrayHelpers, 16);
+				array_init_size(arrayHelpers, 17);
 				zephir_array_update_string(&arrayHelpers, SL("link_to"), &ZEPHIR_GLOBAL(global_true), PH_COPY | PH_SEPARATE);
 				zephir_array_update_string(&arrayHelpers, SL("image"), &ZEPHIR_GLOBAL(global_true), PH_COPY | PH_SEPARATE);
 				zephir_array_update_string(&arrayHelpers, SL("form"), &ZEPHIR_GLOBAL(global_true), PH_COPY | PH_SEPARATE);
@@ -950,7 +950,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, resolveFilter) {
 			zephir_array_fetch_string(&file, filter, SL("file"), PH_NOISY | PH_READONLY TSRMLS_CC);
 			zephir_array_fetch_string(&line, filter, SL("line"), PH_NOISY | PH_READONLY TSRMLS_CC);
 			ZEPHIR_INIT_VAR(_4);
-			array_init_size(_4, 4);
+			array_init_size(_4, 5);
 			ZEPHIR_INIT_VAR(_5);
 			array_init_size(_5, 5);
 			add_assoc_long_ex(_5, SS("type"), 364);
@@ -2841,7 +2841,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compile) {
 		if ((Z_TYPE_P(compiledPath) == IS_OBJECT)) {
 			if (zephir_is_instance_of(compiledPath, SL("Closure") TSRMLS_CC)) {
 				ZEPHIR_INIT_VAR(_1);
-				array_init_size(_1, 4);
+				array_init_size(_1, 5);
 				zephir_array_fast_append(_1, templatePath);
 				zephir_array_fast_append(_1, options);
 				ZEPHIR_INIT_VAR(_2);
@@ -2867,8 +2867,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compile) {
 		if (ZEPHIR_IS_TRUE(stat)) {
 			if ((zephir_file_exists(compiledTemplatePath TSRMLS_CC) == SUCCESS)) {
 				ZEPHIR_INIT_NVAR(_1);
-				zephir_call_func_p2(_1, "compare_mtime", templatePath, realCompiledPath);
-				if (zephir_is_true(_1)) {
+				if (zephir_compare_mtime(templatePath, realCompiledPath TSRMLS_CC)) {
 					ZEPHIR_INIT_BNVAR(compilation);
 					zephir_call_method_p3(compilation, this_ptr, "compilefile", templatePath, realCompiledPath, (extendsMode ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false)));
 				} else {

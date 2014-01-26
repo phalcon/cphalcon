@@ -825,7 +825,7 @@ PHP_METHOD(Phalcon_Mvc_Model, cloneResultMapHydrate) {
 		array_init(hydrate);
 	} else {
 		object_init(hydrate);
-		if (zephir_has_constructor(hydrate) TSRMLS_CC) {
+		if (zephir_has_constructor(hydrate TSRMLS_CC)) {
 			zephir_call_method_noret(hydrate, "__construct");
 		}
 	}
@@ -1107,7 +1107,7 @@ PHP_METHOD(Phalcon_Mvc_Model, query) {
 	}
 	ZEPHIR_INIT_VAR(criteria);
 	object_init_ex(criteria, phalcon_mvc_model_criteria_ce);
-	if (zephir_has_constructor(criteria) TSRMLS_CC) {
+	if (zephir_has_constructor(criteria TSRMLS_CC)) {
 		zephir_call_method_noret(criteria, "__construct");
 	}
 	zephir_call_method_p1_noret(criteria, "setdi", dependencyInjector);
@@ -2743,7 +2743,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _doLowUpdate) {
 		}
 	}
 	ZEPHIR_INIT_BNVAR(_0);
-	array_init_size(_0, 4);
+	array_init_size(_0, 5);
 	zephir_array_update_string(&_0, SL("conditions"), &uniqueKey, PH_COPY | PH_SEPARATE);
 	zephir_array_update_string(&_0, SL("bind"), &uniqueParams, PH_COPY | PH_SEPARATE);
 	zephir_array_update_string(&_0, SL("bindTypes"), &uniqueTypes, PH_COPY | PH_SEPARATE);
@@ -3635,7 +3635,7 @@ PHP_METHOD(Phalcon_Mvc_Model, refresh) {
 	zephir_call_method(dialect, readConnection, "getdialect");
 	ZEPHIR_INIT_NVAR(_1);
 	ZEPHIR_INIT_NVAR(_5);
-	array_init_size(_5, 4);
+	array_init_size(_5, 5);
 	zephir_array_update_string(&_5, SL("columns"), &fields, PH_COPY | PH_SEPARATE);
 	ZEPHIR_INIT_VAR(_6);
 	zephir_call_method_p1(_6, readConnection, "escapeidentifier", table);
@@ -4737,7 +4737,7 @@ PHP_METHOD(Phalcon_Mvc_Model, __callStatic) {
 	ZEPHIR_INIT_VAR(model);
 	_3 = zend_fetch_class(Z_STRVAL_P(modelName), Z_STRLEN_P(modelName), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
 	object_init_ex(model, _3);
-	if (zephir_has_constructor(model) TSRMLS_CC) {
+	if (zephir_has_constructor(model TSRMLS_CC)) {
 		zephir_call_method_noret(model, "__construct");
 	}
 	ZEPHIR_INIT_VAR(metaData);

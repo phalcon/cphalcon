@@ -118,7 +118,7 @@ class Reflection
 	 */
 	public function getPropertiesAnnotations()
 	{
-		var annotations, reflectionData, reflectionProperties,
+		var annotations, reflectionProperties,
 			collections, property, reflectionProperty;
 
 		let annotations = this->_propertyAnnotations;

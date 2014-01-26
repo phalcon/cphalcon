@@ -379,7 +379,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, load) {
 	if (zephir_class_exists(modelName, 1 TSRMLS_CC)) {
 		_1 = zend_fetch_class(Z_STRVAL_P(modelName), Z_STRLEN_P(modelName), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
 		object_init_ex(return_value, _1);
-		if (zephir_has_constructor(return_value) TSRMLS_CC) {
+		if (zephir_has_constructor(return_value TSRMLS_CC)) {
 			_2 = zephir_fetch_nproperty_this(this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
 			zephir_call_method_p2_noret(return_value, "__construct", _2, this_ptr);
 		}
@@ -1832,7 +1832,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getRelationRecords) {
 		}
 	}
 	ZEPHIR_INIT_VAR(findParams);
-	array_init_size(findParams, 4);
+	array_init_size(findParams, 5);
 	ZEPHIR_INIT_NVAR(_3);
 	zephir_fast_join_str(_3, SL(" AND "), conditions TSRMLS_CC);
 	zephir_array_fast_append(findParams, _3);
@@ -2519,7 +2519,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, createQuery) {
 	}
 	ZEPHIR_INIT_VAR(query);
 	object_init_ex(query, phalcon_mvc_model_query_ce);
-	if (zephir_has_constructor(query) TSRMLS_CC) {
+	if (zephir_has_constructor(query TSRMLS_CC)) {
 		zephir_call_method_p1_noret(query, "__construct", phql);
 	}
 	zephir_call_method_p1_noret(query, "setdi", dependencyInjector);
@@ -2567,7 +2567,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, executeQuery) {
 	}
 	ZEPHIR_INIT_VAR(query);
 	object_init_ex(query, phalcon_mvc_model_query_ce);
-	if (zephir_has_constructor(query) TSRMLS_CC) {
+	if (zephir_has_constructor(query TSRMLS_CC)) {
 		zephir_call_method_p1_noret(query, "__construct", phql);
 	}
 	zephir_call_method_p1_noret(query, "setdi", dependencyInjector);

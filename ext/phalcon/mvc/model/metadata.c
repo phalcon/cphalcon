@@ -240,7 +240,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, getStrategy) {
 	if ((Z_TYPE_P(strategy) == IS_NULL)) {
 		ZEPHIR_INIT_BNVAR(strategy);
 		object_init_ex(strategy, phalcon_mvc_model_metadata_strategy_introspection_ce);
-		if (zephir_has_constructor(strategy) TSRMLS_CC) {
+		if (zephir_has_constructor(strategy TSRMLS_CC)) {
 			zephir_call_method_noret(strategy, "__construct");
 		}
 		zephir_update_property_this(this_ptr, SL("_strategy"), strategy TSRMLS_CC);

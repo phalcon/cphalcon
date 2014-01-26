@@ -1282,7 +1282,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getPhql) {
 		ZEPHIR_INIT_VAR(modelInstance);
 		_1 = zend_fetch_class(Z_STRVAL_P(model), Z_STRLEN_P(model), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
 		object_init_ex(modelInstance, _1);
-		if (zephir_has_constructor(modelInstance) TSRMLS_CC) {
+		if (zephir_has_constructor(modelInstance TSRMLS_CC)) {
 			zephir_call_method_p1_noret(modelInstance, "__construct", dependencyInjector);
 		}
 		noPrimary = 1;
@@ -1589,7 +1589,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getQuery) {
 
 	ZEPHIR_INIT_VAR(query);
 	object_init_ex(query, phalcon_mvc_model_query_ce);
-	if (zephir_has_constructor(query) TSRMLS_CC) {
+	if (zephir_has_constructor(query TSRMLS_CC)) {
 		ZEPHIR_INIT_VAR(_0);
 		zephir_call_method(_0, this_ptr, "getphql");
 		_1 = zephir_fetch_nproperty_this(this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);

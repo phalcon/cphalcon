@@ -139,7 +139,7 @@ PHP_METHOD(Phalcon_Paginator_Adapter_Model, getPaginate) {
 	n = zephir_fast_count_int(items TSRMLS_CC);
 	ZEPHIR_INIT_VAR(page);
 	object_init(page);
-	if (zephir_has_constructor(page) TSRMLS_CC) {
+	if (zephir_has_constructor(page TSRMLS_CC)) {
 		zephir_call_method_noret(page, "__construct");
 	}
 	lastShowPage = (pageNumber - 1);
