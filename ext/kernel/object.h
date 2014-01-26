@@ -17,6 +17,9 @@
   +------------------------------------------------------------------------+
 */
 
+#ifndef PHALCON_KERNEL_OBJECT_H
+#define PHALCON_KERNEL_OBJECT_H
+
 /** Class Retrieving/Checking */
 int phalcon_class_exists(const zval *class_name, int autoload TSRMLS_DC);
 int phalcon_class_exists_ex(zend_class_entry **zce, const zval *class_name, int autoload TSRMLS_DC);
@@ -102,3 +105,8 @@ int phalcon_create_instance_params_ce(zval *return_value, zend_class_entry *ce, 
 int phalcon_create_instance(zval *return_value, const zval *class_name TSRMLS_DC);
 int phalcon_create_instance_params(zval *return_value, const zval *class_name, zval *params TSRMLS_DC);
 
+#if PHP_VERSION_ID < 50400
+void object_properties_init(zend_object *object, zend_class_entry *class_type);
+#endif
+
+#endif /* PHALCON_KERNEL_OBJECT_H */

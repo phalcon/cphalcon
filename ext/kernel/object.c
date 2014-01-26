@@ -1452,3 +1452,23 @@ int phalcon_property_decr(zval *object, char *property_name, unsigned int proper
 
 	return SUCCESS;
 }
+
+#if PHP_VERSION_ID < 50400
+
+void object_properties_init(zend_object *object, zend_class_entry *class_type)
+{
+	zval *tmp;
+
+	if (UNEXPECTED(!object->properties)) {
+		ALLOC_HASHTABLE(object->properties);
+		zend_hash_init(object->properties, zend_hash_num_elements(&class_type->default_properties), NULL, ZVAL_PTR_DTOR, 0);
+	}
+
+#if PHP_VERSION_ID < 50304
+	zend_hash_copy(object->properties, &class_type->default_properties, (copy_ctor_func_t)zval_add_ref, (void*)&tmp, sizeof(zval*));
+#else
+	zend_hash_copy(object->properties, &class_type->default_properties, zval_copy_property_ctor(class_type), (void*)&tmp, sizeof(zval*));
+#endif
+}
+
+#endif
