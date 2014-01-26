@@ -95,7 +95,7 @@
  - Phalcon\Crypt:
    - Added support for various padding schemes (PKCS7, ANSI X.923, ISO 10126, ISO/IEC 7816-4, zero padding, space padding) to Phalcon\Crypt (#864, #887)
    - Reduced peak memory usage (#1237)
-   - encryptBase64() and decryptBase64() can optionally use RFC 4648 flavor of BASE64 (#1353)
+   - encryptBase64() and decryptBase64() can optionally use RFC 4648 flavor of BASE64 (#1353, #1919)
  - Phalcon\Db:
    - Added support for DECIMAL scale (#940)
    - Fixed invalid sequence names for PostgreSQL (#1022)
