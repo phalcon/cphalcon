@@ -536,10 +536,10 @@ static int phalcon_dispatcher_fire_event(zval *return_value, zval *mgr, const ch
 			else {
 				status2 = phalcon_call_method_params(NULL, NULL, source, SL("_handleexception"), zend_inline_hash_func(SS("_handleexception")) TSRMLS_CC, 1, exception);
 			}
-		}
 
-		if (FAILURE == status2) {
-			status = FAILURE;
+			if (FAILURE == status2) {
+				status = FAILURE;
+			}
 		}
 
 		ZVAL_NULL(event_name);
