@@ -72,7 +72,7 @@ PHP_METHOD(Phalcon_Version, _getVersion){
 	add_next_index_long(return_value, 1);
 	add_next_index_long(return_value, 3);
 	add_next_index_long(return_value, 0);
-	add_next_index_long(return_value, 2);
+	add_next_index_long(return_value, PHALCON_VERSION_BETA);
 	add_next_index_long(return_value, 1);
 }
 
@@ -88,7 +88,7 @@ PHP_METHOD(Phalcon_Version, _getVersion){
 PHP_METHOD(Phalcon_Version, get){
 
 	zval *version, *major, *medium, *minor, *special, *special_number;
-	zval *result, *suffix = NULL;
+	zval *result, *suffix;
 
 	PHALCON_MM_GROW();
 
@@ -113,25 +113,22 @@ PHP_METHOD(Phalcon_Version, get){
 	PHALCON_INIT_VAR(result);
 	PHALCON_CONCAT_VSVSVS(result, major, ".", medium, ".", minor, " ");
 
+	PHALCON_INIT_VAR(suffix);
 	switch (phalcon_get_intval(special)) {
 
-		case 1:
-			PHALCON_INIT_VAR(suffix);
+		case PHALCON_VERSION_ALPHA:
 			PHALCON_CONCAT_SV(suffix, "ALPHA ", special_number);
 			break;
 
-		case 2:
-			PHALCON_INIT_NVAR(suffix);
+		case PHALCON_VERSION_BETA:
 			PHALCON_CONCAT_SV(suffix, "BETA ", special_number);
 			break;
 
-		case 3:
-			PHALCON_INIT_NVAR(suffix);
+		case PHALCON_VERSION_RC:
 			PHALCON_CONCAT_SV(suffix, "RC ", special_number);
 			break;
 
 		default:
-			PHALCON_INIT_NVAR(suffix);
 			ZVAL_STRING(suffix, "", 1);
 			break;
 

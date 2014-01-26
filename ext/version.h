@@ -23,6 +23,11 @@
 
 #include "php_phalcon.h"
 
+#define PHALCON_VERSION_ALPHA      1
+#define PHALCON_VERSION_BETA       2
+#define PHALCON_VERSION_RC         3
+#define PHALCON_VERSION_STABLE     4
+
 extern zend_class_entry *phalcon_version_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Version);
