@@ -1,4 +1,3 @@
-
 /*
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
@@ -301,6 +300,8 @@ PHP_METHOD(Phalcon_Security, checkHash){
 		}
 
 		zval_ptr_dtor(&hash);
+	} else {
+		RETURN_FALSE;
 	}
 
 	RETURN_BOOL(check == 0);
