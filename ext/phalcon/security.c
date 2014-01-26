@@ -327,8 +327,8 @@ PHP_METHOD(Phalcon_Security, getTokenKey) {
 	if (zephir_has_constructor(filter TSRMLS_CC)) {
 		zephir_call_method_noret(filter, "__construct");
 	}
-	ZEPHIR_INIT_VAR(_1);
-	ZVAL_STRING(_1, "alphnum", 1);
+	ZEPHIR_INIT_BNVAR(_0);
+	ZVAL_STRING(_0, "alphnum", 1);
 	ZEPHIR_INIT_VAR(safeBytes);
 	zephir_call_method_p2(safeBytes, filter, "sanitize", base64Bytes, _0);
 	dependencyInjector = zephir_fetch_nproperty_this(this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);

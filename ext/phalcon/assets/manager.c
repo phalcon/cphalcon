@@ -280,13 +280,14 @@ PHP_METHOD(Phalcon_Assets_Manager, addResourceByType) {
 
 
 	collections = zephir_fetch_nproperty_this(this_ptr, SL("_collections"), PH_NOISY_CC);
-	if (!(zephir_array_isset_fetch(&collection, collections, type, 1 TSRMLS_CC))) {
-		ZEPHIR_INIT_VAR(_0);
-		object_init_ex(_0, phalcon_assets_collection_ce);
-		if (zephir_has_constructor(_0 TSRMLS_CC)) {
-			zephir_call_method_noret(_0, "__construct");
+	ZEPHIR_OBS_VAR(collection);
+	if (!(zephir_array_isset_fetch(&collection, collections, type, 0 TSRMLS_CC))) {
+		ZEPHIR_INIT_BNVAR(collection);
+		object_init_ex(collection, phalcon_assets_collection_ce);
+		if (zephir_has_constructor(collection TSRMLS_CC)) {
+			zephir_call_method_noret(collection, "__construct");
 		}
-		zephir_update_property_array(this_ptr, SL("_collections"), type, _0 TSRMLS_CC);
+		zephir_update_property_array(this_ptr, SL("_collections"), type, collection TSRMLS_CC);
 	}
 	zephir_call_method_p1_noret(collection, "add", resource);
 	RETURN_THIS();
