@@ -301,9 +301,11 @@ PHP_METHOD(Phalcon_Security, checkHash){
 		}
 
 		zval_ptr_dtor(&hash);
+		RETURN_BOOL(check == 0);
 	}
 
-	RETURN_BOOL(check == 0);
+	zval_ptr_dtor(&hash);
+	RETURN_FALSE;
 }
 
 /**
