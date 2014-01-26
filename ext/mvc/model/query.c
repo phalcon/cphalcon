@@ -4873,7 +4873,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, execute){
 
 	zval *bind_params = NULL, *bind_types = NULL, *unique_row;
 	zval *cache_options, *key, *lifetime = NULL, *cache_service = NULL;
-	zval *dependency_injector, *cache, *result = NULL, *is_fresh;
+	zval *dependency_injector, *cache, *frontend, *result = NULL, *is_fresh;
 	zval *prepared_result = NULL, *intermediate, *default_bind_params;
 	zval *merged_params = NULL, *default_bind_types;
 	zval *merged_types = NULL, *type, *exception_message;
@@ -4913,17 +4913,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, execute){
 		}
 	
 		/** 
-		 * By defaut use use 3600 seconds (1 hour) as cache lifetime
-		 */
-		if (phalcon_array_isset_string(cache_options, SS("lifetime"))) {
-			PHALCON_OBS_VAR(lifetime);
-			phalcon_array_fetch_string(&lifetime, cache_options, SL("lifetime"), PH_NOISY);
-		} else {
-			PHALCON_INIT_NVAR(lifetime);
-			ZVAL_LONG(lifetime, 3600);
-		}
-	
-		/** 
 		 * 'modelsCache' is the default name for the models cache service
 		 */
 		if (phalcon_array_isset_string(cache_options, SS("service"))) {
@@ -4942,6 +4931,23 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, execute){
 		if (Z_TYPE_P(cache) != IS_OBJECT) {
 			PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "The cache service must be an object");
 			return;
+		}
+	
+		/** 
+		 * By defaut use use 3600 seconds (1 hour) as cache lifetime
+		 */
+		if (phalcon_array_isset_string(cache_options, SS("lifetime"))) {
+			PHALCON_OBS_VAR(lifetime);
+			phalcon_array_fetch_string(&lifetime, cache_options, SL("lifetime"), PH_NOISY);
+		} else {
+			PHALCON_INIT_NVAR(frontend);
+			phalcon_call_method(frontend, cache, "getfrontend");
+			PHALCON_INIT_NVAR(lifetime);
+			if (Z_TYPE_P(frontend) == IS_OBJECT) {
+				phalcon_call_method(lifetime, frontend, "getlifetime");
+			} else {
+				ZVAL_LONG(lifetime, 3600);
+			}
 		}
 	
 		PHALCON_INIT_VAR(result);
