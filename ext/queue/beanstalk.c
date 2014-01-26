@@ -1,4 +1,3 @@
-
 /*
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
@@ -303,7 +302,7 @@ PHP_METHOD(Phalcon_Queue_Beanstalk, put){
 /**
  * Reserves a job in the queue
  *
- * @return boolean|Phalcon\Queue\Beanstalk\Job
+ * @return boolean|\Phalcon\Queue\Beanstalk\Job
  */
 PHP_METHOD(Phalcon_Queue_Beanstalk, reserve){
 
@@ -457,7 +456,7 @@ static void phalcon_queue_beanstalk_peek_common(zval *return_value, zval *this_p
 /**
  * Inspect the next ready job.
  *
- * @return boolean|Phalcon\Queue\Beanstalk\Job
+ * @return boolean|\Phalcon\Queue\Beanstalk\Job
  */
 PHP_METHOD(Phalcon_Queue_Beanstalk, peekReady){
 
