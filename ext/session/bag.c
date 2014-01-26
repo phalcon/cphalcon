@@ -63,6 +63,7 @@ PHP_METHOD(Phalcon_Session_Bag, has);
 PHP_METHOD(Phalcon_Session_Bag, __get);
 PHP_METHOD(Phalcon_Session_Bag, remove);
 PHP_METHOD(Phalcon_Session_Bag, getIterator);
+PHP_METHOD(Phalcon_Session_Bag, count);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_session_bag___construct, 0, 0, 1)
 	ZEND_ARG_INFO(0, name)
@@ -75,14 +76,19 @@ static const zend_function_entry phalcon_session_bag_method_entry[] = {
 	PHP_ME(Phalcon_Session_Bag, initialize, arginfo_empty, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Session_Bag, destroy, arginfo_empty, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Session_Bag, set, arginfo_phalcon_session_baginterface_set, ZEND_ACC_PUBLIC)
-	PHP_MALIAS(Phalcon_Session_Bag, __set, set, arginfo___set, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Session_Bag, get, arginfo_phalcon_session_baginterface_get, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Session_Bag, __get, arginfo___getref, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Session_Bag, has, arginfo_phalcon_session_baginterface_has, ZEND_ACC_PUBLIC)
-	PHP_MALIAS(Phalcon_Session_Bag, __isset, has, arginfo___isset, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Session_Bag, remove, arginfo_phalcon_session_baginterface_remove, ZEND_ACC_PUBLIC)
-	PHP_MALIAS(Phalcon_Session_Bag, __unset, remove, arginfo___unset, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Session_Bag, getIterator, arginfo_iteratoraggregate_getiterator, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Session_Bag, __get, arginfo___getref, ZEND_ACC_PUBLIC)
+	PHP_MALIAS(Phalcon_Session_Bag, __set, set, arginfo___set, ZEND_ACC_PUBLIC)
+	PHP_MALIAS(Phalcon_Session_Bag, __isset, has, arginfo___isset, ZEND_ACC_PUBLIC)
+	PHP_MALIAS(Phalcon_Session_Bag, __unset, remove, arginfo___unset, ZEND_ACC_PUBLIC)
+	PHP_MALIAS(Phalcon_Session_Bag, offsetGet, __get, arginfo_arrayaccess_offsetgetref, ZEND_ACC_PUBLIC)
+	PHP_MALIAS(Phalcon_Session_Bag, offsetSet, set, arginfo_arrayaccess_offsetset, ZEND_ACC_PUBLIC)
+	PHP_MALIAS(Phalcon_Session_Bag, offsetExists, has, arginfo_arrayaccess_offsetexists, ZEND_ACC_PUBLIC)
+	PHP_MALIAS(Phalcon_Session_Bag, offsetUnset, remove, arginfo_arrayaccess_offsetunset, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Session_Bag, count, arginfo_countable_count, ZEND_ACC_PUBLIC)
 	PHP_FE_END
 };
 
@@ -142,10 +148,12 @@ PHALCON_INIT_CLASS(Phalcon_Session_Bag){
 	phalcon_session_bag_ce->get_iterator = phalcon_session_bag_get_iterator;
 
 	zend_class_implements(
-		phalcon_session_bag_ce TSRMLS_CC, 3,
+		phalcon_session_bag_ce TSRMLS_CC, 5,
 		phalcon_di_injectionawareinterface_ce,
 		phalcon_session_baginterface_ce,
-		zend_ce_aggregate
+		zend_ce_aggregate,
+		zend_ce_arrayaccess,
+		spl_ce_Countable
 	);
 
 	return SUCCESS;
@@ -467,4 +475,16 @@ PHP_METHOD(Phalcon_Session_Bag, getIterator)
 	data = phalcon_fetch_nproperty_this(getThis(), SL("_data"), PH_NOISY TSRMLS_CC);
 	object_init_ex(return_value, spl_ce_ArrayIterator);
 	RETURN_ON_FAILURE(phalcon_call_method_params(NULL, NULL, return_value, SL("__construct"), zend_inline_hash_func(SS("__construct")) TSRMLS_CC, 1, data));
+}
+
+PHP_METHOD(Phalcon_Session_Bag, count)
+{
+	zval *data;
+	long int count;
+
+	RETURN_ON_FAILURE(phalcon_session_bag_maybe_initialize(this_ptr TSRMLS_CC));
+
+	data  = phalcon_fetch_nproperty_this(getThis(), SL("_data"), PH_NOISY TSRMLS_CC);
+	count = (Z_TYPE_P(data) == IS_ARRAY) ? zend_hash_num_elements(Z_ARRVAL_P(data)) : 0;
+	RETURN_LONG(count);
 }
