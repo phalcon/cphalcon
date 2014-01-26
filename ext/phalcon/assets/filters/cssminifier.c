@@ -91,9 +91,7 @@ static char cssmin_back_peek(cssmin_parser *parser){
 	return EOF;
 }
 
-/* machine
-
-*/
+/* machine */
 static int phalcon_cssmin_machine(cssmin_parser *parser, unsigned char c TSRMLS_DC){
 
 	unsigned char p;
@@ -278,24 +276,24 @@ int phalcon_cssmin(zval *return_value, zval *style TSRMLS_DC) {
 
 	zval *error = NULL;
 
-	PHALCON_MM_GROW();
+	ZEPHIR_MM_GROW();
 
 	ZVAL_NULL(return_value);
 
 	if (Z_TYPE_P(style) != IS_STRING) {
-		PHALCON_THROW_EXCEPTION_STR(phalcon_assets_exception_ce, "Style must be a string");
+		ZEPHIR_THROW_EXCEPTION_STR(phalcon_assets_exception_ce, "Style must be a string");
 		return FAILURE;
 	}
 
 	if (phalcon_cssmin_internal(return_value, style, &error TSRMLS_CC) == FAILURE) {
 		if (Z_TYPE_P(error) == IS_STRING) {
-			PHALCON_THROW_EXCEPTION_STR(phalcon_assets_exception_ce, Z_STRVAL_P(error));
+			ZEPHIR_THROW_EXCEPTION_STR(phalcon_assets_exception_ce, Z_STRVAL_P(error));
 		} else {
-			PHALCON_THROW_EXCEPTION_STR(phalcon_assets_exception_ce, "Unknown error");
+			ZEPHIR_THROW_EXCEPTION_STR(phalcon_assets_exception_ce, "Unknown error");
 		}
 		return FAILURE;
 	}
 
-	PHALCON_MM_RESTORE();
+	ZEPHIR_MM_RESTORE();
 	return SUCCESS;
 }

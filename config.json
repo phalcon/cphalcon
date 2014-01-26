@@ -16,17 +16,19 @@
         "optimizers"
     ],
     "constants-sources": [
-        "ext\/phalcon\/mvc\/model\/query\/scanner.h",
-        "ext\/phalcon\/annotations\/scanner.h",
-        "ext\/phalcon\/mvc\/view\/engine\/volt\/scanner.h"
+        "ext/phalcon/mvc\/model\/query\/scanner.h",
+        "ext/phalcon/annotations\/scanner.h",
+        "ext/phalcon/mvc\/view\/engine\/volt\/scanner.h"
     ],
     "extra-sources": [
-        "phalcon\/annotations\/scanner.c",
-        "phalcon\/annotations\/parser.c",
-        "phalcon\/mvc\/model\/query\/scanner.c",
-        "phalcon\/mvc\/model\/query\/parser.c",
-        "phalcon\/mvc\/view\/engine\/volt\/parser.c",
-        "phalcon\/mvc\/view\/engine\/volt\/scanner.c"
+        "phalcon/annotations/scanner.c",
+        "phalcon/annotations/parser.c",
+        "phalcon/mvc/model/query/scanner.c",
+        "phalcon/mvc/model/query/parser.c",
+        "phalcon/mvc/view/engine/volt/parser.c",
+        "phalcon/mvc/view/engine/volt/scanner.c",
+        "phalcon/assets/filters/jsminifier.c",
+        "phalcon/assets/filters/cssminifier.c"
     ],
     "globals": {
         "db.escape_identifiers": {

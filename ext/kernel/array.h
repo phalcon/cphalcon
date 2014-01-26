@@ -72,7 +72,7 @@ void zephir_fast_array_merge(zval *return_value, zval **array1, zval **array2 TS
 void zephir_array_merge_recursive_n(zval **a1, zval *a2 TSRMLS_DC);
 
 void zephir_array_unshift(zval *arr, zval *arg);
-void zephir_array_keys(zval *return_value, zval *arr);
+void zephir_array_keys(zval *return_value, zval *arr TSRMLS_DC);
 void zephir_array_values(zval *return_value, zval *arr);
 int zephir_array_key_exists(zval *arr, zval *key TSRMLS_DC);
 int zephir_array_is_associative(zval *arr);
