@@ -417,9 +417,7 @@ static zend_object_value phalcon_di_ctor(zend_class_entry* ce TSRMLS_DC)
 	zend_object_value retval;
 
 	zend_object_std_init(&obj->obj, ce TSRMLS_CC);
-#if PHP_VERSION_ID >= 50400
 	object_properties_init(&obj->obj, ce);
-#endif
 
 	ALLOC_HASHTABLE(obj->services);
 	ALLOC_HASHTABLE(obj->shared);

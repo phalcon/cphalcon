@@ -1010,10 +1010,10 @@ int phalcon_update_property_array(zval *object, char *property, unsigned int pro
 
 		if (Z_TYPE_P(index) == IS_STRING) {
 			zend_symtable_update(Z_ARRVAL_P(tmp), Z_STRVAL_P(index), Z_STRLEN_P(index) + 1, &value, sizeof(zval*), NULL);
-		} else {
-			if (Z_TYPE_P(index) == IS_LONG) {
-				zend_hash_index_update(Z_ARRVAL_P(tmp), Z_LVAL_P(index), &value, sizeof(zval *), NULL);
-			}
+		} else if (Z_TYPE_P(index) == IS_LONG) {
+			zend_hash_index_update(Z_ARRVAL_P(tmp), Z_LVAL_P(index), &value, sizeof(zval *), NULL);
+		} else if (Z_TYPE_P(index) == IS_NULL) {
+			zend_hash_next_index_insert(Z_ARRVAL_P(tmp), (void**)&value, sizeof(zval*), NULL);
 		}
 
 		if (separated) {
@@ -1454,3 +1454,23 @@ int phalcon_property_decr(zval *object, char *property_name, unsigned int proper
 
 	return SUCCESS;
 }
+
+#if PHP_VERSION_ID < 50400
+
+void object_properties_init(zend_object *object, zend_class_entry *class_type)
+{
+	zval *tmp;
+
+	if (UNEXPECTED(!object->properties)) {
+		ALLOC_HASHTABLE(object->properties);
+		zend_hash_init(object->properties, zend_hash_num_elements(&class_type->default_properties), NULL, ZVAL_PTR_DTOR, 0);
+	}
+
+#if PHP_VERSION_ID < 50304
+	zend_hash_copy(object->properties, &class_type->default_properties, (copy_ctor_func_t)zval_add_ref, (void*)&tmp, sizeof(zval*));
+#else
+	zend_hash_copy(object->properties, &class_type->default_properties, zval_copy_property_ctor(class_type), (void*)&tmp, sizeof(zval*));
+#endif
+}
+
+#endif

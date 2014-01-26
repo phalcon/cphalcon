@@ -28,6 +28,7 @@ static const zend_function_entry phalcon_session_baginterface_method_entry[] = {
 	PHP_ABSTRACT_ME(Phalcon_Session_BagInterface, set, arginfo_phalcon_session_baginterface_set)
 	PHP_ABSTRACT_ME(Phalcon_Session_BagInterface, get, arginfo_phalcon_session_baginterface_get)
 	PHP_ABSTRACT_ME(Phalcon_Session_BagInterface, has, arginfo_phalcon_session_baginterface_has)
+	PHP_ABSTRACT_ME(Phalcon_Session_BagInterface, remove, arginfo_phalcon_session_baginterface_remove)
 	PHP_FE_END
 };
 
@@ -75,3 +76,10 @@ PHALCON_DOC_METHOD(Phalcon_Session_BagInterface, get);
  * @return boolean
  */
 PHALCON_DOC_METHOD(Phalcon_Session_BagInterface, has);
+
+/**
+ * Unset property
+ *
+ * @param string $property
+ */
+PHALCON_DOC_METHOD(Phalcon_Session_BagInterface, remove);

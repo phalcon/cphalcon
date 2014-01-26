@@ -4,6 +4,7 @@ flashSession->getMessages(type, BOOLEAN remove) removed all messages - https://g
 dummy=1
 --SKIPIF--
 <?php include('skipif.inc'); ?>
+<?php if (PHP_SAPI == 'cli') die ('skip CGI SAPI is required'); ?>
 --FILE--
 <?php
 $di = new \Phalcon\DI\FactoryDefault();

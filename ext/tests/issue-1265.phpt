@@ -2,6 +2,7 @@
 MongoDB Request Injection Attacks (getQuery/getPost) - https://github.com/phalcon/cphalcon/issues/1265
 --SKIPIF--
 <?php include('skipif.inc'); ?>
+<?php if (PHP_SAPI == 'cli') die ('skip CGI SAPI is required'); ?>
 --GET--
 string=hello&array[string]=world
 --POST--
