@@ -199,4 +199,19 @@ class ResponseTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($actual, $expected);
 		$this->assertEquals($this->_response->isSent(), true);
 	}
+
+    public function testMultipleHttpHeadersBug1892()
+    {
+        $this->_response->resetHeaders();
+        $this->_response->setStatusCode(200, 'OK');
+        $this->_response->setStatusCode(404, 'Not Found');
+        $this->_response->setStatusCode(409, 'Conflict');
+
+        $expected = array(
+            'HTTP/1.1 409 Conflict' => null,
+            'Status'                => '409 Conflict',
+        );
+
+        $this->assertEquals($expected, $this->_response->getHeaders()->toArray());
+    }
 }

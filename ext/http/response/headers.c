@@ -40,6 +40,7 @@ zend_class_entry *phalcon_http_response_headers_ce;
 PHP_METHOD(Phalcon_Http_Response_Headers, set);
 PHP_METHOD(Phalcon_Http_Response_Headers, get);
 PHP_METHOD(Phalcon_Http_Response_Headers, setRaw);
+PHP_METHOD(Phalcon_Http_Response_Headers, remove);
 PHP_METHOD(Phalcon_Http_Response_Headers, send);
 PHP_METHOD(Phalcon_Http_Response_Headers, reset);
 PHP_METHOD(Phalcon_Http_Response_Headers, toArray);
@@ -53,6 +54,7 @@ static const zend_function_entry phalcon_http_response_headers_method_entry[] = 
 	PHP_ME(Phalcon_Http_Response_Headers, set, arginfo_phalcon_http_response_headersinterface_set, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Http_Response_Headers, get, arginfo_phalcon_http_response_headersinterface_get, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Http_Response_Headers, setRaw, arginfo_phalcon_http_response_headersinterface_setraw, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Http_Response_Headers, remove, arginfo_phalcon_http_response_headersinterface_remove, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Http_Response_Headers, send, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Http_Response_Headers, reset, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Http_Response_Headers, toArray, NULL, ZEND_ACC_PUBLIC)
@@ -122,6 +124,24 @@ PHP_METHOD(Phalcon_Http_Response_Headers, setRaw){
 	phalcon_fetch_params(0, 1, 0, &header);
 	
 	phalcon_update_property_array(this_ptr, SL("_headers"), header, PHALCON_GLOBAL(z_null) TSRMLS_CC);
+}
+
+/**
+ * Removes a header to be sent at the end of the request
+ *
+ * @param string $header Header name
+ */
+PHP_METHOD(Phalcon_Http_Response_Headers, remove){
+
+	zval *header_index, *headers;
+
+	phalcon_fetch_params(0, 1, 0, &header_index);
+
+    headers = phalcon_fetch_nproperty_this(this_ptr, SL("_headers"), PH_NOISY TSRMLS_CC);
+
+    phalcon_array_unset(&headers, header_index, 0);
+
+	phalcon_update_property_this(this_ptr, SL("_headers"), headers TSRMLS_CC);
 }
 
 /**
