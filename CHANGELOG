@@ -1,3 +1,6 @@
+1.2.6
+ - Phalcon\Security::checkHash() now correctly handles non-bcrypt hashes (#1912)
+
 1.2.5
  - Http\Cookie::__toString() will not throw exceptions (#1427)
  - Phalcon\Http\Cookie::__toString() will return a string value (#1428)
