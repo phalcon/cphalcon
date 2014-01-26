@@ -253,6 +253,7 @@
    - Added Phalcon\Security::computeHmac() (#1347)
    - Bug fixes (#1347)
    - Constant-time string comparison in Phalcon\Security::checkHash() to prevent timing attacks (#1755)
+   - Phalcon\Security::checkHash() now correctly handles non-bcrypt hashes (#1912)
  - Phalcon\Session:
    - Fix Phalcon\Session\Bag::remove() (#1637)
    - Phalcon\Session\Adapter::get() may optionally remove the data from session (#1358)
