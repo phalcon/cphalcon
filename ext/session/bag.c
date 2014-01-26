@@ -25,6 +25,8 @@
 #include "di.h"
 #include "diinterface.h"
 
+#include <ext/spl/spl_array.h>
+
 #include "kernel/main.h"
 #include "kernel/memory.h"
 #include "kernel/exception.h"
@@ -59,6 +61,7 @@ PHP_METHOD(Phalcon_Session_Bag, get);
 PHP_METHOD(Phalcon_Session_Bag, has);
 PHP_METHOD(Phalcon_Session_Bag, __get);
 PHP_METHOD(Phalcon_Session_Bag, remove);
+PHP_METHOD(Phalcon_Session_Bag, getIterator);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_session_bag___construct, 0, 0, 1)
 	ZEND_ARG_INFO(0, name)
@@ -66,6 +69,9 @@ ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_session_bag___get, 0, 1, 1)
 	ZEND_ARG_INFO(0, property)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_session_bag_getiterator, 0, 0, 0)
 ZEND_END_ARG_INFO()
 
 static const zend_function_entry phalcon_session_bag_method_entry[] = {
@@ -82,8 +88,49 @@ static const zend_function_entry phalcon_session_bag_method_entry[] = {
 	PHP_MALIAS(Phalcon_Session_Bag, __isset, has, arginfo_phalcon_session_baginterface_has, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Session_Bag, remove, arginfo_phalcon_session_baginterface_remove, ZEND_ACC_PUBLIC)
 	PHP_MALIAS(Phalcon_Session_Bag, __unset, remove, arginfo_phalcon_session_baginterface_remove, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Session_Bag, getIterator, arginfo_phalcon_session_bag_getiterator, ZEND_ACC_PUBLIC)
 	PHP_FE_END
 };
+
+static int phalcon_session_bag_maybe_initialize(zval *this_ptr TSRMLS_DC)
+{
+	zval *initialized;
+
+	initialized = phalcon_fetch_nproperty_this(this_ptr, SL("_initialized"), PH_NOISY TSRMLS_CC);
+	if (PHALCON_IS_FALSE(initialized)) {
+		return phalcon_call_method_params(NULL, NULL, this_ptr, SL("initialize"), zend_inline_hash_func(SS("initialize")) TSRMLS_CC, 0);
+	}
+
+	return SUCCESS;
+}
+
+static zend_object_iterator* phalcon_session_bag_get_iterator(zend_class_entry *ce, zval *object, int by_ref TSRMLS_DC)
+{
+	zval *iterator;
+	zval *data;
+	zend_object_iterator *ret;
+
+	if (FAILURE == phalcon_session_bag_maybe_initialize(object TSRMLS_CC)) {
+		return NULL;
+	}
+
+	data = phalcon_fetch_nproperty_this(object, SL("_data"), PH_NOISY TSRMLS_CC);
+
+	MAKE_STD_ZVAL(iterator);
+	object_init_ex(iterator, spl_ce_ArrayIterator);
+	if (FAILURE == phalcon_call_method_params(NULL, NULL, iterator, SL("__construct"), zend_inline_hash_func(SS("__construct")) TSRMLS_CC, 1, data)) {
+		ret = NULL;
+	}
+	else if (Z_TYPE_P(iterator) == IS_OBJECT) {
+		ret = spl_ce_ArrayIterator->get_iterator(spl_ce_ArrayIterator, iterator, by_ref TSRMLS_CC);
+	}
+	else {
+		ret = NULL;
+	}
+
+	zval_ptr_dtor(&iterator);
+	return ret;
+}
 
 /**
  * Phalcon\Session\Bag initializer
@@ -98,7 +145,14 @@ PHALCON_INIT_CLASS(Phalcon_Session_Bag){
 	zend_declare_property_bool(phalcon_session_bag_ce, SL("_initialized"), 0, ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_session_bag_ce, SL("_session"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
-	zend_class_implements(phalcon_session_bag_ce TSRMLS_CC, 2, phalcon_di_injectionawareinterface_ce, phalcon_session_baginterface_ce);
+	phalcon_session_bag_ce->get_iterator = phalcon_session_bag_get_iterator;
+
+	zend_class_implements(
+		phalcon_session_bag_ce TSRMLS_CC, 3,
+		phalcon_di_injectionawareinterface_ce,
+		phalcon_session_baginterface_ce,
+		zend_ce_aggregate
+	);
 
 	return SUCCESS;
 }
@@ -208,14 +262,9 @@ PHP_METHOD(Phalcon_Session_Bag, initialize){
  */
 PHP_METHOD(Phalcon_Session_Bag, destroy){
 
-	zval *initialized, *name, *session;
+	zval *name, *session;
 
-	initialized = phalcon_fetch_nproperty_this(this_ptr, SL("_initialized"), PH_NOISY TSRMLS_CC);
-	if (PHALCON_IS_FALSE(initialized)) {
-		PHALCON_MM_GROW();
-		phalcon_call_method_noret(this_ptr, "initialize");
-		PHALCON_MM_RESTORE();
-	}
+	RETURN_ON_FAILURE(phalcon_session_bag_maybe_initialize(this_ptr TSRMLS_CC));
 	
 	name    = phalcon_fetch_nproperty_this(this_ptr, SL("_name"), PH_NOISY TSRMLS_CC);
 	session = phalcon_fetch_nproperty_this(this_ptr, SL("_session"), PH_NOISY TSRMLS_CC);
@@ -234,17 +283,11 @@ PHP_METHOD(Phalcon_Session_Bag, destroy){
  */
 PHP_METHOD(Phalcon_Session_Bag, set){
 
-	zval *property, *value, *initialized;
-	zval *session, *name, *data;
+	zval *property, *value, *session, *name, *data;
 
 	phalcon_fetch_params(0, 2, 0, &property, &value);
 	
-	initialized = phalcon_fetch_nproperty_this(this_ptr, SL("_initialized"), PH_NOISY TSRMLS_CC);
-	if (PHALCON_IS_FALSE(initialized)) {
-		PHALCON_MM_GROW();
-		phalcon_call_method_noret(this_ptr, "initialize");
-		PHALCON_MM_RESTORE();
-	}
+	RETURN_ON_FAILURE(phalcon_session_bag_maybe_initialize(this_ptr TSRMLS_CC));
 	
 	phalcon_update_property_array(this_ptr, SL("_data"), property, value TSRMLS_CC);
 	
@@ -280,7 +323,7 @@ PHALCON_DOC_METHOD(Phalcon_Session_Bag, __set);
  */
 PHP_METHOD(Phalcon_Session_Bag, get){
 
-	zval *property, *default_value = NULL, *initialized;
+	zval *property, *default_value = NULL;
 	zval *data, *value;
 
 	phalcon_fetch_params(0, 1, 1, &property, &default_value);
@@ -290,12 +333,7 @@ PHP_METHOD(Phalcon_Session_Bag, get){
 	}
 	
 	/* Check first if the bag is initialized */
-	initialized = phalcon_fetch_nproperty_this(this_ptr, SL("_initialized"), PH_NOISY TSRMLS_CC);
-	if (PHALCON_IS_FALSE(initialized)) {
-		PHALCON_MM_GROW();
-		phalcon_call_method_noret(this_ptr, "initialize");
-		PHALCON_MM_RESTORE();
-	}
+	RETURN_ON_FAILURE(phalcon_session_bag_maybe_initialize(this_ptr TSRMLS_CC));
 	
 	/* Retrieve the data */
 	data = phalcon_fetch_nproperty_this(this_ptr, SL("_data"), PH_NOISY TSRMLS_CC);
@@ -318,20 +356,14 @@ PHP_METHOD(Phalcon_Session_Bag, get){
  */
 PHP_METHOD(Phalcon_Session_Bag, __get)
 {
-	zval *property, *initialized;
-	zval *data, *value;
+	zval *property, *data, *value;
 
 	assert(return_value_ptr != NULL);
 
 	phalcon_fetch_params(0, 1, 0, &property);
 
 	/* Check first if the bag is initialized */
-	initialized = phalcon_fetch_nproperty_this(this_ptr, SL("_initialized"), PH_NOISY TSRMLS_CC);
-	if (PHALCON_IS_FALSE(initialized)) {
-		PHALCON_MM_GROW();
-		phalcon_call_method_noret(this_ptr, "initialize");
-		PHALCON_MM_RESTORE();
-	}
+	RETURN_ON_FAILURE(phalcon_session_bag_maybe_initialize(this_ptr TSRMLS_CC));
 
 	/* Retrieve the data */
 	data = phalcon_fetch_nproperty_this(this_ptr, SL("_data"), PH_NOISY TSRMLS_CC);
@@ -364,16 +396,11 @@ PHP_METHOD(Phalcon_Session_Bag, __get)
  */
 PHP_METHOD(Phalcon_Session_Bag, has){
 
-	zval *property, *initialized, *data;
+	zval *property, *data;
 
 	phalcon_fetch_params(0, 1, 0, &property);
 	
-	initialized = phalcon_fetch_nproperty_this(this_ptr, SL("_initialized"), PH_NOISY TSRMLS_CC);
-	if (PHALCON_IS_FALSE(initialized)) {
-		PHALCON_MM_GROW();
-		phalcon_call_method_noret(this_ptr, "initialize");
-		PHALCON_MM_RESTORE();
-	}
+	RETURN_ON_FAILURE(phalcon_session_bag_maybe_initialize(this_ptr TSRMLS_CC));
 	
 	data = phalcon_fetch_nproperty_this(this_ptr, SL("_data"), PH_NOISY TSRMLS_CC);
 	RETURN_BOOL(phalcon_array_isset(data, property));
@@ -405,16 +432,10 @@ PHALCON_DOC_METHOD(Phalcon_Session_Bag, __isset);
 PHP_METHOD(Phalcon_Session_Bag, remove){
 
 	zval *property, *data = NULL, *name, *session;
-	zval *initialized;
 
 	phalcon_fetch_params(0, 1, 0, &property);
 
-	initialized = phalcon_fetch_nproperty_this(this_ptr, SL("_initialized"), PH_NOISY TSRMLS_CC);
-	if (PHALCON_IS_FALSE(initialized)) {
-		PHALCON_MM_GROW();
-		phalcon_call_method_noret(this_ptr, "initialize");
-		PHALCON_MM_RESTORE();
-	}
+	RETURN_ON_FAILURE(phalcon_session_bag_maybe_initialize(this_ptr TSRMLS_CC));
 
 	data = phalcon_fetch_nproperty_this(this_ptr, SL("_data"), PH_NOISY TSRMLS_CC);
 	if (phalcon_array_isset(data, property)) {
@@ -442,3 +463,14 @@ PHP_METHOD(Phalcon_Session_Bag, remove){
  * @return boolean
  */
 PHALCON_DOC_METHOD(Phalcon_Session_Bag, __unset);
+
+PHP_METHOD(Phalcon_Session_Bag, getIterator)
+{
+	zval *data;
+
+	RETURN_ON_FAILURE(phalcon_session_bag_maybe_initialize(this_ptr TSRMLS_CC));
+
+	data = phalcon_fetch_nproperty_this(getThis(), SL("_data"), PH_NOISY TSRMLS_CC);
+	object_init_ex(return_value, spl_ce_ArrayIterator);
+	RETURN_ON_FAILURE(phalcon_call_method_params(NULL, NULL, return_value, SL("__construct"), zend_inline_hash_func(SS("__construct")) TSRMLS_CC, 1, data));
+}
