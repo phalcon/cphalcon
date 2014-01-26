@@ -224,9 +224,7 @@ static zend_object_value phalcon_session_adapter_object_ctor(zend_class_entry *c
 	zend_object_value retval;
 
 	zend_object_std_init(obj, ce TSRMLS_CC);
-#if PHP_VERSION_ID >= 50400
 	object_properties_init(obj, ce);
-#endif
 
 	retval.handlers = &phalcon_session_adapter_object_handlers;
 	retval.handle   = zend_objects_store_put(
