@@ -21,6 +21,7 @@
 #include "session/adapterinterface.h"
 
 #include <main/SAPI.h>
+#include <ext/spl/spl_array.h>
 
 #include "kernel/main.h"
 #include "kernel/memory.h"
@@ -55,9 +56,17 @@ PHP_METHOD(Phalcon_Session_Adapter, getId);
 PHP_METHOD(Phalcon_Session_Adapter, isStarted);
 PHP_METHOD(Phalcon_Session_Adapter, destroy);
 PHP_METHOD(Phalcon_Session_Adapter, __get);
+PHP_METHOD(Phalcon_Session_Adapter, count);
+PHP_METHOD(Phalcon_Session_Adapter, getIterator);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_session_adapter___get, 0, 1, 1)
 	ZEND_ARG_INFO(0, property)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_session_adapter_count, 0, 0, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_session_adapter_getiterator, 0, 0, 0)
 ZEND_END_ARG_INFO()
 
 static const zend_function_entry phalcon_session_adapter_method_entry[] = {
@@ -77,6 +86,8 @@ static const zend_function_entry phalcon_session_adapter_method_entry[] = {
 	PHP_MALIAS(Phalcon_Session_Adapter, __set, set, arginfo_phalcon_session_adapterinterface_set, ZEND_ACC_PUBLIC)
 	PHP_MALIAS(Phalcon_Session_Adapter, __isset, has, arginfo_phalcon_session_adapterinterface_has, ZEND_ACC_PUBLIC)
 	PHP_MALIAS(Phalcon_Session_Adapter, __unset, remove, arginfo_phalcon_session_adapterinterface_remove, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Session_Adapter, count, arginfo_phalcon_session_adapter_count, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Session_Adapter, getIterator, arginfo_phalcon_session_adapter_getiterator, ZEND_ACC_PUBLIC)
 	PHP_FE_END
 };
 
@@ -218,6 +229,30 @@ static void phalcon_session_adapter_unset_property(zval *object, zval *member ZL
 	}
 }
 
+static int phalcon_session_adapter_count_elements(zval *object, long *count TSRMLS_DC)
+{
+	int res;
+	zval *cnt = NULL;
+
+	if (is_phalcon_class(Z_OBJCE_P(object))) {
+		zval *_SESSION = phalcon_get_global(SS("_SESSION") TSRMLS_CC);
+		if (Z_TYPE_P(_SESSION) == IS_ARRAY) {
+			*count = zend_hash_num_elements(Z_ARRVAL_P(_SESSION));
+			return SUCCESS;
+		}
+
+		return FAILURE;
+	}
+
+	res = phalcon_call_method_params(cnt, &cnt, object, SL("count"), zend_inline_hash_func(SS("count")) TSRMLS_CC, 0);
+	if (res == SUCCESS) {
+		*count = (Z_TYPE_P(cnt) == IS_LONG) ? Z_LVAL_P(cnt) : phalcon_get_intval(cnt);
+		zval_ptr_dtor(&cnt);
+	}
+
+	return res;
+}
+
 static zend_object_value phalcon_session_adapter_object_ctor(zend_class_entry *ce TSRMLS_DC)
 {
 	zend_object *obj = emalloc(sizeof(zend_object));
@@ -238,6 +273,33 @@ static zend_object_value phalcon_session_adapter_object_ctor(zend_class_entry *c
 	return retval;
 }
 
+static zend_object_iterator* phalcon_session_adapter_get_iterator(zend_class_entry *ce, zval *object, int by_ref TSRMLS_DC)
+{
+	zval *iterator;
+	zval *data;
+	zend_object_iterator *ret;
+
+	data = phalcon_get_global(SS("_SESSION") TSRMLS_CC);
+	if (Z_TYPE_P(data) != IS_ARRAY) {
+		return NULL;
+	}
+
+	MAKE_STD_ZVAL(iterator);
+	object_init_ex(iterator, spl_ce_ArrayIterator);
+	if (FAILURE == phalcon_call_method_params(NULL, NULL, iterator, SL("__construct"), zend_inline_hash_func(SS("__construct")) TSRMLS_CC, 1, data)) {
+		ret = NULL;
+	}
+	else if (Z_TYPE_P(iterator) == IS_OBJECT) {
+		ret = spl_ce_ArrayIterator->get_iterator(spl_ce_ArrayIterator, iterator, by_ref TSRMLS_CC);
+	}
+	else {
+		ret = NULL;
+	}
+
+	zval_ptr_dtor(&iterator);
+	return ret;
+}
+
 /**
  * Phalcon\Session\Adapter initializer
  */
@@ -251,13 +313,21 @@ PHALCON_INIT_CLASS(Phalcon_Session_Adapter){
 	zend_declare_property_bool(phalcon_session_adapter_ce, SL("_started"), 0, ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_session_adapter_ce, SL("_options"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
-	zend_class_implements(phalcon_session_adapter_ce TSRMLS_CC, 1, phalcon_session_adapterinterface_ce);
-
 	phalcon_session_adapter_object_handlers = *zend_get_std_object_handlers();
 	phalcon_session_adapter_object_handlers.get_property_ptr_ptr = phalcon_session_adapter_get_property_ptr_ptr;
 	phalcon_session_adapter_object_handlers.has_property         = phalcon_session_adapter_has_property;
 	phalcon_session_adapter_object_handlers.write_property       = phalcon_session_adapter_write_property;
 	phalcon_session_adapter_object_handlers.unset_property       = phalcon_session_adapter_unset_property;
+	phalcon_session_adapter_object_handlers.count_elements       = phalcon_session_adapter_count_elements;
+
+	phalcon_session_adapter_ce->get_iterator = phalcon_session_adapter_get_iterator;
+
+	zend_class_implements(
+		phalcon_session_adapter_ce TSRMLS_CC, 3,
+		phalcon_session_adapterinterface_ce,
+		spl_ce_Countable,
+		zend_ce_aggregate
+	);
 
 	return SUCCESS;
 }
@@ -502,4 +572,24 @@ PHP_METHOD(Phalcon_Session_Adapter, __get)
 	*return_value_ptr = *retval;
 	Z_ADDREF_PP(return_value_ptr);
 	Z_SET_ISREF_PP(return_value_ptr);
+}
+
+PHP_METHOD(Phalcon_Session_Adapter, count)
+{
+	long int count;
+
+	if (SUCCESS == phalcon_session_adapter_count_elements(getThis(), &count TSRMLS_CC)) {
+		RETURN_LONG(count);
+	}
+
+	RETURN_NULL();
+}
+
+PHP_METHOD(Phalcon_Session_Adapter, getIterator)
+{
+	zval *data;
+
+	data = phalcon_get_global(SS("_SESSION") TSRMLS_CC);
+	object_init_ex(return_value, spl_ce_ArrayIterator);
+	RETURN_ON_FAILURE(phalcon_call_method_params(NULL, NULL, return_value, SL("__construct"), zend_inline_hash_func(SS("__construct")) TSRMLS_CC, 1, data));
 }
