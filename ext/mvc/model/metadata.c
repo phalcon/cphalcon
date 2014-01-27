@@ -123,20 +123,21 @@ PHALCON_INIT_CLASS(Phalcon_Mvc_Model_MetaData){
 	zend_declare_property_null(phalcon_mvc_model_metadata_ce, SL("_metaData"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_mvc_model_metadata_ce, SL("_columnMap"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
-	zend_declare_class_constant_long(phalcon_mvc_model_metadata_ce, SL("MODELS_ATTRIBUTES"), 0 TSRMLS_CC);
-	zend_declare_class_constant_long(phalcon_mvc_model_metadata_ce, SL("MODELS_PRIMARY_KEY"), 1 TSRMLS_CC);
-	zend_declare_class_constant_long(phalcon_mvc_model_metadata_ce, SL("MODELS_NON_PRIMARY_KEY"), 2 TSRMLS_CC);
-	zend_declare_class_constant_long(phalcon_mvc_model_metadata_ce, SL("MODELS_NOT_NULL"), 3 TSRMLS_CC);
-	zend_declare_class_constant_long(phalcon_mvc_model_metadata_ce, SL("MODELS_DATA_TYPES"), 4 TSRMLS_CC);
-	zend_declare_class_constant_long(phalcon_mvc_model_metadata_ce, SL("MODELS_DATA_TYPES_NUMERIC"), 5 TSRMLS_CC);
-	zend_declare_class_constant_long(phalcon_mvc_model_metadata_ce, SL("MODELS_DATE_AT"), 6 TSRMLS_CC);
-	zend_declare_class_constant_long(phalcon_mvc_model_metadata_ce, SL("MODELS_DATE_IN"), 7 TSRMLS_CC);
-	zend_declare_class_constant_long(phalcon_mvc_model_metadata_ce, SL("MODELS_IDENTITY_COLUMN"), 8 TSRMLS_CC);
-	zend_declare_class_constant_long(phalcon_mvc_model_metadata_ce, SL("MODELS_DATA_TYPES_BIND"), 9 TSRMLS_CC);
-	zend_declare_class_constant_long(phalcon_mvc_model_metadata_ce, SL("MODELS_AUTOMATIC_DEFAULT_INSERT"), 10 TSRMLS_CC);
-	zend_declare_class_constant_long(phalcon_mvc_model_metadata_ce, SL("MODELS_AUTOMATIC_DEFAULT_UPDATE"), 11 TSRMLS_CC);
-	zend_declare_class_constant_long(phalcon_mvc_model_metadata_ce, SL("MODELS_COLUMN_MAP"), 0 TSRMLS_CC);
-	zend_declare_class_constant_long(phalcon_mvc_model_metadata_ce, SL("MODELS_REVERSE_COLUMN_MAP"), 1 TSRMLS_CC);
+	zend_declare_class_constant_long(phalcon_mvc_model_metadata_ce, SL("MODELS_ATTRIBUTES"),               PHALCON_MVC_MODEL_METADATA_MODELS_ATTRIBUTES               TSRMLS_CC);
+	zend_declare_class_constant_long(phalcon_mvc_model_metadata_ce, SL("MODELS_PRIMARY_KEY"),              PHALCON_MVC_MODEL_METADATA_MODELS_PRIMARY_KEY              TSRMLS_CC);
+	zend_declare_class_constant_long(phalcon_mvc_model_metadata_ce, SL("MODELS_NON_PRIMARY_KEY"),          PHALCON_MVC_MODEL_METADATA_MODELS_NON_PRIMARY_KEY          TSRMLS_CC);
+	zend_declare_class_constant_long(phalcon_mvc_model_metadata_ce, SL("MODELS_NOT_NULL"),                 PHALCON_MVC_MODEL_METADATA_MODELS_NOT_NULL                 TSRMLS_CC);
+	zend_declare_class_constant_long(phalcon_mvc_model_metadata_ce, SL("MODELS_DATA_TYPES"),               PHALCON_MVC_MODEL_METADATA_MODELS_DATA_TYPES               TSRMLS_CC);
+	zend_declare_class_constant_long(phalcon_mvc_model_metadata_ce, SL("MODELS_DATA_TYPES_NUMERIC"),       PHALCON_MVC_MODEL_METADATA_MODELS_DATA_TYPES_NUMERIC       TSRMLS_CC);
+	zend_declare_class_constant_long(phalcon_mvc_model_metadata_ce, SL("MODELS_DATE_AT"),                  PHALCON_MVC_MODEL_METADATA_MODELS_DATE_AT                  TSRMLS_CC);
+	zend_declare_class_constant_long(phalcon_mvc_model_metadata_ce, SL("MODELS_DATE_IN"),                  PHALCON_MVC_MODEL_METADATA_MODELS_DATE_IN                  TSRMLS_CC);
+	zend_declare_class_constant_long(phalcon_mvc_model_metadata_ce, SL("MODELS_IDENTITY_COLUMN"),          PHALCON_MVC_MODEL_METADATA_MODELS_IDENTITY_COLUMN          TSRMLS_CC);
+	zend_declare_class_constant_long(phalcon_mvc_model_metadata_ce, SL("MODELS_DATA_TYPES_BIND"),          PHALCON_MVC_MODEL_METADATA_MODELS_DATA_TYPES_BIND          TSRMLS_CC);
+	zend_declare_class_constant_long(phalcon_mvc_model_metadata_ce, SL("MODELS_AUTOMATIC_DEFAULT_INSERT"), PHALCON_MVC_MODEL_METADATA_MODELS_AUTOMATIC_DEFAULT_INSERT TSRMLS_CC);
+	zend_declare_class_constant_long(phalcon_mvc_model_metadata_ce, SL("MODELS_AUTOMATIC_DEFAULT_UPDATE"), PHALCON_MVC_MODEL_METADATA_MODELS_AUTOMATIC_DEFAULT_UPDATE TSRMLS_CC);
+
+	zend_declare_class_constant_long(phalcon_mvc_model_metadata_ce, SL("MODELS_COLUMN_MAP"),         PHALCON_MVC_MODEL_METADATA_MODELS_COLUMN_MAP         TSRMLS_CC);
+	zend_declare_class_constant_long(phalcon_mvc_model_metadata_ce, SL("MODELS_REVERSE_COLUMN_MAP"), PHALCON_MVC_MODEL_METADATA_MODELS_REVERSE_COLUMN_MAP TSRMLS_CC);
 
 	zend_class_implements(phalcon_mvc_model_metadata_ce TSRMLS_CC, 2, phalcon_di_injectionawareinterface_ce, phalcon_mvc_model_metadatainterface_ce);
 
@@ -349,19 +350,16 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, setStrategy){
  */
 PHP_METHOD(Phalcon_Mvc_Model_MetaData, getStrategy){
 
-	zval *strategy = NULL;
+	zval *strategy;
 
-	PHALCON_MM_GROW();
-
-	PHALCON_OBS_VAR(strategy);
-	phalcon_read_property_this(&strategy, this_ptr, SL("_strategy"), PH_NOISY_CC);
+	strategy = phalcon_fetch_nproperty_this(this_ptr, SL("_strategy"), PH_NOISY_CC);
 	if (Z_TYPE_P(strategy) == IS_NULL) {
-		PHALCON_INIT_NVAR(strategy);
+		PHALCON_ALLOC_GHOST_ZVAL(strategy);
 		object_init_ex(strategy, phalcon_mvc_model_metadata_strategy_introspection_ce);
 		phalcon_update_property_this(this_ptr, SL("_strategy"), strategy TSRMLS_CC);
 	}
 	
-	RETURN_CTOR(strategy);
+	RETURN_ZVAL(strategy, 1, 0);
 }
 
 /**
@@ -671,27 +669,29 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, readColumnMapIndex){
  *</code>
  *
  * @param Phalcon\Mvc\ModelInterface $model
- * @return 	array
+ * @return array
  */
 PHP_METHOD(Phalcon_Mvc_Model_MetaData, getAttributes){
 
-	zval *model, *index, *data;
+	zval *model, *what;
+
+	phalcon_fetch_params(0, 1, 0, &model);
 
 	PHALCON_MM_GROW();
 
-	phalcon_fetch_params(1, 1, 0, &model);
-	
-	PHALCON_INIT_VAR(index);
-	ZVAL_LONG(index, 0);
-	
-	PHALCON_INIT_VAR(data);
-	phalcon_call_method_p2(data, this_ptr, "readmetadataindex", model, index);
-	if (Z_TYPE_P(data) != IS_ARRAY) { 
+	PHALCON_ALLOC_GHOST_ZVAL(what);
+	ZVAL_LONG(what, PHALCON_MVC_MODEL_METADATA_MODELS_ATTRIBUTES);
+	phalcon_return_call_method_p2(this_ptr, "readmetadataindex", model, what);
+	if (return_value_ptr) {
+		return_value = *return_value_ptr;
+	}
+
+	if (Z_TYPE_P(return_value) != IS_ARRAY) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "The meta-data is invalid or is corrupted");
 		return;
 	}
-	
-	RETURN_CTOR(data);
+
+	PHALCON_MM_RESTORE();
 }
 
 /**
