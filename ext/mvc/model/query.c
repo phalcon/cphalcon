@@ -3456,14 +3456,12 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, parse){
 
 	PHALCON_MM_GROW();
 
-	PHALCON_OBS_VAR(intermediate);
-	phalcon_read_property_this(&intermediate, this_ptr, SL("_intermediate"), PH_NOISY_CC);
+	intermediate = phalcon_fetch_nproperty_this(this_ptr, SL("_intermediate"), PH_NOISY_CC);
 	if (Z_TYPE_P(intermediate) == IS_ARRAY) { 
 		RETURN_CTOR(intermediate);
 	}
 	
-	PHALCON_OBS_VAR(phql);
-	phalcon_read_property_this(&phql, this_ptr, SL("_phql"), PH_NOISY_CC);
+	phql = phalcon_fetch_nproperty_this(this_ptr, SL("_phql"), PH_NOISY_CC);
 	
 	/** 
 	 * This function parses the PHQL statement
@@ -3628,9 +3626,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _executeSelect){
 	zval *intermediate, *bind_params, *bind_types;
 	zval *manager, *models_instances = NULL, *models, *number_models;
 	zval *model_name = NULL, *model = NULL, *connection = NULL, *connections;
-	zval *type = NULL, *connection_types = NULL, *columns, *have_objects = NULL;
-	zval *have_scalars = NULL, *is_complex = NULL, *number_objects;
-	zval *column = NULL, *column_type = NULL, *is_simple_std = NULL, *select_columns;
+	zval *type = NULL, *connection_types = NULL, *columns;
+	zval *column = NULL, *column_type = NULL, *select_columns;
 	zval *simple_column_map = NULL, *meta_data, *z_null;
 	zval *alias_copy = NULL, *sql_column = NULL, *instance = NULL, *attributes = NULL;
 	zval *column_map = NULL, *attribute = NULL, *hidden_alias = NULL;
@@ -3642,6 +3639,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _executeSelect){
 	HashTable *ah0, *ah1, *ah2, *ah3, *ah4, *ah5, *ah6;
 	HashPosition hp0, hp1, hp2, hp3, hp4, hp5, hp6;
 	zval **hd;
+	int have_scalars = 0, have_objects = 0, is_complex = 0, is_simple_std;
+	size_t number_objects = 0;
 
 	PHALCON_MM_GROW();
 
@@ -3651,7 +3650,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _executeSelect){
 	
 	manager = phalcon_fetch_nproperty_this(this_ptr, SL("_manager"), PH_NOISY_CC);
 	if (Z_TYPE_P(manager) != IS_OBJECT) {
-		zend_throw_exception_ex(phalcon_mvc_model_exception_ce, 0 TSRMLS_CC, "dependency Injector is required to get '%s' service", "modelsManager");
+		zend_throw_exception_ex(phalcon_mvc_model_exception_ce, 0 TSRMLS_CC, "Dependency Injector is required to get '%s' service", "modelsManager");
 	}
 
 	/** 
@@ -3761,21 +3760,9 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _executeSelect){
 	PHALCON_OBS_VAR(columns);
 	phalcon_array_fetch_string(&columns, intermediate, SL("columns"), PH_NOISY);
 	
-	PHALCON_INIT_VAR(have_objects);
-	ZVAL_BOOL(have_objects, 0);
-	
-	PHALCON_INIT_VAR(have_scalars);
-	ZVAL_BOOL(have_scalars, 0);
-	
-	PHALCON_INIT_VAR(is_complex);
-	ZVAL_BOOL(is_complex, 0);
-	
 	/** 
 	 * Check if the resultset have objects and how many of them have
 	 */
-	PHALCON_INIT_VAR(number_objects);
-	ZVAL_LONG(number_objects, 0);
-	
 	phalcon_is_iterable(columns, &ah1, &hp1, 0, 0);
 	
 	while (zend_hash_get_current_data_ex(ah1, (void**) &hd, &hp1) == SUCCESS) {
@@ -3786,16 +3773,13 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _executeSelect){
 		phalcon_array_fetch_string(&column_type, column, ISL(type), PH_NOISY);
 		if (PHALCON_IS_STRING(column_type, "scalar")) {
 			if (!phalcon_array_isset_string(column, SS("balias"))) {
-				PHALCON_INIT_NVAR(is_complex);
-				ZVAL_TRUE(is_complex);
+				is_complex = 1;
 			}
 	
-			PHALCON_INIT_NVAR(have_scalars);
-			ZVAL_BOOL(have_scalars, 1);
+			have_scalars = 1;
 		} else {
-			PHALCON_INIT_NVAR(have_objects);
-			ZVAL_TRUE(have_objects);
-			phalcon_increment(number_objects);
+			have_objects = 1;
+			++number_objects;
 		}
 	
 		zend_hash_move_forward_ex(ah1, &hp1);
@@ -3804,23 +3788,17 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _executeSelect){
 	/** 
 	 * Check if the resultset to return is complex or simple
 	 */
-	if (PHALCON_IS_FALSE(is_complex)) {
-		if (PHALCON_IS_TRUE(have_objects)) {
-			if (PHALCON_IS_TRUE(have_scalars)) {
-				PHALCON_INIT_NVAR(is_complex);
-				ZVAL_TRUE(is_complex);
+	if (!is_complex) {
+		if (have_objects) {
+			if (have_scalars) {
+				is_complex = 1;
+			} else if (number_objects == 1) {
+				is_simple_std = 0;
 			} else {
-				if (PHALCON_IS_LONG(number_objects, 1)) {
-					PHALCON_INIT_VAR(is_simple_std);
-					ZVAL_FALSE(is_simple_std);
-				} else {
-					PHALCON_INIT_NVAR(is_complex);
-					ZVAL_TRUE(is_complex);
-				}
+				is_complex = 1;
 			}
 		} else {
-			PHALCON_INIT_NVAR(is_simple_std);
-			ZVAL_TRUE(is_simple_std);
+			is_simple_std = 1;
 		}
 	}
 	
@@ -3833,8 +3811,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _executeSelect){
 	PHALCON_INIT_VAR(simple_column_map);
 	array_init(simple_column_map);
 	
-	PHALCON_OBS_VAR(meta_data);
-	phalcon_read_property_this(&meta_data, this_ptr, SL("_metaData"), PH_NOISY_CC);
+	meta_data = phalcon_fetch_nproperty_this(this_ptr, SL("_metaData"), PH_NOISY_CC);
 	
 	z_null = PHALCON_GLOBAL(z_null);
 	
@@ -3875,7 +3852,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _executeSelect){
 	
 			PHALCON_INIT_NVAR(attributes);
 			phalcon_call_method_p1(attributes, meta_data, "getattributes", instance);
-			if (PHALCON_IS_TRUE(is_complex)) {
+			if (is_complex) {
 	
 				/** 
 				 * If the resultset is complex we open every model into their columns
@@ -3936,8 +3913,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _executeSelect){
 	
 					PHALCON_INIT_NVAR(column_alias);
 					array_init_size(column_alias, 2);
-					phalcon_array_append(&column_alias, attribute, PH_SEPARATE);
-					phalcon_array_append(&column_alias, sql_column, PH_SEPARATE);
+					phalcon_array_append(&column_alias, attribute, 0);
+					phalcon_array_append(&column_alias, sql_column, 0);
 					phalcon_array_append(&select_columns, column_alias, PH_SEPARATE);
 	
 					zend_hash_move_forward_ex(ah4, &hp4);
@@ -3966,13 +3943,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _executeSelect){
 		/** 
 		 * Simulate a column map
 		 */
-		if (PHALCON_IS_FALSE(is_complex)) {
-			if (PHALCON_IS_TRUE(is_simple_std)) {
-				if (phalcon_array_isset_string_fetch(&sql_alias, column, SS("sqlAlias"))) {
-					phalcon_array_update_zval(&simple_column_map, sql_alias, &alias_copy, PH_COPY | PH_SEPARATE);
-				} else {
-					phalcon_array_update_zval(&simple_column_map, alias_copy, &alias_copy, PH_COPY | PH_SEPARATE);
-				}
+		if (!is_complex && is_simple_std) {
+			if (phalcon_array_isset_string_fetch(&sql_alias, column, SS("sqlAlias"))) {
+				phalcon_array_update_zval(&simple_column_map, sql_alias, &alias_copy, PH_COPY | PH_SEPARATE);
+			} else {
+				phalcon_array_update_zval(&simple_column_map, alias_copy, &alias_copy, PH_COPY | PH_SEPARATE);
 			}
 		}
 	
@@ -4076,12 +4051,12 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _executeSelect){
 	 */
 	PHALCON_OBS_VAR(cache);
 	phalcon_read_property_this(&cache, this_ptr, SL("_cache"), PH_NOISY_CC);
-	if (PHALCON_IS_FALSE(is_complex)) {
+	if (!is_complex) {
 	
 		/** 
 		 * Select the base object
 		 */
-		if (PHALCON_IS_TRUE(is_simple_std)) {
+		if (is_simple_std) {
 			/** 
 			 * If the result is a simple standard object use an Phalcon\Mvc\Model\Row as base
 			 */
@@ -4161,7 +4136,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _executeInsert){
 	
 	manager = phalcon_fetch_nproperty_this(this_ptr, SL("_manager"), PH_NOISY_CC);
 	if (Z_TYPE_P(manager) != IS_OBJECT) {
-		zend_throw_exception_ex(phalcon_mvc_model_exception_ce, 0 TSRMLS_CC, "dependency Injector is required to get '%s' service", "modelsManager");
+		zend_throw_exception_ex(phalcon_mvc_model_exception_ce, 0 TSRMLS_CC, "Dependency Injector is required to get '%s' service", "modelsManager");
 	}
 
 	PHALCON_OBS_VAR(models_instances);
