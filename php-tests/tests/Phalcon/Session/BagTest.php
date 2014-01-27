@@ -37,19 +37,19 @@ class BagTest extends PHPUnit_Framework_TestCase
 		// Using getters and setters.
 
 		$bag = new Bag('test1');
-		$bag->set('a', ['b' => 'c']);
-		$this->assertEquals(['b' => 'c'], $bag->get('a'));
+		$bag->set('a', array('b' => 'c'));
+		$this->assertEquals(array('b' => 'c'), $bag->get('a'));
 
 		// Using direct access.
 
 		$bag        = new Bag('test2');
-		$bag->{'a'} = ['b' => 'c'];
-		$this->assertEquals(['b' => 'c'], $bag->{'a'});
+		$bag->{'a'} = array('b' => 'c');
+		$this->assertEquals(array('b' => 'c'), $bag->{'a'});
 
 		// Using direct access with initialising a variable.
 
 		$bag             = new Bag('test3');
 		$bag->{'a'}['b'] = 'c';
-		$this->assertEquals(['b' => 'c'], $bag->{'a'});
+		$this->assertEquals(array('b' => 'c'), $bag->{'a'});
 	}
 }
