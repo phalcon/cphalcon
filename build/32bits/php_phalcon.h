@@ -105,6 +105,8 @@ ZEND_BEGIN_MODULE_GLOBALS(phalcon)
 	/** Max recursion control */
 	unsigned int recursive_lock;
 
+	zend_bool register_psr3_classes;
+
 	/** DB */
 	phalcon_db_options db;
 
