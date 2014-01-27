@@ -722,10 +722,10 @@ PHP_METHOD(Phalcon_Mvc_View, start) {
  */
 PHP_METHOD(Phalcon_Mvc_View, _loadTemplateEngines) {
 
-	zend_function *_7 = NULL, *_9 = NULL;
+	zend_function *_7 = NULL, *_8 = NULL;
 	HashTable *_3;
 	HashPosition _2;
-	zval *engines, *dependencyInjector = NULL, *registeredEngines, *arguments, *engineService = NULL, *extension = NULL, *_0, *_1 = NULL, **_4, *_5 = NULL, *_6 = NULL, *_8 = NULL;
+	zval *engines, *dependencyInjector = NULL, *registeredEngines, *arguments, *engineService = NULL, *extension = NULL, *_0, *_1 = NULL, **_4, *_5 = NULL, *_6 = NULL;
 
 	ZEPHIR_MM_GROW();
 
@@ -777,9 +777,9 @@ PHP_METHOD(Phalcon_Mvc_View, _loadTemplateEngines) {
 						ZEPHIR_MM_RESTORE();
 						return;
 					}
-					ZEPHIR_INIT_NVAR(_8);
-					zephir_call_method_p2_cache(_8, dependencyInjector, "getshared", &_9, engineService, arguments);
-					zephir_array_update_zval(&engines, extension, &_8, PH_COPY | PH_SEPARATE);
+					ZEPHIR_INIT_NVAR(_5);
+					zephir_call_method_p2_cache(_5, dependencyInjector, "getshared", &_8, engineService, arguments);
+					zephir_array_update_zval(&engines, extension, &_5, PH_COPY | PH_SEPARATE);
 				}
 			}
 		}

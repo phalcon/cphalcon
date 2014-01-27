@@ -94,7 +94,7 @@ PHP_METHOD(Phalcon_Mvc_Micro_LazyLoader, __construct) {
 PHP_METHOD(Phalcon_Mvc_Micro_LazyLoader, __call) {
 
 	zend_class_entry *_0;
-	zval *method_param = NULL, *arguments, *handler, *definition, *_1, *_2;
+	zval *method_param = NULL, *arguments, *handler, *definition, *_1;
 	zval *method = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -126,12 +126,11 @@ PHP_METHOD(Phalcon_Mvc_Micro_LazyLoader, __call) {
 		zephir_update_property_this(this_ptr, SL("_handler"), handler TSRMLS_CC);
 	}
 	ZEPHIR_INIT_VAR(_1);
-	ZEPHIR_INIT_VAR(_2);
-	array_init_size(_2, 3);
-	zephir_array_fast_append(_2, handler);
-	zephir_array_fast_append(_2, method);
-	ZEPHIR_CALL_USER_FUNC_ARRAY(_1, _2, arguments);
-	RETURN_CCTOR(_1);
+	array_init_size(_1, 3);
+	zephir_array_fast_append(_1, handler);
+	zephir_array_fast_append(_1, method);
+	ZEPHIR_CALL_USER_FUNC_ARRAY(return_value, _1, arguments);
+	RETURN_MM();
 
 }
 

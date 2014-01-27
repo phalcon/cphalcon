@@ -4511,7 +4511,7 @@ PHP_METHOD(Phalcon_Mvc_Model, useDynamicUpdate) {
  */
 PHP_METHOD(Phalcon_Mvc_Model, getRelated) {
 
-	zval *alias_param = NULL, *arguments = NULL, *manager, *relation, *className, *_0, *_1, *_2, *_3, *_4;
+	zval *alias_param = NULL, *arguments = NULL, *manager, *relation, *className, *_0, *_1, *_2, *_3;
 	zval *alias = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -4539,20 +4539,19 @@ PHP_METHOD(Phalcon_Mvc_Model, getRelated) {
 		return;
 	}
 	ZEPHIR_INIT_VAR(_2);
+	array_init_size(_2, 3);
+	zephir_array_fast_append(_2, manager);
 	ZEPHIR_INIT_VAR(_3);
-	array_init_size(_3, 3);
-	zephir_array_fast_append(_3, manager);
-	ZEPHIR_INIT_VAR(_4);
-	ZVAL_STRING(_4, "getRelationRecords", 1);
-	zephir_array_fast_append(_3, _4);
-	ZEPHIR_INIT_BNVAR(_4);
-	array_init_size(_4, 5);
-	zephir_array_fast_append(_4, relation);
-	zephir_array_fast_append(_4, ZEPHIR_GLOBAL(global_null));
-	zephir_array_fast_append(_4, this_ptr);
-	zephir_array_fast_append(_4, arguments);
-	ZEPHIR_CALL_USER_FUNC_ARRAY(_2, _3, _4);
-	RETURN_CCTOR(_2);
+	ZVAL_STRING(_3, "getRelationRecords", 1);
+	zephir_array_fast_append(_2, _3);
+	ZEPHIR_INIT_BNVAR(_3);
+	array_init_size(_3, 5);
+	zephir_array_fast_append(_3, relation);
+	zephir_array_fast_append(_3, ZEPHIR_GLOBAL(global_null));
+	zephir_array_fast_append(_3, this_ptr);
+	zephir_array_fast_append(_3, arguments);
+	ZEPHIR_CALL_USER_FUNC_ARRAY(return_value, _2, _3);
+	RETURN_MM();
 
 }
 
@@ -4566,7 +4565,7 @@ PHP_METHOD(Phalcon_Mvc_Model, getRelated) {
  */
 PHP_METHOD(Phalcon_Mvc_Model, _getRelatedRecords) {
 
-	zval *modelName_param = NULL, *method_param = NULL, *arguments, *manager, *relation, *queryMethod, *extraArgs, *_0 = NULL, *_1 = NULL, *_2;
+	zval *modelName_param = NULL, *method_param = NULL, *arguments, *manager, *relation, *queryMethod, *extraArgs, *_0 = NULL, *_1 = NULL;
 	zval *modelName = NULL, *method = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -4600,7 +4599,6 @@ PHP_METHOD(Phalcon_Mvc_Model, _getRelatedRecords) {
 		}
 	}
 	if ((Z_TYPE_P(relation) == IS_OBJECT)) {
-		ZEPHIR_INIT_VAR(_2);
 		ZEPHIR_INIT_NVAR(_0);
 		array_init_size(_0, 3);
 		zephir_array_fast_append(_0, manager);
@@ -4613,8 +4611,8 @@ PHP_METHOD(Phalcon_Mvc_Model, _getRelatedRecords) {
 		zephir_array_fast_append(_1, queryMethod);
 		zephir_array_fast_append(_1, this_ptr);
 		zephir_array_fast_append(_1, extraArgs);
-		ZEPHIR_CALL_USER_FUNC_ARRAY(_2, _0, _1);
-		RETURN_CCTOR(_2);
+		ZEPHIR_CALL_USER_FUNC_ARRAY(return_value, _0, _1);
+		RETURN_MM();
 	}
 	RETURN_MM_NULL();
 
@@ -4824,7 +4822,7 @@ PHP_METHOD(Phalcon_Mvc_Model, __set) {
  */
 PHP_METHOD(Phalcon_Mvc_Model, __get) {
 
-	zval *property_param = NULL, *modelName, *manager, *lowerProperty, *relation, *result = NULL, *_0, *_1, *_2 = NULL, *_3;
+	zval *property_param = NULL, *modelName, *manager, *lowerProperty, *relation, *result, *_0, *_1 = NULL, *_2;
 	zval *property = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -4852,21 +4850,20 @@ PHP_METHOD(Phalcon_Mvc_Model, __get) {
 	ZEPHIR_INIT_VAR(relation);
 	zephir_call_method_p2(relation, manager, "getrelationbyalias", modelName, lowerProperty);
 	if ((Z_TYPE_P(relation) == IS_OBJECT)) {
+		ZEPHIR_INIT_VAR(result);
 		ZEPHIR_INIT_VAR(_0);
+		array_init_size(_0, 3);
+		zephir_array_fast_append(_0, manager);
 		ZEPHIR_INIT_VAR(_1);
-		array_init_size(_1, 3);
-		zephir_array_fast_append(_1, manager);
-		ZEPHIR_INIT_VAR(_2);
-		ZVAL_STRING(_2, "getRelationRecords", 1);
-		zephir_array_fast_append(_1, _2);
-		ZEPHIR_INIT_NVAR(_2);
-		array_init_size(_2, 5);
-		zephir_array_fast_append(_2, relation);
-		zephir_array_fast_append(_2, ZEPHIR_GLOBAL(global_null));
-		zephir_array_fast_append(_2, this_ptr);
-		zephir_array_fast_append(_2, ZEPHIR_GLOBAL(global_null));
-		ZEPHIR_CALL_USER_FUNC_ARRAY(_0, _1, _2);
-		ZEPHIR_CPY_WRT(result, _0);
+		ZVAL_STRING(_1, "getRelationRecords", 1);
+		zephir_array_fast_append(_0, _1);
+		ZEPHIR_INIT_NVAR(_1);
+		array_init_size(_1, 5);
+		zephir_array_fast_append(_1, relation);
+		zephir_array_fast_append(_1, ZEPHIR_GLOBAL(global_null));
+		zephir_array_fast_append(_1, this_ptr);
+		zephir_array_fast_append(_1, ZEPHIR_GLOBAL(global_null));
+		ZEPHIR_CALL_USER_FUNC_ARRAY(result, _0, _1);
 		if ((Z_TYPE_P(result) == IS_OBJECT)) {
 			zephir_update_property_zval_zval(this_ptr, lowerProperty, result TSRMLS_CC);
 			if (zephir_is_instance_of(result, SL("Phalcon\\Mvc\\ModelInterface") TSRMLS_CC)) {
@@ -4875,9 +4872,9 @@ PHP_METHOD(Phalcon_Mvc_Model, __get) {
 		}
 		RETURN_CCTOR(result);
 	}
-	ZEPHIR_INIT_VAR(_3);
-	ZEPHIR_CONCAT_SVSV(_3, "Access to undefined property ", modelName, "::", property);
-	zephir_call_func_p1_noret("trigger_error", _3);
+	ZEPHIR_INIT_VAR(_2);
+	ZEPHIR_CONCAT_SVSV(_2, "Access to undefined property ", modelName, "::", property);
+	zephir_call_func_p1_noret("trigger_error", _2);
 	RETURN_MM_NULL();
 
 }

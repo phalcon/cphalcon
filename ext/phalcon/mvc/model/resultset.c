@@ -573,7 +573,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, delete) {
 	HashTable *_2;
 	HashPosition _1;
 	zend_bool transaction;
-	zval *conditionCallback = NULL, *record = NULL, *connection = NULL, *_0, **_3, *_4 = NULL, *_5 = NULL, *_6 = NULL;
+	zval *conditionCallback = NULL, *record = NULL, *connection = NULL, *_0, **_3, *_4 = NULL, *_5 = NULL;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 1, &conditionCallback);
@@ -612,12 +612,12 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, delete) {
 				continue;
 			}
 		}
-		ZEPHIR_INIT_NVAR(_5);
-		zephir_call_method(_5, record, "delete");
-		if (!(zephir_is_true(_5))) {
-			ZEPHIR_INIT_NVAR(_6);
-			zephir_call_method(_6, record, "getmessages");
-			zephir_update_property_this(this_ptr, SL("_errorMessages"), _6 TSRMLS_CC);
+		ZEPHIR_INIT_NVAR(_4);
+		zephir_call_method(_4, record, "delete");
+		if (!(zephir_is_true(_4))) {
+			ZEPHIR_INIT_NVAR(_5);
+			zephir_call_method(_5, record, "getmessages");
+			zephir_update_property_this(this_ptr, SL("_errorMessages"), _5 TSRMLS_CC);
 			zephir_call_method_noret(connection, "rollback");
 			transaction = 0;
 			break;
@@ -648,7 +648,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, filter) {
 
 	HashTable *_2;
 	HashPosition _1;
-	zval *filter, *records, *record = NULL, *parameters, *processedRecord = NULL, *_0, **_3, *_4 = NULL;
+	zval *filter, *records, *record = NULL, *parameters, *processedRecord = NULL, *_0, **_3;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &filter);
@@ -668,9 +668,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, filter) {
 	) {
 		ZEPHIR_GET_HVALUE(record, _3);
 		zephir_array_update_long(&parameters, 0, &record, PH_COPY | PH_SEPARATE, "phalcon/mvc/model/resultset.zep", 512);
-		ZEPHIR_INIT_NVAR(_4);
-		ZEPHIR_CALL_USER_FUNC_ARRAY(_4, filter, parameters);
-		ZEPHIR_CPY_WRT(processedRecord, _4);
+		ZEPHIR_INIT_NVAR(processedRecord);
+		ZEPHIR_CALL_USER_FUNC_ARRAY(processedRecord, filter, parameters);
 		if ((Z_TYPE_P(processedRecord) != IS_OBJECT)) {
 			if ((Z_TYPE_P(processedRecord) != IS_ARRAY)) {
 				continue;

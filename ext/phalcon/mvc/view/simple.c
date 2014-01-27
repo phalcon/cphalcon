@@ -172,10 +172,10 @@ PHP_METHOD(Phalcon_Mvc_View_Simple, registerEngines) {
  */
 PHP_METHOD(Phalcon_Mvc_View_Simple, _loadTemplateEngines) {
 
-	zend_function *_6 = NULL;
+	zend_function *_5 = NULL;
 	HashTable *_2;
 	HashPosition _1;
-	zval *engines, *dependencyInjector, *registeredEngines, *arguments, *extension = NULL, *engineService = NULL, *engineObject = NULL, *_0 = NULL, **_3, *_4 = NULL, *_5 = NULL;
+	zval *engines, *dependencyInjector, *registeredEngines, *arguments, *extension = NULL, *engineService = NULL, *engineObject = NULL, *_0 = NULL, **_3, *_4 = NULL;
 
 	ZEPHIR_MM_GROW();
 
@@ -209,9 +209,8 @@ PHP_METHOD(Phalcon_Mvc_View_Simple, _loadTemplateEngines) {
 				ZEPHIR_GET_HVALUE(engineService, _3);
 				if ((Z_TYPE_P(engineService) == IS_OBJECT)) {
 					if (zephir_is_instance_of(engineService, SL("Closure") TSRMLS_CC)) {
-						ZEPHIR_INIT_NVAR(_4);
-						ZEPHIR_CALL_USER_FUNC_ARRAY(_4, engineService, arguments);
-						ZEPHIR_CPY_WRT(engineObject, _4);
+						ZEPHIR_INIT_NVAR(engineObject);
+						ZEPHIR_CALL_USER_FUNC_ARRAY(engineObject, engineService, arguments);
 					} else {
 						ZEPHIR_CPY_WRT(engineObject, engineService);
 					}
@@ -222,9 +221,9 @@ PHP_METHOD(Phalcon_Mvc_View_Simple, _loadTemplateEngines) {
 					} else {
 						ZEPHIR_INIT_LNVAR(_0);
 						object_init_ex(_0, phalcon_mvc_view_exception_ce);
-						ZEPHIR_INIT_LNVAR(_5);
-						ZEPHIR_CONCAT_SV(_5, "Invalid template engine registration for extension: ", extension);
-						zephir_call_method_p1_cache_noret(_0, "__construct", &_6, _5);
+						ZEPHIR_INIT_LNVAR(_4);
+						ZEPHIR_CONCAT_SV(_4, "Invalid template engine registration for extension: ", extension);
+						zephir_call_method_p1_cache_noret(_0, "__construct", &_5, _4);
 						zephir_throw_exception(_0 TSRMLS_CC);
 						ZEPHIR_MM_RESTORE();
 						return;
