@@ -98,8 +98,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator, __construct){
  */
 PHP_METHOD(Phalcon_Mvc_Model_Validator, appendMessage){
 
-	zval *message, *field = NULL, *type = NULL, *code = NULL, *class_name, *suffix;
-	zval *empty_string, *model_message, *t;
+	zval *message, *field = NULL, *type = NULL, *code = NULL;
+	zval *model_message, *t;
 
 	PHALCON_MM_GROW();
 
@@ -118,17 +118,21 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator, appendMessage){
 	}
 	
 	if (!zend_is_true(type)) {
-		PHALCON_INIT_VAR(class_name);
-		phalcon_get_class(class_name, this_ptr, 0 TSRMLS_CC);
-	
-		PHALCON_INIT_VAR(suffix);
-		ZVAL_STRING(suffix, "Validator", 1);
-	
-		PHALCON_INIT_VAR(empty_string);
-		ZVAL_EMPTY_STRING(empty_string);
-	
+		char *c;
+		int len;
+
 		PHALCON_INIT_VAR(t);
-		phalcon_fast_str_replace(t, suffix, empty_string, class_name);
+		phalcon_get_class(t, this_ptr, 0 TSRMLS_CC);
+
+		assert(Z_TYPE_P(t) == IS_STRING);
+
+		c   = Z_STRVAL_P(t);
+		len = Z_STRLEN_P(t);
+
+		if (len > 9 && !memcmp(c + len - 9, "Validator", 9)) {
+			Z_STRLEN_P(t) -= 9;
+			c[len-9]       = 0;
+		}
 	}
 	else {
 		t = type;
