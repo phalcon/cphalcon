@@ -4848,7 +4848,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _executeDelete){
 PHP_METHOD(Phalcon_Mvc_Model_Query, execute){
 
 	zval *bind_params = NULL, *bind_types = NULL, *unique_row;
-	zval *cache_options, *key, *lifetime = NULL, *cache_service = NULL;
+	zval *cache_options, *key = NULL, *lifetime = NULL, *cache_service = NULL;
 	zval *dependency_injector, *cache, *result = NULL, *is_fresh;
 	zval *prepared_result = NULL, *intermediate, *default_bind_params;
 	zval *merged_params = NULL, *default_bind_types;
@@ -4941,6 +4941,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, execute){
 		}
 	
 		phalcon_update_property_this(this_ptr, SL("_cache"), cache TSRMLS_CC);
+		assert(key != NULL);
 	}
 	
 	/** 
@@ -5026,6 +5027,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, execute){
 			PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Only PHQL statements that return resultsets can be cached");
 			return;
 		}
+
+		assert(key != NULL);
 		phalcon_call_method_p3_noret(cache, "save", key, result, lifetime);
 	}
 	

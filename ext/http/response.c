@@ -264,13 +264,13 @@ PHP_METHOD(Phalcon_Http_Response, setStatusCode){
 
 			PHALCON_GET_HKEY(header_name, ah0, hp0);
 
-			if (Z_TYPE_P(header_name) == IS_STRING && Z_STRLEN_P(header_name) > sizeof("HTTP/x.y ")-1 && !memcmp(Z_STRVAL_P(header_name), "HTTP/", 5)) {
+			if (Z_TYPE_P(header_name) == IS_STRING && (size_t)(Z_STRLEN_P(header_name)) > sizeof("HTTP/x.y ")-1 && !memcmp(Z_STRVAL_P(header_name), "HTTP/", 5)) {
 				phalcon_call_method_p1_noret(headers, "remove", header_name);
 			}
 
 			zend_hash_move_forward_ex(ah0, &hp0);
-        }
-    }
+		}
+	}
 
 	PHALCON_INIT_VAR(header_value);
 	PHALCON_CONCAT_SVSV(header_value, "HTTP/1.1 ", code, " ", message);
