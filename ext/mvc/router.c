@@ -217,7 +217,7 @@ PHALCON_INIT_CLASS(Phalcon_Mvc_Router){
  */
 PHP_METHOD(Phalcon_Mvc_Router, __construct){
 
-	zval *default_routes = NULL, *routes, *routesNameLookup, *paths = NULL, *action_pattern;
+	zval *default_routes = NULL, *routes, *routes_name_lookup, *paths = NULL, *action_pattern;
 	zval *route = NULL, *params_pattern, *params;
 
 	PHALCON_MM_GROW();
@@ -269,11 +269,11 @@ PHP_METHOD(Phalcon_Mvc_Router, __construct){
 
 	PHALCON_INIT_VAR(params);
 	array_init(params);
-	PHALCON_INIT_VAR(routesNameLookup);
-	array_init(routesNameLookup);
+	PHALCON_INIT_VAR(routes_name_lookup);
+	array_init(routes_name_lookup);
 	phalcon_update_property_this(this_ptr, SL("_params"), params TSRMLS_CC);
 	phalcon_update_property_this(this_ptr, SL("_routes"), routes TSRMLS_CC);
-	phalcon_update_property_this(this_ptr, SL("_routesNameLookup"), routesNameLookup TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_routesNameLookup"), routes_name_lookup TSRMLS_CC);
 
 	PHALCON_MM_RESTORE();
 }
@@ -1407,7 +1407,7 @@ PHP_METHOD(Phalcon_Mvc_Router, getRouteByName){
 	phalcon_fetch_params(1, 1, 0, &name);
 	PHALCON_OBS_VAR(routes_name_lookup);
 	phalcon_read_property_this(&routes_name_lookup, this_ptr, SL("_routesNameLookup"), PH_NOISY_CC);
-	if(phalcon_hash_find(Z_ARRVAL_P(routes_name_lookup), Z_STRVAL_P(name), Z_STRLEN_P(name) + 1, (void **)&hd) == SUCCESS) {
+	if(Z_TYPE_P(name) == IS_STRING && phalcon_hash_find(Z_ARRVAL_P(routes_name_lookup), Z_STRVAL_P(name), Z_STRLEN_P(name) + 1, (void **)&hd) == SUCCESS) {
 		PHALCON_GET_HVALUE(lookup_route);
 		RETURN_CTOR(lookup_route);
 	}
@@ -1421,7 +1421,7 @@ PHP_METHOD(Phalcon_Mvc_Router, getRouteByName){
 		) {
 			PHALCON_INIT_NVAR(route_name);
 			phalcon_call_method(route_name, *route, "getname");
-			if (PHALCON_IS_NOT_EMPTY(route_name)) {
+			if (Z_TYPE_P(route_name) == IS_STRING && PHALCON_IS_NOT_EMPTY(route_name)) {
 				phalcon_update_property_array_string(this_ptr, SL("_routesNameLookup"), Z_STRVAL_P(route_name), Z_STRLEN_P(route_name) + 1, *route TSRMLS_CC);
 			}
 			if (phalcon_is_equal(route_name, name TSRMLS_CC)) {
