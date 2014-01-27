@@ -132,7 +132,7 @@ class Generator_File_PhalconH
         $resContent = '';
 
         foreach (file($this->outputFile) as $line) {
-            if (preg_match('/PHP_METHOD\(([a-zA-Z0-9\_]+), ([a-zA-Z0-9\_]+)\)/', $line, $matches)) {
+            if (preg_match('/^PHP_METHOD\(([a-zA-Z0-9\_]+), ([a-zA-Z0-9\_]+)\)/', $line, $matches)) {
                 $line = str_replace($matches[0], 'static PHP_METHOD(' . $matches[1] . ', ' . $matches[2] . ')', $line);
             }
             $line = preg_replace('/^PHALCON_STATIC /', 'static ', $line);
