@@ -607,8 +607,8 @@ PHP_METHOD(Phalcon_Db_Dialect, getSqlTable){
 PHP_METHOD(Phalcon_Db_Dialect, select){
 
 	zval *definition, *escape_char = NULL, *columns, *selected_columns, *distinct;
-	zval *column = NULL, *column_item = NULL, *column_sql = NULL, *column_domain = NULL;
-	zval *column_domain_sql = NULL, *column_alias = NULL, *column_alias_sql = NULL;
+	zval *column = NULL, *column_sql = NULL;
+	zval *column_domain_sql = NULL, *column_alias_sql = NULL;
 	zval *columns_sql = NULL, *tables, *selected_tables;
 	zval *table = NULL, *sql_table = NULL, *tables_sql = NULL, *sql, *joins;
 	zval *join = NULL, *type = NULL, *sql_join = NULL, *join_conditions_array = NULL;
@@ -629,7 +629,7 @@ PHP_METHOD(Phalcon_Db_Dialect, select){
 	PHALCON_MM_GROW();
 
 	phalcon_fetch_params(1, 1, 0, &definition);
-	
+
 	if (Z_TYPE_P(definition) != IS_ARRAY) { 
 		PHALCON_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "Invalid SELECT definition");
 		return;
@@ -639,7 +639,7 @@ PHP_METHOD(Phalcon_Db_Dialect, select){
 		return;
 	}
 	
-	if (!phalcon_array_isset_string(definition, SS("columns"))) {
+	if (!phalcon_array_isset_string_fetch(&columns, definition, SS("columns"))) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "The index 'columns' is required in the definition array");
 		return;
 	}
@@ -651,8 +651,6 @@ PHP_METHOD(Phalcon_Db_Dialect, select){
 		PHALCON_INIT_NVAR(escape_char);
 	}
 	
-	PHALCON_OBS_VAR(columns);
-	phalcon_array_fetch_string(&columns, definition, SL("columns"), PH_NOISY);
 	if (Z_TYPE_P(columns) == IS_ARRAY) { 
 	
 		PHALCON_INIT_VAR(selected_columns);
@@ -661,37 +659,38 @@ PHP_METHOD(Phalcon_Db_Dialect, select){
 		phalcon_is_iterable(columns, &ah0, &hp0, 0, 0);
 	
 		while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
+			zval *column_item, *column_alias, *column_domain;
 	
 			PHALCON_GET_HVALUE(column);
 	
 			/** 
 			 * Escape column name
 			 */
-			PHALCON_OBS_NVAR(column_item);
-			phalcon_array_fetch_long(&column_item, column, 0, PH_NOISY);
-			if (Z_TYPE_P(column_item) == IS_ARRAY) { 
-				PHALCON_INIT_NVAR(column_sql);
-				phalcon_call_method_p2(column_sql, this_ptr, "getsqlexpression", column_item, escape_char);
-			} else {
-				if (PHALCON_IS_STRING(column_item, "*")) {
+			if (
+				    phalcon_array_isset_long_fetch(&column_item, column, 0)
+				 || phalcon_array_isset_string_fetch(&column_item, column, SS("column"))
+			) {
+				if (Z_TYPE_P(column_item) == IS_ARRAY) {
+					PHALCON_INIT_NVAR(column_sql);
+					phalcon_call_method_p2(column_sql, this_ptr, "getsqlexpression", column_item, escape_char);
+				} else if (PHALCON_IS_STRING(column_item, "*")) {
 					PHALCON_CPY_WRT(column_sql, column_item);
+				} else if (PHALCON_GLOBAL(db).escape_identifiers) {
+					PHALCON_INIT_NVAR(column_sql);
+					PHALCON_CONCAT_VVV(column_sql, escape_char, column_item, escape_char);
 				} else {
-					if (PHALCON_GLOBAL(db).escape_identifiers) {
-						PHALCON_INIT_NVAR(column_sql);
-						PHALCON_CONCAT_VVV(column_sql, escape_char, column_item, escape_char);
-					} else {
-						PHALCON_CPY_WRT(column_sql, column_item);
-					}
+					PHALCON_CPY_WRT(column_sql, column_item);
 				}
+			}
+			else {
+				PHALCON_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "Invalid SELECT definition");
+				return;
 			}
 	
 			/** 
 			 * Escape column domain
 			 */
-			if (phalcon_array_isset_long(column, 1)) {
-	
-				PHALCON_OBS_NVAR(column_domain);
-				phalcon_array_fetch_long(&column_domain, column, 1, PH_NOISY);
+			if (phalcon_array_isset_long_fetch(&column_domain, column, 1)) {
 				if (zend_is_true(column_domain)) {
 					if (PHALCON_GLOBAL(db).escape_identifiers) {
 						PHALCON_INIT_NVAR(column_domain_sql);
@@ -710,10 +709,8 @@ PHP_METHOD(Phalcon_Db_Dialect, select){
 			/** 
 			 * Escape column alias
 			 */
-			if (phalcon_array_isset_long(column, 2)) {
+			if (phalcon_array_isset_long_fetch(&column_alias, column, 2)) {
 	
-				PHALCON_OBS_NVAR(column_alias);
-				phalcon_array_fetch_long(&column_alias, column, 2, PH_NOISY);
 				if (zend_is_true(column_alias)) {
 					if (PHALCON_GLOBAL(db).escape_identifiers) {
 						PHALCON_INIT_NVAR(column_alias_sql);
