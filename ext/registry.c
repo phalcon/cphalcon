@@ -247,6 +247,27 @@ static HashTable* phalcon_registry_get_properties(zval *object TSRMLS_DC)
 	return Z_ARRVAL_P(obj->properties);
 }
 
+static int phalcon_registry_compare_objects(zval *object1, zval *object2 TSRMLS_DC)
+{
+	phalcon_registry_object *zobj1, *zobj2;
+	zval result;
+
+	zobj1 = phalcon_registry_get_object(object1 TSRMLS_CC);
+	zobj2 = phalcon_registry_get_object(object2 TSRMLS_CC);
+
+	if (zobj1->obj.ce != zobj2->obj.ce) {
+		return 1;
+	}
+
+	if (zobj1->properties == zobj2->properties) {
+		return 0;
+	}
+
+	zend_compare_symbol_tables(&result, Z_ARRVAL_P(zobj1->properties), Z_ARRVAL_P(zobj2->properties) TSRMLS_CC);
+	assert(Z_TYPE_P(&result) == IS_LONG);
+	return Z_LVAL_P(&result);
+}
+
 static zend_object_iterator* phalcon_registry_get_iterator(zend_class_entry *ce, zval *object, int by_ref TSRMLS_DC)
 {
 	zval *iterator;
@@ -255,6 +276,7 @@ static zend_object_iterator* phalcon_registry_get_iterator(zend_class_entry *ce,
 
 	MAKE_STD_ZVAL(iterator);
 	object_init_ex(iterator, spl_ce_ArrayIterator);
+
 	if (FAILURE == phalcon_call_method_params(NULL, NULL, iterator, SL("__construct"), zend_inline_hash_func(SS("__construct")) TSRMLS_CC, 1, obj->properties)) {
 		ret = NULL;
 	}
@@ -416,6 +438,7 @@ static PHP_METHOD(Phalcon_Registry, getIterator)
 
 	object_init_ex(return_value, spl_ce_ArrayIterator);
 	RETURN_ON_FAILURE(phalcon_call_method_params(NULL, NULL, return_value, SL("__construct"), zend_inline_hash_func(SS("__construct")) TSRMLS_CC, 1, obj->properties));
+	Z_SET_ISREF_P(return_value);
 }
 
 static PHP_METHOD(Phalcon_Registry, jsonSerialize)
@@ -518,6 +541,7 @@ PHALCON_INIT_CLASS(Phalcon_Registry)
 	phalcon_registry_object_handlers.unset_dimension      = phalcon_registry_unset_dimension;
 	phalcon_registry_object_handlers.get_properties       = phalcon_registry_get_properties;
 	phalcon_registry_object_handlers.count_elements       = phalcon_registry_count_elements;
+	phalcon_registry_object_handlers.compare_objects      = phalcon_registry_compare_objects;
 
 	phalcon_registry_ce->get_iterator = phalcon_registry_get_iterator;
 
