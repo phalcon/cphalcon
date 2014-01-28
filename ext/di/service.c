@@ -440,6 +440,10 @@ PHP_METHOD(Phalcon_DI_Service, resolve){
 		return;
 	}
 	
+	if (Z_TYPE_P(instance) != IS_OBJECT) {
+		php_error_docref0(NULL TSRMLS_CC, E_DEPRECATED, "Usage of Phalcon\\DI to store non-objects is deprecated, please use Phalcon\\Registry instead");
+	}
+
 	/* Update the shared instance if the service is shared */
 	if (obj->shared) {
 		Z_ADDREF_P(instance);
