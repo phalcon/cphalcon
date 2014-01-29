@@ -31,6 +31,7 @@
 #include "diinterface.h"
 #include "di/injectionawareinterface.h"
 #include "db/rawvalue.h"
+#include "interned-strings.h"
 
 #include <ext/pdo/php_pdo_driver.h>
 
@@ -5072,7 +5073,7 @@ PHP_METHOD(Phalcon_Mvc_Model, refresh){
 	zval *dirty_state, *meta_data, *read_connection;
 	zval *schema, *source, *table = NULL, *unique_key = NULL, *exists;
 	zval *unique_params, *unique_types, *attributes;
-	zval *fields, *attribute = NULL, *field_item = NULL, *escaped_table;
+	zval *fields, *escaped_table;
 	zval *select, *dialect, *sql, *fetch_type, *row, *column_map;
 	HashTable *ah0;
 	HashPosition hp0;
@@ -5101,8 +5102,8 @@ PHP_METHOD(Phalcon_Mvc_Model, refresh){
 	if (zend_is_true(schema)) {
 		PHALCON_INIT_VAR(table);
 		array_init_size(table, 2);
-		phalcon_array_append(&table, schema, PH_SEPARATE);
-		phalcon_array_append(&table, source, PH_SEPARATE);
+		phalcon_array_append(&table, schema, 0);
+		phalcon_array_append(&table, source, 0);
 	} else {
 		PHALCON_CPY_WRT(table, source);
 	}
@@ -5147,14 +5148,14 @@ PHP_METHOD(Phalcon_Mvc_Model, refresh){
 	phalcon_is_iterable(attributes, &ah0, &hp0, 0, 0);
 	
 	while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
-	
-		PHALCON_GET_HVALUE(attribute);
-	
-		PHALCON_INIT_NVAR(field_item);
+		zval *field_item;
+
+		MAKE_STD_ZVAL(field_item);
 		array_init_size(field_item, 1);
-		phalcon_array_append(&field_item, attribute, PH_SEPARATE);
-		phalcon_array_append(&fields, field_item, PH_SEPARATE);
-	
+		phalcon_array_append(&field_item, *hd, 0);
+
+		phalcon_array_append(&fields, field_item, 0);
+
 		zend_hash_move_forward_ex(ah0, &hp0);
 	}
 	
@@ -5162,10 +5163,10 @@ PHP_METHOD(Phalcon_Mvc_Model, refresh){
 	phalcon_call_method_p1(escaped_table, read_connection, "escapeidentifier", table);
 	
 	PHALCON_INIT_VAR(select);
-	array_init(select);
-	phalcon_array_update_string(&select, SL("columns"), &fields, PH_COPY | PH_SEPARATE);
-	phalcon_array_update_string(&select, SL("tables"), &escaped_table, PH_COPY | PH_SEPARATE);
-	phalcon_array_update_string(&select, SL("where"), &unique_key, PH_COPY | PH_SEPARATE);
+	array_init_size(select, 3);
+	phalcon_array_update_string(&select, SL("columns"), &fields, PH_COPY);
+	phalcon_array_update_string(&select, SL("tables"), &escaped_table, PH_COPY);
+	phalcon_array_update_string(&select, SL("where"), &unique_key, PH_COPY);
 	
 	/** 
 	 * We directly build the SELECT to save resources
