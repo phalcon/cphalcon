@@ -1091,6 +1091,7 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, _save) {
 		zephir_call_func_p2(fp, "fopen", file, &_0);
 		_10 = zephir_fetch_nproperty_this(this_ptr, SL("_image"), PH_NOISY_CC);
 		zephir_call_method_p1_noret(_10, "writeimagesfile", fp);
+		zephir_fclose(fp TSRMLS_CC);
 		RETURN_MM_NULL();
 	} else {
 		ZEPHIR_SINIT_NVAR(_0);

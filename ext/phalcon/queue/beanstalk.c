@@ -459,6 +459,7 @@ PHP_METHOD(Phalcon_Queue_Beanstalk, disconnect) {
 	if (!(zephir_is_true(_0))) {
 		RETURN_MM_BOOL(0);
 	}
+	zephir_fclose(connection TSRMLS_CC);
 	RETURN_MM_BOOL(1);
 
 }

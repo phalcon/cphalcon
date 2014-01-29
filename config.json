@@ -11,7 +11,7 @@
     "description": "",
     "author": "Phalcon Team",
     "version": "2.0.0a",
-    "verbose": true,
+    "verbose": false,
     "optimizer-dirs": [
         "optimizers"
     ],

@@ -558,5 +558,5 @@ int zephir_fclose(zval *stream_zval TSRMLS_DC)
 		php_stream_pclose(stream);
 	}
 
-	return true;
+	return 1;
 }

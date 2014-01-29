@@ -179,6 +179,7 @@ PHP_METHOD(Phalcon_Http_Request_File, getRealType) {
 	_1 = zephir_fetch_nproperty_this(this_ptr, SL("_tmp"), PH_NOISY_CC);
 	ZEPHIR_INIT_VAR(mime);
 	zephir_call_func_p2(mime, "finfo_file", finfo, _1);
+	zephir_fclose(finfo TSRMLS_CC);
 	RETURN_CCTOR(mime);
 
 }
