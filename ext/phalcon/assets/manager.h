@@ -8,6 +8,7 @@ PHP_METHOD(Phalcon_Assets_Manager, setOptions);
 PHP_METHOD(Phalcon_Assets_Manager, getOptions);
 PHP_METHOD(Phalcon_Assets_Manager, useImplicitOutput);
 PHP_METHOD(Phalcon_Assets_Manager, addCss);
+PHP_METHOD(Phalcon_Assets_Manager, addJs);
 PHP_METHOD(Phalcon_Assets_Manager, addResourceByType);
 PHP_METHOD(Phalcon_Assets_Manager, addResource);
 PHP_METHOD(Phalcon_Assets_Manager, set);
@@ -19,7 +20,7 @@ PHP_METHOD(Phalcon_Assets_Manager, output);
 PHP_METHOD(Phalcon_Assets_Manager, outputCss);
 PHP_METHOD(Phalcon_Assets_Manager, outputJs);
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_assets_manager___construct, 0, 0, 1)
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_assets_manager___construct, 0, 0, 0)
 	ZEND_ARG_INFO(0, options)
 ZEND_END_ARG_INFO()
 
@@ -31,7 +32,14 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_assets_manager_useimplicitoutput, 0, 0, 1
 	ZEND_ARG_INFO(0, implicitOutput)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_assets_manager_addcss, 0, 0, 2)
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_assets_manager_addcss, 0, 0, 1)
+	ZEND_ARG_INFO(0, path)
+	ZEND_ARG_INFO(0, local)
+	ZEND_ARG_INFO(0, filter)
+	ZEND_ARG_INFO(0, attributes)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_assets_manager_addjs, 0, 0, 1)
 	ZEND_ARG_INFO(0, path)
 	ZEND_ARG_INFO(0, local)
 	ZEND_ARG_INFO(0, filter)
@@ -66,11 +74,11 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_assets_manager_output, 0, 0, 3)
 	ZEND_ARG_INFO(0, type)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_assets_manager_outputcss, 0, 0, 1)
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_assets_manager_outputcss, 0, 0, 0)
 	ZEND_ARG_INFO(0, collectionName)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_assets_manager_outputjs, 0, 0, 1)
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_assets_manager_outputjs, 0, 0, 0)
 	ZEND_ARG_INFO(0, collectionName)
 ZEND_END_ARG_INFO()
 
@@ -80,6 +88,7 @@ ZEPHIR_INIT_FUNCS(phalcon_assets_manager_method_entry) {
 	PHP_ME(Phalcon_Assets_Manager, getOptions, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Assets_Manager, useImplicitOutput, arginfo_phalcon_assets_manager_useimplicitoutput, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Assets_Manager, addCss, arginfo_phalcon_assets_manager_addcss, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Assets_Manager, addJs, arginfo_phalcon_assets_manager_addjs, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Assets_Manager, addResourceByType, arginfo_phalcon_assets_manager_addresourcebytype, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Assets_Manager, addResource, arginfo_phalcon_assets_manager_addresource, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Assets_Manager, set, arginfo_phalcon_assets_manager_set, ZEND_ACC_PUBLIC)

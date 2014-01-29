@@ -59,36 +59,14 @@ class File extends Phalcon\Validation\Validator implements Phalcon\Validation\Va
 
                 let label = this->getOption("label");
                 if empty label {
-                        let label = field;
+                        let label = validation->getLabel(field);
+                        if empty label {
+                                let label = field;
+                        }
                 }
 
-                if !isset value["error"] || !isset value["name"] || !isset value["type"] || !isset value["tmp_name"] || !isset value["size"] {
-
-                        let message = this->getOption("messageValid");
-                        let replacePairs = [":field": label];
-			if empty message {
-                                let message = validation->getDefaultMessage("FileValid");
-			}
-
-			validation->appendMessage(new Phalcon\Validation\Message(strtr(message, replacePairs), field, "FileValid"));
-			return false;
-                }
-
-
-                if value["error"] !== UPLOAD_ERR_OK || !is_uploaded_file(value["tmp_name"]) {
-
-                        let message = this->getOption("messageEmpty");
-                        let replacePairs = [":field": label];
-			if empty message {
-                                let message = validation->getDefaultMessage("FileEmpty");
-			}
-
-			validation->appendMessage(new Phalcon\Validation\Message(strtr(message, replacePairs), field, "FileEmpty"));
-			return false;
-                }
-
-                // Upload is larger than PHP allowed size (upload_max_filesize)
-                if (value["error"] === UPLOAD_ERR_INI_SIZE) {
+                // Upload is larger than PHP allowed size (post_max_size or upload_max_filesize)
+                if _SERVER["REQUEST_METHOD"] == "POST" && empty _POST && empty _FILES && _SERVER["CONTENT_LENGTH"] > 0 || isset value["error"] && value["error"] === UPLOAD_ERR_INI_SIZE {
 
                         let message = this->getOption("messageIniSize");
                         let replacePairs = [":field": label];
@@ -100,6 +78,29 @@ class File extends Phalcon\Validation\Validator implements Phalcon\Validation\Va
                         return false;
                 }
 
+                if !isset value["error"] || ! isset value["tmp_name"] || value["error"] !== UPLOAD_ERR_OK || !is_uploaded_file(value["tmp_name"]) {
+
+                        let message = this->getOption("messageEmpty");
+                        let replacePairs = [":field": label];
+			if empty message {
+                                let message = validation->getDefaultMessage("FileEmpty");
+			}
+
+			validation->appendMessage(new Phalcon\Validation\Message(strtr(message, replacePairs), field, "FileEmpty"));
+			return false;
+                }
+
+                if !isset value["name"] || !isset value["type"] || !isset value["size"] {
+
+                        let message = this->getOption("messageValid");
+                        let replacePairs = [":field": label];
+			if empty message {
+                                let message = validation->getDefaultMessage("FileValid");
+			}
+
+			validation->appendMessage(new Phalcon\Validation\Message(strtr(message, replacePairs), field, "FileValid"));
+			return false;
+                }
 
                 if this->isSetOption("maxSize") {
 
@@ -148,7 +149,6 @@ class File extends Phalcon\Validation\Validator implements Phalcon\Validation\Va
                                 return false;
                         }
                 }
-
 
                 if this->isSetOption("minResolution") || this->isSetOption("maxResolution") {
 

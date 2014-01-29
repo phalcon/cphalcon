@@ -1482,9 +1482,9 @@ class Compiler implements Phalcon\Di\InjectionAwareInterface
 		 * Check if a "key" variable needs to be calculated
 		 */
 		if fetch key, statement["key"] {
-			let compilation .= "<?php foreach (" . iterator . " as " . key . " => " . variable . ") { ";
+			let compilation .= "<?php foreach (" . iterator . " as $" . key . " => $" . variable . ") { ";
 		} else {
-			let compilation .= "<?php foreach (" . iterator . " as " . variable . ") { ";
+			let compilation .= "<?php foreach (" . iterator . " as $" . variable . ") { ";
 		}
 
 		/**
@@ -2589,7 +2589,7 @@ class Compiler implements Phalcon\Di\InjectionAwareInterface
 					/**
 					 * The closure must return a valid path
 					 */
-					if typeof compiledTemplatePath == "string" {
+					if typeof compiledTemplatePath != "string" {
 						throw new Phalcon\Mvc\View\Exception("compiledPath closure didn't return a valid string");
 					}
 				} else {

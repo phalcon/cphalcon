@@ -24,7 +24,7 @@ Install required packages:
 
     sudo apt-get install php5-dev php5-mysql gcc make re2c libpcre3-dev
 
-Compile json-c
+Compile json-c:
 
     cd json-c
     sudo sh autogen.sh
@@ -33,13 +33,13 @@ Compile json-c
     sudo make install
     cd ..
 
-Compile zephir
+Compile zephir:
 
-    cp zephir
+    cd zephir
     sudo ./install
     cd ..
 
-Compile phalcon
+Compile phalcon:
 
     cd cphalcon
     ../zephir/bin/zephir generate

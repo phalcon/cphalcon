@@ -20,35 +20,47 @@
 namespace Phalcon\Validation\Validator;
 
 /**
- * Phalcon\Validation\Validator\Identical
+ * Phalcon\Validation\Validator\Uniqueness
  *
- * Checks if a value is identical to other
+ * Check for alphanumeric character(s)
  *
  *<code>
- *use Phalcon\Validation\Validator\Identical;
+ *use Phalcon\Validation\Validator\Uniqueness as UniquenessValidator;
  *
- *$validator->add('terms', new Identical(array(
- *   'accepted' => 'yes',
- *   'message' => 'Terms and conditions must be accepted'
+ *$validator->add('username', new UniquenessValidator(array(
+ *   'message' => ':field must be unique'
  *)));
  *</code>
- *
  */
-class Identical extends Phalcon\Validation\Validator implements Phalcon\Validation\ValidatorInterface
+class Uniqueness extends Phalcon\Validation\Validator implements Phalcon\Validation\ValidatorInterface
 {
 
 	/**
 	 * Executes the validation
 	 *
-	 * @param Phalcon\Validation validation
-	 * @param string             field
+	 * @param  Phalcon\Validation validation
+	 * @param  string             field
 	 * @return boolean
 	 */
-	public function validate(<Phalcon\Validation> validation, string! field)
+	public function validate(<Phalcon\Validation> validation, string! field) -> boolean
 	{
-		var message, label, replacePairs;
+		var attribute, value, model, number, message, label, replacePairs;
 
-		if validation->getValue(field) != this->getOption("value") {
+		let value = validation->getValue(field),
+                        model = this->getOption("model"),
+                        attribute = this->getOption("attribute");
+                
+                if empty model {
+                        throw new Phalcon\Validation\Exception("Model must be set");
+                }
+                
+                if empty attribute {
+                        let attribute = field;
+                }
+                
+		let number = {model}::count([attribute . "=:value:", "bind": ["value" : value]]);
+
+		if number {
 
                         let label = this->getOption("label");
                         if empty label {
@@ -61,10 +73,10 @@ class Identical extends Phalcon\Validation\Validator implements Phalcon\Validati
 			let message = this->getOption("message");
                         let replacePairs = [":field": label];
 			if empty message {
-                                let message = validation->getDefaultMessage("Identical");
+                                let message = validation->getDefaultMessage("Uniqueness");
 			}
 
-			validation->appendMessage(new Phalcon\Validation\Message(strtr(message, replacePairs), field, "Identical"));
+			validation->appendMessage(new Phalcon\Validation\Message(strtr(message, replacePairs), field, "Uniqueness"));
 			return false;
 		}
 

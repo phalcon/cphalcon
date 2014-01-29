@@ -1622,11 +1622,11 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compileForeach) {
 	zephir_array_fetch_string(&variable, statement, SL("variable"), PH_NOISY | PH_READONLY TSRMLS_CC);
 	if (zephir_array_isset_string_fetch(&key, statement, SS("key"), 1 TSRMLS_CC)) {
 		ZEPHIR_INIT_LNVAR(_4);
-		ZEPHIR_CONCAT_SVSVSVS(_4, "<?php foreach (", iterator, " as ", key, " => ", variable, ") { ");
+		ZEPHIR_CONCAT_SVSVSVS(_4, "<?php foreach (", iterator, " as $", key, " => $", variable, ") { ");
 		zephir_concat_self(&compilation, _4 TSRMLS_CC);
 	} else {
 		ZEPHIR_INIT_LNVAR(_4);
-		ZEPHIR_CONCAT_SVSVS(_4, "<?php foreach (", iterator, " as ", variable, ") { ");
+		ZEPHIR_CONCAT_SVSVS(_4, "<?php foreach (", iterator, " as $", variable, ") { ");
 		zephir_concat_self(&compilation, _4 TSRMLS_CC);
 	}
 	if (zephir_array_isset_string_fetch(&ifExpr, statement, SS("if_expr"), 1 TSRMLS_CC)) {
