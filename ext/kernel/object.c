@@ -91,11 +91,7 @@ void phalcon_get_class(zval *result, zval *object, int lower TSRMLS_DC) {
 	if (Z_TYPE_P(object) == IS_OBJECT) {
 
 		ce = Z_OBJCE_P(object);
-		Z_STRLEN_P(result) = ce->name_length;
-		Z_STRVAL_P(result) = (char *) emalloc(ce->name_length + 1);
-		memcpy(Z_STRVAL_P(result), ce->name, ce->name_length);
-		Z_STRVAL_P(result)[Z_STRLEN_P(result)] = 0;
-		Z_TYPE_P(result) = IS_STRING;
+		ZVAL_STRINGL(result, ce->name, ce->name_length, !IS_INTERNED(ce->name) || lower);
 
 		if (lower) {
 			zend_str_tolower(Z_STRVAL_P(result), Z_STRLEN_P(result));
@@ -237,10 +233,11 @@ void phalcon_get_ns_class(zval *result, zval *object, int lower TSRMLS_DC) {
 /**
  * Returns the called in class in the current scope
  */
-void phalcon_get_called_class(zval *return_value TSRMLS_DC) {
-
-	if (EG(called_scope)) {
-		RETURN_STRINGL(EG(called_scope)->name, EG(called_scope)->name_length, 1);
+void phalcon_get_called_class(zval *return_value TSRMLS_DC)
+{
+	zend_class_entry *called_scope = EG(called_scope);
+	if (called_scope) {
+		RETURN_STRINGL(called_scope->name, called_scope->name_length, !IS_INTERNED(called_scope->name));
 	}
 
 	if (!EG(scope))  {
