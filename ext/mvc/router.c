@@ -190,6 +190,7 @@ PHALCON_INIT_CLASS(Phalcon_Mvc_Router){
 	zend_declare_property_null(phalcon_mvc_router_ce, SL("_action"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_mvc_router_ce, SL("_params"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_mvc_router_ce, SL("_routes"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_mvc_router_ce, SL("_routesNameLookup"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_mvc_router_ce, SL("_matchedRoute"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_mvc_router_ce, SL("_matches"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_bool(phalcon_mvc_router_ce, SL("_wasMatched"), 0, ZEND_ACC_PROTECTED TSRMLS_CC);
@@ -216,7 +217,7 @@ PHALCON_INIT_CLASS(Phalcon_Mvc_Router){
  */
 PHP_METHOD(Phalcon_Mvc_Router, __construct){
 
-	zval *default_routes = NULL, *routes, *paths = NULL, *action_pattern;
+	zval *default_routes = NULL, *routes, *routes_name_lookup, *paths = NULL, *action_pattern;
 	zval *route = NULL, *params_pattern, *params;
 
 	PHALCON_MM_GROW();
@@ -268,8 +269,11 @@ PHP_METHOD(Phalcon_Mvc_Router, __construct){
 
 	PHALCON_INIT_VAR(params);
 	array_init(params);
+	PHALCON_INIT_VAR(routes_name_lookup);
+	array_init(routes_name_lookup);
 	phalcon_update_property_this(this_ptr, SL("_params"), params TSRMLS_CC);
 	phalcon_update_property_this(this_ptr, SL("_routes"), routes TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_routesNameLookup"), routes_name_lookup TSRMLS_CC);
 
 	PHALCON_MM_RESTORE();
 }
@@ -1249,6 +1253,7 @@ PHP_METHOD(Phalcon_Mvc_Router, clear){
 	PHALCON_INIT_VAR(empty_routes);
 	array_init(empty_routes);
 	phalcon_update_property_this(this_ptr, SL("_routes"), empty_routes TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_routesNameLookup"), empty_routes TSRMLS_CC);
 
 	PHALCON_MM_RESTORE();
 }
@@ -1393,12 +1398,25 @@ PHP_METHOD(Phalcon_Mvc_Router, getRouteById){
  */
 PHP_METHOD(Phalcon_Mvc_Router, getRouteByName){
 
-	zval *name, *routes, **route, *route_name = NULL;
+	zval *name, *routes, **route, *lookup_route = NULL, *routes_name_lookup = NULL, *route_name = NULL;
 	HashPosition hp0;
+	zval **hd;
 
 	PHALCON_MM_GROW();
 
 	phalcon_fetch_params(1, 1, 0, &name);
+
+	PHALCON_OBS_VAR(routes_name_lookup);
+	if (name && unlikely(Z_TYPE_P(name) != IS_STRING)) {
+		PHALCON_SEPARATE_PARAM(name);
+		convert_to_string(name);
+	}
+
+	phalcon_read_property_this(&routes_name_lookup, this_ptr, SL("_routesNameLookup"), PH_NOISY_CC);
+	if(PHALCON_IS_NOT_EMPTY(name) && phalcon_hash_find(Z_ARRVAL_P(routes_name_lookup), Z_STRVAL_P(name), Z_STRLEN_P(name) + 1, (void **)&hd) == SUCCESS) {
+		PHALCON_GET_HVALUE(lookup_route);
+		RETURN_CTOR(lookup_route);
+	}
 
 	routes = phalcon_fetch_nproperty_this(this_ptr, SL("_routes"), PH_NOISY_CC);
 	if (Z_TYPE_P(routes) == IS_ARRAY) {
@@ -1409,6 +1427,10 @@ PHP_METHOD(Phalcon_Mvc_Router, getRouteByName){
 		) {
 			PHALCON_INIT_NVAR(route_name);
 			phalcon_call_method(route_name, *route, "getname");
+			convert_to_string(route_name);
+			if (Z_TYPE_P(route_name) == IS_STRING && PHALCON_IS_NOT_EMPTY(route_name)) {
+				phalcon_update_property_array_string(this_ptr, SL("_routesNameLookup"), Z_STRVAL_P(route_name), Z_STRLEN_P(route_name) + 1, *route TSRMLS_CC);
+			}
 			if (phalcon_is_equal(route_name, name TSRMLS_CC)) {
 				RETURN_CTOR(*route);
 			}
