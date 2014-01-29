@@ -12,8 +12,8 @@
 #include <Zend/zend_interfaces.h>
 
 #include "kernel/main.h"
-#include "kernel/memory.h"
 #include "kernel/object.h"
+#include "kernel/memory.h"
 #include "kernel/fcall.h"
 #include "kernel/operators.h"
 #include "ext/spl/spl_exceptions.h"
@@ -68,6 +68,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Assets_Collection) {
 PHP_METHOD(Phalcon_Assets_Collection, getPrefix) {
 
 
+	RETURN_MEMBER(this_ptr, "_prefix");
 
 }
 
@@ -79,12 +80,14 @@ PHP_METHOD(Phalcon_Assets_Collection, setPrefix) {
 
 
 
+	zephir_update_property_this(this_ptr, SL("_prefix"), prefix TSRMLS_CC);
 
 }
 
 PHP_METHOD(Phalcon_Assets_Collection, getLocal) {
 
 
+	RETURN_MEMBER(this_ptr, "_local");
 
 }
 
@@ -96,12 +99,14 @@ PHP_METHOD(Phalcon_Assets_Collection, setLocal) {
 
 
 
+	zephir_update_property_this(this_ptr, SL("_local"), local TSRMLS_CC);
 
 }
 
 PHP_METHOD(Phalcon_Assets_Collection, getResources) {
 
 
+	RETURN_MEMBER(this_ptr, "_resources");
 
 }
 
@@ -113,12 +118,14 @@ PHP_METHOD(Phalcon_Assets_Collection, setResources) {
 
 
 
+	zephir_update_property_this(this_ptr, SL("_resources"), resources TSRMLS_CC);
 
 }
 
 PHP_METHOD(Phalcon_Assets_Collection, getPosition) {
 
 
+	RETURN_MEMBER(this_ptr, "_position");
 
 }
 
@@ -130,12 +137,14 @@ PHP_METHOD(Phalcon_Assets_Collection, setPosition) {
 
 
 
+	zephir_update_property_this(this_ptr, SL("_position"), position TSRMLS_CC);
 
 }
 
 PHP_METHOD(Phalcon_Assets_Collection, getFilters) {
 
 
+	RETURN_MEMBER(this_ptr, "_filters");
 
 }
 
@@ -147,12 +156,14 @@ PHP_METHOD(Phalcon_Assets_Collection, setFilters) {
 
 
 
+	zephir_update_property_this(this_ptr, SL("_filters"), filters TSRMLS_CC);
 
 }
 
 PHP_METHOD(Phalcon_Assets_Collection, getAttributes) {
 
 
+	RETURN_MEMBER(this_ptr, "_attributes");
 
 }
 
@@ -164,12 +175,14 @@ PHP_METHOD(Phalcon_Assets_Collection, setAttributes) {
 
 
 
+	zephir_update_property_this(this_ptr, SL("_attributes"), attributes TSRMLS_CC);
 
 }
 
 PHP_METHOD(Phalcon_Assets_Collection, getJoin) {
 
 
+	RETURN_MEMBER(this_ptr, "_join");
 
 }
 
@@ -181,12 +194,14 @@ PHP_METHOD(Phalcon_Assets_Collection, setJoin) {
 
 
 
+	zephir_update_property_this(this_ptr, SL("_join"), join TSRMLS_CC);
 
 }
 
 PHP_METHOD(Phalcon_Assets_Collection, getTargetUri) {
 
 
+	RETURN_MEMBER(this_ptr, "_targetUri");
 
 }
 
@@ -198,12 +213,14 @@ PHP_METHOD(Phalcon_Assets_Collection, setTargetUri) {
 
 
 
+	zephir_update_property_this(this_ptr, SL("_targetUri"), targetUri TSRMLS_CC);
 
 }
 
 PHP_METHOD(Phalcon_Assets_Collection, getTargetPath) {
 
 
+	RETURN_MEMBER(this_ptr, "_targetPath");
 
 }
 
@@ -215,12 +232,14 @@ PHP_METHOD(Phalcon_Assets_Collection, setTargetPath) {
 
 
 
+	zephir_update_property_this(this_ptr, SL("_targetPath"), targetPath TSRMLS_CC);
 
 }
 
 PHP_METHOD(Phalcon_Assets_Collection, getTargetLocal) {
 
 
+	RETURN_MEMBER(this_ptr, "_targetLocal");
 
 }
 
@@ -232,12 +251,14 @@ PHP_METHOD(Phalcon_Assets_Collection, setTargetLocal) {
 
 
 
+	zephir_update_property_this(this_ptr, SL("_targetLocal"), targetLocal TSRMLS_CC);
 
 }
 
 PHP_METHOD(Phalcon_Assets_Collection, getSourcePath) {
 
 
+	RETURN_MEMBER(this_ptr, "_sourcePath");
 
 }
 
@@ -249,6 +270,7 @@ PHP_METHOD(Phalcon_Assets_Collection, setSourcePath) {
 
 
 
+	zephir_update_property_this(this_ptr, SL("_sourcePath"), sourcePath TSRMLS_CC);
 
 }
 

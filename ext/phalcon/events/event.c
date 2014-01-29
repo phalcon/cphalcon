@@ -12,8 +12,8 @@
 #include <Zend/zend_interfaces.h>
 
 #include "kernel/main.h"
-#include "kernel/memory.h"
 #include "kernel/object.h"
+#include "kernel/memory.h"
 #include "kernel/operators.h"
 #include "ext/spl/spl_exceptions.h"
 #include "kernel/exception.h"
@@ -63,18 +63,21 @@ PHP_METHOD(Phalcon_Events_Event, setType) {
 
 
 
+	zephir_update_property_this(this_ptr, SL("_type"), type TSRMLS_CC);
 
 }
 
 PHP_METHOD(Phalcon_Events_Event, getType) {
 
 
+	RETURN_MEMBER(this_ptr, "_type");
 
 }
 
 PHP_METHOD(Phalcon_Events_Event, getSource) {
 
 
+	RETURN_MEMBER(this_ptr, "_source");
 
 }
 
@@ -86,12 +89,14 @@ PHP_METHOD(Phalcon_Events_Event, setData) {
 
 
 
+	zephir_update_property_this(this_ptr, SL("_data"), data TSRMLS_CC);
 
 }
 
 PHP_METHOD(Phalcon_Events_Event, getData) {
 
 
+	RETURN_MEMBER(this_ptr, "_data");
 
 }
 

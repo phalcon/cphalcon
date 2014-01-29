@@ -75,6 +75,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Db_Index) {
 PHP_METHOD(Phalcon_Db_Index, getName) {
 
 
+	RETURN_MEMBER(this_ptr, "_name");
 
 }
 
@@ -86,6 +87,7 @@ PHP_METHOD(Phalcon_Db_Index, getName) {
 PHP_METHOD(Phalcon_Db_Index, getColumns) {
 
 
+	RETURN_MEMBER(this_ptr, "_columns");
 
 }
 

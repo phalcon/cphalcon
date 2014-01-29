@@ -96,18 +96,21 @@ ZEPHIR_INIT_CLASS(Phalcon_Db_Reference) {
 PHP_METHOD(Phalcon_Db_Reference, getName) {
 
 
+	RETURN_MEMBER(this_ptr, "_name");
 
 }
 
 PHP_METHOD(Phalcon_Db_Reference, getSchemaName) {
 
 
+	RETURN_MEMBER(this_ptr, "_schemaName");
 
 }
 
 PHP_METHOD(Phalcon_Db_Reference, getReferencedSchema) {
 
 
+	RETURN_MEMBER(this_ptr, "_referencedSchema");
 
 }
 
@@ -119,6 +122,7 @@ PHP_METHOD(Phalcon_Db_Reference, getReferencedSchema) {
 PHP_METHOD(Phalcon_Db_Reference, getReferencedTable) {
 
 
+	RETURN_MEMBER(this_ptr, "_referencedTable");
 
 }
 
@@ -130,6 +134,7 @@ PHP_METHOD(Phalcon_Db_Reference, getReferencedTable) {
 PHP_METHOD(Phalcon_Db_Reference, getColumns) {
 
 
+	RETURN_MEMBER(this_ptr, "_columns");
 
 }
 
@@ -141,6 +146,7 @@ PHP_METHOD(Phalcon_Db_Reference, getColumns) {
 PHP_METHOD(Phalcon_Db_Reference, getReferencedColumns) {
 
 
+	RETURN_MEMBER(this_ptr, "_referencedColumns");
 
 }
 

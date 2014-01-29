@@ -136,7 +136,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Libmemcached, __construct) {
  */
 PHP_METHOD(Phalcon_Cache_Backend_Libmemcached, _connect) {
 
-	zend_function *_5 = NULL, *_6 = NULL;
+	zend_function *_5 = NULL, *_6 = NULL, *_7 = NULL;
 	HashTable *_3;
 	HashPosition _2;
 	zend_class_entry *_0;
@@ -175,12 +175,12 @@ PHP_METHOD(Phalcon_Cache_Backend_Libmemcached, _connect) {
 			ZEPHIR_GET_HVALUE(option, _4);
 			if ((Z_TYPE_P(option) == IS_STRING)) {
 				ZEPHIR_INIT_NVAR(res);
-				zephir_call_func_p1(res, "constant", option);
+				ZEPHIR_CALL_INTERNAL_FUNCTION(res, &res, "constant", &_5, 1, option);
 				if (zephir_is_true(res)) {
-					zephir_call_method_p1_cache_noret(memcache, "setoption", &_5, res);
+					zephir_call_method_p1_cache_noret(memcache, "setoption", &_6, res);
 				}
 			} else {
-				zephir_call_method_p1_cache_noret(memcache, "setoption", &_6, option);
+				zephir_call_method_p1_cache_noret(memcache, "setoption", &_7, option);
 			}
 		}
 	}

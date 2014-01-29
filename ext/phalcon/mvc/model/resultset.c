@@ -304,7 +304,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, offsetExists) {
 
 	ZEPHIR_INIT_VAR(_0);
 	zephir_call_method(_0, this_ptr, "count");
-	RETURN_MM_BOOL(ZEPHIR_GE_LONG(_0, index));
+	RETURN_MM_BOOL(ZEPHIR_GT_LONG(_0, index));
 
 }
 
@@ -332,7 +332,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, offsetGet) {
 
 	ZEPHIR_INIT_VAR(_0);
 	zephir_call_method(_0, this_ptr, "count");
-	if (ZEPHIR_GE_LONG(_0, index)) {
+	if (ZEPHIR_GT_LONG(_0, index)) {
 		_1 = zephir_fetch_nproperty_this(this_ptr, SL("_pointer"), PH_NOISY_CC);
 		if (ZEPHIR_IS_LONG(_1, index)) {
 			zephir_call_method(return_value, this_ptr, "current");

@@ -181,6 +181,16 @@ int zephir_greater_equal_long(zval *op1, long op2 TSRMLS_DC);
 		} \
 	}
 
+#define zephir_get_arrval(returnValue, passValue) \
+	{ \
+		if (Z_TYPE_P(passValue) == IS_ARRAY) { \
+			ZEPHIR_CPY_WRT(returnValue, passValue); \
+		} else { \
+			ZEPHIR_INIT_VAR(returnValue); \
+			array_init_size(returnValue, 0); \
+		} \
+	}
+
 #define zephir_is_numeric(value) (Z_TYPE_P(value) == IS_LONG || Z_TYPE_P(value) == IS_DOUBLE || zephir_is_numeric_ex(value))
 
 #define zephir_is_true(value) \

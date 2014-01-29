@@ -12,9 +12,9 @@
 #include <Zend/zend_interfaces.h>
 
 #include "kernel/main.h"
+#include "kernel/object.h"
 #include "kernel/operators.h"
 #include "kernel/exception.h"
-#include "kernel/object.h"
 #include "kernel/memory.h"
 
 
@@ -66,6 +66,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Acl_Role) {
 PHP_METHOD(Phalcon_Acl_Role, getName) {
 
 
+	RETURN_MEMBER(this_ptr, "_name");
 
 }
 
@@ -86,6 +87,7 @@ PHP_METHOD(Phalcon_Acl_Role, __toString) {
 PHP_METHOD(Phalcon_Acl_Role, getDescription) {
 
 
+	RETURN_MEMBER(this_ptr, "_description");
 
 }
 

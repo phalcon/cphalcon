@@ -335,7 +335,7 @@ PHP_METHOD(Phalcon_Mvc_Application, handle) {
 				ZVAL_STRING(className, "Module", 1);
 			}
 			if (zephir_array_isset_string_fetch(&path, module, SS("path"), 1 TSRMLS_CC)) {
-				if (!(zephir_class_exists(className, ZEPHIR_IS_TRUE(ZEPHIR_GLOBAL(global_false))  TSRMLS_CC))) {
+				if (!(zephir_class_exists(className, zephir_is_true(ZEPHIR_GLOBAL(global_false))  TSRMLS_CC))) {
 					if ((zephir_file_exists(path TSRMLS_CC) == SUCCESS)) {
 						ZEPHIR_INIT_LNVAR(_3);
 						if (zephir_require_ret(_3, path TSRMLS_CC) == FAILURE) {

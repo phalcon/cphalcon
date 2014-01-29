@@ -267,6 +267,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, getOptions) {
  */
 PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, fireExtensionEvent) {
 
+	zend_function *_4 = NULL;
 	HashTable *_1;
 	HashPosition _0;
 	zval *name_param = NULL, *arguments = NULL, *extensions, *extension = NULL, *status = NULL, **_2, *_3 = NULL;
@@ -312,7 +313,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, fireExtensionEvent) {
 					array_init_size(_3, 3);
 					zephir_array_fast_append(_3, extension);
 					zephir_array_fast_append(_3, name);
-					zephir_call_func_p1(status, "call_user_func", _3);
+					ZEPHIR_CALL_INTERNAL_FUNCTION(status, &status, "call_user_func", &_4, 1, _3);
 				}
 				if ((Z_TYPE_P(status) == IS_STRING)) {
 					RETURN_CCTOR(status);
@@ -2849,7 +2850,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compile) {
 				ZVAL_BOOL(_2, extendsMode);
 				zephir_array_fast_append(_1, _2);
 				ZEPHIR_CALL_USER_FUNC_ARRAY(compiledTemplatePath, compiledPath, _1);
-				if ((Z_TYPE_P(compiledTemplatePath) == IS_STRING)) {
+				if ((Z_TYPE_P(compiledTemplatePath) != IS_STRING)) {
 					ZEPHIR_THROW_EXCEPTION_STR(phalcon_mvc_view_exception_ce, "compiledPath closure didn't return a valid string");
 					return;
 				}

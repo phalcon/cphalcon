@@ -12,8 +12,8 @@
 #include <Zend/zend_interfaces.h>
 
 #include "kernel/main.h"
-#include "kernel/memory.h"
 #include "kernel/object.h"
+#include "kernel/memory.h"
 #include "kernel/operators.h"
 
 
@@ -80,6 +80,7 @@ PHP_METHOD(Phalcon_Db_Profiler_Item, setSqlStatement) {
 
 
 
+	zephir_update_property_this(this_ptr, SL("_sqlStatement"), sqlStatement TSRMLS_CC);
 
 }
 
@@ -91,6 +92,7 @@ PHP_METHOD(Phalcon_Db_Profiler_Item, setSqlStatement) {
 PHP_METHOD(Phalcon_Db_Profiler_Item, getSqlStatement) {
 
 
+	RETURN_MEMBER(this_ptr, "_sqlStatement");
 
 }
 
@@ -107,6 +109,7 @@ PHP_METHOD(Phalcon_Db_Profiler_Item, setInitialTime) {
 
 
 
+	zephir_update_property_this(this_ptr, SL("_initialTime"), initialTime TSRMLS_CC);
 
 }
 
@@ -118,6 +121,7 @@ PHP_METHOD(Phalcon_Db_Profiler_Item, setInitialTime) {
 PHP_METHOD(Phalcon_Db_Profiler_Item, getInitialTime) {
 
 
+	RETURN_MEMBER(this_ptr, "_initialTime");
 
 }
 
@@ -134,6 +138,7 @@ PHP_METHOD(Phalcon_Db_Profiler_Item, setFinalTime) {
 
 
 
+	zephir_update_property_this(this_ptr, SL("_finalTime"), finalTime TSRMLS_CC);
 
 }
 
@@ -145,6 +150,7 @@ PHP_METHOD(Phalcon_Db_Profiler_Item, setFinalTime) {
 PHP_METHOD(Phalcon_Db_Profiler_Item, getFinalTime) {
 
 
+	RETURN_MEMBER(this_ptr, "_finalTime");
 
 }
 

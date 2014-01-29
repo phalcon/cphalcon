@@ -12,9 +12,9 @@
 #include <Zend/zend_interfaces.h>
 
 #include "kernel/main.h"
+#include "kernel/object.h"
 #include "kernel/memory.h"
 #include "kernel/array.h"
-#include "kernel/object.h"
 #include "kernel/fcall.h"
 #include "kernel/operators.h"
 
@@ -60,6 +60,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Cache_Backend) {
 PHP_METHOD(Phalcon_Cache_Backend, getFrontend) {
 
 
+	RETURN_MEMBER(this_ptr, "_frontend");
 
 }
 
@@ -71,12 +72,14 @@ PHP_METHOD(Phalcon_Cache_Backend, setFrontend) {
 
 
 
+	zephir_update_property_this(this_ptr, SL("_frontend"), frontend TSRMLS_CC);
 
 }
 
 PHP_METHOD(Phalcon_Cache_Backend, getOptions) {
 
 
+	RETURN_MEMBER(this_ptr, "_options");
 
 }
 
@@ -88,12 +91,14 @@ PHP_METHOD(Phalcon_Cache_Backend, setOptions) {
 
 
 
+	zephir_update_property_this(this_ptr, SL("_options"), options TSRMLS_CC);
 
 }
 
 PHP_METHOD(Phalcon_Cache_Backend, getLastKey) {
 
 
+	RETURN_MEMBER(this_ptr, "_lastKey");
 
 }
 
@@ -105,6 +110,7 @@ PHP_METHOD(Phalcon_Cache_Backend, setLastKey) {
 
 
 
+	zephir_update_property_this(this_ptr, SL("_lastKey"), lastKey TSRMLS_CC);
 
 }
 

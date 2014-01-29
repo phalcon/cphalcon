@@ -306,7 +306,7 @@ PHP_METHOD(Phalcon_Image_Adapter, crop) {
 			offset_x = ((zephir_get_numberval(_0) - width) + offset_x);
 		}
 		_1 = zephir_fetch_nproperty_this(this_ptr, SL("_width"), PH_NOISY_CC);
-		if (ZEPHIR_LE_LONG(_1, offset_x)) {
+		if (ZEPHIR_LT_LONG(_1, offset_x)) {
 			ZEPHIR_OBS_VAR(_2);
 			zephir_read_property_this(&_2, this_ptr, SL("_width"), PH_NOISY_CC);
 			offset_x = zephir_get_intval(_2);
@@ -321,7 +321,7 @@ PHP_METHOD(Phalcon_Image_Adapter, crop) {
 			offset_y = ((zephir_get_numberval(_0) - height) + offset_y);
 		}
 		_1 = zephir_fetch_nproperty_this(this_ptr, SL("_height"), PH_NOISY_CC);
-		if (ZEPHIR_LE_LONG(_1, offset_y)) {
+		if (ZEPHIR_LT_LONG(_1, offset_y)) {
 			ZEPHIR_OBS_NVAR(_2);
 			zephir_read_property_this(&_2, this_ptr, SL("_height"), PH_NOISY_CC);
 			offset_y = zephir_get_intval(_2);
@@ -472,7 +472,7 @@ PHP_METHOD(Phalcon_Image_Adapter, reflection) {
 
 
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_height"), PH_NOISY_CC);
-	if (((height <= 0) || ZEPHIR_LE_LONG(_0, height))) {
+	if (((height <= 0) || ZEPHIR_LT_LONG(_0, height))) {
 		ZEPHIR_OBS_VAR(_1);
 		zephir_read_property_this(&_1, this_ptr, SL("_height"), PH_NOISY_CC);
 		height = zephir_get_intval(_1);

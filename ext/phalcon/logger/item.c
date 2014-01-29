@@ -75,6 +75,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Logger_Item) {
 PHP_METHOD(Phalcon_Logger_Item, getType) {
 
 
+	RETURN_MEMBER(this_ptr, "_type");
 
 }
 
@@ -86,6 +87,7 @@ PHP_METHOD(Phalcon_Logger_Item, getType) {
 PHP_METHOD(Phalcon_Logger_Item, getMessage) {
 
 
+	RETURN_MEMBER(this_ptr, "_message");
 
 }
 
@@ -97,6 +99,7 @@ PHP_METHOD(Phalcon_Logger_Item, getMessage) {
 PHP_METHOD(Phalcon_Logger_Item, getTime) {
 
 
+	RETURN_MEMBER(this_ptr, "_time");
 
 }
 

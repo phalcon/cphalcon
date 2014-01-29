@@ -146,9 +146,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Mongo, _getCollection) {
 			ZEPHIR_INIT_NVAR(mongo);
 			_0 = zend_fetch_class(SL("Mongo"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
 			object_init_ex(mongo, _0);
-			if (zephir_has_constructor(mongo TSRMLS_CC)) {
-				zephir_call_method_noret(mongo, "__construct");
-			}
+			zephir_call_method_noret(mongo, "__construct");
 		}
 		zephir_array_fetch_string(&database, options, SL("db"), PH_NOISY | PH_READONLY TSRMLS_CC);
 		if ((!zephir_is_true(database) || (Z_TYPE_P(database) != IS_STRING))) {
@@ -404,11 +402,9 @@ PHP_METHOD(Phalcon_Cache_Backend_Mongo, queryKeys) {
 		ZEPHIR_INIT_VAR(_1);
 		_2 = zend_fetch_class(SL("MongoRegex"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
 		object_init_ex(_1, _2);
-		if (zephir_has_constructor(_1 TSRMLS_CC)) {
-			ZEPHIR_INIT_VAR(_3);
-			ZEPHIR_CONCAT_SVS(_3, "/^", prefix, "/");
-			zephir_call_method_p1_noret(_1, "__construct", _3);
-		}
+		ZEPHIR_INIT_VAR(_3);
+		ZEPHIR_CONCAT_SVS(_3, "/^", prefix, "/");
+		zephir_call_method_p1_noret(_1, "__construct", _3);
 		zephir_array_update_string(&conditions, SL("key"), &_1, PH_COPY | PH_SEPARATE);
 	}
 	ZEPHIR_INIT_VAR(_4);

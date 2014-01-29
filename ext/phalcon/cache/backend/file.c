@@ -399,7 +399,7 @@ PHP_METHOD(Phalcon_Cache_Backend_File, exists) {
 			zephir_call_func_p1(_2, "filemtime", cacheFile);
 			ZEPHIR_INIT_VAR(_3);
 			zephir_call_func(_3, "time");
-			if (ZEPHIR_IS_LONG(_3, (zephir_get_numberval(_2) + ttl))) {
+			if (ZEPHIR_LT_LONG(_3, (zephir_get_numberval(_2) + ttl))) {
 				RETURN_MM_BOOL(1);
 			}
 		}

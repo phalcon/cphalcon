@@ -12,9 +12,9 @@
 #include <Zend/zend_interfaces.h>
 
 #include "kernel/main.h"
+#include "kernel/object.h"
 #include "kernel/memory.h"
 #include "kernel/operators.h"
-#include "kernel/object.h"
 #include "kernel/string.h"
 #include "kernel/fcall.h"
 #include "kernel/concat.h"
@@ -75,6 +75,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Logger_Formatter_Line) {
 PHP_METHOD(Phalcon_Logger_Formatter_Line, getDateFormat) {
 
 
+	RETURN_MEMBER(this_ptr, "_dateFormat");
 
 }
 
@@ -91,6 +92,7 @@ PHP_METHOD(Phalcon_Logger_Formatter_Line, setDateFormat) {
 
 
 
+	zephir_update_property_this(this_ptr, SL("_dateFormat"), dateFormat TSRMLS_CC);
 
 }
 
@@ -102,6 +104,7 @@ PHP_METHOD(Phalcon_Logger_Formatter_Line, setDateFormat) {
 PHP_METHOD(Phalcon_Logger_Formatter_Line, getFormat) {
 
 
+	RETURN_MEMBER(this_ptr, "_format");
 
 }
 
@@ -118,6 +121,7 @@ PHP_METHOD(Phalcon_Logger_Formatter_Line, setFormat) {
 
 
 
+	zephir_update_property_this(this_ptr, SL("_format"), format TSRMLS_CC);
 
 }
 

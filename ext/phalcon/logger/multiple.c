@@ -12,8 +12,8 @@
 #include <Zend/zend_interfaces.h>
 
 #include "kernel/main.h"
-#include "kernel/exception.h"
 #include "kernel/object.h"
+#include "kernel/exception.h"
 #include "kernel/memory.h"
 #include "kernel/fcall.h"
 #include "kernel/operators.h"
@@ -55,12 +55,14 @@ ZEPHIR_INIT_CLASS(Phalcon_Logger_Multiple) {
 PHP_METHOD(Phalcon_Logger_Multiple, getLoggers) {
 
 
+	RETURN_MEMBER(this_ptr, "_loggers");
 
 }
 
 PHP_METHOD(Phalcon_Logger_Multiple, getFormatter) {
 
 
+	RETURN_MEMBER(this_ptr, "_formatter");
 
 }
 

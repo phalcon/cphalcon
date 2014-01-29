@@ -221,11 +221,9 @@ PHP_METHOD(Phalcon_Logger_Adapter_File, close) {
 
 	zval *_0;
 
-	ZEPHIR_MM_GROW();
 
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_fileHandler"), PH_NOISY_CC);
-	zephir_call_func_p1(return_value, "fclose", _0);
-	RETURN_MM();
+	RETURN_BOOL(zephir_fclose(_0 TSRMLS_CC));
 
 }
 

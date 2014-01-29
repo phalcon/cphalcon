@@ -119,6 +119,7 @@ PHP_METHOD(Phalcon_Http_Response_Headers, setRaw) {
  */
 PHP_METHOD(Phalcon_Http_Response_Headers, send) {
 
+	zend_function *_6 = NULL;
 	HashTable *_3;
 	HashPosition _2;
 	zval *header = NULL, *value = NULL, *_0, *_1, **_4, *_5 = NULL;
@@ -139,9 +140,9 @@ PHP_METHOD(Phalcon_Http_Response_Headers, send) {
 			if (!(ZEPHIR_IS_EMPTY(value))) {
 				ZEPHIR_INIT_LNVAR(_5);
 				ZEPHIR_CONCAT_VSV(_5, header, ": ", value);
-				zephir_call_func_p2_noret("header", _5, ZEPHIR_GLOBAL(global_true));
+				ZEPHIR_CALL_INTERNAL_FUNCTION(NULL, NULL, "header", &_6, 2, _5, ZEPHIR_GLOBAL(global_true));
 			} else {
-				zephir_call_func_p2_noret("header", header, ZEPHIR_GLOBAL(global_true));
+				ZEPHIR_CALL_INTERNAL_FUNCTION(NULL, NULL, "header", &_6, 2, header, ZEPHIR_GLOBAL(global_true));
 			}
 		}
 		RETURN_MM_BOOL(1);

@@ -37,6 +37,7 @@ void zephir_basename(zval *return_value, zval *path TSRMLS_DC);
 
 void zephir_fwrite(zval *return_value, zval *stream_zval, zval *data TSRMLS_DC);
 int zephir_feof(zval *stream_zval TSRMLS_DC);
+int zephir_fclose(zval *stream_zval TSRMLS_DC);
 
 #ifdef TSRM_WIN32
 #define ZEPHIR_DIRECTORY_SEPARATOR "\\"

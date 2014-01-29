@@ -57,12 +57,14 @@ ZEPHIR_INIT_CLASS(Phalcon_Queue_Beanstalk_Job) {
 PHP_METHOD(Phalcon_Queue_Beanstalk_Job, getId) {
 
 
+	RETURN_MEMBER(this_ptr, "_id");
 
 }
 
 PHP_METHOD(Phalcon_Queue_Beanstalk_Job, getBody) {
 
 
+	RETURN_MEMBER(this_ptr, "_body");
 
 }
 

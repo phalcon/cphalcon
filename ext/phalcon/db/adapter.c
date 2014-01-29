@@ -117,6 +117,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Db_Adapter) {
 PHP_METHOD(Phalcon_Db_Adapter, getDialectType) {
 
 
+	RETURN_MEMBER(this_ptr, "_dialectType");
 
 }
 
@@ -126,6 +127,7 @@ PHP_METHOD(Phalcon_Db_Adapter, getDialectType) {
 PHP_METHOD(Phalcon_Db_Adapter, getType) {
 
 
+	RETURN_MEMBER(this_ptr, "_type");
 
 }
 
@@ -137,6 +139,7 @@ PHP_METHOD(Phalcon_Db_Adapter, getType) {
 PHP_METHOD(Phalcon_Db_Adapter, getSqlVariables) {
 
 
+	RETURN_MEMBER(this_ptr, "_sqlVariables");
 
 }
 

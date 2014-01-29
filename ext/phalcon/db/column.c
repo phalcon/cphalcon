@@ -221,6 +221,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Db_Column) {
 PHP_METHOD(Phalcon_Db_Column, getName) {
 
 
+	RETURN_MEMBER(this_ptr, "_name");
 
 }
 
@@ -232,6 +233,7 @@ PHP_METHOD(Phalcon_Db_Column, getName) {
 PHP_METHOD(Phalcon_Db_Column, getSchemaName) {
 
 
+	RETURN_MEMBER(this_ptr, "_schemaName");
 
 }
 
@@ -243,6 +245,7 @@ PHP_METHOD(Phalcon_Db_Column, getSchemaName) {
 PHP_METHOD(Phalcon_Db_Column, getType) {
 
 
+	RETURN_MEMBER(this_ptr, "_type");
 
 }
 
@@ -254,6 +257,7 @@ PHP_METHOD(Phalcon_Db_Column, getType) {
 PHP_METHOD(Phalcon_Db_Column, getSize) {
 
 
+	RETURN_MEMBER(this_ptr, "_size");
 
 }
 
@@ -265,6 +269,7 @@ PHP_METHOD(Phalcon_Db_Column, getSize) {
 PHP_METHOD(Phalcon_Db_Column, getScale) {
 
 
+	RETURN_MEMBER(this_ptr, "_scale");
 
 }
 

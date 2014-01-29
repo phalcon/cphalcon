@@ -72,6 +72,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Db_RawValue) {
 PHP_METHOD(Phalcon_Db_RawValue, getValue) {
 
 
+	RETURN_MEMBER(this_ptr, "_value");
 
 }
 

@@ -50,6 +50,12 @@ int zephir_has_constructor_ce(zend_class_entry *ce) {
 	return 0;
 }
 
+zend_function *zephir_get_function_ptr(const char *func_name, int func_length) {
+
+
+
+}
+
 /**
  * Check if an object has a constructor
  */
@@ -388,6 +394,80 @@ int zephir_call_func_params(zval *return_value, zval **return_value_ptr, const c
 	va_end(ap);
 
 	return status;
+}
+
+/**
+ * @brief Calls function @a func_name which accepts @a param_count arguments @a params
+ * @param[out] Return value; set to @c NULL if the return value is not needed
+ * @param func_name Function name
+ * @param func_length Length of the function name
+ * @param param_count Number of arguments
+ * @param params Arguments
+ * @return Whether the call succeeded
+ * @retval @c SUCCESS
+ * @retval @c FAILURE
+ */
+int zephir_call_internal_func_params(zval *return_value, zval **return_value_ptr, const char *func_name, int func_length, zend_function **function_ptr TSRMLS_DC, int param_count, ...) {
+
+	va_list va;
+	int i, caller_wants_result = 1;
+	zend_function *function_handler = NULL;
+
+	if (!return_value) {
+		ALLOC_INIT_ZVAL(return_value);
+		caller_wants_result = 0;
+	} else {
+		zephir_check_return_value(return_value);
+	}
+
+	if (!*function_ptr) {
+		if (zend_hash_find(EG(function_table), func_name, func_length + 1, (void**)&function_handler) == FAILURE) {
+			return FAILURE;
+		}
+		*function_ptr = function_handler;
+	}
+
+	ZEND_VM_STACK_GROW_IF_NEEDED(param_count + 1);
+
+	va_start(va, param_count);
+	for (i = 0; i < param_count; ++i) {
+
+		zval *param = va_arg(va, zval*);
+		Z_ADDREF_P(param);
+
+		#if PHP_VERSION_ID < 50500
+		zend_vm_stack_push_nocheck(param TSRMLS_CC);
+		#else
+		zend_vm_stack_push(param TSRMLS_CC);
+		#endif
+
+	}
+	va_end(va);
+
+	#if PHP_VERSION_ID < 50500
+	zend_vm_stack_push_nocheck((void*)(zend_uintptr_t) param_count TSRMLS_CC);
+	#else
+	zend_vm_stack_push((void*)(zend_uintptr_t) param_count TSRMLS_CC);
+	#endif
+
+	(*function_ptr)->internal_function.handler(param_count, return_value, &return_value, NULL, 1 TSRMLS_CC);
+
+	#if PHP_VERSION_ID < 50500
+	zend_vm_stack_clear_multiple(TSRMLS_C);
+	#else
+	zend_vm_stack_clear_multiple(0 TSRMLS_CC);
+	#endif
+
+	if (!caller_wants_result) {
+		zval_ptr_dtor(&return_value);
+	}
+
+	if (EG(exception)) {
+		zephir_throw_exception_internal(NULL TSRMLS_CC);
+	}
+
+	return SUCCESS;
+
 }
 
 /**

@@ -14,6 +14,7 @@
   +------------------------------------------------------------------------+
   | Authors: Andres Gutierrez <andres@zephir-lang.com>                     |
   |          Eduar Carvajal <eduar@zephir-lang.com>                        |
+  |          Vladimir Kolesnikov <vladimir@extrememember.com>              |
   +------------------------------------------------------------------------+
 */
 
@@ -520,7 +521,7 @@ int zephir_feof(zval *stream_zval TSRMLS_DC)
 	php_stream *stream;
 
 	if (Z_TYPE_P(stream_zval) != IS_RESOURCE) {
-		php_error_docref(NULL TSRMLS_CC, E_WARNING, "Invalid arguments supplied for zephir_fwrite()");
+		php_error_docref(NULL TSRMLS_CC, E_WARNING, "Invalid arguments supplied for zephir_feof()");
 		return 0;
 	}
 
@@ -530,4 +531,32 @@ int zephir_feof(zval *stream_zval TSRMLS_DC)
 	}
 
 	return php_stream_eof(stream);
+}
+
+int zephir_fclose(zval *stream_zval TSRMLS_DC)
+{
+	php_stream *stream;
+
+	if (Z_TYPE_P(stream_zval) != IS_RESOURCE) {
+		php_error_docref(NULL TSRMLS_CC, E_WARNING, "Invalid arguments supplied for zephir_fwrite()");
+		return 0;
+	}
+
+	php_stream_from_zval_no_verify(stream, &stream_zval);
+	if (stream == NULL) {
+		return 0;
+	}
+
+	if ((stream->flags & PHP_STREAM_FLAG_NO_FCLOSE) != 0) {
+		php_error_docref(NULL TSRMLS_CC, E_WARNING, "%d is not a valid stream resource", stream->rsrc_id);
+		return 0;
+	}
+
+	if (!stream->is_persistent) {
+		php_stream_close(stream);
+	} else {
+		php_stream_pclose(stream);
+	}
+
+	return true;
 }
