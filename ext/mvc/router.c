@@ -313,8 +313,6 @@ PHP_METHOD(Phalcon_Mvc_Router, getRewriteUri){
 	zval *uri_source, *_GET, *url = NULL, *_SERVER, *url_parts;
 	zval *real_uri;
 
-	PHALCON_MM_GROW();
-
 	/**
 	 * The developer can change the URI source
 	 */
@@ -327,7 +325,7 @@ PHP_METHOD(Phalcon_Mvc_Router, getRewriteUri){
 		_GET = phalcon_get_global(SS("_GET") TSRMLS_CC);
 		if (phalcon_array_isset_string_fetch(&url, _GET, SS("_url"))) {
 			if (PHALCON_IS_NOT_EMPTY(url)) {
-				RETURN_CTOR(url);
+				RETURN_ZVAL(url, 1, 0);
 			}
 		}
 	} else {
@@ -336,18 +334,20 @@ PHP_METHOD(Phalcon_Mvc_Router, getRewriteUri){
 		 */
 		_SERVER = phalcon_get_global(SS("_SERVER") TSRMLS_CC);
 		if (phalcon_array_isset_string_fetch(&url, _SERVER, SS("REQUEST_URI"))) {
-			PHALCON_INIT_VAR(url_parts);
+			ALLOC_INIT_ZVAL(url_parts);
 			phalcon_fast_explode_str(url_parts, SL("?"), url);
 
-			PHALCON_OBS_VAR(real_uri);
 			phalcon_array_fetch_long(&real_uri, url_parts, 0, PH_NOISY);
+			zval_ptr_dtor(&url_parts);
 			if (PHALCON_IS_NOT_EMPTY(real_uri)) {
-				RETURN_CCTOR(real_uri);
+				RETURN_ZVAL(real_uri, 1, 1);
 			}
+
+			zval_ptr_dtor(&real_uri);
 		}
 	}
 
-	RETURN_MM_STRING("/", 1);
+	RETURN_STRING("/", 1);
 }
 
 /**
