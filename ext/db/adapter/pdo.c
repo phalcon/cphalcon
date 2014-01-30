@@ -411,7 +411,12 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, executePrepared){
 
 			} else {
 				PHALCON_INIT_NVAR(type);
-				ZVAL_LONG(type, 2 /* BIND_PARAM_STR */);
+				if (Z_TYPE_P(value) == IS_LONG) {
+					ZVAL_LONG(type, 1 /* BIND_PARAM_INT */);
+				}
+				else {
+					ZVAL_LONG(type, 2 /* BIND_PARAM_STR */);
+				}
 				Z_SET_ISREF_P(value);
 				phalcon_call_method_p3_noret(statement, "bindparam", parameter, value, type);
 				Z_UNSET_ISREF_P(value);
