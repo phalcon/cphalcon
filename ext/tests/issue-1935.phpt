@@ -25,10 +25,38 @@ foreach ($registry as $key => $value) {
 	assert($value === 1);
 }
 
+
+$registry->rewind();
+while ($registry->valid()) {
+	assert($registry->key() === 'a');
+	assert($registry->current() === 1);
+	$registry->next();
+}
+
+reset($registry);
+while (list($key, $val) = each($registry)) {
+	assert($key === 'a');
+	assert($value === 1);
+}
+
+if (PHP_VERSION_ID >= 50304) {
+	foreach ($registry as $key => &$value) {
+		$value *= 10;
+	}
+
+	assert($registry->a === 10);
+	unset($value);
+}
+
 $s = serialize($registry);
 $copy = unserialize($s);
 
 assert($registry == $copy);
+
+$registry->registry = new \Phalcon\Registry();
+gc_collect_cycles();
+$registry->registry = null;
+gc_collect_cycles();
 
 ?>
 --EXPECT--
