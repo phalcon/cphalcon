@@ -26,8 +26,8 @@
 #include <ext/standard/php_smart_str.h>
 
 #include "kernel/main.h"
-#include "kernel/object.h"
 #include "kernel/hash.h"
+#include "kernel/object.h"
 #include "kernel/fcall.h"
 
 /**
@@ -63,7 +63,7 @@
  *
  * In addition to ArrayAccess, Phalcon\Registry also implements Countable
  * (count($registry) will return the number of elements in the registry),
- * Serializable and IteratorAggregate (you can iterate over the registry
+ * Serializable and Iterator (you can iterate over the registry
  * using a foreach loop) interfaces. For PHP 5.4 and higher, JsonSerializable
  * interface is implemented.
  *
@@ -84,10 +84,13 @@ zend_class_entry *phalcon_registry_ce;
 
 static zend_object_handlers phalcon_registry_object_handlers;
 
+/**
+ * @brief Internal registry object
+ */
 typedef struct _phalcon_registry_object {
-	zend_object obj;
-	zval *properties;
-	HashPosition pos;
+	zend_object obj;   /**< Zend Object */
+	zval *properties;  /**< The registry itself */
+	HashPosition pos;  /**< Current position used by the iterator */
 } phalcon_registry_object;
 
 PHALCON_ATTR_NONNULL static inline phalcon_registry_object* phalcon_registry_get_object(zval *obj TSRMLS_DC)
@@ -95,6 +98,11 @@ PHALCON_ATTR_NONNULL static inline phalcon_registry_object* phalcon_registry_get
 	return (phalcon_registry_object*)zend_objects_get_address(obj TSRMLS_CC);
 }
 
+/**
+ * @brief Registry destructor
+ * @param v Registry object
+ * @see phalcon_registry_object
+ */
 static void phalcon_registry_dtor(void *v TSRMLS_DC)
 {
 	phalcon_registry_object *obj = v;
@@ -104,6 +112,12 @@ static void phalcon_registry_dtor(void *v TSRMLS_DC)
 	efree(obj);
 }
 
+/**
+ * @brief Registry constructor
+ * @details Allocates and initializes a Phalcon\Registry object
+ * @brief ce Phalcon\Registry class entry
+ * @return Zend Object Value corresponding to the newly constructed object
+ */
 static zend_object_value phalcon_registry_ctor(zend_class_entry* ce TSRMLS_DC)
 {
 	phalcon_registry_object *obj = ecalloc(1, sizeof(phalcon_registry_object));
@@ -129,6 +143,12 @@ static zend_object_value phalcon_registry_ctor(zend_class_entry* ce TSRMLS_DC)
 
 #if PHP_VERSION_ID < 50500
 
+/**
+ * @brief Create pointer to the property of the object, for future direct r/w access
+ * @param object Object
+ * @param member Property
+ * @return Pointer to @a member
+ */
 static zval** phalcon_registry_get_property_ptr_ptr(zval *object, zval *member ZLK_DC TSRMLS_DC)
 {
 	phalcon_registry_object *obj = phalcon_registry_get_object(object TSRMLS_CC);
@@ -137,21 +157,49 @@ static zval** phalcon_registry_get_property_ptr_ptr(zval *object, zval *member Z
 
 #else
 
-static zval** phalcon_registry_get_property_ptr_ptr(zval *object, zval *member, int type ZLK_DC TSRMLS_DC)
+/**
+ * @brief Create pointer to the property of the object, for future direct r/w access (<tt>&__get()</tt>)
+ * @param object Object
+ * @param member Property
+ * @param type Access type
+ * @param key Literal key
+ * @return Pointer to @a member
+ */
+static zval** phalcon_registry_get_property_ptr_ptr(zval *object, zval *member, int type, const zend_literal* key TSRMLS_DC)
 {
 	phalcon_registry_object *obj = phalcon_registry_get_object(object TSRMLS_CC);
+	if (key) {
+		return phalcon_hash_fast_get(Z_ARRVAL_P(obj->properties), type, key);
+	}
 
 	return phalcon_hash_get(Z_ARRVAL_P(obj->properties), member, type);
 }
 
 #endif
 
+/**
+ * @brief Cfetch property from the object, read-only (<tt>__get()</tt>)
+ * @param object Object
+ * @param member Property
+ * @param type Access type
+ * @param key Literal key
+ * @return <tt>$object->$member</tt>
+ */
 static zval* phalcon_registry_read_property(zval *object, zval *member, int type ZLK_DC TSRMLS_DC)
 {
 	zval **result;
 	phalcon_registry_object *obj = phalcon_registry_get_object(object TSRMLS_CC);
 
-	result = phalcon_hash_get(Z_ARRVAL_P(obj->properties), member, type);
+#if PHP_VERSION_ID >= 50400
+	if (key) {
+		result = phalcon_hash_fast_get(Z_ARRVAL_P(obj->properties), type, key);
+	}
+	else
+#endif
+	{
+		result = phalcon_hash_get(Z_ARRVAL_P(obj->properties), member, type);
+	}
+
 	return result ? *result : NULL;
 }
 
@@ -160,13 +208,30 @@ static void phalcon_registry_write_property(zval *object, zval *member, zval *va
 	phalcon_registry_object *obj = phalcon_registry_get_object(object TSRMLS_CC);
 
 	Z_ADDREF_P(value);
-	phalcon_hash_update_or_insert(Z_ARRVAL_P(obj->properties), member, value);
+#if PHP_VERSION_ID >= 50400
+	if (key) {
+		phalcon_hash_quick_update_or_insert(Z_ARRVAL_P(obj->properties), value, key);
+	}
+	else
+#endif
+	{
+		phalcon_hash_update_or_insert(Z_ARRVAL_P(obj->properties), member, value);
+	}
 }
 
 static void phalcon_registry_unset_property(zval *object, zval *member ZLK_DC TSRMLS_DC)
 {
 	phalcon_registry_object *obj = phalcon_registry_get_object(object TSRMLS_CC);
-	phalcon_hash_unset(Z_ARRVAL_P(obj->properties), member);
+
+#if PHP_VERSION_ID >= 50400
+	if (key) {
+		phalcon_hash_fast_unset(Z_ARRVAL_P(obj->properties), key);
+	}
+	else
+#endif
+	{
+		phalcon_hash_unset(Z_ARRVAL_P(obj->properties), member);
+	}
 }
 
 static int phalcon_registry_has_property(zval *object, zval *member, int has_set_exists ZLK_DC TSRMLS_DC)

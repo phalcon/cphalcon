@@ -58,5 +58,16 @@ gc_collect_cycles();
 $registry->registry = null;
 gc_collect_cycles();
 
+$registry[0] = 1;
+assert($registry->{'0'} === 1);
+assert($registry->{0} === 1);
+assert($registry->{0.0} === 1);
+
+$registry->{1} = 2;
+assert($registry->{'1'} === 2);
+assert($registry->{1.0} === 2);
+assert($registry[1] === 2);
+assert($registry[1.0] === 2);
+assert($registry['1'] === 2);
 ?>
 --EXPECT--
