@@ -3967,7 +3967,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _executeSelect){
 	
 	PHALCON_INIT_VAR(sql_select);
 	phalcon_call_method_p1(sql_select, dialect, "select", intermediate);
-	
+
 	/** 
 	 * Replace the placeholders
 	 */
@@ -3986,9 +3986,9 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _executeSelect){
 			if (Z_TYPE_P(wildcard) == IS_LONG) {
 				PHALCON_INIT_NVAR(string_wildcard);
 				PHALCON_CONCAT_SV(string_wildcard, ":", wildcard);
-				phalcon_array_update_zval(&processed, string_wildcard, &value, PH_COPY | PH_SEPARATE);
+				phalcon_array_update_zval(&processed, string_wildcard, &value, PH_COPY);
 			} else {
-				phalcon_array_update_zval(&processed, wildcard, &value, PH_COPY | PH_SEPARATE);
+				phalcon_array_update_zval(&processed, wildcard, &value, PH_COPY);
 			}
 	
 			zend_hash_move_forward_ex(ah5, &hp5);
@@ -4964,7 +4964,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, execute){
 	} else {
 		PHALCON_CPY_WRT(merged_params, bind_params);
 	}
-	
+
 	/** 
 	 * Check for default bind types and merge them with the passed ones
 	 */
