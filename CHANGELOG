@@ -173,6 +173,7 @@
    - Added getURI(), getBasicAuth(), getDigestAuth() methods to Phalcon\Http\Request (#1250)
    - Added getPut()/hasPut() methods to Phalcon\Http\Request (#680, #1403)
    - Implemented Phalcon\Http\Request\File::getRealType (#1442, #1444)
+   - External URLs are now automatically detected by Phalcon\Http\Response::redirect() (#1182)
  - Phalcon\Image:
    - Added Phalcon\Image\Adapter, Phalcon\Image\Adapter\Gd, Phalcon\Image\Adapter\Imagick (#902, #1025, #1030, #1041, #1050, #1063, #1076, #1081, #1114, #1120, #1158, #1195, #1206, #1214, #1370)
  - Phalcon\Logger:
