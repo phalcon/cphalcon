@@ -607,8 +607,9 @@ PHP_METHOD(Phalcon_Http_Response, setEtag){
 PHP_METHOD(Phalcon_Http_Response, redirect){
 
 	zval *location = NULL, *external_redirect = NULL, *status_code = NULL;
-	zval *header = NULL, *dependency_injector, *service;
+	zval *header, *dependency_injector, *service;
 	zval *url, *status_text, *header_name;
+	zval *matched, *pattern;
 
 	static const char* redirect_phrases[] = {
 		/* 300 */ "Multiple Choices",
@@ -627,7 +628,12 @@ PHP_METHOD(Phalcon_Http_Response, redirect){
 	phalcon_fetch_params(1, 0, 3, &location, &external_redirect, &status_code);
 	
 	if (!location) {
-		location = PHALCON_GLOBAL(z_null);
+		PHALCON_INIT_VAR(location);
+		ZVAL_EMPTY_STRING(location);
+	}
+	else if (Z_TYPE_P(location) != IS_STRING) {
+		PHALCON_SEPARATE_PARAM(location);
+		convert_to_string(location);
 	}
 	
 	if (!external_redirect) {
@@ -644,8 +650,24 @@ PHP_METHOD(Phalcon_Http_Response, redirect){
 	}
 	
 	if (zend_is_true(external_redirect)) {
-		PHALCON_CPY_WRT(header, location);
-	} else {
+		header = location;
+	} else if (strstr(Z_STRVAL_P(location), "://")) {
+		PHALCON_INIT_VAR(matched);
+		PHALCON_INIT_VAR(pattern);
+		ZVAL_STRING(pattern, "/^[^:\\/?#]++:/", 1);
+		RETURN_MM_ON_FAILURE(phalcon_preg_match(matched, pattern, location, NULL TSRMLS_CC));
+		if (zend_is_true(matched)) {
+			header = location;
+		}
+		else {
+			header = NULL;
+		}
+	}
+	else {
+		header = NULL;
+	}
+
+	if (!header) {
 		PHALCON_INIT_VAR(dependency_injector);
 		phalcon_call_method(dependency_injector, this_ptr, "getdi");
 	
@@ -656,7 +678,7 @@ PHP_METHOD(Phalcon_Http_Response, redirect){
 		phalcon_call_method_p1(url, dependency_injector, "getshared", service);
 		PHALCON_VERIFY_INTERFACE(url, phalcon_mvc_urlinterface_ce);
 	
-		PHALCON_INIT_NVAR(header);
+		PHALCON_INIT_VAR(header);
 		phalcon_call_method_p1(header, url, "get", location);
 	}
 	
