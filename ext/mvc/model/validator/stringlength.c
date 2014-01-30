@@ -195,7 +195,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_StringLength, validate){
 				ZVAL_LONG(code, 0);
 			}
 
-			phalcon_call_method_p3_noret(this_ptr, "appendmessage", message, field, type);
+			phalcon_call_method_p4_noret(this_ptr, "appendmessage", message, field, type, code);
 			RETURN_MM_FALSE;
 		}
 	}
