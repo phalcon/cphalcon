@@ -106,7 +106,7 @@ class Mongo extends Phalcon\Cache\Backend implements Phalcon\Cache\BackendInterf
 				if !server || typeof server != "string" {
 					throw new Phalcon\Cache\Exception("The backend requires a valid MongoDB connection string");
 				}
-				let mongo = new Mongo();
+				let mongo = new \Mongo();
 			}
 
 			/**
@@ -145,7 +145,7 @@ class Mongo extends Phalcon\Cache\Backend implements Phalcon\Cache\BackendInterf
 	 */
 	public function get(keyName, lifetime=null)
 	{
-		var frontend, prefixedKey, conditions, document, cachedContent;
+		var frontend, prefixedKey, conditions, timeCondition, document, cachedContent;
 
 		let conditions = [];
 		let frontend = this->_frontend;
@@ -153,7 +153,8 @@ class Mongo extends Phalcon\Cache\Backend implements Phalcon\Cache\BackendInterf
 		let this->_lastKey = prefixedKey;
 
 		let conditions["key"] = prefixedKey;
-		let conditions["time"] = ["$gt": time()];
+                let timeCondition = ["$gt": time()];
+		let conditions["time"] = timeCondition;
 		let document = this->_getCollection()->findOne(conditions);
 		if typeof document == "array" {
 			if isset document["data"] {
@@ -285,7 +286,7 @@ class Mongo extends Phalcon\Cache\Backend implements Phalcon\Cache\BackendInterf
 		var collection, fields, conditions, timeCondition, documents, keys, index, key;
 
 		let fields = [];
-		let timeCondition = [];
+		let timeCondition = ["$gt": time()];
 		let collection = this->_getCollection();
 		let fields["key"] = 1;
 		let conditions = [];
@@ -294,7 +295,7 @@ class Mongo extends Phalcon\Cache\Backend implements Phalcon\Cache\BackendInterf
 			let conditions["key"] = new MongoRegex("/^". prefix ."/");
 		}
 
-		let conditions["time"] = ["$gt": time()];
+		let conditions["time"] = timeCondition;
 		let documents = collection->find(conditions, fields);
 
 		let keys = [];
@@ -319,7 +320,7 @@ class Mongo extends Phalcon\Cache\Backend implements Phalcon\Cache\BackendInterf
 		var lastKey, collection, conditions, number, timeCondition;
 
 		let conditions = [];
-		let timeCondition = [];
+		let timeCondition = ["$gt": time()];
 
 		if keyName === null {
 			let lastKey = this->_lastKey;
@@ -330,7 +331,6 @@ class Mongo extends Phalcon\Cache\Backend implements Phalcon\Cache\BackendInterf
 		if lastKey {
 			let collection = this->_getCollection();
 			let conditions["key"] = lastKey;
-			let timeCondition["$gt"] = time();
 			let conditions["time"] = timeCondition;
 			let number = (int) collection->count(conditions);
 

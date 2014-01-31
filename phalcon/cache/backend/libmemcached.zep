@@ -67,16 +67,16 @@ class Libmemcached extends Phalcon\Cache\Backend implements Phalcon\Cache\Backen
 	 */
 	public function __construct(<Phalcon\Cache\FrontendInterface> frontend, options=null)
 	{
-		var config;
+		var servers;
 
 		if typeof options != "array" {
 			let options = [];
 		}
 
 		if !isset options["servers"] {
-			let config = ["host": "127.0.0.1", "port": 11211, "weigth": 1];
+                        let servers = [0: ["host": "127.0.0.1", "port": 11211, "weigth": 1]];
 
-			let options["servers"] = [config];
+			let options["servers"] = servers;
 		}
 
 		if !isset options["statsKey"] {

@@ -92,7 +92,7 @@ class Memcache extends Phalcon\Cache\Backend implements Phalcon\Cache\BackendInt
 		var options, memcache, persistent, success, host, port;
 
 		let options = this->_options;
-		let memcache = new Memcache();
+		let memcache = new \Memcache();
 
 		if !isset options["host"] || !isset options["port"] || !isset options["persistent"] {
 			throw new Phalcon\Cache\Exception("Unexpected inconsistency in options");
