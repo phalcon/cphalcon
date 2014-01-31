@@ -356,7 +356,8 @@ psr/log/loggerawaretrait.c \
 psr/log/loggerinterface.c \
 psr/log/loggertrait.c \
 psr/log/loglevel.c \
-psr/log/nulllogger.c"
+psr/log/nulllogger.c \
+registry.c"
 
 	PHP_NEW_EXTENSION(phalcon, $phalcon_sources, $ext_shared)
 	PHP_ADD_EXTENSION_DEP([phalcon], [spl])

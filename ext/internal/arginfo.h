@@ -107,6 +107,15 @@ ZEND_END_ARG_INFO()
 ZEND_BEGIN_ARG_INFO_EX(arginfo_iterator_current, 0, 0, 0)
 ZEND_END_ARG_INFO()
 
+#if PHP_VERSION_ID >= 50304
+/** @brief & Iterator::current() */
+ZEND_BEGIN_ARG_INFO_EX(arginfo_iterator_currentref, 0, 1, 0)
+ZEND_END_ARG_INFO()
+#else
+ZEND_BEGIN_ARG_INFO_EX(arginfo_iterator_currentref, 0, 0, 0)
+ZEND_END_ARG_INFO()
+#endif
+
 /** @brief Iterator::key() */
 ZEND_BEGIN_ARG_INFO_EX(arginfo_iterator_key, 0, 0, 0)
 ZEND_END_ARG_INFO()
@@ -121,6 +130,21 @@ ZEND_END_ARG_INFO()
 
 /** @brief Iterator::valid() */
 ZEND_BEGIN_ARG_INFO_EX(arginfo_iterator_valid, 0, 0, 0)
+ZEND_END_ARG_INFO()
+
+
+/** @brief JsonSerializable::jsonSerialize() */
+ZEND_BEGIN_ARG_INFO_EX(arginfo_jsonserializable_jsonserialize, 0, 0, 0)
+ZEND_END_ARG_INFO()
+
+
+/** @brief Serializable::serialize() */
+ZEND_BEGIN_ARG_INFO_EX(arginfo_serializable_serialize, 0, 0, 0)
+ZEND_END_ARG_INFO()
+
+/** @brief Serializable::unserialize() */
+ZEND_BEGIN_ARG_INFO_EX(arginfo_serializable_unserialize, 0, 0, 0)
+	ZEND_ARG_INFO(0, serialized)
 ZEND_END_ARG_INFO()
 
 #endif /* PHALCON_INTERNAL_ARGINFO_H */

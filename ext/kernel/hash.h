@@ -20,6 +20,7 @@
 #ifndef PHALCON_KERNEL_HASH_H
 #define PHALCON_KERNEL_HASH_H
 
+#include <main/php_config.h>
 #include <Zend/zend.h>
 
 int phalcon_hash_exists(const HashTable *ht, const char *arKey, uint nKeyLength);
@@ -29,8 +30,15 @@ int phalcon_hash_quick_find(const HashTable *ht, const char *arKey, uint nKeyLen
 void phalcon_get_current_key(zval **key, const HashTable *hash_table, HashPosition *hash_position TSRMLS_DC);
 zval phalcon_get_current_key_w(const HashTable *hash_table, HashPosition *hash_position);
 int phalcon_has_numeric_keys(const zval *data);
-void phalcon_hash_update_or_insert(HashTable *ht, zval *offset, zval *value);
-zval** phalcon_hash_get(HashTable *ht, zval *key, int type);
-int phalcon_hash_unset(HashTable *ht, zval *offset);
+int phalcon_hash_update_or_insert(HashTable *ht, const zval *offset, zval *value);
+
+#if PHP_VERSION_ID >= 50400
+zval** phalcon_hash_fast_get(HashTable *ht, int type, const zend_literal *key) PHALCON_ATTR_NONNULL;
+int phalcon_hash_quick_update_or_insert(HashTable *ht, zval *value, const zend_literal *key) PHALCON_ATTR_NONNULL;
+int phalcon_hash_fast_unset(HashTable *ht, const zend_literal *key) PHALCON_ATTR_NONNULL;
+#endif
+
+zval** phalcon_hash_get(HashTable *ht, const zval *key, int type);
+int phalcon_hash_unset(HashTable *ht, const zval *offset);
 
 #endif /* PHALCON_KERNEL_HASH_H */

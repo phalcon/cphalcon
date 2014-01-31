@@ -323,6 +323,8 @@
 #include "queue/beanstalk.h"
 #include "queue/beanstalk/job.h"
 
+#include "registry.h"
+
 #include "security.h"
 #include "security/exception.h"
 
