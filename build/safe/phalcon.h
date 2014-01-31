@@ -2917,6 +2917,10 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_http_response_headersinterface_setraw, 0,
 	ZEND_ARG_INFO(0, header)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_http_response_headersinterface_remove, 0, 0, 1)
+	ZEND_ARG_INFO(0, header_index)
+ZEND_END_ARG_INFO()
+
 #endif /* PHALCON_HTTP_RESPONSE_HEADERSINTERFACE_H */
 
 
@@ -3163,6 +3167,13 @@ zend_class_entry *phalcon_logger_adapter_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Logger_Adapter);
 
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_logger_adapter_loginternal, 0, 0, 4)
+	ZEND_ARG_INFO(0, message)
+	ZEND_ARG_INFO(0, type)
+	ZEND_ARG_INFO(0, time)
+	ZEND_ARG_INFO(0, context)
+ZEND_END_ARG_INFO()
+
 #endif /* PHALCON_LOGGER_ADAPTER_H */
 
 
@@ -3183,37 +3194,50 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_logger_adapterinterface_setloglevel, 0, 0
 	ZEND_ARG_INFO(0, level)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_logger_adapterinterface_log, 0, 0, 1)
-	ZEND_ARG_INFO(0, message)
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_logger_adapterinterface_log, 0, 0, 2)
 	ZEND_ARG_INFO(0, type)
+	ZEND_ARG_INFO(0, message)
+	ZEND_ARG_ARRAY_INFO(0, context, 1)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_logger_adapterinterface_debug, 0, 0, 1)
 	ZEND_ARG_INFO(0, message)
+	ZEND_ARG_ARRAY_INFO(0, context, 1)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_logger_adapterinterface_error, 0, 0, 1)
 	ZEND_ARG_INFO(0, message)
+	ZEND_ARG_ARRAY_INFO(0, context, 1)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_logger_adapterinterface_info, 0, 0, 1)
 	ZEND_ARG_INFO(0, message)
+	ZEND_ARG_ARRAY_INFO(0, context, 1)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_logger_adapterinterface_notice, 0, 0, 1)
 	ZEND_ARG_INFO(0, message)
+	ZEND_ARG_ARRAY_INFO(0, context, 1)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_logger_adapterinterface_warning, 0, 0, 1)
 	ZEND_ARG_INFO(0, message)
+	ZEND_ARG_ARRAY_INFO(0, context, 1)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_logger_adapterinterface_critical, 0, 0, 1)
+	ZEND_ARG_INFO(0, message)
+	ZEND_ARG_ARRAY_INFO(0, context, 1)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_logger_adapterinterface_alert, 0, 0, 1)
 	ZEND_ARG_INFO(0, message)
+	ZEND_ARG_ARRAY_INFO(0, context, 1)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_logger_adapterinterface_emergency, 0, 0, 1)
 	ZEND_ARG_INFO(0, message)
+	ZEND_ARG_ARRAY_INFO(0, context, 1)
 ZEND_END_ARG_INFO()
 
 #endif /* PHALCON_LOGGER_ADAPTERINTERFACE_H */
@@ -3292,6 +3316,11 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_logger_formatter_gettypestring, 0, 0, 1)
 	ZEND_ARG_INFO(0, type)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_logger_formatter_interpolate, 0, 0, 2)
+	ZEND_ARG_INFO(0, message)
+	ZEND_ARG_INFO(0, context)
+ZEND_END_ARG_INFO()
+
 #endif /* PHALCON_LOGGER_FORMATTER_H */
 
 
@@ -3304,10 +3333,11 @@ zend_class_entry *phalcon_logger_formatterinterface_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Logger_FormatterInterface);
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_logger_formatterinterface_format, 0, 0, 3)
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_logger_formatterinterface_format, 0, 0, 4)
 	ZEND_ARG_INFO(0, message)
 	ZEND_ARG_INFO(0, type)
 	ZEND_ARG_INFO(0, timestamp)
+	ZEND_ARG_INFO(0, context)
 ZEND_END_ARG_INFO()
 
 #endif /* PHALCON_LOGGER_FORMATTERINTERFACE_H */
@@ -5691,6 +5721,120 @@ PHALCON_INIT_CLASS(Phalcon_Paginator_Exception);
 
 #endif /* PHALCON_PAGINATOR_EXCEPTION_H */
 
+#ifndef PSR_LOG_ABSTRACTLOGGER_H
+#define PSR_LOG_ABSTRACTLOGGER_H
+
+#include "php_phalcon.h"
+
+zend_class_entry *psr_log_abstractlogger_ce;
+
+PHALCON_INIT_CLASS(Psr_Log_AbstractLogger);
+
+PHP_FUNCTION(Psr_Log_Emergency);
+PHP_FUNCTION(Psr_Log_Alert);
+PHP_FUNCTION(Psr_Log_Critical);
+PHP_FUNCTION(Psr_Log_Error);
+PHP_FUNCTION(Psr_Log_Warning);
+PHP_FUNCTION(Psr_Log_Notice);
+PHP_FUNCTION(Psr_Log_Info);
+PHP_FUNCTION(Psr_Log_Debug);
+
+#endif /* PSR_LOG_ABSTRACTLOGGER_H */
+#ifndef PSR_LOG_INVALIDARGUMENTEXCEPTION_H
+#define PSR_LOG_INVALIDARGUMENTEXCEPTION_H
+
+#include "php_phalcon.h"
+
+zend_class_entry *psr_log_invalidargumentexception_ce;
+
+PHALCON_INIT_CLASS(Psr_Log_InvalidArgumentException);
+
+#endif /* PSR_LOG_INVALIDARGUMENTEXCEPTION_H */
+#ifndef PSR_LOG_LOGGERAWAREINTERFACE_H
+#define PSR_LOG_LOGGERAWAREINTERFACE_H
+
+#include "php_phalcon.h"
+
+zend_class_entry *psr_log_loggerawareinterface_ce;
+
+PHALCON_INIT_CLASS(Psr_Log_LoggerAwareInterface);
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_psr_log_loggerawareinterface_setlogger, 0, 0, 1)
+	ZEND_ARG_OBJ_INFO(0, logger, Psr\\Log\\LoggerInterface, 0)
+ZEND_END_ARG_INFO()
+
+#endif /* PSR_LOG_LOGGERAWAREINTERFACE_H */
+#ifndef PSR_LOG_LOGGERAWARETRAIT_H
+#define PSR_LOG_LOGGERAWARETRAIT_H
+
+#include "php_phalcon.h"
+
+zend_class_entry *psr_log_loggerawaretrait_ce;
+
+PHALCON_INIT_CLASS(Psr_Log_LoggerAwareTrait);
+
+#endif /* PSR_LOG_LOGGERAWARETRAIT_H */
+#ifndef PSR_LOG_LOGGERINTERFACE_H
+#define PSR_LOG_LOGGERINTERFACE_H
+
+#include "php_phalcon.h"
+
+zend_class_entry *psr_log_loggerinterface_ce;
+
+PHALCON_INIT_CLASS(Psr_Log_LoggerInterface);
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_psr_log_loggerinterface_log, 0, 0, 2)
+	ZEND_ARG_INFO(0, level)
+	ZEND_ARG_INFO(0, message)
+	ZEND_ARG_ARRAY_INFO(0, context, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_psr_log_loggerinterface_logspecialized, 0, 0, 1)
+	ZEND_ARG_INFO(0, message)
+	ZEND_ARG_ARRAY_INFO(0, context, 0)
+ZEND_END_ARG_INFO()
+
+#endif /* PSR_LOG_LOGGERINTERFACE_H */
+#ifndef PSR_LOG_LOGGERTRAIT_H
+#define PSR_LOG_LOGGERTRAIT_H
+
+#include "php_phalcon.h"
+
+zend_class_entry *psr_log_loggertrait_ce;
+
+PHALCON_INIT_CLASS(Psr_Log_LoggerTrait);
+
+#endif /* PSR_LOG_LOGGERTRAIT_H */
+#ifndef PSR_LOG_LOGLEVEL_H
+#define PSR_LOG_LOGLEVEL_H
+
+#include "php_phalcon.h"
+
+#define PSR_LOG_LOGLEVEL_EMERGENCY    "emergency"
+#define PSR_LOG_LOGLEVEL_ALERT        "alert"
+#define PSR_LOG_LOGLEVEL_CRITICAL     "critical"
+#define PSR_LOG_LOGLEVEL_ERROR        "error"
+#define PSR_LOG_LOGLEVEL_WARNING      "warning"
+#define PSR_LOG_LOGLEVEL_NOTICE       "notice"
+#define PSR_LOG_LOGLEVEL_INFO         "info"
+#define PSR_LOG_LOGLEVEL_DEBUG        "debug"
+
+zend_class_entry *psr_log_loglevel_ce;
+
+PHALCON_INIT_CLASS(Psr_Log_LogLevel);
+
+#endif /* PSR_LOG_LOGLEVEL_H */
+#ifndef PSR_LOG_NULLLOGGER_H
+#define PSR_LOG_NULLLOGGER_H
+
+#include "php_phalcon.h"
+
+zend_class_entry *psr_log_nulllogger_ce;
+
+PHALCON_INIT_CLASS(Psr_Log_NullLogger);
+
+#endif /* PSR_LOG_NULLLOGGER_H */
+
 
 
 #ifndef PHALCON_QUEUE_BEANSTALK_H
@@ -5839,6 +5983,10 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_session_baginterface_get, 0, 0, 1)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_session_baginterface_has, 0, 0, 1)
+	ZEND_ARG_INFO(0, property)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_session_baginterface_remove, 0, 0, 1)
 	ZEND_ARG_INFO(0, property)
 ZEND_END_ARG_INFO()
 
@@ -6211,6 +6359,11 @@ PHALCON_INIT_CLASS(Phalcon_Validation_Validator_Url);
 #define PHALCON_VERSION_H
 
 #include "php_phalcon.h"
+
+#define PHALCON_VERSION_ALPHA      1
+#define PHALCON_VERSION_BETA       2
+#define PHALCON_VERSION_RC         3
+#define PHALCON_VERSION_STABLE     4
 
 zend_class_entry *phalcon_version_ce;
 

@@ -25,7 +25,10 @@
 #include "mvc/routerinterface.h"
 #include "mvc/viewinterface.h"
 #include "di/injectable.h"
+#include "diinterface.h"
 #include "http/responseinterface.h"
+
+#include <Zend/zend_closures.h>
 
 #include "kernel/main.h"
 #include "kernel/memory.h"
@@ -151,11 +154,8 @@ PHP_METHOD(Phalcon_Mvc_Application, __construct){
 
 	phalcon_fetch_params(0, 0, 1, &dependency_injector);
 	
-	if (!dependency_injector) {
-		dependency_injector = PHALCON_GLOBAL(z_null);
-	}
-	
-	if (Z_TYPE_P(dependency_injector) == IS_OBJECT) {
+	if (dependency_injector && Z_TYPE_P(dependency_injector) == IS_OBJECT) {
+		PHALCON_VERIFY_INTERFACE_EX(dependency_injector, phalcon_diinterface_ce, phalcon_mvc_application_exception_ce, 0);
 		phalcon_update_property_this(this_ptr, SL("_dependencyInjector"), dependency_injector TSRMLS_CC);
 	}
 }
@@ -280,7 +280,7 @@ PHP_METHOD(Phalcon_Mvc_Application, handle){
 	zval *uri = NULL, *dependency_injector, *events_manager;
 	zval *event_name = NULL, *status = NULL, *service = NULL, *router, *module_name = NULL;
 	zval *module_object = NULL, *modules;
-	zval *module, *class_name = NULL, *path, *module_params;
+	zval *module, *class_name = NULL, *module_params;
 	zval *implicit_view, *view, *namespace_name;
 	zval *controller_name = NULL, *action_name = NULL, *params = NULL;
 	zval *dispatcher, *controller, *returned_response = NULL;
@@ -386,6 +386,7 @@ PHP_METHOD(Phalcon_Mvc_Application, handle){
 		 * An array module definition contains a path to a module definition class
 		 */
 		if (Z_TYPE_P(module) == IS_ARRAY) { 
+			zval *path;
 	
 			/** 
 			 * Class name used to load the module definition
@@ -401,20 +402,13 @@ PHP_METHOD(Phalcon_Mvc_Application, handle){
 			/** 
 			 * If developer specify a path try to include the file
 			 */
-			if (phalcon_array_isset_string(module, SS("path"))) {
-	
-				PHALCON_OBS_VAR(path);
-				phalcon_array_fetch_string(&path, module, SL("path"), PH_NOISY);
-				if (!phalcon_class_exists(class_name, 0 TSRMLS_CC)) {
-					if (phalcon_file_exists(path TSRMLS_CC) == SUCCESS) {
-						if (phalcon_require(path TSRMLS_CC) == FAILURE) {
-							RETURN_MM();
-						}
-					} else {
-						PHALCON_ENSURE_IS_STRING(&path);
-						zend_throw_exception_ex(phalcon_mvc_application_exception_ce, 0 TSRMLS_CC, "Module definition path '%s' does not exist", Z_STRVAL_P(path));
-						RETURN_MM();
-					}
+			if (phalcon_array_isset_string_fetch(&path, module, SS("path")) && !phalcon_class_exists(class_name, 0 TSRMLS_CC)) {
+				if (phalcon_file_exists(path TSRMLS_CC) == SUCCESS) {
+					RETURN_MM_ON_FAILURE(phalcon_require(path TSRMLS_CC));
+				} else {
+					PHALCON_ENSURE_IS_STRING(&path);
+					zend_throw_exception_ex(phalcon_mvc_application_exception_ce, 0 TSRMLS_CC, "Module definition path '%s' does not exist", Z_STRVAL_P(path));
+					RETURN_MM();
 				}
 			}
 	
@@ -425,21 +419,17 @@ PHP_METHOD(Phalcon_Mvc_Application, handle){
 			 */
 			phalcon_call_method_p1_noret(module_object, "registerautoloaders", dependency_injector);
 			phalcon_call_method_p1_noret(module_object, "registerservices", dependency_injector);
+		} else if (Z_TYPE_P(module) == IS_OBJECT && instanceof_function(Z_OBJCE_P(module), zend_ce_closure TSRMLS_CC)) {
+			/* A module definition object, can be a Closure instance */
+			PHALCON_INIT_VAR(module_params);
+			array_init_size(module_params, 1);
+			phalcon_array_append(&module_params, dependency_injector, 0);
+
+			PHALCON_INIT_NVAR(status);
+			PHALCON_CALL_USER_FUNC_ARRAY(status, module, module_params);
 		} else {
-			/** 
-			 * A module definition object, can be a Closure instance
-			 */
-			if (phalcon_is_instance_of(module, SL("Closure") TSRMLS_CC)) {
-				PHALCON_INIT_VAR(module_params);
-				array_init_size(module_params, 1);
-				phalcon_array_append(&module_params, dependency_injector, PH_SEPARATE);
-	
-				PHALCON_INIT_NVAR(status);
-				PHALCON_CALL_USER_FUNC_ARRAY(status, module, module_params);
-			} else {
-				PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_application_exception_ce, "Invalid module definition");
-				return;
-			}
+			PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_application_exception_ce, "Invalid module definition");
+			return;
 		}
 	
 		/** 
@@ -462,8 +452,7 @@ PHP_METHOD(Phalcon_Mvc_Application, handle){
 	/** 
 	 * Check whether use implicit views or not
 	 */
-	PHALCON_OBS_VAR(implicit_view);
-	phalcon_read_property_this(&implicit_view, this_ptr, SL("_implicitView"), PH_NOISY_CC);
+	implicit_view = phalcon_fetch_nproperty_this(this_ptr, SL("_implicitView"), PH_NOISY_CC);
 
 	/*
 	 * The safe way is to use a flag because it *might* be possible to alter the value

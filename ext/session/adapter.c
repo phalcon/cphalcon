@@ -240,7 +240,7 @@ static zval* phalcon_session_adapter_read_dimension(zval *object, zval *offset, 
 
 	/* For write context we need to return a reference */
 	if ((type == BP_VAR_W || type == BP_VAR_RW || type == BP_VAR_UNSET) && !Z_ISREF_PP(ret)) {
-		if ((type == BP_VAR_W || type == BP_VAR_RW || type == BP_VAR_UNSET) && !Z_ISREF_PP(ret)) {
+		if (Z_REFCOUNT_PP(ret) > 1) {
 			zval *newval;
 
 			MAKE_STD_ZVAL(newval);

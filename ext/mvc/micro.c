@@ -513,8 +513,8 @@ PHP_METHOD(Phalcon_Mvc_Micro, mount){
 			 */
 			PHALCON_INIT_NVAR(real_handler);
 			array_init_size(real_handler, 2);
-			phalcon_array_append(&real_handler, lazy_handler, PH_SEPARATE);
-			phalcon_array_append(&real_handler, sub_handler, PH_SEPARATE);
+			phalcon_array_append(&real_handler, lazy_handler, 0);
+			phalcon_array_append(&real_handler, sub_handler, 0);
 			if (PHALCON_IS_NOT_EMPTY(prefix)) {
 				if (PHALCON_IS_STRING(pattern, "/")) {
 					PHALCON_CPY_WRT(prefixed_pattern, prefix);
