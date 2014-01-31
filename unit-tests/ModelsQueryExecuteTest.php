@@ -774,7 +774,7 @@ class ModelsQueryExecuteTest extends PHPUnit_Framework_TestCase
 				"email" => "le-marina@hotmail.com",
 				"limit" => 1,
 			),
-			array('email' => \Phalcon\Db\Column::BIND_PARAM_STR, 'limit' => \Phalcon\Db\Column::BIND_PARAM_INT)
+			array('email' => \Phalcon\Db\Column::BIND_PARAM_STR, /*'limit' => \Phalcon\Db\Column::BIND_PARAM_INT*/)
 		);
 		$this->assertTrue($status->success());
 	}
@@ -824,7 +824,7 @@ class ModelsQueryExecuteTest extends PHPUnit_Framework_TestCase
 				"email" => "fuego@hotmail.com",
 				"limit" => 1,
 			),
-			array('email' => \Phalcon\Db\Column::BIND_PARAM_STR, 'limit' => \Phalcon\Db\Column::BIND_PARAM_INT)
+			array('email' => \Phalcon\Db\Column::BIND_PARAM_STR,/* 'limit' => \Phalcon\Db\Column::BIND_PARAM_INT */)
 		);
 		$this->assertTrue($status->success());
 	}
