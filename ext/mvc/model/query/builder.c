@@ -324,8 +324,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, __construct){
 			if (Z_TYPE_P(limit_clause) == IS_ARRAY
 				&& phalcon_array_isset_long_fetch(&limit, limit_clause, 0)
 				&& phalcon_array_isset_long_fetch(&offset, limit_clause, 1)
-				&& phalcon_is_numeric(limit)
-				&& phalcon_is_numeric(offset)
 			) {
 				phalcon_update_property_this(this_ptr, SL("_limit"), limit TSRMLS_CC);
 				phalcon_update_property_this(this_ptr, SL("_offset"), offset TSRMLS_CC);
@@ -1291,14 +1289,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, limit){
 
 	phalcon_fetch_params(0, 1, 1, &limit, &offset);
 	
-	if (phalcon_is_numeric(limit)) {
-		phalcon_update_property_this(this_ptr, SL("_limit"), limit TSRMLS_CC);
-	}
+	phalcon_update_property_this(this_ptr, SL("_limit"), limit TSRMLS_CC);
 
-	if (offset && Z_TYPE_P(offset) != IS_NULL) {
-		if (phalcon_is_numeric(offset)) {
-			phalcon_update_property_this(this_ptr, SL("_offset"), offset TSRMLS_CC);
-		}
+	if (offset) {
+		phalcon_update_property_this(this_ptr, SL("_offset"), offset TSRMLS_CC);
 	}
 	
 	RETURN_THISW();
@@ -1399,7 +1393,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getPhql){
 	zval *join_type = NULL, *group, *group_items, *group_item = NULL;
 	zval *escaped_item = NULL, *joined_items = NULL, *having, *order;
 	zval *order_items, *order_item = NULL, *limit, *number;
-	zval *offset = NULL;
 	HashTable *ah0, *ah1, *ah2, *ah3, *ah4, *ah5;
 	HashPosition hp0, hp1, hp2, hp3, hp4, hp5;
 	zval **hd;
@@ -1822,38 +1815,26 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getPhql){
 	/** 
 	 * Process limit parameters
 	 */
-	PHALCON_OBS_VAR(limit);
-	phalcon_read_property_this(&limit, this_ptr, SL("_limit"), PH_NOISY_CC);
+	limit = phalcon_fetch_nproperty_this(this_ptr, SL("_limit"), PH_NOISY_CC);
 	if (Z_TYPE_P(limit) != IS_NULL) {
 		if (Z_TYPE_P(limit) == IS_ARRAY) { 
+			zval *offset;
 	
 			PHALCON_OBS_VAR(number);
 			phalcon_array_fetch_string(&number, limit, SL("number"), PH_NOISY);
-			if (phalcon_array_isset_string(limit, SS("offset"))) {
-	
-				PHALCON_OBS_VAR(offset);
-				phalcon_array_fetch_string(&offset, limit, SL("offset"), PH_NOISY);
-				if (phalcon_is_numeric(offset)) {
-					PHALCON_SCONCAT_SVSV(phql, " LIMIT ", number, " OFFSET ", offset);
-				} else {
-					PHALCON_SCONCAT_SVS(phql, " LIMIT ", number, " OFFSET 0");
-				}
+			if (phalcon_array_isset_string_fetch(&offset, limit, SS("offset")) && Z_TYPE_P(offset) != IS_NULL) {
+				PHALCON_SCONCAT_SVSV(phql, " LIMIT ", number, " OFFSET ", offset);
 			} else {
 				PHALCON_SCONCAT_SV(phql, " LIMIT ", number);
 			}
 		} else {
-			if (phalcon_is_numeric(limit)) {
-				PHALCON_SCONCAT_SV(phql, " LIMIT ", limit);
-	
-				PHALCON_OBS_NVAR(offset);
-				phalcon_read_property_this(&offset, this_ptr, SL("_offset"), PH_NOISY_CC);
-				if (Z_TYPE_P(offset) != IS_NULL) {
-					if (phalcon_is_numeric(offset)) {
-						PHALCON_SCONCAT_SV(phql, " OFFSET ", offset);
-					} else {
-						phalcon_concat_self_str(&phql, SL(" OFFSET 0") TSRMLS_CC);
-					}
-				}
+			zval *offset;
+
+			PHALCON_SCONCAT_SV(phql, " LIMIT ", limit);
+
+			offset = phalcon_fetch_nproperty_this(this_ptr, SL("_offset"), PH_NOISY_CC);
+			if (Z_TYPE_P(offset) != IS_NULL) {
+				PHALCON_SCONCAT_SV(phql, " OFFSET ", offset);
 			}
 		}
 	}

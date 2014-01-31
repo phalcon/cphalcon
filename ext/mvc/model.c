@@ -1370,8 +1370,8 @@ PHP_METHOD(Phalcon_Mvc_Model, find){
 PHP_METHOD(Phalcon_Mvc_Model, findFirst){
 
 	zval *parameters = NULL, *model_name, *params = NULL, *builder;
-	zval *z_one, *query, *bind_params = NULL, *bind_types = NULL, *cache;
-	zval *unique;
+	zval *query, *bind_params = NULL, *bind_types = NULL, *cache;
+	zval *unique, *index, tmp = zval_used_for_init;
 
 	PHALCON_MM_GROW();
 
@@ -1388,7 +1388,7 @@ PHP_METHOD(Phalcon_Mvc_Model, findFirst){
 		PHALCON_INIT_VAR(params);
 		array_init(params);
 		if (Z_TYPE_P(parameters) != IS_NULL) {
-			phalcon_array_append(&params, parameters, PH_SEPARATE);
+			phalcon_array_append(&params, parameters, 0);
 		}
 	} else {
 		PHALCON_CPY_WRT(params, parameters);
@@ -1404,36 +1404,57 @@ PHP_METHOD(Phalcon_Mvc_Model, findFirst){
 	phalcon_call_method_p1_noret(builder, "from", model_name);
 	
 	/** 
-	 * We only want the first record
-	 */
-	z_one = PHALCON_GLOBAL(z_one);
-	phalcon_call_method_p1_noret(builder, "limit", z_one);
-	
-	PHALCON_INIT_VAR(query);
-	phalcon_call_method(query, builder, "getquery");
-	
-	/** 
 	 * Check for bind parameters
 	 */
-	PHALCON_INIT_VAR(bind_params);
-	
-	PHALCON_INIT_VAR(bind_types);
-	if (phalcon_array_isset_string(params, SS("bind"))) {
-	
-		PHALCON_OBS_NVAR(bind_params);
-		phalcon_array_fetch_string(&bind_params, params, SL("bind"), PH_NOISY);
-		if (phalcon_array_isset_string(params, SS("bindTypes"))) {
-			PHALCON_OBS_NVAR(bind_types);
-			phalcon_array_fetch_string(&bind_types, params, SL("bindTypes"), PH_NOISY);
+	PHALCON_OBS_VAR(bind_params);
+	PHALCON_OBS_VAR(bind_types);
+	if (phalcon_array_isset_string_fetch(&bind_params, params, SS("bind"))) {
+		Z_ADDREF_P(bind_params);
+		SEPARATE_ZVAL(&bind_params);
+		if (Z_TYPE_P(bind_params) != IS_ARRAY) {
+			zval_dtor(bind_params);
+			array_init_size(bind_params, 1);
+		}
+
+		if (phalcon_array_isset_string_fetch(&bind_types, params, SS("bindTypes"))) {
+			Z_ADDREF_P(bind_types);
+			SEPARATE_ZVAL(&bind_types);
+			if (Z_TYPE_P(bind_types) != IS_ARRAY) {
+				zval_dtor(bind_types);
+				array_init_size(bind_types, 1);
+			}
+		}
+		else {
+			MAKE_STD_ZVAL(bind_types);
+			array_init_size(bind_types, 1);
 		}
 	}
-	
+	else {
+		MAKE_STD_ZVAL(bind_params);
+		MAKE_STD_ZVAL(bind_types);
+		array_init_size(bind_params, 1);
+		array_init_size(bind_types, 1);
+	}
+
+	ZVAL_LONG(&tmp, zend_hash_num_elements(Z_ARRVAL_P(bind_params)) + 1);
+	PHALCON_INIT_VAR(index);
+	PHALCON_CONCAT_SV(index, "?", &tmp);
+
+	/**
+	 * We only want the first record
+	 */
+	phalcon_call_method_p1_noret(builder, "limit", index);
+
+	PHALCON_INIT_VAR(query);
+	phalcon_call_method(query, builder, "getquery");
+
+	add_index_long(bind_params, Z_LVAL(tmp), 1);
+	add_index_long(bind_types, Z_LVAL(tmp), 1 /* BIND_PARAM_INT */);
+
 	/** 
 	 * Pass the cache options to the query
 	 */
-	if (phalcon_array_isset_string(params, SS("cache"))) {
-		PHALCON_OBS_VAR(cache);
-		phalcon_array_fetch_string(&cache, params, SL("cache"), PH_NOISY);
+	if (phalcon_array_isset_string_fetch(&cache, params, SS("cache"))) {
 		phalcon_call_method_p1_noret(query, "cache", cache);
 	}
 	
@@ -1447,7 +1468,7 @@ PHP_METHOD(Phalcon_Mvc_Model, findFirst){
 	/** 
 	 * Execute the query passing the bind-params and casting-types
 	 */
-	phalcon_call_method_p2(return_value, query, "execute", bind_params, bind_types);
+	phalcon_return_call_method_p2(query, "execute", bind_params, bind_types);
 	RETURN_MM();
 }
 

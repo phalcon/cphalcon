@@ -37,6 +37,13 @@ class ModelsTest extends PHPUnit_Framework_TestCase
 		spl_autoload_unregister(array($this, 'modelsAutoloader'));
 	}
 
+	public function tearDown()
+	{
+		Phalcon\Mvc\Model::setup(array(
+			'phqlLiterals' => true,
+		));
+	}
+
 	public function modelsAutoloader($className)
 	{
 		if (file_exists('unit-tests/models/'.$className.'.php')) {
@@ -98,6 +105,7 @@ class ModelsTest extends PHPUnit_Framework_TestCase
 		$this->_executeTestsRenamed($di);
 
 		$this->issue1534($di);
+		$this->issue886($di);
 	}
 
 	public function testModelsPostgresql()
@@ -115,6 +123,8 @@ class ModelsTest extends PHPUnit_Framework_TestCase
 
 		$this->_executeTestsNormal($di);
 		$this->_executeTestsRenamed($di);
+
+		$this->issue886($di);
 	}
 
 	public function testModelsSqlite()
@@ -132,6 +142,8 @@ class ModelsTest extends PHPUnit_Framework_TestCase
 
 		$this->_executeTestsNormal($di);
 		$this->_executeTestsRenamed($di);
+
+		$this->issue886($di);
 	}
 
 	protected function issue1534($di)
@@ -189,6 +201,19 @@ class ModelsTest extends PHPUnit_Framework_TestCase
 */
 
 		$this->assertTrue($db->delete('issue_1534'));
+	}
+
+	protected function issue886($di)
+	{
+		$this->_prepareDb($di->getShared('db'));
+
+		Phalcon\Mvc\Model::setup(array(
+			'phqlLiterals' => false,
+		));
+
+		$people = People::findFirst();
+		$this->assertTrue(is_object($people));
+		$this->assertEquals(get_class($people), 'People');
 	}
 
 	protected function _executeTestsNormal($di){
