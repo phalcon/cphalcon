@@ -191,6 +191,7 @@
    - When phalcon.register_psr3_classes php.ini option is set, Phalcon\Logger\Adapter and derived classes throw Psr\Log\InvalidArgumentException
      instead of Phalcon\Logger\Exception when the arguments are not valid (#1888)
  - Phalcon\Mvc:
+   - Added support for route names in Phalcon\Mvc\Micro\Collection (#1868)
    - Phalcon\Mvc\Application::handle() now checks whether the class exists before include()'ing its file (#812, #818)
    - Phalcon\Mvc\Model\Criteria::fromInput() now sets _modelName (#866, #873)
    - Phalcon\Mvc\Model\Query\Builder may now use both integer and string placeholders (#701)

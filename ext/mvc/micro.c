@@ -19,6 +19,7 @@
 */
 
 #include "mvc/micro.h"
+#include "mvc/micro/collectioninterface.h"
 #include "mvc/micro/exception.h"
 #include "mvc/micro/lazyloader.h"
 #include "mvc/micro/middlewareinterface.h"
@@ -433,8 +434,8 @@ PHP_METHOD(Phalcon_Mvc_Micro, options){
 PHP_METHOD(Phalcon_Mvc_Micro, mount){
 
 	zval *collection, *main_handler, *handlers, *lazy;
-	zval *lazy_handler = NULL, *prefix, *handler = NULL, *methods = NULL;
-	zval *pattern = NULL, *sub_handler = NULL, *real_handler = NULL, *prefixed_pattern = NULL;
+	zval *lazy_handler = NULL, *prefix, *handler = NULL;
+	zval *real_handler = NULL, *prefixed_pattern = NULL;
 	zval *route = NULL;
 	HashTable *ah0;
 	HashPosition hp0;
@@ -443,15 +444,9 @@ PHP_METHOD(Phalcon_Mvc_Micro, mount){
 	PHALCON_MM_GROW();
 
 	phalcon_fetch_params(1, 1, 0, &collection);
+	PHALCON_VERIFY_INTERFACE_EX(collection, phalcon_mvc_micro_collectioninterface_ce, phalcon_mvc_micro_exception_ce, 1);
 	
-	if (Z_TYPE_P(collection) != IS_OBJECT) {
-		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_micro_exception_ce, "The collection is not valid");
-		return;
-	}
-	
-	/** 
-	 * Get the main handler
-	 */
+	/* Get the main handler */
 	PHALCON_INIT_VAR(main_handler);
 	phalcon_call_method(main_handler, collection, "gethandler");
 	if (PHALCON_IS_EMPTY(main_handler)) {
@@ -468,9 +463,7 @@ PHP_METHOD(Phalcon_Mvc_Micro, mount){
 	
 	if (Z_TYPE_P(handlers) == IS_ARRAY) { 
 	
-		/** 
-		 * Check if handler is lazy
-		 */
+		/* Check if handler is lazy */
 		PHALCON_INIT_VAR(lazy);
 		phalcon_call_method(lazy, collection, "islazy");
 		if (zend_is_true(lazy)) {
@@ -482,35 +475,33 @@ PHP_METHOD(Phalcon_Mvc_Micro, mount){
 			PHALCON_CPY_WRT(lazy_handler, main_handler);
 		}
 	
-		/** 
-		 * Get the main prefix for the collection
-		 */
+		/* Get the main prefix for the collection */
 		PHALCON_INIT_VAR(prefix);
 		phalcon_call_method(prefix, collection, "getprefix");
 	
 		phalcon_is_iterable(handlers, &ah0, &hp0, 0, 0);
 	
 		while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
-	
+			zval *methods, *pattern, *sub_handler, *name;
+
 			PHALCON_GET_HVALUE(handler);
 	
 			if (Z_TYPE_P(handler) != IS_ARRAY) { 
 				PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_micro_exception_ce, "One of the registered handlers is invalid");
 				return;
 			}
+
+			if (
+				    !phalcon_array_isset_long_fetch(&methods, handler, 0)
+				 || !phalcon_array_isset_long_fetch(&pattern, handler, 1)
+				 || !phalcon_array_isset_long_fetch(&sub_handler, handler, 2)
+				 || !phalcon_array_isset_long_fetch(&name, handler, 3)
+			) {
+				PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_micro_exception_ce, "One of the registered handlers is invalid");
+				return;
+			}
 	
-			PHALCON_OBS_NVAR(methods);
-			phalcon_array_fetch_long(&methods, handler, 0, PH_NOISY);
-	
-			PHALCON_OBS_NVAR(pattern);
-			phalcon_array_fetch_long(&pattern, handler, 1, PH_NOISY);
-	
-			PHALCON_OBS_NVAR(sub_handler);
-			phalcon_array_fetch_long(&sub_handler, handler, 2, PH_NOISY);
-	
-			/** 
-			 * Create a real handler
-			 */
+			/* Create a real handler */
 			PHALCON_INIT_NVAR(real_handler);
 			array_init_size(real_handler, 2);
 			phalcon_array_append(&real_handler, lazy_handler, 0);
@@ -526,13 +517,15 @@ PHP_METHOD(Phalcon_Mvc_Micro, mount){
 				PHALCON_CPY_WRT(prefixed_pattern, pattern);
 			}
 	
-			/** 
-			 * Map the route manually
-			 */
+			/* Map the route manually */
 			PHALCON_INIT_NVAR(route);
 			phalcon_call_method_p2(route, this_ptr, "map", prefixed_pattern, real_handler);
-			if (zend_is_true(methods)) {
+			if (Z_TYPE_P(methods) != IS_NULL) {
 				phalcon_call_method_p1_noret(route, "via", methods);
+			}
+
+			if (Z_TYPE_P(name) != IS_NULL) {
+				phalcon_call_method_p1_noret(route, "setname", name);
 			}
 	
 			zend_hash_move_forward_ex(ah0, &hp0);
@@ -1184,7 +1177,7 @@ PHALCON_DOC_METHOD(Phalcon_Mvc_Micro, offsetSet);
  * Alias for Phalcon\Mvc\Micro::getService()
  *
  *<code>
- *	var_dump($di['request']);
+ *	var_dump($app['request']);
  *</code>
  *
  * @param string $alias
