@@ -504,6 +504,7 @@ PHP_METHOD(Phalcon_Loader, autoLoad){
 	
 			PHALCON_OBS_VAR(file_path);
 			phalcon_array_fetch(&file_path, classes, class_name, PH_NOISY);
+			convert_to_string_ex(&file_path);
 			if (Z_TYPE_P(events_manager) == IS_OBJECT) {
 				phalcon_update_property_this(this_ptr, SL("_foundPath"), file_path TSRMLS_CC);
 	
@@ -512,9 +513,7 @@ PHP_METHOD(Phalcon_Loader, autoLoad){
 				phalcon_call_method_p3_noret(events_manager, "fire", event_name, this_ptr, file_path);
 			}
 	
-			if (phalcon_require(file_path TSRMLS_CC) == FAILURE) {
-				RETURN_MM();
-			}
+			RETURN_MM_ON_FAILURE(phalcon_require(Z_STRVAL_P(file_path) TSRMLS_CC));
 			RETURN_MM_TRUE;
 		}
 	}
@@ -598,9 +597,8 @@ PHP_METHOD(Phalcon_Loader, autoLoad){
 							/** 
 							 * Simulate a require
 							 */
-							if (phalcon_require(file_path TSRMLS_CC) == FAILURE) {
-								RETURN_MM();
-							}
+							assert(Z_TYPE_P(file_path) == IS_STRING);
+							RETURN_MM_ON_FAILURE(phalcon_require(Z_STRVAL_P(file_path) TSRMLS_CC));
 	
 							/** 
 							 * Return true mean success
@@ -683,9 +681,9 @@ PHP_METHOD(Phalcon_Loader, autoLoad){
 								ZVAL_STRING(event_name, "loader:pathFound", 1);
 								phalcon_call_method_p3_noret(events_manager, "fire", event_name, this_ptr, file_path);
 							}
-							if (phalcon_require(file_path TSRMLS_CC) == FAILURE) {
-								RETURN_MM();
-							}
+
+							assert(Z_TYPE_P(file_path) == IS_STRING);
+							RETURN_MM_ON_FAILURE(phalcon_require(Z_STRVAL_P(file_path) TSRMLS_CC));
 							RETURN_MM_TRUE;
 						}
 	
@@ -770,9 +768,8 @@ PHP_METHOD(Phalcon_Loader, autoLoad){
 					/** 
 					 * Simulate a require
 					 */
-					if (phalcon_require(file_path TSRMLS_CC) == FAILURE) {
-						RETURN_MM();
-					}
+					assert(Z_TYPE_P(file_path) == IS_STRING);
+					RETURN_MM_ON_FAILURE(phalcon_require(Z_STRVAL_P(file_path) TSRMLS_CC));
 	
 					/** 
 					 * Return true meaning success

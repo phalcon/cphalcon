@@ -116,7 +116,7 @@ PHP_METHOD(Phalcon_Annotations_Adapter_Files, __construct){
 PHP_METHOD(Phalcon_Annotations_Adapter_Files, read){
 
 	zval *key, *annotations_dir, *virtual_key, *path;
-	zval separator;
+	zval separator = zval_used_for_init;
 
 	PHALCON_MM_GROW();
 
@@ -124,7 +124,6 @@ PHP_METHOD(Phalcon_Annotations_Adapter_Files, read){
 	
 	annotations_dir = phalcon_fetch_nproperty_this(this_ptr, SL("_annotationsDir"), PH_NOISY_CC);
 	
-	INIT_ZVAL(separator);
 	ZVAL_STRINGL(&separator, "_", 1, 0);
 	
 	/** 
@@ -137,10 +136,9 @@ PHP_METHOD(Phalcon_Annotations_Adapter_Files, read){
 	PHALCON_CONCAT_VVS(path, annotations_dir, virtual_key, ".php");
 	
 	if (phalcon_file_exists(path TSRMLS_CC) == SUCCESS) {
-		if (phalcon_require_ret(return_value, path TSRMLS_CC) == FAILURE) {
-			zval_dtor(return_value);
-			RETVAL_NULL();
-		}
+		zval *tmp = NULL;
+		RETURN_MM_ON_FAILURE(phalcon_require_ret(&tmp, Z_STRVAL_P(path) TSRMLS_CC));
+		RETVAL_ZVAL(tmp, 1, 1);
 	}
 	
 	PHALCON_MM_RESTORE();
@@ -157,7 +155,7 @@ PHP_METHOD(Phalcon_Annotations_Adapter_Files, write){
 	zval *key, *data, *annotations_dir;
 	zval *virtual_key, *path, *php_export;
 	zval *status;
-	zval separator;
+	zval separator = zval_used_for_init;
 	smart_str exp = { NULL, 0, 0 };
 
 	PHALCON_MM_GROW();
@@ -166,7 +164,6 @@ PHP_METHOD(Phalcon_Annotations_Adapter_Files, write){
 	
 	annotations_dir = phalcon_fetch_nproperty_this(this_ptr, SL("_annotationsDir"), PH_NOISY_CC);
 	
-	INIT_ZVAL(separator);
 	ZVAL_STRINGL(&separator, "_", 1, 0);
 	
 	/** 

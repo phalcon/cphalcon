@@ -93,24 +93,17 @@ PHALCON_INIT_CLASS(Phalcon_Config_Adapter_Php){
  */
 PHP_METHOD(Phalcon_Config_Adapter_Php, __construct){
 
-	zval **file_path, *config;
+	zval **file_path, *config = NULL;
 
 	phalcon_fetch_params_ex(1, 0, &file_path);
 	PHALCON_ENSURE_IS_STRING(file_path);
 
-	PHALCON_MM_GROW();
-
-	PHALCON_INIT_VAR(config);
-	if (phalcon_require_ret(config, *file_path TSRMLS_CC) == FAILURE) {
+	if (phalcon_require_ret(&config, Z_STRVAL_PP(file_path) TSRMLS_CC) == FAILURE) {
 		zend_throw_exception_ex(phalcon_config_exception_ce, 0 TSRMLS_CC, "Configuration file '%s' cannot be loaded", Z_STRVAL_PP(file_path));
-		PHALCON_MM_RESTORE();
 		return;
 	}
-	
-	/** 
-	 * Calls the Phalcon\Config constructor
-	 */
+
+	PHALCON_MM_GROW();
 	PHALCON_CALL_PARENT_NORET(phalcon_config_adapter_php_ce, this_ptr, "__construct", config);
-	
 	PHALCON_MM_RESTORE();
 }

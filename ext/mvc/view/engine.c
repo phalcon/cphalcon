@@ -122,9 +122,8 @@ PHP_METHOD(Phalcon_Mvc_View_Engine, partial){
 		params = PHALCON_GLOBAL(z_null);
 	}
 	
-	PHALCON_OBS_VAR(view);
-	phalcon_read_property_this(&view, this_ptr, SL("_view"), PH_NOISY_CC);
-	phalcon_call_method_p2(return_value, view, "partial", partial_path, params);
+	view = phalcon_fetch_nproperty_this(this_ptr, SL("_view"), PH_NOISY_CC);
+	phalcon_return_call_method_p2(view, "partial", partial_path, params);
 	RETURN_MM();
 }
 
