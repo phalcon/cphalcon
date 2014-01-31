@@ -112,6 +112,8 @@
 
 			<!-- Image -->
 			<file>unit-tests/ImageTest.php</file>
+
+			<file>unit-tests/Issue1801.php</file>
 		</testsuite>
 		<testsuite name="PHPT Test Suite">
 			<file>unit-tests/PHPTTestSuite.php</file>
