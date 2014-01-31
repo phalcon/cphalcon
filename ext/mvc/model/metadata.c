@@ -20,6 +20,7 @@
 #include "mvc/model/metadatainterface.h"
 #include "mvc/model/metadata/strategy/introspection.h"
 #include "mvc/model/exception.h"
+#include "mvc/modelinterface.h"
 #include "diinterface.h"
 #include "di/injectionawareinterface.h"
 
@@ -156,13 +157,15 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, _initialize){
 
 	zval *model, *key, *table, *schema, *strategy = NULL, *class_name;
 	zval *meta_data = NULL, *prefix_key = NULL, *data = NULL, *model_metadata = NULL;
-	zval *exception_message, *dependency_injector = NULL;
+	zval *exception_message, *dependency_injector;
 	zval *key_name, *column_map = NULL, *model_column_map;
 
 	PHALCON_MM_GROW();
 
 	phalcon_fetch_params(1, 4, 0, &model, &key, &table, &schema);
 	
+	dependency_injector = phalcon_fetch_nproperty_this(this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
+
 	PHALCON_INIT_VAR(strategy);
 	
 	PHALCON_INIT_VAR(class_name);
@@ -203,9 +206,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, _initialize){
 						return;
 					}
 				} else {
-					PHALCON_OBS_VAR(dependency_injector);
-					phalcon_read_property_this(&dependency_injector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
-	
+
 					/** 
 					 * Get the meta-data extraction strategy
 					 */
@@ -273,9 +274,6 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, _initialize){
 	 * Get the meta-data extraction strategy
 	 */
 	if (Z_TYPE_P(strategy) != IS_OBJECT) {
-		PHALCON_OBS_NVAR(dependency_injector);
-		phalcon_read_property_this(&dependency_injector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
-	
 		PHALCON_INIT_NVAR(strategy);
 		phalcon_call_method(strategy, this_ptr, "getstrategy");
 	}
@@ -380,11 +378,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, readMetaData){
 	PHALCON_MM_GROW();
 
 	phalcon_fetch_params(1, 1, 0, &model);
-	
-	if (Z_TYPE_P(model) != IS_OBJECT) {
-		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "A model instance is required to retrieve the meta-data");
-		return;
-	}
+	PHALCON_VERIFY_INTERFACE_EX(model, phalcon_mvc_modelinterface_ce, phalcon_mvc_model_exception_ce, 1);
 	
 	PHALCON_INIT_VAR(table);
 	phalcon_call_method(table, model, "getsource");
@@ -435,11 +429,8 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, readMetaDataIndex){
 	PHALCON_MM_GROW();
 
 	phalcon_fetch_params(1, 2, 0, &model, &index);
+	PHALCON_VERIFY_INTERFACE_EX(model, phalcon_mvc_modelinterface_ce, phalcon_mvc_model_exception_ce, 1);
 	
-	if (Z_TYPE_P(model) != IS_OBJECT) {
-		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "A model instance is required to retrieve the meta-data");
-		return;
-	}
 	if (Z_TYPE_P(index) != IS_LONG) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Index must be a valid integer constant");
 		return;
@@ -500,23 +491,16 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, writeMetaDataIndex){
 	PHALCON_MM_GROW();
 
 	phalcon_fetch_params(1, 4, 0, &model, &index, &data, &replace);
-	
-	if (Z_TYPE_P(model) != IS_OBJECT) {
-		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "A model instance is required to retrieve the meta-data");
-		return;
-	}
+	PHALCON_VERIFY_INTERFACE_EX(model, phalcon_mvc_modelinterface_ce, phalcon_mvc_model_exception_ce, 1);
+
 	if (Z_TYPE_P(index) != IS_LONG) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Index must be a valid integer constant");
 		return;
 	}
 	
-	if (Z_TYPE_P(data) != IS_ARRAY) { 
-		if (Z_TYPE_P(data) != IS_STRING) {
-			if (Z_TYPE_P(data) != IS_BOOL) {
-				PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Invalid data for index");
-				return;
-			}
-		}
+	if (Z_TYPE_P(data) != IS_ARRAY && Z_TYPE_P(data) != IS_STRING && Z_TYPE_P(data) != IS_BOOL) {
+		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Invalid data for index");
+		return;
 	}
 	
 	PHALCON_INIT_VAR(table);
@@ -586,19 +570,19 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, readColumnMap){
 	PHALCON_MM_GROW();
 
 	phalcon_fetch_params(1, 1, 0, &model);
+	PHALCON_VERIFY_INTERFACE_EX(model, phalcon_mvc_modelinterface_ce, phalcon_mvc_model_exception_ce, 1);
 	
-	if (Z_TYPE_P(model) != IS_OBJECT) {
-		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "A model instance is required to retrieve the meta-data");
-		return;
+	if (!PHALCON_GLOBAL(orm).column_renaming) {
+		RETURN_MM();
 	}
-	
+
 	PHALCON_INIT_VAR(key_name);
 	phalcon_get_class(key_name, model, 1 TSRMLS_CC);
 	
 	PHALCON_OBS_VAR(column_map);
 	phalcon_read_property_this(&column_map, this_ptr, SL("_columnMap"), PH_NOISY_CC);
 	if (!phalcon_array_isset(column_map, key_name)) {
-		PHALCON_INIT_VAR(null_value);
+		null_value = PHALCON_GLOBAL(z_null);
 		phalcon_call_method_p4_noret(this_ptr, "_initialize", model, null_value, null_value, null_value);
 	
 		PHALCON_OBS_NVAR(column_map);
@@ -639,13 +623,17 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, readColumnMapIndex){
 		return;
 	}
 	
+	if (!PHALCON_GLOBAL(orm).column_renaming) {
+		RETURN_MM();
+	}
+
 	PHALCON_INIT_VAR(key_name);
 	phalcon_get_class(key_name, model, 1 TSRMLS_CC);
 	
 	PHALCON_OBS_VAR(column_map);
 	phalcon_read_property_this(&column_map, this_ptr, SL("_columnMap"), PH_NOISY_CC);
 	if (!phalcon_array_isset(column_map, key_name)) {
-		PHALCON_INIT_VAR(null_value);
+		null_value = PHALCON_GLOBAL(z_null);
 		phalcon_call_method_p4_noret(this_ptr, "_initialize", model, null_value, null_value, null_value);
 	
 		PHALCON_OBS_NVAR(column_map);
@@ -1164,12 +1152,8 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, reset){
 
 	zval *empty_array;
 
-	PHALCON_MM_GROW();
-
-	PHALCON_INIT_VAR(empty_array);
+	PHALCON_ALLOC_GHOST_ZVAL(empty_array);
 	array_init(empty_array);
 	phalcon_update_property_this(this_ptr, SL("_metaData"), empty_array TSRMLS_CC);
 	phalcon_update_property_this(this_ptr, SL("_columnMap"), empty_array TSRMLS_CC);
-	
-	PHALCON_MM_RESTORE();
 }
