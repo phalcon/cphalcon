@@ -71,7 +71,7 @@ typedef struct _phannot_scanner_state {
 	unsigned int start_length;
 	int mode;
 	unsigned int active_line;
-	zval *active_file;
+	const char *active_file;
 } phannot_scanner_state;
 
 /* Extra information tokens */

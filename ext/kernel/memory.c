@@ -311,11 +311,9 @@ static inline void phalcon_do_memory_observe(zval **var, phalcon_memory_entry *f
 {
 #ifndef PHALCON_RELEASE
 	if (unlikely(frame == NULL)) {
-		TSRMLS_FETCH();
 		fprintf(stderr, "PHALCON_MM_GROW() must be called before using any of MM functions or macros!");
-		phalcon_memory_grow_stack("N/A" TSRMLS_CC);
-		frame = PHALCON_GLOBAL(active_memory);
-		ASSUME(frame != NULL);
+		phalcon_print_backtrace();
+		abort();
 	}
 #endif
 
@@ -355,11 +353,9 @@ void ZEND_FASTCALL phalcon_memory_alloc_pnull(zval **var TSRMLS_DC) {
 
 #ifndef PHALCON_RELEASE
 	if (unlikely(active_memory == NULL)) {
-		TSRMLS_FETCH();
 		fprintf(stderr, "PHALCON_MM_GROW() must be called before using any of MM functions or macros!");
-		phalcon_memory_grow_stack("N/A" TSRMLS_CC);
-		active_memory = PHALCON_GLOBAL(active_memory);
-		ASSUME(active_memory != NULL);
+		phalcon_print_backtrace();
+		abort();
 	}
 #endif
 
