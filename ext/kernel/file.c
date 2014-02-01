@@ -17,7 +17,13 @@
   +------------------------------------------------------------------------+
 */
 
-#include "php_phalcon.h"
+#include "kernel/file.h"
+#include "kernel/main.h"
+#include "kernel/memory.h"
+#include "kernel/concat.h"
+#include "kernel/operators.h"
+
+#include <ctype.h>
 
 #include <main/php_streams.h>
 #include <Zend/zend_exceptions.h>
@@ -26,12 +32,6 @@
 #include <ext/standard/php_smart_str.h>
 #include <ext/standard/php_filestat.h>
 #include <ext/standard/php_string.h>
-
-#include "kernel/main.h"
-#include "kernel/memory.h"
-#include "kernel/concat.h"
-#include "kernel/operators.h"
-#include "kernel/file.h"
 
 /**
  * Checks if a file exist
@@ -140,7 +140,7 @@ void phalcon_prepare_virtual_path(zval *return_value, zval *path, zval *virtual_
 		if (ch == '\0') {
 			break;
 		}
-		if (ch == '/' || ch == '\\' || ch == ':') {
+		if (ch == '/' || ch == '\\' || ch == ':' || !isprint(ch)) {
 			smart_str_appendl(&virtual_str, Z_STRVAL_P(virtual_separator), Z_STRLEN_P(virtual_separator));
 		}
 		else {
@@ -155,6 +155,28 @@ void phalcon_prepare_virtual_path(zval *return_value, zval *path, zval *virtual_
 	} else {
 		RETURN_EMPTY_STRING();
 	}
+}
+
+/**
+ * Faster version of phalcon_prepare_virtual_path()
+ */
+void phalcon_prepare_virtual_path_ex(zval *return_value, const char *path, size_t path_len, char virtual_separator TSRMLS_DC)
+{
+	char *copy = ecalloc(path_len+1, 1);
+	size_t i;
+
+	for (i=0; i<path_len; ++i) {
+		char c = path[i];
+
+		if (c == '/' || c == '\\' || c == ':' || !isprint(c)) {
+			copy[i] = virtual_separator;
+		}
+		else {
+			copy[i] = tolower(c);
+		}
+	}
+
+	ZVAL_STRINGL(return_value, copy, path_len, 0);
 }
 
 /**
