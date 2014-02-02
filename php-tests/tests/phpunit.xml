@@ -2,7 +2,7 @@
 <phpunit bootstrap="./PhalconTestHelper.php"
          backupGlobals="false"
          backupStaticAttributes="false"
-         verbose="true"
+         verbose="false"
          colors="true"
          convertErrorsToExceptions="true"
          convertNoticesToExceptions="true"
