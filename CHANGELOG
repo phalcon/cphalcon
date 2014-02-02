@@ -159,6 +159,7 @@
    - Phalcon\Forms\Form::count() implemented via Zend API (#1765)
    - Phalcon\Forms\Form optimizations (#1765)
    - Phalcon\Forms\Element now implements Phalcon\Forms\ElementInterface (#1852)
+   - Fixed Phalcon\Forms\Element\Select::addOption() (#1955)
  - Phalcon\Http:
    - Phalcon\Http\Cookie can be used without sessions (#875)
    - Phalcon\Http\Cookie does not ignore expire time (#897)
