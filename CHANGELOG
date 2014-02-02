@@ -241,7 +241,6 @@
    - Phalcon\Mvc\Model\Metadata now implements Phalcon\Mvc\Model\MetadataInterface (#1852)
    - Phalcon\Mvc\Model\Valdator now implements Phalcon\Mvc\Model\ValidatorInterface (#1852)
    - Phalcon\Mvc\View\Engine now implements Phalcon\Mvc\View\EngineInterface (#1852)
-   - Added support for default parameters in Router/URL generation (#1078)
    - Phalcon\Mvc\Model\Validator::getOption()/getOptions()/isSetOption() methods are now public (#1904)
    - Phalcon\Mvc\Model::findFirst() now works when phqlLiterals is false (#886)
    - Fixed notices when phalcon.orm.column_renaming is 0 (#1801)

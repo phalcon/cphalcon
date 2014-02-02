@@ -297,11 +297,6 @@ PHP_METHOD(Phalcon_Mvc_Url, get){
 	zval *matched, *regexp;
 	int local = 1;
 
-	zval *namespace_name, *module_name;
-	zval *controller_name, *action_name;
-
-	zval *defaults;
-
 	phalcon_fetch_params_ex(0, 2, &uri, &args);
 
 	PHALCON_MM_GROW();
@@ -321,6 +316,7 @@ PHP_METHOD(Phalcon_Mvc_Url, get){
 
 	PHALCON_INIT_VAR(base_uri);
 	phalcon_call_method(base_uri, this_ptr, "getbaseuri");
+
 	if (Z_TYPE_PP(uri) == IS_ARRAY) {
 		if (!phalcon_array_isset_string_fetch(&route_name, *uri, SS("for"))) {
 			PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_url_exception_ce, "It's necessary to define the route name with the parameter \"for\"");
@@ -350,40 +346,12 @@ PHP_METHOD(Phalcon_Mvc_Url, get){
 			PHALCON_VERIFY_INTERFACE(router, phalcon_mvc_routerinterface_ce);
 			phalcon_update_property_this(this_ptr, SL("_router"), router TSRMLS_CC);
 		}
-
-		PHALCON_INIT_VAR(defaults);
-		array_init_size(defaults, 4);
-
-		if (!phalcon_array_isset_string_fetch(&namespace_name, *uri, SS("namespace"))) {
-			namespace_name = phalcon_fetch_nproperty_this(router, SL("_defaultNamespace"), PH_NOISY_CC);
-			if (Z_TYPE_P(namespace_name) != IS_NULL) {
-				phalcon_array_update_string(&defaults, SL("namespace"), namespace_name, PH_COPY);
-			}
-		}
-
-		if (!phalcon_array_isset_string_fetch(&module_name, *uri, SS("module"))) {
-			module_name = phalcon_fetch_nproperty_this(router, SL("_defaultModule"), PH_NOISY_CC);
-			if (Z_TYPE_P(module_name) != IS_NULL) {
-				phalcon_array_update_string(&defaults, SL("module"), module_name, PH_COPY);
-			}
-		}
-
-		if (!phalcon_array_isset_string_fetch(&controller_name, *uri, SS("controller"))) {
-			controller_name = phalcon_fetch_nproperty_this(router, SL("_defaultController"), PH_NOISY_CC);
-			if (Z_TYPE_P(controller_name) != IS_NULL) {
-				phalcon_array_update_string(&defaults, SL("controller"), controller_name, PH_COPY);
-			}
-		}
-
-		if (!phalcon_array_isset_string_fetch(&action_name, *uri, SS("action"))) {
-			action_name = phalcon_fetch_nproperty_this(router, SL("_defaultAction"), PH_NOISY_CC);
-			if (Z_TYPE_P(action_name) != IS_NULL) {
-				phalcon_array_update_string(&defaults, SL("action"), action_name, PH_COPY);
-			}
-		}
 	
+		PHALCON_OBS_VAR(route_name);
+		phalcon_array_fetch_string(&route_name, *uri, SL("for"), PH_NOISY);
+
 		/** 
-		 * Every route is uniquely differenced by a name
+		 * Every route is uniquely identified by a name
 		 */
 		PHALCON_INIT_VAR(route);
 		phalcon_call_method_p1(route, router, "getroutebyname", route_name);
@@ -407,7 +375,8 @@ PHP_METHOD(Phalcon_Mvc_Url, get){
 		 * Replace the patterns by its variables
 		 */
 		PHALCON_INIT_VAR(processed_uri);
-		phalcon_replace_paths(processed_uri, pattern, paths, *uri, defaults TSRMLS_CC);
+		phalcon_replace_paths(processed_uri, pattern, paths, *uri TSRMLS_CC);
+
 		PHALCON_CONCAT_VV(return_value, base_uri, processed_uri);
 	}
 	else {
