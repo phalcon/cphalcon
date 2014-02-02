@@ -197,28 +197,33 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, getCompiler){
  */
 PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, render){
 
-	zval *template_path, *params, *must_clean = NULL, *compiler;
+	zval **template_path, **params, **must_clean = NULL, *compiler;
 	zval *compiled_template_path, *contents;
 	zval *view;
+	int clean;
+
+	phalcon_fetch_params_ex(2, 1, &template_path, &params, &must_clean);
+	PHALCON_ENSURE_IS_STRING(template_path);
+	
+	if (!must_clean) {
+		clean = 0;
+	}
+	else {
+		clean = PHALCON_IS_TRUE(*must_clean);
+	}
+	
+	if (clean) {
+		phalcon_ob_clean(TSRMLS_C);
+	}
 
 	PHALCON_MM_GROW();
 
-	phalcon_fetch_params(1, 2, 1, &template_path, &params, &must_clean);
-	
-	if (!must_clean) {
-		must_clean = PHALCON_GLOBAL(z_false);
-	}
-	
-	if (PHALCON_IS_TRUE(must_clean)) {
-		phalcon_ob_clean(TSRMLS_C);
-	}
-	
 	/** 
 	 * The compilation process is done by Phalcon\Mvc\View\Engine\Volt\Compiler
 	 */
 	PHALCON_INIT_VAR(compiler);
 	phalcon_call_method(compiler, this_ptr, "getcompiler");
-	phalcon_call_method_p1_noret(compiler, "compile", template_path);
+	phalcon_call_method_p1_noret(compiler, "compile", *template_path);
 	
 	PHALCON_INIT_VAR(compiled_template_path);
 	phalcon_call_method(compiled_template_path, compiler, "getcompiledtemplatepath");
@@ -226,14 +231,14 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, render){
 	/** 
 	 * Export the variables into the current symbol table
 	 */
-	if (Z_TYPE_P(params) == IS_ARRAY) { 
+	if (Z_TYPE_PP(params) == IS_ARRAY) {
 		if (!EG(active_symbol_table)) {
 			zend_rebuild_symbol_table(TSRMLS_C);
 		}
 
 		zend_hash_merge_ex(
 			EG(active_symbol_table),
-			Z_ARRVAL_P(params),
+			Z_ARRVAL_PP(params),
 			(copy_ctor_func_t)zval_add_ref,
 			sizeof(zval*),
 			phalcon_mvc_view_engine_php_symtable_merger
@@ -245,11 +250,13 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, render){
 		);
 	}
 	
-	if (phalcon_require(compiled_template_path TSRMLS_CC) == FAILURE) {
+	convert_to_string(compiled_template_path);
+	if (phalcon_require(Z_STRVAL_P(compiled_template_path) TSRMLS_CC) == FAILURE) {
 		RETVAL_FALSE;
 		RETURN_MM();
 	}
-	if (PHALCON_IS_TRUE(must_clean)) {
+
+	if (clean) {
 		PHALCON_INIT_VAR(contents);
 		phalcon_ob_get_contents(contents TSRMLS_CC);
 	

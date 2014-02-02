@@ -187,22 +187,13 @@ static void phalcon_memory_restore_stack_common(zend_phalcon_globals *phalcon_gl
 
 #ifndef PHALCON_RELEASE
 
-void phalcon_dump_current_frame(TSRMLS_D)
+void phalcon_dump_memory_frame(phalcon_memory_entry *active_memory TSRMLS_DC)
 {
-	zend_phalcon_globals *phalcon_globals_ptr = PHALCON_VGLOBAL;
-	phalcon_memory_entry *active_memory;
 	size_t i;
 
-	if (unlikely(phalcon_globals_ptr->active_memory == NULL)) {
-		fprintf(stderr, "WARNING: calling phalcon_dump_current_frame() without an active memory frame!\n");
-		phalcon_print_backtrace();
-		return;
-	}
-
-	active_memory = phalcon_globals_ptr->active_memory;
 	assert(active_memory != NULL);
 
-	fprintf(stderr, "Dump of the memory frame %p\n", active_memory);
+	fprintf(stderr, "Dump of the memory frame %p (%s)\n", active_memory, active_memory->func);
 
 	if (active_memory->hash_pointer) {
 		for (i = 0; i < active_memory->hash_pointer; ++i) {
@@ -230,6 +221,33 @@ void phalcon_dump_current_frame(TSRMLS_D)
 	}
 
 	fprintf(stderr, "End of the dump of the memory frame %p\n", active_memory);
+}
+
+void phalcon_dump_current_frame(TSRMLS_D)
+{
+	zend_phalcon_globals *phalcon_globals_ptr = PHALCON_VGLOBAL;
+
+	if (unlikely(phalcon_globals_ptr->active_memory == NULL)) {
+		fprintf(stderr, "WARNING: calling %s() without an active memory frame!\n", __func__);
+		phalcon_print_backtrace();
+		return;
+	}
+
+	phalcon_dump_memory_frame(phalcon_globals_ptr->active_memory TSRMLS_CC);
+}
+
+void phalcon_dump_all_frames(TSRMLS_D)
+{
+	zend_phalcon_globals *phalcon_globals_ptr = PHALCON_VGLOBAL;
+	phalcon_memory_entry *active_memory       = phalcon_globals_ptr->active_memory;
+
+	fprintf(stderr, "*** DUMP START ***\n");
+	while (active_memory != NULL) {
+		phalcon_dump_memory_frame(active_memory TSRMLS_CC);
+		active_memory = active_memory->prev;
+	}
+
+	fprintf(stderr, "*** DUMP END ***\n");
 }
 
 /**

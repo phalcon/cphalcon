@@ -22,6 +22,9 @@
 #include "mvc/model/metadatainterface.h"
 #include "mvc/model/exception.h"
 
+#include <ext/standard/php_smart_str.h>
+#include <ext/standard/php_var.h>
+
 #include "kernel/main.h"
 #include "kernel/memory.h"
 #include "kernel/array.h"
@@ -113,34 +116,29 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Files, __construct){
  */
 PHP_METHOD(Phalcon_Mvc_Model_MetaData_Files, read){
 
-	zval *key, *separator, *meta_data_dir, *virtual_key;
-	zval *path, *data;
+	zval *key, separator = zval_used_for_init, *meta_data_dir, *virtual_key;
+	zval *path, *data = NULL;
 
 	PHALCON_MM_GROW();
 
 	phalcon_fetch_params(1, 1, 0, &key);
 	
-	PHALCON_INIT_VAR(separator);
-	ZVAL_STRING(separator, "_", 1);
+	ZVAL_STRINGL(&separator, "_", 1, 0);
 	
-	PHALCON_OBS_VAR(meta_data_dir);
-	phalcon_read_property_this(&meta_data_dir, this_ptr, SL("_metaDataDir"), PH_NOISY_CC);
+	meta_data_dir = phalcon_fetch_nproperty_this(this_ptr, SL("_metaDataDir"), PH_NOISY_CC);
 	
 	PHALCON_INIT_VAR(virtual_key);
-	phalcon_prepare_virtual_path(virtual_key, key, separator TSRMLS_CC);
+	phalcon_prepare_virtual_path(virtual_key, key, &separator TSRMLS_CC);
 	
 	PHALCON_INIT_VAR(path);
 	PHALCON_CONCAT_VVS(path, meta_data_dir, virtual_key, ".php");
 	
 	if (phalcon_file_exists(path TSRMLS_CC) == SUCCESS) {
-		PHALCON_INIT_VAR(data);
-		if (phalcon_require_ret(data, path TSRMLS_CC) == FAILURE) {
-			RETURN_MM();
-		}
-		RETURN_CCTOR(data);
+		RETURN_MM_ON_FAILURE(phalcon_require_ret(&data, Z_STRVAL_P(path) TSRMLS_CC));
+		RETVAL_ZVAL(data, 1, 1);
 	}
 	
-	RETURN_MM_NULL();
+	PHALCON_MM_RESTORE();
 }
 
 /**
@@ -152,7 +150,8 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Files, read){
 PHP_METHOD(Phalcon_Mvc_Model_MetaData_Files, write){
 
 	zval *key, *data, *separator, *meta_data_dir, *virtual_key;
-	zval *path, *export, *php_export, *status;
+	zval *path, *php_export, *status;
+	smart_str exp = { NULL, 0, 0 };
 
 	PHALCON_MM_GROW();
 
@@ -170,12 +169,14 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Files, write){
 	PHALCON_INIT_VAR(path);
 	PHALCON_CONCAT_VVS(path, meta_data_dir, virtual_key, ".php");
 	
-	PHALCON_OBS_VAR(export);
-	PHALCON_CALL_FUNCTION(&export, "var_export", data, PHALCON_GLOBAL(z_true));
+	smart_str_appends(&exp, "<?php return ");
+	php_var_export_ex(&data, 0, &exp TSRMLS_CC);
+	smart_str_appendc(&exp, ';');
+	smart_str_0(&exp);
 	
 	PHALCON_INIT_VAR(php_export);
-	PHALCON_CONCAT_SVS(php_export, "<?php return ", export, "; ");
-	
+	ZVAL_STRINGL(php_export, exp.c, exp.len, 0);
+
 	PHALCON_INIT_VAR(status);
 	phalcon_file_put_contents(status, path, php_export TSRMLS_CC);
 	if (PHALCON_IS_FALSE(status)) {

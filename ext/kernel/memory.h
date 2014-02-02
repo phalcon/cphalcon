@@ -27,7 +27,10 @@
 
 /* Memory Frames */
 #ifndef PHALCON_RELEASE
+void phalcon_dump_memory_frame(phalcon_memory_entry *active_memory TSRMLS_DC);
 void phalcon_dump_current_frame(TSRMLS_D);
+void phalcon_dump_all_frames(TSRMLS_D);
+
 void ZEND_FASTCALL phalcon_memory_grow_stack(const char *func TSRMLS_DC);
 int ZEND_FASTCALL phalcon_memory_restore_stack(const char *func TSRMLS_DC);
 
