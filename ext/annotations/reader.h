@@ -20,6 +20,8 @@
 #ifndef PHALCON_ANNOTATIONS_READER_H
 #define PHALCON_ANNOTATIONS_READER_H
 
+#include "php_phalcon.h"
+
 extern zend_class_entry *phalcon_annotations_reader_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Annotations_Reader);

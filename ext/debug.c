@@ -702,11 +702,10 @@ PHP_METHOD(Phalcon_Debug, getFileLink) {
 PHP_METHOD(Phalcon_Debug, showTraceItem){
 
 	zval *n, *trace, *link_format, *space, *two_spaces, *underscore;
-	zval *minus, *html, *class_name, *pattern, *is_phalcon_class;
+	zval *minus, *html, *class_name;
 	zval *namespace_separator, *prepare_uri_class;
-	zval *class_reflection, *is_internal = NULL, *lower_class_name;
+	zval *lower_class_name, *prepared_function_name;
 	zval *prepare_internal_class, *type, *function_name = NULL;
-	zval *function_reflection, *prepared_function_name;
 	zval *trace_args, *arguments, *argument = NULL, *dumped_argument = NULL;
 	zval *span_argument = NULL, *joined_arguments, *z_one;
 	zval *file, *line, *show_files, *lines, *number_lines;
@@ -719,7 +718,6 @@ PHP_METHOD(Phalcon_Debug, showTraceItem){
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
-	zend_class_entry *ce0, *ce1;
 
 	PHALCON_MM_GROW();
 
@@ -743,61 +741,37 @@ PHP_METHOD(Phalcon_Debug, showTraceItem){
 	PHALCON_INIT_VAR(html);
 	PHALCON_CONCAT_SVS(html, "<tr><td align=\"right\" valign=\"top\" class=\"error-number\">#", n, "</td><td>");
 	if (phalcon_array_isset_string(trace, SS("class"))) {
+		zend_class_entry *class_ce;
 	
 		PHALCON_OBS_VAR(class_name);
 		phalcon_array_fetch_string(&class_name, trace, SL("class"), PH_NOISY);
-	
-		PHALCON_INIT_VAR(pattern);
-		ZVAL_STRING(pattern, "/^Phalcon/", 1);
-	
-		PHALCON_INIT_VAR(is_phalcon_class);
-		RETURN_MM_ON_FAILURE(phalcon_preg_match(is_phalcon_class, pattern, class_name, NULL TSRMLS_CC));
-	
-		/** 
-		 * We assume that classes starting by Phalcon are framework's classes
-		 */
-		if (zend_is_true(is_phalcon_class)) {
 
+		class_ce = zend_fetch_class(Z_STRVAL_P(class_name), Z_STRLEN_P(class_name), ZEND_FETCH_CLASS_AUTO | ZEND_FETCH_CLASS_SILENT TSRMLS_CC);
+
+		if (!class_ce) {
+			/* Unable to load the class, should never happen */
+		}
+		else if (is_phalcon_class(class_ce)) {
 			PHALCON_INIT_VAR(namespace_separator);
 			ZVAL_STRING(namespace_separator, "\\", 1);
 	
-			/** 
-			 * Prepare the class name according to the Phalcon's conventions
-			 */
+			/* Prepare the class name according to the Phalcon's conventions */
 			PHALCON_INIT_VAR(prepare_uri_class);
 			phalcon_fast_str_replace(prepare_uri_class, namespace_separator, underscore, class_name);
-	
-			/** 
-			 * Generate a link to the official docs
-			 */
+
+			/* Generate a link to the official docs */
 			PHALCON_SCONCAT_SVSVS(html, "<span class=\"error-class\"><a target=\"_new\" href=\"http://docs.phalconphp.com/en/latest/api/", prepare_uri_class, ".html\">", class_name, "</a></span>");
+		} else if (class_ce->type == ZEND_INTERNAL_CLASS) {
+			PHALCON_INIT_VAR(lower_class_name);
+			phalcon_fast_strtolower(lower_class_name, class_name);
+
+			PHALCON_INIT_VAR(prepare_internal_class);
+			phalcon_fast_str_replace(prepare_internal_class, underscore, minus, lower_class_name);
+
+			/* Generate a link to the official docs */
+			PHALCON_SCONCAT_SVSVS(html, "<span class=\"error-class\"><a target=\"_new\" href=\"http://php.net/manual/en/class.", prepare_internal_class, ".php\">", class_name, "</a></span>");
 		} else {
-			ce0 = zend_fetch_class(SL("ReflectionClass"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
-			PHALCON_INIT_VAR(class_reflection);
-			object_init_ex(class_reflection, ce0);
-			if (phalcon_has_constructor(class_reflection TSRMLS_CC)) {
-				phalcon_call_method_p1_noret(class_reflection, "__construct", class_name);
-			}
-	
-			/** 
-			 * Check if classes are PHP's classes
-			 */
-			PHALCON_INIT_VAR(is_internal);
-			phalcon_call_method(is_internal, class_reflection, "isinternal");
-			if (zend_is_true(is_internal)) {
-				PHALCON_INIT_VAR(lower_class_name);
-				phalcon_fast_strtolower(lower_class_name, class_name);
-	
-				PHALCON_INIT_VAR(prepare_internal_class);
-				phalcon_fast_str_replace(prepare_internal_class, underscore, minus, lower_class_name);
-	
-				/** 
-				 * Generate a link to the official docs
-				 */
-				PHALCON_SCONCAT_SVSVS(html, "<span class=\"error-class\"><a target=\"_new\" href=\"http://php.net/manual/en/class.", prepare_internal_class, ".php\">", class_name, "</a></span>");
-			} else {
-				PHALCON_SCONCAT_SVS(html, "<span class=\"error-class\">", class_name, "</span>");
-			}
+			PHALCON_SCONCAT_SVS(html, "<span class=\"error-class\">", class_name, "</span>");
 		}
 	
 		/** 
@@ -816,6 +790,8 @@ PHP_METHOD(Phalcon_Debug, showTraceItem){
 		phalcon_array_fetch_string(&function_name, trace, SL("function"), PH_NOISY);
 		PHALCON_SCONCAT_SVS(html, "<span class=\"error-function\">", function_name, "</span>");
 	} else {
+		zend_function *func;
+
 		PHALCON_OBS_NVAR(function_name);
 		phalcon_array_fetch_string(&function_name, trace, SL("function"), PH_NOISY);
 		convert_to_string(function_name);
@@ -823,21 +799,12 @@ PHP_METHOD(Phalcon_Debug, showTraceItem){
 		/** 
 		 * Check if the function exists
 		 */
-		if (phalcon_function_exists_ex(Z_STRVAL_P(function_name), Z_STRLEN_P(function_name)+1 TSRMLS_CC) == SUCCESS) {
-			ce1 = zend_fetch_class(SL("ReflectionFunction"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
-			PHALCON_INIT_VAR(function_reflection);
-			object_init_ex(function_reflection, ce1);
-			if (phalcon_has_constructor(function_reflection TSRMLS_CC)) {
-				phalcon_call_method_p1_noret(function_reflection, "__construct", function_name);
-			}
-	
-			PHALCON_INIT_NVAR(is_internal);
-			phalcon_call_method(is_internal, function_reflection, "isinternal");
+		if (phalcon_fetch_function(&func, Z_STRVAL_P(function_name), Z_STRLEN_P(function_name) TSRMLS_CC) == SUCCESS) {
 	
 			/** 
 			 * Internal functions links to the PHP documentation
 			 */
-			if (zend_is_true(is_internal)) {
+			if (func->type == ZEND_INTERNAL_FUNCTION) {
 				/** 
 				 * Prepare function's name according to the conventions in the docs
 				 */

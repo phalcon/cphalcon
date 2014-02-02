@@ -76,6 +76,11 @@ PHALCON_ATTR_NONNULL static inline int phalcon_function_exists_ex(const char *fu
 	return phalcon_function_quick_exists_ex(function_name, function_len, zend_hash_func(function_name, function_len) TSRMLS_CC);
 }
 
+PHALCON_ATTR_NONNULL static inline int phalcon_fetch_function(zend_function **function, const char *function_name, unsigned int function_len TSRMLS_DC)
+{
+	return zend_hash_find(EG(function_table), function_name, function_len+1, (void**)function);
+}
+
 /* Count */
 long int phalcon_fast_count_int(zval *value TSRMLS_DC);
 void phalcon_fast_count(zval *result, zval *array TSRMLS_DC);

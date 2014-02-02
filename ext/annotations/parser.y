@@ -30,6 +30,7 @@
 #include "php_phalcon.h"
 
 #include <ext/standard/php_smart_str.h>
+#include <main/spprintf.h>
 
 #include "annotations/parser.h"
 #include "annotations/scanner.h"
@@ -141,8 +142,7 @@ static zval *phannot_ret_annotation(phannot_parser_token *name, zval *arguments,
 		add_assoc_zval(ret, phalcon_interned_arguments, arguments);
 	}
 
-	Z_ADDREF_P(state->active_file);
-	add_assoc_zval(ret, phalcon_interned_file, state->active_file);
+	add_assoc_string(ret, phalcon_interned_file, (char*)state->active_file, !IS_INTERNED(state->active_file));
 	add_assoc_long(ret, phalcon_interned_line, state->active_line);
 
 	return ret;
@@ -152,62 +152,44 @@ static zval *phannot_ret_annotation(phannot_parser_token *name, zval *arguments,
 
 %syntax_error {
 	if (status->scanner_state->start_length) {
-		{
+		char *token_name = NULL;
+		const phannot_token_names *tokens = phannot_tokens;
+		uint active_token = status->scanner_state->active_token;
+		uint near_length = status->scanner_state->start_length;
 
-			char *token_name = NULL;
-			const phannot_token_names *tokens = phannot_tokens;
-			int token_found = 0;
-			uint active_token = status->scanner_state->active_token;
-			uint near_length = status->scanner_state->start_length;
+		if (active_token) {
+			do {
+				if (tokens->code == active_token) {
+					token_name = tokens->name;
+					break;
+				}
+				++tokens;
+			} while (tokens[0].code != 0);
+		}
 
-			if (active_token) {
-				do {
-					if (tokens->code == active_token) {
-						token_found = 1;
-						token_name = tokens->name;
-						break;
-					}
-					++tokens;
-				} while (tokens[0].code != 0);
+		if (!token_name) {
+			token_name  = "UNKNOWN";
+		}
+
+		if (near_length > 0) {
+			if (status->token->value) {
+				spprintf(&status->syntax_error, 0, "Syntax error, unexpected token %s(%s), near to '%s' in %s on line %d", token_name, status->token->value, status->scanner_state->start, status->scanner_state->active_file, status->scanner_state->active_line);
+			} else {
+				spprintf(&status->syntax_error, 0, "Syntax error, unexpected token %s, near to '%s' in %s on line %d", token_name, status->scanner_state->start, status->scanner_state->active_file, status->scanner_state->active_line);
 			}
-
-			if (!token_name) {
-				token_found = 0;
-				token_name = estrndup("UNKNOWN", strlen("UNKNOWN"));
-			}
-
-			status->syntax_error_len = 128 + strlen(token_name) + Z_STRLEN_P(status->scanner_state->active_file);
-			status->syntax_error = emalloc(sizeof(char) * status->syntax_error_len);
-
-			if (near_length > 0) {
+		} else {
+			if (active_token != PHANNOT_T_IGNORE) {
 				if (status->token->value) {
-					snprintf(status->syntax_error, status->syntax_error_len, "Syntax error, unexpected token %s(%s), near to '%s' in %s on line %d", token_name, status->token->value, status->scanner_state->start, Z_STRVAL_P(status->scanner_state->active_file), status->scanner_state->active_line);
+					spprintf(&status->syntax_error, 0, "Syntax error, unexpected token %s(%s), at the end of docblock in %s on line %d", token_name, status->token->value, status->scanner_state->active_file, status->scanner_state->active_line);
 				} else {
-					snprintf(status->syntax_error, status->syntax_error_len, "Syntax error, unexpected token %s, near to '%s' in %s on line %d", token_name, status->scanner_state->start, Z_STRVAL_P(status->scanner_state->active_file), status->scanner_state->active_line);
+					spprintf(&status->syntax_error, 0, "Syntax error, unexpected token %s, at the end of docblock in %s on line %d", token_name, status->scanner_state->active_file, status->scanner_state->active_line);
 				}
 			} else {
-				if (active_token != PHANNOT_T_IGNORE) {
-					if (status->token->value) {
-						snprintf(status->syntax_error, status->syntax_error_len, "Syntax error, unexpected token %s(%s), at the end of docblock in %s on line %d", token_name, status->token->value, Z_STRVAL_P(status->scanner_state->active_file), status->scanner_state->active_line);
-					} else {
-						snprintf(status->syntax_error, status->syntax_error_len, "Syntax error, unexpected token %s, at the end of docblock in %s on line %d", token_name, Z_STRVAL_P(status->scanner_state->active_file), status->scanner_state->active_line);
-					}
-				} else {
-					snprintf(status->syntax_error, status->syntax_error_len, "Syntax error, unexpected EOF, at the end of docblock in %s on line %d", Z_STRVAL_P(status->scanner_state->active_file), status->scanner_state->active_line);
-				}
-				status->syntax_error[status->syntax_error_len-1] = '\0';
-			}
-
-			if (!token_found) {
-				if (token_name) {
-					efree(token_name);
-				}
+				spprintf(&status->syntax_error, 0, "Syntax error, unexpected EOF, at the end of docblock in %s on line %d", status->scanner_state->active_file, status->scanner_state->active_line);
 			}
 		}
 	} else {
-		status->syntax_error_len = 48 + Z_STRLEN_P(status->scanner_state->active_file);
-		status->syntax_error = emalloc(sizeof(char) * status->syntax_error_len);
-		sprintf(status->syntax_error, "Syntax error, unexpected EOF in %s", Z_STRVAL_P(status->scanner_state->active_file));
+		spprintf(&status->syntax_error, 0, "Syntax error, unexpected EOF in %s", status->scanner_state->active_file);
 	}
 
 	status->status = PHANNOT_PARSING_FAILED;

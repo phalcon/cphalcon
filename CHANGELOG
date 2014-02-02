@@ -43,6 +43,7 @@
    - Bug fix in phalcon_fix_path() (#1591)
    - Persistent function cache for Phalcon methods (#1825)
    - Function call optimization (#1846)
+   - Use Native Reflection API (#1957)
  - Phalcon\Acl:
    - Fixed broken ACL inheritance (#905)
    - Bug fix when ACL allowed access to forbidden resources (#1303)
@@ -54,6 +55,7 @@
    - Phalcon\Annotations optimizations (#1141)
    - Fixed parsing of annotations containing / (#1480)
    - Phalcon\Annotations\Adapter now implements Phalcon\Annotations\AdapterInterface (#1852)
+   - Annotation parser optimization (#1957)
  - Phalcon\Assets:
    - Fixed bugs when minifier produced no output at all (#811, #821)
    - Fixed joining issue (#951)
