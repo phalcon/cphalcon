@@ -126,19 +126,21 @@ void phalcon_replace_paths(zval *return_value, zval *pattern, zval *paths, zval 
 		return;
 	}
 
+	cursor = Z_STRVAL_P(pattern);
+	if (*cursor == '/') {
+		++cursor;
+		i = 1;
+	}
+	else {
+		i = 0;
+	}
+
 	if (!zend_hash_num_elements(Z_ARRVAL_P(paths))) {
-		ZVAL_STRINGL(return_value, Z_STRVAL_P(pattern), Z_STRLEN_P(pattern), 1);
+		ZVAL_STRINGL(return_value, Z_STRVAL_P(pattern)+i, Z_STRLEN_P(pattern)-i, 1);
 		return;
 	}
 
-	cursor = Z_STRVAL_P(pattern);
-
-	/**
-	 * Ignoring the first character, it must be a /
-	 */
-	cursor++;
-
-	for (i = 1; i < Z_STRLEN_P(pattern); i++) {
+	for (; i < Z_STRLEN_P(pattern); ++i) {
 
 		ch = *cursor;
 		if (ch == '\0') {
