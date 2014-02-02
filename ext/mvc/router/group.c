@@ -357,57 +357,69 @@ PHP_METHOD(Phalcon_Mvc_Router_Group, getRoutes){
 /**
  * Adds a route applying the common attributes
  *
- * @param string $patten
+ * @param string $pattern
  * @param array $paths
  * @param array $httpMethods
  * @return Phalcon\Mvc\Router\Route
  */
 PHP_METHOD(Phalcon_Mvc_Router_Group, _addRoute){
 
-	zval *pattern, *paths = NULL, *http_methods = NULL, *prefix, *prefix_pattern;
+	zval **pattern, **paths = NULL, **http_methods = NULL, *prefix, *prefix_pattern;
 	zval *default_paths, *merged_paths = NULL;
+
+	phalcon_fetch_params_ex(1, 2, &pattern, &paths, &http_methods);
+	PHALCON_ENSURE_IS_STRING(pattern);
 
 	PHALCON_MM_GROW();
 
-	phalcon_fetch_params(1, 1, 2, &pattern, &paths, &http_methods);
-	
 	if (!paths) {
-		paths = PHALCON_GLOBAL(z_null);
+		paths = &PHALCON_GLOBAL(z_null);
 	}
 	
 	if (!http_methods) {
-		http_methods = PHALCON_GLOBAL(z_null);
+		http_methods = &PHALCON_GLOBAL(z_null);
 	}
 	
 	PHALCON_OBS_VAR(prefix);
 	phalcon_read_property_this(&prefix, this_ptr, SL("_prefix"), PH_NOISY_CC);
 	
+	if (Z_TYPE_P(prefix) != IS_STRING) {
+		convert_to_string_ex(&prefix);
+	}
+
 	/** 
 	 * Add the prefix to the pattern
 	 */
 	PHALCON_INIT_VAR(prefix_pattern);
-	PHALCON_CONCAT_VV(prefix_pattern, prefix, pattern);
 	
+	if (*(Z_STRVAL_PP(pattern)) == '/' && Z_STRVAL_P(prefix)[Z_STRLEN_P(prefix)-1] == '/') {
+		ZVAL_STRINGL(prefix_pattern, Z_STRVAL_P(prefix), Z_STRLEN_P(prefix)-1, 1);
+		concat_function(prefix_pattern, prefix_pattern, *pattern TSRMLS_CC);
+	}
+	else {
+		PHALCON_CONCAT_VV(prefix_pattern, prefix, *pattern);
+	}
+
 	default_paths = phalcon_fetch_nproperty_this(this_ptr, SL("_paths"), PH_NOISY_CC);
 	
 	/** 
 	 * Check if the paths need to be merged with current paths
 	 */
-	if (Z_TYPE_P(default_paths) == IS_ARRAY && Z_TYPE_P(paths) == IS_ARRAY) {
+	if (Z_TYPE_P(default_paths) == IS_ARRAY && Z_TYPE_PP(paths) == IS_ARRAY) {
 		/**
 		 * Merge the paths with the default paths
 		 */
 		PHALCON_INIT_VAR(merged_paths);
-		phalcon_fast_array_merge(merged_paths, &default_paths, &paths TSRMLS_CC);
+		phalcon_fast_array_merge(merged_paths, &default_paths, paths TSRMLS_CC);
 	} else {
-		merged_paths = paths;
+		merged_paths = *paths;
 	}
 	
 	/** 
 	 * Every route is internally stored as a Phalcon\Mvc\Router\Route
 	 */
 	object_init_ex(return_value, phalcon_mvc_router_route_ce);
-	phalcon_call_method_p3_noret(return_value, "__construct", prefix_pattern, merged_paths, http_methods);
+	phalcon_call_method_p3_noret(return_value, "__construct", prefix_pattern, merged_paths, *http_methods);
 	phalcon_call_method_p1_noret(return_value, "setgroup", this_ptr);
 	
 	phalcon_update_property_array_append(this_ptr, SL("_routes"), return_value TSRMLS_CC);

@@ -246,6 +246,7 @@
    - Fixed notices when phalcon.orm.column_renaming is 0 (#1801)
    - Implemented reset() for metadata adapters other than memory (#1934)
    - Relaxed the requirement for the route to start with a slash (#1938)
+   - Phalcon\Mvc\Router\Group: merge slashes when the route prefix ends and the route pattern starts with a slash (#1938)
  - Phalcon\Paginator:
    - Phalcon\Paginator\Adapter\Model returns correct results even when page number is incorrect (#1654)
    - Optimized Phalcon\Paginator\Adapter\QueryBuilder (#1632)
