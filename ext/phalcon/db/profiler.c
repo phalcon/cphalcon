@@ -140,7 +140,6 @@ PHP_METHOD(Phalcon_Db_Profiler, stopProfile) {
 
 	ZEPHIR_INIT_VAR(finalTime);
 	zephir_call_func_p1(finalTime, "microtime", ZEPHIR_GLOBAL(global_true));
-	ZEPHIR_INIT_ZVAL_NREF(_0);
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_activeProfile"), PH_NOISY_CC);
 	ZEPHIR_CPY_WRT(activeProfile, _0);
 	zephir_call_method_p1_noret(activeProfile, "setfinaltime", finalTime);
@@ -170,7 +169,6 @@ PHP_METHOD(Phalcon_Db_Profiler, getNumberTotalStatements) {
 	zval *_0;
 
 
-	ZEPHIR_INIT_ZVAL_NREF(_0);
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_allProfiles"), PH_NOISY_CC);
 	RETURN_LONG(zephir_fast_count_int(_0 TSRMLS_CC));
 

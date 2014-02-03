@@ -375,7 +375,6 @@ PHP_METHOD(Phalcon_Validation, getDefaultMessage) {
 	}
 
 
-	ZEPHIR_INIT_ZVAL_NREF(_0);
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_defaultMessages"), PH_NOISY_CC);
 	zephir_array_fetch(&_1, _0, type, PH_NOISY | PH_READONLY TSRMLS_CC);
 	RETURN_CTOR(_1);

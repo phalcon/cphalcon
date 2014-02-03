@@ -93,7 +93,6 @@ PHP_METHOD(Phalcon_Cache_Backend_Apc, get) {
 
 
 	frontend = zephir_fetch_nproperty_this(this_ptr, SL("_frontend"), PH_NOISY_CC);
-	ZEPHIR_INIT_ZVAL_NREF(_0);
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_prefix"), PH_NOISY_CC);
 	ZEPHIR_INIT_VAR(prefixedKey);
 	ZEPHIR_CONCAT_SVV(prefixedKey, "_PHCA", _0, keyName);
@@ -143,7 +142,6 @@ PHP_METHOD(Phalcon_Cache_Backend_Apc, save) {
 	if ((Z_TYPE_P(keyName) == IS_NULL)) {
 		zephir_read_property_this(&lastKey, this_ptr, SL("_lastKey"), PH_NOISY_CC);
 	} else {
-		ZEPHIR_INIT_ZVAL_NREF(_0);
 		_0 = zephir_fetch_nproperty_this(this_ptr, SL("_prefix"), PH_NOISY_CC);
 		ZEPHIR_CONCAT_SVV(lastKey, "_PHCA", _0, keyName);
 	}
@@ -203,7 +201,6 @@ PHP_METHOD(Phalcon_Cache_Backend_Apc, delete) {
 		zephir_get_strval(keyName, keyName_param);
 
 
-	ZEPHIR_INIT_ZVAL_NREF(_0);
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_prefix"), PH_NOISY_CC);
 	ZEPHIR_INIT_VAR(_1);
 	ZEPHIR_CONCAT_SVV(_1, "_PHCA", _0, keyName);
@@ -298,7 +295,6 @@ PHP_METHOD(Phalcon_Cache_Backend_Apc, exists) {
 	if ((Z_TYPE_P(keyName) == IS_NULL)) {
 		zephir_read_property_this(&lastKey, this_ptr, SL("_lastKey"), PH_NOISY_CC);
 	} else {
-		ZEPHIR_INIT_ZVAL_NREF(_0);
 		_0 = zephir_fetch_nproperty_this(this_ptr, SL("_prefix"), PH_NOISY_CC);
 		ZEPHIR_CONCAT_SVV(lastKey, "_PHCA", _0, keyName);
 	}

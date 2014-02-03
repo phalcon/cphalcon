@@ -105,7 +105,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, next) {
 	zval *_0;
 
 
-	ZEPHIR_INIT_ZVAL_NREF(_0);
 	zephir_increment(_0);
 
 }
@@ -132,13 +131,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, rewind) {
 
 	ZEPHIR_MM_GROW();
 
-	ZEPHIR_INIT_ZVAL_NREF(_0);
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_type"), PH_NOISY_CC);
 	if (zephir_is_true(_0)) {
 		ZEPHIR_OBS_VAR(result);
 		zephir_read_property_this(&result, this_ptr, SL("_result"), PH_NOISY_CC);
 		if (!ZEPHIR_IS_FALSE(result)) {
-			ZEPHIR_INIT_ZVAL_NREF(_1);
 			_1 = zephir_fetch_nproperty_this(this_ptr, SL("_activeRow"), PH_NOISY_CC);
 			if ((Z_TYPE_P(_1) != IS_NULL)) {
 				ZEPHIR_INIT_VAR(_2);
@@ -187,10 +184,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, seek) {
 		position = zephir_get_intval(position_param);
 
 
-	ZEPHIR_INIT_ZVAL_NREF(_0);
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_pointer"), PH_NOISY_CC);
 	if (!ZEPHIR_IS_LONG(_0, position)) {
-		ZEPHIR_INIT_ZVAL_NREF(_1);
 		_1 = zephir_fetch_nproperty_this(this_ptr, SL("_type"), PH_NOISY_CC);
 		if (zephir_is_true(_1)) {
 			ZEPHIR_OBS_VAR(result);
@@ -237,7 +232,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, seek) {
 				}
 			}
 		}
-		ZEPHIR_INIT_ZVAL_NREF(_6);
 		ZVAL_LONG(_6, position);
 		zephir_update_property_zval(this_ptr, SL("_pointer"), _6 TSRMLS_CC);
 	}
@@ -261,7 +255,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, count) {
 	if ((Z_TYPE_P(count) == IS_NULL)) {
 		ZEPHIR_INIT_BNVAR(count);
 		ZVAL_LONG(count, 0);
-		ZEPHIR_INIT_ZVAL_NREF(_0);
 		_0 = zephir_fetch_nproperty_this(this_ptr, SL("_type"), PH_NOISY_CC);
 		if (zephir_is_true(_0)) {
 			ZEPHIR_OBS_VAR(result);
@@ -341,7 +334,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, offsetGet) {
 	ZEPHIR_INIT_VAR(_0);
 	zephir_call_method(_0, this_ptr, "count");
 	if (ZEPHIR_GT_LONG(_0, index)) {
-		ZEPHIR_INIT_ZVAL_NREF(_1);
 		_1 = zephir_fetch_nproperty_this(this_ptr, SL("_pointer"), PH_NOISY_CC);
 		if (ZEPHIR_IS_LONG(_1, index)) {
 			zephir_call_method(return_value, this_ptr, "current");
@@ -425,7 +417,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, getFirst) {
 
 	ZEPHIR_MM_GROW();
 
-	ZEPHIR_INIT_ZVAL_NREF(_0);
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_pointer"), PH_NOISY_CC);
 	if (ZEPHIR_IS_LONG(_0, 0)) {
 		zephir_call_method(return_value, this_ptr, "current");
@@ -517,7 +508,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, setHydrateMode) {
 		hydrateMode = zephir_get_intval(hydrateMode_param);
 
 
-	ZEPHIR_INIT_ZVAL_NREF(_0);
 	ZVAL_LONG(_0, hydrateMode);
 	zephir_update_property_zval(this_ptr, SL("_hydrateMode"), _0 TSRMLS_CC);
 	RETURN_THISW();

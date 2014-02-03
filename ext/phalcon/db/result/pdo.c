@@ -259,9 +259,7 @@ PHP_METHOD(Phalcon_Db_Result_Pdo, numRows) {
 					zephir_array_fetch_long(&_3, matches, 1, PH_NOISY | PH_READONLY TSRMLS_CC);
 					ZEPHIR_INIT_VAR(_4);
 					ZEPHIR_CONCAT_SVS(_4, "SELECT COUNT(*) \"numrows\" FROM (SELECT ", _3, ")");
-					ZEPHIR_INIT_ZVAL_NREF(_5);
 					_5 = zephir_fetch_nproperty_this(this_ptr, SL("_bindParams"), PH_NOISY_CC);
-					ZEPHIR_INIT_ZVAL_NREF(_6);
 					_6 = zephir_fetch_nproperty_this(this_ptr, SL("_bindTypes"), PH_NOISY_CC);
 					ZEPHIR_INIT_VAR(result);
 					zephir_call_method_p3(result, connection, "query", _4, _5, _6);
@@ -311,7 +309,6 @@ PHP_METHOD(Phalcon_Db_Result_Pdo, dataSeek) {
 		zephir_call_method_p1(statement, pdo, "prepare", sqlStatement);
 		if ((Z_TYPE_P(statement) == IS_OBJECT)) {
 			ZEPHIR_INIT_VAR(_0);
-			ZEPHIR_INIT_ZVAL_NREF(_1);
 			_1 = zephir_fetch_nproperty_this(this_ptr, SL("_bindTypes"), PH_NOISY_CC);
 			zephir_call_method_p3(_0, connection, "executeprepared", statement, bindParams, _1);
 			ZEPHIR_CPY_WRT(statement, _0);
@@ -360,7 +357,6 @@ PHP_METHOD(Phalcon_Db_Result_Pdo, setFetchMode) {
 			ZEPHIR_INIT_VAR(_0);
 			ZVAL_LONG(_0, 4);
 			zephir_call_method_p1_noret(pdoStatement, "setfetchmode", _0);
-			ZEPHIR_INIT_ZVAL_NREF(_1);
 			ZVAL_LONG(_1, 4);
 			zephir_update_property_this(this_ptr, SL("_fetchMode"), _1 TSRMLS_CC);
 			break;

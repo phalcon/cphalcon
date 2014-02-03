@@ -399,7 +399,6 @@ PHP_METHOD(Phalcon_Debug_Dump, output) {
 		zephir_concat_self(&output, _13 TSRMLS_CC);
 		ZEPHIR_INIT_NVAR(_20);
 		zephir_get_class(_20, variable, 0 TSRMLS_CC);
-		ZEPHIR_INIT_ZVAL_NREF(_29);
 		_29 = zephir_fetch_nproperty_this(this_ptr, SL("methods"), PH_NOISY_CC);
 		if (zephir_fast_in_array(_20, _29 TSRMLS_CC)) {
 			ZEPHIR_INIT_NVAR(_27);
@@ -536,26 +535,24 @@ PHP_METHOD(Phalcon_Debug_Dump, output) {
 		zephir_call_func_p2(return_value, "strtr", &_3, _0);
 		RETURN_MM();
 	}
-	ZEPHIR_INIT_NVAR(_1);
-	zephir_call_func_p1(_1, "is_string", variable);
-	if (zephir_is_true(_1)) {
+	if ((Z_TYPE_P(variable) == IS_STRING)) {
 		ZEPHIR_INIT_NVAR(_0);
 		array_init_size(_0, 4);
+		ZEPHIR_INIT_NVAR(_1);
 		ZEPHIR_INIT_NVAR(_2);
-		ZEPHIR_INIT_NVAR(_20);
-		ZVAL_STRING(_20, "str", 1);
-		zephir_call_method_p1(_2, this_ptr, "getstyle", _20);
-		zephir_array_update_string(&_0, SL(":style"), &_2, PH_COPY | PH_SEPARATE);
+		ZVAL_STRING(_2, "str", 1);
+		zephir_call_method_p1(_1, this_ptr, "getstyle", _2);
+		zephir_array_update_string(&_0, SL(":style"), &_1, PH_COPY | PH_SEPARATE);
 		add_assoc_long_ex(_0, SS(":length"), zephir_fast_strlen_ev(variable));
 		ZEPHIR_SINIT_NVAR(_3);
 		ZVAL_LONG(&_3, 4);
 		ZEPHIR_SINIT_VAR(_39);
 		ZVAL_STRING(&_39, "utf-8", 0);
+		ZEPHIR_INIT_NVAR(_1);
+		zephir_call_func_p3(_1, "htmlentities", variable, &_3, &_39);
 		ZEPHIR_INIT_NVAR(_2);
-		zephir_call_func_p3(_2, "htmlentities", variable, &_3, &_39);
-		ZEPHIR_INIT_NVAR(_20);
-		zephir_call_func_p1(_20, "nl2br", _2);
-		zephir_array_update_string(&_0, SL(":var"), &_20, PH_COPY | PH_SEPARATE);
+		zephir_call_func_p1(_2, "nl2br", _1);
+		zephir_array_update_string(&_0, SL(":var"), &_2, PH_COPY | PH_SEPARATE);
 		ZEPHIR_SINIT_NVAR(_3);
 		ZVAL_STRING(&_3, "<b style=':style'>String</b> (<span style=':style'>:length</span>) \"<span style=':style'>:var</span>\"", 0);
 		zephir_call_func_p2(return_value, "strtr", &_3, _0);
@@ -674,7 +671,6 @@ PHP_METHOD(Phalcon_Debug_Dump, getStyle) {
 	}
 
 
-	ZEPHIR_INIT_ZVAL_NREF(_0);
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_styles"), PH_NOISY_CC);
 	zephir_array_fetch(&_1, _0, type, PH_NOISY | PH_READONLY TSRMLS_CC);
 	RETURN_CTOR(_1);

@@ -193,7 +193,6 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, connect) {
 	}
 	ZEPHIR_INIT_LNVAR(_4);
 	object_init_ex(_4, phalcon_db_adapter_pdo_ce);
-	ZEPHIR_INIT_ZVAL_NREF(_6);
 	_6 = zephir_fetch_nproperty_this(this_ptr, SL("_type"), PH_NOISY_CC);
 	ZEPHIR_INIT_VAR(_7);
 	ZEPHIR_CONCAT_VSV(_7, _6, ":", dsnAttributes);
@@ -364,7 +363,6 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, query) {
 	}
 
 
-	ZEPHIR_INIT_ZVAL_NREF(_0);
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_eventsManager"), PH_NOISY_CC);
 	ZEPHIR_CPY_WRT(eventsManager, _0);
 	if ((Z_TYPE_P(eventsManager) == IS_OBJECT)) {
@@ -448,7 +446,6 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, execute) {
 	}
 
 
-	ZEPHIR_INIT_ZVAL_NREF(_0);
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_eventsManager"), PH_NOISY_CC);
 	ZEPHIR_CPY_WRT(eventsManager, _0);
 	if ((Z_TYPE_P(eventsManager) == IS_OBJECT)) {
@@ -589,7 +586,6 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, escapeString) {
 	}
 
 
-	ZEPHIR_INIT_ZVAL_NREF(_0);
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_pdo"), PH_NOISY_CC);
 	zephir_call_method_p1(return_value, _0, "quote", str);
 	RETURN_MM();
@@ -660,11 +656,9 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, begin) {
 	if ((Z_TYPE_P(pdo) != IS_OBJECT)) {
 		RETURN_MM_BOOL(0);
 	}
-	ZEPHIR_INIT_ZVAL_NREF(_0);
 	zephir_increment(_0);
 	transactionLevel = zephir_fetch_nproperty_this(this_ptr, SL("_transactionLevel"), PH_NOISY_CC);
 	if (ZEPHIR_IS_LONG(transactionLevel, 1)) {
-		ZEPHIR_INIT_ZVAL_NREF(_1);
 		_1 = zephir_fetch_nproperty_this(this_ptr, SL("_eventsManager"), PH_NOISY_CC);
 		ZEPHIR_CPY_WRT(eventsManager, _1);
 		if ((Z_TYPE_P(eventsManager) == IS_OBJECT)) {
@@ -730,7 +724,6 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, rollback) {
 		return;
 	}
 	if (ZEPHIR_IS_LONG(transactionLevel, 1)) {
-		ZEPHIR_INIT_ZVAL_NREF(_0);
 		_0 = zephir_fetch_nproperty_this(this_ptr, SL("_eventsManager"), PH_NOISY_CC);
 		ZEPHIR_CPY_WRT(eventsManager, _0);
 		if ((Z_TYPE_P(eventsManager) == IS_OBJECT)) {
@@ -801,7 +794,6 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, commit) {
 		return;
 	}
 	if (ZEPHIR_IS_LONG(transactionLevel, 1)) {
-		ZEPHIR_INIT_ZVAL_NREF(_0);
 		_0 = zephir_fetch_nproperty_this(this_ptr, SL("_eventsManager"), PH_NOISY_CC);
 		ZEPHIR_CPY_WRT(eventsManager, _0);
 		if ((Z_TYPE_P(eventsManager) == IS_OBJECT)) {

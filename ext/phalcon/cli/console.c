@@ -204,7 +204,6 @@ PHP_METHOD(Phalcon_Cli_Console, addModules) {
 		return;
 	}
 	ZEPHIR_INIT_VAR(_0);
-	ZEPHIR_INIT_ZVAL_NREF(_1);
 	_1 = zephir_fetch_nproperty_this(this_ptr, SL("_modules"), PH_NOISY_CC);
 	zephir_fast_array_merge(_0, &(modules), &(_1) TSRMLS_CC);
 	zephir_update_property_this(this_ptr, SL("_modules"), _0 TSRMLS_CC);
@@ -247,7 +246,6 @@ PHP_METHOD(Phalcon_Cli_Console, handle) {
 		ZEPHIR_THROW_EXCEPTION_STR(phalcon_cli_console_exception_ce, "A dependency injection object is required to access internal services");
 		return;
 	}
-	ZEPHIR_INIT_ZVAL_NREF(_0);
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_eventsManager"), PH_NOISY_CC);
 	ZEPHIR_CPY_WRT(eventsManager, _0);
 	ZEPHIR_INIT_VAR(_1);

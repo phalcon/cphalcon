@@ -91,7 +91,6 @@ PHP_METHOD(Phalcon_Logger_Adapter, setLogLevel) {
 		level = zephir_get_intval(level_param);
 
 
-	ZEPHIR_INIT_ZVAL_NREF(_0);
 	ZVAL_LONG(_0, level);
 	zephir_update_property_zval(this_ptr, SL("_logLevel"), _0 TSRMLS_CC);
 	RETURN_THISW();
@@ -155,7 +154,6 @@ PHP_METHOD(Phalcon_Logger_Adapter, commit) {
 
 	ZEPHIR_MM_GROW();
 
-	ZEPHIR_INIT_ZVAL_NREF(_0);
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_transaction"), PH_NOISY_CC);
 	if (!(zephir_is_true(_0))) {
 		ZEPHIR_THROW_EXCEPTION_STR(phalcon_logger_exception_ce, "There is no active transaction");
@@ -491,7 +489,6 @@ PHP_METHOD(Phalcon_Logger_Adapter, log) {
 		zephir_update_property_array_append(this_ptr, SL("_queue"), _0 TSRMLS_CC);
 		RETURN_THIS();
 	}
-	ZEPHIR_INIT_ZVAL_NREF(_2);
 	_2 = zephir_fetch_nproperty_this(this_ptr, SL("_logLevel"), PH_NOISY_CC);
 	if (ZEPHIR_GE_LONG(_2, type)) {
 		ZEPHIR_INIT_NVAR(_1);

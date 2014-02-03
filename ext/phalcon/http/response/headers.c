@@ -129,7 +129,6 @@ PHP_METHOD(Phalcon_Http_Response_Headers, send) {
 	ZEPHIR_INIT_VAR(_0);
 	zephir_call_func(_0, "headers_sent");
 	if (!(zephir_is_true(_0))) {
-		ZEPHIR_INIT_ZVAL_NREF(_1);
 		_1 = zephir_fetch_nproperty_this(this_ptr, SL("_headers"), PH_NOISY_CC);
 		zephir_is_iterable(_1, &_3, &_2, 0, 0);
 		for (

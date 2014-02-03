@@ -238,7 +238,6 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, getOption) {
 	}
 
 
-	ZEPHIR_INIT_ZVAL_NREF(_0);
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_options"), PH_NOISY_CC);
 	if (zephir_array_isset_fetch(&value, _0, option, 1 TSRMLS_CC)) {
 		RETURN_CTOR(value);
@@ -503,7 +502,6 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, getUniquePrefix) {
 	ZEPHIR_OBS_VAR(prefix);
 	zephir_read_property_this(&prefix, this_ptr, SL("_prefix"), PH_NOISY_CC);
 	if (!(zephir_is_true(prefix))) {
-		ZEPHIR_INIT_ZVAL_NREF(_0);
 		_0 = zephir_fetch_nproperty_this(this_ptr, SL("_currentPath"), PH_NOISY_CC);
 		ZEPHIR_INIT_BNVAR(prefix);
 		zephir_call_func_p1(prefix, "md5", _0);
@@ -1173,7 +1171,6 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, expression) {
 	}
 	ZEPHIR_INIT_VAR(exprCode);
 	ZVAL_NULL(exprCode);
-	ZEPHIR_INIT_ZVAL_NREF(_0);
 	zephir_increment(_0);
 	extensions = zephir_fetch_nproperty_this(this_ptr, SL("_extensions"), PH_NOISY_CC);
 	while (1) {
@@ -1483,7 +1480,6 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, expression) {
 
 		break;
 	}
-	ZEPHIR_INIT_ZVAL_NREF(_25);
 	zephir_decrement(_25);
 	RETURN_CCTOR(exprCode);
 
@@ -1564,7 +1560,6 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compileForeach) {
 	ZVAL_STRING(compilation, "", 1);
 	ZEPHIR_INIT_VAR(forElse);
 	ZVAL_NULL(forElse);
-	ZEPHIR_INIT_ZVAL_NREF(_0);
 	zephir_increment(_0);
 	ZEPHIR_INIT_VAR(prefix);
 	zephir_call_method(prefix, this_ptr, "getuniqueprefix");
@@ -1692,7 +1687,6 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compileForeach) {
 			zephir_concat_self_str(&compilation, SL("<?php } ?>") TSRMLS_CC);
 		}
 	}
-	ZEPHIR_INIT_ZVAL_NREF(_13);
 	zephir_decrement(_13);
 	RETURN_CCTOR(compilation);
 
@@ -1709,10 +1703,8 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compileForElse) {
 
 
 	level = zephir_fetch_nproperty_this(this_ptr, SL("_foreachLevel"), PH_NOISY_CC);
-	ZEPHIR_INIT_ZVAL_NREF(_0);
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_forElsePointers"), PH_NOISY_CC);
 	if (zephir_array_isset_fetch(&prefix, _0, level, 1 TSRMLS_CC)) {
-		ZEPHIR_INIT_ZVAL_NREF(_1);
 		_1 = zephir_fetch_nproperty_this(this_ptr, SL("_loopPointers"), PH_NOISY_CC);
 		if (zephir_array_isset(_1, level)) {
 			ZEPHIR_CONCAT_SVSVS(return_value, "<?php $", prefix, "incr++; } if (!$", prefix, "iterated) { ?>");
@@ -2052,7 +2044,6 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compileEcho) {
 			}
 		}
 	}
-	ZEPHIR_INIT_ZVAL_NREF(_3);
 	_3 = zephir_fetch_nproperty_this(this_ptr, SL("_autoescape"), PH_NOISY_CC);
 	if (zephir_is_true(_3)) {
 		ZEPHIR_CONCAT_SVS(return_value, "<?php echo $this->escaper->escapeHtml(", exprCode, "); ?>");
@@ -2148,7 +2139,6 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compileMacro) {
 		ZEPHIR_THROW_EXCEPTION_STR(phalcon_mvc_view_exception_ce, "Corrupted statement");
 		return;
 	}
-	ZEPHIR_INIT_ZVAL_NREF(_0);
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_macros"), PH_NOISY_CC);
 	if (zephir_array_isset(_0, name)) {
 		ZEPHIR_INIT_VAR(_1);
@@ -2269,7 +2259,6 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, _statementList) {
 	}
 	blockMode = _0;
 	if ((blockMode == 1)) {
-		ZEPHIR_INIT_ZVAL_NREF(_1);
 		zephir_increment(_1);
 	}
 	zephir_increment(_1);
@@ -2636,7 +2625,6 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compileString) {
 	}
 
 
-	ZEPHIR_INIT_ZVAL_NREF(_0);
 	ZVAL_STRING(_0, "eval code", 1);
 	zephir_update_property_this(this_ptr, SL("_currentPath"), _0 TSRMLS_CC);
 	zephir_call_method_p2(return_value, this_ptr, "_compilesource", viewCode, (extendsMode ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false)));
@@ -2783,7 +2771,6 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compile) {
 	zephir_update_property_this(this_ptr, SL("_extended"), (0) ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
 	zephir_update_property_this(this_ptr, SL("_extendedBlocks"), (0) ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
 	zephir_update_property_this(this_ptr, SL("_blocks"), ZEPHIR_GLOBAL(global_null) TSRMLS_CC);
-	ZEPHIR_INIT_ZVAL_NREF(_0);
 	ZVAL_LONG(_0, 0);
 	zephir_update_property_this(this_ptr, SL("_level"), _0 TSRMLS_CC);
 	ZVAL_LONG(_0, 0);

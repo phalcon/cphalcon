@@ -234,7 +234,6 @@ PHP_METHOD(Phalcon_Mvc_Collection_Manager, isInitialized) {
 
 
 
-	ZEPHIR_INIT_ZVAL_NREF(_0);
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_initialized"), PH_NOISY_CC);
 	ZEPHIR_INIT_VAR(_1);
 	zephir_fast_strtolower(_1, modelName);
@@ -344,7 +343,6 @@ PHP_METHOD(Phalcon_Mvc_Collection_Manager, isUsingImplicitObjectIds) {
 		ZEPHIR_THROW_EXCEPTION_STR(phalcon_mvc_collection_exception_ce, "A valid collection instance is required");
 		return;
 	}
-	ZEPHIR_INIT_ZVAL_NREF(_0);
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_implicitObjectsIds"), PH_NOISY_CC);
 	ZEPHIR_INIT_VAR(_1);
 	zephir_get_class(_1, model, 0 TSRMLS_CC);

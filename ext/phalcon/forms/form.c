@@ -534,7 +534,6 @@ PHP_METHOD(Phalcon_Forms_Form, hasMessagesFor) {
 
 
 
-	ZEPHIR_INIT_ZVAL_NREF(_0);
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_messages"), PH_NOISY_CC);
 	RETURN_BOOL(zephir_array_isset(_0, name));
 
@@ -598,7 +597,6 @@ PHP_METHOD(Phalcon_Forms_Form, render) {
 	}
 
 
-	ZEPHIR_INIT_ZVAL_NREF(_0);
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_elements"), PH_NOISY_CC);
 	if (!(zephir_array_isset_fetch(&element, _0, name, 1 TSRMLS_CC))) {
 		ZEPHIR_INIT_VAR(_1);
@@ -642,7 +640,6 @@ PHP_METHOD(Phalcon_Forms_Form, get) {
 	}
 
 
-	ZEPHIR_INIT_ZVAL_NREF(_0);
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_elements"), PH_NOISY_CC);
 	if (zephir_array_isset_fetch(&element, _0, name, 1 TSRMLS_CC)) {
 		RETURN_CTOR(element);
@@ -685,7 +682,6 @@ PHP_METHOD(Phalcon_Forms_Form, label) {
 	}
 
 
-	ZEPHIR_INIT_ZVAL_NREF(_0);
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_elements"), PH_NOISY_CC);
 	if (zephir_array_isset_fetch(&element, _0, name, 1 TSRMLS_CC)) {
 		zephir_call_method(return_value, element, "label");
@@ -729,7 +725,6 @@ PHP_METHOD(Phalcon_Forms_Form, getLabel) {
 	}
 
 
-	ZEPHIR_INIT_ZVAL_NREF(_0);
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_elements"), PH_NOISY_CC);
 	if (!(zephir_array_isset_fetch(&element, _0, name, 1 TSRMLS_CC))) {
 		ZEPHIR_INIT_VAR(_1);
@@ -829,7 +824,6 @@ PHP_METHOD(Phalcon_Forms_Form, has) {
 	}
 
 
-	ZEPHIR_INIT_ZVAL_NREF(_0);
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_elements"), PH_NOISY_CC);
 	RETURN_MM_BOOL(zephir_array_isset(_0, name));
 
@@ -864,9 +858,7 @@ PHP_METHOD(Phalcon_Forms_Form, remove) {
 
 	elements = zephir_fetch_nproperty_this(this_ptr, SL("_elements"), PH_NOISY_CC);
 	if (zephir_array_isset(elements, name)) {
-		ZEPHIR_INIT_ZVAL_NREF(_0);
 		_0 = zephir_fetch_nproperty_this(this_ptr, SL("_elements"), PH_NOISY_CC);
-		ZEPHIR_INIT_ZVAL_NREF(_1);
 		_1 = zephir_fetch_nproperty_this(this_ptr, SL("_elements"), PH_NOISY_CC);
 		zephir_array_fetch(&_2, _1, name, PH_NOISY | PH_READONLY TSRMLS_CC);
 		zephir_array_unset(&_0, _2, PH_SEPARATE);
@@ -930,7 +922,6 @@ PHP_METHOD(Phalcon_Forms_Form, count) {
 	zval *_0;
 
 
-	ZEPHIR_INIT_ZVAL_NREF(_0);
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_elements"), PH_NOISY_CC);
 	RETURN_LONG(zephir_fast_count_int(_0 TSRMLS_CC));
 
@@ -945,7 +936,6 @@ PHP_METHOD(Phalcon_Forms_Form, rewind) {
 
 	ZEPHIR_MM_GROW();
 
-	ZEPHIR_INIT_ZVAL_NREF(_0);
 	ZVAL_LONG(_0, 0);
 	zephir_update_property_this(this_ptr, SL("_position"), _0 TSRMLS_CC);
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_elements"), PH_NOISY_CC);
@@ -966,9 +956,7 @@ PHP_METHOD(Phalcon_Forms_Form, current) {
 	zval *element, *_0, *_1;
 
 
-	ZEPHIR_INIT_ZVAL_NREF(_0);
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_elementsIndexed"), PH_NOISY_CC);
-	ZEPHIR_INIT_ZVAL_NREF(_1);
 	_1 = zephir_fetch_nproperty_this(this_ptr, SL("_position"), PH_NOISY_CC);
 	if (zephir_array_isset_fetch(&element, _0, _1, 1 TSRMLS_CC)) {
 		RETURN_CTORW(element);
@@ -998,7 +986,6 @@ PHP_METHOD(Phalcon_Forms_Form, next) {
 	zval *_0;
 
 
-	ZEPHIR_INIT_ZVAL_NREF(_0);
 	zephir_increment(_0);
 
 }
@@ -1013,9 +1000,7 @@ PHP_METHOD(Phalcon_Forms_Form, valid) {
 	zval *_0, *_1;
 
 
-	ZEPHIR_INIT_ZVAL_NREF(_0);
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_elementsIndexed"), PH_NOISY_CC);
-	ZEPHIR_INIT_ZVAL_NREF(_1);
 	_1 = zephir_fetch_nproperty_this(this_ptr, SL("_position"), PH_NOISY_CC);
 	RETURN_BOOL(zephir_array_isset(_0, _1));
 

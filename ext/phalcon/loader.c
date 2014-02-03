@@ -395,7 +395,6 @@ PHP_METHOD(Phalcon_Loader, register) {
 
 	ZEPHIR_MM_GROW();
 
-	ZEPHIR_INIT_ZVAL_NREF(_0);
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_registered"), PH_NOISY_CC);
 	if (ZEPHIR_IS_FALSE(_0)) {
 		ZEPHIR_INIT_VAR(_1);
@@ -423,7 +422,6 @@ PHP_METHOD(Phalcon_Loader, unregister) {
 
 	ZEPHIR_MM_GROW();
 
-	ZEPHIR_INIT_ZVAL_NREF(_0);
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_registered"), PH_NOISY_CC);
 	if (ZEPHIR_IS_TRUE(_0)) {
 		ZEPHIR_INIT_VAR(_1);

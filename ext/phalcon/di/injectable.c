@@ -167,7 +167,6 @@ PHP_METHOD(Phalcon_Di_Injectable, __get) {
 	}
 
 
-	ZEPHIR_INIT_ZVAL_NREF(_0);
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
 	ZEPHIR_CPY_WRT(dependencyInjector, _0);
 	if ((Z_TYPE_P(dependencyInjector) != IS_OBJECT)) {

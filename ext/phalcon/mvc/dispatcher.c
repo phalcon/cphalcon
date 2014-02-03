@@ -240,7 +240,6 @@ PHP_METHOD(Phalcon_Mvc_Dispatcher, _throwDispatchException) {
 	ZEPHIR_INIT_NVAR(_1);
 	ZVAL_LONG(_1, exceptionCode);
 	zephir_call_method_p2_noret(exception, "__construct", message, _1);
-	ZEPHIR_INIT_ZVAL_NREF(_3);
 	_3 = zephir_fetch_nproperty_this(this_ptr, SL("_eventsManager"), PH_NOISY_CC);
 	ZEPHIR_CPY_WRT(eventsManager, _3);
 	if ((Z_TYPE_P(eventsManager) == IS_OBJECT)) {

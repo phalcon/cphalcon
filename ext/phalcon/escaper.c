@@ -121,7 +121,6 @@ PHP_METHOD(Phalcon_Escaper, setHtmlQuoteType) {
 		quoteType = zephir_get_intval(quoteType_param);
 
 
-	ZEPHIR_INIT_ZVAL_NREF(_0);
 	ZVAL_LONG(_0, quoteType);
 	zephir_update_property_zval(this_ptr, SL("_htmlQuoteType"), _0 TSRMLS_CC);
 
@@ -230,9 +229,7 @@ PHP_METHOD(Phalcon_Escaper, escapeHtml) {
 		zephir_get_strval(text, text_param);
 
 
-	ZEPHIR_INIT_ZVAL_NREF(_0);
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_htmlQuoteType"), PH_NOISY_CC);
-	ZEPHIR_INIT_ZVAL_NREF(_1);
 	_1 = zephir_fetch_nproperty_this(this_ptr, SL("_encoding"), PH_NOISY_CC);
 	zephir_call_func_p3(return_value, "htmlspecialchars", text, _0, _1);
 	RETURN_MM();
@@ -256,7 +253,6 @@ PHP_METHOD(Phalcon_Escaper, escapeHtmlAttr) {
 		zephir_get_strval(attribute, attribute_param);
 
 
-	ZEPHIR_INIT_ZVAL_NREF(_0);
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_encoding"), PH_NOISY_CC);
 	ZEPHIR_SINIT_VAR(_1);
 	ZVAL_LONG(&_1, 3);

@@ -203,7 +203,6 @@ PHP_METHOD(Phalcon_Cache_Backend_Mongo, get) {
 	ZEPHIR_INIT_VAR(conditions);
 	array_init(conditions);
 	frontend = zephir_fetch_nproperty_this(this_ptr, SL("_frontend"), PH_NOISY_CC);
-	ZEPHIR_INIT_ZVAL_NREF(_0);
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_prefix"), PH_NOISY_CC);
 	ZEPHIR_INIT_VAR(prefixedKey);
 	ZEPHIR_CONCAT_VV(prefixedKey, _0, keyName);
@@ -367,7 +366,6 @@ PHP_METHOD(Phalcon_Cache_Backend_Mongo, delete) {
 	zephir_call_method(_0, this_ptr, "_getcollection");
 	ZEPHIR_INIT_VAR(_1);
 	array_init_size(_1, 2);
-	ZEPHIR_INIT_ZVAL_NREF(_2);
 	_2 = zephir_fetch_nproperty_this(this_ptr, SL("_prefix"), PH_NOISY_CC);
 	ZEPHIR_INIT_VAR(_3);
 	ZEPHIR_CONCAT_VV(_3, _2, keyName);
@@ -482,7 +480,6 @@ PHP_METHOD(Phalcon_Cache_Backend_Mongo, exists) {
 	if ((Z_TYPE_P(keyName) == IS_NULL)) {
 		zephir_read_property_this(&lastKey, this_ptr, SL("_lastKey"), PH_NOISY_CC);
 	} else {
-		ZEPHIR_INIT_ZVAL_NREF(_1);
 		_1 = zephir_fetch_nproperty_this(this_ptr, SL("_prefix"), PH_NOISY_CC);
 		ZEPHIR_CONCAT_VV(lastKey, _1, keyName);
 	}

@@ -98,7 +98,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Behavior, mustTakeAction) {
 	}
 
 
-	ZEPHIR_INIT_ZVAL_NREF(_0);
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_options"), PH_NOISY_CC);
 	RETURN_MM_BOOL(zephir_array_isset(_0, eventName));
 

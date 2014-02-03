@@ -190,7 +190,6 @@ PHP_METHOD(Phalcon_Logger_Formatter_Line, format) {
 	zephir_read_property_this(&format, this_ptr, SL("_format"), PH_NOISY_CC);
 	if (zephir_memnstr_str(format, SL("%date%"), "phalcon/logger/formatter/line.zep", 77)) {
 		ZEPHIR_INIT_VAR(_0);
-		ZEPHIR_INIT_ZVAL_NREF(_1);
 		_1 = zephir_fetch_nproperty_this(this_ptr, SL("_dateFormat"), PH_NOISY_CC);
 		ZEPHIR_SINIT_VAR(_2);
 		ZVAL_LONG(&_2, timestamp);

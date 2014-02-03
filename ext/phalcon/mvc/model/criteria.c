@@ -92,7 +92,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, getDI) {
 	zval *dependencyInjector, *_0;
 
 
-	ZEPHIR_INIT_ZVAL_NREF(_0);
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_params"), PH_NOISY_CC);
 	if (zephir_array_isset_string_fetch(&dependencyInjector, _0, SS("di"), 1 TSRMLS_CC)) {
 		RETURN_CTORW(dependencyInjector);

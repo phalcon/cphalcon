@@ -116,7 +116,6 @@ PHP_METHOD(Phalcon_Events_Manager, attach) {
 	ZEPHIR_OBS_VAR(priorityQueue);
 	if (zephir_array_isset_fetch(&priorityQueue, events, eventType, 0 TSRMLS_CC)) {
 		ZEPHIR_INIT_BNVAR(priorityQueue);
-		ZEPHIR_INIT_ZVAL_NREF(_0);
 		_0 = zephir_fetch_nproperty_this(this_ptr, SL("_enablePriorities"), PH_NOISY_CC);
 		if (zephir_is_true(_0)) {
 			_1 = zend_fetch_class(SL("SplPriorityQueue"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
@@ -478,7 +477,6 @@ PHP_METHOD(Phalcon_Events_Manager, fire) {
 	zephir_array_fetch_long(&eventName, eventParts, 1, PH_NOISY | PH_READONLY TSRMLS_CC);
 	ZEPHIR_INIT_VAR(status);
 	ZVAL_NULL(status);
-	ZEPHIR_INIT_ZVAL_NREF(_2);
 	_2 = zephir_fetch_nproperty_this(this_ptr, SL("_collect"), PH_NOISY_CC);
 	if (zephir_is_true(_2)) {
 		zephir_update_property_this(this_ptr, SL("_responses"), ZEPHIR_GLOBAL(global_null) TSRMLS_CC);
@@ -546,7 +544,6 @@ PHP_METHOD(Phalcon_Events_Manager, hasListeners) {
 	}
 
 
-	ZEPHIR_INIT_ZVAL_NREF(_0);
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_events"), PH_NOISY_CC);
 	RETURN_MM_BOOL(zephir_array_isset(_0, type));
 

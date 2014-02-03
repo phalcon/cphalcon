@@ -204,7 +204,6 @@ PHP_METHOD(Phalcon_Mvc_Model, setEventsManager) {
 
 
 
-	ZEPHIR_INIT_ZVAL_NREF(_0);
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_modelsManager"), PH_NOISY_CC);
 	zephir_call_method_p2_noret(_0, "setcustomeventsmanager", this_ptr, eventsManager);
 	ZEPHIR_MM_RESTORE();
@@ -222,7 +221,6 @@ PHP_METHOD(Phalcon_Mvc_Model, getEventsManager) {
 
 	ZEPHIR_MM_GROW();
 
-	ZEPHIR_INIT_ZVAL_NREF(_0);
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_modelsManager"), PH_NOISY_CC);
 	zephir_call_method_p1(return_value, _0, "getcustomeventsmanager", this_ptr);
 	RETURN_MM();
@@ -243,7 +241,6 @@ PHP_METHOD(Phalcon_Mvc_Model, getModelsMetaData) {
 	ZEPHIR_OBS_VAR(metaData);
 	zephir_read_property_this(&metaData, this_ptr, SL("_modelsMetaData"), PH_NOISY_CC);
 	if ((Z_TYPE_P(metaData) != IS_OBJECT)) {
-		ZEPHIR_INIT_ZVAL_NREF(_0);
 		_0 = zephir_fetch_nproperty_this(this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
 		ZEPHIR_CPY_WRT(dependencyInjector, _0);
 		if ((Z_TYPE_P(dependencyInjector) != IS_OBJECT)) {
@@ -360,7 +357,6 @@ PHP_METHOD(Phalcon_Mvc_Model, setSource) {
 	}
 
 
-	ZEPHIR_INIT_ZVAL_NREF(_0);
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_modelsManager"), PH_NOISY_CC);
 	zephir_call_method_p2_noret(_0, "setmodelsource", this_ptr, source);
 	RETURN_THIS();
@@ -378,7 +374,6 @@ PHP_METHOD(Phalcon_Mvc_Model, getSource) {
 
 	ZEPHIR_MM_GROW();
 
-	ZEPHIR_INIT_ZVAL_NREF(_0);
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_modelsManager"), PH_NOISY_CC);
 	zephir_call_method_p1(return_value, _0, "getmodelsource", this_ptr);
 	RETURN_MM();
@@ -412,7 +407,6 @@ PHP_METHOD(Phalcon_Mvc_Model, setSchema) {
 	}
 
 
-	ZEPHIR_INIT_ZVAL_NREF(_0);
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_modelsManager"), PH_NOISY_CC);
 	zephir_call_method_p2(return_value, _0, "setmodelschema", this_ptr, schema);
 	RETURN_MM();
@@ -430,7 +424,6 @@ PHP_METHOD(Phalcon_Mvc_Model, getSchema) {
 
 	ZEPHIR_MM_GROW();
 
-	ZEPHIR_INIT_ZVAL_NREF(_0);
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_modelsManager"), PH_NOISY_CC);
 	zephir_call_method_p1(return_value, _0, "getmodelschema", this_ptr);
 	RETURN_MM();
@@ -464,7 +457,6 @@ PHP_METHOD(Phalcon_Mvc_Model, setConnectionService) {
 	}
 
 
-	ZEPHIR_INIT_ZVAL_NREF(_0);
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_modelsManager"), PH_NOISY_CC);
 	zephir_call_method_p2_noret(_0, "setconnectionservice", this_ptr, connectionService);
 	RETURN_THIS();
@@ -498,7 +490,6 @@ PHP_METHOD(Phalcon_Mvc_Model, setReadConnectionService) {
 	}
 
 
-	ZEPHIR_INIT_ZVAL_NREF(_0);
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_modelsManager"), PH_NOISY_CC);
 	zephir_call_method_p2_noret(_0, "setreadconnectionservice", this_ptr, connectionService);
 	RETURN_THIS();
@@ -532,7 +523,6 @@ PHP_METHOD(Phalcon_Mvc_Model, setWriteConnectionService) {
 	}
 
 
-	ZEPHIR_INIT_ZVAL_NREF(_0);
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_modelsManager"), PH_NOISY_CC);
 	zephir_call_method_p2(return_value, _0, "setwriteconnectionservice", this_ptr, connectionService);
 	RETURN_MM();
@@ -550,7 +540,6 @@ PHP_METHOD(Phalcon_Mvc_Model, getReadConnectionService) {
 
 	ZEPHIR_MM_GROW();
 
-	ZEPHIR_INIT_ZVAL_NREF(_0);
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_modelsManager"), PH_NOISY_CC);
 	zephir_call_method_p1(return_value, _0, "getreadconnectionservice", this_ptr);
 	RETURN_MM();
@@ -568,7 +557,6 @@ PHP_METHOD(Phalcon_Mvc_Model, getWriteConnectionService) {
 
 	ZEPHIR_MM_GROW();
 
-	ZEPHIR_INIT_ZVAL_NREF(_0);
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_modelsManager"), PH_NOISY_CC);
 	zephir_call_method_p1(return_value, _0, "getwriteconnectionservice", this_ptr);
 	RETURN_MM();
@@ -591,7 +579,6 @@ PHP_METHOD(Phalcon_Mvc_Model, setDirtyState) {
 		dirtyState = zephir_get_intval(dirtyState_param);
 
 
-	ZEPHIR_INIT_ZVAL_NREF(_0);
 	ZVAL_LONG(_0, dirtyState);
 	zephir_update_property_zval(this_ptr, SL("_dirtyState"), _0 TSRMLS_CC);
 	RETURN_THISW();
@@ -621,7 +608,6 @@ PHP_METHOD(Phalcon_Mvc_Model, getReadConnection) {
 
 	ZEPHIR_MM_GROW();
 
-	ZEPHIR_INIT_ZVAL_NREF(_0);
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_modelsManager"), PH_NOISY_CC);
 	zephir_call_method_p1(return_value, _0, "getreadconnection", this_ptr);
 	RETURN_MM();
@@ -639,7 +625,6 @@ PHP_METHOD(Phalcon_Mvc_Model, getWriteConnection) {
 
 	ZEPHIR_MM_GROW();
 
-	ZEPHIR_INIT_ZVAL_NREF(_0);
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_transaction"), PH_NOISY_CC);
 	ZEPHIR_CPY_WRT(transaction, _0);
 	if ((Z_TYPE_P(transaction) == IS_OBJECT)) {
@@ -1242,7 +1227,6 @@ PHP_METHOD(Phalcon_Mvc_Model, _exists) {
 		zephir_update_property_this(this_ptr, SL("_uniqueTypes"), uniqueTypes TSRMLS_CC);
 		ZEPHIR_CPY_WRT(uniqueKey, joinWhere);
 	}
-	ZEPHIR_INIT_ZVAL_NREF(_9);
 	_9 = zephir_fetch_nproperty_this(this_ptr, SL("_dirtyState"), PH_NOISY_CC);
 	if (!(zephir_is_true(_9))) {
 		RETURN_MM_BOOL(1);
@@ -1279,7 +1263,6 @@ PHP_METHOD(Phalcon_Mvc_Model, _exists) {
 	zephir_call_method_p4(num, connection, "fetchone", _10, ZEPHIR_GLOBAL(global_null), uniqueParams, uniqueTypes);
 	zephir_array_fetch_string(&_11, num, SL("rowcount"), PH_NOISY | PH_READONLY TSRMLS_CC);
 	if (zephir_is_true(_11)) {
-		ZEPHIR_INIT_ZVAL_NREF(_12);
 		ZVAL_LONG(_12, 0);
 		zephir_update_property_this(this_ptr, SL("_dirtyState"), _12 TSRMLS_CC);
 		RETURN_MM_BOOL(1);
@@ -1614,7 +1597,6 @@ PHP_METHOD(Phalcon_Mvc_Model, fireEvent) {
 	if ((zephir_method_exists(this_ptr, eventName TSRMLS_CC)  == SUCCESS)) {
 		zephir_call_method_zval_noret(this_ptr, eventName);
 	}
-	ZEPHIR_INIT_ZVAL_NREF(_0);
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_modelsManager"), PH_NOISY_CC);
 	ZEPHIR_CPY_WRT(modelsManager, _0);
 	zephir_call_method_p2(return_value, modelsManager, "notifyevent", eventName, this_ptr);
@@ -1657,7 +1639,6 @@ PHP_METHOD(Phalcon_Mvc_Model, fireEventCancel) {
 			RETURN_MM_BOOL(0);
 		}
 	}
-	ZEPHIR_INIT_ZVAL_NREF(_1);
 	_1 = zephir_fetch_nproperty_this(this_ptr, SL("_modelsManager"), PH_NOISY_CC);
 	ZEPHIR_CPY_WRT(modelsManager, _1);
 	ZEPHIR_INIT_NVAR(_0);
@@ -1679,7 +1660,6 @@ PHP_METHOD(Phalcon_Mvc_Model, _cancelOperation) {
 
 	ZEPHIR_MM_GROW();
 
-	ZEPHIR_INIT_ZVAL_NREF(_0);
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_operationMade"), PH_NOISY_CC);
 	if (ZEPHIR_IS_LONG(_0, 3)) {
 		ZEPHIR_INIT_VAR(_1);
@@ -1872,7 +1852,6 @@ PHP_METHOD(Phalcon_Mvc_Model, _checkForeignKeysRestrict) {
 
 	ZEPHIR_MM_GROW();
 
-	ZEPHIR_INIT_ZVAL_NREF(_0);
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_modelsManager"), PH_NOISY_CC);
 	ZEPHIR_CPY_WRT(manager, _0);
 	ZEPHIR_INIT_VAR(belongsTo);
@@ -1992,7 +1971,6 @@ PHP_METHOD(Phalcon_Mvc_Model, _checkForeignKeysReverseCascade) {
 
 	ZEPHIR_MM_GROW();
 
-	ZEPHIR_INIT_ZVAL_NREF(_0);
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_modelsManager"), PH_NOISY_CC);
 	ZEPHIR_CPY_WRT(manager, _0);
 	ZEPHIR_INIT_VAR(relations);
@@ -2387,7 +2365,6 @@ PHP_METHOD(Phalcon_Mvc_Model, _preSave) {
 				RETURN_MM_BOOL(0);
 			}
 		}
-		ZEPHIR_INIT_ZVAL_NREF(_11);
 		_11 = zephir_fetch_nproperty_this(this_ptr, SL("_skipped"), PH_NOISY_CC);
 		if (ZEPHIR_IS_TRUE(_11)) {
 			RETURN_MM_BOOL(1);
@@ -3122,7 +3099,6 @@ PHP_METHOD(Phalcon_Mvc_Model, save) {
 	ZEPHIR_INIT_VAR(exists);
 	zephir_call_method_p3(exists, this_ptr, "_exists", metaData, readConnection, table);
 	if (zephir_is_true(exists)) {
-		ZEPHIR_INIT_ZVAL_NREF(_4);
 		ZVAL_LONG(_4, 2);
 		zephir_update_property_this(this_ptr, SL("_operationMade"), _4 TSRMLS_CC);
 	} else {
@@ -3388,7 +3364,6 @@ PHP_METHOD(Phalcon_Mvc_Model, update) {
 			}
 		}
 	}
-	ZEPHIR_INIT_ZVAL_NREF(_7);
 	_7 = zephir_fetch_nproperty_this(this_ptr, SL("_dirtyState"), PH_NOISY_CC);
 	if (zephir_is_true(_7)) {
 		if ((Z_TYPE_P(metaData) == IS_NULL)) {
@@ -3446,7 +3421,6 @@ PHP_METHOD(Phalcon_Mvc_Model, delete) {
 	zephir_call_method(metaData, this_ptr, "getmodelsmetadata");
 	ZEPHIR_INIT_VAR(writeConnection);
 	zephir_call_method(writeConnection, this_ptr, "getwriteconnection");
-	ZEPHIR_INIT_ZVAL_NREF(_0);
 	ZVAL_LONG(_0, 3);
 	zephir_update_property_this(this_ptr, SL("_operationMade"), _0 TSRMLS_CC);
 	ZEPHIR_INIT_VAR(_1);
@@ -3573,7 +3547,6 @@ PHP_METHOD(Phalcon_Mvc_Model, delete) {
 			zephir_call_method_p1_noret(this_ptr, "fireevent", _2);
 		}
 	}
-	ZEPHIR_INIT_ZVAL_NREF(_13);
 	ZVAL_LONG(_13, 2);
 	zephir_update_property_this(this_ptr, SL("_dirtyState"), _13 TSRMLS_CC);
 	RETURN_CCTOR(success);
@@ -3605,7 +3578,6 @@ PHP_METHOD(Phalcon_Mvc_Model, refresh) {
 
 	ZEPHIR_MM_GROW();
 
-	ZEPHIR_INIT_ZVAL_NREF(_0);
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_dirtyState"), PH_NOISY_CC);
 	if (!ZEPHIR_IS_LONG(_0, 0)) {
 		ZEPHIR_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "The record cannot be refreshed because it does not exist or is deleted");
@@ -3670,7 +3642,6 @@ PHP_METHOD(Phalcon_Mvc_Model, refresh) {
 	zephir_array_update_string(&_5, SL("tables"), &_6, PH_COPY | PH_SEPARATE);
 	zephir_array_update_string(&_5, SL("where"), &uniqueKey, PH_COPY | PH_SEPARATE);
 	zephir_call_method_p1(_1, dialect, "select", _5);
-	ZEPHIR_INIT_ZVAL_NREF(_7);
 	_7 = zephir_fetch_nproperty_this(this_ptr, SL("_uniqueTypes"), PH_NOISY_CC);
 	ZEPHIR_INIT_BNVAR(_6);
 	ZVAL_LONG(_6, 1);
@@ -4352,7 +4323,6 @@ PHP_METHOD(Phalcon_Mvc_Model, hasChanged) {
 		ZEPHIR_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "The record doesn't have a valid data snapshot");
 		return;
 	}
-	ZEPHIR_INIT_ZVAL_NREF(_0);
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_dirtyState"), PH_NOISY_CC);
 	if (!ZEPHIR_IS_LONG(_0, 0)) {
 		ZEPHIR_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Change checking cannot be performed because the object has not been persisted or is deleted");
@@ -4457,7 +4427,6 @@ PHP_METHOD(Phalcon_Mvc_Model, getChangedFields) {
 		ZEPHIR_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "The record doesn't have a valid data snapshot");
 		return;
 	}
-	ZEPHIR_INIT_ZVAL_NREF(_0);
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_dirtyState"), PH_NOISY_CC);
 	if (!ZEPHIR_IS_LONG(_0, 0)) {
 		ZEPHIR_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Change checking cannot be performed because the object has not been persisted or is deleted");
@@ -4830,7 +4799,6 @@ PHP_METHOD(Phalcon_Mvc_Model, __set) {
 			zephir_fast_strtolower(lowerProperty, property);
 			zephir_update_property_zval_zval(this_ptr, lowerProperty, value TSRMLS_CC);
 			zephir_update_property_array(this_ptr, SL("_related"), lowerProperty, value TSRMLS_CC);
-			ZEPHIR_INIT_ZVAL_NREF(_0);
 			ZVAL_LONG(_0, 1);
 			zephir_update_property_this(this_ptr, SL("_dirtyState"), _0 TSRMLS_CC);
 			RETURN_CCTOR(value);

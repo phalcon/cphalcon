@@ -82,7 +82,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Complex, __construct) {
 	if ((Z_TYPE_P(cache) != IS_NULL)) {
 		zephir_update_property_this(this_ptr, SL("_cache"), cache TSRMLS_CC);
 	}
-	ZEPHIR_INIT_ZVAL_NREF(_0);
 	ZVAL_LONG(_0, 1);
 	zephir_update_property_this(this_ptr, SL("_type"), _0 TSRMLS_CC);
 	if ((Z_TYPE_P(result) == IS_OBJECT)) {
@@ -109,7 +108,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Complex, valid) {
 
 	ZEPHIR_MM_GROW();
 
-	ZEPHIR_INIT_ZVAL_NREF(_0);
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_type"), PH_NOISY_CC);
 	if (zephir_is_true(_0)) {
 		result = zephir_fetch_nproperty_this(this_ptr, SL("_result"), PH_NOISY_CC);
@@ -140,7 +138,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Complex, valid) {
 		_1 = (Z_TYPE_P(row) == IS_ARRAY);
 	}
 	if (_1) {
-		ZEPHIR_INIT_ZVAL_NREF(_2);
 		_2 = zephir_fetch_nproperty_this(this_ptr, SL("_type"), PH_NOISY_CC);
 		if (zephir_is_true(_2)) {
 			hydrateMode = zephir_fetch_nproperty_this(this_ptr, SL("_hydrateMode"), PH_NOISY_CC);
@@ -331,7 +328,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Complex, unserialize) {
 
 
 
-	ZEPHIR_INIT_ZVAL_NREF(_0);
 	ZVAL_LONG(_0, 0);
 	zephir_update_property_this(this_ptr, SL("_type"), _0 TSRMLS_CC);
 	ZEPHIR_INIT_VAR(resultset);

@@ -161,7 +161,6 @@ PHP_METHOD(Phalcon_Http_Request, get) {
 				ZEPHIR_OBS_VAR(filter);
 				zephir_read_property_this(&filter, this_ptr, SL("_filter"), PH_NOISY_CC);
 				if ((Z_TYPE_P(filter) != IS_OBJECT)) {
-					ZEPHIR_INIT_ZVAL_NREF(_0);
 					_0 = zephir_fetch_nproperty_this(this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
 					ZEPHIR_CPY_WRT(dependencyInjector, _0);
 					if ((Z_TYPE_P(dependencyInjector) != IS_OBJECT)) {
@@ -244,7 +243,6 @@ PHP_METHOD(Phalcon_Http_Request, getPost) {
 				ZEPHIR_OBS_VAR(filter);
 				zephir_read_property_this(&filter, this_ptr, SL("_filter"), PH_NOISY_CC);
 				if ((Z_TYPE_P(filter) != IS_OBJECT)) {
-					ZEPHIR_INIT_ZVAL_NREF(_0);
 					_0 = zephir_fetch_nproperty_this(this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
 					ZEPHIR_CPY_WRT(dependencyInjector, _0);
 					if ((Z_TYPE_P(dependencyInjector) != IS_OBJECT)) {
@@ -330,7 +328,6 @@ PHP_METHOD(Phalcon_Http_Request, getQuery) {
 				ZEPHIR_OBS_VAR(filter);
 				zephir_read_property_this(&filter, this_ptr, SL("_filter"), PH_NOISY_CC);
 				if ((Z_TYPE_P(filter) != IS_OBJECT)) {
-					ZEPHIR_INIT_ZVAL_NREF(_0);
 					_0 = zephir_fetch_nproperty_this(this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
 					ZEPHIR_CPY_WRT(dependencyInjector, _0);
 					if ((Z_TYPE_P(dependencyInjector) != IS_OBJECT)) {

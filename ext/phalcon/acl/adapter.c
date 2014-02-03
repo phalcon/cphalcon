@@ -155,7 +155,6 @@ PHP_METHOD(Phalcon_Acl_Adapter, setDefaultAction) {
 		defaultAccess = zephir_get_intval(defaultAccess_param);
 
 
-	ZEPHIR_INIT_ZVAL_NREF(_0);
 	ZVAL_LONG(_0, defaultAccess);
 	zephir_update_property_zval(this_ptr, SL("_defaultAccess"), _0 TSRMLS_CC);
 

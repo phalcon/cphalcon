@@ -173,7 +173,6 @@ PHP_METHOD(Phalcon_Cache_Frontend_Output, getContent) {
 
 	ZEPHIR_MM_GROW();
 
-	ZEPHIR_INIT_ZVAL_NREF(_0);
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_buffering"), PH_NOISY_CC);
 	if (zephir_is_true(_0)) {
 		zephir_call_func(return_value, "ob_get_contents");
@@ -192,7 +191,6 @@ PHP_METHOD(Phalcon_Cache_Frontend_Output, stop) {
 
 	ZEPHIR_MM_GROW();
 
-	ZEPHIR_INIT_ZVAL_NREF(_0);
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_buffering"), PH_NOISY_CC);
 	if (zephir_is_true(_0)) {
 		zephir_call_func(return_value, "ob_end_clean");

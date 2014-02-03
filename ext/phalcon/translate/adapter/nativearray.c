@@ -118,7 +118,6 @@ PHP_METHOD(Phalcon_Translate_Adapter_NativeArray, query) {
 
 
 	ZEPHIR_OBS_VAR(traslation);
-	ZEPHIR_INIT_ZVAL_NREF(_0);
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_translate"), PH_NOISY_CC);
 	if (zephir_array_isset_fetch(&traslation, _0, index, 0 TSRMLS_CC)) {
 		if ((Z_TYPE_P(placeholders) == IS_ARRAY)) {
@@ -171,7 +170,6 @@ PHP_METHOD(Phalcon_Translate_Adapter_NativeArray, exists) {
 	}
 
 
-	ZEPHIR_INIT_ZVAL_NREF(_0);
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_translate"), PH_NOISY_CC);
 	RETURN_MM_BOOL(zephir_array_isset(_0, index));
 

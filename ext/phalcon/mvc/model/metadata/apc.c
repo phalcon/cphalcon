@@ -126,7 +126,6 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Apc, read) {
 	}
 
 
-	ZEPHIR_INIT_ZVAL_NREF(_0);
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_prefix"), PH_NOISY_CC);
 	ZEPHIR_INIT_VAR(_1);
 	ZEPHIR_CONCAT_SVV(_1, "$PMM$", _0, key);
@@ -166,11 +165,9 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Apc, write) {
 	}
 
 
-	ZEPHIR_INIT_ZVAL_NREF(_0);
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_prefix"), PH_NOISY_CC);
 	ZEPHIR_INIT_VAR(_1);
 	ZEPHIR_CONCAT_SVV(_1, "$PMM$", _0, key);
-	ZEPHIR_INIT_ZVAL_NREF(_2);
 	_2 = zephir_fetch_nproperty_this(this_ptr, SL("_ttl"), PH_NOISY_CC);
 	zephir_call_func_p3_noret("apc_store", _1, data, _2);
 	ZEPHIR_MM_RESTORE();

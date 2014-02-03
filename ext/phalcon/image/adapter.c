@@ -200,9 +200,7 @@ PHP_METHOD(Phalcon_Image_Adapter, resize) {
 					ZEPHIR_THROW_EXCEPTION_STR(phalcon_image_exception_ce, "width must be specified");
 					return;
 				}
-				ZEPHIR_INIT_ZVAL_NREF(_2);
 				_2 = zephir_fetch_nproperty_this(this_ptr, SL("_height"), PH_NOISY_CC);
-				ZEPHIR_INIT_ZVAL_NREF(_3);
 				_3 = zephir_fetch_nproperty_this(this_ptr, SL("_width"), PH_NOISY_CC);
 				height = ((zephir_get_numberval(_2) * width) / zephir_get_numberval(_3));
 				break;
@@ -236,9 +234,7 @@ PHP_METHOD(Phalcon_Image_Adapter, resize) {
 					_3 = zephir_fetch_nproperty_this(this_ptr, SL("_width"), PH_NOISY_CC);
 					height = ((zephir_get_numberval(_2) * width) / zephir_get_numberval(_3));
 				} else {
-					ZEPHIR_INIT_ZVAL_NREF(_5);
 					_5 = zephir_fetch_nproperty_this(this_ptr, SL("_width"), PH_NOISY_CC);
-					ZEPHIR_INIT_ZVAL_NREF(_6);
 					_6 = zephir_fetch_nproperty_this(this_ptr, SL("_height"), PH_NOISY_CC);
 					width = ((zephir_get_numberval(_5) * height) / zephir_get_numberval(_6));
 				}
@@ -319,15 +315,13 @@ PHP_METHOD(Phalcon_Image_Adapter, crop) {
 
 
 	if (!(offset_x)) {
-		ZEPHIR_INIT_ZVAL_NREF(_0);
 		_0 = zephir_fetch_nproperty_this(this_ptr, SL("_width"), PH_NOISY_CC);
-		offset_x = ((zephir_get_numberval(_0) - width) / 2);
+		offset_x = ((((zephir_get_numberval(_0) - width)) / 2));
 	} else {
 		if ((offset_x < 0)) {
 			_0 = zephir_fetch_nproperty_this(this_ptr, SL("_width"), PH_NOISY_CC);
 			offset_x = ((zephir_get_numberval(_0) - width) + offset_x);
 		}
-		ZEPHIR_INIT_ZVAL_NREF(_1);
 		_1 = zephir_fetch_nproperty_this(this_ptr, SL("_width"), PH_NOISY_CC);
 		if (ZEPHIR_LT_LONG(_1, offset_x)) {
 			ZEPHIR_OBS_VAR(_2);
@@ -501,7 +495,6 @@ PHP_METHOD(Phalcon_Image_Adapter, reflection) {
 
 	_0 = (height <= 0);
 	if (!(_0)) {
-		ZEPHIR_INIT_ZVAL_NREF(_1);
 		_1 = zephir_fetch_nproperty_this(this_ptr, SL("_height"), PH_NOISY_CC);
 		_0 = ZEPHIR_LT_LONG(_1, height);
 	}
@@ -560,7 +553,6 @@ PHP_METHOD(Phalcon_Image_Adapter, watermark) {
 	}
 
 
-	ZEPHIR_INIT_ZVAL_NREF(_0);
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_width"), PH_NOISY_CC);
 	ZEPHIR_INIT_VAR(_1);
 	zephir_call_method(_1, watermark, "getwidth");
@@ -934,7 +926,6 @@ PHP_METHOD(Phalcon_Image_Adapter, render) {
 
 
 	if (!(ext && Z_STRLEN_P(ext))) {
-		ZEPHIR_INIT_ZVAL_NREF(_0);
 		_0 = zephir_fetch_nproperty_this(this_ptr, SL("_file"), PH_NOISY_CC);
 		ZEPHIR_SINIT_VAR(_1);
 		ZVAL_LONG(&_1, 4);

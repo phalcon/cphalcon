@@ -160,7 +160,6 @@ PHP_METHOD(Phalcon_Cache_Multiple, get) {
 	}
 
 
-	ZEPHIR_INIT_ZVAL_NREF(_0);
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_backends"), PH_NOISY_CC);
 	zephir_is_iterable(_0, &_2, &_1, 0, 0);
 	for (
@@ -198,7 +197,6 @@ PHP_METHOD(Phalcon_Cache_Multiple, start) {
 	}
 
 
-	ZEPHIR_INIT_ZVAL_NREF(_0);
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_backends"), PH_NOISY_CC);
 	zephir_is_iterable(_0, &_2, &_1, 0, 0);
 	for (
@@ -243,7 +241,6 @@ PHP_METHOD(Phalcon_Cache_Multiple, save) {
 	}
 
 
-	ZEPHIR_INIT_ZVAL_NREF(_0);
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_backends"), PH_NOISY_CC);
 	zephir_is_iterable(_0, &_2, &_1, 0, 0);
 	for (
@@ -274,7 +271,6 @@ PHP_METHOD(Phalcon_Cache_Multiple, delete) {
 
 
 
-	ZEPHIR_INIT_ZVAL_NREF(_0);
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_backends"), PH_NOISY_CC);
 	zephir_is_iterable(_0, &_2, &_1, 0, 0);
 	for (
@@ -312,7 +308,6 @@ PHP_METHOD(Phalcon_Cache_Multiple, exists) {
 	}
 
 
-	ZEPHIR_INIT_ZVAL_NREF(_0);
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_backends"), PH_NOISY_CC);
 	zephir_is_iterable(_0, &_2, &_1, 0, 0);
 	for (

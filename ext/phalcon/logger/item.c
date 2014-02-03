@@ -129,7 +129,6 @@ PHP_METHOD(Phalcon_Logger_Item, __construct) {
 
 
 	zephir_update_property_this(this_ptr, SL("_message"), message TSRMLS_CC);
-	ZEPHIR_INIT_ZVAL_NREF(_0);
 	ZVAL_LONG(_0, type);
 	zephir_update_property_zval(this_ptr, SL("_type"), _0 TSRMLS_CC);
 	ZVAL_LONG(_0, time);

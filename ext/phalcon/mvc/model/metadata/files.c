@@ -120,7 +120,6 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Files, read) {
 	}
 
 
-	ZEPHIR_INIT_ZVAL_NREF(_0);
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_metaDataDir"), PH_NOISY_CC);
 	ZEPHIR_INIT_VAR(_1);
 	ZEPHIR_SINIT_VAR(_2);
@@ -164,7 +163,6 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Files, write) {
 	}
 
 
-	ZEPHIR_INIT_ZVAL_NREF(_0);
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_metaDataDir"), PH_NOISY_CC);
 	ZEPHIR_INIT_VAR(_1);
 	ZEPHIR_SINIT_VAR(_2);
