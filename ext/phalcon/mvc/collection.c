@@ -1146,7 +1146,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, appendMessage) {
 		ZEPHIR_INIT_VAR(_0);
 		object_init_ex(_0, phalcon_mvc_model_exception_ce);
 		ZEPHIR_INIT_VAR(_1);
-		zephir_call_func_p1(_1, "gettype", message);
+		zephir_gettype(_1, message TSRMLS_CC);
 		ZEPHIR_INIT_VAR(_2);
 		ZEPHIR_CONCAT_SVS(_2, "Invalid message format '", _1, "'");
 		zephir_call_method_p1_noret(_0, "__construct", _2);

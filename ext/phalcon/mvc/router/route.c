@@ -258,7 +258,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Route, extractNamedParams) {
 	ZVAL_EMPTY_STRING(route);
 	for (_0 = 0; _0 < Z_STRLEN_P(pattern); _0++) {
 		cursor = _0; 
-		ch = Z_STRVAL_P(pattern)[_0]; 
+		ch = ZEPHIR_STRING_OFFSET(pattern, _0);
 		if ((parenthesesCount == 0)) {
 			if ((ch == '{')) {
 				if ((bracketCount == 0)) {
@@ -287,7 +287,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Route, extractNamedParams) {
 							ZEPHIR_CPY_WRT(item, _4);
 							for (_5 = 0; _5 < Z_STRLEN_P(item); _5++) {
 								cursorVar = _5; 
-								ch = Z_STRVAL_P(item)[_5]; 
+								ch = ZEPHIR_STRING_OFFSET(item, _5);
 								if ((ch == '\0')) {
 									break;
 								}
@@ -373,7 +373,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Route, extractNamedParams) {
 								if (_6) {
 									foundPattern = 0;
 									for (_24 = 0; _24 < Z_STRLEN_P(regexp); _24++) {
-										ch = Z_STRVAL_P(regexp)[_24]; 
+										ch = ZEPHIR_STRING_OFFSET(regexp, _24);
 										if ((ch == '\0')) {
 											break;
 										}

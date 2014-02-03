@@ -406,3 +406,49 @@ int zephir_fetch_internal_parameters(int num_args TSRMLS_DC, int required_args, 
 
 	return SUCCESS;
 }
+
+void zephir_gettype(zval *return_value, zval *arg TSRMLS_DC) {
+
+	switch (Z_TYPE_P(arg)) {
+		case IS_NULL:
+			RETVAL_STRING("NULL", 1);
+			break;
+
+		case IS_BOOL:
+			RETVAL_STRING("boolean", 1);
+			break;
+
+		case IS_LONG:
+			RETVAL_STRING("integer", 1);
+			break;
+
+		case IS_DOUBLE:
+			RETVAL_STRING("double", 1);
+			break;
+	
+		case IS_STRING:
+			RETVAL_STRING("string", 1);
+			break;
+	
+		case IS_ARRAY:
+			RETVAL_STRING("array", 1);
+			break;
+
+		case IS_OBJECT:
+			RETVAL_STRING("object", 1);	
+			break;
+
+		case IS_RESOURCE:
+			{
+				const char *type_name = zend_rsrc_list_get_rsrc_type(Z_LVAL_P(arg) TSRMLS_CC);
+
+				if (type_name) {
+					RETVAL_STRING("resource", 1);
+					break;
+				}
+			}
+
+		default:
+			RETVAL_STRING("unknown type", 1);
+	}
+}

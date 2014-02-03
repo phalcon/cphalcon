@@ -515,7 +515,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Annotations, processActionAnnotation) {
 		ZEPHIR_INIT_VAR(value);
 		zephir_call_method_p1(value, annotation, "getargument", _3);
 		ZEPHIR_INIT_NVAR(_3);
-		zephir_call_func_p1(_3, "gettype", value);
+		zephir_gettype(_3, value TSRMLS_CC);
 		if ((Z_TYPE_P(_3) != IS_NULL)) {
 			if (!ZEPHIR_IS_STRING(value, "/")) {
 				ZEPHIR_INIT_VAR(uri);
