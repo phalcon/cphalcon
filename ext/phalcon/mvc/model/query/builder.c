@@ -947,6 +947,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, inWhere) {
 	ZEPHIR_INIT_VAR(_7);
 	ZEPHIR_CONCAT_VSVS(_7, expr, " IN (", _6, ")");
 	zephir_call_method_p2_noret(this_ptr, "andwhere", _7, bindParams);
+	ZEPHIR_INIT_ZVAL_NREF(_8);
 	ZVAL_LONG(_8, hiddenParam);
 	zephir_update_property_zval(this_ptr, SL("_hiddenParamNumber"), _8 TSRMLS_CC);
 	RETURN_THIS();
@@ -1021,6 +1022,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, notInWhere) {
 	ZEPHIR_INIT_VAR(_7);
 	ZEPHIR_CONCAT_VSVS(_7, expr, " NOT IN (", _6, ")");
 	zephir_call_method_p2_noret(this_ptr, "andwhere", _7, bindParams);
+	ZEPHIR_INIT_ZVAL_NREF(_8);
 	ZVAL_LONG(_8, hiddenParam);
 	zephir_update_property_zval(this_ptr, SL("_hiddenParamNumber"), _8 TSRMLS_CC);
 	RETURN_THIS();
@@ -1137,9 +1139,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, limit) {
 	}
 
 
+	ZEPHIR_INIT_ZVAL_NREF(_0);
 	ZVAL_LONG(_0, limit);
 	zephir_update_property_zval(this_ptr, SL("_limit"), _0 TSRMLS_CC);
 	if ((offset >= 0)) {
+		ZEPHIR_INIT_ZVAL_NREF(_0);
 		ZVAL_LONG(_0, offset);
 		zephir_update_property_zval(this_ptr, SL("_offset"), _0 TSRMLS_CC);
 	}

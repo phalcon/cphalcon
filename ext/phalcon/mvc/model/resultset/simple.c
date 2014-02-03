@@ -101,9 +101,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, __construct) {
 	ZEPHIR_INIT_VAR(rowCount);
 	zephir_call_method(rowCount, result, "numrows");
 	if (ZEPHIR_GT_LONG(rowCount, 32)) {
+		ZEPHIR_INIT_ZVAL_NREF(_1);
 		ZVAL_LONG(_1, 1);
 		zephir_update_property_this(this_ptr, SL("_type"), _1 TSRMLS_CC);
 	} else {
+		ZEPHIR_INIT_ZVAL_NREF(_1);
 		ZVAL_LONG(_1, 0);
 		zephir_update_property_this(this_ptr, SL("_type"), _1 TSRMLS_CC);
 	}
@@ -236,6 +238,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, toArray) {
 				ZEPHIR_INIT_NVAR(records);
 				zephir_call_method(records, result, "fetchall");
 				zephir_update_property_this(this_ptr, SL("_rows"), records TSRMLS_CC);
+				ZEPHIR_INIT_ZVAL_NREF(_1);
 				ZVAL_LONG(_1, zephir_fast_count_int(records TSRMLS_CC));
 				zephir_update_property_this(this_ptr, SL("_count"), _1 TSRMLS_CC);
 			}
@@ -346,6 +349,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, unserialize) {
 	}
 
 
+	ZEPHIR_INIT_ZVAL_NREF(_0);
 	ZVAL_LONG(_0, 0);
 	zephir_update_property_this(this_ptr, SL("_type"), _0 TSRMLS_CC);
 	ZEPHIR_INIT_VAR(resultset);

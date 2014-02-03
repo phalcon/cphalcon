@@ -82,6 +82,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Complex, __construct) {
 	if ((Z_TYPE_P(cache) != IS_NULL)) {
 		zephir_update_property_this(this_ptr, SL("_cache"), cache TSRMLS_CC);
 	}
+	ZEPHIR_INIT_ZVAL_NREF(_0);
 	ZVAL_LONG(_0, 1);
 	zephir_update_property_this(this_ptr, SL("_type"), _0 TSRMLS_CC);
 	if ((Z_TYPE_P(result) == IS_OBJECT)) {
@@ -328,6 +329,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Complex, unserialize) {
 
 
 
+	ZEPHIR_INIT_ZVAL_NREF(_0);
 	ZVAL_LONG(_0, 0);
 	zephir_update_property_this(this_ptr, SL("_type"), _0 TSRMLS_CC);
 	ZEPHIR_INIT_VAR(resultset);

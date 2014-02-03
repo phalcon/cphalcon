@@ -485,6 +485,7 @@ PHP_METHOD(Phalcon_Http_Cookie, setExpiration) {
 	if (!(zephir_is_true(_0))) {
 		zephir_call_method_noret(this_ptr, "restore");
 	}
+	ZEPHIR_INIT_ZVAL_NREF(_1);
 	ZVAL_LONG(_1, expire);
 	zephir_update_property_zval(this_ptr, SL("_expire"), _1 TSRMLS_CC);
 	RETURN_THIS();

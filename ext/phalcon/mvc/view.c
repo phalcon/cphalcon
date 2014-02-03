@@ -305,6 +305,7 @@ PHP_METHOD(Phalcon_Mvc_View, setRenderLevel) {
 		level = zephir_get_intval(level_param);
 
 
+	ZEPHIR_INIT_ZVAL_NREF(_0);
 	ZVAL_LONG(_0, level);
 	zephir_update_property_zval(this_ptr, SL("_renderLevel"), _0 TSRMLS_CC);
 	RETURN_THISW();
@@ -1489,6 +1490,7 @@ PHP_METHOD(Phalcon_Mvc_View, cache) {
 		if (zephir_array_isset_string_fetch(&cacheLevel, cacheOptions, SS("level"), 1 TSRMLS_CC)) {
 			zephir_update_property_this(this_ptr, SL("_cacheLevel"), cacheLevel TSRMLS_CC);
 		} else {
+			ZEPHIR_INIT_ZVAL_NREF(_3);
 			ZVAL_LONG(_3, 5);
 			zephir_update_property_this(this_ptr, SL("_cacheLevel"), _3 TSRMLS_CC);
 		}
@@ -1496,9 +1498,11 @@ PHP_METHOD(Phalcon_Mvc_View, cache) {
 		zephir_update_property_this(this_ptr, SL("_options"), viewOptions TSRMLS_CC);
 	} else {
 		if (zephir_is_true(options)) {
+			ZEPHIR_INIT_ZVAL_NREF(_3);
 			ZVAL_LONG(_3, 5);
 			zephir_update_property_this(this_ptr, SL("_cacheLevel"), _3 TSRMLS_CC);
 		} else {
+			ZEPHIR_INIT_ZVAL_NREF(_3);
 			ZVAL_LONG(_3, 0);
 			zephir_update_property_this(this_ptr, SL("_cacheLevel"), _3 TSRMLS_CC);
 		}
@@ -1596,8 +1600,10 @@ PHP_METHOD(Phalcon_Mvc_View, reset) {
 	zephir_update_property_this(this_ptr, SL("_disabled"), (0) ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
 	zephir_update_property_this(this_ptr, SL("_engines"), (0) ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
 	zephir_update_property_this(this_ptr, SL("_cache"), ZEPHIR_GLOBAL(global_null) TSRMLS_CC);
+	ZEPHIR_INIT_ZVAL_NREF(_0);
 	ZVAL_LONG(_0, 5);
 	zephir_update_property_this(this_ptr, SL("_renderLevel"), _0 TSRMLS_CC);
+	ZEPHIR_INIT_ZVAL_NREF(_0);
 	ZVAL_LONG(_0, 0);
 	zephir_update_property_this(this_ptr, SL("_cacheLevel"), _0 TSRMLS_CC);
 	zephir_update_property_this(this_ptr, SL("_content"), ZEPHIR_GLOBAL(global_null) TSRMLS_CC);

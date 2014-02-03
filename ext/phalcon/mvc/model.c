@@ -579,6 +579,7 @@ PHP_METHOD(Phalcon_Mvc_Model, setDirtyState) {
 		dirtyState = zephir_get_intval(dirtyState_param);
 
 
+	ZEPHIR_INIT_ZVAL_NREF(_0);
 	ZVAL_LONG(_0, dirtyState);
 	zephir_update_property_zval(this_ptr, SL("_dirtyState"), _0 TSRMLS_CC);
 	RETURN_THISW();
@@ -1263,10 +1264,12 @@ PHP_METHOD(Phalcon_Mvc_Model, _exists) {
 	zephir_call_method_p4(num, connection, "fetchone", _10, ZEPHIR_GLOBAL(global_null), uniqueParams, uniqueTypes);
 	zephir_array_fetch_string(&_11, num, SL("rowcount"), PH_NOISY | PH_READONLY TSRMLS_CC);
 	if (zephir_is_true(_11)) {
+		ZEPHIR_INIT_ZVAL_NREF(_12);
 		ZVAL_LONG(_12, 0);
 		zephir_update_property_this(this_ptr, SL("_dirtyState"), _12 TSRMLS_CC);
 		RETURN_MM_BOOL(1);
 	} else {
+		ZEPHIR_INIT_ZVAL_NREF(_12);
 		ZVAL_LONG(_12, 1);
 		zephir_update_property_this(this_ptr, SL("_dirtyState"), _12 TSRMLS_CC);
 	}
@@ -3099,9 +3102,11 @@ PHP_METHOD(Phalcon_Mvc_Model, save) {
 	ZEPHIR_INIT_VAR(exists);
 	zephir_call_method_p3(exists, this_ptr, "_exists", metaData, readConnection, table);
 	if (zephir_is_true(exists)) {
+		ZEPHIR_INIT_ZVAL_NREF(_4);
 		ZVAL_LONG(_4, 2);
 		zephir_update_property_this(this_ptr, SL("_operationMade"), _4 TSRMLS_CC);
 	} else {
+		ZEPHIR_INIT_ZVAL_NREF(_4);
 		ZVAL_LONG(_4, 1);
 		zephir_update_property_this(this_ptr, SL("_operationMade"), _4 TSRMLS_CC);
 	}
@@ -3134,6 +3139,7 @@ PHP_METHOD(Phalcon_Mvc_Model, save) {
 		zephir_call_method_p4(success, this_ptr, "_dolowinsert", metaData, writeConnection, table, identityField);
 	}
 	if (zephir_is_true(success)) {
+		ZEPHIR_INIT_ZVAL_NREF(_4);
 		ZVAL_LONG(_4, 0);
 		zephir_update_property_this(this_ptr, SL("_dirtyState"), _4 TSRMLS_CC);
 	}
@@ -3421,6 +3427,7 @@ PHP_METHOD(Phalcon_Mvc_Model, delete) {
 	zephir_call_method(metaData, this_ptr, "getmodelsmetadata");
 	ZEPHIR_INIT_VAR(writeConnection);
 	zephir_call_method(writeConnection, this_ptr, "getwriteconnection");
+	ZEPHIR_INIT_ZVAL_NREF(_0);
 	ZVAL_LONG(_0, 3);
 	zephir_update_property_this(this_ptr, SL("_operationMade"), _0 TSRMLS_CC);
 	ZEPHIR_INIT_VAR(_1);
@@ -3547,6 +3554,7 @@ PHP_METHOD(Phalcon_Mvc_Model, delete) {
 			zephir_call_method_p1_noret(this_ptr, "fireevent", _2);
 		}
 	}
+	ZEPHIR_INIT_ZVAL_NREF(_13);
 	ZVAL_LONG(_13, 2);
 	zephir_update_property_this(this_ptr, SL("_dirtyState"), _13 TSRMLS_CC);
 	RETURN_CCTOR(success);
@@ -4799,6 +4807,7 @@ PHP_METHOD(Phalcon_Mvc_Model, __set) {
 			zephir_fast_strtolower(lowerProperty, property);
 			zephir_update_property_zval_zval(this_ptr, lowerProperty, value TSRMLS_CC);
 			zephir_update_property_array(this_ptr, SL("_related"), lowerProperty, value TSRMLS_CC);
+			ZEPHIR_INIT_ZVAL_NREF(_0);
 			ZVAL_LONG(_0, 1);
 			zephir_update_property_this(this_ptr, SL("_dirtyState"), _0 TSRMLS_CC);
 			RETURN_CCTOR(value);
@@ -4808,6 +4817,7 @@ PHP_METHOD(Phalcon_Mvc_Model, __set) {
 		ZEPHIR_INIT_NVAR(lowerProperty);
 		zephir_fast_strtolower(lowerProperty, property);
 		zephir_update_property_array(this_ptr, SL("_related"), lowerProperty, value TSRMLS_CC);
+		ZEPHIR_INIT_ZVAL_NREF(_0);
 		ZVAL_LONG(_0, 1);
 		zephir_update_property_this(this_ptr, SL("_dirtyState"), _0 TSRMLS_CC);
 		RETURN_CCTOR(value);

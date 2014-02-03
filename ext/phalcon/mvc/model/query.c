@@ -3313,6 +3313,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, setType) {
 		type = zephir_get_intval(type_param);
 
 
+	ZEPHIR_INIT_ZVAL_NREF(_0);
 	ZVAL_LONG(_0, type);
 	zephir_update_property_zval(this_ptr, SL("_type"), _0 TSRMLS_CC);
 	RETURN_THISW();

@@ -1192,9 +1192,11 @@ PHP_METHOD(Phalcon_Mvc_Collection, save) {
 	ZEPHIR_INIT_VAR(exists);
 	zephir_call_method_p1(exists, this_ptr, "_exists", collection);
 	if (ZEPHIR_IS_FALSE(exists)) {
+		ZEPHIR_INIT_ZVAL_NREF(_0);
 		ZVAL_LONG(_0, 1);
 		zephir_update_property_this(this_ptr, SL("_operationMade"), _0 TSRMLS_CC);
 	} else {
+		ZEPHIR_INIT_ZVAL_NREF(_0);
 		ZVAL_LONG(_0, 2);
 		zephir_update_property_this(this_ptr, SL("_operationMade"), _0 TSRMLS_CC);
 	}

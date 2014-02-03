@@ -120,6 +120,7 @@ PHP_METHOD(Phalcon_Paginator_Adapter_NativeArray, setCurrentPage) {
 		page = zephir_get_intval(page_param);
 
 
+	ZEPHIR_INIT_ZVAL_NREF(_0);
 	ZVAL_LONG(_0, page);
 	zephir_update_property_zval(this_ptr, SL("_page"), _0 TSRMLS_CC);
 
@@ -173,6 +174,7 @@ PHP_METHOD(Phalcon_Paginator_Adapter_NativeArray, getPaginate) {
 	} else {
 		next = totalPages;
 	}
+	ZEPHIR_INIT_ZVAL_NREF(_5);
 	ZVAL_LONG(_5, next);
 	zephir_update_property_zval(page, SL("next"), _5 TSRMLS_CC);
 	if ((pageNumber > 1)) {
@@ -180,16 +182,22 @@ PHP_METHOD(Phalcon_Paginator_Adapter_NativeArray, getPaginate) {
 	} else {
 		before = 1;
 	}
+	ZEPHIR_INIT_ZVAL_NREF(_5);
 	ZVAL_LONG(_5, 1);
 	zephir_update_property_zval(page, SL("first"), _5 TSRMLS_CC);
+	ZEPHIR_INIT_ZVAL_NREF(_5);
 	ZVAL_LONG(_5, before);
 	zephir_update_property_zval(page, SL("before"), _5 TSRMLS_CC);
+	ZEPHIR_INIT_ZVAL_NREF(_5);
 	ZVAL_LONG(_5, pageNumber);
 	zephir_update_property_zval(page, SL("current"), _5 TSRMLS_CC);
+	ZEPHIR_INIT_ZVAL_NREF(_5);
 	ZVAL_LONG(_5, totalPages);
 	zephir_update_property_zval(page, SL("last"), _5 TSRMLS_CC);
+	ZEPHIR_INIT_ZVAL_NREF(_5);
 	ZVAL_LONG(_5, totalPages);
 	zephir_update_property_zval(page, SL("total_pages"), _5 TSRMLS_CC);
+	ZEPHIR_INIT_ZVAL_NREF(_5);
 	ZVAL_LONG(_5, number);
 	zephir_update_property_zval(page, SL("total_items"), _5 TSRMLS_CC);
 	RETURN_CCTOR(page);

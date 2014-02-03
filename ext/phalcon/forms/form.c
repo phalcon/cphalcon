@@ -936,6 +936,7 @@ PHP_METHOD(Phalcon_Forms_Form, rewind) {
 
 	ZEPHIR_MM_GROW();
 
+	ZEPHIR_INIT_ZVAL_NREF(_0);
 	ZVAL_LONG(_0, 0);
 	zephir_update_property_this(this_ptr, SL("_position"), _0 TSRMLS_CC);
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_elements"), PH_NOISY_CC);
