@@ -785,7 +785,8 @@ PHP_METHOD(Phalcon_Assets_Manager, output) {
  */
 PHP_METHOD(Phalcon_Assets_Manager, outputCss) {
 
-	zval *collectionName = NULL, *collection, *_0, *_1;
+	zval *_0;
+	zval *collectionName = NULL, *collection, *_1;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 1, &collectionName);
@@ -823,7 +824,8 @@ PHP_METHOD(Phalcon_Assets_Manager, outputCss) {
  */
 PHP_METHOD(Phalcon_Assets_Manager, outputJs) {
 
-	zval *collectionName = NULL, *collection, *_0, *_1;
+	zval *_0;
+	zval *collectionName = NULL, *collection, *_1;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 1, &collectionName);

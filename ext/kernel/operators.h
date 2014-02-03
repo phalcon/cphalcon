@@ -116,7 +116,6 @@ int zephir_greater_equal(zval *op1, zval *op2 TSRMLS_DC);
 int zephir_greater_equal_long(zval *op1, long op2 TSRMLS_DC);
 
 #define zephir_get_numberval(z) (Z_TYPE_P(z) == IS_LONG ? Z_LVAL_P(z) : zephir_get_doubleval(z))
-
 #define zephir_get_intval(z) (Z_TYPE_P(z) == IS_LONG ? Z_LVAL_P(z) : zephir_get_intval_ex(z))
 #define zephir_get_doubleval(z) (Z_TYPE_P(z) == IS_DOUBLE ? Z_DVAL_P(z) : zephir_get_doubleval_ex(z))
 #define zephir_get_boolval(z) (Z_TYPE_P(z) == IS_BOOL ? Z_BVAL_P(z) : zephir_get_boolval_ex(z))
@@ -152,6 +151,28 @@ int zephir_greater_equal_long(zval *op1, long op2 TSRMLS_DC);
 		} else {  \
 			if (Z_TYPE_P(z) == IS_LONG && Z_TYPE_P(v) == IS_DOUBLE) {  \
 				Z_LVAL_P(z) -= Z_DVAL_P(v);  \
+			} else {  \
+				sub_function(&tmp, z, v TSRMLS_CC);  \
+				if (Z_TYPE(tmp) == IS_LONG) {  \
+					Z_LVAL_P(z) = Z_LVAL(tmp);  \
+				} else {  \
+					if (Z_TYPE(tmp) == IS_DOUBLE) {  \
+						Z_DVAL_P(z) = Z_DVAL(tmp);  \
+					}  \
+				}  \
+			}  \
+		}  \
+	}
+
+#define ZEPHIR_MUL_ASSIGN(z, v)  \
+	{  \
+		zval tmp;  \
+		ZEPHIR_SEPARATE(z);  \
+		if (Z_TYPE_P(z) == IS_LONG && Z_TYPE_P(v) == IS_LONG) {  \
+			Z_LVAL_P(z) *= Z_LVAL_P(v);  \
+		} else {  \
+			if (Z_TYPE_P(z) == IS_LONG && Z_TYPE_P(v) == IS_DOUBLE) {  \
+				Z_LVAL_P(z) *= Z_DVAL_P(v);  \
 			} else {  \
 				sub_function(&tmp, z, v TSRMLS_CC);  \
 				if (Z_TYPE(tmp) == IS_LONG) {  \

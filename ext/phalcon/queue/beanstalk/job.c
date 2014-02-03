@@ -101,6 +101,7 @@ PHP_METHOD(Phalcon_Queue_Beanstalk_Job, delete) {
 	ZEPHIR_MM_GROW();
 
 	queue = zephir_fetch_nproperty_this(this_ptr, SL("_queue"), PH_NOISY_CC);
+	ZEPHIR_INIT_ZVAL_NREF(_0);
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_id"), PH_NOISY_CC);
 	ZEPHIR_INIT_VAR(_1);
 	ZEPHIR_CONCAT_SV(_1, "delete ", _0);

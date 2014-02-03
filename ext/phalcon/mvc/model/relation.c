@@ -255,11 +255,16 @@ PHP_METHOD(Phalcon_Mvc_Model_Relation, getForeignKey) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_Relation, isThrough) {
 
+	zend_bool _0;
 	zval *type;
 
 
 	type = zephir_fetch_nproperty_this(this_ptr, SL("_type"), PH_NOISY_CC);
-	RETURN_BOOL((ZEPHIR_IS_LONG(type, 3) || ZEPHIR_IS_LONG(type, 4)));
+	_0 = ZEPHIR_IS_LONG(type, 3);
+	if (!(_0)) {
+		_0 = ZEPHIR_IS_LONG(type, 4);
+	}
+	RETURN_BOOL(_0);
 
 }
 

@@ -82,7 +82,8 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Micro_Collection) {
  */
 PHP_METHOD(Phalcon_Mvc_Micro_Collection, _addMap) {
 
-	zval *method_param = NULL, *routePattern, *handler, *_0;
+	zval *_0;
+	zval *method_param = NULL, *routePattern, *handler;
 	zval *method = NULL;
 
 	ZEPHIR_MM_GROW();

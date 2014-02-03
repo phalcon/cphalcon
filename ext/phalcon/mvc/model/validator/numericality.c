@@ -79,7 +79,8 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_Validator_Numericality) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_Validator_Numericality, validate) {
 
-	zval *record, *field, *value, *message = NULL, *replacePairs, *_0, *_1, *_2;
+	zend_bool _2;
+	zval *record, *field, *value, *message = NULL, *replacePairs, *_0, *_1, *_3;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &record);
@@ -100,7 +101,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Numericality, validate) {
 	ZEPHIR_INIT_VAR(_1);
 	ZVAL_STRING(_1, "allowEmpty", 1);
 	zephir_call_method_p1(_0, this_ptr, "issetoption", _1);
-	if (zephir_is_true(_0) && ZEPHIR_IS_EMPTY(value)) {
+	_2 = zephir_is_true(_0);
+	if (_2) {
+		_2 = ZEPHIR_IS_EMPTY(value);
+	}
+	if (_2) {
 		RETURN_MM_BOOL(1);
 	}
 	if (!(zephir_is_numeric(value))) {
@@ -117,9 +122,9 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Numericality, validate) {
 		}
 		ZEPHIR_INIT_BNVAR(_1);
 		zephir_call_func_p2(_1, "strtr", message, replacePairs);
-		ZEPHIR_INIT_VAR(_2);
-		ZVAL_STRING(_2, "Numericality", 1);
-		zephir_call_method_p3_noret(this_ptr, "appendmessage", _1, field, _2);
+		ZEPHIR_INIT_VAR(_3);
+		ZVAL_STRING(_3, "Numericality", 1);
+		zephir_call_method_p3_noret(this_ptr, "appendmessage", _1, field, _3);
 		RETURN_MM_BOOL(0);
 	}
 	RETURN_MM_BOOL(1);

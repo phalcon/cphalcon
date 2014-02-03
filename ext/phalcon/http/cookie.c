@@ -211,17 +211,21 @@ PHP_METHOD(Phalcon_Http_Cookie, getValue) {
 	}
 
 
+	ZEPHIR_INIT_ZVAL_NREF(_0);
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_restored"), PH_NOISY_CC);
 	if (!(zephir_is_true(_0))) {
 		zephir_call_method_noret(this_ptr, "restore");
 	}
 	ZEPHIR_INIT_VAR(dependencyInjector);
 	ZVAL_NULL(dependencyInjector);
+	ZEPHIR_INIT_ZVAL_NREF(_1);
 	_1 = zephir_fetch_nproperty_this(this_ptr, SL("_readed"), PH_NOISY_CC);
 	if (ZEPHIR_IS_FALSE(_1)) {
 		zephir_get_global(&_COOKIE, SS("_COOKIE") TSRMLS_CC);
+		ZEPHIR_INIT_ZVAL_NREF(_2);
 		_2 = zephir_fetch_nproperty_this(this_ptr, SL("_name"), PH_NOISY_CC);
 		if (zephir_array_isset_fetch(&value, _COOKIE, _2, 1 TSRMLS_CC)) {
+			ZEPHIR_INIT_ZVAL_NREF(_3);
 			_3 = zephir_fetch_nproperty_this(this_ptr, SL("_useEncryption"), PH_NOISY_CC);
 			if (zephir_is_true(_3)) {
 				ZEPHIR_OBS_NVAR(dependencyInjector);
@@ -320,6 +324,7 @@ PHP_METHOD(Phalcon_Http_Cookie, send) {
 		ZEPHIR_CONCAT_SV(_2, "_PHCOOKIE_", name);
 		zephir_call_method_p2_noret(session, "set", _2, definition);
 	}
+	ZEPHIR_INIT_ZVAL_NREF(_3);
 	_3 = zephir_fetch_nproperty_this(this_ptr, SL("_useEncryption"), PH_NOISY_CC);
 	if (zephir_is_true(_3)) {
 		if (!(ZEPHIR_IS_EMPTY(value))) {
@@ -357,6 +362,7 @@ PHP_METHOD(Phalcon_Http_Cookie, restore) {
 
 	ZEPHIR_MM_GROW();
 
+	ZEPHIR_INIT_ZVAL_NREF(_0);
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_restored"), PH_NOISY_CC);
 	if (!(zephir_is_true(_0))) {
 		dependencyInjector = zephir_fetch_nproperty_this(this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
@@ -365,6 +371,7 @@ PHP_METHOD(Phalcon_Http_Cookie, restore) {
 			ZVAL_STRING(_1, "session", 1);
 			ZEPHIR_INIT_VAR(session);
 			zephir_call_method_p1(session, dependencyInjector, "getshared", _1);
+			ZEPHIR_INIT_ZVAL_NREF(_2);
 			_2 = zephir_fetch_nproperty_this(this_ptr, SL("_name"), PH_NOISY_CC);
 			ZEPHIR_INIT_VAR(_3);
 			ZEPHIR_CONCAT_SV(_3, "_PHCOOKIE_", _2);
@@ -409,6 +416,7 @@ PHP_METHOD(Phalcon_Http_Cookie, delete) {
 	path = zephir_fetch_nproperty_this(this_ptr, SL("_path"), PH_NOISY_CC);
 	secure = zephir_fetch_nproperty_this(this_ptr, SL("_secure"), PH_NOISY_CC);
 	httpOnly = zephir_fetch_nproperty_this(this_ptr, SL("_httpOnly"), PH_NOISY_CC);
+	ZEPHIR_INIT_ZVAL_NREF(_0);
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
 	ZEPHIR_CPY_WRT(dependencyInjector, _0);
 	if ((Z_TYPE_P(dependencyInjector) != IS_OBJECT)) {
@@ -481,6 +489,7 @@ PHP_METHOD(Phalcon_Http_Cookie, setExpiration) {
 		expire = zephir_get_intval(expire_param);
 
 
+	ZEPHIR_INIT_ZVAL_NREF(_0);
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_restored"), PH_NOISY_CC);
 	if (!(zephir_is_true(_0))) {
 		zephir_call_method_noret(this_ptr, "restore");
@@ -503,6 +512,7 @@ PHP_METHOD(Phalcon_Http_Cookie, getExpiration) {
 
 	ZEPHIR_MM_GROW();
 
+	ZEPHIR_INIT_ZVAL_NREF(_0);
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_restored"), PH_NOISY_CC);
 	if (!(zephir_is_true(_0))) {
 		zephir_call_method_noret(this_ptr, "restore");
@@ -538,6 +548,7 @@ PHP_METHOD(Phalcon_Http_Cookie, setPath) {
 	}
 
 
+	ZEPHIR_INIT_ZVAL_NREF(_0);
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_restored"), PH_NOISY_CC);
 	if (!(zephir_is_true(_0))) {
 		zephir_call_method_noret(this_ptr, "restore");
@@ -558,6 +569,7 @@ PHP_METHOD(Phalcon_Http_Cookie, getPath) {
 
 	ZEPHIR_MM_GROW();
 
+	ZEPHIR_INIT_ZVAL_NREF(_0);
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_restored"), PH_NOISY_CC);
 	if (!(zephir_is_true(_0))) {
 		zephir_call_method_noret(this_ptr, "restore");
@@ -593,6 +605,7 @@ PHP_METHOD(Phalcon_Http_Cookie, setDomain) {
 	}
 
 
+	ZEPHIR_INIT_ZVAL_NREF(_0);
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_restored"), PH_NOISY_CC);
 	if (!(zephir_is_true(_0))) {
 		zephir_call_method_noret(this_ptr, "restore");
@@ -613,6 +626,7 @@ PHP_METHOD(Phalcon_Http_Cookie, getDomain) {
 
 	ZEPHIR_MM_GROW();
 
+	ZEPHIR_INIT_ZVAL_NREF(_0);
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_restored"), PH_NOISY_CC);
 	if (!(zephir_is_true(_0))) {
 		zephir_call_method_noret(this_ptr, "restore");
@@ -638,6 +652,7 @@ PHP_METHOD(Phalcon_Http_Cookie, setSecure) {
 		secure = zephir_get_boolval(secure_param);
 
 
+	ZEPHIR_INIT_ZVAL_NREF(_0);
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_restored"), PH_NOISY_CC);
 	if (!(zephir_is_true(_0))) {
 		zephir_call_method_noret(this_ptr, "restore");
@@ -658,6 +673,7 @@ PHP_METHOD(Phalcon_Http_Cookie, getSecure) {
 
 	ZEPHIR_MM_GROW();
 
+	ZEPHIR_INIT_ZVAL_NREF(_0);
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_restored"), PH_NOISY_CC);
 	if (!(zephir_is_true(_0))) {
 		zephir_call_method_noret(this_ptr, "restore");
@@ -683,6 +699,7 @@ PHP_METHOD(Phalcon_Http_Cookie, setHttpOnly) {
 		httpOnly = zephir_get_boolval(httpOnly_param);
 
 
+	ZEPHIR_INIT_ZVAL_NREF(_0);
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_restored"), PH_NOISY_CC);
 	if (!(zephir_is_true(_0))) {
 		zephir_call_method_noret(this_ptr, "restore");
@@ -703,6 +720,7 @@ PHP_METHOD(Phalcon_Http_Cookie, getHttpOnly) {
 
 	ZEPHIR_MM_GROW();
 
+	ZEPHIR_INIT_ZVAL_NREF(_0);
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_restored"), PH_NOISY_CC);
 	if (!(zephir_is_true(_0))) {
 		zephir_call_method_noret(this_ptr, "restore");

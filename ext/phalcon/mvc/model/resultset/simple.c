@@ -105,7 +105,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, __construct) {
 		ZVAL_LONG(_1, 1);
 		zephir_update_property_this(this_ptr, SL("_type"), _1 TSRMLS_CC);
 	} else {
-		ZEPHIR_INIT_ZVAL_NREF(_1);
 		ZVAL_LONG(_1, 0);
 		zephir_update_property_this(this_ptr, SL("_type"), _1 TSRMLS_CC);
 	}
@@ -126,6 +125,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, valid) {
 
 	ZEPHIR_MM_GROW();
 
+	ZEPHIR_INIT_ZVAL_NREF(_0);
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_type"), PH_NOISY_CC);
 	if (zephir_is_true(_0)) {
 		ZEPHIR_OBS_VAR(result);
@@ -169,7 +169,9 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, valid) {
 	columnMap = zephir_fetch_nproperty_this(this_ptr, SL("_columnMap"), PH_NOISY_CC);
 	ZEPHIR_INIT_VAR(activeRow);
 	if (ZEPHIR_IS_LONG(hydrateMode, 0)) {
+		ZEPHIR_INIT_ZVAL_NREF(_2);
 		_2 = zephir_fetch_nproperty_this(this_ptr, SL("_model"), PH_NOISY_CC);
+		ZEPHIR_INIT_ZVAL_NREF(_3);
 		_3 = zephir_fetch_nproperty_this(this_ptr, SL("_keepSnapshots"), PH_NOISY_CC);
 		ZEPHIR_INIT_NVAR(_1);
 		ZVAL_LONG(_1, 0);
@@ -208,6 +210,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, toArray) {
 	}
 
 
+	ZEPHIR_INIT_ZVAL_NREF(_0);
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_type"), PH_NOISY_CC);
 	if (zephir_is_true(_0)) {
 		ZEPHIR_OBS_VAR(result);
@@ -295,13 +298,14 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, toArray) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, serialize) {
 
-	zval *_0, *_1 = NULL, *_2;
+	zval *_1 = NULL, *_2;
+	zval *_0;
 
 	ZEPHIR_MM_GROW();
 
 	zephir_update_property_this(this_ptr, SL("_activeRow"), (0) ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
 	ZEPHIR_INIT_VAR(_0);
-	array_init_size(_0, 6);
+	array_init_size(_0, 7);
 	ZEPHIR_OBS_VAR(_1);
 	zephir_read_property_this(&_1, this_ptr, SL("_model"), PH_NOISY_CC);
 	zephir_array_update_string(&_0, SL("model"), &_1, PH_COPY | PH_SEPARATE);
@@ -329,7 +333,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, serialize) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, unserialize) {
 
-	zval *data_param = NULL, *resultset, *_0, *_1, *_2, *_3, *_4;
+	zval *data_param = NULL, *resultset, *_0, *_1, *_2, *_3, *_4, *_5;
 	zval *data = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -357,16 +361,16 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, unserialize) {
 		ZEPHIR_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Invalid serialization data");
 		return;
 	}
-	zephir_array_fetch_string(&_0, resultset, SL("model"), PH_NOISY | PH_READONLY TSRMLS_CC);
-	zephir_update_property_this(this_ptr, SL("_model"), _0 TSRMLS_CC);
-	zephir_array_fetch_string(&_1, resultset, SL("rows"), PH_NOISY | PH_READONLY TSRMLS_CC);
-	zephir_update_property_this(this_ptr, SL("_rows"), _1 TSRMLS_CC);
-	zephir_array_fetch_string(&_2, resultset, SL("cache"), PH_NOISY | PH_READONLY TSRMLS_CC);
-	zephir_update_property_this(this_ptr, SL("_cache"), _2 TSRMLS_CC);
-	zephir_array_fetch_string(&_3, resultset, SL("columnMap"), PH_NOISY | PH_READONLY TSRMLS_CC);
-	zephir_update_property_this(this_ptr, SL("_columnMap"), _3 TSRMLS_CC);
-	zephir_array_fetch_string(&_4, resultset, SL("hydrateMode"), PH_NOISY | PH_READONLY TSRMLS_CC);
-	zephir_update_property_this(this_ptr, SL("_hydrateMode"), _4 TSRMLS_CC);
+	zephir_array_fetch_string(&_1, resultset, SL("model"), PH_NOISY | PH_READONLY TSRMLS_CC);
+	zephir_update_property_this(this_ptr, SL("_model"), _1 TSRMLS_CC);
+	zephir_array_fetch_string(&_2, resultset, SL("rows"), PH_NOISY | PH_READONLY TSRMLS_CC);
+	zephir_update_property_this(this_ptr, SL("_rows"), _2 TSRMLS_CC);
+	zephir_array_fetch_string(&_3, resultset, SL("cache"), PH_NOISY | PH_READONLY TSRMLS_CC);
+	zephir_update_property_this(this_ptr, SL("_cache"), _3 TSRMLS_CC);
+	zephir_array_fetch_string(&_4, resultset, SL("columnMap"), PH_NOISY | PH_READONLY TSRMLS_CC);
+	zephir_update_property_this(this_ptr, SL("_columnMap"), _4 TSRMLS_CC);
+	zephir_array_fetch_string(&_5, resultset, SL("hydrateMode"), PH_NOISY | PH_READONLY TSRMLS_CC);
+	zephir_update_property_this(this_ptr, SL("_hydrateMode"), _5 TSRMLS_CC);
 	ZEPHIR_MM_RESTORE();
 
 }

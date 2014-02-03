@@ -108,6 +108,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, getCompiler) {
 	if ((Z_TYPE_P(compiler) != IS_OBJECT)) {
 		ZEPHIR_INIT_BNVAR(compiler);
 		object_init_ex(compiler, phalcon_mvc_view_engine_volt_compiler_ce);
+		ZEPHIR_INIT_ZVAL_NREF(_0);
 		_0 = zephir_fetch_nproperty_this(this_ptr, SL("_view"), PH_NOISY_CC);
 		zephir_call_method_p1_noret(compiler, "__construct", _0);
 		dependencyInjector = zephir_fetch_nproperty_this(this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
@@ -186,6 +187,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, render) {
 		RETURN_MM_NULL();
 	}
 	if ((mustClean == 1)) {
+		ZEPHIR_INIT_ZVAL_NREF(_4);
 		_4 = zephir_fetch_nproperty_this(this_ptr, SL("_view"), PH_NOISY_CC);
 		ZEPHIR_INIT_VAR(_5);
 		zephir_call_func(_5, "ob_get_contents");

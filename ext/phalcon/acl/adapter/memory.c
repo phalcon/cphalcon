@@ -445,7 +445,9 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, dropResourceAccess) {
 			ZEPHIR_INIT_NVAR(accessKey);
 			ZEPHIR_CONCAT_VSV(accessKey, resourceName, "!", accessName);
 			if (zephir_array_isset(accessList, accessKey)) {
+				ZEPHIR_INIT_ZVAL_NREF(_3);
 				_3 = zephir_fetch_nproperty_this(this_ptr, SL("_accessList"), PH_NOISY_CC);
+				ZEPHIR_INIT_ZVAL_NREF(_4);
 				_4 = zephir_fetch_nproperty_this(this_ptr, SL("_accessList"), PH_NOISY_CC);
 				zephir_array_fetch(&_5, _4, accessKey, PH_NOISY | PH_READONLY TSRMLS_CC);
 				zephir_array_unset(&_3, _5, PH_SEPARATE);
@@ -570,6 +572,7 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, _allowOrDeny) {
 			ZEPHIR_INIT_NVAR(accessKey);
 			ZEPHIR_CONCAT_VSVS(accessKey, roleName, "!", resourceName, "!*");
 			if (!(zephir_array_isset(accessList, accessKey))) {
+				ZEPHIR_INIT_ZVAL_NREF(_9);
 				_9 = zephir_fetch_nproperty_this(this_ptr, SL("_defaultAccess"), PH_NOISY_CC);
 				zephir_update_property_array(this_ptr, SL("_access"), accessKey, _9 TSRMLS_CC);
 			}
@@ -691,6 +694,7 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, isAllowed) {
 	zephir_update_property_this(this_ptr, SL("_activeResource"), resource TSRMLS_CC);
 	zephir_update_property_this(this_ptr, SL("_activeAccess"), resource TSRMLS_CC);
 	accessList = zephir_fetch_nproperty_this(this_ptr, SL("_access"), PH_NOISY_CC);
+	ZEPHIR_INIT_ZVAL_NREF(_0);
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_eventsManager"), PH_NOISY_CC);
 	ZEPHIR_CPY_WRT(eventsManager, _0);
 	//missing empty

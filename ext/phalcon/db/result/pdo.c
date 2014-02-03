@@ -226,7 +226,8 @@ PHP_METHOD(Phalcon_Db_Result_Pdo, fetchAll) {
  */
 PHP_METHOD(Phalcon_Db_Result_Pdo, numRows) {
 
-	zval *sqlStatement, *rowCount = NULL, *connection, *type, *pdoStatement, *matches, *result, *row, *_0, _1, *_2, *_3, *_4, *_5;
+	zend_bool _0;
+	zval *sqlStatement, *rowCount = NULL, *connection, *type, *pdoStatement, *matches, *result, *row, *_1, _2, *_3, *_4, *_5, *_6;
 
 	ZEPHIR_MM_GROW();
 
@@ -236,7 +237,11 @@ PHP_METHOD(Phalcon_Db_Result_Pdo, numRows) {
 		connection = zephir_fetch_nproperty_this(this_ptr, SL("_connection"), PH_NOISY_CC);
 		ZEPHIR_INIT_VAR(type);
 		zephir_call_method(type, connection, "gettype");
-		if ((ZEPHIR_IS_STRING(type, "pgsql") || ZEPHIR_IS_STRING(type, "mysql"))) {
+		_0 = ZEPHIR_IS_STRING(type, "pgsql");
+		if (!(_0)) {
+			_0 = ZEPHIR_IS_STRING(type, "mysql");
+		}
+		if (_0) {
 			pdoStatement = zephir_fetch_nproperty_this(this_ptr, SL("_pdoStatement"), PH_NOISY_CC);
 			ZEPHIR_INIT_BNVAR(rowCount);
 			zephir_call_method(rowCount, pdoStatement, "rowcount");
@@ -246,18 +251,20 @@ PHP_METHOD(Phalcon_Db_Result_Pdo, numRows) {
 			if (!(zephir_start_with_str(sqlStatement, SL("SELECT COUNT(*) ")))) {
 				ZEPHIR_INIT_VAR(matches);
 				ZVAL_NULL(matches);
-				ZEPHIR_INIT_VAR(_0);
-				ZEPHIR_SINIT_VAR(_1);
-				ZVAL_STRING(&_1, "/^SELECT\\s+(.*)/i", 0);
-				zephir_preg_match(_0, &(_0), &_1, sqlStatement, matches, 0 TSRMLS_CC);
-				if (zephir_is_true(_0)) {
-					zephir_array_fetch_long(&_2, matches, 1, PH_NOISY | PH_READONLY TSRMLS_CC);
-					ZEPHIR_INIT_VAR(_3);
-					ZEPHIR_CONCAT_SVS(_3, "SELECT COUNT(*) \"numrows\" FROM (SELECT ", _2, ")");
-					_4 = zephir_fetch_nproperty_this(this_ptr, SL("_bindParams"), PH_NOISY_CC);
-					_5 = zephir_fetch_nproperty_this(this_ptr, SL("_bindTypes"), PH_NOISY_CC);
+				ZEPHIR_INIT_VAR(_1);
+				ZEPHIR_SINIT_VAR(_2);
+				ZVAL_STRING(&_2, "/^SELECT\\s+(.*)/i", 0);
+				zephir_preg_match(_1, &(_1), &_2, sqlStatement, matches, 0, 0 , 0  TSRMLS_CC);
+				if (zephir_is_true(_1)) {
+					zephir_array_fetch_long(&_3, matches, 1, PH_NOISY | PH_READONLY TSRMLS_CC);
+					ZEPHIR_INIT_VAR(_4);
+					ZEPHIR_CONCAT_SVS(_4, "SELECT COUNT(*) \"numrows\" FROM (SELECT ", _3, ")");
+					ZEPHIR_INIT_ZVAL_NREF(_5);
+					_5 = zephir_fetch_nproperty_this(this_ptr, SL("_bindParams"), PH_NOISY_CC);
+					ZEPHIR_INIT_ZVAL_NREF(_6);
+					_6 = zephir_fetch_nproperty_this(this_ptr, SL("_bindTypes"), PH_NOISY_CC);
 					ZEPHIR_INIT_VAR(result);
-					zephir_call_method_p3(result, connection, "query", _3, _4, _5);
+					zephir_call_method_p3(result, connection, "query", _4, _5, _6);
 					ZEPHIR_INIT_VAR(row);
 					zephir_call_method(row, result, "fetch");
 					ZEPHIR_OBS_NVAR(rowCount);
@@ -304,6 +311,7 @@ PHP_METHOD(Phalcon_Db_Result_Pdo, dataSeek) {
 		zephir_call_method_p1(statement, pdo, "prepare", sqlStatement);
 		if ((Z_TYPE_P(statement) == IS_OBJECT)) {
 			ZEPHIR_INIT_VAR(_0);
+			ZEPHIR_INIT_ZVAL_NREF(_1);
 			_1 = zephir_fetch_nproperty_this(this_ptr, SL("_bindTypes"), PH_NOISY_CC);
 			zephir_call_method_p3(_0, connection, "executeprepared", statement, bindParams, _1);
 			ZEPHIR_CPY_WRT(statement, _0);
@@ -361,7 +369,6 @@ PHP_METHOD(Phalcon_Db_Result_Pdo, setFetchMode) {
 			ZEPHIR_INIT_NVAR(_0);
 			ZVAL_LONG(_0, 2);
 			zephir_call_method_p1_noret(pdoStatement, "setfetchmode", _0);
-			ZEPHIR_INIT_ZVAL_NREF(_1);
 			ZVAL_LONG(_1, 2);
 			zephir_update_property_this(this_ptr, SL("_fetchMode"), _1 TSRMLS_CC);
 			break;
@@ -370,7 +377,6 @@ PHP_METHOD(Phalcon_Db_Result_Pdo, setFetchMode) {
 			ZEPHIR_INIT_NVAR(_0);
 			ZVAL_LONG(_0, 3);
 			zephir_call_method_p1_noret(pdoStatement, "setfetchmode", _0);
-			ZEPHIR_INIT_ZVAL_NREF(_1);
 			ZVAL_LONG(_1, 3);
 			zephir_update_property_this(this_ptr, SL("_fetchMode"), _1 TSRMLS_CC);
 			break;
@@ -379,7 +385,6 @@ PHP_METHOD(Phalcon_Db_Result_Pdo, setFetchMode) {
 			ZEPHIR_INIT_NVAR(_0);
 			ZVAL_LONG(_0, 5);
 			zephir_call_method_p1_noret(pdoStatement, "setfetchmode", _0);
-			ZEPHIR_INIT_ZVAL_NREF(_1);
 			ZVAL_LONG(_1, 5);
 			zephir_update_property_this(this_ptr, SL("_fetchMode"), _1 TSRMLS_CC);
 			break;

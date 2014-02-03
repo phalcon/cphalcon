@@ -138,7 +138,8 @@ PHP_METHOD(Phalcon_Escaper, detectEncoding) {
 
 	HashTable *_3;
 	HashPosition _2;
-	zval *str, *charset = NULL, *_0, *_1 = NULL, **_4;
+	zval *_0;
+	zval *str, *charset = NULL, *_1 = NULL, **_4;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &str);
@@ -154,7 +155,7 @@ PHP_METHOD(Phalcon_Escaper, detectEncoding) {
 		RETURN_MM_NULL();
 	}
 	ZEPHIR_INIT_VAR(_0);
-	array_init_size(_0, 5);
+	array_init_size(_0, 6);
 	ZEPHIR_INIT_VAR(_1);
 	ZVAL_STRING(_1, "UTF-32", 1);
 	zephir_array_fast_append(_0, _1);
@@ -229,7 +230,9 @@ PHP_METHOD(Phalcon_Escaper, escapeHtml) {
 		zephir_get_strval(text, text_param);
 
 
+	ZEPHIR_INIT_ZVAL_NREF(_0);
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_htmlQuoteType"), PH_NOISY_CC);
+	ZEPHIR_INIT_ZVAL_NREF(_1);
 	_1 = zephir_fetch_nproperty_this(this_ptr, SL("_encoding"), PH_NOISY_CC);
 	zephir_call_func_p3(return_value, "htmlspecialchars", text, _0, _1);
 	RETURN_MM();
@@ -253,6 +256,7 @@ PHP_METHOD(Phalcon_Escaper, escapeHtmlAttr) {
 		zephir_get_strval(attribute, attribute_param);
 
 
+	ZEPHIR_INIT_ZVAL_NREF(_0);
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_encoding"), PH_NOISY_CC);
 	ZEPHIR_SINIT_VAR(_1);
 	ZVAL_LONG(&_1, 3);

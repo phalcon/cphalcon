@@ -164,7 +164,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Introspection, getMetaData) {
 		ZEPHIR_INIT_NVAR(_9);
 		zephir_call_method(_9, column, "isautoincrement");
 		if (ZEPHIR_IS_TRUE(_9)) {
-			identityField = zephir_get_boolval(fieldName);
+			identityField = zephir_is_true(fieldName);
 		}
 		ZEPHIR_INIT_NVAR(_10);
 		zephir_call_method(_10, column, "gettype");
@@ -173,7 +173,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Introspection, getMetaData) {
 		zephir_call_method(_11, column, "getbindtype");
 		zephir_array_update_zval(&fieldBindTypes, fieldName, &_11, PH_COPY | PH_SEPARATE);
 	}
-	array_init_size(return_value, 11);
+	array_init_size(return_value, 13);
 	zephir_array_update_long(&return_value, 0, &attributes, PH_COPY, "phalcon/mvc/model/metadata/strategy/introspection.zep", 156);
 	zephir_array_update_long(&return_value, 1, &primaryKeys, PH_COPY, "phalcon/mvc/model/metadata/strategy/introspection.zep", 156);
 	zephir_array_update_long(&return_value, 2, &nonPrimaryKeys, PH_COPY, "phalcon/mvc/model/metadata/strategy/introspection.zep", 156);

@@ -218,7 +218,8 @@ PHP_METHOD(Phalcon_Db_Reference, __construct) {
  */
 PHP_METHOD(Phalcon_Db_Reference, __set_state) {
 
-	zval *data, *referencedSchema, *referencedTable, *columns, *referencedColumns, *constraintName, *_0;
+	zval *_0;
+	zval *data, *referencedSchema, *referencedTable, *columns, *referencedColumns, *constraintName;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &data);
@@ -231,7 +232,7 @@ PHP_METHOD(Phalcon_Db_Reference, __set_state) {
 	}
 	object_init_ex(return_value, phalcon_db_reference_ce);
 	ZEPHIR_INIT_VAR(_0);
-	array_init_size(_0, 5);
+	array_init_size(_0, 6);
 	zephir_array_update_string(&_0, SL("referencedSchema"), &referencedSchema, PH_COPY | PH_SEPARATE);
 	zephir_array_update_string(&_0, SL("referencedTable"), &referencedTable, PH_COPY | PH_SEPARATE);
 	zephir_array_update_string(&_0, SL("columns"), &columns, PH_COPY | PH_SEPARATE);

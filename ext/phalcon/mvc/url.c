@@ -133,6 +133,7 @@ PHP_METHOD(Phalcon_Mvc_Url, setBaseUri) {
 
 
 	zephir_update_property_this(this_ptr, SL("_baseUri"), baseUri TSRMLS_CC);
+	ZEPHIR_INIT_ZVAL_NREF(_0);
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_staticBaseUri"), PH_NOISY_CC);
 	if ((Z_TYPE_P(_0) == IS_NULL)) {
 		zephir_update_property_this(this_ptr, SL("_staticBaseUri"), baseUri TSRMLS_CC);
@@ -313,6 +314,7 @@ PHP_METHOD(Phalcon_Mvc_Url, get) {
 			ZEPHIR_THROW_EXCEPTION_STR(phalcon_mvc_url_exception_ce, "It's necessary to define the route name with the parameter 'for'");
 			return;
 		}
+		ZEPHIR_INIT_ZVAL_NREF(_0);
 		_0 = zephir_fetch_nproperty_this(this_ptr, SL("_router"), PH_NOISY_CC);
 		ZEPHIR_CPY_WRT(router, _0);
 		if ((Z_TYPE_P(router) != IS_OBJECT)) {
@@ -403,6 +405,7 @@ PHP_METHOD(Phalcon_Mvc_Url, path) {
 	}
 
 
+	ZEPHIR_INIT_ZVAL_NREF(_0);
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_basePath"), PH_NOISY_CC);
 	ZEPHIR_CONCAT_VV(return_value, _0, path);
 	return;

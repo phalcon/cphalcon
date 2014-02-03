@@ -86,8 +86,8 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_Validator_StringLength) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_Validator_StringLength, validate) {
 
-	zend_bool invalidMaximum, invalidMinimum;
-	zval *record, *field, *isSetMin, *isSetMax, *value, *length, *maximum, *minimum, *message = NULL, *replacePairs = NULL, *_0, *_1, *_2 = NULL, *_3;
+	zend_bool invalidMaximum, invalidMinimum, _2;
+	zval *record, *field, *isSetMin, *isSetMax, *value, *length, *maximum, *minimum, *message = NULL, *replacePairs = NULL, *_0, *_1, *_3 = NULL, *_4;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &record);
@@ -124,7 +124,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_StringLength, validate) {
 	ZEPHIR_INIT_VAR(_1);
 	ZVAL_STRING(_1, "allowEmpty", 1);
 	zephir_call_method_p1(_0, this_ptr, "issetoption", _1);
-	if (zephir_is_true(_0) && ZEPHIR_IS_EMPTY(value)) {
+	_2 = zephir_is_true(_0);
+	if (_2) {
+		_2 = ZEPHIR_IS_EMPTY(value);
+	}
+	if (_2) {
 		RETURN_MM_BOOL(1);
 	}
 	ZEPHIR_INIT_VAR(length);
@@ -156,23 +160,23 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_StringLength, validate) {
 			}
 			ZEPHIR_INIT_BNVAR(_1);
 			zephir_call_func_p2(_1, "strtr", message, replacePairs);
-			ZEPHIR_INIT_VAR(_2);
-			ZVAL_STRING(_2, "TooLong", 1);
-			zephir_call_method_p3_noret(this_ptr, "appendmessage", _1, field, _2);
+			ZEPHIR_INIT_VAR(_3);
+			ZVAL_STRING(_3, "TooLong", 1);
+			zephir_call_method_p3_noret(this_ptr, "appendmessage", _1, field, _3);
 			RETURN_MM_BOOL(0);
 		}
 	}
 	if (zephir_is_true(isSetMin)) {
-		ZEPHIR_INIT_NVAR(_2);
-		ZVAL_STRING(_2, "min", 1);
+		ZEPHIR_INIT_NVAR(_3);
+		ZVAL_STRING(_3, "min", 1);
 		ZEPHIR_INIT_VAR(minimum);
-		zephir_call_method_p1(minimum, this_ptr, "getoption", _2);
+		zephir_call_method_p1(minimum, this_ptr, "getoption", _3);
 		invalidMinimum = ZEPHIR_LT(length, minimum);
 		if ((invalidMinimum == 1)) {
-			ZEPHIR_INIT_NVAR(_2);
-			ZVAL_STRING(_2, "messageMinimum", 1);
+			ZEPHIR_INIT_NVAR(_3);
+			ZVAL_STRING(_3, "messageMinimum", 1);
 			ZEPHIR_INIT_NVAR(message);
-			zephir_call_method_p1(message, this_ptr, "getoption", _2);
+			zephir_call_method_p1(message, this_ptr, "getoption", _3);
 			ZEPHIR_INIT_NVAR(replacePairs);
 			array_init_size(replacePairs, 3);
 			zephir_array_update_string(&replacePairs, SL(":field"), &field, PH_COPY | PH_SEPARATE);
@@ -181,11 +185,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_StringLength, validate) {
 				ZEPHIR_INIT_NVAR(message);
 				ZVAL_STRING(message, "Value of field :field is less than the minimum :min characters", 1);
 			}
-			ZEPHIR_INIT_NVAR(_2);
-			zephir_call_func_p2(_2, "strtr", message, replacePairs);
-			ZEPHIR_INIT_VAR(_3);
-			ZVAL_STRING(_3, "TooShort", 1);
-			zephir_call_method_p3_noret(this_ptr, "appendmessage", _2, field, _3);
+			ZEPHIR_INIT_NVAR(_3);
+			zephir_call_func_p2(_3, "strtr", message, replacePairs);
+			ZEPHIR_INIT_VAR(_4);
+			ZVAL_STRING(_4, "TooShort", 1);
+			zephir_call_method_p3_noret(this_ptr, "appendmessage", _3, field, _4);
 			RETURN_MM_BOOL(0);
 		}
 	}

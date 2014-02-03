@@ -121,6 +121,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Session, read) {
 
 	zephir_get_global(&_SESSION, SS("_SESSION") TSRMLS_CC);
 	ZEPHIR_CPY_WRT(session, _SESSION);
+	ZEPHIR_INIT_ZVAL_NREF(_0);
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_prefix"), PH_NOISY_CC);
 	ZEPHIR_INIT_VAR(prefixKey);
 	ZEPHIR_CONCAT_SV(prefixKey, "$PMM$", _0);
@@ -162,6 +163,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Session, write) {
 
 
 	zephir_get_global(&_SESSION, SS("_SESSION") TSRMLS_CC);
+	ZEPHIR_INIT_ZVAL_NREF(_0);
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_prefix"), PH_NOISY_CC);
 	ZEPHIR_INIT_VAR(_1);
 	ZEPHIR_CONCAT_SV(_1, "$PMM$", _0);

@@ -176,6 +176,7 @@ PHP_METHOD(Phalcon_Http_Request_File, getRealType) {
 	if ((Z_TYPE_P(finfo) != IS_RESOURCE)) {
 		RETURN_MM_STRING("", 1);
 	}
+	ZEPHIR_INIT_ZVAL_NREF(_1);
 	_1 = zephir_fetch_nproperty_this(this_ptr, SL("_tmp"), PH_NOISY_CC);
 	ZEPHIR_INIT_VAR(mime);
 	zephir_call_func_p2(mime, "finfo_file", finfo, _1);
@@ -211,6 +212,7 @@ PHP_METHOD(Phalcon_Http_Request_File, moveTo) {
 	}
 
 
+	ZEPHIR_INIT_ZVAL_NREF(_0);
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_tmp"), PH_NOISY_CC);
 	zephir_call_func_p2(return_value, "move_uploaded_file", _0, destination);
 	RETURN_MM();

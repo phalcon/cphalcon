@@ -243,6 +243,7 @@ PHP_METHOD(Phalcon_Security, hash) {
  */
 PHP_METHOD(Phalcon_Security, checkHash) {
 
+	zend_bool _0;
 	int maxPassLength;
 	zval *password_param = NULL, *passwordHash_param = NULL, *maxPassLength_param = NULL, *hash;
 	zval *password = NULL, *passwordHash = NULL;
@@ -256,7 +257,11 @@ PHP_METHOD(Phalcon_Security, checkHash) {
 
 
 	if (maxPassLength) {
-		if (((maxPassLength > 0) && (zephir_fast_count_int(password TSRMLS_CC) > maxPassLength))) {
+		_0 = (maxPassLength > 0);
+		if (_0) {
+			_0 = (zephir_fast_count_int(password TSRMLS_CC) > maxPassLength);
+		}
+		if (_0) {
 			RETURN_MM_BOOL(0);
 		}
 	}

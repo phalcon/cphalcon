@@ -83,7 +83,8 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Router_Annotations) {
  */
 PHP_METHOD(Phalcon_Mvc_Router_Annotations, addResource) {
 
-	zval *handler_param = NULL, *prefix_param = NULL, *_0;
+	zval *_0;
+	zval *handler_param = NULL, *prefix_param = NULL;
 	zval *handler = NULL, *prefix = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -140,7 +141,8 @@ PHP_METHOD(Phalcon_Mvc_Router_Annotations, addResource) {
  */
 PHP_METHOD(Phalcon_Mvc_Router_Annotations, addModuleResource) {
 
-	zval *module_param = NULL, *handler_param = NULL, *prefix_param = NULL, *_0;
+	zval *_0;
+	zval *module_param = NULL, *handler_param = NULL, *prefix_param = NULL;
 	zval *module = NULL, *handler = NULL, *prefix = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -237,6 +239,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Annotations, handle) {
 	} else {
 		ZEPHIR_CPY_WRT(realUri, uri);
 	}
+	ZEPHIR_INIT_ZVAL_NREF(_0);
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_processed"), PH_NOISY_CC);
 	if (zephir_is_true(_0)) {
 		ZEPHIR_INIT_VAR(annotationsService);
@@ -258,6 +261,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Annotations, handle) {
 						}
 					}
 					if ((Z_TYPE_P(annotationsService) == IS_OBJECT)) {
+						ZEPHIR_INIT_ZVAL_NREF(_4);
 						_4 = zephir_fetch_nproperty_this(this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
 						ZEPHIR_CPY_WRT(dependencyInjector, _4);
 						if ((Z_TYPE_P(dependencyInjector) != IS_OBJECT)) {
@@ -486,6 +490,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Annotations, processActionAnnotation) {
 	if ((isRoute == 1)) {
 		ZEPHIR_INIT_VAR(actionName);
 		ZEPHIR_INIT_VAR(_0);
+		ZEPHIR_INIT_ZVAL_NREF(_1);
 		_1 = zephir_fetch_nproperty_this(this_ptr, SL("_actionSuffix"), PH_NOISY_CC);
 		ZEPHIR_SINIT_VAR(_2);
 		ZVAL_STRING(&_2, "", 0);

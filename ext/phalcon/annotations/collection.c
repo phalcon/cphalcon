@@ -126,6 +126,7 @@ PHP_METHOD(Phalcon_Annotations_Collection, count) {
 	zval *_0;
 
 
+	ZEPHIR_INIT_ZVAL_NREF(_0);
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_annotations"), PH_NOISY_CC);
 	RETURN_LONG(zephir_fast_count_int(_0 TSRMLS_CC));
 
@@ -155,7 +156,9 @@ PHP_METHOD(Phalcon_Annotations_Collection, current) {
 	zval *annotation, *_0, *_1;
 
 
+	ZEPHIR_INIT_ZVAL_NREF(_0);
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_annotations"), PH_NOISY_CC);
+	ZEPHIR_INIT_ZVAL_NREF(_1);
 	_1 = zephir_fetch_nproperty_this(this_ptr, SL("_position"), PH_NOISY_CC);
 	if (zephir_array_isset_fetch(&annotation, _0, _1, 1 TSRMLS_CC)) {
 		RETURN_CTORW(annotation);
@@ -182,7 +185,11 @@ PHP_METHOD(Phalcon_Annotations_Collection, key) {
  */
 PHP_METHOD(Phalcon_Annotations_Collection, next) {
 
+	zval *_0;
 
+
+	ZEPHIR_INIT_ZVAL_NREF(_0);
+	zephir_increment(_0);
 
 }
 
@@ -197,6 +204,7 @@ PHP_METHOD(Phalcon_Annotations_Collection, valid) {
 
 	ZEPHIR_MM_GROW();
 
+	ZEPHIR_INIT_ZVAL_NREF(_0);
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_annotations"), PH_NOISY_CC);
 	ZEPHIR_OBS_VAR(_2);
 	zephir_read_property_this(&_2, this_ptr, SL("_position"), PH_NOISY_CC);

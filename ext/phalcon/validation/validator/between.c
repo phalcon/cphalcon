@@ -71,8 +71,9 @@ ZEPHIR_INIT_CLASS(Phalcon_Validation_Validator_Between) {
  */
 PHP_METHOD(Phalcon_Validation_Validator_Between, validate) {
 
+	zend_bool _2, _3;
 	zval *field = NULL;
-	zval *validation, *field_param = NULL, *value, *minimum, *maximum, *message = NULL, *label = NULL, *replacePairs, *_0, *_1, *_2, *_3;
+	zval *validation, *field_param = NULL, *value, *minimum, *maximum, *message = NULL, *label = NULL, *replacePairs, *_0, *_1, *_4, *_5;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &validation, &field_param);
@@ -104,10 +105,18 @@ PHP_METHOD(Phalcon_Validation_Validator_Between, validate) {
 	ZEPHIR_INIT_VAR(_1);
 	ZVAL_STRING(_1, "allowEmpty", 1);
 	zephir_call_method_p1(_0, this_ptr, "issetoption", _1);
-	if (zephir_is_true(_0) && ZEPHIR_IS_EMPTY(value)) {
+	_2 = zephir_is_true(_0);
+	if (_2) {
+		_2 = ZEPHIR_IS_EMPTY(value);
+	}
+	if (_2) {
 		RETURN_MM_BOOL(1);
 	}
-	if ((ZEPHIR_GE(value, minimum) || ZEPHIR_LE(value, maximum))) {
+	_3 = ZEPHIR_GE(value, minimum);
+	if (!(_3)) {
+		_3 = ZEPHIR_LE(value, maximum);
+	}
+	if (_3) {
 		ZEPHIR_INIT_BNVAR(_1);
 		ZVAL_STRING(_1, "label", 1);
 		ZEPHIR_INIT_VAR(label);
@@ -134,14 +143,14 @@ PHP_METHOD(Phalcon_Validation_Validator_Between, validate) {
 			ZEPHIR_INIT_NVAR(message);
 			zephir_call_method_p1(message, validation, "getdefaultmessage", _1);
 		}
-		ZEPHIR_INIT_VAR(_2);
-		object_init_ex(_2, phalcon_validation_message_ce);
+		ZEPHIR_INIT_VAR(_4);
+		object_init_ex(_4, phalcon_validation_message_ce);
 		ZEPHIR_INIT_BNVAR(_1);
 		zephir_call_func_p2(_1, "strtr", message, replacePairs);
-		ZEPHIR_INIT_VAR(_3);
-		ZVAL_STRING(_3, "Between", 1);
-		zephir_call_method_p3_noret(_2, "__construct", _1, field, _3);
-		zephir_call_method_p1_noret(validation, "appendmessage", _2);
+		ZEPHIR_INIT_VAR(_5);
+		ZVAL_STRING(_5, "Between", 1);
+		zephir_call_method_p3_noret(_4, "__construct", _1, field, _5);
+		zephir_call_method_p1_noret(validation, "appendmessage", _4);
 		RETURN_MM_BOOL(0);
 	}
 	RETURN_MM_BOOL(1);

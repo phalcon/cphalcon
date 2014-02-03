@@ -281,6 +281,7 @@ PHP_METHOD(Phalcon_Db_Column, getScale) {
  */
 PHP_METHOD(Phalcon_Db_Column, __construct) {
 
+	zend_bool _0;
 	zval *name_param = NULL, *definition, *type, *notNull, *primary, *size, *scale, *dunsigned, *first, *after, *bindType, *isNumeric, *autoIncrement;
 	zval *name = NULL;
 
@@ -317,7 +318,11 @@ PHP_METHOD(Phalcon_Db_Column, __construct) {
 		zephir_update_property_this(this_ptr, SL("_size"), size TSRMLS_CC);
 	}
 	if (zephir_array_isset_string_fetch(&scale, definition, SS("scale"), 1 TSRMLS_CC)) {
-		if ((ZEPHIR_IS_LONG(type, 0) || ZEPHIR_IS_LONG(type, 7))) {
+		_0 = ZEPHIR_IS_LONG(type, 0);
+		if (!(_0)) {
+			_0 = ZEPHIR_IS_LONG(type, 7);
+		}
+		if (_0) {
 			zephir_update_property_this(this_ptr, SL("_scale"), scale TSRMLS_CC);
 		} else {
 			ZEPHIR_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "Column type does not support scale parameter");

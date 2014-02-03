@@ -191,7 +191,8 @@ PHP_METHOD(Phalcon_Validation, validate) {
  */
 PHP_METHOD(Phalcon_Validation, add) {
 
-	zval *field_param = NULL, *validator, *_0;
+	zval *_0;
+	zval *field_param = NULL, *validator;
 	zval *field = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -317,7 +318,7 @@ PHP_METHOD(Phalcon_Validation, setDefaultMessages) {
 		return;
 	}
 	ZEPHIR_INIT_VAR(defaultMessages);
-	array_init_size(defaultMessages, 23);
+	array_init_size(defaultMessages, 28);
 	add_assoc_stringl_ex(defaultMessages, SS("Alnum"), SL("Field :field must contain only alphanumeric characters"), 1);
 	add_assoc_stringl_ex(defaultMessages, SS("Alpha"), SL("Field :field must contain only letters"), 1);
 	add_assoc_stringl_ex(defaultMessages, SS("Between"), SL(":field is not between a valid range"), 1);
@@ -374,6 +375,7 @@ PHP_METHOD(Phalcon_Validation, getDefaultMessage) {
 	}
 
 
+	ZEPHIR_INIT_ZVAL_NREF(_0);
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_defaultMessages"), PH_NOISY_CC);
 	zephir_array_fetch(&_1, _0, type, PH_NOISY | PH_READONLY TSRMLS_CC);
 	RETURN_CTOR(_1);

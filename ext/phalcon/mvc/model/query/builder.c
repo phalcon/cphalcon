@@ -381,7 +381,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getFrom) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, join) {
 
-	zval *model_param = NULL, *conditions = NULL, *alias = NULL, *type = NULL, *_0;
+	zval *_0;
+	zval *model_param = NULL, *conditions = NULL, *alias = NULL, *type = NULL;
 	zval *model = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -410,7 +411,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, join) {
 
 
 	ZEPHIR_INIT_VAR(_0);
-	array_init_size(_0, 5);
+	array_init_size(_0, 6);
 	zephir_array_fast_append(_0, model);
 	zephir_array_fast_append(_0, conditions);
 	zephir_array_fast_append(_0, alias);
@@ -438,7 +439,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, join) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, innerJoin) {
 
-	zval *model_param = NULL, *conditions = NULL, *alias = NULL, *_0, *_1;
+	zval *_0;
+	zval *model_param = NULL, *conditions = NULL, *alias = NULL, *_1;
 	zval *model = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -464,7 +466,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, innerJoin) {
 
 
 	ZEPHIR_INIT_VAR(_0);
-	array_init_size(_0, 5);
+	array_init_size(_0, 6);
 	zephir_array_fast_append(_0, model);
 	zephir_array_fast_append(_0, conditions);
 	zephir_array_fast_append(_0, alias);
@@ -490,7 +492,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, innerJoin) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, leftJoin) {
 
-	zval *model_param = NULL, *conditions = NULL, *alias = NULL, *_0, *_1;
+	zval *_0;
+	zval *model_param = NULL, *conditions = NULL, *alias = NULL, *_1;
 	zval *model = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -516,7 +519,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, leftJoin) {
 
 
 	ZEPHIR_INIT_VAR(_0);
-	array_init_size(_0, 5);
+	array_init_size(_0, 6);
 	zephir_array_fast_append(_0, model);
 	zephir_array_fast_append(_0, conditions);
 	zephir_array_fast_append(_0, alias);
@@ -542,7 +545,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, leftJoin) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, rightJoin) {
 
-	zval *model, *conditions = NULL, *alias = NULL, *_0, *_1;
+	zval *_0;
+	zval *model, *conditions = NULL, *alias = NULL, *_1;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 2, &model, &conditions, &alias);
@@ -556,7 +560,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, rightJoin) {
 
 
 	ZEPHIR_INIT_VAR(_0);
-	array_init_size(_0, 5);
+	array_init_size(_0, 6);
 	zephir_array_fast_append(_0, model);
 	zephir_array_fast_append(_0, conditions);
 	zephir_array_fast_append(_0, alias);
@@ -779,7 +783,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, orWhere) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, betweenWhere) {
 
-	zval *expr_param = NULL, *minimum, *maximum, *hiddenParam, *nextHiddenParam, *minimumKey, *maximumKey, *_0, *_1;
+	zval *_1;
+	zval *expr_param = NULL, *minimum, *maximum, *hiddenParam, *nextHiddenParam, *minimumKey, *maximumKey, *_0;
 	zval *expr = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -833,7 +838,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, betweenWhere) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, notBetweenWhere) {
 
-	zval *expr_param = NULL, *minimum, *maximum, *hiddenParam, *nextHiddenParam, *minimumKey, *maximumKey, *_0, *_1;
+	zval *_1;
+	zval *expr_param = NULL, *minimum, *maximum, *hiddenParam, *nextHiddenParam, *minimumKey, *maximumKey, *_0;
 	zval *expr = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -1137,7 +1143,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, limit) {
 	ZVAL_LONG(_0, limit);
 	zephir_update_property_zval(this_ptr, SL("_limit"), _0 TSRMLS_CC);
 	if ((offset >= 0)) {
-		ZEPHIR_INIT_ZVAL_NREF(_0);
 		ZVAL_LONG(_0, offset);
 		zephir_update_property_zval(this_ptr, SL("_offset"), _0 TSRMLS_CC);
 	}
@@ -1239,7 +1244,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getPhql) {
 	HashPosition _4, _7, _10, _14, _18, _21;
 	zend_class_entry *_1;
 	zend_bool noPrimary;
-	zval *dependencyInjector, *models, *conditions, *model = NULL, *metaData, *modelInstance, *primaryKeys, *firstPrimaryKey, *columnMap, *modelAlias = NULL, *attributeField = NULL, *phql, *column = NULL, *columns, *selectedColumns = NULL, *selectedColumn = NULL, *selectedModel = NULL, *selectedModels, *columnAlias = NULL, *modelColumnAlias = NULL, *joins, *join = NULL, *joinModel, *joinConditions, *joinAlias, *joinType, *group, *groupItems, *groupItem = NULL, *having, *order, *orderItems, *orderItem = NULL, *limit, *number, *offset = NULL, *_0 = NULL, *_2 = NULL, *_3 = NULL, **_6, **_9, **_12, *_13 = NULL, **_16, *_17 = NULL, **_20, **_23, *_24;
+	zval *dependencyInjector, *models, *conditions = NULL, *model = NULL, *metaData, *modelInstance, *primaryKeys, *firstPrimaryKey, *columnMap, *modelAlias = NULL, *attributeField = NULL, *phql, *column = NULL, *columns, *selectedColumns = NULL, *selectedColumn = NULL, *selectedModel = NULL, *selectedModels, *columnAlias = NULL, *modelColumnAlias = NULL, *joins, *join = NULL, *joinModel, *joinConditions, *joinAlias, *joinType, *group, *groupItems, *groupItem = NULL, *having, *order, *orderItems, *orderItem = NULL, *limit, *number, *offset = NULL, *_0 = NULL, *_2 = NULL, *_3 = NULL, **_6, **_9, **_12, *_13 = NULL, **_16, *_17 = NULL, **_20, **_23, *_24;
 
 	ZEPHIR_MM_GROW();
 
@@ -1311,8 +1316,9 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getPhql) {
 				} else {
 					ZEPHIR_CPY_WRT(attributeField, firstPrimaryKey);
 				}
-				ZEPHIR_INIT_BNVAR(conditions);
-				ZEPHIR_CONCAT_SVSVSV(conditions, "[", model, "].[", attributeField, "] = ", conditions);
+				ZEPHIR_INIT_LNVAR(_2);
+				ZEPHIR_CONCAT_SVSVSV(_2, "[", model, "].[", attributeField, "] = ", conditions);
+				ZEPHIR_CPY_WRT(conditions, _2);
 				noPrimary = 0;
 			}
 		}
@@ -1592,6 +1598,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getQuery) {
 	if (zephir_has_constructor(query TSRMLS_CC)) {
 		ZEPHIR_INIT_VAR(_0);
 		zephir_call_method(_0, this_ptr, "getphql");
+		ZEPHIR_INIT_ZVAL_NREF(_1);
 		_1 = zephir_fetch_nproperty_this(this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
 		zephir_call_method_p2_noret(query, "__construct", _0, _1);
 	}

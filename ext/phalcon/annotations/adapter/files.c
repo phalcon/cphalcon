@@ -104,6 +104,7 @@ PHP_METHOD(Phalcon_Annotations_Adapter_Files, read) {
 		zephir_get_strval(key, key_param);
 
 
+	ZEPHIR_INIT_ZVAL_NREF(_0);
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_annotationsDir"), PH_NOISY_CC);
 	ZEPHIR_INIT_VAR(_1);
 	ZVAL_STRING(_1, "_", 1);
@@ -148,6 +149,7 @@ PHP_METHOD(Phalcon_Annotations_Adapter_Files, write) {
 	}
 
 
+	ZEPHIR_INIT_ZVAL_NREF(_0);
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_annotationsDir"), PH_NOISY_CC);
 	ZEPHIR_INIT_VAR(_1);
 	ZVAL_STRING(_1, "_", 1);

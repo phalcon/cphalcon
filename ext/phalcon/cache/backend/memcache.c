@@ -134,6 +134,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Memcache, __construct) {
  */
 PHP_METHOD(Phalcon_Cache_Backend_Memcache, _connect) {
 
+	zend_bool _1, _2;
 	zend_class_entry *_0;
 	zval *options, *memcache, *persistent, *success, *host, *port;
 
@@ -146,7 +147,15 @@ PHP_METHOD(Phalcon_Cache_Backend_Memcache, _connect) {
 	if (zephir_has_constructor(memcache TSRMLS_CC)) {
 		zephir_call_method_noret(memcache, "__construct");
 	}
-	if (((!zephir_array_isset_string(options, SS("host")) || !zephir_array_isset_string(options, SS("port"))) || !zephir_array_isset_string(options, SS("persistent")))) {
+	_1 = !zephir_array_isset_string(options, SS("host"));
+	if (!(_1)) {
+		_2 = !zephir_array_isset_string(options, SS("port"));
+		if (!(_2)) {
+			_2 = !zephir_array_isset_string(options, SS("persistent"));
+		}
+		_1 = _2;
+	}
+	if (_1) {
 		ZEPHIR_THROW_EXCEPTION_STR(phalcon_cache_exception_ce, "Unexpected inconsistency in options");
 		return;
 	}
@@ -371,6 +380,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Memcache, delete) {
  */
 PHP_METHOD(Phalcon_Cache_Backend_Memcache, queryKeys) {
 
+	zend_bool _3;
 	HashTable *_1;
 	HashPosition _0;
 	zval *prefix = NULL, *memcache = NULL, *options, *keys, *specialKey, *key = NULL, **_2;
@@ -405,7 +415,11 @@ PHP_METHOD(Phalcon_Cache_Backend_Memcache, queryKeys) {
 			; zend_hash_move_forward_ex(_1, &_0)
 		) {
 			ZEPHIR_GET_HVALUE(key, _2);
-			if ((!zephir_is_true(prefix) || zephir_start_with(key, prefix, 0))) {
+			_3 = !zephir_is_true(prefix);
+			if (!(_3)) {
+				_3 = zephir_start_with(key, prefix, 0);
+			}
+			if (_3) {
 				RETURN_CCTOR(key);
 			}
 		}

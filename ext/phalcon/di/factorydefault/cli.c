@@ -57,13 +57,14 @@ ZEPHIR_INIT_CLASS(Phalcon_Di_FactoryDefault_Cli) {
  */
 PHP_METHOD(Phalcon_Di_FactoryDefault_Cli, __construct) {
 
-	zval *_0, *_1 = NULL, *_2, *_3;
+	zval *_1 = NULL, *_2, *_3;
+	zval *_0;
 
 	ZEPHIR_MM_GROW();
 
 	zephir_call_parent_noret(this_ptr, phalcon_di_factorydefault_cli_ce, "__construct");
 	ZEPHIR_INIT_VAR(_0);
-	array_init_size(_0, 11);
+	array_init_size(_0, 13);
 	ZEPHIR_INIT_VAR(_1);
 	object_init_ex(_1, phalcon_di_service_ce);
 	ZEPHIR_INIT_VAR(_2);

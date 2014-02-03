@@ -94,7 +94,8 @@ ZEPHIR_INIT_CLASS(Phalcon_Cache_Backend_Libmemcached) {
  */
 PHP_METHOD(Phalcon_Cache_Backend_Libmemcached, __construct) {
 
-	zval *frontend, *options = NULL, *config, *_0 = NULL;
+	zval *_0;
+	zval *frontend, *options = NULL, *servers, *_1;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 1, &frontend, &options);
@@ -111,20 +112,20 @@ PHP_METHOD(Phalcon_Cache_Backend_Libmemcached, __construct) {
 		array_init(options);
 	}
 	if (!(zephir_array_isset_string(options, SS("servers")))) {
-		ZEPHIR_INIT_VAR(config);
-		array_init_size(config, 4);
-		add_assoc_stringl_ex(config, SS("host"), SL("127.0.0.1"), 1);
-		add_assoc_long_ex(config, SS("port"), 11211);
-		add_assoc_long_ex(config, SS("weigth"), 1);
+		ZEPHIR_INIT_VAR(servers);
+		array_init_size(servers, 2);
 		ZEPHIR_INIT_VAR(_0);
-		array_init_size(_0, 2);
-		zephir_array_fast_append(_0, config);
-		zephir_array_update_string(&options, SL("servers"), &_0, PH_COPY | PH_SEPARATE);
+		array_init_size(_0, 4);
+		add_assoc_stringl_ex(_0, SS("host"), SL("127.0.0.1"), 1);
+		add_assoc_long_ex(_0, SS("port"), 11211);
+		add_assoc_long_ex(_0, SS("weigth"), 1);
+		zephir_array_update_long(&servers, 0, &_0, PH_COPY, "phalcon/cache/backend/libmemcached.zep", 77);
+		zephir_array_update_string(&options, SL("servers"), &servers, PH_COPY | PH_SEPARATE);
 	}
 	if (!(zephir_array_isset_string(options, SS("statsKey")))) {
-		ZEPHIR_INIT_NVAR(_0);
-		ZVAL_STRING(_0, "_PHCM", 1);
-		zephir_array_update_string(&options, SL("statsKey"), &_0, PH_COPY | PH_SEPARATE);
+		ZEPHIR_INIT_VAR(_1);
+		ZVAL_STRING(_1, "_PHCM", 1);
+		zephir_array_update_string(&options, SL("statsKey"), &_1, PH_COPY | PH_SEPARATE);
 	}
 	zephir_call_parent_p2_noret(this_ptr, phalcon_cache_backend_libmemcached_ce, "__construct", frontend, options);
 	ZEPHIR_MM_RESTORE();
@@ -489,6 +490,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Libmemcached, delete) {
  */
 PHP_METHOD(Phalcon_Cache_Backend_Libmemcached, queryKeys) {
 
+	zend_bool _3;
 	HashTable *_1;
 	HashPosition _0;
 	zval *prefix = NULL, *memcache = NULL, *options, *keys, *specialKey, *key = NULL, **_2;
@@ -523,7 +525,11 @@ PHP_METHOD(Phalcon_Cache_Backend_Libmemcached, queryKeys) {
 			; zend_hash_move_forward_ex(_1, &_0)
 		) {
 			ZEPHIR_GET_HVALUE(key, _2);
-			if ((!zephir_is_true(prefix) || zephir_start_with(key, prefix, 0))) {
+			_3 = !zephir_is_true(prefix);
+			if (!(_3)) {
+				_3 = zephir_start_with(key, prefix, 0);
+			}
+			if (_3) {
 				RETURN_CCTOR(key);
 			}
 		}

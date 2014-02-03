@@ -234,7 +234,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Mysql, describeColumns) {
 			ZEPHIR_INIT_NVAR(matches);
 			ZVAL_NULL(matches);
 			ZEPHIR_INIT_NVAR(_6);
-			zephir_preg_match(_6, &(_6), sizePattern, columnType, matches, 0 TSRMLS_CC);
+			zephir_preg_match(_6, &(_6), sizePattern, columnType, matches, 0, 0 , 0  TSRMLS_CC);
 			if (zephir_is_true(_6)) {
 				if (zephir_array_isset_long_fetch(&matchOne, matches, 1, 1 TSRMLS_CC)) {
 					zephir_array_update_string(&definition, SL("size"), &matchOne, PH_COPY | PH_SEPARATE);

@@ -80,7 +80,8 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_Validator_Exclusionin) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_Validator_Exclusionin, validate) {
 
-	zval *record, *field, *domain, *value, *message = NULL, *replacePairs, *_0, *_1, *_2, *_3;
+	zend_bool _3;
+	zval *record, *field, *domain, *value, *message = NULL, *replacePairs, *_0, *_1, *_2, *_4;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &record);
@@ -117,7 +118,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Exclusionin, validate) {
 	ZEPHIR_INIT_VAR(_2);
 	ZVAL_STRING(_2, "allowEmpty", 1);
 	zephir_call_method_p1(_1, this_ptr, "issetoption", _2);
-	if (zephir_is_true(_1) && ZEPHIR_IS_EMPTY(value)) {
+	_3 = zephir_is_true(_1);
+	if (_3) {
+		_3 = ZEPHIR_IS_EMPTY(value);
+	}
+	if (_3) {
 		RETURN_MM_BOOL(1);
 	}
 	if (zephir_fast_in_array(value, domain TSRMLS_CC)) {
@@ -137,9 +142,9 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Exclusionin, validate) {
 		}
 		ZEPHIR_INIT_BNVAR(_2);
 		zephir_call_func_p2(_2, "strtr", message, replacePairs);
-		ZEPHIR_INIT_VAR(_3);
-		ZVAL_STRING(_3, "Exclusion", 1);
-		zephir_call_method_p3_noret(this_ptr, "appendmessage", _2, field, _3);
+		ZEPHIR_INIT_VAR(_4);
+		ZVAL_STRING(_4, "Exclusion", 1);
+		zephir_call_method_p3_noret(this_ptr, "appendmessage", _2, field, _4);
 		RETURN_MM_BOOL(0);
 	}
 	RETURN_MM_BOOL(1);

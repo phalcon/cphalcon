@@ -152,6 +152,7 @@ PHP_METHOD(Phalcon_Forms_Element_Select, render) {
 
 	ZEPHIR_INIT_VAR(_0);
 	zephir_call_method_p1(_0, this_ptr, "prepareattributes", attributes);
+	ZEPHIR_INIT_ZVAL_NREF(_1);
 	_1 = zephir_fetch_nproperty_this(this_ptr, SL("_optionsValues"), PH_NOISY_CC);
 	zephir_call_static_p2(return_value, "Phalcon\\Tag\\Select", "selectfield", _0, _1);
 	RETURN_MM();

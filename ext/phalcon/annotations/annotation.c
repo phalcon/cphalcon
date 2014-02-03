@@ -244,6 +244,7 @@ PHP_METHOD(Phalcon_Annotations_Annotation, numberArguments) {
 	zval *_0;
 
 
+	ZEPHIR_INIT_ZVAL_NREF(_0);
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_arguments"), PH_NOISY_CC);
 	RETURN_LONG(zephir_fast_count_int(_0 TSRMLS_CC));
 
@@ -265,6 +266,7 @@ PHP_METHOD(Phalcon_Annotations_Annotation, getArgument) {
 		position = zephir_get_intval(position_param);
 
 
+	ZEPHIR_INIT_ZVAL_NREF(_0);
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_arguments"), PH_NOISY_CC);
 	if (zephir_array_isset_long_fetch(&argument, _0, position, 1 TSRMLS_CC)) {
 		RETURN_CTORW(argument);
@@ -288,6 +290,7 @@ PHP_METHOD(Phalcon_Annotations_Annotation, hasArgument) {
 		position = zephir_get_intval(position_param);
 
 
+	ZEPHIR_INIT_ZVAL_NREF(_0);
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_arguments"), PH_NOISY_CC);
 	RETURN_BOOL(zephir_array_isset_long(_0, position));
 
@@ -320,6 +323,7 @@ PHP_METHOD(Phalcon_Annotations_Annotation, getNamedArgument) {
 	}
 
 
+	ZEPHIR_INIT_ZVAL_NREF(_0);
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_arguments"), PH_NOISY_CC);
 	if (zephir_array_isset_fetch(&argument, _0, name, 1 TSRMLS_CC)) {
 		RETURN_CTOR(argument);

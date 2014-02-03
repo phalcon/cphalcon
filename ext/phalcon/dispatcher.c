@@ -445,7 +445,9 @@ PHP_METHOD(Phalcon_Dispatcher, getActiveMethod) {
 	zval *_0, *_1;
 
 
+	ZEPHIR_INIT_ZVAL_NREF(_0);
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_actionName"), PH_NOISY_CC);
+	ZEPHIR_INIT_ZVAL_NREF(_1);
 	_1 = zephir_fetch_nproperty_this(this_ptr, SL("_actionSuffix"), PH_NOISY_CC);
 	ZEPHIR_CONCAT_VV(return_value, _0, _1);
 	return;
@@ -500,13 +502,15 @@ PHP_METHOD(Phalcon_Dispatcher, getReturnedValue) {
  */
 PHP_METHOD(Phalcon_Dispatcher, dispatch) {
 
+	zval *_14 = NULL;
 	zend_function *_3 = NULL, *_5 = NULL, *_7 = NULL, *_9 = NULL, *_12 = NULL, *_13 = NULL, *_16 = NULL, *_17 = NULL;
-	zval *value, *handler = NULL, *dependencyInjector = NULL, *namespaceName = NULL, *handlerName = NULL, *actionName = NULL, *camelizedClass = NULL, *params, *eventsManager = NULL, *handlerSuffix, *actionSuffix, *handlerClass = NULL, *status = NULL, *actionMethod = NULL, *_0, *_1 = NULL, *_2 = NULL, *_4, *_6 = NULL, *_8 = NULL, *_10, *_11 = NULL, *_14 = NULL, *_15 = NULL;
+	zval *value, *handler = NULL, *dependencyInjector = NULL, *namespaceName = NULL, *handlerName = NULL, *actionName = NULL, *camelizedClass = NULL, *params, *eventsManager = NULL, *handlerSuffix, *actionSuffix, *handlerClass = NULL, *status = NULL, *actionMethod = NULL, *_0, *_1 = NULL, *_2 = NULL, *_4, *_6 = NULL, *_8 = NULL, *_10, *_11 = NULL, *_15 = NULL;
 	int numberDispatches;
 	zend_bool hasService;
 
 	ZEPHIR_MM_GROW();
 
+	ZEPHIR_INIT_ZVAL_NREF(_0);
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
 	ZEPHIR_CPY_WRT(dependencyInjector, _0);
 	if ((Z_TYPE_P(dependencyInjector) != IS_OBJECT)) {
@@ -580,6 +584,7 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch) {
 			if (ZEPHIR_IS_FALSE(_1)) {
 				continue;
 			}
+			ZEPHIR_INIT_ZVAL_NREF(_4);
 			_4 = zephir_fetch_nproperty_this(this_ptr, SL("_finished"), PH_NOISY_CC);
 			if (ZEPHIR_IS_FALSE(_4)) {
 				continue;
@@ -680,6 +685,7 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch) {
 			ZEPHIR_INIT_NVAR(status);
 			zephir_call_method_p2(status, this_ptr, "_throwdispatchexception", _6, _8);
 			if (ZEPHIR_IS_FALSE(status)) {
+				ZEPHIR_INIT_ZVAL_NREF(_10);
 				_10 = zephir_fetch_nproperty_this(this_ptr, SL("_finished"), PH_NOISY_CC);
 				if (ZEPHIR_IS_FALSE(_10)) {
 					continue;
@@ -719,19 +725,19 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch) {
 			}
 		}
 		ZEPHIR_INIT_NVAR(_8);
-		ZEPHIR_INIT_NVAR(_11);
-		array_init_size(_11, 3);
-		zephir_array_fast_append(_11, handler);
-		zephir_array_fast_append(_11, actionMethod);
-		ZEPHIR_CALL_USER_FUNC_ARRAY(_8, _11, params);
+		ZEPHIR_INIT_NVAR(_14);
+		array_init_size(_14, 3);
+		zephir_array_fast_append(_14, handler);
+		zephir_array_fast_append(_14, actionMethod);
+		ZEPHIR_CALL_USER_FUNC_ARRAY(_8, _14, params);
 		zephir_update_property_this(this_ptr, SL("_returnedValue"), _8 TSRMLS_CC);
 		zephir_update_property_this(this_ptr, SL("_lastHandler"), handler TSRMLS_CC);
 		if ((Z_TYPE_P(eventsManager) == IS_OBJECT)) {
-			ZEPHIR_INIT_NVAR(_14);
+			ZEPHIR_INIT_NVAR(_11);
 			ZEPHIR_INIT_NVAR(_15);
 			ZVAL_STRING(_15, "dispatch:afterExecuteRoute", 1);
-			zephir_call_method_p3_cache(_14, eventsManager, "fire", &_16, _15, this_ptr, value);
-			if (ZEPHIR_IS_FALSE(_14)) {
+			zephir_call_method_p3_cache(_11, eventsManager, "fire", &_16, _15, this_ptr, value);
+			if (ZEPHIR_IS_FALSE(_11)) {
 				continue;
 			}
 			_4 = zephir_fetch_nproperty_this(this_ptr, SL("_finished"), PH_NOISY_CC);

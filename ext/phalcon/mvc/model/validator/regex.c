@@ -81,8 +81,8 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_Validator_Regex) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_Validator_Regex, validate) {
 
-	zend_bool failed;
-	zval *record, *field, *visSet, *value, *matches, *pattern, *matchPattern, *matchZero, *message = NULL, *replacePairs, *_0, *_1, *_2;
+	zend_bool failed, _2;
+	zval *record, *field, *visSet, *value, *matches, *pattern, *matchPattern, *matchZero, *message = NULL, *replacePairs, *_0, *_1, *_3;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &record);
@@ -114,7 +114,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Regex, validate) {
 	ZEPHIR_INIT_VAR(_1);
 	ZVAL_STRING(_1, "allowEmpty", 1);
 	zephir_call_method_p1(_0, this_ptr, "issetoption", _1);
-	if (zephir_is_true(_0) && ZEPHIR_IS_EMPTY(value)) {
+	_2 = zephir_is_true(_0);
+	if (_2) {
+		_2 = ZEPHIR_IS_EMPTY(value);
+	}
+	if (_2) {
 		RETURN_MM_BOOL(1);
 	}
 	ZEPHIR_INIT_BNVAR(_1);
@@ -122,7 +126,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Regex, validate) {
 	ZEPHIR_INIT_VAR(pattern);
 	zephir_call_method_p1(pattern, this_ptr, "getoption", _1);
 	ZEPHIR_INIT_VAR(matchPattern);
-	zephir_preg_match(matchPattern, &(matchPattern), pattern, value, matches, 0 TSRMLS_CC);
+	zephir_preg_match(matchPattern, &(matchPattern), pattern, value, matches, 0, 0 , 0  TSRMLS_CC);
 	if (zephir_is_true(matchPattern)) {
 		zephir_array_fetch_long(&matchZero, matches, 0, PH_NOISY | PH_READONLY TSRMLS_CC);
 		failed = (!ZEPHIR_IS_EQUAL(matchZero, value));
@@ -143,9 +147,9 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Regex, validate) {
 		}
 		ZEPHIR_INIT_BNVAR(_1);
 		zephir_call_func_p2(_1, "strtr", message, replacePairs);
-		ZEPHIR_INIT_VAR(_2);
-		ZVAL_STRING(_2, "Regex", 1);
-		zephir_call_method_p3_noret(this_ptr, "appendmessage", _1, field, _2);
+		ZEPHIR_INIT_VAR(_3);
+		ZVAL_STRING(_3, "Regex", 1);
+		zephir_call_method_p3_noret(this_ptr, "appendmessage", _1, field, _3);
 		RETURN_MM_BOOL(0);
 	}
 	RETURN_MM_BOOL(1);

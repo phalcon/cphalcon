@@ -69,8 +69,9 @@ ZEPHIR_INIT_CLASS(Phalcon_Validation_Validator_Email) {
  */
 PHP_METHOD(Phalcon_Validation_Validator_Email, validate) {
 
+	zend_bool _2;
 	zval *field = NULL;
-	zval *validation, *field_param = NULL, *value, *message = NULL, *label = NULL, *replacePairs, *_0, *_1, _2, *_3 = NULL, *_4, *_5;
+	zval *validation, *field_param = NULL, *value, *message = NULL, *label = NULL, *replacePairs, *_0, *_1, _3, *_4 = NULL, *_5, *_6;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &validation, &field_param);
@@ -94,18 +95,22 @@ PHP_METHOD(Phalcon_Validation_Validator_Email, validate) {
 	ZEPHIR_INIT_VAR(_1);
 	ZVAL_STRING(_1, "allowEmpty", 1);
 	zephir_call_method_p1(_0, this_ptr, "issetoption", _1);
-	if (zephir_is_true(_0) && ZEPHIR_IS_EMPTY(value)) {
+	_2 = zephir_is_true(_0);
+	if (_2) {
+		_2 = ZEPHIR_IS_EMPTY(value);
+	}
+	if (_2) {
 		RETURN_MM_BOOL(1);
 	}
-	ZEPHIR_SINIT_VAR(_2);
-	ZVAL_LONG(&_2, 274);
+	ZEPHIR_SINIT_VAR(_3);
+	ZVAL_LONG(&_3, 274);
 	ZEPHIR_INIT_BNVAR(_1);
-	zephir_call_func_p2(_1, "filter_var", value, &_2);
+	zephir_call_func_p2(_1, "filter_var", value, &_3);
 	if (!(zephir_is_true(_1))) {
-		ZEPHIR_INIT_VAR(_3);
-		ZVAL_STRING(_3, "label", 1);
+		ZEPHIR_INIT_VAR(_4);
+		ZVAL_STRING(_4, "label", 1);
 		ZEPHIR_INIT_VAR(label);
-		zephir_call_method_p1(label, this_ptr, "getoption", _3);
+		zephir_call_method_p1(label, this_ptr, "getoption", _4);
 		if (ZEPHIR_IS_EMPTY(label)) {
 			ZEPHIR_INIT_NVAR(label);
 			zephir_call_method_p1(label, validation, "getlabel", field);
@@ -113,27 +118,27 @@ PHP_METHOD(Phalcon_Validation_Validator_Email, validate) {
 				ZEPHIR_CPY_WRT(label, field);
 			}
 		}
-		ZEPHIR_INIT_NVAR(_3);
-		ZVAL_STRING(_3, "message", 1);
+		ZEPHIR_INIT_NVAR(_4);
+		ZVAL_STRING(_4, "message", 1);
 		ZEPHIR_INIT_VAR(message);
-		zephir_call_method_p1(message, this_ptr, "getoption", _3);
+		zephir_call_method_p1(message, this_ptr, "getoption", _4);
 		ZEPHIR_INIT_VAR(replacePairs);
 		array_init_size(replacePairs, 2);
 		zephir_array_update_string(&replacePairs, SL(":field"), &label, PH_COPY | PH_SEPARATE);
 		if (ZEPHIR_IS_EMPTY(message)) {
-			ZEPHIR_INIT_NVAR(_3);
-			ZVAL_STRING(_3, "Email", 1);
+			ZEPHIR_INIT_NVAR(_4);
+			ZVAL_STRING(_4, "Email", 1);
 			ZEPHIR_INIT_NVAR(message);
-			zephir_call_method_p1(message, validation, "getdefaultmessage", _3);
+			zephir_call_method_p1(message, validation, "getdefaultmessage", _4);
 		}
-		ZEPHIR_INIT_VAR(_4);
-		object_init_ex(_4, phalcon_validation_message_ce);
-		ZEPHIR_INIT_NVAR(_3);
-		zephir_call_func_p2(_3, "strtr", message, replacePairs);
 		ZEPHIR_INIT_VAR(_5);
-		ZVAL_STRING(_5, "Email", 1);
-		zephir_call_method_p3_noret(_4, "__construct", _3, field, _5);
-		zephir_call_method_p1_noret(validation, "appendmessage", _4);
+		object_init_ex(_5, phalcon_validation_message_ce);
+		ZEPHIR_INIT_NVAR(_4);
+		zephir_call_func_p2(_4, "strtr", message, replacePairs);
+		ZEPHIR_INIT_VAR(_6);
+		ZVAL_STRING(_6, "Email", 1);
+		zephir_call_method_p3_noret(_5, "__construct", _4, field, _6);
+		zephir_call_method_p1_noret(validation, "appendmessage", _5);
 		RETURN_MM_BOOL(0);
 	}
 	RETURN_MM_BOOL(1);

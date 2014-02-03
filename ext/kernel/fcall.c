@@ -50,12 +50,6 @@ int zephir_has_constructor_ce(zend_class_entry *ce) {
 	return 0;
 }
 
-zend_function *zephir_get_function_ptr(const char *func_name, int func_length) {
-
-
-
-}
-
 /**
  * Check if an object has a constructor
  */

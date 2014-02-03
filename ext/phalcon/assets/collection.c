@@ -409,6 +409,7 @@ PHP_METHOD(Phalcon_Assets_Collection, count) {
 	zval *_0;
 
 
+	ZEPHIR_INIT_ZVAL_NREF(_0);
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_resources"), PH_NOISY_CC);
 	RETURN_LONG(zephir_fast_count_int(_0 TSRMLS_CC));
 
@@ -469,7 +470,11 @@ PHP_METHOD(Phalcon_Assets_Collection, key) {
  */
 PHP_METHOD(Phalcon_Assets_Collection, next) {
 
+	zval *_0;
 
+
+	ZEPHIR_INIT_ZVAL_NREF(_0);
+	zephir_increment(_0);
 
 }
 
@@ -484,6 +489,7 @@ PHP_METHOD(Phalcon_Assets_Collection, valid) {
 
 
 	resources = zephir_fetch_nproperty_this(this_ptr, SL("_resources"), PH_NOISY_CC);
+	ZEPHIR_INIT_ZVAL_NREF(_0);
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_position"), PH_NOISY_CC);
 	if (zephir_array_isset(resources, _0)) {
 		RETURN_BOOL(1);

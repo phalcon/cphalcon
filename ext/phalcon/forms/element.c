@@ -192,7 +192,8 @@ PHP_METHOD(Phalcon_Forms_Element, setFilters) {
  */
 PHP_METHOD(Phalcon_Forms_Element, addFilter) {
 
-	zval *filter_param = NULL, *filters, *_0;
+	zval *_0;
+	zval *filter_param = NULL, *filters;
 	zval *filter = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -766,6 +767,7 @@ PHP_METHOD(Phalcon_Forms_Element, clear) {
 
 	ZEPHIR_MM_GROW();
 
+	ZEPHIR_INIT_ZVAL_NREF(_0);
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_name"), PH_NOISY_CC);
 	zephir_call_static_p2_noret("Phalcon\\Tag", "setdefault", _0, ZEPHIR_GLOBAL(global_null));
 	RETURN_THIS();

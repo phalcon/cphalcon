@@ -78,7 +78,7 @@ void zephir_substr(zval *return_value, zval *str, long from, long length);
 zval *zephir_eol(int eol TSRMLS_DC);
 
 /** Preg-Match */
-void zephir_preg_match(zval *return_value, zval **return_value_ptr, zval *regex, zval *subject, zval *matches, int global TSRMLS_DC);
+void zephir_preg_match(zval *return_value, zval **return_value_ptr, zval *regex, zval *subject, zval *matches, int global, long flags, long offset TSRMLS_DC);
 
 /** Base64 */
 void zephir_base64_encode(zval *return_value, zval *data);
