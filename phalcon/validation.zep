@@ -235,28 +235,28 @@ class Validation extends Phalcon\Di\Injectable
                         throw new Phalcon\Validation\Exception("Messages must be an array");
                 }
                 let defaultMessages = [
-                        "Alnum": "Field :field must contain only alphanumeric characters",
+                        "Alnum": "Field :field must contain only letters and numbers",
                         "Alpha": "Field :field must contain only letters",
-                        "Between": ":field is not between a valid range",
-                        "Confirmation": "Value of :field and :with don't match",
+                        "Between": "Field :field must be within the range of :min to :max",
+                        "Confirmation": "Field :field must be the same as :with",
                         "Digit": "Field :field must be numeric",
-                        "Email": "Value of field :field must have a valid e-mail format",
-                        "ExclusionIn": "Value of field :field must not be part of list: :domain",
-                        "FileValid": "File :field is not valid",
-                        "FileEmpty": "File :field must not be empty",
-                        "FileIniSize": "The uploaded file exceeds the max filesize",
-                        "FileSize": "Max filesize of file :field is :max",
-                        "FileType": "Type of :field is not valid",
-                        "FileMinResolution": "Min resolution of :field is :min",
-                        "FileMaxResolution": "Max resolution of :field is :max",
-                        "Identical": ":field does not have the expected value",
-                        "InclusionIn": "Value of field :field must be part of list: :domain",
-                        "PresenceOf": ":field is required",
-                        "Regex": "Value of field :field doesn't match regular expression",
-                        "TooLong": "Value of field :field exceeds the maximum :max characters",
-                        "TooShort": "Value of field :field is less than the minimum :min characters",
-                        "Uniqueness": ":field is already present in another record",
-                        "Url": ":field does not have a valid url format"
+                        "Email": "Field :field must be an email address",
+                        "ExclusionIn": "Field :field must not be a part of list: :domain",
+                        "FileEmpty": "Field :field must not be empty",
+                        "FileIniSize": "File :field exceeds the maximum file size",
+                        "FileMaxResolution": "File :field must not exceed :max resolution",
+                        "FileMinResolution": "File :field must be at least :min resolution",
+                        "FileSize": "File :field exceeds the size of :max",
+                        "FileType": "File :field must be of type: :types",
+                        "FileValid": "Field :field is not valid",
+                        "Identical": "Field :field does not have the expected value",
+                        "InclusionIn": "Field :field must be a part of list: :domain",
+                        "PresenceOf": "Field :field is required",
+                        "Regex": "Field :field does not match the required format",
+                        "TooLong": "Field :field must not exceed :max characters long",
+                        "TooShort": "Field :field must be at least :min characters long",
+                        "Uniqueness": "Field :field must be unique",
+                        "Url": "Field :field must be a url"
                 ];
 
 		let this->_defaultMessages = array_merge(defaultMessages, messages);
