@@ -100,6 +100,13 @@ PHP_METHOD(Phalcon_Events_Event, getData) {
 
 }
 
+PHP_METHOD(Phalcon_Events_Event, getCancelable) {
+
+
+	RETURN_MEMBER(this_ptr, "_cancelable");
+
+}
+
 /**
  * Phalcon\Events\Event constructor
  *
