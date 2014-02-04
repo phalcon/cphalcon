@@ -2,6 +2,8 @@
 Phalcon\Logger\Adapter::commit() does not clear the queue - https://github.com/phalcon/cphalcon/issues/1742
 --SKIPIF--
 <?php include('skipif.inc'); ?>
+--INI--
+date.timezone=UTC
 --FILE--
 <?php
 class MyStreamAdapter extends \Phalcon\Logger\Adapter\Stream
