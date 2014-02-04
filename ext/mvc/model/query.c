@@ -30,6 +30,7 @@
 #include "mvc/model/metadatainterface.h"
 #include "mvc/model/row.h"
 #include "cache/backendinterface.h"
+#include "cache/frontendinterface.h"
 #include "diinterface.h"
 #include "di/injectionawareinterface.h"
 #include "db/rawvalue.h"
@@ -4849,7 +4850,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, execute){
 
 	zval *bind_params = NULL, *bind_types = NULL, *unique_row;
 	zval *cache_options, *key = NULL, *lifetime = NULL, *cache_service = NULL;
-	zval *dependency_injector, *cache, *result = NULL, *is_fresh;
+	zval *dependency_injector, *cache, *frontend, *result = NULL, *is_fresh;
 	zval *prepared_result = NULL, *intermediate, *default_bind_params;
 	zval *merged_params = NULL, *default_bind_types;
 	zval *merged_types = NULL, *type, *exception_message;
@@ -4888,14 +4889,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, execute){
 		}
 	
 		/** 
-		 * By defaut use use 3600 seconds (1 hour) as cache lifetime
-		 */
-		if (!phalcon_array_isset_string_fetch(&lifetime, cache_options, SS("lifetime"))) {
-			PHALCON_INIT_VAR(lifetime);
-			ZVAL_LONG(lifetime, 3600);
-		}
-	
-		/** 
 		 * 'modelsCache' is the default name for the models cache service
 		 */
 		if (!phalcon_array_isset_string_fetch(&cache_service, cache_options, SS("service"))) {
@@ -4915,6 +4908,23 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, execute){
 
 		PHALCON_VERIFY_INTERFACE(cache, phalcon_cache_backendinterface_ce);
 	
+		/**
+		 * By defaut use use 3600 seconds (1 hour) as cache lifetime
+		 */
+		if (!phalcon_array_isset_string_fetch(&lifetime, cache_options, SS("lifetime"))) {
+			PHALCON_INIT_VAR(frontend);
+			phalcon_call_method(frontend, cache, "getfrontend");
+
+			PHALCON_INIT_VAR(lifetime);
+			if (Z_TYPE_P(frontend) == IS_OBJECT) {
+				PHALCON_VERIFY_INTERFACE_EX(frontend, phalcon_cache_frontendinterface_ce, phalcon_mvc_model_exception_ce, 1);
+				phalcon_call_method(lifetime, frontend, "getlifetime");
+			}
+			else {
+				ZVAL_LONG(lifetime, 3600);
+			}
+		}
+
 		PHALCON_INIT_VAR(result);
 		phalcon_call_method_p2(result, cache, "get", key, lifetime);
 		if (Z_TYPE_P(result) != IS_NULL) {
