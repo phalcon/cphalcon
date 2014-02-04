@@ -69,19 +69,15 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Memory, __construct){
 
 	zval *options = NULL, *empty_array;
 
-	PHALCON_MM_GROW();
-
-	phalcon_fetch_params(1, 0, 1, &options);
+	phalcon_fetch_params(0, 0, 1, &options);
 	
 	if (!options) {
 		options = PHALCON_GLOBAL(z_null);
 	}
 	
-	PHALCON_INIT_VAR(empty_array);
+	PHALCON_ALLOC_GHOST_ZVAL(empty_array);
 	array_init(empty_array);
 	phalcon_update_property_this(this_ptr, SL("_metaData"), empty_array TSRMLS_CC);
-	
-	PHALCON_MM_RESTORE();
 }
 
 /**

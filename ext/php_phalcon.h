@@ -146,6 +146,10 @@ extern int nusphere_dbg_present;
 		Z_TYPE_P(z) = Z_TYPE_P(v);
 #endif
 
+#ifndef HASH_KEY_NON_EXISTENT
+#	define HASH_KEY_NON_EXISTENT    HASH_KEY_NON_EXISTANT
+#endif
+
 
 #define PHALCON_INIT_CLASS(name) \
 	int phalcon_ ##name## _init(TSRMLS_D)

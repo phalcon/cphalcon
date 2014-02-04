@@ -80,19 +80,19 @@ static const zend_function_entry phalcon_cache_backend_apc_method_entry[] = {
 	PHP_FE_END
 };
 
-static int phalcon_cache_backend_is_apcu = -1;
+static int phalcon_cache_backend_is_old_apcu = -1;
 
 /**
  * Phalcon\Cache\Backend\Apc initializer
  */
 PHALCON_INIT_CLASS(Phalcon_Cache_Backend_Apc){
 
-	if (-1 == phalcon_cache_backend_is_apcu) {
-		phalcon_cache_backend_is_apcu = zend_hash_exists(&module_registry, SS("apcu"));
-		if (phalcon_cache_backend_is_apcu) {
+	if (-1 == phalcon_cache_backend_is_old_apcu) {
+		phalcon_cache_backend_is_old_apcu = zend_hash_exists(&module_registry, SS("apcu"));
+		if (phalcon_cache_backend_is_old_apcu) {
 			zend_constant *c;
 			if (zend_hash_find(EG(zend_constants), SS("APCU_APC_FULL_BC"), (void**)&c) == SUCCESS) {
-				phalcon_cache_backend_is_apcu = !zend_is_true(&c->value);
+				phalcon_cache_backend_is_old_apcu = !zend_is_true(&c->value);
 			}
 		}
 	}
@@ -390,7 +390,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Apc, queryKeys){
 	PHALCON_INIT_VAR(iterator);
 	object_init_ex(iterator, apciterator_ce);
 	assert(phalcon_has_constructor(iterator TSRMLS_CC));
-	if (!phalcon_cache_backend_is_apcu) {
+	if (!phalcon_cache_backend_is_old_apcu) {
 		PHALCON_ALLOC_GHOST_ZVAL(type);
 		ZVAL_STRING(type, "user", 1);
 		phalcon_call_method_p2_noret(iterator, "__construct", type, prefix_pattern);
@@ -512,7 +512,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Apc, flush){
 	PHALCON_INIT_VAR(iterator);
 	object_init_ex(iterator, apciterator_ce);
 	assert(phalcon_has_constructor(iterator TSRMLS_CC));
-	if (!phalcon_cache_backend_is_apcu) {
+	if (!phalcon_cache_backend_is_old_apcu) {
 		PHALCON_ALLOC_GHOST_ZVAL(type);
 		ZVAL_STRING(type, "user", 1);
 		phalcon_call_method_p2_noret(iterator, "__construct", type, prefix_pattern);

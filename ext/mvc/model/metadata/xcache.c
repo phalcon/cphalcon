@@ -28,6 +28,7 @@
 #include "kernel/object.h"
 #include "kernel/concat.h"
 #include "kernel/fcall.h"
+#include "kernel/hash.h"
 
 /**
  * Phalcon\Mvc\Model\MetaData\Xcache
@@ -50,6 +51,7 @@ zend_class_entry *phalcon_mvc_model_metadata_xcache_ce;
 PHP_METHOD(Phalcon_Mvc_Model_MetaData_Xcache, __construct);
 PHP_METHOD(Phalcon_Mvc_Model_MetaData_Xcache, read);
 PHP_METHOD(Phalcon_Mvc_Model_MetaData_Xcache, write);
+PHP_METHOD(Phalcon_Mvc_Model_MetaData_Xcache, reset);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_metadata_xcache___construct, 0, 0, 0)
 	ZEND_ARG_INFO(0, options)
@@ -59,6 +61,7 @@ static const zend_function_entry phalcon_mvc_model_metadata_xcache_method_entry[
 	PHP_ME(Phalcon_Mvc_Model_MetaData_Xcache, __construct, arginfo_phalcon_mvc_model_metadata_xcache___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
 	PHP_ME(Phalcon_Mvc_Model_MetaData_Xcache, read, arginfo_phalcon_mvc_model_metadatainterface_read, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_MetaData_Xcache, write, arginfo_phalcon_mvc_model_metadatainterface_write, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Model_MetaData_Xcache, reset, arginfo_phalcon_mvc_model_metadatainterface_reset, ZEND_ACC_PUBLIC)
 	PHP_FE_END
 };
 
@@ -86,32 +89,21 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Xcache, __construct){
 
 	zval *options = NULL, *prefix, *ttl, *empty_array;
 
-	PHALCON_MM_GROW();
-
-	phalcon_fetch_params(1, 0, 1, &options);
+	phalcon_fetch_params(0, 0, 1, &options);
 	
-	if (!options) {
-		options = PHALCON_GLOBAL(z_null);
-	}
-	
-	if (Z_TYPE_P(options) == IS_ARRAY) { 
-		if (phalcon_array_isset_string(options, SS("prefix"))) {
-			PHALCON_OBS_VAR(prefix);
-			phalcon_array_fetch_string(&prefix, options, SL("prefix"), PH_NOISY);
+	if (options && Z_TYPE_P(options) == IS_ARRAY) {
+		if (phalcon_array_isset_string_fetch(&prefix, options, SS("prefix"))) {
 			phalcon_update_property_this(this_ptr, SL("_prefix"), prefix TSRMLS_CC);
 		}
-		if (phalcon_array_isset_string(options, SS("lifetime"))) {
-			PHALCON_OBS_VAR(ttl);
-			phalcon_array_fetch_string(&ttl, options, SL("lifetime"), PH_NOISY);
+
+		if (phalcon_array_isset_string_fetch(&ttl, options, SS("lifetime"))) {
 			phalcon_update_property_this(this_ptr, SL("_ttl"), ttl TSRMLS_CC);
 		}
 	}
 	
-	PHALCON_INIT_VAR(empty_array);
+	PHALCON_ALLOC_GHOST_ZVAL(empty_array);
 	array_init(empty_array);
 	phalcon_update_property_this(this_ptr, SL("_metaData"), empty_array TSRMLS_CC);
-	
-	PHALCON_MM_RESTORE();
 }
 
 /**
@@ -128,8 +120,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Xcache, read){
 
 	phalcon_fetch_params(1, 1, 0, &key);
 	
-	PHALCON_OBS_VAR(prefix);
-	phalcon_read_property_this(&prefix, this_ptr, SL("_prefix"), PH_NOISY_CC);
+	prefix = phalcon_fetch_nproperty_this(this_ptr, SL("_prefix"), PH_NOISY TSRMLS_CC);
 	
 	PHALCON_INIT_VAR(xc_key);
 	PHALCON_CONCAT_SVV(xc_key, "$PMM$", prefix, key);
@@ -157,8 +148,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Xcache, write){
 
 	phalcon_fetch_params(1, 2, 0, &key, &data);
 	
-	PHALCON_OBS_VAR(prefix);
-	phalcon_read_property_this(&prefix, this_ptr, SL("_prefix"), PH_NOISY_CC);
+	prefix = phalcon_fetch_nproperty_this(this_ptr, SL("_prefix"), PH_NOISY TSRMLS_CC);
 	
 	PHALCON_INIT_VAR(xc_key);
 	PHALCON_CONCAT_SVV(xc_key, "$PMM$", prefix, key);
@@ -167,5 +157,41 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Xcache, write){
 	phalcon_read_property_this(&ttl, this_ptr, SL("_ttl"), PH_NOISY_CC);
 	PHALCON_CALL_FUNCTION_NORET("xcache_set", xc_key, data, ttl);
 	
+	PHALCON_MM_RESTORE();
+}
+
+PHP_METHOD(Phalcon_Mvc_Model_MetaData_Xcache, reset)
+{
+	zval *meta = phalcon_fetch_nproperty_this(this_ptr, SL("_metaData"), PH_NOISY TSRMLS_CC);
+	zval *real_key = NULL;
+
+	PHALCON_MM_GROW();
+
+	if (SUCCESS == phalcon_function_exists_ex(SL("xcache_unset_by_prefix") TSRMLS_CC)) {
+		zval *prefix = phalcon_fetch_nproperty_this(this_ptr, SL("_prefix"), PH_NOISY TSRMLS_CC);
+
+		PHALCON_INIT_VAR(real_key);
+		phalcon_concat_svs(&real_key, SL("$PMM$"), prefix, SL("meta-"), 0 TSRMLS_CC);
+		PHALCON_CALL_FUNCTION_NORET("xcache_unset_by_prefix", real_key);
+	}
+	else if (Z_TYPE_P(meta) == IS_ARRAY) {
+		HashTable *ht = Z_ARRVAL_P(meta);
+		HashPosition hp;
+		zval *prefix = phalcon_fetch_nproperty_this(this_ptr, SL("_prefix"), PH_NOISY TSRMLS_CC);
+
+		for (
+			zend_hash_internal_pointer_reset_ex(ht, &hp);
+			zend_hash_get_current_key_type_ex(ht, &hp) != HASH_KEY_NON_EXISTENT;
+			zend_hash_move_forward_ex(ht, &hp)
+		) {
+			zval key = phalcon_get_current_key_w(ht, &hp);
+
+			PHALCON_INIT_NVAR(real_key);
+			phalcon_concat_svsv(&real_key, SL("$PMM$"), prefix, SL("meta-"), &key, 0 TSRMLS_CC);
+			PHALCON_CALL_FUNCTION_NORET("xcache_unset", real_key);
+		}
+	}
+
+	PHALCON_CALL_PARENT_NORET(phalcon_mvc_model_metadata_xcache_ce, getThis(), "reset");
 	PHALCON_MM_RESTORE();
 }

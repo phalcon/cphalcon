@@ -481,6 +481,7 @@ PHP_METHOD(Phalcon_Loader, autoLoad){
 	HashTable *ah0, *ah1, *ah2, *ah3, *ah4, *ah5;
 	HashPosition hp0, hp1, hp2, hp3, hp4, hp5;
 	zval **hd;
+	char slash[2] = {DEFAULT_SLASH, 0};
 
 	PHALCON_MM_GROW();
 
@@ -522,7 +523,7 @@ PHP_METHOD(Phalcon_Loader, autoLoad){
 	phalcon_read_property_this(&extensions, this_ptr, SL("_extensions"), PH_NOISY_CC);
 	
 	PHALCON_INIT_VAR(ds);
-	ZVAL_STRING(ds, PHALCON_DIRECTORY_SEPARATOR, 1);
+	ZVAL_STRING(ds, slash, 1);
 	
 	PHALCON_INIT_VAR(namespace_separator);
 	ZVAL_STRING(namespace_separator, "\\", 1);
