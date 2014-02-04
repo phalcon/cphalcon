@@ -155,7 +155,7 @@ PHP_METHOD(Phalcon_Filter, sanitize){
 	
 						PHALCON_INIT_NVAR(filter_value);
 						phalcon_call_method_p2(filter_value, this_ptr, "_sanitize", item_value, filter);
-						phalcon_array_update_zval(&array_value, item_key, &filter_value, PH_COPY | PH_SEPARATE);
+						phalcon_array_update_zval(&array_value, item_key, filter_value, PH_COPY | PH_SEPARATE);
 	
 						zend_hash_move_forward_ex(ah1, &hp1);
 					}
@@ -192,7 +192,7 @@ PHP_METHOD(Phalcon_Filter, sanitize){
 	
 			PHALCON_INIT_NVAR(filter_value);
 			phalcon_call_method_p2(filter_value, this_ptr, "_sanitize", item_value, filters);
-			phalcon_array_update_zval(&sanizited_value, key, &filter_value, PH_COPY | PH_SEPARATE);
+			phalcon_array_update_zval(&sanizited_value, key, filter_value, PH_COPY);
 	
 			zend_hash_move_forward_ex(ah2, &hp2);
 		}
@@ -296,7 +296,7 @@ PHP_METHOD(Phalcon_Filter, _sanitize){
 	
 		PHALCON_INIT_VAR(options);
 		array_init_size(options, 1);
-		phalcon_array_update_string(&options, SL("flags"), &allow_fraction, PH_COPY);
+		phalcon_array_update_string(&options, SL("flags"), allow_fraction, PH_COPY);
 	
 		PHALCON_INIT_NVAR(type);
 		ZVAL_LONG(type, 520);

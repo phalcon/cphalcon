@@ -74,51 +74,46 @@ static const zend_function_entry phalcon_config_adapter_ini_method_entry[] = {
 	PHP_FE_END
 };
 
-static inline void phalcon_config_adapter_ini_update_zval_directive(zval **arr, zval *section, zval *directive, zval **value, int flags TSRMLS_DC) {
-	zval *temp1 = NULL, *temp2 = NULL, *index = NULL;
+static void phalcon_config_adapter_ini_update_zval_directive(zval **arr, zval *section, zval *directive, zval *value TSRMLS_DC)
+{
+	zval *t1, *t2;
+	zval **temp1 = &t1, **temp2 = &t2, *index = NULL;
 	int i, n;
 
+	assert(Z_TYPE_PP(arr) == IS_ARRAY);
+	assert(Z_TYPE_P(directive) == IS_ARRAY);
+
 	n = zend_hash_num_elements(Z_ARRVAL_P(directive));
+	assert(n > 1);
 
-	if (Z_TYPE_PP(arr) == IS_ARRAY) {
-		phalcon_array_fetch(&temp1, *arr, section, PH_SILENT);
-		if (Z_REFCOUNT_P(temp1) > 1) {
-			phalcon_array_update_zval(arr, section, &temp1, PH_COPY | PH_CTOR);
-		}
-		if (Z_TYPE_P(temp1) != IS_ARRAY) {
-			convert_to_array(temp1);
-			phalcon_array_update_zval(arr, section, &temp1, PH_COPY);
-		}
-
-		for (i = 0; i < n - 1; i++) {
-			phalcon_array_fetch_long(&index, directive, i, PH_NOISY);
-
-			phalcon_array_fetch(&temp2, temp1, index, PH_SILENT);
-			if (Z_REFCOUNT_P(temp2) > 1) {
-				phalcon_array_update_zval(&temp1, index, &temp2, PH_COPY | PH_CTOR);
-			}
-			if (Z_TYPE_P(temp2) != IS_ARRAY) {
-				convert_to_array(temp2);
-				phalcon_array_update_zval(&temp1, index, &temp2, PH_COPY);
-			}
-			zval_ptr_dtor(&index);
-
-			if (temp1 != NULL) {
-				zval_ptr_dtor(&temp1);
-			}
-			temp1 = temp2;
-			temp2 = NULL;
-		}
-
-		phalcon_array_fetch_long(&index, directive, n - 1, PH_NOISY);
-		phalcon_array_update_zval(&temp1, index, value, PH_COPY);
-
-		zval_ptr_dtor(&index);
-
-		if (temp1 != NULL) {
-			zval_ptr_dtor(&temp1);
-		}
+	if (!phalcon_array_isset_fetch(temp1, *arr, section)) {
+		PHALCON_ALLOC_GHOST_ZVAL(t1);
+		array_init_size(t1, 1);
+		phalcon_array_update_zval(arr, section, t1, PH_COPY);
 	}
+
+	if (Z_TYPE_PP(temp1) != IS_ARRAY) {
+		convert_to_array_ex(temp1);
+	}
+
+	for (i = 0; i < n - 1; i++) {
+		phalcon_array_fetch_long(&index, directive, i, PH_NOISY);
+		Z_DELREF_P(index);
+
+		if (!phalcon_array_isset_fetch(temp2, *temp1, index)) {
+			PHALCON_ALLOC_GHOST_ZVAL(t2);
+			array_init_size(t2, 1);
+			phalcon_array_update_zval(temp1, index, t2, PH_COPY);
+		}
+		else if (Z_TYPE_PP(temp2) != IS_ARRAY) {
+			convert_to_array_ex(temp2);
+		}
+
+		t1 = t2;
+	}
+
+	phalcon_array_fetch_long(&index, directive, n - 1, PH_NOISY);
+	phalcon_array_update_zval(temp1, index, value, PH_COPY);
 }
 
 /**
@@ -159,7 +154,7 @@ PHP_METHOD(Phalcon_Config_Adapter_Ini, __construct){
 	/** 
 	 * Check if the file had errors
 	 */
-	if (PHALCON_IS_FALSE(ini_config)) {
+	if (Z_TYPE_P(ini_config) != IS_ARRAY) {
 		zend_throw_exception_ex(phalcon_config_exception_ce, 0 TSRMLS_CC, "Configuration file '%s' cannot be loaded", Z_STRVAL_PP(file_path));
 		PHALCON_MM_RESTORE();
 		return;
@@ -175,38 +170,27 @@ PHP_METHOD(Phalcon_Config_Adapter_Ini, __construct){
 		PHALCON_GET_HKEY(section, ah0, hp0);
 		PHALCON_GET_HVALUE(directives);
 	
-		if (unlikely(Z_TYPE_P(directives) != IS_ARRAY)) {
-			Z_ADDREF_P(directives);
-			if (phalcon_array_update_zval(&config, section, &directives, 0) != SUCCESS) {
-				Z_DELREF_P(directives);
-			}
-			zend_hash_move_forward_ex(ah0, &hp0);
-			continue;
+		if (unlikely(Z_TYPE_P(directives) != IS_ARRAY) || zend_hash_num_elements(Z_ARRVAL_P(directives)) == 0) {
+			phalcon_array_update_zval(&config, section, directives, PH_COPY);
 		}
-	
-		phalcon_is_iterable(directives, &ah1, &hp1, 0, 0);
-	
-		if (zend_hash_num_elements(ah1) == 0) {
-			Z_ADDREF_P(directives);
-			phalcon_array_update_zval(&config, section, &directives, 0);
-			zend_hash_move_forward_ex(ah0, &hp0);
-			continue;
-		}
-	
-		while (zend_hash_get_current_data_ex(ah1, (void**) &hd, &hp1) == SUCCESS) {
-	
-			PHALCON_GET_HKEY(key, ah1, hp1);
-			PHALCON_GET_HVALUE(value);
-	
-			if (phalcon_memnstr_str(key, SL("."))) {
-				PHALCON_INIT_NVAR(directive_parts);
-				phalcon_fast_explode_str(directive_parts, SL("."), key);
-				phalcon_config_adapter_ini_update_zval_directive(&config, section, directive_parts, &value, 0 TSRMLS_CC);
-			} else {
-				phalcon_array_update_multi_2(&config, section, key, &value, 0);
+		else {
+			phalcon_is_iterable(directives, &ah1, &hp1, 0, 0);
+
+			while (zend_hash_get_current_data_ex(ah1, (void**) &hd, &hp1) == SUCCESS) {
+
+				PHALCON_GET_HKEY(key, ah1, hp1);
+				PHALCON_GET_HVALUE(value);
+
+				if (Z_TYPE_P(key) == IS_STRING && memchr(Z_STRVAL_P(key), '.', Z_STRLEN_P(key))) {
+					PHALCON_INIT_NVAR(directive_parts);
+					phalcon_fast_explode_str(directive_parts, SL("."), key);
+					phalcon_config_adapter_ini_update_zval_directive(&config, section, directive_parts, value TSRMLS_CC);
+				} else {
+					phalcon_array_update_multi_2(&config, section, key, value, 0);
+				}
+
+				zend_hash_move_forward_ex(ah1, &hp1);
 			}
-	
-			zend_hash_move_forward_ex(ah1, &hp1);
 		}
 	
 		zend_hash_move_forward_ex(ah0, &hp0);

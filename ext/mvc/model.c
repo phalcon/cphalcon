@@ -31,7 +31,6 @@
 #include "diinterface.h"
 #include "di/injectionawareinterface.h"
 #include "db/rawvalue.h"
-#include "interned-strings.h"
 
 #include <ext/pdo/php_pdo_driver.h>
 
@@ -47,6 +46,8 @@
 #include "kernel/string.h"
 #include "kernel/file.h"
 #include "kernel/variables.h"
+
+#include "interned-strings.h"
 
 /**
  * Phalcon\Mvc\Model
@@ -1136,13 +1137,13 @@ PHP_METHOD(Phalcon_Mvc_Model, cloneResultMapHydrate){
 				PHALCON_OBS_NVAR(attribute);
 				phalcon_array_fetch(&attribute, column_map, key, PH_NOISY);
 				if (PHALCON_IS_LONG(hydration_mode, 1)) {
-					phalcon_array_update_zval(&hydrate, attribute, &value, PH_COPY | PH_SEPARATE);
+					phalcon_array_update_zval(&hydrate, attribute, value, PH_COPY | PH_SEPARATE);
 				} else {
 					phalcon_update_property_zval_zval(hydrate, attribute, value TSRMLS_CC);
 				}
 			} else {
 				if (PHALCON_IS_LONG(hydration_mode, 1)) {
-					phalcon_array_update_zval(&hydrate, key, &value, PH_COPY | PH_SEPARATE);
+					phalcon_array_update_zval(&hydrate, key, value, PH_COPY | PH_SEPARATE);
 				} else {
 					phalcon_update_property_zval_zval(hydrate, key, value TSRMLS_CC);
 				}
@@ -2560,8 +2561,8 @@ PHP_METHOD(Phalcon_Mvc_Model, _checkForeignKeysRestrict){
 	
 					PHALCON_INIT_NVAR(parameters);
 					array_init_size(parameters, 2);
-					phalcon_array_append(&parameters, join_conditions, PH_SEPARATE);
-					phalcon_array_update_string(&parameters, SL("bind"), &bind_params, PH_COPY | PH_SEPARATE);
+					phalcon_array_append(&parameters, join_conditions, 0);
+					phalcon_array_update_string(&parameters, SL("bind"), bind_params, PH_COPY);
 	
 					/** 
 					 * Let's make the checking
@@ -2780,8 +2781,8 @@ PHP_METHOD(Phalcon_Mvc_Model, _checkForeignKeysReverseRestrict){
 	
 					PHALCON_INIT_NVAR(parameters);
 					array_init_size(parameters, 2);
-					phalcon_array_append(&parameters, join_conditions, PH_SEPARATE);
-					phalcon_array_update_string(&parameters, SL("bind"), &bind_params, PH_COPY | PH_SEPARATE);
+					phalcon_array_append(&parameters, join_conditions, 0);
+					phalcon_array_update_string(&parameters, SL("bind"), bind_params, PH_COPY);
 	
 					/** 
 					 * Let's make the checking
@@ -2988,8 +2989,8 @@ PHP_METHOD(Phalcon_Mvc_Model, _checkForeignKeysReverseCascade){
 	
 					PHALCON_INIT_NVAR(parameters);
 					array_init_size(parameters, 2);
-					phalcon_array_append(&parameters, join_conditions, PH_SEPARATE);
-					phalcon_array_update_string(&parameters, SL("bind"), &bind_params, PH_COPY | PH_SEPARATE);
+					phalcon_array_append(&parameters, join_conditions, 0);
+					phalcon_array_update_string(&parameters, SL("bind"), bind_params, PH_COPY);
 	
 					/** 
 					 * Let's make the checking
@@ -3867,9 +3868,9 @@ PHP_METHOD(Phalcon_Mvc_Model, _doLowUpdate){
 	 */
 	PHALCON_INIT_VAR(conditions);
 	array_init_size(conditions, 3);
-	phalcon_array_update_string(&conditions, SL("conditions"), &unique_key, PH_COPY);
-	phalcon_array_update_string(&conditions, SL("bind"), &unique_params, PH_COPY);
-	phalcon_array_update_string(&conditions, SL("bindTypes"), &unique_types, PH_COPY);
+	phalcon_array_update_string(&conditions, ISL(conditions), unique_key, PH_COPY);
+	phalcon_array_update_string(&conditions, SL("bind"), unique_params, PH_COPY);
+	phalcon_array_update_string(&conditions, SL("bindTypes"), unique_types, PH_COPY);
 
 	/** 
 	 * Perform the low level update
@@ -5185,9 +5186,9 @@ PHP_METHOD(Phalcon_Mvc_Model, refresh){
 	
 	PHALCON_INIT_VAR(select);
 	array_init_size(select, 3);
-	phalcon_array_update_string(&select, SL("columns"), &fields, PH_COPY);
-	phalcon_array_update_string(&select, SL("tables"), &escaped_table, PH_COPY);
-	phalcon_array_update_string(&select, SL("where"), &unique_key, PH_COPY);
+	phalcon_array_update_string(&select, ISL(columns), fields, PH_COPY);
+	phalcon_array_update_string(&select, ISL(tables), escaped_table, PH_COPY);
+	phalcon_array_update_string(&select, ISL(where), unique_key, PH_COPY);
 	
 	/** 
 	 * We directly build the SELECT to save resources
@@ -5332,7 +5333,7 @@ PHP_METHOD(Phalcon_Mvc_Model, skipAttributes){
 	
 		PHALCON_GET_HVALUE(attribute);
 	
-		phalcon_array_update_zval(&keys_attributes, attribute, &null_value, PH_COPY | PH_SEPARATE);
+		phalcon_array_update_zval(&keys_attributes, attribute, null_value, PH_COPY);
 	
 		zend_hash_move_forward_ex(ah0, &hp0);
 	}
@@ -5397,7 +5398,7 @@ PHP_METHOD(Phalcon_Mvc_Model, skipAttributesOnCreate){
 	
 		PHALCON_GET_HVALUE(attribute);
 	
-		phalcon_array_update_zval(&keys_attributes, attribute, &null_value, PH_COPY | PH_SEPARATE);
+		phalcon_array_update_zval(&keys_attributes, attribute, null_value, PH_COPY);
 	
 		zend_hash_move_forward_ex(ah0, &hp0);
 	}
@@ -5460,7 +5461,7 @@ PHP_METHOD(Phalcon_Mvc_Model, skipAttributesOnUpdate){
 	
 		PHALCON_GET_HVALUE(attribute);
 	
-		phalcon_array_update_zval(&keys_attributes, attribute, &null_value, PH_COPY);
+		phalcon_array_update_zval(&keys_attributes, attribute, null_value, PH_COPY);
 	
 		zend_hash_move_forward_ex(ah0, &hp0);
 	}
@@ -5780,7 +5781,7 @@ PHP_METHOD(Phalcon_Mvc_Model, setSnapshotData){
 	
 			PHALCON_OBS_NVAR(attribute);
 			phalcon_array_fetch(&attribute, column_map, key, PH_NOISY);
-			phalcon_array_update_zval(&snapshot, attribute, &value, PH_COPY | PH_SEPARATE);
+			phalcon_array_update_zval(&snapshot, attribute, value, PH_COPY);
 	
 			zend_hash_move_forward_ex(ah0, &hp0);
 		}
@@ -6477,8 +6478,8 @@ PHP_METHOD(Phalcon_Mvc_Model, __callStatic){
 	
 	PHALCON_INIT_VAR(parameters);
 	array_init_size(parameters, 2);
-	phalcon_array_update_string(&parameters, SL("conditions"), &conditions, PH_COPY);
-	phalcon_array_update_string(&parameters, SL("bind"), &bind_params, PH_COPY);
+	phalcon_array_update_string(&parameters, ISL(conditions), conditions, PH_COPY);
+	phalcon_array_update_string(&parameters, SL("bind"), bind_params, PH_COPY);
 	
 	/** 
 	 * Execute the query
@@ -6686,9 +6687,9 @@ PHP_METHOD(Phalcon_Mvc_Model, serialize){
 		if (phalcon_isset_property_zval(this_ptr, attribute TSRMLS_CC)) {
 			PHALCON_OBS_NVAR(value);
 			phalcon_read_property_zval(&value, this_ptr, attribute, PH_NOISY_CC);
-			phalcon_array_update_zval(&data, attribute, &value, PH_COPY | PH_SEPARATE);
+			phalcon_array_update_zval(&data, attribute, value, PH_COPY);
 		} else {
-			phalcon_array_update_zval(&data, attribute, &null_value, PH_COPY | PH_SEPARATE);
+			phalcon_array_update_zval(&data, attribute, null_value, PH_COPY);
 		}
 	
 		zend_hash_move_forward_ex(ah0, &hp0);
@@ -6880,9 +6881,9 @@ PHP_METHOD(Phalcon_Mvc_Model, toArray){
 		if (phalcon_isset_property_zval(this_ptr, attribute_field TSRMLS_CC)) {
 			PHALCON_OBS_NVAR(value);
 			phalcon_read_property_zval(&value, this_ptr, attribute_field, PH_NOISY_CC);
-			phalcon_array_update_zval(&data, attribute_field, &value, PH_COPY | PH_SEPARATE);
+			phalcon_array_update_zval(&data, attribute_field, value, PH_COPY);
 		} else {
-			phalcon_array_update_zval(&data, attribute_field, &null_value, PH_COPY | PH_SEPARATE);
+			phalcon_array_update_zval(&data, attribute_field, null_value, PH_COPY);
 		}
 	
 		zend_hash_move_forward_ex(ah0, &hp0);

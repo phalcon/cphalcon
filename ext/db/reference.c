@@ -247,10 +247,10 @@ PHP_METHOD(Phalcon_Db_Reference, __set_state){
 
 	PHALCON_ALLOC_GHOST_ZVAL(definition);
 	array_init_size(definition, 4);
-	phalcon_array_update_string(&definition, SL("referencedSchema"), &referenced_schema, PH_COPY);
-	phalcon_array_update_string(&definition, SL("referencedTable"), &referenced_table, PH_COPY);
-	phalcon_array_update_string(&definition, SL("columns"), &columns, PH_COPY);
-	phalcon_array_update_string(&definition, SL("referencedColumns"), &referenced_columns, PH_COPY);
+	phalcon_array_update_string(&definition, SL("referencedSchema"),  referenced_schema, PH_COPY);
+	phalcon_array_update_string(&definition, SL("referencedTable"),   referenced_table, PH_COPY);
+	phalcon_array_update_string(&definition, SL("columns"),           columns, PH_COPY);
+	phalcon_array_update_string(&definition, SL("referencedColumns"), referenced_columns, PH_COPY);
 
 	object_init_ex(return_value, phalcon_db_reference_ce);
 	RETURN_ON_FAILURE(phalcon_call_method_params(NULL, NULL, return_value, SL("__construct"), zend_inline_hash_func(SS("__construct")) TSRMLS_CC, 2, constraint_name, definition));

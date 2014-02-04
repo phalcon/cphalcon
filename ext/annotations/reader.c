@@ -113,7 +113,7 @@ PHP_METHOD(Phalcon_Annotations_Reader, parse){
 			RETURN_MM_ON_FAILURE(phannot_parse_annotations(class_annotations, cmt, cmt_len, file, line TSRMLS_CC));
 
 			if (Z_TYPE_P(class_annotations) == IS_ARRAY) {
-				phalcon_array_update_string(&annotations, SL("class"), &class_annotations, PH_COPY);
+				phalcon_array_update_string(&annotations, SL("class"), class_annotations, PH_COPY);
 			}
 		}
 	}
@@ -157,7 +157,7 @@ PHP_METHOD(Phalcon_Annotations_Reader, parse){
 			}
 
 			if (zend_hash_num_elements(Z_ARRVAL_P(annotations_properties))) {
-				phalcon_array_update_string(&annotations, SL("properties"), &annotations_properties, PH_COPY);
+				phalcon_array_update_string(&annotations, SL("properties"), annotations_properties, PH_COPY);
 			}
 		}
 	}
@@ -201,7 +201,7 @@ PHP_METHOD(Phalcon_Annotations_Reader, parse){
 			}
 
 			if (zend_hash_num_elements(Z_ARRVAL_P(annotations_methods))) {
-				phalcon_array_update_string(&annotations, SL("methods"), &annotations_methods, PH_COPY);
+				phalcon_array_update_string(&annotations, SL("methods"), annotations_methods, PH_COPY);
 			}
 		}
 	}

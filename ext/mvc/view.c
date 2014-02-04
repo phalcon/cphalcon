@@ -802,7 +802,7 @@ PHP_METHOD(Phalcon_Mvc_View, _loadTemplateEngines){
 			object_init_ex(php_engine, phalcon_mvc_view_engine_php_ce);
 			phalcon_call_method_p2_noret(php_engine, "__construct", this_ptr, dependency_injector);
 	
-			phalcon_array_update_string(&engines, SL(".phtml"), &php_engine, PH_COPY);
+			phalcon_array_update_string(&engines, SL(".phtml"), php_engine, PH_COPY);
 		} else {
 			if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
 				PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_view_exception_ce, "A dependency injector container is required to obtain the application services");
@@ -847,7 +847,7 @@ PHP_METHOD(Phalcon_Mvc_View, _loadTemplateEngines){
 						return;
 					}
 				}
-				phalcon_array_update_zval(&engines, extension, &engine_object, PH_COPY | 0);
+				phalcon_array_update_zval(&engines, extension, engine_object, PH_COPY | 0);
 	
 				zend_hash_move_forward_ex(ah0, &hp0);
 			}
@@ -1835,7 +1835,7 @@ PHP_METHOD(Phalcon_Mvc_View, cache){
 			PHALCON_GET_HKEY(key, ah0, hp0);
 			PHALCON_GET_HVALUE(value);
 	
-			phalcon_array_update_zval(&cache_options, key, &value, PH_COPY | PH_SEPARATE);
+			phalcon_array_update_zval(&cache_options, key, value, PH_COPY | PH_SEPARATE);
 	
 			zend_hash_move_forward_ex(ah0, &hp0);
 		}
@@ -1851,7 +1851,7 @@ PHP_METHOD(Phalcon_Mvc_View, cache){
 			phalcon_update_property_long(this_ptr, SL("_cacheLevel"), 5 TSRMLS_CC);
 		}
 	
-		phalcon_array_update_string(&view_options, SL("cache"), &cache_options, PH_COPY | PH_SEPARATE);
+		phalcon_array_update_string(&view_options, SL("cache"), cache_options, PH_COPY | PH_SEPARATE);
 		phalcon_update_property_this(this_ptr, SL("_options"), view_options TSRMLS_CC);
 	} else {
 		/** 

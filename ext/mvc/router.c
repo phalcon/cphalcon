@@ -562,11 +562,11 @@ PHP_METHOD(Phalcon_Mvc_Router, getDefaults){
 
 	array_init_size(return_value, 5);
 
-	phalcon_array_update_string(&return_value, SL("namespace"),  &namespace_name,  PH_COPY);
-	phalcon_array_update_string(&return_value, SL("module"),     &module_name,     PH_COPY);
-	phalcon_array_update_string(&return_value, SL("controller"), &controller_name, PH_COPY);
-	phalcon_array_update_string(&return_value, SL("action"),     &action_name,     PH_COPY);
-	phalcon_array_update_string(&return_value, SL("params"),     &params,          PH_COPY);
+	phalcon_array_update_string(&return_value, SL("namespace"),  namespace_name,  PH_COPY);
+	phalcon_array_update_string(&return_value, SL("module"),     module_name,     PH_COPY);
+	phalcon_array_update_string(&return_value, SL("controller"), controller_name, PH_COPY);
+	phalcon_array_update_string(&return_value, SL("action"),     action_name,     PH_COPY);
+	phalcon_array_update_string(&return_value, SL("params"),     params,          PH_COPY);
 }
 
 /**
@@ -829,7 +829,7 @@ PHP_METHOD(Phalcon_Mvc_Router, handle){
 
 							PHALCON_INIT_NVAR(converted_part);
 							PHALCON_CALL_USER_FUNC_ARRAY(converted_part, converter, parameters);
-							phalcon_array_update_zval(&parts, part, &converted_part, PH_COPY);
+							phalcon_array_update_zval(&parts, part, converted_part, PH_COPY);
 							zend_hash_move_forward_ex(ah1, &hp1);
 							continue;
 						}
@@ -837,7 +837,7 @@ PHP_METHOD(Phalcon_Mvc_Router, handle){
 						/**
 						 * Update the parts if there is no converter
 						 */
-						phalcon_array_update_zval(&parts, part, &match_position, PH_COPY);
+						phalcon_array_update_zval(&parts, part, match_position, PH_COPY);
 					} else {
 						/**
 						 * Apply the converters anyway
@@ -849,7 +849,7 @@ PHP_METHOD(Phalcon_Mvc_Router, handle){
 
 							PHALCON_INIT_NVAR(converted_part);
 							PHALCON_CALL_USER_FUNC_ARRAY(converted_part, converter, parameters);
-							phalcon_array_update_zval(&parts, part, &converted_part, PH_COPY);
+							phalcon_array_update_zval(&parts, part, converted_part, PH_COPY);
 						}
 					}
 

@@ -160,12 +160,12 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, __construct){
 
 	PHALCON_INIT_VAR(resources_names);
 	array_init_size(resources_names, 1);
-	phalcon_array_update_string(&resources_names, SL("*"), &PHALCON_GLOBAL(z_true), PH_COPY);
+	phalcon_array_update_string(&resources_names, SL("*"), PHALCON_GLOBAL(z_true), PH_COPY);
 	phalcon_update_property_this(this_ptr, SL("_resourcesNames"), resources_names TSRMLS_CC);
 	
 	PHALCON_INIT_VAR(access_list);
 	array_init_size(access_list, 1);
-	phalcon_array_update_string(&access_list, SL("*!*"), &PHALCON_GLOBAL(z_true), PH_COPY);
+	phalcon_array_update_string(&access_list, SL("*!*"), PHALCON_GLOBAL(z_true), PH_COPY);
 	phalcon_update_property_this(this_ptr, SL("_accessList"), access_list TSRMLS_CC);
 	
 	PHALCON_MM_RESTORE();
@@ -288,7 +288,7 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, addInherit){
 	
 	PHALCON_OBS_VAR(_roleInherits);
 	phalcon_read_property_this(&_roleInherits, this_ptr, SL("_roleInherits"), PH_NOISY_CC);
-	phalcon_array_update_append_multi_2(&_roleInherits, role_name, role_inherit_name, 0);
+	phalcon_array_append_multi_2(&_roleInherits, role_name, role_inherit_name, 0);
 	phalcon_update_property_this(this_ptr, SL("_roleInherits"), _roleInherits TSRMLS_CC);
 	RETURN_MM_TRUE;
 }

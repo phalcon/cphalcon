@@ -756,7 +756,7 @@ PHP_METHOD(Phalcon_Config, toArray){
 			if (Z_TYPE_PP(value) == IS_OBJECT && phalcon_method_exists_ex(*value, SS("toarray") TSRMLS_CC) == SUCCESS) {
 				array_value = NULL;
 				if (SUCCESS == phalcon_call_method_params(array_value, &array_value, *value, SL("toarray"), zend_inline_hash_func(SS("toarray")) TSRMLS_CC, 0)) {
-					phalcon_array_update_zval(&return_value, &key, &array_value, 0);
+					phalcon_array_update_zval(&return_value, &key, array_value, 0);
 				}
 			}
 		}

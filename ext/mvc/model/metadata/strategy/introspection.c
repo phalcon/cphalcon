@@ -231,14 +231,14 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Introspection, getMetaData){
 		 */
 		PHALCON_INIT_NVAR(type);
 		phalcon_call_method(type, column, "gettype");
-		phalcon_array_update_zval(&field_types, field_name, &type, PH_COPY | PH_SEPARATE);
+		phalcon_array_update_zval(&field_types, field_name, type, PH_COPY);
 	
 		/** 
 		 * To mark how the fields must be escaped
 		 */
 		PHALCON_INIT_NVAR(bind_type);
 		phalcon_call_method(bind_type, column, "getbindtype");
-		phalcon_array_update_zval(&field_bind_types, field_name, &bind_type, PH_COPY | PH_SEPARATE);
+		phalcon_array_update_zval(&field_bind_types, field_name, bind_type, PH_COPY);
 	
 		zend_hash_move_forward_ex(ah0, &hp0);
 	}
@@ -247,16 +247,16 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Introspection, getMetaData){
 	 * Create an array using the MODELS_* constants as indexes
 	 */
 	array_init_size(return_value, 10);
-	phalcon_array_update_long(&return_value, 0, &attributes, PH_COPY);
-	phalcon_array_update_long(&return_value, 1, &primary_keys, PH_COPY);
-	phalcon_array_update_long(&return_value, 2, &non_primary_keys, PH_COPY);
-	phalcon_array_update_long(&return_value, 3, &not_null, PH_COPY);
-	phalcon_array_update_long(&return_value, 4, &field_types, PH_COPY);
-	phalcon_array_update_long(&return_value, 5, &numeric_typed, PH_COPY);
-	phalcon_array_update_long(&return_value, 8, &identity_field, PH_COPY);
-	phalcon_array_update_long(&return_value, 9, &field_bind_types, PH_COPY);
-	phalcon_array_update_long(&return_value, 10, &automatic_default, PH_COPY);
-	phalcon_array_update_long(&return_value, 11, &automatic_default, PH_COPY);
+	phalcon_array_update_long(&return_value, 0,  attributes, PH_COPY);
+	phalcon_array_update_long(&return_value, 1,  primary_keys, PH_COPY);
+	phalcon_array_update_long(&return_value, 2,  non_primary_keys, PH_COPY);
+	phalcon_array_update_long(&return_value, 3,  not_null, PH_COPY);
+	phalcon_array_update_long(&return_value, 4,  field_types, PH_COPY);
+	phalcon_array_update_long(&return_value, 5,  numeric_typed, PH_COPY);
+	phalcon_array_update_long(&return_value, 8,  identity_field, PH_COPY);
+	phalcon_array_update_long(&return_value, 9,  field_bind_types, PH_COPY);
+	phalcon_array_update_long(&return_value, 10, automatic_default, PH_COPY);
+	phalcon_array_update_long(&return_value, 11, automatic_default, PH_COPY);
 	
 	PHALCON_MM_RESTORE();
 }
@@ -307,7 +307,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Introspection, getColumnMaps){
 			PHALCON_GET_HKEY(name, ah0, hp0);
 			PHALCON_GET_HVALUE(user_name);
 	
-			phalcon_array_update_zval(&reversed_column_map, user_name, &name, PH_COPY);
+			phalcon_array_update_zval(&reversed_column_map, user_name, name, PH_COPY);
 	
 			zend_hash_move_forward_ex(ah0, &hp0);
 		}
@@ -318,8 +318,8 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Introspection, getColumnMaps){
 	 * Store the column map
 	 */
 	array_init_size(return_value, 2);
-	phalcon_array_update_long(&return_value, 0, &ordered_column_map, PH_COPY);
-	phalcon_array_update_long(&return_value, 1, &reversed_column_map, PH_COPY);
+	phalcon_array_update_long(&return_value, 0, ordered_column_map, PH_COPY);
+	phalcon_array_update_long(&return_value, 1, reversed_column_map, PH_COPY);
 	
 	PHALCON_MM_RESTORE();
 }

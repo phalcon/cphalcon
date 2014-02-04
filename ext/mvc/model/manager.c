@@ -2360,9 +2360,9 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getRelationRecords){
 	 */
 	PHALCON_INIT_VAR(find_params);
 	array_init_size(find_params, 3);
-	phalcon_array_append(&find_params, joined_conditions, PH_SEPARATE);
-	phalcon_array_update_string(&find_params, SL("bind"), &placeholders, PH_COPY | PH_SEPARATE);
-	phalcon_array_update_string(&find_params, SL("di"), &dependency_injector, PH_COPY | PH_SEPARATE);
+	phalcon_array_append(&find_params, joined_conditions, 0);
+	phalcon_array_update_string(&find_params, SL("bind"), placeholders, PH_COPY);
+	phalcon_array_update_string(&find_params, SL("di"), dependency_injector, PH_COPY);
 	if (Z_TYPE_P(parameters) == IS_ARRAY) { 
 		PHALCON_INIT_VAR(find_arguments);
 		phalcon_fast_array_merge(find_arguments, &find_params, &parameters TSRMLS_CC);

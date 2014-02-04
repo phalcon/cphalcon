@@ -1024,7 +1024,7 @@ int phalcon_update_property_array(zval *object, char *property, unsigned int pro
 /**
  * Updates an array property using a string index
  */
-int phalcon_update_property_array_string(zval *object, char *property, unsigned int property_length, char *index, unsigned int index_length, zval *value TSRMLS_DC) {
+int phalcon_update_property_array_string(zval *object, char *property, unsigned int property_length, const char *index, unsigned int index_length, zval *value TSRMLS_DC) {
 
 	zval *tmp;
 	int separated = 0;

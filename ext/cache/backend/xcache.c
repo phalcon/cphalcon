@@ -277,7 +277,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Xcache, save){
 		}
 	
 		z_zero = PHALCON_GLOBAL(z_zero);
-		phalcon_array_update_zval(&keys, last_key, &ttl, PH_COPY);	
+		phalcon_array_update_zval(&keys, last_key, ttl, PH_COPY);
 		PHALCON_CALL_FUNCTION_NORET("xcache_set", special_key, keys, z_zero);
 	}
 	

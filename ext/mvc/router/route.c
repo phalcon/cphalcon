@@ -420,7 +420,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Route, reConfigure){
 			 * Process module name
 			 */
 			if (Z_TYPE_P(module_name) != IS_NULL) {
-				phalcon_array_update_string(&route_paths, SL("module"), &module_name, PH_COPY | PH_SEPARATE);
+				phalcon_array_update_string(&route_paths, SL("module"), module_name, PH_COPY | PH_SEPARATE);
 			}
 	
 			/** 
@@ -449,7 +449,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Route, reConfigure){
 					 * Update the namespace
 					 */
 					if (zend_is_true(namespace_name)) {
-						phalcon_array_update_string(&route_paths, SL("namespace"), &namespace_name, PH_COPY | PH_SEPARATE);
+						phalcon_array_update_string(&route_paths, SL("namespace"), namespace_name, PH_COPY | PH_SEPARATE);
 					}
 				} else {
 					PHALCON_CPY_WRT(real_class_name, controller_name);
@@ -464,14 +464,14 @@ PHP_METHOD(Phalcon_Mvc_Router_Route, reConfigure){
 				/** 
 				 * Update the controller path
 				 */
-				phalcon_array_update_string(&route_paths, SL("controller"), &lower_name, PH_COPY | PH_SEPARATE);
+				phalcon_array_update_string(&route_paths, SL("controller"), lower_name, PH_COPY | PH_SEPARATE);
 			}
 	
 			/** 
 			 * Process action name
 			 */
 			if (Z_TYPE_P(action_name) != IS_NULL) {
-				phalcon_array_update_string(&route_paths, SL("action"), &action_name, PH_COPY | PH_SEPARATE);
+				phalcon_array_update_string(&route_paths, SL("action"), action_name, PH_COPY | PH_SEPARATE);
 			}
 		} else {
 			PHALCON_CPY_WRT(route_paths, paths);
@@ -659,7 +659,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Route, getReversedPaths){
 		PHALCON_GET_HKEY(path, ah0, hp0);
 		PHALCON_GET_HVALUE(position);
 	
-		phalcon_array_update_zval(&return_value, position, &path, PH_COPY);
+		phalcon_array_update_zval(&return_value, position, path, PH_COPY);
 	
 		zend_hash_move_forward_ex(ah0, &hp0);
 	}

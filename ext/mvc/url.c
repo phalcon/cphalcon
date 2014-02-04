@@ -357,28 +357,28 @@ PHP_METHOD(Phalcon_Mvc_Url, get){
 		if (!phalcon_array_isset_string_fetch(&namespace_name, *uri, SS("namespace"))) {
 			namespace_name = phalcon_fetch_nproperty_this(router, SL("_defaultNamespace"), PH_NOISY_CC);
 			if (Z_TYPE_P(namespace_name) != IS_NULL) {
-				phalcon_array_update_string(&defaults, SL("namespace"), &namespace_name, PH_COPY);
+				phalcon_array_update_string(&defaults, SL("namespace"), namespace_name, PH_COPY);
 			}
 		}
 
 		if (!phalcon_array_isset_string_fetch(&module_name, *uri, SS("module"))) {
 			module_name = phalcon_fetch_nproperty_this(router, SL("_defaultModule"), PH_NOISY_CC);
 			if (Z_TYPE_P(module_name) != IS_NULL) {
-				phalcon_array_update_string(&defaults, SL("module"), &module_name, PH_COPY);
+				phalcon_array_update_string(&defaults, SL("module"), module_name, PH_COPY);
 			}
 		}
 
 		if (!phalcon_array_isset_string_fetch(&controller_name, *uri, SS("controller"))) {
 			controller_name = phalcon_fetch_nproperty_this(router, SL("_defaultController"), PH_NOISY_CC);
 			if (Z_TYPE_P(controller_name) != IS_NULL) {
-				phalcon_array_update_string(&defaults, SL("controller"), &controller_name, PH_COPY);
+				phalcon_array_update_string(&defaults, SL("controller"), controller_name, PH_COPY);
 			}
 		}
 
 		if (!phalcon_array_isset_string_fetch(&action_name, *uri, SS("action"))) {
 			action_name = phalcon_fetch_nproperty_this(router, SL("_defaultAction"), PH_NOISY_CC);
 			if (Z_TYPE_P(action_name) != IS_NULL) {
-				phalcon_array_update_string(&defaults, SL("action"), &action_name, PH_COPY);
+				phalcon_array_update_string(&defaults, SL("action"), action_name, PH_COPY);
 			}
 		}
 	

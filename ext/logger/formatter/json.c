@@ -83,9 +83,9 @@ PHP_METHOD(Phalcon_Logger_Formatter_Json, format){
 	
 	PHALCON_INIT_VAR(log);
 	array_init_size(log, 3);
-	phalcon_array_update_string(&log, SL("type"), &type_str, PH_COPY);
-	phalcon_array_update_string(&log, SL("message"), &interpolated, PH_COPY);
-	phalcon_array_update_string(&log, SL("timestamp"), &timestamp, PH_COPY);
+	phalcon_array_update_string(&log, SL("type"), type_str, PH_COPY);
+	phalcon_array_update_string(&log, SL("message"), interpolated, PH_COPY);
+	phalcon_array_update_string(&log, SL("timestamp"), timestamp, PH_COPY);
 	RETURN_MM_ON_FAILURE(phalcon_json_encode(return_value, log, 0 TSRMLS_CC));
 	RETURN_MM();
 }

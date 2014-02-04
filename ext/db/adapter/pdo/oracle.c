@@ -232,8 +232,8 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Oracle, describeColumns){
 			if (phalcon_memnstr_str(column_type, SL("NUMBER"))) {
 				phalcon_array_update_string_long(&definition, SL("type"), 3, PH_SEPARATE);
 				phalcon_array_update_string_bool(&definition, SL("isNumeric"), 1, PH_SEPARATE);
-				phalcon_array_update_string(&definition, SL("size"), &column_precision, PH_COPY | PH_SEPARATE);
-				phalcon_array_update_string(&definition, SL("scale"), &column_scale, PH_COPY | PH_SEPARATE);
+				phalcon_array_update_string(&definition, SL("size"), column_precision, PH_COPY | PH_SEPARATE);
+				phalcon_array_update_string(&definition, SL("scale"), column_scale, PH_COPY | PH_SEPARATE);
 				phalcon_array_update_string_long(&definition, SL("bindType"), 32, PH_SEPARATE);
 				break;
 			}
@@ -253,7 +253,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Oracle, describeColumns){
 			if (phalcon_memnstr_str(column_type, SL("INTEGER"))) {
 				phalcon_array_update_string_long(&definition, SL("type"), 0, PH_SEPARATE);
 				phalcon_array_update_string_bool(&definition, SL("isNumeric"), 1, PH_SEPARATE);
-				phalcon_array_update_string(&definition, SL("size"), &column_precision, PH_COPY | PH_SEPARATE);
+				phalcon_array_update_string(&definition, SL("size"), column_precision, PH_COPY | PH_SEPARATE);
 				phalcon_array_update_string_long(&definition, SL("bindType"), 1, PH_SEPARATE);
 				break;
 			}
@@ -264,8 +264,8 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Oracle, describeColumns){
 			if (phalcon_memnstr_str(column_type, SL("FLOAT"))) {
 				phalcon_array_update_string_long(&definition, SL("type"), 7, PH_SEPARATE);
 				phalcon_array_update_string_bool(&definition, SL("isNumeric"), 1, PH_SEPARATE);
-				phalcon_array_update_string(&definition, SL("size"), &column_size, PH_COPY | PH_SEPARATE);
-				phalcon_array_update_string(&definition, SL("scale"), &column_scale, PH_COPY | PH_SEPARATE);
+				phalcon_array_update_string(&definition, SL("size"), column_size, PH_COPY | PH_SEPARATE);
+				phalcon_array_update_string(&definition, SL("scale"), column_scale, PH_COPY | PH_SEPARATE);
 				phalcon_array_update_string_long(&definition, SL("bindType"), 32, PH_SEPARATE);
 				break;
 			}
@@ -307,7 +307,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Oracle, describeColumns){
 			 */
 			if (phalcon_memnstr_str(column_type, SL("VARCHAR2"))) {
 				phalcon_array_update_string_long(&definition, SL("type"), 2, PH_SEPARATE);
-				phalcon_array_update_string(&definition, SL("size"), &column_size, PH_COPY | PH_SEPARATE);
+				phalcon_array_update_string(&definition, SL("size"), column_size, PH_COPY | PH_SEPARATE);
 				break;
 			}
 
@@ -316,7 +316,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Oracle, describeColumns){
 			 */
 			if (phalcon_memnstr_str(column_type, SL("CHAR"))) {
 				phalcon_array_update_string_long(&definition, SL("type"), 5, PH_SEPARATE);
-				phalcon_array_update_string(&definition, SL("size"), &column_size, PH_COPY | PH_SEPARATE);
+				phalcon_array_update_string(&definition, SL("size"), column_size, PH_COPY | PH_SEPARATE);
 				break;
 			}
 
@@ -338,7 +338,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Oracle, describeColumns){
 		if (Z_TYPE_P(old_column) == IS_NULL) {
 			phalcon_array_update_string_bool(&definition, SL("first"), 1, PH_SEPARATE);
 		} else {
-			phalcon_array_update_string(&definition, SL("after"), &old_column, PH_COPY | PH_SEPARATE);
+			phalcon_array_update_string(&definition, SL("after"), old_column, PH_COPY | PH_SEPARATE);
 		}
 	
 		/** 

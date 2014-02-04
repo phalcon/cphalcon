@@ -22,6 +22,8 @@
 #include "di/service/builder.h"
 #include "di/exception.h"
 
+#include <Zend/zend_closures.h>
+
 #include "kernel/main.h"
 #include "kernel/memory.h"
 #include "kernel/object.h"
@@ -257,7 +259,7 @@ PHP_METHOD(Phalcon_DI_Service, resolve){
 		 * Object definitions can be a Closure or an already resolved instance
 		 */
 		if (likely(Z_TYPE_P(definition) == IS_OBJECT)) {
-			if (phalcon_is_instance_of(definition, SL("Closure") TSRMLS_CC)) {
+			if (instanceof_function(Z_OBJCE_P(definition), zend_ce_closure TSRMLS_CC)) {
 				if (Z_TYPE_P(parameters) == IS_ARRAY) { 
 					PHALCON_CALL_USER_FUNC_ARRAY(instance, definition, parameters);
 				} else {
@@ -344,17 +346,17 @@ PHP_METHOD(Phalcon_DI_Service, setParameter){
 	if (phalcon_array_isset_string(definition, SS("arguments"))) {
 		PHALCON_OBS_VAR(arguments);
 		phalcon_array_fetch_string(&arguments, definition, SL("arguments"), PH_NOISY);
-		phalcon_array_update_zval(&arguments, position, &parameter, PH_COPY | PH_SEPARATE);
+		phalcon_array_update_zval(&arguments, position, parameter, PH_COPY | PH_SEPARATE);
 	} else {
 		PHALCON_INIT_NVAR(arguments);
 		array_init_size(arguments, 1);
-		phalcon_array_update_zval(&arguments, position, &parameter, PH_COPY | PH_SEPARATE);
+		phalcon_array_update_zval(&arguments, position, parameter, PH_COPY | PH_SEPARATE);
 	}
 	
 	/** 
 	 * Re-update the arguments
 	 */
-	phalcon_array_update_string(&definition, SL("arguments"), &arguments, PH_COPY | PH_SEPARATE);
+	phalcon_array_update_string(&definition, SL("arguments"), arguments, PH_COPY | PH_SEPARATE);
 	
 	/** 
 	 * Re-update the definition

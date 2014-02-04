@@ -1503,7 +1503,7 @@ PHP_METHOD(Phalcon_Db_Adapter, listViews){
 PHP_METHOD(Phalcon_Db_Adapter, describeIndexes){
 
 	zval *table, *schema = NULL, *dialect, *fetch_num, *sql, *describe;
-	zval *indexes, *index = NULL, *key_name = NULL, *empty_arr = NULL, *column_name = NULL;
+	zval *indexes, *index = NULL, *key_name = NULL, *column_name = NULL;
 	zval *index_columns = NULL, *name = NULL;
 	HashTable *ah0, *ah1;
 	HashPosition hp0, hp1;
@@ -1545,19 +1545,14 @@ PHP_METHOD(Phalcon_Db_Adapter, describeIndexes){
 	while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
 		PHALCON_GET_HVALUE(index);
-	
+
 		PHALCON_OBS_NVAR(key_name);
 		phalcon_array_fetch_long(&key_name, index, 2, PH_NOISY);
-		if (!phalcon_array_isset(indexes, key_name)) {
-			PHALCON_INIT_NVAR(empty_arr);
-			array_init(empty_arr);
-			phalcon_array_update_zval(&indexes, key_name, &empty_arr, PH_COPY);
-		}
 	
 		PHALCON_OBS_NVAR(column_name);
 		phalcon_array_fetch_long(&column_name, index, 4, PH_NOISY);
-		phalcon_array_update_append_multi_2(&indexes, key_name, column_name, 0);
-	
+		phalcon_array_append_multi_2(&indexes, key_name, column_name, 0);
+
 		zend_hash_move_forward_ex(ah0, &hp0);
 	}
 	
@@ -1577,7 +1572,7 @@ PHP_METHOD(Phalcon_Db_Adapter, describeIndexes){
 		object_init_ex(index, phalcon_db_index_ce);
 		phalcon_call_method_p2_noret(index, "__construct", name, index_columns);
 	
-		phalcon_array_update_zval(&return_value, name, &index, PH_COPY);
+		phalcon_array_update_zval(&return_value, name, index, PH_COPY);
 	
 		zend_hash_move_forward_ex(ah1, &hp1);
 	}
@@ -1632,7 +1627,7 @@ PHP_METHOD(Phalcon_Db_Adapter, describeReferences){
 	
 	PHALCON_INIT_VAR(empty_arr);
 	array_init(empty_arr);
-	
+
 	PHALCON_INIT_VAR(references);
 	array_init(references);
 	
@@ -1659,20 +1654,20 @@ PHP_METHOD(Phalcon_Db_Adapter, describeReferences){
 	
 			PHALCON_INIT_NVAR(reference_array);
 			array_init_size(reference_array, 4);
-			phalcon_array_update_string(&reference_array, SL("referencedSchema"), &referenced_schema, PH_COPY);
-			phalcon_array_update_string(&reference_array, SL("referencedTable"), &referenced_table, PH_COPY);
-			phalcon_array_update_string(&reference_array, SL("columns"), &empty_arr, PH_COPY);
-			phalcon_array_update_string(&reference_array, SL("referencedColumns"), &empty_arr, PH_COPY);
-			phalcon_array_update_zval(&references, constraint_name, &reference_array, PH_COPY);
+			phalcon_array_update_string(&reference_array, SL("referencedSchema"), referenced_schema, PH_COPY);
+			phalcon_array_update_string(&reference_array, SL("referencedTable"), referenced_table, PH_COPY);
+			phalcon_array_update_string(&reference_array, SL("columns"), empty_arr, PH_COPY);
+			phalcon_array_update_string(&reference_array, SL("referencedColumns"), empty_arr, PH_COPY);
+			phalcon_array_update_zval(&references, constraint_name, reference_array, PH_COPY);
 		}
 	
 		PHALCON_OBS_NVAR(column_name);
 		phalcon_array_fetch_long(&column_name, reference, 1, PH_NOISY);
-		phalcon_array_update_zval_string_append_multi_3(&references, constraint_name, SL("columns"), &column_name, 0);
+		phalcon_array_update_zval_string_append_multi_3(&references, constraint_name, SL("columns"), column_name, 0);
 	
 		PHALCON_OBS_NVAR(referenced_columns);
 		phalcon_array_fetch_long(&referenced_columns, reference, 5, PH_NOISY);
-		phalcon_array_update_zval_string_append_multi_3(&references, constraint_name, SL("referencedColumns"), &referenced_columns, 0);
+		phalcon_array_update_zval_string_append_multi_3(&references, constraint_name, SL("referencedColumns"), referenced_columns, 0);
 	
 		zend_hash_move_forward_ex(ah0, &hp0);
 	}
@@ -1687,6 +1682,7 @@ PHP_METHOD(Phalcon_Db_Adapter, describeReferences){
 		PHALCON_GET_HVALUE(array_reference);
 	
 		PHALCON_OBS_NVAR(referenced_schema);
+
 		phalcon_array_fetch_string(&referenced_schema, array_reference, SL("referencedSchema"), PH_NOISY);
 	
 		PHALCON_OBS_NVAR(referenced_table);
@@ -1700,16 +1696,16 @@ PHP_METHOD(Phalcon_Db_Adapter, describeReferences){
 	
 		PHALCON_INIT_NVAR(definition);
 		array_init_size(definition, 4);
-		phalcon_array_update_string(&definition, SL("referencedSchema"), &referenced_schema, PH_COPY);
-		phalcon_array_update_string(&definition, SL("referencedTable"), &referenced_table, PH_COPY);
-		phalcon_array_update_string(&definition, SL("columns"), &columns, PH_COPY );
-		phalcon_array_update_string(&definition, SL("referencedColumns"), &referenced_columns, PH_COPY);
+		phalcon_array_update_string(&definition, SL("referencedSchema"), referenced_schema, PH_COPY);
+		phalcon_array_update_string(&definition, SL("referencedTable"), referenced_table, PH_COPY);
+		phalcon_array_update_string(&definition, SL("columns"), columns, PH_COPY );
+		phalcon_array_update_string(&definition, SL("referencedColumns"), referenced_columns, PH_COPY);
 	
 		PHALCON_INIT_NVAR(reference);
 		object_init_ex(reference, phalcon_db_reference_ce);
 		phalcon_call_method_p2_noret(reference, "__construct", name, definition);
 	
-		phalcon_array_update_zval(&return_value, name, &reference, PH_COPY);
+		phalcon_array_update_zval(&return_value, name, reference, PH_COPY);
 	
 		zend_hash_move_forward_ex(ah1, &hp1);
 	}

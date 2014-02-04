@@ -82,7 +82,7 @@ int phalcon_update_property_empty_array(zend_class_entry *ce, zval *object, char
 
 /** Updating array properties */
 int phalcon_update_property_array(zval *object, char *property, unsigned int property_length, zval *index, zval *value TSRMLS_DC);
-int phalcon_update_property_array_string(zval *object, char *property, unsigned int property_length, char *index, unsigned int index_length, zval *value TSRMLS_DC);
+int phalcon_update_property_array_string(zval *object, char *property, unsigned int property_length, const char *index, unsigned int index_length, zval *value TSRMLS_DC);
 int phalcon_update_property_array_append(zval *object, char *property, unsigned int property_length, zval *value TSRMLS_DC);
 
 /** Increment/Decrement properties */

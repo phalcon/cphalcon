@@ -35,7 +35,7 @@
  * @note $arr[$index] is returned as is: no copying occurs, reference count is not updated
  * @throw E_WARNING if @a offset is not a scalar
  */
-int phalcon_array_isset_fetch(zval **fetched, const zval *arr, zval *index) PHALCON_ATTR_NONNULL;
+int phalcon_array_isset_fetch(zval **fetched, const zval *arr, const zval *index) PHALCON_ATTR_NONNULL;
 
 /**
  * @brief Fetches @a index if it exists from the array @a arr using the precomputed key @a key
@@ -49,7 +49,7 @@ int phalcon_array_isset_fetch(zval **fetched, const zval *arr, zval *index) PHAL
  * @retval 1 Exists
  * @note $arr[$index] is returned as is: no copying occurs, reference count is not updated
  */
-int phalcon_array_isset_quick_string_fetch(zval **fetched, zval *arr, const char *index, uint index_length, ulong key) PHALCON_ATTR_NONNULL;
+int phalcon_array_isset_quick_string_fetch(zval **fetched, const zval *arr, const char *index, uint index_length, ulong key) PHALCON_ATTR_NONNULL;
 
 /**
  * @brief Fetches @a index if it exists from the array @a arr
@@ -61,7 +61,7 @@ int phalcon_array_isset_quick_string_fetch(zval **fetched, zval *arr, const char
  * @retval 1 Exists
  * @note $arr[$index] is returned as is: no copying occurs, reference count is not updated
  */
-int phalcon_array_isset_long_fetch(zval **fetched, zval *arr, ulong index) PHALCON_ATTR_NONNULL;
+int phalcon_array_isset_long_fetch(zval **fetched, const zval *arr, ulong index) PHALCON_ATTR_NONNULL;
 
 /**
  * @brief Fetches @a index if it exists from the array @a arr
@@ -75,7 +75,7 @@ int phalcon_array_isset_long_fetch(zval **fetched, zval *arr, ulong index) PHALC
  * @note $arr[$index] is returned as is: no copying occurs, reference count is not updated
  * @see phalcon_array_isset_quick_string_fetch
  */
-PHALCON_ATTR_NONNULL static inline int phalcon_array_isset_string_fetch(zval **fetched, zval *arr, const char *index, uint index_length)
+PHALCON_ATTR_NONNULL static inline int phalcon_array_isset_string_fetch(zval **fetched, const zval *arr, const char *index, uint index_length)
 {
 #ifdef __GNUC__
 	if (__builtin_constant_p(index) && __builtin_constant_p(index_length)) {
@@ -97,7 +97,7 @@ PHALCON_ATTR_NONNULL static inline int phalcon_array_isset_string_fetch(zval **f
  * @note @c index will be handled as follows: @c NULL is treated as an empty string, @c double values are cast to @c integer, @c bool or @c resource are treated as @c integer
  * @throw E_WARNING if @a offset is not a scalar
  */
-int phalcon_array_isset(const zval *arr, zval *index) PHALCON_ATTR_NONNULL;
+int phalcon_array_isset(const zval *arr, const zval *index) PHALCON_ATTR_NONNULL;
 
 /**
  * @brief Checks whether numeric @a index exists in array @a arr
@@ -145,7 +145,7 @@ PHALCON_ATTR_NONNULL static inline int phalcon_array_isset_string(const zval *ar
 
 /**
  * @brief Unsets @a index from array @a arr
- * @param[in,out] arr Array
+ * @param arr Array
  * @param index Index
  * @param flags Flags (@c PH_SEPARATE: separate array if its reference count is greater than 1; @c arr will contain the separated array)
  * @return Whether the operation succeeded
@@ -154,11 +154,11 @@ PHALCON_ATTR_NONNULL static inline int phalcon_array_isset_string(const zval *ar
  * @note @c index will be handled as follows: @c NULL is treated as an empty string, @c double values are cast to @c integer, @c bool or @c resource are treated as @c integer
  * @throw @c E_WARNING if @a offset is not a scalar
  */
-int phalcon_array_unset(zval **arr, zval *index, int flags) PHALCON_ATTR_NONNULL;
+int phalcon_array_unset(zval **arr, const zval *index, int flags) PHALCON_ATTR_NONNULL;
 
 /**
  * @brief Unsets numeric @a index from array @a arr
- * @param[in,out] arr Array
+ * @param arr Array
  * @param index Index
  * @param flags Flags (@c PH_SEPARATE: separate array if its reference count is greater than 1; @c arr will contain the separated array)
  * @return Whether the operation succeeded
@@ -169,7 +169,7 @@ int phalcon_array_unset_long(zval **arr, ulong index, int flags) PHALCON_ATTR_NO
 
 /**
  * @brief Unsets string @a index from array @a arr
- * @param[in,out] arr Array
+ * @param arr Array
  * @param index Index
  * @param index_length strlen(index)+1
  * @param flags Flags (@c PH_SEPARATE: separate array if its reference count is greater than 1; @c arr will contain the separated array)
@@ -181,7 +181,7 @@ int phalcon_array_unset_string(zval **arr, const char *index, uint index_length,
 
 /**
  * @brief Pushes @a value onto the end of @a arr
- * @param[in,out] arr Array
+ * @param arr Array
  * @param[in,out] value Value to add; reference counter of @c *value will be incrememnted
  * @param flags Flags (@c PH_SEPARATE: separate array if its reference count is greater than 1; @c arr will contain the separated array)
  * @return Whether the operation succeeded
@@ -191,11 +191,11 @@ int phalcon_array_unset_string(zval **arr, const char *index, uint index_length,
  *
  * Equivalent to <tt>$arr[] = $value</tt> in PHP
  */
-int phalcon_array_append(zval **arr, zval *value, int separate) PHALCON_ATTR_NONNULL;
+int phalcon_array_append(zval **arr, zval *value, int flags) PHALCON_ATTR_NONNULL;
 
 /**
  * @brief Appends a long integer @a value to @a arr
- * @param[in,out] arr Array
+ * @param arr Array
  * @param value Value
  * @param separate Flags (@c PH_SEPARATE: separate array if its reference count is greater than 1; @c arr will contain the separated array)
  * @return Whether the operation succeeded
@@ -206,19 +206,19 @@ int phalcon_array_append(zval **arr, zval *value, int separate) PHALCON_ATTR_NON
  *
  * Equivalent to <tt>$arr[] = $value</tt> in PHP, where @c $value is an integer.
  */
-PHALCON_ATTR_NONNULL static inline int phalcon_array_append_long(zval **arr, long value, int separate)
+PHALCON_ATTR_NONNULL static inline int phalcon_array_append_long(zval **arr, long value, int flags)
 {
 	zval *zvalue;
 
 	PHALCON_ALLOC_GHOST_ZVAL(zvalue);
 	ZVAL_LONG(zvalue, value);
 
-	return phalcon_array_append(arr, zvalue, separate);
+	return phalcon_array_append(arr, zvalue, flags);
 }
 
 /**
  * @brief Appends a string @a value to @a arr
- * @param[in,out] arr Array
+ * @param arr Array
  * @param value Value
  * @param value_length Length of the value (usually <tt>strlen(value)</tt>)
  * @param separate Flags (@c PH_SEPARATE: separate array if its reference count is greater than 1; @c arr will contain the separated array)
@@ -230,7 +230,7 @@ PHALCON_ATTR_NONNULL static inline int phalcon_array_append_long(zval **arr, lon
  *
  * Equivalent to <tt>$arr[] = $value</tt> in PHP, where @c $value is a string.
  */
-PHALCON_ATTR_NONNULL static inline int phalcon_array_append_string(zval **arr, char *value, uint value_length, int separate)
+PHALCON_ATTR_NONNULL static inline int phalcon_array_append_string(zval **arr, const char *value, uint value_length, int separate)
 {
 	zval *zvalue;
 
@@ -254,11 +254,10 @@ PHALCON_ATTR_NONNULL static inline int phalcon_array_append_string(zval **arr, c
  *
  * Equivalent to <tt>$arr[$index] = $value</tt> in PHP.
  * Flags may be a bitwise OR of the following values:
- * @arg @c PH_CTOR: create a copy of @a value and work with that copy; @c *value will be updated with the newly constructed value
  * @arg @c PH_SEPARATE: separate @a arr if its reference count is greater than 1; @c *arr will contain the separated version
  * @arg @c PH_COPY: increment the reference count on @c **value
  */
-int phalcon_array_update_zval(zval **arr, zval *index, zval **value, int flags) PHALCON_ATTR_NONNULL;
+int phalcon_array_update_zval(zval **arr, const zval *index, zval *value, int flags) PHALCON_ATTR_NONNULL;
 
 /**
  * @brief Updates value in @a arr at position @a index with boolean @a value
@@ -281,7 +280,7 @@ PHALCON_ATTR_NONNULL static inline int phalcon_array_update_zval_bool(zval **arr
 	MAKE_STD_ZVAL(zvalue);
 	ZVAL_BOOL(zvalue, value);
 
-	return phalcon_array_update_zval(arr, index, &zvalue, flags & PH_SEPARATE);
+	return phalcon_array_update_zval(arr, index, zvalue, flags & PH_SEPARATE);
 }
 
 /**
@@ -305,7 +304,7 @@ PHALCON_ATTR_NONNULL static inline int phalcon_array_update_zval_long(zval **arr
 	MAKE_STD_ZVAL(zvalue);
 	ZVAL_LONG(zvalue, value);
 
-	return phalcon_array_update_zval(arr, index, &zvalue, flags & PH_SEPARATE);
+	return phalcon_array_update_zval(arr, index, zvalue, flags & PH_SEPARATE);
 }
 
 /**
@@ -330,7 +329,7 @@ PHALCON_ATTR_NONNULL static inline int phalcon_array_update_zval_string(zval **a
 	MAKE_STD_ZVAL(zvalue);
 	ZVAL_STRINGL(zvalue, value, value_length, 1);
 
-	return phalcon_array_update_zval(arr, index, &zvalue, flags & PH_SEPARATE);
+	return phalcon_array_update_zval(arr, index, zvalue, flags & PH_SEPARATE);
 }
 
 /**
@@ -349,11 +348,10 @@ PHALCON_ATTR_NONNULL static inline int phalcon_array_update_zval_string(zval **a
  * Equivalent to <tt>$arr[$index] = $value</tt> in PHP.
  *
  * Flags may be a bitwise OR of the following values:
- * @arg @c PH_CTOR: create a copy of @a value and work with that copy; @c *value will be updated with the newly constructed value
  * @arg @c PH_SEPARATE: separate @a arr if its reference count is greater than 1; @c *arr will contain the separated version
  * @arg @c PH_COPY: increment the reference count on @c **value
  */
-int phalcon_array_update_quick_string(zval **arr, const char *index, uint index_length, ulong key, zval **value, int flags) PHALCON_ATTR_NONNULL;
+int phalcon_array_update_quick_string(zval **arr, const char *index, uint index_length, ulong key, zval *value, int flags) PHALCON_ATTR_NONNULL;
 
 /**
  * @brief Updates value in @a arr at position @a index with @a value
@@ -371,11 +369,10 @@ int phalcon_array_update_quick_string(zval **arr, const char *index, uint index_
  * The function is a wrapper over @c phalcon_array_update_quick_string()
  *
  * Flags may be a bitwise OR of the following values:
- * @arg @c PH_CTOR: create a copy of @a value and work with that copy; @c *value will be updated with the newly constructed value
  * @arg @c PH_SEPARATE: separate @a arr if its reference count is greater than 1; @c *arr will contain the separated version
- * @arg @c PH_COPY: increment the reference count on @c **value
+ * @arg @c PH_COPY: increment the reference count on @c *value
  */
-PHALCON_ATTR_NONNULL static inline int phalcon_array_update_string(zval **arr, const char *index, uint index_length, zval **value, int flags)
+PHALCON_ATTR_NONNULL static inline int phalcon_array_update_string(zval **arr, const char *index, uint index_length, zval *value, int flags)
 {
 #ifdef __GNUC__
 	if (__builtin_constant_p(index) && __builtin_constant_p(index_length)) {
@@ -408,7 +405,7 @@ PHALCON_ATTR_NONNULL static inline int phalcon_array_update_string_bool(zval **a
 	MAKE_STD_ZVAL(zvalue);
 	ZVAL_BOOL(zvalue, value);
 
-	return phalcon_array_update_string(arr, index, index_length, &zvalue, flags & PH_SEPARATE);
+	return phalcon_array_update_string(arr, index, index_length, zvalue, flags & PH_SEPARATE);
 }
 
 /**
@@ -433,7 +430,7 @@ PHALCON_ATTR_NONNULL static inline int phalcon_array_update_string_long(zval **a
 	MAKE_STD_ZVAL(zvalue);
 	ZVAL_LONG(zvalue, value);
 
-	return phalcon_array_update_string(arr, index, index_length, &zvalue, flags & PH_SEPARATE);
+	return phalcon_array_update_string(arr, index, index_length, zvalue, flags & PH_SEPARATE);
 }
 
 /**
@@ -459,7 +456,7 @@ PHALCON_ATTR_NONNULL static inline int phalcon_array_update_string_string(zval *
 	MAKE_STD_ZVAL(zvalue);
 	ZVAL_STRINGL(zvalue, value, value_length, 1);
 
-	return phalcon_array_update_string(arr, index, index_length, &zvalue, flags & PH_SEPARATE);
+	return phalcon_array_update_string(arr, index, index_length, zvalue, flags & PH_SEPARATE);
 }
 
 /**
@@ -475,11 +472,10 @@ PHALCON_ATTR_NONNULL static inline int phalcon_array_update_string_string(zval *
  *
  * Equivalent to <tt>$arr[$index] = $value</tt> in PHP where @c $index is an integer.
  * Flags may be a bitwise OR of the following values:
- * @arg @c PH_CTOR: create a copy of @a value and work with that copy; @c *value will be updated with the newly constructed value
  * @arg @c PH_SEPARATE: separate @a arr if its reference count is greater than 1; @c *arr will contain the separated version
- * @arg @c PH_COPY: increment the reference count on @c **value
+ * @arg @c PH_COPY: increment the reference count on @c *value
  */
-int phalcon_array_update_long(zval **arr, ulong index, zval **value, int flags) PHALCON_ATTR_NONNULL;
+int phalcon_array_update_long(zval **arr, ulong index, zval *value, int flags) PHALCON_ATTR_NONNULL;
 
 /**
  * @brief Updates value in @a arr at position @a index with string @a value
@@ -503,7 +499,7 @@ PHALCON_ATTR_NONNULL static inline int phalcon_array_update_long_string(zval **a
 	MAKE_STD_ZVAL(zvalue);
 	ZVAL_STRINGL(zvalue, value, value_length, 1);
 
-	return phalcon_array_update_long(arr, index, &zvalue, flags & PH_SEPARATE);
+	return phalcon_array_update_long(arr, index, zvalue, flags & PH_SEPARATE);
 }
 
 /**
@@ -527,7 +523,7 @@ PHALCON_ATTR_NONNULL static inline int phalcon_array_update_long_long(zval **arr
 	MAKE_STD_ZVAL(zvalue);
 	ZVAL_LONG(zvalue, value);
 
-	return phalcon_array_update_long(arr, index, &zvalue, flags & PH_SEPARATE);
+	return phalcon_array_update_long(arr, index, zvalue, flags & PH_SEPARATE);
 }
 
 /**
@@ -551,62 +547,59 @@ PHALCON_ATTR_NONNULL static inline int phalcon_array_update_long_bool(zval **arr
 	MAKE_STD_ZVAL(zvalue);
 	ZVAL_BOOL(zvalue, value);
 
-	return phalcon_array_update_long(arr, index, &zvalue, flags & PH_SEPARATE);
+	return phalcon_array_update_long(arr, index, zvalue, flags & PH_SEPARATE);
 }
 
 /**
- * Append a zval to a multi-dimensional array with two indexes
+ * Append a zval to a multi-dimensional array
+ *
+ * $arr[$index][] = $value
  */
-void phalcon_array_append_multi_2(zval **arr, zval *index, zval *value, int flags) PHALCON_ATTR_NONNULL;
+void phalcon_array_append_multi_2(zval **arr, const zval *index, zval *value, int flags) PHALCON_ATTR_NONNULL;
 
 /**
  * Updates multi-dimensional array with two zval indexes
  */
-void phalcon_array_update_multi_2(zval **config, zval *index1, zval *index2, zval **value, int flags) PHALCON_ATTR_NONNULL;
+void phalcon_array_update_multi_2(zval **arr, const zval *index1, const zval *index2, zval *value, int flags) PHALCON_ATTR_NONNULL;
 
 /**
  * Updates multi-dimensional array with two string indexes
  */
-void phalcon_array_update_string_multi_2(zval **arr, zval *index1, char *index2, uint index2_length, zval **value, int flags) PHALCON_ATTR_NONNULL;
+void phalcon_array_update_string_multi_2(zval **arr, const zval *index1, const char *index2, uint index2_length, zval *value, int flags) PHALCON_ATTR_NONNULL;
 
 /**
  * Updates multi-dimensional arrays with two long indices
  *
  * $foo[10][4] = $x
  */
-void phalcon_array_update_long_long_multi_2(zval **arr, long index1, long index2, zval **value, int flags) PHALCON_ATTR_NONNULL;
+void phalcon_array_update_long_long_multi_2(zval **arr, ulong index1, ulong index2, zval *value, int flags) PHALCON_ATTR_NONNULL;
 
 /**
  * Updates multi-dimensional arrays with one long index and other string
  *
  * $foo[10]["lol"] = $x
  */
-void phalcon_array_update_long_string_multi_2(zval **arr, long index1, char *index2, uint index2_length, zval **value, int flags) PHALCON_ATTR_NONNULL;
-
-/**
- * $x[$a][] = 1
- */
-void phalcon_array_update_append_multi_2(zval **arr, zval *index1, zval *value, int flags) PHALCON_ATTR_NONNULL;
+void phalcon_array_update_long_string_multi_2(zval **arr, ulong index1, const char *index2, uint index2_length, zval *value, int flags) PHALCON_ATTR_NONNULL;
 
 /**
  * $x[$a]["hello"][] = $v
  */
-void phalcon_array_update_zval_string_append_multi_3(zval **arr, zval *index1, char *index2, uint index2_length, zval **value, int flags) PHALCON_ATTR_NONNULL;
+void phalcon_array_update_zval_string_append_multi_3(zval **arr, const zval *index1, const char *index2, uint index2_length, zval *value, int flags) PHALCON_ATTR_NONNULL;
 
 /**
  * $x[$a][$b][$c] = $v
  */
-void phalcon_array_update_zval_zval_zval_multi_3(zval **arr, zval *index1, zval *index2, zval *index3, zval **value, int flags) PHALCON_ATTR_NONNULL;
+void phalcon_array_update_zval_zval_zval_multi_3(zval **arr, const zval *index1, const zval *index2, const zval *index3, zval *value, int flags) PHALCON_ATTR_NONNULL;
 
 /**
  * $x[$a][$b]["str"] = $v
  */
-void phalcon_array_update_string_zval_zval_multi_3(zval **arr, zval *index1, zval *index2, char *index3, uint index3_length, zval **value, int flags) PHALCON_ATTR_NONNULL;
+void phalcon_array_update_string_zval_zval_multi_3(zval **arr, const zval *index1, const zval *index2, const char *index3, uint index3_length, zval *value, int flags) PHALCON_ATTR_NONNULL;
 
 /**
  * $x[$a]["a-str"]["str"] = 1
  */
-void phalcon_array_update_zval_string_string_multi_3(zval **arr, zval *index1, char *index2, uint index2_length, char *index3, uint index3_length, zval **value, int flags) PHALCON_ATTR_NONNULL;
+void phalcon_array_update_zval_string_string_multi_3(zval **arr, const zval *index1, const char *index2, uint index2_length, const char *index3, uint index3_length, zval *value, int flags) PHALCON_ATTR_NONNULL;
 
 /**
  * @brief Reads an item from @a arr at position @a index and stores it to @a return_value
@@ -623,7 +616,7 @@ void phalcon_array_update_zval_string_string_multi_3(zval **arr, zval *index1, c
  * @warning @c *return_value should be either @c NULL (preferred) or point to not initialized memory; if @c *return_value points to a valid variable, mmemory leak is possible
  * @note @c index will be handled as follows: @c NULL is treated as an empty string, @c double values are cast to @c integer, @c bool or @c resource are treated as @c integer
  */
-int phalcon_array_fetch(zval **return_value, zval *arr, zval *index, int silent) PHALCON_ATTR_NONNULL;
+int phalcon_array_fetch(zval **return_value, const zval *arr, const zval *index, int silent) PHALCON_ATTR_NONNULL;
 
 /**
  * @brief Reads an item from @a arr at position @a index and stores it to @a return_value
@@ -638,7 +631,7 @@ int phalcon_array_fetch(zval **return_value, zval *arr, zval *index, int silent)
  * @throw @c E_NOTICE if @c index does not exist and @c silent = @c PH_NOISY
  * @warning @c *return_value should be either @c NULL (preferred) or point to not initialized memory; if @c *return_value points to a valid variable, mmemory leak is possible
  */
-int phalcon_array_fetch_long(zval **return_value, zval *arr, ulong index, int silent) PHALCON_ATTR_NONNULL;
+int phalcon_array_fetch_long(zval **return_value, const zval *arr, ulong index, int silent) PHALCON_ATTR_NONNULL;
 
 /**
  * @brief Reads an item from @a arr at position @a index using the precomputed hash @c key and stores it to @a return_value
@@ -655,7 +648,7 @@ int phalcon_array_fetch_long(zval **return_value, zval *arr, ulong index, int si
  * @throw @c E_NOTICE if @c index does not exist and @c silent = @c PH_NOISY
  * @warning @c *return_value should be either @c NULL (preferred) or point to not initialized memory; if @c *return_value points to a valid variable, mmemory leak is possible
  */
-int phalcon_array_fetch_quick_string(zval **return_value, zval *arr, const char *index, uint index_length, ulong key, int silent) PHALCON_ATTR_NONNULL;
+int phalcon_array_fetch_quick_string(zval **return_value, const zval *arr, const char *index, uint index_length, ulong key, int silent) PHALCON_ATTR_NONNULL;
 
 /**
  * @brief Reads an item from @a arr at position @a index and stores it to @a return_value

@@ -413,43 +413,43 @@ PHP_METHOD(Phalcon_Db_Column, __set_state){
 	array_init(definition);
 
 	if (phalcon_array_isset_string_fetch(&column_type, data, SS("_type"))) {
-		phalcon_array_update_string(&definition, SL("type"), &column_type, PH_COPY);
+		phalcon_array_update_string(&definition, SL("type"), column_type, PH_COPY);
 	}
 	
 	if (phalcon_array_isset_string_fetch(&not_null, data, SS("_notNull"))) {
-		phalcon_array_update_string(&definition, SL("notNull"), &not_null, PH_COPY);
+		phalcon_array_update_string(&definition, SL("notNull"), not_null, PH_COPY);
 	}
 	
 	if (phalcon_array_isset_string_fetch(&primary, data, SS("_primary"))) {
-		phalcon_array_update_string(&definition, SL("primary"), &primary, PH_COPY);
+		phalcon_array_update_string(&definition, SL("primary"), primary, PH_COPY);
 	}
 	
 	if (phalcon_array_isset_string_fetch(&size, data, SS("_size"))) {
-		phalcon_array_update_string(&definition, SL("size"), &size, PH_COPY);
+		phalcon_array_update_string(&definition, SL("size"), size, PH_COPY);
 	}
 	
 	if (phalcon_array_isset_string_fetch(&scale, data, SS("_scale"))) {
-		phalcon_array_update_string(&definition, SL("scale"), &scale, PH_COPY);
+		phalcon_array_update_string(&definition, SL("scale"), scale, PH_COPY);
 	}
 
 	if (phalcon_array_isset_string_fetch(&dunsigned, data, SS("_unsigned"))) {
-		phalcon_array_update_string(&definition, SL("unsigned"), &dunsigned, PH_COPY);
+		phalcon_array_update_string(&definition, SL("unsigned"), dunsigned, PH_COPY);
 	}
 	
 	if (phalcon_array_isset_string_fetch(&after, data, SS("_after"))) {
-		phalcon_array_update_string(&definition, SL("after"), &after, PH_COPY);
+		phalcon_array_update_string(&definition, SL("after"), after, PH_COPY);
 	}
 	
 	if (phalcon_array_isset_string_fetch(&is_numeric, data, SS("_isNumeric"))) {
-		phalcon_array_update_string(&definition, SL("isNumeric"), &is_numeric, PH_COPY);
+		phalcon_array_update_string(&definition, SL("isNumeric"), is_numeric, PH_COPY);
 	}
 	
 	if (phalcon_array_isset_string_fetch(&first, data, SS("_first"))) {
-		phalcon_array_update_string(&definition, SL("first"), &first, PH_COPY);
+		phalcon_array_update_string(&definition, SL("first"), first, PH_COPY);
 	}
 	
 	if (phalcon_array_isset_string_fetch(&bind_type, data, SS("_bindType"))) {
-		phalcon_array_update_string(&definition, SL("bindType"), &bind_type, PH_COPY);
+		phalcon_array_update_string(&definition, SL("bindType"), bind_type, PH_COPY);
 	}
 	
 	object_init_ex(return_value, phalcon_db_column_ce);
