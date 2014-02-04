@@ -319,7 +319,7 @@ class Manager implements Phalcon\Events\ManagerInterface
 
 		} else {
 
-			for queue in handler {
+			for handler in queue {
 
 				/**
 				 * Only handler objects are valid

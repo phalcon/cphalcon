@@ -8,6 +8,7 @@ PHP_METHOD(Phalcon_Events_Event, getType);
 PHP_METHOD(Phalcon_Events_Event, getSource);
 PHP_METHOD(Phalcon_Events_Event, setData);
 PHP_METHOD(Phalcon_Events_Event, getData);
+PHP_METHOD(Phalcon_Events_Event, getCancelable);
 PHP_METHOD(Phalcon_Events_Event, __construct);
 PHP_METHOD(Phalcon_Events_Event, stop);
 PHP_METHOD(Phalcon_Events_Event, isStopped);
@@ -33,6 +34,7 @@ ZEPHIR_INIT_FUNCS(phalcon_events_event_method_entry) {
 	PHP_ME(Phalcon_Events_Event, getSource, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Events_Event, setData, arginfo_phalcon_events_event_setdata, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Events_Event, getData, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Events_Event, getCancelable, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Events_Event, __construct, arginfo_phalcon_events_event___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
 	PHP_ME(Phalcon_Events_Event, stop, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Events_Event, isStopped, NULL, ZEND_ACC_PUBLIC)

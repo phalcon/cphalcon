@@ -35,7 +35,7 @@ class Event
 
 	protected _stopped = false;
 
-	protected _cancelable = true;
+	protected _cancelable = true { get };
 
 	/**
 	 * Phalcon\Events\Event constructor

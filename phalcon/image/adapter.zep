@@ -125,7 +125,7 @@ abstract class Adapter
 					throw new Phalcon\Image\Exception("width and height must be specified");
 				}
 
-				let master = (this->_width / width) > (this->_height / height) ? Image::WIDTH : Image::HEIGHT;
+				let master = (this->_width / width) > (this->_height / height) ? Phalcon\Image::WIDTH : Phalcon\Image::HEIGHT;
 			}
 
 			if master == Phalcon\Image::INVERSE {
@@ -134,7 +134,7 @@ abstract class Adapter
 					throw new Phalcon\Image\Exception("width and height must be specified");
 				}
 
-				let master = (this->_width / width) > (this->_height / height) ? Image::HEIGHT : Image::WIDTH;
+				let master = (this->_width / width) > (this->_height / height) ? Phalcon\Image::HEIGHT : Phalcon\Image::WIDTH;
 			}
 
 			switch master {
