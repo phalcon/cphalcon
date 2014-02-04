@@ -263,16 +263,16 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Annotations, getMetaData){
 	 * Create an array using the MODELS_* constants as indexes
 	 */
 	array_init_size(return_value, 10);
-	phalcon_array_update_long(&return_value, 0, &attributes, PH_COPY);
-	phalcon_array_update_long(&return_value, 1, &primary_keys, PH_COPY);
-	phalcon_array_update_long(&return_value, 2, &non_primary_keys, PH_COPY);
-	phalcon_array_update_long(&return_value, 3, &not_null, PH_COPY);
-	phalcon_array_update_long(&return_value, 4, &field_types, PH_COPY);
-	phalcon_array_update_long(&return_value, 5, &numeric_typed, PH_COPY);
-	phalcon_array_update_long(&return_value, 8, &identity_field, PH_COPY);
-	phalcon_array_update_long(&return_value, 9, &field_bind_types, PH_COPY);
-	phalcon_array_update_long(&return_value, 10, &automatic_default, PH_COPY);
-	phalcon_array_update_long(&return_value, 11, &automatic_default, PH_COPY);
+	phalcon_array_update_long(&return_value, 0,  attributes, PH_COPY);
+	phalcon_array_update_long(&return_value, 1,  primary_keys, PH_COPY);
+	phalcon_array_update_long(&return_value, 2,  non_primary_keys, PH_COPY);
+	phalcon_array_update_long(&return_value, 3,  not_null, PH_COPY);
+	phalcon_array_update_long(&return_value, 4,  field_types, PH_COPY);
+	phalcon_array_update_long(&return_value, 5,  numeric_typed, PH_COPY);
+	phalcon_array_update_long(&return_value, 8,  identity_field, PH_COPY);
+	phalcon_array_update_long(&return_value, 9,  field_bind_types, PH_COPY);
+	phalcon_array_update_long(&return_value, 10, automatic_default, PH_COPY);
+	phalcon_array_update_long(&return_value, 11, automatic_default, PH_COPY);
 	
 	PHALCON_MM_RESTORE();
 }

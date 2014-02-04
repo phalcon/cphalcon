@@ -22,6 +22,9 @@
 #include "mvc/view/exception.h"
 #include "diinterface.h"
 #include "di/injectionawareinterface.h"
+#include "interned-strings.h"
+
+#include <Zend/zend_closures.h>
 
 #include "kernel/main.h"
 #include "kernel/memory.h"
@@ -1268,16 +1271,16 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, resolveFilter){
 		if (!PHALCON_IS_STRING(name, "default")) {
 			PHALCON_INIT_VAR(resolved_expr);
 			array_init_size(resolved_expr, 4);
-			add_assoc_long_ex(resolved_expr, SS("type"), PHVOLT_T_RESOLVED_EXPR);
-			phalcon_array_update_string(&resolved_expr, SL("value"), &left, PH_COPY);
-			phalcon_array_update_string(&resolved_expr, SL("file"), &file, PH_COPY);
-			phalcon_array_update_string(&resolved_expr, SL("line"), &line, PH_COPY);
+			add_assoc_long_ex(resolved_expr, ISS(type), PHVOLT_T_RESOLVED_EXPR);
+			phalcon_array_update_string(&resolved_expr, ISL(value), left, PH_COPY);
+			phalcon_array_update_string(&resolved_expr, ISL(file), file, PH_COPY);
+			phalcon_array_update_string(&resolved_expr, ISL(line), line, PH_COPY);
 	
 			PHALCON_INIT_VAR(resolved_param);
 			array_init_size(resolved_param, 3);
-			phalcon_array_update_string(&resolved_param, SL("expr"), &resolved_expr, PH_COPY);
-			phalcon_array_update_string(&resolved_param, SL("file"), &file, PH_COPY);
-			phalcon_array_update_string(&resolved_param, SL("line"), &line, PH_COPY);
+			phalcon_array_update_string(&resolved_param, ISL(expr), resolved_expr, PH_COPY);
+			phalcon_array_update_string(&resolved_param, ISL(file), file, PH_COPY);
+			phalcon_array_update_string(&resolved_param, ISL(line), line, PH_COPY);
 	
 			phalcon_array_unshift(func_arguments, resolved_param);
 		}
@@ -1328,7 +1331,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, resolveFilter){
 			 * The definition is a closure
 			 */
 			if (Z_TYPE_P(definition) == IS_OBJECT) {
-				if (phalcon_is_instance_of(definition, SL("Closure") TSRMLS_CC)) {
+				if (instanceof_function(Z_OBJCE_P(definition), zend_ce_closure TSRMLS_CC)) {
 					zval *parameters;
 
 					PHALCON_ALLOC_GHOST_ZVAL(parameters);
@@ -3163,7 +3166,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, _statementList){
 					/** 
 					 * In extends mode we add the block statements to the blocks variable
 					 */
-					phalcon_array_update_zval(&blocks, block_name, &block_statements, PH_COPY | PH_SEPARATE);
+					phalcon_array_update_zval(&blocks, block_name, block_statements, PH_COPY | PH_SEPARATE);
 					phalcon_update_property_this(this_ptr, SL("_blocks"), blocks TSRMLS_CC);
 				} else {
 					if (Z_TYPE_P(block_statements) == IS_ARRAY) { 
@@ -3449,7 +3452,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, _compileSource){
 						}
 					}
 					if (PHALCON_IS_TRUE(extends_mode)) {
-						phalcon_array_update_zval(&final_compilation, name, &block_compilation, PH_COPY | PH_SEPARATE);
+						phalcon_array_update_zval(&final_compilation, name, block_compilation, PH_COPY | PH_SEPARATE);
 					} else {
 						phalcon_concat_self(&final_compilation, block_compilation TSRMLS_CC);
 					}

@@ -351,7 +351,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Memcache, save){
 	}
 	
 	if (!phalcon_array_isset(keys, last_key)) {
-		phalcon_array_update_zval(&keys, last_key, &ttl, PH_COPY);
+		phalcon_array_update_zval(&keys, last_key, ttl, PH_COPY);
 		phalcon_call_method_p2_noret(memcache, "set", special_key, keys);
 	}
 	

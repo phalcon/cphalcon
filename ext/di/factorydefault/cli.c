@@ -193,16 +193,16 @@ PHP_METHOD(Phalcon_DI_FactoryDefault_CLI, __construct){
 	
 	PHALCON_INIT_VAR(services);
 	array_init_size(services, 10);
-	phalcon_array_update_string(&services, ISL(router), &router, PH_COPY);
-	phalcon_array_update_string(&services, ISL(dispatcher), &dispatcher, PH_COPY);
-	phalcon_array_update_string(&services, ISL(modelsManager), &models_manager, PH_COPY);
-	phalcon_array_update_string(&services, ISL(modelsMetadata), &models_metadata, PH_COPY);
-	phalcon_array_update_string(&services, ISL(filter), &filter, PH_COPY);
-	phalcon_array_update_string(&services, ISL(escaper), &escaper, PH_COPY);
-	phalcon_array_update_string(&services, SL("annotations"), &annotations, PH_COPY);
-	phalcon_array_update_string(&services, SL("security"), &security, PH_COPY);
-	phalcon_array_update_string(&services, SL("eventsManager"), &events_manager, PH_COPY);
-	phalcon_array_update_string(&services, SL("transactionManager"), &transaction_manager, PH_COPY);
+	phalcon_array_update_string(&services, ISL(router), router, PH_COPY);
+	phalcon_array_update_string(&services, ISL(dispatcher), dispatcher, PH_COPY);
+	phalcon_array_update_string(&services, ISL(modelsManager), models_manager, PH_COPY);
+	phalcon_array_update_string(&services, ISL(modelsMetadata), models_metadata, PH_COPY);
+	phalcon_array_update_string(&services, ISL(filter), filter, PH_COPY);
+	phalcon_array_update_string(&services, ISL(escaper), escaper, PH_COPY);
+	phalcon_array_update_string(&services, SL("annotations"), annotations, PH_COPY);
+	phalcon_array_update_string(&services, SL("security"), security, PH_COPY);
+	phalcon_array_update_string(&services, SL("eventsManager"), events_manager, PH_COPY);
+	phalcon_array_update_string(&services, SL("transactionManager"), transaction_manager, PH_COPY);
 	
 	phalcon_di_set_services(this_ptr, services TSRMLS_CC);
 

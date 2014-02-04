@@ -141,7 +141,7 @@ PHP_METHOD(Phalcon_Annotations_Annotation, __construct){
 			PHALCON_INIT_NVAR(resolved_argument);
 			phalcon_call_method_p1(resolved_argument, this_ptr, "getexpression", expr);
 			if (phalcon_array_isset_string_fetch(&n, argument, SS("name"))) {
-				phalcon_array_update_zval(&arguments, n, &resolved_argument, PH_COPY);
+				phalcon_array_update_zval(&arguments, n, resolved_argument, PH_COPY);
 			} else {
 				phalcon_array_append(&arguments, resolved_argument, 0);
 			}
@@ -241,7 +241,7 @@ PHP_METHOD(Phalcon_Annotations_Annotation, getExpression){
 				PHALCON_INIT_NVAR(resolved_item);
 				phalcon_call_method_p1(resolved_item, this_ptr, "getexpression", expr);
 				if (phalcon_array_isset_string_fetch(&name, item, SS("name"))) {
-					phalcon_array_update_zval(&return_value, name, &resolved_item, PH_COPY);
+					phalcon_array_update_zval(&return_value, name, resolved_item, PH_COPY);
 				} else {
 					phalcon_array_append(&return_value, resolved_item, 0);
 				}

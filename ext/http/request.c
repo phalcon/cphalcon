@@ -1710,7 +1710,7 @@ PHP_METHOD(Phalcon_Http_Request, getHeaders){
 
 			MAKE_STD_ZVAL(header);
 			ZVAL_STRINGL(header, Z_STRVAL(key) + 5, Z_STRLEN(key) - 5, 1);
-			phalcon_array_update_zval(&return_value, header, hd, 0);
+			phalcon_array_update_zval(&return_value, header, *hd, 0);
 		}
 	}
 }
@@ -1788,8 +1788,8 @@ PHP_METHOD(Phalcon_Http_Request, _getQualityHeader){
 	
 		PHALCON_INIT_NVAR(quality_part);
 		array_init_size(quality_part, 2);
-		phalcon_array_update_zval(&quality_part, name, &header_name, PH_COPY);
-		phalcon_array_update_string(&quality_part, SL("quality"), &quality, PH_COPY);
+		phalcon_array_update_zval(&quality_part, name, header_name, PH_COPY);
+		phalcon_array_update_string(&quality_part, SL("quality"), quality, PH_COPY);
 		phalcon_array_append(&return_value, quality_part, 0);
 	
 		zend_hash_move_forward_ex(ah0, &hp0);
@@ -2074,7 +2074,7 @@ PHP_METHOD(Phalcon_Http_Request, getDigestAuth){
 				PHALCON_GET_HVALUE(match);
 
 				if (Z_TYPE_P(match) == IS_ARRAY && phalcon_array_isset_long_fetch(&tmp1, match, 1) && phalcon_array_isset_long_fetch(&tmp2, match, 3)) {
-					phalcon_array_update_zval(&return_value, tmp1, &tmp2, PH_COPY | PH_SEPARATE);
+					phalcon_array_update_zval(&return_value, tmp1, tmp2, PH_COPY);
 				}
 				zend_hash_move_forward_ex(ah0, &hp0);
 			}

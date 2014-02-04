@@ -854,8 +854,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, betweenWhere){
 	
 	PHALCON_INIT_VAR(bind_params);
 	array_init_size(bind_params, 2);
-	phalcon_array_update_zval(&bind_params, minimum_key, &minimum, PH_COPY);
-	phalcon_array_update_zval(&bind_params, maximum_key, &maximum, PH_COPY);
+	phalcon_array_update_zval(&bind_params, minimum_key, minimum, PH_COPY);
+	phalcon_array_update_zval(&bind_params, maximum_key, maximum, PH_COPY);
 	
 	/** 
 	 * Append the BETWEEN to the current conditions using and 'and'
@@ -914,8 +914,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, notBetweenWhere){
 	
 	PHALCON_INIT_VAR(bind_params);
 	array_init_size(bind_params, 2);
-	phalcon_array_update_zval(&bind_params, minimum_key, &minimum, PH_COPY | PH_SEPARATE);
-	phalcon_array_update_zval(&bind_params, maximum_key, &maximum, PH_COPY | PH_SEPARATE);
+	phalcon_array_update_zval(&bind_params, minimum_key, minimum, PH_COPY);
+	phalcon_array_update_zval(&bind_params, maximum_key, maximum, PH_COPY);
 	
 	/** 
 	 * Append the BETWEEN to the current conditions using and 'and'
@@ -979,8 +979,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, inWhere){
 	
 		PHALCON_INIT_NVAR(query_key);
 		PHALCON_CONCAT_SVS(query_key, ":", key, ":");
-		phalcon_array_append(&bind_keys, query_key, PH_SEPARATE);
-		phalcon_array_update_zval(&bind_params, key, &value, PH_COPY | PH_SEPARATE);
+		phalcon_array_append(&bind_keys, query_key, 0);
+		phalcon_array_update_zval(&bind_params, key, value, PH_COPY);
 		phalcon_increment(hidden_param);
 	
 		zend_hash_move_forward_ex(ah0, &hp0);
@@ -1057,8 +1057,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, notInWhere){
 	
 		PHALCON_INIT_NVAR(query_key);
 		PHALCON_CONCAT_SVS(query_key, ":", key, ":");
-		phalcon_array_append(&bind_keys, query_key, PH_SEPARATE);
-		phalcon_array_update_zval(&bind_params, key, &value, PH_COPY | PH_SEPARATE);
+		phalcon_array_append(&bind_keys, query_key, 0);
+		phalcon_array_update_zval(&bind_params, key, value, PH_COPY);
 		phalcon_increment(hidden_param);
 	
 		zend_hash_move_forward_ex(ah0, &hp0);
@@ -1127,7 +1127,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, orderBy){
 		PHALCON_THROW_EXCEPTION_STRW(phalcon_mvc_model_exception_ce, "Order columns must be string");
 		return;
 	}
-	phalcon_update_property_array_string(this_ptr, SL("_params"), SS("order"), order_columns TSRMLS_CC);
+	phalcon_update_property_array_string(this_ptr, SL("_params"), ISS(order), order_columns TSRMLS_CC);
 	
 	RETURN_THISW();
 }
@@ -1152,17 +1152,17 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, limit){
 	}
 	
 	if (!phalcon_is_numeric(limit)) {
-		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Rows limit parameter must be integer");
+		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Row limit parameter must be integer");
 		return;
 	}
 	if (Z_TYPE_P(offset) == IS_NULL) {
-		phalcon_update_property_array_string(this_ptr, SL("_params"), SS("limit"), limit TSRMLS_CC);
+		phalcon_update_property_array_string(this_ptr, SL("_params"), ISS(limit), limit TSRMLS_CC);
 	} else {
 		PHALCON_INIT_VAR(limit_clause);
 		array_init_size(limit_clause, 2);
-		phalcon_array_update_string(&limit_clause, SL("number"), &limit, PH_COPY);
-		phalcon_array_update_string(&limit_clause, SL("offset"), &offset, PH_COPY);
-		phalcon_update_property_array_string(this_ptr, SL("_params"), SS("limit"), limit_clause TSRMLS_CC);
+		phalcon_array_update_string(&limit_clause, ISL(number), limit, PH_COPY);
+		phalcon_array_update_string(&limit_clause, ISL(offset), offset, PH_COPY);
+		phalcon_update_property_array_string(this_ptr, SL("_params"), ISS(limit), limit_clause TSRMLS_CC);
 	}
 	
 	RETURN_THIS();
@@ -1388,14 +1388,14 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, fromInput){
 	
 							PHALCON_INIT_NVAR(value_pattern);
 							PHALCON_CONCAT_SVS(value_pattern, "%", value, "%");
-							phalcon_array_update_zval(&bind, field, &value_pattern, PH_COPY);
+							phalcon_array_update_zval(&bind, field, value_pattern, PH_COPY);
 						} else {
 							/** 
 							 * For the rest of data types we use a plain = operator
 							 */
 							PHALCON_INIT_NVAR(condition);
 							PHALCON_CONCAT_VSVS(condition, field, "=:", field, ":");
-							phalcon_array_update_zval(&bind, field, &value, PH_COPY);
+							phalcon_array_update_zval(&bind, field, value, PH_COPY);
 						}
 	
 						phalcon_array_append(&conditions, condition, 0);

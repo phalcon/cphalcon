@@ -419,7 +419,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, toArray){
 					/** 
 					 * Add the value renamed
 					 */
-					phalcon_array_update_zval(&renamed, renamed_key, &value, PH_COPY | PH_SEPARATE);
+					phalcon_array_update_zval(&renamed, renamed_key, value, PH_COPY | PH_SEPARATE);
 	
 					zend_hash_move_forward_ex(ah1, &hp1);
 				}
@@ -472,11 +472,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, serialize){
 	
 	PHALCON_INIT_VAR(data);
 	array_init_size(data, 5);
-	phalcon_array_update_string(&data, SL("model"), &model, PH_COPY | PH_SEPARATE);
-	phalcon_array_update_string(&data, SL("cache"), &cache, PH_COPY | PH_SEPARATE);
-	phalcon_array_update_string(&data, SL("rows"), &records, PH_COPY | PH_SEPARATE);
-	phalcon_array_update_string(&data, SL("columnMap"), &column_map, PH_COPY | PH_SEPARATE);
-	phalcon_array_update_string(&data, SL("hydrateMode"), &hydrate_mode, PH_COPY | PH_SEPARATE);
+	phalcon_array_update_string(&data, SL("model"), model, PH_COPY);
+	phalcon_array_update_string(&data, SL("cache"), cache, PH_COPY);
+	phalcon_array_update_string(&data, SL("rows"), records, PH_COPY);
+	phalcon_array_update_string(&data, SL("columnMap"), column_map, PH_COPY);
+	phalcon_array_update_string(&data, SL("hydrateMode"), hydrate_mode, PH_COPY);
 	
 	/** 
 	 * Force to re-execute the query

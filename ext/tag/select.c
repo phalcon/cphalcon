@@ -98,18 +98,18 @@ PHP_METHOD(Phalcon_Tag_Select, selectField){
 	if (!phalcon_array_isset_long(params, 0)) {
 		PHALCON_OBS_VAR(id);
 		phalcon_array_fetch_string(&id, params, SL("id"), PH_NOISY);
-		phalcon_array_update_long(&params, 0, &id, PH_COPY | PH_SEPARATE);
+		phalcon_array_update_long(&params, 0, id, PH_COPY | PH_SEPARATE);
 	}
 	
 	PHALCON_OBS_NVAR(id);
 	phalcon_array_fetch_long(&id, params, 0, PH_NOISY);
 	if (!phalcon_array_isset_string(params, SS("name"))) {
-		phalcon_array_update_string(&params, SL("name"), &id, PH_COPY | PH_SEPARATE);
+		phalcon_array_update_string(&params, SL("name"), id, PH_COPY | PH_SEPARATE);
 	} else {
 		PHALCON_OBS_VAR(name);
 		phalcon_array_fetch_string(&name, params, SL("name"), PH_NOISY);
 		if (!zend_is_true(name)) {
-			phalcon_array_update_string(&params, SL("name"), &id, PH_COPY | PH_SEPARATE);
+			phalcon_array_update_string(&params, SL("name"), id, PH_COPY | PH_SEPARATE);
 		}
 	}
 	
@@ -118,7 +118,7 @@ PHP_METHOD(Phalcon_Tag_Select, selectField){
 	 */
 	if (!phalcon_memnstr_str(id, SL("["))) {
 		if (!phalcon_array_isset_string(params, SS("id"))) {
-			phalcon_array_update_string(&params, SL("id"), &id, PH_COPY | PH_SEPARATE);
+			phalcon_array_update_string(&params, SL("id"), id, PH_COPY | PH_SEPARATE);
 		}
 	}
 	
@@ -336,7 +336,7 @@ PHP_METHOD(Phalcon_Tag_Select, _optionsFromResultset){
 					PHALCON_INIT_NVAR(params);
 					array_init(params);
 				}
-				phalcon_array_update_long(&params, 0, &option, PH_COPY | PH_SEPARATE);
+				phalcon_array_update_long(&params, 0, option, PH_COPY | PH_SEPARATE);
 	
 				PHALCON_INIT_NVAR(code_option);
 				PHALCON_CALL_USER_FUNC_ARRAY(code_option, using, params);

@@ -506,17 +506,20 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, addFrom){
 	
 			PHALCON_INIT_NVAR(models);
 			array_init(models);
-			phalcon_array_append(&models, current_model, PH_SEPARATE);
+			phalcon_array_append(&models, current_model, 0);
 		} else {
 			PHALCON_INIT_NVAR(models);
 			array_init(models);
 		}
 	}
+	else {
+		SEPARATE_ZVAL(&models);
+	}
 	
 	if (Z_TYPE_P(alias) == IS_STRING) {
-		phalcon_array_update_zval(&models, alias, &model, PH_COPY | PH_SEPARATE);
+		phalcon_array_update_zval(&models, alias, model, PH_COPY | 0);
 	} else {
-		phalcon_array_append(&models, model, PH_SEPARATE);
+		phalcon_array_append(&models, model, 0);
 	}
 	
 	phalcon_update_property_this(this_ptr, SL("_models"), models TSRMLS_CC);
@@ -966,8 +969,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, betweenWhere){
 	
 	PHALCON_INIT_VAR(bind_params);
 	array_init_size(bind_params, 2);
-	phalcon_array_update_zval(&bind_params, minimum_key, &minimum, PH_COPY);
-	phalcon_array_update_zval(&bind_params, maximum_key, &maximum, PH_COPY);
+	phalcon_array_update_zval(&bind_params, minimum_key, minimum, PH_COPY);
+	phalcon_array_update_zval(&bind_params, maximum_key, maximum, PH_COPY);
 	
 	/** 
 	 * Append the BETWEEN to the current conditions using and 'and'
@@ -1029,8 +1032,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, notBetweenWhere){
 	
 	PHALCON_INIT_VAR(bind_params);
 	array_init_size(bind_params, 2);
-	phalcon_array_update_zval(&bind_params, minimum_key, &minimum, PH_COPY);
-	phalcon_array_update_zval(&bind_params, maximum_key, &maximum, PH_COPY);
+	phalcon_array_update_zval(&bind_params, minimum_key, minimum, PH_COPY);
+	phalcon_array_update_zval(&bind_params, maximum_key, maximum, PH_COPY);
 	
 	/** 
 	 * Append the BETWEEN to the current conditions using and 'and'
@@ -1095,8 +1098,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, inWhere){
 	
 		PHALCON_INIT_NVAR(query_key);
 		PHALCON_CONCAT_SVS(query_key, ":", key, ":");
-		phalcon_array_append(&bind_keys, query_key, PH_SEPARATE);
-		phalcon_array_update_zval(&bind_params, key, &value, PH_COPY | PH_SEPARATE);
+		phalcon_array_append(&bind_keys, query_key, 0);
+		phalcon_array_update_zval(&bind_params, key, value, PH_COPY);
 		phalcon_increment(hidden_param);
 	
 		zend_hash_move_forward_ex(ah0, &hp0);
@@ -1172,8 +1175,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, notInWhere){
 	
 		PHALCON_INIT_NVAR(query_key);
 		PHALCON_CONCAT_SVS(query_key, ":", key, ":");
-		phalcon_array_append(&bind_keys, query_key, PH_SEPARATE);
-		phalcon_array_update_zval(&bind_params, key, &value, PH_COPY | PH_SEPARATE);
+		phalcon_array_append(&bind_keys, query_key, 0);
+		phalcon_array_update_zval(&bind_params, key, value, PH_COPY);
 		phalcon_increment(hidden_param);
 	
 		zend_hash_move_forward_ex(ah0, &hp0);

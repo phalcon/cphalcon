@@ -496,10 +496,10 @@ PHP_METHOD(Phalcon_Image_Adapter_GD, _crop) {
 	else {
 		PHALCON_INIT_VAR(rect);
 		array_init_size(rect, 4);
-		phalcon_array_update_string(&rect, SL("x"), &offset_x, PH_COPY);
-		phalcon_array_update_string(&rect, SL("y"), &offset_y, PH_COPY);
-		phalcon_array_update_string(&rect, SL("width"), &width, PH_COPY);
-		phalcon_array_update_string(&rect, SL("height"), &height, PH_COPY);
+		phalcon_array_update_string(&rect, SL("x"), offset_x, PH_COPY);
+		phalcon_array_update_string(&rect, SL("y"), offset_y, PH_COPY);
+		phalcon_array_update_string(&rect, SL("width"), width, PH_COPY);
+		phalcon_array_update_string(&rect, SL("height"), height, PH_COPY);
 
 		PHALCON_OBS_VAR(tmp_image);
 		PHALCON_CALL_FUNCTION(&tmp_image, "imagecrop", image, rect);

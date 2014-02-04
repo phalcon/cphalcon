@@ -799,8 +799,8 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, convertBoundParams){
 	 * Returns an array with the processed SQL and parameters
 	 */
 	array_init_size(return_value, 2);
-	phalcon_array_update_string(&return_value, SL("sql"), &bound_sql, PH_COPY);
-	phalcon_array_update_string(&return_value, SL("params"), &placeholders, PH_COPY);
+	phalcon_array_update_string(&return_value, SL("sql"), bound_sql, PH_COPY);
+	phalcon_array_update_string(&return_value, SL("params"), placeholders, PH_COPY);
 	
 	RETURN_MM();
 }

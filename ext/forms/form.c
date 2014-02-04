@@ -794,7 +794,7 @@ PHP_METHOD(Phalcon_Forms_Form, isValid){
 				if (phalcon_fast_count_ev(element_messages TSRMLS_CC)) {
 					PHALCON_INIT_NVAR(name);
 					phalcon_call_method(name, element, "getname");
-					phalcon_array_update_zval(&messages, name, &element_messages, PH_COPY | PH_SEPARATE);
+					phalcon_array_update_zval(&messages, name, element_messages, PH_COPY | PH_SEPARATE);
 	
 					not_failed = PHALCON_GLOBAL(z_false);
 				}
@@ -942,7 +942,7 @@ PHP_METHOD(Phalcon_Forms_Form, add){
 		PHALCON_INIT_VAR(values);
 		array_init_size(values, 1);
 
-		phalcon_array_update_zval(&values, name, &element, PH_COPY);
+		phalcon_array_update_zval(&values, name, element, PH_COPY);
 
 		elements = phalcon_fetch_nproperty_this(this_ptr, SL("_elements"), PH_NOISY_CC);
 

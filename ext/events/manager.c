@@ -170,7 +170,7 @@ PHP_METHOD(Phalcon_Events_Manager, attach){
 			/** 
 			 * Append the events to the queue
 			 */
-			phalcon_array_update_zval(&events, event_type, &priority_queue, PH_COPY | PH_SEPARATE);
+			phalcon_array_update_zval(&events, event_type, priority_queue, PH_COPY | PH_SEPARATE);
 			phalcon_update_property_this(this_ptr, SL("_events"), events TSRMLS_CC);
 		} else {
 			PHALCON_INIT_NVAR(priority_queue);
@@ -195,7 +195,7 @@ PHP_METHOD(Phalcon_Events_Manager, attach){
 		/** 
 		 * Append the events to the queue
 		 */
-		phalcon_array_update_zval(&events, event_type, &priority_queue, PH_COPY | PH_SEPARATE);
+		phalcon_array_update_zval(&events, event_type, priority_queue, PH_COPY | PH_SEPARATE);
 		phalcon_update_property_this(this_ptr, SL("_events"), events TSRMLS_CC);
 	}
 	

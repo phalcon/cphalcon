@@ -328,10 +328,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Uniqueness, validate){
 	 */
 	PHALCON_INIT_VAR(params);
 	array_init_size(params, 4);
-	phalcon_array_update_string(&params, SL("di"), &dependency_injector, PH_COPY);
-	phalcon_array_update_string(&params, SL("conditions"), &join_conditions, PH_COPY);
-	phalcon_array_update_string(&params, SL("bind"), &bind_params, PH_COPY);
-	phalcon_array_update_string(&params, SL("bindTypes"), &bind_types, PH_COPY);
+	phalcon_array_update_string(&params, SL("di"), dependency_injector, PH_COPY);
+	phalcon_array_update_string(&params, SL("conditions"), join_conditions, PH_COPY);
+	phalcon_array_update_string(&params, SL("bind"), bind_params, PH_COPY);
+	phalcon_array_update_string(&params, SL("bindTypes"), bind_types, PH_COPY);
 	
 	/** 
 	 * Check using a standard count

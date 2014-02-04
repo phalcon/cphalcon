@@ -1306,7 +1306,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, _exists){
 	
 		PHALCON_INIT_VAR(parameters);
 		array_init_size(parameters, 1);
-		phalcon_array_update_string(&parameters, SL("_id"), &mongo_id, PH_COPY | PH_SEPARATE);
+		phalcon_array_update_string(&parameters, SL("_id"), mongo_id, PH_COPY);
 	
 		/** 
 		 * Perform the count using the function provided by the driver
@@ -1588,7 +1588,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, findById){
 	
 	PHALCON_INIT_VAR(conditions);
 	array_init_size(conditions, 1);
-	phalcon_array_update_string(&conditions, SL("_id"), &mongo_id, PH_COPY);
+	phalcon_array_update_string(&conditions, SL("_id"), mongo_id, PH_COPY);
 	
 	PHALCON_INIT_VAR(parameters);
 	array_init_size(parameters, 1);
@@ -1902,7 +1902,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, summatory){
 	 */
 	PHALCON_INIT_VAR(initial);
 	array_init_size(initial, 1);
-	phalcon_array_update_string(&initial, SL("summatory"), &empty_array, PH_COPY | PH_SEPARATE);
+	phalcon_array_update_string(&initial, SL("summatory"), empty_array, PH_COPY);
 	
 	/** 
 	 * Uses a javascript hash to group the results, however this is slow with larger
@@ -2021,7 +2021,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, delete){
 	
 	PHALCON_INIT_VAR(id_condition);
 	array_init_size(id_condition, 1);
-	phalcon_array_update_string(&id_condition, SL("_id"), &mongo_id, PH_COPY);
+	phalcon_array_update_string(&id_condition, SL("_id"), mongo_id, PH_COPY);
 	
 	PHALCON_INIT_VAR(success);
 	ZVAL_BOOL(success, 0);
@@ -2106,11 +2106,11 @@ PHP_METHOD(Phalcon_Mvc_Collection, toArray){
 		if (PHALCON_IS_STRING(key, "_id")) {
 	
 			if (Z_TYPE_P(value) != IS_NULL) {
-				phalcon_array_update_zval(&data, key, &value, PH_COPY | PH_SEPARATE);
+				phalcon_array_update_zval(&data, key, value, PH_COPY);
 			}
 		} else {
 			if (!phalcon_array_isset(reserved, key)) {
-				phalcon_array_update_zval(&data, key, &value, PH_COPY | PH_SEPARATE);
+				phalcon_array_update_zval(&data, key, value, PH_COPY);
 			}
 		}
 	

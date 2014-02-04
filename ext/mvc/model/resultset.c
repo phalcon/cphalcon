@@ -773,7 +773,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, filter){
 	
 		PHALCON_INIT_NVAR(record);
 		phalcon_call_method(record, this_ptr, "current");
-		phalcon_array_update_long(&parameters, 0, &record, PH_COPY | PH_SEPARATE);
+		phalcon_array_update_long(&parameters, 0, record, PH_COPY | PH_SEPARATE);
 	
 		PHALCON_INIT_NVAR(processed_record);
 		PHALCON_CALL_USER_FUNC_ARRAY(processed_record, filter, parameters);
