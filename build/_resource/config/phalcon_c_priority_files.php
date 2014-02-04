@@ -31,6 +31,7 @@ return array(
     'kernel/require.h',
     'kernel/variables.h',
     'kernel/session.h',
+    'kernel/reflection.h',
     'kernel/alternative/fcall.h',
     'kernel/framework/orm.h',
     'kernel/framework/router.h',

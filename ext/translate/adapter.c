@@ -20,6 +20,7 @@
 #include "translate/adapter.h"
 #include "translate/adapterinterface.h"
 #include "translate/exception.h"
+#include "internal/arginfo.h"
 
 #include "kernel/main.h"
 #include "kernel/memory.h"
@@ -33,6 +34,7 @@
  */
 zend_class_entry *phalcon_translate_adapter_ce;
 
+PHP_METHOD(Phalcon_Translate_Adapter, __construct);
 PHP_METHOD(Phalcon_Translate_Adapter, _);
 PHP_METHOD(Phalcon_Translate_Adapter, offsetSet);
 PHP_METHOD(Phalcon_Translate_Adapter, offsetExists);
@@ -44,29 +46,13 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_translate_adapter__, 0, 0, 1)
 	ZEND_ARG_INFO(0, placeholders)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_translate_adapter_offsetset, 0, 0, 2)
-	ZEND_ARG_INFO(0, offset)
-	ZEND_ARG_INFO(0, value)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_translate_adapter_offsetexists, 0, 0, 1)
-	ZEND_ARG_INFO(0, translateKey)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_translate_adapter_offsetunset, 0, 0, 1)
-	ZEND_ARG_INFO(0, offset)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_translate_adapter_offsetget, 0, 0, 1)
-	ZEND_ARG_INFO(0, translateKey)
-ZEND_END_ARG_INFO()
-
 static const zend_function_entry phalcon_translate_adapter_method_entry[] = {
+	PHP_ME(Phalcon_Translate_Adapter, __construct, arginfo_empty, ZEND_ACC_PUBLIC | ZEND_ACC_CTOR)
 	PHP_ME(Phalcon_Translate_Adapter, _, arginfo_phalcon_translate_adapter__, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Translate_Adapter, offsetSet, arginfo_phalcon_translate_adapter_offsetset, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Translate_Adapter, offsetExists, arginfo_phalcon_translate_adapter_offsetexists, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Translate_Adapter, offsetUnset, arginfo_phalcon_translate_adapter_offsetunset, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Translate_Adapter, offsetGet, arginfo_phalcon_translate_adapter_offsetget, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Translate_Adapter, offsetSet, arginfo_arrayaccess_offsetset, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Translate_Adapter, offsetExists, arginfo_arrayaccess_offsetexists, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Translate_Adapter, offsetUnset, arginfo_arrayaccess_offsetunset, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Translate_Adapter, offsetGet, arginfo_arrayaccess_offsetget, ZEND_ACC_PUBLIC)
 	PHP_FE_END
 };
 

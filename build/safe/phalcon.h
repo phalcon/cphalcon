@@ -323,6 +323,8 @@ PHALCON_INIT_CLASS(Phalcon_Annotations_Exception);
 #ifndef PHALCON_ANNOTATIONS_READER_H
 #define PHALCON_ANNOTATIONS_READER_H
 
+#include "php_phalcon.h"
+
 zend_class_entry *phalcon_annotations_reader_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Annotations_Reader);
@@ -4350,6 +4352,22 @@ zend_class_entry *phalcon_mvc_model_metadata_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Mvc_Model_MetaData);
 
+#define PHALCON_MVC_MODEL_METADATA_MODELS_ATTRIBUTES                   0
+#define PHALCON_MVC_MODEL_METADATA_MODELS_PRIMARY_KEY                  1
+#define PHALCON_MVC_MODEL_METADATA_MODELS_NON_PRIMARY_KEY              2
+#define PHALCON_MVC_MODEL_METADATA_MODELS_NOT_NULL                     3
+#define PHALCON_MVC_MODEL_METADATA_MODELS_DATA_TYPES                   4
+#define PHALCON_MVC_MODEL_METADATA_MODELS_DATA_TYPES_NUMERIC           5
+#define PHALCON_MVC_MODEL_METADATA_MODELS_DATE_AT                      6
+#define PHALCON_MVC_MODEL_METADATA_MODELS_DATE_IN                      7
+#define PHALCON_MVC_MODEL_METADATA_MODELS_IDENTITY_COLUMN              8
+#define PHALCON_MVC_MODEL_METADATA_MODELS_DATA_TYPES_BIND              9
+#define PHALCON_MVC_MODEL_METADATA_MODELS_AUTOMATIC_DEFAULT_INSERT    10
+#define PHALCON_MVC_MODEL_METADATA_MODELS_AUTOMATIC_DEFAULT_UPDATE    11
+
+#define PHALCON_MVC_MODEL_METADATA_MODELS_COLUMN_MAP                   0
+#define PHALCON_MVC_MODEL_METADATA_MODELS_REVERSE_COLUMN_MAP           1
+
 #endif /* PHALCON_MVC_MODEL_METADATA_H */
 
 
@@ -5861,6 +5879,18 @@ PHALCON_INIT_CLASS(Phalcon_Queue_Beanstalk_Job);
 #endif /* PHALCON_QUEUE_BEANSTALK_JOB_H */
 
 
+#ifndef PHALCON_REGISTRY_H
+#define PHALCON_REGISTRY_H
+
+#include "php_phalcon.h"
+
+zend_class_entry *phalcon_registry_ce;
+
+PHALCON_INIT_CLASS(Phalcon_Registry);
+
+#endif /* PHALCON_REGISTRY_H */
+
+
 
 #ifndef PHALCON_SECURITY_H
 #define PHALCON_SECURITY_H
@@ -6066,10 +6096,6 @@ PHALCON_INIT_CLASS(Phalcon_Translate_Adapter);
 zend_class_entry *phalcon_translate_adapterinterface_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Translate_AdapterInterface);
-
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_translate_adapterinterface___construct, 0, 0, 1)
-	ZEND_ARG_INFO(0, options)
-ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_translate_adapterinterface_query, 0, 0, 1)
 	ZEND_ARG_INFO(0, index)

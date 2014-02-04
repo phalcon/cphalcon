@@ -26,7 +26,6 @@
 zend_class_entry *phalcon_translate_adapterinterface_ce;
 
 static const zend_function_entry phalcon_translate_adapterinterface_method_entry[] = {
-	PHP_ABSTRACT_ME(Phalcon_Translate_AdapterInterface, __construct, arginfo_phalcon_translate_adapterinterface___construct)
 	PHP_ABSTRACT_ME(Phalcon_Translate_AdapterInterface, query, arginfo_phalcon_translate_adapterinterface_query)
 	PHP_ABSTRACT_ME(Phalcon_Translate_AdapterInterface, exists, arginfo_phalcon_translate_adapterinterface_exists)
 	PHP_FE_END
@@ -41,13 +40,6 @@ PHALCON_INIT_CLASS(Phalcon_Translate_AdapterInterface){
 
 	return SUCCESS;
 }
-
-/**
- * Phalcon\Translate\Adapter\NativeArray constructor
- *
- * @param array $options
- */
-PHALCON_DOC_METHOD(Phalcon_Translate_AdapterInterface, __construct);
 
 /**
  * Returns the translation string of the given key

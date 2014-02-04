@@ -4,6 +4,7 @@ Make Phalcon\Logger compatible with PSR-3
 <?php include('skipif.inc'); ?>
 --INI--
 phalcon.register_psr3_classes = 1
+date.timezone = UTC
 --FILE--
 <?php
 $logger = new \Phalcon\Logger\Adapter\Stream("php://stdout");
