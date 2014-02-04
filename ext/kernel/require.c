@@ -59,6 +59,7 @@ int phalcon_require_ret(zval **return_value_ptr, const char *require_path TSRMLS
 		if (new_op_array) {
 			zval **original_return_value            = EG(return_value_ptr_ptr);
 			zend_op_array *original_active_op_array = EG(active_op_array);
+			zend_op **original_opline_ptr           = EG(opline_ptr);
 
 			EG(return_value_ptr_ptr) = return_value_ptr;
 			EG(active_op_array)      = new_op_array;
@@ -78,6 +79,7 @@ int phalcon_require_ret(zval **return_value_ptr, const char *require_path TSRMLS
 
 			EG(return_value_ptr_ptr) = original_return_value;
 			EG(active_op_array)      = original_active_op_array;
+			EG(opline_ptr)           = original_opline_ptr;
 			return ret;
 		}
 	}
