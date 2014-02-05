@@ -22,81 +22,21 @@ namespace Phalcon\Image;
 abstract class Adapter
 {
 
-	protected _image;
+	protected _image { get };
 
 	protected _file;
 
-	protected _realpath;
+	protected _realpath { get };
 
-	protected _width;
+	protected _width { get };
 
-	protected _height;
+	protected _height { get };
 
-	protected _type;
+	protected _type { get };
 
-	protected _mime;
+	protected _mime { get };
 
 	protected static _checked = false;
-
-	/**
-	 * Returns the image of images
-	 *
-	 * @return string
-	 */
-	public function getImage()
-	{
-		return this->_image;
-	}
-
-	/**
-	 * Returns the real path of the image file
-	 *
-	 * @return string
-	 */
-	public function getRealPath()
-	{
-		return this->_realpath;
-	}
-
-	/**
-	 * Returns the width of images
-	 *
-	 * @return int
-	 */
-	public function getWidth()
-	{
-		return this->_width;
-	}
-
-	/**
-	 * Returns the height of images
-	 *
-	 * @return int
-	 */
-	public function getHeight()
-	{
-		return this->_height;
-	}
-
-	/**
-	 * Returns the type of images
-	 *
-	 * @return int
-	 */
-	public function getType()
-	{
-		return this->_type;
-	}
-
-	/**
-	 * Returns the mime of images
-	 *
-	 * @return string
-	 */
-	public function getMime()
-	{
-		return this->_mime;
-	}
 
 	/**
  	 * Resize the image to the given size
@@ -232,7 +172,7 @@ abstract class Adapter
 			let height = this->_height - offset_y;
 		}
 
-		this->{"_crop"}(width, height);
+		this->{"_crop"}(width, height, offset_y, offset_y);
 
 		return this;
 	}
@@ -511,9 +451,9 @@ abstract class Adapter
  	 *
 	 * @param string ext
 	 * @param int quality
- 	 * @return Phalcon\Image\Adapter
+ 	 * @return string
  	 */
-	public function render(string ext=null, int quality=100) -> <Phalcon\Image\Adapter>
+	public function render(string ext=null, int quality=100) -> string
 	{
 		if !ext {
 			let ext = (string) pathinfo(this->_file, PATHINFO_EXTENSION);
@@ -531,8 +471,7 @@ abstract class Adapter
 			}
 		}
 
-		this->{"_render"}(ext, quality);
-		return this;
+		return this->{"_render"}(ext, quality);
 	}
 
 }
