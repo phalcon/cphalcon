@@ -166,7 +166,7 @@ class Gd extends Phalcon\Image\Adapter implements Phalcon\Image\AdapterInterface
 		var image, rect;
 
 		if version_compare(PHP_VERSION, "5.5.0") < 0 {
-			let image = null;
+			let image = this->_create(width, height);
 			if (imagecopyresampled(image, this->_image, 0, 0, offset_x, offset_y, width, height, width, height)) {
 				imagedestroy(this->_image);
 				let this->_image = image;
@@ -531,25 +531,26 @@ class Gd extends Phalcon\Image\Adapter implements Phalcon\Image\AdapterInterface
 
 	protected function _render(string ext, int quality)
 	{
+                ob_start();
 		if strcasecmp(ext, "gif") == 0 {
 			imagegif(this->_image);
-			return;
+			return ob_get_clean();
 		}
 		if strcmp(ext, "jpg") == 0 || strcmp(ext, "jpeg") == 0 {
 			imagejpeg(this->_image, null, quality);
-			return;
+			return ob_get_clean();
 		}
 		if strcmp(ext, "png") == 0 {
 			imagejpeg(this->_image);
-			return;
+			return ob_get_clean();
 		}
 		if strcmp(ext, "wbmp") == 0 {
 			imagewbmp(this->_image);
-			return;
+			return ob_get_clean();
 		}
 		if strcmp(ext, "xbm") == 0 {
 			imagexbm(this->_image, null);
-			return;
+			return ob_get_clean();
 		}
 
 		throw new \Phalcon\Image\Exception("Installed GD does not support '" . ext . "' images");
