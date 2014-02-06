@@ -306,7 +306,7 @@ PHP_METHOD(Phalcon_Mvc_Application, handle){
 	zval *controller_name = NULL, *action_name = NULL, *params = NULL;
 	zval *dispatcher, *controller, *returned_response = NULL;
 	zval *possible_response, *render_status = NULL, *response = NULL;
-	zval *content;
+	zval *content, *path;
 	int f_implicit_view;
 
 	PHALCON_MM_GROW();
@@ -395,8 +395,6 @@ PHP_METHOD(Phalcon_Mvc_Application, handle){
 		 * An array module definition contains a path to a module definition class
 		 */
 		if (Z_TYPE_P(module) == IS_ARRAY) { 
-			zval *path;
-	
 			/** 
 			 * Class name used to load the module definition
 			 */
