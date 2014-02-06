@@ -262,8 +262,10 @@ PHP_METHOD(Phalcon_Image_Adapter_Gd, __construct) {
 		zephir_call_func_p2_noret("imagesavealpha", _9, ZEPHIR_GLOBAL(global_true));
 		_10 = zephir_fetch_nproperty_this(this_ptr, SL("_file"), PH_NOISY_CC);
 		zephir_update_property_this(this_ptr, SL("_realpath"), _10 TSRMLS_CC);
+		ZEPHIR_INIT_ZVAL_NREF(_13);
 		ZVAL_LONG(_13, width);
 		zephir_update_property_zval(this_ptr, SL("_width"), _13 TSRMLS_CC);
+		ZEPHIR_INIT_ZVAL_NREF(_13);
 		ZVAL_LONG(_13, height);
 		zephir_update_property_zval(this_ptr, SL("_height"), _13 TSRMLS_CC);
 		ZEPHIR_INIT_ZVAL_NREF(_13);

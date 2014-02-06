@@ -1143,6 +1143,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, limit) {
 	ZVAL_LONG(_0, limit);
 	zephir_update_property_zval(this_ptr, SL("_limit"), _0 TSRMLS_CC);
 	if ((offset >= 0)) {
+		ZEPHIR_INIT_ZVAL_NREF(_0);
 		ZVAL_LONG(_0, offset);
 		zephir_update_property_zval(this_ptr, SL("_offset"), _0 TSRMLS_CC);
 	}
