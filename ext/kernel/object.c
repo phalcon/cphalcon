@@ -1131,7 +1131,7 @@ int phalcon_update_property_array_append(zval *object, char *property, unsigned 
 /**
  * Intializes an object property with an empty array
  */
-int phalcon_update_property_empty_array(zend_class_entry *ce, zval *object, char *property_name, unsigned int property_length TSRMLS_DC) {
+int phalcon_update_property_empty_array(zval *object, char *property_name, unsigned int property_length TSRMLS_DC) {
 
 	zval *empty_array;
 	int res;

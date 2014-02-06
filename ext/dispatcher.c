@@ -161,9 +161,7 @@ PHALCON_INIT_CLASS(Phalcon_Dispatcher){
  */
 PHP_METHOD(Phalcon_Dispatcher, __construct){
 
-
-	phalcon_update_property_empty_array(phalcon_dispatcher_ce, this_ptr, SL("_params") TSRMLS_CC);
-	
+	phalcon_update_property_empty_array(this_ptr, SL("_params") TSRMLS_CC);
 }
 
 /**

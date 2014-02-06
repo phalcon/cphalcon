@@ -217,12 +217,12 @@ PHALCON_INIT_CLASS(Phalcon_Mvc_Router){
  */
 PHP_METHOD(Phalcon_Mvc_Router, __construct){
 
-	zval *default_routes = NULL, *routes, *routes_name_lookup, *paths = NULL, *action_pattern;
-	zval *route = NULL, *params_pattern, *params;
+	zval *default_routes = NULL, *routes, *paths = NULL, *action_pattern;
+	zval *route = NULL, *params_pattern;
 
 	PHALCON_MM_GROW();
 
-	phalcon_update_property_empty_array(phalcon_mvc_router_ce, this_ptr, SL("_defaultParams") TSRMLS_CC);
+	phalcon_update_property_empty_array(this_ptr, SL("_defaultParams") TSRMLS_CC);
 
 	phalcon_fetch_params(1, 0, 1, &default_routes);
 
@@ -267,13 +267,9 @@ PHP_METHOD(Phalcon_Mvc_Router, __construct){
 		phalcon_array_append(&routes, route, 0);
 	}
 
-	PHALCON_INIT_VAR(params);
-	array_init(params);
-	PHALCON_INIT_VAR(routes_name_lookup);
-	array_init(routes_name_lookup);
-	phalcon_update_property_this(this_ptr, SL("_params"), params TSRMLS_CC);
+	phalcon_update_property_empty_array(this_ptr, SL("_params") TSRMLS_CC);
 	phalcon_update_property_this(this_ptr, SL("_routes"), routes TSRMLS_CC);
-	phalcon_update_property_this(this_ptr, SL("_routesNameLookup"), routes_name_lookup TSRMLS_CC);
+	phalcon_update_property_empty_array(this_ptr, SL("_routesNameLookup") TSRMLS_CC);
 
 	PHALCON_MM_RESTORE();
 }
@@ -321,7 +317,7 @@ PHP_METHOD(Phalcon_Mvc_Router, getRewriteUri){
 	/**
 	 * By default we use $_GET['url'] to obtain the rewrite information
 	 */
-	if (!zend_is_true(uri_source)) {
+	if (!zend_is_true(uri_source)) { /* FIXME: Compare with URI_SOURCE_SERVER_REQUEST_URI */
 		_GET = phalcon_get_global(SS("_GET") TSRMLS_CC);
 		if (phalcon_array_isset_string_fetch(&url, _GET, SS("_url"))) {
 			if (PHALCON_IS_NOT_EMPTY(url)) {
@@ -357,7 +353,7 @@ PHP_METHOD(Phalcon_Mvc_Router, getRewriteUri){
  *	$router->setUriSource(Router::URI_SOURCE_SERVER_REQUEST_URI);
  *</code>
  *
- * @param string $uriSource
+ * @param int $uriSource
  * @return Phalcon\Mvc\Router
  */
 PHP_METHOD(Phalcon_Mvc_Router, setUriSource){
@@ -545,7 +541,7 @@ PHP_METHOD(Phalcon_Mvc_Router, setDefaults){
 }
 
 /**
- * Returns an array of default paths
+ * Returns an array of default parameters
  *
  * @return array
  */
@@ -727,6 +723,7 @@ PHP_METHOD(Phalcon_Mvc_Router, handle){
 			if (phalcon_memnstr_str(hostname, SL("("))) {
 				if (!phalcon_memnstr_str(hostname, SL("#"))) {
 					PHALCON_INIT_NVAR(regex_host_name);
+					/* FIXME: handle mixed case */
 					PHALCON_CONCAT_SVS(regex_host_name, "#^", hostname, "$#");
 				} else {
 					PHALCON_CPY_WRT(regex_host_name, hostname);
@@ -734,6 +731,7 @@ PHP_METHOD(Phalcon_Mvc_Router, handle){
 
 				RETURN_MM_ON_FAILURE(phalcon_preg_match(matched, regex_host_name, current_host_name, NULL TSRMLS_CC));
 			} else {
+				/* FIXME: handle mixed case */
 				is_equal_function(matched, current_host_name, hostname TSRMLS_CC);
 			}
 
@@ -1221,7 +1219,7 @@ PHP_METHOD(Phalcon_Mvc_Router, mount){
 /**
  * Set a group of paths to be returned when none of the defined routes are matched
  *
- * @param array $paths
+ * @param array|string $paths
  * @return Phalcon\Mvc\Router
  */
 PHP_METHOD(Phalcon_Mvc_Router, notFound){
@@ -1361,7 +1359,7 @@ PHP_METHOD(Phalcon_Mvc_Router, getRoutes){
  * Returns a route object by its id
  *
  * @param string $id
- * @return Phalcon\Mvc\Router\Route
+ * @return Phalcon\Mvc\Router\Route | false
  */
 PHP_METHOD(Phalcon_Mvc_Router, getRouteById){
 
