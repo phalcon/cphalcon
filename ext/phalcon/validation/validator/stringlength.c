@@ -103,11 +103,11 @@ PHP_METHOD(Phalcon_Validation_Validator_StringLength, validate) {
 	ZVAL_STRING(_0, "max", 1);
 	ZEPHIR_INIT_VAR(isSetMax);
 	zephir_call_method_p1(isSetMax, this_ptr, "issetoption", _0);
-	_1 = !zephir_is_true(isSetMin);
+	_1 = zephir_is_true(isSetMin);
 	if (_1) {
 		_1 = !zephir_is_true(isSetMax);
 	}
-	if (_1) {
+	if (!(_1)) {
 		ZEPHIR_THROW_EXCEPTION_STR(phalcon_validation_exception_ce, "A minimum or maximum must be set");
 		return;
 	}

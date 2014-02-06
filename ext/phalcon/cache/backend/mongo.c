@@ -140,34 +140,36 @@ PHP_METHOD(Phalcon_Cache_Backend_Mongo, _getCollection) {
 			}
 		} else {
 			zephir_array_fetch_string(&server, options, SL("server"), PH_NOISY | PH_READONLY TSRMLS_CC);
-			_0 = !zephir_is_true(server);
+			_0 = zephir_is_true(server);
 			if (!(_0)) {
 				_0 = (Z_TYPE_P(server) != IS_STRING);
 			}
-			if (_0) {
+			if (!(_0)) {
 				ZEPHIR_THROW_EXCEPTION_STR(phalcon_cache_exception_ce, "The backend requires a valid MongoDB connection string");
 				return;
 			}
 			ZEPHIR_INIT_NVAR(mongo);
 			_1 = zend_fetch_class(SL("Mongo"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
 			object_init_ex(mongo, _1);
-			zephir_call_method_noret(mongo, "__construct");
+			if (zephir_has_constructor(mongo TSRMLS_CC)) {
+				zephir_call_method_noret(mongo, "__construct");
+			}
 		}
 		zephir_array_fetch_string(&database, options, SL("db"), PH_NOISY | PH_READONLY TSRMLS_CC);
-		_0 = !zephir_is_true(database);
+		_0 = zephir_is_true(database);
 		if (!(_0)) {
 			_0 = (Z_TYPE_P(database) != IS_STRING);
 		}
-		if (_0) {
+		if (!(_0)) {
 			ZEPHIR_THROW_EXCEPTION_STR(phalcon_cache_exception_ce, "The backend requires a valid MongoDB db");
 			return;
 		}
 		zephir_array_fetch_string(&collection, options, SL("collection"), PH_NOISY | PH_READONLY TSRMLS_CC);
-		_0 = !zephir_is_true(collection);
+		_0 = zephir_is_true(collection);
 		if (!(_0)) {
 			_0 = (Z_TYPE_P(collection) != IS_STRING);
 		}
-		if (_0) {
+		if (!(_0)) {
 			ZEPHIR_THROW_EXCEPTION_STR(phalcon_cache_exception_ce, "The backend requires a valid MongoDB collection");
 			return;
 		}
@@ -419,9 +421,11 @@ PHP_METHOD(Phalcon_Cache_Backend_Mongo, queryKeys) {
 		ZEPHIR_INIT_VAR(_1);
 		_2 = zend_fetch_class(SL("MongoRegex"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
 		object_init_ex(_1, _2);
-		ZEPHIR_INIT_VAR(_3);
-		ZEPHIR_CONCAT_SVS(_3, "/^", prefix, "/");
-		zephir_call_method_p1_noret(_1, "__construct", _3);
+		if (zephir_has_constructor(_1 TSRMLS_CC)) {
+			ZEPHIR_INIT_VAR(_3);
+			ZEPHIR_CONCAT_SVS(_3, "/^", prefix, "/");
+			zephir_call_method_p1_noret(_1, "__construct", _3);
+		}
 		zephir_array_update_string(&conditions, SL("key"), &_1, PH_COPY | PH_SEPARATE);
 	}
 	zephir_array_update_string(&conditions, SL("time"), &timeCondition, PH_COPY | PH_SEPARATE);

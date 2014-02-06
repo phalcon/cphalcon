@@ -14,6 +14,7 @@
 #include "kernel/main.h"
 #include "kernel/operators.h"
 #include "kernel/memory.h"
+#include "kernel/object.h"
 #include "kernel/array.h"
 #include "kernel/exception.h"
 #include "kernel/fcall.h"
@@ -86,7 +87,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Row, offsetExists) {
 
 
 
-	RETURN_BOOL(0 == 0);
+	RETURN_BOOL(zephir_isset_property_zval(this_ptr, index TSRMLS_CC));
 
 }
 

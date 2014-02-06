@@ -115,7 +115,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Libmemcached, __construct) {
 		ZEPHIR_INIT_VAR(servers);
 		array_init_size(servers, 2);
 		ZEPHIR_INIT_VAR(_0);
-		array_init_size(_0, 4);
+		array_init_size(_0, 5);
 		add_assoc_stringl_ex(_0, SS("host"), SL("127.0.0.1"), 1);
 		add_assoc_long_ex(_0, SS("port"), 11211);
 		add_assoc_long_ex(_0, SS("weigth"), 1);
@@ -137,7 +137,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Libmemcached, __construct) {
  */
 PHP_METHOD(Phalcon_Cache_Backend_Libmemcached, _connect) {
 
-	zend_function *_5 = NULL, *_6 = NULL, *_7 = NULL;
+	zend_function *_5 = NULL;
 	HashTable *_3;
 	HashPosition _2;
 	zend_class_entry *_0;
@@ -178,10 +178,10 @@ PHP_METHOD(Phalcon_Cache_Backend_Libmemcached, _connect) {
 				ZEPHIR_INIT_NVAR(res);
 				ZEPHIR_CALL_INTERNAL_FUNCTION(res, &res, "constant", &_5, 1, option);
 				if (zephir_is_true(res)) {
-					zephir_call_method_p1_cache_noret(memcache, "setoption", &_6, res);
+					zephir_call_method_p1_noret(memcache, "setoption", res);
 				}
 			} else {
-				zephir_call_method_p1_cache_noret(memcache, "setoption", &_7, option);
+				zephir_call_method_p1_noret(memcache, "setoption", option);
 			}
 		}
 	}
@@ -525,11 +525,11 @@ PHP_METHOD(Phalcon_Cache_Backend_Libmemcached, queryKeys) {
 			; zend_hash_move_forward_ex(_1, &_0)
 		) {
 			ZEPHIR_GET_HVALUE(key, _2);
-			_3 = !zephir_is_true(prefix);
+			_3 = zephir_is_true(prefix);
 			if (!(_3)) {
 				_3 = zephir_start_with(key, prefix, 0);
 			}
-			if (_3) {
+			if (!(_3)) {
 				RETURN_CCTOR(key);
 			}
 		}

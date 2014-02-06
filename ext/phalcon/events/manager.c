@@ -270,12 +270,11 @@ PHP_METHOD(Phalcon_Events_Manager, fireQueue) {
 	HashTable *_5;
 	HashPosition _4;
 	zend_bool collect, cancelable, _0;
-	zval *queue = NULL, *event, *status = NULL, *arguments = NULL, *eventName, *data, *iterator, *source, *handler = NULL, *_1 = NULL, *_2, *_3 = NULL, **_6;
+	zval *queue, *event, *status = NULL, *arguments = NULL, *eventName, *data, *iterator, *source, *handler = NULL, *_1 = NULL, *_2, *_3 = NULL, **_6;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &queue, &event);
 
-	ZEPHIR_SEPARATE_PARAM(queue);
 
 
 	_0 = (Z_TYPE_P(queue) != IS_ARRAY);
@@ -328,7 +327,7 @@ PHP_METHOD(Phalcon_Events_Manager, fireQueue) {
 				if (zephir_is_instance_of(handler, SL("Closure") TSRMLS_CC)) {
 					if ((Z_TYPE_P(arguments) == IS_NULL)) {
 						ZEPHIR_INIT_NVAR(arguments);
-						array_init_size(arguments, 4);
+						array_init_size(arguments, 5);
 						zephir_array_fast_append(arguments, event);
 						zephir_array_fast_append(arguments, source);
 						zephir_array_fast_append(arguments, data);
@@ -364,17 +363,17 @@ PHP_METHOD(Phalcon_Events_Manager, fireQueue) {
 			}
 		}
 	} else {
-		zephir_is_iterable(handler, &_5, &_4, 0, 0);
+		zephir_is_iterable(queue, &_5, &_4, 0, 0);
 		for (
 			; zend_hash_get_current_data_ex(_5, (void**) &_6, &_4) == SUCCESS
 			; zend_hash_move_forward_ex(_5, &_4)
 		) {
-			ZEPHIR_GET_HVALUE(queue, _6);
+			ZEPHIR_GET_HVALUE(handler, _6);
 			if ((Z_TYPE_P(handler) == IS_OBJECT)) {
 				if (zephir_is_instance_of(handler, SL("Closure") TSRMLS_CC)) {
 					if ((Z_TYPE_P(arguments) == IS_NULL)) {
 						ZEPHIR_INIT_NVAR(arguments);
-						array_init_size(arguments, 4);
+						array_init_size(arguments, 5);
 						zephir_array_fast_append(arguments, event);
 						zephir_array_fast_append(arguments, source);
 						zephir_array_fast_append(arguments, data);

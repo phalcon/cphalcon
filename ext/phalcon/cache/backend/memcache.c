@@ -147,15 +147,15 @@ PHP_METHOD(Phalcon_Cache_Backend_Memcache, _connect) {
 	if (zephir_has_constructor(memcache TSRMLS_CC)) {
 		zephir_call_method_noret(memcache, "__construct");
 	}
-	_1 = !zephir_array_isset_string(options, SS("host"));
+	_1 = zephir_array_isset_string(options, SS("host"));
 	if (!(_1)) {
-		_2 = !zephir_array_isset_string(options, SS("port"));
+		_2 = zephir_array_isset_string(options, SS("port"));
 		if (!(_2)) {
 			_2 = !zephir_array_isset_string(options, SS("persistent"));
 		}
-		_1 = _2;
+		_1 = !_2;
 	}
-	if (_1) {
+	if (!(_1)) {
 		ZEPHIR_THROW_EXCEPTION_STR(phalcon_cache_exception_ce, "Unexpected inconsistency in options");
 		return;
 	}
@@ -415,11 +415,11 @@ PHP_METHOD(Phalcon_Cache_Backend_Memcache, queryKeys) {
 			; zend_hash_move_forward_ex(_1, &_0)
 		) {
 			ZEPHIR_GET_HVALUE(key, _2);
-			_3 = !zephir_is_true(prefix);
+			_3 = zephir_is_true(prefix);
 			if (!(_3)) {
 				_3 = zephir_start_with(key, prefix, 0);
 			}
-			if (_3) {
+			if (!(_3)) {
 				RETURN_CCTOR(key);
 			}
 		}

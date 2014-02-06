@@ -4,7 +4,7 @@ extern zend_class_entry *phalcon_image_adapter_ce;
 ZEPHIR_INIT_CLASS(Phalcon_Image_Adapter);
 
 PHP_METHOD(Phalcon_Image_Adapter, getImage);
-PHP_METHOD(Phalcon_Image_Adapter, getRealPath);
+PHP_METHOD(Phalcon_Image_Adapter, getRealpath);
 PHP_METHOD(Phalcon_Image_Adapter, getWidth);
 PHP_METHOD(Phalcon_Image_Adapter, getHeight);
 PHP_METHOD(Phalcon_Image_Adapter, getType);
@@ -101,7 +101,7 @@ ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_image_adapter_method_entry) {
 	PHP_ME(Phalcon_Image_Adapter, getImage, NULL, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Image_Adapter, getRealPath, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Image_Adapter, getRealpath, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Image_Adapter, getWidth, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Image_Adapter, getHeight, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Image_Adapter, getType, NULL, ZEND_ACC_PUBLIC)

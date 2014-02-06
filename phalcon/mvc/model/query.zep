@@ -384,73 +384,96 @@ class Query implements Phalcon\Mvc\Model\QueryInterface, Phalcon\Di\InjectionAwa
 			 * Every node in the AST has a unique integer type
 			 */
 			switch exprType {
+
 				case PHQL_T_LESS:
 					let exprReturn = ["type": "binary-op", "op": "<", "left": left, "right": right];
 					break;
+
 				case PHQL_T_EQUALS:
 					let exprReturn = ["type": "binary-op", "op": "=", "left": left, "right": right];
 					break;
+
 				case PHQL_T_GREATER:
 					let exprReturn = ["type": "binary-op", "op": ">", "left": left, "right": right];
 					break;
+
 				case 270:
 					let exprReturn = ["type": "binary-op", "op": "<>", "left": left, "right": right];
 					break;
+
 				case 271:
 					let exprReturn = ["type": "binary-op", "op": "<=", "left": left, "right": right];
 					break;
+
 				case 272:
 					let exprReturn = ["type": "binary-op", "op": ">=", "left": left, "right": right];
 					break;
+
 				case PHQL_T_AND:
 					let exprReturn = ["type": "binary-op", "op": "AND", "left": left, "right": right];
 					break;
+
 				case PHQL_T_OR:
 					let exprReturn = ["type": "binary-op", "op": "OR", "left": left, "right": right];
 					break;
+
 				case 355:
 					let exprReturn = this->_getQualified(expr);
 					break;
+
 				case 359:
 					//let exprReturn = this->_getAliased(expr);
 					break;
+
 				case PHQL_T_ADD:
 					let exprReturn = ["type": "binary-op", "op": "+", "left": left, "right": right];
 					break;
+
 				case PHQL_T_SUB:
 					let exprReturn = ["type": "binary-op", "op": "-", "left": left, "right": right];
 					break;
+
 				case PHQL_T_MUL:
 					let exprReturn = ["type": "binary-op", "op": "*", "left": left, "right": right];
 					break;
+
 				case PHQL_T_DIV:
 					let exprReturn = ["type": "binary-op", "op": "/", "left": left, "right": right];
 					break;
+
 				case PHQL_T_MOD:
 					let exprReturn = ["type": "binary-op", "op": "%", "left": left, "right": right];
 					break;
+
 				case 38:
 					let exprReturn = ["type": "binary-op", "op": "&", "left": left, "right": right];
 					break;
+
 				case 124:
 					let exprReturn = ["type": "binary-op", "op": "|", "left": left, "right": right];
 					break;
+
 				case PHQL_T_ENCLOSED:
 					let exprReturn = ["type": "parentheses", "left": left];
 					break;
+
 				case PHQL_T_MINUS:
 					let exprReturn = ["type": "unary-op", "op": "-", "right": right];
 					break;
+
 				case PHQL_T_INTEGER:
 				case PHQL_T_DOUBLE:
 					let exprReturn = ["type": "literal", "value": expr["value"]];
 					break;
+
 				case PHQL_T_TRUE:
 					let exprReturn = ["type": "literal", "value": "TRUE"];
 					break;
+
 				case PHQL_T_FALSE:
 					let exprReturn = ["type": "literal", "value": "FALSE"];
 					break;
+
 				case PHQL_T_STRING:
 					let value = expr["value"];
 					if quoting === true {
@@ -468,63 +491,83 @@ class Query implements Phalcon\Mvc\Model\QueryInterface, Phalcon\Di\InjectionAwa
 					}
 					let exprReturn = ["type": "literal", "value": exprValue];
 					break;
+
 				case PHQL_T_NPLACEHOLDER:
 					let exprReturn = ["type": "placeholder", "value": str_replace("?", ":", expr["value"])];
 					break;
+
 				case PHQL_T_SPLACEHOLDER:
 					let exprReturn = ["type": "placeholder", "value": ":" . expr["value"]];
 					break;
+
 				case PHQL_T_NULL:
 					let exprReturn = ["type": "literal", "value": "NULL"];
 					break;
+
 				case PHQL_T_LIKE:
 					let exprReturn = ["type": "binary-op", "op": "LIKE", "left": left, "right": right];
 					break;
+
 				case PHQL_T_NLIKE:
 					let exprReturn = ["type": "binary-op", "op": "NOT LIKE", "left": left, "right": right];
 					break;
+
 				case PHQL_T_ILIKE:
 					let exprReturn = ["type": "binary-op", "op": "ILIKE", "left": left, "right": right];
 					break;
+
 				case PHQL_T_NILIKE:
 					let exprReturn = ["type": "binary-op", "op": "NOT ILIKE", "left": left, "right": right];
 					break;
+
 				case PHQL_T_NOT:
 					let exprReturn = ["type": "unary-op", "op": "NOT ", "right": right];
 					break;
+
 				case 365:
 					let exprReturn = ["type": "unary-op", "op": " IS NULL", "left": left];
 					break;
+
 				case PHQL_T_ISNOTNULL:
 					let exprReturn = ["type": "unary-op", "op": " IS NOT NULL", "left": left];
 					break;
+
 				case PHQL_T_IN:
 					let exprReturn = ["type": "binary-op", "op": "IN", "left": left, "right": right];
 					break;
+
 				case PHQL_T_NOTIN:
 					let exprReturn = ["type": "binary-op", "op": "NOT IN", "left": left, "right": right];
 					break;
+
 				case PHQL_T_DISTINCT:
 					let exprReturn = ["type": "unary-op", "op": "DISTINCT ", "right": right];
 					break;
+
 				case PHQL_T_BETWEEN:
 					let exprReturn = ["type": "binary-op", "op": "BETWEEN", "left": left, "right": right];
 					break;
+
 				case PHQL_T_AGAINST:
 					let exprReturn = ["type": "binary-op", "op": "AGAINST", "left": left, "right": right];
 					break;
+
 				case PHQL_T_CAST:
 					let exprReturn = ["type": "cast", "left": left, "right": right];
 					break;
+
 				case PHQL_T_CONVERT:
 					let exprReturn = ["type": "convert", "left": left, "right": right];
 					break;
+
 				case PHQL_T_RAW_QUALIFIED:
 					let exprReturn = ["type": "literal", "value": expr["name"]];
 					break;
+
 				case PHQL_T_FCALL:
 					let exprReturn = this->_getFunctionCall(expr);
 					break;
+
 				default:
 					throw new Phalcon\Mvc\Model\Exception("Unknown expression type " . exprType);
 			}
@@ -749,14 +792,19 @@ class Query implements Phalcon\Mvc\Model\QueryInterface, Phalcon\Di\InjectionAwa
 		}
 
 		switch type {
+
 			case PHQL_T_INNERJOIN:
 				return "INNER";
+
 			case PHQL_T_LEFTJOIN:
 				return "LEFT";
+
 			case PHQL_T_RIGHTJOIN:
 				return "RIGHT";
+
 			case PHQL_T_CROSSJOIN:
 				return "CROSS";
+
 			case PHQL_T_FULLJOIN:
 				return "FULL OUTER";
 		}

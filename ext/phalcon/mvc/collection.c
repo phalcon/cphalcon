@@ -150,7 +150,9 @@ PHP_METHOD(Phalcon_Mvc_Collection, setId) {
 			ZEPHIR_INIT_VAR(mongoId);
 			_2 = zend_fetch_class(SL("MongoId"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
 			object_init_ex(mongoId, _2);
-			zephir_call_method_p1_noret(mongoId, "__construct", id);
+			if (zephir_has_constructor(mongoId TSRMLS_CC)) {
+				zephir_call_method_p1_noret(mongoId, "__construct", id);
+			}
 		} else {
 			ZEPHIR_CPY_WRT(mongoId, id);
 		}
@@ -449,7 +451,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, readAttribute) {
 	}
 
 
-	if (0 == 0) {
+	if (zephir_isset_property_zval(this_ptr, attribute TSRMLS_CC)) {
 		ZEPHIR_OBS_VAR(_0);
 		zephir_read_property_zval(&_0, this_ptr, attribute, PH_NOISY_CC);
 		RETURN_CCTOR(_0);
@@ -1068,7 +1070,9 @@ PHP_METHOD(Phalcon_Mvc_Collection, _exists) {
 				ZEPHIR_INIT_VAR(mongoId);
 				_2 = zend_fetch_class(SL("MongoId"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
 				object_init_ex(mongoId, _2);
-				zephir_call_method_p1_noret(mongoId, "__construct", id);
+				if (zephir_has_constructor(mongoId TSRMLS_CC)) {
+					zephir_call_method_p1_noret(mongoId, "__construct", id);
+				}
 				zephir_update_property_this(this_ptr, SL("_id"), mongoId TSRMLS_CC);
 			} else {
 				ZEPHIR_CPY_WRT(mongoId, id);
@@ -1291,7 +1295,9 @@ PHP_METHOD(Phalcon_Mvc_Collection, findById) {
 			ZEPHIR_INIT_VAR(mongoId);
 			_3 = zend_fetch_class(SL("MongoId"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
 			object_init_ex(mongoId, _3);
-			zephir_call_method_p1_noret(mongoId, "__construct", id);
+			if (zephir_has_constructor(mongoId TSRMLS_CC)) {
+				zephir_call_method_p1_noret(mongoId, "__construct", id);
+			}
 		} else {
 			ZEPHIR_CPY_WRT(mongoId, id);
 		}
@@ -1661,7 +1667,9 @@ PHP_METHOD(Phalcon_Mvc_Collection, delete) {
 			ZEPHIR_INIT_VAR(mongoId);
 			_3 = zend_fetch_class(SL("MongoId"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
 			object_init_ex(mongoId, _3);
-			zephir_call_method_p1_noret(mongoId, "__construct", id);
+			if (zephir_has_constructor(mongoId TSRMLS_CC)) {
+				zephir_call_method_p1_noret(mongoId, "__construct", id);
+			}
 		} else {
 			ZEPHIR_CPY_WRT(mongoId, id);
 		}

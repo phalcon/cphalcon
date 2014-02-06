@@ -17,8 +17,8 @@
 #include "kernel/object.h"
 #include "kernel/memory.h"
 #include "kernel/fcall.h"
-#include "kernel/array.h"
 #include "ext/spl/spl_exceptions.h"
+#include "kernel/array.h"
 
 
 /*
@@ -174,7 +174,7 @@ PHP_METHOD(Phalcon_Config, offsetExists) {
 	}
 
 
-	RETURN_MM_BOOL(0 == 0);
+	RETURN_MM_BOOL(zephir_isset_property_zval(this_ptr, index TSRMLS_CC));
 
 }
 

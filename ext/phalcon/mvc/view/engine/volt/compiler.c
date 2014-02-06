@@ -646,7 +646,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, functionCall) {
 		extensions = zephir_fetch_nproperty_this(this_ptr, SL("_extensions"), PH_NOISY_CC);
 		if ((Z_TYPE_P(extensions) == IS_ARRAY)) {
 			ZEPHIR_INIT_VAR(_0);
-			array_init_size(_0, 4);
+			array_init_size(_0, 5);
 			zephir_array_fast_append(_0, name);
 			zephir_array_fast_append(_0, arguments);
 			zephir_array_fast_append(_0, funcArguments);
@@ -955,9 +955,9 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, resolveFilter) {
 			zephir_array_fetch_string(&file, filter, SL("file"), PH_NOISY | PH_READONLY TSRMLS_CC);
 			zephir_array_fetch_string(&line, filter, SL("line"), PH_NOISY | PH_READONLY TSRMLS_CC);
 			ZEPHIR_INIT_VAR(_4);
-			array_init_size(_4, 4);
+			array_init_size(_4, 5);
 			ZEPHIR_INIT_VAR(_5);
-			array_init_size(_5, 6);
+			array_init_size(_5, 7);
 			add_assoc_long_ex(_5, SS("type"), 364);
 			zephir_array_update_string(&_5, SL("value"), &left, PH_COPY | PH_SEPARATE);
 			zephir_array_update_string(&_5, SL("file"), &file, PH_COPY | PH_SEPARATE);
@@ -2862,7 +2862,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compile) {
 			if (zephir_is_instance_of(compiledPath, SL("Closure") TSRMLS_CC)) {
 				ZEPHIR_INIT_NVAR(compiledTemplatePath);
 				ZEPHIR_INIT_VAR(_1);
-				array_init_size(_1, 4);
+				array_init_size(_1, 5);
 				zephir_array_fast_append(_1, templatePath);
 				zephir_array_fast_append(_1, options);
 				ZEPHIR_INIT_VAR(_2);

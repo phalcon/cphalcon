@@ -76,6 +76,7 @@ void zephir_make_printable_zval(zval *expr, zval *expr_copy, int *use_copy);
 /** Operator functions */
 int zephir_add_function(zval *result, zval *op1, zval *op2 TSRMLS_DC);
 int zephir_and_function(zval *result, zval *left, zval *right);
+void zephir_negate(zval *z TSRMLS_DC);
 
 /** Bitwise functions */
 int zephir_bitwise_and_function(zval *result, zval *op1, zval *op2 TSRMLS_DC);
@@ -215,10 +216,10 @@ int zephir_greater_equal_long(zval *op1, long op2 TSRMLS_DC);
 #define zephir_is_numeric(value) (Z_TYPE_P(value) == IS_LONG || Z_TYPE_P(value) == IS_DOUBLE || zephir_is_numeric_ex(value))
 
 #define zephir_is_true(value) \
-	(Z_TYPE_P((value)) == IS_NULL ? 0 : \
-		(Z_TYPE_P((value)) == IS_BOOL ? Z_BVAL_P((value)) : \
-			(Z_TYPE_P((value)) == IS_LONG ? Z_LVAL_P((value)) : \
-				zend_is_true((value)) \
+	(Z_TYPE_P(value) == IS_NULL ? 0 : \
+		(Z_TYPE_P(value) == IS_BOOL ? Z_BVAL_P(value) : \
+			(Z_TYPE_P(value) == IS_LONG ? Z_LVAL_P(value) : \
+				zend_is_true(value) \
 			) \
 		) \
 	)

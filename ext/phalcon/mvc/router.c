@@ -133,7 +133,7 @@ PHP_METHOD(Phalcon_Mvc_Router, __construct) {
 		ZEPHIR_INIT_VAR(_3);
 		object_init_ex(_3, phalcon_mvc_router_route_ce);
 		ZEPHIR_INIT_VAR(_4);
-		array_init_size(_4, 4);
+		array_init_size(_4, 5);
 		add_assoc_long_ex(_4, SS("controller"), 1);
 		add_assoc_long_ex(_4, SS("action"), 2);
 		add_assoc_long_ex(_4, SS("params"), 3);
@@ -602,7 +602,7 @@ PHP_METHOD(Phalcon_Mvc_Router, handle) {
 				}
 				ZEPHIR_INIT_NVAR(routeFound);
 				ZEPHIR_INIT_NVAR(_14);
-				array_init_size(_14, 4);
+				array_init_size(_14, 5);
 				zephir_array_fast_append(_14, handledUri);
 				zephir_array_fast_append(_14, route);
 				zephir_array_fast_append(_14, this_ptr);

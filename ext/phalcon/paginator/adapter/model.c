@@ -208,10 +208,8 @@ PHP_METHOD(Phalcon_Paginator_Adapter_Model, getPaginate) {
 	ZEPHIR_INIT_ZVAL_NREF(_5);
 	ZVAL_LONG(_5, 1);
 	zephir_update_property_zval(page, SL("first"), _5 TSRMLS_CC);
-	ZEPHIR_INIT_ZVAL_NREF(_5);
 	ZVAL_LONG(_5, before);
 	zephir_update_property_zval(page, SL("before"), _5 TSRMLS_CC);
-	ZEPHIR_INIT_ZVAL_NREF(_5);
 	ZVAL_LONG(_5, pageNumber);
 	zephir_update_property_zval(page, SL("current"), _5 TSRMLS_CC);
 	if (((n % show) != 0)) {
@@ -219,13 +217,10 @@ PHP_METHOD(Phalcon_Paginator_Adapter_Model, getPaginate) {
 	} else {
 		pagesTotal = ((n / show));
 	}
-	ZEPHIR_INIT_ZVAL_NREF(_5);
 	ZVAL_LONG(_5, pagesTotal);
 	zephir_update_property_zval(page, SL("last"), _5 TSRMLS_CC);
-	ZEPHIR_INIT_ZVAL_NREF(_5);
 	ZVAL_LONG(_5, pagesTotal);
 	zephir_update_property_zval(page, SL("total_pages"), _5 TSRMLS_CC);
-	ZEPHIR_INIT_ZVAL_NREF(_5);
 	ZVAL_LONG(_5, n);
 	zephir_update_property_zval(page, SL("total_items"), _5 TSRMLS_CC);
 	RETURN_CCTOR(page);

@@ -301,7 +301,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Complex, serialize) {
 	columnTypes = zephir_fetch_nproperty_this(this_ptr, SL("_columnTypes"), PH_NOISY_CC);
 	hydrateMode = zephir_fetch_nproperty_this(this_ptr, SL("_hydrateMode"), PH_NOISY_CC);
 	ZEPHIR_INIT_VAR(_0);
-	array_init_size(_0, 6);
+	array_init_size(_0, 7);
 	zephir_array_update_string(&_0, SL("cache"), &cache, PH_COPY | PH_SEPARATE);
 	zephir_array_update_string(&_0, SL("rows"), &records, PH_COPY | PH_SEPARATE);
 	zephir_array_update_string(&_0, SL("columnTypes"), &columnTypes, PH_COPY | PH_SEPARATE);

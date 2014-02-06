@@ -2748,7 +2748,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _doLowUpdate) {
 		}
 	}
 	ZEPHIR_INIT_VAR(_12);
-	array_init_size(_12, 4);
+	array_init_size(_12, 5);
 	zephir_array_update_string(&_12, SL("conditions"), &uniqueKey, PH_COPY | PH_SEPARATE);
 	zephir_array_update_string(&_12, SL("bind"), &uniqueParams, PH_COPY | PH_SEPARATE);
 	zephir_array_update_string(&_12, SL("bindTypes"), &uniqueTypes, PH_COPY | PH_SEPARATE);
@@ -3643,7 +3643,7 @@ PHP_METHOD(Phalcon_Mvc_Model, refresh) {
 	zephir_call_method(dialect, readConnection, "getdialect");
 	ZEPHIR_INIT_NVAR(_1);
 	ZEPHIR_INIT_NVAR(_5);
-	array_init_size(_5, 4);
+	array_init_size(_5, 5);
 	zephir_array_update_string(&_5, SL("columns"), &fields, PH_COPY | PH_SEPARATE);
 	ZEPHIR_INIT_VAR(_6);
 	zephir_call_method_p1(_6, readConnection, "escapeidentifier", table);
@@ -3714,7 +3714,7 @@ PHP_METHOD(Phalcon_Mvc_Model, readAttribute) {
 	}
 
 
-	if (0 == 0) {
+	if (zephir_isset_property_zval(this_ptr, attribute TSRMLS_CC)) {
 		ZEPHIR_OBS_VAR(_0);
 		zephir_read_property_zval(&_0, this_ptr, attribute, PH_NOISY_CC);
 		RETURN_CCTOR(_0);
@@ -4557,7 +4557,7 @@ PHP_METHOD(Phalcon_Mvc_Model, getRelated) {
 	ZVAL_STRING(_3, "getRelationRecords", 1);
 	zephir_array_fast_append(_2, _3);
 	ZEPHIR_INIT_VAR(_4);
-	array_init_size(_4, 6);
+	array_init_size(_4, 7);
 	zephir_array_fast_append(_4, relation);
 	zephir_array_fast_append(_4, ZEPHIR_GLOBAL(global_null));
 	zephir_array_fast_append(_4, this_ptr);
@@ -4619,7 +4619,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _getRelatedRecords) {
 		ZVAL_STRING(_0, "getRelationRecords", 1);
 		zephir_array_fast_append(_2, _0);
 		ZEPHIR_INIT_VAR(_3);
-		array_init_size(_3, 6);
+		array_init_size(_3, 7);
 		zephir_array_fast_append(_3, relation);
 		zephir_array_fast_append(_3, queryMethod);
 		zephir_array_fast_append(_3, this_ptr);
@@ -4872,7 +4872,7 @@ PHP_METHOD(Phalcon_Mvc_Model, __get) {
 		ZVAL_STRING(_1, "getRelationRecords", 1);
 		zephir_array_fast_append(_0, _1);
 		ZEPHIR_INIT_VAR(_2);
-		array_init_size(_2, 6);
+		array_init_size(_2, 7);
 		zephir_array_fast_append(_2, relation);
 		zephir_array_fast_append(_2, ZEPHIR_GLOBAL(global_null));
 		zephir_array_fast_append(_2, this_ptr);

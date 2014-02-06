@@ -170,9 +170,9 @@ PHP_METHOD(Phalcon_Validation_Validator_File, validate) {
 		zephir_call_method_p1_noret(validation, "appendmessage", _11);
 		RETURN_MM_BOOL(0);
 	}
-	_13 = !zephir_array_isset_string(value, SS("error"));
+	_13 = zephir_array_isset_string(value, SS("error"));
 	if (!(_13)) {
-		_14 = !zephir_array_isset_string(value, SS("tmp_name"));
+		_14 = zephir_array_isset_string(value, SS("tmp_name"));
 		if (!(_14)) {
 			zephir_array_fetch_string(&_15, value, SL("error"), PH_NOISY | PH_READONLY TSRMLS_CC);
 			_16 = !ZEPHIR_IS_LONG(_15, 0);
@@ -184,9 +184,9 @@ PHP_METHOD(Phalcon_Validation_Validator_File, validate) {
 			}
 			_14 = _16;
 		}
-		_13 = _14;
+		_13 = !_14;
 	}
-	if (_13) {
+	if (!(_13)) {
 		ZEPHIR_INIT_VAR(_18);
 		ZVAL_STRING(_18, "messageEmpty", 1);
 		ZEPHIR_INIT_NVAR(message);
@@ -210,15 +210,15 @@ PHP_METHOD(Phalcon_Validation_Validator_File, validate) {
 		zephir_call_method_p1_noret(validation, "appendmessage", _11);
 		RETURN_MM_BOOL(0);
 	}
-	_20 = !zephir_array_isset_string(value, SS("name"));
+	_20 = zephir_array_isset_string(value, SS("name"));
 	if (!(_20)) {
-		_21 = !zephir_array_isset_string(value, SS("type"));
+		_21 = zephir_array_isset_string(value, SS("type"));
 		if (!(_21)) {
 			_21 = !zephir_array_isset_string(value, SS("size"));
 		}
-		_20 = _21;
+		_20 = !_21;
 	}
-	if (_20) {
+	if (!(_20)) {
 		ZEPHIR_INIT_NVAR(_12);
 		ZVAL_STRING(_12, "messageValid", 1);
 		ZEPHIR_INIT_NVAR(message);
@@ -248,7 +248,7 @@ PHP_METHOD(Phalcon_Validation_Validator_File, validate) {
 	zephir_call_method_p1(_12, this_ptr, "issetoption", _18);
 	if (zephir_is_true(_12)) {
 		ZEPHIR_INIT_VAR(byteUnits);
-		array_init_size(byteUnits, 12);
+		array_init_size(byteUnits, 13);
 		add_assoc_long_ex(byteUnits, SS("B"), 0);
 		add_assoc_long_ex(byteUnits, SS("K"), 10);
 		add_assoc_long_ex(byteUnits, SS("M"), 20);
