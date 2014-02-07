@@ -328,7 +328,7 @@ void phalcon_fast_explode(zval *result, zval *delimiter, zval *str){
  */
 void phalcon_fast_explode_str(zval *result, const char *delimiter, int delimiter_length, zval *str){
 
-	zval delimiter_zval;
+	zval delimiter_zval = zval_used_for_init;
 
 	if (unlikely(Z_TYPE_P(str) != IS_STRING)) {
 		ZVAL_NULL(result);

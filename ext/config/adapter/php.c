@@ -17,8 +17,6 @@
   +------------------------------------------------------------------------+
 */
 
-#include "php_phalcon.h"
-
 #include "config/adapter/php.h"
 #include "config/exception.h"
 #include "pconfig.h"
@@ -104,6 +102,7 @@ PHP_METHOD(Phalcon_Config_Adapter_Php, __construct){
 	}
 
 	PHALCON_MM_GROW();
+	Z_DELREF_P(config);
 	PHALCON_CALL_PARENT_NORET(phalcon_config_adapter_php_ce, this_ptr, "__construct", config);
 	PHALCON_MM_RESTORE();
 }

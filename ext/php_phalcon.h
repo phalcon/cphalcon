@@ -83,8 +83,9 @@ typedef struct _phalcon_di_options {
 ZEND_BEGIN_MODULE_GLOBALS(phalcon)
 
 	/** Memory */
-	phalcon_memory_entry *start_memory;
-	phalcon_memory_entry *active_memory;
+	phalcon_memory_entry *start_memory;    /**< The first preallocated frame */
+	phalcon_memory_entry *end_memory;      /**< The last preallocate frame */
+	phalcon_memory_entry *active_memory;   /**< The current memory frame */
 
 	/** Virtual Symbol Tables */
 	phalcon_symbol_table *active_symbol_table;

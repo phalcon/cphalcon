@@ -40,18 +40,17 @@
  * allocated empty frame that points to the real first frame. The start
  * memory frame is globally accesed using PHALCON_GLOBAL(start_frame)
  *
- * Not all methods must grown/restore the phalcon_memory_entry.
+ * Not all methods must grow/restore the phalcon_memory_entry.
  */
 
-static phalcon_memory_entry* phalcon_memory_grow_stack_common(zend_phalcon_globals *phalcon_globals_ptr)
+static phalcon_memory_entry* phalcon_memory_grow_stack_common(zend_phalcon_globals *g)
 {
-	assert(phalcon_globals_ptr->start_memory != NULL);
-	if (!phalcon_globals_ptr->active_memory) {
-		phalcon_globals_ptr->active_memory = phalcon_globals_ptr->start_memory;
-		return phalcon_globals_ptr->start_memory;
+	assert(g->start_memory != NULL);
+	if (!g->active_memory) {
+		g->active_memory = g->start_memory;
 	}
-
-	{
+	else if (!g->active_memory->next) {
+		assert(g->active_memory >= g->end_memory - 1 || g->active_memory < g->start_memory);
 		phalcon_memory_entry *entry = (phalcon_memory_entry *) ecalloc(1, sizeof(phalcon_memory_entry));
 	/* ecalloc() will take care of these members
 		entry->pointer   = 0;
@@ -62,53 +61,43 @@ static phalcon_memory_entry* phalcon_memory_grow_stack_common(zend_phalcon_globa
 		entry->hash_addresses = NULL;
 		entry->next = NULL;
 	*/
-		entry->prev       = phalcon_globals_ptr->active_memory;
+		entry->prev       = g->active_memory;
 		entry->prev->next = entry;
-		phalcon_globals_ptr->active_memory = entry;
-		return entry;
+		g->active_memory = entry;
 	}
+	else {
+		assert(g->active_memory < g->end_memory);
+		g->active_memory = g->active_memory->next;
+	}
+
+	return g->active_memory;
 }
 
-static void phalcon_memory_restore_stack_common(zend_phalcon_globals *phalcon_globals_ptr TSRMLS_DC) {
-
+static void phalcon_memory_restore_stack_common(zend_phalcon_globals *g TSRMLS_DC)
+{
 	size_t i;
 	phalcon_memory_entry *prev, *active_memory;
 	phalcon_symbol_table *active_symbol_table;
-/*
-#if ZEND_DEBUG
-	char* __zend_filename = __FILE__;
-	char* __zend_orig_filename = __FILE__;
-	int __zend_lineno = 0;
-	int __zend_orig_lineno = 0;
-#endif
-*/
 
-	active_memory = phalcon_globals_ptr->active_memory;
+	active_memory = g->active_memory;
 	assert(active_memory != NULL);
 
-	if (likely(!CG(unclean_shutdown))) {
+	if (EXPECTED(!CG(unclean_shutdown))) {
 		/* Clean active symbol table */
-		if (phalcon_globals_ptr->active_symbol_table) {
-			active_symbol_table = phalcon_globals_ptr->active_symbol_table;
+		if (g->active_symbol_table) {
+			active_symbol_table = g->active_symbol_table;
 			if (active_symbol_table->scope == active_memory) {
 				zend_hash_destroy(EG(active_symbol_table));
 				FREE_HASHTABLE(EG(active_symbol_table));
 				EG(active_symbol_table) = active_symbol_table->symbol_table;
-				phalcon_globals_ptr->active_symbol_table = active_symbol_table->prev;
+				g->active_symbol_table = active_symbol_table->prev;
 				efree(active_symbol_table);
 			}
 		}
 
-		/**
-		 * Check for non freed hash key zvals, mark as null to avoid string freeing
-		 */
+		/* Check for non freed hash key zvals, mark as null to avoid string freeing */
 		for (i = 0; i < active_memory->hash_pointer; ++i) {
 			assert(active_memory->hash_addresses[i] != NULL && *(active_memory->hash_addresses[i]) != NULL);
-/*
-#if ZEND_DEBUG
-			_mem_block_check(*active_memory->hash_addresses[i], 1 ZEND_FILE_LINE_RELAY_CC ZEND_FILE_LINE_ORIG_RELAY_CC);
-#endif
-*/
 			if (Z_REFCOUNT_PP(active_memory->hash_addresses[i]) <= 1) {
 				ZVAL_NULL(*active_memory->hash_addresses[i]);
 			} else {
@@ -118,13 +107,8 @@ static void phalcon_memory_restore_stack_common(zend_phalcon_globals *phalcon_gl
 
 #ifndef PHALCON_RELEASE
 		for (i = 0; i < active_memory->pointer; ++i) {
-			if (likely(active_memory->addresses[i] != NULL && *(active_memory->addresses[i]) != NULL)) {
+			if (active_memory->addresses[i] != NULL && *(active_memory->addresses[i]) != NULL) {
 				zval **var = active_memory->addresses[i];
-/*
-#if ZEND_DEBUG
-				_mem_block_check(*var, 1 ZEND_FILE_LINE_RELAY_CC ZEND_FILE_LINE_ORIG_RELAY_CC);
-#endif
-*/
 #if PHP_VERSION_ID < 50400
 				if (Z_TYPE_PP(var) > IS_CONSTANT_ARRAY) {
 					fprintf(stderr, "%s: observed variable #%d (%p) has invalid type %u\n", __func__, (int)i, *var, Z_TYPE_PP(var));
@@ -148,11 +132,9 @@ static void phalcon_memory_restore_stack_common(zend_phalcon_globals *phalcon_gl
 		}
 #endif
 
-		/**
-		 * Traverse all zvals allocated, reduce the reference counting or free them
-		 */
+		/* Traverse all zvals allocated, reduce the reference counting or free them */
 		for (i = 0; i < active_memory->pointer; ++i) {
-			if (likely(active_memory->addresses[i] != NULL && *(active_memory->addresses[i]) != NULL)) {
+			if (EXPECTED(active_memory->addresses[i] != NULL && *(active_memory->addresses[i]) != NULL)) {
 				if (Z_REFCOUNT_PP(active_memory->addresses[i]) == 1) {
 					zval_ptr_dtor(active_memory->addresses[i]);
 				} else {
@@ -164,25 +146,37 @@ static void phalcon_memory_restore_stack_common(zend_phalcon_globals *phalcon_gl
 
 	prev = active_memory->prev;
 
-	if (prev != NULL) {
+	if (active_memory >= g->end_memory || active_memory < g->start_memory) {
 		if (active_memory->hash_addresses != NULL) {
 			efree(active_memory->hash_addresses);
 		}
 
-		if (likely(active_memory->addresses != NULL)) {
+		if (active_memory->addresses != NULL) {
 			efree(active_memory->addresses);
 		}
 
-		efree(phalcon_globals_ptr->active_memory);
-		phalcon_globals_ptr->active_memory = prev;
+		efree(g->active_memory);
+		g->active_memory = prev;
 		prev->next = NULL;
-	} else {
-		assert(phalcon_globals_ptr->start_memory == active_memory);
-		assert(active_memory->next == NULL);
+	}
+	else {
 		active_memory->pointer      = 0;
 		active_memory->hash_pointer = 0;
-		phalcon_globals_ptr->active_memory = NULL;
+		g->active_memory = prev;
 	}
+
+#ifndef PHALCON_RELEASE
+	if (g->active_memory) {
+		phalcon_memory_entry *f = g->active_memory;
+		if (f >= g->end_memory && f < g->end_memory - 1) {
+			assert(f->next != NULL);
+
+			if (f > g->start_memory) {
+				assert(f->prev != NULL);
+			}
+		}
+	}
+#endif
 }
 
 #ifndef PHALCON_RELEASE
@@ -203,7 +197,7 @@ void phalcon_dump_memory_frame(phalcon_memory_entry *active_memory TSRMLS_DC)
 	}
 
 	for (i = 0; i < active_memory->pointer; ++i) {
-		if (likely(active_memory->addresses[i] != NULL && *(active_memory->addresses[i]) != NULL)) {
+		if (EXPECTED(active_memory->addresses[i] != NULL && *(active_memory->addresses[i]) != NULL)) {
 			zval **var = active_memory->addresses[i];
 			fprintf(stderr, "Obs var %lu (%p => %p), type=%u, refcnt=%u; ", (ulong)i, var, *var, Z_TYPE_PP(var), Z_REFCOUNT_PP(var));
 			switch (Z_TYPE_PP(var)) {
@@ -227,7 +221,7 @@ void phalcon_dump_current_frame(TSRMLS_D)
 {
 	zend_phalcon_globals *phalcon_globals_ptr = PHALCON_VGLOBAL;
 
-	if (unlikely(phalcon_globals_ptr->active_memory == NULL)) {
+	if (UNEXPECTED(phalcon_globals_ptr->active_memory == NULL)) {
 		fprintf(stderr, "WARNING: calling %s() without an active memory frame!\n", __func__);
 		phalcon_print_backtrace();
 		return;
@@ -257,13 +251,13 @@ int ZEND_FASTCALL phalcon_memory_restore_stack(const char *func TSRMLS_DC)
 {
 	zend_phalcon_globals *phalcon_globals_ptr = PHALCON_VGLOBAL;
 
-	if (unlikely(phalcon_globals_ptr->active_memory == NULL)) {
+	if (UNEXPECTED(phalcon_globals_ptr->active_memory == NULL)) {
 		fprintf(stderr, "WARNING: calling phalcon_memory_restore_stack() without an active memory frame!\n");
 		phalcon_print_backtrace();
 		return FAILURE;
 	}
 
-	if (unlikely(phalcon_globals_ptr->active_memory->func != func)) {
+	if (UNEXPECTED(phalcon_globals_ptr->active_memory->func != func)) {
 		fprintf(stderr, "Trying to free someone else's memory frame!\n");
 		fprintf(stderr, "The frame was created by %s\n", phalcon_globals_ptr->active_memory->func);
 		fprintf(stderr, "Calling function: %s\n", func);
@@ -301,10 +295,11 @@ int ZEND_FASTCALL phalcon_memory_restore_stack(TSRMLS_D) {
 }
 #endif
 
-static void phalcon_reallocate_memory(phalcon_memory_entry *frame)
+PHALCON_ATTR_NONNULL static void phalcon_reallocate_memory(const zend_phalcon_globals *g)
 {
-	void *buf = perealloc(frame->addresses, sizeof(zval **) * (frame->capacity + 16), unlikely(frame->prev == NULL));
-	if (likely(buf != NULL)) {
+	phalcon_memory_entry *frame = g->active_memory;
+	void *buf = perealloc(frame->addresses, sizeof(zval **) * (frame->capacity + 16), (frame < g->end_memory));
+	if (EXPECTED(buf != NULL)) {
 		frame->capacity += 16;
 		frame->addresses = buf;
 	}
@@ -313,10 +308,11 @@ static void phalcon_reallocate_memory(phalcon_memory_entry *frame)
 	}
 }
 
-static void phalcon_reallocate_hmemory(phalcon_memory_entry *frame)
+PHALCON_ATTR_NONNULL static void phalcon_reallocate_hmemory(const zend_phalcon_globals *g)
 {
-	void *buf = perealloc(frame->hash_addresses, sizeof(zval **) * (frame->hash_capacity + 4), unlikely(frame->prev == NULL));
-	if (likely(buf != NULL)) {
+	phalcon_memory_entry *frame = g->active_memory;
+	void *buf = perealloc(frame->hash_addresses, sizeof(zval **) * (frame->hash_capacity + 4), (frame < g->end_memory));
+	if (EXPECTED(buf != NULL)) {
 		frame->hash_capacity += 4;
 		frame->hash_addresses = buf;
 	}
@@ -325,18 +321,19 @@ static void phalcon_reallocate_hmemory(phalcon_memory_entry *frame)
 	}
 }
 
-static inline void phalcon_do_memory_observe(zval **var, phalcon_memory_entry *frame)
+PHALCON_ATTR_NONNULL1(2) static inline void phalcon_do_memory_observe(zval **var, const zend_phalcon_globals *g)
 {
+	phalcon_memory_entry *frame = g->active_memory;
 #ifndef PHALCON_RELEASE
-	if (unlikely(frame == NULL)) {
+	if (UNEXPECTED(frame == NULL)) {
 		fprintf(stderr, "PHALCON_MM_GROW() must be called before using any of MM functions or macros!");
 		phalcon_print_backtrace();
 		abort();
 	}
 #endif
 
-	if (unlikely(frame->pointer == frame->capacity)) {
-		phalcon_reallocate_memory(frame);
+	if (UNEXPECTED(frame->pointer == frame->capacity)) {
+		phalcon_reallocate_memory(g);
 	}
 
 	frame->addresses[frame->pointer] = var;
@@ -346,18 +343,20 @@ static inline void phalcon_do_memory_observe(zval **var, phalcon_memory_entry *f
 /**
  * Observes a memory pointer to release its memory at the end of the request
  */
-void ZEND_FASTCALL phalcon_memory_observe(zval **var TSRMLS_DC) {
-
-	phalcon_do_memory_observe(var, PHALCON_GLOBAL(active_memory));
+void ZEND_FASTCALL phalcon_memory_observe(zval **var TSRMLS_DC)
+{
+	zend_phalcon_globals *g = PHALCON_VGLOBAL;
+	phalcon_do_memory_observe(var, g);
 	*var = NULL; /* In case an exception or error happens BEFORE the observed variable gets initialized */
 }
 
 /**
  * Observes a variable and allocates memory for it
  */
-void ZEND_FASTCALL phalcon_memory_alloc(zval **var TSRMLS_DC) {
-
-	phalcon_do_memory_observe(var, PHALCON_GLOBAL(active_memory));
+void ZEND_FASTCALL phalcon_memory_alloc(zval **var TSRMLS_DC)
+{
+	zend_phalcon_globals *g = PHALCON_VGLOBAL;
+	phalcon_do_memory_observe(var, g);
 	ALLOC_INIT_ZVAL(*var);
 }
 
@@ -365,23 +364,24 @@ void ZEND_FASTCALL phalcon_memory_alloc(zval **var TSRMLS_DC) {
  * Observes a variable and allocates memory for it
  * Marks hash key zvals to be nulled before freeing
  */
-void ZEND_FASTCALL phalcon_memory_alloc_pnull(zval **var TSRMLS_DC) {
-
-	phalcon_memory_entry *active_memory = PHALCON_GLOBAL(active_memory);
+void ZEND_FASTCALL phalcon_memory_alloc_pnull(zval **var TSRMLS_DC)
+{
+	zend_phalcon_globals *g = PHALCON_VGLOBAL;
+	phalcon_memory_entry *active_memory = g->active_memory;
 
 #ifndef PHALCON_RELEASE
-	if (unlikely(active_memory == NULL)) {
+	if (UNEXPECTED(active_memory == NULL)) {
 		fprintf(stderr, "PHALCON_MM_GROW() must be called before using any of MM functions or macros!");
 		phalcon_print_backtrace();
 		abort();
 	}
 #endif
 
-	phalcon_do_memory_observe(var, active_memory);
+	phalcon_do_memory_observe(var, g);
 	ALLOC_INIT_ZVAL(*var);
 
 	if (active_memory->hash_pointer == active_memory->hash_capacity) {
-		phalcon_reallocate_hmemory(active_memory);
+		phalcon_reallocate_hmemory(g);
 	}
 
 	active_memory->hash_addresses[active_memory->hash_pointer] = var;
