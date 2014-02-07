@@ -833,7 +833,7 @@ class Compiler implements Phalcon\Di\InjectionAwareInterface
 			/**
 			 * Notify the extensions about being compiling a function
 			 */
-			let code = this->fireExtensionEvent("compileFilter", [arguments, funcArguments]);
+			let code = this->fireExtensionEvent("compileFilter", [name, arguments, funcArguments]);
 			if typeof code == "string" {
 				return code;
 			}

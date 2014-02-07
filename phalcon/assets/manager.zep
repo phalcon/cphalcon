@@ -343,61 +343,61 @@ class Manager
 					let targetBasePath = options["targetBasePath"];
 				}
 			}
-		}
 
-		/**
-		 * Check if the collection have its own source base path
-		 */
-		let collectionSourcePath = collection->getSourcePath();
+                        /**
+                         * Check if the collection have its own source base path
+                         */
+                        let collectionSourcePath = collection->getSourcePath();
 
-		/**
-		 * Concatenate the global base source path with the collection one
-		 */
-		if collectionSourcePath {
-			let completeSourcePath = sourceBasePath . collectionSourcePath;
-		} else {
-			let completeSourcePath = sourceBasePath;
-		}
+                        /**
+                         * Concatenate the global base source path with the collection one
+                         */
+                        if collectionSourcePath {
+                                let completeSourcePath = sourceBasePath . collectionSourcePath;
+                        } else {
+                                let completeSourcePath = sourceBasePath;
+                        }
 
-		/**
-		 * Check if the collection have its own target base path
-		 */
-		let collectionTargetPath = collection->getTargetPath();
+                        /**
+                         * Check if the collection have its own target base path
+                         */
+                        let collectionTargetPath = collection->getTargetPath();
 
-		/**
-		 * Concatenate the global base source path with the collection one
-		 */
-		if collectionTargetPath {
-			let completeTargetPath = targetBasePath . collectionTargetPath;
-		} else {
-			let completeTargetPath = targetBasePath;
-		}
+                        /**
+                         * Concatenate the global base source path with the collection one
+                         */
+                        if collectionTargetPath {
+                                let completeTargetPath = targetBasePath . collectionTargetPath;
+                        } else {
+                                let completeTargetPath = targetBasePath;
+                        }
 
-		/**
-		 * Global filtered content
-		 */
-		let filteredJoinedContent = null;
+                        /**
+                         * Global filtered content
+                         */
+                        let filteredJoinedContent = null;
 
-		/**
-		 * Check if the collection have its own target base path
-		 */
-		let join = collection->getJoin();
+                        /**
+                         * Check if the collection have its own target base path
+                         */
+                        let join = collection->getJoin();
 
-		/**
-		 * Check for valid target paths if the collection must be joined
-		 */
-		if join {
+                        /**
+                         * Check for valid target paths if the collection must be joined
+                         */
+                        if join {
 
-			/**
-			* We need a valid final target path
-			*/
-			if !completeTargetPath {
-				throw new Phalcon\Assets\Exception("Path '". completeTargetPath. "' is not a valid target path (1)");
-			}
+                                /**
+                                * We need a valid final target path
+                                */
+                                if !completeTargetPath {
+                                        throw new Phalcon\Assets\Exception("Path '". completeTargetPath. "' is not a valid target path (1)");
+                                }
 
-			if is_dir(completeTargetPath) {
-				throw new Phalcon\Assets\Exception("Path '". completeTargetPath. "' is not a valid target path (2), is dir.");
-			}
+                                if is_dir(completeTargetPath) {
+                                        throw new Phalcon\Assets\Exception("Path '". completeTargetPath. "' is not a valid target path (2), is dir.");
+                                }
+                        }
 		}
 
 		/**

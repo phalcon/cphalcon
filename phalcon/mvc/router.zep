@@ -265,7 +265,7 @@ class Router
 	{
 		var namespaceName, module, controller, action, params;
 
-		if typeof defaults == "array" {
+		if typeof defaults != "array" {
 			throw new Phalcon\Mvc\Router\Exception("Defaults must be an array");
 		}
 
