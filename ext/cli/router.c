@@ -127,11 +127,8 @@ PHALCON_INIT_CLASS(Phalcon_CLI_Router){
  */
 PHP_METHOD(Phalcon_CLI_Router, __construct){
 
-
-	phalcon_update_property_empty_array(phalcon_cli_router_ce, this_ptr, SL("_params") TSRMLS_CC);
-	
-	phalcon_update_property_empty_array(phalcon_cli_router_ce, this_ptr, SL("_defaultParams") TSRMLS_CC);
-	
+	phalcon_update_property_empty_array(this_ptr, SL("_params") TSRMLS_CC);
+	phalcon_update_property_empty_array(this_ptr, SL("_defaultParams") TSRMLS_CC);
 }
 
 /**

@@ -83,7 +83,9 @@ int phalcon_require_ret(zval **return_value_ptr, const char *require_path TSRMLS
 			return ret;
 		}
 	}
+	else {
+		zend_destroy_file_handle(&file_handle TSRMLS_CC);
+	}
 
-	zend_destroy_file_handle(&file_handle TSRMLS_CC);
 	return FAILURE;
 }
