@@ -777,7 +777,7 @@ PHP_METHOD(Phalcon_Tag, linkTo){
 		ZVAL_TRUE(z_local);
 	}
 
-	if (zend_is_true(z_local)) {
+	if (zend_is_true(z_local) || Z_TYPE_P(params) == IS_ARRAY) {
 		PHALCON_OBS_VAR(url);
 		PHALCON_CALL_SELF(&url, "geturlservice");
 		
