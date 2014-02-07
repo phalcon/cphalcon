@@ -600,25 +600,39 @@ static PHP_MINFO_FUNCTION(phalcon)
 	DISPLAY_INI_ENTRIES();
 }
 
+static const size_t num_preallocated_frames = 10;
+
 static PHP_GINIT_FUNCTION(phalcon)
 {
 	phalcon_memory_entry *start;
+	size_t i;
 
 	php_phalcon_init_globals(phalcon_globals TSRMLS_CC);
 
-	start = (phalcon_memory_entry *) pecalloc(1, sizeof(phalcon_memory_entry), 1);
-/* pecalloc() will take care of these members
+	start = (phalcon_memory_entry *) pecalloc(num_preallocated_frames, sizeof(phalcon_memory_entry), 1);
+/* pecalloc() will take care of these members for every frame
 	start->pointer      = 0;
 	start->hash_pointer = 0;
 	start->prev = NULL;
 	start->next = NULL;
 */
-	start->addresses       = pecalloc(24, sizeof(zval*), 1);
-	start->capacity        = 24;
-	start->hash_addresses  = pecalloc(8, sizeof(zval*), 1);
-	start->hash_capacity   = 8;
+	for (i=0; i<num_preallocated_frames; ++i) {
+		start[i].addresses       = pecalloc(24, sizeof(zval*), 1);
+		start[i].capacity        = 24;
+		start[i].hash_addresses  = pecalloc(8, sizeof(zval*), 1);
+		start[i].hash_capacity   = 8;
+	}
+
+	start[0].next = &start[1];
+	start[num_preallocated_frames-1].prev = &start[num_preallocated_frames-2];
+
+	for (i=1; i<num_preallocated_frames-1; ++i) {
+		start[i].next = &start[i+1];
+		start[i].prev = &start[i-1];
+	}
 
 	phalcon_globals->start_memory = start;
+	phalcon_globals->end_memory   = start + num_preallocated_frames;
 
 	phalcon_globals->function_cache = pemalloc(sizeof(HashTable), 1);
 	zend_hash_init(phalcon_globals->function_cache, 128, NULL, NULL, 1);
@@ -657,10 +671,15 @@ static PHP_GINIT_FUNCTION(phalcon)
 
 static PHP_GSHUTDOWN_FUNCTION(phalcon)
 {
+	size_t i;
+
 	assert(phalcon_globals->start_memory != NULL);
 
-	pefree(phalcon_globals->start_memory->hash_addresses, 1);
-	pefree(phalcon_globals->start_memory->addresses, 1);
+	for (i=0; i<num_preallocated_frames; ++i) {
+		pefree(phalcon_globals->start_memory[i].hash_addresses, 1);
+		pefree(phalcon_globals->start_memory[i].addresses, 1);
+	}
+
 	pefree(phalcon_globals->start_memory, 1);
 	phalcon_globals->start_memory = NULL;
 
