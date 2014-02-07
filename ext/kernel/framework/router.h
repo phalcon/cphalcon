@@ -24,6 +24,6 @@
 
 /* Extract named parameters */
 void phalcon_extract_named_params(zval *return_value, zval *str, zval *matches);
-void phalcon_replace_paths(zval *return_value, zval *pattern, zval *paths, zval *uri, zval *defaults TSRMLS_DC);
+void phalcon_replace_paths(zval *return_value, zval *pattern, zval *paths, zval *uri TSRMLS_DC);
 
 #endif /* PHALCON_KERNEL_FRAMEWORK_ROUTER_H */
