@@ -1,4 +1,3 @@
-
 /*
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
@@ -161,7 +160,7 @@ PHP_METHOD(Phalcon_Mvc_Application, useImplicitView){
  *
  * @param array $modules
  * @param boolean $merge
- * @param Phalcon\Mvc\Application
+ * @return Phalcon\Mvc\Application
  */
 PHP_METHOD(Phalcon_Mvc_Application, registerModules){
 
