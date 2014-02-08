@@ -131,18 +131,14 @@ PHALCON_INIT_CLASS(Phalcon_Image_Adapter_Imagick){
  */
 PHP_METHOD(Phalcon_Image_Adapter_Imagick, check){
 
-	zval class_name;
 	zval *version;
 
-	INIT_ZVAL(class_name);
-	ZVAL_STRING(&class_name, "imagick", 0);
-
-	if (!phalcon_class_exists(&class_name, 0 TSRMLS_CC)) {
+	if (!phalcon_class_exists(SL("imagick"), 0 TSRMLS_CC)) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_image_exception_ce, "Imagick is not installed, or the extension is not loaded");
 		return;
 	}
 
-	ALLOC_INIT_ZVAL(version);
+	MAKE_STD_ZVAL(version);
 	if (!zend_get_constant_ex(SL("imagick::IMAGICK_EXTNUM"), version, NULL, ZEND_FETCH_CLASS_SILENT TSRMLS_CC)) {
 		zend_update_static_property_long(phalcon_image_adapter_imagick_ce, SL("_version"), 0 TSRMLS_CC);
 	}

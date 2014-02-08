@@ -414,7 +414,7 @@ PHP_METHOD(Phalcon_Mvc_Application, handle){
 				PHALCON_OBS_VAR(path);
 				phalcon_array_fetch_string(&path, module, SL("path"), PH_NOISY);
 				convert_to_string_ex(&path);
-				if (!phalcon_class_exists(class_name, 0 TSRMLS_CC)) {
+				if (Z_TYPE_P(class_name) != IS_STRING || !phalcon_class_exists(Z_STRVAL_P(class_name), Z_STRLEN_P(class_name), 0 TSRMLS_CC)) {
 					if (phalcon_file_exists(path TSRMLS_CC) == SUCCESS) {
 						RETURN_MM_ON_FAILURE(phalcon_require(Z_STRVAL_P(path) TSRMLS_CC));
 					} else {
@@ -537,7 +537,7 @@ PHP_METHOD(Phalcon_Mvc_Application, handle){
 		/** 
 		 * Check if the returned object is already a response
 		 */
-		phalcon_instance_of(returned_response, possible_response, phalcon_http_responseinterface_ce TSRMLS_CC);
+		ZVAL_BOOL(returned_response, instanceof_function_ex(Z_OBJCE_P(possible_response), phalcon_http_responseinterface_ce, 1 TSRMLS_CC));
 	}
 	else {
 		ZVAL_FALSE(returned_response);

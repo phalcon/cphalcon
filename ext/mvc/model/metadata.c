@@ -423,27 +423,24 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, readMetaData){
  */
 PHP_METHOD(Phalcon_Mvc_Model_MetaData, readMetaDataIndex){
 
-	zval *model, *index, *table, *schema, *class_name;
+	zval **model, **index, *table, *schema, *class_name;
 	zval *key, *meta_data = NULL, *meta_data_index, *attributes;
+
+	phalcon_fetch_params_ex(2, 0, &model, &index);
+
+	PHALCON_VERIFY_INTERFACE_EX(*model, phalcon_mvc_modelinterface_ce, phalcon_mvc_model_exception_ce, 0);
+	PHALCON_ENSURE_IS_LONG(index);
 
 	PHALCON_MM_GROW();
 
-	phalcon_fetch_params(1, 2, 0, &model, &index);
-	PHALCON_VERIFY_INTERFACE_EX(model, phalcon_mvc_modelinterface_ce, phalcon_mvc_model_exception_ce, 1);
-	
-	if (Z_TYPE_P(index) != IS_LONG) {
-		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Index must be a valid integer constant");
-		return;
-	}
-	
 	PHALCON_INIT_VAR(table);
-	phalcon_call_method(table, model, "getsource");
+	phalcon_call_method(table, *model, "getsource");
 	
 	PHALCON_INIT_VAR(schema);
-	phalcon_call_method(schema, model, "getschema");
+	phalcon_call_method(schema, *model, "getschema");
 	
 	PHALCON_INIT_VAR(class_name);
-	phalcon_get_class(class_name, model, 1 TSRMLS_CC);
+	phalcon_get_class(class_name, *model, 1 TSRMLS_CC);
 	
 	/** 
 	 * Unique key for meta-data is created using class-name-schema-table
@@ -454,7 +451,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, readMetaDataIndex){
 	PHALCON_OBS_VAR(meta_data);
 	phalcon_read_property_this(&meta_data, this_ptr, SL("_metaData"), PH_NOISY_CC);
 	if (!phalcon_array_isset(meta_data, key)) {
-		phalcon_call_method_p4_noret(this_ptr, "_initialize", model, key, table, schema);
+		phalcon_call_method_p4_noret(this_ptr, "_initialize", *model, key, table, schema);
 	
 		PHALCON_OBS_NVAR(meta_data);
 		phalcon_read_property_this(&meta_data, this_ptr, SL("_metaData"), PH_NOISY_CC);
@@ -464,7 +461,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, readMetaDataIndex){
 	phalcon_array_fetch(&meta_data_index, meta_data, key, PH_NOISY);
 	
 	PHALCON_OBS_VAR(attributes);
-	phalcon_array_fetch(&attributes, meta_data_index, index, PH_NOISY);
+	phalcon_array_fetch(&attributes, meta_data_index, *index, PH_NOISY);
 	
 	RETURN_CTOR(attributes);
 }
@@ -607,34 +604,27 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, readColumnMap){
  */
 PHP_METHOD(Phalcon_Mvc_Model_MetaData, readColumnMapIndex){
 
-	zval *model, *index, *key_name, *column_map = NULL, *null_value;
+	zval **model, **index, *key_name, *column_map = NULL, *null_value;
 	zval *column_map_model, *attributes;
+
+	phalcon_fetch_params_ex(2, 0, &model, &index);
+	PHALCON_VERIFY_CLASS_EX(*model, phalcon_mvc_modelinterface_ce, phalcon_mvc_model_exception_ce, 0);
+	PHALCON_ENSURE_IS_LONG(index);
 
 	PHALCON_MM_GROW();
 
-	phalcon_fetch_params(1, 2, 0, &model, &index);
-	
-	if (Z_TYPE_P(model) != IS_OBJECT) {
-		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "A model instance is required to retrieve the meta-data");
-		return;
-	}
-	if (Z_TYPE_P(index) != IS_LONG) {
-		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Index must be a valid integer constant");
-		return;
-	}
-	
 	if (!PHALCON_GLOBAL(orm).column_renaming) {
 		RETURN_MM();
 	}
 
 	PHALCON_INIT_VAR(key_name);
-	phalcon_get_class(key_name, model, 1 TSRMLS_CC);
+	phalcon_get_class(key_name, *model, 1 TSRMLS_CC);
 	
 	PHALCON_OBS_VAR(column_map);
 	phalcon_read_property_this(&column_map, this_ptr, SL("_columnMap"), PH_NOISY_CC);
 	if (!phalcon_array_isset(column_map, key_name)) {
 		null_value = PHALCON_GLOBAL(z_null);
-		phalcon_call_method_p4_noret(this_ptr, "_initialize", model, null_value, null_value, null_value);
+		phalcon_call_method_p4_noret(this_ptr, "_initialize", *model, null_value, null_value, null_value);
 	
 		PHALCON_OBS_NVAR(column_map);
 		phalcon_read_property_this(&column_map, this_ptr, SL("_columnMap"), PH_NOISY_CC);
@@ -644,7 +634,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, readColumnMapIndex){
 	phalcon_array_fetch(&column_map_model, column_map, key_name, PH_NOISY);
 	
 	PHALCON_OBS_VAR(attributes);
-	phalcon_array_fetch(&attributes, column_map_model, index, PH_NOISY);
+	phalcon_array_fetch(&attributes, column_map_model, *index, PH_NOISY);
 	
 	RETURN_CTOR(attributes);
 }

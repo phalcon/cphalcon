@@ -241,7 +241,7 @@ PHP_METHOD(Phalcon_DI_Service, resolve){
 		/** 
 		 * String definitions can be class names without implicit parameters
 		 */
-		if (phalcon_class_exists(definition, 1 TSRMLS_CC)) {
+		if (phalcon_class_exists(Z_STRVAL_P(definition), Z_STRLEN_P(definition), 1 TSRMLS_CC)) {
 			if (Z_TYPE_P(parameters) == IS_ARRAY) { 
 				if (phalcon_create_instance_params(instance, definition, parameters TSRMLS_CC) == FAILURE) {
 					RETURN_MM();

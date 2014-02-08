@@ -21,6 +21,8 @@
 #include "filterinterface.h"
 #include "filter/exception.h"
 
+#include <Zend/zend_closures.h>
+
 #include "kernel/main.h"
 #include "kernel/memory.h"
 #include "kernel/exception.h"
@@ -224,18 +226,15 @@ PHP_METHOD(Phalcon_Filter, _sanitize){
 	
 	PHALCON_OBS_VAR(filters);
 	phalcon_read_property_this(&filters, this_ptr, SL("_filters"), PH_NOISY_CC);
-	if (phalcon_array_isset(filters, filter)) {
-	
-		PHALCON_OBS_VAR(filter_object);
-		phalcon_array_fetch(&filter_object, filters, filter, PH_NOISY);
+	if (phalcon_array_isset_fetch(&filter_object, filters, filter) && Z_TYPE_P(filter_object) == IS_OBJECT) {
 	
 		/** 
 		 * If the filter is a closure we call it in the PHP userland
 		 */
-		if (phalcon_is_instance_of(filter_object, SL("Closure") TSRMLS_CC)) {
+		if (instanceof_function(Z_OBJCE_P(filter_object), zend_ce_closure TSRMLS_CC)) {
 			PHALCON_INIT_VAR(arguments);
 			array_init_size(arguments, 1);
-			phalcon_array_append(&arguments, value, PH_SEPARATE);
+			phalcon_array_append(&arguments, value, 0);
 			PHALCON_CALL_USER_FUNC_ARRAY(return_value, filter_object, arguments);
 			RETURN_MM();
 		}
