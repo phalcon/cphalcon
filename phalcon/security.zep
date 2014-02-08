@@ -249,7 +249,7 @@ class Security //implements Phalcon\Di\InjectionAwareInterface
 		}
 
 		let session = dependencyInjector->getShared("session");
-		session->set("$PHALCON/CSRF/KEY$", token);
+		session->set("$PHALCON/CSRF$", token);
 
 		return token;
 	}
