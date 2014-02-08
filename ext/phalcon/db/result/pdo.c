@@ -351,7 +351,8 @@ PHP_METHOD(Phalcon_Db_Result_Pdo, setFetchMode) {
 		fetchMode = zephir_get_intval(fetchMode_param);
 
 
-	pdoStatement = zephir_fetch_nproperty_this(this_ptr, SL("_pdoStatement"), PH_NOISY_CC);
+	ZEPHIR_OBS_VAR(pdoStatement);
+	zephir_read_property_this(&pdoStatement, this_ptr, SL("_pdoStatement"), PH_NOISY_CC);
 	do {
 		if ((fetchMode == 2)) {
 			ZEPHIR_INIT_VAR(_0);

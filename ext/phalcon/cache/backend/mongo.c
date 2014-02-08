@@ -128,9 +128,11 @@ PHP_METHOD(Phalcon_Cache_Backend_Mongo, _getCollection) {
 
 	ZEPHIR_MM_GROW();
 
-	mongoCollection = zephir_fetch_nproperty_this(this_ptr, SL("_collection"), PH_NOISY_CC);
+	ZEPHIR_OBS_VAR(mongoCollection);
+	zephir_read_property_this(&mongoCollection, this_ptr, SL("_collection"), PH_NOISY_CC);
 	if ((Z_TYPE_P(mongoCollection) != IS_OBJECT)) {
-		options = zephir_fetch_nproperty_this(this_ptr, SL("_options"), PH_NOISY_CC);
+		ZEPHIR_OBS_VAR(options);
+		zephir_read_property_this(&options, this_ptr, SL("_options"), PH_NOISY_CC);
 		if (zephir_array_isset_string(options, SS("mongo"))) {
 			ZEPHIR_OBS_VAR(mongo);
 			zephir_array_fetch_string(&mongo, options, SL("mongo"), PH_NOISY TSRMLS_CC);
@@ -139,7 +141,8 @@ PHP_METHOD(Phalcon_Cache_Backend_Mongo, _getCollection) {
 				return;
 			}
 		} else {
-			zephir_array_fetch_string(&server, options, SL("server"), PH_NOISY | PH_READONLY TSRMLS_CC);
+			ZEPHIR_OBS_VAR(server);
+			zephir_array_fetch_string(&server, options, SL("server"), PH_NOISY TSRMLS_CC);
 			_0 = zephir_is_true(server);
 			if (!(_0)) {
 				_0 = (Z_TYPE_P(server) != IS_STRING);
@@ -155,7 +158,8 @@ PHP_METHOD(Phalcon_Cache_Backend_Mongo, _getCollection) {
 				zephir_call_method_noret(mongo, "__construct");
 			}
 		}
-		zephir_array_fetch_string(&database, options, SL("db"), PH_NOISY | PH_READONLY TSRMLS_CC);
+		ZEPHIR_OBS_VAR(database);
+		zephir_array_fetch_string(&database, options, SL("db"), PH_NOISY TSRMLS_CC);
 		_0 = zephir_is_true(database);
 		if (!(_0)) {
 			_0 = (Z_TYPE_P(database) != IS_STRING);
@@ -164,7 +168,8 @@ PHP_METHOD(Phalcon_Cache_Backend_Mongo, _getCollection) {
 			ZEPHIR_THROW_EXCEPTION_STR(phalcon_cache_exception_ce, "The backend requires a valid MongoDB db");
 			return;
 		}
-		zephir_array_fetch_string(&collection, options, SL("collection"), PH_NOISY | PH_READONLY TSRMLS_CC);
+		ZEPHIR_OBS_VAR(collection);
+		zephir_array_fetch_string(&collection, options, SL("collection"), PH_NOISY TSRMLS_CC);
 		_0 = zephir_is_true(collection);
 		if (!(_0)) {
 			_0 = (Z_TYPE_P(collection) != IS_STRING);
@@ -177,7 +182,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Mongo, _getCollection) {
 		zephir_call_method_p1(mongoDatabase, mongo, "selectdb", database);
 		zephir_call_method_p1_noret(mongoDatabase, "selectcollection", collection);
 	} else {
-		RETURN_CTOR(mongoCollection);
+		RETURN_CCTOR(mongoCollection);
 	}
 	ZEPHIR_MM_RESTORE();
 
@@ -277,14 +282,16 @@ PHP_METHOD(Phalcon_Cache_Backend_Mongo, save) {
 	if (!(zephir_is_true(keyName))) {
 		zephir_read_property_this(&lastkey, this_ptr, SL("_lastKey"), PH_NOISY_CC);
 	} else {
-		prefix = zephir_fetch_nproperty_this(this_ptr, SL("_prefix"), PH_NOISY_CC);
+		ZEPHIR_OBS_VAR(prefix);
+		zephir_read_property_this(&prefix, this_ptr, SL("_prefix"), PH_NOISY_CC);
 		ZEPHIR_CONCAT_VV(lastkey, prefix, keyName);
 	}
 	if (!(zephir_is_true(lastkey))) {
 		ZEPHIR_THROW_EXCEPTION_STR(phalcon_cache_exception_ce, "The cache must be started first");
 		return;
 	}
-	frontend = zephir_fetch_nproperty_this(this_ptr, SL("_frontend"), PH_NOISY_CC);
+	ZEPHIR_OBS_VAR(frontend);
+	zephir_read_property_this(&frontend, this_ptr, SL("_frontend"), PH_NOISY_CC);
 	if (!(zephir_is_true(content))) {
 		ZEPHIR_INIT_VAR(cachedContent);
 		zephir_call_method(cachedContent, frontend, "getcontent");
@@ -296,7 +303,8 @@ PHP_METHOD(Phalcon_Cache_Backend_Mongo, save) {
 		zephir_call_method_p1(preparedContent, frontend, "beforestore", cachedContent);
 	}
 	if (!(zephir_is_true(lifetime))) {
-		tmp = zephir_fetch_nproperty_this(this_ptr, SL("_lastLifetime"), PH_NOISY_CC);
+		ZEPHIR_OBS_VAR(tmp);
+		zephir_read_property_this(&tmp, this_ptr, SL("_lastLifetime"), PH_NOISY_CC);
 		if (!(zephir_is_true(tmp))) {
 			ZEPHIR_INIT_VAR(ttl);
 			zephir_call_method(ttl, frontend, "getlifetime");
@@ -550,8 +558,10 @@ PHP_METHOD(Phalcon_Cache_Backend_Mongo, increment) {
 	}
 
 
-	frontend = zephir_fetch_nproperty_this(this_ptr, SL("_frontend"), PH_NOISY_CC);
-	prefix = zephir_fetch_nproperty_this(this_ptr, SL("_prefix"), PH_NOISY_CC);
+	ZEPHIR_OBS_VAR(frontend);
+	zephir_read_property_this(&frontend, this_ptr, SL("_frontend"), PH_NOISY_CC);
+	ZEPHIR_OBS_VAR(prefix);
+	zephir_read_property_this(&prefix, this_ptr, SL("_prefix"), PH_NOISY_CC);
 	ZEPHIR_INIT_VAR(prefixedKey);
 	ZEPHIR_CONCAT_VV(prefixedKey, prefix, keyName);
 	zephir_update_property_this(this_ptr, SL("_lastKey"), prefixedKey TSRMLS_CC);
@@ -564,7 +574,8 @@ PHP_METHOD(Phalcon_Cache_Backend_Mongo, increment) {
 	zephir_call_method_p1(document, collection, "findone", _0);
 	ZEPHIR_INIT_VAR(timestamp);
 	zephir_call_func(timestamp, "time");
-	lifetime = zephir_fetch_nproperty_this(this_ptr, SL("_lastLifetime"), PH_NOISY_CC);
+	ZEPHIR_OBS_VAR(lifetime);
+	zephir_read_property_this(&lifetime, this_ptr, SL("_lastLifetime"), PH_NOISY_CC);
 	if (!(zephir_is_true(lifetime))) {
 		ZEPHIR_INIT_VAR(ttl);
 		zephir_call_method(ttl, frontend, "getlifetime");
@@ -575,7 +586,8 @@ PHP_METHOD(Phalcon_Cache_Backend_Mongo, increment) {
 		ZEPHIR_THROW_EXCEPTION_STR(phalcon_cache_exception_ce, "The cache is currupted");
 		return;
 	}
-	zephir_array_fetch_string(&modifiedTime, document, SL("time"), PH_NOISY | PH_READONLY TSRMLS_CC);
+	ZEPHIR_OBS_VAR(modifiedTime);
+	zephir_array_fetch_string(&modifiedTime, document, SL("time"), PH_NOISY TSRMLS_CC);
 	ZEPHIR_SINIT_VAR(difference);
 	sub_function(&difference, timestamp, ttl TSRMLS_CC);
 	notExpired = ZEPHIR_LT(&difference, modifiedTime);
@@ -584,7 +596,8 @@ PHP_METHOD(Phalcon_Cache_Backend_Mongo, increment) {
 			ZEPHIR_THROW_EXCEPTION_STR(phalcon_cache_exception_ce, "The cache is currupted");
 			return;
 		}
-		zephir_array_fetch_string(&cachedContent, document, SL("data"), PH_NOISY | PH_READONLY TSRMLS_CC);
+		ZEPHIR_OBS_VAR(cachedContent);
+		zephir_array_fetch_string(&cachedContent, document, SL("data"), PH_NOISY TSRMLS_CC);
 		if (zephir_is_numeric(cachedContent)) {
 			ZEPHIR_INIT_VAR(keys);
 			zephir_add_function(keys, cachedContent, value TSRMLS_CC);
@@ -618,8 +631,10 @@ PHP_METHOD(Phalcon_Cache_Backend_Mongo, decrement) {
 	}
 
 
-	frontend = zephir_fetch_nproperty_this(this_ptr, SL("_frontend"), PH_NOISY_CC);
-	prefix = zephir_fetch_nproperty_this(this_ptr, SL("_prefix"), PH_NOISY_CC);
+	ZEPHIR_OBS_VAR(frontend);
+	zephir_read_property_this(&frontend, this_ptr, SL("_frontend"), PH_NOISY_CC);
+	ZEPHIR_OBS_VAR(prefix);
+	zephir_read_property_this(&prefix, this_ptr, SL("_prefix"), PH_NOISY_CC);
 	ZEPHIR_INIT_VAR(prefixedKey);
 	ZEPHIR_CONCAT_VV(prefixedKey, prefix, keyName);
 	zephir_update_property_this(this_ptr, SL("_lastKey"), prefixedKey TSRMLS_CC);
@@ -632,7 +647,8 @@ PHP_METHOD(Phalcon_Cache_Backend_Mongo, decrement) {
 	zephir_call_method_p1(document, collection, "findone", conditions);
 	ZEPHIR_INIT_VAR(timestamp);
 	zephir_call_func(timestamp, "time");
-	lifetime = zephir_fetch_nproperty_this(this_ptr, SL("_lastLifetime"), PH_NOISY_CC);
+	ZEPHIR_OBS_VAR(lifetime);
+	zephir_read_property_this(&lifetime, this_ptr, SL("_lastLifetime"), PH_NOISY_CC);
 	if (!(zephir_is_true(lifetime))) {
 		ZEPHIR_INIT_VAR(ttl);
 		zephir_call_method(ttl, frontend, "getlifetime");
@@ -643,7 +659,8 @@ PHP_METHOD(Phalcon_Cache_Backend_Mongo, decrement) {
 		ZEPHIR_THROW_EXCEPTION_STR(phalcon_cache_exception_ce, "The cache is currupted");
 		return;
 	}
-	zephir_array_fetch_string(&modifiedTime, document, SL("time"), PH_NOISY | PH_READONLY TSRMLS_CC);
+	ZEPHIR_OBS_VAR(modifiedTime);
+	zephir_array_fetch_string(&modifiedTime, document, SL("time"), PH_NOISY TSRMLS_CC);
 	ZEPHIR_SINIT_VAR(difference);
 	sub_function(&difference, timestamp, ttl TSRMLS_CC);
 	notExpired = ZEPHIR_LT(&difference, modifiedTime);
@@ -652,7 +669,8 @@ PHP_METHOD(Phalcon_Cache_Backend_Mongo, decrement) {
 			ZEPHIR_THROW_EXCEPTION_STR(phalcon_cache_exception_ce, "The cache is currupted");
 			return;
 		}
-		zephir_array_fetch_string(&cachedContent, document, SL("data"), PH_NOISY | PH_READONLY TSRMLS_CC);
+		ZEPHIR_OBS_VAR(cachedContent);
+		zephir_array_fetch_string(&cachedContent, document, SL("data"), PH_NOISY TSRMLS_CC);
 		if (zephir_is_numeric(cachedContent)) {
 			ZEPHIR_INIT_VAR(keys);
 			sub_function(keys, cachedContent, value TSRMLS_CC);

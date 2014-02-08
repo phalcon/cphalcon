@@ -338,7 +338,8 @@ PHP_METHOD(Phalcon_Security, getTokenKey) {
 	ZVAL_STRING(_1, "alphnum", 1);
 	ZEPHIR_INIT_VAR(safeBytes);
 	zephir_call_method_p2(safeBytes, filter, "sanitize", base64Bytes, _1);
-	dependencyInjector = zephir_fetch_nproperty_this(this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
+	ZEPHIR_OBS_VAR(dependencyInjector);
+	zephir_read_property_this(&dependencyInjector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
 	if ((Z_TYPE_P(dependencyInjector) != IS_OBJECT)) {
 		ZEPHIR_THROW_EXCEPTION_STR(phalcon_security_exception_ce, "A dependency injection container is required to access the 'session' service");
 		return;
@@ -386,7 +387,8 @@ PHP_METHOD(Phalcon_Security, getToken) {
 	ZVAL_LONG(&_0, numberBytes);
 	ZEPHIR_INIT_VAR(token);
 	zephir_call_func_p1(token, "openssl_random_pseudo_bytes", &_0);
-	dependencyInjector = zephir_fetch_nproperty_this(this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
+	ZEPHIR_OBS_VAR(dependencyInjector);
+	zephir_read_property_this(&dependencyInjector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
 	if ((Z_TYPE_P(dependencyInjector) != IS_OBJECT)) {
 		ZEPHIR_THROW_EXCEPTION_STR(phalcon_security_exception_ce, "A dependency injection container is required to access the 'session' service");
 		return;

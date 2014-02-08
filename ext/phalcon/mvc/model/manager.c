@@ -1350,7 +1350,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, addHasManyToMany) {
 	zephir_fast_strtolower(referencedEntity, referencedModel);
 	ZEPHIR_INIT_VAR(keyRelation);
 	ZEPHIR_CONCAT_VSV(keyRelation, entityName, "$", referencedEntity);
-	hasManyToMany = zephir_fetch_nproperty_this(this_ptr, SL("_hasManyToMany"), PH_NOISY_CC);
+	ZEPHIR_OBS_VAR(hasManyToMany);
+	zephir_read_property_this(&hasManyToMany, this_ptr, SL("_hasManyToMany"), PH_NOISY_CC);
 	ZEPHIR_OBS_VAR(relations);
 	if (!(zephir_array_isset_fetch(&relations, hasManyToMany, keyRelation, 0 TSRMLS_CC))) {
 		ZEPHIR_INIT_BNVAR(relations);
@@ -1436,7 +1437,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, existsBelongsTo) {
 	}
 
 
-	initialized = zephir_fetch_nproperty_this(this_ptr, SL("_initialized"), PH_NOISY_CC);
+	ZEPHIR_OBS_VAR(initialized);
+	zephir_read_property_this(&initialized, this_ptr, SL("_initialized"), PH_NOISY_CC);
 	ZEPHIR_INIT_VAR(entityName);
 	zephir_fast_strtolower(entityName, modelName);
 	ZEPHIR_INIT_VAR(_0);
@@ -1490,7 +1492,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, existsHasMany) {
 	}
 
 
-	initialized = zephir_fetch_nproperty_this(this_ptr, SL("_initialized"), PH_NOISY_CC);
+	ZEPHIR_OBS_VAR(initialized);
+	zephir_read_property_this(&initialized, this_ptr, SL("_initialized"), PH_NOISY_CC);
 	ZEPHIR_INIT_VAR(entityName);
 	zephir_fast_strtolower(entityName, modelName);
 	ZEPHIR_INIT_VAR(_0);
@@ -1544,7 +1547,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, existsHasOne) {
 	}
 
 
-	initialized = zephir_fetch_nproperty_this(this_ptr, SL("_initialized"), PH_NOISY_CC);
+	ZEPHIR_OBS_VAR(initialized);
+	zephir_read_property_this(&initialized, this_ptr, SL("_initialized"), PH_NOISY_CC);
 	ZEPHIR_INIT_VAR(entityName);
 	zephir_fast_strtolower(entityName, modelName);
 	ZEPHIR_INIT_VAR(_0);
@@ -1598,7 +1602,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, existsHasManyToMany) {
 	}
 
 
-	initialized = zephir_fetch_nproperty_this(this_ptr, SL("_initialized"), PH_NOISY_CC);
+	ZEPHIR_OBS_VAR(initialized);
+	zephir_read_property_this(&initialized, this_ptr, SL("_initialized"), PH_NOISY_CC);
 	ZEPHIR_INIT_VAR(entityName);
 	zephir_fast_strtolower(entityName, modelName);
 	ZEPHIR_INIT_VAR(_0);
@@ -2517,7 +2522,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, createQuery) {
 	}
 
 
-	dependencyInjector = zephir_fetch_nproperty_this(this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
+	ZEPHIR_OBS_VAR(dependencyInjector);
+	zephir_read_property_this(&dependencyInjector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
 	if ((Z_TYPE_P(dependencyInjector) != IS_OBJECT)) {
 		ZEPHIR_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "A dependency injection object is required to access ORM services");
 		return;

@@ -201,12 +201,14 @@ PHP_METHOD(Phalcon_Mvc_Collection_Manager, initialize) {
 
 	ZEPHIR_INIT_VAR(className);
 	zephir_get_class(className, model, 0 TSRMLS_CC);
-	initialized = zephir_fetch_nproperty_this(this_ptr, SL("_initialized"), PH_NOISY_CC);
+	ZEPHIR_OBS_VAR(initialized);
+	zephir_read_property_this(&initialized, this_ptr, SL("_initialized"), PH_NOISY_CC);
 	if (!(zephir_array_isset(initialized, className))) {
 		if ((zephir_method_exists_ex(model, SS("initialize") TSRMLS_CC) == SUCCESS)) {
 			zephir_call_method_noret(model, "initialize");
 		}
-		eventsManager = zephir_fetch_nproperty_this(this_ptr, SL("_eventsManager"), PH_NOISY_CC);
+		ZEPHIR_OBS_VAR(eventsManager);
+		zephir_read_property_this(&eventsManager, this_ptr, SL("_eventsManager"), PH_NOISY_CC);
 		if ((Z_TYPE_P(eventsManager) == IS_OBJECT)) {
 			ZEPHIR_INIT_VAR(_0);
 			ZVAL_STRING(_0, "collectionManager:afterInitialize", 1);

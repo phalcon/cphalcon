@@ -1,4 +1,3 @@
-
 /*
   +------------------------------------------------------------------------+
   | Zephir Language                                                        |
@@ -429,7 +428,7 @@ void zephir_fast_strpos(zval *return_value, const zval *haystack, const zval *ne
 		return;
 	}
 
-	if (offset < 0 || offset > Z_STRLEN_P(haystack)) {
+	if (offset > Z_STRLEN_P(haystack)) {
 		ZVAL_NULL(return_value);
 		zend_error(E_WARNING, "Offset not contained in string");
 		return;

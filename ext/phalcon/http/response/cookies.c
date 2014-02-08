@@ -193,7 +193,8 @@ PHP_METHOD(Phalcon_Http_Response_Cookies, set) {
 	}
 
 
-	encryption = zephir_fetch_nproperty_this(this_ptr, SL("_useEncryption"), PH_NOISY_CC);
+	ZEPHIR_OBS_VAR(encryption);
+	zephir_read_property_this(&encryption, this_ptr, SL("_useEncryption"), PH_NOISY_CC);
 	ZEPHIR_OBS_VAR(cookie);
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_cookies"), PH_NOISY_CC);
 	if (!(zephir_array_isset_fetch(&cookie, _0, name, 0 TSRMLS_CC))) {
@@ -220,7 +221,8 @@ PHP_METHOD(Phalcon_Http_Response_Cookies, set) {
 	}
 	_2 = zephir_fetch_nproperty_this(this_ptr, SL("_registered"), PH_NOISY_CC);
 	if (ZEPHIR_IS_FALSE(_2)) {
-		dependencyInjector = zephir_fetch_nproperty_this(this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
+		ZEPHIR_OBS_VAR(dependencyInjector);
+		zephir_read_property_this(&dependencyInjector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
 		if ((Z_TYPE_P(dependencyInjector) != IS_OBJECT)) {
 			ZEPHIR_THROW_EXCEPTION_STR(phalcon_http_cookie_exception_ce, "A dependency injection object is required to access the 'response' service");
 			return;
@@ -270,10 +272,12 @@ PHP_METHOD(Phalcon_Http_Response_Cookies, get) {
 	ZEPHIR_INIT_BNVAR(cookie);
 	object_init_ex(cookie, phalcon_http_cookie_ce);
 	zephir_call_method_p1_noret(cookie, "__construct", name);
-	dependencyInjector = zephir_fetch_nproperty_this(this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
+	ZEPHIR_OBS_VAR(dependencyInjector);
+	zephir_read_property_this(&dependencyInjector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
 	if ((Z_TYPE_P(dependencyInjector) == IS_OBJECT)) {
 		zephir_call_method_p1_noret(cookie, "setdi", dependencyInjector);
-		encryption = zephir_fetch_nproperty_this(this_ptr, SL("_useEncryption"), PH_NOISY_CC);
+		ZEPHIR_OBS_VAR(encryption);
+		zephir_read_property_this(&encryption, this_ptr, SL("_useEncryption"), PH_NOISY_CC);
 		if (zephir_is_true(encryption)) {
 			zephir_call_method_p1_noret(cookie, "useencryption", encryption);
 		}

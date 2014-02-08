@@ -186,7 +186,8 @@ PHP_METHOD(Phalcon_Cache_Backend_Xcache, save) {
 		ZEPHIR_THROW_EXCEPTION_STR(phalcon_cache_exception_ce, "The cache must be started first");
 		return;
 	}
-	frontend = zephir_fetch_nproperty_this(this_ptr, SL("_frontend"), PH_NOISY_CC);
+	ZEPHIR_OBS_VAR(frontend);
+	zephir_read_property_this(&frontend, this_ptr, SL("_frontend"), PH_NOISY_CC);
 	if (!(zephir_is_true(content))) {
 		ZEPHIR_INIT_VAR(cachedContent);
 		zephir_call_method(cachedContent, frontend, "getcontent");
@@ -198,7 +199,8 @@ PHP_METHOD(Phalcon_Cache_Backend_Xcache, save) {
 		zephir_call_method_p1(preparedContent, frontend, "beforestore", cachedContent);
 	}
 	if (!(zephir_is_true(lifetime))) {
-		tmp = zephir_fetch_nproperty_this(this_ptr, SL("_lastLifetime"), PH_NOISY_CC);
+		ZEPHIR_OBS_VAR(tmp);
+		zephir_read_property_this(&tmp, this_ptr, SL("_lastLifetime"), PH_NOISY_CC);
 		if (!(zephir_is_true(tmp))) {
 			ZEPHIR_INIT_VAR(tt1);
 			zephir_call_method(tt1, frontend, "getlifetime");
@@ -224,12 +226,14 @@ PHP_METHOD(Phalcon_Cache_Backend_Xcache, save) {
 	}
 	zephir_update_property_this(this_ptr, SL("_started"), (0) ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
 	if (zephir_is_true(success)) {
-		options = zephir_fetch_nproperty_this(this_ptr, SL("_options"), PH_NOISY_CC);
+		ZEPHIR_OBS_VAR(options);
+		zephir_read_property_this(&options, this_ptr, SL("_options"), PH_NOISY_CC);
 		if (!(zephir_array_isset_string(options, SS("statsKey")))) {
 			ZEPHIR_THROW_EXCEPTION_STR(phalcon_cache_exception_ce, "Unexpected inconsistency in options");
 			return;
 		}
-		zephir_array_fetch_string(&specialKey, options, SL("statsKey"), PH_NOISY | PH_READONLY TSRMLS_CC);
+		ZEPHIR_OBS_VAR(specialKey);
+		zephir_array_fetch_string(&specialKey, options, SL("statsKey"), PH_NOISY TSRMLS_CC);
 		ZEPHIR_INIT_VAR(keys);
 		zephir_call_func_p1(keys, "xcache_get", specialKey);
 		if ((Z_TYPE_P(keys) != IS_ARRAY)) {
@@ -480,7 +484,8 @@ PHP_METHOD(Phalcon_Cache_Backend_Xcache, flush) {
 
 	ZEPHIR_INIT_VAR(prefixed);
 	ZVAL_STRING(prefixed, "_PHCX", 1);
-	options = zephir_fetch_nproperty_this(this_ptr, SL("_options"), PH_NOISY_CC);
+	ZEPHIR_OBS_VAR(options);
+	zephir_read_property_this(&options, this_ptr, SL("_options"), PH_NOISY_CC);
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_options"), PH_NOISY_CC);
 	if (!(zephir_array_isset_string_fetch(&specialKey, _0, SS("statsKey"), 1 TSRMLS_CC))) {
 		ZEPHIR_THROW_EXCEPTION_STR(phalcon_cache_exception_ce, "Unexpected inconsistency in options");

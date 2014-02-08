@@ -102,10 +102,8 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_Resultset) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_Resultset, next) {
 
-	zval *_0;
 
-
-	zephir_increment(_0);
+	RETURN_ON_FAILURE(zephir_property_incr(this_ptr, SL("_pointer") TSRMLS_CC));
 
 }
 

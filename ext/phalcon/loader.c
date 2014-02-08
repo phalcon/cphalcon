@@ -467,13 +467,15 @@ PHP_METHOD(Phalcon_Loader, autoLoad) {
 	}
 
 
-	eventsManager = zephir_fetch_nproperty_this(this_ptr, SL("_eventsManager"), PH_NOISY_CC);
+	ZEPHIR_OBS_VAR(eventsManager);
+	zephir_read_property_this(&eventsManager, this_ptr, SL("_eventsManager"), PH_NOISY_CC);
 	if ((Z_TYPE_P(eventsManager) == IS_OBJECT)) {
 		ZEPHIR_INIT_VAR(_0);
 		ZVAL_STRING(_0, "loader:beforeCheckClass", 1);
 		zephir_call_method_p3_noret(eventsManager, "fire", _0, this_ptr, className);
 	}
-	classes = zephir_fetch_nproperty_this(this_ptr, SL("_classes"), PH_NOISY_CC);
+	ZEPHIR_OBS_VAR(classes);
+	zephir_read_property_this(&classes, this_ptr, SL("_classes"), PH_NOISY_CC);
 	if ((Z_TYPE_P(classes) == IS_ARRAY)) {
 		ZEPHIR_OBS_VAR(filePath);
 		if (zephir_array_isset_fetch(&filePath, classes, className, 0 TSRMLS_CC)) {
@@ -490,12 +492,14 @@ PHP_METHOD(Phalcon_Loader, autoLoad) {
 			RETURN_MM_BOOL(1);
 		}
 	}
-	extensions = zephir_fetch_nproperty_this(this_ptr, SL("_extensions"), PH_NOISY_CC);
+	ZEPHIR_OBS_VAR(extensions);
+	zephir_read_property_this(&extensions, this_ptr, SL("_extensions"), PH_NOISY_CC);
 	ZEPHIR_INIT_VAR(ds);
 	ZVAL_STRING(ds, "/", 1);
 	ZEPHIR_INIT_VAR(namespaceSeparator);
 	ZVAL_STRING(namespaceSeparator, "\\", 1);
-	namespaces = zephir_fetch_nproperty_this(this_ptr, SL("_namespaces"), PH_NOISY_CC);
+	ZEPHIR_OBS_VAR(namespaces);
+	zephir_read_property_this(&namespaces, this_ptr, SL("_namespaces"), PH_NOISY_CC);
 	if ((Z_TYPE_P(namespaces) == IS_ARRAY)) {
 		zephir_is_iterable(namespaces, &_3, &_2, 0, 0);
 		for (
@@ -546,7 +550,8 @@ PHP_METHOD(Phalcon_Loader, autoLoad) {
 			}
 		}
 	}
-	prefixes = zephir_fetch_nproperty_this(this_ptr, SL("_prefixes"), PH_NOISY_CC);
+	ZEPHIR_OBS_VAR(prefixes);
+	zephir_read_property_this(&prefixes, this_ptr, SL("_prefixes"), PH_NOISY_CC);
 	if ((Z_TYPE_P(prefixes) == IS_ARRAY)) {
 		zephir_is_iterable(prefixes, &_11, &_10, 0, 0);
 		for (
@@ -611,7 +616,8 @@ PHP_METHOD(Phalcon_Loader, autoLoad) {
 	ZEPHIR_SINIT_VAR(_18);
 	ZVAL_STRING(&_18, "\\", 0);
 	zephir_fast_str_replace(nsClassName, &_18, ds, dsClassName);
-	directories = zephir_fetch_nproperty_this(this_ptr, SL("_directories"), PH_NOISY_CC);
+	ZEPHIR_OBS_VAR(directories);
+	zephir_read_property_this(&directories, this_ptr, SL("_directories"), PH_NOISY_CC);
 	if ((Z_TYPE_P(directories) == IS_ARRAY)) {
 		zephir_is_iterable(directories, &_20, &_19, 0, 0);
 		for (

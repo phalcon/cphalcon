@@ -744,7 +744,8 @@ PHP_METHOD(Phalcon_Forms_Element, appendMessage) {
 
 
 
-	messages = zephir_fetch_nproperty_this(this_ptr, SL("_messages"), PH_NOISY_CC);
+	ZEPHIR_OBS_VAR(messages);
+	zephir_read_property_this(&messages, this_ptr, SL("_messages"), PH_NOISY_CC);
 	if ((Z_TYPE_P(messages) != IS_OBJECT)) {
 		ZEPHIR_INIT_VAR(_0);
 		object_init_ex(_0, phalcon_validation_message_group_ce);

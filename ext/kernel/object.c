@@ -1233,7 +1233,7 @@ int zephir_method_quick_exists_ex(const zval *object, const char *method_name, u
 
 zval* zephir_fetch_static_property_ce(zend_class_entry *ce, char *property, int len TSRMLS_DC) {
 	assert(ce != NULL);
-	return zend_read_static_property(ce, property, len, (zend_bool)ZEND_FETCH_CLASS_SILENT TSRMLS_CC);
+	return zend_read_static_property(ce, property, len, (zend_bool) ZEND_FETCH_CLASS_SILENT TSRMLS_CC);
 }
 
 int zephir_read_static_property_ce(zval **result, zend_class_entry *ce, char *property, int len TSRMLS_DC) {

@@ -110,7 +110,8 @@ PHP_METHOD(Phalcon_Queue_Beanstalk, connect) {
 	if (zephir_is_true(_0)) {
 		zephir_call_method_noret(this_ptr, "disconnect");
 	}
-	parameters = zephir_fetch_nproperty_this(this_ptr, SL("_parameters"), PH_NOISY_CC);
+	ZEPHIR_OBS_VAR(parameters);
+	zephir_read_property_this(&parameters, this_ptr, SL("_parameters"), PH_NOISY_CC);
 	zephir_array_fetch_string(&_1, parameters, SL("host"), PH_NOISY | PH_READONLY TSRMLS_CC);
 	zephir_array_fetch_string(&_2, parameters, SL("port"), PH_NOISY | PH_READONLY TSRMLS_CC);
 	ZEPHIR_INIT_BNVAR(connection);
@@ -453,7 +454,8 @@ PHP_METHOD(Phalcon_Queue_Beanstalk, disconnect) {
 
 	ZEPHIR_MM_GROW();
 
-	connection = zephir_fetch_nproperty_this(this_ptr, SL("_connection"), PH_NOISY_CC);
+	ZEPHIR_OBS_VAR(connection);
+	zephir_read_property_this(&connection, this_ptr, SL("_connection"), PH_NOISY_CC);
 	ZEPHIR_INIT_VAR(_0);
 	zephir_call_func_p1(_0, "is_resource", connection);
 	if (!(zephir_is_true(_0))) {

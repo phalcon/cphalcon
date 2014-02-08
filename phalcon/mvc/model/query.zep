@@ -2142,18 +2142,23 @@ class Query implements Phalcon\Mvc\Model\QueryInterface, Phalcon\Di\InjectionAwa
 
 				let this->_type = type;
 				switch type {
+
 					case PHQL_T_SELECT:
 						let irPhql = this->_prepareSelect();
 						break;
+
 					case PHQL_T_INSERT:
 						let irPhql = this->_prepareInsert();
 						break;
+
 					case PHQL_T_UPDATE:
 						let irPhql = this->_prepareUpdate();
 						break;
+
 					case PHQL_T_DELETE:
 						let irPhql = this->_prepareDelete();
 						break;
+
 					default:
 						throw new Phalcon\Mvc\Model\Exception("Unknown statement " . type . ", when preparing: " . phql);
 				}
@@ -3027,18 +3032,23 @@ class Query implements Phalcon\Mvc\Model\QueryInterface, Phalcon\Di\InjectionAwa
 
 		let type = this->_type;
 		switch type {
+
 			case PHQL_T_SELECT:
 				let result = this->_executeSelect(intermediate, mergedParams, mergedTypes);
 				break;
+
 			case PHQL_T_INSERT:
 				let result = this->_executeInsert(intermediate, mergedParams, mergedTypes);
 				break;
+
 			case PHQL_T_UPDATE:
 				let result = this->_executeUpdate(intermediate, mergedParams, mergedTypes);
 				break;
+
 			case PHQL_T_DELETE:
 				let result = this->_executeDelete(intermediate, mergedParams, mergedTypes);
 				break;
+
 			default:
 				throw new Phalcon\Mvc\Model\Exception("Unknown statement " . type);
 		}

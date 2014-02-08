@@ -57,7 +57,6 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, check) {
 
 	ZEPHIR_MM_GROW();
 
-	ZEPHIR_INIT_ZVAL_NREF(_0);
 	_0 = zephir_fetch_static_property_ce(phalcon_image_adapter_imagick_ce, SL("_checked") TSRMLS_CC);
 	if (zephir_is_true(_0)) {
 		RETURN_MM_BOOL(1);
@@ -86,7 +85,6 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, check) {
 		zephir_update_property_this(this_ptr, SL("_version"), _5 TSRMLS_CC);
 	}
 	zephir_update_static_property_ce(phalcon_image_adapter_imagick_ce, SL("_checked"), ZEPHIR_GLOBAL(global_true) TSRMLS_CC);
-	ZEPHIR_INIT_ZVAL_NREF(_7);
 	_7 = zephir_fetch_static_property_ce(phalcon_image_adapter_imagick_ce, SL("_checked") TSRMLS_CC);
 	RETURN_CTOR(_7);
 
@@ -126,7 +124,6 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, __construct) {
 	}
 
 
-	ZEPHIR_INIT_ZVAL_NREF(_0);
 	_0 = zephir_fetch_static_property_ce(phalcon_image_adapter_imagick_ce, SL("_checked") TSRMLS_CC);
 	if (!(zephir_is_true(_0))) {
 	}
@@ -295,7 +292,8 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, _crop) {
 		offset_y = zephir_get_intval(offset_y_param);
 
 
-	image = zephir_fetch_nproperty_this(this_ptr, SL("_image"), PH_NOISY_CC);
+	ZEPHIR_OBS_VAR(image);
+	zephir_read_property_this(&image, this_ptr, SL("_image"), PH_NOISY_CC);
 	ZEPHIR_INIT_VAR(_0);
 	ZVAL_LONG(_0, 0);
 	zephir_call_method_p1_noret(image, "setiteratorindex", _0);
@@ -434,10 +432,8 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, _sharpen) {
 
 	ZEPHIR_INIT_VAR(_0);
 	if ((amount < 5)) {
-		ZEPHIR_INIT_BNVAR(_0);
 		ZVAL_LONG(_0, 5);
 	} else {
-		ZEPHIR_INIT_BNVAR(_0);
 		ZVAL_LONG(_0, amount);
 	}
 	amount = zephir_get_numberval(_0);
@@ -526,10 +522,8 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, _reflection) {
 	}
 	ZEPHIR_INIT_NVAR(_2);
 	if (fade_in) {
-		ZEPHIR_INIT_NVAR(_2);
 		ZVAL_STRING(_2, "gradient:black-transparent", 1);
 	} else {
-		ZEPHIR_INIT_NVAR(_2);
 		ZVAL_STRING(_2, "gradient:transparent-black", 1);
 	}
 	ZEPHIR_CPY_WRT(pseudo, _2);
@@ -1159,7 +1153,8 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, _render) {
 		quality = zephir_get_intval(quality_param);
 
 
-	image = zephir_fetch_nproperty_this(this_ptr, SL("_image"), PH_NOISY_CC);
+	ZEPHIR_OBS_VAR(image);
+	zephir_read_property_this(&image, this_ptr, SL("_image"), PH_NOISY_CC);
 	zephir_call_method_p1_noret(image, "setformat", ext);
 	zephir_call_method_p1_noret(image, "setimageformat", ext);
 	ZEPHIR_INIT_VAR(_0);
@@ -1212,7 +1207,8 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, __destruct) {
 
 	ZEPHIR_MM_GROW();
 
-	image = zephir_fetch_nproperty_this(this_ptr, SL("_image"), PH_NOISY_CC);
+	ZEPHIR_OBS_VAR(image);
+	zephir_read_property_this(&image, this_ptr, SL("_image"), PH_NOISY_CC);
 	if (zephir_is_true(image)) {
 		zephir_call_method_noret(image, "clear");
 		zephir_call_method_noret(image, "destroy");

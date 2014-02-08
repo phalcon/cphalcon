@@ -179,7 +179,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction, commit) {
 
 	ZEPHIR_MM_GROW();
 
-	manager = zephir_fetch_nproperty_this(this_ptr, SL("_manager"), PH_NOISY_CC);
+	ZEPHIR_OBS_VAR(manager);
+	zephir_read_property_this(&manager, this_ptr, SL("_manager"), PH_NOISY_CC);
 	if ((Z_TYPE_P(manager) == IS_OBJECT)) {
 		ZEPHIR_INIT_VAR(_0);
 		ZEPHIR_INIT_VAR(_1);
@@ -224,7 +225,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction, rollback) {
 	}
 
 
-	manager = zephir_fetch_nproperty_this(this_ptr, SL("_manager"), PH_NOISY_CC);
+	ZEPHIR_OBS_VAR(manager);
+	zephir_read_property_this(&manager, this_ptr, SL("_manager"), PH_NOISY_CC);
 	if ((Z_TYPE_P(manager) == IS_OBJECT)) {
 		ZEPHIR_INIT_VAR(_0);
 		ZEPHIR_INIT_VAR(_1);

@@ -803,7 +803,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, betweenWhere) {
 	}
 
 
-	hiddenParam = zephir_fetch_nproperty_this(this_ptr, SL("_hiddenParamNumber"), PH_NOISY_CC);
+	ZEPHIR_OBS_VAR(hiddenParam);
+	zephir_read_property_this(&hiddenParam, this_ptr, SL("_hiddenParamNumber"), PH_NOISY_CC);
 	ZEPHIR_INIT_VAR(nextHiddenParam);
 	ZVAL_LONG(nextHiddenParam, (zephir_get_numberval(hiddenParam) + 1));
 	ZEPHIR_INIT_VAR(minimumKey);
@@ -858,7 +859,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, notBetweenWhere) {
 	}
 
 
-	hiddenParam = zephir_fetch_nproperty_this(this_ptr, SL("_hiddenParamNumber"), PH_NOISY_CC);
+	ZEPHIR_OBS_VAR(hiddenParam);
+	zephir_read_property_this(&hiddenParam, this_ptr, SL("_hiddenParamNumber"), PH_NOISY_CC);
 	ZEPHIR_INIT_VAR(nextHiddenParam);
 	ZVAL_LONG(nextHiddenParam, (zephir_get_numberval(hiddenParam) + 1));
 	ZEPHIR_INIT_VAR(minimumKey);
@@ -1602,11 +1604,13 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getQuery) {
 		_1 = zephir_fetch_nproperty_this(this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
 		zephir_call_method_p2_noret(query, "__construct", _0, _1);
 	}
-	bindParams = zephir_fetch_nproperty_this(this_ptr, SL("_bindParams"), PH_NOISY_CC);
+	ZEPHIR_OBS_VAR(bindParams);
+	zephir_read_property_this(&bindParams, this_ptr, SL("_bindParams"), PH_NOISY_CC);
 	if ((Z_TYPE_P(bindParams) == IS_ARRAY)) {
 		zephir_call_method_p1_noret(query, "setbindparams", bindParams);
 	}
-	bindTypes = zephir_fetch_nproperty_this(this_ptr, SL("_bindTypes"), PH_NOISY_CC);
+	ZEPHIR_OBS_VAR(bindTypes);
+	zephir_read_property_this(&bindTypes, this_ptr, SL("_bindTypes"), PH_NOISY_CC);
 	if ((Z_TYPE_P(bindTypes) == IS_ARRAY)) {
 		zephir_call_method_p1_noret(query, "setbindtypes", bindTypes);
 	}

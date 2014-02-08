@@ -111,7 +111,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Complex, valid) {
 
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_type"), PH_NOISY_CC);
 	if (zephir_is_true(_0)) {
-		result = zephir_fetch_nproperty_this(this_ptr, SL("_result"), PH_NOISY_CC);
+		ZEPHIR_OBS_VAR(result);
+		zephir_read_property_this(&result, this_ptr, SL("_result"), PH_NOISY_CC);
 		ZEPHIR_INIT_VAR(row);
 		if (!ZEPHIR_IS_FALSE(result)) {
 			zephir_call_method_p1(row, result, "fetch", result);
@@ -119,7 +120,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Complex, valid) {
 			ZVAL_BOOL(row, 0);
 		}
 	} else {
-		rows = zephir_fetch_nproperty_this(this_ptr, SL("_rows"), PH_NOISY_CC);
+		ZEPHIR_OBS_VAR(rows);
+		zephir_read_property_this(&rows, this_ptr, SL("_rows"), PH_NOISY_CC);
 		ZEPHIR_INIT_NVAR(row);
 		if ((Z_TYPE_P(rows) == IS_ARRAY)) {
 			Z_SET_ISREF_P(rows);

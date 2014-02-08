@@ -412,7 +412,7 @@ PHP_METHOD(Phalcon_Mvc_Router, setDefaults) {
 
 
 
-	if ((Z_TYPE_P(defaults) == IS_ARRAY)) {
+	if ((Z_TYPE_P(defaults) != IS_ARRAY)) {
 		ZEPHIR_THROW_EXCEPTION_STRW(phalcon_mvc_router_exception_ce, "Defaults must be an array");
 		return;
 	}

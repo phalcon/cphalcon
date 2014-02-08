@@ -651,7 +651,8 @@ PHP_METHOD(Phalcon_Http_Response, sendHeaders) {
 
 	ZEPHIR_MM_GROW();
 
-	headers = zephir_fetch_nproperty_this(this_ptr, SL("_headers"), PH_NOISY_CC);
+	ZEPHIR_OBS_VAR(headers);
+	zephir_read_property_this(&headers, this_ptr, SL("_headers"), PH_NOISY_CC);
 	if ((Z_TYPE_P(headers) == IS_OBJECT)) {
 		zephir_call_method_noret(headers, "send");
 	}
@@ -670,7 +671,8 @@ PHP_METHOD(Phalcon_Http_Response, sendCookies) {
 
 	ZEPHIR_MM_GROW();
 
-	cookies = zephir_fetch_nproperty_this(this_ptr, SL("_cookies"), PH_NOISY_CC);
+	ZEPHIR_OBS_VAR(cookies);
+	zephir_read_property_this(&cookies, this_ptr, SL("_cookies"), PH_NOISY_CC);
 	if ((Z_TYPE_P(cookies) == IS_OBJECT)) {
 		zephir_call_method_noret(cookies, "send");
 	}
@@ -694,11 +696,13 @@ PHP_METHOD(Phalcon_Http_Response, send) {
 		ZEPHIR_THROW_EXCEPTION_STR(phalcon_http_response_exception_ce, "Response was already sent");
 		return;
 	}
-	headers = zephir_fetch_nproperty_this(this_ptr, SL("_headers"), PH_NOISY_CC);
+	ZEPHIR_OBS_VAR(headers);
+	zephir_read_property_this(&headers, this_ptr, SL("_headers"), PH_NOISY_CC);
 	if ((Z_TYPE_P(headers) == IS_OBJECT)) {
 		zephir_call_method_noret(headers, "send");
 	}
-	cookies = zephir_fetch_nproperty_this(this_ptr, SL("_cookies"), PH_NOISY_CC);
+	ZEPHIR_OBS_VAR(cookies);
+	zephir_read_property_this(&cookies, this_ptr, SL("_cookies"), PH_NOISY_CC);
 	if ((Z_TYPE_P(cookies) == IS_OBJECT)) {
 		zephir_call_method_noret(cookies, "send");
 	}

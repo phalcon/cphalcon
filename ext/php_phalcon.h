@@ -1,4 +1,5 @@
 
+/* This file was generated automatically by Zephir do not modify it! */
 
 #ifndef PHP_PHALCON_H
 #define PHP_PHALCON_H 1

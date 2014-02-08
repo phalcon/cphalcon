@@ -2068,7 +2068,8 @@ PHP_METHOD(Phalcon_Mvc_Model, _checkForeignKeysReverseRestrict) {
 
 	ZEPHIR_MM_GROW();
 
-	manager = zephir_fetch_nproperty_this(this_ptr, SL("_modelsManager"), PH_NOISY_CC);
+	ZEPHIR_OBS_VAR(manager);
+	zephir_read_property_this(&manager, this_ptr, SL("_modelsManager"), PH_NOISY_CC);
 	ZEPHIR_INIT_VAR(relations);
 	zephir_call_method_p1(relations, manager, "gethasoneandhasmany", this_ptr);
 	if (zephir_fast_count_int(relations TSRMLS_CC)) {
@@ -3077,7 +3078,8 @@ PHP_METHOD(Phalcon_Mvc_Model, save) {
 	}
 	ZEPHIR_INIT_VAR(writeConnection);
 	zephir_call_method(writeConnection, this_ptr, "getwriteconnection");
-	related = zephir_fetch_nproperty_this(this_ptr, SL("_related"), PH_NOISY_CC);
+	ZEPHIR_OBS_VAR(related);
+	zephir_read_property_this(&related, this_ptr, SL("_related"), PH_NOISY_CC);
 	if ((Z_TYPE_P(related) == IS_ARRAY)) {
 		ZEPHIR_INIT_VAR(_3);
 		zephir_call_method_p2(_3, this_ptr, "_presaverelatedrecords", writeConnection, related);
@@ -3619,7 +3621,8 @@ PHP_METHOD(Phalcon_Mvc_Model, refresh) {
 		ZEPHIR_OBS_NVAR(uniqueKey);
 		zephir_read_property_this(&uniqueKey, this_ptr, SL("_uniqueKey"), PH_NOISY_CC);
 	}
-	uniqueParams = zephir_fetch_nproperty_this(this_ptr, SL("_uniqueParams"), PH_NOISY_CC);
+	ZEPHIR_OBS_VAR(uniqueParams);
+	zephir_read_property_this(&uniqueParams, this_ptr, SL("_uniqueParams"), PH_NOISY_CC);
 	if ((Z_TYPE_P(uniqueParams) != IS_ARRAY)) {
 		ZEPHIR_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "The record cannot be refreshed because it does not exist or is deleted");
 		return;
@@ -4175,7 +4178,8 @@ PHP_METHOD(Phalcon_Mvc_Model, addBehavior) {
 
 
 
-	manager = zephir_fetch_nproperty_this(this_ptr, SL("_modelsManager"), PH_NOISY_CC);
+	ZEPHIR_OBS_VAR(manager);
+	zephir_read_property_this(&manager, this_ptr, SL("_modelsManager"), PH_NOISY_CC);
 	zephir_call_method_p2_noret(manager, "addbehavior", this_ptr, behavior);
 	ZEPHIR_MM_RESTORE();
 
@@ -4211,7 +4215,8 @@ PHP_METHOD(Phalcon_Mvc_Model, keepSnapshots) {
 		keepSnapshot = zephir_get_boolval(keepSnapshot_param);
 
 
-	manager = zephir_fetch_nproperty_this(this_ptr, SL("_modelsManager"), PH_NOISY_CC);
+	ZEPHIR_OBS_VAR(manager);
+	zephir_read_property_this(&manager, this_ptr, SL("_modelsManager"), PH_NOISY_CC);
 	zephir_call_method_p2_noret(manager, "keepsnapshots", this_ptr, (keepSnapshot ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false)));
 	ZEPHIR_MM_RESTORE();
 
@@ -4507,7 +4512,8 @@ PHP_METHOD(Phalcon_Mvc_Model, useDynamicUpdate) {
 		dynamicUpdate = zephir_get_boolval(dynamicUpdate_param);
 
 
-	manager = zephir_fetch_nproperty_this(this_ptr, SL("_modelsManager"), PH_NOISY_CC);
+	ZEPHIR_OBS_VAR(manager);
+	zephir_read_property_this(&manager, this_ptr, SL("_modelsManager"), PH_NOISY_CC);
 	zephir_call_method_p2_noret(manager, "usedynamicupdate", this_ptr, (dynamicUpdate ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false)));
 	ZEPHIR_MM_RESTORE();
 

@@ -182,10 +182,8 @@ PHP_METHOD(Phalcon_Annotations_Collection, key) {
  */
 PHP_METHOD(Phalcon_Annotations_Collection, next) {
 
-	zval *_0;
 
-
-	zephir_increment(_0);
+	RETURN_ON_FAILURE(zephir_property_incr(this_ptr, SL("_position") TSRMLS_CC));
 
 }
 

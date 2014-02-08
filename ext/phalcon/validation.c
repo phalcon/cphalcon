@@ -104,7 +104,7 @@ PHP_METHOD(Phalcon_Validation, validate) {
 
 	HashTable *_2;
 	HashPosition _1;
-	zval *data = NULL, *entity = NULL, *validators, *messages = NULL, *scope = NULL, *field, *validator, *notCachedCall = NULL, *_0 = NULL, **_3, *_4 = NULL, *_5 = NULL;
+	zval *data = NULL, *entity = NULL, *validators, *messages = NULL, *scope = NULL, *field = NULL, *validator = NULL, *notCachedCall = NULL, *_0 = NULL, **_3, *_4 = NULL, *_5 = NULL;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 2, &data, &entity);
@@ -117,7 +117,8 @@ PHP_METHOD(Phalcon_Validation, validate) {
 	}
 
 
-	validators = zephir_fetch_nproperty_this(this_ptr, SL("_validators"), PH_NOISY_CC);
+	ZEPHIR_OBS_VAR(validators);
+	zephir_read_property_this(&validators, this_ptr, SL("_validators"), PH_NOISY_CC);
 	if ((Z_TYPE_P(validators) != IS_ARRAY)) {
 		ZEPHIR_THROW_EXCEPTION_STR(phalcon_validation_exception_ce, "There are no validators to validate");
 		return;
@@ -151,8 +152,10 @@ PHP_METHOD(Phalcon_Validation, validate) {
 			ZEPHIR_THROW_EXCEPTION_STR(phalcon_validation_exception_ce, "The validator scope is not valid");
 			return;
 		}
-		zephir_array_fetch_long(&field, scope, 0, PH_NOISY | PH_READONLY TSRMLS_CC);
-		zephir_array_fetch_long(&validator, scope, 1, PH_NOISY | PH_READONLY TSRMLS_CC);
+		ZEPHIR_OBS_NVAR(field);
+		zephir_array_fetch_long(&field, scope, 0, PH_NOISY TSRMLS_CC);
+		ZEPHIR_OBS_NVAR(validator);
+		zephir_array_fetch_long(&validator, scope, 1, PH_NOISY TSRMLS_CC);
 		if ((Z_TYPE_P(validator) != IS_OBJECT)) {
 			ZEPHIR_THROW_EXCEPTION_STR(phalcon_validation_exception_ce, "One of the validators is not valid");
 			return;
@@ -466,7 +469,8 @@ PHP_METHOD(Phalcon_Validation, appendMessage) {
 
 
 
-	messages = zephir_fetch_nproperty_this(this_ptr, SL("_messages"), PH_NOISY_CC);
+	ZEPHIR_OBS_VAR(messages);
+	zephir_read_property_this(&messages, this_ptr, SL("_messages"), PH_NOISY_CC);
 	zephir_call_method_p1_noret(messages, "appendmessage", message);
 	RETURN_THIS();
 

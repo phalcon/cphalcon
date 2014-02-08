@@ -723,7 +723,8 @@ PHP_METHOD(Phalcon_Di, __call) {
 
 
 	if (zephir_start_with_str(method, SL("get"))) {
-		services = zephir_fetch_nproperty_this(this_ptr, SL("_services"), PH_NOISY_CC);
+		ZEPHIR_OBS_VAR(services);
+		zephir_read_property_this(&services, this_ptr, SL("_services"), PH_NOISY_CC);
 		ZEPHIR_INIT_VAR(_0);
 		zephir_substr(_0, method, 3 , 0 );
 		ZEPHIR_INIT_VAR(possibleService);
@@ -786,7 +787,6 @@ PHP_METHOD(Phalcon_Di, getDefault) {
 	zval *_0;
 
 
-	ZEPHIR_INIT_ZVAL_NREF(_0);
 	_0 = zephir_fetch_static_property_ce(phalcon_di_ce, SL("_default") TSRMLS_CC);
 	RETURN_CTORW(_0);
 

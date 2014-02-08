@@ -279,7 +279,8 @@ PHP_METHOD(Phalcon_Assets_Manager, addResourceByType) {
 	}
 
 
-	collections = zephir_fetch_nproperty_this(this_ptr, SL("_collections"), PH_NOISY_CC);
+	ZEPHIR_OBS_VAR(collections);
+	zephir_read_property_this(&collections, this_ptr, SL("_collections"), PH_NOISY_CC);
 	ZEPHIR_OBS_VAR(collection);
 	if (!(zephir_array_isset_fetch(&collection, collections, type, 0 TSRMLS_CC))) {
 		ZEPHIR_INIT_BNVAR(collection);
@@ -499,7 +500,8 @@ PHP_METHOD(Phalcon_Assets_Manager, output) {
 	ZEPHIR_SEPARATE_PARAM(type);
 
 
-	useImplicitOutput = zephir_fetch_nproperty_this(this_ptr, SL("_implicitOutput"), PH_NOISY_CC);
+	ZEPHIR_OBS_VAR(useImplicitOutput);
+	zephir_read_property_this(&useImplicitOutput, this_ptr, SL("_implicitOutput"), PH_NOISY_CC);
 	ZEPHIR_INIT_VAR(output);
 	ZVAL_STRING(output, "", 1);
 	ZEPHIR_INIT_VAR(resources);
@@ -511,58 +513,61 @@ PHP_METHOD(Phalcon_Assets_Manager, output) {
 	ZEPHIR_INIT_VAR(typeCss);
 	ZVAL_STRING(typeCss, "css", 1);
 	if ((Z_TYPE_P(filters) == IS_ARRAY)) {
-		options = zephir_fetch_nproperty_this(this_ptr, SL("_options"), PH_NOISY_CC);
+		ZEPHIR_OBS_VAR(options);
+		zephir_read_property_this(&options, this_ptr, SL("_options"), PH_NOISY_CC);
 		if ((Z_TYPE_P(options) == IS_ARRAY)) {
 			if (zephir_array_isset_string(options, SS("sourceBasePath"))) {
-				zephir_array_fetch_string(&sourceBasePath, options, SL("sourceBasePath"), PH_NOISY | PH_READONLY TSRMLS_CC);
+				ZEPHIR_OBS_VAR(sourceBasePath);
+				zephir_array_fetch_string(&sourceBasePath, options, SL("sourceBasePath"), PH_NOISY TSRMLS_CC);
 			}
 			if (zephir_array_isset_string(options, SS("targetBasePath"))) {
-				zephir_array_fetch_string(&targetBasePath, options, SL("targetBasePath"), PH_NOISY | PH_READONLY TSRMLS_CC);
+				ZEPHIR_OBS_VAR(targetBasePath);
+				zephir_array_fetch_string(&targetBasePath, options, SL("targetBasePath"), PH_NOISY TSRMLS_CC);
 			}
 		}
-	}
-	ZEPHIR_INIT_VAR(collectionSourcePath);
-	zephir_call_method(collectionSourcePath, collection, "getsourcepath");
-	if (zephir_is_true(collectionSourcePath)) {
-		ZEPHIR_INIT_VAR(completeSourcePath);
-		ZEPHIR_CONCAT_VV(completeSourcePath, sourceBasePath, collectionSourcePath);
-	} else {
-		ZEPHIR_CPY_WRT(completeSourcePath, sourceBasePath);
-	}
-	ZEPHIR_INIT_VAR(collectionTargetPath);
-	zephir_call_method(collectionTargetPath, collection, "gettargetpath");
-	if (zephir_is_true(collectionTargetPath)) {
-		ZEPHIR_INIT_VAR(completeTargetPath);
-		ZEPHIR_CONCAT_VV(completeTargetPath, targetBasePath, collectionTargetPath);
-	} else {
-		ZEPHIR_CPY_WRT(completeTargetPath, targetBasePath);
-	}
-	ZEPHIR_INIT_VAR(filteredJoinedContent);
-	ZVAL_NULL(filteredJoinedContent);
-	ZEPHIR_INIT_VAR(join);
-	zephir_call_method(join, collection, "getjoin");
-	if (zephir_is_true(join)) {
-		if (!(zephir_is_true(completeTargetPath))) {
-			ZEPHIR_INIT_VAR(_0);
-			object_init_ex(_0, phalcon_assets_exception_ce);
-			ZEPHIR_INIT_VAR(_1);
-			ZEPHIR_CONCAT_SVS(_1, "Path '", completeTargetPath, "' is not a valid target path (1)");
-			zephir_call_method_p1_noret(_0, "__construct", _1);
-			zephir_throw_exception(_0 TSRMLS_CC);
-			ZEPHIR_MM_RESTORE();
-			return;
+		ZEPHIR_INIT_VAR(collectionSourcePath);
+		zephir_call_method(collectionSourcePath, collection, "getsourcepath");
+		if (zephir_is_true(collectionSourcePath)) {
+			ZEPHIR_INIT_VAR(completeSourcePath);
+			ZEPHIR_CONCAT_VV(completeSourcePath, sourceBasePath, collectionSourcePath);
+		} else {
+			ZEPHIR_CPY_WRT(completeSourcePath, sourceBasePath);
 		}
-		ZEPHIR_INIT_VAR(_2);
-		zephir_call_func_p1(_2, "is_dir", completeTargetPath);
-		if (zephir_is_true(_2)) {
-			ZEPHIR_INIT_LNVAR(_0);
-			object_init_ex(_0, phalcon_assets_exception_ce);
-			ZEPHIR_INIT_LNVAR(_1);
-			ZEPHIR_CONCAT_SVS(_1, "Path '", completeTargetPath, "' is not a valid target path (2), is dir.");
-			zephir_call_method_p1_noret(_0, "__construct", _1);
-			zephir_throw_exception(_0 TSRMLS_CC);
-			ZEPHIR_MM_RESTORE();
-			return;
+		ZEPHIR_INIT_VAR(collectionTargetPath);
+		zephir_call_method(collectionTargetPath, collection, "gettargetpath");
+		if (zephir_is_true(collectionTargetPath)) {
+			ZEPHIR_INIT_VAR(completeTargetPath);
+			ZEPHIR_CONCAT_VV(completeTargetPath, targetBasePath, collectionTargetPath);
+		} else {
+			ZEPHIR_CPY_WRT(completeTargetPath, targetBasePath);
+		}
+		ZEPHIR_INIT_VAR(filteredJoinedContent);
+		ZVAL_NULL(filteredJoinedContent);
+		ZEPHIR_INIT_VAR(join);
+		zephir_call_method(join, collection, "getjoin");
+		if (zephir_is_true(join)) {
+			if (!(zephir_is_true(completeTargetPath))) {
+				ZEPHIR_INIT_VAR(_0);
+				object_init_ex(_0, phalcon_assets_exception_ce);
+				ZEPHIR_INIT_VAR(_1);
+				ZEPHIR_CONCAT_SVS(_1, "Path '", completeTargetPath, "' is not a valid target path (1)");
+				zephir_call_method_p1_noret(_0, "__construct", _1);
+				zephir_throw_exception(_0 TSRMLS_CC);
+				ZEPHIR_MM_RESTORE();
+				return;
+			}
+			ZEPHIR_INIT_VAR(_2);
+			zephir_call_func_p1(_2, "is_dir", completeTargetPath);
+			if (zephir_is_true(_2)) {
+				ZEPHIR_INIT_LNVAR(_0);
+				object_init_ex(_0, phalcon_assets_exception_ce);
+				ZEPHIR_INIT_LNVAR(_1);
+				ZEPHIR_CONCAT_SVS(_1, "Path '", completeTargetPath, "' is not a valid target path (2), is dir.");
+				zephir_call_method_p1_noret(_0, "__construct", _1);
+				zephir_throw_exception(_0 TSRMLS_CC);
+				ZEPHIR_MM_RESTORE();
+				return;
+			}
 		}
 	}
 	zephir_is_iterable(resources, &_4, &_3, 0, 0);

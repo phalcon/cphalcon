@@ -194,7 +194,8 @@ PHP_METHOD(Phalcon_Logger_Adapter_File, logInternal) {
 		time = zephir_get_intval(time_param);
 
 
-	fileHandler = zephir_fetch_nproperty_this(this_ptr, SL("_fileHandler"), PH_NOISY_CC);
+	ZEPHIR_OBS_VAR(fileHandler);
+	zephir_read_property_this(&fileHandler, this_ptr, SL("_fileHandler"), PH_NOISY_CC);
 	if (!(zephir_is_true(fileHandler))) {
 		ZEPHIR_THROW_EXCEPTION_STR(phalcon_logger_exception_ce, "Cannot send message to the log because it is invalid");
 		return;

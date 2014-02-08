@@ -237,19 +237,19 @@ PHP_METHOD(Phalcon_Debug_Dump, output) {
 			zephir_concat_self(&output, _13 TSRMLS_CC);
 			_14 = ZEPHIR_IS_LONG(tab, 0);
 			if (_14) {
-				_15 = !ZEPHIR_IS_STRING(name, "");
-				if (_15) {
-					ZEPHIR_INIT_NVAR(_10);
-					ZEPHIR_CALL_INTERNAL_FUNCTION(_10, &_10, "is_int", &_16, 1, key);
-					_17 = zephir_is_true(_10);
-					if (_17) {
-						_17 = ZEPHIR_IS_EQUAL(name, key);
-					}
-					_15 = !_17;
-				}
-				_14 = _15;
+				_14 = !ZEPHIR_IS_STRING(name, "");
 			}
-			if (_14) {
+			_15 = _14;
+			if (_15) {
+				ZEPHIR_INIT_NVAR(_10);
+				ZEPHIR_CALL_INTERNAL_FUNCTION(_10, &_10, "is_int", &_16, 1, key);
+				_17 = zephir_is_true(_10);
+				if (_17) {
+					_17 = ZEPHIR_IS_EQUAL(name, key);
+				}
+				_15 = !_17;
+			}
+			if (_15) {
 				continue;
 			} else {
 				ZEPHIR_INIT_NVAR(_18);

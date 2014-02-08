@@ -57,7 +57,6 @@ PHP_METHOD(Phalcon_Image_Adapter_Gd, check) {
 
 	ZEPHIR_MM_GROW();
 
-	ZEPHIR_INIT_ZVAL_NREF(_0);
 	_0 = zephir_fetch_static_property_ce(phalcon_image_adapter_gd_ce, SL("_checked") TSRMLS_CC);
 	if (zephir_is_true(_0)) {
 		RETURN_MM_BOOL(1);
@@ -107,7 +106,6 @@ PHP_METHOD(Phalcon_Image_Adapter_Gd, check) {
 		return;
 	}
 	zephir_update_static_property_ce(phalcon_image_adapter_gd_ce, SL("_checked"), ZEPHIR_GLOBAL(global_true) TSRMLS_CC);
-	ZEPHIR_INIT_ZVAL_NREF(_10);
 	_10 = zephir_fetch_static_property_ce(phalcon_image_adapter_gd_ce, SL("_checked") TSRMLS_CC);
 	RETURN_CTOR(_10);
 
@@ -146,7 +144,6 @@ PHP_METHOD(Phalcon_Image_Adapter_Gd, __construct) {
 	}
 
 
-	ZEPHIR_INIT_ZVAL_NREF(_0);
 	_0 = zephir_fetch_static_property_ce(phalcon_image_adapter_gd_ce, SL("_checked") TSRMLS_CC);
 	if (!(zephir_is_true(_0))) {
 	}
@@ -1577,7 +1574,8 @@ PHP_METHOD(Phalcon_Image_Adapter_Gd, __destruct) {
 
 	ZEPHIR_MM_GROW();
 
-	image = zephir_fetch_nproperty_this(this_ptr, SL("_image"), PH_NOISY_CC);
+	ZEPHIR_OBS_VAR(image);
+	zephir_read_property_this(&image, this_ptr, SL("_image"), PH_NOISY_CC);
 	if ((Z_TYPE_P(image) == IS_RESOURCE)) {
 		zephir_call_func_p1_noret("imagedestroy", image);
 	}

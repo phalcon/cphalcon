@@ -209,7 +209,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Annotations, handle) {
 	zend_function *_6 = NULL, *_10 = NULL, *_17 = NULL;
 	HashTable *_2, *_8, *_12, *_15;
 	HashPosition _1, _7, _11, _14;
-	zval *uri_param = NULL, *realUri = NULL, *annotationsService = NULL, *handlers, *controllerSuffix, *scope = NULL, *prefix, *dependencyInjector = NULL, *handler, *controllerName = NULL, *lowerControllerName = NULL, *namespaceName = NULL, *moduleName = NULL, *sufixed = NULL, *handlerAnnotations = NULL, *classAnnotations = NULL, *annotations = NULL, *annotation = NULL, *methodAnnotations = NULL, *lowercased = NULL, *method = NULL, *collection = NULL, *_0, **_3, *_4, *_5 = NULL, **_9, **_13, **_16;
+	zval *uri_param = NULL, *realUri = NULL, *annotationsService = NULL, *handlers, *controllerSuffix, *scope = NULL, *prefix = NULL, *dependencyInjector = NULL, *handler = NULL, *controllerName = NULL, *lowerControllerName = NULL, *namespaceName = NULL, *moduleName = NULL, *sufixed = NULL, *handlerAnnotations = NULL, *classAnnotations = NULL, *annotations = NULL, *annotation = NULL, *methodAnnotations = NULL, *lowercased = NULL, *method = NULL, *collection = NULL, *_0, **_3, *_4, *_5 = NULL, **_9, **_13, **_16;
 	zval *uri = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -243,9 +243,11 @@ PHP_METHOD(Phalcon_Mvc_Router_Annotations, handle) {
 	if (zephir_is_true(_0)) {
 		ZEPHIR_INIT_VAR(annotationsService);
 		ZVAL_NULL(annotationsService);
-		handlers = zephir_fetch_nproperty_this(this_ptr, SL("_handlers"), PH_NOISY_CC);
+		ZEPHIR_OBS_VAR(handlers);
+		zephir_read_property_this(&handlers, this_ptr, SL("_handlers"), PH_NOISY_CC);
 		if ((Z_TYPE_P(handlers) == IS_ARRAY)) {
-			controllerSuffix = zephir_fetch_nproperty_this(this_ptr, SL("_controllerSuffix"), PH_NOISY_CC);
+			ZEPHIR_OBS_VAR(controllerSuffix);
+			zephir_read_property_this(&controllerSuffix, this_ptr, SL("_controllerSuffix"), PH_NOISY_CC);
 			zephir_is_iterable(handlers, &_2, &_1, 0, 0);
 			for (
 				; zend_hash_get_current_data_ex(_2, (void**) &_3, &_1) == SUCCESS
@@ -253,7 +255,8 @@ PHP_METHOD(Phalcon_Mvc_Router_Annotations, handle) {
 			) {
 				ZEPHIR_GET_HVALUE(scope, _3);
 				if ((Z_TYPE_P(scope) == IS_ARRAY)) {
-					zephir_array_fetch_long(&prefix, scope, 0, PH_NOISY | PH_READONLY TSRMLS_CC);
+					ZEPHIR_OBS_NVAR(prefix);
+					zephir_array_fetch_long(&prefix, scope, 0, PH_NOISY TSRMLS_CC);
 					if ((Z_TYPE_P(prefix) == IS_STRING)) {
 						if (zephir_start_with(realUri, prefix, 0)) {
 							continue;
@@ -271,7 +274,8 @@ PHP_METHOD(Phalcon_Mvc_Router_Annotations, handle) {
 						ZEPHIR_INIT_NVAR(annotationsService);
 						zephir_call_method_p1_cache(annotationsService, dependencyInjector, "getshared", &_6, _5);
 					}
-					zephir_array_fetch_long(&handler, scope, 1, PH_NOISY | PH_READONLY TSRMLS_CC);
+					ZEPHIR_OBS_NVAR(handler);
+					zephir_array_fetch_long(&handler, scope, 1, PH_NOISY TSRMLS_CC);
 					ZEPHIR_INIT_NVAR(lowerControllerName);
 					ZEPHIR_INIT_NVAR(namespaceName);
 					if (zephir_memnstr_str(handler, SL("\\"), "phalcon/mvc/router/annotations.zep", 148)) {
@@ -493,7 +497,8 @@ PHP_METHOD(Phalcon_Mvc_Router_Annotations, processActionAnnotation) {
 		ZVAL_STRING(&_2, "", 0);
 		zephir_fast_str_replace(_0, _1, &_2, action);
 		zephir_fast_strtolower(actionName, _0);
-		routePrefix = zephir_fetch_nproperty_this(this_ptr, SL("_routePrefix"), PH_NOISY_CC);
+		ZEPHIR_OBS_VAR(routePrefix);
+		zephir_read_property_this(&routePrefix, this_ptr, SL("_routePrefix"), PH_NOISY_CC);
 		ZEPHIR_INIT_VAR(_3);
 		ZVAL_STRING(_3, "paths", 1);
 		ZEPHIR_INIT_VAR(paths);
