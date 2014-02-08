@@ -48,6 +48,9 @@ static phalcon_memory_entry* phalcon_memory_grow_stack_common(zend_phalcon_globa
 	assert(g->start_memory != NULL);
 	if (!g->active_memory) {
 		g->active_memory = g->start_memory;
+#ifndef PHALCON_RELEASE
+		assert(g->active_memory->permanent == 1);
+#endif
 	}
 	else if (!g->active_memory->next) {
 		assert(g->active_memory >= g->end_memory - 1 || g->active_memory < g->start_memory);
@@ -61,12 +64,19 @@ static phalcon_memory_entry* phalcon_memory_grow_stack_common(zend_phalcon_globa
 		entry->hash_addresses = NULL;
 		entry->next = NULL;
 	*/
+#ifndef PHALCON_RELEASE
+		entry->permanent  = 0;
+		entry->func       = NULL;
+#endif
 		entry->prev       = g->active_memory;
 		entry->prev->next = entry;
-		g->active_memory = entry;
+		g->active_memory  = entry;
 	}
 	else {
-		assert(g->active_memory < g->end_memory);
+#ifndef PHALCON_RELEASE
+		assert(g->active_memory->permanent == 1);
+#endif
+		assert(g->active_memory < g->end_memory && g->active_memory >= g->start_memory);
 		g->active_memory = g->active_memory->next;
 	}
 
@@ -147,6 +157,11 @@ static void phalcon_memory_restore_stack_common(zend_phalcon_globals *g TSRMLS_D
 	prev = active_memory->prev;
 
 	if (active_memory >= g->end_memory || active_memory < g->start_memory) {
+#ifndef PHALCON_RELEASE
+		assert(g->active_memory->permanent == 0);
+#endif
+		assert(prev != NULL);
+
 		if (active_memory->hash_addresses != NULL) {
 			efree(active_memory->hash_addresses);
 		}
@@ -160,6 +175,10 @@ static void phalcon_memory_restore_stack_common(zend_phalcon_globals *g TSRMLS_D
 		prev->next = NULL;
 	}
 	else {
+#ifndef PHALCON_RELEASE
+		assert(g->active_memory->permanent == 1);
+#endif
+
 		active_memory->pointer      = 0;
 		active_memory->hash_pointer = 0;
 		g->active_memory = prev;
@@ -168,12 +187,21 @@ static void phalcon_memory_restore_stack_common(zend_phalcon_globals *g TSRMLS_D
 #ifndef PHALCON_RELEASE
 	if (g->active_memory) {
 		phalcon_memory_entry *f = g->active_memory;
-		if (f >= g->end_memory && f < g->end_memory - 1) {
+		if (f >= g->start_memory && f < g->end_memory - 1) {
+			assert(f->permanent == 1);
 			assert(f->next != NULL);
 
 			if (f > g->start_memory) {
 				assert(f->prev != NULL);
 			}
+		}
+		else {
+			while (f) {
+				php_printf(">>> %p %d %s\n", f, (int)f->permanent, f->func);
+				f = f->prev;
+			}
+
+			php_printf("\n");
 		}
 	}
 #endif
@@ -298,7 +326,8 @@ int ZEND_FASTCALL phalcon_memory_restore_stack(TSRMLS_D) {
 PHALCON_ATTR_NONNULL static void phalcon_reallocate_memory(const zend_phalcon_globals *g)
 {
 	phalcon_memory_entry *frame = g->active_memory;
-	void *buf = perealloc(frame->addresses, sizeof(zval **) * (frame->capacity + 16), (frame < g->end_memory));
+	int persistent = (frame >= g->start_memory && frame < g->end_memory);
+	void *buf = perealloc(frame->addresses, sizeof(zval **) * (frame->capacity + 16), persistent);
 	if (EXPECTED(buf != NULL)) {
 		frame->capacity += 16;
 		frame->addresses = buf;
@@ -306,12 +335,17 @@ PHALCON_ATTR_NONNULL static void phalcon_reallocate_memory(const zend_phalcon_gl
 	else {
 		zend_error(E_CORE_ERROR, "Memory allocation failed");
 	}
+
+#ifndef PHALCON_RELEASE
+	assert(frame->permanent == persistent);
+#endif
 }
 
 PHALCON_ATTR_NONNULL static void phalcon_reallocate_hmemory(const zend_phalcon_globals *g)
 {
 	phalcon_memory_entry *frame = g->active_memory;
-	void *buf = perealloc(frame->hash_addresses, sizeof(zval **) * (frame->hash_capacity + 4), (frame < g->end_memory));
+	int persistent = (frame >= g->start_memory && frame < g->end_memory);
+	void *buf = perealloc(frame->hash_addresses, sizeof(zval **) * (frame->hash_capacity + 4), persistent);
 	if (EXPECTED(buf != NULL)) {
 		frame->hash_capacity += 4;
 		frame->hash_addresses = buf;
@@ -319,6 +353,10 @@ PHALCON_ATTR_NONNULL static void phalcon_reallocate_hmemory(const zend_phalcon_g
 	else {
 		zend_error(E_CORE_ERROR, "Memory allocation failed");
 	}
+
+#ifndef PHALCON_RELEASE
+	assert(frame->permanent == persistent);
+#endif
 }
 
 PHALCON_ATTR_NONNULL1(2) static inline void phalcon_do_memory_observe(zval **var, const zend_phalcon_globals *g)
