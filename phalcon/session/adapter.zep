@@ -52,7 +52,7 @@ abstract class Adapter
 	 */
 	public function start() -> boolean
 	{
-		if headers_sent() {
+		if !headers_sent() {
 			session_start();
 			let this->_started = true;
 			return true;
