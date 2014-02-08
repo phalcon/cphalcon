@@ -600,7 +600,7 @@ static PHP_MINFO_FUNCTION(phalcon)
 	DISPLAY_INI_ENTRIES();
 }
 
-static const size_t num_preallocated_frames = 10;
+static const size_t num_preallocated_frames = 25;
 
 static PHP_GINIT_FUNCTION(phalcon)
 {
@@ -621,6 +621,10 @@ static PHP_GINIT_FUNCTION(phalcon)
 		start[i].capacity        = 24;
 		start[i].hash_addresses  = pecalloc(8, sizeof(zval*), 1);
 		start[i].hash_capacity   = 8;
+
+#ifndef PHALCON_RELEASE
+		start[i].permanent = 1;
+#endif
 	}
 
 	start[0].next = &start[1];
