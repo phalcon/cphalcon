@@ -219,9 +219,10 @@ PHP_METHOD(Phalcon_Http_Cookie, getValue) {
 	ZVAL_NULL(dependencyInjector);
 	_1 = zephir_fetch_nproperty_this(this_ptr, SL("_readed"), PH_NOISY_CC);
 	if (ZEPHIR_IS_FALSE(_1)) {
+		ZEPHIR_OBS_VAR(value);
 		zephir_get_global(&_COOKIE, SS("_COOKIE") TSRMLS_CC);
 		_2 = zephir_fetch_nproperty_this(this_ptr, SL("_name"), PH_NOISY_CC);
-		if (zephir_array_isset_fetch(&value, _COOKIE, _2, 1 TSRMLS_CC)) {
+		if (zephir_array_isset_fetch(&value, _COOKIE, _2, 0 TSRMLS_CC)) {
 			_3 = zephir_fetch_nproperty_this(this_ptr, SL("_useEncryption"), PH_NOISY_CC);
 			if (zephir_is_true(_3)) {
 				ZEPHIR_OBS_NVAR(dependencyInjector);

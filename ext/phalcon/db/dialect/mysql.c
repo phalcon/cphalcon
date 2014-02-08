@@ -763,24 +763,28 @@ PHP_METHOD(Phalcon_Db_Dialect_MySQL, _getTableOptions) {
 
 
 
-	if (zephir_array_isset_string_fetch(&options, definition, SS("options"), 1 TSRMLS_CC)) {
+	ZEPHIR_OBS_VAR(options);
+	if (zephir_array_isset_string_fetch(&options, definition, SS("options"), 0 TSRMLS_CC)) {
 		ZEPHIR_INIT_VAR(tableOptions);
 		array_init(tableOptions);
-		if (zephir_array_isset_string_fetch(&engine, options, SS("ENGINE"), 1 TSRMLS_CC)) {
+		ZEPHIR_OBS_VAR(engine);
+		if (zephir_array_isset_string_fetch(&engine, options, SS("ENGINE"), 0 TSRMLS_CC)) {
 			if (zephir_is_true(engine)) {
 				ZEPHIR_INIT_VAR(_0);
 				ZEPHIR_CONCAT_SV(_0, "ENGINE=", engine);
 				zephir_array_append(&tableOptions, _0, PH_SEPARATE);
 			}
 		}
-		if (zephir_array_isset_string_fetch(&autoIncrement, options, SS("AUTO_INCREMENT"), 1 TSRMLS_CC)) {
+		ZEPHIR_OBS_VAR(autoIncrement);
+		if (zephir_array_isset_string_fetch(&autoIncrement, options, SS("AUTO_INCREMENT"), 0 TSRMLS_CC)) {
 			if (zephir_is_true(autoIncrement)) {
 				ZEPHIR_INIT_LNVAR(_0);
 				ZEPHIR_CONCAT_SV(_0, "AUTO_INCREMENT=", autoIncrement);
 				zephir_array_append(&tableOptions, _0, PH_SEPARATE);
 			}
 		}
-		if (zephir_array_isset_string_fetch(&tableCollation, options, SS("TABLE_COLLATION"), 1 TSRMLS_CC)) {
+		ZEPHIR_OBS_VAR(tableCollation);
+		if (zephir_array_isset_string_fetch(&tableCollation, options, SS("TABLE_COLLATION"), 0 TSRMLS_CC)) {
 			if (zephir_is_true(tableCollation)) {
 				ZEPHIR_INIT_VAR(collationParts);
 				zephir_fast_explode_str(collationParts, SL("_"), tableCollation, LONG_MAX TSRMLS_CC);
@@ -845,7 +849,8 @@ PHP_METHOD(Phalcon_Db_Dialect_MySQL, createTable) {
 	}
 
 
-	if (!(zephir_array_isset_string_fetch(&columns, definition, SS("columns"), 1 TSRMLS_CC))) {
+	ZEPHIR_OBS_VAR(columns);
+	if (!(zephir_array_isset_string_fetch(&columns, definition, SS("columns"), 0 TSRMLS_CC))) {
 		ZEPHIR_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "The index 'columns' is required in the definition array");
 		return;
 	}
@@ -861,7 +866,8 @@ PHP_METHOD(Phalcon_Db_Dialect_MySQL, createTable) {
 	}
 	ZEPHIR_INIT_VAR(temporary);
 	ZVAL_BOOL(temporary, 0);
-	if (zephir_array_isset_string_fetch(&options, definition, SS("options"), 1 TSRMLS_CC)) {
+	ZEPHIR_OBS_VAR(options);
+	if (zephir_array_isset_string_fetch(&options, definition, SS("options"), 0 TSRMLS_CC)) {
 		ZEPHIR_OBS_NVAR(temporary);
 	}
 	ZEPHIR_INIT_VAR(sql);
@@ -901,7 +907,8 @@ PHP_METHOD(Phalcon_Db_Dialect_MySQL, createTable) {
 		}
 		zephir_array_append(&createLines, columnLine, PH_SEPARATE);
 	}
-	if (zephir_array_isset_string_fetch(&indexes, definition, SS("indexes"), 1 TSRMLS_CC)) {
+	ZEPHIR_OBS_VAR(indexes);
+	if (zephir_array_isset_string_fetch(&indexes, definition, SS("indexes"), 0 TSRMLS_CC)) {
 		zephir_is_iterable(indexes, &_11, &_10, 0, 0);
 		for (
 			; zend_hash_get_current_data_ex(_11, (void**) &_12, &_10) == SUCCESS
@@ -927,7 +934,8 @@ PHP_METHOD(Phalcon_Db_Dialect_MySQL, createTable) {
 			zephir_array_append(&createLines, indexSql, PH_SEPARATE);
 		}
 	}
-	if (zephir_array_isset_string_fetch(&references, definition, SS("references"), 1 TSRMLS_CC)) {
+	ZEPHIR_OBS_VAR(references);
+	if (zephir_array_isset_string_fetch(&references, definition, SS("references"), 0 TSRMLS_CC)) {
 		zephir_is_iterable(references, &_16, &_15, 0, 0);
 		for (
 			; zend_hash_get_current_data_ex(_16, (void**) &_17, &_15) == SUCCESS
@@ -1068,7 +1076,8 @@ PHP_METHOD(Phalcon_Db_Dialect_MySQL, createView) {
 	}
 
 
-	if (zephir_array_isset_string_fetch(&viewSql, definition, SS("sql"), 1 TSRMLS_CC)) {
+	ZEPHIR_OBS_VAR(viewSql);
+	if (zephir_array_isset_string_fetch(&viewSql, definition, SS("sql"), 0 TSRMLS_CC)) {
 		ZEPHIR_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "The index 'sql' is required in the definition array");
 		return;
 	}

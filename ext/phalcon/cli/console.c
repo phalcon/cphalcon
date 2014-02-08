@@ -285,7 +285,8 @@ PHP_METHOD(Phalcon_Cli_Console, handle) {
 			ZEPHIR_THROW_EXCEPTION_STR(phalcon_cli_console_exception_ce, "Invalid module definition path");
 			return;
 		}
-		if (zephir_array_isset_string_fetch(&path, module, SS("path"), 1 TSRMLS_CC)) {
+		ZEPHIR_OBS_VAR(path);
+		if (zephir_array_isset_string_fetch(&path, module, SS("path"), 0 TSRMLS_CC)) {
 			if (!((zephir_file_exists(path TSRMLS_CC) == SUCCESS))) {
 				ZEPHIR_INIT_LNVAR(_3);
 				object_init_ex(_3, phalcon_cli_console_exception_ce);

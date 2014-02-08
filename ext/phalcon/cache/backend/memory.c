@@ -96,8 +96,9 @@ PHP_METHOD(Phalcon_Cache_Backend_Memory, get) {
 		_0 = zephir_fetch_nproperty_this(this_ptr, SL("_prefix"), PH_NOISY_CC);
 		ZEPHIR_CONCAT_VV(lastKey, _0, keyName);
 	}
+	ZEPHIR_OBS_VAR(cachedContent);
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_data"), PH_NOISY_CC);
-	if (!(zephir_array_isset_fetch(&cachedContent, _0, lastKey, 1 TSRMLS_CC))) {
+	if (!(zephir_array_isset_fetch(&cachedContent, _0, lastKey, 0 TSRMLS_CC))) {
 		RETURN_MM_NULL();
 	}
 	if ((Z_TYPE_P(cachedContent) == IS_NULL)) {

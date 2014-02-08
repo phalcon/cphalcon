@@ -198,7 +198,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, toArray) {
 	zend_function *_10 = NULL;
 	HashTable *_3, *_6;
 	HashPosition _2, _5;
-	zval *renameColumns_param = NULL, *result = NULL, *activeRow = NULL, *records = NULL, *record = NULL, *renamed = NULL, *renamedKey, *key = NULL, *value = NULL, *renamedRecords, *columnMap, *_0, *_1, **_4, **_7, *_8 = NULL, *_9 = NULL;
+	zval *renameColumns_param = NULL, *result = NULL, *activeRow = NULL, *records = NULL, *record = NULL, *renamed = NULL, *renamedKey = NULL, *key = NULL, *value = NULL, *renamedRecords, *columnMap, *_0, *_1, **_4, **_7, *_8 = NULL, *_9 = NULL;
 	zend_bool renameColumns;
 
 	ZEPHIR_MM_GROW();
@@ -271,7 +271,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, toArray) {
 				) {
 					ZEPHIR_GET_HMKEY(key, _6, _5);
 					ZEPHIR_GET_HVALUE(value, _7);
-					if (zephir_array_isset_fetch(&renamedKey, columnMap, key, 1 TSRMLS_CC)) {
+					ZEPHIR_OBS_NVAR(renamedKey);
+					if (zephir_array_isset_fetch(&renamedKey, columnMap, key, 0 TSRMLS_CC)) {
 						ZEPHIR_INIT_LNVAR(_8);
 						object_init_ex(_8, phalcon_mvc_model_exception_ce);
 						ZEPHIR_INIT_LNVAR(_9);

@@ -388,7 +388,7 @@ PHP_METHOD(Phalcon_Db_Adapter, insert) {
 	zval *_5 = NULL;
 	HashTable *_3, *_8;
 	HashPosition _2, _7;
-	zval *table, *values, *fields = NULL, *dataTypes = NULL, *placeholders, *insertValues, *bindDataTypes = NULL, *bindType, *position = NULL, *value = NULL, *escapedTable = NULL, *joinedValues, *escapedFields = NULL, *field = NULL, *insertSql, *_0, *_1, **_4, *_6 = NULL, **_9;
+	zval *table, *values, *fields = NULL, *dataTypes = NULL, *placeholders, *insertValues, *bindDataTypes = NULL, *bindType = NULL, *position = NULL, *value = NULL, *escapedTable = NULL, *joinedValues, *escapedFields = NULL, *field = NULL, *insertSql, *_0, *_1, **_4, *_6 = NULL, **_9;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 2, &table, &values, &fields, &dataTypes);
@@ -446,7 +446,8 @@ PHP_METHOD(Phalcon_Db_Adapter, insert) {
 				zephir_array_append(&placeholders, _6, PH_SEPARATE);
 				zephir_array_append(&insertValues, value, PH_SEPARATE);
 				if ((Z_TYPE_P(dataTypes) == IS_ARRAY)) {
-					if (!(zephir_array_isset_fetch(&bindType, dataTypes, position, 1 TSRMLS_CC))) {
+					ZEPHIR_OBS_NVAR(bindType);
+					if (!(zephir_array_isset_fetch(&bindType, dataTypes, position, 0 TSRMLS_CC))) {
 						ZEPHIR_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "Incomplete number of bind types");
 						return;
 					}
@@ -519,7 +520,7 @@ PHP_METHOD(Phalcon_Db_Adapter, update) {
 
 	HashTable *_1;
 	HashPosition _0;
-	zval *table, *fields, *values, *whereCondition = NULL, *dataTypes = NULL, *placeholders, *updateValues, *position = NULL, *value = NULL, *field, *bindDataTypes = NULL, *escapedField = NULL, *bindType, *escapedTable = NULL, *setClause, *updateSql, *conditions, *whereBind, *whereTypes, **_2, *_3 = NULL, *_4 = NULL;
+	zval *table, *fields, *values, *whereCondition = NULL, *dataTypes = NULL, *placeholders, *updateValues, *position = NULL, *value = NULL, *field = NULL, *bindDataTypes = NULL, *escapedField = NULL, *bindType = NULL, *escapedTable = NULL, *setClause, *updateSql, *conditions, *whereBind, *whereTypes, **_2, *_3 = NULL, *_4 = NULL;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 3, 2, &table, &fields, &values, &whereCondition, &dataTypes);
@@ -549,7 +550,8 @@ PHP_METHOD(Phalcon_Db_Adapter, update) {
 	) {
 		ZEPHIR_GET_HMKEY(position, _1, _0);
 		ZEPHIR_GET_HVALUE(value, _2);
-		if (!(zephir_array_isset_fetch(&field, fields, position, 1 TSRMLS_CC))) {
+		ZEPHIR_OBS_NVAR(field);
+		if (!(zephir_array_isset_fetch(&field, fields, position, 0 TSRMLS_CC))) {
 			ZEPHIR_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "The number of values in the update is not the same as fields");
 			return;
 		}
@@ -571,7 +573,8 @@ PHP_METHOD(Phalcon_Db_Adapter, update) {
 			} else {
 				zephir_array_append(&updateValues, value, PH_SEPARATE);
 				if ((Z_TYPE_P(dataTypes) == IS_ARRAY)) {
-					if (!(zephir_array_isset_fetch(&bindType, dataTypes, position, 1 TSRMLS_CC))) {
+					ZEPHIR_OBS_NVAR(bindType);
+					if (!(zephir_array_isset_fetch(&bindType, dataTypes, position, 0 TSRMLS_CC))) {
 						ZEPHIR_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "Incomplete number of bind types");
 						return;
 					}
@@ -601,13 +604,16 @@ PHP_METHOD(Phalcon_Db_Adapter, update) {
 				ZEPHIR_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "Invalid WHERE clause conditions");
 				return;
 			}
-			if (zephir_array_isset_string_fetch(&conditions, whereCondition, SS("conditions"), 1 TSRMLS_CC)) {
+			ZEPHIR_OBS_VAR(conditions);
+			if (zephir_array_isset_string_fetch(&conditions, whereCondition, SS("conditions"), 0 TSRMLS_CC)) {
 				zephir_concat_self(&updateSql, conditions TSRMLS_CC);
 			}
-			if (zephir_array_isset_string_fetch(&whereBind, whereCondition, SS("bind"), 1 TSRMLS_CC)) {
+			ZEPHIR_OBS_VAR(whereBind);
+			if (zephir_array_isset_string_fetch(&whereBind, whereCondition, SS("bind"), 0 TSRMLS_CC)) {
 				zephir_call_func_p2_noret("merge_append", updateValues, whereBind);
 			}
-			if (zephir_array_isset_string_fetch(&whereTypes, whereCondition, SS("bindTypes"), 1 TSRMLS_CC)) {
+			ZEPHIR_OBS_VAR(whereTypes);
+			if (zephir_array_isset_string_fetch(&whereTypes, whereCondition, SS("bindTypes"), 0 TSRMLS_CC)) {
 				zephir_call_func_p2_noret("merge_append", bindDataTypes, whereTypes);
 			}
 		}
@@ -960,7 +966,8 @@ PHP_METHOD(Phalcon_Db_Adapter, createTable) {
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
-	if (!(zephir_array_isset_string_fetch(&columns, definition, SS("columns"), 1 TSRMLS_CC))) {
+	ZEPHIR_OBS_VAR(columns);
+	if (!(zephir_array_isset_string_fetch(&columns, definition, SS("columns"), 0 TSRMLS_CC))) {
 		ZEPHIR_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "The table must contain at least one column");
 		return;
 	}

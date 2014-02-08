@@ -92,17 +92,20 @@ PHP_METHOD(Phalcon_Mvc_Model_Behavior_Timestampable, notify) {
 	ZEPHIR_INIT_VAR(options);
 	zephir_call_method_p1(options, this_ptr, "getoptions", type);
 	if ((Z_TYPE_P(options) == IS_ARRAY)) {
-		if (!(zephir_array_isset_string_fetch(&field, options, SS("field"), 1 TSRMLS_CC))) {
+		ZEPHIR_OBS_VAR(field);
+		if (!(zephir_array_isset_string_fetch(&field, options, SS("field"), 0 TSRMLS_CC))) {
 			ZEPHIR_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "The option 'field' is required");
 			return;
 		}
 		ZEPHIR_INIT_VAR(timestamp);
 		ZVAL_NULL(timestamp);
-		if (zephir_array_isset_string_fetch(&format, options, SS("format"), 1 TSRMLS_CC)) {
+		ZEPHIR_OBS_VAR(format);
+		if (zephir_array_isset_string_fetch(&format, options, SS("format"), 0 TSRMLS_CC)) {
 			ZEPHIR_INIT_NVAR(timestamp);
 			zephir_call_func_p1(timestamp, "date", format);
 		} else {
-			if (zephir_array_isset_string_fetch(&generator, options, SS("generator"), 1 TSRMLS_CC)) {
+			ZEPHIR_OBS_VAR(generator);
+			if (zephir_array_isset_string_fetch(&generator, options, SS("generator"), 0 TSRMLS_CC)) {
 				if ((Z_TYPE_P(generator) == IS_OBJECT)) {
 					if (zephir_is_instance_of(generator, SL("Closure") TSRMLS_CC)) {
 						ZEPHIR_INIT_NVAR(timestamp);

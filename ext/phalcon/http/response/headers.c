@@ -191,7 +191,8 @@ PHP_METHOD(Phalcon_Http_Response_Headers, __set_state) {
 	if (zephir_has_constructor(headers TSRMLS_CC)) {
 		zephir_call_method_noret(headers, "__construct");
 	}
-	if (zephir_array_isset_string_fetch(&dataHeaders, data, SS("_headers"), 1 TSRMLS_CC)) {
+	ZEPHIR_OBS_VAR(dataHeaders);
+	if (zephir_array_isset_string_fetch(&dataHeaders, data, SS("_headers"), 0 TSRMLS_CC)) {
 		zephir_is_iterable(dataHeaders, &_1, &_0, 0, 0);
 		for (
 			; zend_hash_get_current_data_ex(_1, (void**) &_2, &_0) == SUCCESS

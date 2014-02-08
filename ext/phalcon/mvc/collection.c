@@ -579,18 +579,22 @@ PHP_METHOD(Phalcon_Mvc_Collection, _getResultset) {
 		}
 	}
 	ZEPHIR_INIT_VAR(documentsCursor);
-	if (zephir_array_isset_string_fetch(&fields, params, SS("fields"), 1 TSRMLS_CC)) {
+	ZEPHIR_OBS_VAR(fields);
+	if (zephir_array_isset_string_fetch(&fields, params, SS("fields"), 0 TSRMLS_CC)) {
 		zephir_call_method_p2(documentsCursor, mongoCollection, "find", conditions, fields);
 	} else {
 		zephir_call_method_p1(documentsCursor, mongoCollection, "find", conditions);
 	}
-	if (zephir_array_isset_string_fetch(&limit, params, SS("limit"), 1 TSRMLS_CC)) {
+	ZEPHIR_OBS_VAR(limit);
+	if (zephir_array_isset_string_fetch(&limit, params, SS("limit"), 0 TSRMLS_CC)) {
 		zephir_call_method_p1_noret(documentsCursor, "limit", limit);
 	}
-	if (zephir_array_isset_string_fetch(&sort, params, SS("sort"), 1 TSRMLS_CC)) {
+	ZEPHIR_OBS_VAR(sort);
+	if (zephir_array_isset_string_fetch(&sort, params, SS("sort"), 0 TSRMLS_CC)) {
 		zephir_call_method_p1_noret(documentsCursor, "sort", sort);
 	}
-	if (zephir_array_isset_string_fetch(&skip, params, SS("skip"), 1 TSRMLS_CC)) {
+	ZEPHIR_OBS_VAR(skip);
+	if (zephir_array_isset_string_fetch(&skip, params, SS("skip"), 0 TSRMLS_CC)) {
 		zephir_call_method_p1_noret(documentsCursor, "skip", skip);
 	}
 	if (zephir_array_isset_string(params, SS("fields"))) {
@@ -679,7 +683,8 @@ PHP_METHOD(Phalcon_Mvc_Collection, _getGroupResultset) {
 	if ((simple == 0)) {
 		ZEPHIR_INIT_VAR(documentsCursor);
 		zephir_call_method_p1(documentsCursor, mongoCollection, "find", conditions);
-		if (zephir_array_isset_string_fetch(&limit, params, SS("limit"), 1 TSRMLS_CC)) {
+		ZEPHIR_OBS_VAR(limit);
+		if (zephir_array_isset_string_fetch(&limit, params, SS("limit"), 0 TSRMLS_CC)) {
 			zephir_call_method_p1_noret(documentsCursor, "limit", limit);
 		}
 		ZEPHIR_OBS_VAR(sort);
@@ -1061,6 +1066,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, _exists) {
 
 
 
+	ZEPHIR_OBS_VAR(id);
 	if ((0 == 1)) {
 		if ((Z_TYPE_P(id) == IS_OBJECT)) {
 			ZEPHIR_CPY_WRT(mongoId, id);
@@ -1246,11 +1252,13 @@ PHP_METHOD(Phalcon_Mvc_Collection, save) {
 	ZEPHIR_INIT_VAR(status);
 	zephir_call_method_p2(status, collection, "save", data, _6);
 	if ((Z_TYPE_P(status) == IS_ARRAY)) {
-		if (zephir_array_isset_string_fetch(&ok, status, SS("ok"), 1 TSRMLS_CC)) {
+		ZEPHIR_OBS_VAR(ok);
+		if (zephir_array_isset_string_fetch(&ok, status, SS("ok"), 0 TSRMLS_CC)) {
 			if (zephir_is_true(ok)) {
 				success = 1;
 				if (ZEPHIR_IS_FALSE(exists)) {
-					if (zephir_array_isset_string_fetch(&id, data, SS("_id"), 1 TSRMLS_CC)) {
+					ZEPHIR_OBS_VAR(id);
+					if (zephir_array_isset_string_fetch(&id, data, SS("_id"), 0 TSRMLS_CC)) {
 						zephir_update_property_this(this_ptr, SL("_id"), id TSRMLS_CC);
 					}
 				}
@@ -1636,6 +1644,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, delete) {
 
 	ZEPHIR_MM_GROW();
 
+	ZEPHIR_OBS_VAR(id);
 	if (!((0 == 1))) {
 		ZEPHIR_THROW_EXCEPTION_STR(phalcon_mvc_collection_exception_ce, "The document cannot be deleted because it doesn't exist");
 		return;
@@ -1689,7 +1698,8 @@ PHP_METHOD(Phalcon_Mvc_Collection, delete) {
 	if ((Z_TYPE_P(status) != IS_ARRAY)) {
 		RETURN_MM_BOOL(0);
 	}
-	if (zephir_array_isset_string_fetch(&ok, status, SS("ok"), 1 TSRMLS_CC)) {
+	ZEPHIR_OBS_VAR(ok);
+	if (zephir_array_isset_string_fetch(&ok, status, SS("ok"), 0 TSRMLS_CC)) {
 		if (zephir_is_true(ok)) {
 			success = 1;
 			if (!(zephir_is_true(disableEvents))) {

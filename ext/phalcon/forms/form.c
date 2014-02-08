@@ -601,8 +601,9 @@ PHP_METHOD(Phalcon_Forms_Form, render) {
 	}
 
 
+	ZEPHIR_OBS_VAR(element);
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_elements"), PH_NOISY_CC);
-	if (!(zephir_array_isset_fetch(&element, _0, name, 1 TSRMLS_CC))) {
+	if (!(zephir_array_isset_fetch(&element, _0, name, 0 TSRMLS_CC))) {
 		ZEPHIR_INIT_VAR(_1);
 		object_init_ex(_1, phalcon_forms_exception_ce);
 		ZEPHIR_INIT_VAR(_2);
@@ -644,9 +645,10 @@ PHP_METHOD(Phalcon_Forms_Form, get) {
 	}
 
 
+	ZEPHIR_OBS_VAR(element);
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_elements"), PH_NOISY_CC);
-	if (zephir_array_isset_fetch(&element, _0, name, 1 TSRMLS_CC)) {
-		RETURN_CTOR(element);
+	if (zephir_array_isset_fetch(&element, _0, name, 0 TSRMLS_CC)) {
+		RETURN_CCTOR(element);
 	}
 	ZEPHIR_INIT_VAR(_1);
 	object_init_ex(_1, phalcon_forms_exception_ce);
@@ -686,8 +688,9 @@ PHP_METHOD(Phalcon_Forms_Form, label) {
 	}
 
 
+	ZEPHIR_OBS_VAR(element);
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_elements"), PH_NOISY_CC);
-	if (zephir_array_isset_fetch(&element, _0, name, 1 TSRMLS_CC)) {
+	if (zephir_array_isset_fetch(&element, _0, name, 0 TSRMLS_CC)) {
 		zephir_call_method(return_value, element, "label");
 		RETURN_MM();
 	}
@@ -729,8 +732,9 @@ PHP_METHOD(Phalcon_Forms_Form, getLabel) {
 	}
 
 
+	ZEPHIR_OBS_VAR(element);
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_elements"), PH_NOISY_CC);
-	if (!(zephir_array_isset_fetch(&element, _0, name, 1 TSRMLS_CC))) {
+	if (!(zephir_array_isset_fetch(&element, _0, name, 0 TSRMLS_CC))) {
 		ZEPHIR_INIT_VAR(_1);
 		object_init_ex(_1, phalcon_forms_exception_ce);
 		ZEPHIR_INIT_VAR(_2);

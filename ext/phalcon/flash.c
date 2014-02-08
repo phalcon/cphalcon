@@ -294,7 +294,8 @@ PHP_METHOD(Phalcon_Flash, outputMessage) {
 	if ((automaticHtml == 1)) {
 		ZEPHIR_OBS_VAR(classes);
 		zephir_read_property_this(&classes, this_ptr, SL("_cssClasses"), PH_NOISY_CC);
-		if (zephir_array_isset_fetch(&typeClasses, classes, type, 1 TSRMLS_CC)) {
+		ZEPHIR_OBS_VAR(typeClasses);
+		if (zephir_array_isset_fetch(&typeClasses, classes, type, 0 TSRMLS_CC)) {
 			ZEPHIR_INIT_VAR(cssClasses);
 			if ((Z_TYPE_P(typeClasses) == IS_ARRAY)) {
 				ZEPHIR_INIT_VAR(_1);

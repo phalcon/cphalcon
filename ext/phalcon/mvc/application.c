@@ -314,8 +314,9 @@ PHP_METHOD(Phalcon_Mvc_Application, handle) {
 				RETURN_MM_BOOL(0);
 			}
 		}
+		ZEPHIR_OBS_VAR(module);
 		_0 = zephir_fetch_nproperty_this(this_ptr, SL("_modules"), PH_NOISY_CC);
-		if (!(zephir_array_isset_fetch(&module, _0, moduleName, 1 TSRMLS_CC))) {
+		if (!(zephir_array_isset_fetch(&module, _0, moduleName, 0 TSRMLS_CC))) {
 			ZEPHIR_INIT_VAR(_3);
 			object_init_ex(_3, phalcon_mvc_application_exception_ce);
 			ZEPHIR_INIT_VAR(_4);
@@ -337,7 +338,8 @@ PHP_METHOD(Phalcon_Mvc_Application, handle) {
 				ZEPHIR_INIT_NVAR(className);
 				ZVAL_STRING(className, "Module", 1);
 			}
-			if (zephir_array_isset_string_fetch(&path, module, SS("path"), 1 TSRMLS_CC)) {
+			ZEPHIR_OBS_VAR(path);
+			if (zephir_array_isset_string_fetch(&path, module, SS("path"), 0 TSRMLS_CC)) {
 				if (!(zephir_class_exists(className, zephir_is_true(ZEPHIR_GLOBAL(global_false))  TSRMLS_CC))) {
 					if ((zephir_file_exists(path TSRMLS_CC) == SUCCESS)) {
 						ZEPHIR_INIT_LNVAR(_3);

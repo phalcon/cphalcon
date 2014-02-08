@@ -105,7 +105,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Complex, valid) {
 	HashPosition _3, _6;
 	zend_bool _1;
 	int dirtyState;
-	zval *result, *rows, *row = NULL, *underscore, *emptyStr, *hydrateMode, *alias = NULL, *activeRow = NULL, *type = NULL, *columnTypes, *column = NULL, *columnValue = NULL, *value = NULL, *attribute = NULL, *source = NULL, *attributes = NULL, *columnMap = NULL, *rowModel = NULL, *keepSnapshots = NULL, *sqlAlias, *_0, *_2, **_5, **_8, *_9 = NULL, *_10, *_11 = NULL, _12 = zval_used_for_init;
+	zval *result, *rows, *row = NULL, *underscore, *emptyStr, *hydrateMode, *alias = NULL, *activeRow = NULL, *type = NULL, *columnTypes, *column = NULL, *columnValue = NULL, *value = NULL, *attribute = NULL, *source = NULL, *attributes = NULL, *columnMap = NULL, *rowModel = NULL, *keepSnapshots = NULL, *sqlAlias = NULL, *_0, *_2, **_5, **_8, *_9 = NULL, *_10, *_11 = NULL, _12 = zval_used_for_init;
 
 	ZEPHIR_MM_GROW();
 
@@ -225,7 +225,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Complex, valid) {
 					ZEPHIR_OBS_NVAR(attribute);
 					zephir_array_fetch_string(&attribute, column, SL("balias"), PH_NOISY TSRMLS_CC);
 				} else {
-					if (zephir_array_isset_string_fetch(&sqlAlias, column, SS("sqlAlias"), 1 TSRMLS_CC)) {
+					ZEPHIR_OBS_NVAR(sqlAlias);
+					if (zephir_array_isset_string_fetch(&sqlAlias, column, SS("sqlAlias"), 0 TSRMLS_CC)) {
 						ZEPHIR_OBS_NVAR(value);
 						zephir_array_fetch(&value, row, sqlAlias, PH_NOISY TSRMLS_CC);
 					} else {

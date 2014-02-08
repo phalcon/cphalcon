@@ -323,8 +323,9 @@ PHP_METHOD(Phalcon_Di, getRaw) {
 	}
 
 
+	ZEPHIR_OBS_VAR(service);
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_services"), PH_NOISY_CC);
-	if (zephir_array_isset_fetch(&service, _0, name, 1 TSRMLS_CC)) {
+	if (zephir_array_isset_fetch(&service, _0, name, 0 TSRMLS_CC)) {
 		zephir_call_method(return_value, service, "getdefinition");
 		RETURN_MM();
 	}
@@ -366,9 +367,10 @@ PHP_METHOD(Phalcon_Di, getService) {
 	}
 
 
+	ZEPHIR_OBS_VAR(service);
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_services"), PH_NOISY_CC);
-	if (zephir_array_isset_fetch(&service, _0, name, 1 TSRMLS_CC)) {
-		RETURN_CTOR(service);
+	if (zephir_array_isset_fetch(&service, _0, name, 0 TSRMLS_CC)) {
+		RETURN_CCTOR(service);
 	}
 	ZEPHIR_INIT_VAR(_1);
 	object_init_ex(_1, phalcon_di_exception_ce);
@@ -412,8 +414,9 @@ PHP_METHOD(Phalcon_Di, get) {
 	}
 
 
+	ZEPHIR_OBS_VAR(service);
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_services"), PH_NOISY_CC);
-	if (zephir_array_isset_fetch(&service, _0, name, 1 TSRMLS_CC)) {
+	if (zephir_array_isset_fetch(&service, _0, name, 0 TSRMLS_CC)) {
 		ZEPHIR_INIT_VAR(instance);
 		zephir_call_method_p2(instance, service, "resolve", parameters, this_ptr);
 	} else {
@@ -740,7 +743,8 @@ PHP_METHOD(Phalcon_Di, __call) {
 		}
 	}
 	if (zephir_start_with_str(method, SL("set"))) {
-		if (zephir_array_isset_long_fetch(&definition, arguments, 0, 1 TSRMLS_CC)) {
+		ZEPHIR_OBS_VAR(definition);
+		if (zephir_array_isset_long_fetch(&definition, arguments, 0, 0 TSRMLS_CC)) {
 			ZEPHIR_INIT_NVAR(_0);
 			zephir_substr(_0, method, 3 , 0 );
 			ZEPHIR_INIT_VAR(_1);

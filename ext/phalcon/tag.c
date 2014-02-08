@@ -475,7 +475,8 @@ PHP_METHOD(Phalcon_Tag, getValue) {
 			RETURN_MM();
 		}
 		if ((Z_TYPE_P(params) == IS_ARRAY)) {
-			if (zephir_array_isset_string_fetch(&autoescape, params, SS("escape"), 1 TSRMLS_CC)) {
+			ZEPHIR_OBS_VAR(autoescape);
+			if (zephir_array_isset_string_fetch(&autoescape, params, SS("escape"), 0 TSRMLS_CC)) {
 				if (zephir_is_true(autoescape)) {
 					ZEPHIR_INIT_NVAR(escaper);
 					zephir_call_self(escaper, this_ptr, "getescaperservice");
@@ -663,11 +664,13 @@ PHP_METHOD(Phalcon_Tag, _inputField) {
 		ZEPHIR_CPY_WRT(params, parameters);
 	}
 	if ((asValue == 0)) {
-		if (!(zephir_array_isset_long_fetch(&id, params, 0, 1 TSRMLS_CC))) {
+		ZEPHIR_OBS_VAR(id);
+		if (!(zephir_array_isset_long_fetch(&id, params, 0, 0 TSRMLS_CC))) {
 			zephir_array_fetch_string(&_0, params, SL("id"), PH_NOISY | PH_READONLY TSRMLS_CC);
 			zephir_array_update_long(&params, 0, &_0, PH_COPY | PH_SEPARATE, "phalcon/tag.zep", 460);
 		}
-		if (zephir_array_isset_string_fetch(&name, params, SS("name"), 1 TSRMLS_CC)) {
+		ZEPHIR_OBS_VAR(name);
+		if (zephir_array_isset_string_fetch(&name, params, SS("name"), 0 TSRMLS_CC)) {
 			if (ZEPHIR_IS_EMPTY(name)) {
 				zephir_array_update_string(&params, SL("name"), &id, PH_COPY | PH_SEPARATE);
 			}

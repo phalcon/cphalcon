@@ -582,7 +582,8 @@ PHP_METHOD(Phalcon_Validation, getValue) {
 		ZEPHIR_OBS_VAR(filters);
 		zephir_read_property_this(&filters, this_ptr, SL("_filters"), PH_NOISY_CC);
 		if ((Z_TYPE_P(filters) == IS_ARRAY)) {
-			if (zephir_array_isset_fetch(&fieldFilters, filters, field, 1 TSRMLS_CC)) {
+			ZEPHIR_OBS_VAR(fieldFilters);
+			if (zephir_array_isset_fetch(&fieldFilters, filters, field, 0 TSRMLS_CC)) {
 				if (zephir_is_true(fieldFilters)) {
 					ZEPHIR_INIT_VAR(dependencyInjector);
 					zephir_call_method(dependencyInjector, this_ptr, "getdi");

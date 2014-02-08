@@ -119,7 +119,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Mysql, describeColumns) {
 	zend_function *_13 = NULL;
 	HashTable *_3;
 	HashPosition _2;
-	zval *table_param = NULL, *schema_param = NULL, *describe, *columns, *columnType = NULL, *field = NULL, *definition = NULL, *oldColumn = NULL, *dialect, *sizePattern, *matches = NULL, *matchOne, *columnName, *_0, *_1 = NULL, **_4, *_5 = NULL, *_6 = NULL, _7 = zval_used_for_init, *_8 = NULL, *_9, *_10, *_11, *_12 = NULL;
+	zval *table_param = NULL, *schema_param = NULL, *describe, *columns, *columnType = NULL, *field = NULL, *definition = NULL, *oldColumn = NULL, *dialect, *sizePattern, *matches = NULL, *matchOne = NULL, *columnName, *_0, *_1 = NULL, **_4, *_5 = NULL, *_6 = NULL, _7 = zval_used_for_init, *_8 = NULL, *_9, *_10, *_11, *_12 = NULL;
 	zval *table = NULL, *schema = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -241,7 +241,8 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Mysql, describeColumns) {
 			ZEPHIR_INIT_NVAR(_6);
 			zephir_preg_match(_6, &(_6), sizePattern, columnType, matches, 0, 0 , 0  TSRMLS_CC);
 			if (zephir_is_true(_6)) {
-				if (zephir_array_isset_long_fetch(&matchOne, matches, 1, 1 TSRMLS_CC)) {
+				ZEPHIR_OBS_NVAR(matchOne);
+				if (zephir_array_isset_long_fetch(&matchOne, matches, 1, 0 TSRMLS_CC)) {
 					zephir_array_update_string(&definition, SL("size"), &matchOne, PH_COPY | PH_SEPARATE);
 				}
 			}

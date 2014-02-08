@@ -354,8 +354,9 @@ PHP_METHOD(Phalcon_Http_Response_Cookies, delete) {
 	}
 
 
+	ZEPHIR_OBS_VAR(cookie);
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_cookies"), PH_NOISY_CC);
-	if (zephir_array_isset_fetch(&cookie, _0, name, 1 TSRMLS_CC)) {
+	if (zephir_array_isset_fetch(&cookie, _0, name, 0 TSRMLS_CC)) {
 		zephir_call_method_noret(cookie, "delete");
 		RETURN_MM_BOOL(1);
 	}

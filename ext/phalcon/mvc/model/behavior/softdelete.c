@@ -87,11 +87,13 @@ PHP_METHOD(Phalcon_Mvc_Model_Behavior_SoftDelete, notify) {
 	if (ZEPHIR_IS_STRING(type, "beforeDelete")) {
 		ZEPHIR_INIT_VAR(options);
 		zephir_call_method(options, this_ptr, "getoptions");
-		if (!(zephir_array_isset_string_fetch(&value, options, SS("value"), 1 TSRMLS_CC))) {
+		ZEPHIR_OBS_VAR(value);
+		if (!(zephir_array_isset_string_fetch(&value, options, SS("value"), 0 TSRMLS_CC))) {
 			ZEPHIR_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "The option 'value' is required");
 			return;
 		}
-		if (!(zephir_array_isset_string_fetch(&field, options, SS("field"), 1 TSRMLS_CC))) {
+		ZEPHIR_OBS_VAR(field);
+		if (!(zephir_array_isset_string_fetch(&field, options, SS("field"), 0 TSRMLS_CC))) {
 			ZEPHIR_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "The option 'field' is required");
 			return;
 		}

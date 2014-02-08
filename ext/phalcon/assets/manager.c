@@ -395,11 +395,12 @@ PHP_METHOD(Phalcon_Assets_Manager, get) {
 
 	ZEPHIR_OBS_VAR(collections);
 	zephir_read_property_this(&collections, this_ptr, SL("_collections"), PH_NOISY_CC);
-	if (!(zephir_array_isset_fetch(&collection, collections, id, 1 TSRMLS_CC))) {
+	ZEPHIR_OBS_VAR(collection);
+	if (!(zephir_array_isset_fetch(&collection, collections, id, 0 TSRMLS_CC))) {
 		ZEPHIR_THROW_EXCEPTION_STR(phalcon_assets_exception_ce, "The collection does not exist in the manager");
 		return;
 	}
-	RETURN_CTOR(collection);
+	RETURN_CCTOR(collection);
 
 }
 

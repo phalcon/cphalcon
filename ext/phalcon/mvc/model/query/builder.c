@@ -102,7 +102,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, __construct) {
 
 	HashTable *_1;
 	HashPosition _0;
-	zval *params = NULL, *dependencyInjector = NULL, *conditions = NULL, *columns, *groupClause, *havingClause, *limitClause, *forUpdate, *sharedLock, *orderClause, *offsetClause, *joinsClause, *singleConditionArray = NULL, *limit, *offset, *fromClause, *mergedConditions = NULL, *mergedParams = NULL, *mergedTypes = NULL, *singleCondition, *singleParams, *singleTypes, **_2, *_3 = NULL, *_4, *_5;
+	zval *params = NULL, *dependencyInjector = NULL, *conditions = NULL, *columns, *groupClause, *havingClause, *limitClause, *forUpdate, *sharedLock, *orderClause, *offsetClause, *joinsClause, *singleConditionArray = NULL, *limit, *offset, *fromClause, *mergedConditions = NULL, *mergedParams = NULL, *mergedTypes = NULL, *singleCondition = NULL, *singleParams = NULL, *singleTypes = NULL, **_2, *_3 = NULL, *_4, *_5;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 2, &params, &dependencyInjector);
@@ -136,6 +136,9 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, __construct) {
 					) {
 						ZEPHIR_GET_HVALUE(singleConditionArray, _2);
 						if ((Z_TYPE_P(singleConditionArray) == IS_ARRAY)) {
+							ZEPHIR_OBS_NVAR(singleCondition);
+							ZEPHIR_OBS_NVAR(singleParams);
+							ZEPHIR_OBS_NVAR(singleTypes);
 							if ((Z_TYPE_P(singleCondition) == IS_STRING)) {
 								Z_SET_ISREF_P(mergedConditions);
 								ZEPHIR_INIT_NVAR(_3);
@@ -165,26 +168,35 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, __construct) {
 				}
 			}
 		}
-		if (zephir_array_isset_string_fetch(&fromClause, params, SS("models"), 1 TSRMLS_CC)) {
+		ZEPHIR_OBS_VAR(fromClause);
+		if (zephir_array_isset_string_fetch(&fromClause, params, SS("models"), 0 TSRMLS_CC)) {
 			zephir_update_property_this(this_ptr, SL("_models"), fromClause TSRMLS_CC);
 		}
-		if (zephir_array_isset_string_fetch(&columns, params, SS("columns"), 1 TSRMLS_CC)) {
+		ZEPHIR_OBS_VAR(columns);
+		if (zephir_array_isset_string_fetch(&columns, params, SS("columns"), 0 TSRMLS_CC)) {
 			zephir_update_property_this(this_ptr, SL("_columns"), columns TSRMLS_CC);
 		}
-		if (zephir_array_isset_string_fetch(&joinsClause, params, SS("joins"), 1 TSRMLS_CC)) {
+		ZEPHIR_OBS_VAR(joinsClause);
+		if (zephir_array_isset_string_fetch(&joinsClause, params, SS("joins"), 0 TSRMLS_CC)) {
 			zephir_update_property_this(this_ptr, SL("_joins"), joinsClause TSRMLS_CC);
 		}
-		if (zephir_array_isset_string_fetch(&groupClause, params, SS("group"), 1 TSRMLS_CC)) {
+		ZEPHIR_OBS_VAR(groupClause);
+		if (zephir_array_isset_string_fetch(&groupClause, params, SS("group"), 0 TSRMLS_CC)) {
 			zephir_update_property_this(this_ptr, SL("_group"), groupClause TSRMLS_CC);
 		}
-		if (zephir_array_isset_string_fetch(&havingClause, params, SS("having"), 1 TSRMLS_CC)) {
+		ZEPHIR_OBS_VAR(havingClause);
+		if (zephir_array_isset_string_fetch(&havingClause, params, SS("having"), 0 TSRMLS_CC)) {
 			zephir_update_property_this(this_ptr, SL("_having"), havingClause TSRMLS_CC);
 		}
-		if (zephir_array_isset_string_fetch(&orderClause, params, SS("order"), 1 TSRMLS_CC)) {
+		ZEPHIR_OBS_VAR(orderClause);
+		if (zephir_array_isset_string_fetch(&orderClause, params, SS("order"), 0 TSRMLS_CC)) {
 			zephir_update_property_this(this_ptr, SL("_order"), orderClause TSRMLS_CC);
 		}
-		if (zephir_array_isset_string_fetch(&limitClause, params, SS("limit"), 1 TSRMLS_CC)) {
+		ZEPHIR_OBS_VAR(limitClause);
+		if (zephir_array_isset_string_fetch(&limitClause, params, SS("limit"), 0 TSRMLS_CC)) {
 			if ((Z_TYPE_P(limitClause) == IS_ARRAY)) {
+				ZEPHIR_OBS_VAR(limit);
+				ZEPHIR_OBS_VAR(offset);
 				ZEPHIR_INIT_VAR(_4);
 				zephir_call_func_p1(_4, "is_int", limit);
 				if (zephir_is_true(_4)) {
@@ -1306,7 +1318,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getPhql) {
 		ZEPHIR_INIT_VAR(primaryKeys);
 		zephir_call_method_p1(primaryKeys, metaData, "getprimarykeyattributes", modelInstance);
 		if (zephir_fast_count_int(primaryKeys TSRMLS_CC)) {
-			if (zephir_array_isset_long_fetch(&firstPrimaryKey, primaryKeys, 0, 1 TSRMLS_CC)) {
+			ZEPHIR_OBS_VAR(firstPrimaryKey);
+			if (zephir_array_isset_long_fetch(&firstPrimaryKey, primaryKeys, 0, 0 TSRMLS_CC)) {
 				ZEPHIR_INIT_VAR(columnMap);
 				if (ZEPHIR_GLOBAL(orm).column_renaming) {
 					zephir_call_method_p1(columnMap, metaData, "getcolumnmap", modelInstance);

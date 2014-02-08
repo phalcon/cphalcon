@@ -85,7 +85,8 @@ PHP_METHOD(Phalcon_Di_Service_Builder, _buildParameter) {
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
-	if (!(zephir_array_isset_string_fetch(&type, argument, SS("type"), 1 TSRMLS_CC))) {
+	ZEPHIR_OBS_VAR(type);
+	if (!(zephir_array_isset_string_fetch(&type, argument, SS("type"), 0 TSRMLS_CC))) {
 		ZEPHIR_INIT_LNVAR(_0);
 		object_init_ex(_0, phalcon_di_exception_ce);
 		ZEPHIR_SINIT_NVAR(_1);
@@ -120,7 +121,8 @@ PHP_METHOD(Phalcon_Di_Service_Builder, _buildParameter) {
 			RETURN_MM();
 		}
 		if (ZEPHIR_IS_STRING(type, "parameter")) {
-			if (!(zephir_array_isset_string_fetch(&value, argument, SS("value"), 1 TSRMLS_CC))) {
+			ZEPHIR_OBS_VAR(value);
+			if (!(zephir_array_isset_string_fetch(&value, argument, SS("value"), 0 TSRMLS_CC))) {
 				ZEPHIR_INIT_LNVAR(_0);
 				object_init_ex(_0, phalcon_di_exception_ce);
 				ZEPHIR_SINIT_NVAR(_1);
@@ -132,7 +134,7 @@ PHP_METHOD(Phalcon_Di_Service_Builder, _buildParameter) {
 				ZEPHIR_MM_RESTORE();
 				return;
 			}
-			RETURN_CTOR(value);
+			RETURN_CCTOR(value);
 		}
 		if (ZEPHIR_IS_STRING(type, "instance")) {
 			ZEPHIR_OBS_NVAR(name);
@@ -152,7 +154,8 @@ PHP_METHOD(Phalcon_Di_Service_Builder, _buildParameter) {
 				ZEPHIR_THROW_EXCEPTION_STR(phalcon_di_exception_ce, "The dependency injector container is not valid");
 				return;
 			}
-			if (zephir_array_isset_string_fetch(&instanceArguments, argument, SS("arguments"), 1 TSRMLS_CC)) {
+			ZEPHIR_OBS_VAR(instanceArguments);
+			if (zephir_array_isset_string_fetch(&instanceArguments, argument, SS("arguments"), 0 TSRMLS_CC)) {
 				zephir_call_method_p2(return_value, dependencyInjector, "get", name, instanceArguments);
 				RETURN_MM();
 			} else {
@@ -229,7 +232,7 @@ PHP_METHOD(Phalcon_Di_Service_Builder, build) {
 	zend_function *_6 = NULL, *_7 = NULL, *_8 = NULL, *_10 = NULL, *_11 = NULL, *_15 = NULL, *_16 = NULL, *_17 = NULL, *_18 = NULL;
 	HashTable *_2, *_13;
 	HashPosition _1, _12;
-	zval *dependencyInjector, *definition, *parameters = NULL, *className, *arguments = NULL, *paramCalls = NULL, *methodPosition = NULL, *method = NULL, *methodName, *methodCall = NULL, *instance = NULL, *propertyPosition = NULL, *property = NULL, *propertyName, *propertyValue, *_0 = NULL, **_3, *_4 = NULL, *_5 = NULL, *_9 = NULL, **_14;
+	zval *dependencyInjector, *definition, *parameters = NULL, *className, *arguments = NULL, *paramCalls = NULL, *methodPosition = NULL, *method = NULL, *methodName = NULL, *methodCall = NULL, *instance = NULL, *propertyPosition = NULL, *property = NULL, *propertyName = NULL, *propertyValue = NULL, *_0 = NULL, **_3, *_4 = NULL, *_5 = NULL, *_9 = NULL, **_14;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 1, &dependencyInjector, &definition, &parameters);
@@ -243,7 +246,8 @@ PHP_METHOD(Phalcon_Di_Service_Builder, build) {
 		ZEPHIR_THROW_EXCEPTION_STR(phalcon_di_exception_ce, "The service definition must be an array");
 		return;
 	}
-	if (!(zephir_array_isset_string_fetch(&className, definition, SS("className"), 1 TSRMLS_CC))) {
+	ZEPHIR_OBS_VAR(className);
+	if (!(zephir_array_isset_string_fetch(&className, definition, SS("className"), 0 TSRMLS_CC))) {
 		ZEPHIR_THROW_EXCEPTION_STR(phalcon_di_exception_ce, "Invalid service definition. Missing 'className' parameter");
 		return;
 	}
@@ -300,7 +304,8 @@ PHP_METHOD(Phalcon_Di_Service_Builder, build) {
 				ZEPHIR_MM_RESTORE();
 				return;
 			}
-			if (!(zephir_array_isset_string_fetch(&methodName, method, SS("method"), 1 TSRMLS_CC))) {
+			ZEPHIR_OBS_NVAR(methodName);
+			if (!(zephir_array_isset_string_fetch(&methodName, method, SS("method"), 0 TSRMLS_CC))) {
 				ZEPHIR_INIT_LNVAR(_4);
 				object_init_ex(_4, phalcon_di_exception_ce);
 				ZEPHIR_INIT_LNVAR(_5);
@@ -364,7 +369,8 @@ PHP_METHOD(Phalcon_Di_Service_Builder, build) {
 				ZEPHIR_MM_RESTORE();
 				return;
 			}
-			if (!(zephir_array_isset_string_fetch(&propertyName, property, SS("name"), 1 TSRMLS_CC))) {
+			ZEPHIR_OBS_NVAR(propertyName);
+			if (!(zephir_array_isset_string_fetch(&propertyName, property, SS("name"), 0 TSRMLS_CC))) {
 				ZEPHIR_INIT_LNVAR(_4);
 				object_init_ex(_4, phalcon_di_exception_ce);
 				ZEPHIR_INIT_LNVAR(_5);
@@ -374,7 +380,8 @@ PHP_METHOD(Phalcon_Di_Service_Builder, build) {
 				ZEPHIR_MM_RESTORE();
 				return;
 			}
-			if (!(zephir_array_isset_string_fetch(&propertyValue, property, SS("value"), 1 TSRMLS_CC))) {
+			ZEPHIR_OBS_NVAR(propertyValue);
+			if (!(zephir_array_isset_string_fetch(&propertyValue, property, SS("value"), 0 TSRMLS_CC))) {
 				ZEPHIR_INIT_LNVAR(_4);
 				object_init_ex(_4, phalcon_di_exception_ce);
 				ZEPHIR_INIT_LNVAR(_5);

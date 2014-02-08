@@ -387,15 +387,18 @@ PHP_METHOD(Phalcon_Di_Service, __set_state) {
 
 
 
-	if (!(zephir_array_isset_string_fetch(&name, attributes, SS("_name"), 1 TSRMLS_CC))) {
+	ZEPHIR_OBS_VAR(name);
+	if (!(zephir_array_isset_string_fetch(&name, attributes, SS("_name"), 0 TSRMLS_CC))) {
 		ZEPHIR_THROW_EXCEPTION_STR(phalcon_di_exception_ce, "The attribute '_name' is required");
 		return;
 	}
-	if (!(zephir_array_isset_string_fetch(&definition, attributes, SS("_definition"), 1 TSRMLS_CC))) {
+	ZEPHIR_OBS_VAR(definition);
+	if (!(zephir_array_isset_string_fetch(&definition, attributes, SS("_definition"), 0 TSRMLS_CC))) {
 		ZEPHIR_THROW_EXCEPTION_STR(phalcon_di_exception_ce, "The attribute '_name' is required");
 		return;
 	}
-	if (!(zephir_array_isset_string_fetch(&shared, attributes, SS("_shared"), 1 TSRMLS_CC))) {
+	ZEPHIR_OBS_VAR(shared);
+	if (!(zephir_array_isset_string_fetch(&shared, attributes, SS("_shared"), 0 TSRMLS_CC))) {
 		ZEPHIR_THROW_EXCEPTION_STR(phalcon_di_exception_ce, "The attribute '_shared' is required");
 		return;
 	}
