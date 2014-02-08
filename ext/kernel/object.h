@@ -208,7 +208,11 @@ int phalcon_read_class_property(zval **result, int type, const char *property, z
 
 PHALCON_ATTR_NONNULL static inline zval* phalcon_fetch_static_property_ce(zend_class_entry *ce, const char *property, zend_uint len TSRMLS_DC)
 {
+#if PHP_VERSION_ID < 50400
+	return zend_read_static_property(ce, (char*)property, len, (zend_bool)ZEND_FETCH_CLASS_SILENT TSRMLS_CC);
+#else
 	return zend_read_static_property(ce, property, len, (zend_bool)ZEND_FETCH_CLASS_SILENT TSRMLS_CC);
+#endif
 }
 
 PHALCON_ATTR_NONNULL static inline int phalcon_read_static_property_ce(zval **result, zend_class_entry *ce, const char *property, zend_uint len TSRMLS_DC)
@@ -224,7 +228,11 @@ PHALCON_ATTR_NONNULL static inline int phalcon_read_static_property_ce(zval **re
 
 PHALCON_ATTR_NONNULL static inline int phalcon_update_static_property_ce(zend_class_entry *ce, const char *name, zend_uint len, zval *value TSRMLS_DC)
 {
+#if PHP_VERSION_ID < 50400
+	return zend_update_static_property(ce, (char*)name, len, value TSRMLS_CC);
+#else
 	return zend_update_static_property(ce, name, len, value TSRMLS_CC);
+#endif
 }
 
 /**
