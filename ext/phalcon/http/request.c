@@ -658,7 +658,8 @@ PHP_METHOD(Phalcon_Http_Request, getRawBody) {
 
 	ZEPHIR_MM_GROW();
 
-	rawBody = zephir_fetch_nproperty_this(this_ptr, SL("_rawBody"), PH_NOISY_CC);
+	ZEPHIR_OBS_VAR(rawBody);
+	zephir_read_property_this(&rawBody, this_ptr, SL("_rawBody"), PH_NOISY_CC);
 	if (ZEPHIR_IS_EMPTY(rawBody)) {
 		ZEPHIR_INIT_VAR(contents);
 		ZEPHIR_SINIT_VAR(_0);
@@ -667,7 +668,7 @@ PHP_METHOD(Phalcon_Http_Request, getRawBody) {
 		zephir_update_property_this(this_ptr, SL("_rawBody"), contents TSRMLS_CC);
 		RETURN_CCTOR(contents);
 	}
-	RETURN_CTOR(rawBody);
+	RETURN_CCTOR(rawBody);
 
 }
 

@@ -1986,7 +1986,8 @@ PHP_METHOD(Phalcon_Db_Adapter, createSavepoint) {
 	}
 
 
-	dialect = zephir_fetch_nproperty_this(this_ptr, SL("_dialect"), PH_NOISY_CC);
+	ZEPHIR_OBS_VAR(dialect);
+	zephir_read_property_this(&dialect, this_ptr, SL("_dialect"), PH_NOISY_CC);
 	ZEPHIR_INIT_VAR(_0);
 	zephir_call_method(_0, dialect, "supportssavepoints");
 	if (!(zephir_is_true(_0))) {
@@ -2027,7 +2028,8 @@ PHP_METHOD(Phalcon_Db_Adapter, releaseSavepoint) {
 	}
 
 
-	dialect = zephir_fetch_nproperty_this(this_ptr, SL("_dialect"), PH_NOISY_CC);
+	ZEPHIR_OBS_VAR(dialect);
+	zephir_read_property_this(&dialect, this_ptr, SL("_dialect"), PH_NOISY_CC);
 	ZEPHIR_INIT_VAR(_0);
 	zephir_call_method(_0, dialect, "supportssavepoints");
 	if (zephir_is_true(_0)) {
@@ -2073,7 +2075,8 @@ PHP_METHOD(Phalcon_Db_Adapter, rollbackSavepoint) {
 	}
 
 
-	dialect = zephir_fetch_nproperty_this(this_ptr, SL("_dialect"), PH_NOISY_CC);
+	ZEPHIR_OBS_VAR(dialect);
+	zephir_read_property_this(&dialect, this_ptr, SL("_dialect"), PH_NOISY_CC);
 	ZEPHIR_INIT_VAR(_0);
 	zephir_call_method(_0, dialect, "supportssavepoints");
 	if (zephir_is_true(_0)) {

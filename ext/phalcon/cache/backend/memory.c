@@ -223,7 +223,8 @@ PHP_METHOD(Phalcon_Cache_Backend_Memory, queryKeys) {
 	}
 
 
-	data = zephir_fetch_nproperty_this(this_ptr, SL("_data"), PH_NOISY_CC);
+	ZEPHIR_OBS_VAR(data);
+	zephir_read_property_this(&data, this_ptr, SL("_data"), PH_NOISY_CC);
 	ZEPHIR_INIT_VAR(keys);
 	array_init(keys);
 	if ((Z_TYPE_P(data) == IS_ARRAY)) {

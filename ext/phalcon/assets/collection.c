@@ -541,7 +541,8 @@ PHP_METHOD(Phalcon_Assets_Collection, getRealTargetPath) {
 	}
 
 
-	targetPath = zephir_fetch_nproperty_this(this_ptr, SL("_targetPath"), PH_NOISY_CC);
+	ZEPHIR_OBS_VAR(targetPath);
+	zephir_read_property_this(&targetPath, this_ptr, SL("_targetPath"), PH_NOISY_CC);
 	ZEPHIR_INIT_VAR(completePath);
 	ZEPHIR_CONCAT_VV(completePath, basePath, targetPath);
 	if ((zephir_file_exists(completePath TSRMLS_CC) == SUCCESS)) {

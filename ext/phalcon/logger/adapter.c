@@ -194,7 +194,8 @@ PHP_METHOD(Phalcon_Logger_Adapter, rollback) {
 
 	ZEPHIR_MM_GROW();
 
-	transaction = zephir_fetch_nproperty_this(this_ptr, SL("_transaction"), PH_NOISY_CC);
+	ZEPHIR_OBS_VAR(transaction);
+	zephir_read_property_this(&transaction, this_ptr, SL("_transaction"), PH_NOISY_CC);
 	if (!(zephir_is_true(transaction))) {
 		ZEPHIR_THROW_EXCEPTION_STR(phalcon_logger_exception_ce, "There is no active transaction");
 		return;

@@ -128,8 +128,10 @@ PHP_METHOD(Phalcon_Cache_Backend_File, get) {
 	}
 
 
-	options = zephir_fetch_nproperty_this(this_ptr, SL("_options"), PH_NOISY_CC);
-	prefix = zephir_fetch_nproperty_this(this_ptr, SL("_prefix"), PH_NOISY_CC);
+	ZEPHIR_OBS_VAR(options);
+	zephir_read_property_this(&options, this_ptr, SL("_options"), PH_NOISY_CC);
+	ZEPHIR_OBS_VAR(prefix);
+	zephir_read_property_this(&prefix, this_ptr, SL("_prefix"), PH_NOISY_CC);
 	ZEPHIR_INIT_VAR(prefixedKey);
 	ZEPHIR_CONCAT_VV(prefixedKey, prefix, keyName);
 	zephir_update_property_this(this_ptr, SL("_lastKey"), prefixedKey TSRMLS_CC);
@@ -140,11 +142,13 @@ PHP_METHOD(Phalcon_Cache_Backend_File, get) {
 	ZEPHIR_INIT_VAR(cacheFile);
 	ZEPHIR_CONCAT_VV(cacheFile, cacheDir, prefixedKey);
 	if (((zephir_file_exists(cacheFile TSRMLS_CC) == SUCCESS) == 1)) {
-		frontend = zephir_fetch_nproperty_this(this_ptr, SL("_frontend"), PH_NOISY_CC);
+		ZEPHIR_OBS_VAR(frontend);
+		zephir_read_property_this(&frontend, this_ptr, SL("_frontend"), PH_NOISY_CC);
 		ZEPHIR_INIT_VAR(now);
 		zephir_call_func(now, "time");
 		if (!(zephir_is_true(lifetime))) {
-			lastLifetime = zephir_fetch_nproperty_this(this_ptr, SL("_lastLifetime"), PH_NOISY_CC);
+			ZEPHIR_OBS_VAR(lastLifetime);
+			zephir_read_property_this(&lastLifetime, this_ptr, SL("_lastLifetime"), PH_NOISY_CC);
 			if (!(zephir_is_true(lastLifetime))) {
 				ZEPHIR_INIT_VAR(tmp);
 				zephir_call_method(tmp, frontend, "getlifetime");
@@ -279,7 +283,8 @@ PHP_METHOD(Phalcon_Cache_Backend_File, delete) {
 
 
 
-	prefix = zephir_fetch_nproperty_this(this_ptr, SL("_prefix"), PH_NOISY_CC);
+	ZEPHIR_OBS_VAR(prefix);
+	zephir_read_property_this(&prefix, this_ptr, SL("_prefix"), PH_NOISY_CC);
 	ZEPHIR_INIT_VAR(prefixedKey);
 	ZEPHIR_CONCAT_VV(prefixedKey, prefix, keyName);
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_options"), PH_NOISY_CC);
@@ -380,12 +385,14 @@ PHP_METHOD(Phalcon_Cache_Backend_File, exists) {
 	if (!(zephir_is_true(keyName))) {
 		zephir_read_property_this(&lastKey, this_ptr, SL("_lastKey"), PH_NOISY_CC);
 	} else {
-		prefix = zephir_fetch_nproperty_this(this_ptr, SL("_prefix"), PH_NOISY_CC);
+		ZEPHIR_OBS_VAR(prefix);
+		zephir_read_property_this(&prefix, this_ptr, SL("_prefix"), PH_NOISY_CC);
 		ZEPHIR_CONCAT_VV(lastKey, prefix, keyName);
 	}
 	if (zephir_is_true(lastKey)) {
 		_0 = zephir_fetch_nproperty_this(this_ptr, SL("_options"), PH_NOISY_CC);
-		zephir_array_fetch_string(&cacheDir, _0, SL("cacheDir"), PH_NOISY | PH_READONLY TSRMLS_CC);
+		ZEPHIR_OBS_VAR(cacheDir);
+		zephir_array_fetch_string(&cacheDir, _0, SL("cacheDir"), PH_NOISY TSRMLS_CC);
 		ZEPHIR_INIT_VAR(cacheFile);
 		ZEPHIR_CONCAT_VV(cacheFile, cacheDir, lastKey);
 		if ((zephir_file_exists(cacheFile TSRMLS_CC) == SUCCESS)) {
@@ -444,10 +451,12 @@ PHP_METHOD(Phalcon_Cache_Backend_File, increment) {
 	ZEPHIR_INIT_VAR(cacheFile);
 	ZEPHIR_CONCAT_VV(cacheFile, _2, prefixedKey);
 	if ((zephir_file_exists(cacheFile TSRMLS_CC) == SUCCESS)) {
-		frontend = zephir_fetch_nproperty_this(this_ptr, SL("_frontend"), PH_NOISY_CC);
+		ZEPHIR_OBS_VAR(frontend);
+		zephir_read_property_this(&frontend, this_ptr, SL("_frontend"), PH_NOISY_CC);
 		ZEPHIR_INIT_VAR(timestamp);
 		zephir_call_func(timestamp, "time");
-		lifetime = zephir_fetch_nproperty_this(this_ptr, SL("_lastLifetime"), PH_NOISY_CC);
+		ZEPHIR_OBS_VAR(lifetime);
+		zephir_read_property_this(&lifetime, this_ptr, SL("_lastLifetime"), PH_NOISY_CC);
 		if (!(zephir_is_true(lifetime))) {
 			ZEPHIR_INIT_VAR(ttl);
 			zephir_call_method(ttl, frontend, "getlifetime");
@@ -524,7 +533,8 @@ PHP_METHOD(Phalcon_Cache_Backend_File, decrement) {
 	if ((zephir_file_exists(cacheFile TSRMLS_CC) == SUCCESS)) {
 		ZEPHIR_INIT_VAR(timestamp);
 		zephir_call_func(timestamp, "time");
-		lifetime = zephir_fetch_nproperty_this(this_ptr, SL("_lastLifetime"), PH_NOISY_CC);
+		ZEPHIR_OBS_VAR(lifetime);
+		zephir_read_property_this(&lifetime, this_ptr, SL("_lastLifetime"), PH_NOISY_CC);
 		if (!(zephir_is_true(lifetime))) {
 			_3 = zephir_fetch_nproperty_this(this_ptr, SL("_frontend"), PH_NOISY_CC);
 			ZEPHIR_INIT_VAR(ttl);

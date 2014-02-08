@@ -209,7 +209,8 @@ PHP_METHOD(Phalcon_Cache_Backend_Mongo, get) {
 
 	ZEPHIR_INIT_VAR(conditions);
 	array_init(conditions);
-	frontend = zephir_fetch_nproperty_this(this_ptr, SL("_frontend"), PH_NOISY_CC);
+	ZEPHIR_OBS_VAR(frontend);
+	zephir_read_property_this(&frontend, this_ptr, SL("_frontend"), PH_NOISY_CC);
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_prefix"), PH_NOISY_CC);
 	ZEPHIR_INIT_VAR(prefixedKey);
 	ZEPHIR_CONCAT_VV(prefixedKey, _0, keyName);
@@ -227,9 +228,10 @@ PHP_METHOD(Phalcon_Cache_Backend_Mongo, get) {
 	zephir_call_method_p1(document, _1, "findone", conditions);
 	if ((Z_TYPE_P(document) == IS_ARRAY)) {
 		if (zephir_array_isset_string(document, SS("data"))) {
-			zephir_array_fetch_string(&cachedContent, document, SL("data"), PH_NOISY | PH_READONLY TSRMLS_CC);
+			ZEPHIR_OBS_VAR(cachedContent);
+			zephir_array_fetch_string(&cachedContent, document, SL("data"), PH_NOISY TSRMLS_CC);
 			if (zephir_is_numeric(cachedContent)) {
-				RETURN_CTOR(cachedContent);
+				RETURN_CCTOR(cachedContent);
 			} else {
 				zephir_call_method_p1(return_value, frontend, "afterretrieve", cachedContent);
 				RETURN_MM();

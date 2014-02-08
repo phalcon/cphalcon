@@ -12,9 +12,9 @@
 #include <Zend/zend_interfaces.h>
 
 #include "kernel/main.h"
+#include "kernel/memory.h"
 #include "kernel/array.h"
 #include "kernel/concat.h"
-#include "kernel/memory.h"
 #include "kernel/object.h"
 #include "kernel/fcall.h"
 #include "kernel/string.h"
@@ -78,25 +78,28 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Mysql, escapeIdentifier) {
 
 	zval *identifier, *domain, *name;
 
-	zephir_fetch_params(0, 1, 0, &identifier);
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 1, 0, &identifier);
 
 
 
 	if ((Z_TYPE_P(identifier) == IS_ARRAY)) {
-		zephir_array_fetch_long(&domain, identifier, 0, PH_NOISY | PH_READONLY TSRMLS_CC);
-		zephir_array_fetch_long(&name, identifier, 1, PH_NOISY | PH_READONLY TSRMLS_CC);
+		ZEPHIR_OBS_VAR(domain);
+		zephir_array_fetch_long(&domain, identifier, 0, PH_NOISY TSRMLS_CC);
+		ZEPHIR_OBS_VAR(name);
+		zephir_array_fetch_long(&name, identifier, 1, PH_NOISY TSRMLS_CC);
 		if (ZEPHIR_GLOBAL(db).escape_identifiers) {
 			ZEPHIR_CONCAT_SVSVS(return_value, "`", domain, "`.`", name, "`");
-			return;
+			RETURN_MM();
 		}
 		ZEPHIR_CONCAT_VSV(return_value, domain, ".", name);
-		return;
+		RETURN_MM();
 	}
 	if (ZEPHIR_GLOBAL(db).escape_identifiers) {
 		ZEPHIR_CONCAT_SVS(return_value, "`", identifier, "`");
-		return;
+		RETURN_MM();
 	}
-	RETURN_CCTORW(identifier);
+	RETURN_CCTOR(identifier);
 
 }
 
@@ -116,7 +119,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Mysql, describeColumns) {
 	zend_function *_13 = NULL;
 	HashTable *_3;
 	HashPosition _2;
-	zval *table_param = NULL, *schema_param = NULL, *describe, *columns, *columnType, *field = NULL, *definition = NULL, *oldColumn = NULL, *dialect, *sizePattern, *matches = NULL, *matchOne, *columnName, *_0, *_1 = NULL, **_4, *_5 = NULL, *_6 = NULL, _7 = zval_used_for_init, *_8 = NULL, *_9, *_10, *_11, *_12 = NULL;
+	zval *table_param = NULL, *schema_param = NULL, *describe, *columns, *columnType = NULL, *field = NULL, *definition = NULL, *oldColumn = NULL, *dialect, *sizePattern, *matches = NULL, *matchOne, *columnName, *_0, *_1 = NULL, **_4, *_5 = NULL, *_6 = NULL, _7 = zval_used_for_init, *_8 = NULL, *_9, *_10, *_11, *_12 = NULL;
 	zval *table = NULL, *schema = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -131,7 +134,8 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Mysql, describeColumns) {
 	}
 
 
-	dialect = zephir_fetch_nproperty_this(this_ptr, SL("_dialect"), PH_NOISY_CC);
+	ZEPHIR_OBS_VAR(dialect);
+	zephir_read_property_this(&dialect, this_ptr, SL("_dialect"), PH_NOISY_CC);
 	ZEPHIR_INIT_VAR(_0);
 	zephir_call_method_p2(_0, dialect, "describecolumns", table, schema);
 	ZEPHIR_INIT_VAR(_1);
@@ -153,7 +157,8 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Mysql, describeColumns) {
 		ZEPHIR_INIT_NVAR(definition);
 		array_init_size(definition, 2);
 		add_assoc_long_ex(definition, SS("bindType"), 2);
-		zephir_array_fetch_long(&columnType, field, 1, PH_NOISY | PH_READONLY TSRMLS_CC);
+		ZEPHIR_OBS_NVAR(columnType);
+		zephir_array_fetch_long(&columnType, field, 1, PH_NOISY TSRMLS_CC);
 		while (1) {
 			if (zephir_memnstr_str(columnType, SL("enum"), "phalcon/db/adapter/pdo/mysql.zep", 123)) {
 				ZEPHIR_INIT_NVAR(_1);

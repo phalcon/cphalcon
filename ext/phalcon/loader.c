@@ -197,7 +197,8 @@ PHP_METHOD(Phalcon_Loader, registerNamespaces) {
 		return;
 	}
 	if (merge) {
-		currentNamespaces = zephir_fetch_nproperty_this(this_ptr, SL("_namespaces"), PH_NOISY_CC);
+		ZEPHIR_OBS_VAR(currentNamespaces);
+		zephir_read_property_this(&currentNamespaces, this_ptr, SL("_namespaces"), PH_NOISY_CC);
 		if ((Z_TYPE_P(currentNamespaces) == IS_ARRAY)) {
 			ZEPHIR_INIT_VAR(mergedNamespaces);
 			zephir_fast_array_merge(mergedNamespaces, &(currentNamespaces), &(namespaces) TSRMLS_CC);
@@ -251,7 +252,8 @@ PHP_METHOD(Phalcon_Loader, registerPrefixes) {
 		return;
 	}
 	if (merge) {
-		currentPrefixes = zephir_fetch_nproperty_this(this_ptr, SL("_prefixes"), PH_NOISY_CC);
+		ZEPHIR_OBS_VAR(currentPrefixes);
+		zephir_read_property_this(&currentPrefixes, this_ptr, SL("_prefixes"), PH_NOISY_CC);
 		if ((Z_TYPE_P(currentPrefixes) == IS_ARRAY)) {
 			ZEPHIR_INIT_VAR(mergedPrefixes);
 			zephir_fast_array_merge(mergedPrefixes, &(currentPrefixes), &(prefixes) TSRMLS_CC);
@@ -305,7 +307,8 @@ PHP_METHOD(Phalcon_Loader, registerDirs) {
 		return;
 	}
 	if (merge) {
-		currentDirectories = zephir_fetch_nproperty_this(this_ptr, SL("_directories"), PH_NOISY_CC);
+		ZEPHIR_OBS_VAR(currentDirectories);
+		zephir_read_property_this(&currentDirectories, this_ptr, SL("_directories"), PH_NOISY_CC);
 		if ((Z_TYPE_P(currentDirectories) == IS_ARRAY)) {
 			ZEPHIR_INIT_VAR(mergedDirectories);
 			zephir_fast_array_merge(mergedDirectories, &(currentDirectories), &(directories) TSRMLS_CC);
@@ -356,7 +359,8 @@ PHP_METHOD(Phalcon_Loader, registerClasses) {
 		return;
 	}
 	if (zephir_is_true(merge)) {
-		currentClasses = zephir_fetch_nproperty_this(this_ptr, SL("_classes"), PH_NOISY_CC);
+		ZEPHIR_OBS_VAR(currentClasses);
+		zephir_read_property_this(&currentClasses, this_ptr, SL("_classes"), PH_NOISY_CC);
 		if ((Z_TYPE_P(currentClasses) == IS_ARRAY)) {
 			ZEPHIR_INIT_VAR(mergedClasses);
 			zephir_fast_array_merge(mergedClasses, &(currentClasses), &(classes) TSRMLS_CC);

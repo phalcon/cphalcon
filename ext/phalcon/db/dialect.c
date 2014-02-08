@@ -200,7 +200,8 @@ PHP_METHOD(Phalcon_Db_Dialect, getColumnList) {
 
 	ZEPHIR_INIT_VAR(strList);
 	array_init(strList);
-	escapeChar = zephir_fetch_nproperty_this(this_ptr, SL("_escapeChar"), PH_NOISY_CC);
+	ZEPHIR_OBS_VAR(escapeChar);
+	zephir_read_property_this(&escapeChar, this_ptr, SL("_escapeChar"), PH_NOISY_CC);
 	zephir_is_iterable(columnList, &_1, &_0, 0, 0);
 	for (
 		; zend_hash_get_current_data_ex(_1, (void**) &_2, &_0) == SUCCESS
@@ -294,7 +295,8 @@ PHP_METHOD(Phalcon_Db_Dialect, getSqlExpression) {
 		RETURN_MM();
 	}
 	if (ZEPHIR_IS_STRING(type, "unary-op")) {
-		zephir_array_fetch_string(&operator, expression, SL("op"), PH_NOISY | PH_READONLY TSRMLS_CC);
+		ZEPHIR_OBS_VAR(operator);
+		zephir_array_fetch_string(&operator, expression, SL("op"), PH_NOISY TSRMLS_CC);
 		ZEPHIR_OBS_NVAR(left);
 		if (zephir_array_isset_string_fetch(&left, expression, SS("left"), 0 TSRMLS_CC)) {
 			ZEPHIR_INIT_VAR(_5);
@@ -429,14 +431,16 @@ PHP_METHOD(Phalcon_Db_Dialect, getSqlTable) {
 		ZEPHIR_CPY_WRT(escapeChar, _1);
 	}
 	if ((Z_TYPE_P(table) == IS_ARRAY)) {
-		zephir_array_fetch_long(&tableName, table, 0, PH_NOISY | PH_READONLY TSRMLS_CC);
+		ZEPHIR_OBS_VAR(tableName);
+		zephir_array_fetch_long(&tableName, table, 0, PH_NOISY TSRMLS_CC);
 		if (ZEPHIR_GLOBAL(db).escape_identifiers) {
 			ZEPHIR_INIT_VAR(sqlTable);
 			ZEPHIR_CONCAT_VVV(sqlTable, escapeChar, tableName, escapeChar);
 		} else {
 			ZEPHIR_CPY_WRT(sqlTable, tableName);
 		}
-		zephir_array_fetch_long(&schemaName, table, 1, PH_NOISY | PH_READONLY TSRMLS_CC);
+		ZEPHIR_OBS_VAR(schemaName);
+		zephir_array_fetch_long(&schemaName, table, 1, PH_NOISY TSRMLS_CC);
 		if ((Z_TYPE_P(schemaName) != IS_ARRAY)) {
 			ZEPHIR_INIT_VAR(sqlSchema);
 			if (ZEPHIR_GLOBAL(db).escape_identifiers) {
@@ -478,7 +482,7 @@ PHP_METHOD(Phalcon_Db_Dialect, select) {
 	zend_function *_3 = NULL, *_8 = NULL, *_13 = NULL, *_18 = NULL, *_25 = NULL, *_30 = NULL;
 	HashTable *_1, *_5, *_10, *_16, *_23, *_28;
 	HashPosition _0, _4, _9, _15, _22, _27;
-	zval *definition, *tables, *columns = NULL, *escapeChar, *columnItem, *column = NULL, *selectedColumns, *columnSql = NULL, *columnDomainSql = NULL, *columnAlias, *selectedTables, *sqlJoin = NULL, *joinExpressions = NULL, *joinCondition = NULL, *joinConditionsArray, *tablesSql = NULL, *columnDomain, *columnAliasSql = NULL, *columnsSql = NULL, *table = NULL, *sql, *joins, *join = NULL, *sqlTable = NULL, *whereConditions, *groupFields, *groupField = NULL, *groupItems, *havingConditions, *orderFields, *orderItem = NULL, *orderItems, *orderSqlItem = NULL, *sqlOrderType, *orderSqlItemType = NULL, *limitValue, *number, *offset, **_2, **_6, *_7 = NULL, **_11, *_12, *_14, **_17, *_19 = NULL, *_20 = NULL, *_21 = NULL, **_24, *_26 = NULL, **_29, *_31;
+	zval *definition, *tables, *columns = NULL, *escapeChar, *columnItem = NULL, *column = NULL, *selectedColumns, *columnSql = NULL, *columnDomainSql = NULL, *columnAlias, *selectedTables, *sqlJoin = NULL, *joinExpressions = NULL, *joinCondition = NULL, *joinConditionsArray, *tablesSql = NULL, *columnDomain, *columnAliasSql = NULL, *columnsSql = NULL, *table = NULL, *sql, *joins, *join = NULL, *sqlTable = NULL, *whereConditions, *groupFields, *groupField = NULL, *groupItems, *havingConditions, *orderFields, *orderItem = NULL, *orderItems, *orderSqlItem = NULL, *sqlOrderType, *orderSqlItemType = NULL, *limitValue, *number, *offset, **_2, **_6, *_7 = NULL, **_11, *_12, *_14, **_17, *_19 = NULL, *_20 = NULL, *_21 = NULL, **_24, *_26 = NULL, **_29, *_31;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &definition);
@@ -515,7 +519,8 @@ PHP_METHOD(Phalcon_Db_Dialect, select) {
 			; zend_hash_move_forward_ex(_1, &_0)
 		) {
 			ZEPHIR_GET_HVALUE(column, _2);
-			zephir_array_fetch_long(&columnItem, column, 0, PH_NOISY | PH_READONLY TSRMLS_CC);
+			ZEPHIR_OBS_NVAR(columnItem);
+			zephir_array_fetch_long(&columnItem, column, 0, PH_NOISY TSRMLS_CC);
 			if ((Z_TYPE_P(columnItem) == IS_ARRAY)) {
 				ZEPHIR_INIT_NVAR(columnSql);
 				zephir_call_method_p2_cache(columnSql, this_ptr, "getsqlexpression", &_3, columnItem, escapeChar);

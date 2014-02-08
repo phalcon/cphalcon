@@ -921,14 +921,16 @@ PHP_METHOD(Phalcon_Mvc_Collection, validationHasFailed) {
 
 	zval *errorMessages;
 
+	ZEPHIR_MM_GROW();
 
-	errorMessages = zephir_fetch_nproperty_this(this_ptr, SL("_errorMessages"), PH_NOISY_CC);
+	ZEPHIR_OBS_VAR(errorMessages);
+	zephir_read_property_this(&errorMessages, this_ptr, SL("_errorMessages"), PH_NOISY_CC);
 	if ((Z_TYPE_P(errorMessages) == IS_ARRAY)) {
 		if (zephir_fast_count_int(errorMessages TSRMLS_CC)) {
-			RETURN_BOOL(1);
+			RETURN_MM_BOOL(1);
 		}
 	}
-	RETURN_BOOL(0);
+	RETURN_MM_BOOL(0);
 
 }
 
@@ -1178,7 +1180,8 @@ PHP_METHOD(Phalcon_Mvc_Collection, save) {
 
 	ZEPHIR_MM_GROW();
 
-	dependencyInjector = zephir_fetch_nproperty_this(this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
+	ZEPHIR_OBS_VAR(dependencyInjector);
+	zephir_read_property_this(&dependencyInjector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
 	if ((Z_TYPE_P(dependencyInjector) != IS_OBJECT)) {
 		ZEPHIR_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "A dependency injector container is required to obtain the services related to the ORM");
 		return;

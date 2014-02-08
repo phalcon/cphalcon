@@ -12,8 +12,8 @@
 #include <Zend/zend_interfaces.h>
 
 #include "kernel/main.h"
-#include "kernel/object.h"
 #include "kernel/memory.h"
+#include "kernel/object.h"
 #include "kernel/string.h"
 #include "kernel/array.h"
 #include "ext/spl/spl_exceptions.h"
@@ -83,7 +83,8 @@ PHP_METHOD(Phalcon_Annotations_Adapter_Memory, read) {
 	}
 
 
-	data = zephir_fetch_nproperty_this(this_ptr, SL("_data"), PH_NOISY_CC);
+	ZEPHIR_OBS_VAR(data);
+	zephir_read_property_this(&data, this_ptr, SL("_data"), PH_NOISY_CC);
 	ZEPHIR_INIT_VAR(lowercasedKey);
 	zephir_fast_strtolower(lowercasedKey, key);
 	if (zephir_array_isset(data, lowercasedKey)) {

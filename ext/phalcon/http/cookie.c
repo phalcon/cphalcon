@@ -367,7 +367,8 @@ PHP_METHOD(Phalcon_Http_Cookie, restore) {
 
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_restored"), PH_NOISY_CC);
 	if (!(zephir_is_true(_0))) {
-		dependencyInjector = zephir_fetch_nproperty_this(this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
+		ZEPHIR_OBS_VAR(dependencyInjector);
+		zephir_read_property_this(&dependencyInjector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
 		if ((Z_TYPE_P(dependencyInjector) == IS_OBJECT)) {
 			ZEPHIR_INIT_VAR(_1);
 			ZVAL_STRING(_1, "session", 1);

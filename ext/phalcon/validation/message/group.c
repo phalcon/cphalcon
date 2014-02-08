@@ -305,7 +305,8 @@ PHP_METHOD(Phalcon_Validation_Message_Group, filter) {
 
 	ZEPHIR_INIT_VAR(filtered);
 	array_init(filtered);
-	messages = zephir_fetch_nproperty_this(this_ptr, SL("_messages"), PH_NOISY_CC);
+	ZEPHIR_OBS_VAR(messages);
+	zephir_read_property_this(&messages, this_ptr, SL("_messages"), PH_NOISY_CC);
 	if ((Z_TYPE_P(messages) == IS_ARRAY)) {
 		zephir_is_iterable(messages, &_1, &_0, 0, 0);
 		for (

@@ -234,7 +234,8 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, prepare) {
 	}
 
 
-	pdo = zephir_fetch_nproperty_this(this_ptr, SL("_pdo"), PH_NOISY_CC);
+	ZEPHIR_OBS_VAR(pdo);
+	zephir_read_property_this(&pdo, this_ptr, SL("_pdo"), PH_NOISY_CC);
 	zephir_call_method_p1(return_value, pdo, "prepare", sqlStatement);
 	RETURN_MM();
 
@@ -623,7 +624,8 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, lastInsertId) {
 	}
 
 
-	pdo = zephir_fetch_nproperty_this(this_ptr, SL("_pdo"), PH_NOISY_CC);
+	ZEPHIR_OBS_VAR(pdo);
+	zephir_read_property_this(&pdo, this_ptr, SL("_pdo"), PH_NOISY_CC);
 	if ((Z_TYPE_P(pdo) != IS_OBJECT)) {
 		RETURN_MM_BOOL(0);
 	}
@@ -868,7 +870,8 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, isUnderTransaction) {
 
 	ZEPHIR_MM_GROW();
 
-	pdo = zephir_fetch_nproperty_this(this_ptr, SL("_pdo"), PH_NOISY_CC);
+	ZEPHIR_OBS_VAR(pdo);
+	zephir_read_property_this(&pdo, this_ptr, SL("_pdo"), PH_NOISY_CC);
 	if ((Z_TYPE_P(pdo) == IS_OBJECT)) {
 		zephir_call_method(return_value, pdo, "intransaction");
 		RETURN_MM();

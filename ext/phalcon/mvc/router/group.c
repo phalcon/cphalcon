@@ -299,7 +299,8 @@ PHP_METHOD(Phalcon_Mvc_Router_Group, _addRoute) {
 	}
 
 
-	defaultPaths = zephir_fetch_nproperty_this(this_ptr, SL("_paths"), PH_NOISY_CC);
+	ZEPHIR_OBS_VAR(defaultPaths);
+	zephir_read_property_this(&defaultPaths, this_ptr, SL("_paths"), PH_NOISY_CC);
 	if ((Z_TYPE_P(defaultPaths) == IS_ARRAY)) {
 		if ((Z_TYPE_P(paths) == IS_ARRAY)) {
 			ZEPHIR_INIT_VAR(mergedPaths);

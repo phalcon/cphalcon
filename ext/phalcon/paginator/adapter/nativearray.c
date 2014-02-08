@@ -139,8 +139,10 @@ PHP_METHOD(Phalcon_Paginator_Adapter_NativeArray, getPaginate) {
 
 	ZEPHIR_MM_GROW();
 
-	config = zephir_fetch_nproperty_this(this_ptr, SL("_config"), PH_NOISY_CC);
-	zephir_array_fetch_string(&items, config, SL("data"), PH_NOISY | PH_READONLY TSRMLS_CC);
+	ZEPHIR_OBS_VAR(config);
+	zephir_read_property_this(&config, this_ptr, SL("_config"), PH_NOISY_CC);
+	ZEPHIR_OBS_VAR(items);
+	zephir_array_fetch_string(&items, config, SL("data"), PH_NOISY TSRMLS_CC);
 	if ((Z_TYPE_P(items) != IS_ARRAY)) {
 		ZEPHIR_THROW_EXCEPTION_STR(phalcon_paginator_exception_ce, "Invalid data for paginator");
 		return;

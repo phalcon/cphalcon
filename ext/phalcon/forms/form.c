@@ -776,7 +776,8 @@ PHP_METHOD(Phalcon_Forms_Form, getValue) {
 	}
 
 
-	entity = zephir_fetch_nproperty_this(this_ptr, SL("_entity"), PH_NOISY_CC);
+	ZEPHIR_OBS_VAR(entity);
+	zephir_read_property_this(&entity, this_ptr, SL("_entity"), PH_NOISY_CC);
 	if ((Z_TYPE_P(entity) == IS_OBJECT)) {
 		ZEPHIR_INIT_VAR(_0);
 		ZEPHIR_CONCAT_SV(_0, "get", name);

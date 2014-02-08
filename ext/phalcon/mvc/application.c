@@ -183,7 +183,8 @@ PHP_METHOD(Phalcon_Mvc_Application, registerModules) {
 	if ((merge == 0)) {
 		zephir_update_property_this(this_ptr, SL("_modules"), modules TSRMLS_CC);
 	} else {
-		registeredModules = zephir_fetch_nproperty_this(this_ptr, SL("_modules"), PH_NOISY_CC);
+		ZEPHIR_OBS_VAR(registeredModules);
+		zephir_read_property_this(&registeredModules, this_ptr, SL("_modules"), PH_NOISY_CC);
 		if ((Z_TYPE_P(registeredModules) == IS_ARRAY)) {
 			ZEPHIR_INIT_VAR(_0);
 			zephir_fast_array_merge(_0, &(registeredModules), &(modules) TSRMLS_CC);

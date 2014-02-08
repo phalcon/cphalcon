@@ -115,7 +115,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Status, getMessages) {
 
 	ZEPHIR_MM_GROW();
 
-	model = zephir_fetch_nproperty_this(this_ptr, SL("_model"), PH_NOISY_CC);
+	ZEPHIR_OBS_VAR(model);
+	zephir_read_property_this(&model, this_ptr, SL("_model"), PH_NOISY_CC);
 	if ((Z_TYPE_P(model) == IS_OBJECT)) {
 		zephir_call_method(return_value, model, "getmessages");
 		RETURN_MM();

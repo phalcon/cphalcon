@@ -254,7 +254,8 @@ PHP_METHOD(Phalcon_Forms_Element, addValidators) {
 		return;
 	}
 	if (merge) {
-		currentValidators = zephir_fetch_nproperty_this(this_ptr, SL("_validators"), PH_NOISY_CC);
+		ZEPHIR_OBS_VAR(currentValidators);
+		zephir_read_property_this(&currentValidators, this_ptr, SL("_validators"), PH_NOISY_CC);
 		if ((Z_TYPE_P(currentValidators) == IS_ARRAY)) {
 			ZEPHIR_INIT_VAR(mergedValidators);
 			zephir_fast_array_merge(mergedValidators, &(currentValidators), &(validators) TSRMLS_CC);
@@ -328,7 +329,8 @@ PHP_METHOD(Phalcon_Forms_Element, prepareAttributes) {
 	}
 
 
-	name = zephir_fetch_nproperty_this(this_ptr, SL("_name"), PH_NOISY_CC);
+	ZEPHIR_OBS_VAR(name);
+	zephir_read_property_this(&name, this_ptr, SL("_name"), PH_NOISY_CC);
 	if ((Z_TYPE_P(attributes) != IS_ARRAY)) {
 		ZEPHIR_INIT_VAR(widgetAttributes);
 		array_init(widgetAttributes);
@@ -336,7 +338,8 @@ PHP_METHOD(Phalcon_Forms_Element, prepareAttributes) {
 		ZEPHIR_CPY_WRT(widgetAttributes, attributes);
 	}
 	zephir_array_update_long(&widgetAttributes, 0, &name, PH_COPY | PH_SEPARATE, "phalcon/forms/element.zep", 219);
-	defaultAttributes = zephir_fetch_nproperty_this(this_ptr, SL("_attributes"), PH_NOISY_CC);
+	ZEPHIR_OBS_VAR(defaultAttributes);
+	zephir_read_property_this(&defaultAttributes, this_ptr, SL("_attributes"), PH_NOISY_CC);
 	if ((Z_TYPE_P(defaultAttributes) == IS_ARRAY)) {
 		ZEPHIR_INIT_VAR(mergedAttributes);
 		zephir_fast_array_merge(mergedAttributes, &(defaultAttributes), &(widgetAttributes) TSRMLS_CC);
@@ -647,10 +650,12 @@ PHP_METHOD(Phalcon_Forms_Element, getValue) {
 
 	ZEPHIR_MM_GROW();
 
-	name = zephir_fetch_nproperty_this(this_ptr, SL("_name"), PH_NOISY_CC);
+	ZEPHIR_OBS_VAR(name);
+	zephir_read_property_this(&name, this_ptr, SL("_name"), PH_NOISY_CC);
 	ZEPHIR_INIT_VAR(value);
 	ZVAL_NULL(value);
-	form = zephir_fetch_nproperty_this(this_ptr, SL("_form"), PH_NOISY_CC);
+	ZEPHIR_OBS_VAR(form);
+	zephir_read_property_this(&form, this_ptr, SL("_form"), PH_NOISY_CC);
 	if ((Z_TYPE_P(form) == IS_OBJECT)) {
 		ZEPHIR_INIT_VAR(_0);
 		zephir_call_static_p1(_0, "Phalcon\\Tag", "hasvalue", name);
@@ -701,12 +706,14 @@ PHP_METHOD(Phalcon_Forms_Element, hasMessages) {
 
 	zval *messages;
 
+	ZEPHIR_MM_GROW();
 
-	messages = zephir_fetch_nproperty_this(this_ptr, SL("_messages"), PH_NOISY_CC);
+	ZEPHIR_OBS_VAR(messages);
+	zephir_read_property_this(&messages, this_ptr, SL("_messages"), PH_NOISY_CC);
 	if ((Z_TYPE_P(messages) == IS_OBJECT)) {
-		RETURN_BOOL((zephir_fast_count_int(messages TSRMLS_CC) > 0));
+		RETURN_MM_BOOL((zephir_fast_count_int(messages TSRMLS_CC) > 0));
 	}
-	RETURN_BOOL(0);
+	RETURN_MM_BOOL(0);
 
 }
 

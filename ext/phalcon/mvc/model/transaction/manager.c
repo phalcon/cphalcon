@@ -502,7 +502,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, _collectTransaction) {
 
 
 
-	transactions = zephir_fetch_nproperty_this(this_ptr, SL("_transactions"), PH_NOISY_CC);
+	ZEPHIR_OBS_VAR(transactions);
+	zephir_read_property_this(&transactions, this_ptr, SL("_transactions"), PH_NOISY_CC);
 	if (zephir_fast_count_int(transactions TSRMLS_CC)) {
 		ZEPHIR_INIT_VAR(newTransactions);
 		array_init(newTransactions);
@@ -535,7 +536,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, collectTransactions) {
 
 	ZEPHIR_MM_GROW();
 
-	transactions = zephir_fetch_nproperty_this(this_ptr, SL("_transactions"), PH_NOISY_CC);
+	ZEPHIR_OBS_VAR(transactions);
+	zephir_read_property_this(&transactions, this_ptr, SL("_transactions"), PH_NOISY_CC);
 	if (zephir_fast_count_int(transactions TSRMLS_CC)) {
 		zephir_is_iterable(transactions, &_1, &_0, 0, 0);
 		for (

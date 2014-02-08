@@ -183,9 +183,11 @@ PHP_METHOD(Phalcon_Mvc_View_Simple, _loadTemplateEngines) {
 	zephir_read_property_this(&engines, this_ptr, SL("_engines"), PH_NOISY_CC);
 	ZEPHIR_INIT_BNVAR(engines);
 	if (ZEPHIR_IS_FALSE(engines)) {
-		dependencyInjector = zephir_fetch_nproperty_this(this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
+		ZEPHIR_OBS_VAR(dependencyInjector);
+		zephir_read_property_this(&dependencyInjector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
 		array_init(engines);
-		registeredEngines = zephir_fetch_nproperty_this(this_ptr, SL("_registeredEngines"), PH_NOISY_CC);
+		ZEPHIR_OBS_VAR(registeredEngines);
+		zephir_read_property_this(&registeredEngines, this_ptr, SL("_registeredEngines"), PH_NOISY_CC);
 		if ((Z_TYPE_P(registeredEngines) != IS_ARRAY)) {
 			ZEPHIR_INIT_VAR(_0);
 			object_init_ex(_0, phalcon_mvc_view_engine_php_ce);
@@ -542,14 +544,16 @@ PHP_METHOD(Phalcon_Mvc_View_Simple, _createCache) {
 
 	ZEPHIR_MM_GROW();
 
-	dependencyInjector = zephir_fetch_nproperty_this(this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
+	ZEPHIR_OBS_VAR(dependencyInjector);
+	zephir_read_property_this(&dependencyInjector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
 	if ((Z_TYPE_P(dependencyInjector) == IS_OBJECT)) {
 		ZEPHIR_THROW_EXCEPTION_STR(phalcon_mvc_view_exception_ce, "A dependency injector container is required to obtain the view cache services");
 		return;
 	}
 	ZEPHIR_INIT_VAR(cacheService);
 	ZVAL_STRING(cacheService, "viewCache", 1);
-	cacheOptions = zephir_fetch_nproperty_this(this_ptr, SL("_cacheOptions"), PH_NOISY_CC);
+	ZEPHIR_OBS_VAR(cacheOptions);
+	zephir_read_property_this(&cacheOptions, this_ptr, SL("_cacheOptions"), PH_NOISY_CC);
 	if ((Z_TYPE_P(cacheOptions) == IS_ARRAY)) {
 		ZEPHIR_OBS_NVAR(cacheService);
 	}
@@ -690,7 +694,8 @@ PHP_METHOD(Phalcon_Mvc_View_Simple, setVars) {
 		return;
 	}
 	if (merge) {
-		viewParams = zephir_fetch_nproperty_this(this_ptr, SL("_viewParams"), PH_NOISY_CC);
+		ZEPHIR_OBS_VAR(viewParams);
+		zephir_read_property_this(&viewParams, this_ptr, SL("_viewParams"), PH_NOISY_CC);
 		if ((Z_TYPE_P(viewParams) != IS_ARRAY)) {
 			ZEPHIR_INIT_VAR(mergedParams);
 			zephir_fast_array_merge(mergedParams, &(viewParams), &(params) TSRMLS_CC);

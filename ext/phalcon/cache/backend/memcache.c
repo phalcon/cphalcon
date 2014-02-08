@@ -140,7 +140,8 @@ PHP_METHOD(Phalcon_Cache_Backend_Memcache, _connect) {
 
 	ZEPHIR_MM_GROW();
 
-	options = zephir_fetch_nproperty_this(this_ptr, SL("_options"), PH_NOISY_CC);
+	ZEPHIR_OBS_VAR(options);
+	zephir_read_property_this(&options, this_ptr, SL("_options"), PH_NOISY_CC);
 	ZEPHIR_INIT_VAR(memcache);
 	_0 = zend_fetch_class(SL("Memcache"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
 	object_init_ex(memcache, _0);
@@ -159,9 +160,12 @@ PHP_METHOD(Phalcon_Cache_Backend_Memcache, _connect) {
 		ZEPHIR_THROW_EXCEPTION_STR(phalcon_cache_exception_ce, "Unexpected inconsistency in options");
 		return;
 	}
-	zephir_array_fetch_string(&host, options, SL("host"), PH_NOISY | PH_READONLY TSRMLS_CC);
-	zephir_array_fetch_string(&port, options, SL("port"), PH_NOISY | PH_READONLY TSRMLS_CC);
-	zephir_array_fetch_string(&persistent, options, SL("persistent"), PH_NOISY | PH_READONLY TSRMLS_CC);
+	ZEPHIR_OBS_VAR(host);
+	zephir_array_fetch_string(&host, options, SL("host"), PH_NOISY TSRMLS_CC);
+	ZEPHIR_OBS_VAR(port);
+	zephir_array_fetch_string(&port, options, SL("port"), PH_NOISY TSRMLS_CC);
+	ZEPHIR_OBS_VAR(persistent);
+	zephir_array_fetch_string(&persistent, options, SL("persistent"), PH_NOISY TSRMLS_CC);
 	ZEPHIR_INIT_VAR(success);
 	if (zephir_is_true(persistent)) {
 		zephir_call_method_p2(success, memcache, "pconnect", host, port);
@@ -410,12 +414,14 @@ PHP_METHOD(Phalcon_Cache_Backend_Memcache, queryKeys) {
 		ZEPHIR_OBS_NVAR(memcache);
 		zephir_read_property_this(&memcache, this_ptr, SL("_memcache"), PH_NOISY_CC);
 	}
-	options = zephir_fetch_nproperty_this(this_ptr, SL("_options"), PH_NOISY_CC);
+	ZEPHIR_OBS_VAR(options);
+	zephir_read_property_this(&options, this_ptr, SL("_options"), PH_NOISY_CC);
 	if (!(zephir_array_isset_string(options, SS("statsKey")))) {
 		ZEPHIR_THROW_EXCEPTION_STR(phalcon_cache_exception_ce, "Unexpected inconsistency in options");
 		return;
 	}
-	zephir_array_fetch_string(&specialKey, options, SL("statsKey"), PH_NOISY | PH_READONLY TSRMLS_CC);
+	ZEPHIR_OBS_VAR(specialKey);
+	zephir_array_fetch_string(&specialKey, options, SL("statsKey"), PH_NOISY TSRMLS_CC);
 	ZEPHIR_INIT_VAR(keys);
 	zephir_call_method_p1(keys, memcache, "get", specialKey);
 	if ((Z_TYPE_P(keys) == IS_ARRAY)) {
