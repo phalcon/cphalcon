@@ -202,8 +202,18 @@ PHP_INI_END()
 static PHP_MINIT_FUNCTION(phalcon)
 {
 #if PHP_VERSION_ID < 50500
-	const char* old_lc_all = setlocale(LC_ALL, NULL);
+	char* old_lc_all = setlocale(LC_ALL, NULL);
 	setlocale(LC_ALL, "C");
+	if (old_lc_all) {
+		size_t len = strlen(old_lc_all);
+		char *tmp  = calloc(len+1, 1);
+		if (UNEXPECTED(!tmp)) {
+			return FAILURE;
+		}
+
+		memcpy(tmp, old_lc_all, len);
+		old_lc_all = tmp;
+	}
 #endif
 
 	REGISTER_INI_ENTRIES();
@@ -546,6 +556,7 @@ static PHP_MINIT_FUNCTION(phalcon)
 
 #if PHP_VERSION_ID < 50500
 	setlocale(LC_ALL, old_lc_all);
+	free(old_lc_all);
 #endif
 
 	orig_execute_internal = zend_execute_internal;
