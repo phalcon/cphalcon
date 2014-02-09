@@ -120,6 +120,9 @@ PHP_METHOD(Phalcon_Logger_Formatter, interpolate)
 			else if (HASH_KEY_IS_LONG == type) {
 				str_length = spprintf(&idx, 0, "{%ld}", num_index);
 			}
+			else { /* Better safe than sorry */
+				continue;
+			}
 
 			Z_ADDREF_PP(val);
 			zend_hash_add(Z_ARRVAL_P(replace), idx, str_length, (void*)val, sizeof(zval*), NULL);
