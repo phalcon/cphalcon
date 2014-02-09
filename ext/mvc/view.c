@@ -985,6 +985,7 @@ PHP_METHOD(Phalcon_Mvc_View, _engineRender){
 	PHALCON_OBS_VAR(events_manager);
 	phalcon_read_property_this(&events_manager, this_ptr, SL("_eventsManager"), PH_NOISY_CC);
 	
+	PHALCON_INIT_VAR(view_engine_path);
 	/** 
 	 * Views are rendered in each engine
 	 */
