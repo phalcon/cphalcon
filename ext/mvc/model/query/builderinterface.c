@@ -23,7 +23,6 @@
 zend_class_entry *phalcon_mvc_model_query_builderinterface_ce;
 
 static const zend_function_entry phalcon_mvc_model_query_builderinterface_method_entry[] = {
-	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_Query_BuilderInterface, __construct, arginfo_phalcon_mvc_model_query_builderinterface___construct)
 	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_Query_BuilderInterface, distinct, arginfo_phalcon_mvc_model_query_builderinterface_distinct)
 	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_Query_BuilderInterface, getDistinct, NULL)
 	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_Query_BuilderInterface, columns, arginfo_phalcon_mvc_model_query_builderinterface_columns)
@@ -65,13 +64,6 @@ PHALCON_INIT_CLASS(Phalcon_Mvc_Model_Query_BuilderInterface){
 
 	return SUCCESS;
 }
-
-/**
- * Phalcon\Mvc\Model\Query\Builder
- *
- * @param array $params
- */
-PHALCON_DOC_METHOD(Phalcon_Mvc_Model_Query_BuilderInterface, __construct);
 
 /**
  * Sets the columns to be queried

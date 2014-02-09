@@ -28,6 +28,8 @@
 #include "kernel/object.h"
 #include "kernel/operators.h"
 
+#include "internal/arginfo.h"
+
 /**
  * Phalcon\Acl\Role
  *
@@ -41,11 +43,16 @@ PHP_METHOD(Phalcon_Acl_Role, getName);
 PHP_METHOD(Phalcon_Acl_Role, getDescription);
 PHP_METHOD(Phalcon_Acl_Role, __toString);
 
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_acl_role___construct, 0, 0, 1)
+	ZEND_ARG_INFO(0, name)
+	ZEND_ARG_INFO(0, description)
+ZEND_END_ARG_INFO()
+
 static const zend_function_entry phalcon_acl_role_method_entry[] = {
-	PHP_ME(Phalcon_Acl_Role, __construct, arginfo_phalcon_acl_roleinterface___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
-	PHP_ME(Phalcon_Acl_Role, getName, NULL, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Acl_Role, getDescription, NULL, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Acl_Role, __toString, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Acl_Role, __construct, arginfo_phalcon_acl_role___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
+	PHP_ME(Phalcon_Acl_Role, getName, arginfo_phalcon_acl_roleinterface_getname, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Acl_Role, getDescription, arginfo_phalcon_acl_roleinterface_getdescription, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Acl_Role, __toString, arginfo___tostring, ZEND_ACC_PUBLIC)
 	PHP_FE_END
 };
 

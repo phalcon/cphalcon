@@ -23,14 +23,12 @@
 zend_class_entry *phalcon_mvc_model_messageinterface_ce;
 
 static const zend_function_entry phalcon_mvc_model_messageinterface_method_entry[] = {
-	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_MessageInterface, __construct, arginfo_phalcon_mvc_model_messageinterface___construct)
 	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_MessageInterface, setType, arginfo_phalcon_mvc_model_messageinterface_settype)
 	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_MessageInterface, getType, NULL)
 	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_MessageInterface, setMessage, arginfo_phalcon_mvc_model_messageinterface_setmessage)
 	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_MessageInterface, getMessage, NULL)
 	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_MessageInterface, setField, arginfo_phalcon_mvc_model_messageinterface_setfield)
 	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_MessageInterface, getField, NULL)
-	ZEND_FENTRY(__set_state, NULL, arginfo_phalcon_mvc_model_messageinterface___set_state, ZEND_ACC_STATIC|ZEND_ACC_ABSTRACT|ZEND_ACC_PUBLIC)
 	PHP_FE_END
 };
 
@@ -43,15 +41,6 @@ PHALCON_INIT_CLASS(Phalcon_Mvc_Model_MessageInterface){
 
 	return SUCCESS;
 }
-
-/**
- * Phalcon\Mvc\Model\Message constructor
- *
- * @param string $message
- * @param string $field
- * @param string $type
- */
-PHALCON_DOC_METHOD(Phalcon_Mvc_Model_MessageInterface, __construct);
 
 /**
  * Sets message type
@@ -94,11 +83,3 @@ PHALCON_DOC_METHOD(Phalcon_Mvc_Model_MessageInterface, setField);
  * @return string
  */
 PHALCON_DOC_METHOD(Phalcon_Mvc_Model_MessageInterface, getField);
-
-/**
- * Magic __set_state helps to recover messsages from serialization
- *
- * @param array $message
- * @return Phalcon\Mvc\Model\MessageInterface
- */
-PHALCON_DOC_METHOD(Phalcon_Mvc_Model_MessageInterface, __set_state);

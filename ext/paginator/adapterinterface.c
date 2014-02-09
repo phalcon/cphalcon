@@ -25,9 +25,8 @@
 zend_class_entry *phalcon_paginator_adapterinterface_ce;
 
 static const zend_function_entry phalcon_paginator_adapterinterface_method_entry[] = {
-	PHP_ABSTRACT_ME(Phalcon_Paginator_AdapterInterface, __construct, arginfo_phalcon_paginator_adapterinterface___construct)
 	PHP_ABSTRACT_ME(Phalcon_Paginator_AdapterInterface, setCurrentPage, arginfo_phalcon_paginator_adapterinterface_setcurrentpage)
-	PHP_ABSTRACT_ME(Phalcon_Paginator_AdapterInterface, getPaginate, NULL)
+	PHP_ABSTRACT_ME(Phalcon_Paginator_AdapterInterface, getPaginate, arginfo_phalcon_paginator_adapterinterface_getpaginate)
 	PHP_FE_END
 };
 
@@ -41,13 +40,6 @@ PHALCON_INIT_CLASS(Phalcon_Paginator_AdapterInterface){
 
 	return SUCCESS;
 }
-
-/**
- * Phalcon\Paginator\AdapterInterface constructor
- *
- * @param array $config
- */
-PHALCON_DOC_METHOD(Phalcon_Paginator_AdapterInterface, __construct);
 
 /**
  * Set the current page number

@@ -25,13 +25,12 @@
 zend_class_entry *phalcon_di_serviceinterface_ce;
 
 static const zend_function_entry phalcon_di_serviceinterface_method_entry[] = {
-	PHP_ABSTRACT_ME(Phalcon_DI_ServiceInterface, __construct, arginfo_phalcon_di_serviceinterface___construct)
-	PHP_ABSTRACT_ME(Phalcon_DI_ServiceInterface, getName, arginfo_phalcon_di_serviceinterface_empty)
+	PHP_ABSTRACT_ME(Phalcon_DI_ServiceInterface, getName, arginfo_phalcon_di_serviceinterface_getname)
 	PHP_ABSTRACT_ME(Phalcon_DI_ServiceInterface, setShared, arginfo_phalcon_di_serviceinterface_setshared)
-	PHP_ABSTRACT_ME(Phalcon_DI_ServiceInterface, isShared, arginfo_phalcon_di_serviceinterface_empty)
+	PHP_ABSTRACT_ME(Phalcon_DI_ServiceInterface, isShared, arginfo_phalcon_di_serviceinterface_isshared)
 	PHP_ABSTRACT_ME(Phalcon_DI_ServiceInterface, setDefinition, arginfo_phalcon_di_serviceinterface_setdefinition)
-	PHP_ABSTRACT_ME(Phalcon_DI_ServiceInterface, getDefinition, arginfo_phalcon_di_serviceinterface_empty)
-	PHP_ABSTRACT_ME(Phalcon_DI_ServiceInterface, isResolved, arginfo_phalcon_di_serviceinterface_empty)
+	PHP_ABSTRACT_ME(Phalcon_DI_ServiceInterface, getDefinition, arginfo_phalcon_di_serviceinterface_getdefinition)
+	PHP_ABSTRACT_ME(Phalcon_DI_ServiceInterface, isResolved, arginfo_phalcon_di_serviceinterface_isresolved)
 	PHP_ABSTRACT_ME(Phalcon_DI_ServiceInterface, resolve, arginfo_phalcon_di_serviceinterface_resolve)
 	PHP_FE_END
 };
@@ -45,15 +44,6 @@ PHALCON_INIT_CLASS(Phalcon_DI_ServiceInterface){
 
 	return SUCCESS;
 }
-
-/**
- * Phalcon\DI\ServiceInterface
- *
- * @param string $name
- * @param mixed $definition
- * @param boolean $shared
- */
-PHALCON_DOC_METHOD(Phalcon_DI_ServiceInterface, __construct);
 
 /**
  * Returns the service's name

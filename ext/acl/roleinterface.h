@@ -26,9 +26,10 @@ extern zend_class_entry *phalcon_acl_roleinterface_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Acl_RoleInterface);
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_acl_roleinterface___construct, 0, 0, 1)
-	ZEND_ARG_INFO(0, name)
-	ZEND_ARG_INFO(0, description)
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_acl_roleinterface_getname, 0, 0, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_acl_roleinterface_getdescription, 0, 0, 0)
 ZEND_END_ARG_INFO()
 
 #endif /* PHALCON_ACL_ROLEINTERFACE_H */

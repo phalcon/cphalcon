@@ -23,7 +23,6 @@
 zend_class_entry *phalcon_mvc_model_behaviorinterface_ce;
 
 static const zend_function_entry phalcon_mvc_model_behaviorinterface_method_entry[] = {
-	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_BehaviorInterface, __construct, arginfo_phalcon_mvc_model_behaviorinterface___construct)
 	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_BehaviorInterface, notify, arginfo_phalcon_mvc_model_behaviorinterface_notify)
 	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_BehaviorInterface, missingMethod, arginfo_phalcon_mvc_model_behaviorinterface_missingmethod)
 	PHP_FE_END
@@ -38,13 +37,6 @@ PHALCON_INIT_CLASS(Phalcon_Mvc_Model_BehaviorInterface){
 
 	return SUCCESS;
 }
-
-/**
- * Phalcon\Mvc\Model\Behavior
- *
- * @param array $options
- */
-PHALCON_DOC_METHOD(Phalcon_Mvc_Model_BehaviorInterface, __construct);
 
 /**
  * This method receives the notifications from the EventsManager

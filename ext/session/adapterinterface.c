@@ -23,16 +23,15 @@
 zend_class_entry *phalcon_session_adapterinterface_ce;
 
 static const zend_function_entry phalcon_session_adapterinterface_method_entry[] = {
-	PHP_ABSTRACT_ME(Phalcon_Session_AdapterInterface, __construct, arginfo_phalcon_session_adapterinterface___construct)
-	PHP_ABSTRACT_ME(Phalcon_Session_AdapterInterface, start, NULL)
+	PHP_ABSTRACT_ME(Phalcon_Session_AdapterInterface, start, arginfo_phalcon_session_adapterinterface_start)
 	PHP_ABSTRACT_ME(Phalcon_Session_AdapterInterface, setOptions, arginfo_phalcon_session_adapterinterface_setoptions)
-	PHP_ABSTRACT_ME(Phalcon_Session_AdapterInterface, getOptions, NULL)
+	PHP_ABSTRACT_ME(Phalcon_Session_AdapterInterface, getOptions, arginfo_phalcon_session_adapterinterface_getoptions)
 	PHP_ABSTRACT_ME(Phalcon_Session_AdapterInterface, get, arginfo_phalcon_session_adapterinterface_get)
 	PHP_ABSTRACT_ME(Phalcon_Session_AdapterInterface, set, arginfo_phalcon_session_adapterinterface_set)
 	PHP_ABSTRACT_ME(Phalcon_Session_AdapterInterface, has, arginfo_phalcon_session_adapterinterface_has)
 	PHP_ABSTRACT_ME(Phalcon_Session_AdapterInterface, remove, arginfo_phalcon_session_adapterinterface_remove)
-	PHP_ABSTRACT_ME(Phalcon_Session_AdapterInterface, getId, NULL)
-	PHP_ABSTRACT_ME(Phalcon_Session_AdapterInterface, isStarted, NULL)
+	PHP_ABSTRACT_ME(Phalcon_Session_AdapterInterface, getId, arginfo_phalcon_session_adapterinterface_getid)
+	PHP_ABSTRACT_ME(Phalcon_Session_AdapterInterface, isStarted, arginfo_phalcon_session_adapterinterface_isstarted)
 	PHP_ABSTRACT_ME(Phalcon_Session_AdapterInterface, destroy, arginfo_phalcon_session_adapterinterface_destroy)
 	PHP_FE_END
 };
@@ -46,13 +45,6 @@ PHALCON_INIT_CLASS(Phalcon_Session_AdapterInterface){
 
 	return SUCCESS;
 }
-
-/**
- * Phalcon\Session construtor
- *
- * @param array $options
- */
-PHALCON_DOC_METHOD(Phalcon_Session_AdapterInterface, __construct);
 
 /**
  * Starts session, optionally using an adapter

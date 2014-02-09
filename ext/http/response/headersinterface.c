@@ -84,11 +84,3 @@ PHALCON_DOC_METHOD(Phalcon_Http_Response_HeadersInterface, reset);
  * @return array
  */
 PHALCON_DOC_METHOD(Phalcon_Http_Response_HeadersInterface, toArray);
-
-/**
- * Restore a Phalcon\Http\Response\Headers object
- *
- * @param array $data
- * @return Phalcon\Http\Response\HeadersInterface
- */
-PHALCON_DOC_METHOD(Phalcon_Http_Response_HeadersInterface, __set_state);

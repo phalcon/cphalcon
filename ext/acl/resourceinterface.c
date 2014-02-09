@@ -25,9 +25,8 @@
 zend_class_entry *phalcon_acl_resourceinterface_ce;
 
 static const zend_function_entry phalcon_acl_resourceinterface_method_entry[] = {
-	PHP_ABSTRACT_ME(Phalcon_Acl_ResourceInterface, __construct, arginfo_phalcon_acl_resourceinterface___construct)
-	PHP_ABSTRACT_ME(Phalcon_Acl_ResourceInterface, getName, NULL)
-	PHP_ABSTRACT_ME(Phalcon_Acl_ResourceInterface, getDescription, NULL)
+	PHP_ABSTRACT_ME(Phalcon_Acl_ResourceInterface, getName, arginfo_phalcon_acl_resourceinterface_getname)
+	PHP_ABSTRACT_ME(Phalcon_Acl_ResourceInterface, getDescription, arginfo_phalcon_acl_resourceinterface_getdescription)
 	PHP_FE_END
 };
 
@@ -40,14 +39,6 @@ PHALCON_INIT_CLASS(Phalcon_Acl_ResourceInterface){
 
 	return SUCCESS;
 }
-
-/**
- * Phalcon\Acl\ResourceInterface constructor
- *
- * @param string $name
- * @param string $description
- */
-PHALCON_DOC_METHOD(Phalcon_Acl_ResourceInterface, __construct);
 
 /**
  * Returns the resource name

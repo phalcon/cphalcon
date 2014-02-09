@@ -25,9 +25,8 @@
 zend_class_entry *phalcon_acl_roleinterface_ce;
 
 static const zend_function_entry phalcon_acl_roleinterface_method_entry[] = {
-	PHP_ABSTRACT_ME(Phalcon_Acl_RoleInterface, __construct, arginfo_phalcon_acl_roleinterface___construct)
-	PHP_ABSTRACT_ME(Phalcon_Acl_RoleInterface, getName, NULL)
-	PHP_ABSTRACT_ME(Phalcon_Acl_RoleInterface, getDescription, NULL)
+	PHP_ABSTRACT_ME(Phalcon_Acl_RoleInterface, getName, arginfo_phalcon_acl_roleinterface_getname)
+	PHP_ABSTRACT_ME(Phalcon_Acl_RoleInterface, getDescription, arginfo_phalcon_acl_roleinterface_getdescription)
 	PHP_FE_END
 };
 
@@ -40,14 +39,6 @@ PHALCON_INIT_CLASS(Phalcon_Acl_RoleInterface){
 
 	return SUCCESS;
 }
-
-/**
- * Phalcon\Acl\Role constructor
- *
- * @param string $name
- * @param string $description
- */
-PHALCON_DOC_METHOD(Phalcon_Acl_RoleInterface, __construct);
 
 /**
  * Returns the role name

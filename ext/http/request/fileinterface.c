@@ -23,7 +23,6 @@
 zend_class_entry *phalcon_http_request_fileinterface_ce;
 
 static const zend_function_entry phalcon_http_request_fileinterface_method_entry[] = {
-	PHP_ABSTRACT_ME(Phalcon_Http_Request_FileInterface, __construct, arginfo_phalcon_http_request_fileinterface___construct)
 	PHP_ABSTRACT_ME(Phalcon_Http_Request_FileInterface, getSize, NULL)
 	PHP_ABSTRACT_ME(Phalcon_Http_Request_FileInterface, getName, NULL)
 	PHP_ABSTRACT_ME(Phalcon_Http_Request_FileInterface, getTempName, NULL)
@@ -42,13 +41,6 @@ PHALCON_INIT_CLASS(Phalcon_Http_Request_FileInterface){
 
 	return SUCCESS;
 }
-
-/**
- * Phalcon\Http\Request\FileInterface constructor
- *
- * @param array $file
- */
-PHALCON_DOC_METHOD(Phalcon_Http_Request_FileInterface, __construct);
 
 /**
  * Returns the file size of the uploaded file

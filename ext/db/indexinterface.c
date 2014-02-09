@@ -23,7 +23,6 @@
 zend_class_entry *phalcon_db_indexinterface_ce;
 
 static const zend_function_entry phalcon_db_indexinterface_method_entry[] = {
-	PHP_ABSTRACT_ME(Phalcon_Db_IndexInterface, __construct, arginfo_phalcon_db_indexinterface___construct)
 	PHP_ABSTRACT_ME(Phalcon_Db_IndexInterface, getName, NULL)
 	PHP_ABSTRACT_ME(Phalcon_Db_IndexInterface, getColumns, NULL)
 	PHP_FE_END
@@ -38,14 +37,6 @@ PHALCON_INIT_CLASS(Phalcon_Db_IndexInterface){
 
 	return SUCCESS;
 }
-
-/**
- * Phalcon\Db\Index constructor
- *
- * @param string $indexName
- * @param array $columns
- */
-PHALCON_DOC_METHOD(Phalcon_Db_IndexInterface, __construct);
 
 /**
  * Gets the index name

@@ -23,7 +23,6 @@
 zend_class_entry *phalcon_mvc_model_query_statusinterface_ce;
 
 static const zend_function_entry phalcon_mvc_model_query_statusinterface_method_entry[] = {
-	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_Query_StatusInterface, __construct, arginfo_phalcon_mvc_model_query_statusinterface___construct)
 	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_Query_StatusInterface, getModel, NULL)
 	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_Query_StatusInterface, getMessages, NULL)
 	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_Query_StatusInterface, success, NULL)
@@ -39,14 +38,6 @@ PHALCON_INIT_CLASS(Phalcon_Mvc_Model_Query_StatusInterface){
 
 	return SUCCESS;
 }
-
-/**
- * Phalcon\Mvc\Model\Query\Status
- *
- * @param boolean $success
- * @param Phalcon\Mvc\ModelInterface $model
- */
-PHALCON_DOC_METHOD(Phalcon_Mvc_Model_Query_StatusInterface, __construct);
 
 /**
  * Returns the model which executed the action

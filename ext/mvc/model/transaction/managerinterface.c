@@ -23,7 +23,6 @@
 zend_class_entry *phalcon_mvc_model_transaction_managerinterface_ce;
 
 static const zend_function_entry phalcon_mvc_model_transaction_managerinterface_method_entry[] = {
-	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_Transaction_ManagerInterface, __construct, arginfo_phalcon_mvc_model_transaction_managerinterface___construct)
 	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_Transaction_ManagerInterface, has, NULL)
 	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_Transaction_ManagerInterface, get, arginfo_phalcon_mvc_model_transaction_managerinterface_get)
 	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_Transaction_ManagerInterface, rollbackPendent, NULL)
@@ -44,13 +43,6 @@ PHALCON_INIT_CLASS(Phalcon_Mvc_Model_Transaction_ManagerInterface){
 
 	return SUCCESS;
 }
-
-/**
- * Phalcon\Mvc\Model\Transaction\Manager
- *
- * @param Phalcon\DiInterface $dependencyInjector
- */
-PHALCON_DOC_METHOD(Phalcon_Mvc_Model_Transaction_ManagerInterface, __construct);
 
 /**
  * Checks whether manager has an active transaction

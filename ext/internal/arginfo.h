@@ -54,6 +54,18 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo___unset, 0, 0, 1)
 	ZEND_ARG_INFO(0, property)
 ZEND_END_ARG_INFO()
 
+/** @brief __toString() */
+ZEND_BEGIN_ARG_INFO_EX(arginfo___tostring, 0, 0, 0)
+ZEND_END_ARG_INFO()
+
+/** @brief __destruct() */
+ZEND_BEGIN_ARG_INFO_EX(arginfo___destruct, 0, 0, 0)
+ZEND_END_ARG_INFO()
+
+/** @brief __set_state(array $properties) */
+ZEND_BEGIN_ARG_INFO_EX(arginfo___set_state, 0, 0, 0)
+	ZEND_ARG_ARRAY_INFO(0, properties, 0)
+ZEND_END_ARG_INFO()
 
 /** @brief IteratorAggregate::getIterator() */
 ZEND_BEGIN_ARG_INFO_EX(arginfo_iteratoraggregate_getiterator, 0, 0, 0)

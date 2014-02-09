@@ -23,7 +23,6 @@
 zend_class_entry *phalcon_mvc_collectioninterface_ce;
 
 static const zend_function_entry phalcon_mvc_collectioninterface_method_entry[] = {
-	PHP_ABSTRACT_ME(Phalcon_Mvc_CollectionInterface, __construct, arginfo_phalcon_mvc_collectioninterface___construct)
 	PHP_ABSTRACT_ME(Phalcon_Mvc_CollectionInterface, setId, arginfo_phalcon_mvc_collectioninterface_setid)
 	PHP_ABSTRACT_ME(Phalcon_Mvc_CollectionInterface, getId, NULL)
 	PHP_ABSTRACT_ME(Phalcon_Mvc_CollectionInterface, getReservedAttributes, NULL)
@@ -56,13 +55,6 @@ PHALCON_INIT_CLASS(Phalcon_Mvc_CollectionInterface){
 
 	return SUCCESS;
 }
-
-/**
- * Phalcon\Mvc\Collection
- *
- * @param Phalcon\DiInterface $dependencyInjector
- */
-PHALCON_DOC_METHOD(Phalcon_Mvc_CollectionInterface, __construct);
 
 /**
  * Sets a value for the _id propery, creates a MongoId object if needed
