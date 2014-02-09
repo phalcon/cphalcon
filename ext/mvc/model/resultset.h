@@ -26,26 +26,8 @@ extern zend_class_entry *phalcon_mvc_model_resultset_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Mvc_Model_Resultset);
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_resultset_seek, 0, 0, 1)
-	ZEND_ARG_INFO(0, position)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_resultset_offsetexists, 0, 0, 1)
-	ZEND_ARG_INFO(0, index)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_resultset_offsetget, 0, 0, 1)
-	ZEND_ARG_INFO(0, index)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_resultset_offsetset, 0, 0, 2)
-	ZEND_ARG_INFO(0, index)
-	ZEND_ARG_INFO(0, value)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_resultset_offsetunset, 0, 0, 1)
-	ZEND_ARG_INFO(0, offset)
-ZEND_END_ARG_INFO()
+#define PHALCON_MVC_MODEL_RESULTSET_TYPE_FULL       0
+#define PHALCON_MVC_MODEL_RESULTSET_TYPE_PARTIAL    1
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_resultset_sethydratemode, 0, 0, 1)
 	ZEND_ARG_INFO(0, hydrateMode)
