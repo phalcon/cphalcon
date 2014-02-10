@@ -118,49 +118,38 @@ PHALCON_INIT_CLASS(Phalcon_Annotations_Collection){
  */
 PHP_METHOD(Phalcon_Annotations_Collection, __construct){
 
-	zval *reflection_data = NULL, *annotations, *annotation_data = NULL;
+	zval *reflection_data = NULL, *annotations, **annotation_data;
 	zval *annotation = NULL;
-	HashTable *ah0;
 	HashPosition hp0;
-	zval **hd;
+
+	phalcon_fetch_params(0, 0, 1, &reflection_data);
+	
+	if (!reflection_data || Z_TYPE_P(reflection_data) == IS_NULL) {
+		return;
+	}
+
+	if (Z_TYPE_P(reflection_data) != IS_ARRAY) {
+		PHALCON_THROW_EXCEPTION_STR(phalcon_annotations_exception_ce, "Reflection data must be an array");
+		return;
+	}
 
 	PHALCON_MM_GROW();
 
-	phalcon_fetch_params(1, 0, 1, &reflection_data);
-	
-	if (!reflection_data) {
-		reflection_data = PHALCON_GLOBAL(z_null);
+	PHALCON_INIT_VAR(annotations);
+	array_init_size(annotations, zend_hash_num_elements(Z_ARRVAL_P(reflection_data)));
+
+	for (
+		zend_hash_internal_pointer_reset_ex(Z_ARRVAL_P(reflection_data), &hp0);
+		zend_hash_get_current_data_ex(Z_ARRVAL_P(reflection_data), (void**)&annotation_data, &hp0) == SUCCESS;
+		zend_hash_move_forward_ex(Z_ARRVAL_P(reflection_data), &hp0)
+	) {
+		PHALCON_INIT_NVAR(annotation);
+		object_init_ex(annotation, phalcon_annotations_annotation_ce);
+		phalcon_call_method_p1_noret(annotation, "__construct", *annotation_data);
+		phalcon_array_append(&annotations, annotation, 0);
 	}
-	
-	if (Z_TYPE_P(reflection_data) != IS_NULL) {
-		if (Z_TYPE_P(reflection_data) != IS_ARRAY) { 
-			PHALCON_THROW_EXCEPTION_STR(phalcon_annotations_exception_ce, "Reflection data must be an array");
-			return;
-		}
-	}
-	if (Z_TYPE_P(reflection_data) == IS_ARRAY) { 
-	
-		PHALCON_INIT_VAR(annotations);
-		array_init(annotations);
-	
-		phalcon_is_iterable(reflection_data, &ah0, &hp0, 0, 0);
-	
-		while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
-	
-			PHALCON_GET_HVALUE(annotation_data);
-	
-			PHALCON_INIT_NVAR(annotation);
-			object_init_ex(annotation, phalcon_annotations_annotation_ce);
-			phalcon_call_method_p1_noret(annotation, "__construct", annotation_data);
-	
-			phalcon_array_append(&annotations, annotation, 0);
-	
-			zend_hash_move_forward_ex(ah0, &hp0);
-		}
-	
-		phalcon_update_property_this(this_ptr, SL("_annotations"), annotations TSRMLS_CC);
-	}
-	
+
+	phalcon_update_property_this(this_ptr, SL("_annotations"), annotations TSRMLS_CC);
 	PHALCON_MM_RESTORE();
 }
 
@@ -173,12 +162,12 @@ PHP_METHOD(Phalcon_Annotations_Collection, count){
 
 	zval *annotations;
 
-	PHALCON_MM_GROW();
+	annotations = phalcon_fetch_nproperty_this(this_ptr, SL("_annotations"), PH_NOISY_CC);
+	if (Z_TYPE_P(annotations) == IS_ARRAY) {
+		RETURN_LONG(zend_hash_num_elements(Z_ARRVAL_P(annotations)));
+	}
 
-	PHALCON_OBS_VAR(annotations);
-	phalcon_read_property_this(&annotations, this_ptr, SL("_annotations"), PH_NOISY_CC);
-	phalcon_fast_count(return_value, annotations TSRMLS_CC);
-	RETURN_MM();
+	RETURN_LONG(0);
 }
 
 /**

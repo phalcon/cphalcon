@@ -717,7 +717,7 @@ PHP_METHOD(Phalcon_Mvc_Micro, handle){
 	zval *uri = NULL, *dependency_injector, *events_manager = NULL;
 	zval *event_name = NULL, *status = NULL, *service, *router, *matched_route;
 	zval *handlers, *route_id, *handler = NULL, *before_handlers;
-	zval *before = NULL, *is_middleware = NULL, *stopped = NULL, *params = NULL;
+	zval *before = NULL, *stopped = NULL, *params = NULL;
 	zval *returned_value = NULL, *after_handlers, *after = NULL;
 	zval *not_found_handler, *finish_handlers;
 	zval *finish = NULL, *returned_response_sent;
@@ -822,10 +822,9 @@ PHP_METHOD(Phalcon_Mvc_Micro, handle){
 				PHALCON_GET_HVALUE(before);
 	
 				if (Z_TYPE_P(before) == IS_OBJECT) {
+					int is_middleware = instanceof_function_ex(Z_OBJCE_P(before), phalcon_mvc_micro_middlewareinterface_ce, 1 TSRMLS_CC);
 	
-					PHALCON_INIT_NVAR(is_middleware);
-					phalcon_instance_of(is_middleware, before, phalcon_mvc_micro_middlewareinterface_ce TSRMLS_CC);
-					if (PHALCON_IS_TRUE(is_middleware)) {
+					if (is_middleware) {
 	
 						/** 
 						 * Call the middleware
@@ -913,10 +912,8 @@ PHP_METHOD(Phalcon_Mvc_Micro, handle){
 				PHALCON_GET_HVALUE(after);
 	
 				if (Z_TYPE_P(after) == IS_OBJECT) {
-	
-					PHALCON_INIT_NVAR(is_middleware);
-					phalcon_instance_of(is_middleware, after, phalcon_mvc_micro_middlewareinterface_ce TSRMLS_CC);
-					if (PHALCON_IS_TRUE(is_middleware)) {
+					int is_middleware = instanceof_function_ex(Z_OBJCE_P(after), phalcon_mvc_micro_middlewareinterface_ce, 1 TSRMLS_CC);
+					if (is_middleware) {
 	
 						/** 
 						 * Call the middleware
@@ -1019,10 +1016,8 @@ PHP_METHOD(Phalcon_Mvc_Micro, handle){
 			 * Try to execute middleware as plugins
 			 */
 			if (Z_TYPE_P(finish) == IS_OBJECT) {
-	
-				PHALCON_INIT_NVAR(is_middleware);
-				phalcon_instance_of(is_middleware, finish, phalcon_mvc_micro_middlewareinterface_ce TSRMLS_CC);
-				if (PHALCON_IS_TRUE(is_middleware)) {
+				int is_middleware = instanceof_function_ex(Z_OBJCE_P(finish), phalcon_mvc_micro_middlewareinterface_ce, 1 TSRMLS_CC);
+				if (is_middleware) {
 	
 					/** 
 					 * Call the middleware

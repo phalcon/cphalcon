@@ -21,9 +21,11 @@
 #include "mvc/collection/manager.h"
 #include "mvc/collection/managerinterface.h"
 #include "mvc/collection/exception.h"
+#include "mvc/collectioninterface.h"
 #include "diinterface.h"
 #include "di/injectionawareinterface.h"
 #include "events/eventsawareinterface.h"
+#include "events/managerinterface.h"
 
 #include "kernel/main.h"
 #include "kernel/memory.h"
@@ -172,6 +174,8 @@ PHP_METHOD(Phalcon_Mvc_Collection_Manager, setCustomEventsManager){
 	PHALCON_MM_GROW();
 
 	phalcon_fetch_params(1, 2, 0, &model, &events_manager);
+	PHALCON_VERIFY_INTERFACE_EX(model, phalcon_mvc_collectioninterface_ce, phalcon_mvc_collection_exception_ce, 1);
+	PHALCON_VERIFY_INTERFACE_OR_NULL_EX(events_manager, phalcon_events_managerinterface_ce, phalcon_mvc_collection_exception_ce, 1);
 	
 	PHALCON_INIT_VAR(class_name);
 	phalcon_get_class(class_name, model, 1 TSRMLS_CC);
@@ -195,8 +199,7 @@ PHP_METHOD(Phalcon_Mvc_Collection_Manager, getCustomEventsManager){
 
 	phalcon_fetch_params(1, 1, 0, &model);
 	
-	PHALCON_OBS_VAR(custom_events_manager);
-	phalcon_read_property_this(&custom_events_manager, this_ptr, SL("_customEventsManager"), PH_NOISY_CC);
+	custom_events_manager = phalcon_fetch_nproperty_this(this_ptr, SL("_customEventsManager"), PH_NOISY_CC);
 	if (Z_TYPE_P(custom_events_manager) == IS_ARRAY) { 
 	
 		PHALCON_INIT_VAR(class_name);

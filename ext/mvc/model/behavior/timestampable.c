@@ -22,6 +22,8 @@
 #include "mvc/model/behaviorinterface.h"
 #include "mvc/model/exception.h"
 
+#include <Zend/zend_closures.h>
+
 #include "kernel/main.h"
 #include "kernel/memory.h"
 #include "kernel/fcall.h"
@@ -115,7 +117,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Behavior_Timestampable, notify){
 				PHALCON_OBS_VAR(generator);
 				phalcon_array_fetch_string(&generator, options, SL("generator"), PH_NOISY);
 				if (Z_TYPE_P(generator) == IS_OBJECT) {
-					if (phalcon_is_instance_of(generator, SL("Closure") TSRMLS_CC)) {
+					if (instanceof_function(Z_OBJCE_P(generator), zend_ce_closure TSRMLS_CC)) {
 						PHALCON_INIT_NVAR(timestamp);
 						PHALCON_CALL_USER_FUNC(timestamp, generator);
 					}

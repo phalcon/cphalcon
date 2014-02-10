@@ -18,6 +18,7 @@
 */
 
 #include "debug.h"
+#include "exception.h"
 #include "version.h"
 
 #include <ext/standard/php_string.h>
@@ -448,8 +449,9 @@ PHP_METHOD(Phalcon_Debug, _getArrayDump){
 							continue;
 						}
 						if (Z_TYPE_P(v) == IS_OBJECT) {
+							zend_class_entry *ce = Z_OBJCE_P(v);
 							PHALCON_INIT_NVAR(class_name);
-							phalcon_get_class(class_name, v, 0 TSRMLS_CC);
+							ZVAL_STRINGL(class_name, ce->name, ce->name_length, !IS_INTERNED(ce->name));
 	
 							PHALCON_INIT_NVAR(var_dump);
 							PHALCON_CONCAT_SVSVS(var_dump, "[", k, "] =&gt; Object(", class_name, ")");
@@ -534,9 +536,10 @@ PHP_METHOD(Phalcon_Debug, _getVarDump){
 	 * If the variable is an object print its class name
 	 */
 	if (Z_TYPE_P(variable) == IS_OBJECT) {
+		const zend_class_entry *ce = Z_OBJCE_P(variable);
 	
 		PHALCON_INIT_VAR(class_name);
-		phalcon_get_class(class_name, variable, 0 TSRMLS_CC);
+		ZVAL_STRINGL(class_name, ce->name, ce->name_length, !IS_INTERNED(ce->name));
 	
 		/** 
 		 * Try to check for a 'dump' method, this surely produces a better printable
@@ -1051,11 +1054,12 @@ PHP_METHOD(Phalcon_Debug, onUncaughtException){
 	char* link_format;
 	zend_bool ini_exists = 1;
 	zval z_link_format = zval_used_for_init;
-
+	zend_class_entry *ce;
 
 	PHALCON_MM_GROW();
 
 	phalcon_fetch_params(1, 1, 0, &exception);
+	PHALCON_VERIFY_CLASS_EX(exception, zend_exception_get_default(TSRMLS_C), phalcon_exception_ce, 1);
 	
 	/** 
 	 * Cancel the output buffer if active
@@ -1081,7 +1085,8 @@ PHP_METHOD(Phalcon_Debug, onUncaughtException){
 	zend_update_static_property_bool(phalcon_debug_ce, SL("_isActive"), 1 TSRMLS_CC);
 	
 	PHALCON_INIT_VAR(class_name);
-	phalcon_get_class(class_name, exception, 0 TSRMLS_CC);
+	ce = Z_OBJCE_P(exception);
+	ZVAL_STRINGL(class_name, ce->name, ce->name_length, !IS_INTERNED(ce->name));
 	
 	PHALCON_INIT_NVAR(message);
 	phalcon_call_method(message, exception, "getmessage");

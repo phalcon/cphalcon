@@ -717,7 +717,8 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch){
 			 * DI doesn't have a service with that name, try to load it using an autoloader
 			 */
 			PHALCON_INIT_NVAR(has_service);
-			ZVAL_LONG(has_service, phalcon_class_exists(handler_class, 1 TSRMLS_CC));
+			assert(Z_TYPE_P(handler_class) == IS_STRING);
+			ZVAL_LONG(has_service, phalcon_class_exists(Z_STRVAL_P(handler_class), Z_STRLEN_P(handler_class), 1 TSRMLS_CC));
 		}
 	
 		/** 

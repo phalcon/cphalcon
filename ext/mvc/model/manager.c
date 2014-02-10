@@ -553,38 +553,37 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getLastInitialized){
  */
 PHP_METHOD(Phalcon_Mvc_Model_Manager, load){
 
-	zval *model_name, *new_instance = NULL, *initialized;
+	zval **model_name, **new_instance = NULL, *initialized;
 	zval *lowercased, *model, *dependency_injector;
-	zval *exception_message;
 	zend_class_entry *ce0;
 
-	PHALCON_MM_GROW();
+	phalcon_fetch_params_ex(1, 1, &model_name, &new_instance);
 
-	phalcon_fetch_params(1, 1, 1, &model_name, &new_instance);
-	
+	PHALCON_MM_GROW();
+	PHALCON_ENSURE_IS_STRING(model_name);
+
 	if (!new_instance) {
-		new_instance = PHALCON_GLOBAL(z_false);
+		new_instance = &PHALCON_GLOBAL(z_false);
 	}
 	
-	PHALCON_OBS_VAR(initialized);
-	phalcon_read_property_this(&initialized, this_ptr, SL("_initialized"), PH_NOISY_CC);
+	initialized = phalcon_fetch_nproperty_this(this_ptr, SL("_initialized"), PH_NOISY_CC);
 	
 	PHALCON_INIT_VAR(lowercased);
-	phalcon_fast_strtolower(lowercased, model_name);
+	ZVAL_STRINGL(lowercased, zend_str_tolower_dup(Z_STRVAL_PP(model_name), Z_STRLEN_PP(model_name)), Z_STRLEN_PP(model_name), 0);
 	
 	/** 
 	 * Check if a model with the same is already loaded
 	 */
-	if (phalcon_array_isset(initialized, lowercased)) {
-	
-		PHALCON_OBS_VAR(model);
-		phalcon_array_fetch(&model, initialized, lowercased, PH_NOISY);
-		if (zend_is_true(new_instance)) {
-			PHALCON_OBS_VAR(dependency_injector);
-			phalcon_read_property_this(&dependency_injector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
+	if (phalcon_array_isset_fetch(&model, initialized, lowercased)) {
+		if (zend_is_true(*new_instance)) {
+			dependency_injector = phalcon_fetch_nproperty_this(this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
 
-			ce0 = Z_OBJCE_P(model);
-			object_init_ex(return_value, ce0);
+			if (Z_TYPE_P(model) != IS_OBJECT) {
+				/* This shouls never happen but better safe than sorry */
+				RETURN_MM_NULL();
+			}
+
+			object_init_ex(return_value, Z_OBJCE_P(model));
 
 			if (phalcon_has_constructor(return_value TSRMLS_CC)) {
 				phalcon_call_method_p2_noret(return_value, "__construct", dependency_injector, this_ptr);
@@ -599,10 +598,9 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, load){
 	/** 
 	 * Load it using an autoloader
 	 */
-	if (phalcon_class_exists(model_name, 1 TSRMLS_CC)) {
-		PHALCON_OBS_VAR(dependency_injector);
-		phalcon_read_property_this(&dependency_injector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
-		ce0 = phalcon_fetch_class(model_name TSRMLS_CC);
+	if (phalcon_class_exists_ex(&ce0, *model_name, 1 TSRMLS_CC)) {
+		dependency_injector = phalcon_fetch_nproperty_this(this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
+
 		object_init_ex(return_value, ce0);
 		if (phalcon_has_constructor(return_value TSRMLS_CC)) {
 			phalcon_call_method_p2_noret(return_value, "__construct", dependency_injector, this_ptr);
@@ -613,10 +611,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, load){
 	/** 
 	 * The model doesn't exist throw an exception
 	 */
-	PHALCON_INIT_VAR(exception_message);
-	PHALCON_CONCAT_SVS(exception_message, "Model '", model_name, "' could not be loaded");
-	PHALCON_THROW_EXCEPTION_ZVAL(phalcon_mvc_model_exception_ce, exception_message);
-	return;
+	zend_throw_exception_ex(phalcon_mvc_model_exception_ce, 0 TSRMLS_CC, "Model '%s' could not be loaded", Z_STRVAL_PP(model_name));
+	PHALCON_MM_RESTORE();
 }
 
 /**

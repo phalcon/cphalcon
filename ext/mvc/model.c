@@ -6496,7 +6496,7 @@ PHP_METHOD(Phalcon_Mvc_Model, __callStatic){
  */
 PHP_METHOD(Phalcon_Mvc_Model, __set){
 
-	zval *property, *value, *is_model, *lower_property = NULL;
+	zval *property, *value, *lower_property = NULL;
 
 	PHALCON_MM_GROW();
 
@@ -6507,9 +6507,7 @@ PHP_METHOD(Phalcon_Mvc_Model, __set){
 	 */
 	if (Z_TYPE_P(value) == IS_OBJECT) {
 	
-		PHALCON_INIT_VAR(is_model);
-		phalcon_instance_of(is_model, value, phalcon_mvc_modelinterface_ce TSRMLS_CC);
-		if (zend_is_true(is_model)) {
+		if (instanceof_function_ex(Z_OBJCE_P(value), phalcon_mvc_modelinterface_ce, 1 TSRMLS_CC)) {
 			PHALCON_INIT_VAR(lower_property);
 			phalcon_fast_strtolower(lower_property, property);
 			phalcon_update_property_zval_zval(this_ptr, lower_property, value TSRMLS_CC);
@@ -6548,7 +6546,6 @@ PHP_METHOD(Phalcon_Mvc_Model, __get){
 
 	zval *property, *model_name, *manager, *lower_property;
 	zval *relation, *call_args, *call_object, *result;
-	zval *is_simple_model;
 
 	PHALCON_MM_GROW();
 
@@ -6572,14 +6569,14 @@ PHP_METHOD(Phalcon_Mvc_Model, __get){
 	
 		PHALCON_INIT_VAR(call_args);
 		array_init_size(call_args, 4);
-		phalcon_array_append(&call_args, relation, PH_SEPARATE);
+		phalcon_array_append(&call_args, relation, 0);
 		add_next_index_null(call_args);
-		phalcon_array_append(&call_args, this_ptr, PH_SEPARATE);
+		phalcon_array_append(&call_args, this_ptr, 0);
 		add_next_index_null(call_args);
 	
 		PHALCON_INIT_VAR(call_object);
 		array_init_size(call_object, 2);
-		phalcon_array_append(&call_object, manager, PH_SEPARATE);
+		phalcon_array_append(&call_object, manager, 0);
 		add_next_index_stringl(call_object, SL("getRelationRecords"), 1);
 	
 		/** 
@@ -6601,9 +6598,7 @@ PHP_METHOD(Phalcon_Mvc_Model, __get){
 			/** 
 			 * For belongs-to relations we store the object in the related bag
 			 */
-			PHALCON_INIT_VAR(is_simple_model);
-			phalcon_instance_of(is_simple_model, result, phalcon_mvc_modelinterface_ce TSRMLS_CC);
-			if (PHALCON_IS_TRUE(is_simple_model)) {
+			if (instanceof_function_ex(Z_OBJCE_P(result), phalcon_mvc_modelinterface_ce, 1 TSRMLS_CC)) {
 				phalcon_update_property_array(this_ptr, SL("_related"), lower_property, result TSRMLS_CC);
 			}
 		}
@@ -6614,6 +6609,7 @@ PHP_METHOD(Phalcon_Mvc_Model, __get){
 	/** 
 	 * A notice is shown if the property is not defined and it isn't a relationship
 	 */
+	/* TODO see if segfault is possible */
 	zend_error(E_NOTICE, "Access to undefined property %s::%s", Z_STRVAL_P(model_name), Z_STRVAL_P(property));
 	RETURN_MM_NULL();
 }

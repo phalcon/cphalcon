@@ -25,6 +25,8 @@
 #include "cache/backendinterface.h"
 #include "di/injectable.h"
 
+#include <Zend/zend_closures.h>
+
 #include "kernel/main.h"
 #include "kernel/memory.h"
 #include "kernel/object.h"
@@ -826,7 +828,7 @@ PHP_METHOD(Phalcon_Mvc_View, _loadTemplateEngines){
 					/** 
 					 * Engine can be a closure
 					 */
-					if (phalcon_is_instance_of(engine_service, SL("Closure") TSRMLS_CC)) {
+					if (instanceof_function(Z_OBJCE_P(engine_service), zend_ce_closure TSRMLS_CC)) {
 						PHALCON_INIT_NVAR(engine_object);
 						PHALCON_CALL_USER_FUNC_ARRAY(engine_object, engine_service, arguments);
 					} else {

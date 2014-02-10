@@ -617,7 +617,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, getUniquePrefix){
 	 * The user could use a closure generator
 	 */
 	if (Z_TYPE_P(prefix) == IS_OBJECT) {
-		if (phalcon_is_instance_of(prefix, SL("Closure") TSRMLS_CC)) {
+		if (instanceof_function(Z_OBJCE_P(prefix), zend_ce_closure TSRMLS_CC)) {
 			PHALCON_INIT_VAR(parameters);
 			array_init_size(parameters, 1);
 			phalcon_array_append(&parameters, this_ptr, 0);
@@ -828,7 +828,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, functionCall){
 				 * Execute the function closure returning the compiled definition
 				 */
 				if (Z_TYPE_P(definition) == IS_OBJECT) {
-					if (phalcon_is_instance_of(definition, SL("Closure") TSRMLS_CC)) {
+					if (instanceof_function(Z_OBJCE_P(definition), zend_ce_closure TSRMLS_CC)) {
 						zval *parameters;
 
 						PHALCON_ALLOC_GHOST_ZVAL(parameters);
@@ -3779,7 +3779,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compile){
 		 * A closure can dynamically compile the path
 		 */
 		if (Z_TYPE_P(compiled_path) == IS_OBJECT) {
-			if (phalcon_is_instance_of(compiled_path, SL("Closure") TSRMLS_CC)) {
+			if (instanceof_function(Z_OBJCE_P(compiled_path), zend_ce_closure TSRMLS_CC)) {
 	
 				PHALCON_INIT_VAR(params);
 				array_init_size(params, 3);

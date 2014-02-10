@@ -21,6 +21,7 @@
 #include "events/event.h"
 #include "events/exception.h"
 
+#include <Zend/zend_closures.h>
 #include <ext/spl/spl_heap.h>
 
 #include "kernel/main.h"
@@ -313,22 +314,22 @@ PHP_METHOD(Phalcon_Events_Manager, fireQueue){
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
+	zend_class_entry **weakref_ce;
 
 	PHALCON_MM_GROW();
 
 	phalcon_fetch_params(1, 2, 0, &queue, &event);
-	
+
 	if (unlikely(Z_TYPE_P(queue) != IS_ARRAY)) { 
-		if (Z_TYPE_P(queue) != IS_OBJECT) {
-			PHALCON_THROW_EXCEPTION_STR(phalcon_events_exception_ce, "The SplPriorityQueue is not valid");
-			return;
-		}
+		PHALCON_VERIFY_CLASS_EX(event, spl_ce_SplPriorityQueue, phalcon_events_exception_ce, 1);
 	}
-	if (unlikely(Z_TYPE_P(event) != IS_OBJECT)) {
-		PHALCON_THROW_EXCEPTION_STR(phalcon_events_exception_ce, "The event is not valid");
-		return;
+
+	PHALCON_VERIFY_CLASS_EX(event, phalcon_events_event_ce, phalcon_events_exception_ce, 1);
+
+	if (FAILURE == zend_lookup_class_ex(SL("WeakRef") ZLK_NULL_CC, 0, &weakref_ce TSRMLS_CC)) {
+		weakref_ce = NULL;
 	}
-	
+
 	PHALCON_INIT_VAR(status);
 	
 	PHALCON_INIT_VAR(arguments);
@@ -404,7 +405,7 @@ PHP_METHOD(Phalcon_Events_Manager, fireQueue){
 				/**
 				 * Check if the event is a weak reference.
 				 */
-				if (phalcon_is_instance_of(handler_embeded, SL("WeakRef") TSRMLS_CC)) {
+				if (weakref_ce && instanceof_function(Z_OBJCE_P(handler_embeded), *weakref_ce TSRMLS_CC)) {
 					/**
 					 * Checks whether the object referenced still exists.
 					 */
@@ -423,14 +424,14 @@ PHP_METHOD(Phalcon_Events_Manager, fireQueue){
 					}
 
 				} else {
-					PHALCON_INIT_NVAR(handler);
 					PHALCON_CPY_WRT(handler, handler_embeded);
 				}
 	
 				/** 
 				 * Check if the event is a closure
 				 */
-				if (phalcon_is_instance_of(handler, SL("Closure") TSRMLS_CC)) {
+				assert(Z_TYPE_P(handler) == IS_OBJECT);
+				if (instanceof_function(Z_OBJCE_P(handler), zend_ce_closure TSRMLS_CC)) {
 	
 					/** 
 					 * Create the closure arguments
@@ -438,9 +439,9 @@ PHP_METHOD(Phalcon_Events_Manager, fireQueue){
 					if (Z_TYPE_P(arguments) == IS_NULL) {
 						PHALCON_INIT_NVAR(arguments);
 						array_init_size(arguments, 3);
-						phalcon_array_append(&arguments, event, PH_SEPARATE);
-						phalcon_array_append(&arguments, source, PH_SEPARATE);
-						phalcon_array_append(&arguments, data, PH_SEPARATE);
+						phalcon_array_append(&arguments, event, 0);
+						phalcon_array_append(&arguments, source, 0);
+						phalcon_array_append(&arguments, data, 0);
 					}
 	
 					/** 
@@ -522,7 +523,7 @@ PHP_METHOD(Phalcon_Events_Manager, fireQueue){
 				/**
 				  * Check if the event is a weak reference.
 				  */
-				if (phalcon_is_instance_of(handler_embeded, SL("WeakRef") TSRMLS_CC)) {
+				if (weakref_ce && instanceof_function(Z_OBJCE_P(handler_embeded), *weakref_ce TSRMLS_CC)) {
 					/**
 					 * Checks whether the object referenced still exists.
 					 */
@@ -538,14 +539,14 @@ PHP_METHOD(Phalcon_Events_Manager, fireQueue){
 					}
 
 				} else {
-					PHALCON_INIT_NVAR(handler);
 					PHALCON_CPY_WRT(handler, handler_embeded);
 				}
 	
 				/** 
 				 * Check if the event is a closure
 				 */
-				if (phalcon_is_instance_of(handler, SL("Closure") TSRMLS_CC)) {
+				assert(Z_TYPE_P(handler) == IS_OBJECT);
+				if (instanceof_function(Z_OBJCE_P(handler), zend_ce_closure TSRMLS_CC)) {
 	
 					/** 
 					 * Create the closure arguments
@@ -553,9 +554,9 @@ PHP_METHOD(Phalcon_Events_Manager, fireQueue){
 					if (Z_TYPE_P(arguments) == IS_NULL) {
 						PHALCON_INIT_NVAR(arguments);
 						array_init_size(arguments, 3);
-						phalcon_array_append(&arguments, event, PH_SEPARATE);
-						phalcon_array_append(&arguments, source, PH_SEPARATE);
-						phalcon_array_append(&arguments, data, PH_SEPARATE);
+						phalcon_array_append(&arguments, event, 0);
+						phalcon_array_append(&arguments, source, 0);
+						phalcon_array_append(&arguments, data, 0);
 					}
 	
 					/** 
