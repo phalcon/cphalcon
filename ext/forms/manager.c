@@ -160,7 +160,7 @@ PHP_METHOD(Phalcon_Forms_Manager, has){
  *
  * @param string $name
  * @param Phalcon\Forms\Form $form
- * @return Phalcon\Forms\Form
+ * @return Phalcon\Forms\Manager
  */
 PHP_METHOD(Phalcon_Forms_Manager, set){
 
