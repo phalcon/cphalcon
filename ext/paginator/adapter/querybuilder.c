@@ -30,6 +30,8 @@
 #include "kernel/operators.h"
 #include "kernel/fcall.h"
 
+#include "internal/arginfo.h"
+
 /**
  * Phalcon\Paginator\Adapter\QueryBuilder
  *
@@ -59,19 +61,27 @@ PHP_METHOD(Phalcon_Paginator_Adapter_QueryBuilder, getLimit);
 PHP_METHOD(Phalcon_Paginator_Adapter_QueryBuilder, setQueryBuilder);
 PHP_METHOD(Phalcon_Paginator_Adapter_QueryBuilder, getQueryBuilder);
 
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_paginator_adapter_querybuilder___construct, 0, 0, 1)
+	ZEND_ARG_INFO(0, config)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_paginator_adapter_querybuilder_setlimit, 0, 0, 1)
+	ZEND_ARG_INFO(0, limit)
+ZEND_END_ARG_INFO()
+
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_paginator_adapter_querybuilder_setquerybuilder, 0, 0, 1)
-    ZEND_ARG_INFO(0, queryBuilder)
+	ZEND_ARG_INFO(0, queryBuilder)
 ZEND_END_ARG_INFO()
 
 static const zend_function_entry phalcon_paginator_adapter_querybuilder_method_entry[] = {
-	PHP_ME(Phalcon_Paginator_Adapter_QueryBuilder, __construct, arginfo_phalcon_paginator_adapterinterface___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
-	PHP_ME(Phalcon_Paginator_Adapter_QueryBuilder, getPaginate, arginfo_phalcon_paginator_adapterinterface_getcurrentpage, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Paginator_Adapter_QueryBuilder, setLimit, NULL, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Paginator_Adapter_QueryBuilder, getLimit, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Paginator_Adapter_QueryBuilder, __construct, arginfo_phalcon_paginator_adapter_querybuilder___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
+	PHP_ME(Phalcon_Paginator_Adapter_QueryBuilder, getPaginate, arginfo_phalcon_paginator_adapterinterface_getpaginate, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Paginator_Adapter_QueryBuilder, setLimit, arginfo_phalcon_paginator_adapter_querybuilder_setlimit, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Paginator_Adapter_QueryBuilder, getLimit, arginfo_empty, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Paginator_Adapter_QueryBuilder, setCurrentPage, arginfo_phalcon_paginator_adapterinterface_setcurrentpage, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Paginator_Adapter_QueryBuilder, getCurrentPage, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Paginator_Adapter_QueryBuilder, getCurrentPage, arginfo_phalcon_paginator_adapterinterface_getcurrentpage, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Paginator_Adapter_QueryBuilder, setQueryBuilder, arginfo_phalcon_paginator_adapter_querybuilder_setquerybuilder, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Paginator_Adapter_QueryBuilder, getQueryBuilder, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Paginator_Adapter_QueryBuilder, getQueryBuilder, arginfo_empty, ZEND_ACC_PUBLIC)
 	PHP_FE_END
 };
 

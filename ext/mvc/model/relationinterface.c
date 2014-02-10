@@ -23,7 +23,6 @@
 zend_class_entry *phalcon_mvc_model_relationinterface_ce;
 
 static const zend_function_entry phalcon_mvc_model_relationinterface_method_entry[] = {
-	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_RelationInterface, __construct, arginfo_phalcon_mvc_model_relationinterface___construct)
 	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_RelationInterface, setIntermediateRelation, arginfo_phalcon_mvc_model_relationinterface_setintermediaterelation)
 	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_RelationInterface, getType, NULL)
 	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_RelationInterface, getReferencedModel, NULL)
@@ -48,17 +47,6 @@ PHALCON_INIT_CLASS(Phalcon_Mvc_Model_RelationInterface){
 
 	return SUCCESS;
 }
-
-/**
- * Phalcon\Mvc\Model\Relation constructor
- *
- * @param int $type
- * @param string $referencedModel
- * @param string|array $fields
- * @param string|array $referencedFields
- * @param array $options
- */
-PHALCON_DOC_METHOD(Phalcon_Mvc_Model_RelationInterface, __construct);
 
 /**
  * Sets the intermediate model dat for has-*-through relations

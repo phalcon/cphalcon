@@ -23,7 +23,6 @@
 zend_class_entry *phalcon_mvc_router_routeinterface_ce;
 
 static const zend_function_entry phalcon_mvc_router_routeinterface_method_entry[] = {
-	PHP_ABSTRACT_ME(Phalcon_Mvc_Router_RouteInterface, __construct, arginfo_phalcon_mvc_router_routeinterface___construct)
 	PHP_ABSTRACT_ME(Phalcon_Mvc_Router_RouteInterface, compilePattern, arginfo_phalcon_mvc_router_routeinterface_compilepattern)
 	PHP_ABSTRACT_ME(Phalcon_Mvc_Router_RouteInterface, via, arginfo_phalcon_mvc_router_routeinterface_via)
 	PHP_ABSTRACT_ME(Phalcon_Mvc_Router_RouteInterface, reConfigure, arginfo_phalcon_mvc_router_routeinterface_reconfigure)
@@ -48,15 +47,6 @@ PHALCON_INIT_CLASS(Phalcon_Mvc_Router_RouteInterface){
 
 	return SUCCESS;
 }
-
-/**
- * Phalcon\Mvc\Router\Route constructor
- *
- * @param string $pattern
- * @param array $paths
- * @param array|string $httpMethods
- */
-PHALCON_DOC_METHOD(Phalcon_Mvc_Router_RouteInterface, __construct);
 
 /**
  * Replaces placeholders from pattern returning a valid PCRE regular expression

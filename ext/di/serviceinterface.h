@@ -26,12 +26,6 @@ extern zend_class_entry *phalcon_di_serviceinterface_ce;
 
 PHALCON_INIT_CLASS(Phalcon_DI_ServiceInterface);
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_di_serviceinterface___construct, 0, 0, 2)
-	ZEND_ARG_INFO(0, name)
-	ZEND_ARG_INFO(0, definition)
-	ZEND_ARG_INFO(0, shared)
-ZEND_END_ARG_INFO()
-
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_di_serviceinterface_setshared, 0, 0, 1)
 	ZEND_ARG_INFO(0, shared)
 ZEND_END_ARG_INFO()
@@ -45,7 +39,16 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_di_serviceinterface_resolve, 0, 0, 0)
 	ZEND_ARG_INFO(0, dependencyInjector)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_di_serviceinterface_empty, 0, 0, 0)
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_di_serviceinterface_getname, 0, 0, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_di_serviceinterface_isshared, 0, 0, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_di_serviceinterface_isresolved, 0, 0, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_di_serviceinterface_getdefinition, 0, 0, 0)
 ZEND_END_ARG_INFO()
 
 #endif /* PHALCON_DI_SERVICEINTERFACE_H */

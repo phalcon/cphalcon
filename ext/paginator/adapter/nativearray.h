@@ -20,6 +20,8 @@
 #ifndef PHALCON_PAGINATOR_ADAPTER_NATIVEARRAY_H
 #define PHALCON_PAGINATOR_ADAPTER_NATIVEARRAY_H
 
+#include "php_phalcon.h"
+
 extern zend_class_entry *phalcon_paginator_adapter_nativearray_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Paginator_Adapter_NativeArray);

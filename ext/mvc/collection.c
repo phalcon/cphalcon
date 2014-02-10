@@ -27,6 +27,7 @@
 #include "di.h"
 #include "diinterface.h"
 #include "di/injectionawareinterface.h"
+#include "events/eventsawareinterface.h"
 
 #include "kernel/main.h"
 #include "kernel/memory.h"
@@ -40,6 +41,8 @@
 #include "kernel/file.h"
 #include "kernel/concat.h"
 #include "kernel/variables.h"
+
+#include "internal/arginfo.h"
 
 /**
  * Phalcon\Mvc\Collection
@@ -92,6 +95,10 @@ PHP_METHOD(Phalcon_Mvc_Collection, serialize);
 PHP_METHOD(Phalcon_Mvc_Collection, unserialize);
 PHP_METHOD(Phalcon_Mvc_Collection, execute);
 
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_collection___construct, 0, 0, 0)
+	ZEND_ARG_INFO(0, dependencyInjector)
+ZEND_END_ARG_INFO()
+
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_collection_aggregate, 0, 0, 1)
 	ZEND_ARG_INFO(0, parameters)
 ZEND_END_ARG_INFO()
@@ -102,23 +109,19 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_collection_summatory, 0, 0, 1)
 	ZEND_ARG_INFO(0, finalize)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_collection_unserialize, 0, 0, 1)
-	ZEND_ARG_INFO(0, data)
-ZEND_END_ARG_INFO()
-
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_collection_execute, 0, 0, 1)
 	ZEND_ARG_INFO(0, code)
 	ZEND_ARG_INFO(0, args)
 ZEND_END_ARG_INFO()
 
 static const zend_function_entry phalcon_mvc_collection_method_entry[] = {
-	PHP_ME(Phalcon_Mvc_Collection, __construct, arginfo_phalcon_mvc_collectioninterface___construct, ZEND_ACC_PUBLIC|ZEND_ACC_FINAL|ZEND_ACC_CTOR)
+	PHP_ME(Phalcon_Mvc_Collection, __construct, arginfo_phalcon_mvc_collection___construct, ZEND_ACC_PUBLIC|ZEND_ACC_FINAL|ZEND_ACC_CTOR)
 	PHP_ME(Phalcon_Mvc_Collection, setId, arginfo_phalcon_mvc_collectioninterface_setid, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Collection, getId, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Collection, setDI, arginfo_phalcon_di_injectionawareinterface_setdi, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Collection, getDI, arginfo_phalcon_di_injectionawareinterface_getdi, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Mvc_Collection, setEventsManager, NULL, ZEND_ACC_PROTECTED)
-	PHP_ME(Phalcon_Mvc_Collection, getEventsManager, NULL, ZEND_ACC_PROTECTED)
+	PHP_ME(Phalcon_Mvc_Collection, setEventsManager, arginfo_phalcon_events_eventsawareinterface_seteventsmanager, ZEND_ACC_PROTECTED)
+	PHP_ME(Phalcon_Mvc_Collection, getEventsManager, arginfo_phalcon_events_eventsawareinterface_geteventsmanager, ZEND_ACC_PROTECTED)
 	PHP_ME(Phalcon_Mvc_Collection, getModelsManager, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Collection, getReservedAttributes, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Collection, useImplicitObjectIds, NULL, ZEND_ACC_PROTECTED)
@@ -151,8 +154,8 @@ static const zend_function_entry phalcon_mvc_collection_method_entry[] = {
 	PHP_ME(Phalcon_Mvc_Collection, summatory, arginfo_phalcon_mvc_collection_summatory, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Mvc_Collection, delete, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Collection, toArray, NULL, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Mvc_Collection, serialize, NULL, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Mvc_Collection, unserialize, arginfo_phalcon_mvc_collection_unserialize, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Collection, serialize, arginfo_serializable_serialize, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Collection, unserialize, arginfo_serializable_unserialize, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Collection, execute, arginfo_phalcon_mvc_collection_execute, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
 	PHP_FE_END
 };

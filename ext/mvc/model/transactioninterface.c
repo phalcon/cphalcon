@@ -23,7 +23,6 @@
 zend_class_entry *phalcon_mvc_model_transactioninterface_ce;
 
 static const zend_function_entry phalcon_mvc_model_transactioninterface_method_entry[] = {
-	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_TransactionInterface, __construct, arginfo_phalcon_mvc_model_transactioninterface___construct)
 	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_TransactionInterface, setTransactionManager, arginfo_phalcon_mvc_model_transactioninterface_settransactionmanager)
 	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_TransactionInterface, begin, NULL)
 	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_TransactionInterface, commit, NULL)
@@ -47,15 +46,6 @@ PHALCON_INIT_CLASS(Phalcon_Mvc_Model_TransactionInterface){
 
 	return SUCCESS;
 }
-
-/**
- * Phalcon\Mvc\Model\Transaction constructor
- *
- * @param Phalcon\DiInterface $dependencyInjector
- * @param boolean $autoBegin
- * @param string $service
- */
-PHALCON_DOC_METHOD(Phalcon_Mvc_Model_TransactionInterface, __construct);
 
 /**
  * Sets transaction manager related to the transaction

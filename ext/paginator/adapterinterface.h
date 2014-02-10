@@ -20,19 +20,20 @@
 #ifndef PHALCON_PAGINATOR_ADAPTERINTERFACE_H
 #define PHALCON_PAGINATOR_ADAPTERINTERFACE_H
 
+#include "php_phalcon.h"
+
 extern zend_class_entry *phalcon_paginator_adapterinterface_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Paginator_AdapterInterface);
-
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_paginator_adapterinterface___construct, 0, 0, 1)
-	ZEND_ARG_INFO(0, config)
-ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_paginator_adapterinterface_setcurrentpage, 0, 0, 1)
 	ZEND_ARG_INFO(0, page)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_paginator_adapterinterface_getcurrentpage, 0, 0, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_paginator_adapterinterface_getpaginate, 0, 0, 0)
 ZEND_END_ARG_INFO()
 
 #endif /* PHALCON_PAGINATOR_ADAPTERINTERFACE_H */

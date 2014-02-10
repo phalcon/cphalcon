@@ -92,12 +92,16 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getGroupBy);
 PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getPhql);
 PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getQuery);
 
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_query_builder___construct, 0, 0, 0)
+	ZEND_ARG_INFO(0, params)
+ZEND_END_ARG_INFO()
+
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_query_builder_offset, 0, 0, 1)
 	ZEND_ARG_INFO(0, offset)
 ZEND_END_ARG_INFO()
 
 static const zend_function_entry phalcon_mvc_model_query_builder_method_entry[] = {
-	PHP_ME(Phalcon_Mvc_Model_Query_Builder, __construct, arginfo_phalcon_mvc_model_query_builderinterface___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
+	PHP_ME(Phalcon_Mvc_Model_Query_Builder, __construct, arginfo_phalcon_mvc_model_query_builder___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
 	PHP_ME(Phalcon_Mvc_Model_Query_Builder, distinct, arginfo_phalcon_mvc_model_query_builderinterface_distinct, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_Query_Builder, getDistinct, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_Query_Builder, setDI, arginfo_phalcon_di_injectionawareinterface_setdi, ZEND_ACC_PUBLIC)

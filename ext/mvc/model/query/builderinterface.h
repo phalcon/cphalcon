@@ -26,10 +26,6 @@ extern zend_class_entry *phalcon_mvc_model_query_builderinterface_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Mvc_Model_Query_BuilderInterface);
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_query_builderinterface___construct, 0, 0, 0)
-	ZEND_ARG_INFO(0, params)
-ZEND_END_ARG_INFO()
-
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_query_builderinterface_distinct, 0, 0, 1)
 	ZEND_ARG_INFO(0, distinct)
 ZEND_END_ARG_INFO()

@@ -23,7 +23,6 @@
 zend_class_entry *phalcon_db_columninterface_ce;
 
 static const zend_function_entry phalcon_db_columninterface_method_entry[] = {
-	PHP_ABSTRACT_ME(Phalcon_Db_ColumnInterface, __construct, arginfo_phalcon_db_columninterface___construct)
 	PHP_ABSTRACT_ME(Phalcon_Db_ColumnInterface, getSchemaName, NULL)
 	PHP_ABSTRACT_ME(Phalcon_Db_ColumnInterface, getName, NULL)
 	PHP_ABSTRACT_ME(Phalcon_Db_ColumnInterface, getType, NULL)
@@ -49,14 +48,6 @@ PHALCON_INIT_CLASS(Phalcon_Db_ColumnInterface){
 
 	return SUCCESS;
 }
-
-/**
- * Phalcon\Db\ColumnInterface constructor
- *
- * @param string $columnName
- * @param array $definition
- */
-PHALCON_DOC_METHOD(Phalcon_Db_ColumnInterface, __construct);
 
 /**
  * Returns schema's table related to column

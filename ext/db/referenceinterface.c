@@ -23,7 +23,6 @@
 zend_class_entry *phalcon_db_referenceinterface_ce;
 
 static const zend_function_entry phalcon_db_referenceinterface_method_entry[] = {
-	PHP_ABSTRACT_ME(Phalcon_Db_ReferenceInterface, __construct, arginfo_phalcon_db_referenceinterface___construct)
 	PHP_ABSTRACT_ME(Phalcon_Db_ReferenceInterface, getName, NULL)
 	PHP_ABSTRACT_ME(Phalcon_Db_ReferenceInterface, getSchemaName, NULL)
 	PHP_ABSTRACT_ME(Phalcon_Db_ReferenceInterface, getReferencedSchema, NULL)
@@ -42,14 +41,6 @@ PHALCON_INIT_CLASS(Phalcon_Db_ReferenceInterface){
 
 	return SUCCESS;
 }
-
-/**
- * Phalcon\Db\ReferenceInterface constructor
- *
- * @param string $referenceName
- * @param array $definition
- */
-PHALCON_DOC_METHOD(Phalcon_Db_ReferenceInterface, __construct);
 
 /**
  * Gets the index name

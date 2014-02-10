@@ -26,10 +26,6 @@ extern zend_class_entry *phalcon_mvc_model_transaction_managerinterface_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Mvc_Model_Transaction_ManagerInterface);
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_transaction_managerinterface___construct, 0, 0, 0)
-	ZEND_ARG_INFO(0, dependencyInjector)
-ZEND_END_ARG_INFO()
-
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_transaction_managerinterface_get, 0, 0, 0)
 	ZEND_ARG_INFO(0, autoBegin)
 ZEND_END_ARG_INFO()

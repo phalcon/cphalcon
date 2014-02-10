@@ -26,9 +26,4 @@ extern zend_class_entry *phalcon_mvc_model_query_statusinterface_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Mvc_Model_Query_StatusInterface);
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_query_statusinterface___construct, 0, 0, 2)
-	ZEND_ARG_INFO(0, success)
-	ZEND_ARG_INFO(0, model)
-ZEND_END_ARG_INFO()
-
 #endif /* PHALCON_MVC_MODEL_QUERY_STATUSINTERFACE_H */

@@ -23,7 +23,6 @@
 zend_class_entry *phalcon_mvc_view_engineinterface_ce;
 
 static const zend_function_entry phalcon_mvc_view_engineinterface_method_entry[] = {
-	PHP_ABSTRACT_ME(Phalcon_Mvc_View_EngineInterface, __construct, arginfo_phalcon_mvc_view_engineinterface___construct)
 	PHP_ABSTRACT_ME(Phalcon_Mvc_View_EngineInterface, getContent, NULL)
 	PHP_ABSTRACT_ME(Phalcon_Mvc_View_EngineInterface, partial, arginfo_phalcon_mvc_view_engineinterface_partial)
 	PHP_ABSTRACT_ME(Phalcon_Mvc_View_EngineInterface, render, arginfo_phalcon_mvc_view_engineinterface_render)
@@ -39,14 +38,6 @@ PHALCON_INIT_CLASS(Phalcon_Mvc_View_EngineInterface){
 
 	return SUCCESS;
 }
-
-/**
- * Phalcon\Mvc\View\Engine constructor
- *
- * @param Phalcon\Mvc\ViewInterface $view
- * @param Phalcon\DiInterface $dependencyInjector
- */
-PHALCON_DOC_METHOD(Phalcon_Mvc_View_EngineInterface, __construct);
 
 /**
  * Returns cached ouput on another view stage

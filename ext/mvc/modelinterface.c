@@ -23,7 +23,6 @@
 zend_class_entry *phalcon_mvc_modelinterface_ce;
 
 static const zend_function_entry phalcon_mvc_modelinterface_method_entry[] = {
-	PHP_ABSTRACT_ME(Phalcon_Mvc_ModelInterface, __construct, arginfo_phalcon_mvc_modelinterface___construct)
 	PHP_ABSTRACT_ME(Phalcon_Mvc_ModelInterface, setTransaction, arginfo_phalcon_mvc_modelinterface_settransaction)
 	PHP_ABSTRACT_ME(Phalcon_Mvc_ModelInterface, getSource, NULL)
 	PHP_ABSTRACT_ME(Phalcon_Mvc_ModelInterface, getSchema, NULL)
@@ -72,14 +71,6 @@ PHALCON_INIT_CLASS(Phalcon_Mvc_ModelInterface){
 
 	return SUCCESS;
 }
-
-/**
- * Phalcon\Mvc\Model constructor
- *
- * @param Phalcon\DiInterface $dependencyInjector
- * @param Phalcon\Mvc\Model\ManagerInterface $modelsManager
- */
-PHALCON_DOC_METHOD(Phalcon_Mvc_ModelInterface, __construct);
 
 /**
  * Sets a transaction related to the Model instance

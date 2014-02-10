@@ -117,6 +117,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, getBindTypes);
 PHP_METHOD(Phalcon_Mvc_Model_Query, setIntermediate);
 PHP_METHOD(Phalcon_Mvc_Model_Query, getIntermediate);
 
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_query___construct, 0, 0, 1)
+	ZEND_ARG_INFO(0, phql)
+ZEND_END_ARG_INFO()
+
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_query_setuniquerow, 0, 0, 1)
 	ZEND_ARG_INFO(0, uniqueRow)
 ZEND_END_ARG_INFO()
@@ -147,7 +151,7 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_query_setintermediate, 0, 0, 1)
 ZEND_END_ARG_INFO()
 
 static const zend_function_entry phalcon_mvc_model_query_method_entry[] = {
-	PHP_ME(Phalcon_Mvc_Model_Query, __construct, arginfo_phalcon_mvc_model_queryinterface___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
+	PHP_ME(Phalcon_Mvc_Model_Query, __construct, arginfo_phalcon_mvc_model_query___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
 	PHP_ME(Phalcon_Mvc_Model_Query, setDI, arginfo_phalcon_di_injectionawareinterface_setdi, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_Query, getDI, arginfo_phalcon_di_injectionawareinterface_getdi, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_Query, setUniqueRow, arginfo_phalcon_mvc_model_query_setuniquerow, ZEND_ACC_PUBLIC)

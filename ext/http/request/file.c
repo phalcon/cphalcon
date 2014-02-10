@@ -67,12 +67,16 @@ PHP_METHOD(Phalcon_Http_Request_File, isUploadedFile);
 PHP_METHOD(Phalcon_Http_Request_File, moveTo);
 PHP_METHOD(Phalcon_Http_Request_File, __set_state);
 
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_http_request_file___construct, 0, 0, 1)
+	ZEND_ARG_INFO(0, file)
+ZEND_END_ARG_INFO()
+
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_http_request_file___set_state, 0, 0, 1)
 	ZEND_ARG_INFO(0, params)
 ZEND_END_ARG_INFO()
 
 static const zend_function_entry phalcon_http_request_file_method_entry[] = {
-	PHP_ME(Phalcon_Http_Request_File, __construct, arginfo_phalcon_http_request_fileinterface___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
+	PHP_ME(Phalcon_Http_Request_File, __construct, arginfo_phalcon_http_request_file___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
 	PHP_ME(Phalcon_Http_Request_File, getSize, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Http_Request_File, getName, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Http_Request_File, getTempName, NULL, ZEND_ACC_PUBLIC)

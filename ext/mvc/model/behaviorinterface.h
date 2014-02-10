@@ -26,10 +26,6 @@ extern zend_class_entry *phalcon_mvc_model_behaviorinterface_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Mvc_Model_BehaviorInterface);
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_behaviorinterface___construct, 0, 0, 0)
-	ZEND_ARG_INFO(0, options)
-ZEND_END_ARG_INFO()
-
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_behaviorinterface_notify, 0, 0, 2)
 	ZEND_ARG_INFO(0, type)
 	ZEND_ARG_INFO(0, model)
