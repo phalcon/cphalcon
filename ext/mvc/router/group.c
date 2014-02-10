@@ -391,13 +391,20 @@ PHP_METHOD(Phalcon_Mvc_Router_Group, _addRoute){
 	 * Add the prefix to the pattern
 	 */
 	PHALCON_INIT_VAR(prefix_pattern);
-	
-	if (*(Z_STRVAL_PP(pattern)) == '/' && Z_STRVAL_P(prefix)[Z_STRLEN_P(prefix)-1] == '/') {
-		ZVAL_STRINGL(prefix_pattern, Z_STRVAL_P(prefix), Z_STRLEN_P(prefix)-1, 1);
-		concat_function(prefix_pattern, prefix_pattern, *pattern TSRMLS_CC);
-	}
-	else {
-		PHALCON_CONCAT_VV(prefix_pattern, prefix, *pattern);
+	{
+		const char *s_pattern = Z_STRVAL_PP(pattern); /* NUL-terminated */
+		const char *s_prefix  = Z_STRVAL_P(prefix);   /* NUL-terminated */
+		int pattern_len       = Z_STRLEN_PP(pattern);
+		int prefix_len        = Z_STRLEN_P(prefix);
+		if (prefix_len && *s_pattern == '/' && s_prefix[prefix_len-1] == '/') {
+			char *new_pattern = safe_emalloc(prefix_len - 1 /* slash */ + 1 /* \0 */, 1, pattern_len);
+			memcpy(new_pattern, s_prefix, prefix_len - 1);
+			memcpy(new_pattern + prefix_len - 1, s_pattern, pattern_len + 1);
+			ZVAL_STRINGL(prefix_pattern, new_pattern, prefix_len + pattern_len - 1, -0);
+		}
+		else {
+			PHALCON_CONCAT_VV(prefix_pattern, prefix, *pattern);
+		}
 	}
 
 	default_paths = phalcon_fetch_nproperty_this(this_ptr, SL("_paths"), PH_NOISY_CC);

@@ -44,6 +44,7 @@ typedef struct _phalcon_memory_entry {
 	struct _phalcon_memory_entry *next;
 #ifndef PHALCON_RELEASE
 	const char *func;
+	zend_bool permanent;
 #endif
 } phalcon_memory_entry;
 
