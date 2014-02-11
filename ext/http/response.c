@@ -26,6 +26,8 @@
 #include "di/injectionawareinterface.h"
 #include "mvc/urlinterface.h"
 
+#include <ext/date/php_date.h>
+
 #include "kernel/main.h"
 #include "kernel/memory.h"
 #include "kernel/fcall.h"
@@ -440,17 +442,15 @@ PHP_METHOD(Phalcon_Http_Response, setExpires){
 
 	zval *datetime, *headers, *date, *utc_zone, *timezone;
 	zval *format, *utc_format, *utc_date, *expires_header;
-	zend_class_entry *ce0;
+	zend_class_entry *datetime_ce, *datetimezone_ce;
 
 	PHALCON_MM_GROW();
 
 	phalcon_fetch_params(1, 1, 0, &datetime);
 	
-	if (Z_TYPE_P(datetime) != IS_OBJECT) {
-		PHALCON_THROW_EXCEPTION_STR(phalcon_http_response_exception_ce, "datetime parameter must be an instance of DateTime");
-		return;
-	}
-	
+	datetime_ce = php_date_get_date_ce();
+	PHALCON_VERIFY_CLASS_EX(datetime, datetime_ce, phalcon_http_response_exception_ce, 1);
+
 	PHALCON_INIT_VAR(headers);
 	phalcon_call_method(headers, this_ptr, "getheaders");
 	
@@ -464,13 +464,11 @@ PHP_METHOD(Phalcon_Http_Response, setExpires){
 	 */
 	PHALCON_INIT_VAR(utc_zone);
 	ZVAL_STRING(utc_zone, "UTC", 1);
-	ce0 = zend_fetch_class(SL("DateTimeZone"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
+	datetimezone_ce = php_date_get_timezone_ce();
 	
 	PHALCON_INIT_VAR(timezone);
-	object_init_ex(timezone, ce0);
-	if (phalcon_has_constructor(timezone TSRMLS_CC)) {
-		phalcon_call_method_p1_noret(timezone, "__construct", utc_zone);
-	}
+	object_init_ex(timezone, datetimezone_ce);
+	phalcon_call_method_p1_noret(timezone, "__construct", utc_zone);
 	
 	/** 
 	 * Change the timezone to utc
@@ -574,7 +572,7 @@ PHP_METHOD(Phalcon_Http_Response, setEtag){
 	phalcon_fetch_params(1, 1, 0, &etag);
 	
 	PHALCON_INIT_VAR(name);
-	ZVAL_STRING(name, "Etag", 1);
+	ZVAL_STRING(name, "ETag", 1);
 	
 	PHALCON_INIT_VAR(headers);
 	phalcon_call_method(headers, this_ptr, "getheaders");
@@ -810,15 +808,14 @@ PHP_METHOD(Phalcon_Http_Response, sendHeaders){
 
 	zval *headers;
 
-	PHALCON_MM_GROW();
-
-	PHALCON_OBS_VAR(headers);
-	phalcon_read_property_this(&headers, this_ptr, SL("_headers"), PH_NOISY_CC);
+	headers = phalcon_fetch_nproperty_this(this_ptr, SL("_headers"), PH_NOISY_CC);
 	if (Z_TYPE_P(headers) == IS_OBJECT) {
+		PHALCON_MM_GROW();
 		phalcon_call_method_noret(headers, "send");
+		PHALCON_MM_RESTORE();
 	}
 	
-	RETURN_THIS();
+	RETURN_THISW();
 }
 
 /**
@@ -830,15 +827,14 @@ PHP_METHOD(Phalcon_Http_Response, sendCookies){
 
 	zval *cookies;
 
-	PHALCON_MM_GROW();
-
-	PHALCON_OBS_VAR(cookies);
-	phalcon_read_property_this(&cookies, this_ptr, SL("_cookies"), PH_NOISY_CC);
+	cookies = phalcon_fetch_nproperty_this(this_ptr, SL("_cookies"), PH_NOISY_CC);
 	if (Z_TYPE_P(cookies) == IS_OBJECT) {
+		PHALCON_MM_GROW();
 		phalcon_call_method_noret(cookies, "send");
+		PHALCON_MM_RESTORE();
 	}
 	
-	RETURN_THIS();
+	RETURN_THISW();
 }
 
 /**
@@ -852,38 +848,29 @@ PHP_METHOD(Phalcon_Http_Response, send){
 
 	PHALCON_MM_GROW();
 
-	PHALCON_OBS_VAR(sent);
-	phalcon_read_property_this(&sent, this_ptr, SL("_sent"), PH_NOISY_CC);
+	sent = phalcon_fetch_nproperty_this(this_ptr, SL("_sent"), PH_NOISY_CC);
 	if (PHALCON_IS_FALSE(sent)) {
 	
-		/** 
-		 * Send headers
-		 */
-		PHALCON_OBS_VAR(headers);
-		phalcon_read_property_this(&headers, this_ptr, SL("_headers"), PH_NOISY_CC);
+		/* Send headers */
+		headers = phalcon_fetch_nproperty_this(this_ptr, SL("_headers"), PH_NOISY_CC);
 		if (Z_TYPE_P(headers) == IS_OBJECT) {
 			phalcon_call_method_noret(headers, "send");
 		}
 	
-		PHALCON_OBS_VAR(cookies);
-		phalcon_read_property_this(&cookies, this_ptr, SL("_cookies"), PH_NOISY_CC);
+		cookies = phalcon_fetch_nproperty_this(this_ptr, SL("_cookies"), PH_NOISY_CC);
 		if (Z_TYPE_P(cookies) == IS_OBJECT) {
 			phalcon_call_method_noret(cookies, "send");
 		}
 	
-		/** 
-		 * Output the response body
-		 */
-		PHALCON_OBS_VAR(content);
-		phalcon_read_property_this(&content, this_ptr, SL("_content"), PH_NOISY_CC);
-		if (Z_STRLEN_P(content)) {
+		/* Output the response body */
+		content = phalcon_fetch_nproperty_this(this_ptr, SL("_content"), PH_NOISY_CC);
+		if (Z_TYPE_P(content) != IS_NULL) {
 			zend_print_zval(content, 0);
 		}
 		else {
-			PHALCON_OBS_VAR(file);
-			phalcon_read_property_this(&file, this_ptr, SL("_file"), PH_NOISY_CC);
+			file = phalcon_fetch_nproperty_this(this_ptr, SL("_file"), PH_NOISY_CC);
 
-			if (Z_STRLEN_P(file)) {
+			if (Z_TYPE_P(file) == IS_STRING && Z_STRLEN_P(file)) {
 				php_stream *stream;
 
 				stream = php_stream_open_wrapper(Z_STRVAL_P(file), "rb", REPORT_ERRORS, NULL);
@@ -954,4 +941,3 @@ PHP_METHOD(Phalcon_Http_Response, setFileToSend){
 	
 	RETURN_THIS();
 }
-
