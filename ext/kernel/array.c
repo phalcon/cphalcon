@@ -264,7 +264,7 @@ int ZEPHIR_FASTCALL zephir_array_unset(zval **arr, zval *index, int flags) {
 	}
 
 	if ((flags & PH_SEPARATE) == PH_SEPARATE) {
-		SEPARATE_ZVAL(arr);
+		SEPARATE_ZVAL_IF_NOT_REF(arr);
 	}
 
 	ht = Z_ARRVAL_PP(arr);
@@ -307,7 +307,7 @@ int ZEPHIR_FASTCALL zephir_array_unset_string(zval **arr, const char *index, uin
 	}
 
 	if ((flags & PH_SEPARATE) == PH_SEPARATE) {
-		SEPARATE_ZVAL(arr);
+		SEPARATE_ZVAL_IF_NOT_REF(arr);
 	}
 
 	return zend_hash_del(Z_ARRVAL_PP(arr), index, index_length);
@@ -329,7 +329,7 @@ int ZEPHIR_FASTCALL zephir_array_unset_long(zval **arr, unsigned long index, int
 	}
 
 	if ((flags & PH_SEPARATE) == PH_SEPARATE) {
-		SEPARATE_ZVAL(arr);
+		SEPARATE_ZVAL_IF_NOT_REF(arr);
 	}
 
 	return zend_hash_index_del(Z_ARRVAL_PP(arr), index);
@@ -353,7 +353,7 @@ int zephir_array_append(zval **arr, zval *value, int flags) {
 	}
 
 	if ((flags & PH_SEPARATE) == PH_SEPARATE) {
-		SEPARATE_ZVAL(arr);
+		SEPARATE_ZVAL_IF_NOT_REF(arr);
 	}
 
 	Z_ADDREF_P(value);
@@ -446,7 +446,7 @@ int zephir_array_update_zval(zval **arr, zval *index, zval **value, int flags) {
 	}
 
 	if ((flags & PH_SEPARATE) == PH_SEPARATE) {
-		SEPARATE_ZVAL(arr);
+		SEPARATE_ZVAL_IF_NOT_REF(arr);
 	}
 
 	if ((flags & PH_COPY) == PH_COPY) {
@@ -604,7 +604,7 @@ int zephir_array_update_quick_string(zval **arr, const char *index, uint index_l
 	}
 
 	if ((flags & PH_SEPARATE) == PH_SEPARATE) {
-		SEPARATE_ZVAL(arr);
+		SEPARATE_ZVAL_IF_NOT_REF(arr);
 	}
 
 	if ((flags & PH_COPY) == PH_COPY) {
@@ -770,7 +770,7 @@ int zephir_array_update_long(zval **arr, unsigned long index, zval **value, int 
 	}
 
 	if ((flags & PH_SEPARATE) == PH_SEPARATE) {
-		SEPARATE_ZVAL(arr);
+		SEPARATE_ZVAL_IF_NOT_REF(arr);
 	}
 
 	if ((flags & PH_COPY) == PH_COPY) {

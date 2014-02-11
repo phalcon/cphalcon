@@ -18,8 +18,16 @@
  +------------------------------------------------------------------------+
  */
 
-class PhvoltParseViewOptimizer
-	extends OptimizerAbstract
+namespace Zephir\Optimizers\FunctionCall;
+
+use Zephir\Call;
+use Zephir\CompilationContext;
+use Zephir\CompilerException;
+use Zephir\CompiledExpression;
+use Zephir\Optimizers\OptimizerAbstract;
+use Zephir\HeadersManager;
+
+class PhvoltParseViewOptimizer extends OptimizerAbstract
 {
 
 	/**

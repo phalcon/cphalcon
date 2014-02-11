@@ -18,8 +18,15 @@
  +------------------------------------------------------------------------+
  */
 
-class PhalconJsminOptimizer
-	extends OptimizerAbstract
+namespace Zephir\Optimizers\FunctionCall;
+
+use Zephir\Call;
+use Zephir\CompilationContext;
+use Zephir\CompilerException;
+use Zephir\CompiledExpression;
+use Zephir\Optimizers\OptimizerAbstract;
+
+class PhalconJsminOptimizer extends OptimizerAbstract
 {
 	/**
 	 * @param array $expression

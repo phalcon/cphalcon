@@ -1067,6 +1067,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, _exists) {
 
 
 	ZEPHIR_OBS_VAR(id);
+	zephir_read_property(&id, this_ptr, SL(""), PH_NOISY_CC);
 	if ((0 == 1)) {
 		if ((Z_TYPE_P(id) == IS_OBJECT)) {
 			ZEPHIR_CPY_WRT(mongoId, id);
@@ -1645,6 +1646,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, delete) {
 	ZEPHIR_MM_GROW();
 
 	ZEPHIR_OBS_VAR(id);
+	zephir_read_property(&id, this_ptr, SL(""), PH_NOISY_CC);
 	if (!((0 == 1))) {
 		ZEPHIR_THROW_EXCEPTION_STR(phalcon_mvc_collection_exception_ce, "The document cannot be deleted because it doesn't exist");
 		return;
