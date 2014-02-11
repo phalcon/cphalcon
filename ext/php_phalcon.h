@@ -74,12 +74,16 @@ typedef struct _phalcon_db_options {
 	zend_bool escape_identifiers;
 } phalcon_db_options;
 
-/** DI options */
-typedef struct _phalcon_di_options {
-	zval **injector;
-	HashTable *shared_services_cache;
-	zend_bool cache_enabled;
-} phalcon_di_options;
+/** Security options */
+typedef struct _phalcon_security_options {
+	zend_bool crypt_std_des_supported;
+	zend_bool crypt_ext_des_supported;
+	zend_bool crypt_md5_supported;
+	zend_bool crypt_blowfish_supported;
+	zend_bool crypt_blowfish_y_supported;
+	zend_bool crypt_sha256_supported;
+	zend_bool crypt_sha512_supported;
+} phalcon_security_options;
 
 ZEND_BEGIN_MODULE_GLOBALS(phalcon)
 
@@ -108,6 +112,9 @@ ZEND_BEGIN_MODULE_GLOBALS(phalcon)
 	unsigned int recursive_lock;
 
 	zend_bool register_psr3_classes;
+
+	/** Security */
+	phalcon_security_options security;
 
 	/** DB */
 	phalcon_db_options db;

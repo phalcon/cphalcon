@@ -24,6 +24,16 @@
 
 extern zend_class_entry *phalcon_security_ce;
 
+#define PHALCON_SECURITY_CRYPT_DEFAULT          0
+#define PHALCON_SECURITY_CRYPT_STD_DES          1
+#define PHALCON_SECURITY_CRYPT_EXT_DES          2
+#define PHALCON_SECURITY_CRYPT_MD5              3
+#define PHALCON_SECURITY_CRYPT_BLOWFISH         4
+#define PHALCON_SECURITY_CRYPT_BLOWFISH_X       5
+#define PHALCON_SECURITY_CRYPT_BLOWFISH_Y       6
+#define PHALCON_SECURITY_CRYPT_SHA256           7
+#define PHALCON_SECURITY_CRYPT_SHA512           8
+
 PHALCON_INIT_CLASS(Phalcon_Security);
 
 #endif /* PHALCON_SECURITY_H */
