@@ -96,8 +96,9 @@ PHP_METHOD(Phalcon_Cache_Backend_Memory, get) {
 		_0 = zephir_fetch_nproperty_this(this_ptr, SL("_prefix"), PH_NOISY_CC);
 		ZEPHIR_CONCAT_VV(lastKey, _0, keyName);
 	}
+	ZEPHIR_OBS_VAR(cachedContent);
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_data"), PH_NOISY_CC);
-	if (!(zephir_array_isset_fetch(&cachedContent, _0, lastKey, 1 TSRMLS_CC))) {
+	if (!(zephir_array_isset_fetch(&cachedContent, _0, lastKey, 0 TSRMLS_CC))) {
 		RETURN_MM_NULL();
 	}
 	if ((Z_TYPE_P(cachedContent) == IS_NULL)) {
@@ -149,7 +150,8 @@ PHP_METHOD(Phalcon_Cache_Backend_Memory, save) {
 		ZEPHIR_THROW_EXCEPTION_STR(phalcon_cache_exception_ce, "The cache must be started first");
 		return;
 	}
-	frontend = zephir_fetch_nproperty_this(this_ptr, SL("_frontend"), PH_NOISY_CC);
+	ZEPHIR_OBS_VAR(frontend);
+	zephir_read_property_this(&frontend, this_ptr, SL("_frontend"), PH_NOISY_CC);
 	if ((Z_TYPE_P(content) == IS_NULL)) {
 		ZEPHIR_INIT_VAR(cachedContent);
 		zephir_call_method(cachedContent, frontend, "getcontent");
@@ -222,7 +224,8 @@ PHP_METHOD(Phalcon_Cache_Backend_Memory, queryKeys) {
 	}
 
 
-	data = zephir_fetch_nproperty_this(this_ptr, SL("_data"), PH_NOISY_CC);
+	ZEPHIR_OBS_VAR(data);
+	zephir_read_property_this(&data, this_ptr, SL("_data"), PH_NOISY_CC);
 	ZEPHIR_INIT_VAR(keys);
 	array_init(keys);
 	if ((Z_TYPE_P(data) == IS_ARRAY)) {
@@ -293,7 +296,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Memory, exists) {
  */
 PHP_METHOD(Phalcon_Cache_Backend_Memory, increment) {
 
-	zval *keyName = NULL, *value = NULL, *lastKey, *prefix, *data, *cachedContent, *result, *_0;
+	zval *keyName = NULL, *value = NULL, *lastKey = NULL, *prefix, *data, *cachedContent, *result, *_0;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 2, &keyName, &value);
@@ -344,7 +347,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Memory, increment) {
  */
 PHP_METHOD(Phalcon_Cache_Backend_Memory, decrement) {
 
-	zval *keyName = NULL, *value = NULL, *lastKey, *prefix, *data, *cachedContent, *result, *_0;
+	zval *keyName = NULL, *value = NULL, *lastKey = NULL, *prefix, *data, *cachedContent, *result, *_0;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 2, &keyName, &value);

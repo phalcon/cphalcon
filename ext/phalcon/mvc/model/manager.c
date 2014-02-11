@@ -364,17 +364,19 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, load) {
 	}
 
 
-	initialized = zephir_fetch_nproperty_this(this_ptr, SL("_initialized"), PH_NOISY_CC);
+	ZEPHIR_OBS_VAR(initialized);
+	zephir_read_property_this(&initialized, this_ptr, SL("_initialized"), PH_NOISY_CC);
+	ZEPHIR_OBS_VAR(model);
 	ZEPHIR_INIT_VAR(_0);
 	zephir_fast_strtolower(_0, modelName);
-	if (zephir_array_isset_fetch(&model, initialized, _0, 1 TSRMLS_CC)) {
+	if (zephir_array_isset_fetch(&model, initialized, _0, 0 TSRMLS_CC)) {
 		if (newInstance) {
 			if (zephir_clone(return_value, model TSRMLS_CC) == FAILURE) {
 				RETURN_MM();
 			}
 			RETURN_MM();
 		}
-		RETURN_CTOR(model);
+		RETURN_CCTOR(model);
 	}
 	if (zephir_class_exists(modelName, 1 TSRMLS_CC)) {
 		_1 = zend_fetch_class(Z_STRVAL_P(modelName), Z_STRLEN_P(modelName), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
@@ -447,7 +449,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getModelSource) {
 
 	ZEPHIR_INIT_VAR(entityName);
 	zephir_get_class(entityName, model, 1 TSRMLS_CC);
-	sources = zephir_fetch_nproperty_this(this_ptr, SL("_sources"), PH_NOISY_CC);
+	ZEPHIR_OBS_VAR(sources);
+	zephir_read_property_this(&sources, this_ptr, SL("_sources"), PH_NOISY_CC);
 	if ((Z_TYPE_P(sources) == IS_ARRAY)) {
 		ZEPHIR_OBS_VAR(source);
 		if (zephir_array_isset_fetch(&source, sources, entityName, 0 TSRMLS_CC)) {
@@ -635,15 +638,17 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, setReadConnectionService) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_Manager, getReadConnection) {
 
-	zval *model, *connectionServices, *dependencyInjector = NULL, *service, *connection = NULL, *_0 = NULL, *_1, *_2;
+	zval *model, *connectionServices, *dependencyInjector = NULL, *service = NULL, *connection = NULL, *_0 = NULL, *_1, *_2;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &model);
 
 
 
-	connectionServices = zephir_fetch_nproperty_this(this_ptr, SL("_readConnectionServices"), PH_NOISY_CC);
+	ZEPHIR_OBS_VAR(connectionServices);
+	zephir_read_property_this(&connectionServices, this_ptr, SL("_readConnectionServices"), PH_NOISY_CC);
 	if ((Z_TYPE_P(connectionServices) == IS_ARRAY)) {
+		ZEPHIR_OBS_VAR(service);
 		ZEPHIR_INIT_VAR(_0);
 		zephir_get_class(_0, model, 1 TSRMLS_CC);
 	}
@@ -681,15 +686,17 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getReadConnection) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_Manager, getWriteConnection) {
 
-	zval *model, *connectionServices, *dependencyInjector = NULL, *service, *connection = NULL, *_0 = NULL, *_1, *_2;
+	zval *model, *connectionServices, *dependencyInjector = NULL, *service = NULL, *connection = NULL, *_0 = NULL, *_1, *_2;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &model);
 
 
 
-	connectionServices = zephir_fetch_nproperty_this(this_ptr, SL("_writeConnectionServices"), PH_NOISY_CC);
+	ZEPHIR_OBS_VAR(connectionServices);
+	zephir_read_property_this(&connectionServices, this_ptr, SL("_writeConnectionServices"), PH_NOISY_CC);
 	if ((Z_TYPE_P(connectionServices) == IS_ARRAY)) {
+		ZEPHIR_OBS_VAR(service);
 		ZEPHIR_INIT_VAR(_0);
 		zephir_get_class(_0, model, 1 TSRMLS_CC);
 	}
@@ -805,11 +812,13 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, notifyEvent) {
 
 	ZEPHIR_INIT_VAR(status);
 	ZVAL_NULL(status);
-	behaviors = zephir_fetch_nproperty_this(this_ptr, SL("_behaviors"), PH_NOISY_CC);
+	ZEPHIR_OBS_VAR(behaviors);
+	zephir_read_property_this(&behaviors, this_ptr, SL("_behaviors"), PH_NOISY_CC);
 	if ((Z_TYPE_P(behaviors) == IS_ARRAY)) {
+		ZEPHIR_OBS_VAR(modelsBehaviors);
 		ZEPHIR_INIT_VAR(_0);
 		zephir_get_class(_0, model, 1 TSRMLS_CC);
-		if (zephir_array_isset_fetch(&modelsBehaviors, behaviors, _0, 1 TSRMLS_CC)) {
+		if (zephir_array_isset_fetch(&modelsBehaviors, behaviors, _0, 0 TSRMLS_CC)) {
 			zephir_is_iterable(modelsBehaviors, &_2, &_1, 0, 0);
 			for (
 				; zend_hash_get_current_data_ex(_2, (void**) &_3, &_1) == SUCCESS
@@ -824,7 +833,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, notifyEvent) {
 			}
 		}
 	}
-	eventsManager = zephir_fetch_nproperty_this(this_ptr, SL("_eventsManager"), PH_NOISY_CC);
+	ZEPHIR_OBS_VAR(eventsManager);
+	zephir_read_property_this(&eventsManager, this_ptr, SL("_eventsManager"), PH_NOISY_CC);
 	if ((Z_TYPE_P(eventsManager) == IS_OBJECT)) {
 		ZEPHIR_INIT_VAR(_4);
 		ZEPHIR_CONCAT_SV(_4, "model:", eventName);
@@ -887,11 +897,13 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, missingMethod) {
 	}
 
 
-	behaviors = zephir_fetch_nproperty_this(this_ptr, SL("_behaviors"), PH_NOISY_CC);
+	ZEPHIR_OBS_VAR(behaviors);
+	zephir_read_property_this(&behaviors, this_ptr, SL("_behaviors"), PH_NOISY_CC);
 	if ((Z_TYPE_P(behaviors) == IS_ARRAY)) {
+		ZEPHIR_OBS_VAR(modelsBehaviors);
 		ZEPHIR_INIT_VAR(_0);
 		zephir_get_class(_0, model, 1 TSRMLS_CC);
-		if (zephir_array_isset_fetch(&modelsBehaviors, behaviors, _0, 1 TSRMLS_CC)) {
+		if (zephir_array_isset_fetch(&modelsBehaviors, behaviors, _0, 0 TSRMLS_CC)) {
 			zephir_is_iterable(modelsBehaviors, &_2, &_1, 0, 0);
 			for (
 				; zend_hash_get_current_data_ex(_2, (void**) &_3, &_1) == SUCCESS
@@ -906,7 +918,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, missingMethod) {
 			}
 		}
 	}
-	eventsManager = zephir_fetch_nproperty_this(this_ptr, SL("_eventsManager"), PH_NOISY_CC);
+	ZEPHIR_OBS_VAR(eventsManager);
+	zephir_read_property_this(&eventsManager, this_ptr, SL("_eventsManager"), PH_NOISY_CC);
 	if ((Z_TYPE_P(eventsManager) == IS_OBJECT)) {
 		ZEPHIR_INIT_VAR(_4);
 		ZEPHIR_CONCAT_SV(_4, "model:", eventName);
@@ -1112,7 +1125,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, addHasOne) {
 	ZEPHIR_INIT_VAR(_1);
 	ZVAL_LONG(_1, 1);
 	zephir_call_method_p5_noret(relation, "__construct", _1, referencedModel, fields, referencedFields, options);
-	if (zephir_array_isset_string_fetch(&alias, options, SS("alias"), 1 TSRMLS_CC)) {
+	ZEPHIR_OBS_VAR(alias);
+	if (zephir_array_isset_string_fetch(&alias, options, SS("alias"), 0 TSRMLS_CC)) {
 		ZEPHIR_INIT_VAR(lowerAlias);
 		zephir_fast_strtolower(lowerAlias, alias);
 	} else {
@@ -1192,7 +1206,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, addBelongsTo) {
 	ZEPHIR_INIT_VAR(_1);
 	ZVAL_LONG(_1, 0);
 	zephir_call_method_p5_noret(relation, "__construct", _1, referencedModel, fields, referencedFields, options);
-	if (zephir_array_isset_string_fetch(&alias, options, SS("alias"), 1 TSRMLS_CC)) {
+	ZEPHIR_OBS_VAR(alias);
+	if (zephir_array_isset_string_fetch(&alias, options, SS("alias"), 0 TSRMLS_CC)) {
 		ZEPHIR_INIT_VAR(lowerAlias);
 		zephir_fast_strtolower(lowerAlias, alias);
 	} else {
@@ -1254,7 +1269,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, addHasMany) {
 	zephir_fast_strtolower(referencedEntity, referencedModel);
 	ZEPHIR_INIT_VAR(keyRelation);
 	ZEPHIR_CONCAT_VSV(keyRelation, entityName, "$", referencedEntity);
-	hasMany = zephir_fetch_nproperty_this(this_ptr, SL("_hasMany"), PH_NOISY_CC);
+	ZEPHIR_OBS_VAR(hasMany);
+	zephir_read_property_this(&hasMany, this_ptr, SL("_hasMany"), PH_NOISY_CC);
 	ZEPHIR_OBS_VAR(relations);
 	if (!(zephir_array_isset_fetch(&relations, hasMany, keyRelation, 0 TSRMLS_CC))) {
 		ZEPHIR_INIT_BNVAR(relations);
@@ -1271,7 +1287,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, addHasMany) {
 	ZEPHIR_INIT_VAR(_0);
 	ZVAL_LONG(_0, 0);
 	zephir_call_method_p5_noret(relation, "__construct", _0, referencedModel, fields, referencedFields, options);
-	if (zephir_array_isset_string_fetch(&alias, options, SS("alias"), 1 TSRMLS_CC)) {
+	ZEPHIR_OBS_VAR(alias);
+	if (zephir_array_isset_string_fetch(&alias, options, SS("alias"), 0 TSRMLS_CC)) {
 		ZEPHIR_INIT_VAR(lowerAlias);
 		zephir_fast_strtolower(lowerAlias, alias);
 	} else {
@@ -1350,7 +1367,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, addHasManyToMany) {
 	zephir_fast_strtolower(referencedEntity, referencedModel);
 	ZEPHIR_INIT_VAR(keyRelation);
 	ZEPHIR_CONCAT_VSV(keyRelation, entityName, "$", referencedEntity);
-	hasManyToMany = zephir_fetch_nproperty_this(this_ptr, SL("_hasManyToMany"), PH_NOISY_CC);
+	ZEPHIR_OBS_VAR(hasManyToMany);
+	zephir_read_property_this(&hasManyToMany, this_ptr, SL("_hasManyToMany"), PH_NOISY_CC);
 	ZEPHIR_OBS_VAR(relations);
 	if (!(zephir_array_isset_fetch(&relations, hasManyToMany, keyRelation, 0 TSRMLS_CC))) {
 		ZEPHIR_INIT_BNVAR(relations);
@@ -1374,7 +1392,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, addHasManyToMany) {
 	ZVAL_LONG(_0, 4);
 	zephir_call_method_p5_noret(relation, "__construct", _0, referencedModel, fields, referencedFields, options);
 	zephir_call_method_p3_noret(relation, "setintermediaterelation", intermediateFields, intermediateModel, intermediateReferencedFields);
-	if (zephir_array_isset_string_fetch(&alias, options, SS("alias"), 1 TSRMLS_CC)) {
+	ZEPHIR_OBS_VAR(alias);
+	if (zephir_array_isset_string_fetch(&alias, options, SS("alias"), 0 TSRMLS_CC)) {
 		ZEPHIR_INIT_VAR(lowerAlias);
 		zephir_fast_strtolower(lowerAlias, alias);
 	} else {
@@ -1436,7 +1455,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, existsBelongsTo) {
 	}
 
 
-	initialized = zephir_fetch_nproperty_this(this_ptr, SL("_initialized"), PH_NOISY_CC);
+	ZEPHIR_OBS_VAR(initialized);
+	zephir_read_property_this(&initialized, this_ptr, SL("_initialized"), PH_NOISY_CC);
 	ZEPHIR_INIT_VAR(entityName);
 	zephir_fast_strtolower(entityName, modelName);
 	ZEPHIR_INIT_VAR(_0);
@@ -1490,7 +1510,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, existsHasMany) {
 	}
 
 
-	initialized = zephir_fetch_nproperty_this(this_ptr, SL("_initialized"), PH_NOISY_CC);
+	ZEPHIR_OBS_VAR(initialized);
+	zephir_read_property_this(&initialized, this_ptr, SL("_initialized"), PH_NOISY_CC);
 	ZEPHIR_INIT_VAR(entityName);
 	zephir_fast_strtolower(entityName, modelName);
 	ZEPHIR_INIT_VAR(_0);
@@ -1544,7 +1565,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, existsHasOne) {
 	}
 
 
-	initialized = zephir_fetch_nproperty_this(this_ptr, SL("_initialized"), PH_NOISY_CC);
+	ZEPHIR_OBS_VAR(initialized);
+	zephir_read_property_this(&initialized, this_ptr, SL("_initialized"), PH_NOISY_CC);
 	ZEPHIR_INIT_VAR(entityName);
 	zephir_fast_strtolower(entityName, modelName);
 	ZEPHIR_INIT_VAR(_0);
@@ -1598,7 +1620,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, existsHasManyToMany) {
 	}
 
 
-	initialized = zephir_fetch_nproperty_this(this_ptr, SL("_initialized"), PH_NOISY_CC);
+	ZEPHIR_OBS_VAR(initialized);
+	zephir_read_property_this(&initialized, this_ptr, SL("_initialized"), PH_NOISY_CC);
 	ZEPHIR_INIT_VAR(entityName);
 	zephir_fast_strtolower(entityName, modelName);
 	ZEPHIR_INIT_VAR(_0);
@@ -1833,7 +1856,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getRelationRecords) {
 		}
 	}
 	ZEPHIR_INIT_VAR(findParams);
-	array_init_size(findParams, 4);
+	array_init_size(findParams, 5);
 	ZEPHIR_INIT_NVAR(_3);
 	zephir_fast_join_str(_3, SL(" AND "), conditions TSRMLS_CC);
 	zephir_array_fast_append(findParams, _3);
@@ -2051,7 +2074,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getBelongsToRecords) {
 	}
 
 
-	belongsTo = zephir_fetch_nproperty_this(this_ptr, SL("_hasMany"), PH_NOISY_CC);
+	ZEPHIR_OBS_VAR(belongsTo);
+	zephir_read_property_this(&belongsTo, this_ptr, SL("_hasMany"), PH_NOISY_CC);
 	if ((Z_TYPE_P(belongsTo) == IS_ARRAY)) {
 		ZEPHIR_INIT_VAR(_0);
 		zephir_fast_strtolower(_0, modelName);
@@ -2062,7 +2086,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getBelongsToRecords) {
 		if (!(zephir_array_isset(belongsTo, keyRelation))) {
 			RETURN_MM_BOOL(0);
 		}
-		zephir_array_fetch(&relations, belongsTo, keyRelation, PH_NOISY | PH_READONLY TSRMLS_CC);
+		ZEPHIR_OBS_VAR(relations);
+		zephir_array_fetch(&relations, belongsTo, keyRelation, PH_NOISY TSRMLS_CC);
 		zephir_array_fetch_long(&_2, relations, 0, PH_NOISY | PH_READONLY TSRMLS_CC);
 		zephir_call_method_p4(return_value, this_ptr, "getrelationrecords", _2, method, record, parameters);
 		RETURN_MM();
@@ -2116,7 +2141,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getHasManyRecords) {
 	}
 
 
-	hasMany = zephir_fetch_nproperty_this(this_ptr, SL("_hasMany"), PH_NOISY_CC);
+	ZEPHIR_OBS_VAR(hasMany);
+	zephir_read_property_this(&hasMany, this_ptr, SL("_hasMany"), PH_NOISY_CC);
 	if ((Z_TYPE_P(hasMany) == IS_ARRAY)) {
 		ZEPHIR_INIT_VAR(_0);
 		zephir_fast_strtolower(_0, modelName);
@@ -2127,7 +2153,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getHasManyRecords) {
 		if (!(zephir_array_isset(hasMany, keyRelation))) {
 			RETURN_MM_BOOL(0);
 		}
-		zephir_array_fetch(&relations, hasMany, keyRelation, PH_NOISY | PH_READONLY TSRMLS_CC);
+		ZEPHIR_OBS_VAR(relations);
+		zephir_array_fetch(&relations, hasMany, keyRelation, PH_NOISY TSRMLS_CC);
 		zephir_array_fetch_long(&_2, relations, 0, PH_NOISY | PH_READONLY TSRMLS_CC);
 		zephir_call_method_p4(return_value, this_ptr, "getrelationrecords", _2, method, record, parameters);
 		RETURN_MM();
@@ -2181,7 +2208,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getHasOneRecords) {
 	}
 
 
-	hasOne = zephir_fetch_nproperty_this(this_ptr, SL("_hasOne"), PH_NOISY_CC);
+	ZEPHIR_OBS_VAR(hasOne);
+	zephir_read_property_this(&hasOne, this_ptr, SL("_hasOne"), PH_NOISY_CC);
 	if ((Z_TYPE_P(hasOne) == IS_ARRAY)) {
 		ZEPHIR_INIT_VAR(_0);
 		zephir_fast_strtolower(_0, modelName);
@@ -2192,7 +2220,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getHasOneRecords) {
 		if (!(zephir_array_isset(hasOne, keyRelation))) {
 			RETURN_MM_BOOL(0);
 		}
-		zephir_array_fetch(&relations, hasOne, keyRelation, PH_NOISY | PH_READONLY TSRMLS_CC);
+		ZEPHIR_OBS_VAR(relations);
+		zephir_array_fetch(&relations, hasOne, keyRelation, PH_NOISY TSRMLS_CC);
 		zephir_array_fetch_long(&_2, relations, 0, PH_NOISY | PH_READONLY TSRMLS_CC);
 		zephir_call_method_p4(return_value, this_ptr, "getrelationrecords", _2, method, record, parameters);
 		RETURN_MM();
@@ -2517,7 +2546,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, createQuery) {
 	}
 
 
-	dependencyInjector = zephir_fetch_nproperty_this(this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
+	ZEPHIR_OBS_VAR(dependencyInjector);
+	zephir_read_property_this(&dependencyInjector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
 	if ((Z_TYPE_P(dependencyInjector) != IS_OBJECT)) {
 		ZEPHIR_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "A dependency injection object is required to access ORM services");
 		return;
@@ -2674,9 +2704,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getNamespaceAlias) {
 	}
 
 
+	ZEPHIR_OBS_VAR(namespaceName);
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_namespaceAliases"), PH_NOISY_CC);
-	if (zephir_array_isset_fetch(&namespaceName, _0, alias, 1 TSRMLS_CC)) {
-		RETURN_CTOR(namespaceName);
+	if (zephir_array_isset_fetch(&namespaceName, _0, alias, 0 TSRMLS_CC)) {
+		RETURN_CCTOR(namespaceName);
 	}
 	ZEPHIR_INIT_VAR(_1);
 	object_init_ex(_1, phalcon_mvc_model_exception_ce);

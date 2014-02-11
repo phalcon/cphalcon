@@ -189,6 +189,7 @@ PHP_METHOD(Phalcon_Session_Adapter, get) {
  */
 PHP_METHOD(Phalcon_Session_Adapter, set) {
 
+	int _2;
 	zval *index_param = NULL, *value, *_SESSION, *_0, *_1;
 	zval *index = NULL;
 
@@ -202,7 +203,11 @@ PHP_METHOD(Phalcon_Session_Adapter, set) {
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_uniqueId"), PH_NOISY_CC);
 	ZEPHIR_INIT_VAR(_1);
 	ZEPHIR_CONCAT_VV(_1, _0, index);
+	_2 = zephir_maybe_separate_zval(&_SESSION);
 	zephir_array_update_zval(&_SESSION, _1, &value, PH_COPY | PH_SEPARATE);
+	if (_2) {
+		ZEND_SET_SYMBOL(&EG(symbol_table), "_SESSION", _SESSION);
+	}
 	ZEPHIR_MM_RESTORE();
 
 }

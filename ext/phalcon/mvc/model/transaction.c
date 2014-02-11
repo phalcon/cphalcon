@@ -161,7 +161,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction, begin) {
 
 	ZEPHIR_MM_GROW();
 
-	connection = zephir_fetch_nproperty_this(this_ptr, SL("_connection"), PH_NOISY_CC);
+	ZEPHIR_OBS_VAR(connection);
+	zephir_read_property_this(&connection, this_ptr, SL("_connection"), PH_NOISY_CC);
 	zephir_call_method(return_value, connection, "begin");
 	RETURN_MM();
 
@@ -179,7 +180,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction, commit) {
 
 	ZEPHIR_MM_GROW();
 
-	manager = zephir_fetch_nproperty_this(this_ptr, SL("_manager"), PH_NOISY_CC);
+	ZEPHIR_OBS_VAR(manager);
+	zephir_read_property_this(&manager, this_ptr, SL("_manager"), PH_NOISY_CC);
 	if ((Z_TYPE_P(manager) == IS_OBJECT)) {
 		ZEPHIR_INIT_VAR(_0);
 		ZEPHIR_INIT_VAR(_1);
@@ -193,7 +195,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction, commit) {
 		zephir_array_fast_append(_3, this_ptr);
 		ZEPHIR_CALL_USER_FUNC_ARRAY(_0, _1, _3);
 	}
-	connection = zephir_fetch_nproperty_this(this_ptr, SL("_connection"), PH_NOISY_CC);
+	ZEPHIR_OBS_VAR(connection);
+	zephir_read_property_this(&connection, this_ptr, SL("_connection"), PH_NOISY_CC);
 	zephir_call_method(return_value, connection, "commit");
 	RETURN_MM();
 
@@ -224,7 +227,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction, rollback) {
 	}
 
 
-	manager = zephir_fetch_nproperty_this(this_ptr, SL("_manager"), PH_NOISY_CC);
+	ZEPHIR_OBS_VAR(manager);
+	zephir_read_property_this(&manager, this_ptr, SL("_manager"), PH_NOISY_CC);
 	if ((Z_TYPE_P(manager) == IS_OBJECT)) {
 		ZEPHIR_INIT_VAR(_0);
 		ZEPHIR_INIT_VAR(_1);
@@ -238,7 +242,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction, rollback) {
 		zephir_array_fast_append(_3, this_ptr);
 		ZEPHIR_CALL_USER_FUNC_ARRAY(_0, _1, _3);
 	}
-	connection = zephir_fetch_nproperty_this(this_ptr, SL("_connection"), PH_NOISY_CC);
+	ZEPHIR_OBS_VAR(connection);
+	zephir_read_property_this(&connection, this_ptr, SL("_connection"), PH_NOISY_CC);
 	ZEPHIR_INIT_NVAR(_2);
 	zephir_call_method(_2, connection, "rollback");
 	if (zephir_is_true(_2)) {
@@ -362,7 +367,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction, isValid) {
 
 	ZEPHIR_MM_GROW();
 
-	connection = zephir_fetch_nproperty_this(this_ptr, SL("_connection"), PH_NOISY_CC);
+	ZEPHIR_OBS_VAR(connection);
+	zephir_read_property_this(&connection, this_ptr, SL("_connection"), PH_NOISY_CC);
 	zephir_call_method(return_value, connection, "isundertransaction");
 	RETURN_MM();
 

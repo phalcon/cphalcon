@@ -12,11 +12,11 @@ PHP_METHOD(Phalcon_Http_Request_File, getRealType);
 PHP_METHOD(Phalcon_Http_Request_File, moveTo);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_http_request_file___construct, 0, 0, 1)
-	ZEND_ARG_INFO(0, file)
+  ZEND_ARG_INFO(0, file)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_http_request_file_moveto, 0, 0, 1)
-	ZEND_ARG_INFO(0, destination)
+  ZEND_ARG_INFO(0, destination)
 ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_http_request_file_method_entry) {
@@ -27,5 +27,5 @@ ZEPHIR_INIT_FUNCS(phalcon_http_request_file_method_entry) {
 	PHP_ME(Phalcon_Http_Request_File, getType, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Http_Request_File, getRealType, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Http_Request_File, moveTo, arginfo_phalcon_http_request_file_moveto, ZEND_ACC_PUBLIC)
-	PHP_FE_END
+  PHP_FE_END
 };

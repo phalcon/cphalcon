@@ -407,7 +407,7 @@ PHP_METHOD(Phalcon_Mvc_Micro, mount) {
 	zend_function *_3 = NULL, *_4 = NULL;
 	HashTable *_1;
 	HashPosition _0;
-	zval *collection, *mainHandler, *handlers, *lazy, *lazyHandler = NULL, *prefix, *methods, *pattern, *subHandler, *realHandler = NULL, *prefixedPattern = NULL, *route = NULL, *handler = NULL, **_2;
+	zval *collection, *mainHandler, *handlers, *lazy, *lazyHandler = NULL, *prefix, *methods = NULL, *pattern = NULL, *subHandler = NULL, *realHandler = NULL, *prefixedPattern = NULL, *route = NULL, *handler = NULL, **_2;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &collection);
@@ -452,9 +452,12 @@ PHP_METHOD(Phalcon_Mvc_Micro, mount) {
 				ZEPHIR_THROW_EXCEPTION_STR(phalcon_mvc_micro_exception_ce, "One of the registered handlers is invalid");
 				return;
 			}
-			zephir_array_fetch_long(&methods, handler, 0, PH_NOISY | PH_READONLY TSRMLS_CC);
-			zephir_array_fetch_long(&pattern, handler, 1, PH_NOISY | PH_READONLY TSRMLS_CC);
-			zephir_array_fetch_long(&subHandler, handler, 2, PH_NOISY | PH_READONLY TSRMLS_CC);
+			ZEPHIR_OBS_NVAR(methods);
+			zephir_array_fetch_long(&methods, handler, 0, PH_NOISY TSRMLS_CC);
+			ZEPHIR_OBS_NVAR(pattern);
+			zephir_array_fetch_long(&pattern, handler, 1, PH_NOISY TSRMLS_CC);
+			ZEPHIR_OBS_NVAR(subHandler);
+			zephir_array_fetch_long(&subHandler, handler, 2, PH_NOISY TSRMLS_CC);
 			ZEPHIR_INIT_NVAR(realHandler);
 			array_init_size(realHandler, 3);
 			zephir_array_fast_append(realHandler, lazyHandler);
@@ -663,7 +666,8 @@ PHP_METHOD(Phalcon_Mvc_Micro, handle) {
 	}
 
 
-	dependencyInjector = zephir_fetch_nproperty_this(this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
+	ZEPHIR_OBS_VAR(dependencyInjector);
+	zephir_read_property_this(&dependencyInjector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
 	if ((Z_TYPE_P(dependencyInjector) != IS_OBJECT)) {
 		ZEPHIR_THROW_EXCEPTION_STR(phalcon_mvc_micro_exception_ce, "A dependency injection container is required to access related dispatching services");
 		return;
@@ -709,7 +713,8 @@ PHP_METHOD(Phalcon_Mvc_Micro, handle) {
 				zephir_read_property_this(&handler, this_ptr, SL("_activeHandler"), PH_NOISY_CC);
 			}
 		}
-		beforeHandlers = zephir_fetch_nproperty_this(this_ptr, SL("_beforeHandlers"), PH_NOISY_CC);
+		ZEPHIR_OBS_VAR(beforeHandlers);
+		zephir_read_property_this(&beforeHandlers, this_ptr, SL("_beforeHandlers"), PH_NOISY_CC);
 		if ((Z_TYPE_P(beforeHandlers) == IS_ARRAY)) {
 			zephir_update_property_this(this_ptr, SL("_stopped"), (0) ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
 			zephir_is_iterable(beforeHandlers, &_5, &_4, 0, 0);
@@ -753,7 +758,8 @@ PHP_METHOD(Phalcon_Mvc_Micro, handle) {
 			ZVAL_STRING(_3, "micro:afterExecuteRoute", 1);
 			zephir_call_method_p2_noret(eventsManager, "fire", _3, this_ptr);
 		}
-		afterHandlers = zephir_fetch_nproperty_this(this_ptr, SL("_afterHandlers"), PH_NOISY_CC);
+		ZEPHIR_OBS_VAR(afterHandlers);
+		zephir_read_property_this(&afterHandlers, this_ptr, SL("_afterHandlers"), PH_NOISY_CC);
 		if ((Z_TYPE_P(afterHandlers) == IS_ARRAY)) {
 			zephir_update_property_this(this_ptr, SL("_stopped"), (0) ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
 			zephir_is_iterable(afterHandlers, &_10, &_9, 0, 0);
@@ -793,7 +799,8 @@ PHP_METHOD(Phalcon_Mvc_Micro, handle) {
 				RETURN_MM_BOOL(0);
 			}
 		}
-		notFoundHandler = zephir_fetch_nproperty_this(this_ptr, SL("_notFoundHandler"), PH_NOISY_CC);
+		ZEPHIR_OBS_VAR(notFoundHandler);
+		zephir_read_property_this(&notFoundHandler, this_ptr, SL("_notFoundHandler"), PH_NOISY_CC);
 		if (!(zephir_is_callable(notFoundHandler TSRMLS_CC))) {
 			ZEPHIR_THROW_EXCEPTION_STR(phalcon_mvc_micro_exception_ce, "The Not-Found handler is not callable or is not defined");
 			return;
@@ -807,7 +814,8 @@ PHP_METHOD(Phalcon_Mvc_Micro, handle) {
 		ZVAL_STRING(_0, "micro:afterHandleRoute", 1);
 		zephir_call_method_p2_noret(eventsManager, "fire", _0, this_ptr);
 	}
-	finishHandlers = zephir_fetch_nproperty_this(this_ptr, SL("_finishHandlers"), PH_NOISY_CC);
+	ZEPHIR_OBS_VAR(finishHandlers);
+	zephir_read_property_this(&finishHandlers, this_ptr, SL("_finishHandlers"), PH_NOISY_CC);
 	if ((Z_TYPE_P(finishHandlers) == IS_ARRAY)) {
 		zephir_update_property_this(this_ptr, SL("_stopped"), (0) ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
 		ZEPHIR_INIT_NVAR(params);

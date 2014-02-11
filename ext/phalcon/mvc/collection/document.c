@@ -12,10 +12,9 @@
 #include <Zend/zend_interfaces.h>
 
 #include "kernel/main.h"
-#include "kernel/array.h"
+#include "kernel/object.h"
 #include "kernel/operators.h"
 #include "kernel/memory.h"
-#include "kernel/object.h"
 #include "kernel/exception.h"
 #include "ext/spl/spl_exceptions.h"
 
@@ -70,7 +69,7 @@ PHP_METHOD(Phalcon_Mvc_Collection_Document, offsetExists) {
 		zephir_get_strval(index, index_param);
 
 
-	RETURN_MM_BOOL(0 == 0);
+	RETURN_MM_BOOL(zephir_isset_property_zval(this_ptr, index TSRMLS_CC));
 
 }
 
@@ -89,7 +88,7 @@ PHP_METHOD(Phalcon_Mvc_Collection_Document, offsetGet) {
 
 
 
-	if (0 == 0) {
+	if (zephir_isset_property_zval(this_ptr, index TSRMLS_CC)) {
 		ZEPHIR_OBS_VAR(_0);
 		zephir_read_property_zval(&_0, this_ptr, index, PH_NOISY_CC);
 		RETURN_CCTOR(_0);
@@ -155,7 +154,7 @@ PHP_METHOD(Phalcon_Mvc_Collection_Document, readAttribute) {
 
 
 
-	if (0 == 0) {
+	if (zephir_isset_property_zval(this_ptr, attribute TSRMLS_CC)) {
 		ZEPHIR_OBS_VAR(_0);
 		zephir_read_property_zval(&_0, this_ptr, attribute, PH_NOISY_CC);
 		RETURN_CCTOR(_0);

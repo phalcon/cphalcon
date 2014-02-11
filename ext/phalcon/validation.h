@@ -20,55 +20,55 @@ PHP_METHOD(Phalcon_Validation, bind);
 PHP_METHOD(Phalcon_Validation, getValue);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_validation___construct, 0, 0, 0)
-	ZEND_ARG_INFO(0, validators)
+  ZEND_ARG_INFO(0, validators)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_validation_validate, 0, 0, 0)
-	ZEND_ARG_INFO(0, data)
-	ZEND_ARG_INFO(0, entity)
+  ZEND_ARG_INFO(0, data)
+  ZEND_ARG_INFO(0, entity)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_validation_add, 0, 0, 2)
-	ZEND_ARG_INFO(0, field)
-	ZEND_ARG_INFO(0, validator)
+  ZEND_ARG_INFO(0, field)
+  ZEND_ARG_INFO(0, validator)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_validation_setfilters, 0, 0, 2)
-	ZEND_ARG_INFO(0, field)
-	ZEND_ARG_INFO(0, filters)
+  ZEND_ARG_INFO(0, field)
+  ZEND_ARG_INFO(0, filters)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_validation_getfilters, 0, 0, 0)
-	ZEND_ARG_INFO(0, field)
+  ZEND_ARG_INFO(0, field)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_validation_setdefaultmessages, 0, 0, 0)
-	ZEND_ARG_INFO(0, messages)
+  ZEND_ARG_INFO(0, messages)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_validation_getdefaultmessage, 0, 0, 1)
-	ZEND_ARG_INFO(0, type)
+  ZEND_ARG_INFO(0, type)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_validation_setlabels, 0, 0, 1)
-	ZEND_ARG_INFO(0, labels)
+  ZEND_ARG_INFO(0, labels)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_validation_getlabel, 0, 0, 1)
-	ZEND_ARG_INFO(0, field)
+  ZEND_ARG_INFO(0, field)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_validation_appendmessage, 0, 0, 1)
-	ZEND_ARG_INFO(0, message)
+  ZEND_ARG_INFO(0, message)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_validation_bind, 0, 0, 2)
-	ZEND_ARG_INFO(0, entity)
-	ZEND_ARG_INFO(0, data)
+  ZEND_ARG_INFO(0, entity)
+  ZEND_ARG_INFO(0, data)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_validation_getvalue, 0, 0, 1)
-	ZEND_ARG_INFO(0, field)
+  ZEND_ARG_INFO(0, field)
 ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_validation_method_entry) {
@@ -87,5 +87,5 @@ ZEPHIR_INIT_FUNCS(phalcon_validation_method_entry) {
 	PHP_ME(Phalcon_Validation, appendMessage, arginfo_phalcon_validation_appendmessage, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Validation, bind, arginfo_phalcon_validation_bind, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Validation, getValue, arginfo_phalcon_validation_getvalue, ZEND_ACC_PUBLIC)
-	PHP_FE_END
+  PHP_FE_END
 };

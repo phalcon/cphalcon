@@ -14,8 +14,8 @@
 #include "kernel/main.h"
 #include "kernel/object.h"
 #include "kernel/exception.h"
-#include "kernel/operators.h"
 #include "kernel/memory.h"
+#include "kernel/operators.h"
 #include "kernel/fcall.h"
 #include "kernel/string.h"
 #include "kernel/array.h"
@@ -137,9 +137,9 @@ PHP_METHOD(Phalcon_Image_Adapter, getMime) {
  */
 PHP_METHOD(Phalcon_Image_Adapter, resize) {
 
-	zend_bool _0, _1;
+	zend_bool _0, _4;
 	double ratio;
-	zval *width_param = NULL, *height_param = NULL, *master_param = NULL, *_2, *_3, *_4, *_5, *_6, *_7 = NULL, _8 = zval_used_for_init, *_9, *_10, *_11, *_12, *_13, *_14;
+	zval *width_param = NULL, *height_param = NULL, *master_param = NULL, *_1 = NULL, *_2, *_3, *_5, *_6, *_7, *_8 = NULL, _9 = zval_used_for_init, *_10, *_11, *_12, *_13, *_14;
 	int width, height, master;
 
 	ZEPHIR_MM_GROW();
@@ -163,36 +163,52 @@ PHP_METHOD(Phalcon_Image_Adapter, resize) {
 
 
 	if ((master == 7)) {
-		_0 = !width;
+		_0 = (width) ? 1 : 0;
 		if (!(_0)) {
 			_0 = !height;
 		}
-		if (_0) {
+		if (!(_0)) {
 			ZEPHIR_THROW_EXCEPTION_STR(phalcon_image_exception_ce, "width and height must be specified");
 			return;
 		}
 	} else {
 		if ((master == 4)) {
-			_0 = !width;
+			_0 = (width) ? 1 : 0;
 			if (!(_0)) {
 				_0 = !height;
 			}
-			if (_0) {
+			if (!(_0)) {
 				ZEPHIR_THROW_EXCEPTION_STR(phalcon_image_exception_ce, "width and height must be specified");
 				return;
 			}
-			master = (0 == 1);
+			ZEPHIR_INIT_VAR(_1);
+			_2 = zephir_fetch_nproperty_this(this_ptr, SL("_width"), PH_NOISY_CC);
+			_3 = zephir_fetch_nproperty_this(this_ptr, SL("_height"), PH_NOISY_CC);
+			if ((((zephir_get_numberval(_2) / width)) > ((zephir_get_numberval(_3) / height)))) {
+				zephir_read_property_this(&_1, this_ptr, SL("_width"), PH_NOISY_CC);
+			} else {
+				zephir_read_property_this(&_1, this_ptr, SL("_height"), PH_NOISY_CC);
+			}
+			master = zephir_get_numberval(_1);
 		}
 		if ((master == 5)) {
-			_1 = !width;
-			if (!(_1)) {
-				_1 = !height;
+			_4 = (width) ? 1 : 0;
+			if (!(_4)) {
+				_4 = !height;
 			}
-			if (_1) {
+			if (!(_4)) {
 				ZEPHIR_THROW_EXCEPTION_STR(phalcon_image_exception_ce, "width and height must be specified");
 				return;
 			}
-			master = (0 == 1);
+			ZEPHIR_INIT_NVAR(_1);
+			_2 = zephir_fetch_nproperty_this(this_ptr, SL("_width"), PH_NOISY_CC);
+			_3 = zephir_fetch_nproperty_this(this_ptr, SL("_height"), PH_NOISY_CC);
+			if ((((zephir_get_numberval(_2) / width)) > ((zephir_get_numberval(_3) / height)))) {
+				zephir_read_property_this(&_1, this_ptr, SL("_height"), PH_NOISY_CC);
+			} else {
+				zephir_read_property_this(&_1, this_ptr, SL("_width"), PH_NOISY_CC);
+			}
+			master = zephir_get_numberval(_1);
 		}
 		do {
 			if ((master == 2)) {
@@ -216,63 +232,63 @@ PHP_METHOD(Phalcon_Image_Adapter, resize) {
 				break;
 			}
 			if ((master == 6)) {
-				_1 = !width;
-				if (!(_1)) {
-					_1 = !height;
+				_4 = (width) ? 1 : 0;
+				if (!(_4)) {
+					_4 = !height;
 				}
-				if (_1) {
+				if (!(_4)) {
 					ZEPHIR_THROW_EXCEPTION_STR(phalcon_image_exception_ce, "width and height must be specified");
 					return;
 				}
 				_2 = zephir_fetch_nproperty_this(this_ptr, SL("_width"), PH_NOISY_CC);
 				_3 = zephir_fetch_nproperty_this(this_ptr, SL("_height"), PH_NOISY_CC);
-				ZEPHIR_INIT_VAR(_4);
-				div_function(_4, _2, _3 TSRMLS_CC);
-				ratio = zephir_get_numberval(_4);
+				ZEPHIR_INIT_VAR(_5);
+				div_function(_5, _2, _3 TSRMLS_CC);
+				ratio = zephir_get_numberval(_5);
 				if ((((width / height)) > ratio)) {
 					_2 = zephir_fetch_nproperty_this(this_ptr, SL("_height"), PH_NOISY_CC);
 					_3 = zephir_fetch_nproperty_this(this_ptr, SL("_width"), PH_NOISY_CC);
 					height = ((zephir_get_numberval(_2) * width) / zephir_get_numberval(_3));
 				} else {
-					_5 = zephir_fetch_nproperty_this(this_ptr, SL("_width"), PH_NOISY_CC);
-					_6 = zephir_fetch_nproperty_this(this_ptr, SL("_height"), PH_NOISY_CC);
-					width = ((zephir_get_numberval(_5) * height) / zephir_get_numberval(_6));
+					_6 = zephir_fetch_nproperty_this(this_ptr, SL("_width"), PH_NOISY_CC);
+					_7 = zephir_fetch_nproperty_this(this_ptr, SL("_height"), PH_NOISY_CC);
+					width = ((zephir_get_numberval(_6) * height) / zephir_get_numberval(_7));
 				}
 				break;
 			}
 			if ((master == 1)) {
 				if (!(width)) {
-					ZEPHIR_OBS_VAR(_7);
-					zephir_read_property_this(&_7, this_ptr, SL("_width"), PH_NOISY_CC);
-					width = zephir_get_intval(_7);
+					ZEPHIR_OBS_VAR(_8);
+					zephir_read_property_this(&_8, this_ptr, SL("_width"), PH_NOISY_CC);
+					width = zephir_get_intval(_8);
 				}
 				if (!(height)) {
-					ZEPHIR_OBS_NVAR(_7);
-					zephir_read_property_this(&_7, this_ptr, SL("_height"), PH_NOISY_CC);
-					width = zephir_get_intval(_7);
+					ZEPHIR_OBS_NVAR(_8);
+					zephir_read_property_this(&_8, this_ptr, SL("_height"), PH_NOISY_CC);
+					width = zephir_get_intval(_8);
 				}
 				break;
 			}
 		} while(0);
 
 	}
-	ZEPHIR_SINIT_VAR(_8);
-	ZVAL_LONG(&_8, width);
-	ZEPHIR_INIT_VAR(_9);
-	zephir_call_func_p1(_9, "round", &_8);
-	ZEPHIR_SINIT_NVAR(_8);
-	ZVAL_LONG(&_8, 1);
+	ZEPHIR_SINIT_VAR(_9);
+	ZVAL_LONG(&_9, width);
+	ZEPHIR_INIT_NVAR(_1);
+	zephir_call_func_p1(_1, "round", &_9);
+	ZEPHIR_SINIT_NVAR(_9);
+	ZVAL_LONG(&_9, 1);
 	ZEPHIR_INIT_VAR(_10);
-	zephir_call_func_p2(_10, "max", _9, &_8);
+	zephir_call_func_p2(_10, "max", _1, &_9);
 	width = zephir_get_intval(_10);
-	ZEPHIR_SINIT_NVAR(_8);
-	ZVAL_LONG(&_8, height);
+	ZEPHIR_SINIT_NVAR(_9);
+	ZVAL_LONG(&_9, height);
 	ZEPHIR_INIT_VAR(_11);
-	zephir_call_func_p1(_11, "round", &_8);
-	ZEPHIR_SINIT_NVAR(_8);
-	ZVAL_LONG(&_8, 1);
+	zephir_call_func_p1(_11, "round", &_9);
+	ZEPHIR_SINIT_NVAR(_9);
+	ZVAL_LONG(&_9, 1);
 	ZEPHIR_INIT_VAR(_12);
-	zephir_call_func_p2(_12, "max", _11, &_8);
+	zephir_call_func_p2(_12, "max", _11, &_9);
 	height = zephir_get_intval(_12);
 	ZEPHIR_INIT_VAR(_13);
 	ZVAL_LONG(_13, width);

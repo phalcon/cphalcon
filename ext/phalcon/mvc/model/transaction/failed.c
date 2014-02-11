@@ -96,7 +96,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction_Failed, getRecordMessages) {
 
 	ZEPHIR_MM_GROW();
 
-	record = zephir_fetch_nproperty_this(this_ptr, SL("_record"), PH_NOISY_CC);
+	ZEPHIR_OBS_VAR(record);
+	zephir_read_property_this(&record, this_ptr, SL("_record"), PH_NOISY_CC);
 	if ((Z_TYPE_P(record) != IS_NULL)) {
 		zephir_call_method(return_value, record, "getmessages");
 		RETURN_MM();

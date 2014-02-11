@@ -21,7 +21,6 @@ namespace Phalcon\Image;
 
 abstract class Adapter
 {
-
 	protected _image;
 
 	protected _file;
@@ -112,20 +111,18 @@ abstract class Adapter
 		var ratio;
 
 		if master == Phalcon\Image::TENSILE {
-
 			if !width || !height {
 				throw new Phalcon\Image\Exception("width and height must be specified");
 			}
 
 		} else {
-
 			if master == Phalcon\Image::AUTO {
 
 				if !width || !height {
 					throw new Phalcon\Image\Exception("width and height must be specified");
 				}
 
-				let master = (this->_width / width) > (this->_height / height) ? Image::WIDTH : Image::HEIGHT;
+				let master = (this->_width / width) > (this->_height / height) ? this->_width : this->_height;
 			}
 
 			if master == Phalcon\Image::INVERSE {
@@ -134,7 +131,7 @@ abstract class Adapter
 					throw new Phalcon\Image\Exception("width and height must be specified");
 				}
 
-				let master = (this->_width / width) > (this->_height / height) ? Image::HEIGHT : Image::WIDTH;
+				let master = (this->_width / width) > (this->_height / height) ? this->_height : this->_width;
 			}
 
 			switch master {

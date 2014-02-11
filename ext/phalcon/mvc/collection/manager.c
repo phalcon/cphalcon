@@ -172,7 +172,8 @@ PHP_METHOD(Phalcon_Mvc_Collection_Manager, getCustomEventsManager) {
 
 
 
-	customEventsManager = zephir_fetch_nproperty_this(this_ptr, SL("_customEventsManager"), PH_NOISY_CC);
+	ZEPHIR_OBS_VAR(customEventsManager);
+	zephir_read_property_this(&customEventsManager, this_ptr, SL("_customEventsManager"), PH_NOISY_CC);
 	if ((Z_TYPE_P(customEventsManager) == IS_ARRAY)) {
 		ZEPHIR_INIT_VAR(className);
 		zephir_get_class(className, model, 1 TSRMLS_CC);
@@ -201,12 +202,14 @@ PHP_METHOD(Phalcon_Mvc_Collection_Manager, initialize) {
 
 	ZEPHIR_INIT_VAR(className);
 	zephir_get_class(className, model, 0 TSRMLS_CC);
-	initialized = zephir_fetch_nproperty_this(this_ptr, SL("_initialized"), PH_NOISY_CC);
+	ZEPHIR_OBS_VAR(initialized);
+	zephir_read_property_this(&initialized, this_ptr, SL("_initialized"), PH_NOISY_CC);
 	if (!(zephir_array_isset(initialized, className))) {
 		if ((zephir_method_exists_ex(model, SS("initialize") TSRMLS_CC) == SUCCESS)) {
 			zephir_call_method_noret(model, "initialize");
 		}
-		eventsManager = zephir_fetch_nproperty_this(this_ptr, SL("_eventsManager"), PH_NOISY_CC);
+		ZEPHIR_OBS_VAR(eventsManager);
+		zephir_read_property_this(&eventsManager, this_ptr, SL("_eventsManager"), PH_NOISY_CC);
 		if ((Z_TYPE_P(eventsManager) == IS_OBJECT)) {
 			ZEPHIR_INIT_VAR(_0);
 			ZVAL_STRING(_0, "collectionManager:afterInitialize", 1);
@@ -374,7 +377,8 @@ PHP_METHOD(Phalcon_Mvc_Collection_Manager, getConnection) {
 	}
 	ZEPHIR_INIT_VAR(service);
 	ZVAL_STRING(service, "mongo", 1);
-	connectionService = zephir_fetch_nproperty_this(this_ptr, SL("_connectionServices"), PH_NOISY_CC);
+	ZEPHIR_OBS_VAR(connectionService);
+	zephir_read_property_this(&connectionService, this_ptr, SL("_connectionServices"), PH_NOISY_CC);
 	if ((Z_TYPE_P(connectionService) == IS_ARRAY)) {
 		ZEPHIR_INIT_VAR(entityName);
 		zephir_get_class(entityName, model, 0 TSRMLS_CC);
@@ -383,7 +387,8 @@ PHP_METHOD(Phalcon_Mvc_Collection_Manager, getConnection) {
 			zephir_array_fetch(&service, connectionService, entityName, PH_NOISY TSRMLS_CC);
 		}
 	}
-	dependencyInjector = zephir_fetch_nproperty_this(this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
+	ZEPHIR_OBS_VAR(dependencyInjector);
+	zephir_read_property_this(&dependencyInjector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
 	if ((Z_TYPE_P(dependencyInjector) != IS_OBJECT)) {
 		ZEPHIR_THROW_EXCEPTION_STR(phalcon_mvc_collection_exception_ce, "A dependency injector container is required to obtain the services related to the ORM");
 		return;
@@ -426,7 +431,8 @@ PHP_METHOD(Phalcon_Mvc_Collection_Manager, notifyEvent) {
 	}
 
 
-	eventsManager = zephir_fetch_nproperty_this(this_ptr, SL("_eventsManager"), PH_NOISY_CC);
+	ZEPHIR_OBS_VAR(eventsManager);
+	zephir_read_property_this(&eventsManager, this_ptr, SL("_eventsManager"), PH_NOISY_CC);
 	if ((Z_TYPE_P(eventsManager) == IS_OBJECT)) {
 		ZEPHIR_INIT_VAR(_0);
 		ZEPHIR_CONCAT_SV(_0, "collection:", eventName);
@@ -436,7 +442,8 @@ PHP_METHOD(Phalcon_Mvc_Collection_Manager, notifyEvent) {
 			RETURN_CCTOR(status);
 		}
 	}
-	customEventsManager = zephir_fetch_nproperty_this(this_ptr, SL("_customEventsManager"), PH_NOISY_CC);
+	ZEPHIR_OBS_VAR(customEventsManager);
+	zephir_read_property_this(&customEventsManager, this_ptr, SL("_customEventsManager"), PH_NOISY_CC);
 	if ((Z_TYPE_P(customEventsManager) == IS_ARRAY)) {
 		ZEPHIR_INIT_VAR(_1);
 		zephir_get_class(_1, model, 1 TSRMLS_CC);

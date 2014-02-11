@@ -279,7 +279,8 @@ PHP_METHOD(Phalcon_Assets_Manager, addResourceByType) {
 	}
 
 
-	collections = zephir_fetch_nproperty_this(this_ptr, SL("_collections"), PH_NOISY_CC);
+	ZEPHIR_OBS_VAR(collections);
+	zephir_read_property_this(&collections, this_ptr, SL("_collections"), PH_NOISY_CC);
 	ZEPHIR_OBS_VAR(collection);
 	if (!(zephir_array_isset_fetch(&collection, collections, type, 0 TSRMLS_CC))) {
 		ZEPHIR_INIT_BNVAR(collection);
@@ -392,12 +393,14 @@ PHP_METHOD(Phalcon_Assets_Manager, get) {
 	}
 
 
-	collections = zephir_fetch_nproperty_this(this_ptr, SL("_collections"), PH_NOISY_CC);
-	if (!(zephir_array_isset_fetch(&collection, collections, id, 1 TSRMLS_CC))) {
+	ZEPHIR_OBS_VAR(collections);
+	zephir_read_property_this(&collections, this_ptr, SL("_collections"), PH_NOISY_CC);
+	ZEPHIR_OBS_VAR(collection);
+	if (!(zephir_array_isset_fetch(&collection, collections, id, 0 TSRMLS_CC))) {
 		ZEPHIR_THROW_EXCEPTION_STR(phalcon_assets_exception_ce, "The collection does not exist in the manager");
 		return;
 	}
-	RETURN_CTOR(collection);
+	RETURN_CCTOR(collection);
 
 }
 
@@ -491,7 +494,7 @@ PHP_METHOD(Phalcon_Assets_Manager, output) {
 	HashTable *_4, *_11;
 	HashPosition _3, _10;
 	zend_bool filterNeeded;
-	zval *collection, *callback, *type = NULL, *output, *resources, *filters, *prefix, *sourceBasePath, *targetBasePath, *options, *collectionSourcePath, *completeSourcePath = NULL, *collectionTargetPath, *completeTargetPath = NULL, *filteredJoinedContent = NULL, *join, *resource = NULL, *local = NULL, *sourcePath = NULL, *targetPath = NULL, *path = NULL, *prefixedPath = NULL, *attributes = NULL, *parameters = NULL, *html = NULL, *useImplicitOutput, *content = NULL, *mustFilter = NULL, *filter = NULL, *filteredContent = NULL, *typeCss, *targetUri, *_0 = NULL, *_1 = NULL, *_2 = NULL, **_5, *_7 = NULL, **_12;
+	zval *collection, *callback, *type = NULL, *output, *resources, *filters, *prefix, *sourceBasePath = NULL, *targetBasePath = NULL, *options, *collectionSourcePath, *completeSourcePath = NULL, *collectionTargetPath, *completeTargetPath = NULL, *filteredJoinedContent = NULL, *join, *resource = NULL, *local = NULL, *sourcePath = NULL, *targetPath = NULL, *path = NULL, *prefixedPath = NULL, *attributes = NULL, *parameters = NULL, *html = NULL, *useImplicitOutput, *content = NULL, *mustFilter = NULL, *filter = NULL, *filteredContent = NULL, *typeCss, *targetUri, *_0 = NULL, *_1 = NULL, *_2 = NULL, **_5, *_7 = NULL, **_12;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 3, 0, &collection, &callback, &type);
@@ -499,7 +502,8 @@ PHP_METHOD(Phalcon_Assets_Manager, output) {
 	ZEPHIR_SEPARATE_PARAM(type);
 
 
-	useImplicitOutput = zephir_fetch_nproperty_this(this_ptr, SL("_implicitOutput"), PH_NOISY_CC);
+	ZEPHIR_OBS_VAR(useImplicitOutput);
+	zephir_read_property_this(&useImplicitOutput, this_ptr, SL("_implicitOutput"), PH_NOISY_CC);
 	ZEPHIR_INIT_VAR(output);
 	ZVAL_STRING(output, "", 1);
 	ZEPHIR_INIT_VAR(resources);
@@ -511,13 +515,16 @@ PHP_METHOD(Phalcon_Assets_Manager, output) {
 	ZEPHIR_INIT_VAR(typeCss);
 	ZVAL_STRING(typeCss, "css", 1);
 	if ((Z_TYPE_P(filters) == IS_ARRAY)) {
-		options = zephir_fetch_nproperty_this(this_ptr, SL("_options"), PH_NOISY_CC);
+		ZEPHIR_OBS_VAR(options);
+		zephir_read_property_this(&options, this_ptr, SL("_options"), PH_NOISY_CC);
 		if ((Z_TYPE_P(options) == IS_ARRAY)) {
 			if (zephir_array_isset_string(options, SS("sourceBasePath"))) {
-				zephir_array_fetch_string(&sourceBasePath, options, SL("sourceBasePath"), PH_NOISY | PH_READONLY TSRMLS_CC);
+				ZEPHIR_OBS_VAR(sourceBasePath);
+				zephir_array_fetch_string(&sourceBasePath, options, SL("sourceBasePath"), PH_NOISY TSRMLS_CC);
 			}
 			if (zephir_array_isset_string(options, SS("targetBasePath"))) {
-				zephir_array_fetch_string(&targetBasePath, options, SL("targetBasePath"), PH_NOISY | PH_READONLY TSRMLS_CC);
+				ZEPHIR_OBS_VAR(targetBasePath);
+				zephir_array_fetch_string(&targetBasePath, options, SL("targetBasePath"), PH_NOISY TSRMLS_CC);
 			}
 		}
 	}

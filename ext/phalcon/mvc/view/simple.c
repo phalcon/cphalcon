@@ -183,9 +183,11 @@ PHP_METHOD(Phalcon_Mvc_View_Simple, _loadTemplateEngines) {
 	zephir_read_property_this(&engines, this_ptr, SL("_engines"), PH_NOISY_CC);
 	ZEPHIR_INIT_BNVAR(engines);
 	if (ZEPHIR_IS_FALSE(engines)) {
-		dependencyInjector = zephir_fetch_nproperty_this(this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
+		ZEPHIR_OBS_VAR(dependencyInjector);
+		zephir_read_property_this(&dependencyInjector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
 		array_init(engines);
-		registeredEngines = zephir_fetch_nproperty_this(this_ptr, SL("_registeredEngines"), PH_NOISY_CC);
+		ZEPHIR_OBS_VAR(registeredEngines);
+		zephir_read_property_this(&registeredEngines, this_ptr, SL("_registeredEngines"), PH_NOISY_CC);
 		if ((Z_TYPE_P(registeredEngines) != IS_ARRAY)) {
 			ZEPHIR_INIT_VAR(_0);
 			object_init_ex(_0, phalcon_mvc_view_engine_php_ce);
@@ -270,7 +272,8 @@ PHP_METHOD(Phalcon_Mvc_View_Simple, _internalRender) {
 	}
 
 
-	eventsManager = zephir_fetch_nproperty_this(this_ptr, SL("_eventsManager"), PH_NOISY_CC);
+	ZEPHIR_OBS_VAR(eventsManager);
+	zephir_read_property_this(&eventsManager, this_ptr, SL("_eventsManager"), PH_NOISY_CC);
 	if ((Z_TYPE_P(eventsManager) == IS_OBJECT)) {
 		zephir_update_property_this(this_ptr, SL("_activeRenderPath"), path TSRMLS_CC);
 	}
@@ -379,7 +382,8 @@ PHP_METHOD(Phalcon_Mvc_View_Simple, render) {
 			ZVAL_NULL(key);
 			ZEPHIR_INIT_VAR(lifetime);
 			ZVAL_NULL(lifetime);
-			cacheOptions = zephir_fetch_nproperty_this(this_ptr, SL("_cacheOptions"), PH_NOISY_CC);
+			ZEPHIR_OBS_VAR(cacheOptions);
+			zephir_read_property_this(&cacheOptions, this_ptr, SL("_cacheOptions"), PH_NOISY_CC);
 			if ((Z_TYPE_P(cacheOptions) == IS_ARRAY)) {
 				ZEPHIR_OBS_NVAR(key);
 				ZEPHIR_OBS_NVAR(lifetime);
@@ -399,7 +403,8 @@ PHP_METHOD(Phalcon_Mvc_View_Simple, render) {
 	zephir_create_symbol_table(TSRMLS_C);
 	
 	zephir_call_func_noret("ob_start");
-	viewParams = zephir_fetch_nproperty_this(this_ptr, SL("_viewParams"), PH_NOISY_CC);
+	ZEPHIR_OBS_VAR(viewParams);
+	zephir_read_property_this(&viewParams, this_ptr, SL("_viewParams"), PH_NOISY_CC);
 	if ((Z_TYPE_P(params) == IS_ARRAY)) {
 		if ((Z_TYPE_P(viewParams) == IS_ARRAY)) {
 			ZEPHIR_INIT_VAR(mergedParams);
@@ -473,7 +478,8 @@ PHP_METHOD(Phalcon_Mvc_View_Simple, partial) {
 
 	zephir_call_func_noret("ob_start");
 	if ((Z_TYPE_P(params) == IS_ARRAY)) {
-		viewParams = zephir_fetch_nproperty_this(this_ptr, SL("_viewParams"), PH_NOISY_CC);
+		ZEPHIR_OBS_VAR(viewParams);
+		zephir_read_property_this(&viewParams, this_ptr, SL("_viewParams"), PH_NOISY_CC);
 		if ((Z_TYPE_P(viewParams) == IS_ARRAY)) {
 			ZEPHIR_INIT_VAR(mergedParams);
 			zephir_fast_array_merge(mergedParams, &(viewParams), &(params) TSRMLS_CC);
@@ -538,14 +544,16 @@ PHP_METHOD(Phalcon_Mvc_View_Simple, _createCache) {
 
 	ZEPHIR_MM_GROW();
 
-	dependencyInjector = zephir_fetch_nproperty_this(this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
+	ZEPHIR_OBS_VAR(dependencyInjector);
+	zephir_read_property_this(&dependencyInjector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
 	if ((Z_TYPE_P(dependencyInjector) == IS_OBJECT)) {
 		ZEPHIR_THROW_EXCEPTION_STR(phalcon_mvc_view_exception_ce, "A dependency injector container is required to obtain the view cache services");
 		return;
 	}
 	ZEPHIR_INIT_VAR(cacheService);
 	ZVAL_STRING(cacheService, "viewCache", 1);
-	cacheOptions = zephir_fetch_nproperty_this(this_ptr, SL("_cacheOptions"), PH_NOISY_CC);
+	ZEPHIR_OBS_VAR(cacheOptions);
+	zephir_read_property_this(&cacheOptions, this_ptr, SL("_cacheOptions"), PH_NOISY_CC);
 	if ((Z_TYPE_P(cacheOptions) == IS_ARRAY)) {
 		ZEPHIR_OBS_NVAR(cacheService);
 	}
@@ -686,7 +694,8 @@ PHP_METHOD(Phalcon_Mvc_View_Simple, setVars) {
 		return;
 	}
 	if (merge) {
-		viewParams = zephir_fetch_nproperty_this(this_ptr, SL("_viewParams"), PH_NOISY_CC);
+		ZEPHIR_OBS_VAR(viewParams);
+		zephir_read_property_this(&viewParams, this_ptr, SL("_viewParams"), PH_NOISY_CC);
 		if ((Z_TYPE_P(viewParams) != IS_ARRAY)) {
 			ZEPHIR_INIT_VAR(mergedParams);
 			zephir_fast_array_merge(mergedParams, &(viewParams), &(params) TSRMLS_CC);

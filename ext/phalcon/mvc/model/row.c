@@ -14,6 +14,7 @@
 #include "kernel/main.h"
 #include "kernel/operators.h"
 #include "kernel/memory.h"
+#include "kernel/object.h"
 #include "kernel/array.h"
 #include "kernel/exception.h"
 #include "kernel/fcall.h"
@@ -86,7 +87,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Row, offsetExists) {
 
 
 
-	RETURN_BOOL(0 == 0);
+	RETURN_BOOL(zephir_isset_property_zval(this_ptr, index TSRMLS_CC));
 
 }
 
@@ -100,14 +101,16 @@ PHP_METHOD(Phalcon_Mvc_Model_Row, offsetGet) {
 
 	zval *index, *value;
 
-	zephir_fetch_params(0, 1, 0, &index);
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 1, 0, &index);
 
 
 
-	if ((0 == 1)) {
-		RETURN_CTORW(value);
+	ZEPHIR_OBS_VAR(value);
+	if (zephir_read_property_zval(&value, this_ptr, index, PH_SILENT_CC)) {
+		RETURN_CCTOR(value);
 	}
-	ZEPHIR_THROW_EXCEPTION_STRW(phalcon_mvc_model_exception_ce, "The index does not exist in the row");
+	ZEPHIR_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "The index does not exist in the row");
 	return;
 
 }

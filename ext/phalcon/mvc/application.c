@@ -183,7 +183,8 @@ PHP_METHOD(Phalcon_Mvc_Application, registerModules) {
 	if ((merge == 0)) {
 		zephir_update_property_this(this_ptr, SL("_modules"), modules TSRMLS_CC);
 	} else {
-		registeredModules = zephir_fetch_nproperty_this(this_ptr, SL("_modules"), PH_NOISY_CC);
+		ZEPHIR_OBS_VAR(registeredModules);
+		zephir_read_property_this(&registeredModules, this_ptr, SL("_modules"), PH_NOISY_CC);
 		if ((Z_TYPE_P(registeredModules) == IS_ARRAY)) {
 			ZEPHIR_INIT_VAR(_0);
 			zephir_fast_array_merge(_0, &(registeredModules), &(modules) TSRMLS_CC);
@@ -272,7 +273,8 @@ PHP_METHOD(Phalcon_Mvc_Application, handle) {
 	}
 
 
-	dependencyInjector = zephir_fetch_nproperty_this(this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
+	ZEPHIR_OBS_VAR(dependencyInjector);
+	zephir_read_property_this(&dependencyInjector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
 	if ((Z_TYPE_P(dependencyInjector) != IS_OBJECT)) {
 		ZEPHIR_THROW_EXCEPTION_STR(phalcon_mvc_application_exception_ce, "A dependency injection object is required to access internal services");
 		return;
@@ -312,8 +314,9 @@ PHP_METHOD(Phalcon_Mvc_Application, handle) {
 				RETURN_MM_BOOL(0);
 			}
 		}
+		ZEPHIR_OBS_VAR(module);
 		_0 = zephir_fetch_nproperty_this(this_ptr, SL("_modules"), PH_NOISY_CC);
-		if (!(zephir_array_isset_fetch(&module, _0, moduleName, 1 TSRMLS_CC))) {
+		if (!(zephir_array_isset_fetch(&module, _0, moduleName, 0 TSRMLS_CC))) {
 			ZEPHIR_INIT_VAR(_3);
 			object_init_ex(_3, phalcon_mvc_application_exception_ce);
 			ZEPHIR_INIT_VAR(_4);
@@ -335,7 +338,8 @@ PHP_METHOD(Phalcon_Mvc_Application, handle) {
 				ZEPHIR_INIT_NVAR(className);
 				ZVAL_STRING(className, "Module", 1);
 			}
-			if (zephir_array_isset_string_fetch(&path, module, SS("path"), 1 TSRMLS_CC)) {
+			ZEPHIR_OBS_VAR(path);
+			if (zephir_array_isset_string_fetch(&path, module, SS("path"), 0 TSRMLS_CC)) {
 				if (!(zephir_class_exists(className, zephir_is_true(ZEPHIR_GLOBAL(global_false))  TSRMLS_CC))) {
 					if ((zephir_file_exists(path TSRMLS_CC) == SUCCESS)) {
 						ZEPHIR_INIT_LNVAR(_3);
@@ -377,7 +381,8 @@ PHP_METHOD(Phalcon_Mvc_Application, handle) {
 			zephir_call_method_p3_noret(eventsManager, "fire", _2, this_ptr, moduleObject);
 		}
 	}
-	implicitView = zephir_fetch_nproperty_this(this_ptr, SL("_implicitView"), PH_NOISY_CC);
+	ZEPHIR_OBS_VAR(implicitView);
+	zephir_read_property_this(&implicitView, this_ptr, SL("_implicitView"), PH_NOISY_CC);
 	if (ZEPHIR_IS_TRUE(implicitView)) {
 		ZEPHIR_INIT_NVAR(_1);
 		ZEPHIR_INIT_NVAR(_2);

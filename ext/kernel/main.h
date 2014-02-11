@@ -44,6 +44,20 @@
 #define ISS(str) (zephir_interned_##str), (sizeof(#str))
 
 #include "Zend/zend_constants.h"
+#include "kernel/exception.h"
+
+/* Compatibility with PHP 5.3 */
+#ifndef ZVAL_COPY_VALUE
+ #define ZVAL_COPY_VALUE(z, v)\
+  (z)->value = (v)->value;\
+  Z_TYPE_P(z) = Z_TYPE_P(v);
+#endif
+
+#ifndef INIT_PZVAL_COPY
+ #define INIT_PZVAL_COPY(z, v) ZVAL_COPY_VALUE(z, v);\
+  Z_SET_REFCOUNT_P(z, 1);\
+  Z_UNSET_ISREF_P(z);
+#endif
 
 /* Startup functions */
 zend_class_entry *zephir_register_internal_interface_ex(zend_class_entry *orig_ce, zend_class_entry *parent_ce TSRMLS_DC);
@@ -66,24 +80,27 @@ int zephir_fast_count_ev(zval *array TSRMLS_DC);
 int zephir_fast_count_int(zval *value TSRMLS_DC);
 
 /* Utils functions */
+static inline int zephir_maybe_separate_zval(zval** z)
+{
+	if (Z_REFCOUNT_PP(z) > 1 && !Z_ISREF_PP(z)) {
+		zval *new_zv;
+
+		ALLOC_ZVAL(new_zv);
+		INIT_PZVAL_COPY(new_zv, *z);
+		*z = new_zv;
+		zval_copy_ctor(new_zv);
+
+		return 1;
+	}
+
+	return 0;
+}
+
 int zephir_is_iterable_ex(zval *arr, HashTable **arr_hash, HashPosition *hash_position, int duplicate, int reverse);
 void zephir_safe_zval_ptr_dtor(zval *pzval);
 
 /* Fetch Parameters */
 int zephir_fetch_parameters(int num_args TSRMLS_DC, int required_args, int optional_args, ...);
-
-/* Compatibility with PHP 5.3 */
-#ifndef ZVAL_COPY_VALUE
- #define ZVAL_COPY_VALUE(z, v)\
-  (z)->value = (v)->value;\
-  Z_TYPE_P(z) = Z_TYPE_P(v);
-#endif
-
-#ifndef INIT_PZVAL_COPY
- #define INIT_PZVAL_COPY(z, v) ZVAL_COPY_VALUE(z, v);\
-  Z_SET_REFCOUNT_P(z, 1);\
-  Z_UNSET_ISREF_P(z);
-#endif
 
 /** Symbols */
 #define ZEPHIR_READ_SYMBOL(var, auxarr, name) if (EG(active_symbol_table)){ \
@@ -95,6 +112,21 @@ int zephir_fetch_parameters(int num_args TSRMLS_DC, int required_args, int optio
 	} else { \
 		ZVAL_NULL(var); \
 	}
+
+#define RETURN_ON_FAILURE(what) \
+	do { \
+		if (what == FAILURE) { \
+			return; \
+		} \
+	} while (0)
+
+#define RETURN_MM_ON_FAILURE(what) \
+	do { \
+		if (what == FAILURE) { \
+			ZEPHIR_MM_RESTORE(); \
+			return; \
+		} \
+	} while (0)
 
 /**
  * Return zval checking if it's needed to ctor
@@ -307,8 +339,8 @@ int zephir_fetch_parameters(int num_args TSRMLS_DC, int required_args, int optio
 
 /** Check if an array is iterable or not */
 #define zephir_is_iterable(var, array_hash, hash_pointer, duplicate, reverse) \
-	if (!zephir_is_iterable_ex(var, array_hash, hash_pointer, duplicate, reverse)) { \
-		zend_error(E_ERROR, "The argument is not iterable()"); \
+	if (!var || !zephir_is_iterable_ex(var, array_hash, hash_pointer, duplicate, reverse)) { \
+		ZEPHIR_THROW_EXCEPTION_STRW(zend_exception_get_default(TSRMLS_C), "The argument is not initialized or iterable()"); \
 		ZEPHIR_MM_RESTORE(); \
 		return; \
 	}
@@ -420,12 +452,7 @@ int zephir_fetch_parameters(int num_args TSRMLS_DC, int required_args, int optio
 	} while (0)
 
 #define ZEPHIR_GET_CONSTANT(return_value, const_name) \
-	do { \
-		if (FAILURE == zend_get_constant(SL(const_name), return_value TSRMLS_CC)) { \
-			ZEPHIR_MM_RESTORE(); \
-			return; \
-		} \
-	} while (0)
+	RETURN_MM_ON_FAILURE(zend_get_constant(SL(const_name), return_value TSRMLS_CC));
 
 #ifndef ZEPHIR_RELEASE
 #define ZEPHIR_DEBUG_PARAMS , const char *file, int line

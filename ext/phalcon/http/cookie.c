@@ -219,9 +219,10 @@ PHP_METHOD(Phalcon_Http_Cookie, getValue) {
 	ZVAL_NULL(dependencyInjector);
 	_1 = zephir_fetch_nproperty_this(this_ptr, SL("_readed"), PH_NOISY_CC);
 	if (ZEPHIR_IS_FALSE(_1)) {
+		ZEPHIR_OBS_VAR(value);
 		zephir_get_global(&_COOKIE, SS("_COOKIE") TSRMLS_CC);
 		_2 = zephir_fetch_nproperty_this(this_ptr, SL("_name"), PH_NOISY_CC);
-		if (zephir_array_isset_fetch(&value, _COOKIE, _2, 1 TSRMLS_CC)) {
+		if (zephir_array_isset_fetch(&value, _COOKIE, _2, 0 TSRMLS_CC)) {
 			_3 = zephir_fetch_nproperty_this(this_ptr, SL("_useEncryption"), PH_NOISY_CC);
 			if (zephir_is_true(_3)) {
 				ZEPHIR_OBS_NVAR(dependencyInjector);
@@ -281,14 +282,22 @@ PHP_METHOD(Phalcon_Http_Cookie, send) {
 
 	ZEPHIR_MM_GROW();
 
-	name = zephir_fetch_nproperty_this(this_ptr, SL("_name"), PH_NOISY_CC);
-	value = zephir_fetch_nproperty_this(this_ptr, SL("_value"), PH_NOISY_CC);
-	expire = zephir_fetch_nproperty_this(this_ptr, SL("_expire"), PH_NOISY_CC);
-	domain = zephir_fetch_nproperty_this(this_ptr, SL("_domain"), PH_NOISY_CC);
-	path = zephir_fetch_nproperty_this(this_ptr, SL("_path"), PH_NOISY_CC);
-	secure = zephir_fetch_nproperty_this(this_ptr, SL("_secure"), PH_NOISY_CC);
-	httpOnly = zephir_fetch_nproperty_this(this_ptr, SL("_httpOnly"), PH_NOISY_CC);
-	dependencyInjector = zephir_fetch_nproperty_this(this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
+	ZEPHIR_OBS_VAR(name);
+	zephir_read_property_this(&name, this_ptr, SL("_name"), PH_NOISY_CC);
+	ZEPHIR_OBS_VAR(value);
+	zephir_read_property_this(&value, this_ptr, SL("_value"), PH_NOISY_CC);
+	ZEPHIR_OBS_VAR(expire);
+	zephir_read_property_this(&expire, this_ptr, SL("_expire"), PH_NOISY_CC);
+	ZEPHIR_OBS_VAR(domain);
+	zephir_read_property_this(&domain, this_ptr, SL("_domain"), PH_NOISY_CC);
+	ZEPHIR_OBS_VAR(path);
+	zephir_read_property_this(&path, this_ptr, SL("_path"), PH_NOISY_CC);
+	ZEPHIR_OBS_VAR(secure);
+	zephir_read_property_this(&secure, this_ptr, SL("_secure"), PH_NOISY_CC);
+	ZEPHIR_OBS_VAR(httpOnly);
+	zephir_read_property_this(&httpOnly, this_ptr, SL("_httpOnly"), PH_NOISY_CC);
+	ZEPHIR_OBS_VAR(dependencyInjector);
+	zephir_read_property_this(&dependencyInjector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
 	if ((Z_TYPE_P(dependencyInjector) != IS_OBJECT)) {
 		ZEPHIR_THROW_EXCEPTION_STR(phalcon_http_response_exception_ce, "A dependency injection object is required to access the 'session' service");
 		return;
@@ -359,7 +368,8 @@ PHP_METHOD(Phalcon_Http_Cookie, restore) {
 
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_restored"), PH_NOISY_CC);
 	if (!(zephir_is_true(_0))) {
-		dependencyInjector = zephir_fetch_nproperty_this(this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
+		ZEPHIR_OBS_VAR(dependencyInjector);
+		zephir_read_property_this(&dependencyInjector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
 		if ((Z_TYPE_P(dependencyInjector) == IS_OBJECT)) {
 			ZEPHIR_INIT_VAR(_1);
 			ZVAL_STRING(_1, "session", 1);
@@ -404,11 +414,16 @@ PHP_METHOD(Phalcon_Http_Cookie, delete) {
 
 	ZEPHIR_MM_GROW();
 
-	name = zephir_fetch_nproperty_this(this_ptr, SL("_name"), PH_NOISY_CC);
-	domain = zephir_fetch_nproperty_this(this_ptr, SL("_domain"), PH_NOISY_CC);
-	path = zephir_fetch_nproperty_this(this_ptr, SL("_path"), PH_NOISY_CC);
-	secure = zephir_fetch_nproperty_this(this_ptr, SL("_secure"), PH_NOISY_CC);
-	httpOnly = zephir_fetch_nproperty_this(this_ptr, SL("_httpOnly"), PH_NOISY_CC);
+	ZEPHIR_OBS_VAR(name);
+	zephir_read_property_this(&name, this_ptr, SL("_name"), PH_NOISY_CC);
+	ZEPHIR_OBS_VAR(domain);
+	zephir_read_property_this(&domain, this_ptr, SL("_domain"), PH_NOISY_CC);
+	ZEPHIR_OBS_VAR(path);
+	zephir_read_property_this(&path, this_ptr, SL("_path"), PH_NOISY_CC);
+	ZEPHIR_OBS_VAR(secure);
+	zephir_read_property_this(&secure, this_ptr, SL("_secure"), PH_NOISY_CC);
+	ZEPHIR_OBS_VAR(httpOnly);
+	zephir_read_property_this(&httpOnly, this_ptr, SL("_httpOnly"), PH_NOISY_CC);
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
 	ZEPHIR_CPY_WRT(dependencyInjector, _0);
 	if ((Z_TYPE_P(dependencyInjector) != IS_OBJECT)) {

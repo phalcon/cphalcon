@@ -18,19 +18,27 @@
  +------------------------------------------------------------------------+
  */
 
+namespace Phalcon\Optimizers;
+
+use Zephir\Optimizers\OptimizerAbstract,
+	Zephir\Call,
+	Zephir\CompilationContext,
+	Zephir\CompilerException,
+	Zephir\CompiledExpression,
+	Zephir\HeadersManager;
+
 class PhannotParseAnnotationsOptimizer
 	extends OptimizerAbstract
 {
-
 	/**
-	 *
 	 * @param array $expression
 	 * @param Call $call
 	 * @param CompilationContext $context
+	 * @return bool|mixed|CompiledExpression
+	 * @throws CompilerException
 	 */
 	public function optimize(array $expression, Call $call, CompilationContext $context)
 	{
-
 		if (!isset($expression['parameters'])) {
 			return false;
 		}

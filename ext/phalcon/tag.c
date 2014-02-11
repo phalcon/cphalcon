@@ -128,7 +128,7 @@ PHP_METHOD(Phalcon_Tag, renderAttributes) {
 	ZEPHIR_INIT_VAR(attrs);
 	array_init(attrs);
 	ZEPHIR_INIT_VAR(order);
-	array_init_size(order, 12);
+	array_init_size(order, 13);
 	ZEPHIR_INIT_VAR(_0);
 	ZVAL_STRING(_0, "type", 1);
 	zephir_array_fast_append(order, _0);
@@ -475,7 +475,8 @@ PHP_METHOD(Phalcon_Tag, getValue) {
 			RETURN_MM();
 		}
 		if ((Z_TYPE_P(params) == IS_ARRAY)) {
-			if (zephir_array_isset_string_fetch(&autoescape, params, SS("escape"), 1 TSRMLS_CC)) {
+			ZEPHIR_OBS_VAR(autoescape);
+			if (zephir_array_isset_string_fetch(&autoescape, params, SS("escape"), 0 TSRMLS_CC)) {
 				if (zephir_is_true(autoescape)) {
 					ZEPHIR_INIT_NVAR(escaper);
 					zephir_call_self(escaper, this_ptr, "getescaperservice");
@@ -558,7 +559,7 @@ PHP_METHOD(Phalcon_Tag, linkTo) {
 
 	if ((Z_TYPE_P(parameters) != IS_ARRAY)) {
 		ZEPHIR_INIT_VAR(params);
-		array_init_size(params, 4);
+		array_init_size(params, 5);
 		zephir_array_fast_append(params, parameters);
 		zephir_array_fast_append(params, text);
 		zephir_array_fast_append(params, local);
@@ -663,11 +664,13 @@ PHP_METHOD(Phalcon_Tag, _inputField) {
 		ZEPHIR_CPY_WRT(params, parameters);
 	}
 	if ((asValue == 0)) {
-		if (!(zephir_array_isset_long_fetch(&id, params, 0, 1 TSRMLS_CC))) {
+		ZEPHIR_OBS_VAR(id);
+		if (!(zephir_array_isset_long_fetch(&id, params, 0, 0 TSRMLS_CC))) {
 			zephir_array_fetch_string(&_0, params, SL("id"), PH_NOISY | PH_READONLY TSRMLS_CC);
 			zephir_array_update_long(&params, 0, &_0, PH_COPY | PH_SEPARATE, "phalcon/tag.zep", 460);
 		}
-		if (zephir_array_isset_string_fetch(&name, params, SS("name"), 1 TSRMLS_CC)) {
+		ZEPHIR_OBS_VAR(name);
+		if (zephir_array_isset_string_fetch(&name, params, SS("name"), 0 TSRMLS_CC)) {
 			if (ZEPHIR_IS_EMPTY(name)) {
 				zephir_array_update_string(&params, SL("name"), &id, PH_COPY | PH_SEPARATE);
 			}
@@ -756,11 +759,13 @@ PHP_METHOD(Phalcon_Tag, _inputFieldChecked) {
 		zephir_array_fetch_string(&_0, params, SL("id"), PH_NOISY | PH_READONLY TSRMLS_CC);
 		zephir_array_update_long(&params, 0, &_0, PH_COPY | PH_SEPARATE, "phalcon/tag.zep", 541);
 	}
-	zephir_array_fetch_long(&id, params, 0, PH_NOISY | PH_READONLY TSRMLS_CC);
+	ZEPHIR_OBS_VAR(id);
+	zephir_array_fetch_long(&id, params, 0, PH_NOISY TSRMLS_CC);
 	if (!(zephir_array_isset_string(params, SS("name")))) {
 		zephir_array_update_string(&params, SL("name"), &id, PH_COPY | PH_SEPARATE);
 	} else {
-		zephir_array_fetch_string(&name, params, SL("name"), PH_NOISY | PH_READONLY TSRMLS_CC);
+		ZEPHIR_OBS_VAR(name);
+		zephir_array_fetch_string(&name, params, SL("name"), PH_NOISY TSRMLS_CC);
 		if (ZEPHIR_IS_EMPTY(name)) {
 			zephir_array_update_string(&params, SL("name"), &id, PH_COPY | PH_SEPARATE);
 		}
@@ -1442,11 +1447,13 @@ PHP_METHOD(Phalcon_Tag, textArea) {
 			zephir_array_update_long(&params, 0, &_0, PH_COPY | PH_SEPARATE, "phalcon/tag.zep", 967);
 		}
 	}
-	zephir_array_fetch_long(&id, params, 0, PH_NOISY | PH_READONLY TSRMLS_CC);
+	ZEPHIR_OBS_VAR(id);
+	zephir_array_fetch_long(&id, params, 0, PH_NOISY TSRMLS_CC);
 	if (!(zephir_array_isset_string(params, SS("name")))) {
 		zephir_array_update_string(&params, SL("name"), &id, PH_COPY | PH_SEPARATE);
 	} else {
-		zephir_array_fetch_string(&name, params, SL("name"), PH_NOISY | PH_READONLY TSRMLS_CC);
+		ZEPHIR_OBS_VAR(name);
+		zephir_array_fetch_string(&name, params, SL("name"), PH_NOISY TSRMLS_CC);
 		if (ZEPHIR_IS_EMPTY(name)) {
 			zephir_array_update_string(&params, SL("name"), &id, PH_COPY | PH_SEPARATE);
 		}
@@ -1789,7 +1796,8 @@ PHP_METHOD(Phalcon_Tag, stylesheetLink) {
 	}
 	if (!(zephir_array_isset_string(params, SS("href")))) {
 		if (zephir_array_isset_long(params, 0)) {
-			zephir_array_fetch_long(&firstParam, params, 0, PH_NOISY | PH_READONLY TSRMLS_CC);
+			ZEPHIR_OBS_VAR(firstParam);
+			zephir_array_fetch_long(&firstParam, params, 0, PH_NOISY TSRMLS_CC);
 			zephir_array_update_string(&params, SL("href"), &firstParam, PH_COPY | PH_SEPARATE);
 		} else {
 			ZEPHIR_INIT_VAR(_0);
@@ -1902,7 +1910,8 @@ PHP_METHOD(Phalcon_Tag, javascriptInclude) {
 	}
 	if (!(zephir_array_isset_string(params, SS("src")))) {
 		if (zephir_array_isset_long(params, 0)) {
-			zephir_array_fetch_long(&firstParam, params, 0, PH_NOISY | PH_READONLY TSRMLS_CC);
+			ZEPHIR_OBS_VAR(firstParam);
+			zephir_array_fetch_long(&firstParam, params, 0, PH_NOISY TSRMLS_CC);
 			zephir_array_update_string(&params, SL("src"), &firstParam, PH_COPY | PH_SEPARATE);
 		} else {
 			ZEPHIR_INIT_VAR(_0);

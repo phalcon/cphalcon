@@ -13,39 +13,39 @@ PHP_METHOD(Phalcon_Mvc_Router_Annotations, setActionSuffix);
 PHP_METHOD(Phalcon_Mvc_Router_Annotations, getResources);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_router_annotations_addresource, 0, 0, 1)
-	ZEND_ARG_INFO(0, handler)
-	ZEND_ARG_INFO(0, prefix)
+  ZEND_ARG_INFO(0, handler)
+  ZEND_ARG_INFO(0, prefix)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_router_annotations_addmoduleresource, 0, 0, 2)
-	ZEND_ARG_INFO(0, module)
-	ZEND_ARG_INFO(0, handler)
-	ZEND_ARG_INFO(0, prefix)
+  ZEND_ARG_INFO(0, module)
+  ZEND_ARG_INFO(0, handler)
+  ZEND_ARG_INFO(0, prefix)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_router_annotations_handle, 0, 0, 0)
-	ZEND_ARG_INFO(0, uri)
+  ZEND_ARG_INFO(0, uri)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_router_annotations_processcontrollerannotation, 0, 0, 2)
-	ZEND_ARG_INFO(0, handler)
-	ZEND_ARG_INFO(0, annotation)
+  ZEND_ARG_INFO(0, handler)
+  ZEND_ARG_INFO(0, annotation)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_router_annotations_processactionannotation, 0, 0, 5)
-	ZEND_ARG_INFO(0, module)
-	ZEND_ARG_INFO(0, namespaceName)
-	ZEND_ARG_INFO(0, controller)
-	ZEND_ARG_INFO(0, action)
-	ZEND_ARG_INFO(0, annotation)
+  ZEND_ARG_INFO(0, module)
+  ZEND_ARG_INFO(0, namespaceName)
+  ZEND_ARG_INFO(0, controller)
+  ZEND_ARG_INFO(0, action)
+  ZEND_ARG_INFO(0, annotation)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_router_annotations_setcontrollersuffix, 0, 0, 1)
-	ZEND_ARG_INFO(0, controllerSuffix)
+  ZEND_ARG_INFO(0, controllerSuffix)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_router_annotations_setactionsuffix, 0, 0, 1)
-	ZEND_ARG_INFO(0, actionSuffix)
+  ZEND_ARG_INFO(0, actionSuffix)
 ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_mvc_router_annotations_method_entry) {
@@ -57,5 +57,5 @@ ZEPHIR_INIT_FUNCS(phalcon_mvc_router_annotations_method_entry) {
 	PHP_ME(Phalcon_Mvc_Router_Annotations, setControllerSuffix, arginfo_phalcon_mvc_router_annotations_setcontrollersuffix, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Router_Annotations, setActionSuffix, arginfo_phalcon_mvc_router_annotations_setactionsuffix, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Router_Annotations, getResources, NULL, ZEND_ACC_PUBLIC)
-	PHP_FE_END
+  PHP_FE_END
 };

@@ -328,7 +328,7 @@ PHP_METHOD(Phalcon_Events_Manager, fireQueue) {
 				if (zephir_is_instance_of(handler, SL("Closure") TSRMLS_CC)) {
 					if ((Z_TYPE_P(arguments) == IS_NULL)) {
 						ZEPHIR_INIT_NVAR(arguments);
-						array_init_size(arguments, 4);
+						array_init_size(arguments, 5);
 						zephir_array_fast_append(arguments, event);
 						zephir_array_fast_append(arguments, source);
 						zephir_array_fast_append(arguments, data);
@@ -374,7 +374,7 @@ PHP_METHOD(Phalcon_Events_Manager, fireQueue) {
 				if (zephir_is_instance_of(handler, SL("Closure") TSRMLS_CC)) {
 					if ((Z_TYPE_P(arguments) == IS_NULL)) {
 						ZEPHIR_INIT_NVAR(arguments);
-						array_init_size(arguments, 4);
+						array_init_size(arguments, 5);
 						zephir_array_fast_append(arguments, event);
 						zephir_array_fast_append(arguments, source);
 						zephir_array_fast_append(arguments, data);
@@ -457,7 +457,8 @@ PHP_METHOD(Phalcon_Events_Manager, fire) {
 	}
 
 
-	events = zephir_fetch_nproperty_this(this_ptr, SL("_events"), PH_NOISY_CC);
+	ZEPHIR_OBS_VAR(events);
+	zephir_read_property_this(&events, this_ptr, SL("_events"), PH_NOISY_CC);
 	if ((Z_TYPE_P(events) != IS_ARRAY)) {
 		RETURN_MM_NULL();
 	}
@@ -473,8 +474,10 @@ PHP_METHOD(Phalcon_Events_Manager, fire) {
 	}
 	ZEPHIR_INIT_VAR(eventParts);
 	zephir_fast_explode_str(eventParts, SL(":"), eventType, LONG_MAX TSRMLS_CC);
-	zephir_array_fetch_long(&type, eventParts, 0, PH_NOISY | PH_READONLY TSRMLS_CC);
-	zephir_array_fetch_long(&eventName, eventParts, 1, PH_NOISY | PH_READONLY TSRMLS_CC);
+	ZEPHIR_OBS_VAR(type);
+	zephir_array_fetch_long(&type, eventParts, 0, PH_NOISY TSRMLS_CC);
+	ZEPHIR_OBS_VAR(eventName);
+	zephir_array_fetch_long(&eventName, eventParts, 1, PH_NOISY TSRMLS_CC);
 	ZEPHIR_INIT_VAR(status);
 	ZVAL_NULL(status);
 	_2 = zephir_fetch_nproperty_this(this_ptr, SL("_collect"), PH_NOISY_CC);

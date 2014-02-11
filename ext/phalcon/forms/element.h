@@ -37,82 +37,82 @@ PHP_METHOD(Phalcon_Forms_Element, clear);
 PHP_METHOD(Phalcon_Forms_Element, __toString);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_forms_element___construct, 0, 0, 1)
-	ZEND_ARG_INFO(0, name)
-	ZEND_ARG_INFO(0, attributes)
+  ZEND_ARG_INFO(0, name)
+  ZEND_ARG_INFO(0, attributes)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_forms_element_setform, 0, 0, 1)
-	ZEND_ARG_INFO(0, form)
+  ZEND_ARG_INFO(0, form)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_forms_element_setname, 0, 0, 1)
-	ZEND_ARG_INFO(0, name)
+  ZEND_ARG_INFO(0, name)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_forms_element_setfilters, 0, 0, 1)
-	ZEND_ARG_INFO(0, filters)
+  ZEND_ARG_INFO(0, filters)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_forms_element_addfilter, 0, 0, 1)
-	ZEND_ARG_INFO(0, filter)
+  ZEND_ARG_INFO(0, filter)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_forms_element_addvalidators, 0, 0, 1)
-	ZEND_ARG_INFO(0, validators)
-	ZEND_ARG_INFO(0, merge)
+  ZEND_ARG_INFO(0, validators)
+  ZEND_ARG_INFO(0, merge)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_forms_element_addvalidator, 0, 0, 1)
-	ZEND_ARG_INFO(0, validator)
+  ZEND_ARG_INFO(0, validator)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_forms_element_prepareattributes, 0, 0, 0)
-	ZEND_ARG_INFO(0, attributes)
-	ZEND_ARG_INFO(0, useChecked)
+  ZEND_ARG_INFO(0, attributes)
+  ZEND_ARG_INFO(0, useChecked)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_forms_element_setattribute, 0, 0, 2)
-	ZEND_ARG_INFO(0, attribute)
-	ZEND_ARG_INFO(0, value)
+  ZEND_ARG_INFO(0, attribute)
+  ZEND_ARG_INFO(0, value)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_forms_element_getattribute, 0, 0, 1)
-	ZEND_ARG_INFO(0, attribute)
-	ZEND_ARG_INFO(0, defaultValue)
+  ZEND_ARG_INFO(0, attribute)
+  ZEND_ARG_INFO(0, defaultValue)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_forms_element_setattributes, 0, 0, 1)
-	ZEND_ARG_INFO(0, attributes)
+  ZEND_ARG_INFO(0, attributes)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_forms_element_setuseroption, 0, 0, 2)
-	ZEND_ARG_INFO(0, option)
-	ZEND_ARG_INFO(0, value)
+  ZEND_ARG_INFO(0, option)
+  ZEND_ARG_INFO(0, value)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_forms_element_getuseroption, 0, 0, 1)
-	ZEND_ARG_INFO(0, option)
-	ZEND_ARG_INFO(0, defaultValue)
+  ZEND_ARG_INFO(0, option)
+  ZEND_ARG_INFO(0, defaultValue)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_forms_element_setuseroptions, 0, 0, 1)
-	ZEND_ARG_INFO(0, options)
+  ZEND_ARG_INFO(0, options)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_forms_element_setlabel, 0, 0, 1)
-	ZEND_ARG_INFO(0, label)
+  ZEND_ARG_INFO(0, label)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_forms_element_setdefault, 0, 0, 1)
-	ZEND_ARG_INFO(0, value)
+  ZEND_ARG_INFO(0, value)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_forms_element_setmessages, 0, 0, 1)
-	ZEND_ARG_INFO(0, group)
+  ZEND_ARG_INFO(0, group)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_forms_element_appendmessage, 0, 0, 1)
-	ZEND_ARG_INFO(0, message)
+  ZEND_ARG_INFO(0, message)
 ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_forms_element_method_entry) {
@@ -148,5 +148,5 @@ ZEPHIR_INIT_FUNCS(phalcon_forms_element_method_entry) {
 	PHP_ME(Phalcon_Forms_Element, appendMessage, arginfo_phalcon_forms_element_appendmessage, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Forms_Element, clear, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Forms_Element, __toString, NULL, ZEND_ACC_PUBLIC)
-	PHP_FE_END
+  PHP_FE_END
 };

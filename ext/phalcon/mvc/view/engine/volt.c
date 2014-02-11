@@ -110,11 +110,13 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, getCompiler) {
 		object_init_ex(compiler, phalcon_mvc_view_engine_volt_compiler_ce);
 		_0 = zephir_fetch_nproperty_this(this_ptr, SL("_view"), PH_NOISY_CC);
 		zephir_call_method_p1_noret(compiler, "__construct", _0);
-		dependencyInjector = zephir_fetch_nproperty_this(this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
+		ZEPHIR_OBS_VAR(dependencyInjector);
+		zephir_read_property_this(&dependencyInjector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
 		if ((Z_TYPE_P(dependencyInjector) != IS_OBJECT)) {
 			zephir_call_method_p1_noret(compiler, "setdi", dependencyInjector);
 		}
-		options = zephir_fetch_nproperty_this(this_ptr, SL("_options"), PH_NOISY_CC);
+		ZEPHIR_OBS_VAR(options);
+		zephir_read_property_this(&options, this_ptr, SL("_options"), PH_NOISY_CC);
 		if ((Z_TYPE_P(options) == IS_ARRAY)) {
 			zephir_call_method_p1_noret(compiler, "setoptions", options);
 		}
@@ -177,7 +179,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, render) {
 			ZEPHIR_GET_HMKEY(key, _1, _0);
 			ZEPHIR_GET_HVALUE(value, _2);
 			if (zephir_set_symbol(key, value TSRMLS_CC) == FAILURE){
-				return;
+			  return;
 			}
 		}
 	}

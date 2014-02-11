@@ -297,6 +297,30 @@ int zephir_add_function(zval *result, zval *op1, zval *op2 TSRMLS_DC){
 	return status;
 }
 
+void zephir_negate(zval *z TSRMLS_DC)
+{
+	while (1) {
+		switch (Z_TYPE_P(z)) {
+			case IS_LONG:
+			case IS_BOOL:
+				ZVAL_LONG(z, -Z_LVAL_P(z));
+				return;
+
+			case IS_DOUBLE:
+				ZVAL_DOUBLE(z, -Z_DVAL_P(z));
+				return;
+
+			case IS_NULL:
+				ZVAL_LONG(z, 0);
+				return;
+
+			default:
+				convert_scalar_to_number(z TSRMLS_CC);
+				assert(Z_TYPE_P(z) == IS_LONG || Z_TYPE_P(z) == IS_DOUBLE);
+		}
+	}
+}
+
 /**
  * Cast variables converting they to other types
  */

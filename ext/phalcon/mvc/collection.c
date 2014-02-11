@@ -150,7 +150,9 @@ PHP_METHOD(Phalcon_Mvc_Collection, setId) {
 			ZEPHIR_INIT_VAR(mongoId);
 			_2 = zend_fetch_class(SL("MongoId"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
 			object_init_ex(mongoId, _2);
-			zephir_call_method_p1_noret(mongoId, "__construct", id);
+			if (zephir_has_constructor(mongoId TSRMLS_CC)) {
+				zephir_call_method_p1_noret(mongoId, "__construct", id);
+			}
 		} else {
 			ZEPHIR_CPY_WRT(mongoId, id);
 		}
@@ -449,7 +451,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, readAttribute) {
 	}
 
 
-	if (0 == 0) {
+	if (zephir_isset_property_zval(this_ptr, attribute TSRMLS_CC)) {
 		ZEPHIR_OBS_VAR(_0);
 		zephir_read_property_zval(&_0, this_ptr, attribute, PH_NOISY_CC);
 		RETURN_CCTOR(_0);
@@ -577,18 +579,22 @@ PHP_METHOD(Phalcon_Mvc_Collection, _getResultset) {
 		}
 	}
 	ZEPHIR_INIT_VAR(documentsCursor);
-	if (zephir_array_isset_string_fetch(&fields, params, SS("fields"), 1 TSRMLS_CC)) {
+	ZEPHIR_OBS_VAR(fields);
+	if (zephir_array_isset_string_fetch(&fields, params, SS("fields"), 0 TSRMLS_CC)) {
 		zephir_call_method_p2(documentsCursor, mongoCollection, "find", conditions, fields);
 	} else {
 		zephir_call_method_p1(documentsCursor, mongoCollection, "find", conditions);
 	}
-	if (zephir_array_isset_string_fetch(&limit, params, SS("limit"), 1 TSRMLS_CC)) {
+	ZEPHIR_OBS_VAR(limit);
+	if (zephir_array_isset_string_fetch(&limit, params, SS("limit"), 0 TSRMLS_CC)) {
 		zephir_call_method_p1_noret(documentsCursor, "limit", limit);
 	}
-	if (zephir_array_isset_string_fetch(&sort, params, SS("sort"), 1 TSRMLS_CC)) {
+	ZEPHIR_OBS_VAR(sort);
+	if (zephir_array_isset_string_fetch(&sort, params, SS("sort"), 0 TSRMLS_CC)) {
 		zephir_call_method_p1_noret(documentsCursor, "sort", sort);
 	}
-	if (zephir_array_isset_string_fetch(&skip, params, SS("skip"), 1 TSRMLS_CC)) {
+	ZEPHIR_OBS_VAR(skip);
+	if (zephir_array_isset_string_fetch(&skip, params, SS("skip"), 0 TSRMLS_CC)) {
 		zephir_call_method_p1_noret(documentsCursor, "skip", skip);
 	}
 	if (zephir_array_isset_string(params, SS("fields"))) {
@@ -677,7 +683,8 @@ PHP_METHOD(Phalcon_Mvc_Collection, _getGroupResultset) {
 	if ((simple == 0)) {
 		ZEPHIR_INIT_VAR(documentsCursor);
 		zephir_call_method_p1(documentsCursor, mongoCollection, "find", conditions);
-		if (zephir_array_isset_string_fetch(&limit, params, SS("limit"), 1 TSRMLS_CC)) {
+		ZEPHIR_OBS_VAR(limit);
+		if (zephir_array_isset_string_fetch(&limit, params, SS("limit"), 0 TSRMLS_CC)) {
 			zephir_call_method_p1_noret(documentsCursor, "limit", limit);
 		}
 		ZEPHIR_OBS_VAR(sort);
@@ -919,14 +926,16 @@ PHP_METHOD(Phalcon_Mvc_Collection, validationHasFailed) {
 
 	zval *errorMessages;
 
+	ZEPHIR_MM_GROW();
 
-	errorMessages = zephir_fetch_nproperty_this(this_ptr, SL("_errorMessages"), PH_NOISY_CC);
+	ZEPHIR_OBS_VAR(errorMessages);
+	zephir_read_property_this(&errorMessages, this_ptr, SL("_errorMessages"), PH_NOISY_CC);
 	if ((Z_TYPE_P(errorMessages) == IS_ARRAY)) {
 		if (zephir_fast_count_int(errorMessages TSRMLS_CC)) {
-			RETURN_BOOL(1);
+			RETURN_MM_BOOL(1);
 		}
 	}
-	RETURN_BOOL(0);
+	RETURN_MM_BOOL(0);
 
 }
 
@@ -1057,6 +1066,8 @@ PHP_METHOD(Phalcon_Mvc_Collection, _exists) {
 
 
 
+	ZEPHIR_OBS_VAR(id);
+	zephir_read_property(&id, this_ptr, SL(""), PH_NOISY_CC);
 	if ((0 == 1)) {
 		if ((Z_TYPE_P(id) == IS_OBJECT)) {
 			ZEPHIR_CPY_WRT(mongoId, id);
@@ -1068,7 +1079,9 @@ PHP_METHOD(Phalcon_Mvc_Collection, _exists) {
 				ZEPHIR_INIT_VAR(mongoId);
 				_2 = zend_fetch_class(SL("MongoId"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
 				object_init_ex(mongoId, _2);
-				zephir_call_method_p1_noret(mongoId, "__construct", id);
+				if (zephir_has_constructor(mongoId TSRMLS_CC)) {
+					zephir_call_method_p1_noret(mongoId, "__construct", id);
+				}
 				zephir_update_property_this(this_ptr, SL("_id"), mongoId TSRMLS_CC);
 			} else {
 				ZEPHIR_CPY_WRT(mongoId, id);
@@ -1174,7 +1187,8 @@ PHP_METHOD(Phalcon_Mvc_Collection, save) {
 
 	ZEPHIR_MM_GROW();
 
-	dependencyInjector = zephir_fetch_nproperty_this(this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
+	ZEPHIR_OBS_VAR(dependencyInjector);
+	zephir_read_property_this(&dependencyInjector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
 	if ((Z_TYPE_P(dependencyInjector) != IS_OBJECT)) {
 		ZEPHIR_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "A dependency injector container is required to obtain the services related to the ORM");
 		return;
@@ -1239,11 +1253,13 @@ PHP_METHOD(Phalcon_Mvc_Collection, save) {
 	ZEPHIR_INIT_VAR(status);
 	zephir_call_method_p2(status, collection, "save", data, _6);
 	if ((Z_TYPE_P(status) == IS_ARRAY)) {
-		if (zephir_array_isset_string_fetch(&ok, status, SS("ok"), 1 TSRMLS_CC)) {
+		ZEPHIR_OBS_VAR(ok);
+		if (zephir_array_isset_string_fetch(&ok, status, SS("ok"), 0 TSRMLS_CC)) {
 			if (zephir_is_true(ok)) {
 				success = 1;
 				if (ZEPHIR_IS_FALSE(exists)) {
-					if (zephir_array_isset_string_fetch(&id, data, SS("_id"), 1 TSRMLS_CC)) {
+					ZEPHIR_OBS_VAR(id);
+					if (zephir_array_isset_string_fetch(&id, data, SS("_id"), 0 TSRMLS_CC)) {
 						zephir_update_property_this(this_ptr, SL("_id"), id TSRMLS_CC);
 					}
 				}
@@ -1291,7 +1307,9 @@ PHP_METHOD(Phalcon_Mvc_Collection, findById) {
 			ZEPHIR_INIT_VAR(mongoId);
 			_3 = zend_fetch_class(SL("MongoId"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
 			object_init_ex(mongoId, _3);
-			zephir_call_method_p1_noret(mongoId, "__construct", id);
+			if (zephir_has_constructor(mongoId TSRMLS_CC)) {
+				zephir_call_method_p1_noret(mongoId, "__construct", id);
+			}
 		} else {
 			ZEPHIR_CPY_WRT(mongoId, id);
 		}
@@ -1627,6 +1645,8 @@ PHP_METHOD(Phalcon_Mvc_Collection, delete) {
 
 	ZEPHIR_MM_GROW();
 
+	ZEPHIR_OBS_VAR(id);
+	zephir_read_property(&id, this_ptr, SL(""), PH_NOISY_CC);
 	if (!((0 == 1))) {
 		ZEPHIR_THROW_EXCEPTION_STR(phalcon_mvc_collection_exception_ce, "The document cannot be deleted because it doesn't exist");
 		return;
@@ -1661,7 +1681,9 @@ PHP_METHOD(Phalcon_Mvc_Collection, delete) {
 			ZEPHIR_INIT_VAR(mongoId);
 			_3 = zend_fetch_class(SL("MongoId"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
 			object_init_ex(mongoId, _3);
-			zephir_call_method_p1_noret(mongoId, "__construct", id);
+			if (zephir_has_constructor(mongoId TSRMLS_CC)) {
+				zephir_call_method_p1_noret(mongoId, "__construct", id);
+			}
 		} else {
 			ZEPHIR_CPY_WRT(mongoId, id);
 		}
@@ -1678,7 +1700,8 @@ PHP_METHOD(Phalcon_Mvc_Collection, delete) {
 	if ((Z_TYPE_P(status) != IS_ARRAY)) {
 		RETURN_MM_BOOL(0);
 	}
-	if (zephir_array_isset_string_fetch(&ok, status, SS("ok"), 1 TSRMLS_CC)) {
+	ZEPHIR_OBS_VAR(ok);
+	if (zephir_array_isset_string_fetch(&ok, status, SS("ok"), 0 TSRMLS_CC)) {
 		if (zephir_is_true(ok)) {
 			success = 1;
 			if (!(zephir_is_true(disableEvents))) {

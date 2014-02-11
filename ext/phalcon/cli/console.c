@@ -241,7 +241,8 @@ PHP_METHOD(Phalcon_Cli_Console, handle) {
 	}
 
 
-	dependencyInjector = zephir_fetch_nproperty_this(this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
+	ZEPHIR_OBS_VAR(dependencyInjector);
+	zephir_read_property_this(&dependencyInjector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
 	if ((Z_TYPE_P(dependencyInjector) != IS_OBJECT)) {
 		ZEPHIR_THROW_EXCEPTION_STR(phalcon_cli_console_exception_ce, "A dependency injection object is required to access internal services");
 		return;
@@ -266,7 +267,8 @@ PHP_METHOD(Phalcon_Cli_Console, handle) {
 				RETURN_MM_BOOL(0);
 			}
 		}
-		modules = zephir_fetch_nproperty_this(this_ptr, SL("_modules"), PH_NOISY_CC);
+		ZEPHIR_OBS_VAR(modules);
+		zephir_read_property_this(&modules, this_ptr, SL("_modules"), PH_NOISY_CC);
 		if (!(zephir_array_isset(modules, moduleName))) {
 			ZEPHIR_INIT_VAR(_3);
 			object_init_ex(_3, phalcon_cli_console_exception_ce);
@@ -277,12 +279,14 @@ PHP_METHOD(Phalcon_Cli_Console, handle) {
 			ZEPHIR_MM_RESTORE();
 			return;
 		}
-		zephir_array_fetch(&module, modules, moduleName, PH_NOISY | PH_READONLY TSRMLS_CC);
+		ZEPHIR_OBS_VAR(module);
+		zephir_array_fetch(&module, modules, moduleName, PH_NOISY TSRMLS_CC);
 		if ((Z_TYPE_P(module) != IS_ARRAY)) {
 			ZEPHIR_THROW_EXCEPTION_STR(phalcon_cli_console_exception_ce, "Invalid module definition path");
 			return;
 		}
-		if (zephir_array_isset_string_fetch(&path, module, SS("path"), 1 TSRMLS_CC)) {
+		ZEPHIR_OBS_VAR(path);
+		if (zephir_array_isset_string_fetch(&path, module, SS("path"), 0 TSRMLS_CC)) {
 			if (!((zephir_file_exists(path TSRMLS_CC) == SUCCESS))) {
 				ZEPHIR_INIT_LNVAR(_3);
 				object_init_ex(_3, phalcon_cli_console_exception_ce);

@@ -248,7 +248,8 @@ PHP_METHOD(Phalcon_Validation_Message_Group, appendMessages) {
 			return;
 		}
 	}
-	currentMessages = zephir_fetch_nproperty_this(this_ptr, SL("_messages"), PH_NOISY_CC);
+	ZEPHIR_OBS_VAR(currentMessages);
+	zephir_read_property_this(&currentMessages, this_ptr, SL("_messages"), PH_NOISY_CC);
 	if ((Z_TYPE_P(messages) == IS_ARRAY)) {
 		if (ZEPHIR_IS_STRING(currentMessages, "array")) {
 			ZEPHIR_INIT_VAR(finalMessages);
@@ -304,7 +305,8 @@ PHP_METHOD(Phalcon_Validation_Message_Group, filter) {
 
 	ZEPHIR_INIT_VAR(filtered);
 	array_init(filtered);
-	messages = zephir_fetch_nproperty_this(this_ptr, SL("_messages"), PH_NOISY_CC);
+	ZEPHIR_OBS_VAR(messages);
+	zephir_read_property_this(&messages, this_ptr, SL("_messages"), PH_NOISY_CC);
 	if ((Z_TYPE_P(messages) == IS_ARRAY)) {
 		zephir_is_iterable(messages, &_1, &_0, 0, 0);
 		for (
@@ -391,10 +393,8 @@ PHP_METHOD(Phalcon_Validation_Message_Group, key) {
  */
 PHP_METHOD(Phalcon_Validation_Message_Group, next) {
 
-	zval *_0;
 
-
-	zephir_increment(_0);
+	RETURN_ON_FAILURE(zephir_property_incr(this_ptr, SL("_position") TSRMLS_CC));
 
 }
 

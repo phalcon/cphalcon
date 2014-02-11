@@ -14,10 +14,10 @@
 #include "kernel/main.h"
 #include "kernel/object.h"
 #include "kernel/array.h"
+#include "kernel/memory.h"
 #include "kernel/exception.h"
 #include "kernel/operators.h"
 #include "ext/spl/spl_exceptions.h"
-#include "kernel/memory.h"
 #include "kernel/fcall.h"
 
 
@@ -302,22 +302,27 @@ PHP_METHOD(Phalcon_Db_Column, __construct) {
 
 
 	zephir_update_property_this(this_ptr, SL("_name"), name TSRMLS_CC);
-	if (zephir_array_isset_string_fetch(&type, definition, SS("type"), 1 TSRMLS_CC)) {
+	ZEPHIR_OBS_VAR(type);
+	if (zephir_array_isset_string_fetch(&type, definition, SS("type"), 0 TSRMLS_CC)) {
 		zephir_update_property_this(this_ptr, SL("_type"), type TSRMLS_CC);
 	} else {
 		ZEPHIR_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "Column type is required");
 		return;
 	}
-	if (zephir_array_isset_string_fetch(&notNull, definition, SS("notNull"), 1 TSRMLS_CC)) {
+	ZEPHIR_OBS_VAR(notNull);
+	if (zephir_array_isset_string_fetch(&notNull, definition, SS("notNull"), 0 TSRMLS_CC)) {
 		zephir_update_property_this(this_ptr, SL("_notNull"), notNull TSRMLS_CC);
 	}
-	if (zephir_array_isset_string_fetch(&primary, definition, SS("primary"), 1 TSRMLS_CC)) {
+	ZEPHIR_OBS_VAR(primary);
+	if (zephir_array_isset_string_fetch(&primary, definition, SS("primary"), 0 TSRMLS_CC)) {
 		zephir_update_property_this(this_ptr, SL("_primary"), primary TSRMLS_CC);
 	}
-	if (zephir_array_isset_string_fetch(&size, definition, SS("size"), 1 TSRMLS_CC)) {
+	ZEPHIR_OBS_VAR(size);
+	if (zephir_array_isset_string_fetch(&size, definition, SS("size"), 0 TSRMLS_CC)) {
 		zephir_update_property_this(this_ptr, SL("_size"), size TSRMLS_CC);
 	}
-	if (zephir_array_isset_string_fetch(&scale, definition, SS("scale"), 1 TSRMLS_CC)) {
+	ZEPHIR_OBS_VAR(scale);
+	if (zephir_array_isset_string_fetch(&scale, definition, SS("scale"), 0 TSRMLS_CC)) {
 		_0 = ZEPHIR_IS_LONG(type, 0);
 		if (!(_0)) {
 			_0 = ZEPHIR_IS_LONG(type, 7);
@@ -329,13 +334,16 @@ PHP_METHOD(Phalcon_Db_Column, __construct) {
 			return;
 		}
 	}
-	if (zephir_array_isset_string_fetch(&dunsigned, definition, SS("unsigned"), 1 TSRMLS_CC)) {
+	ZEPHIR_OBS_VAR(dunsigned);
+	if (zephir_array_isset_string_fetch(&dunsigned, definition, SS("unsigned"), 0 TSRMLS_CC)) {
 		zephir_update_property_this(this_ptr, SL("_unsigned"), dunsigned TSRMLS_CC);
 	}
-	if (zephir_array_isset_string_fetch(&isNumeric, definition, SS("isNumeric"), 1 TSRMLS_CC)) {
+	ZEPHIR_OBS_VAR(isNumeric);
+	if (zephir_array_isset_string_fetch(&isNumeric, definition, SS("isNumeric"), 0 TSRMLS_CC)) {
 		zephir_update_property_this(this_ptr, SL("_isNumeric"), isNumeric TSRMLS_CC);
 	}
-	if (zephir_array_isset_string_fetch(&autoIncrement, definition, SS("autoIncrement"), 1 TSRMLS_CC)) {
+	ZEPHIR_OBS_VAR(autoIncrement);
+	if (zephir_array_isset_string_fetch(&autoIncrement, definition, SS("autoIncrement"), 0 TSRMLS_CC)) {
 		if (ZEPHIR_IS_LONG(type, 0)) {
 			zephir_update_property_this(this_ptr, SL("_autoIncrement"), autoIncrement TSRMLS_CC);
 		} else {

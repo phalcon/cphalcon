@@ -128,7 +128,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Regex, validate) {
 	ZEPHIR_INIT_VAR(matchPattern);
 	zephir_preg_match(matchPattern, &(matchPattern), pattern, value, matches, 0, 0 , 0  TSRMLS_CC);
 	if (zephir_is_true(matchPattern)) {
-		zephir_array_fetch_long(&matchZero, matches, 0, PH_NOISY | PH_READONLY TSRMLS_CC);
+		ZEPHIR_OBS_VAR(matchZero);
+		zephir_array_fetch_long(&matchZero, matches, 0, PH_NOISY TSRMLS_CC);
 		failed = (!ZEPHIR_IS_EQUAL(matchZero, value));
 	} else {
 		failed = 1;

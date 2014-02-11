@@ -14,8 +14,8 @@
 #include "kernel/main.h"
 #include "kernel/exception.h"
 #include "kernel/array.h"
-#include "kernel/object.h"
 #include "kernel/memory.h"
+#include "kernel/object.h"
 #include "kernel/hash.h"
 #include "kernel/string.h"
 #include "kernel/concat.h"
@@ -64,23 +64,26 @@ PHP_METHOD(Phalcon_Translate_Adapter_NativeArray, __construct) {
 
 	zval *options, *data;
 
-	zephir_fetch_params(0, 1, 0, &options);
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 1, 0, &options);
 
 
 
 	if ((Z_TYPE_P(options) != IS_ARRAY)) {
-		ZEPHIR_THROW_EXCEPTION_STRW(phalcon_translate_exception_ce, "Invalid options");
+		ZEPHIR_THROW_EXCEPTION_STR(phalcon_translate_exception_ce, "Invalid options");
 		return;
 	}
-	if (!(zephir_array_isset_string_fetch(&data, options, SS("content"), 1 TSRMLS_CC))) {
-		ZEPHIR_THROW_EXCEPTION_STRW(phalcon_translate_exception_ce, "Translation content was not provided");
+	ZEPHIR_OBS_VAR(data);
+	if (!(zephir_array_isset_string_fetch(&data, options, SS("content"), 0 TSRMLS_CC))) {
+		ZEPHIR_THROW_EXCEPTION_STR(phalcon_translate_exception_ce, "Translation content was not provided");
 		return;
 	}
 	if ((Z_TYPE_P(data) != IS_ARRAY)) {
-		ZEPHIR_THROW_EXCEPTION_STRW(phalcon_translate_exception_ce, "Translation data must be an array");
+		ZEPHIR_THROW_EXCEPTION_STR(phalcon_translate_exception_ce, "Translation data must be an array");
 		return;
 	}
 	zephir_update_property_this(this_ptr, SL("_translate"), data TSRMLS_CC);
+	ZEPHIR_MM_RESTORE();
 
 }
 

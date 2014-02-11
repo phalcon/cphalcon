@@ -182,10 +182,8 @@ PHP_METHOD(Phalcon_Annotations_Collection, key) {
  */
 PHP_METHOD(Phalcon_Annotations_Collection, next) {
 
-	zval *_0;
 
-
-	zephir_increment(_0);
+	RETURN_ON_FAILURE(zephir_property_incr(this_ptr, SL("_position") TSRMLS_CC));
 
 }
 
@@ -239,7 +237,8 @@ PHP_METHOD(Phalcon_Annotations_Collection, get) {
 		zephir_get_strval(name, name_param);
 
 
-	annotations = zephir_fetch_nproperty_this(this_ptr, SL("_annotations"), PH_NOISY_CC);
+	ZEPHIR_OBS_VAR(annotations);
+	zephir_read_property_this(&annotations, this_ptr, SL("_annotations"), PH_NOISY_CC);
 	if ((Z_TYPE_P(annotations) == IS_ARRAY)) {
 		zephir_is_iterable(annotations, &_1, &_0, 0, 0);
 		for (
@@ -286,7 +285,8 @@ PHP_METHOD(Phalcon_Annotations_Collection, getAll) {
 
 	ZEPHIR_INIT_VAR(found);
 	array_init(found);
-	annotations = zephir_fetch_nproperty_this(this_ptr, SL("_annotations"), PH_NOISY_CC);
+	ZEPHIR_OBS_VAR(annotations);
+	zephir_read_property_this(&annotations, this_ptr, SL("_annotations"), PH_NOISY_CC);
 	if ((Z_TYPE_P(annotations) == IS_ARRAY)) {
 		zephir_is_iterable(annotations, &_1, &_0, 0, 0);
 		for (
@@ -324,7 +324,8 @@ PHP_METHOD(Phalcon_Annotations_Collection, has) {
 		zephir_get_strval(name, name_param);
 
 
-	annotations = zephir_fetch_nproperty_this(this_ptr, SL("_annotations"), PH_NOISY_CC);
+	ZEPHIR_OBS_VAR(annotations);
+	zephir_read_property_this(&annotations, this_ptr, SL("_annotations"), PH_NOISY_CC);
 	if ((Z_TYPE_P(annotations) == IS_ARRAY)) {
 		zephir_is_iterable(annotations, &_1, &_0, 0, 0);
 		for (

@@ -15,8 +15,8 @@
 #include "kernel/exception.h"
 #include "kernel/array.h"
 #include "kernel/object.h"
-#include "kernel/fcall.h"
 #include "kernel/memory.h"
+#include "kernel/fcall.h"
 #include "kernel/operators.h"
 #include "kernel/concat.h"
 #include "ext/spl/spl_exceptions.h"
@@ -91,7 +91,8 @@ PHP_METHOD(Phalcon_Annotations_Annotation, __construct) {
 	}
 	zephir_array_fetch_string(&_0, reflectionData, SL("name"), PH_NOISY | PH_READONLY TSRMLS_CC);
 	zephir_update_property_this(this_ptr, SL("_name"), _0 TSRMLS_CC);
-	if (zephir_array_isset_string_fetch(&exprArguments, reflectionData, SS("arguments"), 1 TSRMLS_CC)) {
+	ZEPHIR_OBS_VAR(exprArguments);
+	if (zephir_array_isset_string_fetch(&exprArguments, reflectionData, SS("arguments"), 0 TSRMLS_CC)) {
 		zephir_is_iterable(exprArguments, &_2, &_1, 0, 0);
 		for (
 			; zend_hash_get_current_data_ex(_2, (void**) &_3, &_1) == SUCCESS
@@ -138,7 +139,7 @@ PHP_METHOD(Phalcon_Annotations_Annotation, getExpression) {
 	zend_function *_5 = NULL;
 	HashTable *_2;
 	HashPosition _1;
-	zval *expr, *value = NULL, *item = NULL, *resolvedItem = NULL, *arrayValue = NULL, *name, *type, *_0, **_3, *_4, *_6, *_7;
+	zval *expr, *value = NULL, *item = NULL, *resolvedItem = NULL, *arrayValue = NULL, *name = NULL, *type, *_0, **_3, *_4, *_6, *_7;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &expr);
@@ -149,7 +150,8 @@ PHP_METHOD(Phalcon_Annotations_Annotation, getExpression) {
 		ZEPHIR_THROW_EXCEPTION_STR(phalcon_annotations_exception_ce, "The expression is not valid");
 		return;
 	}
-	zephir_array_fetch_string(&type, expr, SL("type"), PH_NOISY | PH_READONLY TSRMLS_CC);
+	ZEPHIR_OBS_VAR(type);
+	zephir_array_fetch_string(&type, expr, SL("type"), PH_NOISY TSRMLS_CC);
 	do {
 		if (ZEPHIR_IS_LONG(type, 301) || ZEPHIR_IS_LONG(type, 302) || ZEPHIR_IS_LONG(type, 303) || ZEPHIR_IS_LONG(type, 307)) {
 			ZEPHIR_OBS_VAR(value);
@@ -182,7 +184,8 @@ PHP_METHOD(Phalcon_Annotations_Annotation, getExpression) {
 				zephir_array_fetch_string(&_4, item, SL("expr"), PH_NOISY | PH_READONLY TSRMLS_CC);
 				ZEPHIR_INIT_NVAR(resolvedItem);
 				zephir_call_method_p1_cache(resolvedItem, this_ptr, "getexpression", &_5, _4);
-				if (zephir_array_isset_string_fetch(&name, item, SS("name"), 1 TSRMLS_CC)) {
+				ZEPHIR_OBS_NVAR(name);
+				if (zephir_array_isset_string_fetch(&name, item, SS("name"), 0 TSRMLS_CC)) {
 					ZEPHIR_OBS_NVAR(arrayValue);
 					zephir_array_fetch(&arrayValue, name, resolvedItem, PH_NOISY TSRMLS_CC);
 				} else {
