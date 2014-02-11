@@ -411,7 +411,7 @@ PHP_METHOD(Phalcon_Security, hash)
 {
 	zval **password, **work_factor = NULL, *tmp, *n_bytes, *salt_bytes, *default_hash;
 	char variant;
-	char *salt, *result;
+	char *salt;
 	int salt_len, i_factor, i_hash;
 
 	phalcon_fetch_params_ex(1, 1, &password, &work_factor);
@@ -604,18 +604,41 @@ PHP_METHOD(Phalcon_Security, hash)
 
 	PHALCON_MM_RESTORE();
 
-	if (php_crypt(Z_STRVAL_PP(password), Z_STRLEN_PP(password), salt, salt_len, &result) == FAILURE) {
+#if PHP_VERSION_ID >= 50500
+	{
+		char *result;
+
+		if (php_crypt(Z_STRVAL_PP(password), Z_STRLEN_PP(password), salt, salt_len, &result) == FAILURE) {
+			efree(salt);
+			RETURN_FALSE;
+		}
+
 		efree(salt);
-		RETURN_FALSE;
-	}
+		if (strlen(result) < 13) {
+			efree(result);
+			RETURN_FALSE;
+		}
 
-	efree(salt);
-	if (strlen(result) < 13) {
-		efree(result);
-		RETURN_FALSE;
+		RETURN_STRING(result, 0);
 	}
+#else
+	{
+		zval *z_salt;
 
-	RETURN_STRING(result, 0);
+		PHALCON_ALLOC_GHOST_ZVAL(z_salt);
+		ZVAL_STRINGL(z_salt, salt, salt_len, 0);
+
+		PHALCON_RETURN_CALL_FUNCTIONW("crypt", *password, z_salt);
+		if (return_value_ptr) {
+			return_value = *return_value_ptr;
+		}
+
+		if (Z_STRLEN_P(return_value) < 13) {
+			zval_dtor(return_value);
+			RETURN_FALSE;
+		}
+	}
+#endif
 }
 
 /**
