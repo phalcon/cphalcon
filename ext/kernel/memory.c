@@ -195,14 +195,6 @@ static void phalcon_memory_restore_stack_common(zend_phalcon_globals *g TSRMLS_D
 				assert(f->prev != NULL);
 			}
 		}
-		else {
-			while (f) {
-				php_printf(">>> %p %d %s\n", f, (int)f->permanent, f->func);
-				f = f->prev;
-			}
-
-			php_printf("\n");
-		}
 	}
 #endif
 }
