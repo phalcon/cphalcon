@@ -20,7 +20,7 @@
 #ifndef PHALCON_KERNEL_HASH_H
 #define PHALCON_KERNEL_HASH_H
 
-#include <main/php_config.h>
+#include "php_phalcon.h"
 #include <Zend/zend.h>
 
 int phalcon_hash_exists(const HashTable *ht, const char *arKey, uint nKeyLength);
