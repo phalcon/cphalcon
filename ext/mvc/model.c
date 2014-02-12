@@ -1774,13 +1774,12 @@ PHP_METHOD(Phalcon_Mvc_Model, _groupResult){
 
 	phalcon_fetch_params(1, 3, 0, &function, &alias, &parameters);
 	
-	if (Z_TYPE_P(parameters) != IS_ARRAY) { 
+	if (Z_TYPE_P(parameters) != IS_ARRAY) {
+		PHALCON_INIT_VAR(params);
 		if (Z_TYPE_P(parameters) != IS_NULL) {
-			PHALCON_INIT_VAR(params);
 			array_init_size(params, 1);
-			phalcon_array_append(&params, parameters, PH_SEPARATE);
+			phalcon_array_append(&params, parameters, 0);
 		} else {
-			PHALCON_INIT_NVAR(params);
 			array_init(params);
 		}
 	} else {

@@ -130,7 +130,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Xcache, __construct){
 		phalcon_array_update_string_string(&options, SL("statsKey"), SL("_PHCX"), 0);
 	}
 	
-	PHALCON_CALL_PARENT_NORET(phalcon_cache_backend_xcache_ce, this_ptr, "__construct", frontend, options);
+	PHALCON_CALL_PARENT(NULL, phalcon_cache_backend_xcache_ce, this_ptr, "__construct", frontend, options);
 	
 	PHALCON_MM_RESTORE();
 }
@@ -278,7 +278,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Xcache, save){
 	
 		z_zero = PHALCON_GLOBAL(z_zero);
 		phalcon_array_update_zval(&keys, last_key, ttl, PH_COPY);
-		PHALCON_CALL_FUNCTION_NORET("xcache_set", special_key, keys, z_zero);
+		PHALCON_CALL_FUNCTION(NULL, "xcache_set", special_key, keys, z_zero);
 	}
 	
 	PHALCON_MM_RESTORE();
@@ -317,7 +317,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Xcache, delete){
 	if (Z_TYPE_P(keys) == IS_ARRAY) { 
 		zval *z_zero = PHALCON_GLOBAL(z_zero);
 		phalcon_array_unset(&keys, prefixed_key, 0);
-		PHALCON_CALL_FUNCTION_NORET("xcache_set", special_key, keys, z_zero);
+		PHALCON_CALL_FUNCTION(NULL, "xcache_set", special_key, keys, z_zero);
 	}
 	
 	PHALCON_MM_RESTORE();
@@ -554,11 +554,11 @@ PHP_METHOD(Phalcon_Cache_Backend_Xcache, flush){
 			PHALCON_INIT_NVAR(real_key);
 			ZVAL_STRINGL(real_key, Z_STRVAL(key), Z_STRLEN(key), 1);
 	
-			PHALCON_CALL_FUNCTION_NORET("xcache_unset", real_key);
+			PHALCON_CALL_FUNCTION(NULL, "xcache_unset", real_key);
 		}
 
 		zend_hash_clean(Z_ARRVAL_P(keys));
-		PHALCON_CALL_FUNCTION_NORET("xcache_set", special_key, keys, z_zero);
+		PHALCON_CALL_FUNCTION(NULL, "xcache_set", special_key, keys, z_zero);
 	}
 	
 	RETURN_MM_TRUE;

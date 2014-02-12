@@ -127,7 +127,7 @@ PHP_METHOD(Phalcon_Annotations_Adapter_Xcache, write){
 	
 	PHALCON_INIT_VAR(serialized);
 	phalcon_serialize(serialized, &data TSRMLS_CC);
-	PHALCON_CALL_FUNCTION_NORET("xcache_set", prefixed_key, serialized);
+	PHALCON_CALL_FUNCTION(NULL, "xcache_set", prefixed_key, serialized);
 	
 	PHALCON_MM_RESTORE();
 }

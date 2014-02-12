@@ -76,7 +76,7 @@ PHP_METHOD(Phalcon_Assets_Resource_Css, __construct){
 	PHALCON_ALLOC_GHOST_ZVAL(type);
 	ZVAL_STRING(type, "css", 1);
 	
-	PHALCON_CALL_PARENT_NORET(
+	PHALCON_CALL_PARENT(NULL, 
 		phalcon_assets_resource_css_ce, this_ptr, "__construct",
 		type, path,
 		(local ? local : PHALCON_GLOBAL(z_true)),

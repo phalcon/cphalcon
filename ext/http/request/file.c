@@ -241,7 +241,7 @@ PHP_METHOD(Phalcon_Http_Request_File, getRealType){
 	temp_file = phalcon_fetch_nproperty_this(this_ptr, SL("_tmp"), PH_NOISY_CC);
 
 	PHALCON_RETURN_CALL_FUNCTION("finfo_file", finfo, temp_file);
-	PHALCON_CALL_FUNCTION_NORET("finfo_close", finfo);
+	PHALCON_CALL_FUNCTION(NULL, "finfo_close", finfo);
 
 	PHALCON_MM_RESTORE();
 }

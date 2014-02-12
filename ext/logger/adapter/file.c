@@ -185,7 +185,7 @@ PHP_METHOD(Phalcon_Logger_Adapter_File, logInternal){
 	
 	PHALCON_INIT_VAR(applied_format);
 	phalcon_call_method_p4(applied_format, formatter, "format", message, type, time, context);
-	PHALCON_CALL_FUNCTION_NORET("fwrite", file_handler, applied_format);
+	PHALCON_CALL_FUNCTION(NULL, "fwrite", file_handler, applied_format);
 	
 	PHALCON_MM_RESTORE();
 }

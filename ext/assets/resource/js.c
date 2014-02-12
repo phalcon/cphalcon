@@ -76,7 +76,7 @@ PHP_METHOD(Phalcon_Assets_Resource_Js, __construct){
 	PHALCON_INIT_VAR(type);
 	ZVAL_STRING(type, "js", 1);
 	
-	PHALCON_CALL_PARENT_NORET(
+	PHALCON_CALL_PARENT(NULL, 
 		phalcon_assets_resource_js_ce, this_ptr, "__construct",
 		type, path,
 		(local ? local : PHALCON_GLOBAL(z_true)),

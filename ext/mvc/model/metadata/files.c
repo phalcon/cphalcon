@@ -221,7 +221,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Files, reset)
 	it->funcs->dtor(it TSRMLS_CC);
 
 	if (!EG(exception)) {
-		PHALCON_CALL_PARENT_NORET(phalcon_mvc_model_metadata_files_ce, getThis(), "reset");
+		PHALCON_CALL_PARENT(NULL, phalcon_mvc_model_metadata_files_ce, getThis(), "reset");
 	}
 
 	PHALCON_MM_RESTORE();

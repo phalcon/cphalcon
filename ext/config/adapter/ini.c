@@ -199,7 +199,7 @@ PHP_METHOD(Phalcon_Config_Adapter_Ini, __construct){
 	/** 
 	 * Calls the Phalcon\Config constructor
 	 */
-	PHALCON_CALL_PARENT_NORET(phalcon_config_adapter_ini_ce, this_ptr, "__construct", config);
+	PHALCON_CALL_PARENT(NULL, phalcon_config_adapter_ini_ce, this_ptr, "__construct", config);
 	
 	PHALCON_MM_RESTORE();
 }

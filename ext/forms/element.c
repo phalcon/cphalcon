@@ -870,7 +870,7 @@ PHP_METHOD(Phalcon_Forms_Element, clear){
 	PHALCON_MM_GROW();
 
 	name = phalcon_fetch_nproperty_this(this_ptr, SL("_name"), PH_NOISY_CC);
-	PHALCON_CALL_CE_STATIC_NORET(phalcon_tag_ce, "setdefault", name, PHALCON_GLOBAL(z_null));
+	PHALCON_CALL_CE_STATIC(NULL, phalcon_tag_ce, "setdefault", name, PHALCON_GLOBAL(z_null));
 	RETURN_THIS();
 }
 

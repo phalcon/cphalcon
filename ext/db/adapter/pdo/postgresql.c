@@ -120,7 +120,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Postgresql, connect){
 		phalcon_array_unset_string(&descriptor, SS("schema"), PH_SEPARATE);
 	}
 	
-	PHALCON_CALL_PARENT_NORET(phalcon_db_adapter_pdo_postgresql_ce, this_ptr, "connect", descriptor);
+	PHALCON_CALL_PARENT(NULL, phalcon_db_adapter_pdo_postgresql_ce, this_ptr, "connect", descriptor);
 	
 	/** 
 	 * Execute the search path in the after connect

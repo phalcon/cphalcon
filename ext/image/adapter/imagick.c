@@ -175,7 +175,7 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, __construct){
 	checked = phalcon_fetch_static_property_ce(phalcon_image_adapter_imagick_ce, SL("_checked") TSRMLS_CC);
 
 	if (!zend_is_true(checked)) {
-		PHALCON_CALL_CE_STATIC_NORET(phalcon_image_adapter_imagick_ce, "check");
+		PHALCON_CALL_CE_STATIC(NULL, phalcon_image_adapter_imagick_ce, "check");
 	}
 
 	phalcon_update_property_this(this_ptr, SL("_file"), *file TSRMLS_CC);
@@ -1404,7 +1404,7 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, _save) {
 
 		PHALCON_INIT_NVAR(ret);
 		phalcon_call_method_p1(ret, im, "writeImagesFile", fp);
-		PHALCON_CALL_FUNCTION_NORET("fclose", fp);
+		PHALCON_CALL_FUNCTION(NULL, "fclose", fp);
 	} else {
 		if (phalcon_get_intval(type) == 2) {
 			PHALCON_INIT_VAR(compression);

@@ -432,7 +432,7 @@ PHP_METHOD(Phalcon_Loader, register){
 		array_init_size(autoloader, 2);
 		phalcon_array_append(&autoloader, this_ptr, 0);
 		add_next_index_stringl(autoloader, SL("autoLoad"), 1);
-		PHALCON_CALL_FUNCTION_NORET("spl_autoload_register", autoloader);
+		PHALCON_CALL_FUNCTION(NULL, "spl_autoload_register", autoloader);
 		phalcon_update_property_this(this_ptr, SL("_registered"), PHALCON_GLOBAL(z_true) TSRMLS_CC);
 	}
 	
@@ -456,7 +456,7 @@ PHP_METHOD(Phalcon_Loader, unregister){
 		array_init_size(autoloader, 2);
 		phalcon_array_append(&autoloader, this_ptr, 0);
 		add_next_index_stringl(autoloader, SL("autoLoad"), 1);
-		PHALCON_CALL_FUNCTION_NORET("spl_autoload_unregister", autoloader);
+		PHALCON_CALL_FUNCTION(NULL, "spl_autoload_unregister", autoloader);
 		phalcon_update_property_this(this_ptr, SL("_registered"), PHALCON_GLOBAL(z_false) TSRMLS_CC);
 	}
 	

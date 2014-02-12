@@ -97,7 +97,7 @@ PHP_METHOD(Phalcon_Mvc_Model_ValidationFailed, __construct){
 	}
 	phalcon_update_property_this(this_ptr, SL("_model"), model TSRMLS_CC);
 	phalcon_update_property_this(this_ptr, SL("_messages"), validation_messages TSRMLS_CC);
-	PHALCON_CALL_PARENT_NORET(phalcon_mvc_model_validationfailed_ce, this_ptr, "__construct", message_str);
+	PHALCON_CALL_PARENT(NULL, phalcon_mvc_model_validationfailed_ce, this_ptr, "__construct", message_str);
 	
 	PHALCON_MM_RESTORE();
 }

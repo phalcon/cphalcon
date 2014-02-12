@@ -122,7 +122,7 @@ PHP_METHOD(Phalcon_Logger_Adapter_Syslog, __construct){
 			ZVAL_LONG(facility, 8);
 		}
 	
-		PHALCON_CALL_FUNCTION_NORET("openlog", name, option, facility);
+		PHALCON_CALL_FUNCTION(NULL, "openlog", name, option, facility);
 		phalcon_update_property_bool(this_ptr, SL("_opened"), 1 TSRMLS_CC);
 	}
 	
@@ -185,7 +185,7 @@ PHP_METHOD(Phalcon_Logger_Adapter_Syslog, logInternal){
 		phalcon_array_fetch_long(&syslog_message, applied_format, 1, PH_NOISY);
 	}
 
-	PHALCON_CALL_FUNCTION_NORET("syslog", syslog_type, syslog_message);
+	PHALCON_CALL_FUNCTION(NULL, "syslog", syslog_type, syslog_message);
 	PHALCON_MM_RESTORE();
 }
 

@@ -72,7 +72,7 @@ PHP_METHOD(Phalcon_DI_FactoryDefault_CLI, __construct){
 
 	PHALCON_MM_GROW();
 
-	PHALCON_CALL_PARENT_NORET(phalcon_di_factorydefault_cli_ce, this_ptr, "__construct");
+	PHALCON_CALL_PARENT(NULL, phalcon_di_factorydefault_cli_ce, this_ptr, "__construct");
 	
 	shared = PHALCON_GLOBAL(z_true);
 	

@@ -147,7 +147,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Mongo, __construct){
 		return;
 	}
 	
-	PHALCON_CALL_PARENT_NORET(phalcon_cache_backend_mongo_ce, this_ptr, "__construct", frontend, options);
+	PHALCON_CALL_PARENT(NULL, phalcon_cache_backend_mongo_ce, this_ptr, "__construct", frontend, options);
 	
 	PHALCON_MM_RESTORE();
 }

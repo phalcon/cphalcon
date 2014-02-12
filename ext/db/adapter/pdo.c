@@ -152,7 +152,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, __construct){
 		return;
 	}
 	phalcon_call_method_p1_noret(this_ptr, "connect", descriptor);
-	PHALCON_CALL_PARENT_NORET(phalcon_db_adapter_pdo_ce, this_ptr, "__construct", descriptor);
+	PHALCON_CALL_PARENT(NULL, phalcon_db_adapter_pdo_ce, this_ptr, "__construct", descriptor);
 	
 	PHALCON_MM_RESTORE();
 }

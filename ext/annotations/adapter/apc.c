@@ -120,7 +120,7 @@ PHP_METHOD(Phalcon_Annotations_Adapter_Apc, write){
 	PHALCON_CONCAT_SV(prefixed_key, "_PHAN", key);
 	
 	phalcon_strtolower_inplace(prefixed_key);
-	PHALCON_CALL_FUNCTION_NORET("apc_store", prefixed_key, data);
+	PHALCON_CALL_FUNCTION(NULL, "apc_store", prefixed_key, data);
 	
 	PHALCON_MM_RESTORE();
 }

@@ -211,9 +211,9 @@ PHP_METHOD(Phalcon_Cache_Backend_Apc, save){
 	 * compile time
 	 */
 	if (!prepared_content) {
-		PHALCON_CALL_FUNCTION_NORET("apc_store", last_key, cached_content, ttl);
+		PHALCON_CALL_FUNCTION(NULL, "apc_store", last_key, cached_content, ttl);
 	} else {
-		PHALCON_CALL_FUNCTION_NORET("apc_store", last_key, prepared_content, ttl);
+		PHALCON_CALL_FUNCTION(NULL, "apc_store", last_key, prepared_content, ttl);
 	}
 	
 	PHALCON_OBS_VAR(is_buffering);

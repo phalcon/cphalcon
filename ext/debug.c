@@ -270,7 +270,7 @@ PHP_METHOD(Phalcon_Debug, listenExceptions){
 	array_init_size(handler, 2);
 	phalcon_array_append(&handler, this_ptr, PH_SEPARATE);
 	add_next_index_stringl(handler, SL("onUncaughtException"), 1);
-	PHALCON_CALL_FUNCTION_NORET("set_exception_handler", handler);
+	PHALCON_CALL_FUNCTION(NULL, "set_exception_handler", handler);
 	RETURN_THIS();
 }
 
@@ -289,7 +289,7 @@ PHP_METHOD(Phalcon_Debug, listenLowSeverity){
 	array_init_size(handler, 2);
 	phalcon_array_append(&handler, this_ptr, PH_SEPARATE);
 	add_next_index_stringl(handler, SL("onUncaughtLowSeverity"), 1);
-	PHALCON_CALL_FUNCTION_NORET("set_exception_handler", handler);
+	PHALCON_CALL_FUNCTION(NULL, "set_exception_handler", handler);
 */
 	RETURN_THISW();
 }
