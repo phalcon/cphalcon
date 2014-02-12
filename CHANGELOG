@@ -265,6 +265,8 @@
    - Bug fixes (#1347)
    - Constant-time string comparison in Phalcon\Security::checkHash() to prevent timing attacks (#1755)
    - Phalcon\Security::checkHash() now correctly handles non-bcrypt hashes (#1912)
+   - Support all hashes supported by crypt() in Phalcon\Security::hash() (#1971)
+   - Phalcon\Security::getSaltBytes() dies not require OpenSSL anymore (#1971)
  - Phalcon\Session:
    - Fix Phalcon\Session\Bag::remove() (#1637)
    - Add remove() to Phalcon\Session\BagInterface (#1917)
