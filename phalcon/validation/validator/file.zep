@@ -142,7 +142,7 @@ class File extends Phalcon\Validation\Validator implements Phalcon\Validation\Va
                                 let mime = finfo_file(tmp, value["tmp_name"]);
                                 finfo_close(tmp);
                         } else {
-                                let mime = value['type'];
+                                let mime = value["type"];
                         }
                         
                         if !in_array(mime, types) {
