@@ -150,7 +150,7 @@ abstract class Pdo extends Phalcon\Db\Adapter
 		/**
 		 * Create the connection using PDO
 		 */
-		let this->_pdo = new Pdo(this->_type . ":" . dsnAttributes, username, password, options);
+		let this->_pdo = new \Pdo(this->_type . ":" . dsnAttributes, username, password, options);
 	}
 
 	/**
