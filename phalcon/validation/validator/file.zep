@@ -30,7 +30,7 @@ namespace Phalcon\Validation\Validator;
  *$validator->add('file', new FileValidator(array(
  *   'maxSize' => '2M',
  *   'messageSize' => ':field exceeds the max filesize (:max)',
- *   'allowedTypes' => array('jpg', 'png', 'gif'),
+ *   'allowedTypes' => array('image/jpeg', 'image/png'),
  *   'messageType' => 'Allowed file types are :types',
  *   'maxResolution' => '800x600',
  *   'messageMaxResolution' => 'Max resolution of :field is :max'
@@ -49,7 +49,7 @@ class File extends Phalcon\Validation\Validator implements Phalcon\Validation\Va
 	 */
 	public function validate(<Phalcon\Validation> validation, string! field) -> boolean
 	{
-		var value, message, label, replacePairs, types, byteUnits, unit, maxSize, matches, bytes, tmp, width, height, minResolution, maxResolution, minWidth, maxWidth, minHeight, maxHeight;
+		var value, message, label, replacePairs, types, byteUnits, unit, maxSize, matches, bytes, mime, tmp, width, height, minResolution, maxResolution, minWidth, maxWidth, minHeight, maxHeight;
 
 		let value = validation->getValue(field);
 
@@ -137,7 +137,15 @@ class File extends Phalcon\Validation\Validator implements Phalcon\Validation\Va
                                 throw new Phalcon\Validation\Exception("Option 'allowedTypes' must be an array");
                         }
 
-                        if !in_array(strtolower(pathinfo(value["name"], PATHINFO_EXTENSION)), types) {
+                        if function_exists("finfo_open") {
+                                let tmp = finfo_open(FILEINFO_MIME_TYPE);
+                                let mime = finfo_file(tmp, value["tmp_name"]);
+                                finfo_close(tmp);
+                        } else {
+                                let mime = value['type'];
+                        }
+                        
+                        if !in_array(mime, types) {
 
                                 let message = this->getOption("messageType");
                                 let replacePairs = [":field": label, ":types": join(", ", types)];
