@@ -127,6 +127,13 @@
    - Added Phalcon\Di\Service::isResolved() method (#1242)
    - Make sure that 'persistent' is resolved only when accessed for the first time (#1637)
    - Faster DI implementation by using object handlers (#1473)
+   - Changes to Phalcon\DiInterface (#2034)
+     - removed setShared() method because it is a shorthand for set($name, $definition, true);
+     - removed attempt() method because it is a shorthand for `has()` + `set()`
+     - renamed setRaw() to setService() because getRaw() is actually getService() + $service->getDefinition()
+     - setRaw() is now an alias for setService() but it will spit E_DEPRECATED
+     - removed `getRaw()` because it is `getService()` + `$service->getDefinition()`
+     - modified `setService($name, $raw_definition)` to `setService($raw_definition)` because service name can be retrieved from the definition
  - Phalcon\Dispatcher:
    - Dispatching parameters now can be modified in 'beforeExecuteRoute' events
    - 'beforeException' events can now handle exceptions occurred when executing actions (#140)

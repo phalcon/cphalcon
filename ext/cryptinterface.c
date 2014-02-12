@@ -52,7 +52,7 @@ PHALCON_INIT_CLASS(Phalcon_CryptInterface){
  * Sets the cipher algorithm
  *
  * @param string $cipher
- * @return Phalcon\EncryptInterface
+ * @return Phalcon\CryptInterface
  */
 PHALCON_DOC_METHOD(Phalcon_CryptInterface, setCipher);
 
@@ -67,7 +67,7 @@ PHALCON_DOC_METHOD(Phalcon_CryptInterface, getCipher);
  * Sets the encrypt/decrypt mode
  *
  * @param string $cipher
- * @return Phalcon\EncryptInterface
+ * @return Phalcon\CryptInterface
  */
 PHALCON_DOC_METHOD(Phalcon_CryptInterface, setMode);
 
@@ -82,7 +82,7 @@ PHALCON_DOC_METHOD(Phalcon_CryptInterface, getMode);
  * Sets the encryption key
  *
  * @param string $key
- * @return Phalcon\EncryptInterface
+ * @return Phalcon\CryptInterface
  */
 PHALCON_DOC_METHOD(Phalcon_CryptInterface, setKey);
 
@@ -116,6 +116,7 @@ PHALCON_DOC_METHOD(Phalcon_CryptInterface, decrypt);
  *
  * @param string $text
  * @param string $key
+ * @param bool $url_safe
  * @return string
  */
 PHALCON_DOC_METHOD(Phalcon_CryptInterface, encryptBase64);
@@ -125,6 +126,7 @@ PHALCON_DOC_METHOD(Phalcon_CryptInterface, encryptBase64);
  *
  * @param string $text
  * @param string $key
+ * @param bool $url_safe
  * @return string
  */
 PHALCON_DOC_METHOD(Phalcon_CryptInterface, decryptBase64);

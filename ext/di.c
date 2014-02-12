@@ -36,6 +36,8 @@
 #include "kernel/string.h"
 #include "kernel/hash.h"
 
+#include "internal/arginfo.h"
+
 /**
  * Phalcon\DI
  *
@@ -466,8 +468,8 @@ PHP_METHOD(Phalcon_DI, set);
 PHP_METHOD(Phalcon_DI, setShared);
 PHP_METHOD(Phalcon_DI, remove);
 PHP_METHOD(Phalcon_DI, attempt);
-PHP_METHOD(Phalcon_DI, setRaw);
 PHP_METHOD(Phalcon_DI, getRaw);
+PHP_METHOD(Phalcon_DI, setService);
 PHP_METHOD(Phalcon_DI, getService);
 PHP_METHOD(Phalcon_DI, get);
 PHP_METHOD(Phalcon_DI, getShared);
@@ -485,28 +487,51 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_di___call, 0, 0, 1)
 	ZEND_ARG_INFO(0, arguments)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_di_setshared, 0, 0, 2)
+	ZEND_ARG_INFO(0, name)
+	ZEND_ARG_INFO(0, definition)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_di_attempt, 0, 0, 2)
+	ZEND_ARG_INFO(0, name)
+	ZEND_ARG_INFO(0, definition)
+	ZEND_ARG_INFO(0, shared)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_di_getraw, 0, 0, 1)
+	ZEND_ARG_INFO(0, name)
+ZEND_END_ARG_INFO()
+
 static const zend_function_entry phalcon_di_method_entry[] = {
 	PHP_ME(Phalcon_DI, __construct, NULL, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
+	/* Phalcon\DiInterface*/
 	PHP_ME(Phalcon_DI, set, arginfo_phalcon_diinterface_set, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_DI, setShared, arginfo_phalcon_diinterface_setshared, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_DI, remove, arginfo_phalcon_diinterface_remove, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_DI, attempt, arginfo_phalcon_diinterface_attempt, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_DI, setRaw, arginfo_phalcon_diinterface_setraw, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_DI, getRaw, arginfo_phalcon_diinterface_getraw, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_DI, getRaw, arginfo_phalcon_di_getraw, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_DI, getService, arginfo_phalcon_diinterface_getservice, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_DI, setService, arginfo_phalcon_diinterface_setservice, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_DI, get, arginfo_phalcon_diinterface_get, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_DI, getShared, arginfo_phalcon_diinterface_getshared, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_DI, has, arginfo_phalcon_diinterface_has, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_DI, wasFreshInstance, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_DI, getServices, NULL, ZEND_ACC_PUBLIC)
-	PHP_MALIAS(Phalcon_DI, offsetExists, has, arginfo_phalcon_diinterface_has, ZEND_ACC_PUBLIC)
-	PHP_MALIAS(Phalcon_DI, offsetSet, setShared, arginfo_phalcon_diinterface_setshared, ZEND_ACC_PUBLIC)
-	PHP_MALIAS(Phalcon_DI, offsetGet, getShared, arginfo_phalcon_diinterface_getshared, ZEND_ACC_PUBLIC)
-	PHP_MALIAS(Phalcon_DI, offsetUnset, remove, arginfo_phalcon_diinterface_remove, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_DI, __call, arginfo_phalcon_di___call, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_DI, setDefault, arginfo_phalcon_diinterface_setdefault, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_DI, getDefault, NULL, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_DI, reset, NULL, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
+
+	/* Convenience methods */
+	PHP_ME(Phalcon_DI, attempt, arginfo_phalcon_di_attempt, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_DI, setShared, arginfo_phalcon_di_setshared, ZEND_ACC_PUBLIC)
+	PHP_MALIAS(Phalcon_DI, setRaw, setService, arginfo_phalcon_diinterface_setservice, ZEND_ACC_PUBLIC | ZEND_ACC_DEPRECATED)
+
+	/* Syntactic sugar */
+	PHP_MALIAS(Phalcon_DI, offsetExists, has, arginfo_arrayaccess_offsetexists, ZEND_ACC_PUBLIC)
+	PHP_MALIAS(Phalcon_DI, offsetSet, setShared, arginfo_arrayaccess_offsetset, ZEND_ACC_PUBLIC)
+	PHP_MALIAS(Phalcon_DI, offsetGet, getShared, arginfo_arrayaccess_offsetget, ZEND_ACC_PUBLIC)
+	PHP_MALIAS(Phalcon_DI, offsetUnset, remove, arginfo_arrayaccess_offsetunset, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_DI, __call, arginfo_phalcon_di___call, ZEND_ACC_PUBLIC)
+
+	/* Misc */
 	PHP_ME(Phalcon_DI, __clone, NULL, ZEND_ACC_PUBLIC)
 	PHP_FE_END
 };
@@ -662,24 +687,39 @@ PHP_METHOD(Phalcon_DI, attempt){
 /**
  * Sets a service using a raw Phalcon\DI\Service definition
  *
- * @param string $name
+ * @param string|Phalcon\DI\ServiceInterface $raw_definition_or_name
  * @param Phalcon\DI\ServiceInterface $rawDefinition
  * @return Phalcon\DI\ServiceInterface
  */
-PHP_METHOD(Phalcon_DI, setRaw){
-
-	zval **name, **raw_definition;
+PHP_METHOD(Phalcon_DI, setService)
+{
+	zval **name_or_def, **raw_definition = NULL;
 	phalcon_di_object *obj;
 
-	phalcon_fetch_params_ex(2, 0, &name, &raw_definition);
-	PHALCON_ENSURE_IS_STRING(name);
-	PHALCON_VERIFY_INTERFACE_EX(*raw_definition, phalcon_di_serviceinterface_ce, phalcon_di_exception_ce, 0);
-	
+	phalcon_fetch_params_ex(1, 1, &name_or_def, &raw_definition);
+
 	obj = phalcon_di_get_object(getThis() TSRMLS_CC);
 
-	Z_ADDREF_PP(raw_definition);
-	zend_hash_update(obj->services, Z_STRVAL_PP(name), Z_STRLEN_PP(name)+1, (void*)raw_definition, sizeof(zval*), NULL);
-	
+	if (raw_definition != NULL) {
+		zval *name = NULL;
+		raw_definition = name_or_def;
+		PHALCON_VERIFY_INTERFACE_EX(*raw_definition, phalcon_di_serviceinterface_ce, phalcon_di_exception_ce, 0);
+
+		RETURN_ON_FAILURE(phalcon_call_method_params(name, &name, *raw_definition, SL("getname"), zend_inline_hash_func(SS("getname")) TSRMLS_CC, 0));
+
+		Z_ADDREF_PP(raw_definition);
+		zend_hash_update(obj->services, Z_STRVAL_P(name), Z_STRLEN_P(name)+1, (void*)raw_definition, sizeof(zval*), NULL);
+		zval_ptr_dtor(&name);
+	}
+	else {
+		zval **name = name_or_def;
+		PHALCON_ENSURE_IS_STRING(name);
+		PHALCON_VERIFY_INTERFACE_EX(*raw_definition, phalcon_di_serviceinterface_ce, phalcon_di_exception_ce, 0);
+
+		Z_ADDREF_PP(raw_definition);
+		zend_hash_update(obj->services, Z_STRVAL_PP(name), Z_STRLEN_PP(name)+1, (void*)raw_definition, sizeof(zval*), NULL);
+	}
+
 	RETURN_ZVAL(*raw_definition, 1, 0);
 }
 
