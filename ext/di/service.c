@@ -21,6 +21,7 @@
 #include "di/serviceinterface.h"
 #include "di/service/builder.h"
 #include "di/exception.h"
+#include "events/managerinterface.h"
 
 #include <Zend/zend_closures.h>
 
@@ -204,7 +205,7 @@ PHP_METHOD(Phalcon_DI_Service, getDefinition){
  *
  * @param array $parameters
  * @param Phalcon\DiInterface $dependencyInjector
- * @return mixed
+ * @return object
  */
 PHP_METHOD(Phalcon_DI_Service, resolve){
 

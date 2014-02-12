@@ -46,14 +46,14 @@ PHALCON_INIT_CLASS(Phalcon_DI_ServiceInterface){
 }
 
 /**
- * Returns the service's name
+ * Returns the name of the service
  *
- * @param string
+ * @return string
  */
 PHALCON_DOC_METHOD(Phalcon_DI_ServiceInterface, getName);
 
 /**
- * Sets if the service is shared or not
+ * Sets whether the service is shared or not
  *
  * @param boolean $shared
  */
@@ -85,6 +85,13 @@ PHALCON_DOC_METHOD(Phalcon_DI_ServiceInterface, getDefinition);
  *
  * @param array $parameters
  * @param Phalcon\DiInterface $dependencyInjector
- * @return mixed
+ * @return object
  */
 PHALCON_DOC_METHOD(Phalcon_DI_ServiceInterface, resolve);
+
+/**
+ * Checks if the service was resolved
+ *
+ * @return bool
+ */
+PHALCON_DOC_METHOD(Phalcon_DI_ServiceInterface, isResolved);
