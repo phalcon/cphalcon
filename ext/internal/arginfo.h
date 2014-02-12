@@ -145,6 +145,12 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_iterator_valid, 0, 0, 0)
 ZEND_END_ARG_INFO()
 
 
+/** @brief SeekableIterator::seek($position) */
+ZEND_BEGIN_ARG_INFO_EX(arginfo_seekableiterator_seek, 0, 0, 1)
+	ZEND_ARG_INFO(0, position)
+ZEND_END_ARG_INFO()
+
+
 /** @brief JsonSerializable::jsonSerialize() */
 ZEND_BEGIN_ARG_INFO_EX(arginfo_jsonserializable_jsonserialize, 0, 0, 0)
 ZEND_END_ARG_INFO()

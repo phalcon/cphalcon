@@ -125,8 +125,6 @@ PHP_METHOD(Phalcon_Annotations_Reader, parse){
 			HashPosition hp;
 			zend_property_info *property;
 
-			line = 0;
-
 			PHALCON_INIT_VAR(annotations_properties);
 			array_init_size(annotations_properties, zend_hash_num_elements(props));
 
@@ -186,7 +184,7 @@ PHP_METHOD(Phalcon_Annotations_Reader, parse){
 					line = phalcon_get_function_startline(method);
 
 					MAKE_STD_ZVAL(method_annotations);
-					if (FAILURE == phannot_parse_annotations(method_annotations, cmt, cmt_len, file, 0 TSRMLS_CC)) {
+					if (FAILURE == phannot_parse_annotations(method_annotations, cmt, cmt_len, file, line TSRMLS_CC)) {
 						zval_ptr_dtor(&method_annotations);
 						RETURN_MM();
 					}

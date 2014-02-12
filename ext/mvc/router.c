@@ -1396,24 +1396,21 @@ PHP_METHOD(Phalcon_Mvc_Router, getRouteById){
  */
 PHP_METHOD(Phalcon_Mvc_Router, getRouteByName){
 
-	zval *name, *routes, **route, *lookup_route = NULL, *routes_name_lookup = NULL, *route_name = NULL;
+	zval *name, *routes, **route, *routes_name_lookup, *route_name = NULL;
 	HashPosition hp0;
-	zval **hd;
 
 	PHALCON_MM_GROW();
 
 	phalcon_fetch_params(1, 1, 0, &name);
 
-	PHALCON_OBS_VAR(routes_name_lookup);
-	if (name && unlikely(Z_TYPE_P(name) != IS_STRING)) {
+	if (UNEXPECTED(Z_TYPE_P(name) != IS_STRING)) {
 		PHALCON_SEPARATE_PARAM(name);
 		convert_to_string(name);
 	}
 
-	phalcon_read_property_this(&routes_name_lookup, this_ptr, SL("_routesNameLookup"), PH_NOISY_CC);
-	if(PHALCON_IS_NOT_EMPTY(name) && phalcon_hash_find(Z_ARRVAL_P(routes_name_lookup), Z_STRVAL_P(name), Z_STRLEN_P(name) + 1, (void **)&hd) == SUCCESS) {
-		PHALCON_GET_HVALUE(lookup_route);
-		RETURN_CTOR(lookup_route);
+	routes_name_lookup = phalcon_fetch_nproperty_this(this_ptr, SL("_routesNameLookup"), PH_NOISY_CC);
+	if (PHALCON_IS_NOT_EMPTY(name) && phalcon_hash_find(Z_ARRVAL_P(routes_name_lookup), Z_STRVAL_P(name), Z_STRLEN_P(name) + 1, (void **)&route) == SUCCESS) {
+		RETURN_CTOR(*route);
 	}
 
 	routes = phalcon_fetch_nproperty_this(this_ptr, SL("_routes"), PH_NOISY_CC);
@@ -1426,9 +1423,10 @@ PHP_METHOD(Phalcon_Mvc_Router, getRouteByName){
 			PHALCON_INIT_NVAR(route_name);
 			phalcon_call_method(route_name, *route, "getname");
 			convert_to_string(route_name);
-			if (Z_TYPE_P(route_name) == IS_STRING && PHALCON_IS_NOT_EMPTY(route_name)) {
+			if (PHALCON_IS_NOT_EMPTY(route_name)) {
 				phalcon_update_property_array_string(this_ptr, SL("_routesNameLookup"), Z_STRVAL_P(route_name), Z_STRLEN_P(route_name) + 1, *route TSRMLS_CC);
 			}
+
 			if (phalcon_is_equal(route_name, name TSRMLS_CC)) {
 				RETURN_CTOR(*route);
 			}

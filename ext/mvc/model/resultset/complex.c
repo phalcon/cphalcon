@@ -38,6 +38,8 @@
 #include "kernel/variables.h"
 #include "kernel/exception.h"
 
+#include "internal/arginfo.h"
+
 /**
  * Phalcon\Mvc\Model\Resultset\Complex
  *
@@ -58,16 +60,12 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_resultset_complex___construct, 
 	ZEND_ARG_INFO(0, cache)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_resultset_complex_unserialize, 0, 0, 1)
-	ZEND_ARG_INFO(0, data)
-ZEND_END_ARG_INFO()
-
 static const zend_function_entry phalcon_mvc_model_resultset_complex_method_entry[] = {
 	PHP_ME(Phalcon_Mvc_Model_Resultset_Complex, __construct, arginfo_phalcon_mvc_model_resultset_complex___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
-	PHP_ME(Phalcon_Mvc_Model_Resultset_Complex, valid, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Model_Resultset_Complex, valid, arginfo_iterator_valid, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_Resultset_Complex, toArray, NULL, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Mvc_Model_Resultset_Complex, serialize, NULL, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Mvc_Model_Resultset_Complex, unserialize, arginfo_phalcon_mvc_model_resultset_complex_unserialize, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Model_Resultset_Complex, serialize, arginfo_serializable_serialize, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Model_Resultset_Complex, unserialize, arginfo_serializable_unserialize, ZEND_ACC_PUBLIC)
 	PHP_FE_END
 };
 
@@ -125,7 +123,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Complex, __construct){
 	/** 
 	 * Resultsets type 1 are traversed one-by-one
 	 */
-	phalcon_update_property_long(this_ptr, SL("_type"), 1 TSRMLS_CC);
+	phalcon_update_property_long(this_ptr, SL("_type"), PHALCON_MVC_MODEL_RESULTSET_TYPE_PARTIAL TSRMLS_CC);
 	
 	/** 
 	 * If the database result is an object, change it to fetch assoc
@@ -155,14 +153,17 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Complex, valid){
 	HashTable *ah0, *ah1;
 	HashPosition hp0, hp1;
 	zval **hd;
+	int i_type, is_partial;
 
 	PHALCON_MM_GROW();
 
-	PHALCON_OBS_VAR(type);
-	phalcon_read_property_this(&type, this_ptr, SL("_type"), PH_NOISY_CC);
+	type       = phalcon_fetch_nproperty_this(this_ptr, SL("_type"), PH_NOISY_CC);
+	i_type     = (Z_TYPE_P(type) == IS_LONG) ? Z_LVAL_P(type) : phalcon_get_intval(type);
+	is_partial = (i_type == PHALCON_MVC_MODEL_RESULTSET_TYPE_PARTIAL);
+	type       = NULL;
 
 	PHALCON_INIT_VAR(row);
-	if (zend_is_true(type)) {
+	if (is_partial) {
 		/** 
 		 * The result is bigger than 32 rows so it's retrieved one by one
 		 */
@@ -195,7 +196,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Complex, valid){
 		/** 
 		 * The result type=1 so we need to build every row
 		 */
-		if (zend_is_true(type)) {
+		if (is_partial) {
 	
 			/** 
 			 * Get current hydration mode
