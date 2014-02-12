@@ -2311,28 +2311,24 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compileIf){
 	 * 'If' statement
 	 */
 	PHALCON_SCONCAT_SVS(compilation, "<?php if (", expr_code, ") { ?>");
-	PHALCON_OBS_VAR(block_statements);
-	phalcon_array_fetch_string(&block_statements, statement, SL("true_statements"), PH_NOISY);
-	
-	/** 
-	 * Process statements in the 'true' block
-	 */
-	PHALCON_INIT_VAR(code);
-	phalcon_call_method_p2(code, this_ptr, "_statementlist", block_statements, extends_mode);
-	phalcon_concat_self(&compilation, code TSRMLS_CC);
+	if (phalcon_array_isset_string_fetch(&block_statements, statement, SS("true_statements"))) {
+		/**
+		 * Process statements in the 'true' block
+		 */
+		PHALCON_INIT_VAR(code);
+		phalcon_call_method_p2(code, this_ptr, "_statementlist", block_statements, extends_mode);
+		phalcon_concat_self(&compilation, code TSRMLS_CC);
+	}
 	
 	/** 
 	 * Check for a 'else'/'elseif' block
 	 */
-	if (phalcon_array_isset_string(statement, SS("false_statements"))) {
+	if (phalcon_array_isset_string_fetch(&block_statements, statement, SS("false_statements"))) {
 		phalcon_concat_self_str(&compilation, SL("<?php } else { ?>") TSRMLS_CC);
 	
 		/** 
 		 * Process statements in the 'false' block
 		 */
-		PHALCON_OBS_NVAR(block_statements);
-		phalcon_array_fetch_string(&block_statements, statement, SL("false_statements"), PH_NOISY);
-	
 		PHALCON_INIT_NVAR(code);
 		phalcon_call_method_p2(code, this_ptr, "_statementlist", block_statements, extends_mode);
 		phalcon_concat_self(&compilation, code TSRMLS_CC);
