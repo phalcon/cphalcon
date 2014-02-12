@@ -85,6 +85,6 @@ PHALCON_DOC_METHOD(Phalcon_DI_ServiceInterface, getDefinition);
  *
  * @param array $parameters
  * @param Phalcon\DiInterface $dependencyInjector
- * @return mixed
+ * @return object
  */
 PHALCON_DOC_METHOD(Phalcon_DI_ServiceInterface, resolve);
