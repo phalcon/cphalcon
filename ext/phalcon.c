@@ -203,7 +203,6 @@ static PHP_MINIT_FUNCTION(phalcon)
 {
 #if PHP_VERSION_ID < 50500
 	char* old_lc_all = setlocale(LC_ALL, NULL);
-	setlocale(LC_ALL, "C");
 	if (old_lc_all) {
 		size_t len = strlen(old_lc_all);
 		char *tmp  = calloc(len+1, 1);
@@ -214,6 +213,8 @@ static PHP_MINIT_FUNCTION(phalcon)
 		memcpy(tmp, old_lc_all, len);
 		old_lc_all = tmp;
 	}
+
+	setlocale(LC_ALL, "C");
 #endif
 
 	REGISTER_INI_ENTRIES();

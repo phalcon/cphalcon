@@ -384,6 +384,7 @@ PHP_METHOD(Phalcon_Security, getSaltBytes)
 		int encoded_len;
 		char *encoded = (char*)php_base64_encode((unsigned char*)result, i_bytes, &encoded_len);
 		if (encoded) {
+			assert(encoded_len >= i_bytes);
 			php_strtr(encoded, encoded_len, "+=", "./", 2);
 			encoded[i_bytes] = 0;
 			RETVAL_STRINGL(encoded, i_bytes, 0);
@@ -395,7 +396,6 @@ PHP_METHOD(Phalcon_Security, getSaltBytes)
 		efree(result);
 	}
 	else {
-		result[i_bytes] = 0;
 		RETURN_STRINGL(result, i_bytes, 0);
 	}
 }
@@ -519,7 +519,8 @@ PHP_METHOD(Phalcon_Security, hash)
 			}
 
 			assert(Z_STRLEN_P(salt_bytes) == 2);
-			salt = Z_STRVAL_P(salt_bytes);
+			salt     = Z_STRVAL_P(salt_bytes);
+			salt_len = Z_STRLEN_P(salt_bytes);
 			ZVAL_NULL(salt_bytes);
 			break;
 		}
