@@ -197,7 +197,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Annotations, getMetaData){
 		 * Check if annotation has the 'type' named parameter
 		 */
 		PHALCON_INIT_NVAR(feature);
-		phalcon_call_method_p1(feature, column_annotation, "getnamedparameter", column_type_name);
+		phalcon_call_method_p1(feature, column_annotation, "getargument", column_type_name);
 		if (PHALCON_IS_STRING(feature, "integer")) {
 			phalcon_array_update_zval_long(&field_types, property, 0, PH_SEPARATE);
 			phalcon_array_update_zval_long(&field_bind_types, property, 1, PH_SEPARATE);
@@ -249,7 +249,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Annotations, getMetaData){
 		 * Check if the column 
 		 */
 		PHALCON_INIT_NVAR(feature);
-		phalcon_call_method_p1(feature, column_annotation, "getnamedparameter", column_nullable_name);
+		phalcon_call_method_p1(feature, column_annotation, "getargument", column_nullable_name);
 		if (!zend_is_true(feature)) {
 			phalcon_array_append(&not_null, property, PH_SEPARATE);
 		}

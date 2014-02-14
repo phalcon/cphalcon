@@ -313,7 +313,7 @@ static void phalcon_tag_get_escaper(zval **return_value_ptr, zval *params TSRMLS
 	}
 
 	if (zend_is_true(autoescape)) {
-		if (FAILURE == phalcon_call_class_method_aparams(&result, phalcon_tag_ce, phalcon_call_self, NULL, SL("getescaperservice"), 0, NULL TSRMLS_CC)) {
+		if (FAILURE == phalcon_call_class_method_aparams(&result, NULL, phalcon_call_self, NULL, SL("getescaperservice"), 0, NULL TSRMLS_CC)) {
 			assert(result == NULL);
 		}
 	}

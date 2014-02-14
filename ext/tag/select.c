@@ -161,7 +161,12 @@ PHP_METHOD(Phalcon_Tag_Select, selectField){
 
 	PHALCON_INIT_VAR(code);
 	ZVAL_STRING(code, "<select", 1);
-	phalcon_tag_render_attributes(code, params TSRMLS_CC);
+	{
+		zend_class_entry *scope = EG(scope);
+		EG(scope) = phalcon_tag_ce;
+		phalcon_tag_render_attributes(code, params TSRMLS_CC);
+		EG(scope) = scope;
+	}
 	
 	phalcon_concat_self_str(&code, SL(">" PHP_EOL) TSRMLS_CC);
 	

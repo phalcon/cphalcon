@@ -539,7 +539,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Annotations, processActionAnnotation){
 		 * Check for existing paths in the annotation
 		 */
 		PHALCON_INIT_VAR(paths);
-		phalcon_call_method_p1(paths, annotation, "getnamedparameter", parameter);
+		phalcon_call_method_p1(paths, annotation, "getargument", parameter);
 		if (Z_TYPE_P(paths) != IS_ARRAY) { 
 			PHALCON_INIT_NVAR(paths);
 			array_init(paths);
@@ -594,7 +594,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Annotations, processActionAnnotation){
 			ZVAL_STRING(parameter, "methods", 1);
 	
 			PHALCON_INIT_NVAR(methods);
-			phalcon_call_method_p1(methods, annotation, "getnamedparameter", parameter);
+			phalcon_call_method_p1(methods, annotation, "getargument", parameter);
 			if (Z_TYPE_P(methods) == IS_ARRAY) { 
 				phalcon_call_method_p1_noret(route, "via", methods);
 			} else {
@@ -610,7 +610,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Annotations, processActionAnnotation){
 		ZVAL_STRING(parameter, "converts", 1);
 	
 		PHALCON_INIT_VAR(converts);
-		phalcon_call_method_p1(converts, annotation, "getnamedparameter", parameter);
+		phalcon_call_method_p1(converts, annotation, "getargument", parameter);
 		if (Z_TYPE_P(converts) == IS_ARRAY) { 
 	
 			phalcon_is_iterable(converts, &ah0, &hp0, 0, 0);
@@ -631,7 +631,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Annotations, processActionAnnotation){
 		ZVAL_STRING(parameter, "conversors", 1);
 	
 		PHALCON_INIT_NVAR(converts);
-		phalcon_call_method_p1(converts, annotation, "getnamedparameter", parameter);
+		phalcon_call_method_p1(converts, annotation, "getargument", parameter);
 		if (Z_TYPE_P(converts) == IS_ARRAY) { 
 	
 			phalcon_is_iterable(converts, &ah1, &hp1, 0, 0);
@@ -652,7 +652,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Annotations, processActionAnnotation){
 		ZVAL_STRING(parameter, "name", 1);
 	
 		PHALCON_INIT_VAR(route_name);
-		phalcon_call_method_p1(route_name, annotation, "getnamedparameter", parameter);
+		phalcon_call_method_p1(route_name, annotation, "getargument", parameter);
 		if (Z_TYPE_P(route_name) == IS_STRING) {
 			phalcon_call_method_p1_noret(route, "setname", route_name);
 		}
