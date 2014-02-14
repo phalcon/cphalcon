@@ -53,7 +53,6 @@ return array(
     'kernel/require.c',
     'kernel/variables.c',
     'kernel/session.c',
-    'kernel/alternative/fcall.c',
     'kernel/framework/orm.c',
     'kernel/framework/router.c',
     'kernel/framework/url.c'
