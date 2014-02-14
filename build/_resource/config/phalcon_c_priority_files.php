@@ -32,7 +32,6 @@ return array(
     'kernel/variables.h',
     'kernel/session.h',
     'kernel/reflection.h',
-    'kernel/alternative/fcall.h',
     'kernel/framework/orm.h',
     'kernel/framework/router.h',
     'kernel/framework/url.h',
