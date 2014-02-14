@@ -588,11 +588,13 @@ static PHP_RINIT_FUNCTION(phalcon){
 	return SUCCESS;
 }
 
+#ifndef PHALCON_RELEASE
 static void phalcon_fcall_cache_dtor(void *pData)
 {
 	phalcon_fcall_cache_entry **entry = (phalcon_fcall_cache_entry**)pData;
 	free(*entry);
 }
+#endif
 
 static int phalcon_cleanup_fcache(void *pDest TSRMLS_DC, int num_args, va_list args, zend_hash_key *hash_key)
 {
@@ -616,9 +618,15 @@ static int phalcon_cleanup_fcache(void *pDest TSRMLS_DC, int num_args, va_list a
 #endif
 */
 
+#ifndef PHALCON_RELEASE
 	if ((*entry)->f->type != ZEND_INTERNAL_FUNCTION || (scope && scope->type != ZEND_INTERNAL_CLASS)) {
 		return ZEND_HASH_APPLY_REMOVE;
 	}
+#else
+	if ((*entry)->type != ZEND_INTERNAL_FUNCTION || (scope && scope->type != ZEND_INTERNAL_CLASS)) {
+		return ZEND_HASH_APPLY_REMOVE;
+	}
+#endif
 
 #if PHP_VERSION_ID >= 50400
 	if (scope && scope->type == ZEND_INTERNAL_CLASS && scope->info.internal.module->type != MODULE_PERSISTENT) {
