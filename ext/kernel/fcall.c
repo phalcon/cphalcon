@@ -111,13 +111,13 @@ static ulong phalcon_make_fcall_key(char **result, size_t *length, const zend_cl
 	*result = NULL;
 	*length = 0;
 
-	if (calling_scope && type == phalcon_call_parent) {
+	if (calling_scope && type == phalcon_fcall_parent) {
 		calling_scope = calling_scope->parent;
 		if (UNEXPECTED(!calling_scope)) {
 			return 0;
 		}
 	}
-	else if (type == phalcon_call_static) {
+	else if (type == phalcon_fcall_static) {
 		calling_scope = EG(called_scope);
 		if (UNEXPECTED(!calling_scope)) {
 			return 0;
@@ -201,7 +201,7 @@ static ulong phalcon_make_fcall_key(char **result, size_t *length, const zend_cl
 PHALCON_ATTR_NONNULL static void phalcon_fcall_populate_fci_cache(zend_fcall_info_cache *fcic, zend_fcall_info *fci, phalcon_call_type type TSRMLS_DC)
 {
 	switch (type) {
-		case phalcon_call_parent:
+		case phalcon_fcall_parent:
 			if (EG(scope) && EG(scope)->parent) {
 				fcic->calling_scope = EG(scope)->parent;
 				fcic->called_scope  = EG(called_scope);
@@ -211,7 +211,7 @@ PHALCON_ATTR_NONNULL static void phalcon_fcall_populate_fci_cache(zend_fcall_inf
 
 			break;
 
-		case phalcon_call_self:
+		case phalcon_fcall_self:
 			if (EG(scope)) {
 				fcic->calling_scope = EG(scope);
 				fcic->called_scope  = EG(called_scope);
@@ -221,7 +221,7 @@ PHALCON_ATTR_NONNULL static void phalcon_fcall_populate_fci_cache(zend_fcall_inf
 
 			break;
 
-		case phalcon_call_static:
+		case phalcon_fcall_static:
 			if (EG(called_scope)) {
 				fcic->calling_scope = EG(called_scope);
 				fcic->called_scope  = EG(called_scope);
@@ -231,14 +231,14 @@ PHALCON_ATTR_NONNULL static void phalcon_fcall_populate_fci_cache(zend_fcall_inf
 
 			break;
 
-		case phalcon_call_function:
+		case phalcon_fcall_function:
 			fcic->calling_scope = NULL;
 			fcic->called_scope  = NULL;
 			fcic->object_ptr    = NULL;
 			fcic->initialized   = 1;
 			break;
 
-		case phalcon_call_ce: {
+		case phalcon_fcall_ce: {
 			zend_class_entry *scope = EG(active_op_array) ? EG(active_op_array)->scope : NULL;
 
 			fcic->initialized      = 1;
@@ -256,7 +256,7 @@ PHALCON_ATTR_NONNULL static void phalcon_fcall_populate_fci_cache(zend_fcall_inf
 			break;
 		}
 
-		case phalcon_call_method:
+		case phalcon_fcall_method:
 			fcic->initialized      = 1;
 			fcic->calling_scope    = EG(scope);
 			fcic->object_ptr       = fci->object_ptr;
@@ -443,7 +443,7 @@ int phalcon_call_func_aparams(zval **return_value_ptr, const char *func_name, ui
 #endif
 
 	ZVAL_STRINGL(&func, func_name, func_length, 0);
-	status = phalcon_call_user_function(NULL, NULL, phalcon_call_function, &func, rvp, param_count, params TSRMLS_CC);
+	status = phalcon_call_user_function(NULL, NULL, phalcon_fcall_function, &func, rvp, param_count, params TSRMLS_CC);
 
 	if (status == FAILURE && !EG(exception)) {
 		zend_error(E_ERROR, "Call to undefined function %s()", func_name);
@@ -497,7 +497,7 @@ int phalcon_call_method_vparams(zval *return_value, zval **return_value_ptr, zva
 		params_ptr = NULL;
 	}
 
-	status = phalcon_call_class_method_aparams(rvp, Z_OBJCE_P(object), phalcon_call_method, object, method_name, method_len, param_count, params_ptr TSRMLS_CC);
+	status = phalcon_call_class_method_aparams(rvp, Z_OBJCE_P(object), phalcon_fcall_method, object, method_name, method_len, param_count, params_ptr TSRMLS_CC);
 
 	if (unlikely(free_params)) {
 		efree(params);
@@ -559,16 +559,16 @@ int phalcon_call_class_method_aparams(zval **return_value_ptr, zend_class_entry 
 
 	array_init_size(&fn, 2);
 	switch (type) {
-		case phalcon_call_parent: add_next_index_stringl(&fn, ZEND_STRL("parent"), 1); break;
-		case phalcon_call_self:   assert(!ce); add_next_index_stringl(&fn, ZEND_STRL("self"), 1); break;
-		case phalcon_call_static: assert(!ce); add_next_index_stringl(&fn, ZEND_STRL("static"), 1); break;
+		case phalcon_fcall_parent: add_next_index_stringl(&fn, ZEND_STRL("parent"), 1); break;
+		case phalcon_fcall_self:   assert(!ce); add_next_index_stringl(&fn, ZEND_STRL("self"), 1); break;
+		case phalcon_fcall_static: assert(!ce); add_next_index_stringl(&fn, ZEND_STRL("static"), 1); break;
 
-		case phalcon_call_ce:
+		case phalcon_fcall_ce:
 			assert(ce != NULL);
 			add_next_index_stringl(&fn, ce->name, ce->name_length, 1);
 			break;
 
-		case phalcon_call_method:
+		case phalcon_fcall_method:
 		default:
 			assert(object != NULL);
 			Z_ADDREF_P(object);
@@ -582,12 +582,12 @@ int phalcon_call_class_method_aparams(zval **return_value_ptr, zend_class_entry 
 
 	if (status == FAILURE && !EG(exception)) {
 		switch (type) {
-			case phalcon_call_parent: zend_error(E_ERROR, "Call to undefined function parent::%s()", method_name); break;
-			case phalcon_call_self:   zend_error(E_ERROR, "Call to undefined function self::%s()", method_name); break;
-			case phalcon_call_static: zend_error(E_ERROR, "Call to undefined function static::%s()", method_name); break;
-			case phalcon_call_ce:     zend_error(E_ERROR, "Call to undefined function %s::%s()", ce->name, method_name); break;
-			case phalcon_call_method: zend_error(E_ERROR, "Call to undefined function %s::%s()", Z_OBJCE_P(object)->name, method_name); break;
-			default:                  zend_error(E_ERROR, "Call to undefined function ?::%s()", method_name);
+			case phalcon_fcall_parent: zend_error(E_ERROR, "Call to undefined function parent::%s()", method_name); break;
+			case phalcon_fcall_self:   zend_error(E_ERROR, "Call to undefined function self::%s()", method_name); break;
+			case phalcon_fcall_static: zend_error(E_ERROR, "Call to undefined function static::%s()", method_name); break;
+			case phalcon_fcall_ce:     zend_error(E_ERROR, "Call to undefined function %s::%s()", ce->name, method_name); break;
+			case phalcon_fcall_method: zend_error(E_ERROR, "Call to undefined function %s::%s()", Z_OBJCE_P(object)->name, method_name); break;
+			default:                   zend_error(E_ERROR, "Call to undefined function ?::%s()", method_name);
 		}
 	}
 	else if (EG(exception)) {

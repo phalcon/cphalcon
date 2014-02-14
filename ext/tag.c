@@ -313,7 +313,7 @@ static void phalcon_tag_get_escaper(zval **return_value_ptr, zval *params TSRMLS
 	}
 
 	if (zend_is_true(autoescape)) {
-		if (FAILURE == phalcon_call_class_method_aparams(&result, NULL, phalcon_call_self, NULL, SL("getescaperservice"), 0, NULL TSRMLS_CC)) {
+		if (FAILURE == phalcon_call_class_method_aparams(&result, NULL, phalcon_fcall_self, NULL, SL("getescaperservice"), 0, NULL TSRMLS_CC)) {
 			assert(result == NULL);
 		}
 	}
@@ -1014,11 +1014,11 @@ static void phalcon_tag_generic_field(INTERNAL_FUNCTION_PARAMETERS, const char* 
 
 	if (as_value) {
 		zval *params[] = { field_type, parameters, PHALCON_GLOBAL(z_true) };
-		status = phalcon_return_call_class_method(return_value, return_value_ptr, NULL, phalcon_call_self, NULL, SL("_inputfield"), 3, params TSRMLS_CC);
+		status = phalcon_return_call_class_method(return_value, return_value_ptr, NULL, phalcon_fcall_self, NULL, SL("_inputfield"), 3, params TSRMLS_CC);
 	}
 	else {
 		zval *params[] = { field_type, parameters };
-		status = phalcon_return_call_class_method(return_value, return_value_ptr, NULL, phalcon_call_self, NULL, SL("_inputfield"), 2, params TSRMLS_CC);
+		status = phalcon_return_call_class_method(return_value, return_value_ptr, NULL, phalcon_fcall_self, NULL, SL("_inputfield"), 2, params TSRMLS_CC);
 	}
 
 	if (FAILURE == status) {
@@ -1038,7 +1038,7 @@ static void phalcon_tag_generic_field_checked(INTERNAL_FUNCTION_PARAMETERS, cons
 
 	params[0] = field_type;
 	params[1] = parameters;
-	if (FAILURE == phalcon_return_call_class_method(return_value, return_value_ptr, NULL, phalcon_call_self, NULL, SL("_inputfieldchecked"), 2, params TSRMLS_CC)) {
+	if (FAILURE == phalcon_return_call_class_method(return_value, return_value_ptr, NULL, phalcon_fcall_self, NULL, SL("_inputfieldchecked"), 2, params TSRMLS_CC)) {
 		;
 	}
 }
