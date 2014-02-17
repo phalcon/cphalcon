@@ -24,7 +24,7 @@ namespace Phalcon\Forms;
  *
  * This component allows to build forms using an object-oriented interface
  */
-class Form extends Phalcon\Di\Injectable implements Countable, Iterator
+class Form extends \Phalcon\Di\Injectable implements \Countable, \Iterator
 {
 
 	protected _position;
@@ -53,7 +53,7 @@ class Form extends Phalcon\Di\Injectable implements Countable, Iterator
 	{
 		if typeof entity != "null" {
 			if typeof entity != "object" {
-				throw new Phalcon\Forms\Exception("The base entity is not valid");
+				throw new \Phalcon\Forms\Exception("The base entity is not valid");
 			}
 			let this->_entity = entity;
 		}
@@ -79,7 +79,7 @@ class Form extends Phalcon\Di\Injectable implements Countable, Iterator
 	 * @param string action
 	 * @return Phalcon\Forms\Form
 	 */
-	public function setAction(var action) -> <Phalcon\Forms\Form>
+	public function setAction(var action) -> <\Phalcon\Forms\Form>
 	{
 		let this->_action = action;
 		return this;
@@ -102,7 +102,7 @@ class Form extends Phalcon\Di\Injectable implements Countable, Iterator
 	 * @param mixed value
 	 * @return Phalcon\Forms\Form
 	 */
-	public function setUserOption(var option, var value) -> <Phalcon\Forms\Form>
+	public function setUserOption(var option, var value) -> <\Phalcon\Forms\Form>
 	{
 		let this->_options[option] = value;
 		return this;
@@ -131,10 +131,10 @@ class Form extends Phalcon\Di\Injectable implements Countable, Iterator
 	 * @param array options
 	 * @return Phalcon\Forms\Form
 	 */
-	public function setUserOptions(options) -> <Phalcon\Forms\Form>
+	public function setUserOptions(options) -> <\Phalcon\Forms\Form>
 	{
 		if typeof options != "array" {
-			throw new Phalcon\Forms\Exception("Parameter 'options' must be an array");
+			throw new \Phalcon\Forms\Exception("Parameter 'options' must be an array");
 		}
 		let this->_options = options;
 		return this;
@@ -156,7 +156,7 @@ class Form extends Phalcon\Di\Injectable implements Countable, Iterator
 	 * @param object entity
 	 * @return Phalcon\Forms\Form
 	 */
-	public function setEntity(entity) -> <Phalcon\Forms\Form>
+	public function setEntity(entity) -> <\Phalcon\Forms\Form>
 	{
 		let this->_entity = entity;
 		return this;
@@ -177,7 +177,7 @@ class Form extends Phalcon\Di\Injectable implements Countable, Iterator
 	 *
 	 * @return Phalcon\Forms\ElementInterface[]
 	 */
-	public function getElements() -> <Phalcon\Forms\ElementInterface[]>
+	public function getElements() -> <\Phalcon\Forms\ElementInterface[]>
 	{
 		return this->_elements;
 	}
@@ -190,7 +190,7 @@ class Form extends Phalcon\Di\Injectable implements Countable, Iterator
 	 * @param array whitelist
 	 * @return Phalcon\Forms\Form
 	 */
-	public function bind(data, entity, whitelist=null) -> <Phalcon\Forms\Form>
+	public function bind(data, entity, whitelist=null) -> <\Phalcon\Forms\Form>
 	{
 		var elements, filter, key, value, element, filters,
 			dependencyInjector, filteredValue, method;
@@ -199,12 +199,12 @@ class Form extends Phalcon\Di\Injectable implements Countable, Iterator
 		 * The data must be an array
 		 */
 		if typeof data != "array" {
-			throw new Phalcon\Forms\Exception("The data must be an array");
+			throw new \Phalcon\Forms\Exception("The data must be an array");
 		}
 
 		let elements = this->_elements;
 		if typeof elements != "array" {
-			throw new Phalcon\Forms\Exception("There are no elements in the form");
+			throw new \Phalcon\Forms\Exception("There are no elements in the form");
 		}
 
 		let filter = null;
@@ -237,7 +237,7 @@ class Form extends Phalcon\Di\Injectable implements Countable, Iterator
 
 				if typeof filter != "object" {
 					let dependencyInjector = this->getDI(),
-						filter = <Phalcon\FilterInterface> dependencyInjector->getShared("filter");
+						filter = <\Phalcon\FilterInterface> dependencyInjector->getShared("filter");
 				}
 
 				/**
@@ -335,7 +335,7 @@ class Form extends Phalcon\Di\Injectable implements Countable, Iterator
 					/**
 					 * Create an implicit validation
 					 */
-					let validation = new Phalcon\Validation(preparedValidators);
+					let validation = new \Phalcon\Validation(preparedValidators);
 
 					/**
 					 * Get filters in the element
@@ -389,19 +389,19 @@ class Form extends Phalcon\Di\Injectable implements Countable, Iterator
 	 * @param boolean byItemName
 	 * @return array
 	 */
-	public function getMessages(boolean byItemName=false) -> <Phalcon\Validation\Message\Group>
+	public function getMessages(boolean byItemName=false) -> <\Phalcon\Validation\Message\Group>
 	{
 		var messages, group, element, elementMessages;
 
 		let messages = this->_messages;
 		if byItemName {
 			if typeof messages != "array" {
-				return new Phalcon\Validation\Message\Group();
+				return new \Phalcon\Validation\Message\Group();
 			}
 			return messages;
 		}
 
-		let group = new Phalcon\Validation\Message\Group();
+		let group = new \Phalcon\Validation\Message\Group();
 		for element, elementMessages in messages {
 			group->appendMessages(elementMessages);
 		}
@@ -414,7 +414,7 @@ class Form extends Phalcon\Di\Injectable implements Countable, Iterator
 	 *
 	 * @return Phalcon\Validation\Message\Group
 	 */
-	public function getMessagesFor(name) -> <Phalcon\Validation\Message\Group>
+	public function getMessagesFor(name) -> <\Phalcon\Validation\Message\Group>
 	{
 		var messages, elementMessages, group;
 
@@ -423,7 +423,7 @@ class Form extends Phalcon\Di\Injectable implements Countable, Iterator
 			return elementMessages;
 		}
 
-		let group = new Phalcon\Validation\Message\Group(),
+		let group = new \Phalcon\Validation\Message\Group(),
 			this->_messages[name] = group;
 		return group;
 	}
@@ -444,12 +444,12 @@ class Form extends Phalcon\Di\Injectable implements Countable, Iterator
 	 * @param Phalcon\Forms\ElementInterface element
 	 * @return Phalcon\Forms\Form
 	 */
-	public function add(<Phalcon\Forms\ElementInterface> element) -> <Phalcon\Forms\Form>
+	public function add(<\Phalcon\Forms\ElementInterface> element) -> <\Phalcon\Forms\Form>
 	{
 		var name;
 
 		if typeof element != "object" {
-			throw new Phalcon\Forms\Exception("The element is not valid");
+			throw new \Phalcon\Forms\Exception("The element is not valid");
 		}
 
 		/**
@@ -481,7 +481,7 @@ class Form extends Phalcon\Di\Injectable implements Countable, Iterator
 		var element;
 
 		if !fetch element, this->_elements[name] {
-			throw new Phalcon\Forms\Exception("Element with ID=" . name . " is not part of the form");
+			throw new \Phalcon\Forms\Exception("Element with ID=" . name . " is not part of the form");
 		}
 
 		return element->render(attributes);
@@ -493,7 +493,7 @@ class Form extends Phalcon\Di\Injectable implements Countable, Iterator
 	 * @param string name
 	 * @return Phalcon\Forms\ElementInterface
 	 */
-	public function get(string! name) -> <Phalcon\Forms\ElementInterface>
+	public function get(string! name) -> <\Phalcon\Forms\ElementInterface>
 	{
 		var element;
 
@@ -501,7 +501,7 @@ class Form extends Phalcon\Di\Injectable implements Countable, Iterator
 			return element;
 		}
 
-		throw new Phalcon\Forms\Exception("Element with ID=" . name . " is not part of the form");
+		throw new \Phalcon\Forms\Exception("Element with ID=" . name . " is not part of the form");
 	}
 
 	/**
@@ -518,7 +518,7 @@ class Form extends Phalcon\Di\Injectable implements Countable, Iterator
 			return element->label();
 		}
 
-		throw new Phalcon\Forms\Exception("Element with ID=" . name . " is not part of the form");
+		throw new \Phalcon\Forms\Exception("Element with ID=" . name . " is not part of the form");
 	}
 
 	/**
@@ -532,7 +532,7 @@ class Form extends Phalcon\Di\Injectable implements Countable, Iterator
 		var element, label;
 
 		if !fetch element, this->_elements[name] {
-			throw new Phalcon\Forms\Exception("Element with ID=" . name . " is not part of the form");
+			throw new \Phalcon\Forms\Exception("Element with ID=" . name . " is not part of the form");
 		}
 
 		let label = element->getLabel();
@@ -639,7 +639,7 @@ class Form extends Phalcon\Di\Injectable implements Countable, Iterator
 	 * @param array fields
 	 * @return Phalcon\Forms\Form
 	 */
-	public function clear(fields=null) -> <Phalcon\Forms\Form>
+	public function clear(fields=null) -> <\Phalcon\Forms\Form>
 	{
 		var elements, element;
 
@@ -682,7 +682,7 @@ class Form extends Phalcon\Di\Injectable implements Countable, Iterator
 	 *
 	 * @return Phalcon\Forms\ElementInterface
 	 */
-	public function current() -> <Phalcon\Forms\ElementInterface> | boolean
+	public function current() -> <\Phalcon\Forms\ElementInterface> | boolean
 	{
 		var element;
 

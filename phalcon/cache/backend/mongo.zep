@@ -27,12 +27,12 @@ namespace Phalcon\Cache\Backend;
  *<code>
  *
  * // Cache data for 2 days
- * $frontCache = new Phalcon\Cache\Frontend\Base64(array(
+ * $frontCache = new \Phalcon\Cache\Frontend\Base64(array(
  *		"lifetime" => 172800
  * ));
  *
  * //Create a MongoDB cache
- * $cache = new Phalcon\Cache\Backend\Mongo($frontCache, array(
+ * $cache = new \Phalcon\Cache\Backend\Mongo($frontCache, array(
  *		'server' => "mongodb://localhost",
  *      'db' => 'caches',
  *		'collection' => 'images'
@@ -46,7 +46,7 @@ namespace Phalcon\Cache\Backend;
  *
  *</code>
  */
-class Mongo extends Phalcon\Cache\Backend implements Phalcon\Cache\BackendInterface
+class Mongo extends \Phalcon\Cache\Backend implements \Phalcon\Cache\BackendInterface
 {
 
 	protected _collection = null;
@@ -58,20 +58,20 @@ class Mongo extends Phalcon\Cache\Backend implements Phalcon\Cache\BackendInterf
 	* @param Phalcon\Cache\FrontendInterface $frontend
 	* @param array $options
 	*/
-	public function __construct(<Phalcon\Cache\FrontendInterface> frontend, options=null)
+	public function __construct(<\Phalcon\Cache\FrontendInterface> frontend, options=null)
 	{
 		if !isset options["mongo"] {
 			if !isset options["server"] {
-				throw new Phalcon\Cache\Exception("The parameter 'server' is required");
+				throw new \Phalcon\Cache\Exception("The parameter 'server' is required");
 			}
 		}
 
 		if !isset options["db"] {
-			throw new Phalcon\Cache\Exception("The parameter 'db' is required");
+			throw new \Phalcon\Cache\Exception("The parameter 'db' is required");
 		}
 
 		if !isset options["collection"] {
-			throw new Phalcon\Cache\Exception("The parameter 'collection' is required");
+			throw new \Phalcon\Cache\Exception("The parameter 'collection' is required");
 		}
 
 		parent::__construct(frontend, options);
@@ -96,7 +96,7 @@ class Mongo extends Phalcon\Cache\Backend implements Phalcon\Cache\BackendInterf
 			if isset options["mongo"] {
 				let mongo = options["mongo"];
 				if typeof mongo != "object" {
-					throw new Phalcon\Cache\Exception("The 'mongo' parameter must be a valid Mongo instance");
+					throw new \Phalcon\Cache\Exception("The 'mongo' parameter must be a valid Mongo instance");
 				}
 			} else {
 				/**
@@ -104,7 +104,7 @@ class Mongo extends Phalcon\Cache\Backend implements Phalcon\Cache\BackendInterf
 				 */
 				let server = options["server"];
 				if !server || typeof server != "string" {
-					throw new Phalcon\Cache\Exception("The backend requires a valid MongoDB connection string");
+					throw new \Phalcon\Cache\Exception("The backend requires a valid MongoDB connection string");
 				}
 				let mongo = new \Mongo();
 			}
@@ -114,7 +114,7 @@ class Mongo extends Phalcon\Cache\Backend implements Phalcon\Cache\BackendInterf
 			 */
 			let database = options["db"];
 			if !database || typeof database != "string" {
-				throw new Phalcon\Cache\Exception("The backend requires a valid MongoDB db");
+				throw new \Phalcon\Cache\Exception("The backend requires a valid MongoDB db");
 			}
 
 			/**
@@ -122,7 +122,7 @@ class Mongo extends Phalcon\Cache\Backend implements Phalcon\Cache\BackendInterf
 			*/
 			let collection = options["collection"];
 			if !collection || typeof collection != "string" {
-				throw new Phalcon\Cache\Exception("The backend requires a valid MongoDB collection");
+				throw new \Phalcon\Cache\Exception("The backend requires a valid MongoDB collection");
 			}
 
 			/**
@@ -165,7 +165,7 @@ class Mongo extends Phalcon\Cache\Backend implements Phalcon\Cache\BackendInterf
 					return frontend->afterRetrieve(cachedContent);
 				}
 			} else {
-				throw new Phalcon\Cache\Exception("The cache is corrupt");
+				throw new \Phalcon\Cache\Exception("The cache is corrupt");
 			}
 		} else {
 			return null;
@@ -196,7 +196,7 @@ class Mongo extends Phalcon\Cache\Backend implements Phalcon\Cache\BackendInterf
 		}
 
 		if !lastkey {
-			throw new Phalcon\Cache\Exception("The cache must be started first");
+			throw new \Phalcon\Cache\Exception("The cache must be started first");
 		}
 
 		let frontend = this->_frontend;
@@ -292,7 +292,7 @@ class Mongo extends Phalcon\Cache\Backend implements Phalcon\Cache\BackendInterf
 		let conditions = [];
 
 		if prefix {
-			let conditions["key"] = new MongoRegex("/^". prefix ."/");
+			let conditions["key"] = new \MongoRegex("/^". prefix ."/");
 		}
 
 		let conditions["time"] = timeCondition;
@@ -387,7 +387,7 @@ class Mongo extends Phalcon\Cache\Backend implements Phalcon\Cache\BackendInterf
 		}
 
 		if !isset document["time"] {
-			throw new Phalcon\Cache\Exception("The cache is currupted");
+			throw new \Phalcon\Cache\Exception("The cache is currupted");
 		}
 
 		let modifiedTime = document["time"];
@@ -399,7 +399,7 @@ class Mongo extends Phalcon\Cache\Backend implements Phalcon\Cache\BackendInterf
 		*/
 		if notExpired == true {
 			if !isset document["data"] {
-				throw new Phalcon\Cache\Exception("The cache is currupted");
+				throw new \Phalcon\Cache\Exception("The cache is currupted");
 			}
 
 			let cachedContent = document["data"];
@@ -444,7 +444,7 @@ class Mongo extends Phalcon\Cache\Backend implements Phalcon\Cache\BackendInterf
 		}
 
 		if !isset document["time"] {
-			throw new Phalcon\Cache\Exception("The cache is currupted");
+			throw new \Phalcon\Cache\Exception("The cache is currupted");
 		}
 
 		let modifiedTime = document["time"];
@@ -456,7 +456,7 @@ class Mongo extends Phalcon\Cache\Backend implements Phalcon\Cache\BackendInterf
 		*/
 		if notExpired == true {
 			if !isset document["data"] {
-				throw new Phalcon\Cache\Exception("The cache is currupted");
+				throw new \Phalcon\Cache\Exception("The cache is currupted");
 			}
 
 			let cachedContent = document["data"];

@@ -248,7 +248,7 @@ abstract class Resultset
 	 * @param int index
 	 * @return Phalcon\Mvc\ModelInterface
 	 */
-	public function offsetGet(int! index) -> <Phalcon\Mvc\ModelInterface> | boolean
+	public function offsetGet(int! index) -> <\Phalcon\Mvc\ModelInterface> | boolean
 	{
 		if index < this->count() {
 
@@ -273,7 +273,7 @@ abstract class Resultset
 
 			return false;
 		}
-		throw new Phalcon\Mvc\Model\Exception("The index does not exist in the cursor");
+		throw new \Phalcon\Mvc\Model\Exception("The index does not exist in the cursor");
 	}
 
 	/**
@@ -282,9 +282,9 @@ abstract class Resultset
 	 * @param int index
 	 * @param Phalcon\Mvc\ModelInterface value
 	 */
-	public function offsetSet(var index, <Phalcon\Mvc\ModelInterface> value)
+	public function offsetSet(var index, <\Phalcon\Mvc\ModelInterface> value)
 	{
-		throw new Phalcon\Mvc\Model\Exception("Cursor is an immutable ArrayAccess object");
+		throw new \Phalcon\Mvc\Model\Exception("Cursor is an immutable ArrayAccess object");
 	}
 
 	/**
@@ -294,7 +294,7 @@ abstract class Resultset
 	 */
 	public function offsetUnset(int offset)
 	{
-		throw new Phalcon\Mvc\Model\Exception("Cursor is an immutable ArrayAccess object");
+		throw new \Phalcon\Mvc\Model\Exception("Cursor is an immutable ArrayAccess object");
 	}
 
 	/**
@@ -312,7 +312,7 @@ abstract class Resultset
 	 *
 	 * @return Phalcon\Mvc\ModelInterface|boolean
 	 */
-	public function getFirst() -> <Phalcon\Mvc\ModelInterface> | boolean
+	public function getFirst() -> <\Phalcon\Mvc\ModelInterface> | boolean
 	{
 
 		/**
@@ -337,7 +337,7 @@ abstract class Resultset
 	 *
 	 * @return Phalcon\Mvc\ModelInterface| boolean
 	 */
-	public function getLast() -> <Phalcon\Mvc\ModelInterface> | boolean
+	public function getLast() -> <\Phalcon\Mvc\ModelInterface> | boolean
 	{
 		this->seek(this->count() - 1);
 		if this->{"valid"}() !== false {
@@ -352,7 +352,7 @@ abstract class Resultset
 	 * @param boolean isFresh
 	 * @return Phalcon\Mvc\Model\Resultset
 	 */
-	public function setIsFresh(boolean isFresh) -> <Phalcon\Mvc\Model\Resultset>
+	public function setIsFresh(boolean isFresh) -> <\Phalcon\Mvc\Model\Resultset>
 	{
 		let this->_isFresh = isFresh;
 		return this;
@@ -374,7 +374,7 @@ abstract class Resultset
 	 * @param int hydrateMode
 	 * @return Phalcon\Mvc\Model\Resultset
 	 */
-	public function setHydrateMode(int hydrateMode) -> <Phalcon\Mvc\Model\Resultset>
+	public function setHydrateMode(int hydrateMode) -> <\Phalcon\Mvc\Model\Resultset>
 	{
 		let this->_hydrateMode = hydrateMode;
 		return this;
@@ -395,7 +395,7 @@ abstract class Resultset
 	 *
 	 * @return Phalcon\Cache\BackendInterface
 	 */
-	public function getCache() -> <Phalcon\Cache\BackendInterface>
+	public function getCache() -> <\Phalcon\Cache\BackendInterface>
 	{
 		return this->_cache;
 	}
@@ -405,7 +405,7 @@ abstract class Resultset
 	 *
 	 * @return Phalcon\Mvc\ModelInterface
 	 */
-	public function current() -> <Phalcon\Mvc\ModelInterface>
+	public function current() -> <\Phalcon\Mvc\ModelInterface>
 	{
 		return this->_activeRow;
 	}
@@ -440,7 +440,7 @@ abstract class Resultset
 				 * We only can delete resultsets if every element is a complete object
 				 */
 				if !method_exists(record, "getWriteConnection") {
-					throw new Phalcon\Mvc\Model\Exception("The returned record is not valid");
+					throw new \Phalcon\Mvc\Model\Exception("The returned record is not valid");
 				}
 
 				let connection = record->getWriteConnection(),

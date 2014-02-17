@@ -68,12 +68,12 @@ class Pdo
 	 * @param array bindParams
 	 * @param array bindTypes
 	 */
-	public function __construct(<Phalcon\Db\AdapterInterface> connection, <PDOStatement> result,
+	public function __construct(<\Phalcon\Db\AdapterInterface> connection, <PDOStatement> result,
 		sqlStatement=null, bindParams=null, bindTypes=null)
 	{
 
 		if typeof result != "object" {
-			throw new Phalcon\Db\Exception("Invalid PDOStatement supplied to Phalcon\\Db\\Result\\Pdo");
+			throw new \Phalcon\Db\Exception("Invalid PDOStatement supplied to Phalcon\\Db\\Result\\Pdo");
 		}
 
 		let this->_connection = connection,
@@ -287,21 +287,21 @@ class Pdo
 
 		let pdoStatement = this->_pdoStatement;
 		switch fetchMode{
-			case Phalcon\Db::FETCH_BOTH:
-				pdoStatement->setFetchMode(Pdo::FETCH_BOTH);
-				let this->_fetchMode = Pdo::FETCH_BOTH;
+			case \Phalcon\Db::FETCH_BOTH:
+				pdoStatement->setFetchMode(\Pdo::FETCH_BOTH);
+				let this->_fetchMode = \Pdo::FETCH_BOTH;
 				break;
-			case Phalcon\Db::FETCH_ASSOC:
-				pdoStatement->setFetchMode(Pdo::FETCH_ASSOC);
-				let this->_fetchMode = Pdo::FETCH_ASSOC;
+			case \Phalcon\Db::FETCH_ASSOC:
+				pdoStatement->setFetchMode(\Pdo::FETCH_ASSOC);
+				let this->_fetchMode = \Pdo::FETCH_ASSOC;
 				break;
-			case Phalcon\Db::FETCH_NUM:
-				pdoStatement->setFetchMode(Pdo::FETCH_NUM);
-				let this->_fetchMode = Pdo::FETCH_NUM;
+			case \Phalcon\Db::FETCH_NUM:
+				pdoStatement->setFetchMode(\Pdo::FETCH_NUM);
+				let this->_fetchMode = \Pdo::FETCH_NUM;
 				break;
-			case Phalcon\Db::FETCH_OBJ:
-				pdoStatement->setFetchMode(Pdo::FETCH_OBJ);
-				let this->_fetchMode = Pdo::FETCH_OBJ;
+			case \Phalcon\Db::FETCH_OBJ:
+				pdoStatement->setFetchMode(\Pdo::FETCH_OBJ);
+				let this->_fetchMode = \Pdo::FETCH_OBJ;
 				break;
 		}
 	}
@@ -311,7 +311,7 @@ class Pdo
 	 *
 	 * @return \PDOStatement
 	 */
-	public function getInternalResult() -> <PDOStatement>
+	public function getInternalResult() -> <\PDOStatement>
 	{
 		return this->_pdoStatement;
 	}

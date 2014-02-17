@@ -64,7 +64,7 @@ class Reflection
 	 *
 	 * @return Phalcon\Annotations\Collection|false
 	 */
-	public function getClassAnnotations() -> <Phalcon\Annotations\Collection> | boolean
+	public function getClassAnnotations() -> <\Phalcon\Annotations\Collection> | boolean
 	{
 
 		var annotations, reflectionData, reflectionClass, collection;
@@ -73,7 +73,7 @@ class Reflection
 		if typeof annotations != "object" {
 			let reflectionData = this->_reflectionData;
 			if fetch reflectionClass, reflectionData["class"] {
-				let collection = new Phalcon\Annotations\Collection(reflectionClass),
+				let collection = new \Phalcon\Annotations\Collection(reflectionClass),
 					this->_classAnnotations = collection;
 				return collection;
 			}
@@ -94,12 +94,12 @@ class Reflection
 			collections, methodName, reflectionMethod;
 
 		let annotations = this->_methodAnnotations;
-		if typeof annotations != "object" {			
+		if typeof annotations != "object" {
 			if fetch reflectionMethods, this->_reflectionData["methods"] {
 				if count(reflectionMethods) {
 					let collections = [];
 					for methodName, reflectionMethod in reflectionMethods {
-						let collections[methodName] = new Phalcon\Annotations\Collection(reflectionMethod);
+						let collections[methodName] = new \Phalcon\Annotations\Collection(reflectionMethod);
 					}
 					let this->_methodAnnotations = collections;
 					return collections;
@@ -122,12 +122,12 @@ class Reflection
 			collections, property, reflectionProperty;
 
 		let annotations = this->_propertyAnnotations;
-		if typeof annotations != "object" {			
+		if typeof annotations != "object" {
 			if fetch reflectionProperties, this->_reflectionData["properties"] {
 				if count(reflectionProperties) {
 					let collections = [];
 					for property, reflectionProperty in reflectionProperties {
-						let collections[property] = new Phalcon\Annotations\Collection(reflectionProperty);
+						let collections[property] = new \Phalcon\Annotations\Collection(reflectionProperty);
 					}
 					let this->_propertyAnnotations = collections;
 					return collections;

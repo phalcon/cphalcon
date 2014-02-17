@@ -27,7 +27,7 @@ namespace Phalcon\Mvc\Model;
  *<code>
  *	use Phalcon\Mvc\Model\Message as Message;
  *
- *  class Robots extends Phalcon\Mvc\Model
+ *  class Robots extends \Phalcon\Mvc\Model
  *  {
  *
  *    public function beforeSave()
@@ -45,7 +45,7 @@ namespace Phalcon\Mvc\Model;
  * </code>
  *
  */
-class Message implements Phalcon\Mvc\Model\MessageInterface
+class Message implements \Phalcon\Mvc\Model\MessageInterface
 {
 
 	protected _type;
@@ -80,7 +80,7 @@ class Message implements Phalcon\Mvc\Model\MessageInterface
 	 * @param string type
 	 * @return Phalcon\Mvc\Model\MessageInterface
 	 */
-	public function setType(string! type) -> <Phalcon\Mvc\Model\MessageInterface>
+	public function setType(string! type) -> <\Phalcon\Mvc\Model\MessageInterface>
 	{
 		let this->_type = type;
 		return this;
@@ -102,7 +102,7 @@ class Message implements Phalcon\Mvc\Model\MessageInterface
 	 * @param string message
 	 * @return Phalcon\Mvc\Model\MessageInterface
 	 */
-	public function setMessage(string! message) -> <Phalcon\Mvc\Model\MessageInterface>
+	public function setMessage(string! message) -> <\Phalcon\Mvc\Model\MessageInterface>
 	{
 		let this->_message = message;
 		return this;
@@ -124,7 +124,7 @@ class Message implements Phalcon\Mvc\Model\MessageInterface
 	 * @param string field
 	 * @return Phalcon\Mvc\Model\MessageInterface
 	 */
-	public function setField(string! field) -> <Phalcon\Mvc\Model\MessageInterface>
+	public function setField(string! field) -> <\Phalcon\Mvc\Model\MessageInterface>
 	{
 		let this->_field = field;
 		return this;
@@ -146,7 +146,7 @@ class Message implements Phalcon\Mvc\Model\MessageInterface
 	 * @param Phalcon\Mvc\ModelInterface model
 	 * @return Phalcon\Mvc\Model\Message
 	 */
-	public function setModel(<Phalcon\Mvc\ModelInterface> model) -> <Phalcon\Mvc\Model\Message>
+	public function setModel(<\Phalcon\Mvc\ModelInterface> model) -> <\Phalcon\Mvc\Model\Message>
 	{
 		let this->_model = model;
 		return this;
@@ -157,7 +157,7 @@ class Message implements Phalcon\Mvc\Model\MessageInterface
 	 *
 	 * @return Phalcon\Mvc\ModelInterface
 	 */
-	public function getModel() -> <Phalcon\Mvc\ModelInterface>
+	public function getModel() -> <\Phalcon\Mvc\ModelInterface>
 	{
 		return this->_model;
 	}
@@ -178,7 +178,7 @@ class Message implements Phalcon\Mvc\Model\MessageInterface
 	 * @param array message
 	 * @return Phalcon\Mvc\Model\MessageInterface
 	 */
-	public static function __set_state(message) -> <Phalcon\Mvc\Model\MessageInterface>
+	public static function __set_state(message) -> <\Phalcon\Mvc\Model\MessageInterface>
 	{
 		return new self(message["_message"], message["_field"], message["_type"]);
 	}

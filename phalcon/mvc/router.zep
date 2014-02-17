@@ -29,7 +29,7 @@ namespace Phalcon\Mvc;
  *
  *<code>
  *
- *	$router = new Phalcon\Mvc\Router();
+ *	$router = new \Phalcon\Mvc\Router();
  *
  *	$router->add(
  *		"/documentation/{chapter}/{name}.{type:[a-z]+}",
@@ -102,11 +102,11 @@ class Router
 			// Two routes are added by default to match /:controller/:action and
 			// /:controller/:action/:params
 
-			let routes[] = new Phalcon\Mvc\Router\Route("#^/([a-zA-Z0-9\\_\\-]+)[/]{0,1}$#", [
+			let routes[] = new \Phalcon\Mvc\Router\Route("#^/([a-zA-Z0-9\\_\\-]+)[/]{0,1}$#", [
 				"controller": 1
 			]);
 
-			let routes[] = new Phalcon\Mvc\Router\Route("#^/([a-zA-Z0-9\\_\\-]+)/([a-zA-Z0-9\\.\\_]+)(/.*)*$#", [
+			let routes[] = new \Phalcon\Mvc\Router\Route("#^/([a-zA-Z0-9\\_\\-]+)/([a-zA-Z0-9\\.\\_]+)(/.*)*$#", [
 				"controller": 1,
 				"action": 2,
 				"params": 3
@@ -123,7 +123,7 @@ class Router
 	 *
 	 * @param Phalcon\DiInterface dependencyInjector
 	 */
-	public function setDI(<Phalcon\DiInterface> dependencyInjector)
+	public function setDI(<\Phalcon\DiInterface> dependencyInjector)
 	{
 		let this->_dependencyInjector = dependencyInjector;
 	}
@@ -133,7 +133,7 @@ class Router
 	 *
 	 * @return Phalcon\DiInterface
 	 */
-	public function getDI() -> <Phalcon\DiInterface>
+	public function getDI() -> <\Phalcon\DiInterface>
 	{
 		return this->_dependencyInjector;
 	}
@@ -181,7 +181,7 @@ class Router
 	 * @param string uriSource
 	 * @return Phalcon\Mvc\Router
 	 */
-	public function setUriSource(var uriSource) -> <Phalcon\Mvc\Router>
+	public function setUriSource(var uriSource) -> <\Phalcon\Mvc\Router>
 	{
 		let this->_uriSource = uriSource;
 		return this;
@@ -193,7 +193,7 @@ class Router
 	 * @param boolean remove
 	 * @return Phalcon\Mvc\Router
 	 */
-	public function removeExtraSlashes(boolean remove) -> <Phalcon\Mvc\Router>
+	public function removeExtraSlashes(boolean remove) -> <\Phalcon\Mvc\Router>
 	{
 		let this->_removeExtraSlashes = remove;
 		return this;
@@ -205,7 +205,7 @@ class Router
 	 * @param string namespaceName
 	 * @return Phalcon\Mvc\Router
 	 */
-	public function setDefaultNamespace(string! namespaceName) -> <Phalcon\Mvc\Router>
+	public function setDefaultNamespace(string! namespaceName) -> <\Phalcon\Mvc\Router>
 	{
 		let this->_defaultNamespace = namespaceName;
 		return this;
@@ -217,7 +217,7 @@ class Router
 	 * @param string moduleName
 	 * @return Phalcon\Mvc\Router
 	 */
-	public function setDefaultModule(string! moduleName) -> <Phalcon\Mvc\Router>
+	public function setDefaultModule(string! moduleName) -> <\Phalcon\Mvc\Router>
 	{
 		let this->_defaultModule = moduleName;
 		return this;
@@ -229,7 +229,7 @@ class Router
 	 * @param string controllerName
 	 * @return Phalcon\Mvc\Router
 	 */
-	public function setDefaultController(string! controllerName) -> <Phalcon\Mvc\Router>
+	public function setDefaultController(string! controllerName) -> <\Phalcon\Mvc\Router>
 	{
 		let this->_defaultController = controllerName;
 		return this;
@@ -241,7 +241,7 @@ class Router
 	 * @param string actionName
 	 * @return Phalcon\Mvc\Router
 	 */
-	public function setDefaultAction(string! actionName) -> <Phalcon\Mvc\Router>
+	public function setDefaultAction(string! actionName) -> <\Phalcon\Mvc\Router>
 	{
 		let this->_defaultAction = actionName;
 		return this;
@@ -261,12 +261,12 @@ class Router
 	 * @param array defaults
 	 * @return Phalcon\Mvc\Router
 	 */
-	public function setDefaults(defaults) -> <Phalcon\Mvc\Router>
+	public function setDefaults(defaults) -> <\Phalcon\Mvc\Router>
 	{
 		var namespaceName, module, controller, action, params;
 
 		if typeof defaults != "array" {
-			throw new Phalcon\Mvc\Router\Exception("Defaults must be an array");
+			throw new \Phalcon\Mvc\Router\Exception("Defaults must be an array");
 		}
 
 		// Set a default namespace
@@ -375,12 +375,12 @@ class Router
 				 */
 				if request === null {
 
-					let dependencyInjector = <Phalcon\DiInterface> this->_dependencyInjector;
+					let dependencyInjector = <\Phalcon\DiInterface> this->_dependencyInjector;
 					if typeof dependencyInjector != "object" {
-						throw new Phalcon\Mvc\Router\Exception("A dependency injection container is required to access the 'request' service");
+						throw new \Phalcon\Mvc\Router\Exception("A dependency injection container is required to access the 'request' service");
 					}
 
-					let request = <Phalcon\Http\RequestInterface> dependencyInjector->getShared("request");
+					let request = <\Phalcon\Http\RequestInterface> dependencyInjector->getShared("request");
 				}
 
 				/**
@@ -402,12 +402,12 @@ class Router
 				 */
 				if request === null {
 
-					let dependencyInjector = <Phalcon\DiInterface> this->_dependencyInjector;
+					let dependencyInjector = <\Phalcon\DiInterface> this->_dependencyInjector;
 					if typeof dependencyInjector != "object" {
-						throw new Phalcon\Mvc\Router\Exception("A dependency injection container is required to access the 'request' service");
+						throw new \Phalcon\Mvc\Router\Exception("A dependency injection container is required to access the 'request' service");
 					}
 
-					let request = <Phalcon\Http\RequestInterface> dependencyInjector->getShared("request");
+					let request = <\Phalcon\Http\RequestInterface> dependencyInjector->getShared("request");
 				}
 
 				/**
@@ -469,7 +469,7 @@ class Router
 					 * Check first if the callback is callable
 					 */
 					if !is_callable(beforeMatch) {
-						throw new Phalcon\Mvc\Router\Exception("Before-Match callback is not callable in matched route");
+						throw new \Phalcon\Mvc\Router\Exception("Before-Match callback is not callable in matched route");
 					}
 
 					/**
@@ -651,14 +651,14 @@ class Router
 	 * @param string httpMethods
 	 * @return Phalcon\Mvc\Router\Route
 	 */
-	public function add(string! pattern, paths=null, httpMethods=null) -> <Phalcon\Mvc\Router\Route>
+	public function add(string! pattern, paths=null, httpMethods=null) -> <\Phalcon\Mvc\Router\Route>
 	{
 		var route;
 
 		/**
 		 * Every route is internally stored as a Phalcon\Mvc\Router\Route
 		 */
-		let route = new Phalcon\Mvc\Router\Route(pattern, paths, httpMethods),
+		let route = new \Phalcon\Mvc\Router\Route(pattern, paths, httpMethods),
 			this->_routes[] = route;
 		return route;
 	}
@@ -670,7 +670,7 @@ class Router
 	 * @param string/array paths
 	 * @return Phalcon\Mvc\Router\Route
 	 */
-	public function addGet(string! pattern, paths=null) -> <Phalcon\Mvc\Router\Route>
+	public function addGet(string! pattern, paths=null) -> <\Phalcon\Mvc\Router\Route>
 	{
 		return this->add(pattern, paths, "GET");
 	}
@@ -682,7 +682,7 @@ class Router
 	 * @param string/array paths
 	 * @return Phalcon\Mvc\Router\Route
 	 */
-	public function addPost(string! pattern, paths=null) -> <Phalcon\Mvc\Router\Route>
+	public function addPost(string! pattern, paths=null) -> <\Phalcon\Mvc\Router\Route>
 	{
 		return this->add(pattern, paths, "POST");
 	}
@@ -694,7 +694,7 @@ class Router
 	 * @param string/array paths
 	 * @return Phalcon\Mvc\Router\Route
 	 */
-	public function addPut(string! pattern, paths=null) -> <Phalcon\Mvc\Router\Route>
+	public function addPut(string! pattern, paths=null) -> <\Phalcon\Mvc\Router\Route>
 	{
 		return this->add(pattern, paths, "PUT");
 	}
@@ -718,7 +718,7 @@ class Router
 	 * @param string/array paths
 	 * @return Phalcon\Mvc\Router\Route
 	 */
-	public function addDelete(string! pattern, paths=null) -> <Phalcon\Mvc\Router\Route>
+	public function addDelete(string! pattern, paths=null) -> <\Phalcon\Mvc\Router\Route>
 	{
 		return this->add(pattern, paths, "DELETE");
 	}
@@ -730,7 +730,7 @@ class Router
 	 * @param string/array paths
 	 * @return Phalcon\Mvc\Router\Route
 	 */
-	public function addOptions(string! pattern, paths=null) -> <Phalcon\Mvc\Router\Route>
+	public function addOptions(string! pattern, paths=null) -> <\Phalcon\Mvc\Router\Route>
 	{
 		return this->add(pattern, paths, "OPTIONS");
 	}
@@ -742,7 +742,7 @@ class Router
 	 * @param string/array paths
 	 * @return Phalcon\Mvc\Router\Route
 	 */
-	public function addHead(string! pattern, paths=null) -> <Phalcon\Mvc\Router\Route>
+	public function addHead(string! pattern, paths=null) -> <\Phalcon\Mvc\Router\Route>
 	{
 		return this->add(pattern, paths, "HEAD");
 	}
@@ -753,18 +753,18 @@ class Router
 	 * @param Phalcon\Mvc\Router\Group route
 	 * @return Phalcon\Mvc\Router
 	 */
-	public function mount(<Phalcon\Mvc\Router\Group> group) -> <Phalcon\Mvc\Router\Route>
+	public function mount(<\Phalcon\Mvc\Router\Group> group) -> <\Phalcon\Mvc\Router\Route>
 	{
 
 		var groupRoutes, beforeMatch, hostname, routes, route;
 
 		if typeof group != "object" {
-			throw new Phalcon\Mvc\Router\Exception("The group of routes is not valid");
+			throw new \Phalcon\Mvc\Router\Exception("The group of routes is not valid");
 		}
 
 		let groupRoutes = group->getRoutes();
 		if !count(groupRoutes) {
-			throw new Phalcon\Mvc\Router\Exception("The group of routes does not contain any routes");
+			throw new \Phalcon\Mvc\Router\Exception("The group of routes does not contain any routes");
 		}
 
 		/**
@@ -804,11 +804,11 @@ class Router
 	 * @param array paths
 	 * @return Phalcon\Mvc\Router
 	 */
-	public function notFound(var paths) -> <Phalcon\Mvc\Router>
+	public function notFound(var paths) -> <\Phalcon\Mvc\Router>
 	{
 		if typeof paths != "array" {
 			if typeof paths != "string" {
-				throw new Phalcon\Mvc\Router\Exception("The not-found paths must be an array or string");
+				throw new \Phalcon\Mvc\Router\Exception("The not-found paths must be an array or string");
 			}
 		}
 		let this->_notFoundPaths = paths;
@@ -878,7 +878,7 @@ class Router
 	 *
 	 * @return Phalcon\Mvc\Router\Route
 	 */
-	public function getMatchedRoute() -> <Phalcon\Mvc\Router\Route>
+	public function getMatchedRoute() -> <\Phalcon\Mvc\Router\Route>
 	{
 		return this->_matchedRoute;
 	}
@@ -919,7 +919,7 @@ class Router
 	 * @param int id
 	 * @return Phalcon\Mvc\Router\Route
 	 */
-	public function getRouteById(var id) -> <Phalcon\Mvc\Router\Route> | boolean
+	public function getRouteById(var id) -> <\Phalcon\Mvc\Router\Route> | boolean
 	{
 		var route;
 
@@ -937,7 +937,7 @@ class Router
 	 * @param string name
 	 * @return Phalcon\Mvc\Router\Route | boolean
 	 */
-	public function getRouteByName(string! name) -> <Phalcon\Mvc\Router\Route> | boolean
+	public function getRouteByName(string! name) -> <\Phalcon\Mvc\Router\Route> | boolean
 	{
 		var route;
 

@@ -24,7 +24,7 @@ namespace Phalcon\Mvc\View\Engine;
  *
  * Designer friendly and fast template engine for PHP written in C
  */
-class Volt extends Phalcon\Mvc\View\Engine implements Phalcon\Mvc\View\EngineInterface
+class Volt extends \Phalcon\Mvc\View\Engine implements \Phalcon\Mvc\View\EngineInterface
 {
 
 	protected _options;
@@ -39,7 +39,7 @@ class Volt extends Phalcon\Mvc\View\Engine implements Phalcon\Mvc\View\EngineInt
 	public function setOptions($options)
 	{
 		if typeof options != "array" {
-			throw new Phalcon\Mvc\View\Exception("Options parameter must be an array");
+			throw new \Phalcon\Mvc\View\Exception("Options parameter must be an array");
 		}
 		let this->_options = options;
 	}
@@ -59,14 +59,14 @@ class Volt extends Phalcon\Mvc\View\Engine implements Phalcon\Mvc\View\EngineInt
 	 *
 	 * @return Phalcon\Mvc\View\Engine\Volt\Compiler
 	 */
-	public function getCompiler()  -> <Phalcon\Mvc\View\Engine\Volt\Compiler>
+	public function getCompiler()  -> <\Phalcon\Mvc\View\Engine\Volt\Compiler>
 	{
 		var compiler, dependencyInjector, options;
 
 		let compiler = this->_compiler;
 		if typeof compiler != "object" {
 
-			let compiler = new Phalcon\Mvc\View\Engine\Volt\Compiler(this->_view);
+			let compiler = new \Phalcon\Mvc\View\Engine\Volt\Compiler(this->_view);
 
 			/**
 			 * Pass the IoC to the compiler only of it's an object
@@ -178,7 +178,7 @@ class Volt extends Phalcon\Mvc\View\Engine implements Phalcon\Mvc\View\EngineInt
 			return strpos(haystack, needle);
 		}
 
-		throw new Phalcon\Mvc\View\Exception("Invalid haystack");
+		throw new \Phalcon\Mvc\View\Exception("Invalid haystack");
 	}
 
 	/**
@@ -227,7 +227,7 @@ class Volt extends Phalcon\Mvc\View\Engine implements Phalcon\Mvc\View\EngineInt
 		/**
 		 * There are no enough extensions available
 		 */
-		throw new Phalcon\Mvc\View\Exception("Any of 'mbstring' or 'iconv' is required to perform the charset conversion");
+		throw new \Phalcon\Mvc\View\Exception("Any of 'mbstring' or 'iconv' is required to perform the charset conversion");
 	}
 
 	/**

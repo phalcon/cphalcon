@@ -46,9 +46,9 @@
  *
  *<code>
  *
- *	$di = new Phalcon\Di();
+ *	$di = new \Phalcon\Di();
  *
- *	$dispatcher = new Phalcon\Cli\Dispatcher();
+ *	$dispatcher = new \Phalcon\Cli\Dispatcher();
  *
  *  $dispatcher->setDi(di);
  *
@@ -85,7 +85,7 @@ PHP_METHOD(Phalcon_Cli_Dispatcher, setTaskSuffix) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &taskSuffix_param);
 
-		zephir_get_strval(taskSuffix, taskSuffix_param);
+	zephir_get_strval(taskSuffix, taskSuffix_param);
 
 
 	zephir_update_property_this(this_ptr, SL("_handlerSuffix"), taskSuffix TSRMLS_CC);
@@ -106,7 +106,7 @@ PHP_METHOD(Phalcon_Cli_Dispatcher, setDefaultTask) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &taskName_param);
 
-		zephir_get_strval(taskName, taskName_param);
+	zephir_get_strval(taskName, taskName_param);
 
 
 	zephir_update_property_this(this_ptr, SL("_defaultHandler"), taskName TSRMLS_CC);
@@ -158,7 +158,7 @@ PHP_METHOD(Phalcon_Cli_Dispatcher, _throwDispatchException) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 1, &message_param, &exceptionCode_param);
 
-		zephir_get_strval(message, message_param);
+	zephir_get_strval(message, message_param);
 	if (!exceptionCode_param) {
 		exceptionCode = 0;
 	} else {

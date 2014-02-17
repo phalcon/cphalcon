@@ -13,9 +13,9 @@
 
 #include "kernel/main.h"
 #include "kernel/exception.h"
-#include "kernel/object.h"
 #include "kernel/memory.h"
 #include "kernel/fcall.h"
+#include "kernel/object.h"
 #include "kernel/operators.h"
 
 
@@ -97,9 +97,10 @@ ZEPHIR_INIT_CLASS(Phalcon_Cache_Multiple) {
  */
 PHP_METHOD(Phalcon_Cache_Multiple, __construct) {
 
-	zval *backends = NULL;
+	zval *backends = NULL, *_0, *_1;
 
-	zephir_fetch_params(0, 0, 1, &backends);
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 0, 1, &backends);
 
 	if (!backends) {
 		backends = ZEPHIR_GLOBAL(global_null);
@@ -108,11 +109,18 @@ PHP_METHOD(Phalcon_Cache_Multiple, __construct) {
 
 	if ((Z_TYPE_P(backends) != IS_NULL)) {
 		if ((Z_TYPE_P(backends) != IS_ARRAY)) {
-			ZEPHIR_THROW_EXCEPTION_STRW(phalcon_cache_exception_ce, "The backends must be an array");
+			ZEPHIR_INIT_VAR(_0);
+			object_init_ex(_0, phalcon_cache_exception_ce);
+			ZEPHIR_INIT_VAR(_1);
+			ZVAL_STRING(_1, "The backends must be an array", 1);
+			zephir_call_method_p1_noret(_0, "__construct", _1);
+			zephir_throw_exception(_0 TSRMLS_CC);
+			ZEPHIR_MM_RESTORE();
 			return;
 		}
 		zephir_update_property_this(this_ptr, SL("_backends"), backends TSRMLS_CC);
 	}
+	ZEPHIR_MM_RESTORE();
 
 }
 
@@ -124,18 +132,35 @@ PHP_METHOD(Phalcon_Cache_Multiple, __construct) {
  */
 PHP_METHOD(Phalcon_Cache_Multiple, push) {
 
-	zval *backend;
+	zval *backend, *_0 = NULL, *_1;
 
-	zephir_fetch_params(0, 1, 0, &backend);
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 1, 0, &backend);
 
 
 
+	if (zephir_is_instance_of(backend, SL("Phalcon\\Cache\\BackendInterface") TSRMLS_CC)) {
+		ZEPHIR_INIT_VAR(_0);
+		object_init_ex(_0, spl_ce_BadMethodCallException);
+		ZEPHIR_INIT_VAR(_1);
+		ZVAL_STRING(_1, "Parameter 'backend' must be an instance of 'Phalcon\\Cache\\BackendInterface'", 1);
+		zephir_call_method_p1_noret(_0, "__construct", _1);
+		zephir_throw_exception(_0 TSRMLS_CC);
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	if ((Z_TYPE_P(backend) != IS_OBJECT)) {
-		ZEPHIR_THROW_EXCEPTION_STRW(phalcon_cache_exception_ce, "The backend is not valid");
+		ZEPHIR_INIT_LNVAR(_0);
+		object_init_ex(_0, phalcon_cache_exception_ce);
+		ZEPHIR_INIT_BNVAR(_1);
+		ZVAL_STRING(_1, "The backend is not valid", 1);
+		zephir_call_method_p1_noret(_0, "__construct", _1);
+		zephir_throw_exception(_0 TSRMLS_CC);
+		ZEPHIR_MM_RESTORE();
 		return;
 	}
 	zephir_update_property_this(this_ptr, SL("_backends"), backend TSRMLS_CC);
-	RETURN_THISW();
+	RETURN_THIS();
 
 }
 
@@ -163,8 +188,8 @@ PHP_METHOD(Phalcon_Cache_Multiple, get) {
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_backends"), PH_NOISY_CC);
 	zephir_is_iterable(_0, &_2, &_1, 0, 0);
 	for (
-		; zend_hash_get_current_data_ex(_2, (void**) &_3, &_1) == SUCCESS
-		; zend_hash_move_forward_ex(_2, &_1)
+	  ; zend_hash_get_current_data_ex(_2, (void**) &_3, &_1) == SUCCESS
+	  ; zephir_hash_move_forward_ex(_2, &_1)
 	) {
 		ZEPHIR_GET_HVALUE(backend, _3);
 		ZEPHIR_INIT_NVAR(content);
@@ -200,8 +225,8 @@ PHP_METHOD(Phalcon_Cache_Multiple, start) {
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_backends"), PH_NOISY_CC);
 	zephir_is_iterable(_0, &_2, &_1, 0, 0);
 	for (
-		; zend_hash_get_current_data_ex(_2, (void**) &_3, &_1) == SUCCESS
-		; zend_hash_move_forward_ex(_2, &_1)
+	  ; zend_hash_get_current_data_ex(_2, (void**) &_3, &_1) == SUCCESS
+	  ; zephir_hash_move_forward_ex(_2, &_1)
 	) {
 		ZEPHIR_GET_HVALUE(backend, _3);
 		zephir_call_method_p2_noret(backend, "start", keyName, lifetime);
@@ -244,8 +269,8 @@ PHP_METHOD(Phalcon_Cache_Multiple, save) {
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_backends"), PH_NOISY_CC);
 	zephir_is_iterable(_0, &_2, &_1, 0, 0);
 	for (
-		; zend_hash_get_current_data_ex(_2, (void**) &_3, &_1) == SUCCESS
-		; zend_hash_move_forward_ex(_2, &_1)
+	  ; zend_hash_get_current_data_ex(_2, (void**) &_3, &_1) == SUCCESS
+	  ; zephir_hash_move_forward_ex(_2, &_1)
 	) {
 		ZEPHIR_GET_HVALUE(backend, _3);
 		zephir_call_method_p4_noret(backend, "save", keyName, content, lifetime, stopBuffer);
@@ -274,8 +299,8 @@ PHP_METHOD(Phalcon_Cache_Multiple, delete) {
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_backends"), PH_NOISY_CC);
 	zephir_is_iterable(_0, &_2, &_1, 0, 0);
 	for (
-		; zend_hash_get_current_data_ex(_2, (void**) &_3, &_1) == SUCCESS
-		; zend_hash_move_forward_ex(_2, &_1)
+	  ; zend_hash_get_current_data_ex(_2, (void**) &_3, &_1) == SUCCESS
+	  ; zephir_hash_move_forward_ex(_2, &_1)
 	) {
 		ZEPHIR_GET_HVALUE(backend, _3);
 		zephir_call_method_p1_noret(backend, "delete", keyName);
@@ -311,8 +336,8 @@ PHP_METHOD(Phalcon_Cache_Multiple, exists) {
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_backends"), PH_NOISY_CC);
 	zephir_is_iterable(_0, &_2, &_1, 0, 0);
 	for (
-		; zend_hash_get_current_data_ex(_2, (void**) &_3, &_1) == SUCCESS
-		; zend_hash_move_forward_ex(_2, &_1)
+	  ; zend_hash_get_current_data_ex(_2, (void**) &_3, &_1) == SUCCESS
+	  ; zephir_hash_move_forward_ex(_2, &_1)
 	) {
 		ZEPHIR_GET_HVALUE(backend, _3);
 		ZEPHIR_INIT_NVAR(_4);

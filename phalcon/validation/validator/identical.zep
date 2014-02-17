@@ -34,7 +34,7 @@ namespace Phalcon\Validation\Validator;
  *</code>
  *
  */
-class Identical extends Phalcon\Validation\Validator implements Phalcon\Validation\ValidatorInterface
+class Identical extends \Phalcon\Validation\Validator implements \Phalcon\Validation\ValidatorInterface
 {
 
 	/**
@@ -44,24 +44,24 @@ class Identical extends Phalcon\Validation\Validator implements Phalcon\Validati
 	 * @param string             field
 	 * @return boolean
 	 */
-	public function validate(<Phalcon\Validation> validation, string! field)
+	public function validate(<\Phalcon\Validation> validation, string! field)
 	{
 		var message, label, replacePairs;
 
 		if validation->getValue(field) != this->getOption("value") {
 
-                        let label = this->getOption("label");
-                        if empty label {
-                                let label = validation->getLabel(field);
-                                if empty label {
-                                        let label = field;
-                                }
+			let label = this->getOption("label");
+			if empty label {
+				let label = validation->getLabel(field);
+				if empty label {
+					let label = field;
+				}
 			}
 
 			let message = this->getOption("message");
-                        let replacePairs = [":field": label];
+			let replacePairs = [":field": label];
 			if empty message {
-                                let message = validation->getDefaultMessage("Identical");
+				let message = validation->getDefaultMessage("Identical");
 			}
 
 			validation->appendMessage(new Phalcon\Validation\Message(strtr(message, replacePairs), field, "Identical"));
@@ -71,3 +71,4 @@ class Identical extends Phalcon\Validation\Validator implements Phalcon\Validati
 		return true;
 	}
 }
+

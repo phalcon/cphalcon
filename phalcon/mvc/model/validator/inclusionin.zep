@@ -27,7 +27,7 @@ namespace Phalcon\Mvc\Model\Validator;
  *<code>
  *	use Phalcon\Mvc\Model\Validator\InclusionIn as InclusionInValidator;
  *
- *	class Subscriptors extends Phalcon\Mvc\Model
+ *	class Subscriptors extends \Phalcon\Mvc\Model
  *	{
  *
  *		public function validation()
@@ -44,7 +44,7 @@ namespace Phalcon\Mvc\Model\Validator;
  *	}
  *</code>
  */
-class Inclusionin extends Phalcon\Mvc\Model\Validator implements Phalcon\Mvc\Model\ValidatorInterface
+class Inclusionin extends \Phalcon\Mvc\Model\Validator implements \Phalcon\Mvc\Model\ValidatorInterface
 {
 	/**
 	 * Executes validator
@@ -52,13 +52,13 @@ class Inclusionin extends Phalcon\Mvc\Model\Validator implements Phalcon\Mvc\Mod
 	 * @param Phalcon\Mvc\ModelInterface record
 	 * @return boolean
 	 */
-	public function validate(<Phalcon\Mvc\ModelInterface> record) -> boolean
+	public function validate(<\Phalcon\Mvc\ModelInterface> record) -> boolean
 	{
  		var field, visSet, domain, value, message, replacePairs;
 
 		let field = this->getOption("field");
 		if typeof field != "string" {
-			throw new Phalcon\Mvc\Model\Exception("Field name must be a string");
+			throw new \Phalcon\Mvc\Model\Exception("Field name must be a string");
 		}
 
 		/**
@@ -66,12 +66,12 @@ class Inclusionin extends Phalcon\Mvc\Model\Validator implements Phalcon\Mvc\Mod
 		 */
 		let visSet = this->isSetOption("domain");
 		if visSet===false {
-			throw new Phalcon\Mvc\Model\Exception("The option 'domain' is required for this validator");
+			throw new \Phalcon\Mvc\Model\Exception("The option 'domain' is required for this validator");
 		}
 
 		let domain = this->getOption("domain");
 		if typeof domain != "array" {
-			throw new Phalcon\Mvc\Model\Exception("Option 'domain' must be an array");
+			throw new \Phalcon\Mvc\Model\Exception("Option 'domain' must be an array");
 		}
 
 		let value = record->readAttribute(field);

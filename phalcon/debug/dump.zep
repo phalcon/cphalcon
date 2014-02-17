@@ -38,7 +38,7 @@ class Dump
 	{
 		if typeof styles != "array" {
 			if typeof styles != "null" {
-				throw new Phalcon\Debug\Exception("The styles must be a array");
+				throw new \Phalcon\Debug\Exception("The styles must be a array");
 			}
 		}
 		this->setStyles(styles);
@@ -200,7 +200,7 @@ class Dump
 			let styles = [];
 		}
                 if typeof styles != "array" {
-                        throw new Phalcon\Debug\Exception("Styles must be an array");
+                        throw new \Phalcon\Debug\Exception("Styles must be an array");
                 }
                 let defaultStyles = [
                         "pre": "background-color:#f3f3f3;font-size:11px;padding:10px; border:1px solid #ccc; text-align:left; color:#333",

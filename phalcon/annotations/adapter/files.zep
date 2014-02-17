@@ -55,7 +55,7 @@ class Files
 	 * @param string key
 	 * @return Phalcon\Annotations\Reflection
 	 */
-	public function read(string key) -> <Phalcon\Annotations\Reflection> | boolean | int
+	public function read(string key) -> <\Phalcon\Annotations\Reflection> | boolean | int
 	{
 		var path;
 
@@ -77,7 +77,7 @@ class Files
 	 * @param string key
 	 * @param Phalcon\Annotations\Reflection data
 	 */
-	public function write(string! key, <Phalcon\Annotations\Reflection> data)
+	public function write(string! key, <\Phalcon\Annotations\Reflection> data)
 	{
 		var path;
 
@@ -87,7 +87,7 @@ class Files
 		let path = this->_annotationsDir . prepare_virtual_path(key, "_") . ".php";
 
 		if (file_put_contents(path, "<?php return " . var_export(data, true) . "; ") === false) {
-	  		throw new Phalcon\Annotations\Exception("Annotations directory cannot be written");
+	  		throw new \Phalcon\Annotations\Exception("Annotations directory cannot be written");
 		}
 	}
 

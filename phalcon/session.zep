@@ -29,7 +29,7 @@ namespace Phalcon;
  * but it can be in different applications.
  *
  *<code>
- * $session = new Phalcon\Session\Adapter\Files(array(
+ * $session = new \Phalcon\Session\Adapter\Files(array(
  *    'uniqueId' => 'my-private-app'
  * ));
  *

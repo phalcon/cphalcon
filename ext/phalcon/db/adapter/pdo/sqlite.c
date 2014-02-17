@@ -42,7 +42,7 @@
  *  "dbname" => "/tmp/test.sqlite"
  * );
  *
- * $connection = new Phalcon\Db\Adapter\Pdo\Sqlite($config);
+ * $connection = new \Phalcon\Db\Adapter\Pdo\Sqlite($config);
  *
  * </code>
  */

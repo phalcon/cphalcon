@@ -28,7 +28,7 @@ namespace Phalcon\Mvc\Model\Validator;
  *<code>
  *use Phalcon\Mvc\Model\Validator\StringLength as StringLengthValidator;
  *
- *class Subscriptors extends Phalcon\Mvc\Model
+ *class Subscriptors extends \Phalcon\Mvc\Model
  *{
  *
  *	public function validation()
@@ -49,7 +49,7 @@ namespace Phalcon\Mvc\Model\Validator;
  *</code>
  *
  */
-class StringLength extends Phalcon\Mvc\Model\Validator implements Phalcon\Mvc\Model\ValidatorInterface
+class StringLength extends \Phalcon\Mvc\Model\Validator implements \Phalcon\Mvc\Model\ValidatorInterface
 {
 	/**
 	 * Executes the validator
@@ -57,14 +57,14 @@ class StringLength extends Phalcon\Mvc\Model\Validator implements Phalcon\Mvc\Mo
 	 * @param Phalcon\Mvc\ModelInterface record
 	 * @return boolean
 	 */
-	public function validate(<Phalcon\Mvc\ModelInterface> record) -> boolean
+	public function validate(<\Phalcon\Mvc\ModelInterface> record) -> boolean
 	{
 		var field, isSetMin, isSetMax, value, length, invalidMaximum, invalidMinimum,
 			maximum, minimum, message, replacePairs;
 
 		let field = this->getOption("field");
 		if typeof field != "string" {
-			throw new Phalcon\Mvc\Model\Exception("Field name must be a string");
+			throw new \Phalcon\Mvc\Model\Exception("Field name must be a string");
 		}
 
 		/**
@@ -75,7 +75,7 @@ class StringLength extends Phalcon\Mvc\Model\Validator implements Phalcon\Mvc\Mo
 
 		if !isSetMin {
 			if !isSetMax {
-				throw new Phalcon\Mvc\Model\Exception("A minimum or maximum must be set");
+				throw new \Phalcon\Mvc\Model\Exception("A minimum or maximum must be set");
 			}
 		}
 

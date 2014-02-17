@@ -14,10 +14,10 @@
 #include "kernel/main.h"
 #include "kernel/object.h"
 #include "kernel/memory.h"
+#include "kernel/exception.h"
 #include "kernel/fcall.h"
 #include "kernel/operators.h"
 #include "ext/spl/spl_exceptions.h"
-#include "kernel/exception.h"
 #include "kernel/array.h"
 #include "kernel/concat.h"
 #include "kernel/file.h"
@@ -282,14 +282,25 @@ PHP_METHOD(Phalcon_Assets_Collection, setSourcePath) {
  */
 PHP_METHOD(Phalcon_Assets_Collection, add) {
 
-	zval *resource;
+	zval *resource, *_0, *_1;
 
-	zephir_fetch_params(0, 1, 0, &resource);
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 1, 0, &resource);
 
 
 
+	if (zephir_is_instance_of(resource, SL("Phalcon\\Assets\\Resource") TSRMLS_CC)) {
+		ZEPHIR_INIT_VAR(_0);
+		object_init_ex(_0, spl_ce_BadMethodCallException);
+		ZEPHIR_INIT_VAR(_1);
+		ZVAL_STRING(_1, "Parameter 'resource' must be an instance of 'Phalcon\\Assets\\Resource'", 1);
+		zephir_call_method_p1_noret(_0, "__construct", _1);
+		zephir_throw_exception(_0 TSRMLS_CC);
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	zephir_update_property_array_append(this_ptr, SL("_resources"), resource TSRMLS_CC);
-	RETURN_THISW();
+	RETURN_THIS();
 
 }
 
@@ -311,8 +322,8 @@ PHP_METHOD(Phalcon_Assets_Collection, addCss) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 3, 1, &path_param, &local, &filter_param, &attributes);
 
-		zephir_get_strval(path, path_param);
-		filter = zephir_get_boolval(filter_param);
+	zephir_get_strval(path, path_param);
+	filter = zephir_get_boolval(filter_param);
 	if (!attributes) {
 		attributes = ZEPHIR_GLOBAL(global_null);
 	}
@@ -370,7 +381,7 @@ PHP_METHOD(Phalcon_Assets_Collection, addJs) {
 		ZEPHIR_INIT_VAR(path);
 		ZVAL_EMPTY_STRING(path);
 	}
-		filter = zephir_get_boolval(filter_param);
+	filter = zephir_get_boolval(filter_param);
 	if (!attributes) {
 		attributes = ZEPHIR_GLOBAL(global_null);
 	}
@@ -506,7 +517,7 @@ PHP_METHOD(Phalcon_Assets_Collection, join) {
 
 	zephir_fetch_params(0, 1, 0, &join_param);
 
-		join = zephir_get_boolval(join_param);
+	join = zephir_get_boolval(join_param);
 
 
 	zephir_update_property_this(this_ptr, SL("_join"), join ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false) TSRMLS_CC);

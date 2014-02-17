@@ -19,7 +19,7 @@
 
 namespace Phalcon\Image\Adapter;
 
-class Imagick extends Phalcon\Image\Adapter implements Phalcon\Image\AdapterInterface
+class Imagick extends \Phalcon\Image\Adapter implements \Phalcon\Image\AdapterInterface
 {
 	protected _version = 0;
 
@@ -269,7 +269,7 @@ class Imagick extends Phalcon\Image\Adapter implements Phalcon\Image\AdapterInte
 		let this->_height = this->_image->getImageHeight();
 	}
 
-	protected function _watermark(<Phalcon\Image\Adapter> image, int offset_x, int offset_y, int opacity)
+	protected function _watermark(<\Phalcon\Image\Adapter> image, int offset_x, int offset_y, int opacity)
 	{
 		var watermark;
 
@@ -348,7 +348,7 @@ class Imagick extends Phalcon\Image\Adapter implements Phalcon\Image\AdapterInte
 		draw->destroy();
 	}
 
-	protected function _mask(<Phalcon\Image\Adapter> image)
+	protected function _mask(<\Phalcon\Image\Adapter> image)
 	{
 		var mask;
 

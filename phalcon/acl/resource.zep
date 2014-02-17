@@ -48,7 +48,7 @@ class Resource
 	public function __construct(string name, string description=null)
 	{
 		if name == "*" {
-			throw new Phalcon\Acl\Exception("Resource name cannot be '*'");
+			throw new \Phalcon\Acl\Exception("Resource name cannot be '*'");
 		}
 
 		let this->_name = name;

@@ -24,7 +24,7 @@ namespace Phalcon\Forms\Element;
  *
  * Component INPUT[type=hidden] for forms
  */
-class Hidden extends Phalcon\Forms\Element implements Phalcon\Forms\ElementInterface
+class Hidden extends \Phalcon\Forms\Element implements \Phalcon\Forms\ElementInterface
 {
 
 	/**
@@ -35,7 +35,7 @@ class Hidden extends Phalcon\Forms\Element implements Phalcon\Forms\ElementInter
 	 */
 	public function render(attributes=null) -> string
 	{
-		return Phalcon\Tag::hiddenField(this->prepareAttributes(attributes));
+		return \Phalcon\Tag::hiddenField(this->prepareAttributes(attributes));
 	}
 
 }

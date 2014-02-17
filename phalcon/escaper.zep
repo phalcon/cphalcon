@@ -28,12 +28,12 @@ namespace Phalcon;
  * This component only works with UTF-8. The PREG extension needs to be compiled with UTF-8 support.
  *
  *<code>
- *	$escaper = new Phalcon\Escaper();
+ *	$escaper = new \Phalcon\Escaper();
  *	$escaped = $escaper->escapeCss("font-family: <Verdana>");
  *	echo $escaped; // font\2D family\3A \20 \3C Verdana\3E
  *</code>
  */
-class Escaper implements Phalcon\EscaperInterface
+class Escaper implements \Phalcon\EscaperInterface
 {
 
 	protected _encoding = "utf-8";
@@ -104,13 +104,13 @@ class Escaper implements Phalcon\EscaperInterface
 		*/
 		if !function_exists("mb_detect_encoding") {
 			return null;
-		}		
+		}
 
 		/**
 		 * Strict encoding detection with fallback to non-strict detection.
 		 * Check encoding
 		 */
-		for charset in ["UTF-32", "UTF-8", "ISO-8859-1", "ASCII"] {			
+		for charset in ["UTF-32", "UTF-8", "ISO-8859-1", "ASCII"] {
 			if mb_detect_encoding(str, charset, true) {
 				return charset;
 			}
@@ -134,7 +134,7 @@ class Escaper implements Phalcon\EscaperInterface
 		 * mbstring is required here
 		 */
 		if !function_exists("mb_convert_encoding") {
-			throw new Phalcon\Escaper\Exception("Extension 'mbstring' is required");
+			throw new \Phalcon\Escaper\Exception("Extension 'mbstring' is required");
 		}
 
 		/**

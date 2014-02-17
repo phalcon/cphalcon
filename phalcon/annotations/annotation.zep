@@ -55,7 +55,7 @@ class Annotation
   		var name, exprArguments, argument, resolvedArgument, arguments;
 
 		if typeof reflectionData != "array" {
-			throw new Phalcon\Annotations\Exception("Reflection data must be an array");
+			throw new \Phalcon\Annotations\Exception("Reflection data must be an array");
 		}
 
 		let this->_name = reflectionData["name"];
@@ -98,7 +98,7 @@ class Annotation
 		var value, item, resolvedItem, arrayValue, name, type;
 
 		if typeof expr != "array" {
-			throw new Phalcon\Annotations\Exception("The expression is not valid");
+			throw new \Phalcon\Annotations\Exception("The expression is not valid");
 		}
 
 		let type = expr["type"];
@@ -129,9 +129,9 @@ class Annotation
 				}
 				return arrayValue;
 			case 300:
-				return new Phalcon\Annotations\Annotation(expr);
+				return new \Phalcon\Annotations\Annotation(expr);
    			default:
-				throw new Phalcon\Annotations\Exception("The expression ". type. " is unknown");
+				throw new \Phalcon\Annotations\Exception("The expression ". type. " is unknown");
 		}
 
 		return value;
@@ -175,7 +175,7 @@ class Annotation
 	 */
 	public function getArgument(int position)
 	{
-		var argument;		
+		var argument;
 		if fetch argument, this->_arguments[position] {
 			return argument;
 		}
@@ -188,7 +188,7 @@ class Annotation
 	 * @return boolean
 	 */
 	public function hasArgument(int position) -> boolean
-	{		
+	{
 		return isset this->_arguments[position];
 	}
 
@@ -200,7 +200,7 @@ class Annotation
 	 */
 	public function getNamedArgument(string! name)
 	{
-		var argument;		
+		var argument;
 		if fetch argument, this->_arguments[name] {
  			return argument;
 		}

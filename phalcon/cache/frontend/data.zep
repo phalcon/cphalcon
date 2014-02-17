@@ -28,14 +28,14 @@ namespace Phalcon\Cache\Frontend;
  *<?php
  *
  *	// Cache the files for 2 days using a Data frontend
- *	$frontCache = new Phalcon\Cache\Frontend\Data(array(
+ *	$frontCache = new \Phalcon\Cache\Frontend\Data(array(
  *		"lifetime" => 172800
  *	));
  *
  *	// Create the component that will cache "Data" to a "File" backend
  *	// Set the cache file directory - important to keep the "/" at the end of
  *	// of the value for the folder
- *	$cache = new Phalcon\Cache\Backend\File($frontCache, array(
+ *	$cache = new \Phalcon\Cache\Backend\File($frontCache, array(
  *		"cacheDir" => "../app/cache/"
  *	));
  *
@@ -58,7 +58,7 @@ namespace Phalcon\Cache\Frontend;
  *	}
  *</code>
  */
-class Data implements Phalcon\Cache\FrontendInterface
+class Data implements \Phalcon\Cache\FrontendInterface
 {
 
 	protected _frontendOptions;

@@ -13,9 +13,9 @@
 
 #include "kernel/main.h"
 #include "kernel/exception.h"
-#include "kernel/array.h"
 #include "kernel/memory.h"
 #include "kernel/fcall.h"
+#include "kernel/array.h"
 
 
 /*
@@ -51,7 +51,7 @@
  *
  *try {
  *
- *  $connection = new Phalcon\Db\Adapter\Pdo\Mysql(array(
+ *  $connection = new \Phalcon\Db\Adapter\Pdo\Mysql(array(
  *     'host' => '192.168.0.11',
  *     'username' => 'sigma',
  *     'password' => 'secret',
@@ -91,7 +91,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Db) {
  */
 PHP_METHOD(Phalcon_Db, setup) {
 
-	zval *options, *escapeIdentifiers, *_0;
+	zval *options, *escapeIdentifiers, *_0, *_1 = NULL;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &options);
@@ -99,14 +99,20 @@ PHP_METHOD(Phalcon_Db, setup) {
 
 
 	if ((Z_TYPE_P(options) != IS_ARRAY)) {
-		ZEPHIR_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "Options must be an array");
+		ZEPHIR_INIT_VAR(_0);
+		object_init_ex(_0, phalcon_db_exception_ce);
+		ZEPHIR_INIT_VAR(_1);
+		ZVAL_STRING(_1, "Options must be an array", 1);
+		zephir_call_method_p1_noret(_0, "__construct", _1);
+		zephir_throw_exception(_0 TSRMLS_CC);
+		ZEPHIR_MM_RESTORE();
 		return;
 	}
 	ZEPHIR_OBS_VAR(escapeIdentifiers);
 	if (zephir_array_isset_string_fetch(&escapeIdentifiers, options, SS("escapeSqlIdentifiers"), 0 TSRMLS_CC)) {
-		ZEPHIR_INIT_VAR(_0);
-		ZVAL_STRING(_0, "db.escape_identifiers", 1);
-		zephir_call_func_p2_noret("globals_set", _0, escapeIdentifiers);
+		ZEPHIR_INIT_NVAR(_1);
+		ZVAL_STRING(_1, "db.escape_identifiers", 1);
+		zephir_call_func_p2_noret("globals_set", _1, escapeIdentifiers);
 	}
 	ZEPHIR_MM_RESTORE();
 

@@ -29,7 +29,7 @@ namespace Phalcon\Db;
  *<code>
  *	$subscriber = new Subscribers();
  *	$subscriber->email = 'andres@phalconphp.com';
- *	$subscriber->createdAt = new Phalcon\Db\RawValue('now()');
+ *	$subscriber->createdAt = new \Phalcon\Db\RawValue('now()');
  *	$subscriber->save();
  *</code>
  */

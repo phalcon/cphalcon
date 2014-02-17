@@ -41,7 +41,7 @@ interface ModelInterface
 	 * @param Phalcon\Mvc\Model\TransactionInterface transaction
 	 * @return Phalcon\Mvc\ModelInterface
 	 */
-	public function setTransaction(<Phalcon\Mvc\Model\TransactionInterface> transaction) -> <Phalcon\Mvc\ModelInterface>;
+	public function setTransaction(<\Phalcon\Mvc\Model\TransactionInterface> transaction) -> <\Phalcon\Mvc\ModelInterface>;
 
 	/**
 	 * Returns table name mapped in the model
@@ -97,14 +97,14 @@ interface ModelInterface
 	 *
 	 * @return Phalcon\Db\AdapterInterface
 	 */
-	public function getReadConnection() -> <Phalcon\Db\AdapterInterface>;
+	public function getReadConnection() -> <\Phalcon\Db\AdapterInterface>;
 
 	/**
 	 * Gets internal database connection
 	 *
 	 * @return Phalcon\Db\AdapterInterface
 	 */
-	public function getWriteConnection() -> <Phalcon\Db\AdapterInterface>;
+	public function getWriteConnection() -> <\Phalcon\Db\AdapterInterface>;
 
 	/**
 	 * Sets the dirty state of the object using one of the DIRTY_STATE_* constants
@@ -112,7 +112,7 @@ interface ModelInterface
 	 * @param int dirtyState
 	 * @return Phalcon\Mvc\ModelInterface
 	 */
-	public function setDirtyState(int dirtyState) -> <Phalcon\Mvc\ModelInterface>;
+	public function setDirtyState(int dirtyState) -> <\Phalcon\Mvc\ModelInterface>;
 
 	/**
 	 * Returns one of the DIRTY_STATE_* constants telling if the record exists in the database or not

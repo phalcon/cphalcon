@@ -62,7 +62,7 @@ namespace Phalcon\Mvc;
  *
  *</code>
  */
-class Application extends Phalcon\Di\Injectable
+class Application extends \Phalcon\Di\Injectable
 {
 
 	protected _defaultModule;
@@ -78,7 +78,7 @@ class Application extends Phalcon\Di\Injectable
 	 *
 	 * @param Phalcon\DiInterface dependencyInjector
 	 */
-	public function __construct(<Phalcon\DiInterface> dependencyInjector=null)
+	public function __construct(<\Phalcon\DiInterface> dependencyInjector=null)
 	{
 		if typeof dependencyInjector == "object" {
 			let this->_dependencyInjector = dependencyInjector;
@@ -92,7 +92,7 @@ class Application extends Phalcon\Di\Injectable
 	 * @param boolean implicitView
 	 * @return Phalcon\Mvc\Application
 	 */
-	public function useImplicitView(boolean implicitView) -> <Phalcon\Mvc\Application>
+	public function useImplicitView(boolean implicitView) -> <\Phalcon\Mvc\Application>
 	{
 		let this->_implicitView = implicitView;
 		return this;
@@ -118,12 +118,12 @@ class Application extends Phalcon\Di\Injectable
 	 * @param boolean merge
 	 * @param Phalcon\Mvc\Application
 	 */
-	public function registerModules(modules, boolean merge=false) -> <Phalcon\Mvc\Application>
+	public function registerModules(modules, boolean merge=false) -> <\Phalcon\Mvc\Application>
 	{
 		var registeredModules;
 
 		if typeof modules != "array" {
-			throw new Phalcon\Mvc\Application\Exception("Modules must be an Array");
+			throw new \Phalcon\Mvc\Application\Exception("Modules must be an Array");
 		}
 
 		if merge === false {
@@ -156,7 +156,7 @@ class Application extends Phalcon\Di\Injectable
 	 * @param string defaultModule
 	 * @return Phalcon\Mvc\Application
 	 */
-	public function setDefaultModule(string! defaultModule) -> <Phalcon\Mvc\Application>
+	public function setDefaultModule(string! defaultModule) -> <\Phalcon\Mvc\Application>
 	{
 		let this->_defaultModule = defaultModule;
 		return this;
@@ -178,7 +178,7 @@ class Application extends Phalcon\Di\Injectable
 	 * @param string uri
 	 * @return Phalcon\Http\ResponseInterface|boolean
 	 */
-	public function handle(uri=null) -> <Phalcon\Http\ResponseInterface> | boolean
+	public function handle(uri=null) -> <\Phalcon\Http\ResponseInterface> | boolean
 	{
 
 		var dependencyInjector, eventsManager, router, dispatcher, response, view,
@@ -188,10 +188,10 @@ class Application extends Phalcon\Di\Injectable
 
 		let dependencyInjector = this->_dependencyInjector;
 		if typeof dependencyInjector != "object" {
-			throw new Phalcon\Mvc\Application\Exception("A dependency injection object is required to access internal services");
+			throw new \Phalcon\Mvc\Application\Exception("A dependency injection object is required to access internal services");
 		}
 
-		let eventsManager = <Phalcon\Events\Manager> this->_eventsManager;
+		let eventsManager = <\Phalcon\Events\Manager> this->_eventsManager;
 
 		/**
 		 * Call boot event, this allow the developer to perform initialization actions
@@ -202,7 +202,7 @@ class Application extends Phalcon\Di\Injectable
 			}
 		}
 
-		let router = <Phalcon\Mvc\RouterInterface> dependencyInjector->getShared("router");
+		let router = <\Phalcon\Mvc\RouterInterface> dependencyInjector->getShared("router");
 
 		/**
 		 * Handle the URI pattern (if any)
@@ -234,7 +234,7 @@ class Application extends Phalcon\Di\Injectable
 			 * Check if the module passed by the router is registered in the modules container
 			 */
 			if !fetch module, this->_modules[moduleName] {
-				throw new Phalcon\Mvc\Application\Exception("Module '" . moduleName . "' isn't registered in the application container");
+				throw new \Phalcon\Mvc\Application\Exception("Module '" . moduleName . "' isn't registered in the application container");
 			}
 
 			/**
@@ -242,7 +242,7 @@ class Application extends Phalcon\Di\Injectable
 			 */
 			if typeof module != "array" {
 				if typeof module != "object" {
-					throw new Phalcon\Mvc\Application\Exception("Invalid module definition");
+					throw new \Phalcon\Mvc\Application\Exception("Invalid module definition");
 				}
 			}
 
@@ -266,12 +266,12 @@ class Application extends Phalcon\Di\Injectable
 						if file_exists(path) {
 							require path;
 						} else {
-							throw new Phalcon\Mvc\Application\Exception("Module definition path '" . path . "' doesn't exist");
+							throw new \Phalcon\Mvc\Application\Exception("Module definition path '" . path . "' doesn't exist");
 						}
 					}
 				}
 
-				let moduleObject = <Phalcon\Mvc\ModuleDefinitionInterface> dependencyInjector->get(className);
+				let moduleObject = <\Phalcon\Mvc\ModuleDefinitionInterface> dependencyInjector->get(className);
 
 				/**
 				 * 'registerAutoloaders' and 'registerServices' are automatically called
@@ -287,7 +287,7 @@ class Application extends Phalcon\Di\Injectable
 				if module instanceof "Closure" {
 					let moduleObject = call_user_func_array(module, [dependencyInjector]);
 				} else {
-					throw new Phalcon\Mvc\Application\Exception("Invalid module definition");
+					throw new \Phalcon\Mvc\Application\Exception("Invalid module definition");
 				}
 			}
 
@@ -306,14 +306,14 @@ class Application extends Phalcon\Di\Injectable
 		let implicitView = this->_implicitView;
 
 		if implicitView === true {
-			let view = <Phalcon\Mvc\ViewInterface> dependencyInjector->getShared("view");
+			let view = <\Phalcon\Mvc\ViewInterface> dependencyInjector->getShared("view");
 		}
 
 		/**
 		 * We get the parameters from the router and assign them to the dispatcher
 		 * Assign the values passed from the router
 		 */
-		let dispatcher = <Phalcon\Mvc\DispatcherInterface> dependencyInjector->getShared("dispatcher");
+		let dispatcher = <\Phalcon\Mvc\DispatcherInterface> dependencyInjector->getShared("dispatcher");
 		dispatcher->setModuleName(router->getModuleName());
 		dispatcher->setNamespaceName(router->getNamespaceName());
 		dispatcher->setControllerName(router->getControllerName());
@@ -405,7 +405,7 @@ class Application extends Phalcon\Di\Injectable
 
 		if returnedResponse === false {
 
-			let response = <Phalcon\Http\ResponseInterface> dependencyInjector->getShared("response");
+			let response = <\Phalcon\Http\ResponseInterface> dependencyInjector->getShared("response");
 			if implicitView === true {
 
 				/**

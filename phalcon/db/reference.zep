@@ -25,7 +25,7 @@ namespace Phalcon\Db;
  * Allows to define reference constraints on tables
  *
  *<code>
- *	$reference = new Phalcon\Db\Reference("field_fk", array(
+ *	$reference = new \Phalcon\Db\Reference("field_fk", array(
  *		'referencedSchema' => "invoicing",
  *		'referencedTable' => "products",
  *		'columns' => array("product_type", "product_code"),
@@ -33,7 +33,7 @@ namespace Phalcon\Db;
  *	));
  *</code>
  */
-class Reference implements Phalcon\Db\ReferenceInterface
+class Reference implements \Phalcon\Db\ReferenceInterface
 {
 
 	/**
@@ -84,19 +84,19 @@ class Reference implements Phalcon\Db\ReferenceInterface
 		if fetch referencedTable, definition["referencedTable"] {
 			let this->_referencedTable = referencedTable;
 		} else {
-			throw new Phalcon\Db\Exception("Referenced table is required");
+			throw new \Phalcon\Db\Exception("Referenced table is required");
 		}
 
 		if fetch columns, definition["columns"] {
 			let this->_columns = columns;
 		} else {
-			throw new Phalcon\Db\Exception("Foreign key columns are required");
+			throw new \Phalcon\Db\Exception("Foreign key columns are required");
 		}
 
 		if fetch referencedColumns, definition["referencedColumns"] {
 			let this->_referencedColumns = referencedColumns;
 		} else {
-			throw new Phalcon\Db\Exception("Referenced columns of the foreign key are required");
+			throw new \Phalcon\Db\Exception("Referenced columns of the foreign key are required");
 		}
 
 		if fetch schema, definition["schema"] {
@@ -108,7 +108,7 @@ class Reference implements Phalcon\Db\ReferenceInterface
 		}
 
 		if count(columns) != count(referencedColumns) {
-			throw new Phalcon\Db\Exception("Number of columns is not equals than the number of columns referenced");
+			throw new \Phalcon\Db\Exception("Number of columns is not equals than the number of columns referenced");
 		}
 	}
 
@@ -118,13 +118,13 @@ class Reference implements Phalcon\Db\ReferenceInterface
 	 * @param array data
 	 * @return Phalcon\Db\Reference
 	 */
-	public static function __set_state(data) -> <Phalcon\Db\Reference>
+	public static function __set_state(data) -> <\Phalcon\Db\Reference>
 	{
 		var referencedSchema, referencedTable, columns,
 			referencedColumns, constraintName;
 
 		if !fetch constraintName, data["_name"] {
-			throw new Phalcon\Db\Exception("_name parameter is required");
+			throw new \Phalcon\Db\Exception("_name parameter is required");
 		}
 
 		fetch referencedSchema, data["_referencedSchema"];
@@ -132,7 +132,7 @@ class Reference implements Phalcon\Db\ReferenceInterface
 		fetch columns, data["_columns"];
 		fetch referencedColumns, data["_referencedColumns"];
 
-		return new Phalcon\Db\Reference(constraintName, [
+		return new \Phalcon\Db\Reference(constraintName, [
 			"referencedSchema"  : referencedSchema,
 			"referencedTable"   : referencedTable,
 			"columns"           : columns,

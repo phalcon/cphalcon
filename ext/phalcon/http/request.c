@@ -13,11 +13,11 @@
 
 #include "kernel/main.h"
 #include "kernel/object.h"
+#include "kernel/exception.h"
 #include "kernel/memory.h"
+#include "kernel/fcall.h"
 #include "kernel/operators.h"
 #include "kernel/array.h"
-#include "kernel/exception.h"
-#include "kernel/fcall.h"
 #include "ext/spl/spl_exceptions.h"
 #include "kernel/concat.h"
 #include "kernel/string.h"
@@ -51,7 +51,7 @@
  * It packages the HTTP request environment.</p>
  *
  *<code>
- *	$request = new Phalcon\Http\Request();
+ *	$request = new \Phalcon\Http\Request();
  *	if ($request->isPost() == true) {
  *		if ($request->isAjax() == true) {
  *			echo 'Request was made using POST and AJAX';
@@ -82,13 +82,25 @@ ZEPHIR_INIT_CLASS(Phalcon_Http_Request) {
  */
 PHP_METHOD(Phalcon_Http_Request, setDI) {
 
-	zval *dependencyInjector;
+	zval *dependencyInjector, *_0, *_1;
 
-	zephir_fetch_params(0, 1, 0, &dependencyInjector);
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 1, 0, &dependencyInjector);
 
 
 
+	if (zephir_is_instance_of(dependencyInjector, SL("Phalcon\\DiInterface") TSRMLS_CC)) {
+		ZEPHIR_INIT_VAR(_0);
+		object_init_ex(_0, spl_ce_BadMethodCallException);
+		ZEPHIR_INIT_VAR(_1);
+		ZVAL_STRING(_1, "Parameter 'dependencyInjector' must be an instance of 'Phalcon\\DiInterface'", 1);
+		zephir_call_method_p1_noret(_0, "__construct", _1);
+		zephir_throw_exception(_0 TSRMLS_CC);
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	zephir_update_property_this(this_ptr, SL("_dependencyInjector"), dependencyInjector TSRMLS_CC);
+	ZEPHIR_MM_RESTORE();
 
 }
 
@@ -123,7 +135,7 @@ PHP_METHOD(Phalcon_Http_Request, getDI) {
  */
 PHP_METHOD(Phalcon_Http_Request, get) {
 
-	zval *name_param = NULL, *filters = NULL, *defaultValue = NULL, *request = NULL, *value, *filter = NULL, *dependencyInjector = NULL, *_REQUEST, *_0, *_1, *_2;
+	zval *name_param = NULL, *filters = NULL, *defaultValue = NULL, *request = NULL, *value, *filter = NULL, *dependencyInjector = NULL, *_REQUEST, *_0, *_1, *_2 = NULL, *_3;
 	zval *name = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -165,14 +177,20 @@ PHP_METHOD(Phalcon_Http_Request, get) {
 					_0 = zephir_fetch_nproperty_this(this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
 					ZEPHIR_CPY_WRT(dependencyInjector, _0);
 					if ((Z_TYPE_P(dependencyInjector) != IS_OBJECT)) {
-						ZEPHIR_THROW_EXCEPTION_STR(phalcon_http_request_exception_ce, "A dependency injection object is required to access the 'filter' service");
+						ZEPHIR_INIT_VAR(_1);
+						object_init_ex(_1, phalcon_http_request_exception_ce);
+						ZEPHIR_INIT_VAR(_2);
+						ZVAL_STRING(_2, "A dependency injection object is required to access the 'filter' service", 1);
+						zephir_call_method_p1_noret(_1, "__construct", _2);
+						zephir_throw_exception(_1 TSRMLS_CC);
+						ZEPHIR_MM_RESTORE();
 						return;
 					}
-					ZEPHIR_INIT_VAR(_1);
-					ZEPHIR_INIT_VAR(_2);
-					ZVAL_STRING(_2, "filter", 1);
-					zephir_call_method_p1(_1, dependencyInjector, "getshared", _2);
-					ZEPHIR_CPY_WRT(filter, _1);
+					ZEPHIR_INIT_NVAR(_2);
+					ZEPHIR_INIT_VAR(_3);
+					ZVAL_STRING(_3, "filter", 1);
+					zephir_call_method_p1(_2, dependencyInjector, "getshared", _3);
+					ZEPHIR_CPY_WRT(filter, _2);
 					zephir_update_property_this(this_ptr, SL("_filter"), filter TSRMLS_CC);
 				}
 				zephir_call_method_p2(return_value, filter, "sanitize", value, filters);
@@ -206,7 +224,7 @@ PHP_METHOD(Phalcon_Http_Request, get) {
  */
 PHP_METHOD(Phalcon_Http_Request, getPost) {
 
-	zval *name_param = NULL, *filters = NULL, *defaultValue = NULL, *post = NULL, *value, *filter = NULL, *dependencyInjector = NULL, *_POST, *_0, *_1, *_2;
+	zval *name_param = NULL, *filters = NULL, *defaultValue = NULL, *post = NULL, *value, *filter = NULL, *dependencyInjector = NULL, *_POST, *_0, *_1, *_2 = NULL, *_3;
 	zval *name = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -248,14 +266,20 @@ PHP_METHOD(Phalcon_Http_Request, getPost) {
 					_0 = zephir_fetch_nproperty_this(this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
 					ZEPHIR_CPY_WRT(dependencyInjector, _0);
 					if ((Z_TYPE_P(dependencyInjector) != IS_OBJECT)) {
-						ZEPHIR_THROW_EXCEPTION_STR(phalcon_http_request_exception_ce, "A dependency injection object is required to access the 'filter' service");
+						ZEPHIR_INIT_VAR(_1);
+						object_init_ex(_1, phalcon_http_request_exception_ce);
+						ZEPHIR_INIT_VAR(_2);
+						ZVAL_STRING(_2, "A dependency injection object is required to access the 'filter' service", 1);
+						zephir_call_method_p1_noret(_1, "__construct", _2);
+						zephir_throw_exception(_1 TSRMLS_CC);
+						ZEPHIR_MM_RESTORE();
 						return;
 					}
-					ZEPHIR_INIT_VAR(_1);
-					ZEPHIR_INIT_VAR(_2);
-					ZVAL_STRING(_2, "filter", 1);
-					zephir_call_method_p1(_1, dependencyInjector, "getshared", _2);
-					ZEPHIR_CPY_WRT(filter, _1);
+					ZEPHIR_INIT_NVAR(_2);
+					ZEPHIR_INIT_VAR(_3);
+					ZVAL_STRING(_3, "filter", 1);
+					zephir_call_method_p1(_2, dependencyInjector, "getshared", _3);
+					ZEPHIR_CPY_WRT(filter, _2);
 					zephir_update_property_this(this_ptr, SL("_filter"), filter TSRMLS_CC);
 				}
 				zephir_call_method_p2(return_value, filter, "sanitize", value, filters);
@@ -292,7 +316,7 @@ PHP_METHOD(Phalcon_Http_Request, getPost) {
  */
 PHP_METHOD(Phalcon_Http_Request, getQuery) {
 
-	zval *name_param = NULL, *filters = NULL, *defaultValue = NULL, *get = NULL, *value, *filter = NULL, *dependencyInjector = NULL, *_GET, *_0, *_1, *_2;
+	zval *name_param = NULL, *filters = NULL, *defaultValue = NULL, *get = NULL, *value, *filter = NULL, *dependencyInjector = NULL, *_GET, *_0, *_1, *_2 = NULL, *_3;
 	zval *name = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -334,14 +358,20 @@ PHP_METHOD(Phalcon_Http_Request, getQuery) {
 					_0 = zephir_fetch_nproperty_this(this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
 					ZEPHIR_CPY_WRT(dependencyInjector, _0);
 					if ((Z_TYPE_P(dependencyInjector) != IS_OBJECT)) {
-						ZEPHIR_THROW_EXCEPTION_STR(phalcon_http_request_exception_ce, "A dependency injection object is required to access the 'filter' service");
+						ZEPHIR_INIT_VAR(_1);
+						object_init_ex(_1, phalcon_http_request_exception_ce);
+						ZEPHIR_INIT_VAR(_2);
+						ZVAL_STRING(_2, "A dependency injection object is required to access the 'filter' service", 1);
+						zephir_call_method_p1_noret(_1, "__construct", _2);
+						zephir_throw_exception(_1 TSRMLS_CC);
+						ZEPHIR_MM_RESTORE();
 						return;
 					}
-					ZEPHIR_INIT_VAR(_1);
-					ZEPHIR_INIT_VAR(_2);
-					ZVAL_STRING(_2, "filter", 1);
-					zephir_call_method_p1(_1, dependencyInjector, "getshared", _2);
-					ZEPHIR_CPY_WRT(filter, _1);
+					ZEPHIR_INIT_NVAR(_2);
+					ZEPHIR_INIT_VAR(_3);
+					ZVAL_STRING(_3, "filter", 1);
+					zephir_call_method_p1(_2, dependencyInjector, "getshared", _3);
+					ZEPHIR_CPY_WRT(filter, _2);
 					zephir_update_property_this(this_ptr, SL("_filter"), filter TSRMLS_CC);
 				}
 				zephir_call_method_p2(return_value, filter, "sanitize", value, filters);
@@ -893,8 +923,8 @@ PHP_METHOD(Phalcon_Http_Request, isMethod) {
 		if ((Z_TYPE_P(methods) == IS_ARRAY)) {
 			zephir_is_iterable(methods, &_1, &_0, 0, 0);
 			for (
-				; zend_hash_get_current_data_ex(_1, (void**) &_2, &_0) == SUCCESS
-				; zend_hash_move_forward_ex(_1, &_0)
+			  ; zend_hash_get_current_data_ex(_1, (void**) &_2, &_0) == SUCCESS
+			  ; zephir_hash_move_forward_ex(_1, &_0)
 			) {
 				ZEPHIR_GET_HVALUE(method, _2);
 				if (ZEPHIR_IS_EQUAL(method, httpMethod)) {
@@ -1036,7 +1066,7 @@ PHP_METHOD(Phalcon_Http_Request, hasFiles) {
 
 	HashTable *_1;
 	HashPosition _0;
-	int numberFiles;
+	int numberFiles = 0;
 	zval *notErrored_param = NULL, *files = NULL, *file = NULL, *error = NULL, *_FILES, **_2;
 	zend_bool notErrored;
 
@@ -1058,8 +1088,8 @@ PHP_METHOD(Phalcon_Http_Request, hasFiles) {
 		numberFiles = 0;
 		zephir_is_iterable(files, &_1, &_0, 0, 0);
 		for (
-			; zend_hash_get_current_data_ex(_1, (void**) &_2, &_0) == SUCCESS
-			; zend_hash_move_forward_ex(_1, &_0)
+		  ; zend_hash_get_current_data_ex(_1, (void**) &_2, &_0) == SUCCESS
+		  ; zephir_hash_move_forward_ex(_1, &_0)
 		) {
 			ZEPHIR_GET_HVALUE(file, _2);
 			ZEPHIR_OBS_NVAR(error);
@@ -1107,8 +1137,8 @@ PHP_METHOD(Phalcon_Http_Request, getUploadedFiles) {
 		array_init(files);
 		zephir_is_iterable(superFiles, &_1, &_0, 0, 0);
 		for (
-			; zend_hash_get_current_data_ex(_1, (void**) &_2, &_0) == SUCCESS
-			; zend_hash_move_forward_ex(_1, &_0)
+		  ; zend_hash_get_current_data_ex(_1, (void**) &_2, &_0) == SUCCESS
+		  ; zephir_hash_move_forward_ex(_1, &_0)
 		) {
 			ZEPHIR_GET_HVALUE(file, _2);
 			if (notErrored) {
@@ -1155,8 +1185,8 @@ PHP_METHOD(Phalcon_Http_Request, getHeaders) {
 	zephir_get_global(&_SERVER, SS("_SERVER") TSRMLS_CC);
 	zephir_is_iterable(_SERVER, &_1, &_0, 0, 0);
 	for (
-		; zend_hash_get_current_data_ex(_1, (void**) &_2, &_0) == SUCCESS
-		; zend_hash_move_forward_ex(_1, &_0)
+	  ; zend_hash_get_current_data_ex(_1, (void**) &_2, &_0) == SUCCESS
+	  ; zephir_hash_move_forward_ex(_1, &_0)
 	) {
 		ZEPHIR_GET_HMKEY(key, _1, _0);
 		ZEPHIR_GET_HVALUE(value, _2);
@@ -1245,8 +1275,8 @@ PHP_METHOD(Phalcon_Http_Request, _getQualityHeader) {
 	zephir_call_func_p2(_2, "preg_split", &_1, _0);
 	zephir_is_iterable(_2, &_4, &_3, 0, 0);
 	for (
-		; zend_hash_get_current_data_ex(_4, (void**) &_5, &_3) == SUCCESS
-		; zend_hash_move_forward_ex(_4, &_3)
+	  ; zend_hash_get_current_data_ex(_4, (void**) &_5, &_3) == SUCCESS
+	  ; zephir_hash_move_forward_ex(_4, &_3)
 	) {
 		ZEPHIR_GET_HVALUE(part, _5);
 		ZEPHIR_INIT_NVAR(headerParts);
@@ -1312,8 +1342,8 @@ PHP_METHOD(Phalcon_Http_Request, _getBestQuality) {
 	ZVAL_STRING(selectedName, "", 1);
 	zephir_is_iterable(qualityParts, &_1, &_0, 0, 0);
 	for (
-		; zend_hash_get_current_data_ex(_1, (void**) &_2, &_0) == SUCCESS
-		; zend_hash_move_forward_ex(_1, &_0)
+	  ; zend_hash_get_current_data_ex(_1, (void**) &_2, &_0) == SUCCESS
+	  ; zephir_hash_move_forward_ex(_1, &_0)
 	) {
 		ZEPHIR_GET_HVALUE(accept, _2);
 		if ((i == 0)) {
@@ -1510,7 +1540,7 @@ PHP_METHOD(Phalcon_Http_Request, getDigestAuth) {
 		array_init(matches);
 		ZEPHIR_INIT_VAR(_0);
 		ZEPHIR_SINIT_VAR(_1);
-		ZVAL_STRING(&_1, "#(\\w+)=(['\"]?)([^'\" ,]+)\2#", 0);
+		ZVAL_STRING(&_1, "#(\\w+)=(['\"]?)([^'\" ,]+)\\2#", 0);
 		zephir_preg_match(_0, &(_0), &_1, digest, matches, 1, 2 , 0  TSRMLS_CC);
 		if (!(zephir_is_true(_0))) {
 			RETURN_CCTOR(auth);
@@ -1518,8 +1548,8 @@ PHP_METHOD(Phalcon_Http_Request, getDigestAuth) {
 		if ((Z_TYPE_P(matches) == IS_ARRAY)) {
 			zephir_is_iterable(matches, &_3, &_2, 0, 0);
 			for (
-				; zend_hash_get_current_data_ex(_3, (void**) &_4, &_2) == SUCCESS
-				; zend_hash_move_forward_ex(_3, &_2)
+			  ; zend_hash_get_current_data_ex(_3, (void**) &_4, &_2) == SUCCESS
+			  ; zephir_hash_move_forward_ex(_3, &_2)
 			) {
 				ZEPHIR_GET_HVALUE(match, _4);
 				zephir_array_fetch_long(&_5, match, 3, PH_NOISY | PH_READONLY TSRMLS_CC);

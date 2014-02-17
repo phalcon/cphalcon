@@ -24,7 +24,7 @@ namespace Phalcon\Logger\Formatter;
  *
  * Formats messages using an one-line string
  */
-class Line extends Phalcon\Logger\Formatter implements Phalcon\Logger\FormatterInterface
+class Line extends \Phalcon\Logger\Formatter implements \Phalcon\Logger\FormatterInterface
 {
 
 	/**

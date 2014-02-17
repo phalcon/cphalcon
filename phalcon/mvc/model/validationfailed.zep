@@ -25,7 +25,7 @@ namespace Phalcon\Mvc\Model;
  * This exception is generated when a model fails to save a record
  * Phalcon\Mvc\Model must be set up to have this behavior
  */
-class ValidationFailed extends Phalcon\Mvc\Model\Exception
+class ValidationFailed extends \Phalcon\Mvc\Model\Exception
 {
 
 	protected _model;

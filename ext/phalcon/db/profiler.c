@@ -45,7 +45,7 @@
  *
  *<code>
  *
- *	$profiler = new Phalcon\Db\Profiler();
+ *	$profiler = new \Phalcon\Db\Profiler();
  *
  *	//Set the connection profiler
  *	$connection->setProfiler($profiler);

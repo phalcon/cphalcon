@@ -25,7 +25,7 @@ namespace Phalcon\Mvc\Model\Resultset;
  * Complex resultsets may include complete objects and scalar values.
  * This class builds every complex row as it is required
  */
-class Complex extends Phalcon\Mvc\Model\Resultset implements Phalcon\Mvc\Model\ResultsetInterface
+class Complex extends \Phalcon\Mvc\Model\Resultset implements \Phalcon\Mvc\Model\ResultsetInterface
 {
 	protected _columnTypes;
 
@@ -36,7 +36,7 @@ class Complex extends Phalcon\Mvc\Model\Resultset implements Phalcon\Mvc\Model\R
 	 * @param Phalcon\Db\ResultInterface result
 	 * @param Phalcon\Cache\BackendInterface cache
 	 */
-	public function __construct(var columnTypes, <Phalcon\Db\ResultInterface> result, <Phalcon\Cache\BackendInterface> cache=null)
+	public function __construct(var columnTypes, <\Phalcon\Db\ResultInterface> result, <\Phalcon\Cache\BackendInterface> cache=null)
 	{
 		/**
 		 * Column types, tell the resultset how to build the result
@@ -128,7 +128,7 @@ class Complex extends Phalcon\Mvc\Model\Resultset implements Phalcon\Mvc\Model\R
 				 */
 				switch hydrateMode {
 					case 0:
-						let activeRow = new Phalcon\Mvc\Model\Row();
+						let activeRow = new \Phalcon\Mvc\Model\Row();
 						break;
 					case 1:
 						let activeRow = [];
@@ -324,7 +324,7 @@ class Complex extends Phalcon\Mvc\Model\Resultset implements Phalcon\Mvc\Model\R
 
 		let resultset = unserialize(data);
 		if typeof resultset != "array" {
-			throw new Phalcon\Mvc\Model\Exception("Invalid serialization data");
+			throw new \Phalcon\Mvc\Model\Exception("Invalid serialization data");
 		}
 
 		let this->_rows = resultset["rows"],

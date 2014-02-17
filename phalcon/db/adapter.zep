@@ -24,7 +24,7 @@ namespace Phalcon\Db;
  *
  * Base class for Phalcon\Db adapters
  */
-abstract class Adapter implements Phalcon\Events\EventsAwareInterface
+abstract class Adapter implements \Phalcon\Events\EventsAwareInterface
 {
 
 	/**
@@ -126,7 +126,7 @@ abstract class Adapter implements Phalcon\Events\EventsAwareInterface
 	 *
 	 * @param Phalcon\Events\ManagerInterface eventsManager
 	 */
-	public function setEventsManager(<Phalcon\Events\ManagerInterface> eventsManager)
+	public function setEventsManager(<\Phalcon\Events\ManagerInterface> eventsManager)
 	{
 		let this->_eventsManager = eventsManager;
 	}
@@ -136,7 +136,7 @@ abstract class Adapter implements Phalcon\Events\EventsAwareInterface
 	 *
 	 * @return Phalcon\Events\ManagerInterface
 	 */
-	public function getEventsManager() -> <Phalcon\Events\ManagerInterface>
+	public function getEventsManager() -> <\Phalcon\Events\ManagerInterface>
 	{
 		return this->_eventsManager;
 	}
@@ -146,7 +146,7 @@ abstract class Adapter implements Phalcon\Events\EventsAwareInterface
 	 *
 	 * @param Phalcon\Db\DialectInterface
 	 */
-	public function setDialect(<Phalcon\Db\DialectInterface> dialect)
+	public function setDialect(<\Phalcon\Db\DialectInterface> dialect)
 	{
 		let this->_dialect = dialect;
 	}
@@ -156,7 +156,7 @@ abstract class Adapter implements Phalcon\Events\EventsAwareInterface
 	 *
 	 * @return Phalcon\Db\DialectInterface
 	 */
-	public function getDialect() -> <Phalcon\Db\DialectInterface>
+	public function getDialect() -> <\Phalcon\Db\DialectInterface>
 	{
 		return this->_dialect;
 	}
@@ -268,14 +268,14 @@ abstract class Adapter implements Phalcon\Events\EventsAwareInterface
 			field, insertSql;
 
 		if typeof values != "array" {
-			throw new Phalcon\Db\Exception("The second parameter for insert isn't an Array");
+			throw new \Phalcon\Db\Exception("The second parameter for insert isn't an Array");
 		}
 
 		/**
 		 * A valid array with more than one element is required
 		 */
 		if !count(values) {
-			throw new Phalcon\Db\Exception("Unable to insert into " . table . " without data");
+			throw new \Phalcon\Db\Exception("Unable to insert into " . table . " without data");
 		}
 
 		let placeholders = [],
@@ -301,7 +301,7 @@ abstract class Adapter implements Phalcon\Events\EventsAwareInterface
 					let insertValues[] = value;
 					if typeof dataTypes == "array" {
 						if !fetch bindType, dataTypes[position] {
-							throw new Phalcon\Db\Exception("Incomplete number of bind types");
+							throw new \Phalcon\Db\Exception("Incomplete number of bind types");
 						}
 						let bindDataTypes[] = bindType;
 					}
@@ -385,7 +385,7 @@ abstract class Adapter implements Phalcon\Events\EventsAwareInterface
 		for position, value in values {
 
 			if !fetch field, fields[position] {
-				throw new Phalcon\Db\Exception("The number of values in the update is not the same as fields");
+				throw new \Phalcon\Db\Exception("The number of values in the update is not the same as fields");
 			}
 
 			if globals_get("db.escape_identifiers") {
@@ -403,7 +403,7 @@ abstract class Adapter implements Phalcon\Events\EventsAwareInterface
 					let updateValues[] = value;
 					if typeof dataTypes == "array" {
 						if !fetch bindType, dataTypes[position] {
-							throw new Phalcon\Db\Exception("Incomplete number of bind types");
+							throw new \Phalcon\Db\Exception("Incomplete number of bind types");
 						}
 						let bindDataTypes[] = bindType;
 					}
@@ -435,7 +435,7 @@ abstract class Adapter implements Phalcon\Events\EventsAwareInterface
 				 * Array conditions may have bound params and bound types
 				 */
 				if typeof whereCondition != "array" {
-					throw new Phalcon\Db\Exception("Invalid WHERE clause conditions");
+					throw new \Phalcon\Db\Exception("Invalid WHERE clause conditions");
 				}
 
 				/**
@@ -551,7 +551,7 @@ abstract class Adapter implements Phalcon\Events\EventsAwareInterface
 	 */
 	public function tableExists(string! tableName, string! schemaName=null) -> boolean
 	{
-		return this->fetchOne(this->_dialect->tableExists(tableName, schemaName), Phalcon\Db::FETCH_NUM)[0] > 0;
+		return this->fetchOne(this->_dialect->tableExists(tableName, schemaName), \Phalcon\Db::FETCH_NUM)[0] > 0;
 	}
 
 	/**
@@ -567,7 +567,7 @@ abstract class Adapter implements Phalcon\Events\EventsAwareInterface
 	 */
 	public function viewExists(string! viewName, schemaName=null)
 	{
-		return this->fetchOne(this->_dialect->viewExists(viewName, schemaName), Phalcon\Db::FETCH_NUM)[0] > 0;
+		return this->fetchOne(this->_dialect->viewExists(viewName, schemaName), \Phalcon\Db::FETCH_NUM)[0] > 0;
 	}
 
 	/**
@@ -605,15 +605,15 @@ abstract class Adapter implements Phalcon\Events\EventsAwareInterface
 		var columns;
 
 		if typeof definition != "array" {
-			throw new Phalcon\Db\Exception("Invalid definition to create the table '" . tableName . "'");
+			throw new \Phalcon\Db\Exception("Invalid definition to create the table '" . tableName . "'");
 		}
 
 		if !fetch columns, definition["columns"] {
-			throw new Phalcon\Db\Exception("The table must contain at least one column");
+			throw new \Phalcon\Db\Exception("The table must contain at least one column");
 		}
 
 		if !count(columns) {
-			throw new Phalcon\Db\Exception("The table must contain at least one column");
+			throw new \Phalcon\Db\Exception("The table must contain at least one column");
 		}
 
 		return this->{"execute"}(this->_dialect->createTable(tableName, schemaName, definition));
@@ -643,11 +643,11 @@ abstract class Adapter implements Phalcon\Events\EventsAwareInterface
 	public function createView(string! viewName, definition, schemaName=null) -> boolean
 	{
 		if typeof definition != "array" {
-			throw new Phalcon\Db\Exception("Invalid definition to create the view '" . viewName . "'");
+			throw new \Phalcon\Db\Exception("Invalid definition to create the view '" . viewName . "'");
 		}
 
 		if !isset definition["sql"] {
-			throw new Phalcon\Db\Exception("The table must contain at least one column");
+			throw new \Phalcon\Db\Exception("The table must contain at least one column");
 		}
 
 		return this->{"execute"}(this->_dialect->createView(viewName, definition, schemaName));
@@ -674,7 +674,7 @@ abstract class Adapter implements Phalcon\Events\EventsAwareInterface
 	 * @param	Phalcon\Db\ColumnInterface column
 	 * @return	boolean
 	 */
-	public function addColumn(string! tableName, string! schemaName, <Phalcon\Db\ColumnInterface> column) -> boolean
+	public function addColumn(string! tableName, string! schemaName, <\Phalcon\Db\ColumnInterface> column) -> boolean
 	{
 		return this->{"execute"}(this->_dialect->addColumn(tableName, schemaName, column));
 	}
@@ -687,7 +687,7 @@ abstract class Adapter implements Phalcon\Events\EventsAwareInterface
 	 * @param	Phalcon\Db\ColumnInterface column
 	 * @return 	boolean
 	 */
-	public function modifyColumn(string! tableName, string! schemaName, <Phalcon\Db\ColumnInterface> column) -> boolean
+	public function modifyColumn(string! tableName, string! schemaName, <\Phalcon\Db\ColumnInterface> column) -> boolean
 	{
 		return this->{"execute"}(this->_dialect->modifyColumn(tableName, schemaName, column));
 	}
@@ -713,7 +713,7 @@ abstract class Adapter implements Phalcon\Events\EventsAwareInterface
 	 * @param	Phalcon\Db\IndexInterface index
 	 * @return 	boolean
 	 */
-	public function addIndex(string! tableName, string! schemaName, <Phalcon\Db\IndexInterface> index) -> boolean
+	public function addIndex(string! tableName, string! schemaName, <\Phalcon\Db\IndexInterface> index) -> boolean
 	{
 		return this->{"execute"}(this->_dialect->addIndex(tableName, schemaName, index));
 	}
@@ -739,7 +739,7 @@ abstract class Adapter implements Phalcon\Events\EventsAwareInterface
 	 * @param	Phalcon\Db\IndexInterface index
 	 * @return 	boolean
 	 */
-	public function addPrimaryKey(string! tableName, string! schemaName, <Phalcon\Db\IndexInterface> index) -> boolean
+	public function addPrimaryKey(string! tableName, string! schemaName, <\Phalcon\Db\IndexInterface> index) -> boolean
 	{
 		return this->{"execute"}(this->_dialect->addPrimaryKey(tableName, schemaName, index));
 	}
@@ -764,7 +764,7 @@ abstract class Adapter implements Phalcon\Events\EventsAwareInterface
 	 * @param	Phalcon\Db\ReferenceInterface reference
 	 * @return	boolean true
 	 */
-	public function addForeignKey(string! tableName, string! schemaName, <Phalcon\Db\ReferenceInterface> reference) -> boolean
+	public function addForeignKey(string! tableName, string! schemaName, <\Phalcon\Db\ReferenceInterface> reference) -> boolean
 	{
 		return this->{"execute"}(this->_dialect->addForeignKey(tableName, schemaName, reference));
 	}
@@ -788,7 +788,7 @@ abstract class Adapter implements Phalcon\Events\EventsAwareInterface
 	 * @param	Phalcon\Db\ColumnInterface column
 	 * @return	string
 	 */
-	public function getColumnDefinition(<Phalcon\Db\ColumnInterface> column) -> boolean
+	public function getColumnDefinition(<\Phalcon\Db\ColumnInterface> column) -> boolean
 	{
 		return this->_dialect->getColumnDefinition(column);
 	}
@@ -808,7 +808,7 @@ abstract class Adapter implements Phalcon\Events\EventsAwareInterface
 		var table, allTables;
 
 		let allTables = [];
-		for table in this->fetchAll(this->_dialect->listTables(schemaName), Phalcon\Db::FETCH_NUM) {
+		for table in this->fetchAll(this->_dialect->listTables(schemaName), \Phalcon\Db::FETCH_NUM) {
 			let allTables[] = table[0];
 		}
 		return allTables;
@@ -829,7 +829,7 @@ abstract class Adapter implements Phalcon\Events\EventsAwareInterface
 		var table, allTables;
 
 		let allTables = [];
-		for table in this->fetchAll(this->_dialect->listViews(schemaName), Phalcon\Db::FETCH_NUM) {
+		for table in this->fetchAll(this->_dialect->listViews(schemaName), \Phalcon\Db::FETCH_NUM) {
 			let allTables[] = table[0];
 		}
 		return allTables;
@@ -848,11 +848,10 @@ abstract class Adapter implements Phalcon\Events\EventsAwareInterface
 	 */
 	public function describeIndexes(string! table, schema=null)
 	{
-		var indexes, index, keyName, indexObjects,
-			name, indexColumns;
+		var indexes, index, keyName, indexObjects, name, indexColumns;
 
 		let indexes = [];
-		for index in this->fetchAll(this->_dialect->describeIndexes(table, schema), Phalcon\Db::FETCH_NUM) {
+		for index in this->fetchAll(this->_dialect->describeIndexes(table, schema), \Phalcon\Db::FETCH_NUM) {
 
 			let keyName = index[2];
 			if !isset indexes[keyName] {
@@ -868,7 +867,7 @@ abstract class Adapter implements Phalcon\Events\EventsAwareInterface
 			/**
 			 * Every index is abstracted using a Phalcon\Db\Index instance
 			 */
-			let indexObjects[name] = new Phalcon\Db\Index(name, indexColumns);
+			let indexObjects[name] = new \Phalcon\Db\Index(name, indexColumns);
 		}
 
 		return indexObjects;
@@ -892,7 +891,7 @@ abstract class Adapter implements Phalcon\Events\EventsAwareInterface
 
 		let emptyArr = [], references = [];
 
-		for reference in this->fetchAll(this->_dialect->describeReferences(table, schema), Phalcon\Db::FETCH_NUM) {
+		for reference in this->fetchAll(this->_dialect->describeReferences(table, schema), \Phalcon\Db::FETCH_NUM) {
 
 			let constraintName = reference[2];
 			if !isset references[constraintName] {
@@ -910,7 +909,7 @@ abstract class Adapter implements Phalcon\Events\EventsAwareInterface
 
 		let referenceObjects = [];
 		for name, arrayReference in references {
-			let referenceObjects[name] = new Phalcon\Db\Reference(name, [
+			let referenceObjects[name] = new \Phalcon\Db\Reference(name, [
 				"referencedSchema"	: arrayReference["referencedSchema"],
 				"referencedTable"	: arrayReference["referencedTable"],
 				"columns"			: arrayReference["columns"],
@@ -938,7 +937,7 @@ abstract class Adapter implements Phalcon\Events\EventsAwareInterface
 
 		let sql = this->_dialect->tableOptions(tableName, schemaName);
 		if sql {
-			return this->fetchAll(sql, Phalcon\DB::FETCH_NUM)[0];
+			return this->fetchAll(sql, \Phalcon\DB::FETCH_NUM)[0];
 		}
 		return [];
 	}
@@ -956,7 +955,7 @@ abstract class Adapter implements Phalcon\Events\EventsAwareInterface
 		let dialect = this->_dialect;
 
 		if !dialect->supportsSavePoints() {
-			throw new Phalcon\Db\Exception("Savepoints are not supported by this database adapter.");
+			throw new \Phalcon\Db\Exception("Savepoints are not supported by this database adapter.");
 		}
 
 		return this->{"execute"}(dialect->createSavepoint(name));
@@ -975,7 +974,7 @@ abstract class Adapter implements Phalcon\Events\EventsAwareInterface
 		let dialect = this->_dialect;
 
 		if dialect->supportsSavePoints() {
-			throw new Phalcon\Db\Exception("Savepoints are not supported by this database adapter");
+			throw new \Phalcon\Db\Exception("Savepoints are not supported by this database adapter");
 		}
 
 		if dialect->supportsReleaseSavePoints() {
@@ -998,7 +997,7 @@ abstract class Adapter implements Phalcon\Events\EventsAwareInterface
 		let dialect = this->_dialect;
 
 		if dialect->supportsSavePoints() {
-			throw new Phalcon\Db\Exception("Savepoints are not supported by this database adapter");
+			throw new \Phalcon\Db\Exception("Savepoints are not supported by this database adapter");
 		}
 
 		return this->{"execute"}(dialect->rollbackSavepoint(name));
@@ -1010,15 +1009,15 @@ abstract class Adapter implements Phalcon\Events\EventsAwareInterface
 	 * @param boolean nestedTransactionsWithSavepoints
 	 * @return Phalcon\Db\AdapterInterface
 	 */
-	public function setNestedTransactionsWithSavepoints(boolean nestedTransactionsWithSavepoints) -> <Phalcon\Db\AdapterInterface>
+	public function setNestedTransactionsWithSavepoints(boolean nestedTransactionsWithSavepoints) -> <\Phalcon\Db\AdapterInterface>
 	{
 
 		if this->_transactionLevel > 0 {
-			throw new Phalcon\Db\Exception("Nested transaction with savepoints behavior cannot be changed while a transaction is open");
+			throw new \Phalcon\Db\Exception("Nested transaction with savepoints behavior cannot be changed while a transaction is open");
 		}
 
 		if !this->_dialect->supportsSavePoints() {
-			throw new Phalcon\Db\Exception("Savepoints are not supported by this database adapter");
+			throw new \Phalcon\Db\Exception("Savepoints are not supported by this database adapter");
 		}
 
 		let this->_transactionsWithSavepoints = nestedTransactionsWithSavepoints;
@@ -1059,9 +1058,9 @@ abstract class Adapter implements Phalcon\Events\EventsAwareInterface
 	 *
 	 * @return Phalcon\Db\RawValue
 	 */
-	public function getDefaultIdValue() -> <Phalcon\Db\RawValue>
+	public function getDefaultIdValue() -> <\Phalcon\Db\RawValue>
 	{
-		return new Phalcon\Db\RawValue("null");
+		return new \Phalcon\Db\RawValue("null");
 	}
 
 	/**

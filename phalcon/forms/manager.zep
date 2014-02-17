@@ -34,15 +34,15 @@ class Manager
 	 * @param object entity
 	 * @return Phalcon\Forms\Form
 	 */
-	public function create(name=null, entity=null) -> <Phalcon\Forms\Form>
+	public function create(name=null, entity=null) -> <\Phalcon\Forms\Form>
 	{
 		var form;
 
 		if typeof name != "string" {
-			throw new Phalcon\Forms\Exception("The form name must be string");
+			throw new \Phalcon\Forms\Exception("The form name must be string");
 		}
 
-		let form = new Phalcon\Forms\Form(entity),
+		let form = new \Phalcon\Forms\Form(entity),
 			this->_forms[name] = form;
 		return form;
 	}
@@ -53,13 +53,13 @@ class Manager
 	 * @param string name
 	 * @return Phalcon\Forms\Form
 	 */
-	public function get(string name) -> <Phalcon\Forms\Form>
+	public function get(string name) -> <\Phalcon\Forms\Form>
 	{
 		var form, forms;
 
 		let forms = this->_forms;
 		if !fetch form, forms[name] {
-			throw new Phalcon\Forms\Exception("There is no form with name='" . name . "'");
+			throw new \Phalcon\Forms\Exception("There is no form with name='" . name . "'");
 		}
 		return form;
 	}
@@ -84,7 +84,7 @@ class Manager
 	 * @param Phalcon\Forms\Form form
 	 * @return Phalcon\Forms\Form
 	 */
-	public function set(string name, <Phalcon\Forms\Form> form) -> <Phalcon\Forms\Form>
+	public function set(string name, <\Phalcon\Forms\Form> form) -> <\Phalcon\Forms\Form>
 	{
 		let this->_forms[name] = form;
 		return this;

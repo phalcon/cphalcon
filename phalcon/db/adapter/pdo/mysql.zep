@@ -34,11 +34,11 @@ namespace Phalcon\Db\Adapter\Pdo;
  *		"password" => "secret"
  *	);
  *
- *	$connection = new Phalcon\Db\Adapter\Pdo\Mysql($config);
+ *	$connection = new \Phalcon\Db\Adapter\Pdo\Mysql($config);
  *
  *</code>
  */
-class Mysql extends Phalcon\Db\Adapter\Pdo //implements Phalcon\Db\AdapterInterface
+class Mysql extends \Phalcon\Db\Adapter\Pdo //implements Phalcon\Db\AdapterInterface
 {
 
 	protected _type = "mysql";
@@ -93,7 +93,7 @@ class Mysql extends Phalcon\Db\Adapter\Pdo //implements Phalcon\Db\AdapterInterf
 		 * Get the describe
 		 */
 		let dialect = this->_dialect,
-			describe = this->fetchAll(dialect->describeColumns(table, schema), Phalcon\Db::FETCH_NUM);
+			describe = this->fetchAll(dialect->describeColumns(table, schema), \Phalcon\Db::FETCH_NUM);
 
 		let oldColumn = null,
 			sizePattern = "#\\(([0-9]+)(,[0-9]+)*\\)#";
@@ -121,7 +121,7 @@ class Mysql extends Phalcon\Db\Adapter\Pdo //implements Phalcon\Db\AdapterInterf
 				 * Enum are treated as char
 				 */
 				if memstr(columnType, "enum") {
-					let definition["type"] = Phalcon\Db\Column::BIND_PARAM_STR;
+					let definition["type"] = \Phalcon\Db\Column::BIND_PARAM_STR;
 					break;
 				}
 
@@ -131,7 +131,7 @@ class Mysql extends Phalcon\Db\Adapter\Pdo //implements Phalcon\Db\AdapterInterf
 				if memstr(columnType, "int") {
 					let definition["type"] = 0,
 						definition["isNumeric"] = true,
-						definition["bindType"] = Phalcon\Db\Column::BIND_PARAM_INT;
+						definition["bindType"] = \Phalcon\Db\Column::BIND_PARAM_INT;
 					break;
 				}
 
@@ -139,7 +139,7 @@ class Mysql extends Phalcon\Db\Adapter\Pdo //implements Phalcon\Db\AdapterInterf
 				 * Varchar are varchars
 				 */
 				if memstr(columnType, "varchar") {
-					let definition["type"] = Phalcon\Db\Column::BIND_PARAM_STR;
+					let definition["type"] = \Phalcon\Db\Column::BIND_PARAM_STR;
 					break;
 				}
 
@@ -147,7 +147,7 @@ class Mysql extends Phalcon\Db\Adapter\Pdo //implements Phalcon\Db\AdapterInterf
 				 * Special type for datetime
 				 */
 				if memstr(columnType, "datetime") {
-					let definition["type"] = Phalcon\Db\Column::TYPE_DATETIME;
+					let definition["type"] = \Phalcon\Db\Column::TYPE_DATETIME;
 					break;
 				}
 
@@ -155,9 +155,9 @@ class Mysql extends Phalcon\Db\Adapter\Pdo //implements Phalcon\Db\AdapterInterf
 				 * Decimals are floats
 				 */
 				if memstr(columnType, "decimal") {
-					let definition["type"] = Phalcon\Db\Column::TYPE_DECIMAL,
+					let definition["type"] = \Phalcon\Db\Column::TYPE_DECIMAL,
 						definition["isNumeric"] = true,
-						definition["bindType"] = Phalcon\Db\Column::BIND_PARAM_DECIMAL;
+						definition["bindType"] = \Phalcon\Db\Column::BIND_PARAM_DECIMAL;
 					break;
 				}
 
@@ -165,7 +165,7 @@ class Mysql extends Phalcon\Db\Adapter\Pdo //implements Phalcon\Db\AdapterInterf
 				 * Chars are chars
 				 */
 				if memstr(columnType, "char") {
-					let definition["type"] = Phalcon\Db\Column::TYPE_CHAR;
+					let definition["type"] = \Phalcon\Db\Column::TYPE_CHAR;
 					break;
 				}
 
@@ -173,7 +173,7 @@ class Mysql extends Phalcon\Db\Adapter\Pdo //implements Phalcon\Db\AdapterInterf
 				 * Date/Datetime are varchars
 				 */
 				if memstr(columnType, "date") {
-					let definition["type"] = Phalcon\Db\Column::TYPE_DATE;
+					let definition["type"] = \Phalcon\Db\Column::TYPE_DATE;
 					break;
 				}
 
@@ -181,7 +181,7 @@ class Mysql extends Phalcon\Db\Adapter\Pdo //implements Phalcon\Db\AdapterInterf
 				 * Text are varchars
 				 */
 				if memstr(columnType, "text") {
-					let definition["type"] = Phalcon\Db\Column::TYPE_TEXT;
+					let definition["type"] = \Phalcon\Db\Column::TYPE_TEXT;
 					break;
 				}
 
@@ -189,16 +189,16 @@ class Mysql extends Phalcon\Db\Adapter\Pdo //implements Phalcon\Db\AdapterInterf
 				 * Float/Smallfloats/Decimals are float
 				 */
 				if strpos(columnType, "float") {
-					let definition["type"] = Phalcon\Db\Column::TYPE_FLOAT,
+					let definition["type"] = \Phalcon\Db\Column::TYPE_FLOAT,
 						definition["isNumeric"] = true,
-						definition["bindType"] = Phalcon\Db\Column::TYPE_DECIMAL;
+						definition["bindType"] = \Phalcon\Db\Column::TYPE_DECIMAL;
 					break;
 				}
 
 				/**
 				 * By default is string
 				 */
-				let definition["type"] = Phalcon\Db\Column::TYPE_VARCHAR;
+				let definition["type"] = \Phalcon\Db\Column::TYPE_VARCHAR;
 				break;
 			}
 
@@ -255,7 +255,7 @@ class Mysql extends Phalcon\Db\Adapter\Pdo //implements Phalcon\Db\AdapterInterf
 			 * Every route is stored as a Phalcon\Db\Column
 			 */
 			let columnName = field[0],
-				columns[] = new Phalcon\Db\Column(columnName, definition),
+				columns[] = new \Phalcon\Db\Column(columnName, definition),
 				oldColumn = columnName;
 		}
 

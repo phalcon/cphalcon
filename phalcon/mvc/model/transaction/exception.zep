@@ -24,7 +24,7 @@ namespace Phalcon\Mvc\Model\Transaction;
  *
  * Exceptions thrown in Phalcon\Mvc\Model\Transaction will use this class
  */
-class Exception extends Phalcon\Mvc\Model\Exception
+class Exception extends \Phalcon\Mvc\Model\Exception
 {
 
 }

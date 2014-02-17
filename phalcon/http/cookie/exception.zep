@@ -1,3 +1,4 @@
+
 /*
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
@@ -24,7 +25,7 @@ namespace Phalcon\Http\Cookie;
  * Exceptions thrown in Phalcon\Http\Cookie will use this class
  *
  */
-class Exception extends Phalcon\Exception
+class Exception extends \Phalcon\Exception
 {
 
 }

@@ -25,7 +25,7 @@ namespace Phalcon\Mvc\Collection;
  * Exceptions thrown in Phalcon\Mvc\Collection\* classes will use this class
  *
  */
-class Exception extends Phalcon\Exception
+class Exception extends \Phalcon\Exception
 {
 
 }

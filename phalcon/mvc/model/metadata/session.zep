@@ -28,12 +28,12 @@ namespace Phalcon\Mvc\Model\MetaData;
  * You can query the meta-data by printing $_SESSION['$PMM$']
  *
  *<code>
- * $metaData = new Phalcon\Mvc\Model\Metadata\Session(array(
+ * $metaData = new \Phalcon\Mvc\Model\Metadata\Session(array(
  *    'prefix' => 'my-app-id'
  * ));
  *</code>
  */
-class Session extends Phalcon\Mvc\Model\MetaData implements Phalcon\Mvc\Model\MetaDataInterface
+class Session extends \Phalcon\Mvc\Model\MetaData implements \Phalcon\Mvc\Model\MetaDataInterface
 {
 
 	protected _prefix = "";

@@ -38,21 +38,21 @@ namespace Phalcon;
  * Additionally, this pattern increases testability in the code, thus making it less prone to errors.
  *
  *<code>
- * $di = new Phalcon\Di();
+ * $di = new \Phalcon\Di();
  *
  * //Using a string definition
  * $di->set("request", "Phalcon\Http\Request", true);
  *
  * //Using an anonymous function
  * $di->set("request", function(){
- *	  return new Phalcon\Http\Request();
+ *	  return new \Phalcon\Http\Request();
  * }, true);
  *
  * $request = $di->getRequest();
  *
  *</code>
  */
-class Di implements Phalcon\DiInterface
+class Di implements \Phalcon\DiInterface
 {
 
 	protected _services;
@@ -85,10 +85,10 @@ class Di implements Phalcon\DiInterface
 	 * @param boolean shared
 	 * @return Phalcon\Di\ServiceInterface
 	 */
-	public function set(string! name, definition, shared=false) -> <Phalcon\Di\ServiceInterface>
+	public function set(string! name, definition, shared=false) -> <\Phalcon\Di\ServiceInterface>
 	{
 		var service;
-		let service = new Phalcon\Di\Service(name, definition, shared),
+		let service = new \Phalcon\Di\Service(name, definition, shared),
 			this->_services[name] = service;
 		return service;
 	}
@@ -100,10 +100,10 @@ class Di implements Phalcon\DiInterface
 	 * @param mixed definition
 	 * @return Phalcon\Di\ServiceInterface
 	 */
-	public function setShared(string! name, definition) -> <Phalcon\Di\ServiceInterface>
+	public function setShared(string! name, definition) -> <\Phalcon\Di\ServiceInterface>
 	{
 		var service;
-		let service = new Phalcon\Di\Service(name, definition, true),
+		let service = new \Phalcon\Di\Service(name, definition, true),
 			this->_services[name] = service;
 		return service;
 	}
@@ -128,12 +128,12 @@ class Di implements Phalcon\DiInterface
 	 * @param boolean shared
 	 * @return Phalcon\Di\ServiceInterface|false
 	 */
-	public function attempt(string! name, definition, boolean shared=false) -> <Phalcon\Di\ServiceInterface> | boolean
+	public function attempt(string! name, definition, boolean shared=false) -> <\Phalcon\Di\ServiceInterface> | boolean
 	{
 		var service;
 
 		if !isset this->_services[name] {
-			let service = new Phalcon\Di\Service(name, definition, shared),
+			let service = new \Phalcon\Di\Service(name, definition, shared),
 				this->_services[name] = service;
 			return service;
 		}
@@ -148,7 +148,7 @@ class Di implements Phalcon\DiInterface
 	 * @param Phalcon\Di\ServiceInterface rawDefinition
 	 * @return Phalcon\Di\ServiceInterface
 	 */
-	public function setRaw(string! name, <Phalcon\Di\ServiceInterface> rawDefinition) -> <Phalcon\Di\ServiceInterface>
+	public function setRaw(string! name, <\Phalcon\Di\ServiceInterface> rawDefinition) -> <\Phalcon\Di\ServiceInterface>
 	{
 		let this->_services[name] = rawDefinition;
 		return rawDefinition;
@@ -168,7 +168,7 @@ class Di implements Phalcon\DiInterface
 			return service->getDefinition();
 		}
 
-		throw new Phalcon\Di\Exception("Service '" . name . "' wasn't found in the dependency injection container");
+		throw new \Phalcon\Di\Exception("Service '" . name . "' wasn't found in the dependency injection container");
 	}
 
 	/**
@@ -177,7 +177,7 @@ class Di implements Phalcon\DiInterface
 	 * @param string name
 	 * @return Phalcon\Di\ServiceInterface
 	 */
-	public function getService(string! name) -> <Phalcon\Di\ServiceInterface>
+	public function getService(string! name) -> <\Phalcon\Di\ServiceInterface>
 	{
 		var service;
 
@@ -185,7 +185,7 @@ class Di implements Phalcon\DiInterface
 			return service;
 		}
 
-		throw new Phalcon\Di\Exception("Service '" . name . "' wasn't found in the dependency injection container");
+		throw new \Phalcon\Di\Exception("Service '" . name . "' wasn't found in the dependency injection container");
 	}
 
 	/**
@@ -219,12 +219,12 @@ class Di implements Phalcon\DiInterface
 					let instance = create_instance(name);
 				}
 			} else {
-				throw new Phalcon\Di\Exception("Service '" . name . "' wasn't found in the dependency injection container");
+				throw new \Phalcon\Di\Exception("Service '" . name . "' wasn't found in the dependency injection container");
 			}
 		}
 
 		/**
-		 * Pass the DI itself if the instance implements Phalcon\Di\InjectionAwareInterface
+		 * Pass the DI itself if the instance implements \Phalcon\Di\InjectionAwareInterface
 		 */
 		if typeof instance == "object" {
 			if method_exists(instance, "setDI") {
@@ -294,7 +294,7 @@ class Di implements Phalcon\DiInterface
 	 *
 	 * @return Phalcon\Di\Service[]
 	 */
-	public function getServices() -> <Phalcon\Di\Service[]>
+	public function getServices() -> <\Phalcon\Di\Service[]>
 	{
 		return this->_services;
 	}
@@ -314,7 +314,7 @@ class Di implements Phalcon\DiInterface
 	 * Allows to register a shared service using the array syntax
 	 *
 	 *<code>
-	 *	$di["request"] = new Phalcon\Http\Request();
+	 *	$di["request"] = new \Phalcon\Http\Request();
 	 *</code>
 	 *
 	 * @param string name
@@ -392,7 +392,7 @@ class Di implements Phalcon\DiInterface
 		/**
 		 * The method doesn't start with set/get throw an exception
 		 */
-		throw new Phalcon\Di\Exception("Call to undefined method or service '" . method . "'");
+		throw new \Phalcon\Di\Exception("Call to undefined method or service '" . method . "'");
 	}
 
 	/**
@@ -400,7 +400,7 @@ class Di implements Phalcon\DiInterface
 	 *
 	 * @param Phalcon\DiInterface dependencyInjector
 	 */
-	public static function setDefault(<Phalcon\DiInterface> dependencyInjector)
+	public static function setDefault(<\Phalcon\DiInterface> dependencyInjector)
 	{
 		let self::_default = dependencyInjector;
 	}
@@ -410,7 +410,7 @@ class Di implements Phalcon\DiInterface
 	 *
 	 * @return Phalcon\DiInterface
 	 */
-	public static function getDefault() -> <Phalcon\DiInterface>
+	public static function getDefault() -> <\Phalcon\DiInterface>
 	{
 		return self::_default;
 	}

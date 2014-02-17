@@ -53,7 +53,7 @@
  *		"password" => "secret"
  *	);
  *
- *	$connection = new Phalcon\Db\Adapter\Pdo\Mysql($config);
+ *	$connection = new \Phalcon\Db\Adapter\Pdo\Mysql($config);
  *
  *</code>
  */
@@ -125,7 +125,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Mysql, describeColumns) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 1, &table_param, &schema_param);
 
-		zephir_get_strval(table, table_param);
+	zephir_get_strval(table, table_param);
 	if (!schema_param) {
 		ZEPHIR_INIT_VAR(schema);
 		ZVAL_EMPTY_STRING(schema);
@@ -150,8 +150,8 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Mysql, describeColumns) {
 	array_init(columns);
 	zephir_is_iterable(describe, &_3, &_2, 0, 0);
 	for (
-		; zend_hash_get_current_data_ex(_3, (void**) &_4, &_2) == SUCCESS
-		; zend_hash_move_forward_ex(_3, &_2)
+	  ; zend_hash_get_current_data_ex(_3, (void**) &_4, &_2) == SUCCESS
+	  ; zephir_hash_move_forward_ex(_3, &_2)
 	) {
 		ZEPHIR_GET_HVALUE(field, _4);
 		ZEPHIR_INIT_NVAR(definition);

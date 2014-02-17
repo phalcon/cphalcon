@@ -67,7 +67,7 @@ PHP_METHOD(Phalcon_Forms_Element_Select, __construct) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 2, &name_param, &options, &attributes);
 
-		zephir_get_strval(name, name_param);
+	zephir_get_strval(name, name_param);
 	if (!options) {
 		options = ZEPHIR_GLOBAL(global_null);
 	}

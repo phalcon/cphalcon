@@ -32,13 +32,13 @@ interface ModuleDefinitionInterface
 	 *
 	 * @param Phalcon\DiInterface dependencyInjector
 	 */
-	public function registerAutoloaders(<Phalcon\DiInterface> dependencyInjector=null);
+	public function registerAutoloaders(<\Phalcon\DiInterface> dependencyInjector=null);
 
 	/**
 	 * Registers an autoloader related to the module
 	 *
 	 * @param Phalcon\DiInterface dependencyInjector
 	 */
-	public function registerServices(<Phalcon\DiInterface> dependencyInjector);
+	public function registerServices(<\Phalcon\DiInterface> dependencyInjector);
 
 }

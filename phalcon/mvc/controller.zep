@@ -55,7 +55,7 @@ namespace Phalcon\Mvc;
  *
  *</code>
  */
-abstract class Controller extends Phalcon\Di\Injectable
+abstract class Controller extends \Phalcon\Di\Injectable
 {
 
 	/**

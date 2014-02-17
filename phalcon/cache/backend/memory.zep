@@ -26,9 +26,9 @@ namespace Phalcon\Cache\Backend;
  *
  *<code>
  *	//Cache data
- *	$frontCache = new Phalcon\Cache\Frontend\Data();
+ *	$frontCache = new \Phalcon\Cache\Frontend\Data();
  *
- *  $cache = new Phalcon\Cache\Backend\Memory($frontCache);
+ *  $cache = new \Phalcon\Cache\Backend\Memory($frontCache);
  *
  *	//Cache arbitrary data
  *	$cache->save('my-data', array(1, 2, 3, 4, 5));
@@ -38,7 +38,7 @@ namespace Phalcon\Cache\Backend;
  *
  *</code>
  */
-class Memory extends Phalcon\Cache\Backend implements Phalcon\Cache\BackendInterface
+class Memory extends \Phalcon\Cache\Backend implements \Phalcon\Cache\BackendInterface
 {
 
 	protected _data;
@@ -90,7 +90,7 @@ class Memory extends Phalcon\Cache\Backend implements Phalcon\Cache\BackendInter
 		}
 
 		if !lastKey {
-			throw new Phalcon\Cache\Exception("The cache must be started first");
+			throw new \Phalcon\Cache\Exception("The cache must be started first");
 		}
 
 		let frontend = this->_frontend;

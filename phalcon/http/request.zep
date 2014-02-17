@@ -28,7 +28,7 @@ namespace Phalcon\Http;
  * It packages the HTTP request environment.</p>
  *
  *<code>
- *	$request = new Phalcon\Http\Request();
+ *	$request = new \Phalcon\Http\Request();
  *	if ($request->isPost() == true) {
  *		if ($request->isAjax() == true) {
  *			echo 'Request was made using POST and AJAX';
@@ -37,7 +37,7 @@ namespace Phalcon\Http;
  *</code>
  *
  */
-class Request implements Phalcon\Http\RequestInterface, Phalcon\Di\InjectionAwareInterface
+class Request implements \Phalcon\Http\RequestInterface, \Phalcon\Di\InjectionAwareInterface
 {
 
 	protected _dependencyInjector;
@@ -51,7 +51,7 @@ class Request implements Phalcon\Http\RequestInterface, Phalcon\Di\InjectionAwar
 	 *
 	 * @param Phalcon\DiInterface dependencyInjector
 	 */
-	public function setDI(<Phalcon\DiInterface> dependencyInjector)
+	public function setDI(<\Phalcon\DiInterface> dependencyInjector)
 	{
 		let this->_dependencyInjector = dependencyInjector;
 	}
@@ -61,7 +61,7 @@ class Request implements Phalcon\Http\RequestInterface, Phalcon\Di\InjectionAwar
 	 *
 	 * @return Phalcon\DiInterface
 	 */
-	public function getDI() -> <Phalcon\DiInterface>
+	public function getDI() -> <\Phalcon\DiInterface>
 	{
 		return this->_dependencyInjector;
 	}
@@ -93,11 +93,11 @@ class Request implements Phalcon\Http\RequestInterface, Phalcon\Di\InjectionAwar
 				if filters !== null {
 					let filter = this->_filter;
 					if typeof filter != "object" {
-						let dependencyInjector = <Phalcon\Di> this->_dependencyInjector;
+						let dependencyInjector = <\Phalcon\Di> this->_dependencyInjector;
 						if typeof dependencyInjector != "object" {
-							throw new Phalcon\Http\Request\Exception("A dependency injection object is required to access the 'filter' service");
+							throw new \Phalcon\Http\Request\Exception("A dependency injection object is required to access the 'filter' service");
 						}
-						let filter = <Phalcon\Filter> dependencyInjector->getShared("filter");
+						let filter = <\Phalcon\Filter> dependencyInjector->getShared("filter");
 						let this->_filter = filter;
 					}
 					return filter->sanitize(value, filters);
@@ -137,11 +137,11 @@ class Request implements Phalcon\Http\RequestInterface, Phalcon\Di\InjectionAwar
 				if filters !== null {
 					let filter = this->_filter;
 					if typeof filter != "object" {
-						let dependencyInjector = <Phalcon\Di> this->_dependencyInjector;
+						let dependencyInjector = <\Phalcon\Di> this->_dependencyInjector;
 						if typeof dependencyInjector != "object" {
-							throw new Phalcon\Http\Request\Exception("A dependency injection object is required to access the 'filter' service");
+							throw new \Phalcon\Http\Request\Exception("A dependency injection object is required to access the 'filter' service");
 						}
-						let filter = <Phalcon\Filter> dependencyInjector->getShared("filter");
+						let filter = <\Phalcon\Filter> dependencyInjector->getShared("filter");
 						let this->_filter = filter;
 					}
 					return filter->sanitize(value, filters);
@@ -184,11 +184,11 @@ class Request implements Phalcon\Http\RequestInterface, Phalcon\Di\InjectionAwar
 				if filters !== null {
 					let filter = this->_filter;
 					if typeof filter != "object" {
-						let dependencyInjector = <Phalcon\Di> this->_dependencyInjector;
+						let dependencyInjector = <\Phalcon\Di> this->_dependencyInjector;
 						if typeof dependencyInjector != "object" {
-							throw new Phalcon\Http\Request\Exception("A dependency injection object is required to access the 'filter' service");
+							throw new \Phalcon\Http\Request\Exception("A dependency injection object is required to access the 'filter' service");
 						}
-						let filter = <Phalcon\Filter> dependencyInjector->getShared("filter");
+						let filter = <\Phalcon\Filter> dependencyInjector->getShared("filter");
 						let this->_filter = filter;
 					}
 					return filter->sanitize(value, filters);
@@ -660,7 +660,7 @@ class Request implements Phalcon\Http\RequestInterface, Phalcon\Di\InjectionAwar
 	 * @param boolean notErrored
 	 * @return Phalcon\Http\Request\File[]
 	 */
-	public function getUploadedFiles(boolean notErrored=false) -> <Phalcon\Http\Request\File[]>
+	public function getUploadedFiles(boolean notErrored=false) -> <\Phalcon\Http\Request\File[]>
 	{
 		var files, superFiles, file, error;
 
@@ -673,10 +673,10 @@ class Request implements Phalcon\Http\RequestInterface, Phalcon\Di\InjectionAwar
 						let error = true;
 					}
 					if !error {
-						let files[] = new Phalcon\Http\Request\File(file);
+						let files[] = new \Phalcon\Http\Request\File(file);
 					}
 				} else {
-					let files[] = new Phalcon\Http\Request\File(file);
+					let files[] = new \Phalcon\Http\Request\File(file);
 				}
 			}
 			return files;
@@ -872,7 +872,7 @@ class Request implements Phalcon\Http\RequestInterface, Phalcon\Di\InjectionAwar
 		let auth = [];
 		if fetch digest, _SERVER["PHP_AUTH_USER"] {
 			let matches = [];
-			if !preg_match_all("#(\\w+)=(['\"]?)([^'\" ,]+)\2#", digest, matches, 2) {
+			if !preg_match_all("#(\\w+)=(['\"]?)([^'\" ,]+)\\2#", digest, matches, 2) {
 				return auth;
 			}
 

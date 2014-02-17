@@ -41,11 +41,11 @@
  *<?php
  *
  *	//Create a None Cache
- *	$frontCache = new Phalcon\Cache\Frontend\None();
+ *	$frontCache = new \Phalcon\Cache\Frontend\None();
  *
  *	// Create the component that will cache "Data" to a "Memcached" backend
  *	// Memcached connection settings
- *	$cache = new Phalcon\Cache\Backend\Memcache($frontCache, array(
+ *	$cache = new \Phalcon\Cache\Backend\Memcache($frontCache, array(
  *		"host" => "localhost",
  *		"port" => "11211"
  *	));

@@ -44,14 +44,14 @@
  *<code>
  *
  *	// Cache the files for 2 days using Igbinary frontend
- *	$frontCache = new Phalcon\Cache\Frontend\Igbinary(array(
+ *	$frontCache = new \Phalcon\Cache\Frontend\Igbinary(array(
  *		"lifetime" => 172800
  *	));
  *
  *	// Create the component that will cache "Igbinary" to a "File" backend
  *	// Set the cache file directory - important to keep the "/" at the end of
  *	// of the value for the folder
- *	$cache = new Phalcon\Cache\Backend\File($frontCache, array(
+ *	$cache = new \Phalcon\Cache\Backend\File($frontCache, array(
  *		"cacheDir" => "../app/cache/"
  *	));
  *

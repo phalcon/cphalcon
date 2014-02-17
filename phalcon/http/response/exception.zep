@@ -25,7 +25,7 @@ namespace Phalcon\Http\Response;
  * Exceptions thrown in Phalcon\Http\Response will use this class
  *
  */
-class Exception extends Phalcon\Exception
+class Exception extends \Phalcon\Exception
 {
 
 }

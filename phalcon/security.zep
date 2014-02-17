@@ -52,7 +52,7 @@ class Security //implements Phalcon\Di\InjectionAwareInterface
 	*
 	* @param Phalcon\DiInterface $dependencyInjector
 	*/
-	public function setDI(<Phalcon\DiInterface> dependencyInjector) -> void
+	public function setDI(<\Phalcon\DiInterface> dependencyInjector) -> void
 	{
 		let this->_dependencyInjector = dependencyInjector;
 	}
@@ -62,7 +62,7 @@ class Security //implements Phalcon\Di\InjectionAwareInterface
 	*
 	* @return Phalcon\DiInterface
 	*/
-	public function getDI() -> <Phalcon\DiInterface>
+	public function getDI() -> <\Phalcon\DiInterface>
 	{
 		return this->_dependencyInjector;
 	}
@@ -75,7 +75,7 @@ class Security //implements Phalcon\Di\InjectionAwareInterface
 	public function setRandomBytes(randomBytes) -> void
 	{
 		if typeof randomBytes != "long" {
-			throw new Phalcon\Security\Exception("At least 16 bytes are needed to produce a correct salt");
+			throw new \Phalcon\Security\Exception("At least 16 bytes are needed to produce a correct salt");
 		}
 
 		let this->_numberBytes = randomBytes;
@@ -101,7 +101,7 @@ class Security //implements Phalcon\Di\InjectionAwareInterface
 		var numberBytes, randomBytes, safeBytes, bytesLength, base64Bytes, filter;
 
 		if !function_exists("openssl_random_pseudo_bytes") {
-			throw new Phalcon\Security\Exception("Openssl extension must be loaded");
+			throw new \Phalcon\Security\Exception("Openssl extension must be loaded");
 		}
 
 		let numberBytes = this->_numberBytes;
@@ -110,7 +110,7 @@ class Security //implements Phalcon\Di\InjectionAwareInterface
 		{
 			let randomBytes = openssl_random_pseudo_bytes(numberBytes);
 			let base64Bytes = base64_encode(randomBytes);
-			let filter = new Phalcon\Filter();
+			let filter = new \Phalcon\Filter();
 			let safeBytes = filter->sanitize(base64Bytes, "alphnum");
 
 			if !safeBytes {
@@ -204,17 +204,17 @@ class Security //implements Phalcon\Di\InjectionAwareInterface
 		}
 
 		if !function_exists("openssl_random_pseudo_bytes") {
-			throw new Phalcon\Security\Exception("Openssl extension must be loaded");
+			throw new \Phalcon\Security\Exception("Openssl extension must be loaded");
 		}
 
 		let randomBytes = openssl_random_pseudo_bytes(numberBytes);
 		let base64Bytes = base64_encode(randomBytes);
-		let filter = new Phalcon\Filter();
+		let filter = new \Phalcon\Filter();
 		let safeBytes = filter->sanitize(base64Bytes, "alphnum");
 		let dependencyInjector = this->_dependencyInjector;
 
 		if typeof dependencyInjector != "object" {
-			throw new Phalcon\Security\Exception("A dependency injection container is required to access the 'session' service");
+			throw new \Phalcon\Security\Exception("A dependency injection container is required to access the 'session' service");
 		}
 
 		let session = dependencyInjector->getShared("session");
@@ -238,14 +238,14 @@ class Security //implements Phalcon\Di\InjectionAwareInterface
 		}
 
 		if !function_exists("openssl_random_pseudo_bytes") {
-			throw new Phalcon\Security\Exception("Openssl extension must be loaded");
+			throw new \Phalcon\Security\Exception("Openssl extension must be loaded");
 		}
 
 		let token = openssl_random_pseudo_bytes(numberBytes);
 		let dependencyInjector = this->_dependencyInjector;
 
 		if typeof dependencyInjector != "object" {
-			throw new Phalcon\Security\Exception("A dependency injection container is required to access the 'session' service");
+			throw new \Phalcon\Security\Exception("A dependency injection container is required to access the 'session' service");
 		}
 
 		let session = dependencyInjector->getShared("session");
@@ -268,7 +268,7 @@ class Security //implements Phalcon\Di\InjectionAwareInterface
 		let dependencyInjector = this->_dependencyInjector;
 
 		if typeof dependencyInjector != "object" {
-			throw new Phalcon\Security\Exception("A dependency injection container is required to access the 'session' service");
+			throw new \Phalcon\Security\Exception("A dependency injection container is required to access the 'session' service");
 		}
 
 		let session = dependencyInjector->getShared("session");
@@ -312,7 +312,7 @@ class Security //implements Phalcon\Di\InjectionAwareInterface
 		let dependencyInjector = this->_dependencyInjector;
 
 		if typeof dependencyInjector != "object" {
-			throw new Phalcon\Security\Exception("A dependency injection container is required to access the 'session' service");
+			throw new \Phalcon\Security\Exception("A dependency injection container is required to access the 'session' service");
 		}
 
 		let session = dependencyInjector->getShared("session");
@@ -328,7 +328,7 @@ class Security //implements Phalcon\Di\InjectionAwareInterface
 
 		let ops = hash_hmac(algo, algo, key, raw);
 		if !ops {
-			throw new Phalcon\Security\Exception("Unknown hashing algorithm: %s" . algo);
+			throw new \Phalcon\Security\Exception("Unknown hashing algorithm: %s" . algo);
 		}
 
 		return ops;

@@ -78,7 +78,7 @@ class Multiple
 	{
 		if typeof backends != "null" {
 			if typeof backends != "array" {
-				throw new Phalcon\Cache\Exception("The backends must be an array");
+				throw new \Phalcon\Cache\Exception("The backends must be an array");
 			}
 			let this->_backends = backends;
 		}
@@ -90,10 +90,10 @@ class Multiple
 	 * @param Phalcon\Cache\BackendInterface backend
 	 * @return Phalcon\Cache\Multiple
 	 */
-	public function push(<Phalcon\Cache\BackendInterface> backend) -> <Phalcon\Cache\Multiple>
+	public function push(<\Phalcon\Cache\BackendInterface> backend) -> <\Phalcon\Cache\Multiple>
 	{
 		if typeof backend != "object" {
-			throw new Phalcon\Cache\Exception("The backend is not valid");
+			throw new \Phalcon\Cache\Exception("The backend is not valid");
 		}
 
 		let this->_backends = backend;

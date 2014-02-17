@@ -24,7 +24,7 @@ namespace Phalcon\Forms\Element;
  *
  * Component INPUT[type=check] for forms
  */
-class Check extends Phalcon\Forms\Element implements Phalcon\Forms\ElementInterface
+class Check extends \Phalcon\Forms\Element implements \Phalcon\Forms\ElementInterface
 {
 
 	/**
@@ -35,7 +35,7 @@ class Check extends Phalcon\Forms\Element implements Phalcon\Forms\ElementInterf
 	 */
 	public function render(var attributes=null) -> string
 	{
-		return Phalcon\Tag::checkField(this->prepareAttributes(attributes, true));
+		return \Phalcon\Tag::checkField(this->prepareAttributes(attributes, true));
 	}
 
 }

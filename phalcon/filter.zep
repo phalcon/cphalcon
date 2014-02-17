@@ -27,14 +27,14 @@ namespace Phalcon;
  * define his/her own filters
  *
  *<code>
- *	$filter = new Phalcon\Filter();
+ *	$filter = new \Phalcon\Filter();
  *	$filter->sanitize("some(one)@exa\\mple.com", "email"); // returns "someone@example.com"
  *	$filter->sanitize("hello<<", "string"); // returns "hello"
  *	$filter->sanitize("!100a019", "int"); // returns "100019"
  *	$filter->sanitize("!100a019.01a", "float"); // returns "100019.01"
  *</code>
  */
-class Filter implements Phalcon\FilterInterface
+class Filter implements \Phalcon\FilterInterface
 {
 
 	protected _filters;
@@ -46,11 +46,11 @@ class Filter implements Phalcon\FilterInterface
 	 * @param callable handler
 	 * @return Phalcon\Filter
 	 */
-	public function add(string! name, handler) -> <Phalcon\Filter>
+	public function add(string! name, handler) -> <\Phalcon\Filter>
 	{
 
 		if typeof handler != "object" {
-			throw new Phalcon\Filter\Exception("Filter must be an object");
+			throw new \Phalcon\Filter\Exception("Filter must be an object");
 		}
 
 		let this->_filters[name] = handler;
@@ -179,7 +179,7 @@ class Filter implements Phalcon\FilterInterface
 				return strtoupper(value);
 
 			default:
-				throw new Phalcon\Filter\Exception("Sanitize filter '" . filter . "' is not supported");
+				throw new \Phalcon\Filter\Exception("Sanitize filter '" . filter . "' is not supported");
 		}
 	}
 

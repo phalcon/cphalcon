@@ -13,12 +13,12 @@
 
 #include "kernel/main.h"
 #include "kernel/exception.h"
+#include "kernel/memory.h"
+#include "kernel/fcall.h"
 #include "kernel/object.h"
 #include "ext/spl/spl_exceptions.h"
-#include "kernel/memory.h"
 #include "kernel/operators.h"
 #include "kernel/hash.h"
-#include "kernel/fcall.h"
 #include "kernel/array.h"
 #include "kernel/string.h"
 #include "kernel/concat.h"
@@ -49,7 +49,7 @@
  * define his/her own filters
  *
  *<code>
- *	$filter = new Phalcon\Filter();
+ *	$filter = new \Phalcon\Filter();
  *	$filter->sanitize("some(one)@exa\\mple.com", "email"); // returns "someone@example.com"
  *	$filter->sanitize("hello<<", "string"); // returns "hello"
  *	$filter->sanitize("!100a019", "int"); // returns "100019"
@@ -77,7 +77,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Filter) {
  */
 PHP_METHOD(Phalcon_Filter, add) {
 
-	zval *name_param = NULL, *handler;
+	zval *name_param = NULL, *handler, *_0, *_1;
 	zval *name = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -97,7 +97,13 @@ PHP_METHOD(Phalcon_Filter, add) {
 
 
 	if ((Z_TYPE_P(handler) != IS_OBJECT)) {
-		ZEPHIR_THROW_EXCEPTION_STR(phalcon_filter_exception_ce, "Filter must be an object");
+		ZEPHIR_INIT_VAR(_0);
+		object_init_ex(_0, phalcon_filter_exception_ce);
+		ZEPHIR_INIT_VAR(_1);
+		ZVAL_STRING(_1, "Filter must be an object", 1);
+		zephir_call_method_p1_noret(_0, "__construct", _1);
+		zephir_throw_exception(_0 TSRMLS_CC);
+		ZEPHIR_MM_RESTORE();
 		return;
 	}
 	zephir_update_property_array(this_ptr, SL("_filters"), name, handler TSRMLS_CC);
@@ -135,8 +141,8 @@ PHP_METHOD(Phalcon_Filter, sanitize) {
 		if ((Z_TYPE_P(value) != IS_NULL)) {
 			zephir_is_iterable(filters, &_1, &_0, 0, 0);
 			for (
-				; zend_hash_get_current_data_ex(_1, (void**) &_2, &_0) == SUCCESS
-				; zend_hash_move_forward_ex(_1, &_0)
+			  ; zend_hash_get_current_data_ex(_1, (void**) &_2, &_0) == SUCCESS
+			  ; zephir_hash_move_forward_ex(_1, &_0)
 			) {
 				ZEPHIR_GET_HVALUE(filter, _2);
 				_3 = (Z_TYPE_P(value) == IS_ARRAY);
@@ -148,8 +154,8 @@ PHP_METHOD(Phalcon_Filter, sanitize) {
 					array_init(arrayValue);
 					zephir_is_iterable(value, &_5, &_4, 0, 0);
 					for (
-						; zend_hash_get_current_data_ex(_5, (void**) &_6, &_4) == SUCCESS
-						; zend_hash_move_forward_ex(_5, &_4)
+					  ; zend_hash_get_current_data_ex(_5, (void**) &_6, &_4) == SUCCESS
+					  ; zephir_hash_move_forward_ex(_5, &_4)
 					) {
 						ZEPHIR_GET_HMKEY(itemKey, _5, _4);
 						ZEPHIR_GET_HVALUE(itemValue, _6);
@@ -170,8 +176,8 @@ PHP_METHOD(Phalcon_Filter, sanitize) {
 		array_init(sanitizedValue);
 		zephir_is_iterable(value, &_11, &_10, 0, 0);
 		for (
-			; zend_hash_get_current_data_ex(_11, (void**) &_12, &_10) == SUCCESS
-			; zend_hash_move_forward_ex(_11, &_10)
+		  ; zend_hash_get_current_data_ex(_11, (void**) &_12, &_10) == SUCCESS
+		  ; zephir_hash_move_forward_ex(_11, &_10)
 		) {
 			ZEPHIR_GET_HMKEY(itemKey, _11, _10);
 			ZEPHIR_GET_HVALUE(itemValue, _12);
@@ -218,7 +224,7 @@ PHP_METHOD(Phalcon_Filter, _sanitize) {
 	ZEPHIR_OBS_VAR(filterObject);
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_filters"), PH_NOISY_CC);
 	if (zephir_array_isset_fetch(&filterObject, _0, filter, 0 TSRMLS_CC)) {
-		if (zephir_is_instance_of(filterObject, SL("Closure") TSRMLS_CC)) {
+		if (zephir_is_instance_of(filterObject, SL("Phalcon\\Closure") TSRMLS_CC)) {
 			ZEPHIR_INIT_VAR(_1);
 			array_init_size(_1, 2);
 			zephir_array_fast_append(_1, value);

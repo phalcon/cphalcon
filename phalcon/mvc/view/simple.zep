@@ -25,12 +25,12 @@ namespace Phalcon\Mvc\View;
  * This component allows to render views without hicherquical levels
  *
  *<code>
- * $view = new Phalcon\Mvc\View\Simple();
+ * $view = new \Phalcon\Mvc\View\Simple();
  * echo $view->render('templates/my-view', array('content' => $html));
  *</code>
  *
  */
-class Simple extends Phalcon\Di\Injectable
+class Simple extends \Phalcon\Di\Injectable
 {
 
 	protected _options;
@@ -101,7 +101,7 @@ class Simple extends Phalcon\Di\Injectable
 	public function registerEngines(engines)
 	{
 		if typeof engines != "array" {
-			throw new Phalcon\Mvc\View\Exception("Engines to register must be an array");
+			throw new \Phalcon\Mvc\View\Exception("Engines to register must be an array");
 		}
 		let this->_registeredEngines = engines;
 	}
@@ -133,12 +133,12 @@ class Simple extends Phalcon\Di\Injectable
 				 * We use Phalcon\Mvc\View\Engine\Php as default
 				 * Use .phtml as extension for the PHP engine
 				 */
-				let engines[".phtml"] = new Phalcon\Mvc\View\Engine\Php(this, dependencyInjector);
+				let engines[".phtml"] = new \Phalcon\Mvc\View\Engine\Php(this, dependencyInjector);
 
 			} else {
 
 				if typeof dependencyInjector != "object" {
-					throw new Phalcon\Mvc\View\Exception("A dependency injector container is required to obtain the application services");
+					throw new \Phalcon\Mvc\View\Exception("A dependency injector container is required to obtain the application services");
 				}
 
 				/**
@@ -164,7 +164,7 @@ class Simple extends Phalcon\Di\Injectable
 						if typeof engineService == "string" {
 							let engineObject = dependencyInjector->getShared(engineService, arguments);
 						} else {
-							throw new Phalcon\Mvc\View\Exception("Invalid template engine registration for extension: " . extension);
+							throw new \Phalcon\Mvc\View\Exception("Invalid template engine registration for extension: " . extension);
 						}
 					}
 
@@ -248,7 +248,7 @@ class Simple extends Phalcon\Di\Injectable
 		 * Always throw an exception if the view does not exist
 		 */
 		if notExists === true {
-			throw new Phalcon\Mvc\View\Exception("View '" . viewsDirPath . "' was not found in the views directory");
+			throw new \Phalcon\Mvc\View\Exception("View '" . viewsDirPath . "' was not found in the views directory");
 		}
 
 		/**
@@ -439,7 +439,7 @@ class Simple extends Phalcon\Di\Injectable
 	 * @param  array options
 	 * @return Phalcon\Mvc\View\Simple
 	 */
-	public function setCacheOptions(options) -> <Phalcon\Mvc\View\Simple>
+	public function setCacheOptions(options) -> <\Phalcon\Mvc\View\Simple>
 	{
 		let this->_cacheOptions = options;
 		return this;
@@ -460,13 +460,13 @@ class Simple extends Phalcon\Di\Injectable
 	 *
 	 * @return Phalcon\Cache\BackendInterface
 	 */
-	protected function _createCache() -> <Phalcon\Cache\BackendInterface>
+	protected function _createCache() -> <\Phalcon\Cache\BackendInterface>
 	{
         var dependencyInjector, cacheService, cacheOptions, viewCache;
 
 		let dependencyInjector = this->_dependencyInjector;
 		if typeof dependencyInjector == "object" {
-			throw new Phalcon\Mvc\View\Exception("A dependency injector container is required to obtain the view cache services");
+			throw new \Phalcon\Mvc\View\Exception("A dependency injector container is required to obtain the view cache services");
 		}
 
 		let cacheService = "viewCache";
@@ -481,7 +481,7 @@ class Simple extends Phalcon\Di\Injectable
 		 */
 		let viewCache = dependencyInjector->getShared(cacheService);
 		if typeof viewCache == "object" {
-			throw new Phalcon\Mvc\View\Exception("The injected caching service is invalid");
+			throw new \Phalcon\Mvc\View\Exception("The injected caching service is invalid");
 		}
 
 		return viewCache;
@@ -515,7 +515,7 @@ class Simple extends Phalcon\Di\Injectable
 	 * @param boolean|array options
 	 * @return Phalcon\Mvc\View\Simple
 	 */
-	public function cache(var options=true) -> <Phalcon\Mvc\View\Simple>
+	public function cache(var options=true) -> <\Phalcon\Mvc\View\Simple>
 	{
 		if typeof options == "array" {
 			let this->_cache = true, this->_cacheOptions = options;
@@ -540,7 +540,7 @@ class Simple extends Phalcon\Di\Injectable
 	 * @param mixed $value
 	 * @return Phalcon\Mvc\View\Simple
 	 */
-	public function setParamToView(string! key, var value) -> <Phalcon\Mvc\View\Simple>
+	public function setParamToView(string! key, var value) -> <\Phalcon\Mvc\View\Simple>
 	{
 		let this->_viewParams[key] = value;
 		return this;
@@ -557,12 +557,12 @@ class Simple extends Phalcon\Di\Injectable
 	 * @param  boolean merge
 	 * @return Phalcon\Mvc\View\Simple
 	 */
-	public function setVars(var params, boolean merge=true) -> <Phalcon\Mvc\View\Simple>
+	public function setVars(var params, boolean merge=true) -> <\Phalcon\Mvc\View\Simple>
 	{
 	    var viewParams, mergedParams;
 
 		if typeof params != "array" {
-			throw new Phalcon\Mvc\View\Exception("The render parameters must be an array");
+			throw new \Phalcon\Mvc\View\Exception("The render parameters must be an array");
 		}
 
 		if merge {
@@ -591,7 +591,7 @@ class Simple extends Phalcon\Di\Injectable
 	 * @param mixed  value
 	 * @return Phalcon\Mvc\View\Simple
 	 */
-	public function setVar(string! key, value) -> <Phalcon\Mvc\View\Simple>
+	public function setVar(string! key, value) -> <\Phalcon\Mvc\View\Simple>
 	{
 		let this->_viewParams[key] = value;
 		return this;
@@ -631,7 +631,7 @@ class Simple extends Phalcon\Di\Injectable
 	 * @param  string content
 	 * @return Phalcon\Mvc\View\Simple
 	 */
-	public function setContent(string! content) -> <Phalcon\Mvc\View\Simple>
+	public function setContent(string! content) -> <\Phalcon\Mvc\View\Simple>
 	{
 		let this->_content = content;
 		return this;

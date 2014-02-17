@@ -73,7 +73,7 @@ class Beanstalk
 
 		let connection = fsockopen(parameters["host"], parameters["port"], null, null);
 		if !is_resource(connection) {
-			throw new Phalcon\Exception("Can't connect to Beanstalk server");
+			throw new \Phalcon\Exception("Can't connect to Beanstalk server");
 		}
 
 		stream_set_timeout(connection, -1, null);
@@ -184,7 +184,7 @@ class Beanstalk
 			/**
 			 * Create a beanstalk job abstraction
 			 */
-			return new Phalcon\Queue\Beanstalk\Job(this, jobId, body);
+			return new \Phalcon\Queue\Beanstalk\Job(this, jobId, body);
 		}
 
 		return false;
@@ -259,7 +259,7 @@ class Beanstalk
 			let serializedBody = this->read(length);
 			let body = unserialize(serializedBody);
 
-			return new Phalcon\Queue\Beanstalk\Job(this, jobId, body);
+			return new \Phalcon\Queue\Beanstalk\Job(this, jobId, body);
 		}
 
 		return false;
@@ -307,7 +307,7 @@ class Beanstalk
 
 			let timeout = meta["timed_out"];
 			if timeout {
-				throw new Phalcon\Exception("Connection timed out");
+				throw new \Phalcon\Exception("Connection timed out");
 			}
 
 			let packet = rtrim(data, "\r\n");

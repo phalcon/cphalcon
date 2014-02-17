@@ -33,7 +33,7 @@ namespace Phalcon\Validation\Validator;
  *)));
  *</code>
  */
-class InclusionIn extends Phalcon\Validation\Validator implements Phalcon\Validation\ValidatorInterface
+class InclusionIn extends \Phalcon\Validation\Validator implements \Phalcon\Validation\ValidatorInterface
 {
 
 	/**
@@ -43,22 +43,22 @@ class InclusionIn extends Phalcon\Validation\Validator implements Phalcon\Valida
 	 * @param string field
 	 * @return boolean
 	 */
-	public function validate(<Phalcon\Validation> validation, field) -> boolean
+	public function validate(<\Phalcon\Validation> validation, field) -> boolean
 	{
 		var value, domain, message, label, replacePairs;
 
 		let value = validation->getValue(field);
 
-                if this->isSetOption("allowEmpty") && empty value {
-                    return true;
-                }
+		if this->isSetOption("allowEmpty") && empty value {
+			return true;
+		}
 
 		/**
 		 * A domain is an array with a list of valid values
 		 */
 		let domain = this->getOption("domain");
 		if typeof domain != "array" {
-			throw new Phalcon\Validation\Exception("Option 'domain' must be an array");
+			throw new \Phalcon\Validation\Exception("Option 'domain' must be an array");
 		}
 
 		/**
@@ -66,16 +66,16 @@ class InclusionIn extends Phalcon\Validation\Validator implements Phalcon\Valida
 		 */
 		if !in_array(value, domain) {
 
-                        let label = this->getOption("label");
-                        if empty label {
-                                let label = validation->getLabel(field);
-                                if empty label {
-                                        let label = field;
-                                }
+			let label = this->getOption("label");
+			if empty label {
+				let label = validation->getLabel(field);
+				if empty label {
+					let label = field;
+				}
 			}
 
 			let message = this->getOption("message");
-                        let replacePairs = [":field": label, ":domain":  join(", ", domain)];
+			let replacePairs = [":field": label, ":domain":  join(", ", domain)];
 			if empty message {
 				let message = validation->getDefaultMessage("InclusionIn");
 			}

@@ -25,7 +25,7 @@ namespace Phalcon\Assets;
  * Represents an asset resource
  *
  *<code>
- * $resource = new Phalcon\Assets\Resource('js', 'javascripts/jquery.js');
+ * $resource = new \Phalcon\Assets\Resource('js', 'javascripts/jquery.js');
  *</code>
  */
  class Resource
@@ -73,7 +73,7 @@ namespace Phalcon\Assets;
 	 * @param string type
 	 * @return Phalcon\Assets\Resource
 	 */
-	public function setType(string type) -> <Phalcon\Assets\Resource>
+	public function setType(string type) -> <\Phalcon\Assets\Resource>
 	{
 		let this->_type = type;
 		return this;
@@ -95,7 +95,7 @@ namespace Phalcon\Assets;
 	 * @param string path
 	 * @return Phalcon\Assets\Resource
 	 */
-	public function setPath(string path) -> <Phalcon\Assets\Resource>
+	public function setPath(string path) -> <\Phalcon\Assets\Resource>
 	{
 		let this->_path = path;
 		return this;
@@ -117,7 +117,7 @@ namespace Phalcon\Assets;
 	 * @param boolean local
 	 * @return Phalcon\Assets\Resource
 	 */
-	public function setLocal(boolean local) -> <Phalcon\Assets\Resource>
+	public function setLocal(boolean local) -> <\Phalcon\Assets\Resource>
 	{
 		let this->_local = local;
 		return this;
@@ -139,7 +139,7 @@ namespace Phalcon\Assets;
 	 * @param boolean filter
 	 * @return Phalcon\Assets\Resource
 	 */
-	public function setFilter(boolean filter) -> <Phalcon\Assets\Resource>
+	public function setFilter(boolean filter) -> <\Phalcon\Assets\Resource>
 	{
 		let this->_filter = filter;
 		return this;
@@ -161,7 +161,7 @@ namespace Phalcon\Assets;
 	 * @param array attributes
 	 * @return Phalcon\Assets\Resource
 	 */
-	public function setAttributes(attributes) -> <Phalcon\Assets\Resource>
+	public function setAttributes(attributes) -> <\Phalcon\Assets\Resource>
 	{
 		let this->_attributes = attributes;
 		return this;
@@ -183,7 +183,7 @@ namespace Phalcon\Assets;
 	 * @param string targetUri
 	 * @return Phalcon\Assets\Resource
 	 */
-	public function setTargetUri(string targetUri) -> <Phalcon\Assets\Resource>
+	public function setTargetUri(string targetUri) -> <\Phalcon\Assets\Resource>
 	{
 		let this->_targetUri = targetUri;
 		return this;
@@ -205,7 +205,7 @@ namespace Phalcon\Assets;
 	 * @param string sourcePath
 	 * @return Phalcon\Assets\Resource
 	 */
-	public function setSourcePath(string sourcePath) -> <Phalcon\Assets\Resource>
+	public function setSourcePath(string sourcePath) -> <\Phalcon\Assets\Resource>
 	{
 		let this->_sourcePath = sourcePath;
 		return this;
@@ -227,7 +227,7 @@ namespace Phalcon\Assets;
 	 * @param string targetPath
 	 * @return Phalcon\Assets\Resource
 	 */
-	public function setTargetPath(string targetPath) -> <Phalcon\Assets\Resource>
+	public function setTargetPath(string targetPath) -> <\Phalcon\Assets\Resource>
 	{
 		let this->_targetPath = targetPath;
 		return this;
@@ -273,7 +273,7 @@ namespace Phalcon\Assets;
 			 * Check first if the file is readable
 			 */
 			if !file_exists(completePath) {
-				throw new Phalcon\Assets\Exception("Resource's content for '" . completePath . "' cannot be read");
+				throw new \Phalcon\Assets\Exception("Resource's content for '" . completePath . "' cannot be read");
 			}
 
 		}
@@ -283,7 +283,7 @@ namespace Phalcon\Assets;
 		 */
 		let content = file_get_contents(completePath);
 		if content === false {
-			throw new Phalcon\Assets\Exception("Resource's content for '" . completePath . "' cannot be read");
+			throw new \Phalcon\Assets\Exception("Resource's content for '" . completePath . "' cannot be read");
 		}
 
 		return content;

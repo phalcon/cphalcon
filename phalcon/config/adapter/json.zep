@@ -19,7 +19,7 @@
 
 namespace Phalcon\Config\Adapter;
 
-class Json  extends Phalcon\Config
+class Json  extends \Phalcon\Config
 {
 
 	/**

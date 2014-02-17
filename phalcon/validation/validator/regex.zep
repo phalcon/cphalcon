@@ -33,7 +33,7 @@ namespace Phalcon\Validation\Validator;
  *)));
  *</code>
  */
-class Regex extends Phalcon\Validation\Validator implements Phalcon\Validation\ValidatorInterface
+class Regex extends \Phalcon\Validation\Validator implements \Phalcon\Validation\ValidatorInterface
 {
 
 	/**
@@ -43,7 +43,7 @@ class Regex extends Phalcon\Validation\Validator implements Phalcon\Validation\V
 	 * @param  string field
 	 * @return boolean
 	 */
-	public function validate(<Phalcon\Validation> validation, field) -> boolean
+	public function validate(<\Phalcon\Validation> validation, field) -> boolean
 	{
 		var matches, failed, message, value, label, replacePairs;
 
@@ -54,9 +54,9 @@ class Regex extends Phalcon\Validation\Validator implements Phalcon\Validation\V
 		let matches = null;
 		let value = validation->getValue(field);
 
-                if this->isSetOption("allowEmpty") && empty value {
-                    return true;
-                }
+		if this->isSetOption("allowEmpty") && empty value {
+			return true;
+		}
 
 		if preg_match(this->getOption("pattern"), value, matches) {
 			let failed = matches[0] != value;
@@ -66,18 +66,18 @@ class Regex extends Phalcon\Validation\Validator implements Phalcon\Validation\V
 
 		if failed === true {
 
-                        let label = this->getOption("label");
-                        if empty label {
-                                let label = validation->getLabel(field);
-                                if empty label {
-                                        let label = field;
-                                }
+			let label = this->getOption("label");
+			if empty label {
+				let label = validation->getLabel(field);
+				if empty label {
+					let label = field;
+				}
 			}
 
 			let message = this->getOption("message");
-                        let replacePairs = [":field": label];
+			let replacePairs = [":field": label];
 			if empty message {
-                                let message = validation->getDefaultMessage("Regex");
+				let message = validation->getDefaultMessage("Regex");
 			}
 
 			validation->appendMessage(new Phalcon\Validation\Message(strtr(message, replacePairs), field, "Regex"));

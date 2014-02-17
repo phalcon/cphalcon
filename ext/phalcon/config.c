@@ -13,10 +13,10 @@
 
 #include "kernel/main.h"
 #include "kernel/exception.h"
-#include "kernel/hash.h"
-#include "kernel/object.h"
 #include "kernel/memory.h"
 #include "kernel/fcall.h"
+#include "kernel/hash.h"
+#include "kernel/object.h"
 #include "ext/spl/spl_exceptions.h"
 #include "kernel/array.h"
 
@@ -46,7 +46,7 @@
  * application code.
  *
  *<code>
- *	$config = new Phalcon\Config(array(
+ *	$config = new \Phalcon\Config(array(
  *		"database" => array(
  *			"adapter" => "Mysql",
  *			"host" => "localhost",
@@ -80,11 +80,11 @@ ZEPHIR_INIT_CLASS(Phalcon_Config) {
  */
 PHP_METHOD(Phalcon_Config, __construct) {
 
-	zend_function *_7 = NULL;
-	HashTable *_1, *_4;
-	HashPosition _0, _3;
+	zend_function *_5 = NULL;
+	HashTable *_3, *_7;
+	HashPosition _2, _6;
 	zend_bool hasNumericKey;
-	zval *arrayConfig = NULL, *key = NULL, *value = NULL, *subkey = NULL, *subvalue = NULL, **_2, **_5, *_6 = NULL;
+	zval *arrayConfig = NULL, *key = NULL, *value = NULL, *subkey = NULL, *subvalue = NULL, *_0 = NULL, *_1 = NULL, **_4, **_8;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 1, &arrayConfig);
@@ -96,32 +96,44 @@ PHP_METHOD(Phalcon_Config, __construct) {
 
 	if ((Z_TYPE_P(arrayConfig) != IS_ARRAY)) {
 		if ((Z_TYPE_P(arrayConfig) != IS_NULL)) {
-			ZEPHIR_THROW_EXCEPTION_STR(phalcon_config_exception_ce, "The configuration must be an Array");
+			ZEPHIR_INIT_VAR(_0);
+			object_init_ex(_0, phalcon_config_exception_ce);
+			ZEPHIR_INIT_VAR(_1);
+			ZVAL_STRING(_1, "The configuration must be an Array", 1);
+			zephir_call_method_p1_noret(_0, "__construct", _1);
+			zephir_throw_exception(_0 TSRMLS_CC);
+			ZEPHIR_MM_RESTORE();
 			return;
 		} else {
 			RETURN_MM_NULL();
 		}
 	}
-	zephir_is_iterable(arrayConfig, &_1, &_0, 0, 0);
+	zephir_is_iterable(arrayConfig, &_3, &_2, 0, 0);
 	for (
-		; zend_hash_get_current_data_ex(_1, (void**) &_2, &_0) == SUCCESS
-		; zend_hash_move_forward_ex(_1, &_0)
+	  ; zend_hash_get_current_data_ex(_3, (void**) &_4, &_2) == SUCCESS
+	  ; zephir_hash_move_forward_ex(_3, &_2)
 	) {
-		ZEPHIR_GET_HMKEY(key, _1, _0);
-		ZEPHIR_GET_HVALUE(value, _2);
+		ZEPHIR_GET_HMKEY(key, _3, _2);
+		ZEPHIR_GET_HVALUE(value, _4);
 		if ((Z_TYPE_P(key) != IS_STRING)) {
-			ZEPHIR_THROW_EXCEPTION_STR(phalcon_config_exception_ce, "Only string keys are allowed as configuration properties");
+			ZEPHIR_INIT_LNVAR(_0);
+			object_init_ex(_0, phalcon_config_exception_ce);
+			ZEPHIR_INIT_NVAR(_1);
+			ZVAL_STRING(_1, "Only string keys are allowed as configuration properties", 1);
+			zephir_call_method_p1_cache_noret(_0, "__construct", &_5, _1);
+			zephir_throw_exception(_0 TSRMLS_CC);
+			ZEPHIR_MM_RESTORE();
 			return;
 		}
 		if ((Z_TYPE_P(value) == IS_ARRAY)) {
 			hasNumericKey = 0;
-			zephir_is_iterable(value, &_4, &_3, 0, 0);
+			zephir_is_iterable(value, &_7, &_6, 0, 0);
 			for (
-				; zend_hash_get_current_data_ex(_4, (void**) &_5, &_3) == SUCCESS
-				; zend_hash_move_forward_ex(_4, &_3)
+			  ; zend_hash_get_current_data_ex(_7, (void**) &_8, &_6) == SUCCESS
+			  ; zephir_hash_move_forward_ex(_7, &_6)
 			) {
-				ZEPHIR_GET_HMKEY(subkey, _4, _3);
-				ZEPHIR_GET_HVALUE(subvalue, _5);
+				ZEPHIR_GET_HMKEY(subkey, _7, _6);
+				ZEPHIR_GET_HVALUE(subvalue, _8);
 				if ((Z_TYPE_P(subkey) == IS_LONG)) {
 					hasNumericKey = 1;
 					break;
@@ -130,10 +142,10 @@ PHP_METHOD(Phalcon_Config, __construct) {
 			if (hasNumericKey) {
 				zephir_update_property_zval_zval(this_ptr, key, value TSRMLS_CC);
 			} else {
-				ZEPHIR_INIT_LNVAR(_6);
-				object_init_ex(_6, phalcon_config_ce);
-				zephir_call_method_p1_cache_noret(_6, "__construct", &_7, value);
-				zephir_update_property_zval_zval(this_ptr, key, _6 TSRMLS_CC);
+				ZEPHIR_INIT_LNVAR(_0);
+				object_init_ex(_0, phalcon_config_ce);
+				zephir_call_internal_method_p1_noret(_0, "__construct", ZEND_MN(Phalcon_Config___construct), value);
+				zephir_update_property_zval_zval(this_ptr, key, _0 TSRMLS_CC);
 			}
 		} else {
 			zephir_update_property_zval_zval(this_ptr, key, value TSRMLS_CC);
@@ -287,7 +299,7 @@ PHP_METHOD(Phalcon_Config, offsetUnset) {
  * Merges a configuration into the current one
  *
  *<code>
- *	$appConfig = new Phalcon\Config(array('database' => array('host' => 'localhost')));
+ *	$appConfig = new \Phalcon\Config(array('database' => array('host' => 'localhost')));
  *	$globalConfig->merge($config2);
  *</code>
  *
@@ -327,8 +339,8 @@ PHP_METHOD(Phalcon_Config, toArray) {
 	zephir_call_func_p1(_0, "get_object_vars", this_ptr);
 	zephir_is_iterable(_0, &_2, &_1, 0, 0);
 	for (
-		; zend_hash_get_current_data_ex(_2, (void**) &_3, &_1) == SUCCESS
-		; zend_hash_move_forward_ex(_2, &_1)
+	  ; zend_hash_get_current_data_ex(_2, (void**) &_3, &_1) == SUCCESS
+	  ; zephir_hash_move_forward_ex(_2, &_1)
 	) {
 		ZEPHIR_GET_HMKEY(key, _2, _1);
 		ZEPHIR_GET_HVALUE(value, _3);

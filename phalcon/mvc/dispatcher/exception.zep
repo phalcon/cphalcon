@@ -24,7 +24,7 @@ namespace Phalcon\Mvc\Dispatcher;
  *
  * Exceptions thrown in Phalcon\Mvc\Dispatcher will use this class
  */
-class Exception extends Phalcon\Exception
+class Exception extends \Phalcon\Exception
 {
 
 }

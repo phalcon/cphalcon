@@ -36,10 +36,10 @@ abstract class Adapter
 	 *
 	 * @param Phalcon\Annotations\ReaderInterface reader
 	 */
-	public function setReader(<Phalcon\Annotations\ReaderInterface> reader)
+	public function setReader(<\Phalcon\Annotations\ReaderInterface> reader)
 	{
 		if typeof reader != "object" {
-			throw new Phalcon\Annotations\Exception("Invalid annotations reader");
+			throw new \Phalcon\Annotations\Exception("Invalid annotations reader");
 		}
 		let this->_reader = reader;
 	}
@@ -49,12 +49,12 @@ abstract class Adapter
 	 *
 	 * @return Phalcon\Annotations\ReaderInterface
 	 */
-	public function getReader() -> <Phalcon\Annotations\ReaderInterface>
+	public function getReader() -> <\Phalcon\Annotations\ReaderInterface>
 	{
 		var reader;
 		let reader = this->_reader;
 		if typeof reader != "object" {
-			let reader = new Phalcon\Annotations\Reader(),
+			let reader = new \Phalcon\Annotations\Reader(),
 				this->_reader = reader;
 		}
 		return reader;
@@ -66,7 +66,7 @@ abstract class Adapter
 	 * @param string|object className
 	 * @return Phalcon\Annotations\Reflection
 	 */
-	public function get(var className) -> <Phalcon\Annotations\Reflection>
+	public function get(var className) -> <\Phalcon\Annotations\Reflection>
 	{
 
 		var annotations, classAnnotations, parsedAnnotations, realClassName, reader;
@@ -103,7 +103,7 @@ abstract class Adapter
 			 * If the reader returns a
 			 */
 			if typeof parsedAnnotations == "array" {
-				let classAnnotations = new Phalcon\Annotations\Reflection(parsedAnnotations),
+				let classAnnotations = new \Phalcon\Annotations\Reflection(parsedAnnotations),
 					this->_annotations[realClassName] = classAnnotations;
 					this->{"write"}(realClassName, classAnnotations);
 			}
@@ -144,7 +144,7 @@ abstract class Adapter
 	 * @param string methodName
 	 * @return Phalcon\Annotations\Collection
 	 */
-	public function getMethod(string className, string methodName) -> <Phalcon\Annotations\Collection>
+	public function getMethod(string className, string methodName) -> <\Phalcon\Annotations\Collection>
 	{
 		var classAnnotations, methods, name, method;
 
@@ -170,7 +170,7 @@ abstract class Adapter
 		/**
 		 * Returns a collection anyways
 		 */
-		return new Phalcon\Annotations\Collection();
+		return new \Phalcon\Annotations\Collection();
 	}
 
 	/**
@@ -205,7 +205,7 @@ abstract class Adapter
 	 * @param string propertyName
 	 * @return Phalcon\Annotations\Collection
 	 */
-	public function getProperty(string className, string propertyName) -> <Phalcon\Annotations\Collection>
+	public function getProperty(string className, string propertyName) -> <\Phalcon\Annotations\Collection>
 	{
 		var classAnnotations, properties, name, property;
 
@@ -231,7 +231,7 @@ abstract class Adapter
 		/**
 		 * Returns a collection anyways
 		 */
-		return new Phalcon\Annotations\Collection();
+		return new \Phalcon\Annotations\Collection();
 	}
 
 }

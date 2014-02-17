@@ -26,7 +26,7 @@ namespace Phalcon\Mvc;
  * This component implements a high level abstraction for NoSQL databases which
  * works with documents
  */
-class Collection implements Phalcon\Mvc\CollectionInterface, Phalcon\Di\InjectionAwareInterface, Serializable
+class Collection implements \Phalcon\Mvc\CollectionInterface, Phalcon\Di\InjectionAwareInterface, Serializable
 {
 
 	public _id;
@@ -61,7 +61,7 @@ class Collection implements Phalcon\Mvc\CollectionInterface, Phalcon\Di\Injectio
 	 * @param Phalcon\DiInterface dependencyInjector
 	 * @param Phalcon\Mvc\Collection\ManagerInterface modelsManager
 	 */
-	public final function __construct(<Phalcon\DiInterface> dependencyInjector=null, <Phalcon\Mvc\Collection\ManagerInterface> modelsManager=null)
+	public final function __construct(<\Phalcon\DiInterface> dependencyInjector=null, <\Phalcon\Mvc\Collection\ManagerInterface> modelsManager=null)
 	{
 		/**
 		 * We use a default DI if the user doesn't define one
@@ -71,7 +71,7 @@ class Collection implements Phalcon\Mvc\CollectionInterface, Phalcon\Di\Injectio
 		}
 
 		if typeof dependencyInjector != "object" {
-			throw new Phalcon\Mvc\Model\Exception("A dependency injector container is required to obtain the services related to the ORM");
+			throw new \Phalcon\Mvc\Model\Exception("A dependency injector container is required to obtain the services related to the ORM");
 		}
 
 		let this->_dependencyInjector = dependencyInjector;
@@ -82,7 +82,7 @@ class Collection implements Phalcon\Mvc\CollectionInterface, Phalcon\Di\Injectio
 		if typeof modelsManager != "object" {
 			let modelsManager = dependencyInjector->getShared("collectionManager");
 			if typeof modelsManager != "object" {
-				throw new Phalcon\Mvc\Model\Exception("The injected service 'modelsManager' is not valid");
+				throw new \Phalcon\Mvc\Model\Exception("The injected service 'modelsManager' is not valid");
 			}
 		}
 
@@ -146,7 +146,7 @@ class Collection implements Phalcon\Mvc\CollectionInterface, Phalcon\Di\Injectio
 	 *
 	 * @param Phalcon\DiInterface dependencyInjector
 	 */
-	public function setDI(<Phalcon\DiInterface> dependencyInjector)
+	public function setDI(<\Phalcon\DiInterface> dependencyInjector)
 	{
 		let this->_dependencyInjector = dependencyInjector;
 	}
@@ -156,7 +156,7 @@ class Collection implements Phalcon\Mvc\CollectionInterface, Phalcon\Di\Injectio
 	 *
 	 * @return Phalcon\DiInterface
 	 */
-	public function getDI() -> <Phalcon\DiInterface>
+	public function getDI() -> <\Phalcon\DiInterface>
 	{
 		return this->_dependencyInjector;
 	}
@@ -166,7 +166,7 @@ class Collection implements Phalcon\Mvc\CollectionInterface, Phalcon\Di\Injectio
 	 *
 	 * @param Phalcon\Events\ManagerInterface eventsManager
 	 */
-	protected function setEventsManager(<Phalcon\Events\ManagerInterface> eventsManager)
+	protected function setEventsManager(<\Phalcon\Events\ManagerInterface> eventsManager)
 	{
 		this->_modelsManager->setCustomEventsManager(this, eventsManager);
 	}
@@ -176,7 +176,7 @@ class Collection implements Phalcon\Mvc\CollectionInterface, Phalcon\Di\Injectio
 	 *
 	 * @return Phalcon\Events\ManagerInterface
 	 */
-	protected function getEventsManager() -> <Phalcon\Events\ManagerInterface>
+	protected function getEventsManager() -> <\Phalcon\Events\ManagerInterface>
 	{
 		return this->_modelsManager->getCustomEventsManager(this);
 	}
@@ -186,7 +186,7 @@ class Collection implements Phalcon\Mvc\CollectionInterface, Phalcon\Di\Injectio
 	 *
 	 * @return Phalcon\Mvc\Model\ManagerInterface
 	 */
-	public function getModelsManager() -> <Phalcon\Mvc\Model\ManagerInterface>
+	public function getModelsManager() -> <\Phalcon\Mvc\Model\ManagerInterface>
 	{
 		return this->_modelsManager;
 	}
@@ -230,7 +230,7 @@ class Collection implements Phalcon\Mvc\CollectionInterface, Phalcon\Di\Injectio
 	 * @param string source
 	 * @return Phalcon\Mvc\Collection
 	 */
-	protected function setSource(string! source) -> <Phalcon\Mvc\Collection>
+	protected function setSource(string! source) -> <\Phalcon\Mvc\Collection>
 	{
 		let this->_source = source;
 		return this;
@@ -260,7 +260,7 @@ class Collection implements Phalcon\Mvc\CollectionInterface, Phalcon\Di\Injectio
 	 * @param string connectionService
 	 * @return Phalcon\Mvc\Model
 	 */
-	public function setConnectionService(connectionService) -> <Phalcon\Mvc\Model>
+	public function setConnectionService(connectionService) -> <\Phalcon\Mvc\Model>
 	{
 		this->_modelsManager->setConnectionService(this, connectionService);
 		return this;
@@ -333,16 +333,16 @@ class Collection implements Phalcon\Mvc\CollectionInterface, Phalcon\Di\Injectio
 	 * @param array document
 	 * @return Phalcon\Mvc\Collection
 	 */
-	public static function cloneResult(<Phalcon\Mvc\Collection> collection, document) -> <Phalcon\Mvc\Collection>
+	public static function cloneResult(<\Phalcon\Mvc\Collection> collection, document) -> <\Phalcon\Mvc\Collection>
 	{
 		var clonedCollection, key, value;
 
 		if typeof collection != "object" {
-			throw new Phalcon\Mvc\Collection\Exception("Invalid collection");
+			throw new \Phalcon\Mvc\Collection\Exception("Invalid collection");
 		}
 
 		if typeof document != "object" {
-			throw new Phalcon\Mvc\Collection\Exception("Invalid document");
+			throw new \Phalcon\Mvc\Collection\Exception("Invalid document");
 		}
 
 		let clonedCollection = clone collection;
@@ -363,14 +363,14 @@ class Collection implements Phalcon\Mvc\CollectionInterface, Phalcon\Di\Injectio
 	 * @param boolean unique
 	 * @return array
 	 */
-	protected static function _getResultset(params, <Phalcon\Mvc\CollectionInterface> collection, connection, boolean unique)
+	protected static function _getResultset(params, <\Phalcon\Mvc\CollectionInterface> collection, connection, boolean unique)
 	{
 		var source, mongoCollection, conditions, base, documentsCursor,
 			fields, skip, limit, sort, document, collections;
 
 		let source = collection->getSource();
 		if empty source {
-			throw new Phalcon\Mvc\Collection\Exception("Method getSource() returns empty string");
+			throw new \Phalcon\Mvc\Collection\Exception("Method getSource() returns empty string");
 		}
 
 		let mongoCollection = connection->selectCollection(source);
@@ -418,7 +418,7 @@ class Collection implements Phalcon\Mvc\CollectionInterface, Phalcon\Di\Injectio
 		 * If a group of specific fields are requested we use a Phalcon\Mvc\Collection\Document instead
 		 */
 		if isset params["fields"] {
-			let base = new Phalcon\Mvc\Collection\Document();
+			let base = new \Phalcon\Mvc\Collection\Document();
 		} else {
 			let base = collection;
 		}
@@ -464,14 +464,14 @@ class Collection implements Phalcon\Mvc\CollectionInterface, Phalcon\Di\Injectio
 	 * @param \MongoDb connection
 	 * @return int
 	 */
-	protected static function _getGroupResultset(params, <Phalcon\Mvc\Collection> collection, connection) -> int
+	protected static function _getGroupResultset(params, <\Phalcon\Mvc\Collection> collection, connection) -> int
 	{
 
 		var source, mongoCollection, conditions, simple, limit, sort, documentsCursor;
 
 		let source = collection->getSource();
 		if empty source {
-			throw new Phalcon\Mvc\Collection\Exception("Method getSource() returns empty string");
+			throw new \Phalcon\Mvc\Collection\Exception("Method getSource() returns empty string");
 		}
 
 		let mongoCollection = connection->selectCollection(source);
@@ -660,7 +660,7 @@ class Collection implements Phalcon\Mvc\CollectionInterface, Phalcon\Di\Injectio
 	 *<code>
 	 *use Phalcon\Mvc\Model\Validator\ExclusionIn as ExclusionIn;
 	 *
-	 *class Subscriptors extends Phalcon\Mvc\Collection
+	 *class Subscriptors extends \Phalcon\Mvc\Collection
 	 *{
 	 *
 	 *	public function validation()
@@ -684,7 +684,7 @@ class Collection implements Phalcon\Mvc\CollectionInterface, Phalcon\Di\Injectio
 		var message;
 
 		if typeof validator != "object" {
-			throw new Phalcon\Mvc\Model\Exception("Validator must be an Object");
+			throw new \Phalcon\Mvc\Model\Exception("Validator must be an Object");
 		}
 
 		if validator->validate(this) === false {
@@ -700,7 +700,7 @@ class Collection implements Phalcon\Mvc\CollectionInterface, Phalcon\Di\Injectio
 	 *<code>
 	 *use Phalcon\Mvc\Model\Validator\ExclusionIn as ExclusionIn;
 	 *
-	 *class Subscriptors extends Phalcon\Mvc\Collection
+	 *class Subscriptors extends \Phalcon\Mvc\Collection
 	 *{
 	 *
 	 *	public function validation()
@@ -856,7 +856,7 @@ class Collection implements Phalcon\Mvc\CollectionInterface, Phalcon\Di\Injectio
 	 *
 	 * @return Phalcon\Mvc\Model\MessageInterface[]
 	 */
-	public function getMessages() -> <Phalcon\Mvc\Model\MessageInterface[]>
+	public function getMessages() -> <\Phalcon\Mvc\Model\MessageInterface[]>
 	{
 		return this->_errorMessages;
 	}
@@ -867,7 +867,7 @@ class Collection implements Phalcon\Mvc\CollectionInterface, Phalcon\Di\Injectio
 	 *<code>
 	 *	use \Phalcon\Mvc\Model\Message as Message;
 	 *
-	 *	class Robots extends Phalcon\Mvc\Model
+	 *	class Robots extends \Phalcon\Mvc\Model
 	 *	{
 	 *
 	 *		public function beforeSave()
@@ -882,10 +882,10 @@ class Collection implements Phalcon\Mvc\CollectionInterface, Phalcon\Di\Injectio
 	 *
 	 * @param Phalcon\Mvc\Model\MessageInterface message
 	 */
-	public function appendMessage(<Phalcon\Mvc\Model\MessageInterface> message)
+	public function appendMessage(<\Phalcon\Mvc\Model\MessageInterface> message)
 	{
 		if typeof message != "object" {
-			throw new Phalcon\Mvc\Model\Exception("Invalid message format '" . gettype(message) . "'");
+			throw new \Phalcon\Mvc\Model\Exception("Invalid message format '" . gettype(message) . "'");
 		}
 		let this->_errorMessages[] = message;
 	}
@@ -902,12 +902,12 @@ class Collection implements Phalcon\Mvc\CollectionInterface, Phalcon\Di\Injectio
 
 		let dependencyInjector = this->_dependencyInjector;
 		if typeof dependencyInjector != "object" {
-			throw new Phalcon\Mvc\Model\Exception("A dependency injector container is required to obtain the services related to the ORM");
+			throw new \Phalcon\Mvc\Model\Exception("A dependency injector container is required to obtain the services related to the ORM");
 		}
 
 		let source = this->getSource();
 		if empty source {
-			throw new Phalcon\Mvc\Collection\Exception("Method getSource() returns empty string");
+			throw new \Phalcon\Mvc\Collection\Exception("Method getSource() returns empty string");
 		}
 
 		let connection = this->getConnection();
@@ -996,7 +996,7 @@ class Collection implements Phalcon\Mvc\CollectionInterface, Phalcon\Di\Injectio
 	 * @param string|\MongoId id
 	 * @return Phalcon\Mvc\Collection
 	 */
-	public static function findById(id) -> <Phalcon\Mvc\Collection>
+	public static function findById(id) -> <\Phalcon\Mvc\Collection>
 	{
 		var className, collection, mongoId;
 
@@ -1055,7 +1055,7 @@ class Collection implements Phalcon\Mvc\CollectionInterface, Phalcon\Di\Injectio
 
 		if parameters {
 			if typeof parameters != "array" {
-				throw new Phalcon\Mvc\Collection\Exception("Invalid parameters for findFirst");
+				throw new \Phalcon\Mvc\Collection\Exception("Invalid parameters for findFirst");
 			}
 		}
 
@@ -1112,7 +1112,7 @@ class Collection implements Phalcon\Mvc\CollectionInterface, Phalcon\Di\Injectio
 
 		if parameters {
 			if typeof parameters != "array" {
-				throw new Phalcon\Mvc\Collection\Exception("Invalid parameters for find");
+				throw new \Phalcon\Mvc\Collection\Exception("Invalid parameters for find");
 			}
 		}
 
@@ -1137,7 +1137,7 @@ class Collection implements Phalcon\Mvc\CollectionInterface, Phalcon\Di\Injectio
 
 		if parameters {
 			if typeof parameters != "array" {
-				throw new Phalcon\Mvc\Collection\Exception("Invalid parameters for count");
+				throw new \Phalcon\Mvc\Collection\Exception("Invalid parameters for count");
 			}
 		}
 
@@ -1163,7 +1163,7 @@ class Collection implements Phalcon\Mvc\CollectionInterface, Phalcon\Di\Injectio
 
 		if parameters {
 			if typeof parameters != "array" {
-				throw new Phalcon\Mvc\Collection\Exception("Invalid parameters for aggregate");
+				throw new \Phalcon\Mvc\Collection\Exception("Invalid parameters for aggregate");
 			}
 		}
 
@@ -1175,7 +1175,7 @@ class Collection implements Phalcon\Mvc\CollectionInterface, Phalcon\Di\Injectio
 
 		let source = model->getSource();
 		if empty source {
-			throw new Phalcon\Mvc\Collection\Exception("Method getSource() returns empty string");
+			throw new \Phalcon\Mvc\Collection\Exception("Method getSource() returns empty string");
 		}
 
 		return connection->selectCollection(source)->aggregate(parameters);
@@ -1195,7 +1195,7 @@ class Collection implements Phalcon\Mvc\CollectionInterface, Phalcon\Di\Injectio
 			reduce, group, retval, firstRetval;
 
 		if typeof field != "string" {
-			throw new Phalcon\Mvc\Collection\Exception("Invalid field name for group");
+			throw new \Phalcon\Mvc\Collection\Exception("Invalid field name for group");
 		}
 
 		let className = get_called_class();
@@ -1206,7 +1206,7 @@ class Collection implements Phalcon\Mvc\CollectionInterface, Phalcon\Di\Injectio
 
 		let source = model->getSource();
 		if empty(source) {
-			throw new Phalcon\Mvc\Collection\Exception("Method getSource() returns empty string");
+			throw new \Phalcon\Mvc\Collection\Exception("Method getSource() returns empty string");
 		}
 
 		let collection = connection->selectCollection(source);
@@ -1259,7 +1259,7 @@ class Collection implements Phalcon\Mvc\CollectionInterface, Phalcon\Di\Injectio
 			collection, mongoId, success, ok;
 
 		if !fetch id, this->_id {
-			throw new Phalcon\Mvc\Collection\Exception("The document cannot be deleted because it doesn't exist");
+			throw new \Phalcon\Mvc\Collection\Exception("The document cannot be deleted because it doesn't exist");
 		}
 
 		let disableEvents = self::_disableEvents;
@@ -1274,7 +1274,7 @@ class Collection implements Phalcon\Mvc\CollectionInterface, Phalcon\Di\Injectio
 
 		let source = this->getSource();
 		if empty source {
-			throw new Phalcon\Mvc\Collection\Exception("Method getSource() returns empty string");
+			throw new \Phalcon\Mvc\Collection\Exception("Method getSource() returns empty string");
 		}
 
 		/**
@@ -1389,7 +1389,7 @@ class Collection implements Phalcon\Mvc\CollectionInterface, Phalcon\Di\Injectio
 				 */
 				let dependencyInjector = Phalcon\Di::getDefault();
 				if typeof dependencyInjector != "object" {
-					throw new Phalcon\Mvc\Model\Exception("A dependency injector container is required to obtain the services related to the ODM");
+					throw new \Phalcon\Mvc\Model\Exception("A dependency injector container is required to obtain the services related to the ODM");
 				}
 
 				/**
@@ -1402,7 +1402,7 @@ class Collection implements Phalcon\Mvc\CollectionInterface, Phalcon\Di\Injectio
 				 */
 				let manager = dependencyInjector->getShared("collectionManager");
 				if typeof manager != "object" {
-					throw new Phalcon\Mvc\Model\Exception("The injected service 'collectionManager' is not valid");
+					throw new \Phalcon\Mvc\Model\Exception("The injected service 'collectionManager' is not valid");
 				}
 
 				/**
@@ -1421,6 +1421,6 @@ class Collection implements Phalcon\Mvc\CollectionInterface, Phalcon\Di\Injectio
 			}
 		}
 
-		throw new Phalcon\Mvc\Model\Exception("Invalid serialization data");
+		throw new \Phalcon\Mvc\Model\Exception("Invalid serialization data");
 	}
 }

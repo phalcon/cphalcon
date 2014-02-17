@@ -26,11 +26,11 @@ namespace Phalcon\Cache\Backend;
  *
  *<code>
  *	//Cache data for 2 days
- *	$frontCache = new Phalcon\Cache\Frontend\Data(array(
+ *	$frontCache = new \Phalcon\Cache\Frontend\Data(array(
  *		'lifetime' => 172800
  *	));
  *
- *  $cache = new Phalcon\Cache\Backend\Xcache($frontCache, array(
+ *  $cache = new \Phalcon\Cache\Backend\Xcache($frontCache, array(
  *      'prefix' => 'app-data'
  *  ));
  *
@@ -42,7 +42,7 @@ namespace Phalcon\Cache\Backend;
  *
  *</code>
  */
- class Xcache extends Phalcon\Cache\Backend implements Phalcon\Cache\BackendInterface
+ class Xcache extends \Phalcon\Cache\Backend implements \Phalcon\Cache\BackendInterface
  {
 
 	/**
@@ -112,7 +112,7 @@ namespace Phalcon\Cache\Backend;
 		}
 
 		if !lastKey {
-			throw new Phalcon\Cache\Exception("The cache must be started first");
+			throw new \Phalcon\Cache\Exception("The cache must be started first");
 		}
 
 		let frontend = this->_frontend;
@@ -162,7 +162,7 @@ namespace Phalcon\Cache\Backend;
 			let options = this->_options;
 
 			if !isset options["statsKey"] {
-				throw new Phalcon\Cache\Exception("Unexpected inconsistency in options");
+				throw new \Phalcon\Cache\Exception("Unexpected inconsistency in options");
 			}
 			let specialKey = options["statsKey"];
 
@@ -193,7 +193,7 @@ namespace Phalcon\Cache\Backend;
 		let prefixedKey = "_PHCX" . this->_prefix . keyName;
 
 		if !fetch specialKey, this->_options["statsKey"] {
-			throw new Phalcon\Cache\Exception("Unexpected inconsistency in options");
+			throw new \Phalcon\Cache\Exception("Unexpected inconsistency in options");
 		}
 
 		let keys = xcache_get(specialKey);
@@ -225,7 +225,7 @@ namespace Phalcon\Cache\Backend;
 		let options = this->_options;
 
 		if !isset options["statsKey"] {
-			throw new Phalcon\Cache\Exception("Unexpected inconsistency in options");
+			throw new \Phalcon\Cache\Exception("Unexpected inconsistency in options");
 		}
 		let specialKey = options["statsKey"];
 
@@ -287,7 +287,7 @@ namespace Phalcon\Cache\Backend;
 		}
 
 		if !lastKey {
-			throw new Phalcon\Cache\Exception("The cache must be started first");
+			throw new \Phalcon\Cache\Exception("The cache must be started first");
 		}
 
 		if function_exists("xcache_inc") {
@@ -319,7 +319,7 @@ namespace Phalcon\Cache\Backend;
 		}
 
 		if !lastKey {
-			throw new Phalcon\Cache\Exception("The cache must be started first");
+			throw new \Phalcon\Cache\Exception("The cache must be started first");
 		}
 
 		if function_exists("xcache_dec") {
@@ -346,7 +346,7 @@ namespace Phalcon\Cache\Backend;
 		let options = this->_options;
 
 		if !fetch specialKey, this->_options["statsKey"] {
-			throw new Phalcon\Cache\Exception("Unexpected inconsistency in options");
+			throw new \Phalcon\Cache\Exception("Unexpected inconsistency in options");
 		}
 
 		let keys = xcache_get(specialKey);

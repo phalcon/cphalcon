@@ -19,7 +19,7 @@
 
 namespace Phalcon\Config\Adapter;
 
-class Ini extends Phalcon\Config
+class Ini extends \Phalcon\Config
 {
 
 	/**

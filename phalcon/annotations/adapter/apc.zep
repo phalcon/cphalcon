@@ -37,7 +37,7 @@ class Apc
 	 * @param string key
 	 * @return Phalcon\Annotations\Reflection
 	 */
-	public function read(string! key) -> <Phalcon\Annotations\Reflection> | boolean
+	public function read(string! key) -> <\Phalcon\Annotations\Reflection> | boolean
 	{
 		return apc_fetch(strtolower("_PHAN" . key));
 	}
@@ -48,7 +48,7 @@ class Apc
  	 * @param string key
 	 * @param Phalcon\Annotations\Reflection data
 	 */
-	public function write(string! key, <Phalcon\Annotations\Reflection> data)
+	public function write(string! key, <\Phalcon\Annotations\Reflection> data)
 	{
 		return apc_store(strtolower("_PHAN" . key), data);
 	}

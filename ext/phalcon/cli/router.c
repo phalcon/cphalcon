@@ -13,9 +13,10 @@
 
 #include "kernel/main.h"
 #include "kernel/object.h"
-#include "kernel/memory.h"
-#include "kernel/operators.h"
 #include "kernel/exception.h"
+#include "kernel/memory.h"
+#include "kernel/fcall.h"
+#include "kernel/operators.h"
 #include "kernel/array.h"
 
 
@@ -46,7 +47,7 @@
  * action of that task should receive the request</p>
  *
  *<code>
- *	$router = new Phalcon\Cli\Router();
+ *	$router = new \Phalcon\Cli\Router();
  *	$router->handle(array(
  *		'module' => 'main',
  *		'task' => 'videos',
@@ -83,13 +84,25 @@ ZEPHIR_INIT_CLASS(Phalcon_Cli_Router) {
  */
 PHP_METHOD(Phalcon_Cli_Router, setDI) {
 
-	zval *dependencyInjector;
+	zval *dependencyInjector, *_0, *_1;
 
-	zephir_fetch_params(0, 1, 0, &dependencyInjector);
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 1, 0, &dependencyInjector);
 
 
 
+	if (zephir_is_instance_of(dependencyInjector, SL("Phalcon\\DiInterface") TSRMLS_CC)) {
+		ZEPHIR_INIT_VAR(_0);
+		object_init_ex(_0, spl_ce_BadMethodCallException);
+		ZEPHIR_INIT_VAR(_1);
+		ZVAL_STRING(_1, "Parameter 'dependencyInjector' must be an instance of 'Phalcon\\DiInterface'", 1);
+		zephir_call_method_p1_noret(_0, "__construct", _1);
+		zephir_throw_exception(_0 TSRMLS_CC);
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	zephir_update_property_this(this_ptr, SL("_dependencyInjector"), dependencyInjector TSRMLS_CC);
+	ZEPHIR_MM_RESTORE();
 
 }
 
@@ -118,7 +131,7 @@ PHP_METHOD(Phalcon_Cli_Router, setDefaultModule) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &moduleName_param);
 
-		zephir_get_strval(moduleName, moduleName_param);
+	zephir_get_strval(moduleName, moduleName_param);
 
 
 	zephir_update_property_this(this_ptr, SL("_defaultModule"), moduleName TSRMLS_CC);
@@ -139,7 +152,7 @@ PHP_METHOD(Phalcon_Cli_Router, setDefaultTask) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &taskName_param);
 
-		zephir_get_strval(taskName, taskName_param);
+	zephir_get_strval(taskName, taskName_param);
 
 
 	zephir_update_property_this(this_ptr, SL("_defaultTask"), taskName TSRMLS_CC);
@@ -160,7 +173,7 @@ PHP_METHOD(Phalcon_Cli_Router, setDefaultAction) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &actionName_param);
 
-		zephir_get_strval(actionName, actionName_param);
+	zephir_get_strval(actionName, actionName_param);
 
 
 	zephir_update_property_this(this_ptr, SL("_defaultAction"), actionName TSRMLS_CC);
@@ -175,7 +188,7 @@ PHP_METHOD(Phalcon_Cli_Router, setDefaultAction) {
  */
 PHP_METHOD(Phalcon_Cli_Router, handle) {
 
-	zval *arguments = NULL, *moduleName = NULL, *taskName = NULL, *actionName = NULL, *_0;
+	zval *arguments = NULL, *moduleName = NULL, *taskName = NULL, *actionName = NULL, *_0, *_1, *_2;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 1, &arguments);
@@ -188,7 +201,13 @@ PHP_METHOD(Phalcon_Cli_Router, handle) {
 
 
 	if ((Z_TYPE_P(arguments) != IS_ARRAY)) {
-		ZEPHIR_THROW_EXCEPTION_STR(phalcon_cli_router_exception_ce, "Arguments must be an Array");
+		ZEPHIR_INIT_VAR(_0);
+		object_init_ex(_0, phalcon_cli_router_exception_ce);
+		ZEPHIR_INIT_VAR(_1);
+		ZVAL_STRING(_1, "Arguments must be an Array", 1);
+		zephir_call_method_p1_noret(_0, "__construct", _1);
+		zephir_throw_exception(_0 TSRMLS_CC);
+		ZEPHIR_MM_RESTORE();
 		return;
 	}
 	ZEPHIR_INIT_VAR(moduleName);
@@ -199,18 +218,18 @@ PHP_METHOD(Phalcon_Cli_Router, handle) {
 	ZVAL_NULL(actionName);
 	ZEPHIR_OBS_NVAR(moduleName);
 	if (zephir_array_isset_string_fetch(&moduleName, arguments, SS("module"), 0 TSRMLS_CC)) {
-		zephir_array_fetch_string(&_0, arguments, SL("module"), PH_NOISY | PH_READONLY TSRMLS_CC);
-		zephir_array_unset(&arguments, _0, PH_SEPARATE);
+		zephir_array_fetch_string(&_2, arguments, SL("module"), PH_NOISY | PH_READONLY TSRMLS_CC);
+		zephir_array_unset(&arguments, _2, PH_SEPARATE);
 	}
 	ZEPHIR_OBS_NVAR(taskName);
 	if (zephir_array_isset_string_fetch(&taskName, arguments, SS("task"), 0 TSRMLS_CC)) {
-		zephir_array_fetch_string(&_0, arguments, SL("task"), PH_NOISY | PH_READONLY TSRMLS_CC);
-		zephir_array_unset(&arguments, _0, PH_SEPARATE);
+		zephir_array_fetch_string(&_2, arguments, SL("task"), PH_NOISY | PH_READONLY TSRMLS_CC);
+		zephir_array_unset(&arguments, _2, PH_SEPARATE);
 	}
 	ZEPHIR_OBS_NVAR(actionName);
 	if (zephir_array_isset_string_fetch(&actionName, arguments, SS("action"), 0 TSRMLS_CC)) {
-		zephir_array_fetch_string(&_0, arguments, SL("action"), PH_NOISY | PH_READONLY TSRMLS_CC);
-		zephir_array_unset(&arguments, _0, PH_SEPARATE);
+		zephir_array_fetch_string(&_2, arguments, SL("action"), PH_NOISY | PH_READONLY TSRMLS_CC);
+		zephir_array_unset(&arguments, _2, PH_SEPARATE);
 	}
 	zephir_update_property_this(this_ptr, SL("_module"), moduleName TSRMLS_CC);
 	zephir_update_property_this(this_ptr, SL("_task"), taskName TSRMLS_CC);

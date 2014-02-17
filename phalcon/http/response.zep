@@ -27,13 +27,13 @@ namespace Phalcon\Http;
  * HTTP responses are usually composed by headers and body.
  *
  *<code>
- *	$response = new Phalcon\Http\Response();
+ *	$response = new \Phalcon\Http\Response();
  *	$response->setStatusCode(200, "OK");
  *	$response->setContent("<html><body>Hello</body></html>");
  *	$response->send();
  *</code>
  */
-class Response implements Phalcon\Http\ResponseInterface, Phalcon\Di\InjectionAwareInterface
+class Response implements \Phalcon\Http\ResponseInterface, \Phalcon\Di\InjectionAwareInterface
 {
 
 	protected _sent = false;
@@ -70,7 +70,7 @@ class Response implements Phalcon\Http\ResponseInterface, Phalcon\Di\InjectionAw
 	 *
 	 * @param Phalcon\DiInterface dependencyInjector
 	 */
-	public function setDI(<Phalcon\DiInterface> dependencyInjector)
+	public function setDI(<\Phalcon\DiInterface> dependencyInjector)
 	{
 		let this->_dependencyInjector = dependencyInjector;
 	}
@@ -80,14 +80,14 @@ class Response implements Phalcon\Http\ResponseInterface, Phalcon\Di\InjectionAw
 	 *
 	 * @return Phalcon\DiInterface
 	 */
-	public function getDI() -> <Phalcon\DiInterface>
+	public function getDI() -> <\Phalcon\DiInterface>
 	{
 		var dependencyInjector;
-		let dependencyInjector = <Phalcon\DiInterface> this->_dependencyInjector;
+		let dependencyInjector = <\Phalcon\DiInterface> this->_dependencyInjector;
 		if typeof dependencyInjector == "object" {
-			let dependencyInjector = Phalcon\DI::getDefault();
+			let dependencyInjector = \Phalcon\Di::getDefault();
 			if typeof dependencyInjector != "object" {
-				throw new Phalcon\Http\Request\Exception("A dependency injection object is required to access the 'url' service");
+				throw new \Phalcon\Http\Request\Exception("A dependency injection object is required to access the 'url' service");
 			}
 			let this->_dependencyInjector = dependencyInjector;
 		}
@@ -105,7 +105,7 @@ class Response implements Phalcon\Http\ResponseInterface, Phalcon\Di\InjectionAw
 	 * @param string message
 	 * @return Phalcon\Http\ResponseInterface
 	 */
-	public function setStatusCode(string code, string message) -> <Phalcon\Http\ResponseInterface>
+	public function setStatusCode(string code, string message) -> <\Phalcon\Http\ResponseInterface>
 	{
 		var headers;
 
@@ -142,7 +142,7 @@ class Response implements Phalcon\Http\ResponseInterface, Phalcon\Di\InjectionAw
 	 *
 	 * @return Phalcon\Http\Response\HeadersInterface
 	 */
-	public function getHeaders() -> <Phalcon\Http\Response\HeadersInterface>
+	public function getHeaders() -> <\Phalcon\Http\Response\HeadersInterface>
 	{
 		var headers;
 		let headers = this->_headers;
@@ -150,7 +150,7 @@ class Response implements Phalcon\Http\ResponseInterface, Phalcon\Di\InjectionAw
 			/**
 			 * A Phalcon\Http\Response\Headers bag is temporary used to manage the headers before sent them to the client
 			 */
-			let headers = new Phalcon\Http\Response\Headers(),
+			let headers = new \Phalcon\Http\Response\Headers(),
 				this->_headers = headers;
 		}
 		return headers;
@@ -162,10 +162,10 @@ class Response implements Phalcon\Http\ResponseInterface, Phalcon\Di\InjectionAw
 	 * @param Phalcon\Http\Response\CookiesInterface cookies
 	 * @return Phalcon\Http\ResponseInterface
 	 */
-	public function setCookies(<Phalcon\Http\Response\CookiesInterface> cookies) -> <Phalcon\Http\ResponseInterface>
+	public function setCookies(<\Phalcon\Http\Response\CookiesInterface> cookies) -> <\Phalcon\Http\ResponseInterface>
 	{
 		if typeof cookies != "object" {
-			throw new Phalcon\Http\Response\Exception("The cookies bag is not valid");
+			throw new \Phalcon\Http\Response\Exception("The cookies bag is not valid");
 		}
 		let this->_cookies = cookies;
 		return this;
@@ -176,7 +176,7 @@ class Response implements Phalcon\Http\ResponseInterface, Phalcon\Di\InjectionAw
 	 *
 	 * @return Phalcon\Http\Response\CookiesInterface
 	 */
-	public function getCookies() -> <Phalcon\Http\Response\CookiesInterface>
+	public function getCookies() -> <\Phalcon\Http\Response\CookiesInterface>
 	{
 		return this->_cookies;
 	}
@@ -192,7 +192,7 @@ class Response implements Phalcon\Http\ResponseInterface, Phalcon\Di\InjectionAw
 	 * @param string value
 	 * @return Phalcon\Http\ResponseInterface
 	 */
-	public function setHeader(string name, value) -> <Phalcon\Http\ResponseInterface>
+	public function setHeader(string name, value) -> <\Phalcon\Http\ResponseInterface>
 	{
 		var headers;
 		let headers = this->getHeaders();
@@ -210,7 +210,7 @@ class Response implements Phalcon\Http\ResponseInterface, Phalcon\Di\InjectionAw
 	 * @param string header
 	 * @return Phalcon\Http\ResponseInterface
 	 */
-	public function setRawHeader(string header) -> <Phalcon\Http\ResponseInterface>
+	public function setRawHeader(string header) -> <\Phalcon\Http\ResponseInterface>
 	{
 		var headers;
 		let headers = this->getHeaders();
@@ -223,7 +223,7 @@ class Response implements Phalcon\Http\ResponseInterface, Phalcon\Di\InjectionAw
 	 *
 	 * @return Phalcon\Http\ResponseInterface
 	 */
-	public function resetHeaders() -> <Phalcon\Http\ResponseInterface>
+	public function resetHeaders() -> <\Phalcon\Http\ResponseInterface>
 	{
 		var headers;
 		let headers = this->getHeaders();
@@ -241,7 +241,7 @@ class Response implements Phalcon\Http\ResponseInterface, Phalcon\Di\InjectionAw
 	 * @param DateTime datetime
 	 * @return Phalcon\Http\ResponseInterface
 	 */
-	public function setExpires(<DateTime> datetime) -> <Phalcon\Http\ResponseInterface>
+	public function setExpires(<\DateTime> datetime) -> <\Phalcon\Http\ResponseInterface>
 	{
 		var headers, date;
 
@@ -252,7 +252,7 @@ class Response implements Phalcon\Http\ResponseInterface, Phalcon\Di\InjectionAw
 		 * All the expiration times are sent in UTC
 		 * Change the timezone to utc
 		 */
-		date->setTimezone(new DateTimeZone("UTC"));
+		date->setTimezone(new \DateTimeZone("UTC"));
 
 		/**
 		 * The 'Expires' header set this info
@@ -266,7 +266,7 @@ class Response implements Phalcon\Http\ResponseInterface, Phalcon\Di\InjectionAw
 	 *
 	 * @return Phalcon\Http\ResponseInterface
 	 */
-	public function setNotModified() -> <Phalcon\Http\ResponseInterface>
+	public function setNotModified() -> <\Phalcon\Http\ResponseInterface>
 	{
 		this->setStatusCode("Not modified", 304);
 		return this;
@@ -284,7 +284,7 @@ class Response implements Phalcon\Http\ResponseInterface, Phalcon\Di\InjectionAw
 	 * @param string charset
 	 * @return Phalcon\Http\ResponseInterface
 	 */
-	public function setContentType(string contentType, charset=null) -> <Phalcon\Http\ResponseInterface>
+	public function setContentType(string contentType, charset=null) -> <\Phalcon\Http\ResponseInterface>
 	{
 		var headers, name;
 		let headers = this->getHeaders();
@@ -307,7 +307,7 @@ class Response implements Phalcon\Http\ResponseInterface, Phalcon\Di\InjectionAw
 	 * @param string etag
 	 * @return Phalcon\Http\ResponseInterface
 	 */
-	public function setEtag(string etag) -> <Phalcon\Http\ResponseInterface>
+	public function setEtag(string etag) -> <\Phalcon\Http\ResponseInterface>
 	{
 		var headers;
 		let headers = this->getHeaders();
@@ -337,7 +337,7 @@ class Response implements Phalcon\Http\ResponseInterface, Phalcon\Di\InjectionAw
 	 * @param int statusCode
 	 * @return Phalcon\Http\ResponseInterface
 	 */
-	public function redirect(location=null, externalRedirect=false, statusCode=302) -> <Phalcon\Http\ResponseInterface>
+	public function redirect(location=null, externalRedirect=false, statusCode=302) -> <\Phalcon\Http\ResponseInterface>
 	{
 		var header, url, dependencyInjector;
 
@@ -345,7 +345,7 @@ class Response implements Phalcon\Http\ResponseInterface, Phalcon\Di\InjectionAw
 			let header = location;
 		} else {
 			let dependencyInjector = this->getDI(),
-				url = <Phalcon\Mvc\UrlInterface> dependencyInjector->getShared("url"),
+				url = <\Phalcon\Mvc\UrlInterface> dependencyInjector->getShared("url"),
 				header = url->get(location);
 		}
 
@@ -372,7 +372,7 @@ class Response implements Phalcon\Http\ResponseInterface, Phalcon\Di\InjectionAw
 	 * @param string content
 	 * @return Phalcon\Http\ResponseInterface
 	 */
-	public function setContent(string content) -> <Phalcon\Http\ResponseInterface>
+	public function setContent(string content) -> <\Phalcon\Http\ResponseInterface>
 	{
 		let this->_content = content;
 		return this;
@@ -389,7 +389,7 @@ class Response implements Phalcon\Http\ResponseInterface, Phalcon\Di\InjectionAw
 	 * @param int jsonOptions
 	 * @return Phalcon\Http\ResponseInterface
 	 */
-	public function setJsonContent(var content, jsonOptions=0) -> <Phalcon\Http\ResponseInterface>
+	public function setJsonContent(var content, jsonOptions=0) -> <\Phalcon\Http\ResponseInterface>
 	{
 		let this->_content = json_encode(content, jsonOptions);
 		return this;
@@ -401,7 +401,7 @@ class Response implements Phalcon\Http\ResponseInterface, Phalcon\Di\InjectionAw
 	 * @param string content
 	 * @return Phalcon\Http\ResponseInterface
 	 */
-	public function appendContent(content) -> <Phalcon\Http\ResponseInterface>
+	public function appendContent(content) -> <\Phalcon\Http\ResponseInterface>
 	{
 		//let this->_content .= content;
 		return this;
@@ -432,7 +432,7 @@ class Response implements Phalcon\Http\ResponseInterface, Phalcon\Di\InjectionAw
 	 *
 	 * @return Phalcon\Http\ResponseInterface
 	 */
-	public function sendHeaders() -> <Phalcon\Http\ResponseInterface>
+	public function sendHeaders() -> <\Phalcon\Http\ResponseInterface>
 	{
 		var headers;
 		let headers = this->_headers;
@@ -447,7 +447,7 @@ class Response implements Phalcon\Http\ResponseInterface, Phalcon\Di\InjectionAw
 	 *
 	 * @return Phalcon\Http\ResponseInterface
 	 */
-	public function sendCookies() -> <Phalcon\Http\ResponseInterface>
+	public function sendCookies() -> <\Phalcon\Http\ResponseInterface>
 	{
 		var cookies;
 		let cookies = this->_cookies;
@@ -462,12 +462,12 @@ class Response implements Phalcon\Http\ResponseInterface, Phalcon\Di\InjectionAw
 	 *
 	 * @return Phalcon\Http\ResponseInterface
 	 */
-	public function send() -> <Phalcon\Http\ResponseInterface>
+	public function send() -> <\Phalcon\Http\ResponseInterface>
 	{
 		var headers, cookies;
 
 		if this->_sent {
-			throw new Phalcon\Http\Response\Exception("Response was already sent");
+			throw new \Phalcon\Http\Response\Exception("Response was already sent");
 		}
 
 		/**
@@ -502,7 +502,7 @@ class Response implements Phalcon\Http\ResponseInterface, Phalcon\Di\InjectionAw
 	 * @param string attachmentName
 	 * @return Phalcon\Http\ResponseInterface
 	 */
-	public function setFileToSend(string filePath, attachmentName=null) -> <Phalcon\Http\ResponseInterface>
+	public function setFileToSend(string filePath, attachmentName=null) -> <\Phalcon\Http\ResponseInterface>
 	{
 		var basePath, headers;
 

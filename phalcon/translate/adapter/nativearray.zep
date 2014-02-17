@@ -40,15 +40,15 @@ class NativeArray
 		var data;
 
 		if typeof options != "array" {
-			throw new Phalcon\Translate\Exception("Invalid options");
+			throw new \Phalcon\Translate\Exception("Invalid options");
 		}
 
 		if !fetch data, options["content"] {
-			throw new Phalcon\Translate\Exception("Translation content was not provided");
+			throw new \Phalcon\Translate\Exception("Translation content was not provided");
 		}
 
 		if typeof data != "array" {
-			throw new Phalcon\Translate\Exception("Translation data must be an array");
+			throw new \Phalcon\Translate\Exception("Translation data must be an array");
 		}
 
 		let this->_translate = data;

@@ -42,7 +42,7 @@ namespace Phalcon\Db;
  *</code>
  *
  */
-class Column implements Phalcon\Db\ColumnInterface
+class Column implements \Phalcon\Db\ColumnInterface
 {
 
 	/**
@@ -233,7 +233,7 @@ class Column implements Phalcon\Db\ColumnInterface
 		if fetch type, definition["type"] {
 			let this->_type = type;
 		} else {
-			throw new Phalcon\Db\Exception("Column type is required");
+			throw new \Phalcon\Db\Exception("Column type is required");
 		}
 
 		/**
@@ -261,7 +261,7 @@ class Column implements Phalcon\Db\ColumnInterface
 			if type == self::TYPE_INTEGER || type == self::TYPE_FLOAT {
 				let this->_scale = scale;
 			} else {
-				throw new Phalcon\Db\Exception("Column type does not support scale parameter");
+				throw new \Phalcon\Db\Exception("Column type does not support scale parameter");
 			}
 		}
 
@@ -286,7 +286,7 @@ class Column implements Phalcon\Db\ColumnInterface
 			if type == self::TYPE_INTEGER {
 				let this->_autoIncrement = autoIncrement;
 			} else {
-				throw new Phalcon\Db\Exception("Column type cannot be auto-increment");
+				throw new \Phalcon\Db\Exception("Column type cannot be auto-increment");
 			}
 		}
 
@@ -399,17 +399,17 @@ class Column implements Phalcon\Db\ColumnInterface
 	 * @param array data
 	 * @return \Phalcon\Db\Column
 	 */
-	public static function __set_state(data) -> <Phalcon\Db\Column>
+	public static function __set_state(data) -> <\Phalcon\Db\Column>
 	{
 		var definition, columnType, notNull, size, dunsigned, after,
 			isNumeric, first, bindType, primary;
 
 		if typeof data != "array" {
-			throw new Phalcon\Db\Exception("Column state must be an array");
+			throw new \Phalcon\Db\Exception("Column state must be an array");
 		}
 
 		if !isset data["_name"] {
-			throw new Phalcon\Db\Exception("Column name is required");
+			throw new \Phalcon\Db\Exception("Column name is required");
 		}
 
 		let definition = [];

@@ -29,13 +29,13 @@ namespace Phalcon\Mvc\Model\MetaData;
  * You can query the meta-data by printing apc_fetch('$PMM$') or apc_fetch('$PMM$my-app-id')
  *
  *<code>
- *	$metaData = new Phalcon\Mvc\Model\Metadata\Apc(array(
+ *	$metaData = new \Phalcon\Mvc\Model\Metadata\Apc(array(
  *		'prefix' => 'my-app-id',
  *		'lifetime' => 86400
  *	));
  *</code>
  */
-class Apc extends Phalcon\Mvc\Model\MetaData implements Phalcon\Mvc\Model\MetaDataInterface
+class Apc extends \Phalcon\Mvc\Model\MetaData implements \Phalcon\Mvc\Model\MetaDataInterface
 {
 
 	protected _prefix = "";

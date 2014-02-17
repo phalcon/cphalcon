@@ -32,11 +32,11 @@ namespace Phalcon\Db\Adapter\Pdo;
  *  "password" => "oracle"
  * );
  *
- * $connection = new Phalcon\Db\Adapter\Pdo\Oracle($config);
+ * $connection = new \Phalcon\Db\Adapter\Pdo\Oracle($config);
  *
  * </code>
  */
-class Oracle extends Phalcon\Db\Adapter\Pdo
+class Oracle extends \Phalcon\Db\Adapter\Pdo
 	//implements Phalcon\Db\AdapterInterface
 {
 

@@ -49,7 +49,7 @@ class Document implements ArrayAccess
 		if isset this->{index} {
 			return this->{index};
 		}
-		throw new Phalcon\Mvc\Collection\Exception("The index does not exist in the row");
+		throw new \Phalcon\Mvc\Collection\Exception("The index does not exist in the row");
 	}
 
 	/**
@@ -71,7 +71,7 @@ class Document implements ArrayAccess
 	*/
 	public function offsetUnset(offset)
 	{
-		throw new Phalcon\Mvc\Collection\Exception("The index does not exist in the row");
+		throw new \Phalcon\Mvc\Collection\Exception("The index does not exist in the row");
 	}
 
 	/**

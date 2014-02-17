@@ -25,7 +25,7 @@ namespace Phalcon\Mvc\Model\Behavior;
  * Instead of permanently delete a record it marks the record as
  * deleted changing the value of a flag column
  */
-class SoftDelete extends Phalcon\Mvc\Model\Behavior implements Phalcon\Mvc\Model\BehaviorInterface
+class SoftDelete extends \Phalcon\Mvc\Model\Behavior implements \Phalcon\Mvc\Model\BehaviorInterface
 {
 
 	/**
@@ -34,7 +34,7 @@ class SoftDelete extends Phalcon\Mvc\Model\Behavior implements Phalcon\Mvc\Model
 	 * @param string type
 	 * @param Phalcon\Mvc\ModelInterface model
 	 */
-	public function notify(string! type, <Phalcon\Mvc\ModelInterface> model)
+	public function notify(string! type, <\Phalcon\Mvc\ModelInterface> model)
 	{
 		var options, value, field, updateModel, message;
 
@@ -46,14 +46,14 @@ class SoftDelete extends Phalcon\Mvc\Model\Behavior implements Phalcon\Mvc\Model
 			 * 'value' is the value to be updated instead of delete the record
 			 */
 			if !fetch value, options["value"] {
-				throw new Phalcon\Mvc\Model\Exception("The option 'value' is required");
+				throw new \Phalcon\Mvc\Model\Exception("The option 'value' is required");
 			}
 
 			/**
 			 * 'field' is the attribute to be updated instead of delete the record
 			 */
 			if !fetch field, options["field"] {
-				throw new Phalcon\Mvc\Model\Exception("The option 'field' is required");
+				throw new \Phalcon\Mvc\Model\Exception("The option 'field' is required");
 			}
 
 			/**

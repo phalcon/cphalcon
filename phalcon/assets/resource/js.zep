@@ -24,7 +24,7 @@ namespace Phalcon\Assets\Resource;
  *
  * Represents Javascript resources
  */
-class Js extends Phalcon\Assets\Resource
+class Js extends \Phalcon\Assets\Resource
 {
 
 	/**

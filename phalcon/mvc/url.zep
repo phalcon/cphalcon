@@ -34,7 +34,7 @@ namespace Phalcon\Mvc;
  *
  *</code>
  */
-class Url implements Phalcon\Mvc\UrlInterface, Phalcon\Di\InjectionAwareInterface
+class Url implements \Phalcon\Mvc\UrlInterface, Phalcon\Di\InjectionAwareInterface
 {
 
 	protected _dependencyInjector;
@@ -52,7 +52,7 @@ class Url implements Phalcon\Mvc\UrlInterface, Phalcon\Di\InjectionAwareInterfac
 	 *
 	 * @param Phalcon\DiInterface dependencyInjector
 	 */
-	public function setDI(<Phalcon\DiInterface> dependencyInjector)
+	public function setDI(<\Phalcon\DiInterface> dependencyInjector)
 	{
 		let this->_dependencyInjector = dependencyInjector;
 	}
@@ -62,7 +62,7 @@ class Url implements Phalcon\Mvc\UrlInterface, Phalcon\Di\InjectionAwareInterfac
 	 *
 	 * @return Phalcon\DiInterface
 	 */
-	public function getDI() -> <Phalcon\DiInterface>
+	public function getDI() -> <\Phalcon\DiInterface>
 	{
 		return this->_dependencyInjector;
 	}
@@ -78,7 +78,7 @@ class Url implements Phalcon\Mvc\UrlInterface, Phalcon\Di\InjectionAwareInterfac
 	 * @param string baseUri
 	 * @return Phalcon\Mvc\Url
 	 */
-	public function setBaseUri(string! baseUri) -> <Phalcon\Mvc\Url>
+	public function setBaseUri(string! baseUri) -> <\Phalcon\Mvc\Url>
 	{
 		let this->_baseUri = baseUri;
 		if this->_staticBaseUri === null {
@@ -97,7 +97,7 @@ class Url implements Phalcon\Mvc\UrlInterface, Phalcon\Di\InjectionAwareInterfac
 	 * @param string staticBaseUri
 	 * @return Phalcon\Mvc\Url
 	 */
-	public function setStaticBaseUri(string! staticBaseUri) -> <Phalcon\Mvc\Url>
+	public function setStaticBaseUri(string! staticBaseUri) -> <\Phalcon\Mvc\Url>
 	{
 		let this->_staticBaseUri = staticBaseUri;
 		return this;
@@ -153,7 +153,7 @@ class Url implements Phalcon\Mvc\UrlInterface, Phalcon\Di\InjectionAwareInterfac
 	 * @param string basePath
 	 * @return Phalcon\Mvc\Url
 	 */
-	public function setBasePath(string! basePath) -> <Phalcon\Mvc\Url>
+	public function setBasePath(string! basePath) -> <\Phalcon\Mvc\Url>
 	{
 		let this->_basePath = basePath;
 		return this;
@@ -167,7 +167,7 @@ class Url implements Phalcon\Mvc\UrlInterface, Phalcon\Di\InjectionAwareInterfac
 	public function getBasePath() -> string
 	{
 		return this->_basePath;
-	}	
+	}
 
 	/**
 	 * Generates a URL
@@ -194,31 +194,31 @@ class Url implements Phalcon\Mvc\UrlInterface, Phalcon\Di\InjectionAwareInterfac
 		if typeof uri == "array" {
 
 			if !fetch routeName, uri["for"] {
-				throw new Phalcon\Mvc\Url\Exception("It's necessary to define the route name with the parameter 'for'");
+				throw new \Phalcon\Mvc\Url\Exception("It's necessary to define the route name with the parameter 'for'");
 			}
 
-			let router =  <Phalcon\Mvc\RouterInterface> this->_router;
+			let router =  <\Phalcon\Mvc\RouterInterface> this->_router;
 
 			/**
 			 * Check if the router has not previously set
 			 */
 			if typeof router != "object" {
 
-				let dependencyInjector = <Phalcon\DiInterface> this->_dependencyInjector;
+				let dependencyInjector = <\Phalcon\DiInterface> this->_dependencyInjector;
 				if typeof dependencyInjector != "object" {
-					throw new Phalcon\Mvc\Url\Exception("A dependency injector container is required to obtain the 'router' service");
+					throw new \Phalcon\Mvc\Url\Exception("A dependency injector container is required to obtain the 'router' service");
 				}
 
-				let router = <Phalcon\Mvc\RouterInterface> dependencyInjector->getShared("router"),
+				let router = <\Phalcon\Mvc\RouterInterface> dependencyInjector->getShared("router"),
 					this->_router = router;
 			}
 
 			/**
 			 * Every route is uniquely differenced by a name
 			 */
-			let route = <Phalcon\Mvc\Router\RouteInterface> router->getRouteByName(routeName);
+			let route = <\Phalcon\Mvc\Router\RouteInterface> router->getRouteByName(routeName);
 			if typeof route != "object" {
-				throw new Phalcon\Mvc\Url\Exception("Cannot obtain a route using the name '" . routeName . "'");
+				throw new \Phalcon\Mvc\Url\Exception("Cannot obtain a route using the name '" . routeName . "'");
 			}
 
 			/**

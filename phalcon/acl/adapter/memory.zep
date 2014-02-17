@@ -19,6 +19,8 @@
 
 namespace Phalcon\Acl\Adapter;
 
+use Phalcon\Acl\Adapter;
+
 /**
  * Phalcon\Acl\Adapter\Memory
  *
@@ -26,21 +28,21 @@ namespace Phalcon\Acl\Adapter;
  *
  *<code>
  *
- *	$acl = new Phalcon\Acl\Adapter\Memory();
+ *	$acl = new \Phalcon\Acl\Adapter\Memory();
  *
  *	$acl->setDefaultAction(Phalcon\Acl::DENY);
  *
  *	//Register roles
  *	$roles = array(
- *		'users' => new Phalcon\Acl\Role('Users'),
- *		'guests' => new Phalcon\Acl\Role('Guests')
+ *		'users' => new \Phalcon\Acl\Role('Users'),
+ *		'guests' => new \Phalcon\Acl\Role('Guests')
  *	);
  *	foreach ($roles as $role) {
  *		$acl->addRole($role);
  *	}
  *
  *	//Private area resources
- *  $privateResources = array(
+ *	$privateResources = array(
  *		'companies' => array('index', 'search', 'new', 'edit', 'save', 'create', 'delete'),
  *		'products' => array('index', 'search', 'new', 'edit', 'save', 'create', 'delete'),
  *		'invoices' => array('index', 'profile')
@@ -56,11 +58,11 @@ namespace Phalcon\Acl\Adapter;
  *		'session' => array('index', 'register', 'start', 'end'),
  *		'contact' => array('index', 'send')
  *	);
- *  foreach ($publicResources as $resource => $actions) {
+ *	foreach ($publicResources as $resource => $actions) {
  *		$acl->addResource(new Phalcon\Acl\Resource($resource), $actions);
  *	}
  *
- *  //Grant access to public areas to both users and guests
+ *	//Grant access to public areas to both users and guests
  *	foreach ($roles as $role){
  *		foreach ($publicResources as $resource => $actions) {
  *			$acl->allow($role->getName(), $resource, '*');
@@ -68,7 +70,7 @@ namespace Phalcon\Acl\Adapter;
  *	}
  *
  *	//Grant access to private area to role Users
- *  foreach ($privateResources as $resource => $actions) {
+ *	foreach ($privateResources as $resource => $actions) {
  * 		foreach ($actions as $action) {
  *			$acl->allow('Users', $resource, $action);
  *		}
@@ -76,7 +78,7 @@ namespace Phalcon\Acl\Adapter;
  *
  *</code>
  */
-class Memory extends Phalcon\Acl\Adapter
+class Memory extends Adapter
 {
 
 	/**
@@ -160,7 +162,7 @@ class Memory extends Phalcon\Acl\Adapter
 			let object = role;
 		} else {
 			let roleName = role;
-			let object = new Phalcon\Acl\Role(role);
+			let object = new \Phalcon\Acl\Role(role);
 		}
 
 		let rolesNames = this->_rolesNames;
@@ -192,7 +194,7 @@ class Memory extends Phalcon\Acl\Adapter
 
 		let rolesNames = this->_rolesNames;
 		if !isset rolesNames[roleName] {
-			throw new Phalcon\Acl\Exception("Role '" . roleName . "' does not exist in the role list");
+			throw new \Phalcon\Acl\Exception("Role '" . roleName . "' does not exist in the role list");
 		}
 
 		if typeof roleToInherit == "object" {
@@ -205,7 +207,7 @@ class Memory extends Phalcon\Acl\Adapter
 		 * Check if the role to inherit is valid
 		 */
 		if !isset rolesNames[roleInheritName] {
-			throw new Phalcon\Acl\Exception("Role '" . roleInheritName . "' (to inherit) does not exist in the role list");
+			throw new \Phalcon\Acl\Exception("Role '" . roleInheritName . "' (to inherit) does not exist in the role list");
 		}
 
 		if roleName == roleInheritName {
@@ -278,7 +280,7 @@ class Memory extends Phalcon\Acl\Adapter
 			let object = resource;
 		 } else {
 			let resourceName = resource;
-			let object = new Phalcon\Acl\Resource(resourceName);
+			let object = new \Phalcon\Acl\Resource(resourceName);
 		 }
 
 		 let resourcesNames = this->_resourcesNames;
@@ -302,7 +304,7 @@ class Memory extends Phalcon\Acl\Adapter
 
 		let resourcesNames = this->_resourcesNames;
 		if isset resourcesNames[resourceName] {
-			throw new Phalcon\Acl\Exception("Resource '" . resourceName . "' does not exist in ACL");
+			throw new \Phalcon\Acl\Exception("Resource '" . resourceName . "' does not exist in ACL");
 		}
 
 		let exists = true;
@@ -364,12 +366,12 @@ class Memory extends Phalcon\Acl\Adapter
 
 		let rolesNames = this->_rolesNames;
 		if isset rolesNames[roleName] {
-			throw new Phalcon\Acl\Exception("Role '" . roleName . "' does not exist in ACL");
+			throw new \Phalcon\Acl\Exception("Role '" . roleName . "' does not exist in ACL");
 		}
 
 		let resourcesNames = this->_resourcesNames;
 		if isset resourcesNames[resourceName] {
-			throw new Phalcon\Acl\Exception("Resource '" . resourceName . "' does not exist in ACL");
+			throw new \Phalcon\Acl\Exception("Resource '" . resourceName . "' does not exist in ACL");
 		}
 
 		let defaultAccess = this->_defaultAccess;
@@ -380,7 +382,7 @@ class Memory extends Phalcon\Acl\Adapter
 			for accessName in access {
 				let accessKey = resourceName . "!" . accessName;
 				if !isset accessList[accessKey] {
-					throw new Phalcon\Acl\Exception("Acccess '" . accessName . "' does not exist in resource '" . resourceName . "'");
+					throw new \Phalcon\Acl\Exception("Acccess '" . accessName . "' does not exist in resource '" . resourceName . "'");
 				}
 			}
 
@@ -399,7 +401,7 @@ class Memory extends Phalcon\Acl\Adapter
 			if access != "*" {
 				let accessKey = resourceName . "!" . access;
 				if !isset accessList[accessKey] {
-					throw new Phalcon\Acl\Exception("Acccess '" . access . "' does not exist in resource '" . resourceName . "'");
+					throw new \Phalcon\Acl\Exception("Acccess '" . access . "' does not exist in resource '" . resourceName . "'");
 				}
 			}
 
@@ -451,7 +453,7 @@ class Memory extends Phalcon\Acl\Adapter
 	 */
 	 public function allow(roleName, resourceName, access)
 	 {
-		return this->_allowordeny(roleName, resourceName, access, Phalcon\Acl::ALLOW);
+		return this->_allowordeny(roleName, resourceName, access, \Phalcon\Acl::ALLOW);
 	 }
 
 	 /**
@@ -481,7 +483,7 @@ class Memory extends Phalcon\Acl\Adapter
 	 */
 	 public function deny(roleName, resourceName, access)
 	 {
-		return this->_allowordeny(roleName, resourceName, access, Phalcon\Acl::DENY);
+		return this->_allowordeny(roleName, resourceName, access, \Phalcon\Acl::DENY);
 	 }
 
 	 /**
@@ -510,7 +512,7 @@ class Memory extends Phalcon\Acl\Adapter
 		let this->_activeResource = resource;
 		let this->_activeAccess = resource;
 		let accessList = this->_access;
-		let eventsManager = <Phalcon\Events\Manager> this->_eventsManager;;
+		let eventsManager = <\Phalcon\Events\Manager> this->_eventsManager;;
 
 		if typeof eventsManager == "object" {
 			if eventsManager->fire("acl:beforeCheckAccess", this) === false {

@@ -41,7 +41,7 @@ namespace Phalcon\Paginator\Adapter;
  *</code>
  *
  */
-class NativeArray implements Phalcon\Paginator\AdapterInterface
+class NativeArray implements \Phalcon\Paginator\AdapterInterface
 {
 
 	/**
@@ -105,7 +105,7 @@ class NativeArray implements Phalcon\Paginator\AdapterInterface
 			items  = config["data"];
 
 		if typeof items != "array" {
-			throw new Phalcon\Paginator\Exception("Invalid data for paginator");
+			throw new \Phalcon\Paginator\Exception("Invalid data for paginator");
 		}
 
 		let show    = (int) this->_limitRows,

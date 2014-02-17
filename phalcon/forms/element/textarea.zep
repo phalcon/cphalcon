@@ -24,7 +24,7 @@ namespace Phalcon\Forms\Element;
  *
  * Component TEXTAREA for forms
  */
-class TextArea extends Phalcon\Forms\Element implements Phalcon\Forms\ElementInterface
+class TextArea extends \Phalcon\Forms\Element implements \Phalcon\Forms\ElementInterface
 {
 
 	/**
@@ -35,7 +35,7 @@ class TextArea extends Phalcon\Forms\Element implements Phalcon\Forms\ElementInt
 	 */
 	public function render(attributes=null) -> string
 	{
-		return Phalcon\Tag::textArea(this->prepareAttributes(attributes));
+		return \Phalcon\Tag::textArea(this->prepareAttributes(attributes));
 	}
 
 }

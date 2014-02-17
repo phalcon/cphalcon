@@ -42,7 +42,7 @@
  * Provides encryption facilities to phalcon applications
  *
  *<code>
- *	$crypt = new Phalcon\Crypt();
+ *	$crypt = new \Phalcon\Crypt();
  *
  *	$key = 'le password';
  *	$text = 'This is a secret text';

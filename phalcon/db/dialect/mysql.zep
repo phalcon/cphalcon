@@ -24,7 +24,7 @@ namespace Phalcon\Db\Dialect;
  *
  * Generates database specific SQL for the MySQL RBDM
  */
-class MySQL extends Phalcon\Db\Dialect //implements Phalcon\Db\DialectInterface
+class MySQL extends \Phalcon\Db\Dialect //implements Phalcon\Db\DialectInterface
 {
 
 	protected _escapeChar = "`";
@@ -35,51 +35,51 @@ class MySQL extends Phalcon\Db\Dialect //implements Phalcon\Db\DialectInterface
 	 * @param Phalcon\Db\ColumnInterface column
 	 * @return string
 	 */
-	public function getColumnDefinition(<Phalcon\Db\ColumnInterface> column) -> string
+	public function getColumnDefinition(<\Phalcon\Db\ColumnInterface> column) -> string
 	{
 		var columnSql, size, scale;
 
 		if typeof column != "object" {
-			throw new Phalcon\Db\Exception("Column definition must be an object compatible with Phalcon\\Db\\ColumnInterface");
+			throw new \Phalcon\Db\Exception("Column definition must be an object compatible with Phalcon\\Db\\ColumnInterface");
 		}
 
 		switch column->getType() {
 
-			case Phalcon\Db\Column::TYPE_INTEGER:
+			case \Phalcon\Db\Column::TYPE_INTEGER:
 				let columnSql = "INT(" . column->getSize() . ")";
 				if column->isUnsigned() {
 					let columnSql .= " UNSIGNED";
 				}
 				break;
 
-			case Phalcon\Db\Column::TYPE_DATE:
+			case \Phalcon\Db\Column::TYPE_DATE:
 				let columnSql = "DATE";
 				break;
 
-			case Phalcon\Db\Column::TYPE_VARCHAR:
+			case \Phalcon\Db\Column::TYPE_VARCHAR:
 				let columnSql = "VARCHAR(" . column->getSize() . ")";
 				break;
 
-			case Phalcon\Db\Column::TYPE_DECIMAL:
+			case \Phalcon\Db\Column::TYPE_DECIMAL:
 				let columnSql = "DECIMAL(" . column->getSize() . "," . column->getScale() . ")";
 				if column->isUnsigned() {
 					let columnSql .= " UNSIGNED";
 				}
 				break;
 
-			case Phalcon\Db\Column::TYPE_DATETIME:
+			case \Phalcon\Db\Column::TYPE_DATETIME:
 				let columnSql = "DATETIME";
 				break;
 
-			case Phalcon\Db\Column::TYPE_CHAR:
+			case \Phalcon\Db\Column::TYPE_CHAR:
 				let columnSql = "CHAR(" . column->getSize() . ")";
 				break;
 
-			case Phalcon\Db\Column::TYPE_TEXT:
+			case \Phalcon\Db\Column::TYPE_TEXT:
 				let columnSql = "TEXT";
 				break;
 
-			case Phalcon\Db\Column::TYPE_FLOAT:
+			case \Phalcon\Db\Column::TYPE_FLOAT:
 				let columnSql = "FLOAT",
 					size = column->getSize();
 				if size {
@@ -97,7 +97,7 @@ class MySQL extends Phalcon\Db\Dialect //implements Phalcon\Db\DialectInterface
 				break;
 
 			default:
-				throw new Phalcon\Db\Exception("Unrecognized MySQL data type");
+				throw new \Phalcon\Db\Exception("Unrecognized MySQL data type");
 		}
 
 		return columnSql;
@@ -110,12 +110,12 @@ class MySQL extends Phalcon\Db\Dialect //implements Phalcon\Db\DialectInterface
 	 * @param	string schemaName
 	 * @param	Phalcon\Db\ColumnInterface column
 	 */
-	public function addColumn(string! tableName, string! schemaName, <Phalcon\Db\ColumnInterface> column) -> string
+	public function addColumn(string! tableName, string! schemaName, <\Phalcon\Db\ColumnInterface> column) -> string
 	{
 		var afterPosition, sql;
 
 		if typeof column != "object" {
-			throw new Phalcon\Db\Exception("Column definition must be an object compatible with Phalcon\\Db\\ColumnInterface");
+			throw new \Phalcon\Db\Exception("Column definition must be an object compatible with Phalcon\\Db\\ColumnInterface");
 		}
 
 		if schemaName {
@@ -149,12 +149,12 @@ class MySQL extends Phalcon\Db\Dialect //implements Phalcon\Db\DialectInterface
 	 * @param	Phalcon\Db\ColumnInterface column
 	 * @return	string
 	 */
-	public function modifyColumn(string! tableName, string! schemaName, <Phalcon\Db\ColumnInterface> column) -> string
+	public function modifyColumn(string! tableName, string! schemaName, <\Phalcon\Db\ColumnInterface> column) -> string
 	{
 		var sql;
 
 		if typeof column != "object" {
-			throw new Phalcon\Db\Exception("Column definition must be an object compatible with Phalcon\\Db\\ColumnInterface");
+			throw new \Phalcon\Db\Exception("Column definition must be an object compatible with Phalcon\\Db\\ColumnInterface");
 		}
 
 		if schemaName {
@@ -200,12 +200,12 @@ class MySQL extends Phalcon\Db\Dialect //implements Phalcon\Db\DialectInterface
 	 * @param	Phalcon\Db\IndexInterface index
 	 * @return	string
 	 */
-	public function addIndex(string! tableName, string! schemaName, <Phalcon\Db\IndexInterface> index) -> string
+	public function addIndex(string! tableName, string! schemaName, <\Phalcon\Db\IndexInterface> index) -> string
 	{
 		var sql;
 
 		if typeof index != "object" {
-			throw new Phalcon\Db\Exception("Index parameter must be an object compatible with Phalcon\\Db\\IndexInterface");
+			throw new \Phalcon\Db\Exception("Index parameter must be an object compatible with Phalcon\\Db\\IndexInterface");
 		}
 
 		if schemaName {
@@ -246,12 +246,12 @@ class MySQL extends Phalcon\Db\Dialect //implements Phalcon\Db\DialectInterface
 	 * @param	Phalcon\Db\IndexInterface index
 	 * @return	string
 	 */
-	public function addPrimaryKey(string tableName, string schemaName, <Phalcon\Db\IndexInterface> index) -> string
+	public function addPrimaryKey(string tableName, string schemaName, <\Phalcon\Db\IndexInterface> index) -> string
 	{
 		var sql;
 
 		if typeof index != "object" {
-			throw new Phalcon\Db\Exception("Index parameter must be an object compatible with Phalcon\\Db\\IndexInterface");
+			throw new \Phalcon\Db\Exception("Index parameter must be an object compatible with Phalcon\\Db\\IndexInterface");
 		}
 
 		if schemaName {
@@ -290,12 +290,12 @@ class MySQL extends Phalcon\Db\Dialect //implements Phalcon\Db\DialectInterface
 	 * @param	Phalcon\Db\ReferenceInterface reference
 	 * @return	string
 	 */
-	public function addForeignKey(string! tableName, string! schemaName, <Phalcon\Db\ReferenceInterface> reference) -> string
+	public function addForeignKey(string! tableName, string! schemaName, <\Phalcon\Db\ReferenceInterface> reference) -> string
 	{
 		var sql, referencedSchema;
 
 		if typeof reference != "object" {
-			throw new Phalcon\Db\Exception("Index parameter must be an object compatible with Phalcon\\Db\\ReferenceInterface");
+			throw new \Phalcon\Db\Exception("Index parameter must be an object compatible with Phalcon\\Db\\ReferenceInterface");
 		}
 
 		if schemaName {
@@ -405,7 +405,7 @@ class MySQL extends Phalcon\Db\Dialect //implements Phalcon\Db\DialectInterface
 			indexSql, sql, columnLine;
 
 		if !fetch columns, definition["columns"] {
-			throw new Phalcon\Db\Exception("The index 'columns' is required in the definition array");
+			throw new \Phalcon\Db\Exception("The index 'columns' is required in the definition array");
 		}
 
 		if schemaName {
@@ -537,7 +537,7 @@ class MySQL extends Phalcon\Db\Dialect //implements Phalcon\Db\DialectInterface
 		var view, viewSql;
 
 		if fetch viewSql, definition["sql"] {
-			throw new Phalcon\Db\Exception("The index 'sql' is required in the definition array");
+			throw new \Phalcon\Db\Exception("The index 'sql' is required in the definition array");
 		}
 
 		if schemaName {

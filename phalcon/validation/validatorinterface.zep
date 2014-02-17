@@ -51,6 +51,6 @@ interface ValidatorInterface
 	 * @param string attribute
 	 * @return boolean
 	 */
-	public function validate(<Phalcon\Validator> validator, attribute) -> boolean;
+	public function validate(<\Phalcon\Validator> validator, attribute) -> boolean;
 
 }

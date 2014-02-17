@@ -27,9 +27,9 @@ interface AdapterInterface
 	public function flip(int direction);
 	public function sharpen(int amount);
 	public function reflection(int height, int opacity = 100, boolean fade_in = false);
-	public function watermark(<Phalcon\Image\Adapter> watermark, int offset_x = 0, int offset_y = 0, int opacity = 100);
+	public function watermark(<\Phalcon\Image\Adapter> watermark, int offset_x = 0, int offset_y = 0, int opacity = 100);
 	public function text(string text, int offset_x = 0, int offset_y = 0, int opacity = 100, string color = "000000", int size = 12, string fontfile = null);
-	public function mask(<Phalcon\Image\Adapter> watermark);
+	public function mask(<\Phalcon\Image\Adapter> watermark);
 	public function background(string color, int opacity = 100);
 	public function blur(int radius);
 	public function pixelate(int amount);

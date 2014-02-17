@@ -37,7 +37,7 @@ namespace Phalcon\Mvc\Router;
  *	};
  *</code>
  */
-class Annotations extends Phalcon\Mvc\Router
+class Annotations extends \Phalcon\Mvc\Router
 {
 	protected _handlers;
 
@@ -57,7 +57,7 @@ class Annotations extends Phalcon\Mvc\Router
 	 * @param string prefix
 	 * @return Phalcon\Mvc\Router\Annotations
 	 */
-	public function addResource(string! handler, string! prefix=null) -> <Phalcon\Mvc\Router\Annotations>
+	public function addResource(string! handler, string! prefix=null) -> <\Phalcon\Mvc\Router\Annotations>
 	{
 
 		let this->_handlers[] = [prefix, handler],
@@ -75,7 +75,7 @@ class Annotations extends Phalcon\Mvc\Router
 	 * @param string prefix
 	 * @return Phalcon\Mvc\Router\Annotations
 	 */
-	public function addModuleResource(string! module, string! handler, string! prefix=null) -> <Phalcon\Mvc\Router\Annotations>
+	public function addModuleResource(string! module, string! handler, string! prefix=null) -> <\Phalcon\Mvc\Router\Annotations>
 	{
 
 		let this->_handlers[] = [prefix, handler, module],
@@ -132,9 +132,9 @@ class Annotations extends Phalcon\Mvc\Router
 
 						if typeof annotationsService == "object" {
 
-							let dependencyInjector = <Phalcon\DiInterface> this->_dependencyInjector;
+							let dependencyInjector = <\Phalcon\DiInterface> this->_dependencyInjector;
 							if typeof dependencyInjector != "object" {
-								throw new Phalcon\Mvc\Router\Exception("A dependency injection container is required to access the 'annotations' service");
+								throw new \Phalcon\Mvc\Router\Exception("A dependency injection container is required to access the 'annotations' service");
 							}
 
 							let annotationsService = dependencyInjector->getShared("annotations");
@@ -229,7 +229,7 @@ class Annotations extends Phalcon\Mvc\Router
 	 * @param string handler
 	 * @param Phalcon\Annotations\AdapterInterface
 	 */
-	public function processControllerAnnotation(string! handler, <Phalcon\Annotations\AdapterInterface> annotation)
+	public function processControllerAnnotation(string! handler, <\Phalcon\Annotations\AdapterInterface> annotation)
 	{
 		/**
 		 * @RoutePrefix add a prefix for all the routes defined in the model
@@ -249,7 +249,7 @@ class Annotations extends Phalcon\Mvc\Router
 	 * @param Phalcon\Annotations\Annotation annotation
 	 */
 	public function processActionAnnotation(string! module, string! namespaceName, string! controller, string! action,
-		<Phalcon\Annotations\Annotation> annotation)
+		<\Phalcon\Annotations\Annotation> annotation)
 	{
 		var isRoute, name, actionName, routePrefix, paths, value, uri,
 			route, methods, converts, param, convert, conversorParam, routeName;

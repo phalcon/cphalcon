@@ -28,10 +28,10 @@ namespace Phalcon\Mvc\Collection;
  * A CollectionManager is injected to a model via a Dependency Injector Container such as Phalcon\Di.
  *
  * <code>
- * $di = new Phalcon\Di();
+ * $di = new \Phalcon\Di();
  *
  * $di->set('collectionManager', function(){
- *      return new Phalcon\Mvc\Collection\Manager();
+ *      return new \Phalcon\Mvc\Collection\Manager();
  * });
  *
  * robot = new Robots(di);

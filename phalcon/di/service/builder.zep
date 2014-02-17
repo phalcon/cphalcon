@@ -35,7 +35,7 @@ class Builder
 	 * @param array argument
 	 * @return mixed
 	 */
-	private function _buildParameter(<Phalcon\DiInterface> dependencyInjector, int position, argument)
+	private function _buildParameter(<\Phalcon\DiInterface> dependencyInjector, int position, argument)
 	{
 
 		var type, name, value, instanceArguments;
@@ -44,14 +44,14 @@ class Builder
 		 * All the arguments must be an array
 		 */
 		if typeof argument != "array" {
-			throw new Phalcon\Di\Exception("Argument at position " . position . " must be an array");
+			throw new \Phalcon\Di\Exception("Argument at position " . position . " must be an array");
 		}
 
 		/**
 		 * All the arguments must have a type
 		 */
 		if !fetch type, argument["type"] {
-			throw new Phalcon\Di\Exception("Argument at position " . position . " must have a type");
+			throw new \Phalcon\Di\Exception("Argument at position " . position . " must have a type");
 		}
 
 		switch type {
@@ -61,10 +61,10 @@ class Builder
 			 */
 			case "service":
 				if !fetch name, argument["name"] {
-					throw new Phalcon\Di\Exception("Service 'name' is required in parameter on position " . position);
+					throw new \Phalcon\Di\Exception("Service 'name' is required in parameter on position " . position);
 				}
 				if typeof dependencyInjector != "object" {
-					throw new Phalcon\Di\Exception("The dependency injector container is not valid");
+					throw new \Phalcon\Di\Exception("The dependency injector container is not valid");
 				}
 				return dependencyInjector->get(name);
 
@@ -73,7 +73,7 @@ class Builder
 			 */
 			case "parameter":
 				if !fetch value, argument["value"] {
-					throw new Phalcon\Di\Exception("Service 'value' is required in parameter on position " . position);
+					throw new \Phalcon\Di\Exception("Service 'value' is required in parameter on position " . position);
 				}
 				return value;
 
@@ -83,11 +83,11 @@ class Builder
 			case "instance":
 
 				if !fetch name, argument["className"] {
-					throw new Phalcon\Di\Exception("Service 'className' is required in parameter on position " . position);
+					throw new \Phalcon\Di\Exception("Service 'className' is required in parameter on position " . position);
 				}
 
 				if typeof dependencyInjector != "object" {
-					throw new Phalcon\Di\Exception("The dependency injector container is not valid");
+					throw new \Phalcon\Di\Exception("The dependency injector container is not valid");
 				}
 
 				if fetch instanceArguments, argument["arguments"] {
@@ -105,7 +105,7 @@ class Builder
 				/**
 				 * Unknown parameter type
 				 */
-				throw new Phalcon\Di\Exception("Unknown service type in parameter on position " . position);
+				throw new \Phalcon\Di\Exception("Unknown service type in parameter on position " . position);
 		}
 	}
 
@@ -116,7 +116,7 @@ class Builder
 	 * @param array arguments
 	 * @return array
 	 */
-	private function _buildParameters(<Phalcon\DiInterface> dependencyInjector, arguments)
+	private function _buildParameters(<\Phalcon\DiInterface> dependencyInjector, arguments)
 	{
 		var position, argument, buildArguments;
 
@@ -124,7 +124,7 @@ class Builder
 		 * The arguments group must be an array of arrays
 		 */
 		if typeof arguments != "array" {
-			throw new Phalcon\Di\Exception("Definition arguments must be an array");
+			throw new \Phalcon\Di\Exception("Definition arguments must be an array");
 		}
 
 		let buildArguments = [];
@@ -142,21 +142,21 @@ class Builder
 	 * @param array parameters
 	 * @return mixed
 	 */
-	public function build(<Phalcon\DiInterface> dependencyInjector, definition, parameters=null)
+	public function build(<\Phalcon\DiInterface> dependencyInjector, definition, parameters=null)
 	{
 		var className, arguments, paramCalls, methodPosition, method,
 			methodName, methodCall, instance, propertyPosition, property,
 			propertyName, propertyValue;
 
 		if typeof definition != "array" {
-			throw new Phalcon\Di\Exception("The service definition must be an array");
+			throw new \Phalcon\Di\Exception("The service definition must be an array");
 		}
 
 		/**
 		 * The class name is required
 		 */
 		if !fetch className, definition["className"] {
-			throw new Phalcon\Di\Exception("Invalid service definition. Missing 'className' parameter");
+			throw new \Phalcon\Di\Exception("Invalid service definition. Missing 'className' parameter");
 		}
 
 		if typeof parameters == "array" {
@@ -193,11 +193,11 @@ class Builder
 		if fetch paramCalls, definition["calls"] {
 
 			if typeof instance != "object" {
-				throw new Phalcon\Di\Exception("The definition has setter injection parameters but the constructor didn't return an instance");
+				throw new \Phalcon\Di\Exception("The definition has setter injection parameters but the constructor didn't return an instance");
 			}
 
 			if typeof paramCalls != "array" {
-				throw new Phalcon\Di\Exception("Setter injection parameters must be an array");
+				throw new \Phalcon\Di\Exception("Setter injection parameters must be an array");
 			}
 
 			/**
@@ -209,14 +209,14 @@ class Builder
 				 * The call parameter must be an array of arrays
 				 */
 				if typeof method != "array" {
-					throw new Phalcon\Di\Exception("Method call must be an array on position ".methodPosition);
+					throw new \Phalcon\Di\Exception("Method call must be an array on position ".methodPosition);
 				}
 
 				/**
 				 * A param 'method' is required
 				 */
 				if !fetch methodName, method["method"] {
-					throw new Phalcon\Di\Exception("The method name is required on position " . methodPosition);
+					throw new \Phalcon\Di\Exception("The method name is required on position " . methodPosition);
 				}
 
 				/**
@@ -227,7 +227,7 @@ class Builder
 				if fetch arguments, method["arguments"] {
 
 					if typeof arguments != "array" {
-						throw new Phalcon\Di\Exception("Call arguments must be an array ".methodPosition);
+						throw new \Phalcon\Di\Exception("Call arguments must be an array ".methodPosition);
 					}
 
 					if count(arguments) {
@@ -259,11 +259,11 @@ class Builder
 		if fetch paramCalls, definition["properties"] {
 
 			if typeof instance != "object" {
-				throw new Phalcon\Di\Exception("The definition has properties injection parameters but the constructor didn't return an instance");
+				throw new \Phalcon\Di\Exception("The definition has properties injection parameters but the constructor didn't return an instance");
 			}
 
 			if typeof paramCalls != "array" {
-				throw new Phalcon\Di\Exception("Setter injection parameters must be an array");
+				throw new \Phalcon\Di\Exception("Setter injection parameters must be an array");
 			}
 
 			/**
@@ -275,21 +275,21 @@ class Builder
 				 * The call parameter must be an array of arrays
 				 */
 				if typeof property != "array" {
-					throw new Phalcon\Di\Exception("Property must be an array on position " . propertyPosition);
+					throw new \Phalcon\Di\Exception("Property must be an array on position " . propertyPosition);
 				}
 
 				/**
 				 * A param 'name' is required
 				 */
 				if !fetch propertyName, property["name"] {
-					throw new Phalcon\Di\Exception("The property name is required on position " . propertyPosition);
+					throw new \Phalcon\Di\Exception("The property name is required on position " . propertyPosition);
 				}
 
 				/**
 				 * A param 'value' is required
 				 */
 				if !fetch propertyValue, property["value"] {
-					throw new Phalcon\Di\Exception("The property value is required on position " . propertyPosition);
+					throw new \Phalcon\Di\Exception("The property value is required on position " . propertyPosition);
 				}
 
 				/**

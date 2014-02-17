@@ -18,6 +18,7 @@
 #include "kernel/fcall.h"
 #include "ext/spl/spl_exceptions.h"
 #include "kernel/exception.h"
+#include "kernel/object.h"
 
 
 /*
@@ -108,8 +109,8 @@ PHP_METHOD(Phalcon_Annotations_Adapter_Xcache, read) {
  */
 PHP_METHOD(Phalcon_Annotations_Adapter_Xcache, write) {
 
-	zval *key_param = NULL, *data, *_0, *_2;
-	zval *key = NULL, *_1;
+	zval *key_param = NULL, *data, *_0, *_1, *_3;
+	zval *key = NULL, *_2;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &key_param, &data);
@@ -127,13 +128,23 @@ PHP_METHOD(Phalcon_Annotations_Adapter_Xcache, write) {
 	}
 
 
-	ZEPHIR_INIT_VAR(_0);
-	ZEPHIR_INIT_VAR(_1);
-	ZEPHIR_CONCAT_SV(_1, "_PHAN", key);
-	zephir_fast_strtolower(_0, _1);
+	if (zephir_is_instance_of(data, SL("Phalcon\\Annotations\\Reflection") TSRMLS_CC)) {
+		ZEPHIR_INIT_VAR(_0);
+		object_init_ex(_0, spl_ce_BadMethodCallException);
+		ZEPHIR_INIT_VAR(_1);
+		ZVAL_STRING(_1, "Parameter 'data' must be an instance of 'Phalcon\\Annotations\\Reflection'", 1);
+		zephir_call_method_p1_noret(_0, "__construct", _1);
+		zephir_throw_exception(_0 TSRMLS_CC);
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
+	ZEPHIR_INIT_BNVAR(_1);
 	ZEPHIR_INIT_VAR(_2);
-	zephir_call_func_p1(_2, "serialize", data);
-	zephir_call_func_p2_noret("xcache_set", _0, _2);
+	ZEPHIR_CONCAT_SV(_2, "_PHAN", key);
+	zephir_fast_strtolower(_1, _2);
+	ZEPHIR_INIT_VAR(_3);
+	zephir_call_func_p1(_3, "serialize", data);
+	zephir_call_func_p2_noret("xcache_set", _1, _3);
 	ZEPHIR_MM_RESTORE();
 
 }

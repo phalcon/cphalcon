@@ -34,7 +34,7 @@ class Introspection
 	 * @param Phalcon\DiInterface dependencyInjector
 	 * @return array
 	 */
-	public function getMetaData(<Phalcon\Mvc\ModelInterface> model, <Phalcon\DiInterface> dependencyInjector)
+	public function getMetaData(<\Phalcon\Mvc\ModelInterface> model, <\Phalcon\DiInterface> dependencyInjector)
 	{
 		var schema, table, readConnection, columns, attributes,
 			primaryKeys, nonPrimaryKeys, completeTable, numericTyped, notNull,
@@ -59,7 +59,7 @@ class Introspection
 			/**
 			 * The table not exists
 			 */
-			throw new Phalcon\Mvc\Model\Exception("Table '" . completeTable . "' doesn't exist on database when dumping meta-data for " . get_class(model));
+			throw new \Phalcon\Mvc\Model\Exception("Table '" . completeTable . "' doesn't exist on database when dumping meta-data for " . get_class(model));
 		}
 
 		/**
@@ -77,7 +77,7 @@ class Introspection
 			/**
 			 * The table not exists
 			 */
-			throw new Phalcon\Mvc\Model\Exception("Cannot obtain table columns for the mapped source '" . completeTable . "' used in model " . get_class(model));
+			throw new \Phalcon\Mvc\Model\Exception("Cannot obtain table columns for the mapped source '" . completeTable . "' used in model " . get_class(model));
 		}
 
 		/**
@@ -163,7 +163,7 @@ class Introspection
 	 * @param Phalcon\DiInterface dependencyInjector
 	 * @return array
 	 */
-	public function getColumnMaps(<Phalcon\Mvc\ModelInterface> model, <Phalcon\DiInterface> dependencyInjector)
+	public function getColumnMaps(<\Phalcon\Mvc\ModelInterface> model, <\Phalcon\DiInterface> dependencyInjector)
 	{
 		var orderedColumnMap, userColumnMap, reversedColumnMap, name, userName;
 
@@ -177,7 +177,7 @@ class Introspection
 
 			let userColumnMap = model->{"columnMap"}();
 			if typeof userColumnMap != "array" {
-				throw new Phalcon\Mvc\Model\Exception("columnMap() not returned an array");
+				throw new \Phalcon\Mvc\Model\Exception("columnMap() not returned an array");
 			}
 
 			let reversedColumnMap = [],

@@ -24,7 +24,7 @@ namespace Phalcon;
  *
  * Allows to validate data using validators
  */
-class Validation extends Phalcon\Di\Injectable
+class Validation extends \Phalcon\Di\Injectable
 {
 	protected _data;
 
@@ -38,7 +38,7 @@ class Validation extends Phalcon\Di\Injectable
 
 	protected _defaultMessages;
 
-        protected _labels;
+		protected _labels;
 
 	protected _values;
 
@@ -52,17 +52,17 @@ class Validation extends Phalcon\Di\Injectable
 
 		if typeof validators != "null" {
 			if typeof validators != "array" {
-				throw new Phalcon\Validation\Exception("Validators must be an array");
+				throw new \Phalcon\Validation\Exception("Validators must be an array");
 			}
 			let this->_validators = validators;
 		}
 
-                this->setDefaultMessages();
+		this->setDefaultMessages();
 
 		/**
 		 * Check for an 'initialize' method
 		 */
-		if (method_exists(this, "initialize")) {
+		if method_exists(this, "initialize") {
 			this->{"initialize"}();
 		}
 	}
@@ -74,13 +74,13 @@ class Validation extends Phalcon\Di\Injectable
 	 * @param object entity
 	 * @return Phalcon\Validation\Message\Group
 	 */
-	public function validate(data=null, entity=null) -> <Phalcon\Validation\Message\Group>
+	public function validate(data=null, entity=null) -> <\Phalcon\Validation\Message\Group>
 	{
 		var validators, messages, scope, field, validator, notCachedCall;
 
 		let validators = this->_validators;
 		if typeof validators != "array" {
-			throw new Phalcon\Validation\Exception("There are no validators to validate");
+			throw new \Phalcon\Validation\Exception("There are no validators to validate");
 		}
 
 		/**
@@ -91,7 +91,7 @@ class Validation extends Phalcon\Di\Injectable
 		/**
 		 * Implicitly creates a Phalcon\Validation\Message\Group object
 		 */
-		let messages = new Phalcon\Validation\Message\Group();
+		let messages = new \Phalcon\Validation\Message\Group();
 
 		/**
 		 * Validation classes can implement the 'beforeValidation' callback
@@ -115,22 +115,22 @@ class Validation extends Phalcon\Di\Injectable
 		for scope in validators {
 
 			if typeof scope != "array" {
-				throw new Phalcon\Validation\Exception("The validator scope is not valid");
+				throw new \Phalcon\Validation\Exception("The validator scope is not valid");
 			}
 
 			let field = scope[0],
 				validator = scope[1];
 
 			if typeof validator != "object" {
-				throw new Phalcon\Validation\Exception("One of the validators is not valid");
+				throw new \Phalcon\Validation\Exception("One of the validators is not valid");
 			}
 
 			/**
 			 * Check if the validation must be canceled if this validator fails
 			 */
-                        let notCachedCall = "validate";
+						let notCachedCall = "validate";
 			if validator->{notCachedCall}(this, field) === false {
-                                let notCachedCall = "getOption";
+								let notCachedCall = "getOption";
 				if (validator->{notCachedCall}("cancelOnFail")) {
 					break;
 				}
@@ -155,11 +155,11 @@ class Validation extends Phalcon\Di\Injectable
 	 * @param Phalcon\Validation\ValidatorInterface validator
 	 * @return Phalcon\Validation
 	 */
-	public function add(string field, <Phalcon\Validation\ValidatorInterface> validator) -> <Phalcon\Validation>
+	public function add(string field, <\Phalcon\Validation\ValidatorInterface> validator) -> <\Phalcon\Validation>
 	{
 
 		if typeof validator != "object" {
-			throw new Phalcon\Validation\Exception("The validator must be an object");
+			throw new \Phalcon\Validation\Exception("The validator must be an object");
 		}
 
 		let this->_validators[] = [field, validator];
@@ -173,7 +173,7 @@ class Validation extends Phalcon\Di\Injectable
 	 * @param array|string field
 	 * @return Phalcon\Validation
 	 */
-	public function setFilters(string field, filters) -> <Phalcon\Validation>
+	public function setFilters(string field, filters) -> <\Phalcon\Validation>
 	{
 		let this->_filters[field] = filters;
 		return this;
@@ -218,52 +218,52 @@ class Validation extends Phalcon\Di\Injectable
 		return this->_entity;
 	}
 
-        /**
+		/**
 	 * Adds default messages to validators
 	 *
 	 * @param array messages
-         * @return array
+		 * @return array
 	 */
 	public function setDefaultMessages(messages=null)
 	{
-                var defaultMessages;
+				var defaultMessages;
 
-                if typeof messages == "null" {
+				if typeof messages == "null" {
 			let messages = [];
 		}
-                if typeof messages != "array" {
-                        throw new Phalcon\Validation\Exception("Messages must be an array");
-                }
-                let defaultMessages = [
-                        "Alnum": "Field :field must contain only letters and numbers",
-                        "Alpha": "Field :field must contain only letters",
-                        "Between": "Field :field must be within the range of :min to :max",
-                        "Confirmation": "Field :field must be the same as :with",
-                        "Digit": "Field :field must be numeric",
-                        "Email": "Field :field must be an email address",
-                        "ExclusionIn": "Field :field must not be a part of list: :domain",
-                        "FileEmpty": "Field :field must not be empty",
-                        "FileIniSize": "File :field exceeds the maximum file size",
-                        "FileMaxResolution": "File :field must not exceed :max resolution",
-                        "FileMinResolution": "File :field must be at least :min resolution",
-                        "FileSize": "File :field exceeds the size of :max",
-                        "FileType": "File :field must be of type: :types",
-                        "FileValid": "Field :field is not valid",
-                        "Identical": "Field :field does not have the expected value",
-                        "InclusionIn": "Field :field must be a part of list: :domain",
-                        "PresenceOf": "Field :field is required",
-                        "Regex": "Field :field does not match the required format",
-                        "TooLong": "Field :field must not exceed :max characters long",
-                        "TooShort": "Field :field must be at least :min characters long",
-                        "Uniqueness": "Field :field must be unique",
-                        "Url": "Field :field must be a url"
-                ];
+				if typeof messages != "array" {
+						throw new \Phalcon\Validation\Exception("Messages must be an array");
+				}
+				let defaultMessages = [
+						"Alnum": "Field :field must contain only letters and numbers",
+						"Alpha": "Field :field must contain only letters",
+						"Between": "Field :field must be within the range of :min to :max",
+						"Confirmation": "Field :field must be the same as :with",
+						"Digit": "Field :field must be numeric",
+						"Email": "Field :field must be an email address",
+						"ExclusionIn": "Field :field must not be a part of list: :domain",
+						"FileEmpty": "Field :field must not be empty",
+						"FileIniSize": "File :field exceeds the maximum file size",
+						"FileMaxResolution": "File :field must not exceed :max resolution",
+						"FileMinResolution": "File :field must be at least :min resolution",
+						"FileSize": "File :field exceeds the size of :max",
+						"FileType": "File :field must be of type: :types",
+						"FileValid": "Field :field is not valid",
+						"Identical": "Field :field does not have the expected value",
+						"InclusionIn": "Field :field must be a part of list: :domain",
+						"PresenceOf": "Field :field is required",
+						"Regex": "Field :field does not match the required format",
+						"TooLong": "Field :field must not exceed :max characters long",
+						"TooShort": "Field :field must be at least :min characters long",
+						"Uniqueness": "Field :field must be unique",
+						"Url": "Field :field must be a url"
+				];
 
 		let this->_defaultMessages = array_merge(defaultMessages, messages);
-                return this->_defaultMessages;
+				return this->_defaultMessages;
 	}
 
-        /**
+		/**
 	 * Get default message for validator type
 	 *
 	 * @param string type
@@ -279,25 +279,25 @@ class Validation extends Phalcon\Di\Injectable
 	 *
 	 * @return Phalcon\Validation\Message\Group
 	 */
-	public function getMessages() -> <Phalcon\Validation\Message\Group>
+	public function getMessages() -> <\Phalcon\Validation\Message\Group>
 	{
 		return this->_messages;
 	}
 
-        /**
+		/**
 	 * Adds labels for fields
 	 *
 	 * @param array labels
 	 */
 	public function setLabels(labels)
 	{
-                if typeof labels != "array" {
-                        throw new Phalcon\Validation\Exception("Labels must be an array");
-                }
-                let this->_labels = labels;
-        }
+		if typeof labels != "array" {
+			throw new \Phalcon\Validation\Exception("Labels must be an array");
+		}
+		let this->_labels = labels;
+	}
 
-        /**
+		/**
 	 * Get label for field
 	 *
 	 * @param string field
@@ -321,7 +321,7 @@ class Validation extends Phalcon\Di\Injectable
 	 * @param Phalcon\Validation\MessageInterface message
 	 * @return Phalcon\Validation
 	 */
-	public function appendMessage(<Phalcon\Validation\MessageInterface> message) -> <Phalcon\Validation>
+	public function appendMessage(<\Phalcon\Validation\MessageInterface> message) -> <\Phalcon\Validation>
 	{
 		var messages;
 		let messages = this->_messages;
@@ -337,15 +337,15 @@ class Validation extends Phalcon\Di\Injectable
 	 * @param string data
 	 * @return Phalcon\Validation
 	 */
-	public function bind(entity, data) -> <Phalcon\Validation>
+	public function bind(entity, data) -> <\Phalcon\Validation>
 	{
 		if typeof entity != "object" {
-			throw new Phalcon\Validation\Exception("The entity must be an object");
+			throw new \Phalcon\Validation\Exception("The entity must be an object");
 		}
 
 		if typeof data != "array" {
 			if typeof data != "object" {
-				throw new Phalcon\Validation\Exception("The data to validate must be an array or object");
+				throw new \Phalcon\Validation\Exception("The data to validate must be an array or object");
 			}
 		}
 
@@ -394,7 +394,7 @@ class Validation extends Phalcon\Di\Injectable
 
 		if typeof data != "array" {
 			if typeof data != "object" {
-				throw new Phalcon\Validation\Exception("There is no data to validate");
+				throw new \Phalcon\Validation\Exception("There is no data to validate");
 			}
 		}
 
@@ -432,13 +432,13 @@ class Validation extends Phalcon\Di\Injectable
 						if typeof dependencyInjector != "object" {
 							let dependencyInjector = Phalcon\Di::getDefault();
 							if typeof dependencyInjector != "object" {
-								throw new Phalcon\Validation\Exception("A dependency injector is required to obtain the 'filter' service");
+								throw new \Phalcon\Validation\Exception("A dependency injector is required to obtain the 'filter' service");
 							}
 						}
 
 						let filterService = dependencyInjector->getShared("filter");
 						if typeof filterService != "object" {
-							throw new Phalcon\Validation\Exception("Returned 'filter' service is invalid");
+							throw new \Phalcon\Validation\Exception("Returned 'filter' service is invalid");
 						}
 
 						return filterService->sanitize(value, fieldFilters);

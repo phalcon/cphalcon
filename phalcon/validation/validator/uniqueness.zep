@@ -32,7 +32,7 @@ namespace Phalcon\Validation\Validator;
  *)));
  *</code>
  */
-class Uniqueness extends Phalcon\Validation\Validator implements Phalcon\Validation\ValidatorInterface
+class Uniqueness extends \Phalcon\Validation\Validator implements \Phalcon\Validation\ValidatorInterface
 {
 
 	/**
@@ -42,38 +42,37 @@ class Uniqueness extends Phalcon\Validation\Validator implements Phalcon\Validat
 	 * @param  string             field
 	 * @return boolean
 	 */
-	public function validate(<Phalcon\Validation> validation, string! field) -> boolean
+	public function validate(<\Phalcon\Validation> validation, string! field) -> boolean
 	{
 		var attribute, value, model, number, message, label, replacePairs;
 
 		let value = validation->getValue(field),
-                        model = this->getOption("model"),
-                        attribute = this->getOption("attribute");
-                
-                if empty model {
-                        throw new Phalcon\Validation\Exception("Model must be set");
-                }
-                
-                if empty attribute {
-                        let attribute = field;
-                }
-                
-		let number = {model}::count([attribute . "=:value:", "bind": ["value" : value]]);
+					model = this->getOption("model"),
+					attribute = this->getOption("attribute");
 
+		if empty model {
+			throw new \Phalcon\Validation\Exception("Model must be set");
+		}
+
+		if empty attribute {
+			let attribute = field;
+		}
+
+		let number = {model}::count([attribute . "=:value:", "bind": ["value" : value]]);
 		if number {
 
-                        let label = this->getOption("label");
-                        if empty label {
-                                let label = validation->getLabel(field);
-                                if empty label {
-                                        let label = field;
-                                }
+			let label = this->getOption("label");
+			if empty label {
+				let label = validation->getLabel(field);
+				if empty label {
+					let label = field;
+				}
 			}
 
 			let message = this->getOption("message");
-                        let replacePairs = [":field": label];
+			let replacePairs = [":field": label];
 			if empty message {
-                                let message = validation->getDefaultMessage("Uniqueness");
+				let message = validation->getDefaultMessage("Uniqueness");
 			}
 
 			validation->appendMessage(new Phalcon\Validation\Message(strtr(message, replacePairs), field, "Uniqueness"));

@@ -26,11 +26,11 @@ namespace Phalcon\Cache\Backend;
  *
  *<code>
  *	//Cache data for 2 days
- *	$frontCache = new Phalcon\Cache\Frontend\Data(array(
+ *	$frontCache = new \Phalcon\Cache\Frontend\Data(array(
  *		'lifetime' => 172800
  *	));
  *
- *  $cache = new Phalcon\Cache\Backend\Apc($frontCache, array(
+ *  $cache = new \Phalcon\Cache\Backend\Apc($frontCache, array(
  *      'prefix' => 'app-data'
  *  ));
  *
@@ -42,7 +42,7 @@ namespace Phalcon\Cache\Backend;
  *
  *</code>
  */
-class Apc extends Phalcon\Cache\Backend implements Phalcon\Cache\BackendInterface
+class Apc extends \Phalcon\Cache\Backend implements \Phalcon\Cache\BackendInterface
 {
 
 	/**
@@ -88,7 +88,7 @@ class Apc extends Phalcon\Cache\Backend implements Phalcon\Cache\BackendInterfac
 		}
 
 		if !lastKey {
-			throw new Phalcon\Cache\Exception("The cache must be started first");
+			throw new \Phalcon\Cache\Exception("The cache must be started first");
 		}
 
 		let frontend = this->_frontend;

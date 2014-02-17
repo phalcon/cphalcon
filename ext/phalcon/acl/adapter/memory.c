@@ -45,21 +45,21 @@
  *
  *<code>
  *
- *	$acl = new Phalcon\Acl\Adapter\Memory();
+ *	$acl = new \Phalcon\Acl\Adapter\Memory();
  *
  *	$acl->setDefaultAction(Phalcon\Acl::DENY);
  *
  *	//Register roles
  *	$roles = array(
- *		'users' => new Phalcon\Acl\Role('Users'),
- *		'guests' => new Phalcon\Acl\Role('Guests')
+ *		'users' => new \Phalcon\Acl\Role('Users'),
+ *		'guests' => new \Phalcon\Acl\Role('Guests')
  *	);
  *	foreach ($roles as $role) {
  *		$acl->addRole($role);
  *	}
  *
  *	//Private area resources
- *  $privateResources = array(
+ *	$privateResources = array(
  *		'companies' => array('index', 'search', 'new', 'edit', 'save', 'create', 'delete'),
  *		'products' => array('index', 'search', 'new', 'edit', 'save', 'create', 'delete'),
  *		'invoices' => array('index', 'profile')
@@ -75,11 +75,11 @@
  *		'session' => array('index', 'register', 'start', 'end'),
  *		'contact' => array('index', 'send')
  *	);
- *  foreach ($publicResources as $resource => $actions) {
+ *	foreach ($publicResources as $resource => $actions) {
  *		$acl->addResource(new Phalcon\Acl\Resource($resource), $actions);
  *	}
  *
- *  //Grant access to public areas to both users and guests
+ *	//Grant access to public areas to both users and guests
  *	foreach ($roles as $role){
  *		foreach ($publicResources as $resource => $actions) {
  *			$acl->allow($role->getName(), $resource, '*');
@@ -87,7 +87,7 @@
  *	}
  *
  *	//Grant access to private area to role Users
- *  foreach ($privateResources as $resource => $actions) {
+ *	foreach ($privateResources as $resource => $actions) {
  * 		foreach ($actions as $action) {
  *			$acl->allow('Users', $resource, $action);
  *		}
@@ -395,8 +395,8 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, addResourceAccess) {
 	if ((Z_TYPE_P(accessList) == IS_ARRAY)) {
 		zephir_is_iterable(accessList, &_3, &_2, 0, 0);
 		for (
-			; zend_hash_get_current_data_ex(_3, (void**) &_4, &_2) == SUCCESS
-			; zend_hash_move_forward_ex(_3, &_2)
+		  ; zend_hash_get_current_data_ex(_3, (void**) &_4, &_2) == SUCCESS
+		  ; zephir_hash_move_forward_ex(_3, &_2)
 		) {
 			ZEPHIR_GET_HVALUE(accessName, _4);
 			ZEPHIR_INIT_NVAR(accessKey);
@@ -442,8 +442,8 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, dropResourceAccess) {
 	if ((Z_TYPE_P(accessList) == IS_ARRAY)) {
 		zephir_is_iterable(accessList, &_1, &_0, 0, 0);
 		for (
-			; zend_hash_get_current_data_ex(_1, (void**) &_2, &_0) == SUCCESS
-			; zend_hash_move_forward_ex(_1, &_0)
+		  ; zend_hash_get_current_data_ex(_1, (void**) &_2, &_0) == SUCCESS
+		  ; zephir_hash_move_forward_ex(_1, &_0)
 		) {
 			ZEPHIR_GET_HVALUE(accessName, _2);
 			ZEPHIR_INIT_NVAR(accessKey);
@@ -522,8 +522,8 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, _allowOrDeny) {
 	if ((Z_TYPE_P(access) == IS_ARRAY)) {
 		zephir_is_iterable(access, &_3, &_2, 0, 0);
 		for (
-			; zend_hash_get_current_data_ex(_3, (void**) &_4, &_2) == SUCCESS
-			; zend_hash_move_forward_ex(_3, &_2)
+		  ; zend_hash_get_current_data_ex(_3, (void**) &_4, &_2) == SUCCESS
+		  ; zephir_hash_move_forward_ex(_3, &_2)
 		) {
 			ZEPHIR_GET_HVALUE(accessName, _4);
 			ZEPHIR_INIT_NVAR(accessKey);
@@ -541,8 +541,8 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, _allowOrDeny) {
 		}
 		zephir_is_iterable(access, &_7, &_6, 0, 0);
 		for (
-			; zend_hash_get_current_data_ex(_7, (void**) &_8, &_6) == SUCCESS
-			; zend_hash_move_forward_ex(_7, &_6)
+		  ; zend_hash_get_current_data_ex(_7, (void**) &_8, &_6) == SUCCESS
+		  ; zephir_hash_move_forward_ex(_7, &_6)
 		) {
 			ZEPHIR_GET_HVALUE(accessName, _8);
 			ZEPHIR_INIT_NVAR(accessKey);
@@ -731,8 +731,8 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, isAllowed) {
 			if ((Z_TYPE_P(inheritedRoles) == IS_ARRAY)) {
 				zephir_is_iterable(inheritedRoles, &_4, &_3, 0, 0);
 				for (
-					; zend_hash_get_current_data_ex(_4, (void**) &_5, &_3) == SUCCESS
-					; zend_hash_move_forward_ex(_4, &_3)
+				  ; zend_hash_get_current_data_ex(_4, (void**) &_5, &_3) == SUCCESS
+				  ; zephir_hash_move_forward_ex(_4, &_3)
 				) {
 					ZEPHIR_GET_HVALUE(inheritedRole, _5);
 					ZEPHIR_INIT_NVAR(accessKey);
@@ -755,8 +755,8 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, isAllowed) {
 			if ((Z_TYPE_P(inheritedRoles) == IS_ARRAY)) {
 				zephir_is_iterable(inheritedRoles, &_7, &_6, 0, 0);
 				for (
-					; zend_hash_get_current_data_ex(_7, (void**) &_8, &_6) == SUCCESS
-					; zend_hash_move_forward_ex(_7, &_6)
+				  ; zend_hash_get_current_data_ex(_7, (void**) &_8, &_6) == SUCCESS
+				  ; zephir_hash_move_forward_ex(_7, &_6)
 				) {
 					ZEPHIR_GET_HVALUE(inheritedRole, _8);
 					ZEPHIR_INIT_NVAR(accessKey);
@@ -780,8 +780,8 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, isAllowed) {
 			if ((Z_TYPE_P(inheritedRoles) == IS_ARRAY)) {
 				zephir_is_iterable(inheritedRoles, &_10, &_9, 0, 0);
 				for (
-					; zend_hash_get_current_data_ex(_10, (void**) &_11, &_9) == SUCCESS
-					; zend_hash_move_forward_ex(_10, &_9)
+				  ; zend_hash_get_current_data_ex(_10, (void**) &_11, &_9) == SUCCESS
+				  ; zephir_hash_move_forward_ex(_10, &_9)
 				) {
 					ZEPHIR_GET_HVALUE(inheritedRole, _11);
 					ZEPHIR_INIT_NVAR(accessKey);

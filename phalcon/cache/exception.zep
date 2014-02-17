@@ -25,7 +25,7 @@ namespace Phalcon\Cache;
  * Exceptions thrown in Phalcon\Cache will use this class
  *
  */
-class Exception extends Phalcon\Exception
+class Exception extends \Phalcon\Exception
 {
 
 }

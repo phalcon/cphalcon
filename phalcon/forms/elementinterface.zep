@@ -33,7 +33,7 @@ interface ElementInterface
 	 * @param Phalcon\Forms\Form form
 	 * @return Phalcon\Forms\ElementInterface
 	 */
-	public function setForm(<Phalcon\Forms\Form> form);
+	public function setForm(<\Phalcon\Forms\Form> form);
 
 	/**
 	 * Returns the parent form to the element
@@ -95,7 +95,7 @@ interface ElementInterface
 	 * @param Phalcon\Validation\ValidatorInterface
 	 * @return Phalcon\Forms\ElementInterface
 	 */
-	public function addValidator(<Phalcon\Validation\ValidatorInterface> validator);
+	public function addValidator(<\Phalcon\Validation\ValidatorInterface> validator);
 
 	/**
 	 * Returns the validators registered for the element

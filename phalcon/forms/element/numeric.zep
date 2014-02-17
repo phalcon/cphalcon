@@ -24,7 +24,7 @@ namespace Phalcon\Forms\Element;
  *
  * Component INPUT[type=number] for forms
  */
-class Numeric extends Phalcon\Forms\Element implements Phalcon\Forms\ElementInterface
+class Numeric extends \Phalcon\Forms\Element implements \Phalcon\Forms\ElementInterface
 {
 
 	/**
@@ -35,7 +35,7 @@ class Numeric extends Phalcon\Forms\Element implements Phalcon\Forms\ElementInte
 	 */
 	public function render(attributes=null) -> string
 	{
-		return Phalcon\Tag::numericField(this->prepareAttributes(attributes));
+		return \Phalcon\Tag::numericField(this->prepareAttributes(attributes));
 	}
 
 }

@@ -45,7 +45,7 @@
  *  "password" => ""
  * );
  *
- * $connection = new Phalcon\Db\Adapter\Pdo\Postgresql($config);
+ * $connection = new \Phalcon\Db\Adapter\Pdo\Postgresql($config);
  *
  * </code>
  */

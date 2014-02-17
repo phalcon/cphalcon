@@ -78,7 +78,7 @@ interface ServiceInterface
 	 * @param Phalcon\DiInterface dependencyInjector
 	 * @return mixed
 	 */
-	public function resolve(parameters=null, <Phalcon\DiInterface> dependencyInjector=null);
+	public function resolve(parameters=null, <\Phalcon\DiInterface> dependencyInjector=null);
 
 	/**
 	 * Restore the interal state of a service

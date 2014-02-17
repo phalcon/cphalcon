@@ -44,7 +44,7 @@
  * Represents an asset resource
  *
  *<code>
- * $resource = new Phalcon\Assets\Resource('js', 'javascripts/jquery.js');
+ * $resource = new \Phalcon\Assets\Resource('js', 'javascripts/jquery.js');
  *</code>
  */
 ZEPHIR_INIT_CLASS(Phalcon_Assets_Resource) {
@@ -82,8 +82,8 @@ PHP_METHOD(Phalcon_Assets_Resource, __construct) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 3, &type_param, &path_param, &local_param, &filter_param, &attributes);
 
-		zephir_get_strval(type, type_param);
-		zephir_get_strval(path, path_param);
+	zephir_get_strval(type, type_param);
+	zephir_get_strval(path, path_param);
 	if (!local_param) {
 		local = 1;
 	} else {
@@ -124,7 +124,7 @@ PHP_METHOD(Phalcon_Assets_Resource, setType) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &type_param);
 
-		zephir_get_strval(type, type_param);
+	zephir_get_strval(type, type_param);
 
 
 	zephir_update_property_this(this_ptr, SL("_type"), type TSRMLS_CC);
@@ -158,7 +158,7 @@ PHP_METHOD(Phalcon_Assets_Resource, setPath) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &path_param);
 
-		zephir_get_strval(path, path_param);
+	zephir_get_strval(path, path_param);
 
 
 	zephir_update_property_this(this_ptr, SL("_path"), path TSRMLS_CC);
@@ -191,7 +191,7 @@ PHP_METHOD(Phalcon_Assets_Resource, setLocal) {
 
 	zephir_fetch_params(0, 1, 0, &local_param);
 
-		local = zephir_get_boolval(local_param);
+	local = zephir_get_boolval(local_param);
 
 
 	zephir_update_property_this(this_ptr, SL("_local"), local ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
@@ -224,7 +224,7 @@ PHP_METHOD(Phalcon_Assets_Resource, setFilter) {
 
 	zephir_fetch_params(0, 1, 0, &filter_param);
 
-		filter = zephir_get_boolval(filter_param);
+	filter = zephir_get_boolval(filter_param);
 
 
 	zephir_update_property_this(this_ptr, SL("_filter"), filter ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
@@ -289,7 +289,7 @@ PHP_METHOD(Phalcon_Assets_Resource, setTargetUri) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &targetUri_param);
 
-		zephir_get_strval(targetUri, targetUri_param);
+	zephir_get_strval(targetUri, targetUri_param);
 
 
 	zephir_update_property_this(this_ptr, SL("_targetUri"), targetUri TSRMLS_CC);
@@ -323,7 +323,7 @@ PHP_METHOD(Phalcon_Assets_Resource, setSourcePath) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &sourcePath_param);
 
-		zephir_get_strval(sourcePath, sourcePath_param);
+	zephir_get_strval(sourcePath, sourcePath_param);
 
 
 	zephir_update_property_this(this_ptr, SL("_sourcePath"), sourcePath TSRMLS_CC);
@@ -357,7 +357,7 @@ PHP_METHOD(Phalcon_Assets_Resource, setTargetPath) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &targetPath_param);
 
-		zephir_get_strval(targetPath, targetPath_param);
+	zephir_get_strval(targetPath, targetPath_param);
 
 
 	zephir_update_property_this(this_ptr, SL("_targetPath"), targetPath TSRMLS_CC);

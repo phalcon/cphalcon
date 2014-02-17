@@ -103,12 +103,12 @@ class Tag
 
 		let attrs = [];
 		let order = ["type","for","src","href","action","id","name","value","class"];
-		
+
 		let escaper = self::getEscaper(attributes);
-		
+
 		for attribute,value in attributes {
 			if isset order[attribute] {
-				let attrs[attribute] = value; 
+				let attrs[attribute] = value;
 			}
 		}
 
@@ -117,7 +117,7 @@ class Tag
 		if isset attrs["escape"] {
 			unset attrs["escape"];
 		}
-		
+
 		for key,value in attrs {
 			if typeof key == "string" {
 				if escaper {
@@ -137,10 +137,10 @@ class Tag
 	 *
 	 * @param Phalcon\DiInterface dependencyInjector
 	 */
-	public static function setDI(<Phalcon\DiInterface> dependencyInjector)
+	public static function setDI(<\Phalcon\DiInterface> dependencyInjector)
 	{
 		if typeof dependencyInjector != "object" {
-			throw new Phalcon\Tag\Exception("Parameter dependencyInjector must be an Object");
+			throw new \Phalcon\Tag\Exception("Parameter dependencyInjector must be an Object");
 		}
 		let self::_dependencyInjector = dependencyInjector;
 	}
@@ -150,7 +150,7 @@ class Tag
 	 *
 	 * @return Phalcon\DiInterface
 	 */
-	public static function getDI() -> <Phalcon\DiInterface>
+	public static function getDI() -> <\Phalcon\DiInterface>
 	{
 		return self::_dependencyInjector;
 	}
@@ -160,24 +160,24 @@ class Tag
      *
 	 * @return Phalcon\Mvc\UrlInterface
 	 */
-	public static function getUrlService() -> <Phalcon\Mvc\UrlInterface>
+	public static function getUrlService() -> <\Phalcon\Mvc\UrlInterface>
 	{
 		var url, dependencyInjector;
 
 		let url = self::_urlService;
 		if typeof url != "object" {
 
-			//let dependencyInjector = <Phalcon\DiInterface> self::_dependencyInjector;
+			//let dependencyInjector = <\Phalcon\DiInterface> self::_dependencyInjector;
 			let dependencyInjector = self::_dependencyInjector;
 			if typeof dependencyInjector != "object" {
 				let dependencyInjector = Phalcon\Di::getDefault();
 			}
 
 			if typeof dependencyInjector != "object" {
-				throw new Phalcon\Tag\Exception("A dependency injector container is required to obtain the \"url\" service");
+				throw new \Phalcon\Tag\Exception("A dependency injector container is required to obtain the \"url\" service");
 			}
 
-			let url = <Phalcon\Mvc\UrlInterface> dependencyInjector->getShared("url"),
+			let url = <\Phalcon\Mvc\UrlInterface> dependencyInjector->getShared("url"),
 				self::_urlService = url;
 		}
 		return url;
@@ -188,24 +188,24 @@ class Tag
 	 *
 	 * @return Phalcon\EscaperInterface
 	 */
-	public static function getEscaperService() -> <Phalcon\EscaperInterface>
+	public static function getEscaperService() -> <\Phalcon\EscaperInterface>
 	{
 		var escaper, dependencyInjector;
 
 		let escaper = self::_escaperService;
 		if typeof escaper != "object" {
 
-			//let dependencyInjector = <Phalcon\DiInterface> self::_dependencyInjector;
+			//let dependencyInjector = <\Phalcon\DiInterface> self::_dependencyInjector;
 			let dependencyInjector = self::_dependencyInjector;
 			if typeof dependencyInjector != "object" {
 				let dependencyInjector = Phalcon\DI::getDefault();
 			}
 
 			if typeof dependencyInjector != "object" {
-				throw new Phalcon\Tag\Exception("A dependency injector container is required to obtain the \"escaper\" service");
+				throw new \Phalcon\Tag\Exception("A dependency injector container is required to obtain the \"escaper\" service");
 			}
 
-			let escaper = <Phalcon\EscaperInterface> dependencyInjector->getShared("escaper"),
+			let escaper = <\Phalcon\EscaperInterface> dependencyInjector->getShared("escaper"),
 				self::_escaperService = escaper;
 		}
 		return escaper;
@@ -238,7 +238,7 @@ class Tag
 	public static function setDefault(string id, value){
 		if value !== null {
 			if typeof value == "array" || typeof value == "object" {
-				throw new Phalcon\Tag\Exception("Only scalar values can be assigned to UI components");
+				throw new \Phalcon\Tag\Exception("Only scalar values can be assigned to UI components");
 			}
 		}
 		let self::_displayValues[id] = value;
@@ -260,7 +260,7 @@ class Tag
 	public static function setDefaults(values)
 	{
 		if typeof values != "array" {
-			throw new Phalcon\Tag\Exception("An array is required as default values");
+			throw new \Phalcon\Tag\Exception("An array is required as default values");
 		}
 		let self::_displayValues = values;
 	}
@@ -478,7 +478,7 @@ class Tag
 			}
 
 			/**
-			 * Use the parameter "value" if the developer had set it 
+			 * Use the parameter "value" if the developer had set it
 			 */
 			if !isset params["value"] {
 				let value = self::getValue(id, params);
@@ -503,9 +503,9 @@ class Tag
 				let code .= " ".key."=\"".value."\"";
 			}
 		}
- 
+
 		let doctype = self::_documentType;
- 
+
 		/**
 		 * Check if Doctype is XHTML
 		 */
@@ -514,7 +514,7 @@ class Tag
 		} else {
 			let code .= ">";
 		}
- 
+
 		return code;
 	}
 
@@ -534,13 +534,13 @@ class Tag
 		} else {
 			let params = parameters;
 		}
- 
+
 		let value = null;
- 
+
 		if !isset params[0] {
 			let params[0] = params["id"];
 		}
- 
+
 		let id = params[0];
 		if  !isset params["name"] {
 			let params["name"] = id;
@@ -550,7 +550,7 @@ class Tag
 				let params["name"] = id;
 			}
 		}
- 
+
 		/**
 		* Automatically assign the id if the name is not an array
 		*/
@@ -559,9 +559,9 @@ class Tag
 				let params["id"] = id;
 			}
 		}
- 
+
 		let value = self::getValue(id, params);
- 
+
 		/**
 		 * Automatically check inputs
 		 */
@@ -577,22 +577,22 @@ class Tag
 			if value {
 				let params["checked"] = "checked";
 			}
- 
+
 			/**
 			* Update the value anyways
 			*/
 			let params["value"] = value;
 		}
- 
+
 		let code = "<input type=\"".type."\"";
 		for key,value in params {
 			if typeof key != "integer" {
 				let code.= " ".key."=\"".value."\"";
 			}
 		}
- 
+
 		let doctype = self::_documentType;
- 
+
 		/**
 		* Check if Doctype is XHTML
 		*/
@@ -601,7 +601,7 @@ class Tag
 		} else {
 			let code .= ">";
 		}
- 
+
 		return code;
 	}
 
@@ -961,7 +961,7 @@ class Tag
 		} else {
 			let params = parameters;
 		}
- 
+
 		if !isset params[0] {
 			if isset params["id"] {
 				let params[0] = params["id"];
@@ -977,27 +977,27 @@ class Tag
 				let params["name"] = id;
 			}
 		}
- 
+
 		if !isset params["id"] {
 			let params["id"] = id;
 		}
- 
+
 		if isset params["value"] {
 			let content = params["value"];
 			unset params["value"];
 		} else {
 			let content = self::getValue(id, params);
 		}
- 
+
 		let code = "<textarea";
 		for key,avalue in params {
 			if typeof key != "integer" {
 				let code .=  " ".key."=\"".avalue."\"";
 			}
 		}
- 
+
 		let code .= ">".content."</textarea>";
- 
+
 		return code;
 	}
 
@@ -1027,7 +1027,7 @@ class Tag
 		} else {
 			let params = parameters;
 		}
- 
+
 		if isset params[0] {
 			let paramsAction = params[0];
 		} else {
@@ -1037,21 +1037,21 @@ class Tag
 				let paramsAction = null;
 			}
 		}
- 
+
 		/**
 		 * By default the method is POST
 		 */
 		if !isset params["method"] {
 			let params["method"] = "post";
 		}
- 
+
 		let action = null;
- 
+
 		if !empty paramsAction {
 			let url = self::getUrlService();
 			let action = url->get(paramsAction);
 		}
- 
+
 		/**
 		 * Check for extra parameters
 		 */
@@ -1059,11 +1059,11 @@ class Tag
 			let parameters = params["parameters"];
 			let action .= "?".parameters;
 		}
- 
+
 		if !empty action {
 			let params["action"] = action;
 		}
- 
+
 		let code = "<form";
 		for key,avalue in params {
 			if typeof key != "integer" {
@@ -1071,7 +1071,7 @@ class Tag
 			}
 		}
 		let code .= ">";
- 
+
 		return code;
 	}
 
@@ -1201,7 +1201,7 @@ class Tag
 		} else {
 			let params = parameters;
 		}
- 
+
 		if !isset params["href"] {
 			if isset params[0] {
 				let firstParam = params[0];
@@ -1210,9 +1210,9 @@ class Tag
 				let params["href"] = "";
 			}
 		}
- 
+
 		let local = false;
- 
+
 		if isset params[1] {
 			let local = params[1];
 		} else {
@@ -1221,11 +1221,11 @@ class Tag
 				unset params["local"];
 			}
 		}
- 
+
 		if !isset params["type"] {
 			let params["type"] = "text/css";
 		}
- 
+
 		/**
 		 * URLs are generated through the "url" service
 		 */
@@ -1233,18 +1233,18 @@ class Tag
 			let url = self::getUrlService();
 			let params["href"] = url->getStatic(params["href"]);;
 		}
- 
+
 		let code = "<link rel=\"stylesheet\"";
 		for key,value in params {
 			if typeof key != "integer" {
 				let code .= " ".key."=\"".value."\"";
 			}
 		}
- 
+
 		let doctype = self::_documentType;
- 
+
 		let eol = PHP_EOL;
- 
+
 		/**
 		 * Check if Doctype is XHTML
 		 */
@@ -1253,7 +1253,7 @@ class Tag
 		} else {
 			let code .= ">".eol;
 		}
- 
+
 		return code;
 	}
 
@@ -1284,7 +1284,7 @@ class Tag
 		} else {
 			let params = parameters;
 		}
- 
+
 		if !isset params["src"] {
 			if isset params[0] {
 				let firstParam = params[0];
@@ -1293,9 +1293,9 @@ class Tag
 				let params["src"] = "";
 			}
 		}
- 
+
 		let local = false;
- 
+
 		if isset params[1] {
 			let local = params[1];
 		} else {
@@ -1304,11 +1304,11 @@ class Tag
 				unset params["local"];
 			}
 		}
- 
+
 		if !isset params["type"] {
 			let params["type"] = "text/javascript";
 		}
- 
+
 		/**
 		 * URLs are generated through the "url" service
 		 */
@@ -1316,9 +1316,9 @@ class Tag
 			let url = self::getUrlService();
 			let params["src"] = url->getStatic(params["src"]);
 		}
- 
+
 		let eol = PHP_EOL;
- 
+
 		let code = "<script";
 		for key,value in params {
 			if typeof key != "integer" {
@@ -1326,7 +1326,7 @@ class Tag
 			}
 		}
 		let code.="></script>".eol;
- 
+
 		return code;
 	}
 
@@ -1358,7 +1358,7 @@ class Tag
 		} else {
 			let params = parameters;
 		}
- 
+
 		if !isset params["src"] {
 			if isset params[0] {
 				let params["src"] = params[0];
@@ -1366,7 +1366,7 @@ class Tag
 				let params["src"] = "";
 			}
 		}
- 
+
 		/**
 		 * Use the "url" service if the URI is local
 		 */
@@ -1374,16 +1374,16 @@ class Tag
 			let url = self::getUrlService();
 			let params["src"] = url->getStatic(params["src"]);
 		}
- 
+
 		let code = "<img";
 		for key,value in params {
 			if typeof key != "integer" {
 				let code .= " ".key."=\"".value."\"";
 			}
 		}
- 
+
 		let doctype = self::_documentType;
- 
+
 		/**
 		 * Check if Doctype is XHTML
 		 */
@@ -1392,7 +1392,7 @@ class Tag
 		} else {
 			let code .= ">";
 		}
- 
+
 		return code;
 	}
 
@@ -1442,7 +1442,7 @@ class Tag
 		var doctype;
 
 		let doctype = self::_documentType;
-		switch doctype 
+		switch doctype
 		{
 			case 1:  return "<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 3.2 Final//EN\">".PHP_EOL;
             /* no break */
@@ -1491,17 +1491,17 @@ class Tag
 		} else {
 			let params = parameters;
 		}
- 
+
 		let localCode = "<".tagName;
- 
+
 		for key,value in params {
 			if typeof key != "integer" {
 				let localCode .= " ".key."=\"".value."\"";
 			}
 		}
- 
+
 		let doctype = self::_documentType;
- 
+
 		/**
 		 * Check if Doctype is XHTML
 		 */
@@ -1518,11 +1518,11 @@ class Tag
 				let localCode .= "></". tagName . ">";
 			}
 		}
- 
+
 		if useEol {
 			let localCode .= PHP_EOL;
 		}
- 
+
 		return localCode;
 	}
 
@@ -1542,11 +1542,11 @@ class Tag
  		var localCode;
 
 		let localCode = "</" . tagName . ">";
- 
+
 		if useEol {
 			let localCode .= PHP_EOL;
 		}
- 
+
 		return localCode;
 	}
 

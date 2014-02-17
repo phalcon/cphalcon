@@ -25,7 +25,7 @@ namespace Phalcon\Cli;
  *
  * This component allows to create CLI applications using Phalcon
  */
-class Console implements Phalcon\Di\InjectionAwareInterface, Phalcon\Events\EventsAwareInterface
+class Console implements \Phalcon\Di\InjectionAwareInterface, \Phalcon\Events\EventsAwareInterface
 {
 
 	protected _dependencyInjector;
@@ -41,7 +41,7 @@ class Console implements Phalcon\Di\InjectionAwareInterface, Phalcon\Events\Even
 	 *
 	 * @param Phalcon\DiInterface dependencyInjector
 	 */
-	public function __construct(<Phalcon\DiInterface> dependencyInjector=null)
+	public function __construct(<\Phalcon\DiInterface> dependencyInjector=null)
 	{
 		if typeof dependencyInjector == "object" {
 			let this->_dependencyInjector = dependencyInjector;
@@ -53,8 +53,8 @@ class Console implements Phalcon\Di\InjectionAwareInterface, Phalcon\Events\Even
 	 *
 	 * @param Phalcon\DiInterface dependencyInjector
 	 */
-	public function setDI(<Phalcon\DiInterface> dependencyInjector)
-	{		
+	public function setDI(<\Phalcon\DiInterface> dependencyInjector)
+	{
 		let this->_dependencyInjector = dependencyInjector;
 	}
 
@@ -63,7 +63,7 @@ class Console implements Phalcon\Di\InjectionAwareInterface, Phalcon\Events\Even
 	 *
 	 * @return Phalcon\DiInterface
 	 */
-	public function getDI() -> <Phalcon\DiInterface>
+	public function getDI() -> <\Phalcon\DiInterface>
 	{
 		return this->_dependencyInjector;
 	}
@@ -73,7 +73,7 @@ class Console implements Phalcon\Di\InjectionAwareInterface, Phalcon\Events\Even
 	 *
 	 * @param Phalcon\Events\ManagerInterface eventsManager
 	 */
-	public function setEventsManager(<Phalcon\Events\ManagerInterface> eventsManager)
+	public function setEventsManager(<\Phalcon\Events\ManagerInterface> eventsManager)
 	{
 		let this->_eventsManager = eventsManager;
 	}
@@ -83,7 +83,7 @@ class Console implements Phalcon\Di\InjectionAwareInterface, Phalcon\Events\Even
 	 *
 	 * @return Phalcon\Events\ManagerInterface
 	 */
-	public function getEventsManager() -> <Phalcon\Events\ManagerInterface>
+	public function getEventsManager() -> <\Phalcon\Events\ManagerInterface>
 	{
 		return this->_eventsManager;
 	}
@@ -109,7 +109,7 @@ class Console implements Phalcon\Di\InjectionAwareInterface, Phalcon\Events\Even
 	public function registerModules(modules)
 	{
 		if typeof modules != "array" {
-			throw new Phalcon\Cli\Console\Exception("Modules must be an Array");
+			throw new \Phalcon\Cli\Console\Exception("Modules must be an Array");
 		}
 		let this->_modules = modules;
 	}
@@ -131,7 +131,7 @@ class Console implements Phalcon\Di\InjectionAwareInterface, Phalcon\Events\Even
 	public function addModules(modules)
 	{
 		if typeof modules != "array" {
-			throw new Phalcon\Cli\Console\Exception("Modules must be an Array");
+			throw new \Phalcon\Cli\Console\Exception("Modules must be an Array");
 		}
 		let this->_modules = array_merge(modules, this->_modules);
 	}
@@ -160,12 +160,12 @@ class Console implements Phalcon\Di\InjectionAwareInterface, Phalcon\Events\Even
 
 		let dependencyInjector = this->_dependencyInjector;
 		if typeof dependencyInjector != "object" {
-			throw new Phalcon\Cli\Console\Exception("A dependency injection object is required to access internal services");
+			throw new \Phalcon\Cli\Console\Exception("A dependency injection object is required to access internal services");
 		}
 
-		let eventsManager = <Phalcon\Events\Manager> this->_eventsManager;
+		let eventsManager = <\Phalcon\Events\Manager> this->_eventsManager;
 
-		let router = <Phalcon\Cli\Router> dependencyInjector->getShared("router");
+		let router = <\Phalcon\Cli\Router> dependencyInjector->getShared("router");
 		router->handle(arguments);
 
 		let moduleName = router->getModuleName();
@@ -179,17 +179,17 @@ class Console implements Phalcon\Di\InjectionAwareInterface, Phalcon\Events\Even
 
 			let modules = this->_modules;
 			if !isset modules[moduleName] {
-				throw new Phalcon\Cli\Console\Exception("Module '" . moduleName . "' isn't registered in the console container");
+				throw new \Phalcon\Cli\Console\Exception("Module '" . moduleName . "' isn't registered in the console container");
 			}
 
 			let module = modules[moduleName];
 			if typeof module != "array" {
-				throw new Phalcon\Cli\Console\Exception("Invalid module definition path");
+				throw new \Phalcon\Cli\Console\Exception("Invalid module definition path");
 			}
 
 			if fetch path, module["path"] {
 				if !file_exists(path) {
-					throw new Phalcon\Cli\Console\Exception("Module definition path '" . path . "' doesn't exist");
+					throw new \Phalcon\Cli\Console\Exception("Module definition path '" . path . "' doesn't exist");
 				}
 				require path;
 			}
@@ -212,7 +212,7 @@ class Console implements Phalcon\Di\InjectionAwareInterface, Phalcon\Events\Even
 
 		}
 
-		let dispatcher = <Phalcon\Cli\Dispatcher> dependencyInjector->getShared("dispatcher");
+		let dispatcher = <\Phalcon\Cli\Dispatcher> dependencyInjector->getShared("dispatcher");
 
 		dispatcher->setTaskName(router->getTaskName());
 		dispatcher->setActionName(router->getActionName());

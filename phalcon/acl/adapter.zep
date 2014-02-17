@@ -68,7 +68,7 @@ class Adapter
 	 *
 	 * @param Phalcon\Events\ManagerInterface eventsManager
 	 */
-	public function setEventsManager(<Phalcon\Events\ManagerInterface> eventsManager)
+	public function setEventsManager(<\Phalcon\Events\ManagerInterface> eventsManager)
 	{
 		let this->_eventsManager = eventsManager;
 	}
@@ -78,7 +78,7 @@ class Adapter
 	 *
 	 * @return Phalcon\Events\ManagerInterface
 	 */
-	public function getEventsManager() -> <Phalcon\Events\ManagerInterface>
+	public function getEventsManager() -> <\Phalcon\Events\ManagerInterface>
 	{
 		return this->_eventsManager;
 	}

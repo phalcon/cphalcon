@@ -26,7 +26,7 @@ namespace Phalcon;
  *
  *<code>
  * //Creates the autoloader
- * $loader = new Phalcon\Loader();
+ * $loader = new \Phalcon\Loader();
  *
  * //Register some namespaces
  * $loader->registerNamespaces(array(
@@ -42,7 +42,7 @@ namespace Phalcon;
  * $adapter = Example\Adapter\Some();
  *</code>
  */
-class Loader implements Phalcon\Events\EventsAwareInterface
+class Loader implements \Phalcon\Events\EventsAwareInterface
 {
 
 	protected _eventsManager = null;
@@ -76,7 +76,7 @@ class Loader implements Phalcon\Events\EventsAwareInterface
 	 *
 	 * @param Phalcon\Events\ManagerInterface eventsManager
 	 */
-	public function setEventsManager(<Phalcon\Events\ManagerInterface> eventsManager)
+	public function setEventsManager(<\Phalcon\Events\ManagerInterface> eventsManager)
 	{
 		let this->_eventsManager = eventsManager;
 	}
@@ -86,7 +86,7 @@ class Loader implements Phalcon\Events\EventsAwareInterface
 	 *
 	 * @return Phalcon\Events\ManagerInterface
 	 */
-	public function getEventsManager() -> <Phalcon\Events\ManagerInterface>
+	public function getEventsManager() -> <\Phalcon\Events\ManagerInterface>
 	{
 		return this->_eventsManager;
 	}
@@ -97,10 +97,10 @@ class Loader implements Phalcon\Events\EventsAwareInterface
 	 * @param array extensions
 	 * @return Phalcon\Loader
 	 */
-	public function setExtensions(extensions) -> <Phalcon\Loader>
+	public function setExtensions(extensions) -> <\Phalcon\Loader>
 	{
 		if typeof extensions != "array" {
-			throw new Phalcon\Loader\Exception("Parameter extensions must be an array");
+			throw new \Phalcon\Loader\Exception("Parameter extensions must be an array");
 		}
 		let this->_extensions = extensions;
 		return this;
@@ -123,13 +123,13 @@ class Loader implements Phalcon\Events\EventsAwareInterface
 	 * @param boolean merge
 	 * @return Phalcon\Loader
 	 */
-	public function registerNamespaces(namespaces, boolean merge=false) -> <Phalcon\Loader>
+	public function registerNamespaces(namespaces, boolean merge=false) -> <\Phalcon\Loader>
 	{
 
 		var currentNamespaces, mergedNamespaces;
 
 		if typeof namespaces != "array" {
-			throw new Phalcon\Loader\Exception("Parameter namespaces must be an array");
+			throw new \Phalcon\Loader\Exception("Parameter namespaces must be an array");
 		}
 
 		if merge {
@@ -164,12 +164,12 @@ class Loader implements Phalcon\Events\EventsAwareInterface
 	 * @param boolean merge
 	 * @return Phalcon\Loader
 	 */
-	public function registerPrefixes(prefixes, boolean merge=false) -> <Phalcon\Loader>
+	public function registerPrefixes(prefixes, boolean merge=false) -> <\Phalcon\Loader>
 	{
 		var currentPrefixes, mergedPrefixes;
 
 		if typeof prefixes != "array" {
-			throw new Phalcon\Loader\Exception("Parameter prefixes must be an array");
+			throw new \Phalcon\Loader\Exception("Parameter prefixes must be an array");
 		}
 
 		if merge {
@@ -203,12 +203,12 @@ class Loader implements Phalcon\Events\EventsAwareInterface
 	 * @param boolean merge
 	 * @return Phalcon\Loader
 	 */
-	public function registerDirs(directories, boolean merge=false) -> <Phalcon\Loader>
+	public function registerDirs(directories, boolean merge=false) -> <\Phalcon\Loader>
 	{
 		var currentDirectories, mergedDirectories;
 
 		if typeof directories != "array" {
-			throw new Phalcon\Loader\Exception("Parameter directories must be an array");
+			throw new \Phalcon\Loader\Exception("Parameter directories must be an array");
 		}
 
 		if merge {
@@ -242,12 +242,12 @@ class Loader implements Phalcon\Events\EventsAwareInterface
 	 * @param boolean merge
 	 * @return Phalcon\Loader
 	 */
-	public function registerClasses(classes, merge=false) -> <Phalcon\Loader>
+	public function registerClasses(classes, merge=false) -> <\Phalcon\Loader>
 	{
 		var mergedClasses, currentClasses;
 
 		if typeof classes != "array" {
-			throw new Phalcon\Loader\Exception("Parameter classes must be an array");
+			throw new \Phalcon\Loader\Exception("Parameter classes must be an array");
 		}
 
 		if merge {
@@ -279,7 +279,7 @@ class Loader implements Phalcon\Events\EventsAwareInterface
 	 *
 	 * @return Phalcon\Loader
 	 */
-	public function register() -> <Phalcon\Loader>
+	public function register() -> <\Phalcon\Loader>
 	{
 		if this->_registered === false {
 			spl_autoload_register([this, "autoLoad"]);
@@ -293,7 +293,7 @@ class Loader implements Phalcon\Events\EventsAwareInterface
 	 *
 	 * @return Phalcon\Loader
 	 */
-	public function unregister() -> <Phalcon\Loader>
+	public function unregister() -> <\Phalcon\Loader>
 	{
 		if this->_registered === true {
 			spl_autoload_unregister([this, "autoLoad"]);

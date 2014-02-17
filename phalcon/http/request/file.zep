@@ -42,7 +42,7 @@ namespace Phalcon\Http\Request;
  *	}
  *</code>
  */
-class File implements Phalcon\Http\Request\FileInterface
+class File implements \Phalcon\Http\Request\FileInterface
 {
 
 	protected _name;
@@ -65,7 +65,7 @@ class File implements Phalcon\Http\Request\FileInterface
 		var name, tempName, size, type;
 
 		if typeof file != "array" {
-			throw new Phalcon\Http\Request\Exception("Phalcon\\Http\\Request\\File requires a valid uploaded file");
+			throw new \Phalcon\Http\Request\Exception("Phalcon\\Http\\Request\\File requires a valid uploaded file");
 		}
 
 		if fetch name, file["name"] {

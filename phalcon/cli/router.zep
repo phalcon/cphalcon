@@ -29,7 +29,7 @@ namespace Phalcon\Cli;
  * action of that task should receive the request</p>
  *
  *<code>
- *	$router = new Phalcon\Cli\Router();
+ *	$router = new \Phalcon\Cli\Router();
  *	$router->handle(array(
  *		'module' => 'main',
  *		'task' => 'videos',
@@ -39,7 +39,7 @@ namespace Phalcon\Cli;
  *</code>
  *
  */
-class Router implements Phalcon\Di\InjectionAwareInterface
+class Router implements \Phalcon\Di\InjectionAwareInterface
 {
 
 	protected _dependencyInjector;
@@ -65,7 +65,7 @@ class Router implements Phalcon\Di\InjectionAwareInterface
 	 *
 	 * @param Phalcon\DiInterface dependencyInjector
 	 */
-	public function setDI(<Phalcon\DiInterface> dependencyInjector)
+	public function setDI(<\Phalcon\DiInterface> dependencyInjector)
 	{
 		let this->_dependencyInjector = dependencyInjector;
 	}
@@ -75,7 +75,7 @@ class Router implements Phalcon\Di\InjectionAwareInterface
 	 *
 	 * @return Phalcon\DiInterface
 	 */
-	public function getDI() -> <Phalcon\DiInterface>
+	public function getDI() -> <\Phalcon\DiInterface>
 	{
 		return this->_dependencyInjector;
 	}
@@ -120,7 +120,7 @@ class Router implements Phalcon\Di\InjectionAwareInterface
 		var moduleName, taskName, actionName;
 
 		if typeof arguments != "array" {
-			throw new Phalcon\Cli\Router\Exception("Arguments must be an Array");
+			throw new \Phalcon\Cli\Router\Exception("Arguments must be an Array");
 		}
 
 		let moduleName = null,

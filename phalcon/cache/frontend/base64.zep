@@ -30,12 +30,12 @@ namespace Phalcon\Cache\Frontend;
  *<?php
  *
  * // Cache the files for 2 days using a Base64 frontend
- * $frontCache = new Phalcon\Cache\Frontend\Base64(array(
+ * $frontCache = new \Phalcon\Cache\Frontend\Base64(array(
  *    "lifetime" => 172800
  * ));
  *
  * //Create a MongoDB cache
- * $cache = new Phalcon\Cache\Backend\Mongo($frontCache, array(
+ * $cache = new \Phalcon\Cache\Backend\Mongo($frontCache, array(
  *		'server' => "mongodb://localhost",
  *      'db' => 'caches',
  *		'collection' => 'images'
@@ -54,7 +54,7 @@ namespace Phalcon\Cache\Frontend;
  * echo $image;
  *</code>
  */
-class Base64 implements Phalcon\Cache\FrontendInterface
+class Base64 implements \Phalcon\Cache\FrontendInterface
 {
 
 	protected _frontendOptions;

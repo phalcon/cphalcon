@@ -24,7 +24,7 @@ namespace Phalcon\Forms\Element;
  *
  * Component INPUT[type=email] for forms
  */
-class Email extends Phalcon\Forms\Element implements Phalcon\Forms\ElementInterface
+class Email extends \Phalcon\Forms\Element implements \Phalcon\Forms\ElementInterface
 {
 
 	/**
@@ -35,7 +35,7 @@ class Email extends Phalcon\Forms\Element implements Phalcon\Forms\ElementInterf
 	 */
 	public function render(var attributes=null) -> string
 	{
-		return Phalcon\Tag::emailField(this->prepareAttributes(attributes));
+		return \Phalcon\Tag::emailField(this->prepareAttributes(attributes));
 	}
 
 }

@@ -33,7 +33,7 @@ interface AdapterInterface
 	 * @param Phalcon\Logger\FormatterInterface formatter
 	 * @return Phalcon\Logger\Adapter
 	 */
-	public function setFormatter(<Phalcon\Logger\FormatterInterface> formatter);
+	public function setFormatter(<\Phalcon\Logger\FormatterInterface> formatter);
 
 	/**
 	 * Returns the internal formatter

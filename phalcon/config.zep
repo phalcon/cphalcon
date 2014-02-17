@@ -27,7 +27,7 @@
  * application code.
  *
  *<code>
- *	$config = new Phalcon\Config(array(
+ *	$config = new \Phalcon\Config(array(
  *		"database" => array(
  *			"adapter" => "Mysql",
  *			"host" => "localhost",
@@ -44,7 +44,7 @@
  *</code>
  *
  */
-class Config implements ArrayAccess
+class Config implements \ArrayAccess
 {
 
 	/**
@@ -62,7 +62,7 @@ class Config implements ArrayAccess
 		 */
 		if typeof arrayConfig != "array" {
 			if typeof arrayConfig != "null" {
-				throw new Phalcon\Config\Exception("The configuration must be an Array");
+				throw new \Phalcon\Config\Exception("The configuration must be an Array");
 			} else {
 				return;
 			}
@@ -74,7 +74,7 @@ class Config implements ArrayAccess
 			 * Phalcon\Config does not support numeric keys as properties
 			 */
 			if typeof key != "string" {
-				throw new Phalcon\Config\Exception("Only string keys are allowed as configuration properties");
+				throw new \Phalcon\Config\Exception("Only string keys are allowed as configuration properties");
 			}
 
 			if typeof value == "array" {
@@ -88,7 +88,7 @@ class Config implements ArrayAccess
 				if hasNumericKey {
 					let this->{key} = value;
 				} else {
-					let this->{key} = new Phalcon\Config(value);
+					let this->{key} = new \Phalcon\Config(value);
 				}
 			} else {
 				let this->{key} = value;
@@ -176,7 +176,7 @@ class Config implements ArrayAccess
 	 * Merges a configuration into the current one
 	 *
 	 *<code>
-	 *	$appConfig = new Phalcon\Config(array('database' => array('host' => 'localhost')));
+	 *	$appConfig = new \Phalcon\Config(array('database' => array('host' => 'localhost')));
 	 *	$globalConfig->merge($config2);
 	 *</code>
 	 *
@@ -217,7 +217,7 @@ class Config implements ArrayAccess
 	 * @param array data
 	 * @return Phalcon\Config
 	 */
-	public static function __set_state(data) -> <Phalcon\Config>
+	public static function __set_state(data) -> <\Phalcon\Config>
 	{
 		return new self(data);
 	}

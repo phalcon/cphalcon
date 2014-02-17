@@ -38,7 +38,7 @@ abstract class Validator {
 	public function __construct(options)
 	{
 		if typeof options != "array" {
-			throw new Phalcon\Mvc\Model\Exception("options argument must be an Array");
+			throw new \Phalcon\Mvc\Model\Exception("options argument must be an Array");
 		}
 		let this->_options = options;
 	}
@@ -55,7 +55,7 @@ abstract class Validator {
 		if !type {
 			let type = str_replace("Validator", "", get_class(this));
 		}
-		let this->_messages[] = new Phalcon\Mvc\Model\Message(message, field, type);
+		let this->_messages[] = new \Phalcon\Mvc\Model\Message(message, field, type);
 	}
 
 	/**

@@ -28,14 +28,14 @@ namespace Phalcon;
  *
  *<code>
  *
- *	$acl = new Phalcon\Acl\Adapter\Memory();
+ *	$acl = new \Phalcon\Acl\Adapter\Memory();
  *
  *	//Default action is deny access
  *	$acl->setDefaultAction(Phalcon\Acl::DENY);
  *
  *	//Create some roles
- *	$roleAdmins = new Phalcon\Acl\Role('Administrators', 'Super-User role');
- *	$roleGuests = new Phalcon\Acl\Role('Guests');
+ *	$roleAdmins = new \Phalcon\Acl\Role('Administrators', 'Super-User role');
+ *	$roleGuests = new \Phalcon\Acl\Role('Guests');
  *
  *	//Add "Guests" role to acl
  *	$acl->addRole($roleGuests);
@@ -44,7 +44,7 @@ namespace Phalcon;
  *	$acl->addRole('Designers');
  *
  *	//Define the "Customers" resource
- *	$customersResource = new Phalcon\Acl\Resource('Customers', 'Customers management');
+ *	$customersResource = new \Phalcon\Acl\Resource('Customers', 'Customers management');
  *
  *	//Add "customers" resource with a couple of operations
  *	$acl->addResource($customersResource, 'search');

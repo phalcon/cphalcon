@@ -53,7 +53,7 @@ class Message
 	 * @param string $type
 	 * @return Phalcon\Validation\Message
 	 */
-	public function setType(string! type) -> <Phalcon\Validation\Message>
+	public function setType(string! type) -> <\Phalcon\Validation\Message>
 	{
 		let this->_type = type;
 		return this;
@@ -75,7 +75,7 @@ class Message
 	 * @param string message
 	 * @return Phalcon\Validation\Message
 	 */
-	public function setMessage(string! message) -> <Phalcon\Validation\Message>
+	public function setMessage(string! message) -> <\Phalcon\Validation\Message>
 	{
 		let this->_message = message;
 		return $this;
@@ -97,7 +97,7 @@ class Message
 	 * @param string field
 	 * @return Phalcon\Validation\Message
 	 */
-	public function setField(string! field) -> <Phalcon\Validation\Message>
+	public function setField(string! field) -> <\Phalcon\Validation\Message>
 	{
 		let this->_field = field;
 		return this;
@@ -129,7 +129,7 @@ class Message
 	 * @param  array message
 	 * @return Phalcon\Validation\Message
 	 */
-	public static function __set_state(message) -> <Phalcon\Validation\Message>
+	public static function __set_state(message) -> <\Phalcon\Validation\Message>
 	{
 		return new self(message["_message"], message["_field"], message["_type"]);
 	}

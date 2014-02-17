@@ -55,7 +55,7 @@ class Collection //implements Countable, Iterator
 	 * @param Phalcon\Assets\Resource resource
 	 * @return Phalcon\Assets\Collection
 	 */
-	public function add(<Phalcon\Assets\Resource> resource) -> <Phalcon\Assets\Collection>
+	public function add(<\Phalcon\Assets\Resource> resource) -> <\Phalcon\Assets\Collection>
 	{
 		let this->_resources[] = resource;
 		return this;
@@ -70,7 +70,7 @@ class Collection //implements Countable, Iterator
 	 * @param array attributes
 	 * @return Phalcon\Assets\Collection
 	 */
-	public function addCss(string path, var local, boolean filter, attributes=null) -> <Phalcon\Assets\Collection>
+	public function addCss(string path, var local, boolean filter, attributes=null) -> <\Phalcon\Assets\Collection>
 	{
 		var collectionLocal, collectionAttributes;
 
@@ -90,7 +90,7 @@ class Collection //implements Countable, Iterator
 			let collectionAttributes = this->_attributes;
 		}
 
-		let this->_resources[] = new Phalcon\Assets\Resource\Css(collectionLocal, filter, collectionAttributes);
+		let this->_resources[] = new \Phalcon\Assets\Resource\Css(collectionLocal, filter, collectionAttributes);
 		return this;
 	}
 
@@ -103,7 +103,7 @@ class Collection //implements Countable, Iterator
 	 * @param array attributes
 	 * @return Phalcon\Assets\Collection
 	 */
-	public function addJs(string! path, var local, boolean filter, attributes=null) -> <Phalcon\Assets\Collection>
+	public function addJs(string! path, var local, boolean filter, attributes=null) -> <\Phalcon\Assets\Collection>
 	{
 		var resource, collectionLocal, collectionAttributes;
 
@@ -123,7 +123,7 @@ class Collection //implements Countable, Iterator
 			let collectionAttributes = this->_attributes;
 		}
 
-		let resource = new Phalcon\Assets\Resource\Js(collectionLocal, filter, collectionAttributes);
+		let resource = new \Phalcon\Assets\Resource\Js(collectionLocal, filter, collectionAttributes);
 
 		let this->_resources[] = resource;
 		return this;
@@ -152,7 +152,7 @@ class Collection //implements Countable, Iterator
 	 *
 	 * @return Phalcon\Assets\Resource
 	 */
-	public function current() -> <Phalcon\Assets\Resource>
+	public function current() -> <\Phalcon\Assets\Resource>
 	{
 		var position, resource, resources;
 
@@ -209,7 +209,7 @@ class Collection //implements Countable, Iterator
 	 * @param boolean join
 	 * @return Phalcon\Assets\Collection
 	 */
-	public function join(boolean join) -> <Phalcon\Assets\Collection>
+	public function join(boolean join) -> <\Phalcon\Assets\Collection>
 	{
 		let this->_join = join;
 		return this;

@@ -28,14 +28,14 @@ namespace Phalcon\Cache\Frontend;
  * <?php
  *
  * //Create an Output frontend. Cache the files for 2 days
- * $frontCache = new Phalcon\Cache\Frontend\Output(array(
+ * $frontCache = new \Phalcon\Cache\Frontend\Output(array(
  *   "lifetime" => 172800
  * ));
  *
  * // Create the component that will cache from the "Output" to a "File" backend
  * // Set the cache file directory - it's important to keep the "/" at the end of
  * // the value for the folder
- * $cache = new Phalcon\Cache\Backend\File($frontCache, array(
+ * $cache = new \Phalcon\Cache\Backend\File($frontCache, array(
  *     "cacheDir" => "../app/cache/"
  * ));
  *
@@ -67,7 +67,7 @@ namespace Phalcon\Cache\Frontend;
  * }
  *</code>
  */
-class Output implements Phalcon\Cache\FrontendInterface
+class Output implements \Phalcon\Cache\FrontendInterface
 {
 
 	protected _buffering = false;

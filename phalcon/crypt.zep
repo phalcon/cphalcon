@@ -25,7 +25,7 @@ namespace Phalcon;
  * Provides encryption facilities to phalcon applications
  *
  *<code>
- *	$crypt = new Phalcon\Crypt();
+ *	$crypt = new \Phalcon\Crypt();
  *
  *	$key = 'le password';
  *	$text = 'This is a secret text';
@@ -35,7 +35,7 @@ namespace Phalcon;
  *	echo $crypt->decrypt($encrypted, $key);
  *</code>
  */
-class Crypt implements Phalcon\CryptInterface
+class Crypt implements \Phalcon\CryptInterface
 {
 
 	protected _key;
@@ -50,7 +50,7 @@ class Crypt implements Phalcon\CryptInterface
 	 * @param string cipher
 	 * @return Phalcon\Crypt
 	 */
-	public function setCipher(string! cipher) -> <Phalcon\Crypt>
+	public function setCipher(string! cipher) -> <\Phalcon\Crypt>
 	{
 		let this->_cipher = cipher;
 		return this;
@@ -72,7 +72,7 @@ class Crypt implements Phalcon\CryptInterface
 	 * @param string cipher
 	 * @return Phalcon\Crypt
 	 */
-	public function setMode(mode) -> <Phalcon\Crypt>
+	public function setMode(mode) -> <\Phalcon\Crypt>
 	{
 		let this->_mode = mode;
 		return this;
@@ -94,7 +94,7 @@ class Crypt implements Phalcon\CryptInterface
 	 * @param string key
 	 * @return Phalcon\Crypt
 	 */
-	public function setKey(string! key) -> <Phalcon\Crypt>
+	public function setKey(string! key) -> <\Phalcon\Crypt>
 	{
 		let this->_key = key;
 		return this;

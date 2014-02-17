@@ -30,11 +30,11 @@ namespace Phalcon\Db\Adapter\Pdo;
  *  "dbname" => "/tmp/test.sqlite"
  * );
  *
- * $connection = new Phalcon\Db\Adapter\Pdo\Sqlite($config);
+ * $connection = new \Phalcon\Db\Adapter\Pdo\Sqlite($config);
  *
  * </code>
  */
-class Sqlite extends Phalcon\Db\Adapter\Pdo
+class Sqlite extends \Phalcon\Db\Adapter\Pdo
 	//implements Phalcon\Db\AdapterInterface
 {
 

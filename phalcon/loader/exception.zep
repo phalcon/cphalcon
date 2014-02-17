@@ -25,7 +25,7 @@ namespace Phalcon\Loader;
  * Exceptions thrown in Phalcon\Loader will use this class
  *
  */
-class Exception extends Phalcon\Exception
+class Exception extends \Phalcon\Exception
 {
 
 }

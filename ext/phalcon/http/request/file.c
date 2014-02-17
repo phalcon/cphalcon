@@ -13,10 +13,10 @@
 
 #include "kernel/main.h"
 #include "kernel/exception.h"
-#include "kernel/array.h"
-#include "kernel/object.h"
 #include "kernel/memory.h"
 #include "kernel/fcall.h"
+#include "kernel/array.h"
+#include "kernel/object.h"
 #include "kernel/file.h"
 #include "ext/spl/spl_exceptions.h"
 
@@ -84,14 +84,21 @@ ZEPHIR_INIT_CLASS(Phalcon_Http_Request_File) {
  */
 PHP_METHOD(Phalcon_Http_Request_File, __construct) {
 
-	zval *file, *name, *tempName, *size, *type;
+	zval *file, *name, *tempName, *size, *type, *_0, *_1;
 
-	zephir_fetch_params(0, 1, 0, &file);
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 1, 0, &file);
 
 
 
 	if ((Z_TYPE_P(file) != IS_ARRAY)) {
-		ZEPHIR_THROW_EXCEPTION_STRW(phalcon_http_request_exception_ce, "Phalcon\\Http\\Request\\File requires a valid uploaded file");
+		ZEPHIR_INIT_VAR(_0);
+		object_init_ex(_0, phalcon_http_request_exception_ce);
+		ZEPHIR_INIT_VAR(_1);
+		ZVAL_STRING(_1, "Phalcon\\Http\\Request\\File requires a valid uploaded file", 1);
+		zephir_call_method_p1_noret(_0, "__construct", _1);
+		zephir_throw_exception(_0 TSRMLS_CC);
+		ZEPHIR_MM_RESTORE();
 		return;
 	}
 	if (zephir_array_isset_string_fetch(&name, file, SS("name"), 1 TSRMLS_CC)) {
@@ -106,6 +113,7 @@ PHP_METHOD(Phalcon_Http_Request_File, __construct) {
 	if (zephir_array_isset_string_fetch(&type, file, SS("type"), 1 TSRMLS_CC)) {
 		zephir_update_property_this(this_ptr, SL("_type"), type TSRMLS_CC);
 	}
+	ZEPHIR_MM_RESTORE();
 
 }
 

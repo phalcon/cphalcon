@@ -60,7 +60,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Forms_Manager) {
  */
 PHP_METHOD(Phalcon_Forms_Manager, create) {
 
-	zval *name = NULL, *entity = NULL, *form;
+	zval *name = NULL, *entity = NULL, *form, *_0, *_1;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 2, &name, &entity);
@@ -74,7 +74,13 @@ PHP_METHOD(Phalcon_Forms_Manager, create) {
 
 
 	if ((Z_TYPE_P(name) != IS_STRING)) {
-		ZEPHIR_THROW_EXCEPTION_STR(phalcon_forms_exception_ce, "The form name must be string");
+		ZEPHIR_INIT_VAR(_0);
+		object_init_ex(_0, phalcon_forms_exception_ce);
+		ZEPHIR_INIT_VAR(_1);
+		ZVAL_STRING(_1, "The form name must be string", 1);
+		zephir_call_method_p1_noret(_0, "__construct", _1);
+		zephir_throw_exception(_0 TSRMLS_CC);
+		ZEPHIR_MM_RESTORE();
 		return;
 	}
 	ZEPHIR_INIT_VAR(form);
@@ -99,7 +105,7 @@ PHP_METHOD(Phalcon_Forms_Manager, get) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &name_param);
 
-		zephir_get_strval(name, name_param);
+	zephir_get_strval(name, name_param);
 
 
 	ZEPHIR_OBS_VAR(forms);
@@ -133,7 +139,7 @@ PHP_METHOD(Phalcon_Forms_Manager, has) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &name_param);
 
-		zephir_get_strval(name, name_param);
+	zephir_get_strval(name, name_param);
 
 
 	forms = zephir_fetch_nproperty_this(this_ptr, SL("_forms"), PH_NOISY_CC);
@@ -150,15 +156,25 @@ PHP_METHOD(Phalcon_Forms_Manager, has) {
  */
 PHP_METHOD(Phalcon_Forms_Manager, set) {
 
-	zval *name_param = NULL, *form;
+	zval *name_param = NULL, *form, *_0, *_1;
 	zval *name = NULL;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &name_param, &form);
 
-		zephir_get_strval(name, name_param);
+	zephir_get_strval(name, name_param);
 
 
+	if (zephir_is_instance_of(form, SL("Phalcon\\Forms\\Form") TSRMLS_CC)) {
+		ZEPHIR_INIT_VAR(_0);
+		object_init_ex(_0, spl_ce_BadMethodCallException);
+		ZEPHIR_INIT_VAR(_1);
+		ZVAL_STRING(_1, "Parameter 'form' must be an instance of 'Phalcon\\Forms\\Form'", 1);
+		zephir_call_method_p1_noret(_0, "__construct", _1);
+		zephir_throw_exception(_0 TSRMLS_CC);
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	zephir_update_property_array(this_ptr, SL("_forms"), name, form TSRMLS_CC);
 	RETURN_THIS();
 

@@ -25,7 +25,7 @@ namespace Phalcon\Mvc\Model\Resultset;
  * Simple resultsets only contains a complete objects
  * This class builds every complete object as it is required
  */
-class Simple extends Phalcon\Mvc\Model\Resultset
+class Simple extends \Phalcon\Mvc\Model\Resultset
 	implements Iterator, SeekableIterator, Countable, ArrayAccess, Serializable
 {
 
@@ -44,8 +44,8 @@ class Simple extends Phalcon\Mvc\Model\Resultset
 	 * @param Phalcon\Cache\BackendInterface cache
 	 * @param boolean keepSnapshots
 	 */
-	public function __construct(columnMap, <Phalcon\Mvc\ModelInterface> model,
-		<Phalcon\Db\Result\Pdo> result, <Phalcon\Cache\BackendInterface> cache=null, keepSnapshots=null)
+	public function __construct(columnMap, <\Phalcon\Mvc\ModelInterface> model,
+		<\Phalcon\Db\Result\Pdo> result, <\Phalcon\Cache\BackendInterface> cache=null, keepSnapshots=null)
 	{
 		var rowCount;
 
@@ -254,7 +254,7 @@ class Simple extends Phalcon\Mvc\Model\Resultset
 						 * Check if the key is part of the column map
 						 */
 						if fetch renamedKey, columnMap[key] {
-							throw new Phalcon\Mvc\Model\Exception("Column '" . key . "' is not part of the column map");
+							throw new \Phalcon\Mvc\Model\Exception("Column '" . key . "' is not part of the column map");
 						}
 
 						/**
@@ -314,7 +314,7 @@ class Simple extends Phalcon\Mvc\Model\Resultset
 
 		let resultset = unserialize(data);
 		if typeof resultset != "array" {
-			throw new Phalcon\Mvc\Model\Exception("Invalid serialization data");
+			throw new \Phalcon\Mvc\Model\Exception("Invalid serialization data");
 		}
 
 		let this->_model = resultset["model"],

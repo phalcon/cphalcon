@@ -29,7 +29,7 @@ namespace Phalcon\Db;
  *
  *<code>
  *
- *	$profiler = new Phalcon\Db\Profiler();
+ *	$profiler = new \Phalcon\Db\Profiler();
  *
  *	//Set the connection profiler
  *	$connection->setProfiler($profiler);
@@ -82,11 +82,11 @@ class Profiler
 	 * @param string sqlStatement
 	 * @return Phalcon\Db\Profiler
 	 */
-	public function startProfile(sqlStatement) -> <Phalcon\Db\Profiler>
+	public function startProfile(sqlStatement) -> <\Phalcon\Db\Profiler>
 	{
 		var activeProfile;
 
-		let activeProfile = new Phalcon\Db\Profiler\Item();
+		let activeProfile = new \Phalcon\Db\Profiler\Item();
 		activeProfile->setSqlStatement(sqlStatement);
 		activeProfile->setInitialTime(microtime(true));
 
@@ -103,12 +103,12 @@ class Profiler
 	 *
 	 * @return Phalcon\Db\Profiler
 	 */
-	public function stopProfile() -> <Phalcon\Db\Profiler>
+	public function stopProfile() -> <\Phalcon\Db\Profiler>
 	{
 		var finalTime, initialTime, activeProfile;
 
 		let finalTime = microtime(true),
-			activeProfile = <Phalcon\Db\Profiler\Item> this->_activeProfile;
+			activeProfile = <\Phalcon\Db\Profiler\Item> this->_activeProfile;
 
 		activeProfile->setFinalTime(finalTime);
 
@@ -158,7 +158,7 @@ class Profiler
 	 *
 	 * @return Phalcon\Db\Profiler
 	 */
-	public function reset() -> <Phalcon\Db\Profiler>
+	public function reset() -> <\Phalcon\Db\Profiler>
 	{
 		let this->_allProfiles = [];
 		return this;
@@ -169,7 +169,7 @@ class Profiler
 	 *
 	 * @return	Phalcon\Db\Profiler\Item
 	 */
-	public function getLastProfile() -> <Phalcon\Db\Profiler\Item>
+	public function getLastProfile() -> <\Phalcon\Db\Profiler\Item>
 	{
 		return this->_activeProfile;
 	}

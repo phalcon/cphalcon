@@ -28,7 +28,7 @@ namespace Phalcon\Mvc\Model\Validator;
  *<code>
  *use Phalcon\Mvc\Model\Validator\Uniqueness as Uniqueness;
  *
- *class Subscriptors extends Phalcon\Mvc\Model
+ *class Subscriptors extends \Phalcon\Mvc\Model
  *{
  *
  *  public function validation()
@@ -45,7 +45,7 @@ namespace Phalcon\Mvc\Model\Validator;
  *</code>
  *
  */
-class Uniqueness extends Phalcon\Mvc\Model\Validator implements Phalcon\Mvc\Model\ValidatorInterface
+class Uniqueness extends \Phalcon\Mvc\Model\Validator implements \Phalcon\Mvc\Model\ValidatorInterface
 {
 	/**
 	 * Executes the validator
@@ -53,7 +53,7 @@ class Uniqueness extends Phalcon\Mvc\Model\Validator implements Phalcon\Mvc\Mode
 	 * @param Phalcon\Mvc\ModelInterface record
 	 * @return boolean
 	 */
-	public function validate(<Phalcon\Mvc\ModelInterface> record) -> boolean
+	public function validate(<\Phalcon\Mvc\ModelInterface> record) -> boolean
 	{
 		var field, dependencyInjector, metaData, message, bindTypes, bindDataTypes,
 			columnMap, conditions, bindParams, number, composeField, value, columnField,
@@ -96,7 +96,7 @@ class Uniqueness extends Phalcon\Mvc\Model\Validator implements Phalcon\Mvc\Mode
 					if isset columnMap[composeField] {
 						let columnField = columnMap[composeField];
 					} else {
-						throw new Phalcon\Mvc\Model\Exception("Column '".composeField."' isn't part of the column map");
+						throw new \Phalcon\Mvc\Model\Exception("Column '".composeField."' isn't part of the column map");
 					}
 				} else {
 					let columnField = composeField;
@@ -106,7 +106,7 @@ class Uniqueness extends Phalcon\Mvc\Model\Validator implements Phalcon\Mvc\Mode
 				 * Some database systems require that we pass the values using bind casting
 				 */
 				if !isset bindDataTypes[columnField] {
-					throw new Phalcon\Mvc\Model\Exception("Column '".columnField."' isn't part of the table columns");
+					throw new \Phalcon\Mvc\Model\Exception("Column '".columnField."' isn't part of the table columns");
 				}
 
 				/**
@@ -132,7 +132,7 @@ class Uniqueness extends Phalcon\Mvc\Model\Validator implements Phalcon\Mvc\Mode
 				if isset columnMap[field] {
 					let columnField = columnMap[field];
 				} else {
-					throw new Phalcon\Mvc\Model\Exception("Column '".field."' isn't part of the column map");
+					throw new \Phalcon\Mvc\Model\Exception("Column '".field."' isn't part of the column map");
 				}
 			} else {
 				let columnField = field;
@@ -142,7 +142,7 @@ class Uniqueness extends Phalcon\Mvc\Model\Validator implements Phalcon\Mvc\Mode
 			 * Some database systems require that we pass the values using bind casting
 			 */
 			if !isset bindDataTypes[columnField] {
-				throw new Phalcon\Mvc\Model\Exception("Column '".columnField."' isn't part of the table columns");
+				throw new \Phalcon\Mvc\Model\Exception("Column '".columnField."' isn't part of the table columns");
 			}
 
 			/**
@@ -178,7 +178,7 @@ class Uniqueness extends Phalcon\Mvc\Model\Validator implements Phalcon\Mvc\Mode
 			for primaryField in primaryFields {
 
 				if !isset bindDataTypes[primaryField] {
-					throw new Phalcon\Mvc\Model\Exception("Column '".primaryField."' isn't part of the table columns");
+					throw new \Phalcon\Mvc\Model\Exception("Column '".primaryField."' isn't part of the table columns");
 				}
 
 				/**
@@ -188,7 +188,7 @@ class Uniqueness extends Phalcon\Mvc\Model\Validator implements Phalcon\Mvc\Mode
 					if isset columnMap[primaryField] {
 						let attributeField = columnMap[primaryField];
 					} else {
-						throw new Phalcon\Mvc\Model\Exception("Column '".primaryField."' isn't part of the column map");
+						throw new \Phalcon\Mvc\Model\Exception("Column '".primaryField."' isn't part of the column map");
 					}
 				} else {
 					let attributeField = primaryField;

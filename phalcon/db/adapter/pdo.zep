@@ -25,7 +25,7 @@ namespace Phalcon\Db\Adapter;
  * Phalcon\Db\Adapter\Pdo is the Phalcon\Db that internally uses PDO to connect to a database
  *
  *<code>
- *	$connection = new Phalcon\Db\Adapter\Pdo\Mysql(array(
+ *	$connection = new \Phalcon\Db\Adapter\Pdo\Mysql(array(
  *		'host' => '192.168.0.11',
  *		'username' => 'sigma',
  *		'password' => 'secret',
@@ -34,7 +34,7 @@ namespace Phalcon\Db\Adapter;
  *	));
  *</code>
  */
-abstract class Pdo extends Phalcon\Db\Adapter
+abstract class Pdo extends \Phalcon\Db\Adapter
 {
 
 	/**
@@ -61,7 +61,7 @@ abstract class Pdo extends Phalcon\Db\Adapter
 	{
 
 		if typeof descriptor != "array" {
-			throw new Phalcon\Db\Exception("The descriptor must be an array");
+			throw new \Phalcon\Db\Exception("The descriptor must be an array");
 		}
 
 		this->connect(descriptor);
@@ -75,7 +75,7 @@ abstract class Pdo extends Phalcon\Db\Adapter
 	 *
 	 *<code>
 	 * //Make a connection
-	 * $connection = new Phalcon\Db\Adapter\Pdo\Mysql(array(
+	 * $connection = new \Phalcon\Db\Adapter\Pdo\Mysql(array(
 	 *  'host' => '192.168.0.11',
 	 *  'username' => 'sigma',
 	 *  'password' => 'secret',
@@ -136,14 +136,14 @@ abstract class Pdo extends Phalcon\Db\Adapter
 			let dsnAttributes = join(";", dsnParts);
 		}
 
-		let options[Pdo::ATTR_ERRMODE] = Pdo::ERRMODE_EXCEPTION;
+		let options[\Pdo::ATTR_ERRMODE] = \Pdo::ERRMODE_EXCEPTION;
 
 		/**
 		 * Check if the connection must be persistent
 		 */
 		if fetch persistent, descriptor["persistent"] {
 			if persistent {
-				let options[Pdo::ATTR_PERSISTENT] = true;
+				let options[\Pdo::ATTR_PERSISTENT] = true;
 			}
 		}
 
@@ -184,12 +184,12 @@ abstract class Pdo extends Phalcon\Db\Adapter
 	 * @param array dataTypes
 	 * @return \PDOStatement
 	 */
-	public function executePrepared(<PDOStatement> statement, placeholders, dataTypes) -> <PDOStatement>
+	public function executePrepared(<\PDOStatement> statement, placeholders, dataTypes) -> <\PDOStatement>
 	{
 		var wildcard, value, type, castValue, parameter;
 
 		if typeof placeholders != "array" {
-			throw new Phalcon\Db\Exception("Placeholders must be an array");
+			throw new \Phalcon\Db\Exception("Placeholders must be an array");
 		}
 
 		for wildcard, value in placeholders {
@@ -200,22 +200,22 @@ abstract class Pdo extends Phalcon\Db\Adapter
 				if typeof wildcard == "string" {
 					let parameter = wildcard;
 				} else {
-					throw new Phalcon\Db\Exception("Invalid bind parameter");
+					throw new \Phalcon\Db\Exception("Invalid bind parameter");
 				}
 			}
 
 			if typeof dataTypes == "array" {
 
 				if !fetch type, dataTypes[wildcard] {
-					throw new Phalcon\Db\Exception("Invalid bind type parameter");
+					throw new \Phalcon\Db\Exception("Invalid bind type parameter");
 				}
 
 				/**
 				 * The bind type is double so we try to get the double value
 				 */
-				if type == Phalcon\Db\Column::BIND_PARAM_DECIMAL {
+				if type == \Phalcon\Db\Column::BIND_PARAM_DECIMAL {
 					let castValue = doubleval(value),
-						type = Phalcon\Db\Column::BIND_SKIP;
+						type = \Phalcon\Db\Column::BIND_SKIP;
 				} else {
 					let castValue = value;
 				}
@@ -223,7 +223,7 @@ abstract class Pdo extends Phalcon\Db\Adapter
 				/**
 				 * 1024 is ignore the bind type
 				 */
-				if type == Phalcon\Db\Column::BIND_SKIP {
+				if type == \Phalcon\Db\Column::BIND_SKIP {
 					statement->bindParam(parameter, castValue);
 				} else {
 					statement->bindParam(parameter, castValue, type);
@@ -253,12 +253,11 @@ abstract class Pdo extends Phalcon\Db\Adapter
 	 * @param  array bindTypes
 	 * @return Phalcon\Db\ResultInterface|bool
 	 */
-	public function query(string! sqlStatement, bindParams=null, bindTypes=null)
-		-> <Phalcon\Db\ResultInterface> | boolean
+	public function query(string! sqlStatement, bindParams=null, bindTypes=null) -> <\Phalcon\Db\ResultInterface> | boolean
 	{
 		var eventsManager, pdo, statement;
 
-		let eventsManager = <Phalcon\Events\Manager> this->_eventsManager;
+		let eventsManager = <\Phalcon\Events\Manager> this->_eventsManager;
 
 		/**
 		 * Execute the beforeQuery event if a EventsManager is available
@@ -289,7 +288,7 @@ abstract class Pdo extends Phalcon\Db\Adapter
 			if typeof eventsManager == "object" {
 				eventsManager->fire("db:afterQuery", this, bindParams);
 			}
-			return new Phalcon\Db\Result\Pdo(this, statement, sqlStatement, bindParams, bindTypes);
+			return new \Phalcon\Db\Result\Pdo(this, statement, sqlStatement, bindParams, bindTypes);
 		}
 
 		return statement;
@@ -317,7 +316,7 @@ abstract class Pdo extends Phalcon\Db\Adapter
 		/**
 		 * Execute the beforeQuery event if a EventsManager is available
 		 */
-		let eventsManager = <Phalcon\Events\Manager> this->_eventsManager;
+		let eventsManager = <\Phalcon\Events\Manager> this->_eventsManager;
 		if typeof eventsManager == "object" {
 			let this->_sqlStatement = sqlStatement,
 				this->_sqlVariables = bindParams,
@@ -418,7 +417,7 @@ abstract class Pdo extends Phalcon\Db\Adapter
 	 * @return string
 	 */
 	public function escapeString(string! str) -> string
-	{		
+	{
 		return this->_pdo->quote(str);
 	}
 
@@ -480,7 +479,7 @@ abstract class Pdo extends Phalcon\Db\Adapter
 			/**
 			 * Notify the events manager about the started transaction
 			 */
-			let eventsManager = <Phalcon\Events\Manager> this->_eventsManager;
+			let eventsManager = <\Phalcon\Events\Manager> this->_eventsManager;
 			if typeof eventsManager == "object" {
 				eventsManager->fire("db:beginTransaction", this);
 			}
@@ -493,7 +492,7 @@ abstract class Pdo extends Phalcon\Db\Adapter
 				if nesting {
 					if this->isNestedTransactionsWithSavepoints() {
 
-						let eventsManager = <Phalcon\Events\Manager> this->_eventsManager,
+						let eventsManager = <\Phalcon\Events\Manager> this->_eventsManager,
 							savepointName = this->getNestedTransactionSavepointName();
 
 						/**
@@ -533,7 +532,7 @@ abstract class Pdo extends Phalcon\Db\Adapter
 		 */
 		let transactionLevel = this->_transactionLevel;
 		if !transactionLevel {
-			throw new Phalcon\Db\Exception("There is no active transaction");
+			throw new \Phalcon\Db\Exception("There is no active transaction");
 		}
 
 		if transactionLevel == 1 {
@@ -541,7 +540,7 @@ abstract class Pdo extends Phalcon\Db\Adapter
 			/**
 			 * Notify the events manager about the rollbacked transaction
 			 */
-			let eventsManager = <Phalcon\Events\Manager> this->_eventsManager;
+			let eventsManager = <\Phalcon\Events\Manager> this->_eventsManager;
 			if typeof eventsManager == "object" {
 				eventsManager->fire("db:rollbackTransaction", this);
 			}
@@ -565,7 +564,7 @@ abstract class Pdo extends Phalcon\Db\Adapter
 						/**
 						 * Notify the events manager about the rolled back savepoint
 						 */
-						let eventsManager = <Phalcon\Events\Manager> this->_eventsManager;
+						let eventsManager = <\Phalcon\Events\Manager> this->_eventsManager;
 						if typeof eventsManager == "object" {
 							eventsManager->fire("db:rollbackSavepoint", this, savepointName);
 						}
@@ -612,7 +611,7 @@ abstract class Pdo extends Phalcon\Db\Adapter
 		 */
 		let transactionLevel = this->_transactionLevel;
 		if !transactionLevel {
-			throw new Phalcon\Db\Exception("There is no active transaction");
+			throw new \Phalcon\Db\Exception("There is no active transaction");
 		}
 
 		if transactionLevel == 1 {
@@ -620,7 +619,7 @@ abstract class Pdo extends Phalcon\Db\Adapter
 			/**
 			 * Notify the events manager about the commited transaction
 			 */
-			let eventsManager = <Phalcon\Events\Manager> this->_eventsManager;
+			let eventsManager = <\Phalcon\Events\Manager> this->_eventsManager;
 			if typeof eventsManager == "object" {
 				eventsManager->fire("db:commitTransaction", this);
 			}
@@ -645,7 +644,7 @@ abstract class Pdo extends Phalcon\Db\Adapter
 						/**
 						 * Notify the events manager about the commited savepoint
 						 */
-						let eventsManager = <Phalcon\Events\Manager> this->_eventsManager,
+						let eventsManager = <\Phalcon\Events\Manager> this->_eventsManager,
 							savepointName = this->getNestedTransactionSavepointName();
 						if typeof eventsManager == "object" {
 							eventsManager->fire("db:releaseSavepoint", this, savepointName);

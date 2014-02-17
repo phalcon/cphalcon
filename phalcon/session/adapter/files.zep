@@ -25,7 +25,7 @@ namespace Phalcon\Session\Adapter;
  * This adapter store sessions in plain files
  *
  *<code>
- * $session = new Phalcon\Session\Adapter\Files(array(
+ * $session = new \Phalcon\Session\Adapter\Files(array(
  *    'uniqueId' => 'my-private-app'
  * ));
  *
@@ -36,7 +36,7 @@ namespace Phalcon\Session\Adapter;
  * echo $session->get('var');
  *</code>
  */
-class Files extends Phalcon\Session\Adapter implements Phalcon\Session\AdapterInterface
+class Files extends \Phalcon\Session\Adapter implements \Phalcon\Session\AdapterInterface
 {
 
 }

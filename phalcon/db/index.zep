@@ -26,7 +26,7 @@ namespace Phalcon\Db;
  * to enhance database performance. An index allows the database server to find
  * and retrieve specific rows much faster than it could do without an index
  */
-class Index implements Phalcon\Db\IndexInterface
+class Index implements \Phalcon\Db\IndexInterface
 {
 
 	/**
@@ -60,22 +60,22 @@ class Index implements Phalcon\Db\IndexInterface
 	 *
 	 * @param array data
 	 */
-	public static function __set_state(var data) -> <Phalcon\Db\Index>
+	public static function __set_state(var data) -> <\Phalcon\Db\Index>
 	{
 		var indexName, columns;
 
 		if !fetch indexName, data["_indexName"] {
-			throw new Phalcon\Db\Exception("_indexName parameter is required");
+			throw new \Phalcon\Db\Exception("_indexName parameter is required");
 		}
 
 		if !fetch columns, data["_columns"] {
-			throw new Phalcon\Db\Exception("_columns parameter is required");
+			throw new \Phalcon\Db\Exception("_columns parameter is required");
 		}
 
 		/**
 		 * Return a Phalcon\Db\Index as part of the returning state
 		 */
-		return new Phalcon\Db\Index(indexName, columns);
+		return new \Phalcon\Db\Index(indexName, columns);
 	}
 
 }

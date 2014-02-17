@@ -17,6 +17,7 @@
 #include "kernel/operators.h"
 #include "ext/spl/spl_exceptions.h"
 #include "kernel/exception.h"
+#include "kernel/fcall.h"
 
 
 /*
@@ -159,16 +160,24 @@ PHP_METHOD(Phalcon_Events_Event, __construct) {
  */
 PHP_METHOD(Phalcon_Events_Event, stop) {
 
-	zval *_0;
+	zval *_0, *_1, *_2;
 
+	ZEPHIR_MM_GROW();
 
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_cancelable"), PH_NOISY_CC);
 	if (zephir_is_true(_0)) {
 		zephir_update_property_this(this_ptr, SL("_stopped"), (1) ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
 	} else {
-		ZEPHIR_THROW_EXCEPTION_STRW(phalcon_events_exception_ce, "Trying to cancel a non-cancelable event");
+		ZEPHIR_INIT_VAR(_1);
+		object_init_ex(_1, phalcon_events_exception_ce);
+		ZEPHIR_INIT_VAR(_2);
+		ZVAL_STRING(_2, "Trying to cancel a non-cancelable event", 1);
+		zephir_call_method_p1_noret(_1, "__construct", _2);
+		zephir_throw_exception(_1 TSRMLS_CC);
+		ZEPHIR_MM_RESTORE();
 		return;
 	}
+	ZEPHIR_MM_RESTORE();
 
 }
 

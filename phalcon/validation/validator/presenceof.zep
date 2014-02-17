@@ -32,7 +32,7 @@ namespace Phalcon\Validation\Validator;
  *)));
  *</code>
  */
-class PresenceOf extends Phalcon\Validation\Validator implements Phalcon\Validation\ValidatorInterface
+class PresenceOf extends \Phalcon\Validation\Validator implements \Phalcon\Validation\ValidatorInterface
 {
 
 	/**
@@ -42,23 +42,23 @@ class PresenceOf extends Phalcon\Validation\Validator implements Phalcon\Validat
 	 * @param string field
 	 * @return boolean
 	 */
-	public function validate(<Phalcon\Validation> validation, string! field)
+	public function validate(<\Phalcon\Validation> validation, string! field)
 	{
 		var value, message, label, replacePairs;
 
 		let value = validation->getValue(field);
 		if empty value {
 
-                        let label = this->getOption("label");
-                        if empty label {
-                                let label = validation->getLabel(field);
-                                if empty label {
-                                        let label = field;
-                                }
+			let label = this->getOption("label");
+			if empty label {
+				let label = validation->getLabel(field);
+				if empty label {
+					let label = field;
+				}
 			}
 
 			let message = this->getOption("message");
-                        let replacePairs = [":field": label];
+			let replacePairs = [":field": label];
 			if empty message {
 				let message = validation->getDefaultMessage("PresenceOf");
 			}

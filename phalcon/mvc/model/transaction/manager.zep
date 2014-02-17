@@ -62,7 +62,7 @@ namespace Phalcon\Mvc\Model\Transaction;
  *</code>
  *
  */
-class Manager implements Phalcon\Mvc\Model\Transaction\ManagerInterface, Phalcon\Di\InjectionAwareInterface
+class Manager implements \Phalcon\Mvc\Model\Transaction\ManagerInterface, Phalcon\Di\InjectionAwareInterface
 {
 
 	protected _dependencyInjector;
@@ -82,7 +82,7 @@ class Manager implements Phalcon\Mvc\Model\Transaction\ManagerInterface, Phalcon
 	 *
 	 * @param Phalcon\DiInterface dependencyInjector
 	 */
-	public function __construct(<Phalcon\DiInterface> dependencyInjector=null)
+	public function __construct(<\Phalcon\DiInterface> dependencyInjector=null)
 	{
 		if dependencyInjector {
 			let this->_dependencyInjector = dependencyInjector;
@@ -92,7 +92,7 @@ class Manager implements Phalcon\Mvc\Model\Transaction\ManagerInterface, Phalcon
 		}
 
 		if typeof dependencyInjector != "object" {
-			throw new Phalcon\Mvc\Model\Transaction\Exception("A dependency injector container is required to obtain the services related to the ORM");
+			throw new \Phalcon\Mvc\Model\Transaction\Exception("A dependency injector container is required to obtain the services related to the ORM");
 		}
 	}
 
@@ -101,7 +101,7 @@ class Manager implements Phalcon\Mvc\Model\Transaction\ManagerInterface, Phalcon
 	 *
 	 * @param Phalcon\DiInterface dependencyInjector
 	 */
-	public function setDI(<Phalcon\DiInterface> dependencyInjector)
+	public function setDI(<\Phalcon\DiInterface> dependencyInjector)
 	{
 		let this->_dependencyInjector = dependencyInjector;
 	}
@@ -111,7 +111,7 @@ class Manager implements Phalcon\Mvc\Model\Transaction\ManagerInterface, Phalcon
 	 *
 	 * @return Phalcon\DiInterface
 	 */
-	public function getDI() -> <Phalcon\DiInterface>
+	public function getDI() -> <\Phalcon\DiInterface>
 	{
 		return this->_dependencyInjector;
 	}
@@ -122,7 +122,7 @@ class Manager implements Phalcon\Mvc\Model\Transaction\ManagerInterface, Phalcon
 	 * @param string service
 	 * @return Phalcon\Mvc\Model\Transaction\Manager
 	 */
-	public function setDbService(string! service) -> <Phalcon\Mvc\Model\Transaction\Manager>
+	public function setDbService(string! service) -> <\Phalcon\Mvc\Model\Transaction\Manager>
 	{
 		let this->_service = service;
 		return this;
@@ -144,7 +144,7 @@ class Manager implements Phalcon\Mvc\Model\Transaction\ManagerInterface, Phalcon
 	 * @param boolean rollbackPendent
 	 * @return Phalcon\Mvc\Model\Transaction\Manager
 	 */
-	public function setRollbackPendent(boolean rollbackPendent) -> <Phalcon\Mvc\Model\Transaction\Manager>
+	public function setRollbackPendent(boolean rollbackPendent) -> <\Phalcon\Mvc\Model\Transaction\Manager>
 	{
 		let this->_rollbackPendent = rollbackPendent;
 		return this;
@@ -171,13 +171,13 @@ class Manager implements Phalcon\Mvc\Model\Transaction\ManagerInterface, Phalcon
 	}
 
 	/**
-	 * Returns a new Phalcon\Mvc\Model\Transaction or an already created once
+	 * Returns a new \Phalcon\Mvc\Model\Transaction or an already created once
 	 * This method registers a shutdown function to rollback active connections
 	 *
 	 * @param boolean autoBegin
 	 * @return Phalcon\Mvc\Model\TransactionInterface
 	 */
-	public function get(boolean autoBegin=true) -> <Phalcon\Mvc\Model\TransactionInterface>
+	public function get(boolean autoBegin=true) -> <\Phalcon\Mvc\Model\TransactionInterface>
 	{
 		if !this->_initialized {
 			if this->_rollbackPendent {
@@ -194,13 +194,13 @@ class Manager implements Phalcon\Mvc\Model\Transaction\ManagerInterface, Phalcon
 	 * @param boolean autoBegin
 	 * @return Phalcon\Mvc\Model\TransactionInterface
 	 */
-	public function getOrCreateTransaction(boolean autoBegin=true) -> <Phalcon\Mvc\Model\TransactionInterface>
+	public function getOrCreateTransaction(boolean autoBegin=true) -> <\Phalcon\Mvc\Model\TransactionInterface>
 	{
 		var dependencyInjector, transaction, transactions;
 
-		let dependencyInjector = <Phalcon\DiInterface> this->_dependencyInjector;
+		let dependencyInjector = <\Phalcon\DiInterface> this->_dependencyInjector;
 		if typeof dependencyInjector != "object" {
-			throw new Phalcon\Mvc\Model\Transaction\Exception("A dependency injector container is required to obtain the services related to the ORM");
+			throw new \Phalcon\Mvc\Model\Transaction\Exception("A dependency injector container is required to obtain the services related to the ORM");
 		}
 
 		if this->_number {
@@ -215,7 +215,7 @@ class Manager implements Phalcon\Mvc\Model\Transaction\ManagerInterface, Phalcon
 			}
 		}
 
-		let transaction = new Phalcon\Mvc\Model\Transaction(dependencyInjector, autoBegin, this->_service);
+		let transaction = new \Phalcon\Mvc\Model\Transaction(dependencyInjector, autoBegin, this->_service);
 			transaction->setTransactionManager(this);
 
 		let this->_transactions[] = transaction, this->_number++;
@@ -281,7 +281,7 @@ class Manager implements Phalcon\Mvc\Model\Transaction\ManagerInterface, Phalcon
 	 *
 	 * @param Phalcon\Mvc\Model\TransactionInterface transaction
 	 */
-	public function notifyRollback(<Phalcon\Mvc\Model\TransactionInterface> transaction)
+	public function notifyRollback(<\Phalcon\Mvc\Model\TransactionInterface> transaction)
 	{
 		this->_collectTransaction(transaction);
 	}
@@ -291,7 +291,7 @@ class Manager implements Phalcon\Mvc\Model\Transaction\ManagerInterface, Phalcon
 	 *
 	 * @param Phalcon\Mvc\Model\TransactionInterface transaction
 	 */
-	public function notifyCommit(<Phalcon\Mvc\Model\TransactionInterface> transaction)
+	public function notifyCommit(<\Phalcon\Mvc\Model\TransactionInterface> transaction)
 	{
 		this->_collectTransaction(transaction);
 	}
@@ -301,7 +301,7 @@ class Manager implements Phalcon\Mvc\Model\Transaction\ManagerInterface, Phalcon
 	 *
 	 * @param Phalcon\Mvc\Model\TransactionInterface transaction
 	 */
-	protected function _collectTransaction(<Phalcon\Mvc\Model\TransactionInterface> transaction)
+	protected function _collectTransaction(<\Phalcon\Mvc\Model\TransactionInterface> transaction)
 	{
 		var transactions, newTransactions, managedTransaction;
 

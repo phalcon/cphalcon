@@ -19,7 +19,7 @@
 
 namespace Phalcon\Image\Adapter;
 
-class Gd extends Phalcon\Image\Adapter implements Phalcon\Image\AdapterInterface
+class Gd extends \Phalcon\Image\Adapter implements \Phalcon\Image\AdapterInterface
 {
 	public static function check()
 	{
@@ -30,7 +30,7 @@ class Gd extends Phalcon\Image\Adapter implements Phalcon\Image\AdapterInterface
 		}
 
 		if !function_exists("gd_info") {
-			throw new Phalcon\Image\Exception("GD is either not installed or not enabled, check your configuration");
+			throw new \Phalcon\Image\Exception("GD is either not installed or not enabled, check your configuration");
 		}
 
 		let version = null;
@@ -44,7 +44,7 @@ class Gd extends Phalcon\Image\Adapter implements Phalcon\Image\AdapterInterface
 		}
 
 		if !version_compare(version, "2.0.1", ">=") {
-			throw new Phalcon\Image\Exception("Phalcon\\Image\\Adapter\\GD requires GD version '2.0.1' or greater, you have " . version);
+			throw new \Phalcon\Image\Exception("Phalcon\\Image\\Adapter\\GD requires GD version '2.0.1' or greater, you have " . version);
 		}
 
 		let self::_checked = true;
@@ -301,7 +301,7 @@ class Gd extends Phalcon\Image\Adapter implements Phalcon\Image\AdapterInterface
 		let this->_height = imagesy(reflection);
 	}
 
-	protected function _watermark(<Phalcon\Image\Adapter> watermark, int offset_x, int offset_y, int opacity)
+	protected function _watermark(<\Phalcon\Image\Adapter> watermark, int offset_x, int offset_y, int opacity)
 	{
 		var overlay, color;
 		int width, height;
@@ -383,7 +383,7 @@ class Gd extends Phalcon\Image\Adapter implements Phalcon\Image\AdapterInterface
 		}
 	}
 
-	protected function _mask(<Phalcon\Image\Adapter> mask)
+	protected function _mask(<\Phalcon\Image\Adapter> mask)
 	{
 		var maskImage, newimage, tempImage, color, index, alpha;
 		int mask_width, mask_height, x, y;

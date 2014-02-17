@@ -53,7 +53,7 @@ class Group implements Countable, ArrayAccess, Iterator
 	 * @param int index
 	 * @return Phalcon\Validation\Message
 	 */
-	public function offsetGet(int! index) -> <Phalcon\Validation\Message> | boolean
+	public function offsetGet(int! index) -> <\Phalcon\Validation\Message> | boolean
 	{
 		var message;
 		if fetch message, this->_messages[index] {
@@ -66,16 +66,16 @@ class Group implements Countable, ArrayAccess, Iterator
 	 * Sets an attribute using the array-syntax
 	 *
 	 *<code>
-	 * $messages[0] = new Phalcon\Validation\Message('This is a message');
+	 * $messages[0] = new \Phalcon\Validation\Message('This is a message');
 	 *</code>
 	 *
 	 * @param int index
 	 * @param Phalcon\Validation\Message message
 	 */
-	public function offsetSet(int! index, <Phalcon\Validation\Message> message)
+	public function offsetSet(int! index, <\Phalcon\Validation\Message> message)
 	{
 		if typeof message != "object" {
-			throw new Phalcon\Validation\Exception("The message must be an object");
+			throw new \Phalcon\Validation\Exception("The message must be an object");
 		}
 		let this->_messages[index] = message;
 	}
@@ -121,7 +121,7 @@ class Group implements Countable, ArrayAccess, Iterator
 	 *
 	 * @param Phalcon\Validation\MessageInterface message
 	 */
-	public function appendMessage(<Phalcon\Validation\MessageInterface> message)
+	public function appendMessage(<\Phalcon\Validation\MessageInterface> message)
 	{
 		let this->_messages[] = message;
 	}
@@ -141,7 +141,7 @@ class Group implements Countable, ArrayAccess, Iterator
 
 		if typeof messages != "array" {
 			if typeof messages != "object" {
-				throw new Phalcon\Validation\Exception("The messages must be array or object");
+				throw new \Phalcon\Validation\Exception("The messages must be array or object");
 			}
 		}
 
@@ -225,7 +225,7 @@ class Group implements Countable, ArrayAccess, Iterator
 	 *
 	 * @return Phalcon\Validation\Message
 	 */
-	public function current() -> <Phalcon\Validation\Message> | boolean
+	public function current() -> <\Phalcon\Validation\Message> | boolean
 	{
 		var message;
 		if fetch message, this->_messages[this->_position] {
@@ -269,7 +269,7 @@ class Group implements Countable, ArrayAccess, Iterator
 	 * @param array group
 	 * @return Phalcon\Validation\Message\Group
 	 */
-	public static function __set_state(group) -> <Phalcon\Validation\Message\Group>
+	public static function __set_state(group) -> <\Phalcon\Validation\Message\Group>
 	{
 		return new self(group["_messages"]);
 	}

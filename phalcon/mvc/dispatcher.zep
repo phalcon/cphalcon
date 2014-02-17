@@ -28,9 +28,9 @@ namespace Phalcon\Mvc;
  *
  *<code>
  *
- *	$di = new Phalcon\Di();
+ *	$di = new \Phalcon\Di();
  *
- *	$dispatcher = new Phalcon\Mvc\Dispatcher();
+ *	$dispatcher = new \Phalcon\Mvc\Dispatcher();
  *
  *  $dispatcher->setDI($di);
  *
@@ -42,7 +42,7 @@ namespace Phalcon\Mvc;
  *
  *</code>
  */
-class Dispatcher extends Phalcon\Dispatcher implements Phalcon\Mvc\DispatcherInterface
+class Dispatcher extends \Phalcon\Dispatcher implements \Phalcon\Mvc\DispatcherInterface
 {
 
 	protected _handlerSuffix = "Controller";
@@ -103,13 +103,13 @@ class Dispatcher extends Phalcon\Dispatcher implements Phalcon\Mvc\DispatcherInt
 
 		let dependencyInjector = this->_dependencyInjector;
 		if typeof dependencyInjector != "object" {
-			throw new Phalcon\Mvc\Dispatcher\Exception(
+			throw new \Phalcon\Mvc\Dispatcher\Exception(
 				"A dependency injection container is required to access the 'response' service",
 				Phalcon\Dispatcher::EXCEPTION_NO_DI
 			);
 		}
 
-		let response = <Phalcon\Http\ResponseInterface> dependencyInjector->getShared("response");
+		let response = <\Phalcon\Http\ResponseInterface> dependencyInjector->getShared("response");
 
 		/**
 		 * Dispatcher exceptions automatically sends a 404 status
@@ -119,9 +119,9 @@ class Dispatcher extends Phalcon\Dispatcher implements Phalcon\Mvc\DispatcherInt
 		/**
 		 * Create the real exception
 		 */
-		let exception = new Phalcon\Mvc\Dispatcher\Exception(message, exceptionCode);
+		let exception = new \Phalcon\Mvc\Dispatcher\Exception(message, exceptionCode);
 
-		let eventsManager = <Phalcon\Events\Manager> this->_eventsManager;
+		let eventsManager = <\Phalcon\Events\Manager> this->_eventsManager;
 		if typeof eventsManager == "object" {
 			if eventsManager->fire("dispatch:beforeException", this, exception) === false {
 				return false;
@@ -166,7 +166,7 @@ class Dispatcher extends Phalcon\Dispatcher implements Phalcon\Mvc\DispatcherInt
 	 *
 	 * @return Phalcon\Mvc\ControllerInterface
 	 */
-	public function getLastController() -> <Phalcon\Mvc\ControllerInterface>
+	public function getLastController() -> <\Phalcon\Mvc\ControllerInterface>
 	{
 		return this->_lastHandler;
 	}
@@ -176,7 +176,7 @@ class Dispatcher extends Phalcon\Dispatcher implements Phalcon\Mvc\DispatcherInt
 	 *
 	 * @return Phalcon\Mvc\ControllerInterface
 	 */
-	public function getActiveController() -> <Phalcon\Mvc\ControllerInterface>
+	public function getActiveController() -> <\Phalcon\Mvc\ControllerInterface>
 	{
 		return this->_activeHandler;
 	}

@@ -14,8 +14,9 @@
 #include "kernel/main.h"
 #include "kernel/memory.h"
 #include "kernel/object.h"
-#include "kernel/operators.h"
+#include "kernel/exception.h"
 #include "kernel/fcall.h"
+#include "kernel/operators.h"
 #include "kernel/array.h"
 #include "kernel/concat.h"
 #include "kernel/string.h"
@@ -105,13 +106,25 @@ PHP_METHOD(Phalcon_Dispatcher, __construct) {
  */
 PHP_METHOD(Phalcon_Dispatcher, setDI) {
 
-	zval *dependencyInjector;
+	zval *dependencyInjector, *_0, *_1;
 
-	zephir_fetch_params(0, 1, 0, &dependencyInjector);
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 1, 0, &dependencyInjector);
 
 
 
+	if (zephir_is_instance_of(dependencyInjector, SL("Phalcon\\DiInterface") TSRMLS_CC)) {
+		ZEPHIR_INIT_VAR(_0);
+		object_init_ex(_0, spl_ce_BadMethodCallException);
+		ZEPHIR_INIT_VAR(_1);
+		ZVAL_STRING(_1, "Parameter 'dependencyInjector' must be an instance of 'Phalcon\\DiInterface'", 1);
+		zephir_call_method_p1_noret(_0, "__construct", _1);
+		zephir_throw_exception(_0 TSRMLS_CC);
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	zephir_update_property_this(this_ptr, SL("_dependencyInjector"), dependencyInjector TSRMLS_CC);
+	ZEPHIR_MM_RESTORE();
 
 }
 
@@ -134,13 +147,25 @@ PHP_METHOD(Phalcon_Dispatcher, getDI) {
  */
 PHP_METHOD(Phalcon_Dispatcher, setEventsManager) {
 
-	zval *eventsManager;
+	zval *eventsManager, *_0, *_1;
 
-	zephir_fetch_params(0, 1, 0, &eventsManager);
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 1, 0, &eventsManager);
 
 
 
+	if (zephir_is_instance_of(eventsManager, SL("Phalcon\\Events\\ManagerInterface") TSRMLS_CC)) {
+		ZEPHIR_INIT_VAR(_0);
+		object_init_ex(_0, spl_ce_BadMethodCallException);
+		ZEPHIR_INIT_VAR(_1);
+		ZVAL_STRING(_1, "Parameter 'eventsManager' must be an instance of 'Phalcon\\Events\\ManagerInterface'", 1);
+		zephir_call_method_p1_noret(_0, "__construct", _1);
+		zephir_throw_exception(_0 TSRMLS_CC);
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	zephir_update_property_this(this_ptr, SL("_eventsManager"), eventsManager TSRMLS_CC);
+	ZEPHIR_MM_RESTORE();
 
 }
 
@@ -169,7 +194,7 @@ PHP_METHOD(Phalcon_Dispatcher, setActionSuffix) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &actionSuffix_param);
 
-		zephir_get_strval(actionSuffix, actionSuffix_param);
+	zephir_get_strval(actionSuffix, actionSuffix_param);
 
 
 	zephir_update_property_this(this_ptr, SL("_actionSuffix"), actionSuffix TSRMLS_CC);
@@ -190,7 +215,7 @@ PHP_METHOD(Phalcon_Dispatcher, setModuleName) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &moduleName_param);
 
-		zephir_get_strval(moduleName, moduleName_param);
+	zephir_get_strval(moduleName, moduleName_param);
 
 
 	zephir_update_property_this(this_ptr, SL("_moduleName"), moduleName TSRMLS_CC);
@@ -223,7 +248,7 @@ PHP_METHOD(Phalcon_Dispatcher, setNamespaceName) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &namespaceName_param);
 
-		zephir_get_strval(namespaceName, namespaceName_param);
+	zephir_get_strval(namespaceName, namespaceName_param);
 
 
 	zephir_update_property_this(this_ptr, SL("_namespaceName"), namespaceName TSRMLS_CC);
@@ -256,7 +281,7 @@ PHP_METHOD(Phalcon_Dispatcher, setDefaultNamespace) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &namespaceName_param);
 
-		zephir_get_strval(namespaceName, namespaceName_param);
+	zephir_get_strval(namespaceName, namespaceName_param);
 
 
 	zephir_update_property_this(this_ptr, SL("_defaultNamespace"), namespaceName TSRMLS_CC);
@@ -289,7 +314,7 @@ PHP_METHOD(Phalcon_Dispatcher, setDefaultAction) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &actionName_param);
 
-		zephir_get_strval(actionName, actionName_param);
+	zephir_get_strval(actionName, actionName_param);
 
 
 	zephir_update_property_this(this_ptr, SL("_defaultAction"), actionName TSRMLS_CC);
@@ -310,7 +335,7 @@ PHP_METHOD(Phalcon_Dispatcher, setActionName) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &actionName_param);
 
-		zephir_get_strval(actionName, actionName_param);
+	zephir_get_strval(actionName, actionName_param);
 
 
 	zephir_update_property_this(this_ptr, SL("_actionName"), actionName TSRMLS_CC);

@@ -44,7 +44,7 @@
  *  "password" => "oracle"
  * );
  *
- * $connection = new Phalcon\Db\Adapter\Pdo\Oracle($config);
+ * $connection = new \Phalcon\Db\Adapter\Pdo\Oracle($config);
  *
  * </code>
  */

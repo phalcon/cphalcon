@@ -25,7 +25,7 @@ namespace Phalcon\Di;
  * This class allows to access services in the services container by just only accessing a public property
  * with the same name of a registered service
  */
-abstract class Injectable implements Phalcon\Di\InjectionAwareInterface, Phalcon\Events\EventsAwareInterface
+abstract class Injectable implements \Phalcon\Di\InjectionAwareInterface, \Phalcon\Events\EventsAwareInterface
 {
 
 	/**
@@ -47,10 +47,10 @@ abstract class Injectable implements Phalcon\Di\InjectionAwareInterface, Phalcon
 	 *
 	 * @param Phalcon\DiInterface dependencyInjector
 	 */
-	public function setDI(<Phalcon\DiInterface> dependencyInjector)
+	public function setDI(<\Phalcon\DiInterface> dependencyInjector)
 	{
 		if typeof dependencyInjector != "object" {
-			throw new Phalcon\Di\Exception("Dependency Injector is invalid");
+			throw new \Phalcon\Di\Exception("Dependency Injector is invalid");
 		}
 		let this->_dependencyInjector = dependencyInjector;
 	}
@@ -60,13 +60,13 @@ abstract class Injectable implements Phalcon\Di\InjectionAwareInterface, Phalcon
 	 *
 	 * @return Phalcon\DiInterface
 	 */
-	public function getDI() -> <Phalcon\DiInterface>
+	public function getDI() -> <\Phalcon\DiInterface>
 	{
 		var dependencyInjector;
 
 		let dependencyInjector = this->_dependencyInjector;
 		if typeof dependencyInjector != "object" {
-			let dependencyInjector = Phalcon\Di::getDefault();
+			let dependencyInjector = \Phalcon\Di::getDefault();
 		}
 		return dependencyInjector;
 	}
@@ -76,7 +76,7 @@ abstract class Injectable implements Phalcon\Di\InjectionAwareInterface, Phalcon
 	 *
 	 * @param Phalcon\Events\ManagerInterface eventsManager
 	 */
-	public function setEventsManager(<Phalcon\Events\ManagerInterface> eventsManager)
+	public function setEventsManager(<\Phalcon\Events\ManagerInterface> eventsManager)
 	{
 		let this->_eventsManager = eventsManager;
 	}
@@ -86,7 +86,7 @@ abstract class Injectable implements Phalcon\Di\InjectionAwareInterface, Phalcon
 	 *
 	 * @return Phalcon\Events\ManagerInterface
 	 */
-	public function getEventsManager() -> <Phalcon\Events\ManagerInterface>
+	public function getEventsManager() -> <\Phalcon\Events\ManagerInterface>
 	{
 		return this->_eventsManager;
 	}
@@ -100,11 +100,11 @@ abstract class Injectable implements Phalcon\Di\InjectionAwareInterface, Phalcon
 	{
 		var dependencyInjector, hasService, service, persistent;
 
-		let dependencyInjector = <Phalcon\DiInterface> this->_dependencyInjector;
+		let dependencyInjector = <\Phalcon\DiInterface> this->_dependencyInjector;
 		if typeof dependencyInjector != "object" {
-			let dependencyInjector = Phalcon\Di::getDefault();
+			let dependencyInjector = \Phalcon\Di::getDefault();
 			if typeof dependencyInjector != "object" {
-				throw new Phalcon\Di\Exception("A dependency injection object is required to access the application services");
+				throw new \Phalcon\Di\Exception("A dependency injection object is required to access the application services");
 			}
 		}
 
@@ -127,7 +127,7 @@ abstract class Injectable implements Phalcon\Di\InjectionAwareInterface, Phalcon
 		 * Accessing the persistent property will create a session bag in any class
 		 */
 		if propertyName == "persistent" {
-			let persistent = <Phalcon\Session\BagInterface> dependencyInjector->get("sessionBag", [get_class(this)]),
+			let persistent = <\Phalcon\Session\BagInterface> dependencyInjector->get("sessionBag", [get_class(this)]),
 				this->{"persistent"} = persistent;
 			return persistent;
 		}

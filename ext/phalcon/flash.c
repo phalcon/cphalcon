@@ -106,7 +106,7 @@ PHP_METHOD(Phalcon_Flash, setImplicitFlush) {
 
 	zephir_fetch_params(0, 1, 0, &implicitFlush_param);
 
-		implicitFlush = zephir_get_boolval(implicitFlush_param);
+	implicitFlush = zephir_get_boolval(implicitFlush_param);
 
 
 	zephir_update_property_this(this_ptr, SL("_implicitFlush"), implicitFlush ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
@@ -127,7 +127,7 @@ PHP_METHOD(Phalcon_Flash, setAutomaticHtml) {
 
 	zephir_fetch_params(0, 1, 0, &automaticHtml_param);
 
-		automaticHtml = zephir_get_boolval(automaticHtml_param);
+	automaticHtml = zephir_get_boolval(automaticHtml_param);
 
 
 	zephir_update_property_this(this_ptr, SL("_automaticHtml"), automaticHtml ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
@@ -143,17 +143,24 @@ PHP_METHOD(Phalcon_Flash, setAutomaticHtml) {
  */
 PHP_METHOD(Phalcon_Flash, setCssClasses) {
 
-	zval *cssClasses;
+	zval *cssClasses, *_0, *_1;
 
-	zephir_fetch_params(0, 1, 0, &cssClasses);
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 1, 0, &cssClasses);
 
 
 
 	if ((Z_TYPE_P(cssClasses) == IS_ARRAY)) {
 		zephir_update_property_this(this_ptr, SL("_cssClasses"), cssClasses TSRMLS_CC);
-		RETURN_THISW();
+		RETURN_THIS();
 	}
-	ZEPHIR_THROW_EXCEPTION_STRW(phalcon_flash_exception_ce, "CSS classes must be an Array");
+	ZEPHIR_INIT_VAR(_0);
+	object_init_ex(_0, phalcon_flash_exception_ce);
+	ZEPHIR_INIT_VAR(_1);
+	ZVAL_STRING(_1, "CSS classes must be an Array", 1);
+	zephir_call_method_p1_noret(_0, "__construct", _1);
+	zephir_throw_exception(_0 TSRMLS_CC);
+	ZEPHIR_MM_RESTORE();
 	return;
 
 }
@@ -228,7 +235,7 @@ PHP_METHOD(Phalcon_Flash, success) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &message_param);
 
-		zephir_get_strval(message, message_param);
+	zephir_get_strval(message, message_param);
 
 
 	ZEPHIR_INIT_VAR(_0);
@@ -285,7 +292,7 @@ PHP_METHOD(Phalcon_Flash, outputMessage) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &type_param, &message);
 
-		zephir_get_strval(type, type_param);
+	zephir_get_strval(type, type_param);
 
 
 	ZEPHIR_OBS_VAR(_0);
@@ -321,8 +328,8 @@ PHP_METHOD(Phalcon_Flash, outputMessage) {
 		}
 		zephir_is_iterable(message, &_3, &_2, 0, 0);
 		for (
-			; zend_hash_get_current_data_ex(_3, (void**) &_4, &_2) == SUCCESS
-			; zend_hash_move_forward_ex(_3, &_2)
+		  ; zend_hash_get_current_data_ex(_3, (void**) &_4, &_2) == SUCCESS
+		  ; zephir_hash_move_forward_ex(_3, &_2)
 		) {
 			ZEPHIR_GET_HVALUE(msg, _4);
 			if ((automaticHtml == 1)) {

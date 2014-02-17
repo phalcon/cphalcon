@@ -27,7 +27,7 @@ namespace Phalcon\Mvc\Model\Validator;
  *<code>
  *use Phalcon\Mvc\Model\Validator\PresenceOf;
  *
- *class Subscriptors extends Phalcon\Mvc\Model
+ *class Subscriptors extends \Phalcon\Mvc\Model
  *{
  *
  *  public function validation()
@@ -45,7 +45,7 @@ namespace Phalcon\Mvc\Model\Validator;
  *</code>
  *
  */
-class PresenceOf extends Phalcon\Mvc\Model\Validator implements Phalcon\Mvc\Model\ValidatorInterface
+class PresenceOf extends \Phalcon\Mvc\Model\Validator implements \Phalcon\Mvc\Model\ValidatorInterface
 {
 	/**
 	 * Executes the validator
@@ -53,13 +53,13 @@ class PresenceOf extends Phalcon\Mvc\Model\Validator implements Phalcon\Mvc\Mode
 	 * @param Phalcon\Mvc\ModelInterface record
 	 * @return boolean
 	 */
-	public function validate(<Phalcon\Mvc\ModelInterface> record) -> boolean
+	public function validate(<\Phalcon\Mvc\ModelInterface> record) -> boolean
 	{
  		var field, value, message, replacePairs;
 
 		let field = this->getOption("field");
 		if typeof field != "string" {
-			throw new Phalcon\Mvc\Model\Exception("Field name must be a string");
+			throw new \Phalcon\Mvc\Model\Exception("Field name must be a string");
 		}
 
 		/**

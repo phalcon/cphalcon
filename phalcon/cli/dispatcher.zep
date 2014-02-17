@@ -29,9 +29,9 @@ namespace Phalcon\Cli;
  *
  *<code>
  *
- *	$di = new Phalcon\Di();
+ *	$di = new \Phalcon\Di();
  *
- *	$dispatcher = new Phalcon\Cli\Dispatcher();
+ *	$dispatcher = new \Phalcon\Cli\Dispatcher();
  *
  *  $dispatcher->setDi(di);
  *
@@ -43,7 +43,7 @@ namespace Phalcon\Cli;
  *
  *</code>
  */
-class Dispatcher extends Phalcon\Dispatcher
+class Dispatcher extends \Phalcon\Dispatcher
 {
 
 	protected _handlerSuffix = "Task";
@@ -102,9 +102,9 @@ class Dispatcher extends Phalcon\Dispatcher
 	{
 		var exception, eventsManager;
 
-		let exception = new Phalcon\Cli\Dispatcher\Exception(message, exceptionCode);
+		let exception = new \Phalcon\Cli\Dispatcher\Exception(message, exceptionCode);
 
-		let eventsManager = <Phalcon\Events\Manager> this->_eventsManager;
+		let eventsManager = <\Phalcon\Events\Manager> this->_eventsManager;
 		if typeof eventsManager == "object" {
 			if eventsManager->fire("dispatch:beforeException", this, exception) === false {
 				return false;
@@ -119,7 +119,7 @@ class Dispatcher extends Phalcon\Dispatcher
 	 *
 	 * @return Phalcon\CLI\Task
 	 */
-	public function getLastTask() -> <Phalcon\CLI\Task>
+	public function getLastTask() -> <\Phalcon\CLI\Task>
 	{
 		return this->_lastHandler;
 	}
@@ -129,7 +129,7 @@ class Dispatcher extends Phalcon\Dispatcher
 	 *
 	 * @return Phalcon\CLI\Task
 	 */
-	public function getActiveTask() -> <Phalcon\CLI\Task>
+	public function getActiveTask() -> <\Phalcon\CLI\Task>
 	{
 		return this->_activeHandler;
 	}

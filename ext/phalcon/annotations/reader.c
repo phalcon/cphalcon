@@ -71,15 +71,17 @@ PHP_METHOD(Phalcon_Annotations_Reader, parse) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &className_param);
 
-		zephir_get_strval(className, className_param);
+	zephir_get_strval(className, className_param);
 
 
 	ZEPHIR_INIT_VAR(annotations);
 	array_init(annotations);
 	ZEPHIR_INIT_VAR(reflection);
-	_0 = zend_fetch_class(SL("ReflectionClass"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
+	_0 = zend_fetch_class(SL("Phalcon\\Annotations\\ReflectionClass"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
 	object_init_ex(reflection, _0);
-	zephir_call_method_p1_noret(reflection, "__construct", className);
+	if (zephir_has_constructor(reflection TSRMLS_CC)) {
+		zephir_call_method_p1_noret(reflection, "__construct", className);
+	}
 	ZEPHIR_INIT_VAR(comment);
 	zephir_call_method(comment, reflection, "getdoccomment");
 	if ((Z_TYPE_P(comment) == IS_STRING)) {
@@ -101,8 +103,8 @@ PHP_METHOD(Phalcon_Annotations_Reader, parse) {
 		array_init(annotationsProperties);
 		zephir_is_iterable(properties, &_4, &_3, 0, 0);
 		for (
-			; zend_hash_get_current_data_ex(_4, (void**) &_5, &_3) == SUCCESS
-			; zend_hash_move_forward_ex(_4, &_3)
+		  ; zend_hash_get_current_data_ex(_4, (void**) &_5, &_3) == SUCCESS
+		  ; zephir_hash_move_forward_ex(_4, &_3)
 		) {
 			ZEPHIR_GET_HVALUE(property, _5);
 			ZEPHIR_INIT_NVAR(comment);
@@ -132,8 +134,8 @@ PHP_METHOD(Phalcon_Annotations_Reader, parse) {
 		array_init(annotationsMethods);
 		zephir_is_iterable(methods, &_9, &_8, 0, 0);
 		for (
-			; zend_hash_get_current_data_ex(_9, (void**) &_10, &_8) == SUCCESS
-			; zend_hash_move_forward_ex(_9, &_8)
+		  ; zend_hash_get_current_data_ex(_9, (void**) &_10, &_8) == SUCCESS
+		  ; zephir_hash_move_forward_ex(_9, &_8)
 		) {
 			ZEPHIR_GET_HVALUE(method, _10);
 			ZEPHIR_INIT_NVAR(comment);
@@ -174,7 +176,7 @@ PHP_METHOD(Phalcon_Annotations_Reader, parseDocBlock) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 2, &docBlock_param, &file, &line);
 
-		zephir_get_strval(docBlock, docBlock_param);
+	zephir_get_strval(docBlock, docBlock_param);
 	if (!file) {
 		ZEPHIR_CPY_WRT(file, ZEPHIR_GLOBAL(global_null));
 	} else {

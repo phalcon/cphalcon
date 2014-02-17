@@ -46,7 +46,7 @@ namespace Phalcon\Mvc\View\Engine\Volt;
  *	require $compiler->getCompiledTemplatePath();
  *</code>
  */
-class Compiler implements Phalcon\Di\InjectionAwareInterface
+class Compiler implements \Phalcon\Di\InjectionAwareInterface
 {
 
 	protected _dependencyInjector;
@@ -110,10 +110,10 @@ class Compiler implements Phalcon\Di\InjectionAwareInterface
 	 *
 	 * @param Phalcon\DiInterface dependencyInjector
 	 */
-	public function setDI(<Phalcon\DiInterface> dependencyInjector)
+	public function setDI(<\Phalcon\DiInterface> dependencyInjector)
 	{
 		if typeof dependencyInjector != "object" {
-			throw new Phalcon\Mvc\View\Exception("Dependency Injector is invalid");
+			throw new \Phalcon\Mvc\View\Exception("Dependency Injector is invalid");
 		}
 		let this->_dependencyInjector = dependencyInjector;
 	}
@@ -123,7 +123,7 @@ class Compiler implements Phalcon\Di\InjectionAwareInterface
 	 *
 	 * @return Phalcon\DiInterface
 	 */
-	public function getDI() -> <Phalcon\DiInterface>
+	public function getDI() -> <\Phalcon\DiInterface>
 	{
 		return this->_dependencyInjector;
 	}
@@ -136,7 +136,7 @@ class Compiler implements Phalcon\Di\InjectionAwareInterface
 	public function setOptions(options)
 	{
 		if typeof options != "array" {
-			throw new Phalcon\Mvc\View\Exception("Options must be an array");
+			throw new \Phalcon\Mvc\View\Exception("Options must be an array");
 		}
 		let this->_options = options;
 	}
@@ -224,7 +224,7 @@ class Compiler implements Phalcon\Di\InjectionAwareInterface
 	public function addExtension(extension)
 	{
 		if typeof extension != "object" {
-			throw new Phalcon\Mvc\View\Exception("The extension is not valid");
+			throw new \Phalcon\Mvc\View\Exception("The extension is not valid");
 		}
 
 		/**
@@ -300,7 +300,7 @@ class Compiler implements Phalcon\Di\InjectionAwareInterface
 	 * @param string prefix
 	 * @return Phalcon\Mvc\View\Engine\Volt\Compiler
 	 */
-	public function setUniquePrefix(string! prefix) -> <Phalcon\Mvc\View\Engine\Volt\Compiler>
+	public function setUniquePrefix(string! prefix) -> <\Phalcon\Mvc\View\Engine\Volt\Compiler>
 	{
 		let this->_prefix = prefix;
 		return this;
@@ -338,7 +338,7 @@ class Compiler implements Phalcon\Di\InjectionAwareInterface
 		}
 
 		if typeof prefix != "string" {
-			throw new Phalcon\Mvc\View\Exception("The unique compilation prefix is invalid");
+			throw new \Phalcon\Mvc\View\Exception("The unique compilation prefix is invalid");
 		}
 
 		return prefix;
@@ -430,7 +430,7 @@ class Compiler implements Phalcon\Di\InjectionAwareInterface
 		 * Valid filters are always arrays
 		 */
 		if typeof expr != "array" {
-			throw new Phalcon\Mvc\View\Exception("Corrupted function call");
+			throw new \Phalcon\Mvc\View\Exception("Corrupted function call");
 		}
 
 		let code = null;
@@ -490,7 +490,7 @@ class Compiler implements Phalcon\Di\InjectionAwareInterface
 						}
 					}
 
-					throw new Phalcon\Mvc\View\Exception("Invalid definition for user function '" . name . "' in " . expr["file"] . " on line " . expr["line"]);
+					throw new \Phalcon\Mvc\View\Exception("Invalid definition for user function '" . name . "' in " . expr["file"] . " on line " . expr["line"]);
 				}
 			}
 
@@ -640,7 +640,7 @@ class Compiler implements Phalcon\Di\InjectionAwareInterface
 			/**
 			 * The function doesn\t exist throw an exception
 			 */
-			throw new Phalcon\Mvc\View\Exception("Undefined function '" . name . "' in " . expr["file"] . " on line " . expr["line"]);
+			throw new \Phalcon\Mvc\View\Exception("Undefined function '" . name . "' in " . expr["file"] . " on line " . expr["line"]);
 
 		}
 
@@ -662,7 +662,7 @@ class Compiler implements Phalcon\Di\InjectionAwareInterface
 		 * Valid tests are always arrays
 		 */
 		if typeof test != "array" {
-			throw new Phalcon\Mvc\View\Exception("Corrupted test");
+			throw new \Phalcon\Mvc\View\Exception("Corrupted test");
 		}
 
 		let type = test["type"];
@@ -768,7 +768,7 @@ class Compiler implements Phalcon\Di\InjectionAwareInterface
 		 * Valid filters are always arrays
 		 */
 		if typeof filter != "array" {
-			throw new Phalcon\Mvc\View\Exception("Corrupted filter");
+			throw new \Phalcon\Mvc\View\Exception("Corrupted filter");
 		}
 
 		let code = null, type = filter["type"];
@@ -786,7 +786,7 @@ class Compiler implements Phalcon\Di\InjectionAwareInterface
 				/**
 				 * Unknown filter throw an exception
 				 */
-				throw new Phalcon\Mvc\View\Exception("Unknown filter type in " . filter["file"] . " on line " . filter["line"]);
+				throw new \Phalcon\Mvc\View\Exception("Unknown filter type in " . filter["file"] . " on line " . filter["line"]);
 			}
 		}
 
@@ -865,7 +865,7 @@ class Compiler implements Phalcon\Di\InjectionAwareInterface
 				/**
 				 * Invalid filter definition throw an exception
 				 */
-				throw new Phalcon\Mvc\View\Exception("Invalid definition for user filter '" . name . "' in " . filter["file"] . " on line " . filter["line"]);
+				throw new \Phalcon\Mvc\View\Exception("Invalid definition for user filter '" . name . "' in " . filter["file"] . " on line " . filter["line"]);
 			}
 		}
 
@@ -1075,7 +1075,7 @@ class Compiler implements Phalcon\Di\InjectionAwareInterface
 		/**
 		 * Unknown filter throw an exception
 		 */
-		throw new Phalcon\Mvc\View\Exception("Unknown filter '" . name . "' in " . filter["file"] . " on line " . filter["line"]);
+		throw new \Phalcon\Mvc\View\Exception("Unknown filter '" . name . "' in " . filter["file"] . " on line " . filter["line"]);
 	}
 
 	/**
@@ -1093,7 +1093,7 @@ class Compiler implements Phalcon\Di\InjectionAwareInterface
 		 * Valid expressions are always arrays
 		 */
 		if typeof expr != "array" {
-			throw new Phalcon\Mvc\View\Exception("Corrupted expression");
+			throw new \Phalcon\Mvc\View\Exception("Corrupted expression");
 		}
 
 		let exprCode = null, this->_exprLevel++;
@@ -1325,7 +1325,7 @@ class Compiler implements Phalcon\Di\InjectionAwareInterface
 					break;
 
 				default:
-					throw new Phalcon\Mvc\View\Exception("Unknown expression " . type . " in " . expr["file"] . " on line " . expr["line"]);
+					throw new \Phalcon\Mvc\View\Exception("Unknown expression " . type . " in " . expr["file"] . " on line " . expr["line"]);
 			}
 
 			break;
@@ -1397,7 +1397,7 @@ class Compiler implements Phalcon\Di\InjectionAwareInterface
 		 * A valid expression is required
 		 */
 		if !isset statement["expr"] {
-			throw new Phalcon\Mvc\View\Exception("Corrupted statement");
+			throw new \Phalcon\Mvc\View\Exception("Corrupted statement");
 		}
 
 		let compilation = "", forElse = null;
@@ -1574,7 +1574,7 @@ class Compiler implements Phalcon\Di\InjectionAwareInterface
 		 * A valid expression is required
 		 */
 		if !fetch expr, statement["expr"] {
-			throw new Phalcon\Mvc\View\Exception("Corrupted statement");
+			throw new \Phalcon\Mvc\View\Exception("Corrupted statement");
 		}
 
 		/**
@@ -1612,7 +1612,7 @@ class Compiler implements Phalcon\Di\InjectionAwareInterface
 		 * A valid expression is required
 		 */
 		if !fetch expr, statement["expr"] {
-			throw new Phalcon\Mvc\View\Exception("Corrupted statement");
+			throw new \Phalcon\Mvc\View\Exception("Corrupted statement");
 		}
 
 		/**
@@ -1636,7 +1636,7 @@ class Compiler implements Phalcon\Di\InjectionAwareInterface
 		 * A valid expression is required
 		 */
 		if !fetch expr, statement["expr"] {
-			throw new Phalcon\Mvc\View\Exception("Corrupted statement");
+			throw new \Phalcon\Mvc\View\Exception("Corrupted statement");
 		}
 
 		/**
@@ -1684,7 +1684,7 @@ class Compiler implements Phalcon\Di\InjectionAwareInterface
 		 * A valid assigment list is required
 		 */
 		if !fetch assignments, statement["assignments"] {
-			throw new Phalcon\Mvc\View\Exception("Corrupted statement");
+			throw new \Phalcon\Mvc\View\Exception("Corrupted statement");
 		}
 
 		let compilation = "<?php";
@@ -1743,7 +1743,7 @@ class Compiler implements Phalcon\Di\InjectionAwareInterface
 		 * A valid expression is required
 		 */
 		if !fetch expr, statement["expr"] {
-			throw new Phalcon\Mvc\View\Exception("Corrupted statement");
+			throw new \Phalcon\Mvc\View\Exception("Corrupted statement");
 		}
 
 		/**
@@ -1766,7 +1766,7 @@ class Compiler implements Phalcon\Di\InjectionAwareInterface
 		 * A valid expression is required
 		 */
 		if !fetch expr, statement["expr"] {
-			throw new Phalcon\Mvc\View\Exception("Corrupted statement");
+			throw new \Phalcon\Mvc\View\Exception("Corrupted statement");
 		}
 
 		/**
@@ -1790,7 +1790,7 @@ class Compiler implements Phalcon\Di\InjectionAwareInterface
 		 * A valid option is required
 		 */
 		if !fetch autoescape, statement["enable"] {
-			throw new Phalcon\Mvc\View\Exception("Corrupted statement");
+			throw new \Phalcon\Mvc\View\Exception("Corrupted statement");
 		}
 
 		/**
@@ -1820,7 +1820,7 @@ class Compiler implements Phalcon\Di\InjectionAwareInterface
 		 * A valid expression is required
 		 */
 		if !fetch expr, statement["expr"] {
-			throw new Phalcon\Mvc\View\Exception("Corrupted statement");
+			throw new \Phalcon\Mvc\View\Exception("Corrupted statement");
 		}
 
 		/**
@@ -1867,7 +1867,7 @@ class Compiler implements Phalcon\Di\InjectionAwareInterface
 		 * A valid expression is required
 		 */
 		if !fetch pathExpr, statement["path"] {
-			throw new Phalcon\Mvc\View\Exception("Corrupted statement");
+			throw new \Phalcon\Mvc\View\Exception("Corrupted statement");
 		}
 
 		/**
@@ -1943,14 +1943,14 @@ class Compiler implements Phalcon\Di\InjectionAwareInterface
 		 * A valid name is required
 		 */
 		if !fetch name, statement["name"] {
-			throw new Phalcon\Mvc\View\Exception("Corrupted statement");
+			throw new \Phalcon\Mvc\View\Exception("Corrupted statement");
 		}
 
 		/**
 		 * Check if the macro is already defined
 		 */
 		if isset this->_macros[name] {
-			throw new Phalcon\Mvc\View\Exception("Macro '" . name . "' is already defined");
+			throw new \Phalcon\Mvc\View\Exception("Macro '" . name . "' is already defined");
 		} else {
 			/**
 			 * Register the macro
@@ -2053,14 +2053,14 @@ class Compiler implements Phalcon\Di\InjectionAwareInterface
 			 * All statements must be arrays
 			 */
 			if typeof statement != "array" {
-				throw new Phalcon\Mvc\View\Exception("Corrupted statement");
+				throw new \Phalcon\Mvc\View\Exception("Corrupted statement");
 			}
 
 			/**
 			 * Check if the statement is valid
 			 */
 			if !isset statement["type"] {
-				throw new Phalcon\Mvc\View\Exception("Invalid statement in " . statement["file"] . " on line " . statement["line"]);
+				throw new \Phalcon\Mvc\View\Exception("Invalid statement in " . statement["file"] . " on line " . statement["line"]);
 			}
 
 			/**
@@ -2247,7 +2247,7 @@ class Compiler implements Phalcon\Di\InjectionAwareInterface
 					break;
 
 				default:
-					throw new Phalcon\Mvc\View\Exception("Unknown statement " . type . " in " . statement["file"] . " on line " . statement["line"]);
+					throw new \Phalcon\Mvc\View\Exception("Unknown statement " . type . " in " . statement["file"] . " on line " . statement["line"]);
 
 			}
 		}
@@ -2372,7 +2372,7 @@ class Compiler implements Phalcon\Di\InjectionAwareInterface
 			return compilation;
 		}
 
-		throw new Phalcon\Mvc\View\Exception("Invalid intermediate representation");
+		throw new \Phalcon\Mvc\View\Exception("Invalid intermediate representation");
 	}
 
 	/**
@@ -2409,14 +2409,14 @@ class Compiler implements Phalcon\Di\InjectionAwareInterface
 		var viewCode, compilation, finalCompilation;
 
 		if path == compiledPath {
-			throw new Phalcon\Mvc\View\Exception("Template path and compilation template path cannot be the same");
+			throw new \Phalcon\Mvc\View\Exception("Template path and compilation template path cannot be the same");
 		}
 
 		/**
 		 * Check if the template does exist
 		 */
 		if !file_exists(path) {
-			throw new Phalcon\Mvc\View\Exception("Template file " . path . " does not exist");
+			throw new \Phalcon\Mvc\View\Exception("Template file " . path . " does not exist");
 		}
 
 		/**
@@ -2424,7 +2424,7 @@ class Compiler implements Phalcon\Di\InjectionAwareInterface
 		 */
 		let viewCode = file_get_contents(path);
 		if viewCode === false {
-			throw new Phalcon\Mvc\View\Exception("Template file " . path . " could not be opened");
+			throw new \Phalcon\Mvc\View\Exception("Template file " . path . " could not be opened");
 		}
 
 		let this->_currentPath = path;
@@ -2443,7 +2443,7 @@ class Compiler implements Phalcon\Di\InjectionAwareInterface
 		 * Always use file_put_contents to write files instead of write the file directly, this respect the open_basedir directive
 		 */
 		if file_put_contents(compiledPath, finalCompilation) === false {
-			throw new Phalcon\Mvc\View\Exception("Volt directory can't be written");
+			throw new \Phalcon\Mvc\View\Exception("Volt directory can't be written");
 		}
 
 		return compilation;
@@ -2495,7 +2495,7 @@ class Compiler implements Phalcon\Di\InjectionAwareInterface
 			 */
 			if fetch compileAlways, options["compileAlways"] {
 				if typeof compileAlways != "bool" {
-					throw new Phalcon\Mvc\View\Exception("compileAlways must be a bool value");
+					throw new \Phalcon\Mvc\View\Exception("compileAlways must be a bool value");
 				}
 			}
 
@@ -2504,7 +2504,7 @@ class Compiler implements Phalcon\Di\InjectionAwareInterface
 			 */
 			if fetch prefix, options["prefix"] {
 				if typeof prefix != "string" {
-					throw new Phalcon\Mvc\View\Exception("prefix must be a string");
+					throw new \Phalcon\Mvc\View\Exception("prefix must be a string");
 				}
 			}
 
@@ -2514,7 +2514,7 @@ class Compiler implements Phalcon\Di\InjectionAwareInterface
 			if fetch compiledPath, options["compiledPath"] {
 				if typeof compiledPath != "string" {
 					if typeof compiledPath != "object" {
-						throw new Phalcon\Mvc\View\Exception("compiledPath must be a string or a closure");
+						throw new \Phalcon\Mvc\View\Exception("compiledPath must be a string or a closure");
 					}
 				}
 			}
@@ -2524,7 +2524,7 @@ class Compiler implements Phalcon\Di\InjectionAwareInterface
 			 */
 			if fetch compiledSeparator, options["compiledSeparator"] {
 				if typeof compiledSeparator != "string" {
-					throw new Phalcon\Mvc\View\Exception("compiledSeparator must be a string");
+					throw new \Phalcon\Mvc\View\Exception("compiledSeparator must be a string");
 				}
 			}
 
@@ -2533,7 +2533,7 @@ class Compiler implements Phalcon\Di\InjectionAwareInterface
 			 */
 			if fetch compiledExtension, options["compiledExtension"] {
 				if typeof compiledExtension != "string" {
-					throw new Phalcon\Mvc\View\Exception("compiledExtension must be a string");
+					throw new \Phalcon\Mvc\View\Exception("compiledExtension must be a string");
 				}
 			}
 
@@ -2590,10 +2590,10 @@ class Compiler implements Phalcon\Di\InjectionAwareInterface
 					 * The closure must return a valid path
 					 */
 					if typeof compiledTemplatePath != "string" {
-						throw new Phalcon\Mvc\View\Exception("compiledPath closure didn't return a valid string");
+						throw new \Phalcon\Mvc\View\Exception("compiledPath closure didn't return a valid string");
 					}
 				} else {
-					throw new Phalcon\Mvc\View\Exception("compiledPath must be a string or a closure");
+					throw new \Phalcon\Mvc\View\Exception("compiledPath must be a string or a closure");
 				}
 			}
 		}
@@ -2627,7 +2627,7 @@ class Compiler implements Phalcon\Di\InjectionAwareInterface
 							 */
 							let blocksCode = file_get_contents(realCompiledPath);
 							if blocksCode === false {
-								throw new Phalcon\Mvc\View\Exception("Extends compilation file " . realCompiledPath . " could not be opened");
+								throw new \Phalcon\Mvc\View\Exception("Extends compilation file " . realCompiledPath . " could not be opened");
 							}
 
 							/**
@@ -2653,7 +2653,7 @@ class Compiler implements Phalcon\Di\InjectionAwareInterface
 				 * Stat is off but the compiled file doesn't exist
 				 */
 				if !file_exists(realCompiledPath) {
-					throw new Phalcon\Mvc\View\Exception("Compiled template file " . realCompiledPath . " does not exist");
+					throw new \Phalcon\Mvc\View\Exception("Compiled template file " . realCompiledPath . " does not exist");
 				}
 
 			}

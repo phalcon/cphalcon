@@ -24,7 +24,7 @@ namespace Phalcon\Assets\Resource;
  *
  * Represents CSS resources
  */
-class Css extends Phalcon\Assets\Resource
+class Css extends \Phalcon\Assets\Resource
 {
 
 	/**

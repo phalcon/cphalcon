@@ -48,7 +48,7 @@ namespace Phalcon\Cli;
  *
  *</code>
  */
- class Task extends Phalcon\Di\Injectable
+ class Task extends \Phalcon\Di\Injectable
  {
 
  	/**

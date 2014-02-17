@@ -35,7 +35,7 @@ namespace Phalcon;
  *
  *try {
  *
- *  $connection = new Phalcon\Db\Adapter\Pdo\Mysql(array(
+ *  $connection = new \Phalcon\Db\Adapter\Pdo\Mysql(array(
  *     'host' => '192.168.0.11',
  *     'username' => 'sigma',
  *     'password' => 'secret',
@@ -76,7 +76,7 @@ abstract class Db
 		var escapeIdentifiers;
 
 		if typeof options != "array" {
-			throw new Phalcon\Db\Exception("Options must be an array");
+			throw new \Phalcon\Db\Exception("Options must be an array");
 		}
 
 		/**

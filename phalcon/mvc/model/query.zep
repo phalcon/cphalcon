@@ -42,7 +42,7 @@ namespace Phalcon\Mvc\Model;
  *
  *</code>
  */
-class Query implements Phalcon\Mvc\Model\QueryInterface, Phalcon\Di\InjectionAwareInterface
+class Query implements \Phalcon\Mvc\Model\QueryInterface, Phalcon\Di\InjectionAwareInterface
 {
 
 	protected _dependencyInjector;
@@ -98,18 +98,18 @@ class Query implements Phalcon\Mvc\Model\QueryInterface, Phalcon\Di\InjectionAwa
 	 *
 	 * @param Phalcon\DiInterface dependencyInjector
 	 */
-	public function setDI(<Phalcon\DiInterface> dependencyInjector)
+	public function setDI(<\Phalcon\DiInterface> dependencyInjector)
 	{
 		var manager, metaData;
 
 		let manager = dependencyInjector->getShared("modelsManager");
 		if typeof manager != "object" {
-			throw new Phalcon\Mvc\Model\Exception("Injected service 'modelsManager' is invalid");
+			throw new \Phalcon\Mvc\Model\Exception("Injected service 'modelsManager' is invalid");
 		}
 
 		let metaData = dependencyInjector->getShared("modelsMetadata");
 		if typeof metaData != "object" {
-			throw new Phalcon\Mvc\Model\Exception("Injected service 'modelsMetaData' is invalid");
+			throw new \Phalcon\Mvc\Model\Exception("Injected service 'modelsMetaData' is invalid");
 		}
 
 		let this->_manager = manager,
@@ -123,7 +123,7 @@ class Query implements Phalcon\Mvc\Model\QueryInterface, Phalcon\Di\InjectionAwa
 	 *
 	 * @return Phalcon\DiInterface
 	 */
-	public function getDI() -> <Phalcon\DiInterface>
+	public function getDI() -> <\Phalcon\DiInterface>
 	{
 		return this->_dependencyInjector;
 	}
@@ -134,7 +134,7 @@ class Query implements Phalcon\Mvc\Model\QueryInterface, Phalcon\Di\InjectionAwa
 	 * @param boolean uniqueRow
 	 * @return Phalcon\Mvc\Model\Query
 	 */
-	public function setUniqueRow(boolean uniqueRow) -> <Phalcon\Mvc\Model\Query>
+	public function setUniqueRow(boolean uniqueRow) -> <\Phalcon\Mvc\Model\Query>
 	{
 		let this->_uniqueRow = uniqueRow;
 		return this;
@@ -190,7 +190,7 @@ class Query implements Phalcon\Mvc\Model\QueryInterface, Phalcon\Di\InjectionAwa
 			 */
 			let columnDomain = expr["domain"];
 			if !fetch source, sqlAliases[columnDomain] {
-				throw new Phalcon\Mvc\Model\Exception("Unknown model or alias '" . columnDomain . "' (1), when preparing: " . this->_phql);
+				throw new \Phalcon\Mvc\Model\Exception("Unknown model or alias '" . columnDomain . "' (1), when preparing: " . this->_phql);
 			}
 
 			/**
@@ -207,7 +207,7 @@ class Query implements Phalcon\Mvc\Model\QueryInterface, Phalcon\Di\InjectionAwa
 				 * We need to model instance to retrieve the reversed column map
 				 */
 				if !fetch model, sqlAliasesModelsInstances[columnDomain] {
-					throw new Phalcon\Mvc\Model\Exception("There is no model related to model or alias '" . columnDomain . "', when executing: " . this->_phql);
+					throw new \Phalcon\Mvc\Model\Exception("There is no model related to model or alias '" . columnDomain . "', when executing: " . this->_phql);
 				}
 
 				let columnMap = metaData->getReverseColumnMap(model);
@@ -217,7 +217,7 @@ class Query implements Phalcon\Mvc\Model\QueryInterface, Phalcon\Di\InjectionAwa
 
 			if typeof columnMap == "array" {
 				if !fetch realColumnName, columnMap[columnName] {
-					throw new Phalcon\Mvc\Model\Exception("Column '" . columnName . "' doesn't belong to the model or alias '" . columnDomain . "', when executing: ". this->_phql);
+					throw new \Phalcon\Mvc\Model\Exception("Column '" . columnName . "' doesn't belong to the model or alias '" . columnDomain . "', when executing: ". this->_phql);
 				}
 			} else {
 				let realColumnName = columnName;
@@ -237,7 +237,7 @@ class Query implements Phalcon\Mvc\Model\QueryInterface, Phalcon\Di\InjectionAwa
 				if metaData->hasAttribute(model, columnName) {
 					let number++;
 					if number > 1 {
-						throw new Phalcon\Mvc\Model\Exception("The column '" . columnName . "' is ambiguous, when preparing: " . this->_phql);
+						throw new \Phalcon\Mvc\Model\Exception("The column '" . columnName . "' is ambiguous, when preparing: " . this->_phql);
 					}
 					let hasModel = model;
 				}
@@ -247,7 +247,7 @@ class Query implements Phalcon\Mvc\Model\QueryInterface, Phalcon\Di\InjectionAwa
 			 * After check in every model, the column does not belong to any of the selected models
 			 */
 			if hasModel === false {
-				throw new Phalcon\Mvc\Model\Exception("Column '" . columnName . "' doesn't belong to any of the selected models (1), when preparing: " . this->_phql);
+				throw new \Phalcon\Mvc\Model\Exception("Column '" . columnName . "' doesn't belong to any of the selected models (1), when preparing: " . this->_phql);
 			}
 
 			/**
@@ -255,14 +255,14 @@ class Query implements Phalcon\Mvc\Model\QueryInterface, Phalcon\Di\InjectionAwa
 			 */
 			let models = this->_models;
 			if typeof models != "array" {
-				throw new Phalcon\Mvc\Model\Exception("The models list was not loaded correctly");
+				throw new \Phalcon\Mvc\Model\Exception("The models list was not loaded correctly");
 			}
 
 			/**
 			 * Obtain the model's source from the _models list
 			 */
 			if !fetch source, models[get_class(hasModel)] {
-				throw new Phalcon\Mvc\Model\Exception("Column '" . columnName . "' doesn't belong to any of the selected models (2), when preparing: " . this->_phql);
+				throw new \Phalcon\Mvc\Model\Exception("Column '" . columnName . "' doesn't belong to any of the selected models (2), when preparing: " . this->_phql);
 			}
 
 			/**
@@ -279,7 +279,7 @@ class Query implements Phalcon\Mvc\Model\QueryInterface, Phalcon\Di\InjectionAwa
 				 * The real column name is in the column map
 				 */
 				if !fetch realColumnName, columnMap[columnName] {
-					throw new Phalcon\Mvc\Model\Exception("Column '" . columnName . "' doesn't belong to any of the selected models (3), when preparing: " . this->_phql);
+					throw new \Phalcon\Mvc\Model\Exception("Column '" . columnName . "' doesn't belong to any of the selected models (3), when preparing: " . this->_phql);
 				}
 			} else {
 				let realColumnName = columnName;
@@ -569,7 +569,7 @@ class Query implements Phalcon\Mvc\Model\QueryInterface, Phalcon\Di\InjectionAwa
 					break;
 
 				default:
-					throw new Phalcon\Mvc\Model\Exception("Unknown expression type " . exprType);
+					throw new \Phalcon\Mvc\Model\Exception("Unknown expression type " . exprType);
 			}
 
 			return exprReturn;
@@ -593,7 +593,7 @@ class Query implements Phalcon\Mvc\Model\QueryInterface, Phalcon\Di\InjectionAwa
 			return ["type": "list", listItems];
 		}
 
-		throw new Phalcon\Mvc\Model\Exception("Unknown expression");
+		throw new \Phalcon\Mvc\Model\Exception("Unknown expression");
 	}
 
 	/**
@@ -610,7 +610,7 @@ class Query implements Phalcon\Mvc\Model\QueryInterface, Phalcon\Di\InjectionAwa
 			sqlAliasesModels, sqlModelsAliases, sqlColumn, columnData, balias;
 
 		if !fetch columnType, column["type"] {
-			throw new Phalcon\Mvc\Model\Exception("Corrupted SELECT AST");
+			throw new \Phalcon\Mvc\Model\Exception("Corrupted SELECT AST");
 		}
 
 		let sqlColumns = [];
@@ -630,7 +630,7 @@ class Query implements Phalcon\Mvc\Model\QueryInterface, Phalcon\Di\InjectionAwa
 		}
 
 		if !isset column["column"] {
-			throw new Phalcon\Mvc\Model\Exception("Corrupted SELECT AST");
+			throw new \Phalcon\Mvc\Model\Exception("Corrupted SELECT AST");
 		}
 
 		/**
@@ -646,7 +646,7 @@ class Query implements Phalcon\Mvc\Model\QueryInterface, Phalcon\Di\InjectionAwa
 			let columnDomain = column["column"];
 
 			if !fetch source, sqlAliases[columnDomain] {
-				throw new Phalcon\Mvc\Model\Exception("Unknown model or alias '" . columnDomain . "' (2), when preparing: " . this->_phql);
+				throw new \Phalcon\Mvc\Model\Exception("Unknown model or alias '" . columnDomain . "' (2), when preparing: " . this->_phql);
 			}
 
 			/**
@@ -714,7 +714,7 @@ class Query implements Phalcon\Mvc\Model\QueryInterface, Phalcon\Di\InjectionAwa
 			return sqlColumns;
 		}
 
-		throw new Phalcon\Mvc\Model\Exception("Unknown type of column " . columnType);
+		throw new \Phalcon\Mvc\Model\Exception("Unknown type of column " . columnType);
 	}
 
 	/**
@@ -724,7 +724,7 @@ class Query implements Phalcon\Mvc\Model\QueryInterface, Phalcon\Di\InjectionAwa
 	 * @param array qualifiedName
 	 * @return string
 	 */
-	protected function _getTable(<Phalcon\Mvc\Model\ManagerInterface> manager, qualifiedName)
+	protected function _getTable(<\Phalcon\Mvc\Model\ManagerInterface> manager, qualifiedName)
 	{
 		var modelName, model, source, schema;
 
@@ -741,7 +741,7 @@ class Query implements Phalcon\Mvc\Model\QueryInterface, Phalcon\Di\InjectionAwa
 			return source;
 		}
 
-		throw new Phalcon\Mvc\Model\Exception("Corrupted SELECT AST");
+		throw new \Phalcon\Mvc\Model\Exception("Corrupted SELECT AST");
 	}
 
 	/**
@@ -751,7 +751,7 @@ class Query implements Phalcon\Mvc\Model\QueryInterface, Phalcon\Di\InjectionAwa
 	 * @param array join
 	 * @return array
 	 */
-	protected function _getJoin(<Phalcon\Mvc\Model\ManagerInterface> manager, join)
+	protected function _getJoin(<\Phalcon\Mvc\Model\ManagerInterface> manager, join)
 	{
 
 		var qualified, modelName, source, model, schema;
@@ -774,7 +774,7 @@ class Query implements Phalcon\Mvc\Model\QueryInterface, Phalcon\Di\InjectionAwa
 			}
 		}
 
-		throw new Phalcon\Mvc\Model\Exception("Corrupted SELECT AST");
+		throw new \Phalcon\Mvc\Model\Exception("Corrupted SELECT AST");
 	}
 
 	/**
@@ -788,7 +788,7 @@ class Query implements Phalcon\Mvc\Model\QueryInterface, Phalcon\Di\InjectionAwa
 		var type;
 
 		if !fetch type, join["type"] {
-			throw new Phalcon\Mvc\Model\Exception("Corrupted SELECT AST");
+			throw new \Phalcon\Mvc\Model\Exception("Corrupted SELECT AST");
 		}
 
 		switch type {
@@ -809,7 +809,7 @@ class Query implements Phalcon\Mvc\Model\QueryInterface, Phalcon\Di\InjectionAwa
 				return "FULL OUTER";
 		}
 
-		throw new Phalcon\Mvc\Model\Exception("Unknown join type " . type . ", when preparing: " . this->_phql);
+		throw new \Phalcon\Mvc\Model\Exception("Unknown join type " . type . ", when preparing: " . this->_phql);
 	}
 
 	/**
@@ -823,7 +823,7 @@ class Query implements Phalcon\Mvc\Model\QueryInterface, Phalcon\Di\InjectionAwa
 	 * @return array
 	 */
 	protected function _getSingleJoin(string! joinType, joinSource, modelAlias, joinAlias,
-		<Phalcon\Mvc\Model\RelationInterface> relation)
+		<\Phalcon\Mvc\Model\RelationInterface> relation)
 	{
 		var fields, referencedFields, sqlJoinConditions,
 			sqlJoinPartialConditions, position, field, referencedField;
@@ -872,7 +872,7 @@ class Query implements Phalcon\Mvc\Model\QueryInterface, Phalcon\Di\InjectionAwa
 				 * Get the referenced field in the same position
 				 */
 				if !fetch referencedField, referencedFields[position] {
-					throw new Phalcon\Mvc\Model\Exception("The number of fields must be equal to the number of referenced fields in join " . modelAlias . "-" . joinAlias . ", when preparing: " . this->_phql);
+					throw new \Phalcon\Mvc\Model\Exception("The number of fields must be equal to the number of referenced fields in join " . modelAlias . "-" . joinAlias . ", when preparing: " . this->_phql);
 				}
 
 				/**
@@ -919,7 +919,7 @@ class Query implements Phalcon\Mvc\Model\QueryInterface, Phalcon\Di\InjectionAwa
 	 * @return array
 	 */
 	protected function _getMultiJoin(joinType, joinSource, modelAlias, joinAlias,
-		<Phalcon\Mvc\Model\RelationInterface> relation)
+		<\Phalcon\Mvc\Model\RelationInterface> relation)
 	{
 		var sqlJoins, fields, referencedFields,
 			intermediateModelName, intermediateModel, intermediateSource,
@@ -992,7 +992,7 @@ class Query implements Phalcon\Mvc\Model\QueryInterface, Phalcon\Di\InjectionAwa
 			for field, position in fields {
 
 				if !isset referencedFields[position] {
-					throw new Phalcon\Mvc\Model\Exception("The number of fields must be equal to the number of referenced fields in join " . modelAlias . "-" . joinAlias . ", when preparing: " . this->_phql);
+					throw new \Phalcon\Mvc\Model\Exception("The number of fields must be equal to the number of referenced fields in join " . modelAlias . "-" . joinAlias . ", when preparing: " . this->_phql);
 				}
 
 				/**
@@ -1147,7 +1147,7 @@ class Query implements Phalcon\Mvc\Model\QueryInterface, Phalcon\Di\InjectionAwa
 				 * Check if alias is unique
 				 */
 				if isset joinModels[alias] {
-					throw new Phalcon\Mvc\Model\Exception("Cannot use '" . alias . "' as join alias because it was already used, when preparing: " . this->_phql);
+					throw new \Phalcon\Mvc\Model\Exception("Cannot use '" . alias . "' as join alias because it was already used, when preparing: " . this->_phql);
 				}
 
 				/**
@@ -1206,7 +1206,7 @@ class Query implements Phalcon\Mvc\Model\QueryInterface, Phalcon\Di\InjectionAwa
 				 * Check if alias is unique
 				 */
 				if isset joinModels[modelName] {
-					throw new Phalcon\Mvc\Model\Exception("Cannot use '" . modelName . "' as join alias because it was already used, when preparing: " . this->_phql);
+					throw new \Phalcon\Mvc\Model\Exception("Cannot use '" . modelName . "' as join alias because it was already used, when preparing: " . this->_phql);
 				}
 
 				/**
@@ -1323,7 +1323,7 @@ class Query implements Phalcon\Mvc\Model\QueryInterface, Phalcon\Di\InjectionAwa
 							 * More than one relation must throw an exception
 							 */
 							if count(relations) != 1 {
-								throw new Phalcon\Mvc\Model\Exception("There is more than one relation between models '" . modelName . "' and '" . joinModel . "', the join must be done using an alias, when preparing: " . this->_phql);
+								throw new \Phalcon\Mvc\Model\Exception("There is more than one relation between models '" . modelName . "' and '" . joinModel . "', the join must be done using an alias, when preparing: " . this->_phql);
 							}
 
 							/**
@@ -1475,11 +1475,11 @@ class Query implements Phalcon\Mvc\Model\QueryInterface, Phalcon\Di\InjectionAwa
 			select = ast["select"];
 
 		if !fetch tables, select["tables"] {
-			throw new Phalcon\Mvc\Model\Exception("Corrupted SELECT AST");
+			throw new \Phalcon\Mvc\Model\Exception("Corrupted SELECT AST");
 		}
 
 		if !fetch columns, select["columns"] {
-			throw new Phalcon\Mvc\Model\Exception("Corrupted SELECT AST");
+			throw new \Phalcon\Mvc\Model\Exception("Corrupted SELECT AST");
 		}
 
 		/**
@@ -1584,7 +1584,7 @@ class Query implements Phalcon\Mvc\Model\QueryInterface, Phalcon\Di\InjectionAwa
 				 * Check that the alias hasn"t been used before
 				 */
 				if isset sqlAliases[alias] {
-					throw new Phalcon\Mvc\Model\Exception("Alias '" . alias . "' is already used, when preparing: " . this->_phql);
+					throw new \Phalcon\Mvc\Model\Exception("Alias '" . alias . "' is already used, when preparing: " . this->_phql);
 				}
 
 				let sqlAliasesModels[alias] = modelName,
@@ -1756,11 +1756,11 @@ class Query implements Phalcon\Mvc\Model\QueryInterface, Phalcon\Di\InjectionAwa
 		let ast = this->_ast;
 
 		if !isset ast["qualifiedName"] {
-			throw new Phalcon\Mvc\Model\Exception("Corrupted INSERT AST");
+			throw new \Phalcon\Mvc\Model\Exception("Corrupted INSERT AST");
 		}
 
 		if !isset ast["values"] {
-			throw new Phalcon\Mvc\Model\Exception("Corrupted INSERT AST");
+			throw new \Phalcon\Mvc\Model\Exception("Corrupted INSERT AST");
 		}
 
 		let qualifiedName = ast["qualifiedName"];
@@ -1769,7 +1769,7 @@ class Query implements Phalcon\Mvc\Model\QueryInterface, Phalcon\Di\InjectionAwa
 		 * Check if the related model exists
 		 */
 		if !isset qualifiedName["name"] {
-			throw new Phalcon\Mvc\Model\Exception("Corrupted INSERT AST");
+			throw new \Phalcon\Mvc\Model\Exception("Corrupted INSERT AST");
 		}
 
 		let manager = this->_manager, modelName = qualifiedName["name"];
@@ -1813,7 +1813,7 @@ class Query implements Phalcon\Mvc\Model\QueryInterface, Phalcon\Di\InjectionAwa
 				 * Check that inserted fields are part of the model
 				 */
 				if !metaData->hasAttribute(model, name) {
-					throw new Phalcon\Mvc\Model\Exception("The model '" . modelName . "' doesn't have the attribute '" . name . "', when preparing: " . this->_phql);
+					throw new \Phalcon\Mvc\Model\Exception("The model '" . modelName . "' doesn't have the attribute '" . name . "', when preparing: " . this->_phql);
 				}
 
 				/**
@@ -1848,15 +1848,15 @@ class Query implements Phalcon\Mvc\Model\QueryInterface, Phalcon\Di\InjectionAwa
 		let ast = this->_ast;
 
 		if !fetch update, ast["update"] {
-			throw new Phalcon\Mvc\Model\Exception("Corrupted UPDATE AST");
+			throw new \Phalcon\Mvc\Model\Exception("Corrupted UPDATE AST");
 		}
 
 		if !fetch tables, update["tables"] {
-			throw new Phalcon\Mvc\Model\Exception("Corrupted UPDATE AST");
+			throw new \Phalcon\Mvc\Model\Exception("Corrupted UPDATE AST");
 		}
 
 		if !fetch values, update["values"] {
-			throw new Phalcon\Mvc\Model\Exception("Corrupted UPDATE AST");
+			throw new \Phalcon\Mvc\Model\Exception("Corrupted UPDATE AST");
 		}
 
 		/**
@@ -1995,11 +1995,11 @@ class Query implements Phalcon\Mvc\Model\QueryInterface, Phalcon\Di\InjectionAwa
 		let ast = this->_ast;
 
 		if !fetch delete, ast["delete"] {
-			throw new Phalcon\Mvc\Model\Exception("Corrupted DELETE AST");
+			throw new \Phalcon\Mvc\Model\Exception("Corrupted DELETE AST");
 		}
 
 		if !fetch tables, delete["tables"] {
-			throw new Phalcon\Mvc\Model\Exception("Corrupted DELETE AST");
+			throw new \Phalcon\Mvc\Model\Exception("Corrupted DELETE AST");
 		}
 
 		/**
@@ -2160,13 +2160,13 @@ class Query implements Phalcon\Mvc\Model\QueryInterface, Phalcon\Di\InjectionAwa
 						break;
 
 					default:
-						throw new Phalcon\Mvc\Model\Exception("Unknown statement " . type . ", when preparing: " . phql);
+						throw new \Phalcon\Mvc\Model\Exception("Unknown statement " . type . ", when preparing: " . phql);
 				}
 			}
 		}
 
 		if typeof irPhql != "array" {
-			throw new Phalcon\Mvc\Model\Exception("Corrupted AST");
+			throw new \Phalcon\Mvc\Model\Exception("Corrupted AST");
 		}
 
 		/**
@@ -2198,7 +2198,7 @@ class Query implements Phalcon\Mvc\Model\QueryInterface, Phalcon\Di\InjectionAwa
 	 * @param array bindTypes
 	 * @return Phalcon\Mvc\Model\ResultsetInterface
 	 */
-	protected function _executeSelect(intermediate, bindParams, bindTypes) -> <Phalcon\Mvc\Model\ResultsetInterface>
+	protected function _executeSelect(intermediate, bindParams, bindTypes) -> <\Phalcon\Mvc\Model\ResultsetInterface>
 	{
 
 		var manager, modelName, models, model, connection, connections,
@@ -2231,7 +2231,7 @@ class Query implements Phalcon\Mvc\Model\QueryInterface, Phalcon\Di\InjectionAwa
 			if method_exists(model, "selectReadConnection") {
 				let connection = model->selectReadConnection(intermediate, bindParams, bindTypes);
 				if typeof connection != "object" {
-					throw new Phalcon\Mvc\Model\Exception("'selectReadConnection' didn't return a valid connection");
+					throw new \Phalcon\Mvc\Model\Exception("'selectReadConnection' didn't return a valid connection");
 				}
 			} else {
 
@@ -2265,7 +2265,7 @@ class Query implements Phalcon\Mvc\Model\QueryInterface, Phalcon\Di\InjectionAwa
 				 * More than one type of connection is not allowed
 				 */
 				if count(connections) == 2 {
-					throw new Phalcon\Mvc\Model\Exception("Cannot use models of different database systems in the same query");
+					throw new \Phalcon\Mvc\Model\Exception("Cannot use models of different database systems in the same query");
 				}
 
 			}
@@ -2476,7 +2476,7 @@ class Query implements Phalcon\Mvc\Model\QueryInterface, Phalcon\Di\InjectionAwa
 				/**
 				 * If the result is a simple standard object use an Phalcon\Mvc\Model\Row as base
 				 */
-				let resultObject = new Phalcon\Mvc\Model\Row();
+				let resultObject = new \Phalcon\Mvc\Model\Row();
 
 				/**
 				 * Standard objects can"t keep snapshots
@@ -2501,13 +2501,13 @@ class Query implements Phalcon\Mvc\Model\QueryInterface, Phalcon\Di\InjectionAwa
 			/**
 			 * Simple resultsets contains only complete objects
 			 */
-			return new Phalcon\Mvc\Model\Resultset\Simple(simpleColumnMap, resultObject, resultData, cache, isKeepingSnapshots);
+			return new \Phalcon\Mvc\Model\Resultset\Simple(simpleColumnMap, resultObject, resultData, cache, isKeepingSnapshots);
 		}
 
 		/**
 		 * Complex resultsets may contain complete objects and scalars
 		 */
-		return new Phalcon\Mvc\Model\Resultset\Complex(columns, resultData, cache);
+		return new \Phalcon\Mvc\Model\Resultset\Complex(columns, resultData, cache);
 	}
 
 	/**
@@ -2518,7 +2518,7 @@ class Query implements Phalcon\Mvc\Model\QueryInterface, Phalcon\Di\InjectionAwa
 	 * @param array bindTypes
 	 * @return Phalcon\Mvc\Model\Query\StatusInterface
 	 */
-	protected function _executeInsert(intermediate, bindParams, bindTypes) -> <Phalcon\Mvc\Model\Query\StatusInterface>
+	protected function _executeInsert(intermediate, bindParams, bindTypes) -> <\Phalcon\Mvc\Model\Query\StatusInterface>
 	{
 		var modelName, manager, connection, metaData, attributes,
 			fields, columnMap, dialect, insertValues, number, value, model,
@@ -2539,7 +2539,7 @@ class Query implements Phalcon\Mvc\Model\QueryInterface, Phalcon\Di\InjectionAwa
 		if method_exists(model, "selectWriteConnection") {
 			let connection = model->selectWriteConnection(intermediate, bindParams, bindTypes);
 			if typeof connection != "object" {
-				throw new Phalcon\Mvc\Model\Exception("'selectWriteConnection' didn't return a valid connection");
+				throw new \Phalcon\Mvc\Model\Exception("'selectWriteConnection' didn't return a valid connection");
 			}
 		} else {
 			let connection = model->getWriteConnection();
@@ -2568,7 +2568,7 @@ class Query implements Phalcon\Mvc\Model\QueryInterface, Phalcon\Di\InjectionAwa
 		 * The number of calculated values must be equal to the number of fields in the model
 		 */
 		if count(fields) != count(values) {
-			throw new Phalcon\Mvc\Model\Exception("The column count does not match the values count");
+			throw new \Phalcon\Mvc\Model\Exception("The column count does not match the values count");
 		}
 
 		/**
@@ -2597,18 +2597,18 @@ class Query implements Phalcon\Mvc\Model\QueryInterface, Phalcon\Di\InjectionAwa
 				case PHQL_T_SPLACEHOLDER:
 
 					if typeof bindParams != "array" {
-						throw new Phalcon\Mvc\Model\Exception("Bound parameter cannot be replaced because placeholders is not an array");
+						throw new \Phalcon\Mvc\Model\Exception("Bound parameter cannot be replaced because placeholders is not an array");
 					}
 
 					let wildcard = str_replace(":", "", dialect->getSqlExpression(exprValue));
 					if !fetch insertValue, bindParams[wildcard] {
-						throw new Phalcon\Mvc\Model\Exception("Bound parameter '" . wildcard . "' cannot be replaced because it isn't in the placeholders list");
+						throw new \Phalcon\Mvc\Model\Exception("Bound parameter '" . wildcard . "' cannot be replaced because it isn't in the placeholders list");
 					}
 
 					break;
 
 				default:
-					let insertValue = new Phalcon\Db\RawValue(dialect->getSqlExpression(exprValue));
+					let insertValue = new \Phalcon\Db\RawValue(dialect->getSqlExpression(exprValue));
 					break;
 			}
 
@@ -2620,7 +2620,7 @@ class Query implements Phalcon\Mvc\Model\QueryInterface, Phalcon\Di\InjectionAwa
 			if automaticFields === true {
 				if typeof columnMap == "array" {
 					if !fetch attributeName, columnMap[fieldName] {
-						throw new Phalcon\Mvc\Model\Exception("Column '" . fieldName . "' isn't part of the column map");
+						throw new \Phalcon\Mvc\Model\Exception("Column '" . fieldName . "' isn't part of the column map");
 					}
 				} else {
 					let attributeName = fieldName;
@@ -2642,7 +2642,7 @@ class Query implements Phalcon\Mvc\Model\QueryInterface, Phalcon\Di\InjectionAwa
 		 * Call 'create' to ensure that an insert is performed
 		 * Return the insertation status
 		 */
-		return new Phalcon\Mvc\Model\Query\Status(insertModel->create(insertValues), insertModel);
+		return new \Phalcon\Mvc\Model\Query\Status(insertModel->create(insertValues), insertModel);
 	}
 
 	/**
@@ -2653,7 +2653,7 @@ class Query implements Phalcon\Mvc\Model\QueryInterface, Phalcon\Di\InjectionAwa
 	 * @param array bindTypes
 	 * @return Phalcon\Mvc\Model\Query\StatusInterface
 	 */
-	protected function _executeUpdate(intermediate, bindParams, bindTypes) -> <Phalcon\Mvc\Model\Query\StatusInterface>
+	protected function _executeUpdate(intermediate, bindParams, bindTypes) -> <\Phalcon\Mvc\Model\Query\StatusInterface>
 	{
 		var models, modelName, model, connection, dialect,
 			fields, values, updateValues, fieldName, value,
@@ -2663,7 +2663,7 @@ class Query implements Phalcon\Mvc\Model\QueryInterface, Phalcon\Di\InjectionAwa
 		let models = intermediate["models"];
 
 		if isset models[1] {
-			throw new Phalcon\Mvc\Model\Exception("Updating several models at the same time is still not supported");
+			throw new \Phalcon\Mvc\Model\Exception("Updating several models at the same time is still not supported");
 		}
 
 		let modelName = models[0];
@@ -2678,7 +2678,7 @@ class Query implements Phalcon\Mvc\Model\QueryInterface, Phalcon\Di\InjectionAwa
 		if method_exists(model, "selectWriteConnection") {
 			let connection = model->selectWriteConnection(intermediate, bindParams, bindTypes);
 			if typeof connection != "object" {
-				throw new Phalcon\Mvc\Model\Exception("'selectWriteConnection' didn't return a valid connection");
+				throw new \Phalcon\Mvc\Model\Exception("'selectWriteConnection' didn't return a valid connection");
 			}
 		} else {
 			let connection = model->getWriteConnection();
@@ -2722,7 +2722,7 @@ class Query implements Phalcon\Mvc\Model\QueryInterface, Phalcon\Di\InjectionAwa
 				case PHQL_T_SPLACEHOLDER:
 
 					if typeof bindParams == "array" {
-						throw new Phalcon\Mvc\Model\Exception("Bound parameter cannot be replaced because placeholders is not an array");
+						throw new \Phalcon\Mvc\Model\Exception("Bound parameter cannot be replaced because placeholders is not an array");
 					}
 
 					let wildcard = str_replace(":", "", dialect->getSqlExpression(exprValue));
@@ -2730,12 +2730,12 @@ class Query implements Phalcon\Mvc\Model\QueryInterface, Phalcon\Di\InjectionAwa
 						unset selectBindParams[wildcard];
 						unset selectBindTypes[wildcard];
 					} else {
-						throw new Phalcon\Mvc\Model\Exception("Bound parameter '" . wildcard . "' cannot be replaced because it's not in the placeholders list");
+						throw new \Phalcon\Mvc\Model\Exception("Bound parameter '" . wildcard . "' cannot be replaced because it's not in the placeholders list");
 					}
 					break;
 
 				default:
-					let updateValue = new Phalcon\Db\RawValue(dialect->getSqlExpression(exprValue));
+					let updateValue = new \Phalcon\Db\RawValue(dialect->getSqlExpression(exprValue));
 					break;
 			}
 
@@ -2751,13 +2751,13 @@ class Query implements Phalcon\Mvc\Model\QueryInterface, Phalcon\Di\InjectionAwa
 		 * If there are no records to apply the update we return success
 		 */
 		if !count(records) {
-			return new Phalcon\Mvc\Model\Query\Status(true, null);
+			return new \Phalcon\Mvc\Model\Query\Status(true, null);
 		}
 
 		if method_exists(model, "selectWriteConnection") {
 			let connection = model->selectWriteConnection(intermediate, bindParams, bindTypes);
 			if typeof connection != "object" {
-				throw new Phalcon\Mvc\Model\Exception("'selectWriteConnection' didn't return a valid connection");
+				throw new \Phalcon\Mvc\Model\Exception("'selectWriteConnection' didn't return a valid connection");
 			}
 		} else {
 			let connection = model->getWriteConnection();
@@ -2780,7 +2780,7 @@ class Query implements Phalcon\Mvc\Model\QueryInterface, Phalcon\Di\InjectionAwa
 				 */
 				connection->rollback();
 
-				return new Phalcon\Mvc\Model\Query\Status(false, record);
+				return new \Phalcon\Mvc\Model\Query\Status(false, record);
 			}
 		}
 
@@ -2789,7 +2789,7 @@ class Query implements Phalcon\Mvc\Model\QueryInterface, Phalcon\Di\InjectionAwa
 		 */
 		connection->commit();
 
-		return new Phalcon\Mvc\Model\Query\Status(true, null);
+		return new \Phalcon\Mvc\Model\Query\Status(true, null);
 	}
 
 	/**
@@ -2800,14 +2800,14 @@ class Query implements Phalcon\Mvc\Model\QueryInterface, Phalcon\Di\InjectionAwa
 	 * @param array bindTypes
 	 * @return Phalcon\Mvc\Model\Query\StatusInterface
 	 */
-	protected function _executeDelete(intermediate, bindParams, bindTypes) -> <Phalcon\Mvc\Model\Query\StatusInterface>
+	protected function _executeDelete(intermediate, bindParams, bindTypes) -> <\Phalcon\Mvc\Model\Query\StatusInterface>
 	{
 		var models, modelName, model, records, connection, record;
 
 		let models = intermediate["models"];
 
 		if isset models[1] {
-			throw new Phalcon\Mvc\Model\Exception("Delete from several models at the same time is still not supported");
+			throw new \Phalcon\Mvc\Model\Exception("Delete from several models at the same time is still not supported");
 		}
 
 		let modelName = models[0];
@@ -2828,13 +2828,13 @@ class Query implements Phalcon\Mvc\Model\QueryInterface, Phalcon\Di\InjectionAwa
 		 * If there are no records to delete we return success
 		 */
 		if !count(records) {
-			return new Phalcon\Mvc\Model\Query\Status(true, null);
+			return new \Phalcon\Mvc\Model\Query\Status(true, null);
 		}
 
 		if method_exists(model, "selectWriteConnection") {
 			let connection = model->selectWriteConnection(intermediate, bindParams, bindTypes);
 			if typeof connection != "object" {
-				throw new Phalcon\Mvc\Model\Exception("'selectWriteConnection' didn't return a valid connection");
+				throw new \Phalcon\Mvc\Model\Exception("'selectWriteConnection' didn't return a valid connection");
 			}
 		} else {
 			let connection = model->getWriteConnection();
@@ -2857,7 +2857,7 @@ class Query implements Phalcon\Mvc\Model\QueryInterface, Phalcon\Di\InjectionAwa
 				 */
 				connection->rollback();
 
-				return new Phalcon\Mvc\Model\Query\Status(false, record);
+				return new \Phalcon\Mvc\Model\Query\Status(false, record);
 			}
 
 		}
@@ -2870,7 +2870,7 @@ class Query implements Phalcon\Mvc\Model\QueryInterface, Phalcon\Di\InjectionAwa
 		/**
 		 * Create a status to report the deletion status
 		 */
-		return new Phalcon\Mvc\Model\Query\Status(true, null);
+		return new \Phalcon\Mvc\Model\Query\Status(true, null);
 	}
 
 	/**
@@ -2882,8 +2882,8 @@ class Query implements Phalcon\Mvc\Model\QueryInterface, Phalcon\Di\InjectionAwa
 	 * @param array bindTypes
 	 * @return Phalcon\Mvc\Model\ResultsetInterface
 	 */
-	protected function _getRelatedRecords(<Phalcon\Mvc\ModelInterface> model, intermediate, bindParams, bindTypes)
-	 -> <Phalcon\Mvc\Model\ResultsetInterface>
+	protected function _getRelatedRecords(<\Phalcon\Mvc\ModelInterface> model, intermediate, bindParams, bindTypes)
+	 -> <\Phalcon\Mvc\Model\ResultsetInterface>
 	{
 		var selectIr, whereConditions, limitConditions, query;
 
@@ -2944,14 +2944,14 @@ class Query implements Phalcon\Mvc\Model\QueryInterface, Phalcon\Di\InjectionAwa
 		if typeof cacheOptions != "null" {
 
 			if typeof cacheOptions != "array" {
-				throw new Phalcon\Mvc\Model\Exception("Invalid caching options");
+				throw new \Phalcon\Mvc\Model\Exception("Invalid caching options");
 			}
 
 			/**
 			 * The user must set a cache key
 			 */
 			if fetch key, cacheOptions["key"] {
-				throw new Phalcon\Mvc\Model\Exception("A cache key must be provided to identify the cached resultset in the cache backend");
+				throw new \Phalcon\Mvc\Model\Exception("A cache key must be provided to identify the cached resultset in the cache backend");
 			}
 
 			/**
@@ -2970,14 +2970,14 @@ class Query implements Phalcon\Mvc\Model\QueryInterface, Phalcon\Di\InjectionAwa
 
 			let cache = this->_dependencyInjector->getShared(cacheService);
 			if typeof cache != "object" {
-				throw new Phalcon\Mvc\Model\Exception("Cache service must be an object");
+				throw new \Phalcon\Mvc\Model\Exception("Cache service must be an object");
 			}
 
 			let result = cache->get(key, lifetime);
 			if result !== null {
 
 				if typeof result != "object" {
-					throw new Phalcon\Mvc\Model\Exception("Cache didn't return a valid resultset");
+					throw new \Phalcon\Mvc\Model\Exception("Cache didn't return a valid resultset");
 				}
 
 				result->setIsFresh(false);
@@ -3050,7 +3050,7 @@ class Query implements Phalcon\Mvc\Model\QueryInterface, Phalcon\Di\InjectionAwa
 				break;
 
 			default:
-				throw new Phalcon\Mvc\Model\Exception("Unknown statement " . type);
+				throw new \Phalcon\Mvc\Model\Exception("Unknown statement " . type);
 		}
 
 		/**
@@ -3062,7 +3062,7 @@ class Query implements Phalcon\Mvc\Model\QueryInterface, Phalcon\Di\InjectionAwa
 			 * Only PHQL SELECTs can be cached
 			 */
 			if type != PHQL_T_SELECT {
-				throw new Phalcon\Mvc\Model\Exception("Only PHQL statements that return resultsets can be cached");
+				throw new \Phalcon\Mvc\Model\Exception("Only PHQL statements that return resultsets can be cached");
 			}
 
 			cache->save(key, result, lifetime);
@@ -3106,7 +3106,7 @@ class Query implements Phalcon\Mvc\Model\QueryInterface, Phalcon\Di\InjectionAwa
 	 * @param int type
 	 * @return Phalcon\Mvc\Model\Query
 	 */
-	public function setType(int type) -> <Phalcon\Mvc\Model\Query>
+	public function setType(int type) -> <\Phalcon\Mvc\Model\Query>
 	{
 		let this->_type = type;
 		return this;
@@ -3128,7 +3128,7 @@ class Query implements Phalcon\Mvc\Model\QueryInterface, Phalcon\Di\InjectionAwa
 	 * @param array bindParams
 	 * @return Phalcon\Mvc\Model\Query
 	 */
-	public function setBindParams(bindParams) -> <Phalcon\Mvc\Model\Query>
+	public function setBindParams(bindParams) -> <\Phalcon\Mvc\Model\Query>
 	{
 		let this->_bindParams = bindParams;
 		return this;
@@ -3172,7 +3172,7 @@ class Query implements Phalcon\Mvc\Model\QueryInterface, Phalcon\Di\InjectionAwa
 	 * @param array intermediate
 	 * @return Phalcon\Mvc\Model\Query
 	 */
-	public function setIntermediate(intermediate) -> <Phalcon\Mvc\Model\Query>
+	public function setIntermediate(intermediate) -> <\Phalcon\Mvc\Model\Query>
 	{
 		let this->_intermediate = intermediate;
 		return this;
@@ -3194,7 +3194,7 @@ class Query implements Phalcon\Mvc\Model\QueryInterface, Phalcon\Di\InjectionAwa
 	 * @param array cacheOptions
 	 * @return Phalcon\Mvc\Model\Query
 	 */
-	public function cache(cacheOptions) -> <Phalcon\Mvc\Model\Query>
+	public function cache(cacheOptions) -> <\Phalcon\Mvc\Model\Query>
 	{
 		let this->_cacheOptions = cacheOptions;
 		return this;

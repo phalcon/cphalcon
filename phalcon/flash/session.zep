@@ -24,7 +24,7 @@ namespace Phalcon\Flash;
  *
  * Temporarily stores the messages in session, then messages can be printed in the next request
  */
-class Session extends Phalcon\Flash implements Phalcon\FlashInterface, Phalcon\Di\InjectionAwareInterface
+class Session extends \Phalcon\Flash implements \Phalcon\FlashInterface, \Phalcon\Di\InjectionAwareInterface
 {
 
 	protected _dependencyInjector;
@@ -34,7 +34,7 @@ class Session extends Phalcon\Flash implements Phalcon\FlashInterface, Phalcon\D
 	 *
 	 * @param Phalcon\DiInterface dependencyInjector
 	 */
-	public function setDI(<Phalcon\DiInterface> dependencyInjector)
+	public function setDI(<\Phalcon\DiInterface> dependencyInjector)
 	{
 		let this->_dependencyInjector = dependencyInjector;
 	}
@@ -44,7 +44,7 @@ class Session extends Phalcon\Flash implements Phalcon\FlashInterface, Phalcon\D
 	 *
 	 * @return Phalcon\DiInterface
 	 */
-	public function getDI() -> <Phalcon\DiInterface>
+	public function getDI() -> <\Phalcon\DiInterface>
 	{
 		return this->_dependencyInjector;
 	}
@@ -61,10 +61,10 @@ class Session extends Phalcon\Flash implements Phalcon\FlashInterface, Phalcon\D
 
 		let dependencyInjector = this->_dependencyInjector;
 		if typeof dependencyInjector != "object" {
-			throw new Phalcon\Flash\Exception("A dependency injection container is required to access the 'session' service");
+			throw new \Phalcon\Flash\Exception("A dependency injection container is required to access the 'session' service");
 		}
 
-		let session = <Phalcon\Session\AdapterInterface> dependencyInjector->getShared("session");
+		let session = <\Phalcon\Session\AdapterInterface> dependencyInjector->getShared("session");
 		let messages = session->get("_flashMessages");
 
 		if remove === true {
@@ -85,10 +85,10 @@ class Session extends Phalcon\Flash implements Phalcon\FlashInterface, Phalcon\D
 
 		let dependencyInjector = this->_dependencyInjector;
 		if typeof dependencyInjector != "object" {
-			throw new Phalcon\Flash\Exception("A dependency injection container is required to access the 'session' service");
+			throw new \Phalcon\Flash\Exception("A dependency injection container is required to access the 'session' service");
 		}
 
-		let session = <Phalcon\Session\AdapterInterface> dependencyInjector->getShared("session");
+		let session = <\Phalcon\Session\AdapterInterface> dependencyInjector->getShared("session");
 		session->set("_flashMessages", messages);
 		return messages;
 	}

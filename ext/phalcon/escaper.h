@@ -15,39 +15,39 @@ PHP_METHOD(Phalcon_Escaper, escapeJs);
 PHP_METHOD(Phalcon_Escaper, escapeUrl);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_escaper_setencoding, 0, 0, 1)
-	ZEND_ARG_INFO(0, encoding)
+  ZEND_ARG_INFO(0, encoding)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_escaper_sethtmlquotetype, 0, 0, 1)
-	ZEND_ARG_INFO(0, quoteType)
+  ZEND_ARG_INFO(0, quoteType)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_escaper_detectencoding, 0, 0, 1)
-	ZEND_ARG_INFO(0, str)
+  ZEND_ARG_INFO(0, str)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_escaper_normalizeencoding, 0, 0, 1)
-	ZEND_ARG_INFO(0, str)
+  ZEND_ARG_INFO(0, str)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_escaper_escapehtml, 0, 0, 1)
-	ZEND_ARG_INFO(0, text)
+  ZEND_ARG_INFO(0, text)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_escaper_escapehtmlattr, 0, 0, 1)
-	ZEND_ARG_INFO(0, attribute)
+  ZEND_ARG_INFO(0, attribute)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_escaper_escapecss, 0, 0, 1)
-	ZEND_ARG_INFO(0, css)
+  ZEND_ARG_INFO(0, css)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_escaper_escapejs, 0, 0, 1)
-	ZEND_ARG_INFO(0, js)
+  ZEND_ARG_INFO(0, js)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_escaper_escapeurl, 0, 0, 1)
-	ZEND_ARG_INFO(0, url)
+  ZEND_ARG_INFO(0, url)
 ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_escaper_method_entry) {
@@ -61,5 +61,5 @@ ZEPHIR_INIT_FUNCS(phalcon_escaper_method_entry) {
 	PHP_ME(Phalcon_Escaper, escapeCss, arginfo_phalcon_escaper_escapecss, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Escaper, escapeJs, arginfo_phalcon_escaper_escapejs, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Escaper, escapeUrl, arginfo_phalcon_escaper_escapeurl, ZEND_ACC_PUBLIC)
-	PHP_FE_END
+  PHP_FE_END
 };

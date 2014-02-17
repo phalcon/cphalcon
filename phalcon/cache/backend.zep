@@ -47,7 +47,7 @@ abstract class Backend
 	 * @param	Phalcon\Cache\FrontendInterface frontend
 	 * @param	array options
 	 */
-	public function __construct(<Phalcon\Cache\FrontendInterface> frontend, options=null)
+	public function __construct(<\Phalcon\Cache\FrontendInterface> frontend, options=null)
 	{
 		var prefix;
 
@@ -78,7 +78,7 @@ abstract class Backend
 		 */
 		let existingCache = this->{"get"}(keyName, lifetime);
 		if existingCache === null {
-			let fresh = true; 
+			let fresh = true;
 			this->_frontend->start();
 		} else {
 			let fresh = false;
@@ -103,8 +103,8 @@ abstract class Backend
 	 * @param boolean stopBuffer
 	 */
 	public function stop(boolean stopBuffer=true)
-	{		
-		if stopBuffer === true {			
+	{
+		if stopBuffer === true {
 			this->_frontend->stop();
 		}
 		let this->_started = false;

@@ -122,11 +122,11 @@ abstract class Dialect
 		}
 
 		if typeof expression != "array" {
-			throw new Phalcon\Db\Exception("Invalid SQL expression");
+			throw new \Phalcon\Db\Exception("Invalid SQL expression");
 		}
 
 		if !fetch type, expression["type"] {
-			throw new Phalcon\Db\Exception("Invalid SQL expression");
+			throw new \Phalcon\Db\Exception("Invalid SQL expression");
 		}
 
 		/**
@@ -268,7 +268,7 @@ abstract class Dialect
 		/**
 		 * Expression type wasn't found
 		 */
-		throw new Phalcon\Db\Exception("Invalid SQL expression type '" . type . "'");
+		throw new \Phalcon\Db\Exception("Invalid SQL expression type '" . type . "'");
 	}
 
 	/**
@@ -356,15 +356,15 @@ abstract class Dialect
 			orderSqlItemType, limitValue, number, offset;
 
 		if typeof definition == "array" {
-			throw new Phalcon\Db\Exception("Invalid SELECT definition");
+			throw new \Phalcon\Db\Exception("Invalid SELECT definition");
 		}
 
 		if !fetch tables, definition["tables"] {
-			throw new Phalcon\Db\Exception("The index 'tables' is required in the definition array");
+			throw new \Phalcon\Db\Exception("The index 'tables' is required in the definition array");
 		}
 
 		if !fetch columns, definition["columns"] {
-			throw new Phalcon\Db\Exception("The index 'columns' is required in the definition array");
+			throw new \Phalcon\Db\Exception("The index 'columns' is required in the definition array");
 		}
 
 		if globals_get("db.escape_identifiers") {

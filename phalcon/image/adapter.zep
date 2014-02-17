@@ -47,14 +47,14 @@ abstract class Adapter
  	 * @return Phalcon\Image\Adapter
  	 */
 	//Phalcon\Image::AUTO
-	public function resize(int width=null, int height=null, int master=7) -> <Phalcon\Image\Adapter>
+	public function resize(int width=null, int height=null, int master=7) -> <\Phalcon\Image\Adapter>
 	{
 		var ratio;
 
 		if master == Phalcon\Image::TENSILE {
 
 			if !width || !height {
-				throw new Phalcon\Image\Exception("width and height must be specified");
+				throw new \Phalcon\Image\Exception("width and height must be specified");
 			}
 
 		} else {
@@ -62,7 +62,7 @@ abstract class Adapter
 			if master == Phalcon\Image::AUTO {
 
 				if !width || !height {
-					throw new Phalcon\Image\Exception("width and height must be specified");
+					throw new \Phalcon\Image\Exception("width and height must be specified");
 				}
 
 				let master = (this->_width / width) > (this->_height / height) ? Phalcon\Image::WIDTH : Phalcon\Image::HEIGHT;
@@ -71,7 +71,7 @@ abstract class Adapter
 			if master == Phalcon\Image::INVERSE {
 
 				if !width || !height {
-					throw new Phalcon\Image\Exception("width and height must be specified");
+					throw new \Phalcon\Image\Exception("width and height must be specified");
 				}
 
 				let master = (this->_width / width) > (this->_height / height) ? Phalcon\Image::HEIGHT : Phalcon\Image::WIDTH;
@@ -81,14 +81,14 @@ abstract class Adapter
 
 				case Phalcon\Image::WIDTH:
 					if !width {
-						throw new Phalcon\Image\Exception("width must be specified");
+						throw new \Phalcon\Image\Exception("width must be specified");
 					}
 					let height = this->_height * width / this->_width;
 					break;
 
 				case Phalcon\Image::HEIGHT:
 					if !height {
-						throw new Phalcon\Image\Exception("height must be specified");
+						throw new \Phalcon\Image\Exception("height must be specified");
 					}
 					let width = this->_width * height / this->_height;
 					break;
@@ -96,7 +96,7 @@ abstract class Adapter
 				case Phalcon\Image::PRECISE:
 
 					if !width || !height {
-						throw new Phalcon\Image\Exception("width and height must be specified");
+						throw new \Phalcon\Image\Exception("width and height must be specified");
 					}
 
 					let ratio = this->_width / this->_height;
@@ -138,7 +138,7 @@ abstract class Adapter
  	 * @param int offset_y
  	 * @return Phalcon\Image\Adapter
  	 */
-	public function crop(int width, int height, int offset_x = null, int offset_y = null) -> <Phalcon\Image\Adapter>
+	public function crop(int width, int height, int offset_x = null, int offset_y = null) -> <\Phalcon\Image\Adapter>
 	{
 		if !offset_x {
 			let offset_x = ((this->_width - width) / 2);
@@ -183,7 +183,7 @@ abstract class Adapter
  	 * @param int degrees
  	 * @return Phalcon\Image\Adapter
  	 */
-	public function rotate(int degrees) -> <Phalcon\Image\Adapter>
+	public function rotate(int degrees) -> <\Phalcon\Image\Adapter>
 	{
 		if degrees > 180 {
 			let degrees %= 360;
@@ -206,7 +206,7 @@ abstract class Adapter
  	 * @param int direction
  	 * @return Phalcon\Image\Adapter
  	 */
-	public function flip(int direction) -> <Phalcon\Image\Adapter>
+	public function flip(int direction) -> <\Phalcon\Image\Adapter>
 	{
 		if direction != Phalcon\Image::HORIZONTAL && direction != Phalcon\Image::VERTICAL {
 			let direction = Phalcon\Image::HORIZONTAL;
@@ -222,7 +222,7 @@ abstract class Adapter
  	 * @param int amount
  	 * @return Phalcon\Image\Adapter
  	 */
-	public function sharpen(int amount) -> <Phalcon\Image\Adapter>
+	public function sharpen(int amount) -> <\Phalcon\Image\Adapter>
 	{
 		if amount > 100 {
 			let amount = 100;
@@ -244,7 +244,7 @@ abstract class Adapter
  	 * @param boolean fade_in
  	 * @return Phalcon\Image\Adapter
  	 */
-	public function reflection(int height, int opacity = 100, boolean fade_in = false) -> <Phalcon\Image\Adapter>
+	public function reflection(int height, int opacity = 100, boolean fade_in = false) -> <\Phalcon\Image\Adapter>
 	{
 		if height <= 0 || height > this->_height {
 			let height = (int) this->_height;
@@ -272,7 +272,7 @@ abstract class Adapter
  	 * @param int opacity
  	 * @return Phalcon\Image\Adapter
  	 */
-	public function watermark(<Phalcon\Image\Adapter> watermark, int offset_x = 0, int offset_y = 0, int opacity = 100) -> <Phalcon\Image\Adapter>
+	public function watermark(<\Phalcon\Image\Adapter> watermark, int offset_x = 0, int offset_y = 0, int opacity = 100) -> <\Phalcon\Image\Adapter>
 	{
 		int tmp;
 
@@ -321,7 +321,7 @@ abstract class Adapter
  	 * @param string fontfile
  	 * @return Phalcon\Image\Adapter
  	 */
-	public function text(string text, int offset_x = 0, int offset_y = 0, int opacity = 100, string color = "000000", int size = 12, string fontfile = null) -> <Phalcon\Image\Adapter>
+	public function text(string text, int offset_x = 0, int offset_y = 0, int opacity = 100, string color = "000000", int size = 12, string fontfile = null) -> <\Phalcon\Image\Adapter>
 	{
 		var colors;
 
@@ -354,7 +354,7 @@ abstract class Adapter
  	 * @param Phalcon\Image\Adapter watermark
  	 * @return Phalcon\Image\Adapter
  	 */
-	public function mask(<Phalcon\Image\Adapter> watermark) -> <Phalcon\Image\Adapter>
+	public function mask(<\Phalcon\Image\Adapter> watermark) -> <\Phalcon\Image\Adapter>
 	{
 		this->{"_mask"}(watermark);
 		return this;
@@ -367,7 +367,7 @@ abstract class Adapter
  	 * @param int opacity
  	 * @return Phalcon\Image\Adapter
  	 */
-	public function background(string color, int opacity = 100) -> <Phalcon\Image\Adapter>
+	public function background(string color, int opacity = 100) -> <\Phalcon\Image\Adapter>
 	{
 		var colors;
 
@@ -391,7 +391,7 @@ abstract class Adapter
  	 * @param int radius
  	 * @return Phalcon\Image\Adapter
  	 */
-	public function blur(int radius) -> <Phalcon\Image\Adapter>
+	public function blur(int radius) -> <\Phalcon\Image\Adapter>
 	{
 		if radius < 1 {
 			let radius = 1;
@@ -411,7 +411,7 @@ abstract class Adapter
  	 * @param int amount
  	 * @return Phalcon\Image\Adapter
  	 */
-	public function pixelate(int amount) -> <Phalcon\Image\Adapter>
+	public function pixelate(int amount) -> <\Phalcon\Image\Adapter>
 	{
 		if amount < 2 {
 			let amount = 2;
@@ -428,7 +428,7 @@ abstract class Adapter
 	 * @param int quality
  	 * @return Phalcon\Image\Adapter
  	 */
-	public function save(string file=null, int quality = 100) -> <Phalcon\Image\Adapter>
+	public function save(string file=null, int quality = 100) -> <\Phalcon\Image\Adapter>
 	{
 		if !file {
 			let file = (string) this->_realpath;

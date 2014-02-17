@@ -38,7 +38,7 @@ class Memory
 	* @param string key
 	* @return Phalcon\Annotations\Reflection
 	*/
-	public function read(string! key) -> <Phalcon\Annotations\Reflection> | boolean
+	public function read(string! key) -> <\Phalcon\Annotations\Reflection> | boolean
 	{
 		var data, lowercasedKey;
 
@@ -56,7 +56,7 @@ class Memory
 	* @param string key
 	* @param Phalcon\Annotations\Reflection data
 	*/
-	public function write(string! key, <Phalcon\Annotations\Reflection> data)
+	public function write(string! key, <\Phalcon\Annotations\Reflection> data)
 	{
 		var lowercasedKey;
 

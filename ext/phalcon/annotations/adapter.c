@@ -12,8 +12,8 @@
 #include <Zend/zend_interfaces.h>
 
 #include "kernel/main.h"
-#include "kernel/exception.h"
 #include "kernel/object.h"
+#include "kernel/exception.h"
 #include "kernel/memory.h"
 #include "kernel/fcall.h"
 #include "kernel/array.h"
@@ -61,17 +61,35 @@ ZEPHIR_INIT_CLASS(Phalcon_Annotations_Adapter) {
  */
 PHP_METHOD(Phalcon_Annotations_Adapter, setReader) {
 
-	zval *reader;
+	zval *reader, *_0 = NULL, *_1;
 
-	zephir_fetch_params(0, 1, 0, &reader);
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 1, 0, &reader);
 
 
 
+	if (zephir_is_instance_of(reader, SL("Phalcon\\Annotations\\ReaderInterface") TSRMLS_CC)) {
+		ZEPHIR_INIT_VAR(_0);
+		object_init_ex(_0, spl_ce_BadMethodCallException);
+		ZEPHIR_INIT_VAR(_1);
+		ZVAL_STRING(_1, "Parameter 'reader' must be an instance of 'Phalcon\\Annotations\\ReaderInterface'", 1);
+		zephir_call_method_p1_noret(_0, "__construct", _1);
+		zephir_throw_exception(_0 TSRMLS_CC);
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	if ((Z_TYPE_P(reader) != IS_OBJECT)) {
-		ZEPHIR_THROW_EXCEPTION_STRW(phalcon_annotations_exception_ce, "Invalid annotations reader");
+		ZEPHIR_INIT_LNVAR(_0);
+		object_init_ex(_0, phalcon_annotations_exception_ce);
+		ZEPHIR_INIT_BNVAR(_1);
+		ZVAL_STRING(_1, "Invalid annotations reader", 1);
+		zephir_call_method_p1_noret(_0, "__construct", _1);
+		zephir_throw_exception(_0 TSRMLS_CC);
+		ZEPHIR_MM_RESTORE();
 		return;
 	}
 	zephir_update_property_this(this_ptr, SL("_reader"), reader TSRMLS_CC);
+	ZEPHIR_MM_RESTORE();
 
 }
 
@@ -162,7 +180,7 @@ PHP_METHOD(Phalcon_Annotations_Adapter, getMethods) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &className_param);
 
-		zephir_get_strval(className, className_param);
+	zephir_get_strval(className, className_param);
 
 
 	ZEPHIR_INIT_VAR(classAnnotations);
@@ -193,8 +211,8 @@ PHP_METHOD(Phalcon_Annotations_Adapter, getMethod) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &className_param, &methodName_param);
 
-		zephir_get_strval(className, className_param);
-		zephir_get_strval(methodName, methodName_param);
+	zephir_get_strval(className, className_param);
+	zephir_get_strval(methodName, methodName_param);
 
 
 	ZEPHIR_INIT_VAR(classAnnotations);
@@ -205,8 +223,8 @@ PHP_METHOD(Phalcon_Annotations_Adapter, getMethod) {
 		if ((Z_TYPE_P(methods) == IS_ARRAY)) {
 			zephir_is_iterable(methods, &_1, &_0, 0, 0);
 			for (
-				; zend_hash_get_current_data_ex(_1, (void**) &_2, &_0) == SUCCESS
-				; zend_hash_move_forward_ex(_1, &_0)
+			  ; zend_hash_get_current_data_ex(_1, (void**) &_2, &_0) == SUCCESS
+			  ; zephir_hash_move_forward_ex(_1, &_0)
 			) {
 				ZEPHIR_GET_HMKEY(name, _1, _0);
 				ZEPHIR_GET_HVALUE(method, _2);
@@ -236,7 +254,7 @@ PHP_METHOD(Phalcon_Annotations_Adapter, getProperties) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &className_param);
 
-		zephir_get_strval(className, className_param);
+	zephir_get_strval(className, className_param);
 
 
 	ZEPHIR_INIT_VAR(classAnnotations);
@@ -267,8 +285,8 @@ PHP_METHOD(Phalcon_Annotations_Adapter, getProperty) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &className_param, &propertyName_param);
 
-		zephir_get_strval(className, className_param);
-		zephir_get_strval(propertyName, propertyName_param);
+	zephir_get_strval(className, className_param);
+	zephir_get_strval(propertyName, propertyName_param);
 
 
 	ZEPHIR_INIT_VAR(classAnnotations);
@@ -279,8 +297,8 @@ PHP_METHOD(Phalcon_Annotations_Adapter, getProperty) {
 		if ((Z_TYPE_P(properties) == IS_ARRAY)) {
 			zephir_is_iterable(properties, &_1, &_0, 0, 0);
 			for (
-				; zend_hash_get_current_data_ex(_1, (void**) &_2, &_0) == SUCCESS
-				; zend_hash_move_forward_ex(_1, &_0)
+			  ; zend_hash_get_current_data_ex(_1, (void**) &_2, &_0) == SUCCESS
+			  ; zephir_hash_move_forward_ex(_1, &_0)
 			) {
 				ZEPHIR_GET_HMKEY(name, _1, _0);
 				ZEPHIR_GET_HVALUE(property, _2);

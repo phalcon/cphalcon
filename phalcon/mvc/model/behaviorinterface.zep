@@ -40,7 +40,7 @@ interface BehaviorInterface
 	 * @param string type
 	 * @param Phalcon\Mvc\ModelInterface model
 	 */
-	public function notify(string! type, <Phalcon\Mvc\ModelInterface> model);
+	public function notify(string! type, <\Phalcon\Mvc\ModelInterface> model);
 
 	/**
 	 * Calls a method when it's missing in the model

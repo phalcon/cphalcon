@@ -62,7 +62,7 @@ abstract class Flash
 	 * @param boolean implicitFlush
 	 * @return Phalcon\FlashInterface
 	 */
-	public function setImplicitFlush(boolean implicitFlush) -> <Phalcon\FlashInterface>
+	public function setImplicitFlush(boolean implicitFlush) -> <\Phalcon\FlashInterface>
 	{
 		let this->_implicitFlush = implicitFlush;
 		return this;
@@ -74,7 +74,7 @@ abstract class Flash
 	 * @param boolean automaticHtml
 	 * @return Phalcon\FlashInterface
 	 */
-	public function setAutomaticHtml(boolean automaticHtml) -> <Phalcon\FlashInterface>
+	public function setAutomaticHtml(boolean automaticHtml) -> <\Phalcon\FlashInterface>
 	{
 		let this->_automaticHtml = automaticHtml;
 		return this;
@@ -86,13 +86,13 @@ abstract class Flash
 	 * @param array cssClasses
 	 * @return Phalcon\FlashInterface
 	 */
-	public function setCssClasses(cssClasses) -> <Phalcon\FlashInterface>
+	public function setCssClasses(cssClasses) -> <\Phalcon\FlashInterface>
 	{
 		if typeof cssClasses == "array" {
 			let this->_cssClasses = cssClasses;
 			return this;
 		}
-		throw new Phalcon\Flash\Exception("CSS classes must be an Array");
+		throw new \Phalcon\Flash\Exception("CSS classes must be an Array");
 	}
 
 	/**

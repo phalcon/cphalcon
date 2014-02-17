@@ -30,7 +30,7 @@ namespace Phalcon\Mvc\Model\MetaData;
  * ));
  *</code>
  */
-class Files extends Phalcon\Mvc\Model\MetaData implements Phalcon\Mvc\Model\MetaDataInterface
+class Files extends \Phalcon\Mvc\Model\MetaData implements \Phalcon\Mvc\Model\MetaDataInterface
 {
 
 	protected _metaDataDir = "./";
@@ -79,7 +79,7 @@ class Files extends Phalcon\Mvc\Model\MetaData implements Phalcon\Mvc\Model\Meta
 
 		let path = this->_metaDataDir . phalcon_prepare_virtual_path(key, "_") . ".php";
 		if file_put_contents(path, "<?php return " . var_export(data, true) . "; ") === false {
-			throw new Phalcon\Mvc\Model\Exception("Meta-Data directory cannot be written");
+			throw new \Phalcon\Mvc\Model\Exception("Meta-Data directory cannot be written");
 		}
 	}
 

@@ -29,7 +29,7 @@ namespace Phalcon\Mvc\Model;
  *<code>
  *try {
  *
- *  $manager = new Phalcon\Mvc\Model\Transaction\Manager();
+ *  $manager = new \Phalcon\Mvc\Model\Transaction\Manager();
  *
  *  $transaction = $manager->get();
  *
@@ -56,7 +56,7 @@ namespace Phalcon\Mvc\Model;
  *
  *</code>
  */
-class Transaction implements Phalcon\Mvc\Model\TransactionInterface
+class Transaction implements \Phalcon\Mvc\Model\TransactionInterface
 {
 
 	protected _connection;
@@ -80,7 +80,7 @@ class Transaction implements Phalcon\Mvc\Model\TransactionInterface
 	 * @param boolean autoBegin
 	 * @param string service
 	 */
-	public function __construct(<Phalcon\DiInterface> dependencyInjector, boolean autoBegin=false, service=null)
+	public function __construct(<\Phalcon\DiInterface> dependencyInjector, boolean autoBegin=false, service=null)
 	{
 		var connection;
 
@@ -101,7 +101,7 @@ class Transaction implements Phalcon\Mvc\Model\TransactionInterface
 	 *
 	 * @param Phalcon\Mvc\Model\Transaction\ManagerInterface $manager
 	 */
-	public function setTransactionManager(<Phalcon\Mvc\Model\Transaction\ManagerInterface> manager)
+	public function setTransactionManager(<\Phalcon\Mvc\Model\Transaction\ManagerInterface> manager)
 	{
 		let this->_manager = manager;
 	}
@@ -160,7 +160,7 @@ class Transaction implements Phalcon\Mvc\Model\TransactionInterface
 			if typeof rollbackRecord == "object" {
 				let this->_rollbackRecord = rollbackRecord;
 			}
-			throw new Phalcon\Mvc\Model\Transaction\Failed(rollbackMessage, this->_rollbackRecord);
+			throw new \Phalcon\Mvc\Model\Transaction\Failed(rollbackMessage, this->_rollbackRecord);
 		}
 
 		return true;
@@ -240,7 +240,7 @@ class Transaction implements Phalcon\Mvc\Model\TransactionInterface
 	 *
 	 * @param Phalcon\Mvc\ModelInterface $record
 	 */
-	public function setRollbackedRecord(<Phalcon\Mvc\ModelInterface> record)
+	public function setRollbackedRecord(<\Phalcon\Mvc\ModelInterface> record)
 	{
 		let this->_rollbackRecord = record;
 	}

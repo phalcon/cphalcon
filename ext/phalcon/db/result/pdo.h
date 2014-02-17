@@ -14,19 +14,19 @@ PHP_METHOD(Phalcon_Db_Result_Pdo, setFetchMode);
 PHP_METHOD(Phalcon_Db_Result_Pdo, getInternalResult);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_result_pdo___construct, 0, 0, 2)
-	ZEND_ARG_INFO(0, connection)
-	ZEND_ARG_INFO(0, result)
-	ZEND_ARG_INFO(0, sqlStatement)
-	ZEND_ARG_INFO(0, bindParams)
-	ZEND_ARG_INFO(0, bindTypes)
+  ZEND_ARG_INFO(0, connection)
+  ZEND_ARG_INFO(0, result)
+  ZEND_ARG_INFO(0, sqlStatement)
+  ZEND_ARG_INFO(0, bindParams)
+  ZEND_ARG_INFO(0, bindTypes)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_result_pdo_dataseek, 0, 0, 1)
-	ZEND_ARG_INFO(0, number)
+  ZEND_ARG_INFO(0, number)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_result_pdo_setfetchmode, 0, 0, 1)
-	ZEND_ARG_INFO(0, fetchMode)
+  ZEND_ARG_INFO(0, fetchMode)
 ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_db_result_pdo_method_entry) {
@@ -39,5 +39,5 @@ ZEPHIR_INIT_FUNCS(phalcon_db_result_pdo_method_entry) {
 	PHP_ME(Phalcon_Db_Result_Pdo, dataSeek, arginfo_phalcon_db_result_pdo_dataseek, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Db_Result_Pdo, setFetchMode, arginfo_phalcon_db_result_pdo_setfetchmode, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Db_Result_Pdo, getInternalResult, NULL, ZEND_ACC_PUBLIC)
-	PHP_FE_END
+  PHP_FE_END
 };

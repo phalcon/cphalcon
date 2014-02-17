@@ -24,7 +24,7 @@ namespace Phalcon\Forms\Element;
  *
  * Component INPUT[type=file] for forms
  */
-class File extends Phalcon\Forms\Element implements Phalcon\Forms\ElementInterface
+class File extends \Phalcon\Forms\Element implements \Phalcon\Forms\ElementInterface
 {
 
 	/**
@@ -35,7 +35,7 @@ class File extends Phalcon\Forms\Element implements Phalcon\Forms\ElementInterfa
 	 */
 	public function render(attributes=null) -> string
 	{
-		return Phalcon\Tag::fileField(this->prepareAttributes(attributes));
+		return \Phalcon\Tag::fileField(this->prepareAttributes(attributes));
 	}
 
 }

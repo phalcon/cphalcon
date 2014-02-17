@@ -61,7 +61,7 @@ class Row implements ArrayAccess, Phalcon\Mvc\Model\ResultInterface
 		if fetch value, this->{index} {
 			return value;
 		}
-		throw new Phalcon\Mvc\Model\Exception("The index does not exist in the row");
+		throw new \Phalcon\Mvc\Model\Exception("The index does not exist in the row");
 	}
 
 	/**
@@ -70,9 +70,9 @@ class Row implements ArrayAccess, Phalcon\Mvc\Model\ResultInterface
 	 * @param string|int index
 	 * @param Phalcon\Mvc\ModelInterface value
 	 */
-	public function offsetSet(var index, <Phalcon\Mvc\ModelInterface> value)
+	public function offsetSet(var index, <\Phalcon\Mvc\ModelInterface> value)
 	{
-		throw new Phalcon\Mvc\Model\Exception("Row is an immutable ArrayAccess object");
+		throw new \Phalcon\Mvc\Model\Exception("Row is an immutable ArrayAccess object");
 	}
 
 	/**
@@ -82,7 +82,7 @@ class Row implements ArrayAccess, Phalcon\Mvc\Model\ResultInterface
 	 */
 	public function offsetUnset(int offset)
 	{
-		throw new Phalcon\Mvc\Model\Exception("Row is an immutable ArrayAccess object");
+		throw new \Phalcon\Mvc\Model\Exception("Row is an immutable ArrayAccess object");
 	}
 
 	/**

@@ -32,7 +32,7 @@ interface ManagerInterface
 	 *
 	 * @param Phalcon\DiInterface dependencyInjector
 	 */
-	public function __construct(<Phalcon\DiInterface> dependencyInjector=null);
+	public function __construct(<\Phalcon\DiInterface> dependencyInjector=null);
 
 	/**
 	 * Checks whether manager has an active transaction
@@ -42,12 +42,12 @@ interface ManagerInterface
 	public function has() -> boolean;
 
 	/**
-	 * Returns a new Phalcon\Mvc\Model\Transaction or an already created once
+	 * Returns a new \Phalcon\Mvc\Model\Transaction or an already created once
 	 *
 	 * @param boolean autoBegin
 	 * @return Phalcon\Mvc\Model\TransactionInterface
 	 */
-	public function get(boolean autoBegin=true) -> <Phalcon\Mvc\Model\TransactionInterface>;
+	public function get(boolean autoBegin=true) -> <\Phalcon\Mvc\Model\TransactionInterface>;
 
 	/**
 	 * Rollbacks active transactions within the manager
@@ -74,14 +74,14 @@ interface ManagerInterface
 	 *
 	 * @param Phalcon\Mvc\Model\TransactionInterface transaction
 	 */
-	public function notifyRollback(<Phalcon\Mvc\Model\TransactionInterface> transaction);
+	public function notifyRollback(<\Phalcon\Mvc\Model\TransactionInterface> transaction);
 
 	/**
 	 * Notifies the manager about a commited transaction
 	 *
 	 * @param Phalcon\Mvc\Model\TransactionInterface transaction
 	 */
-	public function notifyCommit(<Phalcon\Mvc\Model\TransactionInterface> transaction);
+	public function notifyCommit(<\Phalcon\Mvc\Model\TransactionInterface> transaction);
 
 	/**
 	 * Remove all the transactions from the manager

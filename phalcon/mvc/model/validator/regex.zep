@@ -27,7 +27,7 @@ namespace Phalcon\Mvc\Model\Validator;
  *<code>
  *use Phalcon\Mvc\Model\Validator\Regex as RegexValidator;
  *
- *class Subscriptors extends Phalcon\Mvc\Model
+ *class Subscriptors extends \Phalcon\Mvc\Model
  *{
  *
  *  public function validation()
@@ -45,7 +45,7 @@ namespace Phalcon\Mvc\Model\Validator;
  *</code>
  *
  */
-class Regex extends Phalcon\Mvc\Model\Validator implements Phalcon\Mvc\Model\ValidatorInterface
+class Regex extends \Phalcon\Mvc\Model\Validator implements \Phalcon\Mvc\Model\ValidatorInterface
 {
 	/**
 	 * Executes the validator
@@ -53,13 +53,13 @@ class Regex extends Phalcon\Mvc\Model\Validator implements Phalcon\Mvc\Model\Val
 	 * @param Phalcon\Mvc\ModelInterface record
 	 * @return boolean
 	 */
-	public function validate(<Phalcon\Mvc\ModelInterface> record) -> boolean
+	public function validate(<\Phalcon\Mvc\ModelInterface> record) -> boolean
 	{
  		var field, visSet, value, failed, matches, pattern, matchPattern, matchZero, message, replacePairs;
 
 		let field = this->getOption("field");
 		if typeof field != "string" {
-			throw new Phalcon\Mvc\Model\Exception("Field name must be a string");
+			throw new \Phalcon\Mvc\Model\Exception("Field name must be a string");
 		}
 
 		/**
@@ -67,7 +67,7 @@ class Regex extends Phalcon\Mvc\Model\Validator implements Phalcon\Mvc\Model\Val
 		 */
 		let visSet = this->isSetOption("pattern");
 		if !visSet {
-			throw new Phalcon\Mvc\Model\Exception("Validator requires a perl-compatible regex pattern");
+			throw new \Phalcon\Mvc\Model\Exception("Validator requires a perl-compatible regex pattern");
 		}
 
 		let value = record->readAttribute(field);

@@ -28,7 +28,7 @@ namespace Phalcon\Mvc;
  *
  *<code>
  *
- * $app = new Phalcon\Mvc\Micro();
+ * $app = new \Phalcon\Mvc\Micro();
  *
  * $app->get('/say/welcome/{name}', function ($name) {
  *    echo "<h1>Welcome $name!</h1>";
@@ -38,7 +38,7 @@ namespace Phalcon\Mvc;
  *
  *</code>
  */
-class Micro extends Phalcon\Di\Injectable //implements ArrayAccess
+class Micro extends \Phalcon\Di\Injectable //implements ArrayAccess
 {
 
 	protected _dependencyInjector;
@@ -66,7 +66,7 @@ class Micro extends Phalcon\Di\Injectable //implements ArrayAccess
 	*
 	* @param Phalcon\DiInterface $dependencyInjector
 	*/
-	public function __construct(<Phalcon\DiInterface> dependencyInjector=null)
+	public function __construct(<\Phalcon\DiInterface> dependencyInjector=null)
 	{
 		if typeof dependencyInjector == "object" {
 			if dependencyInjector instanceof Phalcon\DiInterface {
@@ -80,7 +80,7 @@ class Micro extends Phalcon\Di\Injectable //implements ArrayAccess
 	*
 	* @param Phalcon\DiInterface $dependencyInjector
 	*/
-	public function setDI(<Phalcon\DiInterface> dependencyInjector)
+	public function setDI(<\Phalcon\DiInterface> dependencyInjector)
 	{
 		var exists;
 
@@ -124,7 +124,7 @@ class Micro extends Phalcon\Di\Injectable //implements ArrayAccess
 	* @param callable handler
 	* @return Phalcon\Mvc\Router\RouteInterface
 	*/
-	public function map(routePattern, handler) -> <Phalcon\Mvc\Router\RouteInterface>
+	public function map(routePattern, handler) -> <\Phalcon\Mvc\Router\RouteInterface>
 	{
 		var router, route;
 
@@ -156,7 +156,7 @@ class Micro extends Phalcon\Di\Injectable //implements ArrayAccess
 	* @param callable handler
 	* @return Phalcon\Mvc\Router\RouteInterface
 	*/
-	public function get(routePattern, handler) -> <Phalcon\Mvc\Router\RouteInterface>
+	public function get(routePattern, handler) -> <\Phalcon\Mvc\Router\RouteInterface>
 	{
 		var router, route;
 
@@ -188,7 +188,7 @@ class Micro extends Phalcon\Di\Injectable //implements ArrayAccess
 	* @param callable $handler
 	* @return Phalcon\Mvc\Router\RouteInterface
 	*/
-	public function post(routePattern, handler) -> <Phalcon\Mvc\Router\RouteInterface>
+	public function post(routePattern, handler) -> <\Phalcon\Mvc\Router\RouteInterface>
 	{
 		var router, route;
 
@@ -220,7 +220,7 @@ class Micro extends Phalcon\Di\Injectable //implements ArrayAccess
 	 * @param callable $handler
 	 * @return Phalcon\Mvc\Router\RouteInterface
 	 */
-	public function put(routePattern, handler) -> <Phalcon\Mvc\Router\RouteInterface>
+	public function put(routePattern, handler) -> <\Phalcon\Mvc\Router\RouteInterface>
 	{
 		var router, route;
 
@@ -252,7 +252,7 @@ class Micro extends Phalcon\Di\Injectable //implements ArrayAccess
 	 * @param callable $handler
 	 * @return Phalcon\Mvc\Router\RouteInterface
 	 */
-	public function patch(routePattern, handler) -> <Phalcon\Mvc\Router\RouteInterface>
+	public function patch(routePattern, handler) -> <\Phalcon\Mvc\Router\RouteInterface>
 	{
 		var router, route;
 
@@ -284,7 +284,7 @@ class Micro extends Phalcon\Di\Injectable //implements ArrayAccess
 	 * @param callable handler
 	 * @return Phalcon\Mvc\Router\RouteInterface
 	 */
-	public function head(string! routePattern, handler) -> <Phalcon\Mvc\Router\RouteInterface>
+	public function head(string! routePattern, handler) -> <\Phalcon\Mvc\Router\RouteInterface>
 	{
 		var router, route;
 
@@ -316,7 +316,7 @@ class Micro extends Phalcon\Di\Injectable //implements ArrayAccess
 	 * @param callable handler
 	 * @return Phalcon\Mvc\Router\RouteInterface
 	 */
-	public function delete(routePattern, handler) -> <Phalcon\Mvc\Router\RouteInterface>
+	public function delete(routePattern, handler) -> <\Phalcon\Mvc\Router\RouteInterface>
 	{
 		var router, route;
 
@@ -348,7 +348,7 @@ class Micro extends Phalcon\Di\Injectable //implements ArrayAccess
 	 * @param callable handler
 	 * @return Phalcon\Mvc\Router\RouteInterface
 	 */
-	public function options(string! routePattern, handler) -> <Phalcon\Mvc\Router\RouteInterface>
+	public function options(string! routePattern, handler) -> <\Phalcon\Mvc\Router\RouteInterface>
 	{
 		var router, route;
 
@@ -379,13 +379,13 @@ class Micro extends Phalcon\Di\Injectable //implements ArrayAccess
 	 * @param Phalcon\Mvc\Micro\Collection collection
 	 * @return Phalcon\Mvc\Micro
 	 */
-	public function mount(<Phalcon\Mvc\Micro\Collection> collection) -> <Phalcon\Mvc\Micro>
+	public function mount(<\Phalcon\Mvc\Micro\Collection> collection) -> <\Phalcon\Mvc\Micro>
 	{
 		var mainHandler, handlers, lazy, lazyHandler, prefix, methods, pattern,
 			subHandler, realHandler, prefixedPattern, route, handler;
 
 		if typeof collection != "object" {
-			throw new Phalcon\Mvc\Micro\Exception("The collection is not valid");
+			throw new \Phalcon\Mvc\Micro\Exception("The collection is not valid");
 		}
 
 		/**
@@ -393,12 +393,12 @@ class Micro extends Phalcon\Di\Injectable //implements ArrayAccess
 		 */
 		let mainHandler = collection->getHandler();
 		if !empty mainHandler {
-			throw new Phalcon\Mvc\Micro\Exception("The collection requires a main handler");
+			throw new \Phalcon\Mvc\Micro\Exception("The collection requires a main handler");
 		}
 
 		let handlers = collection->getHandlers();
 		if !count(handlers) {
-			throw new Phalcon\Mvc\Micro\Exception("There are no handlers to mount");
+			throw new \Phalcon\Mvc\Micro\Exception("There are no handlers to mount");
 		}
 
 		if typeof handlers == "array" {
@@ -409,7 +409,7 @@ class Micro extends Phalcon\Di\Injectable //implements ArrayAccess
 			let lazy = collection->isLazy();
 
 			if lazy {
-				let lazyHandler = new Phalcon\Mvc\Micro\Exception(mainHandler);
+				let lazyHandler = new \Phalcon\Mvc\Micro\Exception(mainHandler);
 			} else {
 				let lazyHandler = mainHandler;
 			}
@@ -422,7 +422,7 @@ class Micro extends Phalcon\Di\Injectable //implements ArrayAccess
 			for handler in handlers {
 
 				if typeof handler != "array" {
-					throw new Phalcon\Mvc\Micro\Exception("One of the registered handlers is invalid");
+					throw new \Phalcon\Mvc\Micro\Exception("One of the registered handlers is invalid");
 				}
 
 				let methods = handler[0];
@@ -464,7 +464,7 @@ class Micro extends Phalcon\Di\Injectable //implements ArrayAccess
 	 * @param callable handler
 	 * @return Phalcon\Mvc\Micro
 	 */
-	public function notFound(handler) -> <Phalcon\Mvc\Micro>
+	public function notFound(handler) -> <\Phalcon\Mvc\Micro>
 	{
 		let this->_notFoundHandler = handler;
 		return this;
@@ -475,7 +475,7 @@ class Micro extends Phalcon\Di\Injectable //implements ArrayAccess
 	 *
 	 * @return Phalcon\Mvc\RouterInterface
 	 */
-	public function getRouter() -> <Phalcon\Mvc\RouterInterface>
+	public function getRouter() -> <\Phalcon\Mvc\RouterInterface>
 	{
 		var router;
 
@@ -511,13 +511,13 @@ class Micro extends Phalcon\Di\Injectable //implements ArrayAccess
 	 * @param boolean shared
 	 * @return Phalcon\DI\ServiceInterface
 	 */
-	public function setService(serviceName, definition, shared=false) -> <Phalcon\DI\ServiceInterface>
+	public function setService(serviceName, definition, shared=false) -> <\Phalcon\DI\ServiceInterface>
 	{
 		var dependencyInjector;
 
 		let dependencyInjector = this->_dependencyInjector;
 		if typeof dependencyInjector != "object" {
-			let dependencyInjector = new Phalcon\Di\FactoryDefault();
+			let dependencyInjector = new \Phalcon\Di\FactoryDefault();
 			let this->_dependencyInjector = dependencyInjector;
 		}
 
@@ -536,7 +536,7 @@ class Micro extends Phalcon\Di\Injectable //implements ArrayAccess
 
 		let dependencyInjector = this->_dependencyInjector;
 		if typeof dependencyInjector != "object" {
-			let dependencyInjector = new Phalcon\Di\FactoryDefault();
+			let dependencyInjector = new \Phalcon\Di\FactoryDefault();
 			let this->_dependencyInjector = dependencyInjector;
 		}
 
@@ -555,7 +555,7 @@ class Micro extends Phalcon\Di\Injectable //implements ArrayAccess
 
 		let dependencyInjector = this->_dependencyInjector;
 		if typeof dependencyInjector != "object" {
-			let dependencyInjector = new Phalcon\Di\FactoryDefault();
+			let dependencyInjector = new \Phalcon\Di\FactoryDefault();
 			let this->_dependencyInjector = dependencyInjector;
 		}
 
@@ -574,7 +574,7 @@ class Micro extends Phalcon\Di\Injectable //implements ArrayAccess
 
 		let dependencyInjector = this->_dependencyInjector;
 		if typeof dependencyInjector != "object" {
-			let dependencyInjector = new Phalcon\Di\FactoryDefault();
+			let dependencyInjector = new \Phalcon\Di\FactoryDefault();
 			let this->_dependencyInjector = dependencyInjector;
 		}
 
@@ -595,7 +595,7 @@ class Micro extends Phalcon\Di\Injectable //implements ArrayAccess
 
 		let dependencyInjector = this->_dependencyInjector;
 		if typeof dependencyInjector != "object" {
-			throw new Phalcon\Mvc\Micro\Exception("A dependency injection container is required to access related dispatching services");
+			throw new \Phalcon\Mvc\Micro\Exception("A dependency injection container is required to access related dispatching services");
 		}
 
 		/**
@@ -625,7 +625,7 @@ class Micro extends Phalcon\Di\Injectable //implements ArrayAccess
 		if typeof matchedRoute == "object" {
 
 			if !fetch handler, this->_handlers[matchedRoute->getRouteId()] {
-				throw new Phalcon\Mvc\Micro\Exception("Matched route doesn't have an associate handler");
+				throw new \Phalcon\Mvc\Micro\Exception("Matched route doesn't have an associate handler");
 			}
 
 			/**
@@ -675,7 +675,7 @@ class Micro extends Phalcon\Di\Injectable //implements ArrayAccess
 					}
 
 					if !is_callable(before) {
-						throw new Phalcon\Mvc\Micro\Exception("The before handler is not callable");
+						throw new \Phalcon\Mvc\Micro\Exception("The before handler is not callable");
 					}
 
 					/**
@@ -742,7 +742,7 @@ class Micro extends Phalcon\Di\Injectable //implements ArrayAccess
 					}
 
 					if !is_callable(after) {
-						throw new Phalcon\Mvc\Micro\Exception("One of the 'after' handlers is not callable");
+						throw new \Phalcon\Mvc\Micro\Exception("One of the 'after' handlers is not callable");
 					}
 
 					let status = call_user_func(after);
@@ -766,7 +766,7 @@ class Micro extends Phalcon\Di\Injectable //implements ArrayAccess
 			 */
 			let notFoundHandler = this->_notFoundHandler;
 			if !is_callable(notFoundHandler) {
-				throw new Phalcon\Mvc\Micro\Exception("The Not-Found handler is not callable or is not defined");
+				throw new \Phalcon\Mvc\Micro\Exception("The Not-Found handler is not callable or is not defined");
 			}
 
 			/**
@@ -825,7 +825,7 @@ class Micro extends Phalcon\Di\Injectable //implements ArrayAccess
 				}
 
 				if !is_callable(finish) {
-					throw new Phalcon\Mvc\Micro\Exception("One of finish handlers is not callable");
+					throw new \Phalcon\Mvc\Micro\Exception("One of finish handlers is not callable");
 				}
 
 				if params === null {
@@ -914,7 +914,7 @@ class Micro extends Phalcon\Di\Injectable //implements ArrayAccess
 	 * Allows to register a shared service in the internal services container using the array syntax
 	 *
 	 *<code>
-	 *	$app['request'] = new Phalcon\Http\Request();
+	 *	$app['request'] = new \Phalcon\Http\Request();
 	 *</code>
 	 *
 	 * @param string alias
@@ -956,7 +956,7 @@ class Micro extends Phalcon\Di\Injectable //implements ArrayAccess
 	 * @param callable handler
 	 * @return Phalcon\Mvc\Micro
 	 */
-	public function before(handler) -> <Phalcon\Mvc\Micro>
+	public function before(handler) -> <\Phalcon\Mvc\Micro>
 	{
 		let this->_beforeHandlers[] = handler;
 		return this;
@@ -968,7 +968,7 @@ class Micro extends Phalcon\Di\Injectable //implements ArrayAccess
 	 * @param callable handler
 	 * @return Phalcon\Mvc\Micro
 	 */
-	public function after(handler) -> <Phalcon\Mvc\Micro>
+	public function after(handler) -> <\Phalcon\Mvc\Micro>
 	{
 		let this->_afterHandlers[] = handler;
 		return this;
@@ -980,7 +980,7 @@ class Micro extends Phalcon\Di\Injectable //implements ArrayAccess
 	 * @param callable handler
 	 * @return Phalcon\Mvc\Micro
 	 */
-	public function finish(handler) -> <Phalcon\Mvc\Micro>
+	public function finish(handler) -> <\Phalcon\Mvc\Micro>
 	{
 		let this->_finishHandlers[] = handler;
 		return this;

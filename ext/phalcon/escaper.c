@@ -46,7 +46,7 @@
  * This component only works with UTF-8. The PREG extension needs to be compiled with UTF-8 support.
  *
  *<code>
- *	$escaper = new Phalcon\Escaper();
+ *	$escaper = new \Phalcon\Escaper();
  *	$escaped = $escaper->escapeCss("font-family: <Verdana>");
  *	echo $escaped; // font\2D family\3A \20 \3C Verdana\3E
  *</code>
@@ -82,7 +82,7 @@ PHP_METHOD(Phalcon_Escaper, setEncoding) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &encoding_param);
 
-		zephir_get_strval(encoding, encoding_param);
+	zephir_get_strval(encoding, encoding_param);
 
 
 	zephir_update_property_this(this_ptr, SL("_encoding"), encoding TSRMLS_CC);
@@ -118,7 +118,7 @@ PHP_METHOD(Phalcon_Escaper, setHtmlQuoteType) {
 
 	zephir_fetch_params(0, 1, 0, &quoteType_param);
 
-		quoteType = zephir_get_intval(quoteType_param);
+	quoteType = zephir_get_intval(quoteType_param);
 
 
 	ZEPHIR_INIT_ZVAL_NREF(_0);
@@ -170,8 +170,8 @@ PHP_METHOD(Phalcon_Escaper, detectEncoding) {
 	zephir_array_fast_append(_0, _1);
 	zephir_is_iterable(_0, &_3, &_2, 0, 0);
 	for (
-		; zend_hash_get_current_data_ex(_3, (void**) &_4, &_2) == SUCCESS
-		; zend_hash_move_forward_ex(_3, &_2)
+	  ; zend_hash_get_current_data_ex(_3, (void**) &_4, &_2) == SUCCESS
+	  ; zephir_hash_move_forward_ex(_3, &_2)
 	) {
 		ZEPHIR_GET_HVALUE(charset, _4);
 		ZEPHIR_INIT_NVAR(_1);
@@ -193,7 +193,7 @@ PHP_METHOD(Phalcon_Escaper, detectEncoding) {
  */
 PHP_METHOD(Phalcon_Escaper, normalizeEncoding) {
 
-	zval *str, *_0, _1;
+	zval *str, *_0, *_1 = NULL, _2;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &str);
@@ -201,14 +201,20 @@ PHP_METHOD(Phalcon_Escaper, normalizeEncoding) {
 
 
 	if (!((zephir_function_exists_ex(SS("mb_convert_encoding") TSRMLS_CC) == SUCCESS))) {
-		ZEPHIR_THROW_EXCEPTION_STR(phalcon_escaper_exception_ce, "Extension 'mbstring' is required");
+		ZEPHIR_INIT_VAR(_0);
+		object_init_ex(_0, phalcon_escaper_exception_ce);
+		ZEPHIR_INIT_VAR(_1);
+		ZVAL_STRING(_1, "Extension 'mbstring' is required", 1);
+		zephir_call_method_p1_noret(_0, "__construct", _1);
+		zephir_throw_exception(_0 TSRMLS_CC);
+		ZEPHIR_MM_RESTORE();
 		return;
 	}
-	ZEPHIR_INIT_VAR(_0);
-	zephir_call_method_p1(_0, this_ptr, "detectencoding", str);
-	ZEPHIR_SINIT_VAR(_1);
-	ZVAL_STRING(&_1, "UTF-32", 0);
-	zephir_call_func_p3(return_value, "mb_convert_encoding", str, &_1, _0);
+	ZEPHIR_INIT_NVAR(_1);
+	zephir_call_method_p1(_1, this_ptr, "detectencoding", str);
+	ZEPHIR_SINIT_VAR(_2);
+	ZVAL_STRING(&_2, "UTF-32", 0);
+	zephir_call_func_p3(return_value, "mb_convert_encoding", str, &_2, _1);
 	RETURN_MM();
 
 }
@@ -227,7 +233,7 @@ PHP_METHOD(Phalcon_Escaper, escapeHtml) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &text_param);
 
-		zephir_get_strval(text, text_param);
+	zephir_get_strval(text, text_param);
 
 
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_htmlQuoteType"), PH_NOISY_CC);
@@ -251,7 +257,7 @@ PHP_METHOD(Phalcon_Escaper, escapeHtmlAttr) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &attribute_param);
 
-		zephir_get_strval(attribute, attribute_param);
+	zephir_get_strval(attribute, attribute_param);
 
 
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_encoding"), PH_NOISY_CC);
@@ -276,7 +282,7 @@ PHP_METHOD(Phalcon_Escaper, escapeCss) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &css_param);
 
-		zephir_get_strval(css, css_param);
+	zephir_get_strval(css, css_param);
 
 
 	ZEPHIR_INIT_VAR(_0);
@@ -299,7 +305,7 @@ PHP_METHOD(Phalcon_Escaper, escapeJs) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &js_param);
 
-		zephir_get_strval(js, js_param);
+	zephir_get_strval(js, js_param);
 
 
 	ZEPHIR_INIT_VAR(_0);
@@ -322,7 +328,7 @@ PHP_METHOD(Phalcon_Escaper, escapeUrl) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &url_param);
 
-		zephir_get_strval(url, url_param);
+	zephir_get_strval(url, url_param);
 
 
 	zephir_call_func_p1(return_value, "rawurlencode", url);

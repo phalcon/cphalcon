@@ -33,11 +33,11 @@ namespace Phalcon\Db\Adapter\Pdo;
  *  "password" => ""
  * );
  *
- * $connection = new Phalcon\Db\Adapter\Pdo\Postgresql($config);
+ * $connection = new \Phalcon\Db\Adapter\Pdo\Postgresql($config);
  *
  * </code>
  */
-class Postgresql extends Phalcon\Db\Adapter\Pdo
+class Postgresql extends \Phalcon\Db\Adapter\Pdo
 	//implements Phalcon\Db\AdapterInterface
 {
 

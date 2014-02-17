@@ -24,7 +24,7 @@ namespace Phalcon\Paginator\Adapter;
  *
  * This adapter allows to paginate data using a Phalcon\Mvc\Model resultset as base
  */
-class Model implements Phalcon\Paginator\AdapterInterface
+class Model implements \Phalcon\Paginator\AdapterInterface
 {
 
 	/**
@@ -92,7 +92,7 @@ class Model implements Phalcon\Paginator\AdapterInterface
 		}
 
 		if show <= 0 {
-			throw new Phalcon\Paginator\Exception("The start page number is zero or less");
+			throw new \Phalcon\Paginator\Exception("The start page number is zero or less");
 		}
 
 		let n          = count(items),
@@ -103,7 +103,7 @@ class Model implements Phalcon\Paginator\AdapterInterface
 			totalPages = (int) ceil(lastPage / show);
 
 		if typeof items != "object" {
-			throw new Phalcon\Paginator\Exception("Invalid data for paginator");
+			throw new \Phalcon\Paginator\Exception("Invalid data for paginator");
 		}
 
 		if pageNumber <= 0 {

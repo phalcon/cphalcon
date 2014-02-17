@@ -13,11 +13,11 @@
 
 #include "kernel/main.h"
 #include "kernel/object.h"
+#include "kernel/exception.h"
 #include "kernel/memory.h"
+#include "kernel/fcall.h"
 #include "kernel/operators.h"
 #include "kernel/array.h"
-#include "kernel/fcall.h"
-#include "kernel/exception.h"
 #include "ext/spl/spl_exceptions.h"
 
 
@@ -67,13 +67,25 @@ ZEPHIR_INIT_CLASS(Phalcon_Http_Response_Cookies) {
  */
 PHP_METHOD(Phalcon_Http_Response_Cookies, setDI) {
 
-	zval *dependencyInjector;
+	zval *dependencyInjector, *_0, *_1;
 
-	zephir_fetch_params(0, 1, 0, &dependencyInjector);
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 1, 0, &dependencyInjector);
 
 
 
+	if (zephir_is_instance_of(dependencyInjector, SL("Phalcon\\DiInterface") TSRMLS_CC)) {
+		ZEPHIR_INIT_VAR(_0);
+		object_init_ex(_0, spl_ce_BadMethodCallException);
+		ZEPHIR_INIT_VAR(_1);
+		ZVAL_STRING(_1, "Parameter 'dependencyInjector' must be an instance of 'Phalcon\\DiInterface'", 1);
+		zephir_call_method_p1_noret(_0, "__construct", _1);
+		zephir_throw_exception(_0 TSRMLS_CC);
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	zephir_update_property_this(this_ptr, SL("_dependencyInjector"), dependencyInjector TSRMLS_CC);
+	ZEPHIR_MM_RESTORE();
 
 }
 
@@ -102,7 +114,7 @@ PHP_METHOD(Phalcon_Http_Response_Cookies, useEncryption) {
 
 	zephir_fetch_params(0, 1, 0, &useEncryption_param);
 
-		useEncryption = zephir_get_boolval(useEncryption_param);
+	useEncryption = zephir_get_boolval(useEncryption_param);
 
 
 	zephir_update_property_this(this_ptr, SL("_useEncryption"), useEncryption ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
@@ -138,7 +150,7 @@ PHP_METHOD(Phalcon_Http_Response_Cookies, isUsingEncryption) {
 PHP_METHOD(Phalcon_Http_Response_Cookies, set) {
 
 	int expire;
-	zval *name_param = NULL, *value = NULL, *expire_param = NULL, *path_param = NULL, *secure = NULL, *domain_param = NULL, *httpOnly = NULL, *cookie, *encryption, *dependencyInjector, *response, *_0, *_1 = NULL, *_2;
+	zval *name_param = NULL, *value = NULL, *expire_param = NULL, *path_param = NULL, *secure = NULL, *domain_param = NULL, *httpOnly = NULL, *cookie, *encryption, *dependencyInjector, *response, *_0, *_1 = NULL, *_2, *_3;
 	zval *name = NULL, *path = NULL, *domain = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -224,7 +236,13 @@ PHP_METHOD(Phalcon_Http_Response_Cookies, set) {
 		ZEPHIR_OBS_VAR(dependencyInjector);
 		zephir_read_property_this(&dependencyInjector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
 		if ((Z_TYPE_P(dependencyInjector) != IS_OBJECT)) {
-			ZEPHIR_THROW_EXCEPTION_STR(phalcon_http_cookie_exception_ce, "A dependency injection object is required to access the 'response' service");
+			ZEPHIR_INIT_VAR(_3);
+			object_init_ex(_3, phalcon_http_cookie_exception_ce);
+			ZEPHIR_INIT_NVAR(_1);
+			ZVAL_STRING(_1, "A dependency injection object is required to access the 'response' service", 1);
+			zephir_call_method_p1_noret(_3, "__construct", _1);
+			zephir_throw_exception(_3 TSRMLS_CC);
+			ZEPHIR_MM_RESTORE();
 			return;
 		}
 		ZEPHIR_INIT_NVAR(_1);
@@ -384,8 +402,8 @@ PHP_METHOD(Phalcon_Http_Response_Cookies, send) {
 		_1 = zephir_fetch_nproperty_this(this_ptr, SL("_cookies"), PH_NOISY_CC);
 		zephir_is_iterable(_1, &_3, &_2, 0, 0);
 		for (
-			; zend_hash_get_current_data_ex(_3, (void**) &_4, &_2) == SUCCESS
-			; zend_hash_move_forward_ex(_3, &_2)
+		  ; zend_hash_get_current_data_ex(_3, (void**) &_4, &_2) == SUCCESS
+		  ; zephir_hash_move_forward_ex(_3, &_2)
 		) {
 			ZEPHIR_GET_HVALUE(cookie, _4);
 			zephir_call_method_noret(cookie, "send");
