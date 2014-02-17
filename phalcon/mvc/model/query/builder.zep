@@ -47,7 +47,7 @@ namespace Phalcon\Mvc\Model\Query;
  *</code>
  */
 class Builder
-//implements Phalcon_Mvc_Model_Query_BuilderInterface, Phalcon_DI_InjectionAwareInterface
+//implements Phalcon_Mvc_Model_Query_BuilderInterface, \Phalcon_DI_InjectionAwareInterface
 {
 
 	protected _dependencyInjector;
@@ -922,7 +922,7 @@ class Builder
 
 		let dependencyInjector = this->_dependencyInjector;
 		if typeof dependencyInjector == "object" {
-			let dependencyInjector = Phalcon\Di::getDefault(),
+			let dependencyInjector = \Phalcon\Di::getDefault(),
 				this->_dependencyInjector = dependencyInjector;
 		}
 

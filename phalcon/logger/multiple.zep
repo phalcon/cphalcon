@@ -87,7 +87,7 @@ namespace Phalcon\Logger;
  	 */
 	public function emergence(string message)
 	{
-		this->log(message, Phalcon\Logger::EMERGENCE);
+		this->log(message, \Phalcon\Logger::EMERGENCE);
 	}
 
 	/**
@@ -98,7 +98,7 @@ namespace Phalcon\Logger;
  	 */
 	public function debug(string message)
 	{
-		this->log(message, Phalcon\Logger::DEBUG);
+		this->log(message, \Phalcon\Logger::DEBUG);
 	}
 
 	/**
@@ -108,7 +108,7 @@ namespace Phalcon\Logger;
  	 */
 	public function error(string message)
 	{
-		this->log(message, Phalcon\Logger::ERROR);
+		this->log(message, \Phalcon\Logger::ERROR);
 	}
 
 	/**
@@ -118,7 +118,7 @@ namespace Phalcon\Logger;
  	 */
 	public function info(string message)
 	{
-		this->log(message, Phalcon\Logger::INFO);
+		this->log(message, \Phalcon\Logger::INFO);
 	}
 
 	/**
@@ -128,7 +128,7 @@ namespace Phalcon\Logger;
  	 */
 	public function notice(string message)
 	{
-		this->log(message, Phalcon\Logger::NOTICE);
+		this->log(message, \Phalcon\Logger::NOTICE);
 	}
 
 	/**
@@ -138,7 +138,7 @@ namespace Phalcon\Logger;
  	 */
 	public function warning(string message)
 	{
-		this->log(message, Phalcon\Logger::WARNING);
+		this->log(message, \Phalcon\Logger::WARNING);
 	}
 
 	/**
@@ -148,7 +148,7 @@ namespace Phalcon\Logger;
  	 */
 	public function alert(string message)
 	{
-		this->log(message, Phalcon\Logger::ALERT);
+		this->log(message, \Phalcon\Logger::ALERT);
 	}
 
 }

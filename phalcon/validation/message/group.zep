@@ -24,7 +24,7 @@ namespace Phalcon\Validation\Message;
  *
  * Represents a group of validation messages
  */
-class Group implements Countable, ArrayAccess, Iterator
+class Group implements \Countable, \ArrayAccess, \Iterator
 {
 
 	protected _position;

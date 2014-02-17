@@ -62,7 +62,7 @@ namespace Phalcon\Mvc\Model\Transaction;
  *</code>
  *
  */
-class Manager implements \Phalcon\Mvc\Model\Transaction\ManagerInterface, Phalcon\Di\InjectionAwareInterface
+class Manager implements \Phalcon\Mvc\Model\Transaction\ManagerInterface, \Phalcon\Di\InjectionAwareInterface
 {
 
 	protected _dependencyInjector;
@@ -87,7 +87,7 @@ class Manager implements \Phalcon\Mvc\Model\Transaction\ManagerInterface, Phalco
 		if dependencyInjector {
 			let this->_dependencyInjector = dependencyInjector;
 		} else {
-			let dependencyInjector = Phalcon\Di::getDefault(),
+			let dependencyInjector = \Phalcon\Di::getDefault(),
 				this->_dependencyInjector = dependencyInjector;
 		}
 

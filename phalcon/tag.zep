@@ -170,7 +170,7 @@ class Tag
 			//let dependencyInjector = <\Phalcon\DiInterface> self::_dependencyInjector;
 			let dependencyInjector = self::_dependencyInjector;
 			if typeof dependencyInjector != "object" {
-				let dependencyInjector = Phalcon\Di::getDefault();
+				let dependencyInjector = \Phalcon\Di::getDefault();
 			}
 
 			if typeof dependencyInjector != "object" {
@@ -198,7 +198,7 @@ class Tag
 			//let dependencyInjector = <\Phalcon\DiInterface> self::_dependencyInjector;
 			let dependencyInjector = self::_dependencyInjector;
 			if typeof dependencyInjector != "object" {
-				let dependencyInjector = Phalcon\DI::getDefault();
+				let dependencyInjector = \Phalcon\Di::getDefault();
 			}
 
 			if typeof dependencyInjector != "object" {
@@ -909,7 +909,7 @@ class Tag
 	 */
 	public static function selectStatic(parameters, data=null) -> string
 	{
-		return Phalcon\Tag\Select::selectField(parameters, data);
+		return \Phalcon\Tag\Select::selectField(parameters, data);
 	}
 
 	/**
@@ -934,7 +934,7 @@ class Tag
 	 */
 	public static function select(parameters, data=null) -> string
 	{
-		return Phalcon\Tag\Select::selectField(parameters, data);
+		return \Phalcon\Tag\Select::selectField(parameters, data);
 	}
 
 	/**
