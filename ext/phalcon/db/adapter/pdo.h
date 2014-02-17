@@ -22,57 +22,57 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, isUnderTransaction);
 PHP_METHOD(Phalcon_Db_Adapter_Pdo, getInternalHandler);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_adapter_pdo___construct, 0, 0, 1)
-  ZEND_ARG_INFO(0, descriptor)
+	ZEND_ARG_INFO(0, descriptor)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_adapter_pdo_connect, 0, 0, 0)
-  ZEND_ARG_INFO(0, descriptor)
+	ZEND_ARG_INFO(0, descriptor)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_adapter_pdo_prepare, 0, 0, 1)
-  ZEND_ARG_INFO(0, sqlStatement)
+	ZEND_ARG_INFO(0, sqlStatement)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_adapter_pdo_executeprepared, 0, 0, 3)
-  ZEND_ARG_INFO(0, statement)
-  ZEND_ARG_INFO(0, placeholders)
-  ZEND_ARG_INFO(0, dataTypes)
+	ZEND_ARG_INFO(0, statement)
+	ZEND_ARG_INFO(0, placeholders)
+	ZEND_ARG_INFO(0, dataTypes)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_adapter_pdo_query, 0, 0, 1)
-  ZEND_ARG_INFO(0, sqlStatement)
-  ZEND_ARG_INFO(0, bindParams)
-  ZEND_ARG_INFO(0, bindTypes)
+	ZEND_ARG_INFO(0, sqlStatement)
+	ZEND_ARG_INFO(0, bindParams)
+	ZEND_ARG_INFO(0, bindTypes)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_adapter_pdo_execute, 0, 0, 1)
-  ZEND_ARG_INFO(0, sqlStatement)
-  ZEND_ARG_INFO(0, bindParams)
-  ZEND_ARG_INFO(0, bindTypes)
+	ZEND_ARG_INFO(0, sqlStatement)
+	ZEND_ARG_INFO(0, bindParams)
+	ZEND_ARG_INFO(0, bindTypes)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_adapter_pdo_escapeidentifier, 0, 0, 1)
-  ZEND_ARG_INFO(0, identifier)
+	ZEND_ARG_INFO(0, identifier)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_adapter_pdo_escapestring, 0, 0, 1)
-  ZEND_ARG_INFO(0, str)
+	ZEND_ARG_INFO(0, str)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_adapter_pdo_lastinsertid, 0, 0, 0)
-  ZEND_ARG_INFO(0, sequenceName)
+	ZEND_ARG_INFO(0, sequenceName)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_adapter_pdo_begin, 0, 0, 0)
-  ZEND_ARG_INFO(0, nesting)
+	ZEND_ARG_INFO(0, nesting)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_adapter_pdo_rollback, 0, 0, 0)
-  ZEND_ARG_INFO(0, nesting)
+	ZEND_ARG_INFO(0, nesting)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_adapter_pdo_commit, 0, 0, 0)
-  ZEND_ARG_INFO(0, nesting)
+	ZEND_ARG_INFO(0, nesting)
 ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_db_adapter_pdo_method_entry) {

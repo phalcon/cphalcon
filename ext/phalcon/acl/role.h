@@ -9,8 +9,8 @@ PHP_METHOD(Phalcon_Acl_Role, getDescription);
 PHP_METHOD(Phalcon_Acl_Role, __construct);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_acl_role___construct, 0, 0, 1)
-  ZEND_ARG_INFO(0, name)
-  ZEND_ARG_INFO(0, description)
+	ZEND_ARG_INFO(0, name)
+	ZEND_ARG_INFO(0, description)
 ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_acl_role_method_entry) {

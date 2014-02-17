@@ -26,55 +26,55 @@ PHP_METHOD(Phalcon_Assets_Resource, getRealSourcePath);
 PHP_METHOD(Phalcon_Assets_Resource, getRealTargetPath);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_assets_resource___construct, 0, 0, 2)
-  ZEND_ARG_INFO(0, type)
-  ZEND_ARG_INFO(0, path)
-  ZEND_ARG_INFO(0, local)
-  ZEND_ARG_INFO(0, filter)
-  ZEND_ARG_INFO(0, attributes)
+	ZEND_ARG_INFO(0, type)
+	ZEND_ARG_INFO(0, path)
+	ZEND_ARG_INFO(0, local)
+	ZEND_ARG_INFO(0, filter)
+	ZEND_ARG_INFO(0, attributes)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_assets_resource_settype, 0, 0, 1)
-  ZEND_ARG_INFO(0, type)
+	ZEND_ARG_INFO(0, type)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_assets_resource_setpath, 0, 0, 1)
-  ZEND_ARG_INFO(0, path)
+	ZEND_ARG_INFO(0, path)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_assets_resource_setlocal, 0, 0, 1)
-  ZEND_ARG_INFO(0, local)
+	ZEND_ARG_INFO(0, local)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_assets_resource_setfilter, 0, 0, 1)
-  ZEND_ARG_INFO(0, filter)
+	ZEND_ARG_INFO(0, filter)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_assets_resource_setattributes, 0, 0, 1)
-  ZEND_ARG_INFO(0, attributes)
+	ZEND_ARG_INFO(0, attributes)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_assets_resource_settargeturi, 0, 0, 1)
-  ZEND_ARG_INFO(0, targetUri)
+	ZEND_ARG_INFO(0, targetUri)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_assets_resource_setsourcepath, 0, 0, 1)
-  ZEND_ARG_INFO(0, sourcePath)
+	ZEND_ARG_INFO(0, sourcePath)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_assets_resource_settargetpath, 0, 0, 1)
-  ZEND_ARG_INFO(0, targetPath)
+	ZEND_ARG_INFO(0, targetPath)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_assets_resource_getcontent, 0, 0, 0)
-  ZEND_ARG_INFO(0, basePath)
+	ZEND_ARG_INFO(0, basePath)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_assets_resource_getrealsourcepath, 0, 0, 0)
-  ZEND_ARG_INFO(0, basePath)
+	ZEND_ARG_INFO(0, basePath)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_assets_resource_getrealtargetpath, 0, 0, 0)
-  ZEND_ARG_INFO(0, basePath)
+	ZEND_ARG_INFO(0, basePath)
 ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_assets_resource_method_entry) {

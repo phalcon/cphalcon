@@ -8,8 +8,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction_Failed, getRecordMessages);
 PHP_METHOD(Phalcon_Mvc_Model_Transaction_Failed, getRecord);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_transaction_failed___construct, 0, 0, 2)
-  ZEND_ARG_INFO(0, message)
-  ZEND_ARG_INFO(0, record)
+	ZEND_ARG_INFO(0, message)
+	ZEND_ARG_INFO(0, record)
 ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_mvc_model_transaction_failed_method_entry) {

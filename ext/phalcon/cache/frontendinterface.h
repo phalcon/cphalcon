@@ -4,11 +4,11 @@ extern zend_class_entry *phalcon_cache_frontendinterface_ce;
 ZEPHIR_INIT_CLASS(Phalcon_Cache_FrontendInterface);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_cache_frontendinterface_beforestore, 0, 0, 1)
-  ZEND_ARG_INFO(0, data)
+	ZEND_ARG_INFO(0, data)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_cache_frontendinterface_afterretrieve, 0, 0, 1)
-  ZEND_ARG_INFO(0, data)
+	ZEND_ARG_INFO(0, data)
 ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_cache_frontendinterface_method_entry) {

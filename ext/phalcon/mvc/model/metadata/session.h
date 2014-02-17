@@ -8,16 +8,16 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Session, read);
 PHP_METHOD(Phalcon_Mvc_Model_MetaData_Session, write);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_metadata_session___construct, 0, 0, 0)
-  ZEND_ARG_INFO(0, options)
+	ZEND_ARG_INFO(0, options)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_metadata_session_read, 0, 0, 1)
-  ZEND_ARG_INFO(0, key)
+	ZEND_ARG_INFO(0, key)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_metadata_session_write, 0, 0, 2)
-  ZEND_ARG_INFO(0, key)
-  ZEND_ARG_INFO(0, data)
+	ZEND_ARG_INFO(0, key)
+	ZEND_ARG_INFO(0, data)
 ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_mvc_model_metadata_session_method_entry) {

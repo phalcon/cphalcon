@@ -7,12 +7,12 @@ PHP_METHOD(Phalcon_Annotations_Adapter_Apc, read);
 PHP_METHOD(Phalcon_Annotations_Adapter_Apc, write);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_annotations_adapter_apc_read, 0, 0, 1)
-  ZEND_ARG_INFO(0, key)
+	ZEND_ARG_INFO(0, key)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_annotations_adapter_apc_write, 0, 0, 2)
-  ZEND_ARG_INFO(0, key)
-  ZEND_ARG_INFO(0, data)
+	ZEND_ARG_INFO(0, key)
+	ZEND_ARG_INFO(0, data)
 ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_annotations_adapter_apc_method_entry) {

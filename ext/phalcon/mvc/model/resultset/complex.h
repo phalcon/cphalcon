@@ -10,13 +10,13 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Complex, serialize);
 PHP_METHOD(Phalcon_Mvc_Model_Resultset_Complex, unserialize);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_resultset_complex___construct, 0, 0, 2)
-  ZEND_ARG_INFO(0, columnTypes)
-  ZEND_ARG_INFO(0, result)
-  ZEND_ARG_INFO(0, cache)
+	ZEND_ARG_INFO(0, columnTypes)
+	ZEND_ARG_INFO(0, result)
+	ZEND_ARG_INFO(0, cache)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_resultset_complex_unserialize, 0, 0, 1)
-  ZEND_ARG_INFO(0, data)
+	ZEND_ARG_INFO(0, data)
 ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_mvc_model_resultset_complex_method_entry) {

@@ -16,43 +16,43 @@ PHP_METHOD(Phalcon_Cache_Backend_Mongo, decrement);
 PHP_METHOD(Phalcon_Cache_Backend_Mongo, flush);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_cache_backend_mongo___construct, 0, 0, 1)
-  ZEND_ARG_INFO(0, frontend)
-  ZEND_ARG_INFO(0, options)
+	ZEND_ARG_INFO(0, frontend)
+	ZEND_ARG_INFO(0, options)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_cache_backend_mongo_get, 0, 0, 1)
-  ZEND_ARG_INFO(0, keyName)
-  ZEND_ARG_INFO(0, lifetime)
+	ZEND_ARG_INFO(0, keyName)
+	ZEND_ARG_INFO(0, lifetime)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_cache_backend_mongo_save, 0, 0, 0)
-  ZEND_ARG_INFO(0, keyName)
-  ZEND_ARG_INFO(0, content)
-  ZEND_ARG_INFO(0, lifetime)
-  ZEND_ARG_INFO(0, stopBuffer)
+	ZEND_ARG_INFO(0, keyName)
+	ZEND_ARG_INFO(0, content)
+	ZEND_ARG_INFO(0, lifetime)
+	ZEND_ARG_INFO(0, stopBuffer)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_cache_backend_mongo_delete, 0, 0, 1)
-  ZEND_ARG_INFO(0, keyName)
+	ZEND_ARG_INFO(0, keyName)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_cache_backend_mongo_querykeys, 0, 0, 0)
-  ZEND_ARG_INFO(0, prefix)
+	ZEND_ARG_INFO(0, prefix)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_cache_backend_mongo_exists, 0, 0, 0)
-  ZEND_ARG_INFO(0, keyName)
-  ZEND_ARG_INFO(0, lifetime)
+	ZEND_ARG_INFO(0, keyName)
+	ZEND_ARG_INFO(0, lifetime)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_cache_backend_mongo_increment, 0, 0, 1)
-  ZEND_ARG_INFO(0, keyName)
-  ZEND_ARG_INFO(0, value)
+	ZEND_ARG_INFO(0, keyName)
+	ZEND_ARG_INFO(0, value)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_cache_backend_mongo_decrement, 0, 0, 1)
-  ZEND_ARG_INFO(0, keyName)
-  ZEND_ARG_INFO(0, value)
+	ZEND_ARG_INFO(0, keyName)
+	ZEND_ARG_INFO(0, value)
 ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_cache_backend_mongo_method_entry) {
