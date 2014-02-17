@@ -316,7 +316,7 @@ class Annotations extends \Phalcon\Mvc\Router
 			/**
 			 * Create the route using the prefix
 			 */
-			if typeof value !== null {
+			if typeof value !== "null" {
 				if value != "/" {
 					let uri = routePrefix . value;
 				} else {

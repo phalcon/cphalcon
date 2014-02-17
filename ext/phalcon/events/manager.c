@@ -17,6 +17,7 @@
 #include "kernel/object.h"
 #include "kernel/array.h"
 #include "kernel/operators.h"
+#include "ext/spl/spl_heap.h"
 #include "kernel/fcall.h"
 #include "ext/spl/spl_exceptions.h"
 #include "kernel/hash.h"
