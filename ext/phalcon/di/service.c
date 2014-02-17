@@ -205,7 +205,7 @@ PHP_METHOD(Phalcon_Di_Service, getDefinition) {
 PHP_METHOD(Phalcon_Di_Service, resolve) {
 
 	zend_bool found;
-	zval *parameters = NULL, *dependencyInjector = NULL, *_0 = NULL, *_1, *shared, *definition, *sharedInstance, *instance = NULL, *builder, *_2, *_3;
+	zval *parameters = NULL, *dependencyInjector = NULL, *shared, *definition, *sharedInstance, *instance = NULL, *builder, *_0, *_1, *_2;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 2, &parameters, &dependencyInjector);
@@ -219,13 +219,7 @@ PHP_METHOD(Phalcon_Di_Service, resolve) {
 
 
 	if (zephir_is_instance_of(dependencyInjector, SL("Phalcon\\DiInterface") TSRMLS_CC)) {
-		ZEPHIR_INIT_VAR(_0);
-		object_init_ex(_0, spl_ce_BadMethodCallException);
-		ZEPHIR_INIT_VAR(_1);
-		ZVAL_STRING(_1, "Parameter 'dependencyInjector' must be an instance of 'Phalcon\\DiInterface'", 1);
-		zephir_call_method_p1_noret(_0, "__construct", _1);
-		zephir_throw_exception(_0 TSRMLS_CC);
-		ZEPHIR_MM_RESTORE();
+		ZEPHIR_THROW_EXCEPTION_STR(spl_ce_InvalidArgumentException, "Parameter 'dependencyInjector' must be an instance of 'Phalcon\\DiInterface'");
 		return;
 	}
 	ZEPHIR_OBS_VAR(shared);
@@ -291,12 +285,12 @@ PHP_METHOD(Phalcon_Di_Service, resolve) {
 		}
 	}
 	if ((found == 0)) {
-		ZEPHIR_INIT_LNVAR(_0);
+		ZEPHIR_INIT_VAR(_0);
 		object_init_ex(_0, phalcon_di_exception_ce);
-		_2 = zephir_fetch_nproperty_this(this_ptr, SL("_name"), PH_NOISY_CC);
-		ZEPHIR_INIT_VAR(_3);
-		ZEPHIR_CONCAT_SVS(_3, "Service '", _2, "' cannot be resolved");
-		zephir_call_method_p1_noret(_0, "__construct", _3);
+		_1 = zephir_fetch_nproperty_this(this_ptr, SL("_name"), PH_NOISY_CC);
+		ZEPHIR_INIT_VAR(_2);
+		ZEPHIR_CONCAT_SVS(_2, "Service '", _1, "' cannot be resolved");
+		zephir_call_method_p1_noret(_0, "__construct", _2);
 		zephir_throw_exception(_0 TSRMLS_CC);
 		ZEPHIR_MM_RESTORE();
 		return;

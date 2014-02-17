@@ -15,8 +15,8 @@
 #include "kernel/object.h"
 #include "kernel/exception.h"
 #include "kernel/memory.h"
-#include "kernel/fcall.h"
 #include "kernel/array.h"
+#include "kernel/fcall.h"
 #include "kernel/operators.h"
 #include "kernel/concat.h"
 #include "kernel/file.h"
@@ -69,10 +69,9 @@ ZEPHIR_INIT_CLASS(Phalcon_Cli_Console) {
  */
 PHP_METHOD(Phalcon_Cli_Console, __construct) {
 
-	zval *dependencyInjector = NULL, *_0, *_1;
+	zval *dependencyInjector = NULL;
 
-	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 0, 1, &dependencyInjector);
+	zephir_fetch_params(0, 0, 1, &dependencyInjector);
 
 	if (!dependencyInjector) {
 		dependencyInjector = ZEPHIR_GLOBAL(global_null);
@@ -80,19 +79,12 @@ PHP_METHOD(Phalcon_Cli_Console, __construct) {
 
 
 	if (zephir_is_instance_of(dependencyInjector, SL("Phalcon\\DiInterface") TSRMLS_CC)) {
-		ZEPHIR_INIT_VAR(_0);
-		object_init_ex(_0, spl_ce_BadMethodCallException);
-		ZEPHIR_INIT_VAR(_1);
-		ZVAL_STRING(_1, "Parameter 'dependencyInjector' must be an instance of 'Phalcon\\DiInterface'", 1);
-		zephir_call_method_p1_noret(_0, "__construct", _1);
-		zephir_throw_exception(_0 TSRMLS_CC);
-		ZEPHIR_MM_RESTORE();
+		ZEPHIR_THROW_EXCEPTION_STRW(spl_ce_InvalidArgumentException, "Parameter 'dependencyInjector' must be an instance of 'Phalcon\\DiInterface'");
 		return;
 	}
 	if ((Z_TYPE_P(dependencyInjector) == IS_OBJECT)) {
 		zephir_update_property_this(this_ptr, SL("_dependencyInjector"), dependencyInjector TSRMLS_CC);
 	}
-	ZEPHIR_MM_RESTORE();
 
 }
 
@@ -103,25 +95,17 @@ PHP_METHOD(Phalcon_Cli_Console, __construct) {
  */
 PHP_METHOD(Phalcon_Cli_Console, setDI) {
 
-	zval *dependencyInjector, *_0, *_1;
+	zval *dependencyInjector;
 
-	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 0, &dependencyInjector);
+	zephir_fetch_params(0, 1, 0, &dependencyInjector);
 
 
 
 	if (zephir_is_instance_of(dependencyInjector, SL("Phalcon\\DiInterface") TSRMLS_CC)) {
-		ZEPHIR_INIT_VAR(_0);
-		object_init_ex(_0, spl_ce_BadMethodCallException);
-		ZEPHIR_INIT_VAR(_1);
-		ZVAL_STRING(_1, "Parameter 'dependencyInjector' must be an instance of 'Phalcon\\DiInterface'", 1);
-		zephir_call_method_p1_noret(_0, "__construct", _1);
-		zephir_throw_exception(_0 TSRMLS_CC);
-		ZEPHIR_MM_RESTORE();
+		ZEPHIR_THROW_EXCEPTION_STRW(spl_ce_InvalidArgumentException, "Parameter 'dependencyInjector' must be an instance of 'Phalcon\\DiInterface'");
 		return;
 	}
 	zephir_update_property_this(this_ptr, SL("_dependencyInjector"), dependencyInjector TSRMLS_CC);
-	ZEPHIR_MM_RESTORE();
 
 }
 
@@ -144,25 +128,17 @@ PHP_METHOD(Phalcon_Cli_Console, getDI) {
  */
 PHP_METHOD(Phalcon_Cli_Console, setEventsManager) {
 
-	zval *eventsManager, *_0, *_1;
+	zval *eventsManager;
 
-	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 0, &eventsManager);
+	zephir_fetch_params(0, 1, 0, &eventsManager);
 
 
 
 	if (zephir_is_instance_of(eventsManager, SL("Phalcon\\Events\\ManagerInterface") TSRMLS_CC)) {
-		ZEPHIR_INIT_VAR(_0);
-		object_init_ex(_0, spl_ce_BadMethodCallException);
-		ZEPHIR_INIT_VAR(_1);
-		ZVAL_STRING(_1, "Parameter 'eventsManager' must be an instance of 'Phalcon\\Events\\ManagerInterface'", 1);
-		zephir_call_method_p1_noret(_0, "__construct", _1);
-		zephir_throw_exception(_0 TSRMLS_CC);
-		ZEPHIR_MM_RESTORE();
+		ZEPHIR_THROW_EXCEPTION_STRW(spl_ce_InvalidArgumentException, "Parameter 'eventsManager' must be an instance of 'Phalcon\\Events\\ManagerInterface'");
 		return;
 	}
 	zephir_update_property_this(this_ptr, SL("_eventsManager"), eventsManager TSRMLS_CC);
-	ZEPHIR_MM_RESTORE();
 
 }
 

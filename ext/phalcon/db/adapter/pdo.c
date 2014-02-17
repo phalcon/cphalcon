@@ -258,10 +258,10 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, prepare) {
  */
 PHP_METHOD(Phalcon_Db_Adapter_Pdo, executePrepared) {
 
-	zend_function *_5 = NULL, *_6 = NULL, *_7 = NULL, *_8 = NULL;
-	HashTable *_3;
-	HashPosition _2;
-	zval *statement, *placeholders, *dataTypes, *_0, *_1, *wildcard = NULL, *value = NULL, *type = NULL, *castValue = NULL, *parameter = NULL, **_4;
+	zend_function *_3 = NULL, *_4 = NULL, *_5 = NULL, *_6 = NULL;
+	HashTable *_1;
+	HashPosition _0;
+	zval *statement, *placeholders, *dataTypes, *wildcard = NULL, *value = NULL, *type = NULL, *castValue = NULL, *parameter = NULL, **_2;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 3, 0, &statement, &placeholders, &dataTypes);
@@ -269,26 +269,20 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, executePrepared) {
 
 
 	if (zephir_is_instance_of(statement, SL("PDOStatement") TSRMLS_CC)) {
-		ZEPHIR_INIT_VAR(_0);
-		object_init_ex(_0, spl_ce_BadMethodCallException);
-		ZEPHIR_INIT_VAR(_1);
-		ZVAL_STRING(_1, "Parameter 'statement' must be an instance of 'PDOStatement'", 1);
-		zephir_call_method_p1_noret(_0, "__construct", _1);
-		zephir_throw_exception(_0 TSRMLS_CC);
-		ZEPHIR_MM_RESTORE();
+		ZEPHIR_THROW_EXCEPTION_STR(spl_ce_InvalidArgumentException, "Parameter 'statement' must be an instance of 'PDOStatement'");
 		return;
 	}
 	if ((Z_TYPE_P(placeholders) != IS_ARRAY)) {
 		ZEPHIR_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "Placeholders must be an array");
 		return;
 	}
-	zephir_is_iterable(placeholders, &_3, &_2, 0, 0);
+	zephir_is_iterable(placeholders, &_1, &_0, 0, 0);
 	for (
-	  ; zend_hash_get_current_data_ex(_3, (void**) &_4, &_2) == SUCCESS
-	  ; zephir_hash_move_forward_ex(_3, &_2)
+	  ; zend_hash_get_current_data_ex(_1, (void**) &_2, &_0) == SUCCESS
+	  ; zephir_hash_move_forward_ex(_1, &_0)
 	) {
-		ZEPHIR_GET_HMKEY(wildcard, _3, _2);
-		ZEPHIR_GET_HVALUE(value, _4);
+		ZEPHIR_GET_HMKEY(wildcard, _1, _0);
+		ZEPHIR_GET_HVALUE(value, _2);
 		if ((Z_TYPE_P(wildcard) == IS_LONG)) {
 			ZEPHIR_INIT_NVAR(parameter);
 			ZVAL_LONG(parameter, (zephir_get_numberval(wildcard) + 1));
@@ -308,7 +302,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, executePrepared) {
 			}
 			if (ZEPHIR_IS_LONG(type, 32)) {
 				ZEPHIR_INIT_NVAR(castValue);
-				ZEPHIR_CALL_INTERNAL_FUNCTION(castValue, &castValue, "doubleval", &_5, 1, value);
+				ZEPHIR_CALL_INTERNAL_FUNCTION(castValue, &castValue, "doubleval", &_3, 1, value);
 				ZEPHIR_INIT_NVAR(type);
 				ZVAL_LONG(type, 1024);
 			} else {
@@ -316,16 +310,16 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, executePrepared) {
 			}
 			if (ZEPHIR_IS_LONG(type, 1024)) {
 				Z_SET_ISREF_P(castValue);
-				zephir_call_method_p2_cache_noret(statement, "bindparam", &_6, parameter, castValue);
+				zephir_call_method_p2_cache_noret(statement, "bindparam", &_4, parameter, castValue);
 				Z_UNSET_ISREF_P(castValue);
 			} else {
 				Z_SET_ISREF_P(castValue);
-				zephir_call_method_p3_cache_noret(statement, "bindparam", &_7, parameter, castValue, type);
+				zephir_call_method_p3_cache_noret(statement, "bindparam", &_5, parameter, castValue, type);
 				Z_UNSET_ISREF_P(castValue);
 			}
 		} else {
 			Z_SET_ISREF_P(value);
-			zephir_call_method_p2_cache_noret(statement, "bindparam", &_8, parameter, value);
+			zephir_call_method_p2_cache_noret(statement, "bindparam", &_6, parameter, value);
 			Z_UNSET_ISREF_P(value);
 		}
 	}

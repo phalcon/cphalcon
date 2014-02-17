@@ -18,7 +18,6 @@
 #include "kernel/array.h"
 #include "ext/spl/spl_exceptions.h"
 #include "kernel/exception.h"
-#include "kernel/fcall.h"
 
 
 /*
@@ -104,7 +103,7 @@ PHP_METHOD(Phalcon_Annotations_Adapter_Memory, read) {
  */
 PHP_METHOD(Phalcon_Annotations_Adapter_Memory, write) {
 
-	zval *key_param = NULL, *data, *_0, *_1, *lowercasedKey;
+	zval *key_param = NULL, *data, *lowercasedKey;
 	zval *key = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -124,13 +123,7 @@ PHP_METHOD(Phalcon_Annotations_Adapter_Memory, write) {
 
 
 	if (zephir_is_instance_of(data, SL("Phalcon\\Annotations\\Reflection") TSRMLS_CC)) {
-		ZEPHIR_INIT_VAR(_0);
-		object_init_ex(_0, spl_ce_BadMethodCallException);
-		ZEPHIR_INIT_VAR(_1);
-		ZVAL_STRING(_1, "Parameter 'data' must be an instance of 'Phalcon\\Annotations\\Reflection'", 1);
-		zephir_call_method_p1_noret(_0, "__construct", _1);
-		zephir_throw_exception(_0 TSRMLS_CC);
-		ZEPHIR_MM_RESTORE();
+		ZEPHIR_THROW_EXCEPTION_STR(spl_ce_InvalidArgumentException, "Parameter 'data' must be an instance of 'Phalcon\\Annotations\\Reflection'");
 		return;
 	}
 	ZEPHIR_INIT_VAR(lowercasedKey);

@@ -14,9 +14,9 @@
 #include "kernel/main.h"
 #include "kernel/object.h"
 #include "kernel/exception.h"
+#include "kernel/operators.h"
 #include "kernel/memory.h"
 #include "kernel/fcall.h"
-#include "kernel/operators.h"
 #include "kernel/string.h"
 #include "kernel/concat.h"
 #include "kernel/array.h"
@@ -88,10 +88,9 @@ ZEPHIR_INIT_CLASS(Phalcon_Db_Result_Pdo) {
  */
 PHP_METHOD(Phalcon_Db_Result_Pdo, __construct) {
 
-	zval *connection, *result, *sqlStatement = NULL, *bindParams = NULL, *bindTypes = NULL, *_0 = NULL, *_1;
+	zval *connection, *result, *sqlStatement = NULL, *bindParams = NULL, *bindTypes = NULL;
 
-	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 2, 3, &connection, &result, &sqlStatement, &bindParams, &bindTypes);
+	zephir_fetch_params(0, 2, 3, &connection, &result, &sqlStatement, &bindParams, &bindTypes);
 
 	if (!sqlStatement) {
 		sqlStatement = ZEPHIR_GLOBAL(global_null);
@@ -105,27 +104,15 @@ PHP_METHOD(Phalcon_Db_Result_Pdo, __construct) {
 
 
 	if (zephir_is_instance_of(connection, SL("Phalcon\\Db\\AdapterInterface") TSRMLS_CC)) {
-		ZEPHIR_INIT_VAR(_0);
-		object_init_ex(_0, spl_ce_BadMethodCallException);
-		ZEPHIR_INIT_VAR(_1);
-		ZVAL_STRING(_1, "Parameter 'connection' must be an instance of 'Phalcon\\Db\\AdapterInterface'", 1);
-		zephir_call_method_p1_noret(_0, "__construct", _1);
-		zephir_throw_exception(_0 TSRMLS_CC);
-		ZEPHIR_MM_RESTORE();
+		ZEPHIR_THROW_EXCEPTION_STRW(spl_ce_InvalidArgumentException, "Parameter 'connection' must be an instance of 'Phalcon\\Db\\AdapterInterface'");
 		return;
 	}
 	if (zephir_is_instance_of(result, SL("Phalcon\\Db\\Result\\PDOStatement") TSRMLS_CC)) {
-		ZEPHIR_INIT_LNVAR(_0);
-		object_init_ex(_0, spl_ce_BadMethodCallException);
-		ZEPHIR_INIT_BNVAR(_1);
-		ZVAL_STRING(_1, "Parameter 'result' must be an instance of 'Phalcon\\Db\\Result\\PDOStatement'", 1);
-		zephir_call_method_p1_noret(_0, "__construct", _1);
-		zephir_throw_exception(_0 TSRMLS_CC);
-		ZEPHIR_MM_RESTORE();
+		ZEPHIR_THROW_EXCEPTION_STRW(spl_ce_InvalidArgumentException, "Parameter 'result' must be an instance of 'Phalcon\\Db\\Result\\PDOStatement'");
 		return;
 	}
 	if ((Z_TYPE_P(result) != IS_OBJECT)) {
-		ZEPHIR_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "Invalid PDOStatement supplied to Phalcon\\Db\\Result\\Pdo");
+		ZEPHIR_THROW_EXCEPTION_STRW(phalcon_db_exception_ce, "Invalid PDOStatement supplied to Phalcon\\Db\\Result\\Pdo");
 		return;
 	}
 	zephir_update_property_this(this_ptr, SL("_connection"), connection TSRMLS_CC);
@@ -139,7 +126,6 @@ PHP_METHOD(Phalcon_Db_Result_Pdo, __construct) {
 	if ((Z_TYPE_P(bindTypes) != IS_NULL)) {
 		zephir_update_property_this(this_ptr, SL("_bindTypes"), bindTypes TSRMLS_CC);
 	}
-	ZEPHIR_MM_RESTORE();
 
 }
 

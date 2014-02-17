@@ -15,8 +15,8 @@
 #include "kernel/object.h"
 #include "kernel/memory.h"
 #include "kernel/exception.h"
-#include "kernel/fcall.h"
 #include "kernel/array.h"
+#include "kernel/fcall.h"
 #include "kernel/operators.h"
 
 
@@ -123,10 +123,9 @@ PHP_METHOD(Phalcon_Cache_Backend, setLastKey) {
  */
 PHP_METHOD(Phalcon_Cache_Backend, __construct) {
 
-	zval *frontend, *options = NULL, *_0, *_1, *prefix;
+	zval *frontend, *options = NULL, *prefix;
 
-	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 1, &frontend, &options);
+	zephir_fetch_params(0, 1, 1, &frontend, &options);
 
 	if (!options) {
 		options = ZEPHIR_GLOBAL(global_null);
@@ -134,13 +133,7 @@ PHP_METHOD(Phalcon_Cache_Backend, __construct) {
 
 
 	if (zephir_is_instance_of(frontend, SL("Phalcon\\Cache\\FrontendInterface") TSRMLS_CC)) {
-		ZEPHIR_INIT_VAR(_0);
-		object_init_ex(_0, spl_ce_BadMethodCallException);
-		ZEPHIR_INIT_VAR(_1);
-		ZVAL_STRING(_1, "Parameter 'frontend' must be an instance of 'Phalcon\\Cache\\FrontendInterface'", 1);
-		zephir_call_method_p1_noret(_0, "__construct", _1);
-		zephir_throw_exception(_0 TSRMLS_CC);
-		ZEPHIR_MM_RESTORE();
+		ZEPHIR_THROW_EXCEPTION_STRW(spl_ce_InvalidArgumentException, "Parameter 'frontend' must be an instance of 'Phalcon\\Cache\\FrontendInterface'");
 		return;
 	}
 	if (zephir_array_isset_string_fetch(&prefix, options, SS("prefix"), 1 TSRMLS_CC)) {
@@ -148,7 +141,6 @@ PHP_METHOD(Phalcon_Cache_Backend, __construct) {
 	}
 	zephir_update_property_this(this_ptr, SL("_frontend"), frontend TSRMLS_CC);
 	zephir_update_property_this(this_ptr, SL("_options"), options TSRMLS_CC);
-	ZEPHIR_MM_RESTORE();
 
 }
 

@@ -282,25 +282,18 @@ PHP_METHOD(Phalcon_Assets_Collection, setSourcePath) {
  */
 PHP_METHOD(Phalcon_Assets_Collection, add) {
 
-	zval *resource, *_0, *_1;
+	zval *resource;
 
-	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 0, &resource);
+	zephir_fetch_params(0, 1, 0, &resource);
 
 
 
 	if (zephir_is_instance_of(resource, SL("Phalcon\\Assets\\Resource") TSRMLS_CC)) {
-		ZEPHIR_INIT_VAR(_0);
-		object_init_ex(_0, spl_ce_BadMethodCallException);
-		ZEPHIR_INIT_VAR(_1);
-		ZVAL_STRING(_1, "Parameter 'resource' must be an instance of 'Phalcon\\Assets\\Resource'", 1);
-		zephir_call_method_p1_noret(_0, "__construct", _1);
-		zephir_throw_exception(_0 TSRMLS_CC);
-		ZEPHIR_MM_RESTORE();
+		ZEPHIR_THROW_EXCEPTION_STRW(spl_ce_InvalidArgumentException, "Parameter 'resource' must be an instance of 'Phalcon\\Assets\\Resource'");
 		return;
 	}
 	zephir_update_property_array_append(this_ptr, SL("_resources"), resource TSRMLS_CC);
-	RETURN_THIS();
+	RETURN_THISW();
 
 }
 

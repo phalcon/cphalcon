@@ -150,7 +150,7 @@ PHP_METHOD(Phalcon_Forms_Manager, has) {
  */
 PHP_METHOD(Phalcon_Forms_Manager, set) {
 
-	zval *name_param = NULL, *form, *_0, *_1;
+	zval *name_param = NULL, *form;
 	zval *name = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -160,13 +160,7 @@ PHP_METHOD(Phalcon_Forms_Manager, set) {
 
 
 	if (zephir_is_instance_of(form, SL("Phalcon\\Forms\\Form") TSRMLS_CC)) {
-		ZEPHIR_INIT_VAR(_0);
-		object_init_ex(_0, spl_ce_BadMethodCallException);
-		ZEPHIR_INIT_VAR(_1);
-		ZVAL_STRING(_1, "Parameter 'form' must be an instance of 'Phalcon\\Forms\\Form'", 1);
-		zephir_call_method_p1_noret(_0, "__construct", _1);
-		zephir_throw_exception(_0 TSRMLS_CC);
-		ZEPHIR_MM_RESTORE();
+		ZEPHIR_THROW_EXCEPTION_STR(spl_ce_InvalidArgumentException, "Parameter 'form' must be an instance of 'Phalcon\\Forms\\Form'");
 		return;
 	}
 	zephir_update_property_array(this_ptr, SL("_forms"), name, form TSRMLS_CC);

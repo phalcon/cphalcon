@@ -88,7 +88,7 @@ PHP_METHOD(Phalcon_Logger_Adapter, setLogLevel) {
 
 	zephir_fetch_params(0, 1, 0, &level_param);
 
-		level = zephir_get_intval(level_param);
+	level = zephir_get_intval(level_param);
 
 
 	ZEPHIR_INIT_ZVAL_NREF(_0);
@@ -124,6 +124,10 @@ PHP_METHOD(Phalcon_Logger_Adapter, setFormatter) {
 
 
 
+	if (zephir_is_instance_of(formatter, SL("Phalcon\\Logger\\FormatterInterface") TSRMLS_CC)) {
+		ZEPHIR_THROW_EXCEPTION_STRW(spl_ce_InvalidArgumentException, "Parameter 'formatter' must be an instance of 'Phalcon\\Logger\\FormatterInterface'");
+		return;
+	}
 	zephir_update_property_this(this_ptr, SL("_formatter"), formatter TSRMLS_CC);
 	RETURN_THISW();
 
@@ -166,8 +170,8 @@ PHP_METHOD(Phalcon_Logger_Adapter, commit) {
 	if ((Z_TYPE_P(queue) == IS_ARRAY)) {
 		zephir_is_iterable(queue, &_2, &_1, 0, 0);
 		for (
-			; zend_hash_get_current_data_ex(_2, (void**) &_3, &_1) == SUCCESS
-			; zend_hash_move_forward_ex(_2, &_1)
+		  ; zend_hash_get_current_data_ex(_2, (void**) &_3, &_1) == SUCCESS
+		  ; zephir_hash_move_forward_ex(_2, &_1)
 		) {
 			ZEPHIR_GET_HVALUE(message, _3);
 			ZEPHIR_INIT_NVAR(_4);

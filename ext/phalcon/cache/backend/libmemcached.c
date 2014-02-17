@@ -15,8 +15,8 @@
 #include "kernel/object.h"
 #include "kernel/exception.h"
 #include "kernel/memory.h"
-#include "kernel/fcall.h"
 #include "kernel/array.h"
+#include "kernel/fcall.h"
 #include "kernel/operators.h"
 #include "kernel/concat.h"
 #include "kernel/string.h"
@@ -94,8 +94,8 @@ ZEPHIR_INIT_CLASS(Phalcon_Cache_Backend_Libmemcached) {
  */
 PHP_METHOD(Phalcon_Cache_Backend_Libmemcached, __construct) {
 
-	zval *_2;
-	zval *frontend, *options = NULL, *_0, *_1, *servers;
+	zval *_0;
+	zval *frontend, *options = NULL, *servers, *_1;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 1, &frontend, &options);
@@ -108,13 +108,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Libmemcached, __construct) {
 
 
 	if (zephir_is_instance_of(frontend, SL("Phalcon\\Cache\\FrontendInterface") TSRMLS_CC)) {
-		ZEPHIR_INIT_VAR(_0);
-		object_init_ex(_0, spl_ce_BadMethodCallException);
-		ZEPHIR_INIT_VAR(_1);
-		ZVAL_STRING(_1, "Parameter 'frontend' must be an instance of 'Phalcon\\Cache\\FrontendInterface'", 1);
-		zephir_call_method_p1_noret(_0, "__construct", _1);
-		zephir_throw_exception(_0 TSRMLS_CC);
-		ZEPHIR_MM_RESTORE();
+		ZEPHIR_THROW_EXCEPTION_STR(spl_ce_InvalidArgumentException, "Parameter 'frontend' must be an instance of 'Phalcon\\Cache\\FrontendInterface'");
 		return;
 	}
 	if ((Z_TYPE_P(options) != IS_ARRAY)) {
@@ -124,16 +118,16 @@ PHP_METHOD(Phalcon_Cache_Backend_Libmemcached, __construct) {
 	if (!(zephir_array_isset_string(options, SS("servers")))) {
 		ZEPHIR_INIT_VAR(servers);
 		array_init_size(servers, 2);
-		ZEPHIR_INIT_VAR(_2);
-		array_init_size(_2, 5);
-		add_assoc_stringl_ex(_2, SS("host"), SL("127.0.0.1"), 1);
-		add_assoc_long_ex(_2, SS("port"), 11211);
-		add_assoc_long_ex(_2, SS("weigth"), 1);
-		zephir_array_update_long(&servers, 0, &_2, PH_COPY, "phalcon/cache/backend/libmemcached.zep", 77);
+		ZEPHIR_INIT_VAR(_0);
+		array_init_size(_0, 5);
+		add_assoc_stringl_ex(_0, SS("host"), SL("127.0.0.1"), 1);
+		add_assoc_long_ex(_0, SS("port"), 11211);
+		add_assoc_long_ex(_0, SS("weigth"), 1);
+		zephir_array_update_long(&servers, 0, &_0, PH_COPY, "phalcon/cache/backend/libmemcached.zep", 77);
 		zephir_array_update_string(&options, SL("servers"), &servers, PH_COPY | PH_SEPARATE);
 	}
 	if (!(zephir_array_isset_string(options, SS("statsKey")))) {
-		ZEPHIR_INIT_BNVAR(_1);
+		ZEPHIR_INIT_VAR(_1);
 		ZVAL_STRING(_1, "_PHCM", 1);
 		zephir_array_update_string(&options, SL("statsKey"), &_1, PH_COPY | PH_SEPARATE);
 	}

@@ -15,8 +15,8 @@
 #include "kernel/object.h"
 #include "kernel/exception.h"
 #include "kernel/memory.h"
-#include "kernel/fcall.h"
 #include "kernel/array.h"
+#include "kernel/fcall.h"
 #include "kernel/operators.h"
 #include "kernel/concat.h"
 #include "kernel/string.h"
@@ -88,7 +88,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Cache_Backend_Memcache) {
  */
 PHP_METHOD(Phalcon_Cache_Backend_Memcache, __construct) {
 
-	zval *frontend, *options = NULL, *_0, *_1, *_2 = NULL;
+	zval *frontend, *options = NULL, *_0 = NULL;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 1, &frontend, &options);
@@ -101,13 +101,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Memcache, __construct) {
 
 
 	if (zephir_is_instance_of(frontend, SL("Phalcon\\Cache\\FrontendInterface") TSRMLS_CC)) {
-		ZEPHIR_INIT_VAR(_0);
-		object_init_ex(_0, spl_ce_BadMethodCallException);
-		ZEPHIR_INIT_VAR(_1);
-		ZVAL_STRING(_1, "Parameter 'frontend' must be an instance of 'Phalcon\\Cache\\FrontendInterface'", 1);
-		zephir_call_method_p1_noret(_0, "__construct", _1);
-		zephir_throw_exception(_0 TSRMLS_CC);
-		ZEPHIR_MM_RESTORE();
+		ZEPHIR_THROW_EXCEPTION_STR(spl_ce_InvalidArgumentException, "Parameter 'frontend' must be an instance of 'Phalcon\\Cache\\FrontendInterface'");
 		return;
 	}
 	if ((Z_TYPE_P(options) != IS_ARRAY)) {
@@ -115,24 +109,24 @@ PHP_METHOD(Phalcon_Cache_Backend_Memcache, __construct) {
 		array_init(options);
 	}
 	if (!(zephir_array_isset_string(options, SS("host")))) {
-		ZEPHIR_INIT_BNVAR(_1);
-		ZVAL_STRING(_1, "127.0.0.1", 1);
-		zephir_array_update_string(&options, SL("host"), &_1, PH_COPY | PH_SEPARATE);
+		ZEPHIR_INIT_VAR(_0);
+		ZVAL_STRING(_0, "127.0.0.1", 1);
+		zephir_array_update_string(&options, SL("host"), &_0, PH_COPY | PH_SEPARATE);
 	}
 	if (!(zephir_array_isset_string(options, SS("port")))) {
-		ZEPHIR_INIT_VAR(_2);
-		ZVAL_LONG(_2, 11211);
-		zephir_array_update_string(&options, SL("port"), &_2, PH_COPY | PH_SEPARATE);
+		ZEPHIR_INIT_NVAR(_0);
+		ZVAL_LONG(_0, 11211);
+		zephir_array_update_string(&options, SL("port"), &_0, PH_COPY | PH_SEPARATE);
 	}
 	if (!(zephir_array_isset_string(options, SS("persistent")))) {
-		ZEPHIR_INIT_NVAR(_2);
-		ZVAL_LONG(_2, 0);
-		zephir_array_update_string(&options, SL("persistent"), &_2, PH_COPY | PH_SEPARATE);
+		ZEPHIR_INIT_NVAR(_0);
+		ZVAL_LONG(_0, 0);
+		zephir_array_update_string(&options, SL("persistent"), &_0, PH_COPY | PH_SEPARATE);
 	}
 	if (!(zephir_array_isset_string(options, SS("statsKey")))) {
-		ZEPHIR_INIT_NVAR(_2);
-		ZVAL_STRING(_2, "_PHCM", 1);
-		zephir_array_update_string(&options, SL("statsKey"), &_2, PH_COPY | PH_SEPARATE);
+		ZEPHIR_INIT_NVAR(_0);
+		ZVAL_STRING(_0, "_PHCM", 1);
+		zephir_array_update_string(&options, SL("statsKey"), &_0, PH_COPY | PH_SEPARATE);
 	}
 	zephir_call_parent_p2_noret(this_ptr, phalcon_cache_backend_memcache_ce, "__construct", frontend, options);
 	ZEPHIR_MM_RESTORE();

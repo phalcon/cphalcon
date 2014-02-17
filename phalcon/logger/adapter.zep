@@ -156,7 +156,7 @@ abstract class Adapter
  	 */
 	public function emergence(string! message) -> <\Phalcon\Logger\AdapterInterface>
 	{
-		this->log(message, Phalcon\Logger::EMERGENCE);
+		this->log(message, \Phalcon\Logger::EMERGENCE);
 		return this;
 	}
 
@@ -168,7 +168,7 @@ abstract class Adapter
  	 */
 	public function debug(string! message) -> <\Phalcon\Logger\AdapterInterface>
 	{
-		this->log(message, Phalcon\Logger::DEBUG);
+		this->log(message, \Phalcon\Logger::DEBUG);
 		return this;
 	}
 
@@ -180,7 +180,7 @@ abstract class Adapter
  	 */
 	public function error(string! message) -> <\Phalcon\Logger\AdapterInterface>
 	{
-		this->log(message, Phalcon\Logger::ERROR);
+		this->log(message, \Phalcon\Logger::ERROR);
 		return this;
 	}
 
@@ -192,7 +192,7 @@ abstract class Adapter
  	 */
 	public function info(string! message) -> <\Phalcon\Logger\AdapterInterface>
 	{
-		this->log(message, Phalcon\Logger::INFO);
+		this->log(message, \Phalcon\Logger::INFO);
 		return this;
 	}
 
@@ -204,7 +204,7 @@ abstract class Adapter
  	 */
 	public function notice(string! message) -> <\Phalcon\Logger\AdapterInterface>
 	{
-		this->log(message, Phalcon\Logger::NOTICE);
+		this->log(message, \Phalcon\Logger::NOTICE);
 		return this;
 	}
 
@@ -216,7 +216,7 @@ abstract class Adapter
  	 */
 	public function warning(string! message) -> <\Phalcon\Logger\AdapterInterface>
 	{
-		this->log(message, Phalcon\Logger::WARNING);
+		this->log(message, \Phalcon\Logger::WARNING);
 		return this;
 	}
 
@@ -228,7 +228,7 @@ abstract class Adapter
  	 */
 	public function alert(string! message) -> <\Phalcon\Logger\AdapterInterface>
 	{
-		this->log(message, Phalcon\Logger::ALERT);
+		this->log(message, \Phalcon\Logger::ALERT);
 		return this;
 	}
 

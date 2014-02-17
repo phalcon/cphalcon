@@ -112,25 +112,17 @@ PHP_METHOD(Phalcon_Http_Response, __construct) {
  */
 PHP_METHOD(Phalcon_Http_Response, setDI) {
 
-	zval *dependencyInjector, *_0, *_1;
+	zval *dependencyInjector;
 
-	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 0, &dependencyInjector);
+	zephir_fetch_params(0, 1, 0, &dependencyInjector);
 
 
 
 	if (zephir_is_instance_of(dependencyInjector, SL("Phalcon\\DiInterface") TSRMLS_CC)) {
-		ZEPHIR_INIT_VAR(_0);
-		object_init_ex(_0, spl_ce_BadMethodCallException);
-		ZEPHIR_INIT_VAR(_1);
-		ZVAL_STRING(_1, "Parameter 'dependencyInjector' must be an instance of 'Phalcon\\DiInterface'", 1);
-		zephir_call_method_p1_noret(_0, "__construct", _1);
-		zephir_throw_exception(_0 TSRMLS_CC);
-		ZEPHIR_MM_RESTORE();
+		ZEPHIR_THROW_EXCEPTION_STRW(spl_ce_InvalidArgumentException, "Parameter 'dependencyInjector' must be an instance of 'Phalcon\\DiInterface'");
 		return;
 	}
 	zephir_update_property_this(this_ptr, SL("_dependencyInjector"), dependencyInjector TSRMLS_CC);
-	ZEPHIR_MM_RESTORE();
 
 }
 
@@ -250,29 +242,22 @@ PHP_METHOD(Phalcon_Http_Response, getHeaders) {
  */
 PHP_METHOD(Phalcon_Http_Response, setCookies) {
 
-	zval *cookies, *_0, *_1;
+	zval *cookies;
 
-	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 0, &cookies);
+	zephir_fetch_params(0, 1, 0, &cookies);
 
 
 
 	if (zephir_is_instance_of(cookies, SL("Phalcon\\Http\\Response\\CookiesInterface") TSRMLS_CC)) {
-		ZEPHIR_INIT_VAR(_0);
-		object_init_ex(_0, spl_ce_BadMethodCallException);
-		ZEPHIR_INIT_VAR(_1);
-		ZVAL_STRING(_1, "Parameter 'cookies' must be an instance of 'Phalcon\\Http\\Response\\CookiesInterface'", 1);
-		zephir_call_method_p1_noret(_0, "__construct", _1);
-		zephir_throw_exception(_0 TSRMLS_CC);
-		ZEPHIR_MM_RESTORE();
+		ZEPHIR_THROW_EXCEPTION_STRW(spl_ce_InvalidArgumentException, "Parameter 'cookies' must be an instance of 'Phalcon\\Http\\Response\\CookiesInterface'");
 		return;
 	}
 	if ((Z_TYPE_P(cookies) != IS_OBJECT)) {
-		ZEPHIR_THROW_EXCEPTION_STR(phalcon_http_response_exception_ce, "The cookies bag is not valid");
+		ZEPHIR_THROW_EXCEPTION_STRW(phalcon_http_response_exception_ce, "The cookies bag is not valid");
 		return;
 	}
 	zephir_update_property_this(this_ptr, SL("_cookies"), cookies TSRMLS_CC);
-	RETURN_THIS();
+	RETURN_THISW();
 
 }
 
@@ -375,8 +360,8 @@ PHP_METHOD(Phalcon_Http_Response, resetHeaders) {
  */
 PHP_METHOD(Phalcon_Http_Response, setExpires) {
 
-	zend_class_entry *_2;
-	zval *datetime, *_0 = NULL, *_1, *headers, *date, *_3, *_4;
+	zend_class_entry *_1;
+	zval *datetime, *headers, *date, *_0, *_2, *_3, *_4;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &datetime);
@@ -384,13 +369,7 @@ PHP_METHOD(Phalcon_Http_Response, setExpires) {
 
 
 	if (zephir_is_instance_of(datetime, SL("DateTime") TSRMLS_CC)) {
-		ZEPHIR_INIT_VAR(_0);
-		object_init_ex(_0, spl_ce_BadMethodCallException);
-		ZEPHIR_INIT_VAR(_1);
-		ZVAL_STRING(_1, "Parameter 'datetime' must be an instance of 'DateTime'", 1);
-		zephir_call_method_p1_noret(_0, "__construct", _1);
-		zephir_throw_exception(_0 TSRMLS_CC);
-		ZEPHIR_MM_RESTORE();
+		ZEPHIR_THROW_EXCEPTION_STR(spl_ce_InvalidArgumentException, "Parameter 'datetime' must be an instance of 'DateTime'");
 		return;
 	}
 	ZEPHIR_INIT_VAR(headers);
@@ -399,19 +378,19 @@ PHP_METHOD(Phalcon_Http_Response, setExpires) {
 	if (zephir_clone(date, datetime TSRMLS_CC) == FAILURE) {
 		RETURN_MM();
 	}
-	ZEPHIR_INIT_LNVAR(_0);
-	_2 = zend_fetch_class(SL("DateTimeZone"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
-	object_init_ex(_0, _2);
-	ZEPHIR_INIT_BNVAR(_1);
-	ZVAL_STRING(_1, "UTC", 1);
-	zephir_call_method_p1_noret(_0, "__construct", _1);
+	ZEPHIR_INIT_VAR(_0);
+	_1 = zend_fetch_class(SL("DateTimeZone"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
+	object_init_ex(_0, _1);
+	ZEPHIR_INIT_VAR(_2);
+	ZVAL_STRING(_2, "UTC", 1);
+	zephir_call_method_p1_noret(_0, "__construct", _2);
 	zephir_call_method_p1_noret(date, "settimezone", _0);
-	ZEPHIR_INIT_BNVAR(_1);
+	ZEPHIR_INIT_BNVAR(_2);
 	ZEPHIR_INIT_VAR(_3);
 	ZVAL_STRING(_3, "D, d M Y H:i:s", 1);
-	zephir_call_method_p1(_1, date, "format", _3);
+	zephir_call_method_p1(_2, date, "format", _3);
 	ZEPHIR_INIT_VAR(_4);
-	ZEPHIR_CONCAT_VS(_4, _1, " GMT");
+	ZEPHIR_CONCAT_VS(_4, _2, " GMT");
 	ZEPHIR_INIT_BNVAR(_3);
 	ZVAL_STRING(_3, "Expires", 1);
 	zephir_call_method_p2_noret(this_ptr, "setheader", _3, _4);

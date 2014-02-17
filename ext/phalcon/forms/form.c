@@ -551,7 +551,7 @@ PHP_METHOD(Phalcon_Forms_Form, hasMessagesFor) {
  */
 PHP_METHOD(Phalcon_Forms_Form, add) {
 
-	zval *element, *_0, *_1, *name;
+	zval *element, *name;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &element);
@@ -559,13 +559,7 @@ PHP_METHOD(Phalcon_Forms_Form, add) {
 
 
 	if (zephir_is_instance_of(element, SL("Phalcon\\Forms\\ElementInterface") TSRMLS_CC)) {
-		ZEPHIR_INIT_VAR(_0);
-		object_init_ex(_0, spl_ce_BadMethodCallException);
-		ZEPHIR_INIT_VAR(_1);
-		ZVAL_STRING(_1, "Parameter 'element' must be an instance of 'Phalcon\\Forms\\ElementInterface'", 1);
-		zephir_call_method_p1_noret(_0, "__construct", _1);
-		zephir_throw_exception(_0 TSRMLS_CC);
-		ZEPHIR_MM_RESTORE();
+		ZEPHIR_THROW_EXCEPTION_STR(spl_ce_InvalidArgumentException, "Parameter 'element' must be an instance of 'Phalcon\\Forms\\ElementInterface'");
 		return;
 	}
 	if ((Z_TYPE_P(element) != IS_OBJECT)) {

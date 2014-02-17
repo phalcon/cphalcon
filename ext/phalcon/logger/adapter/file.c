@@ -190,8 +190,8 @@ PHP_METHOD(Phalcon_Logger_Adapter_File, logInternal) {
 		ZEPHIR_INIT_VAR(message);
 		ZVAL_EMPTY_STRING(message);
 	}
-		type = zephir_get_intval(type_param);
-		time = zephir_get_intval(time_param);
+	type = zephir_get_intval(type_param);
+	time = zephir_get_intval(time_param);
 
 
 	ZEPHIR_OBS_VAR(fileHandler);

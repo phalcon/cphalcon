@@ -521,7 +521,7 @@ PHP_METHOD(Phalcon_Image_Adapter, reflection) {
 PHP_METHOD(Phalcon_Image_Adapter, watermark) {
 
 	int offset_x, offset_y, opacity, tmp;
-	zval *watermark, *offset_x_param = NULL, *offset_y_param = NULL, *opacity_param = NULL, *_0 = NULL, *_1, *_2, *_3, *_4, *_5;
+	zval *watermark, *offset_x_param = NULL, *offset_y_param = NULL, *opacity_param = NULL, *_0, *_1, *_2, *_3, *_4, *_5;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 3, &watermark, &offset_x_param, &offset_y_param, &opacity_param);
@@ -544,21 +544,15 @@ PHP_METHOD(Phalcon_Image_Adapter, watermark) {
 
 
 	if (zephir_is_instance_of(watermark, SL("Phalcon\\Image\\Adapter") TSRMLS_CC)) {
-		ZEPHIR_INIT_VAR(_0);
-		object_init_ex(_0, spl_ce_BadMethodCallException);
-		ZEPHIR_INIT_VAR(_1);
-		ZVAL_STRING(_1, "Parameter 'watermark' must be an instance of 'Phalcon\\Image\\Adapter'", 1);
-		zephir_call_method_p1_noret(_0, "__construct", _1);
-		zephir_throw_exception(_0 TSRMLS_CC);
-		ZEPHIR_MM_RESTORE();
+		ZEPHIR_THROW_EXCEPTION_STR(spl_ce_InvalidArgumentException, "Parameter 'watermark' must be an instance of 'Phalcon\\Image\\Adapter'");
 		return;
 	}
-	_2 = zephir_fetch_nproperty_this(this_ptr, SL("_width"), PH_NOISY_CC);
-	ZEPHIR_INIT_BNVAR(_1);
+	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_width"), PH_NOISY_CC);
+	ZEPHIR_INIT_VAR(_1);
 	zephir_call_method(_1, watermark, "getwidth");
-	ZEPHIR_INIT_LNVAR(_0);
-	sub_function(_0, _2, _1 TSRMLS_CC);
-	tmp = zephir_get_numberval(_0);
+	ZEPHIR_INIT_VAR(_2);
+	sub_function(_2, _0, _1 TSRMLS_CC);
+	tmp = zephir_get_numberval(_2);
 	if ((offset_x < 0)) {
 		offset_x = 0;
 	} else {
@@ -566,11 +560,11 @@ PHP_METHOD(Phalcon_Image_Adapter, watermark) {
 			offset_x = tmp;
 		}
 	}
-	_2 = zephir_fetch_nproperty_this(this_ptr, SL("_height"), PH_NOISY_CC);
+	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_height"), PH_NOISY_CC);
 	ZEPHIR_INIT_BNVAR(_1);
 	zephir_call_method(_1, watermark, "getheight");
 	ZEPHIR_INIT_VAR(_3);
-	sub_function(_3, _2, _1 TSRMLS_CC);
+	sub_function(_3, _0, _1 TSRMLS_CC);
 	tmp = zephir_get_numberval(_3);
 	if ((offset_y < 0)) {
 		offset_y = 0;
@@ -713,7 +707,7 @@ PHP_METHOD(Phalcon_Image_Adapter, text) {
  */
 PHP_METHOD(Phalcon_Image_Adapter, mask) {
 
-	zval *watermark, *_0, *_1;
+	zval *watermark;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &watermark);
@@ -721,13 +715,7 @@ PHP_METHOD(Phalcon_Image_Adapter, mask) {
 
 
 	if (zephir_is_instance_of(watermark, SL("Phalcon\\Image\\Adapter") TSRMLS_CC)) {
-		ZEPHIR_INIT_VAR(_0);
-		object_init_ex(_0, spl_ce_BadMethodCallException);
-		ZEPHIR_INIT_VAR(_1);
-		ZVAL_STRING(_1, "Parameter 'watermark' must be an instance of 'Phalcon\\Image\\Adapter'", 1);
-		zephir_call_method_p1_noret(_0, "__construct", _1);
-		zephir_throw_exception(_0 TSRMLS_CC);
-		ZEPHIR_MM_RESTORE();
+		ZEPHIR_THROW_EXCEPTION_STR(spl_ce_InvalidArgumentException, "Parameter 'watermark' must be an instance of 'Phalcon\\Image\\Adapter'");
 		return;
 	}
 	zephir_call_method_p1_noret(this_ptr, "_mask", watermark);

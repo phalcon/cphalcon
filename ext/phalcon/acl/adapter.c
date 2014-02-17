@@ -15,7 +15,6 @@
 #include "kernel/object.h"
 #include "kernel/exception.h"
 #include "kernel/memory.h"
-#include "kernel/fcall.h"
 #include "kernel/operators.h"
 
 
@@ -120,25 +119,17 @@ PHP_METHOD(Phalcon_Acl_Adapter, getActiveAccess) {
  */
 PHP_METHOD(Phalcon_Acl_Adapter, setEventsManager) {
 
-	zval *eventsManager, *_0, *_1;
+	zval *eventsManager;
 
-	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 0, &eventsManager);
+	zephir_fetch_params(0, 1, 0, &eventsManager);
 
 
 
 	if (zephir_is_instance_of(eventsManager, SL("Phalcon\\Events\\ManagerInterface") TSRMLS_CC)) {
-		ZEPHIR_INIT_VAR(_0);
-		object_init_ex(_0, spl_ce_BadMethodCallException);
-		ZEPHIR_INIT_VAR(_1);
-		ZVAL_STRING(_1, "Parameter 'eventsManager' must be an instance of 'Phalcon\\Events\\ManagerInterface'", 1);
-		zephir_call_method_p1_noret(_0, "__construct", _1);
-		zephir_throw_exception(_0 TSRMLS_CC);
-		ZEPHIR_MM_RESTORE();
+		ZEPHIR_THROW_EXCEPTION_STRW(spl_ce_InvalidArgumentException, "Parameter 'eventsManager' must be an instance of 'Phalcon\\Events\\ManagerInterface'");
 		return;
 	}
 	zephir_update_property_this(this_ptr, SL("_eventsManager"), eventsManager TSRMLS_CC);
-	ZEPHIR_MM_RESTORE();
 
 }
 

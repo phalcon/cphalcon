@@ -124,29 +124,22 @@ PHP_METHOD(Phalcon_Cache_Multiple, __construct) {
  */
 PHP_METHOD(Phalcon_Cache_Multiple, push) {
 
-	zval *backend, *_0, *_1;
+	zval *backend;
 
-	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 0, &backend);
+	zephir_fetch_params(0, 1, 0, &backend);
 
 
 
 	if (zephir_is_instance_of(backend, SL("Phalcon\\Cache\\BackendInterface") TSRMLS_CC)) {
-		ZEPHIR_INIT_VAR(_0);
-		object_init_ex(_0, spl_ce_BadMethodCallException);
-		ZEPHIR_INIT_VAR(_1);
-		ZVAL_STRING(_1, "Parameter 'backend' must be an instance of 'Phalcon\\Cache\\BackendInterface'", 1);
-		zephir_call_method_p1_noret(_0, "__construct", _1);
-		zephir_throw_exception(_0 TSRMLS_CC);
-		ZEPHIR_MM_RESTORE();
+		ZEPHIR_THROW_EXCEPTION_STRW(spl_ce_InvalidArgumentException, "Parameter 'backend' must be an instance of 'Phalcon\\Cache\\BackendInterface'");
 		return;
 	}
 	if ((Z_TYPE_P(backend) != IS_OBJECT)) {
-		ZEPHIR_THROW_EXCEPTION_STR(phalcon_cache_exception_ce, "The backend is not valid");
+		ZEPHIR_THROW_EXCEPTION_STRW(phalcon_cache_exception_ce, "The backend is not valid");
 		return;
 	}
 	zephir_update_property_this(this_ptr, SL("_backends"), backend TSRMLS_CC);
-	RETURN_THIS();
+	RETURN_THISW();
 
 }
 
