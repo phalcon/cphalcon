@@ -397,7 +397,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, query) {
 			ZEPHIR_CPY_WRT(statement, _1);
 		}
 	} else {
-		zephir_call_internal_method_p1(statement, pdo, "query", ZEND_MN(Phalcon\\Db\\Adapter_Pdo_query), sqlStatement);
+		zephir_call_internal_method_p1(statement, pdo, "query", ZEND_MN(Phalcon__Db__Adapter_Pdo_query), sqlStatement);
 	}
 	if ((Z_TYPE_P(statement) == IS_OBJECT)) {
 		if ((Z_TYPE_P(eventsManager) == IS_OBJECT)) {

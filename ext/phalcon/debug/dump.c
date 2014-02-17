@@ -258,7 +258,7 @@ PHP_METHOD(Phalcon_Debug_Dump, output) {
 				ZVAL_STRING(_19, "", 1);
 				ZEPHIR_INIT_NVAR(_20);
 				ZVAL_LONG(_20, (zephir_get_numberval(tab) + 1));
-				zephir_call_internal_method_p3(_18, this_ptr, "output", ZEND_MN(Phalcon\\Debug_Dump_output), value, _19, _20);
+				zephir_call_internal_method_p3(_18, this_ptr, "output", ZEND_MN(Phalcon__Debug_Dump_output), value, _19, _20);
 				ZEPHIR_INIT_LNVAR(_21);
 				ZEPHIR_CONCAT_VS(_21, _18, "\n");
 				zephir_concat_self(&output, _21 TSRMLS_CC);
@@ -371,7 +371,7 @@ PHP_METHOD(Phalcon_Debug_Dump, output) {
 			ZVAL_STRING(_20, "", 1);
 			ZEPHIR_INIT_NVAR(_26);
 			ZVAL_LONG(_26, (zephir_get_numberval(tab) + 1));
-			zephir_call_internal_method_p3(_19, this_ptr, "output", ZEND_MN(Phalcon\\Debug_Dump_output), value, _20, _26);
+			zephir_call_internal_method_p3(_19, this_ptr, "output", ZEND_MN(Phalcon__Debug_Dump_output), value, _20, _26);
 			ZEPHIR_INIT_LNVAR(_21);
 			ZEPHIR_CONCAT_VS(_21, _19, "\n");
 			zephir_concat_self(&output, _21 TSRMLS_CC);
