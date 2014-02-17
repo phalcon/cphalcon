@@ -329,26 +329,4 @@ int zephir_hash_unset(HashTable *ht, zval *key)
 	}
 }
 
-zend_always_inline int zephir_hash_get_current_data_ex(HashTable *ht, void **pData, HashPosition *pos)
-{
-	Bucket *p;
-	p = pos ? (*pos) : ht->pInternalPointer;	
-	if (p) {
-		*pData = p->pData;
-		return SUCCESS;
-	} else {
-		return FAILURE;
-	}
-}
-
-zend_always_inline int zephir_hash_move_backwards_ex(HashTable *ht, HashPosition *pos)
-{
-	HashPosition *current = pos ? pos : &ht->pInternalPointer;
-	if (*current) {
-		*current = (*current)->pListLast;
-		return SUCCESS;
-	} else {
-		return FAILURE;
-	}
-}
 
