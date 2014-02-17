@@ -185,7 +185,7 @@ PHP_METHOD(Phalcon_Annotations_Annotation, getExpression) {
 				ZEPHIR_GET_HVALUE(item, _3);
 				zephir_array_fetch_string(&_4, item, SL("expr"), PH_NOISY | PH_READONLY TSRMLS_CC);
 				ZEPHIR_INIT_NVAR(resolvedItem);
-				zephir_call_internal_method_p1(resolvedItem, this_ptr, "getexpression", ZEND_MN(Phalcon__Annotations_Annotation_getExpression), _4);
+				zephir_call_internal_method_p1(resolvedItem, this_ptr, "getexpression", ZEND_MN(Phalcon_Annotations_Annotation_getExpression), _4);
 				ZEPHIR_OBS_NVAR(name);
 				if (zephir_array_isset_string_fetch(&name, item, SS("name"), 0 TSRMLS_CC)) {
 					ZEPHIR_OBS_NVAR(arrayValue);

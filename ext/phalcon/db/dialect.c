@@ -288,10 +288,10 @@ PHP_METHOD(Phalcon_Db_Dialect, getSqlExpression) {
 	if (ZEPHIR_IS_STRING(type, "binary-op")) {
 		zephir_array_fetch_string(&_2, expression, SL("left"), PH_NOISY | PH_READONLY TSRMLS_CC);
 		ZEPHIR_INIT_VAR(left);
-		zephir_call_internal_method_p2(left, this_ptr, "getsqlexpression", ZEND_MN(Phalcon__Db_Dialect_getSqlExpression), _2, escapeChar);
+		zephir_call_internal_method_p2(left, this_ptr, "getsqlexpression", ZEND_MN(Phalcon_Db_Dialect_getSqlExpression), _2, escapeChar);
 		zephir_array_fetch_string(&_3, expression, SL("right"), PH_NOISY | PH_READONLY TSRMLS_CC);
 		ZEPHIR_INIT_VAR(right);
-		zephir_call_internal_method_p2(right, this_ptr, "getsqlexpression", ZEND_MN(Phalcon__Db_Dialect_getSqlExpression), _3, escapeChar);
+		zephir_call_internal_method_p2(right, this_ptr, "getsqlexpression", ZEND_MN(Phalcon_Db_Dialect_getSqlExpression), _3, escapeChar);
 		zephir_array_fetch_string(&_4, expression, SL("op"), PH_NOISY | PH_READONLY TSRMLS_CC);
 		ZEPHIR_CONCAT_VSVSV(return_value, left, " ", _4, " ", right);
 		RETURN_MM();
@@ -302,14 +302,14 @@ PHP_METHOD(Phalcon_Db_Dialect, getSqlExpression) {
 		ZEPHIR_OBS_NVAR(left);
 		if (zephir_array_isset_string_fetch(&left, expression, SS("left"), 0 TSRMLS_CC)) {
 			ZEPHIR_INIT_VAR(_5);
-			zephir_call_internal_method_p2(_5, this_ptr, "getsqlexpression", ZEND_MN(Phalcon__Db_Dialect_getSqlExpression), left, escapeChar);
+			zephir_call_internal_method_p2(_5, this_ptr, "getsqlexpression", ZEND_MN(Phalcon_Db_Dialect_getSqlExpression), left, escapeChar);
 			ZEPHIR_CONCAT_VV(return_value, _5, operator);
 			RETURN_MM();
 		}
 		ZEPHIR_OBS_NVAR(right);
 		if (zephir_array_isset_string_fetch(&right, expression, SS("right"), 0 TSRMLS_CC)) {
 			ZEPHIR_INIT_NVAR(_5);
-			zephir_call_internal_method_p2(_5, this_ptr, "getsqlexpression", ZEND_MN(Phalcon__Db_Dialect_getSqlExpression), right, escapeChar);
+			zephir_call_internal_method_p2(_5, this_ptr, "getsqlexpression", ZEND_MN(Phalcon_Db_Dialect_getSqlExpression), right, escapeChar);
 			ZEPHIR_CONCAT_VV(return_value, _5, operator);
 			RETURN_MM();
 		}
@@ -321,7 +321,7 @@ PHP_METHOD(Phalcon_Db_Dialect, getSqlExpression) {
 	if (ZEPHIR_IS_STRING(type, "parentheses")) {
 		ZEPHIR_INIT_NVAR(_5);
 		zephir_array_fetch_string(&_2, expression, SL("left"), PH_NOISY | PH_READONLY TSRMLS_CC);
-		zephir_call_internal_method_p2(_5, this_ptr, "getsqlexpression", ZEND_MN(Phalcon__Db_Dialect_getSqlExpression), _2, escapeChar);
+		zephir_call_internal_method_p2(_5, this_ptr, "getsqlexpression", ZEND_MN(Phalcon_Db_Dialect_getSqlExpression), _2, escapeChar);
 		ZEPHIR_CONCAT_SVS(return_value, "(", _5, ")");
 		RETURN_MM();
 	}
@@ -339,7 +339,7 @@ PHP_METHOD(Phalcon_Db_Dialect, getSqlExpression) {
 			) {
 				ZEPHIR_GET_HVALUE(argument, _8);
 				ZEPHIR_INIT_NVAR(_9);
-				zephir_call_internal_method_p2(_9, this_ptr, "getsqlexpression", ZEND_MN(Phalcon__Db_Dialect_getSqlExpression), argument, escapeChar);
+				zephir_call_internal_method_p2(_9, this_ptr, "getsqlexpression", ZEND_MN(Phalcon_Db_Dialect_getSqlExpression), argument, escapeChar);
 				zephir_array_append(&sqlArguments, _9, PH_SEPARATE);
 			}
 			ZEPHIR_INIT_NVAR(_9);
@@ -362,7 +362,7 @@ PHP_METHOD(Phalcon_Db_Dialect, getSqlExpression) {
 		) {
 			ZEPHIR_GET_HVALUE(item, _12);
 			ZEPHIR_INIT_NVAR(_5);
-			zephir_call_internal_method_p2(_5, this_ptr, "getsqlexpression", ZEND_MN(Phalcon__Db_Dialect_getSqlExpression), item, escapeChar);
+			zephir_call_internal_method_p2(_5, this_ptr, "getsqlexpression", ZEND_MN(Phalcon_Db_Dialect_getSqlExpression), item, escapeChar);
 			zephir_array_append(&sqlItems, _5, PH_SEPARATE);
 		}
 		ZEPHIR_INIT_NVAR(_5);
@@ -376,20 +376,20 @@ PHP_METHOD(Phalcon_Db_Dialect, getSqlExpression) {
 	if (ZEPHIR_IS_STRING(type, "cast")) {
 		zephir_array_fetch_string(&_2, expression, SL("left"), PH_NOISY | PH_READONLY TSRMLS_CC);
 		ZEPHIR_INIT_NVAR(left);
-		zephir_call_internal_method_p2(left, this_ptr, "getsqlexpression", ZEND_MN(Phalcon__Db_Dialect_getSqlExpression), _2, escapeChar);
+		zephir_call_internal_method_p2(left, this_ptr, "getsqlexpression", ZEND_MN(Phalcon_Db_Dialect_getSqlExpression), _2, escapeChar);
 		zephir_array_fetch_string(&_3, expression, SL("right"), PH_NOISY | PH_READONLY TSRMLS_CC);
 		ZEPHIR_INIT_NVAR(right);
-		zephir_call_internal_method_p2(right, this_ptr, "getsqlexpression", ZEND_MN(Phalcon__Db_Dialect_getSqlExpression), _3, escapeChar);
+		zephir_call_internal_method_p2(right, this_ptr, "getsqlexpression", ZEND_MN(Phalcon_Db_Dialect_getSqlExpression), _3, escapeChar);
 		ZEPHIR_CONCAT_SVSVS(return_value, "CAST(", left, " AS ", right, ")");
 		RETURN_MM();
 	}
 	if (ZEPHIR_IS_STRING(type, "convert")) {
 		zephir_array_fetch_string(&_2, expression, SL("left"), PH_NOISY | PH_READONLY TSRMLS_CC);
 		ZEPHIR_INIT_NVAR(left);
-		zephir_call_internal_method_p2(left, this_ptr, "getsqlexpression", ZEND_MN(Phalcon__Db_Dialect_getSqlExpression), _2, escapeChar);
+		zephir_call_internal_method_p2(left, this_ptr, "getsqlexpression", ZEND_MN(Phalcon_Db_Dialect_getSqlExpression), _2, escapeChar);
 		zephir_array_fetch_string(&_3, expression, SL("right"), PH_NOISY | PH_READONLY TSRMLS_CC);
 		ZEPHIR_INIT_NVAR(right);
-		zephir_call_internal_method_p2(right, this_ptr, "getsqlexpression", ZEND_MN(Phalcon__Db_Dialect_getSqlExpression), _3, escapeChar);
+		zephir_call_internal_method_p2(right, this_ptr, "getsqlexpression", ZEND_MN(Phalcon_Db_Dialect_getSqlExpression), _3, escapeChar);
 		ZEPHIR_CONCAT_SVSVS(return_value, "CONVERT(", left, " USING ", right, ")");
 		RETURN_MM();
 	}

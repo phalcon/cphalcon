@@ -498,12 +498,12 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getExpression) {
 		ZEPHIR_OBS_VAR(exprLeft);
 		if (zephir_array_isset_string_fetch(&exprLeft, expr, SS("left"), 0 TSRMLS_CC)) {
 			ZEPHIR_INIT_VAR(left);
-			zephir_call_internal_method_p2(left, this_ptr, "_getexpression", ZEND_MN(Phalcon__Mvc__Model_Query__getExpression), exprLeft, (tempNotQuoting ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false)));
+			zephir_call_internal_method_p2(left, this_ptr, "_getexpression", ZEND_MN(Phalcon_Mvc_Model_Query__getExpression), exprLeft, (tempNotQuoting ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false)));
 		}
 		ZEPHIR_OBS_VAR(exprRight);
 		if (zephir_array_isset_string_fetch(&exprRight, expr, SS("right"), 0 TSRMLS_CC)) {
 			ZEPHIR_INIT_VAR(right);
-			zephir_call_internal_method_p2(right, this_ptr, "_getexpression", ZEND_MN(Phalcon__Mvc__Model_Query__getExpression), exprRight, (tempNotQuoting ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false)));
+			zephir_call_internal_method_p2(right, this_ptr, "_getexpression", ZEND_MN(Phalcon_Mvc_Model_Query__getExpression), exprRight, (tempNotQuoting ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false)));
 		}
 		do {
 			if (ZEPHIR_IS_LONG(exprType, '<')) {
@@ -899,7 +899,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getExpression) {
 		) {
 			ZEPHIR_GET_HVALUE(exprListItem, _9);
 			ZEPHIR_INIT_NVAR(_1);
-			zephir_call_internal_method_p1(_1, this_ptr, "_getexpression", ZEND_MN(Phalcon__Mvc__Model_Query__getExpression), exprListItem);
+			zephir_call_internal_method_p1(_1, this_ptr, "_getexpression", ZEND_MN(Phalcon_Mvc_Model_Query__getExpression), exprListItem);
 			zephir_array_append(&listItems, _1, PH_SEPARATE);
 		}
 		array_init_size(return_value, 3);
