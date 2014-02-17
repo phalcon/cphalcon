@@ -60,7 +60,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Forms_Manager) {
  */
 PHP_METHOD(Phalcon_Forms_Manager, create) {
 
-	zval *name = NULL, *entity = NULL, *form, *_0, *_1;
+	zval *name = NULL, *entity = NULL, *form;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 2, &name, &entity);
@@ -74,13 +74,7 @@ PHP_METHOD(Phalcon_Forms_Manager, create) {
 
 
 	if ((Z_TYPE_P(name) != IS_STRING)) {
-		ZEPHIR_INIT_VAR(_0);
-		object_init_ex(_0, phalcon_forms_exception_ce);
-		ZEPHIR_INIT_VAR(_1);
-		ZVAL_STRING(_1, "The form name must be string", 1);
-		zephir_call_method_p1_noret(_0, "__construct", _1);
-		zephir_throw_exception(_0 TSRMLS_CC);
-		ZEPHIR_MM_RESTORE();
+		ZEPHIR_THROW_EXCEPTION_STR(phalcon_forms_exception_ce, "The form name must be string");
 		return;
 	}
 	ZEPHIR_INIT_VAR(form);

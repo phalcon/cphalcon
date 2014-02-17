@@ -150,7 +150,7 @@ PHP_METHOD(Phalcon_Http_Response_Cookies, isUsingEncryption) {
 PHP_METHOD(Phalcon_Http_Response_Cookies, set) {
 
 	int expire;
-	zval *name_param = NULL, *value = NULL, *expire_param = NULL, *path_param = NULL, *secure = NULL, *domain_param = NULL, *httpOnly = NULL, *cookie, *encryption, *dependencyInjector, *response, *_0, *_1 = NULL, *_2, *_3;
+	zval *name_param = NULL, *value = NULL, *expire_param = NULL, *path_param = NULL, *secure = NULL, *domain_param = NULL, *httpOnly = NULL, *cookie, *encryption, *dependencyInjector, *response, *_0, *_1 = NULL, *_2;
 	zval *name = NULL, *path = NULL, *domain = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -236,13 +236,7 @@ PHP_METHOD(Phalcon_Http_Response_Cookies, set) {
 		ZEPHIR_OBS_VAR(dependencyInjector);
 		zephir_read_property_this(&dependencyInjector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
 		if ((Z_TYPE_P(dependencyInjector) != IS_OBJECT)) {
-			ZEPHIR_INIT_VAR(_3);
-			object_init_ex(_3, phalcon_http_cookie_exception_ce);
-			ZEPHIR_INIT_NVAR(_1);
-			ZVAL_STRING(_1, "A dependency injection object is required to access the 'response' service", 1);
-			zephir_call_method_p1_noret(_3, "__construct", _1);
-			zephir_throw_exception(_3 TSRMLS_CC);
-			ZEPHIR_MM_RESTORE();
+			ZEPHIR_THROW_EXCEPTION_STR(phalcon_http_cookie_exception_ce, "A dependency injection object is required to access the 'response' service");
 			return;
 		}
 		ZEPHIR_INIT_NVAR(_1);

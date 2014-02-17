@@ -208,9 +208,10 @@ class Gd extends \Phalcon\Image\Adapter implements \Phalcon\Image\AdapterInterfa
 		var image, x;
 
 		if version_compare(PHP_VERSION, "5.5.0") < 0 {
+
 			let image = this->_create(this->_width, this->_height);
 
-			if direction == Phalcon\Image::HORIZONTAL {
+			if direction == \Phalcon\Image::HORIZONTAL {
 				let x = 0;
 				while x < this->_width {
 					let x++;
@@ -230,7 +231,7 @@ class Gd extends \Phalcon\Image\Adapter implements \Phalcon\Image\AdapterInterfa
 			let this->_width  = imagesx(image);
 			let this->_height = imagesy(image);
 		} else {
-			if direction == Phalcon\Image::HORIZONTAL {
+			if direction == \Phalcon\Image::HORIZONTAL {
 				imageflip(this->_image, IMG_FLIP_HORIZONTAL);
 			} else {
 				imageflip(this->_image, IMG_FLIP_VERTICAL);

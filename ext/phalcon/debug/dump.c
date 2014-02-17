@@ -13,8 +13,8 @@
 
 #include "kernel/main.h"
 #include "kernel/exception.h"
-#include "kernel/memory.h"
 #include "kernel/fcall.h"
+#include "kernel/memory.h"
 #include "kernel/object.h"
 #include "kernel/hash.h"
 #include "kernel/concat.h"
@@ -64,7 +64,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Debug_Dump) {
  */
 PHP_METHOD(Phalcon_Debug_Dump, __construct) {
 
-	zval *styles = NULL, *_0, *_1 = NULL;
+	zval *styles = NULL, *_0;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 1, &styles);
@@ -76,20 +76,14 @@ PHP_METHOD(Phalcon_Debug_Dump, __construct) {
 
 	if ((Z_TYPE_P(styles) != IS_ARRAY)) {
 		if ((Z_TYPE_P(styles) != IS_NULL)) {
-			ZEPHIR_INIT_VAR(_0);
-			object_init_ex(_0, phalcon_debug_exception_ce);
-			ZEPHIR_INIT_VAR(_1);
-			ZVAL_STRING(_1, "The styles must be a array", 1);
-			zephir_call_method_p1_noret(_0, "__construct", _1);
-			zephir_throw_exception(_0 TSRMLS_CC);
-			ZEPHIR_MM_RESTORE();
+			ZEPHIR_THROW_EXCEPTION_STR(phalcon_debug_exception_ce, "The styles must be a array");
 			return;
 		}
 	}
 	zephir_call_method_p1_noret(this_ptr, "setstyles", styles);
-	ZEPHIR_INIT_NVAR(_1);
-	array_init(_1);
-	zephir_update_property_this(this_ptr, SL("methods"), _1 TSRMLS_CC);
+	ZEPHIR_INIT_VAR(_0);
+	array_init(_0);
+	zephir_update_property_this(this_ptr, SL("methods"), _0 TSRMLS_CC);
 	ZEPHIR_MM_RESTORE();
 
 }
@@ -614,7 +608,7 @@ PHP_METHOD(Phalcon_Debug_Dump, output) {
 
 PHP_METHOD(Phalcon_Debug_Dump, setStyles) {
 
-	zval *styles = NULL, *defaultStyles, *_0, *_1 = NULL;
+	zval *styles = NULL, *defaultStyles, *_0;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &styles);
@@ -627,13 +621,7 @@ PHP_METHOD(Phalcon_Debug_Dump, setStyles) {
 		array_init(styles);
 	}
 	if ((Z_TYPE_P(styles) != IS_ARRAY)) {
-		ZEPHIR_INIT_VAR(_0);
-		object_init_ex(_0, phalcon_debug_exception_ce);
-		ZEPHIR_INIT_VAR(_1);
-		ZVAL_STRING(_1, "Styles must be an array", 1);
-		zephir_call_method_p1_noret(_0, "__construct", _1);
-		zephir_throw_exception(_0 TSRMLS_CC);
-		ZEPHIR_MM_RESTORE();
+		ZEPHIR_THROW_EXCEPTION_STR(phalcon_debug_exception_ce, "Styles must be an array");
 		return;
 	}
 	ZEPHIR_INIT_VAR(defaultStyles);
@@ -649,9 +637,9 @@ PHP_METHOD(Phalcon_Debug_Dump, setStyles) {
 	add_assoc_stringl_ex(defaultStyles, SS("other"), SL("color:maroon"), 1);
 	add_assoc_stringl_ex(defaultStyles, SS("res"), SL("color:lime"), 1);
 	add_assoc_stringl_ex(defaultStyles, SS("str"), SL("color:teal"), 1);
-	ZEPHIR_INIT_NVAR(_1);
-	zephir_fast_array_merge(_1, &(defaultStyles), &(styles) TSRMLS_CC);
-	zephir_update_property_this(this_ptr, SL("_styles"), _1 TSRMLS_CC);
+	ZEPHIR_INIT_VAR(_0);
+	zephir_fast_array_merge(_0, &(defaultStyles), &(styles) TSRMLS_CC);
+	zephir_update_property_this(this_ptr, SL("_styles"), _0 TSRMLS_CC);
 	RETURN_MM_MEMBER(this_ptr, "_styles");
 
 }

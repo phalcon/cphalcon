@@ -120,7 +120,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Memory, get) {
  */
 PHP_METHOD(Phalcon_Cache_Backend_Memory, save) {
 
-	zval *keyName = NULL, *content = NULL, *lifetime = NULL, *stopBuffer = NULL, *lastKey, *frontend, *cachedContent = NULL, *preparedContent, *_0, *_1, *_2 = NULL;
+	zval *keyName = NULL, *content = NULL, *lifetime = NULL, *stopBuffer = NULL, *lastKey, *frontend, *cachedContent = NULL, *preparedContent, *_0, *_1;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 4, &keyName, &content, &lifetime, &stopBuffer);
@@ -147,13 +147,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Memory, save) {
 		ZEPHIR_CONCAT_VV(lastKey, _0, keyName);
 	}
 	if (!(zephir_is_true(lastKey))) {
-		ZEPHIR_INIT_VAR(_1);
-		object_init_ex(_1, phalcon_cache_exception_ce);
-		ZEPHIR_INIT_VAR(_2);
-		ZVAL_STRING(_2, "The cache must be started first", 1);
-		zephir_call_method_p1_noret(_1, "__construct", _2);
-		zephir_throw_exception(_1 TSRMLS_CC);
-		ZEPHIR_MM_RESTORE();
+		ZEPHIR_THROW_EXCEPTION_STR(phalcon_cache_exception_ce, "The cache must be started first");
 		return;
 	}
 	ZEPHIR_OBS_VAR(frontend);
@@ -170,9 +164,9 @@ PHP_METHOD(Phalcon_Cache_Backend_Memory, save) {
 	if (ZEPHIR_IS_TRUE(stopBuffer)) {
 		zephir_call_method_noret(frontend, "stop");
 	}
-	ZEPHIR_INIT_NVAR(_2);
-	zephir_call_method(_2, frontend, "isbuffering");
-	if (ZEPHIR_IS_TRUE(_2)) {
+	ZEPHIR_INIT_VAR(_1);
+	zephir_call_method(_1, frontend, "isbuffering");
+	if (ZEPHIR_IS_TRUE(_1)) {
 		zend_print_zval(cachedContent, 0);
 	}
 	zephir_update_property_this(this_ptr, SL("_started"), (0) ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false) TSRMLS_CC);

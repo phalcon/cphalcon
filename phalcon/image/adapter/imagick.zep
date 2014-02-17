@@ -52,7 +52,7 @@ class Imagick extends \Phalcon\Image\Adapter implements \Phalcon\Image\AdapterIn
 
 		let this->_file = file;
 
-		let this->_image = new Imagick();
+		let this->_image = new \Imagick();
 
 		if file_exists(this->_file) {
 			let this->_realpath = realpath(this->_file);
@@ -153,7 +153,7 @@ class Imagick extends \Phalcon\Image\Adapter implements \Phalcon\Image\AdapterIn
 		var func;
 
 		let func = "flipImage";
-		if direction === Phalcon\Image::HORIZONTAL {
+		if direction == \Phalcon\Image::HORIZONTAL {
 		   let func = "flopImage";
 		}
 
@@ -206,7 +206,7 @@ class Imagick extends \Phalcon\Image\Adapter implements \Phalcon\Image\AdapterIn
 
 		let pseudo = fade_in ? "gradient:black-transparent" : "gradient:transparent-black";
 
-		let fade = new Imagick();
+		let fade = new \Imagick();
 
 		fade->newPseudoImage(reflection->getImageWidth(), reflection->getImageHeight(), pseudo);
 
@@ -217,15 +217,15 @@ class Imagick extends \Phalcon\Image\Adapter implements \Phalcon\Image\AdapterIn
 		loop {
 			reflection->compositeImage(fade, constant("Imagick::COMPOSITE_DSTOUT"), 0, 0);
 			reflection->evaluateImage(constant("Imagick::EVALUATE_MULTIPLY"), opacity/100, constant("Imagick::CHANNEL_ALPHA"));
-			if  !reflection->nextImage() {
+			if !reflection->nextImage() {
 				break;
 			}
 		}
 
 		fade->destroy();
 
-		let image = new Imagick();
-		let pixel = new ImagickPixel();
+		let image = new \Imagick();
+		let pixel = new \ImagickPixel();
 		let height = this->_image->getImageHeight() + height;
 
 		this->_image->setIteratorIndex(0);
@@ -275,7 +275,7 @@ class Imagick extends \Phalcon\Image\Adapter implements \Phalcon\Image\AdapterIn
 
 		let opacity = opacity / 100;
 
-		let watermark = new Imagick();
+		let watermark = new \Imagick();
 
 		watermark->readImageBlob(image->render());
 		watermark->setImageOpacity(opacity);
@@ -299,7 +299,7 @@ class Imagick extends \Phalcon\Image\Adapter implements \Phalcon\Image\AdapterIn
 
 		let opacity = opacity / 100;
 
-		let draw = new ImagickDraw();
+		let draw = new \ImagickDraw();
 
 		let color = sprintf("rgb(%d, %d, %d)", r, g, b);
 		let pixel = new ImagickPixel(color);
@@ -354,7 +354,7 @@ class Imagick extends \Phalcon\Image\Adapter implements \Phalcon\Image\AdapterIn
 
 		//let opacity = opacity / 100; // where opacity comes from?
 
-		let mask = new Imagick();
+		let mask = new \Imagick();
 
 		mask->readImageBlob(image->render());
 
@@ -380,9 +380,9 @@ class Imagick extends \Phalcon\Image\Adapter implements \Phalcon\Image\AdapterIn
 		let pixel1 = new ImagickPixel(color);
 		let opacity = opacity / 100;
 
-		let pixel2 = new ImagickPixel("transparent");
+		let pixel2 = new \ImagickPixel("transparent");
 
-		let background = new Imagick();
+		let background = new \Imagick();
 		this->_image->setIteratorIndex(0);
 
 		loop {
@@ -445,7 +445,7 @@ class Imagick extends \Phalcon\Image\Adapter implements \Phalcon\Image\AdapterIn
 		this->_image->setImageFormat(ext);
 
 		let this->_type = this->_image->getImageType();
-		let this->_mime = "image/".this->_image->getImageFormat();
+		let this->_mime = "image/" . this->_image->getImageFormat();
 
 		if strcasecmp(ext, "gif") == 0 {
 			this->_image->optimizeImageLayers();

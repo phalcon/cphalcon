@@ -13,9 +13,9 @@
 
 #include "kernel/main.h"
 #include "kernel/exception.h"
+#include "kernel/object.h"
 #include "kernel/memory.h"
 #include "kernel/fcall.h"
-#include "kernel/object.h"
 #include "kernel/operators.h"
 
 
@@ -97,10 +97,9 @@ ZEPHIR_INIT_CLASS(Phalcon_Cache_Multiple) {
  */
 PHP_METHOD(Phalcon_Cache_Multiple, __construct) {
 
-	zval *backends = NULL, *_0, *_1;
+	zval *backends = NULL;
 
-	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 0, 1, &backends);
+	zephir_fetch_params(0, 0, 1, &backends);
 
 	if (!backends) {
 		backends = ZEPHIR_GLOBAL(global_null);
@@ -109,18 +108,11 @@ PHP_METHOD(Phalcon_Cache_Multiple, __construct) {
 
 	if ((Z_TYPE_P(backends) != IS_NULL)) {
 		if ((Z_TYPE_P(backends) != IS_ARRAY)) {
-			ZEPHIR_INIT_VAR(_0);
-			object_init_ex(_0, phalcon_cache_exception_ce);
-			ZEPHIR_INIT_VAR(_1);
-			ZVAL_STRING(_1, "The backends must be an array", 1);
-			zephir_call_method_p1_noret(_0, "__construct", _1);
-			zephir_throw_exception(_0 TSRMLS_CC);
-			ZEPHIR_MM_RESTORE();
+			ZEPHIR_THROW_EXCEPTION_STRW(phalcon_cache_exception_ce, "The backends must be an array");
 			return;
 		}
 		zephir_update_property_this(this_ptr, SL("_backends"), backends TSRMLS_CC);
 	}
-	ZEPHIR_MM_RESTORE();
 
 }
 
@@ -132,7 +124,7 @@ PHP_METHOD(Phalcon_Cache_Multiple, __construct) {
  */
 PHP_METHOD(Phalcon_Cache_Multiple, push) {
 
-	zval *backend, *_0 = NULL, *_1;
+	zval *backend, *_0, *_1;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &backend);
@@ -150,13 +142,7 @@ PHP_METHOD(Phalcon_Cache_Multiple, push) {
 		return;
 	}
 	if ((Z_TYPE_P(backend) != IS_OBJECT)) {
-		ZEPHIR_INIT_LNVAR(_0);
-		object_init_ex(_0, phalcon_cache_exception_ce);
-		ZEPHIR_INIT_BNVAR(_1);
-		ZVAL_STRING(_1, "The backend is not valid", 1);
-		zephir_call_method_p1_noret(_0, "__construct", _1);
-		zephir_throw_exception(_0 TSRMLS_CC);
-		ZEPHIR_MM_RESTORE();
+		ZEPHIR_THROW_EXCEPTION_STR(phalcon_cache_exception_ce, "The backend is not valid");
 		return;
 	}
 	zephir_update_property_this(this_ptr, SL("_backends"), backend TSRMLS_CC);

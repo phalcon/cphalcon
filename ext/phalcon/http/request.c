@@ -135,7 +135,7 @@ PHP_METHOD(Phalcon_Http_Request, getDI) {
  */
 PHP_METHOD(Phalcon_Http_Request, get) {
 
-	zval *name_param = NULL, *filters = NULL, *defaultValue = NULL, *request = NULL, *value, *filter = NULL, *dependencyInjector = NULL, *_REQUEST, *_0, *_1, *_2 = NULL, *_3;
+	zval *name_param = NULL, *filters = NULL, *defaultValue = NULL, *request = NULL, *value, *filter = NULL, *dependencyInjector = NULL, *_REQUEST, *_0, *_1, *_2;
 	zval *name = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -177,20 +177,14 @@ PHP_METHOD(Phalcon_Http_Request, get) {
 					_0 = zephir_fetch_nproperty_this(this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
 					ZEPHIR_CPY_WRT(dependencyInjector, _0);
 					if ((Z_TYPE_P(dependencyInjector) != IS_OBJECT)) {
-						ZEPHIR_INIT_VAR(_1);
-						object_init_ex(_1, phalcon_http_request_exception_ce);
-						ZEPHIR_INIT_VAR(_2);
-						ZVAL_STRING(_2, "A dependency injection object is required to access the 'filter' service", 1);
-						zephir_call_method_p1_noret(_1, "__construct", _2);
-						zephir_throw_exception(_1 TSRMLS_CC);
-						ZEPHIR_MM_RESTORE();
+						ZEPHIR_THROW_EXCEPTION_STR(phalcon_http_request_exception_ce, "A dependency injection object is required to access the 'filter' service");
 						return;
 					}
-					ZEPHIR_INIT_NVAR(_2);
-					ZEPHIR_INIT_VAR(_3);
-					ZVAL_STRING(_3, "filter", 1);
-					zephir_call_method_p1(_2, dependencyInjector, "getshared", _3);
-					ZEPHIR_CPY_WRT(filter, _2);
+					ZEPHIR_INIT_VAR(_1);
+					ZEPHIR_INIT_VAR(_2);
+					ZVAL_STRING(_2, "filter", 1);
+					zephir_call_method_p1(_1, dependencyInjector, "getshared", _2);
+					ZEPHIR_CPY_WRT(filter, _1);
 					zephir_update_property_this(this_ptr, SL("_filter"), filter TSRMLS_CC);
 				}
 				zephir_call_method_p2(return_value, filter, "sanitize", value, filters);
@@ -224,7 +218,7 @@ PHP_METHOD(Phalcon_Http_Request, get) {
  */
 PHP_METHOD(Phalcon_Http_Request, getPost) {
 
-	zval *name_param = NULL, *filters = NULL, *defaultValue = NULL, *post = NULL, *value, *filter = NULL, *dependencyInjector = NULL, *_POST, *_0, *_1, *_2 = NULL, *_3;
+	zval *name_param = NULL, *filters = NULL, *defaultValue = NULL, *post = NULL, *value, *filter = NULL, *dependencyInjector = NULL, *_POST, *_0, *_1, *_2;
 	zval *name = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -266,20 +260,14 @@ PHP_METHOD(Phalcon_Http_Request, getPost) {
 					_0 = zephir_fetch_nproperty_this(this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
 					ZEPHIR_CPY_WRT(dependencyInjector, _0);
 					if ((Z_TYPE_P(dependencyInjector) != IS_OBJECT)) {
-						ZEPHIR_INIT_VAR(_1);
-						object_init_ex(_1, phalcon_http_request_exception_ce);
-						ZEPHIR_INIT_VAR(_2);
-						ZVAL_STRING(_2, "A dependency injection object is required to access the 'filter' service", 1);
-						zephir_call_method_p1_noret(_1, "__construct", _2);
-						zephir_throw_exception(_1 TSRMLS_CC);
-						ZEPHIR_MM_RESTORE();
+						ZEPHIR_THROW_EXCEPTION_STR(phalcon_http_request_exception_ce, "A dependency injection object is required to access the 'filter' service");
 						return;
 					}
-					ZEPHIR_INIT_NVAR(_2);
-					ZEPHIR_INIT_VAR(_3);
-					ZVAL_STRING(_3, "filter", 1);
-					zephir_call_method_p1(_2, dependencyInjector, "getshared", _3);
-					ZEPHIR_CPY_WRT(filter, _2);
+					ZEPHIR_INIT_VAR(_1);
+					ZEPHIR_INIT_VAR(_2);
+					ZVAL_STRING(_2, "filter", 1);
+					zephir_call_method_p1(_1, dependencyInjector, "getshared", _2);
+					ZEPHIR_CPY_WRT(filter, _1);
 					zephir_update_property_this(this_ptr, SL("_filter"), filter TSRMLS_CC);
 				}
 				zephir_call_method_p2(return_value, filter, "sanitize", value, filters);
@@ -316,7 +304,7 @@ PHP_METHOD(Phalcon_Http_Request, getPost) {
  */
 PHP_METHOD(Phalcon_Http_Request, getQuery) {
 
-	zval *name_param = NULL, *filters = NULL, *defaultValue = NULL, *get = NULL, *value, *filter = NULL, *dependencyInjector = NULL, *_GET, *_0, *_1, *_2 = NULL, *_3;
+	zval *name_param = NULL, *filters = NULL, *defaultValue = NULL, *get = NULL, *value, *filter = NULL, *dependencyInjector = NULL, *_GET, *_0, *_1, *_2;
 	zval *name = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -358,20 +346,14 @@ PHP_METHOD(Phalcon_Http_Request, getQuery) {
 					_0 = zephir_fetch_nproperty_this(this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
 					ZEPHIR_CPY_WRT(dependencyInjector, _0);
 					if ((Z_TYPE_P(dependencyInjector) != IS_OBJECT)) {
-						ZEPHIR_INIT_VAR(_1);
-						object_init_ex(_1, phalcon_http_request_exception_ce);
-						ZEPHIR_INIT_VAR(_2);
-						ZVAL_STRING(_2, "A dependency injection object is required to access the 'filter' service", 1);
-						zephir_call_method_p1_noret(_1, "__construct", _2);
-						zephir_throw_exception(_1 TSRMLS_CC);
-						ZEPHIR_MM_RESTORE();
+						ZEPHIR_THROW_EXCEPTION_STR(phalcon_http_request_exception_ce, "A dependency injection object is required to access the 'filter' service");
 						return;
 					}
-					ZEPHIR_INIT_NVAR(_2);
-					ZEPHIR_INIT_VAR(_3);
-					ZVAL_STRING(_3, "filter", 1);
-					zephir_call_method_p1(_2, dependencyInjector, "getshared", _3);
-					ZEPHIR_CPY_WRT(filter, _2);
+					ZEPHIR_INIT_VAR(_1);
+					ZEPHIR_INIT_VAR(_2);
+					ZVAL_STRING(_2, "filter", 1);
+					zephir_call_method_p1(_1, dependencyInjector, "getshared", _2);
+					ZEPHIR_CPY_WRT(filter, _1);
 					zephir_update_property_this(this_ptr, SL("_filter"), filter TSRMLS_CC);
 				}
 				zephir_call_method_p2(return_value, filter, "sanitize", value, filters);

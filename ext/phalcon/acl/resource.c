@@ -16,7 +16,6 @@
 #include "kernel/operators.h"
 #include "kernel/exception.h"
 #include "kernel/memory.h"
-#include "kernel/fcall.h"
 
 
 /*
@@ -100,7 +99,7 @@ PHP_METHOD(Phalcon_Acl_Resource, getDescription) {
  */
 PHP_METHOD(Phalcon_Acl_Resource, __construct) {
 
-	zval *name_param = NULL, *description_param = NULL, *_0, *_1;
+	zval *name_param = NULL, *description_param = NULL;
 	zval *name = NULL, *description = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -116,13 +115,7 @@ PHP_METHOD(Phalcon_Acl_Resource, __construct) {
 
 
 	if (ZEPHIR_IS_STRING(name, "*")) {
-		ZEPHIR_INIT_VAR(_0);
-		object_init_ex(_0, phalcon_acl_exception_ce);
-		ZEPHIR_INIT_VAR(_1);
-		ZVAL_STRING(_1, "Resource name cannot be '*'", 1);
-		zephir_call_method_p1_noret(_0, "__construct", _1);
-		zephir_throw_exception(_0 TSRMLS_CC);
-		ZEPHIR_MM_RESTORE();
+		ZEPHIR_THROW_EXCEPTION_STR(phalcon_acl_exception_ce, "Resource name cannot be '*'");
 		return;
 	}
 	zephir_update_property_this(this_ptr, SL("_name"), name TSRMLS_CC);

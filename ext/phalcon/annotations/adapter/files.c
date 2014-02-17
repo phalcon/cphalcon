@@ -129,7 +129,7 @@ PHP_METHOD(Phalcon_Annotations_Adapter_Files, read) {
  */
 PHP_METHOD(Phalcon_Annotations_Adapter_Files, write) {
 
-	zval *key_param = NULL, *data, *_0 = NULL, *_1, *path, *_2, *_3, *_4, *_5, *_6;
+	zval *key_param = NULL, *data, *_0 = NULL, *_1, *path, *_2, *_3, *_4;
 	zval *key = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -172,13 +172,7 @@ PHP_METHOD(Phalcon_Annotations_Adapter_Files, write) {
 	ZEPHIR_CONCAT_SVS(_0, "<?php return ", _4, "; ");
 	zephir_file_put_contents(_1, path, _0 TSRMLS_CC);
 	if (ZEPHIR_IS_FALSE(_1)) {
-		ZEPHIR_INIT_VAR(_5);
-		object_init_ex(_5, phalcon_annotations_exception_ce);
-		ZEPHIR_INIT_VAR(_6);
-		ZVAL_STRING(_6, "Annotations directory cannot be written", 1);
-		zephir_call_method_p1_noret(_5, "__construct", _6);
-		zephir_throw_exception(_5 TSRMLS_CC);
-		ZEPHIR_MM_RESTORE();
+		ZEPHIR_THROW_EXCEPTION_STR(phalcon_annotations_exception_ce, "Annotations directory cannot be written");
 		return;
 	}
 	ZEPHIR_MM_RESTORE();

@@ -13,12 +13,12 @@
 
 #include "kernel/main.h"
 #include "kernel/exception.h"
-#include "kernel/memory.h"
-#include "kernel/fcall.h"
 #include "kernel/object.h"
 #include "ext/spl/spl_exceptions.h"
+#include "kernel/memory.h"
 #include "kernel/operators.h"
 #include "kernel/hash.h"
+#include "kernel/fcall.h"
 #include "kernel/array.h"
 #include "kernel/string.h"
 #include "kernel/concat.h"
@@ -77,7 +77,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Filter) {
  */
 PHP_METHOD(Phalcon_Filter, add) {
 
-	zval *name_param = NULL, *handler, *_0, *_1;
+	zval *name_param = NULL, *handler;
 	zval *name = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -97,13 +97,7 @@ PHP_METHOD(Phalcon_Filter, add) {
 
 
 	if ((Z_TYPE_P(handler) != IS_OBJECT)) {
-		ZEPHIR_INIT_VAR(_0);
-		object_init_ex(_0, phalcon_filter_exception_ce);
-		ZEPHIR_INIT_VAR(_1);
-		ZVAL_STRING(_1, "Filter must be an object", 1);
-		zephir_call_method_p1_noret(_0, "__construct", _1);
-		zephir_throw_exception(_0 TSRMLS_CC);
-		ZEPHIR_MM_RESTORE();
+		ZEPHIR_THROW_EXCEPTION_STR(phalcon_filter_exception_ce, "Filter must be an object");
 		return;
 	}
 	zephir_update_property_array(this_ptr, SL("_filters"), name, handler TSRMLS_CC);

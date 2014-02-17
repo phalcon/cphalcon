@@ -51,7 +51,7 @@ abstract class Adapter
 	{
 		var ratio;
 
-		if master == Phalcon\Image::TENSILE {
+		if master == \Phalcon\Image::TENSILE {
 
 			if !width || !height {
 				throw new \Phalcon\Image\Exception("width and height must be specified");
@@ -59,41 +59,41 @@ abstract class Adapter
 
 		} else {
 
-			if master == Phalcon\Image::AUTO {
+			if master == \Phalcon\Image::AUTO {
 
 				if !width || !height {
 					throw new \Phalcon\Image\Exception("width and height must be specified");
 				}
 
-				let master = (this->_width / width) > (this->_height / height) ? Phalcon\Image::WIDTH : Phalcon\Image::HEIGHT;
+				let master = (this->_width / width) > (this->_height / height) ? \Phalcon\Image::WIDTH : \Phalcon\Image::HEIGHT;
 			}
 
-			if master == Phalcon\Image::INVERSE {
+			if master == \Phalcon\Image::INVERSE {
 
 				if !width || !height {
 					throw new \Phalcon\Image\Exception("width and height must be specified");
 				}
 
-				let master = (this->_width / width) > (this->_height / height) ? Phalcon\Image::HEIGHT : Phalcon\Image::WIDTH;
+				let master = (this->_width / width) > (this->_height / height) ? \Phalcon\Image::HEIGHT : \Phalcon\Image::WIDTH;
 			}
 
 			switch master {
 
-				case Phalcon\Image::WIDTH:
+				case \Phalcon\Image::WIDTH:
 					if !width {
 						throw new \Phalcon\Image\Exception("width must be specified");
 					}
 					let height = this->_height * width / this->_width;
 					break;
 
-				case Phalcon\Image::HEIGHT:
+				case \Phalcon\Image::HEIGHT:
 					if !height {
 						throw new \Phalcon\Image\Exception("height must be specified");
 					}
 					let width = this->_width * height / this->_height;
 					break;
 
-				case Phalcon\Image::PRECISE:
+				case \Phalcon\Image::PRECISE:
 
 					if !width || !height {
 						throw new \Phalcon\Image\Exception("width and height must be specified");
@@ -108,7 +108,7 @@ abstract class Adapter
 					}
 					break;
 
-				case Phalcon\Image::NONE:
+				case \Phalcon\Image::NONE:
 
 						if !width {
 							let width = (int) this->_width;
@@ -208,8 +208,8 @@ abstract class Adapter
  	 */
 	public function flip(int direction) -> <\Phalcon\Image\Adapter>
 	{
-		if direction != Phalcon\Image::HORIZONTAL && direction != Phalcon\Image::VERTICAL {
-			let direction = Phalcon\Image::HORIZONTAL;
+		if direction != \Phalcon\Image::HORIZONTAL && direction != \Phalcon\Image::VERTICAL {
+			let direction = \Phalcon\Image::HORIZONTAL;
 		}
 
 		this->{"_flip"}(direction);

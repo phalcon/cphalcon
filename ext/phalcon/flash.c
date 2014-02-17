@@ -143,24 +143,17 @@ PHP_METHOD(Phalcon_Flash, setAutomaticHtml) {
  */
 PHP_METHOD(Phalcon_Flash, setCssClasses) {
 
-	zval *cssClasses, *_0, *_1;
+	zval *cssClasses;
 
-	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 0, &cssClasses);
+	zephir_fetch_params(0, 1, 0, &cssClasses);
 
 
 
 	if ((Z_TYPE_P(cssClasses) == IS_ARRAY)) {
 		zephir_update_property_this(this_ptr, SL("_cssClasses"), cssClasses TSRMLS_CC);
-		RETURN_THIS();
+		RETURN_THISW();
 	}
-	ZEPHIR_INIT_VAR(_0);
-	object_init_ex(_0, phalcon_flash_exception_ce);
-	ZEPHIR_INIT_VAR(_1);
-	ZVAL_STRING(_1, "CSS classes must be an Array", 1);
-	zephir_call_method_p1_noret(_0, "__construct", _1);
-	zephir_throw_exception(_0 TSRMLS_CC);
-	ZEPHIR_MM_RESTORE();
+	ZEPHIR_THROW_EXCEPTION_STRW(phalcon_flash_exception_ce, "CSS classes must be an Array");
 	return;
 
 }

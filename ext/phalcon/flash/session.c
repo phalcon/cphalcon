@@ -105,7 +105,7 @@ PHP_METHOD(Phalcon_Flash_Session, getDI) {
  */
 PHP_METHOD(Phalcon_Flash_Session, _getSessionMessages) {
 
-	zval *remove_param = NULL, *dependencyInjector, *session = NULL, *messages, *_0, *_1 = NULL, *_2;
+	zval *remove_param = NULL, *dependencyInjector, *session = NULL, *messages, *_0, *_1;
 	zend_bool remove;
 
 	ZEPHIR_MM_GROW();
@@ -117,28 +117,22 @@ PHP_METHOD(Phalcon_Flash_Session, _getSessionMessages) {
 	ZEPHIR_OBS_VAR(dependencyInjector);
 	zephir_read_property_this(&dependencyInjector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
 	if ((Z_TYPE_P(dependencyInjector) != IS_OBJECT)) {
-		ZEPHIR_INIT_VAR(_0);
-		object_init_ex(_0, phalcon_flash_exception_ce);
-		ZEPHIR_INIT_VAR(_1);
-		ZVAL_STRING(_1, "A dependency injection container is required to access the 'session' service", 1);
-		zephir_call_method_p1_noret(_0, "__construct", _1);
-		zephir_throw_exception(_0 TSRMLS_CC);
-		ZEPHIR_MM_RESTORE();
+		ZEPHIR_THROW_EXCEPTION_STR(phalcon_flash_exception_ce, "A dependency injection container is required to access the 'session' service");
 		return;
 	}
-	ZEPHIR_INIT_NVAR(_1);
-	ZEPHIR_INIT_VAR(_2);
-	ZVAL_STRING(_2, "session", 1);
-	zephir_call_method_p1(_1, dependencyInjector, "getshared", _2);
-	ZEPHIR_CPY_WRT(session, _1);
-	ZEPHIR_INIT_NVAR(_1);
-	ZVAL_STRING(_1, "_flashMessages", 1);
+	ZEPHIR_INIT_VAR(_0);
+	ZEPHIR_INIT_VAR(_1);
+	ZVAL_STRING(_1, "session", 1);
+	zephir_call_method_p1(_0, dependencyInjector, "getshared", _1);
+	ZEPHIR_CPY_WRT(session, _0);
+	ZEPHIR_INIT_BNVAR(_0);
+	ZVAL_STRING(_0, "_flashMessages", 1);
 	ZEPHIR_INIT_VAR(messages);
-	zephir_call_method_p1(messages, session, "get", _1);
+	zephir_call_method_p1(messages, session, "get", _0);
 	if ((remove == 1)) {
-		ZEPHIR_INIT_NVAR(_1);
-		ZVAL_STRING(_1, "_flashMessages", 1);
-		zephir_call_method_p1_noret(session, "remove", _1);
+		ZEPHIR_INIT_BNVAR(_0);
+		ZVAL_STRING(_0, "_flashMessages", 1);
+		zephir_call_method_p1_noret(session, "remove", _0);
 	}
 	RETURN_CCTOR(messages);
 
@@ -151,7 +145,7 @@ PHP_METHOD(Phalcon_Flash_Session, _getSessionMessages) {
  */
 PHP_METHOD(Phalcon_Flash_Session, _setSessionMessages) {
 
-	zval *messages, *dependencyInjector, *session = NULL, *_0, *_1 = NULL, *_2;
+	zval *messages, *dependencyInjector, *session = NULL, *_0, *_1;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &messages);
@@ -161,23 +155,17 @@ PHP_METHOD(Phalcon_Flash_Session, _setSessionMessages) {
 	ZEPHIR_OBS_VAR(dependencyInjector);
 	zephir_read_property_this(&dependencyInjector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
 	if ((Z_TYPE_P(dependencyInjector) != IS_OBJECT)) {
-		ZEPHIR_INIT_VAR(_0);
-		object_init_ex(_0, phalcon_flash_exception_ce);
-		ZEPHIR_INIT_VAR(_1);
-		ZVAL_STRING(_1, "A dependency injection container is required to access the 'session' service", 1);
-		zephir_call_method_p1_noret(_0, "__construct", _1);
-		zephir_throw_exception(_0 TSRMLS_CC);
-		ZEPHIR_MM_RESTORE();
+		ZEPHIR_THROW_EXCEPTION_STR(phalcon_flash_exception_ce, "A dependency injection container is required to access the 'session' service");
 		return;
 	}
-	ZEPHIR_INIT_NVAR(_1);
-	ZEPHIR_INIT_VAR(_2);
-	ZVAL_STRING(_2, "session", 1);
-	zephir_call_method_p1(_1, dependencyInjector, "getshared", _2);
-	ZEPHIR_CPY_WRT(session, _1);
-	ZEPHIR_INIT_NVAR(_1);
-	ZVAL_STRING(_1, "_flashMessages", 1);
-	zephir_call_method_p2_noret(session, "set", _1, messages);
+	ZEPHIR_INIT_VAR(_0);
+	ZEPHIR_INIT_VAR(_1);
+	ZVAL_STRING(_1, "session", 1);
+	zephir_call_method_p1(_0, dependencyInjector, "getshared", _1);
+	ZEPHIR_CPY_WRT(session, _0);
+	ZEPHIR_INIT_BNVAR(_0);
+	ZVAL_STRING(_0, "_flashMessages", 1);
+	zephir_call_method_p2_noret(session, "set", _0, messages);
 	RETURN_CCTOR(messages);
 
 }

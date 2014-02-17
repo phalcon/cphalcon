@@ -15,8 +15,8 @@
 #include "kernel/object.h"
 #include "kernel/memory.h"
 #include "kernel/exception.h"
-#include "kernel/fcall.h"
 #include "kernel/operators.h"
+#include "kernel/fcall.h"
 #include "ext/spl/spl_exceptions.h"
 #include "kernel/array.h"
 #include "kernel/concat.h"
@@ -91,25 +91,18 @@ PHP_METHOD(Phalcon_Assets_Manager, __construct) {
  */
 PHP_METHOD(Phalcon_Assets_Manager, setOptions) {
 
-	zval *options, *_0, *_1;
+	zval *options;
 
-	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 0, &options);
+	zephir_fetch_params(0, 1, 0, &options);
 
 
 
 	if ((Z_TYPE_P(options) != IS_ARRAY)) {
-		ZEPHIR_INIT_VAR(_0);
-		object_init_ex(_0, phalcon_assets_exception_ce);
-		ZEPHIR_INIT_VAR(_1);
-		ZVAL_STRING(_1, "Options must be an array", 1);
-		zephir_call_method_p1_noret(_0, "__construct", _1);
-		zephir_throw_exception(_0 TSRMLS_CC);
-		ZEPHIR_MM_RESTORE();
+		ZEPHIR_THROW_EXCEPTION_STRW(phalcon_assets_exception_ce, "Options must be an array");
 		return;
 	}
 	zephir_update_property_this(this_ptr, SL("_options"), options TSRMLS_CC);
-	RETURN_THIS();
+	RETURN_THISW();
 
 }
 
@@ -324,7 +317,7 @@ PHP_METHOD(Phalcon_Assets_Manager, addResourceByType) {
  */
 PHP_METHOD(Phalcon_Assets_Manager, addResource) {
 
-	zval *resource, *_0 = NULL, *_1, *type;
+	zval *resource, *_0, *_1, *type;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &resource);
@@ -342,13 +335,7 @@ PHP_METHOD(Phalcon_Assets_Manager, addResource) {
 		return;
 	}
 	if ((Z_TYPE_P(resource) != IS_OBJECT)) {
-		ZEPHIR_INIT_LNVAR(_0);
-		object_init_ex(_0, phalcon_assets_exception_ce);
-		ZEPHIR_INIT_BNVAR(_1);
-		ZVAL_STRING(_1, "Resource must be an object", 1);
-		zephir_call_method_p1_noret(_0, "__construct", _1);
-		zephir_throw_exception(_0 TSRMLS_CC);
-		ZEPHIR_MM_RESTORE();
+		ZEPHIR_THROW_EXCEPTION_STR(phalcon_assets_exception_ce, "Resource must be an object");
 		return;
 	}
 	ZEPHIR_INIT_VAR(type);
@@ -417,7 +404,7 @@ PHP_METHOD(Phalcon_Assets_Manager, set) {
  */
 PHP_METHOD(Phalcon_Assets_Manager, get) {
 
-	zval *id_param = NULL, *collections, *collection, *_0, *_1;
+	zval *id_param = NULL, *collections, *collection;
 	zval *id = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -440,13 +427,7 @@ PHP_METHOD(Phalcon_Assets_Manager, get) {
 	zephir_read_property_this(&collections, this_ptr, SL("_collections"), PH_NOISY_CC);
 	ZEPHIR_OBS_VAR(collection);
 	if (!(zephir_array_isset_fetch(&collection, collections, id, 0 TSRMLS_CC))) {
-		ZEPHIR_INIT_VAR(_0);
-		object_init_ex(_0, phalcon_assets_exception_ce);
-		ZEPHIR_INIT_VAR(_1);
-		ZVAL_STRING(_1, "The collection does not exist in the manager", 1);
-		zephir_call_method_p1_noret(_0, "__construct", _1);
-		zephir_throw_exception(_0 TSRMLS_CC);
-		ZEPHIR_MM_RESTORE();
+		ZEPHIR_THROW_EXCEPTION_STR(phalcon_assets_exception_ce, "The collection does not exist in the manager");
 		return;
 	}
 	RETURN_CCTOR(collection);
@@ -539,7 +520,7 @@ PHP_METHOD(Phalcon_Assets_Manager, collection) {
  */
 PHP_METHOD(Phalcon_Assets_Manager, output) {
 
-	zend_function *_6 = NULL, *_8 = NULL, *_9 = NULL, *_14 = NULL;
+	zend_function *_6 = NULL, *_8 = NULL, *_9 = NULL;
 	HashTable *_4, *_12;
 	HashPosition _3, _11;
 	zend_bool filterNeeded;
@@ -738,13 +719,7 @@ PHP_METHOD(Phalcon_Assets_Manager, output) {
 				) {
 					ZEPHIR_GET_HVALUE(filter, _13);
 					if ((Z_TYPE_P(filter) != IS_OBJECT)) {
-						ZEPHIR_INIT_LNVAR(_0);
-						object_init_ex(_0, phalcon_assets_exception_ce);
-						ZEPHIR_INIT_NVAR(_10);
-						ZVAL_STRING(_10, "Filter is invalid", 1);
-						zephir_call_method_p1_cache_noret(_0, "__construct", &_14, _10);
-						zephir_throw_exception(_0 TSRMLS_CC);
-						ZEPHIR_MM_RESTORE();
+						ZEPHIR_THROW_EXCEPTION_STR(phalcon_assets_exception_ce, "Filter is invalid");
 						return;
 					}
 					ZEPHIR_INIT_NVAR(filteredContent);

@@ -248,7 +248,7 @@ PHP_METHOD(Phalcon_Forms_Element, getFilters) {
 PHP_METHOD(Phalcon_Forms_Element, addValidators) {
 
 	zend_bool merge;
-	zval *validators, *merge_param = NULL, *currentValidators, *mergedValidators = NULL, *_0, *_1;
+	zval *validators, *merge_param = NULL, *currentValidators, *mergedValidators = NULL;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 1, &validators, &merge_param);
@@ -261,13 +261,7 @@ PHP_METHOD(Phalcon_Forms_Element, addValidators) {
 
 
 	if ((Z_TYPE_P(validators) != IS_ARRAY)) {
-		ZEPHIR_INIT_VAR(_0);
-		object_init_ex(_0, phalcon_forms_exception_ce);
-		ZEPHIR_INIT_VAR(_1);
-		ZVAL_STRING(_1, "The validators parameter must be an array", 1);
-		zephir_call_method_p1_noret(_0, "__construct", _1);
-		zephir_throw_exception(_0 TSRMLS_CC);
-		ZEPHIR_MM_RESTORE();
+		ZEPHIR_THROW_EXCEPTION_STR(phalcon_forms_exception_ce, "The validators parameter must be an array");
 		return;
 	}
 	if (merge) {
@@ -293,7 +287,7 @@ PHP_METHOD(Phalcon_Forms_Element, addValidators) {
  */
 PHP_METHOD(Phalcon_Forms_Element, addValidator) {
 
-	zval *validator, *_0 = NULL, *_1;
+	zval *validator, *_0, *_1;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &validator);
@@ -311,13 +305,7 @@ PHP_METHOD(Phalcon_Forms_Element, addValidator) {
 		return;
 	}
 	if ((Z_TYPE_P(validator) != IS_OBJECT)) {
-		ZEPHIR_INIT_LNVAR(_0);
-		object_init_ex(_0, phalcon_forms_exception_ce);
-		ZEPHIR_INIT_BNVAR(_1);
-		ZVAL_STRING(_1, "The validators parameter must be an object", 1);
-		zephir_call_method_p1_noret(_0, "__construct", _1);
-		zephir_throw_exception(_0 TSRMLS_CC);
-		ZEPHIR_MM_RESTORE();
+		ZEPHIR_THROW_EXCEPTION_STR(phalcon_forms_exception_ce, "The validators parameter must be an object");
 		return;
 	}
 	zephir_update_property_array_append(this_ptr, SL("_validators"), validator TSRMLS_CC);
@@ -466,25 +454,18 @@ PHP_METHOD(Phalcon_Forms_Element, getAttribute) {
  */
 PHP_METHOD(Phalcon_Forms_Element, setAttributes) {
 
-	zval *attributes, *_0, *_1;
+	zval *attributes;
 
-	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 0, &attributes);
+	zephir_fetch_params(0, 1, 0, &attributes);
 
 
 
 	if ((Z_TYPE_P(attributes) != IS_ARRAY)) {
-		ZEPHIR_INIT_VAR(_0);
-		object_init_ex(_0, phalcon_forms_exception_ce);
-		ZEPHIR_INIT_VAR(_1);
-		ZVAL_STRING(_1, "Parameter 'attributes' must be an array", 1);
-		zephir_call_method_p1_noret(_0, "__construct", _1);
-		zephir_throw_exception(_0 TSRMLS_CC);
-		ZEPHIR_MM_RESTORE();
+		ZEPHIR_THROW_EXCEPTION_STRW(phalcon_forms_exception_ce, "Parameter 'attributes' must be an array");
 		return;
 	}
 	zephir_update_property_this(this_ptr, SL("_attributes"), attributes TSRMLS_CC);
-	RETURN_THIS();
+	RETURN_THISW();
 
 }
 

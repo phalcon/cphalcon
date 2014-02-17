@@ -77,10 +77,10 @@ ZEPHIR_INIT_CLASS(Phalcon_Annotations_Collection) {
  */
 PHP_METHOD(Phalcon_Annotations_Collection, __construct) {
 
-	zend_function *_5 = NULL;
-	HashTable *_3;
-	HashPosition _2;
-	zval *reflectionData = NULL, *annotations, *annotationData = NULL, *_0 = NULL, *_1, **_4;
+	zend_function *_4 = NULL;
+	HashTable *_1;
+	HashPosition _0;
+	zval *reflectionData = NULL, *annotations, *annotationData = NULL, **_2, *_3 = NULL;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 1, &reflectionData);
@@ -92,29 +92,23 @@ PHP_METHOD(Phalcon_Annotations_Collection, __construct) {
 
 	if ((Z_TYPE_P(reflectionData) != IS_NULL)) {
 		if ((Z_TYPE_P(reflectionData) != IS_ARRAY)) {
-			ZEPHIR_INIT_VAR(_0);
-			object_init_ex(_0, phalcon_annotations_exception_ce);
-			ZEPHIR_INIT_VAR(_1);
-			ZVAL_STRING(_1, "Reflection data must be an array", 1);
-			zephir_call_method_p1_noret(_0, "__construct", _1);
-			zephir_throw_exception(_0 TSRMLS_CC);
-			ZEPHIR_MM_RESTORE();
+			ZEPHIR_THROW_EXCEPTION_STR(phalcon_annotations_exception_ce, "Reflection data must be an array");
 			return;
 		}
 	}
 	if ((Z_TYPE_P(reflectionData) == IS_ARRAY)) {
 		ZEPHIR_INIT_VAR(annotations);
 		array_init(annotations);
-		zephir_is_iterable(reflectionData, &_3, &_2, 0, 0);
+		zephir_is_iterable(reflectionData, &_1, &_0, 0, 0);
 		for (
-		  ; zend_hash_get_current_data_ex(_3, (void**) &_4, &_2) == SUCCESS
-		  ; zephir_hash_move_forward_ex(_3, &_2)
+		  ; zend_hash_get_current_data_ex(_1, (void**) &_2, &_0) == SUCCESS
+		  ; zephir_hash_move_forward_ex(_1, &_0)
 		) {
-			ZEPHIR_GET_HVALUE(annotationData, _4);
-			ZEPHIR_INIT_LNVAR(_0);
-			object_init_ex(_0, phalcon_annotations_annotation_ce);
-			zephir_call_method_p1_cache_noret(_0, "__construct", &_5, annotationData);
-			zephir_array_append(&annotations, _0, PH_SEPARATE);
+			ZEPHIR_GET_HVALUE(annotationData, _2);
+			ZEPHIR_INIT_LNVAR(_3);
+			object_init_ex(_3, phalcon_annotations_annotation_ce);
+			zephir_call_method_p1_cache_noret(_3, "__construct", &_4, annotationData);
+			zephir_array_append(&annotations, _3, PH_SEPARATE);
 		}
 		zephir_update_property_this(this_ptr, SL("_annotations"), annotations TSRMLS_CC);
 	}

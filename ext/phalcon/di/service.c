@@ -317,7 +317,7 @@ PHP_METHOD(Phalcon_Di_Service, resolve) {
  */
 PHP_METHOD(Phalcon_Di_Service, setParameter) {
 
-	zval *position_param = NULL, *parameter, *definition, *arguments, *_0 = NULL, *_1 = NULL;
+	zval *position_param = NULL, *parameter, *definition, *arguments;
 	int position;
 
 	ZEPHIR_MM_GROW();
@@ -329,23 +329,11 @@ PHP_METHOD(Phalcon_Di_Service, setParameter) {
 	ZEPHIR_OBS_VAR(definition);
 	zephir_read_property_this(&definition, this_ptr, SL("_definition"), PH_NOISY_CC);
 	if ((Z_TYPE_P(definition) != IS_ARRAY)) {
-		ZEPHIR_INIT_VAR(_0);
-		object_init_ex(_0, phalcon_di_exception_ce);
-		ZEPHIR_INIT_VAR(_1);
-		ZVAL_STRING(_1, "Definition must be an array to update its parameters", 1);
-		zephir_call_method_p1_noret(_0, "__construct", _1);
-		zephir_throw_exception(_0 TSRMLS_CC);
-		ZEPHIR_MM_RESTORE();
+		ZEPHIR_THROW_EXCEPTION_STR(phalcon_di_exception_ce, "Definition must be an array to update its parameters");
 		return;
 	}
 	if ((Z_TYPE_P(parameter) != IS_ARRAY)) {
-		ZEPHIR_INIT_LNVAR(_0);
-		object_init_ex(_0, phalcon_di_exception_ce);
-		ZEPHIR_INIT_NVAR(_1);
-		ZVAL_STRING(_1, "The parameter must be an array", 1);
-		zephir_call_method_p1_noret(_0, "__construct", _1);
-		zephir_throw_exception(_0 TSRMLS_CC);
-		ZEPHIR_MM_RESTORE();
+		ZEPHIR_THROW_EXCEPTION_STR(phalcon_di_exception_ce, "The parameter must be an array");
 		return;
 	}
 	ZEPHIR_OBS_VAR(arguments);
@@ -370,7 +358,7 @@ PHP_METHOD(Phalcon_Di_Service, setParameter) {
  */
 PHP_METHOD(Phalcon_Di_Service, getParameter) {
 
-	zval *position_param = NULL, *definition, *arguments, *parameter, *_0, *_1;
+	zval *position_param = NULL, *definition, *arguments, *parameter;
 	int position;
 
 	ZEPHIR_MM_GROW();
@@ -382,13 +370,7 @@ PHP_METHOD(Phalcon_Di_Service, getParameter) {
 	ZEPHIR_OBS_VAR(definition);
 	zephir_read_property_this(&definition, this_ptr, SL("_definition"), PH_NOISY_CC);
 	if ((Z_TYPE_P(definition) != IS_ARRAY)) {
-		ZEPHIR_INIT_VAR(_0);
-		object_init_ex(_0, phalcon_di_exception_ce);
-		ZEPHIR_INIT_VAR(_1);
-		ZVAL_STRING(_1, "Definition must be an array to obtain its parameters", 1);
-		zephir_call_method_p1_noret(_0, "__construct", _1);
-		zephir_throw_exception(_0 TSRMLS_CC);
-		ZEPHIR_MM_RESTORE();
+		ZEPHIR_THROW_EXCEPTION_STR(phalcon_di_exception_ce, "Definition must be an array to obtain its parameters");
 		return;
 	}
 	if (zephir_array_isset_string_fetch(&arguments, definition, SS("arguments"), 1 TSRMLS_CC)) {
@@ -408,7 +390,7 @@ PHP_METHOD(Phalcon_Di_Service, getParameter) {
  */
 PHP_METHOD(Phalcon_Di_Service, __set_state) {
 
-	zval *attributes, *name, *definition, *shared, *_0 = NULL, *_1 = NULL;
+	zval *attributes, *name, *definition, *shared;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &attributes);
@@ -417,35 +399,17 @@ PHP_METHOD(Phalcon_Di_Service, __set_state) {
 
 	ZEPHIR_OBS_VAR(name);
 	if (!(zephir_array_isset_string_fetch(&name, attributes, SS("_name"), 0 TSRMLS_CC))) {
-		ZEPHIR_INIT_VAR(_0);
-		object_init_ex(_0, phalcon_di_exception_ce);
-		ZEPHIR_INIT_VAR(_1);
-		ZVAL_STRING(_1, "The attribute '_name' is required", 1);
-		zephir_call_method_p1_noret(_0, "__construct", _1);
-		zephir_throw_exception(_0 TSRMLS_CC);
-		ZEPHIR_MM_RESTORE();
+		ZEPHIR_THROW_EXCEPTION_STR(phalcon_di_exception_ce, "The attribute '_name' is required");
 		return;
 	}
 	ZEPHIR_OBS_VAR(definition);
 	if (!(zephir_array_isset_string_fetch(&definition, attributes, SS("_definition"), 0 TSRMLS_CC))) {
-		ZEPHIR_INIT_LNVAR(_0);
-		object_init_ex(_0, phalcon_di_exception_ce);
-		ZEPHIR_INIT_NVAR(_1);
-		ZVAL_STRING(_1, "The attribute '_name' is required", 1);
-		zephir_call_method_p1_noret(_0, "__construct", _1);
-		zephir_throw_exception(_0 TSRMLS_CC);
-		ZEPHIR_MM_RESTORE();
+		ZEPHIR_THROW_EXCEPTION_STR(phalcon_di_exception_ce, "The attribute '_name' is required");
 		return;
 	}
 	ZEPHIR_OBS_VAR(shared);
 	if (!(zephir_array_isset_string_fetch(&shared, attributes, SS("_shared"), 0 TSRMLS_CC))) {
-		ZEPHIR_INIT_LNVAR(_0);
-		object_init_ex(_0, phalcon_di_exception_ce);
-		ZEPHIR_INIT_NVAR(_1);
-		ZVAL_STRING(_1, "The attribute '_shared' is required", 1);
-		zephir_call_method_p1_noret(_0, "__construct", _1);
-		zephir_throw_exception(_0 TSRMLS_CC);
-		ZEPHIR_MM_RESTORE();
+		ZEPHIR_THROW_EXCEPTION_STR(phalcon_di_exception_ce, "The attribute '_shared' is required");
 		return;
 	}
 	object_init_ex(return_value, phalcon_di_service_ce);

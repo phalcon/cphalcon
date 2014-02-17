@@ -61,7 +61,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Annotations_Adapter) {
  */
 PHP_METHOD(Phalcon_Annotations_Adapter, setReader) {
 
-	zval *reader, *_0 = NULL, *_1;
+	zval *reader, *_0, *_1;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &reader);
@@ -79,13 +79,7 @@ PHP_METHOD(Phalcon_Annotations_Adapter, setReader) {
 		return;
 	}
 	if ((Z_TYPE_P(reader) != IS_OBJECT)) {
-		ZEPHIR_INIT_LNVAR(_0);
-		object_init_ex(_0, phalcon_annotations_exception_ce);
-		ZEPHIR_INIT_BNVAR(_1);
-		ZVAL_STRING(_1, "Invalid annotations reader", 1);
-		zephir_call_method_p1_noret(_0, "__construct", _1);
-		zephir_throw_exception(_0 TSRMLS_CC);
-		ZEPHIR_MM_RESTORE();
+		ZEPHIR_THROW_EXCEPTION_STR(phalcon_annotations_exception_ce, "Invalid annotations reader");
 		return;
 	}
 	zephir_update_property_this(this_ptr, SL("_reader"), reader TSRMLS_CC);

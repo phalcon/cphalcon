@@ -13,9 +13,9 @@
 
 #include "kernel/main.h"
 #include "kernel/exception.h"
-#include "kernel/memory.h"
-#include "kernel/fcall.h"
 #include "kernel/object.h"
+#include "kernel/fcall.h"
+#include "kernel/memory.h"
 #include "kernel/array.h"
 #include "kernel/hash.h"
 #include "kernel/operators.h"
@@ -73,7 +73,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Forms_Form) {
  */
 PHP_METHOD(Phalcon_Forms_Form, __construct) {
 
-	zval *entity = NULL, *userOptions = NULL, *_0, *_1;
+	zval *entity = NULL, *userOptions = NULL;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 2, &entity, &userOptions);
@@ -88,13 +88,7 @@ PHP_METHOD(Phalcon_Forms_Form, __construct) {
 
 	if ((Z_TYPE_P(entity) != IS_NULL)) {
 		if ((Z_TYPE_P(entity) != IS_OBJECT)) {
-			ZEPHIR_INIT_VAR(_0);
-			object_init_ex(_0, phalcon_forms_exception_ce);
-			ZEPHIR_INIT_VAR(_1);
-			ZVAL_STRING(_1, "The base entity is not valid", 1);
-			zephir_call_method_p1_noret(_0, "__construct", _1);
-			zephir_throw_exception(_0 TSRMLS_CC);
-			ZEPHIR_MM_RESTORE();
+			ZEPHIR_THROW_EXCEPTION_STR(phalcon_forms_exception_ce, "The base entity is not valid");
 			return;
 		}
 		zephir_update_property_this(this_ptr, SL("_entity"), entity TSRMLS_CC);
@@ -194,25 +188,18 @@ PHP_METHOD(Phalcon_Forms_Form, getUserOption) {
  */
 PHP_METHOD(Phalcon_Forms_Form, setUserOptions) {
 
-	zval *options, *_0, *_1;
+	zval *options;
 
-	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 0, &options);
+	zephir_fetch_params(0, 1, 0, &options);
 
 
 
 	if ((Z_TYPE_P(options) != IS_ARRAY)) {
-		ZEPHIR_INIT_VAR(_0);
-		object_init_ex(_0, phalcon_forms_exception_ce);
-		ZEPHIR_INIT_VAR(_1);
-		ZVAL_STRING(_1, "Parameter 'options' must be an array", 1);
-		zephir_call_method_p1_noret(_0, "__construct", _1);
-		zephir_throw_exception(_0 TSRMLS_CC);
-		ZEPHIR_MM_RESTORE();
+		ZEPHIR_THROW_EXCEPTION_STRW(phalcon_forms_exception_ce, "Parameter 'options' must be an array");
 		return;
 	}
 	zephir_update_property_this(this_ptr, SL("_options"), options TSRMLS_CC);
-	RETURN_THIS();
+	RETURN_THISW();
 
 }
 
@@ -281,10 +268,10 @@ PHP_METHOD(Phalcon_Forms_Form, getElements) {
  */
 PHP_METHOD(Phalcon_Forms_Form, bind) {
 
-	zend_function *_5 = NULL, *_7 = NULL, *_8 = NULL;
-	HashTable *_3;
-	HashPosition _2;
-	zval *data, *entity, *whitelist = NULL, *elements, *filter = NULL, *key = NULL, *value = NULL, *element = NULL, *filters = NULL, *dependencyInjector = NULL, *filteredValue = NULL, *method = NULL, *_0 = NULL, *_1 = NULL, **_4, *_6 = NULL;
+	zend_function *_3 = NULL, *_6 = NULL, *_7 = NULL;
+	HashTable *_1;
+	HashPosition _0;
+	zval *data, *entity, *whitelist = NULL, *elements, *filter = NULL, *key = NULL, *value = NULL, *element = NULL, *filters = NULL, *dependencyInjector = NULL, *filteredValue = NULL, *method = NULL, **_2, *_4 = NULL, *_5 = NULL;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 1, &data, &entity, &whitelist);
@@ -296,36 +283,24 @@ PHP_METHOD(Phalcon_Forms_Form, bind) {
 
 
 	if ((Z_TYPE_P(data) != IS_ARRAY)) {
-		ZEPHIR_INIT_VAR(_0);
-		object_init_ex(_0, phalcon_forms_exception_ce);
-		ZEPHIR_INIT_VAR(_1);
-		ZVAL_STRING(_1, "The data must be an array", 1);
-		zephir_call_method_p1_noret(_0, "__construct", _1);
-		zephir_throw_exception(_0 TSRMLS_CC);
-		ZEPHIR_MM_RESTORE();
+		ZEPHIR_THROW_EXCEPTION_STR(phalcon_forms_exception_ce, "The data must be an array");
 		return;
 	}
 	ZEPHIR_OBS_VAR(elements);
 	zephir_read_property_this(&elements, this_ptr, SL("_elements"), PH_NOISY_CC);
 	if ((Z_TYPE_P(elements) != IS_ARRAY)) {
-		ZEPHIR_INIT_LNVAR(_0);
-		object_init_ex(_0, phalcon_forms_exception_ce);
-		ZEPHIR_INIT_NVAR(_1);
-		ZVAL_STRING(_1, "There are no elements in the form", 1);
-		zephir_call_method_p1_noret(_0, "__construct", _1);
-		zephir_throw_exception(_0 TSRMLS_CC);
-		ZEPHIR_MM_RESTORE();
+		ZEPHIR_THROW_EXCEPTION_STR(phalcon_forms_exception_ce, "There are no elements in the form");
 		return;
 	}
 	ZEPHIR_INIT_VAR(filter);
 	ZVAL_NULL(filter);
-	zephir_is_iterable(data, &_3, &_2, 0, 0);
+	zephir_is_iterable(data, &_1, &_0, 0, 0);
 	for (
-	  ; zend_hash_get_current_data_ex(_3, (void**) &_4, &_2) == SUCCESS
-	  ; zephir_hash_move_forward_ex(_3, &_2)
+	  ; zend_hash_get_current_data_ex(_1, (void**) &_2, &_0) == SUCCESS
+	  ; zephir_hash_move_forward_ex(_1, &_0)
 	) {
-		ZEPHIR_GET_HMKEY(key, _3, _2);
-		ZEPHIR_GET_HVALUE(value, _4);
+		ZEPHIR_GET_HMKEY(key, _1, _0);
+		ZEPHIR_GET_HVALUE(value, _2);
 		if (!(zephir_array_isset(elements, key))) {
 			continue;
 		}
@@ -341,15 +316,15 @@ PHP_METHOD(Phalcon_Forms_Form, bind) {
 		if (zephir_is_true(filters)) {
 			if ((Z_TYPE_P(filter) != IS_OBJECT)) {
 				ZEPHIR_INIT_NVAR(dependencyInjector);
-				zephir_call_method_cache(dependencyInjector, this_ptr, "getdi", &_5);
-				ZEPHIR_INIT_NVAR(_1);
-				ZEPHIR_INIT_NVAR(_6);
-				ZVAL_STRING(_6, "filter", 1);
-				zephir_call_method_p1_cache(_1, dependencyInjector, "getshared", &_7, _6);
-				ZEPHIR_CPY_WRT(filter, _1);
+				zephir_call_method_cache(dependencyInjector, this_ptr, "getdi", &_3);
+				ZEPHIR_INIT_NVAR(_4);
+				ZEPHIR_INIT_NVAR(_5);
+				ZVAL_STRING(_5, "filter", 1);
+				zephir_call_method_p1_cache(_4, dependencyInjector, "getshared", &_6, _5);
+				ZEPHIR_CPY_WRT(filter, _4);
 			}
 			ZEPHIR_INIT_NVAR(filteredValue);
-			zephir_call_method_p2_cache(filteredValue, filter, "sanitize", &_8, value, filters);
+			zephir_call_method_p2_cache(filteredValue, filter, "sanitize", &_7, value, filters);
 		} else {
 			ZEPHIR_CPY_WRT(filteredValue, value);
 		}
@@ -576,7 +551,7 @@ PHP_METHOD(Phalcon_Forms_Form, hasMessagesFor) {
  */
 PHP_METHOD(Phalcon_Forms_Form, add) {
 
-	zval *element, *_0 = NULL, *_1, *name;
+	zval *element, *_0, *_1, *name;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &element);
@@ -594,13 +569,7 @@ PHP_METHOD(Phalcon_Forms_Form, add) {
 		return;
 	}
 	if ((Z_TYPE_P(element) != IS_OBJECT)) {
-		ZEPHIR_INIT_LNVAR(_0);
-		object_init_ex(_0, phalcon_forms_exception_ce);
-		ZEPHIR_INIT_BNVAR(_1);
-		ZVAL_STRING(_1, "The element is not valid", 1);
-		zephir_call_method_p1_noret(_0, "__construct", _1);
-		zephir_throw_exception(_0 TSRMLS_CC);
-		ZEPHIR_MM_RESTORE();
+		ZEPHIR_THROW_EXCEPTION_STR(phalcon_forms_exception_ce, "The element is not valid");
 		return;
 	}
 	ZEPHIR_INIT_VAR(name);

@@ -193,7 +193,7 @@ PHP_METHOD(Phalcon_Escaper, detectEncoding) {
  */
 PHP_METHOD(Phalcon_Escaper, normalizeEncoding) {
 
-	zval *str, *_0, *_1 = NULL, _2;
+	zval *str, *_0, _1;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &str);
@@ -201,20 +201,14 @@ PHP_METHOD(Phalcon_Escaper, normalizeEncoding) {
 
 
 	if (!((zephir_function_exists_ex(SS("mb_convert_encoding") TSRMLS_CC) == SUCCESS))) {
-		ZEPHIR_INIT_VAR(_0);
-		object_init_ex(_0, phalcon_escaper_exception_ce);
-		ZEPHIR_INIT_VAR(_1);
-		ZVAL_STRING(_1, "Extension 'mbstring' is required", 1);
-		zephir_call_method_p1_noret(_0, "__construct", _1);
-		zephir_throw_exception(_0 TSRMLS_CC);
-		ZEPHIR_MM_RESTORE();
+		ZEPHIR_THROW_EXCEPTION_STR(phalcon_escaper_exception_ce, "Extension 'mbstring' is required");
 		return;
 	}
-	ZEPHIR_INIT_NVAR(_1);
-	zephir_call_method_p1(_1, this_ptr, "detectencoding", str);
-	ZEPHIR_SINIT_VAR(_2);
-	ZVAL_STRING(&_2, "UTF-32", 0);
-	zephir_call_func_p3(return_value, "mb_convert_encoding", str, &_2, _1);
+	ZEPHIR_INIT_VAR(_0);
+	zephir_call_method_p1(_0, this_ptr, "detectencoding", str);
+	ZEPHIR_SINIT_VAR(_1);
+	ZVAL_STRING(&_1, "UTF-32", 0);
+	zephir_call_func_p3(return_value, "mb_convert_encoding", str, &_1, _0);
 	RETURN_MM();
 
 }

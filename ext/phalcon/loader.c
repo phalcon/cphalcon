@@ -16,8 +16,8 @@
 #include "kernel/array.h"
 #include "kernel/object.h"
 #include "kernel/exception.h"
-#include "kernel/operators.h"
 #include "kernel/fcall.h"
+#include "kernel/operators.h"
 #include "kernel/require.h"
 #include "kernel/hash.h"
 #include "kernel/string.h"
@@ -50,7 +50,7 @@
  *
  *<code>
  * //Creates the autoloader
- * $loader = new Phalcon\Loader();
+ * $loader = new \Phalcon\Loader();
  *
  * //Register some namespaces
  * $loader->registerNamespaces(array(
@@ -113,13 +113,25 @@ PHP_METHOD(Phalcon_Loader, __construct) {
  */
 PHP_METHOD(Phalcon_Loader, setEventsManager) {
 
-	zval *eventsManager;
+	zval *eventsManager, *_0, *_1;
 
-	zephir_fetch_params(0, 1, 0, &eventsManager);
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 1, 0, &eventsManager);
 
 
 
+	if (zephir_is_instance_of(eventsManager, SL("Phalcon\\Events\\ManagerInterface") TSRMLS_CC)) {
+		ZEPHIR_INIT_VAR(_0);
+		object_init_ex(_0, spl_ce_BadMethodCallException);
+		ZEPHIR_INIT_VAR(_1);
+		ZVAL_STRING(_1, "Parameter 'eventsManager' must be an instance of 'Phalcon\\Events\\ManagerInterface'", 1);
+		zephir_call_method_p1_noret(_0, "__construct", _1);
+		zephir_throw_exception(_0 TSRMLS_CC);
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	zephir_update_property_this(this_ptr, SL("_eventsManager"), eventsManager TSRMLS_CC);
+	ZEPHIR_MM_RESTORE();
 
 }
 
@@ -507,8 +519,8 @@ PHP_METHOD(Phalcon_Loader, autoLoad) {
 	if ((Z_TYPE_P(namespaces) == IS_ARRAY)) {
 		zephir_is_iterable(namespaces, &_3, &_2, 0, 0);
 		for (
-			; zend_hash_get_current_data_ex(_3, (void**) &_4, &_2) == SUCCESS
-			; zend_hash_move_forward_ex(_3, &_2)
+		  ; zend_hash_get_current_data_ex(_3, (void**) &_4, &_2) == SUCCESS
+		  ; zephir_hash_move_forward_ex(_3, &_2)
 		) {
 			ZEPHIR_GET_HMKEY(nsPrefix, _3, _2);
 			ZEPHIR_GET_HVALUE(directory, _4);
@@ -524,8 +536,8 @@ PHP_METHOD(Phalcon_Loader, autoLoad) {
 					ZEPHIR_CONCAT_VV(fixedDirectory, _5, ds);
 					zephir_is_iterable(extensions, &_7, &_6, 0, 0);
 					for (
-						; zend_hash_get_current_data_ex(_7, (void**) &_8, &_6) == SUCCESS
-						; zend_hash_move_forward_ex(_7, &_6)
+					  ; zend_hash_get_current_data_ex(_7, (void**) &_8, &_6) == SUCCESS
+					  ; zephir_hash_move_forward_ex(_7, &_6)
 					) {
 						ZEPHIR_GET_HVALUE(extension, _8);
 						ZEPHIR_INIT_NVAR(filePath);
@@ -559,8 +571,8 @@ PHP_METHOD(Phalcon_Loader, autoLoad) {
 	if ((Z_TYPE_P(prefixes) == IS_ARRAY)) {
 		zephir_is_iterable(prefixes, &_11, &_10, 0, 0);
 		for (
-			; zend_hash_get_current_data_ex(_11, (void**) &_12, &_10) == SUCCESS
-			; zend_hash_move_forward_ex(_11, &_10)
+		  ; zend_hash_get_current_data_ex(_11, (void**) &_12, &_10) == SUCCESS
+		  ; zephir_hash_move_forward_ex(_11, &_10)
 		) {
 			ZEPHIR_GET_HMKEY(prefix, _11, _10);
 			ZEPHIR_GET_HVALUE(directory, _12);
@@ -582,8 +594,8 @@ PHP_METHOD(Phalcon_Loader, autoLoad) {
 					ZEPHIR_CONCAT_VV(fixedDirectory, _5, ds);
 					zephir_is_iterable(extensions, &_15, &_14, 0, 0);
 					for (
-						; zend_hash_get_current_data_ex(_15, (void**) &_16, &_14) == SUCCESS
-						; zend_hash_move_forward_ex(_15, &_14)
+					  ; zend_hash_get_current_data_ex(_15, (void**) &_16, &_14) == SUCCESS
+					  ; zephir_hash_move_forward_ex(_15, &_14)
 					) {
 						ZEPHIR_GET_HVALUE(extension, _16);
 						ZEPHIR_INIT_NVAR(filePath);
@@ -625,8 +637,8 @@ PHP_METHOD(Phalcon_Loader, autoLoad) {
 	if ((Z_TYPE_P(directories) == IS_ARRAY)) {
 		zephir_is_iterable(directories, &_20, &_19, 0, 0);
 		for (
-			; zend_hash_get_current_data_ex(_20, (void**) &_21, &_19) == SUCCESS
-			; zend_hash_move_forward_ex(_20, &_19)
+		  ; zend_hash_get_current_data_ex(_20, (void**) &_21, &_19) == SUCCESS
+		  ; zephir_hash_move_forward_ex(_20, &_19)
 		) {
 			ZEPHIR_GET_HVALUE(directory, _21);
 			ZEPHIR_INIT_NVAR(_0);
@@ -635,8 +647,8 @@ PHP_METHOD(Phalcon_Loader, autoLoad) {
 			ZEPHIR_CONCAT_VV(fixedDirectory, _0, ds);
 			zephir_is_iterable(extensions, &_23, &_22, 0, 0);
 			for (
-				; zend_hash_get_current_data_ex(_23, (void**) &_24, &_22) == SUCCESS
-				; zend_hash_move_forward_ex(_23, &_22)
+			  ; zend_hash_get_current_data_ex(_23, (void**) &_24, &_22) == SUCCESS
+			  ; zephir_hash_move_forward_ex(_23, &_22)
 			) {
 				ZEPHIR_GET_HVALUE(extension, _24);
 				ZEPHIR_INIT_NVAR(filePath);
