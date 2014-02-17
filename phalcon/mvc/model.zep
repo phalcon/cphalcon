@@ -51,7 +51,7 @@ namespace Phalcon\Mvc;
  * </code>
  *
  */
-abstract class Model implements \Phalcon\Mvc\ModelInterface, Phalcon\Mvc\Model\ResultInterface, Phalcon\Di\InjectionAwareInterface, Serializable
+abstract class Model implements \Phalcon\Mvc\ModelInterface, \Phalcon\Mvc\Model\ResultInterface, \Phalcon\Di\InjectionAwareInterface, \Serializable
 {
 
 	protected _dependencyInjector;
@@ -108,7 +108,7 @@ abstract class Model implements \Phalcon\Mvc\ModelInterface, Phalcon\Mvc\Model\R
 		 * We use a default DI if the user doesn't define one
 		 */
 		if typeof dependencyInjector != "object" {
-			let dependencyInjector = Phalcon\Di::getDefault();
+			let dependencyInjector = \Phalcon\Di::getDefault();
 		}
 
 		if typeof dependencyInjector != "object" {
@@ -565,7 +565,7 @@ abstract class Model implements \Phalcon\Mvc\ModelInterface, Phalcon\Mvc\Model\R
 		 * If there is no column map and the hydration mode is arrays return the data as it is
 		 */
 		if typeof columnMap != "array" {
-			if hydrationMode == Phalcon\Mvc\Model\Resultset::HYDRATE_ARRAYS {
+			if hydrationMode == \Phalcon\Mvc\Model\Resultset::HYDRATE_ARRAYS {
 				return data;
 			}
 		}
@@ -573,7 +573,7 @@ abstract class Model implements \Phalcon\Mvc\ModelInterface, Phalcon\Mvc\Model\R
 		/**
 		 * Create the destination object according to the hydration mode
 		 */
-		if hydrationMode == Phalcon\Mvc\Model\Resultset::HYDRATE_ARRAYS {
+		if hydrationMode == \Phalcon\Mvc\Model\Resultset::HYDRATE_ARRAYS {
 			let hydrate = [];
 		} else {
 			let hydrate = new stdclass();
@@ -590,13 +590,13 @@ abstract class Model implements \Phalcon\Mvc\ModelInterface, Phalcon\Mvc\Model\R
 						throw new \Phalcon\Mvc\Model\Exception("Column '" . key . "' doesn't make part of the column map");
 					}
 
-					if hydrationMode == Phalcon\Mvc\Model\Resultset::HYDRATE_ARRAYS {
+					if hydrationMode == \Phalcon\Mvc\Model\Resultset::HYDRATE_ARRAYS {
 						let hydrate[attribute] = value;
 					} else {
 						let hydrate->{attribute} = value;
 					}
 				} else {
-					if hydrationMode == Phalcon\Mvc\Model\Resultset::HYDRATE_ARRAYS {
+					if hydrationMode == \Phalcon\Mvc\Model\Resultset::HYDRATE_ARRAYS {
 						let hydrate[key] = value;
 					} else {
 						let hydrate->{key} = value;
@@ -829,7 +829,7 @@ abstract class Model implements \Phalcon\Mvc\ModelInterface, Phalcon\Mvc\Model\R
 		 * Use the global dependency injector if there is no one defined
 		 */
 		if typeof dependencyInjector != "object" {
-			let dependencyInjector = Phalcon\Di::getDefault();
+			let dependencyInjector = \Phalcon\Di::getDefault();
 		}
 
 		let criteria = new \Phalcon\Mvc\Model\Criteria();
@@ -1427,7 +1427,7 @@ abstract class Model implements \Phalcon\Mvc\ModelInterface, Phalcon\Mvc\Model\R
 					/**
 					 * By default action is restrict
 					 */
-					let action = Phalcon\Mvc\Model\Relation::ACTION_RESTRICT;
+					let action = \Phalcon\Mvc\Model\Relation::ACTION_RESTRICT;
 
 					/**
 					 * Try to find a different action in the foreign key's options
@@ -1439,7 +1439,7 @@ abstract class Model implements \Phalcon\Mvc\ModelInterface, Phalcon\Mvc\Model\R
 					/**
 					 * Check only if the operation is restrict
 					 */
-					if action == Phalcon\Mvc\Model\Relation::ACTION_RESTRICT {
+					if action == \Phalcon\Mvc\Model\Relation::ACTION_RESTRICT {
 
 						/**
 						 * Load the referenced model if needed
@@ -1496,7 +1496,7 @@ abstract class Model implements \Phalcon\Mvc\ModelInterface, Phalcon\Mvc\Model\R
 							/**
 							 * Create a message
 							 */
-							this->appendMessage(new Phalcon\Mvc\Model\Message(message, fields, "ConstraintViolation"));
+							this->appendMessage(new \Phalcon\Mvc\Model\Message(message, fields, "ConstraintViolation"));
 							let error = true;
 							break;
 						}
@@ -1556,7 +1556,7 @@ abstract class Model implements \Phalcon\Mvc\ModelInterface, Phalcon\Mvc\Model\R
 					/**
 					 * By default action is restrict
 					 */
-					let action = Phalcon\Mvc\Model\Relation::NO_ACTION;
+					let action = \Phalcon\Mvc\Model\Relation::NO_ACTION;
 
 					/**
 					 * Try to find a different action in the foreign key's options
@@ -1568,7 +1568,7 @@ abstract class Model implements \Phalcon\Mvc\ModelInterface, Phalcon\Mvc\Model\R
 					/**
 					 * Check only if the operation is restrict
 					 */
-					if action == Phalcon\Mvc\Model\Relation::ACTION_CASCADE {
+					if action == \Phalcon\Mvc\Model\Relation::ACTION_CASCADE {
 
 						/**
 						 * Load a plain instance from the models manager
@@ -1727,7 +1727,7 @@ abstract class Model implements \Phalcon\Mvc\ModelInterface, Phalcon\Mvc\Model\R
 							/**
 							 * Create a message
 							 */
-							this->appendMessage(new Phalcon\Mvc\Model\Message(message, fields, "ConstraintViolation"));
+							this->appendMessage(new \Phalcon\Mvc\Model\Message(message, fields, "ConstraintViolation"));
 							let error = true;
 							break;
 						}
@@ -2006,7 +2006,7 @@ abstract class Model implements \Phalcon\Mvc\ModelInterface, Phalcon\Mvc\Model\R
 			field, columnMap, value, attributeField, success, bindType, defaultValue, sequenceName;
 		boolean useExplicitIdentity;
 
-		let bindSkip = Phalcon\Db\Column::BIND_SKIP;
+		let bindSkip = \Phalcon\Db\Column::BIND_SKIP;
 
 		let fields = [],
 			values = [],
@@ -2174,7 +2174,7 @@ abstract class Model implements \Phalcon\Mvc\ModelInterface, Phalcon\Mvc\Model\R
 			snapshot, nonPrimary, columnMap, attributeField, value, primaryKeys, bindType;
 		boolean useDynamicUpdate, changed;
 
-		let bindSkip = Phalcon\Db\Column::BIND_SKIP,
+		let bindSkip = \Phalcon\Db\Column::BIND_SKIP,
 			fields = [],
 			values = [],
 			bindTypes = [],
@@ -2903,7 +2903,7 @@ abstract class Model implements \Phalcon\Mvc\ModelInterface, Phalcon\Mvc\Model\R
 		 */
 		if this->_exists(metaData, this->getReadConnection()) {
 			let this->_errorMessages = [
-				new Phalcon\Mvc\Model\Message("Record cannot be created because it already exists", null, "InvalidCreateAttempt")
+				new \Phalcon\Mvc\Model\Message("Record cannot be created because it already exists", null, "InvalidCreateAttempt")
 			];
 			return false;
 		}
@@ -3007,7 +3007,7 @@ abstract class Model implements \Phalcon\Mvc\ModelInterface, Phalcon\Mvc\Model\R
 			}
 
 			if this->_exists(metaData, this->getReadConnection()) {
-				let this->_errorMessages = [new Phalcon\Mvc\Model\Message("Record cannot be updated because it does not exist", null, "InvalidUpdateAttempt")];
+				let this->_errorMessages = [new \Phalcon\Mvc\Model\Message("Record cannot be updated because it does not exist", null, "InvalidUpdateAttempt")];
 				return false;
 			}
 		}
@@ -3240,7 +3240,7 @@ abstract class Model implements \Phalcon\Mvc\ModelInterface, Phalcon\Mvc\Model\R
 				"columns": fields,
 				"tables": readConnection->escapeIdentifier(table),
 				"where": uniqueKey
-			]), Phalcon\Db::FETCH_ASSOC, uniqueParams, this->_uniqueTypes);
+			]), \Phalcon\Db::FETCH_ASSOC, uniqueParams, this->_uniqueTypes);
 
 		/**
 		 * Get a column map if any
@@ -4119,7 +4119,7 @@ abstract class Model implements \Phalcon\Mvc\ModelInterface, Phalcon\Mvc\Model\R
 		 * Values are probably relationships if they are objects
 		 */
 		if typeof value == "object" {
-			if value instanceof Phalcon\Mvc\ModelInterface {
+			if value instanceof \Phalcon\Mvc\ModelInterface {
 				let lowerProperty = strtolower(property),
 					this->{lowerProperty} = value,
 					this->_related[lowerProperty] = value,
@@ -4187,7 +4187,7 @@ abstract class Model implements \Phalcon\Mvc\ModelInterface, Phalcon\Mvc\Model\R
 				/**
 				 * For belongs-to relations we store the object in the related bag
 				 */
-				if result instanceof Phalcon\Mvc\ModelInterface {
+				if result instanceof \Phalcon\Mvc\ModelInterface {
 					let this->_related[lowerProperty] = result;
 				}
 			}
@@ -4266,7 +4266,7 @@ abstract class Model implements \Phalcon\Mvc\ModelInterface, Phalcon\Mvc\Model\R
 				/**
 				 * Obtain the default DI
 				 */
-				let dependencyInjector = Phalcon\Di::getDefault();
+				let dependencyInjector = \Phalcon\Di::getDefault();
 				if typeof dependencyInjector != "object" {
 					throw new \Phalcon\Mvc\Model\Exception("A dependency injector container is required to obtain the services related to the ORM");
 				}

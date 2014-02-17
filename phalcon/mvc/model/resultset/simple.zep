@@ -26,7 +26,7 @@ namespace Phalcon\Mvc\Model\Resultset;
  * This class builds every complete object as it is required
  */
 class Simple extends \Phalcon\Mvc\Model\Resultset
-	implements Iterator, SeekableIterator, Countable, ArrayAccess, Serializable
+	implements \Iterator, \SeekableIterator, \Countable, \ArrayAccess, \Serializable
 {
 
 	protected _model;
@@ -61,7 +61,7 @@ class Simple extends \Phalcon\Mvc\Model\Resultset
 		/**
 		 * Do the fetch using only associative indexes
 		 */
-		result->setFetchMode(Phalcon\Db::FETCH_ASSOC);
+		result->setFetchMode(\Phalcon\Db::FETCH_ASSOC);
 
 
 		let rowCount = result->numRows();
@@ -146,18 +146,18 @@ class Simple extends \Phalcon\Mvc\Model\Resultset
 			 * Set records as dirty state PERSISTENT by default
 			 * Performs the standard hydration based on objects
 			 */
-			let activeRow = Phalcon\Mvc\Model::cloneResultMap(
+			let activeRow = \Phalcon\Mvc\Model::cloneResultMap(
 				this->_model,
 				row,
 				columnMap,
-				Phalcon\Mvc\Model::DIRTY_STATE_PERSISTENT,
+				\Phalcon\Mvc\Model::DIRTY_STATE_PERSISTENT,
 				this->_keepSnapshots
 			);
 		} else {
 			/**
 			 * Other kinds of hydrations
 			 */
-			let activeRow = Phalcon\Mvc\Model::cloneResultMapHydrate(row, columnMap, hydrateMode);
+			let activeRow = \Phalcon\Mvc\Model::cloneResultMapHydrate(row, columnMap, hydrateMode);
 		}
 
 		let this->_activeRow = activeRow;

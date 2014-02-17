@@ -189,13 +189,13 @@ class Complex extends \Phalcon\Mvc\Model\Resultset implements \Phalcon\Mvc\Model
 								 * Get the base instance
 								 * Assign the values to the attributes using a column map
 								 */
-								let value = Phalcon\Mvc\Model::cloneResultMap(column["instance"], rowModel, columnMap, dirtyState, keepSnapshots);
+								let value = \Phalcon\Mvc\Model::cloneResultMap(column["instance"], rowModel, columnMap, dirtyState, keepSnapshots);
 								break;
 							default:
 								/**
 				 				 * Other kinds of hydrations
 				 				 */
-								let value = Phalcon\Mvc\Model::cloneResultMapHydrate(rowModel, columnMap, hydrateMode);
+								let value = \Phalcon\Mvc\Model::cloneResultMapHydrate(rowModel, columnMap, hydrateMode);
 								break;
 						}
 

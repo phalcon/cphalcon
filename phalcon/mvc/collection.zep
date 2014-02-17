@@ -26,7 +26,7 @@ namespace Phalcon\Mvc;
  * This component implements a high level abstraction for NoSQL databases which
  * works with documents
  */
-class Collection implements \Phalcon\Mvc\CollectionInterface, Phalcon\Di\InjectionAwareInterface, Serializable
+class Collection implements \Phalcon\Mvc\CollectionInterface, \Phalcon\Di\InjectionAwareInterface, \Serializable
 {
 
 	public _id;
@@ -67,7 +67,7 @@ class Collection implements \Phalcon\Mvc\CollectionInterface, Phalcon\Di\Injecti
 		 * We use a default DI if the user doesn't define one
 		 */
 		if typeof dependencyInjector != "object" {
-			let dependencyInjector = Phalcon\DI::getDefault();
+			let dependencyInjector = \Phalcon\Di::getDefault();
 		}
 
 		if typeof dependencyInjector != "object" {
@@ -1387,7 +1387,7 @@ class Collection implements \Phalcon\Mvc\CollectionInterface, Phalcon\Di\Injecti
 				/**
 				 * Obtain the default DI
 				 */
-				let dependencyInjector = Phalcon\Di::getDefault();
+				let dependencyInjector = \Phalcon\Di::getDefault();
 				if typeof dependencyInjector != "object" {
 					throw new \Phalcon\Mvc\Model\Exception("A dependency injector container is required to obtain the services related to the ODM");
 				}

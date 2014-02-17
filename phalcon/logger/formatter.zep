@@ -36,25 +36,25 @@ abstract class Formatter
 	public function getTypeString(int type)
 	{
 		switch type {
-			case Phalcon\Logger::DEBUG:
+			case \Phalcon\Logger::DEBUG:
 				return "DEBUG";
-			case Phalcon\Logger::DEBUG:
+			case \Phalcon\Logger::ERROR:
 				return "ERROR";
-			case Phalcon\Logger::WARNING:
+			case \Phalcon\Logger::WARNING:
 				return "WARNING";
-			case Phalcon\Logger::CRITICAL:
+			case \Phalcon\Logger::CRITICAL:
 				return "CRITICAL";
-			case Phalcon\Logger::CUSTOM:
+			case \Phalcon\Logger::CUSTOM:
 				return "CUSTOM";
-			case Phalcon\Logger::ALERT:
+			case \Phalcon\Logger::ALERT:
 				return "ALERT";
-			case Phalcon\Logger::NOTICE:
+			case \Phalcon\Logger::NOTICE:
 				return "NOTICE";
-			case Phalcon\Logger::INFO:
+			case \Phalcon\Logger::INFO:
 				return "INFO";
-			case Phalcon\Logger::EMERGENCE:
+			case \Phalcon\Logger::EMERGENCE:
 				return "EMERGENCE";
-			case Phalcon\Logger::SPECIAL:
+			case \Phalcon\Logger::SPECIAL:
 				return "SPECIAL";
 			default:
 				return "CUSTOM";

@@ -105,7 +105,7 @@ class Dispatcher extends \Phalcon\Dispatcher implements \Phalcon\Mvc\DispatcherI
 		if typeof dependencyInjector != "object" {
 			throw new \Phalcon\Mvc\Dispatcher\Exception(
 				"A dependency injection container is required to access the 'response' service",
-				Phalcon\Dispatcher::EXCEPTION_NO_DI
+				\Phalcon\Dispatcher::EXCEPTION_NO_DI
 			);
 		}
 

@@ -37,7 +37,7 @@ namespace Phalcon\Mvc\Model;
  * $robot = new Robots($di);
  * </code>
  */
-class Manager implements \Phalcon\Mvc\Model\ManagerInterface, Phalcon\Di\InjectionAwareInterface, Phalcon\Events\EventsAwareInterface
+class Manager implements \Phalcon\Mvc\Model\ManagerInterface, \Phalcon\Di\InjectionAwareInterface, \Phalcon\Events\EventsAwareInterface
 {
 
 	protected _dependencyInjector;
@@ -754,7 +754,7 @@ class Manager implements \Phalcon\Mvc\Model\ManagerInterface, Phalcon\Di\Injecti
 		 * Create a relationship instance
 		 */
 		let relation = new \Phalcon\Mvc\Model\Relation(
-			Phalcon\Mvc\Model\Relation::HAS_ONE,
+			\Phalcon\Mvc\Model\Relation::HAS_ONE,
 			referencedModel,
 			fields,
 			referencedFields,
@@ -836,7 +836,7 @@ class Manager implements \Phalcon\Mvc\Model\ManagerInterface, Phalcon\Di\Injecti
 		 * Create a relationship instance
 		 */
 		let relation = new \Phalcon\Mvc\Model\Relation(
-			Phalcon\Mvc\Model\Relation::BELONGS_TO,
+			\Phalcon\Mvc\Model\Relation::BELONGS_TO,
 			referencedModel,
 			fields,
 			referencedFields,
@@ -918,7 +918,7 @@ class Manager implements \Phalcon\Mvc\Model\ManagerInterface, Phalcon\Di\Injecti
 		 * Create a relationship instance
 		 */
 		let relation = new \Phalcon\Mvc\Model\Relation(
-			Phalcon\Mvc\Model\Relation::BELONGS_TO,
+			\Phalcon\Mvc\Model\Relation::BELONGS_TO,
 			referencedModel,
 			fields,
 			referencedFields,
@@ -1016,7 +1016,7 @@ class Manager implements \Phalcon\Mvc\Model\ManagerInterface, Phalcon\Di\Injecti
 		 * Create a relationship instance
 		 */
 		let relation = new \Phalcon\Mvc\Model\Relation(
-			Phalcon\Mvc\Model\Relation::HAS_MANY_THROUGH,
+			\Phalcon\Mvc\Model\Relation::HAS_MANY_THROUGH,
 			referencedModel,
 			fields,
 			referencedFields,
@@ -1374,11 +1374,11 @@ class Manager implements \Phalcon\Mvc\Model\ManagerInterface, Phalcon\Di\Injecti
 		 */
 		if method === null {
 			switch relation->getType() {
-				case Phalcon\Mvc\Model\Relation::BELONGS_TO:
-				case Phalcon\Mvc\Model\Relation::HAS_ONE:
+				case \Phalcon\Mvc\Model\Relation::BELONGS_TO:
+				case \Phalcon\Mvc\Model\Relation::HAS_ONE:
 					let retrieveMethod = "findFirst";
 					break;
-				case Phalcon\Mvc\Model\Relation::HAS_MANY:
+				case \Phalcon\Mvc\Model\Relation::HAS_MANY:
 					let retrieveMethod = "find";
 					break;
 				default:
