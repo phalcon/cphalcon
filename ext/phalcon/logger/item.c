@@ -44,19 +44,21 @@ ZEPHIR_INIT_CLASS(Phalcon_Logger_Item) {
 
 	ZEPHIR_REGISTER_CLASS(Phalcon\\Logger, Item, phalcon, logger_item, phalcon_logger_item_method_entry, 0);
 
-/**
+	/**
 	 * Log type
 	 *
 	 * @var integer
 	 */
 	zend_declare_property_null(phalcon_logger_item_ce, SL("_type"), ZEND_ACC_PROTECTED TSRMLS_CC);
-/**
+
+	/**
 	 * Log message
 	 *
 	 * @var string
 	 */
 	zend_declare_property_null(phalcon_logger_item_ce, SL("_message"), ZEND_ACC_PROTECTED TSRMLS_CC);
-/**
+
+	/**
 	 * Log timestamp
 	 *
 	 * @var integer
@@ -119,8 +121,8 @@ PHP_METHOD(Phalcon_Logger_Item, __construct) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 1, &message_param, &type_param, &time_param);
 
-		zephir_get_strval(message, message_param);
-		type = zephir_get_intval(type_param);
+	zephir_get_strval(message, message_param);
+	type = zephir_get_intval(type_param);
 	if (!time_param) {
 		time = 0;
 	} else {

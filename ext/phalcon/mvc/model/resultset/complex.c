@@ -13,6 +13,7 @@
 
 #include "kernel/main.h"
 #include "kernel/object.h"
+#include "kernel/exception.h"
 #include "kernel/operators.h"
 #include "kernel/fcall.h"
 #include "kernel/memory.h"
@@ -20,7 +21,6 @@
 #include "kernel/array.h"
 #include "kernel/concat.h"
 #include "kernel/string.h"
-#include "kernel/exception.h"
 
 
 /*
@@ -53,7 +53,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_Resultset_Complex) {
 	zend_declare_property_null(phalcon_mvc_model_resultset_complex_ce, SL("_columnTypes"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
 	zend_class_implements(phalcon_mvc_model_resultset_complex_ce TSRMLS_CC, 1, phalcon_mvc_model_resultsetinterface_ce);
-
 	return SUCCESS;
 
 }
@@ -77,6 +76,14 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Complex, __construct) {
 	}
 
 
+	if (!(zephir_is_instance_of(result, SL("Phalcon\\Db\\ResultInterface") TSRMLS_CC))) {
+		ZEPHIR_THROW_EXCEPTION_STR(spl_ce_InvalidArgumentException, "Parameter 'result' must be an instance of 'Phalcon\\Db\\ResultInterface'");
+		return;
+	}
+	if (!(zephir_is_instance_of(cache, SL("Phalcon\\Cache\\BackendInterface") TSRMLS_CC))) {
+		ZEPHIR_THROW_EXCEPTION_STR(spl_ce_InvalidArgumentException, "Parameter 'cache' must be an instance of 'Phalcon\\Cache\\BackendInterface'");
+		return;
+	}
 	zephir_update_property_this(this_ptr, SL("_columnTypes"), columnTypes TSRMLS_CC);
 	zephir_update_property_this(this_ptr, SL("_result"), result TSRMLS_CC);
 	if ((Z_TYPE_P(cache) != IS_NULL)) {
@@ -175,8 +182,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Complex, valid) {
 			dirtyState = 0;
 			zephir_is_iterable(columnTypes, &_4, &_3, 0, 0);
 			for (
-				; zend_hash_get_current_data_ex(_4, (void**) &_5, &_3) == SUCCESS
-				; zend_hash_move_forward_ex(_4, &_3)
+			  ; zephir_hash_get_current_data_ex(_4, (void**) &_5, &_3) == SUCCESS
+			  ; zephir_hash_move_forward_ex(_4, &_3)
 			) {
 				ZEPHIR_GET_HMKEY(alias, _4, _3);
 				ZEPHIR_GET_HVALUE(column, _5);
@@ -193,8 +200,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Complex, valid) {
 					array_init(rowModel);
 					zephir_is_iterable(attributes, &_7, &_6, 0, 0);
 					for (
-						; zend_hash_get_current_data_ex(_7, (void**) &_8, &_6) == SUCCESS
-						; zend_hash_move_forward_ex(_7, &_6)
+					  ; zephir_hash_get_current_data_ex(_7, (void**) &_8, &_6) == SUCCESS
+					  ; zephir_hash_move_forward_ex(_7, &_6)
 					) {
 						ZEPHIR_GET_HVALUE(attribute, _8);
 						ZEPHIR_OBS_NVAR(columnValue);
@@ -283,8 +290,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Complex, toArray) {
 	zephir_call_func_p1(_0, "iterator", this_ptr);
 	zephir_is_iterable(_0, &_2, &_1, 0, 0);
 	for (
-		; zend_hash_get_current_data_ex(_2, (void**) &_3, &_1) == SUCCESS
-		; zend_hash_move_forward_ex(_2, &_1)
+	  ; zephir_hash_get_current_data_ex(_2, (void**) &_3, &_1) == SUCCESS
+	  ; zephir_hash_move_forward_ex(_2, &_1)
 	) {
 		ZEPHIR_GET_HVALUE(current, _3);
 		zephir_array_append(&records, current, PH_SEPARATE);

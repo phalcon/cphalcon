@@ -120,7 +120,7 @@ class Collection implements \Phalcon\Mvc\CollectionInterface, \Phalcon\Di\Inject
 			 * Check if the model use implicit ids
 			 */
 			if this->_modelsManager->isUsingImplicitObjectIds(this) {
-				let mongoId = new MongoId(id);
+				let mongoId = new \MongoId(id);
 			} else {
 				let mongoId = id;
 			}
@@ -821,7 +821,7 @@ class Collection implements \Phalcon\Mvc\CollectionInterface, \Phalcon\Di\Inject
 				 * Check if the model use implicit ids
 				 */
 				if this->_modelsManager->isUsingImplicitObjectIds(this) {
-					let mongoId = new MongoId(id);
+					let mongoId = new \MongoId(id);
 					let this->_id = mongoId;
 				} else {
 					let mongoId = id;
@@ -1010,7 +1010,7 @@ class Collection implements \Phalcon\Mvc\CollectionInterface, \Phalcon\Di\Inject
 			 * Check if the model use implicit ids
 			 */
 			if collection->getModelsManager()->isUsingImplicitObjectIds(collection) {
-				let mongoId = new MongoId(id);
+				let mongoId = new \MongoId(id);
 			} else {
 				let mongoId = id;
 			}
@@ -1143,7 +1143,7 @@ class Collection implements \Phalcon\Mvc\CollectionInterface, \Phalcon\Di\Inject
 
 		let className = get_called_class();
 
-		let collection = new className();
+		let collection = new {className}();
 
 		let connection = collection->getConnection();
 
@@ -1200,12 +1200,12 @@ class Collection implements \Phalcon\Mvc\CollectionInterface, \Phalcon\Di\Inject
 
 		let className = get_called_class();
 
-		let model = new className();
+		let model = new {className}();
 
 		let connection = model->getConnection();
 
 		let source = model->getSource();
-		if empty(source) {
+		if empty source {
 			throw new \Phalcon\Mvc\Collection\Exception("Method getSource() returns empty string");
 		}
 
@@ -1289,7 +1289,7 @@ class Collection implements \Phalcon\Mvc\CollectionInterface, \Phalcon\Di\Inject
 			 * Is the collection using implicit object Ids?
 			 */
 			if this->_modelsManager->isUsingImplicitObjectIds(this) {
-				let mongoId = new MongoId(id);
+				let mongoId = new \MongoId(id);
 			} else {
 				let mongoId = id;
 			}

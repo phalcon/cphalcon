@@ -12,12 +12,13 @@
 #include <Zend/zend_interfaces.h>
 
 #include "kernel/main.h"
+#include "kernel/object.h"
+#include "kernel/exception.h"
 #include "kernel/fcall.h"
 #include "kernel/memory.h"
 #include "kernel/operators.h"
 #include "kernel/array.h"
 #include "ext/spl/spl_exceptions.h"
-#include "kernel/exception.h"
 
 
 /*
@@ -57,7 +58,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Validation_Validator_Between) {
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Validation\\Validator, Between, phalcon, validation_validator_between, phalcon_validation_validator_ce, phalcon_validation_validator_between_method_entry, 0);
 
 	zend_class_implements(phalcon_validation_validator_between_ce TSRMLS_CC, 1, phalcon_validation_validatorinterface_ce);
-
 	return SUCCESS;
 
 }
@@ -91,6 +91,10 @@ PHP_METHOD(Phalcon_Validation_Validator_Between, validate) {
 	}
 
 
+	if (!(zephir_is_instance_of(validation, SL("Phalcon\\Validation") TSRMLS_CC))) {
+		ZEPHIR_THROW_EXCEPTION_STR(spl_ce_InvalidArgumentException, "Parameter 'validation' must be an instance of 'Phalcon\\Validation'");
+		return;
+	}
 	ZEPHIR_INIT_VAR(value);
 	zephir_call_method_p1(value, validation, "getvalue", field);
 	ZEPHIR_INIT_VAR(_0);

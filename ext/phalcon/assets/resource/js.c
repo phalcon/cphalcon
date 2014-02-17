@@ -42,7 +42,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Assets_Resource_Js) {
 
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Assets\\Resource, Js, phalcon, assets_resource_js, phalcon_assets_resource_ce, phalcon_assets_resource_js_method_entry, 0);
 
-
 	return SUCCESS;
 
 }

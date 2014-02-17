@@ -40,7 +40,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Db_Exception) {
 
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Db, Exception, phalcon, db_exception, phalcon_exception_ce, NULL, 0);
 
-
 	return SUCCESS;
 
 }

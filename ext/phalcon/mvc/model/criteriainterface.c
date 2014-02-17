@@ -38,7 +38,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_CriteriaInterface) {
 
 	ZEPHIR_REGISTER_INTERFACE(Phalcon\\Mvc\\Model, CriteriaInterface, phalcon, mvc_model_criteriainterface, phalcon_mvc_model_criteriainterface_method_entry);
 
-
 	return SUCCESS;
 
 }

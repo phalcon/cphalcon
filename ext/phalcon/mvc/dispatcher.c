@@ -46,9 +46,9 @@
  *
  *<code>
  *
- *	$di = new Phalcon\Di();
+ *	$di = new \Phalcon\Di();
  *
- *	$dispatcher = new Phalcon\Mvc\Dispatcher();
+ *	$dispatcher = new \Phalcon\Mvc\Dispatcher();
  *
  *  $dispatcher->setDI($di);
  *
@@ -65,11 +65,12 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Dispatcher) {
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Mvc, Dispatcher, phalcon, mvc_dispatcher, phalcon_dispatcher_ce, phalcon_mvc_dispatcher_method_entry, 0);
 
 	zend_declare_property_string(phalcon_mvc_dispatcher_ce, SL("_handlerSuffix"), "Controller", ZEND_ACC_PROTECTED TSRMLS_CC);
+
 	zend_declare_property_string(phalcon_mvc_dispatcher_ce, SL("_defaultHandler"), "index", ZEND_ACC_PROTECTED TSRMLS_CC);
+
 	zend_declare_property_string(phalcon_mvc_dispatcher_ce, SL("_defaultAction"), "index", ZEND_ACC_PROTECTED TSRMLS_CC);
 
 	zend_class_implements(phalcon_mvc_dispatcher_ce TSRMLS_CC, 1, phalcon_mvc_dispatcherinterface_ce);
-
 	return SUCCESS;
 
 }
@@ -272,6 +273,10 @@ PHP_METHOD(Phalcon_Mvc_Dispatcher, _handleException) {
 
 
 
+	if (!(zephir_is_instance_of(exception, SL("Phalcon\\Mvc\\Exception") TSRMLS_CC))) {
+		ZEPHIR_THROW_EXCEPTION_STR(spl_ce_InvalidArgumentException, "Parameter 'exception' must be an instance of 'Phalcon\\Mvc\\Exception'");
+		return;
+	}
 	ZEPHIR_OBS_VAR(eventsManager);
 	zephir_read_property_this(&eventsManager, this_ptr, SL("_eventsManager"), PH_NOISY_CC);
 	if ((Z_TYPE_P(eventsManager) == IS_OBJECT)) {

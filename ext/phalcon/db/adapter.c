@@ -50,63 +50,73 @@ ZEPHIR_INIT_CLASS(Phalcon_Db_Adapter) {
 
 	ZEPHIR_REGISTER_CLASS(Phalcon\\Db, Adapter, phalcon, db_adapter, phalcon_db_adapter_method_entry, ZEND_ACC_EXPLICIT_ABSTRACT_CLASS);
 
-/**
+	/**
 	 * Event Manager
 	 *
 	 * @var Phalcon\Events\Manager
 	 */
 	zend_declare_property_null(phalcon_db_adapter_ce, SL("_eventsManager"), ZEND_ACC_PROTECTED TSRMLS_CC);
-/**
+
+	/**
 	 * Descriptor used to connect to a database
 	 *
 	 * @var stdClass
 	 */
 	zend_declare_property_null(phalcon_db_adapter_ce, SL("_descriptor"), ZEND_ACC_PROTECTED TSRMLS_CC);
-/**
+
+	/**
 	 * Name of the dialect used
 	 */
 	zend_declare_property_null(phalcon_db_adapter_ce, SL("_dialectType"), ZEND_ACC_PROTECTED TSRMLS_CC);
-/**
+
+	/**
 	 * Type of database system the adapter is used for
 	 */
 	zend_declare_property_null(phalcon_db_adapter_ce, SL("_type"), ZEND_ACC_PROTECTED TSRMLS_CC);
-/**
+
+	/**
 	 * Dialect instance
 	 */
 	zend_declare_property_null(phalcon_db_adapter_ce, SL("_dialect"), ZEND_ACC_PROTECTED TSRMLS_CC);
-/**
+
+	/**
 	 * Active connection ID
 	 *
 	 * @var long
 	 */
 	zend_declare_property_null(phalcon_db_adapter_ce, SL("_connectionId"), ZEND_ACC_PROTECTED TSRMLS_CC);
-/**
+
+	/**
 	 * Active SQL Statement
 	 *
 	 * @var string
 	 */
 	zend_declare_property_null(phalcon_db_adapter_ce, SL("_sqlStatement"), ZEND_ACC_PROTECTED TSRMLS_CC);
-/**
+
+	/**
 	 * Active SQL bound parameter variables
 	 *
 	 * @var string
 	 */
 	zend_declare_property_null(phalcon_db_adapter_ce, SL("_sqlVariables"), ZEND_ACC_PROTECTED TSRMLS_CC);
-/**
+
+	/**
 	 * Active SQL Bind Types
 	 *
 	 * @var string
 	 */
 	zend_declare_property_null(phalcon_db_adapter_ce, SL("_sqlBindTypes"), ZEND_ACC_PROTECTED TSRMLS_CC);
+
 	zend_declare_property_long(phalcon_db_adapter_ce, SL("_transactionLevel"), 0, ZEND_ACC_PROTECTED TSRMLS_CC);
+
 	zend_declare_property_long(phalcon_db_adapter_ce, SL("_transactionsWithSavepoints"), 0, ZEND_ACC_PROTECTED TSRMLS_CC);
-/**
+
+	/**
 	 * Connection ID
 	 */
 	zend_declare_property_long(phalcon_db_adapter_ce, SL("_connectionConsecutive"), 0, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC TSRMLS_CC);
 
 	zend_class_implements(phalcon_db_adapter_ce TSRMLS_CC, 1, phalcon_events_eventsawareinterface_ce);
-
 	return SUCCESS;
 
 }
@@ -194,7 +204,7 @@ PHP_METHOD(Phalcon_Db_Adapter, setEventsManager) {
 
 
 
-	if (zephir_is_instance_of(eventsManager, SL("Phalcon\\Events\\ManagerInterface") TSRMLS_CC)) {
+	if (!(zephir_is_instance_of(eventsManager, SL("Phalcon\\Events\\ManagerInterface") TSRMLS_CC))) {
 		ZEPHIR_THROW_EXCEPTION_STRW(spl_ce_InvalidArgumentException, "Parameter 'eventsManager' must be an instance of 'Phalcon\\Events\\ManagerInterface'");
 		return;
 	}
@@ -227,7 +237,7 @@ PHP_METHOD(Phalcon_Db_Adapter, setDialect) {
 
 
 
-	if (zephir_is_instance_of(dialect, SL("Phalcon\\Db\\DialectInterface") TSRMLS_CC)) {
+	if (!(zephir_is_instance_of(dialect, SL("Phalcon\\Db\\DialectInterface") TSRMLS_CC))) {
 		ZEPHIR_THROW_EXCEPTION_STRW(spl_ce_InvalidArgumentException, "Parameter 'dialect' must be an instance of 'Phalcon\\Db\\DialectInterface'");
 		return;
 	}
@@ -435,7 +445,7 @@ PHP_METHOD(Phalcon_Db_Adapter, insert) {
 	}
 	zephir_is_iterable(values, &_3, &_2, 0, 0);
 	for (
-	  ; zend_hash_get_current_data_ex(_3, (void**) &_4, &_2) == SUCCESS
+	  ; zephir_hash_get_current_data_ex(_3, (void**) &_4, &_2) == SUCCESS
 	  ; zephir_hash_move_forward_ex(_3, &_2)
 	) {
 		ZEPHIR_GET_HMKEY(position, _3, _2);
@@ -479,7 +489,7 @@ PHP_METHOD(Phalcon_Db_Adapter, insert) {
 			array_init(escapedFields);
 			zephir_is_iterable(fields, &_8, &_7, 0, 0);
 			for (
-			  ; zend_hash_get_current_data_ex(_8, (void**) &_9, &_7) == SUCCESS
+			  ; zephir_hash_get_current_data_ex(_8, (void**) &_9, &_7) == SUCCESS
 			  ; zephir_hash_move_forward_ex(_8, &_7)
 			) {
 				ZEPHIR_GET_HVALUE(field, _9);
@@ -553,7 +563,7 @@ PHP_METHOD(Phalcon_Db_Adapter, update) {
 	}
 	zephir_is_iterable(values, &_1, &_0, 0, 0);
 	for (
-	  ; zend_hash_get_current_data_ex(_1, (void**) &_2, &_0) == SUCCESS
+	  ; zephir_hash_get_current_data_ex(_1, (void**) &_2, &_0) == SUCCESS
 	  ; zephir_hash_move_forward_ex(_1, &_0)
 	) {
 		ZEPHIR_GET_HMKEY(position, _1, _0);
@@ -1197,7 +1207,7 @@ PHP_METHOD(Phalcon_Db_Adapter, addColumn) {
 	}
 
 
-	if (zephir_is_instance_of(column, SL("Phalcon\\Db\\ColumnInterface") TSRMLS_CC)) {
+	if (!(zephir_is_instance_of(column, SL("Phalcon\\Db\\ColumnInterface") TSRMLS_CC))) {
 		ZEPHIR_THROW_EXCEPTION_STR(spl_ce_InvalidArgumentException, "Parameter 'column' must be an instance of 'Phalcon\\Db\\ColumnInterface'");
 		return;
 	}
@@ -1249,7 +1259,7 @@ PHP_METHOD(Phalcon_Db_Adapter, modifyColumn) {
 	}
 
 
-	if (zephir_is_instance_of(column, SL("Phalcon\\Db\\ColumnInterface") TSRMLS_CC)) {
+	if (!(zephir_is_instance_of(column, SL("Phalcon\\Db\\ColumnInterface") TSRMLS_CC))) {
 		ZEPHIR_THROW_EXCEPTION_STR(spl_ce_InvalidArgumentException, "Parameter 'column' must be an instance of 'Phalcon\\Db\\ColumnInterface'");
 		return;
 	}
@@ -1350,7 +1360,7 @@ PHP_METHOD(Phalcon_Db_Adapter, addIndex) {
 	}
 
 
-	if (zephir_is_instance_of(index, SL("Phalcon\\Db\\IndexInterface") TSRMLS_CC)) {
+	if (!(zephir_is_instance_of(index, SL("Phalcon\\Db\\IndexInterface") TSRMLS_CC))) {
 		ZEPHIR_THROW_EXCEPTION_STR(spl_ce_InvalidArgumentException, "Parameter 'index' must be an instance of 'Phalcon\\Db\\IndexInterface'");
 		return;
 	}
@@ -1450,7 +1460,7 @@ PHP_METHOD(Phalcon_Db_Adapter, addPrimaryKey) {
 	}
 
 
-	if (zephir_is_instance_of(index, SL("Phalcon\\Db\\IndexInterface") TSRMLS_CC)) {
+	if (!(zephir_is_instance_of(index, SL("Phalcon\\Db\\IndexInterface") TSRMLS_CC))) {
 		ZEPHIR_THROW_EXCEPTION_STR(spl_ce_InvalidArgumentException, "Parameter 'index' must be an instance of 'Phalcon\\Db\\IndexInterface'");
 		return;
 	}
@@ -1549,7 +1559,7 @@ PHP_METHOD(Phalcon_Db_Adapter, addForeignKey) {
 	}
 
 
-	if (zephir_is_instance_of(reference, SL("Phalcon\\Db\\ReferenceInterface") TSRMLS_CC)) {
+	if (!(zephir_is_instance_of(reference, SL("Phalcon\\Db\\ReferenceInterface") TSRMLS_CC))) {
 		ZEPHIR_THROW_EXCEPTION_STR(spl_ce_InvalidArgumentException, "Parameter 'reference' must be an instance of 'Phalcon\\Db\\ReferenceInterface'");
 		return;
 	}
@@ -1635,7 +1645,7 @@ PHP_METHOD(Phalcon_Db_Adapter, getColumnDefinition) {
 
 
 
-	if (zephir_is_instance_of(column, SL("Phalcon\\Db\\ColumnInterface") TSRMLS_CC)) {
+	if (!(zephir_is_instance_of(column, SL("Phalcon\\Db\\ColumnInterface") TSRMLS_CC))) {
 		ZEPHIR_THROW_EXCEPTION_STR(spl_ce_InvalidArgumentException, "Parameter 'column' must be an instance of 'Phalcon\\Db\\ColumnInterface'");
 		return;
 	}
@@ -1694,7 +1704,7 @@ PHP_METHOD(Phalcon_Db_Adapter, listTables) {
 	zephir_call_method_p2(_0, this_ptr, "fetchall", _2, _3);
 	zephir_is_iterable(_0, &_5, &_4, 0, 0);
 	for (
-	  ; zend_hash_get_current_data_ex(_5, (void**) &_6, &_4) == SUCCESS
+	  ; zephir_hash_get_current_data_ex(_5, (void**) &_6, &_4) == SUCCESS
 	  ; zephir_hash_move_forward_ex(_5, &_4)
 	) {
 		ZEPHIR_GET_HVALUE(table, _6);
@@ -1754,7 +1764,7 @@ PHP_METHOD(Phalcon_Db_Adapter, listViews) {
 	zephir_call_method_p2(_0, this_ptr, "fetchall", _2, _3);
 	zephir_is_iterable(_0, &_5, &_4, 0, 0);
 	for (
-	  ; zend_hash_get_current_data_ex(_5, (void**) &_6, &_4) == SUCCESS
+	  ; zephir_hash_get_current_data_ex(_5, (void**) &_6, &_4) == SUCCESS
 	  ; zephir_hash_move_forward_ex(_5, &_4)
 	) {
 		ZEPHIR_GET_HVALUE(table, _6);
@@ -1814,7 +1824,7 @@ PHP_METHOD(Phalcon_Db_Adapter, describeIndexes) {
 	zephir_call_method_p2(_0, this_ptr, "fetchall", _2, _3);
 	zephir_is_iterable(_0, &_5, &_4, 0, 0);
 	for (
-	  ; zend_hash_get_current_data_ex(_5, (void**) &_6, &_4) == SUCCESS
+	  ; zephir_hash_get_current_data_ex(_5, (void**) &_6, &_4) == SUCCESS
 	  ; zephir_hash_move_forward_ex(_5, &_4)
 	) {
 		ZEPHIR_GET_HVALUE(index, _6);
@@ -1829,7 +1839,7 @@ PHP_METHOD(Phalcon_Db_Adapter, describeIndexes) {
 	array_init(indexObjects);
 	zephir_is_iterable(indexes, &_8, &_7, 0, 0);
 	for (
-	  ; zend_hash_get_current_data_ex(_8, (void**) &_9, &_7) == SUCCESS
+	  ; zephir_hash_get_current_data_ex(_8, (void**) &_9, &_7) == SUCCESS
 	  ; zephir_hash_move_forward_ex(_8, &_7)
 	) {
 		ZEPHIR_GET_HMKEY(name, _8, _7);
@@ -1908,7 +1918,7 @@ PHP_METHOD(Phalcon_Db_Adapter, describeReferences) {
 	zephir_call_method_p2(_0, this_ptr, "fetchall", _2, _3);
 	zephir_is_iterable(_0, &_5, &_4, 0, 0);
 	for (
-	  ; zend_hash_get_current_data_ex(_5, (void**) &_6, &_4) == SUCCESS
+	  ; zephir_hash_get_current_data_ex(_5, (void**) &_6, &_4) == SUCCESS
 	  ; zephir_hash_move_forward_ex(_5, &_4)
 	) {
 		ZEPHIR_GET_HVALUE(reference, _6);
@@ -1931,7 +1941,7 @@ PHP_METHOD(Phalcon_Db_Adapter, describeReferences) {
 	array_init(referenceObjects);
 	zephir_is_iterable(references, &_10, &_9, 0, 0);
 	for (
-	  ; zend_hash_get_current_data_ex(_10, (void**) &_11, &_9) == SUCCESS
+	  ; zephir_hash_get_current_data_ex(_10, (void**) &_11, &_9) == SUCCESS
 	  ; zephir_hash_move_forward_ex(_10, &_9)
 	) {
 		ZEPHIR_GET_HMKEY(name, _10, _9);

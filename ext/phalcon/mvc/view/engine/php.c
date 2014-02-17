@@ -49,7 +49,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_View_Engine_Php) {
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Mvc\\View\\Engine, Php, phalcon, mvc_view_engine_php, phalcon_mvc_view_engine_ce, phalcon_mvc_view_engine_php_method_entry, 0);
 
 	zend_class_implements(phalcon_mvc_view_engine_php_ce TSRMLS_CC, 1, phalcon_mvc_view_engineinterface_ce);
-
 	return SUCCESS;
 
 }
@@ -96,8 +95,8 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Php, render) {
 	if ((Z_TYPE_P(params) == IS_ARRAY)) {
 		zephir_is_iterable(params, &_1, &_0, 0, 0);
 		for (
-			; zend_hash_get_current_data_ex(_1, (void**) &_2, &_0) == SUCCESS
-			; zend_hash_move_forward_ex(_1, &_0)
+		  ; zephir_hash_get_current_data_ex(_1, (void**) &_2, &_0) == SUCCESS
+		  ; zephir_hash_move_forward_ex(_1, &_0)
 		) {
 			ZEPHIR_GET_HMKEY(key, _1, _0);
 			ZEPHIR_GET_HVALUE(value, _2);

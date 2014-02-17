@@ -65,150 +65,176 @@ ZEPHIR_INIT_CLASS(Phalcon_Db_Column) {
 
 	ZEPHIR_REGISTER_CLASS(Phalcon\\Db, Column, phalcon, db_column, phalcon_db_column_method_entry, 0);
 
-/**
+	/**
 	 * Column's name
 	 *
 	 * @var string
 	 */
 	zend_declare_property_null(phalcon_db_column_ce, SL("_name"), ZEND_ACC_PROTECTED TSRMLS_CC);
-/**
+
+	/**
 	 * Schema which table related is
 	 *
 	 * @var string
 	 */
 	zend_declare_property_null(phalcon_db_column_ce, SL("_schemaName"), ZEND_ACC_PROTECTED TSRMLS_CC);
-/**
+
+	/**
 	 * Column data type
 	 *
 	 * @var int
 	 */
 	zend_declare_property_null(phalcon_db_column_ce, SL("_type"), ZEND_ACC_PROTECTED TSRMLS_CC);
-/**
+
+	/**
 	 * The column have some numeric type?
 	 */
 	zend_declare_property_bool(phalcon_db_column_ce, SL("_isNumeric"), 0, ZEND_ACC_PROTECTED TSRMLS_CC);
-/**
+
+	/**
 	 * Integer column size
 	 *
 	 * @var int
 	 */
 	zend_declare_property_long(phalcon_db_column_ce, SL("_size"), 0, ZEND_ACC_PROTECTED TSRMLS_CC);
-/**
+
+	/**
 	 * Integer column number scale
 	 *
 	 * @var int
 	 */
 	zend_declare_property_long(phalcon_db_column_ce, SL("_scale"), 0, ZEND_ACC_PROTECTED TSRMLS_CC);
-/**
+
+	/**
 	 * Integer column unsigned?
 	 *
 	 * @var boolean
 	 */
 	zend_declare_property_bool(phalcon_db_column_ce, SL("_unsigned"), 0, ZEND_ACC_PROTECTED TSRMLS_CC);
-/**
+
+	/**
 	 * Column not nullable?
 	 *
 	 * @var boolean
 	 */
 	zend_declare_property_bool(phalcon_db_column_ce, SL("_notNull"), 0, ZEND_ACC_PROTECTED TSRMLS_CC);
-/**
+
+	/**
 	 * Column is part of the primary key?
 	 */
 	zend_declare_property_bool(phalcon_db_column_ce, SL("_primary"), 0, ZEND_ACC_PROTECTED TSRMLS_CC);
-/**
+
+	/**
 	 * Column is autoIncrement?
 	 *
 	 * @var boolean
 	 */
 	zend_declare_property_bool(phalcon_db_column_ce, SL("_autoIncrement"), 0, ZEND_ACC_PROTECTED TSRMLS_CC);
-/**
+
+	/**
 	 * Position is first
 	 *
 	 * @var boolean
 	 */
 	zend_declare_property_bool(phalcon_db_column_ce, SL("_first"), 0, ZEND_ACC_PROTECTED TSRMLS_CC);
-/**
+
+	/**
 	 * Column Position
 	 *
 	 * @var string
 	 */
 	zend_declare_property_null(phalcon_db_column_ce, SL("_after"), ZEND_ACC_PROTECTED TSRMLS_CC);
-/**
+
+	/**
 	 * Bind Type
 	 */
 	zend_declare_property_long(phalcon_db_column_ce, SL("_bindType"), 2, ZEND_ACC_PROTECTED TSRMLS_CC);
-/**
- * Integer abstract type
- *
- */
+
+	/**
+	 * Integer abstract type
+	 *
+	 */
 	zend_declare_class_constant_long(phalcon_db_column_ce, SL("TYPE_INTEGER"), 0 TSRMLS_CC);
-/**
- * Date abstract type
- *
- */
+
+	/**
+	 * Date abstract type
+	 *
+	 */
 	zend_declare_class_constant_long(phalcon_db_column_ce, SL("TYPE_DATE"), 1 TSRMLS_CC);
-/**
- * Varchar abstract type
- *
- */
+
+	/**
+	 * Varchar abstract type
+	 *
+	 */
 	zend_declare_class_constant_long(phalcon_db_column_ce, SL("TYPE_VARCHAR"), 2 TSRMLS_CC);
-/**
- * Decimal abstract type
- *
- */
+
+	/**
+	 * Decimal abstract type
+	 *
+	 */
 	zend_declare_class_constant_long(phalcon_db_column_ce, SL("TYPE_DECIMAL"), 3 TSRMLS_CC);
-/**
- * Datetime abstract type
- *
- */
+
+	/**
+	 * Datetime abstract type
+	 *
+	 */
 	zend_declare_class_constant_long(phalcon_db_column_ce, SL("TYPE_DATETIME"), 4 TSRMLS_CC);
-/**
- * Char abstract type
- *
- */
+
+	/**
+	 * Char abstract type
+	 *
+	 */
 	zend_declare_class_constant_long(phalcon_db_column_ce, SL("TYPE_CHAR"), 5 TSRMLS_CC);
-/**
- * Text abstract data type
- *
- */
+
+	/**
+	 * Text abstract data type
+	 *
+	 */
 	zend_declare_class_constant_long(phalcon_db_column_ce, SL("TYPE_TEXT"), 6 TSRMLS_CC);
-/**
- * Float abstract data type
- *
- */
+
+	/**
+	 * Float abstract data type
+	 *
+	 */
 	zend_declare_class_constant_long(phalcon_db_column_ce, SL("TYPE_FLOAT"), 7 TSRMLS_CC);
-/**
- * Boolean abstract data type
- *
- */
+
+	/**
+	 * Boolean abstract data type
+	 *
+	 */
 	zend_declare_class_constant_long(phalcon_db_column_ce, SL("TYPE_BOOLEAN"), 8 TSRMLS_CC);
-/**
- * Bind Type Null
- */
+
+	/**
+	 * Bind Type Null
+	 */
 	zend_declare_class_constant_long(phalcon_db_column_ce, SL("BIND_PARAM_NULL"), 0 TSRMLS_CC);
-/**
- * Bind Type Integer
- */
+
+	/**
+	 * Bind Type Integer
+	 */
 	zend_declare_class_constant_long(phalcon_db_column_ce, SL("BIND_PARAM_INT"), 1 TSRMLS_CC);
-/**
- * Bind Type String
- */
+
+	/**
+	 * Bind Type String
+	 */
 	zend_declare_class_constant_long(phalcon_db_column_ce, SL("BIND_PARAM_STR"), 2 TSRMLS_CC);
-/**
- * Bind Type Bool
- */
+
+	/**
+	 * Bind Type Bool
+	 */
 	zend_declare_class_constant_long(phalcon_db_column_ce, SL("BIND_PARAM_BOOL"), 5 TSRMLS_CC);
-/**
- * Bind Type Decimal
- */
+
+	/**
+	 * Bind Type Decimal
+	 */
 	zend_declare_class_constant_long(phalcon_db_column_ce, SL("BIND_PARAM_DECIMAL"), 32 TSRMLS_CC);
-/**
- * Skip binding by type
- */
+
+	/**
+	 * Skip binding by type
+	 */
 	zend_declare_class_constant_long(phalcon_db_column_ce, SL("BIND_SKIP"), 1024 TSRMLS_CC);
 
 	zend_class_implements(phalcon_db_column_ce TSRMLS_CC, 1, phalcon_db_columninterface_ce);
-
 	return SUCCESS;
 
 }

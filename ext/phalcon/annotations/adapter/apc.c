@@ -51,7 +51,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Annotations_Adapter_Apc) {
 
 	ZEPHIR_REGISTER_CLASS(Phalcon\\Annotations\\Adapter, Apc, phalcon, annotations_adapter_apc, phalcon_annotations_adapter_apc_method_entry, 0);
 
-
 	return SUCCESS;
 
 }
@@ -119,7 +118,7 @@ PHP_METHOD(Phalcon_Annotations_Adapter_Apc, write) {
 	}
 
 
-	if (zephir_is_instance_of(data, SL("Phalcon\\Annotations\\Reflection") TSRMLS_CC)) {
+	if (!(zephir_is_instance_of(data, SL("Phalcon\\Annotations\\Reflection") TSRMLS_CC))) {
 		ZEPHIR_THROW_EXCEPTION_STR(spl_ce_InvalidArgumentException, "Parameter 'data' must be an instance of 'Phalcon\\Annotations\\Reflection'");
 		return;
 	}

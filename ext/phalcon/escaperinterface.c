@@ -38,7 +38,6 @@ ZEPHIR_INIT_CLASS(Phalcon_EscaperInterface) {
 
 	ZEPHIR_REGISTER_INTERFACE(Phalcon, EscaperInterface, phalcon, escaperinterface, phalcon_escaperinterface_method_entry);
 
-
 	return SUCCESS;
 
 }

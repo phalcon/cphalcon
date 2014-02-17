@@ -68,7 +68,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Config) {
 	ZEPHIR_REGISTER_CLASS(Phalcon, Config, phalcon, config, phalcon_config_method_entry, 0);
 
 	zend_class_implements(phalcon_config_ce TSRMLS_CC, 1, zend_ce_arrayaccess);
-
 	return SUCCESS;
 
 }
@@ -103,7 +102,7 @@ PHP_METHOD(Phalcon_Config, __construct) {
 	}
 	zephir_is_iterable(arrayConfig, &_1, &_0, 0, 0);
 	for (
-	  ; zend_hash_get_current_data_ex(_1, (void**) &_2, &_0) == SUCCESS
+	  ; zephir_hash_get_current_data_ex(_1, (void**) &_2, &_0) == SUCCESS
 	  ; zephir_hash_move_forward_ex(_1, &_0)
 	) {
 		ZEPHIR_GET_HMKEY(key, _1, _0);
@@ -116,7 +115,7 @@ PHP_METHOD(Phalcon_Config, __construct) {
 			hasNumericKey = 0;
 			zephir_is_iterable(value, &_4, &_3, 0, 0);
 			for (
-			  ; zend_hash_get_current_data_ex(_4, (void**) &_5, &_3) == SUCCESS
+			  ; zephir_hash_get_current_data_ex(_4, (void**) &_5, &_3) == SUCCESS
 			  ; zephir_hash_move_forward_ex(_4, &_3)
 			) {
 				ZEPHIR_GET_HMKEY(subkey, _4, _3);
@@ -326,7 +325,7 @@ PHP_METHOD(Phalcon_Config, toArray) {
 	zephir_call_func_p1(_0, "get_object_vars", this_ptr);
 	zephir_is_iterable(_0, &_2, &_1, 0, 0);
 	for (
-	  ; zend_hash_get_current_data_ex(_2, (void**) &_3, &_1) == SUCCESS
+	  ; zephir_hash_get_current_data_ex(_2, (void**) &_3, &_1) == SUCCESS
 	  ; zephir_hash_move_forward_ex(_2, &_1)
 	) {
 		ZEPHIR_GET_HMKEY(key, _2, _1);

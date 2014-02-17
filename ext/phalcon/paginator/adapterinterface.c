@@ -38,7 +38,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Paginator_AdapterInterface) {
 
 	ZEPHIR_REGISTER_INTERFACE(Phalcon\\Paginator, AdapterInterface, phalcon, paginator_adapterinterface, phalcon_paginator_adapterinterface_method_entry);
 
-
 	return SUCCESS;
 
 }

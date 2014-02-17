@@ -115,7 +115,7 @@ class NativeArray implements \Phalcon\Paginator\AdapterInterface
 			let pageNumber = 1;
 		}
 
-		let page = new stdClass(),
+		let page = new \stdClass(),
 			number = count(items),
 			roundedTotal = number / show,
 			totalPages = (int) roundedTotal;

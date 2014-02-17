@@ -46,7 +46,7 @@
  * You can query the meta-data by printing $_SESSION['$PMM$']
  *
  *<code>
- * $metaData = new Phalcon\Mvc\Model\Metadata\Session(array(
+ * $metaData = new \Phalcon\Mvc\Model\Metadata\Session(array(
  *    'prefix' => 'my-app-id'
  * ));
  *</code>
@@ -58,7 +58,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_MetaData_Session) {
 	zend_declare_property_string(phalcon_mvc_model_metadata_session_ce, SL("_prefix"), "", ZEND_ACC_PROTECTED TSRMLS_CC);
 
 	zend_class_implements(phalcon_mvc_model_metadata_session_ce TSRMLS_CC, 1, phalcon_mvc_model_metadatainterface_ce);
-
 	return SUCCESS;
 
 }

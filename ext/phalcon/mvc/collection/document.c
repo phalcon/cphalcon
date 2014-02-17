@@ -47,7 +47,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Collection_Document) {
 	ZEPHIR_REGISTER_CLASS(Phalcon\\Mvc\\Collection, Document, phalcon, mvc_collection_document, phalcon_mvc_collection_document_method_entry, 0);
 
 	zend_class_implements(phalcon_mvc_collection_document_ce TSRMLS_CC, 1, zend_ce_arrayaccess);
-
 	return SUCCESS;
 
 }
@@ -66,7 +65,7 @@ PHP_METHOD(Phalcon_Mvc_Collection_Document, offsetExists) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &index_param);
 
-		zephir_get_strval(index, index_param);
+	zephir_get_strval(index, index_param);
 
 
 	RETURN_MM_BOOL(zephir_isset_property_zval(this_ptr, index TSRMLS_CC));

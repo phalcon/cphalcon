@@ -10,26 +10,26 @@ PHP_METHOD(Phalcon_Mvc_Model_Behavior, notify);
 PHP_METHOD(Phalcon_Mvc_Model_Behavior, missingMethod);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_behavior___construct, 0, 0, 0)
-	ZEND_ARG_INFO(0, options)
+  ZEND_ARG_INFO(0, options)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_behavior_musttakeaction, 0, 0, 1)
-	ZEND_ARG_INFO(0, eventName)
+  ZEND_ARG_INFO(0, eventName)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_behavior_getoptions, 0, 0, 0)
-	ZEND_ARG_INFO(0, eventName)
+  ZEND_ARG_INFO(0, eventName)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_behavior_notify, 0, 0, 2)
-	ZEND_ARG_INFO(0, type)
-	ZEND_ARG_INFO(0, model)
+  ZEND_ARG_INFO(0, type)
+  ZEND_ARG_INFO(0, model)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_behavior_missingmethod, 0, 0, 2)
-	ZEND_ARG_INFO(0, model)
-	ZEND_ARG_INFO(0, method)
-	ZEND_ARG_INFO(0, arguments)
+  ZEND_ARG_INFO(0, model)
+  ZEND_ARG_INFO(0, method)
+  ZEND_ARG_INFO(0, arguments)
 ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_mvc_model_behavior_method_entry) {
@@ -38,5 +38,5 @@ ZEPHIR_INIT_FUNCS(phalcon_mvc_model_behavior_method_entry) {
 	PHP_ME(Phalcon_Mvc_Model_Behavior, getOptions, arginfo_phalcon_mvc_model_behavior_getoptions, ZEND_ACC_PROTECTED)
 	PHP_ME(Phalcon_Mvc_Model_Behavior, notify, arginfo_phalcon_mvc_model_behavior_notify, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_Behavior, missingMethod, arginfo_phalcon_mvc_model_behavior_missingmethod, ZEND_ACC_PUBLIC)
-	PHP_FE_END
+  PHP_FE_END
 };

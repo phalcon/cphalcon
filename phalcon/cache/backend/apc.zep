@@ -160,7 +160,7 @@ class Apc extends \Phalcon\Cache\Backend implements \Phalcon\Cache\BackendInterf
 		}
 
 		let keys = [],
-			apc = new APCIterator("user", prefixPattern);
+			apc = new \APCIterator("user", prefixPattern);
 
 		for key, item in iterator(apc) {
 			let keys[] = substr(key, 5);

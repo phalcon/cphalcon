@@ -38,7 +38,6 @@ ZEPHIR_INIT_CLASS(Phalcon_FlashInterface) {
 
 	ZEPHIR_REGISTER_INTERFACE(Phalcon, FlashInterface, phalcon, flashinterface, phalcon_flashinterface_method_entry);
 
-
 	return SUCCESS;
 
 }

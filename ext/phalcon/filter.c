@@ -63,7 +63,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Filter) {
 	zend_declare_property_null(phalcon_filter_ce, SL("_filters"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
 	zend_class_implements(phalcon_filter_ce TSRMLS_CC, 1, phalcon_filterinterface_ce);
-
 	return SUCCESS;
 
 }
@@ -135,7 +134,7 @@ PHP_METHOD(Phalcon_Filter, sanitize) {
 		if ((Z_TYPE_P(value) != IS_NULL)) {
 			zephir_is_iterable(filters, &_1, &_0, 0, 0);
 			for (
-			  ; zend_hash_get_current_data_ex(_1, (void**) &_2, &_0) == SUCCESS
+			  ; zephir_hash_get_current_data_ex(_1, (void**) &_2, &_0) == SUCCESS
 			  ; zephir_hash_move_forward_ex(_1, &_0)
 			) {
 				ZEPHIR_GET_HVALUE(filter, _2);
@@ -148,7 +147,7 @@ PHP_METHOD(Phalcon_Filter, sanitize) {
 					array_init(arrayValue);
 					zephir_is_iterable(value, &_5, &_4, 0, 0);
 					for (
-					  ; zend_hash_get_current_data_ex(_5, (void**) &_6, &_4) == SUCCESS
+					  ; zephir_hash_get_current_data_ex(_5, (void**) &_6, &_4) == SUCCESS
 					  ; zephir_hash_move_forward_ex(_5, &_4)
 					) {
 						ZEPHIR_GET_HMKEY(itemKey, _5, _4);
@@ -170,7 +169,7 @@ PHP_METHOD(Phalcon_Filter, sanitize) {
 		array_init(sanitizedValue);
 		zephir_is_iterable(value, &_11, &_10, 0, 0);
 		for (
-		  ; zend_hash_get_current_data_ex(_11, (void**) &_12, &_10) == SUCCESS
+		  ; zephir_hash_get_current_data_ex(_11, (void**) &_12, &_10) == SUCCESS
 		  ; zephir_hash_move_forward_ex(_11, &_10)
 		) {
 			ZEPHIR_GET_HMKEY(itemKey, _11, _10);

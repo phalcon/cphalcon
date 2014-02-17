@@ -63,21 +63,22 @@ ZEPHIR_INIT_CLASS(Phalcon_Paginator_Adapter_NativeArray) {
 
 	ZEPHIR_REGISTER_CLASS(Phalcon\\Paginator\\Adapter, NativeArray, phalcon, paginator_adapter_nativearray, phalcon_paginator_adapter_nativearray_method_entry, 0);
 
-/**
+	/**
 	 * Number of rows to show in the paginator. By default is null
 	 */
 	zend_declare_property_null(phalcon_paginator_adapter_nativearray_ce, SL("_limitRows"), ZEND_ACC_PROTECTED TSRMLS_CC);
-/**
+
+	/**
 	 * Configuration of the paginator
 	 */
 	zend_declare_property_null(phalcon_paginator_adapter_nativearray_ce, SL("_config"), ZEND_ACC_PROTECTED TSRMLS_CC);
-/**
+
+	/**
 	 * Current page in paginate
 	 */
 	zend_declare_property_null(phalcon_paginator_adapter_nativearray_ce, SL("_page"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
 	zend_class_implements(phalcon_paginator_adapter_nativearray_ce TSRMLS_CC, 1, phalcon_paginator_adapterinterface_ce);
-
 	return SUCCESS;
 
 }
@@ -117,7 +118,7 @@ PHP_METHOD(Phalcon_Paginator_Adapter_NativeArray, setCurrentPage) {
 
 	zephir_fetch_params(0, 1, 0, &page_param);
 
-		page = zephir_get_intval(page_param);
+	page = zephir_get_intval(page_param);
 
 
 	ZEPHIR_INIT_ZVAL_NREF(_0);

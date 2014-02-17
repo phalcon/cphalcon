@@ -38,7 +38,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Di_ServiceInterface) {
 
 	ZEPHIR_REGISTER_INTERFACE(Phalcon\\Di, ServiceInterface, phalcon, di_serviceinterface, phalcon_di_serviceinterface_method_entry);
 
-
 	return SUCCESS;
 
 }

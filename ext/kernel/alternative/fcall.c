@@ -417,7 +417,6 @@ int zephir_alt_call_method(zend_fcall_info *fci, zend_class_entry *ce, unsigned 
 
 	current_scope = EG(scope);
 	EG(scope) = calling_scope;
-
 	current_this = EG(This);
 
 	current_called_scope = EG(called_scope);

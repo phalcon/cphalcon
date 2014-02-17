@@ -48,7 +48,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Di_Service_Builder) {
 
 	ZEPHIR_REGISTER_CLASS(Phalcon\\Di\\Service, Builder, phalcon, di_service_builder, phalcon_di_service_builder_method_entry, 0);
 
-
 	return SUCCESS;
 
 }
@@ -73,7 +72,7 @@ PHP_METHOD(Phalcon_Di_Service_Builder, _buildParameter) {
 	position = zephir_get_intval(position_param);
 
 
-	if (zephir_is_instance_of(dependencyInjector, SL("Phalcon\\DiInterface") TSRMLS_CC)) {
+	if (!(zephir_is_instance_of(dependencyInjector, SL("Phalcon\\DiInterface") TSRMLS_CC))) {
 		ZEPHIR_THROW_EXCEPTION_STR(spl_ce_InvalidArgumentException, "Parameter 'dependencyInjector' must be an instance of 'Phalcon\\DiInterface'");
 		return;
 	}
@@ -202,7 +201,7 @@ PHP_METHOD(Phalcon_Di_Service_Builder, _buildParameters) {
 
 
 
-	if (zephir_is_instance_of(dependencyInjector, SL("Phalcon\\DiInterface") TSRMLS_CC)) {
+	if (!(zephir_is_instance_of(dependencyInjector, SL("Phalcon\\DiInterface") TSRMLS_CC))) {
 		ZEPHIR_THROW_EXCEPTION_STR(spl_ce_InvalidArgumentException, "Parameter 'dependencyInjector' must be an instance of 'Phalcon\\DiInterface'");
 		return;
 	}
@@ -214,7 +213,7 @@ PHP_METHOD(Phalcon_Di_Service_Builder, _buildParameters) {
 	array_init(buildArguments);
 	zephir_is_iterable(arguments, &_1, &_0, 0, 0);
 	for (
-	  ; zend_hash_get_current_data_ex(_1, (void**) &_2, &_0) == SUCCESS
+	  ; zephir_hash_get_current_data_ex(_1, (void**) &_2, &_0) == SUCCESS
 	  ; zephir_hash_move_forward_ex(_1, &_0)
 	) {
 		ZEPHIR_GET_HMKEY(position, _1, _0);
@@ -250,7 +249,7 @@ PHP_METHOD(Phalcon_Di_Service_Builder, build) {
 	}
 
 
-	if (zephir_is_instance_of(dependencyInjector, SL("Phalcon\\DiInterface") TSRMLS_CC)) {
+	if (!(zephir_is_instance_of(dependencyInjector, SL("Phalcon\\DiInterface") TSRMLS_CC))) {
 		ZEPHIR_THROW_EXCEPTION_STR(spl_ce_InvalidArgumentException, "Parameter 'dependencyInjector' must be an instance of 'Phalcon\\DiInterface'");
 		return;
 	}
@@ -301,7 +300,7 @@ PHP_METHOD(Phalcon_Di_Service_Builder, build) {
 		}
 		zephir_is_iterable(paramCalls, &_2, &_1, 0, 0);
 		for (
-		  ; zend_hash_get_current_data_ex(_2, (void**) &_3, &_1) == SUCCESS
+		  ; zephir_hash_get_current_data_ex(_2, (void**) &_3, &_1) == SUCCESS
 		  ; zephir_hash_move_forward_ex(_2, &_1)
 		) {
 			ZEPHIR_GET_HMKEY(methodPosition, _2, _1);
@@ -366,7 +365,7 @@ PHP_METHOD(Phalcon_Di_Service_Builder, build) {
 		}
 		zephir_is_iterable(paramCalls, &_13, &_12, 0, 0);
 		for (
-		  ; zend_hash_get_current_data_ex(_13, (void**) &_14, &_12) == SUCCESS
+		  ; zephir_hash_get_current_data_ex(_13, (void**) &_14, &_12) == SUCCESS
 		  ; zephir_hash_move_forward_ex(_13, &_12)
 		) {
 			ZEPHIR_GET_HMKEY(propertyPosition, _13, _12);

@@ -308,9 +308,17 @@ int zephir_is_iterable_ex(zval *arr, HashTable **arr_hash, HashPosition *hash_po
 	}
 
 	if (reverse) {
-		zend_hash_internal_pointer_end_ex(*arr_hash, hash_position);
-	} else {
-		zend_hash_internal_pointer_reset_ex(*arr_hash, hash_position);
+		if (hash_position) {
+			*hash_position = (*arr_hash)->pListTail;		
+		} else {
+			(*arr_hash)->pInternalPointer = (*arr_hash)->pListTail;
+		}		
+	} else {		
+		if (hash_position) {
+			*hash_position = (*arr_hash)->pListHead;
+		} else {
+			(*arr_hash)->pInternalPointer = (*arr_hash)->pListHead;
+		}
 	}
 
 	return 1;

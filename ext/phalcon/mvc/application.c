@@ -13,9 +13,9 @@
 
 #include "kernel/main.h"
 #include "kernel/object.h"
+#include "kernel/exception.h"
 #include "kernel/memory.h"
 #include "kernel/operators.h"
-#include "kernel/exception.h"
 #include "kernel/array.h"
 #include "ext/spl/spl_exceptions.h"
 #include "kernel/fcall.h"
@@ -89,8 +89,11 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Application) {
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Mvc, Application, phalcon, mvc_application, phalcon_di_injectable_ce, phalcon_mvc_application_method_entry, 0);
 
 	zend_declare_property_null(phalcon_mvc_application_ce, SL("_defaultModule"), ZEND_ACC_PROTECTED TSRMLS_CC);
+
 	zend_declare_property_null(phalcon_mvc_application_ce, SL("_modules"), ZEND_ACC_PROTECTED TSRMLS_CC);
+
 	zend_declare_property_null(phalcon_mvc_application_ce, SL("_moduleObject"), ZEND_ACC_PROTECTED TSRMLS_CC);
+
 	zend_declare_property_bool(phalcon_mvc_application_ce, SL("_implicitView"), 1, ZEND_ACC_PROTECTED TSRMLS_CC);
 
 	return SUCCESS;
@@ -113,6 +116,10 @@ PHP_METHOD(Phalcon_Mvc_Application, __construct) {
 	}
 
 
+	if (!(zephir_is_instance_of(dependencyInjector, SL("Phalcon\\DiInterface") TSRMLS_CC))) {
+		ZEPHIR_THROW_EXCEPTION_STRW(spl_ce_InvalidArgumentException, "Parameter 'dependencyInjector' must be an instance of 'Phalcon\\DiInterface'");
+		return;
+	}
 	if ((Z_TYPE_P(dependencyInjector) == IS_OBJECT)) {
 		zephir_update_property_this(this_ptr, SL("_dependencyInjector"), dependencyInjector TSRMLS_CC);
 	}
@@ -133,7 +140,7 @@ PHP_METHOD(Phalcon_Mvc_Application, useImplicitView) {
 
 	zephir_fetch_params(0, 1, 0, &implicitView_param);
 
-		implicitView = zephir_get_boolval(implicitView_param);
+	implicitView = zephir_get_boolval(implicitView_param);
 
 
 	zephir_update_property_this(this_ptr, SL("_implicitView"), implicitView ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
@@ -427,7 +434,7 @@ PHP_METHOD(Phalcon_Mvc_Application, handle) {
 	ZEPHIR_INIT_VAR(possibleResponse);
 	zephir_call_method(possibleResponse, dispatcher, "getreturnedvalue");
 	if ((Z_TYPE_P(possibleResponse) == IS_OBJECT)) {
-		returnedResponse = zephir_is_instance_of(possibleResponse, SL("Phalcon\\Http\\ResponseInterface") TSRMLS_CC);
+		returnedResponse = zephir_is_instance_of(possibleResponse, SL("Phalcon\\Mvc\\Phalcon\\Http\\ResponseInterface") TSRMLS_CC);
 	} else {
 		returnedResponse = 0;
 	}

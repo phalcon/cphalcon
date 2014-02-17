@@ -16,6 +16,7 @@
 #include "kernel/array.h"
 #include "kernel/object.h"
 #include "kernel/memory.h"
+#include "kernel/hash.h"
 #include "kernel/fcall.h"
 #include "kernel/operators.h"
 #include "kernel/concat.h"
@@ -48,17 +49,19 @@ ZEPHIR_INIT_CLASS(Phalcon_Annotations_Annotation) {
 
 	ZEPHIR_REGISTER_CLASS(Phalcon\\Annotations, Annotation, phalcon, annotations_annotation, phalcon_annotations_annotation_method_entry, 0);
 
-/**
+	/**
 	 * Annotation Name
 	 * @var string
 	 */
 	zend_declare_property_null(phalcon_annotations_annotation_ce, SL("_name"), ZEND_ACC_PROTECTED TSRMLS_CC);
-/**
+
+	/**
 	 * Annotation Arguments
 	 * @var string
 	 */
 	zend_declare_property_null(phalcon_annotations_annotation_ce, SL("_arguments"), ZEND_ACC_PROTECTED TSRMLS_CC);
-/**
+
+	/**
 	 * Annotation ExprArguments
 	 * @var string
 	 */
@@ -95,7 +98,7 @@ PHP_METHOD(Phalcon_Annotations_Annotation, __construct) {
 	if (zephir_array_isset_string_fetch(&exprArguments, reflectionData, SS("arguments"), 0 TSRMLS_CC)) {
 		zephir_is_iterable(exprArguments, &_2, &_1, 0, 0);
 		for (
-		  ; zend_hash_get_current_data_ex(_2, (void**) &_3, &_1) == SUCCESS
+		  ; zephir_hash_get_current_data_ex(_2, (void**) &_3, &_1) == SUCCESS
 		  ; zephir_hash_move_forward_ex(_2, &_1)
 		) {
 			ZEPHIR_GET_HVALUE(argument, _3);
@@ -176,7 +179,7 @@ PHP_METHOD(Phalcon_Annotations_Annotation, getExpression) {
 			zephir_array_fetch_string(&_0, expr, SL("items"), PH_NOISY | PH_READONLY TSRMLS_CC);
 			zephir_is_iterable(_0, &_2, &_1, 0, 0);
 			for (
-			  ; zend_hash_get_current_data_ex(_2, (void**) &_3, &_1) == SUCCESS
+			  ; zephir_hash_get_current_data_ex(_2, (void**) &_3, &_1) == SUCCESS
 			  ; zephir_hash_move_forward_ex(_2, &_1)
 			) {
 				ZEPHIR_GET_HVALUE(item, _3);

@@ -38,7 +38,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Cache_FrontendInterface) {
 
 	ZEPHIR_REGISTER_INTERFACE(Phalcon\\Cache, FrontendInterface, phalcon, cache_frontendinterface, phalcon_cache_frontendinterface_method_entry);
 
-
 	return SUCCESS;
 
 }

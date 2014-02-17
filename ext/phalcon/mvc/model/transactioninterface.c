@@ -38,7 +38,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_TransactionInterface) {
 
 	ZEPHIR_REGISTER_INTERFACE(Phalcon\\Mvc\\Model, TransactionInterface, phalcon, mvc_model_transactioninterface, phalcon_mvc_model_transactioninterface_method_entry);
 
-
 	return SUCCESS;
 
 }

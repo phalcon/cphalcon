@@ -38,7 +38,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Http_Response_CookiesInterface) {
 
 	ZEPHIR_REGISTER_INTERFACE(Phalcon\\Http\\Response, CookiesInterface, phalcon, http_response_cookiesinterface, phalcon_http_response_cookiesinterface_method_entry);
 
-
 	return SUCCESS;
 
 }

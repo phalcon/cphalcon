@@ -576,7 +576,7 @@ abstract class Model implements \Phalcon\Mvc\ModelInterface, \Phalcon\Mvc\Model\
 		if hydrationMode == \Phalcon\Mvc\Model\Resultset::HYDRATE_ARRAYS {
 			let hydrate = [];
 		} else {
-			let hydrate = new stdclass();
+			let hydrate = new \stdclass();
 		}
 
 		for key, value in data {

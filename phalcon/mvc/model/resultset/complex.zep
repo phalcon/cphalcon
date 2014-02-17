@@ -134,7 +134,7 @@ class Complex extends \Phalcon\Mvc\Model\Resultset implements \Phalcon\Mvc\Model
 						let activeRow = [];
 						break;
 					case 2:
-						let activeRow = new stdClass();
+						let activeRow = new \stdClass();
 						break;
 				}
 

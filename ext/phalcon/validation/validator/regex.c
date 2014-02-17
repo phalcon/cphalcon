@@ -12,6 +12,8 @@
 #include <Zend/zend_interfaces.h>
 
 #include "kernel/main.h"
+#include "kernel/object.h"
+#include "kernel/exception.h"
 #include "kernel/memory.h"
 #include "kernel/fcall.h"
 #include "kernel/operators.h"
@@ -55,7 +57,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Validation_Validator_Regex) {
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Validation\\Validator, Regex, phalcon, validation_validator_regex, phalcon_validation_validator_ce, phalcon_validation_validator_regex_method_entry, 0);
 
 	zend_class_implements(phalcon_validation_validator_regex_ce TSRMLS_CC, 1, phalcon_validation_validatorinterface_ce);
-
 	return SUCCESS;
 
 }
@@ -77,6 +78,10 @@ PHP_METHOD(Phalcon_Validation_Validator_Regex, validate) {
 
 
 
+	if (!(zephir_is_instance_of(validation, SL("Phalcon\\Validation") TSRMLS_CC))) {
+		ZEPHIR_THROW_EXCEPTION_STR(spl_ce_InvalidArgumentException, "Parameter 'validation' must be an instance of 'Phalcon\\Validation'");
+		return;
+	}
 	ZEPHIR_INIT_VAR(matches);
 	ZVAL_NULL(matches);
 	ZEPHIR_INIT_VAR(value);

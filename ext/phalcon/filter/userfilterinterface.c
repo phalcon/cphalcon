@@ -38,7 +38,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Filter_UserFilterInterface) {
 
 	ZEPHIR_REGISTER_INTERFACE(Phalcon\\Filter, UserFilterInterface, phalcon, filter_userfilterinterface, phalcon_filter_userfilterinterface_method_entry);
 
-
 	return SUCCESS;
 
 }

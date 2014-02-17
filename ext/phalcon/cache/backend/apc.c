@@ -68,7 +68,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Cache_Backend_Apc) {
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Cache\\Backend, Apc, phalcon, cache_backend_apc, phalcon_cache_backend_ce, phalcon_cache_backend_apc_method_entry, 0);
 
 	zend_class_implements(phalcon_cache_backend_apc_ce TSRMLS_CC, 1, phalcon_cache_backendinterface_ce);
-
 	return SUCCESS;
 
 }
@@ -247,7 +246,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Apc, queryKeys) {
 	ZEPHIR_INIT_VAR(keys);
 	array_init(keys);
 	ZEPHIR_INIT_VAR(apc);
-	_1 = zend_fetch_class(SL("Phalcon\\Cache\\Backend\\APCIterator"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
+	_1 = zend_fetch_class(SL("APCIterator"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
 	object_init_ex(apc, _1);
 	if (zephir_has_constructor(apc TSRMLS_CC)) {
 		ZEPHIR_INIT_VAR(_2);
@@ -258,7 +257,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Apc, queryKeys) {
 	zephir_call_func_p1(_2, "iterator", apc);
 	zephir_is_iterable(_2, &_4, &_3, 0, 0);
 	for (
-	  ; zend_hash_get_current_data_ex(_4, (void**) &_5, &_3) == SUCCESS
+	  ; zephir_hash_get_current_data_ex(_4, (void**) &_5, &_3) == SUCCESS
 	  ; zephir_hash_move_forward_ex(_4, &_3)
 	) {
 		ZEPHIR_GET_HMKEY(key, _4, _3);

@@ -32,4 +32,9 @@ void zephir_hash_update_or_insert(HashTable *ht, zval *offset, zval *value);
 zval** zephir_hash_get(HashTable *ht, zval *key, int type);
 int zephir_hash_unset(HashTable *ht, zval *offset);
 
+zend_always_inline int zephir_hash_get_current_data_ex(HashTable *ht, void **pData, HashPosition *pos);
+zend_always_inline int zephir_hash_move_backwards_ex(HashTable *ht, HashPosition *pos);
+
+#define zephir_hash_move_forward_ex(ht, pos) *pos = (*pos ? (*pos)->pListNext : NULL)
+
 #endif

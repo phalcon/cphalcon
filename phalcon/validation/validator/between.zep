@@ -71,7 +71,7 @@ class Between extends \Phalcon\Validation\Validator implements \Phalcon\Validati
 				let message = validation->getDefaultMessage("Between");
 			}
 
-			validation->appendMessage(new Phalcon\Validation\Message(strtr(message, replacePairs), field, "Between"));
+			validation->appendMessage(new \Phalcon\Validation\Message(strtr(message, replacePairs), field, "Between"));
 			return false;
 		}
 

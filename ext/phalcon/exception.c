@@ -40,7 +40,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Exception) {
 
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon, Exception, phalcon, exception, zend_exception_get_default(TSRMLS_C), NULL, 0);
 
-
 	return SUCCESS;
 
 }

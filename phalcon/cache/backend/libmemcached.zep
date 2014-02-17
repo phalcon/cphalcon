@@ -94,7 +94,7 @@ class Libmemcached extends \Phalcon\Cache\Backend implements \Phalcon\Cache\Back
 		var options, memcache, client, servers, option, res;
 
 		let options = this->_options;
-		let memcache = new Memcached();
+		let memcache = new \Memcached();
 
 		if !isset options["servers"] {
 			throw new \Phalcon\Cache\Exception("Servers must be an array");
@@ -114,7 +114,7 @@ class Libmemcached extends \Phalcon\Cache\Backend implements \Phalcon\Cache\Back
 		if typeof client == "array" {
 			for option in client {
 				if typeof option == "string" {
-					let res = Constant(option);
+					let res = constant(option);
 					if res {
 						memcache->setOption(res);
 					}

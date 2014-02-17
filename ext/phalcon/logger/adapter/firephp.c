@@ -35,7 +35,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Logger_Adapter_FirePHP) {
 
 	ZEPHIR_REGISTER_CLASS(Phalcon\\Logger\\Adapter, FirePHP, phalcon, logger_adapter_firephp, NULL, 0);
 
-
 	return SUCCESS;
 
 }

@@ -12,13 +12,14 @@
 #include <Zend/zend_interfaces.h>
 
 #include "kernel/main.h"
-#include "kernel/operators.h"
 #include "kernel/object.h"
+#include "kernel/exception.h"
+#include "kernel/operators.h"
 #include "kernel/fcall.h"
 #include "kernel/memory.h"
-#include "kernel/exception.h"
 #include "ext/spl/spl_exceptions.h"
 #include "kernel/array.h"
+#include "kernel/hash.h"
 
 
 /*
@@ -86,15 +87,19 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_Transaction_Manager) {
 	ZEPHIR_REGISTER_CLASS(Phalcon\\Mvc\\Model\\Transaction, Manager, phalcon, mvc_model_transaction_manager, phalcon_mvc_model_transaction_manager_method_entry, 0);
 
 	zend_declare_property_null(phalcon_mvc_model_transaction_manager_ce, SL("_dependencyInjector"), ZEND_ACC_PROTECTED TSRMLS_CC);
+
 	zend_declare_property_bool(phalcon_mvc_model_transaction_manager_ce, SL("_initialized"), 0, ZEND_ACC_PROTECTED TSRMLS_CC);
+
 	zend_declare_property_bool(phalcon_mvc_model_transaction_manager_ce, SL("_rollbackPendent"), 1, ZEND_ACC_PROTECTED TSRMLS_CC);
+
 	zend_declare_property_long(phalcon_mvc_model_transaction_manager_ce, SL("_number"), 0, ZEND_ACC_PROTECTED TSRMLS_CC);
+
 	zend_declare_property_string(phalcon_mvc_model_transaction_manager_ce, SL("_service"), "db", ZEND_ACC_PROTECTED TSRMLS_CC);
+
 	zend_declare_property_null(phalcon_mvc_model_transaction_manager_ce, SL("_transactions"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
 	zend_class_implements(phalcon_mvc_model_transaction_manager_ce TSRMLS_CC, 1, phalcon_mvc_model_transaction_managerinterface_ce);
 	zend_class_implements(phalcon_mvc_model_transaction_manager_ce TSRMLS_CC, 1, phalcon_di_injectionawareinterface_ce);
-
 	return SUCCESS;
 
 }
@@ -118,6 +123,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, __construct) {
 	}
 
 
+	if (!(zephir_is_instance_of(dependencyInjector, SL("Phalcon\\DiInterface") TSRMLS_CC))) {
+		ZEPHIR_THROW_EXCEPTION_STR(spl_ce_InvalidArgumentException, "Parameter 'dependencyInjector' must be an instance of 'Phalcon\\DiInterface'");
+		return;
+	}
 	if (zephir_is_true(dependencyInjector)) {
 		zephir_update_property_this(this_ptr, SL("_dependencyInjector"), dependencyInjector TSRMLS_CC);
 	} else {
@@ -146,6 +155,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, setDI) {
 
 
 
+	if (!(zephir_is_instance_of(dependencyInjector, SL("Phalcon\\DiInterface") TSRMLS_CC))) {
+		ZEPHIR_THROW_EXCEPTION_STRW(spl_ce_InvalidArgumentException, "Parameter 'dependencyInjector' must be an instance of 'Phalcon\\DiInterface'");
+		return;
+	}
 	zephir_update_property_this(this_ptr, SL("_dependencyInjector"), dependencyInjector TSRMLS_CC);
 
 }
@@ -219,7 +232,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, setRollbackPendent) {
 
 	zephir_fetch_params(0, 1, 0, &rollbackPendent_param);
 
-		rollbackPendent = zephir_get_boolval(rollbackPendent_param);
+	rollbackPendent = zephir_get_boolval(rollbackPendent_param);
 
 
 	zephir_update_property_this(this_ptr, SL("_rollbackPendent"), rollbackPendent ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
@@ -255,7 +268,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, has) {
 }
 
 /**
- * Returns a new Phalcon\Mvc\Model\Transaction or an already created once
+ * Returns a new \Phalcon\Mvc\Model\Transaction or an already created once
  * This method registers a shutdown function to rollback active connections
  *
  * @param boolean autoBegin
@@ -332,8 +345,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, getOrCreateTransaction) {
 		if ((Z_TYPE_P(transactions) == IS_ARRAY)) {
 			zephir_is_iterable(transactions, &_2, &_1, 0, 1);
 			for (
-				; zend_hash_get_current_data_ex(_2, (void**) &_3, &_1) == SUCCESS
-				; zend_hash_move_backwards_ex(_2, &_1)
+			  ; zephir_hash_get_current_data_ex(_2, (void**) &_3, &_1) == SUCCESS
+			  ; zephir_hash_move_backwards_ex(_2, &_1)
 			) {
 				ZEPHIR_GET_HVALUE(transaction, _3);
 				if ((Z_TYPE_P(transaction) == IS_OBJECT)) {
@@ -384,8 +397,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, commit) {
 	if ((Z_TYPE_P(transactions) == IS_ARRAY)) {
 		zephir_is_iterable(transactions, &_1, &_0, 0, 0);
 		for (
-			; zend_hash_get_current_data_ex(_1, (void**) &_2, &_0) == SUCCESS
-			; zend_hash_move_forward_ex(_1, &_0)
+		  ; zephir_hash_get_current_data_ex(_1, (void**) &_2, &_0) == SUCCESS
+		  ; zephir_hash_move_forward_ex(_1, &_0)
 		) {
 			ZEPHIR_GET_HVALUE(transaction, _2);
 			ZEPHIR_INIT_NVAR(connection);
@@ -427,8 +440,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, rollback) {
 	if ((Z_TYPE_P(transactions) == IS_ARRAY)) {
 		zephir_is_iterable(transactions, &_1, &_0, 0, 0);
 		for (
-			; zend_hash_get_current_data_ex(_1, (void**) &_2, &_0) == SUCCESS
-			; zend_hash_move_forward_ex(_1, &_0)
+		  ; zephir_hash_get_current_data_ex(_1, (void**) &_2, &_0) == SUCCESS
+		  ; zephir_hash_move_forward_ex(_1, &_0)
 		) {
 			ZEPHIR_GET_HVALUE(transaction, _2);
 			ZEPHIR_INIT_NVAR(connection);
@@ -462,6 +475,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, notifyRollback) {
 
 
 
+	if (!(zephir_is_instance_of(transaction, SL("Phalcon\\Mvc\\Model\\TransactionInterface") TSRMLS_CC))) {
+		ZEPHIR_THROW_EXCEPTION_STR(spl_ce_InvalidArgumentException, "Parameter 'transaction' must be an instance of 'Phalcon\\Mvc\\Model\\TransactionInterface'");
+		return;
+	}
 	zephir_call_method_p1_noret(this_ptr, "_collecttransaction", transaction);
 	ZEPHIR_MM_RESTORE();
 
@@ -481,6 +498,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, notifyCommit) {
 
 
 
+	if (!(zephir_is_instance_of(transaction, SL("Phalcon\\Mvc\\Model\\TransactionInterface") TSRMLS_CC))) {
+		ZEPHIR_THROW_EXCEPTION_STR(spl_ce_InvalidArgumentException, "Parameter 'transaction' must be an instance of 'Phalcon\\Mvc\\Model\\TransactionInterface'");
+		return;
+	}
 	zephir_call_method_p1_noret(this_ptr, "_collecttransaction", transaction);
 	ZEPHIR_MM_RESTORE();
 
@@ -502,6 +523,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, _collectTransaction) {
 
 
 
+	if (!(zephir_is_instance_of(transaction, SL("Phalcon\\Mvc\\Model\\TransactionInterface") TSRMLS_CC))) {
+		ZEPHIR_THROW_EXCEPTION_STR(spl_ce_InvalidArgumentException, "Parameter 'transaction' must be an instance of 'Phalcon\\Mvc\\Model\\TransactionInterface'");
+		return;
+	}
 	ZEPHIR_OBS_VAR(transactions);
 	zephir_read_property_this(&transactions, this_ptr, SL("_transactions"), PH_NOISY_CC);
 	if (zephir_fast_count_int(transactions TSRMLS_CC)) {
@@ -509,8 +534,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, _collectTransaction) {
 		array_init(newTransactions);
 		zephir_is_iterable(transactions, &_1, &_0, 0, 0);
 		for (
-			; zend_hash_get_current_data_ex(_1, (void**) &_2, &_0) == SUCCESS
-			; zend_hash_move_forward_ex(_1, &_0)
+		  ; zephir_hash_get_current_data_ex(_1, (void**) &_2, &_0) == SUCCESS
+		  ; zephir_hash_move_forward_ex(_1, &_0)
 		) {
 			ZEPHIR_GET_HVALUE(managedTransaction, _2);
 			if (ZEPHIR_IS_EQUAL(managedTransaction, transaction)) {
@@ -541,8 +566,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, collectTransactions) {
 	if (zephir_fast_count_int(transactions TSRMLS_CC)) {
 		zephir_is_iterable(transactions, &_1, &_0, 0, 0);
 		for (
-			; zend_hash_get_current_data_ex(_1, (void**) &_2, &_0) == SUCCESS
-			; zend_hash_move_forward_ex(_1, &_0)
+		  ; zephir_hash_get_current_data_ex(_1, (void**) &_2, &_0) == SUCCESS
+		  ; zephir_hash_move_forward_ex(_1, &_0)
 		) {
 			ZEPHIR_GET_HVALUE(managedTransaction, _2);
 			RETURN_ON_FAILURE(zephir_property_decr(this_ptr, SL("_number") TSRMLS_CC));

@@ -49,13 +49,14 @@ ZEPHIR_INIT_CLASS(Phalcon_Di_Injectable) {
 
 	ZEPHIR_REGISTER_CLASS(Phalcon\\Di, Injectable, phalcon, di_injectable, phalcon_di_injectable_method_entry, ZEND_ACC_EXPLICIT_ABSTRACT_CLASS);
 
-/**
+	/**
 	 * Dependency Injector
 	 *
 	 * @var Phalcon\DiInteface
 	 */
 	zend_declare_property_null(phalcon_di_injectable_ce, SL("_dependencyInjector"), ZEND_ACC_PROTECTED TSRMLS_CC);
-/**
+
+	/**
 	 * Events Manager
 	 *
 	 * @var Phalcon\Events\ManagerInterface
@@ -64,7 +65,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Di_Injectable) {
 
 	zend_class_implements(phalcon_di_injectable_ce TSRMLS_CC, 1, phalcon_di_injectionawareinterface_ce);
 	zend_class_implements(phalcon_di_injectable_ce TSRMLS_CC, 1, phalcon_events_eventsawareinterface_ce);
-
 	return SUCCESS;
 
 }
@@ -82,7 +82,7 @@ PHP_METHOD(Phalcon_Di_Injectable, setDI) {
 
 
 
-	if (zephir_is_instance_of(dependencyInjector, SL("Phalcon\\DiInterface") TSRMLS_CC)) {
+	if (!(zephir_is_instance_of(dependencyInjector, SL("Phalcon\\DiInterface") TSRMLS_CC))) {
 		ZEPHIR_THROW_EXCEPTION_STRW(spl_ce_InvalidArgumentException, "Parameter 'dependencyInjector' must be an instance of 'Phalcon\\DiInterface'");
 		return;
 	}
@@ -128,7 +128,7 @@ PHP_METHOD(Phalcon_Di_Injectable, setEventsManager) {
 
 
 
-	if (zephir_is_instance_of(eventsManager, SL("Phalcon\\Events\\ManagerInterface") TSRMLS_CC)) {
+	if (!(zephir_is_instance_of(eventsManager, SL("Phalcon\\Events\\ManagerInterface") TSRMLS_CC))) {
 		ZEPHIR_THROW_EXCEPTION_STRW(spl_ce_InvalidArgumentException, "Parameter 'eventsManager' must be an instance of 'Phalcon\\Events\\ManagerInterface'");
 		return;
 	}

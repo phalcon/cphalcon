@@ -65,7 +65,7 @@ class Manager implements \Phalcon\Events\ManagerInterface
 				/**
 				 * Create a SplPriorityQueue to store the events with priorities
 				 */
-				let priorityQueue = new SplPriorityQueue();
+				let priorityQueue = new \SplPriorityQueue();
 
 				/**
 				 * Extract only the Data

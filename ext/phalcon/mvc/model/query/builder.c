@@ -12,16 +12,16 @@
 #include <Zend/zend_interfaces.h>
 
 #include "kernel/main.h"
+#include "kernel/object.h"
+#include "kernel/exception.h"
 #include "kernel/array.h"
 #include "kernel/memory.h"
-#include "kernel/object.h"
+#include "kernel/hash.h"
 #include "kernel/fcall.h"
 #include "kernel/string.h"
 #include "kernel/operators.h"
 #include "ext/spl/spl_exceptions.h"
-#include "kernel/exception.h"
 #include "kernel/concat.h"
-#include "kernel/hash.h"
 
 
 /*
@@ -65,7 +65,7 @@
  *    'offset'     => 20,
  *    // or 'limit' => array(20, 20),
  *);
- *$queryBuilder = new Phalcon\Mvc\Model\Query\Builder($params);
+ *$queryBuilder = new \Phalcon\Mvc\Model\Query\Builder($params);
  *</code>
  */
 ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_Query_Builder) {
@@ -73,19 +73,33 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_Query_Builder) {
 	ZEPHIR_REGISTER_CLASS(Phalcon\\Mvc\\Model\\Query, Builder, phalcon, mvc_model_query_builder, phalcon_mvc_model_query_builder_method_entry, 0);
 
 	zend_declare_property_null(phalcon_mvc_model_query_builder_ce, SL("_dependencyInjector"), ZEND_ACC_PROTECTED TSRMLS_CC);
+
 	zend_declare_property_null(phalcon_mvc_model_query_builder_ce, SL("_columns"), ZEND_ACC_PROTECTED TSRMLS_CC);
+
 	zend_declare_property_null(phalcon_mvc_model_query_builder_ce, SL("_models"), ZEND_ACC_PROTECTED TSRMLS_CC);
+
 	zend_declare_property_null(phalcon_mvc_model_query_builder_ce, SL("_joins"), ZEND_ACC_PROTECTED TSRMLS_CC);
+
 	zend_declare_property_null(phalcon_mvc_model_query_builder_ce, SL("_conditions"), ZEND_ACC_PROTECTED TSRMLS_CC);
+
 	zend_declare_property_null(phalcon_mvc_model_query_builder_ce, SL("_group"), ZEND_ACC_PROTECTED TSRMLS_CC);
+
 	zend_declare_property_null(phalcon_mvc_model_query_builder_ce, SL("_having"), ZEND_ACC_PROTECTED TSRMLS_CC);
+
 	zend_declare_property_null(phalcon_mvc_model_query_builder_ce, SL("_order"), ZEND_ACC_PROTECTED TSRMLS_CC);
+
 	zend_declare_property_null(phalcon_mvc_model_query_builder_ce, SL("_limit"), ZEND_ACC_PROTECTED TSRMLS_CC);
+
 	zend_declare_property_null(phalcon_mvc_model_query_builder_ce, SL("_offset"), ZEND_ACC_PROTECTED TSRMLS_CC);
+
 	zend_declare_property_null(phalcon_mvc_model_query_builder_ce, SL("_forUpdate"), ZEND_ACC_PROTECTED TSRMLS_CC);
+
 	zend_declare_property_null(phalcon_mvc_model_query_builder_ce, SL("_sharedLock"), ZEND_ACC_PROTECTED TSRMLS_CC);
+
 	zend_declare_property_null(phalcon_mvc_model_query_builder_ce, SL("_bindParams"), ZEND_ACC_PROTECTED TSRMLS_CC);
+
 	zend_declare_property_null(phalcon_mvc_model_query_builder_ce, SL("_bindTypes"), ZEND_ACC_PROTECTED TSRMLS_CC);
+
 	zend_declare_property_long(phalcon_mvc_model_query_builder_ce, SL("_hiddenParamNumber"), 0, ZEND_ACC_PROTECTED TSRMLS_CC);
 
 	return SUCCESS;
@@ -115,6 +129,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, __construct) {
 	}
 
 
+	if (!(zephir_is_instance_of(dependencyInjector, SL("Phalcon\\DiInterface") TSRMLS_CC))) {
+		ZEPHIR_THROW_EXCEPTION_STR(spl_ce_InvalidArgumentException, "Parameter 'dependencyInjector' must be an instance of 'Phalcon\\DiInterface'");
+		return;
+	}
 	if ((Z_TYPE_P(params) == IS_ARRAY)) {
 		ZEPHIR_OBS_VAR(conditions);
 		if (zephir_array_isset_long_fetch(&conditions, params, 0, 0 TSRMLS_CC)) {
@@ -131,8 +149,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, __construct) {
 					array_init(mergedTypes);
 					zephir_is_iterable(conditions, &_1, &_0, 0, 0);
 					for (
-						; zend_hash_get_current_data_ex(_1, (void**) &_2, &_0) == SUCCESS
-						; zend_hash_move_forward_ex(_1, &_0)
+					  ; zephir_hash_get_current_data_ex(_1, (void**) &_2, &_0) == SUCCESS
+					  ; zephir_hash_move_forward_ex(_1, &_0)
 					) {
 						ZEPHIR_GET_HVALUE(singleConditionArray, _2);
 						if ((Z_TYPE_P(singleConditionArray) == IS_ARRAY)) {
@@ -242,6 +260,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, setDI) {
 
 
 
+	if (!(zephir_is_instance_of(dependencyInjector, SL("Phalcon\\DiInterface") TSRMLS_CC))) {
+		ZEPHIR_THROW_EXCEPTION_STRW(spl_ce_InvalidArgumentException, "Parameter 'dependencyInjector' must be an instance of 'Phalcon\\DiInterface'");
+		return;
+	}
 	zephir_update_property_this(this_ptr, SL("_dependencyInjector"), dependencyInjector TSRMLS_CC);
 	RETURN_THISW();
 
@@ -949,8 +971,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, inWhere) {
 	array_init(bindKeys);
 	zephir_is_iterable(values, &_2, &_1, 0, 0);
 	for (
-		; zend_hash_get_current_data_ex(_2, (void**) &_3, &_1) == SUCCESS
-		; zend_hash_move_forward_ex(_2, &_1)
+	  ; zephir_hash_get_current_data_ex(_2, (void**) &_3, &_1) == SUCCESS
+	  ; zephir_hash_move_forward_ex(_2, &_1)
 	) {
 		ZEPHIR_GET_HVALUE(value, _3);
 		ZEPHIR_SINIT_NVAR(_4);
@@ -1024,8 +1046,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, notInWhere) {
 	array_init(bindKeys);
 	zephir_is_iterable(values, &_2, &_1, 0, 0);
 	for (
-		; zend_hash_get_current_data_ex(_2, (void**) &_3, &_1) == SUCCESS
-		; zend_hash_move_forward_ex(_2, &_1)
+	  ; zephir_hash_get_current_data_ex(_2, (void**) &_3, &_1) == SUCCESS
+	  ; zephir_hash_move_forward_ex(_2, &_1)
 	) {
 		ZEPHIR_GET_HVALUE(value, _3);
 		ZEPHIR_SINIT_NVAR(_4);
@@ -1153,7 +1175,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, limit) {
 
 	zephir_fetch_params(0, 1, 1, &limit_param, &offset_param);
 
-		limit = zephir_get_intval(limit_param);
+	limit = zephir_get_intval(limit_param);
 	if (!offset_param) {
 		offset = 0;
 	} else {
@@ -1362,8 +1384,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getPhql) {
 			array_init(selectedColumns);
 			zephir_is_iterable(columns, &_5, &_4, 0, 0);
 			for (
-				; zend_hash_get_current_data_ex(_5, (void**) &_6, &_4) == SUCCESS
-				; zend_hash_move_forward_ex(_5, &_4)
+			  ; zephir_hash_get_current_data_ex(_5, (void**) &_6, &_4) == SUCCESS
+			  ; zephir_hash_move_forward_ex(_5, &_4)
 			) {
 				ZEPHIR_GET_HMKEY(columnAlias, _5, _4);
 				ZEPHIR_GET_HVALUE(column, _6);
@@ -1387,8 +1409,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getPhql) {
 			array_init(selectedColumns);
 			zephir_is_iterable(models, &_8, &_7, 0, 0);
 			for (
-				; zend_hash_get_current_data_ex(_8, (void**) &_9, &_7) == SUCCESS
-				; zend_hash_move_forward_ex(_8, &_7)
+			  ; zephir_hash_get_current_data_ex(_8, (void**) &_9, &_7) == SUCCESS
+			  ; zephir_hash_move_forward_ex(_8, &_7)
 			) {
 				ZEPHIR_GET_HMKEY(modelColumnAlias, _8, _7);
 				ZEPHIR_GET_HVALUE(model, _9);
@@ -1414,8 +1436,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getPhql) {
 		array_init(selectedModels);
 		zephir_is_iterable(models, &_11, &_10, 0, 0);
 		for (
-			; zend_hash_get_current_data_ex(_11, (void**) &_12, &_10) == SUCCESS
-			; zend_hash_move_forward_ex(_11, &_10)
+		  ; zephir_hash_get_current_data_ex(_11, (void**) &_12, &_10) == SUCCESS
+		  ; zephir_hash_move_forward_ex(_11, &_10)
 		) {
 			ZEPHIR_GET_HMKEY(modelAlias, _11, _10);
 			ZEPHIR_GET_HVALUE(model, _12);
@@ -1442,8 +1464,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getPhql) {
 	if ((Z_TYPE_P(joins) == IS_ARRAY)) {
 		zephir_is_iterable(joins, &_15, &_14, 0, 0);
 		for (
-			; zend_hash_get_current_data_ex(_15, (void**) &_16, &_14) == SUCCESS
-			; zend_hash_move_forward_ex(_15, &_14)
+		  ; zephir_hash_get_current_data_ex(_15, (void**) &_16, &_14) == SUCCESS
+		  ; zephir_hash_move_forward_ex(_15, &_14)
 		) {
 			ZEPHIR_GET_HVALUE(join, _16);
 			ZEPHIR_OBS_NVAR(joinModel);
@@ -1490,8 +1512,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getPhql) {
 			array_init(groupItems);
 			zephir_is_iterable(group, &_19, &_18, 0, 0);
 			for (
-				; zend_hash_get_current_data_ex(_19, (void**) &_20, &_18) == SUCCESS
-				; zend_hash_move_forward_ex(_19, &_18)
+			  ; zephir_hash_get_current_data_ex(_19, (void**) &_20, &_18) == SUCCESS
+			  ; zephir_hash_move_forward_ex(_19, &_18)
 			) {
 				ZEPHIR_GET_HVALUE(groupItem, _20);
 				if (zephir_is_numeric(groupItem)) {
@@ -1546,8 +1568,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getPhql) {
 			array_init(orderItems);
 			zephir_is_iterable(order, &_22, &_21, 0, 0);
 			for (
-				; zend_hash_get_current_data_ex(_22, (void**) &_23, &_21) == SUCCESS
-				; zend_hash_move_forward_ex(_22, &_21)
+			  ; zephir_hash_get_current_data_ex(_22, (void**) &_23, &_21) == SUCCESS
+			  ; zephir_hash_move_forward_ex(_22, &_21)
 			) {
 				ZEPHIR_GET_HVALUE(orderItem, _23);
 				if (zephir_is_numeric(orderItem)) {

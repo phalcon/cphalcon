@@ -68,7 +68,7 @@ class Email extends \Phalcon\Validation\Validator implements \Phalcon\Validation
 				let message = validation->getDefaultMessage("Email");
 			}
 
-			validation->appendMessage(new Phalcon\Validation\Message(strtr(message, replacePairs), field, "Email"));
+			validation->appendMessage(new \Phalcon\Validation\Message(strtr(message, replacePairs), field, "Email"));
 			return false;
 		}
 

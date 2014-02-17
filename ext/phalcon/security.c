@@ -60,8 +60,11 @@ ZEPHIR_INIT_CLASS(Phalcon_Security) {
 	ZEPHIR_REGISTER_CLASS(Phalcon, Security, phalcon, security, phalcon_security_method_entry, 0);
 
 	zend_declare_property_null(phalcon_security_ce, SL("_dependencyInjector"), ZEND_ACC_PROTECTED TSRMLS_CC);
+
 	zend_declare_property_long(phalcon_security_ce, SL("_workFactor"), 8, ZEND_ACC_PROTECTED TSRMLS_CC);
+
 	zend_declare_property_long(phalcon_security_ce, SL("_numberBytes"), 16, ZEND_ACC_PROTECTED TSRMLS_CC);
+
 	zend_declare_property_null(phalcon_security_ce, SL("_csrf"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
 	return SUCCESS;
@@ -100,6 +103,10 @@ PHP_METHOD(Phalcon_Security, setDI) {
 
 
 
+	if (!(zephir_is_instance_of(dependencyInjector, SL("Phalcon\\DiInterface") TSRMLS_CC))) {
+		ZEPHIR_THROW_EXCEPTION_STRW(spl_ce_InvalidArgumentException, "Parameter 'dependencyInjector' must be an instance of 'Phalcon\\DiInterface'");
+		return;
+	}
 	zephir_update_property_this(this_ptr, SL("_dependencyInjector"), dependencyInjector TSRMLS_CC);
 
 }
@@ -213,7 +220,7 @@ PHP_METHOD(Phalcon_Security, hash) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &password_param, &workFactor);
 
-		zephir_get_strval(password, password_param);
+	zephir_get_strval(password, password_param);
 	ZEPHIR_SEPARATE_PARAM(workFactor);
 
 
@@ -252,9 +259,9 @@ PHP_METHOD(Phalcon_Security, checkHash) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 3, 0, &password_param, &passwordHash_param, &maxPassLength_param);
 
-		zephir_get_strval(password, password_param);
-		zephir_get_strval(passwordHash, passwordHash_param);
-		maxPassLength = zephir_get_intval(maxPassLength_param);
+	zephir_get_strval(password, password_param);
+	zephir_get_strval(passwordHash, passwordHash_param);
+	maxPassLength = zephir_get_intval(maxPassLength_param);
 
 
 	if (maxPassLength) {
@@ -292,8 +299,8 @@ PHP_METHOD(Phalcon_Security, isLegacyHash) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &password_param, &passwordHash_param);
 
-		zephir_get_strval(password, password_param);
-		zephir_get_strval(passwordHash, passwordHash_param);
+	zephir_get_strval(password, password_param);
+	zephir_get_strval(passwordHash, passwordHash_param);
 
 
 	RETURN_MM_BOOL(zephir_start_with_str(passwordHash, SL("$2a$")));
@@ -314,7 +321,7 @@ PHP_METHOD(Phalcon_Security, getTokenKey) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &numberBytes_param);
 
-		numberBytes = zephir_get_intval(numberBytes_param);
+	numberBytes = zephir_get_intval(numberBytes_param);
 
 
 	if (!(numberBytes)) {
@@ -399,7 +406,7 @@ PHP_METHOD(Phalcon_Security, getToken) {
 	ZEPHIR_INIT_VAR(session);
 	zephir_call_method_p1(session, dependencyInjector, "getshared", _1);
 	ZEPHIR_INIT_BNVAR(_1);
-	ZVAL_STRING(_1, "$PHALCON/CSRF/KEY$", 1);
+	ZVAL_STRING(_1, "$PHALCON/CSRF$", 1);
 	zephir_call_method_p2_noret(session, "set", _1, token);
 	RETURN_CCTOR(token);
 

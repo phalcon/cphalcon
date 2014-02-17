@@ -12,12 +12,13 @@
 #include <Zend/zend_interfaces.h>
 
 #include "kernel/main.h"
+#include "kernel/object.h"
+#include "kernel/exception.h"
 #include "kernel/operators.h"
 #include "kernel/fcall.h"
 #include "kernel/memory.h"
 #include "kernel/array.h"
-#include "kernel/exception.h"
-#include "kernel/object.h"
+#include "kernel/hash.h"
 #include "ext/spl/spl_exceptions.h"
 
 
@@ -49,7 +50,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_Behavior_SoftDelete) {
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Mvc\\Model\\Behavior, SoftDelete, phalcon, mvc_model_behavior_softdelete, phalcon_mvc_model_behavior_ce, phalcon_mvc_model_behavior_softdelete_method_entry, 0);
 
 	zend_class_implements(phalcon_mvc_model_behavior_softdelete_ce TSRMLS_CC, 1, phalcon_mvc_model_behaviorinterface_ce);
-
 	return SUCCESS;
 
 }
@@ -84,6 +84,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Behavior_SoftDelete, notify) {
 	}
 
 
+	if (!(zephir_is_instance_of(model, SL("Phalcon\\Mvc\\ModelInterface") TSRMLS_CC))) {
+		ZEPHIR_THROW_EXCEPTION_STR(spl_ce_InvalidArgumentException, "Parameter 'model' must be an instance of 'Phalcon\\Mvc\\ModelInterface'");
+		return;
+	}
 	if (ZEPHIR_IS_STRING(type, "beforeDelete")) {
 		ZEPHIR_INIT_VAR(options);
 		zephir_call_method(options, this_ptr, "getoptions");
@@ -113,8 +117,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Behavior_SoftDelete, notify) {
 				zephir_call_method(_2, updateModel, "getmessages");
 				zephir_is_iterable(_2, &_4, &_3, 0, 0);
 				for (
-					; zend_hash_get_current_data_ex(_4, (void**) &_5, &_3) == SUCCESS
-					; zend_hash_move_forward_ex(_4, &_3)
+				  ; zephir_hash_get_current_data_ex(_4, (void**) &_5, &_3) == SUCCESS
+				  ; zephir_hash_move_forward_ex(_4, &_3)
 				) {
 					ZEPHIR_GET_HVALUE(message, _5);
 					zephir_call_method_p1_cache_noret(model, "appendmessage", &_6, message);

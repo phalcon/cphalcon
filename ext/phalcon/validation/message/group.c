@@ -19,6 +19,7 @@
 #include "kernel/exception.h"
 #include "kernel/operators.h"
 #include "kernel/fcall.h"
+#include "kernel/hash.h"
 
 
 /*
@@ -48,12 +49,12 @@ ZEPHIR_INIT_CLASS(Phalcon_Validation_Message_Group) {
 	ZEPHIR_REGISTER_CLASS(Phalcon\\Validation\\Message, Group, phalcon, validation_message_group, phalcon_validation_message_group_method_entry, 0);
 
 	zend_declare_property_null(phalcon_validation_message_group_ce, SL("_position"), ZEND_ACC_PROTECTED TSRMLS_CC);
+
 	zend_declare_property_null(phalcon_validation_message_group_ce, SL("_messages"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
 	zend_class_implements(phalcon_validation_message_group_ce TSRMLS_CC, 1, spl_ce_Countable);
 	zend_class_implements(phalcon_validation_message_group_ce TSRMLS_CC, 1, zend_ce_arrayaccess);
 	zend_class_implements(phalcon_validation_message_group_ce TSRMLS_CC, 1, zend_ce_iterator);
-
 	return SUCCESS;
 
 }
@@ -117,7 +118,7 @@ PHP_METHOD(Phalcon_Validation_Message_Group, offsetGet) {
  * Sets an attribute using the array-syntax
  *
  *<code>
- * $messages[0] = new Phalcon\Validation\Message('This is a message');
+ * $messages[0] = new \Phalcon\Validation\Message('This is a message');
  *</code>
  *
  * @param int index
@@ -138,6 +139,10 @@ PHP_METHOD(Phalcon_Validation_Message_Group, offsetSet) {
 		index = Z_LVAL_P(index_param);
 
 
+	if (!(zephir_is_instance_of(message, SL("Phalcon\\Validation\\Message") TSRMLS_CC))) {
+		ZEPHIR_THROW_EXCEPTION_STRW(spl_ce_InvalidArgumentException, "Parameter 'message' must be an instance of 'Phalcon\\Validation\\Message'");
+		return;
+	}
 	if ((Z_TYPE_P(message) != IS_OBJECT)) {
 		ZEPHIR_THROW_EXCEPTION_STRW(phalcon_validation_exception_ce, "The message must be an object");
 		return;
@@ -164,7 +169,7 @@ PHP_METHOD(Phalcon_Validation_Message_Group, offsetExists) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &index_param);
 
-		zephir_get_strval(index, index_param);
+	zephir_get_strval(index, index_param);
 
 
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_messages"), PH_NOISY_CC);
@@ -204,7 +209,7 @@ PHP_METHOD(Phalcon_Validation_Message_Group, offsetUnset) {
  * Appends a message to the group
  *
  *<code>
- * $messages->appendMessage(new Phalcon\Validation\Message('This is a message'));
+ * $messages->appendMessage(new \Phalcon\Validation\Message('This is a message'));
  *</code>
  *
  * @param Phalcon\Validation\MessageInterface message
@@ -217,6 +222,10 @@ PHP_METHOD(Phalcon_Validation_Message_Group, appendMessage) {
 
 
 
+	if (!(zephir_is_instance_of(message, SL("Phalcon\\Validation\\MessageInterface") TSRMLS_CC))) {
+		ZEPHIR_THROW_EXCEPTION_STRW(spl_ce_InvalidArgumentException, "Parameter 'message' must be an instance of 'Phalcon\\Validation\\MessageInterface'");
+		return;
+	}
 	zephir_update_property_array_append(this_ptr, SL("_messages"), message TSRMLS_CC);
 
 }
@@ -263,8 +272,8 @@ PHP_METHOD(Phalcon_Validation_Message_Group, appendMessages) {
 		zephir_call_func_p1(_0, "iterator", messages);
 		zephir_is_iterable(_0, &_2, &_1, 0, 0);
 		for (
-			; zend_hash_get_current_data_ex(_2, (void**) &_3, &_1) == SUCCESS
-			; zend_hash_move_forward_ex(_2, &_1)
+		  ; zephir_hash_get_current_data_ex(_2, (void**) &_3, &_1) == SUCCESS
+		  ; zephir_hash_move_forward_ex(_2, &_1)
 		) {
 			ZEPHIR_GET_HVALUE(message, _3);
 			zephir_call_method_p1_cache_noret(this_ptr, "appendmessage", &_4, message);
@@ -310,8 +319,8 @@ PHP_METHOD(Phalcon_Validation_Message_Group, filter) {
 	if ((Z_TYPE_P(messages) == IS_ARRAY)) {
 		zephir_is_iterable(messages, &_1, &_0, 0, 0);
 		for (
-			; zend_hash_get_current_data_ex(_1, (void**) &_2, &_0) == SUCCESS
-			; zend_hash_move_forward_ex(_1, &_0)
+		  ; zephir_hash_get_current_data_ex(_1, (void**) &_2, &_0) == SUCCESS
+		  ; zephir_hash_move_forward_ex(_1, &_0)
 		) {
 			ZEPHIR_GET_HVALUE(message, _2);
 			if ((zephir_method_exists_ex(message, SS("getfield") TSRMLS_CC) == SUCCESS)) {

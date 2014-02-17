@@ -41,7 +41,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Cache_Exception) {
 
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Cache, Exception, phalcon, cache_exception, phalcon_exception_ce, NULL, 0);
 
-
 	return SUCCESS;
 
 }

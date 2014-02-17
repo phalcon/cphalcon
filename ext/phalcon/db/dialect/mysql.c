@@ -21,6 +21,7 @@
 #include "ext/spl/spl_exceptions.h"
 #include "kernel/array.h"
 #include "kernel/string.h"
+#include "kernel/hash.h"
 
 
 /*
@@ -70,7 +71,7 @@ PHP_METHOD(Phalcon_Db_Dialect_MySQL, getColumnDefinition) {
 
 
 
-	if (zephir_is_instance_of(column, SL("Phalcon\\Db\\ColumnInterface") TSRMLS_CC)) {
+	if (!(zephir_is_instance_of(column, SL("Phalcon\\Db\\ColumnInterface") TSRMLS_CC))) {
 		ZEPHIR_THROW_EXCEPTION_STR(spl_ce_InvalidArgumentException, "Parameter 'column' must be an instance of 'Phalcon\\Db\\ColumnInterface'");
 		return;
 	}
@@ -209,7 +210,7 @@ PHP_METHOD(Phalcon_Db_Dialect_MySQL, addColumn) {
 	}
 
 
-	if (zephir_is_instance_of(column, SL("Phalcon\\Db\\ColumnInterface") TSRMLS_CC)) {
+	if (!(zephir_is_instance_of(column, SL("Phalcon\\Db\\ColumnInterface") TSRMLS_CC))) {
 		ZEPHIR_THROW_EXCEPTION_STR(spl_ce_InvalidArgumentException, "Parameter 'column' must be an instance of 'Phalcon\\Db\\ColumnInterface'");
 		return;
 	}
@@ -296,7 +297,7 @@ PHP_METHOD(Phalcon_Db_Dialect_MySQL, modifyColumn) {
 	}
 
 
-	if (zephir_is_instance_of(column, SL("Phalcon\\Db\\ColumnInterface") TSRMLS_CC)) {
+	if (!(zephir_is_instance_of(column, SL("Phalcon\\Db\\ColumnInterface") TSRMLS_CC))) {
 		ZEPHIR_THROW_EXCEPTION_STR(spl_ce_InvalidArgumentException, "Parameter 'column' must be an instance of 'Phalcon\\Db\\ColumnInterface'");
 		return;
 	}
@@ -428,7 +429,7 @@ PHP_METHOD(Phalcon_Db_Dialect_MySQL, addIndex) {
 	}
 
 
-	if (zephir_is_instance_of(index, SL("Phalcon\\Db\\IndexInterface") TSRMLS_CC)) {
+	if (!(zephir_is_instance_of(index, SL("Phalcon\\Db\\IndexInterface") TSRMLS_CC))) {
 		ZEPHIR_THROW_EXCEPTION_STR(spl_ce_InvalidArgumentException, "Parameter 'index' must be an instance of 'Phalcon\\Db\\IndexInterface'");
 		return;
 	}
@@ -547,7 +548,7 @@ PHP_METHOD(Phalcon_Db_Dialect_MySQL, addPrimaryKey) {
 	zephir_get_strval(schemaName, schemaName_param);
 
 
-	if (zephir_is_instance_of(index, SL("Phalcon\\Db\\IndexInterface") TSRMLS_CC)) {
+	if (!(zephir_is_instance_of(index, SL("Phalcon\\Db\\IndexInterface") TSRMLS_CC))) {
 		ZEPHIR_THROW_EXCEPTION_STR(spl_ce_InvalidArgumentException, "Parameter 'index' must be an instance of 'Phalcon\\Db\\IndexInterface'");
 		return;
 	}
@@ -669,7 +670,7 @@ PHP_METHOD(Phalcon_Db_Dialect_MySQL, addForeignKey) {
 	}
 
 
-	if (zephir_is_instance_of(reference, SL("Phalcon\\Db\\ReferenceInterface") TSRMLS_CC)) {
+	if (!(zephir_is_instance_of(reference, SL("Phalcon\\Db\\ReferenceInterface") TSRMLS_CC))) {
 		ZEPHIR_THROW_EXCEPTION_STR(spl_ce_InvalidArgumentException, "Parameter 'reference' must be an instance of 'Phalcon\\Db\\ReferenceInterface'");
 		return;
 	}
@@ -905,7 +906,7 @@ PHP_METHOD(Phalcon_Db_Dialect_MySQL, createTable) {
 	array_init(createLines);
 	zephir_is_iterable(columns, &_2, &_1, 0, 0);
 	for (
-	  ; zend_hash_get_current_data_ex(_2, (void**) &_3, &_1) == SUCCESS
+	  ; zephir_hash_get_current_data_ex(_2, (void**) &_3, &_1) == SUCCESS
 	  ; zephir_hash_move_forward_ex(_2, &_1)
 	) {
 		ZEPHIR_GET_HVALUE(column, _3);
@@ -936,7 +937,7 @@ PHP_METHOD(Phalcon_Db_Dialect_MySQL, createTable) {
 	if (zephir_array_isset_string_fetch(&indexes, definition, SS("indexes"), 0 TSRMLS_CC)) {
 		zephir_is_iterable(indexes, &_11, &_10, 0, 0);
 		for (
-		  ; zend_hash_get_current_data_ex(_11, (void**) &_12, &_10) == SUCCESS
+		  ; zephir_hash_get_current_data_ex(_11, (void**) &_12, &_10) == SUCCESS
 		  ; zephir_hash_move_forward_ex(_11, &_10)
 		) {
 			ZEPHIR_GET_HVALUE(index, _12);
@@ -963,7 +964,7 @@ PHP_METHOD(Phalcon_Db_Dialect_MySQL, createTable) {
 	if (zephir_array_isset_string_fetch(&references, definition, SS("references"), 0 TSRMLS_CC)) {
 		zephir_is_iterable(references, &_16, &_15, 0, 0);
 		for (
-		  ; zend_hash_get_current_data_ex(_16, (void**) &_17, &_15) == SUCCESS
+		  ; zephir_hash_get_current_data_ex(_16, (void**) &_17, &_15) == SUCCESS
 		  ; zephir_hash_move_forward_ex(_16, &_15)
 		) {
 			ZEPHIR_GET_HVALUE(reference, _17);

@@ -38,7 +38,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Session_BagInterface) {
 
 	ZEPHIR_REGISTER_INTERFACE(Phalcon\\Session, BagInterface, phalcon, session_baginterface, phalcon_session_baginterface_method_entry);
 
-
 	return SUCCESS;
 
 }

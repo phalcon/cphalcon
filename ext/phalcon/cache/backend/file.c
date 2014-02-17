@@ -20,6 +20,7 @@
 #include "kernel/concat.h"
 #include "kernel/file.h"
 #include "kernel/operators.h"
+#include "kernel/hash.h"
 #include "kernel/string.h"
 
 
@@ -76,7 +77,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Cache_Backend_File) {
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Cache\\Backend, File, phalcon, cache_backend_file, phalcon_cache_backend_ce, phalcon_cache_backend_file_method_entry, 0);
 
 	zend_class_implements(phalcon_cache_backend_file_ce TSRMLS_CC, 1, phalcon_cache_backendinterface_ce);
-
 	return SUCCESS;
 
 }
@@ -99,7 +99,7 @@ PHP_METHOD(Phalcon_Cache_Backend_File, __construct) {
 	}
 
 
-	if (zephir_is_instance_of(frontend, SL("Phalcon\\Cache\\FrontendInterface") TSRMLS_CC)) {
+	if (!(zephir_is_instance_of(frontend, SL("Phalcon\\Cache\\FrontendInterface") TSRMLS_CC))) {
 		ZEPHIR_THROW_EXCEPTION_STR(spl_ce_InvalidArgumentException, "Parameter 'frontend' must be an instance of 'Phalcon\\Cache\\FrontendInterface'");
 		return;
 	}
@@ -346,7 +346,7 @@ PHP_METHOD(Phalcon_Cache_Backend_File, queryKeys) {
 	zephir_call_func_p1(_3, "iterator", _1);
 	zephir_is_iterable(_3, &_5, &_4, 0, 0);
 	for (
-	  ; zend_hash_get_current_data_ex(_5, (void**) &_6, &_4) == SUCCESS
+	  ; zephir_hash_get_current_data_ex(_5, (void**) &_6, &_4) == SUCCESS
 	  ; zephir_hash_move_forward_ex(_5, &_4)
 	) {
 		ZEPHIR_GET_HVALUE(item, _6);

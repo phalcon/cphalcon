@@ -53,7 +53,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Db_RawValue) {
 
 	ZEPHIR_REGISTER_CLASS(Phalcon\\Db, RawValue, phalcon, db_rawvalue, phalcon_db_rawvalue_method_entry, 0);
 
-/**
+	/**
 	 * Raw value without quoting or formating
 	 *
 	 * @var string

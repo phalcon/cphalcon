@@ -64,7 +64,7 @@ class Identical extends \Phalcon\Validation\Validator implements \Phalcon\Valida
 				let message = validation->getDefaultMessage("Identical");
 			}
 
-			validation->appendMessage(new Phalcon\Validation\Message(strtr(message, replacePairs), field, "Identical"));
+			validation->appendMessage(new \Phalcon\Validation\Message(strtr(message, replacePairs), field, "Identical"));
 			return false;
 		}
 

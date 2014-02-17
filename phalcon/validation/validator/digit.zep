@@ -68,7 +68,7 @@ class Digit extends \Phalcon\Validation\Validator implements \Phalcon\Validation
 				let message = validation->getDefaultMessage("Digit");
 			}
 
-			validation->appendMessage(new Phalcon\Validation\Message(strtr(message, replacePairs), field, "Digit"));
+			validation->appendMessage(new \Phalcon\Validation\Message(strtr(message, replacePairs), field, "Digit"));
 			return false;
 		}
 

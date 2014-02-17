@@ -48,6 +48,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Annotations_Adapter) {
 	ZEPHIR_REGISTER_CLASS(Phalcon\\Annotations, Adapter, phalcon, annotations_adapter, phalcon_annotations_adapter_method_entry, ZEND_ACC_EXPLICIT_ABSTRACT_CLASS);
 
 	zend_declare_property_null(phalcon_annotations_adapter_ce, SL("_reader"), ZEND_ACC_PROTECTED TSRMLS_CC);
+
 	zend_declare_property_null(phalcon_annotations_adapter_ce, SL("_annotations"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
 	return SUCCESS;
@@ -67,7 +68,7 @@ PHP_METHOD(Phalcon_Annotations_Adapter, setReader) {
 
 
 
-	if (zephir_is_instance_of(reader, SL("Phalcon\\Annotations\\ReaderInterface") TSRMLS_CC)) {
+	if (!(zephir_is_instance_of(reader, SL("Phalcon\\Annotations\\ReaderInterface") TSRMLS_CC))) {
 		ZEPHIR_THROW_EXCEPTION_STRW(spl_ce_InvalidArgumentException, "Parameter 'reader' must be an instance of 'Phalcon\\Annotations\\ReaderInterface'");
 		return;
 	}
@@ -209,7 +210,7 @@ PHP_METHOD(Phalcon_Annotations_Adapter, getMethod) {
 		if ((Z_TYPE_P(methods) == IS_ARRAY)) {
 			zephir_is_iterable(methods, &_1, &_0, 0, 0);
 			for (
-			  ; zend_hash_get_current_data_ex(_1, (void**) &_2, &_0) == SUCCESS
+			  ; zephir_hash_get_current_data_ex(_1, (void**) &_2, &_0) == SUCCESS
 			  ; zephir_hash_move_forward_ex(_1, &_0)
 			) {
 				ZEPHIR_GET_HMKEY(name, _1, _0);
@@ -283,7 +284,7 @@ PHP_METHOD(Phalcon_Annotations_Adapter, getProperty) {
 		if ((Z_TYPE_P(properties) == IS_ARRAY)) {
 			zephir_is_iterable(properties, &_1, &_0, 0, 0);
 			for (
-			  ; zend_hash_get_current_data_ex(_1, (void**) &_2, &_0) == SUCCESS
+			  ; zephir_hash_get_current_data_ex(_1, (void**) &_2, &_0) == SUCCESS
 			  ; zephir_hash_move_forward_ex(_1, &_0)
 			) {
 				ZEPHIR_GET_HMKEY(name, _1, _0);

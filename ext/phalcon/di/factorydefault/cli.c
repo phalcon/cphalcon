@@ -47,7 +47,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Di_FactoryDefault_Cli) {
 
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Di\\FactoryDefault, Cli, phalcon, di_factorydefault_cli, phalcon_di_factorydefault_ce, phalcon_di_factorydefault_cli_method_entry, 0);
 
-
 	return SUCCESS;
 
 }

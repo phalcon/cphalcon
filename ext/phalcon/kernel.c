@@ -35,7 +35,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Kernel) {
 
 	ZEPHIR_REGISTER_CLASS(Phalcon, Kernel, phalcon, kernel, NULL, 0);
 
-
 	return SUCCESS;
 
 }

@@ -39,7 +39,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_ResultsetInterface) {
 
 	ZEPHIR_REGISTER_INTERFACE(Phalcon\\Mvc\\Model, ResultsetInterface, phalcon, mvc_model_resultsetinterface, phalcon_mvc_model_resultsetinterface_method_entry);
 
-
 	return SUCCESS;
 
 }

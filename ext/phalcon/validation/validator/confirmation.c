@@ -12,6 +12,8 @@
 #include <Zend/zend_interfaces.h>
 
 #include "kernel/main.h"
+#include "kernel/object.h"
+#include "kernel/exception.h"
 #include "kernel/fcall.h"
 #include "kernel/memory.h"
 #include "kernel/operators.h"
@@ -54,7 +56,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Validation_Validator_Confirmation) {
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Validation\\Validator, Confirmation, phalcon, validation_validator_confirmation, phalcon_validation_validator_ce, phalcon_validation_validator_confirmation_method_entry, 0);
 
 	zend_class_implements(phalcon_validation_validator_confirmation_ce TSRMLS_CC, 1, phalcon_validation_validatorinterface_ce);
-
 	return SUCCESS;
 
 }
@@ -74,9 +75,13 @@ PHP_METHOD(Phalcon_Validation_Validator_Confirmation, validate) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &validation, &field_param);
 
-		zephir_get_strval(field, field_param);
+	zephir_get_strval(field, field_param);
 
 
+	if (!(zephir_is_instance_of(validation, SL("Phalcon\\Validation") TSRMLS_CC))) {
+		ZEPHIR_THROW_EXCEPTION_STR(spl_ce_InvalidArgumentException, "Parameter 'validation' must be an instance of 'Phalcon\\Validation'");
+		return;
+	}
 	ZEPHIR_INIT_VAR(_0);
 	ZVAL_STRING(_0, "with", 1);
 	ZEPHIR_INIT_VAR(fieldWith);

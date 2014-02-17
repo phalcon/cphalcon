@@ -57,15 +57,19 @@ ZEPHIR_INIT_CLASS(Phalcon_Http_Response) {
 	ZEPHIR_REGISTER_CLASS(Phalcon\\Http, Response, phalcon, http_response, phalcon_http_response_method_entry, 0);
 
 	zend_declare_property_bool(phalcon_http_response_ce, SL("_sent"), 0, ZEND_ACC_PROTECTED TSRMLS_CC);
+
 	zend_declare_property_null(phalcon_http_response_ce, SL("_content"), ZEND_ACC_PROTECTED TSRMLS_CC);
+
 	zend_declare_property_null(phalcon_http_response_ce, SL("_headers"), ZEND_ACC_PROTECTED TSRMLS_CC);
+
 	zend_declare_property_null(phalcon_http_response_ce, SL("_cookies"), ZEND_ACC_PROTECTED TSRMLS_CC);
+
 	zend_declare_property_null(phalcon_http_response_ce, SL("_file"), ZEND_ACC_PROTECTED TSRMLS_CC);
+
 	zend_declare_property_null(phalcon_http_response_ce, SL("_dependencyInjector"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
 	zend_class_implements(phalcon_http_response_ce TSRMLS_CC, 1, phalcon_http_responseinterface_ce);
 	zend_class_implements(phalcon_http_response_ce TSRMLS_CC, 1, phalcon_di_injectionawareinterface_ce);
-
 	return SUCCESS;
 
 }
@@ -118,7 +122,7 @@ PHP_METHOD(Phalcon_Http_Response, setDI) {
 
 
 
-	if (zephir_is_instance_of(dependencyInjector, SL("Phalcon\\DiInterface") TSRMLS_CC)) {
+	if (!(zephir_is_instance_of(dependencyInjector, SL("Phalcon\\DiInterface") TSRMLS_CC))) {
 		ZEPHIR_THROW_EXCEPTION_STRW(spl_ce_InvalidArgumentException, "Parameter 'dependencyInjector' must be an instance of 'Phalcon\\DiInterface'");
 		return;
 	}
@@ -248,7 +252,7 @@ PHP_METHOD(Phalcon_Http_Response, setCookies) {
 
 
 
-	if (zephir_is_instance_of(cookies, SL("Phalcon\\Http\\Response\\CookiesInterface") TSRMLS_CC)) {
+	if (!(zephir_is_instance_of(cookies, SL("Phalcon\\Http\\Response\\CookiesInterface") TSRMLS_CC))) {
 		ZEPHIR_THROW_EXCEPTION_STRW(spl_ce_InvalidArgumentException, "Parameter 'cookies' must be an instance of 'Phalcon\\Http\\Response\\CookiesInterface'");
 		return;
 	}
@@ -368,7 +372,7 @@ PHP_METHOD(Phalcon_Http_Response, setExpires) {
 
 
 
-	if (zephir_is_instance_of(datetime, SL("DateTime") TSRMLS_CC)) {
+	if (!(zephir_is_instance_of(datetime, SL("DateTime") TSRMLS_CC))) {
 		ZEPHIR_THROW_EXCEPTION_STR(spl_ce_InvalidArgumentException, "Parameter 'datetime' must be an instance of 'DateTime'");
 		return;
 	}

@@ -41,7 +41,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Tag_Select) {
 
 	ZEPHIR_REGISTER_CLASS(Phalcon\\Tag, Select, phalcon, tag_select, phalcon_tag_select_method_entry, ZEND_ACC_EXPLICIT_ABSTRACT_CLASS);
 
-
 	return SUCCESS;
 
 }

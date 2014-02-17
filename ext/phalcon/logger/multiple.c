@@ -15,6 +15,7 @@
 #include "kernel/object.h"
 #include "kernel/exception.h"
 #include "kernel/memory.h"
+#include "kernel/hash.h"
 #include "kernel/fcall.h"
 #include "kernel/operators.h"
 
@@ -46,6 +47,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Logger_Multiple) {
 	ZEPHIR_REGISTER_CLASS(Phalcon\\Logger, Multiple, phalcon, logger_multiple, phalcon_logger_multiple_method_entry, 0);
 
 	zend_declare_property_null(phalcon_logger_multiple_ce, SL("_loggers"), ZEND_ACC_PROTECTED TSRMLS_CC);
+
 	zend_declare_property_null(phalcon_logger_multiple_ce, SL("_formatter"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
 	return SUCCESS;
@@ -79,6 +81,10 @@ PHP_METHOD(Phalcon_Logger_Multiple, push) {
 
 
 
+	if (!(zephir_is_instance_of(logger, SL("Phalcon\\Logger\\AdapterInterface") TSRMLS_CC))) {
+		ZEPHIR_THROW_EXCEPTION_STRW(spl_ce_InvalidArgumentException, "Parameter 'logger' must be an instance of 'Phalcon\\Logger\\AdapterInterface'");
+		return;
+	}
 	if ((Z_TYPE_P(logger) == IS_OBJECT)) {
 		ZEPHIR_THROW_EXCEPTION_STRW(phalcon_logger_exception_ce, "The logger is invalid");
 		return;
@@ -103,13 +109,17 @@ PHP_METHOD(Phalcon_Logger_Multiple, setFormatter) {
 
 
 
+	if (!(zephir_is_instance_of(formatter, SL("Phalcon\\Logger\\FormatterInterface") TSRMLS_CC))) {
+		ZEPHIR_THROW_EXCEPTION_STR(spl_ce_InvalidArgumentException, "Parameter 'formatter' must be an instance of 'Phalcon\\Logger\\FormatterInterface'");
+		return;
+	}
 	ZEPHIR_OBS_VAR(loggers);
 	zephir_read_property_this(&loggers, this_ptr, SL("_loggers"), PH_NOISY_CC);
 	if ((Z_TYPE_P(loggers) == IS_ARRAY)) {
 		zephir_is_iterable(loggers, &_1, &_0, 0, 0);
 		for (
-			; zend_hash_get_current_data_ex(_1, (void**) &_2, &_0) == SUCCESS
-			; zend_hash_move_forward_ex(_1, &_0)
+		  ; zephir_hash_get_current_data_ex(_1, (void**) &_2, &_0) == SUCCESS
+		  ; zephir_hash_move_forward_ex(_1, &_0)
 		) {
 			ZEPHIR_GET_HVALUE(logger, _2);
 			zephir_call_method_p1_noret(logger, "setformatter", formatter);
@@ -137,7 +147,7 @@ PHP_METHOD(Phalcon_Logger_Multiple, log) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 1, &message_param, &type_param);
 
-		zephir_get_strval(message, message_param);
+	zephir_get_strval(message, message_param);
 	if (!type_param) {
 		type = 7;
 	} else {
@@ -150,8 +160,8 @@ PHP_METHOD(Phalcon_Logger_Multiple, log) {
 	if ((Z_TYPE_P(loggers) == IS_ARRAY)) {
 		zephir_is_iterable(loggers, &_1, &_0, 0, 0);
 		for (
-			; zend_hash_get_current_data_ex(_1, (void**) &_2, &_0) == SUCCESS
-			; zend_hash_move_forward_ex(_1, &_0)
+		  ; zephir_hash_get_current_data_ex(_1, (void**) &_2, &_0) == SUCCESS
+		  ; zephir_hash_move_forward_ex(_1, &_0)
 		) {
 			ZEPHIR_GET_HVALUE(logger, _2);
 			ZEPHIR_INIT_NVAR(_3);
@@ -176,7 +186,7 @@ PHP_METHOD(Phalcon_Logger_Multiple, emergence) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &message_param);
 
-		zephir_get_strval(message, message_param);
+	zephir_get_strval(message, message_param);
 
 
 	ZEPHIR_INIT_VAR(_0);
@@ -200,7 +210,7 @@ PHP_METHOD(Phalcon_Logger_Multiple, debug) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &message_param);
 
-		zephir_get_strval(message, message_param);
+	zephir_get_strval(message, message_param);
 
 
 	ZEPHIR_INIT_VAR(_0);
@@ -223,7 +233,7 @@ PHP_METHOD(Phalcon_Logger_Multiple, error) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &message_param);
 
-		zephir_get_strval(message, message_param);
+	zephir_get_strval(message, message_param);
 
 
 	ZEPHIR_INIT_VAR(_0);
@@ -246,7 +256,7 @@ PHP_METHOD(Phalcon_Logger_Multiple, info) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &message_param);
 
-		zephir_get_strval(message, message_param);
+	zephir_get_strval(message, message_param);
 
 
 	ZEPHIR_INIT_VAR(_0);
@@ -269,7 +279,7 @@ PHP_METHOD(Phalcon_Logger_Multiple, notice) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &message_param);
 
-		zephir_get_strval(message, message_param);
+	zephir_get_strval(message, message_param);
 
 
 	ZEPHIR_INIT_VAR(_0);
@@ -292,7 +302,7 @@ PHP_METHOD(Phalcon_Logger_Multiple, warning) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &message_param);
 
-		zephir_get_strval(message, message_param);
+	zephir_get_strval(message, message_param);
 
 
 	ZEPHIR_INIT_VAR(_0);
@@ -315,7 +325,7 @@ PHP_METHOD(Phalcon_Logger_Multiple, alert) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &message_param);
 
-		zephir_get_strval(message, message_param);
+	zephir_get_strval(message, message_param);
 
 
 	ZEPHIR_INIT_VAR(_0);

@@ -68,7 +68,7 @@ class Alpha extends \Phalcon\Validation\Validator implements \Phalcon\Validation
 				let message = validation->getDefaultMessage("Alpha");
 			}
 
-			validation->appendMessage(new Phalcon\Validation\Message(strtr(message, replacePairs), field, "Alpha"));
+			validation->appendMessage(new \Phalcon\Validation\Message(strtr(message, replacePairs), field, "Alpha"));
 			return false;
 		}
 

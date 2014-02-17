@@ -12,9 +12,10 @@
 #include <Zend/zend_interfaces.h>
 
 #include "kernel/main.h"
+#include "kernel/object.h"
+#include "kernel/exception.h"
 #include "kernel/fcall.h"
 #include "kernel/memory.h"
-#include "kernel/exception.h"
 #include "kernel/operators.h"
 #include "kernel/array.h"
 
@@ -44,7 +45,7 @@
  *<code>
  *use Phalcon\Mvc\Model\Validator\Url as UrlValidator;
  *
- *class Posts extends Phalcon\Mvc\Model
+ *class Posts extends \Phalcon\Mvc\Model
  *{
  *
  *  public function validation()
@@ -66,7 +67,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_Validator_Url) {
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Mvc\\Model\\Validator, Url, phalcon, mvc_model_validator_url, phalcon_mvc_model_validator_ce, phalcon_mvc_model_validator_url_method_entry, 0);
 
 	zend_class_implements(phalcon_mvc_model_validator_url_ce TSRMLS_CC, 1, phalcon_mvc_model_validatorinterface_ce);
-
 	return SUCCESS;
 
 }
@@ -87,6 +87,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Url, validate) {
 
 
 
+	if (!(zephir_is_instance_of(record, SL("Phalcon\\Mvc\\ModelInterface") TSRMLS_CC))) {
+		ZEPHIR_THROW_EXCEPTION_STR(spl_ce_InvalidArgumentException, "Parameter 'record' must be an instance of 'Phalcon\\Mvc\\ModelInterface'");
+		return;
+	}
 	ZEPHIR_INIT_VAR(_0);
 	ZVAL_STRING(_0, "field", 1);
 	ZEPHIR_INIT_VAR(field);

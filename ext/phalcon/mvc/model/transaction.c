@@ -12,12 +12,12 @@
 #include <Zend/zend_interfaces.h>
 
 #include "kernel/main.h"
+#include "kernel/object.h"
+#include "kernel/exception.h"
 #include "kernel/memory.h"
 #include "kernel/operators.h"
 #include "kernel/fcall.h"
-#include "kernel/object.h"
 #include "kernel/array.h"
-#include "kernel/exception.h"
 
 
 /*
@@ -47,7 +47,7 @@
  *<code>
  *try {
  *
- *  $manager = new Phalcon\Mvc\Model\Transaction\Manager();
+ *  $manager = new \Phalcon\Mvc\Model\Transaction\Manager();
  *
  *  $transaction = $manager->get();
  *
@@ -79,15 +79,20 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_Transaction) {
 	ZEPHIR_REGISTER_CLASS(Phalcon\\Mvc\\Model, Transaction, phalcon, mvc_model_transaction, phalcon_mvc_model_transaction_method_entry, 0);
 
 	zend_declare_property_null(phalcon_mvc_model_transaction_ce, SL("_connection"), ZEND_ACC_PROTECTED TSRMLS_CC);
+
 	zend_declare_property_bool(phalcon_mvc_model_transaction_ce, SL("_activeTransaction"), 0, ZEND_ACC_PROTECTED TSRMLS_CC);
+
 	zend_declare_property_bool(phalcon_mvc_model_transaction_ce, SL("_isNewTransaction"), 1, ZEND_ACC_PROTECTED TSRMLS_CC);
+
 	zend_declare_property_bool(phalcon_mvc_model_transaction_ce, SL("_rollbackOnAbort"), 0, ZEND_ACC_PROTECTED TSRMLS_CC);
+
 	zend_declare_property_null(phalcon_mvc_model_transaction_ce, SL("_manager"), ZEND_ACC_PROTECTED TSRMLS_CC);
+
 	zend_declare_property_null(phalcon_mvc_model_transaction_ce, SL("_messages"), ZEND_ACC_PROTECTED TSRMLS_CC);
+
 	zend_declare_property_null(phalcon_mvc_model_transaction_ce, SL("_rollbackRecord"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
 	zend_class_implements(phalcon_mvc_model_transaction_ce TSRMLS_CC, 1, phalcon_mvc_model_transactioninterface_ce);
-
 	return SUCCESS;
 
 }
@@ -117,6 +122,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction, __construct) {
 	}
 
 
+	if (!(zephir_is_instance_of(dependencyInjector, SL("Phalcon\\DiInterface") TSRMLS_CC))) {
+		ZEPHIR_THROW_EXCEPTION_STR(spl_ce_InvalidArgumentException, "Parameter 'dependencyInjector' must be an instance of 'Phalcon\\DiInterface'");
+		return;
+	}
 	ZEPHIR_INIT_VAR(connection);
 	if (zephir_is_true(service)) {
 		zephir_call_method_p1(connection, dependencyInjector, "get", service);
@@ -146,6 +155,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction, setTransactionManager) {
 
 
 
+	if (!(zephir_is_instance_of(manager, SL("Phalcon\\Mvc\\Model\\Transaction\\ManagerInterface") TSRMLS_CC))) {
+		ZEPHIR_THROW_EXCEPTION_STRW(spl_ce_InvalidArgumentException, "Parameter 'manager' must be an instance of 'Phalcon\\Mvc\\Model\\Transaction\\ManagerInterface'");
+		return;
+	}
 	zephir_update_property_this(this_ptr, SL("_manager"), manager TSRMLS_CC);
 
 }
@@ -303,7 +316,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction, setIsNewTransaction) {
 
 	zephir_fetch_params(0, 1, 0, &isNew_param);
 
-		isNew = zephir_get_boolval(isNew_param);
+	isNew = zephir_get_boolval(isNew_param);
 
 
 	zephir_update_property_this(this_ptr, SL("_isNewTransaction"), isNew ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
@@ -322,7 +335,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction, setRollbackOnAbort) {
 
 	zephir_fetch_params(0, 1, 0, &rollbackOnAbort_param);
 
-		rollbackOnAbort = zephir_get_boolval(rollbackOnAbort_param);
+	rollbackOnAbort = zephir_get_boolval(rollbackOnAbort_param);
 
 
 	zephir_update_property_this(this_ptr, SL("_rollbackOnAbort"), rollbackOnAbort ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
@@ -387,6 +400,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction, setRollbackedRecord) {
 
 
 
+	if (!(zephir_is_instance_of(record, SL("Phalcon\\Mvc\\ModelInterface") TSRMLS_CC))) {
+		ZEPHIR_THROW_EXCEPTION_STRW(spl_ce_InvalidArgumentException, "Parameter 'record' must be an instance of 'Phalcon\\Mvc\\ModelInterface'");
+		return;
+	}
 	zephir_update_property_this(this_ptr, SL("_rollbackRecord"), record TSRMLS_CC);
 
 }

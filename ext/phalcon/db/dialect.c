@@ -18,6 +18,7 @@
 #include "kernel/exception.h"
 #include "kernel/operators.h"
 #include "kernel/object.h"
+#include "kernel/hash.h"
 #include "kernel/array.h"
 #include "kernel/string.h"
 #include "kernel/fcall.h"
@@ -204,7 +205,7 @@ PHP_METHOD(Phalcon_Db_Dialect, getColumnList) {
 	zephir_read_property_this(&escapeChar, this_ptr, SL("_escapeChar"), PH_NOISY_CC);
 	zephir_is_iterable(columnList, &_1, &_0, 0, 0);
 	for (
-	  ; zend_hash_get_current_data_ex(_1, (void**) &_2, &_0) == SUCCESS
+	  ; zephir_hash_get_current_data_ex(_1, (void**) &_2, &_0) == SUCCESS
 	  ; zephir_hash_move_forward_ex(_1, &_0)
 	) {
 		ZEPHIR_GET_HVALUE(column, _2);
@@ -333,7 +334,7 @@ PHP_METHOD(Phalcon_Db_Dialect, getSqlExpression) {
 		if (zephir_array_isset_string_fetch(&arguments, expression, SS("arguments"), 0 TSRMLS_CC)) {
 			zephir_is_iterable(arguments, &_7, &_6, 0, 0);
 			for (
-			  ; zend_hash_get_current_data_ex(_7, (void**) &_8, &_6) == SUCCESS
+			  ; zephir_hash_get_current_data_ex(_7, (void**) &_8, &_6) == SUCCESS
 			  ; zephir_hash_move_forward_ex(_7, &_6)
 			) {
 				ZEPHIR_GET_HVALUE(argument, _8);
@@ -356,7 +357,7 @@ PHP_METHOD(Phalcon_Db_Dialect, getSqlExpression) {
 		zephir_array_fetch_long(&_2, expression, 0, PH_NOISY | PH_READONLY TSRMLS_CC);
 		zephir_is_iterable(_2, &_11, &_10, 0, 0);
 		for (
-		  ; zend_hash_get_current_data_ex(_11, (void**) &_12, &_10) == SUCCESS
+		  ; zephir_hash_get_current_data_ex(_11, (void**) &_12, &_10) == SUCCESS
 		  ; zephir_hash_move_forward_ex(_11, &_10)
 		) {
 			ZEPHIR_GET_HVALUE(item, _12);
@@ -519,7 +520,7 @@ PHP_METHOD(Phalcon_Db_Dialect, select) {
 		array_init(selectedColumns);
 		zephir_is_iterable(columns, &_1, &_0, 0, 0);
 		for (
-		  ; zend_hash_get_current_data_ex(_1, (void**) &_2, &_0) == SUCCESS
+		  ; zephir_hash_get_current_data_ex(_1, (void**) &_2, &_0) == SUCCESS
 		  ; zephir_hash_move_forward_ex(_1, &_0)
 		) {
 			ZEPHIR_GET_HVALUE(column, _2);
@@ -582,7 +583,7 @@ PHP_METHOD(Phalcon_Db_Dialect, select) {
 		array_init(selectedTables);
 		zephir_is_iterable(tables, &_5, &_4, 0, 0);
 		for (
-		  ; zend_hash_get_current_data_ex(_5, (void**) &_6, &_4) == SUCCESS
+		  ; zephir_hash_get_current_data_ex(_5, (void**) &_6, &_4) == SUCCESS
 		  ; zephir_hash_move_forward_ex(_5, &_4)
 		) {
 			ZEPHIR_GET_HVALUE(table, _6);
@@ -601,7 +602,7 @@ PHP_METHOD(Phalcon_Db_Dialect, select) {
 	if (zephir_array_isset_string_fetch(&joins, definition, SS("joins"), 0 TSRMLS_CC)) {
 		zephir_is_iterable(joins, &_10, &_9, 0, 0);
 		for (
-		  ; zend_hash_get_current_data_ex(_10, (void**) &_11, &_9) == SUCCESS
+		  ; zephir_hash_get_current_data_ex(_10, (void**) &_11, &_9) == SUCCESS
 		  ; zephir_hash_move_forward_ex(_10, &_9)
 		) {
 			ZEPHIR_GET_HVALUE(join, _11);
@@ -619,7 +620,7 @@ PHP_METHOD(Phalcon_Db_Dialect, select) {
 					array_init(joinExpressions);
 					zephir_is_iterable(joinConditionsArray, &_16, &_15, 0, 0);
 					for (
-					  ; zend_hash_get_current_data_ex(_16, (void**) &_17, &_15) == SUCCESS
+					  ; zephir_hash_get_current_data_ex(_16, (void**) &_17, &_15) == SUCCESS
 					  ; zephir_hash_move_forward_ex(_16, &_15)
 					) {
 						ZEPHIR_GET_HVALUE(joinCondition, _17);
@@ -657,7 +658,7 @@ PHP_METHOD(Phalcon_Db_Dialect, select) {
 		array_init(groupItems);
 		zephir_is_iterable(groupFields, &_23, &_22, 0, 0);
 		for (
-		  ; zend_hash_get_current_data_ex(_23, (void**) &_24, &_22) == SUCCESS
+		  ; zephir_hash_get_current_data_ex(_23, (void**) &_24, &_22) == SUCCESS
 		  ; zephir_hash_move_forward_ex(_23, &_22)
 		) {
 			ZEPHIR_GET_HVALUE(groupField, _24);
@@ -685,7 +686,7 @@ PHP_METHOD(Phalcon_Db_Dialect, select) {
 		array_init(orderItems);
 		zephir_is_iterable(orderFields, &_28, &_27, 0, 0);
 		for (
-		  ; zend_hash_get_current_data_ex(_28, (void**) &_29, &_27) == SUCCESS
+		  ; zephir_hash_get_current_data_ex(_28, (void**) &_29, &_27) == SUCCESS
 		  ; zephir_hash_move_forward_ex(_28, &_27)
 		) {
 			ZEPHIR_GET_HVALUE(orderItem, _29);

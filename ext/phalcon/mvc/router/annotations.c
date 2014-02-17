@@ -19,9 +19,9 @@
 #include "kernel/exception.h"
 #include "kernel/fcall.h"
 #include "kernel/operators.h"
+#include "kernel/hash.h"
 #include "kernel/string.h"
 #include "kernel/concat.h"
-#include "kernel/hash.h"
 
 
 /*
@@ -64,9 +64,13 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Router_Annotations) {
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Mvc\\Router, Annotations, phalcon, mvc_router_annotations, phalcon_mvc_router_ce, phalcon_mvc_router_annotations_method_entry, 0);
 
 	zend_declare_property_null(phalcon_mvc_router_annotations_ce, SL("_handlers"), ZEND_ACC_PROTECTED TSRMLS_CC);
+
 	zend_declare_property_bool(phalcon_mvc_router_annotations_ce, SL("_processed"), 0, ZEND_ACC_PROTECTED TSRMLS_CC);
+
 	zend_declare_property_string(phalcon_mvc_router_annotations_ce, SL("_controllerSuffix"), "Controller", ZEND_ACC_PROTECTED TSRMLS_CC);
+
 	zend_declare_property_string(phalcon_mvc_router_annotations_ce, SL("_actionSuffix"), "Action", ZEND_ACC_PROTECTED TSRMLS_CC);
+
 	zend_declare_property_null(phalcon_mvc_router_annotations_ce, SL("_routePrefix"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
 	return SUCCESS;
@@ -250,8 +254,8 @@ PHP_METHOD(Phalcon_Mvc_Router_Annotations, handle) {
 			zephir_read_property_this(&controllerSuffix, this_ptr, SL("_controllerSuffix"), PH_NOISY_CC);
 			zephir_is_iterable(handlers, &_2, &_1, 0, 0);
 			for (
-				; zend_hash_get_current_data_ex(_2, (void**) &_3, &_1) == SUCCESS
-				; zend_hash_move_forward_ex(_2, &_1)
+			  ; zephir_hash_get_current_data_ex(_2, (void**) &_3, &_1) == SUCCESS
+			  ; zephir_hash_move_forward_ex(_2, &_1)
 			) {
 				ZEPHIR_GET_HVALUE(scope, _3);
 				if ((Z_TYPE_P(scope) == IS_ARRAY)) {
@@ -306,8 +310,8 @@ PHP_METHOD(Phalcon_Mvc_Router_Annotations, handle) {
 						if ((Z_TYPE_P(annotations) == IS_ARRAY)) {
 							zephir_is_iterable(annotations, &_8, &_7, 0, 0);
 							for (
-								; zend_hash_get_current_data_ex(_8, (void**) &_9, &_7) == SUCCESS
-								; zend_hash_move_forward_ex(_8, &_7)
+							  ; zephir_hash_get_current_data_ex(_8, (void**) &_9, &_7) == SUCCESS
+							  ; zephir_hash_move_forward_ex(_8, &_7)
 							) {
 								ZEPHIR_GET_HVALUE(annotation, _9);
 								zephir_call_method_p2_cache_noret(this_ptr, "processcontrollerannotation", &_10, controllerName, annotation);
@@ -321,8 +325,8 @@ PHP_METHOD(Phalcon_Mvc_Router_Annotations, handle) {
 						zephir_uncamelize(lowercased, handler);
 						zephir_is_iterable(methodAnnotations, &_12, &_11, 0, 0);
 						for (
-							; zend_hash_get_current_data_ex(_12, (void**) &_13, &_11) == SUCCESS
-							; zend_hash_move_forward_ex(_12, &_11)
+						  ; zephir_hash_get_current_data_ex(_12, (void**) &_13, &_11) == SUCCESS
+						  ; zephir_hash_move_forward_ex(_12, &_11)
 						) {
 							ZEPHIR_GET_HMKEY(method, _12, _11);
 							ZEPHIR_GET_HVALUE(collection, _13);
@@ -331,8 +335,8 @@ PHP_METHOD(Phalcon_Mvc_Router_Annotations, handle) {
 								zephir_call_method(_5, collection, "getannotations");
 								zephir_is_iterable(_5, &_15, &_14, 0, 0);
 								for (
-									; zend_hash_get_current_data_ex(_15, (void**) &_16, &_14) == SUCCESS
-									; zend_hash_move_forward_ex(_15, &_14)
+								  ; zephir_hash_get_current_data_ex(_15, (void**) &_16, &_14) == SUCCESS
+								  ; zephir_hash_move_forward_ex(_15, &_14)
 								) {
 									ZEPHIR_GET_HVALUE(annotation, _16);
 									zephir_call_method_p5_cache_noret(this_ptr, "processactionannotation", &_17, moduleName, namespaceName, lowerControllerName, method, annotation);
@@ -377,6 +381,10 @@ PHP_METHOD(Phalcon_Mvc_Router_Annotations, processControllerAnnotation) {
 	}
 
 
+	if (!(zephir_is_instance_of(annotation, SL("Phalcon\\Annotations\\AdapterInterface") TSRMLS_CC))) {
+		ZEPHIR_THROW_EXCEPTION_STR(spl_ce_InvalidArgumentException, "Parameter 'annotation' must be an instance of 'Phalcon\\Annotations\\AdapterInterface'");
+		return;
+	}
 	ZEPHIR_INIT_VAR(_0);
 	zephir_call_method(_0, annotation, "getname");
 	if (ZEPHIR_IS_STRING(_0, "RoutePrefix")) {
@@ -457,6 +465,10 @@ PHP_METHOD(Phalcon_Mvc_Router_Annotations, processActionAnnotation) {
 	}
 
 
+	if (!(zephir_is_instance_of(annotation, SL("Phalcon\\Annotations\\Annotation") TSRMLS_CC))) {
+		ZEPHIR_THROW_EXCEPTION_STR(spl_ce_InvalidArgumentException, "Parameter 'annotation' must be an instance of 'Phalcon\\Annotations\\Annotation'");
+		return;
+	}
 	isRoute = 0;
 	ZEPHIR_INIT_VAR(methods);
 	ZVAL_NULL(methods);
@@ -556,8 +568,8 @@ PHP_METHOD(Phalcon_Mvc_Router_Annotations, processActionAnnotation) {
 		if ((Z_TYPE_P(converts) == IS_ARRAY)) {
 			zephir_is_iterable(converts, &_6, &_5, 0, 0);
 			for (
-				; zend_hash_get_current_data_ex(_6, (void**) &_7, &_5) == SUCCESS
-				; zend_hash_move_forward_ex(_6, &_5)
+			  ; zephir_hash_get_current_data_ex(_6, (void**) &_7, &_5) == SUCCESS
+			  ; zephir_hash_move_forward_ex(_6, &_5)
 			) {
 				ZEPHIR_GET_HMKEY(param, _6, _5);
 				ZEPHIR_GET_HVALUE(convert, _7);
@@ -571,8 +583,8 @@ PHP_METHOD(Phalcon_Mvc_Router_Annotations, processActionAnnotation) {
 		if ((Z_TYPE_P(converts) == IS_ARRAY)) {
 			zephir_is_iterable(converts, &_10, &_9, 0, 0);
 			for (
-				; zend_hash_get_current_data_ex(_10, (void**) &_11, &_9) == SUCCESS
-				; zend_hash_move_forward_ex(_10, &_9)
+			  ; zephir_hash_get_current_data_ex(_10, (void**) &_11, &_9) == SUCCESS
+			  ; zephir_hash_move_forward_ex(_10, &_9)
 			) {
 				ZEPHIR_GET_HMKEY(conversorParam, _10, _9);
 				ZEPHIR_GET_HVALUE(convert, _11);

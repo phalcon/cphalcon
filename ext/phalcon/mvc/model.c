@@ -12,10 +12,10 @@
 #include <Zend/zend_interfaces.h>
 
 #include "kernel/main.h"
+#include "kernel/object.h"
+#include "kernel/exception.h"
 #include "kernel/fcall.h"
 #include "kernel/memory.h"
-#include "kernel/exception.h"
-#include "kernel/object.h"
 #include "ext/spl/spl_exceptions.h"
 #include "kernel/operators.h"
 #include "kernel/hash.h"
@@ -78,31 +78,49 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model) {
 	ZEPHIR_REGISTER_CLASS(Phalcon\\Mvc, Model, phalcon, mvc_model, phalcon_mvc_model_method_entry, ZEND_ACC_EXPLICIT_ABSTRACT_CLASS);
 
 	zend_declare_property_null(phalcon_mvc_model_ce, SL("_dependencyInjector"), ZEND_ACC_PROTECTED TSRMLS_CC);
+
 	zend_declare_property_null(phalcon_mvc_model_ce, SL("_modelsManager"), ZEND_ACC_PROTECTED TSRMLS_CC);
+
 	zend_declare_property_null(phalcon_mvc_model_ce, SL("_modelsMetaData"), ZEND_ACC_PROTECTED TSRMLS_CC);
+
 	zend_declare_property_null(phalcon_mvc_model_ce, SL("_errorMessages"), ZEND_ACC_PROTECTED TSRMLS_CC);
+
 	zend_declare_property_long(phalcon_mvc_model_ce, SL("_operationMade"), 0, ZEND_ACC_PROTECTED TSRMLS_CC);
+
 	zend_declare_property_long(phalcon_mvc_model_ce, SL("_dirtyState"), 1, ZEND_ACC_PROTECTED TSRMLS_CC);
+
 	zend_declare_property_null(phalcon_mvc_model_ce, SL("_transaction"), ZEND_ACC_PROTECTED TSRMLS_CC);
+
 	zend_declare_property_null(phalcon_mvc_model_ce, SL("_uniqueKey"), ZEND_ACC_PROTECTED TSRMLS_CC);
+
 	zend_declare_property_null(phalcon_mvc_model_ce, SL("_uniqueParams"), ZEND_ACC_PROTECTED TSRMLS_CC);
+
 	zend_declare_property_null(phalcon_mvc_model_ce, SL("_uniqueTypes"), ZEND_ACC_PROTECTED TSRMLS_CC);
+
 	zend_declare_property_null(phalcon_mvc_model_ce, SL("_skipped"), ZEND_ACC_PROTECTED TSRMLS_CC);
+
 	zend_declare_property_null(phalcon_mvc_model_ce, SL("_related"), ZEND_ACC_PROTECTED TSRMLS_CC);
+
 	zend_declare_property_null(phalcon_mvc_model_ce, SL("_snapshot"), ZEND_ACC_PROTECTED TSRMLS_CC);
+
 	zend_declare_class_constant_long(phalcon_mvc_model_ce, SL("OP_NONE"), 0 TSRMLS_CC);
+
 	zend_declare_class_constant_long(phalcon_mvc_model_ce, SL("OP_CREATE"), 1 TSRMLS_CC);
+
 	zend_declare_class_constant_long(phalcon_mvc_model_ce, SL("OP_UPDATE"), 2 TSRMLS_CC);
+
 	zend_declare_class_constant_long(phalcon_mvc_model_ce, SL("OP_DELETE"), 3 TSRMLS_CC);
+
 	zend_declare_class_constant_long(phalcon_mvc_model_ce, SL("DIRTY_STATE_PERSISTENT"), 0 TSRMLS_CC);
+
 	zend_declare_class_constant_long(phalcon_mvc_model_ce, SL("DIRTY_STATE_TRANSIENT"), 1 TSRMLS_CC);
+
 	zend_declare_class_constant_long(phalcon_mvc_model_ce, SL("DIRTY_STATE_DETACHED"), 2 TSRMLS_CC);
 
 	zend_class_implements(phalcon_mvc_model_ce TSRMLS_CC, 1, phalcon_mvc_modelinterface_ce);
 	zend_class_implements(phalcon_mvc_model_ce TSRMLS_CC, 1, phalcon_mvc_model_resultinterface_ce);
 	zend_class_implements(phalcon_mvc_model_ce TSRMLS_CC, 1, phalcon_di_injectionawareinterface_ce);
 	zend_class_implements(phalcon_mvc_model_ce TSRMLS_CC, 1, zend_ce_serializable);
-
 	return SUCCESS;
 
 }
@@ -132,6 +150,14 @@ PHP_METHOD(Phalcon_Mvc_Model, __construct) {
 	}
 
 
+	if (!(zephir_is_instance_of(dependencyInjector, SL("Phalcon\\DiInterface") TSRMLS_CC))) {
+		ZEPHIR_THROW_EXCEPTION_STR(spl_ce_InvalidArgumentException, "Parameter 'dependencyInjector' must be an instance of 'Phalcon\\DiInterface'");
+		return;
+	}
+	if (!(zephir_is_instance_of(modelsManager, SL("Phalcon\\Mvc\\Model\\ManagerInterface") TSRMLS_CC))) {
+		ZEPHIR_THROW_EXCEPTION_STR(spl_ce_InvalidArgumentException, "Parameter 'modelsManager' must be an instance of 'Phalcon\\Mvc\\Model\\ManagerInterface'");
+		return;
+	}
 	if ((Z_TYPE_P(dependencyInjector) != IS_OBJECT)) {
 		ZEPHIR_INIT_NVAR(dependencyInjector);
 		zephir_call_static(dependencyInjector, "Phalcon\\Di", "getdefault");
@@ -174,6 +200,10 @@ PHP_METHOD(Phalcon_Mvc_Model, setDI) {
 
 
 
+	if (!(zephir_is_instance_of(dependencyInjector, SL("Phalcon\\DiInterface") TSRMLS_CC))) {
+		ZEPHIR_THROW_EXCEPTION_STRW(spl_ce_InvalidArgumentException, "Parameter 'dependencyInjector' must be an instance of 'Phalcon\\DiInterface'");
+		return;
+	}
 	zephir_update_property_this(this_ptr, SL("_dependencyInjector"), dependencyInjector TSRMLS_CC);
 
 }
@@ -204,6 +234,10 @@ PHP_METHOD(Phalcon_Mvc_Model, setEventsManager) {
 
 
 
+	if (!(zephir_is_instance_of(eventsManager, SL("Phalcon\\Events\\ManagerInterface") TSRMLS_CC))) {
+		ZEPHIR_THROW_EXCEPTION_STR(spl_ce_InvalidArgumentException, "Parameter 'eventsManager' must be an instance of 'Phalcon\\Events\\ManagerInterface'");
+		return;
+	}
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_modelsManager"), PH_NOISY_CC);
 	zephir_call_method_p2_noret(_0, "setcustomeventsmanager", this_ptr, eventsManager);
 	ZEPHIR_MM_RESTORE();
@@ -321,6 +355,10 @@ PHP_METHOD(Phalcon_Mvc_Model, setTransaction) {
 
 
 
+	if (!(zephir_is_instance_of(transaction, SL("Phalcon\\Mvc\\Model\\TransactionInterface") TSRMLS_CC))) {
+		ZEPHIR_THROW_EXCEPTION_STRW(spl_ce_InvalidArgumentException, "Parameter 'transaction' must be an instance of 'Phalcon\\Mvc\\Model\\TransactionInterface'");
+		return;
+	}
 	if ((Z_TYPE_P(transaction) == IS_OBJECT)) {
 		zephir_update_property_this(this_ptr, SL("_transaction"), transaction TSRMLS_CC);
 		RETURN_THISW();
@@ -576,7 +614,7 @@ PHP_METHOD(Phalcon_Mvc_Model, setDirtyState) {
 
 	zephir_fetch_params(0, 1, 0, &dirtyState_param);
 
-		dirtyState = zephir_get_intval(dirtyState_param);
+	dirtyState = zephir_get_intval(dirtyState_param);
 
 
 	ZEPHIR_INIT_ZVAL_NREF(_0);
@@ -674,8 +712,8 @@ PHP_METHOD(Phalcon_Mvc_Model, assign) {
 	}
 	zephir_is_iterable(data, &_1, &_0, 0, 0);
 	for (
-		; zend_hash_get_current_data_ex(_1, (void**) &_2, &_0) == SUCCESS
-		; zend_hash_move_forward_ex(_1, &_0)
+	  ; zephir_hash_get_current_data_ex(_1, (void**) &_2, &_0) == SUCCESS
+	  ; zephir_hash_move_forward_ex(_1, &_0)
 	) {
 		ZEPHIR_GET_HMKEY(key, _1, _0);
 		ZEPHIR_GET_HVALUE(value, _2);
@@ -743,6 +781,10 @@ PHP_METHOD(Phalcon_Mvc_Model, cloneResultMap) {
 	}
 
 
+	if (!(zephir_is_instance_of(base, SL("Phalcon\\Mvc\\ModelInterface") TSRMLS_CC))) {
+		ZEPHIR_THROW_EXCEPTION_STR(spl_ce_InvalidArgumentException, "Parameter 'base' must be an instance of 'Phalcon\\Mvc\\ModelInterface'");
+		return;
+	}
 	if ((Z_TYPE_P(data) != IS_ARRAY)) {
 		ZEPHIR_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Data to dump in the object must be an Array");
 		return;
@@ -756,8 +798,8 @@ PHP_METHOD(Phalcon_Mvc_Model, cloneResultMap) {
 	zephir_call_method_p1_noret(object, "setdirtystate", _0);
 	zephir_is_iterable(data, &_2, &_1, 0, 0);
 	for (
-		; zend_hash_get_current_data_ex(_2, (void**) &_3, &_1) == SUCCESS
-		; zend_hash_move_forward_ex(_2, &_1)
+	  ; zephir_hash_get_current_data_ex(_2, (void**) &_3, &_1) == SUCCESS
+	  ; zephir_hash_move_forward_ex(_2, &_1)
 	) {
 		ZEPHIR_GET_HMKEY(key, _2, _1);
 		ZEPHIR_GET_HVALUE(value, _3);
@@ -810,7 +852,7 @@ PHP_METHOD(Phalcon_Mvc_Model, cloneResultMapHydrate) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 3, 0, &data, &columnMap, &hydrationMode_param);
 
-		hydrationMode = zephir_get_intval(hydrationMode_param);
+	hydrationMode = zephir_get_intval(hydrationMode_param);
 
 
 	if ((Z_TYPE_P(data) != IS_ARRAY)) {
@@ -830,8 +872,8 @@ PHP_METHOD(Phalcon_Mvc_Model, cloneResultMapHydrate) {
 	}
 	zephir_is_iterable(data, &_1, &_0, 0, 0);
 	for (
-		; zend_hash_get_current_data_ex(_1, (void**) &_2, &_0) == SUCCESS
-		; zend_hash_move_forward_ex(_1, &_0)
+	  ; zephir_hash_get_current_data_ex(_1, (void**) &_2, &_0) == SUCCESS
+	  ; zephir_hash_move_forward_ex(_1, &_0)
 	) {
 		ZEPHIR_GET_HMKEY(key, _1, _0);
 		ZEPHIR_GET_HVALUE(value, _2);
@@ -899,6 +941,10 @@ PHP_METHOD(Phalcon_Mvc_Model, cloneResult) {
 	}
 
 
+	if (!(zephir_is_instance_of(base, SL("Phalcon\\Mvc\\ModelInterface") TSRMLS_CC))) {
+		ZEPHIR_THROW_EXCEPTION_STR(spl_ce_InvalidArgumentException, "Parameter 'base' must be an instance of 'Phalcon\\Mvc\\ModelInterface'");
+		return;
+	}
 	if ((Z_TYPE_P(data) != IS_ARRAY)) {
 		ZEPHIR_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Data to dump in the object must be an Array");
 		return;
@@ -912,8 +958,8 @@ PHP_METHOD(Phalcon_Mvc_Model, cloneResult) {
 	zephir_call_method_p1_noret(object, "setdirtystate", _0);
 	zephir_is_iterable(data, &_2, &_1, 0, 0);
 	for (
-		; zend_hash_get_current_data_ex(_2, (void**) &_3, &_1) == SUCCESS
-		; zend_hash_move_forward_ex(_2, &_1)
+	  ; zephir_hash_get_current_data_ex(_2, (void**) &_3, &_1) == SUCCESS
+	  ; zephir_hash_move_forward_ex(_2, &_1)
 	) {
 		ZEPHIR_GET_HMKEY(key, _2, _1);
 		ZEPHIR_GET_HVALUE(value, _3);
@@ -1104,6 +1150,10 @@ PHP_METHOD(Phalcon_Mvc_Model, query) {
 	}
 
 
+	if (!(zephir_is_instance_of(dependencyInjector, SL("Phalcon\\DiInterface") TSRMLS_CC))) {
+		ZEPHIR_THROW_EXCEPTION_STR(spl_ce_InvalidArgumentException, "Parameter 'dependencyInjector' must be an instance of 'Phalcon\\DiInterface'");
+		return;
+	}
 	if ((Z_TYPE_P(dependencyInjector) != IS_OBJECT)) {
 		ZEPHIR_INIT_NVAR(dependencyInjector);
 		zephir_call_static(dependencyInjector, "Phalcon\\Di", "getdefault");
@@ -1147,6 +1197,14 @@ PHP_METHOD(Phalcon_Mvc_Model, _exists) {
 	}
 
 
+	if (!(zephir_is_instance_of(metaData, SL("Phalcon\\Mvc\\Model\\MetadataInterface") TSRMLS_CC))) {
+		ZEPHIR_THROW_EXCEPTION_STR(spl_ce_InvalidArgumentException, "Parameter 'metaData' must be an instance of 'Phalcon\\Mvc\\Model\\MetadataInterface'");
+		return;
+	}
+	if (!(zephir_is_instance_of(connection, SL("Phalcon\\Db\\AdapterInterface") TSRMLS_CC))) {
+		ZEPHIR_THROW_EXCEPTION_STR(spl_ce_InvalidArgumentException, "Parameter 'connection' must be an instance of 'Phalcon\\Db\\AdapterInterface'");
+		return;
+	}
 	ZEPHIR_INIT_VAR(uniqueParams);
 	ZVAL_NULL(uniqueParams);
 	ZEPHIR_INIT_VAR(uniqueTypes);
@@ -1177,8 +1235,8 @@ PHP_METHOD(Phalcon_Mvc_Model, _exists) {
 		array_init(uniqueTypes);
 		zephir_is_iterable(primaryKeys, &_1, &_0, 0, 0);
 		for (
-			; zend_hash_get_current_data_ex(_1, (void**) &_2, &_0) == SUCCESS
-			; zend_hash_move_forward_ex(_1, &_0)
+		  ; zephir_hash_get_current_data_ex(_1, (void**) &_2, &_0) == SUCCESS
+		  ; zephir_hash_move_forward_ex(_1, &_0)
 		) {
 			ZEPHIR_GET_HVALUE(field, _2);
 			if ((Z_TYPE_P(columnMap) == IS_ARRAY)) {
@@ -1693,7 +1751,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _cancelOperation) {
  * <code>
  * use \Phalcon\Mvc\Model\Message as Message;
  *
- * class Robots extends Phalcon\Mvc\Model
+ * class Robots extends \Phalcon\Mvc\Model
  * {
  *
  *   public function beforeSave()
@@ -1717,6 +1775,10 @@ PHP_METHOD(Phalcon_Mvc_Model, appendMessage) {
 
 
 
+	if (!(zephir_is_instance_of(message, SL("Phalcon\\Mvc\\Model\\MessageInterface") TSRMLS_CC))) {
+		ZEPHIR_THROW_EXCEPTION_STRW(spl_ce_InvalidArgumentException, "Parameter 'message' must be an instance of 'Phalcon\\Mvc\\Model\\MessageInterface'");
+		return;
+	}
 	zephir_update_property_array_append(this_ptr, SL("_errorMessages"), message TSRMLS_CC);
 	RETURN_THISW();
 
@@ -1728,7 +1790,7 @@ PHP_METHOD(Phalcon_Mvc_Model, appendMessage) {
  *<code>
  *use Phalcon\Mvc\Model\Validator\ExclusionIn as ExclusionIn;
  *
- *class Subscriptors extends Phalcon\Mvc\Model
+ *class Subscriptors extends \Phalcon\Mvc\Model
  *{
  *
  *	public function validation()
@@ -1770,8 +1832,8 @@ PHP_METHOD(Phalcon_Mvc_Model, validate) {
 		zephir_call_method(_1, validator, "getmessages");
 		zephir_is_iterable(_1, &_3, &_2, 0, 0);
 		for (
-			; zend_hash_get_current_data_ex(_3, (void**) &_4, &_2) == SUCCESS
-			; zend_hash_move_forward_ex(_3, &_2)
+		  ; zephir_hash_get_current_data_ex(_3, (void**) &_4, &_2) == SUCCESS
+		  ; zephir_hash_move_forward_ex(_3, &_2)
 		) {
 			ZEPHIR_GET_HVALUE(message, _4);
 			zephir_update_property_array_append(this_ptr, SL("_errorMessages"), message TSRMLS_CC);
@@ -1787,7 +1849,7 @@ PHP_METHOD(Phalcon_Mvc_Model, validate) {
  *<code>
  *use Phalcon\Mvc\Model\Validator\ExclusionIn as ExclusionIn;
  *
- *class Subscriptors extends Phalcon\Mvc\Model
+ *class Subscriptors extends \Phalcon\Mvc\Model
  *{
  *
  *	public function validation()
@@ -1875,8 +1937,8 @@ PHP_METHOD(Phalcon_Mvc_Model, _checkForeignKeysRestrict) {
 		error = 0;
 		zephir_is_iterable(belongsTo, &_2, &_1, 0, 0);
 		for (
-			; zend_hash_get_current_data_ex(_2, (void**) &_3, &_1) == SUCCESS
-			; zend_hash_move_forward_ex(_2, &_1)
+		  ; zephir_hash_get_current_data_ex(_2, (void**) &_3, &_1) == SUCCESS
+		  ; zephir_hash_move_forward_ex(_2, &_1)
 		) {
 			ZEPHIR_GET_HVALUE(relation, _3);
 			ZEPHIR_INIT_NVAR(foreignKey);
@@ -1903,8 +1965,8 @@ PHP_METHOD(Phalcon_Mvc_Model, _checkForeignKeysRestrict) {
 					if ((Z_TYPE_P(fields) == IS_ARRAY)) {
 						zephir_is_iterable(fields, &_7, &_6, 0, 0);
 						for (
-							; zend_hash_get_current_data_ex(_7, (void**) &_8, &_6) == SUCCESS
-							; zend_hash_move_forward_ex(_7, &_6)
+						  ; zephir_hash_get_current_data_ex(_7, (void**) &_8, &_6) == SUCCESS
+						  ; zephir_hash_move_forward_ex(_7, &_6)
 						) {
 							ZEPHIR_GET_HMKEY(position, _7, _6);
 							ZEPHIR_GET_HVALUE(field, _8);
@@ -1994,8 +2056,8 @@ PHP_METHOD(Phalcon_Mvc_Model, _checkForeignKeysReverseCascade) {
 	if (zephir_fast_count_int(relations TSRMLS_CC)) {
 		zephir_is_iterable(relations, &_2, &_1, 0, 0);
 		for (
-			; zend_hash_get_current_data_ex(_2, (void**) &_3, &_1) == SUCCESS
-			; zend_hash_move_forward_ex(_2, &_1)
+		  ; zephir_hash_get_current_data_ex(_2, (void**) &_3, &_1) == SUCCESS
+		  ; zephir_hash_move_forward_ex(_2, &_1)
 		) {
 			ZEPHIR_GET_HVALUE(relation, _3);
 			ZEPHIR_INIT_NVAR(foreignKey);
@@ -2022,8 +2084,8 @@ PHP_METHOD(Phalcon_Mvc_Model, _checkForeignKeysReverseCascade) {
 					if ((Z_TYPE_P(fields) == IS_ARRAY)) {
 						zephir_is_iterable(fields, &_7, &_6, 0, 0);
 						for (
-							; zend_hash_get_current_data_ex(_7, (void**) &_8, &_6) == SUCCESS
-							; zend_hash_move_forward_ex(_7, &_6)
+						  ; zephir_hash_get_current_data_ex(_7, (void**) &_8, &_6) == SUCCESS
+						  ; zephir_hash_move_forward_ex(_7, &_6)
 						) {
 							ZEPHIR_GET_HMKEY(position, _7, _6);
 							ZEPHIR_GET_HVALUE(field, _8);
@@ -2090,8 +2152,8 @@ PHP_METHOD(Phalcon_Mvc_Model, _checkForeignKeysReverseRestrict) {
 		error = 0;
 		zephir_is_iterable(relations, &_1, &_0, 0, 0);
 		for (
-			; zend_hash_get_current_data_ex(_1, (void**) &_2, &_0) == SUCCESS
-			; zend_hash_move_forward_ex(_1, &_0)
+		  ; zephir_hash_get_current_data_ex(_1, (void**) &_2, &_0) == SUCCESS
+		  ; zephir_hash_move_forward_ex(_1, &_0)
 		) {
 			ZEPHIR_GET_HVALUE(relation, _2);
 			ZEPHIR_INIT_NVAR(foreignKey);
@@ -2118,8 +2180,8 @@ PHP_METHOD(Phalcon_Mvc_Model, _checkForeignKeysReverseRestrict) {
 					if ((Z_TYPE_P(fields) == IS_ARRAY)) {
 						zephir_is_iterable(fields, &_4, &_3, 0, 0);
 						for (
-							; zend_hash_get_current_data_ex(_4, (void**) &_5, &_3) == SUCCESS
-							; zend_hash_move_forward_ex(_4, &_3)
+						  ; zephir_hash_get_current_data_ex(_4, (void**) &_5, &_3) == SUCCESS
+						  ; zephir_hash_move_forward_ex(_4, &_3)
 						) {
 							ZEPHIR_GET_HMKEY(position, _4, _3);
 							ZEPHIR_GET_HVALUE(field, _5);
@@ -2200,9 +2262,13 @@ PHP_METHOD(Phalcon_Mvc_Model, _preSave) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 3, 0, &metaData, &exists_param, &identityField);
 
-		exists = zephir_get_boolval(exists_param);
+	exists = zephir_get_boolval(exists_param);
 
 
+	if (!(zephir_is_instance_of(metaData, SL("Phalcon\\Mvc\\Model\\MetadataInterface") TSRMLS_CC))) {
+		ZEPHIR_THROW_EXCEPTION_STR(spl_ce_InvalidArgumentException, "Parameter 'metaData' must be an instance of 'Phalcon\\Mvc\\Model\\MetadataInterface'");
+		return;
+	}
 	if (ZEPHIR_GLOBAL(orm).events) {
 		ZEPHIR_INIT_VAR(_0);
 		ZEPHIR_INIT_VAR(_1);
@@ -2257,8 +2323,8 @@ PHP_METHOD(Phalcon_Mvc_Model, _preSave) {
 			error = 0;
 			zephir_is_iterable(notNull, &_5, &_4, 0, 0);
 			for (
-				; zend_hash_get_current_data_ex(_5, (void**) &_6, &_4) == SUCCESS
-				; zend_hash_move_forward_ex(_5, &_4)
+			  ; zephir_hash_get_current_data_ex(_5, (void**) &_6, &_4) == SUCCESS
+			  ; zephir_hash_move_forward_ex(_5, &_4)
 			) {
 				ZEPHIR_GET_HVALUE(field, _6);
 				if (!(zephir_array_isset(automaticAttributes, field))) {
@@ -2409,8 +2475,8 @@ PHP_METHOD(Phalcon_Mvc_Model, _postSave) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &success_param, &exists_param);
 
-		success = zephir_get_boolval(success_param);
-		exists = zephir_get_boolval(exists_param);
+	success = zephir_get_boolval(success_param);
+	exists = zephir_get_boolval(exists_param);
 
 
 	if ((success == 1)) {
@@ -2458,6 +2524,14 @@ PHP_METHOD(Phalcon_Mvc_Model, _doLowInsert) {
 
 
 
+	if (!(zephir_is_instance_of(metaData, SL("Phalcon\\Mvc\\Model\\MetadataInterface") TSRMLS_CC))) {
+		ZEPHIR_THROW_EXCEPTION_STR(spl_ce_InvalidArgumentException, "Parameter 'metaData' must be an instance of 'Phalcon\\Mvc\\Model\\MetadataInterface'");
+		return;
+	}
+	if (!(zephir_is_instance_of(connection, SL("Phalcon\\Db\\AdapterInterface") TSRMLS_CC))) {
+		ZEPHIR_THROW_EXCEPTION_STR(spl_ce_InvalidArgumentException, "Parameter 'connection' must be an instance of 'Phalcon\\Db\\AdapterInterface'");
+		return;
+	}
 	ZEPHIR_INIT_VAR(bindSkip);
 	ZVAL_LONG(bindSkip, 1024);
 	ZEPHIR_INIT_VAR(fields);
@@ -2480,8 +2554,8 @@ PHP_METHOD(Phalcon_Mvc_Model, _doLowInsert) {
 	}
 	zephir_is_iterable(attributes, &_1, &_0, 0, 0);
 	for (
-		; zend_hash_get_current_data_ex(_1, (void**) &_2, &_0) == SUCCESS
-		; zend_hash_move_forward_ex(_1, &_0)
+	  ; zephir_hash_get_current_data_ex(_1, (void**) &_2, &_0) == SUCCESS
+	  ; zephir_hash_move_forward_ex(_1, &_0)
 	) {
 		ZEPHIR_GET_HVALUE(field, _2);
 		if (!(zephir_array_isset(automaticAttributes, field))) {
@@ -2632,6 +2706,14 @@ PHP_METHOD(Phalcon_Mvc_Model, _doLowUpdate) {
 
 
 
+	if (!(zephir_is_instance_of(metaData, SL("Phalcon\\Mvc\\Model\\MetaDataInterface") TSRMLS_CC))) {
+		ZEPHIR_THROW_EXCEPTION_STR(spl_ce_InvalidArgumentException, "Parameter 'metaData' must be an instance of 'Phalcon\\Mvc\\Model\\MetaDataInterface'");
+		return;
+	}
+	if (!(zephir_is_instance_of(connection, SL("Phalcon\\Db\\AdapterInterface") TSRMLS_CC))) {
+		ZEPHIR_THROW_EXCEPTION_STR(spl_ce_InvalidArgumentException, "Parameter 'connection' must be an instance of 'Phalcon\\Db\\AdapterInterface'");
+		return;
+	}
 	ZEPHIR_INIT_VAR(bindSkip);
 	ZVAL_LONG(bindSkip, 1024);
 	ZEPHIR_INIT_VAR(fields);
@@ -2666,8 +2748,8 @@ PHP_METHOD(Phalcon_Mvc_Model, _doLowUpdate) {
 	}
 	zephir_is_iterable(nonPrimary, &_2, &_1, 0, 0);
 	for (
-		; zend_hash_get_current_data_ex(_2, (void**) &_3, &_1) == SUCCESS
-		; zend_hash_move_forward_ex(_2, &_1)
+	  ; zephir_hash_get_current_data_ex(_2, (void**) &_3, &_1) == SUCCESS
+	  ; zephir_hash_move_forward_ex(_2, &_1)
 	) {
 		ZEPHIR_GET_HVALUE(field, _3);
 		if (!(zephir_array_isset(automaticAttributes, field))) {
@@ -2743,8 +2825,8 @@ PHP_METHOD(Phalcon_Mvc_Model, _doLowUpdate) {
 		array_init(uniqueParams);
 		zephir_is_iterable(primaryKeys, &_9, &_8, 0, 0);
 		for (
-			; zend_hash_get_current_data_ex(_9, (void**) &_10, &_8) == SUCCESS
-			; zend_hash_move_forward_ex(_9, &_8)
+		  ; zephir_hash_get_current_data_ex(_9, (void**) &_10, &_8) == SUCCESS
+		  ; zephir_hash_move_forward_ex(_9, &_8)
 		) {
 			ZEPHIR_GET_HVALUE(field, _10);
 			if ((Z_TYPE_P(columnMap) == IS_ARRAY)) {
@@ -2800,6 +2882,10 @@ PHP_METHOD(Phalcon_Mvc_Model, _preSaveRelatedRecords) {
 
 
 
+	if (!(zephir_is_instance_of(connection, SL("Phalcon\\Db\\AdapterInterface") TSRMLS_CC))) {
+		ZEPHIR_THROW_EXCEPTION_STR(spl_ce_InvalidArgumentException, "Parameter 'connection' must be an instance of 'Phalcon\\Db\\AdapterInterface'");
+		return;
+	}
 	nesting = 0;
 	zephir_call_method_p1_noret(connection, "begin", (nesting ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false)));
 	ZEPHIR_INIT_VAR(className);
@@ -2808,8 +2894,8 @@ PHP_METHOD(Phalcon_Mvc_Model, _preSaveRelatedRecords) {
 	zephir_call_method(manager, this_ptr, "getmodelsmanager");
 	zephir_is_iterable(related, &_1, &_0, 0, 0);
 	for (
-		; zend_hash_get_current_data_ex(_1, (void**) &_2, &_0) == SUCCESS
-		; zend_hash_move_forward_ex(_1, &_0)
+	  ; zephir_hash_get_current_data_ex(_1, (void**) &_2, &_0) == SUCCESS
+	  ; zephir_hash_move_forward_ex(_1, &_0)
 	) {
 		ZEPHIR_GET_HMKEY(name, _1, _0);
 		ZEPHIR_GET_HVALUE(record, _2);
@@ -2842,8 +2928,8 @@ PHP_METHOD(Phalcon_Mvc_Model, _preSaveRelatedRecords) {
 					zephir_call_method(_7, record, "getmessages");
 					zephir_is_iterable(_7, &_9, &_8, 0, 0);
 					for (
-						; zend_hash_get_current_data_ex(_9, (void**) &_10, &_8) == SUCCESS
-						; zend_hash_move_forward_ex(_9, &_8)
+					  ; zephir_hash_get_current_data_ex(_9, (void**) &_10, &_8) == SUCCESS
+					  ; zephir_hash_move_forward_ex(_9, &_8)
 					) {
 						ZEPHIR_GET_HVALUE(message, _10);
 						if ((Z_TYPE_P(record) == IS_OBJECT)) {
@@ -2884,6 +2970,10 @@ PHP_METHOD(Phalcon_Mvc_Model, _postSaveRelatedRecords) {
 
 
 
+	if (!(zephir_is_instance_of(connection, SL("Phalcon\\Db\\AdapterInterface") TSRMLS_CC))) {
+		ZEPHIR_THROW_EXCEPTION_STR(spl_ce_InvalidArgumentException, "Parameter 'connection' must be an instance of 'Phalcon\\Db\\AdapterInterface'");
+		return;
+	}
 	nesting = 0;
 	ZEPHIR_INIT_VAR(className);
 	zephir_get_class(className, this_ptr, 0 TSRMLS_CC);
@@ -2891,8 +2981,8 @@ PHP_METHOD(Phalcon_Mvc_Model, _postSaveRelatedRecords) {
 	zephir_call_method(manager, this_ptr, "getmodelsmanager");
 	zephir_is_iterable(related, &_1, &_0, 0, 0);
 	for (
-		; zend_hash_get_current_data_ex(_1, (void**) &_2, &_0) == SUCCESS
-		; zend_hash_move_forward_ex(_1, &_0)
+	  ; zephir_hash_get_current_data_ex(_1, (void**) &_2, &_0) == SUCCESS
+	  ; zephir_hash_move_forward_ex(_1, &_0)
 	) {
 		ZEPHIR_GET_HMKEY(name, _1, _0);
 		ZEPHIR_GET_HVALUE(record, _2);
@@ -2954,8 +3044,8 @@ PHP_METHOD(Phalcon_Mvc_Model, _postSaveRelatedRecords) {
 			}
 			zephir_is_iterable(relatedRecords, &_13, &_12, 0, 0);
 			for (
-				; zend_hash_get_current_data_ex(_13, (void**) &_14, &_12) == SUCCESS
-				; zend_hash_move_forward_ex(_13, &_12)
+			  ; zephir_hash_get_current_data_ex(_13, (void**) &_14, &_12) == SUCCESS
+			  ; zephir_hash_move_forward_ex(_13, &_12)
 			) {
 				ZEPHIR_GET_HVALUE(recordAfter, _14);
 				if (!(isThrough)) {
@@ -2974,8 +3064,8 @@ PHP_METHOD(Phalcon_Mvc_Model, _postSaveRelatedRecords) {
 						zephir_call_method(_16, intermediateModel, "getmessages");
 						zephir_is_iterable(_16, &_18, &_17, 0, 0);
 						for (
-							; zend_hash_get_current_data_ex(_18, (void**) &_19, &_17) == SUCCESS
-							; zend_hash_move_forward_ex(_18, &_17)
+						  ; zephir_hash_get_current_data_ex(_18, (void**) &_19, &_17) == SUCCESS
+						  ; zephir_hash_move_forward_ex(_18, &_17)
 						) {
 							ZEPHIR_GET_HVALUE(message, _19);
 							if ((Z_TYPE_P(message) != IS_OBJECT)) {
@@ -2994,8 +3084,8 @@ PHP_METHOD(Phalcon_Mvc_Model, _postSaveRelatedRecords) {
 					zephir_call_method(_22, recordAfter, "getmessages");
 					zephir_is_iterable(_22, &_24, &_23, 0, 0);
 					for (
-						; zend_hash_get_current_data_ex(_24, (void**) &_25, &_23) == SUCCESS
-						; zend_hash_move_forward_ex(_24, &_23)
+					  ; zephir_hash_get_current_data_ex(_24, (void**) &_25, &_23) == SUCCESS
+					  ; zephir_hash_move_forward_ex(_24, &_23)
 					) {
 						ZEPHIR_GET_HVALUE(message, _25);
 						if ((Z_TYPE_P(message) == IS_OBJECT)) {
@@ -3079,8 +3169,8 @@ PHP_METHOD(Phalcon_Mvc_Model, save) {
 		}
 		zephir_is_iterable(attributes, &_1, &_0, 0, 0);
 		for (
-			; zend_hash_get_current_data_ex(_1, (void**) &_2, &_0) == SUCCESS
-			; zend_hash_move_forward_ex(_1, &_0)
+		  ; zephir_hash_get_current_data_ex(_1, (void**) &_2, &_0) == SUCCESS
+		  ; zephir_hash_move_forward_ex(_1, &_0)
 		) {
 			ZEPHIR_GET_HVALUE(attribute, _2);
 			ZEPHIR_OBS_NVAR(value);
@@ -3250,8 +3340,8 @@ PHP_METHOD(Phalcon_Mvc_Model, create) {
 		zephir_call_method_p1(_0, metaData, "getattributes", this_ptr);
 		zephir_is_iterable(_0, &_2, &_1, 0, 0);
 		for (
-			; zend_hash_get_current_data_ex(_2, (void**) &_3, &_1) == SUCCESS
-			; zend_hash_move_forward_ex(_2, &_1)
+		  ; zephir_hash_get_current_data_ex(_2, (void**) &_3, &_1) == SUCCESS
+		  ; zephir_hash_move_forward_ex(_2, &_1)
 		) {
 			ZEPHIR_GET_HVALUE(attribute, _3);
 			if ((Z_TYPE_P(columnMap) == IS_ARRAY)) {
@@ -3362,8 +3452,8 @@ PHP_METHOD(Phalcon_Mvc_Model, update) {
 		zephir_call_method_p1(_0, metaData, "getattributes", this_ptr);
 		zephir_is_iterable(_0, &_2, &_1, 0, 0);
 		for (
-			; zend_hash_get_current_data_ex(_2, (void**) &_3, &_1) == SUCCESS
-			; zend_hash_move_forward_ex(_2, &_1)
+		  ; zephir_hash_get_current_data_ex(_2, (void**) &_3, &_1) == SUCCESS
+		  ; zephir_hash_move_forward_ex(_2, &_1)
 		) {
 			ZEPHIR_GET_HVALUE(attribute, _3);
 			if ((Z_TYPE_P(columnMap) == IS_ARRAY)) {
@@ -3490,8 +3580,8 @@ PHP_METHOD(Phalcon_Mvc_Model, delete) {
 	}
 	zephir_is_iterable(primaryKeys, &_4, &_3, 0, 0);
 	for (
-		; zend_hash_get_current_data_ex(_4, (void**) &_5, &_3) == SUCCESS
-		; zend_hash_move_forward_ex(_4, &_3)
+	  ; zephir_hash_get_current_data_ex(_4, (void**) &_5, &_3) == SUCCESS
+	  ; zephir_hash_move_forward_ex(_4, &_3)
 	) {
 		ZEPHIR_GET_HVALUE(primaryKey, _5);
 		ZEPHIR_OBS_NVAR(bindType);
@@ -3661,8 +3751,8 @@ PHP_METHOD(Phalcon_Mvc_Model, refresh) {
 	zephir_call_method_p1(_1, metaData, "getattributes", this_ptr);
 	zephir_is_iterable(_1, &_3, &_2, 0, 0);
 	for (
-		; zend_hash_get_current_data_ex(_3, (void**) &_4, &_2) == SUCCESS
-		; zend_hash_move_forward_ex(_3, &_2)
+	  ; zephir_hash_get_current_data_ex(_3, (void**) &_4, &_2) == SUCCESS
+	  ; zephir_hash_move_forward_ex(_3, &_2)
 	) {
 		ZEPHIR_GET_HVALUE(attribute, _4);
 		ZEPHIR_INIT_NVAR(_5);
@@ -3707,7 +3797,7 @@ PHP_METHOD(Phalcon_Mvc_Model, skipOperation) {
 
 	zephir_fetch_params(0, 1, 0, &skip_param);
 
-		skip = zephir_get_boolval(skip_param);
+	skip = zephir_get_boolval(skip_param);
 
 
 	zephir_update_property_this(this_ptr, SL("_skipped"), skip ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
@@ -3829,8 +3919,8 @@ PHP_METHOD(Phalcon_Mvc_Model, skipAttributes) {
 	array_init(keysAttributes);
 	zephir_is_iterable(attributes, &_1, &_0, 0, 0);
 	for (
-		; zend_hash_get_current_data_ex(_1, (void**) &_2, &_0) == SUCCESS
-		; zend_hash_move_forward_ex(_1, &_0)
+	  ; zephir_hash_get_current_data_ex(_1, (void**) &_2, &_0) == SUCCESS
+	  ; zephir_hash_move_forward_ex(_1, &_0)
 	) {
 		ZEPHIR_GET_HVALUE(attribute, _2);
 		zephir_array_update_zval(&keysAttributes, attribute, &ZEPHIR_GLOBAL(global_null), PH_COPY | PH_SEPARATE);
@@ -3882,8 +3972,8 @@ PHP_METHOD(Phalcon_Mvc_Model, skipAttributesOnCreate) {
 	array_init(keysAttributes);
 	zephir_is_iterable(attributes, &_1, &_0, 0, 0);
 	for (
-		; zend_hash_get_current_data_ex(_1, (void**) &_2, &_0) == SUCCESS
-		; zend_hash_move_forward_ex(_1, &_0)
+	  ; zephir_hash_get_current_data_ex(_1, (void**) &_2, &_0) == SUCCESS
+	  ; zephir_hash_move_forward_ex(_1, &_0)
 	) {
 		ZEPHIR_GET_HVALUE(attribute, _2);
 		zephir_array_update_zval(&keysAttributes, attribute, &ZEPHIR_GLOBAL(global_null), PH_COPY | PH_SEPARATE);
@@ -3934,8 +4024,8 @@ PHP_METHOD(Phalcon_Mvc_Model, skipAttributesOnUpdate) {
 	array_init(keysAttributes);
 	zephir_is_iterable(attributes, &_1, &_0, 0, 0);
 	for (
-		; zend_hash_get_current_data_ex(_1, (void**) &_2, &_0) == SUCCESS
-		; zend_hash_move_forward_ex(_1, &_0)
+	  ; zephir_hash_get_current_data_ex(_1, (void**) &_2, &_0) == SUCCESS
+	  ; zephir_hash_move_forward_ex(_1, &_0)
 	) {
 		ZEPHIR_GET_HVALUE(attribute, _2);
 		zephir_array_update_zval(&keysAttributes, attribute, &ZEPHIR_GLOBAL(global_null), PH_COPY | PH_SEPARATE);
@@ -4162,7 +4252,7 @@ PHP_METHOD(Phalcon_Mvc_Model, hasManyToMany) {
 		ZEPHIR_INIT_VAR(intermediateModel);
 		ZVAL_EMPTY_STRING(intermediateModel);
 	}
-		zephir_get_strval(referenceModel, referenceModel_param);
+	zephir_get_strval(referenceModel, referenceModel_param);
 	if (!options) {
 		options = ZEPHIR_GLOBAL(global_null);
 	}
@@ -4210,6 +4300,10 @@ PHP_METHOD(Phalcon_Mvc_Model, addBehavior) {
 
 
 
+	if (!(zephir_is_instance_of(behavior, SL("Phalcon\\Mvc\\Model\\BehaviorInterface") TSRMLS_CC))) {
+		ZEPHIR_THROW_EXCEPTION_STR(spl_ce_InvalidArgumentException, "Parameter 'behavior' must be an instance of 'Phalcon\\Mvc\\Model\\BehaviorInterface'");
+		return;
+	}
 	ZEPHIR_OBS_VAR(manager);
 	zephir_read_property_this(&manager, this_ptr, SL("_modelsManager"), PH_NOISY_CC);
 	zephir_call_method_p2_noret(manager, "addbehavior", this_ptr, behavior);
@@ -4244,7 +4338,7 @@ PHP_METHOD(Phalcon_Mvc_Model, keepSnapshots) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &keepSnapshot_param);
 
-		keepSnapshot = zephir_get_boolval(keepSnapshot_param);
+	keepSnapshot = zephir_get_boolval(keepSnapshot_param);
 
 
 	ZEPHIR_OBS_VAR(manager);
@@ -4285,8 +4379,8 @@ PHP_METHOD(Phalcon_Mvc_Model, setSnapshotData) {
 		array_init(snapshot);
 		zephir_is_iterable(data, &_1, &_0, 0, 0);
 		for (
-			; zend_hash_get_current_data_ex(_1, (void**) &_2, &_0) == SUCCESS
-			; zend_hash_move_forward_ex(_1, &_0)
+		  ; zephir_hash_get_current_data_ex(_1, (void**) &_2, &_0) == SUCCESS
+		  ; zephir_hash_move_forward_ex(_1, &_0)
 		) {
 			ZEPHIR_GET_HMKEY(key, _1, _0);
 			ZEPHIR_GET_HVALUE(value, _2);
@@ -4435,8 +4529,8 @@ PHP_METHOD(Phalcon_Mvc_Model, hasChanged) {
 	}
 	zephir_is_iterable(allAttributes, &_5, &_4, 0, 0);
 	for (
-		; zend_hash_get_current_data_ex(_5, (void**) &_6, &_4) == SUCCESS
-		; zend_hash_move_forward_ex(_5, &_4)
+	  ; zephir_hash_get_current_data_ex(_5, (void**) &_6, &_4) == SUCCESS
+	  ; zephir_hash_move_forward_ex(_5, &_4)
 	) {
 		ZEPHIR_GET_HMKEY(name, _5, _4);
 		ZEPHIR_GET_HVALUE(type, _6);
@@ -4494,8 +4588,8 @@ PHP_METHOD(Phalcon_Mvc_Model, getChangedFields) {
 	array_init(changed);
 	zephir_is_iterable(allAttributes, &_2, &_1, 0, 0);
 	for (
-		; zend_hash_get_current_data_ex(_2, (void**) &_3, &_1) == SUCCESS
-		; zend_hash_move_forward_ex(_2, &_1)
+	  ; zephir_hash_get_current_data_ex(_2, (void**) &_3, &_1) == SUCCESS
+	  ; zephir_hash_move_forward_ex(_2, &_1)
 	) {
 		ZEPHIR_GET_HMKEY(name, _2, _1);
 		ZEPHIR_GET_HVALUE(type, _3);
@@ -4545,7 +4639,7 @@ PHP_METHOD(Phalcon_Mvc_Model, useDynamicUpdate) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &dynamicUpdate_param);
 
-		dynamicUpdate = zephir_get_boolval(dynamicUpdate_param);
+	dynamicUpdate = zephir_get_boolval(dynamicUpdate_param);
 
 
 	ZEPHIR_OBS_VAR(manager);
@@ -4571,7 +4665,7 @@ PHP_METHOD(Phalcon_Mvc_Model, getRelated) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 1, &alias_param, &arguments);
 
-		zephir_get_strval(alias, alias_param);
+	zephir_get_strval(alias, alias_param);
 	if (!arguments) {
 		arguments = ZEPHIR_GLOBAL(global_null);
 	}
@@ -4627,8 +4721,8 @@ PHP_METHOD(Phalcon_Mvc_Model, _getRelatedRecords) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 3, 0, &modelName_param, &method_param, &arguments);
 
-		zephir_get_strval(modelName, modelName_param);
-		zephir_get_strval(method, method_param);
+	zephir_get_strval(modelName, modelName_param);
+	zephir_get_strval(method, method_param);
 
 
 	ZEPHIR_OBS_VAR(manager);
@@ -4691,7 +4785,7 @@ PHP_METHOD(Phalcon_Mvc_Model, __call) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 1, &method_param, &arguments);
 
-		zephir_get_strval(method, method_param);
+	zephir_get_strval(method, method_param);
 	if (!arguments) {
 		arguments = ZEPHIR_GLOBAL(global_null);
 	}
@@ -4738,7 +4832,7 @@ PHP_METHOD(Phalcon_Mvc_Model, __callStatic) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 1, &method_param, &arguments);
 
-		zephir_get_strval(method, method_param);
+	zephir_get_strval(method, method_param);
 	if (!arguments) {
 		arguments = ZEPHIR_GLOBAL(global_null);
 	}
@@ -4845,7 +4939,7 @@ PHP_METHOD(Phalcon_Mvc_Model, __set) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &property_param, &value);
 
-		zephir_get_strval(property, property_param);
+	zephir_get_strval(property, property_param);
 
 
 	if ((Z_TYPE_P(value) == IS_OBJECT)) {
@@ -5000,8 +5094,8 @@ PHP_METHOD(Phalcon_Mvc_Model, serialize) {
 	zephir_call_method_p1(_0, metaData, "getattributes", this_ptr);
 	zephir_is_iterable(_0, &_2, &_1, 0, 0);
 	for (
-		; zend_hash_get_current_data_ex(_2, (void**) &_3, &_1) == SUCCESS
-		; zend_hash_move_forward_ex(_2, &_1)
+	  ; zephir_hash_get_current_data_ex(_2, (void**) &_3, &_1) == SUCCESS
+	  ; zephir_hash_move_forward_ex(_2, &_1)
 	) {
 		ZEPHIR_GET_HVALUE(attribute, _3);
 		ZEPHIR_OBS_NVAR(value);
@@ -5055,8 +5149,8 @@ PHP_METHOD(Phalcon_Mvc_Model, unserialize) {
 			zephir_call_method_p1_noret(manager, "initialize", this_ptr);
 			zephir_is_iterable(attributes, &_2, &_1, 0, 0);
 			for (
-				; zend_hash_get_current_data_ex(_2, (void**) &_3, &_1) == SUCCESS
-				; zend_hash_move_forward_ex(_2, &_1)
+			  ; zephir_hash_get_current_data_ex(_2, (void**) &_3, &_1) == SUCCESS
+			  ; zephir_hash_move_forward_ex(_2, &_1)
 			) {
 				ZEPHIR_GET_HMKEY(key, _2, _1);
 				ZEPHIR_GET_HVALUE(value, _3);
@@ -5116,8 +5210,8 @@ PHP_METHOD(Phalcon_Mvc_Model, toArray) {
 	zephir_call_method_p1(_0, metaData, "getattributes", this_ptr);
 	zephir_is_iterable(_0, &_2, &_1, 0, 0);
 	for (
-		; zend_hash_get_current_data_ex(_2, (void**) &_3, &_1) == SUCCESS
-		; zend_hash_move_forward_ex(_2, &_1)
+	  ; zephir_hash_get_current_data_ex(_2, (void**) &_3, &_1) == SUCCESS
+	  ; zephir_hash_move_forward_ex(_2, &_1)
 	) {
 		ZEPHIR_GET_HVALUE(attribute, _3);
 		if ((Z_TYPE_P(columnMap) == IS_ARRAY)) {

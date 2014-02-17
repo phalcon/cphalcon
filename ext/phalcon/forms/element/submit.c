@@ -43,7 +43,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Forms_Element_Submit) {
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Forms\\Element, Submit, phalcon, forms_element_submit, phalcon_forms_element_ce, phalcon_forms_element_submit_method_entry, 0);
 
 	zend_class_implements(phalcon_forms_element_submit_ce TSRMLS_CC, 1, phalcon_forms_elementinterface_ce);
-
 	return SUCCESS;
 
 }

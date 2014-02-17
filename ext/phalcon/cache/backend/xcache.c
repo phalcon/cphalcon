@@ -19,8 +19,8 @@
 #include "kernel/concat.h"
 #include "kernel/operators.h"
 #include "kernel/exception.h"
-#include "kernel/string.h"
 #include "kernel/hash.h"
+#include "kernel/string.h"
 
 
 /*
@@ -68,7 +68,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Cache_Backend_Xcache) {
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Cache\\Backend, Xcache, phalcon, cache_backend_xcache, phalcon_cache_backend_ce, phalcon_cache_backend_xcache_method_entry, 0);
 
 	zend_class_implements(phalcon_cache_backend_xcache_ce TSRMLS_CC, 1, phalcon_cache_backendinterface_ce);
-
 	return SUCCESS;
 
 }
@@ -326,7 +325,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Xcache, queryKeys) {
 	if ((Z_TYPE_P(keys) == IS_ARRAY)) {
 		zephir_is_iterable(keys, &_1, &_0, 0, 0);
 		for (
-		  ; zend_hash_get_current_data_ex(_1, (void**) &_2, &_0) == SUCCESS
+		  ; zephir_hash_get_current_data_ex(_1, (void**) &_2, &_0) == SUCCESS
 		  ; zephir_hash_move_forward_ex(_1, &_0)
 		) {
 			ZEPHIR_GET_HVALUE(key, _2);
@@ -501,7 +500,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Xcache, flush) {
 	if ((Z_TYPE_P(keys) == IS_ARRAY)) {
 		zephir_is_iterable(keys, &_2, &_1, 0, 0);
 		for (
-		  ; zend_hash_get_current_data_ex(_2, (void**) &_3, &_1) == SUCCESS
+		  ; zephir_hash_get_current_data_ex(_2, (void**) &_3, &_1) == SUCCESS
 		  ; zephir_hash_move_forward_ex(_2, &_1)
 		) {
 			ZEPHIR_GET_HMKEY(key, _2, _1);

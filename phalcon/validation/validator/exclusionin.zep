@@ -80,7 +80,7 @@ class ExclusionIn extends \Phalcon\Validation\Validator implements \Phalcon\Vali
 				let message = validation->getDefaultMessage("ExclusionIn");
 			}
 
-			validation->appendMessage(new Phalcon\Validation\Message(strtr(message, replacePairs), field, "ExclusionIn"));
+			validation->appendMessage(new \Phalcon\Validation\Message(strtr(message, replacePairs), field, "ExclusionIn"));
 			return false;
 		}
 

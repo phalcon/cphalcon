@@ -41,7 +41,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Debug_Exception) {
 
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Debug, Exception, phalcon, debug_exception, phalcon_exception_ce, NULL, 0);
 
-
 	return SUCCESS;
 
 }

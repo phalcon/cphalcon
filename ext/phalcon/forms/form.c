@@ -50,17 +50,23 @@ ZEPHIR_INIT_CLASS(Phalcon_Forms_Form) {
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Forms, Form, phalcon, forms_form, phalcon_di_injectable_ce, phalcon_forms_form_method_entry, 0);
 
 	zend_declare_property_null(phalcon_forms_form_ce, SL("_position"), ZEND_ACC_PROTECTED TSRMLS_CC);
+
 	zend_declare_property_null(phalcon_forms_form_ce, SL("_entity"), ZEND_ACC_PROTECTED TSRMLS_CC);
+
 	zend_declare_property_null(phalcon_forms_form_ce, SL("_options"), ZEND_ACC_PROTECTED TSRMLS_CC);
+
 	zend_declare_property_null(phalcon_forms_form_ce, SL("_data"), ZEND_ACC_PROTECTED TSRMLS_CC);
+
 	zend_declare_property_null(phalcon_forms_form_ce, SL("_elements"), ZEND_ACC_PROTECTED TSRMLS_CC);
+
 	zend_declare_property_null(phalcon_forms_form_ce, SL("_elementsIndexed"), ZEND_ACC_PROTECTED TSRMLS_CC);
+
 	zend_declare_property_null(phalcon_forms_form_ce, SL("_messages"), ZEND_ACC_PROTECTED TSRMLS_CC);
+
 	zend_declare_property_null(phalcon_forms_form_ce, SL("_action"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
 	zend_class_implements(phalcon_forms_form_ce TSRMLS_CC, 1, spl_ce_Countable);
 	zend_class_implements(phalcon_forms_form_ce TSRMLS_CC, 1, zend_ce_iterator);
-
 	return SUCCESS;
 
 }
@@ -296,7 +302,7 @@ PHP_METHOD(Phalcon_Forms_Form, bind) {
 	ZVAL_NULL(filter);
 	zephir_is_iterable(data, &_1, &_0, 0, 0);
 	for (
-	  ; zend_hash_get_current_data_ex(_1, (void**) &_2, &_0) == SUCCESS
+	  ; zephir_hash_get_current_data_ex(_1, (void**) &_2, &_0) == SUCCESS
 	  ; zephir_hash_move_forward_ex(_1, &_0)
 	) {
 		ZEPHIR_GET_HMKEY(key, _1, _0);
@@ -394,7 +400,7 @@ PHP_METHOD(Phalcon_Forms_Form, isValid) {
 	array_init(messages);
 	zephir_is_iterable(elements, &_2, &_1, 0, 0);
 	for (
-	  ; zend_hash_get_current_data_ex(_2, (void**) &_3, &_1) == SUCCESS
+	  ; zephir_hash_get_current_data_ex(_2, (void**) &_3, &_1) == SUCCESS
 	  ; zephir_hash_move_forward_ex(_2, &_1)
 	) {
 		ZEPHIR_GET_HVALUE(element, _3);
@@ -408,7 +414,7 @@ PHP_METHOD(Phalcon_Forms_Form, isValid) {
 				array_init(preparedValidators);
 				zephir_is_iterable(validators, &_5, &_4, 0, 0);
 				for (
-				  ; zend_hash_get_current_data_ex(_5, (void**) &_6, &_4) == SUCCESS
+				  ; zephir_hash_get_current_data_ex(_5, (void**) &_6, &_4) == SUCCESS
 				  ; zephir_hash_move_forward_ex(_5, &_4)
 				) {
 					ZEPHIR_GET_HVALUE(validator, _6);
@@ -488,7 +494,7 @@ PHP_METHOD(Phalcon_Forms_Form, getMessages) {
 	zephir_call_method_noret(group, "__construct");
 	zephir_is_iterable(messages, &_1, &_0, 0, 0);
 	for (
-	  ; zend_hash_get_current_data_ex(_1, (void**) &_2, &_0) == SUCCESS
+	  ; zephir_hash_get_current_data_ex(_1, (void**) &_2, &_0) == SUCCESS
 	  ; zephir_hash_move_forward_ex(_1, &_0)
 	) {
 		ZEPHIR_GET_HMKEY(element, _1, _0);
@@ -558,7 +564,7 @@ PHP_METHOD(Phalcon_Forms_Form, add) {
 
 
 
-	if (zephir_is_instance_of(element, SL("Phalcon\\Forms\\ElementInterface") TSRMLS_CC)) {
+	if (!(zephir_is_instance_of(element, SL("Phalcon\\Forms\\ElementInterface") TSRMLS_CC))) {
 		ZEPHIR_THROW_EXCEPTION_STR(spl_ce_InvalidArgumentException, "Parameter 'element' must be an instance of 'Phalcon\\Forms\\ElementInterface'");
 		return;
 	}
@@ -907,7 +913,7 @@ PHP_METHOD(Phalcon_Forms_Form, clear) {
 	if ((Z_TYPE_P(elements) == IS_ARRAY)) {
 		zephir_is_iterable(elements, &_1, &_0, 0, 0);
 		for (
-		  ; zend_hash_get_current_data_ex(_1, (void**) &_2, &_0) == SUCCESS
+		  ; zephir_hash_get_current_data_ex(_1, (void**) &_2, &_0) == SUCCESS
 		  ; zephir_hash_move_forward_ex(_1, &_0)
 		) {
 			ZEPHIR_GET_HVALUE(element, _2);

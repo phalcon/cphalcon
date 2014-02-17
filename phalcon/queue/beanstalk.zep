@@ -139,7 +139,7 @@ class Beanstalk
 			return response[1];
 		}
 
-		//throw new Phalcon_Exception(status);
+		//throw new \Phalcon_Exception(status);
 		return false;
 	}
 

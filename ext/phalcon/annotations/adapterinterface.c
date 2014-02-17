@@ -38,7 +38,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Annotations_AdapterInterface) {
 
 	ZEPHIR_REGISTER_INTERFACE(Phalcon\\Annotations, AdapterInterface, phalcon, annotations_adapterinterface, phalcon_annotations_adapterinterface_method_entry);
 
-
 	return SUCCESS;
 
 }

@@ -12,14 +12,15 @@
 #include <Zend/zend_interfaces.h>
 
 #include "kernel/main.h"
+#include "kernel/object.h"
+#include "kernel/exception.h"
 #include "kernel/fcall.h"
 #include "kernel/memory.h"
+#include "kernel/hash.h"
 #include "kernel/array.h"
-#include "kernel/exception.h"
 #include "kernel/concat.h"
 #include "kernel/operators.h"
 #include "kernel/string.h"
-#include "kernel/object.h"
 
 
 /*
@@ -48,7 +49,7 @@
  *<code>
  *use Phalcon\Mvc\Model\Validator\Uniqueness as Uniqueness;
  *
- *class Subscriptors extends Phalcon\Mvc\Model
+ *class Subscriptors extends \Phalcon\Mvc\Model
  *{
  *
  *  public function validation()
@@ -70,7 +71,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_Validator_Uniqueness) {
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Mvc\\Model\\Validator, Uniqueness, phalcon, mvc_model_validator_uniqueness, phalcon_mvc_model_validator_ce, phalcon_mvc_model_validator_uniqueness_method_entry, 0);
 
 	zend_class_implements(phalcon_mvc_model_validator_uniqueness_ce TSRMLS_CC, 1, phalcon_mvc_model_validatorinterface_ce);
-
 	return SUCCESS;
 
 }
@@ -94,6 +94,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Uniqueness, validate) {
 
 
 
+	if (!(zephir_is_instance_of(record, SL("Phalcon\\Mvc\\ModelInterface") TSRMLS_CC))) {
+		ZEPHIR_THROW_EXCEPTION_STR(spl_ce_InvalidArgumentException, "Parameter 'record' must be an instance of 'Phalcon\\Mvc\\ModelInterface'");
+		return;
+	}
 	ZEPHIR_INIT_VAR(_0);
 	ZVAL_STRING(_0, "field", 1);
 	ZEPHIR_INIT_VAR(field);
@@ -123,8 +127,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Uniqueness, validate) {
 	if ((Z_TYPE_P(field) == IS_ARRAY)) {
 		zephir_is_iterable(field, &_2, &_1, 0, 0);
 		for (
-			; zend_hash_get_current_data_ex(_2, (void**) &_3, &_1) == SUCCESS
-			; zend_hash_move_forward_ex(_2, &_1)
+		  ; zephir_hash_get_current_data_ex(_2, (void**) &_3, &_1) == SUCCESS
+		  ; zephir_hash_move_forward_ex(_2, &_1)
 		) {
 			ZEPHIR_GET_HVALUE(composeField, _3);
 			if ((Z_TYPE_P(columnMap) == IS_ARRAY)) {
@@ -221,8 +225,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Uniqueness, validate) {
 		zephir_call_method_p1(primaryFields, metaData, "getprimarykeyattributes", record);
 		zephir_is_iterable(primaryFields, &_12, &_11, 0, 0);
 		for (
-			; zend_hash_get_current_data_ex(_12, (void**) &_13, &_11) == SUCCESS
-			; zend_hash_move_forward_ex(_12, &_11)
+		  ; zephir_hash_get_current_data_ex(_12, (void**) &_13, &_11) == SUCCESS
+		  ; zephir_hash_move_forward_ex(_12, &_11)
 		) {
 			ZEPHIR_GET_HVALUE(primaryField, _13);
 			if (!(zephir_array_isset(bindDataTypes, primaryField))) {

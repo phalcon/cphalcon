@@ -45,7 +45,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Assets_Resource_Css) {
 
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Assets\\Resource, Css, phalcon, assets_resource_css, phalcon_assets_resource_ce, phalcon_assets_resource_css_method_entry, 0);
 
-
 	return SUCCESS;
 
 }

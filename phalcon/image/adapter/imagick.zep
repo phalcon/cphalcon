@@ -77,7 +77,7 @@ class Imagick extends \Phalcon\Image\Adapter implements \Phalcon\Image\AdapterIn
 				throw new \Phalcon\Image\Exception("Failed to create image from file " . this->_file);
 			}
 
-			this->_image->newImage(width, height, new ImagickPixel("transparent"));
+			this->_image->newImage(width, height, new \ImagickPixel("transparent"));
 			this->_image->setFormat("png");
 			this->_image->setImageFormat("png");
 
@@ -134,7 +134,7 @@ class Imagick extends \Phalcon\Image\Adapter implements \Phalcon\Image\AdapterIn
 
 		this->_image->setIteratorIndex(0);
 
-		let pixel = new ImagickPixel();
+		let pixel = new \ImagickPixel();
 
 		loop {
 			this->_image->rotateImage(pixel, degrees);
@@ -302,7 +302,7 @@ class Imagick extends \Phalcon\Image\Adapter implements \Phalcon\Image\AdapterIn
 		let draw = new \ImagickDraw();
 
 		let color = sprintf("rgb(%d, %d, %d)", r, g, b);
-		let pixel = new ImagickPixel(color);
+		let pixel = new \ImagickPixel(color);
 
 		draw->setFillColor(pixel);
 
@@ -377,7 +377,7 @@ class Imagick extends \Phalcon\Image\Adapter implements \Phalcon\Image\AdapterIn
 		var background, color, pixel1, pixel2;
 
 		let color = sprintf("rgb(%d, %d, %d)", r, g, b);
-		let pixel1 = new ImagickPixel(color);
+		let pixel1 = new \ImagickPixel(color);
 		let opacity = opacity / 100;
 
 		let pixel2 = new \ImagickPixel("transparent");

@@ -96,7 +96,7 @@ class Model implements \Phalcon\Paginator\AdapterInterface
 		}
 
 		let n          = count(items),
-			page       = new stdClass(),
+			page       = new \stdClass(),
 			lastShowPage = pageNumber - 1,
 			start      = show * lastShowPage,
 			lastPage   = n - 1,

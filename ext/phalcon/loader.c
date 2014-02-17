@@ -71,17 +71,24 @@ ZEPHIR_INIT_CLASS(Phalcon_Loader) {
 	ZEPHIR_REGISTER_CLASS(Phalcon, Loader, phalcon, loader, phalcon_loader_method_entry, 0);
 
 	zend_declare_property_null(phalcon_loader_ce, SL("_eventsManager"), ZEND_ACC_PROTECTED TSRMLS_CC);
+
 	zend_declare_property_null(phalcon_loader_ce, SL("_foundPath"), ZEND_ACC_PROTECTED TSRMLS_CC);
+
 	zend_declare_property_null(phalcon_loader_ce, SL("_checkedPath"), ZEND_ACC_PROTECTED TSRMLS_CC);
+
 	zend_declare_property_null(phalcon_loader_ce, SL("_prefixes"), ZEND_ACC_PROTECTED TSRMLS_CC);
+
 	zend_declare_property_null(phalcon_loader_ce, SL("_classes"), ZEND_ACC_PROTECTED TSRMLS_CC);
+
 	zend_declare_property_null(phalcon_loader_ce, SL("_extensions"), ZEND_ACC_PROTECTED TSRMLS_CC);
+
 	zend_declare_property_null(phalcon_loader_ce, SL("_namespaces"), ZEND_ACC_PROTECTED TSRMLS_CC);
+
 	zend_declare_property_null(phalcon_loader_ce, SL("_directories"), ZEND_ACC_PROTECTED TSRMLS_CC);
+
 	zend_declare_property_bool(phalcon_loader_ce, SL("_registered"), 0, ZEND_ACC_PROTECTED TSRMLS_CC);
 
 	zend_class_implements(phalcon_loader_ce TSRMLS_CC, 1, phalcon_events_eventsawareinterface_ce);
-
 	return SUCCESS;
 
 }
@@ -119,7 +126,7 @@ PHP_METHOD(Phalcon_Loader, setEventsManager) {
 
 
 
-	if (zephir_is_instance_of(eventsManager, SL("Phalcon\\Events\\ManagerInterface") TSRMLS_CC)) {
+	if (!(zephir_is_instance_of(eventsManager, SL("Phalcon\\Events\\ManagerInterface") TSRMLS_CC))) {
 		ZEPHIR_THROW_EXCEPTION_STRW(spl_ce_InvalidArgumentException, "Parameter 'eventsManager' must be an instance of 'Phalcon\\Events\\ManagerInterface'");
 		return;
 	}
@@ -511,7 +518,7 @@ PHP_METHOD(Phalcon_Loader, autoLoad) {
 	if ((Z_TYPE_P(namespaces) == IS_ARRAY)) {
 		zephir_is_iterable(namespaces, &_3, &_2, 0, 0);
 		for (
-		  ; zend_hash_get_current_data_ex(_3, (void**) &_4, &_2) == SUCCESS
+		  ; zephir_hash_get_current_data_ex(_3, (void**) &_4, &_2) == SUCCESS
 		  ; zephir_hash_move_forward_ex(_3, &_2)
 		) {
 			ZEPHIR_GET_HMKEY(nsPrefix, _3, _2);
@@ -528,7 +535,7 @@ PHP_METHOD(Phalcon_Loader, autoLoad) {
 					ZEPHIR_CONCAT_VV(fixedDirectory, _5, ds);
 					zephir_is_iterable(extensions, &_7, &_6, 0, 0);
 					for (
-					  ; zend_hash_get_current_data_ex(_7, (void**) &_8, &_6) == SUCCESS
+					  ; zephir_hash_get_current_data_ex(_7, (void**) &_8, &_6) == SUCCESS
 					  ; zephir_hash_move_forward_ex(_7, &_6)
 					) {
 						ZEPHIR_GET_HVALUE(extension, _8);
@@ -563,7 +570,7 @@ PHP_METHOD(Phalcon_Loader, autoLoad) {
 	if ((Z_TYPE_P(prefixes) == IS_ARRAY)) {
 		zephir_is_iterable(prefixes, &_11, &_10, 0, 0);
 		for (
-		  ; zend_hash_get_current_data_ex(_11, (void**) &_12, &_10) == SUCCESS
+		  ; zephir_hash_get_current_data_ex(_11, (void**) &_12, &_10) == SUCCESS
 		  ; zephir_hash_move_forward_ex(_11, &_10)
 		) {
 			ZEPHIR_GET_HMKEY(prefix, _11, _10);
@@ -586,7 +593,7 @@ PHP_METHOD(Phalcon_Loader, autoLoad) {
 					ZEPHIR_CONCAT_VV(fixedDirectory, _5, ds);
 					zephir_is_iterable(extensions, &_15, &_14, 0, 0);
 					for (
-					  ; zend_hash_get_current_data_ex(_15, (void**) &_16, &_14) == SUCCESS
+					  ; zephir_hash_get_current_data_ex(_15, (void**) &_16, &_14) == SUCCESS
 					  ; zephir_hash_move_forward_ex(_15, &_14)
 					) {
 						ZEPHIR_GET_HVALUE(extension, _16);
@@ -629,7 +636,7 @@ PHP_METHOD(Phalcon_Loader, autoLoad) {
 	if ((Z_TYPE_P(directories) == IS_ARRAY)) {
 		zephir_is_iterable(directories, &_20, &_19, 0, 0);
 		for (
-		  ; zend_hash_get_current_data_ex(_20, (void**) &_21, &_19) == SUCCESS
+		  ; zephir_hash_get_current_data_ex(_20, (void**) &_21, &_19) == SUCCESS
 		  ; zephir_hash_move_forward_ex(_20, &_19)
 		) {
 			ZEPHIR_GET_HVALUE(directory, _21);
@@ -639,7 +646,7 @@ PHP_METHOD(Phalcon_Loader, autoLoad) {
 			ZEPHIR_CONCAT_VV(fixedDirectory, _0, ds);
 			zephir_is_iterable(extensions, &_23, &_22, 0, 0);
 			for (
-			  ; zend_hash_get_current_data_ex(_23, (void**) &_24, &_22) == SUCCESS
+			  ; zephir_hash_get_current_data_ex(_23, (void**) &_24, &_22) == SUCCESS
 			  ; zephir_hash_move_forward_ex(_23, &_22)
 			) {
 				ZEPHIR_GET_HVALUE(extension, _24);

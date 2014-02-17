@@ -75,7 +75,7 @@ class Confirmation extends \Phalcon\Validation\Validator implements \Phalcon\Val
 				let message = validation->getDefaultMessage("Confirmation");
 			}
 
-			validation->appendMessage(new Phalcon\Validation\Message(strtr(message, replacePairs), field, "Confirmation"));
+			validation->appendMessage(new \Phalcon\Validation\Message(strtr(message, replacePairs), field, "Confirmation"));
 			return false;
 		}
 

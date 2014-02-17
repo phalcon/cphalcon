@@ -35,7 +35,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Session_Bag) {
 
 	ZEPHIR_REGISTER_CLASS(Phalcon\\Session, Bag, phalcon, session_bag, NULL, 0);
 
-
 	return SUCCESS;
 
 }

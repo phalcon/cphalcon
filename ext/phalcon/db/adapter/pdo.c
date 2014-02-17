@@ -60,15 +60,17 @@ ZEPHIR_INIT_CLASS(Phalcon_Db_Adapter_Pdo) {
 
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Db\\Adapter, Pdo, phalcon, db_adapter_pdo, phalcon_db_adapter_ce, phalcon_db_adapter_pdo_method_entry, ZEND_ACC_EXPLICIT_ABSTRACT_CLASS);
 
-/**
+	/**
 	 * PDO Handler
 	 */
 	zend_declare_property_null(phalcon_db_adapter_pdo_ce, SL("_pdo"), ZEND_ACC_PROTECTED TSRMLS_CC);
-/**
+
+	/**
 	 * Last affected rows
 	 */
 	zend_declare_property_null(phalcon_db_adapter_pdo_ce, SL("_affectedRows"), ZEND_ACC_PROTECTED TSRMLS_CC);
-/**
+
+	/**
 	 * Transaction level
 	 */
 	zend_declare_property_long(phalcon_db_adapter_pdo_ce, SL("_transactionLevel"), 0, ZEND_ACC_PROTECTED TSRMLS_CC);
@@ -172,7 +174,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, connect) {
 		array_init(dsnParts);
 		zephir_is_iterable(descriptor, &_2, &_1, 0, 0);
 		for (
-		  ; zend_hash_get_current_data_ex(_2, (void**) &_3, &_1) == SUCCESS
+		  ; zephir_hash_get_current_data_ex(_2, (void**) &_3, &_1) == SUCCESS
 		  ; zephir_hash_move_forward_ex(_2, &_1)
 		) {
 			ZEPHIR_GET_HMKEY(key, _2, _1);
@@ -268,7 +270,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, executePrepared) {
 
 
 
-	if (zephir_is_instance_of(statement, SL("PDOStatement") TSRMLS_CC)) {
+	if (!(zephir_is_instance_of(statement, SL("PDOStatement") TSRMLS_CC))) {
 		ZEPHIR_THROW_EXCEPTION_STR(spl_ce_InvalidArgumentException, "Parameter 'statement' must be an instance of 'PDOStatement'");
 		return;
 	}
@@ -278,7 +280,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, executePrepared) {
 	}
 	zephir_is_iterable(placeholders, &_1, &_0, 0, 0);
 	for (
-	  ; zend_hash_get_current_data_ex(_1, (void**) &_2, &_0) == SUCCESS
+	  ; zephir_hash_get_current_data_ex(_1, (void**) &_2, &_0) == SUCCESS
 	  ; zephir_hash_move_forward_ex(_1, &_0)
 	) {
 		ZEPHIR_GET_HMKEY(wildcard, _1, _0);

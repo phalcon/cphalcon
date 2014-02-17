@@ -12,12 +12,13 @@
 #include <Zend/zend_interfaces.h>
 
 #include "kernel/main.h"
+#include "kernel/object.h"
+#include "kernel/exception.h"
 #include "kernel/memory.h"
 #include "kernel/fcall.h"
 #include "kernel/operators.h"
 #include "kernel/array.h"
-#include "kernel/exception.h"
-#include "kernel/object.h"
+#include "kernel/hash.h"
 #include "ext/spl/spl_exceptions.h"
 
 
@@ -49,7 +50,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_Behavior_Timestampable) {
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Mvc\\Model\\Behavior, Timestampable, phalcon, mvc_model_behavior_timestampable, phalcon_mvc_model_behavior_ce, phalcon_mvc_model_behavior_timestampable_method_entry, 0);
 
 	zend_class_implements(phalcon_mvc_model_behavior_timestampable_ce TSRMLS_CC, 1, phalcon_mvc_model_behaviorinterface_ce);
-
 	return SUCCESS;
 
 }
@@ -84,6 +84,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Behavior_Timestampable, notify) {
 	}
 
 
+	if (!(zephir_is_instance_of(model, SL("Phalcon\\Mvc\\ModelInterface") TSRMLS_CC))) {
+		ZEPHIR_THROW_EXCEPTION_STR(spl_ce_InvalidArgumentException, "Parameter 'model' must be an instance of 'Phalcon\\Mvc\\ModelInterface'");
+		return;
+	}
 	ZEPHIR_INIT_VAR(_0);
 	zephir_call_method_p1(_0, this_ptr, "musttakeaction", type);
 	if (!ZEPHIR_IS_TRUE(_0)) {
@@ -107,7 +111,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Behavior_Timestampable, notify) {
 			ZEPHIR_OBS_VAR(generator);
 			if (zephir_array_isset_string_fetch(&generator, options, SS("generator"), 0 TSRMLS_CC)) {
 				if ((Z_TYPE_P(generator) == IS_OBJECT)) {
-					if (zephir_is_instance_of(generator, SL("Closure") TSRMLS_CC)) {
+					if (zephir_is_instance_of(generator, SL("Phalcon\\Mvc\\Model\\Behavior\\Closure") TSRMLS_CC)) {
 						ZEPHIR_INIT_NVAR(timestamp);
 						zephir_call_func_p1(timestamp, "call_user_func", generator);
 					}
@@ -121,8 +125,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Behavior_Timestampable, notify) {
 		if ((Z_TYPE_P(field) == IS_ARRAY)) {
 			zephir_is_iterable(field, &_2, &_1, 0, 0);
 			for (
-				; zend_hash_get_current_data_ex(_2, (void**) &_3, &_1) == SUCCESS
-				; zend_hash_move_forward_ex(_2, &_1)
+			  ; zephir_hash_get_current_data_ex(_2, (void**) &_3, &_1) == SUCCESS
+			  ; zephir_hash_move_forward_ex(_2, &_1)
 			) {
 				ZEPHIR_GET_HVALUE(singleField, _3);
 				zephir_call_method_p2_cache_noret(model, "writeattribute", &_4, singleField, timestamp);

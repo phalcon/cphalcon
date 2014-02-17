@@ -45,7 +45,7 @@
  *<code>
  *	use Phalcon\Mvc\Model\Message as Message;
  *
- *  class Robots extends Phalcon\Mvc\Model
+ *  class Robots extends \Phalcon\Mvc\Model
  *  {
  *
  *    public function beforeSave()
@@ -68,12 +68,14 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_Message) {
 	ZEPHIR_REGISTER_CLASS(Phalcon\\Mvc\\Model, Message, phalcon, mvc_model_message, phalcon_mvc_model_message_method_entry, 0);
 
 	zend_declare_property_null(phalcon_mvc_model_message_ce, SL("_type"), ZEND_ACC_PROTECTED TSRMLS_CC);
+
 	zend_declare_property_null(phalcon_mvc_model_message_ce, SL("_message"), ZEND_ACC_PROTECTED TSRMLS_CC);
+
 	zend_declare_property_null(phalcon_mvc_model_message_ce, SL("_field"), ZEND_ACC_PROTECTED TSRMLS_CC);
+
 	zend_declare_property_null(phalcon_mvc_model_message_ce, SL("_model"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
 	zend_class_implements(phalcon_mvc_model_message_ce TSRMLS_CC, 1, phalcon_mvc_model_messageinterface_ce);
-
 	return SUCCESS;
 
 }
@@ -272,6 +274,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Message, setModel) {
 
 
 
+	if (!(zephir_is_instance_of(model, SL("Phalcon\\Mvc\\ModelInterface") TSRMLS_CC))) {
+		ZEPHIR_THROW_EXCEPTION_STRW(spl_ce_InvalidArgumentException, "Parameter 'model' must be an instance of 'Phalcon\\Mvc\\ModelInterface'");
+		return;
+	}
 	zephir_update_property_this(this_ptr, SL("_model"), model TSRMLS_CC);
 	RETURN_THISW();
 

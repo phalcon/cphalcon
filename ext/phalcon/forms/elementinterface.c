@@ -38,7 +38,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Forms_ElementInterface) {
 
 	ZEPHIR_REGISTER_INTERFACE(Phalcon\\Forms, ElementInterface, phalcon, forms_elementinterface, phalcon_forms_elementinterface_method_entry);
 
-
 	return SUCCESS;
 
 }

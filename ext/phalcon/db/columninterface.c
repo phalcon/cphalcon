@@ -38,7 +38,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Db_ColumnInterface) {
 
 	ZEPHIR_REGISTER_INTERFACE(Phalcon\\Db, ColumnInterface, phalcon, db_columninterface, phalcon_db_columninterface_method_entry);
 
-
 	return SUCCESS;
 
 }

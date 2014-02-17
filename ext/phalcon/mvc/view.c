@@ -51,7 +51,7 @@
  *
  * <code>
  * //Setting views directory
- * $view = new Phalcon\Mvc\View();
+ * $view = new \Phalcon\Mvc\View();
  * $view->setViewsDir('app/views/');
  *
  * $view->start();
@@ -68,60 +68,87 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_View) {
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Mvc, View, phalcon, mvc_view, phalcon_di_injectable_ce, phalcon_mvc_view_method_entry, 0);
 
 	zend_declare_property_null(phalcon_mvc_view_ce, SL("_options"), ZEND_ACC_PROTECTED TSRMLS_CC);
+
 	zend_declare_property_string(phalcon_mvc_view_ce, SL("_basePath"), "", ZEND_ACC_PROTECTED TSRMLS_CC);
+
 	zend_declare_property_string(phalcon_mvc_view_ce, SL("_content"), "", ZEND_ACC_PROTECTED TSRMLS_CC);
+
 	zend_declare_property_long(phalcon_mvc_view_ce, SL("_renderLevel"), 5, ZEND_ACC_PROTECTED TSRMLS_CC);
+
 	zend_declare_property_null(phalcon_mvc_view_ce, SL("_disabledLevels"), ZEND_ACC_PROTECTED TSRMLS_CC);
+
 	zend_declare_property_null(phalcon_mvc_view_ce, SL("_viewParams"), ZEND_ACC_PROTECTED TSRMLS_CC);
+
 	zend_declare_property_null(phalcon_mvc_view_ce, SL("_layout"), ZEND_ACC_PROTECTED TSRMLS_CC);
+
 	zend_declare_property_string(phalcon_mvc_view_ce, SL("_layoutsDir"), "", ZEND_ACC_PROTECTED TSRMLS_CC);
+
 	zend_declare_property_string(phalcon_mvc_view_ce, SL("_partialsDir"), "", ZEND_ACC_PROTECTED TSRMLS_CC);
+
 	zend_declare_property_null(phalcon_mvc_view_ce, SL("_viewsDir"), ZEND_ACC_PROTECTED TSRMLS_CC);
+
 	zend_declare_property_null(phalcon_mvc_view_ce, SL("_templatesBefore"), ZEND_ACC_PROTECTED TSRMLS_CC);
+
 	zend_declare_property_null(phalcon_mvc_view_ce, SL("_templatesAfter"), ZEND_ACC_PROTECTED TSRMLS_CC);
+
 	zend_declare_property_bool(phalcon_mvc_view_ce, SL("_engines"), 0, ZEND_ACC_PROTECTED TSRMLS_CC);
+
 	zend_declare_property_null(phalcon_mvc_view_ce, SL("_registeredEngines"), ZEND_ACC_PROTECTED TSRMLS_CC);
+
 	zend_declare_property_string(phalcon_mvc_view_ce, SL("_mainView"), "index", ZEND_ACC_PROTECTED TSRMLS_CC);
+
 	zend_declare_property_null(phalcon_mvc_view_ce, SL("_controllerName"), ZEND_ACC_PROTECTED TSRMLS_CC);
+
 	zend_declare_property_null(phalcon_mvc_view_ce, SL("_actionName"), ZEND_ACC_PROTECTED TSRMLS_CC);
+
 	zend_declare_property_null(phalcon_mvc_view_ce, SL("_params"), ZEND_ACC_PROTECTED TSRMLS_CC);
+
 	zend_declare_property_null(phalcon_mvc_view_ce, SL("_pickView"), ZEND_ACC_PROTECTED TSRMLS_CC);
+
 	zend_declare_property_null(phalcon_mvc_view_ce, SL("_cache"), ZEND_ACC_PROTECTED TSRMLS_CC);
+
 	zend_declare_property_long(phalcon_mvc_view_ce, SL("_cacheLevel"), 0, ZEND_ACC_PROTECTED TSRMLS_CC);
+
 	zend_declare_property_null(phalcon_mvc_view_ce, SL("_activeRenderPath"), ZEND_ACC_PROTECTED TSRMLS_CC);
+
 	zend_declare_property_bool(phalcon_mvc_view_ce, SL("_disabled"), 0, ZEND_ACC_PROTECTED TSRMLS_CC);
-/**
- * Render Level: To the main layout
- *
- */
+
+	/**
+	 * Render Level: To the main layout
+	 *
+	 */
 	zend_declare_class_constant_long(phalcon_mvc_view_ce, SL("LEVEL_MAIN_LAYOUT"), 5 TSRMLS_CC);
-/**
- * Render Level: Render to the templates "after"
- *
- */
+
+	/**
+	 * Render Level: Render to the templates "after"
+	 *
+	 */
 	zend_declare_class_constant_long(phalcon_mvc_view_ce, SL("LEVEL_AFTER_TEMPLATE"), 4 TSRMLS_CC);
-/**
- * Render Level: Hasta el layout del controlador
- *
- */
+
+	/**
+	 * Render Level: Hasta el layout del controlador
+	 *
+	 */
 	zend_declare_class_constant_long(phalcon_mvc_view_ce, SL("LEVEL_LAYOUT"), 3 TSRMLS_CC);
-/**
- * Render Level: To the templates "before"
- *
- */
+
+	/**
+	 * Render Level: To the templates "before"
+	 *
+	 */
 	zend_declare_class_constant_long(phalcon_mvc_view_ce, SL("LEVEL_BEFORE_TEMPLATE"), 2 TSRMLS_CC);
-/**
- * Render Level: To the action view
- */
+
+	/**
+	 * Render Level: To the action view
+	 */
 	zend_declare_class_constant_long(phalcon_mvc_view_ce, SL("LEVEL_ACTION_VIEW"), 1 TSRMLS_CC);
-/**
- * Render Level: No render any view
- *
- */
+
+	/**
+	 * Render Level: No render any view
+	 *
+	 */
 	zend_declare_class_constant_long(phalcon_mvc_view_ce, SL("LEVEL_NO_RENDER"), 0 TSRMLS_CC);
 
 	zend_class_implements(phalcon_mvc_view_ce TSRMLS_CC, 1, phalcon_mvc_viewinterface_ce);
-
 	return SUCCESS;
 
 }
@@ -162,7 +189,7 @@ PHP_METHOD(Phalcon_Mvc_View, setViewsDir) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &viewsDir_param);
 
-		zephir_get_strval(viewsDir, viewsDir_param);
+	zephir_get_strval(viewsDir, viewsDir_param);
 
 
 	zephir_update_property_this(this_ptr, SL("_viewsDir"), viewsDir TSRMLS_CC);
@@ -200,7 +227,7 @@ PHP_METHOD(Phalcon_Mvc_View, setLayoutsDir) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &layoutsDir_param);
 
-		zephir_get_strval(layoutsDir, layoutsDir_param);
+	zephir_get_strval(layoutsDir, layoutsDir_param);
 
 
 	zephir_update_property_this(this_ptr, SL("_layoutsDir"), layoutsDir TSRMLS_CC);
@@ -238,7 +265,7 @@ PHP_METHOD(Phalcon_Mvc_View, setPartialsDir) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &partialsDir_param);
 
-		zephir_get_strval(partialsDir, partialsDir_param);
+	zephir_get_strval(partialsDir, partialsDir_param);
 
 
 	zephir_update_property_this(this_ptr, SL("_partialsDir"), partialsDir TSRMLS_CC);
@@ -276,7 +303,7 @@ PHP_METHOD(Phalcon_Mvc_View, setBasePath) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &basePath_param);
 
-		zephir_get_strval(basePath, basePath_param);
+	zephir_get_strval(basePath, basePath_param);
 
 
 	zephir_update_property_this(this_ptr, SL("_basePath"), basePath TSRMLS_CC);
@@ -302,7 +329,7 @@ PHP_METHOD(Phalcon_Mvc_View, setRenderLevel) {
 
 	zephir_fetch_params(0, 1, 0, &level_param);
 
-		level = zephir_get_intval(level_param);
+	level = zephir_get_intval(level_param);
 
 
 	ZEPHIR_INIT_ZVAL_NREF(_0);
@@ -359,7 +386,7 @@ PHP_METHOD(Phalcon_Mvc_View, setMainView) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &viewPath_param);
 
-		zephir_get_strval(viewPath, viewPath_param);
+	zephir_get_strval(viewPath, viewPath_param);
 
 
 	zephir_update_property_this(this_ptr, SL("_mainView"), viewPath TSRMLS_CC);
@@ -397,7 +424,7 @@ PHP_METHOD(Phalcon_Mvc_View, setLayout) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &layout_param);
 
-		zephir_get_strval(layout, layout_param);
+	zephir_get_strval(layout, layout_param);
 
 
 	zephir_update_property_this(this_ptr, SL("_layout"), layout TSRMLS_CC);
@@ -757,13 +784,13 @@ PHP_METHOD(Phalcon_Mvc_View, _loadTemplateEngines) {
 			zephir_array_fast_append(arguments, dependencyInjector);
 			zephir_is_iterable(registeredEngines, &_3, &_2, 0, 0);
 			for (
-				; zend_hash_get_current_data_ex(_3, (void**) &_4, &_2) == SUCCESS
-				; zend_hash_move_forward_ex(_3, &_2)
+			  ; zephir_hash_get_current_data_ex(_3, (void**) &_4, &_2) == SUCCESS
+			  ; zephir_hash_move_forward_ex(_3, &_2)
 			) {
 				ZEPHIR_GET_HMKEY(extension, _3, _2);
 				ZEPHIR_GET_HVALUE(engineService, _4);
 				if ((Z_TYPE_P(engineService) == IS_OBJECT)) {
-					if (zephir_is_instance_of(engineService, SL("Closure") TSRMLS_CC)) {
+					if (zephir_is_instance_of(engineService, SL("Phalcon\\Mvc\\Closure") TSRMLS_CC)) {
 						ZEPHIR_INIT_NVAR(_5);
 						ZEPHIR_CALL_USER_FUNC_ARRAY(_5, engineService, arguments);
 						zephir_array_update_zval(&engines, extension, &_5, PH_COPY | PH_SEPARATE);
@@ -815,11 +842,15 @@ PHP_METHOD(Phalcon_Mvc_View, _engineRender) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 5, 0, &engines, &viewPath_param, &silence_param, &mustClean_param, &cache);
 
-		zephir_get_strval(viewPath, viewPath_param);
-		silence = zephir_get_boolval(silence_param);
-		mustClean = zephir_get_boolval(mustClean_param);
+	zephir_get_strval(viewPath, viewPath_param);
+	silence = zephir_get_boolval(silence_param);
+	mustClean = zephir_get_boolval(mustClean_param);
 
 
+	if (!(zephir_is_instance_of(cache, SL("Phalcon\\Cache\\BackendInterface") TSRMLS_CC))) {
+		ZEPHIR_THROW_EXCEPTION_STR(spl_ce_InvalidArgumentException, "Parameter 'cache' must be an instance of 'Phalcon\\Cache\\BackendInterface'");
+		return;
+	}
 	notExists = 1;
 	ZEPHIR_OBS_VAR(viewsDir);
 	zephir_read_property_this(&viewsDir, this_ptr, SL("_viewsDir"), PH_NOISY_CC);
@@ -878,8 +909,8 @@ PHP_METHOD(Phalcon_Mvc_View, _engineRender) {
 	//missing empty
 	zephir_is_iterable(engines, &_6, &_5, 0, 0);
 	for (
-		; zend_hash_get_current_data_ex(_6, (void**) &_7, &_5) == SUCCESS
-		; zend_hash_move_forward_ex(_6, &_5)
+	  ; zephir_hash_get_current_data_ex(_6, (void**) &_7, &_5) == SUCCESS
+	  ; zephir_hash_move_forward_ex(_6, &_5)
 	) {
 		ZEPHIR_GET_HMKEY(extension, _6, _5);
 		ZEPHIR_GET_HVALUE(engine, _7);
@@ -1097,8 +1128,8 @@ PHP_METHOD(Phalcon_Mvc_View, render) {
 					silence = 0;
 					zephir_is_iterable(templatesBefore, &_7, &_6, 0, 0);
 					for (
-						; zend_hash_get_current_data_ex(_7, (void**) &_8, &_6) == SUCCESS
-						; zend_hash_move_forward_ex(_7, &_6)
+					  ; zephir_hash_get_current_data_ex(_7, (void**) &_8, &_6) == SUCCESS
+					  ; zephir_hash_move_forward_ex(_7, &_6)
 					) {
 						ZEPHIR_GET_HVALUE(templateBefore, _8);
 						ZEPHIR_INIT_LNVAR(_9);
@@ -1124,8 +1155,8 @@ PHP_METHOD(Phalcon_Mvc_View, render) {
 					silence = 0;
 					zephir_is_iterable(templatesAfter, &_12, &_11, 0, 0);
 					for (
-						; zend_hash_get_current_data_ex(_12, (void**) &_13, &_11) == SUCCESS
-						; zend_hash_move_forward_ex(_12, &_11)
+					  ; zephir_hash_get_current_data_ex(_12, (void**) &_13, &_11) == SUCCESS
+					  ; zephir_hash_move_forward_ex(_12, &_11)
 					) {
 						ZEPHIR_GET_HVALUE(templateAfter, _13);
 						ZEPHIR_INIT_LNVAR(_14);
@@ -1171,7 +1202,7 @@ PHP_METHOD(Phalcon_Mvc_View, render) {
  * Choose a different view to render instead of last-controller/last-action
  *
  * <code>
- * class ProductsController extends Phalcon\Mvc\Controller
+ * class ProductsController extends \Phalcon\Mvc\Controller
  * {
  *
  *    public function saveAction()
@@ -1497,8 +1528,8 @@ PHP_METHOD(Phalcon_Mvc_View, cache) {
 		}
 		zephir_is_iterable(options, &_1, &_0, 0, 0);
 		for (
-			; zend_hash_get_current_data_ex(_1, (void**) &_2, &_0) == SUCCESS
-			; zend_hash_move_forward_ex(_1, &_0)
+		  ; zephir_hash_get_current_data_ex(_1, (void**) &_2, &_0) == SUCCESS
+		  ; zephir_hash_move_forward_ex(_1, &_0)
 		) {
 			ZEPHIR_GET_HMKEY(key, _1, _0);
 			ZEPHIR_GET_HVALUE(value, _2);
@@ -1546,7 +1577,7 @@ PHP_METHOD(Phalcon_Mvc_View, setContent) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &content_param);
 
-		zephir_get_strval(content, content_param);
+	zephir_get_strval(content, content_param);
 
 
 	zephir_update_property_this(this_ptr, SL("_content"), content TSRMLS_CC);

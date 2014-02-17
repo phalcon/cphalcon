@@ -44,32 +44,37 @@ ZEPHIR_INIT_CLASS(Phalcon_Acl_Adapter) {
 
 	ZEPHIR_REGISTER_CLASS(Phalcon\\Acl, Adapter, phalcon, acl_adapter, phalcon_acl_adapter_method_entry, 0);
 
-/**
+	/**
 	 * Events manager
 	 * @var mixed
 	 */
 	zend_declare_property_null(phalcon_acl_adapter_ce, SL("_eventsManager"), ZEND_ACC_PROTECTED TSRMLS_CC);
-/**
+
+	/**
 	 * Default access
 	 * @var bool
 	 */
 	zend_declare_property_bool(phalcon_acl_adapter_ce, SL("_defaultAccess"), 1, ZEND_ACC_PROTECTED TSRMLS_CC);
-/**
+
+	/**
 	 * Access Granted
 	 * @var bool
 	 */
 	zend_declare_property_bool(phalcon_acl_adapter_ce, SL("_accessGranted"), 0, ZEND_ACC_PROTECTED TSRMLS_CC);
-/**
+
+	/**
 	 * Role which the list is checking if it's allowed to certain resource/access
 	 * @var mixed
 	 */
 	zend_declare_property_null(phalcon_acl_adapter_ce, SL("_activeRole"), ZEND_ACC_PROTECTED TSRMLS_CC);
-/**
+
+	/**
 	 * Resource which the list is checking if some role can access it
 	 * @var mixed
 	 */
 	zend_declare_property_null(phalcon_acl_adapter_ce, SL("_activeResource"), ZEND_ACC_PROTECTED TSRMLS_CC);
-/**
+
+	/**
 	 * Active access which the list is checking if some role can access it
 	 * "@var mixed
 	 */
@@ -125,7 +130,7 @@ PHP_METHOD(Phalcon_Acl_Adapter, setEventsManager) {
 
 
 
-	if (zephir_is_instance_of(eventsManager, SL("Phalcon\\Events\\ManagerInterface") TSRMLS_CC)) {
+	if (!(zephir_is_instance_of(eventsManager, SL("Phalcon\\Events\\ManagerInterface") TSRMLS_CC))) {
 		ZEPHIR_THROW_EXCEPTION_STRW(spl_ce_InvalidArgumentException, "Parameter 'eventsManager' must be an instance of 'Phalcon\\Events\\ManagerInterface'");
 		return;
 	}

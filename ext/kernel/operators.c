@@ -227,7 +227,7 @@ void zephir_concat_self_char(zval **left, unsigned char right TSRMLS_DC) {
 /**
  * Natural compare with string operandus on right
  */
-int zephir_compare_strict_string(zval *op1, const char *op2, int op2_length){
+int zephir_compare_strict_string(zval *op1, const char *op2, int op2_length) {
 
 	switch (Z_TYPE_P(op1)) {
 		case IS_STRING:
@@ -254,7 +254,7 @@ int zephir_compare_strict_string(zval *op1, const char *op2, int op2_length){
 /**
  * Natural compare with long operandus on right
  */
-int zephir_compare_strict_long(zval *op1, long op2 TSRMLS_DC){
+int zephir_compare_strict_long(zval *op1, long op2 TSRMLS_DC) {
 
 	int bool_result;
 
@@ -287,7 +287,7 @@ int zephir_compare_strict_long(zval *op1, long op2 TSRMLS_DC){
 /**
  * Do add function keeping ref_count and is_ref
  */
-int zephir_add_function(zval *result, zval *op1, zval *op2 TSRMLS_DC){
+int zephir_add_function(zval *result, zval *op1, zval *op2 TSRMLS_DC) {
 	int status;
 	int ref_count = Z_REFCOUNT_P(result);
 	int is_ref = Z_ISREF_P(result);
@@ -297,8 +297,7 @@ int zephir_add_function(zval *result, zval *op1, zval *op2 TSRMLS_DC){
 	return status;
 }
 
-void zephir_negate(zval *z TSRMLS_DC)
-{
+void zephir_negate(zval *z TSRMLS_DC) {
 	while (1) {
 		switch (Z_TYPE_P(z)) {
 			case IS_LONG:
@@ -356,12 +355,16 @@ void zephir_cast(zval *result, zval *var, zend_uint type){
 long zephir_get_intval_ex(const zval *op) {
 
 	switch (Z_TYPE_P(op)) {
+
 		case IS_LONG:
 			return Z_LVAL_P(op);
+
 		case IS_BOOL:
 			return Z_BVAL_P(op);
+
 		case IS_DOUBLE:
 			return (long) Z_DVAL_P(op);
+
 		case IS_STRING: {
 			long long_value = 0;
 			double double_value = 0;

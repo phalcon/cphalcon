@@ -38,10 +38,10 @@
  * A CollectionManager is injected to a model via a Dependency Injector Container such as Phalcon\Di.
  *
  * <code>
- * $di = new Phalcon\Di();
+ * $di = new \Phalcon\Di();
  *
  * $di->set('collectionManager', function(){
- *      return new Phalcon\Mvc\Collection\Manager();
+ *      return new \Phalcon\Mvc\Collection\Manager();
  * });
  *
  * robot = new Robots(di);
@@ -50,7 +50,6 @@
 ZEPHIR_INIT_CLASS(Phalcon_Mvc_Collection_ManagerInterface) {
 
 	ZEPHIR_REGISTER_INTERFACE(Phalcon\\Mvc\\Collection, ManagerInterface, phalcon, mvc_collection_managerinterface, phalcon_mvc_collection_managerinterface_method_entry);
-
 
 	return SUCCESS;
 

@@ -33,7 +33,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Image_AdapterInterface) {
 
 	ZEPHIR_REGISTER_INTERFACE(Phalcon\\Image, AdapterInterface, phalcon, image_adapterinterface, phalcon_image_adapterinterface_method_entry);
 
-
 	return SUCCESS;
 
 }

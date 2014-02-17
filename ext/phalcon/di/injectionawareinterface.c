@@ -38,7 +38,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Di_InjectionAwareInterface) {
 
 	ZEPHIR_REGISTER_INTERFACE(Phalcon\\Di, InjectionAwareInterface, phalcon, di_injectionawareinterface, phalcon_di_injectionawareinterface_method_entry);
 
-
 	return SUCCESS;
 
 }

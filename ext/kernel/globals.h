@@ -21,6 +21,7 @@
 #ifndef ZEPHIR_KERNEL_GLOBALS_H
 #define ZEPHIR_KERNEL_GLOBALS_H
 
+#define ZEPHIR_RELEASE 1
 #define ZEPHIR_MAX_MEMORY_STACK 48
 
 /** Memory frame */

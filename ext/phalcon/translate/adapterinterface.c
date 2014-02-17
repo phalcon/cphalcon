@@ -38,7 +38,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Translate_AdapterInterface) {
 
 	ZEPHIR_REGISTER_INTERFACE(Phalcon\\Translate, AdapterInterface, phalcon, translate_adapterinterface, phalcon_translate_adapterinterface_method_entry);
 
-
 	return SUCCESS;
 
 }

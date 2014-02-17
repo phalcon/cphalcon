@@ -72,19 +72,21 @@ ZEPHIR_INIT_CLASS(Phalcon_Db_Profiler) {
 
 	ZEPHIR_REGISTER_CLASS(Phalcon\\Db, Profiler, phalcon, db_profiler, phalcon_db_profiler_method_entry, 0);
 
-/**
+	/**
 	 * All the Phalcon\Db\Profiler\Item in the active profile
 	 *
 	 * @var array
 	 */
 	zend_declare_property_null(phalcon_db_profiler_ce, SL("_allProfiles"), ZEND_ACC_PROTECTED TSRMLS_CC);
-/**
+
+	/**
 	 * Active Phalcon\Db\Profiler\Item
 	 *
 	 * @var Phalcon\Db\Profiler\Item
 	 */
 	zend_declare_property_null(phalcon_db_profiler_ce, SL("_activeProfile"), ZEND_ACC_PROTECTED TSRMLS_CC);
-/**
+
+	/**
 	 * Total time spent by all profiles to complete
 	 *
 	 * @var float

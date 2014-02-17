@@ -14,6 +14,7 @@
 #include "kernel/main.h"
 #include "kernel/exception.h"
 #include "kernel/memory.h"
+#include "kernel/hash.h"
 #include "kernel/fcall.h"
 #include "kernel/array.h"
 #include "kernel/object.h"
@@ -61,11 +62,11 @@ ZEPHIR_INIT_CLASS(Phalcon_Annotations_Collection) {
 	ZEPHIR_REGISTER_CLASS(Phalcon\\Annotations, Collection, phalcon, annotations_collection, phalcon_annotations_collection_method_entry, 0);
 
 	zend_declare_property_long(phalcon_annotations_collection_ce, SL("_position"), 0, ZEND_ACC_PROTECTED TSRMLS_CC);
+
 	zend_declare_property_null(phalcon_annotations_collection_ce, SL("_annotations"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
 	zend_class_implements(phalcon_annotations_collection_ce TSRMLS_CC, 1, zend_ce_iterator);
 	zend_class_implements(phalcon_annotations_collection_ce TSRMLS_CC, 1, spl_ce_Countable);
-
 	return SUCCESS;
 
 }
@@ -101,7 +102,7 @@ PHP_METHOD(Phalcon_Annotations_Collection, __construct) {
 		array_init(annotations);
 		zephir_is_iterable(reflectionData, &_1, &_0, 0, 0);
 		for (
-		  ; zend_hash_get_current_data_ex(_1, (void**) &_2, &_0) == SUCCESS
+		  ; zephir_hash_get_current_data_ex(_1, (void**) &_2, &_0) == SUCCESS
 		  ; zephir_hash_move_forward_ex(_1, &_0)
 		) {
 			ZEPHIR_GET_HVALUE(annotationData, _2);
@@ -242,7 +243,7 @@ PHP_METHOD(Phalcon_Annotations_Collection, get) {
 	if ((Z_TYPE_P(annotations) == IS_ARRAY)) {
 		zephir_is_iterable(annotations, &_1, &_0, 0, 0);
 		for (
-		  ; zend_hash_get_current_data_ex(_1, (void**) &_2, &_0) == SUCCESS
+		  ; zephir_hash_get_current_data_ex(_1, (void**) &_2, &_0) == SUCCESS
 		  ; zephir_hash_move_forward_ex(_1, &_0)
 		) {
 			ZEPHIR_GET_HVALUE(annotation, _2);
@@ -290,7 +291,7 @@ PHP_METHOD(Phalcon_Annotations_Collection, getAll) {
 	if ((Z_TYPE_P(annotations) == IS_ARRAY)) {
 		zephir_is_iterable(annotations, &_1, &_0, 0, 0);
 		for (
-		  ; zend_hash_get_current_data_ex(_1, (void**) &_2, &_0) == SUCCESS
+		  ; zephir_hash_get_current_data_ex(_1, (void**) &_2, &_0) == SUCCESS
 		  ; zephir_hash_move_forward_ex(_1, &_0)
 		) {
 			ZEPHIR_GET_HVALUE(annotation, _2);
@@ -329,7 +330,7 @@ PHP_METHOD(Phalcon_Annotations_Collection, has) {
 	if ((Z_TYPE_P(annotations) == IS_ARRAY)) {
 		zephir_is_iterable(annotations, &_1, &_0, 0, 0);
 		for (
-		  ; zend_hash_get_current_data_ex(_1, (void**) &_2, &_0) == SUCCESS
+		  ; zephir_hash_get_current_data_ex(_1, (void**) &_2, &_0) == SUCCESS
 		  ; zephir_hash_move_forward_ex(_1, &_0)
 		) {
 			ZEPHIR_GET_HVALUE(annotation, _2);

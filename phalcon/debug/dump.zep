@@ -50,7 +50,7 @@ class Dump
          * variables, each wrapped in a "pre" tag.
          *
          *<code>
-         *echo (new Phalcon\Debug\Dump())->vars($foo, $bar, $baz);
+         *echo (new \Phalcon\Debug\Dump())->vars($foo, $bar, $baz);
          *</code>
          *
          * @param mixed variable
@@ -74,7 +74,7 @@ class Dump
          * Returns an HTML string of information about a single variable.
          *
          *<code>
-         *echo (new Phalcon\Debug\Dump())->dump($foo, "foo");
+         *echo (new \Phalcon\Debug\Dump())->dump($foo, "foo");
          *</code>
          *
          * @param mixed variable

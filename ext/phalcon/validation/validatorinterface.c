@@ -38,7 +38,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Validation_ValidatorInterface) {
 
 	ZEPHIR_REGISTER_INTERFACE(Phalcon\\Validation, ValidatorInterface, phalcon, validation_validatorinterface, phalcon_validation_validatorinterface_method_entry);
 
-
 	return SUCCESS;
 
 }

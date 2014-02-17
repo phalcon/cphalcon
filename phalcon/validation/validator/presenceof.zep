@@ -63,7 +63,7 @@ class PresenceOf extends \Phalcon\Validation\Validator implements \Phalcon\Valid
 				let message = validation->getDefaultMessage("PresenceOf");
 			}
 
-			validation->appendMessage(new Phalcon\Validation\Message(strtr(message, replacePairs), field, "PresenceOf"));
+			validation->appendMessage(new \Phalcon\Validation\Message(strtr(message, replacePairs), field, "PresenceOf"));
 			return false;
 		}
 

@@ -37,7 +37,7 @@
  * This adapter store sessions in plain files
  *
  *<code>
- * $session = new Phalcon\Session\Adapter\Files(array(
+ * $session = new \Phalcon\Session\Adapter\Files(array(
  *    'uniqueId' => 'my-private-app'
  * ));
  *
@@ -53,7 +53,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Session_Adapter_Files) {
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Session\\Adapter, Files, phalcon, session_adapter_files, phalcon_session_adapter_ce, NULL, 0);
 
 	zend_class_implements(phalcon_session_adapter_files_ce TSRMLS_CC, 1, phalcon_session_adapterinterface_ce);
-
 	return SUCCESS;
 
 }

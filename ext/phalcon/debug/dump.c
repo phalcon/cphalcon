@@ -51,6 +51,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Debug_Dump) {
 	ZEPHIR_REGISTER_CLASS(Phalcon\\Debug, Dump, phalcon, debug_dump, phalcon_debug_dump_method_entry, 0);
 
 	zend_declare_property_null(phalcon_debug_dump_ce, SL("_styles"), ZEND_ACC_PROTECTED TSRMLS_CC);
+
 	zend_declare_property_null(phalcon_debug_dump_ce, SL("methods"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
 	return SUCCESS;
@@ -93,7 +94,7 @@ PHP_METHOD(Phalcon_Debug_Dump, __construct) {
  * variables, each wrapped in a "pre" tag.
  *
  *<code>
- *echo (new Phalcon\Debug\Dump())->vars($foo, $bar, $baz);
+ *echo (new \Phalcon\Debug\Dump())->vars($foo, $bar, $baz);
  *</code>
  *
  * @param mixed variable
@@ -115,7 +116,7 @@ PHP_METHOD(Phalcon_Debug_Dump, vars) {
 	ZVAL_STRING(output, "", 1);
 	zephir_is_iterable(vars, &_1, &_0, 0, 0);
 	for (
-	  ; zend_hash_get_current_data_ex(_1, (void**) &_2, &_0) == SUCCESS
+	  ; zephir_hash_get_current_data_ex(_1, (void**) &_2, &_0) == SUCCESS
 	  ; zephir_hash_move_forward_ex(_1, &_0)
 	) {
 		ZEPHIR_GET_HMKEY(key, _1, _0);
@@ -134,7 +135,7 @@ PHP_METHOD(Phalcon_Debug_Dump, vars) {
  * Returns an HTML string of information about a single variable.
  *
  *<code>
- *echo (new Phalcon\Debug\Dump())->dump($foo, "foo");
+ *echo (new \Phalcon\Debug\Dump())->dump($foo, "foo");
  *</code>
  *
  * @param mixed variable
@@ -213,7 +214,7 @@ PHP_METHOD(Phalcon_Debug_Dump, output) {
 		zephir_concat_self(&output, _1 TSRMLS_CC);
 		zephir_is_iterable(variable, &_5, &_4, 0, 0);
 		for (
-		  ; zend_hash_get_current_data_ex(_5, (void**) &_6, &_4) == SUCCESS
+		  ; zephir_hash_get_current_data_ex(_5, (void**) &_6, &_4) == SUCCESS
 		  ; zephir_hash_move_forward_ex(_5, &_4)
 		) {
 			ZEPHIR_GET_HMKEY(key, _5, _4);
@@ -409,7 +410,7 @@ PHP_METHOD(Phalcon_Debug_Dump, output) {
 		} else {
 			zephir_is_iterable(attr, &_30, &_29, 0, 0);
 			for (
-			  ; zend_hash_get_current_data_ex(_30, (void**) &_31, &_29) == SUCCESS
+			  ; zephir_hash_get_current_data_ex(_30, (void**) &_31, &_29) == SUCCESS
 			  ; zephir_hash_move_forward_ex(_30, &_29)
 			) {
 				ZEPHIR_GET_HMKEY(key, _30, _29);

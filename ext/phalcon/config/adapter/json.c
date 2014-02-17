@@ -42,7 +42,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Config_Adapter_Json) {
 
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Config\\Adapter, Json, phalcon, config_adapter_json, phalcon_config_ce, phalcon_config_adapter_json_method_entry, 0);
 
-
 	return SUCCESS;
 
 }

@@ -68,7 +68,7 @@ class Url extends \Phalcon\Validation\Validator implements \Phalcon\Validation\V
 				let message = validation->getDefaultMessage("Url");
 			}
 
-			validation->appendMessage(new Phalcon\Validation\Message(strtr(message, replacePairs), field, "Url"));
+			validation->appendMessage(new \Phalcon\Validation\Message(strtr(message, replacePairs), field, "Url"));
 			return false;
 		}
 

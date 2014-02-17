@@ -38,7 +38,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_MessageInterface) {
 
 	ZEPHIR_REGISTER_INTERFACE(Phalcon\\Mvc\\Model, MessageInterface, phalcon, mvc_model_messageinterface, phalcon_mvc_model_messageinterface_method_entry);
 
-
 	return SUCCESS;
 
 }

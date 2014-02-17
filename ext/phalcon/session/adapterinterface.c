@@ -38,7 +38,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Session_AdapterInterface) {
 
 	ZEPHIR_REGISTER_INTERFACE(Phalcon\\Session, AdapterInterface, phalcon, session_adapterinterface, phalcon_session_adapterinterface_method_entry);
 
-
 	return SUCCESS;
 
 }

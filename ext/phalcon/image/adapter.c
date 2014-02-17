@@ -43,12 +43,19 @@ ZEPHIR_INIT_CLASS(Phalcon_Image_Adapter) {
 	ZEPHIR_REGISTER_CLASS(Phalcon\\Image, Adapter, phalcon, image_adapter, phalcon_image_adapter_method_entry, ZEND_ACC_EXPLICIT_ABSTRACT_CLASS);
 
 	zend_declare_property_null(phalcon_image_adapter_ce, SL("_image"), ZEND_ACC_PROTECTED TSRMLS_CC);
+
 	zend_declare_property_null(phalcon_image_adapter_ce, SL("_file"), ZEND_ACC_PROTECTED TSRMLS_CC);
+
 	zend_declare_property_null(phalcon_image_adapter_ce, SL("_realpath"), ZEND_ACC_PROTECTED TSRMLS_CC);
+
 	zend_declare_property_null(phalcon_image_adapter_ce, SL("_width"), ZEND_ACC_PROTECTED TSRMLS_CC);
+
 	zend_declare_property_null(phalcon_image_adapter_ce, SL("_height"), ZEND_ACC_PROTECTED TSRMLS_CC);
+
 	zend_declare_property_null(phalcon_image_adapter_ce, SL("_type"), ZEND_ACC_PROTECTED TSRMLS_CC);
+
 	zend_declare_property_null(phalcon_image_adapter_ce, SL("_mime"), ZEND_ACC_PROTECTED TSRMLS_CC);
+
 	zend_declare_property_bool(phalcon_image_adapter_ce, SL("_checked"), 0, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC TSRMLS_CC);
 
 	return SUCCESS;
@@ -543,7 +550,7 @@ PHP_METHOD(Phalcon_Image_Adapter, watermark) {
 	}
 
 
-	if (zephir_is_instance_of(watermark, SL("Phalcon\\Image\\Adapter") TSRMLS_CC)) {
+	if (!(zephir_is_instance_of(watermark, SL("Phalcon\\Image\\Adapter") TSRMLS_CC))) {
 		ZEPHIR_THROW_EXCEPTION_STR(spl_ce_InvalidArgumentException, "Parameter 'watermark' must be an instance of 'Phalcon\\Image\\Adapter'");
 		return;
 	}
@@ -714,7 +721,7 @@ PHP_METHOD(Phalcon_Image_Adapter, mask) {
 
 
 
-	if (zephir_is_instance_of(watermark, SL("Phalcon\\Image\\Adapter") TSRMLS_CC)) {
+	if (!(zephir_is_instance_of(watermark, SL("Phalcon\\Image\\Adapter") TSRMLS_CC))) {
 		ZEPHIR_THROW_EXCEPTION_STR(spl_ce_InvalidArgumentException, "Parameter 'watermark' must be an instance of 'Phalcon\\Image\\Adapter'");
 		return;
 	}

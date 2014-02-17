@@ -35,7 +35,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Logger_Adapter_Syslog) {
 
 	ZEPHIR_REGISTER_CLASS(Phalcon\\Logger\\Adapter, Syslog, phalcon, logger_adapter_syslog, NULL, 0);
 
-
 	return SUCCESS;
 
 }

@@ -38,7 +38,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_View_EngineInterface) {
 
 	ZEPHIR_REGISTER_INTERFACE(Phalcon\\Mvc\\View, EngineInterface, phalcon, mvc_view_engineinterface, phalcon_mvc_view_engineinterface_method_entry);
 
-
 	return SUCCESS;
 
 }

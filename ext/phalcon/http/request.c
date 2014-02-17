@@ -65,12 +65,13 @@ ZEPHIR_INIT_CLASS(Phalcon_Http_Request) {
 	ZEPHIR_REGISTER_CLASS(Phalcon\\Http, Request, phalcon, http_request, phalcon_http_request_method_entry, 0);
 
 	zend_declare_property_null(phalcon_http_request_ce, SL("_dependencyInjector"), ZEND_ACC_PROTECTED TSRMLS_CC);
+
 	zend_declare_property_null(phalcon_http_request_ce, SL("_rawBody"), ZEND_ACC_PROTECTED TSRMLS_CC);
+
 	zend_declare_property_null(phalcon_http_request_ce, SL("_filter"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
 	zend_class_implements(phalcon_http_request_ce TSRMLS_CC, 1, phalcon_http_requestinterface_ce);
 	zend_class_implements(phalcon_http_request_ce TSRMLS_CC, 1, phalcon_di_injectionawareinterface_ce);
-
 	return SUCCESS;
 
 }
@@ -88,7 +89,7 @@ PHP_METHOD(Phalcon_Http_Request, setDI) {
 
 
 
-	if (zephir_is_instance_of(dependencyInjector, SL("Phalcon\\DiInterface") TSRMLS_CC)) {
+	if (!(zephir_is_instance_of(dependencyInjector, SL("Phalcon\\DiInterface") TSRMLS_CC))) {
 		ZEPHIR_THROW_EXCEPTION_STRW(spl_ce_InvalidArgumentException, "Parameter 'dependencyInjector' must be an instance of 'Phalcon\\DiInterface'");
 		return;
 	}
@@ -897,7 +898,7 @@ PHP_METHOD(Phalcon_Http_Request, isMethod) {
 		if ((Z_TYPE_P(methods) == IS_ARRAY)) {
 			zephir_is_iterable(methods, &_1, &_0, 0, 0);
 			for (
-			  ; zend_hash_get_current_data_ex(_1, (void**) &_2, &_0) == SUCCESS
+			  ; zephir_hash_get_current_data_ex(_1, (void**) &_2, &_0) == SUCCESS
 			  ; zephir_hash_move_forward_ex(_1, &_0)
 			) {
 				ZEPHIR_GET_HVALUE(method, _2);
@@ -1062,7 +1063,7 @@ PHP_METHOD(Phalcon_Http_Request, hasFiles) {
 		numberFiles = 0;
 		zephir_is_iterable(files, &_1, &_0, 0, 0);
 		for (
-		  ; zend_hash_get_current_data_ex(_1, (void**) &_2, &_0) == SUCCESS
+		  ; zephir_hash_get_current_data_ex(_1, (void**) &_2, &_0) == SUCCESS
 		  ; zephir_hash_move_forward_ex(_1, &_0)
 		) {
 			ZEPHIR_GET_HVALUE(file, _2);
@@ -1111,7 +1112,7 @@ PHP_METHOD(Phalcon_Http_Request, getUploadedFiles) {
 		array_init(files);
 		zephir_is_iterable(superFiles, &_1, &_0, 0, 0);
 		for (
-		  ; zend_hash_get_current_data_ex(_1, (void**) &_2, &_0) == SUCCESS
+		  ; zephir_hash_get_current_data_ex(_1, (void**) &_2, &_0) == SUCCESS
 		  ; zephir_hash_move_forward_ex(_1, &_0)
 		) {
 			ZEPHIR_GET_HVALUE(file, _2);
@@ -1159,7 +1160,7 @@ PHP_METHOD(Phalcon_Http_Request, getHeaders) {
 	zephir_get_global(&_SERVER, SS("_SERVER") TSRMLS_CC);
 	zephir_is_iterable(_SERVER, &_1, &_0, 0, 0);
 	for (
-	  ; zend_hash_get_current_data_ex(_1, (void**) &_2, &_0) == SUCCESS
+	  ; zephir_hash_get_current_data_ex(_1, (void**) &_2, &_0) == SUCCESS
 	  ; zephir_hash_move_forward_ex(_1, &_0)
 	) {
 		ZEPHIR_GET_HMKEY(key, _1, _0);
@@ -1249,7 +1250,7 @@ PHP_METHOD(Phalcon_Http_Request, _getQualityHeader) {
 	zephir_call_func_p2(_2, "preg_split", &_1, _0);
 	zephir_is_iterable(_2, &_4, &_3, 0, 0);
 	for (
-	  ; zend_hash_get_current_data_ex(_4, (void**) &_5, &_3) == SUCCESS
+	  ; zephir_hash_get_current_data_ex(_4, (void**) &_5, &_3) == SUCCESS
 	  ; zephir_hash_move_forward_ex(_4, &_3)
 	) {
 		ZEPHIR_GET_HVALUE(part, _5);
@@ -1316,7 +1317,7 @@ PHP_METHOD(Phalcon_Http_Request, _getBestQuality) {
 	ZVAL_STRING(selectedName, "", 1);
 	zephir_is_iterable(qualityParts, &_1, &_0, 0, 0);
 	for (
-	  ; zend_hash_get_current_data_ex(_1, (void**) &_2, &_0) == SUCCESS
+	  ; zephir_hash_get_current_data_ex(_1, (void**) &_2, &_0) == SUCCESS
 	  ; zephir_hash_move_forward_ex(_1, &_0)
 	) {
 		ZEPHIR_GET_HVALUE(accept, _2);
@@ -1522,7 +1523,7 @@ PHP_METHOD(Phalcon_Http_Request, getDigestAuth) {
 		if ((Z_TYPE_P(matches) == IS_ARRAY)) {
 			zephir_is_iterable(matches, &_3, &_2, 0, 0);
 			for (
-			  ; zend_hash_get_current_data_ex(_3, (void**) &_4, &_2) == SUCCESS
+			  ; zephir_hash_get_current_data_ex(_3, (void**) &_4, &_2) == SUCCESS
 			  ; zephir_hash_move_forward_ex(_3, &_2)
 			) {
 				ZEPHIR_GET_HVALUE(match, _4);

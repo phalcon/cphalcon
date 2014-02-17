@@ -502,8 +502,13 @@ int zephir_call_method_params(zval *return_value, zval **return_value_ptr, zval 
  */
 int zephir_call_internal_method_params(zval *return_value, zval **return_value_ptr, zval *object, char *method_name, int method_len, void (* function_ptr)(INTERNAL_FUNCTION_PARAMETERS) TSRMLS_DC, int param_count, ...) {
 
+	zval *current_this;
+	zend_class_entry *current_scope, *ce;
+	zend_class_entry *current_called_scope;
+	zend_class_entry *calling_scope = NULL;
+	zend_class_entry *called_scope = NULL;
 	va_list va;
-	int i;
+	int i, caller_wants_result;
 
 	if (unlikely(Z_TYPE_P(object) != IS_OBJECT)) {
 		php_error_docref(NULL TSRMLS_CC, E_ERROR, "Call to method %s() on a non object", method_name);
@@ -512,7 +517,7 @@ int zephir_call_internal_method_params(zval *return_value, zval **return_value_p
 
 	if (!return_value) {
 		ALLOC_INIT_ZVAL(return_value);
-		//caller_wants_result = 0;
+		caller_wants_result = 0;
 	} else {
 		zephir_check_return_value(return_value);
 	}
@@ -534,11 +539,19 @@ int zephir_call_internal_method_params(zval *return_value, zval **return_value_p
 	}
 	va_end(va);
 
+	//EX(function_state).arguments = zend_vm_stack_top(TSRMLS_C);
 	#if PHP_VERSION_ID < 50500
 	zend_vm_stack_push_nocheck((void*)(zend_uintptr_t) param_count TSRMLS_CC);
 	#else
 	zend_vm_stack_push((void*)(zend_uintptr_t) param_count TSRMLS_CC);
 	#endif
+
+	current_scope = EG(scope);
+	EG(scope) = Z_OBJCE_P(object);
+	current_this = EG(This);
+	current_called_scope = EG(called_scope);
+	//EX(function_state).function = function_ptr;
+	//EX(object) = object;
 
 	function_ptr(param_count, return_value, &return_value, object, 1 TSRMLS_CC);
 
@@ -548,8 +561,20 @@ int zephir_call_internal_method_params(zval *return_value, zval **return_value_p
 	zend_vm_stack_clear_multiple(0 TSRMLS_CC);
 	#endif
 
+	EG(called_scope) = current_called_scope;
+	EG(scope) = current_scope;
+	EG(This) = current_this;
+
 	if (EG(exception)) {
 		zephir_throw_exception_internal(NULL TSRMLS_CC);
+	}
+
+	if (!caller_wants_result) {
+		zval_ptr_dtor(&return_value);
+	}
+
+	if (EG(exception)) {
+		return FAILURE;
 	}
 
 	return SUCCESS;

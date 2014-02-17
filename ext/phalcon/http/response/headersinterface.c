@@ -38,7 +38,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Http_Response_HeadersInterface) {
 
 	ZEPHIR_REGISTER_INTERFACE(Phalcon\\Http\\Response, HeadersInterface, phalcon, http_response_headersinterface, phalcon_http_response_headersinterface_method_entry);
 
-
 	return SUCCESS;
 
 }

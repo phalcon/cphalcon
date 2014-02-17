@@ -73,7 +73,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Cache_Backend_Mongo) {
 	zend_declare_property_null(phalcon_cache_backend_mongo_ce, SL("_collection"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
 	zend_class_implements(phalcon_cache_backend_mongo_ce TSRMLS_CC, 1, phalcon_cache_backendinterface_ce);
-
 	return SUCCESS;
 
 }
@@ -96,7 +95,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Mongo, __construct) {
 	}
 
 
-	if (zephir_is_instance_of(frontend, SL("Phalcon\\Cache\\FrontendInterface") TSRMLS_CC)) {
+	if (!(zephir_is_instance_of(frontend, SL("Phalcon\\Cache\\FrontendInterface") TSRMLS_CC))) {
 		ZEPHIR_THROW_EXCEPTION_STR(spl_ce_InvalidArgumentException, "Parameter 'frontend' must be an instance of 'Phalcon\\Cache\\FrontendInterface'");
 		return;
 	}
@@ -451,7 +450,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Mongo, queryKeys) {
 	zephir_call_func_p1(_4, "iterator_to_array", documents);
 	zephir_is_iterable(_4, &_6, &_5, 0, 0);
 	for (
-	  ; zend_hash_get_current_data_ex(_6, (void**) &_7, &_5) == SUCCESS
+	  ; zephir_hash_get_current_data_ex(_6, (void**) &_7, &_5) == SUCCESS
 	  ; zephir_hash_move_forward_ex(_6, &_5)
 	) {
 		ZEPHIR_GET_HMKEY(index, _6, _5);

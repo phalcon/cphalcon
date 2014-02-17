@@ -39,7 +39,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Acl_ResourceInterface) {
 
 	ZEPHIR_REGISTER_INTERFACE(Phalcon\\Acl, ResourceInterface, phalcon, acl_resourceinterface, phalcon_acl_resourceinterface_method_entry);
 
-
 	return SUCCESS;
 
 }

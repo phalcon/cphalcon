@@ -35,7 +35,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Logger_Formatter_Json) {
 
 	ZEPHIR_REGISTER_CLASS(Phalcon\\Logger\\Formatter, Json, phalcon, logger_formatter_json, NULL, 0);
 
-
 	return SUCCESS;
 
 }

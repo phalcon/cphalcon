@@ -42,7 +42,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Logger_Formatter) {
 
 	ZEPHIR_REGISTER_CLASS(Phalcon\\Logger, Formatter, phalcon, logger_formatter, phalcon_logger_formatter_method_entry, ZEND_ACC_EXPLICIT_ABSTRACT_CLASS);
 
-
 	return SUCCESS;
 
 }
@@ -60,14 +59,14 @@ PHP_METHOD(Phalcon_Logger_Formatter, getTypeString) {
 
 	zephir_fetch_params(0, 1, 0, &type_param);
 
-		type = zephir_get_intval(type_param);
+	type = zephir_get_intval(type_param);
 
 
 	do {
 		if ((type == 7)) {
 			RETURN_STRING("DEBUG", 1);
 		}
-		if ((type == 7)) {
+		if ((type == 3)) {
 			RETURN_STRING("ERROR", 1);
 		}
 		if ((type == 4)) {

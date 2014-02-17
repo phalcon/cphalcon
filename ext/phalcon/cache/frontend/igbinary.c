@@ -79,7 +79,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Cache_Frontend_Igbinary) {
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Cache\\Frontend, Igbinary, phalcon, cache_frontend_igbinary, phalcon_cache_frontend_data_ce, phalcon_cache_frontend_igbinary_method_entry, 0);
 
 	zend_class_implements(phalcon_cache_frontend_igbinary_ce TSRMLS_CC, 1, phalcon_cache_frontendinterface_ce);
-
 	return SUCCESS;
 
 }

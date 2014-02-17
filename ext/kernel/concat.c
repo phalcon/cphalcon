@@ -19,10 +19,10 @@ void zephir_concat_sv(zval **result, const char *op1, zend_uint op1_len, zval *o
 	uint offset = 0, length;
 
 	if (Z_TYPE_P(op2) != IS_STRING) {
-		zend_make_printable_zval(op2, &op2_copy, &use_copy2);
-		if (use_copy2) {
-			op2 = &op2_copy;
-		}
+	   zend_make_printable_zval(op2, &op2_copy, &use_copy2);
+	   if (use_copy2) {
+	       op2 = &op2_copy;
+	   }
 	}
 
 	length = op1_len + Z_STRLEN_P(op2);
@@ -50,11 +50,11 @@ void zephir_concat_sv(zval **result, const char *op1, zend_uint op1_len, zval *o
 	Z_STRLEN_PP(result) = length;
 
 	if (use_copy2) {
-		zval_dtor(op2);
+	   zval_dtor(op2);
 	}
 
 	if (use_copy) {
-		zval_dtor(&result_copy);
+	   zval_dtor(&result_copy);
 	}
 
 }
@@ -66,10 +66,10 @@ void zephir_concat_svs(zval **result, const char *op1, zend_uint op1_len, zval *
 	uint offset = 0, length;
 
 	if (Z_TYPE_P(op2) != IS_STRING) {
-		zend_make_printable_zval(op2, &op2_copy, &use_copy2);
-		if (use_copy2) {
-			op2 = &op2_copy;
-		}
+	   zend_make_printable_zval(op2, &op2_copy, &use_copy2);
+	   if (use_copy2) {
+	       op2 = &op2_copy;
+	   }
 	}
 
 	length = op1_len + Z_STRLEN_P(op2) + op3_len;
@@ -98,11 +98,11 @@ void zephir_concat_svs(zval **result, const char *op1, zend_uint op1_len, zval *
 	Z_STRLEN_PP(result) = length;
 
 	if (use_copy2) {
-		zval_dtor(op2);
+	   zval_dtor(op2);
 	}
 
 	if (use_copy) {
-		zval_dtor(&result_copy);
+	   zval_dtor(&result_copy);
 	}
 
 }
@@ -114,17 +114,17 @@ void zephir_concat_svsv(zval **result, const char *op1, zend_uint op1_len, zval 
 	uint offset = 0, length;
 
 	if (Z_TYPE_P(op2) != IS_STRING) {
-		zend_make_printable_zval(op2, &op2_copy, &use_copy2);
-		if (use_copy2) {
-			op2 = &op2_copy;
-		}
+	   zend_make_printable_zval(op2, &op2_copy, &use_copy2);
+	   if (use_copy2) {
+	       op2 = &op2_copy;
+	   }
 	}
 
 	if (Z_TYPE_P(op4) != IS_STRING) {
-		zend_make_printable_zval(op4, &op4_copy, &use_copy4);
-		if (use_copy4) {
-			op4 = &op4_copy;
-		}
+	   zend_make_printable_zval(op4, &op4_copy, &use_copy4);
+	   if (use_copy4) {
+	       op4 = &op4_copy;
+	   }
 	}
 
 	length = op1_len + Z_STRLEN_P(op2) + op3_len + Z_STRLEN_P(op4);
@@ -154,15 +154,15 @@ void zephir_concat_svsv(zval **result, const char *op1, zend_uint op1_len, zval 
 	Z_STRLEN_PP(result) = length;
 
 	if (use_copy2) {
-		zval_dtor(op2);
+	   zval_dtor(op2);
 	}
 
 	if (use_copy4) {
-		zval_dtor(op4);
+	   zval_dtor(op4);
 	}
 
 	if (use_copy) {
-		zval_dtor(&result_copy);
+	   zval_dtor(&result_copy);
 	}
 
 }
@@ -174,17 +174,17 @@ void zephir_concat_svsvs(zval **result, const char *op1, zend_uint op1_len, zval
 	uint offset = 0, length;
 
 	if (Z_TYPE_P(op2) != IS_STRING) {
-		zend_make_printable_zval(op2, &op2_copy, &use_copy2);
-		if (use_copy2) {
-			op2 = &op2_copy;
-		}
+	   zend_make_printable_zval(op2, &op2_copy, &use_copy2);
+	   if (use_copy2) {
+	       op2 = &op2_copy;
+	   }
 	}
 
 	if (Z_TYPE_P(op4) != IS_STRING) {
-		zend_make_printable_zval(op4, &op4_copy, &use_copy4);
-		if (use_copy4) {
-			op4 = &op4_copy;
-		}
+	   zend_make_printable_zval(op4, &op4_copy, &use_copy4);
+	   if (use_copy4) {
+	       op4 = &op4_copy;
+	   }
 	}
 
 	length = op1_len + Z_STRLEN_P(op2) + op3_len + Z_STRLEN_P(op4) + op5_len;
@@ -215,15 +215,15 @@ void zephir_concat_svsvs(zval **result, const char *op1, zend_uint op1_len, zval
 	Z_STRLEN_PP(result) = length;
 
 	if (use_copy2) {
-		zval_dtor(op2);
+	   zval_dtor(op2);
 	}
 
 	if (use_copy4) {
-		zval_dtor(op4);
+	   zval_dtor(op4);
 	}
 
 	if (use_copy) {
-		zval_dtor(&result_copy);
+	   zval_dtor(&result_copy);
 	}
 
 }
@@ -235,31 +235,31 @@ void zephir_concat_svsvssvsvs(zval **result, const char *op1, zend_uint op1_len,
 	uint offset = 0, length;
 
 	if (Z_TYPE_P(op2) != IS_STRING) {
-		zend_make_printable_zval(op2, &op2_copy, &use_copy2);
-		if (use_copy2) {
-			op2 = &op2_copy;
-		}
+	   zend_make_printable_zval(op2, &op2_copy, &use_copy2);
+	   if (use_copy2) {
+	       op2 = &op2_copy;
+	   }
 	}
 
 	if (Z_TYPE_P(op4) != IS_STRING) {
-		zend_make_printable_zval(op4, &op4_copy, &use_copy4);
-		if (use_copy4) {
-			op4 = &op4_copy;
-		}
+	   zend_make_printable_zval(op4, &op4_copy, &use_copy4);
+	   if (use_copy4) {
+	       op4 = &op4_copy;
+	   }
 	}
 
 	if (Z_TYPE_P(op7) != IS_STRING) {
-		zend_make_printable_zval(op7, &op7_copy, &use_copy7);
-		if (use_copy7) {
-			op7 = &op7_copy;
-		}
+	   zend_make_printable_zval(op7, &op7_copy, &use_copy7);
+	   if (use_copy7) {
+	       op7 = &op7_copy;
+	   }
 	}
 
 	if (Z_TYPE_P(op9) != IS_STRING) {
-		zend_make_printable_zval(op9, &op9_copy, &use_copy9);
-		if (use_copy9) {
-			op9 = &op9_copy;
-		}
+	   zend_make_printable_zval(op9, &op9_copy, &use_copy9);
+	   if (use_copy9) {
+	       op9 = &op9_copy;
+	   }
 	}
 
 	length = op1_len + Z_STRLEN_P(op2) + op3_len + Z_STRLEN_P(op4) + op5_len + op6_len + Z_STRLEN_P(op7) + op8_len + Z_STRLEN_P(op9) + op10_len;
@@ -295,23 +295,23 @@ void zephir_concat_svsvssvsvs(zval **result, const char *op1, zend_uint op1_len,
 	Z_STRLEN_PP(result) = length;
 
 	if (use_copy2) {
-		zval_dtor(op2);
+	   zval_dtor(op2);
 	}
 
 	if (use_copy4) {
-		zval_dtor(op4);
+	   zval_dtor(op4);
 	}
 
 	if (use_copy7) {
-		zval_dtor(op7);
+	   zval_dtor(op7);
 	}
 
 	if (use_copy9) {
-		zval_dtor(op9);
+	   zval_dtor(op9);
 	}
 
 	if (use_copy) {
-		zval_dtor(&result_copy);
+	   zval_dtor(&result_copy);
 	}
 
 }
@@ -323,24 +323,24 @@ void zephir_concat_svsvsv(zval **result, const char *op1, zend_uint op1_len, zva
 	uint offset = 0, length;
 
 	if (Z_TYPE_P(op2) != IS_STRING) {
-		zend_make_printable_zval(op2, &op2_copy, &use_copy2);
-		if (use_copy2) {
-			op2 = &op2_copy;
-		}
+	   zend_make_printable_zval(op2, &op2_copy, &use_copy2);
+	   if (use_copy2) {
+	       op2 = &op2_copy;
+	   }
 	}
 
 	if (Z_TYPE_P(op4) != IS_STRING) {
-		zend_make_printable_zval(op4, &op4_copy, &use_copy4);
-		if (use_copy4) {
-			op4 = &op4_copy;
-		}
+	   zend_make_printable_zval(op4, &op4_copy, &use_copy4);
+	   if (use_copy4) {
+	       op4 = &op4_copy;
+	   }
 	}
 
 	if (Z_TYPE_P(op6) != IS_STRING) {
-		zend_make_printable_zval(op6, &op6_copy, &use_copy6);
-		if (use_copy6) {
-			op6 = &op6_copy;
-		}
+	   zend_make_printable_zval(op6, &op6_copy, &use_copy6);
+	   if (use_copy6) {
+	       op6 = &op6_copy;
+	   }
 	}
 
 	length = op1_len + Z_STRLEN_P(op2) + op3_len + Z_STRLEN_P(op4) + op5_len + Z_STRLEN_P(op6);
@@ -372,19 +372,19 @@ void zephir_concat_svsvsv(zval **result, const char *op1, zend_uint op1_len, zva
 	Z_STRLEN_PP(result) = length;
 
 	if (use_copy2) {
-		zval_dtor(op2);
+	   zval_dtor(op2);
 	}
 
 	if (use_copy4) {
-		zval_dtor(op4);
+	   zval_dtor(op4);
 	}
 
 	if (use_copy6) {
-		zval_dtor(op6);
+	   zval_dtor(op6);
 	}
 
 	if (use_copy) {
-		zval_dtor(&result_copy);
+	   zval_dtor(&result_copy);
 	}
 
 }
@@ -396,24 +396,24 @@ void zephir_concat_svsvsvs(zval **result, const char *op1, zend_uint op1_len, zv
 	uint offset = 0, length;
 
 	if (Z_TYPE_P(op2) != IS_STRING) {
-		zend_make_printable_zval(op2, &op2_copy, &use_copy2);
-		if (use_copy2) {
-			op2 = &op2_copy;
-		}
+	   zend_make_printable_zval(op2, &op2_copy, &use_copy2);
+	   if (use_copy2) {
+	       op2 = &op2_copy;
+	   }
 	}
 
 	if (Z_TYPE_P(op4) != IS_STRING) {
-		zend_make_printable_zval(op4, &op4_copy, &use_copy4);
-		if (use_copy4) {
-			op4 = &op4_copy;
-		}
+	   zend_make_printable_zval(op4, &op4_copy, &use_copy4);
+	   if (use_copy4) {
+	       op4 = &op4_copy;
+	   }
 	}
 
 	if (Z_TYPE_P(op6) != IS_STRING) {
-		zend_make_printable_zval(op6, &op6_copy, &use_copy6);
-		if (use_copy6) {
-			op6 = &op6_copy;
-		}
+	   zend_make_printable_zval(op6, &op6_copy, &use_copy6);
+	   if (use_copy6) {
+	       op6 = &op6_copy;
+	   }
 	}
 
 	length = op1_len + Z_STRLEN_P(op2) + op3_len + Z_STRLEN_P(op4) + op5_len + Z_STRLEN_P(op6) + op7_len;
@@ -446,19 +446,19 @@ void zephir_concat_svsvsvs(zval **result, const char *op1, zend_uint op1_len, zv
 	Z_STRLEN_PP(result) = length;
 
 	if (use_copy2) {
-		zval_dtor(op2);
+	   zval_dtor(op2);
 	}
 
 	if (use_copy4) {
-		zval_dtor(op4);
+	   zval_dtor(op4);
 	}
 
 	if (use_copy6) {
-		zval_dtor(op6);
+	   zval_dtor(op6);
 	}
 
 	if (use_copy) {
-		zval_dtor(&result_copy);
+	   zval_dtor(&result_copy);
 	}
 
 }
@@ -470,31 +470,31 @@ void zephir_concat_svsvsvsv(zval **result, const char *op1, zend_uint op1_len, z
 	uint offset = 0, length;
 
 	if (Z_TYPE_P(op2) != IS_STRING) {
-		zend_make_printable_zval(op2, &op2_copy, &use_copy2);
-		if (use_copy2) {
-			op2 = &op2_copy;
-		}
+	   zend_make_printable_zval(op2, &op2_copy, &use_copy2);
+	   if (use_copy2) {
+	       op2 = &op2_copy;
+	   }
 	}
 
 	if (Z_TYPE_P(op4) != IS_STRING) {
-		zend_make_printable_zval(op4, &op4_copy, &use_copy4);
-		if (use_copy4) {
-			op4 = &op4_copy;
-		}
+	   zend_make_printable_zval(op4, &op4_copy, &use_copy4);
+	   if (use_copy4) {
+	       op4 = &op4_copy;
+	   }
 	}
 
 	if (Z_TYPE_P(op6) != IS_STRING) {
-		zend_make_printable_zval(op6, &op6_copy, &use_copy6);
-		if (use_copy6) {
-			op6 = &op6_copy;
-		}
+	   zend_make_printable_zval(op6, &op6_copy, &use_copy6);
+	   if (use_copy6) {
+	       op6 = &op6_copy;
+	   }
 	}
 
 	if (Z_TYPE_P(op8) != IS_STRING) {
-		zend_make_printable_zval(op8, &op8_copy, &use_copy8);
-		if (use_copy8) {
-			op8 = &op8_copy;
-		}
+	   zend_make_printable_zval(op8, &op8_copy, &use_copy8);
+	   if (use_copy8) {
+	       op8 = &op8_copy;
+	   }
 	}
 
 	length = op1_len + Z_STRLEN_P(op2) + op3_len + Z_STRLEN_P(op4) + op5_len + Z_STRLEN_P(op6) + op7_len + Z_STRLEN_P(op8);
@@ -528,23 +528,23 @@ void zephir_concat_svsvsvsv(zval **result, const char *op1, zend_uint op1_len, z
 	Z_STRLEN_PP(result) = length;
 
 	if (use_copy2) {
-		zval_dtor(op2);
+	   zval_dtor(op2);
 	}
 
 	if (use_copy4) {
-		zval_dtor(op4);
+	   zval_dtor(op4);
 	}
 
 	if (use_copy6) {
-		zval_dtor(op6);
+	   zval_dtor(op6);
 	}
 
 	if (use_copy8) {
-		zval_dtor(op8);
+	   zval_dtor(op8);
 	}
 
 	if (use_copy) {
-		zval_dtor(&result_copy);
+	   zval_dtor(&result_copy);
 	}
 
 }
@@ -556,31 +556,31 @@ void zephir_concat_svsvsvsvs(zval **result, const char *op1, zend_uint op1_len, 
 	uint offset = 0, length;
 
 	if (Z_TYPE_P(op2) != IS_STRING) {
-		zend_make_printable_zval(op2, &op2_copy, &use_copy2);
-		if (use_copy2) {
-			op2 = &op2_copy;
-		}
+	   zend_make_printable_zval(op2, &op2_copy, &use_copy2);
+	   if (use_copy2) {
+	       op2 = &op2_copy;
+	   }
 	}
 
 	if (Z_TYPE_P(op4) != IS_STRING) {
-		zend_make_printable_zval(op4, &op4_copy, &use_copy4);
-		if (use_copy4) {
-			op4 = &op4_copy;
-		}
+	   zend_make_printable_zval(op4, &op4_copy, &use_copy4);
+	   if (use_copy4) {
+	       op4 = &op4_copy;
+	   }
 	}
 
 	if (Z_TYPE_P(op6) != IS_STRING) {
-		zend_make_printable_zval(op6, &op6_copy, &use_copy6);
-		if (use_copy6) {
-			op6 = &op6_copy;
-		}
+	   zend_make_printable_zval(op6, &op6_copy, &use_copy6);
+	   if (use_copy6) {
+	       op6 = &op6_copy;
+	   }
 	}
 
 	if (Z_TYPE_P(op8) != IS_STRING) {
-		zend_make_printable_zval(op8, &op8_copy, &use_copy8);
-		if (use_copy8) {
-			op8 = &op8_copy;
-		}
+	   zend_make_printable_zval(op8, &op8_copy, &use_copy8);
+	   if (use_copy8) {
+	       op8 = &op8_copy;
+	   }
 	}
 
 	length = op1_len + Z_STRLEN_P(op2) + op3_len + Z_STRLEN_P(op4) + op5_len + Z_STRLEN_P(op6) + op7_len + Z_STRLEN_P(op8) + op9_len;
@@ -615,23 +615,23 @@ void zephir_concat_svsvsvsvs(zval **result, const char *op1, zend_uint op1_len, 
 	Z_STRLEN_PP(result) = length;
 
 	if (use_copy2) {
-		zval_dtor(op2);
+	   zval_dtor(op2);
 	}
 
 	if (use_copy4) {
-		zval_dtor(op4);
+	   zval_dtor(op4);
 	}
 
 	if (use_copy6) {
-		zval_dtor(op6);
+	   zval_dtor(op6);
 	}
 
 	if (use_copy8) {
-		zval_dtor(op8);
+	   zval_dtor(op8);
 	}
 
 	if (use_copy) {
-		zval_dtor(&result_copy);
+	   zval_dtor(&result_copy);
 	}
 
 }
@@ -643,17 +643,17 @@ void zephir_concat_svv(zval **result, const char *op1, zend_uint op1_len, zval *
 	uint offset = 0, length;
 
 	if (Z_TYPE_P(op2) != IS_STRING) {
-		zend_make_printable_zval(op2, &op2_copy, &use_copy2);
-		if (use_copy2) {
-			op2 = &op2_copy;
-		}
+	   zend_make_printable_zval(op2, &op2_copy, &use_copy2);
+	   if (use_copy2) {
+	       op2 = &op2_copy;
+	   }
 	}
 
 	if (Z_TYPE_P(op3) != IS_STRING) {
-		zend_make_printable_zval(op3, &op3_copy, &use_copy3);
-		if (use_copy3) {
-			op3 = &op3_copy;
-		}
+	   zend_make_printable_zval(op3, &op3_copy, &use_copy3);
+	   if (use_copy3) {
+	       op3 = &op3_copy;
+	   }
 	}
 
 	length = op1_len + Z_STRLEN_P(op2) + Z_STRLEN_P(op3);
@@ -682,15 +682,15 @@ void zephir_concat_svv(zval **result, const char *op1, zend_uint op1_len, zval *
 	Z_STRLEN_PP(result) = length;
 
 	if (use_copy2) {
-		zval_dtor(op2);
+	   zval_dtor(op2);
 	}
 
 	if (use_copy3) {
-		zval_dtor(op3);
+	   zval_dtor(op3);
 	}
 
 	if (use_copy) {
-		zval_dtor(&result_copy);
+	   zval_dtor(&result_copy);
 	}
 
 }
@@ -702,17 +702,17 @@ void zephir_concat_svvs(zval **result, const char *op1, zend_uint op1_len, zval 
 	uint offset = 0, length;
 
 	if (Z_TYPE_P(op2) != IS_STRING) {
-		zend_make_printable_zval(op2, &op2_copy, &use_copy2);
-		if (use_copy2) {
-			op2 = &op2_copy;
-		}
+	   zend_make_printable_zval(op2, &op2_copy, &use_copy2);
+	   if (use_copy2) {
+	       op2 = &op2_copy;
+	   }
 	}
 
 	if (Z_TYPE_P(op3) != IS_STRING) {
-		zend_make_printable_zval(op3, &op3_copy, &use_copy3);
-		if (use_copy3) {
-			op3 = &op3_copy;
-		}
+	   zend_make_printable_zval(op3, &op3_copy, &use_copy3);
+	   if (use_copy3) {
+	       op3 = &op3_copy;
+	   }
 	}
 
 	length = op1_len + Z_STRLEN_P(op2) + Z_STRLEN_P(op3) + op4_len;
@@ -742,15 +742,15 @@ void zephir_concat_svvs(zval **result, const char *op1, zend_uint op1_len, zval 
 	Z_STRLEN_PP(result) = length;
 
 	if (use_copy2) {
-		zval_dtor(op2);
+	   zval_dtor(op2);
 	}
 
 	if (use_copy3) {
-		zval_dtor(op3);
+	   zval_dtor(op3);
 	}
 
 	if (use_copy) {
-		zval_dtor(&result_copy);
+	   zval_dtor(&result_copy);
 	}
 
 }
@@ -762,10 +762,10 @@ void zephir_concat_vs(zval **result, zval *op1, const char *op2, zend_uint op2_l
 	uint offset = 0, length;
 
 	if (Z_TYPE_P(op1) != IS_STRING) {
-		zend_make_printable_zval(op1, &op1_copy, &use_copy1);
-		if (use_copy1) {
-			op1 = &op1_copy;
-		}
+	   zend_make_printable_zval(op1, &op1_copy, &use_copy1);
+	   if (use_copy1) {
+	       op1 = &op1_copy;
+	   }
 	}
 
 	length = Z_STRLEN_P(op1) + op2_len;
@@ -793,11 +793,11 @@ void zephir_concat_vs(zval **result, zval *op1, const char *op2, zend_uint op2_l
 	Z_STRLEN_PP(result) = length;
 
 	if (use_copy1) {
-		zval_dtor(op1);
+	   zval_dtor(op1);
 	}
 
 	if (use_copy) {
-		zval_dtor(&result_copy);
+	   zval_dtor(&result_copy);
 	}
 
 }
@@ -809,17 +809,17 @@ void zephir_concat_vsv(zval **result, zval *op1, const char *op2, zend_uint op2_
 	uint offset = 0, length;
 
 	if (Z_TYPE_P(op1) != IS_STRING) {
-		zend_make_printable_zval(op1, &op1_copy, &use_copy1);
-		if (use_copy1) {
-			op1 = &op1_copy;
-		}
+	   zend_make_printable_zval(op1, &op1_copy, &use_copy1);
+	   if (use_copy1) {
+	       op1 = &op1_copy;
+	   }
 	}
 
 	if (Z_TYPE_P(op3) != IS_STRING) {
-		zend_make_printable_zval(op3, &op3_copy, &use_copy3);
-		if (use_copy3) {
-			op3 = &op3_copy;
-		}
+	   zend_make_printable_zval(op3, &op3_copy, &use_copy3);
+	   if (use_copy3) {
+	       op3 = &op3_copy;
+	   }
 	}
 
 	length = Z_STRLEN_P(op1) + op2_len + Z_STRLEN_P(op3);
@@ -848,15 +848,15 @@ void zephir_concat_vsv(zval **result, zval *op1, const char *op2, zend_uint op2_
 	Z_STRLEN_PP(result) = length;
 
 	if (use_copy1) {
-		zval_dtor(op1);
+	   zval_dtor(op1);
 	}
 
 	if (use_copy3) {
-		zval_dtor(op3);
+	   zval_dtor(op3);
 	}
 
 	if (use_copy) {
-		zval_dtor(&result_copy);
+	   zval_dtor(&result_copy);
 	}
 
 }
@@ -868,17 +868,17 @@ void zephir_concat_vsvs(zval **result, zval *op1, const char *op2, zend_uint op2
 	uint offset = 0, length;
 
 	if (Z_TYPE_P(op1) != IS_STRING) {
-		zend_make_printable_zval(op1, &op1_copy, &use_copy1);
-		if (use_copy1) {
-			op1 = &op1_copy;
-		}
+	   zend_make_printable_zval(op1, &op1_copy, &use_copy1);
+	   if (use_copy1) {
+	       op1 = &op1_copy;
+	   }
 	}
 
 	if (Z_TYPE_P(op3) != IS_STRING) {
-		zend_make_printable_zval(op3, &op3_copy, &use_copy3);
-		if (use_copy3) {
-			op3 = &op3_copy;
-		}
+	   zend_make_printable_zval(op3, &op3_copy, &use_copy3);
+	   if (use_copy3) {
+	       op3 = &op3_copy;
+	   }
 	}
 
 	length = Z_STRLEN_P(op1) + op2_len + Z_STRLEN_P(op3) + op4_len;
@@ -908,15 +908,15 @@ void zephir_concat_vsvs(zval **result, zval *op1, const char *op2, zend_uint op2
 	Z_STRLEN_PP(result) = length;
 
 	if (use_copy1) {
-		zval_dtor(op1);
+	   zval_dtor(op1);
 	}
 
 	if (use_copy3) {
-		zval_dtor(op3);
+	   zval_dtor(op3);
 	}
 
 	if (use_copy) {
-		zval_dtor(&result_copy);
+	   zval_dtor(&result_copy);
 	}
 
 }
@@ -928,24 +928,24 @@ void zephir_concat_vsvsv(zval **result, zval *op1, const char *op2, zend_uint op
 	uint offset = 0, length;
 
 	if (Z_TYPE_P(op1) != IS_STRING) {
-		zend_make_printable_zval(op1, &op1_copy, &use_copy1);
-		if (use_copy1) {
-			op1 = &op1_copy;
-		}
+	   zend_make_printable_zval(op1, &op1_copy, &use_copy1);
+	   if (use_copy1) {
+	       op1 = &op1_copy;
+	   }
 	}
 
 	if (Z_TYPE_P(op3) != IS_STRING) {
-		zend_make_printable_zval(op3, &op3_copy, &use_copy3);
-		if (use_copy3) {
-			op3 = &op3_copy;
-		}
+	   zend_make_printable_zval(op3, &op3_copy, &use_copy3);
+	   if (use_copy3) {
+	       op3 = &op3_copy;
+	   }
 	}
 
 	if (Z_TYPE_P(op5) != IS_STRING) {
-		zend_make_printable_zval(op5, &op5_copy, &use_copy5);
-		if (use_copy5) {
-			op5 = &op5_copy;
-		}
+	   zend_make_printable_zval(op5, &op5_copy, &use_copy5);
+	   if (use_copy5) {
+	       op5 = &op5_copy;
+	   }
 	}
 
 	length = Z_STRLEN_P(op1) + op2_len + Z_STRLEN_P(op3) + op4_len + Z_STRLEN_P(op5);
@@ -976,19 +976,19 @@ void zephir_concat_vsvsv(zval **result, zval *op1, const char *op2, zend_uint op
 	Z_STRLEN_PP(result) = length;
 
 	if (use_copy1) {
-		zval_dtor(op1);
+	   zval_dtor(op1);
 	}
 
 	if (use_copy3) {
-		zval_dtor(op3);
+	   zval_dtor(op3);
 	}
 
 	if (use_copy5) {
-		zval_dtor(op5);
+	   zval_dtor(op5);
 	}
 
 	if (use_copy) {
-		zval_dtor(&result_copy);
+	   zval_dtor(&result_copy);
 	}
 
 }
@@ -1000,24 +1000,24 @@ void zephir_concat_vsvsvs(zval **result, zval *op1, const char *op2, zend_uint o
 	uint offset = 0, length;
 
 	if (Z_TYPE_P(op1) != IS_STRING) {
-		zend_make_printable_zval(op1, &op1_copy, &use_copy1);
-		if (use_copy1) {
-			op1 = &op1_copy;
-		}
+	   zend_make_printable_zval(op1, &op1_copy, &use_copy1);
+	   if (use_copy1) {
+	       op1 = &op1_copy;
+	   }
 	}
 
 	if (Z_TYPE_P(op3) != IS_STRING) {
-		zend_make_printable_zval(op3, &op3_copy, &use_copy3);
-		if (use_copy3) {
-			op3 = &op3_copy;
-		}
+	   zend_make_printable_zval(op3, &op3_copy, &use_copy3);
+	   if (use_copy3) {
+	       op3 = &op3_copy;
+	   }
 	}
 
 	if (Z_TYPE_P(op5) != IS_STRING) {
-		zend_make_printable_zval(op5, &op5_copy, &use_copy5);
-		if (use_copy5) {
-			op5 = &op5_copy;
-		}
+	   zend_make_printable_zval(op5, &op5_copy, &use_copy5);
+	   if (use_copy5) {
+	       op5 = &op5_copy;
+	   }
 	}
 
 	length = Z_STRLEN_P(op1) + op2_len + Z_STRLEN_P(op3) + op4_len + Z_STRLEN_P(op5) + op6_len;
@@ -1049,19 +1049,19 @@ void zephir_concat_vsvsvs(zval **result, zval *op1, const char *op2, zend_uint o
 	Z_STRLEN_PP(result) = length;
 
 	if (use_copy1) {
-		zval_dtor(op1);
+	   zval_dtor(op1);
 	}
 
 	if (use_copy3) {
-		zval_dtor(op3);
+	   zval_dtor(op3);
 	}
 
 	if (use_copy5) {
-		zval_dtor(op5);
+	   zval_dtor(op5);
 	}
 
 	if (use_copy) {
-		zval_dtor(&result_copy);
+	   zval_dtor(&result_copy);
 	}
 
 }
@@ -1073,31 +1073,31 @@ void zephir_concat_vsvsvsv(zval **result, zval *op1, const char *op2, zend_uint 
 	uint offset = 0, length;
 
 	if (Z_TYPE_P(op1) != IS_STRING) {
-		zend_make_printable_zval(op1, &op1_copy, &use_copy1);
-		if (use_copy1) {
-			op1 = &op1_copy;
-		}
+	   zend_make_printable_zval(op1, &op1_copy, &use_copy1);
+	   if (use_copy1) {
+	       op1 = &op1_copy;
+	   }
 	}
 
 	if (Z_TYPE_P(op3) != IS_STRING) {
-		zend_make_printable_zval(op3, &op3_copy, &use_copy3);
-		if (use_copy3) {
-			op3 = &op3_copy;
-		}
+	   zend_make_printable_zval(op3, &op3_copy, &use_copy3);
+	   if (use_copy3) {
+	       op3 = &op3_copy;
+	   }
 	}
 
 	if (Z_TYPE_P(op5) != IS_STRING) {
-		zend_make_printable_zval(op5, &op5_copy, &use_copy5);
-		if (use_copy5) {
-			op5 = &op5_copy;
-		}
+	   zend_make_printable_zval(op5, &op5_copy, &use_copy5);
+	   if (use_copy5) {
+	       op5 = &op5_copy;
+	   }
 	}
 
 	if (Z_TYPE_P(op7) != IS_STRING) {
-		zend_make_printable_zval(op7, &op7_copy, &use_copy7);
-		if (use_copy7) {
-			op7 = &op7_copy;
-		}
+	   zend_make_printable_zval(op7, &op7_copy, &use_copy7);
+	   if (use_copy7) {
+	       op7 = &op7_copy;
+	   }
 	}
 
 	length = Z_STRLEN_P(op1) + op2_len + Z_STRLEN_P(op3) + op4_len + Z_STRLEN_P(op5) + op6_len + Z_STRLEN_P(op7);
@@ -1130,23 +1130,23 @@ void zephir_concat_vsvsvsv(zval **result, zval *op1, const char *op2, zend_uint 
 	Z_STRLEN_PP(result) = length;
 
 	if (use_copy1) {
-		zval_dtor(op1);
+	   zval_dtor(op1);
 	}
 
 	if (use_copy3) {
-		zval_dtor(op3);
+	   zval_dtor(op3);
 	}
 
 	if (use_copy5) {
-		zval_dtor(op5);
+	   zval_dtor(op5);
 	}
 
 	if (use_copy7) {
-		zval_dtor(op7);
+	   zval_dtor(op7);
 	}
 
 	if (use_copy) {
-		zval_dtor(&result_copy);
+	   zval_dtor(&result_copy);
 	}
 
 }
@@ -1158,24 +1158,24 @@ void zephir_concat_vsvv(zval **result, zval *op1, const char *op2, zend_uint op2
 	uint offset = 0, length;
 
 	if (Z_TYPE_P(op1) != IS_STRING) {
-		zend_make_printable_zval(op1, &op1_copy, &use_copy1);
-		if (use_copy1) {
-			op1 = &op1_copy;
-		}
+	   zend_make_printable_zval(op1, &op1_copy, &use_copy1);
+	   if (use_copy1) {
+	       op1 = &op1_copy;
+	   }
 	}
 
 	if (Z_TYPE_P(op3) != IS_STRING) {
-		zend_make_printable_zval(op3, &op3_copy, &use_copy3);
-		if (use_copy3) {
-			op3 = &op3_copy;
-		}
+	   zend_make_printable_zval(op3, &op3_copy, &use_copy3);
+	   if (use_copy3) {
+	       op3 = &op3_copy;
+	   }
 	}
 
 	if (Z_TYPE_P(op4) != IS_STRING) {
-		zend_make_printable_zval(op4, &op4_copy, &use_copy4);
-		if (use_copy4) {
-			op4 = &op4_copy;
-		}
+	   zend_make_printable_zval(op4, &op4_copy, &use_copy4);
+	   if (use_copy4) {
+	       op4 = &op4_copy;
+	   }
 	}
 
 	length = Z_STRLEN_P(op1) + op2_len + Z_STRLEN_P(op3) + Z_STRLEN_P(op4);
@@ -1205,19 +1205,19 @@ void zephir_concat_vsvv(zval **result, zval *op1, const char *op2, zend_uint op2
 	Z_STRLEN_PP(result) = length;
 
 	if (use_copy1) {
-		zval_dtor(op1);
+	   zval_dtor(op1);
 	}
 
 	if (use_copy3) {
-		zval_dtor(op3);
+	   zval_dtor(op3);
 	}
 
 	if (use_copy4) {
-		zval_dtor(op4);
+	   zval_dtor(op4);
 	}
 
 	if (use_copy) {
-		zval_dtor(&result_copy);
+	   zval_dtor(&result_copy);
 	}
 
 }
@@ -1229,31 +1229,31 @@ void zephir_concat_vsvvv(zval **result, zval *op1, const char *op2, zend_uint op
 	uint offset = 0, length;
 
 	if (Z_TYPE_P(op1) != IS_STRING) {
-		zend_make_printable_zval(op1, &op1_copy, &use_copy1);
-		if (use_copy1) {
-			op1 = &op1_copy;
-		}
+	   zend_make_printable_zval(op1, &op1_copy, &use_copy1);
+	   if (use_copy1) {
+	       op1 = &op1_copy;
+	   }
 	}
 
 	if (Z_TYPE_P(op3) != IS_STRING) {
-		zend_make_printable_zval(op3, &op3_copy, &use_copy3);
-		if (use_copy3) {
-			op3 = &op3_copy;
-		}
+	   zend_make_printable_zval(op3, &op3_copy, &use_copy3);
+	   if (use_copy3) {
+	       op3 = &op3_copy;
+	   }
 	}
 
 	if (Z_TYPE_P(op4) != IS_STRING) {
-		zend_make_printable_zval(op4, &op4_copy, &use_copy4);
-		if (use_copy4) {
-			op4 = &op4_copy;
-		}
+	   zend_make_printable_zval(op4, &op4_copy, &use_copy4);
+	   if (use_copy4) {
+	       op4 = &op4_copy;
+	   }
 	}
 
 	if (Z_TYPE_P(op5) != IS_STRING) {
-		zend_make_printable_zval(op5, &op5_copy, &use_copy5);
-		if (use_copy5) {
-			op5 = &op5_copy;
-		}
+	   zend_make_printable_zval(op5, &op5_copy, &use_copy5);
+	   if (use_copy5) {
+	       op5 = &op5_copy;
+	   }
 	}
 
 	length = Z_STRLEN_P(op1) + op2_len + Z_STRLEN_P(op3) + Z_STRLEN_P(op4) + Z_STRLEN_P(op5);
@@ -1284,23 +1284,23 @@ void zephir_concat_vsvvv(zval **result, zval *op1, const char *op2, zend_uint op
 	Z_STRLEN_PP(result) = length;
 
 	if (use_copy1) {
-		zval_dtor(op1);
+	   zval_dtor(op1);
 	}
 
 	if (use_copy3) {
-		zval_dtor(op3);
+	   zval_dtor(op3);
 	}
 
 	if (use_copy4) {
-		zval_dtor(op4);
+	   zval_dtor(op4);
 	}
 
 	if (use_copy5) {
-		zval_dtor(op5);
+	   zval_dtor(op5);
 	}
 
 	if (use_copy) {
-		zval_dtor(&result_copy);
+	   zval_dtor(&result_copy);
 	}
 
 }
@@ -1312,17 +1312,17 @@ void zephir_concat_vv(zval **result, zval *op1, zval *op2, int self_var TSRMLS_D
 	uint offset = 0, length;
 
 	if (Z_TYPE_P(op1) != IS_STRING) {
-		zend_make_printable_zval(op1, &op1_copy, &use_copy1);
-		if (use_copy1) {
-			op1 = &op1_copy;
-		}
+	   zend_make_printable_zval(op1, &op1_copy, &use_copy1);
+	   if (use_copy1) {
+	       op1 = &op1_copy;
+	   }
 	}
 
 	if (Z_TYPE_P(op2) != IS_STRING) {
-		zend_make_printable_zval(op2, &op2_copy, &use_copy2);
-		if (use_copy2) {
-			op2 = &op2_copy;
-		}
+	   zend_make_printable_zval(op2, &op2_copy, &use_copy2);
+	   if (use_copy2) {
+	       op2 = &op2_copy;
+	   }
 	}
 
 	length = Z_STRLEN_P(op1) + Z_STRLEN_P(op2);
@@ -1350,15 +1350,15 @@ void zephir_concat_vv(zval **result, zval *op1, zval *op2, int self_var TSRMLS_D
 	Z_STRLEN_PP(result) = length;
 
 	if (use_copy1) {
-		zval_dtor(op1);
+	   zval_dtor(op1);
 	}
 
 	if (use_copy2) {
-		zval_dtor(op2);
+	   zval_dtor(op2);
 	}
 
 	if (use_copy) {
-		zval_dtor(&result_copy);
+	   zval_dtor(&result_copy);
 	}
 
 }
@@ -1370,17 +1370,17 @@ void zephir_concat_vvs(zval **result, zval *op1, zval *op2, const char *op3, zen
 	uint offset = 0, length;
 
 	if (Z_TYPE_P(op1) != IS_STRING) {
-		zend_make_printable_zval(op1, &op1_copy, &use_copy1);
-		if (use_copy1) {
-			op1 = &op1_copy;
-		}
+	   zend_make_printable_zval(op1, &op1_copy, &use_copy1);
+	   if (use_copy1) {
+	       op1 = &op1_copy;
+	   }
 	}
 
 	if (Z_TYPE_P(op2) != IS_STRING) {
-		zend_make_printable_zval(op2, &op2_copy, &use_copy2);
-		if (use_copy2) {
-			op2 = &op2_copy;
-		}
+	   zend_make_printable_zval(op2, &op2_copy, &use_copy2);
+	   if (use_copy2) {
+	       op2 = &op2_copy;
+	   }
 	}
 
 	length = Z_STRLEN_P(op1) + Z_STRLEN_P(op2) + op3_len;
@@ -1409,15 +1409,15 @@ void zephir_concat_vvs(zval **result, zval *op1, zval *op2, const char *op3, zen
 	Z_STRLEN_PP(result) = length;
 
 	if (use_copy1) {
-		zval_dtor(op1);
+	   zval_dtor(op1);
 	}
 
 	if (use_copy2) {
-		zval_dtor(op2);
+	   zval_dtor(op2);
 	}
 
 	if (use_copy) {
-		zval_dtor(&result_copy);
+	   zval_dtor(&result_copy);
 	}
 
 }
@@ -1429,24 +1429,24 @@ void zephir_concat_vvsv(zval **result, zval *op1, zval *op2, const char *op3, ze
 	uint offset = 0, length;
 
 	if (Z_TYPE_P(op1) != IS_STRING) {
-		zend_make_printable_zval(op1, &op1_copy, &use_copy1);
-		if (use_copy1) {
-			op1 = &op1_copy;
-		}
+	   zend_make_printable_zval(op1, &op1_copy, &use_copy1);
+	   if (use_copy1) {
+	       op1 = &op1_copy;
+	   }
 	}
 
 	if (Z_TYPE_P(op2) != IS_STRING) {
-		zend_make_printable_zval(op2, &op2_copy, &use_copy2);
-		if (use_copy2) {
-			op2 = &op2_copy;
-		}
+	   zend_make_printable_zval(op2, &op2_copy, &use_copy2);
+	   if (use_copy2) {
+	       op2 = &op2_copy;
+	   }
 	}
 
 	if (Z_TYPE_P(op4) != IS_STRING) {
-		zend_make_printable_zval(op4, &op4_copy, &use_copy4);
-		if (use_copy4) {
-			op4 = &op4_copy;
-		}
+	   zend_make_printable_zval(op4, &op4_copy, &use_copy4);
+	   if (use_copy4) {
+	       op4 = &op4_copy;
+	   }
 	}
 
 	length = Z_STRLEN_P(op1) + Z_STRLEN_P(op2) + op3_len + Z_STRLEN_P(op4);
@@ -1476,19 +1476,19 @@ void zephir_concat_vvsv(zval **result, zval *op1, zval *op2, const char *op3, ze
 	Z_STRLEN_PP(result) = length;
 
 	if (use_copy1) {
-		zval_dtor(op1);
+	   zval_dtor(op1);
 	}
 
 	if (use_copy2) {
-		zval_dtor(op2);
+	   zval_dtor(op2);
 	}
 
 	if (use_copy4) {
-		zval_dtor(op4);
+	   zval_dtor(op4);
 	}
 
 	if (use_copy) {
-		zval_dtor(&result_copy);
+	   zval_dtor(&result_copy);
 	}
 
 }
@@ -1500,24 +1500,24 @@ void zephir_concat_vvv(zval **result, zval *op1, zval *op2, zval *op3, int self_
 	uint offset = 0, length;
 
 	if (Z_TYPE_P(op1) != IS_STRING) {
-		zend_make_printable_zval(op1, &op1_copy, &use_copy1);
-		if (use_copy1) {
-			op1 = &op1_copy;
-		}
+	   zend_make_printable_zval(op1, &op1_copy, &use_copy1);
+	   if (use_copy1) {
+	       op1 = &op1_copy;
+	   }
 	}
 
 	if (Z_TYPE_P(op2) != IS_STRING) {
-		zend_make_printable_zval(op2, &op2_copy, &use_copy2);
-		if (use_copy2) {
-			op2 = &op2_copy;
-		}
+	   zend_make_printable_zval(op2, &op2_copy, &use_copy2);
+	   if (use_copy2) {
+	       op2 = &op2_copy;
+	   }
 	}
 
 	if (Z_TYPE_P(op3) != IS_STRING) {
-		zend_make_printable_zval(op3, &op3_copy, &use_copy3);
-		if (use_copy3) {
-			op3 = &op3_copy;
-		}
+	   zend_make_printable_zval(op3, &op3_copy, &use_copy3);
+	   if (use_copy3) {
+	       op3 = &op3_copy;
+	   }
 	}
 
 	length = Z_STRLEN_P(op1) + Z_STRLEN_P(op2) + Z_STRLEN_P(op3);
@@ -1546,19 +1546,19 @@ void zephir_concat_vvv(zval **result, zval *op1, zval *op2, zval *op3, int self_
 	Z_STRLEN_PP(result) = length;
 
 	if (use_copy1) {
-		zval_dtor(op1);
+	   zval_dtor(op1);
 	}
 
 	if (use_copy2) {
-		zval_dtor(op2);
+	   zval_dtor(op2);
 	}
 
 	if (use_copy3) {
-		zval_dtor(op3);
+	   zval_dtor(op3);
 	}
 
 	if (use_copy) {
-		zval_dtor(&result_copy);
+	   zval_dtor(&result_copy);
 	}
 
 }
@@ -1570,24 +1570,24 @@ void zephir_concat_vvvs(zval **result, zval *op1, zval *op2, zval *op3, const ch
 	uint offset = 0, length;
 
 	if (Z_TYPE_P(op1) != IS_STRING) {
-		zend_make_printable_zval(op1, &op1_copy, &use_copy1);
-		if (use_copy1) {
-			op1 = &op1_copy;
-		}
+	   zend_make_printable_zval(op1, &op1_copy, &use_copy1);
+	   if (use_copy1) {
+	       op1 = &op1_copy;
+	   }
 	}
 
 	if (Z_TYPE_P(op2) != IS_STRING) {
-		zend_make_printable_zval(op2, &op2_copy, &use_copy2);
-		if (use_copy2) {
-			op2 = &op2_copy;
-		}
+	   zend_make_printable_zval(op2, &op2_copy, &use_copy2);
+	   if (use_copy2) {
+	       op2 = &op2_copy;
+	   }
 	}
 
 	if (Z_TYPE_P(op3) != IS_STRING) {
-		zend_make_printable_zval(op3, &op3_copy, &use_copy3);
-		if (use_copy3) {
-			op3 = &op3_copy;
-		}
+	   zend_make_printable_zval(op3, &op3_copy, &use_copy3);
+	   if (use_copy3) {
+	       op3 = &op3_copy;
+	   }
 	}
 
 	length = Z_STRLEN_P(op1) + Z_STRLEN_P(op2) + Z_STRLEN_P(op3) + op4_len;
@@ -1617,19 +1617,19 @@ void zephir_concat_vvvs(zval **result, zval *op1, zval *op2, zval *op3, const ch
 	Z_STRLEN_PP(result) = length;
 
 	if (use_copy1) {
-		zval_dtor(op1);
+	   zval_dtor(op1);
 	}
 
 	if (use_copy2) {
-		zval_dtor(op2);
+	   zval_dtor(op2);
 	}
 
 	if (use_copy3) {
-		zval_dtor(op3);
+	   zval_dtor(op3);
 	}
 
 	if (use_copy) {
-		zval_dtor(&result_copy);
+	   zval_dtor(&result_copy);
 	}
 
 }
@@ -1641,31 +1641,31 @@ void zephir_concat_vvvsv(zval **result, zval *op1, zval *op2, zval *op3, const c
 	uint offset = 0, length;
 
 	if (Z_TYPE_P(op1) != IS_STRING) {
-		zend_make_printable_zval(op1, &op1_copy, &use_copy1);
-		if (use_copy1) {
-			op1 = &op1_copy;
-		}
+	   zend_make_printable_zval(op1, &op1_copy, &use_copy1);
+	   if (use_copy1) {
+	       op1 = &op1_copy;
+	   }
 	}
 
 	if (Z_TYPE_P(op2) != IS_STRING) {
-		zend_make_printable_zval(op2, &op2_copy, &use_copy2);
-		if (use_copy2) {
-			op2 = &op2_copy;
-		}
+	   zend_make_printable_zval(op2, &op2_copy, &use_copy2);
+	   if (use_copy2) {
+	       op2 = &op2_copy;
+	   }
 	}
 
 	if (Z_TYPE_P(op3) != IS_STRING) {
-		zend_make_printable_zval(op3, &op3_copy, &use_copy3);
-		if (use_copy3) {
-			op3 = &op3_copy;
-		}
+	   zend_make_printable_zval(op3, &op3_copy, &use_copy3);
+	   if (use_copy3) {
+	       op3 = &op3_copy;
+	   }
 	}
 
 	if (Z_TYPE_P(op5) != IS_STRING) {
-		zend_make_printable_zval(op5, &op5_copy, &use_copy5);
-		if (use_copy5) {
-			op5 = &op5_copy;
-		}
+	   zend_make_printable_zval(op5, &op5_copy, &use_copy5);
+	   if (use_copy5) {
+	       op5 = &op5_copy;
+	   }
 	}
 
 	length = Z_STRLEN_P(op1) + Z_STRLEN_P(op2) + Z_STRLEN_P(op3) + op4_len + Z_STRLEN_P(op5);
@@ -1696,23 +1696,23 @@ void zephir_concat_vvvsv(zval **result, zval *op1, zval *op2, zval *op3, const c
 	Z_STRLEN_PP(result) = length;
 
 	if (use_copy1) {
-		zval_dtor(op1);
+	   zval_dtor(op1);
 	}
 
 	if (use_copy2) {
-		zval_dtor(op2);
+	   zval_dtor(op2);
 	}
 
 	if (use_copy3) {
-		zval_dtor(op3);
+	   zval_dtor(op3);
 	}
 
 	if (use_copy5) {
-		zval_dtor(op5);
+	   zval_dtor(op5);
 	}
 
 	if (use_copy) {
-		zval_dtor(&result_copy);
+	   zval_dtor(&result_copy);
 	}
 
 }
@@ -1724,31 +1724,31 @@ void zephir_concat_vvvv(zval **result, zval *op1, zval *op2, zval *op3, zval *op
 	uint offset = 0, length;
 
 	if (Z_TYPE_P(op1) != IS_STRING) {
-		zend_make_printable_zval(op1, &op1_copy, &use_copy1);
-		if (use_copy1) {
-			op1 = &op1_copy;
-		}
+	   zend_make_printable_zval(op1, &op1_copy, &use_copy1);
+	   if (use_copy1) {
+	       op1 = &op1_copy;
+	   }
 	}
 
 	if (Z_TYPE_P(op2) != IS_STRING) {
-		zend_make_printable_zval(op2, &op2_copy, &use_copy2);
-		if (use_copy2) {
-			op2 = &op2_copy;
-		}
+	   zend_make_printable_zval(op2, &op2_copy, &use_copy2);
+	   if (use_copy2) {
+	       op2 = &op2_copy;
+	   }
 	}
 
 	if (Z_TYPE_P(op3) != IS_STRING) {
-		zend_make_printable_zval(op3, &op3_copy, &use_copy3);
-		if (use_copy3) {
-			op3 = &op3_copy;
-		}
+	   zend_make_printable_zval(op3, &op3_copy, &use_copy3);
+	   if (use_copy3) {
+	       op3 = &op3_copy;
+	   }
 	}
 
 	if (Z_TYPE_P(op4) != IS_STRING) {
-		zend_make_printable_zval(op4, &op4_copy, &use_copy4);
-		if (use_copy4) {
-			op4 = &op4_copy;
-		}
+	   zend_make_printable_zval(op4, &op4_copy, &use_copy4);
+	   if (use_copy4) {
+	       op4 = &op4_copy;
+	   }
 	}
 
 	length = Z_STRLEN_P(op1) + Z_STRLEN_P(op2) + Z_STRLEN_P(op3) + Z_STRLEN_P(op4);
@@ -1778,23 +1778,23 @@ void zephir_concat_vvvv(zval **result, zval *op1, zval *op2, zval *op3, zval *op
 	Z_STRLEN_PP(result) = length;
 
 	if (use_copy1) {
-		zval_dtor(op1);
+	   zval_dtor(op1);
 	}
 
 	if (use_copy2) {
-		zval_dtor(op2);
+	   zval_dtor(op2);
 	}
 
 	if (use_copy3) {
-		zval_dtor(op3);
+	   zval_dtor(op3);
 	}
 
 	if (use_copy4) {
-		zval_dtor(op4);
+	   zval_dtor(op4);
 	}
 
 	if (use_copy) {
-		zval_dtor(&result_copy);
+	   zval_dtor(&result_copy);
 	}
 
 }
@@ -1806,45 +1806,45 @@ void zephir_concat_vvvvsvv(zval **result, zval *op1, zval *op2, zval *op3, zval 
 	uint offset = 0, length;
 
 	if (Z_TYPE_P(op1) != IS_STRING) {
-		zend_make_printable_zval(op1, &op1_copy, &use_copy1);
-		if (use_copy1) {
-			op1 = &op1_copy;
-		}
+	   zend_make_printable_zval(op1, &op1_copy, &use_copy1);
+	   if (use_copy1) {
+	       op1 = &op1_copy;
+	   }
 	}
 
 	if (Z_TYPE_P(op2) != IS_STRING) {
-		zend_make_printable_zval(op2, &op2_copy, &use_copy2);
-		if (use_copy2) {
-			op2 = &op2_copy;
-		}
+	   zend_make_printable_zval(op2, &op2_copy, &use_copy2);
+	   if (use_copy2) {
+	       op2 = &op2_copy;
+	   }
 	}
 
 	if (Z_TYPE_P(op3) != IS_STRING) {
-		zend_make_printable_zval(op3, &op3_copy, &use_copy3);
-		if (use_copy3) {
-			op3 = &op3_copy;
-		}
+	   zend_make_printable_zval(op3, &op3_copy, &use_copy3);
+	   if (use_copy3) {
+	       op3 = &op3_copy;
+	   }
 	}
 
 	if (Z_TYPE_P(op4) != IS_STRING) {
-		zend_make_printable_zval(op4, &op4_copy, &use_copy4);
-		if (use_copy4) {
-			op4 = &op4_copy;
-		}
+	   zend_make_printable_zval(op4, &op4_copy, &use_copy4);
+	   if (use_copy4) {
+	       op4 = &op4_copy;
+	   }
 	}
 
 	if (Z_TYPE_P(op6) != IS_STRING) {
-		zend_make_printable_zval(op6, &op6_copy, &use_copy6);
-		if (use_copy6) {
-			op6 = &op6_copy;
-		}
+	   zend_make_printable_zval(op6, &op6_copy, &use_copy6);
+	   if (use_copy6) {
+	       op6 = &op6_copy;
+	   }
 	}
 
 	if (Z_TYPE_P(op7) != IS_STRING) {
-		zend_make_printable_zval(op7, &op7_copy, &use_copy7);
-		if (use_copy7) {
-			op7 = &op7_copy;
-		}
+	   zend_make_printable_zval(op7, &op7_copy, &use_copy7);
+	   if (use_copy7) {
+	       op7 = &op7_copy;
+	   }
 	}
 
 	length = Z_STRLEN_P(op1) + Z_STRLEN_P(op2) + Z_STRLEN_P(op3) + Z_STRLEN_P(op4) + op5_len + Z_STRLEN_P(op6) + Z_STRLEN_P(op7);
@@ -1877,31 +1877,31 @@ void zephir_concat_vvvvsvv(zval **result, zval *op1, zval *op2, zval *op3, zval 
 	Z_STRLEN_PP(result) = length;
 
 	if (use_copy1) {
-		zval_dtor(op1);
+	   zval_dtor(op1);
 	}
 
 	if (use_copy2) {
-		zval_dtor(op2);
+	   zval_dtor(op2);
 	}
 
 	if (use_copy3) {
-		zval_dtor(op3);
+	   zval_dtor(op3);
 	}
 
 	if (use_copy4) {
-		zval_dtor(op4);
+	   zval_dtor(op4);
 	}
 
 	if (use_copy6) {
-		zval_dtor(op6);
+	   zval_dtor(op6);
 	}
 
 	if (use_copy7) {
-		zval_dtor(op7);
+	   zval_dtor(op7);
 	}
 
 	if (use_copy) {
-		zval_dtor(&result_copy);
+	   zval_dtor(&result_copy);
 	}
 
 }
@@ -1913,38 +1913,38 @@ void zephir_concat_vvvvv(zval **result, zval *op1, zval *op2, zval *op3, zval *o
 	uint offset = 0, length;
 
 	if (Z_TYPE_P(op1) != IS_STRING) {
-		zend_make_printable_zval(op1, &op1_copy, &use_copy1);
-		if (use_copy1) {
-			op1 = &op1_copy;
-		}
+	   zend_make_printable_zval(op1, &op1_copy, &use_copy1);
+	   if (use_copy1) {
+	       op1 = &op1_copy;
+	   }
 	}
 
 	if (Z_TYPE_P(op2) != IS_STRING) {
-		zend_make_printable_zval(op2, &op2_copy, &use_copy2);
-		if (use_copy2) {
-			op2 = &op2_copy;
-		}
+	   zend_make_printable_zval(op2, &op2_copy, &use_copy2);
+	   if (use_copy2) {
+	       op2 = &op2_copy;
+	   }
 	}
 
 	if (Z_TYPE_P(op3) != IS_STRING) {
-		zend_make_printable_zval(op3, &op3_copy, &use_copy3);
-		if (use_copy3) {
-			op3 = &op3_copy;
-		}
+	   zend_make_printable_zval(op3, &op3_copy, &use_copy3);
+	   if (use_copy3) {
+	       op3 = &op3_copy;
+	   }
 	}
 
 	if (Z_TYPE_P(op4) != IS_STRING) {
-		zend_make_printable_zval(op4, &op4_copy, &use_copy4);
-		if (use_copy4) {
-			op4 = &op4_copy;
-		}
+	   zend_make_printable_zval(op4, &op4_copy, &use_copy4);
+	   if (use_copy4) {
+	       op4 = &op4_copy;
+	   }
 	}
 
 	if (Z_TYPE_P(op5) != IS_STRING) {
-		zend_make_printable_zval(op5, &op5_copy, &use_copy5);
-		if (use_copy5) {
-			op5 = &op5_copy;
-		}
+	   zend_make_printable_zval(op5, &op5_copy, &use_copy5);
+	   if (use_copy5) {
+	       op5 = &op5_copy;
+	   }
 	}
 
 	length = Z_STRLEN_P(op1) + Z_STRLEN_P(op2) + Z_STRLEN_P(op3) + Z_STRLEN_P(op4) + Z_STRLEN_P(op5);
@@ -1975,27 +1975,27 @@ void zephir_concat_vvvvv(zval **result, zval *op1, zval *op2, zval *op3, zval *o
 	Z_STRLEN_PP(result) = length;
 
 	if (use_copy1) {
-		zval_dtor(op1);
+	   zval_dtor(op1);
 	}
 
 	if (use_copy2) {
-		zval_dtor(op2);
+	   zval_dtor(op2);
 	}
 
 	if (use_copy3) {
-		zval_dtor(op3);
+	   zval_dtor(op3);
 	}
 
 	if (use_copy4) {
-		zval_dtor(op4);
+	   zval_dtor(op4);
 	}
 
 	if (use_copy5) {
-		zval_dtor(op5);
+	   zval_dtor(op5);
 	}
 
 	if (use_copy) {
-		zval_dtor(&result_copy);
+	   zval_dtor(&result_copy);
 	}
 
 }

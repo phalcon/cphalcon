@@ -46,7 +46,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Di_FactoryDefault) {
 
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Di, FactoryDefault, phalcon, di_factorydefault, phalcon_di_ce, phalcon_di_factorydefault_method_entry, 0);
 
-
 	return SUCCESS;
 
 }

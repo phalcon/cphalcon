@@ -41,7 +41,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Loader_Exception) {
 
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Loader, Exception, phalcon, loader_exception, phalcon_exception_ce, NULL, 0);
 
-
 	return SUCCESS;
 
 }

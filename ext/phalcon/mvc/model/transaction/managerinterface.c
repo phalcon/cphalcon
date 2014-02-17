@@ -38,7 +38,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_Transaction_ManagerInterface) {
 
 	ZEPHIR_REGISTER_INTERFACE(Phalcon\\Mvc\\Model\\Transaction, ManagerInterface, phalcon, mvc_model_transaction_managerinterface, phalcon_mvc_model_transaction_managerinterface_method_entry);
 
-
 	return SUCCESS;
 
 }
@@ -58,7 +57,7 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_Transaction_ManagerInterface, __construct);
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_Transaction_ManagerInterface, has);
 
 /**
- * Returns a new Phalcon\Mvc\Model\Transaction or an already created once
+ * Returns a new \Phalcon\Mvc\Model\Transaction or an already created once
  *
  * @param boolean autoBegin
  * @return Phalcon\Mvc\Model\TransactionInterface

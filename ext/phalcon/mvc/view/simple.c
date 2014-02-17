@@ -47,7 +47,7 @@
  * This component allows to render views without hicherquical levels
  *
  *<code>
- * $view = new Phalcon\Mvc\View\Simple();
+ * $view = new \Phalcon\Mvc\View\Simple();
  * echo $view->render('templates/my-view', array('content' => $html));
  *</code>
  *
@@ -57,14 +57,23 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_View_Simple) {
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Mvc\\View, Simple, phalcon, mvc_view_simple, phalcon_di_injectable_ce, phalcon_mvc_view_simple_method_entry, 0);
 
 	zend_declare_property_null(phalcon_mvc_view_simple_ce, SL("_options"), ZEND_ACC_PROTECTED TSRMLS_CC);
+
 	zend_declare_property_null(phalcon_mvc_view_simple_ce, SL("_viewsDir"), ZEND_ACC_PROTECTED TSRMLS_CC);
+
 	zend_declare_property_null(phalcon_mvc_view_simple_ce, SL("_partialsDir"), ZEND_ACC_PROTECTED TSRMLS_CC);
+
 	zend_declare_property_null(phalcon_mvc_view_simple_ce, SL("_viewParams"), ZEND_ACC_PROTECTED TSRMLS_CC);
+
 	zend_declare_property_bool(phalcon_mvc_view_simple_ce, SL("_engines"), 0, ZEND_ACC_PROTECTED TSRMLS_CC);
+
 	zend_declare_property_null(phalcon_mvc_view_simple_ce, SL("_registeredEngines"), ZEND_ACC_PROTECTED TSRMLS_CC);
+
 	zend_declare_property_null(phalcon_mvc_view_simple_ce, SL("_activeRenderPath"), ZEND_ACC_PROTECTED TSRMLS_CC);
+
 	zend_declare_property_null(phalcon_mvc_view_simple_ce, SL("_content"), ZEND_ACC_PROTECTED TSRMLS_CC);
+
 	zend_declare_property_bool(phalcon_mvc_view_simple_ce, SL("_cache"), 0, ZEND_ACC_PROTECTED TSRMLS_CC);
+
 	zend_declare_property_null(phalcon_mvc_view_simple_ce, SL("_cacheOptions"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
 	return SUCCESS;
@@ -204,13 +213,13 @@ PHP_METHOD(Phalcon_Mvc_View_Simple, _loadTemplateEngines) {
 			zephir_array_fast_append(arguments, dependencyInjector);
 			zephir_is_iterable(registeredEngines, &_2, &_1, 0, 0);
 			for (
-				; zend_hash_get_current_data_ex(_2, (void**) &_3, &_1) == SUCCESS
-				; zend_hash_move_forward_ex(_2, &_1)
+			  ; zephir_hash_get_current_data_ex(_2, (void**) &_3, &_1) == SUCCESS
+			  ; zephir_hash_move_forward_ex(_2, &_1)
 			) {
 				ZEPHIR_GET_HMKEY(extension, _2, _1);
 				ZEPHIR_GET_HVALUE(engineService, _3);
 				if ((Z_TYPE_P(engineService) == IS_OBJECT)) {
-					if (zephir_is_instance_of(engineService, SL("Closure") TSRMLS_CC)) {
+					if (zephir_is_instance_of(engineService, SL("Phalcon\\Mvc\\View\\Closure") TSRMLS_CC)) {
 						ZEPHIR_INIT_NVAR(engineObject);
 						ZEPHIR_CALL_USER_FUNC_ARRAY(engineObject, engineService, arguments);
 					} else {
@@ -295,8 +304,8 @@ PHP_METHOD(Phalcon_Mvc_View_Simple, _internalRender) {
 	zephir_call_method(engines, this_ptr, "_loadtemplateengines");
 	zephir_is_iterable(engines, &_4, &_3, 0, 0);
 	for (
-		; zend_hash_get_current_data_ex(_4, (void**) &_5, &_3) == SUCCESS
-		; zend_hash_move_forward_ex(_4, &_3)
+	  ; zephir_hash_get_current_data_ex(_4, (void**) &_5, &_3) == SUCCESS
+	  ; zephir_hash_move_forward_ex(_4, &_3)
 	) {
 		ZEPHIR_GET_HMKEY(extension, _4, _3);
 		ZEPHIR_GET_HVALUE(engine, _5);

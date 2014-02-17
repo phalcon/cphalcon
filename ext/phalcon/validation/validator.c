@@ -93,7 +93,7 @@ PHP_METHOD(Phalcon_Validation_Validator, isSetOption) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &key_param);
 
-		zephir_get_strval(key, key_param);
+	zephir_get_strval(key, key_param);
 
 
 	options = zephir_fetch_nproperty_this(this_ptr, SL("_options"), PH_NOISY_CC);

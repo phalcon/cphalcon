@@ -49,7 +49,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_Row) {
 
 	zend_class_implements(phalcon_mvc_model_row_ce TSRMLS_CC, 1, zend_ce_arrayaccess);
 	zend_class_implements(phalcon_mvc_model_row_ce TSRMLS_CC, 1, phalcon_mvc_model_resultinterface_ce);
-
 	return SUCCESS;
 
 }
@@ -66,7 +65,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Row, setDirtyState) {
 
 	zephir_fetch_params(0, 1, 0, &dirtyState_param);
 
-		dirtyState = zephir_get_intval(dirtyState_param);
+	dirtyState = zephir_get_intval(dirtyState_param);
 
 
 	RETURN_BOOL(0);
@@ -129,6 +128,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Row, offsetSet) {
 
 
 
+	if (!(zephir_is_instance_of(value, SL("Phalcon\\Mvc\\ModelInterface") TSRMLS_CC))) {
+		ZEPHIR_THROW_EXCEPTION_STRW(spl_ce_InvalidArgumentException, "Parameter 'value' must be an instance of 'Phalcon\\Mvc\\ModelInterface'");
+		return;
+	}
 	ZEPHIR_THROW_EXCEPTION_STRW(phalcon_mvc_model_exception_ce, "Row is an immutable ArrayAccess object");
 	return;
 
@@ -146,7 +149,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Row, offsetUnset) {
 
 	zephir_fetch_params(0, 1, 0, &offset_param);
 
-		offset = zephir_get_intval(offset_param);
+	offset = zephir_get_intval(offset_param);
 
 
 	ZEPHIR_THROW_EXCEPTION_STRW(phalcon_mvc_model_exception_ce, "Row is an immutable ArrayAccess object");

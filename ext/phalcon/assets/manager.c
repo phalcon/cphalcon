@@ -20,6 +20,7 @@
 #include "ext/spl/spl_exceptions.h"
 #include "kernel/array.h"
 #include "kernel/concat.h"
+#include "kernel/hash.h"
 #include "kernel/file.h"
 
 
@@ -49,12 +50,14 @@ ZEPHIR_INIT_CLASS(Phalcon_Assets_Manager) {
 
 	ZEPHIR_REGISTER_CLASS(Phalcon\\Assets, Manager, phalcon, assets_manager, phalcon_assets_manager_method_entry, 0);
 
-/**
+	/**
 	 * Options configure
 	 * @var array
 	 */
 	zend_declare_property_null(phalcon_assets_manager_ce, SL("_options"), ZEND_ACC_PROTECTED TSRMLS_CC);
+
 	zend_declare_property_null(phalcon_assets_manager_ce, SL("_collections"), ZEND_ACC_PROTECTED TSRMLS_CC);
+
 	zend_declare_property_bool(phalcon_assets_manager_ce, SL("_implicitOutput"), 1, ZEND_ACC_PROTECTED TSRMLS_CC);
 
 	return SUCCESS;
@@ -279,7 +282,7 @@ PHP_METHOD(Phalcon_Assets_Manager, addResourceByType) {
 	}
 
 
-	if (zephir_is_instance_of(resource, SL("Phalcon\\Assets\\Resource") TSRMLS_CC)) {
+	if (!(zephir_is_instance_of(resource, SL("Phalcon\\Assets\\Resource") TSRMLS_CC))) {
 		ZEPHIR_THROW_EXCEPTION_STR(spl_ce_InvalidArgumentException, "Parameter 'resource' must be an instance of 'Phalcon\\Assets\\Resource'");
 		return;
 	}
@@ -318,7 +321,7 @@ PHP_METHOD(Phalcon_Assets_Manager, addResource) {
 
 
 
-	if (zephir_is_instance_of(resource, SL("Phalcon\\Assets\\Resource") TSRMLS_CC)) {
+	if (!(zephir_is_instance_of(resource, SL("Phalcon\\Assets\\Resource") TSRMLS_CC))) {
 		ZEPHIR_THROW_EXCEPTION_STR(spl_ce_InvalidArgumentException, "Parameter 'resource' must be an instance of 'Phalcon\\Assets\\Resource'");
 		return;
 	}
@@ -365,7 +368,7 @@ PHP_METHOD(Phalcon_Assets_Manager, set) {
 	}
 
 
-	if (zephir_is_instance_of(collection, SL("Phalcon\\Assets\\Collection") TSRMLS_CC)) {
+	if (!(zephir_is_instance_of(collection, SL("Phalcon\\Assets\\Collection") TSRMLS_CC))) {
 		ZEPHIR_THROW_EXCEPTION_STR(spl_ce_InvalidArgumentException, "Parameter 'collection' must be an instance of 'Phalcon\\Assets\\Collection'");
 		return;
 	}
@@ -514,7 +517,7 @@ PHP_METHOD(Phalcon_Assets_Manager, output) {
 	ZEPHIR_SEPARATE_PARAM(type);
 
 
-	if (zephir_is_instance_of(collection, SL("Phalcon\\Assets\\Collection") TSRMLS_CC)) {
+	if (!(zephir_is_instance_of(collection, SL("Phalcon\\Assets\\Collection") TSRMLS_CC))) {
 		ZEPHIR_THROW_EXCEPTION_STR(spl_ce_InvalidArgumentException, "Parameter 'collection' must be an instance of 'Phalcon\\Assets\\Collection'");
 		return;
 	}
@@ -590,7 +593,7 @@ PHP_METHOD(Phalcon_Assets_Manager, output) {
 	}
 	zephir_is_iterable(resources, &_4, &_3, 0, 0);
 	for (
-	  ; zend_hash_get_current_data_ex(_4, (void**) &_5, &_3) == SUCCESS
+	  ; zephir_hash_get_current_data_ex(_4, (void**) &_5, &_3) == SUCCESS
 	  ; zephir_hash_move_forward_ex(_4, &_3)
 	) {
 		ZEPHIR_GET_HVALUE(resource, _5);
@@ -690,7 +693,7 @@ PHP_METHOD(Phalcon_Assets_Manager, output) {
 			if (ZEPHIR_IS_TRUE(mustFilter)) {
 				zephir_is_iterable(filters, &_11, &_10, 0, 0);
 				for (
-				  ; zend_hash_get_current_data_ex(_11, (void**) &_12, &_10) == SUCCESS
+				  ; zephir_hash_get_current_data_ex(_11, (void**) &_12, &_10) == SUCCESS
 				  ; zephir_hash_move_forward_ex(_11, &_10)
 				) {
 					ZEPHIR_GET_HVALUE(filter, _12);

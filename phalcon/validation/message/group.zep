@@ -116,7 +116,7 @@ class Group implements \Countable, \ArrayAccess, \Iterator
 	 * Appends a message to the group
 	 *
 	 *<code>
-	 * $messages->appendMessage(new Phalcon\Validation\Message('This is a message'));
+	 * $messages->appendMessage(new \Phalcon\Validation\Message('This is a message'));
 	 *</code>
 	 *
 	 * @param Phalcon\Validation\MessageInterface message

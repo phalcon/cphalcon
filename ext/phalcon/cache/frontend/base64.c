@@ -77,7 +77,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Cache_Frontend_Base64) {
 	zend_declare_property_null(phalcon_cache_frontend_base64_ce, SL("_frontendOptions"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
 	zend_class_implements(phalcon_cache_frontend_base64_ce TSRMLS_CC, 1, phalcon_cache_frontendinterface_ce);
-
 	return SUCCESS;
 
 }

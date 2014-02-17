@@ -52,34 +52,53 @@ ZEPHIR_INIT_CLASS(Phalcon_Tag) {
 
 	ZEPHIR_REGISTER_CLASS(Phalcon, Tag, phalcon, tag, phalcon_tag_method_entry, 0);
 
-/**
+	/**
 	 * Pre-asigned values for components
 	 */
 	zend_declare_property_null(phalcon_tag_ce, SL("_displayValues"), ZEND_ACC_PROTECTED|ZEND_ACC_STATIC TSRMLS_CC);
-/**
+
+	/**
 	 * HTML document title
 	 */
 	zend_declare_property_null(phalcon_tag_ce, SL("_documentTitle"), ZEND_ACC_PROTECTED|ZEND_ACC_STATIC TSRMLS_CC);
+
 	zend_declare_property_null(phalcon_tag_ce, SL("_documentTitleSeparator"), ZEND_ACC_PROTECTED|ZEND_ACC_STATIC TSRMLS_CC);
+
 	zend_declare_property_long(phalcon_tag_ce, SL("_documentType"), 11, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC TSRMLS_CC);
-/**
+
+	/**
 	 * Framework Dispatcher
 	 */
 	zend_declare_property_null(phalcon_tag_ce, SL("_dependencyInjector"), ZEND_ACC_PROTECTED|ZEND_ACC_STATIC TSRMLS_CC);
+
 	zend_declare_property_null(phalcon_tag_ce, SL("_urlService"), ZEND_ACC_PROTECTED|ZEND_ACC_STATIC TSRMLS_CC);
+
 	zend_declare_property_null(phalcon_tag_ce, SL("_dispatcherService"), ZEND_ACC_PROTECTED|ZEND_ACC_STATIC TSRMLS_CC);
+
 	zend_declare_property_null(phalcon_tag_ce, SL("_escaperService"), ZEND_ACC_PROTECTED|ZEND_ACC_STATIC TSRMLS_CC);
+
 	zend_declare_property_bool(phalcon_tag_ce, SL("_autoEscape"), 1, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC TSRMLS_CC);
+
 	zend_declare_class_constant_long(phalcon_tag_ce, SL("HTML32"), 1 TSRMLS_CC);
+
 	zend_declare_class_constant_long(phalcon_tag_ce, SL("HTML401_STRICT"), 2 TSRMLS_CC);
+
 	zend_declare_class_constant_long(phalcon_tag_ce, SL("HTML401_TRANSITIONAL"), 3 TSRMLS_CC);
+
 	zend_declare_class_constant_long(phalcon_tag_ce, SL("HTML401_FRAMESET"), 4 TSRMLS_CC);
+
 	zend_declare_class_constant_long(phalcon_tag_ce, SL("HTML5"), 5 TSRMLS_CC);
+
 	zend_declare_class_constant_long(phalcon_tag_ce, SL("XHTML10_STRICT"), 6 TSRMLS_CC);
+
 	zend_declare_class_constant_long(phalcon_tag_ce, SL("XHTML10_TRANSITIONAL"), 7 TSRMLS_CC);
+
 	zend_declare_class_constant_long(phalcon_tag_ce, SL("XHTML10_FRAMESET"), 8 TSRMLS_CC);
+
 	zend_declare_class_constant_long(phalcon_tag_ce, SL("XHTML11"), 9 TSRMLS_CC);
+
 	zend_declare_class_constant_long(phalcon_tag_ce, SL("XHTML20"), 10 TSRMLS_CC);
+
 	zend_declare_class_constant_long(phalcon_tag_ce, SL("XHTML5"), 11 TSRMLS_CC);
 
 	return SUCCESS;
@@ -121,7 +140,7 @@ PHP_METHOD(Phalcon_Tag, renderAttributes) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &code_param, &attributes);
 
-		zephir_get_strval(code, code_param);
+	zephir_get_strval(code, code_param);
 	ZEPHIR_SEPARATE_PARAM(code);
 
 
@@ -160,8 +179,8 @@ PHP_METHOD(Phalcon_Tag, renderAttributes) {
 	zephir_call_self_p1(escaper, this_ptr, "getescaper", attributes);
 	zephir_is_iterable(attributes, &_2, &_1, 0, 0);
 	for (
-		; zend_hash_get_current_data_ex(_2, (void**) &_3, &_1) == SUCCESS
-		; zend_hash_move_forward_ex(_2, &_1)
+	  ; zephir_hash_get_current_data_ex(_2, (void**) &_3, &_1) == SUCCESS
+	  ; zephir_hash_move_forward_ex(_2, &_1)
 	) {
 		ZEPHIR_GET_HMKEY(attribute, _2, _1);
 		ZEPHIR_GET_HVALUE(value, _3);
@@ -178,8 +197,8 @@ PHP_METHOD(Phalcon_Tag, renderAttributes) {
 	}
 	zephir_is_iterable(attrs, &_6, &_5, 0, 0);
 	for (
-		; zend_hash_get_current_data_ex(_6, (void**) &_7, &_5) == SUCCESS
-		; zend_hash_move_forward_ex(_6, &_5)
+	  ; zephir_hash_get_current_data_ex(_6, (void**) &_7, &_5) == SUCCESS
+	  ; zephir_hash_move_forward_ex(_6, &_5)
 	) {
 		ZEPHIR_GET_HMKEY(key, _6, _5);
 		ZEPHIR_GET_HVALUE(value, _7);
@@ -212,6 +231,10 @@ PHP_METHOD(Phalcon_Tag, setDI) {
 
 
 
+	if (!(zephir_is_instance_of(dependencyInjector, SL("Phalcon\\DiInterface") TSRMLS_CC))) {
+		ZEPHIR_THROW_EXCEPTION_STRW(spl_ce_InvalidArgumentException, "Parameter 'dependencyInjector' must be an instance of 'Phalcon\\DiInterface'");
+		return;
+	}
 	if ((Z_TYPE_P(dependencyInjector) != IS_OBJECT)) {
 		ZEPHIR_THROW_EXCEPTION_STRW(phalcon_tag_exception_ce, "Parameter dependencyInjector must be an Object");
 		return;
@@ -313,7 +336,7 @@ PHP_METHOD(Phalcon_Tag, setAutoescape) {
 
 	zephir_fetch_params(0, 1, 0, &autoescape_param);
 
-		autoescape = zephir_get_boolval(autoescape_param);
+	autoescape = zephir_get_boolval(autoescape_param);
 
 
 	ZVAL_BOOL(_1, autoescape);
@@ -344,7 +367,7 @@ PHP_METHOD(Phalcon_Tag, setDefault) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &id_param, &value);
 
-		zephir_get_strval(id, id_param);
+	zephir_get_strval(id, id_param);
 
 
 	if ((Z_TYPE_P(value) != IS_NULL)) {
@@ -507,8 +530,8 @@ PHP_METHOD(Phalcon_Tag, resetInput) {
 	zephir_get_global(&_POST, SS("_POST") TSRMLS_CC);
 	zephir_is_iterable(_POST, &_3, &_2, 0, 0);
 	for (
-		; zend_hash_get_current_data_ex(_3, (void**) &_4, &_2) == SUCCESS
-		; zend_hash_move_forward_ex(_3, &_2)
+	  ; zephir_hash_get_current_data_ex(_3, (void**) &_4, &_2) == SUCCESS
+	  ; zephir_hash_move_forward_ex(_3, &_2)
 	) {
 		ZEPHIR_GET_HMKEY(key, _3, _2);
 		ZEPHIR_GET_HVALUE(value, _4);
@@ -611,8 +634,8 @@ PHP_METHOD(Phalcon_Tag, linkTo) {
 	}
 	zephir_is_iterable(params, &_3, &_2, 0, 0);
 	for (
-		; zend_hash_get_current_data_ex(_3, (void**) &_4, &_2) == SUCCESS
-		; zend_hash_move_forward_ex(_3, &_2)
+	  ; zephir_hash_get_current_data_ex(_3, (void**) &_4, &_2) == SUCCESS
+	  ; zephir_hash_move_forward_ex(_3, &_2)
 	) {
 		ZEPHIR_GET_HMKEY(key, _3, _2);
 		ZEPHIR_GET_HVALUE(value, _4);
@@ -648,7 +671,7 @@ PHP_METHOD(Phalcon_Tag, _inputField) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 1, &type_param, &parameters, &asValue_param);
 
-		zephir_get_strval(type, type_param);
+	zephir_get_strval(type, type_param);
 	if (!asValue_param) {
 		asValue = 0;
 	} else {
@@ -705,8 +728,8 @@ PHP_METHOD(Phalcon_Tag, _inputField) {
 	ZEPHIR_CPY_WRT(code, _3);
 	zephir_is_iterable(params, &_5, &_4, 0, 0);
 	for (
-		; zend_hash_get_current_data_ex(_5, (void**) &_6, &_4) == SUCCESS
-		; zend_hash_move_forward_ex(_5, &_4)
+	  ; zephir_hash_get_current_data_ex(_5, (void**) &_6, &_4) == SUCCESS
+	  ; zephir_hash_move_forward_ex(_5, &_4)
 	) {
 		ZEPHIR_GET_HMKEY(key, _5, _4);
 		ZEPHIR_GET_HVALUE(value, _6);
@@ -743,7 +766,7 @@ PHP_METHOD(Phalcon_Tag, _inputFieldChecked) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &type_param, &parameters);
 
-		zephir_get_strval(type, type_param);
+	zephir_get_strval(type, type_param);
 
 
 	if ((Z_TYPE_P(parameters) != IS_ARRAY)) {
@@ -801,8 +824,8 @@ PHP_METHOD(Phalcon_Tag, _inputFieldChecked) {
 	ZEPHIR_CPY_WRT(code, _4);
 	zephir_is_iterable(params, &_6, &_5, 0, 0);
 	for (
-		; zend_hash_get_current_data_ex(_6, (void**) &_7, &_5) == SUCCESS
-		; zend_hash_move_forward_ex(_6, &_5)
+	  ; zephir_hash_get_current_data_ex(_6, (void**) &_7, &_5) == SUCCESS
+	  ; zephir_hash_move_forward_ex(_6, &_5)
 	) {
 		ZEPHIR_GET_HMKEY(key, _6, _5);
 		ZEPHIR_GET_HVALUE(value, _7);
@@ -1474,8 +1497,8 @@ PHP_METHOD(Phalcon_Tag, textArea) {
 	ZVAL_STRING(code, "<textarea", 1);
 	zephir_is_iterable(params, &_2, &_1, 0, 0);
 	for (
-		; zend_hash_get_current_data_ex(_2, (void**) &_3, &_1) == SUCCESS
-		; zend_hash_move_forward_ex(_2, &_1)
+	  ; zephir_hash_get_current_data_ex(_2, (void**) &_3, &_1) == SUCCESS
+	  ; zephir_hash_move_forward_ex(_2, &_1)
 	) {
 		ZEPHIR_GET_HMKEY(key, _2, _1);
 		ZEPHIR_GET_HVALUE(avalue, _3);
@@ -1567,8 +1590,8 @@ PHP_METHOD(Phalcon_Tag, form) {
 	ZVAL_STRING(code, "<form", 1);
 	zephir_is_iterable(params, &_3, &_2, 0, 0);
 	for (
-		; zend_hash_get_current_data_ex(_3, (void**) &_4, &_2) == SUCCESS
-		; zend_hash_move_forward_ex(_3, &_2)
+	  ; zephir_hash_get_current_data_ex(_3, (void**) &_4, &_2) == SUCCESS
+	  ; zephir_hash_move_forward_ex(_3, &_2)
 	) {
 		ZEPHIR_GET_HMKEY(key, _3, _2);
 		ZEPHIR_GET_HVALUE(avalue, _4);
@@ -1612,7 +1635,7 @@ PHP_METHOD(Phalcon_Tag, setTitle) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &title_param);
 
-		zephir_get_strval(title, title_param);
+	zephir_get_strval(title, title_param);
 
 
 	zephir_update_static_property_ce(phalcon_tag_ce, SL("_documentTitle"), title TSRMLS_CC);
@@ -1637,7 +1660,7 @@ PHP_METHOD(Phalcon_Tag, setTitleSeparator) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &titleSeparator_param);
 
-		zephir_get_strval(titleSeparator, titleSeparator_param);
+	zephir_get_strval(titleSeparator, titleSeparator_param);
 
 
 	zephir_update_static_property_ce(phalcon_tag_ce, SL("_documentTitleSeparator"), titleSeparator TSRMLS_CC);
@@ -1658,7 +1681,7 @@ PHP_METHOD(Phalcon_Tag, appendTitle) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &title_param);
 
-		zephir_get_strval(title, title_param);
+	zephir_get_strval(title, title_param);
 
 
 	zephir_update_static_property_ce(phalcon_tag_ce, SL("_documentTitle"), title TSRMLS_CC);
@@ -1679,7 +1702,7 @@ PHP_METHOD(Phalcon_Tag, prependTitle) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &title_param);
 
-		zephir_get_strval(title, title_param);
+	zephir_get_strval(title, title_param);
 
 
 	zephir_read_static_property_ce(&_1, phalcon_tag_ce, SL("_documentTitle") TSRMLS_CC);
@@ -1836,8 +1859,8 @@ PHP_METHOD(Phalcon_Tag, stylesheetLink) {
 	ZVAL_STRING(code, "<link rel=\"stylesheet\"", 1);
 	zephir_is_iterable(params, &_4, &_3, 0, 0);
 	for (
-		; zend_hash_get_current_data_ex(_4, (void**) &_5, &_3) == SUCCESS
-		; zend_hash_move_forward_ex(_4, &_3)
+	  ; zephir_hash_get_current_data_ex(_4, (void**) &_5, &_3) == SUCCESS
+	  ; zephir_hash_move_forward_ex(_4, &_3)
 	) {
 		ZEPHIR_GET_HMKEY(key, _4, _3);
 		ZEPHIR_GET_HVALUE(value, _5);
@@ -1951,8 +1974,8 @@ PHP_METHOD(Phalcon_Tag, javascriptInclude) {
 	ZVAL_STRING(code, "<script", 1);
 	zephir_is_iterable(params, &_4, &_3, 0, 0);
 	for (
-		; zend_hash_get_current_data_ex(_4, (void**) &_5, &_3) == SUCCESS
-		; zend_hash_move_forward_ex(_4, &_3)
+	  ; zephir_hash_get_current_data_ex(_4, (void**) &_5, &_3) == SUCCESS
+	  ; zephir_hash_move_forward_ex(_4, &_3)
 	) {
 		ZEPHIR_GET_HMKEY(key, _4, _3);
 		ZEPHIR_GET_HVALUE(value, _5);
@@ -2034,8 +2057,8 @@ PHP_METHOD(Phalcon_Tag, image) {
 	ZVAL_STRING(code, "<img", 1);
 	zephir_is_iterable(params, &_3, &_2, 0, 0);
 	for (
-		; zend_hash_get_current_data_ex(_3, (void**) &_4, &_2) == SUCCESS
-		; zend_hash_move_forward_ex(_3, &_2)
+	  ; zephir_hash_get_current_data_ex(_3, (void**) &_4, &_2) == SUCCESS
+	  ; zephir_hash_move_forward_ex(_3, &_2)
 	) {
 		ZEPHIR_GET_HMKEY(key, _3, _2);
 		ZEPHIR_GET_HVALUE(value, _4);
@@ -2258,8 +2281,8 @@ PHP_METHOD(Phalcon_Tag, tagHtml) {
 	ZEPHIR_CONCAT_SV(localCode, "<", tagName);
 	zephir_is_iterable(params, &_1, &_0, 0, 0);
 	for (
-		; zend_hash_get_current_data_ex(_1, (void**) &_2, &_0) == SUCCESS
-		; zend_hash_move_forward_ex(_1, &_0)
+	  ; zephir_hash_get_current_data_ex(_1, (void**) &_2, &_0) == SUCCESS
+	  ; zephir_hash_move_forward_ex(_1, &_0)
 	) {
 		ZEPHIR_GET_HMKEY(key, _1, _0);
 		ZEPHIR_GET_HVALUE(value, _2);

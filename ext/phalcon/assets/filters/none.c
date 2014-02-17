@@ -43,7 +43,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Assets_Filters_None) {
 
 	ZEPHIR_REGISTER_CLASS(Phalcon\\Assets\\Filters, None, phalcon, assets_filters_none, phalcon_assets_filters_none_method_entry, 0);
 
-
 	return SUCCESS;
 
 }

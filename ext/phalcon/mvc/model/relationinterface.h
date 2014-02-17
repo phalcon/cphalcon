@@ -4,17 +4,17 @@ extern zend_class_entry *phalcon_mvc_model_relationinterface_ce;
 ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_RelationInterface);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_relationinterface___construct, 0, 0, 4)
-	ZEND_ARG_INFO(0, type)
-	ZEND_ARG_INFO(0, referencedModel)
-	ZEND_ARG_INFO(0, fields)
-	ZEND_ARG_INFO(0, referencedFields)
-	ZEND_ARG_INFO(0, options)
+  ZEND_ARG_INFO(0, type)
+  ZEND_ARG_INFO(0, referencedModel)
+  ZEND_ARG_INFO(0, fields)
+  ZEND_ARG_INFO(0, referencedFields)
+  ZEND_ARG_INFO(0, options)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_relationinterface_setintermediaterelation, 0, 0, 3)
-	ZEND_ARG_INFO(0, intermediateFields)
-	ZEND_ARG_INFO(0, intermediateModel)
-	ZEND_ARG_INFO(0, intermediateReferencedFields)
+  ZEND_ARG_INFO(0, intermediateFields)
+  ZEND_ARG_INFO(0, intermediateModel)
+  ZEND_ARG_INFO(0, intermediateReferencedFields)
 ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_mvc_model_relationinterface_method_entry) {
@@ -32,5 +32,5 @@ ZEPHIR_INIT_FUNCS(phalcon_mvc_model_relationinterface_method_entry) {
 	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_RelationInterface, getIntermediateFields, NULL)
 	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_RelationInterface, getIntermediateModel, NULL)
 	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_RelationInterface, getIntermediateReferencedFields, NULL)
-	PHP_FE_END
+  PHP_FE_END
 };

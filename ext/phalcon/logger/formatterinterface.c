@@ -38,7 +38,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Logger_FormatterInterface) {
 
 	ZEPHIR_REGISTER_INTERFACE(Phalcon\\Logger, FormatterInterface, phalcon, logger_formatterinterface, phalcon_logger_formatterinterface_method_entry);
 
-
 	return SUCCESS;
 
 }

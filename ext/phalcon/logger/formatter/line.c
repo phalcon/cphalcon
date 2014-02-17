@@ -48,13 +48,14 @@ ZEPHIR_INIT_CLASS(Phalcon_Logger_Formatter_Line) {
 
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Logger\\Formatter, Line, phalcon, logger_formatter_line, phalcon_logger_formatter_ce, phalcon_logger_formatter_line_method_entry, 0);
 
-/**
+	/**
 	 * Default date format
 	 *
 	 * @var string
 	 */
 	zend_declare_property_string(phalcon_logger_formatter_line_ce, SL("_dateFormat"), "D, d M y H:i:s O", ZEND_ACC_PROTECTED TSRMLS_CC);
-/**
+
+	/**
 	 * Format applied to each message
 	 *
 	 * @var string
@@ -62,7 +63,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Logger_Formatter_Line) {
 	zend_declare_property_string(phalcon_logger_formatter_line_ce, SL("_format"), "[%date%][%type%] %message%", ZEND_ACC_PROTECTED TSRMLS_CC);
 
 	zend_class_implements(phalcon_logger_formatter_line_ce TSRMLS_CC, 1, phalcon_logger_formatterinterface_ce);
-
 	return SUCCESS;
 
 }
@@ -182,8 +182,8 @@ PHP_METHOD(Phalcon_Logger_Formatter_Line, format) {
 		ZEPHIR_INIT_VAR(message);
 		ZVAL_EMPTY_STRING(message);
 	}
-		type = zephir_get_intval(type_param);
-		timestamp = zephir_get_intval(timestamp_param);
+	type = zephir_get_intval(type_param);
+	timestamp = zephir_get_intval(timestamp_param);
 
 
 	ZEPHIR_OBS_VAR(format);

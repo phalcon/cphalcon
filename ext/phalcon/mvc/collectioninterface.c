@@ -38,7 +38,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_CollectionInterface) {
 
 	ZEPHIR_REGISTER_INTERFACE(Phalcon\\Mvc, CollectionInterface, phalcon, mvc_collectioninterface, phalcon_mvc_collectioninterface_method_entry);
 
-
 	return SUCCESS;
 
 }

@@ -19,6 +19,7 @@
 #include "kernel/concat.h"
 #include "kernel/operators.h"
 #include "kernel/exception.h"
+#include "kernel/hash.h"
 
 
 /*
@@ -99,43 +100,49 @@ ZEPHIR_INIT_CLASS(Phalcon_Acl_Adapter_Memory) {
 
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Acl\\Adapter, Memory, phalcon, acl_adapter_memory, phalcon_acl_adapter_ce, phalcon_acl_adapter_memory_method_entry, 0);
 
-/**
+	/**
 	 * Roles Names
 	 *
 	 * @var mixed
 	 */
 	zend_declare_property_null(phalcon_acl_adapter_memory_ce, SL("_rolesNames"), ZEND_ACC_PROTECTED TSRMLS_CC);
-/**
+
+	/**
 	 * Roles
 	 *
 	 * @var mixed
 	 */
 	zend_declare_property_null(phalcon_acl_adapter_memory_ce, SL("_roles"), ZEND_ACC_PROTECTED TSRMLS_CC);
-/**
+
+	/**
 	 * Resource Names
 	 *
 	 * @var mixed
 	 */
 	zend_declare_property_null(phalcon_acl_adapter_memory_ce, SL("_resourcesNames"), ZEND_ACC_PROTECTED TSRMLS_CC);
-/**
+
+	/**
 	 * Resources
 	 *
 	 * @var mixed
 	 */
 	zend_declare_property_null(phalcon_acl_adapter_memory_ce, SL("_resources"), ZEND_ACC_PROTECTED TSRMLS_CC);
-/**
+
+	/**
 	 * Access
 	 *
 	 * @var mixed
 	 */
 	zend_declare_property_null(phalcon_acl_adapter_memory_ce, SL("_access"), ZEND_ACC_PROTECTED TSRMLS_CC);
-/**
+
+	/**
 	 * Role Inherits
 	 *
 	 * @var mixed
 	 */
 	zend_declare_property_null(phalcon_acl_adapter_memory_ce, SL("_roleInherits"), ZEND_ACC_PROTECTED TSRMLS_CC);
-/**
+
+	/**
 	 * Access List
 	 *
 	 * @var mixed
@@ -395,7 +402,7 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, addResourceAccess) {
 	if ((Z_TYPE_P(accessList) == IS_ARRAY)) {
 		zephir_is_iterable(accessList, &_3, &_2, 0, 0);
 		for (
-		  ; zend_hash_get_current_data_ex(_3, (void**) &_4, &_2) == SUCCESS
+		  ; zephir_hash_get_current_data_ex(_3, (void**) &_4, &_2) == SUCCESS
 		  ; zephir_hash_move_forward_ex(_3, &_2)
 		) {
 			ZEPHIR_GET_HVALUE(accessName, _4);
@@ -442,7 +449,7 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, dropResourceAccess) {
 	if ((Z_TYPE_P(accessList) == IS_ARRAY)) {
 		zephir_is_iterable(accessList, &_1, &_0, 0, 0);
 		for (
-		  ; zend_hash_get_current_data_ex(_1, (void**) &_2, &_0) == SUCCESS
+		  ; zephir_hash_get_current_data_ex(_1, (void**) &_2, &_0) == SUCCESS
 		  ; zephir_hash_move_forward_ex(_1, &_0)
 		) {
 			ZEPHIR_GET_HVALUE(accessName, _2);
@@ -522,7 +529,7 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, _allowOrDeny) {
 	if ((Z_TYPE_P(access) == IS_ARRAY)) {
 		zephir_is_iterable(access, &_3, &_2, 0, 0);
 		for (
-		  ; zend_hash_get_current_data_ex(_3, (void**) &_4, &_2) == SUCCESS
+		  ; zephir_hash_get_current_data_ex(_3, (void**) &_4, &_2) == SUCCESS
 		  ; zephir_hash_move_forward_ex(_3, &_2)
 		) {
 			ZEPHIR_GET_HVALUE(accessName, _4);
@@ -541,7 +548,7 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, _allowOrDeny) {
 		}
 		zephir_is_iterable(access, &_7, &_6, 0, 0);
 		for (
-		  ; zend_hash_get_current_data_ex(_7, (void**) &_8, &_6) == SUCCESS
+		  ; zephir_hash_get_current_data_ex(_7, (void**) &_8, &_6) == SUCCESS
 		  ; zephir_hash_move_forward_ex(_7, &_6)
 		) {
 			ZEPHIR_GET_HVALUE(accessName, _8);
@@ -731,7 +738,7 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, isAllowed) {
 			if ((Z_TYPE_P(inheritedRoles) == IS_ARRAY)) {
 				zephir_is_iterable(inheritedRoles, &_4, &_3, 0, 0);
 				for (
-				  ; zend_hash_get_current_data_ex(_4, (void**) &_5, &_3) == SUCCESS
+				  ; zephir_hash_get_current_data_ex(_4, (void**) &_5, &_3) == SUCCESS
 				  ; zephir_hash_move_forward_ex(_4, &_3)
 				) {
 					ZEPHIR_GET_HVALUE(inheritedRole, _5);
@@ -755,7 +762,7 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, isAllowed) {
 			if ((Z_TYPE_P(inheritedRoles) == IS_ARRAY)) {
 				zephir_is_iterable(inheritedRoles, &_7, &_6, 0, 0);
 				for (
-				  ; zend_hash_get_current_data_ex(_7, (void**) &_8, &_6) == SUCCESS
+				  ; zephir_hash_get_current_data_ex(_7, (void**) &_8, &_6) == SUCCESS
 				  ; zephir_hash_move_forward_ex(_7, &_6)
 				) {
 					ZEPHIR_GET_HVALUE(inheritedRole, _8);
@@ -780,7 +787,7 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, isAllowed) {
 			if ((Z_TYPE_P(inheritedRoles) == IS_ARRAY)) {
 				zephir_is_iterable(inheritedRoles, &_10, &_9, 0, 0);
 				for (
-				  ; zend_hash_get_current_data_ex(_10, (void**) &_11, &_9) == SUCCESS
+				  ; zephir_hash_get_current_data_ex(_10, (void**) &_11, &_9) == SUCCESS
 				  ; zephir_hash_move_forward_ex(_10, &_9)
 				) {
 					ZEPHIR_GET_HVALUE(inheritedRole, _11);

@@ -38,7 +38,6 @@ ZEPHIR_INIT_CLASS(Phalcon_CryptInterface) {
 
 	ZEPHIR_REGISTER_INTERFACE(Phalcon, CryptInterface, phalcon, cryptinterface, phalcon_cryptinterface_method_entry);
 
-
 	return SUCCESS;
 
 }

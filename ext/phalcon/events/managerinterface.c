@@ -40,7 +40,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Events_ManagerInterface) {
 
 	ZEPHIR_REGISTER_INTERFACE(Phalcon\\Events, ManagerInterface, phalcon, events_managerinterface, phalcon_events_managerinterface_method_entry);
 
-
 	return SUCCESS;
 
 }

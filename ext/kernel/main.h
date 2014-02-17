@@ -457,7 +457,7 @@ int zephir_fetch_parameters(int num_args TSRMLS_DC, int required_args, int optio
 #ifndef ZEPHIR_RELEASE
 #define ZEPHIR_DEBUG_PARAMS , const char *file, int line
 #else
-#define ZEPHIR_DEBUG_PARAMS
+#define ZEPHIR_DEBUG_PARAMS , const char *file, int line
 #endif
 
 #endif /* ZEPHIR_KERNEL_MAIN_H */

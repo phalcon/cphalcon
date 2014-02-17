@@ -43,7 +43,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Forms_Element_TextArea) {
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Forms\\Element, TextArea, phalcon, forms_element_textarea, phalcon_forms_element_ce, phalcon_forms_element_textarea_method_entry, 0);
 
 	zend_class_implements(phalcon_forms_element_textarea_ce TSRMLS_CC, 1, phalcon_forms_elementinterface_ce);
-
 	return SUCCESS;
 
 }

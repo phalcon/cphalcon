@@ -100,7 +100,7 @@ class StringLength extends \Phalcon\Validation\Validator implements \Phalcon\Val
 					let message = validation->getDefaultMessage("TooLong");
 				}
 
-				validation->appendMessage(new Phalcon\Validation\Message(strtr(message, replacePairs), field, "TooLong"));
+				validation->appendMessage(new \Phalcon\Validation\Message(strtr(message, replacePairs), field, "TooLong"));
 				return false;
 			}
 		}
@@ -122,7 +122,7 @@ class StringLength extends \Phalcon\Validation\Validator implements \Phalcon\Val
 					let message = validation->getDefaultMessage("TooShort");
 				}
 
-				validation->appendMessage(new Phalcon\Validation\Message(strtr(message, replacePairs), field, "TooShort"));
+				validation->appendMessage(new \Phalcon\Validation\Message(strtr(message, replacePairs), field, "TooShort"));
 				return false;
 			}
 		}

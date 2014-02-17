@@ -40,7 +40,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Security_Exception) {
 
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Security, Exception, phalcon, security_exception, phalcon_exception_ce, NULL, 0);
 
-
 	return SUCCESS;
 
 }

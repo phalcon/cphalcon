@@ -41,7 +41,7 @@
  * but it can be in different applications.
  *
  *<code>
- * $session = new Phalcon\Session\Adapter\Files(array(
+ * $session = new \Phalcon\Session\Adapter\Files(array(
  *    'uniqueId' => 'my-private-app'
  * ));
  *
@@ -55,7 +55,6 @@
 ZEPHIR_INIT_CLASS(Phalcon_Session) {
 
 	ZEPHIR_REGISTER_CLASS(Phalcon, Session, phalcon, session, NULL, ZEND_ACC_EXPLICIT_ABSTRACT_CLASS);
-
 
 	return SUCCESS;
 

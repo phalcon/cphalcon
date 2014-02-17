@@ -75,7 +75,7 @@ class Uniqueness extends \Phalcon\Validation\Validator implements \Phalcon\Valid
 				let message = validation->getDefaultMessage("Uniqueness");
 			}
 
-			validation->appendMessage(new Phalcon\Validation\Message(strtr(message, replacePairs), field, "Uniqueness"));
+			validation->appendMessage(new \Phalcon\Validation\Message(strtr(message, replacePairs), field, "Uniqueness"));
 			return false;
 		}
 

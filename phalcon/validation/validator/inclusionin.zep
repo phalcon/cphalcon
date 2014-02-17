@@ -80,7 +80,7 @@ class InclusionIn extends \Phalcon\Validation\Validator implements \Phalcon\Vali
 				let message = validation->getDefaultMessage("InclusionIn");
 			}
 
-			validation->appendMessage(new Phalcon\Validation\Message(strtr(message, replacePairs), field, "InclusionIn"));
+			validation->appendMessage(new \Phalcon\Validation\Message(strtr(message, replacePairs), field, "InclusionIn"));
 			return false;
 		}
 

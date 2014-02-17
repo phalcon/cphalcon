@@ -45,10 +45,10 @@
  * Helper class to create a group of routes with common attributes
  *
  *<code>
- * $router = new Phalcon\Mvc\Router();
+ * $router = new \Phalcon\Mvc\Router();
  *
  * //Create a group with a common module and controller
- * $blog = new Phalcon\Mvc\Router\Group(array(
+ * $blog = new \Phalcon\Mvc\Router\Group(array(
  * 	'module' => 'blog',
  * 	'controller' => 'index'
  * ));
@@ -82,9 +82,13 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Router_Group) {
 	ZEPHIR_REGISTER_CLASS(Phalcon\\Mvc\\Router, Group, phalcon, mvc_router_group, phalcon_mvc_router_group_method_entry, 0);
 
 	zend_declare_property_null(phalcon_mvc_router_group_ce, SL("_prefix"), ZEND_ACC_PROTECTED TSRMLS_CC);
+
 	zend_declare_property_null(phalcon_mvc_router_group_ce, SL("_hostname"), ZEND_ACC_PROTECTED TSRMLS_CC);
+
 	zend_declare_property_null(phalcon_mvc_router_group_ce, SL("_paths"), ZEND_ACC_PROTECTED TSRMLS_CC);
+
 	zend_declare_property_null(phalcon_mvc_router_group_ce, SL("_routes"), ZEND_ACC_PROTECTED TSRMLS_CC);
+
 	zend_declare_property_null(phalcon_mvc_router_group_ce, SL("_beforeMatch"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
 	return SUCCESS;
@@ -136,7 +140,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Group, setHostname) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &hostname_param);
 
-		zephir_get_strval(hostname, hostname_param);
+	zephir_get_strval(hostname, hostname_param);
 
 
 	zephir_update_property_this(this_ptr, SL("_hostname"), hostname TSRMLS_CC);
@@ -170,7 +174,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Group, setPrefix) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &prefix_param);
 
-		zephir_get_strval(prefix, prefix_param);
+	zephir_get_strval(prefix, prefix_param);
 
 
 	zephir_update_property_this(this_ptr, SL("_prefix"), prefix TSRMLS_CC);
@@ -609,7 +613,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Group, addHead) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 1, &pattern_param, &paths);
 
-		zephir_get_strval(pattern, pattern_param);
+	zephir_get_strval(pattern, pattern_param);
 	if (!paths) {
 		paths = ZEPHIR_GLOBAL(global_null);
 	}

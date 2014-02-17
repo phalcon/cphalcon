@@ -38,7 +38,6 @@ ZEPHIR_INIT_CLASS(Phalcon_DispatcherInterface) {
 
 	ZEPHIR_REGISTER_INTERFACE(Phalcon, DispatcherInterface, phalcon, dispatcherinterface, phalcon_dispatcherinterface_method_entry);
 
-
 	return SUCCESS;
 
 }

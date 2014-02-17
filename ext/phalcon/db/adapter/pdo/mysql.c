@@ -17,6 +17,7 @@
 #include "kernel/concat.h"
 #include "kernel/object.h"
 #include "kernel/fcall.h"
+#include "kernel/hash.h"
 #include "kernel/string.h"
 #include "kernel/operators.h"
 
@@ -62,6 +63,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Db_Adapter_Pdo_Mysql) {
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Db\\Adapter\\Pdo, Mysql, phalcon, db_adapter_pdo_mysql, phalcon_db_adapter_pdo_ce, phalcon_db_adapter_pdo_mysql_method_entry, 0);
 
 	zend_declare_property_string(phalcon_db_adapter_pdo_mysql_ce, SL("_type"), "mysql", ZEND_ACC_PROTECTED TSRMLS_CC);
+
 	zend_declare_property_string(phalcon_db_adapter_pdo_mysql_ce, SL("_dialectType"), "mysql", ZEND_ACC_PROTECTED TSRMLS_CC);
 
 	return SUCCESS;
@@ -150,7 +152,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Mysql, describeColumns) {
 	array_init(columns);
 	zephir_is_iterable(describe, &_3, &_2, 0, 0);
 	for (
-	  ; zend_hash_get_current_data_ex(_3, (void**) &_4, &_2) == SUCCESS
+	  ; zephir_hash_get_current_data_ex(_3, (void**) &_4, &_2) == SUCCESS
 	  ; zephir_hash_move_forward_ex(_3, &_2)
 	) {
 		ZEPHIR_GET_HVALUE(field, _4);

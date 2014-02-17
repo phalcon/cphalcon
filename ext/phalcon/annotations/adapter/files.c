@@ -148,7 +148,7 @@ PHP_METHOD(Phalcon_Annotations_Adapter_Files, write) {
 	}
 
 
-	if (zephir_is_instance_of(data, SL("Phalcon\\Annotations\\Reflection") TSRMLS_CC)) {
+	if (!(zephir_is_instance_of(data, SL("Phalcon\\Annotations\\Reflection") TSRMLS_CC))) {
 		ZEPHIR_THROW_EXCEPTION_STR(spl_ce_InvalidArgumentException, "Parameter 'data' must be an instance of 'Phalcon\\Annotations\\Reflection'");
 		return;
 	}
