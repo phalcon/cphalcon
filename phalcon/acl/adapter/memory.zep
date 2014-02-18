@@ -505,7 +505,7 @@ class Memory extends Adapter
 	 public function isAllowed(role, resource, access)
 	 {
 		var eventsManager, accessList, accessKey,
-			haveAccess, roleInherits, inheritedRole, rolesNames,
+			haveAccess = null, roleInherits, inheritedRole, rolesNames,
 			inheritedRoles;
 
 		let this->_activeRole = role;

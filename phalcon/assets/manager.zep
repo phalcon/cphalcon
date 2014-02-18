@@ -288,7 +288,7 @@ class Manager
 	 */
 	public function output(<\Phalcon\Assets\Collection> collection, callback, type)
 	{
-		var output, resources, filters, prefix, sourceBasePath,
+		var output, resources, filters, prefix, sourceBasePath = null,
 			targetBasePath, options, collectionSourcePath, completeSourcePath,
 			collectionTargetPath, completeTargetPath, filteredJoinedContent, join,
 			resource, filterNeeded, local, sourcePath, targetPath, path, prefixedPath,

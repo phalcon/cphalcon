@@ -412,7 +412,7 @@ class Manager implements \Phalcon\Mvc\Model\ManagerInterface, \Phalcon\Di\Inject
 	 */
 	public function getReadConnection(<\Phalcon\Mvc\ModelInterface> model) -> <\Phalcon\Db\AdapterInterface>
 	{
-		var connectionServices, dependencyInjector, service, connection;
+		var connectionServices, dependencyInjector, service = null, connection;
 
 		let connectionServices = this->_readConnectionServices;
 
@@ -451,7 +451,7 @@ class Manager implements \Phalcon\Mvc\Model\ManagerInterface, \Phalcon\Di\Inject
 	 */
 	public function getWriteConnection(<\Phalcon\Mvc\ModelInterface> model) -> <\Phalcon\Db\AdapterInterface>
 	{
-		var connectionServices, dependencyInjector, service, connection;
+		var connectionServices, dependencyInjector, service = null, connection;
 
 		let connectionServices = this->_writeConnectionServices;
 

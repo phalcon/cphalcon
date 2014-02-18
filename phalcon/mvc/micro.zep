@@ -589,7 +589,7 @@ class Micro extends \Phalcon\Di\Injectable //implements ArrayAccess
 	 */
 	public function handle(uri=null)
 	{
-		var dependencyInjector, eventsManager, status, router, matchedRoute,
+		var dependencyInjector, eventsManager, status = null, router, matchedRoute,
 			handler, beforeHandlers, params, returnedValue,
 			afterHandlers, notFoundHandler, finishHandlers, finish, before, after;
 

@@ -635,13 +635,12 @@ class Request implements \Phalcon\Http\RequestInterface, \Phalcon\Di\InjectionAw
 	public function hasFiles(boolean notErrored=false) -> boolean
 	{
 		var files, file, error;
-		int numberFiles;
+		int numberFiles = 0;
 
 		let files = _FILES;
 		if notErrored {
 			return count(files) > 0;
 		} else {
-			let numberFiles = 0;
 			for file in files {
 				if !fetch error, file["error"] {
 					let error = true;

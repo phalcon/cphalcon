@@ -115,10 +115,13 @@ class Annotation
 			case 305:
 				let value = false;
 				break;
+
 			case 306:
 				let value = true;
 				break;
+
 			case 308:
+				let arrayValue = null;
 				for item in expr["items"] {
 					let resolvedItem = this->getExpression(item["expr"]);
 					if fetch name, item["name"] {
@@ -128,8 +131,10 @@ class Annotation
 					}
 				}
 				return arrayValue;
+
 			case 300:
 				return new \Phalcon\Annotations\Annotation(expr);
+
    			default:
 				throw new \Phalcon\Annotations\Exception("The expression ". type. " is unknown");
 		}
