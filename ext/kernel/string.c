@@ -220,9 +220,8 @@ void zephir_fast_join_str(zval *return_value, char *glue, unsigned int glue_leng
 	unsigned int   numelems, i = 0;
 
 	if (Z_TYPE_P(pieces) != IS_ARRAY) {
-		ZVAL_NULL(return_value);
 		php_error_docref(NULL TSRMLS_CC, E_WARNING, "Invalid arguments supplied for fast_join()");
-		return;
+		RETURN_EMPTY_STRING();
 	}
 
 	arr = Z_ARRVAL_P(pieces);
@@ -263,7 +262,6 @@ void zephir_camelize(zval *return_value, const zval *str){
 	if (unlikely(Z_TYPE_P(str) != IS_STRING)) {
 		zend_error(E_WARNING, "Invalid arguments supplied for camelize()");
 		RETURN_EMPTY_STRING();
-		return;
 	}
 
 	marker = Z_STRVAL_P(str);
@@ -342,35 +340,33 @@ void zephir_uncamelize(zval *return_value, const zval *str){
 /**
  * Fast call to explode php function
  */
-void zephir_fast_explode(zval *result, zval *delimiter, zval *str, long limit TSRMLS_DC){
+void zephir_fast_explode(zval *return_value, zval *delimiter, zval *str, long limit TSRMLS_DC){
 
 	if (unlikely(Z_TYPE_P(str) != IS_STRING || Z_TYPE_P(delimiter) != IS_STRING)) {
-		ZVAL_NULL(result);
 		zend_error(E_WARNING, "Invalid arguments supplied for explode()");
-		return;
+		RETURN_EMPTY_STRING();
 	}
 
-	array_init(result);
-	php_explode(delimiter, str, result, limit);
+	array_init(return_value);
+	php_explode(delimiter, str, return_value, limit);
 }
 
 /**
  * Fast call to explode php function
  */
-void zephir_fast_explode_str(zval *result, const char *delimiter, int delimiter_length, zval *str, long limit TSRMLS_DC){
+void zephir_fast_explode_str(zval *return_value, const char *delimiter, int delimiter_length, zval *str, long limit TSRMLS_DC){
 
 	zval delimiter_zval;
 
 	if (unlikely(Z_TYPE_P(str) != IS_STRING)) {
-		ZVAL_NULL(result);
 		zend_error(E_WARNING, "Invalid arguments supplied for explode()");
-		return;
+		RETURN_EMPTY_STRING();
 	}
 
 	ZVAL_STRINGL(&delimiter_zval, delimiter, delimiter_length, 0);
 
-	array_init(result);
-	php_explode(&delimiter_zval, str, result, limit);
+	array_init(return_value);
+	php_explode(&delimiter_zval, str, return_value, limit);
 }
 
 /**

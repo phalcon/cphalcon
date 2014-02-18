@@ -94,6 +94,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Micro) {
  */
 PHP_METHOD(Phalcon_Mvc_Micro, __construct) {
 
+	zend_bool _0;
 	zval *dependencyInjector = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -104,7 +105,11 @@ PHP_METHOD(Phalcon_Mvc_Micro, __construct) {
 	}
 
 
-	if (!(zephir_is_instance_of(dependencyInjector, SL("Phalcon\\DiInterface") TSRMLS_CC))) {
+	_0 = (Z_TYPE_P(dependencyInjector) != IS_NULL);
+	if (_0) {
+		_0 = !zephir_is_instance_of(dependencyInjector, SL("Phalcon\\DiInterface") TSRMLS_CC);
+	}
+	if (_0) {
 		ZEPHIR_THROW_EXCEPTION_STR(spl_ce_InvalidArgumentException, "Parameter 'dependencyInjector' must be an instance of 'Phalcon\\DiInterface'");
 		return;
 	}
@@ -686,6 +691,8 @@ PHP_METHOD(Phalcon_Mvc_Micro, handle) {
 	if (!uri) {
 		uri = ZEPHIR_GLOBAL(global_null);
 	}
+	ZEPHIR_INIT_VAR(status);
+	ZVAL_NULL(status);
 
 
 	ZEPHIR_OBS_VAR(dependencyInjector);

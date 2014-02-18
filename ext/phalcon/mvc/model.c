@@ -133,7 +133,8 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model) {
  */
 PHP_METHOD(Phalcon_Mvc_Model, __construct) {
 
-	zval *dependencyInjector = NULL, *modelsManager = NULL, *_0, *_1;
+	zend_bool _0, _1;
+	zval *dependencyInjector = NULL, *modelsManager = NULL, *_2, *_3;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 2, &dependencyInjector, &modelsManager);
@@ -150,11 +151,19 @@ PHP_METHOD(Phalcon_Mvc_Model, __construct) {
 	}
 
 
-	if (!(zephir_is_instance_of(dependencyInjector, SL("Phalcon\\DiInterface") TSRMLS_CC))) {
+	_0 = (Z_TYPE_P(dependencyInjector) != IS_NULL);
+	if (_0) {
+		_0 = !zephir_is_instance_of(dependencyInjector, SL("Phalcon\\DiInterface") TSRMLS_CC);
+	}
+	if (_0) {
 		ZEPHIR_THROW_EXCEPTION_STR(spl_ce_InvalidArgumentException, "Parameter 'dependencyInjector' must be an instance of 'Phalcon\\DiInterface'");
 		return;
 	}
-	if (!(zephir_is_instance_of(modelsManager, SL("Phalcon\\Mvc\\Model\\ManagerInterface") TSRMLS_CC))) {
+	_1 = (Z_TYPE_P(modelsManager) != IS_NULL);
+	if (_1) {
+		_1 = !zephir_is_instance_of(modelsManager, SL("Phalcon\\Mvc\\Model\\ManagerInterface") TSRMLS_CC);
+	}
+	if (_1) {
 		ZEPHIR_THROW_EXCEPTION_STR(spl_ce_InvalidArgumentException, "Parameter 'modelsManager' must be an instance of 'Phalcon\\Mvc\\Model\\ManagerInterface'");
 		return;
 	}
@@ -168,11 +177,11 @@ PHP_METHOD(Phalcon_Mvc_Model, __construct) {
 	}
 	zephir_update_property_this(this_ptr, SL("_dependencyInjector"), dependencyInjector TSRMLS_CC);
 	if ((Z_TYPE_P(modelsManager) != IS_OBJECT)) {
-		ZEPHIR_INIT_VAR(_0);
-		ZEPHIR_INIT_VAR(_1);
-		ZVAL_STRING(_1, "modelsManager", 1);
-		zephir_call_method_p1(_0, dependencyInjector, "getshared", _1);
-		ZEPHIR_CPY_WRT(modelsManager, _0);
+		ZEPHIR_INIT_VAR(_2);
+		ZEPHIR_INIT_VAR(_3);
+		ZVAL_STRING(_3, "modelsManager", 1);
+		zephir_call_method_p1(_2, dependencyInjector, "getshared", _3);
+		ZEPHIR_CPY_WRT(modelsManager, _2);
 		if ((Z_TYPE_P(modelsManager) != IS_OBJECT)) {
 			ZEPHIR_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "The injected service 'modelsManager' is not valid");
 			return;
@@ -1138,7 +1147,8 @@ PHP_METHOD(Phalcon_Mvc_Model, findFirst) {
  */
 PHP_METHOD(Phalcon_Mvc_Model, query) {
 
-	zval *dependencyInjector = NULL, *criteria, *_0;
+	zend_bool _0;
+	zval *dependencyInjector = NULL, *criteria, *_1;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 1, &dependencyInjector);
@@ -1150,7 +1160,11 @@ PHP_METHOD(Phalcon_Mvc_Model, query) {
 	}
 
 
-	if (!(zephir_is_instance_of(dependencyInjector, SL("Phalcon\\DiInterface") TSRMLS_CC))) {
+	_0 = (Z_TYPE_P(dependencyInjector) != IS_NULL);
+	if (_0) {
+		_0 = !zephir_is_instance_of(dependencyInjector, SL("Phalcon\\DiInterface") TSRMLS_CC);
+	}
+	if (_0) {
 		ZEPHIR_THROW_EXCEPTION_STR(spl_ce_InvalidArgumentException, "Parameter 'dependencyInjector' must be an instance of 'Phalcon\\DiInterface'");
 		return;
 	}
@@ -1164,9 +1178,9 @@ PHP_METHOD(Phalcon_Mvc_Model, query) {
 		zephir_call_method_noret(criteria, "__construct");
 	}
 	zephir_call_method_p1_noret(criteria, "setdi", dependencyInjector);
-	ZEPHIR_INIT_VAR(_0);
-	zephir_call_func(_0, "get_called_class");
-	zephir_call_method_p1_noret(criteria, "setmodelname", _0);
+	ZEPHIR_INIT_VAR(_1);
+	zephir_call_func(_1, "get_called_class");
+	zephir_call_method_p1_noret(criteria, "setmodelname", _1);
 	RETURN_CCTOR(criteria);
 
 }

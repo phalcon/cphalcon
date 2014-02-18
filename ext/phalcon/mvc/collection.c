@@ -93,7 +93,8 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Collection) {
  */
 PHP_METHOD(Phalcon_Mvc_Collection, __construct) {
 
-	zval *dependencyInjector = NULL, *modelsManager = NULL, *_0;
+	zend_bool _0, _1;
+	zval *dependencyInjector = NULL, *modelsManager = NULL, *_2;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 2, &dependencyInjector, &modelsManager);
@@ -110,11 +111,19 @@ PHP_METHOD(Phalcon_Mvc_Collection, __construct) {
 	}
 
 
-	if (!(zephir_is_instance_of(dependencyInjector, SL("Phalcon\\DiInterface") TSRMLS_CC))) {
+	_0 = (Z_TYPE_P(dependencyInjector) != IS_NULL);
+	if (_0) {
+		_0 = !zephir_is_instance_of(dependencyInjector, SL("Phalcon\\DiInterface") TSRMLS_CC);
+	}
+	if (_0) {
 		ZEPHIR_THROW_EXCEPTION_STR(spl_ce_InvalidArgumentException, "Parameter 'dependencyInjector' must be an instance of 'Phalcon\\DiInterface'");
 		return;
 	}
-	if (!(zephir_is_instance_of(modelsManager, SL("Phalcon\\Mvc\\Collection\\ManagerInterface") TSRMLS_CC))) {
+	_1 = (Z_TYPE_P(modelsManager) != IS_NULL);
+	if (_1) {
+		_1 = !zephir_is_instance_of(modelsManager, SL("Phalcon\\Mvc\\Collection\\ManagerInterface") TSRMLS_CC);
+	}
+	if (_1) {
 		ZEPHIR_THROW_EXCEPTION_STR(spl_ce_InvalidArgumentException, "Parameter 'modelsManager' must be an instance of 'Phalcon\\Mvc\\Collection\\ManagerInterface'");
 		return;
 	}
@@ -128,10 +137,10 @@ PHP_METHOD(Phalcon_Mvc_Collection, __construct) {
 	}
 	zephir_update_property_this(this_ptr, SL("_dependencyInjector"), dependencyInjector TSRMLS_CC);
 	if ((Z_TYPE_P(modelsManager) != IS_OBJECT)) {
-		ZEPHIR_INIT_VAR(_0);
-		ZVAL_STRING(_0, "collectionManager", 1);
+		ZEPHIR_INIT_VAR(_2);
+		ZVAL_STRING(_2, "collectionManager", 1);
 		ZEPHIR_INIT_NVAR(modelsManager);
-		zephir_call_method_p1(modelsManager, dependencyInjector, "getshared", _0);
+		zephir_call_method_p1(modelsManager, dependencyInjector, "getshared", _2);
 		if ((Z_TYPE_P(modelsManager) != IS_OBJECT)) {
 			ZEPHIR_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "The injected service 'modelsManager' is not valid");
 			return;

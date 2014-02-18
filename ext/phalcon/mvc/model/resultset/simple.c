@@ -76,7 +76,8 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_Resultset_Simple) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, __construct) {
 
-	zval *columnMap, *model, *result, *cache = NULL, *keepSnapshots = NULL, *rowCount, *_0, *_1;
+	zend_bool _0;
+	zval *columnMap, *model, *result, *cache = NULL, *keepSnapshots = NULL, *rowCount, *_1, *_2;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 3, 2, &columnMap, &model, &result, &cache, &keepSnapshots);
@@ -97,7 +98,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, __construct) {
 		ZEPHIR_THROW_EXCEPTION_STR(spl_ce_InvalidArgumentException, "Parameter 'result' must be an instance of 'Phalcon\\Db\\Result\\Pdo'");
 		return;
 	}
-	if (!(zephir_is_instance_of(cache, SL("Phalcon\\Cache\\BackendInterface") TSRMLS_CC))) {
+	_0 = (Z_TYPE_P(cache) != IS_NULL);
+	if (_0) {
+		_0 = !zephir_is_instance_of(cache, SL("Phalcon\\Cache\\BackendInterface") TSRMLS_CC);
+	}
+	if (_0) {
 		ZEPHIR_THROW_EXCEPTION_STR(spl_ce_InvalidArgumentException, "Parameter 'cache' must be an instance of 'Phalcon\\Cache\\BackendInterface'");
 		return;
 	}
@@ -108,19 +113,19 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, __construct) {
 	if ((Z_TYPE_P(result) != IS_OBJECT)) {
 		RETURN_MM_NULL();
 	}
-	ZEPHIR_INIT_VAR(_0);
-	ZVAL_LONG(_0, 1);
-	zephir_call_method_p1_noret(result, "setfetchmode", _0);
+	ZEPHIR_INIT_VAR(_1);
+	ZVAL_LONG(_1, 1);
+	zephir_call_method_p1_noret(result, "setfetchmode", _1);
 	ZEPHIR_INIT_VAR(rowCount);
 	zephir_call_method(rowCount, result, "numrows");
 	if (ZEPHIR_GT_LONG(rowCount, 32)) {
-		ZEPHIR_INIT_ZVAL_NREF(_1);
-		ZVAL_LONG(_1, 1);
-		zephir_update_property_this(this_ptr, SL("_type"), _1 TSRMLS_CC);
+		ZEPHIR_INIT_ZVAL_NREF(_2);
+		ZVAL_LONG(_2, 1);
+		zephir_update_property_this(this_ptr, SL("_type"), _2 TSRMLS_CC);
 	} else {
-		ZEPHIR_INIT_ZVAL_NREF(_1);
-		ZVAL_LONG(_1, 0);
-		zephir_update_property_this(this_ptr, SL("_type"), _1 TSRMLS_CC);
+		ZEPHIR_INIT_ZVAL_NREF(_2);
+		ZVAL_LONG(_2, 0);
+		zephir_update_property_this(this_ptr, SL("_type"), _2 TSRMLS_CC);
 	}
 	zephir_update_property_this(this_ptr, SL("_count"), rowCount TSRMLS_CC);
 	zephir_update_property_this(this_ptr, SL("_keepSnapshots"), keepSnapshots TSRMLS_CC);

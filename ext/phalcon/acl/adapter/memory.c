@@ -700,6 +700,8 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, isAllowed) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 3, 0, &role, &resource, &access);
 
+	ZEPHIR_INIT_VAR(haveAccess);
+	ZVAL_NULL(haveAccess);
 
 
 	zephir_update_property_this(this_ptr, SL("_activeRole"), role TSRMLS_CC);

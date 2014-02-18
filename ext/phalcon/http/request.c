@@ -1060,7 +1060,6 @@ PHP_METHOD(Phalcon_Http_Request, hasFiles) {
 	if (notErrored) {
 		RETURN_MM_BOOL((zephir_fast_count_int(files TSRMLS_CC) > 0));
 	} else {
-		numberFiles = 0;
 		zephir_is_iterable(files, &_1, &_0, 0, 0);
 		for (
 		  ; zephir_hash_get_current_data_ex(_1, (void**) &_2, &_0) == SUCCESS

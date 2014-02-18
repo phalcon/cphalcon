@@ -589,11 +589,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, getMessages) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_Resultset, delete) {
 
-	zval *_5 = NULL;
-	HashTable *_2;
-	HashPosition _1;
-	zend_bool transaction;
-	zval *conditionCallback = NULL, *record = NULL, *connection = NULL, *_0, **_3, *_4 = NULL, *_6 = NULL;
+	zval *_6 = NULL;
+	HashTable *_3;
+	HashPosition _2;
+	zend_bool _0, transaction;
+	zval *conditionCallback = NULL, *record = NULL, *connection = NULL, *_1, **_4, *_5 = NULL, *_7 = NULL;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 1, &conditionCallback);
@@ -603,19 +603,23 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, delete) {
 	}
 
 
-	if (!(zephir_is_instance_of(conditionCallback, SL("Phalcon\\Mvc\\Model\\Closure") TSRMLS_CC))) {
+	_0 = (Z_TYPE_P(conditionCallback) != IS_NULL);
+	if (_0) {
+		_0 = !zephir_is_instance_of(conditionCallback, SL("Phalcon\\Mvc\\Model\\Closure") TSRMLS_CC);
+	}
+	if (_0) {
 		ZEPHIR_THROW_EXCEPTION_STR(spl_ce_InvalidArgumentException, "Parameter 'conditionCallback' must be an instance of 'Phalcon\\Mvc\\Model\\Closure'");
 		return;
 	}
 	transaction = 0;
-	ZEPHIR_INIT_VAR(_0);
-	zephir_call_func_p1(_0, "iterator", this_ptr);
-	zephir_is_iterable(_0, &_2, &_1, 0, 0);
+	ZEPHIR_INIT_VAR(_1);
+	zephir_call_func_p1(_1, "iterator", this_ptr);
+	zephir_is_iterable(_1, &_3, &_2, 0, 0);
 	for (
-	  ; zephir_hash_get_current_data_ex(_2, (void**) &_3, &_1) == SUCCESS
-	  ; zephir_hash_move_forward_ex(_2, &_1)
+	  ; zephir_hash_get_current_data_ex(_3, (void**) &_4, &_2) == SUCCESS
+	  ; zephir_hash_move_forward_ex(_3, &_2)
 	) {
-		ZEPHIR_GET_HVALUE(record, _3);
+		ZEPHIR_GET_HVALUE(record, _4);
 		if ((transaction == 0)) {
 			if (!((zephir_method_exists_ex(record, SS("getwriteconnection") TSRMLS_CC) == SUCCESS))) {
 				ZEPHIR_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "The returned record is not valid");
@@ -627,21 +631,21 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, delete) {
 			zephir_call_method_noret(connection, "begin");
 		}
 		if ((Z_TYPE_P(conditionCallback) == IS_OBJECT)) {
-			ZEPHIR_INIT_NVAR(_4);
 			ZEPHIR_INIT_NVAR(_5);
-			array_init_size(_5, 2);
-			zephir_array_fast_append(_5, record);
-			ZEPHIR_CALL_USER_FUNC_ARRAY(_4, conditionCallback, _5);
-			if (ZEPHIR_IS_FALSE(_4)) {
+			ZEPHIR_INIT_NVAR(_6);
+			array_init_size(_6, 2);
+			zephir_array_fast_append(_6, record);
+			ZEPHIR_CALL_USER_FUNC_ARRAY(_5, conditionCallback, _6);
+			if (ZEPHIR_IS_FALSE(_5)) {
 				continue;
 			}
 		}
-		ZEPHIR_INIT_NVAR(_4);
-		zephir_call_method(_4, record, "delete");
-		if (!(zephir_is_true(_4))) {
-			ZEPHIR_INIT_NVAR(_6);
-			zephir_call_method(_6, record, "getmessages");
-			zephir_update_property_this(this_ptr, SL("_errorMessages"), _6 TSRMLS_CC);
+		ZEPHIR_INIT_NVAR(_5);
+		zephir_call_method(_5, record, "delete");
+		if (!(zephir_is_true(_5))) {
+			ZEPHIR_INIT_NVAR(_7);
+			zephir_call_method(_7, record, "getmessages");
+			zephir_update_property_this(this_ptr, SL("_errorMessages"), _7 TSRMLS_CC);
 			zephir_call_method_noret(connection, "rollback");
 			transaction = 0;
 			break;

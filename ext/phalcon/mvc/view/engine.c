@@ -60,6 +60,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_View_Engine) {
  */
 PHP_METHOD(Phalcon_Mvc_View_Engine, __construct) {
 
+	zend_bool _0;
 	zval *view, *dependencyInjector = NULL;
 
 	zephir_fetch_params(0, 1, 1, &view, &dependencyInjector);
@@ -73,7 +74,11 @@ PHP_METHOD(Phalcon_Mvc_View_Engine, __construct) {
 		ZEPHIR_THROW_EXCEPTION_STRW(spl_ce_InvalidArgumentException, "Parameter 'view' must be an instance of 'Phalcon\\Mvc\\ViewInterface'");
 		return;
 	}
-	if (!(zephir_is_instance_of(dependencyInjector, SL("Phalcon\\DiInterface") TSRMLS_CC))) {
+	_0 = (Z_TYPE_P(dependencyInjector) != IS_NULL);
+	if (_0) {
+		_0 = !zephir_is_instance_of(dependencyInjector, SL("Phalcon\\DiInterface") TSRMLS_CC);
+	}
+	if (_0) {
 		ZEPHIR_THROW_EXCEPTION_STRW(spl_ce_InvalidArgumentException, "Parameter 'dependencyInjector' must be an instance of 'Phalcon\\DiInterface'");
 		return;
 	}

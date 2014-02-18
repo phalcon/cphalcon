@@ -515,6 +515,8 @@ PHP_METHOD(Phalcon_Assets_Manager, output) {
 	zephir_fetch_params(1, 3, 0, &collection, &callback, &type);
 
 	ZEPHIR_SEPARATE_PARAM(type);
+	ZEPHIR_INIT_VAR(sourceBasePath);
+	ZVAL_NULL(sourceBasePath);
 
 
 	if (!(zephir_is_instance_of(collection, SL("Phalcon\\Assets\\Collection") TSRMLS_CC))) {

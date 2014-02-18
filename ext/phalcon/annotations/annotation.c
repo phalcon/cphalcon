@@ -176,6 +176,8 @@ PHP_METHOD(Phalcon_Annotations_Annotation, getExpression) {
 			break;
 		}
 		if (ZEPHIR_IS_LONG(type, 308)) {
+			ZEPHIR_INIT_VAR(arrayValue);
+			ZVAL_NULL(arrayValue);
 			zephir_array_fetch_string(&_0, expr, SL("items"), PH_NOISY | PH_READONLY TSRMLS_CC);
 			zephir_is_iterable(_0, &_2, &_1, 0, 0);
 			for (

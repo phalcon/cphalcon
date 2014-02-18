@@ -717,6 +717,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getReadConnection) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &model);
 
+	ZEPHIR_INIT_VAR(service);
+	ZVAL_NULL(service);
 
 
 	if (!(zephir_is_instance_of(model, SL("Phalcon\\Mvc\\ModelInterface") TSRMLS_CC))) {
@@ -769,6 +771,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getWriteConnection) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &model);
 
+	ZEPHIR_INIT_VAR(service);
+	ZVAL_NULL(service);
 
 
 	if (!(zephir_is_instance_of(model, SL("Phalcon\\Mvc\\ModelInterface") TSRMLS_CC))) {
