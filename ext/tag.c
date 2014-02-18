@@ -781,7 +781,7 @@ PHP_METHOD(Phalcon_Tag, linkTo){
 		phalcon_array_unset_string(&params, SS("query"), 0);
 
 		PHALCON_INIT_VAR(query_string);
-		phalcon_http_build_query(query_string, *query, "&" TSRMLS_CC);
+		phalcon_http_build_query(query_string, query, "&" TSRMLS_CC);
 	}
 	else {
 		PHALCON_INIT_VAR(query_string);
