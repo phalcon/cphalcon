@@ -46,8 +46,7 @@ namespace Phalcon\Mvc\Model\Query;
  *$queryBuilder = new \Phalcon\Mvc\Model\Query\Builder($params);
  *</code>
  */
-class Builder
-//implements Phalcon_Mvc_Model_Query_BuilderInterface, \Phalcon_DI_InjectionAwareInterface
+class Builder implements \Phalcon\Mvc\Model\Query\BuilderInterface, \Phalcon\Di\InjectionAwareInterface
 {
 
 	protected _dependencyInjector;
