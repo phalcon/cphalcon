@@ -20,9 +20,10 @@
 #include "di/injectable.h"
 #include "di/exception.h"
 #include "di/injectionawareinterface.h"
+#include "diinterface.h"
 #include "di.h"
 #include "events/eventsawareinterface.h"
-#include "diinterface.h"
+#include "events/managerinterface.h"
 
 #include "kernel/main.h"
 #include "kernel/memory.h"
@@ -79,7 +80,7 @@ PHALCON_INIT_CLASS(Phalcon_DI_Injectable){
  * Sets the dependency injector
  *
  * @param Phalcon\DiInterface $dependencyInjector
- * @throw Phalcon\Di\Exception if !($dependencyInjector instanceof Phalcon\DiInterface)
+ * @throw Phalcon\Di\Exception
  */
 PHP_METHOD(Phalcon_DI_Injectable, setDI){
 
@@ -87,7 +88,7 @@ PHP_METHOD(Phalcon_DI_Injectable, setDI){
 
 	phalcon_fetch_params_ex(1, 0, &dependency_injector);
 	
-	PHALCON_VERIFY_INTERFACE_EX(*dependency_injector, phalcon_diinterface_ce, phalcon_di_exception_ce, 0);
+	PHALCON_VERIFY_INTERFACE_OR_NULL_EX(*dependency_injector, phalcon_diinterface_ce, phalcon_di_exception_ce, 0);
 	phalcon_update_property_this(this_ptr, SL("_dependencyInjector"), *dependency_injector TSRMLS_CC);
 }
 
@@ -115,14 +116,15 @@ PHP_METHOD(Phalcon_DI_Injectable, getDI){
  *
  * @param Phalcon\Events\ManagerInterface $eventsManager
  */
-PHP_METHOD(Phalcon_DI_Injectable, setEventsManager){
-
+PHP_METHOD(Phalcon_DI_Injectable, setEventsManager)
+{
 	zval *events_manager;
 
 	phalcon_fetch_params(0, 1, 0, &events_manager);
+	PHALCON_VERIFY_INTERFACE_OR_NULL_EX(events_manager, phalcon_events_managerinterface_ce, phalcon_di_exception_ce, 0);
 	
 	phalcon_update_property_this(this_ptr, SL("_eventsManager"), events_manager TSRMLS_CC);
-	
+
 }
 
 /**
