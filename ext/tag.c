@@ -726,7 +726,7 @@ PHP_METHOD(Phalcon_Tag, resetInput){
  */
 PHP_METHOD(Phalcon_Tag, linkTo){
 
-	zval *parameters, *text = NULL, *local = NULL,  *params = NULL, *action, *url, *internal_url, *link_text, *z_local;
+	zval *parameters, *text = NULL, *local = NULL,  *params = NULL, *action, *url, *internal_url, *query, *query_string, *link_text, *z_local;
 	zval *code;
 
 	PHALCON_MM_GROW();
@@ -777,14 +777,44 @@ PHP_METHOD(Phalcon_Tag, linkTo){
 		ZVAL_TRUE(z_local);
 	}
 
+	if (phalcon_array_isset_string_fetch(&query, params, SS("query"))) {
+		phalcon_array_unset_string(&params, SS("query"), 0);
+
+		PHALCON_INIT_VAR(query_string);
+		phalcon_http_build_query(query_string, *query, "&" TSRMLS_CC);
+	}
+	else {
+		PHALCON_INIT_VAR(query_string);
+		ZVAL_EMPTY_STRING(query_string);
+	}
+
 	if (zend_is_true(z_local) || Z_TYPE_P(params) == IS_ARRAY) {
 		PHALCON_OBS_VAR(url);
 		PHALCON_CALL_SELF(&url, "geturlservice");
 		
 		PHALCON_INIT_VAR(internal_url);
 		phalcon_call_method_p1(internal_url, url, "get", action);
+		
+		if (Z_TYPE_P(query_string) == IS_STRING && Z_STRLEN_P(query_string)) {
+				if (phalcon_memnstr_str(internal_url, "?", 1)) {
+						PHALCON_SCONCAT_SV(internal_url, "&", query_string);
+				}
+				else {
+						PHALCON_SCONCAT_SV(internal_url, "?", query_string);
+				}
+		}
+
 		phalcon_array_update_string(&params, SL("href"), internal_url, PH_COPY);
 	} else {
+		if (Z_TYPE_P(query_string) == IS_STRING && Z_STRLEN_P(query_string)) {
+				if (phalcon_memnstr_str(action, "?", 1)) {
+						PHALCON_SCONCAT_SV(action, "&", query_string);
+				}
+				else {
+						PHALCON_SCONCAT_SV(action, "?", query_string);
+				}
+		}
+
 		phalcon_array_update_string(&params, SL("href"), action, PH_COPY);
 	}
 
