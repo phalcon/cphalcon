@@ -5096,11 +5096,11 @@ PHP_METHOD(Phalcon_Mvc_Model, getOperationMade){
  */
 PHP_METHOD(Phalcon_Mvc_Model, refresh){
 
-	zval *dirty_state, *meta_data, *read_connection;
-	zval *schema, *source, *table = NULL, *unique_key = NULL, *exists;
-	zval *unique_params, *unique_types, *attributes;
+	zval *dirty_state, *meta_data = NULL, *read_connection = NULL;
+	zval *schema = NULL, *source = NULL, *table = NULL, *unique_key = NULL, *exists = NULL;
+	zval *unique_params, *unique_types, *attributes = NULL;
 	zval *fields, *escaped_table;
-	zval *select, *dialect, *sql, *fetch_type, *row, *column_map;
+	zval *select, *dialect = NULL, *sql = NULL, *fetch_type, *row = NULL, *column_map = NULL;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -5114,17 +5114,11 @@ PHP_METHOD(Phalcon_Mvc_Model, refresh){
 		return;
 	}
 	
-	PHALCON_INIT_VAR(meta_data);
 	PHALCON_CALL_METHOD(&meta_data, this_ptr, "getmodelsmetadata");
-	
-	PHALCON_INIT_VAR(read_connection);
 	PHALCON_CALL_METHOD(&read_connection, this_ptr, "getreadconnection");
-	
-	PHALCON_INIT_VAR(schema);
 	PHALCON_CALL_METHOD(&schema, this_ptr, "getschema");
-	
-	PHALCON_INIT_VAR(source);
 	PHALCON_CALL_METHOD(&source, this_ptr, "getsource");
+	
 	if (zend_is_true(schema)) {
 		PHALCON_INIT_VAR(table);
 		array_init_size(table, 2);
@@ -5141,7 +5135,6 @@ PHP_METHOD(Phalcon_Mvc_Model, refresh){
 		/** 
 		 * We need to check if the record exists
 		 */
-		PHALCON_INIT_VAR(exists);
 		PHALCON_CALL_METHOD(&exists, this_ptr, "_exists", meta_data, read_connection, table);
 		if (!zend_is_true(exists)) {
 			PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "The record cannot be refreshed because it does not exist or is deleted");
@@ -5165,7 +5158,6 @@ PHP_METHOD(Phalcon_Mvc_Model, refresh){
 	/** 
 	 * We only refresh the attributes in the model's metadata
 	 */
-	PHALCON_INIT_VAR(attributes);
 	PHALCON_CALL_METHOD(&attributes, meta_data, "getattributes", this_ptr);
 	
 	PHALCON_INIT_VAR(fields);
@@ -5180,7 +5172,7 @@ PHP_METHOD(Phalcon_Mvc_Model, refresh){
 		array_init_size(field_item, 1);
 		phalcon_array_append(&field_item, *hd, 0);
 
-		phalcon_array_append(&fields, field_item, 0);
+		add_next_index_zval(fields, field_item);
 
 		zend_hash_move_forward_ex(ah0, &hp0);
 	}
@@ -5197,22 +5189,17 @@ PHP_METHOD(Phalcon_Mvc_Model, refresh){
 	/** 
 	 * We directly build the SELECT to save resources
 	 */
-	PHALCON_INIT_VAR(dialect);
 	PHALCON_CALL_METHOD(&dialect, read_connection, "getdialect");
-	
-	PHALCON_INIT_VAR(sql);
 	PHALCON_CALL_METHOD(&sql, dialect, "select", select);
 	
 	PHALCON_INIT_VAR(fetch_type);
 	ZVAL_LONG(fetch_type, PDO_FETCH_ASSOC);
 	
-	PHALCON_INIT_VAR(row);
 	PHALCON_CALL_METHOD(&row, read_connection, "fetchone", sql, fetch_type, unique_params, unique_types);
 	
 	/** 
 	 * Get a column map if any
 	 */
-	PHALCON_INIT_VAR(column_map);
 	PHALCON_CALL_METHOD(&column_map, meta_data, "getcolumnmap", this_ptr);
 	
 	/** 
