@@ -1103,7 +1103,7 @@ PHP_METHOD(Phalcon_Db_Dialect_MySQL, createView) {
 
 
 	ZEPHIR_OBS_VAR(viewSql);
-	if (zephir_array_isset_string_fetch(&viewSql, definition, SS("sql"), 0 TSRMLS_CC)) {
+	if (!(zephir_array_isset_string_fetch(&viewSql, definition, SS("sql"), 0 TSRMLS_CC))) {
 		ZEPHIR_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "The index 'sql' is required in the definition array");
 		return;
 	}

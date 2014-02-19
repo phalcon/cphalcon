@@ -19,6 +19,7 @@
 #include "kernel/exception.h"
 #include "kernel/concat.h"
 #include "kernel/string.h"
+#include "kernel/file.h"
 
 
 /*
@@ -752,7 +753,7 @@ PHP_METHOD(Phalcon_Http_Response, setFileToSend) {
 
 	if ((Z_TYPE_P(attachmentName) == IS_STRING)) {
 		ZEPHIR_INIT_VAR(basePath);
-		zephir_call_func_p1(basePath, "basename", filePath);
+		zephir_basename(basePath, filePath TSRMLS_CC);
 	} else {
 		ZEPHIR_CPY_WRT(basePath, attachmentName);
 	}

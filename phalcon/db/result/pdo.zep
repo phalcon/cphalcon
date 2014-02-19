@@ -177,8 +177,7 @@ class Pdo
 				type = connection->getType();
 
 			/**
-			 * MySQL library properly returns the number of records
-			 * PostgreSQL too
+			 * MySQL library properly returns the number of records PostgreSQL too
 			 */
 			if type == "pgsql" || type == "mysql" {
 				let pdoStatement = this->_pdoStatement,
@@ -228,9 +227,9 @@ class Pdo
 	 *	$row = $result->fetch(); // Fetch third row
 	 *</code>
 	 *
-	 * @param int number
+	 * @param long number
 	 */
-	public function dataSeek(number)
+	public function dataSeek(long number)
 	{
 		var connection, pdo, sqlStatement, bindParams, statement;
 		%{ pdo_stmt_t *stmt; long n; }%
@@ -307,19 +306,23 @@ class Pdo
 		var pdoStatement;
 
 		let pdoStatement = this->_pdoStatement;
-		switch fetchMode{
+		switch fetchMode {
+
 			case \Phalcon\Db::FETCH_BOTH:
 				pdoStatement->setFetchMode(\Pdo::FETCH_BOTH);
 				let this->_fetchMode = \Pdo::FETCH_BOTH;
 				break;
+
 			case \Phalcon\Db::FETCH_ASSOC:
 				pdoStatement->setFetchMode(\Pdo::FETCH_ASSOC);
 				let this->_fetchMode = \Pdo::FETCH_ASSOC;
 				break;
+
 			case \Phalcon\Db::FETCH_NUM:
 				pdoStatement->setFetchMode(\Pdo::FETCH_NUM);
 				let this->_fetchMode = \Pdo::FETCH_NUM;
 				break;
+
 			case \Phalcon\Db::FETCH_OBJ:
 				pdoStatement->setFetchMode(\Pdo::FETCH_OBJ);
 				let this->_fetchMode = \Pdo::FETCH_OBJ;

@@ -111,7 +111,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Behavior_Timestampable, notify) {
 			ZEPHIR_OBS_VAR(generator);
 			if (zephir_array_isset_string_fetch(&generator, options, SS("generator"), 0 TSRMLS_CC)) {
 				if ((Z_TYPE_P(generator) == IS_OBJECT)) {
-					if (zephir_is_instance_of(generator, SL("Phalcon\\Mvc\\Model\\Behavior\\Closure") TSRMLS_CC)) {
+					if (zephir_is_instance_of(generator, SL("Closure") TSRMLS_CC)) {
 						ZEPHIR_INIT_NVAR(timestamp);
 						zephir_call_func_p1(timestamp, "call_user_func", generator);
 					}

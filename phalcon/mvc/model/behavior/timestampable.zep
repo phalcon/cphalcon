@@ -69,7 +69,7 @@ class Timestampable extends \Phalcon\Mvc\Model\Behavior implements \Phalcon\Mvc\
 					 * A generator is a closure that produce the correct timestamp value
 					 */
 					if typeof generator == "object" {
-						if generator instanceof Closure {
+						if generator instanceof \Closure {
 							let timestamp = call_user_func(generator);
 						}
 					}

@@ -28,8 +28,8 @@ zend_object_iterator *zephir_get_iterator(zval *iterator TSRMLS_DC) {
 	}
 
 	ce = Z_OBJCE_P(iterator);
-	it = ce->get_iterator(apciterator_ce, iterator, 0 TSRMLS_CC);
-	if (!it) {
+	it = ce->get_iterator(ce, iterator, 0 TSRMLS_CC);
+	if (!it || EG(exception)) {
 		return NULL;
 	}
 

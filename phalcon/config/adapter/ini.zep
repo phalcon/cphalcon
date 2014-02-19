@@ -29,7 +29,27 @@ class Ini extends \Phalcon\Config
 	 */
 	public function __construct(string! filePath)
 	{
-		parent::__construct(parse_ini_file(filePath, true));
+		var config, iniConfig, section, directives, directiveParts, key, value;
+
+		let config = [];
+
+		let iniConfig = parse_ini_file($filePath, true);
+		if iniConfig === false {
+			throw new \Phalcon\Config\Exception("Configuration file " . basename(filePath) . " can't be loaded");
+		}
+
+		for section, directives in iniConfig {
+			for key, value in directives {
+				if memstr(key, ".") {
+					let directiveParts = explode(".", key);
+					let config[section][directiveParts[0]][directiveParts[1]] = value;
+				} else {
+					let config[section][$key] = value;
+				}
+			}
+		}
+
+		parent::__construct(config);
 	}
 
 }

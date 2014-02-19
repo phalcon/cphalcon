@@ -277,7 +277,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, count) {
 				ZEPHIR_INIT_VAR(_1);
 				zephir_call_method(_1, result, "numrows");
 				ZEPHIR_INIT_BNVAR(count);
-				zephir_call_func_p1(count, "intval", _1);
+				ZVAL_LONG(count, zephir_get_intval(_1));
 			}
 		} else {
 			ZEPHIR_OBS_VAR(rows);
@@ -605,10 +605,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, delete) {
 
 	_0 = (Z_TYPE_P(conditionCallback) != IS_NULL);
 	if (_0) {
-		_0 = !zephir_is_instance_of(conditionCallback, SL("Phalcon\\Mvc\\Model\\Closure") TSRMLS_CC);
+		_0 = !zephir_is_instance_of(conditionCallback, SL("Closure") TSRMLS_CC);
 	}
 	if (_0) {
-		ZEPHIR_THROW_EXCEPTION_STR(spl_ce_InvalidArgumentException, "Parameter 'conditionCallback' must be an instance of 'Phalcon\\Mvc\\Model\\Closure'");
+		ZEPHIR_THROW_EXCEPTION_STR(spl_ce_InvalidArgumentException, "Parameter 'conditionCallback' must be an instance of 'Closure'");
 		return;
 	}
 	transaction = 0;

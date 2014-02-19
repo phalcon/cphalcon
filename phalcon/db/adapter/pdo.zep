@@ -200,14 +200,14 @@ abstract class Pdo extends \Phalcon\Db\Adapter
 				if typeof wildcard == "string" {
 					let parameter = wildcard;
 				} else {
-					throw new \Phalcon\Db\Exception("Invalid bind parameter");
+					throw new \Phalcon\Db\Exception("Invalid bind parameter (1)");
 				}
 			}
 
 			if typeof dataTypes == "array" {
 
 				if !fetch type, dataTypes[wildcard] {
-					throw new \Phalcon\Db\Exception("Invalid bind type parameter");
+					throw new \Phalcon\Db\Exception("Invalid bind type parameter (2)");
 				}
 
 				/**

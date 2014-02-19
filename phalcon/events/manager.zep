@@ -250,7 +250,7 @@ class Manager implements \Phalcon\Events\ManagerInterface
 					/**
 					 * Check if the event is a closure
 					 */
-					if handler instanceof Closure {
+					if handler instanceof \Closure {
 
 						/**
 						 * Create the closure arguments
@@ -329,7 +329,7 @@ class Manager implements \Phalcon\Events\ManagerInterface
 					/**
 					 * Check if the event is a closure
 					 */
-					if handler instanceof Closure {
+					if handler instanceof \Closure {
 
 						/**
 						 * Create the closure arguments

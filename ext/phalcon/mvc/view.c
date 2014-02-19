@@ -790,7 +790,7 @@ PHP_METHOD(Phalcon_Mvc_View, _loadTemplateEngines) {
 				ZEPHIR_GET_HMKEY(extension, _3, _2);
 				ZEPHIR_GET_HVALUE(engineService, _4);
 				if ((Z_TYPE_P(engineService) == IS_OBJECT)) {
-					if (zephir_is_instance_of(engineService, SL("Phalcon\\Mvc\\Closure") TSRMLS_CC)) {
+					if (zephir_is_instance_of(engineService, SL("Closure") TSRMLS_CC)) {
 						ZEPHIR_INIT_NVAR(_5);
 						ZEPHIR_CALL_USER_FUNC_ARRAY(_5, engineService, arguments);
 						zephir_array_update_zval(&engines, extension, &_5, PH_COPY | PH_SEPARATE);
@@ -827,7 +827,7 @@ PHP_METHOD(Phalcon_Mvc_View, _loadTemplateEngines) {
  * @param string viewPath
  * @param boolean silence
  * @param boolean mustClean
- * @param Phalcon\Cache\BackendInterface cache
+ * @param mixed cache
  */
 PHP_METHOD(Phalcon_Mvc_View, _engineRender) {
 
@@ -847,10 +847,6 @@ PHP_METHOD(Phalcon_Mvc_View, _engineRender) {
 	mustClean = zephir_get_boolval(mustClean_param);
 
 
-	if (!(zephir_is_instance_of(cache, SL("Phalcon\\Cache\\BackendInterface") TSRMLS_CC))) {
-		ZEPHIR_THROW_EXCEPTION_STR(spl_ce_InvalidArgumentException, "Parameter 'cache' must be an instance of 'Phalcon\\Cache\\BackendInterface'");
-		return;
-	}
 	notExists = 1;
 	ZEPHIR_OBS_VAR(viewsDir);
 	zephir_read_property_this(&viewsDir, this_ptr, SL("_viewsDir"), PH_NOISY_CC);

@@ -536,7 +536,7 @@ class MySQL extends \Phalcon\Db\Dialect //implements Phalcon\Db\DialectInterface
 	{
 		var view, viewSql;
 
-		if fetch viewSql, definition["sql"] {
+		if !fetch viewSql, definition["sql"] {
 			throw new \Phalcon\Db\Exception("The index 'sql' is required in the definition array");
 		}
 

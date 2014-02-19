@@ -426,7 +426,7 @@ abstract class Resultset
 	 * @param Closure conditionCallback
 	 * @return boolean
 	 */
-	public function delete(<Closure> conditionCallback=null) -> boolean
+	public function delete(<\Closure> conditionCallback=null) -> boolean
 	{
 		boolean transaction;
 		var record, connection;

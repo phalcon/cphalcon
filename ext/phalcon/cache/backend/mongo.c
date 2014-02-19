@@ -260,7 +260,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Mongo, get) {
  */
 PHP_METHOD(Phalcon_Cache_Backend_Mongo, save) {
 
-	zval *keyName = NULL, *content = NULL, *lifetime = NULL, *stopBuffer = NULL, *lastkey, *prefix, *frontend, *cachedContent = NULL, *tmp, *ttl = NULL, *collection, *timestamp, *conditions, *document, *preparedContent, *isBuffering, *data, *_0, *_1;
+	zval *keyName = NULL, *content = NULL, *lifetime = NULL, *stopBuffer = NULL, *lastkey, *prefix, *frontend, *cachedContent = NULL, *tmp, *ttl = NULL, *collection, *timestamp, *conditions, *document, *preparedContent, *isBuffering, *data, *_0;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 4, &keyName, &content, &lifetime, &stopBuffer);
@@ -323,10 +323,8 @@ PHP_METHOD(Phalcon_Cache_Backend_Mongo, save) {
 	zephir_call_method(collection, this_ptr, "_getcollection");
 	ZEPHIR_INIT_VAR(_0);
 	zephir_call_func(_0, "time");
-	ZEPHIR_INIT_VAR(_1);
-	zephir_call_func_p1(_1, "intval", ttl);
 	ZEPHIR_INIT_VAR(timestamp);
-	zephir_add_function(timestamp, _0, _1 TSRMLS_CC);
+	ZVAL_LONG(timestamp, (zephir_get_numberval(_0) + zephir_get_intval(ttl)));
 	zephir_array_update_string(&conditions, SL("key"), &lastkey, PH_COPY | PH_SEPARATE);
 	ZEPHIR_INIT_VAR(document);
 	zephir_call_method_p1(document, collection, "findone", conditions);

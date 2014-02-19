@@ -533,7 +533,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, getUniquePrefix) {
 		zephir_update_property_this(this_ptr, SL("_prefix"), prefix TSRMLS_CC);
 	}
 	if ((Z_TYPE_P(prefix) == IS_OBJECT)) {
-		if (zephir_is_instance_of(prefix, SL("Phalcon\\Mvc\\View\\Engine\\Volt\\Closure") TSRMLS_CC)) {
+		if (zephir_is_instance_of(prefix, SL("Closure") TSRMLS_CC)) {
 			ZEPHIR_INIT_VAR(calculatedPrefix);
 			ZEPHIR_INIT_VAR(_1);
 			array_init_size(_1, 2);
@@ -1048,7 +1048,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, resolveFilter) {
 				RETURN_MM();
 			}
 			if ((Z_TYPE_P(definition) == IS_OBJECT)) {
-				if (zephir_is_instance_of(definition, SL("Phalcon\\Mvc\\View\\Engine\\Volt\\Closure") TSRMLS_CC)) {
+				if (zephir_is_instance_of(definition, SL("Closure") TSRMLS_CC)) {
 					ZEPHIR_INIT_NVAR(_4);
 					array_init_size(_4, 3);
 					zephir_array_fast_append(_4, arguments);
@@ -2942,7 +2942,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compile) {
 			ZEPHIR_INIT_VAR(realTemplatePath);
 			zephir_call_func_p1(realTemplatePath, "realpath", templatePath);
 			ZEPHIR_INIT_VAR(templateSepPath);
-			zephir_call_func_p1(templateSepPath, "md5", realTemplatePath);
+			zephir_prepare_virtual_path(templateSepPath, realTemplatePath, compiledSeparator TSRMLS_CC);
 		} else {
 			ZEPHIR_CPY_WRT(templateSepPath, templatePath);
 		}
@@ -2954,7 +2954,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compile) {
 		}
 	} else {
 		if ((Z_TYPE_P(compiledPath) == IS_OBJECT)) {
-			if (zephir_is_instance_of(compiledPath, SL("Phalcon\\Mvc\\View\\Engine\\Volt\\Closure") TSRMLS_CC)) {
+			if (zephir_is_instance_of(compiledPath, SL("Closure") TSRMLS_CC)) {
 				ZEPHIR_INIT_NVAR(compiledTemplatePath);
 				ZEPHIR_INIT_VAR(_1);
 				array_init_size(_1, 5);

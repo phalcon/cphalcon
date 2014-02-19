@@ -260,7 +260,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, prepare) {
  */
 PHP_METHOD(Phalcon_Db_Adapter_Pdo, executePrepared) {
 
-	zend_function *_3 = NULL, *_4 = NULL, *_5 = NULL, *_6 = NULL;
+	zend_function *_3 = NULL, *_4 = NULL, *_5 = NULL;
 	HashTable *_1;
 	HashPosition _0;
 	zval *statement, *placeholders, *dataTypes, *wildcard = NULL, *value = NULL, *type = NULL, *castValue = NULL, *parameter = NULL, **_2;
@@ -292,19 +292,19 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, executePrepared) {
 			if ((Z_TYPE_P(wildcard) == IS_STRING)) {
 				ZEPHIR_CPY_WRT(parameter, wildcard);
 			} else {
-				ZEPHIR_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "Invalid bind parameter");
+				ZEPHIR_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "Invalid bind parameter (1)");
 				return;
 			}
 		}
 		if ((Z_TYPE_P(dataTypes) == IS_ARRAY)) {
 			ZEPHIR_OBS_NVAR(type);
 			if (!(zephir_array_isset_fetch(&type, dataTypes, wildcard, 0 TSRMLS_CC))) {
-				ZEPHIR_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "Invalid bind type parameter");
+				ZEPHIR_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "Invalid bind type parameter (2)");
 				return;
 			}
 			if (ZEPHIR_IS_LONG(type, 32)) {
 				ZEPHIR_INIT_NVAR(castValue);
-				ZEPHIR_CALL_INTERNAL_FUNCTION(castValue, &castValue, "doubleval", &_3, 1, value);
+				ZVAL_DOUBLE(castValue, zephir_get_doubleval(value));
 				ZEPHIR_INIT_NVAR(type);
 				ZVAL_LONG(type, 1024);
 			} else {
@@ -312,16 +312,16 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, executePrepared) {
 			}
 			if (ZEPHIR_IS_LONG(type, 1024)) {
 				Z_SET_ISREF_P(castValue);
-				zephir_call_method_p2_cache_noret(statement, "bindparam", &_4, parameter, castValue);
+				zephir_call_method_p2_cache_noret(statement, "bindparam", &_3, parameter, castValue);
 				Z_UNSET_ISREF_P(castValue);
 			} else {
 				Z_SET_ISREF_P(castValue);
-				zephir_call_method_p3_cache_noret(statement, "bindparam", &_5, parameter, castValue, type);
+				zephir_call_method_p3_cache_noret(statement, "bindparam", &_4, parameter, castValue, type);
 				Z_UNSET_ISREF_P(castValue);
 			}
 		} else {
 			Z_SET_ISREF_P(value);
-			zephir_call_method_p2_cache_noret(statement, "bindparam", &_6, parameter, value);
+			zephir_call_method_p2_cache_noret(statement, "bindparam", &_5, parameter, value);
 			Z_UNSET_ISREF_P(value);
 		}
 	}

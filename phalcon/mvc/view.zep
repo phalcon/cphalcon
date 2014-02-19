@@ -547,7 +547,7 @@ class View extends \Phalcon\Di\Injectable implements \Phalcon\Mvc\ViewInterface
 						/**
 						 * Engine can be a closure
 						 */
-						if engineService instanceof Closure {
+						if engineService instanceof \Closure {
 							let engines[extension] = call_user_func_array(engineService, arguments);
 						} else {
 							let engines[extension] = engineService;
@@ -580,10 +580,10 @@ class View extends \Phalcon\Di\Injectable implements \Phalcon\Mvc\ViewInterface
 	 * @param string viewPath
 	 * @param boolean silence
 	 * @param boolean mustClean
-	 * @param Phalcon\Cache\BackendInterface cache
+	 * @param mixed cache
 	 */
 	protected function _engineRender(engines, string viewPath, boolean silence,
-		boolean mustClean, <\Phalcon\Cache\BackendInterface> cache)
+		boolean mustClean, cache)
 	{
 		boolean notExists;
 		int renderLevel, cacheLevel;

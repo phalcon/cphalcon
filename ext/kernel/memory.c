@@ -253,9 +253,6 @@ static void zephir_memory_restore_stack_common(zend_zephir_globals *zephir_globa
 				else if (Z_REFCOUNT_PP(var) >= 1000000) {
 					fprintf(stderr, "%s: observed variable #%d (%p) has too many references (%u)\n", __func__, (int)i, *var, Z_REFCOUNT_PP(var));
 				}
-				else if (Z_REFCOUNT_PP(var) == 1 && Z_ISREF_PP(var)) {
-					fprintf(stderr, "%s: observed variable #%d (%p) is a reference with reference count = 1\n", __func__, (int)i, *var);
-				}
 			}
 		}
 #endif

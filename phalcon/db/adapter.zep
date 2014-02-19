@@ -107,7 +107,7 @@ abstract class Adapter implements \Phalcon\Events\EventsAwareInterface
 		/**
 		 * Dialect class can override the default dialect
 		 */
-		if fetch dialectClass, descriptor["dialectClass"] {
+		if !fetch dialectClass, descriptor["dialectClass"] {
 			let dialectClass = "phalcon\\db\\dialect\\" . this->_dialectType;
 		}
 
@@ -338,6 +338,10 @@ abstract class Adapter implements \Phalcon\Events\EventsAwareInterface
 		/**
 		 * Perform the execution via PDO::execute
 		 */
+		if !count(bindDataTypes) {
+			return this->{"execute"}(insertSql, insertValues);
+		}
+
 		return this->{"execute"}(insertSql, insertValues, bindDataTypes);
 	}
 
@@ -427,7 +431,7 @@ abstract class Adapter implements \Phalcon\Events\EventsAwareInterface
 			/**
 			 * String conditions are simply appended to the SQL
 			 */
-			if typeof whereCondition == "array" {
+			if typeof whereCondition == "string" {
 				let updateSql .= whereCondition;
 			} else {
 
@@ -466,6 +470,10 @@ abstract class Adapter implements \Phalcon\Events\EventsAwareInterface
 		/**
 		 * Perform the update via PDO::execute
 		 */
+		if !count(bindDataTypes) {
+			return this->{"execute"}(updateSql, updateValues);
+		}
+
 		return this->{"execute"}(updateSql, updateValues, bindDataTypes);
 	}
 
@@ -973,7 +981,7 @@ abstract class Adapter implements \Phalcon\Events\EventsAwareInterface
 
 		let dialect = this->_dialect;
 
-		if dialect->supportsSavePoints() {
+		if !dialect->supportsSavePoints() {
 			throw new \Phalcon\Db\Exception("Savepoints are not supported by this database adapter");
 		}
 
@@ -996,7 +1004,7 @@ abstract class Adapter implements \Phalcon\Events\EventsAwareInterface
 
 		let dialect = this->_dialect;
 
-		if dialect->supportsSavePoints() {
+		if !dialect->supportsSavePoints() {
 			throw new \Phalcon\Db\Exception("Savepoints are not supported by this database adapter");
 		}
 

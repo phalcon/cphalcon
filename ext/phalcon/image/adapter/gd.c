@@ -72,7 +72,7 @@ PHP_METHOD(Phalcon_Image_Adapter_Gd, check) {
 	zephir_call_func_p1(_2, "defined", &_1);
 	if (zephir_is_true(_2)) {
 		ZEPHIR_INIT_BNVAR(version);
-		ZVAL_STRING(version, "2.0.35", 1);
+		ZEPHIR_GET_CONSTANT(version, "GD_VERSION");
 	} else {
 		ZEPHIR_INIT_VAR(info);
 		zephir_call_func(info, "gd_info");
