@@ -82,13 +82,13 @@ PHP_METHOD(Phalcon_Mvc_Model_Behavior_Timestampable, notify){
 	 * Check if the developer decided to take action here
 	 */
 	PHALCON_INIT_VAR(take_action);
-	phalcon_call_method_p1(take_action, this_ptr, "musttakeaction", type);
+	PHALCON_CALL_METHOD(&take_action, this_ptr, "musttakeaction", type);
 	if (PHALCON_IS_NOT_TRUE(take_action)) {
 		RETURN_MM_NULL();
 	}
 	
 	PHALCON_INIT_VAR(options);
-	phalcon_call_method_p1(options, this_ptr, "getoptions", type);
+	PHALCON_CALL_METHOD(&options, this_ptr, "getoptions", type);
 	if (Z_TYPE_P(options) == IS_ARRAY) { 
 	
 		/** 
@@ -147,13 +147,13 @@ PHP_METHOD(Phalcon_Mvc_Model_Behavior_Timestampable, notify){
 	
 				PHALCON_GET_HVALUE(single_field);
 	
-				phalcon_call_method_p2_noret(model, "writeattribute", single_field, timestamp);
+				PHALCON_CALL_METHOD(NULL, model, "writeattribute", single_field, timestamp);
 	
 				zend_hash_move_forward_ex(ah0, &hp0);
 			}
 	
 		} else {
-			phalcon_call_method_p2_noret(model, "writeattribute", field, timestamp);
+			PHALCON_CALL_METHOD(NULL, model, "writeattribute", field, timestamp);
 		}
 	}
 	

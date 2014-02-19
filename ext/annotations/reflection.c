@@ -117,13 +117,13 @@ PHP_METHOD(Phalcon_Annotations_Reflection, getClassAnnotations){
 
 	PHALCON_MM_GROW();
 
-	annotations = phalcon_fetch_nproperty_this(this_ptr, SL("_classAnnotations"), PH_NOISY_CC);
+	annotations = phalcon_fetch_nproperty_this(this_ptr, SL("_classAnnotations"), PH_NOISY TSRMLS_CC);
 	if (Z_TYPE_P(annotations) != IS_OBJECT) {
 	
-		reflection_data = phalcon_fetch_nproperty_this(this_ptr, SL("_reflectionData"), PH_NOISY_CC);
+		reflection_data = phalcon_fetch_nproperty_this(this_ptr, SL("_reflectionData"), PH_NOISY TSRMLS_CC);
 		if (phalcon_array_isset_string_fetch(&reflection_class, reflection_data, SS("class"))) {
 			object_init_ex(return_value, phalcon_annotations_collection_ce);
-			phalcon_call_method_p1_noret(return_value, "__construct", reflection_class);
+			PHALCON_CALL_METHOD(NULL, return_value, "__construct", reflection_class);
 	
 			phalcon_update_property_this(this_ptr, SL("_classAnnotations"), return_value TSRMLS_CC);
 			RETURN_MM();
@@ -152,10 +152,10 @@ PHP_METHOD(Phalcon_Annotations_Reflection, getMethodsAnnotations){
 
 	PHALCON_MM_GROW();
 
-	annotations = phalcon_fetch_nproperty_this(this_ptr, SL("_methodAnnotations"), PH_NOISY_CC);
+	annotations = phalcon_fetch_nproperty_this(this_ptr, SL("_methodAnnotations"), PH_NOISY TSRMLS_CC);
 	if (Z_TYPE_P(annotations) != IS_OBJECT) {
 	
-		reflection_data = phalcon_fetch_nproperty_this(this_ptr, SL("_reflectionData"), PH_NOISY_CC);
+		reflection_data = phalcon_fetch_nproperty_this(this_ptr, SL("_reflectionData"), PH_NOISY TSRMLS_CC);
 		if (phalcon_array_isset_string_fetch(&reflection_methods, reflection_data, SS("methods"))) {
 			if (phalcon_fast_count_ev(reflection_methods TSRMLS_CC)) {
 	
@@ -170,7 +170,7 @@ PHP_METHOD(Phalcon_Annotations_Reflection, getMethodsAnnotations){
 	
 					PHALCON_INIT_NVAR(collection);
 					object_init_ex(collection, phalcon_annotations_collection_ce);
-					phalcon_call_method_p1_noret(collection, "__construct", reflection_method);
+					PHALCON_CALL_METHOD(NULL, collection, "__construct", reflection_method);
 	
 					phalcon_array_update_zval(&return_value, method_name, collection, PH_COPY);
 	
@@ -206,10 +206,10 @@ PHP_METHOD(Phalcon_Annotations_Reflection, getPropertiesAnnotations){
 
 	PHALCON_MM_GROW();
 
-	annotations = phalcon_fetch_nproperty_this(this_ptr, SL("_propertyAnnotations"), PH_NOISY_CC);
+	annotations = phalcon_fetch_nproperty_this(this_ptr, SL("_propertyAnnotations"), PH_NOISY TSRMLS_CC);
 	if (Z_TYPE_P(annotations) != IS_OBJECT) {
 	
-		reflection_data = phalcon_fetch_nproperty_this(this_ptr, SL("_reflectionData"), PH_NOISY_CC);
+		reflection_data = phalcon_fetch_nproperty_this(this_ptr, SL("_reflectionData"), PH_NOISY TSRMLS_CC);
 		if (phalcon_array_isset_string_fetch(&reflection_properties, reflection_data, SS("properties"))) {
 	
 			if (phalcon_fast_count_ev(reflection_properties TSRMLS_CC)) {
@@ -225,7 +225,7 @@ PHP_METHOD(Phalcon_Annotations_Reflection, getPropertiesAnnotations){
 	
 					PHALCON_INIT_NVAR(collection);
 					object_init_ex(collection, phalcon_annotations_collection_ce);
-					phalcon_call_method_p1_noret(collection, "__construct", reflection_property);
+					PHALCON_CALL_METHOD(NULL, collection, "__construct", reflection_property);
 	
 					phalcon_array_update_zval(&return_value, property, collection, PH_COPY);
 	
@@ -278,13 +278,13 @@ PHP_METHOD(Phalcon_Annotations_Reflection, __set_state){
 			PHALCON_OBS_VAR(reflection_data);
 			phalcon_array_fetch_string(&reflection_data, data, SL("_reflectionData"), PH_NOISY);
 			object_init_ex(return_value, phalcon_annotations_reflection_ce);
-			phalcon_call_method_p1_noret(return_value, "__construct", reflection_data);
+			PHALCON_CALL_METHOD(NULL, return_value, "__construct", reflection_data);
 	
 			RETURN_MM();
 		}
 	}
 	object_init_ex(return_value, phalcon_annotations_reflection_ce);
-	phalcon_call_method_noret(return_value, "__construct");
+	PHALCON_CALL_METHOD(NULL, return_value, "__construct");
 	
 	RETURN_MM();
 }

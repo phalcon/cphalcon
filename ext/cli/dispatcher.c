@@ -173,7 +173,7 @@ PHP_METHOD(Phalcon_CLI_Dispatcher, getTaskName){
 PHP_METHOD(Phalcon_CLI_Dispatcher, _throwDispatchException){
 
 	zval *message, *exception_code = NULL, *exception, *events_manager;
-	zval *event_name, *status;
+	zval *event_name, *status = NULL;
 
 	PHALCON_MM_GROW();
 
@@ -185,17 +185,16 @@ PHP_METHOD(Phalcon_CLI_Dispatcher, _throwDispatchException){
 	
 	PHALCON_INIT_VAR(exception);
 	object_init_ex(exception, phalcon_cli_dispatcher_exception_ce);
-	phalcon_call_method_p2_noret(exception, "__construct", message, exception_code);
+	PHALCON_CALL_METHOD(NULL, exception, "__construct", message, exception_code);
 	
 	PHALCON_OBS_VAR(events_manager);
-	phalcon_read_property_this(&events_manager, this_ptr, SL("_eventsManager"), PH_NOISY_CC);
+	phalcon_read_property_this(&events_manager, this_ptr, SL("_eventsManager"), PH_NOISY TSRMLS_CC);
 	if (Z_TYPE_P(events_manager) == IS_OBJECT) {
 	
 		PHALCON_INIT_VAR(event_name);
 		ZVAL_STRING(event_name, "dispatch:beforeException", 1);
 	
-		PHALCON_INIT_VAR(status);
-		phalcon_call_method_p3(status, events_manager, "fire", event_name, this_ptr, exception);
+		PHALCON_CALL_METHOD(&status, events_manager, "fire", event_name, this_ptr, exception);
 		if (PHALCON_IS_FALSE(status)) {
 			RETURN_MM_FALSE;
 		}
@@ -216,21 +215,20 @@ PHP_METHOD(Phalcon_CLI_Dispatcher, _throwDispatchException){
 PHP_METHOD(Phalcon_CLI_Dispatcher, _handleException){
 
 	zval *exception, *events_manager, *event_name;
-	zval *status;
+	zval *status = NULL;
 
 	PHALCON_MM_GROW();
 
 	phalcon_fetch_params(1, 1, 0, &exception);
 	
 	PHALCON_OBS_VAR(events_manager);
-	phalcon_read_property_this(&events_manager, this_ptr, SL("_eventsManager"), PH_NOISY_CC);
+	phalcon_read_property_this(&events_manager, this_ptr, SL("_eventsManager"), PH_NOISY TSRMLS_CC);
 	if (Z_TYPE_P(events_manager) == IS_OBJECT) {
 	
 		PHALCON_INIT_VAR(event_name);
 		ZVAL_STRING(event_name, "dispatch:beforeException", 1);
 	
-		PHALCON_INIT_VAR(status);
-		phalcon_call_method_p3(status, events_manager, "fire", event_name, this_ptr, exception);
+		PHALCON_CALL_METHOD(&status, events_manager, "fire", event_name, this_ptr, exception);
 		if (PHALCON_IS_FALSE(status)) {
 			RETURN_MM_FALSE;
 		}
@@ -249,7 +247,7 @@ PHP_METHOD(Phalcon_CLI_Dispatcher, getTaskClass){
 
 	PHALCON_MM_GROW();
 
-	phalcon_call_method(return_value, this_ptr, "gethandlername");
+	PHALCON_RETURN_CALL_METHOD(this_ptr, "gethandlername");
 	RETURN_MM();
 }
 

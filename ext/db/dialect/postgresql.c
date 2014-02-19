@@ -124,10 +124,10 @@ PHP_METHOD(Phalcon_Db_Dialect_Postgresql, getColumnDefinition){
 	}
 	
 	PHALCON_INIT_VAR(size);
-	phalcon_call_method(size, column, "getsize");
+	PHALCON_CALL_METHOD(&size, column, "getsize");
 	
 	PHALCON_INIT_VAR(column_type);
-	phalcon_call_method(column_type, column, "gettype");
+	PHALCON_CALL_METHOD(&column_type, column, "gettype");
 	
 	switch (phalcon_get_intval(column_type)) {
 	
@@ -148,7 +148,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Postgresql, getColumnDefinition){
 	
 		case 3:
 			PHALCON_INIT_VAR(scale);
-			phalcon_call_method(scale, column, "getscale");
+			PHALCON_CALL_METHOD(&scale, column, "getscale");
 	
 			PHALCON_INIT_NVAR(column_sql);
 			PHALCON_CONCAT_SVSVS(column_sql, "NUMERIC(", size, ",", scale, ")");

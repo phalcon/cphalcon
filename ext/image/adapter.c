@@ -36,6 +36,8 @@
 #include "kernel/array.h"
 #include "kernel/file.h"
 
+#include "internal/arginfo.h"
+
 /**
  * Phalcon\Image\Adapter
  *
@@ -66,27 +68,45 @@ PHP_METHOD(Phalcon_Image_Adapter, save);
 PHP_METHOD(Phalcon_Image_Adapter, render);
 
 static const zend_function_entry phalcon_image_adapter_method_entry[] = {
-	PHP_ME(Phalcon_Image_Adapter, getRealPath, NULL, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Image_Adapter, getWidth, NULL, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Image_Adapter, getHeight, NULL, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Image_Adapter, getType, NULL, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Image_Adapter, getMime, NULL, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Image_Adapter, getImage, NULL, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Image_Adapter, resize, arginfo_phalcon_image_adapterinterface_resize, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Image_Adapter, liquidRescale, arginfo_phalcon_image_adapter_liquidrescale, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Image_Adapter, crop, arginfo_phalcon_image_adapterinterface_crop, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Image_Adapter, rotate, arginfo_phalcon_image_adapterinterface_rotate, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Image_Adapter, flip, arginfo_phalcon_image_adapterinterface_flip, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Image_Adapter, sharpen, arginfo_phalcon_image_adapterinterface_sharpen, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Image_Adapter, reflection, arginfo_phalcon_image_adapterinterface_reflection, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Image_Adapter, watermark, arginfo_phalcon_image_adapterinterface_watermark, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Image_Adapter, text, arginfo_phalcon_image_adapter_text, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Image_Adapter, mask, arginfo_phalcon_image_adapter_mask, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Image_Adapter, background, arginfo_phalcon_image_adapterinterface_background, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Image_Adapter, blur, arginfo_phalcon_image_adapter_blur, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Image_Adapter, pixelate, arginfo_phalcon_image_adapter_pixelate, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Image_Adapter, save, arginfo_phalcon_image_adapterinterface_save, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Image_Adapter, render, arginfo_phalcon_image_adapterinterface_render, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Image_Adapter, getRealPath,    arginfo_empty, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Image_Adapter, getWidth,       arginfo_empty, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Image_Adapter, getHeight,      arginfo_empty, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Image_Adapter, getType,        arginfo_empty, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Image_Adapter, getMime,        arginfo_empty, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Image_Adapter, getImage,       arginfo_empty, ZEND_ACC_PUBLIC)
+
+	PHP_ME(Phalcon_Image_Adapter, resize,         arginfo_phalcon_image_adapterinterface_resize,        ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Image_Adapter, liquidRescale,  arginfo_phalcon_image_adapterinterface_liquidrescale, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Image_Adapter, crop,           arginfo_phalcon_image_adapterinterface_crop,          ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Image_Adapter, rotate,         arginfo_phalcon_image_adapterinterface_rotate,        ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Image_Adapter, flip,           arginfo_phalcon_image_adapterinterface_flip,          ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Image_Adapter, sharpen,        arginfo_phalcon_image_adapterinterface_sharpen,       ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Image_Adapter, reflection,     arginfo_phalcon_image_adapterinterface_reflection,    ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Image_Adapter, watermark,      arginfo_phalcon_image_adapterinterface_watermark,     ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Image_Adapter, text,           arginfo_phalcon_image_adapterinterface_text,          ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Image_Adapter, mask,           arginfo_phalcon_image_adapterinterface_mask,          ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Image_Adapter, background,     arginfo_phalcon_image_adapterinterface_background,    ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Image_Adapter, blur,           arginfo_phalcon_image_adapterinterface_blur,          ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Image_Adapter, pixelate,       arginfo_phalcon_image_adapterinterface_pixelate,      ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Image_Adapter, save,           arginfo_phalcon_image_adapterinterface_save,          ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Image_Adapter, render,         arginfo_phalcon_image_adapterinterface_render,        ZEND_ACC_PUBLIC)
+
+	ZEND_FENTRY(_resize,          NULL,           arginfo_phalcon_image_adapter__resize,        ZEND_ACC_PROTECTED | ZEND_ACC_ABSTRACT)
+	ZEND_FENTRY(_liquidRescale,   NULL,           arginfo_phalcon_image_adapter__liquidrescale, ZEND_ACC_PROTECTED | ZEND_ACC_ABSTRACT)
+	ZEND_FENTRY(_crop,            NULL,           arginfo_phalcon_image_adapter__crop,          ZEND_ACC_PROTECTED | ZEND_ACC_ABSTRACT)
+	ZEND_FENTRY(_rotate,          NULL,           arginfo_phalcon_image_adapter__rotate,        ZEND_ACC_PROTECTED | ZEND_ACC_ABSTRACT)
+	ZEND_FENTRY(_flip,            NULL,           arginfo_phalcon_image_adapter__flip,          ZEND_ACC_PROTECTED | ZEND_ACC_ABSTRACT)
+	ZEND_FENTRY(_sharpen,         NULL,           arginfo_phalcon_image_adapter__sharpen,       ZEND_ACC_PROTECTED | ZEND_ACC_ABSTRACT)
+	ZEND_FENTRY(_reflection,      NULL,           arginfo_phalcon_image_adapter__reflection,    ZEND_ACC_PROTECTED | ZEND_ACC_ABSTRACT)
+	ZEND_FENTRY(_watermark,       NULL,           arginfo_phalcon_image_adapter__watermark,     ZEND_ACC_PROTECTED | ZEND_ACC_ABSTRACT)
+	ZEND_FENTRY(_text,            NULL,           arginfo_phalcon_image_adapter__text,          ZEND_ACC_PROTECTED | ZEND_ACC_ABSTRACT)
+	ZEND_FENTRY(_mask,            NULL,           arginfo_phalcon_image_adapter__mask,          ZEND_ACC_PROTECTED | ZEND_ACC_ABSTRACT)
+	ZEND_FENTRY(_background,      NULL,           arginfo_phalcon_image_adapter__background,    ZEND_ACC_PROTECTED | ZEND_ACC_ABSTRACT)
+	ZEND_FENTRY(_blur,            NULL,           arginfo_phalcon_image_adapter__blur,          ZEND_ACC_PROTECTED | ZEND_ACC_ABSTRACT)
+	ZEND_FENTRY(_pixelate,        NULL,           arginfo_phalcon_image_adapter__pixelate,      ZEND_ACC_PROTECTED | ZEND_ACC_ABSTRACT)
+	ZEND_FENTRY(_save,            NULL,           arginfo_phalcon_image_adapter__save,          ZEND_ACC_PROTECTED | ZEND_ACC_ABSTRACT)
+	ZEND_FENTRY(_render,          NULL,           arginfo_phalcon_image_adapter__render,        ZEND_ACC_PROTECTED | ZEND_ACC_ABSTRACT)
+
 	PHP_FE_END
 };
 
@@ -229,8 +249,8 @@ PHP_METHOD(Phalcon_Image_Adapter, resize){
 			PHALCON_SEPARATE_PARAM(height);
 		}
 
-		image_width  = phalcon_fetch_nproperty_this(this_ptr, SL("_width"), PH_NOISY_CC);
-		image_height = phalcon_fetch_nproperty_this(this_ptr, SL("_height"), PH_NOISY_CC);
+		image_width  = phalcon_fetch_nproperty_this(this_ptr, SL("_width"), PH_NOISY TSRMLS_CC);
+		image_height = phalcon_fetch_nproperty_this(this_ptr, SL("_height"), PH_NOISY TSRMLS_CC);
 		
 		tmp_image_width  = phalcon_get_intval(image_width);
 		tmp_image_height = phalcon_get_intval(image_height);
@@ -326,7 +346,7 @@ PHP_METHOD(Phalcon_Image_Adapter, resize){
 		ZVAL_LONG(height, tmp_height);
 	}
 
-	phalcon_call_method_p2_noret(this_ptr, "_resize", width, height);
+	PHALCON_CALL_METHOD(NULL, this_ptr, "_resize", width, height);
 
 	RETURN_THIS();
 }
@@ -363,7 +383,7 @@ PHP_METHOD(Phalcon_Image_Adapter, liquidRescale){
 		PHALCON_ENSURE_IS_LONG(rigidity);
 	}
 
-	phalcon_call_method_p4_noret(this_ptr, "_liquidrescale", *width, *height, *delta_x, *rigidity);
+	PHALCON_CALL_METHOD(NULL, this_ptr, "_liquidrescale", *width, *height, *delta_x, *rigidity);
 
 	RETURN_THIS();
 }
@@ -392,8 +412,8 @@ PHP_METHOD(Phalcon_Image_Adapter, crop){
 
 	PHALCON_MM_GROW();
 
-	image_width  = phalcon_fetch_nproperty_this(this_ptr, SL("_width"), PH_NOISY_CC);
-	image_height = phalcon_fetch_nproperty_this(this_ptr, SL("_height"), PH_NOISY_CC);
+	image_width  = phalcon_fetch_nproperty_this(this_ptr, SL("_width"), PH_NOISY TSRMLS_CC);
+	image_height = phalcon_fetch_nproperty_this(this_ptr, SL("_height"), PH_NOISY TSRMLS_CC);
 
 	tmp_width        = Z_LVAL_PP(w);
 	tmp_height       = Z_LVAL_PP(h);
@@ -453,7 +473,7 @@ PHP_METHOD(Phalcon_Image_Adapter, crop){
 	ZVAL_LONG(offset_x, tmp_offset_x);
 	ZVAL_LONG(offset_y, tmp_offset_y);
 	
-	phalcon_call_method_p4_noret(this_ptr, "_crop", width, height, offset_x, offset_y);
+	PHALCON_CALL_METHOD(NULL, this_ptr, "_crop", width, height, offset_x, offset_y);
 
 	RETURN_THIS();
 }
@@ -490,7 +510,7 @@ PHP_METHOD(Phalcon_Image_Adapter, rotate){
 
 	PHALCON_ALLOC_GHOST_ZVAL(d);
 	ZVAL_LONG(d, tmp_degrees);
-	phalcon_call_method_p1_noret(this_ptr, "_rotate", d);
+	PHALCON_CALL_METHOD(NULL, this_ptr, "_rotate", d);
 
 	RETURN_THIS();
 }
@@ -513,7 +533,7 @@ PHP_METHOD(Phalcon_Image_Adapter, flip){
 	PHALCON_ALLOC_GHOST_ZVAL(dir);
 	ZVAL_LONG(dir, (Z_LVAL_PP(direction) != 11) ? 12 : 11);
 
-	phalcon_call_method_p1_noret(this_ptr, "_flip", dir);
+	PHALCON_CALL_METHOD(NULL, this_ptr, "_flip", dir);
 
 	RETURN_THIS();
 }
@@ -543,7 +563,7 @@ PHP_METHOD(Phalcon_Image_Adapter, sharpen){
 		ZVAL_LONG(*amount, 1);
 	}
 
-	phalcon_call_method_p1_noret(this_ptr, "_sharpen", *amount);
+	PHALCON_CALL_METHOD(NULL, this_ptr, "_sharpen", *amount);
 
 	RETURN_THIS();
 }
@@ -560,7 +580,7 @@ PHP_METHOD(Phalcon_Image_Adapter, sharpen){
  */
 PHP_METHOD(Phalcon_Image_Adapter, reflection){
 
-	zval **h = NULL, **op = NULL, *fade_in = NULL;
+	zval **h = NULL, **op = NULL, **fade_in = NULL;
 	zval *image_height, *height = NULL, *opacity = NULL;
 	int tmp_image_height;
 
@@ -568,7 +588,7 @@ PHP_METHOD(Phalcon_Image_Adapter, reflection){
 
 	PHALCON_MM_GROW();
 
-	image_height     = phalcon_fetch_nproperty_this(this_ptr, SL("_height"), PH_NOISY_CC);
+	image_height     = phalcon_fetch_nproperty_this(this_ptr, SL("_height"), PH_NOISY TSRMLS_CC);
 	tmp_image_height = phalcon_get_intval(image_height);
 
 	if (!h || Z_TYPE_PP(h) != IS_LONG || Z_LVAL_PP(h) > tmp_image_height) {
@@ -596,10 +616,10 @@ PHP_METHOD(Phalcon_Image_Adapter, reflection){
 	}
 
 	if (!fade_in) {
-		fade_in = PHALCON_GLOBAL(z_false);
+		fade_in = &PHALCON_GLOBAL(z_false);
 	}
 
-	phalcon_call_method_p3_noret(this_ptr, "_reflection", height, opacity, fade_in);
+	PHALCON_CALL_METHOD(NULL, this_ptr, "_reflection", height, opacity, *fade_in);
 	RETURN_THIS();
 }
 
@@ -611,7 +631,7 @@ PHP_METHOD(Phalcon_Image_Adapter, reflection){
  * @param int $offset_x offset from the left, If less than 0 offset from the right, If true right the x offset
  * @param int $offset_y offset from the top, If less than 0 offset from the bottom, If true bottom the Y offset
  * @param int $opacity opacity of watermark: 1-100
- * @return Phalcon\Image\Adapter
+ * @return Phalcon\Image\AdapterInterface
  */
 PHP_METHOD(Phalcon_Image_Adapter, watermark){
 
@@ -625,10 +645,10 @@ PHP_METHOD(Phalcon_Image_Adapter, watermark){
 
 	PHALCON_MM_GROW();
 
-	image_width      = phalcon_fetch_nproperty_this(this_ptr, SL("_width"), PH_NOISY_CC);
-	image_height     = phalcon_fetch_nproperty_this(this_ptr, SL("_height"), PH_NOISY_CC);
-	watermark_width  = phalcon_fetch_nproperty_this(*watermark, SL("_width"), PH_NOISY_CC);
-	watermark_height = phalcon_fetch_nproperty_this(*watermark, SL("_height"), PH_NOISY_CC);
+	image_width      = phalcon_fetch_nproperty_this(this_ptr, SL("_width"), PH_NOISY TSRMLS_CC);
+	image_height     = phalcon_fetch_nproperty_this(this_ptr, SL("_height"), PH_NOISY TSRMLS_CC);
+	watermark_width  = phalcon_fetch_nproperty_this(*watermark, SL("_width"), PH_NOISY TSRMLS_CC);
+	watermark_height = phalcon_fetch_nproperty_this(*watermark, SL("_height"), PH_NOISY TSRMLS_CC);
 
 	tmp_image_width      = phalcon_get_intval(image_width);
 	tmp_image_height     = phalcon_get_intval(image_height);
@@ -682,7 +702,7 @@ PHP_METHOD(Phalcon_Image_Adapter, watermark){
 		}
 	}
 
-	phalcon_call_method_p4_noret(this_ptr, "_watermark", *watermark, offset_x, offset_y, opacity);
+	PHALCON_CALL_METHOD(NULL, this_ptr, "_watermark", *watermark, offset_x, offset_y, opacity);
 
 	RETURN_THIS();
 }
@@ -804,7 +824,7 @@ PHP_METHOD(Phalcon_Image_Adapter, text){
 	PHALCON_INIT_VAR(b);
 	_php_math_basetozval(&tmp, 16, b);
 
-	PHALCON_CALL_METHOD(NULL, NULL, this_ptr, "_text", 0, 9, *text, offset_x, offset_y, opacity, r, g, b, size, *fontfile);
+	PHALCON_CALL_METHOD(NULL, this_ptr, "_text", *text, offset_x, offset_y, opacity, r, g, b, size, *fontfile);
 
 	RETURN_THIS();
 }
@@ -820,11 +840,9 @@ PHP_METHOD(Phalcon_Image_Adapter, mask){
 
 	zval *mask;
 
-	PHALCON_MM_GROW();
-	phalcon_fetch_params(1, 1, 0, &mask);
-	phalcon_call_method_p1_noret(this_ptr, "_mask", mask);
-
-	RETURN_THIS();
+	phalcon_fetch_params(0, 1, 0, &mask);
+	PHALCON_CALL_METHODW(NULL, this_ptr, "_mask", mask);
+	RETURN_THISW();
 }
 
 /**
@@ -920,7 +938,7 @@ PHP_METHOD(Phalcon_Image_Adapter, background){
 		}
 	}
 
-	phalcon_call_method_p4_noret(this_ptr, "_background", r, g, b, opacity);
+	PHALCON_CALL_METHOD(NULL, this_ptr, "_background", r, g, b, opacity);
 
 	RETURN_THIS();
 }
@@ -961,7 +979,7 @@ PHP_METHOD(Phalcon_Image_Adapter, blur){
 		}
 	}
 
-	phalcon_call_method_p1_noret(this_ptr, "_blur", radius);
+	PHALCON_CALL_METHOD(NULL, this_ptr, "_blur", radius);
 
 	RETURN_THIS();
 }
@@ -993,7 +1011,7 @@ PHP_METHOD(Phalcon_Image_Adapter, pixelate){
 		}
 	}
 
-	phalcon_call_method_p1_noret(this_ptr, "_pixelate", amt);
+	PHALCON_CALL_METHOD(NULL, this_ptr, "_pixelate", amt);
 
 	RETURN_THIS();
 }
@@ -1010,7 +1028,7 @@ PHP_METHOD(Phalcon_Image_Adapter, save){
 
 	zval **fname = NULL, **q = NULL;
 	zval *file, *quality;
-	zval *ret, *dir, *constant;
+	zval *ret = NULL, *dir, *constant;
 
 	phalcon_fetch_params_ex(0, 2, &fname, &q);
 
@@ -1018,7 +1036,7 @@ PHP_METHOD(Phalcon_Image_Adapter, save){
 
 	if (!fname) {
 		PHALCON_OBS_VAR(file);
-		phalcon_read_property_this(&file, this_ptr, SL("_realpath"), PH_NOISY_CC);
+		phalcon_read_property_this(&file, this_ptr, SL("_realpath"), PH_NOISY TSRMLS_CC);
 		convert_to_string_ex(&file);
 	}
 	else {
@@ -1037,12 +1055,9 @@ PHP_METHOD(Phalcon_Image_Adapter, save){
 		ZVAL_LONG(quality, Z_LVAL_PP(q));
 	}
 
-
-	PHALCON_OBS_VAR(ret);
 	PHALCON_CALL_FUNCTION(&ret, "is_file", file);
 
 	if (zend_is_true(ret)) {
-		PHALCON_OBSERVE_OR_NULLIFY_VAR(ret);
 		PHALCON_CALL_FUNCTION(&ret, "is_writable", file);
 		if (!zend_is_true(ret)) {
 			zend_throw_exception_ex(phalcon_image_exception_ce, 0 TSRMLS_CC, "File must be writable: '%s'", Z_STRVAL_P(file));
@@ -1054,7 +1069,6 @@ PHP_METHOD(Phalcon_Image_Adapter, save){
 			RETURN_MM();
 		}
 
-		PHALCON_OBSERVE_OR_NULLIFY_VAR(ret);
 		PHALCON_CALL_FUNCTION(&ret, "pathinfo", file, constant);
 
 		PHALCON_INIT_VAR(dir);
@@ -1069,7 +1083,6 @@ PHP_METHOD(Phalcon_Image_Adapter, save){
 			RETURN_MM();
 		}
 
-		PHALCON_OBSERVE_OR_NULLIFY_VAR(ret);
 		PHALCON_CALL_FUNCTION(&ret, "is_writable", dir);
 		if (!zend_is_true(ret)) {
 			zend_throw_exception_ex(phalcon_image_exception_ce, 0 TSRMLS_CC, "Directory must be writable: '%s'", Z_STRVAL_P(dir));
@@ -1077,7 +1090,7 @@ PHP_METHOD(Phalcon_Image_Adapter, save){
 		}
 	}
 
-	phalcon_call_method_p2(return_value, this_ptr, "_save", file, quality);
+	PHALCON_RETURN_CALL_METHOD(this_ptr, "_save", file, quality);
 	RETURN_MM();
 }
 
@@ -1097,14 +1110,14 @@ PHP_METHOD(Phalcon_Image_Adapter, render){
 	phalcon_fetch_params(1, 0, 2, &ext, &quality);
 
 	if (!ext) {
-		file = phalcon_fetch_nproperty_this(this_ptr, SL("_file"), PH_NOISY_CC);
+		file = phalcon_fetch_nproperty_this(this_ptr, SL("_file"), PH_NOISY TSRMLS_CC);
 
 		PHALCON_INIT_VAR(constant);
 		if (!zend_get_constant(SL("PATHINFO_EXTENSION"), constant TSRMLS_CC)) {
 			RETURN_MM();
 		}
 
-		PHALCON_OBSERVE_OR_NULLIFY_VAR(ext);
+		ext = NULL;
 		PHALCON_CALL_FUNCTION(&ext, "pathinfo", file, constant);
 
 		if (!PHALCON_IS_NOT_EMPTY(ext)) {
@@ -1120,7 +1133,7 @@ PHP_METHOD(Phalcon_Image_Adapter, render){
 		convert_to_long(quality);
 	}
 
-	phalcon_call_method_p2(return_value, this_ptr, "_render", ext, quality);
+	PHALCON_RETURN_CALL_METHOD(this_ptr, "_render", ext, quality);
 
 	RETURN_MM();
 }

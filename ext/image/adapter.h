@@ -28,33 +28,89 @@ extern zend_class_entry *phalcon_image_adapter_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Image_Adapter);
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_image_adapter_liquidrescale, 0, 0, 2)
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_image_adapter__resize, 0, 0, 2)
+	ZEND_ARG_INFO(0, width)
+	ZEND_ARG_INFO(0, height)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_image_adapter__liquidrescale, 0, 0, 4)
 	ZEND_ARG_INFO(0, width)
 	ZEND_ARG_INFO(0, height)
 	ZEND_ARG_INFO(0, delta_x)
-	ZEND_ARG_INFO(0, rigidity)
+	ZEND_ARG_INFO(0, regidity)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_image_adapter_text, 0, 0, 1)
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_image_adapter__crop, 0, 0, 4)
+	ZEND_ARG_INFO(0, width)
+	ZEND_ARG_INFO(0, height)
+	ZEND_ARG_INFO(0, offset_x)
+	ZEND_ARG_INFO(0, offset_y)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_image_adapter__rotate, 0, 0, 1)
+	ZEND_ARG_INFO(0, degrees)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_image_adapter__flip, 0, 0, 1)
+	ZEND_ARG_INFO(0, direction)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_image_adapter__sharpen, 0, 0, 1)
+	ZEND_ARG_INFO(0, amount)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_image_adapter__reflection, 0, 0, 3)
+	ZEND_ARG_INFO(0, height)
+	ZEND_ARG_INFO(0, opacity)
+	ZEND_ARG_INFO(0, fade_in)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_image_adapter__watermark, 0, 0, 4)
+	ZEND_ARG_INFO(0, watermark)
+	ZEND_ARG_INFO(0, offset_x)
+	ZEND_ARG_INFO(0, offset_y)
+	ZEND_ARG_INFO(0, opacity)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_image_adapter__text, 0, 0, 9)
 	ZEND_ARG_INFO(0, text)
 	ZEND_ARG_INFO(0, offset_x)
 	ZEND_ARG_INFO(0, offset_y)
 	ZEND_ARG_INFO(0, opacity)
-	ZEND_ARG_INFO(0, color)
+	ZEND_ARG_INFO(0, r)
+	ZEND_ARG_INFO(0, g)
+	ZEND_ARG_INFO(0, b)
 	ZEND_ARG_INFO(0, size)
 	ZEND_ARG_INFO(0, fontfile)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_image_adapter_mask, 0, 0, 1)
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_image_adapter__mask, 0, 0, 1)
 	ZEND_ARG_INFO(0, mask)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_image_adapter_blur, 0, 0, 0)
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_image_adapter__blur, 0, 0, 1)
 	ZEND_ARG_INFO(0, radius)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_image_adapter_pixelate, 0, 0, 0)
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_image_adapter__pixelate, 0, 0, 1)
 	ZEND_ARG_INFO(0, amount)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_image_adapter__background, 0, 0, 4)
+	ZEND_ARG_INFO(0, r)
+	ZEND_ARG_INFO(0, g)
+	ZEND_ARG_INFO(0, b)
+	ZEND_ARG_INFO(0, opacity)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_image_adapter__save, 0, 0, 2)
+	ZEND_ARG_INFO(0, file)
+	ZEND_ARG_INFO(0, quality)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_image_adapter__render, 0, 0, 2)
+	ZEND_ARG_INFO(0, type)
+	ZEND_ARG_INFO(0, quality)
 ZEND_END_ARG_INFO()
 
 #endif /* PHALCON_IMAGE_ADAPTER_H */

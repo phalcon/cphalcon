@@ -456,7 +456,7 @@ PHP_METHOD(Phalcon_Db_Column, __set_state){
 	}
 	
 	object_init_ex(return_value, phalcon_db_column_ce);
-	phalcon_call_method_p2_noret(return_value, "__construct", column_name, definition);
+	PHALCON_CALL_METHOD(NULL, return_value, "__construct", column_name, definition);
 	
 	RETURN_MM();
 }

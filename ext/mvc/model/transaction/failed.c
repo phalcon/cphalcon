@@ -92,15 +92,15 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction_Failed, getRecordMessages){
 	PHALCON_MM_GROW();
 
 	PHALCON_OBS_VAR(record);
-	phalcon_read_property_this(&record, this_ptr, SL("_record"), PH_NOISY_CC);
+	phalcon_read_property_this(&record, this_ptr, SL("_record"), PH_NOISY TSRMLS_CC);
 	if (Z_TYPE_P(record) != IS_NULL) {
 		PHALCON_INIT_NVAR(record);
-		phalcon_call_method(record, record, "getmessages");
+		PHALCON_CALL_METHOD(&record, record, "getmessages");
 		RETURN_CCTOR(record);
 	}
 	
 	PHALCON_INIT_VAR(messages);
-	phalcon_call_method(messages, this_ptr, "getmessage");
+	PHALCON_CALL_METHOD(&messages, this_ptr, "getmessage");
 	
 	RETURN_CCTOR(messages);
 }

@@ -104,7 +104,7 @@ PHP_METHOD(Phalcon_Http_Response_Headers, get){
 
 	phalcon_fetch_params(0, 1, 0, &name);
 	
-	headers = phalcon_fetch_nproperty_this(this_ptr, SL("_headers"), PH_NOISY_CC);
+	headers = phalcon_fetch_nproperty_this(this_ptr, SL("_headers"), PH_NOISY TSRMLS_CC);
 	if (phalcon_array_isset_fetch(&header_value, headers, name)) {
 		RETURN_ZVAL(header_value, 1, 0);
 	}
@@ -164,8 +164,6 @@ PHP_METHOD(Phalcon_Http_Response_Headers, send){
 			RETURN_TRUE;
 		}
 	
-		PHALCON_MM_GROW();
-
 		for (
 			zend_hash_internal_pointer_reset_ex(Z_ARRVAL_P(headers), &hp0);
 			zend_hash_get_current_data_ex(Z_ARRVAL_P(headers), (void**)&value, &hp0) == SUCCESS;
@@ -265,7 +263,7 @@ PHP_METHOD(Phalcon_Http_Response_Headers, __set_state){
 			PHALCON_GET_HKEY(key, ah0, hp0);
 			PHALCON_GET_HVALUE(value);
 	
-			phalcon_call_method_p2_noret(headers, "set", key, value);
+			PHALCON_CALL_METHOD(NULL, headers, "set", key, value);
 	
 			zend_hash_move_forward_ex(ah0, &hp0);
 		}

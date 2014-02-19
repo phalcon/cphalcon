@@ -246,13 +246,14 @@ PHP_METHOD(Phalcon_Tag_Select, _optionsFromResultset){
 	ZVAL_EMPTY_STRING(code);
 	
 	PHALCON_INIT_VAR(params);
-	phalcon_call_method_noret(resultset, "rewind");
+	/**/
+
+	PHALCON_CALL_METHOD(NULL, resultset, "rewind");
 	
 	PHALCON_INIT_VAR(escaped);
 
 	while (1) {
-		PHALCON_INIT_NVAR(r0);
-		phalcon_call_method(r0, resultset, "valid");
+		PHALCON_CALL_METHOD(&r0, resultset, "valid");
 		if (PHALCON_IS_NOT_FALSE(r0)) {
 		} else {
 			break;
@@ -261,8 +262,7 @@ PHP_METHOD(Phalcon_Tag_Select, _optionsFromResultset){
 		/** 
 		 * Get the current option
 		 */
-		PHALCON_INIT_NVAR(option);
-		phalcon_call_method(option, resultset, "current");
+		PHALCON_CALL_METHOD(&option, resultset, "current");
 		if (Z_TYPE_P(using) == IS_ARRAY) { 
 	
 			PHALCON_OBS_NVAR(using_zero);
@@ -275,26 +275,24 @@ PHP_METHOD(Phalcon_Tag_Select, _optionsFromResultset){
 					/** 
 					 * Read the value attribute from the model
 					 */
-					PHALCON_INIT_NVAR(option_value);
-					phalcon_call_method_p1(option_value, option, "readattribute", using_zero);
+					PHALCON_CALL_METHOD(&option_value, option, "readattribute", using_zero);
 	
 					/** 
 					 * Read the text attribute from the model
 					 */
-					PHALCON_INIT_NVAR(option_text);
-					phalcon_call_method_p1(option_text, option, "readattribute", using_one);
+					PHALCON_CALL_METHOD(&option_text, option, "readattribute", using_one);
 				} else {
 					/** 
 					 * Read the variable directly from the model/object
 					 */
 					PHALCON_OBS_NVAR(option_value);
-					phalcon_read_property_zval(&option_value, option, using_zero, PH_NOISY_CC);
+					phalcon_read_property_zval(&option_value, option, using_zero, PH_NOISY TSRMLS_CC);
 	
 					/** 
 					 * Read the text directly from the model/object
 					 */
 					PHALCON_OBS_NVAR(option_text);
-					phalcon_read_property_zval(&option_text, option, using_one, PH_NOISY_CC);
+					phalcon_read_property_zval(&option_text, option, using_one, PH_NOISY TSRMLS_CC);
 				}
 			} else {
 				if (Z_TYPE_P(option) == IS_ARRAY) { 
@@ -349,7 +347,7 @@ PHP_METHOD(Phalcon_Tag_Select, _optionsFromResultset){
 			}
 		}
 	
-		phalcon_call_method_noret(resultset, "next");
+		PHALCON_CALL_METHOD(NULL, resultset, "next");
 	}
 	
 	RETURN_CTOR(code);

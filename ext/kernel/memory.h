@@ -46,7 +46,7 @@ int ZEND_FASTCALL phalcon_memory_restore_stack(TSRMLS_D);
 
 #endif
 
-void ZEND_FASTCALL phalcon_memory_observe(zval **var TSRMLS_DC) PHALCON_ATTR_NONNULL;
+void ZEND_FASTCALL phalcon_memory_observe(zval **var TSRMLS_DC) /* PHALCON_ATTR_NONNULL */;
 void ZEND_FASTCALL phalcon_memory_remove(zval **var TSRMLS_DC) PHALCON_ATTR_NONNULL;
 void ZEND_FASTCALL phalcon_memory_alloc(zval **var TSRMLS_DC);
 void ZEND_FASTCALL phalcon_memory_alloc_pnull(zval **var TSRMLS_DC);
@@ -145,16 +145,34 @@ void ZEND_FASTCALL phalcon_copy_ctor(zval *destiny, zval *origin) PHALCON_ATTR_N
 		phalcon_memory_observe(&z TSRMLS_CC); \
 	}
 
-#define PHALCON_OBSERVE_OR_NULLIFY_VAR(z)\
-	if (z) { \
-		zval_ptr_dtor(&z); \
-		z = NULL; \
-	} else { \
-		phalcon_memory_observe(&z TSRMLS_CC); \
-	}
+#define PHALCON_OBSERVE_OR_NULLIFY_PPZV(ppzv)               \
+	do {                                                    \
+		zval **tmp_ = (ppzv);                               \
+		if (tmp_ != NULL) {                                 \
+			if (*((zval**)(ppzv))) {                        \
+				zval_ptr_dtor((ppzv));                      \
+				*((zval**)(ppzv)) = NULL;                   \
+			}                                               \
+			else {                                          \
+				phalcon_memory_observe((ppzv) TSRMLS_CC);   \
+			}                                               \
+		}                                                   \
+	} while (0)
+
+#define PHALCON_OBSERVE_OR_NULLIFY_VAR(z) \
+	do { \
+		if (z) { \
+			zval_ptr_dtor(&z); \
+			z = NULL; \
+		} \
+		else { \
+			phalcon_memory_observe(&z TSRMLS_CC); \
+		} \
+	} while (0)
+
 
 #define PHALCON_SEPARATE_ARRAY(a) \
-	{ \
+	do { \
 		if (Z_REFCOUNT_P(a) > 1) { \
 			zval *new_zv; \
 			Z_DELREF_P(a); \
@@ -163,7 +181,7 @@ void ZEND_FASTCALL phalcon_copy_ctor(zval *destiny, zval *origin) PHALCON_ATTR_N
 			a = new_zv; \
 			zval_copy_ctor(new_zv); \
 		} \
-	}
+	} while (0)
 
 #define PHALCON_SEPARATE_PARAM(z) \
 	do { \

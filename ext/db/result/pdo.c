@@ -157,8 +157,8 @@ PHP_METHOD(Phalcon_Db_Result_Pdo, execute){
 
 	PHALCON_MM_GROW();
 
-	pdo_statement = phalcon_fetch_nproperty_this(this_ptr, SL("_pdoStatement"), PH_NOISY_CC);
-	phalcon_return_call_method_p0(pdo_statement, "execute");
+	pdo_statement = phalcon_fetch_nproperty_this(this_ptr, SL("_pdoStatement"), PH_NOISY TSRMLS_CC);
+	PHALCON_RETURN_CALL_METHOD(pdo_statement, "execute");
 	PHALCON_MM_RESTORE();
 }
 
@@ -182,8 +182,8 @@ PHP_METHOD(Phalcon_Db_Result_Pdo, fetch){
 
 	PHALCON_MM_GROW();
 
-	pdo_statement = phalcon_fetch_nproperty_this(this_ptr, SL("_pdoStatement"), PH_NOISY_CC);
-	phalcon_return_call_method_p0(pdo_statement, "fetch");
+	pdo_statement = phalcon_fetch_nproperty_this(this_ptr, SL("_pdoStatement"), PH_NOISY TSRMLS_CC);
+	PHALCON_RETURN_CALL_METHOD(pdo_statement, "fetch");
 	RETURN_MM();
 }
 
@@ -207,8 +207,8 @@ PHP_METHOD(Phalcon_Db_Result_Pdo, fetchArray){
 
 	PHALCON_MM_GROW();
 
-	pdo_statement = phalcon_fetch_nproperty_this(this_ptr, SL("_pdoStatement"), PH_NOISY_CC);
-	phalcon_return_call_method_p0(pdo_statement, "fetch");
+	pdo_statement = phalcon_fetch_nproperty_this(this_ptr, SL("_pdoStatement"), PH_NOISY TSRMLS_CC);
+	PHALCON_RETURN_CALL_METHOD(pdo_statement, "fetch");
 	RETURN_MM();
 }
 
@@ -229,8 +229,8 @@ PHP_METHOD(Phalcon_Db_Result_Pdo, fetchAll){
 
 	PHALCON_MM_GROW();
 
-	pdo_statement = phalcon_fetch_nproperty_this(this_ptr, SL("_pdoStatement"), PH_NOISY_CC);
-	phalcon_return_call_method_p0(pdo_statement, "fetchall");
+	pdo_statement = phalcon_fetch_nproperty_this(this_ptr, SL("_pdoStatement"), PH_NOISY TSRMLS_CC);
+	PHALCON_RETURN_CALL_METHOD(pdo_statement, "fetchall");
 	RETURN_MM();
 }
 
@@ -246,32 +246,31 @@ PHP_METHOD(Phalcon_Db_Result_Pdo, fetchAll){
  */
 PHP_METHOD(Phalcon_Db_Result_Pdo, numRows){
 
-	zval *row_count = NULL, *connection, *type, *pdo_statement = NULL;
+	zval *row_count = NULL, *connection, *type = NULL, *pdo_statement = NULL;
 	zval *sql_statement, *bind_params, *bind_types;
 	zval *matches, *pattern, *match, *else_clauses;
-	zval *sql, *result, *row;
+	zval *sql, *result = NULL, *row = NULL;
 
 	PHALCON_MM_GROW();
 
 	PHALCON_OBS_VAR(row_count);
-	phalcon_read_property_this(&row_count, this_ptr, SL("_rowCount"), PH_NOISY_CC);
+	phalcon_read_property_this(&row_count, this_ptr, SL("_rowCount"), PH_NOISY TSRMLS_CC);
 	if (PHALCON_IS_FALSE(row_count)) {
 	
 		PHALCON_OBS_VAR(connection);
-		phalcon_read_property_this(&connection, this_ptr, SL("_connection"), PH_NOISY_CC);
+		phalcon_read_property_this(&connection, this_ptr, SL("_connection"), PH_NOISY TSRMLS_CC);
 	
-		PHALCON_INIT_VAR(type);
-		phalcon_call_method(type, connection, "gettype");
+		PHALCON_CALL_METHOD(&type, connection, "gettype");
 	
 		/** 
 		 * MySQL/PostgreSQL library property returns the number of records
 		 */
 		if (PHALCON_IS_STRING(type, "mysql") || PHALCON_IS_STRING(type, "pgsql")) {
 			PHALCON_OBS_VAR(pdo_statement);
-			phalcon_read_property_this(&pdo_statement, this_ptr, SL("_pdoStatement"), PH_NOISY_CC);
+			phalcon_read_property_this(&pdo_statement, this_ptr, SL("_pdoStatement"), PH_NOISY TSRMLS_CC);
 	
 			PHALCON_INIT_NVAR(row_count);
-			phalcon_call_method(row_count, pdo_statement, "rowcount");
+			PHALCON_CALL_METHOD(&row_count, pdo_statement, "rowcount");
 		}
 	
 		/** 
@@ -284,7 +283,7 @@ PHP_METHOD(Phalcon_Db_Result_Pdo, numRows){
 			 * arbitrary number of rows, so we need to perform an extra count to know that
 			 */
 			PHALCON_OBS_VAR(sql_statement);
-			phalcon_read_property_this(&sql_statement, this_ptr, SL("_sqlStatement"), PH_NOISY_CC);
+			phalcon_read_property_this(&sql_statement, this_ptr, SL("_sqlStatement"), PH_NOISY TSRMLS_CC);
 	
 			/** 
 			 * If the sql_statement starts with SELECT COUNT(*) we don't make the count
@@ -292,10 +291,10 @@ PHP_METHOD(Phalcon_Db_Result_Pdo, numRows){
 			if (!phalcon_start_with_str(sql_statement, SL("SELECT COUNT(*) "))) {
 	
 				PHALCON_OBS_VAR(bind_params);
-				phalcon_read_property_this(&bind_params, this_ptr, SL("_bindParams"), PH_NOISY_CC);
+				phalcon_read_property_this(&bind_params, this_ptr, SL("_bindParams"), PH_NOISY TSRMLS_CC);
 	
 				PHALCON_OBS_VAR(bind_types);
-				phalcon_read_property_this(&bind_types, this_ptr, SL("_bindTypes"), PH_NOISY_CC);
+				phalcon_read_property_this(&bind_types, this_ptr, SL("_bindTypes"), PH_NOISY TSRMLS_CC);
 	
 				PHALCON_INIT_VAR(matches);
 	
@@ -312,11 +311,8 @@ PHP_METHOD(Phalcon_Db_Result_Pdo, numRows){
 					PHALCON_INIT_VAR(sql);
 					PHALCON_CONCAT_SVS(sql, "SELECT COUNT(*) \"numrows\" FROM (SELECT ", else_clauses, ")");
 	
-					PHALCON_INIT_VAR(result);
-					phalcon_call_method_p3(result, connection, "query", sql, bind_params, bind_types);
-	
-					PHALCON_INIT_VAR(row);
-					phalcon_call_method(row, result, "fetch");
+					PHALCON_CALL_METHOD(&result, connection, "query", sql, bind_params, bind_types);
+					PHALCON_CALL_METHOD(&row, result, "fetch");
 	
 					PHALCON_OBS_NVAR(row_count);
 					phalcon_array_fetch_string(&row_count, row, SL("numrows"), PH_NOISY);
@@ -350,7 +346,7 @@ PHP_METHOD(Phalcon_Db_Result_Pdo, numRows){
 PHP_METHOD(Phalcon_Db_Result_Pdo, dataSeek){
 
 	long number = 0, n;
-	zval *connection, *pdo, *sql_statement;
+	zval *connection, *pdo = NULL, *sql_statement;
 	zval *bind_params, *bind_types, *statement = NULL;
 	zval *temp_statement = NULL;
 	pdo_stmt_t *stmt;
@@ -362,16 +358,15 @@ PHP_METHOD(Phalcon_Db_Result_Pdo, dataSeek){
 	}
 
 	PHALCON_OBS_VAR(connection);
-	phalcon_read_property(&connection, this_ptr, SL("_connection"), PH_NOISY_CC);
+	phalcon_read_property(&connection, this_ptr, SL("_connection"), PH_NOISY TSRMLS_CC);
 
-	PHALCON_INIT_VAR(pdo);
-	phalcon_call_method(pdo, connection, "getinternalhandler");
+	PHALCON_CALL_METHOD(&pdo, connection, "getinternalhandler");
 
 	PHALCON_OBS_VAR(sql_statement);
-	phalcon_read_property(&sql_statement, this_ptr, SL("_sqlStatement"), PH_NOISY_CC);
+	phalcon_read_property(&sql_statement, this_ptr, SL("_sqlStatement"), PH_NOISY TSRMLS_CC);
 
 	PHALCON_OBS_VAR(bind_params);
-	phalcon_read_property(&bind_params, this_ptr, SL("_bindParams"), PH_NOISY_CC);
+	phalcon_read_property(&bind_params, this_ptr, SL("_bindParams"), PH_NOISY TSRMLS_CC);
 
 	/**
 	 * PDO doesn't support scrollable cursors, so we need to re-execute the statement again
@@ -379,19 +374,17 @@ PHP_METHOD(Phalcon_Db_Result_Pdo, dataSeek){
 	if (Z_TYPE_P(bind_params) == IS_ARRAY) {
 
 		PHALCON_OBS_VAR(bind_types);
-		phalcon_read_property(&bind_types, this_ptr, SL("_bindTypes"), PH_NOISY_CC);
+		phalcon_read_property(&bind_types, this_ptr, SL("_bindTypes"), PH_NOISY TSRMLS_CC);
 
-		PHALCON_INIT_VAR(statement);
-		phalcon_call_method_p1(statement, pdo, "prepare", sql_statement);
+		PHALCON_CALL_METHOD(&statement, pdo, "prepare", sql_statement);
 		if (Z_TYPE_P(statement) == IS_OBJECT) {
-			PHALCON_INIT_VAR(temp_statement);
-			phalcon_call_method_p3(temp_statement, connection, "executeprepared", statement, bind_params, bind_types);
+			PHALCON_CALL_METHOD(&temp_statement, connection, "executeprepared", statement, bind_params, bind_types);
 			PHALCON_CPY_WRT(statement, temp_statement);
 		}
 
 	} else {
 		PHALCON_INIT_NVAR(statement);
-		phalcon_call_method_p1(statement, pdo, "query", sql_statement);
+		PHALCON_CALL_METHOD(&statement, pdo, "query", sql_statement);
 	}
 
 	phalcon_update_property_zval(this_ptr, SL("_pdoStatement"), statement TSRMLS_CC);
@@ -457,10 +450,10 @@ PHP_METHOD(Phalcon_Db_Result_Pdo, setFetchMode){
 	ZVAL_LONG(fetch_type, fetch_mode);
 
 	PHALCON_OBS_VAR(pdo_statement);
-	phalcon_read_property(&pdo_statement, this_ptr, SL("_pdoStatement"), PH_NOISY_CC);
+	phalcon_read_property(&pdo_statement, this_ptr, SL("_pdoStatement"), PH_NOISY TSRMLS_CC);
 
 	if (Z_LVAL_P(fetch_type) != 0) {
-		phalcon_call_method_p1_noret(pdo_statement, "setfetchmode", fetch_type);
+		PHALCON_CALL_METHOD(NULL, pdo_statement, "setfetchmode", fetch_type);
 		phalcon_update_property_long(this_ptr, SL("_fetchMode"), Z_LVAL_P(fetch_type) TSRMLS_CC);
 	}
 

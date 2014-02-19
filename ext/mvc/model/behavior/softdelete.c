@@ -78,7 +78,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Behavior_SoftDelete, notify){
 	if (PHALCON_IS_STRING(type, "beforeDelete")) {
 	
 		PHALCON_INIT_VAR(options);
-		phalcon_call_method(options, this_ptr, "getoptions");
+		PHALCON_CALL_METHOD(&options, this_ptr, "getoptions");
 		if (!phalcon_array_isset_string(options, SS("value"))) {
 			PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "The option 'value' is required");
 			return;
@@ -92,7 +92,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Behavior_SoftDelete, notify){
 		/** 
 		 * Skip the current operation
 		 */
-		phalcon_call_method_p1_noret(model, "skipoperation", PHALCON_GLOBAL(z_true));
+		PHALCON_CALL_METHOD(NULL, model, "skipoperation", PHALCON_GLOBAL(z_true));
 	
 		/** 
 		 * 'value' is the value to be updated instead of delete the record
@@ -107,7 +107,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Behavior_SoftDelete, notify){
 		phalcon_array_fetch_string(&field, options, SL("field"), PH_NOISY);
 	
 		PHALCON_INIT_VAR(actual_value);
-		phalcon_call_method_p1(actual_value, model, "readattribute", field);
+		PHALCON_CALL_METHOD(&actual_value, model, "readattribute", field);
 	
 		/** 
 		 * If the record is already flagged as 'deleted' we don't delete it again
@@ -122,20 +122,20 @@ PHP_METHOD(Phalcon_Mvc_Model_Behavior_SoftDelete, notify){
 				RETURN_MM();
 			}
 
-			phalcon_call_method_p2_noret(update_model, "writeattribute", field, value);
+			PHALCON_CALL_METHOD(NULL, update_model, "writeattribute", field, value);
 	
 			/** 
 			 * Update the cloned model
 			 */
 			PHALCON_INIT_VAR(status);
-			phalcon_call_method(status, update_model, "save");
+			PHALCON_CALL_METHOD(&status, update_model, "save");
 			if (!zend_is_true(status)) {
 	
 				/** 
 				 * Transfer the messages from the cloned model to the original model
 				 */
 				PHALCON_INIT_VAR(messages);
-				phalcon_call_method(messages, update_model, "getmessages");
+				PHALCON_CALL_METHOD(&messages, update_model, "getmessages");
 	
 				phalcon_is_iterable(messages, &ah0, &hp0, 0, 0);
 	
@@ -143,7 +143,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Behavior_SoftDelete, notify){
 	
 					PHALCON_GET_HVALUE(message);
 	
-					phalcon_call_method_p1_noret(model, "appendmessage", message);
+					PHALCON_CALL_METHOD(NULL, model, "appendmessage", message);
 	
 					zend_hash_move_forward_ex(ah0, &hp0);
 				}
@@ -154,7 +154,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Behavior_SoftDelete, notify){
 			/** 
 			 * Update the original model too
 			 */
-			phalcon_call_method_p2_noret(model, "writeattribute", field, value);
+			PHALCON_CALL_METHOD(NULL, model, "writeattribute", field, value);
 		}
 	}
 	

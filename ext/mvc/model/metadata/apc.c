@@ -115,7 +115,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Apc, __construct){
  */
 PHP_METHOD(Phalcon_Mvc_Model_MetaData_Apc, read)
 {
-	zval *key, *prefix, *apc_key, *data;
+	zval *key, *prefix, *apc_key, *data = NULL;
 
 	PHALCON_MM_GROW();
 
@@ -126,7 +126,6 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Apc, read)
 	PHALCON_INIT_VAR(apc_key);
 	PHALCON_CONCAT_SVV(apc_key, "$PMM$", prefix, key);
 	
-	PHALCON_OBS_VAR(data);
 	PHALCON_CALL_FUNCTION(&data, "apc_fetch", apc_key);
 	if (Z_TYPE_P(data) == IS_ARRAY) { 
 		RETURN_CCTOR(data);

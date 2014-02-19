@@ -124,11 +124,11 @@ PHP_METHOD(Phalcon_Paginator_Adapter_Model, getPaginate){
 	z_one  = PHALCON_GLOBAL(z_one);
 	z_zero = PHALCON_GLOBAL(z_zero);
 	
-	show        = phalcon_fetch_nproperty_this(this_ptr, SL("_limitRows"), PH_NOISY_CC);
-	config      = phalcon_fetch_nproperty_this(this_ptr, SL("_config"), PH_NOISY_CC);
+	show        = phalcon_fetch_nproperty_this(this_ptr, SL("_limitRows"), PH_NOISY TSRMLS_CC);
+	config      = phalcon_fetch_nproperty_this(this_ptr, SL("_config"), PH_NOISY TSRMLS_CC);
 	
 	PHALCON_OBS_VAR(page_number);
-	phalcon_read_property_this(&page_number, this_ptr, SL("_page"), PH_NOISY_CC);
+	phalcon_read_property_this(&page_number, this_ptr, SL("_page"), PH_NOISY TSRMLS_CC);
 
 	i_show = (Z_TYPE_P(show) == IS_LONG) ? Z_LVAL_P(show) : phalcon_get_intval(show);
 
@@ -175,9 +175,9 @@ PHP_METHOD(Phalcon_Paginator_Adapter_Model, getPaginate){
 		 * Seek to the desired position
 		 */
 		if (PHALCON_LT(start, rowcount)) {
-			phalcon_call_method_p1_noret(items, "seek", start);
+			PHALCON_CALL_METHOD(NULL, items, "seek", start);
 		} else {
-			phalcon_call_method_noret(items, "rewind");
+			PHALCON_CALL_METHOD(NULL, items, "rewind");
 			PHALCON_CPY_WRT_CTOR(page_number, z_one);
 			PHALCON_CPY_WRT_CTOR(last_page, z_zero);
 			PHALCON_CPY_WRT_CTOR(start, z_zero);
@@ -189,13 +189,13 @@ PHP_METHOD(Phalcon_Paginator_Adapter_Model, getPaginate){
 		for (i=1; ; ++i) {
 	
 			PHALCON_INIT_NVAR(valid);
-			phalcon_call_method(valid, items, "valid");
+			PHALCON_CALL_METHOD(&valid, items, "valid");
 			if (!PHALCON_IS_NOT_FALSE(valid)) {
 				break;
 			}
 	
 			PHALCON_INIT_NVAR(current);
-			phalcon_call_method(current, items, "current");
+			PHALCON_CALL_METHOD(&current, items, "current");
 			phalcon_array_append(&page_items, current, 0);
 
 			if (i >= i_show) {

@@ -114,7 +114,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Xcache, __construct){
  */
 PHP_METHOD(Phalcon_Mvc_Model_MetaData_Xcache, read){
 
-	zval *key, *prefix, *xc_key, *data;
+	zval *key, *prefix, *xc_key, *data = NULL;
 
 	PHALCON_MM_GROW();
 
@@ -125,7 +125,6 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Xcache, read){
 	PHALCON_INIT_VAR(xc_key);
 	PHALCON_CONCAT_SVV(xc_key, "$PMM$", prefix, key);
 	
-	PHALCON_OBS_VAR(data);
 	PHALCON_CALL_FUNCTION(&data, "xcache_get", xc_key);
 	if (Z_TYPE_P(data) == IS_ARRAY) { 
 		RETURN_CCTOR(data);
@@ -154,7 +153,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Xcache, write){
 	PHALCON_CONCAT_SVV(xc_key, "$PMM$", prefix, key);
 	
 	PHALCON_OBS_VAR(ttl);
-	phalcon_read_property_this(&ttl, this_ptr, SL("_ttl"), PH_NOISY_CC);
+	phalcon_read_property_this(&ttl, this_ptr, SL("_ttl"), PH_NOISY TSRMLS_CC);
 	PHALCON_CALL_FUNCTION(NULL, "xcache_set", xc_key, data, ttl);
 	
 	PHALCON_MM_RESTORE();

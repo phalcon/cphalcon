@@ -136,5 +136,5 @@ PHP_METHOD(Phalcon_Db_Index, __set_state){
 	 * Return a Phalcon\Db\Index as part of the returning state
 	 */
 	object_init_ex(return_value, phalcon_db_index_ce);
-	RETURN_ON_FAILURE(phalcon_call_method_params(NULL, NULL, return_value, SL("__construct"), zend_inline_hash_func(SS("__construct")) TSRMLS_CC, 2, index_name, columns));
+	PHALCON_CALL_METHODW(NULL, return_value, "__construct", index_name, columns);
 }

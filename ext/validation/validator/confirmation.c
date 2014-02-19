@@ -77,8 +77,8 @@ PHALCON_INIT_CLASS(Phalcon_Validation_Validator_Confirmation){
 PHP_METHOD(Phalcon_Validation_Validator_Confirmation, validate){
 
 	zval *validator, *attribute, *with_attribute;
-	zval *value, *with_value, *message_str, *message, *code;
-	zval *label, *pairs, *prepared;
+	zval *value = NULL, *with_value = NULL, *message_str, *message, *code;
+	zval *label, *pairs, *prepared = NULL;
 	zend_class_entry *ce = Z_OBJCE_P(getThis());
 
 	PHALCON_MM_GROW();
@@ -90,11 +90,8 @@ PHP_METHOD(Phalcon_Validation_Validator_Confirmation, validate){
 	PHALCON_INIT_VAR(with_attribute);
 	RETURN_MM_ON_FAILURE(phalcon_validation_validator_getoption_helper(ce, with_attribute, getThis(), "with" TSRMLS_CC));
 	
-	PHALCON_OBS_VAR(value);
-	phalcon_call_method_p1_ex(value, &value, validator, "getvalue", attribute);
-	
-	PHALCON_OBS_VAR(with_value);
-	phalcon_call_method_p1_ex(with_value, &with_value, validator, "getvalue", with_attribute);
+	PHALCON_CALL_METHOD(&value,      validator, "getvalue", attribute);
+	PHALCON_CALL_METHOD(&with_value, validator, "getvalue", with_attribute);
 
 	if (!PHALCON_IS_EQUAL(value, with_value)) {
 	
@@ -122,13 +119,12 @@ PHP_METHOD(Phalcon_Validation_Validator_Confirmation, validate){
 			ZVAL_LONG(code, 0);
 		}
 
-		PHALCON_OBS_VAR(prepared);
 		PHALCON_CALL_FUNCTION(&prepared, "strtr", message_str, pairs);
 	
 		message = phalcon_validation_message_construct_helper(prepared, attribute, "Confirmation", code TSRMLS_CC);
 		Z_DELREF_P(message);
 	
-		phalcon_call_method_p1_noret(validator, "appendmessage", message);
+		PHALCON_CALL_METHOD(NULL, validator, "appendmessage", message);
 		RETURN_MM_FALSE;
 	}
 	

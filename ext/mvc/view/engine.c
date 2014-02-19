@@ -91,16 +91,10 @@ PHP_METHOD(Phalcon_Mvc_View_Engine, __construct){
  *
  * @return array
  */
-PHP_METHOD(Phalcon_Mvc_View_Engine, getContent){
-
-	zval *view;
-
-	PHALCON_MM_GROW();
-
-	PHALCON_OBS_VAR(view);
-	phalcon_read_property_this(&view, this_ptr, SL("_view"), PH_NOISY_CC);
-	phalcon_call_method(return_value, view, "getcontent");
-	RETURN_MM();
+PHP_METHOD(Phalcon_Mvc_View_Engine, getContent)
+{
+	zval *view = phalcon_fetch_nproperty_this(this_ptr, SL("_view"), PH_NOISY TSRMLS_CC);
+	PHALCON_RETURN_CALL_METHODW(view, "getcontent");
 }
 
 /**
@@ -114,17 +108,14 @@ PHP_METHOD(Phalcon_Mvc_View_Engine, partial){
 
 	zval *partial_path, *params = NULL, *view;
 
-	PHALCON_MM_GROW();
-
-	phalcon_fetch_params(1, 1, 1, &partial_path, &params);
+	phalcon_fetch_params(0, 1, 1, &partial_path, &params);
 	
 	if (!params) {
 		params = PHALCON_GLOBAL(z_null);
 	}
 	
-	view = phalcon_fetch_nproperty_this(this_ptr, SL("_view"), PH_NOISY_CC);
-	phalcon_return_call_method_p2(view, "partial", partial_path, params);
-	RETURN_MM();
+	view = phalcon_fetch_nproperty_this(this_ptr, SL("_view"), PH_NOISY TSRMLS_CC);
+	PHALCON_RETURN_CALL_METHODW(view, "partial", partial_path, params);
 }
 
 /**

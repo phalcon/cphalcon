@@ -244,18 +244,18 @@ PHP_METHOD(Phalcon_Assets_Collection, addCss){
 	if (Z_TYPE_P(local) == IS_BOOL) {
 		collection_local = local;
 	} else {
-		collection_local = phalcon_fetch_nproperty_this(this_ptr, SL("_local"), PH_NOISY_CC);
+		collection_local = phalcon_fetch_nproperty_this(this_ptr, SL("_local"), PH_NOISY TSRMLS_CC);
 	}
 
 	if (Z_TYPE_P(attributes) == IS_ARRAY) { 
 		collection_attributes = attributes;
 	} else {
-		collection_attributes = phalcon_fetch_nproperty_this(this_ptr, SL("_attributes"), PH_NOISY_CC);
+		collection_attributes = phalcon_fetch_nproperty_this(this_ptr, SL("_attributes"), PH_NOISY TSRMLS_CC);
 	}
 	
 	PHALCON_INIT_VAR(resource);
 	object_init_ex(resource, phalcon_assets_resource_css_ce);
-	phalcon_call_method_p4_noret(resource, "__construct", path, collection_local, filter, collection_attributes);
+	PHALCON_CALL_METHOD(NULL, resource, "__construct", path, collection_local, filter, collection_attributes);
 	
 	phalcon_update_property_array_append(this_ptr, SL("_resources"), resource TSRMLS_CC);
 	
@@ -295,18 +295,18 @@ PHP_METHOD(Phalcon_Assets_Collection, addJs){
 	if (Z_TYPE_P(local) == IS_BOOL) {
 		collection_local = local;
 	} else {
-		collection_local = phalcon_fetch_nproperty_this(this_ptr, SL("_local"), PH_NOISY_CC);
+		collection_local = phalcon_fetch_nproperty_this(this_ptr, SL("_local"), PH_NOISY TSRMLS_CC);
 	}
 
 	if (Z_TYPE_P(attributes) == IS_ARRAY) { 
 		collection_attributes = attributes;
 	} else {
-		collection_attributes = phalcon_fetch_nproperty_this(this_ptr, SL("_attributes"), PH_NOISY_CC);
+		collection_attributes = phalcon_fetch_nproperty_this(this_ptr, SL("_attributes"), PH_NOISY TSRMLS_CC);
 	}
 	
 	PHALCON_INIT_VAR(resource);
 	object_init_ex(resource, phalcon_assets_resource_js_ce);
-	phalcon_call_method_p4_noret(resource, "__construct", path, collection_local, filter, collection_attributes);
+	PHALCON_CALL_METHOD(NULL, resource, "__construct", path, collection_local, filter, collection_attributes);
 	
 	phalcon_update_property_array_append(this_ptr, SL("_resources"), resource TSRMLS_CC);
 	
@@ -322,7 +322,7 @@ PHP_METHOD(Phalcon_Assets_Collection, getResources){
 
 	zval *resources;
 
-	resources = phalcon_fetch_nproperty_this(this_ptr, SL("_resources"), PH_NOISY_CC);
+	resources = phalcon_fetch_nproperty_this(this_ptr, SL("_resources"), PH_NOISY TSRMLS_CC);
 	if (Z_TYPE_P(resources) != IS_ARRAY) { 
 		array_init(return_value);
 		return;
@@ -343,7 +343,7 @@ PHP_METHOD(Phalcon_Assets_Collection, count){
 	PHALCON_MM_GROW();
 
 	PHALCON_OBS_VAR(resources);
-	phalcon_read_property_this(&resources, this_ptr, SL("_resources"), PH_NOISY_CC);
+	phalcon_read_property_this(&resources, this_ptr, SL("_resources"), PH_NOISY TSRMLS_CC);
 	phalcon_fast_count(return_value, resources TSRMLS_CC);
 	RETURN_MM();
 }
@@ -367,8 +367,8 @@ PHP_METHOD(Phalcon_Assets_Collection, current){
 
 	zval *position, *resources, *resource;
 
-	position  = phalcon_fetch_nproperty_this(this_ptr, SL("_position"), PH_NOISY_CC);
-	resources = phalcon_fetch_nproperty_this(this_ptr, SL("_resources"), PH_NOISY_CC);
+	position  = phalcon_fetch_nproperty_this(this_ptr, SL("_position"), PH_NOISY TSRMLS_CC);
+	resources = phalcon_fetch_nproperty_this(this_ptr, SL("_resources"), PH_NOISY TSRMLS_CC);
 	if (phalcon_array_isset_fetch(&resource, resources, position)) {
 		RETURN_ZVAL(resource, 1, 0);
 	}
@@ -410,10 +410,10 @@ PHP_METHOD(Phalcon_Assets_Collection, valid){
 	PHALCON_MM_GROW();
 
 	PHALCON_OBS_VAR(position);
-	phalcon_read_property_this(&position, this_ptr, SL("_position"), PH_NOISY_CC);
+	phalcon_read_property_this(&position, this_ptr, SL("_position"), PH_NOISY TSRMLS_CC);
 	
 	PHALCON_OBS_VAR(resources);
-	phalcon_read_property_this(&resources, this_ptr, SL("_resources"), PH_NOISY_CC);
+	phalcon_read_property_this(&resources, this_ptr, SL("_resources"), PH_NOISY TSRMLS_CC);
 	if (phalcon_array_isset(resources, position)) {
 		RETURN_MM_TRUE;
 	}
@@ -682,7 +682,7 @@ PHP_METHOD(Phalcon_Assets_Collection, getRealTargetPath){
 	}
 	
 	PHALCON_OBS_VAR(target_path);
-	phalcon_read_property_this(&target_path, this_ptr, SL("_targetPath"), PH_NOISY_CC);
+	phalcon_read_property_this(&target_path, this_ptr, SL("_targetPath"), PH_NOISY TSRMLS_CC);
 	
 	/** 
 	 * A base path for resources can be set in the assets manager

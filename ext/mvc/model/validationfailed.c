@@ -90,7 +90,7 @@ PHP_METHOD(Phalcon_Mvc_Model_ValidationFailed, __construct){
 		 * Get the message to use it in the exception
 		 */
 		PHALCON_INIT_VAR(message_str);
-		phalcon_call_method(message_str, message, "getmessage");
+		PHALCON_CALL_METHOD(&message_str, message, "getmessage");
 	} else {
 		PHALCON_INIT_NVAR(message_str);
 		ZVAL_STRING(message_str, "Validation failed", 1);

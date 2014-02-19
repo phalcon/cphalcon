@@ -122,7 +122,7 @@ PHP_METHOD(Phalcon_Annotations_Adapter_Files, read){
 
 	PHALCON_MM_GROW();
 
-	annotations_dir = phalcon_fetch_nproperty_this(this_ptr, SL("_annotationsDir"), PH_NOISY_CC);
+	annotations_dir = phalcon_fetch_nproperty_this(this_ptr, SL("_annotationsDir"), PH_NOISY TSRMLS_CC);
 	
 	/** 
 	 * Paths must be normalized before be used as keys
@@ -160,7 +160,7 @@ PHP_METHOD(Phalcon_Annotations_Adapter_Files, write){
 
 	PHALCON_MM_GROW();
 
-	annotations_dir = phalcon_fetch_nproperty_this(this_ptr, SL("_annotationsDir"), PH_NOISY_CC);
+	annotations_dir = phalcon_fetch_nproperty_this(this_ptr, SL("_annotationsDir"), PH_NOISY TSRMLS_CC);
 	
 	/** 
 	 * Paths must be normalized before be used as keys

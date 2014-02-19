@@ -105,20 +105,19 @@ PHP_METHOD(Phalcon_DI_Service_Builder, _buildParameter){
 	 * If the argument type is 'service', we obtain the service from the DI
 	 */
 	if (PHALCON_IS_STRING(type, "service")) {
-		if (!phalcon_array_isset_string(argument, SS("name"))) {
+		if (!phalcon_array_isset_string_fetch(&name, argument, SS("name"))) {
 			PHALCON_INIT_NVAR(exception_message);
 			PHALCON_CONCAT_SV(exception_message, "Service 'name' is required in parameter on position ", position);
 			PHALCON_THROW_EXCEPTION_ZVAL(phalcon_di_exception_ce, exception_message);
 			return;
 		}
+
 		if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
 			PHALCON_THROW_EXCEPTION_STR(phalcon_di_exception_ce, "The dependency injector container is not valid");
 			return;
 		}
 	
-		PHALCON_OBS_VAR(name);
-		phalcon_array_fetch_string(&name, argument, SL("name"), PH_NOISY);
-		phalcon_call_method_p1(return_value, dependency_injector, "get", name);
+		PHALCON_RETURN_CALL_METHOD(dependency_injector, "get", name);
 		RETURN_MM();
 	}
 	
@@ -160,8 +159,7 @@ PHP_METHOD(Phalcon_DI_Service_Builder, _buildParameter){
 			/** 
 			 * The instance parameter does not have arguments for its constructor
 			 */
-			PHALCON_INIT_NVAR(value);
-			phalcon_call_method_p1(value, dependency_injector, "get", name);
+			PHALCON_CALL_METHOD(&value, dependency_injector, "get", name);
 		} else {
 			PHALCON_OBS_VAR(instance_arguments);
 			phalcon_array_fetch_string(&instance_arguments, argument, SL("arguments"), PH_NOISY);
@@ -169,7 +167,7 @@ PHP_METHOD(Phalcon_DI_Service_Builder, _buildParameter){
 			/** 
 			 * Build the instance with arguments
 			 */
-			phalcon_call_method_p2(return_value, dependency_injector, "get", name, instance_arguments);
+			PHALCON_RETURN_CALL_METHOD(dependency_injector, "get", name, instance_arguments);
 			RETURN_MM();
 		}
 	
@@ -222,8 +220,7 @@ PHP_METHOD(Phalcon_DI_Service_Builder, _buildParameters){
 		PHALCON_GET_HKEY(position, ah0, hp0);
 		PHALCON_GET_HVALUE(argument);
 	
-		PHALCON_INIT_NVAR(value);
-		phalcon_call_method_p3(value, this_ptr, "_buildparameter", dependency_injector, position, argument);
+		PHALCON_CALL_METHOD(&value, this_ptr, "_buildparameter", dependency_injector, position, argument);
 		phalcon_array_append(&build_arguments, value, PH_SEPARATE);
 	
 		zend_hash_move_forward_ex(ah0, &hp0);
@@ -295,8 +292,7 @@ PHP_METHOD(Phalcon_DI_Service_Builder, build){
 			/** 
 			 * Resolve the constructor parameters
 			 */
-			PHALCON_INIT_VAR(build_arguments);
-			phalcon_call_method_p2(build_arguments, this_ptr, "_buildparameters", dependency_injector, arguments);
+			PHALCON_CALL_METHOD(&build_arguments, this_ptr, "_buildparameters", dependency_injector, arguments);
 	
 			/** 
 			 * Create the instance based on the parameters
@@ -384,8 +380,7 @@ PHP_METHOD(Phalcon_DI_Service_Builder, build){
 					/** 
 					 * Resolve the constructor parameters
 					 */
-					PHALCON_INIT_NVAR(build_arguments);
-					phalcon_call_method_p2(build_arguments, this_ptr, "_buildparameters", dependency_injector, arguments);
+					PHALCON_CALL_METHOD(&build_arguments, this_ptr, "_buildparameters", dependency_injector, arguments);
 	
 					/** 
 					 * Call the method on the instance
@@ -477,8 +472,7 @@ PHP_METHOD(Phalcon_DI_Service_Builder, build){
 			/** 
 			 * Resolve the parameter
 			 */
-			PHALCON_INIT_NVAR(value);
-			phalcon_call_method_p3(value, this_ptr, "_buildparameter", dependency_injector, property_position, property_value);
+			PHALCON_CALL_METHOD(&value, this_ptr, "_buildparameter", dependency_injector, property_position, property_value);
 	
 			/** 
 			 * Update the public property

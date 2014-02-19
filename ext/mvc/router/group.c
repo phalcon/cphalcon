@@ -231,7 +231,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Group, __construct){
 	}
 
 	if (phalcon_method_exists_ex(this_ptr, SS("initialize") TSRMLS_CC) == SUCCESS) {
-		RETURN_ON_FAILURE(phalcon_call_method_params(NULL, NULL, this_ptr, SL("initialize"), zend_inline_hash_func(SS("initialize")) TSRMLS_CC, 1, paths));
+		PHALCON_CALL_METHODW(NULL, this_ptr, "initialize", paths);
 	}
 }
 
@@ -381,7 +381,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Group, _addRoute){
 	}
 	
 	PHALCON_OBS_VAR(prefix);
-	phalcon_read_property_this(&prefix, this_ptr, SL("_prefix"), PH_NOISY_CC);
+	phalcon_read_property_this(&prefix, this_ptr, SL("_prefix"), PH_NOISY TSRMLS_CC);
 	
 	if (Z_TYPE_P(prefix) != IS_STRING) {
 		convert_to_string_ex(&prefix);
@@ -407,7 +407,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Group, _addRoute){
 		}
 	}
 
-	default_paths = phalcon_fetch_nproperty_this(this_ptr, SL("_paths"), PH_NOISY_CC);
+	default_paths = phalcon_fetch_nproperty_this(this_ptr, SL("_paths"), PH_NOISY TSRMLS_CC);
 	
 	/** 
 	 * Check if the paths need to be merged with current paths
@@ -426,8 +426,8 @@ PHP_METHOD(Phalcon_Mvc_Router_Group, _addRoute){
 	 * Every route is internally stored as a Phalcon\Mvc\Router\Route
 	 */
 	object_init_ex(return_value, phalcon_mvc_router_route_ce);
-	phalcon_call_method_p3_noret(return_value, "__construct", prefix_pattern, merged_paths, *http_methods);
-	phalcon_call_method_p1_noret(return_value, "setgroup", this_ptr);
+	PHALCON_CALL_METHOD(NULL, return_value, "__construct", prefix_pattern, merged_paths, *http_methods);
+	PHALCON_CALL_METHOD(NULL, return_value, "setgroup", this_ptr);
 	
 	phalcon_update_property_array_append(this_ptr, SL("_routes"), return_value TSRMLS_CC);
 	
@@ -462,7 +462,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Group, add){
 		http_methods = PHALCON_GLOBAL(z_null);
 	}
 	
-	phalcon_call_method_p3(return_value, this_ptr, "_addroute", pattern, paths, http_methods);
+	PHALCON_RETURN_CALL_METHOD(this_ptr, "_addroute", pattern, paths, http_methods);
 	RETURN_MM();
 }
 
@@ -478,13 +478,7 @@ static void phalcon_mvc_router_group_add_helper(INTERNAL_FUNCTION_PARAMETERS, co
 
 	PHALCON_ALLOC_GHOST_ZVAL(http_method);
 	PHALCON_ZVAL_MAYBE_INTERNED_STRING(http_method, method);
-	if (FAILURE == phalcon_call_method_params(return_value, return_value_ptr, getThis(), SL("_addroute"), zend_inline_hash_func(SS("_addroute")) TSRMLS_CC, 3, pattern, paths, http_method)) {
-		if (return_value_ptr && EG(exception)) {
-			ALLOC_INIT_ZVAL(*return_value_ptr);
-		}
-
-		return;
-	}
+	PHALCON_RETURN_CALL_METHODW(getThis(), "addroute", pattern, paths, http_method);
 }
 
 /**

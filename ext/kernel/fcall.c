@@ -462,17 +462,20 @@ int phalcon_call_func_aparams(zval **return_value_ptr, const char *func_name, ui
 	return status;
 }
 
-int phalcon_call_method_vparams(zval *return_value, zval **return_value_ptr, zval *object, const char *method_name, uint method_len, ulong method_key TSRMLS_DC, int param_count, va_list ap)
+int phalcon_call_method_vparams(zval **return_value_ptr, zval *object, const char *method_name, uint method_len, ulong method_key TSRMLS_DC, int param_count, va_list ap)
 {
 	zval *rv = NULL, **rvp = &rv;
 	int status, i, free_params = 0;
 	zval **params_ptr, **params = NULL;
 	zval *static_params[10];
 
-	if (return_value_ptr && return_value) {
-		zval_ptr_dtor(return_value_ptr);
-		*return_value_ptr = NULL;
+#ifndef PHALCON_RELEASE
+	if (return_value_ptr && *return_value_ptr) {
+		fprintf(stderr, "%s: *return_value_ptr must be NULL\n", __func__);
+		phalcon_print_backtrace();
+		abort();
 	}
+#endif
 
 	if (param_count < 0) {
 		params      = va_arg(ap, zval**);
@@ -508,9 +511,6 @@ int phalcon_call_method_vparams(zval *return_value, zval **return_value_ptr, zva
 			MAKE_STD_ZVAL(*return_value_ptr);
 			ZVAL_ZVAL(*return_value_ptr, rv, 1, 1);
 		}
-		else if (return_value) {
-			COPY_PZVAL_TO_ZVAL(*return_value, rv);
-		}
 		else if (rv) {
 			zval_ptr_dtor(&rv);
 		}
@@ -531,13 +531,13 @@ int phalcon_call_method_vparams(zval *return_value, zval **return_value_ptr, zva
  * @retval @c SUCCESS
  * @retval @c FAILURE
  */
-int phalcon_call_method_params(zval *return_value, zval **return_value_ptr, zval *object, const char *method_name, uint method_len, ulong method_key TSRMLS_DC, int param_count, ...)
+int phalcon_call_method_params(zval **return_value_ptr, zval *object, const char *method_name, uint method_len, ulong method_key TSRMLS_DC, int param_count, ...)
 {
 	int status;
 	va_list ap;
 
 	va_start(ap, param_count);
-	status = phalcon_call_method_vparams(return_value, return_value_ptr, object, method_name, method_len, method_key TSRMLS_CC, param_count, ap);
+	status = phalcon_call_method_vparams(return_value_ptr, object, method_name, method_len, method_key TSRMLS_CC, param_count, ap);
 	va_end(ap);
 
 	return status;
@@ -660,6 +660,41 @@ int phalcon_call_user_func_array_noex(zval *return_value, zval *handler, zval *p
 }
 
 #if PHP_VERSION_ID <= 50309
+
+/**
+ * Latest version of zend_throw_exception_internal
+ */
+void phalcon_throw_exception_internal(zval *exception TSRMLS_DC)
+{
+	if (exception != NULL) {
+		zval *previous = EG(exception);
+		zend_exception_set_previous(exception, EG(exception) TSRMLS_CC);
+		EG(exception) = exception;
+		if (previous) {
+			return;
+		}
+	}
+
+	if (!EG(current_execute_data)) {
+		if (EG(exception)) {
+			zend_exception_error(EG(exception), E_ERROR TSRMLS_CC);
+		}
+		zend_error(E_ERROR, "Exception thrown without a stack frame");
+	}
+
+	if (zend_throw_exception_hook) {
+		zend_throw_exception_hook(exception TSRMLS_CC);
+	}
+
+	if (EG(current_execute_data)->opline == NULL ||
+		(EG(current_execute_data)->opline + 1)->opcode == ZEND_HANDLE_EXCEPTION) {
+		/* no need to rethrow the exception */
+		return;
+	}
+
+	EG(opline_before_exception) = EG(current_execute_data)->opline;
+	EG(current_execute_data)->opline = EG(exception_op);
+}
 
 int phalcon_call_function(zend_fcall_info *fci, zend_fcall_info_cache *fci_cache TSRMLS_DC) {
 

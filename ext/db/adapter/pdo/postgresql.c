@@ -110,7 +110,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Postgresql, connect){
 	
 	if (!zend_is_true(descriptor)) {
 		PHALCON_OBS_NVAR(descriptor);
-		phalcon_read_property_this(&descriptor, this_ptr, SL("_descriptor"), PH_NOISY_CC);
+		phalcon_read_property_this(&descriptor, this_ptr, SL("_descriptor"), PH_NOISY TSRMLS_CC);
 	}
 	
 	PHALCON_INIT_VAR(schema);
@@ -128,7 +128,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Postgresql, connect){
 	if (Z_TYPE_P(schema) == IS_STRING) {
 		PHALCON_INIT_VAR(sql);
 		PHALCON_CONCAT_SVS(sql, "SET search_path TO '", schema, "'");
-		phalcon_call_method_p1_noret(this_ptr, "execute", sql);
+		PHALCON_CALL_METHOD(NULL, this_ptr, "execute", sql);
 	}
 	
 	PHALCON_MM_RESTORE();
@@ -145,8 +145,8 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Postgresql, connect){
  */
 PHP_METHOD(Phalcon_Db_Adapter_Pdo_Postgresql, describeColumns){
 
-	zval *table, *schema = NULL, *columns, *dialect, *sql, *fetch_num;
-	zval *describe, *old_column = NULL, *field = NULL, *definition = NULL;
+	zval *table, *schema = NULL, *columns, *dialect, *sql = NULL, *fetch_num;
+	zval *describe = NULL, *old_column = NULL, *field = NULL, *definition = NULL;
 	zval *char_size = NULL, *numeric_size = NULL, *numeric_scale = NULL, *column_type = NULL;
 	zval *attribute = NULL, *column_name = NULL, *column = NULL;
 	HashTable *ah0;
@@ -165,10 +165,9 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Postgresql, describeColumns){
 	array_init(columns);
 	
 	PHALCON_OBS_VAR(dialect);
-	phalcon_read_property_this(&dialect, this_ptr, SL("_dialect"), PH_NOISY_CC);
+	phalcon_read_property_this(&dialect, this_ptr, SL("_dialect"), PH_NOISY TSRMLS_CC);
 	
-	PHALCON_INIT_VAR(sql);
-	phalcon_call_method_p2(sql, dialect, "describecolumns", table, schema);
+	PHALCON_CALL_METHOD(&sql, dialect, "describecolumns", table, schema);
 	
 	/** 
 	 * We're using FETCH_NUM to fetch the columns
@@ -176,8 +175,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Postgresql, describeColumns){
 	PHALCON_INIT_VAR(fetch_num);
 	ZVAL_LONG(fetch_num, PDO_FETCH_NUM);
 	
-	PHALCON_INIT_VAR(describe);
-	phalcon_call_method_p2(describe, this_ptr, "fetchall", sql, fetch_num);
+	PHALCON_CALL_METHOD(&describe, this_ptr, "fetchall", sql, fetch_num);
 	
 	/** 
 	 * 0:name, 1:type, 2:size, 3:numericsize, 4: null, 5: key, 6: extra, 7: position
@@ -369,7 +367,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Postgresql, describeColumns){
 		 */
 		PHALCON_INIT_NVAR(column);
 		object_init_ex(column, phalcon_db_column_ce);
-		phalcon_call_method_p2_noret(column, "__construct", column_name, definition);
+		PHALCON_CALL_METHOD(NULL, column, "__construct", column_name, definition);
 	
 		phalcon_array_append(&columns, column, PH_SEPARATE);
 		PHALCON_CPY_WRT(old_column, column_name);
@@ -407,7 +405,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Postgresql, getDefaultIdValue){
 	
 	PHALCON_INIT_VAR(default_value);
 	object_init_ex(default_value, phalcon_db_rawvalue_ce);
-	phalcon_call_method_p1_noret(default_value, "__construct", null_value);
+	PHALCON_CALL_METHOD(NULL, default_value, "__construct", null_value);
 	
 	RETURN_CTOR(default_value);
 }

@@ -99,7 +99,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Inclusionin, validate){
 	ZVAL_STRING(field, "field", 1);
 	
 	PHALCON_INIT_VAR(field_name);
-	phalcon_call_method_p1(field_name, this_ptr, "getoption", field);
+	PHALCON_CALL_METHOD(&field_name, this_ptr, "getoption", field);
 	if (Z_TYPE_P(field_name) != IS_STRING) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Field name must be a string");
 		return;
@@ -112,7 +112,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Inclusionin, validate){
 	ZVAL_STRING(field, "domain", 1);
 	
 	PHALCON_INIT_VAR(is_set);
-	phalcon_call_method_p1(is_set, this_ptr, "issetoption", field);
+	PHALCON_CALL_METHOD(&is_set, this_ptr, "issetoption", field);
 	if (PHALCON_IS_FALSE(is_set)) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "The option 'domain' is required for this validator");
 		return;
@@ -122,14 +122,14 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Inclusionin, validate){
 	ZVAL_STRING(field, "domain", 1);
 	
 	PHALCON_INIT_VAR(domain);
-	phalcon_call_method_p1(domain, this_ptr, "getoption", field);
+	PHALCON_CALL_METHOD(&domain, this_ptr, "getoption", field);
 	if (Z_TYPE_P(domain) != IS_ARRAY) { 
 		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Option 'domain' must be an array");
 		return;
 	}
 	
 	PHALCON_INIT_VAR(value);
-	phalcon_call_method_p1(value, record, "readattribute", field_name);
+	PHALCON_CALL_METHOD(&value, record, "readattribute", field_name);
 	
 	/** 
 	 * Check if the value is contained in the array
@@ -143,7 +143,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Inclusionin, validate){
 		PHALCON_ZVAL_MAYBE_INTERNED_STRING(option, phalcon_interned_message);
 	
 		PHALCON_INIT_VAR(message);
-		phalcon_call_method_p1(message, this_ptr, "getoption", option);
+		PHALCON_CALL_METHOD(&message, this_ptr, "getoption", option);
 		if (!zend_is_true(message)) {
 			PHALCON_INIT_VAR(joined_domain);
 			phalcon_fast_join_str(joined_domain, SL(", "), domain TSRMLS_CC);
@@ -162,15 +162,15 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Inclusionin, validate){
 		PHALCON_ZVAL_MAYBE_INTERNED_STRING(option, phalcon_interned_code);
 
 		PHALCON_INIT_VAR(is_set_code);
-		phalcon_call_method_p1(is_set_code, this_ptr, "issetoption", option);
+		PHALCON_CALL_METHOD(&is_set_code, this_ptr, "issetoption", option);
 		PHALCON_INIT_VAR(code);
 		if (zend_is_true(is_set_code)) {
-			phalcon_call_method_p1(code, this_ptr, "getoption", option);
+			PHALCON_CALL_METHOD(&code, this_ptr, "getoption", option);
 		} else {
 			ZVAL_LONG(code, 0);
 		}
 
-		phalcon_call_method_p4_noret(this_ptr, "appendmessage", message, field_name, type, code);
+		PHALCON_CALL_METHOD(NULL, this_ptr, "appendmessage", message, field_name, type, code);
 		RETURN_MM_FALSE;
 	}
 	

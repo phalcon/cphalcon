@@ -165,7 +165,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Route, __construct){
 	/** 
 	 * Configure the route (extract parameters, paths, etc)
 	 */
-	phalcon_call_method_p2_noret(this_ptr, "reconfigure", pattern, paths);
+	PHALCON_CALL_METHOD(NULL, this_ptr, "reconfigure", pattern, paths);
 	
 	/** 
 	 * Update the HTTP method constraints
@@ -509,8 +509,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Route, reConfigure){
 		/** 
 		 * Transform the route's pattern to a regular expression
 		 */
-		PHALCON_INIT_VAR(compiled_pattern);
-		phalcon_call_method_p1(compiled_pattern, this_ptr, "compilepattern", pcre_pattern);
+		PHALCON_CALL_METHOD(&compiled_pattern, this_ptr, "compilepattern", pcre_pattern);
 	} else {
 		PHALCON_CPY_WRT(compiled_pattern, pattern);
 	}
@@ -654,7 +653,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Route, getReversedPaths){
 	PHALCON_MM_GROW();
 
 	PHALCON_OBS_VAR(paths);
-	phalcon_read_property_this(&paths, this_ptr, SL("_paths"), PH_NOISY_CC);
+	phalcon_read_property_this(&paths, this_ptr, SL("_paths"), PH_NOISY TSRMLS_CC);
 	
 	phalcon_is_iterable(paths, &ah0, &hp0, 0, 0);
 

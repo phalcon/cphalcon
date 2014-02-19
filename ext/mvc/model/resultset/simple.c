@@ -127,13 +127,13 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, __construct){
 	 */
 	PHALCON_INIT_VAR(fetch_assoc);
 	ZVAL_LONG(fetch_assoc, PDO_FETCH_ASSOC);
-	phalcon_call_method_p1_noret(result, "setfetchmode", fetch_assoc);
+	PHALCON_CALL_METHOD(NULL, result, "setfetchmode", fetch_assoc);
 	
 	PHALCON_INIT_VAR(limit);
 	ZVAL_LONG(limit, 32);
 	
 	PHALCON_INIT_VAR(row_count);
-	phalcon_call_method(row_count, result, "numrows");
+	PHALCON_CALL_METHOD(&row_count, result, "numrows");
 	
 	/** 
 	 * Check if it's a big resultset
@@ -172,28 +172,28 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, valid){
 	PHALCON_MM_GROW();
 
 	PHALCON_OBS_VAR(type);
-	phalcon_read_property_this(&type, this_ptr, SL("_type"), PH_NOISY_CC);
+	phalcon_read_property_this(&type, this_ptr, SL("_type"), PH_NOISY TSRMLS_CC);
 	if (zend_is_true(type)) {
 	
 		PHALCON_OBS_VAR(result);
-		phalcon_read_property_this(&result, this_ptr, SL("_result"), PH_NOISY_CC);
+		phalcon_read_property_this(&result, this_ptr, SL("_result"), PH_NOISY TSRMLS_CC);
 		if (Z_TYPE_P(result) == IS_OBJECT) {
 			PHALCON_INIT_VAR(row);
-			phalcon_call_method_p1(row, result, "fetch", result);
+			PHALCON_CALL_METHOD(&row, result, "fetch", result);
 		} else {
 			PHALCON_INIT_NVAR(row);
 			ZVAL_BOOL(row, 0);
 		}
 	} else {
 		PHALCON_OBS_VAR(rows);
-		phalcon_read_property_this(&rows, this_ptr, SL("_rows"), PH_NOISY_CC);
+		phalcon_read_property_this(&rows, this_ptr, SL("_rows"), PH_NOISY TSRMLS_CC);
 		if (Z_TYPE_P(rows) != IS_ARRAY) { 
 	
 			PHALCON_OBS_NVAR(result);
-			phalcon_read_property_this(&result, this_ptr, SL("_result"), PH_NOISY_CC);
+			phalcon_read_property_this(&result, this_ptr, SL("_result"), PH_NOISY TSRMLS_CC);
 			if (Z_TYPE_P(result) == IS_OBJECT) {
 				PHALCON_INIT_NVAR(rows);
-				phalcon_call_method(rows, result, "fetchall");
+				PHALCON_CALL_METHOD(&rows, result, "fetchall");
 				phalcon_update_property_this(this_ptr, SL("_rows"), rows TSRMLS_CC);
 			}
 		}
@@ -226,19 +226,19 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, valid){
 	 * Get current hydration mode
 	 */
 	PHALCON_OBS_VAR(hydrate_mode);
-	phalcon_read_property_this(&hydrate_mode, this_ptr, SL("_hydrateMode"), PH_NOISY_CC);
+	phalcon_read_property_this(&hydrate_mode, this_ptr, SL("_hydrateMode"), PH_NOISY TSRMLS_CC);
 	
 	/** 
 	 * Tell if the resultset is keeping snapshots
 	 */
 	PHALCON_OBS_VAR(keep_snapshots);
-	phalcon_read_property_this(&keep_snapshots, this_ptr, SL("_keepSnapshots"), PH_NOISY_CC);
+	phalcon_read_property_this(&keep_snapshots, this_ptr, SL("_keepSnapshots"), PH_NOISY TSRMLS_CC);
 	
 	/** 
 	 * Get the resultset column map
 	 */
 	PHALCON_OBS_VAR(column_map);
-	phalcon_read_property_this(&column_map, this_ptr, SL("_columnMap"), PH_NOISY_CC);
+	phalcon_read_property_this(&column_map, this_ptr, SL("_columnMap"), PH_NOISY TSRMLS_CC);
 	
 	/** 
 	 * Hydrate based on the current hydration
@@ -251,7 +251,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, valid){
 			 * this_ptr->model is the base entity
 			 */
 			PHALCON_OBS_VAR(model);
-			phalcon_read_property_this(&model, this_ptr, SL("_model"), PH_NOISY_CC);
+			phalcon_read_property_this(&model, this_ptr, SL("_model"), PH_NOISY TSRMLS_CC);
 	
 			/** 
 			 * Performs the standard hydration based on objects
@@ -298,56 +298,56 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, toArray){
 	}
 	
 	PHALCON_OBS_VAR(type);
-	phalcon_read_property_this(&type, this_ptr, SL("_type"), PH_NOISY_CC);
+	phalcon_read_property_this(&type, this_ptr, SL("_type"), PH_NOISY TSRMLS_CC);
 	if (zend_is_true(type)) {
 	
 		PHALCON_OBS_VAR(result);
-		phalcon_read_property_this(&result, this_ptr, SL("_result"), PH_NOISY_CC);
+		phalcon_read_property_this(&result, this_ptr, SL("_result"), PH_NOISY TSRMLS_CC);
 		if (Z_TYPE_P(result) == IS_OBJECT) {
 	
 			PHALCON_OBS_VAR(active_row);
-			phalcon_read_property_this(&active_row, this_ptr, SL("_activeRow"), PH_NOISY_CC);
+			phalcon_read_property_this(&active_row, this_ptr, SL("_activeRow"), PH_NOISY TSRMLS_CC);
 	
 			/** 
 			 * Check if we need to re-execute the query
 			 */
 			if (Z_TYPE_P(active_row) != IS_NULL) {
-				phalcon_call_method_noret(result, "execute");
+				PHALCON_CALL_METHOD(NULL, result, "execute");
 			}
 	
 			/** 
 			 * We fetch all the results in memory
 			 */
 			PHALCON_INIT_VAR(records);
-			phalcon_call_method(records, result, "fetchall");
+			PHALCON_CALL_METHOD(&records, result, "fetchall");
 		} else {
 			PHALCON_INIT_NVAR(records);
 			array_init(records);
 		}
 	} else {
 		PHALCON_OBS_NVAR(records);
-		phalcon_read_property_this(&records, this_ptr, SL("_rows"), PH_NOISY_CC);
+		phalcon_read_property_this(&records, this_ptr, SL("_rows"), PH_NOISY TSRMLS_CC);
 		if (Z_TYPE_P(records) != IS_ARRAY) { 
 	
 			PHALCON_OBS_NVAR(result);
-			phalcon_read_property_this(&result, this_ptr, SL("_result"), PH_NOISY_CC);
+			phalcon_read_property_this(&result, this_ptr, SL("_result"), PH_NOISY TSRMLS_CC);
 			if (Z_TYPE_P(result) == IS_OBJECT) {
 	
 				PHALCON_OBS_NVAR(active_row);
-				phalcon_read_property_this(&active_row, this_ptr, SL("_activeRow"), PH_NOISY_CC);
+				phalcon_read_property_this(&active_row, this_ptr, SL("_activeRow"), PH_NOISY TSRMLS_CC);
 	
 				/** 
 				 * Check if we need to re-execute the query
 				 */
 				if (Z_TYPE_P(active_row) != IS_NULL) {
-					phalcon_call_method_noret(result, "execute");
+					PHALCON_CALL_METHOD(NULL, result, "execute");
 				}
 	
 				/** 
 				 * We fetch all the results in memory again
 				 */
 				PHALCON_INIT_NVAR(records);
-				phalcon_call_method(records, result, "fetchall");
+				PHALCON_CALL_METHOD(&records, result, "fetchall");
 				phalcon_update_property_this(this_ptr, SL("_rows"), records TSRMLS_CC);
 	
 				/** 
@@ -373,7 +373,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, toArray){
 		 * Get the resultset column map
 		 */
 		PHALCON_OBS_VAR(column_map);
-		phalcon_read_property_this(&column_map, this_ptr, SL("_columnMap"), PH_NOISY_CC);
+		phalcon_read_property_this(&column_map, this_ptr, SL("_columnMap"), PH_NOISY TSRMLS_CC);
 		if (Z_TYPE_P(column_map) != IS_ARRAY) { 
 			RETURN_CCTOR(records);
 		}
@@ -454,19 +454,19 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, serialize){
 	ZVAL_BOOL(rename_columns, 0);
 	
 	PHALCON_INIT_VAR(records);
-	phalcon_call_method_p1(records, this_ptr, "toarray", rename_columns);
+	PHALCON_CALL_METHOD(&records, this_ptr, "toarray", rename_columns);
 	
 	PHALCON_OBS_VAR(model);
-	phalcon_read_property_this(&model, this_ptr, SL("_model"), PH_NOISY_CC);
+	phalcon_read_property_this(&model, this_ptr, SL("_model"), PH_NOISY TSRMLS_CC);
 	
 	PHALCON_OBS_VAR(cache);
-	phalcon_read_property_this(&cache, this_ptr, SL("_cache"), PH_NOISY_CC);
+	phalcon_read_property_this(&cache, this_ptr, SL("_cache"), PH_NOISY TSRMLS_CC);
 	
 	PHALCON_OBS_VAR(column_map);
-	phalcon_read_property_this(&column_map, this_ptr, SL("_columnMap"), PH_NOISY_CC);
+	phalcon_read_property_this(&column_map, this_ptr, SL("_columnMap"), PH_NOISY TSRMLS_CC);
 	
 	PHALCON_OBS_VAR(hydrate_mode);
-	phalcon_read_property_this(&hydrate_mode, this_ptr, SL("_hydrateMode"), PH_NOISY_CC);
+	phalcon_read_property_this(&hydrate_mode, this_ptr, SL("_hydrateMode"), PH_NOISY TSRMLS_CC);
 	
 	PHALCON_INIT_VAR(data);
 	array_init_size(data, 5);

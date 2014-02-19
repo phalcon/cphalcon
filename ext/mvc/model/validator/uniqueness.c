@@ -111,16 +111,16 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Uniqueness, validate){
 	ZVAL_STRING(option, "field", 1);
 	
 	PHALCON_INIT_VAR(field);
-	phalcon_call_method_p1(field, this_ptr, "getoption", option);
+	PHALCON_CALL_METHOD(&field, this_ptr, "getoption", option);
 	
 	PHALCON_INIT_VAR(dependency_injector);
-	phalcon_call_method(dependency_injector, record, "getdi");
+	PHALCON_CALL_METHOD(&dependency_injector, record, "getdi");
 	
 	PHALCON_INIT_VAR(service);
 	ZVAL_STRING(service, "modelsMetadata", 1);
 	
 	PHALCON_INIT_VAR(meta_data);
-	phalcon_call_method_p1(meta_data, dependency_injector, "getshared", service);
+	PHALCON_CALL_METHOD(&meta_data, dependency_injector, "getshared", service);
 	PHALCON_VERIFY_INTERFACE(meta_data, phalcon_mvc_model_metadatainterface_ce);
 	
 	/** 
@@ -131,10 +131,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Uniqueness, validate){
 	array_init(bind_types);
 	
 	PHALCON_INIT_VAR(bind_data_types);
-	phalcon_call_method_p1(bind_data_types, meta_data, "getbindtypes", record);
+	PHALCON_CALL_METHOD(&bind_data_types, meta_data, "getbindtypes", record);
 	if (PHALCON_GLOBAL(orm).column_renaming) {
 		PHALCON_INIT_VAR(column_map);
-		phalcon_call_method_p1(column_map, meta_data, "getreversecolumnmap", record);
+		PHALCON_CALL_METHOD(&column_map, meta_data, "getreversecolumnmap", record);
 	} else {
 		PHALCON_INIT_NVAR(column_map);
 	}
@@ -189,7 +189,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Uniqueness, validate){
 			 * The attribute could be "protected" so we read using "readattribute"
 			 */
 			PHALCON_INIT_NVAR(value);
-			phalcon_call_method_p1(value, record, "readattribute", compose_field);
+			PHALCON_CALL_METHOD(&value, record, "readattribute", compose_field);
 	
 			PHALCON_INIT_NVAR(compose_condition);
 			PHALCON_CONCAT_SVSV(compose_condition, "[", compose_field, "] = ?", number);
@@ -236,7 +236,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Uniqueness, validate){
 		 * We're checking the uniqueness with only one field
 		 */
 		PHALCON_INIT_NVAR(value);
-		phalcon_call_method_p1(value, record, "readattribute", field);
+		PHALCON_CALL_METHOD(&value, record, "readattribute", field);
 	
 		PHALCON_INIT_VAR(condition);
 		PHALCON_CONCAT_SVS(condition, "[", field, "] = ?0");
@@ -253,7 +253,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Uniqueness, validate){
 	 * If the operation is update, there must be values in the object
 	 */
 	PHALCON_INIT_VAR(operation_made);
-	phalcon_call_method(operation_made, record, "getoperationmade");
+	PHALCON_CALL_METHOD(&operation_made, record, "getoperationmade");
 	if (PHALCON_IS_LONG(operation_made, 2)) {
 	
 		/** 
@@ -261,13 +261,13 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Uniqueness, validate){
 		 */
 		if (PHALCON_GLOBAL(orm).column_renaming) {
 			PHALCON_INIT_NVAR(column_map);
-			phalcon_call_method_p1(column_map, meta_data, "getcolumnmap", record);
+			PHALCON_CALL_METHOD(&column_map, meta_data, "getcolumnmap", record);
 		} else {
 			PHALCON_INIT_NVAR(column_map);
 		}
 	
 		PHALCON_INIT_VAR(primary_fields);
-		phalcon_call_method_p1(primary_fields, meta_data, "getprimarykeyattributes", record);
+		PHALCON_CALL_METHOD(&primary_fields, meta_data, "getprimarykeyattributes", record);
 	
 		phalcon_is_iterable(primary_fields, &ah1, &hp1, 0, 0);
 	
@@ -303,7 +303,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Uniqueness, validate){
 			 * Create a condition based on the renamed primary key
 			 */
 			PHALCON_INIT_NVAR(value);
-			phalcon_call_method_p1(value, record, "readattribute", primary_field);
+			PHALCON_CALL_METHOD(&value, record, "readattribute", primary_field);
 	
 			PHALCON_INIT_NVAR(condition);
 			PHALCON_CONCAT_SVSV(condition, "[", attribute_field, "] <> ?", number);
@@ -347,7 +347,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Uniqueness, validate){
 		PHALCON_ZVAL_MAYBE_INTERNED_STRING(option, phalcon_interned_message);
 	
 		PHALCON_INIT_VAR(message);
-		phalcon_call_method_p1(message, this_ptr, "getoption", option);
+		PHALCON_CALL_METHOD(&message, this_ptr, "getoption", option);
 		if (!zend_is_true(message)) {
 			if (Z_TYPE_P(field) == IS_ARRAY) { 
 				PHALCON_INIT_VAR(join_fields);
@@ -374,15 +374,15 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Uniqueness, validate){
 		PHALCON_ZVAL_MAYBE_INTERNED_STRING(option, phalcon_interned_code);
 
 		PHALCON_INIT_VAR(is_set_code);
-		phalcon_call_method_p1(is_set_code, this_ptr, "issetoption", option);
+		PHALCON_CALL_METHOD(&is_set_code, this_ptr, "issetoption", option);
 		PHALCON_INIT_VAR(code);
 		if (zend_is_true(is_set_code)) {
-			phalcon_call_method_p1(code, this_ptr, "getoption", option);
+			PHALCON_CALL_METHOD(&code, this_ptr, "getoption", option);
 		} else {
 			ZVAL_LONG(code, 0);
 		}
 
-		phalcon_call_method_p4_noret(this_ptr, "appendmessage", message, field, type, code);
+		PHALCON_CALL_METHOD(NULL, this_ptr, "appendmessage", message, field, type, code);
 		RETURN_MM_FALSE;
 	}
 	

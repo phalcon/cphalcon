@@ -133,7 +133,7 @@ PHALCON_INIT_CLASS(Phalcon_Config_Adapter_Ini){
  */
 PHP_METHOD(Phalcon_Config_Adapter_Ini, __construct){
 
-	zval **file_path, *ini_config;
+	zval **file_path, *ini_config = NULL;
 	zval *config, *directives = NULL;
 	zval *section = NULL, *value = NULL, *key = NULL, *directive_parts = NULL;
 	HashTable *ah0, *ah1;
@@ -148,7 +148,6 @@ PHP_METHOD(Phalcon_Config_Adapter_Ini, __construct){
 	/** 
 	 * Use the standard parse_ini_file
 	 */
-	PHALCON_OBS_VAR(ini_config);
 	PHALCON_CALL_FUNCTION(&ini_config, "parse_ini_file", *file_path, PHALCON_GLOBAL(z_true));
 	
 	/** 

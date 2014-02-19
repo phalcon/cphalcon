@@ -140,7 +140,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator, appendMessage){
 	
 	PHALCON_INIT_VAR(model_message);
 	object_init_ex(model_message, phalcon_mvc_model_message_ce);
-	phalcon_call_method_p4_noret(model_message, "__construct", message, field, t, code);
+	PHALCON_CALL_METHOD(NULL, model_message, "__construct", message, field, t, code);
 	
 	phalcon_update_property_array_append(this_ptr, SL("_messages"), model_message TSRMLS_CC);
 	
@@ -181,7 +181,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator, getOption){
 
 	phalcon_fetch_params(0, 1, 0, &option);
 	
-	options = phalcon_fetch_nproperty_this(this_ptr, SL("_options"), PH_NOISY_CC);
+	options = phalcon_fetch_nproperty_this(this_ptr, SL("_options"), PH_NOISY TSRMLS_CC);
 	if (phalcon_array_isset_fetch(&value, options, option)) {
 		RETURN_ZVAL(value, 1, 0);
 	}
@@ -201,7 +201,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator, isSetOption){
 
 	phalcon_fetch_params(0, 1, 0, &option);
 	
-	options = phalcon_fetch_nproperty_this(this_ptr, SL("_options"), PH_NOISY_CC);
+	options = phalcon_fetch_nproperty_this(this_ptr, SL("_options"), PH_NOISY TSRMLS_CC);
 	
 	RETURN_BOOL(phalcon_array_isset(options, option));
 }

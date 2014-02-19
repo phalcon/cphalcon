@@ -78,10 +78,10 @@ PHALCON_INIT_CLASS(Phalcon_Validation_Validator_Regex){
  */
 PHP_METHOD(Phalcon_Validation_Validator_Regex, validate){
 
-	zval *validator, *attribute, *value, *pattern;
+	zval *validator, *attribute, *value = NULL, *pattern;
 	zval *matches, *match_pattern, *match_zero, *failed;
 	zval *message_str, *message, *code;
-	zval *allow_empty, *label, *pairs, *prepared;
+	zval *allow_empty, *label, *pairs, *prepared = NULL;
 	zend_class_entry *ce = Z_OBJCE_P(getThis());
 
 	PHALCON_MM_GROW();
@@ -90,8 +90,7 @@ PHP_METHOD(Phalcon_Validation_Validator_Regex, validate){
 	
 	PHALCON_VERIFY_CLASS_EX(validator, phalcon_validation_ce, phalcon_validation_exception_ce, 1);
 
-	PHALCON_OBS_VAR(value);
-	phalcon_call_method_p1_ex(value, &value, validator, "getvalue", attribute);
+	PHALCON_CALL_METHOD(&value, validator, "getvalue", attribute);
 
 	PHALCON_INIT_VAR(allow_empty);
 	RETURN_MM_ON_FAILURE(phalcon_validation_validator_getoption_helper(ce, allow_empty, getThis(), "allowEmpty" TSRMLS_CC));
@@ -146,13 +145,12 @@ PHP_METHOD(Phalcon_Validation_Validator_Regex, validate){
 			ZVAL_LONG(code, 0);
 		}
 
-		PHALCON_OBS_VAR(prepared);
 		PHALCON_CALL_FUNCTION(&prepared, "strtr", message_str, pairs);
 
 		message = phalcon_validation_message_construct_helper(prepared, attribute, "Regex", code TSRMLS_CC);
 		Z_DELREF_P(message);
 	
-		phalcon_call_method_p1_noret(validator, "appendmessage", message);
+		PHALCON_CALL_METHOD(NULL, validator, "appendmessage", message);
 		RETURN_MM_FALSE;
 	}
 	

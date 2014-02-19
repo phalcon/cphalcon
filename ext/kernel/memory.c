@@ -121,23 +121,26 @@ static void phalcon_memory_restore_stack_common(zend_phalcon_globals *g TSRMLS_D
 				zval **var = active_memory->addresses[i];
 #if PHP_VERSION_ID < 50400
 				if (Z_TYPE_PP(var) > IS_CONSTANT_ARRAY) {
-					fprintf(stderr, "%s: observed variable #%d (%p) has invalid type %u\n", __func__, (int)i, *var, Z_TYPE_PP(var));
+					fprintf(stderr, "%s: observed variable #%d (%p) has invalid type %u [%s]\n", __func__, (int)i, *var, Z_TYPE_PP(var), active_memory->func);
 				}
 #else
 				if (Z_TYPE_PP(var) > IS_CALLABLE) {
-					fprintf(stderr, "%s: observed variable #%d (%p) has invalid type %u\n", __func__, (int)i, *var, Z_TYPE_PP(var));
+					fprintf(stderr, "%s: observed variable #%d (%p) has invalid type %u [%s]\n", __func__, (int)i, *var, Z_TYPE_PP(var), active_memory->func);
 				}
 #endif
 
 				if (Z_REFCOUNT_PP(var) == 0) {
-					fprintf(stderr, "%s: observed variable #%d (%p) has 0 references\n", __func__, (int)i, *var);
+					fprintf(stderr, "%s: observed variable #%d (%p) has 0 references, type=%d [%s]\n", __func__, (int)i, *var, Z_TYPE_PP(var), active_memory->func);
 				}
 				else if (Z_REFCOUNT_PP(var) >= 1000000) {
-					fprintf(stderr, "%s: observed variable #%d (%p) has too many references (%u)\n", __func__, (int)i, *var, Z_REFCOUNT_PP(var));
+					fprintf(stderr, "%s: observed variable #%d (%p) has too many references (%u), type=%d  [%s]\n", __func__, (int)i, *var, Z_REFCOUNT_PP(var), Z_TYPE_PP(var), active_memory->func);
 				}
+#if 0
+				/* Skip this check, PDO does return variables with is_ref = 1 and refcount = 1*/
 				else if (Z_REFCOUNT_PP(var) == 1 && Z_ISREF_PP(var)) {
-					fprintf(stderr, "%s: observed variable #%d (%p) is a reference with reference count = 1\n", __func__, (int)i, *var);
+					fprintf(stderr, "%s: observed variable #%d (%p) is a reference with reference count = 1, type=%d  [%s]\n", __func__, (int)i, *var, Z_TYPE_PP(var), active_memory->func);
 				}
+#endif
 			}
 		}
 #endif
@@ -153,6 +156,10 @@ static void phalcon_memory_restore_stack_common(zend_phalcon_globals *g TSRMLS_D
 			}
 		}
 	}
+
+#ifndef PHALCON_RELEASE
+	active_memory->func = NULL;
+#endif
 
 	prev = active_memory->prev;
 
@@ -284,8 +291,6 @@ int ZEND_FASTCALL phalcon_memory_restore_stack(const char *func TSRMLS_DC)
 		phalcon_print_backtrace();
 	}
 
-	phalcon_globals_ptr->active_memory->func = NULL;
-
 	phalcon_memory_restore_stack_common(phalcon_globals_ptr TSRMLS_CC);
 	return SUCCESS;
 }
@@ -293,8 +298,8 @@ int ZEND_FASTCALL phalcon_memory_restore_stack(const char *func TSRMLS_DC)
 /**
  * Adds a memory frame in the current executed method
  */
-void ZEND_FASTCALL phalcon_memory_grow_stack(const char *func TSRMLS_DC) {
-
+void ZEND_FASTCALL phalcon_memory_grow_stack(const char *func TSRMLS_DC)
+{
 	phalcon_memory_entry *entry = phalcon_memory_grow_stack_common(PHALCON_VGLOBAL);
 	entry->func = func;
 }
@@ -302,14 +307,16 @@ void ZEND_FASTCALL phalcon_memory_grow_stack(const char *func TSRMLS_DC) {
 /**
  * Adds a memory frame in the current executed method
  */
-void ZEND_FASTCALL phalcon_memory_grow_stack(TSRMLS_D) {
+void ZEND_FASTCALL phalcon_memory_grow_stack(TSRMLS_D)
+{
 	phalcon_memory_grow_stack_common(PHALCON_VGLOBAL);
 }
 
 /**
  * Finishes the current memory stack by releasing allocated memory
  */
-int ZEND_FASTCALL phalcon_memory_restore_stack(TSRMLS_D) {
+int ZEND_FASTCALL phalcon_memory_restore_stack(TSRMLS_D)
+{
 	phalcon_memory_restore_stack_common(PHALCON_VGLOBAL TSRMLS_CC);
 	return SUCCESS;
 }
@@ -365,6 +372,19 @@ PHALCON_ATTR_NONNULL1(2) static inline void phalcon_do_memory_observe(zval **var
 	if (UNEXPECTED(frame->pointer == frame->capacity)) {
 		phalcon_reallocate_memory(g);
 	}
+
+#ifndef PHALCON_RELEASE
+	{
+		size_t i;
+		for (i=0; i<frame->pointer; ++i) {
+			if (frame->addresses[i] == var) {
+				fprintf(stderr, "Variable %p is already observed", var);
+				phalcon_print_backtrace();
+				abort();
+			}
+		}
+	}
+#endif
 
 	frame->addresses[frame->pointer] = var;
 	++frame->pointer;

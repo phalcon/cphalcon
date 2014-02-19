@@ -167,8 +167,8 @@ PHP_METHOD(Phalcon_Mvc_Dispatcher, _throwDispatchException){
 
 	zval *message, *exception_code = NULL, *dependency_injector;
 	zval *exception_message, *exception = NULL, *service;
-	zval *response, *status_code, *status_message;
-	zval *events_manager, *event_name, *status;
+	zval *response = NULL, *status_code, *status_message;
+	zval *events_manager, *event_name, *status = NULL;
 
 	PHALCON_MM_GROW();
 
@@ -182,7 +182,7 @@ PHP_METHOD(Phalcon_Mvc_Dispatcher, _throwDispatchException){
 	}
 	
 	PHALCON_OBS_VAR(dependency_injector);
-	phalcon_read_property_this(&dependency_injector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
+	phalcon_read_property_this(&dependency_injector, this_ptr, SL("_dependencyInjector"), PH_NOISY TSRMLS_CC);
 	if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
 		PHALCON_INIT_NVAR(exception_code);
 		ZVAL_LONG(exception_code, 0);
@@ -192,7 +192,7 @@ PHP_METHOD(Phalcon_Mvc_Dispatcher, _throwDispatchException){
 	
 		PHALCON_INIT_VAR(exception);
 		object_init_ex(exception, phalcon_mvc_dispatcher_exception_ce);
-		phalcon_call_method_p2_noret(exception, "__construct", exception_message, exception_code);
+		PHALCON_CALL_METHOD(NULL, exception, "__construct", exception_message, exception_code);
 	
 		phalcon_throw_exception(exception TSRMLS_CC);
 		RETURN_MM();
@@ -201,8 +201,7 @@ PHP_METHOD(Phalcon_Mvc_Dispatcher, _throwDispatchException){
 	PHALCON_INIT_VAR(service);
 	PHALCON_ZVAL_MAYBE_INTERNED_STRING(service, phalcon_interned_response);
 	
-	PHALCON_INIT_VAR(response);
-	phalcon_call_method_p1(response, dependency_injector, "getshared", service);
+	PHALCON_CALL_METHOD(&response, dependency_injector, "getshared", service);
 	PHALCON_VERIFY_INTERFACE(response, phalcon_http_responseinterface_ce);
 	
 	/** 
@@ -213,24 +212,23 @@ PHP_METHOD(Phalcon_Mvc_Dispatcher, _throwDispatchException){
 	
 	PHALCON_INIT_VAR(status_message);
 	ZVAL_STRING(status_message, "Not Found", 1);
-	phalcon_call_method_p2_noret(response, "setstatuscode", status_code, status_message);
+	PHALCON_CALL_METHOD(NULL, response, "setstatuscode", status_code, status_message);
 	
 	/** 
 	 * Create the real exception
 	 */
 	PHALCON_INIT_NVAR(exception);
 	object_init_ex(exception, phalcon_mvc_dispatcher_exception_ce);
-	phalcon_call_method_p2_noret(exception, "__construct", message, exception_code);
+	PHALCON_CALL_METHOD(NULL, exception, "__construct", message, exception_code);
 	
 	PHALCON_OBS_VAR(events_manager);
-	phalcon_read_property_this(&events_manager, this_ptr, SL("_eventsManager"), PH_NOISY_CC);
+	phalcon_read_property_this(&events_manager, this_ptr, SL("_eventsManager"), PH_NOISY TSRMLS_CC);
 	if (Z_TYPE_P(events_manager) == IS_OBJECT) {
 	
 		PHALCON_INIT_VAR(event_name);
 		ZVAL_STRING(event_name, "dispatch:beforeException", 1);
 	
-		PHALCON_INIT_VAR(status);
-		phalcon_call_method_p3(status, events_manager, "fire", event_name, this_ptr, exception);
+		PHALCON_CALL_METHOD(&status, events_manager, "fire", event_name, this_ptr, exception);
 		if (PHALCON_IS_FALSE(status)) {
 			RETURN_MM_FALSE;
 		}
@@ -254,21 +252,20 @@ PHP_METHOD(Phalcon_Mvc_Dispatcher, _throwDispatchException){
 PHP_METHOD(Phalcon_Mvc_Dispatcher, _handleException){
 
 	zval *exception, *events_manager, *event_name;
-	zval *status;
+	zval *status = NULL;
 
 	PHALCON_MM_GROW();
 
 	phalcon_fetch_params(1, 1, 0, &exception);
 	
 	PHALCON_OBS_VAR(events_manager);
-	phalcon_read_property_this(&events_manager, this_ptr, SL("_eventsManager"), PH_NOISY_CC);
+	phalcon_read_property_this(&events_manager, this_ptr, SL("_eventsManager"), PH_NOISY TSRMLS_CC);
 	if (Z_TYPE_P(events_manager) == IS_OBJECT) {
 	
 		PHALCON_INIT_VAR(event_name);
 		ZVAL_STRING(event_name, "dispatch:beforeException", 1);
 	
-		PHALCON_INIT_VAR(status);
-		phalcon_call_method_p3(status, events_manager, "fire", event_name, this_ptr, exception);
+		PHALCON_CALL_METHOD(&status, events_manager, "fire", event_name, this_ptr, exception);
 		if (PHALCON_IS_FALSE(status)) {
 			RETURN_MM_FALSE;
 		}
@@ -282,13 +279,9 @@ PHP_METHOD(Phalcon_Mvc_Dispatcher, _handleException){
  *
  * @return string
  */
-PHP_METHOD(Phalcon_Mvc_Dispatcher, getControllerClass){
-
-
-	PHALCON_MM_GROW();
-
-	phalcon_call_method(return_value, this_ptr, "gethandlername");
-	RETURN_MM();
+PHP_METHOD(Phalcon_Mvc_Dispatcher, getControllerClass)
+{
+	PHALCON_RETURN_CALL_METHODW(this_ptr, "gethandlername");
 }
 
 /**

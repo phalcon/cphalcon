@@ -152,8 +152,8 @@ PHP_METHOD(Phalcon_Paginator_Adapter_NativeArray, getPaginate){
 		return;
 	}
 
-	limit         = phalcon_fetch_nproperty_this(this_ptr, SL("_limitRows"), PH_NOISY_CC);
-	number_page   = phalcon_fetch_nproperty_this(this_ptr, SL("_page"), PH_NOISY_CC);
+	limit         = phalcon_fetch_nproperty_this(this_ptr, SL("_limitRows"), PH_NOISY TSRMLS_CC);
+	number_page   = phalcon_fetch_nproperty_this(this_ptr, SL("_page"), PH_NOISY TSRMLS_CC);
 	i_limit       = phalcon_get_intval(limit);
 	i_number_page = phalcon_get_intval(number_page);
 

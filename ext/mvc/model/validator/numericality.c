@@ -95,14 +95,14 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Numericality, validate){
 	ZVAL_STRING(option, "field", 1);
 	
 	PHALCON_INIT_VAR(field);
-	phalcon_call_method_p1(field, this_ptr, "getoption", option);
+	PHALCON_CALL_METHOD(&field, this_ptr, "getoption", option);
 	if (Z_TYPE_P(field) != IS_STRING) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Field name must be a string");
 		return;
 	}
 	
 	PHALCON_INIT_VAR(value);
-	phalcon_call_method_p1(value, record, "readattribute", field);
+	PHALCON_CALL_METHOD(&value, record, "readattribute", field);
 	
 	/** 
 	 * Check if the value is numeric using is_numeric in the PHP userland
@@ -116,7 +116,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Numericality, validate){
 		PHALCON_ZVAL_MAYBE_INTERNED_STRING(option, phalcon_interned_message);
 	
 		PHALCON_INIT_VAR(message);
-		phalcon_call_method_p1(message, this_ptr, "getoption", option);
+		PHALCON_CALL_METHOD(&message, this_ptr, "getoption", option);
 		if (!zend_is_true(message)) {
 			PHALCON_INIT_NVAR(message);
 			PHALCON_CONCAT_SVS(message, "Value of field '", field, "' must be numeric");
@@ -132,15 +132,15 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Numericality, validate){
 		PHALCON_ZVAL_MAYBE_INTERNED_STRING(option, phalcon_interned_code);
 
 		PHALCON_INIT_VAR(is_set_code);
-		phalcon_call_method_p1(is_set_code, this_ptr, "issetoption", option);
+		PHALCON_CALL_METHOD(&is_set_code, this_ptr, "issetoption", option);
 		PHALCON_INIT_VAR(code);
 		if (zend_is_true(is_set_code)) {
-			phalcon_call_method_p1(code, this_ptr, "getoption", option);
+			PHALCON_CALL_METHOD(&code, this_ptr, "getoption", option);
 		} else {
 			ZVAL_LONG(code, 0);
 		}
 
-		phalcon_call_method_p4_noret(this_ptr, "appendmessage", message, field, type, code);
+		PHALCON_CALL_METHOD(NULL, this_ptr, "appendmessage", message, field, type, code);
 		RETURN_MM_FALSE;
 	}
 	

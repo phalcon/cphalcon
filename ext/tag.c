@@ -387,8 +387,7 @@ PHALCON_STATIC void phalcon_tag_render_attributes(zval *code, zval *attributes T
 		) {
 			zval key = phalcon_get_current_key_w(Z_ARRVAL_P(attrs), &hp);
 			if (Z_TYPE_P(&key) == IS_STRING) {
-				PHALCON_INIT_NVAR(escaped);
-				phalcon_call_method_p1(escaped, escaper, "escapehtmlattr", *value);
+				PHALCON_CALL_METHOD(&escaped, escaper, "escapehtmlattr", *value);
 				PHALCON_SCONCAT_SVSVS(code, " ", &key, "=\"", escaped, "\"");
 			}
 		}
@@ -443,7 +442,7 @@ PHP_METHOD(Phalcon_Tag, getDI){
  */
 PHP_METHOD(Phalcon_Tag, getUrlService){
 
-	zval *url, *dependency_injector = NULL, *service;
+	zval *url = NULL, *dependency_injector = NULL, *service;
 
 	PHALCON_MM_GROW();
 
@@ -466,8 +465,8 @@ PHP_METHOD(Phalcon_Tag, getUrlService){
 		PHALCON_INIT_VAR(service);
 		PHALCON_ZVAL_MAYBE_INTERNED_STRING(service, phalcon_interned_url);
 	
-		PHALCON_INIT_VAR(url);
-		phalcon_call_method_p1(url, dependency_injector, "getshared", service);
+		url = NULL;
+		PHALCON_CALL_METHOD(&url, dependency_injector, "getshared", service);
 		PHALCON_VERIFY_INTERFACE(url, phalcon_mvc_urlinterface_ce);
 		phalcon_update_static_property_ce(phalcon_tag_ce, SL("_urlService"), url TSRMLS_CC);
 	}
@@ -505,8 +504,8 @@ PHP_METHOD(Phalcon_Tag, getEscaperService){
 		PHALCON_ALLOC_GHOST_ZVAL(service);
 		PHALCON_ZVAL_MAYBE_INTERNED_STRING(service, phalcon_interned_escaper);
 	
-		PHALCON_INIT_VAR(escaper);
-		phalcon_call_method_p1(escaper, dependency_injector, "getshared", service);
+		escaper = NULL;
+		PHALCON_CALL_METHOD(&escaper, dependency_injector, "getshared", service);
 		PHALCON_VERIFY_INTERFACE(escaper, phalcon_escaperinterface_ce);
 		phalcon_update_static_property_ce(phalcon_tag_ce, SL("_escaperService"), escaper TSRMLS_CC);
 	}
@@ -726,7 +725,8 @@ PHP_METHOD(Phalcon_Tag, resetInput){
  */
 PHP_METHOD(Phalcon_Tag, linkTo){
 
-	zval *parameters, *text = NULL, *local = NULL,  *params = NULL, *action, *url, *internal_url, *link_text, *z_local;
+	zval *parameters, *text = NULL, *local = NULL,  *params = NULL;
+	zval *action, *url, *internal_url = NULL, *link_text, *z_local;
 	zval *code;
 
 	PHALCON_MM_GROW();
@@ -781,8 +781,7 @@ PHP_METHOD(Phalcon_Tag, linkTo){
 		PHALCON_OBS_VAR(url);
 		PHALCON_CALL_SELF(&url, "geturlservice");
 		
-		PHALCON_INIT_VAR(internal_url);
-		phalcon_call_method_p1(internal_url, url, "get", action);
+		PHALCON_CALL_METHOD(&internal_url, url, "get", action);
 		phalcon_array_update_string(&params, SL("href"), internal_url, PH_COPY);
 	} else {
 		phalcon_array_update_string(&params, SL("href"), action, PH_COPY);
@@ -1005,7 +1004,6 @@ PHP_METHOD(Phalcon_Tag, _inputFieldChecked){
 static void phalcon_tag_generic_field(INTERNAL_FUNCTION_PARAMETERS, const char* type, int as_value)
 {
 	zval *parameters, *field_type;
-	int status;
 
 	phalcon_fetch_params(0, 1, 0, &parameters);
 
@@ -1013,34 +1011,22 @@ static void phalcon_tag_generic_field(INTERNAL_FUNCTION_PARAMETERS, const char* 
 	ZVAL_STRING(field_type, type, 1);
 
 	if (as_value) {
-		zval *params[] = { field_type, parameters, PHALCON_GLOBAL(z_true) };
-		status = phalcon_return_call_class_method(return_value, return_value_ptr, NULL, phalcon_fcall_self, NULL, SL("_inputfield"), 3, params TSRMLS_CC);
+		PHALCON_RETURN_CALL_SELFW("_inputfield", field_type, parameters, PHALCON_GLOBAL(z_true));
 	}
 	else {
-		zval *params[] = { field_type, parameters };
-		status = phalcon_return_call_class_method(return_value, return_value_ptr, NULL, phalcon_fcall_self, NULL, SL("_inputfield"), 2, params TSRMLS_CC);
-	}
-
-	if (FAILURE == status) {
-		;
+		PHALCON_RETURN_CALL_SELFW("_inputfield", field_type, parameters);
 	}
 }
 
 static void phalcon_tag_generic_field_checked(INTERNAL_FUNCTION_PARAMETERS, const char* type)
 {
 	zval *parameters, *field_type;
-	zval *params[2];
 
 	phalcon_fetch_params(0, 1, 0, &parameters);
 
 	PHALCON_ALLOC_GHOST_ZVAL(field_type);
 	ZVAL_STRING(field_type, type, 1);
-
-	params[0] = field_type;
-	params[1] = parameters;
-	if (FAILURE == phalcon_return_call_class_method(return_value, return_value_ptr, NULL, phalcon_fcall_self, NULL, SL("_inputfieldchecked"), 2, params TSRMLS_CC)) {
-		;
-	}
+	PHALCON_RETURN_CALL_SELFW("_inputfieldchecked", field_type, parameters);
 }
 
 /**
@@ -1414,7 +1400,7 @@ PHP_METHOD(Phalcon_Tag, select){
 PHP_METHOD(Phalcon_Tag, textArea){
 
 	zval *parameters, *params = NULL, *id = NULL, *name, *content = NULL, *code;
-	zval *escaped, *escaper;
+	zval *escaped = NULL, *escaper;
 
 	PHALCON_MM_GROW();
 
@@ -1456,8 +1442,7 @@ PHP_METHOD(Phalcon_Tag, textArea){
 	}
 
 	if (escaper) {
-		PHALCON_INIT_VAR(escaped);
-		phalcon_call_method_p1(escaped, escaper, "escapehtml", content);
+		PHALCON_CALL_METHOD(&escaped, escaper, "escapehtml", content);
 	}
 	else {
 		escaped = content;
@@ -1531,13 +1516,14 @@ PHP_METHOD(Phalcon_Tag, form){
 		phalcon_array_update_string_string(&params, SL("method"), SL("post"), PH_SEPARATE);
 	}
 	
-	PHALCON_INIT_VAR(action);
-	
 	if (Z_TYPE_P(params_action) != IS_NULL) {
 		PHALCON_OBS_VAR(url);
 		PHALCON_CALL_SELF(&url, "geturlservice");
 	
-		phalcon_call_method_p1(action, url, "get", params_action);
+		PHALCON_CALL_METHOD(&action, url, "get", params_action);
+	}
+	else {
+		PHALCON_INIT_VAR(action);
 	}
 	
 	/** 
@@ -1722,7 +1708,7 @@ PHP_METHOD(Phalcon_Tag, getTitleSeparator){
 PHP_METHOD(Phalcon_Tag, stylesheetLink){
 
 	zval *parameters = NULL, *local = NULL, *params = NULL, *first_param;
-	zval *url, *url_href, *href, *code, *doctype, *z_local;
+	zval *url, *url_href, *href = NULL, *code, *doctype, *z_local;
 
 	PHALCON_MM_GROW();
 
@@ -1776,8 +1762,7 @@ PHP_METHOD(Phalcon_Tag, stylesheetLink){
 		PHALCON_OBS_VAR(url_href);
 		phalcon_array_fetch_string(&url_href, params, SL("href"), PH_NOISY);
 	
-		PHALCON_INIT_VAR(href);
-		phalcon_call_method_p1(href, url, "getstatic", url_href);
+		PHALCON_CALL_METHOD(&href, url, "getstatic", url_href);
 		phalcon_array_update_string(&params, SL("href"), href, PH_COPY | PH_SEPARATE);
 	}
 	
@@ -1825,7 +1810,7 @@ PHP_METHOD(Phalcon_Tag, stylesheetLink){
 PHP_METHOD(Phalcon_Tag, javascriptInclude){
 
 	zval *parameters = NULL, *local = NULL, *params = NULL, *first_param;
-	zval *url, *params_src, *src, *code, *z_local;
+	zval *url, *params_src, *src = NULL, *code, *z_local;
 
 	PHALCON_MM_GROW();
 
@@ -1878,8 +1863,7 @@ PHP_METHOD(Phalcon_Tag, javascriptInclude){
 		PHALCON_OBS_VAR(params_src);
 		phalcon_array_fetch_string(&params_src, params, SL("src"), PH_NOISY);
 	
-		PHALCON_INIT_VAR(src);
-		phalcon_call_method_p1(src, url, "getstatic", params_src);
+		PHALCON_CALL_METHOD(&src, url, "getstatic", params_src);
 		phalcon_array_update_string(&params, SL("src"), src, PH_COPY | PH_SEPARATE);
 	}
 	
@@ -1918,7 +1902,7 @@ PHP_METHOD(Phalcon_Tag, javascriptInclude){
 PHP_METHOD(Phalcon_Tag, image){
 
 	zval *parameters = NULL, *local = NULL, *params = NULL, *first_param, *second_param;
-	zval *url, *url_src, *src, *code, *doctype;
+	zval *url, *url_src, *src = NULL, *code, *doctype;
 
 	PHALCON_MM_GROW();
 
@@ -1963,8 +1947,7 @@ PHP_METHOD(Phalcon_Tag, image){
 		PHALCON_OBS_VAR(url_src);
 		phalcon_array_fetch_string(&url_src, params, SL("src"), PH_NOISY);
 	
-		PHALCON_INIT_VAR(src);
-		phalcon_call_method_p1(src, url, "getstatic", url_src);
+		PHALCON_CALL_METHOD(&src, url, "getstatic", url_src);
 		phalcon_array_update_string(&params, SL("src"), src, PH_COPY | PH_SEPARATE);
 	}
 	
@@ -2005,7 +1988,7 @@ PHP_METHOD(Phalcon_Tag, image){
  */
 PHP_METHOD(Phalcon_Tag, friendlyTitle){
 
-	zval *text, *separator = NULL, *lowercase = NULL, *pattern, *friendly;
+	zval *text, *separator = NULL, *lowercase = NULL, *pattern, *friendly = NULL;
 
 	PHALCON_MM_GROW();
 
@@ -2023,7 +2006,6 @@ PHP_METHOD(Phalcon_Tag, friendlyTitle){
 	PHALCON_INIT_VAR(pattern);
 	ZVAL_STRING(pattern, "~[^a-z0-9A-Z]+~", 1);
 	
-	PHALCON_OBS_VAR(friendly);
 	PHALCON_CALL_FUNCTION(&friendly, "preg_replace", pattern, separator, text);
 	if (zend_is_true(lowercase)) {
 		phalcon_fast_strtolower(return_value, friendly);
