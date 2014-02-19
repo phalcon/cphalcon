@@ -547,7 +547,7 @@ class View extends \Phalcon\Di\Injectable implements \Phalcon\Mvc\ViewInterface
 						/**
 						 * Engine can be a closure
 						 */
-						if engineService instanceof Closure {
+						if engineService instanceof \Closure {
 							let engines[extension] = call_user_func_array(engineService, arguments);
 						} else {
 							let engines[extension] = engineService;

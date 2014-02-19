@@ -152,7 +152,7 @@ class Simple extends \Phalcon\Di\Injectable
 						/**
 						 * Engine can be a closure
 						 */
-						if engineService instanceof Closure {
+						if engineService instanceof \Closure {
 							let engineObject = call_user_func_array(engineService, arguments);
 						} else {
 							let engineObject = engineService;

@@ -168,7 +168,7 @@ class Service implements \Phalcon\Di\ServiceInterface
 			 * Object definitions can be a Closure or an already resolved instance
 			 */
 			if typeof definition == "object" {
-				if definition instanceof "Closure" {
+				if definition instanceof \Closure {
 					if typeof parameters == "array" {
 						let instance = call_user_func_array(definition, parameters);
 					} else {
