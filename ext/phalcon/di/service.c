@@ -17,6 +17,7 @@
 #include "kernel/exception.h"
 #include "kernel/operators.h"
 #include "kernel/memory.h"
+#include "Zend/zend_closures.h"
 #include "kernel/fcall.h"
 #include "kernel/concat.h"
 #include "kernel/array.h"
@@ -266,7 +267,7 @@ PHP_METHOD(Phalcon_Di_Service, resolve) {
 		}
 	} else {
 		if ((Z_TYPE_P(definition) == IS_OBJECT)) {
-			if (zephir_is_instance_of(definition, SL("Closure") TSRMLS_CC)) {
+			if (zephir_instance_of_ev(definition, zend_ce_closure TSRMLS_CC)) {
 				ZEPHIR_INIT_BNVAR(instance);
 				if ((Z_TYPE_P(parameters) == IS_ARRAY)) {
 					ZEPHIR_CALL_USER_FUNC_ARRAY(instance, definition, parameters);

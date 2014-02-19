@@ -22,6 +22,7 @@
 #include "kernel/concat.h"
 #include "kernel/file.h"
 #include "kernel/require.h"
+#include "Zend/zend_closures.h"
 
 
 /*
@@ -376,7 +377,7 @@ PHP_METHOD(Phalcon_Mvc_Application, handle) {
 			zephir_call_method_p1_noret(moduleObject, "registerautoloaders", dependencyInjector);
 			zephir_call_method_p1_noret(moduleObject, "registerservices", dependencyInjector);
 		} else {
-			if (zephir_is_instance_of(module, SL("Closure") TSRMLS_CC)) {
+			if (zephir_instance_of_ev(module, zend_ce_closure TSRMLS_CC)) {
 				ZEPHIR_INIT_BNVAR(moduleObject);
 				ZEPHIR_INIT_VAR(_6);
 				array_init_size(_6, 2);

@@ -241,7 +241,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, setStrategy) {
 
 
 
-	if (!(zephir_is_instance_of(strategy, SL("Phalcon\\Mvc\\Model\\MetaData\\Strategy\\Introspection") TSRMLS_CC))) {
+	if (!(zephir_instance_of_ev(strategy, phalcon_mvc_model_metadata_strategy_introspection_ce TSRMLS_CC))) {
 		ZEPHIR_THROW_EXCEPTION_STRW(spl_ce_InvalidArgumentException, "Parameter 'strategy' must be an instance of 'Phalcon\\Mvc\\Model\\MetaData\\Strategy\\Introspection'");
 		return;
 	}

@@ -471,7 +471,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, setModelSource) {
 	}
 
 
-	if (!(zephir_is_instance_of(model, SL("Phalcon\\Mvc\\Model") TSRMLS_CC))) {
+	if (!(zephir_instance_of_ev(model, phalcon_mvc_model_ce TSRMLS_CC))) {
 		ZEPHIR_THROW_EXCEPTION_STR(spl_ce_InvalidArgumentException, "Parameter 'model' must be an instance of 'Phalcon\\Mvc\\Model'");
 		return;
 	}

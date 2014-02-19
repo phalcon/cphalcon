@@ -112,7 +112,7 @@ PHP_METHOD(Phalcon_Forms_Element, setForm) {
 
 
 
-	if (!(zephir_is_instance_of(form, SL("Phalcon\\Forms\\Form") TSRMLS_CC))) {
+	if (!(zephir_instance_of_ev(form, phalcon_forms_form_ce TSRMLS_CC))) {
 		ZEPHIR_THROW_EXCEPTION_STRW(spl_ce_InvalidArgumentException, "Parameter 'form' must be an instance of 'Phalcon\\Forms\\Form'");
 		return;
 	}
@@ -747,7 +747,7 @@ PHP_METHOD(Phalcon_Forms_Element, setMessages) {
 
 
 
-	if (!(zephir_is_instance_of(group, SL("Phalcon\\Validation\\Message\\Group") TSRMLS_CC))) {
+	if (!(zephir_instance_of_ev(group, phalcon_validation_message_group_ce TSRMLS_CC))) {
 		ZEPHIR_THROW_EXCEPTION_STRW(spl_ce_InvalidArgumentException, "Parameter 'group' must be an instance of 'Phalcon\\Validation\\Message\\Group'");
 		return;
 	}
@@ -771,7 +771,7 @@ PHP_METHOD(Phalcon_Forms_Element, appendMessage) {
 
 
 
-	if (!(zephir_is_instance_of(message, SL("Phalcon\\Validation\\Message") TSRMLS_CC))) {
+	if (!(zephir_instance_of_ev(message, phalcon_validation_message_ce TSRMLS_CC))) {
 		ZEPHIR_THROW_EXCEPTION_STR(spl_ce_InvalidArgumentException, "Parameter 'message' must be an instance of 'Phalcon\\Validation\\Message'");
 		return;
 	}

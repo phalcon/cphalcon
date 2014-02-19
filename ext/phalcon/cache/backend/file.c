@@ -165,7 +165,7 @@ PHP_METHOD(Phalcon_Cache_Backend_File, get) {
 			ttl = zephir_get_intval(lifetime);
 		}
 		ZEPHIR_INIT_VAR(_0);
-		zephir_call_func_p1(_0, "filemtime", cacheFile);
+		zephir_filemtime(_0, cacheFile TSRMLS_CC);
 		modifiedTime = zephir_get_intval(_0);
 		if (!(((zephir_get_numberval(now) - ttl) > modifiedTime))) {
 			ZEPHIR_INIT_VAR(cachedContent);
@@ -413,7 +413,7 @@ PHP_METHOD(Phalcon_Cache_Backend_File, exists) {
 				ttl = lifetime;
 			}
 			ZEPHIR_INIT_NVAR(_2);
-			zephir_call_func_p1(_2, "filemtime", cacheFile);
+			zephir_filemtime(_2, cacheFile TSRMLS_CC);
 			ZEPHIR_INIT_VAR(_3);
 			zephir_call_func(_3, "time");
 			if (ZEPHIR_LT_LONG(_3, (zephir_get_numberval(_2) + ttl))) {
@@ -474,7 +474,7 @@ PHP_METHOD(Phalcon_Cache_Backend_File, increment) {
 		ZEPHIR_INIT_VAR(_3);
 		sub_function(_3, timestamp, ttl TSRMLS_CC);
 		ZEPHIR_INIT_VAR(_4);
-		zephir_call_func_p1(_4, "filemtime", cacheFile);
+		zephir_filemtime(_4, cacheFile TSRMLS_CC);
 		if (ZEPHIR_LT(_3, _4)) {
 			ZEPHIR_INIT_VAR(cachedContent);
 			zephir_file_get_contents(cachedContent, cacheFile TSRMLS_CC);
@@ -553,7 +553,7 @@ PHP_METHOD(Phalcon_Cache_Backend_File, decrement) {
 		ZEPHIR_INIT_VAR(_4);
 		sub_function(_4, timestamp, ttl TSRMLS_CC);
 		ZEPHIR_INIT_VAR(_5);
-		zephir_call_func_p1(_5, "filemtime", cacheFile);
+		zephir_filemtime(_5, cacheFile TSRMLS_CC);
 		if (ZEPHIR_LT(_4, _5)) {
 			ZEPHIR_INIT_VAR(cachedContent);
 			zephir_file_get_contents(cachedContent, cacheFile TSRMLS_CC);

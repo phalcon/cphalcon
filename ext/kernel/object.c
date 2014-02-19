@@ -70,6 +70,16 @@ int zephir_instance_of(zval *result, const zval *object, const zend_class_entry 
 	return SUCCESS;
 }
 
+int zephir_instance_of_ev(const zval *object, const zend_class_entry *ce TSRMLS_DC) {
+
+	if (Z_TYPE_P(object) != IS_OBJECT) {
+		php_error_docref(NULL TSRMLS_CC, E_WARNING, "instanceof expects an object instance");
+		return 0;
+	}
+
+	return instanceof_function(Z_OBJCE_P(object), ce TSRMLS_CC);
+}
+
 /**
  * Check if an object is instance of a class
  */
@@ -82,15 +92,15 @@ int zephir_is_instance_of(zval *object, const char *class_name, unsigned int cla
 		ce = Z_OBJCE_P(object);
 		if (ce->name_length == class_length) {
 			return !zend_binary_strcasecmp(ce->name, ce->name_length, class_name, class_length);
-		}		
-		
+		}
+
 		temp_ce = zend_fetch_class(class_name, class_length, ZEND_FETCH_CLASS_DEFAULT TSRMLS_CC);
 		if (temp_ce) {
 			return instanceof_function(ce, temp_ce TSRMLS_CC);
 		}
 	}
 
-	return 0;	
+	return 0;
 }
 
 /**

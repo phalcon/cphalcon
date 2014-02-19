@@ -159,7 +159,7 @@ PHP_METHOD(Phalcon_Forms_Manager, set) {
 	zephir_get_strval(name, name_param);
 
 
-	if (!(zephir_is_instance_of(form, SL("Phalcon\\Forms\\Form") TSRMLS_CC))) {
+	if (!(zephir_instance_of_ev(form, phalcon_forms_form_ce TSRMLS_CC))) {
 		ZEPHIR_THROW_EXCEPTION_STR(spl_ce_InvalidArgumentException, "Parameter 'form' must be an instance of 'Phalcon\\Forms\\Form'");
 		return;
 	}

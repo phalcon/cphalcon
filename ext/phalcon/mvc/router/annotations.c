@@ -465,7 +465,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Annotations, processActionAnnotation) {
 	}
 
 
-	if (!(zephir_is_instance_of(annotation, SL("Phalcon\\Annotations\\Annotation") TSRMLS_CC))) {
+	if (!(zephir_instance_of_ev(annotation, phalcon_annotations_annotation_ce TSRMLS_CC))) {
 		ZEPHIR_THROW_EXCEPTION_STR(spl_ce_InvalidArgumentException, "Parameter 'annotation' must be an instance of 'Phalcon\\Annotations\\Annotation'");
 		return;
 	}

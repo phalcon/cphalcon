@@ -20,6 +20,7 @@
 #include "kernel/hash.h"
 #include "kernel/fcall.h"
 #include "kernel/array.h"
+#include "Zend/zend_closures.h"
 #include "kernel/string.h"
 #include "kernel/concat.h"
 
@@ -217,7 +218,7 @@ PHP_METHOD(Phalcon_Filter, _sanitize) {
 	ZEPHIR_OBS_VAR(filterObject);
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_filters"), PH_NOISY_CC);
 	if (zephir_array_isset_fetch(&filterObject, _0, filter, 0 TSRMLS_CC)) {
-		if (zephir_is_instance_of(filterObject, SL("Closure") TSRMLS_CC)) {
+		if (zephir_instance_of_ev(filterObject, zend_ce_closure TSRMLS_CC)) {
 			ZEPHIR_INIT_VAR(_1);
 			array_init_size(_1, 2);
 			zephir_array_fast_append(_1, value);

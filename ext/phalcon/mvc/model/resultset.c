@@ -18,6 +18,7 @@
 #include "kernel/fcall.h"
 #include "kernel/exception.h"
 #include "ext/spl/spl_exceptions.h"
+#include "Zend/zend_closures.h"
 #include "kernel/hash.h"
 #include "kernel/array.h"
 
@@ -605,7 +606,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, delete) {
 
 	_0 = (Z_TYPE_P(conditionCallback) != IS_NULL);
 	if (_0) {
-		_0 = !zephir_is_instance_of(conditionCallback, SL("Closure") TSRMLS_CC);
+		_0 = !zephir_instance_of_ev(conditionCallback, zend_ce_closure TSRMLS_CC);
 	}
 	if (_0) {
 		ZEPHIR_THROW_EXCEPTION_STR(spl_ce_InvalidArgumentException, "Parameter 'conditionCallback' must be an instance of 'Closure'");

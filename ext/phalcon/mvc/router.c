@@ -1104,7 +1104,7 @@ PHP_METHOD(Phalcon_Mvc_Router, mount) {
 
 
 
-	if (!(zephir_is_instance_of(group, SL("Phalcon\\Mvc\\Router\\Group") TSRMLS_CC))) {
+	if (!(zephir_instance_of_ev(group, phalcon_mvc_router_group_ce TSRMLS_CC))) {
 		ZEPHIR_THROW_EXCEPTION_STR(spl_ce_InvalidArgumentException, "Parameter 'group' must be an instance of 'Phalcon\\Mvc\\Router\\Group'");
 		return;
 	}

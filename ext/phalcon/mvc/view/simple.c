@@ -20,6 +20,7 @@
 #include "kernel/fcall.h"
 #include "kernel/array.h"
 #include "kernel/hash.h"
+#include "Zend/zend_closures.h"
 #include "kernel/concat.h"
 #include "kernel/file.h"
 
@@ -219,7 +220,7 @@ PHP_METHOD(Phalcon_Mvc_View_Simple, _loadTemplateEngines) {
 				ZEPHIR_GET_HMKEY(extension, _2, _1);
 				ZEPHIR_GET_HVALUE(engineService, _3);
 				if ((Z_TYPE_P(engineService) == IS_OBJECT)) {
-					if (zephir_is_instance_of(engineService, SL("Closure") TSRMLS_CC)) {
+					if (zephir_instance_of_ev(engineService, zend_ce_closure TSRMLS_CC)) {
 						ZEPHIR_INIT_NVAR(engineObject);
 						ZEPHIR_CALL_USER_FUNC_ARRAY(engineObject, engineService, arguments);
 					} else {

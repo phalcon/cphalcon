@@ -94,7 +94,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, __construct) {
 		ZEPHIR_THROW_EXCEPTION_STR(spl_ce_InvalidArgumentException, "Parameter 'model' must be an instance of 'Phalcon\\Mvc\\ModelInterface'");
 		return;
 	}
-	if (!(zephir_is_instance_of(result, SL("Phalcon\\Db\\Result\\Pdo") TSRMLS_CC))) {
+	if (!(zephir_instance_of_ev(result, phalcon_db_result_pdo_ce TSRMLS_CC))) {
 		ZEPHIR_THROW_EXCEPTION_STR(spl_ce_InvalidArgumentException, "Parameter 'result' must be an instance of 'Phalcon\\Db\\Result\\Pdo'");
 		return;
 	}

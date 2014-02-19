@@ -20,6 +20,7 @@
 #include "kernel/hash.h"
 #include "kernel/fcall.h"
 #include "kernel/operators.h"
+#include "Zend/zend_closures.h"
 #include "kernel/concat.h"
 #include "kernel/string.h"
 #include "kernel/file.h"
@@ -533,7 +534,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, getUniquePrefix) {
 		zephir_update_property_this(this_ptr, SL("_prefix"), prefix TSRMLS_CC);
 	}
 	if ((Z_TYPE_P(prefix) == IS_OBJECT)) {
-		if (zephir_is_instance_of(prefix, SL("Closure") TSRMLS_CC)) {
+		if (zephir_instance_of_ev(prefix, zend_ce_closure TSRMLS_CC)) {
 			ZEPHIR_INIT_VAR(calculatedPrefix);
 			ZEPHIR_INIT_VAR(_1);
 			array_init_size(_1, 2);
@@ -703,7 +704,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, functionCall) {
 					RETURN_MM();
 				}
 				if ((Z_TYPE_P(definition) == IS_OBJECT)) {
-					if (zephir_is_instance_of(definition, SL("Closure") TSRMLS_CC)) {
+					if (zephir_instance_of_ev(definition, zend_ce_closure TSRMLS_CC)) {
 						ZEPHIR_INIT_NVAR(_0);
 						array_init_size(_0, 3);
 						zephir_array_fast_append(_0, arguments);
@@ -1048,7 +1049,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, resolveFilter) {
 				RETURN_MM();
 			}
 			if ((Z_TYPE_P(definition) == IS_OBJECT)) {
-				if (zephir_is_instance_of(definition, SL("Closure") TSRMLS_CC)) {
+				if (zephir_instance_of_ev(definition, zend_ce_closure TSRMLS_CC)) {
 					ZEPHIR_INIT_NVAR(_4);
 					array_init_size(_4, 3);
 					zephir_array_fast_append(_4, arguments);
@@ -2954,7 +2955,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compile) {
 		}
 	} else {
 		if ((Z_TYPE_P(compiledPath) == IS_OBJECT)) {
-			if (zephir_is_instance_of(compiledPath, SL("Closure") TSRMLS_CC)) {
+			if (zephir_instance_of_ev(compiledPath, zend_ce_closure TSRMLS_CC)) {
 				ZEPHIR_INIT_NVAR(compiledTemplatePath);
 				ZEPHIR_INIT_VAR(_1);
 				array_init_size(_1, 5);

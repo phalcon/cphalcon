@@ -551,7 +551,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, cloneResult) {
 
 
 
-	if (!(zephir_is_instance_of(collection, SL("Phalcon\\Mvc\\Collection") TSRMLS_CC))) {
+	if (!(zephir_instance_of_ev(collection, phalcon_mvc_collection_ce TSRMLS_CC))) {
 		ZEPHIR_THROW_EXCEPTION_STR(spl_ce_InvalidArgumentException, "Parameter 'collection' must be an instance of 'Phalcon\\Mvc\\Collection'");
 		return;
 	}
@@ -696,7 +696,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, _getGroupResultset) {
 
 
 
-	if (!(zephir_is_instance_of(collection, SL("Phalcon\\Mvc\\Collection") TSRMLS_CC))) {
+	if (!(zephir_instance_of_ev(collection, phalcon_mvc_collection_ce TSRMLS_CC))) {
 		ZEPHIR_THROW_EXCEPTION_STR(spl_ce_InvalidArgumentException, "Parameter 'collection' must be an instance of 'Phalcon\\Mvc\\Collection'");
 		return;
 	}
