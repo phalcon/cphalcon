@@ -277,9 +277,10 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, connect){
 	 * Default options
 	 */
 	phalcon_array_update_long_long(&options, PDO_ATTR_ERRMODE, PDO_ERRMODE_EXCEPTION, PH_SEPARATE);
-	//phalcon_array_update_long_long(&options, PDO_ATTR_CASE, PDO_CASE_LOWER, PH_SEPARATE);
-	//phalcon_array_update_long_long(&options, PDO_ATTR_CURSOR, PDO_CURSOR_SCROLL, PH_SEPARATE);
-
+/*
+	phalcon_array_update_long_long(&options, PDO_ATTR_CASE, PDO_CASE_LOWER, PH_SEPARATE);
+	phalcon_array_update_long_long(&options, PDO_ATTR_CURSOR, PDO_CURSOR_SCROLL, PH_SEPARATE);
+*/
 	/**
 	 * Check if the connection must be persistent
 	 */
@@ -295,7 +296,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, connect){
 	/**
 	 * Create the connection using PDO
 	 */
-	ce = zend_fetch_class(SL("PDO"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
+	ce = php_pdo_get_dbh_ce();
 
 	PHALCON_INIT_VAR(pdo);
 	object_init_ex(pdo, ce);
