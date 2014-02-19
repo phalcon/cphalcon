@@ -165,6 +165,7 @@ PHP_METHOD(Phalcon_Translate_Adapter_NativeArray, query){
 		if (Z_TYPE_P(placeholders) == IS_ARRAY && zend_hash_num_elements(Z_ARRVAL_P(placeholders))) {
 
 			ALLOC_INIT_ZVAL(key_placeholder);
+			Z_ADDREF_P(translation);
 
 			for (
 				zend_hash_internal_pointer_reset_ex(Z_ARRVAL_P(placeholders), &hp0);
@@ -179,6 +180,7 @@ PHP_METHOD(Phalcon_Translate_Adapter_NativeArray, query){
 				phalcon_fast_str_replace(replaced, key_placeholder, *value, translation);
 				zval_dtor(key_placeholder);
 
+				zval_ptr_dtor(&translation);
 				translation = replaced;
 			}
 
