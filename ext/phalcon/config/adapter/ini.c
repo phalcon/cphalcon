@@ -17,6 +17,7 @@
 #include "kernel/operators.h"
 #include "kernel/exception.h"
 #include "kernel/concat.h"
+#include "kernel/file.h"
 #include "kernel/hash.h"
 #include "kernel/string.h"
 #include "kernel/array.h"
@@ -84,7 +85,7 @@ PHP_METHOD(Phalcon_Config_Adapter_Ini, __construct) {
 		ZEPHIR_INIT_VAR(_0);
 		object_init_ex(_0, phalcon_config_exception_ce);
 		ZEPHIR_INIT_VAR(_1);
-		zephir_call_func_p1(_1, "basename", filePath);
+		zephir_basename(_1, filePath TSRMLS_CC);
 		ZEPHIR_INIT_VAR(_2);
 		ZEPHIR_CONCAT_SVS(_2, "Configuration file ", _1, " can't be loaded");
 		zephir_call_method_p1_noret(_0, "__construct", _2);
