@@ -19,6 +19,10 @@
 
 namespace Phalcon\Db\Result;
 
+%{
+#include <ext/pdo/php_pdo_driver.h>
+}%
+
 /**
  * Phalcon\Db\Result\Pdo
  *
@@ -68,13 +72,9 @@ class Pdo
 	 * @param array bindParams
 	 * @param array bindTypes
 	 */
-	public function __construct(<\Phalcon\Db\AdapterInterface> connection, <PDOStatement> result,
+	public function __construct(<\Phalcon\Db\AdapterInterface> connection, <\PDOStatement> result,
 		sqlStatement=null, bindParams=null, bindTypes=null)
 	{
-
-		if typeof result != "object" {
-			throw new \Phalcon\Db\Exception("Invalid PDOStatement supplied to Phalcon\\Db\\Result\\Pdo");
-		}
 
 		let this->_connection = connection,
 			this->_pdoStatement = result;
@@ -98,9 +98,7 @@ class Pdo
 	 */
 	public function execute() -> boolean
 	{
-		var pdoStatement;
-		let pdoStatement = this->_pdoStatement;
-		return pdoStatement->execute();
+		return this->_pdoStatement->execute();
 	}
 
 	/**
@@ -119,9 +117,7 @@ class Pdo
 	 */
 	public function $fetch()
 	{
-		var pdoStatement;
-		let pdoStatement = this->_pdoStatement;
-		return pdoStatement->$fetch();
+		return this->_pdoStatement->$fetch();
 	}
 
 	/**
@@ -140,9 +136,7 @@ class Pdo
 	 */
 	public function fetchArray()
 	{
-		var pdoStatement;
-		let pdoStatement = this->_pdoStatement;
-		return pdoStatement->$fetch();
+		return this->_pdoStatement->$fetch();
 	}
 
 	/**
@@ -158,9 +152,7 @@ class Pdo
 	 */
 	public function fetchAll()
 	{
-		var pdoStatement;
-		let pdoStatement = this->_pdoStatement;
-		return pdoStatement->fetchAll();
+		return this->_pdoStatement->fetchAll();
 	}
 
 	/**
@@ -241,6 +233,7 @@ class Pdo
 	public function dataSeek(number)
 	{
 		var connection, pdo, sqlStatement, bindParams, statement;
+		%{ pdo_stmt_t *stmt; long n; }%
 
 		let connection = this->_connection,
 			pdo = connection->getInternalHandler(),
@@ -260,6 +253,34 @@ class Pdo
 		}
 
 		let this->_pdoStatement = statement;
+
+		%{
+
+		/**
+		 * This a fetch scroll to reach the desired position, however with a big number of records
+		 * maybe it may be very slow
+		 */
+		stmt = (pdo_stmt_t*) zend_object_store_get_object(statement TSRMLS_CC);
+		if (!stmt->dbh) {
+			ZEPHIR_MM_RESTORE();
+			RETURN_FALSE;
+		}
+
+		n = -1;
+		number--;
+		while (n != number) {
+
+			if (!stmt->methods->fetcher(stmt, PDO_FETCH_ORI_NEXT, 0 TSRMLS_CC)) {
+				ZEPHIR_MM_RESTORE();
+				RETURN_NULL();
+			}
+
+			n++;
+		}
+
+		}%
+
+
 	}
 
 	/**

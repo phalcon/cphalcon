@@ -397,7 +397,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, query) {
 			ZEPHIR_CPY_WRT(statement, _1);
 		}
 	} else {
-		zephir_call_internal_method_p1(statement, pdo, "query", ZEND_MN(Phalcon_Db_Adapter_Pdo_query), sqlStatement);
+		zephir_call_method_p1(statement, pdo, "query", sqlStatement);
 	}
 	if ((Z_TYPE_P(statement) == IS_OBJECT)) {
 		if ((Z_TYPE_P(eventsManager) == IS_OBJECT)) {
@@ -430,7 +430,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, query) {
  */
 PHP_METHOD(Phalcon_Db_Adapter_Pdo, execute) {
 
-	zval *sqlStatement_param = NULL, *bindParams = NULL, *bindTypes = NULL, *eventsManager = NULL, *affectedRows, *pdo, *newStatement, *statement, *_0, *_1 = NULL, *_2;
+	zval *sqlStatement_param = NULL, *bindParams = NULL, *bindTypes = NULL, *eventsManager = NULL, *affectedRows, *pdo = NULL, *newStatement, *statement, *_0, *_1 = NULL, *_2;
 	zval *sqlStatement = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -471,8 +471,8 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, execute) {
 	}
 	ZEPHIR_INIT_VAR(affectedRows);
 	ZVAL_LONG(affectedRows, 0);
-	ZEPHIR_OBS_VAR(pdo);
-	zephir_read_property_this(&pdo, this_ptr, SL("_pdo"), PH_NOISY_CC);
+	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_pdo"), PH_NOISY_CC);
+	ZEPHIR_CPY_WRT(pdo, _0);
 	if ((Z_TYPE_P(bindParams) == IS_ARRAY)) {
 		ZEPHIR_INIT_VAR(statement);
 		zephir_call_method_p1(statement, pdo, "prepare", sqlStatement);

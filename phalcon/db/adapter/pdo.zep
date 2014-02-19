@@ -164,7 +164,7 @@ abstract class Pdo extends \Phalcon\Db\Adapter
 	 * @param string sqlStatement
 	 * @return \PDOStatement
 	 */
-	public function prepare(string! sqlStatement) -> <PDOStatement>
+	public function prepare(string! sqlStatement) -> <\PDOStatement>
 	{
 		var pdo;
 		let pdo = this->_pdo;
@@ -271,7 +271,7 @@ abstract class Pdo extends \Phalcon\Db\Adapter
 			}
 		}
 
-		let pdo = <Pdo> this->_pdo;
+		let pdo = <\Pdo> this->_pdo;
 		if typeof bindParams == "array" {
 			let statement = pdo->prepare(sqlStatement);
 			if typeof statement == "object" {
@@ -331,7 +331,7 @@ abstract class Pdo extends \Phalcon\Db\Adapter
 		 */
 		let affectedRows = 0;
 
-		let pdo = this->_pdo;
+		let pdo = <\Pdo> this->_pdo;
 		if typeof bindParams == "array" {
 			let statement = pdo->prepare(sqlStatement);
 			if typeof statement == "object" {

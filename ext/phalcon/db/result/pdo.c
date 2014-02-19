@@ -21,6 +21,9 @@
 #include "kernel/concat.h"
 #include "kernel/array.h"
 
+#include <ext/pdo/php_pdo_driver.h>
+
+
 
 /*
  +------------------------------------------------------------------------+
@@ -114,12 +117,8 @@ PHP_METHOD(Phalcon_Db_Result_Pdo, __construct) {
 		ZEPHIR_THROW_EXCEPTION_STRW(spl_ce_InvalidArgumentException, "Parameter 'connection' must be an instance of 'Phalcon\\Db\\AdapterInterface'");
 		return;
 	}
-	if (!(zephir_is_instance_of(result, SL("Phalcon\\Db\\Result\\PDOStatement") TSRMLS_CC))) {
-		ZEPHIR_THROW_EXCEPTION_STRW(spl_ce_InvalidArgumentException, "Parameter 'result' must be an instance of 'Phalcon\\Db\\Result\\PDOStatement'");
-		return;
-	}
-	if ((Z_TYPE_P(result) != IS_OBJECT)) {
-		ZEPHIR_THROW_EXCEPTION_STRW(phalcon_db_exception_ce, "Invalid PDOStatement supplied to Phalcon\\Db\\Result\\Pdo");
+	if (!(zephir_is_instance_of(result, SL("PDOStatement") TSRMLS_CC))) {
+		ZEPHIR_THROW_EXCEPTION_STRW(spl_ce_InvalidArgumentException, "Parameter 'result' must be an instance of 'PDOStatement'");
 		return;
 	}
 	zephir_update_property_this(this_ptr, SL("_connection"), connection TSRMLS_CC);
@@ -144,13 +143,12 @@ PHP_METHOD(Phalcon_Db_Result_Pdo, __construct) {
  */
 PHP_METHOD(Phalcon_Db_Result_Pdo, execute) {
 
-	zval *pdoStatement;
+	zval *_0;
 
 	ZEPHIR_MM_GROW();
 
-	ZEPHIR_OBS_VAR(pdoStatement);
-	zephir_read_property_this(&pdoStatement, this_ptr, SL("_pdoStatement"), PH_NOISY_CC);
-	zephir_call_method(return_value, pdoStatement, "execute");
+	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_pdoStatement"), PH_NOISY_CC);
+	zephir_call_method(return_value, _0, "execute");
 	RETURN_MM();
 
 }
@@ -171,13 +169,12 @@ PHP_METHOD(Phalcon_Db_Result_Pdo, execute) {
  */
 PHP_METHOD(Phalcon_Db_Result_Pdo, fetch) {
 
-	zval *pdoStatement;
+	zval *_0;
 
 	ZEPHIR_MM_GROW();
 
-	ZEPHIR_OBS_VAR(pdoStatement);
-	zephir_read_property_this(&pdoStatement, this_ptr, SL("_pdoStatement"), PH_NOISY_CC);
-	zephir_call_method(return_value, pdoStatement, "fetch");
+	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_pdoStatement"), PH_NOISY_CC);
+	zephir_call_method(return_value, _0, "fetch");
 	RETURN_MM();
 
 }
@@ -198,13 +195,12 @@ PHP_METHOD(Phalcon_Db_Result_Pdo, fetch) {
  */
 PHP_METHOD(Phalcon_Db_Result_Pdo, fetchArray) {
 
-	zval *pdoStatement;
+	zval *_0;
 
 	ZEPHIR_MM_GROW();
 
-	ZEPHIR_OBS_VAR(pdoStatement);
-	zephir_read_property_this(&pdoStatement, this_ptr, SL("_pdoStatement"), PH_NOISY_CC);
-	zephir_call_method(return_value, pdoStatement, "fetch");
+	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_pdoStatement"), PH_NOISY_CC);
+	zephir_call_method(return_value, _0, "fetch");
 	RETURN_MM();
 
 }
@@ -222,13 +218,12 @@ PHP_METHOD(Phalcon_Db_Result_Pdo, fetchArray) {
  */
 PHP_METHOD(Phalcon_Db_Result_Pdo, fetchAll) {
 
-	zval *pdoStatement;
+	zval *_0;
 
 	ZEPHIR_MM_GROW();
 
-	ZEPHIR_OBS_VAR(pdoStatement);
-	zephir_read_property_this(&pdoStatement, this_ptr, SL("_pdoStatement"), PH_NOISY_CC);
-	zephir_call_method(return_value, pdoStatement, "fetchall");
+	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_pdoStatement"), PH_NOISY_CC);
+	zephir_call_method(return_value, _0, "fetchall");
 	RETURN_MM();
 
 }
@@ -321,6 +316,7 @@ PHP_METHOD(Phalcon_Db_Result_Pdo, dataSeek) {
 
 
 
+	 pdo_stmt_t *stmt; long n; 
 	ZEPHIR_OBS_VAR(connection);
 	zephir_read_property_this(&connection, this_ptr, SL("_connection"), PH_NOISY_CC);
 	ZEPHIR_INIT_VAR(pdo);
@@ -342,6 +338,31 @@ PHP_METHOD(Phalcon_Db_Result_Pdo, dataSeek) {
 		zephir_call_method_p1(statement, pdo, "query", sqlStatement);
 	}
 	zephir_update_property_this(this_ptr, SL("_pdoStatement"), statement TSRMLS_CC);
+	
+
+		/**
+		 * This a fetch scroll to reach the desired position, however with a big number of records
+		 * maybe it may be very slow
+		 */
+		stmt = (pdo_stmt_t*) zend_object_store_get_object(statement TSRMLS_CC);
+		if (!stmt->dbh) {
+			ZEPHIR_MM_RESTORE();
+			RETURN_FALSE;
+		}
+
+		n = -1;
+		number--;
+		while (n != number) {
+
+			if (!stmt->methods->fetcher(stmt, PDO_FETCH_ORI_NEXT, 0 TSRMLS_CC)) {
+				ZEPHIR_MM_RESTORE();
+				RETURN_NULL();
+			}
+
+			n++;
+		}
+
+		
 	ZEPHIR_MM_RESTORE();
 
 }

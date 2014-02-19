@@ -78,6 +78,7 @@ PHP_METHOD(Phalcon_Acl_Role, getName) {
 PHP_METHOD(Phalcon_Acl_Role, __toString) {
 
 
+	RETURN_MEMBER(this_ptr, "_name");
 
 }
 
