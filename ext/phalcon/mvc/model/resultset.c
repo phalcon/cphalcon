@@ -605,10 +605,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, delete) {
 
 	_0 = (Z_TYPE_P(conditionCallback) != IS_NULL);
 	if (_0) {
-		_0 = !zephir_is_instance_of(conditionCallback, SL("Phalcon\\Mvc\\Model\\Closure") TSRMLS_CC);
+		_0 = !zephir_is_instance_of(conditionCallback, SL("Closure") TSRMLS_CC);
 	}
 	if (_0) {
-		ZEPHIR_THROW_EXCEPTION_STR(spl_ce_InvalidArgumentException, "Parameter 'conditionCallback' must be an instance of 'Phalcon\\Mvc\\Model\\Closure'");
+		ZEPHIR_THROW_EXCEPTION_STR(spl_ce_InvalidArgumentException, "Parameter 'conditionCallback' must be an instance of 'Closure'");
 		return;
 	}
 	transaction = 0;

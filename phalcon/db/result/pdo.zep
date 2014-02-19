@@ -228,9 +228,9 @@ class Pdo
 	 *	$row = $result->fetch(); // Fetch third row
 	 *</code>
 	 *
-	 * @param int number
+	 * @param long number
 	 */
-	public function dataSeek(number)
+	public function dataSeek(long number)
 	{
 		var connection, pdo, sqlStatement, bindParams, statement;
 		%{ pdo_stmt_t *stmt; long n; }%

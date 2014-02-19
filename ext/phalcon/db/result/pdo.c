@@ -305,15 +305,17 @@ PHP_METHOD(Phalcon_Db_Result_Pdo, numRows) {
  *	$row = $result->fetch(); // Fetch third row
  *</code>
  *
- * @param int number
+ * @param long number
  */
 PHP_METHOD(Phalcon_Db_Result_Pdo, dataSeek) {
 
-	zval *number, *connection, *pdo, *sqlStatement, *bindParams, *statement = NULL, *_0, *_1;
+	zval *number_param = NULL, *connection, *pdo, *sqlStatement, *bindParams, *statement = NULL, *_0, *_1;
+	long number;
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 0, &number);
+	zephir_fetch_params(1, 1, 0, &number_param);
 
+	number = zephir_get_intval(number_param);
 
 
 	 pdo_stmt_t *stmt; long n; 
