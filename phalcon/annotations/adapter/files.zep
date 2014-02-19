@@ -30,7 +30,7 @@ namespace Phalcon\Annotations\Adapter;
  * ));
  *</code>
  */
-class Files extends \Phalcon\Annotations\Adapter implements \Phalcon\Annotations\AdapterInterface
+class Files extends \Phalcon\Annotations\Annotation
 {
 	protected _annotationsDir = "./";
 

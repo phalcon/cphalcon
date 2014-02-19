@@ -24,7 +24,7 @@ namespace Phalcon\Annotations;
 *
 * Represents a single annotation in an annotations collection
 */
-class Annotation
+class Annotation extends \Phalcon\Annotations\Adapter
 {
 
 	/**
@@ -211,4 +211,14 @@ class Annotation
 		}
 	}
 
+	/**
+	 * Returns a named parameter
+	 *
+	 * @param string name
+	 * @return mixed
+	 */
+	public function getNamedParameter(string! name)
+	{
+		return this->getNamedArgument(name);
+	}
 }
