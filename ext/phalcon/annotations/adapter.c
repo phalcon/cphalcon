@@ -17,8 +17,8 @@
 #include "kernel/memory.h"
 #include "kernel/fcall.h"
 #include "kernel/array.h"
-#include "kernel/operators.h"
 #include "kernel/hash.h"
+#include "kernel/operators.h"
 
 
 /*
@@ -161,13 +161,11 @@ PHP_METHOD(Phalcon_Annotations_Adapter, get) {
  */
 PHP_METHOD(Phalcon_Annotations_Adapter, getMethods) {
 
-	zval *className_param = NULL, *classAnnotations;
-	zval *className = NULL;
+	zval *className, *classAnnotations;
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 0, &className_param);
+	zephir_fetch_params(1, 1, 0, &className);
 
-	zephir_get_strval(className, className_param);
 
 
 	ZEPHIR_INIT_VAR(classAnnotations);

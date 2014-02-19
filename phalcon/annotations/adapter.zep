@@ -118,7 +118,7 @@ abstract class Adapter
 	 * @param string className
 	 * @return array
 	 */
-	public function getMethods(string className)
+	public function getMethods(var className)
 	{
 		var classAnnotations;
 

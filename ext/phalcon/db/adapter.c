@@ -172,7 +172,7 @@ PHP_METHOD(Phalcon_Db_Adapter, __construct) {
 	ZVAL_LONG(_0, 0);
 	zephir_update_property_this(this_ptr, SL("_connectionId"), _0 TSRMLS_CC);
 	ZEPHIR_OBS_VAR(dialectClass);
-	if (zephir_array_isset_string_fetch(&dialectClass, descriptor, SS("dialectClass"), 0 TSRMLS_CC)) {
+	if (!(zephir_array_isset_string_fetch(&dialectClass, descriptor, SS("dialectClass"), 0 TSRMLS_CC))) {
 		_0 = zephir_fetch_nproperty_this(this_ptr, SL("_dialectType"), PH_NOISY_CC);
 		ZEPHIR_INIT_BNVAR(dialectClass);
 		ZEPHIR_CONCAT_SV(dialectClass, "phalcon\\db\\dialect\\", _0);
@@ -506,6 +506,10 @@ PHP_METHOD(Phalcon_Db_Adapter, insert) {
 	} else {
 		ZEPHIR_CONCAT_SVSVS(insertSql, "INSERT INTO ", escapedTable, " VALUES (", joinedValues, ")");
 	}
+	if (!(zephir_fast_count_int(bindDataTypes TSRMLS_CC))) {
+		zephir_call_method_p2(return_value, this_ptr, "execute", insertSql, insertValues);
+		RETURN_MM();
+	}
 	zephir_call_method_p3(return_value, this_ptr, "execute", insertSql, insertValues, bindDataTypes);
 	RETURN_MM();
 
@@ -615,7 +619,7 @@ PHP_METHOD(Phalcon_Db_Adapter, update) {
 	ZEPHIR_INIT_VAR(updateSql);
 	if ((Z_TYPE_P(whereCondition) != IS_NULL)) {
 		ZEPHIR_CONCAT_SVSVS(updateSql, "UPDATE ", escapedTable, " SET ", setClause, " WHERE ");
-		if ((Z_TYPE_P(whereCondition) == IS_ARRAY)) {
+		if ((Z_TYPE_P(whereCondition) == IS_STRING)) {
 			zephir_concat_self(&updateSql, whereCondition TSRMLS_CC);
 		} else {
 			if ((Z_TYPE_P(whereCondition) != IS_ARRAY)) {
@@ -637,6 +641,10 @@ PHP_METHOD(Phalcon_Db_Adapter, update) {
 		}
 	} else {
 		ZEPHIR_CONCAT_SVSV(updateSql, "UPDATE ", escapedTable, " SET ", setClause);
+	}
+	if (!(zephir_fast_count_int(bindDataTypes TSRMLS_CC))) {
+		zephir_call_method_p2(return_value, this_ptr, "execute", updateSql, updateValues);
+		RETURN_MM();
 	}
 	zephir_call_method_p3(return_value, this_ptr, "execute", updateSql, updateValues, bindDataTypes);
 	RETURN_MM();
@@ -2081,7 +2089,7 @@ PHP_METHOD(Phalcon_Db_Adapter, releaseSavepoint) {
 	zephir_read_property_this(&dialect, this_ptr, SL("_dialect"), PH_NOISY_CC);
 	ZEPHIR_INIT_VAR(_0);
 	zephir_call_method(_0, dialect, "supportssavepoints");
-	if (zephir_is_true(_0)) {
+	if (!(zephir_is_true(_0))) {
 		ZEPHIR_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "Savepoints are not supported by this database adapter");
 		return;
 	}
@@ -2128,7 +2136,7 @@ PHP_METHOD(Phalcon_Db_Adapter, rollbackSavepoint) {
 	zephir_read_property_this(&dialect, this_ptr, SL("_dialect"), PH_NOISY_CC);
 	ZEPHIR_INIT_VAR(_0);
 	zephir_call_method(_0, dialect, "supportssavepoints");
-	if (zephir_is_true(_0)) {
+	if (!(zephir_is_true(_0))) {
 		ZEPHIR_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "Savepoints are not supported by this database adapter");
 		return;
 	}
