@@ -451,7 +451,7 @@ PHP_METHOD(Phalcon_Tag, getUrlService){
 	
 		dependency_injector = phalcon_fetch_static_property_ce(phalcon_tag_ce, SL("_dependencyInjector") TSRMLS_CC);
 		if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
-			PHALCON_OBS_VAR(dependency_injector);
+			dependency_injector = NULL;
 			PHALCON_CALL_CE_STATIC(&dependency_injector, phalcon_di_ce, "getdefault");
 		}
 	
@@ -490,7 +490,7 @@ PHP_METHOD(Phalcon_Tag, getEscaperService){
 	
 		dependency_injector = phalcon_fetch_static_property_ce(phalcon_tag_ce, SL("_dependencyInjector") TSRMLS_CC);
 		if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
-			PHALCON_OBS_VAR(dependency_injector);
+			dependency_injector = NULL;
 			PHALCON_CALL_CE_STATIC(&dependency_injector, phalcon_di_ce, "getdefault");
 		}
 	
@@ -726,7 +726,7 @@ PHP_METHOD(Phalcon_Tag, resetInput){
 PHP_METHOD(Phalcon_Tag, linkTo){
 
 	zval *parameters, *text = NULL, *local = NULL,  *params = NULL;
-	zval *action, *url, *internal_url = NULL, *link_text, *z_local;
+	zval *action, *url = NULL, *internal_url = NULL, *link_text, *z_local;
 	zval *code;
 
 	PHALCON_MM_GROW();
@@ -778,7 +778,6 @@ PHP_METHOD(Phalcon_Tag, linkTo){
 	}
 
 	if (zend_is_true(z_local) || Z_TYPE_P(params) == IS_ARRAY) {
-		PHALCON_OBS_VAR(url);
 		PHALCON_CALL_SELF(&url, "geturlservice");
 		
 		PHALCON_CALL_METHOD(&internal_url, url, "get", action);
@@ -855,7 +854,6 @@ PHP_METHOD(Phalcon_Tag, _inputField){
 			}
 		}
 
-		PHALCON_OBS_VAR(value);
 		PHALCON_CALL_SELF(&value, "getvalue", id, params);
 		phalcon_array_update_string(&params, ISL(value), value, PH_COPY);
 	} else {
@@ -952,7 +950,6 @@ PHP_METHOD(Phalcon_Tag, _inputFieldChecked){
 	/**
 	 * Automatically check inputs
 	 */
-	PHALCON_OBS_VAR(value);
 	if (phalcon_array_isset_string_fetch(&current_value, params, SS("value"))) {
 		phalcon_array_unset_string(&params, SS("value"), 0);
 
@@ -1431,7 +1428,6 @@ PHP_METHOD(Phalcon_Tag, textArea){
 		phalcon_array_update_string(&params, SL("id"), id, PH_COPY | PH_SEPARATE);
 	}
 
-	PHALCON_OBSERVE_OR_NULLIFY_VAR(content);
 	PHALCON_CALL_SELF(&content, "getvalue", id, params);
 
 	PHALCON_OBS_VAR(escaper);
@@ -1482,7 +1478,7 @@ PHP_METHOD(Phalcon_Tag, textArea){
 PHP_METHOD(Phalcon_Tag, form){
 
 	zval *parameters = NULL, *params = NULL, *params_action = NULL, *action = NULL;
-	zval *url, *code;
+	zval *url = NULL, *code;
 
 	PHALCON_MM_GROW();
 
@@ -1517,9 +1513,7 @@ PHP_METHOD(Phalcon_Tag, form){
 	}
 	
 	if (Z_TYPE_P(params_action) != IS_NULL) {
-		PHALCON_OBS_VAR(url);
 		PHALCON_CALL_SELF(&url, "geturlservice");
-	
 		PHALCON_CALL_METHOD(&action, url, "get", params_action);
 	}
 	else {
@@ -1708,7 +1702,7 @@ PHP_METHOD(Phalcon_Tag, getTitleSeparator){
 PHP_METHOD(Phalcon_Tag, stylesheetLink){
 
 	zval *parameters = NULL, *local = NULL, *params = NULL, *first_param;
-	zval *url, *url_href, *href = NULL, *code, *doctype, *z_local;
+	zval *url = NULL, *url_href, *href = NULL, *code, *doctype, *z_local;
 
 	PHALCON_MM_GROW();
 
@@ -1756,7 +1750,6 @@ PHP_METHOD(Phalcon_Tag, stylesheetLink){
 	 * URLs are generated through the 'url' service
 	 */
 	if (zend_is_true(z_local)) {
-		PHALCON_OBS_VAR(url);
 		PHALCON_CALL_SELF(&url, "geturlservice");
 	
 		PHALCON_OBS_VAR(url_href);
@@ -1810,7 +1803,7 @@ PHP_METHOD(Phalcon_Tag, stylesheetLink){
 PHP_METHOD(Phalcon_Tag, javascriptInclude){
 
 	zval *parameters = NULL, *local = NULL, *params = NULL, *first_param;
-	zval *url, *params_src, *src = NULL, *code, *z_local;
+	zval *url = NULL, *params_src, *src = NULL, *code, *z_local;
 
 	PHALCON_MM_GROW();
 
@@ -1857,7 +1850,6 @@ PHP_METHOD(Phalcon_Tag, javascriptInclude){
 	 * URLs are generated through the 'url' service
 	 */
 	if (zend_is_true(z_local)) {
-		PHALCON_OBS_VAR(url);
 		PHALCON_CALL_SELF(&url, "geturlservice");
 	
 		PHALCON_OBS_VAR(params_src);
@@ -1902,7 +1894,7 @@ PHP_METHOD(Phalcon_Tag, javascriptInclude){
 PHP_METHOD(Phalcon_Tag, image){
 
 	zval *parameters = NULL, *local = NULL, *params = NULL, *first_param, *second_param;
-	zval *url, *url_src, *src = NULL, *code, *doctype;
+	zval *url = NULL, *url_src, *src = NULL, *code, *doctype;
 
 	PHALCON_MM_GROW();
 
@@ -1941,7 +1933,6 @@ PHP_METHOD(Phalcon_Tag, image){
 	 * Use the 'url' service if the URI is local
 	 */
 	if (zend_is_true(local)) {
-		PHALCON_OBS_VAR(url);
 		PHALCON_CALL_SELF(&url, "geturlservice");
 	
 		PHALCON_OBS_VAR(url_src);

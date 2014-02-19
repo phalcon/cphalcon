@@ -243,7 +243,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, valid){
 	/** 
 	 * Hydrate based on the current hydration
 	 */
-	PHALCON_OBS_VAR(active_row);
 	switch (phalcon_get_intval(hydrate_mode)) {
 	
 		case 0:
@@ -318,7 +317,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, toArray){
 			/** 
 			 * We fetch all the results in memory
 			 */
-			PHALCON_INIT_VAR(records);
 			PHALCON_CALL_METHOD(&records, result, "fetchall");
 		} else {
 			PHALCON_INIT_NVAR(records);

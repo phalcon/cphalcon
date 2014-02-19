@@ -148,7 +148,7 @@ PHP_METHOD(Phalcon_Version, get){
  */
 PHP_METHOD(Phalcon_Version, getId){
 
-	zval *version, *major, *medium, *minor, *special, *special_number;
+	zval *version = NULL, *major, *medium, *minor, *special, *special_number;
 	zval *format, *real_medium = NULL, *real_minor = NULL;
 
 	PHALCON_MM_GROW();

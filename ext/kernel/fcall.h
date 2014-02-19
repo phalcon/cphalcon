@@ -181,6 +181,7 @@ typedef zend_function phalcon_fcall_cache_entry;
 		} \
 	} while (0)
 
+
 #define PHALCON_CALL_PARENTW(return_value_ptr, class_entry, this_ptr, method, ...) \
 	do { \
 		zval *params_[] = {__VA_ARGS__}; \
@@ -195,6 +196,7 @@ typedef zend_function phalcon_fcall_cache_entry;
 #define PHALCON_CALL_PARENT(return_value_ptr, class_entry, this_ptr, method, ...) \
 	do { \
 		zval *params_[] = {__VA_ARGS__}; \
+		PHALCON_OBSERVE_OR_NULLIFY_PPZV(return_value_ptr); \
 		if (__builtin_constant_p(method)) { \
 			RETURN_MM_ON_FAILURE(phalcon_call_class_method_aparams(return_value_ptr, class_entry, phalcon_fcall_parent, this_ptr, method, sizeof(method)-1, sizeof(params_)/sizeof(zval*), params_ TSRMLS_CC)); \
 		} \
@@ -225,6 +227,7 @@ typedef zend_function phalcon_fcall_cache_entry;
 		} \
 	} while (0)
 
+
 #define PHALCON_CALL_SELFW(return_value_ptr, method, ...) \
 	do { \
 		zval *params_[] = {__VA_ARGS__}; \
@@ -239,6 +242,7 @@ typedef zend_function phalcon_fcall_cache_entry;
 #define PHALCON_CALL_SELF(return_value_ptr, method, ...) \
 	do { \
 		zval *params_[] = {__VA_ARGS__}; \
+		PHALCON_OBSERVE_OR_NULLIFY_PPZV(return_value_ptr); \
 		if (__builtin_constant_p(method)) { \
 			RETURN_MM_ON_FAILURE(phalcon_call_class_method_aparams(return_value_ptr, NULL, phalcon_fcall_self, NULL, method, sizeof(method)-1, sizeof(params_)/sizeof(zval*), params_ TSRMLS_CC)); \
 		} \
@@ -269,6 +273,7 @@ typedef zend_function phalcon_fcall_cache_entry;
 		} \
 	} while (0)
 
+
 #define PHALCON_CALL_STATICW(return_value_ptr, method, ...) \
 	do { \
 		zval *params_[] = {__VA_ARGS__}; \
@@ -283,6 +288,7 @@ typedef zend_function phalcon_fcall_cache_entry;
 #define PHALCON_CALL_STATIC(return_value_ptr, method, ...) \
 	do { \
 		zval *params_[] = {__VA_ARGS__}; \
+		PHALCON_OBSERVE_OR_NULLIFY_PPZV(return_value_ptr); \
 		if (__builtin_constant_p(method)) { \
 			RETURN_MM_ON_FAILURE(phalcon_call_class_method_aparams(return_value_ptr, NULL, phalcon_fcall_static, NULL, method, sizeof(method)-1, sizeof(params_)/sizeof(zval*), params_ TSRMLS_CC)); \
 		} \
@@ -317,16 +323,18 @@ typedef zend_function phalcon_fcall_cache_entry;
 	do { \
 		zval *params[] = {__VA_ARGS__}; \
 		if (__builtin_constant_p(method)) { \
-			RETURN_ON_FAILURE(phalcon_call_class_method_aparams(return_value_ptr, class_entry, phalcon_fcall_ce, method, sizeof(method)-1, sizeof(params)/sizeof(zval*), params TSRMLS_CC)); \
+			RETURN_ON_FAILURE(phalcon_call_class_method_aparams(return_value_ptr, class_entry, phalcon_fcall_ce, NULL, method, sizeof(method)-1, sizeof(params)/sizeof(zval*), params TSRMLS_CC)); \
 		} \
 		else { \
-			RETURN_ON_FAILURE(phalcon_call_class_method_aparams(return_value_ptr, class_entry, phalcon_fcall_ce, method, strlen(method), sizeof(params)/sizeof(zval*), params TSRMLS_CC)); \
+			RETURN_ON_FAILURE(phalcon_call_class_method_aparams(return_value_ptr, class_entry, phalcon_fcall_ce, NULL, method, strlen(method), sizeof(params)/sizeof(zval*), params TSRMLS_CC)); \
 		} \
 	} while (0)
+
 
 #define PHALCON_CALL_CE_STATIC(return_value_ptr, class_entry, method, ...) \
 	do { \
 		zval *params_[] = {__VA_ARGS__}; \
+		PHALCON_OBSERVE_OR_NULLIFY_PPZV(return_value_ptr); \
 		if (__builtin_constant_p(method)) { \
 			RETURN_MM_ON_FAILURE(phalcon_call_class_method_aparams(return_value_ptr, class_entry, phalcon_fcall_ce, NULL, method, sizeof(method)-1, sizeof(params_)/sizeof(zval*), params_ TSRMLS_CC)); \
 		} \

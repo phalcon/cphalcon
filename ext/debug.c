@@ -588,11 +588,10 @@ PHP_METHOD(Phalcon_Debug, _getVarDump){
  */
 PHP_METHOD(Phalcon_Debug, getMajorVersion){
 
-	zval *version, *parts, *major;
+	zval *version = NULL, *parts, *major;
 
 	PHALCON_MM_GROW();
 
-	PHALCON_OBS_VAR(version);
 	PHALCON_CALL_CE_STATIC(&version, phalcon_version_ce, "get");
 	
 	PHALCON_INIT_VAR(parts);

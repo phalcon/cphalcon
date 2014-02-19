@@ -277,6 +277,7 @@ PHALCON_ATTR_NONNULL static void phalcon_fcall_populate_fci_cache(zend_fcall_inf
 			fprintf(stderr, "%s: unknown call type (%d)\n", __func__, (int)type);
 			abort();
 #endif
+			fcic->initialized = 0; /* not strictly necessary but just to be safe */
 			break;
 	}
 
@@ -458,87 +459,6 @@ int phalcon_call_func_aparams(zval **return_value_ptr, const char *func_name, ui
 	if (rv) {
 		zval_ptr_dtor(&rv);
 	}
-
-	return status;
-}
-
-int phalcon_call_method_vparams(zval **return_value_ptr, zval *object, const char *method_name, uint method_len, ulong method_key TSRMLS_DC, int param_count, va_list ap)
-{
-	zval *rv = NULL, **rvp = &rv;
-	int status, i, free_params = 0;
-	zval **params_ptr, **params = NULL;
-	zval *static_params[10];
-
-#ifndef PHALCON_RELEASE
-	if (return_value_ptr && *return_value_ptr) {
-		fprintf(stderr, "%s: *return_value_ptr must be NULL\n", __func__);
-		phalcon_print_backtrace();
-		abort();
-	}
-#endif
-
-	if (param_count < 0) {
-		params      = va_arg(ap, zval**);
-		param_count = -param_count;
-		params_ptr  = params;
-	}
-	else if (param_count > 0 && param_count <= 10) {
-		params_ptr = static_params;
-		for (i=0; i<param_count; ++i) {
-			static_params[i] = va_arg(ap, zval*);
-		}
-	}
-	else if (unlikely(param_count > 10)) {
-		free_params = 1;
-		params      = (zval**)emalloc(param_count * sizeof(zval*));
-		params_ptr  = params;
-		for (i=0; i<param_count; ++i) {
-			params[i] = va_arg(ap, zval*);
-		}
-	}
-	else {
-		params_ptr = NULL;
-	}
-
-	status = phalcon_call_class_method_aparams(rvp, Z_OBJCE_P(object), phalcon_fcall_method, object, method_name, method_len, param_count, params_ptr TSRMLS_CC);
-
-	if (unlikely(free_params)) {
-		efree(params);
-	}
-
-	if (status != FAILURE) {
-		if (return_value_ptr) {
-			MAKE_STD_ZVAL(*return_value_ptr);
-			ZVAL_ZVAL(*return_value_ptr, rv, 1, 1);
-		}
-		else if (rv) {
-			zval_ptr_dtor(&rv);
-		}
-	}
-
-	return status;
-}
-
-/**
- * @brief Calls method @a method_name from @a object which accepts @a param_count arguments @a params
- * @param[out] Return value; set to @c NULL if the return value is not needed
- * @param object Object
- * @param method_name Method name
- * @param method_length Length of the method name
- * @param param_count Number of arguments
- * @param params Arguments
- * @return Whether the call succeeded
- * @retval @c SUCCESS
- * @retval @c FAILURE
- */
-int phalcon_call_method_params(zval **return_value_ptr, zval *object, const char *method_name, uint method_len, ulong method_key TSRMLS_DC, int param_count, ...)
-{
-	int status;
-	va_list ap;
-
-	va_start(ap, param_count);
-	status = phalcon_call_method_vparams(return_value_ptr, object, method_name, method_len, method_key TSRMLS_CC, param_count, ap);
-	va_end(ap);
 
 	return status;
 }

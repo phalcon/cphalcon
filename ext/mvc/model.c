@@ -439,7 +439,6 @@ PHP_METHOD(Phalcon_Mvc_Model, __construct){
 	 * We use a default DI if the user doesn't define one
 	 */
 	if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
-		PHALCON_OBSERVE_OR_NULLIFY_VAR(dependency_injector);
 		PHALCON_CALL_CE_STATIC(&dependency_injector, phalcon_di_ce, "getdefault");
 	}
 	if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
@@ -1507,7 +1506,6 @@ PHP_METHOD(Phalcon_Mvc_Model, query){
 	 * Use the global dependency injector if there is no one defined
 	 */
 	if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
-		PHALCON_OBSERVE_OR_NULLIFY_VAR(dependency_injector);
 		PHALCON_CALL_CE_STATIC(&dependency_injector, phalcon_di_ce, "getdefault");
 	}
 	
@@ -6711,7 +6709,7 @@ PHP_METHOD(Phalcon_Mvc_Model, serialize){
  */
 PHP_METHOD(Phalcon_Mvc_Model, unserialize){
 
-	zval *data, *attributes, *dependency_injector;
+	zval *data, *attributes, *dependency_injector = NULL;
 	zval *service, *manager, *value = NULL, *key = NULL;
 	HashTable *ah0;
 	HashPosition hp0;
@@ -6730,7 +6728,6 @@ PHP_METHOD(Phalcon_Mvc_Model, unserialize){
 			/** 
 			 * Obtain the default DI
 			 */
-			PHALCON_OBS_VAR(dependency_injector);
 			PHALCON_CALL_CE_STATIC(&dependency_injector, phalcon_di_ce, "getdefault");
 	
 			if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {

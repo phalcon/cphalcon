@@ -336,7 +336,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Uniqueness, validate){
 	/** 
 	 * Check using a standard count
 	 */
-	PHALCON_OBSERVE_OR_NULLIFY_VAR(number);
 	PHALCON_CALL_CE_STATIC(&number, Z_OBJCE_P(record), "count", params);
 	if (!PHALCON_IS_LONG(number, 0)) {
 	

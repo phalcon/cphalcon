@@ -291,7 +291,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Complex, valid){
 					/** 
 					 * Generate the column value according to the hydration type
 					 */
-					PHALCON_OBSERVE_OR_NULLIFY_VAR(value);
 					switch (phalcon_get_intval(hydrate_mode)) {
 	
 						case 0: {

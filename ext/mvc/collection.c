@@ -196,7 +196,7 @@ PHALCON_INIT_CLASS(Phalcon_Mvc_Collection){
 PHP_METHOD(Phalcon_Mvc_Collection, __construct){
 
 	zval **dependency_injector = NULL, **models_manager = NULL;
-	zval *di, *mm = NULL;
+	zval *di = NULL, *mm = NULL;
 	zval *service_name;
 
 	phalcon_fetch_params_ex(0, 2, &dependency_injector, &models_manager);
@@ -207,7 +207,6 @@ PHP_METHOD(Phalcon_Mvc_Collection, __construct){
 	 * We use a default DI if the user doesn't define one
 	 */
 	if (!dependency_injector || Z_TYPE_PP(dependency_injector) != IS_OBJECT) {
-		PHALCON_OBS_VAR(di);
 		PHALCON_CALL_CE_STATIC(&di, phalcon_di_ce, "getdefault");
 	}
 	else {
@@ -750,7 +749,6 @@ PHP_METHOD(Phalcon_Mvc_Collection, _getResultset){
 		/** 
 		 * Assign the values to the base object
 		 */
-		PHALCON_OBSERVE_OR_NULLIFY_VAR(collection_cloned);
 		PHALCON_CALL_SELF(&collection_cloned, "cloneresult", base, document);
 		phalcon_array_append(&collections, collection_cloned, PH_SEPARATE);
 	
@@ -2136,7 +2134,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, serialize){
  */
 PHP_METHOD(Phalcon_Mvc_Collection, unserialize){
 
-	zval *data, *attributes, *dependency_injector;
+	zval *data, *attributes, *dependency_injector = NULL;
 	zval *service, *manager, *value = NULL, *key = NULL;
 	HashTable *ah0;
 	HashPosition hp0;
@@ -2155,7 +2153,6 @@ PHP_METHOD(Phalcon_Mvc_Collection, unserialize){
 			/** 
 			 * Obtain the default DI
 			 */
-			PHALCON_OBS_VAR(dependency_injector);
 			PHALCON_CALL_CE_STATIC(&dependency_injector, phalcon_di_ce, "getdefault");
 	
 			if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {

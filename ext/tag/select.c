@@ -76,7 +76,7 @@ PHP_METHOD(Phalcon_Tag_Select, selectField){
 	zval *parameters, *data = NULL, *params = NULL, *id = NULL, *name, *value = NULL;
 	zval *use_empty = NULL, *empty_value = NULL, *empty_text = NULL, *code;
 	zval *close_option, *options = NULL, *using = NULL;
-	zval *resultset_options, *array_options;
+	zval *resultset_options = NULL, *array_options = NULL;
 
 	PHALCON_MM_GROW();
 
@@ -122,10 +122,10 @@ PHP_METHOD(Phalcon_Tag_Select, selectField){
 		}
 	}
 	
-	PHALCON_OBS_VAR(value);
 	if (!phalcon_array_isset_string(params, SS("value"))) {
 		PHALCON_CALL_CE_STATIC(&value, phalcon_tag_ce, "getvalue", id, params);
 	} else {
+		PHALCON_OBS_VAR(value);
 		phalcon_array_fetch_string(&value, params, SL("value"), PH_NOISY);
 		phalcon_array_unset_string(&params, SS("value"), PH_SEPARATE);
 	}
@@ -203,14 +203,12 @@ PHP_METHOD(Phalcon_Tag_Select, selectField){
 		/** 
 		 * Create the SELECT's option from a resultset
 		 */
-		PHALCON_OBS_VAR(resultset_options);
 		PHALCON_CALL_SELF(&resultset_options, "_optionsfromresultset", options, using, value, close_option);
 		phalcon_concat_self(&code, resultset_options TSRMLS_CC);
 	} else if (Z_TYPE_P(options) == IS_ARRAY) {
 		/**
 		 * Create the SELECT's option from an array
 		 */
-		PHALCON_OBS_VAR(array_options);
 		PHALCON_CALL_SELF(&array_options, "_optionsfromarray", options, value, close_option);
 		phalcon_concat_self(&code, array_options TSRMLS_CC);
 	} else {
@@ -388,8 +386,6 @@ PHP_METHOD(Phalcon_Tag_Select, _optionsFromArray){
 		if (Z_TYPE_P(option_text) == IS_ARRAY) {
 			phalcon_htmlspecialchars(escaped, option_value, NULL, NULL TSRMLS_CC);
 
-
-			PHALCON_OBSERVE_OR_NULLIFY_VAR(array_options);
 			PHALCON_CALL_SELF(&array_options, "_optionsfromarray", option_text, value, close_option);
 
 			PHALCON_SCONCAT_SVSVS(code, "\t<optgroup label=\"", escaped, "\">" PHP_EOL, array_options, "\t</optgroup>" PHP_EOL);
@@ -419,4 +415,3 @@ PHP_METHOD(Phalcon_Tag_Select, _optionsFromArray){
 	
 	RETURN_CTOR(code);
 }
-

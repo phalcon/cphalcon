@@ -719,7 +719,7 @@ PHP_METHOD(Phalcon_Forms_Element, getDefault){
  */
 PHP_METHOD(Phalcon_Forms_Element, getValue){
 
-	zval *name, *value = NULL, *form, *has_default_value;
+	zval *name, *value = NULL, *form, *has_default_value = NULL;
 
 	PHALCON_MM_GROW();
 
@@ -734,7 +734,6 @@ PHP_METHOD(Phalcon_Forms_Element, getValue){
 		/** 
 		 * Check if the tag has a default value
 		 */
-		PHALCON_OBS_VAR(has_default_value);
 		PHALCON_CALL_CE_STATIC(&has_default_value, phalcon_tag_ce, "hasvalue", name);
 		if (!zend_is_true(has_default_value)) {
 			/** 
@@ -866,15 +865,11 @@ PHP_METHOD(Phalcon_Forms_Element, appendMessage){
  *
  * @return Phalcon\Forms\Element
  */
-PHP_METHOD(Phalcon_Forms_Element, clear){
-
-	zval *name;
-
-	PHALCON_MM_GROW();
-
-	name = phalcon_fetch_nproperty_this(this_ptr, SL("_name"), PH_NOISY TSRMLS_CC);
-	PHALCON_CALL_CE_STATIC(NULL, phalcon_tag_ce, "setdefault", name, PHALCON_GLOBAL(z_null));
-	RETURN_THIS();
+PHP_METHOD(Phalcon_Forms_Element, clear)
+{
+	zval *name = phalcon_fetch_nproperty_this(this_ptr, SL("_name"), PH_NOISY TSRMLS_CC);
+	PHALCON_CALL_CE_STATICW(NULL, phalcon_tag_ce, "setdefault", name, PHALCON_GLOBAL(z_null));
+	RETURN_THISW();
 }
 
 /**
