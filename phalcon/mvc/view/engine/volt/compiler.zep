@@ -330,7 +330,7 @@ class Compiler implements \Phalcon\Di\InjectionAwareInterface
 		 * The user could use a closure generator
 		 */
 		if typeof prefix == "object" {
-			if prefix instanceof Closure {
+			if prefix instanceof \Closure {
 				let calculatedPrefix = call_user_func_array(prefix, [this]),
 					this->_prefix = calculatedPrefix,
 					prefix = calculatedPrefix;
@@ -485,7 +485,7 @@ class Compiler implements \Phalcon\Di\InjectionAwareInterface
 					 */
 					if typeof definition == "object" {
 
-						if definition instanceof "Closure" {
+						if definition instanceof \Closure {
 							return call_user_func_array(definition, [arguments, funcArguments]);
 						}
 					}
@@ -857,7 +857,7 @@ class Compiler implements \Phalcon\Di\InjectionAwareInterface
 				 * The definition is a closure
 				 */
 				if typeof definition == "object" {
-					if definition instanceof Closure {
+					if definition instanceof \Closure {
 						return call_user_func_array(definition, [arguments, funcArguments]);
 					}
 				}
@@ -2582,7 +2582,7 @@ class Compiler implements \Phalcon\Di\InjectionAwareInterface
 			 */
 			if typeof compiledPath == "object" {
 
-				if compiledPath instanceof Closure {
+				if compiledPath instanceof \Closure {
 
 					let compiledTemplatePath = call_user_func_array(compiledPath, [templatePath, options, extendsMode]);
 

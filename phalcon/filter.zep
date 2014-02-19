@@ -121,7 +121,7 @@ class Filter implements \Phalcon\FilterInterface
 			/**
 			 * If the filter is a closure we call it in the PHP userland
 			 */
-			if filterObject instanceof Closure {
+			if filterObject instanceof \Closure {
 				return call_user_func_array(filterObject, [value]);
 			}
 

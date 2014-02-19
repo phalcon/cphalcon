@@ -284,7 +284,7 @@ class Application extends \Phalcon\Di\Injectable
 				/**
 				 * A module definition object, can be a Closure instance
 				 */
-				if module instanceof "Closure" {
+				if module instanceof \Closure {
 					let moduleObject = call_user_func_array(module, [dependencyInjector]);
 				} else {
 					throw new \Phalcon\Mvc\Application\Exception("Invalid module definition");
