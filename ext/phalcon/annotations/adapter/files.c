@@ -16,7 +16,6 @@
 #include "kernel/object.h"
 #include "kernel/memory.h"
 #include "kernel/concat.h"
-#include "kernel/fcall.h"
 #include "kernel/file.h"
 #include "kernel/require.h"
 #include "kernel/operators.h"
@@ -95,7 +94,7 @@ PHP_METHOD(Phalcon_Annotations_Adapter_Files, __construct) {
  */
 PHP_METHOD(Phalcon_Annotations_Adapter_Files, read) {
 
-	zval *key_param = NULL, *path, *_0, *_1, *_2;
+	zval *key_param = NULL, *path, *_0, *_1, _2;
 	zval *key = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -106,11 +105,11 @@ PHP_METHOD(Phalcon_Annotations_Adapter_Files, read) {
 
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_annotationsDir"), PH_NOISY_CC);
 	ZEPHIR_INIT_VAR(_1);
-	ZVAL_STRING(_1, "_", 1);
-	ZEPHIR_INIT_VAR(_2);
-	zephir_call_func_p2(_2, "prepare_virtual_path", key, _1);
+	ZEPHIR_SINIT_VAR(_2);
+	ZVAL_STRING(&_2, "_", 0);
+	zephir_prepare_virtual_path(_1, key, &_2 TSRMLS_CC);
 	ZEPHIR_INIT_VAR(path);
-	ZEPHIR_CONCAT_VVS(path, _0, _2, ".php");
+	ZEPHIR_CONCAT_VVS(path, _0, _1, ".php");
 	if ((zephir_file_exists(path TSRMLS_CC) == SUCCESS)) {
 		if (zephir_require_ret(return_value, path TSRMLS_CC) == FAILURE) {
 			RETURN_MM_NULL();
@@ -129,7 +128,7 @@ PHP_METHOD(Phalcon_Annotations_Adapter_Files, read) {
  */
 PHP_METHOD(Phalcon_Annotations_Adapter_Files, write) {
 
-	zval *key_param = NULL, *data, *path, *_0, *_1, *_2, *_3, *_4;
+	zval *key_param = NULL, *data, *path, *_0, *_1, _2, *_3, *_4, *_5;
 	zval *key = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -154,18 +153,18 @@ PHP_METHOD(Phalcon_Annotations_Adapter_Files, write) {
 	}
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_annotationsDir"), PH_NOISY_CC);
 	ZEPHIR_INIT_VAR(_1);
-	ZVAL_STRING(_1, "_", 1);
-	ZEPHIR_INIT_VAR(_2);
-	zephir_call_func_p2(_2, "prepare_virtual_path", key, _1);
+	ZEPHIR_SINIT_VAR(_2);
+	ZVAL_STRING(&_2, "_", 0);
+	zephir_prepare_virtual_path(_1, key, &_2 TSRMLS_CC);
 	ZEPHIR_INIT_VAR(path);
-	ZEPHIR_CONCAT_VVS(path, _0, _2, ".php");
-	ZEPHIR_INIT_BNVAR(_1);
+	ZEPHIR_CONCAT_VVS(path, _0, _1, ".php");
 	ZEPHIR_INIT_VAR(_3);
-	zephir_var_export_ex(_3, &(data) TSRMLS_CC);
 	ZEPHIR_INIT_VAR(_4);
-	ZEPHIR_CONCAT_SVS(_4, "<?php return ", _3, "; ");
-	zephir_file_put_contents(_1, path, _4 TSRMLS_CC);
-	if (ZEPHIR_IS_FALSE(_1)) {
+	zephir_var_export_ex(_4, &(data) TSRMLS_CC);
+	ZEPHIR_INIT_VAR(_5);
+	ZEPHIR_CONCAT_SVS(_5, "<?php return ", _4, "; ");
+	zephir_file_put_contents(_3, path, _5 TSRMLS_CC);
+	if (ZEPHIR_IS_FALSE(_3)) {
 		ZEPHIR_THROW_EXCEPTION_STR(phalcon_annotations_exception_ce, "Annotations directory cannot be written");
 		return;
 	}

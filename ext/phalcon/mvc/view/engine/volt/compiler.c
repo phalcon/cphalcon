@@ -2942,7 +2942,6 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compile) {
 			ZEPHIR_INIT_VAR(realTemplatePath);
 			zephir_call_func_p1(realTemplatePath, "realpath", templatePath);
 			ZEPHIR_INIT_VAR(templateSepPath);
-			zephir_call_func_p1(templateSepPath, "md5", realTemplatePath);
 		} else {
 			ZEPHIR_CPY_WRT(templateSepPath, templatePath);
 		}

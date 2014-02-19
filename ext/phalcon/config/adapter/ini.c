@@ -12,10 +12,15 @@
 #include <Zend/zend_interfaces.h>
 
 #include "kernel/main.h"
-#include "kernel/fcall.h"
 #include "kernel/memory.h"
-#include "ext/spl/spl_exceptions.h"
+#include "kernel/fcall.h"
+#include "kernel/operators.h"
 #include "kernel/exception.h"
+#include "kernel/concat.h"
+#include "kernel/hash.h"
+#include "kernel/string.h"
+#include "kernel/array.h"
+#include "ext/spl/spl_exceptions.h"
 
 
 /*
@@ -50,7 +55,9 @@ ZEPHIR_INIT_CLASS(Phalcon_Config_Adapter_Ini) {
  */
 PHP_METHOD(Phalcon_Config_Adapter_Ini, __construct) {
 
-	zval *filePath_param = NULL, *_0;
+	HashTable *_4, *_7;
+	HashPosition _3, _6;
+	zval *filePath_param = NULL, *config, *iniConfig, *section = NULL, *directives = NULL, *directiveParts = NULL, *key = NULL, *value = NULL, *_0, *_1, *_2, **_5, **_8, *_9, *_10;
 	zval *filePath = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -69,9 +76,48 @@ PHP_METHOD(Phalcon_Config_Adapter_Ini, __construct) {
 	}
 
 
-	ZEPHIR_INIT_VAR(_0);
-	zephir_call_func_p2(_0, "parse_ini_file", filePath, ZEPHIR_GLOBAL(global_true));
-	zephir_call_parent_p1_noret(this_ptr, phalcon_config_adapter_ini_ce, "__construct", _0);
+	ZEPHIR_INIT_VAR(config);
+	array_init(config);
+	ZEPHIR_INIT_VAR(iniConfig);
+	zephir_call_func_p2(iniConfig, "parse_ini_file", filePath, ZEPHIR_GLOBAL(global_true));
+	if (ZEPHIR_IS_FALSE(iniConfig)) {
+		ZEPHIR_INIT_VAR(_0);
+		object_init_ex(_0, phalcon_config_exception_ce);
+		ZEPHIR_INIT_VAR(_1);
+		zephir_call_func_p1(_1, "basename", filePath);
+		ZEPHIR_INIT_VAR(_2);
+		ZEPHIR_CONCAT_SVS(_2, "Configuration file ", _1, " can't be loaded");
+		zephir_call_method_p1_noret(_0, "__construct", _2);
+		zephir_throw_exception(_0 TSRMLS_CC);
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
+	zephir_is_iterable(iniConfig, &_4, &_3, 0, 0);
+	for (
+	  ; zephir_hash_get_current_data_ex(_4, (void**) &_5, &_3) == SUCCESS
+	  ; zephir_hash_move_forward_ex(_4, &_3)
+	) {
+		ZEPHIR_GET_HMKEY(section, _4, _3);
+		ZEPHIR_GET_HVALUE(directives, _5);
+		zephir_is_iterable(directives, &_7, &_6, 0, 0);
+		for (
+		  ; zephir_hash_get_current_data_ex(_7, (void**) &_8, &_6) == SUCCESS
+		  ; zephir_hash_move_forward_ex(_7, &_6)
+		) {
+			ZEPHIR_GET_HMKEY(key, _7, _6);
+			ZEPHIR_GET_HVALUE(value, _8);
+			if (zephir_memnstr_str(key, SL("."), "phalcon/config/adapter/ini.zep", 43)) {
+				ZEPHIR_INIT_NVAR(directiveParts);
+				zephir_fast_explode_str(directiveParts, SL("."), key, LONG_MAX TSRMLS_CC);
+				zephir_array_fetch_long(&_9, directiveParts, 0, PH_NOISY | PH_READONLY TSRMLS_CC);
+				zephir_array_fetch_long(&_10, directiveParts, 1, PH_NOISY | PH_READONLY TSRMLS_CC);
+				zephir_array_update_multi(&config, &value TSRMLS_CC, SL("zzz"), 3, section, _9, _10);
+			} else {
+				zephir_array_update_multi(&config, &value TSRMLS_CC, SL("zz"), 2, section, key);
+			}
+		}
+	}
+	zephir_call_parent_p1_noret(this_ptr, phalcon_config_adapter_ini_ce, "__construct", config);
 	ZEPHIR_MM_RESTORE();
 
 }
