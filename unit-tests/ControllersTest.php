@@ -39,7 +39,9 @@ class ControllersTest extends PHPUnit_Framework_TestCase
 			return new Phalcon\Filter();
 		});
 
-		require 'unit-tests/controllers/Test4Controller.php';
+		if (!class_exists('Test4Controller', false)) {
+			require __DIR__ . '/controllers/Test4Controller.php';
+		}
 
 		$controller = new Test4Controller();
 		$controller->setDI($di);
@@ -51,7 +53,6 @@ class ControllersTest extends PHPUnit_Framework_TestCase
 
 		$controller->viewAction();
 		$this->assertEquals(count($view->getParamsToView()), 1);
-
 	}
 
 }

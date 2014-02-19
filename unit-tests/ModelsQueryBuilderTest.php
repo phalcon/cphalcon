@@ -266,6 +266,7 @@ class ModelsQueryBuilderTest extends PHPUnit_Framework_TestCase
 
 	public function testIssue701()
 	{
+		require 'unit-tests/config.db.php';
 		if (empty($configMysql)) {
 			$this->markTestSkipped("Test skipped");
 			return;
@@ -295,6 +296,7 @@ class ModelsQueryBuilderTest extends PHPUnit_Framework_TestCase
 
 	public function testIssue1115()
 	{
+		require 'unit-tests/config.db.php';
 		if (empty($configMysql)) {
 			$this->markTestSkipped("Test skipped");
 			return;
@@ -313,6 +315,7 @@ class ModelsQueryBuilderTest extends PHPUnit_Framework_TestCase
 
 	public function testSelectDistinctAll()
 	{
+		require 'unit-tests/config.db.php';
 		if (empty($configMysql)) {
 			$this->markTestSkipped("Test skipped");
 			return;

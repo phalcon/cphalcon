@@ -47,6 +47,20 @@ class ViewAfterRenderListener
 
 class ViewTest extends PHPUnit_Framework_TestCase
 {
+	private $level;
+
+	public function setUp()
+	{
+		$this->level = ob_get_level();
+	}
+
+	public function tearDown()
+	{
+		while (ob_get_level() > $this->level) {
+			ob_end_flush();
+		}
+	}
+
 	public function testSettersAndGetters()
 	{
 		$view = new View();

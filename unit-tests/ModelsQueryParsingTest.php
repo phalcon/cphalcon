@@ -65,6 +65,9 @@ class ModelsQueryParsingTest extends PHPUnit_Framework_TestCase
 		return $di;
 	}
 
+	/**
+	 * @medium
+	 */
 	public function testSelectParsing()
 	{
 		require 'unit-tests/config.db.php';

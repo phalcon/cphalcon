@@ -21,6 +21,9 @@
 class ImageTest extends PHPUnit_Framework_TestCase
 {
 
+	/**
+	 * @medium
+	 */
 	public function testGD()
 	{
 		if (!function_exists('gd_info')) {
@@ -158,6 +161,9 @@ class ImageTest extends PHPUnit_Framework_TestCase
 		//$data = $image->render('png');
 	}
 
+	/**
+	 * @medium
+	 */
 	public function testImagick()
 	{
 		if (!class_exists('imagick')) {

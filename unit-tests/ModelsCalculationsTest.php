@@ -56,6 +56,9 @@ class ModelsCalculationsTest extends PHPUnit_Framework_TestCase
 		return $di;
 	}
 
+	/**
+	 * @medium
+	 */
 	public function testCalculationsMysql()
 	{
 		require 'unit-tests/config.db.php';
@@ -76,6 +79,9 @@ class ModelsCalculationsTest extends PHPUnit_Framework_TestCase
 
 	}
 
+	/**
+	 * @medium
+	 */
 	public function testCalculationsPostgresql()
 	{
 		require 'unit-tests/config.db.php';
@@ -96,6 +102,9 @@ class ModelsCalculationsTest extends PHPUnit_Framework_TestCase
 
 	}
 
+	/**
+	 * @medium
+	 */
 	public function testCalculationsSqlite()
 	{
 		require 'unit-tests/config.db.php';

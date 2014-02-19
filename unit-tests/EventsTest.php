@@ -195,6 +195,7 @@ class EventsTest extends PHPUnit_Framework_TestCase
 	public function testEventsWeakref()
 	{
 		if (!class_exists('WeakRef')) {
+			$this->markTestSkipped('weakref extension is required');
 			return;
 		}
 
