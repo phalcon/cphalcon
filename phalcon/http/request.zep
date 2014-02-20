@@ -157,14 +157,14 @@ class Request implements \Phalcon\Http\RequestInterface, \Phalcon\Di\InjectionAw
 	/**
 	 * Gets variable from $_GET superglobal applying filters if needed
 	 * If no parameters are given the $_GET superglobal is returned
-     *
+	 *
 	 *<code>
 	 *	//Returns value from $_GET["id"] without sanitizing
 	 *	$id = $request->getQuery("id");
 	 *
 	 *	//Returns value from $_GET["id"] with sanitizing
 	 *	$id = $request->getQuery("id", "int");
-     *
+	 *
 	 *	//Returns value from $_GET["id"] with a default value
 	 *	$id = $request->getQuery("id", null, 150);
 	 *</code>
@@ -632,25 +632,57 @@ class Request implements \Phalcon\Http\RequestInterface, \Phalcon\Di\InjectionAw
 	 *
 	 * @return boolean
 	 */
-	public function hasFiles(boolean notErrored=false) -> boolean
+	public function hasFiles(boolean onlySuccessful=false) -> long
 	{
 		var files, file, error;
 		int numberFiles = 0;
 
 		let files = _FILES;
-		if notErrored {
-			return count(files) > 0;
-		} else {
-			for file in files {
-				if !fetch error, file["error"] {
-					let error = true;
+
+		if typeof files != "array" {
+			return 0;
+		}
+
+		for file in files {
+			if fetch error, file["error"] {
+
+				if typeof error != "array" {
+					if error != true || !onlySuccessful {
+						let numberFiles++;
+					}
 				}
-				if !error {
-					let numberFiles++;
+
+				if typeof error == "array" {
+					let numberFiles += this->hasFileHelper(error, onlySuccessful);
 				}
 			}
 		}
-		return numberFiles > 0;
+
+		return numberFiles;
+	}
+
+	private function hasFileHelper(data, boolean onlySuccessful) -> long
+	{
+		var value;
+		int numberFiles = 0;
+
+		if typeof data != "array" {
+			return 1;
+		}
+
+		for value in data {
+			if typeof value != "array" {
+				if value != true || !onlySuccessful {
+					let numberFiles++;
+				}
+			}
+
+			if typeof value == "array" {
+				let numberFiles += this->hasFileHelper(value, onlySuccessful);
+			}
+		}
+
+		return numberFiles;
 	}
 
 	/**

@@ -36,8 +36,8 @@ class RequestTest extends PHPUnit_Framework_TestCase
 			)
 		);
 
-		$this->assertEquals($request->hasFiles(false), 1);
-		$this->assertEquals($request->hasFiles(true), 1);
+		$this->assertEquals(1, $request->hasFiles(false));
+		$this->assertEquals(1, $request->hasFiles(true));
 
 		$_FILES = array(
 			'test' => array(
@@ -49,8 +49,8 @@ class RequestTest extends PHPUnit_Framework_TestCase
 			)
 		);
 
-		$this->assertEquals($request->hasFiles(false), 2);
-		$this->assertEquals($request->hasFiles(true), 2);
+		$this->assertEquals(2, $request->hasFiles(false));
+		$this->assertEquals(2, $request->hasFiles(true));
 
 		$_FILES = array (
 			'photo' => array(
@@ -144,8 +144,8 @@ class RequestTest extends PHPUnit_Framework_TestCase
 			),
 		);
 
-		$this->assertEquals($request->hasFiles(false), 9);
-		$this->assertEquals($request->hasFiles(true), 0);
+		$this->assertEquals(9, $request->hasFiles(false));
+		$this->assertEquals(0, $request->hasFiles(true));
 	}
 
 	public function testGetUploadedFiles()

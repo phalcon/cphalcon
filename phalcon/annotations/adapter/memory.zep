@@ -24,7 +24,7 @@ namespace Phalcon\Annotations\Adapter;
 *
 * Stores the parsed annotations in memory. This adapter is the suitable development/testing
 */
-class Memory
+class Memory extends \Phalcon\Annotations\Adapter implements \Phalcon\Annotations\AdapterInterface
 {
 	/**
 	* Data

@@ -211,4 +211,14 @@ class Annotation
 		}
 	}
 
+	/**
+	 * Returns a named parameter
+	 *
+	 * @param string name
+	 * @return mixed
+	 */
+	public function getNamedParameter(string! name)
+	{
+		return this->getNamedArgument(name);
+	}
 }
