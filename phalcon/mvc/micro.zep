@@ -69,7 +69,7 @@ class Micro extends \Phalcon\Di\Injectable //implements ArrayAccess
 	public function __construct(<\Phalcon\DiInterface> dependencyInjector=null)
 	{
 		if typeof dependencyInjector == "object" {
-			if dependencyInjector instanceof Phalcon\DiInterface {
+			if dependencyInjector instanceof \Phalcon\DiInterface {
 				this->setDi(dependencyInjector);
 			}
 		}
@@ -655,7 +655,7 @@ class Micro extends \Phalcon\Di\Injectable //implements ArrayAccess
 				for before in beforeHandlers {
 
 					if typeof before == "object" {
-						if before instanceof Phalcon\Mvc\Micro\MiddlewareInterface {
+						if before instanceof \Phalcon\Mvc\Micro\MiddlewareInterface {
 
 							/**
 							 * Call the middleware
@@ -723,7 +723,7 @@ class Micro extends \Phalcon\Di\Injectable //implements ArrayAccess
 				for after in afterHandlers {
 
 					if typeof after == "object" {
-						if after instanceof Phalcon\Mvc\Micro\MiddlewareInterface {
+						if after instanceof \Phalcon\Mvc\Micro\MiddlewareInterface {
 
 							/**
 							 * Call the middleware
@@ -806,7 +806,7 @@ class Micro extends \Phalcon\Di\Injectable //implements ArrayAccess
 				 */
 				if typeof finish == "object" {
 
-					if finish instanceof Phalcon\Mvc\Micro\MiddlewareInterface {
+					if finish instanceof \Phalcon\Mvc\Micro\MiddlewareInterface {
 
 						/**
 						 * Call the middleware
@@ -850,7 +850,7 @@ class Micro extends \Phalcon\Di\Injectable //implements ArrayAccess
 		 * Check if the returned object is already a response
 		 */
 		if typeof returnedValue == "object" {
-			if returnedValue instanceof Phalcon\Http\ResponseInterface {
+			if returnedValue instanceof \Phalcon\Http\ResponseInterface {
 				/**
 				 * Automatically send the responses
 				 */
