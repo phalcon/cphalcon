@@ -227,9 +227,9 @@ class Annotations extends \Phalcon\Mvc\Router
 	 * Checks for annotations in the controller docblock
 	 *
 	 * @param string handler
-	 * @param Phalcon\Annotations\AdapterInterface
+	 * @param Phalcon\Annotations\Annotation
 	 */
-	public function processControllerAnnotation(string! handler, <\Phalcon\Annotations\AdapterInterface> annotation)
+	public function processControllerAnnotation(string! handler, <\Phalcon\Annotations\Annotation> annotation)
 	{
 		/**
 		 * @RoutePrefix add a prefix for all the routes defined in the model

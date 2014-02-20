@@ -28,7 +28,7 @@ namespace Phalcon\Annotations\Adapter;
  * $annotations = new \Phalcon\Annotations\Adapter\Apc();
  *</code>
  */
-class Apc extends \Phalcon\Annotations\Annotation
+class Apc extends \Phalcon\Annotations\Adapter implements \Phalcon\Annotations\AdapterInterface
 {
 
 	/**

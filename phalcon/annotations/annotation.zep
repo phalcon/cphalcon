@@ -24,7 +24,7 @@ namespace Phalcon\Annotations;
 *
 * Represents a single annotation in an annotations collection
 */
-class Annotation extends \Phalcon\Annotations\Adapter
+class Annotation
 {
 
 	/**
