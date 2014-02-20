@@ -24,7 +24,7 @@ namespace Phalcon\Validation;
  *
  * Encapsulates validation info generated in the validation process
  */
-class Message
+class Message implements \Phalcon\Validation\MessageInterface
 {
 
 	protected _type;
@@ -50,7 +50,7 @@ class Message
 	/**
 	 * Sets message type
 	 *
-	 * @param string $type
+	 * @param string type
 	 * @return Phalcon\Validation\Message
 	 */
 	public function setType(string! type) -> <\Phalcon\Validation\Message>
@@ -126,7 +126,7 @@ class Message
 	/**
 	 * Magic __set_state helps to recover messsages from serialization
 	 *
-	 * @param  array message
+	 * @param array message
 	 * @return Phalcon\Validation\Message
 	 */
 	public static function __set_state(message) -> <\Phalcon\Validation\Message>

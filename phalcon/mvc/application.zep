@@ -350,7 +350,7 @@ class Application extends \Phalcon\Di\Injectable
 			/**
 			 * Check if the returned object is already a response
 			 */
-			let returnedResponse = possibleResponse instanceof Phalcon\Http\ResponseInterface;
+			let returnedResponse = possibleResponse instanceof \Phalcon\Http\ResponseInterface;
 		} else {
 			let returnedResponse = false;
 		}
