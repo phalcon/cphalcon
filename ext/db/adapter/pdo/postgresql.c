@@ -113,11 +113,13 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Postgresql, connect){
 		phalcon_read_property_this(&descriptor, this_ptr, SL("_descriptor"), PH_NOISY TSRMLS_CC);
 	}
 	
-	PHALCON_INIT_VAR(schema);
 	if (phalcon_array_isset_string(descriptor, SS("schema"))) {
-		PHALCON_OBS_NVAR(schema);
+		PHALCON_OBS_VAR(schema);
 		phalcon_array_fetch_string(&schema, descriptor, SL("schema"), PH_NOISY);
 		phalcon_array_unset_string(&descriptor, SS("schema"), PH_SEPARATE);
+	}
+	else {
+		PHALCON_INIT_VAR(schema);
 	}
 
 	if (phalcon_array_isset_string_fetch(&password, descriptor, SS("password"))) {
@@ -129,9 +131,10 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Postgresql, connect){
 		 * To avoid this we set the password to null
 		 */
 		if (Z_TYPE_P(password) == IS_STRING && Z_STRLEN_P(password) == 0) {
-			phalcon_array_update_string(&descriptor, SL("password"), PHALCON_GLOBAL(z_null), PH_SEPARATE);
+			phalcon_array_update_string(&descriptor, SL("password"), PHALCON_GLOBAL(z_null), PH_SEPARATE | PH_COPY);
 		}
 	}
+
 	
 	PHALCON_CALL_PARENT(NULL, phalcon_db_adapter_pdo_postgresql_ce, this_ptr, "connect", descriptor);
 	
@@ -433,4 +436,3 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Postgresql, supportSequences){
 
 	RETURN_TRUE;
 }
-

@@ -1499,9 +1499,11 @@ PHP_METHOD(Phalcon_Mvc_Collection, save){
 	 * Save the document
 	 */
 	call_user_function(NULL, &collection, &func, status, 2, params TSRMLS_CC);
-
 	zval_ptr_dtor(&options);
-	zval_ptr_dtor(&data);
+	if (EG(exception)) {
+		zval_ptr_dtor(&data);
+		RETURN_MM();
+	}
 
 	PHALCON_INIT_NVAR(success);
 	ZVAL_FALSE(success);
@@ -1514,6 +1516,8 @@ PHP_METHOD(Phalcon_Mvc_Collection, save){
 			}
 		}
 	}
+
+	zval_ptr_dtor(&data);
 	
 	/** 
 	 * Call the postSave hooks

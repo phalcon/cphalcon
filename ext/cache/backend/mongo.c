@@ -295,7 +295,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Mongo, save){
 	zval *key_name = NULL, *content = NULL, *lifetime = NULL, *stop_buffer = NULL;
 	zval *last_key, *frontend, *cached_content = NULL;
 	zval *prepared_content = NULL, *ttl = NULL, *collection = NULL, *timestamp;
-	zval *conditions, *document, *data, *is_buffering = NULL;
+	zval *conditions, *document = NULL, *data, *is_buffering = NULL;
 
 	PHALCON_MM_GROW();
 

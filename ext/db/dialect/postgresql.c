@@ -111,8 +111,8 @@ PHALCON_INIT_CLASS(Phalcon_Db_Dialect_Postgresql){
  */
 PHP_METHOD(Phalcon_Db_Dialect_Postgresql, getColumnDefinition){
 
-	zval *column, *size, *column_type, *column_sql = NULL;
-	zval *scale;
+	zval *column, *size = NULL, *column_type = NULL, *column_sql = NULL;
+	zval *scale = NULL;
 
 	PHALCON_MM_GROW();
 
@@ -123,59 +123,46 @@ PHP_METHOD(Phalcon_Db_Dialect_Postgresql, getColumnDefinition){
 		return;
 	}
 	
-	PHALCON_INIT_VAR(size);
 	PHALCON_CALL_METHOD(&size, column, "getsize");
-	
-	PHALCON_INIT_VAR(column_type);
 	PHALCON_CALL_METHOD(&column_type, column, "gettype");
-	
+
+	PHALCON_INIT_VAR(column_sql);
 	switch (phalcon_get_intval(column_type)) {
 	
 		case 0:
-			PHALCON_INIT_VAR(column_sql);
 			ZVAL_STRING(column_sql, "INT", 1);
 			break;
 	
 		case 1:
-			PHALCON_INIT_NVAR(column_sql);
 			ZVAL_STRING(column_sql, "DATE", 1);
 			break;
 	
 		case 2:
-			PHALCON_INIT_NVAR(column_sql);
 			PHALCON_CONCAT_SVS(column_sql, "CHARACTER VARYING(", size, ")");
 			break;
 	
 		case 3:
-			PHALCON_INIT_VAR(scale);
 			PHALCON_CALL_METHOD(&scale, column, "getscale");
-	
-			PHALCON_INIT_NVAR(column_sql);
 			PHALCON_CONCAT_SVSVS(column_sql, "NUMERIC(", size, ",", scale, ")");
 			break;
 	
 		case 4:
-			PHALCON_INIT_NVAR(column_sql);
 			ZVAL_STRING(column_sql, "TIMESTAMP", 1);
 			break;
 	
 		case 5:
-			PHALCON_INIT_NVAR(column_sql);
 			PHALCON_CONCAT_SVS(column_sql, "CHARACTER(", size, ")");
 			break;
 	
 		case 6:
-			PHALCON_INIT_NVAR(column_sql);
 			ZVAL_STRING(column_sql, "TEXT", 1);
 			break;
 	
 		case 7:
-			PHALCON_INIT_NVAR(column_sql);
 			ZVAL_STRING(column_sql, "FLOAT", 1);
 			break;
 	
 		case 8:
-			PHALCON_INIT_NVAR(column_sql);
 			ZVAL_STRING(column_sql, "SMALLINT(1)", 1);
 			break;
 	
@@ -407,13 +394,13 @@ PHP_METHOD(Phalcon_Db_Dialect_Postgresql, dropTable){
 		PHALCON_INIT_VAR(table);
 		PHALCON_CONCAT_VSV(table, schema_name, ".", table_name);
 	} else {
-		PHALCON_CPY_WRT(table, table_name);
+		table = table_name;
 	}
+
+	PHALCON_INIT_VAR(sql);
 	if (zend_is_true(if_exists)) {
-		PHALCON_INIT_VAR(sql);
 		PHALCON_CONCAT_SV(sql, "DROP TABLE IF EXISTS ", table);
 	} else {
-		PHALCON_INIT_NVAR(sql);
 		PHALCON_CONCAT_SV(sql, "DROP TABLE ", table);
 	}
 	

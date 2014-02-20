@@ -720,7 +720,6 @@ class CacheTest extends PHPUnit_Framework_TestCase
 
 	public function testDataMongoCache()
 	{
-
 		$ready = $this->_prepareMongo();
 		if (!$ready) {
 			return false;
@@ -732,7 +731,8 @@ class CacheTest extends PHPUnit_Framework_TestCase
 		$collection = $database->caches;
 		$collection->remove();
 
-		$frontCache = new Phalcon\Cache\Frontend\Data();
+		// Travis can be slow, especially when Valgrind is used
+		$frontCache = new Phalcon\Cache\Frontend\Data(array('lifetime' => 900));
 
 		$cache = new Phalcon\Cache\Backend\Mongo($frontCache, array(
 			'mongo' => $mongo,
@@ -756,7 +756,6 @@ class CacheTest extends PHPUnit_Framework_TestCase
 		$this->assertTrue($cache->exists('test-data'));
 
 		$this->assertTrue($cache->delete('test-data'));
-
 	}
 	
 	public function testMongoIncrement()
