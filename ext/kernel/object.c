@@ -1231,7 +1231,7 @@ int zephir_read_static_property_ce(zval **result, zend_class_entry *ce, char *pr
 
 static zval **zephir_std_get_static_property(zend_class_entry *ce, const char *property_name, int property_name_len, zend_bool silent, ulong hash_value, zend_property_info **
 	property_info TSRMLS_DC)
-{	
+{
 	zend_property_info *temp_property_info;
 
 	if (!hash_value) {
@@ -1268,7 +1268,7 @@ static zval **zephir_std_get_static_property(zend_class_entry *ce, const char *p
 		if (property_info) {
 			*property_info = temp_property_info;
 		}
-		
+
 	} else {
 		temp_property_info = *property_info;
 	}
@@ -1279,18 +1279,22 @@ static zval **zephir_std_get_static_property(zend_class_entry *ce, const char *p
 		}
 		return NULL;
 	}
-	
+
 	return &CE_STATIC_MEMBERS(ce)[temp_property_info->offset];
 }
 
-static int zephir_update_static_property_ex(zend_class_entry *scope, const char *name, int name_length, 
+static int zephir_update_static_property_ex(zend_class_entry *scope, const char *name, int name_length,
 	zval *value, zend_property_info **property_info TSRMLS_DC)
 {
 	zval **property;
 	zend_class_entry *old_scope = EG(scope);
 
 	EG(scope) = scope;
+#if PHP_VERSION_ID < 50400
+	property = zend_std_get_static_property(scope, name, name_length, 0 TSRMLS_CC);
+#else
 	property = zephir_std_get_static_property(scope, name, name_length, zend_inline_hash_func(name, name_length), 0, property_info TSRMLS_CC);
+#endif
 	EG(scope) = old_scope;
 
 	if (!property) {
@@ -1324,7 +1328,7 @@ static int zephir_update_static_property_ex(zend_class_entry *scope, const char 
 /**
  * Query a static property value from a zend_class_entry
  */
-int zephir_read_static_property(zval **result, const char *class_name, unsigned int class_length, char *property_name, 
+int zephir_read_static_property(zval **result, const char *class_name, unsigned int class_length, char *property_name,
 	unsigned int property_length TSRMLS_DC){
 	zend_class_entry **ce;
 	if (zend_lookup_class(class_name, class_length, &ce TSRMLS_CC) == SUCCESS) {
