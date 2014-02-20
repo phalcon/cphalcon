@@ -307,6 +307,7 @@
 #include "phalcon/validation/exception.h"
 #include "phalcon/validation/message.h"
 #include "phalcon/validation/message/group.h"
+#include "phalcon/validation/messageinterface.h"
 #include "phalcon/validation/validator.h"
 #include "phalcon/validation/validator/alnum.h"
 #include "phalcon/validation/validator/alpha.h"

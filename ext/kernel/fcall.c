@@ -508,7 +508,7 @@ int zephir_call_internal_method_params(zval *return_value, zval **return_value_p
 	zend_class_entry *calling_scope = NULL;
 	zend_class_entry *called_scope = NULL;
 	va_list va;
-	int i, caller_wants_result;
+	int i, caller_wants_result = 1;
 
 	if (unlikely(Z_TYPE_P(object) != IS_OBJECT)) {
 		php_error_docref(NULL TSRMLS_CC, E_ERROR, "Call to method %s() on a non object", method_name);

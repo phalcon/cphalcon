@@ -282,38 +282,38 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, addInherit) {
 /**
  * Check whether role exist in the roles list
  *
- * @param  string $roleName
+ * @param  string roleName
  * @return boolean
  */
 PHP_METHOD(Phalcon_Acl_Adapter_Memory, isRole) {
 
-	zval *roleName, *rolesNames;
+	zval *roleName, *_0;
 
 	zephir_fetch_params(0, 1, 0, &roleName);
 
 
 
-	rolesNames = zephir_fetch_nproperty_this(this_ptr, SL("_rolesNames"), PH_NOISY_CC);
-	RETURN_BOOL(zephir_array_isset(rolesNames, roleName));
+	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_rolesNames"), PH_NOISY_CC);
+	RETURN_BOOL(zephir_array_isset(_0, roleName));
 
 }
 
 /**
  * Check whether resource exist in the resources list
  *
- * @param  string $resourceName
+ * @param  string resourceName
  * @return boolean
  */
 PHP_METHOD(Phalcon_Acl_Adapter_Memory, isResource) {
 
-	zval *resourceName, *resourcesNames;
+	zval *resourceName, *_0;
 
 	zephir_fetch_params(0, 1, 0, &resourceName);
 
 
 
-	resourcesNames = zephir_fetch_nproperty_this(this_ptr, SL("_resourcesNames"), PH_NOISY_CC);
-	RETURN_BOOL(zephir_array_isset(resourcesNames, resourceName));
+	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_resourcesNames"), PH_NOISY_CC);
+	RETURN_BOOL(zephir_array_isset(_0, resourceName));
 
 }
 

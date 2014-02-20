@@ -282,7 +282,7 @@ PHP_METHOD(Phalcon_Flash, outputMessage) {
 	HashTable *_3;
 	HashPosition _2;
 	zend_bool automaticHtml, implicitFlush;
-	zval *type_param = NULL, *message, *content, *cssClasses = NULL, *classes, *typeClasses, *eol, *msg = NULL, *htmlMessage = NULL, *_0 = NULL, *_1, **_4;
+	zval *type_param = NULL, *message, *content, *cssClasses = NULL, *classes, *typeClasses, *eol = NULL, *msg = NULL, *htmlMessage = NULL, *_0 = NULL, *_1, **_4;
 	zval *type = NULL;
 
 	ZEPHIR_MM_GROW();

@@ -1039,44 +1039,95 @@ PHP_METHOD(Phalcon_Http_Request, isOptions) {
  */
 PHP_METHOD(Phalcon_Http_Request, hasFiles) {
 
+	zend_function *_5 = NULL;
 	HashTable *_1;
 	HashPosition _0;
 	int numberFiles = 0;
-	zval *notErrored_param = NULL, *files = NULL, *file = NULL, *error = NULL, *_FILES, **_2;
-	zend_bool notErrored;
+	zval *onlySuccessful_param = NULL, *files = NULL, *file = NULL, *error = NULL, *_FILES, **_2, *_4 = NULL;
+	zend_bool onlySuccessful, _3;
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 0, 1, &notErrored_param);
+	zephir_fetch_params(1, 0, 1, &onlySuccessful_param);
 
-	if (!notErrored_param) {
-		notErrored = 0;
+	if (!onlySuccessful_param) {
+		onlySuccessful = 0;
 	} else {
-		notErrored = zephir_get_boolval(notErrored_param);
+		onlySuccessful = zephir_get_boolval(onlySuccessful_param);
 	}
 
 
 	zephir_get_global(&_FILES, SS("_FILES") TSRMLS_CC);
 	ZEPHIR_CPY_WRT(files, _FILES);
-	if (notErrored) {
-		RETURN_MM_BOOL((zephir_fast_count_int(files TSRMLS_CC) > 0));
-	} else {
-		zephir_is_iterable(files, &_1, &_0, 0, 0);
-		for (
-		  ; zephir_hash_get_current_data_ex(_1, (void**) &_2, &_0) == SUCCESS
-		  ; zephir_hash_move_forward_ex(_1, &_0)
-		) {
-			ZEPHIR_GET_HVALUE(file, _2);
-			ZEPHIR_OBS_NVAR(error);
-			if (!(zephir_array_isset_string_fetch(&error, file, SS("error"), 0 TSRMLS_CC))) {
-				ZEPHIR_INIT_NVAR(error);
-				ZVAL_BOOL(error, 1);
+	if ((Z_TYPE_P(files) != IS_ARRAY)) {
+		RETURN_MM_LONG(0);
+	}
+	zephir_is_iterable(files, &_1, &_0, 0, 0);
+	for (
+	  ; zephir_hash_get_current_data_ex(_1, (void**) &_2, &_0) == SUCCESS
+	  ; zephir_hash_move_forward_ex(_1, &_0)
+	) {
+		ZEPHIR_GET_HVALUE(file, _2);
+		ZEPHIR_OBS_NVAR(error);
+		if (zephir_array_isset_string_fetch(&error, file, SS("error"), 0 TSRMLS_CC)) {
+			if ((Z_TYPE_P(error) != IS_ARRAY)) {
+				_3 = !ZEPHIR_IS_TRUE(error);
+				if (!(_3)) {
+					_3 = !onlySuccessful;
+				}
+				if (_3) {
+					numberFiles++;
+				}
 			}
-			if (!(zephir_is_true(error))) {
-				numberFiles++;
+			if ((Z_TYPE_P(error) == IS_ARRAY)) {
+				ZEPHIR_INIT_NVAR(_4);
+				zephir_call_method_p2_cache(_4, this_ptr, "hasfilehelper", &_5, error, (onlySuccessful ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false)));
+				numberFiles += zephir_get_numberval(_4);
 			}
 		}
 	}
-	RETURN_MM_BOOL((numberFiles > 0));
+	RETURN_MM_LONG(numberFiles);
+
+}
+
+PHP_METHOD(Phalcon_Http_Request, hasFileHelper) {
+
+	HashTable *_1;
+	HashPosition _0;
+	int numberFiles = 0;
+	zend_bool onlySuccessful, _3;
+	zval *data, *onlySuccessful_param = NULL, *value = NULL, **_2, *_4 = NULL;
+
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 2, 0, &data, &onlySuccessful_param);
+
+	onlySuccessful = zephir_get_boolval(onlySuccessful_param);
+
+
+	if ((Z_TYPE_P(data) != IS_ARRAY)) {
+		RETURN_MM_LONG(1);
+	}
+	zephir_is_iterable(data, &_1, &_0, 0, 0);
+	for (
+	  ; zephir_hash_get_current_data_ex(_1, (void**) &_2, &_0) == SUCCESS
+	  ; zephir_hash_move_forward_ex(_1, &_0)
+	) {
+		ZEPHIR_GET_HVALUE(value, _2);
+		if ((Z_TYPE_P(value) != IS_ARRAY)) {
+			_3 = !ZEPHIR_IS_TRUE(value);
+			if (!(_3)) {
+				_3 = !onlySuccessful;
+			}
+			if (_3) {
+				numberFiles++;
+			}
+		}
+		if ((Z_TYPE_P(value) == IS_ARRAY)) {
+			ZEPHIR_INIT_NVAR(_4);
+			zephir_call_internal_method_p2(_4, this_ptr, "hasfilehelper", ZEND_MN(Phalcon_Http_Request_hasFileHelper), value, (onlySuccessful ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false)));
+			numberFiles += zephir_get_numberval(_4);
+		}
+	}
+	RETURN_MM_LONG(numberFiles);
 
 }
 

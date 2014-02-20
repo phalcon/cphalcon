@@ -524,16 +524,61 @@ int zephir_read_property_this(zval **result, zval *object, char *property_name, 
  */
 int zephir_read_property_this_quick(zval **result, zval *object, char *property_name, unsigned int property_length, unsigned long key, int flags TSRMLS_DC) {
 
-	zval *tmp = zephir_fetch_property_this_quick(object, property_name, property_length, key, flags TSRMLS_CC);
-	if (likely(tmp != NULL)) {
-		*result = tmp;
-		Z_ADDREF_PP(result);
-		return SUCCESS;
+	zval *property;
+	zend_class_entry *ce, *old_scope;
+
+	if (Z_TYPE_P(object) != IS_OBJECT) {
+
+		if ((flags & PH_NOISY) == PH_NOISY) {
+			php_error_docref(NULL TSRMLS_CC, E_NOTICE, "Trying to get property of non-object");
+		}
+
+		*result = ZEPHIR_GLOBAL(global_null);
+		Z_ADDREF_P(*result);
+		return FAILURE;
 	}
 
-	*result = ZEPHIR_GLOBAL(global_null);
-	Z_ADDREF_P(*result);
-	return FAILURE;
+	ce = Z_OBJCE_P(object);
+	if (ce->parent) {
+		ce = zephir_lookup_class_ce(ce, property_name, property_length TSRMLS_CC);
+	}
+
+	old_scope = EG(scope);
+	EG(scope) = ce;
+
+	if (!Z_OBJ_HT_P(object)->read_property) {
+#if PHP_VERSION_ID < 50400
+		char *class_name;
+#else
+		const char *class_name;
+#endif
+		zend_uint class_name_len;
+
+		zend_get_object_classname(object, &class_name, &class_name_len TSRMLS_CC);
+		zend_error(E_CORE_ERROR, "Property %s of class %s cannot be read", property_name, class_name);
+	}
+
+	MAKE_STD_ZVAL(property);
+	ZVAL_STRINGL(property, property_name, property_length, 0);
+
+#if PHP_VERSION_ID < 50400
+	*result = Z_OBJ_HT_P(object)->read_property(object, property, (flags & PH_NOISY) == PH_NOISY ? BP_VAR_IS : BP_VAR_R TSRMLS_CC);
+#else
+	*result = Z_OBJ_HT_P(object)->read_property(object, property, (flags & PH_NOISY) == PH_NOISY ? BP_VAR_IS : BP_VAR_R, 0 TSRMLS_CC);
+#endif
+
+	Z_ADDREF_PP(result);
+
+	if (Z_REFCOUNT_P(property) > 1) {
+		ZVAL_STRINGL(property, property_name, property_length, 1);
+	} else {
+		ZVAL_NULL(property);
+	}
+
+	zval_ptr_dtor(&property);
+
+	EG(scope) = old_scope;
+	return SUCCESS;
 }
 
 zval* zephir_fetch_nproperty_this(zval *object, char *property_name, unsigned int property_length, int flags TSRMLS_DC) {
@@ -874,86 +919,7 @@ int zephir_update_property_this_quick(zval *object, char *property_name, unsigne
 		ce = zephir_lookup_class_ce_quick(ce, property_name, property_length, key TSRMLS_CC);
 	}
 
-	old_scope = EG(scope);
-	EG(scope) = ce;
-
-	#if PHP_VERSION_ID < 50400
-
-	{
-		zval *property;
-
-		if (!Z_OBJ_HT_P(object)->write_property) {
-			EG(scope) = old_scope;
-			php_error_docref(NULL TSRMLS_CC, E_WARNING, "Property %s of class %s cannot be updated", property_name, ce->name);
-			return FAILURE;
-		}
-
-		MAKE_STD_ZVAL(property);
-		ZVAL_STRINGL(property, property_name, property_length, 0);
-
-		Z_OBJ_HT_P(object)->write_property(object, property, value TSRMLS_CC);
-
-		if (Z_REFCOUNT_P(property) > 1) {
-			ZVAL_STRINGL(property, property_name, property_length, 1);
-		} else {
-			ZVAL_NULL(property);
-		}
-
-		zval_ptr_dtor(&property);
-	}
-
-	#else
-
-	{
-		zend_object *zobj;
-		zval **variable_ptr;
-		zend_property_info *property_info;
-
-		zobj = zend_objects_get_address(object TSRMLS_CC);
-
-		if (zephir_hash_quick_find(&ce->properties_info, property_name, property_length + 1, key, (void **) &property_info) == SUCCESS) {
-			assert(property_info != NULL);
-
-			/** This is as zend_std_write_property, but we're not interesed in validate properties visibility */
-			if (property_info->offset >= 0 ? (zobj->properties ? ((variable_ptr = (zval**) zobj->properties_table[property_info->offset]) != NULL) : (*(variable_ptr = &zobj->properties_table[property_info->offset]) != NULL)) : (EXPECTED(zobj->properties != NULL) && EXPECTED(zephir_hash_quick_find(zobj->properties, property_info->name, property_info->name_length + 1, property_info->h, (void **) &variable_ptr) == SUCCESS))) {
-
-				if (EXPECTED(*variable_ptr != value)) {
-
-					/* if we are assigning reference, we shouldn't move it, but instead assign variable to the same pointer */
-					if (PZVAL_IS_REF(*variable_ptr)) {
-
-						zval garbage = **variable_ptr; /* old value should be destroyed */
-
-						/* To check: can't *variable_ptr be some system variable like error_zval here? */
-						Z_TYPE_PP(variable_ptr) = Z_TYPE_P(value);
-						(*variable_ptr)->value = value->value;
-						if (Z_REFCOUNT_P(value) > 0) {
-							zval_copy_ctor(*variable_ptr);
-						} else {
-							efree(value);
-						}
-						zval_dtor(&garbage);
-
-					} else {
-						zval *garbage = *variable_ptr;
-
-						/* if we assign referenced variable, we should separate it */
-						Z_ADDREF_P(value);
-						if (PZVAL_IS_REF(value)) {
-							SEPARATE_ZVAL(&value);
-						}
-						*variable_ptr = value;
-						zval_ptr_dtor(&garbage);
-					}
-				}
-
-			}
-		}
-	}
-
-	#endif
-
-	EG(scope) = old_scope;
+    zend_update_property(ce, object, property_name, property_length, value TSRMLS_CC);
 
 	return SUCCESS;
 }
@@ -1263,21 +1229,118 @@ int zephir_read_static_property_ce(zval **result, zend_class_entry *ce, char *pr
 	return FAILURE;
 }
 
+static zval **zephir_std_get_static_property(zend_class_entry *ce, const char *property_name, int property_name_len, zend_bool silent, ulong hash_value, zend_property_info **
+	property_info TSRMLS_DC)
+{	
+	zend_property_info *temp_property_info;
+
+	if (!hash_value) {
+		hash_value = zend_hash_func(property_name, property_name_len + 1);
+	}
+
+	if (!property_info || !*property_info) {
+
+		if (UNEXPECTED(zend_hash_quick_find(&ce->properties_info, property_name, property_name_len+1, hash_value, (void **) &temp_property_info)==FAILURE)) {
+			if (!silent) {
+				zend_error_noreturn(E_ERROR, "Access to undeclared static property: %s::$%s", ce->name, property_name);
+			}
+			return NULL;
+		}
+
+		#ifndef ZEPHIR_RELEASE
+		if (UNEXPECTED(!zend_verify_property_access(temp_property_info, ce TSRMLS_CC))) {
+			if (!silent) {
+				zend_error_noreturn(E_ERROR, "Cannot access %s property %s::$%s", zend_visibility_string(temp_property_info->flags), ce->name, property_name);
+			}
+			return NULL;
+		}
+
+		if (UNEXPECTED((temp_property_info->flags & ZEND_ACC_STATIC) == 0)) {
+			if (!silent) {
+				zend_error_noreturn(E_ERROR, "Access to undeclared static property: %s::$%s", ce->name, property_name);
+			}
+			return NULL;
+		}
+		#endif
+
+		zend_update_class_constants(ce TSRMLS_CC);
+
+		if (property_info) {
+			*property_info = temp_property_info;
+		}
+		
+	} else {
+		temp_property_info = *property_info;
+	}
+
+	if (UNEXPECTED(CE_STATIC_MEMBERS(ce) == NULL) || UNEXPECTED(CE_STATIC_MEMBERS(ce)[temp_property_info->offset] == NULL)) {
+		if (!silent) {
+			zend_error_noreturn(E_ERROR, "Access to undeclared static property: %s::$%s", ce->name, property_name);
+		}
+		return NULL;
+	}
+	
+	return &CE_STATIC_MEMBERS(ce)[temp_property_info->offset];
+}
+
+static int zephir_update_static_property_ex(zend_class_entry *scope, const char *name, int name_length, 
+	zval *value, zend_property_info **property_info TSRMLS_DC)
+{
+	zval **property;
+	zend_class_entry *old_scope = EG(scope);
+
+	EG(scope) = scope;
+	property = zephir_std_get_static_property(scope, name, name_length, zend_inline_hash_func(name, name_length), 0, property_info TSRMLS_CC);
+	EG(scope) = old_scope;
+
+	if (!property) {
+		return FAILURE;
+	} else {
+		if (*property != value) {
+			if (PZVAL_IS_REF(*property)) {
+				zval_dtor(*property);
+				Z_TYPE_PP(property) = Z_TYPE_P(value);
+				(*property)->value = value->value;
+				if (Z_REFCOUNT_P(value) > 0) {
+					zval_copy_ctor(*property);
+				} else {
+					efree(value);
+				}
+			} else {
+				zval *garbage = *property;
+
+				Z_ADDREF_P(value);
+				if (PZVAL_IS_REF(value)) {
+					SEPARATE_ZVAL(&value);
+				}
+				*property = value;
+				zval_ptr_dtor(&garbage);
+			}
+		}
+		return SUCCESS;
+	}
+}
+
 /**
  * Query a static property value from a zend_class_entry
  */
-int zephir_read_static_property(zval **result, const char *class_name, unsigned int class_length, char *property_name, unsigned int property_length TSRMLS_DC){
+int zephir_read_static_property(zval **result, const char *class_name, unsigned int class_length, char *property_name, 
+	unsigned int property_length TSRMLS_DC){
 	zend_class_entry **ce;
 	if (zend_lookup_class(class_name, class_length, &ce TSRMLS_CC) == SUCCESS) {
 		return zephir_read_static_property_ce(result, *ce, property_name, property_length TSRMLS_CC);
 	}
-
 	return FAILURE;
 }
 
 int zephir_update_static_property_ce(zend_class_entry *ce, char *name, int len, zval *value TSRMLS_DC) {
-	assert(ce != NULL);
-	return zend_update_static_property(ce, name, len, value TSRMLS_CC);
+	//assert(ce != NULL);
+	return zephir_update_static_property_ex(ce, name, len, value, NULL TSRMLS_CC);
+}
+
+int zephir_update_static_property_ce_cache(zend_class_entry *ce, char *name, int len, zval *value, zend_property_info **property_info TSRMLS_DC) {
+	//assert(ce != NULL);
+	return zephir_update_static_property_ex(ce, name, len, value, property_info TSRMLS_CC);
 }
 
 /**
@@ -1286,7 +1349,7 @@ int zephir_update_static_property_ce(zend_class_entry *ce, char *name, int len, 
 int zephir_update_static_property(const char *class_name, unsigned int class_length, char *name, unsigned int name_length, zval *value TSRMLS_DC){
 	zend_class_entry **ce;
 	if (zend_lookup_class(class_name, class_length, &ce TSRMLS_CC) == SUCCESS) {
-		return zephir_update_static_property_ce(*ce, name, name_length, value TSRMLS_CC);
+		return zend_update_static_property(*ce, name, name_length, value TSRMLS_CC);
 	}
 
 	return FAILURE;

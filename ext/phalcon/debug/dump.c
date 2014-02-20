@@ -103,29 +103,29 @@ PHP_METHOD(Phalcon_Debug_Dump, __construct) {
  */
 PHP_METHOD(Phalcon_Debug_Dump, vars) {
 
-	zend_function *_5 = NULL;
-	HashTable *_1;
-	HashPosition _0;
-	zval *key = NULL, *value = NULL, *vars, *output, **_2, *_3 = NULL, *_4 = NULL;
+	zend_function *_6 = NULL;
+	HashTable *_2;
+	HashPosition _1;
+	zval *key = NULL, *value = NULL, *output, *_0, **_3, *_4 = NULL, *_5 = NULL;
 
 	ZEPHIR_MM_GROW();
 
-	ZEPHIR_INIT_VAR(vars);
-	zephir_call_func(vars, "func_get_args");
 	ZEPHIR_INIT_VAR(output);
 	ZVAL_STRING(output, "", 1);
-	zephir_is_iterable(vars, &_1, &_0, 0, 0);
+	ZEPHIR_INIT_VAR(_0);
+	zephir_call_func(_0, "func_get_args");
+	zephir_is_iterable(_0, &_2, &_1, 0, 0);
 	for (
-	  ; zephir_hash_get_current_data_ex(_1, (void**) &_2, &_0) == SUCCESS
-	  ; zephir_hash_move_forward_ex(_1, &_0)
+	  ; zephir_hash_get_current_data_ex(_2, (void**) &_3, &_1) == SUCCESS
+	  ; zephir_hash_move_forward_ex(_2, &_1)
 	) {
-		ZEPHIR_GET_HMKEY(key, _1, _0);
-		ZEPHIR_GET_HVALUE(value, _2);
-		ZEPHIR_INIT_NVAR(_3);
-		ZEPHIR_INIT_LNVAR(_4);
-		ZEPHIR_CONCAT_SV(_4, "var ", key);
-		zephir_call_method_p2_cache(_3, this_ptr, "dump", &_5, value, _4);
-		zephir_concat_self(&output, _3 TSRMLS_CC);
+		ZEPHIR_GET_HMKEY(key, _2, _1);
+		ZEPHIR_GET_HVALUE(value, _3);
+		ZEPHIR_INIT_NVAR(_4);
+		ZEPHIR_INIT_LNVAR(_5);
+		ZEPHIR_CONCAT_SV(_5, "var ", key);
+		zephir_call_method_p2_cache(_4, this_ptr, "dump", &_6, value, _5);
+		zephir_concat_self(&output, _4 TSRMLS_CC);
 	}
 	RETURN_CCTOR(output);
 
@@ -473,20 +473,18 @@ PHP_METHOD(Phalcon_Debug_Dump, output) {
 		ZEPHIR_CONCAT_VVS(return_value, output, _9, ")");
 		RETURN_MM();
 	}
-	ZEPHIR_INIT_NVAR(_1);
-	zephir_call_func_p1(_1, "is_resource", variable);
-	if (zephir_is_true(_1)) {
+	if ((Z_TYPE_P(variable) == IS_RESOURCE)) {
+		ZEPHIR_INIT_NVAR(_1);
 		ZEPHIR_INIT_NVAR(_2);
+		ZVAL_STRING(_2, "res", 1);
+		zephir_call_method_p1(_1, this_ptr, "getstyle", _2);
+		ZEPHIR_INIT_NVAR(_2);
+		zephir_call_func_p1(_2, "get_resource_type", variable);
 		ZEPHIR_INIT_NVAR(_10);
-		ZVAL_STRING(_10, "res", 1);
-		zephir_call_method_p1(_2, this_ptr, "getstyle", _10);
-		ZEPHIR_INIT_NVAR(_10);
-		zephir_call_func_p1(_10, "get_resource_type", variable);
 		ZEPHIR_INIT_NVAR(_19);
-		ZEPHIR_INIT_NVAR(_20);
-		ZVAL_STRING(_20, "res", 1);
-		zephir_call_method_p1(_19, this_ptr, "getstyle", _20);
-		ZEPHIR_CONCAT_SVSVSVSVS(return_value, "<b style='", _2, "'>Resource</b> [", _10, "] ( <span style='", _19, "'>", variable, "</span> )");
+		ZVAL_STRING(_19, "res", 1);
+		zephir_call_method_p1(_10, this_ptr, "getstyle", _19);
+		ZEPHIR_CONCAT_SVSVSVSVS(return_value, "<b style='", _1, "'>Resource</b> [", _2, "] ( <span style='", _10, "'>", variable, "</span> )");
 		RETURN_MM();
 	}
 	ZEPHIR_INIT_NVAR(_1);
@@ -495,9 +493,9 @@ PHP_METHOD(Phalcon_Debug_Dump, output) {
 		ZEPHIR_INIT_NVAR(_0);
 		array_init_size(_0, 3);
 		ZEPHIR_INIT_NVAR(_2);
-		ZEPHIR_INIT_NVAR(_20);
-		ZVAL_STRING(_20, "int", 1);
-		zephir_call_method_p1(_2, this_ptr, "getstyle", _20);
+		ZEPHIR_INIT_NVAR(_19);
+		ZVAL_STRING(_19, "int", 1);
+		zephir_call_method_p1(_2, this_ptr, "getstyle", _19);
 		zephir_array_update_string(&_0, SL(":style"), &_2, PH_COPY | PH_SEPARATE);
 		zephir_array_update_string(&_0, SL(":var"), &variable, PH_COPY | PH_SEPARATE);
 		ZEPHIR_SINIT_NVAR(_3);
@@ -511,9 +509,9 @@ PHP_METHOD(Phalcon_Debug_Dump, output) {
 		ZEPHIR_INIT_NVAR(_0);
 		array_init_size(_0, 3);
 		ZEPHIR_INIT_NVAR(_2);
-		ZEPHIR_INIT_NVAR(_20);
-		ZVAL_STRING(_20, "float", 1);
-		zephir_call_method_p1(_2, this_ptr, "getstyle", _20);
+		ZEPHIR_INIT_NVAR(_19);
+		ZVAL_STRING(_19, "float", 1);
+		zephir_call_method_p1(_2, this_ptr, "getstyle", _19);
 		zephir_array_update_string(&_0, SL(":style"), &_2, PH_COPY | PH_SEPARATE);
 		zephir_array_update_string(&_0, SL(":var"), &variable, PH_COPY | PH_SEPARATE);
 		ZEPHIR_SINIT_NVAR(_3);

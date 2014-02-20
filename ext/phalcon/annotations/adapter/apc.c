@@ -49,8 +49,9 @@
  */
 ZEPHIR_INIT_CLASS(Phalcon_Annotations_Adapter_Apc) {
 
-	ZEPHIR_REGISTER_CLASS(Phalcon\\Annotations\\Adapter, Apc, phalcon, annotations_adapter_apc, phalcon_annotations_adapter_apc_method_entry, 0);
+	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Annotations\\Adapter, Apc, phalcon, annotations_adapter_apc, phalcon_annotations_adapter_ce, phalcon_annotations_adapter_apc_method_entry, 0);
 
+	zend_class_implements(phalcon_annotations_adapter_apc_ce TSRMLS_CC, 1, phalcon_annotations_adapterinterface_ce);
 	return SUCCESS;
 
 }

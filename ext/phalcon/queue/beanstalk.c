@@ -16,10 +16,10 @@
 #include "kernel/array.h"
 #include "kernel/object.h"
 #include "kernel/fcall.h"
-#include "kernel/operators.h"
 #include "kernel/exception.h"
 #include "kernel/string.h"
 #include "kernel/concat.h"
+#include "kernel/operators.h"
 #include "kernel/file.h"
 
 
@@ -100,32 +100,28 @@ PHP_METHOD(Phalcon_Queue_Beanstalk, __construct) {
 
 PHP_METHOD(Phalcon_Queue_Beanstalk, connect) {
 
-	zval *connection, *parameters, *_0, *_1, *_2, *_3, _4;
+	zval *connection, *parameters, *_0, *_1, _2;
 
 	ZEPHIR_MM_GROW();
 
 	ZEPHIR_OBS_VAR(connection);
 	zephir_read_property_this(&connection, this_ptr, SL("_connection"), PH_NOISY_CC);
-	ZEPHIR_INIT_VAR(_0);
-	zephir_call_func_p1(_0, "is_resource", connection);
-	if (zephir_is_true(_0)) {
+	if ((Z_TYPE_P(connection) == IS_RESOURCE)) {
 		zephir_call_method_noret(this_ptr, "disconnect");
 	}
 	ZEPHIR_OBS_VAR(parameters);
 	zephir_read_property_this(&parameters, this_ptr, SL("_parameters"), PH_NOISY_CC);
-	zephir_array_fetch_string(&_1, parameters, SL("host"), PH_NOISY | PH_READONLY TSRMLS_CC);
-	zephir_array_fetch_string(&_2, parameters, SL("port"), PH_NOISY | PH_READONLY TSRMLS_CC);
+	zephir_array_fetch_string(&_0, parameters, SL("host"), PH_NOISY | PH_READONLY TSRMLS_CC);
+	zephir_array_fetch_string(&_1, parameters, SL("port"), PH_NOISY | PH_READONLY TSRMLS_CC);
 	ZEPHIR_INIT_BNVAR(connection);
-	zephir_call_func_p4(connection, "fsockopen", _1, _2, ZEPHIR_GLOBAL(global_null), ZEPHIR_GLOBAL(global_null));
-	ZEPHIR_INIT_VAR(_3);
-	zephir_call_func_p1(_3, "is_resource", connection);
-	if (!(zephir_is_true(_3))) {
+	zephir_call_func_p4(connection, "fsockopen", _0, _1, ZEPHIR_GLOBAL(global_null), ZEPHIR_GLOBAL(global_null));
+	if (!((Z_TYPE_P(connection) == IS_RESOURCE))) {
 		ZEPHIR_THROW_EXCEPTION_STR(phalcon_exception_ce, "Can't connect to Beanstalk server");
 		return;
 	}
-	ZEPHIR_SINIT_VAR(_4);
-	ZVAL_LONG(&_4, -1);
-	zephir_call_func_p3_noret("stream_set_timeout", connection, &_4, ZEPHIR_GLOBAL(global_null));
+	ZEPHIR_SINIT_VAR(_2);
+	ZVAL_LONG(&_2, -1);
+	zephir_call_func_p3_noret("stream_set_timeout", connection, &_2, ZEPHIR_GLOBAL(global_null));
 	zephir_update_property_this(this_ptr, SL("_connection"), connection TSRMLS_CC);
 	RETURN_CCTOR(connection);
 
@@ -358,7 +354,7 @@ PHP_METHOD(Phalcon_Queue_Beanstalk, readStatus) {
  */
 PHP_METHOD(Phalcon_Queue_Beanstalk, read) {
 
-	zval *length = NULL, *connection, *isEof, *totalLength, *data, *meta, *timeout, *packet, *_0, *_1, _2 = zval_used_for_init, _3;
+	zval *length = NULL, *connection, *isEof, *totalLength, *data, *meta, *timeout, *packet, _0 = zval_used_for_init, _1;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 1, &length);
@@ -370,14 +366,10 @@ PHP_METHOD(Phalcon_Queue_Beanstalk, read) {
 
 	ZEPHIR_OBS_VAR(connection);
 	zephir_read_property_this(&connection, this_ptr, SL("_connection"), PH_NOISY_CC);
-	ZEPHIR_INIT_VAR(_0);
-	zephir_call_func_p1(_0, "is_resource", connection);
-	if (!(zephir_is_true(_0))) {
+	if (!((Z_TYPE_P(connection) == IS_RESOURCE))) {
 		ZEPHIR_INIT_BNVAR(connection);
 		zephir_call_method(connection, this_ptr, "connect");
-		ZEPHIR_INIT_VAR(_1);
-		zephir_call_func_p1(_1, "is_resource", connection);
-		if (!(zephir_is_true(_1))) {
+		if (!((Z_TYPE_P(connection) == IS_RESOURCE))) {
 			RETURN_MM_BOOL(0);
 		}
 	}
@@ -400,15 +392,15 @@ PHP_METHOD(Phalcon_Queue_Beanstalk, read) {
 			ZEPHIR_THROW_EXCEPTION_STR(phalcon_exception_ce, "Connection timed out");
 			return;
 		}
-		ZEPHIR_SINIT_VAR(_2);
-		ZVAL_STRING(&_2, "\r\n", 0);
-		zephir_fast_trim(packet, data, &_2, ZEPHIR_TRIM_RIGHT TSRMLS_CC);
+		ZEPHIR_SINIT_VAR(_0);
+		ZVAL_STRING(&_0, "\r\n", 0);
+		zephir_fast_trim(packet, data, &_0, ZEPHIR_TRIM_RIGHT TSRMLS_CC);
 	} else {
-		ZEPHIR_SINIT_NVAR(_2);
-		ZVAL_LONG(&_2, 16384);
-		ZEPHIR_SINIT_VAR(_3);
-		ZVAL_STRING(&_3, "\r\n", 0);
-		zephir_call_func_p3(packet, "stream_get_line", connection, &_2, &_3);
+		ZEPHIR_SINIT_NVAR(_0);
+		ZVAL_LONG(&_0, 16384);
+		ZEPHIR_SINIT_VAR(_1);
+		ZVAL_STRING(&_1, "\r\n", 0);
+		zephir_call_func_p3(packet, "stream_get_line", connection, &_0, &_1);
 	}
 	RETURN_CCTOR(packet);
 
@@ -422,7 +414,7 @@ PHP_METHOD(Phalcon_Queue_Beanstalk, read) {
  */
 PHP_METHOD(Phalcon_Queue_Beanstalk, write) {
 
-	zval *data, *connection, *packet, *_0, *_1, _2;
+	zval *data, *connection, *packet, _0;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &data);
@@ -431,22 +423,18 @@ PHP_METHOD(Phalcon_Queue_Beanstalk, write) {
 
 	ZEPHIR_OBS_VAR(connection);
 	zephir_read_property_this(&connection, this_ptr, SL("_connection"), PH_NOISY_CC);
-	ZEPHIR_INIT_VAR(_0);
-	zephir_call_func_p1(_0, "is_resource", connection);
-	if (!(zephir_is_true(_0))) {
+	if (!((Z_TYPE_P(connection) == IS_RESOURCE))) {
 		ZEPHIR_INIT_BNVAR(connection);
 		zephir_call_method(connection, this_ptr, "connect");
-		ZEPHIR_INIT_VAR(_1);
-		zephir_call_func_p1(_1, "is_resource", connection);
-		if (!(zephir_is_true(_1))) {
+		if (!((Z_TYPE_P(connection) == IS_RESOURCE))) {
 			RETURN_MM_BOOL(0);
 		}
 	}
 	ZEPHIR_INIT_VAR(packet);
 	ZEPHIR_CONCAT_VS(packet, data, "\r\n");
-	ZEPHIR_SINIT_VAR(_2);
-	ZVAL_LONG(&_2, zephir_fast_strlen_ev(packet));
-	zephir_call_func_p3(return_value, "fwrite", connection, packet, &_2);
+	ZEPHIR_SINIT_VAR(_0);
+	ZVAL_LONG(&_0, zephir_fast_strlen_ev(packet));
+	zephir_call_func_p3(return_value, "fwrite", connection, packet, &_0);
 	RETURN_MM();
 
 }
@@ -458,15 +446,13 @@ PHP_METHOD(Phalcon_Queue_Beanstalk, write) {
  */
 PHP_METHOD(Phalcon_Queue_Beanstalk, disconnect) {
 
-	zval *connection, *_0;
+	zval *connection;
 
 	ZEPHIR_MM_GROW();
 
 	ZEPHIR_OBS_VAR(connection);
 	zephir_read_property_this(&connection, this_ptr, SL("_connection"), PH_NOISY_CC);
-	ZEPHIR_INIT_VAR(_0);
-	zephir_call_func_p1(_0, "is_resource", connection);
-	if (!(zephir_is_true(_0))) {
+	if (!((Z_TYPE_P(connection) == IS_RESOURCE))) {
 		RETURN_MM_BOOL(0);
 	}
 	zephir_fclose(connection TSRMLS_CC);

@@ -18,14 +18,14 @@
 */
 
 /** Low level filters */
-extern void zephir_filter_alphanum(zval *return_value, zval *param);
-extern void zephir_filter_identifier(zval *return_value, zval *param);
+void zephir_filter_alphanum(zval *return_value, zval *param);
+void zephir_filter_identifier(zval *return_value, zval *param);
 
 /** Encoding */
-extern void zephir_is_basic_charset(zval *return_value, const zval *param);
+void zephir_is_basic_charset(zval *return_value, const zval *param);
 
 /** Escaping */
-extern void zephir_escape_css(zval *return_value, zval *param);
-extern void zephir_escape_js(zval *return_value, zval *param);
-extern void zephir_escape_htmlattr(zval *return_value, zval *param);
-extern void zephir_escape_html(zval *return_value, zval *str, zval *quote_style, zval *charset TSRMLS_DC);
+void zephir_escape_css(zval *return_value, zval *param);
+void zephir_escape_js(zval *return_value, zval *param);
+void zephir_escape_htmlattr(zval *return_value, zval *param);
+void zephir_escape_html(zval *return_value, zval *str, zval *quote_style, zval *charset TSRMLS_DC);

@@ -52,6 +52,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Validation_Message) {
 
 	zend_declare_property_null(phalcon_validation_message_ce, SL("_field"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
+	zend_class_implements(phalcon_validation_message_ce TSRMLS_CC, 1, phalcon_validation_messageinterface_ce);
 	return SUCCESS;
 
 }
@@ -100,7 +101,7 @@ PHP_METHOD(Phalcon_Validation_Message, __construct) {
 /**
  * Sets message type
  *
- * @param string $type
+ * @param string type
  * @return Phalcon\Validation\Message
  */
 PHP_METHOD(Phalcon_Validation_Message, setType) {
@@ -244,7 +245,7 @@ PHP_METHOD(Phalcon_Validation_Message, __toString) {
 /**
  * Magic __set_state helps to recover messsages from serialization
  *
- * @param  array message
+ * @param array message
  * @return Phalcon\Validation\Message
  */
 PHP_METHOD(Phalcon_Validation_Message, __set_state) {

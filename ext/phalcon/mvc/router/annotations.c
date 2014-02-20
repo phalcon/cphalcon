@@ -358,7 +358,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Annotations, handle) {
  * Checks for annotations in the controller docblock
  *
  * @param string handler
- * @param Phalcon\Annotations\AdapterInterface
+ * @param Phalcon\Annotations\Annotation
  */
 PHP_METHOD(Phalcon_Mvc_Router_Annotations, processControllerAnnotation) {
 
@@ -381,8 +381,8 @@ PHP_METHOD(Phalcon_Mvc_Router_Annotations, processControllerAnnotation) {
 	}
 
 
-	if (!(zephir_is_instance_of(annotation, SL("Phalcon\\Annotations\\AdapterInterface") TSRMLS_CC))) {
-		ZEPHIR_THROW_EXCEPTION_STR(spl_ce_InvalidArgumentException, "Parameter 'annotation' must be an instance of 'Phalcon\\Annotations\\AdapterInterface'");
+	if (!(zephir_instance_of_ev(annotation, phalcon_annotations_annotation_ce TSRMLS_CC))) {
+		ZEPHIR_THROW_EXCEPTION_STR(spl_ce_InvalidArgumentException, "Parameter 'annotation' must be an instance of 'Phalcon\\Annotations\\Annotation'");
 		return;
 	}
 	ZEPHIR_INIT_VAR(_0);

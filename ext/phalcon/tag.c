@@ -339,6 +339,7 @@ PHP_METHOD(Phalcon_Tag, setAutoescape) {
 	autoescape = zephir_get_boolval(autoescape_param);
 
 
+	ZEPHIR_INIT_ZVAL_NREF(_1);
 	ZVAL_BOOL(_1, autoescape);
 	zephir_update_static_property_ce(phalcon_tag_ce, SL("_autoEscape"), _1 TSRMLS_CC);
 
@@ -1794,7 +1795,7 @@ PHP_METHOD(Phalcon_Tag, stylesheetLink) {
 
 	HashTable *_4;
 	HashPosition _3;
-	zval *parameters = NULL, *local = NULL, *params = NULL, *firstParam, *url, *code, *key = NULL, *value = NULL, *doctype, *eol, *_0 = NULL, *_1, *_2, **_5, *_6 = NULL, *_7;
+	zval *parameters = NULL, *local = NULL, *params = NULL, *firstParam, *url, *code, *key = NULL, *value = NULL, *doctype, *eol = NULL, *_0 = NULL, *_1, *_2, **_5, *_6 = NULL, *_7;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 2, &parameters, &local);
@@ -1908,7 +1909,7 @@ PHP_METHOD(Phalcon_Tag, javascriptInclude) {
 
 	HashTable *_4;
 	HashPosition _3;
-	zval *parameters = NULL, *local = NULL, *params = NULL, *firstParam, *code, *url, *eol, *key = NULL, *value = NULL, *_0 = NULL, *_1, *_2, **_5, *_6 = NULL;
+	zval *parameters = NULL, *local = NULL, *params = NULL, *firstParam, *code, *url, *eol = NULL, *key = NULL, *value = NULL, *_0 = NULL, *_1, *_2, **_5, *_6 = NULL;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 2, &parameters, &local);

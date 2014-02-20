@@ -114,7 +114,7 @@ PHP_METHOD(Phalcon_Mvc_Micro, __construct) {
 		return;
 	}
 	if ((Z_TYPE_P(dependencyInjector) == IS_OBJECT)) {
-		if (zephir_is_instance_of(dependencyInjector, SL("Phalcon\\Mvc\\Phalcon\\DiInterface") TSRMLS_CC)) {
+		if (zephir_is_instance_of(dependencyInjector, SL("Phalcon\\DiInterface") TSRMLS_CC)) {
 			zephir_call_method_p1_noret(this_ptr, "setdi", dependencyInjector);
 		}
 	}
@@ -753,7 +753,7 @@ PHP_METHOD(Phalcon_Mvc_Micro, handle) {
 			) {
 				ZEPHIR_GET_HVALUE(before, _6);
 				if ((Z_TYPE_P(before) == IS_OBJECT)) {
-					if (zephir_is_instance_of(before, SL("Phalcon\\Mvc\\Phalcon\\Mvc\\Micro\\MiddlewareInterface") TSRMLS_CC)) {
+					if (zephir_is_instance_of(before, SL("Phalcon\\Mvc\\Micro\\MiddlewareInterface") TSRMLS_CC)) {
 						ZEPHIR_INIT_NVAR(status);
 						zephir_call_method_p1(status, before, "call", this_ptr);
 						_7 = zephir_fetch_nproperty_this(this_ptr, SL("_stopped"), PH_NOISY_CC);
@@ -798,7 +798,7 @@ PHP_METHOD(Phalcon_Mvc_Micro, handle) {
 			) {
 				ZEPHIR_GET_HVALUE(after, _11);
 				if ((Z_TYPE_P(after) == IS_OBJECT)) {
-					if (zephir_is_instance_of(after, SL("Phalcon\\Mvc\\Phalcon\\Mvc\\Micro\\MiddlewareInterface") TSRMLS_CC)) {
+					if (zephir_is_instance_of(after, SL("Phalcon\\Mvc\\Micro\\MiddlewareInterface") TSRMLS_CC)) {
 						ZEPHIR_INIT_NVAR(status);
 						zephir_call_method_p1(status, after, "call", this_ptr);
 						_12 = zephir_fetch_nproperty_this(this_ptr, SL("_stopped"), PH_NOISY_CC);
@@ -856,7 +856,7 @@ PHP_METHOD(Phalcon_Mvc_Micro, handle) {
 		) {
 			ZEPHIR_GET_HVALUE(finish, _15);
 			if ((Z_TYPE_P(finish) == IS_OBJECT)) {
-				if (zephir_is_instance_of(finish, SL("Phalcon\\Mvc\\Phalcon\\Mvc\\Micro\\MiddlewareInterface") TSRMLS_CC)) {
+				if (zephir_is_instance_of(finish, SL("Phalcon\\Mvc\\Micro\\MiddlewareInterface") TSRMLS_CC)) {
 					ZEPHIR_INIT_NVAR(status);
 					zephir_call_method_p1(status, finish, "call", this_ptr);
 					_2 = zephir_fetch_nproperty_this(this_ptr, SL("_stopped"), PH_NOISY_CC);
@@ -884,7 +884,7 @@ PHP_METHOD(Phalcon_Mvc_Micro, handle) {
 		}
 	}
 	if ((Z_TYPE_P(returnedValue) == IS_OBJECT)) {
-		if (zephir_is_instance_of(returnedValue, SL("Phalcon\\Mvc\\Phalcon\\Http\\ResponseInterface") TSRMLS_CC)) {
+		if (zephir_is_instance_of(returnedValue, SL("Phalcon\\Http\\ResponseInterface") TSRMLS_CC)) {
 			zephir_call_method_noret(returnedValue, "send");
 		}
 	}
