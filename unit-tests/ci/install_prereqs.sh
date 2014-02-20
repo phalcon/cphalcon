@@ -12,6 +12,7 @@ fi
 
 CFLAGS="-O1 -g3 -fno-strict-aliasing" pecl install igbinary < /dev/null &
 CFLAGS="-O1 -g3 -fno-strict-aliasing" pecl install imagick < /dev/null &
+CFLAGS="-O1 -g3 -fno-strict-aliasing" pecl install mongo < /dev/null &
 ( pecl install weakref < /dev/null || ( pecl config-set preferred_state beta; pecl install weakref < /dev/null ) ) &
 
 phpenv config-add "$DIR/memcache.ini"
