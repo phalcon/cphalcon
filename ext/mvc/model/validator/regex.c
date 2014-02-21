@@ -88,9 +88,9 @@ PHALCON_INIT_CLASS(Phalcon_Mvc_Model_Validator_Regex){
  */
 PHP_METHOD(Phalcon_Mvc_Model_Validator_Regex, validate){
 
-	zval *record, *option = NULL, *field_name, *is_set, *value;
-	zval *failed = NULL, *matches, *pattern, *match_pattern;
-	zval *match_zero, *message = NULL, *type, *is_set_code, *code;
+	zval *record, *option = NULL, *field_name = NULL, *is_set = NULL, *value = NULL;
+	zval *failed = NULL, *matches, *pattern = NULL, *match_pattern;
+	zval *match_zero, *message = NULL, *type, *is_set_code = NULL, *code = NULL;
 
 	PHALCON_MM_GROW();
 
@@ -99,7 +99,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Regex, validate){
 	PHALCON_INIT_VAR(option);
 	ZVAL_STRING(option, "field", 1);
 	
-	PHALCON_INIT_VAR(field_name);
 	PHALCON_CALL_METHOD(&field_name, this_ptr, "getoption", option);
 	if (Z_TYPE_P(field_name) != IS_STRING) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Field name must be a string");
@@ -112,14 +111,12 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Regex, validate){
 	PHALCON_INIT_NVAR(option);
 	ZVAL_STRING(option, "pattern", 1);
 	
-	PHALCON_INIT_VAR(is_set);
 	PHALCON_CALL_METHOD(&is_set, this_ptr, "issetoption", option);
 	if (!zend_is_true(is_set)) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Validator requires a perl-compatible regex pattern");
 		return;
 	}
 	
-	PHALCON_INIT_VAR(value);
 	PHALCON_CALL_METHOD(&value, record, "readattribute", field_name);
 	
 	PHALCON_INIT_VAR(failed);
@@ -130,7 +127,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Regex, validate){
 	/** 
 	 * The regular expression is set in the option 'pattern'
 	 */
-	PHALCON_INIT_VAR(pattern);
 	PHALCON_CALL_METHOD(&pattern, this_ptr, "getoption", option);
 	
 	/** 
@@ -157,7 +153,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Regex, validate){
 		PHALCON_INIT_NVAR(option);
 		PHALCON_ZVAL_MAYBE_INTERNED_STRING(option, phalcon_interned_message);
 	
-		PHALCON_INIT_VAR(message);
 		PHALCON_CALL_METHOD(&message, this_ptr, "getoption", option);
 		if (!zend_is_true(message)) {
 			PHALCON_INIT_NVAR(message);
@@ -173,12 +168,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Regex, validate){
 		PHALCON_INIT_NVAR(option);
 		PHALCON_ZVAL_MAYBE_INTERNED_STRING(option, phalcon_interned_code);
 
-		PHALCON_INIT_VAR(is_set_code);
 		PHALCON_CALL_METHOD(&is_set_code, this_ptr, "issetoption", option);
-		PHALCON_INIT_VAR(code);
 		if (zend_is_true(is_set_code)) {
 			PHALCON_CALL_METHOD(&code, this_ptr, "getoption", option);
 		} else {
+			PHALCON_INIT_VAR(code);
 			ZVAL_LONG(code, 0);
 		}
 
@@ -188,4 +182,3 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Regex, validate){
 	
 	RETURN_MM_TRUE;
 }
-

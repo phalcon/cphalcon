@@ -133,7 +133,7 @@ PHALCON_INIT_CLASS(Phalcon_Mvc_Model_Transaction){
 PHP_METHOD(Phalcon_Mvc_Model_Transaction, __construct){
 
 	zval *dependency_injector, *auto_begin = NULL, *service = NULL;
-	zval *connection;
+	zval *connection = NULL;
 
 	PHALCON_MM_GROW();
 
@@ -158,7 +158,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction, __construct){
 		ZVAL_STRING(service, "db", 1);
 	}
 	
-	PHALCON_INIT_VAR(connection);
 	PHALCON_CALL_METHOD(&connection, dependency_injector, "get", service);
 	phalcon_update_property_this(this_ptr, SL("_connection"), connection TSRMLS_CC);
 	if (zend_is_true(auto_begin)) {
@@ -246,7 +245,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction, rollback){
 
 	zval *rollback_message = NULL, *rollback_record = NULL;
 	zval *manager, *call_object, *arguments, *connection;
-	zval *success;
+	zval *success = NULL;
 	zval *i0 = NULL;
 
 	PHALCON_MM_GROW();
@@ -282,7 +281,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction, rollback){
 	PHALCON_OBS_VAR(connection);
 	phalcon_read_property_this(&connection, this_ptr, SL("_connection"), PH_NOISY TSRMLS_CC);
 	
-	PHALCON_INIT_VAR(success);
 	PHALCON_CALL_METHOD(&success, connection, "rollback");
 	if (zend_is_true(success)) {
 		if (!zend_is_true(rollback_message)) {

@@ -68,7 +68,7 @@ PHALCON_INIT_CLASS(Phalcon_Mvc_Model_Behavior_Timestampable){
  */
 PHP_METHOD(Phalcon_Mvc_Model_Behavior_Timestampable, notify){
 
-	zval *type, *model, *take_action, *options, *timestamp = NULL;
+	zval *type, *model, *take_action = NULL, *options = NULL, *timestamp = NULL;
 	zval *format, *generator, *field, *single_field = NULL;
 	HashTable *ah0;
 	HashPosition hp0;
@@ -81,13 +81,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Behavior_Timestampable, notify){
 	/** 
 	 * Check if the developer decided to take action here
 	 */
-	PHALCON_INIT_VAR(take_action);
 	PHALCON_CALL_METHOD(&take_action, this_ptr, "musttakeaction", type);
 	if (PHALCON_IS_NOT_TRUE(take_action)) {
 		RETURN_MM_NULL();
 	}
 	
-	PHALCON_INIT_VAR(options);
 	PHALCON_CALL_METHOD(&options, this_ptr, "getoptions", type);
 	if (Z_TYPE_P(options) == IS_ARRAY) { 
 	
@@ -108,19 +106,16 @@ PHP_METHOD(Phalcon_Mvc_Model_Behavior_Timestampable, notify){
 			phalcon_array_fetch_string(&format, options, SL("format"), PH_NOISY);
 	
 			phalcon_date(timestamp, format, NULL TSRMLS_CC);
-		} else {
-			if (phalcon_array_isset_string(options, SS("generator"))) {
-	
-				/** 
-				 * A generator is a closure that produce the correct timestamp value
-				 */
-				PHALCON_OBS_VAR(generator);
-				phalcon_array_fetch_string(&generator, options, SL("generator"), PH_NOISY);
-				if (Z_TYPE_P(generator) == IS_OBJECT) {
-					if (instanceof_function(Z_OBJCE_P(generator), zend_ce_closure TSRMLS_CC)) {
-						PHALCON_INIT_NVAR(timestamp);
-						PHALCON_CALL_USER_FUNC(timestamp, generator);
-					}
+		} else if (phalcon_array_isset_string(options, SS("generator"))) {
+			/**
+			 * A generator is a closure that produce the correct timestamp value
+			 */
+			PHALCON_OBS_VAR(generator);
+			phalcon_array_fetch_string(&generator, options, SL("generator"), PH_NOISY);
+			if (Z_TYPE_P(generator) == IS_OBJECT) {
+				if (instanceof_function(Z_OBJCE_P(generator), zend_ce_closure TSRMLS_CC)) {
+					PHALCON_INIT_NVAR(timestamp);/**/
+					PHALCON_CALL_USER_FUNC(timestamp, generator);
 				}
 			}
 		}

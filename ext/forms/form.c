@@ -611,17 +611,13 @@ PHP_METHOD(Phalcon_Forms_Form, bind){
 		/** 
 		 * Check if the method has filters
 		 */
-		PHALCON_INIT_NVAR(filters);
 		PHALCON_CALL_METHOD(&filters, element, "getfilters");
 		if (zend_is_true(filters)) {
 			if (Z_TYPE_P(filter) != IS_OBJECT) {
 				PHALCON_INIT_NVAR(service_name);
 				PHALCON_ZVAL_MAYBE_INTERNED_STRING(service_name, phalcon_interned_filter);
 	
-				PHALCON_INIT_NVAR(dependency_injector);
 				PHALCON_CALL_METHOD(&dependency_injector, this_ptr, "getdi");
-	
-				PHALCON_INIT_NVAR(filter);
 				PHALCON_CALL_METHOD(&filter, dependency_injector, "getshared", service_name);
 				PHALCON_VERIFY_INTERFACE(filter, phalcon_filterinterface_ce);
 			}
@@ -629,7 +625,6 @@ PHP_METHOD(Phalcon_Forms_Form, bind){
 			/** 
 			 * Sanitize the filters
 			 */
-			PHALCON_INIT_NVAR(filtered_value);
 			PHALCON_CALL_METHOD(&filtered_value, filter, "sanitize", value, filters);
 		} else {
 			PHALCON_CPY_WRT(filtered_value, value);
@@ -730,7 +725,6 @@ PHP_METHOD(Phalcon_Forms_Form, isValid){
 	
 		PHALCON_GET_HVALUE(element);
 	
-		PHALCON_INIT_NVAR(validators);
 		PHALCON_CALL_METHOD(&validators, element, "getvalidators");
 		if (Z_TYPE_P(validators) == IS_ARRAY) { 
 			if (phalcon_fast_count_ev(validators TSRMLS_CC)) {
@@ -738,7 +732,6 @@ PHP_METHOD(Phalcon_Forms_Form, isValid){
 				/** 
 				 * Element's name
 				 */
-				PHALCON_INIT_NVAR(name);
 				PHALCON_CALL_METHOD(&name, element, "getname");
 	
 				/** 
@@ -772,14 +765,12 @@ PHP_METHOD(Phalcon_Forms_Form, isValid){
 				/** 
 				 * Get filters in the element
 				 */
-				PHALCON_INIT_NVAR(filters);
 				PHALCON_CALL_METHOD(&filters, element, "getfilters");
 	
 				/** 
 				 * Assign the filters to the validation
 				 */
 				if (Z_TYPE_P(filters) == IS_ARRAY) { 
-					PHALCON_INIT_NVAR(name);
 					PHALCON_CALL_METHOD(&name, element, "getname");
 					PHALCON_CALL_METHOD(NULL, validation, "setfilters", name, filters);
 				}
@@ -787,10 +778,8 @@ PHP_METHOD(Phalcon_Forms_Form, isValid){
 				/** 
 				 * Perform the validation
 				 */
-				PHALCON_INIT_NVAR(element_messages);
 				PHALCON_CALL_METHOD(&element_messages, validation, "validate", data, entity);
 				if (phalcon_fast_count_ev(element_messages TSRMLS_CC)) {
-					PHALCON_INIT_NVAR(name);
 					PHALCON_CALL_METHOD(&name, element, "getname");
 					phalcon_array_update_zval(&messages, name, element_messages, PH_COPY | PH_SEPARATE);
 	
@@ -1223,7 +1212,6 @@ PHP_METHOD(Phalcon_Forms_Form, clear){
 			if (Z_TYPE_P(fields) != IS_ARRAY) { 
 				PHALCON_CALL_METHOD(NULL, element, "clear");
 			} else {
-				PHALCON_INIT_NVAR(name);
 				PHALCON_CALL_METHOD(&name, element, "getname");
 				if (phalcon_fast_in_array(name, fields TSRMLS_CC)) {
 					PHALCON_CALL_METHOD(NULL, element, "clear");

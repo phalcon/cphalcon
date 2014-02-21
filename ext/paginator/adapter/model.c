@@ -187,14 +187,11 @@ PHP_METHOD(Phalcon_Paginator_Adapter_Model, getPaginate){
 		 * The record must be iterable
 		 */
 		for (i=1; ; ++i) {
-	
-			PHALCON_INIT_NVAR(valid);
 			PHALCON_CALL_METHOD(&valid, items, "valid");
 			if (!PHALCON_IS_NOT_FALSE(valid)) {
 				break;
 			}
 	
-			PHALCON_INIT_NVAR(current);
 			PHALCON_CALL_METHOD(&current, items, "current");
 			phalcon_array_append(&page_items, current, 0);
 

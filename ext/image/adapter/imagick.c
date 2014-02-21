@@ -218,7 +218,6 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, __construct){
 		}
 
 		if (phalcon_get_intval(type) == 1) {
-			PHALCON_INIT_NVAR(ret);
 			PHALCON_CALL_METHOD(&ret, im, "coalesceImages");
 
 			PHALCON_CALL_METHOD(NULL, im, "clear");
@@ -328,7 +327,6 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, _liquidRescale){
 	PHALCON_CALL_METHOD(NULL, im, "setIteratorIndex", PHALCON_GLOBAL(z_zero));
 
 	do {
-		PHALCON_INIT_NVAR(ret);
 		PHALCON_CALL_METHOD(&ret, im, "liquidRescaleImage", width, height, delta_x, rigidity);
 
 		if (!zend_is_true(ret)) {
@@ -417,7 +415,6 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, _rotate) {
 	PHALCON_CALL_METHOD(NULL, im, "setIteratorIndex", zero);
 
 	do {
-		PHALCON_INIT_NVAR(ret);
 		PHALCON_CALL_METHOD(&ret, im, "rotateImage", background, degrees);
 
 		if (!zend_is_true(ret)) {
@@ -426,16 +423,12 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, _rotate) {
 		}
 
 		if (!w) {
-			PHALCON_INIT_NVAR(w);
 			PHALCON_CALL_METHOD(&w, im, "getImageWidth");
-
-			PHALCON_INIT_NVAR(h);
 			PHALCON_CALL_METHOD(&h, im, "getImageHeight");
 		}
 
 		PHALCON_CALL_METHOD(NULL, im, "setImagePage", w, h, zero, zero);
 
-		PHALCON_INIT_NVAR(next);
 		PHALCON_CALL_METHOD(&next, im, "nextImage");
 	} while (zend_is_true(next));
 
@@ -468,8 +461,6 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, _flip) {
 
 	do {
 		PHALCON_CALL_METHOD(NULL, im, method);
-
-		PHALCON_INIT_NVAR(next);
 		PHALCON_CALL_METHOD(&next, im, "nextImage");
 	} while (zend_is_true(next));
 
@@ -503,7 +494,6 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, _sharpen) {
 	PHALCON_CALL_METHOD(NULL, im, "setIteratorIndex", zero);
 
 	do {
-		PHALCON_INIT_NVAR(ret);
 		PHALCON_CALL_METHOD(&ret, im, "sharpenImage", zero, a);
 
 		if (!zend_is_true(ret)) {
@@ -511,7 +501,6 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, _sharpen) {
 			return;
 		}
 
-		PHALCON_INIT_NVAR(next);
 		PHALCON_CALL_METHOD(&next, im, "nextImage");
 	} while (zend_is_true(next));
 
@@ -565,8 +554,6 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, _reflection) {
 		PHALCON_CALL_METHOD(NULL, reflection, "flipImage");
 		PHALCON_CALL_METHOD(NULL, reflection, "cropImage", image_width, height, zero, zero);
 		PHALCON_CALL_METHOD(NULL, reflection, "setImagePage", image_width, height, zero, zero);
-
-		PHALCON_INIT_NVAR(next);
 		PHALCON_CALL_METHOD(&next, reflection, "nextImage");
 	} while (zend_is_true(next));
 
@@ -594,7 +581,6 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, _reflection) {
 	PHALCON_CALL_METHOD(NULL, reflection, "setIteratorIndex", zero);
 
 	do {
-		PHALCON_INIT_NVAR(ret);
 		PHALCON_CALL_METHOD(&ret, reflection, "compositeImage", fade, composite, zero, zero);
 
 		if (!zend_is_true(ret)) {
@@ -602,7 +588,6 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, _reflection) {
 			return;
 		}
 
-		PHALCON_INIT_NVAR(next);
 		PHALCON_CALL_METHOD(&next, reflection, "nextImage");
 	} while (zend_is_true(next));
 
@@ -620,8 +605,6 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, _reflection) {
 
 	do {
 		PHALCON_CALL_METHOD(NULL, reflection, "evaluateImage", constant, o, channel);
-
-		PHALCON_INIT_NVAR(next);
 		PHALCON_CALL_METHOD(&next, reflection, "nextImage");
 	} while (zend_is_true(next));
 
@@ -657,8 +640,6 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, _reflection) {
 		PHALCON_CALL_METHOD(NULL, image, "setImageAlphaChannel", mode);
 		PHALCON_CALL_METHOD(NULL, image, "setcolorspace", colorspace);
 		PHALCON_CALL_METHOD(NULL, image, "setImageDelay", delay);
-
-		PHALCON_INIT_NVAR(ret);
 		PHALCON_CALL_METHOD(&ret, image, "compositeImage", im, composite, zero, zero);
 
 		if (!zend_is_true(ret)) {
@@ -772,7 +753,6 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, _watermark) {
 		PHALCON_CALL_METHOD(NULL, im, "setIteratorIndex", index);
 
 		do {
-			PHALCON_INIT_NVAR(ret);
 			PHALCON_CALL_METHOD(&ret, im, "compositeImage", watermark, composite, offset_x, offset_y);
 
 			if (!zend_is_true(ret)) {
@@ -780,11 +760,9 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, _watermark) {
 				return;
 			}
 
-			PHALCON_INIT_NVAR(next);
 			PHALCON_CALL_METHOD(&next, im, "nextImage");
 		} while (zend_is_true(next));
 	} else {
-		PHALCON_INIT_NVAR(ret);
 		PHALCON_CALL_METHOD(&ret, im, "compositeImage", watermark, composite, offset_x, offset_y);
 
 		if (!zend_is_true(ret)) {
@@ -1180,9 +1158,7 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, _background) {
 
 	PHALCON_CALL_METHOD(NULL, background, "evaluateImage", op_constant, op, channel);
 
-	PHALCON_INIT_NVAR(ret);
 	PHALCON_CALL_METHOD(&ret, im, "getcolorspace");
-
 	PHALCON_CALL_METHOD(NULL, background, "setcolorspace", ret);
 
 	PHALCON_INIT_VAR(composite);
@@ -1231,7 +1207,6 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, _blur){
 
 	do {
 		PHALCON_CALL_METHOD(NULL, im, "blurImage", radius, sigma);
-		PHALCON_INIT_NVAR(next);
 		PHALCON_CALL_METHOD(&next, im, "nextImage");
 	} while (zend_is_true(next));
 
@@ -1277,8 +1252,6 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, _pixelate){
 	do {
 		PHALCON_CALL_METHOD(NULL, im, "scaleImage", tmp_width, tmp_height);
 		PHALCON_CALL_METHOD(NULL, im, "scaleImage", width, height);
-
-		PHALCON_INIT_NVAR(next);
 		PHALCON_CALL_METHOD(&next, im, "nextImage");
 	} while (zend_is_true(next));
 
@@ -1353,7 +1326,6 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, _save) {
 			return;
 		}
 
-		PHALCON_INIT_NVAR(ret);
 		PHALCON_CALL_METHOD(&ret, im, "writeImagesFile", fp);
 		PHALCON_CALL_FUNCTION(NULL, "fclose", fp);
 	} else {
@@ -1362,9 +1334,8 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, _save) {
 			phalcon_get_class_constant(compression, imagick_ce, SS("COMPRESSION_JPEG") TSRMLS_CC);
 			PHALCON_CALL_METHOD(NULL, im, "setImageCompression", compression );
 		}
-		PHALCON_CALL_METHOD(NULL, im, "setImageCompressionQuality", quality);
 
-		PHALCON_INIT_NVAR(ret);
+		PHALCON_CALL_METHOD(NULL, im, "setImageCompressionQuality", quality);
 		PHALCON_CALL_METHOD(&ret, im, "writeImage", file);
 	}
 

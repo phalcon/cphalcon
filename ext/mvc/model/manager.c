@@ -842,7 +842,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, setReadConnectionService){
 PHP_METHOD(Phalcon_Mvc_Model_Manager, getWriteConnection){
 
 	zval *model, *service = NULL, *connection_services;
-	zval *entity_name, *dependency_injector, *connection;
+	zval *entity_name, *dependency_injector, *connection = NULL;
 
 	PHALCON_MM_GROW();
 
@@ -877,7 +877,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getWriteConnection){
 	/** 
 	 * Request the connection service from the DI
 	 */
-	PHALCON_INIT_VAR(connection);
 	PHALCON_CALL_METHOD(&connection, dependency_injector, "getshared", service);
 	if (Z_TYPE_P(connection) != IS_OBJECT) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Invalid injected connection service");
@@ -897,7 +896,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getWriteConnection){
 PHP_METHOD(Phalcon_Mvc_Model_Manager, getReadConnection){
 
 	zval *model, *service = NULL, *connection_services;
-	zval *entity_name, *dependency_injector, *connection;
+	zval *entity_name, *dependency_injector, *connection = NULL;
 
 	PHALCON_MM_GROW();
 
@@ -932,7 +931,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getReadConnection){
 	/** 
 	 * Request the connection service from the DI
 	 */
-	PHALCON_INIT_VAR(connection);
 	PHALCON_CALL_METHOD(&connection, dependency_injector, "getshared", service);
 	if (Z_TYPE_P(connection) != IS_OBJECT) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Invalid injected connection service");
@@ -1054,7 +1052,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, notifyEvent){
 	
 				PHALCON_GET_HVALUE(behavior);
 	
-				PHALCON_INIT_NVAR(status);
 				PHALCON_CALL_METHOD(&status, behavior, "notify", event_name, model);
 				if (PHALCON_IS_FALSE(status)) {
 					RETURN_CTOR(status);
@@ -1075,7 +1072,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, notifyEvent){
 		PHALCON_INIT_VAR(fire_event_name);
 		PHALCON_CONCAT_SV(fire_event_name, "model:", event_name);
 	
-		PHALCON_INIT_NVAR(status);
 		PHALCON_CALL_METHOD(&status, events_manager, "fire", fire_event_name, model);
 		if (PHALCON_IS_FALSE(status)) {
 			RETURN_CTOR(status);
@@ -1095,7 +1091,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, notifyEvent){
 			PHALCON_INIT_NVAR(fire_event_name);
 			PHALCON_CONCAT_SV(fire_event_name, "model:", event_name);
 	
-			PHALCON_INIT_NVAR(status);
 			PHALCON_CALL_METHOD(&status, mgr, "fire", fire_event_name, model);
 			if (PHALCON_IS_FALSE(status)) {
 				RETURN_CTOR(status);
@@ -1152,7 +1147,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, missingMethod){
 	
 				PHALCON_GET_HVALUE(behavior);
 	
-				PHALCON_INIT_NVAR(result);
 				PHALCON_CALL_METHOD(&result, behavior, "missingmethod", model, event_name, data);
 				if (Z_TYPE_P(result) != IS_NULL) {
 					RETURN_CTOR(result);
@@ -2121,15 +2115,15 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getRelationByAlias){
 PHP_METHOD(Phalcon_Mvc_Model_Manager, getRelationRecords){
 
 	zval *relation, *method, *record, *parameters = NULL, *pre_conditions = NULL;
-	zval *placeholders = NULL, *referenced_model, *is_through;
-	zval *conditions = NULL, *intermediate_model, *intermediate_fields = NULL;
+	zval *placeholders = NULL, *referenced_model = NULL, *is_through = NULL;
+	zval *conditions = NULL, *intermediate_model = NULL, *intermediate_fields = NULL;
 	zval *fields = NULL, *value = NULL, *condition = NULL, *join_conditions;
 	zval *referenced_fields = NULL, *joined_join_conditions;
-	zval *joined_conditions = NULL, *builder, *query, *referenced_field = NULL;
-	zval *field = NULL, *ref_position = NULL, *dependency_injector;
+	zval *joined_conditions = NULL, *builder = NULL, *query = NULL, *referenced_field = NULL;
+	zval *field = NULL, *ref_position = NULL, *dependency_injector = NULL;
 	zval *find_params, *find_arguments = NULL, *arguments;
-	zval *type, *retrieve_method = NULL, *reusable, *unique_key;
-	zval *records = NULL, *referenced_entity, *call_object;
+	zval *type = NULL, *retrieve_method = NULL, *reusable = NULL, *unique_key;
+	zval *records = NULL, *referenced_entity = NULL, *call_object;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -2188,37 +2182,30 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getRelationRecords){
 	/** 
 	 * Perform the query on the referenced model
 	 */
-	PHALCON_INIT_VAR(referenced_model);
 	PHALCON_CALL_METHOD(&referenced_model, relation, "getreferencedmodel");
 	
 	/** 
 	 * Check if the relation is direct or through an intermediate model
 	 */
-	PHALCON_INIT_VAR(is_through);
 	PHALCON_CALL_METHOD(&is_through, relation, "isthrough");
 	if (zend_is_true(is_through)) {
 	
 		PHALCON_INIT_VAR(conditions);
 		array_init(conditions);
 	
-		PHALCON_INIT_VAR(intermediate_model);
 		PHALCON_CALL_METHOD(&intermediate_model, relation, "getintermediatemodel");
-	
-		PHALCON_INIT_VAR(intermediate_fields);
 		PHALCON_CALL_METHOD(&intermediate_fields, relation, "getintermediatefields");
 	
 		/** 
 		 * Appends conditions created from the fields defined in the relation
 		 */
-		PHALCON_INIT_VAR(fields);
 		PHALCON_CALL_METHOD(&fields, relation, "getfields");
 		if (Z_TYPE_P(fields) != IS_ARRAY) { 
-			PHALCON_INIT_VAR(value);
 			PHALCON_CALL_METHOD(&value, record, "readattribute", fields);
 	
 			PHALCON_INIT_VAR(condition);
 			PHALCON_CONCAT_SVSVS(condition, "[", intermediate_model, "].[", intermediate_fields, "] = ?0");
-			phalcon_array_append(&conditions, condition, PH_SEPARATE);
+			phalcon_array_append(&conditions, condition, 0);
 			phalcon_array_append(&placeholders, value, PH_SEPARATE);
 		} else {
 			PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Not supported");
@@ -2231,10 +2218,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getRelationRecords){
 		/** 
 		 * Create the join conditions
 		 */
-		PHALCON_INIT_NVAR(intermediate_fields);
 		PHALCON_CALL_METHOD(&intermediate_fields, relation, "getintermediatereferencedfields");
 		if (Z_TYPE_P(intermediate_fields) != IS_ARRAY) { 
-			PHALCON_INIT_VAR(referenced_fields);
 			PHALCON_CALL_METHOD(&referenced_fields, relation, "getreferencedfields");
 	
 			PHALCON_INIT_NVAR(condition);
@@ -2268,7 +2253,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getRelationRecords){
 		/** 
 		 * Create a query builder
 		 */
-		PHALCON_INIT_VAR(builder);
 		PHALCON_CALL_METHOD(&builder, this_ptr, "createbuilder", parameters);
 		PHALCON_CALL_METHOD(NULL, builder, "from", referenced_model);
 		PHALCON_CALL_METHOD(NULL, builder, "innerjoin", intermediate_model, joined_join_conditions);
@@ -2277,7 +2261,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getRelationRecords){
 		/** 
 		 * Get the query
 		 */
-		PHALCON_INIT_VAR(query);
 		PHALCON_CALL_METHOD(&query, builder, "getquery");
 	
 		/** 
@@ -2299,13 +2282,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getRelationRecords){
 	/** 
 	 * Appends conditions created from the fields defined in the relation
 	 */
-	PHALCON_INIT_NVAR(fields);
 	PHALCON_CALL_METHOD(&fields, relation, "getfields");
 	if (Z_TYPE_P(fields) != IS_ARRAY) { 
-		PHALCON_INIT_NVAR(value);
 		PHALCON_CALL_METHOD(&value, record, "readattribute", fields);
 	
-		PHALCON_INIT_VAR(referenced_field);
 		PHALCON_CALL_METHOD(&referenced_field, relation, "getreferencedfields");
 	
 		PHALCON_INIT_NVAR(condition);
@@ -2316,7 +2296,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getRelationRecords){
 		/** 
 		 * Compound relation
 		 */
-		PHALCON_INIT_NVAR(referenced_fields);
 		PHALCON_CALL_METHOD(&referenced_fields, relation, "getreferencedfields");
 	
 		phalcon_is_iterable(fields, &ah0, &hp0, 0, 0);
@@ -2326,7 +2305,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getRelationRecords){
 			PHALCON_GET_HKEY(ref_position, ah0, hp0);
 			PHALCON_GET_HVALUE(field);
 	
-			PHALCON_INIT_NVAR(value);
 			PHALCON_CALL_METHOD(&value, record, "readattribute", field);
 	
 			PHALCON_OBS_NVAR(referenced_field);
@@ -2342,7 +2320,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getRelationRecords){
 	
 	}
 	
-	PHALCON_INIT_VAR(dependency_injector);
 	PHALCON_CALL_METHOD(&dependency_injector, record, "getdi");
 	
 	/** 
@@ -2374,7 +2351,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getRelationRecords){
 	 * Check the right method to get the data
 	 */
 	if (Z_TYPE_P(method) == IS_NULL) {
-		PHALCON_INIT_VAR(type);
 		PHALCON_CALL_METHOD(&type, relation, "gettype");
 	
 		PHALCON_INIT_VAR(retrieve_method);
@@ -2400,7 +2376,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getRelationRecords){
 	/** 
 	 * Find first results could be reusable
 	 */
-	PHALCON_INIT_VAR(reusable);
 	PHALCON_CALL_METHOD(&reusable, relation, "isreusable");
 	if (zend_is_true(reusable)) {
 		f_reusable = 1;
@@ -2408,7 +2383,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getRelationRecords){
 		PHALCON_INIT_VAR(unique_key);
 		phalcon_unique_key(unique_key, referenced_model, arguments TSRMLS_CC);
 	
-		PHALCON_INIT_VAR(records);
 		PHALCON_CALL_METHOD(&records, this_ptr, "getreusablerecords", referenced_model, unique_key);
 		if (Z_TYPE_P(records) == IS_ARRAY || Z_TYPE_P(records) == IS_OBJECT) {
 			RETURN_CTOR(records);
@@ -2422,7 +2396,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getRelationRecords){
 	/** 
 	 * Load the referenced model
 	 */
-	PHALCON_INIT_VAR(referenced_entity);
 	PHALCON_CALL_METHOD(&referenced_entity, this_ptr, "load", referenced_model);
 	
 	/** 
@@ -2433,7 +2406,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getRelationRecords){
 	phalcon_array_append(&call_object, referenced_entity, 0);
 	phalcon_array_append(&call_object, retrieve_method, 0);
 	
-	PHALCON_INIT_NVAR(records);
+	PHALCON_INIT_NVAR(records);/**/
 	PHALCON_CALL_USER_FUNC_ARRAY(records, call_object, arguments);
 	
 	/** 
@@ -2831,16 +2804,13 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getHasManyToMany){
  */
 PHP_METHOD(Phalcon_Mvc_Model_Manager, getHasOneAndHasMany){
 
-	zval *model, *has_one, *has_many;
+	zval *model, *has_one = NULL, *has_many = NULL;
 
 	PHALCON_MM_GROW();
 
 	phalcon_fetch_params(1, 1, 0, &model);
 	
-	PHALCON_INIT_VAR(has_one);
 	PHALCON_CALL_METHOD(&has_one, this_ptr, "gethasone", model);
-	
-	PHALCON_INIT_VAR(has_many);
 	PHALCON_CALL_METHOD(&has_many, this_ptr, "gethasmany", model);
 	phalcon_fast_array_merge(return_value, &has_one, &has_many TSRMLS_CC);
 	RETURN_MM();

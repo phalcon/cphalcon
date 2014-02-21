@@ -1388,8 +1388,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getPhql){
 
 	zval *dependency_injector = NULL, *models, *conditions = NULL, *distinct;
 	zval *z_one, *number_models, *invalid_condition;
-	zval *model = NULL, *service_name, *meta_data, *model_instance;
-	zval *no_primary = NULL, *primary_keys, *first_primary_key;
+	zval *model = NULL, *service_name, *meta_data = NULL, *model_instance;
+	zval *no_primary = NULL, *primary_keys = NULL, *first_primary_key;
 	zval *column_map = NULL, *attribute_field = NULL, *exception_message;
 	zval *primary_key_condition, *phql, *columns;
 	zval *selected_columns = NULL, *column = NULL, *column_alias = NULL;
@@ -1460,7 +1460,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getPhql){
 		 * Get the models metadata service to obtain the column names, column map and
 		 * primary key
 		 */
-		PHALCON_INIT_VAR(meta_data);
 		PHALCON_CALL_METHOD(&meta_data, dependency_injector, "getshared", service_name);
 		PHALCON_VERIFY_INTERFACE(meta_data, phalcon_mvc_model_metadatainterface_ce);
 		ce0 = phalcon_fetch_class(model TSRMLS_CC);
@@ -1474,7 +1473,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getPhql){
 		PHALCON_INIT_VAR(no_primary);
 		ZVAL_TRUE(no_primary);
 	
-		PHALCON_INIT_VAR(primary_keys);
 		PHALCON_CALL_METHOD(&primary_keys, meta_data, "getprimarykeyattributes", model_instance);
 		if (phalcon_fast_count_ev(primary_keys TSRMLS_CC)) {
 			if (phalcon_array_isset_long(primary_keys, 0)) {
@@ -1486,10 +1484,9 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getPhql){
 				 * The PHQL contains the renamed columns if available
 				 */
 				if (PHALCON_GLOBAL(orm).column_renaming) {
-					PHALCON_INIT_VAR(column_map);
 					PHALCON_CALL_METHOD(&column_map, meta_data, "getcolumnmap", model_instance);
 				} else {
-					PHALCON_INIT_NVAR(column_map);
+					PHALCON_INIT_VAR(column_map);
 				}
 	
 				if (Z_TYPE_P(column_map) == IS_ARRAY) { 

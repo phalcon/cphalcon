@@ -822,7 +822,7 @@ PHP_METHOD(Phalcon_Mvc_View, _loadTemplateEngines){
 					 * Engine can be a closure
 					 */
 					if (instanceof_function(Z_OBJCE_P(engine_service), zend_ce_closure TSRMLS_CC)) {
-						PHALCON_INIT_NVAR(engine_object);
+						PHALCON_INIT_NVAR(engine_object); /**/
 						PHALCON_CALL_USER_FUNC_ARRAY(engine_object, engine_service, arguments);
 					} else {
 						PHALCON_CPY_WRT(engine_object, engine_service);
@@ -1634,7 +1634,7 @@ PHP_METHOD(Phalcon_Mvc_View, getRender){
 		array_init_size(params, 1);
 		phalcon_array_append(&params, view, 0);
 	
-		PHALCON_INIT_VAR(status);
+		PHALCON_INIT_VAR(status);/**/
 		PHALCON_CALL_USER_FUNC_ARRAY(status, config_callback, params);
 	}
 	

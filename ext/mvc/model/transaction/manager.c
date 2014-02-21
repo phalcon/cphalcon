@@ -419,10 +419,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, commit){
 	
 			PHALCON_GET_HVALUE(transaction);
 	
-			PHALCON_INIT_NVAR(connection);
 			PHALCON_CALL_METHOD(&connection, transaction, "getconnection");
-	
-			PHALCON_INIT_NVAR(is_under_transaction);
 			PHALCON_CALL_METHOD(&is_under_transaction, connection, "isundertransaction");
 			if (zend_is_true(is_under_transaction)) {
 				PHALCON_CALL_METHOD(NULL, connection, "commit");
@@ -468,10 +465,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, rollback){
 	
 			PHALCON_GET_HVALUE(transaction);
 	
-			PHALCON_INIT_NVAR(connection);
 			PHALCON_CALL_METHOD(&connection, transaction, "getconnection");
-	
-			PHALCON_INIT_NVAR(is_under_transaction);
 			PHALCON_CALL_METHOD(&is_under_transaction, connection, "isundertransaction");
 			if (zend_is_true(is_under_transaction)) {
 				PHALCON_CALL_METHOD(NULL, connection, "rollback");

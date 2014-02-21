@@ -385,7 +385,7 @@ PHP_METHOD(Phalcon_DI_Service_Builder, build){
 					/** 
 					 * Call the method on the instance
 					 */
-					PHALCON_INIT_NVAR(status);
+					PHALCON_INIT_NVAR(status);/**/
 					PHALCON_CALL_USER_FUNC_ARRAY(status, method_call, build_arguments);
 	
 					/** 
@@ -399,7 +399,7 @@ PHP_METHOD(Phalcon_DI_Service_Builder, build){
 			/** 
 			 * Call the method on the instance without arguments
 			 */
-			PHALCON_INIT_NVAR(status);
+			PHALCON_INIT_NVAR(status);/**/
 			PHALCON_CALL_USER_FUNC(status, method_call);
 	
 			zend_hash_move_forward_ex(ah0, &hp0);

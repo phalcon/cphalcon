@@ -456,7 +456,6 @@ PHP_METHOD(Phalcon_Mvc_Model, __construct){
 		PHALCON_INIT_VAR(service_name);
 		ZVAL_STRING(service_name, "modelsManager", 1);
 	
-		PHALCON_INIT_NVAR(models_manager);
 		PHALCON_CALL_METHOD(&models_manager, dependency_injector, "getshared", service_name);
 		if (Z_TYPE_P(models_manager) != IS_OBJECT) {
 			PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "The injected service 'modelsManager' is not valid");
@@ -580,7 +579,6 @@ PHP_METHOD(Phalcon_Mvc_Model, getModelsMetaData){
 		/** 
 		 * Obtain the models-metadata service from the DI
 		 */
-		PHALCON_INIT_NVAR(meta_data);
 		PHALCON_CALL_METHOD(&meta_data, dependency_injector, "getshared", service);
 		if (Z_TYPE_P(meta_data) != IS_OBJECT) {
 			PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "The injected service 'modelsMetadata' is not valid");
@@ -1270,8 +1268,8 @@ PHP_METHOD(Phalcon_Mvc_Model, cloneResult){
 PHP_METHOD(Phalcon_Mvc_Model, find){
 
 	zval *parameters = NULL, *model_name, *params = NULL, *builder;
-	zval *query, *bind_params = NULL, *bind_types = NULL, *cache;
-	zval *resultset, *hydration;
+	zval *query = NULL, *bind_params = NULL, *bind_types = NULL, *cache;
+	zval *resultset = NULL, *hydration;
 
 	PHALCON_MM_GROW();
 
@@ -1302,8 +1300,6 @@ PHP_METHOD(Phalcon_Mvc_Model, find){
 	PHALCON_CALL_METHOD(NULL, builder, "__construct", params);
 	
 	PHALCON_CALL_METHOD(NULL, builder, "from", model_name);
-	
-	PHALCON_INIT_VAR(query);
 	PHALCON_CALL_METHOD(&query, builder, "getquery");
 	
 	PHALCON_INIT_VAR(bind_params);
@@ -1335,7 +1331,6 @@ PHP_METHOD(Phalcon_Mvc_Model, find){
 	/** 
 	 * Execute the query passing the bind-params and casting-types
 	 */
-	PHALCON_INIT_VAR(resultset);
 	PHALCON_CALL_METHOD(&resultset, query, "execute", bind_params, bind_types);
 	
 	/** 
@@ -1377,7 +1372,7 @@ PHP_METHOD(Phalcon_Mvc_Model, find){
 PHP_METHOD(Phalcon_Mvc_Model, findFirst){
 
 	zval *parameters = NULL, *model_name, *params = NULL, *builder;
-	zval *query, *bind_params = NULL, *bind_types = NULL, *cache;
+	zval *query = NULL, *bind_params = NULL, *bind_types = NULL, *cache;
 	zval *unique, *index, tmp = zval_used_for_init;
 
 	PHALCON_MM_GROW();
@@ -1451,8 +1446,6 @@ PHP_METHOD(Phalcon_Mvc_Model, findFirst){
 	 * We only want the first record
 	 */
 	PHALCON_CALL_METHOD(NULL, builder, "limit", index);
-
-	PHALCON_INIT_VAR(query);
 	PHALCON_CALL_METHOD(&query, builder, "getquery");
 
 	add_index_long(bind_params, Z_LVAL(tmp), 1);
@@ -1526,13 +1519,13 @@ PHP_METHOD(Phalcon_Mvc_Model, query){
 PHP_METHOD(Phalcon_Mvc_Model, _exists){
 
 	zval *meta_data, *connection, *table = NULL, *unique_params = NULL;
-	zval *unique_types = NULL, *unique_key = NULL, *primary_keys;
-	zval *bind_data_types, *number_primary, *column_map = NULL;
+	zval *unique_types = NULL, *unique_key = NULL, *primary_keys = NULL;
+	zval *bind_data_types = NULL, *number_primary, *column_map = NULL;
 	zval *null_value, *number_empty, *where_pk, *field = NULL;
 	zval *attribute_field = NULL, *exception_message = NULL;
 	zval *value = NULL, *escaped_field = NULL, *pk_condition = NULL, *type = NULL;
-	zval *join_where, *dirty_state, *schema, *source;
-	zval *escaped_table, *null_mode, *select, *num;
+	zval *join_where, *dirty_state, *schema = NULL, *source = NULL;
+	zval *escaped_table = NULL, *null_mode, *select, *num = NULL;
 	zval *row_count, *v;
 	int seen_rawvalues = 0;
 	HashTable *ah0;
@@ -1559,11 +1552,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _exists){
 	PHALCON_OBS_VAR(unique_key);
 	phalcon_read_property_this(&unique_key, this_ptr, SL("_uniqueKey"), PH_NOISY TSRMLS_CC);
 	if (Z_TYPE_P(unique_key) == IS_NULL) {
-	
-		PHALCON_INIT_VAR(primary_keys);
 		PHALCON_CALL_METHOD(&primary_keys, meta_data, "getprimarykeyattributes", this_ptr);
-	
-		PHALCON_INIT_VAR(bind_data_types);
 		PHALCON_CALL_METHOD(&bind_data_types, meta_data, "getbindtypes", this_ptr);
 	
 		PHALCON_INIT_VAR(number_primary);
@@ -1576,10 +1565,9 @@ PHP_METHOD(Phalcon_Mvc_Model, _exists){
 		 * Check if column renaming is globally activated
 		 */
 		if (PHALCON_GLOBAL(orm).column_renaming) {
-			PHALCON_INIT_VAR(column_map);
 			PHALCON_CALL_METHOD(&column_map, meta_data, "getcolumnmap", this_ptr);
 		} else {
-			PHALCON_INIT_NVAR(column_map);
+			PHALCON_INIT_VAR(column_map);
 		}
 	
 		PHALCON_INIT_VAR(null_value);
@@ -1639,7 +1627,6 @@ PHP_METHOD(Phalcon_Mvc_Model, _exists){
 				phalcon_increment(number_empty);
 			}
 	
-			PHALCON_INIT_NVAR(escaped_field);
 			PHALCON_CALL_METHOD(&escaped_field, connection, "escapeidentifier", field);
 	
 			PHALCON_INIT_NVAR(pk_condition);
@@ -1715,10 +1702,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _exists){
 		phalcon_read_property_this(&unique_types, this_ptr, SL("_uniqueTypes"), PH_NOISY TSRMLS_CC);
 	}
 	
-	PHALCON_INIT_VAR(schema);
 	PHALCON_CALL_METHOD(&schema, this_ptr, "getschema");
-	
-	PHALCON_INIT_VAR(source);
 	PHALCON_CALL_METHOD(&source, this_ptr, "getsource");
 	if (zend_is_true(schema)) {
 		PHALCON_INIT_NVAR(table);
@@ -1729,7 +1713,6 @@ PHP_METHOD(Phalcon_Mvc_Model, _exists){
 		PHALCON_CPY_WRT(table, source);
 	}
 	
-	PHALCON_INIT_VAR(escaped_table);
 	PHALCON_CALL_METHOD(&escaped_table, connection, "escapeidentifier", table);
 	
 	PHALCON_INIT_VAR(null_mode);
@@ -1740,7 +1723,6 @@ PHP_METHOD(Phalcon_Mvc_Model, _exists){
 	PHALCON_INIT_VAR(select);
 	PHALCON_CONCAT_SVSV(select, "SELECT COUNT(*) \"rowcount\" FROM ", escaped_table, " WHERE ", unique_key);
 	
-	PHALCON_INIT_VAR(num);
 	PHALCON_CALL_METHOD(&num, connection, "fetchone", select, null_mode, unique_params, unique_types);
 	
 	if (seen_rawvalues) {
@@ -1771,9 +1753,9 @@ PHP_METHOD(Phalcon_Mvc_Model, _groupResult){
 
 	zval *function, *alias, *parameters, *params = NULL, *group_column = NULL;
 	zval *distinct_column, *columns = NULL, *group_columns;
-	zval *model_name, *builder, *query, *bind_params = NULL;
-	zval *bind_types = NULL, *resultset, *cache, *number_rows;
-	zval *first_row, *value;
+	zval *model_name, *builder, *query = NULL, *bind_params = NULL;
+	zval *bind_types = NULL, *resultset = NULL, *cache, *number_rows;
+	zval *first_row = NULL, *value;
 
 	PHALCON_MM_GROW();
 
@@ -1832,8 +1814,6 @@ PHP_METHOD(Phalcon_Mvc_Model, _groupResult){
 	
 	PHALCON_CALL_METHOD(NULL, builder, "columns", columns);
 	PHALCON_CALL_METHOD(NULL, builder, "from", model_name);
-	
-	PHALCON_INIT_VAR(query);
 	PHALCON_CALL_METHOD(&query, builder, "getquery");
 	
 	/** 
@@ -1855,7 +1835,6 @@ PHP_METHOD(Phalcon_Mvc_Model, _groupResult){
 	/** 
 	 * Execute the query
 	 */
-	PHALCON_INIT_VAR(resultset);
 	PHALCON_CALL_METHOD(&resultset, query, "execute", bind_params, bind_types);
 	
 	/** 
@@ -1879,8 +1858,6 @@ PHP_METHOD(Phalcon_Mvc_Model, _groupResult){
 	 */
 	PHALCON_INIT_VAR(number_rows);
 	phalcon_fast_count(number_rows, resultset TSRMLS_CC);
-	
-	PHALCON_INIT_VAR(first_row);
 	PHALCON_CALL_METHOD(&first_row, resultset, "getfirst");
 	
 	PHALCON_OBS_VAR(value);
@@ -2148,7 +2125,6 @@ PHP_METHOD(Phalcon_Mvc_Model, fireEventCancel){
 	 * Check if there is a method with the same name of the event
 	 */
 	if (phalcon_method_exists_ex(this_ptr, Z_STRVAL_P(lower), Z_STRLEN_P(lower)+1  TSRMLS_CC) == SUCCESS) {
-		PHALCON_INIT_VAR(status);
 		PHALCON_CALL_METHOD(&status, this_ptr, Z_STRVAL_P(lower));
 		if (PHALCON_IS_FALSE(status)) {
 			RETURN_MM_FALSE;
@@ -2161,7 +2137,6 @@ PHP_METHOD(Phalcon_Mvc_Model, fireEventCancel){
 	/** 
 	 * Send a notification to the events manager
 	 */
-	PHALCON_INIT_NVAR(status);
 	PHALCON_CALL_METHOD(&status, models_manager, "notifyevent", *event_name, this_ptr);
 	if (PHALCON_IS_FALSE(status)) {
 		RETURN_MM_FALSE;
@@ -2268,7 +2243,7 @@ PHP_METHOD(Phalcon_Mvc_Model, appendMessage){
  */
 PHP_METHOD(Phalcon_Mvc_Model, validate){
 
-	zval *validator, *status, *messages, *errors, *new_errors;
+	zval *validator, *status = NULL, *messages = NULL, *errors, *new_errors;
 
 	PHALCON_MM_GROW();
 
@@ -2283,11 +2258,8 @@ PHP_METHOD(Phalcon_Mvc_Model, validate){
 	 * Call the validation, if it returns false we append the messages to the current
 	 * object
 	 */
-	PHALCON_INIT_VAR(status);
 	PHALCON_CALL_METHOD(&status, validator, "validate", this_ptr);
 	if (PHALCON_IS_FALSE(status)) {
-	
-		PHALCON_INIT_VAR(messages);
 		PHALCON_CALL_METHOD(&messages, validator, "getmessages");
 
 		if (Z_TYPE_P(messages) == IS_ARRAY) {
@@ -2396,7 +2368,6 @@ PHP_METHOD(Phalcon_Mvc_Model, getMessages){
 			zend_hash_get_current_data_ex(Z_ARRVAL_P(messages), (void**)&value, &pos) == SUCCESS;
 			zend_hash_move_forward_ex(Z_ARRVAL_P(messages), &pos)
 		) {
-			PHALCON_INIT_NVAR(field);
 			PHALCON_CALL_METHOD(&field, *value, "getfield");
 
 			if (PHALCON_IS_EQUAL(filter, field)) {
@@ -2416,7 +2387,7 @@ PHP_METHOD(Phalcon_Mvc_Model, getMessages){
  */
 PHP_METHOD(Phalcon_Mvc_Model, _checkForeignKeysRestrict){
 
-	zval *manager, *belongs_to, *error = NULL, *relation = NULL, *foreign_key = NULL;
+	zval *manager, *belongs_to = NULL, *error = NULL, *relation = NULL, *foreign_key = NULL;
 	zval *action = NULL, *relation_class = NULL, *referenced_model = NULL;
 	zval *conditions = NULL, *bind_params = NULL, *fields = NULL, *referenced_fields = NULL;
 	zval *field = NULL, *position = NULL, *value = NULL, *referenced_field = NULL;
@@ -2438,7 +2409,6 @@ PHP_METHOD(Phalcon_Mvc_Model, _checkForeignKeysRestrict){
 	/** 
 	 * We check if some of the belongsTo relations act as virtual foreign key
 	 */
-	PHALCON_INIT_VAR(belongs_to);
 	PHALCON_CALL_METHOD(&belongs_to, manager, "getbelongsto", this_ptr);
 	if (phalcon_fast_count_ev(belongs_to TSRMLS_CC)) {
 	
@@ -2451,7 +2421,6 @@ PHP_METHOD(Phalcon_Mvc_Model, _checkForeignKeysRestrict){
 	
 			PHALCON_GET_HVALUE(relation);
 	
-			PHALCON_INIT_NVAR(foreign_key);
 			PHALCON_CALL_METHOD(&foreign_key, relation, "getforeignkey");
 			if (PHALCON_IS_NOT_FALSE(foreign_key)) {
 	
@@ -2475,14 +2444,11 @@ PHP_METHOD(Phalcon_Mvc_Model, _checkForeignKeysRestrict){
 				 * Check only if the operation is restrict
 				 */
 				if (PHALCON_IS_LONG(action, 1)) {
-	
-					PHALCON_INIT_NVAR(relation_class);
 					PHALCON_CALL_METHOD(&relation_class, relation, "getreferencedmodel");
 	
 					/** 
 					 * Load the referenced model if needed
 					 */
-					PHALCON_INIT_NVAR(referenced_model);
 					PHALCON_CALL_METHOD(&referenced_model, manager, "load", relation_class);
 	
 					/** 
@@ -2495,10 +2461,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _checkForeignKeysRestrict){
 					PHALCON_INIT_NVAR(bind_params);
 					array_init(bind_params);
 	
-					PHALCON_INIT_NVAR(fields);
 					PHALCON_CALL_METHOD(&fields, relation, "getfields");
-	
-					PHALCON_INIT_NVAR(referenced_fields);
 					PHALCON_CALL_METHOD(&referenced_fields, relation, "getreferencedfields");
 					if (Z_TYPE_P(fields) == IS_ARRAY) { 
 	
@@ -2571,7 +2534,6 @@ PHP_METHOD(Phalcon_Mvc_Model, _checkForeignKeysRestrict){
 					/** 
 					 * Let's make the checking
 					 */
-					PHALCON_INIT_NVAR(rowcount);
 					PHALCON_CALL_METHOD(&rowcount, referenced_model, "count", parameters);
 					if (!zend_is_true(rowcount)) {
 	
@@ -2640,7 +2602,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _checkForeignKeysRestrict){
  */
 PHP_METHOD(Phalcon_Mvc_Model, _checkForeignKeysReverseRestrict){
 
-	zval *manager, *relations, *error = NULL, *relation = NULL, *foreign_key = NULL;
+	zval *manager, *relations = NULL, *error = NULL, *relation = NULL, *foreign_key = NULL;
 	zval *action = NULL, *relation_class = NULL, *referenced_model = NULL;
 	zval *fields = NULL, *referenced_fields = NULL, *conditions = NULL;
 	zval *bind_params = NULL, *field = NULL, *position = NULL, *value = NULL, *referenced_field = NULL;
@@ -2662,7 +2624,6 @@ PHP_METHOD(Phalcon_Mvc_Model, _checkForeignKeysReverseRestrict){
 	/** 
 	 * We check if some of the hasOne/hasMany relations is a foreign key
 	 */
-	PHALCON_INIT_VAR(relations);
 	PHALCON_CALL_METHOD(&relations, manager, "gethasoneandhasmany", this_ptr);
 	if (phalcon_fast_count_ev(relations TSRMLS_CC)) {
 	
@@ -2678,7 +2639,6 @@ PHP_METHOD(Phalcon_Mvc_Model, _checkForeignKeysReverseRestrict){
 			/** 
 			 * Check if the relation has a virtual foreign key
 			 */
-			PHALCON_INIT_NVAR(foreign_key);
 			PHALCON_CALL_METHOD(&foreign_key, relation, "getforeignkey");
 			if (PHALCON_IS_NOT_FALSE(foreign_key)) {
 	
@@ -2703,19 +2663,13 @@ PHP_METHOD(Phalcon_Mvc_Model, _checkForeignKeysReverseRestrict){
 				 */
 				if (PHALCON_IS_LONG(action, 1)) {
 	
-					PHALCON_INIT_NVAR(relation_class);
 					PHALCON_CALL_METHOD(&relation_class, relation, "getreferencedmodel");
 	
 					/** 
 					 * Load a plain instance from the models manager
 					 */
-					PHALCON_INIT_NVAR(referenced_model);
 					PHALCON_CALL_METHOD(&referenced_model, manager, "load", relation_class);
-	
-					PHALCON_INIT_NVAR(fields);
 					PHALCON_CALL_METHOD(&fields, relation, "getfields");
-	
-					PHALCON_INIT_NVAR(referenced_fields);
 					PHALCON_CALL_METHOD(&referenced_fields, relation, "getreferencedfields");
 	
 					/** 
@@ -2791,7 +2745,6 @@ PHP_METHOD(Phalcon_Mvc_Model, _checkForeignKeysReverseRestrict){
 					/** 
 					 * Let's make the checking
 					 */
-					PHALCON_INIT_NVAR(rowcount);
 					PHALCON_CALL_METHOD(&rowcount, referenced_model, "count", parameters);
 					if (zend_is_true(rowcount)) {
 	
@@ -2852,7 +2805,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _checkForeignKeysReverseRestrict){
  */
 PHP_METHOD(Phalcon_Mvc_Model, _checkForeignKeysReverseCascade){
 
-	zval *manager, *relations, *relation = NULL, *foreign_key = NULL;
+	zval *manager, *relations = NULL, *relation = NULL, *foreign_key = NULL;
 	zval *action = NULL, *relation_class = NULL, *referenced_model = NULL;
 	zval *fields = NULL, *referenced_fields = NULL, *conditions = NULL;
 	zval *bind_params = NULL, *field = NULL, *position = NULL, *value = NULL, *referenced_field = NULL;
@@ -2873,7 +2826,6 @@ PHP_METHOD(Phalcon_Mvc_Model, _checkForeignKeysReverseCascade){
 	/** 
 	 * We check if some of the hasOne/hasMany relations is a foreign key
 	 */
-	PHALCON_INIT_VAR(relations);
 	PHALCON_CALL_METHOD(&relations, manager, "gethasoneandhasmany", this_ptr);
 	if (phalcon_fast_count_ev(relations TSRMLS_CC)) {
 	
@@ -2886,7 +2838,6 @@ PHP_METHOD(Phalcon_Mvc_Model, _checkForeignKeysReverseCascade){
 			/** 
 			 * Check if the relation has a virtual foreign key
 			 */
-			PHALCON_INIT_NVAR(foreign_key);
 			PHALCON_CALL_METHOD(&foreign_key, relation, "getforeignkey");
 			if (PHALCON_IS_NOT_FALSE(foreign_key)) {
 	
@@ -2911,19 +2862,13 @@ PHP_METHOD(Phalcon_Mvc_Model, _checkForeignKeysReverseCascade){
 				 */
 				if (PHALCON_IS_LONG(action, 2)) {
 	
-					PHALCON_INIT_NVAR(relation_class);
 					PHALCON_CALL_METHOD(&relation_class, relation, "getreferencedmodel");
 	
 					/** 
 					 * Load a plain instance from the models manager
 					 */
-					PHALCON_INIT_NVAR(referenced_model);
 					PHALCON_CALL_METHOD(&referenced_model, manager, "load", relation_class);
-	
-					PHALCON_INIT_NVAR(fields);
 					PHALCON_CALL_METHOD(&fields, relation, "getfields");
-	
-					PHALCON_INIT_NVAR(referenced_fields);
 					PHALCON_CALL_METHOD(&referenced_fields, relation, "getreferencedfields");
 	
 					/** 
@@ -2999,13 +2944,11 @@ PHP_METHOD(Phalcon_Mvc_Model, _checkForeignKeysReverseCascade){
 					/** 
 					 * Let's make the checking
 					 */
-					PHALCON_INIT_NVAR(resulset);
 					PHALCON_CALL_METHOD(&resulset, referenced_model, "find", parameters);
 	
 					/** 
 					 * Delete the resultset
 					 */
-					PHALCON_INIT_NVAR(status);
 					PHALCON_CALL_METHOD(&status, resulset, "delete");
 	
 					/** 
@@ -3036,7 +2979,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _checkForeignKeysReverseCascade){
 PHP_METHOD(Phalcon_Mvc_Model, _preSave){
 
 	zval *meta_data, *exists, *identity_field, *event_name = NULL;
-	zval *status = NULL, *not_null, *data_type_numeric;
+	zval *status = NULL, *not_null = NULL, *data_type_numeric = NULL;
 	zval *column_map = NULL, *automatic_attributes = NULL, *error = NULL;
 	zval *null_value, *field = NULL, *is_null = NULL, *attribute_field = NULL;
 	zval *exception_message = NULL, *value = NULL, *message = NULL, *type = NULL;
@@ -3060,7 +3003,6 @@ PHP_METHOD(Phalcon_Mvc_Model, _preSave){
 		/** 
 		 * Call the beforeValidation
 		 */
-		PHALCON_INIT_VAR(status);
 		PHALCON_CALL_METHOD(&status, this_ptr, "fireeventcancel", event_name);
 		if (PHALCON_IS_FALSE(status)) {
 			RETURN_MM_FALSE;
@@ -3077,7 +3019,6 @@ PHP_METHOD(Phalcon_Mvc_Model, _preSave){
 		/** 
 		 * Call the specific beforeValidation event for the current action
 		 */
-		PHALCON_INIT_NVAR(status);
 		PHALCON_CALL_METHOD(&status, this_ptr, "fireeventcancel", event_name);
 		if (PHALCON_IS_FALSE(status)) {
 			RETURN_MM_FALSE;
@@ -3088,8 +3029,6 @@ PHP_METHOD(Phalcon_Mvc_Model, _preSave){
 	 * Check for Virtual foreign keys
 	 */
 	if (PHALCON_GLOBAL(orm).virtual_foreign_keys) {
-	
-		PHALCON_INIT_NVAR(status);
 		PHALCON_CALL_METHOD(&status, this_ptr, "_checkforeignkeysrestrict");
 		if (PHALCON_IS_FALSE(status)) {
 			RETURN_MM_FALSE;
@@ -3100,31 +3039,25 @@ PHP_METHOD(Phalcon_Mvc_Model, _preSave){
 	 * Columns marked as not null are automatically validated by the ORM
 	 */
 	if (PHALCON_GLOBAL(orm).not_null_validations) {
-	
-		PHALCON_INIT_VAR(not_null);
 		PHALCON_CALL_METHOD(&not_null, meta_data, "getnotnullattributes", this_ptr);
 		if (Z_TYPE_P(not_null) == IS_ARRAY) { 
 	
 			/** 
 			 * Gets the fields that are numeric, these are validated in a diferent way
 			 */
-			PHALCON_INIT_VAR(data_type_numeric);
 			PHALCON_CALL_METHOD(&data_type_numeric, meta_data, "getdatatypesnumeric", this_ptr);
 			if (PHALCON_GLOBAL(orm).column_renaming) {
-				PHALCON_INIT_VAR(column_map);
 				PHALCON_CALL_METHOD(&column_map, meta_data, "getcolumnmap", this_ptr);
 			} else {
-				PHALCON_INIT_NVAR(column_map);
+				PHALCON_INIT_VAR(column_map);
 			}
 	
 			/** 
 			 * Get fields that must be omitted from the SQL generation
 			 */
 			if (zend_is_true(exists)) {
-				PHALCON_INIT_VAR(automatic_attributes);
 				PHALCON_CALL_METHOD(&automatic_attributes, meta_data, "getautomaticupdateattributes", this_ptr);
 			} else {
-				PHALCON_INIT_NVAR(automatic_attributes);
 				PHALCON_CALL_METHOD(&automatic_attributes, meta_data, "getautomaticcreateattributes", this_ptr);
 			}
 	
@@ -3247,7 +3180,6 @@ PHP_METHOD(Phalcon_Mvc_Model, _preSave){
 	/** 
 	 * Call the main validation event
 	 */
-	PHALCON_INIT_NVAR(status);
 	PHALCON_CALL_METHOD(&status, this_ptr, "fireeventcancel", event_name);
 	if (PHALCON_IS_FALSE(status)) {
 		if (PHALCON_GLOBAL(orm).events) {
@@ -3273,7 +3205,6 @@ PHP_METHOD(Phalcon_Mvc_Model, _preSave){
 		/** 
 		 * Run Validation Callbacks After
 		 */
-		PHALCON_INIT_NVAR(status);
 		PHALCON_CALL_METHOD(&status, this_ptr, "fireeventcancel", event_name);
 		if (PHALCON_IS_FALSE(status)) {
 			RETURN_MM_FALSE;
@@ -3282,7 +3213,6 @@ PHP_METHOD(Phalcon_Mvc_Model, _preSave){
 		PHALCON_INIT_NVAR(event_name);
 		ZVAL_STRING(event_name, "afterValidation", 1);
 	
-		PHALCON_INIT_NVAR(status);
 		PHALCON_CALL_METHOD(&status, this_ptr, "fireeventcancel", event_name);
 		if (PHALCON_IS_FALSE(status)) {
 			RETURN_MM_FALSE;
@@ -3294,7 +3224,6 @@ PHP_METHOD(Phalcon_Mvc_Model, _preSave){
 		/** 
 		 * Run Before Callbacks
 		 */
-		PHALCON_INIT_NVAR(status);
 		PHALCON_CALL_METHOD(&status, this_ptr, "fireeventcancel", event_name);
 		if (PHALCON_IS_FALSE(status)) {
 			RETURN_MM_FALSE;
@@ -3313,7 +3242,6 @@ PHP_METHOD(Phalcon_Mvc_Model, _preSave){
 		/** 
 		 * The operation can be skipped here
 		 */
-		PHALCON_INIT_NVAR(status);
 		PHALCON_CALL_METHOD(&status, this_ptr, "fireeventcancel", event_name);
 		if (PHALCON_IS_FALSE(status)) {
 			RETURN_MM_FALSE;
@@ -3383,12 +3311,12 @@ PHP_METHOD(Phalcon_Mvc_Model, _doLowInsert){
 
 	zval *meta_data, *connection, *table, *identity_field;
 	zval *null_value, *bind_skip, *fields, *values;
-	zval *bind_types, *attributes, *bind_data_types;
-	zval *automatic_attributes, *column_map = NULL, *field = NULL;
+	zval *bind_types, *attributes = NULL, *bind_data_types = NULL;
+	zval *automatic_attributes = NULL, *column_map = NULL, *field = NULL;
 	zval *attribute_field = NULL, *exception_message = NULL;
-	zval *value = NULL, *bind_type = NULL, *default_value, *use_explicit_identity;
-	zval *success, *sequence_name = NULL, *support_sequences;
-	zval *schema, *source, *last_insert_id;
+	zval *value = NULL, *bind_type = NULL, *default_value = NULL, *use_explicit_identity = NULL;
+	zval *success = NULL, *sequence_name = NULL, *support_sequences = NULL;
+	zval *schema = NULL, *source = NULL, *last_insert_id = NULL;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -3412,18 +3340,15 @@ PHP_METHOD(Phalcon_Mvc_Model, _doLowInsert){
 	PHALCON_INIT_VAR(bind_types);
 	array_init(bind_types);
 	
-	PHALCON_INIT_VAR(attributes);
 	PHALCON_CALL_METHOD(&attributes, meta_data, "getattributes", this_ptr);
-	
-	PHALCON_INIT_VAR(bind_data_types);
 	PHALCON_CALL_METHOD(&bind_data_types, meta_data, "getbindtypes", this_ptr);
-	
-	PHALCON_INIT_VAR(automatic_attributes);
 	PHALCON_CALL_METHOD(&automatic_attributes, meta_data, "getautomaticcreateattributes", this_ptr);
 
-	PHALCON_INIT_VAR(column_map);
 	if (PHALCON_GLOBAL(orm).column_renaming) {
 		PHALCON_CALL_METHOD(&column_map, meta_data, "getcolumnmap", this_ptr);
+	}
+	else {
+		PHALCON_INIT_VAR(column_map);
 	}
 	
 	/** 
@@ -3497,14 +3422,11 @@ PHP_METHOD(Phalcon_Mvc_Model, _doLowInsert){
 	 */
 	identity_field_is_not_false = PHALCON_IS_NOT_FALSE(identity_field);
 	if (identity_field_is_not_false) {
-	
-		PHALCON_INIT_VAR(default_value);
 		PHALCON_CALL_METHOD(&default_value, connection, "getdefaultidvalue");
 	
 		/** 
 		 * Not all the database systems require an explicit value for identity columns
 		 */
-		PHALCON_INIT_VAR(use_explicit_identity);
 		PHALCON_CALL_METHOD(&use_explicit_identity, connection, "useexplicitidvalue");
 		if (zend_is_true(use_explicit_identity)) {
 			phalcon_array_append(&fields, identity_field, PH_SEPARATE);
@@ -3574,41 +3496,35 @@ PHP_METHOD(Phalcon_Mvc_Model, _doLowInsert){
 	/** 
 	 * The low level insert is performed
 	 */
-	PHALCON_INIT_VAR(success);
 	PHALCON_CALL_METHOD(&success, connection, "insert", table, values, fields, bind_types);
 	if (identity_field_is_not_false) {
 	
 		/** 
 		 * We check if the model have sequences
 		 */
-		PHALCON_INIT_VAR(sequence_name);
-	
-		PHALCON_INIT_VAR(support_sequences);
 		PHALCON_CALL_METHOD(&support_sequences, connection, "supportsequences");
 		if (PHALCON_IS_TRUE(support_sequences)) {
 			if (phalcon_method_exists_ex(this_ptr, SS("getsequencename") TSRMLS_CC) == SUCCESS) {
 				PHALCON_CALL_METHOD(&sequence_name, this_ptr, "getsequencename");
 			} else {
-				PHALCON_INIT_VAR(schema); 
 				PHALCON_CALL_METHOD(&schema, this_ptr, "getschema"); 
-
-				PHALCON_INIT_VAR(source);
 				PHALCON_CALL_METHOD(&source, this_ptr, "getsource");
 
+				PHALCON_INIT_VAR(sequence_name);
 				if (PHALCON_IS_EMPTY(schema)) {	
-					PHALCON_INIT_NVAR(sequence_name);
 					PHALCON_CONCAT_VSVS(sequence_name, source, "_", identity_field, "_seq");
 				} else {
-					PHALCON_INIT_NVAR(sequence_name);
 					PHALCON_CONCAT_VSVSVS(sequence_name, schema, ".", source, "_", identity_field, "_seq");
 				}
 			}
+		}
+		else {
+			PHALCON_INIT_VAR(sequence_name);
 		}
 	
 		/** 
 		 * Recover the last "insert id" and assign it to the object
 		 */
-		PHALCON_INIT_VAR(last_insert_id);
 		PHALCON_CALL_METHOD(&last_insert_id, connection, "lastinsertid", sequence_name);
 		phalcon_update_property_zval_zval(this_ptr, attribute_field, last_insert_id TSRMLS_CC);
 	
@@ -3635,11 +3551,11 @@ PHP_METHOD(Phalcon_Mvc_Model, _doLowUpdate){
 	zval *meta_data, *connection, *table, *null_value;
 	zval *bind_skip, *fields, *values, *bind_types;
 	zval *manager, *use_dynamic_update = NULL, *snapshot;
-	zval *bind_data_types, *non_primary, *automatic_attributes;
+	zval *bind_data_types = NULL, *non_primary = NULL, *automatic_attributes = NULL;
 	zval *column_map = NULL, *field = NULL, *exception_message = NULL;
 	zval *attribute_field = NULL, *value = NULL, *bind_type = NULL, *changed = NULL;
 	zval *snapshot_value = NULL, *unique_key, *unique_params = NULL;
-	zval *unique_types, *primary_keys, *conditions;
+	zval *unique_types, *primary_keys = NULL, *conditions;
 	HashTable *ah0, *ah1;
 	HashPosition hp0, hp1;
 	zval **hd;
@@ -3669,7 +3585,6 @@ PHP_METHOD(Phalcon_Mvc_Model, _doLowUpdate){
 	/** 
 	 * Check if the model must use dynamic update
 	 */
-	PHALCON_INIT_VAR(use_dynamic_update);
 	PHALCON_CALL_METHOD(&use_dynamic_update, manager, "isusingdynamicupdate", this_ptr);
 	i_use_dynamic_update = zend_is_true(use_dynamic_update);
 	if (i_use_dynamic_update) {
@@ -3681,19 +3596,13 @@ PHP_METHOD(Phalcon_Mvc_Model, _doLowUpdate){
 		}
 	}
 	
-	PHALCON_INIT_VAR(bind_data_types);
 	PHALCON_CALL_METHOD(&bind_data_types, meta_data, "getbindtypes", this_ptr);
-	
-	PHALCON_INIT_VAR(non_primary);
 	PHALCON_CALL_METHOD(&non_primary, meta_data, "getnonprimarykeyattributes", this_ptr);
-	
-	PHALCON_INIT_VAR(automatic_attributes);
 	PHALCON_CALL_METHOD(&automatic_attributes, meta_data, "getautomaticupdateattributes", this_ptr);
 	if (PHALCON_GLOBAL(orm).column_renaming) {
-		PHALCON_INIT_VAR(column_map);
 		PHALCON_CALL_METHOD(&column_map, meta_data, "getcolumnmap", this_ptr);
 	} else {
-		PHALCON_INIT_NVAR(column_map);
+		PHALCON_INIT_VAR(column_map);
 	}
 	
 	/** 
@@ -3821,7 +3730,6 @@ PHP_METHOD(Phalcon_Mvc_Model, _doLowUpdate){
 		PHALCON_INIT_NVAR(unique_params);
 		array_init(unique_params);
 	
-		PHALCON_INIT_VAR(primary_keys);
 		PHALCON_CALL_METHOD(&primary_keys, meta_data, "getprimarykeyattributes", this_ptr);
 	
 		/** 
@@ -3893,7 +3801,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _doLowUpdate){
 PHP_METHOD(Phalcon_Mvc_Model, _preSaveRelatedRecords){
 
 	zval *connection, *related, *nesting, *class_name;
-	zval *manager, *record = NULL, *name = NULL, *relation = NULL, *type = NULL, *columns = NULL;
+	zval *manager = NULL, *record = NULL, *name = NULL, *relation = NULL, *type = NULL, *columns = NULL;
 	zval *referenced_model = NULL, *referenced_fields = NULL;
 	zval *status = NULL, *referenced_value = NULL;
 	HashTable *ah0;
@@ -3914,7 +3822,6 @@ PHP_METHOD(Phalcon_Mvc_Model, _preSaveRelatedRecords){
 	PHALCON_INIT_VAR(class_name);
 	phalcon_get_class(class_name, this_ptr, 0 TSRMLS_CC);
 	
-	PHALCON_INIT_VAR(manager);
 	PHALCON_CALL_METHOD(&manager, this_ptr, "getmodelsmanager");
 	
 	phalcon_is_iterable(related, &ah0, &hp0, 0, 0);
@@ -3927,14 +3834,12 @@ PHP_METHOD(Phalcon_Mvc_Model, _preSaveRelatedRecords){
 		/** 
 		 * Try to get a relation with the same name
 		 */
-		PHALCON_INIT_NVAR(relation);
 		PHALCON_CALL_METHOD(&relation, manager, "getrelationbyalias", class_name, name);
 		if (Z_TYPE_P(relation) == IS_OBJECT) {
 	
 			/** 
 			 * Get the relation type
 			 */
-			PHALCON_INIT_NVAR(type);
 			PHALCON_CALL_METHOD(&type, relation, "gettype");
 	
 			/** 
@@ -3948,13 +3853,8 @@ PHP_METHOD(Phalcon_Mvc_Model, _preSaveRelatedRecords){
 					return;
 				}
 	
-				PHALCON_INIT_NVAR(columns);
 				PHALCON_CALL_METHOD(&columns, relation, "getfields");
-	
-				PHALCON_INIT_NVAR(referenced_model);
 				PHALCON_CALL_METHOD(&referenced_model, relation, "getreferencedmodel");
-	
-				PHALCON_INIT_NVAR(referenced_fields);
 				PHALCON_CALL_METHOD(&referenced_fields, relation, "getreferencedfields");
 				if (Z_TYPE_P(columns) == IS_ARRAY) { 
 					PHALCON_CALL_METHOD(NULL, connection, "rollback", nesting);
@@ -3965,7 +3865,6 @@ PHP_METHOD(Phalcon_Mvc_Model, _preSaveRelatedRecords){
 				/** 
 				 * If dynamic update is enabled, saving the record must not take any action
 				 */
-				PHALCON_INIT_NVAR(status);
 				PHALCON_CALL_METHOD(&status, record, "save");
 				if (!zend_is_true(status)) {
 	
@@ -3986,7 +3885,6 @@ PHP_METHOD(Phalcon_Mvc_Model, _preSaveRelatedRecords){
 				/** 
 				 * Read the attribute from the referenced model and assigns it to the current model
 				 */
-				PHALCON_INIT_NVAR(referenced_value);
 				PHALCON_CALL_METHOD(&referenced_value, record, "readattribute", referenced_fields);
 	
 				/** 
@@ -4012,7 +3910,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _preSaveRelatedRecords){
 PHP_METHOD(Phalcon_Mvc_Model, _postSaveRelatedRecords){
 
 	zval *connection, *related, *nesting, *class_name;
-	zval *manager, *record = NULL, *name = NULL, *relation = NULL, *type = NULL, *columns = NULL;
+	zval *manager = NULL, *record = NULL, *name = NULL, *relation = NULL, *type = NULL, *columns = NULL;
 	zval *referenced_model = NULL, *referenced_fields = NULL;
 	zval *related_records = NULL, *exception_message = NULL;
 	zval *value = NULL, *is_through = NULL, *new_instance, *intermediate_model_name = NULL;
@@ -4036,7 +3934,6 @@ PHP_METHOD(Phalcon_Mvc_Model, _postSaveRelatedRecords){
 	PHALCON_INIT_VAR(class_name);
 	phalcon_get_class(class_name, this_ptr, 0 TSRMLS_CC);
 	
-	PHALCON_INIT_VAR(manager);
 	PHALCON_CALL_METHOD(&manager, this_ptr, "getmodelsmanager");
 	
 	phalcon_is_iterable(related, &ah0, &hp0, 0, 0);
@@ -4049,11 +3946,9 @@ PHP_METHOD(Phalcon_Mvc_Model, _postSaveRelatedRecords){
 		/** 
 		 * Try to get a relation with the same name
 		 */
-		PHALCON_INIT_NVAR(relation);
 		PHALCON_CALL_METHOD(&relation, manager, "getrelationbyalias", class_name, name);
 		if (Z_TYPE_P(relation) == IS_OBJECT) {
 	
-			PHALCON_INIT_NVAR(type);
 			PHALCON_CALL_METHOD(&type, relation, "gettype");
 	
 			/** 
@@ -4070,13 +3965,8 @@ PHP_METHOD(Phalcon_Mvc_Model, _postSaveRelatedRecords){
 				return;
 			}
 	
-			PHALCON_INIT_NVAR(columns);
 			PHALCON_CALL_METHOD(&columns, relation, "getfields");
-	
-			PHALCON_INIT_NVAR(referenced_model);
 			PHALCON_CALL_METHOD(&referenced_model, relation, "getreferencedmodel");
-	
-			PHALCON_INIT_NVAR(referenced_fields);
 			PHALCON_CALL_METHOD(&referenced_fields, relation, "getreferencedfields");
 
 			if (Z_TYPE_P(columns) == IS_ARRAY) { 
@@ -4114,20 +4004,14 @@ PHP_METHOD(Phalcon_Mvc_Model, _postSaveRelatedRecords){
 			/** 
 			 * Check if the relation is a has-many-to-many
 			 */
-			PHALCON_INIT_NVAR(is_through);
 			PHALCON_CALL_METHOD(&is_through, relation, "isthrough");
 	
 			/** 
 			 * Get the rest of intermediate model info
 			 */
 			if (zend_is_true(is_through)) {
-				PHALCON_INIT_NVAR(intermediate_model_name);
 				PHALCON_CALL_METHOD(&intermediate_model_name, relation, "getintermediatemodel");
-	
-				PHALCON_INIT_NVAR(intermediate_fields);
 				PHALCON_CALL_METHOD(&intermediate_fields, relation, "getintermediatefields");
-	
-				PHALCON_INIT_NVAR(intermediate_referenced_fields);
 				PHALCON_CALL_METHOD(&intermediate_referenced_fields, relation, "getintermediatereferencedfields");
 			}
 	
@@ -4151,7 +4035,6 @@ PHP_METHOD(Phalcon_Mvc_Model, _postSaveRelatedRecords){
 				/**
 				 * Save the record and get messages
 				 */
-				PHALCON_INIT_NVAR(status);
 				PHALCON_CALL_METHOD(&status, record_after, "save");
 				if (!zend_is_true(status)) {
 
@@ -4173,7 +4056,6 @@ PHP_METHOD(Phalcon_Mvc_Model, _postSaveRelatedRecords){
 					/** 
 					 * Create a new instance of the intermediate model
 					 */
-					PHALCON_INIT_NVAR(intermediate_model);
 					PHALCON_CALL_METHOD(&intermediate_model, manager, "load", intermediate_model_name, new_instance);
 	
 					/** 
@@ -4195,7 +4077,6 @@ PHP_METHOD(Phalcon_Mvc_Model, _postSaveRelatedRecords){
 					/** 
 					 * Save the record and get messages
 					 */
-					PHALCON_INIT_NVAR(status);
 					PHALCON_CALL_METHOD(&status, intermediate_model, "save");
 					if (!zend_is_true(status)) {
 	
@@ -4261,10 +4142,10 @@ PHP_METHOD(Phalcon_Mvc_Model, _postSaveRelatedRecords){
  */
 PHP_METHOD(Phalcon_Mvc_Model, save){
 
-	zval *data = NULL, *white_list = NULL, *meta_data, *attributes = NULL;
-	zval *attribute = NULL, *value = NULL, *possible_setter = NULL, *write_connection;
-	zval *related, *status = NULL, *schema, *source, *table = NULL, *read_connection;
-	zval *exists, *error_messages = NULL, *identity_field;
+	zval *data = NULL, *white_list = NULL, *meta_data = NULL, *attributes = NULL;
+	zval *attribute = NULL, *value = NULL, *possible_setter = NULL, *write_connection = NULL;
+	zval *related, *status = NULL, *schema = NULL, *source = NULL, *table = NULL, *read_connection = NULL;
+	zval *exists = NULL, *error_messages = NULL, *identity_field = NULL;
 	zval *nesting = NULL, *exception, *success = NULL, *new_success = NULL;
 	HashTable *ah0;
 	HashPosition hp0;
@@ -4282,7 +4163,6 @@ PHP_METHOD(Phalcon_Mvc_Model, save){
 		white_list = PHALCON_GLOBAL(z_null);
 	}
 	
-	PHALCON_INIT_VAR(meta_data);
 	PHALCON_CALL_METHOD(&meta_data, this_ptr, "getmodelsmetadata");
 	
 	/** 
@@ -4297,13 +4177,11 @@ PHP_METHOD(Phalcon_Mvc_Model, save){
 		/** 
 		 * Get the reversed column map for future renamings
 		 */
-		PHALCON_INIT_VAR(attributes);
 		PHALCON_CALL_METHOD(&attributes, meta_data, "getcolumnmap", this_ptr);
 		if (Z_TYPE_P(attributes) != IS_ARRAY) { 
 			/** 
 			 * Use the standard column map if there are no renamings
 			 */
-			PHALCON_INIT_NVAR(attributes);
 			PHALCON_CALL_METHOD(&attributes, meta_data, "getattributes", this_ptr);
 		}
 	
@@ -4352,7 +4230,6 @@ PHP_METHOD(Phalcon_Mvc_Model, save){
 	/** 
 	 * Create/Get the current database connection
 	 */
-	PHALCON_INIT_VAR(write_connection);
 	PHALCON_CALL_METHOD(&write_connection, this_ptr, "getwriteconnection");
 	
 	/** 
@@ -4362,17 +4239,13 @@ PHP_METHOD(Phalcon_Mvc_Model, save){
 	phalcon_read_property_this(&related, this_ptr, SL("_related"), PH_NOISY TSRMLS_CC);
 	if (Z_TYPE_P(related) == IS_ARRAY) { 
 	
-		PHALCON_INIT_VAR(status);
 		PHALCON_CALL_METHOD(&status, this_ptr, "_presaverelatedrecords", write_connection, related);
 		if (PHALCON_IS_FALSE(status)) {
 			RETURN_MM_FALSE;
 		}
 	}
 	
-	PHALCON_INIT_VAR(schema);
 	PHALCON_CALL_METHOD(&schema, this_ptr, "getschema");
-	
-	PHALCON_INIT_VAR(source);
 	PHALCON_CALL_METHOD(&source, this_ptr, "getsource");
 	if (zend_is_true(schema)) {
 		PHALCON_INIT_VAR(table);
@@ -4386,13 +4259,11 @@ PHP_METHOD(Phalcon_Mvc_Model, save){
 	/** 
 	 * Create/Get the current database connection
 	 */
-	PHALCON_INIT_VAR(read_connection);
 	PHALCON_CALL_METHOD(&read_connection, this_ptr, "getreadconnection");
 	
 	/** 
 	 * We need to check if the record exists
 	 */
-	PHALCON_INIT_VAR(exists);
 	PHALCON_CALL_METHOD(&exists, this_ptr, "_exists", meta_data, read_connection, table);
 	if (zend_is_true(exists)) {
 		phalcon_update_property_long(this_ptr, SL("_operationMade"), 2 TSRMLS_CC);
@@ -4410,13 +4281,11 @@ PHP_METHOD(Phalcon_Mvc_Model, save){
 	/** 
 	 * Query the identity field
 	 */
-	PHALCON_INIT_VAR(identity_field);
 	PHALCON_CALL_METHOD(&identity_field, meta_data, "getidentityfield", this_ptr);
 	
 	/** 
 	 * _preSave() makes all the validations
 	 */
-	PHALCON_INIT_NVAR(status);
 	PHALCON_CALL_METHOD(&status, this_ptr, "_presave", meta_data, exists, identity_field);
 	if (PHALCON_IS_FALSE(status)) {
 	
@@ -4454,10 +4323,8 @@ PHP_METHOD(Phalcon_Mvc_Model, save){
 	 * Depending if the record exists we do an update or an insert operation
 	 */
 	if (zend_is_true(exists)) {
-		PHALCON_INIT_VAR(success);
 		PHALCON_CALL_METHOD(&success, this_ptr, "_dolowupdate", meta_data, write_connection, table);
 	} else {
-		PHALCON_INIT_NVAR(success);
 		PHALCON_CALL_METHOD(&success, this_ptr, "_dolowinsert", meta_data, write_connection, table, identity_field);
 	}
 	
@@ -4472,7 +4339,6 @@ PHP_METHOD(Phalcon_Mvc_Model, save){
 	 * _postSave() makes all the validations
 	 */
 	if (PHALCON_GLOBAL(orm).events) {
-		PHALCON_INIT_VAR(new_success);
 		PHALCON_CALL_METHOD(&new_success, this_ptr, "_postsave", success, exists);
 	} else {
 		PHALCON_CPY_WRT(new_success, success);
@@ -4493,7 +4359,6 @@ PHP_METHOD(Phalcon_Mvc_Model, save){
 		/** 
 		 * Save the post-related records
 		 */
-		PHALCON_INIT_NVAR(status);
 		PHALCON_CALL_METHOD(&status, this_ptr, "_postsaverelatedrecords", write_connection, related);
 		if (PHALCON_IS_FALSE(status)) {
 			RETURN_MM_FALSE;
@@ -4530,10 +4395,10 @@ PHP_METHOD(Phalcon_Mvc_Model, save){
  */
 PHP_METHOD(Phalcon_Mvc_Model, create){
 
-	zval *data = NULL, *white_list = NULL, *meta_data, *column_map = NULL;
-	zval *attributes, *attribute = NULL, *attribute_field = NULL;
+	zval *data = NULL, *white_list = NULL, *meta_data = NULL, *column_map = NULL;
+	zval *attributes = NULL, *attribute = NULL, *attribute_field = NULL;
 	zval *exception_message = NULL, *value = NULL, *possible_setter = NULL;
-	zval *read_connection, *exists, *field, *type, *message;
+	zval *read_connection = NULL, *exists = NULL, *field, *type, *message;
 	zval *model_message, *messages;
 	HashTable *ah0;
 	HashPosition hp0;
@@ -4551,7 +4416,6 @@ PHP_METHOD(Phalcon_Mvc_Model, create){
 		white_list = PHALCON_GLOBAL(z_null);
 	}
 	
-	PHALCON_INIT_VAR(meta_data);
 	PHALCON_CALL_METHOD(&meta_data, this_ptr, "getmodelsmetadata");
 	
 	/** 
@@ -4563,16 +4427,14 @@ PHP_METHOD(Phalcon_Mvc_Model, create){
 			return;
 		}
 		if (PHALCON_GLOBAL(orm).column_renaming) {
-			PHALCON_INIT_VAR(column_map);
 			PHALCON_CALL_METHOD(&column_map, meta_data, "getcolumnmap", this_ptr);
 		} else {
-			PHALCON_INIT_NVAR(column_map);
+			PHALCON_INIT_VAR(column_map);
 		}
 	
 		/** 
 		 * We assign the fields starting from the current attributes in the model
 		 */
-		PHALCON_INIT_VAR(attributes);
 		PHALCON_CALL_METHOD(&attributes, meta_data, "getattributes", this_ptr);
 	
 		phalcon_is_iterable(attributes, &ah0, &hp0, 0, 0);
@@ -4640,13 +4502,11 @@ PHP_METHOD(Phalcon_Mvc_Model, create){
 	/** 
 	 * Get the current connection
 	 */
-	PHALCON_INIT_VAR(read_connection);
 	PHALCON_CALL_METHOD(&read_connection, this_ptr, "getreadconnection");
 	
 	/** 
 	 * A 'exists' confirmation is performed first
 	 */
-	PHALCON_INIT_VAR(exists);
 	PHALCON_CALL_METHOD(&exists, this_ptr, "_exists", meta_data, read_connection);
 	
 	/** 
@@ -4697,9 +4557,9 @@ PHP_METHOD(Phalcon_Mvc_Model, create){
 PHP_METHOD(Phalcon_Mvc_Model, update){
 
 	zval *data = NULL, *white_list = NULL, *meta_data = NULL, *column_map = NULL;
-	zval *attributes, *attribute = NULL, *attribute_field = NULL;
+	zval *attributes = NULL, *attribute = NULL, *attribute_field = NULL;
 	zval *exception_message = NULL, *value = NULL, *possible_setter = NULL;
-	zval *dirty_state, *read_connection, *exists;
+	zval *dirty_state, *read_connection = NULL, *exists = NULL;
 	zval *field, *type, *message, *model_message, *messages;
 	HashTable *ah0;
 	HashPosition hp0;
@@ -4730,16 +4590,14 @@ PHP_METHOD(Phalcon_Mvc_Model, update){
 	
 		PHALCON_CALL_METHOD(&meta_data, this_ptr, "getmodelsmetadata");
 		if (PHALCON_GLOBAL(orm).column_renaming) {
-			PHALCON_INIT_VAR(column_map);
 			PHALCON_CALL_METHOD(&column_map, meta_data, "getcolumnmap", this_ptr);
 		} else {
-			PHALCON_INIT_NVAR(column_map);
+			PHALCON_INIT_VAR(column_map);
 		}
 	
 		/** 
 		 * We assign the fields starting from the current attributes in the model
 		 */
-		PHALCON_INIT_VAR(attributes);
 		PHALCON_CALL_METHOD(&attributes, meta_data, "getattributes", this_ptr);
 	
 		phalcon_is_iterable(attributes, &ah0, &hp0, 0, 0);
@@ -4811,14 +4669,11 @@ PHP_METHOD(Phalcon_Mvc_Model, update){
 	phalcon_read_property_this(&dirty_state, this_ptr, SL("_dirtyState"), PH_NOISY TSRMLS_CC);
 	if (zend_is_true(dirty_state)) {
 		if (Z_TYPE_P(meta_data) == IS_NULL) {
-			PHALCON_INIT_NVAR(meta_data);
 			PHALCON_CALL_METHOD(&meta_data, this_ptr, "getmodelsmetadata");
 		}
 	
-		PHALCON_INIT_VAR(read_connection);
 		PHALCON_CALL_METHOD(&read_connection, this_ptr, "getreadconnection");
-	
-		PHALCON_INIT_VAR(exists);
+
 		PHALCON_CALL_METHOD(&exists, this_ptr, "_exists", meta_data, read_connection);
 		if (!zend_is_true(exists)) {
 			PHALCON_INIT_VAR(field);
@@ -4864,24 +4719,21 @@ PHP_METHOD(Phalcon_Mvc_Model, update){
  */
 PHP_METHOD(Phalcon_Mvc_Model, delete){
 
-	zval *meta_data, *write_connection, *empty_array;
+	zval *meta_data = NULL, *write_connection = NULL, *empty_array;
 	zval *check_foreign_keys = NULL, *values, *bind_types;
-	zval *conditions, *primary_keys, *bind_data_types;
+	zval *conditions, *primary_keys = NULL, *bind_data_types = NULL;
 	zval *column_map = NULL, *primary_key = NULL, *exception_message = NULL;
 	zval *attribute_field = NULL, *value = NULL, *escaped_field = NULL;
 	zval *primary_condition = NULL, *bind_type = NULL, *delete_conditions;
-	zval *event_name = NULL, *status, *skipped, *schema, *source;
-	zval *table = NULL, *success;
+	zval *event_name = NULL, *status = NULL, *skipped, *schema = NULL, *source = NULL;
+	zval *table = NULL, *success = NULL;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
 
 	PHALCON_MM_GROW();
 
-	PHALCON_INIT_VAR(meta_data);
 	PHALCON_CALL_METHOD(&meta_data, this_ptr, "getmodelsmetadata");
-	
-	PHALCON_INIT_VAR(write_connection);
 	PHALCON_CALL_METHOD(&write_connection, this_ptr, "getwriteconnection");
 	
 	/** 
@@ -4897,8 +4749,6 @@ PHP_METHOD(Phalcon_Mvc_Model, delete){
 	 * Check if deleting the record violates a virtual foreign key
 	 */
 	if (PHALCON_GLOBAL(orm).virtual_foreign_keys) {
-	
-		PHALCON_INIT_VAR(check_foreign_keys);
 		PHALCON_CALL_METHOD(&check_foreign_keys, this_ptr, "_checkforeignkeysreverserestrict");
 		if (PHALCON_IS_FALSE(check_foreign_keys)) {
 			RETURN_MM_FALSE;
@@ -4914,16 +4764,12 @@ PHP_METHOD(Phalcon_Mvc_Model, delete){
 	PHALCON_INIT_VAR(conditions);
 	array_init(conditions);
 	
-	PHALCON_INIT_VAR(primary_keys);
 	PHALCON_CALL_METHOD(&primary_keys, meta_data, "getprimarykeyattributes", this_ptr);
-	
-	PHALCON_INIT_VAR(bind_data_types);
 	PHALCON_CALL_METHOD(&bind_data_types, meta_data, "getbindtypes", this_ptr);
 	if (PHALCON_GLOBAL(orm).column_renaming) {
-		PHALCON_INIT_VAR(column_map);
 		PHALCON_CALL_METHOD(&column_map, meta_data, "getcolumnmap", this_ptr);
 	} else {
-		PHALCON_INIT_NVAR(column_map);
+		PHALCON_INIT_VAR(column_map);
 	}
 	
 	/** 
@@ -4987,7 +4833,6 @@ PHP_METHOD(Phalcon_Mvc_Model, delete){
 		/** 
 		 * Escape the column identifier
 		 */
-		PHALCON_INIT_NVAR(escaped_field);
 		PHALCON_CALL_METHOD(&escaped_field, write_connection, "escapeidentifier", primary_key);
 	
 		PHALCON_INIT_NVAR(primary_condition);
@@ -5015,7 +4860,6 @@ PHP_METHOD(Phalcon_Mvc_Model, delete){
 		/** 
 		 * Fire the beforeDelete event
 		 */
-		PHALCON_INIT_VAR(status);
 		PHALCON_CALL_METHOD(&status, this_ptr, "fireeventcancel", event_name);
 		if (PHALCON_IS_FALSE(status)) {
 			RETURN_MM_FALSE;
@@ -5031,16 +4875,13 @@ PHP_METHOD(Phalcon_Mvc_Model, delete){
 		}
 	}
 	
-	PHALCON_INIT_VAR(schema);
 	PHALCON_CALL_METHOD(&schema, this_ptr, "getschema");
-	
-	PHALCON_INIT_VAR(source);
 	PHALCON_CALL_METHOD(&source, this_ptr, "getsource");
 	if (zend_is_true(schema)) {
 		PHALCON_INIT_VAR(table);
 		array_init_size(table, 2);
-		phalcon_array_append(&table, schema, PH_SEPARATE);
-		phalcon_array_append(&table, source, PH_SEPARATE);
+		phalcon_array_append(&table, schema, 0);
+		phalcon_array_append(&table, source, 0);
 	} else {
 		PHALCON_CPY_WRT(table, source);
 	}
@@ -5048,15 +4889,12 @@ PHP_METHOD(Phalcon_Mvc_Model, delete){
 	/** 
 	 * Do the deletion
 	 */
-	PHALCON_INIT_VAR(success);
 	PHALCON_CALL_METHOD(&success, write_connection, "delete", table, delete_conditions, values, bind_types);
 	
 	/** 
 	 * Check if there is virtual foreign keys with cascade action
 	 */
 	if (PHALCON_GLOBAL(orm).virtual_foreign_keys) {
-	
-		PHALCON_INIT_NVAR(check_foreign_keys);
 		PHALCON_CALL_METHOD(&check_foreign_keys, this_ptr, "_checkforeignkeysreversecascade");
 		if (PHALCON_IS_FALSE(check_foreign_keys)) {
 			RETURN_MM_FALSE;
@@ -5099,7 +4937,7 @@ PHP_METHOD(Phalcon_Mvc_Model, refresh){
 	zval *dirty_state, *meta_data = NULL, *read_connection = NULL;
 	zval *schema = NULL, *source = NULL, *table = NULL, *unique_key = NULL, *exists = NULL;
 	zval *unique_params, *unique_types, *attributes = NULL;
-	zval *fields, *escaped_table;
+	zval *fields, *escaped_table = NULL;
 	zval *select, *dialect = NULL, *sql = NULL, *fetch_type, *row = NULL, *column_map = NULL;
 	HashTable *ah0;
 	HashPosition hp0;
@@ -5177,7 +5015,6 @@ PHP_METHOD(Phalcon_Mvc_Model, refresh){
 		zend_hash_move_forward_ex(ah0, &hp0);
 	}
 	
-	PHALCON_INIT_VAR(escaped_table);
 	PHALCON_CALL_METHOD(&escaped_table, read_connection, "escapeidentifier", table);
 	
 	PHALCON_INIT_VAR(select);
@@ -5295,7 +5132,7 @@ PHP_METHOD(Phalcon_Mvc_Model, writeAttribute){
 PHP_METHOD(Phalcon_Mvc_Model, skipAttributes){
 
 	zval *attributes, *replace = NULL, *null_value, *keys_attributes;
-	zval *attribute = NULL, *meta_data;
+	zval *attribute = NULL, *meta_data = NULL;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -5329,7 +5166,6 @@ PHP_METHOD(Phalcon_Mvc_Model, skipAttributes){
 		zend_hash_move_forward_ex(ah0, &hp0);
 	}
 	
-	PHALCON_INIT_VAR(meta_data);
 	PHALCON_CALL_METHOD(&meta_data, this_ptr, "getmodelsmetadata");
 	PHALCON_CALL_METHOD(NULL, meta_data, "setautomaticcreateattributes", this_ptr, keys_attributes, replace);
 	PHALCON_CALL_METHOD(NULL, meta_data, "setautomaticupdateattributes", this_ptr, keys_attributes, replace);
@@ -5359,7 +5195,7 @@ PHP_METHOD(Phalcon_Mvc_Model, skipAttributes){
 PHP_METHOD(Phalcon_Mvc_Model, skipAttributesOnCreate){
 
 	zval *attributes, *replace = NULL, *null_value, *keys_attributes;
-	zval *attribute = NULL, *meta_data;
+	zval *attribute = NULL, *meta_data = NULL;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -5394,7 +5230,6 @@ PHP_METHOD(Phalcon_Mvc_Model, skipAttributesOnCreate){
 		zend_hash_move_forward_ex(ah0, &hp0);
 	}
 	
-	PHALCON_INIT_VAR(meta_data);
 	PHALCON_CALL_METHOD(&meta_data, this_ptr, "getmodelsmetadata");
 	PHALCON_CALL_METHOD(NULL, meta_data, "setautomaticcreateattributes", this_ptr, keys_attributes, replace);
 	
@@ -5423,7 +5258,7 @@ PHP_METHOD(Phalcon_Mvc_Model, skipAttributesOnCreate){
 PHP_METHOD(Phalcon_Mvc_Model, skipAttributesOnUpdate){
 
 	zval *attributes, *replace = NULL, *null_value, *keys_attributes;
-	zval *attribute = NULL, *meta_data;
+	zval *attribute = NULL, *meta_data = NULL;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -5457,7 +5292,6 @@ PHP_METHOD(Phalcon_Mvc_Model, skipAttributesOnUpdate){
 		zend_hash_move_forward_ex(ah0, &hp0);
 	}
 	
-	PHALCON_INIT_VAR(meta_data);
 	PHALCON_CALL_METHOD(&meta_data, this_ptr, "getmodelsmetadata");
 	PHALCON_CALL_METHOD(NULL, meta_data, "setautomaticupdateattributes", this_ptr, keys_attributes, replace);
 	
@@ -5825,8 +5659,8 @@ PHP_METHOD(Phalcon_Mvc_Model, getSnapshotData){
  */
 PHP_METHOD(Phalcon_Mvc_Model, hasChanged){
 
-	zval *field_name = NULL, *snapshot, *dirty_state, *meta_data;
-	zval *column_map, *attributes, *all_attributes = NULL;
+	zval *field_name = NULL, *snapshot, *dirty_state, *meta_data = NULL;
+	zval *column_map = NULL, *attributes = NULL, *all_attributes = NULL;
 	zval *exception_message = NULL, *value = NULL, *original_value = NULL;
 	zval *type = NULL, *name = NULL;
 	HashTable *ah0;
@@ -5869,20 +5703,17 @@ PHP_METHOD(Phalcon_Mvc_Model, hasChanged){
 	/** 
 	 * Return the models meta-data
 	 */
-	PHALCON_INIT_VAR(meta_data);
 	PHALCON_CALL_METHOD(&meta_data, this_ptr, "getmodelsmetadata");
 	
 	/** 
 	 * The reversed column map is an array if the model has a column map
 	 */
-	PHALCON_INIT_VAR(column_map);
 	PHALCON_CALL_METHOD(&column_map, meta_data, "getreversecolumnmap", this_ptr);
 	
 	/** 
 	 * Data types are field indexed
 	 */
 	if (Z_TYPE_P(column_map) != IS_ARRAY) { 
-		PHALCON_INIT_VAR(attributes);
 		PHALCON_CALL_METHOD(&attributes, meta_data, "getdatatypes", this_ptr);
 		PHALCON_CPY_WRT(all_attributes, attributes);
 	} else {
@@ -6000,8 +5831,8 @@ PHP_METHOD(Phalcon_Mvc_Model, hasChanged){
  */
 PHP_METHOD(Phalcon_Mvc_Model, getChangedFields){
 
-	zval *snapshot, *dirty_state, *meta_data, *column_map;
-	zval *attributes, *all_attributes = NULL, *changed;
+	zval *snapshot, *dirty_state, *meta_data = NULL, *column_map = NULL;
+	zval *attributes = NULL, *all_attributes = NULL, *changed;
 	zval *type = NULL, *name = NULL, *value = NULL, *original_value = NULL;
 	HashTable *ah0;
 	HashPosition hp0;
@@ -6030,20 +5861,17 @@ PHP_METHOD(Phalcon_Mvc_Model, getChangedFields){
 	/** 
 	 * Return the models meta-data
 	 */
-	PHALCON_INIT_VAR(meta_data);
 	PHALCON_CALL_METHOD(&meta_data, this_ptr, "getmodelsmetadata");
 	
 	/** 
 	 * The reversed column map is an array if the model has a column map
 	 */
-	PHALCON_INIT_VAR(column_map);
 	PHALCON_CALL_METHOD(&column_map, meta_data, "getreversecolumnmap", this_ptr);
 	
 	/** 
 	 * Data types are field indexed
 	 */
 	if (Z_TYPE_P(column_map) != IS_ARRAY) { 
-		PHALCON_INIT_VAR(attributes);
 		PHALCON_CALL_METHOD(&attributes, meta_data, "getdatatypes", this_ptr);
 		PHALCON_CPY_WRT(all_attributes, attributes);
 	} else {
@@ -6146,7 +5974,7 @@ PHP_METHOD(Phalcon_Mvc_Model, useDynamicUpdate){
 PHP_METHOD(Phalcon_Mvc_Model, getRelated){
 
 	zval *alias, *arguments = NULL, *manager, *class_name;
-	zval *relation, *exception_message, *call_object;
+	zval *relation = NULL, *exception_message, *call_object;
 	zval *model_args;
 
 	PHALCON_MM_GROW();
@@ -6166,7 +5994,6 @@ PHP_METHOD(Phalcon_Mvc_Model, getRelated){
 	/** 
 	 * Query the relation by alias
 	 */
-	PHALCON_INIT_VAR(relation);
 	PHALCON_CALL_METHOD(&relation, manager, "getrelationbyalias", class_name, alias);
 	if (Z_TYPE_P(relation) != IS_OBJECT) {
 		PHALCON_INIT_VAR(exception_message);
@@ -6239,7 +6066,6 @@ PHP_METHOD(Phalcon_Mvc_Model, _getRelatedRecords){
 			PHALCON_INIT_NVAR(alias);
 			phalcon_substr(alias, method, 5, 0);
 	
-			PHALCON_INIT_NVAR(relation);
 			PHALCON_CALL_METHOD(&relation, manager, "getrelationbyalias", model_name, alias);
 		}
 	}
@@ -6282,8 +6108,8 @@ PHP_METHOD(Phalcon_Mvc_Model, _getRelatedRecords){
  */
 PHP_METHOD(Phalcon_Mvc_Model, __call){
 
-	zval *method, *arguments = NULL, *model_name, *records;
-	zval *models_manager, *status, *exception_message;
+	zval *method, *arguments = NULL, *model_name, *records = NULL;
+	zval *models_manager, *status = NULL, *exception_message;
 
 	PHALCON_MM_GROW();
 
@@ -6300,7 +6126,6 @@ PHP_METHOD(Phalcon_Mvc_Model, __call){
 	/** 
 	 * Check if there is a default action using the magic getter
 	 */
-	PHALCON_INIT_VAR(records);
 	PHALCON_CALL_METHOD(&records, this_ptr, "_getrelatedrecords", model_name, method, arguments);
 	if (Z_TYPE_P(records) != IS_NULL) {
 		RETURN_CTOR(records);
@@ -6312,7 +6137,6 @@ PHP_METHOD(Phalcon_Mvc_Model, __call){
 	/** 
 	 * Try to find a replacement for the missing method in a behavior/listener
 	 */
-	PHALCON_INIT_VAR(status);
 	PHALCON_CALL_METHOD(&status, models_manager, "missingmethod", this_ptr, method, arguments);
 	if (Z_TYPE_P(status) != IS_NULL) {
 		RETURN_CTOR(status);
@@ -6338,7 +6162,7 @@ PHP_METHOD(Phalcon_Mvc_Model, __callStatic){
 
 	zval *method, *arguments = NULL, *extra_method = NULL;
 	zval *model_name, *exception_message = NULL, *value;
-	zval *model, *meta_data, *attributes = NULL, *field = NULL, *extra_method_first;
+	zval *model, *meta_data = NULL, *attributes = NULL, *field = NULL, *extra_method_first;
 	zval *conditions, *bind_params, *parameters;
 	zend_class_entry *ce0;
 	const char *type;
@@ -6416,19 +6240,16 @@ PHP_METHOD(Phalcon_Mvc_Model, __callStatic){
 	/** 
 	 * Get the model's meta-data
 	 */
-	PHALCON_INIT_VAR(meta_data);
 	PHALCON_CALL_METHOD(&meta_data, model, "getmodelsmetadata");
 	
 	/** 
 	 * Get the attributes
 	 */
-	PHALCON_INIT_VAR(attributes);
 	PHALCON_CALL_METHOD(&attributes, meta_data, "getreversecolumnmap", model);
 	if (Z_TYPE_P(attributes) != IS_ARRAY) { 
 		/** 
 		 * Use the standard attributes if there is no column map available
 		 */
-		PHALCON_INIT_NVAR(attributes);
 		PHALCON_CALL_METHOD(&attributes, meta_data, "getdatatypes", model);
 	}
 	
@@ -6535,8 +6356,8 @@ PHP_METHOD(Phalcon_Mvc_Model, __set){
  */
 PHP_METHOD(Phalcon_Mvc_Model, __get){
 
-	zval *property, *model_name, *manager, *lower_property;
-	zval *relation, *call_args, *call_object, *result;
+	zval *property, *model_name, *manager = NULL, *lower_property;
+	zval *relation = NULL, *call_args, *call_object, *result;
 
 	PHALCON_MM_GROW();
 
@@ -6545,7 +6366,6 @@ PHP_METHOD(Phalcon_Mvc_Model, __get){
 	PHALCON_INIT_VAR(model_name);
 	phalcon_get_class(model_name, this_ptr, 0 TSRMLS_CC);
 	
-	PHALCON_INIT_VAR(manager);
 	PHALCON_CALL_METHOD(&manager, this_ptr, "getmodelsmanager");
 	
 	PHALCON_INIT_VAR(lower_property);
@@ -6554,7 +6374,6 @@ PHP_METHOD(Phalcon_Mvc_Model, __get){
 	/** 
 	 * Check if the property is a relationship
 	 */
-	PHALCON_INIT_VAR(relation);
 	PHALCON_CALL_METHOD(&relation, manager, "getrelationbyalias", model_name, lower_property);
 	if (Z_TYPE_P(relation) == IS_OBJECT) {
 	
@@ -6573,7 +6392,7 @@ PHP_METHOD(Phalcon_Mvc_Model, __get){
 		/** 
 		 * Get the related records
 		 */
-		PHALCON_INIT_VAR(result);
+		PHALCON_INIT_VAR(result);/**/
 		PHALCON_CALL_USER_FUNC_ARRAY(result, call_object, call_args);
 	
 		/** 
@@ -6612,7 +6431,7 @@ PHP_METHOD(Phalcon_Mvc_Model, __get){
  */
 PHP_METHOD(Phalcon_Mvc_Model, __isset){
 
-	zval *property, *model_name, *manager, *relation;
+	zval *property, *model_name, *manager = NULL, *relation = NULL;
 
 	PHALCON_MM_GROW();
 
@@ -6621,13 +6440,11 @@ PHP_METHOD(Phalcon_Mvc_Model, __isset){
 	PHALCON_INIT_VAR(model_name);
 	phalcon_get_class(model_name, this_ptr, 0 TSRMLS_CC);
 	
-	PHALCON_INIT_VAR(manager);
 	PHALCON_CALL_METHOD(&manager, this_ptr, "getmodelsmanager");
 	
 	/** 
 	 * Check if the property is a relationship
 	 */
-	PHALCON_INIT_VAR(relation);
 	PHALCON_CALL_METHOD(&relation, manager, "getrelationbyalias", model_name, property);
 	if (Z_TYPE_P(relation) == IS_OBJECT) {
 		RETURN_MM_TRUE;
@@ -6643,7 +6460,7 @@ PHP_METHOD(Phalcon_Mvc_Model, __isset){
  */
 PHP_METHOD(Phalcon_Mvc_Model, serialize){
 
-	zval *meta_data, *attributes, *null_value, *data;
+	zval *meta_data = NULL, *attributes = NULL, *null_value, *data;
 	zval *attribute = NULL, *value = NULL;
 	HashTable *ah0;
 	HashPosition hp0;
@@ -6651,13 +6468,11 @@ PHP_METHOD(Phalcon_Mvc_Model, serialize){
 
 	PHALCON_MM_GROW();
 
-	PHALCON_INIT_VAR(meta_data);
 	PHALCON_CALL_METHOD(&meta_data, this_ptr, "getmodelsmetadata");
 	
 	/** 
 	 * We get the model's attributes to only serialize them
 	 */
-	PHALCON_INIT_VAR(attributes);
 	PHALCON_CALL_METHOD(&attributes, meta_data, "getattributes", this_ptr);
 	
 	PHALCON_INIT_VAR(null_value);
@@ -6697,7 +6512,7 @@ PHP_METHOD(Phalcon_Mvc_Model, serialize){
 PHP_METHOD(Phalcon_Mvc_Model, unserialize){
 
 	zval *data, *attributes, *dependency_injector = NULL;
-	zval *service, *manager, *value = NULL, *key = NULL;
+	zval *service, *manager = NULL, *value = NULL, *key = NULL;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -6733,7 +6548,6 @@ PHP_METHOD(Phalcon_Mvc_Model, unserialize){
 			PHALCON_INIT_VAR(service);
 			ZVAL_STRING(service, "modelsManager", 1);
 	
-			PHALCON_INIT_VAR(manager);
 			PHALCON_CALL_METHOD(&manager, dependency_injector, "getshared", service);
 			if (Z_TYPE_P(manager) != IS_OBJECT) {
 				PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "The injected service 'modelsManager' is not valid");
@@ -6800,8 +6614,8 @@ PHP_METHOD(Phalcon_Mvc_Model, dump){
  */
 PHP_METHOD(Phalcon_Mvc_Model, toArray){
 
-	zval *columns = NULL, *meta_data, *data, *null_value, *attributes;
-	zval *column_map, *attribute = NULL, *exception_message = NULL;
+	zval *columns = NULL, *meta_data = NULL, *data, *null_value, *attributes = NULL;
+	zval *column_map = NULL, *attribute = NULL, *exception_message = NULL;
 	zval *attribute_field = NULL, *value = NULL;
 	HashTable *ah0;
 	HashPosition hp0;
@@ -6811,7 +6625,6 @@ PHP_METHOD(Phalcon_Mvc_Model, toArray){
 
 	phalcon_fetch_params(1, 0, 1, &columns);
 
-	PHALCON_INIT_VAR(meta_data);
 	PHALCON_CALL_METHOD(&meta_data, this_ptr, "getmodelsmetadata");
 	
 	PHALCON_INIT_VAR(data);
@@ -6822,13 +6635,11 @@ PHP_METHOD(Phalcon_Mvc_Model, toArray){
 	/** 
 	 * Original attributes
 	 */
-	PHALCON_INIT_VAR(attributes);
 	PHALCON_CALL_METHOD(&attributes, meta_data, "getattributes", this_ptr);
 	
 	/** 
 	 * Reverse column map
 	 */
-	PHALCON_INIT_VAR(column_map);
 	PHALCON_CALL_METHOD(&column_map, meta_data, "getcolumnmap", this_ptr);
 	
 	phalcon_is_iterable(attributes, &ah0, &hp0, 0, 0);

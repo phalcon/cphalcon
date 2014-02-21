@@ -438,7 +438,7 @@ PHP_METHOD(Phalcon_Events_Manager, fireQueue){
 					/** 
 					 * Call the function in the PHP userland
 					 */
-					PHALCON_INIT_NVAR(status);
+					PHALCON_INIT_NVAR(status);/**/
 					PHALCON_CALL_USER_FUNC_ARRAY(status, handler, arguments);
 	
 					/** 
@@ -548,7 +548,7 @@ PHP_METHOD(Phalcon_Events_Manager, fireQueue){
 					/** 
 					 * Call the function in the PHP userland
 					 */
-					PHALCON_INIT_NVAR(status);
+					PHALCON_INIT_NVAR(status);/**/
 					PHALCON_CALL_USER_FUNC_ARRAY(status, handler, arguments);
 	
 					/** 
@@ -716,7 +716,6 @@ PHP_METHOD(Phalcon_Events_Manager, fire){
 			/** 
 			 * Call the events queue
 			 */
-			PHALCON_INIT_NVAR(status);
 			PHALCON_CALL_METHOD(&status, this_ptr, "firequeue", fire_events, event);
 		}
 	}

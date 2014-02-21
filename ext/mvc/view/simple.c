@@ -333,7 +333,7 @@ PHP_METHOD(Phalcon_Mvc_View_Simple, _loadTemplateEngines){
 					 * Engine can be a closure
 					 */
 					if (instanceof_function(Z_OBJCE_P(engine_service), zend_ce_closure TSRMLS_CC)) {
-						PHALCON_INIT_NVAR(engine_object);
+						PHALCON_INIT_NVAR(engine_object);/**/
 						PHALCON_CALL_USER_FUNC_ARRAY(engine_object, engine_service, arguments);
 					} else {
 						PHALCON_CPY_WRT(engine_object, engine_service);
@@ -343,7 +343,6 @@ PHP_METHOD(Phalcon_Mvc_View_Simple, _loadTemplateEngines){
 					 * Engine can be a string representing a service in the DI
 					 */
 					if (Z_TYPE_P(engine_service) == IS_STRING) {
-						PHALCON_INIT_NVAR(engine_object);
 						PHALCON_CALL_METHOD(&engine_object, dependency_injector, "getshared", engine_service, arguments);
 						PHALCON_VERIFY_INTERFACE(engine_object, phalcon_mvc_view_engineinterface_ce);
 					} else {
@@ -379,7 +378,7 @@ PHP_METHOD(Phalcon_Mvc_View_Simple, _internalRender){
 
 	zval *path, *params, *events_manager, *event_name = NULL;
 	zval *status = NULL, *not_exists = NULL, *views_dir;
-	zval *views_dir_path, *engines, *engine = NULL, *extension = NULL;
+	zval *views_dir_path, *engines = NULL, *engine = NULL, *extension = NULL;
 	zval *view_engine_path = NULL, *exception_message;
 	HashTable *ah0;
 	HashPosition hp0;
@@ -403,7 +402,6 @@ PHP_METHOD(Phalcon_Mvc_View_Simple, _internalRender){
 		PHALCON_INIT_VAR(event_name);
 		ZVAL_STRING(event_name, "view:beforeRender", 1);
 	
-		PHALCON_INIT_VAR(status);
 		PHALCON_CALL_METHOD(&status, events_manager, "fire", event_name, this_ptr);
 		if (PHALCON_IS_FALSE(status)) {
 			RETURN_MM_NULL();
@@ -422,7 +420,6 @@ PHP_METHOD(Phalcon_Mvc_View_Simple, _internalRender){
 	/** 
 	 * Load the template engines
 	 */
-	PHALCON_INIT_VAR(engines);
 	PHALCON_CALL_METHOD(&engines, this_ptr, "_loadtemplateengines");
 	
 	/** 
@@ -448,13 +445,13 @@ PHP_METHOD(Phalcon_Mvc_View_Simple, _internalRender){
 				PHALCON_INIT_NVAR(event_name);
 				ZVAL_STRING(event_name, "view:beforeRenderView", 1);
 	
-				PHALCON_INIT_NVAR(status);
 				PHALCON_CALL_METHOD(&status, events_manager, "fire", event_name, this_ptr, view_engine_path);
 				if (PHALCON_IS_FALSE(status)) {
 					zend_hash_move_forward_ex(ah0, &hp0);
 					continue;
 				}
 			}
+			
 			PHALCON_CALL_METHOD(NULL, engine, "render", view_engine_path, params, PHALCON_GLOBAL(z_true));
 	
 			/** 
@@ -505,9 +502,9 @@ PHP_METHOD(Phalcon_Mvc_View_Simple, _internalRender){
  */
 PHP_METHOD(Phalcon_Mvc_View_Simple, render){
 
-	zval *path, *params = NULL, *cache, *is_started = NULL, *key = NULL, *lifetime = NULL;
+	zval *path, *params = NULL, *cache = NULL, *is_started = NULL, *key = NULL, *lifetime = NULL;
 	zval *cache_options, *content = NULL, *view_params;
-	zval *merged_params = NULL, *is_fresh;
+	zval *merged_params = NULL, *is_fresh = NULL;
 
 	PHALCON_MM_GROW();
 
@@ -520,7 +517,6 @@ PHP_METHOD(Phalcon_Mvc_View_Simple, render){
 	/** 
 	 * Create/Get a cache
 	 */
-	PHALCON_INIT_VAR(cache);
 	PHALCON_CALL_METHOD(&cache, this_ptr, "getcache");
 	if (Z_TYPE_P(cache) == IS_OBJECT) {
 	
@@ -528,7 +524,6 @@ PHP_METHOD(Phalcon_Mvc_View_Simple, render){
 		 * Check if the cache is started, the first time a cache is started we start the
 		 * cache
 		 */
-		PHALCON_INIT_VAR(is_started);
 		PHALCON_CALL_METHOD(&is_started, cache, "isstarted");
 		if (PHALCON_IS_FALSE(is_started)) {
 	
@@ -564,7 +559,6 @@ PHP_METHOD(Phalcon_Mvc_View_Simple, render){
 			/** 
 			 * We start the cache using the key set
 			 */
-			PHALCON_INIT_VAR(content);
 			PHALCON_CALL_METHOD(&content, cache, "start", key, lifetime);
 			if (Z_TYPE_P(content) != IS_NULL) {
 				phalcon_update_property_this(this_ptr, SL("_content"), content TSRMLS_CC);
@@ -606,12 +600,8 @@ PHP_METHOD(Phalcon_Mvc_View_Simple, render){
 	 * Store the data in output into the cache
 	 */
 	if (Z_TYPE_P(cache) == IS_OBJECT) {
-	
-		PHALCON_INIT_NVAR(is_started);
 		PHALCON_CALL_METHOD(&is_started, cache, "isstarted");
 		if (PHALCON_IS_TRUE(is_started)) {
-	
-			PHALCON_INIT_VAR(is_fresh);
 			PHALCON_CALL_METHOD(&is_fresh, cache, "isfresh");
 			if (PHALCON_IS_TRUE(is_fresh)) {
 				PHALCON_CALL_METHOD(NULL, cache, "save");
@@ -808,7 +798,6 @@ PHP_METHOD(Phalcon_Mvc_View_Simple, getCache){
 	phalcon_read_property_this(&cache, this_ptr, SL("_cache"), PH_NOISY TSRMLS_CC);
 	if (zend_is_true(cache)) {
 		if (Z_TYPE_P(cache) != IS_OBJECT) {
-			PHALCON_INIT_NVAR(cache);
 			PHALCON_CALL_METHOD(&cache, this_ptr, "_createcache");
 			phalcon_update_property_this(this_ptr, SL("_cache"), cache TSRMLS_CC);
 		}

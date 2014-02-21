@@ -100,7 +100,7 @@ PHALCON_INIT_CLASS(Phalcon_Mvc_Model_Resultset_Simple){
 PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, __construct){
 
 	zval *column_map, *model, *result, *cache = NULL, *keep_snapshots = NULL;
-	zval *fetch_assoc, *limit, *row_count, *big_resultset;
+	zval *fetch_assoc, *limit, *row_count = NULL, *big_resultset;
 
 	PHALCON_MM_GROW();
 
@@ -132,7 +132,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, __construct){
 	PHALCON_INIT_VAR(limit);
 	ZVAL_LONG(limit, 32);
 	
-	PHALCON_INIT_VAR(row_count);
 	PHALCON_CALL_METHOD(&row_count, result, "numrows");
 	
 	/** 
@@ -178,10 +177,9 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, valid){
 		PHALCON_OBS_VAR(result);
 		phalcon_read_property_this(&result, this_ptr, SL("_result"), PH_NOISY TSRMLS_CC);
 		if (Z_TYPE_P(result) == IS_OBJECT) {
-			PHALCON_INIT_VAR(row);
 			PHALCON_CALL_METHOD(&row, result, "fetch", result);
 		} else {
-			PHALCON_INIT_NVAR(row);
+			PHALCON_INIT_VAR(row);
 			ZVAL_BOOL(row, 0);
 		}
 	} else {
@@ -192,7 +190,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, valid){
 			PHALCON_OBS_NVAR(result);
 			phalcon_read_property_this(&result, this_ptr, SL("_result"), PH_NOISY TSRMLS_CC);
 			if (Z_TYPE_P(result) == IS_OBJECT) {
-				PHALCON_INIT_NVAR(rows);
 				PHALCON_CALL_METHOD(&rows, result, "fetchall");
 				phalcon_update_property_this(this_ptr, SL("_rows"), rows TSRMLS_CC);
 			}
@@ -344,7 +341,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, toArray){
 				/** 
 				 * We fetch all the results in memory again
 				 */
-				PHALCON_INIT_NVAR(records);
 				PHALCON_CALL_METHOD(&records, result, "fetchall");
 				phalcon_update_property_this(this_ptr, SL("_rows"), records TSRMLS_CC);
 	
@@ -443,7 +439,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, toArray){
  */
 PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, serialize){
 
-	zval *rename_columns, *records, *model, *cache;
+	zval *rename_columns, *records = NULL, *model, *cache;
 	zval *column_map, *hydrate_mode, *data;
 
 	PHALCON_MM_GROW();
@@ -451,7 +447,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, serialize){
 	PHALCON_INIT_VAR(rename_columns);
 	ZVAL_BOOL(rename_columns, 0);
 	
-	PHALCON_INIT_VAR(records);
 	PHALCON_CALL_METHOD(&records, this_ptr, "toarray", rename_columns);
 	
 	PHALCON_OBS_VAR(model);

@@ -578,8 +578,6 @@ PHP_METHOD(Phalcon_Validation_Message_Group, filter){
 			 * Get the field name
 			 */
 			if (phalcon_method_exists_ex(message, SS("getfield") TSRMLS_CC) == SUCCESS) {
-	
-				PHALCON_INIT_NVAR(field);
 				PHALCON_CALL_METHOD(&field, message, "getfield");
 				if (PHALCON_IS_EQUAL(field_name, field)) {
 					phalcon_array_append(&filtered, message, PH_SEPARATE);

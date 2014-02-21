@@ -1315,8 +1315,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, getParams){
 PHP_METHOD(Phalcon_Mvc_Model_Criteria, fromInput){
 
 	zval *dependency_injector, *model_name, *data;
-	zval *conditions, *service, *meta_data, *model;
-	zval *data_types, *bind, *value = NULL, *field = NULL, *type = NULL, *condition = NULL;
+	zval *conditions, *service, *meta_data = NULL, *model;
+	zval *data_types = NULL, *bind, *value = NULL, *field = NULL, *type = NULL, *condition = NULL;
 	zval *value_pattern = NULL, *join_conditions;
 	HashTable *ah0;
 	HashPosition hp0;
@@ -1343,7 +1343,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, fromInput){
 		PHALCON_INIT_VAR(service);
 		PHALCON_ZVAL_MAYBE_INTERNED_STRING(service, phalcon_interned_modelsMetadata);
 	
-		PHALCON_INIT_VAR(meta_data);
 		PHALCON_CALL_METHOD(&meta_data, dependency_injector, "getshared", service);
 		PHALCON_VERIFY_INTERFACE(meta_data, phalcon_mvc_model_metadatainterface_ce);
 		ce0 = phalcon_fetch_class(model_name TSRMLS_CC);
@@ -1354,7 +1353,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, fromInput){
 			PHALCON_CALL_METHOD(NULL, model, "__construct");
 		}
 	
-		PHALCON_INIT_VAR(data_types);
 		PHALCON_CALL_METHOD(&data_types, meta_data, "getdatatypes", model);
 	
 		PHALCON_INIT_VAR(bind);
@@ -1424,7 +1422,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, fromInput){
  */
 PHP_METHOD(Phalcon_Mvc_Model_Criteria, execute){
 
-	zval *model, *params;
+	zval *model, *params = NULL;
 	zend_class_entry *ce;
 
 	PHALCON_MM_GROW();
@@ -1435,7 +1433,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, execute){
 		return;
 	}
 	
-	PHALCON_INIT_VAR(params);
 	PHALCON_CALL_METHOD(&params, this_ptr, "getparams");
 	
 	ce = phalcon_fetch_class(model TSRMLS_CC);

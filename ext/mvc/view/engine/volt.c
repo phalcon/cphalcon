@@ -197,8 +197,8 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, getCompiler){
  */
 PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, render){
 
-	zval **template_path, **params, **must_clean = NULL, *compiler;
-	zval *compiled_template_path, *contents;
+	zval **template_path, **params, **must_clean = NULL, *compiler = NULL;
+	zval *compiled_template_path = NULL, *contents;
 	zval *view;
 	int clean;
 
@@ -221,11 +221,8 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, render){
 	/** 
 	 * The compilation process is done by Phalcon\Mvc\View\Engine\Volt\Compiler
 	 */
-	PHALCON_INIT_VAR(compiler);
 	PHALCON_CALL_METHOD(&compiler, this_ptr, "getcompiler");
 	PHALCON_CALL_METHOD(NULL, compiler, "compile", *template_path);
-	
-	PHALCON_INIT_VAR(compiled_template_path);
 	PHALCON_CALL_METHOD(&compiled_template_path, compiler, "getcompiledtemplatepath");
 	
 	/** 
@@ -415,8 +412,6 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, slice){
 		PHALCON_CALL_METHOD(NULL, value, "rewind");
 	
 		while (1) {
-	
-			PHALCON_INIT_NVAR(r0);
 			PHALCON_CALL_METHOD(&r0, value, "valid");
 			if (zend_is_true(r0)) {
 			} else {
@@ -425,7 +420,6 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, slice){
 	
 			if (PHALCON_GE(position, start)) {
 				if (PHALCON_LE(position, length)) {
-					PHALCON_INIT_NVAR(current);
 					PHALCON_CALL_METHOD(&current, value, "current");
 					phalcon_array_append(&slice, current, PH_SEPARATE);
 				}

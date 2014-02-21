@@ -345,14 +345,12 @@ PHP_METHOD(Phalcon_Mvc_Router_Annotations, handle){
 					/** 
 					 * Process class annotations
 					 */
-					PHALCON_INIT_NVAR(class_annotations);
 					PHALCON_CALL_METHOD(&class_annotations, handler_annotations, "getclassannotations");
 					if (Z_TYPE_P(class_annotations) == IS_OBJECT) {
 	
 						/** 
 						 * Process class annotations
 						 */
-						PHALCON_INIT_NVAR(annotations);
 						PHALCON_CALL_METHOD(&annotations, class_annotations, "getannotations");
 						if (Z_TYPE_P(annotations) == IS_ARRAY) { 
 	
@@ -373,7 +371,6 @@ PHP_METHOD(Phalcon_Mvc_Router_Annotations, handle){
 					/** 
 					 * Process method annotations
 					 */
-					PHALCON_INIT_NVAR(method_annotations);
 					PHALCON_CALL_METHOD(&method_annotations, handler_annotations, "getmethodsannotations");
 					if (Z_TYPE_P(method_annotations) == IS_ARRAY) { 
 	
@@ -388,8 +385,6 @@ PHP_METHOD(Phalcon_Mvc_Router_Annotations, handle){
 							PHALCON_GET_HVALUE(collection);
 	
 							if (Z_TYPE_P(collection) == IS_OBJECT) {
-	
-								PHALCON_INIT_NVAR(annotations);
 								PHALCON_CALL_METHOD(&annotations, collection, "getannotations");
 	
 								phalcon_is_iterable(annotations, &ah3, &hp3, 0, 0);
@@ -435,13 +430,12 @@ PHP_METHOD(Phalcon_Mvc_Router_Annotations, handle){
  */
 PHP_METHOD(Phalcon_Mvc_Router_Annotations, processControllerAnnotation){
 
-	zval *handler, *annotation, *name, *position, *value;
+	zval *handler, *annotation, *name = NULL, *position, *value = NULL;
 
 	PHALCON_MM_GROW();
 
 	phalcon_fetch_params(1, 2, 0, &handler, &annotation);
 	
-	PHALCON_INIT_VAR(name);
 	PHALCON_CALL_METHOD(&name, annotation, "getname");
 	
 	/** 
@@ -450,7 +444,6 @@ PHP_METHOD(Phalcon_Mvc_Router_Annotations, processControllerAnnotation){
 	if (PHALCON_IS_STRING(name, "RoutePrefix")) {
 		position = PHALCON_GLOBAL(z_zero);
 	
-		PHALCON_INIT_VAR(value);
 		PHALCON_CALL_METHOD(&value, annotation, "getargument", position);
 		phalcon_update_property_this(this_ptr, SL("_routePrefix"), value TSRMLS_CC);
 	}
@@ -470,11 +463,11 @@ PHP_METHOD(Phalcon_Mvc_Router_Annotations, processControllerAnnotation){
 PHP_METHOD(Phalcon_Mvc_Router_Annotations, processActionAnnotation){
 
 	zval *module, *namespace, *controller, *action;
-	zval *annotation, *is_route = NULL, *methods = NULL, *name, *action_suffix;
+	zval *annotation, *is_route = NULL, *methods = NULL, *name = NULL, *action_suffix;
 	zval *empty_str, *real_action_name, *action_name;
 	zval *route_prefix, *parameter = NULL, *paths = NULL, *position;
-	zval *value, *uri = NULL, *route, *converts = NULL, *convert = NULL, *param = NULL;
-	zval *conversor_param = NULL, *route_name;
+	zval *value = NULL, *uri = NULL, *route = NULL, *converts = NULL, *convert = NULL, *param = NULL;
+	zval *conversor_param = NULL, *route_name = NULL;
 	HashTable *ah0, *ah1;
 	HashPosition hp0, hp1;
 	zval **hd;
@@ -483,16 +476,13 @@ PHP_METHOD(Phalcon_Mvc_Router_Annotations, processActionAnnotation){
 
 	phalcon_fetch_params(1, 5, 0, &module, &namespace, &controller, &action, &annotation);
 	
-	PHALCON_INIT_VAR(is_route);
-	
-	PHALCON_INIT_VAR(methods);
-	
-	PHALCON_INIT_VAR(name);
 	PHALCON_CALL_METHOD(&name, annotation, "getname");
 	
 	/** 
 	 * Find if the route is for adding routes
 	 */
+	PHALCON_INIT_VAR(is_route);
+	PHALCON_INIT_VAR(methods);
 	if (PHALCON_IS_STRING(name, "Route")) {
 		ZVAL_TRUE(is_route);
 	} else if (PHALCON_IS_STRING(name, "Get")) {
@@ -518,7 +508,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Annotations, processActionAnnotation){
 		phalcon_read_property_this(&action_suffix, this_ptr, SL("_actionSuffix"), PH_NOISY TSRMLS_CC);
 	
 		PHALCON_INIT_VAR(empty_str);
-		ZVAL_STRING(empty_str, "", 1);
+		ZVAL_EMPTY_STRING(empty_str);
 	
 		PHALCON_INIT_VAR(real_action_name);
 		phalcon_fast_str_replace(real_action_name, action_suffix, empty_str, action);
@@ -535,7 +525,6 @@ PHP_METHOD(Phalcon_Mvc_Router_Annotations, processActionAnnotation){
 		/** 
 		 * Check for existing paths in the annotation
 		 */
-		PHALCON_INIT_VAR(paths);
 		PHALCON_CALL_METHOD(&paths, annotation, "getargument", parameter);
 		if (Z_TYPE_P(paths) != IS_ARRAY) { 
 			PHALCON_INIT_NVAR(paths);
@@ -562,7 +551,6 @@ PHP_METHOD(Phalcon_Mvc_Router_Annotations, processActionAnnotation){
 		PHALCON_INIT_VAR(position);
 		ZVAL_LONG(position, 0);
 	
-		PHALCON_INIT_VAR(value);
 		PHALCON_CALL_METHOD(&value, annotation, "getargument", position);
 	
 		/** 
@@ -583,21 +571,15 @@ PHP_METHOD(Phalcon_Mvc_Router_Annotations, processActionAnnotation){
 		/** 
 		 * Add the route to the router
 		 */
-		PHALCON_INIT_VAR(route);
 		PHALCON_CALL_METHOD(&route, this_ptr, "add", uri, paths);
 		if (Z_TYPE_P(methods) == IS_NULL) {
 	
 			PHALCON_INIT_NVAR(parameter);
 			ZVAL_STRING(parameter, "methods", 1);
 	
-			PHALCON_INIT_NVAR(methods);
 			PHALCON_CALL_METHOD(&methods, annotation, "getargument", parameter);
-			if (Z_TYPE_P(methods) == IS_ARRAY) { 
+			if (Z_TYPE_P(methods) == IS_ARRAY || Z_TYPE_P(methods) == IS_STRING) {
 				PHALCON_CALL_METHOD(NULL, route, "via", methods);
-			} else {
-				if (Z_TYPE_P(methods) == IS_STRING) {
-					PHALCON_CALL_METHOD(NULL, route, "via", methods);
-				}
 			}
 		} else {
 			PHALCON_CALL_METHOD(NULL, route, "via", methods);
@@ -606,7 +588,6 @@ PHP_METHOD(Phalcon_Mvc_Router_Annotations, processActionAnnotation){
 		PHALCON_INIT_NVAR(parameter);
 		ZVAL_STRING(parameter, "converts", 1);
 	
-		PHALCON_INIT_VAR(converts);
 		PHALCON_CALL_METHOD(&converts, annotation, "getargument", parameter);
 		if (Z_TYPE_P(converts) == IS_ARRAY) { 
 	
@@ -627,7 +608,6 @@ PHP_METHOD(Phalcon_Mvc_Router_Annotations, processActionAnnotation){
 		PHALCON_INIT_NVAR(parameter);
 		ZVAL_STRING(parameter, "conversors", 1);
 	
-		PHALCON_INIT_NVAR(converts);
 		PHALCON_CALL_METHOD(&converts, annotation, "getargument", parameter);
 		if (Z_TYPE_P(converts) == IS_ARRAY) { 
 	
@@ -648,7 +628,6 @@ PHP_METHOD(Phalcon_Mvc_Router_Annotations, processActionAnnotation){
 		PHALCON_INIT_NVAR(parameter);
 		ZVAL_STRING(parameter, "name", 1);
 	
-		PHALCON_INIT_VAR(route_name);
 		PHALCON_CALL_METHOD(&route_name, annotation, "getargument", parameter);
 		if (Z_TYPE_P(route_name) == IS_STRING) {
 			PHALCON_CALL_METHOD(NULL, route, "setname", route_name);

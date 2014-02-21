@@ -91,9 +91,9 @@ PHALCON_INIT_CLASS(Phalcon_Mvc_Model_Validator_StringLength){
  */
 PHP_METHOD(Phalcon_Mvc_Model_Validator_StringLength, validate){
 
-	zval *record, *option = NULL, *field, *is_set_min, *is_set_max;
-	zval *value, *length = NULL, *invalid_maximum = NULL, *invalid_minimum = NULL;
-	zval *maximum, *message = NULL, *type = NULL, *minimum, *is_set_code, *code;
+	zval *record, *option = NULL, *field = NULL, *is_set_min = NULL, *is_set_max = NULL;
+	zval *value = NULL, *length = NULL, *invalid_maximum = NULL, *invalid_minimum = NULL;
+	zval *maximum = NULL, *message = NULL, *type = NULL, *minimum = NULL, *is_set_code = NULL, *code = NULL;
 
 	PHALCON_MM_GROW();
 
@@ -102,7 +102,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_StringLength, validate){
 	PHALCON_INIT_VAR(option);
 	ZVAL_STRING(option, "field", 1);
 	
-	PHALCON_INIT_VAR(field);
 	PHALCON_CALL_METHOD(&field, this_ptr, "getoption", option);
 	if (Z_TYPE_P(field) != IS_STRING) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Field name must be a string");
@@ -115,13 +114,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_StringLength, validate){
 	PHALCON_INIT_NVAR(option);
 	ZVAL_STRING(option, "min", 1);
 	
-	PHALCON_INIT_VAR(is_set_min);
 	PHALCON_CALL_METHOD(&is_set_min, this_ptr, "issetoption", option);
 	
 	PHALCON_INIT_NVAR(option);
 	ZVAL_STRING(option, "max", 1);
 	
-	PHALCON_INIT_VAR(is_set_max);
 	PHALCON_CALL_METHOD(&is_set_max, this_ptr, "issetoption", option);
 	if (!zend_is_true(is_set_min)) {
 		if (!zend_is_true(is_set_max)) {
@@ -130,7 +127,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_StringLength, validate){
 		}
 	}
 	
-	PHALCON_INIT_VAR(value);
 	PHALCON_CALL_METHOD(&value, record, "readattribute", field);
 	
 	/** 
@@ -157,7 +153,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_StringLength, validate){
 		PHALCON_INIT_NVAR(option);
 		ZVAL_STRING(option, "max", 1);
 	
-		PHALCON_INIT_VAR(maximum);
 		PHALCON_CALL_METHOD(&maximum, this_ptr, "getoption", option);
 	
 		is_smaller_function(invalid_maximum, maximum, length TSRMLS_CC);
@@ -169,7 +164,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_StringLength, validate){
 			PHALCON_INIT_NVAR(option);
 			ZVAL_STRING(option, "messageMaximum", 1);
 	
-			PHALCON_INIT_VAR(message);
 			PHALCON_CALL_METHOD(&message, this_ptr, "getoption", option);
 			if (!zend_is_true(message)) {
 				PHALCON_INIT_NVAR(message);
@@ -185,12 +179,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_StringLength, validate){
 			PHALCON_INIT_NVAR(option);
 			PHALCON_ZVAL_MAYBE_INTERNED_STRING(option, phalcon_interned_code);
 
-			PHALCON_INIT_VAR(is_set_code);
 			PHALCON_CALL_METHOD(&is_set_code, this_ptr, "issetoption", option);
-			PHALCON_INIT_VAR(code);
 			if (zend_is_true(is_set_code)) {
 				PHALCON_CALL_METHOD(&code, this_ptr, "getoption", option);
 			} else {
+				PHALCON_INIT_VAR(code);
 				ZVAL_LONG(code, 0);
 			}
 
@@ -207,7 +200,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_StringLength, validate){
 		PHALCON_INIT_NVAR(option);
 		ZVAL_STRING(option, "min", 1);
 	
-		PHALCON_INIT_VAR(minimum);
 		PHALCON_CALL_METHOD(&minimum, this_ptr, "getoption", option);
 	
 		is_smaller_function(invalid_minimum, length, minimum TSRMLS_CC);
@@ -219,7 +211,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_StringLength, validate){
 			PHALCON_INIT_NVAR(option);
 			ZVAL_STRING(option, "messageMinimum", 1);
 	
-			PHALCON_INIT_NVAR(message);
 			PHALCON_CALL_METHOD(&message, this_ptr, "getoption", option);
 			if (!zend_is_true(message)) {
 				PHALCON_INIT_NVAR(message);
@@ -235,12 +226,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_StringLength, validate){
 			PHALCON_INIT_NVAR(option);
 			PHALCON_ZVAL_MAYBE_INTERNED_STRING(option, phalcon_interned_code);
 
-			PHALCON_INIT_VAR(is_set_code);
 			PHALCON_CALL_METHOD(&is_set_code, this_ptr, "issetoption", option);
-			PHALCON_INIT_VAR(code);
 			if (zend_is_true(is_set_code)) {
 				PHALCON_CALL_METHOD(&code, this_ptr, "getoption", option);
 			} else {
+				PHALCON_INIT_VAR(code);
 				ZVAL_LONG(code, 0);
 			}
 

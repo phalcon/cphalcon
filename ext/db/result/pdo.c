@@ -269,7 +269,6 @@ PHP_METHOD(Phalcon_Db_Result_Pdo, numRows){
 			PHALCON_OBS_VAR(pdo_statement);
 			phalcon_read_property_this(&pdo_statement, this_ptr, SL("_pdoStatement"), PH_NOISY TSRMLS_CC);
 	
-			PHALCON_INIT_NVAR(row_count);
 			PHALCON_CALL_METHOD(&row_count, pdo_statement, "rowcount");
 		}
 	
@@ -383,7 +382,6 @@ PHP_METHOD(Phalcon_Db_Result_Pdo, dataSeek){
 		}
 
 	} else {
-		PHALCON_INIT_NVAR(statement);
 		PHALCON_CALL_METHOD(&statement, pdo, "query", sql_statement);
 	}
 

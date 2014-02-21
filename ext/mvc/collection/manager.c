@@ -390,7 +390,7 @@ PHP_METHOD(Phalcon_Mvc_Collection_Manager, isUsingImplicitObjectIds){
 PHP_METHOD(Phalcon_Mvc_Collection_Manager, getConnection){
 
 	zval *model, *service = NULL, *connection_services;
-	zval *entity_name, *dependency_injector, *connection;
+	zval *entity_name, *dependency_injector, *connection = NULL;
 
 	PHALCON_MM_GROW();
 
@@ -430,7 +430,6 @@ PHP_METHOD(Phalcon_Mvc_Collection_Manager, getConnection){
 	/** 
 	 * Request the connection service from the DI
 	 */
-	PHALCON_INIT_VAR(connection);
 	PHALCON_CALL_METHOD(&connection, dependency_injector, "getshared", service);
 	if (Z_TYPE_P(connection) != IS_OBJECT) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_collection_exception_ce, "Invalid injected connection service");
@@ -490,7 +489,6 @@ PHP_METHOD(Phalcon_Mvc_Collection_Manager, notifyEvent){
 			PHALCON_INIT_NVAR(fire_event_name);
 			PHALCON_CONCAT_SV(fire_event_name, "collection:", event_name);
 	
-			PHALCON_INIT_NVAR(status);
 			PHALCON_CALL_METHOD(&status, custom_events_manager, "fire", fire_event_name, model);
 			if (PHALCON_IS_FALSE(status)) {
 				RETURN_CCTOR(status);

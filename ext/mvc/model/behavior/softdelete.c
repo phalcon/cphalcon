@@ -65,8 +65,8 @@ PHALCON_INIT_CLASS(Phalcon_Mvc_Model_Behavior_SoftDelete){
  */
 PHP_METHOD(Phalcon_Mvc_Model_Behavior_SoftDelete, notify){
 
-	zval *type, *model, *options, *value, *field, *actual_value;
-	zval *update_model, *status, *messages, *message = NULL;
+	zval *type, *model, *options = NULL, *value, *field, *actual_value = NULL;
+	zval *update_model, *status = NULL, *messages = NULL, *message = NULL;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -76,8 +76,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Behavior_SoftDelete, notify){
 	phalcon_fetch_params(1, 2, 0, &type, &model);
 	
 	if (PHALCON_IS_STRING(type, "beforeDelete")) {
-	
-		PHALCON_INIT_VAR(options);
 		PHALCON_CALL_METHOD(&options, this_ptr, "getoptions");
 		if (!phalcon_array_isset_string(options, SS("value"))) {
 			PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "The option 'value' is required");
@@ -106,7 +104,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Behavior_SoftDelete, notify){
 		PHALCON_OBS_VAR(field);
 		phalcon_array_fetch_string(&field, options, SL("field"), PH_NOISY);
 	
-		PHALCON_INIT_VAR(actual_value);
 		PHALCON_CALL_METHOD(&actual_value, model, "readattribute", field);
 	
 		/** 
@@ -127,14 +124,12 @@ PHP_METHOD(Phalcon_Mvc_Model_Behavior_SoftDelete, notify){
 			/** 
 			 * Update the cloned model
 			 */
-			PHALCON_INIT_VAR(status);
 			PHALCON_CALL_METHOD(&status, update_model, "save");
 			if (!zend_is_true(status)) {
 	
 				/** 
 				 * Transfer the messages from the cloned model to the original model
 				 */
-				PHALCON_INIT_VAR(messages);
 				PHALCON_CALL_METHOD(&messages, update_model, "getmessages");
 	
 				phalcon_is_iterable(messages, &ah0, &hp0, 0, 0);

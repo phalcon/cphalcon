@@ -938,7 +938,7 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch){
 			/** 
 			 * Call the method allowing exceptions
 			 */
-			PHALCON_INIT_NVAR(value);
+			PHALCON_INIT_NVAR(value);/**/
 			PHALCON_CALL_USER_FUNC_ARRAY_NOEX(value, call_object, params);
 	
 			/** 
@@ -983,7 +983,7 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch){
 			/** 
 			 * Call the method handling exceptions as normal
 			 */
-			PHALCON_INIT_NVAR(value);
+			PHALCON_INIT_NVAR(value);/**/
 			PHALCON_CALL_USER_FUNC_ARRAY(value, call_object, params);
 	
 			/** 

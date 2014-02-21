@@ -425,14 +425,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Complex, toArray){
 	PHALCON_CALL_METHOD(NULL, this_ptr, "rewind");
 	
 	while (1) {
-	
-		PHALCON_INIT_NVAR(valid);
 		PHALCON_CALL_METHOD(&valid, this_ptr, "valid");
 		if (!PHALCON_IS_NOT_FALSE(valid)) {
 			break;
 		}
 	
-		PHALCON_INIT_NVAR(current);
 		PHALCON_CALL_METHOD(&current, this_ptr, "current");
 		phalcon_array_append(&return_value, current, 0);
 		PHALCON_CALL_METHOD(NULL, this_ptr, "next");
@@ -448,7 +445,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Complex, toArray){
  */
 PHP_METHOD(Phalcon_Mvc_Model_Resultset_Complex, serialize){
 
-	zval *records, *cache, *column_types, *hydrate_mode;
+	zval *records = NULL, *cache, *column_types, *hydrate_mode;
 	zval *data, *serialized;
 
 	PHALCON_MM_GROW();
@@ -456,7 +453,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Complex, serialize){
 	/** 
 	 * Obtain the records as an array
 	 */
-	PHALCON_INIT_VAR(records);
 	PHALCON_CALL_METHOD(&records, this_ptr, "toarray");
 	
 	cache        = phalcon_fetch_nproperty_this(this_ptr, SL("_cache"), PH_NOISY TSRMLS_CC);

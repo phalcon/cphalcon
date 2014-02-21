@@ -128,7 +128,7 @@ PHALCON_INIT_CLASS(Phalcon_Db_Dialect_Oracle){
  */
 PHP_METHOD(Phalcon_Db_Dialect_Oracle, getColumnDefinition){
 
-	zval *column, *size, *column_type, *column_sql = NULL;
+	zval *column, *size = NULL, *column_type = NULL, *column_sql = NULL;
 	zval *scale = NULL;
 
 	PHALCON_MM_GROW();
@@ -140,10 +140,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Oracle, getColumnDefinition){
 		return;
 	}
 	
-	PHALCON_INIT_VAR(size);
 	PHALCON_CALL_METHOD(&size, column, "getsize");
-	
-	PHALCON_INIT_VAR(column_type);
 	PHALCON_CALL_METHOD(&column_type, column, "gettype");
 	
 	switch (phalcon_get_intval(column_type)) {
@@ -164,7 +161,6 @@ PHP_METHOD(Phalcon_Db_Dialect_Oracle, getColumnDefinition){
 			break;
 	
 		case 3:
-			PHALCON_INIT_VAR(scale);
 			PHALCON_CALL_METHOD(&scale, column, "getscale");
 	
 			PHALCON_INIT_NVAR(column_sql);
@@ -187,7 +183,6 @@ PHP_METHOD(Phalcon_Db_Dialect_Oracle, getColumnDefinition){
 			break;
 	
 		case 7:
-			PHALCON_INIT_NVAR(scale);
 			PHALCON_CALL_METHOD(&scale, column, "getscale");
 	
 			PHALCON_INIT_NVAR(column_sql);
@@ -825,9 +820,9 @@ PHP_METHOD(Phalcon_Db_Dialect_Oracle, select){
 	zval *join = NULL, *type = NULL, *sql_join = NULL, *join_conditions_array = NULL;
 	zval *join_expressions = NULL, *join_condition = NULL, *join_expression = NULL;
 	zval *join_conditions = NULL, *where_conditions;
-	zval *where_expression, *group_items, *group_fields;
+	zval *where_expression = NULL, *group_items, *group_fields;
 	zval *group_field = NULL, *group_expression = NULL, *group_sql;
-	zval *group_clause, *having_conditions, *having_expression;
+	zval *group_clause, *having_conditions, *having_expression = NULL;
 	zval *order_fields, *order_items, *order_item = NULL;
 	zval *order_expression = NULL, *order_sql_item = NULL, *sql_order_type = NULL;
 	zval *order_sql_item_type = NULL, *order_sql, *limit_value;
@@ -883,19 +878,14 @@ PHP_METHOD(Phalcon_Db_Dialect_Oracle, select){
 			PHALCON_OBS_NVAR(column_item);
 			phalcon_array_fetch_long(&column_item, column, 0, PH_NOISY);
 			if (Z_TYPE_P(column_item) == IS_ARRAY) {
-				PHALCON_INIT_NVAR(column_sql);
 				PHALCON_CALL_METHOD(&column_sql, this_ptr, "getsqlexpression", column_item, escape_char);
+			} else if (PHALCON_IS_STRING(column_item, "*")) {
+				PHALCON_CPY_WRT(column_sql, column_item);
+			} else if (PHALCON_GLOBAL(db).escape_identifiers) {
+				PHALCON_INIT_NVAR(column_sql);
+				PHALCON_CONCAT_VVV(column_sql, escape_char, column_item, escape_char);
 			} else {
-				if (PHALCON_IS_STRING(column_item, "*")) {
-					PHALCON_CPY_WRT(column_sql, column_item);
-				} else {
-					if (PHALCON_GLOBAL(db).escape_identifiers) {
-						PHALCON_INIT_NVAR(column_sql);
-						PHALCON_CONCAT_VVV(column_sql, escape_char, column_item, escape_char);
-					} else {
-						PHALCON_CPY_WRT(columns_sql, column_item);
-					}
-				}
+				PHALCON_CPY_WRT(columns_sql, column_item);
 			}
 
 			/**
@@ -969,7 +959,6 @@ PHP_METHOD(Phalcon_Db_Dialect_Oracle, select){
 
 			PHALCON_GET_HVALUE(table);
 
-			PHALCON_INIT_NVAR(sql_table);
 			PHALCON_CALL_METHOD(&sql_table, this_ptr, "getsqltable", table, escape_char);
 			phalcon_array_append(&selected_tables, sql_table, PH_SEPARATE);
 
@@ -1019,7 +1008,6 @@ PHP_METHOD(Phalcon_Db_Dialect_Oracle, select){
 			PHALCON_OBS_NVAR(table);
 			phalcon_array_fetch_string(&table, join, SL("source"), PH_NOISY);
 
-			PHALCON_INIT_NVAR(sql_table);
 			PHALCON_CALL_METHOD(&sql_table, this_ptr, "getsqltable", table, escape_char);
 			phalcon_array_append(&selected_tables, sql_table, PH_SEPARATE);
 
@@ -1044,7 +1032,6 @@ PHP_METHOD(Phalcon_Db_Dialect_Oracle, select){
 
 						PHALCON_GET_HVALUE(join_condition);
 
-						PHALCON_INIT_NVAR(join_expression);
 						PHALCON_CALL_METHOD(&join_expression, this_ptr, "getsqlexpression", join_condition, escape_char);
 						phalcon_array_append(&join_expressions, join_expression, PH_SEPARATE);
 
@@ -1072,7 +1059,6 @@ PHP_METHOD(Phalcon_Db_Dialect_Oracle, select){
 		PHALCON_OBS_VAR(where_conditions);
 		phalcon_array_fetch_string(&where_conditions, definition, SL("where"), PH_NOISY);
 		if (Z_TYPE_P(where_conditions) == IS_ARRAY) {
-			PHALCON_INIT_VAR(where_expression);
 			PHALCON_CALL_METHOD(&where_expression, this_ptr, "getsqlexpression", where_conditions, escape_char);
 			PHALCON_SCONCAT_SV(sql, " WHERE ", where_expression);
 		} else {
@@ -1097,7 +1083,6 @@ PHP_METHOD(Phalcon_Db_Dialect_Oracle, select){
 
 			PHALCON_GET_HVALUE(group_field);
 
-			PHALCON_INIT_NVAR(group_expression);
 			PHALCON_CALL_METHOD(&group_expression, this_ptr, "getsqlexpression", group_field, escape_char);
 			phalcon_array_append(&group_items, group_expression, PH_SEPARATE);
 
@@ -1118,7 +1103,6 @@ PHP_METHOD(Phalcon_Db_Dialect_Oracle, select){
 			PHALCON_OBS_VAR(having_conditions);
 			phalcon_array_fetch_string(&having_conditions, definition, SL("having"), PH_NOISY);
 
-			PHALCON_INIT_VAR(having_expression);
 			PHALCON_CALL_METHOD(&having_expression, this_ptr, "getsqlexpression", having_conditions, escape_char);
 			PHALCON_SCONCAT_SV(sql, " HAVING ", having_expression);
 		}
@@ -1144,7 +1128,6 @@ PHP_METHOD(Phalcon_Db_Dialect_Oracle, select){
 			PHALCON_OBS_NVAR(order_expression);
 			phalcon_array_fetch_long(&order_expression, order_item, 0, PH_NOISY);
 
-			PHALCON_INIT_NVAR(order_sql_item);
 			PHALCON_CALL_METHOD(&order_sql_item, this_ptr, "getsqlexpression", order_expression, escape_char);
 
 			/**

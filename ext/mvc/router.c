@@ -774,7 +774,7 @@ PHP_METHOD(Phalcon_Mvc_Router, handle){
 				/**
 				 * Call the function in the PHP userland
 				 */
-				PHALCON_INIT_NVAR(route_found);
+				PHALCON_INIT_NVAR(route_found);/**/
 				PHALCON_CALL_USER_FUNC_ARRAY(route_found, before_match, before_match_params);
 			}
 		}
@@ -814,7 +814,7 @@ PHP_METHOD(Phalcon_Mvc_Router, handle){
 							array_init_size(parameters, 1);
 							phalcon_array_append(&parameters, match_position, 0);
 
-							PHALCON_INIT_NVAR(converted_part);
+							PHALCON_INIT_NVAR(converted_part);/**/
 							PHALCON_CALL_USER_FUNC_ARRAY(converted_part, converter, parameters);
 							phalcon_array_update_zval(&parts, part, converted_part, PH_COPY);
 							zend_hash_move_forward_ex(ah1, &hp1);
@@ -834,7 +834,7 @@ PHP_METHOD(Phalcon_Mvc_Router, handle){
 							array_init_size(parameters, 1);
 							phalcon_array_append(&parameters, position, 0);
 
-							PHALCON_INIT_NVAR(converted_part);
+							PHALCON_INIT_NVAR(converted_part);/**/
 							PHALCON_CALL_USER_FUNC_ARRAY(converted_part, converter, parameters);
 							phalcon_array_update_zval(&parts, part, converted_part, PH_COPY);
 						}

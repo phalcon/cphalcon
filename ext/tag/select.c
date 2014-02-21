@@ -338,8 +338,8 @@ PHP_METHOD(Phalcon_Tag_Select, _optionsFromResultset){
 					array_init(params);
 				}
 				phalcon_array_update_long(&params, 0, option, PH_COPY | PH_SEPARATE);
-	
-				PHALCON_INIT_NVAR(code_option);
+
+				PHALCON_INIT_NVAR(code_option);/**/
 				PHALCON_CALL_USER_FUNC_ARRAY(code_option, using, params);
 				phalcon_concat_self(&code, code_option TSRMLS_CC);
 			}
