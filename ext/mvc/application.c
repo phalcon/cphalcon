@@ -43,6 +43,7 @@
 #include "kernel/require.h"
 
 #include "interned-strings.h"
+#include "php_phalcon.h"
 
 /**
  * Phalcon\Mvc\Application
@@ -308,7 +309,7 @@ PHP_METHOD(Phalcon_Mvc_Application, handle){
 	zval *module_object = NULL, *modules;
 	zval *module, *class_name = NULL, *module_params;
 	zval *implicit_view, *view = NULL, *namespace_name = NULL;
-	zval *controller_name = NULL, *action_name = NULL, *params = NULL;
+	zval *controller_name = NULL, *action_name = NULL, *params = NULL, *exact = NULL;
 	zval *dispatcher = NULL, *controller = NULL, *returned_response = NULL;
 	zval *possible_response = NULL, *render_status = NULL, *response = NULL;
 	zval *content = NULL, *path;
@@ -346,19 +347,13 @@ PHP_METHOD(Phalcon_Mvc_Application, handle){
 	PHALCON_CALL_METHOD(&router, dependency_injector, "getshared", service);
 	PHALCON_VERIFY_INTERFACE(router, phalcon_mvc_routerinterface_ce);
 	
-	/** 
-	 * Handle the URI pattern (if any)
-	 */
+	/* Handle the URI pattern (if any) */
 	PHALCON_CALL_METHOD(NULL, router, "handle", uri);
 	
-	/** 
-	 * Load module config
-	 */
+	/* Load module config */
 	PHALCON_CALL_METHOD(&module_name, router, "getmodulename");
 	
-	/** 
-	 * If the router doesn't return a valid module we use the default module
-	 */
+	/* If the router doesn't return a valid module we use the default module */
 	if (!zend_is_true(module_name)) {
 		PHALCON_OBS_NVAR(module_name);
 		phalcon_read_property_this(&module_name, this_ptr, SL("_defaultModule"), PH_NOISY TSRMLS_CC);
@@ -391,15 +386,9 @@ PHP_METHOD(Phalcon_Mvc_Application, handle){
 			return;
 		}
 	
-		PHALCON_INIT_VAR(module_object);
-
-		/** 
-		 * An array module definition contains a path to a module definition class
-		 */
+		/* An array module definition contains a path to a module definition class */
 		if (Z_TYPE_P(module) == IS_ARRAY) { 
-			/** 
-			 * Class name used to load the module definition
-			 */
+			/* Class name used to load the module definition */
 			if (phalcon_array_isset_string(module, SS("className"))) {
 				PHALCON_OBS_VAR(class_name);
 				phalcon_array_fetch_string(&class_name, module, SL("className"), PH_NOISY);
@@ -408,9 +397,7 @@ PHP_METHOD(Phalcon_Mvc_Application, handle){
 				ZVAL_STRING(class_name, "Module", 1);
 			}
 	
-			/** 
-			 * If developer specify a path try to include the file
-			 */
+			/* If the developer has specified a path, try to include the file */
 			if (phalcon_array_isset_string(module, SS("path"))) {
 	
 				PHALCON_OBS_VAR(path);
@@ -448,6 +435,10 @@ PHP_METHOD(Phalcon_Mvc_Application, handle){
 	
 		/* Calling afterStartModule event */
 		if (events_manager) {
+			if (!module_object) {
+				module_object = PHALCON_GLOBAL(z_null);
+			}
+
 			phalcon_update_property_this(this_ptr, SL("_moduleObject"), module_object TSRMLS_CC);
 			if (FAILURE == phalcon_mvc_application_fire_event(events_manager, "application:afterStartModule", getThis(), module_name TSRMLS_CC)) {
 				RETURN_MM_FALSE;
@@ -475,27 +466,24 @@ PHP_METHOD(Phalcon_Mvc_Application, handle){
 		PHALCON_VERIFY_INTERFACE(view, phalcon_mvc_viewinterface_ce);
 	}
 	
-	/** 
-	 * We get the parameters from the router and assign them to the dispatcher
-	 */
+	/* We get the parameters from the router and assign them to the dispatcher */
 	PHALCON_CALL_METHOD(&module_name, router, "getmodulename");
 	PHALCON_CALL_METHOD(&namespace_name, router, "getnamespacename");
 	PHALCON_CALL_METHOD(&controller_name, router, "getcontrollername");
 	PHALCON_CALL_METHOD(&action_name, router, "getactionname");
 	PHALCON_CALL_METHOD(&params, router, "getparams");
-	
+	PHALCON_CALL_METHOD(&exact, router, "isexactcontrollername");
+
 	PHALCON_INIT_NVAR(service);
 	PHALCON_ZVAL_MAYBE_INTERNED_STRING(service, phalcon_interned_dispatcher);
 	
 	PHALCON_CALL_METHOD(&dispatcher, dependency_injector, "getshared", service);
 	PHALCON_VERIFY_INTERFACE(dispatcher, phalcon_dispatcherinterface_ce);
 	
-	/** 
-	 * Assign the values passed from the router
-	 */
+	/* Assign the values passed from the router */
 	PHALCON_CALL_METHOD(NULL, dispatcher, "setmodulename", module_name);
 	PHALCON_CALL_METHOD(NULL, dispatcher, "setnamespacename", namespace_name);
-	PHALCON_CALL_METHOD(NULL, dispatcher, "setcontrollername", controller_name);
+	PHALCON_CALL_METHOD(NULL, dispatcher, "setcontrollername", controller_name, exact);
 	PHALCON_CALL_METHOD(NULL, dispatcher, "setactionname", action_name);
 	PHALCON_CALL_METHOD(NULL, dispatcher, "setparams", params);
 	
@@ -507,25 +495,17 @@ PHP_METHOD(Phalcon_Mvc_Application, handle){
 	}
 	
 	/* Calling beforeHandleRequest */
-	if (FAILURE == phalcon_mvc_application_fire_event(events_manager, "application:beforeHandleRequest", getThis(), dispatcher TSRMLS_CC)) {
-		RETURN_MM_FALSE;
-	}
+	RETURN_MM_ON_FAILURE(phalcon_mvc_application_fire_event(events_manager, "application:beforeHandleRequest", getThis(), dispatcher TSRMLS_CC));
 	
-	/** 
-	 * The dispatcher must return an object
-	 */
+	/* The dispatcher must return an object */
 	PHALCON_CALL_METHOD(&controller, dispatcher, "dispatch");
 	
 	PHALCON_INIT_VAR(returned_response);
 	
-	/** 
-	 * Get the latest value returned by an action
-	 */
+	/* Get the latest value returned by an action */
 	PHALCON_CALL_METHOD(&possible_response, dispatcher, "getreturnedvalue");
 	if (Z_TYPE_P(possible_response) == IS_OBJECT) {
-		/** 
-		 * Check if the returned object is already a response
-		 */
+		/* Check if the returned object is already a response */
 		ZVAL_BOOL(returned_response, instanceof_function_ex(Z_OBJCE_P(possible_response), phalcon_http_responseinterface_ce, 1 TSRMLS_CC));
 	}
 	else {
@@ -537,10 +517,7 @@ PHP_METHOD(Phalcon_Mvc_Application, handle){
 		RETURN_MM();
 	}
 	
-	/** 
-	 * If the dispatcher returns an object we try to render the view in auto-rendering
-	 * mode
-	 */
+	/* If the dispatcher returns an object we try to render the view in auto-rendering mode */
 	if (PHALCON_IS_FALSE(returned_response)) {
 		if (f_implicit_view) {
 	
@@ -567,26 +544,20 @@ PHP_METHOD(Phalcon_Mvc_Application, handle){
 					ZVAL_TRUE(render_status);
 				}
 	
-				/** 
-				 * Check if the view process has been treated by the developer
-				 */
+				/* Check if the view process has been treated by the developer */
 				if (PHALCON_IS_NOT_FALSE(render_status)) {
 					PHALCON_CALL_METHOD(&controller_name, dispatcher, "getcontrollername");
 					PHALCON_CALL_METHOD(&action_name, dispatcher, "getactionname");
 					PHALCON_CALL_METHOD(&params, dispatcher, "getparams");
 	
-					/** 
-					 * Automatic render based on the latest controller executed
-					 */
+					/* Automatic render based on the latest controller executed */
 					PHALCON_CALL_METHOD(NULL, view, "render", controller_name, action_name, params);
 				}
 			}
 		}
 	}
 	
-	/** 
-	 * Finish the view component (stop output buffering)
-	 */
+	/* Finish the view component (stop output buffering) */
 	if (f_implicit_view) {
 		PHALCON_CALL_METHOD(NULL, view, "finish");
 	}
@@ -598,16 +569,12 @@ PHP_METHOD(Phalcon_Mvc_Application, handle){
 		PHALCON_CALL_METHOD(&response, dependency_injector, "getshared", service);
 		PHALCON_VERIFY_INTERFACE(response, phalcon_http_responseinterface_ce);
 		if (f_implicit_view) {
-			/** 
-			 * The content returned by the view is passed to the response service
-			 */
+			/* The content returned by the view is passed to the response service */
 			PHALCON_CALL_METHOD(&content, view, "getcontent");
 			PHALCON_CALL_METHOD(NULL, response, "setcontent", content);
 		}
 	} else {
-		/** 
-		 * We don't need to create a response because there is a one already created
-		 */
+		/* We don't need to create a response because there is a one already created */
 		PHALCON_CPY_WRT(response, possible_response);
 	}
 	
@@ -617,19 +584,12 @@ PHP_METHOD(Phalcon_Mvc_Application, handle){
 		RETURN_MM();
 	}
 	
-	/** 
-	 * Headers are automatically sent
-	 */
+	/* Headers are automatically sent */
 	PHALCON_CALL_METHOD(NULL, response, "sendheaders");
 	
-	/** 
-	 * Cookies are automatically sent
-	 */
+	/* Cookies are automatically sent */
 	PHALCON_CALL_METHOD(NULL, response, "sendcookies");
 	
-	/** 
-	 * Return the response
-	 */
-	
+	/* Return the response */
 	RETURN_CCTOR(response);
 }

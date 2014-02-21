@@ -107,6 +107,7 @@ PHP_METHOD(Phalcon_Mvc_Router, wasMatched);
 PHP_METHOD(Phalcon_Mvc_Router, getRoutes);
 PHP_METHOD(Phalcon_Mvc_Router, getRouteById);
 PHP_METHOD(Phalcon_Mvc_Router, getRouteByName);
+PHP_METHOD(Phalcon_Mvc_Router, isExactControllerName);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_router___construct, 0, 0, 0)
 	ZEND_ARG_INFO(0, defaultRoutes)
@@ -172,6 +173,7 @@ static const zend_function_entry phalcon_mvc_router_method_entry[] = {
 	PHP_ME(Phalcon_Mvc_Router, getRoutes, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Router, getRouteById, arginfo_phalcon_mvc_routerinterface_getroutebyid, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Router, getRouteByName, arginfo_phalcon_mvc_routerinterface_getroutebyname, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Router, isExactControllerName, NULL, ZEND_ACC_PUBLIC)
 	PHP_FE_END
 };
 
@@ -201,6 +203,7 @@ PHALCON_INIT_CLASS(Phalcon_Mvc_Router){
 	zend_declare_property_null(phalcon_mvc_router_ce, SL("_defaultParams"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_mvc_router_ce, SL("_removeExtraSlashes"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_mvc_router_ce, SL("_notFoundPaths"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_bool(phalcon_mvc_router_ce, SL("_isExactControllerName"), 0, ZEND_ACC_PROTECTED TSRMLS_CC);
 
 	zend_declare_class_constant_long(phalcon_mvc_router_ce, SL("URI_SOURCE_GET_URL"), 0 TSRMLS_CC);
 	zend_declare_class_constant_long(phalcon_mvc_router_ce, SL("URI_SOURCE_SERVER_REQUEST_URI"), 1 TSRMLS_CC);
@@ -240,7 +243,7 @@ PHP_METHOD(Phalcon_Mvc_Router, __construct){
 		 */
 		PHALCON_INIT_VAR(paths);
 		array_init_size(paths, 1);
-		add_assoc_long_ex(paths, SS("controller"), 1);
+		add_assoc_long_ex(paths, ISS(controller), 1);
 
 		PHALCON_INIT_VAR(action_pattern);
 		ZVAL_STRING(action_pattern, "#^/([a-zA-Z0-9_-]++)/?+$#", 1);
@@ -253,9 +256,9 @@ PHP_METHOD(Phalcon_Mvc_Router, __construct){
 
 		PHALCON_INIT_NVAR(paths);
 		array_init_size(paths, 3);
-		add_assoc_long_ex(paths, SS("controller"), 1);
-		add_assoc_long_ex(paths, SS("action"), 2);
-		add_assoc_long_ex(paths, SS("params"), 3);
+		add_assoc_long_ex(paths, ISS(controller), 1);
+		add_assoc_long_ex(paths, ISS(action), 2);
+		add_assoc_long_ex(paths, ISS(params), 3);
 
 		PHALCON_INIT_VAR(params_pattern);
 		ZVAL_STRING(params_pattern, "#^/([a-zA-Z0-9_-]++)/([a-zA-Z0-9\\._]++)(/.*+)?+$#", 1);
@@ -558,11 +561,11 @@ PHP_METHOD(Phalcon_Mvc_Router, getDefaults){
 
 	array_init_size(return_value, 5);
 
-	phalcon_array_update_string(&return_value, SL("namespace"),  namespace_name,  PH_COPY);
-	phalcon_array_update_string(&return_value, SL("module"),     module_name,     PH_COPY);
-	phalcon_array_update_string(&return_value, SL("controller"), controller_name, PH_COPY);
-	phalcon_array_update_string(&return_value, SL("action"),     action_name,     PH_COPY);
-	phalcon_array_update_string(&return_value, SL("params"),     params,          PH_COPY);
+	phalcon_array_update_string(&return_value, ISL(namespace),  namespace_name,  PH_COPY);
+	phalcon_array_update_string(&return_value, ISL(module),     module_name,     PH_COPY);
+	phalcon_array_update_string(&return_value, ISL(controller), controller_name, PH_COPY);
+	phalcon_array_update_string(&return_value, ISL(action),     action_name,     PH_COPY);
+	phalcon_array_update_string(&return_value, ISL(params),     params,          PH_COPY);
 }
 
 /**
@@ -596,6 +599,7 @@ PHP_METHOD(Phalcon_Mvc_Router, handle){
 	zval **hd;
 	zval *dependency_injector, *tmp;
 	zval *match_position = NULL, *converter = NULL;
+	zval *exact = NULL;
 
 	PHALCON_MM_GROW();
 
@@ -804,39 +808,34 @@ PHP_METHOD(Phalcon_Mvc_Router, handle){
 					PHALCON_GET_HKEY(part, ah1, hp1);
 					PHALCON_GET_HVALUE(position);
 
-					if (phalcon_array_isset_fetch(&match_position, matches, position)) {
+					if (Z_TYPE_P(part) != IS_STRING || Z_STRVAL_P(part)[0] != '\0') {
+						if (phalcon_array_isset_fetch(&match_position, matches, position)) {
+							/* Check if the part has a converter */
+							if (phalcon_array_isset_fetch(&converter, converters, part)) {
+								PHALCON_INIT_NVAR(parameters);
+								array_init_size(parameters, 1);
+								phalcon_array_append(&parameters, match_position, 0);
 
-						/**
-						 * Check if the part has a converter
-						 */
-						if (phalcon_array_isset_fetch(&converter, converters, part)) {
-							PHALCON_INIT_NVAR(parameters);
-							array_init_size(parameters, 1);
-							phalcon_array_append(&parameters, match_position, 0);
+								PHALCON_INIT_NVAR(converted_part);/**/
+								PHALCON_CALL_USER_FUNC_ARRAY(converted_part, converter, parameters);
+								phalcon_array_update_zval(&parts, part, converted_part, PH_COPY);
+								zend_hash_move_forward_ex(ah1, &hp1);
+								continue;
+							}
 
-							PHALCON_INIT_NVAR(converted_part);/**/
-							PHALCON_CALL_USER_FUNC_ARRAY(converted_part, converter, parameters);
-							phalcon_array_update_zval(&parts, part, converted_part, PH_COPY);
-							zend_hash_move_forward_ex(ah1, &hp1);
-							continue;
-						}
+							/* Update the parts if there is no converter */
+							phalcon_array_update_zval(&parts, part, match_position, PH_COPY);
+						} else {
+							/* Apply the converters anyway */
+							if (phalcon_array_isset_fetch(&converter, converters, part)) {
+								PHALCON_INIT_NVAR(parameters);
+								array_init_size(parameters, 1);
+								phalcon_array_append(&parameters, position, 0);
 
-						/**
-						 * Update the parts if there is no converter
-						 */
-						phalcon_array_update_zval(&parts, part, match_position, PH_COPY);
-					} else {
-						/**
-						 * Apply the converters anyway
-						 */
-						if (phalcon_array_isset_fetch(&converter, converters, part)) {
-							PHALCON_INIT_NVAR(parameters);
-							array_init_size(parameters, 1);
-							phalcon_array_append(&parameters, position, 0);
-
-							PHALCON_INIT_NVAR(converted_part);/**/
-							PHALCON_CALL_USER_FUNC_ARRAY(converted_part, converter, parameters);
-							phalcon_array_update_zval(&parts, part, converted_part, PH_COPY);
+								PHALCON_INIT_NVAR(converted_part);/**/
+								PHALCON_CALL_USER_FUNC_ARRAY(converted_part, converter, parameters);
+								phalcon_array_update_zval(&parts, part, converted_part, PH_COPY);
+							}
 						}
 					}
 
@@ -897,6 +896,16 @@ PHP_METHOD(Phalcon_Mvc_Router, handle){
 		} else {
 			tmp = phalcon_fetch_nproperty_this(this_ptr, SL("_defaultModule"), PH_NOISY TSRMLS_CC);
 			phalcon_update_property_this(this_ptr, SL("_module"), tmp TSRMLS_CC);
+		}
+
+		if (phalcon_array_isset_string_fetch(&exact, parts, SS("\0exact"))) {
+			phalcon_update_property_this(this_ptr, SL("_isExactControllerName"), exact TSRMLS_CC);
+			phalcon_array_unset_string(&parts, SS("\0exact"), PH_SEPARATE);
+		}
+		else {
+			PHALCON_INIT_VAR(exact);
+			ZVAL_FALSE(exact);
+			phalcon_update_property_this(this_ptr, SL("_isExactControllerName"), exact TSRMLS_CC);
 		}
 
 		/**
@@ -1416,4 +1425,11 @@ PHP_METHOD(Phalcon_Mvc_Router, getRouteByName){
 	}
 
 	RETURN_MM_FALSE;
+}
+
+/**
+ * Returns whether controller name should not be mangled
+ */
+PHP_METHOD(Phalcon_Mvc_Router, isExactControllerName) {
+	RETURN_MEMBER(this_ptr, "_isExactControllerName");
 }
