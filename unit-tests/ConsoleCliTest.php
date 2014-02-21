@@ -197,8 +197,8 @@ class ConsoleCliTest extends PHPUnit_Framework_TestCase
 
 		$this->assertTrue(class_exists('Issue787Task'));
 
-		$actual   = Issue787Task::$output;
 		$expected = "beforeExecuteRoute\ninitialize\n";
-		$this->assertEquals($actual, $expected);
+		$actual   = Issue787Task::$output;
+		$this->assertEquals($expected, $actual);
 	}
 }

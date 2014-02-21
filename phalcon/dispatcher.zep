@@ -339,7 +339,8 @@ abstract class Dispatcher implements \Phalcon\DispatcherInterface, \Phalcon\Di\I
 		int numberDispatches;
 		var value, handler, dependencyInjector, namespaceName, handlerName,
 			actionName, camelizedClass, params, eventsManager,
-			handlerSuffix, actionSuffix, handlerClass, status, actionMethod;
+			handlerSuffix, actionSuffix, handlerClass, status, actionMethod,
+			wasFresh;
 
 		let dependencyInjector = <\Phalcon\DiInterface> this->_dependencyInjector;
 		if typeof dependencyInjector != "object" {
@@ -478,6 +479,14 @@ abstract class Dispatcher implements \Phalcon\DispatcherInterface, \Phalcon\Di\I
 			 * Handlers must be only objects
 			 */
 			let handler = dependencyInjector->getShared(handlerClass);
+
+			/**
+			 * If the object was recently created in the DI we initialize it
+			 */
+			if dependencyInjector->wasFreshInstance() === true {
+				let wasFresh = true;
+			}
+
 			if typeof handler != "object" {
 				let status = this->{"_throwDispatchException"}("Invalid handler returned from the services container", self::EXCEPTION_INVALID_HANDLER);
 				if status === false {
@@ -575,10 +584,7 @@ abstract class Dispatcher implements \Phalcon\DispatcherInterface, \Phalcon\Di\I
 				}
 			}
 
-			/**
-			 * If the object was recently created in the DI we initialize it
-			 */
-			if dependencyInjector->wasFreshInstance() === true {
+			if (wasFresh === true) {
 				if method_exists(handler, "initialize") {
 					handler->initialize();
 				}
