@@ -71,6 +71,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Validation_Validator_Identical) {
  */
 PHP_METHOD(Phalcon_Validation_Validator_Identical, validate) {
 
+	int ZEPHIR_LAST_CALL_STATUS;
 	zval *field = NULL;
 	zval *validation, *field_param = NULL, *message = NULL, *label = NULL, *replacePairs, *_0, *_1, *_2, *_3, *_4;
 
@@ -96,18 +97,22 @@ PHP_METHOD(Phalcon_Validation_Validator_Identical, validate) {
 	}
 	ZEPHIR_INIT_VAR(_0);
 	zephir_call_method_p1(_0, validation, "getvalue", field);
+	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(_1);
 	ZEPHIR_INIT_VAR(_2);
 	ZVAL_STRING(_2, "value", 1);
 	zephir_call_method_p1(_1, this_ptr, "getoption", _2);
+	zephir_check_call_status();
 	if (!ZEPHIR_IS_EQUAL(_0, _1)) {
 		ZEPHIR_INIT_BNVAR(_2);
 		ZVAL_STRING(_2, "label", 1);
 		ZEPHIR_INIT_VAR(label);
 		zephir_call_method_p1(label, this_ptr, "getoption", _2);
+		zephir_check_call_status();
 		if (ZEPHIR_IS_EMPTY(label)) {
 			ZEPHIR_INIT_NVAR(label);
 			zephir_call_method_p1(label, validation, "getlabel", field);
+			zephir_check_call_status();
 			if (ZEPHIR_IS_EMPTY(label)) {
 				ZEPHIR_CPY_WRT(label, field);
 			}
@@ -116,6 +121,7 @@ PHP_METHOD(Phalcon_Validation_Validator_Identical, validate) {
 		ZVAL_STRING(_2, "message", 1);
 		ZEPHIR_INIT_VAR(message);
 		zephir_call_method_p1(message, this_ptr, "getoption", _2);
+		zephir_check_call_status();
 		ZEPHIR_INIT_VAR(replacePairs);
 		array_init_size(replacePairs, 2);
 		zephir_array_update_string(&replacePairs, SL(":field"), &label, PH_COPY | PH_SEPARATE);
@@ -124,15 +130,19 @@ PHP_METHOD(Phalcon_Validation_Validator_Identical, validate) {
 			ZVAL_STRING(_2, "Identical", 1);
 			ZEPHIR_INIT_NVAR(message);
 			zephir_call_method_p1(message, validation, "getdefaultmessage", _2);
+			zephir_check_call_status();
 		}
 		ZEPHIR_INIT_VAR(_3);
 		object_init_ex(_3, phalcon_validation_message_ce);
 		ZEPHIR_INIT_BNVAR(_2);
 		zephir_call_func_p2(_2, "strtr", message, replacePairs);
+		zephir_check_call_status();
 		ZEPHIR_INIT_VAR(_4);
 		ZVAL_STRING(_4, "Identical", 1);
 		zephir_call_method_p3_noret(_3, "__construct", _2, field, _4);
+		zephir_check_call_status();
 		zephir_call_method_p1_noret(validation, "appendmessage", _3);
+		zephir_check_call_status();
 		RETURN_MM_BOOL(0);
 	}
 	RETURN_MM_BOOL(1);

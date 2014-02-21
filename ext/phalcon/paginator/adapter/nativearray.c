@@ -135,7 +135,7 @@ PHP_METHOD(Phalcon_Paginator_Adapter_NativeArray, setCurrentPage) {
 PHP_METHOD(Phalcon_Paginator_Adapter_NativeArray, getPaginate) {
 
 	double roundedTotal;
-	int show, pageNumber, totalPages, number, before, next;
+	int show, pageNumber, totalPages, number, before, next, ZEPHIR_LAST_CALL_STATUS;
 	zval *config, *items, *page, *_0, *_1, _2, _3, *_4, *_5;
 
 	ZEPHIR_MM_GROW();
@@ -171,6 +171,7 @@ PHP_METHOD(Phalcon_Paginator_Adapter_NativeArray, getPaginate) {
 	ZVAL_LONG(&_3, show);
 	ZEPHIR_INIT_VAR(_4);
 	zephir_call_func_p3(_4, "array_slice", items, &_2, &_3);
+	zephir_check_call_status();
 	zephir_update_property_zval(page, SL("items"), _4 TSRMLS_CC);
 	if ((pageNumber < totalPages)) {
 		next = (pageNumber + 1);

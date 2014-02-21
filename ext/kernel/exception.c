@@ -47,6 +47,7 @@ void zephir_throw_exception(zval *object TSRMLS_DC){
 void zephir_throw_exception_string(zend_class_entry *ce, const char *message, zend_uint message_len TSRMLS_DC){
 
 	zval *object, *msg;
+	int ZEPHIR_LAST_CALL_STATUS = 0;
 
 	ALLOC_INIT_ZVAL(object);
 	object_init_ex(object, ce);
@@ -55,6 +56,7 @@ void zephir_throw_exception_string(zend_class_entry *ce, const char *message, ze
 	ZVAL_STRINGL(msg, message, message_len, 1);
 
 	zephir_call_method_p1_noret(object, "__construct", msg);
+	zephir_check_call_status();
 
 	zend_throw_exception_object(object TSRMLS_CC);
 
@@ -67,11 +69,13 @@ void zephir_throw_exception_string(zend_class_entry *ce, const char *message, ze
 void zephir_throw_exception_zval(zend_class_entry *ce, zval *message TSRMLS_DC){
 
 	zval *object;
+	int ZEPHIR_LAST_CALL_STATUS = 0;
 
 	ALLOC_INIT_ZVAL(object);
 	object_init_ex(object, ce);
 
 	zephir_call_method_p1_noret(object, "__construct", message);
+	zephir_check_call_status();
 
 	zend_throw_exception_object(object TSRMLS_CC);
 }

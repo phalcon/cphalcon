@@ -53,6 +53,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Config_Adapter_Json) {
  */
 PHP_METHOD(Phalcon_Config_Adapter_Json, __construct) {
 
+	int ZEPHIR_LAST_CALL_STATUS;
 	zval *filePath_param = NULL, *_0, *_1;
 	zval *filePath = NULL;
 
@@ -77,6 +78,7 @@ PHP_METHOD(Phalcon_Config_Adapter_Json, __construct) {
 	zephir_file_get_contents(_1, filePath TSRMLS_CC);
 	zephir_json_decode(_0, &(_0), _1, zephir_get_intval(ZEPHIR_GLOBAL(global_true))  TSRMLS_CC);
 	zephir_call_parent_p1_noret(this_ptr, phalcon_config_adapter_json_ce, "__construct", _0);
+	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 
 }

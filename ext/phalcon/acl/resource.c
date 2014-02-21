@@ -15,6 +15,7 @@
 #include "kernel/object.h"
 #include "kernel/operators.h"
 #include "kernel/exception.h"
+#include "ext/spl/spl_exceptions.h"
 #include "kernel/memory.h"
 
 
@@ -107,7 +108,17 @@ PHP_METHOD(Phalcon_Acl_Resource, __construct) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 1, &name_param, &description_param);
 
-	zephir_get_strval(name, name_param);
+	if (Z_TYPE_P(name_param) != IS_STRING && Z_TYPE_P(name_param) != IS_NULL) {
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'name' must be a string") TSRMLS_CC);
+		RETURN_MM_NULL();
+	}
+
+	if (Z_TYPE_P(name_param) == IS_STRING) {
+		name = name_param;
+	} else {
+		ZEPHIR_INIT_VAR(name);
+		ZVAL_EMPTY_STRING(name);
+	}
 	if (!description_param) {
 		ZEPHIR_INIT_VAR(description);
 		ZVAL_EMPTY_STRING(description);

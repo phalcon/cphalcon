@@ -171,6 +171,7 @@ PHP_METHOD(Phalcon_Cache_Frontend_Base64, stop) {
  */
 PHP_METHOD(Phalcon_Cache_Frontend_Base64, beforeStore) {
 
+	int ZEPHIR_LAST_CALL_STATUS;
 	zval *data;
 
 	ZEPHIR_MM_GROW();
@@ -179,6 +180,7 @@ PHP_METHOD(Phalcon_Cache_Frontend_Base64, beforeStore) {
 
 
 	zephir_call_func_p1(return_value, "base64_encode", data);
+	zephir_check_call_status();
 	RETURN_MM();
 
 }
@@ -191,6 +193,7 @@ PHP_METHOD(Phalcon_Cache_Frontend_Base64, beforeStore) {
  */
 PHP_METHOD(Phalcon_Cache_Frontend_Base64, afterRetrieve) {
 
+	int ZEPHIR_LAST_CALL_STATUS;
 	zval *data;
 
 	ZEPHIR_MM_GROW();
@@ -199,6 +202,7 @@ PHP_METHOD(Phalcon_Cache_Frontend_Base64, afterRetrieve) {
 
 
 	zephir_call_func_p1(return_value, "base64_decode", data);
+	zephir_check_call_status();
 	RETURN_MM();
 
 }

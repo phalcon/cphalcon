@@ -83,7 +83,7 @@ PHP_METHOD(Phalcon_Cli_Console, __construct) {
 
 	_0 = (Z_TYPE_P(dependencyInjector) != IS_NULL);
 	if (_0) {
-		_0 = !zephir_is_instance_of(dependencyInjector, SL("Phalcon\\DiInterface") TSRMLS_CC);
+		_0 = !zephir_instance_of_ev(dependencyInjector, phalcon_diinterface_ce TSRMLS_CC);
 	}
 	if (_0) {
 		ZEPHIR_THROW_EXCEPTION_STRW(spl_ce_InvalidArgumentException, "Parameter 'dependencyInjector' must be an instance of 'Phalcon\\DiInterface'");
@@ -108,7 +108,7 @@ PHP_METHOD(Phalcon_Cli_Console, setDI) {
 
 
 
-	if (!(zephir_is_instance_of(dependencyInjector, SL("Phalcon\\DiInterface") TSRMLS_CC))) {
+	if (!(zephir_instance_of_ev(dependencyInjector, phalcon_diinterface_ce TSRMLS_CC))) {
 		ZEPHIR_THROW_EXCEPTION_STRW(spl_ce_InvalidArgumentException, "Parameter 'dependencyInjector' must be an instance of 'Phalcon\\DiInterface'");
 		return;
 	}
@@ -141,7 +141,7 @@ PHP_METHOD(Phalcon_Cli_Console, setEventsManager) {
 
 
 
-	if (!(zephir_is_instance_of(eventsManager, SL("Phalcon\\Events\\ManagerInterface") TSRMLS_CC))) {
+	if (!(zephir_instance_of_ev(eventsManager, phalcon_events_managerinterface_ce TSRMLS_CC))) {
 		ZEPHIR_THROW_EXCEPTION_STRW(spl_ce_InvalidArgumentException, "Parameter 'eventsManager' must be an instance of 'Phalcon\\Events\\ManagerInterface'");
 		return;
 	}
@@ -250,6 +250,7 @@ PHP_METHOD(Phalcon_Cli_Console, getModules) {
  */
 PHP_METHOD(Phalcon_Cli_Console, handle) {
 
+	int ZEPHIR_LAST_CALL_STATUS;
 	zval *arguments = NULL, *dependencyInjector, *router = NULL, *eventsManager = NULL, *moduleName, *modules, *module, *path, *className = NULL, *moduleObject, *dispatcher = NULL, *task, *_0, *_1, *_2, *_3 = NULL, *_4 = NULL, *_5 = NULL, *_6, *_7, *_8, *_9;
 
 	ZEPHIR_MM_GROW();
@@ -272,16 +273,20 @@ PHP_METHOD(Phalcon_Cli_Console, handle) {
 	ZEPHIR_INIT_VAR(_2);
 	ZVAL_STRING(_2, "router", 1);
 	zephir_call_method_p1(_1, dependencyInjector, "getshared", _2);
+	zephir_check_call_status();
 	ZEPHIR_CPY_WRT(router, _1);
 	zephir_call_method_p1_noret(router, "handle", arguments);
+	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(moduleName);
 	zephir_call_method(moduleName, router, "getmodulename");
+	zephir_check_call_status();
 	if (zephir_is_true(moduleName)) {
 		if ((Z_TYPE_P(eventsManager) == IS_OBJECT)) {
 			ZEPHIR_INIT_BNVAR(_1);
 			ZEPHIR_INIT_BNVAR(_2);
 			ZVAL_STRING(_2, "console:beforeStartModule", 1);
 			zephir_call_method_p3(_1, eventsManager, "fire", _2, this_ptr, moduleName);
+			zephir_check_call_status();
 			if (ZEPHIR_IS_FALSE(_1)) {
 				RETURN_MM_BOOL(0);
 			}
@@ -294,6 +299,7 @@ PHP_METHOD(Phalcon_Cli_Console, handle) {
 			ZEPHIR_INIT_VAR(_4);
 			ZEPHIR_CONCAT_SVS(_4, "Module '", moduleName, "' isn't registered in the console container");
 			zephir_call_method_p1_noret(_3, "__construct", _4);
+			zephir_check_call_status();
 			zephir_throw_exception(_3 TSRMLS_CC);
 			ZEPHIR_MM_RESTORE();
 			return;
@@ -312,6 +318,7 @@ PHP_METHOD(Phalcon_Cli_Console, handle) {
 				ZEPHIR_INIT_LNVAR(_4);
 				ZEPHIR_CONCAT_SVS(_4, "Module definition path '", path, "' doesn't exist");
 				zephir_call_method_p1_noret(_3, "__construct", _4);
+				zephir_check_call_status();
 				zephir_throw_exception(_3 TSRMLS_CC);
 				ZEPHIR_MM_RESTORE();
 				return;
@@ -328,14 +335,18 @@ PHP_METHOD(Phalcon_Cli_Console, handle) {
 		}
 		ZEPHIR_INIT_VAR(moduleObject);
 		zephir_call_method_p1(moduleObject, dependencyInjector, "get", className);
+		zephir_check_call_status();
 		zephir_call_method_noret(moduleObject, "registerautoloaders");
+		zephir_check_call_status();
 		zephir_call_method_p1_noret(moduleObject, "registerservices", dependencyInjector);
+		zephir_check_call_status();
 		if ((Z_TYPE_P(eventsManager) == IS_OBJECT)) {
 			zephir_update_property_this(this_ptr, SL("_moduleObject"), moduleObject TSRMLS_CC);
 			ZEPHIR_INIT_BNVAR(_2);
 			ZEPHIR_INIT_VAR(_5);
 			ZVAL_STRING(_5, "console:afterStartModule", 1);
 			zephir_call_method_p3(_2, eventsManager, "fire", _5, this_ptr, moduleObject);
+			zephir_check_call_status();
 			if (ZEPHIR_IS_FALSE(_2)) {
 				RETURN_MM_BOOL(0);
 			}
@@ -345,31 +356,41 @@ PHP_METHOD(Phalcon_Cli_Console, handle) {
 	ZEPHIR_INIT_VAR(_6);
 	ZVAL_STRING(_6, "dispatcher", 1);
 	zephir_call_method_p1(_5, dependencyInjector, "getshared", _6);
+	zephir_check_call_status();
 	ZEPHIR_CPY_WRT(dispatcher, _5);
 	ZEPHIR_INIT_NVAR(_5);
 	zephir_call_method(_5, router, "gettaskname");
+	zephir_check_call_status();
 	zephir_call_method_p1_noret(dispatcher, "settaskname", _5);
+	zephir_check_call_status();
 	ZEPHIR_INIT_BNVAR(_6);
 	zephir_call_method(_6, router, "getactionname");
+	zephir_check_call_status();
 	zephir_call_method_p1_noret(dispatcher, "setactionname", _6);
+	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(_7);
 	zephir_call_method(_7, router, "getparams");
+	zephir_check_call_status();
 	zephir_call_method_p1_noret(dispatcher, "setparams", _7);
+	zephir_check_call_status();
 	if ((Z_TYPE_P(eventsManager) == IS_OBJECT)) {
 		ZEPHIR_INIT_VAR(_8);
 		ZEPHIR_INIT_VAR(_9);
 		ZVAL_STRING(_9, "console:beforeHandleTask", 1);
 		zephir_call_method_p3(_8, eventsManager, "fire", _9, this_ptr, dispatcher);
+		zephir_check_call_status();
 		if (ZEPHIR_IS_FALSE(_8)) {
 			RETURN_MM_BOOL(0);
 		}
 	}
 	ZEPHIR_INIT_VAR(task);
 	zephir_call_method(task, dispatcher, "dispatch");
+	zephir_check_call_status();
 	if ((Z_TYPE_P(eventsManager) == IS_OBJECT)) {
 		ZEPHIR_INIT_NVAR(_5);
 		ZVAL_STRING(_5, "console:afterHandleTask", 1);
 		zephir_call_method_p3_noret(eventsManager, "fire", _5, this_ptr, task);
+		zephir_check_call_status();
 	}
 	RETURN_CCTOR(task);
 

@@ -81,6 +81,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Cache_Backend_Apc) {
  */
 PHP_METHOD(Phalcon_Cache_Backend_Apc, get) {
 
+	int ZEPHIR_LAST_CALL_STATUS;
 	zval *keyName, *lifetime = NULL, *frontend, *prefixedKey, *cachedContent, *_0;
 
 	ZEPHIR_MM_GROW();
@@ -99,10 +100,12 @@ PHP_METHOD(Phalcon_Cache_Backend_Apc, get) {
 	zephir_update_property_this(this_ptr, SL("_lastKey"), prefixedKey TSRMLS_CC);
 	ZEPHIR_INIT_VAR(cachedContent);
 	zephir_call_func_p1(cachedContent, "apc_fetch", prefixedKey);
+	zephir_check_call_status();
 	if (ZEPHIR_IS_FALSE(cachedContent)) {
 		RETURN_MM_NULL();
 	}
 	zephir_call_method_p1(return_value, frontend, "afterretrieve", cachedContent);
+	zephir_check_call_status();
 	RETURN_MM();
 
 }
@@ -117,6 +120,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Apc, get) {
  */
 PHP_METHOD(Phalcon_Cache_Backend_Apc, save) {
 
+	int ZEPHIR_LAST_CALL_STATUS;
 	zval *keyName = NULL, *content = NULL, *lifetime = NULL, *stopBuffer = NULL, *lastKey, *frontend, *cachedContent = NULL, *preparedContent, *ttl = NULL, *isBuffering, *_0;
 
 	ZEPHIR_MM_GROW();
@@ -154,17 +158,20 @@ PHP_METHOD(Phalcon_Cache_Backend_Apc, save) {
 	if ((Z_TYPE_P(content) == IS_NULL)) {
 		ZEPHIR_INIT_VAR(cachedContent);
 		zephir_call_method(cachedContent, frontend, "getcontent");
+		zephir_check_call_status();
 	} else {
 		ZEPHIR_CPY_WRT(cachedContent, content);
 	}
 	ZEPHIR_INIT_VAR(preparedContent);
 	zephir_call_method_p1(preparedContent, frontend, "beforestore", cachedContent);
+	zephir_check_call_status();
 	if ((Z_TYPE_P(lifetime) == IS_NULL)) {
 		ZEPHIR_OBS_NVAR(lifetime);
 		zephir_read_property_this(&lifetime, this_ptr, SL("_lastLifetime"), PH_NOISY_CC);
 		if ((Z_TYPE_P(lifetime) == IS_NULL)) {
 			ZEPHIR_INIT_VAR(ttl);
 			zephir_call_method(ttl, frontend, "getlifetime");
+			zephir_check_call_status();
 		} else {
 			ZEPHIR_CPY_WRT(ttl, lifetime);
 		}
@@ -172,10 +179,13 @@ PHP_METHOD(Phalcon_Cache_Backend_Apc, save) {
 		ZEPHIR_CPY_WRT(ttl, lifetime);
 	}
 	zephir_call_func_p3_noret("apc_store", lastKey, preparedContent, ttl);
+	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(isBuffering);
 	zephir_call_method(isBuffering, frontend, "isbuffering");
+	zephir_check_call_status();
 	if (ZEPHIR_IS_TRUE(stopBuffer)) {
 		zephir_call_method_noret(frontend, "stop");
+		zephir_check_call_status();
 	}
 	if (ZEPHIR_IS_TRUE(isBuffering)) {
 		zend_print_zval(cachedContent, 0);
@@ -193,6 +203,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Apc, save) {
  */
 PHP_METHOD(Phalcon_Cache_Backend_Apc, delete) {
 
+	int ZEPHIR_LAST_CALL_STATUS;
 	zval *keyName_param = NULL, *_0, *_1;
 	zval *keyName = NULL;
 
@@ -206,6 +217,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Apc, delete) {
 	ZEPHIR_INIT_VAR(_1);
 	ZEPHIR_CONCAT_SVV(_1, "_PHCA", _0, keyName);
 	zephir_call_func_p1(return_value, "apc_delete", _1);
+	zephir_check_call_status();
 	RETURN_MM();
 
 }
@@ -220,6 +232,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Apc, queryKeys) {
 
 	HashTable *_4;
 	HashPosition _3;
+	int ZEPHIR_LAST_CALL_STATUS;
 	zend_class_entry *_1;
 	zval *prefix_param = NULL, *prefixPattern = NULL, *apc, *keys, *key = NULL, *item = NULL, *_2, **_5, *_6 = NULL;
 	zval *prefix = NULL, *_0;
@@ -252,9 +265,11 @@ PHP_METHOD(Phalcon_Cache_Backend_Apc, queryKeys) {
 		ZEPHIR_INIT_VAR(_2);
 		ZVAL_STRING(_2, "user", 1);
 		zephir_call_method_p2_noret(apc, "__construct", _2, prefixPattern);
+		zephir_check_call_status();
 	}
 	ZEPHIR_INIT_BNVAR(_2);
 	zephir_call_func_p1(_2, "iterator", apc);
+	zephir_check_call_status();
 	zephir_is_iterable(_2, &_4, &_3, 0, 0);
 	for (
 	  ; zephir_hash_get_current_data_ex(_4, (void**) &_5, &_3) == SUCCESS
@@ -279,6 +294,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Apc, queryKeys) {
  */
 PHP_METHOD(Phalcon_Cache_Backend_Apc, exists) {
 
+	int ZEPHIR_LAST_CALL_STATUS;
 	zval *keyName = NULL, *lifetime = NULL, *lastKey, *_0, *_1;
 
 	ZEPHIR_MM_GROW();
@@ -302,6 +318,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Apc, exists) {
 	if (zephir_is_true(lastKey)) {
 		ZEPHIR_INIT_VAR(_1);
 		zephir_call_func_p1(_1, "apc_exists", lastKey);
+		zephir_check_call_status();
 		if (!ZEPHIR_IS_FALSE(_1)) {
 			RETURN_MM_BOOL(1);
 		}

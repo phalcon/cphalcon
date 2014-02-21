@@ -52,6 +52,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Validation_Message) {
 
 	zend_declare_property_null(phalcon_validation_message_ce, SL("_field"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
+	zend_class_implements(phalcon_validation_message_ce TSRMLS_CC, 1, phalcon_validation_messageinterface_ce);
 	return SUCCESS;
 
 }
@@ -100,7 +101,7 @@ PHP_METHOD(Phalcon_Validation_Message, __construct) {
 /**
  * Sets message type
  *
- * @param string $type
+ * @param string type
  * @return Phalcon\Validation\Message
  */
 PHP_METHOD(Phalcon_Validation_Message, setType) {
@@ -244,11 +245,12 @@ PHP_METHOD(Phalcon_Validation_Message, __toString) {
 /**
  * Magic __set_state helps to recover messsages from serialization
  *
- * @param  array message
+ * @param array message
  * @return Phalcon\Validation\Message
  */
 PHP_METHOD(Phalcon_Validation_Message, __set_state) {
 
+	int ZEPHIR_LAST_CALL_STATUS;
 	zval *message, *_0, *_1, *_2;
 
 	ZEPHIR_MM_GROW();
@@ -261,6 +263,7 @@ PHP_METHOD(Phalcon_Validation_Message, __set_state) {
 	zephir_array_fetch_string(&_1, message, SL("_field"), PH_NOISY | PH_READONLY TSRMLS_CC);
 	zephir_array_fetch_string(&_2, message, SL("_type"), PH_NOISY | PH_READONLY TSRMLS_CC);
 	zephir_call_method_p3_noret(return_value, "__construct", _0, _1, _2);
+	zephir_check_call_status();
 	RETURN_MM();
 
 }

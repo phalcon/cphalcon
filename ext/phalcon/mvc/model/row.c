@@ -128,7 +128,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Row, offsetSet) {
 
 
 
-	if (!(zephir_is_instance_of(value, SL("Phalcon\\Mvc\\ModelInterface") TSRMLS_CC))) {
+	if (!(zephir_instance_of_ev(value, phalcon_mvc_modelinterface_ce TSRMLS_CC))) {
 		ZEPHIR_THROW_EXCEPTION_STRW(spl_ce_InvalidArgumentException, "Parameter 'value' must be an instance of 'Phalcon\\Mvc\\ModelInterface'");
 		return;
 	}
@@ -164,9 +164,12 @@ PHP_METHOD(Phalcon_Mvc_Model_Row, offsetUnset) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_Row, toArray) {
 
+	int ZEPHIR_LAST_CALL_STATUS;
+
 	ZEPHIR_MM_GROW();
 
 	zephir_call_func_p1(return_value, "get_object_vars", this_ptr);
+	zephir_check_call_status();
 	RETURN_MM();
 
 }

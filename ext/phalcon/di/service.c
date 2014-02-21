@@ -207,6 +207,7 @@ PHP_METHOD(Phalcon_Di_Service, getDefinition) {
  */
 PHP_METHOD(Phalcon_Di_Service, resolve) {
 
+	int ZEPHIR_LAST_CALL_STATUS;
 	zend_bool _0, found;
 	zval *parameters = NULL, *dependencyInjector = NULL, *shared, *definition, *sharedInstance, *instance = NULL, *builder, *_1, *_2, *_3;
 
@@ -223,7 +224,7 @@ PHP_METHOD(Phalcon_Di_Service, resolve) {
 
 	_0 = (Z_TYPE_P(dependencyInjector) != IS_NULL);
 	if (_0) {
-		_0 = !zephir_is_instance_of(dependencyInjector, SL("Phalcon\\DiInterface") TSRMLS_CC);
+		_0 = !zephir_instance_of_ev(dependencyInjector, phalcon_diinterface_ce TSRMLS_CC);
 	}
 	if (_0) {
 		ZEPHIR_THROW_EXCEPTION_STR(spl_ce_InvalidArgumentException, "Parameter 'dependencyInjector' must be an instance of 'Phalcon\\DiInterface'");
@@ -273,6 +274,7 @@ PHP_METHOD(Phalcon_Di_Service, resolve) {
 					ZEPHIR_CALL_USER_FUNC_ARRAY(instance, definition, parameters);
 				} else {
 					zephir_call_func_p1(instance, "call_user_func", definition);
+					zephir_check_call_status();
 				}
 			} else {
 				ZEPHIR_CPY_WRT(instance, definition);
@@ -283,9 +285,11 @@ PHP_METHOD(Phalcon_Di_Service, resolve) {
 				object_init_ex(builder, phalcon_di_service_builder_ce);
 				if (zephir_has_constructor(builder TSRMLS_CC)) {
 					zephir_call_method_noret(builder, "__construct");
+					zephir_check_call_status();
 				}
 				ZEPHIR_INIT_BNVAR(instance);
 				zephir_call_method_p3(instance, builder, "build", dependencyInjector, definition, parameters);
+				zephir_check_call_status();
 			} else {
 				found = 0;
 			}
@@ -298,6 +302,7 @@ PHP_METHOD(Phalcon_Di_Service, resolve) {
 		ZEPHIR_INIT_VAR(_3);
 		ZEPHIR_CONCAT_SVS(_3, "Service '", _2, "' cannot be resolved");
 		zephir_call_method_p1_noret(_1, "__construct", _3);
+		zephir_check_call_status();
 		zephir_throw_exception(_1 TSRMLS_CC);
 		ZEPHIR_MM_RESTORE();
 		return;
@@ -391,6 +396,7 @@ PHP_METHOD(Phalcon_Di_Service, getParameter) {
  */
 PHP_METHOD(Phalcon_Di_Service, __set_state) {
 
+	int ZEPHIR_LAST_CALL_STATUS;
 	zval *attributes, *name, *definition, *shared;
 
 	ZEPHIR_MM_GROW();
@@ -415,6 +421,7 @@ PHP_METHOD(Phalcon_Di_Service, __set_state) {
 	}
 	object_init_ex(return_value, phalcon_di_service_ce);
 	zephir_call_method_p3_noret(return_value, "__construct", name, definition, shared);
+	zephir_check_call_status();
 	RETURN_MM();
 
 }

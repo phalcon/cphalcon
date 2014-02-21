@@ -294,7 +294,7 @@ PHP_METHOD(Phalcon_Forms_Element, addValidator) {
 
 
 
-	if (!(zephir_is_instance_of(validator, SL("Phalcon\\Validation\\ValidatorInterface") TSRMLS_CC))) {
+	if (!(zephir_instance_of_ev(validator, phalcon_validation_validatorinterface_ce TSRMLS_CC))) {
 		ZEPHIR_THROW_EXCEPTION_STRW(spl_ce_InvalidArgumentException, "Parameter 'validator' must be an instance of 'Phalcon\\Validation\\ValidatorInterface'");
 		return;
 	}
@@ -329,6 +329,7 @@ PHP_METHOD(Phalcon_Forms_Element, getValidators) {
  */
 PHP_METHOD(Phalcon_Forms_Element, prepareAttributes) {
 
+	int ZEPHIR_LAST_CALL_STATUS;
 	zend_bool useChecked;
 	zval *attributes = NULL, *useChecked_param = NULL, *value, *name, *widgetAttributes = NULL, *mergedAttributes = NULL, *defaultAttributes, *currentValue, *_0 = NULL;
 
@@ -364,6 +365,7 @@ PHP_METHOD(Phalcon_Forms_Element, prepareAttributes) {
 	}
 	ZEPHIR_INIT_VAR(value);
 	zephir_call_method(value, this_ptr, "getvalue");
+	zephir_check_call_status();
 	if ((Z_TYPE_P(value) != IS_NULL)) {
 		if (useChecked) {
 			if (zephir_array_isset_string_fetch(&currentValue, mergedAttributes, SS("value"), 1 TSRMLS_CC)) {
@@ -662,6 +664,7 @@ PHP_METHOD(Phalcon_Forms_Element, getDefault) {
  */
 PHP_METHOD(Phalcon_Forms_Element, getValue) {
 
+	int ZEPHIR_LAST_CALL_STATUS;
 	zval *name, *form, *value = NULL, *_0;
 
 	ZEPHIR_MM_GROW();
@@ -675,9 +678,11 @@ PHP_METHOD(Phalcon_Forms_Element, getValue) {
 	if ((Z_TYPE_P(form) == IS_OBJECT)) {
 		ZEPHIR_INIT_VAR(_0);
 		zephir_call_static_p1(_0, "Phalcon\\Tag", "hasvalue", name);
+		zephir_check_call_status();
 		if (!(zephir_is_true(_0))) {
 			ZEPHIR_INIT_BNVAR(value);
 			zephir_call_method_p1(value, form, "getvalue", name);
+			zephir_check_call_status();
 		}
 	}
 	if ((Z_TYPE_P(value) == IS_NULL)) {
@@ -696,6 +701,7 @@ PHP_METHOD(Phalcon_Forms_Element, getValue) {
  */
 PHP_METHOD(Phalcon_Forms_Element, getMessages) {
 
+	int ZEPHIR_LAST_CALL_STATUS;
 	zval *messages;
 
 	ZEPHIR_MM_GROW();
@@ -708,6 +714,7 @@ PHP_METHOD(Phalcon_Forms_Element, getMessages) {
 	ZEPHIR_INIT_BNVAR(messages);
 	object_init_ex(messages, phalcon_validation_message_group_ce);
 	zephir_call_method_noret(messages, "__construct");
+	zephir_check_call_status();
 	zephir_update_property_this(this_ptr, SL("_messages"), messages TSRMLS_CC);
 	RETURN_CCTOR(messages);
 
@@ -764,6 +771,7 @@ PHP_METHOD(Phalcon_Forms_Element, setMessages) {
  */
 PHP_METHOD(Phalcon_Forms_Element, appendMessage) {
 
+	int ZEPHIR_LAST_CALL_STATUS;
 	zval *message, *messages, *_0;
 
 	ZEPHIR_MM_GROW();
@@ -781,9 +789,11 @@ PHP_METHOD(Phalcon_Forms_Element, appendMessage) {
 		ZEPHIR_INIT_VAR(_0);
 		object_init_ex(_0, phalcon_validation_message_group_ce);
 		zephir_call_method_noret(_0, "__construct");
+		zephir_check_call_status();
 		zephir_update_property_this(this_ptr, SL("_messages"), _0 TSRMLS_CC);
 	}
 	zephir_call_method_p1_noret(messages, "appendmessage", message);
+	zephir_check_call_status();
 	RETURN_THIS();
 
 }
@@ -795,12 +805,14 @@ PHP_METHOD(Phalcon_Forms_Element, appendMessage) {
  */
 PHP_METHOD(Phalcon_Forms_Element, clear) {
 
+	int ZEPHIR_LAST_CALL_STATUS;
 	zval *_0;
 
 	ZEPHIR_MM_GROW();
 
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_name"), PH_NOISY_CC);
 	zephir_call_static_p2_noret("Phalcon\\Tag", "setdefault", _0, ZEPHIR_GLOBAL(global_null));
+	zephir_check_call_status();
 	RETURN_THIS();
 
 }
@@ -812,9 +824,12 @@ PHP_METHOD(Phalcon_Forms_Element, clear) {
  */
 PHP_METHOD(Phalcon_Forms_Element, __toString) {
 
+	int ZEPHIR_LAST_CALL_STATUS;
+
 	ZEPHIR_MM_GROW();
 
 	zephir_call_method(return_value, this_ptr, "render");
+	zephir_check_call_status();
 	RETURN_MM();
 
 }

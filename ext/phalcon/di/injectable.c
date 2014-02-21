@@ -82,7 +82,7 @@ PHP_METHOD(Phalcon_Di_Injectable, setDI) {
 
 
 
-	if (!(zephir_is_instance_of(dependencyInjector, SL("Phalcon\\DiInterface") TSRMLS_CC))) {
+	if (!(zephir_instance_of_ev(dependencyInjector, phalcon_diinterface_ce TSRMLS_CC))) {
 		ZEPHIR_THROW_EXCEPTION_STRW(spl_ce_InvalidArgumentException, "Parameter 'dependencyInjector' must be an instance of 'Phalcon\\DiInterface'");
 		return;
 	}
@@ -101,6 +101,7 @@ PHP_METHOD(Phalcon_Di_Injectable, setDI) {
  */
 PHP_METHOD(Phalcon_Di_Injectable, getDI) {
 
+	int ZEPHIR_LAST_CALL_STATUS;
 	zval *dependencyInjector;
 
 	ZEPHIR_MM_GROW();
@@ -110,6 +111,7 @@ PHP_METHOD(Phalcon_Di_Injectable, getDI) {
 	if ((Z_TYPE_P(dependencyInjector) != IS_OBJECT)) {
 		ZEPHIR_INIT_BNVAR(dependencyInjector);
 		zephir_call_static(dependencyInjector, "Phalcon\\Di", "getdefault");
+		zephir_check_call_status();
 	}
 	RETURN_CCTOR(dependencyInjector);
 
@@ -128,7 +130,7 @@ PHP_METHOD(Phalcon_Di_Injectable, setEventsManager) {
 
 
 
-	if (!(zephir_is_instance_of(eventsManager, SL("Phalcon\\Events\\ManagerInterface") TSRMLS_CC))) {
+	if (!(zephir_instance_of_ev(eventsManager, phalcon_events_managerinterface_ce TSRMLS_CC))) {
 		ZEPHIR_THROW_EXCEPTION_STRW(spl_ce_InvalidArgumentException, "Parameter 'eventsManager' must be an instance of 'Phalcon\\Events\\ManagerInterface'");
 		return;
 	}
@@ -156,6 +158,7 @@ PHP_METHOD(Phalcon_Di_Injectable, getEventsManager) {
 PHP_METHOD(Phalcon_Di_Injectable, __get) {
 
 	zval *_2;
+	int ZEPHIR_LAST_CALL_STATUS;
 	zval *propertyName_param = NULL, *dependencyInjector = NULL, *hasService, *service, *persistent = NULL, *_0, *_1, *_3 = NULL;
 	zval *propertyName = NULL, *_4;
 
@@ -180,6 +183,7 @@ PHP_METHOD(Phalcon_Di_Injectable, __get) {
 	if ((Z_TYPE_P(dependencyInjector) != IS_OBJECT)) {
 		ZEPHIR_INIT_VAR(dependencyInjector);
 		zephir_call_static(dependencyInjector, "Phalcon\\Di", "getdefault");
+		zephir_check_call_status();
 		if ((Z_TYPE_P(dependencyInjector) != IS_OBJECT)) {
 			ZEPHIR_THROW_EXCEPTION_STR(phalcon_di_exception_ce, "A dependency injection object is required to access the application services");
 			return;
@@ -187,9 +191,11 @@ PHP_METHOD(Phalcon_Di_Injectable, __get) {
 	}
 	ZEPHIR_INIT_VAR(hasService);
 	zephir_call_method_p1(hasService, dependencyInjector, "has", propertyName);
+	zephir_check_call_status();
 	if (zephir_is_true(hasService)) {
 		ZEPHIR_INIT_VAR(service);
 		zephir_call_method_p1(service, dependencyInjector, "getshared", propertyName);
+		zephir_check_call_status();
 		zephir_update_property_zval_zval(this_ptr, propertyName, service TSRMLS_CC);
 		RETURN_CCTOR(service);
 	}
@@ -206,12 +212,14 @@ PHP_METHOD(Phalcon_Di_Injectable, __get) {
 		ZEPHIR_INIT_NVAR(_3);
 		ZVAL_STRING(_3, "sessionBag", 1);
 		zephir_call_method_p2(_1, dependencyInjector, "get", _3, _2);
+		zephir_check_call_status();
 		ZEPHIR_CPY_WRT(persistent, _1);
 		RETURN_CCTOR(persistent);
 	}
 	ZEPHIR_INIT_VAR(_4);
 	ZEPHIR_CONCAT_SV(_4, "Access to undefined property ", propertyName);
 	zephir_call_func_p1_noret("trigger_error", _4);
+	zephir_check_call_status();
 	RETURN_MM_NULL();
 
 }

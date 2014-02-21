@@ -274,7 +274,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Message, setModel) {
 
 
 
-	if (!(zephir_is_instance_of(model, SL("Phalcon\\Mvc\\ModelInterface") TSRMLS_CC))) {
+	if (!(zephir_instance_of_ev(model, phalcon_mvc_modelinterface_ce TSRMLS_CC))) {
 		ZEPHIR_THROW_EXCEPTION_STRW(spl_ce_InvalidArgumentException, "Parameter 'model' must be an instance of 'Phalcon\\Mvc\\ModelInterface'");
 		return;
 	}
@@ -315,6 +315,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Message, __toString) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_Message, __set_state) {
 
+	int ZEPHIR_LAST_CALL_STATUS;
 	zval *message, *_0, *_1, *_2;
 
 	ZEPHIR_MM_GROW();
@@ -327,6 +328,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Message, __set_state) {
 	zephir_array_fetch_string(&_1, message, SL("_field"), PH_NOISY | PH_READONLY TSRMLS_CC);
 	zephir_array_fetch_string(&_2, message, SL("_type"), PH_NOISY | PH_READONLY TSRMLS_CC);
 	zephir_call_method_p3_noret(return_value, "__construct", _0, _1, _2);
+	zephir_check_call_status();
 	RETURN_MM();
 
 }

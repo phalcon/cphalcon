@@ -77,7 +77,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Events_Manager) {
  */
 PHP_METHOD(Phalcon_Events_Manager, attach) {
 
-	int priority;
+	int priority, ZEPHIR_LAST_CALL_STATUS;
 	zval *eventType_param = NULL, *handler, *priority_param = NULL, *priorityQueue, *events, *_0, *_1 = NULL;
 	zval *eventType = NULL;
 
@@ -125,10 +125,12 @@ PHP_METHOD(Phalcon_Events_Manager, attach) {
 			object_init_ex(priorityQueue, spl_ce_SplPriorityQueue);
 			if (zephir_has_constructor(priorityQueue TSRMLS_CC)) {
 				zephir_call_method_noret(priorityQueue, "__construct");
+				zephir_check_call_status();
 			}
 			ZEPHIR_INIT_VAR(_1);
 			ZVAL_LONG(_1, 1);
 			zephir_call_method_p1_noret(priorityQueue, "setextractflags", _1);
+			zephir_check_call_status();
 			zephir_array_update_zval(&events, eventType, &priorityQueue, PH_COPY | PH_SEPARATE);
 			zephir_update_property_this(this_ptr, SL("_events"), events TSRMLS_CC);
 		} else {
@@ -142,6 +144,7 @@ PHP_METHOD(Phalcon_Events_Manager, attach) {
 		ZEPHIR_INIT_NVAR(_1);
 		ZVAL_LONG(_1, priority);
 		zephir_call_method_p2_noret(priorityQueue, "insert", handler, _1);
+		zephir_check_call_status();
 	} else {
 		zephir_array_append(&priorityQueue, handler, PH_SEPARATE);
 		zephir_array_update_zval(&events, eventType, &priorityQueue, PH_COPY | PH_SEPARATE);
@@ -272,6 +275,7 @@ PHP_METHOD(Phalcon_Events_Manager, fireQueue) {
 
 	HashTable *_5;
 	HashPosition _4;
+	int ZEPHIR_LAST_CALL_STATUS;
 	zend_bool collect, cancelable, _0;
 	zval *queue, *event, *status = NULL, *arguments = NULL, *eventName, *data, *iterator, *source, *handler = NULL, *_1 = NULL, *_2, *_3 = NULL, **_6;
 
@@ -298,16 +302,20 @@ PHP_METHOD(Phalcon_Events_Manager, fireQueue) {
 	ZVAL_NULL(arguments);
 	ZEPHIR_INIT_VAR(eventName);
 	zephir_call_method(eventName, event, "gettype");
+	zephir_check_call_status();
 	if ((Z_TYPE_P(eventName) != IS_STRING)) {
 		ZEPHIR_THROW_EXCEPTION_STR(phalcon_events_exception_ce, "The event type not valid");
 		return;
 	}
 	ZEPHIR_INIT_VAR(source);
 	zephir_call_method(source, event, "getsource");
+	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(data);
 	zephir_call_method(data, event, "getdata");
+	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(_1);
 	zephir_call_method(_1, event, "getcancelable");
+	zephir_check_call_status();
 	cancelable = zephir_get_boolval(_1);
 	ZEPHIR_OBS_VAR(_2);
 	zephir_read_property_this(&_2, this_ptr, SL("_collect"), PH_NOISY_CC);
@@ -318,14 +326,17 @@ PHP_METHOD(Phalcon_Events_Manager, fireQueue) {
 			RETURN_MM();
 		}
 		zephir_call_method_noret(iterator, "top");
+		zephir_check_call_status();
 		while (1) {
 			ZEPHIR_INIT_NVAR(_1);
 			zephir_call_method(_1, iterator, "valid");
+			zephir_check_call_status();
 			if (!(zephir_is_true(_1))) {
 				break;
 			}
 			ZEPHIR_INIT_NVAR(handler);
 			zephir_call_method(handler, iterator, "current");
+			zephir_check_call_status();
 			if ((Z_TYPE_P(handler) == IS_OBJECT)) {
 				if (zephir_instance_of_ev(handler, zend_ce_closure TSRMLS_CC)) {
 					if ((Z_TYPE_P(arguments) == IS_NULL)) {
@@ -343,6 +354,7 @@ PHP_METHOD(Phalcon_Events_Manager, fireQueue) {
 					if (cancelable) {
 						ZEPHIR_INIT_NVAR(_3);
 						zephir_call_method(_3, event, "isstopped");
+						zephir_check_call_status();
 						if (zephir_is_true(_3)) {
 							break;
 						}
@@ -351,12 +363,14 @@ PHP_METHOD(Phalcon_Events_Manager, fireQueue) {
 					if ((zephir_method_exists(handler, eventName TSRMLS_CC)  == SUCCESS)) {
 						ZEPHIR_INIT_NVAR(status);
 						zephir_call_method_zval_p3(status, handler, eventName, event, source, data);
+						zephir_check_call_status();
 						if (collect) {
 							zephir_update_property_array_append(this_ptr, SL("_responses"), status TSRMLS_CC);
 						}
 						if (cancelable) {
 							ZEPHIR_INIT_NVAR(_3);
 							zephir_call_method(_3, event, "isstopped");
+							zephir_check_call_status();
 							if (zephir_is_true(_3)) {
 								break;
 							}
@@ -389,6 +403,7 @@ PHP_METHOD(Phalcon_Events_Manager, fireQueue) {
 					if (cancelable) {
 						ZEPHIR_INIT_NVAR(_3);
 						zephir_call_method(_3, event, "isstopped");
+						zephir_check_call_status();
 						if (zephir_is_true(_3)) {
 							break;
 						}
@@ -397,12 +412,14 @@ PHP_METHOD(Phalcon_Events_Manager, fireQueue) {
 					if ((zephir_method_exists(handler, eventName TSRMLS_CC)  == SUCCESS)) {
 						ZEPHIR_INIT_NVAR(status);
 						zephir_call_method_zval_p3(status, handler, eventName, event, source, data);
+						zephir_check_call_status();
 						if (collect) {
 							zephir_update_property_array_append(this_ptr, SL("_responses"), status TSRMLS_CC);
 						}
 						if (cancelable) {
 							ZEPHIR_INIT_NVAR(_3);
 							zephir_call_method(_3, event, "isstopped");
+							zephir_check_call_status();
 							if (zephir_is_true(_3)) {
 								break;
 							}
@@ -431,6 +448,7 @@ PHP_METHOD(Phalcon_Events_Manager, fireQueue) {
  */
 PHP_METHOD(Phalcon_Events_Manager, fire) {
 
+	int ZEPHIR_LAST_CALL_STATUS;
 	zend_bool cancelable, _3;
 	zval *eventType_param = NULL, *source, *data = NULL, *cancelable_param = NULL, *events, *eventParts, *type, *eventName, *event, *status, *fireEvents = NULL, *_0, *_2;
 	zval *eventType = NULL, *_1;
@@ -470,6 +488,7 @@ PHP_METHOD(Phalcon_Events_Manager, fire) {
 		ZEPHIR_INIT_VAR(_1);
 		ZEPHIR_CONCAT_SV(_1, "Invalid event type ", eventType);
 		zephir_call_method_p1_noret(_0, "__construct", _1);
+		zephir_check_call_status();
 		zephir_throw_exception(_0 TSRMLS_CC);
 		ZEPHIR_MM_RESTORE();
 		return;
@@ -498,8 +517,10 @@ PHP_METHOD(Phalcon_Events_Manager, fire) {
 			ZEPHIR_INIT_BNVAR(event);
 			object_init_ex(event, phalcon_events_event_ce);
 			zephir_call_method_p4_noret(event, "__construct", eventName, source, data, (cancelable ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false)));
+			zephir_check_call_status();
 			ZEPHIR_INIT_BNVAR(status);
 			zephir_call_method_p2(status, this_ptr, "firequeue", fireEvents, event);
+			zephir_check_call_status();
 		}
 	}
 	ZEPHIR_OBS_NVAR(fireEvents);
@@ -513,9 +534,11 @@ PHP_METHOD(Phalcon_Events_Manager, fire) {
 				ZEPHIR_INIT_BNVAR(event);
 				object_init_ex(event, phalcon_events_event_ce);
 				zephir_call_method_p4_noret(event, "__construct", eventName, source, data, (cancelable ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false)));
+				zephir_check_call_status();
 			}
 			ZEPHIR_INIT_BNVAR(status);
 			zephir_call_method_p2(status, this_ptr, "firequeue", fireEvents, event);
+			zephir_check_call_status();
 		}
 	}
 	RETURN_CCTOR(status);

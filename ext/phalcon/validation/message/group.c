@@ -188,7 +188,7 @@ PHP_METHOD(Phalcon_Validation_Message_Group, offsetExists) {
  */
 PHP_METHOD(Phalcon_Validation_Message_Group, offsetUnset) {
 
-	zval *index, *_0, *_1, *_2, *_3;
+	zval *index, *_0, *_1;
 
 	zephir_fetch_params(0, 1, 0, &index);
 
@@ -197,9 +197,7 @@ PHP_METHOD(Phalcon_Validation_Message_Group, offsetUnset) {
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_messages"), PH_NOISY_CC);
 	if (zephir_array_isset(_0, index)) {
 		_1 = zephir_fetch_nproperty_this(this_ptr, SL("_messages"), PH_NOISY_CC);
-		_2 = zephir_fetch_nproperty_this(this_ptr, SL("_messages"), PH_NOISY_CC);
-		zephir_array_fetch(&_3, _2, index, PH_NOISY | PH_READONLY TSRMLS_CC);
-		zephir_array_unset(&_1, _3, PH_SEPARATE);
+		zephir_array_unset(&_1, index, PH_SEPARATE);
 	}
 	RETURN_BOOL(0);
 
@@ -222,7 +220,7 @@ PHP_METHOD(Phalcon_Validation_Message_Group, appendMessage) {
 
 
 
-	if (!(zephir_is_instance_of(message, SL("Phalcon\\Validation\\MessageInterface") TSRMLS_CC))) {
+	if (!(zephir_instance_of_ev(message, phalcon_validation_messageinterface_ce TSRMLS_CC))) {
 		ZEPHIR_THROW_EXCEPTION_STRW(spl_ce_InvalidArgumentException, "Parameter 'message' must be an instance of 'Phalcon\\Validation\\MessageInterface'");
 		return;
 	}
@@ -244,6 +242,7 @@ PHP_METHOD(Phalcon_Validation_Message_Group, appendMessages) {
 	zend_function *_4 = NULL;
 	HashTable *_2;
 	HashPosition _1;
+	int ZEPHIR_LAST_CALL_STATUS;
 	zval *messages, *currentMessages, *finalMessages = NULL, *message = NULL, *_0, **_3;
 
 	ZEPHIR_MM_GROW();
@@ -270,6 +269,7 @@ PHP_METHOD(Phalcon_Validation_Message_Group, appendMessages) {
 	} else {
 		ZEPHIR_INIT_VAR(_0);
 		zephir_call_func_p1(_0, "iterator", messages);
+		zephir_check_call_status();
 		zephir_is_iterable(_0, &_2, &_1, 0, 0);
 		for (
 		  ; zephir_hash_get_current_data_ex(_2, (void**) &_3, &_1) == SUCCESS
@@ -277,6 +277,7 @@ PHP_METHOD(Phalcon_Validation_Message_Group, appendMessages) {
 		) {
 			ZEPHIR_GET_HVALUE(message, _3);
 			zephir_call_method_p1_cache_noret(this_ptr, "appendmessage", &_4, message);
+			zephir_check_call_status();
 		}
 	}
 	ZEPHIR_MM_RESTORE();
@@ -291,6 +292,7 @@ PHP_METHOD(Phalcon_Validation_Message_Group, appendMessages) {
  */
 PHP_METHOD(Phalcon_Validation_Message_Group, filter) {
 
+	int ZEPHIR_LAST_CALL_STATUS;
 	HashTable *_1;
 	HashPosition _0;
 	zval *fieldName_param = NULL, *filtered, *messages, *message = NULL, **_2, *_3 = NULL;
@@ -326,6 +328,7 @@ PHP_METHOD(Phalcon_Validation_Message_Group, filter) {
 			if ((zephir_method_exists_ex(message, SS("getfield") TSRMLS_CC) == SUCCESS)) {
 				ZEPHIR_INIT_NVAR(_3);
 				zephir_call_method(_3, message, "getfield");
+				zephir_check_call_status();
 				if (ZEPHIR_IS_EQUAL(fieldName, _3)) {
 					zephir_array_append(&filtered, message, PH_SEPARATE);
 				}
@@ -431,6 +434,7 @@ PHP_METHOD(Phalcon_Validation_Message_Group, valid) {
  */
 PHP_METHOD(Phalcon_Validation_Message_Group, __set_state) {
 
+	int ZEPHIR_LAST_CALL_STATUS;
 	zval *group, *_0;
 
 	ZEPHIR_MM_GROW();
@@ -441,6 +445,7 @@ PHP_METHOD(Phalcon_Validation_Message_Group, __set_state) {
 	object_init_ex(return_value, phalcon_validation_message_group_ce);
 	zephir_array_fetch_string(&_0, group, SL("_messages"), PH_NOISY | PH_READONLY TSRMLS_CC);
 	zephir_call_method_p1_noret(return_value, "__construct", _0);
+	zephir_check_call_status();
 	RETURN_MM();
 
 }

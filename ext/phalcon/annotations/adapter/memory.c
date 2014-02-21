@@ -44,7 +44,7 @@
 */
 ZEPHIR_INIT_CLASS(Phalcon_Annotations_Adapter_Memory) {
 
-	ZEPHIR_REGISTER_CLASS(Phalcon\\Annotations\\Adapter, Memory, phalcon, annotations_adapter_memory, phalcon_annotations_adapter_memory_method_entry, 0);
+	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Annotations\\Adapter, Memory, phalcon, annotations_adapter_memory, phalcon_annotations_adapter_ce, phalcon_annotations_adapter_memory_method_entry, 0);
 
 	/**
 	 * Data
@@ -52,6 +52,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Annotations_Adapter_Memory) {
 	 */
 	zend_declare_property_null(phalcon_annotations_adapter_memory_ce, SL("_data"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
+	zend_class_implements(phalcon_annotations_adapter_memory_ce TSRMLS_CC, 1, phalcon_annotations_adapterinterface_ce);
 	return SUCCESS;
 
 }

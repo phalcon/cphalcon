@@ -116,6 +116,7 @@ PHP_METHOD(Phalcon_Filter, add) {
 PHP_METHOD(Phalcon_Filter, sanitize) {
 
 	zend_function *_8 = NULL, *_9 = NULL, *_13 = NULL;
+	int ZEPHIR_LAST_CALL_STATUS;
 	HashTable *_1, *_5, *_11;
 	HashPosition _0, _4, _10;
 	zend_bool noRecursive, _3;
@@ -155,11 +156,13 @@ PHP_METHOD(Phalcon_Filter, sanitize) {
 						ZEPHIR_GET_HVALUE(itemValue, _6);
 						ZEPHIR_INIT_NVAR(_7);
 						zephir_call_method_p2_cache(_7, this_ptr, "_sanitize", &_8, itemValue, filter);
+						zephir_check_call_status();
 						zephir_array_update_zval(&arrayValue, itemKey, &_7, PH_COPY | PH_SEPARATE);
 					}
 					RETURN_CCTOR(arrayValue);
 				}
 				zephir_call_method_p2_cache(return_value, this_ptr, "_sanitize", &_9, value, filter);
+				zephir_check_call_status();
 				RETURN_MM();
 			}
 		}
@@ -177,11 +180,13 @@ PHP_METHOD(Phalcon_Filter, sanitize) {
 			ZEPHIR_GET_HVALUE(itemValue, _12);
 			ZEPHIR_INIT_NVAR(_7);
 			zephir_call_method_p2_cache(_7, this_ptr, "_sanitize", &_13, itemValue, filters);
+			zephir_check_call_status();
 			zephir_array_update_zval(&sanitizedValue, itemKey, &_7, PH_COPY | PH_SEPARATE);
 		}
 		RETURN_CCTOR(sanitizedValue);
 	}
 	zephir_call_method_p2(return_value, this_ptr, "_sanitize", value, filters);
+	zephir_check_call_status();
 	RETURN_MM();
 
 }
@@ -196,6 +201,7 @@ PHP_METHOD(Phalcon_Filter, sanitize) {
 PHP_METHOD(Phalcon_Filter, _sanitize) {
 
 	zval *_1 = NULL;
+	int ZEPHIR_LAST_CALL_STATUS;
 	zval *filter = NULL, *_7;
 	zval *value, *filter_param = NULL, *filterObject, *_0, *_2, _3 = zval_used_for_init, _4, _5, *_6;
 
@@ -226,6 +232,7 @@ PHP_METHOD(Phalcon_Filter, _sanitize) {
 			RETURN_MM();
 		}
 		zephir_call_method_p1(return_value, filterObject, "filter", value);
+		zephir_check_call_status();
 		RETURN_MM();
 	}
 	do {
@@ -239,18 +246,21 @@ PHP_METHOD(Phalcon_Filter, _sanitize) {
 			ZEPHIR_SINIT_VAR(_5);
 			ZVAL_LONG(&_5, 517);
 			zephir_call_func_p2(return_value, "filter_var", _2, &_5);
+			zephir_check_call_status();
 			RETURN_MM();
 		}
 		if (ZEPHIR_IS_STRING(filter, "int")) {
 			ZEPHIR_SINIT_NVAR(_3);
 			ZVAL_LONG(&_3, 519);
 			zephir_call_func_p2(return_value, "filter_var", value, &_3);
+			zephir_check_call_status();
 			RETURN_MM();
 		}
 		if (ZEPHIR_IS_STRING(filter, "string")) {
 			ZEPHIR_SINIT_NVAR(_3);
 			ZVAL_LONG(&_3, 513);
 			zephir_call_func_p2(return_value, "filter_var", value, &_3);
+			zephir_check_call_status();
 			RETURN_MM();
 		}
 		if (ZEPHIR_IS_STRING(filter, "float")) {
@@ -260,10 +270,12 @@ PHP_METHOD(Phalcon_Filter, _sanitize) {
 			ZEPHIR_SINIT_NVAR(_3);
 			ZVAL_LONG(&_3, 520);
 			zephir_call_func_p3(return_value, "filter_var", value, &_3, _1);
+			zephir_check_call_status();
 			RETURN_MM();
 		}
 		if (ZEPHIR_IS_STRING(filter, "alphanum")) {
 			zephir_call_func_p1(return_value, "phalcon_filter_alphanum", value);
+			zephir_check_call_status();
 			RETURN_MM();
 		}
 		if (ZEPHIR_IS_STRING(filter, "trim")) {
@@ -272,11 +284,13 @@ PHP_METHOD(Phalcon_Filter, _sanitize) {
 		}
 		if (ZEPHIR_IS_STRING(filter, "striptags")) {
 			zephir_call_func_p1(return_value, "strip_tags", value);
+			zephir_check_call_status();
 			RETURN_MM();
 		}
 		if (ZEPHIR_IS_STRING(filter, "lower")) {
 			if ((zephir_function_exists_ex(SS("mb_strtolower") TSRMLS_CC) == SUCCESS)) {
 				zephir_call_func_p1(return_value, "mb_strtolower", value);
+				zephir_check_call_status();
 				RETURN_MM();
 			}
 			zephir_fast_strtolower(return_value, value);
@@ -285,6 +299,7 @@ PHP_METHOD(Phalcon_Filter, _sanitize) {
 		if (ZEPHIR_IS_STRING(filter, "upper")) {
 			if ((zephir_function_exists_ex(SS("mb_strtoupper") TSRMLS_CC) == SUCCESS)) {
 				zephir_call_func_p1(return_value, "mb_strtoupper", value);
+				zephir_check_call_status();
 				RETURN_MM();
 			}
 			zephir_fast_strtoupper(return_value, value);
@@ -295,6 +310,7 @@ PHP_METHOD(Phalcon_Filter, _sanitize) {
 		ZEPHIR_INIT_VAR(_7);
 		ZEPHIR_CONCAT_SVS(_7, "Sanitize filter '", filter, "' is not supported");
 		zephir_call_method_p1_noret(_6, "__construct", _7);
+		zephir_check_call_status();
 		zephir_throw_exception(_6 TSRMLS_CC);
 		ZEPHIR_MM_RESTORE();
 		return;

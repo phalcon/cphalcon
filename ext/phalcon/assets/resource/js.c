@@ -56,6 +56,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Assets_Resource_Js) {
  */
 PHP_METHOD(Phalcon_Assets_Resource_Js, __construct) {
 
+	int ZEPHIR_LAST_CALL_STATUS;
 	zval *path, *local = NULL, *filter = NULL, *attributes = NULL, *_0;
 
 	ZEPHIR_MM_GROW();
@@ -75,6 +76,7 @@ PHP_METHOD(Phalcon_Assets_Resource_Js, __construct) {
 	ZEPHIR_INIT_VAR(_0);
 	ZVAL_STRING(_0, "js", 1);
 	zephir_call_parent_p5_noret(this_ptr, phalcon_assets_resource_js_ce, "__construct", _0, path, local, filter, attributes);
+	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 
 }

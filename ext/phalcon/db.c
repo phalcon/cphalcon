@@ -94,6 +94,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Db) {
  */
 PHP_METHOD(Phalcon_Db, setup) {
 
+	int ZEPHIR_LAST_CALL_STATUS;
 	zval *options, *escapeIdentifiers, *_0;
 
 	ZEPHIR_MM_GROW();
@@ -110,6 +111,7 @@ PHP_METHOD(Phalcon_Db, setup) {
 		ZEPHIR_INIT_VAR(_0);
 		ZVAL_STRING(_0, "db.escape_identifiers", 1);
 		zephir_call_func_p2_noret("globals_set", _0, escapeIdentifiers);
+		zephir_check_call_status();
 	}
 	ZEPHIR_MM_RESTORE();
 

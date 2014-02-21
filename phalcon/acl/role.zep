@@ -44,7 +44,7 @@ class Role
 	 * @param string name
 	 * @param string description
 	 */
-	public function __construct(string name, string description=null)
+	public function __construct(string! name, string description=null)
 	{
 		if name == "*" {
 			throw new \Phalcon\Acl\Exception("Role name cannot be '*'");

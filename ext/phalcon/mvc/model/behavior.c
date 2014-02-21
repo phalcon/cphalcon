@@ -163,7 +163,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Behavior, notify) {
 	zephir_get_strval(type, type_param);
 
 
-	if (!(zephir_is_instance_of(model, SL("Phalcon\\Mvc\\ModelInterface") TSRMLS_CC))) {
+	if (!(zephir_instance_of_ev(model, phalcon_mvc_modelinterface_ce TSRMLS_CC))) {
 		ZEPHIR_THROW_EXCEPTION_STR(spl_ce_InvalidArgumentException, "Parameter 'model' must be an instance of 'Phalcon\\Mvc\\ModelInterface'");
 		return;
 	}
@@ -192,7 +192,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Behavior, missingMethod) {
 	}
 
 
-	if (!(zephir_is_instance_of(model, SL("Phalcon\\Mvc\\ModelInterface") TSRMLS_CC))) {
+	if (!(zephir_instance_of_ev(model, phalcon_mvc_modelinterface_ce TSRMLS_CC))) {
 		ZEPHIR_THROW_EXCEPTION_STR(spl_ce_InvalidArgumentException, "Parameter 'model' must be an instance of 'Phalcon\\Mvc\\ModelInterface'");
 		return;
 	}

@@ -183,11 +183,11 @@ class Memory extends Adapter
 	 }
 
 	 /**
-	 * Do a role inherit from another existing role
-	 *
-	 * @param string $roleName
-	 * @param string $roleToInherit
-	 */
+	  * Do a role inherit from another existing role
+	  *
+	  * @param string $roleName
+	  * @param string $roleToInherit
+	  */
 	 public function addInherit(roleName, roleToInherit)
 	 {
 		var roleInheritName, rolesInherits, rolesNames;
@@ -225,29 +225,25 @@ class Memory extends Adapter
 	 }
 
 	 /**
-	 * Check whether role exist in the roles list
-	 *
-	 * @param  string $roleName
-	 * @return boolean
-	 */
+	  * Check whether role exist in the roles list
+	  *
+	  * @param  string roleName
+	  * @return boolean
+	  */
 	 public function isRole(roleName)
 	 {
-		var rolesNames;
-		let rolesNames = this->_rolesNames;
-		return isset rolesNames[roleName];
+		return isset this->_rolesNames[roleName];
 	 }
 
 	 /**
 	 * Check whether resource exist in the resources list
 	 *
-	 * @param  string $resourceName
+	 * @param  string resourceName
 	 * @return boolean
 	 */
 	 public function isResource(resourceName)
 	 {
-		var resourcesNames;
-		let resourcesNames = this->_resourcesNames;
-		return isset resourcesNames[resourceName];
+		return isset this->_resourcesNames[resourceName];
 	 }
 
 	 /**

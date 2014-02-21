@@ -72,6 +72,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Validation_Validator_Between) {
 PHP_METHOD(Phalcon_Validation_Validator_Between, validate) {
 
 	zend_bool _2, _3;
+	int ZEPHIR_LAST_CALL_STATUS;
 	zval *field = NULL;
 	zval *validation, *field_param = NULL, *value, *minimum, *maximum, *message = NULL, *label = NULL, *replacePairs, *_0, *_1, *_4, *_5;
 
@@ -97,18 +98,22 @@ PHP_METHOD(Phalcon_Validation_Validator_Between, validate) {
 	}
 	ZEPHIR_INIT_VAR(value);
 	zephir_call_method_p1(value, validation, "getvalue", field);
+	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(_0);
 	ZVAL_STRING(_0, "minimum", 1);
 	ZEPHIR_INIT_VAR(minimum);
 	zephir_call_method_p1(minimum, this_ptr, "getoption", _0);
+	zephir_check_call_status();
 	ZEPHIR_INIT_BNVAR(_0);
 	ZVAL_STRING(_0, "maximum", 1);
 	ZEPHIR_INIT_VAR(maximum);
 	zephir_call_method_p1(maximum, this_ptr, "getoption", _0);
+	zephir_check_call_status();
 	ZEPHIR_INIT_BNVAR(_0);
 	ZEPHIR_INIT_VAR(_1);
 	ZVAL_STRING(_1, "allowEmpty", 1);
 	zephir_call_method_p1(_0, this_ptr, "issetoption", _1);
+	zephir_check_call_status();
 	_2 = zephir_is_true(_0);
 	if (_2) {
 		_2 = ZEPHIR_IS_EMPTY(value);
@@ -125,9 +130,11 @@ PHP_METHOD(Phalcon_Validation_Validator_Between, validate) {
 		ZVAL_STRING(_1, "label", 1);
 		ZEPHIR_INIT_VAR(label);
 		zephir_call_method_p1(label, this_ptr, "getoption", _1);
+		zephir_check_call_status();
 		if (ZEPHIR_IS_EMPTY(label)) {
 			ZEPHIR_INIT_NVAR(label);
 			zephir_call_method_p1(label, validation, "getlabel", field);
+			zephir_check_call_status();
 			if (ZEPHIR_IS_EMPTY(label)) {
 				ZEPHIR_CPY_WRT(label, field);
 			}
@@ -136,6 +143,7 @@ PHP_METHOD(Phalcon_Validation_Validator_Between, validate) {
 		ZVAL_STRING(_1, "message", 1);
 		ZEPHIR_INIT_VAR(message);
 		zephir_call_method_p1(message, this_ptr, "getoption", _1);
+		zephir_check_call_status();
 		ZEPHIR_INIT_VAR(replacePairs);
 		array_init_size(replacePairs, 5);
 		zephir_array_update_string(&replacePairs, SL(":field"), &label, PH_COPY | PH_SEPARATE);
@@ -146,15 +154,19 @@ PHP_METHOD(Phalcon_Validation_Validator_Between, validate) {
 			ZVAL_STRING(_1, "Between", 1);
 			ZEPHIR_INIT_NVAR(message);
 			zephir_call_method_p1(message, validation, "getdefaultmessage", _1);
+			zephir_check_call_status();
 		}
 		ZEPHIR_INIT_VAR(_4);
 		object_init_ex(_4, phalcon_validation_message_ce);
 		ZEPHIR_INIT_BNVAR(_1);
 		zephir_call_func_p2(_1, "strtr", message, replacePairs);
+		zephir_check_call_status();
 		ZEPHIR_INIT_VAR(_5);
 		ZVAL_STRING(_5, "Between", 1);
 		zephir_call_method_p3_noret(_4, "__construct", _1, field, _5);
+		zephir_check_call_status();
 		zephir_call_method_p1_noret(validation, "appendmessage", _4);
+		zephir_check_call_status();
 		RETURN_MM_BOOL(0);
 	}
 	RETURN_MM_BOOL(1);

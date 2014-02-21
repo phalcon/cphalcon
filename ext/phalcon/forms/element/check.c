@@ -55,6 +55,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Forms_Element_Check) {
  */
 PHP_METHOD(Phalcon_Forms_Element_Check, render) {
 
+	int ZEPHIR_LAST_CALL_STATUS;
 	zval *attributes = NULL, *_0;
 
 	ZEPHIR_MM_GROW();
@@ -67,7 +68,9 @@ PHP_METHOD(Phalcon_Forms_Element_Check, render) {
 
 	ZEPHIR_INIT_VAR(_0);
 	zephir_call_method_p2(_0, this_ptr, "prepareattributes", attributes, ZEPHIR_GLOBAL(global_true));
+	zephir_check_call_status();
 	zephir_call_static_p1(return_value, "Phalcon\\Tag", "checkfield", _0);
+	zephir_check_call_status();
 	RETURN_MM();
 
 }

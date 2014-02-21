@@ -131,7 +131,7 @@ PHP_METHOD(Phalcon_Cache_Multiple, push) {
 
 
 
-	if (!(zephir_is_instance_of(backend, SL("Phalcon\\Cache\\BackendInterface") TSRMLS_CC))) {
+	if (!(zephir_instance_of_ev(backend, phalcon_cache_backendinterface_ce TSRMLS_CC))) {
 		ZEPHIR_THROW_EXCEPTION_STRW(spl_ce_InvalidArgumentException, "Parameter 'backend' must be an instance of 'Phalcon\\Cache\\BackendInterface'");
 		return;
 	}
@@ -153,6 +153,7 @@ PHP_METHOD(Phalcon_Cache_Multiple, push) {
  */
 PHP_METHOD(Phalcon_Cache_Multiple, get) {
 
+	int ZEPHIR_LAST_CALL_STATUS;
 	HashTable *_2;
 	HashPosition _1;
 	zval *keyName, *lifetime = NULL, *backend = NULL, *content = NULL, *_0, **_3;
@@ -174,6 +175,7 @@ PHP_METHOD(Phalcon_Cache_Multiple, get) {
 		ZEPHIR_GET_HVALUE(backend, _3);
 		ZEPHIR_INIT_NVAR(content);
 		zephir_call_method_p2(content, backend, "get", keyName, lifetime);
+		zephir_check_call_status();
 		if ((Z_TYPE_P(content) != IS_NULL)) {
 			RETURN_CCTOR(content);
 		}
@@ -190,6 +192,7 @@ PHP_METHOD(Phalcon_Cache_Multiple, get) {
  */
 PHP_METHOD(Phalcon_Cache_Multiple, start) {
 
+	int ZEPHIR_LAST_CALL_STATUS;
 	HashTable *_2;
 	HashPosition _1;
 	zval *keyName, *lifetime = NULL, *backend = NULL, *_0, **_3;
@@ -210,6 +213,7 @@ PHP_METHOD(Phalcon_Cache_Multiple, start) {
 	) {
 		ZEPHIR_GET_HVALUE(backend, _3);
 		zephir_call_method_p2_noret(backend, "start", keyName, lifetime);
+		zephir_check_call_status();
 	}
 	ZEPHIR_MM_RESTORE();
 
@@ -225,6 +229,7 @@ PHP_METHOD(Phalcon_Cache_Multiple, start) {
  */
 PHP_METHOD(Phalcon_Cache_Multiple, save) {
 
+	int ZEPHIR_LAST_CALL_STATUS;
 	HashTable *_2;
 	HashPosition _1;
 	zval *keyName = NULL, *content = NULL, *lifetime = NULL, *stopBuffer = NULL, *backend = NULL, *_0, **_3;
@@ -254,6 +259,7 @@ PHP_METHOD(Phalcon_Cache_Multiple, save) {
 	) {
 		ZEPHIR_GET_HVALUE(backend, _3);
 		zephir_call_method_p4_noret(backend, "save", keyName, content, lifetime, stopBuffer);
+		zephir_check_call_status();
 	}
 	ZEPHIR_MM_RESTORE();
 
@@ -267,6 +273,7 @@ PHP_METHOD(Phalcon_Cache_Multiple, save) {
  */
 PHP_METHOD(Phalcon_Cache_Multiple, delete) {
 
+	int ZEPHIR_LAST_CALL_STATUS;
 	HashTable *_2;
 	HashPosition _1;
 	zval *keyName, *backend = NULL, *_0, **_3;
@@ -284,6 +291,7 @@ PHP_METHOD(Phalcon_Cache_Multiple, delete) {
 	) {
 		ZEPHIR_GET_HVALUE(backend, _3);
 		zephir_call_method_p1_noret(backend, "delete", keyName);
+		zephir_check_call_status();
 	}
 	RETURN_MM_BOOL(1);
 
@@ -298,6 +306,7 @@ PHP_METHOD(Phalcon_Cache_Multiple, delete) {
  */
 PHP_METHOD(Phalcon_Cache_Multiple, exists) {
 
+	int ZEPHIR_LAST_CALL_STATUS;
 	HashTable *_2;
 	HashPosition _1;
 	zval *keyName = NULL, *lifetime = NULL, *backend = NULL, *_0, **_3, *_4 = NULL;
@@ -322,6 +331,7 @@ PHP_METHOD(Phalcon_Cache_Multiple, exists) {
 		ZEPHIR_GET_HVALUE(backend, _3);
 		ZEPHIR_INIT_NVAR(_4);
 		zephir_call_method_p2(_4, backend, "exists", keyName, lifetime);
+		zephir_check_call_status();
 		if (ZEPHIR_IS_TRUE(_4)) {
 			RETURN_MM_BOOL(1);
 		}

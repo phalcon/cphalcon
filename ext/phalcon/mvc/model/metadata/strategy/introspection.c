@@ -63,6 +63,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Introspection, getMetaData) {
 
 	HashTable *_5;
 	HashPosition _4;
+	int ZEPHIR_LAST_CALL_STATUS;
 	zend_bool identityField;
 	zval *model, *dependencyInjector, *schema, *table, *readConnection, *columns, *attributes, *primaryKeys, *nonPrimaryKeys, *completeTable = NULL, *numericTyped, *notNull, *fieldTypes, *automaticDefault, *fieldBindTypes, *column = NULL, *fieldName = NULL, *_0, *_1 = NULL, *_2 = NULL, *_3 = NULL, **_6, *_7 = NULL, *_8 = NULL, *_9 = NULL, *_10 = NULL, *_11 = NULL;
 
@@ -71,22 +72,26 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Introspection, getMetaData) {
 
 
 
-	if (!(zephir_is_instance_of(model, SL("Phalcon\\Mvc\\ModelInterface") TSRMLS_CC))) {
+	if (!(zephir_instance_of_ev(model, phalcon_mvc_modelinterface_ce TSRMLS_CC))) {
 		ZEPHIR_THROW_EXCEPTION_STR(spl_ce_InvalidArgumentException, "Parameter 'model' must be an instance of 'Phalcon\\Mvc\\ModelInterface'");
 		return;
 	}
-	if (!(zephir_is_instance_of(dependencyInjector, SL("Phalcon\\DiInterface") TSRMLS_CC))) {
+	if (!(zephir_instance_of_ev(dependencyInjector, phalcon_diinterface_ce TSRMLS_CC))) {
 		ZEPHIR_THROW_EXCEPTION_STR(spl_ce_InvalidArgumentException, "Parameter 'dependencyInjector' must be an instance of 'Phalcon\\DiInterface'");
 		return;
 	}
 	ZEPHIR_INIT_VAR(schema);
 	zephir_call_method(schema, model, "getschema");
+	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(table);
 	zephir_call_method(table, model, "getsource");
+	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(readConnection);
 	zephir_call_method(readConnection, model, "getreadconnection");
+	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(_0);
 	zephir_call_method_p2(_0, readConnection, "tableexists", table, schema);
+	zephir_check_call_status();
 	if (!(zephir_is_true(_0))) {
 		if (zephir_is_true(schema)) {
 			ZEPHIR_INIT_VAR(completeTable);
@@ -101,12 +106,14 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Introspection, getMetaData) {
 		ZEPHIR_INIT_VAR(_3);
 		ZEPHIR_CONCAT_SVSV(_3, "Table '", completeTable, "' doesn't exist on database when dumping meta-data for ", _2);
 		zephir_call_method_p1_noret(_1, "__construct", _3);
+		zephir_check_call_status();
 		zephir_throw_exception(_1 TSRMLS_CC);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
 	ZEPHIR_INIT_VAR(columns);
 	zephir_call_method_p2(columns, readConnection, "describecolumns", table, schema);
+	zephir_check_call_status();
 	if (!(zephir_fast_count_int(columns TSRMLS_CC))) {
 		if (zephir_is_true(schema)) {
 			ZEPHIR_INIT_NVAR(completeTable);
@@ -121,6 +128,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Introspection, getMetaData) {
 		ZEPHIR_INIT_LNVAR(_3);
 		ZEPHIR_CONCAT_SVSV(_3, "Cannot obtain table columns for the mapped source '", completeTable, "' used in model ", _2);
 		zephir_call_method_p1_noret(_1, "__construct", _3);
+		zephir_check_call_status();
 		zephir_throw_exception(_1 TSRMLS_CC);
 		ZEPHIR_MM_RESTORE();
 		return;
@@ -150,9 +158,11 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Introspection, getMetaData) {
 		ZEPHIR_GET_HVALUE(column, _6);
 		ZEPHIR_INIT_NVAR(fieldName);
 		zephir_call_method(fieldName, column, "getname");
+		zephir_check_call_status();
 		zephir_array_append(&attributes, fieldName, PH_SEPARATE);
 		ZEPHIR_INIT_NVAR(_2);
 		zephir_call_method(_2, column, "isprimary");
+		zephir_check_call_status();
 		if (ZEPHIR_IS_TRUE(_2)) {
 			zephir_array_append(&primaryKeys, fieldName, PH_SEPARATE);
 		} else {
@@ -160,24 +170,29 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Introspection, getMetaData) {
 		}
 		ZEPHIR_INIT_NVAR(_7);
 		zephir_call_method(_7, column, "isnumeric");
+		zephir_check_call_status();
 		if (ZEPHIR_IS_TRUE(_7)) {
 			zephir_array_update_zval(&numericTyped, fieldName, &ZEPHIR_GLOBAL(global_true), PH_COPY | PH_SEPARATE);
 		}
 		ZEPHIR_INIT_NVAR(_8);
 		zephir_call_method(_8, column, "isnotnull");
+		zephir_check_call_status();
 		if (ZEPHIR_IS_TRUE(_8)) {
 			zephir_array_append(&notNull, fieldName, PH_SEPARATE);
 		}
 		ZEPHIR_INIT_NVAR(_9);
 		zephir_call_method(_9, column, "isautoincrement");
+		zephir_check_call_status();
 		if (ZEPHIR_IS_TRUE(_9)) {
 			identityField = zephir_is_true(fieldName);
 		}
 		ZEPHIR_INIT_NVAR(_10);
 		zephir_call_method(_10, column, "gettype");
+		zephir_check_call_status();
 		zephir_array_update_zval(&fieldTypes, fieldName, &_10, PH_COPY | PH_SEPARATE);
 		ZEPHIR_INIT_NVAR(_11);
 		zephir_call_method(_11, column, "getbindtype");
+		zephir_check_call_status();
 		zephir_array_update_zval(&fieldBindTypes, fieldName, &_11, PH_COPY | PH_SEPARATE);
 	}
 	array_init_size(return_value, 13);
@@ -208,6 +223,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Introspection, getColumnMaps) {
 
 	HashTable *_1;
 	HashPosition _0;
+	int ZEPHIR_LAST_CALL_STATUS;
 	zval *model, *dependencyInjector, *orderedColumnMap = NULL, *userColumnMap, *reversedColumnMap, *name = NULL, *userName = NULL, **_2;
 
 	ZEPHIR_MM_GROW();
@@ -215,11 +231,11 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Introspection, getColumnMaps) {
 
 
 
-	if (!(zephir_is_instance_of(model, SL("Phalcon\\Mvc\\ModelInterface") TSRMLS_CC))) {
+	if (!(zephir_instance_of_ev(model, phalcon_mvc_modelinterface_ce TSRMLS_CC))) {
 		ZEPHIR_THROW_EXCEPTION_STR(spl_ce_InvalidArgumentException, "Parameter 'model' must be an instance of 'Phalcon\\Mvc\\ModelInterface'");
 		return;
 	}
-	if (!(zephir_is_instance_of(dependencyInjector, SL("Phalcon\\DiInterface") TSRMLS_CC))) {
+	if (!(zephir_instance_of_ev(dependencyInjector, phalcon_diinterface_ce TSRMLS_CC))) {
 		ZEPHIR_THROW_EXCEPTION_STR(spl_ce_InvalidArgumentException, "Parameter 'dependencyInjector' must be an instance of 'Phalcon\\DiInterface'");
 		return;
 	}
@@ -230,6 +246,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Introspection, getColumnMaps) {
 	if ((zephir_method_exists_ex(model, SS("columnmap") TSRMLS_CC) == SUCCESS)) {
 		ZEPHIR_INIT_VAR(userColumnMap);
 		zephir_call_method(userColumnMap, model, "columnmap");
+		zephir_check_call_status();
 		if ((Z_TYPE_P(userColumnMap) != IS_ARRAY)) {
 			ZEPHIR_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "columnMap() not returned an array");
 			return;

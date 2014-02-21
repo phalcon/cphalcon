@@ -22,11 +22,11 @@
 #define ZEPHIR_KERNEL_MEMORY_H
 
 /* Variable Tracking */
-extern void zephir_init_nvar(zval **var TSRMLS_DC);
-extern void zephir_cpy_wrt(zval **dest, zval *var TSRMLS_DC);
-extern void zephir_cpy_wrt_ctor(zval **dest, zval *var TSRMLS_DC);
+void zephir_init_nvar(zval **var TSRMLS_DC);
+void zephir_cpy_wrt(zval **dest, zval *var TSRMLS_DC);
+void zephir_cpy_wrt_ctor(zval **dest, zval *var TSRMLS_DC);
 
-extern void zephir_value_dtor(zval *zvalue ZEND_FILE_LINE_DC);
+void zephir_value_dtor(zval *zvalue ZEND_FILE_LINE_DC);
 
 /* Memory Frames */
 #ifndef ZEPHIR_RELEASE
@@ -45,23 +45,23 @@ int ZEPHIR_FASTCALL zephir_memory_restore_stack(TSRMLS_D);
 
 #endif
 
-extern void ZEPHIR_FASTCALL zephir_memory_observe(zval **var TSRMLS_DC);
-extern void ZEPHIR_FASTCALL zephir_memory_remove(zval **var TSRMLS_DC);
-extern void ZEPHIR_FASTCALL zephir_memory_alloc(zval **var TSRMLS_DC);
-extern void ZEPHIR_FASTCALL zephir_memory_alloc_pnull(zval **var TSRMLS_DC);
+void ZEPHIR_FASTCALL zephir_memory_observe(zval **var TSRMLS_DC);
+void ZEPHIR_FASTCALL zephir_memory_remove(zval **var TSRMLS_DC);
+void ZEPHIR_FASTCALL zephir_memory_alloc(zval **var TSRMLS_DC);
+void ZEPHIR_FASTCALL zephir_memory_alloc_pnull(zval **var TSRMLS_DC);
 
-extern int ZEPHIR_FASTCALL zephir_clean_restore_stack(TSRMLS_D);
+int ZEPHIR_FASTCALL zephir_clean_restore_stack(TSRMLS_D);
 
 /* Virtual symbol tables */
-extern void zephir_create_symbol_table(TSRMLS_D);
-/*extern void zephir_restore_symbol_table(TSRMLS_D);*/
-extern void zephir_clean_symbol_tables(TSRMLS_D);
+void zephir_create_symbol_table(TSRMLS_D);
+/*void zephir_restore_symbol_table(TSRMLS_D);*/
+void zephir_clean_symbol_tables(TSRMLS_D);
 
 /** Export symbols to active symbol table */
-extern int zephir_set_symbol(zval *key_name, zval *value TSRMLS_DC);
-extern int zephir_set_symbol_str(char *key_name, unsigned int key_length, zval *value TSRMLS_DC);
+int zephir_set_symbol(zval *key_name, zval *value TSRMLS_DC);
+int zephir_set_symbol_str(char *key_name, unsigned int key_length, zval *value TSRMLS_DC);
 
-extern void ZEPHIR_FASTCALL zephir_copy_ctor(zval *destiny, zval *origin);
+void ZEPHIR_FASTCALL zephir_copy_ctor(zval *destiny, zval *origin);
 
 /* Memory macros */
 #define ZEPHIR_ALLOC_ZVAL(z) \
@@ -71,7 +71,7 @@ extern void ZEPHIR_FASTCALL zephir_copy_ctor(zval *destiny, zval *origin);
 	INIT_PZVAL(&z); \
 	ZVAL_NULL(&z);
 
-#define ZEPHIR_SINIT_NVAR(z)
+#define ZEPHIR_SINIT_NVAR(z) Z_SET_REFCOUNT_P(&z, 1)
 
 #define ZEPHIR_INIT_ZVAL_NREF(z) \
 	ALLOC_ZVAL(z); \

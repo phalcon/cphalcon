@@ -12,6 +12,7 @@ PHP_METHOD(Phalcon_Annotations_Annotation, numberArguments);
 PHP_METHOD(Phalcon_Annotations_Annotation, getArgument);
 PHP_METHOD(Phalcon_Annotations_Annotation, hasArgument);
 PHP_METHOD(Phalcon_Annotations_Annotation, getNamedArgument);
+PHP_METHOD(Phalcon_Annotations_Annotation, getNamedParameter);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_annotations_annotation___construct, 0, 0, 1)
 	ZEND_ARG_INFO(0, reflectionData)
@@ -33,6 +34,10 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_annotations_annotation_getnamedargument, 
 	ZEND_ARG_INFO(0, name)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_annotations_annotation_getnamedparameter, 0, 0, 1)
+	ZEND_ARG_INFO(0, name)
+ZEND_END_ARG_INFO()
+
 ZEPHIR_INIT_FUNCS(phalcon_annotations_annotation_method_entry) {
 	PHP_ME(Phalcon_Annotations_Annotation, __construct, arginfo_phalcon_annotations_annotation___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
 	PHP_ME(Phalcon_Annotations_Annotation, getName, NULL, ZEND_ACC_PUBLIC)
@@ -43,5 +48,6 @@ ZEPHIR_INIT_FUNCS(phalcon_annotations_annotation_method_entry) {
 	PHP_ME(Phalcon_Annotations_Annotation, getArgument, arginfo_phalcon_annotations_annotation_getargument, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Annotations_Annotation, hasArgument, arginfo_phalcon_annotations_annotation_hasargument, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Annotations_Annotation, getNamedArgument, arginfo_phalcon_annotations_annotation_getnamedargument, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Annotations_Annotation, getNamedParameter, arginfo_phalcon_annotations_annotation_getnamedparameter, ZEND_ACC_PUBLIC)
   PHP_FE_END
 };

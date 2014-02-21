@@ -80,7 +80,7 @@ static int zephir_call_user_function(HashTable *function_table, zval **object_pp
 
 	if (unlikely(zephir_globals_ptr->recursive_lock > 2048)) {
 		ex_retval = FAILURE;
-		php_error_docref(NULL TSRMLS_CC, E_ERROR, "Maximum recursion depth exceeded");
+		zephir_throw_exception_string(spl_ce_RuntimeException, SL("Maximum recursion depth exceeded") TSRMLS_CC);
 	} else {
 
 		if (param_count) {
@@ -183,7 +183,7 @@ static int zephir_call_func_vparams(zval *return_value, zval **return_value_ptr,
 		} else {
 			if (unlikely(param_count > 10)) {
 				free_params = 1;
-				params      = (zval**)emalloc(param_count * sizeof(zval*));
+				params      = (zval**) emalloc(param_count * sizeof(zval*));
 				params_ptr  = params;
 				for (i = 0; i < param_count; ++i) {
 					params[i] = va_arg(ap, zval*);
@@ -202,7 +202,9 @@ static int zephir_call_func_vparams(zval *return_value, zval **return_value_ptr,
 	}
 
 	if (status == FAILURE) {
-		php_error_docref(NULL TSRMLS_CC, E_ERROR, "Call to undefined function %s()", Z_STRVAL_P(func));
+		//php_error_docref(NULL TSRMLS_CC, E_ERROR, "Call to undefined function %s()", Z_STRVAL_P(func));
+		zephir_throw_exception_string(spl_ce_RuntimeException, SL("Call to undefined function xx()") TSRMLS_CC);
+		status = FAILURE;
 	} else {
 		if (EG(exception)) {
 			status = FAILURE;
@@ -508,7 +510,7 @@ int zephir_call_internal_method_params(zval *return_value, zval **return_value_p
 	zend_class_entry *calling_scope = NULL;
 	zend_class_entry *called_scope = NULL;
 	va_list va;
-	int i, caller_wants_result;
+	int i, caller_wants_result = 1;
 
 	if (unlikely(Z_TYPE_P(object) != IS_OBJECT)) {
 		php_error_docref(NULL TSRMLS_CC, E_ERROR, "Call to method %s() on a non object", method_name);

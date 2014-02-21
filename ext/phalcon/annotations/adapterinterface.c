@@ -65,20 +65,6 @@ ZEPHIR_DOC_METHOD(Phalcon_Annotations_AdapterInterface, getReader);
 ZEPHIR_DOC_METHOD(Phalcon_Annotations_AdapterInterface, get);
 
 /**
- * Parses or retrieves name the annotations found in a class
- *
- * @return string
- */
-ZEPHIR_DOC_METHOD(Phalcon_Annotations_AdapterInterface, getName);
-
-/**
- * Parses or retrieves argument the annotations found in a class
- * @param int
- * @return string
- */
-ZEPHIR_DOC_METHOD(Phalcon_Annotations_AdapterInterface, getArgument);
-
-/**
  * Returns the annotations found in all the class' methods
  *
  * @param string className
@@ -111,12 +97,4 @@ ZEPHIR_DOC_METHOD(Phalcon_Annotations_AdapterInterface, getProperties);
  * @return Phalcon\Annotations\Collection
  */
 ZEPHIR_DOC_METHOD(Phalcon_Annotations_AdapterInterface, getProperty);
-
-/**
- * Returns the annotations found in all the class' methods
- *
- * @param string className
- * @return array
- */
-ZEPHIR_DOC_METHOD(Phalcon_Annotations_AdapterInterface, getNamedParameter);
 

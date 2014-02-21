@@ -494,6 +494,7 @@ PHP_METHOD(Phalcon_Db_Column, getBindType) {
  */
 PHP_METHOD(Phalcon_Db_Column, __set_state) {
 
+	int ZEPHIR_LAST_CALL_STATUS;
 	zval *data, *definition, *columnType, *notNull, *size, *dunsigned, *after, *isNumeric, *first, *bindType, *primary, *_0;
 
 	ZEPHIR_MM_GROW();
@@ -541,6 +542,7 @@ PHP_METHOD(Phalcon_Db_Column, __set_state) {
 	object_init_ex(return_value, phalcon_db_column_ce);
 	zephir_array_fetch_string(&_0, data, SL("_name"), PH_NOISY | PH_READONLY TSRMLS_CC);
 	zephir_call_method_p2_noret(return_value, "__construct", _0, definition);
+	zephir_check_call_status();
 	RETURN_MM();
 
 }
