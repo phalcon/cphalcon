@@ -24,6 +24,7 @@
 #include "di.h"
 #include "events/eventsawareinterface.h"
 #include "events/managerinterface.h"
+#include "diinterface.h"
 
 #include "kernel/main.h"
 #include "kernel/memory.h"
@@ -121,7 +122,6 @@ PHP_METHOD(Phalcon_DI_Injectable, setEventsManager)
 	PHALCON_VERIFY_INTERFACE_OR_NULL_EX(events_manager, phalcon_events_managerinterface_ce, phalcon_di_exception_ce, 0);
 	
 	phalcon_update_property_this(this_ptr, SL("_eventsManager"), events_manager TSRMLS_CC);
-
 }
 
 /**
@@ -152,7 +152,6 @@ PHP_METHOD(Phalcon_DI_Injectable, __get){
 
 	dependency_injector = phalcon_fetch_nproperty_this(this_ptr, SL("_dependencyInjector"), PH_NOISY TSRMLS_CC);
 	if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
-
 		dependency_injector = NULL;
 		PHALCON_CALL_CE_STATIC(&dependency_injector, phalcon_di_ce, "getdefault");
 
@@ -162,13 +161,10 @@ PHP_METHOD(Phalcon_DI_Injectable, __get){
 		}
 	}
 
-	/**
-	 * Fallback to the PHP userland if the cache is not available
-	 */
 	PHALCON_CALL_METHOD(&has_service, dependency_injector, "has", *property_name);
 	if (zend_is_true(has_service)) {
 		PHALCON_CALL_METHOD(&result, dependency_injector, "getshared", *property_name);
-		phalcon_update_property_zval_zval(this_ptr, *property_name, result TSRMLS_CC);
+		phalcon_update_property_zval(this_ptr, Z_STRVAL_PP(property_name), Z_STRLEN_PP(property_name), result TSRMLS_CC);
 		RETURN_CTOR(result);
 	}
 
@@ -201,7 +197,7 @@ PHP_METHOD(Phalcon_DI_Injectable, __get){
 	}
 
 	/**
-	 * A notice is shown if the property is not defined and isn't a valid service
+	 * A notice is shown if the property is not defined or is not a valid service
 	 */
 	php_error_docref(NULL TSRMLS_CC, E_WARNING, "Access to undefined property %s::%s", Z_OBJCE_P(getThis())->name, Z_STRVAL_PP(property_name));
 	RETURN_MM_NULL();
