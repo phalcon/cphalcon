@@ -164,9 +164,12 @@ PHP_METHOD(Phalcon_Mvc_Model_Row, offsetUnset) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_Row, toArray) {
 
+	int ZEPHIR_LAST_CALL_STATUS;
+
 	ZEPHIR_MM_GROW();
 
 	zephir_call_func_p1(return_value, "get_object_vars", this_ptr);
+	zephir_check_call_status();
 	RETURN_MM();
 
 }

@@ -79,6 +79,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Config) {
  */
 PHP_METHOD(Phalcon_Config, __construct) {
 
+	int ZEPHIR_LAST_CALL_STATUS;
 	HashTable *_1, *_4;
 	HashPosition _0, _3;
 	zend_bool hasNumericKey;
@@ -131,6 +132,7 @@ PHP_METHOD(Phalcon_Config, __construct) {
 				ZEPHIR_INIT_LNVAR(_6);
 				object_init_ex(_6, phalcon_config_ce);
 				zephir_call_internal_method_p1_noret(_6, "__construct", ZEND_MN(Phalcon_Config___construct), value);
+				zephir_check_call_status();
 				zephir_update_property_zval_zval(this_ptr, key, _6 TSRMLS_CC);
 			}
 		} else {
@@ -315,6 +317,7 @@ PHP_METHOD(Phalcon_Config, toArray) {
 
 	HashTable *_2;
 	HashPosition _1;
+	int ZEPHIR_LAST_CALL_STATUS;
 	zval *key = NULL, *value = NULL, *arrayConfig, *_0, **_3, *_4 = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -323,6 +326,7 @@ PHP_METHOD(Phalcon_Config, toArray) {
 	array_init(arrayConfig);
 	ZEPHIR_INIT_VAR(_0);
 	zephir_call_func_p1(_0, "get_object_vars", this_ptr);
+	zephir_check_call_status();
 	zephir_is_iterable(_0, &_2, &_1, 0, 0);
 	for (
 	  ; zephir_hash_get_current_data_ex(_2, (void**) &_3, &_1) == SUCCESS
@@ -334,6 +338,7 @@ PHP_METHOD(Phalcon_Config, toArray) {
 			if ((zephir_method_exists_ex(value, SS("toarray") TSRMLS_CC) == SUCCESS)) {
 				ZEPHIR_INIT_NVAR(_4);
 				zephir_call_method(_4, value, "toarray");
+				zephir_check_call_status();
 				zephir_array_update_zval(&arrayConfig, key, &_4, PH_COPY | PH_SEPARATE);
 			}
 		}
@@ -350,6 +355,7 @@ PHP_METHOD(Phalcon_Config, toArray) {
  */
 PHP_METHOD(Phalcon_Config, __set_state) {
 
+	int ZEPHIR_LAST_CALL_STATUS;
 	zval *data;
 
 	ZEPHIR_MM_GROW();
@@ -359,6 +365,7 @@ PHP_METHOD(Phalcon_Config, __set_state) {
 
 	object_init_ex(return_value, phalcon_config_ce);
 	zephir_call_method_p1_noret(return_value, "__construct", data);
+	zephir_check_call_status();
 	RETURN_MM();
 
 }

@@ -117,7 +117,7 @@ PHP_METHOD(Phalcon_Paginator_Adapter_Model, setCurrentPage) {
  */
 PHP_METHOD(Phalcon_Paginator_Adapter_Model, getPaginate) {
 
-	int pageNumber, show, n, start, lastPage, totalPages, lastShowPage, i, maximumPages, next, pagesTotal, before;
+	int pageNumber, show, n, start, lastPage, totalPages, lastShowPage, i, maximumPages, next, pagesTotal, before, ZEPHIR_LAST_CALL_STATUS;
 	zval *config, *items, *pageItems, *page, *valid = NULL, *_0, *_1, _2, *_3, *_4 = NULL, *_5;
 
 	ZEPHIR_MM_GROW();
@@ -149,6 +149,7 @@ PHP_METHOD(Phalcon_Paginator_Adapter_Model, getPaginate) {
 	ZVAL_LONG(&_2, (lastPage / show));
 	ZEPHIR_INIT_VAR(_3);
 	zephir_call_func_p1(_3, "ceil", &_2);
+	zephir_check_call_status();
 	totalPages = zephir_get_intval(_3);
 	if ((Z_TYPE_P(items) != IS_OBJECT)) {
 		ZEPHIR_THROW_EXCEPTION_STR(phalcon_paginator_exception_ce, "Invalid data for paginator");
@@ -164,21 +165,25 @@ PHP_METHOD(Phalcon_Paginator_Adapter_Model, getPaginate) {
 			ZEPHIR_INIT_VAR(_4);
 			ZVAL_LONG(_4, start);
 			zephir_call_method_p1_noret(items, "seek", _4);
+			zephir_check_call_status();
 		} else {
 			ZEPHIR_INIT_NVAR(_4);
 			ZVAL_LONG(_4, 1);
 			zephir_call_method_p1_noret(items, "seek", _4);
+			zephir_check_call_status();
 			pageNumber = 1;
 		}
 		i = 1;
 		while (1) {
 			ZEPHIR_INIT_NVAR(valid);
 			zephir_call_method(valid, items, "valid");
+			zephir_check_call_status();
 			if (ZEPHIR_IS_FALSE(valid)) {
 				break;
 			}
 			ZEPHIR_INIT_NVAR(_4);
 			zephir_call_method(_4, items, "current");
+			zephir_check_call_status();
 			zephir_array_append(&pageItems, _4, PH_SEPARATE);
 			if ((i >= show)) {
 				break;

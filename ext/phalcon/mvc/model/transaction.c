@@ -106,6 +106,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_Transaction) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_Transaction, __construct) {
 
+	int ZEPHIR_LAST_CALL_STATUS;
 	zend_bool autoBegin;
 	zval *dependencyInjector, *autoBegin_param = NULL, *service = NULL, *connection, *_0;
 
@@ -129,14 +130,17 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction, __construct) {
 	ZEPHIR_INIT_VAR(connection);
 	if (zephir_is_true(service)) {
 		zephir_call_method_p1(connection, dependencyInjector, "get", service);
+		zephir_check_call_status();
 	} else {
 		ZEPHIR_INIT_VAR(_0);
 		ZVAL_STRING(_0, "db", 1);
 		zephir_call_method_p1(connection, dependencyInjector, "get", _0);
+		zephir_check_call_status();
 	}
 	zephir_update_property_this(this_ptr, SL("_connection"), connection TSRMLS_CC);
 	if (autoBegin) {
 		zephir_call_method_noret(connection, "begin");
+		zephir_check_call_status();
 	}
 	ZEPHIR_MM_RESTORE();
 
@@ -170,6 +174,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction, setTransactionManager) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_Transaction, begin) {
 
+	int ZEPHIR_LAST_CALL_STATUS;
 	zval *connection;
 
 	ZEPHIR_MM_GROW();
@@ -177,6 +182,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction, begin) {
 	ZEPHIR_OBS_VAR(connection);
 	zephir_read_property_this(&connection, this_ptr, SL("_connection"), PH_NOISY_CC);
 	zephir_call_method(return_value, connection, "begin");
+	zephir_check_call_status();
 	RETURN_MM();
 
 }
@@ -189,6 +195,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction, begin) {
 PHP_METHOD(Phalcon_Mvc_Model_Transaction, commit) {
 
 	zval *_1, *_3;
+	int ZEPHIR_LAST_CALL_STATUS;
 	zval *manager, *connection, *_0, *_2;
 
 	ZEPHIR_MM_GROW();
@@ -211,6 +218,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction, commit) {
 	ZEPHIR_OBS_VAR(connection);
 	zephir_read_property_this(&connection, this_ptr, SL("_connection"), PH_NOISY_CC);
 	zephir_call_method(return_value, connection, "commit");
+	zephir_check_call_status();
 	RETURN_MM();
 
 }
@@ -225,6 +233,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction, commit) {
 PHP_METHOD(Phalcon_Mvc_Model_Transaction, rollback) {
 
 	zval *_1, *_3;
+	int ZEPHIR_LAST_CALL_STATUS;
 	zval *rollbackMessage = NULL, *rollbackRecord = NULL, *manager, *connection, *_0, *_2 = NULL, *_4, *_5;
 
 	ZEPHIR_MM_GROW();
@@ -259,6 +268,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction, rollback) {
 	zephir_read_property_this(&connection, this_ptr, SL("_connection"), PH_NOISY_CC);
 	ZEPHIR_INIT_NVAR(_2);
 	zephir_call_method(_2, connection, "rollback");
+	zephir_check_call_status();
 	if (zephir_is_true(_2)) {
 		if (!(zephir_is_true(rollbackMessage))) {
 			ZEPHIR_INIT_NVAR(rollbackMessage);
@@ -271,6 +281,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction, rollback) {
 		object_init_ex(_4, phalcon_mvc_model_transaction_failed_ce);
 		_5 = zephir_fetch_nproperty_this(this_ptr, SL("_rollbackRecord"), PH_NOISY_CC);
 		zephir_call_method_p2_noret(_4, "__construct", rollbackMessage, _5);
+		zephir_check_call_status();
 		zephir_throw_exception(_4 TSRMLS_CC);
 		ZEPHIR_MM_RESTORE();
 		return;
@@ -286,6 +297,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction, rollback) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_Transaction, getConnection) {
 
+	int ZEPHIR_LAST_CALL_STATUS;
 	zval *_0, *_1, *_2;
 
 	ZEPHIR_MM_GROW();
@@ -294,10 +306,12 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction, getConnection) {
 	if (zephir_is_true(_0)) {
 		ZEPHIR_INIT_VAR(_1);
 		zephir_call_func(_1, "connection_aborted");
+		zephir_check_call_status();
 		if (zephir_is_true(_1)) {
 			ZEPHIR_INIT_VAR(_2);
 			ZVAL_STRING(_2, "The request was aborted", 1);
 			zephir_call_method_p1_noret(this_ptr, "rollback", _2);
+			zephir_check_call_status();
 		}
 	}
 	RETURN_MM_MEMBER(this_ptr, "_connection");
@@ -376,6 +390,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction, getMessages) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_Transaction, isValid) {
 
+	int ZEPHIR_LAST_CALL_STATUS;
 	zval *connection;
 
 	ZEPHIR_MM_GROW();
@@ -383,6 +398,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction, isValid) {
 	ZEPHIR_OBS_VAR(connection);
 	zephir_read_property_this(&connection, this_ptr, SL("_connection"), PH_NOISY_CC);
 	zephir_call_method(return_value, connection, "isundertransaction");
+	zephir_check_call_status();
 	RETURN_MM();
 
 }

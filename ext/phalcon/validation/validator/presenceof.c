@@ -69,6 +69,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Validation_Validator_PresenceOf) {
  */
 PHP_METHOD(Phalcon_Validation_Validator_PresenceOf, validate) {
 
+	int ZEPHIR_LAST_CALL_STATUS;
 	zval *field = NULL;
 	zval *validation, *field_param = NULL, *value, *message = NULL, *label = NULL, *replacePairs, *_0 = NULL, *_1, *_2;
 
@@ -94,14 +95,17 @@ PHP_METHOD(Phalcon_Validation_Validator_PresenceOf, validate) {
 	}
 	ZEPHIR_INIT_VAR(value);
 	zephir_call_method_p1(value, validation, "getvalue", field);
+	zephir_check_call_status();
 	if (ZEPHIR_IS_EMPTY(value)) {
 		ZEPHIR_INIT_VAR(_0);
 		ZVAL_STRING(_0, "label", 1);
 		ZEPHIR_INIT_VAR(label);
 		zephir_call_method_p1(label, this_ptr, "getoption", _0);
+		zephir_check_call_status();
 		if (ZEPHIR_IS_EMPTY(label)) {
 			ZEPHIR_INIT_NVAR(label);
 			zephir_call_method_p1(label, validation, "getlabel", field);
+			zephir_check_call_status();
 			if (ZEPHIR_IS_EMPTY(label)) {
 				ZEPHIR_CPY_WRT(label, field);
 			}
@@ -110,6 +114,7 @@ PHP_METHOD(Phalcon_Validation_Validator_PresenceOf, validate) {
 		ZVAL_STRING(_0, "message", 1);
 		ZEPHIR_INIT_VAR(message);
 		zephir_call_method_p1(message, this_ptr, "getoption", _0);
+		zephir_check_call_status();
 		ZEPHIR_INIT_VAR(replacePairs);
 		array_init_size(replacePairs, 2);
 		zephir_array_update_string(&replacePairs, SL(":field"), &label, PH_COPY | PH_SEPARATE);
@@ -118,15 +123,19 @@ PHP_METHOD(Phalcon_Validation_Validator_PresenceOf, validate) {
 			ZVAL_STRING(_0, "PresenceOf", 1);
 			ZEPHIR_INIT_NVAR(message);
 			zephir_call_method_p1(message, validation, "getdefaultmessage", _0);
+			zephir_check_call_status();
 		}
 		ZEPHIR_INIT_VAR(_1);
 		object_init_ex(_1, phalcon_validation_message_ce);
 		ZEPHIR_INIT_NVAR(_0);
 		zephir_call_func_p2(_0, "strtr", message, replacePairs);
+		zephir_check_call_status();
 		ZEPHIR_INIT_VAR(_2);
 		ZVAL_STRING(_2, "PresenceOf", 1);
 		zephir_call_method_p3_noret(_1, "__construct", _0, field, _2);
+		zephir_check_call_status();
 		zephir_call_method_p1_noret(validation, "appendmessage", _1);
+		zephir_check_call_status();
 		RETURN_MM_BOOL(0);
 	}
 	RETURN_MM_BOOL(1);

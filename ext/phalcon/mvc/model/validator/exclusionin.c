@@ -81,6 +81,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_Validator_Exclusionin) {
 PHP_METHOD(Phalcon_Mvc_Model_Validator_Exclusionin, validate) {
 
 	zend_bool _3;
+	int ZEPHIR_LAST_CALL_STATUS;
 	zval *record, *field, *domain, *value, *message = NULL, *replacePairs, *_0, *_1, *_2, *_4;
 
 	ZEPHIR_MM_GROW();
@@ -96,6 +97,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Exclusionin, validate) {
 	ZVAL_STRING(_0, "field", 1);
 	ZEPHIR_INIT_VAR(field);
 	zephir_call_method_p1(field, this_ptr, "getoption", _0);
+	zephir_check_call_status();
 	if (!ZEPHIR_IS_STRING(field, "string")) {
 		ZEPHIR_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Field name must be a string");
 		return;
@@ -104,6 +106,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Exclusionin, validate) {
 	ZEPHIR_INIT_VAR(_1);
 	ZVAL_STRING(_1, "domain", 1);
 	zephir_call_method_p1(_0, this_ptr, "issetoption", _1);
+	zephir_check_call_status();
 	if (ZEPHIR_IS_FALSE(_0)) {
 		ZEPHIR_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "The option 'domain' is required by this validator");
 		return;
@@ -112,16 +115,19 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Exclusionin, validate) {
 	ZVAL_STRING(_1, "domain", 1);
 	ZEPHIR_INIT_VAR(domain);
 	zephir_call_method_p1(domain, this_ptr, "getoption", _1);
+	zephir_check_call_status();
 	if ((Z_TYPE_P(domain) != IS_ARRAY)) {
 		ZEPHIR_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Option 'domain' must be an array");
 		return;
 	}
 	ZEPHIR_INIT_VAR(value);
 	zephir_call_method_p1(value, record, "readattribute", field);
+	zephir_check_call_status();
 	ZEPHIR_INIT_BNVAR(_1);
 	ZEPHIR_INIT_VAR(_2);
 	ZVAL_STRING(_2, "allowEmpty", 1);
 	zephir_call_method_p1(_1, this_ptr, "issetoption", _2);
+	zephir_check_call_status();
 	_3 = zephir_is_true(_1);
 	if (_3) {
 		_3 = ZEPHIR_IS_EMPTY(value);
@@ -134,6 +140,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Exclusionin, validate) {
 		ZVAL_STRING(_2, "message", 1);
 		ZEPHIR_INIT_VAR(message);
 		zephir_call_method_p1(message, this_ptr, "getoption", _2);
+		zephir_check_call_status();
 		ZEPHIR_INIT_VAR(replacePairs);
 		array_init_size(replacePairs, 3);
 		zephir_array_update_string(&replacePairs, SL(":field"), &field, PH_COPY | PH_SEPARATE);
@@ -146,9 +153,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Exclusionin, validate) {
 		}
 		ZEPHIR_INIT_BNVAR(_2);
 		zephir_call_func_p2(_2, "strtr", message, replacePairs);
+		zephir_check_call_status();
 		ZEPHIR_INIT_VAR(_4);
 		ZVAL_STRING(_4, "Exclusion", 1);
 		zephir_call_method_p3_noret(this_ptr, "appendmessage", _2, field, _4);
+		zephir_check_call_status();
 		RETURN_MM_BOOL(0);
 	}
 	RETURN_MM_BOOL(1);

@@ -88,6 +88,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Logger_Adapter_File) {
  */
 PHP_METHOD(Phalcon_Logger_Adapter_File, __construct) {
 
+	int ZEPHIR_LAST_CALL_STATUS;
 	zval *name_param = NULL, *options = NULL, *mode = NULL, *handler, *_0;
 	zval *name = NULL, *_1;
 
@@ -124,12 +125,14 @@ PHP_METHOD(Phalcon_Logger_Adapter_File, __construct) {
 	}
 	ZEPHIR_INIT_VAR(handler);
 	zephir_call_func_p2(handler, "fopen", name, mode);
+	zephir_check_call_status();
 	if (!(zephir_is_true(handler))) {
 		ZEPHIR_INIT_VAR(_0);
 		object_init_ex(_0, phalcon_logger_exception_ce);
 		ZEPHIR_INIT_VAR(_1);
 		ZEPHIR_CONCAT_SVS(_1, "Can't open log file at '", name, "'");
 		zephir_call_method_p1_noret(_0, "__construct", _1);
+		zephir_check_call_status();
 		zephir_throw_exception(_0 TSRMLS_CC);
 		ZEPHIR_MM_RESTORE();
 		return;
@@ -148,6 +151,7 @@ PHP_METHOD(Phalcon_Logger_Adapter_File, __construct) {
  */
 PHP_METHOD(Phalcon_Logger_Adapter_File, getFormatter) {
 
+	int ZEPHIR_LAST_CALL_STATUS;
 	zval *formatter;
 
 	ZEPHIR_MM_GROW();
@@ -158,6 +162,7 @@ PHP_METHOD(Phalcon_Logger_Adapter_File, getFormatter) {
 		ZEPHIR_INIT_BNVAR(formatter);
 		object_init_ex(formatter, phalcon_logger_formatter_line_ce);
 		zephir_call_method_noret(formatter, "__construct");
+		zephir_check_call_status();
 		zephir_update_property_this(this_ptr, SL("_formatter"), formatter TSRMLS_CC);
 	}
 	RETURN_CCTOR(formatter);
@@ -173,7 +178,7 @@ PHP_METHOD(Phalcon_Logger_Adapter_File, getFormatter) {
  */
 PHP_METHOD(Phalcon_Logger_Adapter_File, logInternal) {
 
-	int type, time;
+	int type, time, ZEPHIR_LAST_CALL_STATUS;
 	zval *message_param = NULL, *type_param = NULL, *time_param = NULL, *fileHandler, *formatter, *_0, *_1, *_2;
 	zval *message = NULL;
 
@@ -203,12 +208,14 @@ PHP_METHOD(Phalcon_Logger_Adapter_File, logInternal) {
 	}
 	ZEPHIR_INIT_VAR(formatter);
 	zephir_call_method(formatter, this_ptr, "getformatter");
+	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(_0);
 	ZEPHIR_INIT_VAR(_1);
 	ZVAL_LONG(_1, type);
 	ZEPHIR_INIT_VAR(_2);
 	ZVAL_LONG(_2, time);
 	zephir_call_method_p3(_0, formatter, "format", message, _1, _2);
+	zephir_check_call_status();
 	zephir_fwrite(NULL, fileHandler, _0 TSRMLS_CC);
 	ZEPHIR_MM_RESTORE();
 
@@ -235,6 +242,7 @@ PHP_METHOD(Phalcon_Logger_Adapter_File, close) {
  */
 PHP_METHOD(Phalcon_Logger_Adapter_File, __wakeup) {
 
+	int ZEPHIR_LAST_CALL_STATUS;
 	zval *path, *options, *mode, *_0;
 
 	ZEPHIR_MM_GROW();
@@ -262,6 +270,7 @@ PHP_METHOD(Phalcon_Logger_Adapter_File, __wakeup) {
 	}
 	ZEPHIR_INIT_VAR(_0);
 	zephir_call_func_p2(_0, "fopen", path, mode);
+	zephir_check_call_status();
 	zephir_update_property_this(this_ptr, SL("_fileHandler"), _0 TSRMLS_CC);
 	ZEPHIR_MM_RESTORE();
 

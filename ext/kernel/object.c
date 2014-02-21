@@ -1229,6 +1229,7 @@ int zephir_read_static_property_ce(zval **result, zend_class_entry *ce, char *pr
 	return FAILURE;
 }
 
+#if PHP_VERSION_ID >= 50400
 static zval **zephir_std_get_static_property(zend_class_entry *ce, const char *property_name, int property_name_len, zend_bool silent, ulong hash_value, zend_property_info **
 	property_info TSRMLS_DC)
 {
@@ -1282,6 +1283,7 @@ static zval **zephir_std_get_static_property(zend_class_entry *ce, const char *p
 
 	return &CE_STATIC_MEMBERS(ce)[temp_property_info->offset];
 }
+#endif
 
 static int zephir_update_static_property_ex(zend_class_entry *scope, const char *name, int name_length,
 	zval *value, zend_property_info **property_info TSRMLS_DC)
@@ -1381,7 +1383,7 @@ int zephir_create_instance(zval *return_value, const zval *class_name TSRMLS_DC)
 	zend_class_entry *ce;
 
 	if (Z_TYPE_P(class_name) != IS_STRING) {
-		//zephir_throw_exception_string(zephir_exception_ce, SL("Invalid class name") TSRMLS_CC);
+		zephir_throw_exception_string(spl_ce_RuntimeException, SL("Invalid class name") TSRMLS_CC);
 		return FAILURE;
 	}
 
@@ -1407,12 +1409,12 @@ int zephir_create_instance_params(zval *return_value, const zval *class_name, zv
 	zend_class_entry *ce;
 
 	if (Z_TYPE_P(class_name) != IS_STRING) {
-		//zephir_throw_exception_string(zephir_exception_ce, SL("Invalid class name") TSRMLS_CC);
+		zephir_throw_exception_string(spl_ce_RuntimeException, SL("Invalid class name") TSRMLS_CC);
 		return FAILURE;
 	}
 
 	if (Z_TYPE_P(params) != IS_ARRAY) {
-		//zephir_throw_exception_string(zephir_exception_ce, SL("Instantiation parameters must be an array") TSRMLS_CC);
+		zephir_throw_exception_string(spl_ce_RuntimeException, SL("Instantiation parameters must be an array") TSRMLS_CC);
 		return FAILURE;
 	}
 

@@ -60,6 +60,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_Transaction_Failed) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_Transaction_Failed, __construct) {
 
+	int ZEPHIR_LAST_CALL_STATUS;
 	zval *message_param = NULL, *record;
 	zval *message = NULL;
 
@@ -85,6 +86,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction_Failed, __construct) {
 	}
 	zephir_update_property_this(this_ptr, SL("_record"), record TSRMLS_CC);
 	zephir_call_parent_p1_noret(this_ptr, phalcon_mvc_model_transaction_failed_ce, "__construct", message);
+	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 
 }
@@ -96,6 +98,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction_Failed, __construct) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_Transaction_Failed, getRecordMessages) {
 
+	int ZEPHIR_LAST_CALL_STATUS;
 	zval *record;
 
 	ZEPHIR_MM_GROW();
@@ -104,9 +107,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction_Failed, getRecordMessages) {
 	zephir_read_property_this(&record, this_ptr, SL("_record"), PH_NOISY_CC);
 	if ((Z_TYPE_P(record) != IS_NULL)) {
 		zephir_call_method(return_value, record, "getmessages");
+		zephir_check_call_status();
 		RETURN_MM();
 	}
 	zephir_call_method(return_value, this_ptr, "getmessage");
+	zephir_check_call_status();
 	RETURN_MM();
 
 }

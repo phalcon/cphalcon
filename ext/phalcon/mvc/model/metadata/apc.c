@@ -107,6 +107,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Apc, __construct) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_MetaData_Apc, read) {
 
+	int ZEPHIR_LAST_CALL_STATUS;
 	zval *key_param = NULL, *data, *_0, *_1;
 	zval *key = NULL;
 
@@ -131,6 +132,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Apc, read) {
 	ZEPHIR_CONCAT_SVV(_1, "$PMM$", _0, key);
 	ZEPHIR_INIT_VAR(data);
 	zephir_call_func_p1(data, "apc_fetch", _1);
+	zephir_check_call_status();
 	if ((Z_TYPE_P(data) == IS_ARRAY)) {
 		RETURN_CCTOR(data);
 	}
@@ -146,6 +148,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Apc, read) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_MetaData_Apc, write) {
 
+	int ZEPHIR_LAST_CALL_STATUS;
 	zval *key_param = NULL, *data, *_0, *_1, *_2;
 	zval *key = NULL;
 
@@ -170,6 +173,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Apc, write) {
 	ZEPHIR_CONCAT_SVV(_1, "$PMM$", _0, key);
 	_2 = zephir_fetch_nproperty_this(this_ptr, SL("_ttl"), PH_NOISY_CC);
 	zephir_call_func_p3_noret("apc_store", _1, data, _2);
+	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 
 }

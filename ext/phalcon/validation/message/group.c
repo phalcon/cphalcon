@@ -244,6 +244,7 @@ PHP_METHOD(Phalcon_Validation_Message_Group, appendMessages) {
 	zend_function *_4 = NULL;
 	HashTable *_2;
 	HashPosition _1;
+	int ZEPHIR_LAST_CALL_STATUS;
 	zval *messages, *currentMessages, *finalMessages = NULL, *message = NULL, *_0, **_3;
 
 	ZEPHIR_MM_GROW();
@@ -270,6 +271,7 @@ PHP_METHOD(Phalcon_Validation_Message_Group, appendMessages) {
 	} else {
 		ZEPHIR_INIT_VAR(_0);
 		zephir_call_func_p1(_0, "iterator", messages);
+		zephir_check_call_status();
 		zephir_is_iterable(_0, &_2, &_1, 0, 0);
 		for (
 		  ; zephir_hash_get_current_data_ex(_2, (void**) &_3, &_1) == SUCCESS
@@ -277,6 +279,7 @@ PHP_METHOD(Phalcon_Validation_Message_Group, appendMessages) {
 		) {
 			ZEPHIR_GET_HVALUE(message, _3);
 			zephir_call_method_p1_cache_noret(this_ptr, "appendmessage", &_4, message);
+			zephir_check_call_status();
 		}
 	}
 	ZEPHIR_MM_RESTORE();
@@ -291,6 +294,7 @@ PHP_METHOD(Phalcon_Validation_Message_Group, appendMessages) {
  */
 PHP_METHOD(Phalcon_Validation_Message_Group, filter) {
 
+	int ZEPHIR_LAST_CALL_STATUS;
 	HashTable *_1;
 	HashPosition _0;
 	zval *fieldName_param = NULL, *filtered, *messages, *message = NULL, **_2, *_3 = NULL;
@@ -326,6 +330,7 @@ PHP_METHOD(Phalcon_Validation_Message_Group, filter) {
 			if ((zephir_method_exists_ex(message, SS("getfield") TSRMLS_CC) == SUCCESS)) {
 				ZEPHIR_INIT_NVAR(_3);
 				zephir_call_method(_3, message, "getfield");
+				zephir_check_call_status();
 				if (ZEPHIR_IS_EQUAL(fieldName, _3)) {
 					zephir_array_append(&filtered, message, PH_SEPARATE);
 				}
@@ -431,6 +436,7 @@ PHP_METHOD(Phalcon_Validation_Message_Group, valid) {
  */
 PHP_METHOD(Phalcon_Validation_Message_Group, __set_state) {
 
+	int ZEPHIR_LAST_CALL_STATUS;
 	zval *group, *_0;
 
 	ZEPHIR_MM_GROW();
@@ -441,6 +447,7 @@ PHP_METHOD(Phalcon_Validation_Message_Group, __set_state) {
 	object_init_ex(return_value, phalcon_validation_message_group_ce);
 	zephir_array_fetch_string(&_0, group, SL("_messages"), PH_NOISY | PH_READONLY TSRMLS_CC);
 	zephir_call_method_p1_noret(return_value, "__construct", _0);
+	zephir_check_call_status();
 	RETURN_MM();
 
 }

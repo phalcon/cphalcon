@@ -78,6 +78,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Cache_Backend_Memory) {
  */
 PHP_METHOD(Phalcon_Cache_Backend_Memory, get) {
 
+	int ZEPHIR_LAST_CALL_STATUS;
 	zval *keyName, *lifetime = NULL, *lastKey, *cachedContent, *_0;
 
 	ZEPHIR_MM_GROW();
@@ -105,6 +106,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Memory, get) {
 	}
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_frontend"), PH_NOISY_CC);
 	zephir_call_method_p1(return_value, _0, "afterretrieve", cachedContent);
+	zephir_check_call_status();
 	RETURN_MM();
 
 }
@@ -119,6 +121,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Memory, get) {
  */
 PHP_METHOD(Phalcon_Cache_Backend_Memory, save) {
 
+	int ZEPHIR_LAST_CALL_STATUS;
 	zval *keyName = NULL, *content = NULL, *lifetime = NULL, *stopBuffer = NULL, *lastKey, *frontend, *cachedContent = NULL, *preparedContent, *_0, *_1;
 
 	ZEPHIR_MM_GROW();
@@ -154,17 +157,21 @@ PHP_METHOD(Phalcon_Cache_Backend_Memory, save) {
 	if ((Z_TYPE_P(content) == IS_NULL)) {
 		ZEPHIR_INIT_VAR(cachedContent);
 		zephir_call_method(cachedContent, frontend, "getcontent");
+		zephir_check_call_status();
 	} else {
 		ZEPHIR_CPY_WRT(cachedContent, content);
 	}
 	ZEPHIR_INIT_VAR(preparedContent);
 	zephir_call_method_p1(preparedContent, frontend, "beforestore", cachedContent);
+	zephir_check_call_status();
 	zephir_update_property_array(this_ptr, SL("_data"), lastKey, preparedContent TSRMLS_CC);
 	if (ZEPHIR_IS_TRUE(stopBuffer)) {
 		zephir_call_method_noret(frontend, "stop");
+		zephir_check_call_status();
 	}
 	ZEPHIR_INIT_VAR(_1);
 	zephir_call_method(_1, frontend, "isbuffering");
+	zephir_check_call_status();
 	if (ZEPHIR_IS_TRUE(_1)) {
 		zend_print_zval(cachedContent, 0);
 	}

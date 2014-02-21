@@ -84,10 +84,13 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Controller) {
  */
 PHP_METHOD(Phalcon_Mvc_Controller, __construct) {
 
+	int ZEPHIR_LAST_CALL_STATUS;
+
 	ZEPHIR_MM_GROW();
 
 	if ((zephir_method_exists_ex(this_ptr, SS("onconstruct") TSRMLS_CC) == SUCCESS)) {
 		zephir_call_method_noret(this_ptr, "onconstruct");
+		zephir_check_call_status();
 	}
 	ZEPHIR_MM_RESTORE();
 

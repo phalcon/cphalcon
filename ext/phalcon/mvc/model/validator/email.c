@@ -80,6 +80,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_Validator_Email) {
 PHP_METHOD(Phalcon_Mvc_Model_Validator_Email, validate) {
 
 	zend_bool _2;
+	int ZEPHIR_LAST_CALL_STATUS;
 	zval *record, *field, *value, *message = NULL, *replacePairs, *_0, *_1, _3, *_4 = NULL, *_5;
 
 	ZEPHIR_MM_GROW();
@@ -95,16 +96,19 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Email, validate) {
 	ZVAL_STRING(_0, "field", 1);
 	ZEPHIR_INIT_VAR(field);
 	zephir_call_method_p1(field, this_ptr, "getoption", _0);
+	zephir_check_call_status();
 	if ((Z_TYPE_P(field) != IS_STRING)) {
 		ZEPHIR_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Field name must be a string");
 		return;
 	}
 	ZEPHIR_INIT_VAR(value);
 	zephir_call_method_p1(value, record, "readattribute", field);
+	zephir_check_call_status();
 	ZEPHIR_INIT_BNVAR(_0);
 	ZEPHIR_INIT_VAR(_1);
 	ZVAL_STRING(_1, "allowEmpty", 1);
 	zephir_call_method_p1(_0, this_ptr, "issetoption", _1);
+	zephir_check_call_status();
 	_2 = zephir_is_true(_0);
 	if (_2) {
 		_2 = ZEPHIR_IS_EMPTY(value);
@@ -116,11 +120,13 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Email, validate) {
 	ZVAL_LONG(&_3, 274);
 	ZEPHIR_INIT_BNVAR(_1);
 	zephir_call_func_p2(_1, "filter_var", value, &_3);
+	zephir_check_call_status();
 	if (!(zephir_is_true(_1))) {
 		ZEPHIR_INIT_VAR(_4);
 		ZVAL_STRING(_4, "message", 1);
 		ZEPHIR_INIT_VAR(message);
 		zephir_call_method_p1(message, this_ptr, "getoption", _4);
+		zephir_check_call_status();
 		ZEPHIR_INIT_VAR(replacePairs);
 		array_init_size(replacePairs, 2);
 		zephir_array_update_string(&replacePairs, SL(":field"), &field, PH_COPY | PH_SEPARATE);
@@ -130,9 +136,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Email, validate) {
 		}
 		ZEPHIR_INIT_NVAR(_4);
 		zephir_call_func_p2(_4, "strtr", message, replacePairs);
+		zephir_check_call_status();
 		ZEPHIR_INIT_VAR(_5);
 		ZVAL_STRING(_5, "Email", 1);
 		zephir_call_method_p3_noret(this_ptr, "appendmessage", _4, field, _5);
+		zephir_check_call_status();
 		RETURN_MM_BOOL(0);
 	}
 	RETURN_MM_BOOL(1);

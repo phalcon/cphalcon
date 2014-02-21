@@ -105,6 +105,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Db_Profiler) {
  */
 PHP_METHOD(Phalcon_Db_Profiler, startProfile) {
 
+	int ZEPHIR_LAST_CALL_STATUS;
 	zval *sqlStatement, *activeProfile, *_0;
 
 	ZEPHIR_MM_GROW();
@@ -116,13 +117,18 @@ PHP_METHOD(Phalcon_Db_Profiler, startProfile) {
 	object_init_ex(activeProfile, phalcon_db_profiler_item_ce);
 	if (zephir_has_constructor(activeProfile TSRMLS_CC)) {
 		zephir_call_method_noret(activeProfile, "__construct");
+		zephir_check_call_status();
 	}
 	zephir_call_method_p1_noret(activeProfile, "setsqlstatement", sqlStatement);
+	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(_0);
 	zephir_call_func_p1(_0, "microtime", ZEPHIR_GLOBAL(global_true));
+	zephir_check_call_status();
 	zephir_call_method_p1_noret(activeProfile, "setinitialtime", _0);
+	zephir_check_call_status();
 	if ((zephir_method_exists_ex(this_ptr, SS("beforestartprofile") TSRMLS_CC) == SUCCESS)) {
 		zephir_call_method_p1_noret(this_ptr, "beforestartprofile", activeProfile);
+		zephir_check_call_status();
 	}
 	zephir_update_property_this(this_ptr, SL("_activeProfile"), activeProfile TSRMLS_CC);
 	RETURN_THIS();
@@ -136,17 +142,21 @@ PHP_METHOD(Phalcon_Db_Profiler, startProfile) {
  */
 PHP_METHOD(Phalcon_Db_Profiler, stopProfile) {
 
+	int ZEPHIR_LAST_CALL_STATUS;
 	zval *finalTime, *initialTime, *activeProfile = NULL, *_0, *_1, *_2;
 
 	ZEPHIR_MM_GROW();
 
 	ZEPHIR_INIT_VAR(finalTime);
 	zephir_call_func_p1(finalTime, "microtime", ZEPHIR_GLOBAL(global_true));
+	zephir_check_call_status();
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_activeProfile"), PH_NOISY_CC);
 	ZEPHIR_CPY_WRT(activeProfile, _0);
 	zephir_call_method_p1_noret(activeProfile, "setfinaltime", finalTime);
+	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(initialTime);
 	zephir_call_method(initialTime, activeProfile, "getinitialtime");
+	zephir_check_call_status();
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_totalSeconds"), PH_NOISY_CC);
 	ZEPHIR_INIT_VAR(_1);
 	sub_function(_1, finalTime, initialTime TSRMLS_CC);
@@ -156,6 +166,7 @@ PHP_METHOD(Phalcon_Db_Profiler, stopProfile) {
 	zephir_update_property_array_append(this_ptr, SL("_allProfiles"), activeProfile TSRMLS_CC);
 	if ((zephir_method_exists_ex(this_ptr, SS("afterendprofile") TSRMLS_CC) == SUCCESS)) {
 		zephir_call_method_p1_noret(this_ptr, "afterendprofile", activeProfile);
+		zephir_check_call_status();
 	}
 	RETURN_THIS();
 

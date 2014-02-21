@@ -131,6 +131,7 @@ PHP_METHOD(Phalcon_Db_Index, __construct) {
  */
 PHP_METHOD(Phalcon_Db_Index, __set_state) {
 
+	int ZEPHIR_LAST_CALL_STATUS;
 	zval *data, *indexName, *columns;
 
 	ZEPHIR_MM_GROW();
@@ -150,6 +151,7 @@ PHP_METHOD(Phalcon_Db_Index, __set_state) {
 	}
 	object_init_ex(return_value, phalcon_db_index_ce);
 	zephir_call_method_p2_noret(return_value, "__construct", indexName, columns);
+	zephir_check_call_status();
 	RETURN_MM();
 
 }

@@ -393,6 +393,7 @@ PHP_METHOD(Phalcon_Assets_Resource, getTargetPath) {
  */
 PHP_METHOD(Phalcon_Assets_Resource, getContent) {
 
+	int ZEPHIR_LAST_CALL_STATUS;
 	zval *basePath_param = NULL, *sourcePath = NULL, *completePath, *content, *_0, *_1 = NULL, *_2 = NULL;
 	zval *basePath = NULL;
 
@@ -423,6 +424,7 @@ PHP_METHOD(Phalcon_Assets_Resource, getContent) {
 			ZEPHIR_INIT_VAR(_2);
 			ZEPHIR_CONCAT_SVS(_2, "Resource's content for '", completePath, "' cannot be read");
 			zephir_call_method_p1_noret(_1, "__construct", _2);
+			zephir_check_call_status();
 			zephir_throw_exception(_1 TSRMLS_CC);
 			ZEPHIR_MM_RESTORE();
 			return;
@@ -436,6 +438,7 @@ PHP_METHOD(Phalcon_Assets_Resource, getContent) {
 		ZEPHIR_INIT_LNVAR(_2);
 		ZEPHIR_CONCAT_SVS(_2, "Resource's content for '", completePath, "' cannot be read");
 		zephir_call_method_p1_noret(_1, "__construct", _2);
+		zephir_check_call_status();
 		zephir_throw_exception(_1 TSRMLS_CC);
 		ZEPHIR_MM_RESTORE();
 		return;
@@ -473,6 +476,7 @@ PHP_METHOD(Phalcon_Assets_Resource, getRealTargetUri) {
  */
 PHP_METHOD(Phalcon_Assets_Resource, getRealSourcePath) {
 
+	int ZEPHIR_LAST_CALL_STATUS;
 	zval *basePath_param = NULL, *sourcePath = NULL, *_0, *_1;
 	zval *basePath = NULL;
 
@@ -498,6 +502,7 @@ PHP_METHOD(Phalcon_Assets_Resource, getRealSourcePath) {
 		ZEPHIR_INIT_VAR(_1);
 		ZEPHIR_CONCAT_VV(_1, basePath, sourcePath);
 		zephir_call_func_p1(return_value, "realpath", _1);
+		zephir_check_call_status();
 		RETURN_MM();
 	}
 	RETURN_CCTOR(sourcePath);
@@ -512,6 +517,7 @@ PHP_METHOD(Phalcon_Assets_Resource, getRealSourcePath) {
  */
 PHP_METHOD(Phalcon_Assets_Resource, getRealTargetPath) {
 
+	int ZEPHIR_LAST_CALL_STATUS;
 	zval *basePath_param = NULL, *targetPath = NULL, *completePath, *_0;
 	zval *basePath = NULL;
 
@@ -538,6 +544,7 @@ PHP_METHOD(Phalcon_Assets_Resource, getRealTargetPath) {
 		ZEPHIR_CONCAT_VV(completePath, basePath, targetPath);
 		if ((zephir_file_exists(completePath TSRMLS_CC) == SUCCESS)) {
 			zephir_call_func_p1(return_value, "realpath", completePath);
+			zephir_check_call_status();
 			RETURN_MM();
 		}
 		RETURN_CCTOR(completePath);

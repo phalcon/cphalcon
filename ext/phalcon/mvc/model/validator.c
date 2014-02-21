@@ -86,6 +86,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator, __construct) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_Validator, appendMessage) {
 
+	int ZEPHIR_LAST_CALL_STATUS;
 	zval *message_param = NULL, *field = NULL, *type = NULL, *_0, _1, _2, *_3;
 	zval *message = NULL;
 
@@ -126,6 +127,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator, appendMessage) {
 	ZEPHIR_INIT_VAR(_3);
 	object_init_ex(_3, phalcon_mvc_model_message_ce);
 	zephir_call_method_p3_noret(_3, "__construct", message, field, type);
+	zephir_check_call_status();
 	zephir_update_property_array_append(this_ptr, SL("_messages"), _3 TSRMLS_CC);
 	ZEPHIR_MM_RESTORE();
 

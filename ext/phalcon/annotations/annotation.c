@@ -79,6 +79,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Annotations_Annotation) {
 PHP_METHOD(Phalcon_Annotations_Annotation, __construct) {
 
 	zend_function *_5 = NULL;
+	int ZEPHIR_LAST_CALL_STATUS;
 	HashTable *_2;
 	HashPosition _1;
 	zval *reflectionData, *name, *exprArguments, *argument = NULL, *resolvedArgument = NULL, *arguments = NULL, *_0, **_3, *_4;
@@ -105,6 +106,7 @@ PHP_METHOD(Phalcon_Annotations_Annotation, __construct) {
 			zephir_array_fetch_string(&_4, argument, SL("expr"), PH_NOISY | PH_READONLY TSRMLS_CC);
 			ZEPHIR_INIT_NVAR(resolvedArgument);
 			zephir_call_method_p1_cache(resolvedArgument, this_ptr, "getexpression", &_5, _4);
+			zephir_check_call_status();
 			if (zephir_array_isset_string_fetch(&name, argument, SS("name"), 1 TSRMLS_CC)) {
 				ZEPHIR_OBS_NVAR(arguments);
 				zephir_array_fetch(&arguments, name, resolvedArgument, PH_NOISY TSRMLS_CC);
@@ -139,6 +141,7 @@ PHP_METHOD(Phalcon_Annotations_Annotation, getName) {
  */
 PHP_METHOD(Phalcon_Annotations_Annotation, getExpression) {
 
+	int ZEPHIR_LAST_CALL_STATUS;
 	HashTable *_2;
 	HashPosition _1;
 	zval *expr, *value = NULL, *item = NULL, *resolvedItem = NULL, *arrayValue = NULL, *name = NULL, *type, *_0, **_3, *_4, *_5, *_6;
@@ -188,6 +191,7 @@ PHP_METHOD(Phalcon_Annotations_Annotation, getExpression) {
 				zephir_array_fetch_string(&_4, item, SL("expr"), PH_NOISY | PH_READONLY TSRMLS_CC);
 				ZEPHIR_INIT_NVAR(resolvedItem);
 				zephir_call_internal_method_p1(resolvedItem, this_ptr, "getexpression", ZEND_MN(Phalcon_Annotations_Annotation_getExpression), _4);
+				zephir_check_call_status();
 				ZEPHIR_OBS_NVAR(name);
 				if (zephir_array_isset_string_fetch(&name, item, SS("name"), 0 TSRMLS_CC)) {
 					ZEPHIR_OBS_NVAR(arrayValue);
@@ -201,6 +205,7 @@ PHP_METHOD(Phalcon_Annotations_Annotation, getExpression) {
 		if (ZEPHIR_IS_LONG(type, 300)) {
 			object_init_ex(return_value, phalcon_annotations_annotation_ce);
 			zephir_call_method_p1_noret(return_value, "__construct", expr);
+			zephir_check_call_status();
 			RETURN_MM();
 		}
 		ZEPHIR_INIT_VAR(_5);
@@ -208,6 +213,7 @@ PHP_METHOD(Phalcon_Annotations_Annotation, getExpression) {
 		ZEPHIR_INIT_VAR(_6);
 		ZEPHIR_CONCAT_SVS(_6, "The expression ", type, " is unknown");
 		zephir_call_method_p1_noret(_5, "__construct", _6);
+		zephir_check_call_status();
 		zephir_throw_exception(_5 TSRMLS_CC);
 		ZEPHIR_MM_RESTORE();
 		return;
@@ -343,6 +349,7 @@ PHP_METHOD(Phalcon_Annotations_Annotation, getNamedArgument) {
  */
 PHP_METHOD(Phalcon_Annotations_Annotation, getNamedParameter) {
 
+	int ZEPHIR_LAST_CALL_STATUS;
 	zval *name_param = NULL;
 	zval *name = NULL;
 
@@ -363,6 +370,7 @@ PHP_METHOD(Phalcon_Annotations_Annotation, getNamedParameter) {
 
 
 	zephir_call_method_p1(return_value, this_ptr, "getnamedargument", name);
+	zephir_check_call_status();
 	RETURN_MM();
 
 }
