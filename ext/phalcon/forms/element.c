@@ -294,7 +294,7 @@ PHP_METHOD(Phalcon_Forms_Element, addValidator) {
 
 
 
-	if (!(zephir_is_instance_of(validator, SL("Phalcon\\Validation\\ValidatorInterface") TSRMLS_CC))) {
+	if (!(zephir_instance_of_ev(validator, phalcon_validation_validatorinterface_ce TSRMLS_CC))) {
 		ZEPHIR_THROW_EXCEPTION_STRW(spl_ce_InvalidArgumentException, "Parameter 'validator' must be an instance of 'Phalcon\\Validation\\ValidatorInterface'");
 		return;
 	}

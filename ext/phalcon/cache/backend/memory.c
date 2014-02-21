@@ -188,7 +188,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Memory, save) {
  */
 PHP_METHOD(Phalcon_Cache_Backend_Memory, delete) {
 
-	zval *keyName, *key, *_0, *_1, *_2, *_3, *_4;
+	zval *keyName, *key, *_0, *_1, *_2;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &keyName);
@@ -201,9 +201,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Memory, delete) {
 	_1 = zephir_fetch_nproperty_this(this_ptr, SL("_data"), PH_NOISY_CC);
 	if (zephir_array_isset(_1, key)) {
 		_2 = zephir_fetch_nproperty_this(this_ptr, SL("_data"), PH_NOISY_CC);
-		_3 = zephir_fetch_nproperty_this(this_ptr, SL("_data"), PH_NOISY_CC);
-		zephir_array_fetch(&_4, _3, key, PH_NOISY | PH_READONLY TSRMLS_CC);
-		zephir_array_unset(&_2, _4, PH_SEPARATE);
+		zephir_array_unset(&_2, key, PH_SEPARATE);
 		RETURN_MM_BOOL(1);
 	}
 	RETURN_MM_BOOL(0);

@@ -108,14 +108,14 @@ PHP_METHOD(Phalcon_Mvc_Micro, __construct) {
 
 	_0 = (Z_TYPE_P(dependencyInjector) != IS_NULL);
 	if (_0) {
-		_0 = !zephir_is_instance_of(dependencyInjector, SL("Phalcon\\DiInterface") TSRMLS_CC);
+		_0 = !zephir_instance_of_ev(dependencyInjector, phalcon_diinterface_ce TSRMLS_CC);
 	}
 	if (_0) {
 		ZEPHIR_THROW_EXCEPTION_STR(spl_ce_InvalidArgumentException, "Parameter 'dependencyInjector' must be an instance of 'Phalcon\\DiInterface'");
 		return;
 	}
 	if ((Z_TYPE_P(dependencyInjector) == IS_OBJECT)) {
-		if (zephir_is_instance_of(dependencyInjector, SL("Phalcon\\DiInterface") TSRMLS_CC)) {
+		if (zephir_instance_of_ev(dependencyInjector, phalcon_diinterface_ce TSRMLS_CC)) {
 			zephir_call_method_p1_noret(this_ptr, "setdi", dependencyInjector);
 			zephir_check_call_status();
 		}
@@ -139,7 +139,7 @@ PHP_METHOD(Phalcon_Mvc_Micro, setDI) {
 
 
 
-	if (!(zephir_is_instance_of(dependencyInjector, SL("Phalcon\\DiInterface") TSRMLS_CC))) {
+	if (!(zephir_instance_of_ev(dependencyInjector, phalcon_diinterface_ce TSRMLS_CC))) {
 		ZEPHIR_THROW_EXCEPTION_STR(spl_ce_InvalidArgumentException, "Parameter 'dependencyInjector' must be an instance of 'Phalcon\\DiInterface'");
 		return;
 	}
@@ -824,7 +824,7 @@ PHP_METHOD(Phalcon_Mvc_Micro, handle) {
 			) {
 				ZEPHIR_GET_HVALUE(before, _6);
 				if ((Z_TYPE_P(before) == IS_OBJECT)) {
-					if (zephir_is_instance_of(before, SL("Phalcon\\Mvc\\Micro\\MiddlewareInterface") TSRMLS_CC)) {
+					if (zephir_instance_of_ev(before, phalcon_mvc_micro_middlewareinterface_ce TSRMLS_CC)) {
 						ZEPHIR_INIT_NVAR(status);
 						zephir_call_method_p1(status, before, "call", this_ptr);
 						zephir_check_call_status();
@@ -873,7 +873,7 @@ PHP_METHOD(Phalcon_Mvc_Micro, handle) {
 			) {
 				ZEPHIR_GET_HVALUE(after, _11);
 				if ((Z_TYPE_P(after) == IS_OBJECT)) {
-					if (zephir_is_instance_of(after, SL("Phalcon\\Mvc\\Micro\\MiddlewareInterface") TSRMLS_CC)) {
+					if (zephir_instance_of_ev(after, phalcon_mvc_micro_middlewareinterface_ce TSRMLS_CC)) {
 						ZEPHIR_INIT_NVAR(status);
 						zephir_call_method_p1(status, after, "call", this_ptr);
 						zephir_check_call_status();
@@ -936,7 +936,7 @@ PHP_METHOD(Phalcon_Mvc_Micro, handle) {
 		) {
 			ZEPHIR_GET_HVALUE(finish, _15);
 			if ((Z_TYPE_P(finish) == IS_OBJECT)) {
-				if (zephir_is_instance_of(finish, SL("Phalcon\\Mvc\\Micro\\MiddlewareInterface") TSRMLS_CC)) {
+				if (zephir_instance_of_ev(finish, phalcon_mvc_micro_middlewareinterface_ce TSRMLS_CC)) {
 					ZEPHIR_INIT_NVAR(status);
 					zephir_call_method_p1(status, finish, "call", this_ptr);
 					zephir_check_call_status();
@@ -965,7 +965,7 @@ PHP_METHOD(Phalcon_Mvc_Micro, handle) {
 		}
 	}
 	if ((Z_TYPE_P(returnedValue) == IS_OBJECT)) {
-		if (zephir_is_instance_of(returnedValue, SL("Phalcon\\Http\\ResponseInterface") TSRMLS_CC)) {
+		if (zephir_instance_of_ev(returnedValue, phalcon_http_responseinterface_ce TSRMLS_CC)) {
 			zephir_call_method_noret(returnedValue, "send");
 			zephir_check_call_status();
 		}

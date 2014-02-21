@@ -113,7 +113,7 @@ PHP_METHOD(Phalcon_Db_Result_Pdo, __construct) {
 	}
 
 
-	if (!(zephir_is_instance_of(connection, SL("Phalcon\\Db\\AdapterInterface") TSRMLS_CC))) {
+	if (!(zephir_instance_of_ev(connection, phalcon_db_adapterinterface_ce TSRMLS_CC))) {
 		ZEPHIR_THROW_EXCEPTION_STRW(spl_ce_InvalidArgumentException, "Parameter 'connection' must be an instance of 'Phalcon\\Db\\AdapterInterface'");
 		return;
 	}

@@ -120,7 +120,7 @@ PHP_METHOD(Phalcon_Mvc_Application, __construct) {
 
 	_0 = (Z_TYPE_P(dependencyInjector) != IS_NULL);
 	if (_0) {
-		_0 = !zephir_is_instance_of(dependencyInjector, SL("Phalcon\\DiInterface") TSRMLS_CC);
+		_0 = !zephir_instance_of_ev(dependencyInjector, phalcon_diinterface_ce TSRMLS_CC);
 	}
 	if (_0) {
 		ZEPHIR_THROW_EXCEPTION_STRW(spl_ce_InvalidArgumentException, "Parameter 'dependencyInjector' must be an instance of 'Phalcon\\DiInterface'");
@@ -468,7 +468,7 @@ PHP_METHOD(Phalcon_Mvc_Application, handle) {
 	zephir_call_method(possibleResponse, dispatcher, "getreturnedvalue");
 	zephir_check_call_status();
 	if ((Z_TYPE_P(possibleResponse) == IS_OBJECT)) {
-		returnedResponse = zephir_is_instance_of(possibleResponse, SL("Phalcon\\Http\\ResponseInterface") TSRMLS_CC);
+		returnedResponse = zephir_instance_of_ev(possibleResponse, phalcon_http_responseinterface_ce TSRMLS_CC);
 	} else {
 		returnedResponse = 0;
 	}

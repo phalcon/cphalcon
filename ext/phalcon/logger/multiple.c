@@ -81,7 +81,7 @@ PHP_METHOD(Phalcon_Logger_Multiple, push) {
 
 
 
-	if (!(zephir_is_instance_of(logger, SL("Phalcon\\Logger\\AdapterInterface") TSRMLS_CC))) {
+	if (!(zephir_instance_of_ev(logger, phalcon_logger_adapterinterface_ce TSRMLS_CC))) {
 		ZEPHIR_THROW_EXCEPTION_STRW(spl_ce_InvalidArgumentException, "Parameter 'logger' must be an instance of 'Phalcon\\Logger\\AdapterInterface'");
 		return;
 	}
@@ -110,7 +110,7 @@ PHP_METHOD(Phalcon_Logger_Multiple, setFormatter) {
 
 
 
-	if (!(zephir_is_instance_of(formatter, SL("Phalcon\\Logger\\FormatterInterface") TSRMLS_CC))) {
+	if (!(zephir_instance_of_ev(formatter, phalcon_logger_formatterinterface_ce TSRMLS_CC))) {
 		ZEPHIR_THROW_EXCEPTION_STR(spl_ce_InvalidArgumentException, "Parameter 'formatter' must be an instance of 'Phalcon\\Logger\\FormatterInterface'");
 		return;
 	}

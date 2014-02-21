@@ -154,7 +154,7 @@ PHP_METHOD(Phalcon_Mvc_Model, __construct) {
 
 	_0 = (Z_TYPE_P(dependencyInjector) != IS_NULL);
 	if (_0) {
-		_0 = !zephir_is_instance_of(dependencyInjector, SL("Phalcon\\DiInterface") TSRMLS_CC);
+		_0 = !zephir_instance_of_ev(dependencyInjector, phalcon_diinterface_ce TSRMLS_CC);
 	}
 	if (_0) {
 		ZEPHIR_THROW_EXCEPTION_STR(spl_ce_InvalidArgumentException, "Parameter 'dependencyInjector' must be an instance of 'Phalcon\\DiInterface'");
@@ -162,7 +162,7 @@ PHP_METHOD(Phalcon_Mvc_Model, __construct) {
 	}
 	_1 = (Z_TYPE_P(modelsManager) != IS_NULL);
 	if (_1) {
-		_1 = !zephir_is_instance_of(modelsManager, SL("Phalcon\\Mvc\\Model\\ManagerInterface") TSRMLS_CC);
+		_1 = !zephir_instance_of_ev(modelsManager, phalcon_mvc_model_managerinterface_ce TSRMLS_CC);
 	}
 	if (_1) {
 		ZEPHIR_THROW_EXCEPTION_STR(spl_ce_InvalidArgumentException, "Parameter 'modelsManager' must be an instance of 'Phalcon\\Mvc\\Model\\ManagerInterface'");
@@ -214,7 +214,7 @@ PHP_METHOD(Phalcon_Mvc_Model, setDI) {
 
 
 
-	if (!(zephir_is_instance_of(dependencyInjector, SL("Phalcon\\DiInterface") TSRMLS_CC))) {
+	if (!(zephir_instance_of_ev(dependencyInjector, phalcon_diinterface_ce TSRMLS_CC))) {
 		ZEPHIR_THROW_EXCEPTION_STRW(spl_ce_InvalidArgumentException, "Parameter 'dependencyInjector' must be an instance of 'Phalcon\\DiInterface'");
 		return;
 	}
@@ -249,7 +249,7 @@ PHP_METHOD(Phalcon_Mvc_Model, setEventsManager) {
 
 
 
-	if (!(zephir_is_instance_of(eventsManager, SL("Phalcon\\Events\\ManagerInterface") TSRMLS_CC))) {
+	if (!(zephir_instance_of_ev(eventsManager, phalcon_events_managerinterface_ce TSRMLS_CC))) {
 		ZEPHIR_THROW_EXCEPTION_STR(spl_ce_InvalidArgumentException, "Parameter 'eventsManager' must be an instance of 'Phalcon\\Events\\ManagerInterface'");
 		return;
 	}
@@ -375,7 +375,7 @@ PHP_METHOD(Phalcon_Mvc_Model, setTransaction) {
 
 
 
-	if (!(zephir_is_instance_of(transaction, SL("Phalcon\\Mvc\\Model\\TransactionInterface") TSRMLS_CC))) {
+	if (!(zephir_instance_of_ev(transaction, phalcon_mvc_model_transactioninterface_ce TSRMLS_CC))) {
 		ZEPHIR_THROW_EXCEPTION_STRW(spl_ce_InvalidArgumentException, "Parameter 'transaction' must be an instance of 'Phalcon\\Mvc\\Model\\TransactionInterface'");
 		return;
 	}
@@ -826,7 +826,7 @@ PHP_METHOD(Phalcon_Mvc_Model, cloneResultMap) {
 	}
 
 
-	if (!(zephir_is_instance_of(base, SL("Phalcon\\Mvc\\ModelInterface") TSRMLS_CC))) {
+	if (!(zephir_instance_of_ev(base, phalcon_mvc_modelinterface_ce TSRMLS_CC))) {
 		ZEPHIR_THROW_EXCEPTION_STR(spl_ce_InvalidArgumentException, "Parameter 'base' must be an instance of 'Phalcon\\Mvc\\ModelInterface'");
 		return;
 	}
@@ -991,7 +991,7 @@ PHP_METHOD(Phalcon_Mvc_Model, cloneResult) {
 	}
 
 
-	if (!(zephir_is_instance_of(base, SL("Phalcon\\Mvc\\ModelInterface") TSRMLS_CC))) {
+	if (!(zephir_instance_of_ev(base, phalcon_mvc_modelinterface_ce TSRMLS_CC))) {
 		ZEPHIR_THROW_EXCEPTION_STR(spl_ce_InvalidArgumentException, "Parameter 'base' must be an instance of 'Phalcon\\Mvc\\ModelInterface'");
 		return;
 	}
@@ -1223,7 +1223,7 @@ PHP_METHOD(Phalcon_Mvc_Model, query) {
 
 	_0 = (Z_TYPE_P(dependencyInjector) != IS_NULL);
 	if (_0) {
-		_0 = !zephir_is_instance_of(dependencyInjector, SL("Phalcon\\DiInterface") TSRMLS_CC);
+		_0 = !zephir_instance_of_ev(dependencyInjector, phalcon_diinterface_ce TSRMLS_CC);
 	}
 	if (_0) {
 		ZEPHIR_THROW_EXCEPTION_STR(spl_ce_InvalidArgumentException, "Parameter 'dependencyInjector' must be an instance of 'Phalcon\\DiInterface'");
@@ -1277,11 +1277,11 @@ PHP_METHOD(Phalcon_Mvc_Model, _exists) {
 	}
 
 
-	if (!(zephir_is_instance_of(metaData, SL("Phalcon\\Mvc\\Model\\MetadataInterface") TSRMLS_CC))) {
+	if (!(zephir_instance_of_ev(metaData, phalcon_mvc_model_metadatainterface_ce TSRMLS_CC))) {
 		ZEPHIR_THROW_EXCEPTION_STR(spl_ce_InvalidArgumentException, "Parameter 'metaData' must be an instance of 'Phalcon\\Mvc\\Model\\MetadataInterface'");
 		return;
 	}
-	if (!(zephir_is_instance_of(connection, SL("Phalcon\\Db\\AdapterInterface") TSRMLS_CC))) {
+	if (!(zephir_instance_of_ev(connection, phalcon_db_adapterinterface_ce TSRMLS_CC))) {
 		ZEPHIR_THROW_EXCEPTION_STR(spl_ce_InvalidArgumentException, "Parameter 'connection' must be an instance of 'Phalcon\\Db\\AdapterInterface'");
 		return;
 	}
@@ -1893,7 +1893,7 @@ PHP_METHOD(Phalcon_Mvc_Model, appendMessage) {
 
 
 
-	if (!(zephir_is_instance_of(message, SL("Phalcon\\Mvc\\Model\\MessageInterface") TSRMLS_CC))) {
+	if (!(zephir_instance_of_ev(message, phalcon_mvc_model_messageinterface_ce TSRMLS_CC))) {
 		ZEPHIR_THROW_EXCEPTION_STRW(spl_ce_InvalidArgumentException, "Parameter 'message' must be an instance of 'Phalcon\\Mvc\\Model\\MessageInterface'");
 		return;
 	}
@@ -2420,7 +2420,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _preSave) {
 	exists = zephir_get_boolval(exists_param);
 
 
-	if (!(zephir_is_instance_of(metaData, SL("Phalcon\\Mvc\\Model\\MetadataInterface") TSRMLS_CC))) {
+	if (!(zephir_instance_of_ev(metaData, phalcon_mvc_model_metadatainterface_ce TSRMLS_CC))) {
 		ZEPHIR_THROW_EXCEPTION_STR(spl_ce_InvalidArgumentException, "Parameter 'metaData' must be an instance of 'Phalcon\\Mvc\\Model\\MetadataInterface'");
 		return;
 	}
@@ -2707,11 +2707,11 @@ PHP_METHOD(Phalcon_Mvc_Model, _doLowInsert) {
 
 
 
-	if (!(zephir_is_instance_of(metaData, SL("Phalcon\\Mvc\\Model\\MetadataInterface") TSRMLS_CC))) {
+	if (!(zephir_instance_of_ev(metaData, phalcon_mvc_model_metadatainterface_ce TSRMLS_CC))) {
 		ZEPHIR_THROW_EXCEPTION_STR(spl_ce_InvalidArgumentException, "Parameter 'metaData' must be an instance of 'Phalcon\\Mvc\\Model\\MetadataInterface'");
 		return;
 	}
-	if (!(zephir_is_instance_of(connection, SL("Phalcon\\Db\\AdapterInterface") TSRMLS_CC))) {
+	if (!(zephir_instance_of_ev(connection, phalcon_db_adapterinterface_ce TSRMLS_CC))) {
 		ZEPHIR_THROW_EXCEPTION_STR(spl_ce_InvalidArgumentException, "Parameter 'connection' must be an instance of 'Phalcon\\Db\\AdapterInterface'");
 		return;
 	}
@@ -2905,11 +2905,11 @@ PHP_METHOD(Phalcon_Mvc_Model, _doLowUpdate) {
 
 
 
-	if (!(zephir_is_instance_of(metaData, SL("Phalcon\\Mvc\\Model\\MetaDataInterface") TSRMLS_CC))) {
+	if (!(zephir_instance_of_ev(metaData, phalcon_mvc_model_metadatainterface_ce TSRMLS_CC))) {
 		ZEPHIR_THROW_EXCEPTION_STR(spl_ce_InvalidArgumentException, "Parameter 'metaData' must be an instance of 'Phalcon\\Mvc\\Model\\MetaDataInterface'");
 		return;
 	}
-	if (!(zephir_is_instance_of(connection, SL("Phalcon\\Db\\AdapterInterface") TSRMLS_CC))) {
+	if (!(zephir_instance_of_ev(connection, phalcon_db_adapterinterface_ce TSRMLS_CC))) {
 		ZEPHIR_THROW_EXCEPTION_STR(spl_ce_InvalidArgumentException, "Parameter 'connection' must be an instance of 'Phalcon\\Db\\AdapterInterface'");
 		return;
 	}
@@ -3092,7 +3092,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _preSaveRelatedRecords) {
 
 
 
-	if (!(zephir_is_instance_of(connection, SL("Phalcon\\Db\\AdapterInterface") TSRMLS_CC))) {
+	if (!(zephir_instance_of_ev(connection, phalcon_db_adapterinterface_ce TSRMLS_CC))) {
 		ZEPHIR_THROW_EXCEPTION_STR(spl_ce_InvalidArgumentException, "Parameter 'connection' must be an instance of 'Phalcon\\Db\\AdapterInterface'");
 		return;
 	}
@@ -3196,7 +3196,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _postSaveRelatedRecords) {
 
 
 
-	if (!(zephir_is_instance_of(connection, SL("Phalcon\\Db\\AdapterInterface") TSRMLS_CC))) {
+	if (!(zephir_instance_of_ev(connection, phalcon_db_adapterinterface_ce TSRMLS_CC))) {
 		ZEPHIR_THROW_EXCEPTION_STR(spl_ce_InvalidArgumentException, "Parameter 'connection' must be an instance of 'Phalcon\\Db\\AdapterInterface'");
 		return;
 	}
@@ -4647,7 +4647,7 @@ PHP_METHOD(Phalcon_Mvc_Model, addBehavior) {
 
 
 
-	if (!(zephir_is_instance_of(behavior, SL("Phalcon\\Mvc\\Model\\BehaviorInterface") TSRMLS_CC))) {
+	if (!(zephir_instance_of_ev(behavior, phalcon_mvc_model_behaviorinterface_ce TSRMLS_CC))) {
 		ZEPHIR_THROW_EXCEPTION_STR(spl_ce_InvalidArgumentException, "Parameter 'behavior' must be an instance of 'Phalcon\\Mvc\\Model\\BehaviorInterface'");
 		return;
 	}
@@ -5329,7 +5329,7 @@ PHP_METHOD(Phalcon_Mvc_Model, __set) {
 
 
 	if ((Z_TYPE_P(value) == IS_OBJECT)) {
-		if (zephir_is_instance_of(value, SL("Phalcon\\Mvc\\ModelInterface") TSRMLS_CC)) {
+		if (zephir_instance_of_ev(value, phalcon_mvc_modelinterface_ce TSRMLS_CC)) {
 			ZEPHIR_INIT_VAR(lowerProperty);
 			zephir_fast_strtolower(lowerProperty, property);
 			zephir_update_property_zval_zval(this_ptr, lowerProperty, value TSRMLS_CC);
@@ -5410,7 +5410,7 @@ PHP_METHOD(Phalcon_Mvc_Model, __get) {
 		ZEPHIR_CALL_USER_FUNC_ARRAY(result, _0, _2);
 		if ((Z_TYPE_P(result) == IS_OBJECT)) {
 			zephir_update_property_zval_zval(this_ptr, lowerProperty, result TSRMLS_CC);
-			if (zephir_is_instance_of(result, SL("Phalcon\\Mvc\\ModelInterface") TSRMLS_CC)) {
+			if (zephir_instance_of_ev(result, phalcon_mvc_modelinterface_ce TSRMLS_CC)) {
 				zephir_update_property_array(this_ptr, SL("_related"), lowerProperty, result TSRMLS_CC);
 			}
 		}

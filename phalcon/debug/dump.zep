@@ -59,9 +59,9 @@ class Dump
 	 */
 	public function vars()
 	{
-		var key, value, vars, output;
-		let output = "";
+		var key, value, output;
 
+		let output = "";
 		for key, value in func_get_args() {
 			let output .= this->dump(value, "var " . key);
 		}

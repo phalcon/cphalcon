@@ -453,7 +453,7 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, dropResourceAccess) {
 
 	HashTable *_1;
 	HashPosition _0;
-	zval *resourceName, *accessList, *accessName = NULL, *accessKey = NULL, **_2, *_3, *_4, *_5;
+	zval *resourceName, *accessList, *accessName = NULL, *accessKey = NULL, **_2, *_3;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &resourceName, &accessList);
@@ -471,9 +471,7 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, dropResourceAccess) {
 			ZEPHIR_CONCAT_VSV(accessKey, resourceName, "!", accessName);
 			if (zephir_array_isset(accessList, accessKey)) {
 				_3 = zephir_fetch_nproperty_this(this_ptr, SL("_accessList"), PH_NOISY_CC);
-				_4 = zephir_fetch_nproperty_this(this_ptr, SL("_accessList"), PH_NOISY_CC);
-				zephir_array_fetch(&_5, _4, accessKey, PH_NOISY | PH_READONLY TSRMLS_CC);
-				zephir_array_unset(&_3, _5, PH_SEPARATE);
+				zephir_array_unset(&_3, accessKey, PH_SEPARATE);
 			}
 		}
 	} else {
@@ -482,9 +480,7 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, dropResourceAccess) {
 			ZEPHIR_CONCAT_VSV(accessKey, resourceName, "!", accessName);
 			if (zephir_array_isset(accessList, accessKey)) {
 				_3 = zephir_fetch_nproperty_this(this_ptr, SL("_accessList"), PH_NOISY_CC);
-				_4 = zephir_fetch_nproperty_this(this_ptr, SL("_accessList"), PH_NOISY_CC);
-				zephir_array_fetch(&_5, _4, accessKey, PH_NOISY | PH_READONLY TSRMLS_CC);
-				zephir_array_unset(&_3, _5, PH_SEPARATE);
+				zephir_array_unset(&_3, accessKey, PH_SEPARATE);
 			}
 		}
 	}

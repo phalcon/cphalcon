@@ -78,13 +78,13 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Complex, __construct) {
 	}
 
 
-	if (!(zephir_is_instance_of(result, SL("Phalcon\\Db\\ResultInterface") TSRMLS_CC))) {
+	if (!(zephir_instance_of_ev(result, phalcon_db_resultinterface_ce TSRMLS_CC))) {
 		ZEPHIR_THROW_EXCEPTION_STR(spl_ce_InvalidArgumentException, "Parameter 'result' must be an instance of 'Phalcon\\Db\\ResultInterface'");
 		return;
 	}
 	_0 = (Z_TYPE_P(cache) != IS_NULL);
 	if (_0) {
-		_0 = !zephir_is_instance_of(cache, SL("Phalcon\\Cache\\BackendInterface") TSRMLS_CC);
+		_0 = !zephir_instance_of_ev(cache, phalcon_cache_backendinterface_ce TSRMLS_CC);
 	}
 	if (_0) {
 		ZEPHIR_THROW_EXCEPTION_STR(spl_ce_InvalidArgumentException, "Parameter 'cache' must be an instance of 'Phalcon\\Cache\\BackendInterface'");

@@ -101,7 +101,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Memcache, __construct) {
 	}
 
 
-	if (!(zephir_is_instance_of(frontend, SL("Phalcon\\Cache\\FrontendInterface") TSRMLS_CC))) {
+	if (!(zephir_instance_of_ev(frontend, phalcon_cache_frontendinterface_ce TSRMLS_CC))) {
 		ZEPHIR_THROW_EXCEPTION_STR(spl_ce_InvalidArgumentException, "Parameter 'frontend' must be an instance of 'Phalcon\\Cache\\FrontendInterface'");
 		return;
 	}
@@ -374,7 +374,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Memcache, save) {
 PHP_METHOD(Phalcon_Cache_Backend_Memcache, delete) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
-	zval *keyName, *memcache = NULL, *prefix, *prefixedKey, *options, *keys, *specialKey, *_0;
+	zval *keyName, *memcache = NULL, *prefix, *prefixedKey, *options, *keys, *specialKey;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &keyName);
@@ -405,8 +405,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Memcache, delete) {
 	zephir_call_method_p1(keys, memcache, "get", specialKey);
 	zephir_check_call_status();
 	if ((Z_TYPE_P(keys) == IS_ARRAY)) {
-		zephir_array_fetch(&_0, keys, prefixedKey, PH_NOISY | PH_READONLY TSRMLS_CC);
-		zephir_array_unset(&keys, _0, PH_SEPARATE);
+		zephir_array_unset(&keys, prefixedKey, PH_SEPARATE);
 		zephir_call_method_p2_noret(memcache, "set", specialKey, keys);
 		zephir_check_call_status();
 	}

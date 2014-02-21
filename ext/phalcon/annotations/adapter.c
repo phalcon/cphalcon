@@ -68,7 +68,7 @@ PHP_METHOD(Phalcon_Annotations_Adapter, setReader) {
 
 
 
-	if (!(zephir_is_instance_of(reader, SL("Phalcon\\Annotations\\ReaderInterface") TSRMLS_CC))) {
+	if (!(zephir_instance_of_ev(reader, phalcon_annotations_readerinterface_ce TSRMLS_CC))) {
 		ZEPHIR_THROW_EXCEPTION_STRW(spl_ce_InvalidArgumentException, "Parameter 'reader' must be an instance of 'Phalcon\\Annotations\\ReaderInterface'");
 		return;
 	}

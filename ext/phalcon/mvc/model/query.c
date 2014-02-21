@@ -139,7 +139,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, setDI) {
 
 
 
-	if (!(zephir_is_instance_of(dependencyInjector, SL("Phalcon\\DiInterface") TSRMLS_CC))) {
+	if (!(zephir_instance_of_ev(dependencyInjector, phalcon_diinterface_ce TSRMLS_CC))) {
 		ZEPHIR_THROW_EXCEPTION_STR(spl_ce_InvalidArgumentException, "Parameter 'dependencyInjector' must be an instance of 'Phalcon\\DiInterface'");
 		return;
 	}
@@ -1078,7 +1078,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getTable) {
 
 
 
-	if (!(zephir_is_instance_of(manager, SL("Phalcon\\Mvc\\Model\\ManagerInterface") TSRMLS_CC))) {
+	if (!(zephir_instance_of_ev(manager, phalcon_mvc_model_managerinterface_ce TSRMLS_CC))) {
 		ZEPHIR_THROW_EXCEPTION_STR(spl_ce_InvalidArgumentException, "Parameter 'manager' must be an instance of 'Phalcon\\Mvc\\Model\\ManagerInterface'");
 		return;
 	}
@@ -1123,7 +1123,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getJoin) {
 
 
 
-	if (!(zephir_is_instance_of(manager, SL("Phalcon\\Mvc\\Model\\ManagerInterface") TSRMLS_CC))) {
+	if (!(zephir_instance_of_ev(manager, phalcon_mvc_model_managerinterface_ce TSRMLS_CC))) {
 		ZEPHIR_THROW_EXCEPTION_STR(spl_ce_InvalidArgumentException, "Parameter 'manager' must be an instance of 'Phalcon\\Mvc\\Model\\ManagerInterface'");
 		return;
 	}
@@ -1243,7 +1243,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getSingleJoin) {
 	}
 
 
-	if (!(zephir_is_instance_of(relation, SL("Phalcon\\Mvc\\Model\\RelationInterface") TSRMLS_CC))) {
+	if (!(zephir_instance_of_ev(relation, phalcon_mvc_model_relationinterface_ce TSRMLS_CC))) {
 		ZEPHIR_THROW_EXCEPTION_STR(spl_ce_InvalidArgumentException, "Parameter 'relation' must be an instance of 'Phalcon\\Mvc\\Model\\RelationInterface'");
 		return;
 	}
@@ -1356,7 +1356,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getMultiJoin) {
 
 
 
-	if (!(zephir_is_instance_of(relation, SL("Phalcon\\Mvc\\Model\\RelationInterface") TSRMLS_CC))) {
+	if (!(zephir_instance_of_ev(relation, phalcon_mvc_model_relationinterface_ce TSRMLS_CC))) {
 		ZEPHIR_THROW_EXCEPTION_STR(spl_ce_InvalidArgumentException, "Parameter 'relation' must be an instance of 'Phalcon\\Mvc\\Model\\RelationInterface'");
 		return;
 	}
@@ -3128,11 +3128,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _executeInsert) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_Query, _executeUpdate) {
 
-	zend_function *_13 = NULL, *_14 = NULL, *_19 = NULL;
-	HashTable *_3, *_16;
-	HashPosition _2, _15;
+	zend_function *_11 = NULL, *_12 = NULL, *_17 = NULL;
+	HashTable *_3, *_14;
+	HashPosition _2, _13;
 	int ZEPHIR_LAST_CALL_STATUS;
-	zval *intermediate, *bindParams, *bindTypes, *models, *modelName, *model, *connection, *dialect, *fields, *values, *updateValues, *fieldName = NULL, *value = NULL, *selectBindParams = NULL, *selectBindTypes = NULL, *number = NULL, *field = NULL, *records, *exprValue = NULL, *updateValue = NULL, *wildcard = NULL, *record = NULL, *_0, *_1, **_4, *_5, *_6 = NULL, _7 = zval_used_for_init, _8 = zval_used_for_init, *_9, *_10, *_11 = NULL, *_12 = NULL, **_17, *_18 = NULL;
+	zval *intermediate, *bindParams, *bindTypes, *models, *modelName, *model, *connection, *dialect, *fields, *values, *updateValues, *fieldName = NULL, *value = NULL, *selectBindParams = NULL, *selectBindTypes = NULL, *number = NULL, *field = NULL, *records, *exprValue = NULL, *updateValue = NULL, *wildcard = NULL, *record = NULL, *_0, *_1, **_4, *_5, *_6 = NULL, _7 = zval_used_for_init, _8 = zval_used_for_init, *_9 = NULL, *_10 = NULL, **_15, *_16 = NULL;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 3, 0, &intermediate, &bindParams, &bindTypes);
@@ -3220,18 +3220,16 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _executeUpdate) {
 				zephir_fast_str_replace(wildcard, &_7, &_8, _6);
 				ZEPHIR_OBS_NVAR(updateValue);
 				if (zephir_array_isset_fetch(&updateValue, bindParams, wildcard, 0 TSRMLS_CC)) {
-					zephir_array_fetch(&_9, selectBindParams, wildcard, PH_NOISY | PH_READONLY TSRMLS_CC);
-					zephir_array_unset(&selectBindParams, _9, PH_SEPARATE);
-					zephir_array_fetch(&_10, selectBindTypes, wildcard, PH_NOISY | PH_READONLY TSRMLS_CC);
-					zephir_array_unset(&selectBindTypes, _10, PH_SEPARATE);
+					zephir_array_unset(&selectBindParams, wildcard, PH_SEPARATE);
+					zephir_array_unset(&selectBindTypes, wildcard, PH_SEPARATE);
 				} else {
-					ZEPHIR_INIT_LNVAR(_11);
-					object_init_ex(_11, phalcon_mvc_model_exception_ce);
-					ZEPHIR_INIT_LNVAR(_12);
-					ZEPHIR_CONCAT_SVS(_12, "Bound parameter '", wildcard, "' cannot be replaced because it's not in the placeholders list");
-					zephir_call_method_p1_cache_noret(_11, "__construct", &_13, _12);
+					ZEPHIR_INIT_LNVAR(_9);
+					object_init_ex(_9, phalcon_mvc_model_exception_ce);
+					ZEPHIR_INIT_LNVAR(_10);
+					ZEPHIR_CONCAT_SVS(_10, "Bound parameter '", wildcard, "' cannot be replaced because it's not in the placeholders list");
+					zephir_call_method_p1_cache_noret(_9, "__construct", &_11, _10);
 					zephir_check_call_status();
-					zephir_throw_exception(_11 TSRMLS_CC);
+					zephir_throw_exception(_9 TSRMLS_CC);
 					ZEPHIR_MM_RESTORE();
 					return;
 				}
@@ -3242,7 +3240,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _executeUpdate) {
 			ZEPHIR_INIT_NVAR(_6);
 			zephir_call_method_p1(_6, dialect, "getsqlexpression", exprValue);
 			zephir_check_call_status();
-			zephir_call_method_p1_cache_noret(updateValue, "__construct", &_14, _6);
+			zephir_call_method_p1_cache_noret(updateValue, "__construct", &_12, _6);
 			zephir_check_call_status();
 			break;
 		} while(0);
@@ -3275,20 +3273,20 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _executeUpdate) {
 	ZEPHIR_INIT_NVAR(_6);
 	zephir_call_func_p1(_6, "iterator", records);
 	zephir_check_call_status();
-	zephir_is_iterable(_6, &_16, &_15, 0, 0);
+	zephir_is_iterable(_6, &_14, &_13, 0, 0);
 	for (
-	  ; zephir_hash_get_current_data_ex(_16, (void**) &_17, &_15) == SUCCESS
-	  ; zephir_hash_move_forward_ex(_16, &_15)
+	  ; zephir_hash_get_current_data_ex(_14, (void**) &_15, &_13) == SUCCESS
+	  ; zephir_hash_move_forward_ex(_14, &_13)
 	) {
-		ZEPHIR_GET_HVALUE(record, _17);
-		ZEPHIR_INIT_NVAR(_18);
-		zephir_call_method_p1(_18, record, "update", updateValues);
+		ZEPHIR_GET_HVALUE(record, _15);
+		ZEPHIR_INIT_NVAR(_16);
+		zephir_call_method_p1(_16, record, "update", updateValues);
 		zephir_check_call_status();
-		if (!(zephir_is_true(_18))) {
+		if (!(zephir_is_true(_16))) {
 			zephir_call_method_noret(connection, "rollback");
 			zephir_check_call_status();
 			object_init_ex(return_value, phalcon_mvc_model_query_status_ce);
-			zephir_call_method_p2_cache_noret(return_value, "__construct", &_19, ZEPHIR_GLOBAL(global_false), record);
+			zephir_call_method_p2_cache_noret(return_value, "__construct", &_17, ZEPHIR_GLOBAL(global_false), record);
 			zephir_check_call_status();
 			RETURN_MM();
 		}
@@ -3412,7 +3410,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getRelatedRecords) {
 
 
 
-	if (!(zephir_is_instance_of(model, SL("Phalcon\\Mvc\\ModelInterface") TSRMLS_CC))) {
+	if (!(zephir_instance_of_ev(model, phalcon_mvc_modelinterface_ce TSRMLS_CC))) {
 		ZEPHIR_THROW_EXCEPTION_STR(spl_ce_InvalidArgumentException, "Parameter 'model' must be an instance of 'Phalcon\\Mvc\\ModelInterface'");
 		return;
 	}

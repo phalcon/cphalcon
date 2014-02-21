@@ -125,7 +125,7 @@ PHP_METHOD(Phalcon_Http_Response, setDI) {
 
 
 
-	if (!(zephir_is_instance_of(dependencyInjector, SL("Phalcon\\DiInterface") TSRMLS_CC))) {
+	if (!(zephir_instance_of_ev(dependencyInjector, phalcon_diinterface_ce TSRMLS_CC))) {
 		ZEPHIR_THROW_EXCEPTION_STRW(spl_ce_InvalidArgumentException, "Parameter 'dependencyInjector' must be an instance of 'Phalcon\\DiInterface'");
 		return;
 	}
@@ -263,7 +263,7 @@ PHP_METHOD(Phalcon_Http_Response, setCookies) {
 
 
 
-	if (!(zephir_is_instance_of(cookies, SL("Phalcon\\Http\\Response\\CookiesInterface") TSRMLS_CC))) {
+	if (!(zephir_instance_of_ev(cookies, phalcon_http_response_cookiesinterface_ce TSRMLS_CC))) {
 		ZEPHIR_THROW_EXCEPTION_STRW(spl_ce_InvalidArgumentException, "Parameter 'cookies' must be an instance of 'Phalcon\\Http\\Response\\CookiesInterface'");
 		return;
 	}

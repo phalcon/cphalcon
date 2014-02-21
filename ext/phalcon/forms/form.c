@@ -591,7 +591,7 @@ PHP_METHOD(Phalcon_Forms_Form, add) {
 
 
 
-	if (!(zephir_is_instance_of(element, SL("Phalcon\\Forms\\ElementInterface") TSRMLS_CC))) {
+	if (!(zephir_instance_of_ev(element, phalcon_forms_elementinterface_ce TSRMLS_CC))) {
 		ZEPHIR_THROW_EXCEPTION_STR(spl_ce_InvalidArgumentException, "Parameter 'element' must be an instance of 'Phalcon\\Forms\\ElementInterface'");
 		return;
 	}
@@ -898,7 +898,7 @@ PHP_METHOD(Phalcon_Forms_Form, has) {
  */
 PHP_METHOD(Phalcon_Forms_Form, remove) {
 
-	zval *name_param = NULL, *elements, *_0, *_1, *_2;
+	zval *name_param = NULL, *elements, *_0;
 	zval *name = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -920,9 +920,7 @@ PHP_METHOD(Phalcon_Forms_Form, remove) {
 	elements = zephir_fetch_nproperty_this(this_ptr, SL("_elements"), PH_NOISY_CC);
 	if (zephir_array_isset(elements, name)) {
 		_0 = zephir_fetch_nproperty_this(this_ptr, SL("_elements"), PH_NOISY_CC);
-		_1 = zephir_fetch_nproperty_this(this_ptr, SL("_elements"), PH_NOISY_CC);
-		zephir_array_fetch(&_2, _1, name, PH_NOISY | PH_READONLY TSRMLS_CC);
-		zephir_array_unset(&_0, _2, PH_SEPARATE);
+		zephir_array_unset(&_0, name, PH_SEPARATE);
 		RETURN_MM_BOOL(1);
 	}
 	zephir_update_property_this(this_ptr, SL("_elementsIndexed"), ZEPHIR_GLOBAL(global_null) TSRMLS_CC);
