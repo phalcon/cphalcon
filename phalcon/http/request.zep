@@ -647,7 +647,7 @@ class Request implements \Phalcon\Http\RequestInterface, \Phalcon\Di\InjectionAw
 			if fetch error, file["error"] {
 
 				if typeof error != "array" {
-					if error != true || !onlySuccessful {
+					if !error || !onlySuccessful {
 						let numberFiles++;
 					}
 				}
@@ -672,7 +672,7 @@ class Request implements \Phalcon\Http\RequestInterface, \Phalcon\Di\InjectionAw
 
 		for value in data {
 			if typeof value != "array" {
-				if value != true || !onlySuccessful {
+				if !value || !onlySuccessful {
 					let numberFiles++;
 				}
 			}
@@ -691,28 +691,61 @@ class Request implements \Phalcon\Http\RequestInterface, \Phalcon\Di\InjectionAw
 	 * @param boolean notErrored
 	 * @return Phalcon\Http\Request\File[]
 	 */
-	public function getUploadedFiles(boolean notErrored=false) -> <\Phalcon\Http\Request\File[]>
+	public function getUploadedFiles(boolean onlySuccessful=false) -> <\Phalcon\Http\Request\File[]>
 	{
-		var files, superFiles, file, error;
+		var files, superFiles, file, error, name, type, tmpName, size, prefix;
 
 		let superFiles = _FILES;
-		if count(superFiles) {
-			let files = [];
-			for file in superFiles {
-				if notErrored {
-					if !fetch error, file["error"] {
-						let error = true;
-					}
-					if !error {
+
+		if typeof superFiles != "array" || !count(superFiles) {
+			return [];
+		}
+
+		let files = [];
+		for file in superFiles {
+
+			if fetch error, file["error"] {
+
+				if typeof error != "array" {
+					if !error || !onlySuccessful {
 						let files[] = new \Phalcon\Http\Request\File(file);
 					}
-				} else {
-					let files[] = new \Phalcon\Http\Request\File(file);
+				}
+
+				if typeof error == "array"
+					&& fetch name, file["name"]
+					&& fetch type, file["type"]
+					&& fetch tmpName, file["tmpName"]
+					&& fetch size, file["size"]
+				{
+					let prefix = "fix-me";
+					let files = this->getUploadedFilesHelper(files, name, type, tmpName, error, size, onlySuccessful, prefix);
 				}
 			}
-			return files;
 		}
-		return [];
+
+		return files;
+	}
+
+	private function getUploadedFilesHelper(files, names, types, tmpNames, errors, sizes, boolean onlySuccessful, prefix) -> <\Phalcon\Http\Request\File[]>
+	{
+		/* fix me
+		var value;
+		int numberFiles = 0;
+
+		for name in names {
+			if typeof value != "array" {
+				if !value || !onlySuccessful {
+					//let files[] = new \Phalcon\Http\Request\File(value);
+				}
+			}
+
+			if typeof value == "array" {
+				// fix me
+			}
+		}
+		*/
+		return files;
 	}
 
 	/**

@@ -44,7 +44,7 @@
 			<!--<file>unit-tests/MicroMvcCollectionsTest.php</file>-->
 			<!--<file>unit-tests/ModelsTest.php</file>-->
 			<!--<file>unit-tests/PaginatorTest.php</file>-->
-			<!--<file>unit-tests/ConsoleCliTest.php</file>-->
+			<file>unit-tests/ConsoleCliTest.php</file>
 			<!--<file>unit-tests/FormsTest.php</file>-->
 			<!--<file>unit-tests/ModelsDynamicOperationsTest.php</file>-->
 			<!--<file>unit-tests/ApplicationMvcTest.php</file>-->
