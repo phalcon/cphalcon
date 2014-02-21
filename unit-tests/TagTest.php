@@ -18,6 +18,8 @@
   +------------------------------------------------------------------------+
 */
 
+use Phalcon\Tag;
+
 class DIDescendant extends Phalcon\DI {}
 
 class TagTest extends PHPUnit_Framework_TestCase
@@ -29,7 +31,7 @@ class TagTest extends PHPUnit_Framework_TestCase
 
 	public function testIssue744()
 	{
-		$v = new Phalcon\Tag;
+		$v = new Tag;
 
 		try {
 			$v->setDI(0);
@@ -73,8 +75,7 @@ class TagTest extends PHPUnit_Framework_TestCase
 	}
 
 	public function testIssue947()
-        {
-		use Phalcon\Tag;
+    {
 		$di = new Phalcon\DI\FactoryDefault();
 		Tag::setDI($di);
 
