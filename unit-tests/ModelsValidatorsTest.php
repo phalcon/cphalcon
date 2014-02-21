@@ -74,7 +74,7 @@ class ModelsValidatorsTest extends PHPUnit_Framework_TestCase
 		$di->set('db', function(){
 			require 'unit-tests/config.db.php';
 			return new Phalcon\Db\Adapter\Pdo\Mysql($configMysql);
-		});
+		}, true);
 
 		$this->_testValidatorsNormal($di);
 		$this->_testValidatorsRenamed($di);
@@ -93,7 +93,7 @@ class ModelsValidatorsTest extends PHPUnit_Framework_TestCase
 		$di->set('db', function(){
 			require 'unit-tests/config.db.php';
 			return new Phalcon\Db\Adapter\Pdo\Postgresql($configPostgresql);
-		});
+		}, true);
 
 		$this->_testValidatorsNormal($di);
 		$this->_testValidatorsRenamed($di);
@@ -114,7 +114,7 @@ class ModelsValidatorsTest extends PHPUnit_Framework_TestCase
 			$conn = new Phalcon\Db\Adapter\Pdo\Sqlite($configSqlite);
 			$conn->getInternalHandler()->sqliteCreateFunction('now', 'sqlite_now', 0);
 			return $conn;
-		});
+		}, true);
 
 		$this->_testValidatorsNormal($di);
 		$this->_testValidatorsRenamed($di);

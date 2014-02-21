@@ -59,6 +59,9 @@ class ModelsTransactionsTest extends PHPUnit_Framework_TestCase {
 		return $di;
 	}
 
+	/**
+	 * @large
+	 */
 	public function testTransactionsMysql()
 	{
 		require 'unit-tests/config.db.php';
@@ -77,6 +80,9 @@ class ModelsTransactionsTest extends PHPUnit_Framework_TestCase {
 		$this->_executeTests($di);
 	}
 
+	/**
+	 * @large
+	 */
 	public function testTransactionsPostgresql()
 	{
 		require 'unit-tests/config.db.php';
@@ -95,6 +101,9 @@ class ModelsTransactionsTest extends PHPUnit_Framework_TestCase {
 		$this->_executeTests($di);
 	}
 
+	/**
+	 * @large
+	 */
 	public function testTransactionsSqlite()
 	{
 		require 'unit-tests/config.db.php';

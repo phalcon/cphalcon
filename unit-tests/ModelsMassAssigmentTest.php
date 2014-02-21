@@ -69,7 +69,7 @@ class ModelsMassAssigmentTest extends PHPUnit_Framework_TestCase
 		$di->set('db', function(){
 			require 'unit-tests/config.db.php';
 			return new Phalcon\Db\Adapter\Pdo\Mysql($configMysql);
-		});
+		}, true);
 
 		$this->_executeTestsNormal($di);
 		$this->_executeTestsRenamed($di);

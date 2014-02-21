@@ -78,7 +78,7 @@ class ModelsResultsetCacheTest extends PHPUnit_Framework_TestCase
 		$di->set('db', function(){
 			require 'unit-tests/config.db.php';
 			return new Phalcon\Db\Adapter\Pdo\Mysql($configMysql);
-		});
+		}, true);
 
 		return $di;
 	}
@@ -95,7 +95,7 @@ class ModelsResultsetCacheTest extends PHPUnit_Framework_TestCase
 		$di->set('db', function(){
 			require 'unit-tests/config.db.php';
 			return new Phalcon\Db\Adapter\Pdo\Postgresql($configPostgresql);
-		});
+		}, true);
 
 		return $di;
 	}
@@ -112,7 +112,7 @@ class ModelsResultsetCacheTest extends PHPUnit_Framework_TestCase
 		$di->set('db', function(){
 			require 'unit-tests/config.db.php';
 			return new Phalcon\Db\Adapter\Pdo\Sqlite($configSqlite);
-		});
+		}, true);
 
 		return $di;
 	}

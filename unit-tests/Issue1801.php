@@ -54,7 +54,7 @@ class Issue1801 extends PHPUnit_Framework_TestCase
 
 		$di = new Phalcon\DI\FactoryDefault();
 
-		$di->set('db', $dbService);
+		$di->set('db', $dbService, true);
 		return $di;
 	}
 
