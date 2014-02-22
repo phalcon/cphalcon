@@ -355,7 +355,7 @@ abstract class Dialect
 			orderFields, orderItem, orderItems, orderSqlItem, sqlOrderType,
 			orderSqlItemType, limitValue, number, offset;
 
-		if typeof definition == "array" {
+		if typeof definition != "array" {
 			throw new \Phalcon\Db\Exception("Invalid SELECT definition");
 		}
 
@@ -538,13 +538,13 @@ abstract class Dialect
 
 			if typeof limitValue == "array" {
 
-				let number = limitValue["number"];
+				let number = limitValue["number"]["value"];
 
 				/**
 				 * Check for a OFFSET condition
 				 */
 				if fetch offset, limitValue["offset"] {
-					let sql .= " LIMIT " . number . " OFFSET " . offset;
+					let sql .= " LIMIT " . number . " OFFSET " . offset["value"];
 				} else {
 					let sql .= " LIMIT " . number;
 				}
