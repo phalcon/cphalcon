@@ -2975,7 +2975,7 @@ class Query implements \Phalcon\Mvc\Model\QueryInterface, \Phalcon\Di\InjectionA
 			/**
 			 * By defaut use use 3600 seconds (1 hour) as cache lifetime
 			 */
-			if fetch lifetime, cacheOptions["lifetime"] {
+			if !fetch lifetime, cacheOptions["lifetime"] {
 				let lifetime = 3600;
 			}
 
