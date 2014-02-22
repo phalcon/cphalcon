@@ -140,7 +140,7 @@ abstract class MetaData implements \Phalcon\Di\InjectionAwareInterface
 		/**
 		 * Check for a column map, store in _columnMap in order and reversed order
 		 */
-		if globals_get("orm.column_renaming") {
+		if !globals_get("orm.column_renaming") {
 			return null;
 		}
 
