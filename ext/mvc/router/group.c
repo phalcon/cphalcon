@@ -478,7 +478,7 @@ static void phalcon_mvc_router_group_add_helper(INTERNAL_FUNCTION_PARAMETERS, co
 
 	PHALCON_ALLOC_GHOST_ZVAL(http_method);
 	PHALCON_ZVAL_MAYBE_INTERNED_STRING(http_method, method);
-	PHALCON_RETURN_CALL_METHODW(getThis(), "addroute", pattern, paths, http_method);
+	PHALCON_RETURN_CALL_METHODW(getThis(), "_addroute", pattern, paths, http_method);
 }
 
 /**
