@@ -2157,7 +2157,8 @@ class Query implements \Phalcon\Mvc\Model\QueryInterface, \Phalcon\Di\InjectionA
 			 */
 			if fetch type, ast["type"] {
 
-				let this->_type = type;
+				let this->_ast = ast,
+                                        this->_type = type;
 				switch type {
 
 					case PHQL_T_SELECT:
