@@ -920,7 +920,7 @@ class Builder implements \Phalcon\Mvc\Model\Query\BuilderInterface, \Phalcon\Di\
 		boolean noPrimary;
 
 		let dependencyInjector = this->_dependencyInjector;
-		if typeof dependencyInjector == "object" {
+		if typeof dependencyInjector != "object" {
 			let dependencyInjector = \Phalcon\Di::getDefault(),
 				this->_dependencyInjector = dependencyInjector;
 		}

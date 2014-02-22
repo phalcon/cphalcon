@@ -93,6 +93,23 @@ class Query implements \Phalcon\Mvc\Model\QueryInterface, \Phalcon\Di\InjectionA
 
 	const TYPE_DELETE = 303;
 
+        /**
+	 * Phalcon\Mvc\Model\Query constructor
+	 *
+	 * @param string $phql
+	 * @param Phalcon\DiInterface dependencyInjector
+	 */
+        public function __construct(phql=null, <\Phalcon\DiInterface> dependencyInjector=null)
+        {
+                if typeof phql != "null" {
+                        let this->_phql = phql;
+                }
+                
+                if typeof dependencyInjector == "object" {
+                        this->setDI(dependencyInjector);
+                }
+        }
+        
 	/**
 	 * Sets the dependency injection container
 	 *
@@ -2140,7 +2157,8 @@ class Query implements \Phalcon\Mvc\Model\QueryInterface, \Phalcon\Di\InjectionA
 			 */
 			if fetch type, ast["type"] {
 
-				let this->_type = type;
+				let this->_ast = ast,
+                                        this->_type = type;
 				switch type {
 
 					case PHQL_T_SELECT:
@@ -2957,7 +2975,7 @@ class Query implements \Phalcon\Mvc\Model\QueryInterface, \Phalcon\Di\InjectionA
 			/**
 			 * By defaut use use 3600 seconds (1 hour) as cache lifetime
 			 */
-			if fetch lifetime, cacheOptions["lifetime"] {
+			if !fetch lifetime, cacheOptions["lifetime"] {
 				let lifetime = 3600;
 			}
 
