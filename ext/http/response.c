@@ -609,7 +609,7 @@ PHP_METHOD(Phalcon_Http_Response, redirect){
 		PHALCON_INIT_VAR(location);
 		ZVAL_EMPTY_STRING(location);
 	}
-	else if (Z_TYPE_P(location) != IS_STRING) {
+	else if (Z_TYPE_P(location) != IS_STRING && Z_TYPE_P(location) != IS_ARRAY) {
 		PHALCON_SEPARATE_PARAM(location);
 		convert_to_string(location);
 	}
@@ -627,9 +627,9 @@ PHP_METHOD(Phalcon_Http_Response, redirect){
 		convert_to_long(status_code);
 	}
 	
-	if (zend_is_true(external_redirect)) {
+	if (Z_TYPE_P(location) == IS_STRING && zend_is_true(external_redirect)) {
 		header = location;
-	} else if (strstr(Z_STRVAL_P(location), "://")) {
+	} else if (Z_TYPE_P(location) == IS_STRING && strstr(Z_STRVAL_P(location), "://")) {
 		PHALCON_INIT_VAR(matched);
 		PHALCON_INIT_VAR(pattern);
 		ZVAL_STRING(pattern, "/^[^:\\/?#]++:/", 1);
@@ -657,9 +657,7 @@ PHP_METHOD(Phalcon_Http_Response, redirect){
 		PHALCON_CALL_METHOD(&header, url, "get", location);
 	}
 	
-	/** 
-	 * The HTTP status is 302 by default, a temporary redirection
-	 */
+	/* The HTTP status is 302 by default, a temporary redirection */
 	PHALCON_INIT_VAR(status_text);
 	if (Z_LVAL_P(status_code) < 300 || Z_LVAL_P(status_code) > 308) {
 		ZVAL_STRING(status_text, "Redirect", 1);
