@@ -62,12 +62,13 @@ static zval* phalcon_translate_adapter_read_dimension(zval *object, zval *offset
 {
 	zval *ret = NULL;
 	int status;
+	zval *params[] = { offset, PHALCON_GLOBAL(z_null) };
 
 	if (!is_phalcon_class(Z_OBJCE_P(object))) {
 		return zend_get_std_object_handlers()->read_dimension(object, offset, type TSRMLS_CC);
 	}
 
-	status = phalcon_call_method_params(ret, &ret, object, SL("query"), zend_inline_hash_func(SS("query")) TSRMLS_CC, 2, offset, PHALCON_GLOBAL(z_null));
+	status = phalcon_call_method(&ret, object, "query", 2, params TSRMLS_CC);
 	return UNEXPECTED(status == FAILURE) ? NULL : ret;
 }
 
@@ -85,12 +86,13 @@ static int phalcon_translate_adapter_has_dimension(zval *object, zval *offset, i
 {
 	zval *exists = NULL;
 	int retval;
+	zval *params[] = { offset };
 
 	if (!is_phalcon_class(Z_OBJCE_P(object))) {
 		return zend_get_std_object_handlers()->has_dimension(object, offset, check_empty TSRMLS_CC);
 	}
 
-	if (FAILURE == phalcon_call_method_params(exists, &exists, object, SL("exists"), zend_inline_hash_func(SS("exists")) TSRMLS_CC, 1, offset)) {
+	if (FAILURE == phalcon_call_method(&exists, object, "exists", 1, params TSRMLS_CC)) {
 		return 0;
 	}
 
@@ -152,11 +154,7 @@ PHP_METHOD(Phalcon_Translate_Adapter, _){
 		placeholders = PHALCON_GLOBAL(z_null);
 	}
 
-	if (FAILURE == phalcon_call_method_params(return_value, return_value_ptr, this_ptr, SL("query"), zend_inline_hash_func(SS("query")) TSRMLS_CC, 2, translate_key, placeholders)) {
-		if (return_value_ptr && EG(exception)) {
-			ALLOC_INIT_ZVAL(*return_value_ptr);
-		}
-	}
+	PHALCON_RETURN_CALL_METHODW(this_ptr, "query", translate_key, placeholders);
 }
 
 /**

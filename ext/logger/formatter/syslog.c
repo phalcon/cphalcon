@@ -66,7 +66,7 @@ PHP_METHOD(Phalcon_Logger_Formatter_Syslog, format){
 	phalcon_fetch_params(0, 4, 0, &message, &type, &timestamp, &context);
 	
 	if (Z_TYPE_P(context) == IS_ARRAY) {
-		RETURN_ON_FAILURE(phalcon_call_method_params(interpolated, &interpolated, this_ptr, SL("interpolate"), zend_inline_hash_func(SS("interpolate")) TSRMLS_CC, 2, message, context));
+		PHALCON_CALL_METHODW(&interpolated, this_ptr, "interpolate", message, context);
 	}
 	else {
 		interpolated = message;

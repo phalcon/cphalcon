@@ -38,10 +38,10 @@ static inline void phalcon_forms_element_render_helper(const char *method, int u
 
 	uc = use_checked ? PHALCON_GLOBAL(z_true) : PHALCON_GLOBAL(z_false);
 
-	RETURN_ON_FAILURE(phalcon_call_method_params(widget_attributes, &widget_attributes, getThis(), SL("prepareattributes"), zend_inline_hash_func(SS("prepareattributes")) TSRMLS_CC, 2, *attributes, uc));
+	PHALCON_CALL_METHODW(&widget_attributes, getThis(), "prepareattributes", *attributes, uc);
 
 	params[0] = widget_attributes;
-	if (FAILURE == phalcon_return_call_class_method(return_value, return_value_ptr, phalcon_tag_ce, NULL, method, strlen(method), 1, params TSRMLS_CC)) {
+	if (FAILURE == phalcon_return_call_class_method(return_value, return_value_ptr, phalcon_tag_ce, phalcon_fcall_ce, NULL, method, strlen(method), 1, params TSRMLS_CC)) {
 		;
 	}
 

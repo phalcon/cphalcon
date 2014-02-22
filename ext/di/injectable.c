@@ -24,6 +24,7 @@
 #include "di.h"
 #include "events/eventsawareinterface.h"
 #include "events/managerinterface.h"
+#include "diinterface.h"
 
 #include "kernel/main.h"
 #include "kernel/memory.h"
@@ -97,15 +98,12 @@ PHP_METHOD(Phalcon_DI_Injectable, setDI){
  *
  * @return Phalcon\DiInterface
  */
-PHP_METHOD(Phalcon_DI_Injectable, getDI){
-
-	zval *dependency_injector ;
-
-	dependency_injector = phalcon_fetch_nproperty_this(this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
+PHP_METHOD(Phalcon_DI_Injectable, getDI)
+{
+	zval *dependency_injector = phalcon_fetch_nproperty_this(this_ptr, SL("_dependencyInjector"), PH_NOISY TSRMLS_CC);
 	if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
-		PHALCON_MM_GROW();
-		PHALCON_RETURN_CALL_CE_STATIC(phalcon_di_ce, "getdefault");
-		RETURN_MM();
+		PHALCON_RETURN_CALL_CE_STATICW(phalcon_di_ce, "getdefault");
+		return;
 	}
 	
 	RETURN_ZVAL(dependency_injector, 1, 0);
@@ -124,7 +122,6 @@ PHP_METHOD(Phalcon_DI_Injectable, setEventsManager)
 	PHALCON_VERIFY_INTERFACE_OR_NULL_EX(events_manager, phalcon_events_managerinterface_ce, phalcon_di_exception_ce, 0);
 	
 	phalcon_update_property_this(this_ptr, SL("_eventsManager"), events_manager TSRMLS_CC);
-
 }
 
 /**
@@ -146,18 +143,16 @@ PHP_METHOD(Phalcon_DI_Injectable, getEventsManager){
 PHP_METHOD(Phalcon_DI_Injectable, __get){
 
 	zval **property_name, *dependency_injector = NULL;
-	zval *has_service, *service = NULL, *class_name, *arguments, *result = NULL;
+	zval *has_service = NULL, *service = NULL, *class_name, *arguments, *result = NULL;
 
 	phalcon_fetch_params_ex(1, 0, &property_name);
 	PHALCON_ENSURE_IS_STRING(property_name);
 
 	PHALCON_MM_GROW();
 
-	PHALCON_OBS_VAR(dependency_injector);
-	phalcon_read_property_this(&dependency_injector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
+	dependency_injector = phalcon_fetch_nproperty_this(this_ptr, SL("_dependencyInjector"), PH_NOISY TSRMLS_CC);
 	if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
-
-		PHALCON_OBSERVE_OR_NULLIFY_VAR(dependency_injector);
+		dependency_injector = NULL;
 		PHALCON_CALL_CE_STATIC(&dependency_injector, phalcon_di_ce, "getdefault");
 
 		if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
@@ -166,23 +161,18 @@ PHP_METHOD(Phalcon_DI_Injectable, __get){
 		}
 	}
 
-	/**
-	 * Fallback to the PHP userland if the cache is not available
-	 */
-	PHALCON_INIT_VAR(has_service);
-	phalcon_call_method_p1(has_service, dependency_injector, "has", *property_name);
+	PHALCON_CALL_METHOD(&has_service, dependency_injector, "has", *property_name);
 	if (zend_is_true(has_service)) {
-		phalcon_call_method_p1_ex(result, &result, dependency_injector, "getshared", *property_name);
-		phalcon_update_property_zval_zval(this_ptr, *property_name, result TSRMLS_CC);
-		RETVAL_ZVAL(result, 1, 1);
-		RETURN_MM();
+		PHALCON_CALL_METHOD(&result, dependency_injector, "getshared", *property_name);
+		phalcon_update_property_zval(this_ptr, Z_STRVAL_PP(property_name), Z_STRLEN_PP(property_name), result TSRMLS_CC);
+		RETURN_CTOR(result);
 	}
 
 	assert(Z_TYPE_PP(property_name) == IS_STRING);
 
 	if (Z_STRLEN_PP(property_name) == sizeof("di")-1 && !memcmp(Z_STRVAL_PP(property_name), "di", sizeof("di")-1)) {
 		zend_update_property(phalcon_di_injectable_ce, getThis(), SL("di"), dependency_injector TSRMLS_CC);
-		RETURN_CCTOR(dependency_injector);
+		RETURN_CTOR(dependency_injector);
 	}
 
 	/**
@@ -201,14 +191,13 @@ PHP_METHOD(Phalcon_DI_Injectable, __get){
 		PHALCON_INIT_NVAR(service);
 		ZVAL_STRING(service, "sessionBag", 1);
 
-		phalcon_call_method_p2_ex(result, &result, dependency_injector, "get", service, arguments);
+		PHALCON_CALL_METHOD(&result, dependency_injector, "get", service, arguments);
 		zend_update_property(phalcon_di_injectable_ce, getThis(), SL("persistent"), result TSRMLS_CC);
-		RETVAL_ZVAL(result, 1, 1);
-		RETURN_MM();
+		RETURN_CTOR(result);
 	}
 
 	/**
-	 * A notice is shown if the property is not defined and isn't a valid service
+	 * A notice is shown if the property is not defined or is not a valid service
 	 */
 	php_error_docref(NULL TSRMLS_CC, E_WARNING, "Access to undefined property %s::%s", Z_OBJCE_P(getThis())->name, Z_STRVAL_PP(property_name));
 	RETURN_MM_NULL();

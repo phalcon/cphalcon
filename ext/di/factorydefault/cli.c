@@ -72,7 +72,7 @@ PHP_METHOD(Phalcon_DI_FactoryDefault_CLI, __construct){
 
 	PHALCON_MM_GROW();
 
-	PHALCON_CALL_PARENT_NORET(phalcon_di_factorydefault_cli_ce, this_ptr, "__construct");
+	PHALCON_CALL_PARENT(NULL, phalcon_di_factorydefault_cli_ce, this_ptr, "__construct");
 	
 	shared = PHALCON_GLOBAL(z_true);
 	
@@ -84,7 +84,7 @@ PHP_METHOD(Phalcon_DI_FactoryDefault_CLI, __construct){
 	
 	PHALCON_INIT_VAR(router);
 	object_init_ex(router, phalcon_di_service_ce);
-	phalcon_call_method_p2_noret(router, "__construct", name, definition);
+	PHALCON_CALL_METHOD(NULL, router, "__construct", name, definition);
 	
 	PHALCON_INIT_NVAR(name);
 	PHALCON_ZVAL_MAYBE_INTERNED_STRING(name, phalcon_interned_dispatcher);
@@ -94,7 +94,7 @@ PHP_METHOD(Phalcon_DI_FactoryDefault_CLI, __construct){
 	
 	PHALCON_INIT_VAR(dispatcher);
 	object_init_ex(dispatcher, phalcon_di_service_ce);
-	phalcon_call_method_p2_noret(dispatcher, "__construct", name, definition);
+	PHALCON_CALL_METHOD(NULL, dispatcher, "__construct", name, definition);
 	
 	/** 
 	 * Models manager for ORM
@@ -107,7 +107,7 @@ PHP_METHOD(Phalcon_DI_FactoryDefault_CLI, __construct){
 	
 	PHALCON_INIT_VAR(models_manager);
 	object_init_ex(models_manager, phalcon_di_service_ce);
-	phalcon_call_method_p2_noret(models_manager, "__construct", name, definition);
+	PHALCON_CALL_METHOD(NULL, models_manager, "__construct", name, definition);
 	
 	/** 
 	 * Models meta-data using the Memory adapter
@@ -120,7 +120,7 @@ PHP_METHOD(Phalcon_DI_FactoryDefault_CLI, __construct){
 	
 	PHALCON_INIT_VAR(models_metadata);
 	object_init_ex(models_metadata, phalcon_di_service_ce);
-	phalcon_call_method_p2_noret(models_metadata, "__construct", name, definition);
+	PHALCON_CALL_METHOD(NULL, models_metadata, "__construct", name, definition);
 	
 	/** 
 	 * Filter/Escaper services are always shared
@@ -133,7 +133,7 @@ PHP_METHOD(Phalcon_DI_FactoryDefault_CLI, __construct){
 	
 	PHALCON_INIT_VAR(filter);
 	object_init_ex(filter, phalcon_di_service_ce);
-	phalcon_call_method_p3_noret(filter, "__construct", name, definition, shared);
+	PHALCON_CALL_METHOD(NULL, filter, "__construct", name, definition, shared);
 	
 	PHALCON_INIT_NVAR(name);
 	PHALCON_ZVAL_MAYBE_INTERNED_STRING(name, phalcon_interned_escaper);
@@ -143,7 +143,7 @@ PHP_METHOD(Phalcon_DI_FactoryDefault_CLI, __construct){
 	
 	PHALCON_INIT_VAR(escaper);
 	object_init_ex(escaper, phalcon_di_service_ce);
-	phalcon_call_method_p3_noret(escaper, "__construct", name, definition, shared);
+	PHALCON_CALL_METHOD(NULL, escaper, "__construct", name, definition, shared);
 	
 	/** 
 	 * Default annotations service
@@ -156,7 +156,7 @@ PHP_METHOD(Phalcon_DI_FactoryDefault_CLI, __construct){
 	
 	PHALCON_INIT_VAR(annotations);
 	object_init_ex(annotations, phalcon_di_service_ce);
-	phalcon_call_method_p3_noret(annotations, "__construct", name, definition, shared);
+	PHALCON_CALL_METHOD(NULL, annotations, "__construct", name, definition, shared);
 	
 	/** 
 	 * Security doesn't need to be shared, but anyways we register it as shared
@@ -169,7 +169,7 @@ PHP_METHOD(Phalcon_DI_FactoryDefault_CLI, __construct){
 	
 	PHALCON_INIT_VAR(security);
 	object_init_ex(security, phalcon_di_service_ce);
-	phalcon_call_method_p3_noret(security, "__construct", name, definition, shared);
+	PHALCON_CALL_METHOD(NULL, security, "__construct", name, definition, shared);
 	
 	/** 
 	 * Events Manager is always shared
@@ -182,14 +182,14 @@ PHP_METHOD(Phalcon_DI_FactoryDefault_CLI, __construct){
 	
 	PHALCON_INIT_VAR(events_manager);
 	object_init_ex(events_manager, phalcon_di_service_ce);
-	phalcon_call_method_p3_noret(events_manager, "__construct", name, definition, shared);
+	PHALCON_CALL_METHOD(NULL, events_manager, "__construct", name, definition, shared);
 	
 	PHALCON_INIT_NVAR(definition);
 	ZVAL_STRING(definition, "Phalcon\\Mvc\\Model\\Transaction\\Manager", 1);
 	
 	PHALCON_INIT_VAR(transaction_manager);
 	object_init_ex(transaction_manager, phalcon_di_service_ce);
-	phalcon_call_method_p2_noret(transaction_manager, "__construct", name, definition);
+	PHALCON_CALL_METHOD(NULL, transaction_manager, "__construct", name, definition);
 	
 	PHALCON_INIT_VAR(services);
 	array_init_size(services, 10);

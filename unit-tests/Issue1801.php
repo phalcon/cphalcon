@@ -54,7 +54,7 @@ class Issue1801 extends PHPUnit_Framework_TestCase
 
 		$di = new Phalcon\DI\FactoryDefault();
 
-		$di->set('db', $dbService);
+		$di->set('db', $dbService, true);
 		return $di;
 	}
 
@@ -114,6 +114,7 @@ class Issue1801 extends PHPUnit_Framework_TestCase
 		$robot = Robots::findFirst(1);
 		$di->get('modelsMetadata')->reset();
 		$robot = Robots::findFirst(1);
+		$this->assertTrue(true);
 	}
 
 }

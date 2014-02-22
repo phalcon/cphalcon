@@ -116,8 +116,8 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Php, render){
 		PHALCON_ALLOC_GHOST_ZVAL(contents);
 		phalcon_ob_get_contents(contents TSRMLS_CC);
 	
-		view = phalcon_fetch_nproperty_this(this_ptr, SL("_view"), PH_NOISY_CC);
-		RETURN_ON_FAILURE(phalcon_call_method_params(NULL, NULL, view, SL("setcontent"), zend_inline_hash_func(SS("setcontent")) TSRMLS_CC, 1, contents));
+		view = phalcon_fetch_nproperty_this(this_ptr, SL("_view"), PH_NOISY TSRMLS_CC);
+		PHALCON_CALL_METHODW(NULL, view, "setcontent", contents);
 	}
 
 	RETURN_TRUE;

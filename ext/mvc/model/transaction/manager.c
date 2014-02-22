@@ -167,24 +167,13 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, __construct){
 
 	phalcon_fetch_params(1, 0, 1, &dependency_injector);
 	
-	if (!dependency_injector) {
-		PHALCON_INIT_VAR(dependency_injector);
-	} else {
-		PHALCON_SEPARATE_PARAM(dependency_injector);
-	}
-	
-	if (zend_is_true(dependency_injector)) {
-		phalcon_update_property_this(this_ptr, SL("_dependencyInjector"), dependency_injector TSRMLS_CC);
-	} else {
-		PHALCON_OBSERVE_OR_NULLIFY_VAR(dependency_injector);
+	if (!dependency_injector || Z_TYPE_P(dependency_injector) != IS_OBJECT) {
+		dependency_injector = NULL;
 		PHALCON_CALL_CE_STATIC(&dependency_injector, phalcon_di_ce, "getdefault");
-		phalcon_update_property_this(this_ptr, SL("_dependencyInjector"), dependency_injector TSRMLS_CC);
 	}
-	if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
-		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_transaction_exception_ce, "A dependency injector container is required to obtain the services related to the ORM");
-		return;
-	}
-	
+
+	PHALCON_VERIFY_INTERFACE_EX(dependency_injector, phalcon_diinterface_ce, phalcon_mvc_model_transaction_exception_ce, 1);
+	phalcon_update_property_this(this_ptr, SL("_dependencyInjector"), dependency_injector TSRMLS_CC);
 	PHALCON_MM_RESTORE();
 }
 
@@ -278,7 +267,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, has){
 
 	z_zero = PHALCON_GLOBAL(z_zero);
 	
-	number = phalcon_fetch_nproperty_this(this_ptr, SL("_number"), PH_NOISY_CC);
+	number = phalcon_fetch_nproperty_this(this_ptr, SL("_number"), PH_NOISY TSRMLS_CC);
 	is_smaller_function(return_value, z_zero, number TSRMLS_CC);
 }
 
@@ -302,23 +291,23 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, get){
 	}
 	
 	PHALCON_OBS_VAR(initialized);
-	phalcon_read_property_this(&initialized, this_ptr, SL("_initialized"), PH_NOISY_CC);
+	phalcon_read_property_this(&initialized, this_ptr, SL("_initialized"), PH_NOISY TSRMLS_CC);
 	if (zend_is_true(initialized)) {
 	
 		PHALCON_OBS_VAR(rollback_pendent);
-		phalcon_read_property_this(&rollback_pendent, this_ptr, SL("_rollbackPendent"), PH_NOISY_CC);
+		phalcon_read_property_this(&rollback_pendent, this_ptr, SL("_rollbackPendent"), PH_NOISY TSRMLS_CC);
 		if (zend_is_true(rollback_pendent)) {
 			PHALCON_INIT_NVAR(rollback_pendent);
 			array_init_size(rollback_pendent, 2);
 			phalcon_array_append(&rollback_pendent, this_ptr, PH_SEPARATE);
 			add_next_index_stringl(rollback_pendent, SL("rollbackPendent"), 1);
-			PHALCON_CALL_FUNCTION_NORET("register_shutdown_function", rollback_pendent);
+			PHALCON_CALL_FUNCTION(NULL, "register_shutdown_function", rollback_pendent);
 		}
 	
 		phalcon_update_property_bool(this_ptr, SL("_initialized"), 1 TSRMLS_CC);
 	}
 	
-	phalcon_call_method(return_value, this_ptr, "getorcreatetransaction");
+	PHALCON_RETURN_CALL_METHOD(this_ptr, "getorcreatetransaction");
 	RETURN_MM();
 }
 
@@ -346,18 +335,18 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, getOrCreateTransaction){
 	}
 	
 	PHALCON_OBS_VAR(dependency_injector);
-	phalcon_read_property_this(&dependency_injector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
+	phalcon_read_property_this(&dependency_injector, this_ptr, SL("_dependencyInjector"), PH_NOISY TSRMLS_CC);
 	if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_transaction_exception_ce, "A dependency injector container is required to obtain the services related to the ORM");
 		return;
 	}
 	
 	PHALCON_OBS_VAR(number);
-	phalcon_read_property_this(&number, this_ptr, SL("_number"), PH_NOISY_CC);
+	phalcon_read_property_this(&number, this_ptr, SL("_number"), PH_NOISY TSRMLS_CC);
 	if (zend_is_true(number)) {
 	
 		PHALCON_OBS_VAR(transactions);
-		phalcon_read_property_this(&transactions, this_ptr, SL("_transactions"), PH_NOISY_CC);
+		phalcon_read_property_this(&transactions, this_ptr, SL("_transactions"), PH_NOISY TSRMLS_CC);
 		if (Z_TYPE_P(transactions) == IS_ARRAY) { 
 	
 			phalcon_is_iterable(transactions, &ah0, &hp0, 0, 1);
@@ -368,7 +357,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, getOrCreateTransaction){
 	
 				if (Z_TYPE_P(transaction) == IS_OBJECT) {
 					false_value = PHALCON_GLOBAL(z_false);
-					phalcon_call_method_p1_noret(transaction, "setisnewtransaction", false_value);
+					PHALCON_CALL_METHOD(NULL, transaction, "setisnewtransaction", false_value);
 					RETURN_CTOR(transaction);
 				}
 	
@@ -379,13 +368,13 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, getOrCreateTransaction){
 	}
 	
 	PHALCON_OBS_VAR(service);
-	phalcon_read_property_this(&service, this_ptr, SL("_service"), PH_NOISY_CC);
+	phalcon_read_property_this(&service, this_ptr, SL("_service"), PH_NOISY TSRMLS_CC);
 	
 	PHALCON_INIT_VAR(transaction);
 	object_init_ex(transaction, phalcon_mvc_model_transaction_ce);
-	phalcon_call_method_p3_noret(transaction, "__construct", dependency_injector, auto_begin, service);
+	PHALCON_CALL_METHOD(NULL, transaction, "__construct", dependency_injector, auto_begin, service);
 	
-	phalcon_call_method_p1_noret(transaction, "settransactionmanager", this_ptr);
+	PHALCON_CALL_METHOD(NULL, transaction, "settransactionmanager", this_ptr);
 	phalcon_update_property_array_append(this_ptr, SL("_transactions"), transaction TSRMLS_CC);
 	phalcon_property_incr(this_ptr, SL("_number") TSRMLS_CC);
 	
@@ -401,7 +390,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, rollbackPendent){
 
 	PHALCON_MM_GROW();
 
-	phalcon_call_method_noret(this_ptr, "rollback");
+	PHALCON_CALL_METHOD(NULL, this_ptr, "rollback");
 	
 	PHALCON_MM_RESTORE();
 }
@@ -421,7 +410,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, commit){
 	PHALCON_MM_GROW();
 
 	PHALCON_OBS_VAR(transactions);
-	phalcon_read_property_this(&transactions, this_ptr, SL("_transactions"), PH_NOISY_CC);
+	phalcon_read_property_this(&transactions, this_ptr, SL("_transactions"), PH_NOISY TSRMLS_CC);
 	if (Z_TYPE_P(transactions) == IS_ARRAY) { 
 	
 		phalcon_is_iterable(transactions, &ah0, &hp0, 0, 0);
@@ -430,13 +419,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, commit){
 	
 			PHALCON_GET_HVALUE(transaction);
 	
-			PHALCON_INIT_NVAR(connection);
-			phalcon_call_method(connection, transaction, "getconnection");
-	
-			PHALCON_INIT_NVAR(is_under_transaction);
-			phalcon_call_method(is_under_transaction, connection, "isundertransaction");
+			PHALCON_CALL_METHOD(&connection, transaction, "getconnection");
+			PHALCON_CALL_METHOD(&is_under_transaction, connection, "isundertransaction");
 			if (zend_is_true(is_under_transaction)) {
-				phalcon_call_method_noret(connection, "commit");
+				PHALCON_CALL_METHOD(NULL, connection, "commit");
 			}
 	
 			zend_hash_move_forward_ex(ah0, &hp0);
@@ -470,7 +456,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, rollback){
 	}
 	
 	PHALCON_OBS_VAR(transactions);
-	phalcon_read_property_this(&transactions, this_ptr, SL("_transactions"), PH_NOISY_CC);
+	phalcon_read_property_this(&transactions, this_ptr, SL("_transactions"), PH_NOISY TSRMLS_CC);
 	if (Z_TYPE_P(transactions) == IS_ARRAY) { 
 	
 		phalcon_is_iterable(transactions, &ah0, &hp0, 0, 0);
@@ -479,18 +465,15 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, rollback){
 	
 			PHALCON_GET_HVALUE(transaction);
 	
-			PHALCON_INIT_NVAR(connection);
-			phalcon_call_method(connection, transaction, "getconnection");
-	
-			PHALCON_INIT_NVAR(is_under_transaction);
-			phalcon_call_method(is_under_transaction, connection, "isundertransaction");
+			PHALCON_CALL_METHOD(&connection, transaction, "getconnection");
+			PHALCON_CALL_METHOD(&is_under_transaction, connection, "isundertransaction");
 			if (zend_is_true(is_under_transaction)) {
-				phalcon_call_method_noret(connection, "rollback");
-				phalcon_call_method_noret(connection, "close");
+				PHALCON_CALL_METHOD(NULL, connection, "rollback");
+				PHALCON_CALL_METHOD(NULL, connection, "close");
 			}
 	
 			if (zend_is_true(collect)) {
-				phalcon_call_method_p1_noret(this_ptr, "_collecttransaction", transaction);
+				PHALCON_CALL_METHOD(NULL, this_ptr, "_collecttransaction", transaction);
 			}
 	
 			zend_hash_move_forward_ex(ah0, &hp0);
@@ -514,7 +497,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, notifyRollback){
 
 	phalcon_fetch_params(1, 1, 0, &transaction);
 	
-	phalcon_call_method_p1_noret(this_ptr, "_collecttransaction", transaction);
+	PHALCON_CALL_METHOD(NULL, this_ptr, "_collecttransaction", transaction);
 	
 	PHALCON_MM_RESTORE();
 }
@@ -532,7 +515,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, notifyCommit){
 
 	phalcon_fetch_params(1, 1, 0, &transaction);
 	
-	phalcon_call_method_p1_noret(this_ptr, "_collecttransaction", transaction);
+	PHALCON_CALL_METHOD(NULL, this_ptr, "_collecttransaction", transaction);
 	
 	PHALCON_MM_RESTORE();
 }
@@ -555,7 +538,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, _collectTransaction){
 	phalcon_fetch_params(1, 1, 0, &transaction);
 	
 	PHALCON_OBS_VAR(transactions);
-	phalcon_read_property_this(&transactions, this_ptr, SL("_transactions"), PH_NOISY_CC);
+	phalcon_read_property_this(&transactions, this_ptr, SL("_transactions"), PH_NOISY TSRMLS_CC);
 	if (phalcon_fast_count_ev(transactions TSRMLS_CC)) {
 	
 		PHALCON_INIT_VAR(new_transactions);
@@ -595,7 +578,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, collectTransactions){
 	PHALCON_MM_GROW();
 
 	PHALCON_OBS_VAR(transactions);
-	phalcon_read_property_this(&transactions, this_ptr, SL("_transactions"), PH_NOISY_CC);
+	phalcon_read_property_this(&transactions, this_ptr, SL("_transactions"), PH_NOISY TSRMLS_CC);
 	if (phalcon_fast_count_ev(transactions TSRMLS_CC)) {
 	
 		phalcon_is_iterable(transactions, &ah0, &hp0, 0, 0);

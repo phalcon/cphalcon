@@ -70,6 +70,8 @@ PHALCON_INIT_CLASS(Phalcon_Validation_Validator){
 int phalcon_validation_validator_getoption_helper(const zend_class_entry *ce, zval *result, zval *this_ptr, const char *option TSRMLS_DC)
 {
 	zval *opt;
+	zval *params[1];
+
 	if (is_phalcon_class(ce)) {
 		zval *value;
 		zval *options = phalcon_fetch_nproperty_this(this_ptr, SL("_options"), PH_NOISY TSRMLS_CC);
@@ -86,7 +88,8 @@ int phalcon_validation_validator_getoption_helper(const zend_class_entry *ce, zv
 
 	PHALCON_ALLOC_GHOST_ZVAL(opt);
 	PHALCON_ZVAL_MAYBE_INTERNED_STRING(opt, option);
-	return phalcon_call_method_params(result, NULL, this_ptr, SL("getoption"), zend_inline_hash_func(SS("getoption")) TSRMLS_CC, 1, opt);
+	params[0] = opt;
+	return phalcon_call_method(&result, this_ptr, "getoption", 1, params TSRMLS_CC);
 }
 
 /**
@@ -126,7 +129,7 @@ PHP_METHOD(Phalcon_Validation_Validator, isSetOption){
 
 	phalcon_fetch_params(0, 1, 0, &key);
 	
-	options = phalcon_fetch_nproperty_this(this_ptr, SL("_options"), PH_NOISY_CC);
+	options = phalcon_fetch_nproperty_this(this_ptr, SL("_options"), PH_NOISY TSRMLS_CC);
 	RETURN_BOOL(phalcon_array_isset(options, key));
 }
 

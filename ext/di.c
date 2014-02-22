@@ -146,22 +146,23 @@ static int phalcon_di_call_method_internal(zval *return_value, zval **return_val
 
 		if (SUCCESS == zend_symtable_exists(obj->services, method, method_len + 1)) {
 			zval *svc;
+			zval *params[2];
 
 			PHALCON_ALLOC_GHOST_ZVAL(svc);
 			ZVAL_STRINGL(svc, service, method_len - 3, 0);
 
+			params[0] = svc;
+			params[1] = param;
+
 			if (lc_method_name[0] == 'g') {
-				retval = phalcon_call_method_params(return_value, return_value_ptr, this_ptr, SL("get"), zend_inline_hash_func(SS("get")) TSRMLS_CC, 2, svc, param);
+				retval = phalcon_return_call_method(return_value, return_value_ptr, this_ptr, "get", 2, params TSRMLS_CC);
 			}
 			else {
-				retval = phalcon_call_method_params(return_value, return_value_ptr, this_ptr, SL("set"), zend_inline_hash_func(SS("set")) TSRMLS_CC, 2, svc, param);
+				retval = phalcon_return_call_method(return_value, return_value_ptr, this_ptr, "set", 2, params TSRMLS_CC);
 			}
 
 			if (EG(exception)) {
 				retval = SUCCESS;
-				if (return_value_ptr) {
-					ALLOC_INIT_ZVAL(*return_value_ptr);
-				}
 			}
 		}
 	}
@@ -177,12 +178,9 @@ static int phalcon_di_call_method_internal(zval *return_value, zval **return_val
 static int phalcon_di_call_method(const char *method, INTERNAL_FUNCTION_PARAMETERS)
 {
 	zval **param;
-	zval *p;
 
 	if (!ZEND_NUM_ARGS()) {
-		PHALCON_ALLOC_GHOST_ZVAL(p);
-		ZVAL_NULL(p);
-		param = &p;
+		param = &PHALCON_GLOBAL(z_null);
 	}
 	else {
 		phalcon_fetch_parameters_ex(0 TSRMLS_CC, 1, 0, &param);
@@ -210,8 +208,10 @@ static zval* phalcon_di_read_dimension_internal(zval *this_ptr, phalcon_di_objec
 
 	/* Resolve the instance normally */
 	if (SUCCESS == zend_symtable_find(obj->services, Z_STRVAL_P(offset), Z_STRLEN_P(offset)+1, (void**)&service)) {
+		zval *params[] = { parameters, this_ptr };
+
 		/* The service is registered in the DI */
-		if (FAILURE == phalcon_call_method_params(*retval, retval, *service, SL("resolve"), zend_inline_hash_func(SS("resolve")) TSRMLS_CC, 2, parameters, this_ptr)) {
+		if (FAILURE == phalcon_call_method(retval, *service, "resolve", 2, params TSRMLS_CC)) {
 			return NULL;
 		}
 
@@ -236,7 +236,8 @@ static zval* phalcon_di_read_dimension_internal(zval *this_ptr, phalcon_di_objec
 
 	/* Pass the DI itself if the instance implements Phalcon\DI\InjectionAwareInterface */
 	if (ce && instanceof_function_ex(ce, phalcon_di_injectionawareinterface_ce, 1 TSRMLS_CC)) {
-		if (FAILURE == phalcon_call_method_params(NULL, NULL, *retval, SL("setdi"), zend_inline_hash_func(SS("setdi")) TSRMLS_CC, 1, this_ptr)) {
+		zval *params[] = { this_ptr };
+		if (FAILURE == phalcon_call_method(NULL, *retval, "setdi", 1, params TSRMLS_CC)) {
 			zval_ptr_dtor(retval);
 			return NULL;
 		}
@@ -309,12 +310,13 @@ static int phalcon_di_has_dimension(zval *object, zval *offset, int check_empty 
 static zval* phalcon_di_write_dimension_internal(phalcon_di_object *obj, zval *offset, zval *value TSRMLS_DC)
 {
 	zval *retval;
+	zval *params[] = { offset, value, PHALCON_GLOBAL(z_true) };
 
 	assert(Z_TYPE_P(offset) == IS_STRING);
 
 	MAKE_STD_ZVAL(retval);
 	object_init_ex(retval, phalcon_di_service_ce);
-	if (FAILURE == phalcon_call_method_params(NULL, NULL, retval, SL("__construct"), zend_inline_hash_func(SS("__construct")) TSRMLS_CC, 3, offset, value, PHALCON_GLOBAL(z_true))) {
+	if (FAILURE == phalcon_call_method(NULL, retval, "__construct", 3, params TSRMLS_CC)) {
 		return NULL;
 	}
 
@@ -603,7 +605,7 @@ PHP_METHOD(Phalcon_DI, set) {
 	MAKE_STD_ZVAL(service);
 	object_init_ex(service, phalcon_di_service_ce);
 	/* Won't throw exceptions */
-	RETURN_ON_FAILURE(phalcon_call_method_params(NULL, NULL, service, SL("__construct"), zend_inline_hash_func(SS("__construct")) TSRMLS_CC, 3, *name, *definition, *shared));
+	PHALCON_CALL_METHODW(NULL, service, "__construct", *name, *definition, *shared);
 
 	obj = phalcon_di_get_object(getThis() TSRMLS_CC);
 
@@ -675,7 +677,7 @@ PHP_METHOD(Phalcon_DI, attempt){
 		}
 
 		object_init_ex(return_value, phalcon_di_service_ce);
-		phalcon_call_method_p3_noret(return_value, "__construct", *name, *definition, *shared);
+		PHALCON_CALL_METHOD(NULL, return_value, "__construct", *name, *definition, *shared);
 	
 		Z_ADDREF_P(return_value);
 		zend_hash_update(obj->services, Z_STRVAL_PP(name), Z_STRLEN_PP(name)+1, &return_value, sizeof(zval*), NULL);
@@ -705,7 +707,7 @@ PHP_METHOD(Phalcon_DI, setService)
 		raw_definition = name_or_def;
 		PHALCON_VERIFY_INTERFACE_EX(*raw_definition, phalcon_di_serviceinterface_ce, phalcon_di_exception_ce, 0);
 
-		RETURN_ON_FAILURE(phalcon_call_method_params(name, &name, *raw_definition, SL("getname"), zend_inline_hash_func(SS("getname")) TSRMLS_CC, 0));
+		PHALCON_CALL_METHODW(&name, *raw_definition, "getname");
 
 		Z_ADDREF_PP(raw_definition);
 		zend_hash_update(obj->services, Z_STRVAL_P(name), Z_STRLEN_P(name)+1, (void*)raw_definition, sizeof(zval*), NULL);
@@ -739,9 +741,8 @@ PHP_METHOD(Phalcon_DI, getRaw){
 
 	obj = phalcon_di_get_object(getThis() TSRMLS_CC);
 	if (SUCCESS == zend_symtable_find(obj->services, Z_STRVAL_PP(name), Z_STRLEN_PP(name)+1, (void**)&service)) {
-		PHALCON_MM_GROW();
-		phalcon_return_call_method_p0(*service, "getdefinition");
-		RETURN_MM();
+		PHALCON_RETURN_CALL_METHODW(*service, "getdefinition");
+		return;
 	}
 
 	zend_throw_exception_ex(phalcon_di_exception_ce, 0 TSRMLS_CC, "Service '%s' was not found in the dependency injection container", Z_STRVAL_PP(name));
@@ -792,13 +793,7 @@ PHP_METHOD(Phalcon_DI, get){
 	obj = phalcon_di_get_object(getThis() TSRMLS_CC);
 	if (SUCCESS == zend_symtable_find(obj->services, Z_STRVAL_PP(name), Z_STRLEN_PP(name)+1, (void**)&service)) {
 		/* The service is registered in the DI */
-		if (FAILURE == phalcon_call_method_params(return_value, return_value_ptr, *service, SL("resolve"), zend_inline_hash_func(SS("resolve")) TSRMLS_CC, 2, *parameters, this_ptr)) {
-			if (EG(exception) && return_value_ptr) {
-				ALLOC_INIT_ZVAL(*return_value_ptr);
-			}
-
-			return;
-		}
+		PHALCON_RETURN_CALL_METHODW(*service, "resolve", *parameters, this_ptr);
 
 		if (return_value_ptr) {
 			return_value = *return_value_ptr;
@@ -821,7 +816,7 @@ PHP_METHOD(Phalcon_DI, get){
 
 	/* Pass the DI itself if the instance implements Phalcon\DI\InjectionAwareInterface */
 	if (ce && instanceof_function_ex(ce, phalcon_di_injectionawareinterface_ce, 1 TSRMLS_CC)) {
-		RETURN_ON_FAILURE(phalcon_call_method_params(NULL, NULL, return_value, SL("setdi"), zend_inline_hash_func(SS("setdi")) TSRMLS_CC, 1, this_ptr));
+		PHALCON_CALL_METHODW(NULL, return_value, "setdi", this_ptr);
 	}
 }
 

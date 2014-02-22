@@ -69,21 +69,17 @@ PHP_METHOD(Phalcon_Assets_Resource_Css, __construct){
 
 	zval *path, *local = NULL, *filter = NULL, *attributes = NULL, *type;
 
-	PHALCON_MM_GROW();
-
-	phalcon_fetch_params(1, 1, 3, &path, &local, &filter, &attributes);
+	phalcon_fetch_params(0, 1, 3, &path, &local, &filter, &attributes);
 	
 	PHALCON_ALLOC_GHOST_ZVAL(type);
 	ZVAL_STRING(type, "css", 1);
 	
-	PHALCON_CALL_PARENT_NORET(
+	PHALCON_CALL_PARENTW(NULL,
 		phalcon_assets_resource_css_ce, this_ptr, "__construct",
 		type, path,
 		(local ? local : PHALCON_GLOBAL(z_true)),
 		(filter ? filter : PHALCON_GLOBAL(z_true)),
 		(attributes ? attributes : PHALCON_GLOBAL(z_null))
 	);
-	
-	PHALCON_MM_RESTORE();
 }
 

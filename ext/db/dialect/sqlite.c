@@ -120,8 +120,8 @@ PHALCON_INIT_CLASS(Phalcon_Db_Dialect_Sqlite){
  */
 PHP_METHOD(Phalcon_Db_Dialect_Sqlite, getColumnDefinition){
 
-	zval *column, *size, *column_type, *column_sql = NULL;
-	zval *scale;
+	zval *column, *size = NULL, *column_type = NULL, *column_sql = NULL;
+	zval *scale = NULL;
 
 	PHALCON_MM_GROW();
 
@@ -132,11 +132,8 @@ PHP_METHOD(Phalcon_Db_Dialect_Sqlite, getColumnDefinition){
 		return;
 	}
 	
-	PHALCON_INIT_VAR(size);
-	phalcon_call_method(size, column, "getsize");
-	
-	PHALCON_INIT_VAR(column_type);
-	phalcon_call_method(column_type, column, "gettype");
+	PHALCON_CALL_METHOD(&size, column, "getsize");
+	PHALCON_CALL_METHOD(&column_type, column, "gettype");
 	
 	switch (phalcon_get_intval(column_type)) {
 	
@@ -156,8 +153,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Sqlite, getColumnDefinition){
 			break;
 	
 		case 3:
-			PHALCON_INIT_VAR(scale);
-			phalcon_call_method(scale, column, "getscale");
+			PHALCON_CALL_METHOD(&scale, column, "getscale");
 	
 			PHALCON_INIT_NVAR(column_sql);
 			PHALCON_CONCAT_SVSVS(column_sql, "NUMERIC(", size, ",", scale, ")");
@@ -202,8 +198,8 @@ PHP_METHOD(Phalcon_Db_Dialect_Sqlite, getColumnDefinition){
  */
 PHP_METHOD(Phalcon_Db_Dialect_Sqlite, addColumn){
 
-	zval *table_name, *schema_name, *column, *sql = NULL, *name;
-	zval *column_definition, *is_not_null, *is_autoincrement;
+	zval *table_name, *schema_name, *column, *sql = NULL, *name = NULL;
+	zval *column_definition = NULL, *is_not_null = NULL, *is_autoincrement = NULL;
 
 	PHALCON_MM_GROW();
 
@@ -219,21 +215,16 @@ PHP_METHOD(Phalcon_Db_Dialect_Sqlite, addColumn){
 		PHALCON_CONCAT_SVS(sql, "ALTER TABLE \"", table_name, "\" ADD COLUMN ");
 	}
 
-	PHALCON_INIT_VAR(name);
-	phalcon_call_method(name, column, "getname");
-
-	PHALCON_INIT_VAR(column_definition);
-	phalcon_call_method_p1(column_definition, this_ptr, "getcolumndefinition", column);
+	PHALCON_CALL_METHOD(&name, column, "getname");
+	PHALCON_CALL_METHOD(&column_definition, this_ptr, "getcolumndefinition", column);
 	PHALCON_SCONCAT_SVSV(sql, "\"", name, "\" ", column_definition);
 
-	PHALCON_INIT_VAR(is_not_null);
-	phalcon_call_method(is_not_null, column, "isnotnull");
+	PHALCON_CALL_METHOD(&is_not_null, column, "isnotnull");
 	if (zend_is_true(is_not_null)) {
 		phalcon_concat_self_str(&sql, SL(" NOT NULL") TSRMLS_CC);
 	}
 
-	PHALCON_INIT_VAR(is_autoincrement);
-	phalcon_call_method(is_autoincrement, column, "isautoincrement");
+	PHALCON_CALL_METHOD(&is_autoincrement, column, "isautoincrement");
 	/*
 	 * See http://www.sqlite.org/syntaxdiagrams.html#column-constraint
 	 */
@@ -280,8 +271,8 @@ PHP_METHOD(Phalcon_Db_Dialect_Sqlite, dropColumn){
  */
 PHP_METHOD(Phalcon_Db_Dialect_Sqlite, addIndex){
 
-	zval *table_name, *schema_name, *index, *sql = NULL, *columns;
-	zval *quoted_column_list, *name;
+	zval *table_name, *schema_name, *index, *sql = NULL, *columns = NULL;
+	zval *quoted_column_list = NULL, *name = NULL;
 
 	PHALCON_MM_GROW();
 
@@ -289,8 +280,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Sqlite, addIndex){
 	
 	PHALCON_VERIFY_INTERFACE_EX(index, phalcon_db_indexinterface_ce, phalcon_db_exception_ce, 1);
 
-	PHALCON_INIT_VAR(name);
-	phalcon_call_method(name, index, "getname");
+	PHALCON_CALL_METHOD(&name, index, "getname");
 
 	PHALCON_INIT_VAR(sql);
 	if (zend_is_true(schema_name)) {
@@ -300,11 +290,8 @@ PHP_METHOD(Phalcon_Db_Dialect_Sqlite, addIndex){
 		PHALCON_CONCAT_SVSVS(sql, "CREATE INDEX \"", name, "\" ON \"", table_name, "\" (");
 	}
 
-	PHALCON_INIT_VAR(columns);
-	phalcon_call_method(columns, index, "getcolumns");
-
-	PHALCON_INIT_VAR(quoted_column_list);
-	phalcon_call_method_p1(quoted_column_list, this_ptr, "getcolumnlist", columns);
+	PHALCON_CALL_METHOD(&columns, index, "getcolumns");
+	PHALCON_CALL_METHOD(&quoted_column_list, this_ptr, "getcolumnlist", columns);
 
 	PHALCON_SCONCAT_VS(sql, quoted_column_list, ")");
 	RETURN_CTOR(sql);

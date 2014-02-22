@@ -42,6 +42,5 @@
 void phalcon_throw_exception(zval *object TSRMLS_DC);
 void phalcon_throw_exception_string(zend_class_entry *ce, const char *message TSRMLS_DC);
 void phalcon_throw_exception_zval(zend_class_entry *ce, zval *message TSRMLS_DC);
-void phalcon_throw_exception_internal(zval *exception TSRMLS_DC);
 
 #endif /* PHALCON_KERNEL_EXCEPTION_H */

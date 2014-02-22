@@ -232,15 +232,15 @@ PHP_METHOD(Phalcon_Paginator_Adapter_QueryBuilder, getPaginate){
 
 	zval *original_builder, *builder, *total_builder;
 	zval *limit, *number_page;
-	zval *query, *items, *select_count;
-	zval *total_query, *result, *row, *rowcount;
+	zval *query = NULL, *items = NULL, *select_count;
+	zval *total_query = NULL, *result = NULL, *row = NULL, *rowcount;
 	long int i_limit, i_number_page, i_number, i_before, i_rowcount;
 	long int i_total_pages, i_next;
 	ldiv_t tp;
 
 	PHALCON_MM_GROW();
 
-	original_builder = phalcon_fetch_nproperty_this(this_ptr, SL("_builder"), PH_NOISY_CC);
+	original_builder = phalcon_fetch_nproperty_this(this_ptr, SL("_builder"), PH_NOISY TSRMLS_CC);
 	
 	/* Make a copy of the original builder to leave it as it is */
 	PHALCON_INIT_VAR(builder);
@@ -254,8 +254,8 @@ PHP_METHOD(Phalcon_Paginator_Adapter_QueryBuilder, getPaginate){
 		RETURN_MM();
 	}
 	
-	limit         = phalcon_fetch_nproperty_this(this_ptr, SL("_limitRows"), PH_NOISY_CC);
-	number_page   = phalcon_fetch_nproperty_this(this_ptr, SL("_page"), PH_NOISY_CC);
+	limit         = phalcon_fetch_nproperty_this(this_ptr, SL("_limitRows"), PH_NOISY TSRMLS_CC);
+	number_page   = phalcon_fetch_nproperty_this(this_ptr, SL("_page"), PH_NOISY TSRMLS_CC);
 	i_limit       = phalcon_get_intval(limit);
 	i_number_page = phalcon_get_intval(number_page);
 
@@ -273,43 +273,37 @@ PHP_METHOD(Phalcon_Paginator_Adapter_QueryBuilder, getPaginate){
 
 	/* Set the limit clause avoiding negative offsets */
 	if (i_number < i_limit) {
-		phalcon_call_method_p1_noret(builder, "limit", limit);
+		PHALCON_CALL_METHOD(NULL, builder, "limit", limit);
 	} else {
 		zval *number;
 		PHALCON_ALLOC_GHOST_ZVAL(number);
 		ZVAL_LONG(number, i_number);
-		phalcon_call_method_p2_noret(builder, "limit", limit, number);
+		PHALCON_CALL_METHOD(NULL, builder, "limit", limit, number);
 	}
 	
-	PHALCON_OBS_VAR(query);
-	PHALCON_OBS_VAR(items);
-	PHALCON_OBS_VAR(total_query);
-	PHALCON_OBS_VAR(result);
-	PHALCON_OBS_VAR(row);
-
-	phalcon_call_method_p0_ex(query, &query, builder, "getquery");
+	PHALCON_CALL_METHOD(&query, builder, "getquery");
 
 	/* Execute the query an return the requested slice of data */
-	phalcon_call_method_p0_ex(items, &items, query, "execute");
+	PHALCON_CALL_METHOD(&items, query, "execute");
 
 	PHALCON_ALLOC_GHOST_ZVAL(select_count);
 	ZVAL_STRING(select_count, "COUNT(*) [rowcount]", 1);
 	
 	/* Change the queried columns by a COUNT(*) */
-	phalcon_call_method_p1_noret(total_builder, "columns", select_count);
+	PHALCON_CALL_METHOD(NULL, total_builder, "columns", select_count);
 	
 	/* Remove the 'ORDER BY' clause, PostgreSQL requires this */
-	phalcon_call_method_p1_noret(total_builder, "orderby", PHALCON_GLOBAL(z_null));
+	PHALCON_CALL_METHOD(NULL, total_builder, "orderby", PHALCON_GLOBAL(z_null));
 	
 	/* Obtain the PHQL for the total query */
-	phalcon_call_method_p0_ex(total_query, &total_query, total_builder, "getquery");
+	PHALCON_CALL_METHOD(&total_query, total_builder, "getquery");
 	
 	/* Obtain the result of the total query */
-	phalcon_call_method_p0_ex(result, &result, total_query, "execute");
-	phalcon_call_method_p0_ex(row, &row, result, "getfirst");
+	PHALCON_CALL_METHOD(&result, total_query, "execute");
+	PHALCON_CALL_METHOD(&row, result, "getfirst");
 	
 	PHALCON_OBS_VAR(rowcount);
-	phalcon_read_property(&rowcount, row, SL("rowcount"), PH_NOISY_CC);
+	phalcon_read_property(&rowcount, row, SL("rowcount"), PH_NOISY TSRMLS_CC);
 	
 	i_rowcount    = phalcon_get_intval(rowcount);
 	tp            = ldiv(i_rowcount, i_limit);

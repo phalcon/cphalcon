@@ -29,6 +29,7 @@
 
 #include "kernel/main.h"
 #include "kernel/memory.h"
+#include "kernel/fcall.h"
 #include "kernel/framework/orm.h"
 #include "interned-strings.h"
 
@@ -587,6 +588,59 @@ static PHP_RINIT_FUNCTION(phalcon){
 	return SUCCESS;
 }
 
+#ifndef PHALCON_RELEASE
+static void phalcon_fcall_cache_dtor(void *pData)
+{
+	phalcon_fcall_cache_entry **entry = (phalcon_fcall_cache_entry**)pData;
+	free(*entry);
+}
+#endif
+
+static int phalcon_cleanup_fcache(void *pDest TSRMLS_DC, int num_args, va_list args, zend_hash_key *hash_key)
+{
+	phalcon_fcall_cache_entry **entry = (phalcon_fcall_cache_entry**)pDest;
+	zend_class_entry *scope;
+	uint len = hash_key->nKeyLength;
+
+	assert(hash_key->arKey != NULL);
+	assert(hash_key->nKeyLength > 2*sizeof(zend_class_entry**));
+
+	memcpy(&scope, &hash_key->arKey[len - 2*sizeof(zend_class_entry**)], sizeof(zend_class_entry*));
+
+/*
+#ifndef PHALCON_RELEASE
+	{
+		zend_class_entry *cls;
+		memcpy(&cls, &hash_key->arKey[len - sizeof(zend_class_entry**)], sizeof(zend_class_entry*));
+
+		fprintf(stderr, "func: %s, cls: %s, scope: %s [%u]\n", (*entry)->f->common.function_name, (cls ? cls->name : "N/A"), (scope ? scope->name : "N/A"), (uint)(*entry)->times);
+	}
+#endif
+*/
+
+#ifndef PHALCON_RELEASE
+	if ((*entry)->f->type != ZEND_INTERNAL_FUNCTION || (scope && scope->type != ZEND_INTERNAL_CLASS)) {
+		return ZEND_HASH_APPLY_REMOVE;
+	}
+#else
+	if ((*entry)->type != ZEND_INTERNAL_FUNCTION || (scope && scope->type != ZEND_INTERNAL_CLASS)) {
+		return ZEND_HASH_APPLY_REMOVE;
+	}
+#endif
+
+#if PHP_VERSION_ID >= 50400
+	if (scope && scope->type == ZEND_INTERNAL_CLASS && scope->info.internal.module->type != MODULE_PERSISTENT) {
+		return ZEND_HASH_APPLY_REMOVE;
+	}
+#else
+	if (scope && scope->type == ZEND_INTERNAL_CLASS && scope->module->type != MODULE_PERSISTENT) {
+		return ZEND_HASH_APPLY_REMOVE;
+	}
+#endif
+
+	return ZEND_HASH_APPLY_KEEP;
+}
+
 static PHP_RSHUTDOWN_FUNCTION(phalcon){
 
 	if (PHALCON_GLOBAL(start_memory) != NULL) {
@@ -594,6 +648,8 @@ static PHP_RSHUTDOWN_FUNCTION(phalcon){
 	}
 
 	phalcon_orm_destroy_cache(TSRMLS_C);
+
+	zend_hash_apply_with_arguments(PHALCON_GLOBAL(fcache) TSRMLS_CC, phalcon_cleanup_fcache, 0);
 
 #ifndef PHALCON_RELEASE
 	phalcon_verify_permanent_zvals(0 TSRMLS_CC);
@@ -650,8 +706,12 @@ static PHP_GINIT_FUNCTION(phalcon)
 	phalcon_globals->start_memory = start;
 	phalcon_globals->end_memory   = start + num_preallocated_frames;
 
-	phalcon_globals->function_cache = pemalloc(sizeof(HashTable), 1);
-	zend_hash_init(phalcon_globals->function_cache, 128, NULL, NULL, 1);
+	phalcon_globals->fcache = pemalloc(sizeof(HashTable), 1);
+#ifndef PHALCON_RELEASE
+	zend_hash_init(phalcon_globals->fcache, 128, NULL, phalcon_fcall_cache_dtor, 1);
+#else
+	zend_hash_init(phalcon_globals->fcache, 128, NULL, NULL, 1);
+#endif
 
 	phalcon_globals->register_psr3_classes = 0;
 
@@ -699,9 +759,9 @@ static PHP_GSHUTDOWN_FUNCTION(phalcon)
 	pefree(phalcon_globals->start_memory, 1);
 	phalcon_globals->start_memory = NULL;
 
-	zend_hash_destroy(phalcon_globals->function_cache);
-	pefree(phalcon_globals->function_cache, 1);
-	phalcon_globals->function_cache = NULL;
+	zend_hash_destroy(phalcon_globals->fcache);
+	pefree(phalcon_globals->fcache, 1);
+	phalcon_globals->fcache = NULL;
 
 #ifndef PHALCON_RELEASE
 	phalcon_verify_permanent_zvals(1 TSRMLS_CC);

@@ -28,8 +28,11 @@ use Phalcon\Cache\BackendInterface;
 
 class ViewSimpleTest extends PHPUnit_Framework_TestCase
 {
+	private $level;
+
 	public function setUp()
 	{
+		$this->level = ob_get_level();
 		foreach (new DirectoryIterator('unit-tests/cache/') as $item) {
 			$item->isDir() or unlink($item->getPathname());
 		}
@@ -170,6 +173,9 @@ class ViewSimpleTest extends PHPUnit_Framework_TestCase
 		{
 			$item->isDir() or unlink($item->getPathname());
 		}
-	}
 
+		while (ob_get_level() > $this->level) {
+			ob_end_flush();
+		}
+	}
 }

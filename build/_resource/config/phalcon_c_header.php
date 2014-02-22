@@ -71,4 +71,5 @@ return <<<HEADER
 #include <Zend/zend_execute.h>
 #include <Zend/zend_extensions.h>
 #include <Zend/zend_builtin_functions.h>
+#include <Zend/zend_closures.h>
 HEADER;

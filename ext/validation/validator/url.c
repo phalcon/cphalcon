@@ -74,21 +74,18 @@ PHALCON_INIT_CLASS(Phalcon_Validation_Validator_Url){
  */
 PHP_METHOD(Phalcon_Validation_Validator_Url, validate){
 
-	zval *validator, *attribute, *value, *validate_url;
-	zval *validation, *message_str, *message, *code;
-	zval *allow_empty, *label, *pairs, *prepared;
+	zval *validator, *attribute, *value = NULL, *validate_url;
+	zval *validation = NULL, *message_str, *message, *code;
+	zval *allow_empty, *label, *pairs, *prepared = NULL;
 	zend_class_entry *ce = Z_OBJCE_P(getThis());
 
 	PHALCON_MM_GROW();
 
 	phalcon_fetch_params(1, 2, 0, &validator, &attribute);
 	
-	phalcon_fetch_params(1, 2, 0, &validator, &attribute);
-
 	PHALCON_VERIFY_CLASS_EX(validator, phalcon_validation_ce, phalcon_validation_exception_ce, 1);
 
-	PHALCON_OBS_VAR(value);
-	phalcon_call_method_p1_ex(value, &value, validator, "getvalue", attribute);
+	PHALCON_CALL_METHOD(&value, validator, "getvalue", attribute);
 	
 	PHALCON_INIT_VAR(allow_empty);
 	RETURN_MM_ON_FAILURE(phalcon_validation_validator_getoption_helper(ce, allow_empty, getThis(), phalcon_interned_allowEmpty TSRMLS_CC));
@@ -99,7 +96,6 @@ PHP_METHOD(Phalcon_Validation_Validator_Url, validate){
 	PHALCON_ALLOC_GHOST_ZVAL(validate_url);
 	ZVAL_LONG(validate_url, 273);
 	
-	PHALCON_OBS_VAR(validation);
 	PHALCON_CALL_FUNCTION(&validation, "filter_var", value, validate_url);
 	if (!zend_is_true(validation)) {
 	
@@ -126,13 +122,12 @@ PHP_METHOD(Phalcon_Validation_Validator_Url, validate){
 			ZVAL_LONG(code, 0);
 		}
 
-		PHALCON_OBS_VAR(prepared);
 		PHALCON_CALL_FUNCTION(&prepared, "strtr", message_str, pairs);
 
 		message = phalcon_validation_message_construct_helper(prepared, attribute, "Url", code TSRMLS_CC);
 		Z_DELREF_P(message);
 	
-		phalcon_call_method_p1_noret(validator, "appendmessage", message);
+		PHALCON_CALL_METHOD(NULL, validator, "appendmessage", message);
 		RETURN_MM_FALSE;
 	}
 	

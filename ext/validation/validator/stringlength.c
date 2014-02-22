@@ -82,7 +82,7 @@ PHALCON_INIT_CLASS(Phalcon_Validation_Validator_StringLength){
 PHP_METHOD(Phalcon_Validation_Validator_StringLength, validate){
 
 	zval *validator, *attribute;
-	zval *value, *length, *invalid_maximum;
+	zval *value = NULL, *length = NULL, *invalid_maximum;
 	zval *invalid_minimum, *maximum, *message_str = NULL;
 	zval *message, *minimum, *code;
 	zval *allow_empty, *label, *pairs, *prepared = NULL;
@@ -94,8 +94,7 @@ PHP_METHOD(Phalcon_Validation_Validator_StringLength, validate){
 	
 	PHALCON_VERIFY_CLASS_EX(validator, phalcon_validation_ce, phalcon_validation_exception_ce, 1);
 
-	PHALCON_OBS_VAR(value);
-	phalcon_call_method_p1_ex(value, &value, validator, "getvalue", attribute);
+	PHALCON_CALL_METHOD(&value, validator, "getvalue", attribute);
 
 	PHALCON_INIT_VAR(allow_empty);
 	RETURN_MM_ON_FAILURE(phalcon_validation_validator_getoption_helper(ce, allow_empty, getThis(), phalcon_interned_allowEmpty TSRMLS_CC));
@@ -117,7 +116,6 @@ PHP_METHOD(Phalcon_Validation_Validator_StringLength, validate){
 	
 	/* Check if mbstring is available to calculate the correct length */
 	if (phalcon_function_exists_ex(SS("mb_strlen") TSRMLS_CC) == SUCCESS) {
-		PHALCON_OBS_VAR(length);
 		PHALCON_CALL_FUNCTION(&length, "mb_strlen", value);
 	} else {
 		convert_to_string(value);
@@ -158,13 +156,12 @@ PHP_METHOD(Phalcon_Validation_Validator_StringLength, validate){
 				RETURN_MM_ON_FAILURE(phalcon_validation_getdefaultmessage_helper(Z_OBJCE_P(validator), message_str, validator, "TooLong" TSRMLS_CC));
 			}
 
-			PHALCON_OBS_VAR(prepared);
 			PHALCON_CALL_FUNCTION(&prepared, "strtr", message_str, pairs);
 
 			message = phalcon_validation_message_construct_helper(prepared, attribute, "TooLong", code TSRMLS_CC);
 			Z_DELREF_P(message);
 	
-			phalcon_call_method_p1_noret(validator, "appendmessage", message);
+			PHALCON_CALL_METHOD(NULL, validator, "appendmessage", message);
 			RETURN_MM_FALSE;
 		}
 	}
@@ -187,13 +184,12 @@ PHP_METHOD(Phalcon_Validation_Validator_StringLength, validate){
 				RETURN_MM_ON_FAILURE(phalcon_validation_getdefaultmessage_helper(Z_OBJCE_P(validator), message_str, validator, "TooShort" TSRMLS_CC));
 			}
 
-			PHALCON_OBSERVE_OR_NULLIFY_VAR(prepared);
 			PHALCON_CALL_FUNCTION(&prepared, "strtr", message_str, pairs);
 
 			message = phalcon_validation_message_construct_helper(prepared, attribute, "TooShort", code TSRMLS_CC);
 			Z_DELREF_P(message);
 	
-			phalcon_call_method_p1_noret(validator, "appendmessage", message);
+			PHALCON_CALL_METHOD(NULL, validator, "appendmessage", message);
 			RETURN_MM_FALSE;
 		}
 	}

@@ -103,6 +103,6 @@ PHP_METHOD(Phalcon_Config_Adapter_Php, __construct){
 
 	PHALCON_MM_GROW();
 	Z_DELREF_P(config);
-	PHALCON_CALL_PARENT_NORET(phalcon_config_adapter_php_ce, this_ptr, "__construct", config);
+	PHALCON_CALL_PARENT(NULL, phalcon_config_adapter_php_ce, this_ptr, "__construct", config);
 	PHALCON_MM_RESTORE();
 }

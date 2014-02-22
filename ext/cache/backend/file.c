@@ -128,7 +128,7 @@ PHP_METHOD(Phalcon_Cache_Backend_File, __construct){
 	}
 
 	PHALCON_MM_GROW();
-	PHALCON_CALL_PARENT_NORET(phalcon_cache_backend_file_ce, this_ptr, "__construct", frontend, options);
+	PHALCON_CALL_PARENT(NULL, phalcon_cache_backend_file_ce, this_ptr, "__construct", frontend, options);
 	PHALCON_MM_RESTORE();
 }
 
@@ -143,7 +143,7 @@ PHP_METHOD(Phalcon_Cache_Backend_File, get){
 
 	zval *key_name, *lifetime = NULL;
 	zval *options, *prefix, *prefixed_key, *cache_dir;
-	zval *cache_file, *tmp;
+	zval *cache_file, *tmp = NULL;
 	zval *modified_time;
 	zval *cached_content, *exception_message;
 	long int now, ttl, mtime, diff;
@@ -153,8 +153,8 @@ PHP_METHOD(Phalcon_Cache_Backend_File, get){
 
 	phalcon_fetch_params(1, 1, 1, &key_name, &lifetime);
 	
-	options = phalcon_fetch_nproperty_this(this_ptr, SL("_options"), PH_NOISY_CC);
-	prefix  = phalcon_fetch_nproperty_this(this_ptr, SL("_prefix"), PH_NOISY_CC);
+	options = phalcon_fetch_nproperty_this(this_ptr, SL("_options"), PH_NOISY TSRMLS_CC);
+	prefix  = phalcon_fetch_nproperty_this(this_ptr, SL("_prefix"), PH_NOISY TSRMLS_CC);
 	
 	PHALCON_INIT_VAR(prefixed_key);
 	PHALCON_CONCAT_VV(prefixed_key, prefix, key_name);
@@ -170,7 +170,7 @@ PHP_METHOD(Phalcon_Cache_Backend_File, get){
 	
 	if (phalcon_file_exists(cache_file TSRMLS_CC) == SUCCESS) {
 	
-		zval *frontend = phalcon_fetch_nproperty_this(this_ptr, SL("_frontend"), PH_NOISY_CC);
+		zval *frontend = phalcon_fetch_nproperty_this(this_ptr, SL("_frontend"), PH_NOISY TSRMLS_CC);
 	
 		/** 
 		 * Check if the file has expired
@@ -181,11 +181,10 @@ PHP_METHOD(Phalcon_Cache_Backend_File, get){
 		 * Take the lifetime from the frontend or read it from the set in start()
 		 */
 		if (!lifetime || Z_TYPE_P(lifetime) == IS_NULL) {
-			zval *last_lifetime = phalcon_fetch_nproperty_this(this_ptr, SL("_lastLifetime"), PH_NOISY_CC);
+			zval *last_lifetime = phalcon_fetch_nproperty_this(this_ptr, SL("_lastLifetime"), PH_NOISY TSRMLS_CC);
 
 			if (Z_TYPE_P(last_lifetime) == IS_NULL) {
-				PHALCON_OBS_VAR(tmp);
-				phalcon_call_method_p0_ex(tmp, &tmp, frontend, "getlifetime");
+				PHALCON_CALL_METHOD(&tmp, frontend, "getlifetime");
 				ttl = phalcon_get_intval(tmp);
 			} else {
 				ttl = phalcon_get_intval(last_lifetime);
@@ -227,7 +226,7 @@ PHP_METHOD(Phalcon_Cache_Backend_File, get){
 				/** 
 				 * Use the frontend to process the content of the cache
 				 */
-				phalcon_call_method_p1(return_value, frontend, "afterretrieve", cached_content);
+				PHALCON_RETURN_CALL_METHOD(frontend, "afterretrieve", cached_content);
 			}
 	
 			RETURN_MM();
@@ -248,7 +247,7 @@ PHP_METHOD(Phalcon_Cache_Backend_File, get){
 PHP_METHOD(Phalcon_Cache_Backend_File, save){
 
 	zval *key_name = NULL, *content = NULL, *lifetime = NULL, *stop_buffer = NULL;
-	zval *cache_file, *cached_content, *prepared_content, *status, *is_buffering;
+	zval *cache_file, *cached_content = NULL, *prepared_content = NULL, *status, *is_buffering = NULL;
 	zval *last_key, *frontend, *options, *cache_dir;
 
 	PHALCON_MM_GROW();
@@ -256,9 +255,9 @@ PHP_METHOD(Phalcon_Cache_Backend_File, save){
 	phalcon_fetch_params(1, 0, 4, &key_name, &content, &lifetime, &stop_buffer);
 	
 	if (!key_name || Z_TYPE_P(key_name) == IS_NULL) {
-		last_key = phalcon_fetch_nproperty_this(this_ptr, SL("_lastKey"), PH_NOISY_CC);
+		last_key = phalcon_fetch_nproperty_this(this_ptr, SL("_lastKey"), PH_NOISY TSRMLS_CC);
 	} else {
-		zval *prefix = phalcon_fetch_nproperty_this(this_ptr, SL("_prefix"), PH_NOISY_CC);
+		zval *prefix = phalcon_fetch_nproperty_this(this_ptr, SL("_prefix"), PH_NOISY TSRMLS_CC);
 	
 		PHALCON_INIT_VAR(last_key);
 		PHALCON_CONCAT_VV(last_key, prefix, key_name);
@@ -269,8 +268,8 @@ PHP_METHOD(Phalcon_Cache_Backend_File, save){
 		return;
 	}
 	
-	frontend = phalcon_fetch_nproperty_this(this_ptr, SL("_frontend"), PH_NOISY_CC);
-	options  = phalcon_fetch_nproperty_this(this_ptr, SL("_options"), PH_NOISY_CC);
+	frontend = phalcon_fetch_nproperty_this(this_ptr, SL("_frontend"), PH_NOISY TSRMLS_CC);
+	options  = phalcon_fetch_nproperty_this(this_ptr, SL("_options"), PH_NOISY TSRMLS_CC);
 	
 	if (unlikely(!phalcon_array_isset_string_fetch(&cache_dir, options, SS("cacheDir")))) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_cache_exception_ce, "Unexpected inconsistency in options");
@@ -281,14 +280,12 @@ PHP_METHOD(Phalcon_Cache_Backend_File, save){
 	PHALCON_CONCAT_VV(cache_file, cache_dir, last_key);
 
 	if (!content || !zend_is_true(content)) {
-		PHALCON_OBS_VAR(cached_content);
-		phalcon_call_method_p0_ex(cached_content, &cached_content, frontend, "getcontent");
+		PHALCON_CALL_METHOD(&cached_content, frontend, "getcontent");
 	} else {
 		cached_content = content;
 	}
 	
-	PHALCON_OBS_VAR(prepared_content);
-	phalcon_call_method_p1_ex(prepared_content, &prepared_content, frontend, "beforestore", cached_content);
+	PHALCON_CALL_METHOD(&prepared_content, frontend, "beforestore", cached_content);
 	
 	/** 
 	 * We use file_put_contents to respect open-base-dir directive
@@ -304,10 +301,9 @@ PHP_METHOD(Phalcon_Cache_Backend_File, save){
 		return;
 	}
 	
-	PHALCON_OBS_VAR(is_buffering);
-	phalcon_call_method_p0_ex(is_buffering, &is_buffering, frontend, "isbuffering");
+	PHALCON_CALL_METHOD(&is_buffering, frontend, "isbuffering");
 	if (!stop_buffer || PHALCON_IS_TRUE(stop_buffer)) {
-		phalcon_call_method_noret(frontend, "stop");
+		PHALCON_CALL_METHOD(NULL, frontend, "stop");
 	}
 	
 	if (PHALCON_IS_TRUE(is_buffering)) {
@@ -334,8 +330,8 @@ PHP_METHOD(Phalcon_Cache_Backend_File, delete){
 
 	phalcon_fetch_params(1, 1, 0, &key_name);
 	
-	options = phalcon_fetch_nproperty_this(this_ptr, SL("_options"), PH_NOISY_CC);
-	prefix  = phalcon_fetch_nproperty_this(this_ptr, SL("_prefix"), PH_NOISY_CC);
+	options = phalcon_fetch_nproperty_this(this_ptr, SL("_options"), PH_NOISY TSRMLS_CC);
+	prefix  = phalcon_fetch_nproperty_this(this_ptr, SL("_prefix"), PH_NOISY TSRMLS_CC);
 	
 	PHALCON_INIT_VAR(prefixed_key);
 	PHALCON_CONCAT_VV(prefixed_key, prefix, key_name);
@@ -374,7 +370,7 @@ PHP_METHOD(Phalcon_Cache_Backend_File, queryKeys){
 	
 	array_init(return_value);
 	
-	options = phalcon_fetch_nproperty_this(this_ptr, SL("_options"), PH_NOISY_CC);
+	options = phalcon_fetch_nproperty_this(this_ptr, SL("_options"), PH_NOISY TSRMLS_CC);
 	
 	if (unlikely(!phalcon_array_isset_string_fetch(&cache_dir, options, SS("cacheDir")))) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_cache_exception_ce, "Unexpected inconsistency in options");
@@ -387,7 +383,7 @@ PHP_METHOD(Phalcon_Cache_Backend_File, queryKeys){
 	PHALCON_INIT_VAR(iterator);
 	object_init_ex(iterator, spl_ce_DirectoryIterator);
 	assert(phalcon_has_constructor(iterator TSRMLS_CC));
-	phalcon_call_method_p1_noret(iterator, "__construct", cache_dir);
+	PHALCON_CALL_METHOD(NULL, iterator, "__construct", cache_dir);
 
 	/* DirectoryIterator implements Iterator */
 	assert(instanceof_function_ex(spl_ce_DirectoryIterator, zend_ce_iterator, 1 TSRMLS_CC));
@@ -404,14 +400,14 @@ PHP_METHOD(Phalcon_Cache_Backend_File, queryKeys){
 	while (it->funcs->valid(it TSRMLS_CC) == SUCCESS && !EG(exception)) {
 		it->funcs->get_current_data(it, &item TSRMLS_CC);
 
-		PHALCON_OBS_NVAR(is_directory);
-		if (FAILURE == phalcon_call_method_params(is_directory, &is_directory, *item, SL("isdir"), zend_inline_hash_func(SS("isdir")) TSRMLS_CC, 0)) {
+		PHALCON_OBSERVE_OR_NULLIFY_VAR(is_directory);
+		if (FAILURE == phalcon_call_method(&is_directory, *item, "isdir", 0, NULL TSRMLS_CC)) {
 			break;
 		}
 
 		if (!EG(exception) && PHALCON_IS_FALSE(is_directory)) {
-			PHALCON_OBS_NVAR(key);
-			if (FAILURE == phalcon_call_method_params(key, &key, *item, SL("getfilename"), zend_inline_hash_func(SS("getfilename")) TSRMLS_CC, 0)) {
+			PHALCON_OBSERVE_OR_NULLIFY_VAR(key);
+			if (FAILURE == phalcon_call_method(&key, *item, "getfilename", 0, NULL TSRMLS_CC)) {
 				break;
 			}
 
@@ -439,23 +435,23 @@ PHP_METHOD(Phalcon_Cache_Backend_File, exists){
 
 	zval *key_name = NULL, *lifetime = NULL, *last_key, *options;
 	zval *cache_dir, *cache_file, *frontend;
-	zval *tmp, *modified_time;
+	zval *tmp = NULL, *modified_time;
 
 	PHALCON_MM_GROW();
 
 	phalcon_fetch_params(1, 0, 2, &key_name, &lifetime);
 	
 	if (!key_name || Z_TYPE_P(key_name) == IS_NULL) {
-		last_key = phalcon_fetch_nproperty_this(this_ptr, SL("_lastKey"), PH_NOISY_CC);
+		last_key = phalcon_fetch_nproperty_this(this_ptr, SL("_lastKey"), PH_NOISY TSRMLS_CC);
 	} else {
-		zval *prefix = phalcon_fetch_nproperty_this(this_ptr, SL("_prefix"), PH_NOISY_CC);
+		zval *prefix = phalcon_fetch_nproperty_this(this_ptr, SL("_prefix"), PH_NOISY TSRMLS_CC);
 
 		PHALCON_INIT_VAR(last_key);
 		PHALCON_CONCAT_VV(last_key, prefix, key_name);
 	}
 
 	if (zend_is_true(last_key)) {
-		options = phalcon_fetch_nproperty_this(this_ptr, SL("_options"), PH_NOISY_CC);
+		options = phalcon_fetch_nproperty_this(this_ptr, SL("_options"), PH_NOISY TSRMLS_CC);
 	
 		PHALCON_OBS_VAR(cache_dir);
 		phalcon_array_fetch_string(&cache_dir, options, SL("cacheDir"), PH_NOISY);
@@ -466,14 +462,13 @@ PHP_METHOD(Phalcon_Cache_Backend_File, exists){
 		if (phalcon_file_exists(cache_file TSRMLS_CC) == SUCCESS) {
 			long int mtime, ttl;
 
-			frontend = phalcon_fetch_nproperty_this(this_ptr, SL("_frontend"), PH_NOISY_CC);
+			frontend = phalcon_fetch_nproperty_this(this_ptr, SL("_frontend"), PH_NOISY TSRMLS_CC);
 	
 			/** 
 			 * Check if the file has expired
 			 */
 			if (!lifetime || Z_TYPE_P(lifetime) == IS_NULL) {
-				PHALCON_OBS_VAR(tmp);
-				phalcon_call_method_p0_ex(tmp, &tmp, frontend, "getlifetime");
+				PHALCON_CALL_METHOD(&tmp, frontend, "getlifetime");
 
 				ttl = likely(Z_TYPE_P(tmp) == IS_LONG) ? Z_LVAL_P(tmp) : phalcon_get_intval(tmp);
 			} else {
@@ -505,7 +500,7 @@ PHP_METHOD(Phalcon_Cache_Backend_File, increment){
 	zval **key_name, **value = NULL, *lifetime = NULL, *options, *prefix, *prefixed_key, *status;
 	zval *cache_dir, *cache_file;
 	zval *modified_time;
-	zval *cached_content, *tmp;
+	zval *cached_content, *tmp = NULL;
 	long int now, ttl, mtime, diff;
 	int expired;
 
@@ -519,8 +514,8 @@ PHP_METHOD(Phalcon_Cache_Backend_File, increment){
 
 	PHALCON_MM_GROW();
 
-	options = phalcon_fetch_nproperty_this(this_ptr, SL("_options"), PH_NOISY_CC);
-	prefix  = phalcon_fetch_nproperty_this(this_ptr, SL("_prefix"), PH_NOISY_CC);
+	options = phalcon_fetch_nproperty_this(this_ptr, SL("_options"), PH_NOISY TSRMLS_CC);
+	prefix  = phalcon_fetch_nproperty_this(this_ptr, SL("_prefix"), PH_NOISY TSRMLS_CC);
 	
 	PHALCON_INIT_VAR(prefixed_key);
 	PHALCON_CONCAT_VV(prefixed_key, prefix, *key_name);
@@ -535,7 +530,7 @@ PHP_METHOD(Phalcon_Cache_Backend_File, increment){
 	
 	if (phalcon_file_exists(cache_file TSRMLS_CC) == SUCCESS) {
 	
-		zval *frontend = phalcon_fetch_nproperty_this(this_ptr, SL("_frontend"), PH_NOISY_CC);
+		zval *frontend = phalcon_fetch_nproperty_this(this_ptr, SL("_frontend"), PH_NOISY TSRMLS_CC);
 		/**
 		 * Check if the file has expired
 		 */
@@ -545,11 +540,10 @@ PHP_METHOD(Phalcon_Cache_Backend_File, increment){
 		 * Take the lifetime from the frontend or read it from the set in start()
 		 */
 		if (!lifetime || Z_TYPE_P(lifetime) == IS_NULL) {
-			zval *last_lifetime = phalcon_fetch_nproperty_this(this_ptr, SL("_lastLifetime"), PH_NOISY_CC);
+			zval *last_lifetime = phalcon_fetch_nproperty_this(this_ptr, SL("_lastLifetime"), PH_NOISY TSRMLS_CC);
 
 			if (Z_TYPE_P(last_lifetime) == IS_NULL) {
-				PHALCON_OBS_VAR(tmp);
-				phalcon_call_method_p0_ex(tmp, &tmp, frontend, "getlifetime");
+				PHALCON_CALL_METHOD(&tmp, frontend, "getlifetime");
 				ttl = phalcon_get_intval(tmp);
 			} else {
 				ttl = phalcon_get_intval(last_lifetime);
@@ -613,7 +607,7 @@ PHP_METHOD(Phalcon_Cache_Backend_File, decrement){
 	zval **key_name, **value = NULL, *lifetime = NULL, *options, *prefix, *prefixed_key, *status;
 	zval *cache_dir, *cache_file;
 	zval *modified_time;
-	zval *cached_content, *tmp;
+	zval *cached_content, *tmp = NULL;
 	long int now, ttl, mtime, diff;
 	int expired;
 
@@ -627,8 +621,8 @@ PHP_METHOD(Phalcon_Cache_Backend_File, decrement){
 
 	PHALCON_MM_GROW();
 
-	options = phalcon_fetch_nproperty_this(this_ptr, SL("_options"), PH_NOISY_CC);
-	prefix  = phalcon_fetch_nproperty_this(this_ptr, SL("_prefix"), PH_NOISY_CC);
+	options = phalcon_fetch_nproperty_this(this_ptr, SL("_options"), PH_NOISY TSRMLS_CC);
+	prefix  = phalcon_fetch_nproperty_this(this_ptr, SL("_prefix"), PH_NOISY TSRMLS_CC);
 	
 	PHALCON_INIT_VAR(prefixed_key);
 	PHALCON_CONCAT_VV(prefixed_key, prefix, *key_name);
@@ -643,7 +637,7 @@ PHP_METHOD(Phalcon_Cache_Backend_File, decrement){
 	
 	if (phalcon_file_exists(cache_file TSRMLS_CC) == SUCCESS) {
 	
-		zval *frontend = phalcon_fetch_nproperty_this(this_ptr, SL("_frontend"), PH_NOISY_CC);
+		zval *frontend = phalcon_fetch_nproperty_this(this_ptr, SL("_frontend"), PH_NOISY TSRMLS_CC);
 		/**
 		 * Check if the file has expired
 		 */
@@ -653,11 +647,10 @@ PHP_METHOD(Phalcon_Cache_Backend_File, decrement){
 		 * Take the lifetime from the frontend or read it from the set in start()
 		 */
 		if (!lifetime || Z_TYPE_P(lifetime) == IS_NULL) {
-			zval *last_lifetime = phalcon_fetch_nproperty_this(this_ptr, SL("_lastLifetime"), PH_NOISY_CC);
+			zval *last_lifetime = phalcon_fetch_nproperty_this(this_ptr, SL("_lastLifetime"), PH_NOISY TSRMLS_CC);
 
 			if (Z_TYPE_P(last_lifetime) == IS_NULL) {
-				PHALCON_OBS_VAR(tmp);
-				phalcon_call_method_p0_ex(tmp, &tmp, frontend, "getlifetime");
+				PHALCON_CALL_METHOD(&tmp, frontend, "getlifetime");
 				ttl = phalcon_get_intval(tmp);
 			} else {
 				ttl = phalcon_get_intval(last_lifetime);
@@ -722,8 +715,8 @@ PHP_METHOD(Phalcon_Cache_Backend_File, flush){
 
 	PHALCON_MM_GROW();
 	
-	options = phalcon_fetch_nproperty_this(this_ptr, SL("_options"), PH_NOISY_CC);
-	prefix  = phalcon_fetch_nproperty_this(this_ptr, SL("_prefix"), PH_NOISY_CC);
+	options = phalcon_fetch_nproperty_this(this_ptr, SL("_options"), PH_NOISY TSRMLS_CC);
+	prefix  = phalcon_fetch_nproperty_this(this_ptr, SL("_prefix"), PH_NOISY TSRMLS_CC);
 	
 	if (unlikely(!phalcon_array_isset_string_fetch(&cache_dir, options, SS("cacheDir")))) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_cache_exception_ce, "Unexpected inconsistency in options");
@@ -733,7 +726,7 @@ PHP_METHOD(Phalcon_Cache_Backend_File, flush){
 	PHALCON_INIT_VAR(iterator);
 	object_init_ex(iterator, spl_ce_DirectoryIterator);
 	assert(phalcon_has_constructor(iterator TSRMLS_CC));
-	phalcon_call_method_p1_noret(iterator, "__construct", cache_dir);
+	PHALCON_CALL_METHOD(NULL, iterator, "__construct", cache_dir);
 
 	/* DirectoryIterator implements Iterator */
 	assert(instanceof_function_ex(spl_ce_DirectoryIterator, zend_ce_iterator, 1 TSRMLS_CC));
@@ -750,19 +743,19 @@ PHP_METHOD(Phalcon_Cache_Backend_File, flush){
 	while (it->funcs->valid(it TSRMLS_CC) == SUCCESS && !EG(exception)) {
 		it->funcs->get_current_data(it, &item TSRMLS_CC);
 
-		PHALCON_OBS_NVAR(is_file);
-		if (FAILURE == phalcon_call_method_params(is_file, &is_file, *item, SL("isfile"), zend_inline_hash_func(SS("isfile")) TSRMLS_CC, 0)) {
+		PHALCON_OBSERVE_OR_NULLIFY_VAR(is_file);
+		if (FAILURE == phalcon_call_method(&is_file, *item, "isfile", 0, NULL TSRMLS_CC)) {
 			break;
 		}
 
 		if (PHALCON_IS_TRUE(is_file)) {
-			PHALCON_OBS_NVAR(key);
-			if (FAILURE == phalcon_call_method_params(key, &key, *item, SL("getfilename"), zend_inline_hash_func(SS("getfilename")) TSRMLS_CC, 0)) {
+			PHALCON_OBSERVE_OR_NULLIFY_VAR(key);
+			if (FAILURE == phalcon_call_method(&key, *item, "getfilename", 0, NULL TSRMLS_CC)) {
 				break;
 			}
 
-			PHALCON_OBS_NVAR(cache_file);
-			if (FAILURE == phalcon_call_method_params(cache_file, &cache_file, *item, SL("getpathname"), zend_inline_hash_func(SS("getpathname")) TSRMLS_CC, 0)) {
+			PHALCON_OBSERVE_OR_NULLIFY_VAR(cache_file);
+			if (FAILURE == phalcon_call_method(&cache_file, *item, "getpathname", 0, NULL TSRMLS_CC)) {
 				break;
 			}
 

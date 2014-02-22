@@ -25,8 +25,8 @@ class TranslateTest extends PHPUnit_Framework_TestCase
 	{
 		$options = array(
 			'content' => array(
-				'Hello!'                 => 'Привет!',
-				'Hello %fname% %lname%!' => 'Привет, %fname% %lname%!',
+				'Hello!'                         => 'Привет!',
+				'Hello %fname% %mname% %lname%!' => 'Привет, %fname% %mname% %lname%!',
 			),
 		);
 
@@ -35,8 +35,8 @@ class TranslateTest extends PHPUnit_Framework_TestCase
 		$this->assertTrue(isset($t['Hello!']));
 		$this->assertFalse(isset($t['Hi there!']));
 
-		$actual   = $t->_('Hello %fname% %lname%!', array('fname' => 'John', 'lname' => 'Doe'));
-		$expected = 'Привет, John Doe!';
+		$actual   = $t->_('Hello %fname% %mname% %lname%!', array('fname' => 'John', 'lname' => 'Doe', 'mname' => 'D.'));
+		$expected = 'Привет, John D. Doe!';
 		$this->assertEquals($expected, $actual);
 	}
 }
