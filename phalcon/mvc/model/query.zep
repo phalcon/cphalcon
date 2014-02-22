@@ -93,6 +93,23 @@ class Query implements \Phalcon\Mvc\Model\QueryInterface, \Phalcon\Di\InjectionA
 
 	const TYPE_DELETE = 303;
 
+        /**
+	 * Phalcon\Mvc\Model\Query constructor
+	 *
+	 * @param string $phql
+	 * @param Phalcon\DiInterface dependencyInjector
+	 */
+        public function __construct(phql=null, <\Phalcon\DiInterface> dependencyInjector=null)
+        {
+                if typeof phql != "null" {
+                        let this->_phql = phql;
+                }
+                
+                if typeof dependencyInjector == "object" {
+                        this->setDI(dependencyInjector);
+                }
+        }
+        
 	/**
 	 * Sets the dependency injection container
 	 *
