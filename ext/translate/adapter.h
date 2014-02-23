@@ -23,7 +23,7 @@
 #include "php_phalcon.h"
 
 extern zend_class_entry *phalcon_translate_adapter_ce;
-zend_object_handlers phalcon_translate_adapter_object_handlers;
+extern zend_object_handlers phalcon_translate_adapter_object_handlers;
 
 PHALCON_INIT_CLASS(Phalcon_Translate_Adapter);
 

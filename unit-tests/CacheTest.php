@@ -463,7 +463,7 @@ class CacheTest extends PHPUnit_Framework_TestCase
 
 		$memcache->delete('test-data');
 
-		$frontCache = new Phalcon\Cache\Frontend\Data();
+		$frontCache = new Phalcon\Cache\Frontend\Data(array('lifetime' => 20));
 
 		$cache = new Phalcon\Cache\Backend\Memcache($frontCache, array(
 			'host' => '127.0.0.1',
