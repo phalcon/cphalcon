@@ -17,14 +17,12 @@
   +------------------------------------------------------------------------+
 */
 
-#include "php_phalcon.h"
-
-#include <ext/spl/spl_directory.h>
-
 #include "cache/backend/file.h"
 #include "cache/backend.h"
 #include "cache/backendinterface.h"
 #include "cache/exception.h"
+
+#include <ext/spl/spl_directory.h>
 
 #include "kernel/main.h"
 #include "kernel/memory.h"

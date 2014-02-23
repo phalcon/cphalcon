@@ -18,8 +18,6 @@
   +------------------------------------------------------------------------+
 */
 
-#include "php_phalcon.h"
-
 #include "annotations/adapter/xcache.h"
 #include "annotations/adapter.h"
 #include "annotations/adapterinterface.h"

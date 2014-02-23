@@ -20,10 +20,10 @@
 #ifndef PHALCON_CONFIG_ADAPTER_INI_H
 #define PHALCON_CONFIG_ADAPTER_INI_H
 
+#include "php_phalcon.h"
+
 extern zend_class_entry *phalcon_config_adapter_ini_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Config_Adapter_Ini);
-
-PHP_METHOD(Phalcon_Config_Adapter_Ini, __construct);
 
 #endif /* PHALCON_CONFIG_ADAPTER_INI_H */

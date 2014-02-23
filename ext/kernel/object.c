@@ -17,16 +17,11 @@
   +------------------------------------------------------------------------+
 */
 
-#include "php_phalcon.h"
-
-#ifdef PHP_WIN32
-#include <ext/standard/php_string.h>
-#endif
+#include "kernel/object.h"
 
 #include "kernel/../exception.h"
 #include "kernel/main.h"
 #include "kernel/memory.h"
-#include "kernel/object.h"
 #include "kernel/exception.h"
 #include "kernel/fcall.h"
 #include "kernel/hash.h"

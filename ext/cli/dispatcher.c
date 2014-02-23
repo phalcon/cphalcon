@@ -18,8 +18,6 @@
   +------------------------------------------------------------------------+
 */
 
-#include "php_phalcon.h"
-
 #include "cli/dispatcher.h"
 #include "cli/dispatcher/exception.h"
 #include "cli/../dispatcher.h"

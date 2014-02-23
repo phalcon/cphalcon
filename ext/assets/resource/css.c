@@ -17,8 +17,6 @@
   +------------------------------------------------------------------------+
 */
 
-#include "php_phalcon.h"
-
 #include "assets/resource/css.h"
 #include "assets/resource.h"
 

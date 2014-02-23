@@ -17,8 +17,6 @@
   +------------------------------------------------------------------------+
 */
 
-#include "php_phalcon.h"
-
 #include "acl/roleinterface.h"
 #include "kernel/main.h"
 

@@ -17,8 +17,6 @@
   +------------------------------------------------------------------------+
 */
 
-#include "php_phalcon.h"
-
 #include "assets/filters/jsmin.h"
 #include "assets/filters/jsminifier.h"
 #include "assets/filterinterface.h"

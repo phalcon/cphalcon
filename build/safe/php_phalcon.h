@@ -44,6 +44,7 @@ typedef struct _phalcon_memory_entry {
 	struct _phalcon_memory_entry *next;
 #ifndef PHALCON_RELEASE
 	const char *func;
+	zend_bool permanent;
 #endif
 } phalcon_memory_entry;
 
@@ -73,18 +74,23 @@ typedef struct _phalcon_db_options {
 	zend_bool escape_identifiers;
 } phalcon_db_options;
 
-/** DI options */
-typedef struct _phalcon_di_options {
-	zval **injector;
-	HashTable *shared_services_cache;
-	zend_bool cache_enabled;
-} phalcon_di_options;
+/** Security options */
+typedef struct _phalcon_security_options {
+	zend_bool crypt_std_des_supported;
+	zend_bool crypt_ext_des_supported;
+	zend_bool crypt_md5_supported;
+	zend_bool crypt_blowfish_supported;
+	zend_bool crypt_blowfish_y_supported;
+	zend_bool crypt_sha256_supported;
+	zend_bool crypt_sha512_supported;
+} phalcon_security_options;
 
 ZEND_BEGIN_MODULE_GLOBALS(phalcon)
 
 	/** Memory */
-	phalcon_memory_entry *start_memory;
-	phalcon_memory_entry *active_memory;
+	phalcon_memory_entry *start_memory;    /**< The first preallocated frame */
+	phalcon_memory_entry *end_memory;      /**< The last preallocate frame */
+	phalcon_memory_entry *active_memory;   /**< The current memory frame */
 
 	/** Virtual Symbol Tables */
 	phalcon_symbol_table *active_symbol_table;
@@ -97,7 +103,7 @@ ZEND_BEGIN_MODULE_GLOBALS(phalcon)
 	zval *z_one;
 
 	/** Function cache */
-	HashTable *function_cache;
+	HashTable *fcache;
 
 	/** ORM */
 	phalcon_orm_options orm;
@@ -106,6 +112,9 @@ ZEND_BEGIN_MODULE_GLOBALS(phalcon)
 	unsigned int recursive_lock;
 
 	zend_bool register_psr3_classes;
+
+	/** Security */
+	phalcon_security_options security;
 
 	/** DB */
 	phalcon_db_options db;
@@ -144,6 +153,10 @@ extern int nusphere_dbg_present;
 #	define ZVAL_COPY_VALUE(z, v) \
 		(z)->value  = (v)->value; \
 		Z_TYPE_P(z) = Z_TYPE_P(v);
+#endif
+
+#ifndef HASH_KEY_NON_EXISTENT
+#	define HASH_KEY_NON_EXISTENT    HASH_KEY_NON_EXISTANT
 #endif
 
 

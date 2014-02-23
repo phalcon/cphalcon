@@ -18,8 +18,6 @@
   +------------------------------------------------------------------------+
 */
 
-#include "php_phalcon.h"
-
 #include "di/factorydefault.h"
 #include "di/service.h"
 #include "di.h"

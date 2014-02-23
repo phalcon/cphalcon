@@ -17,8 +17,6 @@
   +------------------------------------------------------------------------+
 */
 
-#include "php_phalcon.h"
-
 #include "crypt/exception.h"
 #include "crypt/../exception.h"
 #include "kernel/main.h"

@@ -17,13 +17,11 @@
   +------------------------------------------------------------------------+
 */
 
-#include "php_phalcon.h"
+#include "kernel/output.h"
 
-#include <Zend/zend_API.h>
 #include <main/php_output.h>
 
 #include "kernel/memory.h"
-#include "kernel/output.h"
 
 void phalcon_ob_start(TSRMLS_D)
 {

@@ -39,8 +39,8 @@
 #define PHALCON_THROW_EXCEPTION_ZVALW(class_entry, message) phalcon_throw_exception_zval(class_entry, message TSRMLS_CC)
 
 /** Throw Exceptions */
-void phalcon_throw_exception(zval *object TSRMLS_DC);
-void phalcon_throw_exception_string(zend_class_entry *ce, const char *message TSRMLS_DC);
-void phalcon_throw_exception_zval(zend_class_entry *ce, zval *message TSRMLS_DC);
+void phalcon_throw_exception(zval *object TSRMLS_DC) PHALCON_ATTR_NONNULL;
+void phalcon_throw_exception_string(zend_class_entry *ce, const char *message TSRMLS_DC) PHALCON_ATTR_NONNULL;
+void phalcon_throw_exception_zval(zend_class_entry *ce, zval *message TSRMLS_DC) PHALCON_ATTR_NONNULL;
 
 #endif /* PHALCON_KERNEL_EXCEPTION_H */

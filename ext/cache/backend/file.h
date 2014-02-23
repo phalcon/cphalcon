@@ -20,6 +20,8 @@
 #ifndef PHALCON_CACHE_BACKEND_FILE_H
 #define PHALCON_CACHE_BACKEND_FILE_H
 
+#include "php_phalcon.h"
+
 extern zend_class_entry *phalcon_cache_backend_file_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Cache_Backend_File);

@@ -23,6 +23,7 @@
 #include "php_phalcon.h"
 #include "kernel/main.h"
 #include "kernel/memory.h"
+
 #include <Zend/zend_hash.h>
 #include <Zend/zend.h>
 
