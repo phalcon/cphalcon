@@ -17,8 +17,6 @@
   +------------------------------------------------------------------------+
 */
 
-#include "php_phalcon.h"
-
 #include "assets/manager.h"
 #include "assets/collection.h"
 #include "assets/exception.h"

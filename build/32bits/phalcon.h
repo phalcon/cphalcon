@@ -291,6 +291,8 @@ PHALCON_INIT_CLASS(Phalcon_Annotations_Adapter_Xcache);
 #ifndef PHALCON_ANNOTATIONS_ANNOTATION_H
 #define PHALCON_ANNOTATIONS_ANNOTATION_H
 
+#include "php_phalcon.h"
+
 zend_class_entry *phalcon_annotations_annotation_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Annotations_Annotation);
@@ -576,6 +578,8 @@ PHALCON_INIT_CLASS(Phalcon_Cache_Backend_Apc);
 #ifndef PHALCON_CACHE_BACKEND_FILE_H
 #define PHALCON_CACHE_BACKEND_FILE_H
 
+#include "php_phalcon.h"
+
 zend_class_entry *phalcon_cache_backend_file_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Cache_Backend_File);
@@ -788,6 +792,8 @@ PHALCON_INIT_CLASS(Phalcon_CLI_Console_Exception);
 #ifndef PHALCON_CLI_DISPATCHER_H
 #define PHALCON_CLI_DISPATCHER_H
 
+#include "php_phalcon.h"
+
 zend_class_entry *phalcon_cli_dispatcher_ce;
 
 PHALCON_INIT_CLASS(Phalcon_CLI_Dispatcher);
@@ -810,6 +816,8 @@ PHALCON_INIT_CLASS(Phalcon_CLI_Dispatcher_Exception);
 #ifndef PHALCON_CLI_ROUTER_H
 #define PHALCON_CLI_ROUTER_H
 
+#include "php_phalcon.h"
+
 zend_class_entry *phalcon_cli_router_ce;
 
 PHALCON_INIT_CLASS(Phalcon_CLI_Router);
@@ -819,6 +827,8 @@ PHALCON_INIT_CLASS(Phalcon_CLI_Router);
 
 #ifndef PHALCON_CLI_ROUTER_EXCEPTION_H
 #define PHALCON_CLI_ROUTER_EXCEPTION_H
+
+#include "php_phalcon.h"
 
 zend_class_entry *phalcon_cli_router_exception_ce;
 
@@ -857,11 +867,11 @@ static void phalcon_config_construct_internal(zval *this_ptr, zval *array_config
 #ifndef PHALCON_CONFIG_ADAPTER_INI_H
 #define PHALCON_CONFIG_ADAPTER_INI_H
 
+#include "php_phalcon.h"
+
 zend_class_entry *phalcon_config_adapter_ini_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Config_Adapter_Ini);
-
-static PHP_METHOD(Phalcon_Config_Adapter_Ini, __construct);
 
 #endif /* PHALCON_CONFIG_ADAPTER_INI_H */
 
@@ -5893,6 +5903,8 @@ PHALCON_INIT_CLASS(Phalcon_Security);
 
 #ifndef PHALCON_SECURITY_EXCEPTION_H
 #define PHALCON_SECURITY_EXCEPTION_H
+
+#include "php_phalcon.h"
 
 zend_class_entry *phalcon_security_exception_ce;
 

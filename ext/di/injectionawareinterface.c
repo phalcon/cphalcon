@@ -17,7 +17,6 @@
   +------------------------------------------------------------------------+
 */
 
-#include "php_phalcon.h"
 #include "di/injectionawareinterface.h"
 
 #include "kernel/main.h"

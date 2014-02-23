@@ -20,6 +20,8 @@
 #ifndef PHALCON_CLI_ROUTER_EXCEPTION_H
 #define PHALCON_CLI_ROUTER_EXCEPTION_H
 
+#include "php_phalcon.h"
+
 extern zend_class_entry *phalcon_cli_router_exception_ce;
 
 PHALCON_INIT_CLASS(Phalcon_CLI_Router_Exception);

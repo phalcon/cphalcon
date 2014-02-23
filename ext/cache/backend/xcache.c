@@ -18,8 +18,6 @@
   +------------------------------------------------------------------------+
 */
 
-#include "php_phalcon.h"
-
 #include "cache/backend/xcache.h"
 #include "cache/backend.h"
 #include "cache/backendinterface.h"

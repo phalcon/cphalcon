@@ -19,7 +19,6 @@
   +------------------------------------------------------------------------+
 */
 
-#include "php_phalcon.h"
 #include "mvc/view/engine/volt/scanner.h"
 
 #define KKCTYPE unsigned char

@@ -20,6 +20,8 @@
 #ifndef PHALCON_ANNOTATIONS_ANNOTATION_H
 #define PHALCON_ANNOTATIONS_ANNOTATION_H
 
+#include "php_phalcon.h"
+
 extern zend_class_entry *phalcon_annotations_annotation_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Annotations_Annotation);

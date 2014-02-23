@@ -17,9 +17,9 @@
   +------------------------------------------------------------------------+
 */
 
-#include "php_phalcon.h"
-#include <ext/standard/php_string.h>
 #include "kernel/concat.h"
+
+#include <ext/standard/php_string.h>
 #include "kernel/main.h"
 
 void phalcon_concat_sv(zval **result, const char *op1, zend_uint op1_len, zval *op2, int self_var TSRMLS_DC){

@@ -17,8 +17,6 @@
   +------------------------------------------------------------------------+
 */
 
-#include "php_phalcon.h"
-
 #include "di.h"
 #include "di/factorydefault/cli.h"
 #include "di/factorydefault.h"

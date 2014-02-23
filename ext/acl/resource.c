@@ -17,8 +17,6 @@
   +------------------------------------------------------------------------+
 */
 
-#include "php_phalcon.h"
-
 #include "acl/resource.h"
 #include "acl/resourceinterface.h"
 #include "acl/exception.h"

@@ -21,7 +21,7 @@
 #define PHALCON_KERNEL_ARRAY_H
 
 #include "php_phalcon.h"
-#include <Zend/zend.h>
+#include "kernel/memory.h"
 
 /**
  * @brief Fetches @a index if it exists from the array @a arr

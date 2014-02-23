@@ -20,8 +20,9 @@
 #ifndef PHALCON_KERNEL_DEBUG_H
 #define PHALCON_KERNEL_DEBUG_H
 
+#include "php_phalcon.h"
+
 #include <stdio.h>
-#include <Zend/zend.h>
 
 #ifndef PHALCON_RELEASE
 

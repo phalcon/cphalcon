@@ -17,14 +17,12 @@
   +------------------------------------------------------------------------+
 */
 
-#include "php_phalcon.h"
-
-#include <ext/standard/php_rand.h>
-
 #include "cache/backend/mongo.h"
 #include "cache/backend.h"
 #include "cache/backendinterface.h"
 #include "cache/exception.h"
+
+#include <ext/standard/php_rand.h>
 
 #include "kernel/main.h"
 #include "kernel/memory.h"

@@ -110,14 +110,14 @@ static inline const char* zend_new_interned_string(const char *arKey, int nKeyLe
 
 #else
 
-#define PHALCON_ZVAL_MAYBE_INTERNED_STRING(pz, string) \
-	do { \
-		if (IS_INTERNED(string)) { \
-			ZVAL_STRINGL(pz, string, INTERNED_LEN(string)-1, 0); \
-		} \
-		else { \
-			ZVAL_STRING(pz, string, 1); \
-		} \
+#define PHALCON_ZVAL_MAYBE_INTERNED_STRING(pz, string)            \
+	do {                                                          \
+		if (IS_INTERNED(string)) {                                \
+			ZVAL_STRINGL(pz, string, INTERNED_LEN(string)-1, 0);  \
+		}                                                         \
+		else {                                                    \
+			ZVAL_STRING(pz, string, 1);                           \
+		}                                                         \
 	} while (0)
 
 #endif /* PHP_VERSION_ID < 50400 */

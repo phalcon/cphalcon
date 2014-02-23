@@ -17,8 +17,6 @@
   +------------------------------------------------------------------------+
 */
 
-#include "php_phalcon.h"
-
 #include "translate/adapter/nativearray.h"
 #include "translate/adapter.h"
 #include "translate/adapterinterface.h"
@@ -161,38 +159,37 @@ PHP_METHOD(Phalcon_Translate_Adapter_NativeArray, query){
 	}
 	
 	translate = phalcon_fetch_nproperty_this(this_ptr, SL("_translate"), PH_NOISY TSRMLS_CC);
-	if (phalcon_array_isset_fetch(&translation, translate, index)) {
-		if (Z_TYPE_P(placeholders) == IS_ARRAY && zend_hash_num_elements(Z_ARRVAL_P(placeholders))) {
-
-			ALLOC_INIT_ZVAL(key_placeholder);
-			Z_ADDREF_P(translation);
-
-			for (
-				zend_hash_internal_pointer_reset_ex(Z_ARRVAL_P(placeholders), &hp0);
-				zend_hash_get_current_data_ex(Z_ARRVAL_P(placeholders), (void**)&value, &hp0) == SUCCESS;
-				zend_hash_move_forward_ex(Z_ARRVAL_P(placeholders), &hp0)
-			) {
-				zval key = phalcon_get_current_key_w(Z_ARRVAL_P(placeholders), &hp0);
-
-				PHALCON_CONCAT_SVS(key_placeholder, "%", &key, "%");
-
-				ALLOC_INIT_ZVAL(replaced);
-				phalcon_fast_str_replace(replaced, key_placeholder, *value, translation);
-				zval_dtor(key_placeholder);
-
-				zval_ptr_dtor(&translation);
-				translation = replaced;
-			}
-
-			ZVAL_NULL(key_placeholder);
-			zval_ptr_dtor(&key_placeholder);
-			RETURN_ZVAL(translation, 1, 1);
-		}
-	
-		RETURN_ZVAL(translation, 1, 0);
+	if (!phalcon_array_isset_fetch(&translation, translate, index)) {
+		translation = index;
 	}
-	
-	RETURN_ZVAL(index, 1, 0);
+
+	if (Z_TYPE_P(placeholders) == IS_ARRAY && zend_hash_num_elements(Z_ARRVAL_P(placeholders))) {
+		ALLOC_INIT_ZVAL(key_placeholder);
+		Z_ADDREF_P(translation);
+
+		for (
+			zend_hash_internal_pointer_reset_ex(Z_ARRVAL_P(placeholders), &hp0);
+			zend_hash_get_current_data_ex(Z_ARRVAL_P(placeholders), (void**)&value, &hp0) == SUCCESS;
+			zend_hash_move_forward_ex(Z_ARRVAL_P(placeholders), &hp0)
+		) {
+			zval key = phalcon_get_current_key_w(Z_ARRVAL_P(placeholders), &hp0);
+
+			PHALCON_CONCAT_SVS(key_placeholder, "%", &key, "%");
+
+			ALLOC_INIT_ZVAL(replaced);
+			phalcon_fast_str_replace(replaced, key_placeholder, *value, translation);
+			zval_dtor(key_placeholder);
+
+			zval_ptr_dtor(&translation);
+			translation = replaced;
+		}
+
+		ZVAL_NULL(key_placeholder);
+		zval_ptr_dtor(&key_placeholder);
+		RETURN_ZVAL(translation, 1, 1);
+	}
+
+	RETURN_ZVAL(translation, 1, 0);
 }
 
 /**

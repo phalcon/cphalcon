@@ -17,7 +17,7 @@
   +------------------------------------------------------------------------+
 */
 
-#include "php_phalcon.h"
+#include "kernel/operators.h"
 
 #include <ext/standard/php_string.h>
 #include <Zend/zend_operators.h>

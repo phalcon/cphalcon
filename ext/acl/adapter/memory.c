@@ -17,8 +17,6 @@
   +------------------------------------------------------------------------+
 */
 
-#include "php_phalcon.h"
-
 #include "acl/adapter/memory.h"
 #include "acl/adapter.h"
 #include "acl/adapterinterface.h"

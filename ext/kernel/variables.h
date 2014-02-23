@@ -20,7 +20,7 @@
 #ifndef PHALCON_KERNEL_VARIABLES_H
 #define PHALCON_KERNEL_VARIABLES_H
 
-#include <Zend/zend.h>
+#include "php_phalcon.h"
 
 void phalcon_serialize(zval *return_value, zval **var  TSRMLS_DC);
 void phalcon_unserialize(zval *return_value, zval *var TSRMLS_DC);

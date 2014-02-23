@@ -21,6 +21,8 @@
 #ifndef PHALCON_CLI_DISPATCHER_H
 #define PHALCON_CLI_DISPATCHER_H
 
+#include "php_phalcon.h"
+
 extern zend_class_entry *phalcon_cli_dispatcher_ce;
 
 PHALCON_INIT_CLASS(Phalcon_CLI_Dispatcher);

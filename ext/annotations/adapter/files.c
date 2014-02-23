@@ -17,15 +17,13 @@
   +------------------------------------------------------------------------+
 */
 
-#include "php_phalcon.h"
-
-#include <ext/standard/php_smart_str.h>
-#include <ext/standard/php_var.h>
-
 #include "annotations/adapter/files.h"
 #include "annotations/adapterinterface.h"
 #include "annotations/adapter.h"
 #include "annotations/exception.h"
+
+#include <ext/standard/php_smart_str.h>
+#include <ext/standard/php_var.h>
 
 #include "kernel/main.h"
 #include "kernel/memory.h"

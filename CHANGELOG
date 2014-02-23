@@ -298,6 +298,7 @@
    - Fixed inconsistency in Tag::stylesheetLink/javascriptInclude w.r.t. local URLs (#1486)
  - Phalcon\Translate:
    - Optimized Phalcon\Translate\Adapter, Phalcon\Translate\Adapter\NativeArray by using object handlers (#1668)
+   - Phalcon\Translate\Adapter\NativeArray::query() now replaces placeholders even if the string is not found in the language content (#2044)
  - Phalcon\Validation:
    - Added support for error codes (#1171)
    - Bug fixes (#1399)
