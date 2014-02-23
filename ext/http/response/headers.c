@@ -198,7 +198,7 @@ PHP_METHOD(Phalcon_Http_Response_Headers, send){
 			}
 		}
 	
-		RETURN_MM_TRUE;
+		RETURN_TRUE;
 	}
 	
 	RETURN_FALSE;
