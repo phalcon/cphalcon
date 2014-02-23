@@ -1468,9 +1468,9 @@ static void phalcon_copy_ctor(zval *destiny, zval *origin) PHALCON_ATTR_NONNULL;
 	do {                                                   \
 		zval **tmp_ = (ppzv);                              \
 		if (tmp_ != NULL) {                                \
-			if (*tmp_) {                       \
-				zval_ptr_dtor(tmp_);                     \
-				*tmp_ = NULL;                  \
+			if (*tmp_) {                                   \
+				zval_ptr_dtor(tmp_);                       \
+				*tmp_ = NULL;                              \
 			}                                              \
 			else {                                         \
 				phalcon_memory_observe((ppzv) TSRMLS_CC);  \
@@ -26423,7 +26423,7 @@ static PHP_METHOD(Phalcon_Http_Response_Headers, send){
 			}
 		}
 	
-		RETURN_MM_TRUE;
+		RETURN_TRUE;
 	}
 	
 	RETURN_FALSE;
