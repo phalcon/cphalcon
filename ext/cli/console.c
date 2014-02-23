@@ -17,8 +17,6 @@
   +------------------------------------------------------------------------+
 */
 
-#include "php_phalcon.h"
-
 #include "cli/console.h"
 #include "cli/console/exception.h"
 #include "cli/router.h"

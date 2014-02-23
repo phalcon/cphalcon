@@ -17,11 +17,10 @@
   +------------------------------------------------------------------------+
 */
 
-#include "php_phalcon.h"
+#include "kernel/memory.h"
 
 #include <Zend/zend_alloc.h>
 
-#include "kernel/memory.h"
 #include "kernel/fcall.h"
 #include "kernel/backtrace.h"
 

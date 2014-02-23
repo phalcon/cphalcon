@@ -17,8 +17,6 @@
   +------------------------------------------------------------------------+
 */
 
-#include "php_phalcon.h"
-
 #include "cache/backend/apc.h"
 #include "cache/backend.h"
 #include "cache/backendinterface.h"

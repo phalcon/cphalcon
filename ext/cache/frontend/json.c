@@ -16,8 +16,6 @@
   +------------------------------------------------------------------------+
 */
 
-#include "php_phalcon.h"
-
 #include "cache/frontend/json.h"
 #include "cache/frontend/data.h"
 #include "cache/frontendinterface.h"

@@ -17,8 +17,6 @@
   +------------------------------------------------------------------------+
 */
 
-#include "php_phalcon.h"
-
 #include "paginator/exception.h"
 #include "paginator/../exception.h"
 #include "kernel/main.h"

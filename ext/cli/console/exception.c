@@ -18,8 +18,6 @@
   +------------------------------------------------------------------------+
 */
 
-#include "php_phalcon.h"
-
 #include "cli/console/exception.h"
 #include "cli/../exception.h"
 

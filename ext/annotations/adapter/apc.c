@@ -17,8 +17,6 @@
   +------------------------------------------------------------------------+
 */
 
-#include "php_phalcon.h"
-
 #include "annotations/adapter/apc.h"
 #include "annotations/adapter.h"
 #include "annotations/adapterinterface.h"

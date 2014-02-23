@@ -17,11 +17,11 @@
   +------------------------------------------------------------------------+
 */
 
-#include "php_phalcon.h"
+#include "kernel/array.h"
+
 #include <ext/standard/php_array.h>
 
 #include "kernel/main.h"
-#include "kernel/array.h"
 #include "kernel/operators.h"
 #include "kernel/hash.h"
 

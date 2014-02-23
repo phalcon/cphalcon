@@ -17,8 +17,6 @@
   +------------------------------------------------------------------------+
 */
 
-#include "php_phalcon.h"
-
 #include "translate/exception.h"
 #include "translate/../exception.h"
 

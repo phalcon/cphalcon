@@ -17,12 +17,11 @@
   +------------------------------------------------------------------------+
 */
 
-#include "php_phalcon.h"
+#include "exception.h"
 
 #include <Zend/zend_exceptions.h>
-#include "exception.h"
-#include "kernel/main.h"
 
+#include "kernel/main.h"
 
 /**
  * Phalcon\Exception

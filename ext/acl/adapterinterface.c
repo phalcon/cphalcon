@@ -17,8 +17,6 @@
   +------------------------------------------------------------------------+
 */
 
-#include "php_phalcon.h"
-
 #include "acl/adapterinterface.h"
 #include "kernel/main.h"
 

@@ -21,6 +21,8 @@
 #ifndef PHALCON_KERNEL_BACKTRACE_H
 #define PHALCON_KERNEL_BACKTRACE_H
 
+#include "php_phalcon.h"
+
 void phalcon_print_backtrace(void);
 
 #endif /* PHALCON_KERNEL_BACKTRACE_H */

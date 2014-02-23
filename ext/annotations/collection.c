@@ -17,8 +17,6 @@
   +------------------------------------------------------------------------+
 */
 
-#include "php_phalcon.h"
-
 #include "annotations/collection.h"
 #include "annotations/annotation.h"
 #include "annotations/exception.h"

@@ -17,8 +17,6 @@
   +------------------------------------------------------------------------+
 */
 
-#include "php_phalcon.h"
-
 #include "config/adapter/ini.h"
 #include "config/exception.h"
 #include "pconfig.h"
@@ -64,6 +62,8 @@
  *
  */
 zend_class_entry *phalcon_config_adapter_ini_ce;
+
+PHP_METHOD(Phalcon_Config_Adapter_Ini, __construct);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_config_adapter_ini___construct, 0, 0, 1)
 	ZEND_ARG_INFO(0, filePath)

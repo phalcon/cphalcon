@@ -18,8 +18,6 @@
   +------------------------------------------------------------------------+
 */
 
-#include "php_phalcon.h"
-
 #include "cache/frontend/data.h"
 #include "cache/frontend/igbinary.h"
 #include "cache/frontendinterface.h"

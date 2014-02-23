@@ -43,7 +43,6 @@
 #include "kernel/require.h"
 
 #include "interned-strings.h"
-#include "php_phalcon.h"
 
 /**
  * Phalcon\Mvc\Application

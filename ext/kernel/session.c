@@ -17,7 +17,7 @@
   +------------------------------------------------------------------------+
 */
 
-#include "php_phalcon.h"
+#include "kernel/session.h"
 
 #ifdef PHALCON_USE_PHP_SESSION
 #include <ext/session/php_session.h>
@@ -25,7 +25,6 @@
 
 #include "kernel/main.h"
 #include "kernel/fcall.h"
-#include "kernel/session.h"
 
 int phalcon_session_start(TSRMLS_D)
 {
