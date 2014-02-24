@@ -28,80 +28,82 @@ namespace Phalcon\Mvc\Collection;
 class Document implements \ArrayAccess
 {
 	/**
-	* Checks whether an offset exists in the document
-	*
-	* @param int index
-	* @return boolean
-	*/
+	 * Checks whether an offset exists in the document
+	 *
+	 * @param int index
+	 * @return boolean
+	 */
 	public function offsetExists(string index) -> boolean
 	{
 		return isset this->{index};
 	}
 
 	/**
-	* Returns the value of a field using the ArrayAccess interfase
-	*
-	* @param string index
-	* @return mixed
-	*/
+	 * Returns the value of a field using the ArrayAccess interfase
+	 *
+	 * @param string index
+	 * @return mixed
+	 */
 	public function offsetGet(index)
 	{
-		if isset this->{index} {
-			return this->{index};
+		var value;
+		if fetch value, this->{index} {
+			return value;
 		}
 		throw new \Phalcon\Mvc\Collection\Exception("The index does not exist in the row");
 	}
 
 	/**
-	* Change a value using the ArrayAccess interface
-	*
-	* @param string index
-	* @param mixed value
-	* @param Phalcon\Mvc\ModelInterface value
-	*/
+	 * Change a value using the ArrayAccess interface
+	 *
+	 * @param string index
+	 * @param mixed value
+	 * @param Phalcon\Mvc\ModelInterface value
+	 */
 	public function offsetSet(index, value) -> void
 	{
 		let this->{index} = value;
 	}
 
 	/**
-	* Rows cannot be changed. It has only been implemented to meet the definition of the ArrayAccess interface
-	*
-	* @param string offset
-	*/
+	 * Rows cannot be changed. It has only been implemented to meet the definition of the ArrayAccess interface
+	 *
+	 * @param string offset
+	 */
 	public function offsetUnset(offset)
 	{
 		throw new \Phalcon\Mvc\Collection\Exception("The index does not exist in the row");
 	}
 
 	/**
-	* Reads an attribute value by its name
-	*
-	*<code>
-	*        echo robot->readAttribute('name');
-	*</code>
-	*
-	* @param string attribute
-	* @return mixed
-	*/
+	 * Reads an attribute value by its name
+	 *
+	 *<code>
+	 *        echo robot->readAttribute('name');
+	 *</code>
+	 *
+	 * @param string attribute
+	 * @return mixed
+	 */
 	public function readAttribute(attribute)
 	{
-		if isset this->{attribute} {
-			return this->{attribute};
+		var value;
+		if fetch value, this->{attribute} {
+			return value;
 		}
 		return null;
 	}
 
 	/**
-	* Writes an attribute value by its name
-	*
-	*<code>
-	*        robot->writeAttribute('name', 'Rosey');
-	*</code>
-	*
-	* @param string attribute
-	* @param mixed value
-	*/
+	 * Writes an attribute value by its name
+	 *
+	 *<code>
+	 *        robot->writeAttribute('name', 'Rosey');
+	 *</code>
+	 *
+	 * @param string attribute
+	 * @param mixed value
+	 */
 	public function writeAttribute(string! attribute, value) -> void
 	{
 		let this->{attribute} = value;

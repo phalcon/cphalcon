@@ -55,7 +55,7 @@ class PresenceOf extends \Phalcon\Mvc\Model\Validator implements \Phalcon\Mvc\Mo
 	 */
 	public function validate(<\Phalcon\Mvc\ModelInterface> record) -> boolean
 	{
- 		var field, value, message, replacePairs;
+		var field, value, message;
 
 		let field = this->getOption("field");
 		if typeof field != "string" {
@@ -72,12 +72,11 @@ class PresenceOf extends \Phalcon\Mvc\Model\Validator implements \Phalcon\Mvc\Mo
 			 * Check if the developer has defined a custom message
 			 */
 			let message = this->getOption("message");
-                        let replacePairs = [":field": field];
 			if empty message {
-                                let message = ":field is required";
+				let message = ":field is required";
 			}
 
-			this->appendMessage(strtr(message, replacePairs), field, "PresenceOf");
+			this->appendMessage(strtr(message, [":field": field]), field, "PresenceOf");
 			return false;
 		}
 

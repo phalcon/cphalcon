@@ -180,8 +180,7 @@ class Introspection
 				throw new \Phalcon\Mvc\Model\Exception("columnMap() not returned an array");
 			}
 
-			let reversedColumnMap = [],
-				orderedColumnMap = userColumnMap;
+			let reversedColumnMap = [], orderedColumnMap = userColumnMap;
 			for name, userName in userColumnMap {
 				let reversedColumnMap[userName] = name;
 			}

@@ -55,7 +55,7 @@ class Exclusionin extends \Phalcon\Mvc\Model\Validator implements \Phalcon\Mvc\M
 	 */
 	public function validate(<\Phalcon\Mvc\ModelInterface> record) -> boolean
 	{
-		var field, domain, value, message, replacePairs;
+		var field, domain, value, message;
 
 		let field = this->getOption("field");
 
@@ -76,10 +76,9 @@ class Exclusionin extends \Phalcon\Mvc\Model\Validator implements \Phalcon\Mvc\M
 		}
 
 		let value = record->readAttribute(field);
-
-                if this->isSetOption("allowEmpty") && empty value {
-                    return true;
-                }
+		if this->isSetOption("allowEmpty") && empty value {
+			return true;
+		}
 
 		/**
 		 * We check if the value contained into the array
@@ -90,12 +89,11 @@ class Exclusionin extends \Phalcon\Mvc\Model\Validator implements \Phalcon\Mvc\M
 			 * Check if the developer has defined a custom message
 			 */
 			let message = this->getOption("message");
-                        let replacePairs = [":field": field, ":domain":  join(", ", domain)];
 			if empty message {
-                                let message = "Value of field :field must not be part of list: :domain";
+				let message = "Value of field :field must not be part of list: :domain";
 			}
 
-			this->appendMessage(strtr(message, replacePairs), field, "Exclusion");
+			this->appendMessage(strtr(message, [":field": field, ":domain":  join(", ", domain)]), field, "Exclusion");
 			return false;
 		}
 

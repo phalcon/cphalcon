@@ -24,7 +24,8 @@ namespace Phalcon\Mvc\Model;
  *
  * This is a base class for Phalcon\Mvc\Model validators
  */
-abstract class Validator {
+abstract class Validator
+{
 
 	protected _options;
 
@@ -102,9 +103,7 @@ abstract class Validator {
 	 */
 	protected function isSetOption(string! option)
 	{
-		var options;
-		let options = this->_options;
-		return isset options[option];
+		return isset this->_options[option];
 	}
 
 }

@@ -127,13 +127,16 @@ class Complex extends \Phalcon\Mvc\Model\Resultset implements \Phalcon\Mvc\Model
 				 * Each row in a complex result is a Phalcon\Mvc\Model\Row instance
 				 */
 				switch hydrateMode {
-					case 0:
+
+					case \Phalcon\Mvc\Model\Resultset::HYDRATE_RECORDS:
 						let activeRow = new \Phalcon\Mvc\Model\Row();
 						break;
-					case 1:
+
+					case \Phalcon\Mvc\Model\Resultset::HYDRATE_ARRAYS:
 						let activeRow = [];
 						break;
-					case 2:
+
+					case \Phalcon\Mvc\Model\Resultset::HYDRATE_OBJECTS:
 						let activeRow = new \stdClass();
 						break;
 				}
@@ -176,6 +179,7 @@ class Complex extends \Phalcon\Mvc\Model\Resultset implements \Phalcon\Mvc\Model
 						 * Generate the column value according to the hydration type
 						 */
 						switch hydrateMode {
+
 							case 0:
 
 								/**
@@ -191,6 +195,7 @@ class Complex extends \Phalcon\Mvc\Model\Resultset implements \Phalcon\Mvc\Model
 								 */
 								let value = \Phalcon\Mvc\Model::cloneResultMap(column["instance"], rowModel, columnMap, dirtyState, keepSnapshots);
 								break;
+
 							default:
 								/**
 				 				 * Other kinds of hydrations
@@ -229,9 +234,11 @@ class Complex extends \Phalcon\Mvc\Model\Resultset implements \Phalcon\Mvc\Model
 					 * Assign the instance according to the hydration type
 					 */
 					switch hydrateMode {
-						case 1:
+
+						case \Phalcon\Mvc\Model\Resultset::HYDRATE_ARRAYS:
 							let activeRow[attribute] = value;
 							break;
+
 						default:
 							let activeRow->{attribute} = value;
 							break;

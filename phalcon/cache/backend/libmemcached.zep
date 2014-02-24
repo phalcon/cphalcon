@@ -96,21 +96,19 @@ class Libmemcached extends \Phalcon\Cache\Backend implements \Phalcon\Cache\Back
 		let options = this->_options;
 		let memcache = new \Memcached();
 
-		if !isset options["servers"] {
+		if !fetch servers, options["servers"] {
 			throw new \Phalcon\Cache\Exception("Servers must be an array");
-		} else {
-			let servers = options["servers"];
-			if typeof servers != "array" {
-				throw new \Phalcon\Cache\Exception("Servers must be an array");
-			}
-		}
+		} 
 
-		let client = options["client"];
+		if typeof servers != "array" {
+			throw new \Phalcon\Cache\Exception("Servers must be an array");
+		}
 
 		if !memcache->addServers(servers) {
 			throw new \Phalcon\Cache\Exception("Cannot connect to Memcached server");
 		}
 
+		let client = options["client"];
 		if typeof client == "array" {
 			for option in client {
 				if typeof option == "string" {

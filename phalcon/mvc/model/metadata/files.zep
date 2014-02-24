@@ -60,7 +60,7 @@ class Files extends \Phalcon\Mvc\Model\MetaData implements \Phalcon\Mvc\Model\Me
 	public function read(string! key)
 	{
 		var path;
-		let path = this->_metaDataDir . phalcon_prepare_virtual_path(key, "_") . ".php";
+		let path = this->_metaDataDir . prepare_virtual_path(key, "_") . ".php";
 		if file_exists(path) {
 			return require path;
 		}
@@ -77,7 +77,7 @@ class Files extends \Phalcon\Mvc\Model\MetaData implements \Phalcon\Mvc\Model\Me
 	{
 		var path;
 
-		let path = this->_metaDataDir . phalcon_prepare_virtual_path(key, "_") . ".php";
+		let path = this->_metaDataDir . prepare_virtual_path(key, "_") . ".php";
 		if file_put_contents(path, "<?php return " . var_export(data, true) . "; ") === false {
 			throw new \Phalcon\Mvc\Model\Exception("Meta-Data directory cannot be written");
 		}

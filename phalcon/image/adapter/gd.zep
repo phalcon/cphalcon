@@ -231,12 +231,12 @@ class Gd extends \Phalcon\Image\Adapter implements \Phalcon\Image\AdapterInterfa
 			let this->_width  = imagesx(image);
 			let this->_height = imagesy(image);
 		} else {
+
 			if direction == \Phalcon\Image::HORIZONTAL {
 				imageflip(this->_image, IMG_FLIP_HORIZONTAL);
 			} else {
 				imageflip(this->_image, IMG_FLIP_VERTICAL);
 			}
-
 
 		}
 	}

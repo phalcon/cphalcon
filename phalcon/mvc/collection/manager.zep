@@ -106,11 +106,11 @@ class Manager implements \Phalcon\Di\InjectionAwareInterface, \Phalcon\Events\Ev
 	}
 
 	/**
-	* Returns a custom events manager related to a model
-	*
-	* @param Phalcon\Mvc\CollectionInterface $model
-	* @return Phalcon\Events\ManagerInterface
-	*/
+	 * Returns a custom events manager related to a model
+	 *
+	 * @param Phalcon\Mvc\CollectionInterface $model
+ 	 * @return Phalcon\Events\ManagerInterface
+	 */
 	public function getCustomEventsManager(<\Phalcon\Mvc\CollectionInterface> model) //-> <\Phalcon\Events\ManagerInterface>
 	{
 		var customEventsManager, className;
@@ -125,10 +125,10 @@ class Manager implements \Phalcon\Di\InjectionAwareInterface, \Phalcon\Events\Ev
 	}
 
 	/**
-	* Initializes a model in the models manager
-	*
-	* @param Phalcon\Mvc\CollectionInterface model
-	*/
+	 * Initializes a model in the models manager
+	 *
+	 * @param Phalcon\Mvc\CollectionInterface model
+	 */
 	public function initialize(<\Phalcon\Mvc\CollectionInterface> model) -> void
 	{
 		var className, initialized, eventsManager;
@@ -162,11 +162,11 @@ class Manager implements \Phalcon\Di\InjectionAwareInterface, \Phalcon\Events\Ev
 	}
 
 	/**
-	* Check whether a model is already initialized
-	*
-	* @param string $modelName
-	* @return bool
-	*/
+	 * Check whether a model is already initialized
+	 *
+	 * @param string $modelName
+	 * @return bool
+	 */
 	public function isInitialized(modelName) -> boolean
 	{
 		if isset this->_initialized[strtolower(modelName)] {
@@ -176,21 +176,21 @@ class Manager implements \Phalcon\Di\InjectionAwareInterface, \Phalcon\Events\Ev
 	}
 
 	/**
-	* Get the latest initialized model
-	*
-	* @return Phalcon\Mvc\CollectionInterface
-	*/
+	 * Get the latest initialized model
+	 *
+	 * @return Phalcon\Mvc\CollectionInterface
+	 */
 	public function getLastInitialized() -> <\Phalcon\Mvc\CollectionInterface>
 	{
 		return this->_lastInitialized;
 	}
 
 	/**
-	* Sets a connection service for a specific model
-	*
-	* @param Phalcon\Mvc\CollectionInterface model
-	* @param string connectionService
-	*/
+	 * Sets a connection service for a specific model
+	 *
+	 * @param Phalcon\Mvc\CollectionInterface model
+	 * @param string connectionService
+	 */
 	public function setConnectionService(<\Phalcon\Mvc\CollectionInterface> model, string! connectionService) -> void
 	{
 		if typeof model != "object" {
@@ -202,11 +202,11 @@ class Manager implements \Phalcon\Di\InjectionAwareInterface, \Phalcon\Events\Ev
 	}
 
 	/**
-	* Sets if a model must use implicit objects ids
-	*
-	* @param Phalcon\Mvc\CollectionInterface model
-	* @param boolean useImplicitObjectIds
-	*/
+	 * Sets if a model must use implicit objects ids
+	 *
+	 * @param Phalcon\Mvc\CollectionInterface model
+	 * @param boolean useImplicitObjectIds
+	 */
 	public function useImplicitObjectIds(<\Phalcon\Mvc\CollectionInterface> model, boolean useImplicitObjectIds) -> void
 	{
 		if typeof model != "object" {
@@ -217,12 +217,12 @@ class Manager implements \Phalcon\Di\InjectionAwareInterface, \Phalcon\Events\Ev
 	}
 
 	/**
-	* Checks if a model is using implicit object ids
-	*
-	* @param Phalcon\Mvc\CollectionInterface model
-	* @return boolean
-	*/
-	public function isUsingImplicitObjectIds(<isUsingImplicitObjectIds> model) -> boolean
+	 * Checks if a model is using implicit object ids
+	 *
+	 * @param Phalcon\Mvc\CollectionInterface model
+	 * @return boolean
+	 */
+	public function isUsingImplicitObjectIds(<\Phalcon\Mvc\CollectionInterface> model) -> boolean
 	{
 		var implicit;
 
@@ -241,11 +241,11 @@ class Manager implements \Phalcon\Di\InjectionAwareInterface, \Phalcon\Events\Ev
 	}
 
 	/**
-	* Returns the connection related to a model
-	*
-	* @param Phalcon\Mvc\CollectionInterface $model
-	* @return Phalcon\Db\AdapterInterface(?) MongoDB
-	*/
+	 * Returns the connection related to a model
+	 *
+	 * @param Phalcon\Mvc\CollectionInterface $model
+	 * @return \Mongo
+	 */
 	public function getConnection(<\Phalcon\Mvc\CollectionInterface> model) -> <\Phalcon\Db\AdapterInterface>
 	{
 		var service, connectionService, connection, dependencyInjector, entityName;
@@ -273,8 +273,8 @@ class Manager implements \Phalcon\Di\InjectionAwareInterface, \Phalcon\Events\Ev
 		}
 
 		/**
-		* Request the connection service from the DI
-		*/
+		 * Request the connection service from the DI
+		 */
 		let connection = dependencyInjector->getShared(service);
 		if typeof connection != "object" {
 			throw new \Phalcon\Mvc\Collection\Exception("Invalid injected connection service");

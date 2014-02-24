@@ -26,19 +26,19 @@ namespace Phalcon\Queue\Beanstalk;
 */
 class Job
 {
-	protected _id {get};
+	protected _id { get };
 
-	protected _body {get};
+	protected _body { get };
 
 	protected _queue;
 
 	/**
-	* Phalcon\Queue\Beanstalk\Job
-	*
-	* @param Phalcon\Queue\Beanstalk queue
-	* @param string id
-	* @param string body
-	*/
+	 * Phalcon\Queue\Beanstalk\Job
+	 *
+	 * @param Phalcon\Queue\Beanstalk queue
+	 * @param string id
+	 * @param string body
+	 */
 	public function __construct(queue, id, body)
 	{
 		let this->_queue = queue;
@@ -53,15 +53,13 @@ class Job
 	 */
 	public function delete() -> boolean
 	{
- 		var queue, response, status;
+ 		var queue, response;
 
 		let queue = this->_queue;
-		queue->write("delete ".this->_id);
+		queue->write("delete " . this->_id);
 
 		let response = queue->readStatus();
-		let status = response[0];
-
-		if status=="DELETED" {
+		if response[0] == "DELETED" {
 			return true;
 		}
 

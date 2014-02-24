@@ -209,7 +209,7 @@ class Builder
 				 * The call parameter must be an array of arrays
 				 */
 				if typeof method != "array" {
-					throw new \Phalcon\Di\Exception("Method call must be an array on position ".methodPosition);
+					throw new \Phalcon\Di\Exception("Method call must be an array on position " . methodPosition);
 				}
 
 				/**
@@ -227,7 +227,7 @@ class Builder
 				if fetch arguments, method["arguments"] {
 
 					if typeof arguments != "array" {
-						throw new \Phalcon\Di\Exception("Call arguments must be an array ".methodPosition);
+						throw new \Phalcon\Di\Exception("Call arguments must be an array " . methodPosition);
 					}
 
 					if count(arguments) {

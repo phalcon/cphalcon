@@ -1172,39 +1172,51 @@ class Compiler implements \Phalcon\Di\InjectionAwareInterface
 
 			let exprCode = null;
 			switch type {
+
 				case 33:
 					let exprCode = "!" . rightCode;
 					break;
+
 				case 42:
 					let exprCode = leftCode . " * " . rightCode;
 					break;
+
 				case 43:
 					let exprCode = leftCode . " + " . rightCode;
 					break;
+
 				case 45:
 					let exprCode = leftCode . " - " . rightCode;
 					break;
+
 				case 47:
 					let exprCode = leftCode . " / " . rightCode;
 					break;
+
 				case 37:
 					let exprCode = leftCode . " % " . rightCode;
 					break;
+
 				case 60:
 					let exprCode = leftCode . " < " . rightCode;
 					break;
+
 				case 61:
 					let exprCode = leftCode . " > " . rightCode;
 					break;
+
 				case 62:
 					let exprCode = leftCode . " > " . rightCode;
 					break;
+
 				case 126:
 					let exprCode = leftCode . " . " . rightCode;
 					break;
+
 				case 278:
 					let exprCode = "pow(" . leftCode . ", " . rightCode . ")";
 					break;
+
 				case 360:
 					if isset expr["left"] {
 						let exprCode = "array(" . leftCode . ")";
@@ -1212,63 +1224,83 @@ class Compiler implements \Phalcon\Di\InjectionAwareInterface
 						let exprCode = "array()";
 					}
 					break;
+
 				case 258:
 					let exprCode = expr["value"];
 					break;
+
 				case 259:
 					let exprCode = expr["value"];
 					break;
+
 				case 260:
 					let exprCode = "'" . str_replace("'", "\\'", expr["value"]) . "'";
 					break;
+
 				case 261:
 					let exprCode = "null";
 					break;
+
 				case 262:
 					let exprCode = "false";
 					break;
+
 				case 263:
 					let exprCode = "true";
 					break;
+
 				case 265:
 					let exprCode = "$" . expr["value"];
 					break;
+
 				case 266:
 					let exprCode = leftCode . " && " . rightCode;
 					break;
+
 				case 267:
 					let exprCode = leftCode . " || " . rightCode;
 					break;
+
 				case 270:
 					let exprCode = leftCode . " <= " . rightCode;
 					break;
+
 				case 271:
 					let exprCode = leftCode . " >= " . rightCode;
 					break;
+
 				case 272:
 					let exprCode = leftCode . " == " . rightCode;
 					break;
+
 				case 273:
 					let exprCode = leftCode . " != " . rightCode;
 					break;
+
 				case 274:
 					let exprCode = leftCode . " === " . rightCode;
 					break;
+
 				case 275:
 					let exprCode = leftCode . " !== " . rightCode;
 					break;
+
 				case 276:
 					let exprCode = "range(" . leftCode . ", " . rightCode . ")";
 					break;
+
 				case 350:
 					let exprCode = this->functionCall(expr);
 					break;
+
 				case 356:
 					let exprCode = "(" . leftCode . ")";
 					break;
+
 				case 361:
 					let exprCode = leftCode . "[" . rightCode . "]";
 					break;
+
 				case 365:
 
 					/**

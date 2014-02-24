@@ -113,9 +113,7 @@ class Transaction implements \Phalcon\Mvc\Model\TransactionInterface
 	 */
 	public function begin()
 	{
-		var connection;
-		let connection = this->_connection;
-		return connection->begin();
+		return this->_connection->begin();
 	}
 
 	/**
@@ -132,8 +130,7 @@ class Transaction implements \Phalcon\Mvc\Model\TransactionInterface
 			call_user_func_array([manager, "notifyCommit"], [this]);
 		}
 
-		let connection = this->_connection;
-		return connection->commit();
+		return this->_connection->commit();
 	}
 
 	/**
@@ -173,13 +170,11 @@ class Transaction implements \Phalcon\Mvc\Model\TransactionInterface
 	 */
 	public function getConnection()
 	{
-
 		if this->_rollbackOnAbort {
 			if connection_aborted() {
 				this->rollback("The request was aborted");
 			}
 		}
-
 		return this->_connection;
 	}
 
@@ -230,9 +225,7 @@ class Transaction implements \Phalcon\Mvc\Model\TransactionInterface
 	 */
 	public function isValid() -> boolean
 	{
-		var connection;
-		let connection = this->_connection;
-		return connection->isUnderTransaction();
+		return this->_connection->isUnderTransaction();
 	}
 
 	/**

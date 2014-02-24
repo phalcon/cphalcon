@@ -69,7 +69,7 @@ class Message implements \Phalcon\Mvc\Model\MessageInterface
 		let this->_message = message,
 			this->_field = field,
 			this->_type = type;
-		if typeof model == "object"{
+		if typeof model == "object" {
 			let this->_model = model;
 		}
 	}

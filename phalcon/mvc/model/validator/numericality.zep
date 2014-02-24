@@ -54,7 +54,7 @@ class Numericality extends \Phalcon\Mvc\Model\Validator implements \Phalcon\Mvc\
 	 */
 	public function validate(<\Phalcon\Mvc\ModelInterface> record) -> boolean
 	{
- 		var field, value, message, replacePairs;
+		var field, value, message;
 
 		let field = this->getOption("field");
 		if typeof field != "string" {
@@ -63,9 +63,9 @@ class Numericality extends \Phalcon\Mvc\Model\Validator implements \Phalcon\Mvc\
 
 		let value = record->readAttribute(field);
 
-                if this->isSetOption("allowEmpty") && empty value {
-                    return true;
-                }
+		if this->isSetOption("allowEmpty") && empty value {
+			return true;
+		}
 
 		/**
 		 * Check if the value is numeric using is_numeric in the PHP userland
@@ -76,12 +76,11 @@ class Numericality extends \Phalcon\Mvc\Model\Validator implements \Phalcon\Mvc\
 			 * Check if the developer has defined a custom message
 			 */
 			let message = this->getOption("message");
-                        let replacePairs = [":field": field];
 			if empty message {
 				let message = "Value of field :field must be numeric";
 			}
 
-			this->appendMessage(strtr(message, replacePairs), field, "Numericality");
+			this->appendMessage(strtr(message, [":field": field]), field, "Numericality");
 			return false;
 		}
 

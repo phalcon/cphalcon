@@ -154,13 +154,12 @@ class File extends \Phalcon\Cache\Backend implements \Phalcon\Cache\BackendInter
 	 */
 	public function save(var keyName=null, var content=null, lifetime=null, stopBuffer=true) -> void
 	{
-		var lastKey, lastPrefix, frontend, cacheDir,
-			isBuffering, cacheFile, cachedContent, preparedContent, status;
+		var lastKey, frontend, cacheDir, isBuffering, cacheFile, cachedContent, preparedContent, status;
 
 		if !keyName {
 			let lastKey = this->_lastKey;
 		} else {
-			let lastPrefix = this->_prefix . keyName;
+			let lastKey = this->_prefix . keyName;
 		}
 
 		if !lastKey {

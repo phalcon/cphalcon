@@ -188,8 +188,7 @@ class Manager implements \Phalcon\Mvc\Model\ManagerInterface, \Phalcon\Di\Inject
 	 * @param Phalcon\Mvc\ModelInterface model
 	 * @return Phalcon\Events\ManagerInterface
 	 */
-	public function getCustomEventsManager(<\Phalcon\Mvc\ModelInterface> model)
-		-> <\Phalcon\Events\ManagerInterface> | boolean
+	public function getCustomEventsManager(<\Phalcon\Mvc\ModelInterface> model) -> <\Phalcon\Events\ManagerInterface> | boolean
 	{
 		var customEventsManager, eventsManager;
 		let customEventsManager = this->_customEventsManager;

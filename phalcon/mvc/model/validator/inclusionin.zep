@@ -54,7 +54,7 @@ class Inclusionin extends \Phalcon\Mvc\Model\Validator implements \Phalcon\Mvc\M
 	 */
 	public function validate(<\Phalcon\Mvc\ModelInterface> record) -> boolean
 	{
- 		var field, visSet, domain, value, message, replacePairs;
+		var field, domain, value, message;
 
 		let field = this->getOption("field");
 		if typeof field != "string" {
@@ -64,8 +64,7 @@ class Inclusionin extends \Phalcon\Mvc\Model\Validator implements \Phalcon\Mvc\M
 		/**
 		 * The 'domain' option must be a valid array of not allowed values
 		 */
-		let visSet = this->isSetOption("domain");
-		if visSet===false {
+		if this->isSetOption("domain") === false {
 			throw new \Phalcon\Mvc\Model\Exception("The option 'domain' is required for this validator");
 		}
 
@@ -76,9 +75,9 @@ class Inclusionin extends \Phalcon\Mvc\Model\Validator implements \Phalcon\Mvc\M
 
 		let value = record->readAttribute(field);
 
-                if this->isSetOption("allowEmpty") && empty value {
-                    return true;
-                }
+		if this->isSetOption("allowEmpty") && empty value {
+			return true;
+		}
 
 		/**
 		 * Check if the value is contained in the array
@@ -89,12 +88,11 @@ class Inclusionin extends \Phalcon\Mvc\Model\Validator implements \Phalcon\Mvc\M
 			 * Check if the developer has defined a custom message
 			 */
 			let message = this->getOption("message");
-                        let replacePairs = [":field": field, ":domain":  join(", ", domain)];
 			if empty message {
-                                let message = "Value of field :field must be part of list: :domain";
+				let message = "Value of field :field must be part of list: :domain";
 			}
 
-			this->appendMessage(strtr(message, replacePairs), field, "Inclusion");
+			this->appendMessage(strtr(message, [":field": field, ":domain":  join(", ", domain)]), field, "Inclusion");
 			return false;
 		}
 

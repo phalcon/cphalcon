@@ -138,15 +138,14 @@ class File extends \Phalcon\Logger\Adapter implements \Phalcon\Logger\AdapterInt
 	 */
 	public function __wakeup()
 	{
-		var path, options, mode;
+		var path, mode;
 
 		let path = this->_path;
 		if typeof path != "string" {
 			throw new \Phalcon\Logger\Exception("Invalid data passed to Phalcon\\Logger\\Adapter\\File::__wakeup()");
 		}
 
-		let options = this->_options;
-		if !fetch mode, options["mode"] {
+		if !fetch mode, this->_options["mode"] {
 			let mode = "ab";
 		}
 

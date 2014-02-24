@@ -57,13 +57,9 @@ class Uniqueness extends \Phalcon\Mvc\Model\Validator implements \Phalcon\Mvc\Mo
 	{
 		var field, dependencyInjector, metaData, message, bindTypes, bindDataTypes,
 			columnMap, conditions, bindParams, number, composeField, value, columnField,
-			composeCondition, bindType, condition, operationMade, primaryFields, primaryField,
-			attributeField, joinConditions, params, className, replacePairs;
-
-		let field = this->getOption("field");
+			bindType, primaryField, attributeField, params, className, replacePairs;
 
 		let dependencyInjector = record->getDI();
-
 		let metaData = dependencyInjector->getShared("modelsMetadata");
 
 		/**
@@ -81,22 +77,21 @@ class Uniqueness extends \Phalcon\Mvc\Model\Validator implements \Phalcon\Mvc\Mo
 		let conditions = [];
 		let bindParams = [];
 		let number = 0;
+
+		let field = this->getOption("field");
 		if typeof field == "array" {
 
 			/**
 			 * The field can be an array of values
 			 */
-			for composeField in field
-			{
+			for composeField in field {
 
 				/**
 				 * The reversed column map is used in the case to get real column name
 				 */
 				if typeof columnMap == "array" {
-					if isset columnMap[composeField] {
-						let columnField = columnMap[composeField];
-					} else {
-						throw new \Phalcon\Mvc\Model\Exception("Column '".composeField."' isn't part of the column map");
+					if !fetch columnField, columnMap[composeField] {
+						throw new \Phalcon\Mvc\Model\Exception("Column '" . composeField . "' isn't part of the column map");
 					}
 				} else {
 					let columnField = composeField;
@@ -105,22 +100,18 @@ class Uniqueness extends \Phalcon\Mvc\Model\Validator implements \Phalcon\Mvc\Mo
 				/**
 				 * Some database systems require that we pass the values using bind casting
 				 */
-				if !isset bindDataTypes[columnField] {
-					throw new \Phalcon\Mvc\Model\Exception("Column '".columnField."' isn't part of the table columns");
+				if !fetch bindType, bindDataTypes[columnField] {
+					throw new \Phalcon\Mvc\Model\Exception("Column '" . columnField . "' isn't part of the table columns");
 				}
 
 				/**
 				 * The attribute could be "protected" so we read using "readattribute"
 				 */
-				let value = record->readAttribute(composeField);
-				let composeCondition = "[".composeField."] = ?".number;
-				let conditions[] = composeCondition;
-				let bindParams[] = value;
-
-				let bindType = bindDataTypes[columnField];
+				let conditions[] = "[" . composeField . "] = ?" . number;
+				let bindParams[] = record->readAttribute(composeField);
 				let bindTypes[] = bindType;
 
-				let number = number + 1;
+				let number++;
 			}
 
 		} else {
@@ -129,10 +120,8 @@ class Uniqueness extends \Phalcon\Mvc\Model\Validator implements \Phalcon\Mvc\Mo
 			 * The reversed column map is used in the case to get real column name
 			 */
 			if typeof columnMap == "array" {
-				if isset columnMap[field] {
-					let columnField = columnMap[field];
-				} else {
-					throw new \Phalcon\Mvc\Model\Exception("Column '".field."' isn't part of the column map");
+				if !fetch columnField, columnMap[field] {
+					throw new \Phalcon\Mvc\Model\Exception("Column '" . field . "' isn't part of the column map");
 				}
 			} else {
 				let columnField = field;
@@ -142,28 +131,24 @@ class Uniqueness extends \Phalcon\Mvc\Model\Validator implements \Phalcon\Mvc\Mo
 			 * Some database systems require that we pass the values using bind casting
 			 */
 			if !isset bindDataTypes[columnField] {
-				throw new \Phalcon\Mvc\Model\Exception("Column '".columnField."' isn't part of the table columns");
+				throw new \Phalcon\Mvc\Model\Exception("Column '" . columnField . "' isn't part of the table columns");
 			}
 
 			/**
 			 * We're checking the uniqueness with only one field
 			 */
-			let value = record->readAttribute(field);
-			let condition = "[".field."] = ?0";
-			let conditions[] = condition;
-			let bindParams[] = value;
-
+			let conditions[] = "[" . field . "] = ?0";
+			let bindParams[] = record->readAttribute(field);
 			let bindType = bindDataTypes[columnField];
 			let bindTypes[] = bindType;
 
-			let number = number + 1;
+			let number++;
 		}
 
 		/**
 		 * If the operation is update, there must be values in the object
 		 */
-		let operationMade = record->getOperationMade();
-		if operationMade == 2 {
+		if record->getOperationMade() == 2 {
 
 			/**
 			 * We build a query with the primary key attributes
@@ -174,10 +159,9 @@ class Uniqueness extends \Phalcon\Mvc\Model\Validator implements \Phalcon\Mvc\Mo
 				let columnMap = null;
 			}
 
-			let primaryFields = metaData->getPrimaryKeyAttributes(record);
-			for primaryField in primaryFields {
+			for primaryField in metaData->getPrimaryKeyAttributes(record) {
 
-				if !isset bindDataTypes[primaryField] {
+				if !fetch bindType, bindDataTypes[primaryField] {
 					throw new \Phalcon\Mvc\Model\Exception("Column '".primaryField."' isn't part of the table columns");
 				}
 
@@ -185,9 +169,7 @@ class Uniqueness extends \Phalcon\Mvc\Model\Validator implements \Phalcon\Mvc\Mo
 				 * Rename the column if there is a column map
 				 */
 				if typeof columnMap == "array" {
-					if isset columnMap[primaryField] {
-						let attributeField = columnMap[primaryField];
-					} else {
+					if !fetch attributeField, columnMap[primaryField] {
 						throw new \Phalcon\Mvc\Model\Exception("Column '".primaryField."' isn't part of the column map");
 					}
 				} else {
@@ -197,25 +179,20 @@ class Uniqueness extends \Phalcon\Mvc\Model\Validator implements \Phalcon\Mvc\Mo
 				/**
 				 * Create a condition based on the renamed primary key
 				 */
-				let value = record->readAttribute(primaryField);
 				let conditions[] = "[" . attributeField . "] <> ?" . number;
-				let bindParams[] = value;
-
-				let bindType = bindDataTypes[primaryField];
+				let bindParams[] = record->readAttribute(primaryField);
 				let bindTypes[] = bindType;
 
-				let number = number + 1;
+				let number++;
 			}
 		}
-
-		let joinConditions = join(" AND ", conditions);
 
 		/**
 		 * We don't trust the user, so we pass the parameters as bound parameters
 		 */
 		let params = [];
 		let params["di"] = dependencyInjector;
-		let params["conditions"] = joinConditions;
+		let params["conditions"] = join(" AND ", conditions);
 		let params["bind"] = bindParams;
 		let params["bindTypes"] = bindTypes;
 
@@ -224,20 +201,19 @@ class Uniqueness extends \Phalcon\Mvc\Model\Validator implements \Phalcon\Mvc\Mo
 		/**
 		 * Check using a standard count
 		 */
-		let number = {className}::count(params);
-		if number != 0 {
+		if {className}::count(params) != 0 {
 
 			/**
 			 * Check if the developer has defined a custom message
 			 */
 			let message = this->getOption("message");
-                        let replacePairs = [":field": field];
+			let replacePairs = [":field": field];
 			if empty message {
 				if typeof field == "array" {
 					let replacePairs = [":fields": join(", ", field)];
-                                        let message = "Value of fields :fields are already present in another record";
+					let message = "Value of fields :fields are already present in another record";
 				} else {
-                                        let message = "Value of field :field is already present in another record";
+					let message = "Value of field :field is already present in another record";
 				}
 			}
 

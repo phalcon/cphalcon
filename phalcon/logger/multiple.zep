@@ -24,8 +24,8 @@ namespace Phalcon\Logger;
  *
  * Handles multiples logger handlers
  */
- class Multiple
- {
+class Multiple
+{
 
 	protected _loggers { get };
 
