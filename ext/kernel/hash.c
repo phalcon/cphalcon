@@ -17,8 +17,6 @@
   +------------------------------------------------------------------------+
 */
 
-#include "php_phalcon.h"
-
 #include "kernel/hash.h"
 #include "kernel/memory.h"
 

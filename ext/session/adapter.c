@@ -325,7 +325,7 @@ static int phalcon_session_adapter_count_elements(zval *object, long *count TSRM
 		return FAILURE;
 	}
 
-	res = phalcon_call_method_params(cnt, &cnt, object, SL("count"), zend_inline_hash_func(SS("count")) TSRMLS_CC, 0);
+	res = phalcon_call_method(&cnt, object, "count", 0, NULL TSRMLS_CC);
 	if (res == SUCCESS) {
 		*count = (Z_TYPE_P(cnt) == IS_LONG) ? Z_LVAL_P(cnt) : phalcon_get_intval(cnt);
 		zval_ptr_dtor(&cnt);
@@ -358,6 +358,7 @@ static zend_object_iterator* phalcon_session_adapter_get_iterator(zend_class_ent
 {
 	zval *iterator;
 	zval *data;
+	zval *params[1];
 	zend_object_iterator *ret;
 
 	data = phalcon_get_global(SS("_SESSION") TSRMLS_CC);
@@ -367,7 +368,8 @@ static zend_object_iterator* phalcon_session_adapter_get_iterator(zend_class_ent
 
 	MAKE_STD_ZVAL(iterator);
 	object_init_ex(iterator, spl_ce_ArrayIterator);
-	if (FAILURE == phalcon_call_method_params(NULL, NULL, iterator, SL("__construct"), zend_inline_hash_func(SS("__construct")) TSRMLS_CC, 1, data)) {
+	params[0] = data;
+	if (FAILURE == phalcon_call_method(NULL, iterator, "__construct", 1, params TSRMLS_CC)) {
 		ret = NULL;
 	}
 	else if (Z_TYPE_P(iterator) == IS_OBJECT) {
@@ -429,12 +431,8 @@ PHP_METHOD(Phalcon_Session_Adapter, __construct){
 
 	phalcon_fetch_params(0, 0, 1, &options);
 	
-	if (!options) {
-		options = PHALCON_GLOBAL(z_null);
-	}
-	
-	if (Z_TYPE_P(options) == IS_ARRAY) {
-		RETURN_ON_FAILURE(phalcon_call_method_params(NULL, NULL, this_ptr, SL("setoptions"), zend_inline_hash_func(SS("setoptions")) TSRMLS_CC, 1, options));
+	if (options && Z_TYPE_P(options) == IS_ARRAY) {
+		PHALCON_CALL_METHODW(NULL, this_ptr, "setoptions", options);
 	}
 }
 
@@ -529,7 +527,7 @@ PHP_METHOD(Phalcon_Session_Adapter, get){
 		RETURN_ZVAL(default_value, 1, 0);
 	}
 	
-	unique_id = phalcon_fetch_nproperty_this(this_ptr, SL("_uniqueId"), PH_NOISY_CC);
+	unique_id = phalcon_fetch_nproperty_this(this_ptr, SL("_uniqueId"), PH_NOISY TSRMLS_CC);
 	
 	PHALCON_MM_GROW();
 	PHALCON_INIT_VAR(key);
@@ -677,5 +675,5 @@ PHP_METHOD(Phalcon_Session_Adapter, getIterator)
 
 	data = phalcon_get_global(SS("_SESSION") TSRMLS_CC);
 	object_init_ex(return_value, spl_ce_ArrayIterator);
-	RETURN_ON_FAILURE(phalcon_call_method_params(NULL, NULL, return_value, SL("__construct"), zend_inline_hash_func(SS("__construct")) TSRMLS_CC, 1, data));
+	PHALCON_CALL_METHODW(NULL, return_value, "__construct", data);
 }

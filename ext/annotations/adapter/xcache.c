@@ -18,8 +18,6 @@
   +------------------------------------------------------------------------+
 */
 
-#include "php_phalcon.h"
-
 #include "annotations/adapter/xcache.h"
 #include "annotations/adapter.h"
 #include "annotations/adapterinterface.h"
@@ -81,7 +79,7 @@ PHALCON_INIT_CLASS(Phalcon_Annotations_Adapter_Xcache){
  */
 PHP_METHOD(Phalcon_Annotations_Adapter_Xcache, read){
 
-	zval *key, *prefixed_key, *serialized;
+	zval *key, *prefixed_key, *serialized = NULL;
 
 	PHALCON_MM_GROW();
 
@@ -92,7 +90,6 @@ PHP_METHOD(Phalcon_Annotations_Adapter_Xcache, read){
 	
 	phalcon_strtolower_inplace(prefixed_key);
 	
-	PHALCON_OBS_VAR(serialized);
 	PHALCON_CALL_FUNCTION(&serialized, "xcache_get", prefixed_key);
 	if (Z_TYPE_P(serialized) == IS_STRING) {
 		phalcon_unserialize(return_value, serialized TSRMLS_CC);
@@ -127,7 +124,7 @@ PHP_METHOD(Phalcon_Annotations_Adapter_Xcache, write){
 	
 	PHALCON_INIT_VAR(serialized);
 	phalcon_serialize(serialized, &data TSRMLS_CC);
-	PHALCON_CALL_FUNCTION_NORET("xcache_set", prefixed_key, serialized);
+	PHALCON_CALL_FUNCTION(NULL, "xcache_set", prefixed_key, serialized);
 	
 	PHALCON_MM_RESTORE();
 }

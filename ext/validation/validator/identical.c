@@ -77,9 +77,9 @@ PHALCON_INIT_CLASS(Phalcon_Validation_Validator_Identical){
  */
 PHP_METHOD(Phalcon_Validation_Validator_Identical, validate){
 
-	zval *validator, *attribute, *value, *identical_value;
+	zval *validator, *attribute, *value = NULL, *identical_value;
 	zval *message_str, *message, *code;
-	zval *label, *pairs, *prepared;
+	zval *label, *pairs, *prepared = NULL;
 	zend_class_entry *ce = Z_OBJCE_P(getThis());
 
 	PHALCON_MM_GROW();
@@ -88,8 +88,7 @@ PHP_METHOD(Phalcon_Validation_Validator_Identical, validate){
 	
 	PHALCON_VERIFY_CLASS_EX(validator, phalcon_validation_ce, phalcon_validation_exception_ce, 1);
 
-	PHALCON_OBS_VAR(value);
-	phalcon_call_method_p1_ex(value, &value, validator, "getvalue", attribute);
+	PHALCON_CALL_METHOD(&value, validator, "getvalue", attribute);
 	
 	PHALCON_INIT_VAR(identical_value);
 	RETURN_MM_ON_FAILURE(phalcon_validation_validator_getoption_helper(ce, identical_value, getThis(), phalcon_interned_value TSRMLS_CC));
@@ -119,13 +118,12 @@ PHP_METHOD(Phalcon_Validation_Validator_Identical, validate){
 			ZVAL_LONG(code, 0);
 		}
 
-		PHALCON_OBS_VAR(prepared);
 		PHALCON_CALL_FUNCTION(&prepared, "strtr", message_str, pairs);
 
 		message = phalcon_validation_message_construct_helper(prepared, attribute, "Identical", code TSRMLS_CC);
 		Z_DELREF_P(message);
 	
-		phalcon_call_method_p1_noret(validator, "appendmessage", message);
+		PHALCON_CALL_METHOD(NULL, validator, "appendmessage", message);
 		RETURN_MM_FALSE;
 	}
 	

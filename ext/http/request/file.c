@@ -216,11 +216,11 @@ PHP_METHOD(Phalcon_Http_Request_File, getType){
  */
 PHP_METHOD(Phalcon_Http_Request_File, getRealType){
 
-	zval *constant, *finfo, *temp_file, *mime;
+	zval *constant, *finfo = NULL, *temp_file, *mime;
 
 	PHALCON_MM_GROW();
 
-	mime = phalcon_fetch_nproperty_this(this_ptr, SL("_real_type"), PH_NOISY_CC);
+	mime = phalcon_fetch_nproperty_this(this_ptr, SL("_real_type"), PH_NOISY TSRMLS_CC);
 
 	if (Z_TYPE_P(mime) == IS_STRING) {
 		RETURN_CTOR(mime);
@@ -231,17 +231,16 @@ PHP_METHOD(Phalcon_Http_Request_File, getRealType){
 		RETURN_MM_NULL();
 	}
 
-	PHALCON_OBS_VAR(finfo);
 	PHALCON_CALL_FUNCTION(&finfo, "finfo_open", constant);
 
 	if (Z_TYPE_P(finfo) != IS_RESOURCE) {
 		RETURN_MM_NULL();
 	}
 
-	temp_file = phalcon_fetch_nproperty_this(this_ptr, SL("_tmp"), PH_NOISY_CC);
+	temp_file = phalcon_fetch_nproperty_this(this_ptr, SL("_tmp"), PH_NOISY TSRMLS_CC);
 
 	PHALCON_RETURN_CALL_FUNCTION("finfo_file", finfo, temp_file);
-	PHALCON_CALL_FUNCTION_NORET("finfo_close", finfo);
+	PHALCON_CALL_FUNCTION(NULL, "finfo_close", finfo);
 
 	PHALCON_MM_RESTORE();
 }
@@ -275,7 +274,7 @@ PHP_METHOD(Phalcon_Http_Request_File, isUploadedFile) {
 		RETURN_FALSE;
 	}
 
-	if (phalcon_call_method_params(tmp_name, &tmp_name, getThis(), SL("gettempname"), zend_inline_hash_func(SS("gettempname")) TSRMLS_CC, 0) == SUCCESS) {
+	if (phalcon_call_method(&tmp_name, getThis(), "gettempname", 0, NULL TSRMLS_CC) == SUCCESS) {
 		if (Z_TYPE_P(tmp_name) == IS_STRING && zend_hash_exists(SG(rfc1867_uploaded_files), Z_STRVAL_P(tmp_name), Z_STRLEN_P(tmp_name) + 1)) {
 			RETVAL_TRUE;
 		}
@@ -297,13 +296,10 @@ PHP_METHOD(Phalcon_Http_Request_File, moveTo){
 
 	zval *destination, *temp_file;
 
-	PHALCON_MM_GROW();
-
-	phalcon_fetch_params(1, 1, 0, &destination);
+	phalcon_fetch_params(0, 1, 0, &destination);
 	
-	temp_file = phalcon_fetch_nproperty_this(this_ptr, SL("_tmp"), PH_NOISY_CC);
-	PHALCON_RETURN_CALL_FUNCTION("move_uploaded_file", temp_file, destination);
-	RETURN_MM();
+	temp_file = phalcon_fetch_nproperty_this(this_ptr, SL("_tmp"), PH_NOISY TSRMLS_CC);
+	PHALCON_RETURN_CALL_FUNCTIONW("move_uploaded_file", temp_file, destination);
 }
 
 PHP_METHOD(Phalcon_Http_Request_File, __set_state) {
@@ -315,6 +311,6 @@ PHP_METHOD(Phalcon_Http_Request_File, __set_state) {
 	object_init_ex(return_value, phalcon_http_request_file_ce);
 
 	PHALCON_MM_GROW();
-	phalcon_call_method_p1_noret(return_value, "__construct", data);
+	PHALCON_CALL_METHOD(NULL, return_value, "__construct", data);
 	PHALCON_MM_RESTORE();
 }

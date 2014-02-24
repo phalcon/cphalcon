@@ -313,7 +313,7 @@ PHP_METHOD(Phalcon_Security, getSaltBytes)
 {
 	zval **number_bytes = NULL, **b64 = NULL;
 	int i_bytes, encode;
-	char *result;
+	char *result = NULL;
 
 	phalcon_fetch_params_ex(0, 2, &number_bytes, &b64);
 	if (number_bytes) {
@@ -409,7 +409,7 @@ PHP_METHOD(Phalcon_Security, getSaltBytes)
  */
 PHP_METHOD(Phalcon_Security, hash)
 {
-	zval **password, **work_factor = NULL, *tmp, *n_bytes, *salt_bytes, *default_hash;
+	zval **password, **work_factor = NULL, *tmp, *n_bytes, *salt_bytes = NULL, *default_hash;
 	char variant;
 	char *salt;
 	int salt_len, i_factor, i_hash;
@@ -420,7 +420,7 @@ PHP_METHOD(Phalcon_Security, hash)
 	PHALCON_MM_GROW();
 
 	if (!work_factor || Z_TYPE_PP(work_factor) == IS_NULL) {
-		tmp         = phalcon_fetch_nproperty_this(this_ptr, SL("_workFactor"), PH_NOISY_CC);
+		tmp         = phalcon_fetch_nproperty_this(this_ptr, SL("_workFactor"), PH_NOISY TSRMLS_CC);
 		work_factor = &tmp;
 	}
 	
@@ -470,8 +470,6 @@ PHP_METHOD(Phalcon_Security, hash)
 			break;
 	}
 
-	PHALCON_INIT_VAR(salt_bytes);
-
 	switch (i_hash) {
 		case PHALCON_SECURITY_CRYPT_DEFAULT:
 		case PHALCON_SECURITY_CRYPT_BLOWFISH:
@@ -489,7 +487,7 @@ PHP_METHOD(Phalcon_Security, hash)
 		 */
 			PHALCON_ALLOC_GHOST_ZVAL(n_bytes);
 			ZVAL_LONG(n_bytes, 22);
-			phalcon_call_method_p1(salt_bytes, this_ptr, "getsaltbytes", n_bytes);
+			PHALCON_CALL_METHOD(&salt_bytes, this_ptr, "getsaltbytes", n_bytes);
 			if (Z_TYPE_P(salt_bytes) != IS_STRING) {
 				zend_throw_exception_ex(phalcon_security_exception_ce, 0 TSRMLS_CC, "Unable to get random bytes for the salt");
 				RETURN_MM();
@@ -512,7 +510,7 @@ PHP_METHOD(Phalcon_Security, hash)
 		/* Standard DES-based hash with a two character salt from the alphabet "./0-9A-Za-z". */
 			PHALCON_ALLOC_GHOST_ZVAL(n_bytes);
 			ZVAL_LONG(n_bytes, 2);
-			phalcon_call_method_p1(salt_bytes, this_ptr, "getsaltbytes", n_bytes);
+			PHALCON_CALL_METHOD(&salt_bytes, this_ptr, "getsaltbytes", n_bytes);
 			if (Z_TYPE_P(salt_bytes) != IS_STRING) {
 				zend_throw_exception_ex(phalcon_security_exception_ce, 0 TSRMLS_CC, "Unable to get random bytes for the salt");
 				RETURN_MM();
@@ -541,7 +539,7 @@ PHP_METHOD(Phalcon_Security, hash)
 
 			PHALCON_ALLOC_GHOST_ZVAL(n_bytes);
 			ZVAL_LONG(n_bytes, 4);
-			phalcon_call_method_p1(salt_bytes, this_ptr, "getsaltbytes", n_bytes);
+			PHALCON_CALL_METHOD(&salt_bytes, this_ptr, "getsaltbytes", n_bytes);
 			if (Z_TYPE_P(salt_bytes) != IS_STRING) {
 				zend_throw_exception_ex(phalcon_security_exception_ce, 0 TSRMLS_CC, "Unable to get random bytes for the salt");
 				RETURN_MM();
@@ -557,7 +555,7 @@ PHP_METHOD(Phalcon_Security, hash)
 		/* MD5 hashing with a twelve character salt starting with $1$ */
 			PHALCON_ALLOC_GHOST_ZVAL(n_bytes);
 			ZVAL_LONG(n_bytes, 12);
-			phalcon_call_method_p1(salt_bytes, this_ptr, "getsaltbytes", n_bytes);
+			PHALCON_CALL_METHOD(&salt_bytes, this_ptr, "getsaltbytes", n_bytes);
 			if (Z_TYPE_P(salt_bytes) != IS_STRING) {
 				zend_throw_exception_ex(phalcon_security_exception_ce, 0 TSRMLS_CC, "Unable to get random bytes for the salt");
 				RETURN_MM();
@@ -584,7 +582,7 @@ PHP_METHOD(Phalcon_Security, hash)
 		 */
 			PHALCON_ALLOC_GHOST_ZVAL(n_bytes);
 			ZVAL_LONG(n_bytes, 16);
-			phalcon_call_method_p1(salt_bytes, this_ptr, "getsaltbytes", n_bytes);
+			PHALCON_CALL_METHOD(&salt_bytes, this_ptr, "getsaltbytes", n_bytes);
 			if (Z_TYPE_P(salt_bytes) != IS_STRING) {
 				zend_throw_exception_ex(phalcon_security_exception_ce, 0 TSRMLS_CC, "Unable to get random bytes for the salt");
 				RETURN_MM();
@@ -723,9 +721,9 @@ PHP_METHOD(Phalcon_Security, isLegacyHash){
  */
 PHP_METHOD(Phalcon_Security, getTokenKey){
 
-	zval *number_bytes = NULL, *random_bytes, *base64bytes;
+	zval *number_bytes = NULL, *random_bytes = NULL, *base64bytes;
 	zval *safe_bytes, *dependency_injector, *service;
-	zval *session, *key;
+	zval *session = NULL, *key;
 
 	PHALCON_MM_GROW();
 
@@ -741,7 +739,6 @@ PHP_METHOD(Phalcon_Security, getTokenKey){
 		return;
 	}
 	
-	PHALCON_OBS_VAR(random_bytes);
 	PHALCON_CALL_FUNCTION(&random_bytes, "openssl_random_pseudo_bytes", number_bytes);
 	
 	PHALCON_INIT_VAR(base64bytes);
@@ -751,7 +748,7 @@ PHP_METHOD(Phalcon_Security, getTokenKey){
 	phalcon_filter_alphanum(safe_bytes, base64bytes);
 	
 	PHALCON_OBS_VAR(dependency_injector);
-	phalcon_read_property_this(&dependency_injector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
+	phalcon_read_property_this(&dependency_injector, this_ptr, SL("_dependencyInjector"), PH_NOISY TSRMLS_CC);
 	if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_security_exception_ce, "A dependency injection container is required to access the 'session' service");
 		return;
@@ -760,13 +757,12 @@ PHP_METHOD(Phalcon_Security, getTokenKey){
 	PHALCON_INIT_VAR(service);
 	PHALCON_ZVAL_MAYBE_INTERNED_STRING(service, phalcon_interned_session);
 	
-	PHALCON_INIT_VAR(session);
-	phalcon_call_method_p1(session, dependency_injector, "getshared", service);
+	PHALCON_CALL_METHOD(&session, dependency_injector, "getshared", service);
 	PHALCON_VERIFY_INTERFACE(session, phalcon_session_adapterinterface_ce);
 	
 	PHALCON_INIT_VAR(key);
 	ZVAL_STRING(key, "$PHALCON/CSRF/KEY$", 1);
-	phalcon_call_method_p2_noret(session, "set", key, safe_bytes);
+	PHALCON_CALL_METHOD(NULL, session, "set", key, safe_bytes);
 	
 	RETURN_CTOR(safe_bytes);
 }
@@ -779,8 +775,8 @@ PHP_METHOD(Phalcon_Security, getTokenKey){
  */
 PHP_METHOD(Phalcon_Security, getToken){
 
-	zval *number_bytes = NULL, *random_bytes, *token, *dependency_injector;
-	zval *service, *session, *key;
+	zval *number_bytes = NULL, *random_bytes = NULL, *token, *dependency_injector;
+	zval *service, *session = NULL, *key;
 
 	PHALCON_MM_GROW();
 
@@ -796,13 +792,12 @@ PHP_METHOD(Phalcon_Security, getToken){
 		return;
 	}
 	
-	PHALCON_OBS_VAR(random_bytes);
 	PHALCON_CALL_FUNCTION(&random_bytes, "openssl_random_pseudo_bytes", number_bytes);
 	
 	PHALCON_INIT_VAR(token);
 	phalcon_md5(token, random_bytes);
 	
-	dependency_injector = phalcon_fetch_nproperty_this(this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
+	dependency_injector = phalcon_fetch_nproperty_this(this_ptr, SL("_dependencyInjector"), PH_NOISY TSRMLS_CC);
 	if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_security_exception_ce, "A dependency injection container is required to access the 'session' service");
 		return;
@@ -811,13 +806,12 @@ PHP_METHOD(Phalcon_Security, getToken){
 	PHALCON_ALLOC_GHOST_ZVAL(service);
 	PHALCON_ZVAL_MAYBE_INTERNED_STRING(service, phalcon_interned_session);
 	
-	PHALCON_INIT_VAR(session);
-	phalcon_call_method_p1(session, dependency_injector, "getshared", service);
+	PHALCON_CALL_METHOD(&session, dependency_injector, "getshared", service);
 	PHALCON_VERIFY_INTERFACE(session, phalcon_session_adapterinterface_ce);
 	
 	PHALCON_ALLOC_GHOST_ZVAL(key);
 	ZVAL_STRING(key, "$PHALCON/CSRF$", 1);
-	phalcon_call_method_p2_noret(session, "set", key, token);
+	PHALCON_CALL_METHOD(NULL, session, "set", key, token);
 	
 	RETURN_CTOR(token);
 }
@@ -832,7 +826,8 @@ PHP_METHOD(Phalcon_Security, getToken){
 PHP_METHOD(Phalcon_Security, checkToken){
 
 	zval *token_key = NULL, *token_value = NULL, *dependency_injector;
-	zval *service = NULL, *session, *key = NULL, *request, *token = NULL, *session_token;
+	zval *service = NULL, *session = NULL, *key = NULL, *request = NULL;
+	zval *token = NULL, *session_token = NULL;
 
 	PHALCON_MM_GROW();
 
@@ -843,7 +838,7 @@ PHP_METHOD(Phalcon_Security, checkToken){
 	}
 	
 	PHALCON_OBS_VAR(dependency_injector);
-	phalcon_read_property_this(&dependency_injector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
+	phalcon_read_property_this(&dependency_injector, this_ptr, SL("_dependencyInjector"), PH_NOISY TSRMLS_CC);
 	if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_security_exception_ce, "A dependency injection container is required to access the 'session' service");
 		return;
@@ -852,31 +847,27 @@ PHP_METHOD(Phalcon_Security, checkToken){
 	PHALCON_INIT_VAR(service);
 	PHALCON_ZVAL_MAYBE_INTERNED_STRING(service, phalcon_interned_session);
 	
-	PHALCON_INIT_VAR(session);
-	phalcon_call_method_p1(session, dependency_injector, "getshared", service);
+	PHALCON_CALL_METHOD(&session, dependency_injector, "getshared", service);
 	PHALCON_VERIFY_INTERFACE(session, phalcon_session_adapterinterface_ce);
 
 	if (!token_key || Z_TYPE_P(token_key) == IS_NULL) {
 		PHALCON_INIT_VAR(key);
 		ZVAL_STRING(key, "$PHALCON/CSRF/KEY$", 1);
 	
-		PHALCON_INIT_VAR(token_key);
-		phalcon_call_method_p1(token_key, session, "get", key);
+		PHALCON_CALL_METHOD(&token_key, session, "get", key);
 	}
 	
 	if (Z_TYPE_P(token_value) == IS_NULL) {
 		PHALCON_INIT_NVAR(service);
 		PHALCON_ZVAL_MAYBE_INTERNED_STRING(service, phalcon_interned_request);
 	
-		PHALCON_INIT_VAR(request);
-		phalcon_call_method_p1(request, dependency_injector, "getshared", service);
+		PHALCON_CALL_METHOD(&request, dependency_injector, "getshared", service);
 		PHALCON_VERIFY_INTERFACE(request, phalcon_http_requestinterface_ce);
 	
 		/** 
 		 * We always check if the value is correct in post
 		 */
-		PHALCON_INIT_VAR(token);
-		phalcon_call_method_p1(token, request, "getpost", token_key);
+		PHALCON_CALL_METHOD(&token, request, "getpost", token_key);
 	} else {
 		PHALCON_CPY_WRT(token, token_value);
 	}
@@ -884,8 +875,7 @@ PHP_METHOD(Phalcon_Security, checkToken){
 	PHALCON_INIT_NVAR(key);
 	ZVAL_STRING(key, "$PHALCON/CSRF$", 1);
 	
-	PHALCON_INIT_VAR(session_token);
-	phalcon_call_method_p1(session_token, session, "get", key);
+	PHALCON_CALL_METHOD(&session_token, session, "get", key);
 	
 	/** 
 	 * The value is the same?
@@ -902,12 +892,12 @@ PHP_METHOD(Phalcon_Security, checkToken){
  */
 PHP_METHOD(Phalcon_Security, getSessionToken){
 
-	zval *dependency_injector, *service, *session;
+	zval *dependency_injector, *service, *session = NULL;
 	zval *key;
 
 	PHALCON_MM_GROW();
 
-	dependency_injector = phalcon_fetch_nproperty_this(this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
+	dependency_injector = phalcon_fetch_nproperty_this(this_ptr, SL("_dependencyInjector"), PH_NOISY TSRMLS_CC);
 	if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_security_exception_ce, "A dependency injection container is required to access the 'session' service");
 		return;
@@ -916,14 +906,13 @@ PHP_METHOD(Phalcon_Security, getSessionToken){
 	PHALCON_ALLOC_GHOST_ZVAL(service);
 	PHALCON_ZVAL_MAYBE_INTERNED_STRING(service, phalcon_interned_session);
 	
-	PHALCON_INIT_VAR(session);
-	phalcon_call_method_p1(session, dependency_injector, "getshared", service);
+	PHALCON_CALL_METHOD(&session, dependency_injector, "getshared", service);
 	PHALCON_VERIFY_INTERFACE(session, phalcon_session_adapterinterface_ce);
 	
 	PHALCON_ALLOC_GHOST_ZVAL(key);
 	ZVAL_STRING(key, "$PHALCON/CSRF$", 1);
 	
-	phalcon_return_call_method_p1(session, "get", key);
+	PHALCON_RETURN_CALL_METHOD(session, "get", key);
 	
 	PHALCON_MM_RESTORE();
 }
@@ -1009,10 +998,7 @@ PHP_METHOD(Phalcon_Security, computeHmac)
 
 	RETURN_STRINGL((char*)digest, ops->digest_size, 0);
 #else
-	{
-		zval params[] = { *algo, *data, *key, *raw };
-		RETURN_ON_FAILURE(phalcon_return_call_function(return_value, return_value_ptr, SL("hash_hmac"), 4, params TSRMLS_CC));
-	}
+	PHALCON_RETURN_CALL_FUNCTIONW("hash_hmac", *algo, *data, *key, *raw);
 #endif
 }
 
@@ -1057,7 +1043,7 @@ PHP_METHOD(Phalcon_Security, pbkdf2)
 	}
 
 	{
-		zval *algo, *tmp, *K1 = NULL, *K2 = NULL, *computed_salt, *result;
+		zval *algo, *tmp = NULL, *K1 = NULL, *K2 = NULL, *computed_salt, *result;
 		int i_hash_len, block_count, i, j, k;
 		int salt_len = Z_STRLEN_PP(salt);
 		char *s;
@@ -1068,7 +1054,6 @@ PHP_METHOD(Phalcon_Security, pbkdf2)
 		PHALCON_INIT_VAR(algo);
 		ZVAL_STRING(algo, s_hash, 1);
 
-		PHALCON_OBS_VAR(tmp);
 		PHALCON_CALL_FUNCTION(&tmp, "hash", algo, PHALCON_GLOBAL(z_null), PHALCON_GLOBAL(z_true));
 		if (PHALCON_IS_FALSE(tmp) || Z_TYPE_P(tmp) != IS_STRING) {
 			RETURN_MM_FALSE;
@@ -1096,14 +1081,12 @@ PHP_METHOD(Phalcon_Security, pbkdf2)
 			s[salt_len+2] = (unsigned char)(i >> 8);
 			s[salt_len+3] = (unsigned char)(i);
 
-			PHALCON_OBSERVE_OR_NULLIFY_VAR(K1);
 			PHALCON_CALL_FUNCTION(&K1, "hash_hmac", algo, computed_salt, *password, PHALCON_GLOBAL(z_true));
 			PHALCON_CPY_WRT_CTOR(K2, K1);
 
 			for (j=1; j<i_iterations; ++j) {
 				char *k1, *k2;
 
-				PHALCON_OBSERVE_OR_NULLIFY_VAR(tmp);
 				PHALCON_CALL_FUNCTION(&tmp, "hash_hmac", algo, K1, *password, PHALCON_GLOBAL(z_true));
 				PHALCON_CPY_WRT(K1, tmp);
 

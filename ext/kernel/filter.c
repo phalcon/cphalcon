@@ -17,7 +17,7 @@
   +------------------------------------------------------------------------+
 */
 
-#include "php_phalcon.h"
+#include "kernel/filter.h"
 
 #include <ctype.h>
 #include <Zend/zend_exceptions.h>
@@ -322,36 +322,15 @@ void phalcon_escape_multi(zval *return_value, zval *param, const char *escape_ch
 }
 
 /**
- * Escapes non-alphanumeric characters to \HH+space
- */
-void phalcon_escape_css(zval *return_value, zval *param) {
-	phalcon_escape_multi(return_value, param, "\\", sizeof("\\")-1, ' ', 0);
-}
-
-/**
- * Escapes non-alphanumeric characters to \xHH+
- */
-void phalcon_escape_js(zval *return_value, zval *param) {
-	phalcon_escape_multi(return_value, param, "\\x", sizeof("\\x")-1, '\0', 1);
-}
-
-/**
- * Escapes non-alphanumeric characters to &xHH;
- */
-void phalcon_escape_htmlattr(zval *return_value, zval *param) {
-	phalcon_escape_multi(return_value, param, "&#x", sizeof("&#x")-1, ';', 1);
-}
-
-/**
  * Escapes HTML replacing special chars by entities
  */
-void phalcon_escape_html(zval *return_value, zval *str, zval *quote_style, zval *charset TSRMLS_DC) {
+void phalcon_escape_html(zval *return_value, zval *str, const zval *quote_style, const zval *charset TSRMLS_DC) {
 
-	#if PHP_VERSION_ID < 50400
+#if PHP_VERSION_ID < 50400
 	int length;
-	#else
+#else
 	size_t length;
-	#endif
+#endif
 
 	char *escaped;
 

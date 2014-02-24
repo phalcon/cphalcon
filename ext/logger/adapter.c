@@ -234,7 +234,7 @@ PHP_METHOD(Phalcon_Logger_Adapter, commit){
 	zval *transaction, *queue, *message_str = NULL;
 	zval *type = NULL, *time = NULL, *context = NULL;
 
-	transaction = phalcon_fetch_nproperty_this(this_ptr, SL("_transaction"), PH_NOISY_CC);
+	transaction = phalcon_fetch_nproperty_this(this_ptr, SL("_transaction"), PH_NOISY TSRMLS_CC);
 	if (!zend_is_true(transaction)) {
 		PHALCON_THROW_EXCEPTION_STRW(phalcon_logger_exception_ce, "There is no active transaction");
 		return;
@@ -243,7 +243,7 @@ PHP_METHOD(Phalcon_Logger_Adapter, commit){
 	phalcon_update_property_bool(this_ptr, SL("_transaction"), 0 TSRMLS_CC);
 	
 	/* Check if the queue has something to log */
-	queue = phalcon_fetch_nproperty_this(this_ptr, SL("_queue"), PH_NOISY_CC);
+	queue = phalcon_fetch_nproperty_this(this_ptr, SL("_queue"), PH_NOISY TSRMLS_CC);
 	if (Z_TYPE_P(queue) == IS_ARRAY) { 
 		HashPosition hp;
 		zval **message;
@@ -255,16 +255,11 @@ PHP_METHOD(Phalcon_Logger_Adapter, commit){
 			zend_hash_get_current_data_ex(Z_ARRVAL_P(queue), (void**)&message, &hp) == SUCCESS;
 			zend_hash_move_forward_ex(Z_ARRVAL_P(queue), &hp)
 		) {
-			PHALCON_INIT_NVAR(message_str);
-			PHALCON_INIT_NVAR(type);
-			PHALCON_INIT_NVAR(time);
-			PHALCON_INIT_NVAR(context);
-
-			phalcon_call_method(message_str, *message, "getmessage");
-			phalcon_call_method(type, *message, "gettype");
-			phalcon_call_method(time, *message, "gettime");
-			phalcon_call_method(context, *message, "getcontext");
-			phalcon_call_method_p4_noret(this_ptr, "loginternal", message_str, type, time, context);
+			PHALCON_CALL_METHOD(&message_str, *message, "getmessage");
+			PHALCON_CALL_METHOD(&type, *message, "gettype");
+			PHALCON_CALL_METHOD(&time, *message, "gettime");
+			PHALCON_CALL_METHOD(&context, *message, "getcontext");
+			PHALCON_CALL_METHOD(NULL, this_ptr, "loginternal", message_str, type, time, context);
 		}
 
 		if (Z_REFCOUNT_P(queue) == 1 || Z_ISREF_P(queue)) {
@@ -291,7 +286,7 @@ PHP_METHOD(Phalcon_Logger_Adapter, rollback){
 
 	zval *transaction, *queue;
 
-	transaction = phalcon_fetch_nproperty_this(this_ptr, SL("_transaction"), PH_NOISY_CC);
+	transaction = phalcon_fetch_nproperty_this(this_ptr, SL("_transaction"), PH_NOISY TSRMLS_CC);
 	if (!zend_is_true(transaction)) {
 		PHALCON_THROW_EXCEPTION_STRW(phalcon_logger_exception_ce, "There is no active transaction");
 		return;
@@ -320,14 +315,8 @@ static void phalcon_logger_adapter_log_helper(INTERNAL_FUNCTION_PARAMETERS, int 
 		context = &PHALCON_GLOBAL(z_null);
 	}
 
-	if (FAILURE == phalcon_call_method_params(return_value, return_value_ptr, getThis(), SL("log"), zend_inline_hash_func(SS("log")) TSRMLS_CC, 3, type, *message, *context)) {
-		if (return_value_ptr && EG(exception)) {
-			ALLOC_INIT_ZVAL(*return_value_ptr);
-		}
-	}
-	else {
-		RETURN_ZVAL(getThis(), 1, 0);
-	}
+	PHALCON_CALL_METHODW(NULL, getThis(), "log", type, *message, *context);
+	RETURN_ZVAL(getThis(), 1, 0);
 }
 
 /**
@@ -484,7 +473,7 @@ PHP_METHOD(Phalcon_Logger_Adapter, log){
 		i_level = Z_LVAL_PP(type);
 	}
 
-	log_level = phalcon_fetch_nproperty_this(this_ptr, SL("_logLevel"), PH_NOISY_CC);
+	log_level = phalcon_fetch_nproperty_this(this_ptr, SL("_logLevel"), PH_NOISY TSRMLS_CC);
 
 	/* Only log the message if this is allowed by the current log level */
 	if (phalcon_get_intval(log_level) >= i_level) {
@@ -496,16 +485,16 @@ PHP_METHOD(Phalcon_Logger_Adapter, log){
 		PHALCON_INIT_VAR(level);
 		ZVAL_LONG(level, i_level);
 
-		transaction = phalcon_fetch_nproperty_this(this_ptr, SL("_transaction"), PH_NOISY_CC);
+		transaction = phalcon_fetch_nproperty_this(this_ptr, SL("_transaction"), PH_NOISY TSRMLS_CC);
 		if (zend_is_true(transaction)) {
 			PHALCON_INIT_VAR(queue_item);
 			object_init_ex(queue_item, phalcon_logger_item_ce);
-			phalcon_call_method_p4_noret(queue_item, "__construct", *message, level, timestamp, *context);
+			PHALCON_CALL_METHOD(NULL, queue_item, "__construct", *message, level, timestamp, *context);
 
 			phalcon_update_property_array_append(this_ptr, SL("_queue"), queue_item TSRMLS_CC);
 		}
 		else {
-			phalcon_call_method_p4_noret(this_ptr, "loginternal", *message, level, timestamp, *context);
+			PHALCON_CALL_METHOD(NULL, this_ptr, "loginternal", *message, level, timestamp, *context);
 		}
 
 		PHALCON_MM_RESTORE();

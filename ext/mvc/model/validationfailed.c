@@ -89,15 +89,14 @@ PHP_METHOD(Phalcon_Mvc_Model_ValidationFailed, __construct){
 		/** 
 		 * Get the message to use it in the exception
 		 */
-		PHALCON_INIT_VAR(message_str);
-		phalcon_call_method(message_str, message, "getmessage");
+		PHALCON_CALL_METHOD(&message_str, message, "getmessage");
 	} else {
-		PHALCON_INIT_NVAR(message_str);
+		PHALCON_INIT_VAR(message_str);
 		ZVAL_STRING(message_str, "Validation failed", 1);
 	}
 	phalcon_update_property_this(this_ptr, SL("_model"), model TSRMLS_CC);
 	phalcon_update_property_this(this_ptr, SL("_messages"), validation_messages TSRMLS_CC);
-	PHALCON_CALL_PARENT_NORET(phalcon_mvc_model_validationfailed_ce, this_ptr, "__construct", message_str);
+	PHALCON_CALL_PARENT(NULL, phalcon_mvc_model_validationfailed_ce, this_ptr, "__construct", message_str);
 	
 	PHALCON_MM_RESTORE();
 }

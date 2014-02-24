@@ -166,7 +166,7 @@ PHP_METHOD(Phalcon_Logger_Formatter_Line, getDateFormat){
 PHP_METHOD(Phalcon_Logger_Formatter_Line, format){
 
 	zval *message, *type, *timestamp, *context, *format = NULL, *date_format;
-	zval *date, *date_wildcard, *new_format = NULL, *type_string;
+	zval *date, *date_wildcard, *new_format = NULL, *type_string = NULL;
 	zval *type_wildcard, *message_wildcard;
 
 	PHALCON_MM_GROW();
@@ -174,13 +174,13 @@ PHP_METHOD(Phalcon_Logger_Formatter_Line, format){
 	phalcon_fetch_params(1, 4, 0, &message, &type, &timestamp, &context);
 	
 	PHALCON_OBS_VAR(format);
-	phalcon_read_property_this(&format, this_ptr, SL("_format"), PH_NOISY_CC);
+	phalcon_read_property_this(&format, this_ptr, SL("_format"), PH_NOISY TSRMLS_CC);
 	
 	/** 
 	 * Check if the format has the %date% placeholder
 	 */
 	if (phalcon_memnstr_str(format, SL("%date%"))) {
-		date_format = phalcon_fetch_nproperty_this(this_ptr, SL("_dateFormat"), PH_NOISY_CC);
+		date_format = phalcon_fetch_nproperty_this(this_ptr, SL("_dateFormat"), PH_NOISY TSRMLS_CC);
 	
 		PHALCON_INIT_VAR(date);
 		phalcon_date(date, date_format, timestamp TSRMLS_CC);
@@ -198,8 +198,7 @@ PHP_METHOD(Phalcon_Logger_Formatter_Line, format){
 	 * Check if the format has the %type% placeholder
 	 */
 	if (phalcon_memnstr_str(format, SL("%type%"))) {
-		PHALCON_INIT_VAR(type_string);
-		phalcon_call_method_p1(type_string, this_ptr, "gettypestring", type);
+		PHALCON_CALL_METHOD(&type_string, this_ptr, "gettypestring", type);
 	
 		PHALCON_INIT_VAR(type_wildcard);
 		ZVAL_STRING(type_wildcard, "%type%", 1);
@@ -217,8 +216,7 @@ PHP_METHOD(Phalcon_Logger_Formatter_Line, format){
 	phalcon_fast_str_replace(new_format, message_wildcard, message, format);
 	
 	if (Z_TYPE_P(context) == IS_ARRAY) {
-		PHALCON_OBSERVE_OR_NULLIFY_VAR(format);
-		phalcon_call_method_p2_ex(format, &format, this_ptr, "interpolate", new_format, context);
+		PHALCON_CALL_METHOD(&format, this_ptr, "interpolate", new_format, context);
 	}
 	else {
 		PHALCON_CPY_WRT(format, new_format);

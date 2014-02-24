@@ -122,7 +122,7 @@ PHP_METHOD(Phalcon_Logger_Adapter_Syslog, __construct){
 			ZVAL_LONG(facility, 8);
 		}
 	
-		PHALCON_CALL_FUNCTION_NORET("openlog", name, option, facility);
+		PHALCON_CALL_FUNCTION(NULL, "openlog", name, option, facility);
 		phalcon_update_property_bool(this_ptr, SL("_opened"), 1 TSRMLS_CC);
 	}
 	
@@ -141,7 +141,7 @@ PHP_METHOD(Phalcon_Logger_Adapter_Syslog, getFormatter){
 	PHALCON_MM_GROW();
 
 	PHALCON_OBS_VAR(formatter);
-	phalcon_read_property_this(&formatter, this_ptr, SL("_formatter"), PH_NOISY_CC);
+	phalcon_read_property_this(&formatter, this_ptr, SL("_formatter"), PH_NOISY TSRMLS_CC);
 	if (Z_TYPE_P(formatter) != IS_OBJECT) {
 		PHALCON_INIT_NVAR(formatter);
 		object_init_ex(formatter, phalcon_logger_formatter_syslog_ce);
@@ -161,18 +161,15 @@ PHP_METHOD(Phalcon_Logger_Adapter_Syslog, getFormatter){
  */
 PHP_METHOD(Phalcon_Logger_Adapter_Syslog, logInternal){
 
-	zval *message, *type, *time, *context, *formatter, *applied_format;
+	zval *message, *type, *time, *context, *formatter = NULL, *applied_format = NULL;
 	zval *syslog_type, *syslog_message;
 
 	PHALCON_MM_GROW();
 
 	phalcon_fetch_params(1, 4, 0, &message, &type, &time, &context);
 	
-	PHALCON_INIT_VAR(formatter);
-	phalcon_call_method(formatter, this_ptr, "getformatter");
-	
-	PHALCON_INIT_VAR(applied_format);
-	phalcon_call_method_p4(applied_format, formatter, "format", message, type, time, context);
+	PHALCON_CALL_METHOD(&formatter, this_ptr, "getformatter");
+	PHALCON_CALL_METHOD(&applied_format, formatter, "format", message, type, time, context);
 	if (Z_TYPE_P(applied_format) != IS_ARRAY) { 
 		syslog_type    = type;
 		syslog_message = applied_format;
@@ -185,7 +182,7 @@ PHP_METHOD(Phalcon_Logger_Adapter_Syslog, logInternal){
 		phalcon_array_fetch_long(&syslog_message, applied_format, 1, PH_NOISY);
 	}
 
-	PHALCON_CALL_FUNCTION_NORET("syslog", syslog_type, syslog_message);
+	PHALCON_CALL_FUNCTION(NULL, "syslog", syslog_type, syslog_message);
 	PHALCON_MM_RESTORE();
 }
 
@@ -198,7 +195,7 @@ PHP_METHOD(Phalcon_Logger_Adapter_Syslog, close){
 
 	zval *opened;
 
-	opened = phalcon_fetch_nproperty_this(this_ptr, SL("_opened"), PH_NOISY_CC);
+	opened = phalcon_fetch_nproperty_this(this_ptr, SL("_opened"), PH_NOISY TSRMLS_CC);
 	if (zend_is_true(opened)) {
 		PHALCON_CALL_FUNCTIONW(NULL, "closelog");
 	}

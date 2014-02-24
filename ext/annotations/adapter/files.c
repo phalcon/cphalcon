@@ -17,15 +17,13 @@
   +------------------------------------------------------------------------+
 */
 
-#include "php_phalcon.h"
-
-#include <ext/standard/php_smart_str.h>
-#include <ext/standard/php_var.h>
-
 #include "annotations/adapter/files.h"
 #include "annotations/adapterinterface.h"
 #include "annotations/adapter.h"
 #include "annotations/exception.h"
+
+#include <ext/standard/php_smart_str.h>
+#include <ext/standard/php_var.h>
 
 #include "kernel/main.h"
 #include "kernel/memory.h"
@@ -122,7 +120,7 @@ PHP_METHOD(Phalcon_Annotations_Adapter_Files, read){
 
 	PHALCON_MM_GROW();
 
-	annotations_dir = phalcon_fetch_nproperty_this(this_ptr, SL("_annotationsDir"), PH_NOISY_CC);
+	annotations_dir = phalcon_fetch_nproperty_this(this_ptr, SL("_annotationsDir"), PH_NOISY TSRMLS_CC);
 	
 	/** 
 	 * Paths must be normalized before be used as keys
@@ -160,7 +158,7 @@ PHP_METHOD(Phalcon_Annotations_Adapter_Files, write){
 
 	PHALCON_MM_GROW();
 
-	annotations_dir = phalcon_fetch_nproperty_this(this_ptr, SL("_annotationsDir"), PH_NOISY_CC);
+	annotations_dir = phalcon_fetch_nproperty_this(this_ptr, SL("_annotationsDir"), PH_NOISY TSRMLS_CC);
 	
 	/** 
 	 * Paths must be normalized before be used as keys

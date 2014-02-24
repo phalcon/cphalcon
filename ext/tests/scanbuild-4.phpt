@@ -11,14 +11,19 @@ if (!extension_loaded('imagick')) {
 <?php
 class MyImageAdapter extends \Phalcon\Image\Adapter\Imagick
 {
-	public function pixelate($amount)
+	protected function _pixelate($amount)
+	{
+		return parent::_pixelate($amount);
+	}
+
+	public function do_pixelate($amount)
 	{
 		$this->_pixelate($amount);
 	}
 }
 
 \Phalcon\Image\Adapter\Imagick::setResourceLimit(6, 1);
-$g = new \MyImageAdapter(__DIR__ . '/images/Neighborhood_watch_bw.png');
-$g->pixelate(0);
+$g = new MyImageAdapter(__DIR__ . '/images/Neighborhood_watch_bw.png');
+$g->do_pixelate(0);
 ?>
 --EXPECT--

@@ -17,8 +17,6 @@
   +------------------------------------------------------------------------+
 */
 
-#include "php_phalcon.h"
-
 #include "assets/filters/none.h"
 #include "assets/filterinterface.h"
 
@@ -54,7 +52,7 @@ PHALCON_INIT_CLASS(Phalcon_Assets_Filters_None){
 }
 
 /**
- * Returns the content without be touched
+ * Returns the content without touching
  *
  * @param string $content
  * @return $content

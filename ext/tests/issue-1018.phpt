@@ -1,7 +1,7 @@
 --TEST--
 Phalcon\Element::addFilter() prepends inserts NULL as the first element - https://github.com/phalcon/cphalcon/issues/1018
 --SKIPIF--
-<?php include('skipif.inc');
+<?php include('skipif.inc'); ?>
 --FILE--
 <?php
 $di    = new \Phalcon\DI\FactoryDefault();

@@ -17,7 +17,7 @@
   +------------------------------------------------------------------------+
 */
 
-#include "php_phalcon.h"
+#include "kernel/string.h"
 
 #include <ctype.h>
 #include <ext/standard/php_smart_str.h>
@@ -40,7 +40,6 @@
 #endif
 
 #include "kernel/main.h"
-#include "kernel/string.h"
 #include "kernel/operators.h"
 #include "kernel/fcall.h"
 

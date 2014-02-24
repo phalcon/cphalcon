@@ -18,8 +18,6 @@
   +------------------------------------------------------------------------+
 */
 
-#include "php_phalcon.h"
-
 #include "config/adapter/json.h"
 #include "pconfig.h"
 

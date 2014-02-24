@@ -18,8 +18,6 @@
   +------------------------------------------------------------------------+
 */
 
-#include "php_phalcon.h"
-
 #include "cli/router.h"
 #include "cli/router/exception.h"
 #include "di/injectionawareinterface.h"

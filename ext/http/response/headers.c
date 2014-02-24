@@ -104,7 +104,7 @@ PHP_METHOD(Phalcon_Http_Response_Headers, get){
 
 	phalcon_fetch_params(0, 1, 0, &name);
 	
-	headers = phalcon_fetch_nproperty_this(this_ptr, SL("_headers"), PH_NOISY_CC);
+	headers = phalcon_fetch_nproperty_this(this_ptr, SL("_headers"), PH_NOISY TSRMLS_CC);
 	if (phalcon_array_isset_fetch(&header_value, headers, name)) {
 		RETURN_ZVAL(header_value, 1, 0);
 	}
@@ -137,9 +137,9 @@ PHP_METHOD(Phalcon_Http_Response_Headers, remove){
 
 	phalcon_fetch_params(0, 1, 0, &header_index);
 
-    headers = phalcon_fetch_nproperty_this(this_ptr, SL("_headers"), PH_NOISY TSRMLS_CC);
+	headers = phalcon_fetch_nproperty_this(this_ptr, SL("_headers"), PH_NOISY TSRMLS_CC);
 
-    phalcon_array_unset(&headers, header_index, 0);
+	phalcon_array_unset(&headers, header_index, 0);
 
 	phalcon_update_property_this(this_ptr, SL("_headers"), headers TSRMLS_CC);
 }
@@ -151,57 +151,59 @@ PHP_METHOD(Phalcon_Http_Response_Headers, remove){
  */
 PHP_METHOD(Phalcon_Http_Response_Headers, send){
 
-	zval *headers, *value = NULL, *header = NULL;
-	zval *http_header = NULL;
-	zval copy;
-	int use_copy;
-	HashTable *ah0;
-	HashPosition hp0;
-	zval **hd;
 	sapi_header_line ctr = { NULL, 0, 0 };
 
-	PHALCON_MM_GROW();
-
 	if (!SG(headers_sent)) {
-	
-		PHALCON_OBS_VAR(headers);
-		phalcon_read_property_this(&headers, this_ptr, SL("_headers"), PH_NOISY_CC);
-	
-		phalcon_is_iterable(headers, &ah0, &hp0, 0, 0);
-	
-		while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
-	
-			PHALCON_GET_HKEY(header, ah0, hp0);
-			PHALCON_GET_HVALUE(value);
+		zval *headers = phalcon_fetch_nproperty_this(this_ptr, SL("_headers"), PH_NOISY TSRMLS_CC);
+		zval **value;
+		HashPosition hp0;
 
-			if (PHALCON_IS_NOT_EMPTY(value)) {
-				PHALCON_INIT_NVAR(http_header);
-				PHALCON_CONCAT_VSV(http_header, header, ": ", value);
+		if (Z_TYPE_P(headers) != IS_ARRAY) {
+			/* No headers to send */
+			RETURN_TRUE;
+		}
+	
+		for (
+			zend_hash_internal_pointer_reset_ex(Z_ARRVAL_P(headers), &hp0);
+			zend_hash_get_current_data_ex(Z_ARRVAL_P(headers), (void**)&value, &hp0) == SUCCESS;
+			zend_hash_move_forward_ex(Z_ARRVAL_P(headers), &hp0)
+		) {
+			zval header = phalcon_get_current_key_w(Z_ARRVAL_P(headers), &hp0);
+
+			if (PHALCON_IS_NOT_EMPTY(*value)) {
+				zval *http_header;
+				
+				MAKE_STD_ZVAL(http_header);
+				PHALCON_CONCAT_VSV(http_header, &header, ": ", *value);
 				ctr.line     = Z_STRVAL_P(http_header);
 				ctr.line_len = Z_STRLEN_P(http_header);
 				sapi_header_op(SAPI_HEADER_REPLACE, &ctr TSRMLS_CC);
-			} else {
-				zend_make_printable_zval(header, &copy, &use_copy);
-				if (unlikely(use_copy)) {
-					header = &copy;
-				}
+				zval_ptr_dtor(&http_header);
+			}
+			else if (Z_TYPE(header) == IS_STRING) {
+				ctr.line     = Z_STRVAL(header);
+				ctr.line_len = Z_STRLEN(header);
+				sapi_header_op(SAPI_HEADER_REPLACE, &ctr TSRMLS_CC);
+			}
+			else {
+				zval *tmp, *pheader = &header;
 
-				ctr.line     = Z_STRVAL_P(header);
-				ctr.line_len = Z_STRLEN_P(header);
+				MAKE_STD_ZVAL(tmp);
+				ZVAL_ZVAL(tmp, pheader, 1, 0);
+				convert_to_string(tmp);
+
+				ctr.line     = Z_STRVAL_P(tmp);
+				ctr.line_len = Z_STRLEN_P(tmp);
 				sapi_header_op(SAPI_HEADER_REPLACE, &ctr TSRMLS_CC);
 
-				if (unlikely(use_copy)) {
-					zval_dtor(&copy);
-				}
+				zval_ptr_dtor(&tmp);
 			}
-
-			zend_hash_move_forward_ex(ah0, &hp0);
 		}
 	
-		RETURN_MM_TRUE;
+		RETURN_TRUE;
 	}
 	
-	RETURN_MM_FALSE;
+	RETURN_FALSE;
 }
 
 /**
@@ -263,7 +265,7 @@ PHP_METHOD(Phalcon_Http_Response_Headers, __set_state){
 			PHALCON_GET_HKEY(key, ah0, hp0);
 			PHALCON_GET_HVALUE(value);
 	
-			phalcon_call_method_p2_noret(headers, "set", key, value);
+			PHALCON_CALL_METHOD(NULL, headers, "set", key, value);
 	
 			zend_hash_move_forward_ex(ah0, &hp0);
 		}

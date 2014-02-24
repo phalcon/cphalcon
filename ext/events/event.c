@@ -222,7 +222,7 @@ PHP_METHOD(Phalcon_Events_Event, stop){
 
 	zval *cancelable;
 
-	cancelable = phalcon_fetch_nproperty_this(this_ptr, SL("_cancelable"), PH_NOISY_CC);
+	cancelable = phalcon_fetch_nproperty_this(this_ptr, SL("_cancelable"), PH_NOISY TSRMLS_CC);
 	if (zend_is_true(cancelable)) {
 		phalcon_update_property_bool(this_ptr, SL("_stopped"), 1 TSRMLS_CC);
 	} else {

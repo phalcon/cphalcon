@@ -37,8 +37,6 @@
 #define PH_NOISY 0
 #define PH_SILENT 1
 
-#define PH_NOISY_CC PH_NOISY TSRMLS_CC
-
 #define PH_SEPARATE 256
 #define PH_COPY 1024
 
@@ -202,14 +200,14 @@ int phalcon_fetch_parameters_ex(int dummy TSRMLS_DC, int n_req, int n_opt, ...);
  * Returns a zval in an object member
  */
 #define RETURN_MEMBER(object, member_name) \
-	phalcon_return_property_quick(return_value, return_value_ptr, object, SL(member_name), zend_inline_hash_func(SS(member_name)) TSRMLS_CC); \
+	phalcon_return_property_quick(return_value, NULL, object, SL(member_name), zend_inline_hash_func(SS(member_name)) TSRMLS_CC); \
 	return;
 
 /**
  * Returns a zval in an object member (quick)
  */
 #define RETURN_MEMBER_QUICK(object, member_name, key) \
- 	phalcon_return_property_quick(return_value, return_value_ptr, object, SL(member_name), key TSRMLS_CC); \
+	phalcon_return_property_quick(return_value, NULL, object, SL(member_name), key TSRMLS_CC); \
 	return;
 
 #define RETURN_ON_FAILURE(what) \

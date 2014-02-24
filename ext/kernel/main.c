@@ -17,14 +17,12 @@
   +------------------------------------------------------------------------+
 */
 
-#include "php_phalcon.h"
+#include "kernel/main.h"
 
 #include <ext/spl/spl_exceptions.h>
 #include <Zend/zend_exceptions.h>
 #include <Zend/zend_interfaces.h>
 
-#include "kernel/main.h"
-#include "kernel/memory.h"
 #include "kernel/fcall.h"
 #include "kernel/exception.h"
 

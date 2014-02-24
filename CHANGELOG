@@ -85,6 +85,7 @@
    - Added increment() and decrement() methods (#1374)
    - Added flush() method (#1352)
    - Phalcon\Cache\Backend now implements Phalcon\Cache\BackendInterface (#1852)
+   - Ability to disable key tracking for Memcache/Libmemcached backends (#1550)
  - Phalcon\Config:
    - Faster Phalcon\Config implementation using object handlers (#837, #1277)
    - Phalcon\Config now support numeric properties as well (#837)
@@ -184,6 +185,7 @@
    - Added getPut()/hasPut() methods to Phalcon\Http\Request (#680, #1403)
    - Implemented Phalcon\Http\Request\File::getRealType (#1442, #1444)
    - External URLs are now automatically detected by Phalcon\Http\Response::redirect() (#1182)
+   - Fixed error in Phalcon\Http\Response\Headers::send() when no headers were set (#2047)
  - Phalcon\Image:
    - Added Phalcon\Image\Adapter, Phalcon\Image\Adapter\Gd, Phalcon\Image\Adapter\Imagick (#902, #1025, #1030, #1041, #1050, #1063, #1076, #1081, #1114, #1120, #1158, #1195, #1206, #1214, #1370)
  - Phalcon\Logger:
@@ -296,6 +298,7 @@
    - Fixed inconsistency in Tag::stylesheetLink/javascriptInclude w.r.t. local URLs (#1486)
  - Phalcon\Translate:
    - Optimized Phalcon\Translate\Adapter, Phalcon\Translate\Adapter\NativeArray by using object handlers (#1668)
+   - Phalcon\Translate\Adapter\NativeArray::query() now replaces placeholders even if the string is not found in the language content (#2044)
  - Phalcon\Validation:
    - Added support for error codes (#1171)
    - Bug fixes (#1399)

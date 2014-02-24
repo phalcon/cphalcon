@@ -130,8 +130,8 @@ PHP_METHOD(Phalcon_Logger_Formatter, interpolate)
 		}
 
 		PHALCON_RETURN_CALL_FUNCTIONW("strtr", *message, replace);
+		return;
 	}
-	else {
-		RETURN_ZVAL(*message, 1, 0);
-	}
+
+	RETURN_ZVAL(*message, 1, 0);
 }
