@@ -79,6 +79,9 @@ static phalcon_memory_entry* phalcon_memory_grow_stack_common(zend_phalcon_globa
 		g->active_memory = g->active_memory->next;
 	}
 
+	assert(g->active_memory->pointer == 0);
+	assert(g->active_memory->hash_pointer == 0);
+
 	return g->active_memory;
 }
 

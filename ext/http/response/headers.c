@@ -151,7 +151,6 @@ PHP_METHOD(Phalcon_Http_Response_Headers, remove){
  */
 PHP_METHOD(Phalcon_Http_Response_Headers, send){
 
-	zval *http_header = NULL;
 	sapi_header_line ctr = { NULL, 0, 0 };
 
 	if (!SG(headers_sent)) {
@@ -172,11 +171,14 @@ PHP_METHOD(Phalcon_Http_Response_Headers, send){
 			zval header = phalcon_get_current_key_w(Z_ARRVAL_P(headers), &hp0);
 
 			if (PHALCON_IS_NOT_EMPTY(*value)) {
-				PHALCON_INIT_NVAR(http_header);
+				zval *http_header;
+				
+				MAKE_STD_ZVAL(http_header);
 				PHALCON_CONCAT_VSV(http_header, &header, ": ", *value);
 				ctr.line     = Z_STRVAL_P(http_header);
 				ctr.line_len = Z_STRLEN_P(http_header);
 				sapi_header_op(SAPI_HEADER_REPLACE, &ctr TSRMLS_CC);
+				zval_ptr_dtor(&http_header);
 			}
 			else if (Z_TYPE(header) == IS_STRING) {
 				ctr.line     = Z_STRVAL(header);
