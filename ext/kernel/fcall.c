@@ -334,6 +334,13 @@ int phalcon_call_user_function(zval **object_pp, zend_class_entry *obj_ce, phalc
 		params_ptr = NULL;
 	}
 
+	if (type != phalcon_fcall_function && !object_pp) {
+		object_pp = EG(This) ? &EG(This) : NULL;
+		if (!obj_ce && object_pp) {
+			obj_ce = Z_OBJCE_PP(object_pp);
+		}
+	}
+
 	if (obj_ce) {
 		EG(scope) = obj_ce;
 	}
