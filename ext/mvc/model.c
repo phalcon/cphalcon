@@ -2255,8 +2255,7 @@ PHP_METHOD(Phalcon_Mvc_Model, validate){
 	PHALCON_VERIFY_INTERFACE_EX(validator, phalcon_mvc_model_validatorinterface_ce, phalcon_mvc_model_exception_ce, 1);
 
 	if (!allow_empty) {
-		PHALCON_INIT_VAR(allow_empty);
-		ZVAL_FALSE(allow_empty);
+		allow_empty = PHALCON_GLOBAL(z_false);
 	}
 
 	if (zend_is_true(allow_empty)) {
@@ -2264,7 +2263,6 @@ PHP_METHOD(Phalcon_Mvc_Model, validate){
 		ZVAL_STRING(option, "field", 1);
 
 		PHALCON_CALL_METHOD(&field_name, validator, "getoption", option);
-
 		PHALCON_CALL_METHOD(&value, this_ptr, "readattribute", field_name);
 
 		if (PHALCON_IS_EMPTY(value)) {
