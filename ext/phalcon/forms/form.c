@@ -472,11 +472,11 @@ PHP_METHOD(Phalcon_Forms_Form, isValid) {
  */
 PHP_METHOD(Phalcon_Forms_Form, getMessages) {
 
-	zephir_fcall_cache_entry *_3 = NULL;
-	HashTable *_1;
-	HashPosition _0;
+	HashTable *_2;
+	HashPosition _1;
+	zephir_fcall_cache_entry *_0 = NULL, *_4 = NULL;
 	int ZEPHIR_LAST_CALL_STATUS;
-	zval *byItemName_param = NULL, *messages, *group, *element = NULL, *elementMessages = NULL, **_2;
+	zval *byItemName_param = NULL, *messages, *group, *element = NULL, *elementMessages = NULL, **_3;
 	zend_bool byItemName;
 
 	ZEPHIR_MM_GROW();
@@ -494,7 +494,7 @@ PHP_METHOD(Phalcon_Forms_Form, getMessages) {
 	if (byItemName) {
 		if (Z_TYPE_P(messages) != IS_ARRAY) {
 			object_init_ex(return_value, phalcon_validation_message_group_ce);
-			ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL);
+			ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", &_0);
 			zephir_check_call_status();
 			RETURN_MM();
 		}
@@ -502,16 +502,16 @@ PHP_METHOD(Phalcon_Forms_Form, getMessages) {
 	}
 	ZEPHIR_INIT_VAR(group);
 	object_init_ex(group, phalcon_validation_message_group_ce);
-	ZEPHIR_CALL_METHOD(NULL, group, "__construct", NULL);
+	ZEPHIR_CALL_METHOD(NULL, group, "__construct", &_0);
 	zephir_check_call_status();
-	zephir_is_iterable(messages, &_1, &_0, 0, 0);
+	zephir_is_iterable(messages, &_2, &_1, 0, 0);
 	for (
-	  ; zephir_hash_get_current_data_ex(_1, (void**) &_2, &_0) == SUCCESS
-	  ; zephir_hash_move_forward_ex(_1, &_0)
+	  ; zephir_hash_get_current_data_ex(_2, (void**) &_3, &_1) == SUCCESS
+	  ; zephir_hash_move_forward_ex(_2, &_1)
 	) {
-		ZEPHIR_GET_HMKEY(element, _1, _0);
-		ZEPHIR_GET_HVALUE(elementMessages, _2);
-		ZEPHIR_CALL_METHOD(NULL, group, "appendmessages", &_3, elementMessages);
+		ZEPHIR_GET_HMKEY(element, _2, _1);
+		ZEPHIR_GET_HVALUE(elementMessages, _3);
+		ZEPHIR_CALL_METHOD(NULL, group, "appendmessages", &_4, elementMessages);
 		zephir_check_call_status();
 	}
 	RETURN_CCTOR(group);

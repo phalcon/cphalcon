@@ -74,6 +74,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Validation_Validator_StringLength) {
  */
 PHP_METHOD(Phalcon_Validation_Validator_StringLength, validate) {
 
+	zephir_fcall_cache_entry *_7 = NULL;
 	zephir_nts_static zephir_fcall_cache_entry *_6 = NULL;
 	zend_bool _1, _3;
 	int ZEPHIR_LAST_CALL_STATUS;
@@ -180,7 +181,7 @@ PHP_METHOD(Phalcon_Validation_Validator_StringLength, validate) {
 			zephir_check_call_status();
 			ZEPHIR_INIT_BNVAR(_0);
 			ZVAL_STRING(_0, "TooLong", 0);
-			ZEPHIR_CALL_METHOD(NULL, _4, "__construct", NULL, _5, field, _0);
+			ZEPHIR_CALL_METHOD(NULL, _4, "__construct", &_7, _5, field, _0);
 			zephir_check_temp_parameter(_0);
 			zephir_check_call_status();
 			ZEPHIR_CALL_METHOD(NULL, validation, "appendmessage", NULL, _4);
@@ -217,7 +218,7 @@ PHP_METHOD(Phalcon_Validation_Validator_StringLength, validate) {
 			zephir_check_call_status();
 			ZEPHIR_INIT_BNVAR(_0);
 			ZVAL_STRING(_0, "TooShort", 0);
-			ZEPHIR_CALL_METHOD(NULL, _4, "__construct", NULL, _5, field, _0);
+			ZEPHIR_CALL_METHOD(NULL, _4, "__construct", &_7, _5, field, _0);
 			zephir_check_temp_parameter(_0);
 			zephir_check_call_status();
 			ZEPHIR_CALL_METHOD(NULL, validation, "appendmessage", NULL, _4);
