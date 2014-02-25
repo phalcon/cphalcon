@@ -743,7 +743,7 @@ PHP_METHOD(Phalcon_Http_Response, setJsonContent){
  */
 PHP_METHOD(Phalcon_Http_Response, setBsonContent){
 
-	zval *content, *bson_content, *content_type;
+	zval *content, *bson_content = NULL, *content_type;
 
 	PHALCON_MM_GROW();
 
@@ -752,8 +752,7 @@ PHP_METHOD(Phalcon_Http_Response, setBsonContent){
 	PHALCON_INIT_VAR(content_type);
 	ZVAL_STRING(content_type, "application/bson", 1);
 	PHALCON_CALL_METHOD(NULL, this_ptr, "setContentType", content_type);
-	
-	PHALCON_OBS_VAR(bson_content);
+
 	PHALCON_CALL_FUNCTION(&bson_content, "bson_encode", 1, content);
 	phalcon_update_property_this(this_ptr, SL("_content"), bson_content TSRMLS_CC);
 	RETURN_THIS();
