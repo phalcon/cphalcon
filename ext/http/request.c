@@ -82,6 +82,7 @@ PHP_METHOD(Phalcon_Http_Request, isSoapRequested);
 PHP_METHOD(Phalcon_Http_Request, isSecureRequest);
 PHP_METHOD(Phalcon_Http_Request, getRawBody);
 PHP_METHOD(Phalcon_Http_Request, getJsonRawBody);
+PHP_METHOD(Phalcon_Http_Request, getBsonRawBody);
 PHP_METHOD(Phalcon_Http_Request, getServerAddress);
 PHP_METHOD(Phalcon_Http_Request, getServerName);
 PHP_METHOD(Phalcon_Http_Request, getHttpHost);
