@@ -17,8 +17,6 @@
   +------------------------------------------------------------------------+
 */
 
-#include "php_phalcon.h"
-
 #include "cache/frontendinterface.h"
 
 #include "kernel/main.h"

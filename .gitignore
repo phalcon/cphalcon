@@ -44,3 +44,4 @@ build/install2
 /ext/modules
 /ext/run-tests.php
 /ext/coverage
+/unit-tests/nbproject/private/

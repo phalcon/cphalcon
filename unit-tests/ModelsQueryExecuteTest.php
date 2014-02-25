@@ -73,7 +73,7 @@ class ModelsQueryExecuteTest extends PHPUnit_Framework_TestCase
 		$di->set('db', function() {
 			require 'unit-tests/config.db.php';
 			return new Phalcon\Db\Adapter\Pdo\Mysql($configMysql);
-		});
+		}, true);
 
 		$this->_testSelectExecute($di);
 		$this->_testSelectRenamedExecute($di);
@@ -99,7 +99,7 @@ class ModelsQueryExecuteTest extends PHPUnit_Framework_TestCase
 		$di->set('db', function() {
 			require 'unit-tests/config.db.php';
 			return new Phalcon\Db\Adapter\Pdo\Postgresql($configPostgresql);
-		});
+		}, true);
 
 		$this->_testSelectExecute($di);
 		$this->_testSelectRenamedExecute($di);
@@ -125,7 +125,7 @@ class ModelsQueryExecuteTest extends PHPUnit_Framework_TestCase
 		$di->set('db', function() {
 			require 'unit-tests/config.db.php';
 			return new Phalcon\Db\Adapter\Pdo\Sqlite($configSqlite);
-		});
+		}, true);
 
 		$this->_testSelectExecute($di);
 		$this->_testSelectRenamedExecute($di);

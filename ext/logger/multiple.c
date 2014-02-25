@@ -127,7 +127,7 @@ PHP_METHOD(Phalcon_Logger_Multiple, setFormatter){
 	phalcon_fetch_params(1, 1, 0, &formatter);
 	
 	PHALCON_OBS_VAR(loggers);
-	phalcon_read_property_this(&loggers, this_ptr, SL("_loggers"), PH_NOISY_CC);
+	phalcon_read_property_this(&loggers, this_ptr, SL("_loggers"), PH_NOISY TSRMLS_CC);
 	if (Z_TYPE_P(loggers) == IS_ARRAY) { 
 	
 		phalcon_is_iterable(loggers, &ah0, &hp0, 0, 0);
@@ -136,7 +136,7 @@ PHP_METHOD(Phalcon_Logger_Multiple, setFormatter){
 	
 			PHALCON_GET_HVALUE(logger);
 	
-			phalcon_call_method_p1_noret(logger, "setformatter", formatter);
+			PHALCON_CALL_METHOD(NULL, logger, "setformatter", formatter);
 	
 			zend_hash_move_forward_ex(ah0, &hp0);
 		}
@@ -182,7 +182,7 @@ PHP_METHOD(Phalcon_Logger_Multiple, log){
 	}
 	
 	PHALCON_OBS_VAR(loggers);
-	phalcon_read_property_this(&loggers, this_ptr, SL("_loggers"), PH_NOISY_CC);
+	phalcon_read_property_this(&loggers, this_ptr, SL("_loggers"), PH_NOISY TSRMLS_CC);
 	if (Z_TYPE_P(loggers) == IS_ARRAY) { 
 	
 		phalcon_is_iterable(loggers, &ah0, &hp0, 0, 0);
@@ -191,7 +191,7 @@ PHP_METHOD(Phalcon_Logger_Multiple, log){
 	
 			PHALCON_GET_HVALUE(logger);
 	
-			phalcon_call_method_p2_noret(logger, "log", message, type);
+			PHALCON_CALL_METHOD(NULL, logger, "log", message, type);
 	
 			zend_hash_move_forward_ex(ah0, &hp0);
 		}
@@ -216,7 +216,7 @@ PHP_METHOD(Phalcon_Logger_Multiple, emergency){
 	
 	PHALCON_ALLOC_GHOST_ZVAL(type);
 	ZVAL_LONG(type, PHALCON_LOGGER_EMERGENCY);
-	phalcon_call_method_p2_noret(this_ptr, "log", message, type);
+	PHALCON_CALL_METHOD(NULL, this_ptr, "log", message, type);
 	
 	PHALCON_MM_RESTORE();
 }
@@ -237,7 +237,7 @@ PHP_METHOD(Phalcon_Logger_Multiple, debug){
 	
 	PHALCON_ALLOC_GHOST_ZVAL(type);
 	ZVAL_LONG(type, PHALCON_LOGGER_DEBUG);
-	phalcon_call_method_p2_noret(this_ptr, "log", message, type);
+	PHALCON_CALL_METHOD(NULL, this_ptr, "log", message, type);
 	
 	PHALCON_MM_RESTORE();
 }
@@ -257,7 +257,7 @@ PHP_METHOD(Phalcon_Logger_Multiple, error){
 	
 	PHALCON_ALLOC_GHOST_ZVAL(type);
 	ZVAL_LONG(type, PHALCON_LOGGER_ERROR);
-	phalcon_call_method_p2_noret(this_ptr, "log", message, type);
+	PHALCON_CALL_METHOD(NULL, this_ptr, "log", message, type);
 	
 	PHALCON_MM_RESTORE();
 }
@@ -277,7 +277,7 @@ PHP_METHOD(Phalcon_Logger_Multiple, info){
 	
 	PHALCON_ALLOC_GHOST_ZVAL(type);
 	ZVAL_LONG(type, PHALCON_LOGGER_INFO);
-	phalcon_call_method_p2_noret(this_ptr, "log", message, type);
+	PHALCON_CALL_METHOD(NULL, this_ptr, "log", message, type);
 	
 	PHALCON_MM_RESTORE();
 }
@@ -297,7 +297,7 @@ PHP_METHOD(Phalcon_Logger_Multiple, notice){
 	
 	PHALCON_ALLOC_GHOST_ZVAL(type);
 	ZVAL_LONG(type, PHALCON_LOGGER_NOTICE);
-	phalcon_call_method_p2_noret(this_ptr, "log", message, type);
+	PHALCON_CALL_METHOD(NULL, this_ptr, "log", message, type);
 	
 	PHALCON_MM_RESTORE();
 }
@@ -317,7 +317,7 @@ PHP_METHOD(Phalcon_Logger_Multiple, warning){
 	
 	PHALCON_ALLOC_GHOST_ZVAL(type);
 	ZVAL_LONG(type, PHALCON_LOGGER_WARNING);
-	phalcon_call_method_p2_noret(this_ptr, "log", message, type);
+	PHALCON_CALL_METHOD(NULL, this_ptr, "log", message, type);
 	
 	PHALCON_MM_RESTORE();
 }
@@ -337,7 +337,7 @@ PHP_METHOD(Phalcon_Logger_Multiple, alert){
 	
 	PHALCON_ALLOC_GHOST_ZVAL(type);
 	ZVAL_LONG(type, PHALCON_LOGGER_ALERT);
-	phalcon_call_method_p2_noret(this_ptr, "log", message, type);
+	PHALCON_CALL_METHOD(NULL, this_ptr, "log", message, type);
 	
 	PHALCON_MM_RESTORE();
 }

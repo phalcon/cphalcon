@@ -17,8 +17,6 @@
   +------------------------------------------------------------------------+
 */
 
-#include "php_phalcon.h"
-
 #include "acl/exception.h"
 #include "acl/../exception.h"
 #include "kernel/main.h"

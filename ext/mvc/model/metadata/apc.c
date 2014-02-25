@@ -115,7 +115,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Apc, __construct){
  */
 PHP_METHOD(Phalcon_Mvc_Model_MetaData_Apc, read)
 {
-	zval *key, *prefix, *apc_key, *data;
+	zval *key, *prefix, *apc_key, *data = NULL;
 
 	PHALCON_MM_GROW();
 
@@ -126,7 +126,6 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Apc, read)
 	PHALCON_INIT_VAR(apc_key);
 	PHALCON_CONCAT_SVV(apc_key, "$PMM$", prefix, key);
 	
-	PHALCON_OBS_VAR(data);
 	PHALCON_CALL_FUNCTION(&data, "apc_fetch", apc_key);
 	if (Z_TYPE_P(data) == IS_ARRAY) { 
 		RETURN_CCTOR(data);
@@ -156,7 +155,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Apc, write){
 	
 	PHALCON_OBS_VAR(ttl);
 	phalcon_read_property_this(&ttl, this_ptr, SL("_ttl"), PH_NOISY TSRMLS_CC);
-	PHALCON_CALL_FUNCTION_NORET("apc_store", apc_key, data, ttl);
+	PHALCON_CALL_FUNCTION(NULL, "apc_store", apc_key, data, ttl);
 	
 	PHALCON_MM_RESTORE();
 }
@@ -182,10 +181,10 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Apc, reset)
 
 			PHALCON_INIT_NVAR(real_key);
 			phalcon_concat_svsv(&real_key, SL("$PMM$"), prefix, SL("meta-"), &key, 0 TSRMLS_CC);
-			PHALCON_CALL_FUNCTION_NORET("apc_delete", real_key);
+			PHALCON_CALL_FUNCTION(NULL, "apc_delete", real_key);
 		}
 	}
 
-	PHALCON_CALL_PARENT_NORET(phalcon_mvc_model_metadata_apc_ce, getThis(), "reset");
+	PHALCON_CALL_PARENT(NULL, phalcon_mvc_model_metadata_apc_ce, getThis(), "reset");
 	PHALCON_MM_RESTORE();
 }

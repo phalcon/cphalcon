@@ -17,11 +17,11 @@
   +------------------------------------------------------------------------+
 */
 
-#include "php_phalcon.h"
+#include "kernel/array.h"
+
 #include <ext/standard/php_array.h>
 
 #include "kernel/main.h"
-#include "kernel/array.h"
 #include "kernel/operators.h"
 #include "kernel/hash.h"
 
@@ -818,6 +818,36 @@ int phalcon_array_key_exists(zval *arr, zval *key TSRMLS_DC)
 			default:
 				zend_error(E_WARNING, "The key should be either a string or an integer");
 				return 0;
+		}
+	}
+
+	return 0;
+}
+
+int phalcon_array_is_associative(zval *arr) {
+
+	if (likely(Z_TYPE_P(arr) == IS_ARRAY)) {
+		HashPosition pos;
+		zval **entry;
+		char *skey;
+		uint skey_len;
+		ulong nkey;
+		ulong expected = 0;
+
+		zend_hash_internal_pointer_reset_ex(Z_ARRVAL_P(arr), &pos);
+		while (zend_hash_get_current_data_ex(Z_ARRVAL_P(arr), (void**)&entry, &pos) == SUCCESS) {
+
+			if (HASH_KEY_IS_LONG == zend_hash_get_current_key_ex(Z_ARRVAL_P(arr), &skey, &skey_len, &nkey, 1, &pos)) {
+				if (expected != nkey) {
+					return 1;
+				}
+			}
+			else {
+				return 1;
+			}
+
+			++expected;
+			zend_hash_move_forward_ex(Z_ARRVAL_P(arr), &pos);
 		}
 	}
 

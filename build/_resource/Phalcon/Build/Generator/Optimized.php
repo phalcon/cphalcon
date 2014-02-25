@@ -140,24 +140,24 @@ class Generator_Optimized
         );
 
         /* phalcon_call_method, phalcon_call_method_pX */
-        $result[] = array(
-            'regexp' => '/(phalcon_call_method(?:_p[0-9]+)?)\([a-zA-Z0-9\_]+, [a-zA-Z0-9\_]+, "([a-zA-Z0-9\_]+)"/',
-            'func' => function ($line, $matches, $hashFunc) {
-                $newCall = $matches[1] . '_key' . substr($matches[0], strlen($matches[1]));
-                $newCall .= ', ' . $hashFunc($matches[2]);
-                return str_replace($matches[0], $newCall, $line);;
-            }
-        );
+//        $result[] = array(
+//            'regexp' => '/(phalcon_call_method(?:_p[0-9]+)?)\([a-zA-Z0-9\_]+, [a-zA-Z0-9\_]+, "([a-zA-Z0-9\_]+)"/',
+//            'func' => function ($line, $matches, $hashFunc) {
+//                $newCall = $matches[1] . '_key' . substr($matches[0], strlen($matches[1]));
+//                $newCall .= ', ' . $hashFunc($matches[2]);
+//                return str_replace($matches[0], $newCall, $line);;
+//            }
+//        );
 
         /* phalcon_call_method_noret, phalcon_call_method_pX_noret */
-        $result[] = array(
-            'regexp' => '/phalcon_call_method(?:_p[0-9]+)?_noret\([a-zA-Z0-9\_]+, "([a-zA-Z0-9\_]+)"/',
-            'func' => function ($line, $matches, $hashFunc) {
-                $newCall = str_replace('_noret(', '_key(NULL, ', $matches[0]);
-                $newCall .= ', ' . $hashFunc($matches[1]);
-                return str_replace($matches[0], $newCall, $line);
-            }
-        );
+//        $result[] = array(
+//            'regexp' => '/phalcon_call_method(?:_p[0-9]+)?_noret\([a-zA-Z0-9\_]+, "([a-zA-Z0-9\_]+)"/',
+//            'func' => function ($line, $matches, $hashFunc) {
+//                $newCall = str_replace('_noret(', '_key(NULL, ', $matches[0]);
+//                $newCall .= ', ' . $hashFunc($matches[1]);
+//                return str_replace($matches[0], $newCall, $line);
+//            }
+//        );
 
         $result[] = array(
             'regexp' => '/phalcon_read_property_this\(&([a-zA-Z0-9\_]+), this_ptr, SL\("([a-zA-Z0-9\_]+)"\), PH_NOISY_CC\)/',

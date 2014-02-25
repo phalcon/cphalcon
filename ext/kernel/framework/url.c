@@ -17,12 +17,9 @@
  +------------------------------------------------------------------------+
 */
 
-#include "main/php.h"
-#include "main/php_main.h"
-#include <ext/standard/url.h>
-
 #include "php_phalcon.h"
 
+#include <ext/standard/url.h>
 
 void phalcon_get_uri(zval *return_value, zval *path) {
 

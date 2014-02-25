@@ -81,7 +81,7 @@ PHP_METHOD(Phalcon_Logger_Adapter_Firephp, getFormatter){
 
 	zval *formatter;
 
-	formatter = phalcon_fetch_nproperty_this(this_ptr, SL("_formatter"), PH_NOISY_CC);
+	formatter = phalcon_fetch_nproperty_this(this_ptr, SL("_formatter"), PH_NOISY TSRMLS_CC);
 	if (Z_TYPE_P(formatter) != IS_OBJECT) {
 		object_init_ex(return_value, phalcon_logger_formatter_firephp_ce);
 		phalcon_update_property_this(this_ptr, SL("_formatter"), return_value TSRMLS_CC);
@@ -102,7 +102,7 @@ PHP_METHOD(Phalcon_Logger_Adapter_Firephp, getFormatter){
  */
 PHP_METHOD(Phalcon_Logger_Adapter_Firephp, logInternal){
 
-	zval *message, *type, *time, *context, *formatter, *applied_format;
+	zval *message, *type, *time, *context, *formatter = NULL, *applied_format = NULL;
 	zval *initialized, *index;
 	sapi_header_line h = { NULL, 0, 0 };
 	smart_str str      = { NULL, 0, 0 };
@@ -120,8 +120,7 @@ PHP_METHOD(Phalcon_Logger_Adapter_Firephp, logInternal){
 
 	phalcon_fetch_params(1, 4, 0, &message, &type, &time, &context);
 
-	PHALCON_INIT_VAR(formatter);
-	phalcon_call_method(formatter, this_ptr, "getformatter");
+	PHALCON_CALL_METHOD(&formatter, this_ptr, "getformatter");
 
 	initialized = phalcon_fetch_static_property_ce(phalcon_logger_adapter_firephp_ce, SL("_initialized") TSRMLS_CC);
 	if (!zend_is_true(initialized)) {
@@ -146,8 +145,7 @@ PHP_METHOD(Phalcon_Logger_Adapter_Firephp, logInternal){
 		ZVAL_TRUE(initialized); /* This will also update the property because "initialized" was not separated */
 	}
 
-	PHALCON_INIT_VAR(applied_format);
-	phalcon_call_method_p4(applied_format, formatter, "format", message, type, time, context);
+	PHALCON_CALL_METHOD(&applied_format, formatter, "format", message, type, time, context);
 	convert_to_string(applied_format);
 
 	index = phalcon_fetch_static_property_ce(phalcon_logger_adapter_firephp_ce, SL("_index") TSRMLS_CC);

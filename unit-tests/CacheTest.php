@@ -463,7 +463,7 @@ class CacheTest extends PHPUnit_Framework_TestCase
 
 		$memcache->delete('test-data');
 
-		$frontCache = new Phalcon\Cache\Frontend\Data();
+		$frontCache = new Phalcon\Cache\Frontend\Data(array('lifetime' => 20));
 
 		$cache = new Phalcon\Cache\Backend\Memcache($frontCache, array(
 			'host' => '127.0.0.1',
@@ -720,7 +720,6 @@ class CacheTest extends PHPUnit_Framework_TestCase
 
 	public function testDataMongoCache()
 	{
-
 		$ready = $this->_prepareMongo();
 		if (!$ready) {
 			return false;
@@ -732,7 +731,8 @@ class CacheTest extends PHPUnit_Framework_TestCase
 		$collection = $database->caches;
 		$collection->remove();
 
-		$frontCache = new Phalcon\Cache\Frontend\Data();
+		// Travis can be slow, especially when Valgrind is used
+		$frontCache = new Phalcon\Cache\Frontend\Data(array('lifetime' => 900));
 
 		$cache = new Phalcon\Cache\Backend\Mongo($frontCache, array(
 			'mongo' => $mongo,
@@ -756,7 +756,6 @@ class CacheTest extends PHPUnit_Framework_TestCase
 		$this->assertTrue($cache->exists('test-data'));
 
 		$this->assertTrue($cache->delete('test-data'));
-
 	}
 	
 	public function testMongoIncrement()
@@ -1051,7 +1050,8 @@ class CacheTest extends PHPUnit_Framework_TestCase
 			return false;
 		}
 		
-		$frontCache = new Phalcon\Cache\Frontend\Data();
+		// Travis can be slow, especially when Valgrind is used
+		$frontCache = new Phalcon\Cache\Frontend\Data(array('lifetime' => 900));
 
 		$cache = new Phalcon\Cache\Backend\Libmemcached($frontCache, array(
 			'servers' => array(
@@ -1061,6 +1061,7 @@ class CacheTest extends PHPUnit_Framework_TestCase
 					'weight' => '1'),
 			)
 		));
+
 		$cache->delete('foo');
 		$cache->save('foo', 1);
 		$this->assertEquals(2, $cache->increment('foo'));
@@ -1076,7 +1077,8 @@ class CacheTest extends PHPUnit_Framework_TestCase
 			return false;
 		}
 		
-		$frontCache = new Phalcon\Cache\Frontend\Data();
+		// Travis can be slow, especially when Valgrind is used
+		$frontCache = new Phalcon\Cache\Frontend\Data(array('lifetime' => 900));
 
 		$cache = new Phalcon\Cache\Backend\Libmemcached($frontCache, array(
 			'servers' => array(
@@ -1105,7 +1107,8 @@ class CacheTest extends PHPUnit_Framework_TestCase
 
 		$memcache->delete('test-data');
 
-		$frontCache = new Phalcon\Cache\Frontend\Data();
+		// Travis can be slow, especially when Valgrind is used
+		$frontCache = new Phalcon\Cache\Frontend\Data(array('lifetime' => 900));
 
 		$cache = new Phalcon\Cache\Backend\Libmemcached($frontCache, array(
 			'servers' => array(
@@ -1156,9 +1159,10 @@ class CacheTest extends PHPUnit_Framework_TestCase
 
 		$memcache->delete('test-data');
 
-		$frontCache = new Phalcon\Cache\Frontend\Data();
+		// Travis can be slow, especially when Valgrind is used
+		$frontCache = new Phalcon\Cache\Frontend\Data(array('lifetime' => 900));
 
-        //Memcached OPT_PREFIX_KEY: prefix.
+		//Memcached OPT_PREFIX_KEY: prefix.
 		$cache = new Phalcon\Cache\Backend\Libmemcached($frontCache, array(
 			'servers' => array(
 				array(

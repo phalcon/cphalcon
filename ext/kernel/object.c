@@ -17,16 +17,11 @@
   +------------------------------------------------------------------------+
 */
 
-#include "php_phalcon.h"
-
-#ifdef PHP_WIN32
-#include <ext/standard/php_string.h>
-#endif
+#include "kernel/object.h"
 
 #include "kernel/../exception.h"
 #include "kernel/main.h"
 #include "kernel/memory.h"
-#include "kernel/object.h"
 #include "kernel/exception.h"
 #include "kernel/fcall.h"
 #include "kernel/hash.h"
@@ -832,7 +827,7 @@ int phalcon_update_property_array(zval *object, const char *property, zend_uint 
 
 	if (Z_TYPE_P(object) == IS_OBJECT) {
 
-		phalcon_read_property(&tmp, object, property, property_length, PH_NOISY_CC);
+		phalcon_read_property(&tmp, object, property, property_length, PH_NOISY TSRMLS_CC);
 
 		Z_DELREF_P(tmp);
 
@@ -891,7 +886,7 @@ int phalcon_update_property_array_string(zval *object, const char *property, zen
 
 	if (likely(Z_TYPE_P(object) == IS_OBJECT)) {
 
-		phalcon_read_property(&tmp, object, property, property_length, PH_NOISY_CC);
+		phalcon_read_property(&tmp, object, property, property_length, PH_NOISY TSRMLS_CC);
 
 		Z_DELREF_P(tmp);
 
@@ -947,7 +942,7 @@ int phalcon_update_property_array_append(zval *object, const char *property, zen
 		return SUCCESS;
 	}
 
-	phalcon_read_property(&tmp, object, property, property_length, PH_NOISY_CC);
+	phalcon_read_property(&tmp, object, property, property_length, PH_NOISY TSRMLS_CC);
 
 	Z_DELREF_P(tmp);
 
@@ -1011,7 +1006,7 @@ int phalcon_unset_property_array(zval *object, const char *property, zend_uint p
 
 	if (Z_TYPE_P(object) == IS_OBJECT) {
 
-		phalcon_read_property(&tmp, object, property, property_length, PH_NOISY_CC);
+		phalcon_read_property(&tmp, object, property, property_length, PH_NOISY TSRMLS_CC);
 		Z_DELREF_P(tmp);
 
 		/** Separation only when refcount > 1 */
@@ -1144,7 +1139,7 @@ int phalcon_create_instance_params_ce(zval *return_value, zend_class_entry *ce, 
 			params_ptr = NULL;
 		}
 
-		outcome = phalcon_call_method_params(NULL, NULL, return_value, SL("__construct"), zend_inline_hash_func(SS("__construct")) TSRMLS_CC, -param_count, params_ptr);
+		outcome = phalcon_call_method(NULL, return_value, "__construct", param_count, params_ptr TSRMLS_CC);
 
 		if (unlikely(params_arr != NULL)) {
 			efree(params_arr);

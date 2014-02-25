@@ -17,8 +17,6 @@
   +------------------------------------------------------------------------+
 */
 
-#include "php_phalcon.h"
-
 #include "assets/filterinterface.h"
 #include "kernel/main.h"
 

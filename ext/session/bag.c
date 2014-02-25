@@ -98,7 +98,7 @@ static int phalcon_session_bag_maybe_initialize(zval *this_ptr TSRMLS_DC)
 
 	initialized = phalcon_fetch_nproperty_this(this_ptr, SL("_initialized"), PH_NOISY TSRMLS_CC);
 	if (PHALCON_IS_FALSE(initialized)) {
-		return phalcon_call_method_params(NULL, NULL, this_ptr, SL("initialize"), zend_inline_hash_func(SS("initialize")) TSRMLS_CC, 0);
+		return phalcon_call_method(NULL, this_ptr, "initialize", 0, NULL TSRMLS_CC);
 	}
 
 	return SUCCESS;
@@ -108,6 +108,7 @@ static zend_object_iterator* phalcon_session_bag_get_iterator(zend_class_entry *
 {
 	zval *iterator;
 	zval *data;
+	zval *params[1];
 	zend_object_iterator *ret;
 
 	if (FAILURE == phalcon_session_bag_maybe_initialize(object TSRMLS_CC)) {
@@ -118,7 +119,8 @@ static zend_object_iterator* phalcon_session_bag_get_iterator(zend_class_entry *
 
 	MAKE_STD_ZVAL(iterator);
 	object_init_ex(iterator, spl_ce_ArrayIterator);
-	if (FAILURE == phalcon_call_method_params(NULL, NULL, iterator, SL("__construct"), zend_inline_hash_func(SS("__construct")) TSRMLS_CC, 1, data)) {
+	params[0] = data;
+	if (FAILURE == phalcon_call_method(NULL, iterator, "__construct", 1, params TSRMLS_CC)) {
 		ret = NULL;
 	}
 	else if (Z_TYPE_P(iterator) == IS_OBJECT) {
@@ -210,12 +212,10 @@ PHP_METHOD(Phalcon_Session_Bag, initialize){
 
 	session = phalcon_fetch_nproperty_this(this_ptr, SL("_session"), PH_NOISY TSRMLS_CC);
 	if (Z_TYPE_P(session) != IS_OBJECT) {
-	
-		PHALCON_OBS_VAR(dependency_injector);
-		phalcon_read_property_this(&dependency_injector, this_ptr, SL("_dependencyInjector"), PH_NOISY TSRMLS_CC);
+		dependency_injector = phalcon_fetch_nproperty_this(this_ptr, SL("_dependencyInjector"), PH_NOISY TSRMLS_CC);
 		if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
 	
-			PHALCON_OBSERVE_OR_NULLIFY_VAR(dependency_injector);
+			dependency_injector = NULL;
 			PHALCON_CALL_CE_STATIC(&dependency_injector, phalcon_di_ce, "getdefault");
 	
 			if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
@@ -223,12 +223,14 @@ PHP_METHOD(Phalcon_Session_Bag, initialize){
 				return;
 			}
 		}
+
+		PHALCON_VERIFY_INTERFACE_EX(dependency_injector, phalcon_diinterface_ce, phalcon_session_exception_ce, 1);
 	
 		PHALCON_INIT_VAR(service);
 		PHALCON_ZVAL_MAYBE_INTERNED_STRING(service, phalcon_interned_session);
 	
-		PHALCON_INIT_VAR(session);
-		phalcon_call_method_p1(session, dependency_injector, "getshared", service);
+		session = NULL;
+		PHALCON_CALL_METHOD(&session, dependency_injector, "getshared", service);
 		PHALCON_VERIFY_INTERFACE(session, phalcon_session_adapterinterface_ce);
 		phalcon_update_property_this(this_ptr, SL("_session"), session TSRMLS_CC);
 	}
@@ -474,7 +476,7 @@ PHP_METHOD(Phalcon_Session_Bag, getIterator)
 
 	data = phalcon_fetch_nproperty_this(getThis(), SL("_data"), PH_NOISY TSRMLS_CC);
 	object_init_ex(return_value, spl_ce_ArrayIterator);
-	RETURN_ON_FAILURE(phalcon_call_method_params(NULL, NULL, return_value, SL("__construct"), zend_inline_hash_func(SS("__construct")) TSRMLS_CC, 1, data));
+	PHALCON_CALL_METHODW(NULL, return_value, "__construct", data);
 }
 
 PHP_METHOD(Phalcon_Session_Bag, count)

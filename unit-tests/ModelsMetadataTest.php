@@ -67,7 +67,7 @@ class ModelsMetadataTest extends PHPUnit_Framework_TestCase
 		$di->set('db', function(){
 			require 'unit-tests/config.db.php';
 			return new Phalcon\Db\Adapter\Pdo\Mysql($configMysql);
-		});
+		}, true);
 
 		$this->_executeTests($di);
 
@@ -86,7 +86,7 @@ class ModelsMetadataTest extends PHPUnit_Framework_TestCase
 		$di->set('db', function(){
 			require 'unit-tests/config.db.php';
 			return new Phalcon\Db\Adapter\Pdo\Postgresql($configPostgresql);
-		});
+		}, true);
 
 		$this->_executeTests($di);
 	}
@@ -104,7 +104,7 @@ class ModelsMetadataTest extends PHPUnit_Framework_TestCase
 		$di->set('db', function(){
 			require 'unit-tests/config.db.php';
 			return new Phalcon\Db\Adapter\Pdo\Sqlite($configSqlite);
-		});
+		}, true);
 
 		$this->_executeTests($di);
 	}

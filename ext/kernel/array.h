@@ -21,7 +21,7 @@
 #define PHALCON_KERNEL_ARRAY_H
 
 #include "php_phalcon.h"
-#include <Zend/zend.h>
+#include "kernel/memory.h"
 
 /**
  * @brief Fetches @a index if it exists from the array @a arr
@@ -739,5 +739,7 @@ void phalcon_array_values(zval *return_value, zval *arr) PHALCON_ATTR_NONNULL;
  * @return Whether @a key exists in @ arr
  */
 int phalcon_array_key_exists(zval *arr, zval *key TSRMLS_DC) PHALCON_ATTR_NONNULL;
+
+int phalcon_array_is_associative(zval *arr);
 
 #endif /* PHALCON_KERNEL_ARRAY_H */

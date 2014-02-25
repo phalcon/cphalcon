@@ -119,16 +119,13 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Status, getMessages){
 
 	zval *model;
 
-	PHALCON_MM_GROW();
-
-	PHALCON_OBS_VAR(model);
-	phalcon_read_property_this(&model, this_ptr, SL("_model"), PH_NOISY_CC);
+	model = phalcon_fetch_nproperty_this(this_ptr, SL("_model"), PH_NOISY TSRMLS_CC);
 	if (Z_TYPE_P(model) == IS_OBJECT) {
-		phalcon_call_method(return_value, model, "getmessages");
-		RETURN_MM();
+		PHALCON_RETURN_CALL_METHODW(model, "getmessages");
+		return;
 	}
 	
-	RETURN_MM_EMPTY_ARRAY();
+	array_init(return_value);
 }
 
 /**

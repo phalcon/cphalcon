@@ -155,8 +155,7 @@ PHP_METHOD(Phalcon_Filter, sanitize){
 						PHALCON_GET_HKEY(item_key, ah1, hp1);
 						PHALCON_GET_HVALUE(item_value);
 	
-						PHALCON_INIT_NVAR(filter_value);
-						phalcon_call_method_p2(filter_value, this_ptr, "_sanitize", item_value, filter);
+						PHALCON_CALL_METHOD(&filter_value, this_ptr, "_sanitize", item_value, filter);
 						phalcon_array_update_zval(&array_value, item_key, filter_value, PH_COPY | PH_SEPARATE);
 	
 						zend_hash_move_forward_ex(ah1, &hp1);
@@ -164,8 +163,7 @@ PHP_METHOD(Phalcon_Filter, sanitize){
 	
 					PHALCON_CPY_WRT(new_value, array_value);
 				} else {
-					PHALCON_INIT_NVAR(filter_value);
-					phalcon_call_method_p2(filter_value, this_ptr, "_sanitize", new_value, filter);
+					PHALCON_CALL_METHOD(&filter_value, this_ptr, "_sanitize", new_value, filter);
 					PHALCON_CPY_WRT(new_value, filter_value);
 				}
 	
@@ -192,16 +190,14 @@ PHP_METHOD(Phalcon_Filter, sanitize){
 			PHALCON_GET_HKEY(key, ah2, hp2);
 			PHALCON_GET_HVALUE(item_value);
 	
-			PHALCON_INIT_NVAR(filter_value);
-			phalcon_call_method_p2(filter_value, this_ptr, "_sanitize", item_value, filters);
+			PHALCON_CALL_METHOD(&filter_value, this_ptr, "_sanitize", item_value, filters);
 			phalcon_array_update_zval(&sanizited_value, key, filter_value, PH_COPY);
 	
 			zend_hash_move_forward_ex(ah2, &hp2);
 		}
 	
 	} else {
-		PHALCON_INIT_NVAR(sanizited_value);
-		phalcon_call_method_p2(sanizited_value, this_ptr, "_sanitize", value, filters);
+		PHALCON_CALL_METHOD(&sanizited_value, this_ptr, "_sanitize", value, filters);
 	}
 	
 	RETURN_CCTOR(sanizited_value);
@@ -225,7 +221,7 @@ PHP_METHOD(Phalcon_Filter, _sanitize){
 	phalcon_fetch_params(1, 2, 0, &value, &filter);
 	
 	PHALCON_OBS_VAR(filters);
-	phalcon_read_property_this(&filters, this_ptr, SL("_filters"), PH_NOISY_CC);
+	phalcon_read_property_this(&filters, this_ptr, SL("_filters"), PH_NOISY TSRMLS_CC);
 	if (phalcon_array_isset_fetch(&filter_object, filters, filter) && Z_TYPE_P(filter_object) == IS_OBJECT) {
 	
 		/** 
@@ -239,7 +235,7 @@ PHP_METHOD(Phalcon_Filter, _sanitize){
 			RETURN_MM();
 		}
 	
-		phalcon_call_method_p1(return_value, filter_object, "filter", value);
+		PHALCON_RETURN_CALL_METHOD(filter_object, "filter", value);
 		RETURN_MM();
 	}
 	
@@ -260,7 +256,6 @@ PHP_METHOD(Phalcon_Filter, _sanitize){
 		PHALCON_INIT_VAR(escaped);
 		phalcon_fast_str_replace(escaped, quote, empty_str, value);
 	
-		PHALCON_OBS_VAR(filtered);
 		PHALCON_CALL_FUNCTION(&filtered, "filter_var", escaped, type);
 		goto ph_end_0;
 	}
@@ -272,7 +267,6 @@ PHP_METHOD(Phalcon_Filter, _sanitize){
 		PHALCON_INIT_NVAR(type);
 		ZVAL_LONG(type, 519); /* FILTER_SANITIZE_NUMBER_INT */
 	
-		PHALCON_OBSERVE_OR_NULLIFY_VAR(filtered);
 		PHALCON_CALL_FUNCTION(&filtered, "filter_var", value, type);
 		goto ph_end_0;
 	}
@@ -281,7 +275,6 @@ PHP_METHOD(Phalcon_Filter, _sanitize){
 		PHALCON_INIT_NVAR(type);
 		ZVAL_LONG(type, 513); /* FILTER_SANITIZE_STRING */
 	
-		PHALCON_OBSERVE_OR_NULLIFY_VAR(filtered);
 		PHALCON_CALL_FUNCTION(&filtered, "filter_var", value, type);
 		goto ph_end_0;
 	}
@@ -300,7 +293,6 @@ PHP_METHOD(Phalcon_Filter, _sanitize){
 		PHALCON_INIT_NVAR(type);
 		ZVAL_LONG(type, 520);
 	
-		PHALCON_OBSERVE_OR_NULLIFY_VAR(filtered);
 		PHALCON_CALL_FUNCTION(&filtered, "filter_var", value, type, options);
 		goto ph_end_0;
 	}
@@ -329,7 +321,6 @@ PHP_METHOD(Phalcon_Filter, _sanitize){
 			 * 'lower' checks for the mbstring extension to make a correct lowercase
 			 * transformation
 			 */
-			PHALCON_OBSERVE_OR_NULLIFY_VAR(filtered);
 			PHALCON_CALL_FUNCTION(&filtered, "mb_strtolower", value);
 		} else {
 			PHALCON_INIT_NVAR(filtered);
@@ -344,7 +335,6 @@ PHP_METHOD(Phalcon_Filter, _sanitize){
 			 * 'upper' checks for the mbstring extension to make a correct lowercase
 			 * transformation
 			 */
-			PHALCON_OBSERVE_OR_NULLIFY_VAR(filtered);
 			PHALCON_CALL_FUNCTION(&filtered, "mb_strtoupper", value);
 		} else {
 			PHALCON_INIT_NVAR(filtered);

@@ -293,7 +293,7 @@ PHP_METHOD(Phalcon_Validation_Message, __set_state){
 	phalcon_array_fetch_string(&code, message, SL("_code"), PH_NOISY);
 
 	object_init_ex(return_value, phalcon_validation_message_ce);
-	phalcon_call_method_p4_noret(return_value, "__construct", message_text, field, type, code);
+	PHALCON_CALL_METHOD(NULL, return_value, "__construct", message_text, field, type, code);
 	
 	RETURN_MM();
 }

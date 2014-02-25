@@ -17,8 +17,6 @@
   +------------------------------------------------------------------------+
 */
 
-#include "php_phalcon.h"
-
 #include "annotations/adapter/memory.h"
 #include "annotations/adapter.h"
 #include "annotations/adapterinterface.h"
@@ -83,7 +81,7 @@ PHP_METHOD(Phalcon_Annotations_Adapter_Memory, read){
 
 	phalcon_fetch_params(1, 1, 0, &key);
 	
-	data = phalcon_fetch_nproperty_this(this_ptr, SL("_data"), PH_NOISY_CC);
+	data = phalcon_fetch_nproperty_this(this_ptr, SL("_data"), PH_NOISY TSRMLS_CC);
 	
 	PHALCON_INIT_VAR(lowercased_key);
 	phalcon_fast_strtolower(lowercased_key, key);

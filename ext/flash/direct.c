@@ -58,15 +58,11 @@ PHALCON_INIT_CLASS(Phalcon_Flash_Direct){
  * @param  string $message
  * @return string
  */
-PHP_METHOD(Phalcon_Flash_Direct, message){
-
+PHP_METHOD(Phalcon_Flash_Direct, message)
+{
 	zval *type, *message;
 
-	PHALCON_MM_GROW();
-
-	phalcon_fetch_params(1, 2, 0, &type, &message);
+	phalcon_fetch_params(0, 2, 0, &type, &message);
 	
-	phalcon_return_call_method_p2(this_ptr, "outputmessage", type, message);
-	RETURN_MM();
+	PHALCON_RETURN_CALL_METHODW(this_ptr, "outputmessage", type, message);
 }
-

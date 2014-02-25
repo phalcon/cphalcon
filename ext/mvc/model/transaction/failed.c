@@ -75,7 +75,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction_Failed, __construct){
 	phalcon_fetch_params(1, 2, 0, &message, &record);
 	
 	phalcon_update_property_this(this_ptr, SL("_record"), record TSRMLS_CC);
-	PHALCON_CALL_PARENT_NORET(phalcon_mvc_model_transaction_failed_ce, this_ptr, "__construct", message);
+	PHALCON_CALL_PARENT(NULL, phalcon_mvc_model_transaction_failed_ce, this_ptr, "__construct", message);
 	
 	PHALCON_MM_RESTORE();
 }
@@ -85,24 +85,14 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction_Failed, __construct){
  *
  * @return Phalcon\Mvc\Model\MessageInterface[]
  */
-PHP_METHOD(Phalcon_Mvc_Model_Transaction_Failed, getRecordMessages){
-
-	zval *record = NULL, *messages;
-
-	PHALCON_MM_GROW();
-
-	PHALCON_OBS_VAR(record);
-	phalcon_read_property_this(&record, this_ptr, SL("_record"), PH_NOISY_CC);
+PHP_METHOD(Phalcon_Mvc_Model_Transaction_Failed, getRecordMessages)
+{
+	zval *record = phalcon_fetch_nproperty_this(this_ptr, SL("_record"), PH_NOISY TSRMLS_CC);
 	if (Z_TYPE_P(record) != IS_NULL) {
-		PHALCON_INIT_NVAR(record);
-		phalcon_call_method(record, record, "getmessages");
-		RETURN_CCTOR(record);
+		PHALCON_RETURN_CALL_METHODW(record, "getmessages");
 	}
 	
-	PHALCON_INIT_VAR(messages);
-	phalcon_call_method(messages, this_ptr, "getmessage");
-	
-	RETURN_CCTOR(messages);
+	PHALCON_RETURN_CALL_METHODW(this_ptr, "getmessage");
 }
 
 /**

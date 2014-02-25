@@ -54,6 +54,7 @@ class CryptTest extends PHPUnit_Framework_TestCase
 
 	/**
 	 * @requires extension mcrypt
+	 * @medium
 	 */
 	public function testPadding()
 	{

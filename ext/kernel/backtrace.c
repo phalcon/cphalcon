@@ -18,7 +18,6 @@
 	+------------------------------------------------------------------------+
 */
 
-#include "php_phalcon.h"
 #include "kernel/backtrace.h"
 
 #ifndef PHALCON_RELEASE

@@ -153,4 +153,3 @@ PHP_METHOD(Phalcon_Acl_Adapter, getActiveAccess){
 
 	RETURN_MEMBER(this_ptr, "_activeAccess");
 }
-

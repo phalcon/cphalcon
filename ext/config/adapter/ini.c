@@ -17,8 +17,6 @@
   +------------------------------------------------------------------------+
 */
 
-#include "php_phalcon.h"
-
 #include "config/adapter/ini.h"
 #include "config/exception.h"
 #include "pconfig.h"
@@ -65,6 +63,8 @@
  */
 zend_class_entry *phalcon_config_adapter_ini_ce;
 
+PHP_METHOD(Phalcon_Config_Adapter_Ini, __construct);
+
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_config_adapter_ini___construct, 0, 0, 1)
 	ZEND_ARG_INFO(0, filePath)
 ZEND_END_ARG_INFO()
@@ -98,7 +98,6 @@ static void phalcon_config_adapter_ini_update_zval_directive(zval **arr, zval *s
 
 	for (i = 0; i < n - 1; i++) {
 		phalcon_array_fetch_long(&index, directive, i, PH_NOISY);
-		Z_DELREF_P(index);
 
 		if (!phalcon_array_isset_fetch(temp2, *temp1, index)) {
 			PHALCON_ALLOC_GHOST_ZVAL(t2);
@@ -110,10 +109,12 @@ static void phalcon_config_adapter_ini_update_zval_directive(zval **arr, zval *s
 		}
 
 		t1 = t2;
+		zval_ptr_dtor(&index);
 	}
 
 	phalcon_array_fetch_long(&index, directive, n - 1, PH_NOISY);
 	phalcon_array_update_zval(temp1, index, value, PH_COPY);
+	zval_ptr_dtor(&index);
 }
 
 /**
@@ -133,7 +134,7 @@ PHALCON_INIT_CLASS(Phalcon_Config_Adapter_Ini){
  */
 PHP_METHOD(Phalcon_Config_Adapter_Ini, __construct){
 
-	zval **file_path, *ini_config;
+	zval **file_path, *ini_config = NULL;
 	zval *config, *directives = NULL;
 	zval *section = NULL, *value = NULL, *key = NULL, *directive_parts = NULL;
 	HashTable *ah0, *ah1;
@@ -148,7 +149,6 @@ PHP_METHOD(Phalcon_Config_Adapter_Ini, __construct){
 	/** 
 	 * Use the standard parse_ini_file
 	 */
-	PHALCON_OBS_VAR(ini_config);
 	PHALCON_CALL_FUNCTION(&ini_config, "parse_ini_file", *file_path, PHALCON_GLOBAL(z_true));
 	
 	/** 
@@ -199,7 +199,7 @@ PHP_METHOD(Phalcon_Config_Adapter_Ini, __construct){
 	/** 
 	 * Calls the Phalcon\Config constructor
 	 */
-	PHALCON_CALL_PARENT_NORET(phalcon_config_adapter_ini_ce, this_ptr, "__construct", config);
+	PHALCON_CALL_PARENT(NULL, phalcon_config_adapter_ini_ce, this_ptr, "__construct", config);
 	
 	PHALCON_MM_RESTORE();
 }

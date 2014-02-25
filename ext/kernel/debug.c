@@ -17,8 +17,6 @@
   +------------------------------------------------------------------------+
 */
 
-#include "php_phalcon.h"
-
 #include "kernel/debug.h"
 #include "kernel/string.h"
 

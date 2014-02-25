@@ -47,6 +47,7 @@ static const zend_function_entry phalcon_mvc_routerinterface_method_entry[] = {
 	PHP_ABSTRACT_ME(Phalcon_Mvc_RouterInterface, getRoutes, NULL)
 	PHP_ABSTRACT_ME(Phalcon_Mvc_RouterInterface, getRouteById, arginfo_phalcon_mvc_routerinterface_getroutebyid)
 	PHP_ABSTRACT_ME(Phalcon_Mvc_RouterInterface, getRouteByName, arginfo_phalcon_mvc_routerinterface_getroutebyname)
+	PHP_ABSTRACT_ME(Phalcon_Mvc_RouterInterface, isExactControllerName, NULL)
 	PHP_FE_END
 };
 
@@ -244,3 +245,10 @@ PHALCON_DOC_METHOD(Phalcon_Mvc_RouterInterface, getRouteById);
  * @return Phalcon\Mvc\Router\RouteInterface
  */
 PHALCON_DOC_METHOD(Phalcon_Mvc_RouterInterface, getRouteByName);
+
+/**
+ * Returns whether controller name should not be mangled
+ *
+ * @return bool
+ */
+PHALCON_DOC_METHOD(Phalcon_Mvc_RouterInterface, isExactControllerName);

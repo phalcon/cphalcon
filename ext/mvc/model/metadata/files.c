@@ -119,7 +119,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Files, read){
 
 	PHALCON_MM_GROW();
 
-	meta_data_dir = phalcon_fetch_nproperty_this(this_ptr, SL("_metaDataDir"), PH_NOISY_CC);
+	meta_data_dir = phalcon_fetch_nproperty_this(this_ptr, SL("_metaDataDir"), PH_NOISY TSRMLS_CC);
 	
 	PHALCON_INIT_VAR(virtual_key);
 	phalcon_prepare_virtual_path_ex(virtual_key, Z_STRVAL_PP(key), Z_STRLEN_PP(key), '_' TSRMLS_CC);
@@ -151,7 +151,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Files, write){
 
 	PHALCON_MM_GROW();
 
-	meta_data_dir = phalcon_fetch_nproperty_this(this_ptr, SL("_metaDataDir"), PH_NOISY_CC);
+	meta_data_dir = phalcon_fetch_nproperty_this(this_ptr, SL("_metaDataDir"), PH_NOISY TSRMLS_CC);
 	
 	PHALCON_INIT_VAR(virtual_key);
 	phalcon_prepare_virtual_path_ex(virtual_key, Z_STRVAL_PP(key), Z_STRLEN_PP(key), '_' TSRMLS_CC);
@@ -191,7 +191,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Files, reset)
 
 	PHALCON_INIT_VAR(iterator);
 	object_init_ex(iterator, spl_ce_GlobIterator);
-	phalcon_call_method_p1_noret(iterator, "__construct", pattern);
+	PHALCON_CALL_METHOD(NULL, iterator, "__construct", pattern);
 
 	it = spl_ce_GlobIterator->get_iterator(spl_ce_GlobIterator, iterator, 0 TSRMLS_CC);
 	it->funcs->rewind(it TSRMLS_CC);
@@ -221,7 +221,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Files, reset)
 	it->funcs->dtor(it TSRMLS_CC);
 
 	if (!EG(exception)) {
-		PHALCON_CALL_PARENT_NORET(phalcon_mvc_model_metadata_files_ce, getThis(), "reset");
+		PHALCON_CALL_PARENT(NULL, phalcon_mvc_model_metadata_files_ce, getThis(), "reset");
 	}
 
 	PHALCON_MM_RESTORE();

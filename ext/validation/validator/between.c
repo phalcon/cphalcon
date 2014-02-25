@@ -77,8 +77,8 @@ PHALCON_INIT_CLASS(Phalcon_Validation_Validator_Between){
  */
 PHP_METHOD(Phalcon_Validation_Validator_Between, validate){
 
-	zval *validator, *attribute, *value, *allow_empty, *minimum;
-	zval *maximum, *label, *pairs, *valid, *message_str, *prepared, *message, *code;
+	zval *validator, *attribute, *value = NULL, *allow_empty, *minimum;
+	zval *maximum, *label, *pairs, *valid, *message_str, *prepared = NULL, *message, *code;
 	zend_class_entry *ce = Z_OBJCE_P(getThis());
 
 	PHALCON_MM_GROW();
@@ -87,8 +87,7 @@ PHP_METHOD(Phalcon_Validation_Validator_Between, validate){
 	
 	PHALCON_VERIFY_CLASS_EX(validator, phalcon_validation_ce, phalcon_validation_exception_ce, 1);
 
-	PHALCON_OBS_VAR(value);
-	phalcon_call_method_p1_ex(value, &value, validator, "getvalue", attribute);
+	PHALCON_CALL_METHOD(&value, validator, "getvalue", attribute);
 	
 	PHALCON_INIT_VAR(allow_empty);
 	RETURN_MM_ON_FAILURE(phalcon_validation_validator_getoption_helper(ce, allow_empty, getThis(), phalcon_interned_allowEmpty TSRMLS_CC));
@@ -135,13 +134,12 @@ PHP_METHOD(Phalcon_Validation_Validator_Between, validate){
 			ZVAL_LONG(code, 0);
 		}
 
-		PHALCON_OBS_VAR(prepared);
 		PHALCON_CALL_FUNCTION(&prepared, "strtr", message_str, pairs);
 	
 		message = phalcon_validation_message_construct_helper(prepared, attribute, "Between", code TSRMLS_CC);
 		Z_DELREF_P(message);
 	
-		phalcon_call_method_p1_noret(validator, "appendmessage", message);
+		PHALCON_CALL_METHOD(NULL, validator, "appendmessage", message);
 		RETURN_MM_FALSE;
 	}
 	

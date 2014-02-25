@@ -64,22 +64,20 @@ PHALCON_INIT_CLASS(Phalcon_Logger_Formatter_Json){
  */
 PHP_METHOD(Phalcon_Logger_Formatter_Json, format){
 
-	zval *message, *type, *timestamp, *context, *interpolated = NULL, *type_str, *log;
+	zval *message, *type, *timestamp, *context, *interpolated = NULL, *type_str = NULL, *log;
 
 	PHALCON_MM_GROW();
 
 	phalcon_fetch_params(1, 3, 0, &message, &type, &timestamp, &context);
 	
 	if (Z_TYPE_P(context) == IS_ARRAY) {
-		PHALCON_OBS_VAR(interpolated);
-		phalcon_call_method_p2_ex(interpolated, &interpolated, this_ptr, "interpolate", message, context);
+		PHALCON_CALL_METHOD(&interpolated, this_ptr, "interpolate", message, context);
 	}
 	else {
 		interpolated = message;
 	}
 
-	PHALCON_INIT_VAR(type_str);
-	phalcon_call_method_p1(type_str, this_ptr, "gettypestring", type);
+	PHALCON_CALL_METHOD(&type_str, this_ptr, "gettypestring", type);
 	
 	PHALCON_INIT_VAR(log);
 	array_init_size(log, 3);

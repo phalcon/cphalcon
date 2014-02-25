@@ -89,7 +89,7 @@ PHP_METHOD(Phalcon_Mvc_Controller, __construct){
 
 	if (phalcon_method_exists_ex(this_ptr, SS("onconstruct") TSRMLS_CC) == SUCCESS) {
 		PHALCON_MM_GROW();
-		phalcon_call_method_noret(this_ptr, "onconstruct");
+		PHALCON_CALL_METHOD(NULL, this_ptr, "onconstruct");
 		PHALCON_MM_RESTORE();
 	}
 }

@@ -17,8 +17,6 @@
   +------------------------------------------------------------------------+
 */
 
-#include "php_phalcon.h"
-
 #include "loader/exception.h"
 #include "loader/../exception.h"
 #include "kernel/main.h"

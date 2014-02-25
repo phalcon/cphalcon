@@ -103,7 +103,7 @@ ZEND_BEGIN_MODULE_GLOBALS(phalcon)
 	zval *z_one;
 
 	/** Function cache */
-	HashTable *function_cache;
+	HashTable *fcache;
 
 	/** ORM */
 	phalcon_orm_options orm;
