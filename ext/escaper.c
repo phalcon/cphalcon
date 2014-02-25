@@ -108,16 +108,11 @@ PHALCON_INIT_CLASS(Phalcon_Escaper){
  */
 PHP_METHOD(Phalcon_Escaper, setEncoding){
 
-	zval *encoding;
+	zval **encoding;
 
-	phalcon_fetch_params(0, 1, 0, &encoding);
-
-	if (unlikely(Z_TYPE_P(encoding) != IS_STRING)) {
-		PHALCON_THROW_EXCEPTION_STRW(phalcon_escaper_exception_ce, "The character set must be string");
-		return;
-	}
-	phalcon_update_property_this(this_ptr, SL("_encoding"), encoding TSRMLS_CC);
-
+	phalcon_fetch_params_ex(1, 0, &encoding);
+	PHALCON_ENSURE_IS_STRING(encoding);
+	phalcon_update_property_this(this_ptr, SL("_encoding"), *encoding TSRMLS_CC);
 }
 
 /**
@@ -142,16 +137,11 @@ PHP_METHOD(Phalcon_Escaper, getEncoding){
  */
 PHP_METHOD(Phalcon_Escaper, setHtmlQuoteType){
 
-	zval *quote_type;
+	zval **quote_type;
 
-	phalcon_fetch_params(0, 1, 0, &quote_type);
-
-	if (Z_TYPE_P(quote_type) != IS_LONG) {
-		PHALCON_THROW_EXCEPTION_STRW(phalcon_escaper_exception_ce, "The quoting type is not valid");
-		return;
-	}
-	phalcon_update_property_this(this_ptr, SL("_htmlQuoteType"), quote_type TSRMLS_CC);
-
+	phalcon_fetch_params_ex(1, 0, &quote_type);
+	PHALCON_ENSURE_IS_LONG(quote_type);
+	phalcon_update_property_this(this_ptr, SL("_htmlQuoteType"), *quote_type TSRMLS_CC);
 }
 
 /**
@@ -412,5 +402,4 @@ PHP_METHOD(Phalcon_Escaper, escapeUrl){
 	phalcon_fetch_params(0, 1, 0, &url);
 
 	phalcon_raw_url_encode(return_value, url);
-	return;
 }
