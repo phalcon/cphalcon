@@ -19,6 +19,7 @@
 
 #include "arr.h"
 
+#include <ext/standard/php_array.h>
 #include <ext/spl/spl_array.h>
 
 #include "kernel/main.h"
@@ -28,6 +29,7 @@
 #include "kernel/array.h"
 #include "kernel/operators.h"
 #include "kernel/concat.h"
+#include "kernel/object.h"
 #include "kernel/hash.h"
 
 /**
