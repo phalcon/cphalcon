@@ -649,7 +649,7 @@ PHP_METHOD(Phalcon_Arr, unshift){
 
 	phalcon_array_update_zval(&tmp1, key, val, PH_COPY | PH_SEPARATE);
 
-	PHALCON_CALL_FUNCTION(&return_value, "array_reverse", tmp1, tmp);
+	PHALCON_CALL_FUNCTION(return_value_ptr, "array_reverse", tmp1, tmp);
 
 	PHALCON_MM_RESTORE();
 }

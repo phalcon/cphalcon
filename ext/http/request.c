@@ -960,7 +960,7 @@ PHP_METHOD(Phalcon_Http_Request, getBsonRawBody){
 
 	PHALCON_CALL_METHOD(&raw_body, this_ptr, "getrawbody");
 	if (Z_TYPE_P(raw_body) == IS_STRING) {
-		PHALCON_CALL_FUNCTION(&return_value, "bson_decode", raw_body);
+		PHALCON_CALL_FUNCTION(return_value_ptr, "bson_decode", raw_body);
 		RETURN_MM();
 	}
 	
