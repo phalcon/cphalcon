@@ -2259,7 +2259,7 @@ PHP_METHOD(Phalcon_Mvc_Model, validate){
 	}
 
 	if (zend_is_true(allow_empty)) {
-		HALCON_INIT_VAR(option);
+		PHALCON_INIT_VAR(option);
 		ZVAL_STRING(option, "field", 1);
 
 		PHALCON_CALL_METHOD(&field_name, validator, "getoption", option);

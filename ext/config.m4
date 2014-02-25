@@ -97,6 +97,7 @@ loader/exception.c \
 cryptinterface.c \
 db.c \
 text.c \
+arr.c \
 debug.c \
 tag.c \
 mvc/controller.c \
@@ -188,6 +189,7 @@ mvc/model/validator/url.c \
 mvc/model/validator/regex.c \
 mvc/model/validator/numericality.c \
 mvc/model/validator/stringlength.c \
+mvc/model/validator/json.c \
 mvc/model/resultset/complex.c \
 mvc/model/resultset/simple.c \
 mvc/model/behavior/timestampable.c \
