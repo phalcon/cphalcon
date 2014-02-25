@@ -132,6 +132,7 @@ static const zend_function_entry phalcon_http_request_method_entry[] = {
 	PHP_ME(Phalcon_Http_Request, isSecureRequest, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Http_Request, getRawBody, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Http_Request, getJsonRawBody, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Http_Request, getBsonRawBody, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Http_Request, getServerAddress, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Http_Request, getServerName, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Http_Request, getHttpHost, NULL, ZEND_ACC_PUBLIC)
@@ -939,6 +940,26 @@ PHP_METHOD(Phalcon_Http_Request, getJsonRawBody){
 	PHALCON_CALL_METHOD(&raw_body, this_ptr, "getrawbody");
 	if (Z_TYPE_P(raw_body) == IS_STRING) {
 		RETURN_MM_ON_FAILURE(phalcon_json_decode(return_value, raw_body, ac TSRMLS_CC));
+		RETURN_MM();
+	}
+	
+	PHALCON_MM_RESTORE();
+}
+
+/**
+ * Gets decoded BSON HTTP raw request body
+ *
+ * @return string
+ */
+PHP_METHOD(Phalcon_Http_Request, getBsonRawBody){
+
+	zval *raw_body = NULL;
+
+	PHALCON_MM_GROW();
+
+	PHALCON_CALL_METHOD(&raw_body, this_ptr, "getrawbody");
+	if (Z_TYPE_P(raw_body) == IS_STRING) {
+		PHALCON_CALL_FUNCTION(&return_value, "bson_decode", raw_body);
 		RETURN_MM();
 	}
 	
