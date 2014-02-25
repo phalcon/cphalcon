@@ -20,34 +20,37 @@
 
 class BagTest extends PHPUnit_Framework_TestCase
 {
-	/**
-	 * @covers \Phalcon\Session\Bag::get()
-	 * @covers \Phalcon\Session\Bag::set()
-	 * @covers \Phalcon\Session\Bag::__get()
-	 * @covers \Phalcon\Session\Bag::__set()
-	 */
-	public function testGetSet()
-	{
-		\Phalcon\DI::reset();
-		new \Phalcon\DI\FactoryDefault();
-		@session_start();
+    /**
+     * @covers \Phalcon\Session\Bag::get()
+     * @covers \Phalcon\Session\Bag::set()
+     * @covers \Phalcon\Session\Bag::__get()
+     * @covers \Phalcon\Session\Bag::__set()
+     */
+    public function testGetSet()
+    {
+        \Phalcon\DI::reset();
+        new \Phalcon\DI\FactoryDefault();
+        @session_start();
 
-		// Using getters and setters.
+        // Using getters and setters.
 
-		$bag = new Phalcon\Session\Bag('test1');
-		$bag->set('a', array('b' => 'c'));
-		$this->assertEquals(array('b' => 'c'), $bag->get('a'));
+        $bag = new Phalcon\Session\Bag('test1');
+        $bag->set('a', array('b' => 'c'));
+        $this->assertEquals(array('b' => 'c'), $bag->get('a'));
+        $this->assertEquals(array('b' => 'c'), $_SESSION['test1']['a']);
 
-		// Using direct access.
+        // Using direct access.
 
-		$bag        = new Phalcon\Session\Bag('test2');
-		$bag->{'a'} = array('b' => 'c');
-		$this->assertEquals(array('b' => 'c'), $bag->{'a'});
+        $bag        = new Phalcon\Session\Bag('test2');
+        $bag->{'a'} = array('b' => 'c');
+        $this->assertEquals(array('b' => 'c'), $bag->{'a'});
+        $this->assertEquals(array('b' => 'c'), $_SESSION['test2']['a']);
 
-		// Using direct access with initialising a variable.
+        // Using direct access with initialising a variable.
 
-		$bag             = new Phalcon\Session\Bag('test3');
-		$bag->{'a'}['b'] = 'c';
-		$this->assertEquals(array('b' => 'c'), $bag->{'a'});
-	}
+        $bag             = new Phalcon\Session\Bag('test3');
+        $bag->{'a'}['b'] = 'c';
+        $this->assertEquals(array('b' => 'c'), $bag->{'a'});
+        $this->assertEquals(array('b' => 'c'), $_SESSION['test3']['a']);
+    }
 }
