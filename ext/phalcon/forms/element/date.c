@@ -56,7 +56,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Forms_Element_Date) {
 PHP_METHOD(Phalcon_Forms_Element_Date, render) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
-	zval *attributes = NULL, *_0;
+	zval *attributes = NULL, *_0 = NULL;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 1, &attributes);
@@ -66,10 +66,9 @@ PHP_METHOD(Phalcon_Forms_Element_Date, render) {
 	}
 
 
-	ZEPHIR_INIT_VAR(_0);
-	zephir_call_method_p1(_0, this_ptr, "prepareattributes", attributes);
+	ZEPHIR_CALL_METHOD(&_0, this_ptr, "prepareattributes", NULL, attributes);
 	zephir_check_call_status();
-	zephir_call_static_p1(return_value, "Phalcon\\Tag", "datefield", _0);
+	ZEPHIR_RETURN_CALL_CE_STATIC(phalcon_tag_ce, "datefield", NULL, _0);
 	zephir_check_call_status();
 	RETURN_MM();
 

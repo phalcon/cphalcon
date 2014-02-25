@@ -121,7 +121,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Message, __construct) {
 	zephir_update_property_this(this_ptr, SL("_message"), message TSRMLS_CC);
 	zephir_update_property_this(this_ptr, SL("_field"), field TSRMLS_CC);
 	zephir_update_property_this(this_ptr, SL("_type"), type TSRMLS_CC);
-	if ((Z_TYPE_P(model) == IS_OBJECT)) {
+	if (Z_TYPE_P(model) == IS_OBJECT) {
 		zephir_update_property_this(this_ptr, SL("_model"), model TSRMLS_CC);
 	}
 	ZEPHIR_MM_RESTORE();
@@ -327,7 +327,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Message, __set_state) {
 	zephir_array_fetch_string(&_0, message, SL("_message"), PH_NOISY | PH_READONLY TSRMLS_CC);
 	zephir_array_fetch_string(&_1, message, SL("_field"), PH_NOISY | PH_READONLY TSRMLS_CC);
 	zephir_array_fetch_string(&_2, message, SL("_type"), PH_NOISY | PH_READONLY TSRMLS_CC);
-	zephir_call_method_p3_noret(return_value, "__construct", _0, _1, _2);
+	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, _0, _1, _2);
 	zephir_check_call_status();
 	RETURN_MM();
 

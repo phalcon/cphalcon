@@ -580,11 +580,11 @@ void zephir_fast_trim(zval *return_value, zval *str, zval *charlist, int where T
 			str = &copy;
 		}
 	}
-        if (charlist && Z_TYPE_P(charlist) == IS_STRING) {
-            php_trim(Z_STRVAL_P(str), Z_STRLEN_P(str), Z_STRVAL_P(charlist), Z_STRLEN_P(charlist), return_value, where TSRMLS_CC);
-        } else {
-            php_trim(Z_STRVAL_P(str), Z_STRLEN_P(str), NULL, 0, return_value, where TSRMLS_CC);
-        }
+		if (charlist && Z_TYPE_P(charlist) == IS_STRING) {
+			php_trim(Z_STRVAL_P(str), Z_STRLEN_P(str), Z_STRVAL_P(charlist), Z_STRLEN_P(charlist), return_value, where TSRMLS_CC);
+		} else {
+			php_trim(Z_STRVAL_P(str), Z_STRLEN_P(str), NULL, 0, return_value, where TSRMLS_CC);
+		}
 
 	if (use_copy) {
 		zval_dtor(&copy);
@@ -894,13 +894,13 @@ void zephir_remove_extra_slashes(zval *return_value, const zval *str) {
  */
 int zephir_spprintf(char **message, int max_len, char *format, ...)
 {
-    va_list arg;
-    int len;
+	va_list arg;
+	int len;
 
-    va_start(arg, format);
-    len = vspprintf(message, max_len, format, arg);
-    va_end(arg);
-    return len;
+	va_start(arg, format);
+	len = vspprintf(message, max_len, format, arg);
+	va_end(arg);
+	return len;
 }
 
 /**
@@ -922,54 +922,54 @@ void zephir_substr(zval *return_value, zval *str, long f, long l) {
 		RETURN_FALSE;
 	}
 
-        long str_len = Z_STRLEN_P(str);
+		long str_len = Z_STRLEN_P(str);
 
-        if ((l < 0 && -l > str_len)) {
-            RETURN_FALSE;
-        } else if (l > str_len) {
-            l = str_len;
-        } else if (l == 0) {
-            l = str_len;
-        }
+		if ((l < 0 && -l > str_len)) {
+			RETURN_FALSE;
+		} else if (l > str_len) {
+			l = str_len;
+		} else if (l == 0) {
+			l = str_len;
+		}
 
-        if (f > str_len) {
-            RETURN_FALSE;
-        } else if (f < 0 && -f > str_len) {
-            f = 0;
-        }
+		if (f > str_len) {
+			RETURN_FALSE;
+		} else if (f < 0 && -f > str_len) {
+			f = 0;
+		}
 
-        if (l < 0 && (l + str_len - f) < 0) {
-            RETURN_FALSE;
-        }
+		if (l < 0 && (l + str_len - f) < 0) {
+			RETURN_FALSE;
+		}
 
 
-        /* if "from" position is negative, count start position from the end
-         * of the string
-         */
-        if (f < 0) {
-            f = str_len + f;
-            if (f < 0) {
-                f = 0;
-            }
-        }
+		/* if "from" position is negative, count start position from the end
+		 * of the string
+		 */
+		if (f < 0) {
+			f = str_len + f;
+			if (f < 0) {
+				f = 0;
+			}
+		}
 
-        /* if "length" position is negative, set it to the length
-         * needed to stop that many chars from the end of the string
-         */
-        if (l < 0) {
-            l = (str_len - f) + l;
-            if (l < 0) {
-                l = 0;
-            }
-        }
+		/* if "length" position is negative, set it to the length
+		 * needed to stop that many chars from the end of the string
+		 */
+		if (l < 0) {
+			l = (str_len - f) + l;
+			if (l < 0) {
+				l = 0;
+			}
+		}
 
-        if (f >= str_len) {
-            RETURN_FALSE;
-        }
+		if (f >= str_len) {
+			RETURN_FALSE;
+		}
 
-        if ((f + l) > str_len) {
-            l = str_len - f;
-        }
+		if ((f + l) > str_len) {
+			l = str_len - f;
+		}
 
 	if (l <= 0){
 		RETURN_EMPTY_STRING();
@@ -1061,18 +1061,18 @@ zval *zephir_eol(int eol TSRMLS_DC) {
 	/**
 	 * Initialize local var
 	 */
-    ZEPHIR_INIT_VAR(local_eol);
+	ZEPHIR_INIT_VAR(local_eol);
 
-    /**
-     * Check if the eol is true and return PHP_EOL or empty string
-     */
-    if (eol) {
-	    ZVAL_STRING(local_eol, PHP_EOL, 1);
-    } else {
-        ZVAL_EMPTY_STRING(local_eol);
-    }
+	/**
+	 * Check if the eol is true and return PHP_EOL or empty string
+	 */
+	if (eol) {
+		ZVAL_STRING(local_eol, PHP_EOL, 1);
+	} else {
+		ZVAL_EMPTY_STRING(local_eol);
+	}
 
-    return local_eol;
+	return local_eol;
 }
 
 /**
@@ -1190,11 +1190,11 @@ void zephir_preg_match(zval *return_value, zval **return_value_ptr, zval *regex,
 		RETURN_FALSE;
 	}
 
-        if (flags != 0 || offset != 0) {
-            php_pcre_match_impl(pce, Z_STRVAL_P(subject), Z_STRLEN_P(subject), return_value, matches, global, 1, flags, offset TSRMLS_CC);
-        } else {
-            php_pcre_match_impl(pce, Z_STRVAL_P(subject), Z_STRLEN_P(subject), return_value, matches, global, 0, 0, 0 TSRMLS_CC);
-        }
+		if (flags != 0 || offset != 0) {
+			php_pcre_match_impl(pce, Z_STRVAL_P(subject), Z_STRLEN_P(subject), return_value, matches, global, 1, flags, offset TSRMLS_CC);
+		} else {
+			php_pcre_match_impl(pce, Z_STRVAL_P(subject), Z_STRLEN_P(subject), return_value, matches, global, 0, 0, 0 TSRMLS_CC);
+		}
 
 	if (use_copy) {
 		zval_dtor(&copy);
@@ -1209,19 +1209,19 @@ void zephir_preg_match(zval *return_value, zval **return_value_ptr, zval *regex,
 		Z_SET_ISREF_P(matches);
 	}
 
-        if (global) {
-            if (flags != 0 || offset != 0) {
-                zephir_call_func_params(return_value, return_value_ptr, SL("preg_match_all") TSRMLS_CC, (matches ? 3 : 2), regex, subject, matches, flags, offset);
-            } else {
-                zephir_call_func_params(return_value, return_value_ptr, SL("preg_match_all") TSRMLS_CC, (matches ? 3 : 2), regex, subject, matches);
-            }
-        } else {
-            if (flags != 0 || offset != 0) {
-                zephir_call_func_params(return_value, return_value_ptr, SL("preg_match") TSRMLS_CC, (matches ? 3 : 2), regex, subject, matches, flags, offset);
-            } else {
-                zephir_call_func_params(return_value, return_value_ptr, SL("preg_match") TSRMLS_CC, (matches ? 3 : 2), regex, subject, matches);
-            }
-        }
+	if (global) {
+		if (flags != 0 || offset != 0) {
+			//zephir_call_func_params(return_value, return_value_ptr, SL("preg_match_all") TSRMLS_CC, (matches ? 3 : 2), regex, subject, matches, flags, offset);
+		} else {
+			//zephir_call_func_params(return_value, return_value_ptr, SL("preg_match_all") TSRMLS_CC, (matches ? 3 : 2), regex, subject, matches);
+		}
+	} else {
+		if (flags != 0 || offset != 0) {
+			//zephir_call_func_params(return_value, return_value_ptr, SL("preg_match") TSRMLS_CC, (matches ? 3 : 2), regex, subject, matches, flags, offset);
+		} else {
+			//zephir_call_func_params(return_value, return_value_ptr, SL("preg_match") TSRMLS_CC, (matches ? 3 : 2), regex, subject, matches);
+		}
+	}
 
 	if (matches) {
 		Z_UNSET_ISREF_P(matches);
@@ -1232,16 +1232,18 @@ void zephir_preg_match(zval *return_value, zval **return_value_ptr, zval *regex,
 
 #ifdef ZEPHIR_USE_PHP_JSON
 
-void zephir_json_encode(zval *return_value, zval **return_value_ptr, zval *v, int opts TSRMLS_DC)
+int zephir_json_encode(zval *return_value, zval **return_value_ptr, zval *v, int opts TSRMLS_DC)
 {
 	smart_str buf = { NULL, 0, 0 };
 
 	php_json_encode(&buf, v, opts TSRMLS_CC);
 	smart_str_0(&buf);
 	ZVAL_STRINGL(return_value, buf.c, buf.len, 0);
+
+	return SUCCESS;
 }
 
-void zephir_json_decode(zval *return_value, zval **return_value_ptr, zval *v, zend_bool assoc TSRMLS_DC)
+int zephir_json_decode(zval *return_value, zval **return_value_ptr, zval *v, zend_bool assoc TSRMLS_DC)
 {
 	zval copy;
 	int use_copy = 0;
@@ -1258,30 +1260,38 @@ void zephir_json_decode(zval *return_value, zval **return_value_ptr, zval *v, ze
 	if (unlikely(use_copy)) {
 		zval_dtor(&copy);
 	}
+
+	return SUCCESS;
 }
 
 #else
 
-void zephir_json_encode(zval *return_value, zval **return_value_ptr, zval *v, int opts TSRMLS_DC)
+int zephir_json_encode(zval *return_value, zval **return_value_ptr, zval *v, int opts TSRMLS_DC)
 {
-	zval *zopts;
+	zval zopts;
+	zval *params[2];
 
-	ALLOC_INIT_ZVAL(zopts);
-	ZVAL_LONG(zopts, opts);
+	ZEPHIR_SINIT_VAR(zopts);
+	ZVAL_LONG(&zopts, opts);
 
-	zephir_call_func_params(return_value, return_value_ptr, ZEND_STRL("json_encode") TSRMLS_CC, 2, v, zopts);
-	zval_ptr_dtor(&zopts);
+	params[0] = v;
+	params[1] = &zopts;
+
+	return zephir_return_call_function(return_value, NULL, ZEND_STRL("json_encode"), NULL, 2, params TSRMLS_CC);
 }
 
-void zephir_json_decode(zval *return_value, zval **return_value_ptr, zval *v, zend_bool assoc TSRMLS_DC)
+int zephir_json_decode(zval *return_value, zval **return_value_ptr, zval *v, zend_bool assoc TSRMLS_DC)
 {
-	zval *zassoc;
+	zval zassoc;
+	zval *params[2];
 
-	ALLOC_INIT_ZVAL(zassoc);
-	ZVAL_BOOL(zassoc, assoc);
+	ZEPHIR_SINIT_VAR(zassoc);
+	ZVAL_BOOL(&zassoc, assoc);
 
-	zephir_call_func_params(return_value, return_value_ptr, ZEND_STRL("json_decode") TSRMLS_CC, 2, v, zassoc);
-	zval_ptr_dtor(&zassoc);
+	params[0] = v;
+	params[1] = &zassoc;
+
+	return zephir_return_call_function(return_value, NULL, ZEND_STRL("json_decode"), NULL, 2, params TSRMLS_CC);
 }
 
 #endif /* ZEPHIR_USE_PHP_JSON */
@@ -1504,6 +1514,27 @@ void zephir_stripslashes(zval *return_value, zval *str TSRMLS_DC)
 
 	ZVAL_STRINGL(return_value, Z_STRVAL_P(str), Z_STRLEN_P(str), 1);
 	php_stripslashes(Z_STRVAL_P(return_value), &Z_STRLEN_P(return_value) TSRMLS_CC);
+
+	if (unlikely(use_copy)) {
+		zval_dtor(&copy);
+	}
+}
+
+void zephir_stripcslashes(zval *return_value, zval *str TSRMLS_DC)
+{
+
+	zval copy;
+	int use_copy = 0;
+
+	if (unlikely(Z_TYPE_P(str) != IS_STRING)) {
+		zend_make_printable_zval(str, &copy, &use_copy);
+		if (use_copy) {
+			str = &copy;
+		}
+	}
+
+	ZVAL_STRINGL(return_value, Z_STRVAL_P(str), Z_STRLEN_P(str), 1);
+	php_stripcslashes(Z_STRVAL_P(return_value), &Z_STRLEN_P(return_value));
 
 	if (unlikely(use_copy)) {
 		zval_dtor(&copy);

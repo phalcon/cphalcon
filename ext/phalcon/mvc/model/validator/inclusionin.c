@@ -80,9 +80,11 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_Validator_Inclusionin) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_Validator_Inclusionin, validate) {
 
-	zend_bool _2;
+	zephir_nts_static zephir_fcall_cache_entry *_6 = NULL;
+	zval *_4;
+	zend_bool _3;
 	int ZEPHIR_LAST_CALL_STATUS;
-	zval *record, *field, *visSet, *domain, *value, *message = NULL, *replacePairs, *_0, *_1, *_3;
+	zval *record, *field = NULL, *domain = NULL, *value = NULL, *message = NULL, *_0, *_1 = NULL, *_2 = NULL, *_5 = NULL;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &record);
@@ -94,69 +96,68 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Inclusionin, validate) {
 		return;
 	}
 	ZEPHIR_INIT_VAR(_0);
-	ZVAL_STRING(_0, "field", 1);
-	ZEPHIR_INIT_VAR(field);
-	zephir_call_method_p1(field, this_ptr, "getoption", _0);
+	ZVAL_STRING(_0, "field", 0);
+	ZEPHIR_CALL_METHOD(&field, this_ptr, "getoption", NULL, _0);
+	zephir_check_temp_parameter(_0);
 	zephir_check_call_status();
-	if ((Z_TYPE_P(field) != IS_STRING)) {
+	if (Z_TYPE_P(field) != IS_STRING) {
 		ZEPHIR_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Field name must be a string");
 		return;
 	}
 	ZEPHIR_INIT_BNVAR(_0);
-	ZVAL_STRING(_0, "domain", 1);
-	ZEPHIR_INIT_VAR(visSet);
-	zephir_call_method_p1(visSet, this_ptr, "issetoption", _0);
+	ZVAL_STRING(_0, "domain", 0);
+	ZEPHIR_CALL_METHOD(&_1, this_ptr, "issetoption", NULL, _0);
+	zephir_check_temp_parameter(_0);
 	zephir_check_call_status();
-	if (ZEPHIR_IS_FALSE(visSet)) {
+	if (ZEPHIR_IS_FALSE(_1)) {
 		ZEPHIR_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "The option 'domain' is required for this validator");
 		return;
 	}
 	ZEPHIR_INIT_BNVAR(_0);
-	ZVAL_STRING(_0, "domain", 1);
-	ZEPHIR_INIT_VAR(domain);
-	zephir_call_method_p1(domain, this_ptr, "getoption", _0);
+	ZVAL_STRING(_0, "domain", 0);
+	ZEPHIR_CALL_METHOD(&domain, this_ptr, "getoption", NULL, _0);
+	zephir_check_temp_parameter(_0);
 	zephir_check_call_status();
-	if ((Z_TYPE_P(domain) != IS_ARRAY)) {
+	if (Z_TYPE_P(domain) != IS_ARRAY) {
 		ZEPHIR_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Option 'domain' must be an array");
 		return;
 	}
-	ZEPHIR_INIT_VAR(value);
-	zephir_call_method_p1(value, record, "readattribute", field);
+	ZEPHIR_CALL_METHOD(&value, record, "readattribute", NULL, field);
 	zephir_check_call_status();
 	ZEPHIR_INIT_BNVAR(_0);
-	ZEPHIR_INIT_VAR(_1);
-	ZVAL_STRING(_1, "allowEmpty", 1);
-	zephir_call_method_p1(_0, this_ptr, "issetoption", _1);
+	ZVAL_STRING(_0, "allowEmpty", 0);
+	ZEPHIR_CALL_METHOD(&_2, this_ptr, "issetoption", NULL, _0);
+	zephir_check_temp_parameter(_0);
 	zephir_check_call_status();
-	_2 = zephir_is_true(_0);
-	if (_2) {
-		_2 = ZEPHIR_IS_EMPTY(value);
+	_3 = zephir_is_true(_2);
+	if (_3) {
+		_3 = ZEPHIR_IS_EMPTY(value);
 	}
-	if (_2) {
+	if (_3) {
 		RETURN_MM_BOOL(1);
 	}
 	if (!(zephir_fast_in_array(value, domain TSRMLS_CC))) {
-		ZEPHIR_INIT_BNVAR(_1);
-		ZVAL_STRING(_1, "message", 1);
-		ZEPHIR_INIT_VAR(message);
-		zephir_call_method_p1(message, this_ptr, "getoption", _1);
+		ZEPHIR_INIT_BNVAR(_0);
+		ZVAL_STRING(_0, "message", 0);
+		ZEPHIR_CALL_METHOD(&message, this_ptr, "getoption", NULL, _0);
+		zephir_check_temp_parameter(_0);
 		zephir_check_call_status();
-		ZEPHIR_INIT_VAR(replacePairs);
-		array_init_size(replacePairs, 3);
-		zephir_array_update_string(&replacePairs, SL(":field"), &field, PH_COPY | PH_SEPARATE);
-		ZEPHIR_INIT_BNVAR(_1);
-		zephir_fast_join_str(_1, SL(", "), domain TSRMLS_CC);
-		zephir_array_update_string(&replacePairs, SL(":domain"), &_1, PH_COPY | PH_SEPARATE);
 		if (ZEPHIR_IS_EMPTY(message)) {
-			ZEPHIR_INIT_NVAR(message);
+			ZEPHIR_INIT_VAR(message);
 			ZVAL_STRING(message, "Value of field :field must be part of list: :domain", 1);
 		}
-		ZEPHIR_INIT_BNVAR(_1);
-		zephir_call_func_p2(_1, "strtr", message, replacePairs);
+		ZEPHIR_INIT_VAR(_4);
+		array_init_size(_4, 3);
+		zephir_array_update_string(&_4, SL(":field"), &field, PH_COPY | PH_SEPARATE);
+		ZEPHIR_INIT_BNVAR(_0);
+		zephir_fast_join_str(_0, SL(", "), domain TSRMLS_CC);
+		zephir_array_update_string(&_4, SL(":domain"), &_0, PH_COPY | PH_SEPARATE);
+		ZEPHIR_CALL_FUNCTION(&_5, "strtr", &_6, message, _4);
 		zephir_check_call_status();
-		ZEPHIR_INIT_VAR(_3);
-		ZVAL_STRING(_3, "Inclusion", 1);
-		zephir_call_method_p3_noret(this_ptr, "appendmessage", _1, field, _3);
+		ZEPHIR_INIT_BNVAR(_0);
+		ZVAL_STRING(_0, "Inclusion", 0);
+		ZEPHIR_CALL_METHOD(NULL, this_ptr, "appendmessage", NULL, _5, field, _0);
+		zephir_check_temp_parameter(_0);
 		zephir_check_call_status();
 		RETURN_MM_BOOL(0);
 	}

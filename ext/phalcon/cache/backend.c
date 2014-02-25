@@ -161,7 +161,7 @@ PHP_METHOD(Phalcon_Cache_Backend, start) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
 	zend_bool fresh;
-	zval *keyName, *lifetime = NULL, *existingCache, *_0;
+	zval *keyName, *lifetime = NULL, *existingCache = NULL, *_0;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 1, &keyName, &lifetime);
@@ -171,20 +171,19 @@ PHP_METHOD(Phalcon_Cache_Backend, start) {
 	}
 
 
-	ZEPHIR_INIT_VAR(existingCache);
-	zephir_call_method_p2(existingCache, this_ptr, "get", keyName, lifetime);
+	ZEPHIR_CALL_METHOD(&existingCache, this_ptr, "get", NULL, keyName, lifetime);
 	zephir_check_call_status();
-	if ((Z_TYPE_P(existingCache) == IS_NULL)) {
+	if (Z_TYPE_P(existingCache) == IS_NULL) {
 		fresh = 1;
 		_0 = zephir_fetch_nproperty_this(this_ptr, SL("_frontend"), PH_NOISY_CC);
-		zephir_call_method_noret(_0, "start");
+		ZEPHIR_CALL_METHOD(NULL, _0, "start", NULL);
 		zephir_check_call_status();
 	} else {
 		fresh = 0;
 	}
 	zephir_update_property_this(this_ptr, SL("_fresh"), fresh ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
 	zephir_update_property_this(this_ptr, SL("_started"), (1) ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
-	if ((Z_TYPE_P(lifetime) != IS_NULL)) {
+	if (Z_TYPE_P(lifetime) != IS_NULL) {
 		zephir_update_property_this(this_ptr, SL("_lastLifetime"), lifetime TSRMLS_CC);
 	}
 	RETURN_CCTOR(existingCache);
@@ -214,7 +213,7 @@ PHP_METHOD(Phalcon_Cache_Backend, stop) {
 
 	if ((stopBuffer == 1)) {
 		_0 = zephir_fetch_nproperty_this(this_ptr, SL("_frontend"), PH_NOISY_CC);
-		zephir_call_method_noret(_0, "stop");
+		ZEPHIR_CALL_METHOD(NULL, _0, "stop", NULL);
 		zephir_check_call_status();
 	}
 	zephir_update_property_this(this_ptr, SL("_started"), (0) ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false) TSRMLS_CC);

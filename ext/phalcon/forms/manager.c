@@ -74,13 +74,13 @@ PHP_METHOD(Phalcon_Forms_Manager, create) {
 	}
 
 
-	if ((Z_TYPE_P(name) != IS_STRING)) {
+	if (Z_TYPE_P(name) != IS_STRING) {
 		ZEPHIR_THROW_EXCEPTION_STR(phalcon_forms_exception_ce, "The form name must be string");
 		return;
 	}
 	ZEPHIR_INIT_VAR(form);
 	object_init_ex(form, phalcon_forms_form_ce);
-	zephir_call_method_p1_noret(form, "__construct", entity);
+	ZEPHIR_CALL_METHOD(NULL, form, "__construct", NULL, entity);
 	zephir_check_call_status();
 	zephir_update_property_array(this_ptr, SL("_forms"), name, form TSRMLS_CC);
 	RETURN_CCTOR(form);
@@ -113,7 +113,7 @@ PHP_METHOD(Phalcon_Forms_Manager, get) {
 		object_init_ex(_0, phalcon_forms_exception_ce);
 		ZEPHIR_INIT_VAR(_1);
 		ZEPHIR_CONCAT_SVS(_1, "There is no form with name='", name, "'");
-		zephir_call_method_p1_noret(_0, "__construct", _1);
+		ZEPHIR_CALL_METHOD(NULL, _0, "__construct", NULL, _1);
 		zephir_check_call_status();
 		zephir_throw_exception(_0 TSRMLS_CC);
 		ZEPHIR_MM_RESTORE();
@@ -150,7 +150,7 @@ PHP_METHOD(Phalcon_Forms_Manager, has) {
  *
  * @param string name
  * @param Phalcon\Forms\Form form
- * @return Phalcon\Forms\Form
+ * @return Phalcon\Forms\FormManager
  */
 PHP_METHOD(Phalcon_Forms_Manager, set) {
 

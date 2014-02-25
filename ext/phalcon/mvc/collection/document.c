@@ -15,6 +15,7 @@
 #include "kernel/object.h"
 #include "kernel/operators.h"
 #include "kernel/memory.h"
+#include "kernel/array.h"
 #include "kernel/exception.h"
 #include "ext/spl/spl_exceptions.h"
 
@@ -80,17 +81,16 @@ PHP_METHOD(Phalcon_Mvc_Collection_Document, offsetExists) {
  */
 PHP_METHOD(Phalcon_Mvc_Collection_Document, offsetGet) {
 
-	zval *index, *_0;
+	zval *index, *value;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &index);
 
 
 
-	if (zephir_isset_property_zval(this_ptr, index TSRMLS_CC)) {
-		ZEPHIR_OBS_VAR(_0);
-		zephir_read_property_zval(&_0, this_ptr, index, PH_NOISY_CC);
-		RETURN_CCTOR(_0);
+	ZEPHIR_OBS_VAR(value);
+	if (zephir_read_property_zval(&value, this_ptr, index, PH_SILENT_CC)) {
+		RETURN_CCTOR(value);
 	}
 	ZEPHIR_THROW_EXCEPTION_STR(phalcon_mvc_collection_exception_ce, "The index does not exist in the row");
 	return;
@@ -146,17 +146,16 @@ PHP_METHOD(Phalcon_Mvc_Collection_Document, offsetUnset) {
  */
 PHP_METHOD(Phalcon_Mvc_Collection_Document, readAttribute) {
 
-	zval *attribute, *_0;
+	zval *attribute, *value;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &attribute);
 
 
 
-	if (zephir_isset_property_zval(this_ptr, attribute TSRMLS_CC)) {
-		ZEPHIR_OBS_VAR(_0);
-		zephir_read_property_zval(&_0, this_ptr, attribute, PH_NOISY_CC);
-		RETURN_CCTOR(_0);
+	ZEPHIR_OBS_VAR(value);
+	if (zephir_read_property_zval(&value, this_ptr, attribute, PH_SILENT_CC)) {
+		RETURN_CTOR(value);
 	}
 	RETURN_MM_NULL();
 

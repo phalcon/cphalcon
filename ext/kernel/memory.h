@@ -185,6 +185,31 @@ void ZEPHIR_FASTCALL zephir_copy_ctor(zval *destiny, zval *origin);
 		zephir_memory_observe(&z TSRMLS_CC); \
 	}
 
+#define ZEPHIR_OBSERVE_OR_NULLIFY_PPZV(ppzv) \
+	do { \
+		zval **tmp_ = (ppzv); \
+		if (tmp_ != NULL) { \
+			if (*tmp_) { \
+				zval_ptr_dtor(tmp_); \
+				*tmp_ = NULL; \
+			} \
+			else { \
+				zephir_memory_observe((ppzv) TSRMLS_CC); \
+			} \
+		} \
+	} while (0)
+
+#define ZEPHIR_OBSERVE_OR_NULLIFY_VAR(z) \
+	do { \
+		if (z) { \
+			zval_ptr_dtor(&z); \
+			z = NULL; \
+		} \
+		else { \
+			zephir_memory_observe(&z TSRMLS_CC); \
+		} \
+	} while (0)
+
 #define ZEPHIR_SEPARATE_ARRAY(a) \
 	{ \
 		if (Z_REFCOUNT_P(a) > 1) { \
@@ -200,17 +225,15 @@ void ZEPHIR_FASTCALL zephir_copy_ctor(zval *destiny, zval *origin);
 #define ZEPHIR_SEPARATE(z) SEPARATE_ZVAL(&z)
 
 #define ZEPHIR_SEPARATE_PARAM(z) \
-	{\
+	do { \
 		zval *orig_ptr = z;\
-		if (Z_REFCOUNT_P(orig_ptr) > 1) {\
-			zephir_memory_observe(&z TSRMLS_CC);\
-			ALLOC_ZVAL(z);\
-			*z = *orig_ptr;\
-			zval_copy_ctor(z);\
-			Z_SET_REFCOUNT_P(z, 1);\
-			Z_UNSET_ISREF_P(z);\
-		}\
-	}
+		zephir_memory_observe(&z TSRMLS_CC);\
+		ALLOC_ZVAL(z);\
+		*z = *orig_ptr;\
+		zval_copy_ctor(z);\
+		Z_SET_REFCOUNT_P(z, 1);\
+		Z_UNSET_ISREF_P(z);\
+	} while (0)
 
 #define ZEPHIR_SEPARATE_PARAM_NMO(z) { \
 		zval *orig_ptr = z; \

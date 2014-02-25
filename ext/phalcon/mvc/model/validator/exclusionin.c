@@ -80,53 +80,56 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_Validator_Exclusionin) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_Validator_Exclusionin, validate) {
 
+	zephir_nts_static zephir_fcall_cache_entry *_6 = NULL;
+	zval *_4;
 	zend_bool _3;
 	int ZEPHIR_LAST_CALL_STATUS;
-	zval *record, *field, *domain, *value, *message = NULL, *replacePairs, *_0, *_1, *_2, *_4;
+	zval *record, *field = NULL, *domain = NULL, *value = NULL, *message = NULL, *_0, *_1 = NULL, *_2 = NULL, *_5 = NULL;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &record);
+
+
 
 	if (!(zephir_instance_of_ev(record, phalcon_mvc_modelinterface_ce TSRMLS_CC))) {
 		ZEPHIR_THROW_EXCEPTION_STR(spl_ce_InvalidArgumentException, "Parameter 'record' must be an instance of 'Phalcon\\Mvc\\ModelInterface'");
 		return;
 	}
 	ZEPHIR_INIT_VAR(_0);
-	ZVAL_STRING(_0, "field", 1);
-	ZEPHIR_INIT_VAR(field);
-	zephir_call_method_p1(field, this_ptr, "getoption", _0);
+	ZVAL_STRING(_0, "field", 0);
+	ZEPHIR_CALL_METHOD(&field, this_ptr, "getoption", NULL, _0);
+	zephir_check_temp_parameter(_0);
 	zephir_check_call_status();
 	if (!ZEPHIR_IS_STRING(field, "string")) {
 		ZEPHIR_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Field name must be a string");
 		return;
 	}
 	ZEPHIR_INIT_BNVAR(_0);
-	ZEPHIR_INIT_VAR(_1);
-	ZVAL_STRING(_1, "domain", 1);
-	zephir_call_method_p1(_0, this_ptr, "issetoption", _1);
+	ZVAL_STRING(_0, "domain", 0);
+	ZEPHIR_CALL_METHOD(&_1, this_ptr, "issetoption", NULL, _0);
+	zephir_check_temp_parameter(_0);
 	zephir_check_call_status();
-	if (ZEPHIR_IS_FALSE(_0)) {
+	if (ZEPHIR_IS_FALSE(_1)) {
 		ZEPHIR_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "The option 'domain' is required by this validator");
 		return;
 	}
-	ZEPHIR_INIT_BNVAR(_1);
-	ZVAL_STRING(_1, "domain", 1);
-	ZEPHIR_INIT_VAR(domain);
-	zephir_call_method_p1(domain, this_ptr, "getoption", _1);
+	ZEPHIR_INIT_BNVAR(_0);
+	ZVAL_STRING(_0, "domain", 0);
+	ZEPHIR_CALL_METHOD(&domain, this_ptr, "getoption", NULL, _0);
+	zephir_check_temp_parameter(_0);
 	zephir_check_call_status();
-	if ((Z_TYPE_P(domain) != IS_ARRAY)) {
+	if (Z_TYPE_P(domain) != IS_ARRAY) {
 		ZEPHIR_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Option 'domain' must be an array");
 		return;
 	}
-	ZEPHIR_INIT_VAR(value);
-	zephir_call_method_p1(value, record, "readattribute", field);
+	ZEPHIR_CALL_METHOD(&value, record, "readattribute", NULL, field);
 	zephir_check_call_status();
-	ZEPHIR_INIT_BNVAR(_1);
-	ZEPHIR_INIT_VAR(_2);
-	ZVAL_STRING(_2, "allowEmpty", 1);
-	zephir_call_method_p1(_1, this_ptr, "issetoption", _2);
+	ZEPHIR_INIT_BNVAR(_0);
+	ZVAL_STRING(_0, "allowEmpty", 0);
+	ZEPHIR_CALL_METHOD(&_2, this_ptr, "issetoption", NULL, _0);
+	zephir_check_temp_parameter(_0);
 	zephir_check_call_status();
-	_3 = zephir_is_true(_1);
+	_3 = zephir_is_true(_2);
 	if (_3) {
 		_3 = ZEPHIR_IS_EMPTY(value);
 	}
@@ -134,27 +137,27 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Exclusionin, validate) {
 		RETURN_MM_BOOL(1);
 	}
 	if (zephir_fast_in_array(value, domain TSRMLS_CC)) {
-		ZEPHIR_INIT_BNVAR(_2);
-		ZVAL_STRING(_2, "message", 1);
-		ZEPHIR_INIT_VAR(message);
-		zephir_call_method_p1(message, this_ptr, "getoption", _2);
+		ZEPHIR_INIT_BNVAR(_0);
+		ZVAL_STRING(_0, "message", 0);
+		ZEPHIR_CALL_METHOD(&message, this_ptr, "getoption", NULL, _0);
+		zephir_check_temp_parameter(_0);
 		zephir_check_call_status();
-		ZEPHIR_INIT_VAR(replacePairs);
-		array_init_size(replacePairs, 3);
-		zephir_array_update_string(&replacePairs, SL(":field"), &field, PH_COPY | PH_SEPARATE);
-		ZEPHIR_INIT_BNVAR(_2);
-		zephir_fast_join_str(_2, SL(", "), domain TSRMLS_CC);
-		zephir_array_update_string(&replacePairs, SL(":domain"), &_2, PH_COPY | PH_SEPARATE);
 		if (ZEPHIR_IS_EMPTY(message)) {
-			ZEPHIR_INIT_NVAR(message);
+			ZEPHIR_INIT_VAR(message);
 			ZVAL_STRING(message, "Value of field :field must not be part of list: :domain", 1);
 		}
-		ZEPHIR_INIT_BNVAR(_2);
-		zephir_call_func_p2(_2, "strtr", message, replacePairs);
-		zephir_check_call_status();
 		ZEPHIR_INIT_VAR(_4);
-		ZVAL_STRING(_4, "Exclusion", 1);
-		zephir_call_method_p3_noret(this_ptr, "appendmessage", _2, field, _4);
+		array_init_size(_4, 3);
+		zephir_array_update_string(&_4, SL(":field"), &field, PH_COPY | PH_SEPARATE);
+		ZEPHIR_INIT_BNVAR(_0);
+		zephir_fast_join_str(_0, SL(", "), domain TSRMLS_CC);
+		zephir_array_update_string(&_4, SL(":domain"), &_0, PH_COPY | PH_SEPARATE);
+		ZEPHIR_CALL_FUNCTION(&_5, "strtr", &_6, message, _4);
+		zephir_check_call_status();
+		ZEPHIR_INIT_BNVAR(_0);
+		ZVAL_STRING(_0, "Exclusion", 0);
+		ZEPHIR_CALL_METHOD(NULL, this_ptr, "appendmessage", NULL, _5, field, _0);
+		zephir_check_temp_parameter(_0);
 		zephir_check_call_status();
 		RETURN_MM_BOOL(0);
 	}

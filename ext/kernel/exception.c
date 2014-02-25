@@ -55,7 +55,7 @@ void zephir_throw_exception_string(zend_class_entry *ce, const char *message, ze
 	ALLOC_INIT_ZVAL(msg);
 	ZVAL_STRINGL(msg, message, message_len, 1);
 
-	zephir_call_method_p1_noret(object, "__construct", msg);
+	ZEPHIR_CALL_METHOD(NULL, object, "__construct", NULL, msg);
 	zephir_check_call_status();
 
 	zend_throw_exception_object(object TSRMLS_CC);
@@ -74,7 +74,7 @@ void zephir_throw_exception_zval(zend_class_entry *ce, zval *message TSRMLS_DC){
 	ALLOC_INIT_ZVAL(object);
 	object_init_ex(object, ce);
 
-	zephir_call_method_p1_noret(object, "__construct", message);
+	ZEPHIR_CALL_METHOD(NULL, object, "__construct", NULL, message);
 	zephir_check_call_status();
 
 	zend_throw_exception_object(object TSRMLS_CC);

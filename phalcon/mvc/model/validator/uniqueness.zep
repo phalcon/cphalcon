@@ -56,7 +56,7 @@ class Uniqueness extends \Phalcon\Mvc\Model\Validator implements \Phalcon\Mvc\Mo
 	public function validate(<\Phalcon\Mvc\ModelInterface> record) -> boolean
 	{
 		var field, dependencyInjector, metaData, message, bindTypes, bindDataTypes,
-			columnMap, conditions, bindParams, number, composeField, value, columnField,
+			columnMap, conditions, bindParams, number, composeField, columnField,
 			bindType, primaryField, attributeField, params, className, replacePairs;
 
 		let dependencyInjector = record->getDI();

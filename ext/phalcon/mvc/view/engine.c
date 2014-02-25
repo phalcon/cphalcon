@@ -74,7 +74,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine, __construct) {
 		ZEPHIR_THROW_EXCEPTION_STRW(spl_ce_InvalidArgumentException, "Parameter 'view' must be an instance of 'Phalcon\\Mvc\\ViewInterface'");
 		return;
 	}
-	_0 = (Z_TYPE_P(dependencyInjector) != IS_NULL);
+	_0 = Z_TYPE_P(dependencyInjector) != IS_NULL;
 	if (_0) {
 		_0 = !zephir_instance_of_ev(dependencyInjector, phalcon_diinterface_ce TSRMLS_CC);
 	}
@@ -100,7 +100,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine, getContent) {
 	ZEPHIR_MM_GROW();
 
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_view"), PH_NOISY_CC);
-	zephir_call_method(return_value, _0, "getcontent");
+	ZEPHIR_RETURN_CALL_METHOD(_0, "getcontent", NULL);
 	zephir_check_call_status();
 	RETURN_MM();
 
@@ -139,7 +139,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine, partial) {
 
 
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_view"), PH_NOISY_CC);
-	zephir_call_method_p2(return_value, _0, "partial", partialPath, params);
+	ZEPHIR_RETURN_CALL_METHOD(_0, "partial", NULL, partialPath, params);
 	zephir_check_call_status();
 	RETURN_MM();
 

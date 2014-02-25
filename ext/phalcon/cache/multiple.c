@@ -107,8 +107,8 @@ PHP_METHOD(Phalcon_Cache_Multiple, __construct) {
 	}
 
 
-	if ((Z_TYPE_P(backends) != IS_NULL)) {
-		if ((Z_TYPE_P(backends) != IS_ARRAY)) {
+	if (Z_TYPE_P(backends) != IS_NULL) {
+		if (Z_TYPE_P(backends) != IS_ARRAY) {
 			ZEPHIR_THROW_EXCEPTION_STRW(phalcon_cache_exception_ce, "The backends must be an array");
 			return;
 		}
@@ -135,7 +135,7 @@ PHP_METHOD(Phalcon_Cache_Multiple, push) {
 		ZEPHIR_THROW_EXCEPTION_STRW(spl_ce_InvalidArgumentException, "Parameter 'backend' must be an instance of 'Phalcon\\Cache\\BackendInterface'");
 		return;
 	}
-	if ((Z_TYPE_P(backend) != IS_OBJECT)) {
+	if (Z_TYPE_P(backend) != IS_OBJECT) {
 		ZEPHIR_THROW_EXCEPTION_STRW(phalcon_cache_exception_ce, "The backend is not valid");
 		return;
 	}
@@ -173,10 +173,9 @@ PHP_METHOD(Phalcon_Cache_Multiple, get) {
 	  ; zephir_hash_move_forward_ex(_2, &_1)
 	) {
 		ZEPHIR_GET_HVALUE(backend, _3);
-		ZEPHIR_INIT_NVAR(content);
-		zephir_call_method_p2(content, backend, "get", keyName, lifetime);
+		ZEPHIR_CALL_METHOD(&content, backend, "get", NULL, keyName, lifetime);
 		zephir_check_call_status();
-		if ((Z_TYPE_P(content) != IS_NULL)) {
+		if (Z_TYPE_P(content) != IS_NULL) {
 			RETURN_CCTOR(content);
 		}
 	}
@@ -212,7 +211,7 @@ PHP_METHOD(Phalcon_Cache_Multiple, start) {
 	  ; zephir_hash_move_forward_ex(_2, &_1)
 	) {
 		ZEPHIR_GET_HVALUE(backend, _3);
-		zephir_call_method_p2_noret(backend, "start", keyName, lifetime);
+		ZEPHIR_CALL_METHOD(NULL, backend, "start", NULL, keyName, lifetime);
 		zephir_check_call_status();
 	}
 	ZEPHIR_MM_RESTORE();
@@ -258,7 +257,7 @@ PHP_METHOD(Phalcon_Cache_Multiple, save) {
 	  ; zephir_hash_move_forward_ex(_2, &_1)
 	) {
 		ZEPHIR_GET_HVALUE(backend, _3);
-		zephir_call_method_p4_noret(backend, "save", keyName, content, lifetime, stopBuffer);
+		ZEPHIR_CALL_METHOD(NULL, backend, "save", NULL, keyName, content, lifetime, stopBuffer);
 		zephir_check_call_status();
 	}
 	ZEPHIR_MM_RESTORE();
@@ -290,7 +289,7 @@ PHP_METHOD(Phalcon_Cache_Multiple, delete) {
 	  ; zephir_hash_move_forward_ex(_2, &_1)
 	) {
 		ZEPHIR_GET_HVALUE(backend, _3);
-		zephir_call_method_p1_noret(backend, "delete", keyName);
+		ZEPHIR_CALL_METHOD(NULL, backend, "delete", NULL, keyName);
 		zephir_check_call_status();
 	}
 	RETURN_MM_BOOL(1);
@@ -329,8 +328,7 @@ PHP_METHOD(Phalcon_Cache_Multiple, exists) {
 	  ; zephir_hash_move_forward_ex(_2, &_1)
 	) {
 		ZEPHIR_GET_HVALUE(backend, _3);
-		ZEPHIR_INIT_NVAR(_4);
-		zephir_call_method_p2(_4, backend, "exists", keyName, lifetime);
+		ZEPHIR_CALL_METHOD(&_4, backend, "exists", NULL, keyName, lifetime);
 		zephir_check_call_status();
 		if (ZEPHIR_IS_TRUE(_4)) {
 			RETURN_MM_BOOL(1);

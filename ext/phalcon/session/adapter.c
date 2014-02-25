@@ -75,8 +75,8 @@ PHP_METHOD(Phalcon_Session_Adapter, __construct) {
 	}
 
 
-	if ((Z_TYPE_P(options) == IS_ARRAY)) {
-		zephir_call_method_p1_noret(this_ptr, "setoptions", options);
+	if (Z_TYPE_P(options) == IS_ARRAY) {
+		ZEPHIR_CALL_METHOD(NULL, this_ptr, "setoptions", NULL, options);
 		zephir_check_call_status();
 	}
 	ZEPHIR_MM_RESTORE();
@@ -91,15 +91,15 @@ PHP_METHOD(Phalcon_Session_Adapter, __construct) {
 PHP_METHOD(Phalcon_Session_Adapter, start) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
-	zval *_0;
+	zephir_nts_static zephir_fcall_cache_entry *_1 = NULL;
+	zval *_0 = NULL;
 
 	ZEPHIR_MM_GROW();
 
-	ZEPHIR_INIT_VAR(_0);
-	zephir_call_func(_0, "headers_sent");
+	ZEPHIR_CALL_FUNCTION(&_0, "headers_sent", &_1);
 	zephir_check_call_status();
 	if (!(zephir_is_true(_0))) {
-		zephir_call_func_noret("session_start");
+		ZEPHIR_CALL_FUNCTION(NULL, "session_start", NULL);
 		zephir_check_call_status();
 		zephir_update_property_this(this_ptr, SL("_started"), (1) ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
 		RETURN_MM_BOOL(1);
@@ -127,7 +127,7 @@ PHP_METHOD(Phalcon_Session_Adapter, setOptions) {
 
 
 
-	if ((Z_TYPE_P(options) != IS_ARRAY)) {
+	if (Z_TYPE_P(options) != IS_ARRAY) {
 		ZEPHIR_THROW_EXCEPTION_STRW(phalcon_session_exception_ce, "Options must be an Array");
 		return;
 	}
@@ -295,7 +295,7 @@ PHP_METHOD(Phalcon_Session_Adapter, getId) {
 
 	ZEPHIR_MM_GROW();
 
-	zephir_call_func(return_value, "session_id");
+	ZEPHIR_RETURN_CALL_FUNCTION("session_id", NULL);
 	zephir_check_call_status();
 	RETURN_MM();
 
@@ -329,12 +329,11 @@ PHP_METHOD(Phalcon_Session_Adapter, isStarted) {
 PHP_METHOD(Phalcon_Session_Adapter, destroy) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
-	zval *destroyed;
+	zval *destroyed = NULL;
 
 	ZEPHIR_MM_GROW();
 
-	ZEPHIR_INIT_VAR(destroyed);
-	zephir_call_func(destroyed, "session_destroy");
+	ZEPHIR_CALL_FUNCTION(&destroyed, "session_destroy", NULL);
 	zephir_check_call_status();
 	zephir_update_property_this(this_ptr, SL("_started"), (0) ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
 	RETURN_CCTOR(destroyed);

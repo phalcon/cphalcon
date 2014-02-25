@@ -38,13 +38,13 @@ void zephir_session_start(TSRMLS_D)
 #ifdef ZEPHIR_USE_PHP_SESSION
 	php_session_start(TSRMLS_C);
 #else
-	zephir_call_func_params(NULL, NULL, SL("session_start") TSRMLS_CC, 0);
+	//zephir_call_func_params(NULL, NULL, SL("session_start") TSRMLS_CC, 0);
 #endif
 }
 
 void zephir_session_destroy(TSRMLS_D)
 {
-	zephir_call_func_params(NULL, NULL, SL("session_destroy") TSRMLS_CC, 0);
+	//zephir_call_func_params(NULL, NULL, SL("session_destroy") TSRMLS_CC, 0);
 }
 
 void zephir_get_session_id(zval *return_value, zval **return_value_ptr TSRMLS_DC)
@@ -56,7 +56,7 @@ void zephir_get_session_id(zval *return_value, zval **return_value_ptr TSRMLS_DC
 
 	RETURN_EMPTY_STRING();
 #else
-	zephir_call_func_params(return_value, return_value_ptr, SL("session_id") TSRMLS_CC, 0);
+	//zephir_call_func_params(return_value, return_value_ptr, SL("session_id") TSRMLS_CC, 0);
 #endif
 }
 
@@ -83,6 +83,6 @@ void zephir_set_session_id(zval *sid TSRMLS_DC)
 		zval_dtor(&copy);
 	}
 #else
-	zephir_call_func_params(NULL, NULL, SL("session_id") TSRMLS_CC, 1, sid);
+	//zephir_call_func_params(NULL, NULL, SL("session_id") TSRMLS_CC, 1, sid);
 #endif
 }

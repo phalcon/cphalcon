@@ -21,7 +21,6 @@
 #ifndef ZEPHIR_KERNEL_GLOBALS_H
 #define ZEPHIR_KERNEL_GLOBALS_H
 
-#define ZEPHIR_RELEASE 1
 #define ZEPHIR_MAX_MEMORY_STACK 48
 
 /** Memory frame */
@@ -78,23 +77,86 @@ typedef struct _zephir_function_cache {
 		return FAILURE; \
 	}
 
-/** Macros for branch prediction */
-#ifndef likely
-#if defined(__GNUC__) && ZEND_GCC_VERSION >= 3004 && defined(__i386__)
-#define likely(x)       __builtin_expect((x), 1)
-#define unlikely(x)     __builtin_expect((x), 0)
-#else
-#define likely(x)       EXPECTED(x)
-#define unlikely(x)     UNEXPECTED(x)
+/* Compatibility macros for PHP 5.3 */
+#ifndef PHP_FE_END
+#define PHP_FE_END { NULL, NULL, NULL, 0, 0 }
 #endif
 
+#ifndef INIT_PZVAL_COPY
+# define INIT_PZVAL_COPY(z, v) \
+	ZVAL_COPY_VALUE(z, v); \
+	Z_SET_REFCOUNT_P(z, 1); \
+	Z_UNSET_ISREF_P(z);
+#endif
+
+#ifndef ZVAL_COPY_VALUE
+# define ZVAL_COPY_VALUE(z, v) \
+	(z)->value = (v)->value; \
+	Z_TYPE_P(z) = Z_TYPE_P(v);
+#endif
+
+#ifndef HASH_KEY_NON_EXISTENT
+# define HASH_KEY_NON_EXISTENT HASH_KEY_NON_EXISTANT
+#endif
+
+/** Macros for branch prediction */
+#define likely(x) EXPECTED(x)
+#define unlikely(x) UNEXPECTED(x)
+
 #if defined(__GNUC__) && (defined(__clang__) || ((__GNUC__ * 100 + __GNUC_MINOR__) >= 405))
-#define UNREACHABLE() __builtin_unreachable()
-#define ASSUME(x)     if (x) {} else __builtin_unreachable()
+# define UNREACHABLE() __builtin_unreachable()
+# define ASSUME(x) if (x) {} else __builtin_unreachable()
 #else
-#define UNREACHABLE() assert(0)
-#define ASSUME(x)     assert(!!(x));
+# define UNREACHABLE() assert(0)
+# define ASSUME(x) assert(!!(x));
 #endif
+
+#if defined(__GNUC__) || defined(__clang__)
+# define ZEPHIR_ATTR_NONNULL __attribute__((nonnull))
+# define ZEPHIR_ATTR_NONNULL1(x) __attribute__((nonnull (x)))
+# define ZEPHIR_ATTR_NONNULL2(x, y) __attribute__((nonnull (x, y)))
+# define ZEPHIR_ATTR_NONNULL3(x, y, z) __attribute__((nonnull (x, y, z)))
+# define ZEPHIR_ATTR_PURE __attribute__((pure))
+# define ZEPHIR_ATTR_CONST __attribute__((const))
+# define ZEPHIR_ATTR_WARN_UNUSED_RESULT __attribute__((warn_unused_result))
+#else
+# define ZEPHIR_ATTR_NONNULL
+# define ZEPHIR_ATTR_NONNULL1(x)
+# define ZEPHIR_ATTR_NONNULL2(x, y)
+# define ZEPHIR_ATTR_NONNULL3(x, y, z)
+# define ZEPHIR_ATTR_PURE
+# define ZEPHIR_ATTR_CONST
+# define ZEPHIR_ATTR_WARN_UNUSED_RESULT
 #endif
+
+#if !defined(__GNUC__) && !(defined(__SUNPRO_C) && (__SUNPRO_C >= 0x590))
+# define __builtin_constant_p(s) (0)
+#endif
+
+#ifndef ZEND_MOD_END
+# define ZEND_MOD_END { NULL, NULL, NULL, 0 }
+#endif
+
+#ifndef __func__
+# define __func__ __FUNCTION__
+#endif
+
+/*#if PHP_VERSION_ID > 50399
+# define ZLK_DC , const struct _zend_literal* key
+# define ZLK_CC , key
+# define ZLK_NULL_CC , NULL
+#else
+# define ZLK_DC
+# define ZLK_CC
+# define ZLK_NULL_CC
+#endif*/
+
+#ifdef ZTS
+#define zephir_nts_static
+#else
+#define zephir_nts_static static
+#endif
+
+#define ZEPHIR_STATIC
 
 #endif

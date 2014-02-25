@@ -154,7 +154,7 @@ PHP_METHOD(Phalcon_Cli_Dispatcher, getTaskName) {
 PHP_METHOD(Phalcon_Cli_Dispatcher, _throwDispatchException) {
 
 	int exceptionCode, ZEPHIR_LAST_CALL_STATUS;
-	zval *message_param = NULL, *exceptionCode_param = NULL, *exception, *eventsManager = NULL, *_0, *_1, *_2;
+	zval *message_param = NULL, *exceptionCode_param = NULL, *exception, *eventsManager = NULL, *_0, *_1, *_2 = NULL;
 	zval *message = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -172,17 +172,17 @@ PHP_METHOD(Phalcon_Cli_Dispatcher, _throwDispatchException) {
 	object_init_ex(exception, phalcon_cli_dispatcher_exception_ce);
 	ZEPHIR_INIT_VAR(_0);
 	ZVAL_LONG(_0, exceptionCode);
-	zephir_call_method_p2_noret(exception, "__construct", message, _0);
+	ZEPHIR_CALL_METHOD(NULL, exception, "__construct", NULL, message, _0);
 	zephir_check_call_status();
 	_1 = zephir_fetch_nproperty_this(this_ptr, SL("_eventsManager"), PH_NOISY_CC);
 	ZEPHIR_CPY_WRT(eventsManager, _1);
-	if ((Z_TYPE_P(eventsManager) == IS_OBJECT)) {
+	if (Z_TYPE_P(eventsManager) == IS_OBJECT) {
 		ZEPHIR_INIT_BNVAR(_0);
-		ZEPHIR_INIT_VAR(_2);
-		ZVAL_STRING(_2, "dispatch:beforeException", 1);
-		zephir_call_method_p3(_0, eventsManager, "fire", _2, this_ptr, exception);
+		ZVAL_STRING(_0, "dispatch:beforeException", 0);
+		ZEPHIR_CALL_METHOD(&_2, eventsManager, "fire", NULL, _0, this_ptr, exception);
+		zephir_check_temp_parameter(_0);
 		zephir_check_call_status();
-		if (ZEPHIR_IS_FALSE(_0)) {
+		if (ZEPHIR_IS_FALSE(_2)) {
 			RETURN_MM_BOOL(0);
 		}
 	}

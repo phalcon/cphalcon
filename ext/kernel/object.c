@@ -1394,7 +1394,7 @@ int zephir_create_instance(zval *return_value, const zval *class_name TSRMLS_DC)
 
 	object_init_ex(return_value, ce);
 	if (zephir_has_constructor_ce(ce)) {
-		return zephir_call_method_params(NULL, NULL, return_value, SL("__construct"), zend_inline_hash_func(SS("__construct")) TSRMLS_CC, 0);
+		return zephir_call_class_method_aparams(NULL, ce, zephir_fcall_method, return_value, SS("__construct"), NULL, 0, NULL TSRMLS_CC);
 	}
 
 	return SUCCESS;
@@ -1456,7 +1456,7 @@ int zephir_create_instance_params(zval *return_value, const zval *class_name, zv
 			params_ptr = NULL;
 		}
 
-		outcome = zephir_call_method_params(NULL, NULL, return_value, SL("__construct"), zend_inline_hash_func(SS("__construct")) TSRMLS_CC, -param_count, params_ptr);
+		outcome = zephir_call_class_method_aparams(NULL, ce, zephir_fcall_method, return_value, SS("__construct"), NULL, -param_count, params_ptr TSRMLS_CC);
 
 		if (unlikely(params_arr != NULL)) {
 			efree(params_arr);

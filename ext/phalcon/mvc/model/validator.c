@@ -69,7 +69,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator, __construct) {
 
 
 
-	if ((Z_TYPE_P(options) != IS_ARRAY)) {
+	if (Z_TYPE_P(options) != IS_ARRAY) {
 		ZEPHIR_THROW_EXCEPTION_STRW(phalcon_mvc_model_exception_ce, "options argument must be an Array");
 		return;
 	}
@@ -126,7 +126,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator, appendMessage) {
 	}
 	ZEPHIR_INIT_VAR(_3);
 	object_init_ex(_3, phalcon_mvc_model_message_ce);
-	zephir_call_method_p3_noret(_3, "__construct", message, field, type);
+	ZEPHIR_CALL_METHOD(NULL, _3, "__construct", NULL, message, field, type);
 	zephir_check_call_status();
 	zephir_update_property_array_append(this_ptr, SL("_messages"), _3 TSRMLS_CC);
 	ZEPHIR_MM_RESTORE();
@@ -200,7 +200,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator, getOption) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_Validator, isSetOption) {
 
-	zval *option_param = NULL, *options;
+	zval *option_param = NULL, *_0;
 	zval *option = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -219,8 +219,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator, isSetOption) {
 	}
 
 
-	options = zephir_fetch_nproperty_this(this_ptr, SL("_options"), PH_NOISY_CC);
-	RETURN_MM_BOOL(zephir_array_isset(options, option));
+	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_options"), PH_NOISY_CC);
+	RETURN_MM_BOOL(zephir_array_isset(_0, option));
 
 }
 

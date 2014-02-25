@@ -172,23 +172,20 @@ PHP_METHOD(Phalcon_Logger_Adapter, commit) {
 	zephir_update_property_this(this_ptr, SL("_transaction"), (0) ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
 	ZEPHIR_OBS_VAR(queue);
 	zephir_read_property_this(&queue, this_ptr, SL("_queue"), PH_NOISY_CC);
-	if ((Z_TYPE_P(queue) == IS_ARRAY)) {
+	if (Z_TYPE_P(queue) == IS_ARRAY) {
 		zephir_is_iterable(queue, &_2, &_1, 0, 0);
 		for (
 		  ; zephir_hash_get_current_data_ex(_2, (void**) &_3, &_1) == SUCCESS
 		  ; zephir_hash_move_forward_ex(_2, &_1)
 		) {
 			ZEPHIR_GET_HVALUE(message, _3);
-			ZEPHIR_INIT_NVAR(_4);
-			zephir_call_method(_4, message, "getmessage");
+			ZEPHIR_CALL_METHOD(&_4, message, "getmessage",  NULL);
 			zephir_check_call_status();
-			ZEPHIR_INIT_NVAR(_5);
-			zephir_call_method(_5, message, "gettype");
+			ZEPHIR_CALL_METHOD(&_5, message, "gettype",  NULL);
 			zephir_check_call_status();
-			ZEPHIR_INIT_NVAR(_6);
-			zephir_call_method(_6, message, "gettime");
+			ZEPHIR_CALL_METHOD(&_6, message, "gettime",  NULL);
 			zephir_check_call_status();
-			zephir_call_method_p3_noret(this_ptr, "loginternal", _4, _5, _6);
+			ZEPHIR_CALL_METHOD(NULL, this_ptr, "loginternal", NULL, _4, _5, _6);
 			zephir_check_call_status();
 		}
 	}
@@ -251,7 +248,7 @@ PHP_METHOD(Phalcon_Logger_Adapter, emergence) {
 
 	ZEPHIR_INIT_VAR(_0);
 	ZVAL_LONG(_0, 0);
-	zephir_call_method_p2_noret(this_ptr, "log", message, _0);
+	ZEPHIR_CALL_METHOD(NULL, this_ptr, "log", NULL, message, _0);
 	zephir_check_call_status();
 	RETURN_THIS();
 
@@ -287,7 +284,7 @@ PHP_METHOD(Phalcon_Logger_Adapter, debug) {
 
 	ZEPHIR_INIT_VAR(_0);
 	ZVAL_LONG(_0, 7);
-	zephir_call_method_p2_noret(this_ptr, "log", message, _0);
+	ZEPHIR_CALL_METHOD(NULL, this_ptr, "log", NULL, message, _0);
 	zephir_check_call_status();
 	RETURN_THIS();
 
@@ -323,7 +320,7 @@ PHP_METHOD(Phalcon_Logger_Adapter, error) {
 
 	ZEPHIR_INIT_VAR(_0);
 	ZVAL_LONG(_0, 3);
-	zephir_call_method_p2_noret(this_ptr, "log", message, _0);
+	ZEPHIR_CALL_METHOD(NULL, this_ptr, "log", NULL, message, _0);
 	zephir_check_call_status();
 	RETURN_THIS();
 
@@ -359,7 +356,7 @@ PHP_METHOD(Phalcon_Logger_Adapter, info) {
 
 	ZEPHIR_INIT_VAR(_0);
 	ZVAL_LONG(_0, 6);
-	zephir_call_method_p2_noret(this_ptr, "log", message, _0);
+	ZEPHIR_CALL_METHOD(NULL, this_ptr, "log", NULL, message, _0);
 	zephir_check_call_status();
 	RETURN_THIS();
 
@@ -395,7 +392,7 @@ PHP_METHOD(Phalcon_Logger_Adapter, notice) {
 
 	ZEPHIR_INIT_VAR(_0);
 	ZVAL_LONG(_0, 5);
-	zephir_call_method_p2_noret(this_ptr, "log", message, _0);
+	ZEPHIR_CALL_METHOD(NULL, this_ptr, "log", NULL, message, _0);
 	zephir_check_call_status();
 	RETURN_THIS();
 
@@ -431,7 +428,7 @@ PHP_METHOD(Phalcon_Logger_Adapter, warning) {
 
 	ZEPHIR_INIT_VAR(_0);
 	ZVAL_LONG(_0, 4);
-	zephir_call_method_p2_noret(this_ptr, "log", message, _0);
+	ZEPHIR_CALL_METHOD(NULL, this_ptr, "log", NULL, message, _0);
 	zephir_check_call_status();
 	RETURN_THIS();
 
@@ -467,7 +464,7 @@ PHP_METHOD(Phalcon_Logger_Adapter, alert) {
 
 	ZEPHIR_INIT_VAR(_0);
 	ZVAL_LONG(_0, 2);
-	zephir_call_method_p2_noret(this_ptr, "log", message, _0);
+	ZEPHIR_CALL_METHOD(NULL, this_ptr, "log", NULL, message, _0);
 	zephir_check_call_status();
 	RETURN_THIS();
 
@@ -483,7 +480,7 @@ PHP_METHOD(Phalcon_Logger_Adapter, alert) {
 PHP_METHOD(Phalcon_Logger_Adapter, log) {
 
 	int type, ZEPHIR_LAST_CALL_STATUS;
-	zval *message_param = NULL, *type_param = NULL, *timestamp, *transaction, *_0, *_1 = NULL, *_2;
+	zval *message_param = NULL, *type_param = NULL, *timestamp = NULL, *transaction, *_0, *_1 = NULL, *_2;
 	zval *message = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -507,8 +504,7 @@ PHP_METHOD(Phalcon_Logger_Adapter, log) {
 	}
 
 
-	ZEPHIR_INIT_VAR(timestamp);
-	zephir_call_func(timestamp, "time");
+	ZEPHIR_CALL_FUNCTION(&timestamp, "time", NULL);
 	zephir_check_call_status();
 	ZEPHIR_OBS_VAR(transaction);
 	zephir_read_property_this(&transaction, this_ptr, SL("_transaction"), PH_NOISY_CC);
@@ -517,7 +513,7 @@ PHP_METHOD(Phalcon_Logger_Adapter, log) {
 		object_init_ex(_0, phalcon_logger_item_ce);
 		ZEPHIR_INIT_VAR(_1);
 		ZVAL_LONG(_1, type);
-		zephir_call_method_p3_noret(_0, "__construct", message, _1, timestamp);
+		ZEPHIR_CALL_METHOD(NULL, _0, "__construct", NULL, message, _1, timestamp);
 		zephir_check_call_status();
 		zephir_update_property_array_append(this_ptr, SL("_queue"), _0 TSRMLS_CC);
 		RETURN_THIS();
@@ -526,7 +522,7 @@ PHP_METHOD(Phalcon_Logger_Adapter, log) {
 	if (ZEPHIR_GE_LONG(_2, type)) {
 		ZEPHIR_INIT_NVAR(_1);
 		ZVAL_LONG(_1, type);
-		zephir_call_method_p3_noret(this_ptr, "loginternal", message, _1, timestamp);
+		ZEPHIR_CALL_METHOD(NULL, this_ptr, "loginternal", NULL, message, _1, timestamp);
 		zephir_check_call_status();
 	}
 	RETURN_THIS();

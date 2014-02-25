@@ -231,7 +231,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Relation, isForeignKey) {
 
 
 	options = zephir_fetch_nproperty_this(this_ptr, SL("_options"), PH_NOISY_CC);
-	if ((Z_TYPE_P(options) == IS_ARRAY)) {
+	if (Z_TYPE_P(options) == IS_ARRAY) {
 		if (zephir_array_isset_string(options, SS("foreignKey"))) {
 			RETURN_BOOL(1);
 		}
@@ -251,7 +251,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Relation, getForeignKey) {
 
 
 	options = zephir_fetch_nproperty_this(this_ptr, SL("_options"), PH_NOISY_CC);
-	if ((Z_TYPE_P(options) == IS_ARRAY)) {
+	if (Z_TYPE_P(options) == IS_ARRAY) {
 		if (zephir_array_isset_string_fetch(&foreignKey, options, SS("foreignKey"), 1 TSRMLS_CC)) {
 			if (zephir_is_true(foreignKey)) {
 				RETURN_CTORW(foreignKey);
@@ -293,7 +293,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Relation, isReusable) {
 
 
 	options = zephir_fetch_nproperty_this(this_ptr, SL("_options"), PH_NOISY_CC);
-	if ((Z_TYPE_P(options) == IS_ARRAY)) {
+	if (Z_TYPE_P(options) == IS_ARRAY) {
 		if (zephir_array_isset_string_fetch(&reusable, options, SS("reusable"), 1 TSRMLS_CC)) {
 			RETURN_CTORW(reusable);
 		}

@@ -77,7 +77,7 @@ PHP_METHOD(Phalcon_Forms_Element_Select, __construct) {
 
 
 	zephir_update_property_this(this_ptr, SL("_optionsValues"), options TSRMLS_CC);
-	zephir_call_parent_p2_noret(this_ptr, phalcon_forms_element_select_ce, "__construct", name, attributes);
+	ZEPHIR_CALL_PARENT(NULL, phalcon_forms_element_select_ce, this_ptr, "__construct", NULL, name, attributes);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 
@@ -142,7 +142,7 @@ PHP_METHOD(Phalcon_Forms_Element_Select, addOption) {
 PHP_METHOD(Phalcon_Forms_Element_Select, render) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
-	zval *attributes = NULL, *_0, *_1;
+	zval *attributes = NULL, *_0 = NULL, *_1;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 1, &attributes);
@@ -152,11 +152,10 @@ PHP_METHOD(Phalcon_Forms_Element_Select, render) {
 	}
 
 
-	ZEPHIR_INIT_VAR(_0);
-	zephir_call_method_p1(_0, this_ptr, "prepareattributes", attributes);
+	ZEPHIR_CALL_METHOD(&_0, this_ptr, "prepareattributes", NULL, attributes);
 	zephir_check_call_status();
 	_1 = zephir_fetch_nproperty_this(this_ptr, SL("_optionsValues"), PH_NOISY_CC);
-	zephir_call_static_p2(return_value, "Phalcon\\Tag\\Select", "selectfield", _0, _1);
+	ZEPHIR_RETURN_CALL_CE_STATIC(phalcon_tag_select_ce, "selectfield", NULL, _0, _1);
 	zephir_check_call_status();
 	RETURN_MM();
 

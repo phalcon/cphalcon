@@ -63,11 +63,11 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_Behavior_Timestampable) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_Behavior_Timestampable, notify) {
 
-	zend_function *_4 = NULL;
-	HashTable *_2;
-	HashPosition _1;
+	HashTable *_3;
+	HashPosition _2;
+	zephir_nts_static zephir_fcall_cache_entry *_1 = NULL;
 	int ZEPHIR_LAST_CALL_STATUS;
-	zval *type_param = NULL, *model, *options, *timestamp = NULL, *singleField = NULL, *field, *generator, *format, *_0, **_3;
+	zval *type_param = NULL, *model, *options = NULL, *timestamp = NULL, *singleField = NULL, *field, *generator, *format, *_0 = NULL, **_4;
 	zval *type = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -90,16 +90,14 @@ PHP_METHOD(Phalcon_Mvc_Model_Behavior_Timestampable, notify) {
 		ZEPHIR_THROW_EXCEPTION_STR(spl_ce_InvalidArgumentException, "Parameter 'model' must be an instance of 'Phalcon\\Mvc\\ModelInterface'");
 		return;
 	}
-	ZEPHIR_INIT_VAR(_0);
-	zephir_call_method_p1(_0, this_ptr, "musttakeaction", type);
+	ZEPHIR_CALL_METHOD(&_0, this_ptr, "musttakeaction", NULL, type);
 	zephir_check_call_status();
 	if (!ZEPHIR_IS_TRUE(_0)) {
 		RETURN_MM_NULL();
 	}
-	ZEPHIR_INIT_VAR(options);
-	zephir_call_method_p1(options, this_ptr, "getoptions", type);
+	ZEPHIR_CALL_METHOD(&options, this_ptr, "getoptions", NULL, type);
 	zephir_check_call_status();
-	if ((Z_TYPE_P(options) == IS_ARRAY)) {
+	if (Z_TYPE_P(options) == IS_ARRAY) {
 		ZEPHIR_OBS_VAR(field);
 		if (!(zephir_array_isset_string_fetch(&field, options, SS("field"), 0 TSRMLS_CC))) {
 			ZEPHIR_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "The option 'field' is required");
@@ -109,38 +107,35 @@ PHP_METHOD(Phalcon_Mvc_Model_Behavior_Timestampable, notify) {
 		ZVAL_NULL(timestamp);
 		ZEPHIR_OBS_VAR(format);
 		if (zephir_array_isset_string_fetch(&format, options, SS("format"), 0 TSRMLS_CC)) {
-			ZEPHIR_INIT_NVAR(timestamp);
-			zephir_call_func_p1(timestamp, "date", format);
+			ZEPHIR_CALL_FUNCTION(&timestamp, "date", NULL, format);
 			zephir_check_call_status();
 		} else {
 			ZEPHIR_OBS_VAR(generator);
 			if (zephir_array_isset_string_fetch(&generator, options, SS("generator"), 0 TSRMLS_CC)) {
-				if ((Z_TYPE_P(generator) == IS_OBJECT)) {
+				if (Z_TYPE_P(generator) == IS_OBJECT) {
 					if (zephir_instance_of_ev(generator, zend_ce_closure TSRMLS_CC)) {
-						ZEPHIR_INIT_NVAR(timestamp);
-						zephir_call_func_p1(timestamp, "call_user_func", generator);
+						ZEPHIR_CALL_FUNCTION(&timestamp, "call_user_func", &_1, generator);
 						zephir_check_call_status();
 					}
 				}
 			}
 		}
-		if ((Z_TYPE_P(timestamp) == IS_NULL)) {
-			ZEPHIR_INIT_NVAR(timestamp);
-			zephir_call_func(timestamp, "time");
+		if (Z_TYPE_P(timestamp) == IS_NULL) {
+			ZEPHIR_CALL_FUNCTION(&timestamp, "time", NULL);
 			zephir_check_call_status();
 		}
-		if ((Z_TYPE_P(field) == IS_ARRAY)) {
-			zephir_is_iterable(field, &_2, &_1, 0, 0);
+		if (Z_TYPE_P(field) == IS_ARRAY) {
+			zephir_is_iterable(field, &_3, &_2, 0, 0);
 			for (
-			  ; zephir_hash_get_current_data_ex(_2, (void**) &_3, &_1) == SUCCESS
-			  ; zephir_hash_move_forward_ex(_2, &_1)
+			  ; zephir_hash_get_current_data_ex(_3, (void**) &_4, &_2) == SUCCESS
+			  ; zephir_hash_move_forward_ex(_3, &_2)
 			) {
-				ZEPHIR_GET_HVALUE(singleField, _3);
-				zephir_call_method_p2_cache_noret(model, "writeattribute", &_4, singleField, timestamp);
+				ZEPHIR_GET_HVALUE(singleField, _4);
+				ZEPHIR_CALL_METHOD(NULL, model, "writeattribute", NULL, singleField, timestamp);
 				zephir_check_call_status();
 			}
 		} else {
-			zephir_call_method_p2_noret(model, "writeattribute", field, timestamp);
+			ZEPHIR_CALL_METHOD(NULL, model, "writeattribute", NULL, field, timestamp);
 			zephir_check_call_status();
 		}
 	}

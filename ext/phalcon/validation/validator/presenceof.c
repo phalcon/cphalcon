@@ -15,8 +15,8 @@
 #include "kernel/object.h"
 #include "kernel/exception.h"
 #include "kernel/fcall.h"
-#include "kernel/memory.h"
 #include "kernel/operators.h"
+#include "kernel/memory.h"
 #include "kernel/array.h"
 #include "ext/spl/spl_exceptions.h"
 
@@ -69,9 +69,10 @@ ZEPHIR_INIT_CLASS(Phalcon_Validation_Validator_PresenceOf) {
  */
 PHP_METHOD(Phalcon_Validation_Validator_PresenceOf, validate) {
 
+	zephir_nts_static zephir_fcall_cache_entry *_3 = NULL;
 	int ZEPHIR_LAST_CALL_STATUS;
 	zval *field = NULL;
-	zval *validation, *field_param = NULL, *value, *message = NULL, *label = NULL, *replacePairs, *_0 = NULL, *_1, *_2;
+	zval *validation, *field_param = NULL, *value = NULL, *message = NULL, *label = NULL, *replacePairs, *_0 = NULL, *_1, *_2 = NULL;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &validation, &field_param);
@@ -93,48 +94,46 @@ PHP_METHOD(Phalcon_Validation_Validator_PresenceOf, validate) {
 		ZEPHIR_THROW_EXCEPTION_STR(spl_ce_InvalidArgumentException, "Parameter 'validation' must be an instance of 'Phalcon\\Validation'");
 		return;
 	}
-	ZEPHIR_INIT_VAR(value);
-	zephir_call_method_p1(value, validation, "getvalue", field);
+	ZEPHIR_CALL_METHOD(&value, validation, "getvalue", NULL, field);
 	zephir_check_call_status();
 	if (ZEPHIR_IS_EMPTY(value)) {
 		ZEPHIR_INIT_VAR(_0);
-		ZVAL_STRING(_0, "label", 1);
-		ZEPHIR_INIT_VAR(label);
-		zephir_call_method_p1(label, this_ptr, "getoption", _0);
+		ZVAL_STRING(_0, "label", 0);
+		ZEPHIR_CALL_METHOD(&label, this_ptr, "getoption", NULL, _0);
+		zephir_check_temp_parameter(_0);
 		zephir_check_call_status();
 		if (ZEPHIR_IS_EMPTY(label)) {
-			ZEPHIR_INIT_NVAR(label);
-			zephir_call_method_p1(label, validation, "getlabel", field);
+			ZEPHIR_CALL_METHOD(&label, validation, "getlabel", NULL, field);
 			zephir_check_call_status();
 			if (ZEPHIR_IS_EMPTY(label)) {
 				ZEPHIR_CPY_WRT(label, field);
 			}
 		}
 		ZEPHIR_INIT_NVAR(_0);
-		ZVAL_STRING(_0, "message", 1);
-		ZEPHIR_INIT_VAR(message);
-		zephir_call_method_p1(message, this_ptr, "getoption", _0);
+		ZVAL_STRING(_0, "message", 0);
+		ZEPHIR_CALL_METHOD(&message, this_ptr, "getoption", NULL, _0);
+		zephir_check_temp_parameter(_0);
 		zephir_check_call_status();
 		ZEPHIR_INIT_VAR(replacePairs);
 		array_init_size(replacePairs, 2);
 		zephir_array_update_string(&replacePairs, SL(":field"), &label, PH_COPY | PH_SEPARATE);
 		if (ZEPHIR_IS_EMPTY(message)) {
 			ZEPHIR_INIT_NVAR(_0);
-			ZVAL_STRING(_0, "PresenceOf", 1);
-			ZEPHIR_INIT_NVAR(message);
-			zephir_call_method_p1(message, validation, "getdefaultmessage", _0);
+			ZVAL_STRING(_0, "PresenceOf", 0);
+			ZEPHIR_CALL_METHOD(&message, validation, "getdefaultmessage", NULL, _0);
+			zephir_check_temp_parameter(_0);
 			zephir_check_call_status();
 		}
 		ZEPHIR_INIT_VAR(_1);
 		object_init_ex(_1, phalcon_validation_message_ce);
+		ZEPHIR_CALL_FUNCTION(&_2, "strtr", &_3, message, replacePairs);
+		zephir_check_call_status();
 		ZEPHIR_INIT_NVAR(_0);
-		zephir_call_func_p2(_0, "strtr", message, replacePairs);
+		ZVAL_STRING(_0, "PresenceOf", 0);
+		ZEPHIR_CALL_METHOD(NULL, _1, "__construct", NULL, _2, field, _0);
+		zephir_check_temp_parameter(_0);
 		zephir_check_call_status();
-		ZEPHIR_INIT_VAR(_2);
-		ZVAL_STRING(_2, "PresenceOf", 1);
-		zephir_call_method_p3_noret(_1, "__construct", _0, field, _2);
-		zephir_check_call_status();
-		zephir_call_method_p1_noret(validation, "appendmessage", _1);
+		ZEPHIR_CALL_METHOD(NULL, validation, "appendmessage", NULL, _1);
 		zephir_check_call_status();
 		RETURN_MM_BOOL(0);
 	}

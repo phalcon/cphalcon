@@ -93,7 +93,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Xcache, __construct) {
 	}
 
 
-	if ((Z_TYPE_P(options) != IS_ARRAY)) {
+	if (Z_TYPE_P(options) != IS_ARRAY) {
 		ZEPHIR_INIT_NVAR(options);
 		array_init(options);
 	}
@@ -102,7 +102,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Xcache, __construct) {
 		ZVAL_STRING(_0, "_PHCX", 1);
 		zephir_array_update_string(&options, SL("statsKey"), &_0, PH_COPY | PH_SEPARATE);
 	}
-	zephir_call_parent_p2_noret(this_ptr, phalcon_cache_backend_xcache_ce, "__construct", frontend, options);
+	ZEPHIR_CALL_PARENT(NULL, phalcon_cache_backend_xcache_ce, this_ptr, "__construct", NULL, frontend, options);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 
@@ -118,7 +118,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Xcache, __construct) {
 PHP_METHOD(Phalcon_Cache_Backend_Xcache, get) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
-	zval *keyName, *lifetime = NULL, *frontend, *prefixedKey, *cachedContent, *_0;
+	zval *keyName, *lifetime = NULL, *frontend, *prefixedKey, *cachedContent = NULL, *_0;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 1, &keyName, &lifetime);
@@ -134,8 +134,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Xcache, get) {
 	ZEPHIR_INIT_VAR(prefixedKey);
 	ZEPHIR_CONCAT_SVV(prefixedKey, "_PHCX", _0, keyName);
 	zephir_update_property_this(this_ptr, SL("_lastKey"), prefixedKey TSRMLS_CC);
-	ZEPHIR_INIT_VAR(cachedContent);
-	zephir_call_func_p1(cachedContent, "xcache_get", prefixedKey);
+	ZEPHIR_CALL_FUNCTION(&cachedContent, "xcache_get", NULL, prefixedKey);
 	zephir_check_call_status();
 	if (!(zephir_is_true(cachedContent))) {
 		RETURN_MM_NULL();
@@ -143,7 +142,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Xcache, get) {
 	if (zephir_is_numeric(cachedContent)) {
 		RETURN_CCTOR(cachedContent);
 	} else {
-		zephir_call_method_p1(return_value, frontend, "afterretrieve", cachedContent);
+		ZEPHIR_RETURN_CALL_METHOD(frontend, "afterretrieve", NULL, cachedContent);
 		zephir_check_call_status();
 		RETURN_MM();
 	}
@@ -161,8 +160,9 @@ PHP_METHOD(Phalcon_Cache_Backend_Xcache, get) {
  */
 PHP_METHOD(Phalcon_Cache_Backend_Xcache, save) {
 
+	zephir_fcall_cache_entry *_1 = NULL;
 	int ZEPHIR_LAST_CALL_STATUS;
-	zval *keyName = NULL, *content = NULL, *lifetime = NULL, *stopBuffer = NULL, *lastKey, *frontend, *cachedContent = NULL, *preparedContent, *tmp, *tt1 = NULL, *success, *isBuffering, *options, *keys = NULL, *specialKey, *_0;
+	zval *keyName = NULL, *content = NULL, *lifetime = NULL, *stopBuffer = NULL, *lastKey, *frontend, *cachedContent = NULL, *preparedContent = NULL, *tmp, *tt1 = NULL, *success = NULL, *isBuffering = NULL, *options, *keys = NULL, *specialKey, *_0;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 4, &keyName, &content, &lifetime, &stopBuffer);
@@ -195,23 +195,20 @@ PHP_METHOD(Phalcon_Cache_Backend_Xcache, save) {
 	ZEPHIR_OBS_VAR(frontend);
 	zephir_read_property_this(&frontend, this_ptr, SL("_frontend"), PH_NOISY_CC);
 	if (!(zephir_is_true(content))) {
-		ZEPHIR_INIT_VAR(cachedContent);
-		zephir_call_method(cachedContent, frontend, "getcontent");
+		ZEPHIR_CALL_METHOD(&cachedContent, frontend, "getcontent",  NULL);
 		zephir_check_call_status();
 	} else {
 		ZEPHIR_CPY_WRT(cachedContent, content);
 	}
 	if (!(zephir_is_numeric(cachedContent))) {
-		ZEPHIR_INIT_VAR(preparedContent);
-		zephir_call_method_p1(preparedContent, frontend, "beforestore", cachedContent);
+		ZEPHIR_CALL_METHOD(&preparedContent, frontend, "beforestore", NULL, cachedContent);
 		zephir_check_call_status();
 	}
 	if (!(zephir_is_true(lifetime))) {
 		ZEPHIR_OBS_VAR(tmp);
 		zephir_read_property_this(&tmp, this_ptr, SL("_lastLifetime"), PH_NOISY_CC);
 		if (!(zephir_is_true(tmp))) {
-			ZEPHIR_INIT_VAR(tt1);
-			zephir_call_method(tt1, frontend, "getlifetime");
+			ZEPHIR_CALL_METHOD(&tt1, frontend, "getlifetime",  NULL);
 			zephir_check_call_status();
 		} else {
 			ZEPHIR_CPY_WRT(tt1, tmp);
@@ -221,17 +218,16 @@ PHP_METHOD(Phalcon_Cache_Backend_Xcache, save) {
 	}
 	ZEPHIR_INIT_VAR(success);
 	if (zephir_is_numeric(cachedContent)) {
-		zephir_call_func_p3(success, "xcache_set", lastKey, cachedContent, tt1);
+		ZEPHIR_CALL_FUNCTION(&success, "xcache_set", &_1, lastKey, cachedContent, tt1);
 		zephir_check_call_status();
 	} else {
-		zephir_call_func_p3(success, "xcache_set", lastKey, preparedContent, tt1);
+		ZEPHIR_CALL_FUNCTION(&success, "xcache_set", &_1, lastKey, preparedContent, tt1);
 		zephir_check_call_status();
 	}
-	ZEPHIR_INIT_VAR(isBuffering);
-	zephir_call_method(isBuffering, frontend, "isbuffering");
+	ZEPHIR_CALL_METHOD(&isBuffering, frontend, "isbuffering",  NULL);
 	zephir_check_call_status();
 	if (!(zephir_is_true(stopBuffer))) {
-		zephir_call_method_noret(frontend, "stop");
+		ZEPHIR_CALL_METHOD(NULL, frontend, "stop", NULL);
 		zephir_check_call_status();
 	}
 	if (ZEPHIR_IS_TRUE(isBuffering)) {
@@ -247,15 +243,14 @@ PHP_METHOD(Phalcon_Cache_Backend_Xcache, save) {
 		}
 		ZEPHIR_OBS_VAR(specialKey);
 		zephir_array_fetch_string(&specialKey, options, SL("statsKey"), PH_NOISY TSRMLS_CC);
-		ZEPHIR_INIT_VAR(keys);
-		zephir_call_func_p1(keys, "xcache_get", specialKey);
+		ZEPHIR_CALL_FUNCTION(&keys, "xcache_get", NULL, specialKey);
 		zephir_check_call_status();
-		if ((Z_TYPE_P(keys) != IS_ARRAY)) {
-			ZEPHIR_INIT_NVAR(keys);
+		if (Z_TYPE_P(keys) != IS_ARRAY) {
+			ZEPHIR_INIT_VAR(keys);
 			array_init(keys);
 		}
 		zephir_array_update_zval(&keys, lastKey, &tt1, PH_COPY | PH_SEPARATE);
-		zephir_call_func_p2_noret("xcache_set", specialKey, keys);
+		ZEPHIR_CALL_FUNCTION(NULL, "xcache_set", &_1, specialKey, keys);
 		zephir_check_call_status();
 	}
 	ZEPHIR_MM_RESTORE();
@@ -271,7 +266,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Xcache, save) {
 PHP_METHOD(Phalcon_Cache_Backend_Xcache, delete) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
-	zval *keyName, *prefixedKey, *specialKey, *keys, *_0, *_1;
+	zval *keyName, *prefixedKey, *specialKey, *keys = NULL, *_0, *_1;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &keyName);
@@ -287,15 +282,14 @@ PHP_METHOD(Phalcon_Cache_Backend_Xcache, delete) {
 		ZEPHIR_THROW_EXCEPTION_STR(phalcon_cache_exception_ce, "Unexpected inconsistency in options");
 		return;
 	}
-	ZEPHIR_INIT_VAR(keys);
-	zephir_call_func_p1(keys, "xcache_get", specialKey);
+	ZEPHIR_CALL_FUNCTION(&keys, "xcache_get", NULL, specialKey);
 	zephir_check_call_status();
-	if ((Z_TYPE_P(keys) != IS_ARRAY)) {
-		ZEPHIR_INIT_BNVAR(keys);
+	if (Z_TYPE_P(keys) != IS_ARRAY) {
+		ZEPHIR_INIT_VAR(keys);
 		array_init(keys);
 	}
 	zephir_array_unset(&keys, prefixedKey, PH_SEPARATE);
-	zephir_call_func_p2_noret("xcache_set", specialKey, keys);
+	ZEPHIR_CALL_FUNCTION(NULL, "xcache_set", NULL, specialKey, keys);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 
@@ -312,7 +306,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Xcache, queryKeys) {
 	HashTable *_1;
 	HashPosition _0;
 	int ZEPHIR_LAST_CALL_STATUS;
-	zval *prefix = NULL, *options, *prefixed, *specialKey, *keys, *retval, *key = NULL, *realKey = NULL, **_2;
+	zval *prefix = NULL, *options, *prefixed, *specialKey, *keys = NULL, *retval, *key = NULL, *realKey = NULL, **_2;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 1, &prefix);
@@ -338,10 +332,9 @@ PHP_METHOD(Phalcon_Cache_Backend_Xcache, queryKeys) {
 	zephir_array_fetch_string(&specialKey, options, SL("statsKey"), PH_NOISY TSRMLS_CC);
 	ZEPHIR_INIT_VAR(retval);
 	array_init(retval);
-	ZEPHIR_INIT_VAR(keys);
-	zephir_call_func_p1(keys, "xcache_get", specialKey);
+	ZEPHIR_CALL_FUNCTION(&keys, "xcache_get", NULL, specialKey);
 	zephir_check_call_status();
-	if ((Z_TYPE_P(keys) == IS_ARRAY)) {
+	if (Z_TYPE_P(keys) == IS_ARRAY) {
 		zephir_is_iterable(keys, &_1, &_0, 0, 0);
 		for (
 		  ; zephir_hash_get_current_data_ex(_1, (void**) &_2, &_0) == SUCCESS
@@ -388,7 +381,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Xcache, exists) {
 		ZEPHIR_CONCAT_SVV(lastKey, "_PHCX", _0, keyName);
 	}
 	if (zephir_is_true(lastKey)) {
-		zephir_call_func_p1(return_value, "xcache_isset", lastKey);
+		ZEPHIR_RETURN_CALL_FUNCTION("xcache_isset", NULL, lastKey);
 		zephir_check_call_status();
 		RETURN_MM();
 	}
@@ -407,7 +400,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Xcache, increment) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
 	long value;
-	zval *keyName, *value_param = NULL, *lastKey, *newVal, *origVal, *_0, _1;
+	zval *keyName, *value_param = NULL, *lastKey, *newVal = NULL, *origVal = NULL, *_0, _1;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 1, &keyName, &value_param);
@@ -434,14 +427,13 @@ PHP_METHOD(Phalcon_Cache_Backend_Xcache, increment) {
 	if ((zephir_function_exists_ex(SS("xcache_inc") TSRMLS_CC) == SUCCESS)) {
 		ZEPHIR_SINIT_VAR(_1);
 		ZVAL_LONG(&_1, value);
-		zephir_call_func_p2(newVal, "xcache_inc", lastKey, &_1);
+		ZEPHIR_CALL_FUNCTION(&newVal, "xcache_inc", NULL, lastKey, &_1);
 		zephir_check_call_status();
 	} else {
-		ZEPHIR_INIT_VAR(origVal);
-		zephir_call_func_p1(origVal, "xcache_get", lastKey);
+		ZEPHIR_CALL_FUNCTION(&origVal, "xcache_get", NULL, lastKey);
 		zephir_check_call_status();
 		ZVAL_LONG(newVal, (zephir_get_numberval(origVal) - value));
-		zephir_call_func_p2_noret("xcache_set", lastKey, newVal);
+		ZEPHIR_CALL_FUNCTION(NULL, "xcache_set", NULL, lastKey, newVal);
 		zephir_check_call_status();
 	}
 	RETURN_CCTOR(newVal);
@@ -459,7 +451,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Xcache, decrement) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
 	long value;
-	zval *keyName, *value_param = NULL, *lastKey, *newVal, *origVal, *success, *_0, _1;
+	zval *keyName, *value_param = NULL, *lastKey, *newVal = NULL, *origVal = NULL, *success = NULL, *_0, _1;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 1, &keyName, &value_param);
@@ -486,15 +478,13 @@ PHP_METHOD(Phalcon_Cache_Backend_Xcache, decrement) {
 	if ((zephir_function_exists_ex(SS("xcache_dec") TSRMLS_CC) == SUCCESS)) {
 		ZEPHIR_SINIT_VAR(_1);
 		ZVAL_LONG(&_1, value);
-		zephir_call_func_p2(newVal, "xcache_dec", lastKey, &_1);
+		ZEPHIR_CALL_FUNCTION(&newVal, "xcache_dec", NULL, lastKey, &_1);
 		zephir_check_call_status();
 	} else {
-		ZEPHIR_INIT_VAR(origVal);
-		zephir_call_func_p1(origVal, "xcache_get", lastKey);
+		ZEPHIR_CALL_FUNCTION(&origVal, "xcache_get", NULL, lastKey);
 		zephir_check_call_status();
 		ZVAL_LONG(newVal, (zephir_get_numberval(origVal) - value));
-		ZEPHIR_INIT_VAR(success);
-		zephir_call_func_p2(success, "xcache_set", lastKey, newVal);
+		ZEPHIR_CALL_FUNCTION(&success, "xcache_set", NULL, lastKey, newVal);
 		zephir_check_call_status();
 	}
 	RETURN_CCTOR(newVal);
@@ -508,10 +498,11 @@ PHP_METHOD(Phalcon_Cache_Backend_Xcache, decrement) {
  */
 PHP_METHOD(Phalcon_Cache_Backend_Xcache, flush) {
 
+	zephir_fcall_cache_entry *_4 = NULL;
 	HashTable *_2;
 	HashPosition _1;
 	int ZEPHIR_LAST_CALL_STATUS;
-	zval *prefixed, *options, *specialKey, *keys, *key = NULL, *value = NULL, *_0, **_3;
+	zval *prefixed, *options, *specialKey, *keys = NULL, *key = NULL, *value = NULL, *_0, **_3;
 
 	ZEPHIR_MM_GROW();
 
@@ -525,10 +516,9 @@ PHP_METHOD(Phalcon_Cache_Backend_Xcache, flush) {
 		ZEPHIR_THROW_EXCEPTION_STR(phalcon_cache_exception_ce, "Unexpected inconsistency in options");
 		return;
 	}
-	ZEPHIR_INIT_VAR(keys);
-	zephir_call_func_p1(keys, "xcache_get", specialKey);
+	ZEPHIR_CALL_FUNCTION(&keys, "xcache_get", NULL, specialKey);
 	zephir_check_call_status();
-	if ((Z_TYPE_P(keys) == IS_ARRAY)) {
+	if (Z_TYPE_P(keys) == IS_ARRAY) {
 		zephir_is_iterable(keys, &_2, &_1, 0, 0);
 		for (
 		  ; zephir_hash_get_current_data_ex(_2, (void**) &_3, &_1) == SUCCESS
@@ -537,10 +527,10 @@ PHP_METHOD(Phalcon_Cache_Backend_Xcache, flush) {
 			ZEPHIR_GET_HMKEY(key, _2, _1);
 			ZEPHIR_GET_HVALUE(value, _3);
 			zephir_array_unset(&keys, key, PH_SEPARATE);
-			zephir_call_func_p1_noret("xcache_unset", key);
+			ZEPHIR_CALL_FUNCTION(NULL, "xcache_unset", &_4, key);
 			zephir_check_call_status();
 		}
-		zephir_call_func_p2_noret("xcache_set", specialKey, keys);
+		ZEPHIR_CALL_FUNCTION(NULL, "xcache_set", NULL, specialKey, keys);
 		zephir_check_call_status();
 	}
 	RETURN_MM_BOOL(1);

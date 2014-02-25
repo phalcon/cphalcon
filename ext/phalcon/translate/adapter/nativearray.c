@@ -69,7 +69,7 @@ PHP_METHOD(Phalcon_Translate_Adapter_NativeArray, __construct) {
 
 
 
-	if ((Z_TYPE_P(options) != IS_ARRAY)) {
+	if (Z_TYPE_P(options) != IS_ARRAY) {
 		ZEPHIR_THROW_EXCEPTION_STR(phalcon_translate_exception_ce, "Invalid options");
 		return;
 	}
@@ -78,7 +78,7 @@ PHP_METHOD(Phalcon_Translate_Adapter_NativeArray, __construct) {
 		ZEPHIR_THROW_EXCEPTION_STR(phalcon_translate_exception_ce, "Translation content was not provided");
 		return;
 	}
-	if ((Z_TYPE_P(data) != IS_ARRAY)) {
+	if (Z_TYPE_P(data) != IS_ARRAY) {
 		ZEPHIR_THROW_EXCEPTION_STR(phalcon_translate_exception_ce, "Translation data must be an array");
 		return;
 	}
@@ -123,7 +123,7 @@ PHP_METHOD(Phalcon_Translate_Adapter_NativeArray, query) {
 	ZEPHIR_OBS_VAR(traslation);
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_translate"), PH_NOISY_CC);
 	if (zephir_array_isset_fetch(&traslation, _0, index, 0 TSRMLS_CC)) {
-		if ((Z_TYPE_P(placeholders) == IS_ARRAY)) {
+		if (Z_TYPE_P(placeholders) == IS_ARRAY) {
 			if (zephir_fast_count_int(placeholders TSRMLS_CC)) {
 				zephir_is_iterable(placeholders, &_2, &_1, 0, 0);
 				for (

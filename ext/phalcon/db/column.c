@@ -502,7 +502,7 @@ PHP_METHOD(Phalcon_Db_Column, __set_state) {
 
 
 
-	if ((Z_TYPE_P(data) != IS_ARRAY)) {
+	if (Z_TYPE_P(data) != IS_ARRAY) {
 		ZEPHIR_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "Column state must be an array");
 		return;
 	}
@@ -541,7 +541,7 @@ PHP_METHOD(Phalcon_Db_Column, __set_state) {
 	}
 	object_init_ex(return_value, phalcon_db_column_ce);
 	zephir_array_fetch_string(&_0, data, SL("_name"), PH_NOISY | PH_READONLY TSRMLS_CC);
-	zephir_call_method_p2_noret(return_value, "__construct", _0, definition);
+	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, _0, definition);
 	zephir_check_call_status();
 	RETURN_MM();
 

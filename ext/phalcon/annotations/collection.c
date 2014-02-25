@@ -78,7 +78,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Annotations_Collection) {
  */
 PHP_METHOD(Phalcon_Annotations_Collection, __construct) {
 
-	zend_function *_4 = NULL;
+	zephir_fcall_cache_entry *_4 = NULL;
 	int ZEPHIR_LAST_CALL_STATUS;
 	HashTable *_1;
 	HashPosition _0;
@@ -92,13 +92,13 @@ PHP_METHOD(Phalcon_Annotations_Collection, __construct) {
 	}
 
 
-	if ((Z_TYPE_P(reflectionData) != IS_NULL)) {
-		if ((Z_TYPE_P(reflectionData) != IS_ARRAY)) {
+	if (Z_TYPE_P(reflectionData) != IS_NULL) {
+		if (Z_TYPE_P(reflectionData) != IS_ARRAY) {
 			ZEPHIR_THROW_EXCEPTION_STR(phalcon_annotations_exception_ce, "Reflection data must be an array");
 			return;
 		}
 	}
-	if ((Z_TYPE_P(reflectionData) == IS_ARRAY)) {
+	if (Z_TYPE_P(reflectionData) == IS_ARRAY) {
 		ZEPHIR_INIT_VAR(annotations);
 		array_init(annotations);
 		zephir_is_iterable(reflectionData, &_1, &_0, 0, 0);
@@ -109,7 +109,7 @@ PHP_METHOD(Phalcon_Annotations_Collection, __construct) {
 			ZEPHIR_GET_HVALUE(annotationData, _2);
 			ZEPHIR_INIT_LNVAR(_3);
 			object_init_ex(_3, phalcon_annotations_annotation_ce);
-			zephir_call_method_p1_cache_noret(_3, "__construct", &_4, annotationData);
+			ZEPHIR_CALL_METHOD(NULL, _3, "__construct", &_4, annotationData);
 			zephir_check_call_status();
 			zephir_array_append(&annotations, _3, PH_SEPARATE);
 		}
@@ -243,15 +243,14 @@ PHP_METHOD(Phalcon_Annotations_Collection, get) {
 
 	ZEPHIR_OBS_VAR(annotations);
 	zephir_read_property_this(&annotations, this_ptr, SL("_annotations"), PH_NOISY_CC);
-	if ((Z_TYPE_P(annotations) == IS_ARRAY)) {
+	if (Z_TYPE_P(annotations) == IS_ARRAY) {
 		zephir_is_iterable(annotations, &_1, &_0, 0, 0);
 		for (
 		  ; zephir_hash_get_current_data_ex(_1, (void**) &_2, &_0) == SUCCESS
 		  ; zephir_hash_move_forward_ex(_1, &_0)
 		) {
 			ZEPHIR_GET_HVALUE(annotation, _2);
-			ZEPHIR_INIT_NVAR(_3);
-			zephir_call_method(_3, annotation, "getname");
+			ZEPHIR_CALL_METHOD(&_3, annotation, "getname",  NULL);
 			zephir_check_call_status();
 			if (ZEPHIR_IS_EQUAL(name, _3)) {
 				RETURN_CCTOR(annotation);
@@ -262,7 +261,7 @@ PHP_METHOD(Phalcon_Annotations_Collection, get) {
 	object_init_ex(_4, phalcon_annotations_exception_ce);
 	ZEPHIR_INIT_VAR(_5);
 	ZEPHIR_CONCAT_SVS(_5, "The collection doesn't have an annotation called '", name, "'");
-	zephir_call_method_p1_noret(_4, "__construct", _5);
+	ZEPHIR_CALL_METHOD(NULL, _4, "__construct", NULL, _5);
 	zephir_check_call_status();
 	zephir_throw_exception(_4 TSRMLS_CC);
 	ZEPHIR_MM_RESTORE();
@@ -294,15 +293,14 @@ PHP_METHOD(Phalcon_Annotations_Collection, getAll) {
 	array_init(found);
 	ZEPHIR_OBS_VAR(annotations);
 	zephir_read_property_this(&annotations, this_ptr, SL("_annotations"), PH_NOISY_CC);
-	if ((Z_TYPE_P(annotations) == IS_ARRAY)) {
+	if (Z_TYPE_P(annotations) == IS_ARRAY) {
 		zephir_is_iterable(annotations, &_1, &_0, 0, 0);
 		for (
 		  ; zephir_hash_get_current_data_ex(_1, (void**) &_2, &_0) == SUCCESS
 		  ; zephir_hash_move_forward_ex(_1, &_0)
 		) {
 			ZEPHIR_GET_HVALUE(annotation, _2);
-			ZEPHIR_INIT_NVAR(_3);
-			zephir_call_method(_3, annotation, "getname");
+			ZEPHIR_CALL_METHOD(&_3, annotation, "getname",  NULL);
 			zephir_check_call_status();
 			if (ZEPHIR_IS_EQUAL(name, _3)) {
 				zephir_array_append(&found, annotation, PH_SEPARATE);
@@ -335,15 +333,14 @@ PHP_METHOD(Phalcon_Annotations_Collection, has) {
 
 	ZEPHIR_OBS_VAR(annotations);
 	zephir_read_property_this(&annotations, this_ptr, SL("_annotations"), PH_NOISY_CC);
-	if ((Z_TYPE_P(annotations) == IS_ARRAY)) {
+	if (Z_TYPE_P(annotations) == IS_ARRAY) {
 		zephir_is_iterable(annotations, &_1, &_0, 0, 0);
 		for (
 		  ; zephir_hash_get_current_data_ex(_1, (void**) &_2, &_0) == SUCCESS
 		  ; zephir_hash_move_forward_ex(_1, &_0)
 		) {
 			ZEPHIR_GET_HVALUE(annotation, _2);
-			ZEPHIR_INIT_NVAR(_3);
-			zephir_call_method(_3, annotation, "getname");
+			ZEPHIR_CALL_METHOD(&_3, annotation, "getname",  NULL);
 			zephir_check_call_status();
 			if (ZEPHIR_IS_EQUAL(name, _3)) {
 				RETURN_MM_BOOL(1);

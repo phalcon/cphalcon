@@ -44,7 +44,7 @@
  */
 ZEPHIR_INIT_CLASS(Phalcon_Validation_Validator) {
 
-	ZEPHIR_REGISTER_CLASS(Phalcon\\Validation, Validator, phalcon, validation_validator, phalcon_validation_validator_method_entry, ZEND_ACC_EXPLICIT_ABSTRACT_CLASS);
+	ZEPHIR_REGISTER_CLASS(Phalcon\\Validation, Validator, phalcon, validation_validator, phalcon_validation_validator_method_entry, 0);
 
 	zend_declare_property_null(phalcon_validation_validator_ce, SL("_options"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
@@ -68,8 +68,8 @@ PHP_METHOD(Phalcon_Validation_Validator, __construct) {
 	}
 
 
-	if ((Z_TYPE_P(options) != IS_ARRAY)) {
-		if ((Z_TYPE_P(options) != IS_NULL)) {
+	if (Z_TYPE_P(options) != IS_ARRAY) {
+		if (Z_TYPE_P(options) != IS_NULL) {
 			ZEPHIR_THROW_EXCEPTION_STRW(phalcon_validation_exception_ce, "Options must be an array");
 			return;
 		}
@@ -97,7 +97,7 @@ PHP_METHOD(Phalcon_Validation_Validator, isSetOption) {
 
 
 	options = zephir_fetch_nproperty_this(this_ptr, SL("_options"), PH_NOISY_CC);
-	if ((Z_TYPE_P(options) == IS_ARRAY)) {
+	if (Z_TYPE_P(options) == IS_ARRAY) {
 		RETURN_MM_BOOL(zephir_array_isset(options, key));
 	}
 	RETURN_MM_BOOL(0);
@@ -106,7 +106,7 @@ PHP_METHOD(Phalcon_Validation_Validator, isSetOption) {
 
 /**
  * Returns an option in the validator's options
- * Returns null if the option hasn't been set
+ * Returns null if the option hasn't set
  *
  * @param string key
  * @return mixed
@@ -133,7 +133,7 @@ PHP_METHOD(Phalcon_Validation_Validator, getOption) {
 
 
 	options = zephir_fetch_nproperty_this(this_ptr, SL("_options"), PH_NOISY_CC);
-	if ((Z_TYPE_P(options) == IS_ARRAY)) {
+	if (Z_TYPE_P(options) == IS_ARRAY) {
 		if (zephir_array_isset_fetch(&value, options, key, 1 TSRMLS_CC)) {
 			RETURN_CTOR(value);
 		}

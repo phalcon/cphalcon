@@ -248,7 +248,7 @@ PHP_METHOD(Phalcon_Db_Reference, __set_state) {
 	zephir_array_update_string(&_0, SL("referencedTable"), &referencedTable, PH_COPY | PH_SEPARATE);
 	zephir_array_update_string(&_0, SL("columns"), &columns, PH_COPY | PH_SEPARATE);
 	zephir_array_update_string(&_0, SL("referencedColumns"), &referencedColumns, PH_COPY | PH_SEPARATE);
-	zephir_call_method_p2_noret(return_value, "__construct", constraintName, _0);
+	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, constraintName, _0);
 	zephir_check_call_status();
 	RETURN_MM();
 

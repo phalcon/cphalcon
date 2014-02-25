@@ -65,8 +65,9 @@ ZEPHIR_INIT_CLASS(Phalcon_Annotations_Adapter_Xcache) {
  */
 PHP_METHOD(Phalcon_Annotations_Adapter_Xcache, read) {
 
+	zephir_nts_static zephir_fcall_cache_entry *_2 = NULL;
 	int ZEPHIR_LAST_CALL_STATUS;
-	zval *key_param = NULL, *serialized, *data, *_0;
+	zval *key_param = NULL, *serialized = NULL, *data = NULL, *_0;
 	zval *key = NULL, *_1;
 
 	ZEPHIR_MM_GROW();
@@ -89,14 +90,12 @@ PHP_METHOD(Phalcon_Annotations_Adapter_Xcache, read) {
 	ZEPHIR_INIT_VAR(_1);
 	ZEPHIR_CONCAT_SV(_1, "_PHAN", key);
 	zephir_fast_strtolower(_0, _1);
-	ZEPHIR_INIT_VAR(serialized);
-	zephir_call_func_p1(serialized, "xcache_get", _0);
+	ZEPHIR_CALL_FUNCTION(&serialized, "xcache_get", NULL, _0);
 	zephir_check_call_status();
-	if ((Z_TYPE_P(serialized) == IS_STRING)) {
-		ZEPHIR_INIT_VAR(data);
-		zephir_call_func_p1(data, "unserialize", serialized);
+	if (Z_TYPE_P(serialized) == IS_STRING) {
+		ZEPHIR_CALL_FUNCTION(&data, "unserialize", &_2, serialized);
 		zephir_check_call_status();
-		if ((Z_TYPE_P(data) == IS_OBJECT)) {
+		if (Z_TYPE_P(data) == IS_OBJECT) {
 			RETURN_CCTOR(data);
 		}
 	}
@@ -113,7 +112,8 @@ PHP_METHOD(Phalcon_Annotations_Adapter_Xcache, read) {
 PHP_METHOD(Phalcon_Annotations_Adapter_Xcache, write) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
-	zval *key_param = NULL, *data, *_0, *_2;
+	zephir_nts_static zephir_fcall_cache_entry *_3 = NULL;
+	zval *key_param = NULL, *data, *_0, *_2 = NULL;
 	zval *key = NULL, *_1;
 
 	ZEPHIR_MM_GROW();
@@ -140,10 +140,9 @@ PHP_METHOD(Phalcon_Annotations_Adapter_Xcache, write) {
 	ZEPHIR_INIT_VAR(_1);
 	ZEPHIR_CONCAT_SV(_1, "_PHAN", key);
 	zephir_fast_strtolower(_0, _1);
-	ZEPHIR_INIT_VAR(_2);
-	zephir_call_func_p1(_2, "serialize", data);
+	ZEPHIR_CALL_FUNCTION(&_2, "serialize", &_3, data);
 	zephir_check_call_status();
-	zephir_call_func_p2_noret("xcache_set", _0, _2);
+	ZEPHIR_CALL_FUNCTION(NULL, "xcache_set", NULL, _0, _2);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 

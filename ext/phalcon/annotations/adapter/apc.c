@@ -88,7 +88,7 @@ PHP_METHOD(Phalcon_Annotations_Adapter_Apc, read) {
 	ZEPHIR_INIT_VAR(_1);
 	ZEPHIR_CONCAT_SV(_1, "_PHAN", key);
 	zephir_fast_strtolower(_0, _1);
-	zephir_call_func_p1(return_value, "apc_fetch", _0);
+	ZEPHIR_RETURN_CALL_FUNCTION("apc_fetch", NULL, _0);
 	zephir_check_call_status();
 	RETURN_MM();
 
@@ -130,7 +130,7 @@ PHP_METHOD(Phalcon_Annotations_Adapter_Apc, write) {
 	ZEPHIR_INIT_VAR(_1);
 	ZEPHIR_CONCAT_SV(_1, "_PHAN", key);
 	zephir_fast_strtolower(_0, _1);
-	zephir_call_func_p2(return_value, "apc_store", _0, data);
+	ZEPHIR_RETURN_CALL_FUNCTION("apc_store", NULL, _0, data);
 	zephir_check_call_status();
 	RETURN_MM();
 

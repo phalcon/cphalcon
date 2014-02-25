@@ -4,11 +4,16 @@
 #ifndef PHP_PHALCON_H
 #define PHP_PHALCON_H 1
 
+#define ZEPHIR_RELEASE 1
+
 #include "kernel/globals.h"
 
-#define PHP_PHALCON_NAME    ""
-#define PHP_PHALCON_VERSION "2.0.0a"
-#define PHP_PHALCON_EXTNAME "phalcon"
+#define PHP_PHALCON_NAME        ""
+#define PHP_PHALCON_VERSION     "2.0.0a"
+#define PHP_PHALCON_EXTNAME     "phalcon"
+#define PHP_PHALCON_AUTHOR      "Phalcon Team"
+#define PHP_PHALCON_ZEPVERSION  "0.3.9a"
+#define PHP_PHALCON_DESCRIPTION ""
 
 typedef struct _zephir_struct_db { 
 	zend_bool escape_identifiers;
@@ -35,8 +40,8 @@ ZEND_BEGIN_MODULE_GLOBALS(phalcon)
 	/* Virtual Symbol Tables */
 	zephir_symbol_table *active_symbol_table;
 
-	/* Function cache */
-	HashTable *function_cache;
+	/** Function cache */
+	HashTable *fcache;
 
 	/* Max recursion control */
 	unsigned int recursive_lock;

@@ -21,6 +21,7 @@
 #include <Zend/zend_interfaces.h>
 
 #include "kernel/main.h"
+#include "kernel/fcall.h"
 #include "kernel/memory.h"
 
 zend_class_entry *phalcon_dispatcherinterface_ce;
@@ -694,9 +695,6 @@ static PHP_MINIT_FUNCTION(phalcon)
 #ifndef ZEPHIR_RELEASE
 static PHP_MSHUTDOWN_FUNCTION(phalcon)
 {
-
-	assert(ZEPHIR_GLOBAL(function_cache) == NULL);
-
 	return SUCCESS;
 }
 #endif
@@ -713,9 +711,6 @@ static void php_zephir_init_globals(zend_zephir_globals *zephir_globals TSRMLS_D
 	/* Virtual Symbol Tables */
 	zephir_globals->active_symbol_table = NULL;
 
-	/* Cache options */
-	zephir_globals->function_cache = NULL;
-
 	/* Recursive Lock */
 	zephir_globals->recursive_lock = 0;
 
@@ -728,6 +723,48 @@ static void php_zephir_init_globals(zend_zephir_globals *zephir_globals TSRMLS_D
 	zephir_globals->orm.exception_on_failed_save = 0;
 	zephir_globals->orm.enable_literals = 1;
 
+}
+
+#ifndef ZEPHIR_RELEASE
+static void zephir_fcall_cache_dtor(void *pData)
+{
+	zephir_fcall_cache_entry **entry = (zephir_fcall_cache_entry**)pData;
+	free(*entry);
+}
+#endif
+
+static int zephir_cleanup_fcache(void *pDest TSRMLS_DC, int num_args, va_list args, zend_hash_key *hash_key)
+{
+	zephir_fcall_cache_entry **entry = (zephir_fcall_cache_entry**)pDest;
+	zend_class_entry *scope;
+	uint len = hash_key->nKeyLength;
+
+	assert(hash_key->arKey != NULL);
+	assert(hash_key->nKeyLength > 2*sizeof(zend_class_entry**));
+
+	memcpy(&scope, &hash_key->arKey[len - 2*sizeof(zend_class_entry**)], sizeof(zend_class_entry*));
+
+#ifndef ZEPHIR_RELEASE
+if ((*entry)->f->type != ZEND_INTERNAL_FUNCTION || (scope && scope->type != ZEND_INTERNAL_CLASS)) {
+	return ZEND_HASH_APPLY_REMOVE;
+}
+#else
+if ((*entry)->type != ZEND_INTERNAL_FUNCTION || (scope && scope->type != ZEND_INTERNAL_CLASS)) {
+	return ZEND_HASH_APPLY_REMOVE;
+}
+#endif
+
+#if PHP_VERSION_ID >= 50400
+if (scope && scope->type == ZEND_INTERNAL_CLASS && scope->info.internal.module->type != MODULE_PERSISTENT) {
+	return ZEND_HASH_APPLY_REMOVE;
+}
+#else
+if (scope && scope->type == ZEND_INTERNAL_CLASS && scope->module->type != MODULE_PERSISTENT) {
+	return ZEND_HASH_APPLY_REMOVE;
+}
+#endif
+
+	return ZEND_HASH_APPLY_KEEP;
 }
 
 static PHP_RINIT_FUNCTION(phalcon)
@@ -746,20 +783,28 @@ static PHP_RSHUTDOWN_FUNCTION(phalcon)
 		zephir_clean_restore_stack(TSRMLS_C);
 	}
 
-	if (ZEPHIR_GLOBAL(function_cache) != NULL) {
+	/*if (ZEPHIR_GLOBAL(function_cache) != NULL) {
 		zend_hash_destroy(ZEPHIR_GLOBAL(function_cache));
 		FREE_HASHTABLE(ZEPHIR_GLOBAL(function_cache));
 		ZEPHIR_GLOBAL(function_cache) = NULL;
-	}
+	}*/
+
+	zend_hash_apply_with_arguments(ZEPHIR_GLOBAL(fcache) TSRMLS_CC, zephir_cleanup_fcache, 0);
 
 	return SUCCESS;
 }
 
 static PHP_MINFO_FUNCTION(phalcon)
 {
+	php_info_print_box_start(0);
+	php_printf(PHP_PHALCON_DESCRIPTION);
+	php_info_print_box_end();
+
 	php_info_print_table_start();
 	php_info_print_table_header(2, PHP_PHALCON_NAME, "enabled");
+	php_info_print_table_row(2, "Author", PHP_PHALCON_AUTHOR);
 	php_info_print_table_row(2, "Version", PHP_PHALCON_VERSION);
+	php_info_print_table_row(2, "Powered by Zephir", "Version " PHP_PHALCON_ZEPVERSION);
 	php_info_print_table_end();
 
 
@@ -779,6 +824,13 @@ static PHP_GINIT_FUNCTION(phalcon)
 	start->hash_capacity   = 4;
 
 	phalcon_globals->start_memory = start;
+
+	phalcon_globals->fcache = pemalloc(sizeof(HashTable), 1);
+#ifndef ZEPHIR_RELEASE
+	zend_hash_init(phalcon_globals->fcache, 128, NULL, zephir_fcall_cache_dtor, 1);
+#else
+	zend_hash_init(phalcon_globals->fcache, 128, NULL, NULL, 1);
+#endif
 
 	/* Global Constants */
 	ALLOC_PERMANENT_ZVAL(phalcon_globals->global_false);

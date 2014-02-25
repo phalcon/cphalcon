@@ -81,9 +81,11 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_Validator_Regex) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_Validator_Regex, validate) {
 
+	zephir_nts_static zephir_fcall_cache_entry *_6 = NULL;
+	zval *_4;
 	int ZEPHIR_LAST_CALL_STATUS;
 	zend_bool failed, _2;
-	zval *record, *field, *visSet, *value, *matches, *pattern, *matchPattern, *matchZero, *message = NULL, *replacePairs, *_0, *_1, *_3;
+	zval *record, *field = NULL, *value = NULL, *matches, *pattern = NULL, *message = NULL, *_0, *_1 = NULL, *_3, *_5 = NULL;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &record);
@@ -95,74 +97,72 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Regex, validate) {
 		return;
 	}
 	ZEPHIR_INIT_VAR(_0);
-	ZVAL_STRING(_0, "field", 1);
-	ZEPHIR_INIT_VAR(field);
-	zephir_call_method_p1(field, this_ptr, "getoption", _0);
+	ZVAL_STRING(_0, "field", 0);
+	ZEPHIR_CALL_METHOD(&field, this_ptr, "getoption", NULL, _0);
+	zephir_check_temp_parameter(_0);
 	zephir_check_call_status();
-	if ((Z_TYPE_P(field) != IS_STRING)) {
+	if (Z_TYPE_P(field) != IS_STRING) {
 		ZEPHIR_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Field name must be a string");
 		return;
 	}
 	ZEPHIR_INIT_BNVAR(_0);
-	ZVAL_STRING(_0, "pattern", 1);
-	ZEPHIR_INIT_VAR(visSet);
-	zephir_call_method_p1(visSet, this_ptr, "issetoption", _0);
+	ZVAL_STRING(_0, "pattern", 0);
+	ZEPHIR_CALL_METHOD(&_1, this_ptr, "issetoption", NULL, _0);
+	zephir_check_temp_parameter(_0);
 	zephir_check_call_status();
-	if (!(zephir_is_true(visSet))) {
+	if (!(zephir_is_true(_1))) {
 		ZEPHIR_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Validator requires a perl-compatible regex pattern");
 		return;
 	}
-	ZEPHIR_INIT_VAR(value);
-	zephir_call_method_p1(value, record, "readattribute", field);
+	ZEPHIR_CALL_METHOD(&value, record, "readattribute", NULL, field);
 	zephir_check_call_status();
-	failed = 0;
-	ZEPHIR_INIT_VAR(matches);
-	ZVAL_NULL(matches);
 	ZEPHIR_INIT_BNVAR(_0);
-	ZEPHIR_INIT_VAR(_1);
-	ZVAL_STRING(_1, "allowEmpty", 1);
-	zephir_call_method_p1(_0, this_ptr, "issetoption", _1);
+	ZVAL_STRING(_0, "allowEmpty", 0);
+	ZEPHIR_CALL_METHOD(&_1, this_ptr, "issetoption", NULL, _0);
+	zephir_check_temp_parameter(_0);
 	zephir_check_call_status();
-	_2 = zephir_is_true(_0);
+	_2 = zephir_is_true(_1);
 	if (_2) {
 		_2 = ZEPHIR_IS_EMPTY(value);
 	}
 	if (_2) {
 		RETURN_MM_BOOL(1);
 	}
-	ZEPHIR_INIT_BNVAR(_1);
-	ZVAL_STRING(_1, "pattern", 1);
-	ZEPHIR_INIT_VAR(pattern);
-	zephir_call_method_p1(pattern, this_ptr, "getoption", _1);
+	ZEPHIR_INIT_BNVAR(_0);
+	ZVAL_STRING(_0, "pattern", 0);
+	ZEPHIR_CALL_METHOD(&pattern, this_ptr, "getoption", NULL, _0);
+	zephir_check_temp_parameter(_0);
 	zephir_check_call_status();
-	ZEPHIR_INIT_VAR(matchPattern);
-	zephir_preg_match(matchPattern, &(matchPattern), pattern, value, matches, 0, 0 , 0  TSRMLS_CC);
-	if (zephir_is_true(matchPattern)) {
-		ZEPHIR_OBS_VAR(matchZero);
-		zephir_array_fetch_long(&matchZero, matches, 0, PH_NOISY TSRMLS_CC);
-		failed = (!ZEPHIR_IS_EQUAL(matchZero, value));
+	failed = 0;
+	ZEPHIR_INIT_VAR(matches);
+	ZVAL_NULL(matches);
+	ZEPHIR_INIT_BNVAR(_0);
+	zephir_preg_match(_0, &(_0), pattern, value, matches, 0, 0 , 0  TSRMLS_CC);
+	if (zephir_is_true(_0)) {
+		zephir_array_fetch_long(&_3, matches, 0, PH_NOISY | PH_READONLY TSRMLS_CC);
+		failed = !ZEPHIR_IS_EQUAL(_3, value);
 	} else {
 		failed = 1;
 	}
 	if ((failed == 1)) {
-		ZEPHIR_INIT_BNVAR(_1);
-		ZVAL_STRING(_1, "message", 1);
-		ZEPHIR_INIT_VAR(message);
-		zephir_call_method_p1(message, this_ptr, "getoption", _1);
+		ZEPHIR_INIT_BNVAR(_0);
+		ZVAL_STRING(_0, "message", 0);
+		ZEPHIR_CALL_METHOD(&message, this_ptr, "getoption", NULL, _0);
+		zephir_check_temp_parameter(_0);
 		zephir_check_call_status();
-		ZEPHIR_INIT_VAR(replacePairs);
-		array_init_size(replacePairs, 2);
-		zephir_array_update_string(&replacePairs, SL(":field"), &field, PH_COPY | PH_SEPARATE);
 		if (ZEPHIR_IS_EMPTY(message)) {
-			ZEPHIR_INIT_NVAR(message);
+			ZEPHIR_INIT_VAR(message);
 			ZVAL_STRING(message, "Value of field :field doesn't match regular expression", 1);
 		}
-		ZEPHIR_INIT_BNVAR(_1);
-		zephir_call_func_p2(_1, "strtr", message, replacePairs);
+		ZEPHIR_INIT_VAR(_4);
+		array_init_size(_4, 2);
+		zephir_array_update_string(&_4, SL(":field"), &field, PH_COPY | PH_SEPARATE);
+		ZEPHIR_CALL_FUNCTION(&_5, "strtr", &_6, message, _4);
 		zephir_check_call_status();
-		ZEPHIR_INIT_VAR(_3);
-		ZVAL_STRING(_3, "Regex", 1);
-		zephir_call_method_p3_noret(this_ptr, "appendmessage", _1, field, _3);
+		ZEPHIR_INIT_BNVAR(_0);
+		ZVAL_STRING(_0, "Regex", 0);
+		ZEPHIR_CALL_METHOD(NULL, this_ptr, "appendmessage", NULL, _5, field, _0);
+		zephir_check_temp_parameter(_0);
 		zephir_check_call_status();
 		RETURN_MM_BOOL(0);
 	}

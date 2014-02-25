@@ -88,8 +88,8 @@ void zephir_base64_decode(zval *return_value, zval *data);
 void zephir_md5(zval *return_value, zval *str);
 
 /** JSON */
-void zephir_json_encode(zval *return_value, zval **return_value_ptr, zval *v, int opts TSRMLS_DC);
-void zephir_json_decode(zval *return_value, zval **return_value_ptr, zval *v, zend_bool assoc TSRMLS_DC);
+int zephir_json_encode(zval *return_value, zval **return_value_ptr, zval *v, int opts TSRMLS_DC);
+int zephir_json_decode(zval *return_value, zval **return_value_ptr, zval *v, zend_bool assoc TSRMLS_DC);
 
 /***/
 void zephir_lcfirst(zval *return_value, zval *s);
@@ -101,6 +101,7 @@ void zephir_strval(zval *return_value, zval *v);
 void zephir_date(zval *return_value, zval *format, zval *timestamp TSRMLS_DC);
 void zephir_addslashes(zval *return_value, zval *str TSRMLS_DC);
 void zephir_stripslashes(zval *return_value, zval *str TSRMLS_DC);
+void zephir_stripcslashes(zval *return_value, zval *str TSRMLS_DC);
 
 #if PHP_VERSION_ID < 50400
 

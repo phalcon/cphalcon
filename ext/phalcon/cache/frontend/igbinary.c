@@ -114,7 +114,7 @@ PHP_METHOD(Phalcon_Cache_Frontend_Igbinary, getLifetime) {
 
 
 	options = zephir_fetch_nproperty_this(this_ptr, SL("_frontendOptions"), PH_NOISY_CC);
-	if ((Z_TYPE_P(options) == IS_ARRAY)) {
+	if (Z_TYPE_P(options) == IS_ARRAY) {
 		if (zephir_array_isset_string_fetch(&lifetime, options, SS("lifetime"), 1 TSRMLS_CC)) {
 			RETURN_CTORW(lifetime);
 		}
@@ -181,7 +181,7 @@ PHP_METHOD(Phalcon_Cache_Frontend_Igbinary, beforeStore) {
 
 
 
-	zephir_call_func_p1(return_value, "igbinary_serialize", data);
+	ZEPHIR_RETURN_CALL_FUNCTION("igbinary_serialize", NULL, data);
 	zephir_check_call_status();
 	RETURN_MM();
 
@@ -203,7 +203,7 @@ PHP_METHOD(Phalcon_Cache_Frontend_Igbinary, afterRetrieve) {
 
 
 
-	zephir_call_func_p1(return_value, "igbinary_unserialize", data);
+	ZEPHIR_RETURN_CALL_FUNCTION("igbinary_unserialize", NULL, data);
 	zephir_check_call_status();
 	RETURN_MM();
 

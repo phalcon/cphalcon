@@ -80,8 +80,10 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_Validator_PresenceOf) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_Validator_PresenceOf, validate) {
 
+	zephir_nts_static zephir_fcall_cache_entry *_3 = NULL;
+	zval *_1;
 	int ZEPHIR_LAST_CALL_STATUS;
-	zval *record, *field, *value, *message = NULL, *replacePairs, *_0, *_1;
+	zval *record, *field = NULL, *value = NULL, *message = NULL, *_0, *_2 = NULL;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &record);
@@ -93,36 +95,35 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_PresenceOf, validate) {
 		return;
 	}
 	ZEPHIR_INIT_VAR(_0);
-	ZVAL_STRING(_0, "field", 1);
-	ZEPHIR_INIT_VAR(field);
-	zephir_call_method_p1(field, this_ptr, "getoption", _0);
+	ZVAL_STRING(_0, "field", 0);
+	ZEPHIR_CALL_METHOD(&field, this_ptr, "getoption", NULL, _0);
+	zephir_check_temp_parameter(_0);
 	zephir_check_call_status();
-	if ((Z_TYPE_P(field) != IS_STRING)) {
+	if (Z_TYPE_P(field) != IS_STRING) {
 		ZEPHIR_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Field name must be a string");
 		return;
 	}
-	ZEPHIR_INIT_VAR(value);
-	zephir_call_method_p1(value, record, "readattribute", field);
+	ZEPHIR_CALL_METHOD(&value, record, "readattribute", NULL, field);
 	zephir_check_call_status();
 	if (ZEPHIR_IS_EMPTY(value)) {
 		ZEPHIR_INIT_BNVAR(_0);
-		ZVAL_STRING(_0, "message", 1);
-		ZEPHIR_INIT_VAR(message);
-		zephir_call_method_p1(message, this_ptr, "getoption", _0);
+		ZVAL_STRING(_0, "message", 0);
+		ZEPHIR_CALL_METHOD(&message, this_ptr, "getoption", NULL, _0);
+		zephir_check_temp_parameter(_0);
 		zephir_check_call_status();
-		ZEPHIR_INIT_VAR(replacePairs);
-		array_init_size(replacePairs, 2);
-		zephir_array_update_string(&replacePairs, SL(":field"), &field, PH_COPY | PH_SEPARATE);
 		if (ZEPHIR_IS_EMPTY(message)) {
-			ZEPHIR_INIT_NVAR(message);
+			ZEPHIR_INIT_VAR(message);
 			ZVAL_STRING(message, ":field is required", 1);
 		}
-		ZEPHIR_INIT_BNVAR(_0);
-		zephir_call_func_p2(_0, "strtr", message, replacePairs);
-		zephir_check_call_status();
 		ZEPHIR_INIT_VAR(_1);
-		ZVAL_STRING(_1, "PresenceOf", 1);
-		zephir_call_method_p3_noret(this_ptr, "appendmessage", _0, field, _1);
+		array_init_size(_1, 2);
+		zephir_array_update_string(&_1, SL(":field"), &field, PH_COPY | PH_SEPARATE);
+		ZEPHIR_CALL_FUNCTION(&_2, "strtr", &_3, message, _1);
+		zephir_check_call_status();
+		ZEPHIR_INIT_BNVAR(_0);
+		ZVAL_STRING(_0, "PresenceOf", 0);
+		ZEPHIR_CALL_METHOD(NULL, this_ptr, "appendmessage", NULL, _2, field, _0);
+		zephir_check_temp_parameter(_0);
 		zephir_check_call_status();
 		RETURN_MM_BOOL(0);
 	}

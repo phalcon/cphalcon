@@ -79,6 +79,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Config) {
  */
 PHP_METHOD(Phalcon_Config, __construct) {
 
+	zephir_fcall_cache_entry *_7 = NULL;
 	int ZEPHIR_LAST_CALL_STATUS;
 	HashTable *_1, *_4;
 	HashPosition _0, _3;
@@ -93,8 +94,8 @@ PHP_METHOD(Phalcon_Config, __construct) {
 	}
 
 
-	if ((Z_TYPE_P(arrayConfig) != IS_ARRAY)) {
-		if ((Z_TYPE_P(arrayConfig) != IS_NULL)) {
+	if (Z_TYPE_P(arrayConfig) != IS_ARRAY) {
+		if (Z_TYPE_P(arrayConfig) != IS_NULL) {
 			ZEPHIR_THROW_EXCEPTION_STR(phalcon_config_exception_ce, "The configuration must be an Array");
 			return;
 		} else {
@@ -108,11 +109,11 @@ PHP_METHOD(Phalcon_Config, __construct) {
 	) {
 		ZEPHIR_GET_HMKEY(key, _1, _0);
 		ZEPHIR_GET_HVALUE(value, _2);
-		if ((Z_TYPE_P(key) != IS_STRING)) {
+		if (Z_TYPE_P(key) != IS_STRING) {
 			ZEPHIR_THROW_EXCEPTION_STR(phalcon_config_exception_ce, "Only string keys are allowed as configuration properties");
 			return;
 		}
-		if ((Z_TYPE_P(value) == IS_ARRAY)) {
+		if (Z_TYPE_P(value) == IS_ARRAY) {
 			hasNumericKey = 0;
 			zephir_is_iterable(value, &_4, &_3, 0, 0);
 			for (
@@ -121,7 +122,7 @@ PHP_METHOD(Phalcon_Config, __construct) {
 			) {
 				ZEPHIR_GET_HMKEY(subkey, _4, _3);
 				ZEPHIR_GET_HVALUE(subvalue, _5);
-				if ((Z_TYPE_P(subkey) == IS_LONG)) {
+				if (Z_TYPE_P(subkey) == IS_LONG) {
 					hasNumericKey = 1;
 					break;
 				}
@@ -131,7 +132,7 @@ PHP_METHOD(Phalcon_Config, __construct) {
 			} else {
 				ZEPHIR_INIT_LNVAR(_6);
 				object_init_ex(_6, phalcon_config_ce);
-				zephir_call_internal_method_p1_noret(_6, "__construct", ZEND_MN(Phalcon_Config___construct), value);
+				ZEPHIR_CALL_METHOD(NULL, _6, "__construct", &_7, value);
 				zephir_check_call_status();
 				zephir_update_property_zval_zval(this_ptr, key, _6 TSRMLS_CC);
 			}
@@ -315,31 +316,30 @@ PHP_METHOD(Phalcon_Config, merge) {
  */
 PHP_METHOD(Phalcon_Config, toArray) {
 
-	HashTable *_2;
-	HashPosition _1;
+	HashTable *_3;
+	HashPosition _2;
 	int ZEPHIR_LAST_CALL_STATUS;
-	zval *key = NULL, *value = NULL, *arrayConfig, *_0, **_3, *_4 = NULL;
+	zephir_nts_static zephir_fcall_cache_entry *_1 = NULL;
+	zval *key = NULL, *value = NULL, *arrayConfig, *_0 = NULL, **_4, *_5 = NULL;
 
 	ZEPHIR_MM_GROW();
 
 	ZEPHIR_INIT_VAR(arrayConfig);
 	array_init(arrayConfig);
-	ZEPHIR_INIT_VAR(_0);
-	zephir_call_func_p1(_0, "get_object_vars", this_ptr);
+	ZEPHIR_CALL_FUNCTION(&_0, "get_object_vars", &_1, this_ptr);
 	zephir_check_call_status();
-	zephir_is_iterable(_0, &_2, &_1, 0, 0);
+	zephir_is_iterable(_0, &_3, &_2, 0, 0);
 	for (
-	  ; zephir_hash_get_current_data_ex(_2, (void**) &_3, &_1) == SUCCESS
-	  ; zephir_hash_move_forward_ex(_2, &_1)
+	  ; zephir_hash_get_current_data_ex(_3, (void**) &_4, &_2) == SUCCESS
+	  ; zephir_hash_move_forward_ex(_3, &_2)
 	) {
-		ZEPHIR_GET_HMKEY(key, _2, _1);
-		ZEPHIR_GET_HVALUE(value, _3);
-		if ((Z_TYPE_P(value) == IS_OBJECT)) {
+		ZEPHIR_GET_HMKEY(key, _3, _2);
+		ZEPHIR_GET_HVALUE(value, _4);
+		if (Z_TYPE_P(value) == IS_OBJECT) {
 			if ((zephir_method_exists_ex(value, SS("toarray") TSRMLS_CC) == SUCCESS)) {
-				ZEPHIR_INIT_NVAR(_4);
-				zephir_call_method(_4, value, "toarray");
+				ZEPHIR_CALL_METHOD(&_5, value, "toarray",  NULL);
 				zephir_check_call_status();
-				zephir_array_update_zval(&arrayConfig, key, &_4, PH_COPY | PH_SEPARATE);
+				zephir_array_update_zval(&arrayConfig, key, &_5, PH_COPY | PH_SEPARATE);
 			}
 		}
 	}
@@ -364,7 +364,7 @@ PHP_METHOD(Phalcon_Config, __set_state) {
 
 
 	object_init_ex(return_value, phalcon_config_ce);
-	zephir_call_method_p1_noret(return_value, "__construct", data);
+	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, data);
 	zephir_check_call_status();
 	RETURN_MM();
 

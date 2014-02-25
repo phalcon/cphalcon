@@ -341,7 +341,7 @@ PHP_METHOD(Phalcon_Crypt, getAvailableCiphers) {
 
 	ZEPHIR_MM_GROW();
 
-	zephir_call_func(return_value, "mcrypt_list_algorithms");
+	ZEPHIR_RETURN_CALL_FUNCTION("mcrypt_list_algorithms", NULL);
 	zephir_check_call_status();
 	RETURN_MM();
 
@@ -358,7 +358,7 @@ PHP_METHOD(Phalcon_Crypt, getAvailableModes) {
 
 	ZEPHIR_MM_GROW();
 
-	zephir_call_func(return_value, "mcrypt_list_modes");
+	ZEPHIR_RETURN_CALL_FUNCTION("mcrypt_list_modes", NULL);
 	zephir_check_call_status();
 	RETURN_MM();
 

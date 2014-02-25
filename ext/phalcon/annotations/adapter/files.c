@@ -79,7 +79,7 @@ PHP_METHOD(Phalcon_Annotations_Adapter_Files, __construct) {
 	}
 
 
-	if ((Z_TYPE_P(options) != IS_ARRAY)) {
+	if (Z_TYPE_P(options) != IS_ARRAY) {
 		if (zephir_array_isset_string_fetch(&annotationsDir, options, SS("annotationsDir"), 1 TSRMLS_CC)) {
 			zephir_update_property_this(this_ptr, SL("_annotationsDir"), annotationsDir TSRMLS_CC);
 		}
@@ -95,7 +95,7 @@ PHP_METHOD(Phalcon_Annotations_Adapter_Files, __construct) {
  */
 PHP_METHOD(Phalcon_Annotations_Adapter_Files, read) {
 
-	zval *key_param = NULL, *path, *_0, *_1, _2;
+	zval *key_param = NULL, *path, *_0, *_1, _2, *_3 = NULL;
 	zval *key = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -112,10 +112,11 @@ PHP_METHOD(Phalcon_Annotations_Adapter_Files, read) {
 	ZEPHIR_INIT_VAR(path);
 	ZEPHIR_CONCAT_VVS(path, _0, _1, ".php");
 	if ((zephir_file_exists(path TSRMLS_CC) == SUCCESS)) {
-		if (zephir_require_ret(return_value, path TSRMLS_CC) == FAILURE) {
+		ZEPHIR_OBSERVE_OR_NULLIFY_PPZV(&_3);
+		if (zephir_require_zval_ret(&_3, path TSRMLS_CC) == FAILURE) {
 			RETURN_MM_NULL();
 		}
-		RETURN_MM();
+		RETURN_CCTOR(_3);
 	}
 	RETURN_MM_BOOL(0);
 

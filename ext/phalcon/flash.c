@@ -83,7 +83,7 @@ PHP_METHOD(Phalcon_Flash, __construct) {
 	}
 
 
-	if ((Z_TYPE_P(cssClasses) != IS_ARRAY)) {
+	if (Z_TYPE_P(cssClasses) != IS_ARRAY) {
 		ZEPHIR_INIT_NVAR(cssClasses);
 		array_init_size(cssClasses, 7);
 		add_assoc_stringl_ex(cssClasses, SS("error"), SL("errorMessage"), 1);
@@ -152,7 +152,7 @@ PHP_METHOD(Phalcon_Flash, setCssClasses) {
 
 
 
-	if ((Z_TYPE_P(cssClasses) == IS_ARRAY)) {
+	if (Z_TYPE_P(cssClasses) == IS_ARRAY) {
 		zephir_update_property_this(this_ptr, SL("_cssClasses"), cssClasses TSRMLS_CC);
 		RETURN_THISW();
 	}
@@ -182,8 +182,9 @@ PHP_METHOD(Phalcon_Flash, error) {
 
 
 	ZEPHIR_INIT_VAR(_0);
-	ZVAL_STRING(_0, "error", 1);
-	zephir_call_method_p2(return_value, this_ptr, "message", _0, message);
+	ZVAL_STRING(_0, "error", 0);
+	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "message", NULL, _0, message);
+	zephir_check_temp_parameter(_0);
 	zephir_check_call_status();
 	RETURN_MM();
 
@@ -210,8 +211,9 @@ PHP_METHOD(Phalcon_Flash, notice) {
 
 
 	ZEPHIR_INIT_VAR(_0);
-	ZVAL_STRING(_0, "notice", 1);
-	zephir_call_method_p2(return_value, this_ptr, "message", _0, message);
+	ZVAL_STRING(_0, "notice", 0);
+	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "message", NULL, _0, message);
+	zephir_check_temp_parameter(_0);
 	zephir_check_call_status();
 	RETURN_MM();
 
@@ -240,8 +242,9 @@ PHP_METHOD(Phalcon_Flash, success) {
 
 
 	ZEPHIR_INIT_VAR(_0);
-	ZVAL_STRING(_0, "success", 1);
-	zephir_call_method_p2(return_value, this_ptr, "message", _0, message);
+	ZVAL_STRING(_0, "success", 0);
+	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "message", NULL, _0, message);
+	zephir_check_temp_parameter(_0);
 	zephir_check_call_status();
 	RETURN_MM();
 
@@ -268,8 +271,9 @@ PHP_METHOD(Phalcon_Flash, warning) {
 
 
 	ZEPHIR_INIT_VAR(_0);
-	ZVAL_STRING(_0, "warning", 1);
-	zephir_call_method_p2(return_value, this_ptr, "message", _0, message);
+	ZVAL_STRING(_0, "warning", 0);
+	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "message", NULL, _0, message);
+	zephir_check_temp_parameter(_0);
 	zephir_check_call_status();
 	RETURN_MM();
 
@@ -308,7 +312,7 @@ PHP_METHOD(Phalcon_Flash, outputMessage) {
 		ZEPHIR_OBS_VAR(typeClasses);
 		if (zephir_array_isset_fetch(&typeClasses, classes, type, 0 TSRMLS_CC)) {
 			ZEPHIR_INIT_VAR(cssClasses);
-			if ((Z_TYPE_P(typeClasses) == IS_ARRAY)) {
+			if (Z_TYPE_P(typeClasses) == IS_ARRAY) {
 				ZEPHIR_INIT_VAR(_1);
 				zephir_fast_join_str(_1, SL(" "), typeClasses TSRMLS_CC);
 				ZEPHIR_CONCAT_SVS(cssClasses, " class=\"", _1, "\"");
@@ -325,7 +329,7 @@ PHP_METHOD(Phalcon_Flash, outputMessage) {
 	ZEPHIR_OBS_NVAR(_0);
 	zephir_read_property_this(&_0, this_ptr, SL("_implicitFlush"), PH_NOISY_CC);
 	implicitFlush = zephir_get_boolval(_0);
-	if ((Z_TYPE_P(message) == IS_ARRAY)) {
+	if (Z_TYPE_P(message) == IS_ARRAY) {
 		if ((implicitFlush == 0)) {
 			ZEPHIR_INIT_VAR(content);
 			ZVAL_STRING(content, "", 1);

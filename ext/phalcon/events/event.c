@@ -148,7 +148,7 @@ PHP_METHOD(Phalcon_Events_Event, __construct) {
 
 	zephir_update_property_this(this_ptr, SL("_type"), type TSRMLS_CC);
 	zephir_update_property_this(this_ptr, SL("_source"), source TSRMLS_CC);
-	if ((Z_TYPE_P(data) != IS_NULL)) {
+	if (Z_TYPE_P(data) != IS_NULL) {
 		zephir_update_property_this(this_ptr, SL("_data"), data TSRMLS_CC);
 	}
 	if (!ZEPHIR_IS_TRUE(cancelable)) {

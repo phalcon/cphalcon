@@ -99,7 +99,7 @@ PHP_METHOD(Phalcon_Queue_Beanstalk_Job, __construct) {
 PHP_METHOD(Phalcon_Queue_Beanstalk_Job, delete) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
-	zval *queue, *response, *status, *_0, *_1;
+	zval *queue, *response = NULL, *_0, *_1, *_2;
 
 	ZEPHIR_MM_GROW();
 
@@ -108,13 +108,12 @@ PHP_METHOD(Phalcon_Queue_Beanstalk_Job, delete) {
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_id"), PH_NOISY_CC);
 	ZEPHIR_INIT_VAR(_1);
 	ZEPHIR_CONCAT_SV(_1, "delete ", _0);
-	zephir_call_method_p1_noret(queue, "write", _1);
+	ZEPHIR_CALL_METHOD(NULL, queue, "write", NULL, _1);
 	zephir_check_call_status();
-	ZEPHIR_INIT_VAR(response);
-	zephir_call_method(response, queue, "readstatus");
+	ZEPHIR_CALL_METHOD(&response, queue, "readstatus",  NULL);
 	zephir_check_call_status();
-	zephir_array_fetch_long(&status, response, 0, PH_NOISY | PH_READONLY TSRMLS_CC);
-	if (ZEPHIR_IS_STRING(status, "DELETED")) {
+	zephir_array_fetch_long(&_2, response, 0, PH_NOISY | PH_READONLY TSRMLS_CC);
+	if (ZEPHIR_IS_STRING(_2, "DELETED")) {
 		RETURN_MM_BOOL(1);
 	}
 	RETURN_MM_BOOL(0);

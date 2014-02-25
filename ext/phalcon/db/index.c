@@ -150,7 +150,7 @@ PHP_METHOD(Phalcon_Db_Index, __set_state) {
 		return;
 	}
 	object_init_ex(return_value, phalcon_db_index_ce);
-	zephir_call_method_p2_noret(return_value, "__construct", indexName, columns);
+	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, indexName, columns);
 	zephir_check_call_status();
 	RETURN_MM();
 
