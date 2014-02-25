@@ -933,69 +933,37 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch){
 		array_init_size(call_object, 2);
 		phalcon_array_append(&call_object, handler, 0);
 		phalcon_array_append(&call_object, action_method, 0);
-	
-		/** 
-		 * Call the method with/without exceptions if an events manager is present
-		 */
-		if (events_manager) {
-	
-			/** 
-			 * Call the method allowing exceptions
-			 */
-			PHALCON_INIT_NVAR(value);/**/
-			PHALCON_CALL_USER_FUNC_ARRAY_NOEX(value, call_object, params);
-	
-			/** 
-			 * Check if an exception has ocurred
-			 */
-			if (EG(exception)) {
-	
-				/** 
-				 * Copy the exception to rethrow it later if needed
-				 */
-				PHALCON_CPY_WRT(exception, EG(exception));
-	
-				/** 
-				 * Clear the exception
-				 */
-				zend_clear_exception(TSRMLS_C);
-	
-				/** 
-				 * Try to handle the exception
-				 */
-				PHALCON_CALL_METHOD(&status, this_ptr, "_handleexception", exception);
-				if (PHALCON_IS_FALSE(status)) {
-	
-					tmp = phalcon_fetch_nproperty_this(this_ptr, SL("_finished"), PH_NOISY TSRMLS_CC);
-					if (PHALCON_IS_FALSE(tmp)) {
-						continue;
-					}
-				} else {
-					/** 
-					 * Exception wasn't handled, re throw it
-					 */
-					phalcon_throw_exception(exception TSRMLS_CC);
-					RETURN_MM();
+
+		PHALCON_INIT_NVAR(value);
+		/* Call the method allowing exceptions */
+		PHALCON_CALL_USER_FUNC_ARRAY_NOEX(value, call_object, params);
+
+		/* Check if an exception has ocurred */
+		if (EG(exception)) {
+			/* Copy the exception to rethrow it later if needed */
+			PHALCON_CPY_WRT(exception, EG(exception));
+
+			/* Clear the exception  */
+			zend_clear_exception(TSRMLS_C);
+
+			/* Try to handle the exception */
+			PHALCON_CALL_METHOD(&status, this_ptr, "_handleexception", exception);
+			if (PHALCON_IS_FALSE(status)) {
+				tmp = phalcon_fetch_nproperty_this(this_ptr, SL("_finished"), PH_NOISY TSRMLS_CC);
+				if (PHALCON_IS_FALSE(tmp)) {
+					continue;
 				}
-			} else {
-				/** 
-				 * Update the latest value produced by the latest handler
-				 */
-				phalcon_update_property_this(this_ptr, SL("_returnedValue"), value TSRMLS_CC);
+			}
+			else {
+				/* Exception was not handled, rethrow it */
+				phalcon_throw_exception(exception TSRMLS_CC);
+				RETURN_MM();
 			}
 		} else {
-			/** 
-			 * Call the method handling exceptions as normal
-			 */
-			PHALCON_INIT_NVAR(value);/**/
-			PHALCON_CALL_USER_FUNC_ARRAY(value, call_object, params);
-	
-			/** 
-			 * Update the latest value produced by the latest handler
-			 */
+			/* Update the latest value produced by the latest handler */
 			phalcon_update_property_this(this_ptr, SL("_returnedValue"), value TSRMLS_CC);
 		}
-	
+
 		phalcon_update_property_this(this_ptr, SL("_lastHandler"), handler TSRMLS_CC);
 	
 		if (events_manager) {
