@@ -726,7 +726,7 @@ PHP_METHOD(Phalcon_Tag, resetInput){
  */
 PHP_METHOD(Phalcon_Tag, linkTo){
 
-	zval *parameters, *text = NULL, *local = NULL,  *params = NULL, *action, *url, *internal_url, *query, *query_string, *link_text, *z_local;
+	zval *parameters, *text = NULL, *local = NULL,  *params = NULL, *action, *url, *internal_url = NULL, *query, *query_string, *link_text, *z_local;
 	zval *code;
 
 	PHALCON_MM_GROW();
@@ -788,9 +788,8 @@ PHP_METHOD(Phalcon_Tag, linkTo){
 	if (zend_is_true(z_local) || Z_TYPE_P(params) == IS_ARRAY) {
 		PHALCON_OBS_VAR(url);
 		PHALCON_CALL_SELF(&url, "geturlservice");
-		
-		PHALCON_INIT_VAR(internal_url);
-		phalcon_call_method_p2(internal_url, url, "get", action, query);
+
+		PHALCON_CALL_METHOD(&internal_url, url, "get", action, query);
 		phalcon_array_update_string(&params, SL("href"), internal_url, PH_COPY);
 	} else {
 		if (Z_TYPE_P(query) != IS_NULL) {
