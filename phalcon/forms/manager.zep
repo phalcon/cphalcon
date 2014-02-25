@@ -1,4 +1,3 @@
-
 /*
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
@@ -82,9 +81,9 @@ class Manager
 	 *
 	 * @param string name
 	 * @param Phalcon\Forms\Form form
-	 * @return Phalcon\Forms\Form
+	 * @return Phalcon\Forms\FormManager
 	 */
-	public function set(string name, <\Phalcon\Forms\Form> form) -> <\Phalcon\Forms\Form>
+	public function set(string name, <\Phalcon\Forms\Form> form) -> <\Phalcon\Forms\FormManager>
 	{
 		let this->_forms[name] = form;
 		return this;
