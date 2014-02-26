@@ -266,6 +266,11 @@ PHP_METHOD(Phalcon_Http_Request_File, getKey){
 	RETURN_MEMBER(this_ptr, "_key");
 }
 
+/**
+ * Checks whether the file has been uploaded via Post.
+ *
+ * @return boolean
+ */
 PHP_METHOD(Phalcon_Http_Request_File, isUploadedFile) {
 
 	zval *tmp_name = NULL;
