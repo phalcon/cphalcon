@@ -102,7 +102,7 @@ class ValidationTest extends PHPUnit_Framework_TestCase
 			'_messages' => array(
 				0 => Phalcon\Validation\Message::__set_state(array(
 					'_type' => 'PresenceOf',
-					'_message' => 'name is required',
+					'_message' => 'Field name is required',
 					'_field' => 'name',
 					'_code' => '0',
 				))
