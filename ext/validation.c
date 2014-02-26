@@ -596,28 +596,28 @@ PHP_METHOD(Phalcon_Validation, setDefaultMessages)
 	PHALCON_INIT_VAR(default_messages);
 	array_init_size(default_messages, 22);
 
-	add_assoc_stringl_ex(default_messages, SS("Alnum"),             SL("Field :field must contain only alphanumeric characters"), 1);
+	add_assoc_stringl_ex(default_messages, SS("Alnum"),             SL("Field :field must contain only letters and numbers"), 1);
 	add_assoc_stringl_ex(default_messages, SS("Alpha"),             SL("Field :field must contain only letters"), 1);
-	add_assoc_stringl_ex(default_messages, SS("Between"),           SL(":field is not in the valid range"), 1);
-	add_assoc_stringl_ex(default_messages, SS("Confirmation"),      SL("Values of :field and :with do not match"), 1);
+	add_assoc_stringl_ex(default_messages, SS("Between"),           SL("Field :field must be within the range of :min to :max"), 1);
+	add_assoc_stringl_ex(default_messages, SS("Confirmation"),      SL("Field :field must be the same as :with"), 1);
 	add_assoc_stringl_ex(default_messages, SS("Digit"),             SL("Field :field must be numeric"), 1);
-	add_assoc_stringl_ex(default_messages, SS("Email"),             SL("Value of field :field is not a valid e-mail"), 1);
-	add_assoc_stringl_ex(default_messages, SS("ExclusionIn"),       SL("Value of field :field must not be a part of the list: :domain"), 1);
-	add_assoc_stringl_ex(default_messages, SS("FileValid"),         SL("File :field is not valid"), 1);
-	add_assoc_stringl_ex(default_messages, SS("FileEmpty"),         SL("File :field must not be empty"), 1);
-	add_assoc_stringl_ex(default_messages, SS("FileIniSize"),       SL("The uploaded file exceeds the maximum filesize"), 1);
-	add_assoc_stringl_ex(default_messages, SS("FileSize"),          SL("Maximum filesize of file :field is :max"), 1);
-	add_assoc_stringl_ex(default_messages, SS("FileType"),          SL("Type of :field is not valid"), 1);
-	add_assoc_stringl_ex(default_messages, SS("FileMinResolution"), SL("Minimum resolution of :field is :min"), 1);
-	add_assoc_stringl_ex(default_messages, SS("FileMaxResolution"), SL("Maximum resolution of :field is :max"), 1);
-	add_assoc_stringl_ex(default_messages, SS("Identical"),         SL(":field does not have the expected value"), 1);
-	add_assoc_stringl_ex(default_messages, SS("InclusionIn"),       SL("Value of field :field must be a part of the list: :domain"), 1);
-	add_assoc_stringl_ex(default_messages, SS("PresenceOf"),        SL(":field is required"), 1);
-	add_assoc_stringl_ex(default_messages, SS("Regex"),             SL("Value of field :field does not match the regular expression"), 1);
-	add_assoc_stringl_ex(default_messages, SS("TooLong"),           SL("Value of field :field exceeds the maximum :max characters"), 1);
-	add_assoc_stringl_ex(default_messages, SS("TooShort"),          SL("Value of field :field is less than the minimum :min characters"), 1);
-	add_assoc_stringl_ex(default_messages, SS("Uniqueness"),        SL(":field is already taken"), 1);
-	add_assoc_stringl_ex(default_messages, SS("Url"),               SL(":field is not a valid URL"), 1);
+	add_assoc_stringl_ex(default_messages, SS("Email"),             SL("Field :field must be an email address"), 1);
+	add_assoc_stringl_ex(default_messages, SS("ExclusionIn"),       SL("Field :field must not be a part of list: :domain"), 1);
+	add_assoc_stringl_ex(default_messages, SS("FileEmpty"),         SL("Field :field must not be empty"), 1);
+	add_assoc_stringl_ex(default_messages, SS("FileIniSize"),       SL("File :field exceeds the maximum file size"), 1);
+	add_assoc_stringl_ex(default_messages, SS("FileMaxResolution"), SL("File :field must not exceed :max resolution"), 1);
+	add_assoc_stringl_ex(default_messages, SS("FileMinResolution"), SL("File :field must be at least :min resolution"), 1);
+	add_assoc_stringl_ex(default_messages, SS("FileSize"),          SL("File :field exceeds the size of :max"), 1);
+	add_assoc_stringl_ex(default_messages, SS("FileType"),          SL("File :field must be of type: :types"), 1);
+	add_assoc_stringl_ex(default_messages, SS("FileValid"),         SL("Field :field is not valid"), 1);
+	add_assoc_stringl_ex(default_messages, SS("Identical"),         SL("Field :field does not have the expected value"), 1);
+	add_assoc_stringl_ex(default_messages, SS("InclusionIn"),       SL("Field :field must be a part of list: :domain"), 1);
+	add_assoc_stringl_ex(default_messages, SS("PresenceOf"),        SL("Field :field is required"), 1);
+	add_assoc_stringl_ex(default_messages, SS("Regex"),             SL("Field :field does not match the required format"), 1);
+	add_assoc_stringl_ex(default_messages, SS("TooLong"),           SL("Field :field must not exceed :max characters long"), 1);
+	add_assoc_stringl_ex(default_messages, SS("TooShort"),          SL("Field :field must be at least :min characters long"), 1);
+	add_assoc_stringl_ex(default_messages, SS("Uniqueness"),        SL("Field :field must be unique"), 1);
+	add_assoc_stringl_ex(default_messages, SS("Url"),               SL("Field :field must be a url"), 1);
 
 	if (!messages || Z_TYPE_P(messages) == IS_NULL) {
 		phalcon_update_property_this(getThis(), SL("_defaultMessages"), default_messages TSRMLS_CC);
