@@ -790,15 +790,16 @@ int zephir_call_function(zend_fcall_info *fci, zend_fcall_info_cache *fci_cache 
 	called_scope = fci_cache->called_scope;
 	fci->object_ptr = fci_cache->object_ptr;
 	EX(object) = fci->object_ptr;
-	if (fci->object_ptr && Z_TYPE_P(fci->object_ptr) == IS_OBJECT &&
-		(!EG(objects_store).object_buckets || !EG(objects_store).object_buckets[Z_OBJ_HANDLE_P(fci->object_ptr)].valid)) {
+	if (fci->object_ptr && Z_TYPE_P(fci->object_ptr) == IS_OBJECT && (!EG(objects_store).object_buckets || !EG(objects_store).object_buckets[Z_OBJ_HANDLE_P(fci->object_ptr)].valid)) {
 		return FAILURE;
 	}
 
+	#ifndef ZEPHIR_RELEASE
 	if (EX(function_state).function->common.fn_flags & ZEND_ACC_ABSTRACT) {
 		zend_error_noreturn(E_ERROR, "Cannot call abstract method %s::%s()", EX(function_state).function->common.scope->name, EX(function_state).function->common.function_name);
 		return FAILURE;
 	}
+	#endif
 
 	ZEND_VM_STACK_GROW_IF_NEEDED(fci->param_count + 1);
 
@@ -903,6 +904,7 @@ int zephir_call_function(zend_fcall_info *fci, zend_fcall_info_cache *fci_cache 
 	EG(current_execute_data) = &execute_data;
 
 	if (EX(function_state).function->type == ZEND_USER_FUNCTION) {
+
 		calling_symbol_table = EG(active_symbol_table);
 		EG(scope) = EX(function_state).function->common.scope;
 		if (fci->symbol_table) {

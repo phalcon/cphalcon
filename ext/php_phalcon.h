@@ -12,7 +12,7 @@
 #define PHP_PHALCON_VERSION     "2.0.0a"
 #define PHP_PHALCON_EXTNAME     "phalcon"
 #define PHP_PHALCON_AUTHOR      "Phalcon Team"
-#define PHP_PHALCON_ZEPVERSION  "0.3.9a"
+#define PHP_PHALCON_ZEPVERSION  "0.3.10a"
 #define PHP_PHALCON_DESCRIPTION ""
 
 typedef struct _zephir_struct_db { 
@@ -34,8 +34,9 @@ typedef struct _zephir_struct_orm {
 ZEND_BEGIN_MODULE_GLOBALS(phalcon)
 
 	/* Memory */
-	zephir_memory_entry *start_memory;
-	zephir_memory_entry *active_memory;
+	zephir_memory_entry *start_memory; /**< The first preallocated frame */
+	zephir_memory_entry *end_memory; /**< The last preallocate frame */
+	zephir_memory_entry *active_memory; /**< The current memory frame */
 
 	/* Virtual Symbol Tables */
 	zephir_symbol_table *active_symbol_table;

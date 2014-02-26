@@ -98,7 +98,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction_Failed, __construct) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_Transaction_Failed, getRecordMessages) {
 
-	zephir_nts_static zephir_fcall_cache_entry *_0 = NULL;
 	int ZEPHIR_LAST_CALL_STATUS;
 	zval *record;
 
@@ -111,7 +110,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction_Failed, getRecordMessages) {
 		zephir_check_call_status();
 		RETURN_MM();
 	}
-	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "getmessage", &_0);
+	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "getmessage", NULL);
 	zephir_check_call_status();
 	RETURN_MM();
 

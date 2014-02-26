@@ -67,7 +67,7 @@ zval* zephir_fetch_nproperty_this(zval *object, char *property_name, unsigned in
 zval* zephir_fetch_nproperty_this_quick(zval *object, char *property_name, unsigned int property_length, unsigned long key, int silent TSRMLS_DC);
 zval* zephir_fetch_property_this(zval *object, char *property_name, unsigned int property_length, int silent TSRMLS_DC);
 zval* zephir_fetch_property_this_quick(zval *object, char *property_name, unsigned int property_length, unsigned long key, int silent TSRMLS_DC);
-int zephir_read_property(zval **result, zval *object, char *property_name, unsigned int property_length, int silent TSRMLS_DC);
+int zephir_read_property(zval **result, zval *object, const char *property_name, zend_uint property_length, int silent TSRMLS_DC);
 int zephir_read_property_zval(zval **result, zval *object, zval *property, int silent TSRMLS_DC);
 int zephir_return_property(zval *return_value, zval **return_value_ptr, zval *object, char *property_name, unsigned int property_length TSRMLS_DC);
 int zephir_return_property_quick(zval *return_value, zval **return_value_ptr, zval *object, char *property_name, unsigned int property_length, unsigned long key TSRMLS_DC);
@@ -83,7 +83,7 @@ int zephir_update_property_zval_zval(zval *obj, zval *property, zval *value TSRM
 int zephir_update_property_empty_array(zend_class_entry *ce, zval *object, char *property, unsigned int property_length TSRMLS_DC);
 
 /** Updating array properties */
-int zephir_update_property_array(zval *object, char *property, unsigned int property_length, zval *index, zval *value TSRMLS_DC);
+int zephir_update_property_array(zval *object, const char *property, zend_uint property_length, const zval *index, zval *value TSRMLS_DC);
 int zephir_update_property_array_string(zval *object, char *property, unsigned int property_length, char *index, unsigned int index_length, zval *value TSRMLS_DC);
 int zephir_update_property_array_append(zval *object, char *property, unsigned int property_length, zval *value TSRMLS_DC);
 

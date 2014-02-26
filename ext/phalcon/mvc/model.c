@@ -4966,9 +4966,10 @@ PHP_METHOD(Phalcon_Mvc_Model, getRelated) {
  */
 PHP_METHOD(Phalcon_Mvc_Model, _getRelatedRecords) {
 
-	zval *_2, *_3;
+	zval *_4, *_5;
 	int ZEPHIR_LAST_CALL_STATUS;
-	zval *modelName_param = NULL, *method_param = NULL, *arguments, *manager, *relation = NULL, *queryMethod, *extraArgs, *_0 = NULL, *_1;
+	zephir_nts_static zephir_fcall_cache_entry *_2 = NULL;
+	zval *modelName_param = NULL, *method_param = NULL, *arguments, *manager, *relation = NULL, *queryMethod, *extraArgs, _0 = zval_used_for_init, *_1 = NULL, *_3 = NULL;
 	zval *modelName = NULL, *method = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -4985,39 +4986,43 @@ PHP_METHOD(Phalcon_Mvc_Model, _getRelatedRecords) {
 	ZEPHIR_INIT_VAR(queryMethod);
 	ZVAL_NULL(queryMethod);
 	if (zephir_start_with_str(method, SL("get"))) {
-		ZEPHIR_INIT_VAR(_0);
-		zephir_substr(_0, method, 3 , 0 );
-		ZEPHIR_CALL_METHOD(&relation, manager, "getrelationbyalias", NULL, modelName, _0);
+		ZEPHIR_SINIT_VAR(_0);
+		ZVAL_LONG(&_0, 3);
+		ZEPHIR_CALL_FUNCTION(&_1, "substr", &_2, method, &_0);
+		zephir_check_call_status();
+		ZEPHIR_CALL_METHOD(&relation, manager, "getrelationbyalias", NULL, modelName, _1);
 		zephir_check_call_status();
 	}
 	if (Z_TYPE_P(relation) != IS_OBJECT) {
 		if (zephir_start_with_str(method, SL("count"))) {
 			ZEPHIR_INIT_BNVAR(queryMethod);
 			ZVAL_STRING(queryMethod, "count", 1);
-			ZEPHIR_INIT_NVAR(_0);
-			zephir_substr(_0, method, 5 , 0 );
-			ZEPHIR_INIT_VAR(_1);
-			ZVAL_STRING(_1, "count", 0);
-			ZEPHIR_CALL_METHOD(&relation, manager, "getrelationbyalias", NULL, _1, _0);
-			zephir_check_temp_parameter(_1);
+			ZEPHIR_SINIT_NVAR(_0);
+			ZVAL_LONG(&_0, 5);
+			ZEPHIR_CALL_FUNCTION(&_1, "substr", &_2, method, &_0);
+			zephir_check_call_status();
+			ZEPHIR_INIT_VAR(_3);
+			ZVAL_STRING(_3, "count", 0);
+			ZEPHIR_CALL_METHOD(&relation, manager, "getrelationbyalias", NULL, _3, _1);
+			zephir_check_temp_parameter(_3);
 			zephir_check_call_status();
 		}
 	}
 	if (Z_TYPE_P(relation) == IS_OBJECT) {
 		ZEPHIR_OBS_VAR(extraArgs);
-		ZEPHIR_INIT_VAR(_2);
-		array_init_size(_2, 3);
-		zephir_array_fast_append(_2, manager);
-		ZEPHIR_INIT_NVAR(_0);
-		ZVAL_STRING(_0, "getRelationRecords", 1);
-		zephir_array_fast_append(_2, _0);
-		ZEPHIR_INIT_VAR(_3);
-		array_init_size(_3, 7);
-		zephir_array_fast_append(_3, relation);
-		zephir_array_fast_append(_3, queryMethod);
-		zephir_array_fast_append(_3, this_ptr);
-		zephir_array_fast_append(_3, extraArgs);
-		ZEPHIR_CALL_USER_FUNC_ARRAY(return_value, _2, _3);
+		ZEPHIR_INIT_VAR(_4);
+		array_init_size(_4, 3);
+		zephir_array_fast_append(_4, manager);
+		ZEPHIR_INIT_NVAR(_3);
+		ZVAL_STRING(_3, "getRelationRecords", 1);
+		zephir_array_fast_append(_4, _3);
+		ZEPHIR_INIT_VAR(_5);
+		array_init_size(_5, 7);
+		zephir_array_fast_append(_5, relation);
+		zephir_array_fast_append(_5, queryMethod);
+		zephir_array_fast_append(_5, this_ptr);
+		zephir_array_fast_append(_5, extraArgs);
+		ZEPHIR_CALL_USER_FUNC_ARRAY(return_value, _4, _5);
 		RETURN_MM();
 	}
 	RETURN_MM_NULL();
@@ -5081,11 +5086,11 @@ PHP_METHOD(Phalcon_Mvc_Model, __call) {
  */
 PHP_METHOD(Phalcon_Mvc_Model, __callStatic) {
 
-	zephir_nts_static zephir_fcall_cache_entry *_4 = NULL;
-	zend_class_entry *_3;
+	zend_class_entry *_5;
 	int ZEPHIR_LAST_CALL_STATUS;
-	zval *method_param = NULL, *arguments = NULL, *extraMethod, *type = NULL, *modelName, *value, *model, *attributes = NULL, *field = NULL, *extraMethodFirst = NULL, *metaData = NULL, *_0 = NULL, *_1 = NULL;
-	zval *method = NULL, *_2;
+	zephir_nts_static zephir_fcall_cache_entry *_1 = NULL, *_6 = NULL;
+	zval *method_param = NULL, *arguments = NULL, *extraMethod = NULL, *type = NULL, *modelName, *value, *model, *attributes = NULL, *field = NULL, *extraMethodFirst = NULL, *metaData = NULL, _0 = zval_used_for_init, *_2 = NULL, *_3 = NULL;
+	zval *method = NULL, *_4;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 1, &method_param, &arguments);
@@ -5101,53 +5106,59 @@ PHP_METHOD(Phalcon_Mvc_Model, __callStatic) {
 	if (zephir_start_with_str(method, SL("findFirstBy"))) {
 		ZEPHIR_INIT_VAR(type);
 		ZVAL_STRING(type, "findFirst", 1);
-		ZEPHIR_INIT_BNVAR(extraMethod);
-		zephir_substr(extraMethod, method, 11 , 0 );
+		ZEPHIR_SINIT_VAR(_0);
+		ZVAL_LONG(&_0, 11);
+		ZEPHIR_CALL_FUNCTION(&extraMethod, "substr", &_1, method, &_0);
+		zephir_check_call_status();
 	}
 	if (Z_TYPE_P(extraMethod) == IS_NULL) {
 		if (zephir_start_with_str(method, SL("findBy"))) {
 			ZEPHIR_INIT_NVAR(type);
 			ZVAL_STRING(type, "find", 1);
-			ZEPHIR_INIT_BNVAR(extraMethod);
-			zephir_substr(extraMethod, method, 6 , 0 );
+			ZEPHIR_SINIT_NVAR(_0);
+			ZVAL_LONG(&_0, 6);
+			ZEPHIR_CALL_FUNCTION(&extraMethod, "substr", &_1, method, &_0);
+			zephir_check_call_status();
 		}
 	}
 	if (Z_TYPE_P(extraMethod) == IS_NULL) {
 		if (zephir_start_with_str(method, SL("countBy"))) {
 			ZEPHIR_INIT_NVAR(type);
 			ZVAL_STRING(type, "count", 1);
-			ZEPHIR_INIT_BNVAR(extraMethod);
-			zephir_substr(extraMethod, method, 7 , 0 );
+			ZEPHIR_SINIT_NVAR(_0);
+			ZVAL_LONG(&_0, 7);
+			ZEPHIR_CALL_FUNCTION(&extraMethod, "substr", &_1, method, &_0);
+			zephir_check_call_status();
 		}
 	}
 	ZEPHIR_INIT_VAR(modelName);
 	zephir_get_called_class(modelName TSRMLS_CC);
 	if (zephir_is_true(extraMethod)) {
-		ZEPHIR_INIT_VAR(_0);
-		object_init_ex(_0, phalcon_mvc_model_exception_ce);
-		ZEPHIR_INIT_VAR(_1);
-		ZEPHIR_CONCAT_SVSVS(_1, "The static method '", method, "' doesn't exist on model '", modelName, "'");
-		ZEPHIR_CALL_METHOD(NULL, _0, "__construct", NULL, _1);
+		ZEPHIR_INIT_VAR(_2);
+		object_init_ex(_2, phalcon_mvc_model_exception_ce);
+		ZEPHIR_INIT_VAR(_3);
+		ZEPHIR_CONCAT_SVSVS(_3, "The static method '", method, "' doesn't exist on model '", modelName, "'");
+		ZEPHIR_CALL_METHOD(NULL, _2, "__construct", NULL, _3);
 		zephir_check_call_status();
-		zephir_throw_exception(_0 TSRMLS_CC);
+		zephir_throw_exception(_2 TSRMLS_CC);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
 	ZEPHIR_OBS_VAR(value);
 	if (!(zephir_array_isset_long_fetch(&value, arguments, 0, 0 TSRMLS_CC))) {
-		ZEPHIR_INIT_LNVAR(_0);
-		object_init_ex(_0, phalcon_mvc_model_exception_ce);
-		ZEPHIR_INIT_VAR(_2);
-		ZEPHIR_CONCAT_SVS(_2, "The static method '", method, "' requires one argument");
-		ZEPHIR_CALL_METHOD(NULL, _0, "__construct", NULL, _2);
+		ZEPHIR_INIT_LNVAR(_2);
+		object_init_ex(_2, phalcon_mvc_model_exception_ce);
+		ZEPHIR_INIT_VAR(_4);
+		ZEPHIR_CONCAT_SVS(_4, "The static method '", method, "' requires one argument");
+		ZEPHIR_CALL_METHOD(NULL, _2, "__construct", NULL, _4);
 		zephir_check_call_status();
-		zephir_throw_exception(_0 TSRMLS_CC);
+		zephir_throw_exception(_2 TSRMLS_CC);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
 	ZEPHIR_INIT_VAR(model);
-	_3 = zend_fetch_class(Z_STRVAL_P(modelName), Z_STRLEN_P(modelName), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
-	object_init_ex(model, _3);
+	_5 = zend_fetch_class(Z_STRVAL_P(modelName), Z_STRLEN_P(modelName), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
+	object_init_ex(model, _5);
 	if (zephir_has_constructor(model TSRMLS_CC)) {
 		ZEPHIR_CALL_METHOD(NULL, model, "__construct", NULL);
 		zephir_check_call_status();
@@ -5163,7 +5174,7 @@ PHP_METHOD(Phalcon_Mvc_Model, __callStatic) {
 	if (zephir_array_isset(attributes, extraMethod)) {
 		ZEPHIR_CPY_WRT(field, extraMethod);
 	} else {
-		ZEPHIR_CALL_FUNCTION(&extraMethodFirst, "lcfirst", &_4, extraMethod);
+		ZEPHIR_CALL_FUNCTION(&extraMethodFirst, "lcfirst", &_6, extraMethod);
 		zephir_check_call_status();
 		if (zephir_array_isset(attributes, extraMethodFirst)) {
 			ZEPHIR_CPY_WRT(field, extraMethodFirst);
@@ -5171,13 +5182,13 @@ PHP_METHOD(Phalcon_Mvc_Model, __callStatic) {
 			ZEPHIR_INIT_VAR(field);
 			zephir_uncamelize(field, extraMethod);
 			if (!(zephir_array_isset(attributes, field))) {
-				ZEPHIR_INIT_LNVAR(_0);
-				object_init_ex(_0, phalcon_mvc_model_exception_ce);
-				ZEPHIR_INIT_LNVAR(_1);
-				ZEPHIR_CONCAT_SVS(_1, "Cannot resolve attribute '", extraMethod, "' in the model");
-				ZEPHIR_CALL_METHOD(NULL, _0, "__construct", NULL, _1);
+				ZEPHIR_INIT_LNVAR(_2);
+				object_init_ex(_2, phalcon_mvc_model_exception_ce);
+				ZEPHIR_INIT_LNVAR(_3);
+				ZEPHIR_CONCAT_SVS(_3, "Cannot resolve attribute '", extraMethod, "' in the model");
+				ZEPHIR_CALL_METHOD(NULL, _2, "__construct", NULL, _3);
 				zephir_check_call_status();
-				zephir_throw_exception(_0 TSRMLS_CC);
+				zephir_throw_exception(_2 TSRMLS_CC);
 				ZEPHIR_MM_RESTORE();
 				return;
 			}

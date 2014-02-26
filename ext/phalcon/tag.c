@@ -2173,6 +2173,7 @@ PHP_METHOD(Phalcon_Tag, image) {
 PHP_METHOD(Phalcon_Tag, friendlyTitle) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
+	zephir_nts_static zephir_fcall_cache_entry *_0 = NULL;
 	zval *text, *separator = NULL, *lowercase = NULL, *pattern, *friendly = NULL, *friendlyText = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -2189,7 +2190,7 @@ PHP_METHOD(Phalcon_Tag, friendlyTitle) {
 
 	ZEPHIR_INIT_VAR(pattern);
 	ZVAL_STRING(pattern, "~[^a-z0-9A-Z]+~", 1);
-	ZEPHIR_CALL_FUNCTION(&friendly, "preg_replace", NULL, pattern, separator, text);
+	ZEPHIR_CALL_FUNCTION(&friendly, "preg_replace", &_0, pattern, separator, text);
 	zephir_check_call_status();
 	if (!(ZEPHIR_IS_EMPTY(lowercase))) {
 		ZEPHIR_INIT_VAR(friendlyText);

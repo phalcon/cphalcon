@@ -20,7 +20,6 @@
 #include "kernel/operators.h"
 #include "kernel/exception.h"
 #include "kernel/hash.h"
-#include "kernel/string.h"
 
 
 /*
@@ -303,10 +302,11 @@ PHP_METHOD(Phalcon_Cache_Backend_Xcache, delete) {
  */
 PHP_METHOD(Phalcon_Cache_Backend_Xcache, queryKeys) {
 
+	zephir_nts_static zephir_fcall_cache_entry *_5 = NULL;
 	HashTable *_1;
 	HashPosition _0;
 	int ZEPHIR_LAST_CALL_STATUS;
-	zval *prefix = NULL, *options, *prefixed, *specialKey, *keys = NULL, *retval, *key = NULL, *realKey = NULL, **_2;
+	zval *prefix = NULL, *options, *prefixed, *specialKey, *keys = NULL, *retval, *key = NULL, *realKey = NULL, **_2, _3 = zval_used_for_init, _4 = zval_used_for_init;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 1, &prefix);
@@ -341,8 +341,12 @@ PHP_METHOD(Phalcon_Cache_Backend_Xcache, queryKeys) {
 		  ; zephir_hash_move_forward_ex(_1, &_0)
 		) {
 			ZEPHIR_GET_HVALUE(key, _2);
-			ZEPHIR_INIT_NVAR(realKey);
-			zephir_substr(realKey, key, 5 , 0 );
+			ZEPHIR_SINIT_NVAR(_3);
+			ZVAL_LONG(&_3, 5);
+			ZEPHIR_SINIT_NVAR(_4);
+			ZVAL_LONG(&_4, 0);
+			ZEPHIR_CALL_FUNCTION(&realKey, "substr", &_5, key, &_3, &_4);
+			zephir_check_call_status();
 			zephir_array_append(&retval, realKey, PH_SEPARATE);
 		}
 	}
