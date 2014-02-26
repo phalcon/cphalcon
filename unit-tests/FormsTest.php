@@ -269,7 +269,7 @@ class FormsTest extends PHPUnit_Framework_TestCase
 					)),
 					1 => Phalcon\Validation\Message::__set_state(array(
 						'_type' => 'TooShort',
-						'_message' => 'Value of field telephone is less than the minimum 5 characters',
+						'_message' => 'The telephone is too short',
 						'_field' => 'telephone',
 						'_code' => 0,
 					)),

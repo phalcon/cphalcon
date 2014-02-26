@@ -1,4 +1,4 @@
-testValidationPresenceOf<?php
+<?php
 
 /*
 	+------------------------------------------------------------------------+
@@ -539,7 +539,7 @@ class ValidationTest extends PHPUnit_Framework_TestCase
 			'_messages' => array(
 				0 => Phalcon\Validation\Message::__set_state(array(
 					'_type' => 'TooShort',
-					'_message' => 'Field :field must be at least 3 characters long',
+					'_message' => 'Field name must be at least 3 characters long',
 					'_field' => 'name',
 					'_code' => 0,
 				))
@@ -616,7 +616,7 @@ class ValidationTest extends PHPUnit_Framework_TestCase
 			'_messages' => array(
 				0 => Phalcon\Validation\Message::__set_state(array(
 					'_type' => 'TooLong',
-					'_message' => 'Field :field must not exceed 4 characters long',
+					'_message' => 'Field name must not exceed 4 characters long',
 					'_field' => 'name',
 					'_code' => 0,
 				))
