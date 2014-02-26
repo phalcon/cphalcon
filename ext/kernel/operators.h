@@ -209,7 +209,7 @@ int zephir_greater_equal_long(zval *op1, long op2 TSRMLS_DC);
 			ZEPHIR_CPY_WRT(returnValue, passValue); \
 		} else { \
 			ZEPHIR_INIT_NVAR(returnValue); \
-			array_init_size(returnValue, 0); \
+			array_init(returnValue); \
 		} \
 	}
 
