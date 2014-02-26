@@ -316,19 +316,32 @@ PHP_METHOD(Phalcon_Events_Manager, fireQueue){
 	zval **hd;
 	zend_class_entry **weakref_ce;
 
-	PHALCON_MM_GROW();
+	phalcon_fetch_params(0, 2, 0, &queue, &event);
 
-	phalcon_fetch_params(1, 2, 0, &queue, &event);
-
-	if (unlikely(Z_TYPE_P(queue) != IS_ARRAY)) { 
-		PHALCON_VERIFY_CLASS_EX(event, spl_ce_SplPriorityQueue, phalcon_events_exception_ce, 1);
+	if (unlikely(Z_TYPE_P(queue) != IS_ARRAY)) {
+		if (Z_TYPE_P(queue) == IS_OBJECT) {
+			zend_class_entry *ce = Z_OBJCE_P(queue);
+			if (
+				   !instanceof_function_ex(ce, phalcon_events_event_ce, 0 TSRMLS_CC)
+				&& !instanceof_function_ex(ce, spl_ce_SplPriorityQueue, 0 TSRMLS_CC)
+			) {
+				zend_throw_exception_ex(phalcon_events_exception_ce, 0 TSRMLS_CC, "Unexpected value type: expected object of type Phalcon\\Events\\Event or SplPriorityQueue, %s given", ce->name);
+				return;
+			}
+		}
+		else {
+			zend_throw_exception_ex(phalcon_events_exception_ce, 0 TSRMLS_CC, "Unexpected value type: expected object of type Phalcon\\Events\\Event or SplPriorityQueue, %s given", zend_zval_type_name(queue));
+			return;
+		}
 	}
 
-	PHALCON_VERIFY_CLASS_EX(event, phalcon_events_event_ce, phalcon_events_exception_ce, 1);
+	PHALCON_VERIFY_CLASS_EX(event, phalcon_events_event_ce, phalcon_events_exception_ce, 0);
 
 	if (FAILURE == zend_lookup_class_ex(SL("WeakRef") ZLK_NULL_CC, 0, &weakref_ce TSRMLS_CC)) {
 		weakref_ce = NULL;
 	}
+
+	PHALCON_MM_GROW();
 
 	PHALCON_INIT_VAR(status);
 	
@@ -380,8 +393,7 @@ PHP_METHOD(Phalcon_Events_Manager, fireQueue){
 	
 		while (1) {
 			PHALCON_CALL_METHOD(&r0, iterator, "valid");
-			if (zend_is_true(r0)) {
-			} else {
+			if (!zend_is_true(r0)) {
 				break;
 			}
 	

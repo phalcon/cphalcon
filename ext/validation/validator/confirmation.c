@@ -87,16 +87,15 @@ PHP_METHOD(Phalcon_Validation_Validator_Confirmation, validate){
 	
 	PHALCON_VERIFY_CLASS_EX(validator, phalcon_validation_ce, phalcon_validation_exception_ce, 1);
 
-	PHALCON_INIT_VAR(with_attribute);
-	RETURN_MM_ON_FAILURE(phalcon_validation_validator_getoption_helper(ce, with_attribute, getThis(), "with" TSRMLS_CC));
+	PHALCON_OBS_VAR(with_attribute);
+	RETURN_MM_ON_FAILURE(phalcon_validation_validator_getoption_helper(ce, &with_attribute, getThis(), "with" TSRMLS_CC));
 	
 	PHALCON_CALL_METHOD(&value,      validator, "getvalue", attribute);
 	PHALCON_CALL_METHOD(&with_value, validator, "getvalue", with_attribute);
 
 	if (!PHALCON_IS_EQUAL(value, with_value)) {
-	
-		PHALCON_INIT_VAR(label);
-		RETURN_MM_ON_FAILURE(phalcon_validation_validator_getoption_helper(ce, label, getThis(), phalcon_interned_label TSRMLS_CC));
+		PHALCON_OBS_VAR(label);
+		RETURN_MM_ON_FAILURE(phalcon_validation_validator_getoption_helper(ce, &label, getThis(), phalcon_interned_label TSRMLS_CC));
 		if (!zend_is_true(label)) {
 			PHALCON_CPY_WRT(label, attribute);
 		}
@@ -106,15 +105,15 @@ PHP_METHOD(Phalcon_Validation_Validator_Confirmation, validate){
 		Z_ADDREF_P(label);          add_assoc_zval_ex(pairs, SS(":field"), label);
 		Z_ADDREF_P(with_attribute); add_assoc_zval_ex(pairs, SS(":with"), with_attribute);
 
-		PHALCON_INIT_VAR(message_str);
-		RETURN_MM_ON_FAILURE(phalcon_validation_validator_getoption_helper(ce, message_str, getThis(), phalcon_interned_message TSRMLS_CC));
+		PHALCON_OBS_VAR(message_str);
+		RETURN_MM_ON_FAILURE(phalcon_validation_validator_getoption_helper(ce, &message_str, getThis(), phalcon_interned_message TSRMLS_CC));
 		if (!zend_is_true(message_str)) {
-			PHALCON_INIT_NVAR(message_str);
-			RETURN_MM_ON_FAILURE(phalcon_validation_getdefaultmessage_helper(Z_OBJCE_P(validator), message_str, validator, "Confirmation" TSRMLS_CC));
+			PHALCON_OBSERVE_OR_NULLIFY_VAR(message_str);
+			RETURN_MM_ON_FAILURE(phalcon_validation_getdefaultmessage_helper(Z_OBJCE_P(validator), &message_str, validator, "Confirmation" TSRMLS_CC));
 		}
 	
-		PHALCON_INIT_VAR(code);
-		RETURN_MM_ON_FAILURE(phalcon_validation_validator_getoption_helper(ce, code, getThis(), phalcon_interned_code TSRMLS_CC));
+		PHALCON_OBS_VAR(code);
+		RETURN_MM_ON_FAILURE(phalcon_validation_validator_getoption_helper(ce, &code, getThis(), phalcon_interned_code TSRMLS_CC));
 		if (Z_TYPE_P(code) == IS_NULL) {
 			ZVAL_LONG(code, 0);
 		}
