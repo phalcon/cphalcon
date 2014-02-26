@@ -232,7 +232,7 @@ class FormsTest extends PHPUnit_Framework_TestCase
 		$telephone->addValidators(array(
 			new StringLength(array(
 				'min' => 5,
-				'minimumMessage' => 'The telephone is too short'
+				'messageMinimum' => 'The telephone is too short'
 			)),
 			new Regex(array(
 				'pattern' => '/\+44 [0-9]+ [0-9]+/',
