@@ -949,15 +949,15 @@ class ValidationTest extends PHPUnit_Framework_TestCase
 
 		$validation->add('email', new PresenceOf(array(
                             'message' => 'The :field is required'
-			)));
+		)));
 		$validation->add('email', new Email(array(
                             'message' => 'The :field must be email',
                             'label' => 'E-mail'
-			)));
+		)));
 		$validation->add('firstname', new PresenceOf(array(
                             'message' => 'The :field is required'
-			)));
-		$validation->->add('firstname', new StringLength(array(
+		)));
+		$validation->add('firstname', new StringLength(array(
                             'min' => 4,
                             'messageMinimum' => 'The :field is too short'
 		)));
