@@ -141,6 +141,88 @@ static zend_object_value phalcon_registry_ctor(zend_class_entry* ce TSRMLS_DC)
 	return retval;
 }
 
+static PHP_FUNCTION(phalcon_registry_method_handler)
+{
+	Z_OBJ_HANDLER_P(getThis(), call_method)(((zend_internal_function*)EG(current_execute_data)->function_state.function)->function_name, INTERNAL_FUNCTION_PARAM_PASSTHRU);
+	efree(((zend_internal_function*)EG(current_execute_data)->function_state.function));
+}
+
+static union _zend_function* phalcon_registry_get_method(zval **object_ptr, char *method, int method_len ZLK_DC TSRMLS_DC)
+{
+	char *lc_method_name         = emalloc(method_len + 1);
+	phalcon_registry_object *obj = phalcon_registry_get_object(*object_ptr TSRMLS_CC);
+	zend_function fbc;
+
+	zend_str_tolower_copy(lc_method_name, method, method_len);
+
+	if (zend_hash_find(&obj->obj.ce->function_table, lc_method_name, method_len+1, (void **)&fbc) == FAILURE) {
+		zend_internal_function *f = emalloc(sizeof(zend_internal_function));
+
+		f->type          = ZEND_INTERNAL_FUNCTION;
+		f->handler       = ZEND_FN(phalcon_registry_method_handler);
+		f->arg_info      = NULL;
+		f->num_args      = 0;
+		f->scope         = obj->obj.ce;
+		f->fn_flags      = ZEND_ACC_CALL_VIA_HANDLER;
+		f->function_name = method;
+#if PHP_VERSION_ID < 50400
+		f->module        = obj->obj.ce->module;
+		f->pass_rest_by_reference = 0;
+		f->return_reference = ZEND_RETURN_VALUE;
+#else
+		f->module        = obj->obj.ce->info.internal.module;
+#endif
+
+		efree(lc_method_name);
+		return (union _zend_function*)f;
+	}
+
+	efree(lc_method_name);
+	return std_object_handlers.get_method(object_ptr, method, method_len ZLK_CC TSRMLS_CC);
+}
+
+static int phalcon_registry_call_method(const char *method, INTERNAL_FUNCTION_PARAMETERS)
+{
+	zval ***args, *params, **callback;
+	int argc, result;
+	phalcon_registry_object *obj = phalcon_registry_get_object(getThis() TSRMLS_CC);
+
+	if (!ZEND_NUM_ARGS()) {
+		params = NULL;
+	}
+	else {
+		int i;
+
+		if (FAILURE == zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "+", &args, &argc)) {
+			return FAILURE;
+		}
+
+		MAKE_STD_ZVAL(params);
+		array_init_size(params, argc);
+
+		for (i=0; i<argc; ++i) {
+			Z_ADDREF_PP(args[i]);
+			add_next_index_zval(params, *(args[i]));
+		}
+	}
+
+	if (zend_hash_find(Z_ARRVAL_P(obj->properties), method, strlen(method)+1, (void**)&callback) == SUCCESS) {
+		result = phalcon_call_user_func_array_noex(return_value, *callback, params TSRMLS_CC);
+	}
+	else {
+		result = FAILURE;
+		zend_throw_exception_ex(spl_ce_BadMethodCallException, 0 TSRMLS_CC, "Call to undefined method Phalcon\\Registry::%s", method);
+	}
+
+	if (params) {
+		zval_ptr_dtor(&params);
+		efree(args);
+	}
+
+	return result;
+}
+
+
 #if PHP_VERSION_ID < 50500
 
 /**
@@ -586,6 +668,27 @@ static PHP_METHOD(Phalcon_Registry, __unset)
 }
 
 /**
+ * @brief void Phalcon\Registry::__call(string $name, array $arguments)
+ */
+static PHP_METHOD(Phalcon_Registry, __call)
+{
+	zval **name, **arguments, **callback;
+	phalcon_registry_object *obj;
+
+	phalcon_fetch_params_ex(2, 0, &name, &arguments);
+	PHALCON_ENSURE_IS_STRING(name);
+
+	obj = phalcon_registry_get_object(getThis() TSRMLS_CC);
+
+	if (zend_hash_find(Z_ARRVAL_P(obj->properties), Z_STRVAL_PP(name), Z_STRLEN_PP(name)+1, (void**)&callback) == SUCCESS) {
+		RETURN_ON_FAILURE(phalcon_call_user_func_array(return_value, *callback, *arguments TSRMLS_CC));
+	}
+	else {
+		zend_throw_exception_ex(spl_ce_BadMethodCallException, 0 TSRMLS_CC, "Call to undefined method Phalcon\\Registry::%s", Z_STRVAL_PP(name));
+	}
+}
+
+/**
  * @brief int Phalcon\Registry::count()
  */
 static PHP_METHOD(Phalcon_Registry, count)
@@ -786,6 +889,7 @@ static const zend_function_entry phalcon_registry_method_entry[] = {
 	PHP_ME(Phalcon_Registry, __set, arginfo___set, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Registry, __isset, arginfo___isset, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Registry, __unset, arginfo___unset, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Registry, __call, arginfo___call, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Registry, count, arginfo_countable_count, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Registry, offsetGet, arginfo_arrayaccess_offsetgetref, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Registry, offsetSet, arginfo_arrayaccess_offsetset, ZEND_ACC_PUBLIC)
@@ -826,6 +930,8 @@ PHALCON_INIT_CLASS(Phalcon_Registry)
 	phalcon_registry_object_handlers.get_properties       = phalcon_registry_get_properties;
 	phalcon_registry_object_handlers.count_elements       = phalcon_registry_count_elements;
 	phalcon_registry_object_handlers.compare_objects      = phalcon_registry_compare_objects;
+	phalcon_registry_object_handlers.get_method           = phalcon_registry_get_method;
+	phalcon_registry_object_handlers.call_method          = (zend_object_call_method_t)phalcon_registry_call_method;
 
 	phalcon_registry_ce->get_iterator = phalcon_registry_get_iterator;
 
