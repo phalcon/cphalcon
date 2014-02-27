@@ -883,9 +883,12 @@ PHP_METHOD(Phalcon_Http_Request, isSecureRequest){
 PHP_METHOD(Phalcon_Http_Request, getRawBody){
 
 	zval *raw;
+
+#if PHP_VERSION_ID < 50600
 	if (SG(request_info).raw_post_data) {
 		RETURN_STRINGL(SG(request_info).raw_post_data, SG(request_info).raw_post_data_length, 1);
 	}
+#endif
 
 	raw = phalcon_fetch_nproperty_this(getThis(), SL("_rawBody"), PH_NOISY TSRMLS_CC);
 	if (Z_TYPE_P(raw) == IS_STRING) {
