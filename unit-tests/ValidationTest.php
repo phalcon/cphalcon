@@ -940,4 +940,57 @@ class ValidationTest extends PHPUnit_Framework_TestCase
 
 		$this->assertEquals(count($messages), 0);
 	}
+
+	public function testValidationSetLabels()
+	{
+		$_POST = array('email' => '', 'firstname' => '');
+
+		$validation = new Phalcon\Validation();
+
+		$validation->add('email', new PresenceOf(array(
+                            'message' => 'The :field is required'
+			)));
+		$validation->add('email', new Email(array(
+                            'message' => 'The :field must be email',
+                            'label' => 'E-mail'
+			)));
+		$validation->add('firstname', new PresenceOf(array(
+                            'message' => 'The :field is required'
+			)));
+		$validation->->add('firstname', new StringLength(array(
+                            'min' => 4,
+                            'messageMinimum' => 'The :field is too short'
+		)));
+
+		$validation->setLabels(array('firstname' => 'First name'));
+                
+		$messages = $validation->validate($_POST);
+
+		$expectedMessages = Phalcon\Validation\Message\Group::__set_state(array(
+			'_messages' => array(
+				0 => Phalcon\Validation\Message::__set_state(array(
+					'_type' => 'PresenceOf',
+					'_message' => 'The email is required',
+					'_field' => 'email',
+				)),
+				1 => Phalcon\Validation\Message::__set_state(array(
+					'_type' => 'Email',
+					'_message' => 'The E-mail must be email',
+					'_field' => 'email',
+				)),
+				2 => Phalcon\Validation\Message::__set_state(array(
+					'_type' => 'PresenceOf',
+					'_message' => 'The First name is required',
+					'_field' => 'firstname',
+				)),
+				3 => Phalcon\Validation\Message::__set_state(array(
+					'_type' => 'TooShort',
+					'_message' => 'The First name is too short',
+					'_field' => 'firstname',
+				))
+			)
+		));
+
+		$this->assertEquals($expectedMessages, $messages);
+	}
 }
