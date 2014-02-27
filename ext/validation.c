@@ -102,6 +102,14 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_validation_getdefaultmessage, 0, 0, 1)
 	ZEND_ARG_INFO(0, type)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_validation_setlabels, 0, 0, 1)
+	ZEND_ARG_INFO(0, labels)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_validation_getlabel, 0, 0, 1)
+	ZEND_ARG_INFO(0, field)
+ZEND_END_ARG_INFO()
+
 static const zend_function_entry phalcon_validation_method_entry[] = {
 	PHP_ME(Phalcon_Validation, __construct, arginfo_phalcon_validation___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
 	PHP_ME(Phalcon_Validation, validate, arginfo_phalcon_validation_validate, ZEND_ACC_PUBLIC)
@@ -116,6 +124,8 @@ static const zend_function_entry phalcon_validation_method_entry[] = {
 	PHP_ME(Phalcon_Validation, getValue, arginfo_phalcon_validation_getvalue, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Validation, setDefaultMessages, arginfo_phalcon_validation_setdefaultmessages, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Validation, getDefaultMessage, arginfo_phalcon_validation_getdefaultmessage, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Validation, setLabels);
+	PHP_ME(Phalcon_Validation, getLabel);
 	PHP_FE_END
 };
 
@@ -133,6 +143,7 @@ PHALCON_INIT_CLASS(Phalcon_Validation){
 	zend_declare_property_null(phalcon_validation_ce, SL("_messages"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_validation_ce, SL("_values"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_validation_ce, SL("_defaultMessages"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_validation_ce, SL("_labels"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
 	return SUCCESS;
 }
@@ -643,4 +654,62 @@ PHP_METHOD(Phalcon_Validation, getDefaultMessage)
 	}
 
 	RETURN_NULL();
+}
+
+/**
+ * Adds labels for fields
+ *
+ * @param array labels
+ */
+PHP_METHOD(Phalcon_Validation, setLabels) {
+
+	zval *labels;
+
+	zephir_fetch_params(0, 1, 0, &labels);
+
+
+
+	if (Z_TYPE_P(labels) != IS_ARRAY) {
+		ZEPHIR_THROW_EXCEPTION_STRW(phalcon_validation_exception_ce, "Labels must be an array");
+		return;
+	}
+	zephir_update_property_this(this_ptr, SL("_labels"), labels TSRMLS_CC);
+
+}
+
+/**
+ * Get label for field
+ *
+ * @param string field
+ * @return mixed
+ */
+PHP_METHOD(Phalcon_Validation, getLabel) {
+
+	zval *field_param = NULL, *labels, *value;
+	zval *field = NULL;
+
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 1, 0, &field_param);
+
+	if (Z_TYPE_P(field_param) != IS_STRING && Z_TYPE_P(field_param) != IS_NULL) {
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'field' must be a string") TSRMLS_CC);
+		RETURN_MM_NULL();
+	}
+
+	if (Z_TYPE_P(field_param) == IS_STRING) {
+		field = field_param;
+	} else {
+		ZEPHIR_INIT_VAR(field);
+		ZVAL_EMPTY_STRING(field);
+	}
+
+
+	labels = zephir_fetch_nproperty_this(this_ptr, SL("_labels"), PH_NOISY_CC);
+	if (Z_TYPE_P(labels) == IS_ARRAY) {
+		if (zephir_array_isset_fetch(&value, labels, field, 1 TSRMLS_CC)) {
+			RETURN_CTOR(value);
+		}
+	}
+	RETURN_MM_NULL();
+
 }
