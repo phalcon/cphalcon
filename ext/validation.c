@@ -57,6 +57,8 @@ PHP_METHOD(Phalcon_Validation, bind);
 PHP_METHOD(Phalcon_Validation, getValue);
 PHP_METHOD(Phalcon_Validation, setDefaultMessages);
 PHP_METHOD(Phalcon_Validation, getDefaultMessage);
+PHP_METHOD(Phalcon_Validation, setLabels);
+PHP_METHOD(Phalcon_Validation, getLabel);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_validation___construct, 0, 0, 0)
 	ZEND_ARG_INFO(0, validators)
@@ -665,16 +667,13 @@ PHP_METHOD(Phalcon_Validation, setLabels) {
 
 	zval *labels;
 
-	zephir_fetch_params(0, 1, 0, &labels);
-
-
+	phalcon_fetch_params(0, 1, 0, &labels);
 
 	if (Z_TYPE_P(labels) != IS_ARRAY) {
-		ZEPHIR_THROW_EXCEPTION_STRW(phalcon_validation_exception_ce, "Labels must be an array");
+		zend_throw_exception_ex(phalcon_validation_exception_ce, 0 TSRMLS_CC, "Labels must be an array");
 		return;
 	}
-	zephir_update_property_this(this_ptr, SL("_labels"), labels TSRMLS_CC);
-
+	phalcon_update_property_this(this_ptr, SL("_labels"), labels TSRMLS_CC);
 }
 
 /**
@@ -689,27 +688,26 @@ PHP_METHOD(Phalcon_Validation, getLabel) {
 	zval *field = NULL;
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 0, &field_param);
+	phalcon_fetch_params(1, 1, 0, &field_param);
 
 	if (Z_TYPE_P(field_param) != IS_STRING && Z_TYPE_P(field_param) != IS_NULL) {
-		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'field' must be a string") TSRMLS_CC);
+		zend_throw_exception_ex(phalcon_validation_exception_ce, 0 TSRMLS_CC, "Parameter 'field' must be a string");
 		RETURN_MM_NULL();
 	}
 
 	if (Z_TYPE_P(field_param) == IS_STRING) {
 		field = field_param;
 	} else {
-		ZEPHIR_INIT_VAR(field);
+		PHALCON_INIT_VAR(field);
 		ZVAL_EMPTY_STRING(field);
 	}
 
-
-	labels = zephir_fetch_nproperty_this(this_ptr, SL("_labels"), PH_NOISY_CC);
+	labels = phalcon_fetch_nproperty_this(getThis(), SL("_labels"), PH_NOISY TSRMLS_CC);
 	if (Z_TYPE_P(labels) == IS_ARRAY) {
-		if (zephir_array_isset_fetch(&value, labels, field, 1 TSRMLS_CC)) {
+		if (phalcon_array_isset_fetch(&value, labels, field, 1 TSRMLS_CC)) {
 			RETURN_CTOR(value);
 		}
 	}
-	RETURN_MM_NULL();
 
+	RETURN_MM_NULL();
 }
