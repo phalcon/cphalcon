@@ -687,7 +687,7 @@ PHP_METHOD(Phalcon_Validation, getLabel) {
 	zval *field_param = NULL, *labels, *value;
 	zval *field = NULL;
 
-	ZEPHIR_MM_GROW();
+	PHALCON_MM_GROW();
 	phalcon_fetch_params(1, 1, 0, &field_param);
 
 	if (Z_TYPE_P(field_param) != IS_STRING && Z_TYPE_P(field_param) != IS_NULL) {
@@ -704,7 +704,7 @@ PHP_METHOD(Phalcon_Validation, getLabel) {
 
 	labels = phalcon_fetch_nproperty_this(getThis(), SL("_labels"), PH_NOISY TSRMLS_CC);
 	if (Z_TYPE_P(labels) == IS_ARRAY) {
-		if (phalcon_array_isset_fetch(&value, labels, field, 1 TSRMLS_CC)) {
+		if (phalcon_array_isset_fetch(&value, labels, field)) {
 			RETURN_CTOR(value);
 		}
 	}
