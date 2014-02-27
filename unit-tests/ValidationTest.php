@@ -972,21 +972,25 @@ class ValidationTest extends PHPUnit_Framework_TestCase
 					'_type' => 'PresenceOf',
 					'_message' => 'The email is required',
 					'_field' => 'email',
+					'_code' => '0',
 				)),
 				1 => Phalcon\Validation\Message::__set_state(array(
 					'_type' => 'Email',
 					'_message' => 'The E-mail must be email',
 					'_field' => 'email',
+					'_code' => '0',
 				)),
 				2 => Phalcon\Validation\Message::__set_state(array(
 					'_type' => 'PresenceOf',
 					'_message' => 'The First name is required',
 					'_field' => 'firstname',
+					'_code' => '0',
 				)),
 				3 => Phalcon\Validation\Message::__set_state(array(
 					'_type' => 'TooShort',
 					'_message' => 'The First name is too short',
 					'_field' => 'firstname',
+					'_code' => '0',
 				))
 			)
 		));
