@@ -28,6 +28,7 @@
 #include <main/php_variables.h>
 #include <main/SAPI.h>
 #include <ext/standard/php_smart_str.h>
+#include <ext/standard/file.h>
 
 #include "kernel/main.h"
 #include "kernel/memory.h"
@@ -894,7 +895,9 @@ PHP_METHOD(Phalcon_Http_Request, getRawBody){
 	if (Z_TYPE_P(raw) == IS_STRING) {
 		RETURN_ZVAL(raw, 1, 0);
 	}
-	else if (sapi_module.read_post) {
+
+#if PHP_VERSION_ID < 50600
+	if (sapi_module.read_post) {
 		int read_bytes;
 		char *buf          = emalloc(8192);
 		smart_str raw_data = { NULL, 0, 0 };
@@ -914,10 +917,40 @@ PHP_METHOD(Phalcon_Http_Request, getRawBody){
 		}
 
 		phalcon_update_property_this(getThis(), SL("_rawBody"), return_value TSRMLS_CC);
+		return;
 	}
-	else {
-		RETURN_EMPTY_STRING();
+
+	RETURN_EMPTY_STRING();
+#else
+
+	{
+		zval *zcontext = NULL;
+		php_stream_context *context = php_stream_context_from_zval(zcontext, 0);
+		php_stream *stream = php_stream_open_wrapper_ex("php://input", "rb", REPORT_ERRORS, NULL, context);
+		long int maxlen    = PHP_STREAM_COPY_ALL;
+		char *content;
+		int len;
+
+		if (!stream) {
+			RETURN_FALSE;
+		}
+
+		len = php_stream_copy_to_mem(stream, &content, maxlen, 0);
+		if (len > 0) {
+			RETVAL_STRINGL(content, len, 0);
+			phalcon_update_property_this(getThis(), SL("_rawBody"), return_value TSRMLS_CC);
+		}
+		else if (!len) {
+			RETVAL_EMPTY_STRING();
+			phalcon_update_property_this(getThis(), SL("_rawBody"), return_value TSRMLS_CC);
+		}
+		else {
+			RETVAL_FALSE;
+		}
+
+		php_stream_close(stream);
 	}
+#endif
 }
 
 /**
