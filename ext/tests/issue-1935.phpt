@@ -69,5 +69,12 @@ assert($registry->{1.0} === 2);
 assert($registry[1] === 2);
 assert($registry[1.0] === 2);
 assert($registry['1'] === 2);
+
+$registry->callback = function() { return 'string'; };
+assert($registry->callback() === 'string');
+
+$registry->callback = function($param) { return 'Hello, ' . $param; };
+assert($registry->callback('world') === 'Hello, world');
+assert($registry->__call('callback', array('world')) === 'Hello, world');
 ?>
 --EXPECT--
