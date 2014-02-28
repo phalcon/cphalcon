@@ -169,8 +169,8 @@ class FormsTest extends PHPUnit_Framework_TestCase
 		$element2 = new \Phalcon\Forms\Element\Radio('radio');
 		$element2->setAttributes(array('value' => 0));
 
-		$this->assertEquals('<input type="text" id="name" name="name" value="" class="big-input" />', $element1->render());
-		$this->assertEquals('<input type="text" id="name" name="name" value="" class="big-input" />', (string) $element1);
+		$this->assertEquals('<input type="text" id="name" name="name" class="big-input" />', $element1->render());
+		$this->assertEquals('<input type="text" id="name" name="name" class="big-input" />', (string) $element1);
 		$this->assertEquals('<input type="radio" id="radio" name="radio" value="0" />', (string)$element2);
 	}
 
@@ -194,8 +194,8 @@ class FormsTest extends PHPUnit_Framework_TestCase
 
 		$form->add(new Text("name"));
 
-		$this->assertEquals($form->render('name'), '<input type="text" id="name" name="name" value="" />');
-		$this->assertEquals($form->render('name', array('class' => 'big-input')), '<input type="text" id="name" name="name" value="" class="big-input" />');
+		$this->assertEquals($form->render('name'), '<input type="text" id="name" name="name" />');
+		$this->assertEquals($form->render('name', array('class' => 'big-input')), '<input type="text" id="name" name="name" class="big-input" />');
 	}
 
 	public function testFormLabels()
@@ -506,5 +506,14 @@ class FormsTest extends PHPUnit_Framework_TestCase
 		}
 
 		$this->assertEquals($result, $data);
+	}
+
+	public function testIssue2045()
+	{
+		$element = new \Phalcon\Forms\Element\Text("name");
+		$element->setAttributes(array('class' => 'big-input'));
+		$element->setAttribute("id", NULL);
+
+		$this->assertEquals('<input type="text" name="name" class="big-input" />', $element->render());
 	}
 }
