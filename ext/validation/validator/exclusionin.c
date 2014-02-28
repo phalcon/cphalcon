@@ -112,7 +112,10 @@ PHP_METHOD(Phalcon_Validation_Validator_ExclusionIn, validate){
 		PHALCON_OBS_VAR(label);
 		RETURN_MM_ON_FAILURE(phalcon_validation_validator_getoption_helper(ce, &label, getThis(), phalcon_interned_label TSRMLS_CC));
 		if (!zend_is_true(label)) {
-			PHALCON_CPY_WRT(label, attribute);
+			PHALCON_CALL_METHOD(&label, validator, "getlabel", attribute);
+			if (!zend_is_true(label)) {
+				PHALCON_CPY_WRT(label, attribute);
+			}
 		}
 
 		ALLOC_INIT_ZVAL(joined_domain);

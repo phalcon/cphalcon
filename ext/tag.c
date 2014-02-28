@@ -386,7 +386,7 @@ PHALCON_STATIC void phalcon_tag_render_attributes(zval *code, zval *attributes T
 			zend_hash_move_forward_ex(Z_ARRVAL_P(attrs), &hp)
 		) {
 			zval key = phalcon_get_current_key_w(Z_ARRVAL_P(attrs), &hp);
-			if (Z_TYPE_P(&key) == IS_STRING) {
+			if (Z_TYPE_P(&key) == IS_STRING && Z_TYPE_PP(value) != IS_NULL) {
 				PHALCON_CALL_METHOD(&escaped, escaper, "escapehtmlattr", *value);
 				PHALCON_SCONCAT_SVSVS(code, " ", &key, "=\"", escaped, "\"");
 			}
@@ -399,7 +399,7 @@ PHALCON_STATIC void phalcon_tag_render_attributes(zval *code, zval *attributes T
 			zend_hash_move_forward_ex(Z_ARRVAL_P(attrs), &hp)
 		) {
 			zval key = phalcon_get_current_key_w(Z_ARRVAL_P(attrs), &hp);
-			if (Z_TYPE_P(&key) == IS_STRING) {
+			if (Z_TYPE_P(&key) == IS_STRING && Z_TYPE_PP(value) != IS_NULL) {
 				PHALCON_SCONCAT_SVSVS(code, " ", &key, "=\"", *value, "\"");
 			}
 		}

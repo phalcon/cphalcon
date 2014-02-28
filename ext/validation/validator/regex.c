@@ -93,7 +93,7 @@ PHP_METHOD(Phalcon_Validation_Validator_Regex, validate){
 	PHALCON_CALL_METHOD(&value, validator, "getvalue", attribute);
 
 	PHALCON_OBS_VAR(allow_empty);
-	RETURN_MM_ON_FAILURE(phalcon_validation_validator_getoption_helper(ce, &allow_empty, getThis(), "allowEmpty" TSRMLS_CC));
+	RETURN_MM_ON_FAILURE(phalcon_validation_validator_getoption_helper(ce, &allow_empty, getThis(), phalcon_interned_allowEmpty TSRMLS_CC));
 	if (zend_is_true(allow_empty) && phalcon_validation_validator_isempty_helper(value)) {
 		RETURN_MM_TRUE;
 	}
@@ -122,7 +122,10 @@ PHP_METHOD(Phalcon_Validation_Validator_Regex, validate){
 		PHALCON_OBS_VAR(label);
 		RETURN_MM_ON_FAILURE(phalcon_validation_validator_getoption_helper(ce, &label, getThis(), phalcon_interned_label TSRMLS_CC));
 		if (!zend_is_true(label)) {
-			PHALCON_CPY_WRT(label, attribute);
+			PHALCON_CALL_METHOD(&label, validator, "getlabel", attribute);
+			if (!zend_is_true(label)) {
+				PHALCON_CPY_WRT(label, attribute);
+			}
 		}
 
 		PHALCON_ALLOC_GHOST_ZVAL(pairs);

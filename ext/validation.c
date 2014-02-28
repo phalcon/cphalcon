@@ -57,6 +57,8 @@ PHP_METHOD(Phalcon_Validation, bind);
 PHP_METHOD(Phalcon_Validation, getValue);
 PHP_METHOD(Phalcon_Validation, setDefaultMessages);
 PHP_METHOD(Phalcon_Validation, getDefaultMessage);
+PHP_METHOD(Phalcon_Validation, setLabels);
+PHP_METHOD(Phalcon_Validation, getLabel);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_validation___construct, 0, 0, 0)
 	ZEND_ARG_INFO(0, validators)
@@ -102,6 +104,14 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_validation_getdefaultmessage, 0, 0, 1)
 	ZEND_ARG_INFO(0, type)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_validation_setlabels, 0, 0, 1)
+	ZEND_ARG_INFO(0, labels)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_validation_getlabel, 0, 0, 1)
+	ZEND_ARG_INFO(0, field)
+ZEND_END_ARG_INFO()
+
 static const zend_function_entry phalcon_validation_method_entry[] = {
 	PHP_ME(Phalcon_Validation, __construct, arginfo_phalcon_validation___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
 	PHP_ME(Phalcon_Validation, validate, arginfo_phalcon_validation_validate, ZEND_ACC_PUBLIC)
@@ -116,6 +126,8 @@ static const zend_function_entry phalcon_validation_method_entry[] = {
 	PHP_ME(Phalcon_Validation, getValue, arginfo_phalcon_validation_getvalue, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Validation, setDefaultMessages, arginfo_phalcon_validation_setdefaultmessages, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Validation, getDefaultMessage, arginfo_phalcon_validation_getdefaultmessage, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Validation, setLabels, arginfo_phalcon_validation_setlabels, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Validation, getLabel, arginfo_phalcon_validation_getlabel, ZEND_ACC_PUBLIC)
 	PHP_FE_END
 };
 
@@ -133,6 +145,7 @@ PHALCON_INIT_CLASS(Phalcon_Validation){
 	zend_declare_property_null(phalcon_validation_ce, SL("_messages"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_validation_ce, SL("_values"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_validation_ce, SL("_defaultMessages"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_validation_ce, SL("_labels"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
 	return SUCCESS;
 }
@@ -596,28 +609,28 @@ PHP_METHOD(Phalcon_Validation, setDefaultMessages)
 	PHALCON_INIT_VAR(default_messages);
 	array_init_size(default_messages, 22);
 
-	add_assoc_stringl_ex(default_messages, SS("Alnum"),             SL("Field :field must contain only alphanumeric characters"), 1);
+	add_assoc_stringl_ex(default_messages, SS("Alnum"),             SL("Field :field must contain only letters and numbers"), 1);
 	add_assoc_stringl_ex(default_messages, SS("Alpha"),             SL("Field :field must contain only letters"), 1);
-	add_assoc_stringl_ex(default_messages, SS("Between"),           SL(":field is not in the valid range"), 1);
-	add_assoc_stringl_ex(default_messages, SS("Confirmation"),      SL("Values of :field and :with do not match"), 1);
+	add_assoc_stringl_ex(default_messages, SS("Between"),           SL("Field :field must be within the range of :min to :max"), 1);
+	add_assoc_stringl_ex(default_messages, SS("Confirmation"),      SL("Field :field must be the same as :with"), 1);
 	add_assoc_stringl_ex(default_messages, SS("Digit"),             SL("Field :field must be numeric"), 1);
-	add_assoc_stringl_ex(default_messages, SS("Email"),             SL("Value of field :field is not a valid e-mail"), 1);
-	add_assoc_stringl_ex(default_messages, SS("ExclusionIn"),       SL("Value of field :field must not be a part of the list: :domain"), 1);
-	add_assoc_stringl_ex(default_messages, SS("FileValid"),         SL("File :field is not valid"), 1);
-	add_assoc_stringl_ex(default_messages, SS("FileEmpty"),         SL("File :field must not be empty"), 1);
-	add_assoc_stringl_ex(default_messages, SS("FileIniSize"),       SL("The uploaded file exceeds the maximum filesize"), 1);
-	add_assoc_stringl_ex(default_messages, SS("FileSize"),          SL("Maximum filesize of file :field is :max"), 1);
-	add_assoc_stringl_ex(default_messages, SS("FileType"),          SL("Type of :field is not valid"), 1);
-	add_assoc_stringl_ex(default_messages, SS("FileMinResolution"), SL("Minimum resolution of :field is :min"), 1);
-	add_assoc_stringl_ex(default_messages, SS("FileMaxResolution"), SL("Maximum resolution of :field is :max"), 1);
-	add_assoc_stringl_ex(default_messages, SS("Identical"),         SL(":field does not have the expected value"), 1);
-	add_assoc_stringl_ex(default_messages, SS("InclusionIn"),       SL("Value of field :field must be a part of the list: :domain"), 1);
-	add_assoc_stringl_ex(default_messages, SS("PresenceOf"),        SL(":field is required"), 1);
-	add_assoc_stringl_ex(default_messages, SS("Regex"),             SL("Value of field :field does not match the regular expression"), 1);
-	add_assoc_stringl_ex(default_messages, SS("TooLong"),           SL("Value of field :field exceeds the maximum :max characters"), 1);
-	add_assoc_stringl_ex(default_messages, SS("TooShort"),          SL("Value of field :field is less than the minimum :min characters"), 1);
-	add_assoc_stringl_ex(default_messages, SS("Uniqueness"),        SL(":field is already taken"), 1);
-	add_assoc_stringl_ex(default_messages, SS("Url"),               SL(":field is not a valid URL"), 1);
+	add_assoc_stringl_ex(default_messages, SS("Email"),             SL("Field :field must be an email address"), 1);
+	add_assoc_stringl_ex(default_messages, SS("ExclusionIn"),       SL("Field :field must not be a part of list: :domain"), 1);
+	add_assoc_stringl_ex(default_messages, SS("FileEmpty"),         SL("Field :field must not be empty"), 1);
+	add_assoc_stringl_ex(default_messages, SS("FileIniSize"),       SL("File :field exceeds the maximum file size"), 1);
+	add_assoc_stringl_ex(default_messages, SS("FileMaxResolution"), SL("File :field must not exceed :max resolution"), 1);
+	add_assoc_stringl_ex(default_messages, SS("FileMinResolution"), SL("File :field must be at least :min resolution"), 1);
+	add_assoc_stringl_ex(default_messages, SS("FileSize"),          SL("File :field exceeds the size of :max"), 1);
+	add_assoc_stringl_ex(default_messages, SS("FileType"),          SL("File :field must be of type: :types"), 1);
+	add_assoc_stringl_ex(default_messages, SS("FileValid"),         SL("Field :field is not valid"), 1);
+	add_assoc_stringl_ex(default_messages, SS("Identical"),         SL("Field :field does not have the expected value"), 1);
+	add_assoc_stringl_ex(default_messages, SS("InclusionIn"),       SL("Field :field must be a part of list: :domain"), 1);
+	add_assoc_stringl_ex(default_messages, SS("PresenceOf"),        SL("Field :field is required"), 1);
+	add_assoc_stringl_ex(default_messages, SS("Regex"),             SL("Field :field does not match the required format"), 1);
+	add_assoc_stringl_ex(default_messages, SS("TooLong"),           SL("Field :field must not exceed :max characters long"), 1);
+	add_assoc_stringl_ex(default_messages, SS("TooShort"),          SL("Field :field must be at least :min characters long"), 1);
+	add_assoc_stringl_ex(default_messages, SS("Uniqueness"),        SL("Field :field must be unique"), 1);
+	add_assoc_stringl_ex(default_messages, SS("Url"),               SL("Field :field must be a url"), 1);
 
 	if (!messages || Z_TYPE_P(messages) == IS_NULL) {
 		phalcon_update_property_this(getThis(), SL("_defaultMessages"), default_messages TSRMLS_CC);
@@ -643,4 +656,58 @@ PHP_METHOD(Phalcon_Validation, getDefaultMessage)
 	}
 
 	RETURN_NULL();
+}
+
+/**
+ * Adds labels for fields
+ *
+ * @param array labels
+ */
+PHP_METHOD(Phalcon_Validation, setLabels) {
+
+	zval *labels;
+
+	phalcon_fetch_params(0, 1, 0, &labels);
+
+	if (Z_TYPE_P(labels) != IS_ARRAY) {
+		zend_throw_exception_ex(phalcon_validation_exception_ce, 0 TSRMLS_CC, "Labels must be an array");
+		return;
+	}
+	phalcon_update_property_this(this_ptr, SL("_labels"), labels TSRMLS_CC);
+}
+
+/**
+ * Get label for field
+ *
+ * @param string field
+ * @return mixed
+ */
+PHP_METHOD(Phalcon_Validation, getLabel) {
+
+	zval *field_param = NULL, *labels, *value;
+	zval *field = NULL;
+
+	PHALCON_MM_GROW();
+	phalcon_fetch_params(1, 1, 0, &field_param);
+
+	if (Z_TYPE_P(field_param) != IS_STRING && Z_TYPE_P(field_param) != IS_NULL) {
+		zend_throw_exception_ex(phalcon_validation_exception_ce, 0 TSRMLS_CC, "Parameter 'field' must be a string");
+		RETURN_MM_NULL();
+	}
+
+	if (Z_TYPE_P(field_param) == IS_STRING) {
+		field = field_param;
+	} else {
+		PHALCON_INIT_VAR(field);
+		ZVAL_EMPTY_STRING(field);
+	}
+
+	labels = phalcon_fetch_nproperty_this(getThis(), SL("_labels"), PH_NOISY TSRMLS_CC);
+	if (Z_TYPE_P(labels) == IS_ARRAY) {
+		if (phalcon_array_isset_fetch(&value, labels, field)) {
+			RETURN_CTOR(value);
+		}
+	}
+
+	RETURN_MM_NULL();
 }
