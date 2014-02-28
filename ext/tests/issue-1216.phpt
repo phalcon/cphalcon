@@ -22,8 +22,8 @@ echo "DONE", PHP_EOL;
 --EXPECT--
 <label for="test&lt;" id="test&lt;" class="test&gt;">test<</label>
 <a href="/tests/url&quot;" class="class&quot;"><></a>
-<input type="text" id="name&quot;" name="name&quot;" value="" class="class&quot;" />
-<input type="checkbox" id="name&quot;" name="name&quot;" value="" class="class&quot;" />
+<input type="text" id="name&quot;" name="name&quot;" class="class&quot;" />
+<input type="checkbox" id="name&quot;" name="name&quot;" class="class&quot;" />
 <form action="/tests/&lt;" method="&gt;">
 <textarea id="&lt;" name="&lt;" cols="&lt;"></textarea>
 <link rel="stylesheet" type="&gt;" href="&lt;" />
