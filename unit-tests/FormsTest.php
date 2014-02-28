@@ -507,4 +507,13 @@ class FormsTest extends PHPUnit_Framework_TestCase
 
 		$this->assertEquals($result, $data);
 	}
+
+	public function testIssue2045()
+	{
+		$element = new \Phalcon\Forms\Element\Text("name");
+		$element->setAttributes(array('class' => 'big-input'));
+		$element->setAttribute("id", NULL);
+
+		$this->assertEquals('<input type="text" name="name" value="" class="big-input" />', $element->render());
+	}
 }
