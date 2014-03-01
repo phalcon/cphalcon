@@ -779,9 +779,7 @@ PHP_METHOD(Phalcon_Date, span){
 	}
 
 	if (Z_LVAL_P(count_output) == 1) {
-		Z_SET_ISREF_P(output);
-		PHALCON_CALL_FUNCTION(return_value_ptr, "array_pop", output);
-		Z_UNSET_ISREF_P(output);
+		PHALCON_RETURN_CALL_FUNCTION("array_pop", output);
 		RETURN_MM();
 	}
 
@@ -1082,14 +1080,14 @@ PHP_METHOD(Phalcon_Date, fuzzy_span2){
  */
 PHP_METHOD(Phalcon_Date, unix2dos){
 
-	zval *timestamp = NULL, *day, *year, *mon, *mday, *hours, *minutes, *seconds;
+	zval *timestamp = NULL, *day = NULL, *year, *mon, *mday, *hours, *minutes, *seconds;
 	int y, m, d, h, min, sec;
 
 	PHALCON_MM_GROW();
 
 	phalcon_fetch_params(1, 0, 1, &timestamp);
 
-	PHALCON_OBS_VAR(day);
+	
 	if (!timestamp || (Z_TYPE_P(timestamp) == IS_BOOL && !zend_is_true(timestamp))) {
 		PHALCON_CALL_FUNCTION(&day, "getdate");
 	} else {
@@ -1172,7 +1170,7 @@ PHP_METHOD(Phalcon_Date, dos2unix){
 	PHALCON_INIT_VAR(year);
 	ZVAL_LONG(year, (((t >> 25) & 0x7f)+1980));
 
-	PHALCON_CALL_FUNCTION(return_value_ptr, "mktime", hrs, min, sec, mon, day, year);
+	PHALCON_RETURN_CALL_FUNCTION("mktime", hrs, min, sec, mon, day, year);
 
 	PHALCON_MM_RESTORE();
 }
@@ -1180,7 +1178,7 @@ PHP_METHOD(Phalcon_Date, dos2unix){
 /**
  * Returns a date/time string with the specified timestamp format
  *
- *     $time = Phalcon\Date::time('5 minutes ago');
+ *     $time = Phalcon\Date::formatted_time('5 minutes ago');
  *
  * @param string $datetime_str
  * @param string $timestamp_format
@@ -1189,7 +1187,7 @@ PHP_METHOD(Phalcon_Date, dos2unix){
  */
 PHP_METHOD(Phalcon_Date, formatted_time){
 	
-	zval *datetime_str = NULL, *timestamp_format = NULL, *timezone = NULL, *tz, *dt, *tmp, *tmp1;
+	zval *datetime_str = NULL, *timestamp_format = NULL, *timezone = NULL, *tz, *dt, *tmp = NULL, *tmp1 = NULL;
 	zend_class_entry *ce0, *ce1;
 
 	PHALCON_MM_GROW();
@@ -1227,7 +1225,6 @@ PHP_METHOD(Phalcon_Date, formatted_time){
 	}
 	
 	if (!zend_is_true(timezone)) {
-		PHALCON_OBS_NVAR(timezone);
 		PHALCON_CALL_FUNCTION(&timezone, "date_default_timezone_get");
 	}
 
@@ -1243,20 +1240,15 @@ PHP_METHOD(Phalcon_Date, formatted_time){
 		PHALCON_CALL_METHOD(NULL, dt, "__construct", datetime_str, tz);
 	}
 
-	PHALCON_OBS_VAR(tmp);
 	PHALCON_CALL_METHOD(&tmp, dt, "getTimeZone");
-
-	PHALCON_OBS_VAR(tmp1);
 	PHALCON_CALL_METHOD(&tmp1, tmp, "getName");
-
-	PHALCON_OBS_NVAR(tmp);
 	PHALCON_CALL_METHOD(&tmp, tz, "getName");
 
 	if (PHALCON_IS_EQUAL(tmp1, tmp)) {
 		PHALCON_CALL_METHOD(NULL, dt, "setTimeZone", tz);
 	}
 
-	PHALCON_CALL_METHOD(return_value_ptr, dt, "format", timestamp_format);
+	PHALCON_RETURN_CALL_METHOD(dt, "format", timestamp_format);
 
 	PHALCON_MM_RESTORE();
 }
