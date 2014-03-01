@@ -62,6 +62,11 @@ return <<<HEADER
 #include <ext/session/php_session.h>
 #endif
 
+#ifdef PHALCON_USE_PHP_MBSTRING
+#include <ext/mbstring/mbstring.h>
+#include <ext/mbstring/php_unicode.h>
+#endif
+
 #include <ext/pdo/php_pdo_driver.h>
 
 #include <Zend/zend_API.h>

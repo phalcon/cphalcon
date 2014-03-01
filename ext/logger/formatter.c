@@ -92,7 +92,7 @@ PHP_METHOD(Phalcon_Logger_Formatter, interpolate)
 
 	phalcon_fetch_params_ex(2, 0, &message, &context);
 
-	if (Z_TYPE_PP(context) == IS_ARRAY) {
+	if (Z_TYPE_PP(context) == IS_ARRAY && zend_hash_num_elements(Z_ARRVAL_PP(context)) > 0) {
 		HashTable *ht = Z_ARRVAL_PP(context);
 		HashPosition hp;
 		zval *replace, **val;
@@ -112,9 +112,10 @@ PHP_METHOD(Phalcon_Logger_Formatter, interpolate)
 
 			if (HASH_KEY_IS_STRING == type) {
 				str_length       += 2;
-				idx               = ecalloc(str_length + 2, 1);
+				idx               = emalloc(str_length);
 				idx[0]            = '{';
 				idx[str_length-2] = '}';
+				idx[str_length-1] = '\0';
 				memcpy(idx + 1, str_index, str_length - 3);
 			}
 			else if (HASH_KEY_IS_LONG == type) {

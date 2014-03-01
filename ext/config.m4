@@ -98,6 +98,7 @@ cryptinterface.c \
 db.c \
 text.c \
 arr.c \
+date.c \
 debug.c \
 tag.c \
 mvc/controller.c \

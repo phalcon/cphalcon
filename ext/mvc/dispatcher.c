@@ -276,26 +276,16 @@ PHP_METHOD(Phalcon_Mvc_Dispatcher, _throwDispatchException){
 PHP_METHOD(Phalcon_Mvc_Dispatcher, _handleException){
 
 	zval *exception, *events_manager, *event_name;
-	zval *status = NULL;
 
-	PHALCON_MM_GROW();
-
-	phalcon_fetch_params(1, 1, 0, &exception);
+	phalcon_fetch_params(0, 1, 0, &exception);
 	
-	PHALCON_OBS_VAR(events_manager);
-	phalcon_read_property_this(&events_manager, this_ptr, SL("_eventsManager"), PH_NOISY TSRMLS_CC);
+	events_manager = phalcon_fetch_nproperty_this(this_ptr, SL("_eventsManager"), PH_NOISY TSRMLS_CC);
 	if (Z_TYPE_P(events_manager) == IS_OBJECT) {
-	
-		PHALCON_INIT_VAR(event_name);
+		PHALCON_ALLOC_GHOST_ZVAL(event_name);
 		ZVAL_STRING(event_name, "dispatch:beforeException", 1);
 	
-		PHALCON_CALL_METHOD(&status, events_manager, "fire", event_name, this_ptr, exception);
-		if (PHALCON_IS_FALSE(status)) {
-			RETURN_MM_FALSE;
-		}
+		PHALCON_RETURN_CALL_METHODW(events_manager, "fire", event_name, this_ptr, exception);
 	}
-	
-	PHALCON_MM_RESTORE();
 }
 
 /**

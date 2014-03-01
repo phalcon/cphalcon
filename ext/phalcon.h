@@ -348,6 +348,8 @@
 #include "text.h"
 #include "arr.h"
 
+#include "date.h"
+
 #include "validation.h"
 #include "validation/exception.h"
 #include "validation/message.h"

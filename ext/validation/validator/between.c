@@ -89,17 +89,17 @@ PHP_METHOD(Phalcon_Validation_Validator_Between, validate){
 
 	PHALCON_CALL_METHOD(&value, validator, "getvalue", attribute);
 	
-	PHALCON_INIT_VAR(allow_empty);
-	RETURN_MM_ON_FAILURE(phalcon_validation_validator_getoption_helper(ce, allow_empty, getThis(), phalcon_interned_allowEmpty TSRMLS_CC));
+	PHALCON_OBS_VAR(allow_empty);
+	RETURN_MM_ON_FAILURE(phalcon_validation_validator_getoption_helper(ce, &allow_empty, getThis(), phalcon_interned_allowEmpty TSRMLS_CC));
 	if (zend_is_true(allow_empty) && phalcon_validation_validator_isempty_helper(value)) {
 		RETURN_MM_TRUE;
 	}
 
-	PHALCON_INIT_VAR(minimum);
-	RETURN_MM_ON_FAILURE(phalcon_validation_validator_getoption_helper(ce, minimum, getThis(), "minimum" TSRMLS_CC));
+	PHALCON_OBS_VAR(minimum);
+	RETURN_MM_ON_FAILURE(phalcon_validation_validator_getoption_helper(ce, &minimum, getThis(), "minimum" TSRMLS_CC));
 
-	PHALCON_INIT_VAR(maximum);
-	RETURN_MM_ON_FAILURE(phalcon_validation_validator_getoption_helper(ce, maximum, getThis(), "maximum" TSRMLS_CC));
+	PHALCON_OBS_VAR(maximum);
+	RETURN_MM_ON_FAILURE(phalcon_validation_validator_getoption_helper(ce, &maximum, getThis(), "maximum" TSRMLS_CC));
 
 	PHALCON_INIT_VAR(valid);
 	is_smaller_or_equal_function(valid, minimum, value TSRMLS_CC);
@@ -108,9 +108,8 @@ PHP_METHOD(Phalcon_Validation_Validator_Between, validate){
 	}
 	
 	if (PHALCON_IS_FALSE(valid)) {
-
-		PHALCON_INIT_VAR(label);
-		RETURN_MM_ON_FAILURE(phalcon_validation_validator_getoption_helper(ce, label, getThis(), phalcon_interned_label TSRMLS_CC));
+		PHALCON_OBS_VAR(label);
+		RETURN_MM_ON_FAILURE(phalcon_validation_validator_getoption_helper(ce, &label, getThis(), phalcon_interned_label TSRMLS_CC));
 		if (!zend_is_true(label)) {
 			PHALCON_CPY_WRT(label, attribute);
 		}
@@ -121,15 +120,15 @@ PHP_METHOD(Phalcon_Validation_Validator_Between, validate){
 		Z_ADDREF_P(minimum); add_assoc_zval_ex(pairs, SS(":min"), minimum);
 		Z_ADDREF_P(maximum); add_assoc_zval_ex(pairs, SS(":max"), maximum);
 	
-		PHALCON_INIT_VAR(message_str);
-		RETURN_MM_ON_FAILURE(phalcon_validation_validator_getoption_helper(ce, message_str, getThis(), phalcon_interned_message TSRMLS_CC));
+		PHALCON_OBS_VAR(message_str);
+		RETURN_MM_ON_FAILURE(phalcon_validation_validator_getoption_helper(ce, &message_str, getThis(), phalcon_interned_message TSRMLS_CC));
 		if (!zend_is_true(message_str)) {
-			PHALCON_INIT_NVAR(message_str);
-			RETURN_MM_ON_FAILURE(phalcon_validation_getdefaultmessage_helper(Z_OBJCE_P(validator), message_str, validator, "Between" TSRMLS_CC));
+			PHALCON_OBSERVE_OR_NULLIFY_VAR(message_str);
+			RETURN_MM_ON_FAILURE(phalcon_validation_getdefaultmessage_helper(Z_OBJCE_P(validator), &message_str, validator, "Between" TSRMLS_CC));
 		}
 
-		PHALCON_INIT_VAR(code);
-		RETURN_MM_ON_FAILURE(phalcon_validation_validator_getoption_helper(ce, code, getThis(), phalcon_interned_code TSRMLS_CC));
+		PHALCON_OBS_VAR(code);
+		RETURN_MM_ON_FAILURE(phalcon_validation_validator_getoption_helper(ce, &code, getThis(), phalcon_interned_code TSRMLS_CC));
 		if (Z_TYPE_P(code) == IS_NULL) {
 			ZVAL_LONG(code, 0);
 		}

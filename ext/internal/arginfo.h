@@ -54,6 +54,18 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo___unset, 0, 0, 1)
 	ZEND_ARG_INFO(0, property)
 ZEND_END_ARG_INFO()
 
+/** @brief __call($method, array $arguments) */
+ZEND_BEGIN_ARG_INFO_EX(arginfo___call, 0, 0, 1)
+	ZEND_ARG_INFO(0, method)
+	ZEND_ARG_ARRAY_INFO(0, arguments, 0)
+ZEND_END_ARG_INFO()
+
+/** @brief __callStatic($method, array $arguments) */
+ZEND_BEGIN_ARG_INFO_EX(arginfo___callstatic, 0, 0, 1)
+	ZEND_ARG_INFO(0, method)
+	ZEND_ARG_ARRAY_INFO(0, arguments, 0)
+ZEND_END_ARG_INFO()
+
 /** @brief __toString() */
 ZEND_BEGIN_ARG_INFO_EX(arginfo___tostring, 0, 0, 0)
 ZEND_END_ARG_INFO()

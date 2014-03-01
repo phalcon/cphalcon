@@ -137,16 +137,18 @@ PHALCON_INIT_CLASS(Phalcon_Validation){
 	return SUCCESS;
 }
 
-int phalcon_validation_getdefaultmessage_helper(const zend_class_entry *ce, zval *return_value, zval *this_ptr, const char *type TSRMLS_DC)
+int phalcon_validation_getdefaultmessage_helper(const zend_class_entry *ce, zval **return_value_ptr, zval *this_ptr, const char *type TSRMLS_DC)
 {
 	if (is_phalcon_class(ce)) {
 		zval *msg;
 		zval *messages = phalcon_fetch_nproperty_this(this_ptr, SL("_defaultMessages"), PH_NOISY TSRMLS_CC);
+
+		MAKE_STD_ZVAL(*return_value_ptr);
 		if (phalcon_array_isset_string_fetch(&msg, messages, type, strlen(type)+1)) {
-			ZVAL_ZVAL(return_value, msg, 1, 0);
+			ZVAL_ZVAL(*return_value_ptr, msg, 1, 0);
 		}
 		else {
-			ZVAL_NULL(return_value);
+			ZVAL_NULL(*return_value_ptr);
 		}
 
 		return SUCCESS;
@@ -159,7 +161,7 @@ int phalcon_validation_getdefaultmessage_helper(const zend_class_entry *ce, zval
 		PHALCON_ALLOC_GHOST_ZVAL(t);
 		ZVAL_STRING(t, type, 1);
 		params[0] = t;
-		return phalcon_call_method(&return_value, this_ptr, "getdefaultmessage", 1, params TSRMLS_CC);
+		return phalcon_return_call_method(*return_value_ptr, return_value_ptr, this_ptr, "getdefaultmessage", 1, params TSRMLS_CC);
 	}
 }
 
@@ -282,10 +284,8 @@ PHP_METHOD(Phalcon_Validation, validate){
 		 * Check if the validation must be canceled if this validator fails
 		 */
 		if (PHALCON_IS_FALSE(status)) {
-			PHALCON_INIT_NVAR(must_cancel);
-			if (FAILURE == phalcon_validation_validator_getoption_helper(Z_OBJCE_P(validator), must_cancel, validator, "cancelOnFail" TSRMLS_CC)) {
-				RETURN_MM();
-			}
+			PHALCON_OBSERVE_OR_NULLIFY_VAR(must_cancel);
+			RETURN_MM_ON_FAILURE(phalcon_validation_validator_getoption_helper(Z_OBJCE_P(validator), &must_cancel, validator, "cancelOnFail" TSRMLS_CC));
 
 			if (zend_is_true(must_cancel)) {
 				break;

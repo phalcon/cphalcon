@@ -17,24 +17,23 @@
   +------------------------------------------------------------------------+
 */
 
-#ifndef PHALCON_VALIDATION_VALIDATOR_H
-#define PHALCON_VALIDATION_VALIDATOR_H
+#ifndef PHALCON_DATE_H
+#define PHALCON_DATE_H
 
 #include "php_phalcon.h"
 
-extern zend_class_entry *phalcon_validation_validator_ce;
+#define PHALCON_DATE_YEAR          31556926
+#define PHALCON_DATE_MONTH         2629744
+#define PHALCON_DATE_WEEK          604800
+#define PHALCON_DATE_DAY           86400
+#define PHALCON_DATE_HOUR          3600
+#define PHALCON_DATE_MINUTE        60
 
-PHALCON_INIT_CLASS(Phalcon_Validation_Validator);
+#define PHALCON_DATE_MONTHS_LONG   "%B"
+#define PHALCON_DATE_MONTHS_SHORT  "%b"
 
-PHALCON_STATIC int phalcon_validation_validator_getoption_helper(const zend_class_entry *ce, zval **result, zval *this_ptr, const char *option TSRMLS_DC);
+extern zend_class_entry *phalcon_date_ce;
 
-static inline int phalcon_validation_validator_isempty_helper(const zval *v)
-{
-	return
-			Z_TYPE_P(v) == IS_NULL
-		 || (Z_TYPE_P(v) == IS_STRING && !Z_STRLEN_P(v))
-		 || (Z_TYPE_P(v) == IS_ARRAY && !zend_hash_num_elements(Z_ARRVAL_P(v)))
-	;
-}
+PHALCON_INIT_CLASS(Phalcon_Date);
 
-#endif /* PHALCON_VALIDATION_VALIDATOR_H */
+#endif /* PHALCON_DATE_H */

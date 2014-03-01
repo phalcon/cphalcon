@@ -376,11 +376,17 @@ PHP_METHOD(Phalcon_Session_Bag, __get)
 		*return_value_ptr = value;
 	}
 	else {
-		zval *tmp;
+		zval *tmp, *name, *data, *session;
+
 		ALLOC_INIT_ZVAL(tmp);
 		Z_DELREF_P(tmp);
 		phalcon_update_property_array(this_ptr, SL("_data"), property, tmp TSRMLS_CC);
 		*return_value_ptr = tmp;
+
+		name    = phalcon_fetch_nproperty_this(this_ptr, SL("_name"), PH_NOISY TSRMLS_CC);
+		data    = phalcon_fetch_nproperty_this(this_ptr, SL("_data"), PH_NOISY TSRMLS_CC);
+		session = phalcon_fetch_nproperty_this(this_ptr, SL("_session"), PH_NOISY TSRMLS_CC);
+		Z_OBJ_HANDLER_P(session, write_property)(session, name, data ZLK_NULL_CC TSRMLS_CC);
 	}
 
 	Z_ADDREF_PP(return_value_ptr);

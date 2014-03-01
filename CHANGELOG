@@ -143,6 +143,7 @@
    - Phalcon\Dispatcher optimizations (#782)
    - Added getPreviousControllerName(), getPreviousActionName() (#1462)
    - If an event handler throws an exception, call dispatch:beforeException and break the dispatch loop (#1763)
+   - Phalcon\Dispatcher::_handleException() is invoked regardless whether the event manager is present (#1953)
  - Phalcon\Element:
    - Phalcon\Element::addFilter() incorrectly prepends NULL as the first element (#1019)
  - Phalcon\Escaper:
@@ -256,6 +257,7 @@
    - Implemented reset() for metadata adapters other than memory (#1934)
    - Relaxed the requirement for the route to start with a slash (#1938)
    - Phalcon\Mvc\Router\Group: merge slashes when the route prefix ends and the route pattern starts with a slash (#1938)
+   - Phalcon\Mvc\Model\Criteria::fromInput() now works with column maps (#1903)
  - Phalcon\Paginator:
    - Phalcon\Paginator\Adapter\Model returns correct results even when page number is incorrect (#1654)
    - Optimized Phalcon\Paginator\Adapter\QueryBuilder (#1632)
