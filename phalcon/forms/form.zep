@@ -117,9 +117,8 @@ class Form extends \Phalcon\Di\Injectable implements \Countable, \Iterator
 	 */
 	public function getUserOption(var option, defaultValue=null)
 	{
-		var value, options;
-		let options = this->_options;
-		if fetch value, options[option] {
+		var value;
+		if fetch value, this->_options[option] {
 			return value;
 		}
 		return defaultValue;
@@ -210,7 +209,10 @@ class Form extends \Phalcon\Di\Injectable implements \Countable, \Iterator
 		let filter = null;
 		for key, value in data {
 
-			if !isset elements[key] {
+			/**
+			 * Get the element
+			 */
+			if !fetch element, elements[key] {
 				continue;
 			}
 
@@ -222,11 +224,6 @@ class Form extends \Phalcon\Di\Injectable implements \Countable, \Iterator
 					continue;
 				}
 			}
-
-			/**
-			 * Get the element
-			 */
-			let element = elements[key];
 
 			/**
 			 * Check if the method has filters

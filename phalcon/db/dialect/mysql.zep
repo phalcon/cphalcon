@@ -314,8 +314,7 @@ class MySQL extends \Phalcon\Db\Dialect //implements Phalcon\Db\DialectInterface
 			let sql .= "`" . referencedSchema . "`.";
 		}
 
-		let sql .= "`" . reference->getReferencedTable() . "`(" . this->getColumnList(reference->getReferencedColumns()) . ")";
-		return sql;
+		return sql . "`" . reference->getReferencedTable() . "`(" . this->getColumnList(reference->getReferencedColumns()) . ")";
 	}
 
 	/**
@@ -334,8 +333,7 @@ class MySQL extends \Phalcon\Db\Dialect //implements Phalcon\Db\DialectInterface
 		} else {
 			let sql = "ALTER TABLE `" . tableName . "` DROP FOREIGN KEY ";
 		}
-		let sql .= "`" . referenceName . "`";
-		return sql;
+		return sql . "`" . referenceName . "`";
 	}
 
 	/**
@@ -706,11 +704,9 @@ class MySQL extends \Phalcon\Db\Dialect //implements Phalcon\Db\DialectInterface
 	{
 		var sql = "SELECT TABLES.TABLE_TYPE AS table_type,TABLES.AUTO_INCREMENT AS auto_increment,TABLES.ENGINE AS engine,TABLES.TABLE_COLLATION AS table_collation FROM INFORMATION_SCHEMA.TABLES WHERE ";
 		if schema {
-			let sql .= "TABLES.TABLE_SCHEMA = '" . schema . "' AND TABLES.TABLE_NAME = '" . table . "'";
-		} else {
-			let sql .= "TABLES.TABLE_NAME = '" . table . "'";
+			return sql . "TABLES.TABLE_SCHEMA = '" . schema . "' AND TABLES.TABLE_NAME = '" . table . "'";
 		}
-		return sql;
+		return sql . "TABLES.TABLE_NAME = '" . table . "'";
 	}
 
 }

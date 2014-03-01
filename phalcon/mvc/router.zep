@@ -298,14 +298,6 @@ class Router
 	}
 
 	/**
-	 * x
-	 */
-	public function doRemoveExtraSlashes(route)
-	{
-		return route;
-	}
-
-	/**
 	 * Handles routing information received from the rewrite engine
 	 *
 	 *<code>
@@ -340,7 +332,6 @@ class Router
 		 * Remove extra slashes in the route
 		 */
 		if this->_removeExtraSlashes {
-			//let handledUri = this->doRemoveExtraSlashes(realUri);
 			if realUri != "/" {
 				let handledUri = rtrim(realUri, "/");
 			} else {

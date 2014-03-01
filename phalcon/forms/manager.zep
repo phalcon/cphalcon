@@ -54,10 +54,8 @@ class Manager
 	 */
 	public function get(string name) -> <\Phalcon\Forms\Form>
 	{
-		var form, forms;
-
-		let forms = this->_forms;
-		if !fetch form, forms[name] {
+		var form;
+		if !fetch form, this->_forms[name] {
 			throw new \Phalcon\Forms\Exception("There is no form with name='" . name . "'");
 		}
 		return form;
@@ -71,9 +69,7 @@ class Manager
 	 */
 	public function has(string name) -> boolean
 	{
-		var forms;
-		let forms = this->_forms;
-		return isset forms[name];
+		return isset this->_forms[name];
 	}
 
 	/**

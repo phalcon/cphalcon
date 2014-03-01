@@ -111,6 +111,7 @@ class Url implements \Phalcon\Mvc\UrlInterface, \Phalcon\Di\InjectionAwareInterf
 	public function getBaseUri() -> string
 	{
 		var baseUri, phpSelf, uri;
+
 		let baseUri = this->_baseUri;
 		if baseUri === null {
 			if fetch phpSelf, _SERVER["PHP_SELF"] {
