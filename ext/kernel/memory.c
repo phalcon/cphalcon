@@ -363,34 +363,93 @@ PHALCON_ATTR_NONNULL static void phalcon_reallocate_hmemory(const zend_phalcon_g
 PHALCON_ATTR_NONNULL1(2) static inline void phalcon_do_memory_observe(zval **var, const zend_phalcon_globals *g)
 {
 	phalcon_memory_entry *frame = g->active_memory;
-#ifndef PHALCON_RELEASE
-	if (UNEXPECTED(frame == NULL)) {
-		fprintf(stderr, "PHALCON_MM_GROW() must be called before using any of MM functions or macros!");
-		phalcon_print_backtrace();
-		abort();
-	}
-#endif
 
 	if (UNEXPECTED(frame->pointer == frame->capacity)) {
 		phalcon_reallocate_memory(g);
 	}
 
-#ifndef PHALCON_RELEASE
-	{
-		size_t i;
-		for (i=0; i<frame->pointer; ++i) {
-			if (frame->addresses[i] == var) {
-				fprintf(stderr, "Variable %p is already observed", var);
-				phalcon_print_backtrace();
-				abort();
-			}
-		}
-	}
-#endif
-
 	frame->addresses[frame->pointer] = var;
 	++frame->pointer;
 }
+
+#ifndef PHALCON_RELEASE
+
+static void phalcon_verify_frame(const phalcon_memory_entry *frame, const char *func, zval **var)
+{
+	size_t i;
+
+	if (UNEXPECTED(frame == NULL)) {
+		fprintf(stderr, "PHALCON_MM_GROW() must be called before using any of MM functions or macros!");
+		phalcon_print_backtrace();
+		abort();
+	}
+
+	if (strcmp(frame->func, func)) {
+		fprintf(stderr, "Memory frames do not match: function: %s, frame creator: %s\n", func, frame->func);
+		phalcon_print_backtrace();
+		abort();
+	}
+
+	for (i=0; i<frame->pointer; ++i) {
+		if (frame->addresses[i] == var) {
+			fprintf(stderr, "Variable %p is already observed", var);
+			phalcon_print_backtrace();
+			abort();
+		}
+	}
+}
+
+/**
+ * Observes a memory pointer to release its memory at the end of the request
+ */
+void phalcon_memory_observe(zval **var, const char *func TSRMLS_DC)
+{
+	zend_phalcon_globals *g     = PHALCON_VGLOBAL;
+	phalcon_memory_entry *frame = g->active_memory;
+
+	phalcon_verify_frame(frame, func, var);
+
+	phalcon_do_memory_observe(var, g);
+	*var = NULL; /* In case an exception or error happens BEFORE the observed variable gets initialized */
+}
+
+/**
+ * Observes a variable and allocates memory for it
+ */
+void phalcon_memory_alloc(zval **var, const char *func TSRMLS_DC)
+{
+	zend_phalcon_globals *g     = PHALCON_VGLOBAL;
+	phalcon_memory_entry *frame = g->active_memory;
+
+	phalcon_verify_frame(frame, func, var);
+
+	phalcon_do_memory_observe(var, g);
+	ALLOC_INIT_ZVAL(*var);
+}
+
+/**
+ * Observes a variable and allocates memory for it
+ * Marks hash key zvals to be nulled before freeing
+ */
+void phalcon_memory_alloc_pnull(zval **var, const char *func TSRMLS_DC)
+{
+	zend_phalcon_globals *g     = PHALCON_VGLOBAL;
+	phalcon_memory_entry *frame = g->active_memory;
+
+	phalcon_verify_frame(frame, func, var);
+
+	phalcon_do_memory_observe(var, g);
+	ALLOC_INIT_ZVAL(*var);
+
+	if (frame->hash_pointer == frame->hash_capacity) {
+		phalcon_reallocate_hmemory(g);
+	}
+
+	frame->hash_addresses[frame->hash_pointer] = var;
+	++frame->hash_pointer;
+}
+
+#else
 
 /**
  * Observes a memory pointer to release its memory at the end of the request
@@ -421,14 +480,6 @@ void phalcon_memory_alloc_pnull(zval **var TSRMLS_DC)
 	zend_phalcon_globals *g = PHALCON_VGLOBAL;
 	phalcon_memory_entry *active_memory = g->active_memory;
 
-#ifndef PHALCON_RELEASE
-	if (UNEXPECTED(active_memory == NULL)) {
-		fprintf(stderr, "PHALCON_MM_GROW() must be called before using any of MM functions or macros!");
-		phalcon_print_backtrace();
-		abort();
-	}
-#endif
-
 	phalcon_do_memory_observe(var, g);
 	ALLOC_INIT_ZVAL(*var);
 
@@ -439,6 +490,7 @@ void phalcon_memory_alloc_pnull(zval **var TSRMLS_DC)
 	active_memory->hash_addresses[active_memory->hash_pointer] = var;
 	++active_memory->hash_pointer;
 }
+#endif
 
 /**
  * Removes a memory pointer from the active memory pool
