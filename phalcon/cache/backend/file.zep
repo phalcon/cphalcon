@@ -197,7 +197,7 @@ class File extends \Phalcon\Cache\Backend implements \Phalcon\Cache\BackendInter
 
 		let isBuffering = frontend->isBuffering();
 
-		if !stopBuffer || stopBuffer === true {
+		if stopBuffer === true {
 			frontend->stop();
 		}
 
