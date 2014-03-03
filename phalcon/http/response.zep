@@ -119,7 +119,7 @@ class Response implements \Phalcon\Http\ResponseInterface, \Phalcon\Di\Injection
 		/**
 		 * We also define a 'Status' header with the HTTP status
 		 */
-		headers->set(code . " " . message, "Status");
+		headers->set("Status", code . " " . message);
 
 		let this->_headers = headers;
 		return this;

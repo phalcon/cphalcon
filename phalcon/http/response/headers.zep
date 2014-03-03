@@ -62,7 +62,7 @@ class Headers implements \Phalcon\Http\Response\HeadersInterface
 	 */
 	public function setRaw(var header)
 	{
-		let this->_headers[header] = null;
+		let this->_headers[header] = "";
 	}
 
 	/**
