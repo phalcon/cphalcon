@@ -87,7 +87,7 @@ class File extends \Phalcon\Cache\Backend implements \Phalcon\Cache\BackendInter
 		let prefixedKey = prefix . keyName;
 		let this->_lastKey = prefixedKey;
 
-		if fetch cacheDir, options["cacheDir"] {
+		if !fetch cacheDir, options["cacheDir"] {
 			throw new \Phalcon\Cache\Exception("Unexpected inconsistency in options");
 		}
 
@@ -197,7 +197,7 @@ class File extends \Phalcon\Cache\Backend implements \Phalcon\Cache\BackendInter
 
 		let isBuffering = frontend->isBuffering();
 
-		if !stopBuffer {
+		if stopBuffer === true {
 			frontend->stop();
 		}
 
