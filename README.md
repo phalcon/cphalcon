@@ -6,11 +6,11 @@ Phalcon is a web framework delivered as a C extension providing high performance
 Get Started
 -----------
 
-Phalcon is written in C with platform independence in mind. As a result, Phalcon is available on Microsoft Windows, GNU/Linux, Mac OS X, You can either download a binary package for the system of your choice or build it from sources.
+Phalcon is written in C with platform independence in mind. As a result, Phalcon is available on Microsoft Windows, GNU/Linux, and Mac OS X. You can either download a binary package for the system of your choice or build it from sources.
 
 ### Windows
 
-For use Phalcon on Windows, you only should to [download a DLL library](http://phalconphp.com/en/download/windows), place it in your `/php/ext` folder and then append at the last line (or whatever line you wish) of your `php.ini`:
+To use Phalcon on Windows, you only need to [download a DLL library](http://phalconphp.com/en/download/windows), place it in your `/php/ext` folder and then append at the last line (or whatever line you wish) of your `php.ini`:
 
 ```bash
 extension=php_phalcon.dll
@@ -18,7 +18,7 @@ extension=php_phalcon.dll
 
 Finally, just restart your webserver and voilà!
 
-**Hint:** To ensure that your Phalcon's installation was successful, debug with `<?php phpinfo(); ?>` and search for the a section mentioning the Phalcon extension.
+**Hint:** To ensure that your Phalcon installation was successful, debug with `<?php phpinfo(); ?>` and search for a section mentioning the Phalcon extension.
 
 ### Linux/Unix/Mac
 
@@ -42,6 +42,12 @@ Suse:
 yast2 -i php5-pear php5-devel libmysqlclient gcc make autoconf2.13
 ```
 
+CentOS / Fedora
+
+```bash
+sudo yum install php-devel php-mysql gcc make
+```
+
 Compilation
 -----------
 
@@ -53,13 +59,13 @@ cd cphalcon/build
 sudo ./install
 ```
 
-Add the extension to your php.ini
+Add the extension to your php.ini:
 
 ```bash
 extension=phalcon.so
 ```
 
-Finally restart the webserver
+Finally, restart the webserver
 
 External Links
 --------------
@@ -72,15 +78,15 @@ External Links
 Current Build Status
 --------------------
 
-Phalcon Framework is built under Travis CI service. Every commit pushed to this repository will queue a build into the continuous integration service and will run all PHPUnit tests to ensure that everything is going well and the project is stable. The current build status is:
+Phalcon Framework is built under the Travis CI service. Every commit pushed to this repository will queue a build into the continuous integration service and will run all PHPUnit tests to ensure that everything is going well and the project is stable. The current build status is:
 
 [![Build Status](https://secure.travis-ci.org/phalcon/cphalcon.png?branch=master)](http://travis-ci.org/phalcon/cphalcon)
 
 Meet the Incubator
 -----------
-Our community is developing amazing extra features for Phalcon everyday via [Incubator](https://github.com/phalcon/incubator). There are resources to enhance your experience with the framework and that enlarge the main features.
+Our community is developing amazing extra features for Phalcon every day via [Incubator](https://github.com/phalcon/incubator). There are resources to enhance your experience with the framework and that enlarge the main features.
 
-Just give a try and help us improve more & more our PHP's stronghold.
+Just give it a try and help us improve more & more our PHP's stronghold.
 
 
 License
