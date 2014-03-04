@@ -1,7 +1,7 @@
 Phalcon Framework
 =================
 
-Phalcon is a web framework delivered as a C extension providing high performance and lower resource consumption.
+Phalcon is a web framework implemented as a C extension offering high performance and lower resource consumption.
 
 Get Started
 -----------
@@ -10,19 +10,18 @@ Phalcon is written in C with platform independence in mind. As a result, Phalcon
 
 ### Windows
 
-To use Phalcon on Windows, you only need to [download a DLL library](http://phalconphp.com/en/download/windows), place it in your `/php/ext` folder and then append at the last line (or whatever line you wish) of your `php.ini`:
+To install Phalcon on Windows:
 
-```bash
-extension=php_phalcon.dll
-```
-
-Finally, just restart your webserver and voilà!
+1. Download [Phalcon for Windows](http://phalconphp.com/en/download/windows) 
+2. Extract the DLL file and copy it to your PHP extensions directory
+3. Edit your php.ini file and add this line: `extension=php_phalcon.dll`
+4. Finally, restart your webserver
 
 **Hint:** To ensure that your Phalcon installation was successful, debug with `<?php phpinfo(); ?>` and search for a section mentioning the Phalcon extension.
 
 ### Linux/Unix/Mac
 
-On a Unix based platform you can easily compile and install the extension from sources.
+On a Unix-based platform you can easily compile and install the extension from sources.
 
 #### Requirements
 We need some packages previously installed.
@@ -65,7 +64,7 @@ Add the extension to your php.ini:
 extension=phalcon.so
 ```
 
-Finally, restart the webserver
+Finally, restart the webserver.
 
 External Links
 --------------
@@ -86,7 +85,7 @@ Meet the Incubator
 -----------
 Our community is developing amazing extra features for Phalcon every day via [Incubator](https://github.com/phalcon/incubator). There are resources to enhance your experience with the framework and that enlarge the main features.
 
-Just give it a try and help us improve more & more our PHP's stronghold.
+Just give it a try and help us improve Phalcon even more!
 
 
 License
