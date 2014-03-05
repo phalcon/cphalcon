@@ -24,27 +24,27 @@ To install Phalcon on Windows:
 On a Unix-based platform you can easily compile and install the extension from sources.
 
 #### Requirements
-We need some packages previously installed.
+Prerequisite packages are:
 
-* PHP 5.x development resources
-* GCC compiler
+* PHP 5.3.x/5.4.x/5.5.x development resources
+* GCC compiler (Linux/Solaris) or Xcode (Mac)
 
 Ubuntu:
 
 ```bash
-sudo apt-get install php5-dev php5-mysql gcc make
+sudo apt-get install php5-dev libpcre3-dev gcc make
 ```
 
 Suse:
 
 ```bash
-yast2 -i php5-pear php5-devel libmysqlclient gcc make autoconf2.13
+sudo zypper install php5-devel gcc make
 ```
 
-CentOS / Fedora
+CentOS/Fedora/RHEL
 
 ```bash
-sudo yum install php-devel php-mysql gcc make
+sudo yum install php-devel pcre-devel gcc make
 ```
 
 Compilation
@@ -90,4 +90,4 @@ Just give it a try and help us improve Phalcon even more!
 
 License
 -------
-Phalcon is open-sourced software licensed under the New BSD License. See the docs/LICENSE.txt file for more information.
+Phalcon is open source software licensed under the New BSD License. See the docs/LICENSE.txt file for more information.
