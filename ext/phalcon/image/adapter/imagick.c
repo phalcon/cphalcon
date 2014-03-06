@@ -418,7 +418,7 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, _flip) {
 
 	ZEPHIR_INIT_VAR(func);
 	ZVAL_STRING(func, "flipImage", 1);
-	if ((direction == 11)) {
+	if (direction == 11) {
 		ZEPHIR_INIT_BNVAR(func);
 		ZVAL_STRING(func, "flopImage", 1);
 	}
@@ -453,7 +453,7 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, _sharpen) {
 
 
 	ZEPHIR_INIT_VAR(_0);
-	if ((amount < 5)) {
+	if (amount < 5) {
 		ZEPHIR_INIT_BNVAR(_0);
 		ZVAL_LONG(_0, 5);
 	} else {
@@ -869,14 +869,14 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, _text) {
 		ZEPHIR_CALL_METHOD(NULL, draw, "setfillopacity", NULL, _7);
 		zephir_check_call_status();
 	}
-	if ((offset_x < 0)) {
+	if (offset_x < 0) {
 		ZEPHIR_SINIT_NVAR(_1);
 		ZVAL_LONG(&_1, offset_x);
 		ZEPHIR_CALL_FUNCTION(&_8, "abs", &_9, &_1);
 		zephir_check_call_status();
 		offset_x = zephir_get_numberval(_8);
 		ZEPHIR_INIT_VAR(gravity);
-		if ((offset_y < 0)) {
+		if (offset_y < 0) {
 			ZEPHIR_SINIT_NVAR(_1);
 			ZVAL_LONG(&_1, offset_y);
 			ZEPHIR_CALL_FUNCTION(&_10, "abs", &_9, &_1);

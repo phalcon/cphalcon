@@ -63,34 +63,34 @@ PHP_METHOD(Phalcon_Logger_Formatter, getTypeString) {
 
 
 	do {
-		if ((type == 7)) {
+		if (type == 7) {
 			RETURN_STRING("DEBUG", 1);
 		}
-		if ((type == 3)) {
+		if (type == 3) {
 			RETURN_STRING("ERROR", 1);
 		}
-		if ((type == 4)) {
+		if (type == 4) {
 			RETURN_STRING("WARNING", 1);
 		}
-		if ((type == 1)) {
+		if (type == 1) {
 			RETURN_STRING("CRITICAL", 1);
 		}
-		if ((type == 8)) {
+		if (type == 8) {
 			RETURN_STRING("CUSTOM", 1);
 		}
-		if ((type == 2)) {
+		if (type == 2) {
 			RETURN_STRING("ALERT", 1);
 		}
-		if ((type == 5)) {
+		if (type == 5) {
 			RETURN_STRING("NOTICE", 1);
 		}
-		if ((type == 6)) {
+		if (type == 6) {
 			RETURN_STRING("INFO", 1);
 		}
-		if ((type == 0)) {
+		if (type == 0) {
 			RETURN_STRING("EMERGENCE", 1);
 		}
-		if ((type == 9)) {
+		if (type == 9) {
 			RETURN_STRING("SPECIAL", 1);
 		}
 		RETURN_STRING("CUSTOM", 1);

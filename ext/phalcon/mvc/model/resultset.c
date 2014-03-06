@@ -235,11 +235,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, seek) {
 				_6 = position;
 				_5 = 0;
 				_4 = 0;
-				if ((_5 <= _6)) {
+				if (_5 <= _6) {
 					while (1) {
 						if (_4) {
 							_5++;
-							if (!((_5 <= _6))) {
+							if (!(_5 <= _6)) {
 								break;
 							}
 						} else {
@@ -641,7 +641,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, delete) {
 	  ; zephir_hash_move_forward_ex(_3, &_2)
 	) {
 		ZEPHIR_GET_HVALUE(record, _4);
-		if ((transaction == 0)) {
+		if (transaction == 0) {
 			if (!((zephir_method_exists_ex(record, SS("getwriteconnection") TSRMLS_CC) == SUCCESS))) {
 				ZEPHIR_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "The returned record is not valid");
 				return;
@@ -674,7 +674,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, delete) {
 			break;
 		}
 	}
-	if ((transaction == 1)) {
+	if (transaction == 1) {
 		ZEPHIR_CALL_METHOD(NULL, connection, "commit", NULL);
 		zephir_check_call_status();
 	}

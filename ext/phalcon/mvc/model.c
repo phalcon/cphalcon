@@ -908,12 +908,12 @@ PHP_METHOD(Phalcon_Mvc_Model, cloneResultMapHydrate) {
 		return;
 	}
 	if (Z_TYPE_P(columnMap) != IS_ARRAY) {
-		if ((hydrationMode == 1)) {
+		if (hydrationMode == 1) {
 			RETURN_CCTOR(data);
 		}
 	}
 	ZEPHIR_INIT_VAR(hydrate);
-	if ((hydrationMode == 1)) {
+	if (hydrationMode == 1) {
 		array_init(hydrate);
 	} else {
 		object_init(hydrate);
@@ -939,13 +939,13 @@ PHP_METHOD(Phalcon_Mvc_Model, cloneResultMapHydrate) {
 					ZEPHIR_MM_RESTORE();
 					return;
 				}
-				if ((hydrationMode == 1)) {
+				if (hydrationMode == 1) {
 					zephir_array_update_zval(&hydrate, attribute, &value, PH_COPY | PH_SEPARATE);
 				} else {
 					zephir_update_property_zval_zval(hydrate, attribute, value TSRMLS_CC);
 				}
 			} else {
-				if ((hydrationMode == 1)) {
+				if (hydrationMode == 1) {
 					zephir_array_update_zval(&hydrate, key, &value, PH_COPY | PH_SEPARATE);
 				} else {
 					zephir_update_property_zval_zval(hydrate, key, value TSRMLS_CC);
@@ -1358,7 +1358,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _exists) {
 			ZEPHIR_CONCAT_VS(_3, _7, " = ?");
 			zephir_array_append(&wherePk, _3, PH_SEPARATE);
 		}
-		if ((numberPrimary == numberEmpty)) {
+		if (numberPrimary == numberEmpty) {
 			RETURN_MM_BOOL(0);
 		}
 		ZEPHIR_INIT_VAR(joinWhere);
@@ -2132,7 +2132,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _checkForeignKeysRestrict) {
 				}
 			}
 		}
-		if ((error == 1)) {
+		if (error == 1) {
 			if (ZEPHIR_GLOBAL(orm).events) {
 				ZEPHIR_INIT_NVAR(_12);
 				ZVAL_STRING(_12, "onValidationFails", 0);
@@ -2348,7 +2348,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _checkForeignKeysReverseRestrict) {
 				}
 			}
 		}
-		if ((error == 1)) {
+		if (error == 1) {
 			if (ZEPHIR_GLOBAL(orm).events) {
 				ZEPHIR_INIT_NVAR(_10);
 				ZVAL_STRING(_10, "onValidationFails", 0);
@@ -2490,7 +2490,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _preSave) {
 					} else {
 						isNull = 1;
 					}
-					if ((isNull == 1)) {
+					if (isNull == 1) {
 						if (!(exists)) {
 							if (ZEPHIR_IS_EQUAL(field, identityField)) {
 								continue;
@@ -2510,7 +2510,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _preSave) {
 					}
 				}
 			}
-			if ((error == 1)) {
+			if (error == 1) {
 				if (ZEPHIR_GLOBAL(orm).events) {
 					ZEPHIR_INIT_NVAR(_1);
 					ZVAL_STRING(_1, "onValidationFails", 0);
@@ -2624,7 +2624,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _postSave) {
 	exists = zephir_get_boolval(exists_param);
 
 
-	if ((success == 1)) {
+	if (success == 1) {
 		if (exists) {
 			ZEPHIR_INIT_VAR(_0);
 			ZVAL_STRING(_0, "afterUpdate", 0);

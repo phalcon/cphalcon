@@ -51,7 +51,7 @@ int zephir_require_ret(zval **return_value_ptr, const char *require_path TSRMLS_
 #endif
 
 	if (!require_path) {
-		/* @TODO, create an exception here */
+		/* @TODO, throw an exception here */
 		return FAILURE;
 	}
 

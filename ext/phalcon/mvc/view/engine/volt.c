@@ -168,7 +168,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, render) {
 	}
 
 
-	if ((mustClean == 1)) {
+	if (mustClean == 1) {
 		ZEPHIR_CALL_FUNCTION(NULL, "ob_clean", &_0);
 		zephir_check_call_status();
 	}
@@ -194,7 +194,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, render) {
 	if (zephir_require_zval(compiledTemplatePath TSRMLS_CC) == FAILURE) {
 		RETURN_MM_NULL();
 	}
-	if ((mustClean == 1)) {
+	if (mustClean == 1) {
 		_4 = zephir_fetch_nproperty_this(this_ptr, SL("_view"), PH_NOISY_CC);
 		ZEPHIR_CALL_FUNCTION(&_5, "ob_get_contents", &_6);
 		zephir_check_call_status();

@@ -523,7 +523,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Mongo, exists) {
 		ZEPHIR_CALL_METHOD(&_0, collection, "count", NULL, conditions);
 		zephir_check_call_status();
 		number = zephir_get_intval(_0);
-		if ((number > 0)) {
+		if (number > 0) {
 			RETURN_MM_BOOL(1);
 		}
 	}
@@ -614,7 +614,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Mongo, increment) {
 	ZEPHIR_SINIT_VAR(difference);
 	sub_function(&difference, timestamp, ttl TSRMLS_CC);
 	notExpired = ZEPHIR_LT(&difference, modifiedTime);
-	if ((notExpired == 1)) {
+	if (notExpired == 1) {
 		if (!(zephir_array_isset_string(document, SS("data")))) {
 			ZEPHIR_THROW_EXCEPTION_STR(phalcon_cache_exception_ce, "The cache is currupted");
 			return;
@@ -689,7 +689,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Mongo, decrement) {
 	ZEPHIR_SINIT_VAR(difference);
 	sub_function(&difference, timestamp, ttl TSRMLS_CC);
 	notExpired = ZEPHIR_LT(&difference, modifiedTime);
-	if ((notExpired == 1)) {
+	if (notExpired == 1) {
 		if (!(zephir_array_isset_string(document, SS("data")))) {
 			ZEPHIR_THROW_EXCEPTION_STR(phalcon_cache_exception_ce, "The cache is currupted");
 			return;

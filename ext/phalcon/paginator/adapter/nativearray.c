@@ -155,7 +155,7 @@ PHP_METHOD(Phalcon_Paginator_Adapter_NativeArray, getPaginate) {
 	ZEPHIR_OBS_VAR(_1);
 	zephir_read_property_this(&_1, this_ptr, SL("_page"), PH_NOISY_CC);
 	pageNumber = zephir_get_intval(_1);
-	if ((pageNumber <= 0)) {
+	if (pageNumber <= 0) {
 		pageNumber = 1;
 	}
 	ZEPHIR_INIT_VAR(page);
@@ -163,7 +163,7 @@ PHP_METHOD(Phalcon_Paginator_Adapter_NativeArray, getPaginate) {
 	number = zephir_fast_count_int(items TSRMLS_CC);
 	roundedTotal = (double) ((number / show));
 	totalPages = (int) (roundedTotal);
-	if ((totalPages != roundedTotal)) {
+	if (totalPages != roundedTotal) {
 		totalPages++;
 	}
 	ZEPHIR_SINIT_VAR(_2);
@@ -173,7 +173,7 @@ PHP_METHOD(Phalcon_Paginator_Adapter_NativeArray, getPaginate) {
 	ZEPHIR_CALL_FUNCTION(&_4, "array_slice", &_5, items, &_2, &_3);
 	zephir_check_call_status();
 	zephir_update_property_zval(page, SL("items"), _4 TSRMLS_CC);
-	if ((pageNumber < totalPages)) {
+	if (pageNumber < totalPages) {
 		next = (pageNumber + 1);
 	} else {
 		next = totalPages;
@@ -181,7 +181,7 @@ PHP_METHOD(Phalcon_Paginator_Adapter_NativeArray, getPaginate) {
 	ZEPHIR_INIT_ZVAL_NREF(_6);
 	ZVAL_LONG(_6, next);
 	zephir_update_property_zval(page, SL("next"), _6 TSRMLS_CC);
-	if ((pageNumber > 1)) {
+	if (pageNumber > 1) {
 		before = (pageNumber - 1);
 	} else {
 		before = 1;

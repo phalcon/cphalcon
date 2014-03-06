@@ -211,7 +211,7 @@ PHP_METHOD(Phalcon_Cache_Backend, stop) {
 	}
 
 
-	if ((stopBuffer == 1)) {
+	if (stopBuffer == 1) {
 		_0 = zephir_fetch_nproperty_this(this_ptr, SL("_frontend"), PH_NOISY_CC);
 		ZEPHIR_CALL_METHOD(NULL, _0, "stop", NULL);
 		zephir_check_call_status();

@@ -272,19 +272,19 @@ PHP_METHOD(Phalcon_Mvc_Router_Route, extractNamedParams) {
 	for (_0 = 0; _0 < Z_STRLEN_P(pattern); _0++) {
 		cursor = _0; 
 		ch = ZEPHIR_STRING_OFFSET(pattern, _0);
-		if ((parenthesesCount == 0)) {
-			if ((ch == '{')) {
-				if ((bracketCount == 0)) {
+		if (parenthesesCount == 0) {
+			if (ch == '{') {
+				if (bracketCount == 0) {
 					marker = (cursor + 1);
 					intermediate = 0;
 					notValid = 0;
 				}
 				bracketCount++;
 			} else {
-				if ((ch == '}')) {
+				if (ch == '}') {
 					bracketCount--;
-					if ((intermediate > 0)) {
-						if ((bracketCount == 0)) {
+					if (intermediate > 0) {
+						if (bracketCount == 0) {
 							numberMatches++;
 							ZEPHIR_INIT_NVAR(variable);
 							ZVAL_EMPTY_STRING(variable);
@@ -301,20 +301,20 @@ PHP_METHOD(Phalcon_Mvc_Router_Route, extractNamedParams) {
 							for (_6 = 0; _6 < Z_STRLEN_P(item); _6++) {
 								cursorVar = _6; 
 								ch = ZEPHIR_STRING_OFFSET(item, _6);
-								if ((ch == '\0')) {
+								if (ch == '\0') {
 									break;
 								}
-								_7 = (cursorVar == 0);
+								_7 = cursorVar == 0;
 								if (_7) {
-									_8 = (ch >= 'a');
+									_8 = ch >= 'a';
 									if (_8) {
-										_8 = (ch <= 'z');
+										_8 = ch <= 'z';
 									}
 									_9 = _8;
 									if (!(_9)) {
-										_10 = (ch >= 'A');
+										_10 = ch >= 'A';
 										if (_10) {
-											_10 = (ch <= 'Z');
+											_10 = ch <= 'Z';
 										}
 										_9 = _10;
 									}
@@ -324,40 +324,40 @@ PHP_METHOD(Phalcon_Mvc_Router_Route, extractNamedParams) {
 									notValid = 1;
 									break;
 								}
-								_11 = (ch >= 'a');
+								_11 = ch >= 'a';
 								if (_11) {
-									_11 = (ch <= 'z');
+									_11 = ch <= 'z';
 								}
 								_12 = _11;
 								if (!(_12)) {
-									_13 = (ch >= 'A');
+									_13 = ch >= 'A';
 									if (_13) {
-										_13 = (ch <= 'Z');
+										_13 = ch <= 'Z';
 									}
 									_12 = _13;
 								}
 								_14 = _12;
 								if (!(_14)) {
-									_15 = (ch >= '0');
+									_15 = ch >= '0';
 									if (_15) {
-										_15 = (ch <= '9');
+										_15 = ch <= '9';
 									}
 									_14 = _15;
 								}
 								_16 = _14;
 								if (!(_16)) {
-									_16 = (ch == '-');
+									_16 = ch == '-';
 								}
 								_17 = _16;
 								if (!(_17)) {
-									_17 = (ch == '_');
+									_17 = ch == '_';
 								}
 								_18 = _17;
 								if (!(_18)) {
-									_18 = (ch == ':');
+									_18 = ch == ':';
 								}
 								if (_18) {
-									if ((ch == ':')) {
+									if (ch == ':') {
 										ZEPHIR_SINIT_NVAR(_1);
 										ZVAL_LONG(&_1, 0);
 										ZEPHIR_SINIT_NVAR(_2);
@@ -389,21 +389,21 @@ PHP_METHOD(Phalcon_Mvc_Router_Route, extractNamedParams) {
 									foundPattern = 0;
 									for (_23 = 0; _23 < Z_STRLEN_P(regexp); _23++) {
 										ch = ZEPHIR_STRING_OFFSET(regexp, _23);
-										if ((ch == '\0')) {
+										if (ch == '\0') {
 											break;
 										}
 										if (!(foundPattern)) {
-											if ((ch == '(')) {
+											if (ch == '(') {
 												foundPattern = 1;
 											}
 										} else {
-											if ((ch == ')')) {
+											if (ch == ')') {
 												foundPattern = 2;
 												break;
 											}
 										}
 									}
-									if ((foundPattern != 2)) {
+									if (foundPattern != 2) {
 										zephir_concat_self_str(&route, "(", sizeof("(")-1 TSRMLS_CC);
 										zephir_concat_self(&route, regexp TSRMLS_CC);
 										zephir_concat_self_str(&route, ")", sizeof(")")-1 TSRMLS_CC);
@@ -430,19 +430,19 @@ PHP_METHOD(Phalcon_Mvc_Router_Route, extractNamedParams) {
 				}
 			}
 		}
-		if ((bracketCount == 0)) {
-			if ((ch == '(')) {
+		if (bracketCount == 0) {
+			if (ch == '(') {
 				parenthesesCount++;
 			} else {
-				if ((ch == ')')) {
+				if (ch == ')') {
 					parenthesesCount--;
-					if ((parenthesesCount == 0)) {
+					if (parenthesesCount == 0) {
 						numberMatches++;
 					}
 				}
 			}
 		}
-		if ((bracketCount > 0)) {
+		if (bracketCount > 0) {
 			intermediate++;
 		} else {
 			zephir_concat_self_char(&route, ch TSRMLS_CC);
@@ -498,7 +498,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Route, reConfigure) {
 			zephir_fast_explode_str(parts, SL("::"), paths, LONG_MAX TSRMLS_CC);
 			do {
 				_0 = zephir_fast_count_int(parts TSRMLS_CC);
-				if ((_0 == 3)) {
+				if (_0 == 3) {
 					ZEPHIR_OBS_NVAR(moduleName);
 					zephir_array_fetch_long(&moduleName, parts, 0, PH_NOISY TSRMLS_CC);
 					ZEPHIR_OBS_NVAR(controllerName);
@@ -507,14 +507,14 @@ PHP_METHOD(Phalcon_Mvc_Router_Route, reConfigure) {
 					zephir_array_fetch_long(&actionName, parts, 2, PH_NOISY TSRMLS_CC);
 					break;
 				}
-				if ((_0 == 2)) {
+				if (_0 == 2) {
 					ZEPHIR_OBS_NVAR(controllerName);
 					zephir_array_fetch_long(&controllerName, parts, 0, PH_NOISY TSRMLS_CC);
 					ZEPHIR_OBS_NVAR(actionName);
 					zephir_array_fetch_long(&actionName, parts, 1, PH_NOISY TSRMLS_CC);
 					break;
 				}
-				if ((_0 == 1)) {
+				if (_0 == 1) {
 					ZEPHIR_OBS_NVAR(controllerName);
 					zephir_array_fetch_long(&controllerName, parts, 0, PH_NOISY TSRMLS_CC);
 					break;

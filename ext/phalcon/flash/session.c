@@ -123,7 +123,7 @@ PHP_METHOD(Phalcon_Flash_Session, _getSessionMessages) {
 	ZEPHIR_CALL_METHOD(&messages, session, "get", NULL, _1);
 	zephir_check_temp_parameter(_1);
 	zephir_check_call_status();
-	if ((remove == 1)) {
+	if (remove == 1) {
 		ZEPHIR_INIT_BNVAR(_1);
 		ZVAL_STRING(_1, "_flashMessages", 0);
 		ZEPHIR_CALL_METHOD(NULL, session, "remove", NULL, _1);

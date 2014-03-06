@@ -1201,7 +1201,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, limit) {
 	ZEPHIR_INIT_ZVAL_NREF(_0);
 	ZVAL_LONG(_0, limit);
 	zephir_update_property_zval(this_ptr, SL("_limit"), _0 TSRMLS_CC);
-	if ((offset >= 0)) {
+	if (offset >= 0) {
 		ZEPHIR_INIT_ZVAL_NREF(_0);
 		ZVAL_LONG(_0, offset);
 		zephir_update_property_zval(this_ptr, SL("_offset"), _0 TSRMLS_CC);
@@ -1389,7 +1389,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getPhql) {
 				noPrimary = 0;
 			}
 		}
-		if ((noPrimary == 1)) {
+		if (noPrimary == 1) {
 			ZEPHIR_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Source related to this model does not have a primary key defined");
 			return;
 		}

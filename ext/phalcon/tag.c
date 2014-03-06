@@ -696,7 +696,7 @@ PHP_METHOD(Phalcon_Tag, _inputField) {
 	} else {
 		ZEPHIR_CPY_WRT(params, parameters);
 	}
-	if ((asValue == 0)) {
+	if (asValue == 0) {
 		ZEPHIR_OBS_VAR(id);
 		if (!(zephir_array_isset_long_fetch(&id, params, 0, 0 TSRMLS_CC))) {
 			zephir_array_fetch_string(&_0, params, SL("id"), PH_NOISY | PH_READONLY TSRMLS_CC);

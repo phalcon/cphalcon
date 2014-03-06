@@ -715,7 +715,7 @@ PHP_METHOD(Phalcon_Assets_Manager, output) {
 			}
 			continue;
 		}
-		if ((filterNeeded == 1)) {
+		if (filterNeeded == 1) {
 			ZEPHIR_CALL_METHOD(&content, resource, "getcontent", NULL, completeSourcePath);
 			zephir_check_call_status();
 			ZEPHIR_CALL_METHOD(&mustFilter, resource, "getfilter",  NULL);

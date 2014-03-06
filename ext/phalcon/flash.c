@@ -306,7 +306,7 @@ PHP_METHOD(Phalcon_Flash, outputMessage) {
 	ZEPHIR_OBS_VAR(_0);
 	zephir_read_property_this(&_0, this_ptr, SL("_automaticHtml"), PH_NOISY_CC);
 	automaticHtml = zephir_get_boolval(_0);
-	if ((automaticHtml == 1)) {
+	if (automaticHtml == 1) {
 		ZEPHIR_OBS_VAR(classes);
 		zephir_read_property_this(&classes, this_ptr, SL("_cssClasses"), PH_NOISY_CC);
 		ZEPHIR_OBS_VAR(typeClasses);
@@ -330,7 +330,7 @@ PHP_METHOD(Phalcon_Flash, outputMessage) {
 	zephir_read_property_this(&_0, this_ptr, SL("_implicitFlush"), PH_NOISY_CC);
 	implicitFlush = zephir_get_boolval(_0);
 	if (Z_TYPE_P(message) == IS_ARRAY) {
-		if ((implicitFlush == 0)) {
+		if (implicitFlush == 0) {
 			ZEPHIR_INIT_VAR(content);
 			ZVAL_STRING(content, "", 1);
 		}
@@ -340,29 +340,29 @@ PHP_METHOD(Phalcon_Flash, outputMessage) {
 		  ; zephir_hash_move_forward_ex(_3, &_2)
 		) {
 			ZEPHIR_GET_HVALUE(msg, _4);
-			if ((automaticHtml == 1)) {
+			if (automaticHtml == 1) {
 				ZEPHIR_INIT_NVAR(htmlMessage);
 				ZEPHIR_CONCAT_SVSVSV(htmlMessage, "<div", cssClasses, ">", msg, "</div>", eol);
 			} else {
 				ZEPHIR_CPY_WRT(htmlMessage, msg);
 			}
-			if ((implicitFlush == 1)) {
+			if (implicitFlush == 1) {
 				zend_print_zval(htmlMessage, 0);
 			} else {
 				zephir_concat_self(&content, htmlMessage TSRMLS_CC);
 			}
 		}
-		if ((implicitFlush == 0)) {
+		if (implicitFlush == 0) {
 			RETURN_CCTOR(content);
 		}
 	} else {
-		if ((automaticHtml == 1)) {
+		if (automaticHtml == 1) {
 			ZEPHIR_INIT_NVAR(htmlMessage);
 			ZEPHIR_CONCAT_SVSVSV(htmlMessage, "<div", cssClasses, ">", message, "</div>", eol);
 		} else {
 			ZEPHIR_CPY_WRT(htmlMessage, message);
 		}
-		if ((implicitFlush == 1)) {
+		if (implicitFlush == 1) {
 			zend_print_zval(htmlMessage, 0);
 		} else {
 			RETURN_CCTOR(htmlMessage);

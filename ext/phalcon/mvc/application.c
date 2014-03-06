@@ -193,7 +193,7 @@ PHP_METHOD(Phalcon_Mvc_Application, registerModules) {
 		ZEPHIR_THROW_EXCEPTION_STR(phalcon_mvc_application_exception_ce, "Modules must be an Array");
 		return;
 	}
-	if ((merge == 0)) {
+	if (merge == 0) {
 		zephir_update_property_this(this_ptr, SL("_modules"), modules TSRMLS_CC);
 	} else {
 		ZEPHIR_OBS_VAR(registeredModules);
@@ -470,7 +470,7 @@ PHP_METHOD(Phalcon_Mvc_Application, handle) {
 		zephir_check_temp_parameter(_2);
 		zephir_check_call_status();
 	}
-	if ((returnedResponse == 0)) {
+	if (returnedResponse == 0) {
 		if (ZEPHIR_IS_TRUE(implicitView)) {
 			if (Z_TYPE_P(controller) == IS_OBJECT) {
 				ZEPHIR_INIT_VAR(renderStatus);
@@ -499,7 +499,7 @@ PHP_METHOD(Phalcon_Mvc_Application, handle) {
 		ZEPHIR_CALL_METHOD(NULL, view, "finish", NULL);
 		zephir_check_call_status();
 	}
-	if ((returnedResponse == 0)) {
+	if (returnedResponse == 0) {
 		ZEPHIR_INIT_NVAR(_2);
 		ZVAL_STRING(_2, "response", 0);
 		ZEPHIR_CALL_METHOD(&_1, dependencyInjector, "getshared", NULL, _2);

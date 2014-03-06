@@ -1451,7 +1451,7 @@ PHP_METHOD(Phalcon_Http_Request, _getBestQuality) {
 	  ; zephir_hash_move_forward_ex(_1, &_0)
 	) {
 		ZEPHIR_GET_HVALUE(accept, _2);
-		if ((i == 0)) {
+		if (i == 0) {
 			ZEPHIR_OBS_NVAR(_3);
 			zephir_array_fetch_string(&_3, accept, SL("quality"), PH_NOISY TSRMLS_CC);
 			quality = zephir_get_doubleval(_3);
@@ -1461,7 +1461,7 @@ PHP_METHOD(Phalcon_Http_Request, _getBestQuality) {
 			ZEPHIR_OBS_NVAR(_3);
 			zephir_array_fetch_string(&_3, accept, SL("quality"), PH_NOISY TSRMLS_CC);
 			acceptQuality = zephir_get_doubleval(_3);
-			if ((acceptQuality > quality)) {
+			if (acceptQuality > quality) {
 				quality = acceptQuality;
 				ZEPHIR_OBS_NVAR(selectedName);
 				zephir_array_fetch(&selectedName, accept, name, PH_NOISY TSRMLS_CC);

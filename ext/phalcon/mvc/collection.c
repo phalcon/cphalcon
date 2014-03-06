@@ -677,7 +677,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, _getResultset) {
 	} else {
 		ZEPHIR_CPY_WRT(base, collection);
 	}
-	if ((unique == 1)) {
+	if (unique == 1) {
 		ZEPHIR_CALL_METHOD(NULL, documentsCursor, "rewind", NULL);
 		zephir_check_call_status();
 		ZEPHIR_CALL_METHOD(&document, documentsCursor, "current",  NULL);
@@ -758,7 +758,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, _getGroupResultset) {
 			}
 		}
 	}
-	if ((simple == 0)) {
+	if (simple == 0) {
 		ZEPHIR_CALL_METHOD(&documentsCursor, mongoCollection, "find", NULL, conditions);
 		zephir_check_call_status();
 		ZEPHIR_OBS_VAR(limit);
@@ -904,10 +904,10 @@ PHP_METHOD(Phalcon_Mvc_Collection, _postSave) {
 	exists = zephir_get_boolval(exists_param);
 
 
-	if ((success == 1)) {
+	if (success == 1) {
 		if (!(disableEvents)) {
 			ZEPHIR_INIT_VAR(eventName);
-			if ((exists == 1)) {
+			if (exists == 1) {
 				ZVAL_STRING(eventName, "afterUpdate", 1);
 			} else {
 				ZVAL_STRING(eventName, "afterCreate", 1);

@@ -141,7 +141,7 @@ PHP_METHOD(Phalcon_Mvc_Router, __construct) {
 
 	ZEPHIR_INIT_VAR(routes);
 	array_init(routes);
-	if ((defaultRoutes == 1)) {
+	if (defaultRoutes == 1) {
 		ZEPHIR_INIT_VAR(_0);
 		object_init_ex(_0, phalcon_mvc_router_route_ce);
 		ZEPHIR_INIT_VAR(_1);

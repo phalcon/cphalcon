@@ -144,7 +144,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Regex, validate) {
 	} else {
 		failed = 1;
 	}
-	if ((failed == 1)) {
+	if (failed == 1) {
 		ZEPHIR_INIT_BNVAR(_0);
 		ZVAL_STRING(_0, "message", 0);
 		ZEPHIR_CALL_METHOD(&message, this_ptr, "getoption", NULL, _0);

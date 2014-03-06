@@ -341,7 +341,7 @@ PHP_METHOD(Phalcon_Mvc_View_Simple, _internalRender) {
 			break;
 		}
 	}
-	if ((notExists == 1)) {
+	if (notExists == 1) {
 		ZEPHIR_INIT_VAR(_6);
 		object_init_ex(_6, phalcon_mvc_view_exception_ce);
 		ZEPHIR_INIT_VAR(_7);

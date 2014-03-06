@@ -508,7 +508,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Annotations, processActionAnnotation) {
 			}
 		}
 	}
-	if ((isRoute == 1)) {
+	if (isRoute == 1) {
 		ZEPHIR_INIT_VAR(actionName);
 		ZEPHIR_INIT_VAR(_0);
 		_1 = zephir_fetch_nproperty_this(this_ptr, SL("_actionSuffix"), PH_NOISY_CC);

@@ -848,7 +848,7 @@ int zephir_update_property_null(zval *object, char *property_name, unsigned int 
 /**
  * Checks whether obj is an object and updates property with another zval
  */
-int zephir_update_property_zval(zval *object, char *property_name, unsigned int property_length, zval *value TSRMLS_DC){
+int zephir_update_property_zval(zval *object, const char *property_name, unsigned int property_length, zval *value TSRMLS_DC){
 
 	zend_class_entry *ce, *old_scope;
 	zval *property;

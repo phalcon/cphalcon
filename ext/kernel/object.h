@@ -78,7 +78,7 @@ int zephir_update_property_long(zval *obj, char *property_name, unsigned int pro
 int zephir_update_property_string(zval *object, char *property_name, unsigned int property_length, char *str, unsigned int str_length TSRMLS_DC);
 int zephir_update_property_bool(zval *obj, char *property_name, unsigned int property_length, int value TSRMLS_DC);
 int zephir_update_property_null(zval *obj, char *property_name, unsigned int property_length TSRMLS_DC);
-int zephir_update_property_zval(zval *obj, char *property_name, unsigned int property_length, zval *value TSRMLS_DC);
+int zephir_update_property_zval(zval *obj, const char *property_name, unsigned int property_length, zval *value TSRMLS_DC);
 int zephir_update_property_zval_zval(zval *obj, zval *property, zval *value TSRMLS_DC);
 int zephir_update_property_empty_array(zend_class_entry *ce, zval *object, char *property, unsigned int property_length TSRMLS_DC);
 

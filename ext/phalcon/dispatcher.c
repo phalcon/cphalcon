@@ -589,7 +589,7 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch) {
 			break;
 		}
 		numberDispatches++;
-		if ((numberDispatches == 256)) {
+		if (numberDispatches == 256) {
 			ZEPHIR_INIT_NVAR(_1);
 			ZVAL_STRING(_1, "Dispatcher has detected a cyclic routing causing stability problems", 0);
 			ZEPHIR_INIT_NVAR(_2);
@@ -771,7 +771,7 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch) {
 				continue;
 			}
 		}
-		if ((wasFresh == 1)) {
+		if (wasFresh == 1) {
 			if ((zephir_method_exists_ex(handler, SS("initialize") TSRMLS_CC) == SUCCESS)) {
 				ZEPHIR_CALL_METHOD(NULL, handler, "initialize", NULL);
 				zephir_check_call_status();

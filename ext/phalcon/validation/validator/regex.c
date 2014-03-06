@@ -113,7 +113,7 @@ PHP_METHOD(Phalcon_Validation_Validator_Regex, validate) {
 	} else {
 		failed = 1;
 	}
-	if ((failed == 1)) {
+	if (failed == 1) {
 		ZEPHIR_INIT_BNVAR(_1);
 		ZVAL_STRING(_1, "label", 0);
 		ZEPHIR_CALL_METHOD(&label, this_ptr, "getoption", NULL, _1);

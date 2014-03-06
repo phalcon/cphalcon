@@ -250,19 +250,16 @@ PHP_METHOD(Phalcon_Di_Service, resolve) {
 			if (Z_TYPE_P(parameters) == IS_ARRAY) {
 				ZEPHIR_INIT_BNVAR(instance);
 				if (zephir_fast_count_int(parameters TSRMLS_CC)) {
-					if (zephir_create_instance_params(instance, definition, parameters TSRMLS_CC) == FAILURE) {
-						RETURN_MM();
-					}
+					ZEPHIR_LAST_CALL_STATUS = zephir_create_instance_params(instance, definition, parameters TSRMLS_CC);
+					zephir_check_call_status();
 				} else {
-					if (zephir_create_instance(instance, definition TSRMLS_CC) == FAILURE) {
-						RETURN_MM();
-					}
+					ZEPHIR_LAST_CALL_STATUS = zephir_create_instance(instance, definition TSRMLS_CC);
+					zephir_check_call_status();
 				}
 			} else {
 				ZEPHIR_INIT_BNVAR(instance);
-				if (zephir_create_instance(instance, definition TSRMLS_CC) == FAILURE) {
-					RETURN_MM();
-				}
+				ZEPHIR_LAST_CALL_STATUS = zephir_create_instance(instance, definition TSRMLS_CC);
+				zephir_check_call_status();
 			}
 		} else {
 			found = 0;
@@ -295,7 +292,7 @@ PHP_METHOD(Phalcon_Di_Service, resolve) {
 			}
 		}
 	}
-	if ((found == 0)) {
+	if (found == 0) {
 		ZEPHIR_INIT_VAR(_2);
 		object_init_ex(_2, phalcon_di_exception_ce);
 		_3 = zephir_fetch_nproperty_this(this_ptr, SL("_name"), PH_NOISY_CC);
