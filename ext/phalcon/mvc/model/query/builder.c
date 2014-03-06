@@ -1333,7 +1333,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getPhql) {
 	zephir_read_property_this(&conditions, this_ptr, SL("_conditions"), PH_NOISY_CC);
 	if (zephir_is_numeric(conditions)) {
 		if (Z_TYPE_P(models) == IS_ARRAY) {
-			if ((zephir_fast_count_int(models TSRMLS_CC) > 1)) {
+			if (zephir_fast_count_int(models TSRMLS_CC) > 1) {
 				ZEPHIR_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Cannot build the query. Invalid condition");
 				return;
 			}

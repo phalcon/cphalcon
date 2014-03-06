@@ -194,7 +194,7 @@ PHP_METHOD(Phalcon_Http_Response, setStatusCode) {
 	ZEPHIR_CONCAT_VSV(_1, code, " ", message);
 	ZEPHIR_INIT_VAR(_2);
 	ZVAL_STRING(_2, "Status", 0);
-	ZEPHIR_CALL_METHOD(NULL, headers, "set", NULL, _1, _2);
+	ZEPHIR_CALL_METHOD(NULL, headers, "set", NULL, _2, _1);
 	zephir_check_temp_parameter(_2);
 	zephir_check_call_status();
 	zephir_update_property_this(this_ptr, SL("_headers"), headers TSRMLS_CC);

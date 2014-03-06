@@ -1078,7 +1078,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, isEmpty) {
 
 
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_metaData"), PH_NOISY_CC);
-	RETURN_BOOL((zephir_fast_count_int(_0 TSRMLS_CC) > 0));
+	RETURN_BOOL(zephir_fast_count_int(_0 TSRMLS_CC) > 0);
 
 }
 

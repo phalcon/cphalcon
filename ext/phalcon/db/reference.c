@@ -211,7 +211,7 @@ PHP_METHOD(Phalcon_Db_Reference, __construct) {
 	if (zephir_array_isset_string_fetch(&referencedSchema, definition, SS("referencedSchema"), 0 TSRMLS_CC)) {
 		zephir_update_property_this(this_ptr, SL("_referencedSchema"), referencedSchema TSRMLS_CC);
 	}
-	if ((zephir_fast_count_int(columns TSRMLS_CC) != zephir_fast_count_int(referencedColumns TSRMLS_CC))) {
+	if (zephir_fast_count_int(columns TSRMLS_CC) != zephir_fast_count_int(referencedColumns TSRMLS_CC)) {
 		ZEPHIR_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "Number of columns is not equals than the number of columns referenced");
 		return;
 	}

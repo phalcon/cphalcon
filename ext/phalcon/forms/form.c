@@ -171,7 +171,7 @@ PHP_METHOD(Phalcon_Forms_Form, setUserOption) {
  */
 PHP_METHOD(Phalcon_Forms_Form, getUserOption) {
 
-	zval *option, *defaultValue = NULL, *value, *options;
+	zval *option, *defaultValue = NULL, *value, *_0;
 
 	zephir_fetch_params(0, 1, 1, &option, &defaultValue);
 
@@ -180,8 +180,8 @@ PHP_METHOD(Phalcon_Forms_Form, getUserOption) {
 	}
 
 
-	options = zephir_fetch_nproperty_this(this_ptr, SL("_options"), PH_NOISY_CC);
-	if (zephir_array_isset_fetch(&value, options, option, 1 TSRMLS_CC)) {
+	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_options"), PH_NOISY_CC);
+	if (zephir_array_isset_fetch(&value, _0, option, 1 TSRMLS_CC)) {
 		RETURN_CTORW(value);
 	}
 	RETURN_CCTORW(defaultValue);
@@ -310,7 +310,8 @@ PHP_METHOD(Phalcon_Forms_Form, bind) {
 	) {
 		ZEPHIR_GET_HMKEY(key, _1, _0);
 		ZEPHIR_GET_HVALUE(value, _2);
-		if (!(zephir_array_isset(elements, key))) {
+		ZEPHIR_OBS_NVAR(element);
+		if (!(zephir_array_isset_fetch(&element, elements, key, 0 TSRMLS_CC))) {
 			continue;
 		}
 		if (Z_TYPE_P(whitelist) == IS_ARRAY) {
@@ -318,8 +319,6 @@ PHP_METHOD(Phalcon_Forms_Form, bind) {
 				continue;
 			}
 		}
-		ZEPHIR_OBS_NVAR(element);
-		zephir_array_fetch(&element, elements, key, PH_NOISY TSRMLS_CC);
 		ZEPHIR_CALL_METHOD(&filters, element, "getfilters",  NULL);
 		zephir_check_call_status();
 		if (zephir_is_true(filters)) {

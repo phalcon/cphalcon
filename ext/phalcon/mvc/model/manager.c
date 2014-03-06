@@ -1260,7 +1260,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, addHasOne) {
 		array_init(relations);
 	}
 	if (Z_TYPE_P(referencedFields) == IS_ARRAY) {
-		if ((zephir_fast_count_int(fields TSRMLS_CC) != zephir_fast_count_int(referencedFields TSRMLS_CC))) {
+		if (zephir_fast_count_int(fields TSRMLS_CC) != zephir_fast_count_int(referencedFields TSRMLS_CC)) {
 			ZEPHIR_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Number of referenced fields are not the same");
 			return;
 		}
@@ -1347,7 +1347,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, addBelongsTo) {
 		array_init(relations);
 	}
 	if (Z_TYPE_P(referencedFields) == IS_ARRAY) {
-		if ((zephir_fast_count_int(fields TSRMLS_CC) != zephir_fast_count_int(referencedFields TSRMLS_CC))) {
+		if (zephir_fast_count_int(fields TSRMLS_CC) != zephir_fast_count_int(referencedFields TSRMLS_CC)) {
 			ZEPHIR_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Number of referenced fields are not the same");
 			return;
 		}
@@ -1434,7 +1434,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, addHasMany) {
 		array_init(relations);
 	}
 	if (Z_TYPE_P(referencedFields) == IS_ARRAY) {
-		if ((zephir_fast_count_int(fields TSRMLS_CC) != zephir_fast_count_int(referencedFields TSRMLS_CC))) {
+		if (zephir_fast_count_int(fields TSRMLS_CC) != zephir_fast_count_int(referencedFields TSRMLS_CC)) {
 			ZEPHIR_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Number of referenced fields are not the same");
 			return;
 		}
@@ -1538,13 +1538,13 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, addHasManyToMany) {
 		array_init(relations);
 	}
 	if (Z_TYPE_P(intermediateFields) == IS_ARRAY) {
-		if ((zephir_fast_count_int(fields TSRMLS_CC) != zephir_fast_count_int(intermediateFields TSRMLS_CC))) {
+		if (zephir_fast_count_int(fields TSRMLS_CC) != zephir_fast_count_int(intermediateFields TSRMLS_CC)) {
 			ZEPHIR_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Number of referenced fields are not the same");
 			return;
 		}
 	}
 	if (Z_TYPE_P(intermediateReferencedFields) == IS_ARRAY) {
-		if ((zephir_fast_count_int(fields TSRMLS_CC) != zephir_fast_count_int(intermediateFields TSRMLS_CC))) {
+		if (zephir_fast_count_int(fields TSRMLS_CC) != zephir_fast_count_int(intermediateFields TSRMLS_CC)) {
 			ZEPHIR_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Number of referenced fields are not the same");
 			return;
 		}

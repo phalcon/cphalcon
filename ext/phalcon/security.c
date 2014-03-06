@@ -275,7 +275,7 @@ PHP_METHOD(Phalcon_Security, checkHash) {
 	if (maxPassLength) {
 		_0 = (maxPassLength > 0);
 		if (_0) {
-			_0 = (zephir_fast_count_int(password TSRMLS_CC) > maxPassLength);
+			_0 = zephir_fast_count_int(password TSRMLS_CC) > maxPassLength;
 		}
 		if (_0) {
 			RETURN_MM_BOOL(0);

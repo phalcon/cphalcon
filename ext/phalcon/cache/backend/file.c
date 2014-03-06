@@ -142,13 +142,13 @@ PHP_METHOD(Phalcon_Cache_Backend_File, get) {
 	ZEPHIR_CONCAT_VV(prefixedKey, prefix, keyName);
 	zephir_update_property_this(this_ptr, SL("_lastKey"), prefixedKey TSRMLS_CC);
 	ZEPHIR_OBS_VAR(cacheDir);
-	if (zephir_array_isset_string_fetch(&cacheDir, options, SS("cacheDir"), 0 TSRMLS_CC)) {
+	if (!(zephir_array_isset_string_fetch(&cacheDir, options, SS("cacheDir"), 0 TSRMLS_CC))) {
 		ZEPHIR_THROW_EXCEPTION_STR(phalcon_cache_exception_ce, "Unexpected inconsistency in options");
 		return;
 	}
 	ZEPHIR_INIT_VAR(cacheFile);
 	ZEPHIR_CONCAT_VV(cacheFile, cacheDir, prefixedKey);
-	if (((zephir_file_exists(cacheFile TSRMLS_CC) == SUCCESS) == 1)) {
+	if ((zephir_file_exists(cacheFile TSRMLS_CC) == SUCCESS) == 1) {
 		ZEPHIR_OBS_VAR(frontend);
 		zephir_read_property_this(&frontend, this_ptr, SL("_frontend"), PH_NOISY_CC);
 		ZEPHIR_CALL_FUNCTION(&now, "time", NULL);
@@ -169,7 +169,7 @@ PHP_METHOD(Phalcon_Cache_Backend_File, get) {
 		ZEPHIR_INIT_VAR(_0);
 		zephir_filemtime(_0, cacheFile TSRMLS_CC);
 		modifiedTime = zephir_get_intval(_0);
-		if (!(((zephir_get_numberval(now) - ttl) > modifiedTime))) {
+		if (!((zephir_get_numberval(now) - ttl) > modifiedTime)) {
 			ZEPHIR_INIT_VAR(cachedContent);
 			zephir_file_get_contents(cachedContent, cacheFile TSRMLS_CC);
 			if (!(zephir_is_true(cachedContent))) {
@@ -267,7 +267,7 @@ PHP_METHOD(Phalcon_Cache_Backend_File, save) {
 	}
 	ZEPHIR_CALL_METHOD(&isBuffering, frontend, "isbuffering",  NULL);
 	zephir_check_call_status();
-	if (!(zephir_is_true(stopBuffer))) {
+	if (ZEPHIR_IS_TRUE(stopBuffer)) {
 		ZEPHIR_CALL_METHOD(NULL, frontend, "stop", NULL);
 		zephir_check_call_status();
 	}

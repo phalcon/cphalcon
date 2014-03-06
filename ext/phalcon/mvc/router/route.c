@@ -262,7 +262,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Route, extractNamedParams) {
 	}
 
 
-	if ((zephir_fast_strlen_ev(pattern) <= 0)) {
+	if (zephir_fast_strlen_ev(pattern) <= 0) {
 		RETURN_MM_BOOL(0);
 	}
 	ZEPHIR_INIT_VAR(matches);

@@ -441,7 +441,7 @@ static inline zend_class_entry *zephir_lookup_class_ce_quick(zend_class_entry *c
  * Lookup exact class where a property is defined
  *
  */
-static inline zend_class_entry *zephir_lookup_class_ce(zend_class_entry *ce, char *property_name, unsigned int property_length TSRMLS_DC) {
+static inline zend_class_entry *zephir_lookup_class_ce(zend_class_entry *ce, const char *property_name, unsigned int property_length TSRMLS_DC) {
 
 	return zephir_lookup_class_ce_quick(ce, property_name, property_length, zend_inline_hash_func(property_name, property_length + 1) TSRMLS_CC);
 }
@@ -1471,7 +1471,7 @@ int zephir_create_instance(zval *return_value, const zval *class_name TSRMLS_DC)
 
 	object_init_ex(return_value, ce);
 	if (zephir_has_constructor_ce(ce)) {
-		return zephir_call_class_method_aparams(NULL, ce, zephir_fcall_method, return_value, SL("__construct"), NULL, 0, NULL TSRMLS_CC);
+		return zephir_call_class_method_aparams(NULL, ce, zephir_fcall_method, return_value, SS("__construct"), NULL, 0, NULL TSRMLS_CC);
 	}
 
 	return SUCCESS;
@@ -1533,7 +1533,7 @@ int zephir_create_instance_params(zval *return_value, const zval *class_name, zv
 			params_ptr = NULL;
 		}
 
-		outcome = zephir_call_class_method_aparams(NULL, ce, zephir_fcall_method, return_value, SL("__construct"), NULL, param_count, params_ptr TSRMLS_CC);
+		outcome = zephir_call_class_method_aparams(NULL, ce, zephir_fcall_method, return_value, SS("__construct"), NULL, -param_count, params_ptr TSRMLS_CC);
 
 		if (unlikely(params_arr != NULL)) {
 			efree(params_arr);

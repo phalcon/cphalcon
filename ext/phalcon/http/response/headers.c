@@ -107,7 +107,6 @@ PHP_METHOD(Phalcon_Http_Response_Headers, setRaw) {
 
 
 
-	zephir_update_property_array(this_ptr, SL("_headers"), header, ZEPHIR_GLOBAL(global_null) TSRMLS_CC);
 
 }
 

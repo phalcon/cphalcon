@@ -731,7 +731,7 @@ PHP_METHOD(Phalcon_Forms_Element, hasMessages) {
 	ZEPHIR_OBS_VAR(messages);
 	zephir_read_property_this(&messages, this_ptr, SL("_messages"), PH_NOISY_CC);
 	if (Z_TYPE_P(messages) == IS_OBJECT) {
-		RETURN_MM_BOOL((zephir_fast_count_int(messages TSRMLS_CC) > 0));
+		RETURN_MM_BOOL(zephir_fast_count_int(messages TSRMLS_CC) > 0);
 	}
 	RETURN_MM_BOOL(0);
 

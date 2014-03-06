@@ -400,7 +400,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Mongo, delete) {
 	zephir_check_call_status();
 	ZEPHIR_CALL_FUNCTION(&_4, "rand", &_5);
 	zephir_check_call_status();
-	if (((zephir_get_intval(_4) % 100) == 0)) {
+	if ((zephir_get_intval(_4) % 100) == 0) {
 		ZEPHIR_CALL_METHOD(NULL, this_ptr, "gc", NULL);
 		zephir_check_call_status();
 	}
@@ -728,7 +728,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Mongo, flush) {
 	zephir_check_call_status();
 	ZEPHIR_CALL_FUNCTION(&_1, "rand", &_2);
 	zephir_check_call_status();
-	if (((zephir_get_intval(_1) % 100) == 0)) {
+	if ((zephir_get_intval(_1) % 100) == 0) {
 		ZEPHIR_CALL_METHOD(NULL, this_ptr, "gc", NULL);
 		zephir_check_call_status();
 	}

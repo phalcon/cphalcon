@@ -340,7 +340,7 @@ abstract class Dispatcher implements \Phalcon\DispatcherInterface, \Phalcon\Di\I
 		var value, handler, dependencyInjector, namespaceName, handlerName,
 			actionName, camelizedClass, params, eventsManager,
 			handlerSuffix, actionSuffix, handlerClass, status, actionMethod,
-			wasFresh;
+			wasFresh = false;
 
 		let dependencyInjector = <\Phalcon\DiInterface> this->_dependencyInjector;
 		if typeof dependencyInjector != "object" {

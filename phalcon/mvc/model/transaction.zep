@@ -123,7 +123,7 @@ class Transaction implements \Phalcon\Mvc\Model\TransactionInterface
 	 */
 	public function commit() -> boolean
 	{
-		var manager, connection;
+		var manager;
 
 		let manager = this->_manager;
 		if typeof manager == "object" {

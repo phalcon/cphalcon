@@ -1692,7 +1692,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getJoins) {
 					ZEPHIR_CALL_METHOD(&relations, manager, "getrelationsbetween", NULL, fromModelName, modelNameAlias);
 					zephir_check_call_status();
 					if (Z_TYPE_P(relations) == IS_ARRAY) {
-						if ((zephir_fast_count_int(relations TSRMLS_CC) != 1)) {
+						if (zephir_fast_count_int(relations TSRMLS_CC) != 1) {
 							ZEPHIR_INIT_LNVAR(_5);
 							object_init_ex(_5, phalcon_mvc_model_exception_ce);
 							_6 = zephir_fetch_nproperty_this(this_ptr, SL("_phql"), PH_NOISY_CC);
@@ -2624,7 +2624,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _executeSelect) {
 	zephir_read_property_this(&manager, this_ptr, SL("_manager"), PH_NOISY_CC);
 	ZEPHIR_OBS_VAR(models);
 	zephir_array_fetch_string(&models, intermediate, SL("models"), PH_NOISY TSRMLS_CC);
-	if ((zephir_fast_count_int(models TSRMLS_CC) == 1)) {
+	if (zephir_fast_count_int(models TSRMLS_CC) == 1) {
 		ZEPHIR_OBS_VAR(modelName);
 		zephir_array_fetch_long(&modelName, models, 0, PH_NOISY TSRMLS_CC);
 		ZEPHIR_OBS_VAR(model);
@@ -2667,7 +2667,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _executeSelect) {
 			ZEPHIR_CALL_METHOD(&_4, connection, "gettype",  NULL);
 			zephir_check_call_status();
 			zephir_array_update_zval(&connections, _4, &ZEPHIR_GLOBAL(global_true), PH_COPY | PH_SEPARATE);
-			if ((zephir_fast_count_int(connections TSRMLS_CC) == 2)) {
+			if (zephir_fast_count_int(connections TSRMLS_CC) == 2) {
 				ZEPHIR_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Cannot use models of different database systems in the same query");
 				return;
 			}
@@ -2959,7 +2959,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _executeInsert) {
 	}
 	ZEPHIR_OBS_VAR(values);
 	zephir_array_fetch_string(&values, intermediate, SL("values"), PH_NOISY TSRMLS_CC);
-	if ((zephir_fast_count_int(fields TSRMLS_CC) != zephir_fast_count_int(values TSRMLS_CC))) {
+	if (zephir_fast_count_int(fields TSRMLS_CC) != zephir_fast_count_int(values TSRMLS_CC)) {
 		ZEPHIR_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "The column count does not match the values count");
 		return;
 	}
