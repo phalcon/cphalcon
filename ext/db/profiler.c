@@ -71,6 +71,8 @@ PHP_METHOD(Phalcon_Db_Profiler, getLastProfile);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_profiler_startprofile, 0, 0, 1)
 	ZEND_ARG_INFO(0, sqlStatement)
+	ZEND_ARG_INFO(0, sqlVariables)
+	ZEND_ARG_INFO(0, sqlBindTypes)
 ZEND_END_ARG_INFO()
 
 static const zend_function_entry phalcon_db_profiler_method_entry[] = {
@@ -102,22 +104,34 @@ PHALCON_INIT_CLASS(Phalcon_Db_Profiler){
  * Starts the profile of a SQL sentence
  *
  * @param string $sqlStatement
+ * @param $sqlVariables
+ * @param $sqlBindTypes
  * @return Phalcon\Db\Profiler
  */
 PHP_METHOD(Phalcon_Db_Profiler, startProfile){
 
-	zval *sql_statement, *active_profile;
+	zval *sql_statement, *sql_variables = NULL, *sql_bindtypes = NULL, *active_profile;
 	zval *time = NULL;
 
 	PHALCON_MM_GROW();
 
-	phalcon_fetch_params(1, 1, 0, &sql_statement);
+	phalcon_fetch_params(1, 1, 2, &sql_statement, &sql_variables, &sql_bindtypes);
 	
 	PHALCON_INIT_VAR(active_profile);
 	object_init_ex(active_profile, phalcon_db_profiler_item_ce);
 	PHALCON_CALL_METHOD(NULL, active_profile, "setsqlstatement", sql_statement);
+
+	if (sql_variables) {
+	    PHALCON_CALL_METHOD(NULL, active_profile, "setsqlvariables", sql_variables);
+	}
+
+	if (sql_bindtypes) {
+	    PHALCON_CALL_METHOD(NULL, active_profile, "setsqlbindtypes", sql_bindtypes);
+	}
+
 	PHALCON_CALL_FUNCTION(&time, "microtime", PHALCON_GLOBAL(z_true));
 	PHALCON_CALL_METHOD(NULL, active_profile, "setinitialtime", time);
+
 	if (phalcon_method_exists_ex(this_ptr, SS("beforestartprofile") TSRMLS_CC) == SUCCESS) {
 		PHALCON_CALL_METHOD(NULL, this_ptr, "beforestartprofile", active_profile);
 	}
