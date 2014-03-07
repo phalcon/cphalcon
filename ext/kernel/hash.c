@@ -117,8 +117,6 @@ void phalcon_get_current_key(zval **key, const HashTable *hash_table, HashPositi
 {
 	Bucket *p;
 
-	PHALCON_INIT_NVAR_PNULL(*key);
-
 	p = hash_position ? (*hash_position) : hash_table->pInternalPointer;
 
 	if (p) {

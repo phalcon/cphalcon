@@ -42,7 +42,7 @@ SOFTWARE.
 
 typedef struct _jsmin_parser {
 	zval *script;
-	zval **error;
+	const char *error;
 	int script_pointer;
 	int inside_string;
 	smart_str *minified;
@@ -53,9 +53,9 @@ typedef struct _jsmin_parser {
 	unsigned char theY;
 } jsmin_parser;
 
-static void jsmin_error(jsmin_parser *parser, char* s, int s_length TSRMLS_DC) {
-	PHALCON_INIT_VAR(*parser->error);
-	ZVAL_STRINGL(*parser->error, s, s_length, 1);
+static void jsmin_error(jsmin_parser *parser, const char* s, int s_length TSRMLS_DC)
+{
+	parser->error = s;
 }
 
 /* isAlphanum -- return true if the character is a letter, digit, underscore,
@@ -193,7 +193,7 @@ static int jsmin_action(jsmin_parser *parser, unsigned char d TSRMLS_DC) {
 			/* no break */
 		case JSMIN_ACTION_NEXT:
 			parser->theB = jsmin_next(parser TSRMLS_CC);
-			if (*parser->error != NULL) {
+			if (parser->error != NULL) {
 				return FAILURE;
 			}
 			if (parser->theB == '/' && (
@@ -248,7 +248,7 @@ static int jsmin_action(jsmin_parser *parser, unsigned char d TSRMLS_DC) {
 					smart_str_appendc(parser->minified, parser->theA);
 				}
 				parser->theB = jsmin_next(parser TSRMLS_CC);
-				if (*parser->error != NULL) {
+				if (parser->error != NULL) {
 					return FAILURE;
 				}
 			}
@@ -264,7 +264,7 @@ static int jsmin_action(jsmin_parser *parser, unsigned char d TSRMLS_DC) {
 		Most spaces and linefeeds will be removed.
 */
 
-int phalcon_jsmin_internal(zval *return_value, zval *script, zval **error TSRMLS_DC) {
+static int phalcon_jsmin_internal(zval *return_value, zval *script, const char **error TSRMLS_DC) {
 
 	jsmin_parser parser;
 	smart_str minified = {0};
@@ -274,12 +274,13 @@ int phalcon_jsmin_internal(zval *return_value, zval *script, zval **error TSRMLS
 	parser.theX = '\0';
 	parser.theY = '\0';
 	parser.script = script;
-	parser.error = error;
+	parser.error = NULL;
 	parser.script_pointer = 0;
 	parser.inside_string = 0;
 	parser.minified = &minified;
 
 	if (jsmin_action(&parser, JSMIN_ACTION_NEXT TSRMLS_CC) == FAILURE) {
+		*error = parser.error;
 		return FAILURE;
 	}
 
@@ -363,6 +364,7 @@ int phalcon_jsmin_internal(zval *return_value, zval *script, zval **error TSRMLS
 
 	if (status == FAILURE) {
 		smart_str_free(&minified);
+		*error = parser.error;
 		return FAILURE;
 	}
 
@@ -379,26 +381,24 @@ int phalcon_jsmin_internal(zval *return_value, zval *script, zval **error TSRMLS
 
 int phalcon_jsmin(zval *return_value, zval *script TSRMLS_DC) {
 
-	zval *error = NULL;
-
-	PHALCON_MM_GROW();
+	const char *error = NULL;
 
 	ZVAL_NULL(return_value);
 
 	if (Z_TYPE_P(script) != IS_STRING) {
-		PHALCON_THROW_EXCEPTION_STR(phalcon_assets_exception_ce, "Script must be a string");
+		PHALCON_THROW_EXCEPTION_STRW(phalcon_assets_exception_ce, "Script must be a string");
 		return FAILURE;
 	}
 
 	if (phalcon_jsmin_internal(return_value, script, &error TSRMLS_CC) == FAILURE){
-		if (Z_TYPE_P(error) == IS_STRING) {
-			PHALCON_THROW_EXCEPTION_STR(phalcon_assets_exception_ce, Z_STRVAL_P(error));
+		if (error) {
+			PHALCON_THROW_EXCEPTION_STRW(phalcon_assets_exception_ce, error);
 		} else {
-			PHALCON_THROW_EXCEPTION_STR(phalcon_assets_exception_ce, "Unknown error");
+			PHALCON_THROW_EXCEPTION_STRW(phalcon_assets_exception_ce, "Unknown error");
 		}
+
 		return FAILURE;
 	}
 
-	PHALCON_MM_RESTORE();
 	return SUCCESS;
 }

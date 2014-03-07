@@ -246,7 +246,10 @@ int phalcon_fetch_parameters_ex(int dummy TSRMLS_DC, int n_req, int n_opt, ...);
 
 /** Get the current hash key without copying the hash key */
 #define PHALCON_GET_HKEY(var, hash, hash_position) \
-	phalcon_get_current_key(&var, hash, &hash_position TSRMLS_CC);
+	do { \
+		PHALCON_INIT_NVAR_PNULL(var); \
+		phalcon_get_current_key(&var, hash, &hash_position TSRMLS_CC); \
+	} while (0)
 
 /** Check if an array is iterable or not */
 #define phalcon_is_iterable(var, array_hash, hash_pointer, duplicate, reverse) \

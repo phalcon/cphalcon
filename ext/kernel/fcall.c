@@ -207,7 +207,7 @@ PHALCON_ATTR_NONNULL static void phalcon_fcall_populate_fci_cache(zend_fcall_inf
 				fcic->calling_scope = EG(scope)->parent;
 				fcic->called_scope  = EG(called_scope);
 				fcic->object_ptr    = fci->object_ptr ? fci->object_ptr : EG(This);
-				//fcic->initialized   = 1;
+				fcic->initialized   = 1;
 			}
 
 			break;
@@ -217,7 +217,7 @@ PHALCON_ATTR_NONNULL static void phalcon_fcall_populate_fci_cache(zend_fcall_inf
 				fcic->calling_scope = EG(scope);
 				fcic->called_scope  = EG(called_scope);
 				fcic->object_ptr    = fci->object_ptr ? fci->object_ptr : EG(This);
-				//fcic->initialized   = 1;
+				fcic->initialized   = 1;
 			}
 
 			break;
@@ -227,7 +227,7 @@ PHALCON_ATTR_NONNULL static void phalcon_fcall_populate_fci_cache(zend_fcall_inf
 				fcic->calling_scope = EG(called_scope);
 				fcic->called_scope  = EG(called_scope);
 				fcic->object_ptr    = fci->object_ptr ? fci->object_ptr : EG(This);
-				//fcic->initialized   = 1;
+				fcic->initialized   = 1;
 			}
 
 			break;
@@ -236,13 +236,13 @@ PHALCON_ATTR_NONNULL static void phalcon_fcall_populate_fci_cache(zend_fcall_inf
 			fcic->calling_scope = NULL;
 			fcic->called_scope  = NULL;
 			fcic->object_ptr    = NULL;
-			//fcic->initialized   = 1;
+			fcic->initialized   = 1;
 			break;
 
 		case phalcon_fcall_ce: {
 			zend_class_entry *scope = EG(active_op_array) ? EG(active_op_array)->scope : NULL;
 
-			//fcic->initialized      = 1;
+			fcic->initialized      = 1;
 			fcic->calling_scope    = EG(scope);
 			fcic->object_ptr       = NULL;
 
@@ -258,7 +258,7 @@ PHALCON_ATTR_NONNULL static void phalcon_fcall_populate_fci_cache(zend_fcall_inf
 		}
 
 		case phalcon_fcall_method:
-			//fcic->initialized      = 1;
+			fcic->initialized      = 1;
 			fcic->calling_scope    = EG(scope);
 			fcic->object_ptr       = fci->object_ptr;
 			if (fci->object_ptr) {
@@ -372,8 +372,8 @@ int phalcon_call_user_function(zval **object_pp, zend_class_entry *obj_ce, phalc
 		/*memcpy(&clone, &fcic, sizeof(clone));*/
 	}
 
-	/* fcic.initialized = 0; */
-	status = PHALCON_ZEND_CALL_FUNCTION_WRAPPER(&fci, &fcic TSRMLS_CC);
+	fcic.initialized = 0;
+	status = PHALCON_ZEND_CALL_FUNCTION_WRAPPER(&fci, /*&fcic*/NULL TSRMLS_CC);
 
 /*
 	if (fcic.initialized && cache_entry) {
@@ -412,11 +412,11 @@ int phalcon_call_user_function(zval **object_pp, zend_class_entry *obj_ce, phalc
 #else
 		phalcon_fcall_cache_entry *cache_entry = fcic.function_handler;
 #endif
-		//if (FAILURE == zend_hash_quick_add(phalcon_globals_ptr->fcache, fcall_key, fcall_key_len, fcall_key_hash, &cache_entry, sizeof(phalcon_fcall_cache_entry*), NULL)) {
+		if (FAILURE == zend_hash_quick_add(phalcon_globals_ptr->fcache, fcall_key, fcall_key_len, fcall_key_hash, &cache_entry, sizeof(phalcon_fcall_cache_entry*), NULL)) {
 #ifndef PHALCON_RELEASE
 			free(cache_entry);
 #endif
-		//}
+		}
 	}
 
 	if (fcall_key) {

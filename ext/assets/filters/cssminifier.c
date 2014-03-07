@@ -61,7 +61,7 @@ typedef struct _cssmin_parser {
 	int last_state;
 	int in_paren;
 	zval *style;
-	zval **error;
+	const char *error;
 	smart_str *minified;
 	int style_pointer;
 } cssmin_parser;
@@ -231,7 +231,7 @@ static int phalcon_cssmin_machine(cssmin_parser *parser, unsigned char c TSRMLS_
 	return c;
 }
 
-int phalcon_cssmin_internal(zval *return_value, zval *style, zval **error TSRMLS_DC) {
+static int phalcon_cssmin_internal(zval *return_value, zval *style, const char **error TSRMLS_DC) {
 
 	int i;
 	unsigned char c;
@@ -243,7 +243,7 @@ int phalcon_cssmin_internal(zval *return_value, zval *style, zval **error TSRMLS
 	parser.last_state = 1;
 	parser.in_paren = 0;
 	parser.style = style;
-	parser.error = error;
+	parser.error = NULL;
 	parser.minified = &minified;
 
 	for (i = 0; i < Z_STRLEN_P(style); i++) {
@@ -260,9 +260,10 @@ int phalcon_cssmin_internal(zval *return_value, zval *style, zval **error TSRMLS
 	if (minified.len) {
 		ZVAL_STRINGL(return_value, minified.c, minified.len, 0);
 	} else {
-		ZVAL_STRING(return_value, "", 1);
+		ZVAL_EMPTY_STRING(return_value);
 	}
 
+	*error = parser.error;
 	return SUCCESS;
 }
 
@@ -274,26 +275,24 @@ int phalcon_cssmin_internal(zval *return_value, zval *style, zval **error TSRMLS
 
 int phalcon_cssmin(zval *return_value, zval *style TSRMLS_DC) {
 
-	zval *error = NULL;
-
-	PHALCON_MM_GROW();
+	const char *error = NULL;
 
 	ZVAL_NULL(return_value);
 
 	if (Z_TYPE_P(style) != IS_STRING) {
-		PHALCON_THROW_EXCEPTION_STR(phalcon_assets_exception_ce, "Style must be a string");
+		PHALCON_THROW_EXCEPTION_STRW(phalcon_assets_exception_ce, "Style must be a string");
 		return FAILURE;
 	}
 
 	if (phalcon_cssmin_internal(return_value, style, &error TSRMLS_CC) == FAILURE) {
-		if (Z_TYPE_P(error) == IS_STRING) {
-			PHALCON_THROW_EXCEPTION_STR(phalcon_assets_exception_ce, Z_STRVAL_P(error));
+		if (error) {
+			PHALCON_THROW_EXCEPTION_STRW(phalcon_assets_exception_ce, error);
 		} else {
-			PHALCON_THROW_EXCEPTION_STR(phalcon_assets_exception_ce, "Unknown error");
+			PHALCON_THROW_EXCEPTION_STRW(phalcon_assets_exception_ce, "Unknown error");
 		}
+
 		return FAILURE;
 	}
 
-	PHALCON_MM_RESTORE();
 	return SUCCESS;
 }

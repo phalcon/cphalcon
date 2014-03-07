@@ -174,7 +174,7 @@ int phalcon_validation_getdefaultmessage_helper(const zend_class_entry *ce, zval
 		PHALCON_ALLOC_GHOST_ZVAL(t);
 		ZVAL_STRING(t, type, 1);
 		params[0] = t;
-		return phalcon_return_call_method(*return_value_ptr, return_value_ptr, this_ptr, "getdefaultmessage", 1, params TSRMLS_CC);
+		return phalcon_return_call_method(*return_value_ptr, NULL, this_ptr, "getdefaultmessage", 1, params TSRMLS_CC);
 	}
 }
 
