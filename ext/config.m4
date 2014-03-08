@@ -12,6 +12,7 @@ kernel/object.c \
 kernel/array.c \
 kernel/hash.c \
 kernel/string.c \
+kernel/mbstring.c \
 kernel/filter.c \
 kernel/operators.c \
 kernel/concat.c \

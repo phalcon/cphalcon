@@ -30,6 +30,7 @@
 #include "kernel/main.h"
 #include "kernel/memory.h"
 #include "kernel/fcall.h"
+#include "kernel/mbstring.h"
 #include "kernel/framework/orm.h"
 #include "interned-strings.h"
 
@@ -565,6 +566,19 @@ static PHP_MINIT_FUNCTION(phalcon)
 	if (!zend_execute_internal && !getenv("PHALCON_NO_RVO")) {
 		zend_execute_internal = phalcon_execute_internal;
 	}
+
+#if 0
+	{
+		zend_module_entry *entry;
+		if (zend_hash_find(&module_registry, ZEND_STRS("mbstring"), (void**)&entry) == SUCCESS) {
+#ifdef ZTS
+			mbstring_globals_id = *(entry->globals_id_ptr);
+#else
+			mbstring_globals    = ((zend_mbstring_globals*)(entry->globals_ptr));
+#endif
+		}
+	}
+#endif
 
 	return SUCCESS;
 }
