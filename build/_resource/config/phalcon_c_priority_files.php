@@ -36,6 +36,7 @@ return array(
     'kernel/framework/orm.h',
     'kernel/framework/router.h',
     'kernel/framework/url.h',
+    'interned-strings.h',
     // Source files
     'kernel/main.c',
     'kernel/memory.c',
@@ -57,5 +58,6 @@ return array(
     'kernel/session.c',
     'kernel/framework/orm.c',
     'kernel/framework/router.c',
-    'kernel/framework/url.c'
+    'kernel/framework/url.c',
+    'interned-strings.c',
 );

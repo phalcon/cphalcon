@@ -6169,7 +6169,7 @@ zend_class_entry *phalcon_validation_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Validation);
 
-static int phalcon_validation_getdefaultmessage_helper(const zend_class_entry *ce, zval *return_value, zval *this_ptr, const char *type TSRMLS_DC);
+static int phalcon_validation_getdefaultmessage_helper(const zend_class_entry *ce, zval **return_value_ptr, zval *this_ptr, const char *type TSRMLS_DC);
 
 #endif /* PHALCON_VALIDATION_H */
 
@@ -6223,7 +6223,7 @@ zend_class_entry *phalcon_validation_validator_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Validation_Validator);
 
-static int phalcon_validation_validator_getoption_helper(const zend_class_entry *ce, zval *result, zval *this_ptr, const char *option TSRMLS_DC);
+static int phalcon_validation_validator_getoption_helper(const zend_class_entry *ce, zval **result, zval *this_ptr, const char *option TSRMLS_DC);
 
 static inline int phalcon_validation_validator_isempty_helper(const zval *v)
 {

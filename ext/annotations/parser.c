@@ -1288,7 +1288,8 @@ int phannot_parse_annotations(zval *result, const char *comment, zend_uint comme
  */
 static void phannot_remove_comment_separators(char **ret, zend_uint *ret_len, const char *comment, zend_uint length, zend_uint *start_lines)
 {
-	int start_mode = 1, j, i, open_parentheses;
+	int start_mode = 1, open_parentheses;
+	zend_uint i, j;
 	smart_str processed_str = {0};
 	char ch;
 
