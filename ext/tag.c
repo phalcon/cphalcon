@@ -1747,7 +1747,7 @@ PHP_METHOD(Phalcon_Tag, stylesheetLink){
 	}
 	
 	if (!phalcon_array_isset_string(params, SS("ref"))) {
-		phalcon_array_update_string_string(&params, ISL(ref), SL("stylesheet"), PH_SEPARATE);
+		phalcon_array_update_string_string(&params, SL("ref"), SL("stylesheet"), PH_SEPARATE);
 	}
 	
 	/** 
