@@ -52,8 +52,10 @@ static phalcon_memory_entry* phalcon_memory_grow_stack_common(zend_phalcon_globa
 #endif
 	}
 	else if (!g->active_memory->next) {
+		phalcon_memory_entry *entry;
+
 		assert(g->active_memory >= g->end_memory - 1 || g->active_memory < g->start_memory);
-		phalcon_memory_entry *entry = (phalcon_memory_entry *) ecalloc(1, sizeof(phalcon_memory_entry));
+		entry = (phalcon_memory_entry *) ecalloc(1, sizeof(phalcon_memory_entry));
 	/* ecalloc() will take care of these members
 		entry->pointer   = 0;
 		entry->capacity  = 0;

@@ -835,13 +835,9 @@ PHP_METHOD(Phalcon_Db_Dialect, select){
 	
 	}
 	
-	/** 
-	 * Check for a WHERE clause
-	 */
-	if (phalcon_array_isset_string(definition, SS("where"))) {
+	/* Check for a WHERE clause */
+	if (phalcon_array_isset_string_fetch(&where_conditions, definition, SS("where"))) {
 	
-		PHALCON_OBS_VAR(where_conditions);
-		phalcon_array_fetch_string(&where_conditions, definition, SL("where"), PH_NOISY);
 		if (Z_TYPE_P(where_conditions) == IS_ARRAY) { 
 			PHALCON_CALL_METHOD(&where_expression, this_ptr, "getsqlexpression", where_conditions, escape_char);
 			PHALCON_SCONCAT_SV(sql, " WHERE ", where_expression);
@@ -850,16 +846,11 @@ PHP_METHOD(Phalcon_Db_Dialect, select){
 		}
 	}
 	
-	/** 
-	 * Check for a GROUP clause
-	 */
-	if (phalcon_array_isset_string(definition, SS("group"))) {
+	/* Check for a GROUP clause */
+	if (phalcon_array_isset_string_fetch(&group_fields, definition, SS("group"))) {
 	
 		PHALCON_INIT_VAR(group_items);
 		array_init(group_items);
-	
-		PHALCON_OBS_VAR(group_fields);
-		phalcon_array_fetch_string(&group_fields, definition, SL("group"), PH_NOISY);
 	
 		phalcon_is_iterable(group_fields, &ah4, &hp4, 0, 0);
 	
@@ -879,27 +870,16 @@ PHP_METHOD(Phalcon_Db_Dialect, select){
 		PHALCON_INIT_VAR(group_clause);
 		PHALCON_CONCAT_SV(group_clause, " GROUP BY ", group_sql);
 		phalcon_concat_self(&sql, group_clause TSRMLS_CC);
-	
-		/** 
-		 * Check for a HAVING clause
-		 */
-		if (phalcon_array_isset_string(definition, SS("having"))) {
-			PHALCON_OBS_VAR(having_conditions);
-			phalcon_array_fetch_string(&having_conditions, definition, SL("having"), PH_NOISY);
-	
-			PHALCON_CALL_METHOD(&having_expression, this_ptr, "getsqlexpression", having_conditions, escape_char);
-			PHALCON_SCONCAT_SV(sql, " HAVING ", having_expression);
-		}
+	}
+
+	/* Check for a HAVING clause */
+	if (phalcon_array_isset_string_fetch(&having_conditions, definition, SS("having"))) {
+		PHALCON_CALL_METHOD(&having_expression, this_ptr, "getsqlexpression", having_conditions, escape_char);
+		PHALCON_SCONCAT_SV(sql, " HAVING ", having_expression);
 	}
 	
-	/** 
-	 * Check for a ORDER clause
-	 */
-	if (phalcon_array_isset_string(definition, SS("order"))) {
-	
-		PHALCON_OBS_VAR(order_fields);
-		phalcon_array_fetch_string(&order_fields, definition, SL("order"), PH_NOISY);
-	
+	/* Check for a ORDER clause */
+	if (phalcon_array_isset_string_fetch(&order_fields, definition, SS("order"))) {
 		PHALCON_INIT_VAR(order_items);
 		array_init(order_items);
 	
