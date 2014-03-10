@@ -1746,6 +1746,10 @@ PHP_METHOD(Phalcon_Tag, stylesheetLink){
 		phalcon_array_update_string_string(&params, ISL(type), SL("text/css"), PH_SEPARATE);
 	}
 	
+	if (!phalcon_array_isset_string(params, SS("ref"))) {
+		phalcon_array_update_string_string(&params, ISL(ref), SL("stylesheet"), PH_SEPARATE);
+	}
+	
 	/** 
 	 * URLs are generated through the 'url' service
 	 */
@@ -1760,7 +1764,7 @@ PHP_METHOD(Phalcon_Tag, stylesheetLink){
 	}
 	
 	PHALCON_INIT_VAR(code);
-	ZVAL_STRING(code, "<link rel=\"stylesheet\"", 1);
+	ZVAL_STRING(code, "<link", 1);
 
 	phalcon_tag_render_attributes(code, params TSRMLS_CC);
 	if (EG(exception)) {
