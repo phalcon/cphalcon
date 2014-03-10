@@ -525,8 +525,6 @@ typedef zend_function phalcon_fcall_cache_entry;
 		RETURN_MM_ON_FAILURE(phalcon_return_call_class_method(return_value, return_value_ptr, class_entry, phalcon_fcall_ce, NULL, method, strlen(method), NELEMSM1(params_), params_ + 1 TSRMLS_CC)); \
 	} while (0)
 
-#undef NELEMSM1
-
 #endif
 
 /** Use these functions to call functions in the PHP userland using an arbitrary zval as callable */

@@ -67,8 +67,6 @@ return <<<HEADER
 #include <ext/mbstring/php_unicode.h>
 #endif
 
-#include <ext/pdo/php_pdo_driver.h>
-
 #include <Zend/zend_API.h>
 #include <Zend/zend_operators.h>
 #include <Zend/zend_exceptions.h>
