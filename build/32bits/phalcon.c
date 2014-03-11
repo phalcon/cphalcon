@@ -219,8 +219,6 @@ PHP includes the Zend Engine, freely available at
 #include <ext/mbstring/php_unicode.h>
 #endif
 
-#include <ext/pdo/php_pdo_driver.h>
-
 #include <Zend/zend_API.h>
 #include <Zend/zend_operators.h>
 #include <Zend/zend_exceptions.h>
@@ -1884,7 +1882,7 @@ typedef zend_function phalcon_fcall_cache_entry;
 
 #else
 
-#define NELEMSM1(x) ((sizeof(x)/sizeof(x[0])) - sizeof(x[0]))
+#define NELEMSM1(x) ((sizeof(x) - sizeof(x[0]))/sizeof(x[0]))
 
 #define PHALCON_CALL_FUNCTIONW(return_value_ptr, func_name, ...) \
 	do { \
@@ -18282,7 +18280,6 @@ zend_class_entry *phalcon_kernel_ce;
 static PHP_METHOD(Phalcon_Kernel, preComputeHashKey);
 static PHP_METHOD(Phalcon_Kernel, preComputeHashKey32);
 static PHP_METHOD(Phalcon_Kernel, preComputeHashKey64);
-static PHP_METHOD(Phalcon_Kernel, testCall);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_kernel_precomputehashkey, 0, 0, 1)
 	ZEND_ARG_INFO(0, arrKey)
@@ -18292,7 +18289,6 @@ static const zend_function_entry phalcon_kernel_method_entry[] = {
 	PHP_ME(Phalcon_Kernel, preComputeHashKey,   arginfo_phalcon_kernel_precomputehashkey, ZEND_ACC_PUBLIC | ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Kernel, preComputeHashKey32, arginfo_phalcon_kernel_precomputehashkey, ZEND_ACC_PUBLIC | ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Kernel, preComputeHashKey64, arginfo_phalcon_kernel_precomputehashkey, ZEND_ACC_PUBLIC | ZEND_ACC_STATIC)
-	PHP_ME(Phalcon_Kernel, testCall, NULL, ZEND_ACC_PUBLIC | ZEND_ACC_STATIC)
 	PHP_FE_END
 };
 
@@ -18413,38 +18409,6 @@ static PHP_METHOD(Phalcon_Kernel, preComputeHashKey64){
 	RETURN_STRING(strKey, 0);
 }
 
-static PHP_METHOD(Phalcon_Kernel, testCall)
-{
-	zval *i, *j, *k, *p, tmp = zval_used_for_init;
-	zend_class_entry *ce = zend_fetch_class(ZEND_STRL("Test"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
-	zend_function *f = NULL;
-
-	phalcon_fetch_params(0, 2, 0, &k, &p);
-
-	MAKE_STD_ZVAL(i);
-	ZVAL_LONG(i, 1);
-
-	MAKE_STD_ZVAL(j);
-	ZVAL_LONG(j, 0);
-
-	while (1) {
-		zval *sum = NULL;
-
-		is_smaller_function(&tmp, i, k TSRMLS_CC);
-		if (!zend_is_true(&tmp)) {
-			break;
-		}
-
-		zend_call_method_with_2_params(NULL, ce, &f, "add", &sum, p, p);
-		add_function(j, j, sum TSRMLS_CC);
-		zval_ptr_dtor(&sum);
-
-		increment_function(i);
-	}
-
-	zval_ptr_dtor(&i);
-	RETURN_ZVAL(j, 1, 1);
-}
 
 
 
