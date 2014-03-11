@@ -369,7 +369,7 @@ typedef zend_function phalcon_fcall_cache_entry;
 
 #else
 
-#define NELEMSM1(x) ((sizeof(x)/sizeof(x[0])) - sizeof(x[0]))
+#define NELEMSM1(x) ((sizeof(x) - sizeof(x[0]))/sizeof(x[0]))
 
 #define PHALCON_CALL_FUNCTIONW(return_value_ptr, func_name, ...) \
 	do { \
