@@ -78,7 +78,7 @@ PHP_METHOD(Phalcon_Validation_Validator_Confirmation, validate){
 
 	zval *validator, *attribute, *with_attribute;
 	zval *value = NULL, *with_value = NULL, *message_str, *message, *code;
-	zval *label, *pairs, *prepared = NULL;
+	zval *label, *with_label, *pairs, *prepared = NULL;
 	zend_class_entry *ce = Z_OBJCE_P(getThis());
 
 	PHALCON_MM_GROW();
@@ -102,11 +102,20 @@ PHP_METHOD(Phalcon_Validation_Validator_Confirmation, validate){
 				PHALCON_CPY_WRT(label, attribute);
 			}
 		}
+                
+                PHALCON_OBS_VAR(with_label);
+		RETURN_MM_ON_FAILURE(phalcon_validation_validator_getoption_helper(ce, &with_label, getThis(), phalcon_interned_label TSRMLS_CC));
+		if (!zend_is_true(with_label)) {
+			PHALCON_CALL_METHOD(&with_label, validator, "getlabel", with_attribute);
+			if (!zend_is_true(with_label)) {
+				PHALCON_CPY_WRT(with_label, with_attribute);
+			}
+		}
 
 		PHALCON_ALLOC_GHOST_ZVAL(pairs);
 		array_init_size(pairs, 2);
 		Z_ADDREF_P(label);          add_assoc_zval_ex(pairs, SS(":field"), label);
-		Z_ADDREF_P(with_attribute); add_assoc_zval_ex(pairs, SS(":with"), with_attribute);
+		Z_ADDREF_P(with_label); add_assoc_zval_ex(pairs, SS(":with"), with_label);
 
 		PHALCON_OBS_VAR(message_str);
 		RETURN_MM_ON_FAILURE(phalcon_validation_validator_getoption_helper(ce, &message_str, getThis(), phalcon_interned_message TSRMLS_CC));
