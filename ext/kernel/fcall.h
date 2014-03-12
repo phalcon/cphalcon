@@ -54,6 +54,7 @@ typedef zend_function phalcon_fcall_cache_entry;
  * @{
  */
 
+#if !defined(_MSC_VER)
 /**
  * @brief Invokes a function @a func_name and returns if the function fails due to an error or exception.
  * @param[out] return_value_ptr function return value (<tt>zval**</tt>); can be @c NULL (in this case it is assumed that the caller is not interested in the return value)
@@ -365,6 +366,166 @@ typedef zend_function phalcon_fcall_cache_entry;
 			RETURN_MM_ON_FAILURE(phalcon_return_call_class_method(return_value, return_value_ptr, class_entry, phalcon_fcall_ce, NULL, method, strlen(method), sizeof(params_)/sizeof(zval*), params_ TSRMLS_CC)); \
 		} \
 	} while (0)
+
+#else
+
+#define NELEMSM1(x) ((sizeof(x) - sizeof(x[0]))/sizeof(x[0]))
+
+#define PHALCON_CALL_FUNCTIONW(return_value_ptr, func_name, ...) \
+	do { \
+		zval *params_[] = {NULL, __VA_ARGS__}; \
+		RETURN_ON_FAILURE(phalcon_call_func_aparams(return_value_ptr, func_name, strlen(func_name), NELEMSM1(params_), params_ + 1 TSRMLS_CC)); \
+	} while (0)
+
+#define PHALCON_CALL_FUNCTION(return_value_ptr, func_name, ...) \
+	do { \
+		zval *params_[] = {NULL, __VA_ARGS__}; \
+		PHALCON_OBSERVE_OR_NULLIFY_PPZV(return_value_ptr); \
+		RETURN_MM_ON_FAILURE(phalcon_call_func_aparams(return_value_ptr, func_name, strlen(func_name), NELEMSM1(params_), params_ + 1 TSRMLS_CC)); \
+	} while (0)
+
+#define PHALCON_RETURN_CALL_FUNCTIONW(func_name, ...) \
+	do { \
+		zval *params_[] = {NULL, __VA_ARGS__}; \
+		RETURN_ON_FAILURE(phalcon_return_call_function(return_value, return_value_ptr, func_name, strlen(func_name), NELEMSM1(params_), params_ + 1 TSRMLS_CC)); \
+	} while (0)
+
+#define PHALCON_RETURN_CALL_FUNCTION(func_name, ...) \
+	do { \
+		zval *params_[] = {NULL, __VA_ARGS__}; \
+		RETURN_MM_ON_FAILURE(phalcon_return_call_function(return_value, return_value_ptr, func_name, strlen(func_name), NELEMSM1(params_), params_ + 1 TSRMLS_CC)); \
+	} while (0)
+
+#define PHALCON_CALL_METHODW(return_value_ptr, object, method, ...) \
+	do { \
+		zval *params_[] = {NULL, __VA_ARGS__}; \
+		RETURN_ON_FAILURE(phalcon_call_class_method_aparams(return_value_ptr, Z_OBJCE_P(object), phalcon_fcall_method, object, method, strlen(method), NELEMSM1(params_), params_ + 1 TSRMLS_CC)); \
+	} while (0)
+
+#define PHALCON_CALL_METHOD(return_value_ptr, object, method, ...) \
+	do { \
+		zval *params_[] = {NULL, __VA_ARGS__}; \
+		PHALCON_OBSERVE_OR_NULLIFY_PPZV(return_value_ptr); \
+		RETURN_MM_ON_FAILURE(phalcon_call_class_method_aparams(return_value_ptr, Z_OBJCE_P(object), phalcon_fcall_method, object, method, strlen(method), NELEMSM1(params_), params_ + 1 TSRMLS_CC)); \
+	} while (0)
+
+#define PHALCON_RETURN_CALL_METHODW(object, method, ...) \
+	do { \
+		zval *params_[] = {NULL, __VA_ARGS__}; \
+		RETURN_ON_FAILURE(phalcon_return_call_class_method(return_value, return_value_ptr, Z_OBJCE_P(object), phalcon_fcall_method, object, method, strlen(method), NELEMSM1(params_), params_ + 1 TSRMLS_CC)); \
+	} while (0)
+
+#define PHALCON_RETURN_CALL_METHOD(object, method, ...) \
+	do { \
+		zval *params_[] = {NULL, __VA_ARGS__}; \
+		RETURN_MM_ON_FAILURE(phalcon_return_call_class_method(return_value, return_value_ptr, Z_OBJCE_P(object), phalcon_fcall_method, object, method, strlen(method), NELEMSM1(params_), params_ + 1 TSRMLS_CC)); \
+	} while (0)
+
+
+#define PHALCON_CALL_PARENTW(return_value_ptr, class_entry, this_ptr, method, ...) \
+	do { \
+		zval *params_[] = {NULL, __VA_ARGS__}; \
+		RETURN_ON_FAILURE(phalcon_call_class_method_aparams(return_value_ptr, class_entry, phalcon_fcall_parent, this_ptr, method, strlen(method), NELEMSM1(params_), params_ + 1 TSRMLS_CC)); \
+	} while (0)
+
+#define PHALCON_CALL_PARENT(return_value_ptr, class_entry, this_ptr, method, ...) \
+	do { \
+		zval *params_[] = {NULL, __VA_ARGS__}; \
+		PHALCON_OBSERVE_OR_NULLIFY_PPZV(return_value_ptr); \
+		RETURN_MM_ON_FAILURE(phalcon_call_class_method_aparams(return_value_ptr, class_entry, phalcon_fcall_parent, this_ptr, method, strlen(method), NELEMSM1(params_), params_ + 1 TSRMLS_CC)); \
+	} while (0)
+
+#define PHALCON_RETURN_CALL_PARENTW(class_entry, this_ptr, method, ...) \
+	do { \
+		zval *params_[] = {NULL, __VA_ARGS__}; \
+		RETURN_ON_FAILURE(phalcon_return_call_class_method(return_value, return_value_ptr, class_entry, phalcon_fcall_parent, this_ptr, method, strlen(method), NELEMSM1(params_), params_ + 1 TSRMLS_CC)); \
+	} while (0)
+
+#define PHALCON_RETURN_CALL_PARENT(class_entry, this_ptr, method, ...) \
+	do { \
+		zval *params_[] = {NULL, __VA_ARGS__}; \
+		RETURN_MM_ON_FAILURE(phalcon_return_call_class_method(return_value, return_value_ptr, class_entry, phalcon_fcall_parent, this_ptr, method, strlen(method), NELEMSM1(params_), params_ + 1 TSRMLS_CC)); \
+	} while (0)
+
+
+#define PHALCON_CALL_SELFW(return_value_ptr, method, ...) \
+	do { \
+		zval *params_[] = {NULL, __VA_ARGS__}; \
+		RETURN_ON_FAILURE(phalcon_call_class_method_aparams(return_value_ptr, NULL, phalcon_fcall_self, NULL, method, strlen(method), NELEMSM1(params_), params_ + 1 TSRMLS_CC)); \
+	} while (0)
+
+#define PHALCON_CALL_SELF(return_value_ptr, method, ...) \
+	do { \
+		zval *params_[] = {NULL, __VA_ARGS__}; \
+		PHALCON_OBSERVE_OR_NULLIFY_PPZV(return_value_ptr); \
+		RETURN_MM_ON_FAILURE(phalcon_call_class_method_aparams(return_value_ptr, NULL, phalcon_fcall_self, NULL, method, strlen(method), NELEMSM1(params_), params_ + 1 TSRMLS_CC)); \
+	} while (0)
+
+#define PHALCON_RETURN_CALL_SELFW(method, ...) \
+	do { \
+		zval *params_[] = {NULL, __VA_ARGS__}; \
+		RETURN_ON_FAILURE(phalcon_return_call_class_method(return_value, return_value_ptr, NULL, phalcon_fcall_self, NULL, method, strlen(method), NELEMSM1(params_), params_ + 1 TSRMLS_CC)); \
+	} while (0)
+
+#define PHALCON_RETURN_CALL_SELF(method, ...) \
+	do { \
+		zval *params_[] = {NULL, __VA_ARGS__}; \
+		RETURN_MM_ON_FAILURE(phalcon_return_call_class_method(return_value, return_value_ptr, NULL, phalcon_fcall_self, NULL, method, strlen(method), NELEMSM1(params_), params_ + 1 TSRMLS_CC)); \
+	} while (0)
+
+
+#define PHALCON_CALL_STATICW(return_value_ptr, method, ...) \
+	do { \
+		zval *params_[] = {NULL, __VA_ARGS__}; \
+		RETURN_ON_FAILURE(phalcon_call_class_method_aparams(return_value_ptr, NULL, phalcon_fcall_static, NULL, method, strlen(method), NELEMSM1(params_), params_ + 1 TSRMLS_CC)); \
+	} while (0)
+
+#define PHALCON_CALL_STATIC(return_value_ptr, method, ...) \
+	do { \
+		zval *params_[] = {NULL, __VA_ARGS__}; \
+		PHALCON_OBSERVE_OR_NULLIFY_PPZV(return_value_ptr); \
+		RETURN_MM_ON_FAILURE(phalcon_call_class_method_aparams(return_value_ptr, NULL, phalcon_fcall_static, NULL, method, strlen(method), NELEMSM1(params_), params_ + 1 TSRMLS_CC)); \
+	} while (0)
+
+#define PHALCON_RETURN_CALL_STATICW(method, ...) \
+	do { \
+		zval *params_[] = {NULL, __VA_ARGS__}; \
+		RETURN_ON_FAILURE(phalcon_return_call_class_method(return_value, return_value_ptr, NULL, phalcon_fcall_static, NULL, method, strlen(method), NELEMSM1(params_), params_ + 1 TSRMLS_CC)); \
+	} while (0)
+
+#define PHALCON_RETURN_CALL_STATIC(method, ...) \
+	do { \
+		zval *params_[] = {NULL, __VA_ARGS__}; \
+		RETURN_MM_ON_FAILURE(phalcon_return_call_class_method(return_value, return_value_ptr, NULL, phalcon_fcall_static, NULL, method, strlen(method), NELEMSM1(params_), params_ + 1 TSRMLS_CC)); \
+	} while (0)
+
+#define PHALCON_CALL_CE_STATICW(return_value_ptr, class_entry, method, ...) \
+	do { \
+		zval *params_[] = {NULL, __VA_ARGS__}; \
+		RETURN_ON_FAILURE(phalcon_call_class_method_aparams(return_value_ptr, class_entry, phalcon_fcall_ce, NULL, method, strlen(method), NELEMSM1(params_), params_ + 1 TSRMLS_CC)); \
+	} while (0)
+
+
+#define PHALCON_CALL_CE_STATIC(return_value_ptr, class_entry, method, ...) \
+	do { \
+		zval *params_[] = {NULL, __VA_ARGS__}; \
+		PHALCON_OBSERVE_OR_NULLIFY_PPZV(return_value_ptr); \
+		RETURN_MM_ON_FAILURE(phalcon_call_class_method_aparams(return_value_ptr, class_entry, phalcon_fcall_ce, NULL, method, strlen(method), NELEMSM1(params_), params_ + 1 TSRMLS_CC)); \
+	} while (0)
+
+#define PHALCON_RETURN_CALL_CE_STATICW(class_entry, method, ...) \
+	do { \
+		zval *params_[] = {NULL, __VA_ARGS__}; \
+		RETURN_ON_FAILURE(phalcon_return_call_class_method(return_value, return_value_ptr, class_entry, phalcon_fcall_ce, NULL, method, strlen(method), NELEMSM1(params_), params_ + 1 TSRMLS_CC)); \
+	} while (0)
+
+#define PHALCON_RETURN_CALL_CE_STATIC(class_entry, method, ...) \
+	do { \
+		zval *params_[] = {NULL, __VA_ARGS__}; \
+		RETURN_MM_ON_FAILURE(phalcon_return_call_class_method(return_value, return_value_ptr, class_entry, phalcon_fcall_ce, NULL, method, strlen(method), NELEMSM1(params_), params_ + 1 TSRMLS_CC)); \
+	} while (0)
+
+#endif
 
 /** Use these functions to call functions in the PHP userland using an arbitrary zval as callable */
 #define PHALCON_CALL_USER_FUNC(return_value, handler) PHALCON_CALL_USER_FUNC_ARRAY(return_value, handler, NULL)
