@@ -1497,18 +1497,23 @@ PHP_METHOD(Phalcon_Mvc_View, pick){
  *
  * @param string $partialPath
  * @param array $params
+ * @param boolean $aoturender
  */
 PHP_METHOD(Phalcon_Mvc_View, partial){
 
-	zval *partial_path, *params = NULL, *view_params, *new_params = NULL;
-	zval *partials_dir, *real_path, *engines = NULL;
+	zval *partial_path, *params = NULL, *aoturender = NULL, *view_params, *new_params = NULL;
+	zval *partials_dir, *real_path, *engines = NULL, *contents;
 
 	PHALCON_MM_GROW();
 
-	phalcon_fetch_params(1, 1, 1, &partial_path, &params);
+	phalcon_fetch_params(1, 1, 2, &partial_path, &params, &aoturender);
 	
 	if (!params) {
 		params = PHALCON_GLOBAL(z_null);
+	}
+
+	if (!aoturender) {
+		aoturender = PHALCON_GLOBAL(z_true);
 	}
 	
 	/** 
@@ -1569,6 +1574,10 @@ PHP_METHOD(Phalcon_Mvc_View, partial){
 		 * Restore the original view params
 		 */
 		phalcon_update_property_this(this_ptr, SL("_viewParams"), view_params TSRMLS_CC);
+	}
+
+	if (!zend_is_true(aoturender)) {
+		phalcon_ob_get_contents(return_value TSRMLS_CC);
 	}
 	
 	PHALCON_MM_RESTORE();
