@@ -87,6 +87,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, getOrder);
 PHP_METHOD(Phalcon_Mvc_Model_Criteria, getParams);
 PHP_METHOD(Phalcon_Mvc_Model_Criteria, fromInput);
 PHP_METHOD(Phalcon_Mvc_Model_Criteria, execute);
+PHP_METHOD(Phalcon_Mvc_Model_Criteria, cache);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_criteria_innerjoin, 0, 0, 1)
 	ZEND_ARG_INFO(0, model)
@@ -104,6 +105,10 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_criteria_rightjoin, 0, 0, 1)
 	ZEND_ARG_INFO(0, model)
 	ZEND_ARG_INFO(0, conditions)
 	ZEND_ARG_INFO(0, alias)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_criteria_cache, 0, 0, 1)
+	ZEND_ARG_INFO(0, option)
 ZEND_END_ARG_INFO()
 
 static const zend_function_entry phalcon_mvc_model_criteria_method_entry[] = {
@@ -140,6 +145,7 @@ static const zend_function_entry phalcon_mvc_model_criteria_method_entry[] = {
 	PHP_ME(Phalcon_Mvc_Model_Criteria, getParams, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_Criteria, fromInput, arginfo_phalcon_mvc_model_criteriainterface_frominput, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Mvc_Model_Criteria, execute, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Model_Criteria, cache, arginfo_phalcon_mvc_model_criteria_cache, ZEND_ACC_PUBLIC)
 	PHP_FE_END
 };
 
@@ -1460,3 +1466,26 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, execute){
 	
 	PHALCON_MM_RESTORE();
 }
+
+/**
+ * Sets the cache options in the criteria
+ * This method replaces all previously set cache options
+ *
+ * @param array $options
+ * @return Phalcon\Mvc\Model\CriteriaInterface
+ */
+PHP_METHOD(Phalcon_Mvc_Model_Criteria, cache){
+
+	zval *options;
+
+	phalcon_fetch_params(0, 1, 0, &options);
+	
+	if (Z_TYPE_P(options) != IS_ARRAY) { 
+		PHALCON_THROW_EXCEPTION_STRW(phalcon_mvc_model_exception_ce, "Cache options must be an Array");
+		return;
+	}
+	phalcon_update_property_array_string(this_ptr, SL("_params"), SS("cache"), options TSRMLS_CC);
+	
+	RETURN_THISW();
+}
+

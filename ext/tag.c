@@ -1760,7 +1760,12 @@ PHP_METHOD(Phalcon_Tag, stylesheetLink){
 	}
 	
 	PHALCON_INIT_VAR(code);
-	ZVAL_STRING(code, "<link rel=\"stylesheet\"", 1);
+	
+	if (!phalcon_array_isset_string(params, SS("ref"))) {
+		ZVAL_STRING(code, "<link rel=\"stylesheet\"", 1);
+	} else {
+		ZVAL_STRING(code, "<link", 1);
+	}
 
 	phalcon_tag_render_attributes(code, params TSRMLS_CC);
 	if (EG(exception)) {
