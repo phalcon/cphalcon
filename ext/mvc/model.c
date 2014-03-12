@@ -2265,8 +2265,12 @@ PHP_METHOD(Phalcon_Mvc_Model, validate){
 		if (Z_TYPE_P(messages) == IS_ARRAY) {
 			PHALCON_INIT_VAR(new_errors);
 			errors = phalcon_fetch_nproperty_this(this_ptr, SL("_errorMessages"), PH_NOISY TSRMLS_CC);
-			phalcon_fast_array_merge(new_errors, &errors, &messages TSRMLS_CC);
-			phalcon_update_property_this(this_ptr, SL("_errorMessages"), new_errors TSRMLS_CC);
+			if (Z_TYPE_P(errors) == IS_ARRAY) {
+				phalcon_fast_array_merge(new_errors, &errors, &messages TSRMLS_CC);
+				phalcon_update_property_this(this_ptr, SL("_errorMessages"), new_errors TSRMLS_CC);
+			} else {
+				phalcon_update_property_this(this_ptr, SL("_errorMessages"), messages TSRMLS_CC);
+			}
 		}
 		else {
 			int dup;
