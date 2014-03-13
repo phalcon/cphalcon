@@ -1,4 +1,3 @@
-
 /*
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
@@ -223,7 +222,7 @@ class Request implements \Phalcon\Http\RequestInterface, \Phalcon\Di\InjectionAw
 	 * @param string name
 	 * @return boolean
 	 */
-	public function has(string! name)
+	public function has(string! name) -> boolean
 	{
 		return isset _REQUEST[name];
 	}
