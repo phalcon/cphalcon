@@ -21,6 +21,7 @@
 #include "mvc/model/criteria.h"
 #include "mvc/model/exception.h"
 #include "mvc/model/managerinterface.h"
+#include "mvc/model/manager.h"
 #include "mvc/model/message.h"
 #include "mvc/model/metadatainterface.h"
 #include "mvc/model/query/builder.h"
@@ -170,6 +171,7 @@ PHP_METHOD(Phalcon_Mvc_Model, unserialize);
 PHP_METHOD(Phalcon_Mvc_Model, dump);
 PHP_METHOD(Phalcon_Mvc_Model, toArray);
 PHP_METHOD(Phalcon_Mvc_Model, setup);
+PHP_METHOD(Phalcon_Mvc_Model, remove);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model___construct, 0, 0, 0)
 	ZEND_ARG_INFO(0, dependencyInjector)
@@ -316,6 +318,7 @@ static const zend_function_entry phalcon_mvc_model_method_entry[] = {
 	PHP_ME(Phalcon_Mvc_Model, dump, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model, toArray, arginfo_phalcon_mvc_model_toarray, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model, setup, arginfo_phalcon_mvc_model_setup, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
+	PHP_ME(Phalcon_Mvc_Model, remove, arginfo_phalcon_mvc_modelinterface_remove, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
 	PHP_FE_END
 };
 
@@ -6773,3 +6776,95 @@ PHP_METHOD(Phalcon_Mvc_Model, setup){
 	PHALCON_MM_RESTORE();
 }
 
+/**
+ * Allows to delete a set of records that match the specified conditions
+ *
+ * <code>
+ *$robot = Robots::remove("id=100")
+ * </code>
+ *
+ * @param 	array $parameters
+ * @return	boolean
+ */
+PHP_METHOD(Phalcon_Mvc_Model, remove){
+
+	zval *parameters = NULL;
+	zval *dependency_injector = NULL, *model_name, *manager, *model = NULL, *write_connection = NULL, *schema = NULL, *source = NULL, *table = NULL;
+	zval *delete_conditions = NULL, *check_foreign_keys = NULL;
+	zval *bind_params = NULL, *bind_types = NULL;
+	zval *event_name = NULL, *success = NULL;
+
+	PHALCON_MM_GROW();
+
+	phalcon_fetch_params(1, 1, 0, &parameters);
+	
+	if (!parameters) {
+		parameters = PHALCON_GLOBAL(z_null);
+	}
+
+	PHALCON_CALL_CE_STATIC(&dependency_injector, phalcon_di_ce, "getdefault");
+
+	PHALCON_INIT_VAR(model_name);
+	phalcon_get_called_class(model_name  TSRMLS_CC);
+
+	PHALCON_INIT_VAR(manager);
+	object_init_ex(manager, phalcon_mvc_model_manager_ce);
+	PHALCON_CALL_METHOD(NULL, manager, "setdi", dependency_injector);
+
+	PHALCON_CALL_METHOD(&model, manager, "load", model_name);
+	PHALCON_CALL_METHOD(&write_connection, model, "getwriteconnection");
+
+	PHALCON_CALL_METHOD(&schema, model, "getschema");
+	PHALCON_CALL_METHOD(&source, model, "getsource");
+
+	if (zend_is_true(schema)) {
+		PHALCON_INIT_VAR(table);
+		array_init_size(table, 2);
+		phalcon_array_append(&table, schema, 0);
+		phalcon_array_append(&table, source, 0);
+	} else {
+		PHALCON_CPY_WRT(table, source);
+	}
+
+	PHALCON_INIT_VAR(delete_conditions);
+	PHALCON_INIT_VAR(bind_params);
+	PHALCON_INIT_VAR(bind_types);
+
+	if (Z_TYPE_P(parameters) == IS_STRING) {
+		ZVAL_ZVAL(delete_conditions, parameters, 1, 0);
+	} else if (Z_TYPE_P(parameters) == IS_ARRAY) {
+		if (phalcon_array_isset_long(parameters, 0)) {
+			PHALCON_OBS_NVAR(delete_conditions);
+			phalcon_array_fetch_long(&delete_conditions, parameters, 0, PH_NOISY);
+		} else if (phalcon_array_isset_string(parameters, SS("conditions"))) {
+			PHALCON_OBS_NVAR(delete_conditions);
+			phalcon_array_fetch_string(&delete_conditions, parameters, SL("conditions"), PH_NOISY);
+		} else {
+			PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Must set up the conditions");
+			return;
+		}
+
+		if (phalcon_array_isset_long(parameters, 1)) {
+			PHALCON_OBS_NVAR(bind_params);
+			phalcon_array_fetch_long(&bind_params, parameters, 1, PH_NOISY);
+		} else if (phalcon_array_isset_string(parameters, SS("bind"))) {
+			PHALCON_OBS_NVAR(bind_params);
+			phalcon_array_fetch_string(&bind_params, parameters, SL("bind"), PH_NOISY);
+		}
+
+		if (phalcon_array_isset_long(parameters, 2)) {
+			PHALCON_OBS_NVAR(bind_types);
+			phalcon_array_fetch_long(&bind_types, parameters, 2, PH_NOISY);
+		} else if (phalcon_array_isset_string(parameters, SS("bindTypes"))) {
+			PHALCON_OBS_NVAR(bind_types);
+			phalcon_array_fetch_string(&bind_types, parameters, SL("bindTypes"), PH_NOISY);
+		}
+	}
+
+	/**
+	 * Execute the query passing the bind-params and casting-types
+	 */
+	PHALCON_CALL_METHOD(&success, write_connection, "delete", table, delete_conditions, bind_params, bind_types);
+	
+	RETURN_CTOR(success);
+}
