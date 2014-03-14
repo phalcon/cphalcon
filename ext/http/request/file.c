@@ -21,6 +21,7 @@
 #include "http/request/exception.h"
 
 #include <main/SAPI.h>
+#include <ext/spl/spl_directory.h>
 
 #include "kernel/main.h"
 #include "kernel/memory.h"
@@ -162,7 +163,7 @@ PHP_METHOD(Phalcon_Http_Request_File, __construct){
 
 	if (key) {
 		phalcon_update_property_this(this_ptr, SL("_key"), key TSRMLS_CC);
-	};
+	}
 	
 	PHALCON_CALL_PARENT(NULL, phalcon_http_request_file_ce, this_ptr, "__construct", temp_name);
 
