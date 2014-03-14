@@ -1,4 +1,3 @@
-
 /*
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
@@ -52,7 +51,7 @@ class Config implements \ArrayAccess
 	 *
 	 * @param	array arrayConfig
 	 */
-	public function __construct(arrayConfig=null)
+	public function __construct(array Config=null)
 	{
 		var key, value, subkey, subvalue;
 		boolean hasNumericKey;
