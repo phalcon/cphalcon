@@ -95,7 +95,7 @@ static const zend_function_entry phalcon_http_request_file_method_entry[] = {
  */
 PHALCON_INIT_CLASS(Phalcon_Http_Request_File){
 
-	PHALCON_REGISTER_CLASS(Phalcon\\Http\\Request, File, http_request_file, phalcon_http_request_file_method_entry, 0);
+	PHALCON_REGISTER_CLASS_EX(Phalcon\\Http\\Request, File, http_request_file, spl_ce_SplFileInfo, phalcon_http_request_file_method_entry, 0);
 
 	zend_declare_property_null(phalcon_http_request_file_ce, SL("_name"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_http_request_file_ce, SL("_tmp"), ZEND_ACC_PROTECTED TSRMLS_CC);
@@ -137,6 +137,9 @@ PHP_METHOD(Phalcon_Http_Request_File, __construct){
 		PHALCON_OBS_VAR(temp_name);
 		phalcon_array_fetch_string(&temp_name, file, SL("tmp_name"), PH_NOISY);
 		phalcon_update_property_this(this_ptr, SL("_tmp"), temp_name TSRMLS_CC);
+	} else {
+		PHALCON_INIT_VAR(temp_name);
+		ZVAL_NULL(temp_name);
 	}
 	
 	if (phalcon_array_isset_string(file, SS("size"))) {
@@ -159,7 +162,9 @@ PHP_METHOD(Phalcon_Http_Request_File, __construct){
 
 	if (key) {
 		phalcon_update_property_this(this_ptr, SL("_key"), key TSRMLS_CC);
-	}
+	};
+	
+	PHALCON_CALL_PARENT(NULL, phalcon_http_request_file_ce, this_ptr, "__construct", temp_name);
 
 	PHALCON_MM_RESTORE();
 }
