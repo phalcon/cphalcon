@@ -820,6 +820,7 @@ PHP_METHOD(Phalcon_Mvc_Micro, handle) {
 		ZEPHIR_CALL_METHOD(&params, router, "getparams",  NULL);
 		zephir_check_call_status();
 		ZEPHIR_CALL_USER_FUNC_ARRAY(returnedValue, handler, params);
+		zephir_check_call_status();
 		zephir_update_property_this(this_ptr, SL("_returnedValue"), returnedValue TSRMLS_CC);
 		if (Z_TYPE_P(eventsManager) == IS_OBJECT) {
 			ZEPHIR_INIT_NVAR(_1);
@@ -922,6 +923,7 @@ PHP_METHOD(Phalcon_Mvc_Micro, handle) {
 			}
 			ZEPHIR_INIT_NVAR(status);
 			ZEPHIR_CALL_USER_FUNC_ARRAY(status, finish, params);
+			zephir_check_call_status();
 			_2 = zephir_fetch_nproperty_this(this_ptr, SL("_stopped"), PH_NOISY_CC);
 			if (zephir_is_true(_2)) {
 				break;

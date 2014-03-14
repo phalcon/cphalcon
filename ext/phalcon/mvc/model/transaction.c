@@ -214,6 +214,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction, commit) {
 		array_init_size(_3, 2);
 		zephir_array_fast_append(_3, this_ptr);
 		ZEPHIR_CALL_USER_FUNC_ARRAY(_0, _1, _3);
+		zephir_check_call_status();
 	}
 	_4 = zephir_fetch_nproperty_this(this_ptr, SL("_connection"), PH_NOISY_CC);
 	ZEPHIR_RETURN_CALL_METHOD(_4, "commit", NULL);
@@ -262,6 +263,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction, rollback) {
 		array_init_size(_3, 2);
 		zephir_array_fast_append(_3, this_ptr);
 		ZEPHIR_CALL_USER_FUNC_ARRAY(_0, _1, _3);
+		zephir_check_call_status();
 	}
 	ZEPHIR_OBS_VAR(connection);
 	zephir_read_property_this(&connection, this_ptr, SL("_connection"), PH_NOISY_CC);

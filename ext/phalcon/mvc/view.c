@@ -800,6 +800,7 @@ PHP_METHOD(Phalcon_Mvc_View, _loadTemplateEngines) {
 					if (zephir_instance_of_ev(engineService, zend_ce_closure TSRMLS_CC)) {
 						ZEPHIR_INIT_NVAR(_5);
 						ZEPHIR_CALL_USER_FUNC_ARRAY(_5, engineService, arguments);
+						zephir_check_call_status();
 						zephir_array_update_zval(&engines, extension, &_5, PH_COPY | PH_SEPARATE);
 					} else {
 						zephir_array_update_zval(&engines, extension, &engineService, PH_COPY | PH_SEPARATE);
@@ -1413,6 +1414,7 @@ PHP_METHOD(Phalcon_Mvc_View, getRender) {
 		array_init_size(_1, 2);
 		zephir_array_fast_append(_1, view);
 		ZEPHIR_CALL_USER_FUNC_ARRAY(_0, configCallback, _1);
+		zephir_check_call_status();
 	}
 	ZEPHIR_CALL_METHOD(NULL, view, "start", NULL);
 	zephir_check_call_status();

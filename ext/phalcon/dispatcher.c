@@ -783,6 +783,7 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch) {
 		zephir_array_fast_append(_10, handler);
 		zephir_array_fast_append(_10, actionMethod);
 		ZEPHIR_CALL_USER_FUNC_ARRAY(_1, _10, params);
+		zephir_check_call_status();
 		zephir_update_property_this(this_ptr, SL("_returnedValue"), _1 TSRMLS_CC);
 		zephir_update_property_this(this_ptr, SL("_lastHandler"), handler TSRMLS_CC);
 		if (Z_TYPE_P(eventsManager) == IS_OBJECT) {

@@ -229,6 +229,7 @@ PHP_METHOD(Phalcon_Filter, _sanitize) {
 			array_init_size(_1, 2);
 			zephir_array_fast_append(_1, value);
 			ZEPHIR_CALL_USER_FUNC_ARRAY(return_value, filterObject, _1);
+			zephir_check_call_status();
 			RETURN_MM();
 		}
 		ZEPHIR_RETURN_CALL_METHOD(filterObject, "filter", NULL, value);

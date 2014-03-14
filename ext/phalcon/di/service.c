@@ -270,6 +270,7 @@ PHP_METHOD(Phalcon_Di_Service, resolve) {
 				ZEPHIR_INIT_BNVAR(instance);
 				if (Z_TYPE_P(parameters) == IS_ARRAY) {
 					ZEPHIR_CALL_USER_FUNC_ARRAY(instance, definition, parameters);
+					zephir_check_call_status();
 				} else {
 					ZEPHIR_CALL_FUNCTION(&instance, "call_user_func", &_1, definition);
 					zephir_check_call_status();

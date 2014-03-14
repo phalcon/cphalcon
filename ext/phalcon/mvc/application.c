@@ -391,6 +391,7 @@ PHP_METHOD(Phalcon_Mvc_Application, handle) {
 				array_init_size(_6, 2);
 				zephir_array_fast_append(_6, dependencyInjector);
 				ZEPHIR_CALL_USER_FUNC_ARRAY(moduleObject, module, _6);
+				zephir_check_call_status();
 			} else {
 				ZEPHIR_THROW_EXCEPTION_STR(phalcon_mvc_application_exception_ce, "Invalid module definition");
 				return;

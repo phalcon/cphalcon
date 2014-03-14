@@ -708,6 +708,7 @@ PHP_METHOD(Phalcon_Assets_Manager, output) {
 			zephir_array_append(&parameters, local, PH_SEPARATE);
 			ZEPHIR_INIT_NVAR(html);
 			ZEPHIR_CALL_USER_FUNC_ARRAY(html, callback, parameters);
+			zephir_check_call_status();
 			if (ZEPHIR_IS_TRUE(useImplicitOutput)) {
 				zend_print_zval(html, 0);
 			} else {
@@ -790,6 +791,7 @@ PHP_METHOD(Phalcon_Assets_Manager, output) {
 			zephir_array_append(&parameters, local, PH_SEPARATE);
 			ZEPHIR_INIT_NVAR(html);
 			ZEPHIR_CALL_USER_FUNC_ARRAY(html, callback, parameters);
+			zephir_check_call_status();
 			if (ZEPHIR_IS_TRUE(useImplicitOutput)) {
 				zend_print_zval(html, 0);
 			} else {
@@ -823,6 +825,7 @@ PHP_METHOD(Phalcon_Assets_Manager, output) {
 			zephir_array_append(&parameters, local, PH_SEPARATE);
 			ZEPHIR_INIT_NVAR(html);
 			ZEPHIR_CALL_USER_FUNC_ARRAY(html, callback, parameters);
+			zephir_check_call_status();
 			if (ZEPHIR_IS_TRUE(useImplicitOutput)) {
 				zend_print_zval(html, 0);
 			} else {

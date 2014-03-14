@@ -335,13 +335,14 @@ PHP_METHOD(Phalcon_Events_Manager, fireQueue) {
 				if (zephir_instance_of_ev(handler, zend_ce_closure TSRMLS_CC)) {
 					if (Z_TYPE_P(arguments) == IS_NULL) {
 						ZEPHIR_INIT_NVAR(arguments);
-						array_init_size(arguments, 5);
+						array_init_size(arguments, 4);
 						zephir_array_fast_append(arguments, event);
 						zephir_array_fast_append(arguments, source);
 						zephir_array_fast_append(arguments, data);
 					}
 					ZEPHIR_INIT_NVAR(status);
 					ZEPHIR_CALL_USER_FUNC_ARRAY(status, handler, arguments);
+					zephir_check_call_status();
 					if (collect) {
 						zephir_update_property_array_append(this_ptr, SL("_responses"), status TSRMLS_CC);
 					}
@@ -380,13 +381,14 @@ PHP_METHOD(Phalcon_Events_Manager, fireQueue) {
 				if (zephir_instance_of_ev(handler, zend_ce_closure TSRMLS_CC)) {
 					if (Z_TYPE_P(arguments) == IS_NULL) {
 						ZEPHIR_INIT_NVAR(arguments);
-						array_init_size(arguments, 5);
+						array_init_size(arguments, 4);
 						zephir_array_fast_append(arguments, event);
 						zephir_array_fast_append(arguments, source);
 						zephir_array_fast_append(arguments, data);
 					}
 					ZEPHIR_INIT_NVAR(status);
 					ZEPHIR_CALL_USER_FUNC_ARRAY(status, handler, arguments);
+					zephir_check_call_status();
 					if (collect) {
 						zephir_update_property_array_append(this_ptr, SL("_responses"), status TSRMLS_CC);
 					}

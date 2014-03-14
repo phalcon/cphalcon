@@ -156,7 +156,7 @@ PHP_METHOD(Phalcon_Mvc_Router, __construct) {
 		ZEPHIR_INIT_VAR(_4);
 		object_init_ex(_4, phalcon_mvc_router_route_ce);
 		ZEPHIR_INIT_VAR(_5);
-		array_init_size(_5, 5);
+		array_init_size(_5, 4);
 		add_assoc_long_ex(_5, SS("controller"), 1);
 		add_assoc_long_ex(_5, SS("action"), 2);
 		add_assoc_long_ex(_5, SS("params"), 3);
@@ -619,11 +619,12 @@ PHP_METHOD(Phalcon_Mvc_Router, handle) {
 				}
 				ZEPHIR_INIT_NVAR(routeFound);
 				ZEPHIR_INIT_NVAR(_9);
-				array_init_size(_9, 5);
+				array_init_size(_9, 4);
 				zephir_array_fast_append(_9, handledUri);
 				zephir_array_fast_append(_9, route);
 				zephir_array_fast_append(_9, this_ptr);
 				ZEPHIR_CALL_USER_FUNC_ARRAY(routeFound, beforeMatch, _9);
+				zephir_check_call_status();
 			}
 		}
 		if (zephir_is_true(routeFound)) {
@@ -650,6 +651,7 @@ PHP_METHOD(Phalcon_Mvc_Router, handle) {
 								array_init_size(_9, 2);
 								zephir_array_fast_append(_9, matchPosition);
 								ZEPHIR_CALL_USER_FUNC_ARRAY(_7, converter, _9);
+								zephir_check_call_status();
 								zephir_array_update_zval(&parts, part, &_7, PH_COPY | PH_SEPARATE);
 								continue;
 							}
@@ -664,6 +666,7 @@ PHP_METHOD(Phalcon_Mvc_Router, handle) {
 								array_init_size(_14, 2);
 								zephir_array_fast_append(_14, position);
 								ZEPHIR_CALL_USER_FUNC_ARRAY(_13, converter, _14);
+								zephir_check_call_status();
 								zephir_array_update_zval(&parts, part, &_13, PH_COPY | PH_SEPARATE);
 							}
 						}

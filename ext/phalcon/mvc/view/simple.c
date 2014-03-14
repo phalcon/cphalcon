@@ -225,6 +225,7 @@ PHP_METHOD(Phalcon_Mvc_View_Simple, _loadTemplateEngines) {
 					if (zephir_instance_of_ev(engineService, zend_ce_closure TSRMLS_CC)) {
 						ZEPHIR_INIT_NVAR(engineObject);
 						ZEPHIR_CALL_USER_FUNC_ARRAY(engineObject, engineService, arguments);
+						zephir_check_call_status();
 					} else {
 						ZEPHIR_CPY_WRT(engineObject, engineService);
 					}

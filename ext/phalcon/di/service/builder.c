@@ -358,6 +358,7 @@ PHP_METHOD(Phalcon_Di_Service_Builder, build) {
 					ZEPHIR_CALL_METHOD(&_0, this_ptr, "_buildparameters", &_1, dependencyInjector, arguments);
 					zephir_check_call_status();
 					ZEPHIR_CALL_USER_FUNC_ARRAY(_10, methodCall, _0);
+					zephir_check_call_status();
 					continue;
 				}
 			}

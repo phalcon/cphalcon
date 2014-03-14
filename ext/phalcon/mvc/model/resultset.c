@@ -658,6 +658,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, delete) {
 			array_init_size(_6, 2);
 			zephir_array_fast_append(_6, record);
 			ZEPHIR_CALL_USER_FUNC_ARRAY(_5, conditionCallback, _6);
+			zephir_check_call_status();
 			if (ZEPHIR_IS_FALSE(_5)) {
 				continue;
 			}
@@ -723,6 +724,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, filter) {
 		zephir_array_update_long(&parameters, 0, &record, PH_COPY | PH_SEPARATE, "phalcon/mvc/model/resultset.zep", 512);
 		ZEPHIR_INIT_NVAR(processedRecord);
 		ZEPHIR_CALL_USER_FUNC_ARRAY(processedRecord, filter, parameters);
+		zephir_check_call_status();
 		if (Z_TYPE_P(processedRecord) != IS_OBJECT) {
 			if (Z_TYPE_P(processedRecord) != IS_ARRAY) {
 				continue;
