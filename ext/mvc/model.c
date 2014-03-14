@@ -6790,9 +6790,8 @@ PHP_METHOD(Phalcon_Mvc_Model, remove){
 
 	zval *parameters = NULL;
 	zval *dependency_injector = NULL, *model_name, *manager, *model = NULL, *write_connection = NULL, *schema = NULL, *source = NULL, *table = NULL;
-	zval *delete_conditions = NULL, *check_foreign_keys = NULL;
-	zval *bind_params = NULL, *bind_types = NULL;
-	zval *event_name = NULL, *success = NULL;
+	zval *delete_conditions = NULL, *bind_params = NULL, *bind_types = NULL;
+	zval *success = NULL;
 
 	PHALCON_MM_GROW();
 
