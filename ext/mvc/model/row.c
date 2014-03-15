@@ -128,6 +128,58 @@ static zval* phalcon_mvc_model_row_read_dimension(zval *object, zval *offset, in
 }
 
 /**
+ * @brief @c read_property handler, used instead of @c __get() magic method
+ */
+static zval* phalcon_mvc_model_row_read_property(zval *object, zval *offset, int type ZLK_DC TSRMLS_DC)
+{
+	phalcon_mvc_model_row_object* obj = phalcon_mvc_model_row_get_object(object TSRMLS_CC);
+	zval **ret;
+
+	if (!is_phalcon_class(obj->obj.ce)) {
+		if (BP_VAR_IS == type && !zend_get_std_object_handlers()->has_property(object, offset, 0 ZLK_CC TSRMLS_CC)) {
+			return EG(uninitialized_zval_ptr);
+		}
+
+		return zend_get_std_object_handlers()->read_property(object, offset, type ZLK_CC TSRMLS_CC);
+	}
+
+	ret = phalcon_hash_get(obj->props, offset, type);
+	if (ret) {
+		return *ret;
+	}
+
+	zend_throw_exception_ex(phalcon_mvc_model_exception_ce, 0 TSRMLS_CC, "The property does not exist in the row");
+	return NULL;
+}
+
+/**
+ * @brief @c write_property handler, used instead of @c __set() magic method
+ */
+static void phalcon_mvc_model_row_write_property(zval *object, zval *offset, zval *value ZLK_DC TSRMLS_DC)
+{
+	phalcon_mvc_model_row_object* obj = phalcon_mvc_model_row_get_object(object TSRMLS_CC);
+
+	if (!is_phalcon_class(obj->obj.ce)) {
+		zend_get_std_object_handlers()->write_property(object, offset, value ZLK_CC TSRMLS_CC);
+		return;
+	}
+
+	phalcon_hash_update_or_insert(obj->props, offset, value);	
+}
+
+static void phalcon_mvc_model_row_unset_property(zval *object, zval *member ZLK_DC TSRMLS_DC)
+{
+	phalcon_mvc_model_row_object* obj = phalcon_mvc_model_row_get_object(object TSRMLS_CC);
+
+	if (!is_phalcon_class(obj->obj.ce)) {
+		zend_get_std_object_handlers()->unset_property(object, member ZLK_CC TSRMLS_CC);
+		return;
+	}
+
+	phalcon_hash_unset(obj->props, key);
+}
+
+/**
  * @brief @c write_dimension handler, used instead of @c offsetSet() method
  */
 static void phalcon_mvc_model_row_write_dimension(zval *object, zval *offset, zval *value TSRMLS_DC)
@@ -140,6 +192,23 @@ static void phalcon_mvc_model_row_write_dimension(zval *object, zval *offset, zv
 	}
 
 	zend_throw_exception_ex(phalcon_mvc_model_exception_ce, 0 TSRMLS_CC, "Phalcon\\Mvc\\Row is an immutable ArrayAccess object");
+}
+
+static int phalcon_mvc_model_row_has_property(zval *object, zval *offset, int has_set_exists ZLK_DC TSRMLS_DC)
+{
+	phalcon_mvc_model_row_object* obj = phalcon_mvc_model_row_get_object(object TSRMLS_CC);
+	zval **tmp;
+
+	if (!is_phalcon_class(obj->obj.ce)) {
+		return zend_get_std_object_handlers()->has_property(object, offset, has_set_exists ZLK_CC TSRMLS_CC);
+	}
+
+	tmp = phalcon_hash_get(obj->props, offset, BP_VAR_NA);
+	if (!tmp) {
+		return 0;
+	}
+
+	return Z_TYPE_PP(tmp) != IS_NULL;	
 }
 
 static int phalcon_mvc_model_row_has_dimension(zval *object, zval *offset, int check_empty TSRMLS_DC)
@@ -279,6 +348,10 @@ PHALCON_INIT_CLASS(Phalcon_Mvc_Model_Row){
 	phalcon_mvc_model_row_ce->create_object = phalcon_mvc_model_row_object_ctor;
 
 	phalcon_mvc_model_row_object_handlers = *zend_get_std_object_handlers();
+	phalcon_mvc_model_row_object_handlers.read_property   = phalcon_mvc_model_row_read_property;
+	phalcon_mvc_model_row_object_handlers.write_property  = phalcon_mvc_model_row_write_property;
+	phalcon_mvc_model_row_object_handlers.unset_property  = phalcon_mvc_model_row_unset_property;
+	phalcon_mvc_model_row_object_handlers.has_property    = phalcon_mvc_model_row_has_property;
 	phalcon_mvc_model_row_object_handlers.count_elements  = phalcon_mvc_model_row_count_elements;
 	phalcon_mvc_model_row_object_handlers.read_dimension  = phalcon_mvc_model_row_read_dimension;
 	phalcon_mvc_model_row_object_handlers.write_dimension = phalcon_mvc_model_row_write_dimension;
