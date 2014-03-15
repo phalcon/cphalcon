@@ -6791,10 +6791,10 @@ PHP_METHOD(Phalcon_Mvc_Model, remove){
 
 	zval *parameters = NULL;
 	zval *dependency_injector = NULL, *model_name, *manager, *model = NULL, *write_connection = NULL;
-	zval *schema = NULL, *source = NULL, *table = NULL;
+	zval *schema = NULL, *source = NULL;
 	zval *delete_conditions = NULL, *bind_params = NULL, *bind_types = NULL;
-	zval *query, *type_delete, *intermediate = NULL, *dialect = NULL;
-	zval *phql, *sql = NULL, *table_conditions, *table_expression = NULL, *where_conditions, *where_expression = NULL, *success = NULL;
+	zval *query, *phql, *intermediate = NULL, *dialect = NULL;
+	zval *table_conditions, *where_conditions, *where_expression = NULL, *success = NULL;
 
 	PHALCON_MM_GROW();
 
@@ -6885,8 +6885,6 @@ PHP_METHOD(Phalcon_Mvc_Model, remove){
 	}
 
 	PHALCON_CALL_METHOD(&dialect, write_connection, "getdialect");
-
-	//PHALCON_CALL_METHOD(&table_expression, dialect, "getsqltable", table_conditions);
 
 	if (phalcon_array_isset_string_fetch(&where_conditions, intermediate, SS("where"))) {		
 		if (Z_TYPE_P(where_conditions) == IS_ARRAY) { 
