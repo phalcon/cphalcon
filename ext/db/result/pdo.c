@@ -57,6 +57,7 @@ PHP_METHOD(Phalcon_Db_Result_Pdo, numRows);
 PHP_METHOD(Phalcon_Db_Result_Pdo, dataSeek);
 PHP_METHOD(Phalcon_Db_Result_Pdo, setFetchMode);
 PHP_METHOD(Phalcon_Db_Result_Pdo, getInternalResult);
+PHP_METHOD(Phalcon_Db_Result_Pdo, nextRowset);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_result___construct, 0, 0, 2)
 	ZEND_ARG_INFO(0, connection)
@@ -76,6 +77,7 @@ static const zend_function_entry phalcon_db_result_pdo_method_entry[] = {
 	PHP_ME(Phalcon_Db_Result_Pdo, dataSeek, arginfo_phalcon_db_resultinterface_dataseek, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Db_Result_Pdo, setFetchMode, arginfo_phalcon_db_resultinterface_setfetchmode, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Db_Result_Pdo, getInternalResult, arginfo_phalcon_db_resultinterface_getinternalresult, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Db_Result_Pdo, nextRowset, NULL, ZEND_ACC_PUBLIC)
 	PHP_FE_END
 };
 
@@ -467,5 +469,22 @@ PHP_METHOD(Phalcon_Db_Result_Pdo, getInternalResult){
 
 
 	RETURN_MEMBER(this_ptr, "_pdoStatement");
+}
+
+/**
+ * Advances to the next rowset in a multi-rowset statement handle
+ *
+ * @return boolean
+ */
+PHP_METHOD(Phalcon_Db_Result_Pdo, nextRowset){
+
+	zval *pdo_statement;
+
+	PHALCON_MM_GROW();
+
+	pdo_statement = phalcon_fetch_nproperty_this(this_ptr, SL("_pdoStatement"), PH_NOISY TSRMLS_CC);
+	PHALCON_RETURN_CALL_METHOD(pdo_statement, "nextrowset");
+
+	RETURN_MM();
 }
 
