@@ -25,6 +25,7 @@
 #include "mvc/model/message.h"
 #include "mvc/model/metadatainterface.h"
 #include "mvc/model/query/builder.h"
+#include "mvc/model/query.h"
 #include "mvc/model/resultinterface.h"
 #include "mvc/model/validationfailed.h"
 #include "mvc/model/validatorinterface.h"
@@ -6791,7 +6792,7 @@ PHP_METHOD(Phalcon_Mvc_Model, remove){
 	zval *parameters = NULL;
 	zval *dependency_injector = NULL, *model_name, *manager, *model = NULL, *write_connection = NULL, *schema = NULL, *source = NULL, *table = NULL;
 	zval *delete_conditions = NULL, *bind_params = NULL, *bind_types = NULL;
-	zval *success = NULL;
+	zval *query, *type_delete, *intermediate = NULL, *dialect = NULL, *phql, *sql = NULL, *success = NULL;
 
 	PHALCON_MM_GROW();
 
@@ -6811,16 +6812,13 @@ PHP_METHOD(Phalcon_Mvc_Model, remove){
 	PHALCON_CALL_METHOD(NULL, manager, "setdi", dependency_injector);
 
 	PHALCON_CALL_METHOD(&model, manager, "load", model_name);
-	PHALCON_CALL_METHOD(&write_connection, model, "getwriteconnection");
 
 	PHALCON_CALL_METHOD(&schema, model, "getschema");
 	PHALCON_CALL_METHOD(&source, model, "getsource");
 
 	if (zend_is_true(schema)) {
 		PHALCON_INIT_VAR(table);
-		array_init_size(table, 2);
-		phalcon_array_append(&table, schema, 0);
-		phalcon_array_append(&table, source, 0);
+		PHALCON_CONCAT_VSV(table, schema, ".", source);
 	} else {
 		PHALCON_CPY_WRT(table, source);
 	}
@@ -6860,10 +6858,27 @@ PHP_METHOD(Phalcon_Mvc_Model, remove){
 		}
 	}
 
-	/**
-	 * Execute the query passing the bind-params and casting-types
+	/** 
+	 * Process the PHQL
 	 */
-	PHALCON_CALL_METHOD(&success, write_connection, "delete", table, delete_conditions, bind_params, bind_types);
+	PHALCON_INIT_VAR(phql);
+	if (PHALCON_IS_NOT_EMPTY(delete_conditions)) {
+		PHALCON_CONCAT_SVSV(phql, "DELETE FROM ", model_name, " WHERE ", delete_conditions);
+	} else {
+		PHALCON_CONCAT_SV(phql, "DELETE FROM ", model_name);
+	}
 	
-	RETURN_CTOR(success);
+	PHALCON_INIT_VAR(query);
+	object_init_ex(query, phalcon_mvc_model_query_ce);
+	PHALCON_CALL_METHOD(NULL, query, "__construct", phql, dependency_injector);
+
+	PHALCON_CALL_METHOD(&intermediate, query, "parse");
+
+	PHALCON_INIT_VAR(type_delete);
+	ZVAL_LONG(type_delete, 303);
+	PHALCON_CALL_METHOD(NULL, query, "settype", type_delete);
+
+	PHALCON_RETURN_CALL_METHOD(query, "execute", bind_params, bind_types);
+
+	RETURN_MM();
 }
