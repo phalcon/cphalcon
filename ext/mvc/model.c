@@ -2239,20 +2239,33 @@ PHP_METHOD(Phalcon_Mvc_Model, appendMessage){
  *</code>
  *
  * @param object $validator
+ * @param boolean $allow_empty
  * @return Phalcon\Mvc\Model
  */
 PHP_METHOD(Phalcon_Mvc_Model, validate){
 
-	zval *validator, *status = NULL, *messages = NULL, *errors, *new_errors;
+	zval *validator, *allow_empty = NULL, *status = NULL, *messages = NULL, *errors, *new_errors;
 
 	PHALCON_MM_GROW();
 
-	phalcon_fetch_params(1, 1, 0, &validator);
+	phalcon_fetch_params(1, 1, 1, &validator, &allow_empty);
 	
 	/** 
 	 * Valid validators are objects
 	 */
 	PHALCON_VERIFY_INTERFACE_EX(validator, phalcon_mvc_model_validatorinterface_ce, phalcon_mvc_model_exception_ce, 1);
+
+	if (allow_empty && zend_is_true(allow_empty)) {
+		PHALCON_INIT_VAR(option);
+		ZVAL_STRING(option, "field", 1);
+
+		PHALCON_CALL_METHOD(&field_name, validator, "getoption", option);
+		PHALCON_CALL_METHOD(&value, this_ptr, "readattribute", field_name);
+
+		if (PHALCON_IS_EMPTY(value)) {
+			RETURN_THIS();
+		}
+	}
 	
 	/** 
 	 * Call the validation, if it returns false we append the messages to the current
