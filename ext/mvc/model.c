@@ -6790,9 +6790,11 @@ PHP_METHOD(Phalcon_Mvc_Model, setup){
 PHP_METHOD(Phalcon_Mvc_Model, remove){
 
 	zval *parameters = NULL;
-	zval *dependency_injector = NULL, *model_name, *manager, *model = NULL, *write_connection = NULL, *schema = NULL, *source = NULL, *table = NULL;
+	zval *dependency_injector = NULL, *model_name, *manager, *model = NULL, *write_connection = NULL;
+	zval *schema = NULL, *source = NULL, *table = NULL;
 	zval *delete_conditions = NULL, *bind_params = NULL, *bind_types = NULL;
-	zval *query, *type_delete, *intermediate = NULL, *dialect = NULL, *phql, *sql = NULL, *success = NULL;
+	zval *query, *type_delete, *intermediate = NULL, *dialect = NULL;
+	zval *phql, *sql = NULL, *table_conditions, *table_expression = NULL, *where_conditions, *where_expression = NULL, *success = NULL;
 
 	PHALCON_MM_GROW();
 
@@ -6816,12 +6818,10 @@ PHP_METHOD(Phalcon_Mvc_Model, remove){
 	PHALCON_CALL_METHOD(&schema, model, "getschema");
 	PHALCON_CALL_METHOD(&source, model, "getsource");
 
-	if (zend_is_true(schema)) {
-		PHALCON_INIT_VAR(table);
-		PHALCON_CONCAT_VSV(table, schema, ".", source);
-	} else {
-		PHALCON_CPY_WRT(table, source);
-	}
+	PHALCON_INIT_VAR(table_conditions);
+	array_init_size(table_conditions, 2);
+	phalcon_array_append(&table_conditions, schema, 0);
+	phalcon_array_append(&table_conditions, source, 0);
 
 	PHALCON_INIT_VAR(delete_conditions);
 	PHALCON_INIT_VAR(bind_params);
@@ -6874,11 +6874,33 @@ PHP_METHOD(Phalcon_Mvc_Model, remove){
 
 	PHALCON_CALL_METHOD(&intermediate, query, "parse");
 
-	PHALCON_INIT_VAR(type_delete);
-	ZVAL_LONG(type_delete, 303);
-	PHALCON_CALL_METHOD(NULL, query, "settype", type_delete);
+	if (phalcon_method_exists_ex(model, SS("selectwriteconnection") TSRMLS_CC) == SUCCESS) {
+		PHALCON_CALL_METHOD(&write_connection, model, "selectwriteconnection", intermediate, bind_params, bind_types);
+		if (Z_TYPE_P(write_connection) != IS_OBJECT) {
+			PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "'selectWriteConnection' didn't returned a valid connection");
+			return;
+		}
+	} else {
+		PHALCON_CALL_METHOD(&write_connection, model, "getwriteconnection");
+	}
 
-	PHALCON_RETURN_CALL_METHOD(query, "execute", bind_params, bind_types);
+	PHALCON_CALL_METHOD(&dialect, write_connection, "getdialect");
 
-	RETURN_MM();
+	//PHALCON_CALL_METHOD(&table_expression, dialect, "getsqltable", table_conditions);
+
+	if (phalcon_array_isset_string_fetch(&where_conditions, intermediate, SS("where"))) {		
+		if (Z_TYPE_P(where_conditions) == IS_ARRAY) { 
+			PHALCON_CALL_METHOD(&where_expression, dialect, "getsqlexpression", where_conditions);
+		} else {
+			PHALCON_CPY_WRT(where_expression, where_conditions);
+		}
+	}
+
+	PHALCON_CALL_METHOD(&success, write_connection, "delete", table_conditions, where_expression, bind_params, bind_types);
+
+	if (PHALCON_IS_TRUE(success)) {
+		PHALCON_CALL_METHOD(&success, write_connection, "affectedRows");
+	}
+
+	RETURN_CTOR(success);
 }
