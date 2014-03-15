@@ -281,6 +281,7 @@
 #include "mvc/model/validator/stringlength.h"
 #include "mvc/model/validator/uniqueness.h"
 #include "mvc/model/validator/url.h"
+#include "mvc/model/validator/json.h"
 #include "mvc/moduledefinitioninterface.h"
 #include "mvc/router.h"
 #include "mvc/routerinterface.h"
@@ -345,6 +346,9 @@
 #include "translate/exception.h"
 
 #include "text.h"
+#include "arr.h"
+
+#include "date.h"
 
 #include "validation.h"
 #include "validation/exception.h"
