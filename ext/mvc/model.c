@@ -2245,6 +2245,7 @@ PHP_METHOD(Phalcon_Mvc_Model, appendMessage){
 PHP_METHOD(Phalcon_Mvc_Model, validate){
 
 	zval *validator, *allow_empty = NULL, *status = NULL, *messages = NULL, *errors, *new_errors;
+	zval *option, *field_name = NULL, *value = NULL;
 
 	PHALCON_MM_GROW();
 
