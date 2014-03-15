@@ -92,7 +92,7 @@ fi
 
 if try_gcc_options -march=native; then
     echo "Warning: Your compiler supports the -march=native option which you may prefer" >&2
-    #gcc -march=native --verbose -xc /dev/null 2>&1 | sed -n 's|.*/dev/null \(-march.*-mtune[^ ]*\).*|\1|p' >&2
+    gcc -march=native --verbose -xc /dev/null 2>&1 | sed -n 's|.*/dev/null \(-march.*-mtune[^ ]*\).*|\1|p' >&2
 fi
 
 #if ! try_gcc_options -march=i386; then
