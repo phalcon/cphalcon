@@ -164,6 +164,7 @@ static void phalcon_mvc_model_row_write_property(zval *object, zval *offset, zva
 		return;
 	}
 
+	Z_ADDREF_P(value);
 	phalcon_hash_update_or_insert(obj->props, offset, value);	
 }
 
