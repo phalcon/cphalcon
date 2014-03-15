@@ -176,7 +176,7 @@ static void phalcon_mvc_model_row_unset_property(zval *object, zval *member ZLK_
 		return;
 	}
 
-	phalcon_hash_unset(obj->props, key);
+	phalcon_hash_unset(obj->props, member);
 }
 
 /**
