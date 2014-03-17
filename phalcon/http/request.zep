@@ -378,6 +378,8 @@ class Request implements \Phalcon\Http\RequestInterface, \Phalcon\Di\InjectionAw
 		if typeof rawBody == "string" {
 			return json_decode(rawBody);
 		}
+		
+		return false;
 	}
 
 	/**
