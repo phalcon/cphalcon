@@ -1,4 +1,3 @@
-
 /*
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
@@ -5076,7 +5075,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, execute){
  *
  * @param array $bindParams
  * @param array $bindTypes
- * @return Ṕhalcon\Mvc\ModelInterface
+ * @return \Phalcon\Mvc\ModelInterface
  */
 PHP_METHOD(Phalcon_Mvc_Model_Query, getSingleResult){
 
