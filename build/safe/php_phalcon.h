@@ -20,7 +20,6 @@
 #ifndef PHP_PHALCON_H
 #define PHP_PHALCON_H
 
-<<<<<<< HEAD
 #ifdef HAVE_CONFIG_H
 #include "config.h"
 #endif
@@ -31,9 +30,6 @@
 #endif
 
 #define PHP_PHALCON_VERSION "1.3.0"
-=======
-#define PHP_PHALCON_VERSION "1.2.6"
->>>>>>> master
 #define PHP_PHALCON_EXTNAME "phalcon"
 
 /** Memory frame */
