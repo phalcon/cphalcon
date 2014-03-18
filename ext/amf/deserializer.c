@@ -29,7 +29,9 @@
 #include "kernel/main.h"
 #include "kernel/exception.h"
 #include "kernel/object.h"
+#include "kernel/array.h"
 #include "kernel/fcall.h"
+
 
 /**
  * Phalcon\Amf
@@ -547,7 +549,7 @@ PHP_METHOD(Phalcon_Amf_Deserializer, readData){
 			break;
 		case 0X0B: // date
 			break;
-		case 0X0C: // string, strlen(string) > 2^16
+		case 0X0C: // string, lenval(string) > 2^16
 			PHALCON_RETURN_CALL_SELFW("readlongutf");
 			break;
 		case 0X0D: // mainly internal AS objects
@@ -569,9 +571,9 @@ PHP_METHOD(Phalcon_Amf_Deserializer, readAmf3Int){
 	zval *byte = NULL, *tmpbyte = NULL;
 	int i, tmp;
 
-	PHALCON_CALL_SELFW(&type, "readbyte");
+	PHALCON_CALL_SELFW(&byte, "readbyte");
 
-	i = phalcon_get_intval(type);
+	i = phalcon_get_intval(byte);
 
 	if (i < 128) {
 		RETURN_LONG(i);
@@ -610,7 +612,7 @@ PHP_METHOD(Phalcon_Amf_Deserializer, readAmf3Int){
 	// might be 32 bit, 64 bit, 128 bit or whatever - all higher bits need to
 	// be set.
 
-	if ((i & 0x10000000) !== 0) {
+	if ((i & 0x10000000) != 0) {
 		i |= ~0x1fffffff; // extend the sign bit regardless of integer (bit) size
 	}
 
@@ -620,7 +622,7 @@ PHP_METHOD(Phalcon_Amf_Deserializer, readAmf3Int){
 PHP_METHOD(Phalcon_Amf_Deserializer, readAmf3String){
 
 	zval *strrefval = NULL, *storedstrings, *number_storedstrings;
-	zval *str = NULL, *strlen;
+	zval *str = NULL, *lenval;
 	int strref, number, len;
 
 	PHALCON_MM_GROW();
@@ -648,10 +650,10 @@ PHP_METHOD(Phalcon_Amf_Deserializer, readAmf3String){
 	} else {
 		len = strref >> 1;
 		if (len > 0) {
-			PHALCON_INIT_VAR(strlen);
-			ZVAL_LONG(strlen, len);
+			PHALCON_INIT_VAR(lenval);
+			ZVAL_LONG(lenval, len);
 
-			PHALCON_CALL_SELF(&str, "readbuffer", strlen);
+			PHALCON_CALL_SELF(&str, "readbuffer", lenval);
 
 			phalcon_array_append(&storedstrings, str, 0);
 
@@ -695,7 +697,7 @@ PHP_METHOD(Phalcon_Amf_Deserializer, readAmf3Array){
 
 	while(!PHALCON_IS_EMPTY(key)) {
 		PHALCON_CALL_SELFW(&value, "readamf3data");
-		phalcon_array_update_zval(&return_value, &key, value, 0);
+		phalcon_array_update_zval(&return_value, key, value, 0);
 		PHALCON_CALL_SELFW(&key, "readamf3string");
 	}
 
@@ -759,8 +761,8 @@ PHP_METHOD(Phalcon_Amf_Deserializer, readAmf3Object){
 		PHALCON_INIT_VAR(classDefinition);
 		array_init(classDefinition);
 
-		phalcon_array_update_zval(&classDefinition, SL("type"), typeIdentifier, 0);
-		phalcon_array_update_zval(&classDefinition, SL("members"), classMemberDefinitions, 0);
+		phalcon_array_update_string(&classDefinition, SL("type"), typeIdentifier, 0);
+		phalcon_array_update_string(&classDefinition, SL("members"), classMemberDefinitions, 0);
 		phalcon_array_update_string_bool(&classDefinition, SL("externalizable"), externalizable, 0);
 		phalcon_array_update_string_bool(&classDefinition, SL("dynamic"), dynamic, 0);
 
@@ -778,15 +780,16 @@ PHP_METHOD(Phalcon_Amf_Deserializer, readAmf3Object){
 
 PHP_METHOD(Phalcon_Amf_Deserializer, readAmf3Data){
 
-	zval *type = NULL;
+	zval *rawtype = NULL;
+	int type;
 
-	PHALCON_CALL_SELFW(&type, "readbyte");
+	PHALCON_CALL_SELFW(&rawtype, "readbyte");
 
 	type = phalcon_get_intval(rawtype);
 
 	switch (type) {
 		case 0x00:
-			return new Amfphp_Core_Amf_Types_Undefined();
+			RETURN_NULL();
 		case 0x01:
 			RETURN_NULL();
 		case 0x02:
