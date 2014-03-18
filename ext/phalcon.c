@@ -555,6 +555,12 @@ static PHP_MINIT_FUNCTION(phalcon)
 	PHALCON_INIT(Phalcon_Image_Adapter);
 	PHALCON_INIT(Phalcon_Image_Adapter_GD);
 	PHALCON_INIT(Phalcon_Image_Adapter_Imagick);
+	PHALCON_INIT(Phalcon_Amf);
+	PHALCON_INIT(Phalcon_Amf_Header);
+	PHALCON_INIT(Phalcon_Amf_Message);
+	PHALCON_INIT(Phalcon_Amf_Packet);
+	PHALCON_INIT(Phalcon_Amf_Deserializer);
+	PHALCON_INIT(Phalcon_Amf_Exception);
 	PHALCON_INIT(Phalcon_Registry);
 
 #if PHP_VERSION_ID < 50500

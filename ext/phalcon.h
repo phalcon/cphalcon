@@ -185,6 +185,13 @@
 #include "image/adapter/imagick.h"
 #include "image/exception.h"
 
+#include "amf.h"
+#include "amf/header.h"
+#include "amf/message.h"
+#include "amf/packet.h"
+#include "amf/deserializer.h"
+#include "amf/exception.h"
+
 #include "kernel.h"
 
 #include "loader.h"
