@@ -17,6 +17,7 @@
   +------------------------------------------------------------------------+
 */
 
+#include "amf.h"
 #include "amf/deserializer.h"
 #include "amf/header.h"
 #include "amf/message.h"
