@@ -76,7 +76,7 @@ static void phalcon_execute_internal(zend_execute_data *execute_data_ptr, int re
 
 #ifndef PHALCON_RELEASE
 
-static void phalcon_verify_permanent_zvals(int strict TSRMLS_DC)
+/*static void phalcon_verify_permanent_zvals(int strict TSRMLS_DC)
 {
 	int ok = 1;
 	zend_phalcon_globals *pg = PHALCON_VGLOBAL;
@@ -178,7 +178,7 @@ static void phalcon_verify_permanent_zvals(int strict TSRMLS_DC)
 	if (!ok) {
 		abort();
 	}
-}
+}*/
 
 #endif
 
