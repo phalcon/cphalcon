@@ -23221,7 +23221,6 @@ static PHP_METHOD(Phalcon_Validation, getLabel) {
 
 
 
-
 zend_class_entry *phalcon_version_ce;
 
 static PHP_METHOD(Phalcon_Version, _getVersion);
@@ -23248,8 +23247,8 @@ static PHP_METHOD(Phalcon_Version, _getVersion){
 	add_next_index_long(return_value, 1);
 	add_next_index_long(return_value, 3);
 	add_next_index_long(return_value, 0);
-	add_next_index_long(return_value, PHALCON_VERSION_BETA);
-	add_next_index_long(return_value, 1);
+	add_next_index_long(return_value, PHALCON_VERSION_STABLE);
+	add_next_index_long(return_value, 0);
 }
 
 static PHP_METHOD(Phalcon_Version, get){
