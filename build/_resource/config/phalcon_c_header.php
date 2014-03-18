@@ -16,6 +16,8 @@ return <<<HEADER
 
 #include <main/php.h>
 
+#define PHALCON_RELEASE 1
+
 #include "php_phalcon.h"
 #include "phalcon.h"
 
