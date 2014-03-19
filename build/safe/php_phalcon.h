@@ -29,7 +29,7 @@
 #include <TSRM/TSRM.h>
 #endif
 
-#define PHP_PHALCON_VERSION "1.3.0"
+#define PHP_PHALCON_VERSION "1.3.1"
 #define PHP_PHALCON_EXTNAME "phalcon"
 
 /** Memory frame */
