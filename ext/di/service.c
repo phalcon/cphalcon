@@ -376,7 +376,7 @@ PHP_METHOD(Phalcon_DI_Service, resolve){
 
 	zval *parameters = NULL, *dependency_injector = NULL;
 	zval *instance = NULL, *definition, *builder;
-	int found, i;
+	int found;
 	phalcon_di_service_object *obj = phalcon_di_service_get_object(getThis() TSRMLS_CC);
 
 	phalcon_fetch_params(0, 0, 2, &parameters, &dependency_injector);

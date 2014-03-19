@@ -1,3 +1,8 @@
+1.3.1
+ - Fixed segfault in Phalcon\Di\Service::resolve when string class does not exist (#2205)
+ - Moved global zvals to RINIT/RSHUTDOWN to improve stability on Windows TS builds
+ - Moved pre-allocated frames to RINIT/RSHUTDOWN to improve stability on Windows TS builds
+
 1.3.0
  - Make the source code compatible with PHP 5.6-dev and PHP 5.7-dev (#1762)
  - Code cleanup: get rid of compiler warnings, dead code elimination, code deduplication, use static code analysers to eliminate possible bugs
@@ -325,6 +330,9 @@
  - Refactored, improved and optimized build script (#1218)
  - Other bug fixes (#1051, #1131, #1040, #1275, #1392, #1396, #1399, #1425, #1426...)
 
+1.2.6
+ - Phalcon\Security::checkHash() now correctly handles non-bcrypt hashes (#1912)
+
 1.2.5
  - Http\Cookie::__toString() will not throw exceptions (#1427)
  - Phalcon\Http\Cookie::__toString() will return a string value (#1428)
@@ -343,6 +351,15 @@
  - Fix Phalcon\Session\Bag::remove() (#1637)
  - Bug fixes in beanstalkd protocol implementation
  - Phalcon\Paginator\Adapter\Model returns correct results even when page number is incorrect (#1654)
+ - Bug fix: no arguments were passed to beforeMatch handler in Phalcon\Mvc\Router (#1556)
+ - Phalcon\Logger\Adapter::setLogLevel() is honored by transactions (#1716)
+ - Bug fixes in Phalcon\Db\Adapter\Pdo::describeColumns() (#1562)
+ - Phalcon\Session\Adapter::__destruct() now calls session_write_close() (#1624)
+ - Volt: fixed bug in email_filed() (#1723)
+ - Fixed PHP Notices in Phalcon\Debug::onUncaughtException() (#1683)
+ - Phalcon\Logger\Adapter::commit() clears the queue (#1748)
+ - Constant-time string comparison in Phalcon\Security::checkHash() (#1755)
+ - Fix phalcon_escape_multi() to generate valid UTF-8 (#1681)
 
 1.2.4
  - Fixed broken ACL inheritance (#905)
