@@ -58,11 +58,6 @@ PHP_METHOD(Phalcon_Amf_Deserializer, readObject);
 PHP_METHOD(Phalcon_Amf_Deserializer, readArray);
 PHP_METHOD(Phalcon_Amf_Deserializer, readCustomClass);
 PHP_METHOD(Phalcon_Amf_Deserializer, readData);
-PHP_METHOD(Phalcon_Amf_Deserializer, readAmf3Int);
-PHP_METHOD(Phalcon_Amf_Deserializer, readAmf3String);
-PHP_METHOD(Phalcon_Amf_Deserializer, readAmf3Array);
-PHP_METHOD(Phalcon_Amf_Deserializer, readAmf3Object);
-PHP_METHOD(Phalcon_Amf_Deserializer, readAmf3Data);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_amf_deserializer___construct, 0, 0, 1)
 	ZEND_ARG_INFO(0, data)
@@ -89,11 +84,6 @@ static const zend_function_entry phalcon_amf_deserializer_method_entry[] = {
 	PHP_ME(Phalcon_Amf_Deserializer, readArray, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Amf_Deserializer, readCustomClass, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Amf_Deserializer, readData, NULL, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Amf_Deserializer, readAmf3Int, NULL, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Amf_Deserializer, readAmf3String, NULL, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Amf_Deserializer, readAmf3Array, NULL, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Amf_Deserializer, readAmf3Object, NULL, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Amf_Deserializer, readAmf3Data, NULL, ZEND_ACC_PUBLIC)
 	PHP_FE_END
 };
 
@@ -510,17 +500,19 @@ PHP_METHOD(Phalcon_Amf_Deserializer, readCustomClass){
 
 PHP_METHOD(Phalcon_Amf_Deserializer, readData){
 
-	zval *rawtype, *rawpos;
+	zval *rawdata, *rawtype, *rawpos;
 	int type;
 
 	phalcon_fetch_params(0, 1, 0, &rawtype);
 
-	type = phalcon_get_intval(rawtype);
+	rawdata = phalcon_fetch_nproperty_this(this_ptr, SL("_rawData"), PH_NOISY TSRMLS_CC);
 	rawpos = phalcon_fetch_nproperty_this(this_ptr, SL("_rawPos"), PH_NOISY TSRMLS_CC);
+
+	type = phalcon_get_intval(rawtype);
 	
 	switch (type) {
 		case 0x11: //Amf3-specific
-			PHALCON_RETURN_CALL_SELFW("readamf3data");
+			PHALCON_RETURN_CALL_CE_STATIC(phalcon_amf_ce, "decode", rawdata, rawpos);
 			break;
 		case 0: // number
 			PHALCON_RETURN_CALL_SELFW("readdouble");
@@ -564,271 +556,5 @@ PHP_METHOD(Phalcon_Amf_Deserializer, readData){
 		default: // unknown case
 			zend_throw_exception_ex(phalcon_amf_exception_ce, 0 TSRMLS_CC, "Found unhandled type with code: %d", type);
 			break;
-	}
-}
-
-PHP_METHOD(Phalcon_Amf_Deserializer, readAmf3Int){
-
-	zval *byte = NULL, *tmpbyte = NULL;
-	int i, tmp;
-
-	PHALCON_CALL_SELFW(&byte, "readbyte");
-
-	i = phalcon_get_intval(byte);
-
-	if (i < 128) {
-		RETURN_LONG(i);
-	}
-
-	i = (i & 0x7f) << 7;
-
-	PHALCON_CALL_SELFW(&tmpbyte, "readbyte");
-
-	tmp = phalcon_get_intval(tmpbyte);
-
-	if (tmp < 128) {
-		RETURN_LONG(i | tmp);
-	}
-
-	i = (i | (tmp & 0x7f)) << 7;
-
-	PHALCON_CALL_SELFW(&tmpbyte, "readbyte");
-
-	tmp = phalcon_get_intval(tmpbyte);
-
-	if (tmp < 128) {
-		RETURN_LONG(i | tmp);
-	}
-
-	i = (i | (tmp & 0x7f)) << 8;
-
-	PHALCON_CALL_SELFW(&tmpbyte, "readbyte");
-
-	tmp = phalcon_get_intval(tmpbyte);
-
-	i |= tmp;
-
-	// Integers in Amf3 are 29 bit. The MSB (of those 29 bit) is the sign bit.
-	// In order to properly convert that integer to a PHP integer - the system
-	// might be 32 bit, 64 bit, 128 bit or whatever - all higher bits need to
-	// be set.
-
-	if ((i & 0x10000000) != 0) {
-		i |= ~0x1fffffff; // extend the sign bit regardless of integer (bit) size
-	}
-
-	RETURN_LONG(i);
-}
-
-PHP_METHOD(Phalcon_Amf_Deserializer, readAmf3String){
-
-	zval *strrefval = NULL, *storedstrings, *number_storedstrings;
-	zval *str = NULL, *lenval;
-	int strref, number, len;
-
-	PHALCON_MM_GROW();
-
-	storedstrings = phalcon_fetch_nproperty_this(this_ptr, SL("_storedStrings"), PH_NOISY TSRMLS_CC);
-	if (Z_TYPE_P(storedstrings) != IS_ARRAY) {
-		array_init(storedstrings);
-	}
-
-	PHALCON_CALL_SELF(&strrefval, "readamf3int");
-
-	strref = phalcon_get_intval(strrefval);
-
-	PHALCON_INIT_VAR(number_storedstrings);
-	phalcon_fast_count(number_storedstrings, storedstrings TSRMLS_CC);
-
-	number = phalcon_get_intval(number_storedstrings);
-
-	if ((strref & 0x01) == 0) {
-		strref = strref >> 1;
-		if (!phalcon_array_isset_long_fetch(&return_value, storedstrings, strref)) {
-			zend_throw_exception_ex(phalcon_amf_exception_ce, 0 TSRMLS_CC, "Undefined string reference: %d", strref);
-			RETURN_MM();
-		}
-	} else {
-		len = strref >> 1;
-		if (len > 0) {
-			PHALCON_INIT_VAR(lenval);
-			ZVAL_LONG(lenval, len);
-
-			PHALCON_CALL_SELF(&str, "readbuffer", lenval);
-
-			phalcon_array_append(&storedstrings, str, 0);
-
-			phalcon_update_property_this(this_ptr, SL("_storedStrings"), storedstrings TSRMLS_CC);
-		}
-
-		RETURN_CCTOR(str);
-	}
-}
-
-PHP_METHOD(Phalcon_Amf_Deserializer, readAmf3Array){
-
-	zval *handleval = NULL, *storedarrays;
-	zval *key = NULL, *value = NULL;
-	int handle, tmp;
-
-	storedarrays = phalcon_fetch_nproperty_this(this_ptr, SL("_storedArrays"), PH_NOISY TSRMLS_CC);
-
-	if (Z_TYPE_P(storedarrays) != IS_ARRAY) {
-		array_init(storedarrays);
-	}
-
-	PHALCON_CALL_SELFW(&handleval, "readamf3int");
-
-	handle = phalcon_get_intval(handleval);
-
-	tmp = (handle & 1) == 0;
-	
-	handle = handle >> 1;
-
-	if (tmp) {
-		if (!phalcon_array_isset_long_fetch(&return_value, storedarrays, handle)) {
-			zend_throw_exception_ex(phalcon_amf_exception_ce, 0 TSRMLS_CC, "Undefined Array reference: %d", handle);
-			return;
-		}
-	}
-
-	PHALCON_CALL_SELFW(&key, "readamf3string");
-
-	array_init(return_value);
-
-	while(!PHALCON_IS_EMPTY(key)) {
-		PHALCON_CALL_SELFW(&value, "readamf3data");
-		phalcon_array_update_zval(&return_value, key, value, 0);
-		PHALCON_CALL_SELFW(&key, "readamf3string");
-	}
-
-	phalcon_array_append(&storedarrays, return_value, 0);
-
-	phalcon_update_property_this(this_ptr, SL("_storedArrays"), storedarrays TSRMLS_CC);
-
-	RETURN_CCTORW(return_value);
-}
-
-PHP_METHOD(Phalcon_Amf_Deserializer, readAmf3Object){
-
-	zval *handleval = NULL, *storedobjects;
-	zval *typeIdentifier = NULL, *classDefinition, *classMemberDefinitions, *member = NULL;
-	int handle, tmp, inlineClassDef, typeObject, externalizable, dynamic, memberCount;
-
-	PHALCON_MM_GROW();
-
-	storedobjects = phalcon_fetch_nproperty_this(this_ptr, SL("_storedObjects"), PH_NOISY TSRMLS_CC);
-
-	if (Z_TYPE_P(storedobjects) != IS_ARRAY) {
-		array_init(storedobjects);
-	}
-
-	PHALCON_CALL_SELF(&handleval, "readamf3int");
-
-	handle = phalcon_get_intval(handleval);
-
-	tmp = (handle & 1) == 0;
-
-	handle = handle >> 1;
-
-	if (tmp) {
-		if (!phalcon_array_isset_long_fetch(&return_value, storedobjects, handle)) {
-			zend_throw_exception_ex(phalcon_amf_exception_ce, 0 TSRMLS_CC, "Undefined Object reference: %d", handle);
-			RETURN_MM();
-		}
-	}
-
-	//an inline object
-	inlineClassDef = ((handle & 1) != 0);
-	handle = handle >> 1;
-
-	if (inlineClassDef) {
-		PHALCON_CALL_SELF(&typeIdentifier, "readamf3string");
-
-		typeObject = !PHALCON_IS_EMPTY(typeIdentifier);
-		externalizable = ((handle & 1) != 0);
-		handle = handle >> 1;
-		dynamic = ((handle & 1) != 0);
-		handle = handle >> 1;
-		memberCount = handle;
-
-		PHALCON_INIT_VAR(classMemberDefinitions);
-		array_init_size(classMemberDefinitions, memberCount);
-		for (tmp = 0; tmp < memberCount; tmp++) {
-			PHALCON_CALL_SELF(&member, "readamf3string");
-			phalcon_array_append(&classMemberDefinitions, member, 0);
-		}
-        
-		PHALCON_INIT_VAR(classDefinition);
-		array_init(classDefinition);
-
-		phalcon_array_update_string(&classDefinition, SL("type"), typeIdentifier, 0);
-		phalcon_array_update_string(&classDefinition, SL("members"), classMemberDefinitions, 0);
-		phalcon_array_update_string_bool(&classDefinition, SL("externalizable"), externalizable, 0);
-		phalcon_array_update_string_bool(&classDefinition, SL("dynamic"), dynamic, 0);
-
-		phalcon_array_append(&storedobjects, classDefinition, 0);
-
-		phalcon_update_property_this(this_ptr, SL("_storedObjects"), storedobjects TSRMLS_CC);
-	} else if (!phalcon_array_isset_long_fetch(&classDefinition, storedobjects, handle)) {
-		zend_throw_exception_ex(phalcon_amf_exception_ce, 0 TSRMLS_CC, "Undefined Object reference: %d", handle);
-		RETURN_MM();
-	}
-
-	PHALCON_MM_RESTORE();
-
-}
-
-PHP_METHOD(Phalcon_Amf_Deserializer, readAmf3Data){
-
-	zval *rawtype = NULL;
-	int type;
-
-	PHALCON_CALL_SELFW(&rawtype, "readbyte");
-
-	type = phalcon_get_intval(rawtype);
-
-	switch (type) {
-		case 0x00:
-			RETURN_NULL();
-		case 0x01:
-			RETURN_NULL();
-		case 0x02:
-			RETURN_FALSE; //boolean false
-		case 0x03:
-			RETURN_TRUE; //boolean true
-		case 0x04:
-			PHALCON_RETURN_CALL_SELFW("readamf3int");
-			break;
-		case 0x05:
-			PHALCON_RETURN_CALL_SELFW("readdouble");
-			break;
-		case 0x06:
-			PHALCON_RETURN_CALL_SELFW("readamf3string");
-			break;
-		case 0x07:
-			break;
-		case 0x08:
-			break;
-		case 0x09:
-			PHALCON_RETURN_CALL_SELFW("readamf3array");
-			break;
-		case 0x0A:
-			PHALCON_RETURN_CALL_SELFW("readamf3Object");
-			break;
-		case 0x0B:
-			break;
-		case 0x0C:
-			break;
-		case 0x0D:
-		case 0x0E:
-		case 0x0F:
-		case 0x10:
-			break;
-		case 0x11 :
-			PHALCON_THROW_EXCEPTION_STR(phalcon_amf_exception_ce, "dictionaries not supported, as it is not possible to use an object as array key in PHP");
-			break;
-		default:
-			zend_throw_exception_ex(phalcon_amf_exception_ce, 0 TSRMLS_CC, "undefined Amf3 type encountered: %d", type);
 	}
 }

@@ -42,6 +42,7 @@ ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_amf_decode, 0, 0, 1)
 	ZEND_ARG_INFO(0, amf3)
+	ZEND_ARG_INFO(0, postion)
 	ZEND_ARG_INFO(0, option)
 ZEND_END_ARG_INFO()
 
@@ -745,20 +746,21 @@ PHP_METHOD(Phalcon_Amf, encode){
  */
 PHP_METHOD(Phalcon_Amf, decode){
 
-	zval *value, *option = NULL;
+	zval *value, *postion = NULL, *option = NULL;
 	HashTable sht, oht, tht;
 	int ofs;
-	long opts;
+	long pos, opts;
 
-	phalcon_fetch_params(0, 1, 1, &value, &option);
+	phalcon_fetch_params(0, 1, 2, &value, &postion, &option);
 
+	pos = postion ? phalcon_get_intval(postion) : 0;
 	opts = option ? phalcon_get_intval(option) : 0;
 
 	zend_hash_init(&sht, 0, NULL, ZVAL_PTR_DTOR, 0);
 	zend_hash_init(&oht, 0, NULL, ZVAL_PTR_DTOR, 0);
 	zend_hash_init(&tht, 0, NULL, phalcon_amf_traits_ptr_dtor, 0);
 
-	ofs = phalcon_amf_decode_value(&return_value, value->value.str.val, 0, Z_STRLEN_P(value), opts, &sht, &oht, &tht TSRMLS_CC);
+	ofs = phalcon_amf_decode_value(&return_value, value->value.str.val, pos, Z_STRLEN_P(value), opts, &sht, &oht, &tht TSRMLS_CC);
 
 	zend_hash_destroy(&sht);
 	zend_hash_destroy(&oht);
