@@ -649,35 +649,28 @@ static PHP_RINIT_FUNCTION(phalcon){
 	zend_hash_init(phalcon_globals_ptr->fcache, 128, NULL, NULL, 1);
 #endif
 
-	phalcon_globals_ptr->register_psr3_classes = 0;
-
 	/* 'Allocator sizeof operand mismatch' warning can be safely ignored */
 	ALLOC_INIT_ZVAL(phalcon_globals_ptr->z_null);
-	INIT_ZVAL(*phalcon_globals_ptr->z_null);
-	Z_ADDREF_P(phalcon_globals_ptr->z_null);
+	Z_SET_REFCOUNT_P(phalcon_globals_ptr->z_null, 2);
 
 	/* 'Allocator sizeof operand mismatch' warning can be safely ignored */
 	ALLOC_INIT_ZVAL(phalcon_globals_ptr->z_false);
-	INIT_PZVAL(phalcon_globals_ptr->z_false);
-	Z_ADDREF_P(phalcon_globals_ptr->z_false);
+	Z_SET_REFCOUNT_P(phalcon_globals_ptr->z_false, 2);
 	ZVAL_FALSE(phalcon_globals_ptr->z_false);
 
 	/* 'Allocator sizeof operand mismatch' warning can be safely ignored */
 	ALLOC_INIT_ZVAL(phalcon_globals_ptr->z_true);
-	INIT_PZVAL(phalcon_globals_ptr->z_true);
-	Z_ADDREF_P(phalcon_globals_ptr->z_true);
+	Z_SET_REFCOUNT_P(phalcon_globals_ptr->z_true, 2);
 	ZVAL_TRUE(phalcon_globals_ptr->z_true);
 
 	/* 'Allocator sizeof operand mismatch' warning can be safely ignored */
 	ALLOC_INIT_ZVAL(phalcon_globals_ptr->z_zero);
-	INIT_PZVAL(phalcon_globals_ptr->z_zero);
-	Z_ADDREF_P(phalcon_globals_ptr->z_zero);
+	Z_SET_REFCOUNT_P(phalcon_globals_ptr->z_zero, 2);
 	ZVAL_LONG(phalcon_globals_ptr->z_zero, 0);
 
 	/* 'Allocator sizeof operand mismatch' warning can be safely ignored */
 	ALLOC_INIT_ZVAL(phalcon_globals_ptr->z_one);
-	INIT_PZVAL(phalcon_globals_ptr->z_one);
-	Z_ADDREF_P(phalcon_globals_ptr->z_one);
+	Z_SET_REFCOUNT_P(phalcon_globals_ptr->z_one, 2);
 	ZVAL_LONG(phalcon_globals_ptr->z_one, 1);
 
 	return SUCCESS;
@@ -761,11 +754,13 @@ static PHP_RSHUTDOWN_FUNCTION(phalcon){
 	//phalcon_verify_permanent_zvals(1 TSRMLS_CC);
 #endif
 
-	zval_ptr_dtor(&phalcon_globals_ptr->z_null);
-	zval_ptr_dtor(&phalcon_globals_ptr->z_false);
-	zval_ptr_dtor(&phalcon_globals_ptr->z_true);
-	zval_ptr_dtor(&phalcon_globals_ptr->z_zero);
-	zval_ptr_dtor(&phalcon_globals_ptr->z_one);
+	for (i = 0; i < 1; i++) {
+		zval_ptr_dtor(&phalcon_globals_ptr->z_null);
+		zval_ptr_dtor(&phalcon_globals_ptr->z_false);
+		zval_ptr_dtor(&phalcon_globals_ptr->z_true);
+		zval_ptr_dtor(&phalcon_globals_ptr->z_zero);
+		zval_ptr_dtor(&phalcon_globals_ptr->z_one);
+	}
 
 	//free(phalcon_globals_ptr->z_null);
 	//free(phalcon_globals_ptr->z_false);

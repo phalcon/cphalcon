@@ -41,6 +41,9 @@ void php_phalcon_init_globals(zend_phalcon_globals *phalcon_globals TSRMLS_DC) {
 	/* Recursive Lock */
 	phalcon_globals->recursive_lock = 0;
 
+	/* PSR-3 classes */
+	phalcon_globals->register_psr3_classes = 0;
+
 	/* ORM options*/
 	phalcon_globals->orm.events = 1;
 	phalcon_globals->orm.virtual_foreign_keys = 1;
