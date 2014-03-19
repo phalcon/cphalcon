@@ -28,6 +28,7 @@
 
 #include "kernel/main.h"
 #include "kernel/exception.h"
+#include "kernel/string.h"
 #include "kernel/object.h"
 #include "kernel/array.h"
 #include "kernel/fcall.h"
@@ -112,7 +113,7 @@ PHALCON_INIT_CLASS(Phalcon_Amf_Deserializer){
  */
 PHP_METHOD(Phalcon_Amf_Deserializer, __construct){
 
-	zval *rawdata, *option;
+	zval *rawdata;
 	zval *packet, *firstByte = NULL, *secondByte = NULL, *elements = NULL;
 	zval *name = NULL, *required = NULL, *type = NULL, *data = NULL, *header = NULL;
 	zval *target = NULL, *response = NULL, *message = NULL;
@@ -228,7 +229,7 @@ PHP_METHOD(Phalcon_Amf_Deserializer, readByte){
 PHP_METHOD(Phalcon_Amf_Deserializer, readBuffer){
 
 	zval *length, *rawdata,  *rawpos;
-	int len, pos, ret;
+	int len, pos;
 
 	phalcon_fetch_params(0, 1, 0, &length);
 
@@ -325,7 +326,7 @@ PHP_METHOD(Phalcon_Amf_Deserializer, readDouble){
 	union { int i; char c; } t;
 	union { double d; char c[8]; } u;
 	const char *buf;
-	int size, pos, val1, val2;
+	int size, pos;
 
 	rawdata = phalcon_fetch_nproperty_this(this_ptr, SL("_rawData"), PH_NOISY TSRMLS_CC);
 	rawsize = phalcon_fetch_nproperty_this(this_ptr, SL("_rawSize"), PH_NOISY TSRMLS_CC);

@@ -25,9 +25,6 @@
 
 #include "ext/standard/php_smart_str.h"
 
-static void phalcon_amf_encode_value(smart_str *ss, zval *val, int opts, HashTable *sht, HashTable *oht, HashTable *tht TSRMLS_DC);
-static int phalcon_amf_decode_value(zval **val, const char *buf, int pos, int size, int opts, HashTable *sht, HashTable *oht, HashTable *tht TSRMLS_DC);
-
 #define PHALCON_AMF3_CLIENT_SUCCESS_METHOD "/onResult"
 #define PHALCON_AMF3_CLIENT_FAILURE_METHOD "/onStatus"
 #define PHALCON_AMF3_DEFAULT_REQUEST_RESPONSE_URI "/1"
@@ -59,14 +56,6 @@ static int phalcon_amf_decode_value(zval **val, const char *buf, int pos, int si
 #define PHALCON_AMF3_OPTION_CLASS_MAP         0x01
 #define PHALCON_AMF3_OPTION_CLASS_AUTOLOAD    0x02
 #define PHALCON_AMF3_OPTION_CLASS_CONSTRUCT   0x04
-
-#define ZVAL_RESET(A)         \
-	if (!(A)) {               \
-		ALLOC_INIT_ZVAL((A)); \
-	} else {                  \
-		zval_dtor((A));       \
-		ZVAL_NULL((A));       \
-	}
 
 extern zend_class_entry *phalcon_amf_ce;
 

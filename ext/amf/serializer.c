@@ -105,8 +105,7 @@ PHP_METHOD(Phalcon_Amf_Serializer, __construct){
 	smart_str buf = { 0 };
 	char machine_little_endian;
 	int machine_endian_check = 1;
-	char *v;
-	int size = 4, i;
+	int size = 4;
 
 	PHALCON_MM_GROW();
 

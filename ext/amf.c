@@ -22,6 +22,7 @@
 #include "ext/standard/php_smart_str.h"
 
 #include "kernel/main.h"
+#include "kernel/operators.h"
 
 /**
  * Phalcon\Amf
@@ -71,6 +72,9 @@ PHALCON_INIT_CLASS(Phalcon_Amf){
 
 	return SUCCESS;
 }
+
+static void phalcon_amf_encode_value(smart_str *ss, zval *val, int opts, HashTable *sht, HashTable *oht, HashTable *tht TSRMLS_DC);
+static int phalcon_amf_decode_value(zval **val, const char *buf, int pos, int size, int opts, HashTable *sht, HashTable *oht, HashTable *tht TSRMLS_DC);
 
 static void phalcon_amf_encode_u29(smart_str *ss, int val) {
 	char buf[4];
@@ -331,7 +335,7 @@ static int phalcon_amf_decode_str(const char **str, int *len, zval **val, const 
 			*str = buf;
 			*len = pfx;
 		} else if (val) {
-			ZVAL_RESET(*val);
+			PHALCON_OBSERVE_OR_NULLIFY_VAR(*val);
 			ZVAL_STRINGL(*val, buf, pfx, 1);
 		}
 		if (loose || pfx) { /* empty string is never sent by reference */
@@ -398,7 +402,7 @@ static int phalcon_amf_decode_date(zval **val, const char *buf, int pos, int siz
 		ofs = phalcon_amf_decode_double(&d, buf, pos, size TSRMLS_CC);
 		if (ofs < 0) return -1;
 		pos += ofs;
-		ZVAL_RESET(*val);
+		PHALCON_OBSERVE_OR_NULLIFY_VAR(*val);
 		ZVAL_DOUBLE(*val, d);
 		phalcon_amf_store_ref(*val, ht);
 	}
@@ -415,7 +419,7 @@ static int phalcon_amf_decode_array(zval **val, const char *buf, int pos, int si
 		const char *key;
 		char kbuf[64];
 		int klen;
-		ZVAL_RESET(*val);
+		PHALCON_OBSERVE_OR_NULLIFY_VAR(*val);
 		array_init(*val);
 		phalcon_amf_store_ref(*val, oht);
 		for ( ;; ) { /* associative portion */
@@ -521,7 +525,7 @@ static int phalcon_amf_decode_object(zval **val, const char *buf, int pos, int s
 			}
 			tr = *trp;
 		}
-		ZVAL_RESET(*val);
+		PHALCON_OBSERVE_OR_NULLIFY_VAR(*val);
 		if (!map) array_init(*val);
 		else {
 			if (!tr->clen) object_init(*val);
@@ -622,15 +626,15 @@ static int phalcon_amf_decode_value(zval **val, const char *buf, int pos, int si
 	switch (type) {
 		case PHALCON_AMF3_UNDEFINED:
 		case PHALCON_AMF3_NULL:
-			ZVAL_RESET(*val);
+			PHALCON_OBSERVE_OR_NULLIFY_VAR(*val);
 			ZVAL_NULL(*val);
 			break;
 		case PHALCON_AMF3_FALSE:
-			ZVAL_RESET(*val);
+			PHALCON_OBSERVE_OR_NULLIFY_VAR(*val);
 			ZVAL_FALSE(*val);
 			break;
 		case PHALCON_AMF3_TRUE:
-			ZVAL_RESET(*val);
+			PHALCON_OBSERVE_OR_NULLIFY_VAR(*val);
 			ZVAL_TRUE(*val);
 			break;
 		case PHALCON_AMF3_INTEGER: {
@@ -639,7 +643,7 @@ static int phalcon_amf_decode_value(zval **val, const char *buf, int pos, int si
 			if (ofs < 0) return -1;
 			pos += ofs;
 			if (i & 0x10000000) i -= 0x20000000;
-			ZVAL_RESET(*val);
+			PHALCON_OBSERVE_OR_NULLIFY_VAR(*val);
 			ZVAL_LONG(*val, i);
 			break;
 		}
@@ -648,7 +652,7 @@ static int phalcon_amf_decode_value(zval **val, const char *buf, int pos, int si
 			ofs = phalcon_amf_decode_double(&d, buf, pos, size TSRMLS_CC);
 			if (ofs < 0) return -1;
 			pos += ofs;
-			ZVAL_RESET(*val);
+			PHALCON_OBSERVE_OR_NULLIFY_VAR(*val);
 			ZVAL_DOUBLE(*val, d);
 			break;
 		}
