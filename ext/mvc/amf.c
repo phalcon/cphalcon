@@ -285,8 +285,8 @@ PHP_METHOD(Phalcon_Mvc_Amf, handle){
 	zval *namespace_name = NULL;
 	zval *controller_name = NULL, *action_name = NULL, *params = NULL, *exact = NULL;
 	zval *dispatcher = NULL, *controller = NULL, *returned_response = NULL;
-	zval *possible_response = NULL, *render_status = NULL, *response = NULL;
-	zval *content = NULL, *path;
+	zval *possible_response = NULL, *response = NULL;
+	zval *path;
 
 	PHALCON_MM_GROW();
 	
