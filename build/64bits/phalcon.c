@@ -45360,11 +45360,11 @@ static PHP_METHOD(Phalcon_DI_Service, setSharedInstance)
 	phalcon_di_service_object *obj = phalcon_di_service_get_object(getThis() TSRMLS_CC);
 
 	phalcon_fetch_params(0, 1, 0, &shared_instance);
-	
+
 	if (obj->shared_instance) {
 		zval_ptr_dtor(&obj->shared_instance);
 	}
-	
+
 	obj->shared_instance = shared_instance;
 }
 
@@ -45374,7 +45374,7 @@ static PHP_METHOD(Phalcon_DI_Service, setDefinition)
 	phalcon_di_service_object *obj = phalcon_di_service_get_object(getThis() TSRMLS_CC);
 
 	phalcon_fetch_params(0, 1, 0, &definition);
-	
+
 	if (obj->definition) {
 		zval_ptr_dtor(&obj->definition);
 	}
@@ -45396,28 +45396,28 @@ static PHP_METHOD(Phalcon_DI_Service, resolve){
 	phalcon_di_service_object *obj = phalcon_di_service_get_object(getThis() TSRMLS_CC);
 
 	phalcon_fetch_params(0, 0, 2, &parameters, &dependency_injector);
-	
+
 	if (!parameters) {
 		parameters = PHALCON_GLOBAL(z_null);
 	}
-	
+
 	if (!dependency_injector) {
 		dependency_injector = PHALCON_GLOBAL(z_null);
 	}
-	
+
 	/* Check if the service is shared */
 	if (obj->shared && obj->shared_instance) {
 		RETURN_ZVAL(obj->shared_instance, 1, 0);
 	}
-	
+
 	PHALCON_MM_GROW();
-	
+
 	definition = obj->definition;
 	found      = 0;
 	if (Z_TYPE_P(definition) == IS_STRING) {
 		/* String definitions can be class names without implicit parameters */
-		found = 1;
 		if (phalcon_class_exists(Z_STRVAL_P(definition), Z_STRLEN_P(definition), 1 TSRMLS_CC)) {
+			found = 1;
 			if (Z_TYPE_P(parameters) == IS_ARRAY) {
 				PHALCON_INIT_VAR(instance);
 				RETURN_MM_ON_FAILURE(phalcon_create_instance_params(instance, definition, parameters TSRMLS_CC));
@@ -45451,24 +45451,28 @@ static PHP_METHOD(Phalcon_DI_Service, resolve){
 		PHALCON_CALL_METHOD(&instance, builder, "build", dependency_injector, definition, parameters);
 		found = 1;
 	}
-	
+
+	if (EG(exception)) {
+		return;
+	}
+
 	/* If the service can't be built, we must throw an exception */
 	if (!found) {
 		zend_throw_exception_ex(phalcon_di_exception_ce, 0 TSRMLS_CC, "Service '%s' cannot be resolved", obj->name);
 		PHALCON_MM_RESTORE();
 		return;
 	}
-	
-	if (Z_TYPE_P(instance) != IS_OBJECT) {
-		php_error_docref0(NULL TSRMLS_CC, E_DEPRECATED, "Usage of Phalcon\\DI to store non-objects is deprecated, please use Phalcon\\Registry instead");
-	}
+
+	//if (Z_TYPE_P(instance) != IS_OBJECT) {
+	//	php_error_docref0(NULL TSRMLS_CC, E_DEPRECATED, "Usage of Phalcon\\DI to store non-objects is deprecated, please use Phalcon\\Registry instead");
+	//}
 
 	/* Update the shared instance if the service is shared */
 	if (obj->shared) {
 		Z_ADDREF_P(instance);
 		obj->shared_instance = instance;
 	}
-	
+
 	obj->resolved = 1;
 
 	RETURN_CTOR(instance);
@@ -45481,18 +45485,18 @@ static PHP_METHOD(Phalcon_DI_Service, setParameter){
 
 	phalcon_fetch_params_ex(2, 0, &position, &parameter);
 	PHALCON_ENSURE_IS_LONG(position);
-	
+
 	definition = obj->definition;
-	if (unlikely(Z_TYPE_P(definition) != IS_ARRAY)) { 
+	if (unlikely(Z_TYPE_P(definition) != IS_ARRAY)) {
 		PHALCON_THROW_EXCEPTION_STRW(phalcon_di_exception_ce, "Definition must be an array to update its parameters");
 		return;
 	}
-	
+
 	if (unlikely(Z_TYPE_PP(parameter) != IS_ARRAY)) {
 		PHALCON_THROW_EXCEPTION_STRW(phalcon_di_exception_ce, "The parameter must be an array");
 		return;
 	}
-	
+
 	/* Update the parameter */
 	if (phalcon_array_isset_string_fetch(&arguments, definition, SS("arguments"))) {
 		phalcon_array_update_zval(&arguments, *position, *parameter, PH_COPY);
@@ -45502,7 +45506,7 @@ static PHP_METHOD(Phalcon_DI_Service, setParameter){
 		phalcon_array_update_zval(&arguments, *position, *parameter, PH_COPY);
 		phalcon_array_update_string(&definition, SL("arguments"), arguments, 0);
 	}
-	
+
 	RETURN_THISW();
 }
 
@@ -45513,16 +45517,16 @@ static PHP_METHOD(Phalcon_DI_Service, getParameter){
 
 	phalcon_fetch_params_ex(1, 0, &position);
 	PHALCON_ENSURE_IS_LONG(position);
-	
+
 	definition = obj->definition;
-	if (Z_TYPE_P(definition) != IS_ARRAY) { 
+	if (Z_TYPE_P(definition) != IS_ARRAY) {
 		PHALCON_THROW_EXCEPTION_STRW(phalcon_di_exception_ce, "Definition must be an array to obtain its parameters");
 		return;
 	}
-	
+
 	/* Update the parameter */
 	if (
-		    phalcon_array_isset_string_fetch(&arguments, definition, SS("arguments"))
+			phalcon_array_isset_string_fetch(&arguments, definition, SS("arguments"))
 		 && phalcon_array_isset_fetch(&parameter, arguments, *position)
 	) {
 		RETURN_ZVAL(parameter, 1, 0);
@@ -45542,9 +45546,9 @@ static PHP_METHOD(Phalcon_DI_Service, __set_state){
 	zval *attributes, *name, *definition, *shared;
 
 	phalcon_fetch_params(0, 1, 0, &attributes);
-	
+
 	if (
-		    !phalcon_array_isset_string_fetch(&name, attributes, SS("_name"))
+			!phalcon_array_isset_string_fetch(&name, attributes, SS("_name"))
 		 || !phalcon_array_isset_string_fetch(&definition, attributes, SS("_definition"))
 		 || !phalcon_array_isset_string_fetch(&shared, attributes, SS("_shared"))
 	) {
