@@ -51,13 +51,8 @@ PHP_METHOD(Phalcon_Amf_Deserializer, readBuffer);
 PHP_METHOD(Phalcon_Amf_Deserializer, seek);
 PHP_METHOD(Phalcon_Amf_Deserializer, readBool);
 PHP_METHOD(Phalcon_Amf_Deserializer, readInt);
-PHP_METHOD(Phalcon_Amf_Deserializer, readDouble);
 PHP_METHOD(Phalcon_Amf_Deserializer, readLong);
 PHP_METHOD(Phalcon_Amf_Deserializer, readUTF);
-PHP_METHOD(Phalcon_Amf_Deserializer, readLongUTF);
-PHP_METHOD(Phalcon_Amf_Deserializer, readObject);
-PHP_METHOD(Phalcon_Amf_Deserializer, readArray);
-PHP_METHOD(Phalcon_Amf_Deserializer, readCustomClass);
 PHP_METHOD(Phalcon_Amf_Deserializer, readData);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_amf_deserializer___construct, 0, 0, 1)
@@ -65,25 +60,15 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_amf_deserializer___construct, 0, 0, 1)
 	ZEND_ARG_INFO(0, option)
 ZEND_END_ARG_INFO();
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_amf_deserializer_readbuffer, 0, 0, 1)
-	ZEND_ARG_INFO(0, length)
-ZEND_END_ARG_INFO()
-
 static const zend_function_entry phalcon_amf_deserializer_method_entry[] = {
 	PHP_ME(Phalcon_Amf_Deserializer, __construct, arginfo_phalcon_amf_deserializer___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
 	PHP_ME(Phalcon_Amf_Deserializer, getPacket, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Amf_Deserializer, readByte, NULL, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Amf_Deserializer, readBuffer, arginfo_phalcon_amf_deserializer_readbuffer, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Amf_Deserializer, seek, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Amf_Deserializer, readBool, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Amf_Deserializer, readInt, NULL, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Amf_Deserializer, readDouble, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Amf_Deserializer, readLong, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Amf_Deserializer, readUTF, NULL, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Amf_Deserializer, readLongUTF, NULL, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Amf_Deserializer, readObject, NULL, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Amf_Deserializer, readArray, NULL, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Amf_Deserializer, readCustomClass, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Amf_Deserializer, readData, NULL, ZEND_ACC_PUBLIC)
 	PHP_FE_END
 };
@@ -144,8 +129,9 @@ PHP_METHOD(Phalcon_Amf_Deserializer, __construct){
 		return;
 	}
 
-	if (second == 3) {
-		PHALCON_CALL_METHOD(NULL, packet, "setversion", secondByte);
+	if (second != 3) {
+		PHALCON_THROW_EXCEPTION_STR(phalcon_amf_exception_ce, "Only support AMF3");
+		return;
 	}
 
 	PHALCON_INIT_VAR(seeknum);
@@ -226,25 +212,6 @@ PHP_METHOD(Phalcon_Amf_Deserializer, readByte){
 	RETURN_LONG(ret);
 }
 
-PHP_METHOD(Phalcon_Amf_Deserializer, readBuffer){
-
-	zval *length, *rawdata,  *rawpos;
-	int len, pos;
-
-	phalcon_fetch_params(0, 1, 0, &length);
-
-	len = phalcon_get_intval(length);
-
-	rawdata = phalcon_fetch_nproperty_this(this_ptr, SL("_rawData"), PH_NOISY TSRMLS_CC);
-	rawpos = phalcon_fetch_nproperty_this(this_ptr, SL("_rawPos"), PH_NOISY TSRMLS_CC);
-
-	pos = phalcon_get_intval(rawpos);
-
-	phalcon_substr(return_value, rawdata, pos, len);
-
-	phalcon_update_property_long(this_ptr, SL("_rawPos"), pos + len TSRMLS_CC);
-}
-
 PHP_METHOD(Phalcon_Amf_Deserializer, seek){
 
 	zval *offset, *rawsize, *rawpos;
@@ -320,44 +287,6 @@ PHP_METHOD(Phalcon_Amf_Deserializer, readInt){
 	RETURN_LONG((val1 << 8) | val2);
 }
 
-PHP_METHOD(Phalcon_Amf_Deserializer, readDouble){
-
-	zval *rawdata, *rawsize, *rawpos;
-	union { int i; char c; } t;
-	union { double d; char c[8]; } u;
-	const char *buf;
-	int size, pos;
-
-	rawdata = phalcon_fetch_nproperty_this(this_ptr, SL("_rawData"), PH_NOISY TSRMLS_CC);
-	rawsize = phalcon_fetch_nproperty_this(this_ptr, SL("_rawSize"), PH_NOISY TSRMLS_CC);
-	rawpos = phalcon_fetch_nproperty_this(this_ptr, SL("_rawPos"), PH_NOISY TSRMLS_CC);
-
-	buf = Z_STRVAL_P(rawdata);
-	size = phalcon_get_intval(rawsize);
-	pos = phalcon_get_intval(rawpos);
-
-	if (pos + 8 > size) {
-		zend_throw_exception_ex(phalcon_amf_exception_ce, 0 TSRMLS_CC, "Insufficient type data at position %d", pos);
-		return;
-	}
-
-	buf += pos;
-
-	t.i = 1;
-	if (!t.c) {
-		memcpy(u.c, buf, 8);
-	} else {
-		int i;
-		for (i = 0; i < 8; ++i) {
-			u.c[i] = buf[7 - i];
-		}
-	}
-
-	phalcon_update_property_long(this_ptr, SL("_rawPos"), pos+8 TSRMLS_CC);
-
-	RETURN_LONG(u.d);
-}
-
 PHP_METHOD(Phalcon_Amf_Deserializer, readLong){
 
 	zval *rawdata, *rawsize, *rawpos;
@@ -419,86 +348,6 @@ PHP_METHOD(Phalcon_Amf_Deserializer, readUTF){
 	phalcon_update_property_long(this_ptr, SL("_rawPos"), pos + length TSRMLS_CC);
 }
 
-PHP_METHOD(Phalcon_Amf_Deserializer, readLongUTF){
-
-	zval *rawdata, *rawsize, *rawpos;
-	zval *vallength = NULL;
-	int size, pos;
-	long length;
-
-	rawsize = phalcon_fetch_nproperty_this(this_ptr, SL("_rawSize"), PH_NOISY TSRMLS_CC);
-	size = phalcon_get_intval(rawsize);
-
-	PHALCON_CALL_SELFW(&vallength, "readlong");
-
-	length = phalcon_get_intval(vallength);
-
-	if (length <= 0) {
-		RETURN_EMPTY_STRING();
-	}
-
-	if (pos + length > size) {
-		zend_throw_exception_ex(phalcon_amf_exception_ce, 0 TSRMLS_CC, "Insufficient type data at position %d", pos);
-		return;
-	}
-
-	rawdata = phalcon_fetch_nproperty_this(this_ptr, SL("_rawData"), PH_NOISY TSRMLS_CC);
-	rawpos = phalcon_fetch_nproperty_this(this_ptr, SL("_rawPos"), PH_NOISY TSRMLS_CC);
-
-	pos = phalcon_get_intval(rawpos);
-
-	phalcon_substr(return_value, rawdata, pos, length);
-
-	phalcon_update_property_long(this_ptr, SL("_rawPos"), pos + length TSRMLS_CC);
-}
-
-PHP_METHOD(Phalcon_Amf_Deserializer, readObject){
-
-	zval *key = NULL, *type = NULL, *value = NULL;
-
-	object_init(return_value);
-
-	PHALCON_CALL_SELFW(&key, "readutf");
-	PHALCON_CALL_SELFW(&type, "readbyte");
-
-	while (phalcon_get_intval(type) != 9) {
-		PHALCON_CALL_SELFW(&value, "readdata", type);
-
-		phalcon_update_property_zval_zval(return_value, key, value TSRMLS_CC);
-
-		PHALCON_CALL_SELFW(&key, "readutf");
-		PHALCON_CALL_SELFW(&type, "readbyte");
-	}
-}
-
-PHP_METHOD(Phalcon_Amf_Deserializer, readArray){
-
-	zval *vallength = NULL, *type = NULL, *value = NULL;
-	int length, i;
-
-	array_init(return_value);
-
-	PHALCON_CALL_SELFW(&vallength, "readlong");
-
-	length = phalcon_get_intval(vallength);
-
-	for (i = 0; i < length; i++) {
-		PHALCON_CALL_SELFW(&type, "readbyte");
-		PHALCON_CALL_SELFW(&value, "readdata", type);
-
-		phalcon_array_append(&return_value, value, 0);
-	}
-}
-
-PHP_METHOD(Phalcon_Amf_Deserializer, readCustomClass){
-
-	zval *identifier = NULL;
-
-	PHALCON_CALL_SELFW(&identifier, "readutf");
-
-	// TODO:
-}
-
 PHP_METHOD(Phalcon_Amf_Deserializer, readData){
 
 	zval *rawdata, *rawtype, *rawpos;
@@ -514,45 +363,6 @@ PHP_METHOD(Phalcon_Amf_Deserializer, readData){
 	switch (type) {
 		case 0x11: //Amf3-specific
 			PHALCON_RETURN_CALL_CE_STATIC(phalcon_amf_ce, "decode", rawdata, rawpos);
-			break;
-		case 0: // number
-			PHALCON_RETURN_CALL_SELFW("readdouble");
-			break;
-		case 1: // boolean
-			PHALCON_RETURN_CALL_SELFW("readboolean");
-			break;
-		case 2: // string
-			PHALCON_RETURN_CALL_SELFW("readutf");
-			break;
-		case 3: // object Object
-			PHALCON_RETURN_CALL_SELFW("readobject");
-			break;
-		//ignore movie clip
-		case 5: // null
-			break;
-		case 6: // undefined
-			break;
-		case 7: // Circular references are returned here
-			break;
-		case 8: // mixed array with numeric and string keys
-			break;
-		case 9: //object end. not worth , TODO maybe some integrity checking
-			break;
-		case 0X0A: // 10 array
-			PHALCON_RETURN_CALL_SELFW("readarray");
-			break;
-		case 0X0B: // date
-			break;
-		case 0X0C: // string, lenval(string) > 2^16
-			PHALCON_RETURN_CALL_SELFW("readlongutf");
-			break;
-		case 0X0D: // mainly internal AS objects
-			break;
-		//ignore recordset
-		case 0X0F: // XML
-			break;
-		case 0x10: // Custom Class
-			PHALCON_RETURN_CALL_SELFW("readcustomclass");
 			break;
 		default: // unknown case
 			zend_throw_exception_ex(phalcon_amf_exception_ce, 0 TSRMLS_CC, "Found unhandled type with code: %d", type);
