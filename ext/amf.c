@@ -58,6 +58,11 @@ PHALCON_INIT_CLASS(Phalcon_Amf){
 
 	PHALCON_REGISTER_CLASS(Phalcon, Amf, amf, phalcon_amf_method_entry, 0);
 
+	zend_declare_class_constant_stringl(phalcon_amf_ce, SL("CLIENT_SUCCESS_METHOD"), SL(PHALCON_AMF3_CLIENT_SUCCESS_METHOD) TSRMLS_CC);
+	zend_declare_class_constant_stringl(phalcon_amf_ce, SL("CLIENT_FAILURE_METHOD"), SL(PHALCON_AMF3_CLIENT_FAILURE_METHOD) TSRMLS_CC);
+	zend_declare_class_constant_stringl(phalcon_amf_ce, SL("DEFAULT_REQUEST_RESPONSE_URI"), SL(PHALCON_AMF3_DEFAULT_REQUEST_RESPONSE_URI) TSRMLS_CC);
+	zend_declare_class_constant_stringl(phalcon_amf_ce, SL("CONTENT_TYPE"), SL(PHALCON_AMF3_CONTENT_TYPE) TSRMLS_CC);
+
 	zend_declare_class_constant_long(phalcon_amf_ce, SL("OPTION_FORCE_OBJECT"), PHALCON_AMF3_OPTION_FORCE_OBJECT TSRMLS_CC);
 	zend_declare_class_constant_long(phalcon_amf_ce, SL("OPTION_CLASS_MAP"), PHALCON_AMF3_OPTION_CLASS_AUTOLOAD TSRMLS_CC);
 	zend_declare_class_constant_long(phalcon_amf_ce, SL("OPTION_CLASS_AUTOLOAD"), PHALCON_AMF3_OPTION_CLASS_AUTOLOAD TSRMLS_CC);
@@ -65,8 +70,6 @@ PHALCON_INIT_CLASS(Phalcon_Amf){
 
 	return SUCCESS;
 }
-
-static void phalcon_amf_encode_value(smart_str *ss, zval *val, int opts, HashTable *sht, HashTable *oht, HashTable *tht TSRMLS_DC);
 
 static void phalcon_amf_encode_u29(smart_str *ss, int val) {
 	char buf[4];
@@ -269,9 +272,6 @@ typedef struct {
 	char **fld;
 	int *flen;
 } PhalconAmfTraits;
-
-
-static int phalcon_amf_decode_value(zval **val, const char *buf, int pos, int size, int opts, HashTable *sht, HashTable *oht, HashTable *tht TSRMLS_DC);
 
 static int phalcon_amf_decode_u29(int *val, const char *buf, int pos, int size TSRMLS_DC) {
 	int ofs = 0, res = 0, tmp;

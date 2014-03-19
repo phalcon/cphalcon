@@ -22,6 +22,7 @@
 
 #include "kernel/main.h"
 #include "kernel/object.h"
+#include "kernel/array.h"
 
 /**
  * Phalcon\Amf\Packet
@@ -37,6 +38,7 @@ PHP_METHOD(Phalcon_Amf_Packet, getVersion);
 PHP_METHOD(Phalcon_Amf_Packet, appendHeader);
 PHP_METHOD(Phalcon_Amf_Packet, getHeaders);
 PHP_METHOD(Phalcon_Amf_Packet, appendMessage);
+PHP_METHOD(Phalcon_Amf_Packet, getMessage);
 PHP_METHOD(Phalcon_Amf_Packet, getMessages);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_amf_packet_setversion, 0, 0, 1)
@@ -58,6 +60,7 @@ static const zend_function_entry phalcon_amf_packet_method_entry[] = {
 	PHP_ME(Phalcon_Amf_Packet, appendHeader, arginfo_phalcon_amf_packet_appendheader, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Amf_Packet, getHeaders, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Amf_Packet, appendMessage, arginfo_phalcon_amf_packet_appendmessage, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Amf_Packet, getMessage, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Amf_Packet, getMessages, NULL, ZEND_ACC_PUBLIC)
 	PHP_FE_END
 };
@@ -133,6 +136,22 @@ PHP_METHOD(Phalcon_Amf_Packet, appendMessage){
 	phalcon_update_property_array_append(this_ptr, SL("_messages"), message TSRMLS_CC);
 	RETURN_THISW();
 }
+
+PHP_METHOD(Phalcon_Amf_Packet, getMessage){
+
+	zval *postion, *messages, *message;
+
+	phalcon_fetch_params(0, 1, 0, &postion);
+
+	messages = phalcon_fetch_nproperty_this(this_ptr, SL("_messages"), PH_NOISY TSRMLS_CC);
+
+	if (phalcon_array_isset_fetch(&message, messages, postion)) {
+		RETURN_CCTORW(message);
+	}
+
+	RETURN_NULL();
+}
+
 
 PHP_METHOD(Phalcon_Amf_Packet, getMessages){
 

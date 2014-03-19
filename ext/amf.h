@@ -23,6 +23,16 @@
 
 #include "php_phalcon.h"
 
+#include "ext/standard/php_smart_str.h"
+
+static void phalcon_amf_encode_value(smart_str *ss, zval *val, int opts, HashTable *sht, HashTable *oht, HashTable *tht TSRMLS_DC);
+static int phalcon_amf_decode_value(zval **val, const char *buf, int pos, int size, int opts, HashTable *sht, HashTable *oht, HashTable *tht TSRMLS_DC);
+
+#define PHALCON_AMF3_CLIENT_SUCCESS_METHOD "/onResult"
+#define PHALCON_AMF3_CLIENT_FAILURE_METHOD "/onStatus"
+#define PHALCON_AMF3_DEFAULT_REQUEST_RESPONSE_URI "/1"
+#define PHALCON_AMF3_CONTENT_TYPE "application/x-amf"
+
 #define PHALCON_AMF3_MAX_STORED_OBJECTS 1024
 
 #define PHALCON_AMF3_UNDEFINED   0x00
