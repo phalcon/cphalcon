@@ -352,6 +352,15 @@ image/adapterinterface.c \
 image/exception.c \
 image/adapter/gd.c \
 image/adapter/imagick.c \
+amf.c \
+amf/header.c \
+amf/message.c \
+amf/packet.c \
+amf/deserializer.c \
+amf/serializer.c \
+amf/exception.c \
+mvc/amf.c \
+mvc/amf/exception.c \
 psr/log/abstractlogger.c \
 psr/log/invalidargumentexception.c \
 psr/log/loggerawareinterface.c \
