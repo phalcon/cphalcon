@@ -109712,7 +109712,7 @@ static int phalcon_cleanup_fcache(void *pDest TSRMLS_DC, int num_args, va_list a
 	assert(hash_key->arKey != NULL);
 	assert(hash_key->nKeyLength > 2 * sizeof(zend_class_entry**));
 
-	memcpy(&scope, &hash_key->arKey[len - 2*sizeof(zend_class_entry**)], sizeof(zend_class_entry*));
+	memcpy(&scope, &hash_key->arKey[len - 2 * sizeof(zend_class_entry**)], sizeof(zend_class_entry*));
 
 
 #ifndef PHALCON_RELEASE
@@ -109771,7 +109771,7 @@ static PHP_RSHUTDOWN_FUNCTION(phalcon){
 	//phalcon_verify_permanent_zvals(1 TSRMLS_CC);
 #endif
 
-	for (i = 0; i < 1; i++) {
+	for (i = 0; i < 2; i++) {
 		zval_ptr_dtor(&phalcon_globals_ptr->z_null);
 		zval_ptr_dtor(&phalcon_globals_ptr->z_false);
 		zval_ptr_dtor(&phalcon_globals_ptr->z_true);
