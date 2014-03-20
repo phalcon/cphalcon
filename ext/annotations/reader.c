@@ -75,12 +75,12 @@ PHP_METHOD(Phalcon_Annotations_Reader, parse){
 	zend_uint line;
 
 	phalcon_fetch_params(0, 1, 0, &class_name);
-	
+
 	if (unlikely(Z_TYPE_P(class_name) != IS_STRING)) {
 		PHALCON_THROW_EXCEPTION_STRW(phalcon_annotations_exception_ce, "The class name must be a string");
 		return;
 	}
-	
+
 	class_ce = zend_fetch_class(Z_STRVAL_P(class_name), Z_STRLEN_P(class_name), ZEND_FETCH_CLASS_AUTO | ZEND_FETCH_CLASS_SILENT TSRMLS_CC);
 	if (!class_ce) {
 		zend_throw_exception_ex(phalcon_annotations_exception_ce, 0 TSRMLS_CC, "Class %s does not exist", Z_STRVAL_P(class_name));
@@ -91,7 +91,7 @@ PHP_METHOD(Phalcon_Annotations_Reader, parse){
 		array_init(return_value);
 		return;
 	}
-	
+
 	PHALCON_MM_GROW();
 	PHALCON_INIT_VAR(annotations);
 	array_init(annotations);
@@ -219,10 +219,11 @@ PHP_METHOD(Phalcon_Annotations_Reader, parseDocBlock)
 {
 	zval **doc_block, **file = NULL, **line = NULL;
 
-	phalcon_fetch_params_ex(1, 2, &doc_block, &file, &line);
+	phalcon_fetch_params_ex(3, 0, &doc_block, &file, &line);
+
 	PHALCON_ENSURE_IS_STRING(doc_block);
 	PHALCON_ENSURE_IS_STRING(file);
 	PHALCON_ENSURE_IS_LONG(line);
-	
+
 	RETURN_ON_FAILURE(phannot_parse_annotations(return_value, Z_STRVAL_PP(doc_block), Z_STRLEN_PP(doc_block), Z_STRVAL_PP(file), Z_LVAL_PP(line) TSRMLS_CC));
 }
