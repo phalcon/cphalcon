@@ -45261,8 +45261,7 @@ static HashTable* phalcon_di_service_get_debug_info(zval *object, int *is_temp T
 		ZVAL_EMPTY_STRING(tmp);
 	}
 
-	zend_hash_quick_update(ht, "_name", sizeof("_name")-1, 6953241062757UL, (void*)&tmp, sizeof(zval*), NULL);
-
+	zend_hash_quick_update(ht, "_name", sizeof("_name"), 6953241062757UL, (void*)&tmp, sizeof(zval*), NULL);
 
 	if (obj->definition) {
 		Z_ADDREF_P(obj->definition);
@@ -45272,8 +45271,7 @@ static HashTable* phalcon_di_service_get_debug_info(zval *object, int *is_temp T
 		ALLOC_INIT_ZVAL(tmp);
 	}
 
-	zend_hash_quick_update(ht, "_definition", sizeof("_definition")-1, 14755353791352810285UL, (void*)&tmp, sizeof(zval*), NULL);
-
+	zend_hash_quick_update(ht, "_definition", sizeof("_definition"), 14755353791352810285UL, (void*)&tmp, sizeof(zval*), NULL);
 
 	if (obj->shared_instance) {
 		Z_ADDREF_P(obj->shared_instance);
@@ -45283,16 +45281,15 @@ static HashTable* phalcon_di_service_get_debug_info(zval *object, int *is_temp T
 		ALLOC_INIT_ZVAL(tmp);
 	}
 
-	zend_hash_quick_update(ht, "_sharedInstance", sizeof("_sharedInstance")-1, 597503730487089552UL, (void*)&tmp, sizeof(zval*), NULL);
-
+	zend_hash_quick_update(ht, "_sharedInstance", sizeof("_sharedInstance"), 597503730487089552UL, (void*)&tmp, sizeof(zval*), NULL);
 
 	MAKE_STD_ZVAL(tmp);
 	ZVAL_BOOL(tmp, obj->resolved);
-	zend_hash_quick_update(ht, "_resolved", sizeof("_resolved")-1, 8246000398766684136UL, (void*)&tmp, sizeof(zval*), NULL);
+	zend_hash_quick_update(ht, "_resolved", sizeof("_resolved"), 8246000398766684136UL, (void*)&tmp, sizeof(zval*), NULL);
 
 	MAKE_STD_ZVAL(tmp);
 	ZVAL_BOOL(tmp, obj->shared);
-	zend_hash_quick_update(ht, "_shared", sizeof("_shared")-1, 7572086234979387UL, (void*)&tmp, sizeof(zval*), NULL);
+	zend_hash_quick_update(ht, "_shared", sizeof("_shared"), 7572086234979387UL, (void*)&tmp, sizeof(zval*), NULL);
 
 	return ht;
 }
@@ -45323,10 +45320,10 @@ static PHP_METHOD(Phalcon_DI_Service, __construct){
 	PHALCON_ENSURE_IS_STRING(name);
 	Z_ADDREF_PP(definition);
 
-	sname = (char*)zend_new_interned_string(Z_STRVAL_PP(name), Z_STRLEN_PP(name), 0 TSRMLS_CC);
-	if (!IS_INTERNED(sname)) {
+	//sname = (char*)zend_new_interned_string(Z_STRVAL_PP(name), Z_STRLEN_PP(name), 0 TSRMLS_CC);
+	//if (!IS_INTERNED(sname)) {
 		sname = estrndup(Z_STRVAL_PP(name), Z_STRLEN_PP(name));
-	}
+	//}
 
 	obj                  = phalcon_di_service_get_object(getThis() TSRMLS_CC);
 	obj->name            = sname;
@@ -52487,10 +52484,11 @@ static PHP_METHOD(Phalcon_Http_Response, redirect){
 	if (!status_code) {
 		PHALCON_INIT_VAR(status_code);
 		ZVAL_LONG(status_code, 302);
-	}
-	else if (unlikely(Z_TYPE_P(status_code) != IS_LONG)) {
-		PHALCON_SEPARATE_PARAM(status_code);
-		convert_to_long(status_code);
+	} else {
+		if (unlikely(Z_TYPE_P(status_code) != IS_LONG)) {
+			PHALCON_SEPARATE_PARAM(status_code);
+			convert_to_long(status_code);			
+		}
 	}
 	
 	if (Z_TYPE_P(location) == IS_STRING && zend_is_true(external_redirect)) {
@@ -52527,6 +52525,9 @@ static PHP_METHOD(Phalcon_Http_Response, redirect){
 	PHALCON_INIT_VAR(status_text);
 	if (Z_LVAL_P(status_code) < 300 || Z_LVAL_P(status_code) > 308) {
 		ZVAL_STRING(status_text, "Redirect", 1);
+		if (!Z_LVAL_P(status_code)) {
+			ZVAL_LONG(status_code, 302);
+		}
 	}
 	else {
 		ZVAL_STRING(status_text, redirect_phrases[Z_LVAL_P(status_code) - 300], 1);
