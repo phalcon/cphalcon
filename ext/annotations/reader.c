@@ -146,12 +146,21 @@ PHP_METHOD(Phalcon_Annotations_Reader, parse){
 					}
 
 					if (Z_TYPE_P(property_annotations) == IS_ARRAY) {
+						#if PHP_VERSION_ID >= 50400
 						{
-							const char *prop_name, *class_name;
+							char *prop_name, *class_name;
 							if (zend_unmangle_property_name(property->name, property->name_length - 1, &class_name, &prop_name) == SUCCESS) {
 								add_assoc_zval_ex(annotations_properties, prop_name, strlen(prop_name) + 1, property_annotations);
 							}
 						}
+						#else
+						{
+							char *prop_name, *class_name;
+							if (zend_unmangle_property_name(property->name, property->name_length - 1, &class_name, &prop_name) == SUCCESS) {
+								add_assoc_zval_ex(annotations_properties, prop_name, strlen(prop_name) + 1, property_annotations);
+							}
+						}
+						#endif
 					} else {
 						zval_ptr_dtor(&property_annotations);
 					}
