@@ -88,7 +88,7 @@ PHALCON_INIT_CLASS(Phalcon_Mvc_Model_Validator_Regex){
  */
 PHP_METHOD(Phalcon_Mvc_Model_Validator_Regex, validate){
 
-	zval *record, *option = NULL, *field_name = NULL, *is_set = NULL, *value = NULL;
+	zval *record, *option = NULL, *field_name = NULL, *allow_empty = NULL, *is_set = NULL, *value = NULL;
 	zval *failed = NULL, *matches, *pattern = NULL, *match_pattern;
 	zval *match_zero, *message = NULL, *type, *is_set_code = NULL, *code = NULL;
 
@@ -118,6 +118,20 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Regex, validate){
 	}
 	
 	PHALCON_CALL_METHOD(&value, record, "readattribute", field_name);
+	
+	/*
+	 * Allow empty
+	 */
+	PHALCON_INIT_NVAR(option);
+	ZVAL_STRING(option, "allowEmpty", 1);
+
+	PHALCON_CALL_METHOD(&allow_empty, this_ptr, "issetoption", option);
+
+	if (allow_empty && zend_is_true(allow_empty)) {
+		if (PHALCON_IS_EMPTY(value)) {
+			RETURN_MM_TRUE;
+		}
+	}
 	
 	PHALCON_INIT_VAR(failed);
 	ZVAL_BOOL(failed, 0);
