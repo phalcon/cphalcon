@@ -26749,9 +26749,22 @@ static PHP_METHOD(Phalcon_Annotations_Reader, parse){
 					}
 
 					if (Z_TYPE_P(property_annotations) == IS_ARRAY) {
-						add_assoc_zval_ex(annotations_properties, property->name, property->name_length+1, property_annotations);
-					}
-					else {
+						#if PHP_VERSION_ID >= 50400
+						{
+							const char *prop_name, *class_name;
+							if (zend_unmangle_property_name(property->name, property->name_length - 1, &class_name, &prop_name) == SUCCESS) {
+								add_assoc_zval_ex(annotations_properties, prop_name, strlen(prop_name) + 1, property_annotations);
+							}
+						}
+						#else
+						{
+							char *prop_name, *class_name;
+							if (zend_unmangle_property_name(property->name, property->name_length - 1, &class_name, &prop_name) == SUCCESS) {
+								add_assoc_zval_ex(annotations_properties, prop_name, strlen(prop_name) + 1, property_annotations);
+							}
+						}
+						#endif
+					} else {
 						zval_ptr_dtor(&property_annotations);
 					}
 				}
@@ -26793,7 +26806,7 @@ static PHP_METHOD(Phalcon_Annotations_Reader, parse){
 					}
 
 					if (Z_TYPE_P(method_annotations) == IS_ARRAY) {
-						add_assoc_zval_ex(annotations_methods, method->common.function_name, strlen(method->common.function_name)+1, method_annotations);
+						add_assoc_zval_ex(annotations_methods, method->common.function_name, strlen(method->common.function_name) + 1, method_annotations);
 					}
 					else {
 						zval_ptr_dtor(&method_annotations);
@@ -105773,7 +105786,8 @@ static int phalcon_session_adapter_has_dimension(zval *object, zval *member, int
 static void phalcon_session_adapter_unset_dimension(zval *object, zval *offset TSRMLS_DC)
 {
 	if (!is_phalcon_class(Z_OBJCE_P(object))) {
-		return zend_get_std_object_handlers()->unset_dimension(object, offset TSRMLS_CC);
+		zend_get_std_object_handlers()->unset_dimension(object, offset TSRMLS_CC);
+		return;
 	}
 
 	phalcon_session_adapter_unset_property_internal(object, offset TSRMLS_CC);
