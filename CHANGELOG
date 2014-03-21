@@ -2,6 +2,9 @@
  - Fixed segfault in Phalcon\Di\Service::resolve when string class does not exist (#2205)
  - Moved global zvals to RINIT/RSHUTDOWN to improve stability on Windows TS builds
  - Moved pre-allocated frames to RINIT/RSHUTDOWN to improve stability on Windows TS builds
+ - Fixed segfault when replacing Phalcon\Session adapter by PHP userland adapter
+ - Fixed zval invalid indirection in Phalcon\Security hash
+ - Fixed segfault when passing an invalid number of arguments to Phalcon\Annotations\Reader::parseDocBlock
 
 1.3.0
  - Make the source code compatible with PHP 5.6-dev and PHP 5.7-dev (#1762)

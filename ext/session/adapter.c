@@ -304,7 +304,8 @@ static int phalcon_session_adapter_has_dimension(zval *object, zval *member, int
 static void phalcon_session_adapter_unset_dimension(zval *object, zval *offset TSRMLS_DC)
 {
 	if (!is_phalcon_class(Z_OBJCE_P(object))) {
-		return zend_get_std_object_handlers()->unset_dimension(object, offset TSRMLS_CC);
+		zend_get_std_object_handlers()->unset_dimension(object, offset TSRMLS_CC);
+		return;
 	}
 
 	phalcon_session_adapter_unset_property_internal(object, offset TSRMLS_CC);
