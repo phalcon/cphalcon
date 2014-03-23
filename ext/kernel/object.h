@@ -61,12 +61,7 @@ int zephir_isset_property_quick(zval *object, const char *property_name, unsigne
 int zephir_isset_property_zval(zval *object, const zval *property TSRMLS_DC);
 
 /** Reading properties */
-int zephir_read_property_this(zval **result, zval *object, char *property_name, unsigned int property_length, int silent TSRMLS_DC);
-int zephir_read_property_this_quick(zval **result, zval *object, char *property_name, unsigned int property_length, unsigned long key, int silent TSRMLS_DC);
-zval* zephir_fetch_nproperty_this(zval *object, char *property_name, unsigned int property_length, int silent TSRMLS_DC);
-zval* zephir_fetch_nproperty_this_quick(zval *object, char *property_name, unsigned int property_length, unsigned long key, int silent TSRMLS_DC);
-zval* zephir_fetch_property_this(zval *object, char *property_name, unsigned int property_length, int silent TSRMLS_DC);
-zval* zephir_fetch_property_this_quick(zval *object, char *property_name, unsigned int property_length, unsigned long key, int silent TSRMLS_DC);
+zval* zephir_fetch_property_this_quick(zval *object, const char *property_name, zend_uint property_length, ulong key, int silent TSRMLS_DC);
 int zephir_read_property(zval **result, zval *object, const char *property_name, zend_uint property_length, int silent TSRMLS_DC);
 int zephir_read_property_zval(zval **result, zval *object, zval *property, int silent TSRMLS_DC);
 int zephir_return_property(zval *return_value, zval **return_value_ptr, zval *object, char *property_name, unsigned int property_length TSRMLS_DC);
@@ -106,5 +101,72 @@ zval* zephir_fetch_static_property_ce(zend_class_entry *ce, char *property, int 
 /** Create instances */
 int zephir_create_instance(zval *return_value, const zval *class_name TSRMLS_DC);
 int zephir_create_instance_params(zval *return_value, const zval *class_name, zval *params TSRMLS_DC);
+
+/**
+ * Reads a property from this_ptr (with pre-calculated key)
+ * Variables must be defined in the class definition. This function ignores magic methods or dynamic properties
+ */
+ZEPHIR_ATTR_NONNULL static inline int zephir_read_property_this_quick(zval **result, zval *object, const char *property_name, zend_uint property_length, ulong key, int silent TSRMLS_DC)
+{
+  zval *tmp = zephir_fetch_property_this_quick(object, property_name, property_length, key, silent TSRMLS_CC);
+  if (EXPECTED(tmp != NULL)) {
+    *result = tmp;
+    Z_ADDREF_PP(result);
+    return SUCCESS;
+  }
+
+  ALLOC_INIT_ZVAL(*result);
+  return FAILURE;
+}
+
+/**
+ * Reads a property from this_ptr
+ * Variables must be defined in the class definition. This function ignores magic methods or dynamic properties
+ */
+ZEPHIR_ATTR_NONNULL static inline int zephir_read_property_this(zval **result, zval *object, const char *property_name, zend_uint property_length, int silent TSRMLS_DC)
+{
+#ifdef __GNUC__
+  if (__builtin_constant_p(property_name) && __builtin_constant_p(property_length)) {
+    return zephir_read_property_this_quick(result, object, property_name, property_length, zend_inline_hash_func(property_name, property_length + 1), silent TSRMLS_CC);
+  }
+#endif
+
+  return zephir_read_property_this_quick(result, object, property_name, property_length, zend_hash_func(property_name, property_length + 1), silent TSRMLS_CC);
+}
+
+ZEPHIR_ATTR_NONNULL static inline zval* zephir_fetch_nproperty_this_quick(zval *object, const char *property_name, zend_uint property_length, ulong key, int silent TSRMLS_DC)
+{
+#ifdef __GNUC__
+  if (__builtin_constant_p(property_name) && __builtin_constant_p(property_length)) {
+    zval *result = zephir_fetch_property_this_quick(object, property_name, property_length, zend_inline_hash_func(property_name, property_length + 1), silent TSRMLS_CC);
+    return result ? result : EG(uninitialized_zval_ptr);
+  }
+#endif
+
+  zval *result = zephir_fetch_property_this_quick(object, property_name, property_length, zend_hash_func(property_name, property_length + 1), silent TSRMLS_CC);
+  return result ? result : EG(uninitialized_zval_ptr);
+}
+
+ZEPHIR_ATTR_NONNULL static inline zval* zephir_fetch_nproperty_this(zval *object, const char *property_name, zend_uint property_length, int silent TSRMLS_DC)
+{
+#ifdef __GNUC__
+  if (__builtin_constant_p(property_name) && __builtin_constant_p(property_length)) {
+    return zephir_fetch_nproperty_this_quick(object, property_name, property_length, zend_inline_hash_func(property_name, property_length + 1), silent TSRMLS_CC);
+  }
+#endif
+
+  return zephir_fetch_nproperty_this_quick(object, property_name, property_length, zend_hash_func(property_name, property_length + 1), silent TSRMLS_CC);
+}
+
+ZEPHIR_ATTR_NONNULL static inline zval* zephir_fetch_property_this(zval *object, const char *property_name, zend_uint property_length, int silent TSRMLS_DC)
+{
+#ifdef __GNUC__
+  if (__builtin_constant_p(property_name) && __builtin_constant_p(property_length)) {
+    return zephir_fetch_property_this_quick(object, property_name, property_length, zend_inline_hash_func(property_name, property_length + 1), silent TSRMLS_CC);
+  }
+#endif
+
+  return zephir_fetch_property_this_quick(object, property_name, property_length, zend_hash_func(property_name, property_length + 1), silent TSRMLS_CC);
+}
 
 #endif

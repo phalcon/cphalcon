@@ -438,7 +438,7 @@ PHP_METHOD(Phalcon_Di, get) {
 	} else {
 		if (zephir_class_exists(name, 1 TSRMLS_CC)) {
 			if (Z_TYPE_P(parameters) == IS_ARRAY) {
-				ZEPHIR_INIT_VAR(instance);
+				ZEPHIR_INIT_NVAR(instance);
 				if (zephir_fast_count_int(parameters TSRMLS_CC)) {
 					ZEPHIR_LAST_CALL_STATUS = zephir_create_instance_params(instance, name, parameters TSRMLS_CC);
 					zephir_check_call_status();

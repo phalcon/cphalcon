@@ -713,7 +713,7 @@ PHP_METHOD(Phalcon_Http_Request, getJsonRawBody) {
 		zephir_json_decode(return_value, &(return_value), rawBody, 0  TSRMLS_CC);
 		RETURN_MM();
 	}
-	ZEPHIR_MM_RESTORE();
+	RETURN_MM_BOOL(0);
 
 }
 
@@ -847,7 +847,7 @@ PHP_METHOD(Phalcon_Http_Request, getClientAddress) {
 		ZEPHIR_OBS_NVAR(address);
 	}
 	if (Z_TYPE_P(address) == IS_STRING) {
-		if (zephir_memnstr_str(address, SL(","), "phalcon/http/request.zep", 490)) {
+		if (zephir_memnstr_str(address, SL(","), "phalcon/http/request.zep", 492)) {
 			ZEPHIR_INIT_VAR(_0);
 			zephir_fast_explode_str(_0, SL(","), address, LONG_MAX TSRMLS_CC);
 			zephir_array_fetch_long(&_1, _0, 0, PH_NOISY | PH_READONLY TSRMLS_CC);

@@ -358,7 +358,7 @@ PHP_METHOD(Phalcon_Debug_Dump, output) {
 			ZEPHIR_CALL_FUNCTION(&_16, "str_repeat", &_9, space, tab);
 			zephir_check_call_status();
 			ZEPHIR_INIT_NVAR(_10);
-			array_init_size(_10, 4);
+			array_init_size(_10, 5);
 			ZEPHIR_INIT_NVAR(_2);
 			ZVAL_STRING(_2, "obj", 0);
 			ZEPHIR_CALL_METHOD(&_19, this_ptr, "getstyle", &_12, _2);
@@ -394,7 +394,7 @@ PHP_METHOD(Phalcon_Debug_Dump, output) {
 		ZEPHIR_CALL_FUNCTION(&_8, "str_repeat", &_9, space, tab);
 		zephir_check_call_status();
 		ZEPHIR_INIT_NVAR(_10);
-		array_init_size(_10, 4);
+		array_init_size(_10, 5);
 		ZEPHIR_INIT_NVAR(_2);
 		ZVAL_STRING(_2, "obj", 0);
 		ZEPHIR_CALL_METHOD(&_11, this_ptr, "getstyle", &_12, _2);
@@ -543,7 +543,7 @@ PHP_METHOD(Phalcon_Debug_Dump, output) {
 	}
 	if (zephir_is_numeric(variable)) {
 		ZEPHIR_INIT_NVAR(_0);
-		array_init_size(_0, 4);
+		array_init_size(_0, 5);
 		ZEPHIR_INIT_NVAR(_2);
 		ZVAL_STRING(_2, "num", 0);
 		ZEPHIR_CALL_METHOD(&_1, this_ptr, "getstyle", &_12, _2);
@@ -560,7 +560,7 @@ PHP_METHOD(Phalcon_Debug_Dump, output) {
 	}
 	if (Z_TYPE_P(variable) == IS_STRING) {
 		ZEPHIR_INIT_NVAR(_0);
-		array_init_size(_0, 4);
+		array_init_size(_0, 5);
 		ZEPHIR_INIT_NVAR(_2);
 		ZVAL_STRING(_2, "str", 0);
 		ZEPHIR_CALL_METHOD(&_1, this_ptr, "getstyle", &_12, _2);
@@ -656,7 +656,7 @@ PHP_METHOD(Phalcon_Debug_Dump, setStyles) {
 		return;
 	}
 	ZEPHIR_INIT_VAR(defaultStyles);
-	array_init_size(defaultStyles, 14);
+	array_init_size(defaultStyles, 17);
 	add_assoc_stringl_ex(defaultStyles, SS("pre"), SL("background-color:#f3f3f3;font-size:11px;padding:10px; border:1px solid #ccc; text-align:left; color:#333"), 1);
 	add_assoc_stringl_ex(defaultStyles, SS("arr"), SL("color:red"), 1);
 	add_assoc_stringl_ex(defaultStyles, SS("bool"), SL("color:green"), 1);

@@ -893,7 +893,7 @@ PHP_METHOD(Phalcon_Mvc_Micro, handle) {
 	zephir_read_property_this(&finishHandlers, this_ptr, SL("_finishHandlers"), PH_NOISY_CC);
 	if (Z_TYPE_P(finishHandlers) == IS_ARRAY) {
 		zephir_update_property_this(this_ptr, SL("_stopped"), (0) ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
-		ZEPHIR_INIT_VAR(params);
+		ZEPHIR_INIT_NVAR(params);
 		ZVAL_NULL(params);
 		zephir_is_iterable(finishHandlers, &_13, &_12, 0, 0);
 		for (

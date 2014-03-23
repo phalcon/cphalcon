@@ -192,7 +192,7 @@ PHP_METHOD(Phalcon_Flash_Session, message) {
 	ZEPHIR_CALL_METHOD(&messages, this_ptr, "_getsessionmessages", NULL, ZEPHIR_GLOBAL(global_false));
 	zephir_check_call_status();
 	if (Z_TYPE_P(messages) != IS_ARRAY) {
-		ZEPHIR_INIT_VAR(messages);
+		ZEPHIR_INIT_BNVAR(messages);
 		array_init(messages);
 	}
 	if (!(zephir_array_isset(messages, type))) {

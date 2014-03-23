@@ -273,7 +273,7 @@ PHP_METHOD(Phalcon_Validation_Validator_File, validate) {
 	zephir_check_call_status();
 	if (zephir_is_true(_12)) {
 		ZEPHIR_INIT_VAR(byteUnits);
-		array_init_size(byteUnits, 12);
+		array_init_size(byteUnits, 13);
 		add_assoc_long_ex(byteUnits, SS("B"), 0);
 		add_assoc_long_ex(byteUnits, SS("K"), 10);
 		add_assoc_long_ex(byteUnits, SS("M"), 20);
@@ -376,7 +376,7 @@ PHP_METHOD(Phalcon_Validation_Validator_File, validate) {
 			ZEPHIR_CALL_FUNCTION(NULL, "finfo_close", NULL, tmp);
 			zephir_check_call_status();
 		} else {
-			ZEPHIR_OBS_VAR(mime);
+			ZEPHIR_OBS_NVAR(mime);
 			zephir_array_fetch_string(&mime, value, SL("type"), PH_NOISY TSRMLS_CC);
 		}
 		if (!(zephir_fast_in_array(mime, types TSRMLS_CC))) {

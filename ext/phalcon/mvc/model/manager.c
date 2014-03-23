@@ -2038,7 +2038,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getRelationRecords) {
 		}
 	}
 	ZEPHIR_INIT_VAR(findParams);
-	array_init_size(findParams, 4);
+	array_init_size(findParams, 5);
 	ZEPHIR_INIT_NVAR(_3);
 	zephir_fast_join_str(_3, SL(" AND "), conditions TSRMLS_CC);
 	zephir_array_fast_append(findParams, _3);
@@ -2094,7 +2094,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getRelationRecords) {
 			RETURN_CCTOR(records);
 		}
 	}
-	ZEPHIR_INIT_VAR(records);
+	ZEPHIR_INIT_NVAR(records);
 	ZEPHIR_INIT_VAR(_13);
 	array_init_size(_13, 3);
 	ZEPHIR_CALL_METHOD(&_2, this_ptr, "load", NULL, referencedModel);

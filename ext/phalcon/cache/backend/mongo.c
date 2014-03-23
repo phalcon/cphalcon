@@ -624,7 +624,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Mongo, increment) {
 		if (zephir_is_numeric(cachedContent)) {
 			ZEPHIR_INIT_VAR(keys);
 			zephir_add_function(keys, cachedContent, value TSRMLS_CC);
-			ZEPHIR_INIT_VAR(ttl);
+			ZEPHIR_INIT_NVAR(ttl);
 			zephir_add_function(ttl, lifetime, timestamp TSRMLS_CC);
 			ZEPHIR_CALL_METHOD(NULL, this_ptr, "save", NULL, prefixedKey, keys);
 			zephir_check_call_status();
@@ -699,7 +699,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Mongo, decrement) {
 		if (zephir_is_numeric(cachedContent)) {
 			ZEPHIR_INIT_VAR(keys);
 			sub_function(keys, cachedContent, value TSRMLS_CC);
-			ZEPHIR_INIT_VAR(ttl);
+			ZEPHIR_INIT_NVAR(ttl);
 			zephir_add_function(ttl, lifetime, timestamp TSRMLS_CC);
 			ZEPHIR_CALL_METHOD(NULL, this_ptr, "save", NULL, prefixedKey, keys);
 			zephir_check_call_status();

@@ -139,6 +139,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Complex, valid) {
 	} else {
 		ZEPHIR_OBS_VAR(rows);
 		zephir_read_property_this(&rows, this_ptr, SL("_rows"), PH_NOISY_CC);
+		ZEPHIR_INIT_NVAR(row);
 		if (Z_TYPE_P(rows) == IS_ARRAY) {
 			Z_SET_ISREF_P(rows);
 			ZEPHIR_CALL_FUNCTION(&row, "current", &_1, rows);
@@ -336,7 +337,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Complex, serialize) {
 	ZEPHIR_OBS_VAR(hydrateMode);
 	zephir_read_property_this(&hydrateMode, this_ptr, SL("_hydrateMode"), PH_NOISY_CC);
 	ZEPHIR_INIT_VAR(_0);
-	array_init_size(_0, 6);
+	array_init_size(_0, 7);
 	zephir_array_update_string(&_0, SL("cache"), &cache, PH_COPY | PH_SEPARATE);
 	zephir_array_update_string(&_0, SL("rows"), &records, PH_COPY | PH_SEPARATE);
 	zephir_array_update_string(&_0, SL("columnTypes"), &columnTypes, PH_COPY | PH_SEPARATE);

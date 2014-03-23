@@ -301,14 +301,14 @@ PHP_METHOD(Phalcon_Db_Dialect, getSqlExpression) {
 	if (ZEPHIR_IS_STRING(type, "unary-op")) {
 		ZEPHIR_OBS_VAR(operator);
 		zephir_array_fetch_string(&operator, expression, SL("op"), PH_NOISY TSRMLS_CC);
-		ZEPHIR_OBS_VAR(left);
+		ZEPHIR_OBS_NVAR(left);
 		if (zephir_array_isset_string_fetch(&left, expression, SS("left"), 0 TSRMLS_CC)) {
 			ZEPHIR_CALL_METHOD(&_5, this_ptr, "getsqlexpression", NULL, left, escapeChar);
 			zephir_check_call_status();
 			ZEPHIR_CONCAT_VV(return_value, _5, operator);
 			RETURN_MM();
 		}
-		ZEPHIR_OBS_VAR(right);
+		ZEPHIR_OBS_NVAR(right);
 		if (zephir_array_isset_string_fetch(&right, expression, SS("right"), 0 TSRMLS_CC)) {
 			ZEPHIR_CALL_METHOD(&_5, this_ptr, "getsqlexpression", NULL, right, escapeChar);
 			zephir_check_call_status();

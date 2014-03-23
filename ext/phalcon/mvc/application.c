@@ -316,7 +316,7 @@ PHP_METHOD(Phalcon_Mvc_Application, handle) {
 	ZEPHIR_CALL_METHOD(&moduleName, router, "getmodulename",  NULL);
 	zephir_check_call_status();
 	if (!(zephir_is_true(moduleName))) {
-		ZEPHIR_OBS_VAR(moduleName);
+		ZEPHIR_OBS_NVAR(moduleName);
 		zephir_read_property_this(&moduleName, this_ptr, SL("_defaultModule"), PH_NOISY_CC);
 	}
 	ZEPHIR_INIT_VAR(moduleObject);

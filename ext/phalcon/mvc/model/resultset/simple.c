@@ -171,6 +171,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, valid) {
 				zephir_update_property_this(this_ptr, SL("_rows"), _1 TSRMLS_CC);
 			}
 		}
+		ZEPHIR_INIT_NVAR(row);
 		if (Z_TYPE_P(rows) == IS_ARRAY) {
 			Z_SET_ISREF_P(rows);
 			ZEPHIR_CALL_FUNCTION(&row, "current", &_2, rows);
@@ -256,6 +257,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, toArray) {
 			array_init(records);
 		}
 	} else {
+		ZEPHIR_OBS_NVAR(records);
 		zephir_read_property_this(&records, this_ptr, SL("_rows"), PH_NOISY_CC);
 		if (Z_TYPE_P(records) != IS_ARRAY) {
 			ZEPHIR_OBS_NVAR(result);

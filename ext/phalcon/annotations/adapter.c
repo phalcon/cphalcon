@@ -145,7 +145,7 @@ PHP_METHOD(Phalcon_Annotations_Adapter, get) {
 		ZEPHIR_CALL_METHOD(&parsedAnnotations, reader, "parse", NULL, realClassName);
 		zephir_check_call_status();
 		if (Z_TYPE_P(parsedAnnotations) == IS_ARRAY) {
-			ZEPHIR_INIT_VAR(classAnnotations);
+			ZEPHIR_INIT_BNVAR(classAnnotations);
 			object_init_ex(classAnnotations, phalcon_annotations_reflection_ce);
 			ZEPHIR_CALL_METHOD(NULL, classAnnotations, "__construct", NULL, parsedAnnotations);
 			zephir_check_call_status();

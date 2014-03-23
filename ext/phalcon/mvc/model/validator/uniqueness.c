@@ -215,6 +215,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Uniqueness, validate) {
 	ZEPHIR_CALL_METHOD(&_12, record, "getoperationmade",  NULL);
 	zephir_check_call_status();
 	if (ZEPHIR_IS_LONG(_12, 2)) {
+		ZEPHIR_INIT_BNVAR(columnMap);
 		if (ZEPHIR_GLOBAL(orm).column_renaming) {
 			ZEPHIR_CALL_METHOD(&columnMap, metaData, "getcolumnmap", NULL, record);
 			zephir_check_call_status();
@@ -289,7 +290,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Uniqueness, validate) {
 		array_init_size(replacePairs, 2);
 		zephir_array_update_string(&replacePairs, SL(":field"), &field, PH_COPY | PH_SEPARATE);
 		if (ZEPHIR_IS_EMPTY(message)) {
-			ZEPHIR_INIT_VAR(message);
+			ZEPHIR_INIT_NVAR(message);
 			if (Z_TYPE_P(field) == IS_ARRAY) {
 				ZEPHIR_INIT_NVAR(replacePairs);
 				array_init_size(replacePairs, 2);
