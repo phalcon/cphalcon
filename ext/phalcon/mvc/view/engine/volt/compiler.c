@@ -2955,22 +2955,25 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compile) {
 	ZEPHIR_OBS_VAR(options);
 	zephir_read_property_this(&options, this_ptr, SL("_options"), PH_NOISY_CC);
 	if (Z_TYPE_P(options) == IS_ARRAY) {
-		ZEPHIR_OBS_NVAR(compileAlways);
-		if (zephir_array_isset_string_fetch(&compileAlways, options, SS("compileAlways"), 0 TSRMLS_CC)) {
+		if (zephir_array_isset_string(options, SS("compileAlways"))) {
+			ZEPHIR_OBS_NVAR(compileAlways);
+			zephir_array_fetch_string(&compileAlways, options, SL("compileAlways"), PH_NOISY TSRMLS_CC);
 			if (Z_TYPE_P(compileAlways) != IS_BOOL) {
 				ZEPHIR_THROW_EXCEPTION_STR(phalcon_mvc_view_exception_ce, "compileAlways must be a bool value");
 				return;
 			}
 		}
-		ZEPHIR_OBS_NVAR(prefix);
-		if (zephir_array_isset_string_fetch(&prefix, options, SS("prefix"), 0 TSRMLS_CC)) {
+		if (zephir_array_isset_string(options, SS("prefix"))) {
+			ZEPHIR_OBS_NVAR(prefix);
+			zephir_array_fetch_string(&prefix, options, SL("prefix"), PH_NOISY TSRMLS_CC);
 			if (Z_TYPE_P(prefix) != IS_STRING) {
 				ZEPHIR_THROW_EXCEPTION_STR(phalcon_mvc_view_exception_ce, "prefix must be a string");
 				return;
 			}
 		}
-		ZEPHIR_OBS_NVAR(compiledPath);
-		if (zephir_array_isset_string_fetch(&compiledPath, options, SS("compiledPath"), 0 TSRMLS_CC)) {
+		if (zephir_array_isset_string(options, SS("compiledPath"))) {
+			ZEPHIR_OBS_NVAR(compiledPath);
+			zephir_array_fetch_string(&compiledPath, options, SL("compiledPath"), PH_NOISY TSRMLS_CC);
 			if (Z_TYPE_P(compiledPath) != IS_STRING) {
 				if (Z_TYPE_P(compiledPath) != IS_OBJECT) {
 					ZEPHIR_THROW_EXCEPTION_STR(phalcon_mvc_view_exception_ce, "compiledPath must be a string or a closure");
@@ -2978,15 +2981,17 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compile) {
 				}
 			}
 		}
-		ZEPHIR_OBS_NVAR(compiledSeparator);
-		if (zephir_array_isset_string_fetch(&compiledSeparator, options, SS("compiledSeparator"), 0 TSRMLS_CC)) {
+		if (zephir_array_isset_string(options, SS("compiledSeparator"))) {
+			ZEPHIR_OBS_NVAR(compiledSeparator);
+			zephir_array_fetch_string(&compiledSeparator, options, SL("compiledSeparator"), PH_NOISY TSRMLS_CC);
 			if (Z_TYPE_P(compiledSeparator) != IS_STRING) {
 				ZEPHIR_THROW_EXCEPTION_STR(phalcon_mvc_view_exception_ce, "compiledSeparator must be a string");
 				return;
 			}
 		}
-		ZEPHIR_OBS_NVAR(compiledExtension);
-		if (zephir_array_isset_string_fetch(&compiledExtension, options, SS("compiledExtension"), 0 TSRMLS_CC)) {
+		if (zephir_array_isset_string(options, SS("compiledExtension"))) {
+			ZEPHIR_OBS_NVAR(compiledExtension);
+			zephir_array_fetch_string(&compiledExtension, options, SL("compiledExtension"), PH_NOISY TSRMLS_CC);
 			if (Z_TYPE_P(compiledExtension) != IS_STRING) {
 				ZEPHIR_THROW_EXCEPTION_STR(phalcon_mvc_view_exception_ce, "compiledExtension must be a string");
 				return;
