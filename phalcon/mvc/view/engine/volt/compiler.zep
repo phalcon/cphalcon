@@ -2139,7 +2139,7 @@ class Compiler implements \Phalcon\Di\InjectionAwareInterface
 					let compilation .= this->compileForeach(statement, extendsMode);
 					break;
 
-				case 306:
+				case PHVOLT_T_SET:
 					let compilation .= this->compileSet(statement);
 					break;
 
@@ -2525,7 +2525,8 @@ class Compiler implements \Phalcon\Di\InjectionAwareInterface
 			/**
 			 * This makes that templates will be compiled always
 			 */
-			if fetch compileAlways, options["compileAlways"] {
+			if isset options["compileAlways"] {
+				let compileAlways = options["compileAlways"];
 				if typeof compileAlways != "bool" {
 					throw new \Phalcon\Mvc\View\Exception("compileAlways must be a bool value");
 				}
@@ -2534,7 +2535,8 @@ class Compiler implements \Phalcon\Di\InjectionAwareInterface
 			/**
 			 * Prefix is prepended to the template name
 			 */
-			if fetch prefix, options["prefix"] {
+			if isset options["prefix"] {
+				let prefix = options["prefix"];
 				if typeof prefix != "string" {
 					throw new \Phalcon\Mvc\View\Exception("prefix must be a string");
 				}
@@ -2543,7 +2545,8 @@ class Compiler implements \Phalcon\Di\InjectionAwareInterface
 			/**
 			 * Compiled path is a directory where the compiled templates will be located
 			 */
-			if fetch compiledPath, options["compiledPath"] {
+			if isset options["compiledPath"] {
+				let compiledPath = options["compiledPath"];
 				if typeof compiledPath != "string" {
 					if typeof compiledPath != "object" {
 						throw new \Phalcon\Mvc\View\Exception("compiledPath must be a string or a closure");
@@ -2554,7 +2557,8 @@ class Compiler implements \Phalcon\Di\InjectionAwareInterface
 			/**
 			 * There is no compiled separator by default
 			 */
-			if fetch compiledSeparator, options["compiledSeparator"] {
+			if isset options["compiledSeparator"] {
+				let compiledSeparator = options["compiledSeparator"];
 				if typeof compiledSeparator != "string" {
 					throw new \Phalcon\Mvc\View\Exception("compiledSeparator must be a string");
 				}
@@ -2563,7 +2567,8 @@ class Compiler implements \Phalcon\Di\InjectionAwareInterface
 			/**
 			 * By default the compile extension is .php
 			 */
-			if fetch compiledExtension, options["compiledExtension"] {
+			if isset options["compiledExtension"] {
+				let compiledExtension = options["compiledExtension"];
 				if typeof compiledExtension != "string" {
 					throw new \Phalcon\Mvc\View\Exception("compiledExtension must be a string");
 				}

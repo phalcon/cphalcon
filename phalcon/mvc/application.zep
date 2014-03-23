@@ -69,7 +69,7 @@ class Application extends \Phalcon\Di\Injectable
 
 	protected _modules;
 
-	protected _moduleObject;
+	//protected _moduleObject;
 
 	protected _implicitView = true;
 
