@@ -1447,11 +1447,7 @@ int zephir_create_instance_params(zval *return_value, const zval *class_name, zv
 			params_ptr = NULL;
 		}
 
-		if (zephir_has_constructor_ce(ce)) {
-			outcome = zephir_call_class_method_aparams(NULL, ce, zephir_fcall_method, return_value, SS("__construct"), NULL, param_count, params_ptr TSRMLS_CC);
-		} else {
-			outcome = SUCCESS;
-		}
+		outcome = zephir_call_class_method_aparams(NULL, ce, zephir_fcall_method, return_value, SL("__construct"), NULL, param_count, params_ptr TSRMLS_CC);
 
 		if (unlikely(params_arr != NULL)) {
 			efree(params_arr);

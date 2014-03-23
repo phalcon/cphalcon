@@ -367,7 +367,7 @@ class DiTest extends PHPUnit_Framework_TestCase
 	public function testStaticDi()
 	{
 		$di = Phalcon\DI::getDefault();
-		$this->assertInstanceOf('Phalcon\DI', $di);
+		$this->assertInstanceOf('Phalcon\Di', $di);
 	}
 
 	public function testCrash()
