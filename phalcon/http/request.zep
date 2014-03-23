@@ -378,7 +378,7 @@ class Request implements \Phalcon\Http\RequestInterface, \Phalcon\Di\InjectionAw
 		if typeof rawBody == "string" {
 			return json_decode(rawBody);
 		}
-		
+
 		return false;
 	}
 
@@ -692,61 +692,49 @@ class Request implements \Phalcon\Http\RequestInterface, \Phalcon\Di\InjectionAw
 	 * @param boolean notErrored
 	 * @return Phalcon\Http\Request\File[]
 	 */
-	public function getUploadedFiles(boolean onlySuccessful=false) -> <\Phalcon\Http\Request\File[]>
+	public function getUploadedFiles(boolean notErrored=false) -> <Phalcon\Http\Request\File[]>
 	{
-		var files, superFiles, file, error, name, type, tmpName, size, prefix;
+		var superFiles, file, files, error, subFiles, subFile;
 
 		let superFiles = _FILES;
-
-		if typeof superFiles != "array" || !count(superFiles) {
-			return [];
-		}
-
-		let files = [];
-		for file in superFiles {
-
-			if fetch error, file["error"] {
-
-				if typeof error != "array" {
-					if !error || !onlySuccessful {
+		if count(superFiles) {
+			let files = [];
+			for file in superFiles {
+				if notErrored {
+					if typeof file["name"] == "array" {
+						let subFiles = [];
+						for subFile in file {
+							if !fetch error, subFile["error"] {
+								let error = true;
+							}
+							if !error {
+								let subFiles[] = new \Phalcon\Http\Request\File(subFile);
+							}
+						}
+						let files[] = subFiles;
+					} else {
+						if !fetch error, file["error"] {
+							let error = true;
+						}
+						if !error {
+							let files[] = new \Phalcon\Http\Request\File(file);
+						}
+					}
+				} else {
+					if typeof file["name"] == "array" {
+						let subFiles = [];
+						for subFile in file {
+							let subFiles[] = new \Phalcon\Http\Request\File(subFile);
+						}
+						let files[] = subFiles;
+					} else {
 						let files[] = new \Phalcon\Http\Request\File(file);
 					}
 				}
-
-				if typeof error == "array"
-					&& fetch name, file["name"]
-					&& fetch type, file["type"]
-					&& fetch tmpName, file["tmpName"]
-					&& fetch size, file["size"]
-				{
-					let prefix = "fix-me";
-					let files = this->getUploadedFilesHelper(files, name, type, tmpName, error, size, onlySuccessful, prefix);
-				}
 			}
+			return files;
 		}
-
-		return files;
-	}
-
-	private function getUploadedFilesHelper(files, names, types, tmpNames, errors, sizes, boolean onlySuccessful, prefix) -> <\Phalcon\Http\Request\File[]>
-	{
-		/* fix me
-		var value;
-		int numberFiles = 0;
-
-		for name in names {
-			if typeof value != "array" {
-				if !value || !onlySuccessful {
-					//let files[] = new \Phalcon\Http\Request\File(value);
-				}
-			}
-
-			if typeof value == "array" {
-				// fix me
-			}
-		}
-		*/
-		return files;
+		return [];
 	}
 
 	/**
@@ -754,7 +742,7 @@ class Request implements \Phalcon\Http\RequestInterface, \Phalcon\Di\InjectionAw
 	 *
 	 * @return array
 	 */
-	public function getHeaders() -> boolean
+	public function getHeaders() -> array
 	{
 		var headers, key, value;
 
@@ -775,7 +763,6 @@ class Request implements \Phalcon\Http\RequestInterface, \Phalcon\Di\InjectionAw
 	public function getHTTPReferer() -> string
 	{
 		var httpReferer;
-
 		if fetch httpReferer, _SERVER["HTTP_REFERER"] {
 			return httpReferer;
 		}
@@ -940,7 +927,6 @@ class Request implements \Phalcon\Http\RequestInterface, \Phalcon\Di\InjectionAw
 			if !preg_match_all("#(\\w+)=(['\"]?)([^'\" ,]+)\\2#", digest, matches, 2) {
 				return auth;
 			}
-
 			if typeof matches == "array" {
 				for match in matches {
 					let auth[match[1]] = match[3];

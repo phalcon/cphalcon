@@ -38,7 +38,7 @@ class Validation extends \Phalcon\Di\Injectable
 
 	protected _defaultMessages;
 
-		protected _labels;
+	protected _labels;
 
 	protected _values;
 
@@ -129,7 +129,7 @@ class Validation extends \Phalcon\Di\Injectable
 			 * Check if the validation must be canceled if this validator fails
 			 */
 			if validator->validate(this, field) === false {
-				if (validator->getOption("cancelOnFail")) {
+				if validator->getOption("cancelOnFail") {
 					break;
 				}
 			}
@@ -216,52 +216,54 @@ class Validation extends \Phalcon\Di\Injectable
 		return this->_entity;
 	}
 
-		/**
+	/**
 	 * Adds default messages to validators
 	 *
 	 * @param array messages
-		 * @return array
+	 * @return array
 	 */
 	public function setDefaultMessages(messages=null)
 	{
-				var defaultMessages;
+		var defaultMessages;
 
-				if typeof messages == "null" {
+		if typeof messages == "null" {
 			let messages = [];
 		}
-				if typeof messages != "array" {
-						throw new \Phalcon\Validation\Exception("Messages must be an array");
-				}
-				let defaultMessages = [
-						"Alnum": "Field :field must contain only letters and numbers",
-						"Alpha": "Field :field must contain only letters",
-						"Between": "Field :field must be within the range of :min to :max",
-						"Confirmation": "Field :field must be the same as :with",
-						"Digit": "Field :field must be numeric",
-						"Email": "Field :field must be an email address",
-						"ExclusionIn": "Field :field must not be a part of list: :domain",
-						"FileEmpty": "Field :field must not be empty",
-						"FileIniSize": "File :field exceeds the maximum file size",
-						"FileMaxResolution": "File :field must not exceed :max resolution",
-						"FileMinResolution": "File :field must be at least :min resolution",
-						"FileSize": "File :field exceeds the size of :max",
-						"FileType": "File :field must be of type: :types",
-						"FileValid": "Field :field is not valid",
-						"Identical": "Field :field does not have the expected value",
-						"InclusionIn": "Field :field must be a part of list: :domain",
-						"PresenceOf": "Field :field is required",
-						"Regex": "Field :field does not match the required format",
-						"TooLong": "Field :field must not exceed :max characters long",
-						"TooShort": "Field :field must be at least :min characters long",
-						"Uniqueness": "Field :field must be unique",
-						"Url": "Field :field must be a url"
-				];
+
+		if typeof messages != "array" {
+			throw new \Phalcon\Validation\Exception("Messages must be an array");
+		}
+
+		let defaultMessages = [
+			"Alnum": "Field :field must contain only letters and numbers",
+			"Alpha": "Field :field must contain only letters",
+			"Between": "Field :field must be within the range of :min to :max",
+			"Confirmation": "Field :field must be the same as :with",
+			"Digit": "Field :field must be numeric",
+			"Email": "Field :field must be an email address",
+			"ExclusionIn": "Field :field must not be a part of list: :domain",
+			"FileEmpty": "Field :field must not be empty",
+			"FileIniSize": "File :field exceeds the maximum file size",
+			"FileMaxResolution": "File :field must not exceed :max resolution",
+			"FileMinResolution": "File :field must be at least :min resolution",
+			"FileSize": "File :field exceeds the size of :max",
+			"FileType": "File :field must be of type: :types",
+			"FileValid": "Field :field is not valid",
+			"Identical": "Field :field does not have the expected value",
+			"InclusionIn": "Field :field must be a part of list: :domain",
+			"PresenceOf": "Field :field is required",
+			"Regex": "Field :field does not match the required format",
+			"TooLong": "Field :field must not exceed :max characters long",
+			"TooShort": "Field :field must be at least :min characters long",
+			"Uniqueness": "Field :field must be unique",
+			"Url": "Field :field must be a url"
+		];
 
 		let this->_defaultMessages = array_merge(defaultMessages, messages);
-				return this->_defaultMessages;
+		return this->_defaultMessages;
 	}
 
-		/**
+	/**
 	 * Get default message for validator type
 	 *
 	 * @param string type
@@ -282,7 +284,7 @@ class Validation extends \Phalcon\Di\Injectable
 		return this->_messages;
 	}
 
-		/**
+	/**
 	 * Adds labels for fields
 	 *
 	 * @param array labels
@@ -295,7 +297,7 @@ class Validation extends \Phalcon\Di\Injectable
 		let this->_labels = labels;
 	}
 
-		/**
+	/**
 	 * Get label for field
 	 *
 	 * @param string field
@@ -321,9 +323,7 @@ class Validation extends \Phalcon\Di\Injectable
 	 */
 	public function appendMessage(<\Phalcon\Validation\MessageInterface> message) -> <\Phalcon\Validation>
 	{
-		var messages;
-		let messages = this->_messages;
-		messages->appendMessage(message);
+		this->_messages->appendMessage(message);
 		return this;
 	}
 
