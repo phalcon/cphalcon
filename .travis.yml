@@ -33,6 +33,9 @@ after_failure:
  - sudo apt-get -qq install gdb
  - ./unit-tests/ci/after_failure.sh
 
+matrix:
+  fast_finish: true
+
 notifications:
   email:
     - andres@phalconphp.com
