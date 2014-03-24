@@ -125,7 +125,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Regex, validate){
 	PHALCON_INIT_NVAR(option);
 	ZVAL_STRING(option, "allowEmpty", 1);
 
-	PHALCON_CALL_METHOD(&allow_empty, this_ptr, "issetoption", option);
+	PHALCON_CALL_METHOD(&allow_empty, this_ptr, "getoption", option);
 
 	if (allow_empty && zend_is_true(allow_empty)) {
 		if (PHALCON_IS_EMPTY(value)) {
@@ -141,6 +141,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Regex, validate){
 	/** 
 	 * The regular expression is set in the option 'pattern'
 	 */
+	PHALCON_INIT_NVAR(option);
+	ZVAL_STRING(option, "pattern", 1);
 	PHALCON_CALL_METHOD(&pattern, this_ptr, "getoption", option);
 	
 	/** 
