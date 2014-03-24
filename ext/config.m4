@@ -98,6 +98,8 @@ loader/exception.c \
 cryptinterface.c \
 db.c \
 text.c \
+arr.c \
+date.c \
 debug.c \
 tag.c \
 mvc/controller.c \
@@ -189,6 +191,7 @@ mvc/model/validator/url.c \
 mvc/model/validator/regex.c \
 mvc/model/validator/numericality.c \
 mvc/model/validator/stringlength.c \
+mvc/model/validator/json.c \
 mvc/model/resultset/complex.c \
 mvc/model/resultset/simple.c \
 mvc/model/behavior/timestampable.c \
@@ -349,6 +352,15 @@ image/adapterinterface.c \
 image/exception.c \
 image/adapter/gd.c \
 image/adapter/imagick.c \
+amf.c \
+amf/header.c \
+amf/message.c \
+amf/packet.c \
+amf/deserializer.c \
+amf/serializer.c \
+amf/exception.c \
+mvc/amf.c \
+mvc/amf/exception.c \
 psr/log/abstractlogger.c \
 psr/log/invalidargumentexception.c \
 psr/log/loggerawareinterface.c \
