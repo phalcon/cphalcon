@@ -67,6 +67,7 @@ PHP_METHOD(Phalcon_Http_Request_File, getKey);
 PHP_METHOD(Phalcon_Http_Request_File, isUploadedFile);
 PHP_METHOD(Phalcon_Http_Request_File, moveTo);
 PHP_METHOD(Phalcon_Http_Request_File, __set_state);
+PHP_METHOD(Phalcon_Http_Request_File, getExtension);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_http_request_file___construct, 0, 0, 1)
 	ZEND_ARG_INFO(0, file)
@@ -88,6 +89,7 @@ static const zend_function_entry phalcon_http_request_file_method_entry[] = {
 	PHP_ME(Phalcon_Http_Request_File, isUploadedFile, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Http_Request_File, moveTo, arginfo_phalcon_http_request_fileinterface_moveto, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Http_Request_File, __set_state, arginfo_phalcon_http_request_file___set_state, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
+	PHP_ME(Phalcon_Http_Request_File, getExtension, NULL, ZEND_ACC_PUBLIC)
 	PHP_FE_END
 };
 
@@ -105,6 +107,7 @@ PHALCON_INIT_CLASS(Phalcon_Http_Request_File){
 	zend_declare_property_null(phalcon_http_request_file_ce, SL("_real_type"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_http_request_file_ce, SL("_error"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_http_request_file_ce, SL("_key"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_http_request_file_ce, SL("_extension"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
 	zend_class_implements(phalcon_http_request_file_ce TSRMLS_CC, 1, phalcon_http_request_fileinterface_ce);
 
@@ -119,6 +122,7 @@ PHALCON_INIT_CLASS(Phalcon_Http_Request_File){
 PHP_METHOD(Phalcon_Http_Request_File, __construct){
 
 	zval *file, *name, *temp_name, *size, *type, *error, *key = NULL;
+	zval *constant, *extension = NULL;
 
 	PHALCON_MM_GROW();
 
@@ -132,6 +136,14 @@ PHP_METHOD(Phalcon_Http_Request_File, __construct){
 		PHALCON_OBS_VAR(name);
 		phalcon_array_fetch_string(&name, file, SL("name"), PH_NOISY);
 		phalcon_update_property_this(this_ptr, SL("_name"), name TSRMLS_CC);
+
+		PHALCON_INIT_VAR(constant);
+		if (zend_get_constant(SL("PATHINFO_EXTENSION"), constant TSRMLS_CC)) {
+			PHALCON_CALL_FUNCTION(&extension, "pathinfo", name, constant);
+			phalcon_update_property_this(this_ptr, SL("_extension"), extension TSRMLS_CC);
+		}
+
+		
 	}
 	
 	if (phalcon_array_isset_string(file, SS("tmp_name"))) {
@@ -324,4 +336,15 @@ PHP_METHOD(Phalcon_Http_Request_File, __set_state) {
 	PHALCON_MM_GROW();
 	PHALCON_CALL_METHOD(NULL, return_value, "__construct", data);
 	PHALCON_MM_RESTORE();
+}
+
+/**
+ * Returns the file extension
+ *
+ * @return string
+ */
+PHP_METHOD(Phalcon_Http_Request_File, getExtension){
+
+
+	RETURN_MEMBER(this_ptr, "_extension ");
 }
