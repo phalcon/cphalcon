@@ -350,7 +350,7 @@ class Compiler implements \Phalcon\Di\InjectionAwareInterface
 	 * @param array expr
 	 * @return string
 	 */
-	public function attributeReader(expr)
+	public function attributeReader(expr) -> string
 	{
 		var exprCode, loopContext, left, leftType, variable,
 			level, dependencyInjector, leftCode, right;
@@ -359,7 +359,7 @@ class Compiler implements \Phalcon\Di\InjectionAwareInterface
 
 		let left = expr["left"];
 
-		if left["type"] == 265 {
+		if left["type"] == PHVOLT_T_IDENTIFIER {
 
 			let variable = left["value"];
 
@@ -390,7 +390,7 @@ class Compiler implements \Phalcon\Di\InjectionAwareInterface
 		} else {
 			let leftCode = this->expression(left), leftType = left["type"];
 			if leftType != 46 {
-				if leftType != 350 {
+				if leftType != PHVOLT_T_FCALL {
 					let exprCode .= "(" . leftCode . ")";
 				} else {
 					let exprCode .= leftCode;
@@ -447,7 +447,7 @@ class Compiler implements \Phalcon\Di\InjectionAwareInterface
 		/**
 		 * Check if it's a single function
 		 */
-		if nameType == 265 {
+		if nameType == PHVOLT_T_IDENTIFIER {
 
 			let name = nameExpr["value"];
 
