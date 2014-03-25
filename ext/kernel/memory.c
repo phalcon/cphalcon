@@ -23,6 +23,7 @@
 
 #include "kernel/fcall.h"
 #include "kernel/backtrace.h"
+#include "kernel/framework/orm.h"
 
 /*
  * Memory Frames/Virtual Symbol Scopes
@@ -41,6 +42,119 @@
  *
  * Not all methods must grow/restore the phalcon_memory_entry.
  */
+
+void phalcon_initialize_memory(zend_phalcon_globals *phalcon_globals_ptr TSRMLS_DC)
+{
+	phalcon_memory_entry *start;
+	size_t i;
+
+	start = (phalcon_memory_entry *) pecalloc(PHALCON_NUM_PREALLOCATED_FRAMES, sizeof(phalcon_memory_entry), 1);
+/* pecalloc() will take care of these members for every frame
+	start->pointer      = 0;
+	start->hash_pointer = 0;
+	start->prev = NULL;
+	start->next = NULL;
+*/
+	for (i = 0; i < PHALCON_NUM_PREALLOCATED_FRAMES; ++i) {
+		start[i].addresses       = pecalloc(24, sizeof(zval*), 1);
+		start[i].capacity        = 24;
+		start[i].hash_addresses  = pecalloc(8, sizeof(zval*), 1);
+		start[i].hash_capacity   = 8;
+
+#ifndef PHALCON_RELEASE
+		start[i].permanent = 1;
+#endif
+	}
+
+	start[0].next = &start[1];
+	start[PHALCON_NUM_PREALLOCATED_FRAMES - 1].prev = &start[PHALCON_NUM_PREALLOCATED_FRAMES - 2];
+
+	for (i = 1; i < PHALCON_NUM_PREALLOCATED_FRAMES - 1; ++i) {
+		start[i].next = &start[i + 1];
+		start[i].prev = &start[i - 1];
+	}
+
+	phalcon_globals_ptr->start_memory = start;
+	phalcon_globals_ptr->end_memory   = start + PHALCON_NUM_PREALLOCATED_FRAMES;
+
+	phalcon_globals_ptr->fcache = pemalloc(sizeof(HashTable), 1);
+#ifndef PHALCON_RELEASE
+	zend_hash_init(phalcon_globals_ptr->fcache, 128, NULL, phalcon_fcall_cache_dtor, 1);
+#else
+	zend_hash_init(phalcon_globals_ptr->fcache, 128, NULL, NULL, 1);
+#endif
+
+	/* 'Allocator sizeof operand mismatch' warning can be safely ignored */
+	ALLOC_INIT_ZVAL(phalcon_globals_ptr->z_null);
+	Z_SET_REFCOUNT_P(phalcon_globals_ptr->z_null, 2);
+
+	/* 'Allocator sizeof operand mismatch' warning can be safely ignored */
+	ALLOC_INIT_ZVAL(phalcon_globals_ptr->z_false);
+	Z_SET_REFCOUNT_P(phalcon_globals_ptr->z_false, 2);
+	ZVAL_FALSE(phalcon_globals_ptr->z_false);
+
+	/* 'Allocator sizeof operand mismatch' warning can be safely ignored */
+	ALLOC_INIT_ZVAL(phalcon_globals_ptr->z_true);
+	Z_SET_REFCOUNT_P(phalcon_globals_ptr->z_true, 2);
+	ZVAL_TRUE(phalcon_globals_ptr->z_true);
+
+	/* 'Allocator sizeof operand mismatch' warning can be safely ignored */
+	ALLOC_INIT_ZVAL(phalcon_globals_ptr->z_zero);
+	Z_SET_REFCOUNT_P(phalcon_globals_ptr->z_zero, 2);
+	ZVAL_LONG(phalcon_globals_ptr->z_zero, 0);
+
+	/* 'Allocator sizeof operand mismatch' warning can be safely ignored */
+	ALLOC_INIT_ZVAL(phalcon_globals_ptr->z_one);
+	Z_SET_REFCOUNT_P(phalcon_globals_ptr->z_one, 2);
+	ZVAL_LONG(phalcon_globals_ptr->z_one, 1);
+
+	phalcon_globals_ptr->initialized = 1;
+}
+
+void phalcon_deinitialize_memory(TSRMLS_D)
+{
+	size_t i;
+	zend_phalcon_globals *phalcon_globals_ptr = PHALCON_VGLOBAL;
+
+	if (phalcon_globals_ptr->initialized != 1) {
+		phalcon_globals_ptr->initialized = 0;
+		return;
+	}
+
+	if (phalcon_globals_ptr->start_memory != NULL) {
+		phalcon_clean_restore_stack(TSRMLS_C);
+	}
+
+	phalcon_orm_destroy_cache(TSRMLS_C);
+
+	zend_hash_apply_with_arguments(phalcon_globals_ptr->fcache TSRMLS_CC, phalcon_cleanup_fcache, 0);
+
+#ifndef PHALCON_RELEASE
+	assert(phalcon_globals_ptr->start_memory != NULL);
+#endif
+
+	for (i = 0; i < PHALCON_NUM_PREALLOCATED_FRAMES; ++i) {
+		pefree(phalcon_globals_ptr->start_memory[i].hash_addresses, 1);
+		pefree(phalcon_globals_ptr->start_memory[i].addresses, 1);
+	}
+
+	pefree(phalcon_globals_ptr->start_memory, 1);
+	phalcon_globals_ptr->start_memory = NULL;
+
+	zend_hash_destroy(phalcon_globals_ptr->fcache);
+	pefree(phalcon_globals_ptr->fcache, 1);
+	phalcon_globals_ptr->fcache = NULL;
+
+	for (i = 0; i < 2; i++) {
+		zval_ptr_dtor(&phalcon_globals_ptr->z_null);
+		zval_ptr_dtor(&phalcon_globals_ptr->z_false);
+		zval_ptr_dtor(&phalcon_globals_ptr->z_true);
+		zval_ptr_dtor(&phalcon_globals_ptr->z_zero);
+		zval_ptr_dtor(&phalcon_globals_ptr->z_one);
+	}
+
+	phalcon_globals_ptr->initialized = 0;
+}
 
 static phalcon_memory_entry* phalcon_memory_grow_stack_common(zend_phalcon_globals *g)
 {
@@ -304,16 +418,27 @@ int phalcon_memory_restore_stack(const char *func TSRMLS_DC)
  */
 void phalcon_memory_grow_stack(const char *func TSRMLS_DC)
 {
-	phalcon_memory_entry *entry = phalcon_memory_grow_stack_common(PHALCON_VGLOBAL);
+	zend_phalcon_globals *g = PHALCON_VGLOBAL;
+	if (g->start_memory == NULL) {
+		phalcon_initialize_memory(g TSRMLS_CC);
+	}
+	phalcon_memory_entry *entry = phalcon_memory_grow_stack_common(g);
 	entry->func = func;
 }
+
 #else
+
 /**
  * Adds a memory frame in the current executed method
  */
 void phalcon_memory_grow_stack(TSRMLS_D)
 {
-	phalcon_memory_grow_stack_common(PHALCON_VGLOBAL);
+	zend_phalcon_globals *g = PHALCON_VGLOBAL;
+	if (g->start_memory == NULL) {
+		zend_error(E_ERROR, "Cannot use the memory manager when the request is shutting down");
+		return;
+	}
+	phalcon_memory_grow_stack_common(g);
 }
 
 /**

@@ -102,7 +102,6 @@ static zval** phalcon_session_adapter_get_property_ptr_ptr_internal(zval *object
 		if (type == BP_VAR_R || type == BP_VAR_RW) {
 			php_error_docref(NULL TSRMLS_CC, E_WARNING, "Session is not started or $_SESSION is invalid");
 		}
-
 		return (type == BP_VAR_W || type == BP_VAR_RW) ? &EG(error_zval_ptr) : &EG(uninitialized_zval_ptr);
 	}
 
@@ -433,7 +432,7 @@ PHP_METHOD(Phalcon_Session_Adapter, __construct){
 	zval *options = NULL;
 
 	phalcon_fetch_params(0, 0, 1, &options);
-	
+
 	if (options && Z_TYPE_P(options) == IS_ARRAY) {
 		PHALCON_CALL_METHODW(NULL, this_ptr, "setoptions", options);
 	}
@@ -462,7 +461,7 @@ PHP_METHOD(Phalcon_Session_Adapter, start){
 		phalcon_update_property_bool(this_ptr, SL("_started"), 1 TSRMLS_CC);
 		RETURN_TRUE;
 	}
-	
+
 	RETURN_FALSE;
 }
 
@@ -482,7 +481,7 @@ PHP_METHOD(Phalcon_Session_Adapter, setOptions){
 	zval *options, *unique_id;
 
 	phalcon_fetch_params(0, 1, 0, &options);
-	
+
 	if (Z_TYPE_P(options) == IS_ARRAY) {
 		if (phalcon_array_isset_string_fetch(&unique_id, options, SS("uniqueId"))) {
 			phalcon_update_property_this(this_ptr, SL("_uniqueId"), unique_id TSRMLS_CC);
@@ -519,7 +518,7 @@ PHP_METHOD(Phalcon_Session_Adapter, get){
 	if (!default_value) {
 		default_value = PHALCON_GLOBAL(z_null);
 	}
-	
+
 	if (!remove || !zend_is_true(remove)) {
 		/* Fast path */
 		zval **value = phalcon_session_adapter_get_property_ptr_ptr_internal(getThis(), index, BP_VAR_NA TSRMLS_CC);
@@ -529,9 +528,9 @@ PHP_METHOD(Phalcon_Session_Adapter, get){
 
 		RETURN_ZVAL(default_value, 1, 0);
 	}
-	
+
 	unique_id = phalcon_fetch_nproperty_this(this_ptr, SL("_uniqueId"), PH_NOISY TSRMLS_CC);
-	
+
 	PHALCON_MM_GROW();
 	PHALCON_INIT_VAR(key);
 	PHALCON_CONCAT_VV(key, unique_id, index);
