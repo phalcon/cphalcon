@@ -44,8 +44,7 @@ class Simple extends \Phalcon\Mvc\Model\Resultset
 	 * @param Phalcon\Cache\BackendInterface cache
 	 * @param boolean keepSnapshots
 	 */
-	public function __construct(columnMap, <\Phalcon\Mvc\ModelInterface> model,
-		<\Phalcon\Db\Result\Pdo> result, <\Phalcon\Cache\BackendInterface> cache=null, keepSnapshots=null)
+	public function __construct(columnMap, <\Phalcon\Mvc\ModelInterface> model, result, <\Phalcon\Cache\BackendInterface> cache=null, keepSnapshots=null)
 	{
 		var rowCount;
 
@@ -62,7 +61,6 @@ class Simple extends \Phalcon\Mvc\Model\Resultset
 		 * Do the fetch using only associative indexes
 		 */
 		result->setFetchMode(\Phalcon\Db::FETCH_ASSOC);
-
 
 		let rowCount = result->numRows();
 
