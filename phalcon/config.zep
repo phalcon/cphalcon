@@ -205,7 +205,11 @@ class Config implements \ArrayAccess
 			if typeof value == "object" {
 				if method_exists(value, "toArray") {
 					let arrayConfig[key] = value->toArray();
+				} else {
+					let arrayConfig[key] = value;
 				}
+			} else {
+				let arrayConfig[key] = value;
 			}
 		}
 		return arrayConfig;
