@@ -185,6 +185,16 @@
 #include "image/adapter/imagick.h"
 #include "image/exception.h"
 
+#include "amf.h"
+#include "amf/header.h"
+#include "amf/message.h"
+#include "amf/packet.h"
+#include "amf/deserializer.h"
+#include "amf/serializer.h"
+#include "amf/exception.h"
+#include "mvc/amf.h"
+#include "mvc/amf/exception.h"
+
 #include "kernel.h"
 
 #include "loader.h"
@@ -281,6 +291,7 @@
 #include "mvc/model/validator/stringlength.h"
 #include "mvc/model/validator/uniqueness.h"
 #include "mvc/model/validator/url.h"
+#include "mvc/model/validator/json.h"
 #include "mvc/moduledefinitioninterface.h"
 #include "mvc/router.h"
 #include "mvc/routerinterface.h"
@@ -345,6 +356,9 @@
 #include "translate/exception.h"
 
 #include "text.h"
+#include "arr.h"
+
+#include "date.h"
 
 #include "validation.h"
 #include "validation/exception.h"

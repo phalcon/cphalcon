@@ -101,10 +101,10 @@ HTML;
 
 		$html = \Phalcon\Tag::javascriptInclude(array('js/phalcon.js'));
 		$this->assertEquals($html, '<script type="text/javascript" src="/js/phalcon.js"></script>'.PHP_EOL);
-	 }
+	}
 
 	public function testIssue1679()
-    {
+	{
 		$di = new Phalcon\DI\FactoryDefault();
 		$di->getshared('url')->setBaseUri('/');
 		\Phalcon\Tag::setDI($di);
@@ -155,4 +155,15 @@ HTML;
 
 		$this->assertEquals(Tag::getDefaults(), $data);
 	}
+
+	public function testIssue2002()
+	{
+		$html = Phalcon\Tag::linkTo(array('signup/register', 'Register Here!', 'query' => array('a' => 1, 'b' => 2)));
+		$this->assertEquals($html, '<a href="/signup/register?a=1&b2">Register Here!</a>');
+
+		// remote
+
+		$html = Phalcon\Tag::linkTo(array('http://phalconphp.com/en/', 'Phalcon Home', FALSE, 'query' => array('a' => 1, 'b' => 2)));
+		$this->assertEquals($html, '<a href="http://phalconphp.com/en/?a=1&b2">Phalcon Home</a>');
+	 }
 }
