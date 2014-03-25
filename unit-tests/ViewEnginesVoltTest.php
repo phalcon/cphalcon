@@ -890,19 +890,19 @@ class ViewEnginesVoltTest extends PHPUnit_Framework_TestCase
 
 		//Phalcon\Tag helpers
 		$compilation = $volt->compileString("{{ link_to('hello', 'some-link') }}");
-		$this->assertEquals($compilation, '<?php echo Phalcon\Tag::linkTo(array(\'hello\', \'some-link\')); ?>');
+		$this->assertEquals($compilation, '<?php echo $this->tag->linkTo(array(\'hello\', \'some-link\')); ?>');
 
 		$compilation = $volt->compileString("{{ form('action': 'save/products', 'method': 'post') }}");
-		$this->assertEquals($compilation, '<?php echo Phalcon\Tag::form(array(\'action\' => \'save/products\', \'method\' => \'post\')); ?>');
+		$this->assertEquals($compilation, '<?php echo $this->tag->form(array(\'action\' => \'save/products\', \'method\' => \'post\')); ?>');
 
 		$compilation = $volt->compileString("{{ stylesheet_link(config.cdn.css.bootstrap, config.cdn.local) }}");
-		$this->assertEquals($compilation, '<?php echo Phalcon\Tag::stylesheetLink($config->cdn->css->bootstrap, $config->cdn->local); ?>');
+		$this->assertEquals($compilation, '<?php echo $this->tag->stylesheetLink($config->cdn->css->bootstrap, $config->cdn->local); ?>');
 
 		$compilation = $volt->compileString("{{ javascript_include('js/some.js') }}");
-		$this->assertEquals($compilation, '<?php echo Phalcon\Tag::javascriptInclude(\'js/some.js\'); ?>');
+		$this->assertEquals($compilation, '<?php echo $this->tag->javascriptInclude(\'js/some.js\'); ?>');
 
 		$compilation = $volt->compileString("{{ image('img/logo.png', 'width': 80) }}");
-		$this->assertEquals($compilation, "<?php echo Phalcon\Tag::image(array('img/logo.png', 'width' => 80)); ?>");
+		$this->assertEquals($compilation, "<?php echo \$this->tag->image(array('img/logo.png', 'width' => 80)); ?>");
 
 		//Filters
 		$compilation = $volt->compileString('{{ "hello"|e }}');

@@ -621,10 +621,11 @@ PHP_METHOD(Phalcon_Http_Response, redirect){
 	if (!status_code) {
 		PHALCON_INIT_VAR(status_code);
 		ZVAL_LONG(status_code, 302);
-	}
-	else if (unlikely(Z_TYPE_P(status_code) != IS_LONG)) {
-		PHALCON_SEPARATE_PARAM(status_code);
-		convert_to_long(status_code);
+	} else {
+		if (unlikely(Z_TYPE_P(status_code) != IS_LONG)) {
+			PHALCON_SEPARATE_PARAM(status_code);
+			convert_to_long(status_code);			
+		}
 	}
 	
 	if (Z_TYPE_P(location) == IS_STRING && zend_is_true(external_redirect)) {
@@ -661,6 +662,9 @@ PHP_METHOD(Phalcon_Http_Response, redirect){
 	PHALCON_INIT_VAR(status_text);
 	if (Z_LVAL_P(status_code) < 300 || Z_LVAL_P(status_code) > 308) {
 		ZVAL_STRING(status_text, "Redirect", 1);
+		if (!Z_LVAL_P(status_code)) {
+			ZVAL_LONG(status_code, 302);
+		}
 	}
 	else {
 		ZVAL_STRING(status_text, redirect_phrases[Z_LVAL_P(status_code) - 300], 1);

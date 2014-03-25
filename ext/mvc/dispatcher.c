@@ -112,9 +112,9 @@ PHP_METHOD(Phalcon_Mvc_Dispatcher, setControllerSuffix){
 	zval *controller_suffix;
 
 	phalcon_fetch_params(0, 1, 0, &controller_suffix);
-	
+
 	phalcon_update_property_this(this_ptr, SL("_handlerSuffix"), controller_suffix TSRMLS_CC);
-	
+
 }
 
 /**
@@ -127,9 +127,9 @@ PHP_METHOD(Phalcon_Mvc_Dispatcher, setDefaultController){
 	zval *controller_name;
 
 	phalcon_fetch_params(0, 1, 0, &controller_name);
-	
+
 	phalcon_update_property_this(this_ptr, SL("_defaultHandler"), controller_name TSRMLS_CC);
-	
+
 }
 
 /**
@@ -142,18 +142,18 @@ PHP_METHOD(Phalcon_Mvc_Dispatcher, setControllerName){
 	zval *controller_name, *is_exact = NULL;
 
 	phalcon_fetch_params(0, 1, 1, &controller_name, &is_exact);
-	
+
 	if (is_exact && zend_is_true(is_exact)) {
 		zval *name;
 		MAKE_STD_ZVAL(name);
 		PHALCON_CONCAT_SV(name, "\\", controller_name);
 		phalcon_update_property_this(this_ptr, SL("_handlerName"), name TSRMLS_CC);
 		zval_ptr_dtor(&name);
-		phalcon_update_property_bool(this_ptr, SL("_isExactHandler"), 1 TSRMLS_CC);
+		phalcon_update_property_this(this_ptr, SL("_isExactHandler"), PHALCON_GLOBAL(z_true) TSRMLS_CC);
 	}
 	else {
 		phalcon_update_property_this(this_ptr, SL("_handlerName"), controller_name TSRMLS_CC);
-		phalcon_update_property_bool(this_ptr, SL("_isExactHandler"), 0 TSRMLS_CC);
+		phalcon_update_property_this(this_ptr, SL("_isExactHandler"), PHALCON_GLOBAL(z_false) TSRMLS_CC);
 	}
 }
 
@@ -174,10 +174,12 @@ PHP_METHOD(Phalcon_Mvc_Dispatcher, getControllerName){
 
 	phalcon_return_property_quick(return_value, NULL, getThis(), SL("_handlerName"), zend_inline_hash_func(SS("_handlerName")) TSRMLS_CC);
 	if (likely(Z_TYPE_P(return_value) == IS_STRING) && Z_STRLEN_P(return_value) > 1) {
-		char *c = Z_STRVAL_P(return_value);
-		int len = Z_STRLEN_P(return_value);
-		memmove(c, c+1, len); /* This will include the trailing zero */
-		RETVAL_STRINGL(c, len - 1, 0);
+		if (Z_STRVAL_P(return_value)[0] == '\\') {
+			char *c = Z_STRVAL_P(return_value);
+			int len = Z_STRLEN_P(return_value);
+			memmove(c, c+1, len); /* This will include the trailing zero */
+			RETVAL_STRINGL(c, len - 1, 0);
+		}
 	}
 }
 
@@ -197,68 +199,68 @@ PHP_METHOD(Phalcon_Mvc_Dispatcher, _throwDispatchException){
 	PHALCON_MM_GROW();
 
 	phalcon_fetch_params(1, 1, 1, &message, &exception_code);
-	
+
 	if (!exception_code) {
 		PHALCON_INIT_VAR(exception_code);
 		ZVAL_LONG(exception_code, 0);
 	} else {
 		PHALCON_SEPARATE_PARAM(exception_code);
 	}
-	
+
 	PHALCON_OBS_VAR(dependency_injector);
 	phalcon_read_property_this(&dependency_injector, this_ptr, SL("_dependencyInjector"), PH_NOISY TSRMLS_CC);
 	if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
 		PHALCON_INIT_NVAR(exception_code);
 		ZVAL_LONG(exception_code, 0);
-	
+
 		PHALCON_INIT_VAR(exception_message);
 		ZVAL_STRING(exception_message, "A dependency injection container is required to access the 'response' service", 1);
-	
+
 		PHALCON_INIT_VAR(exception);
 		object_init_ex(exception, phalcon_mvc_dispatcher_exception_ce);
 		PHALCON_CALL_METHOD(NULL, exception, "__construct", exception_message, exception_code);
-	
+
 		phalcon_throw_exception(exception TSRMLS_CC);
 		RETURN_MM();
 	}
-	
+
 	PHALCON_INIT_VAR(service);
 	PHALCON_ZVAL_MAYBE_INTERNED_STRING(service, phalcon_interned_response);
-	
+
 	PHALCON_CALL_METHOD(&response, dependency_injector, "getshared", service);
 	PHALCON_VERIFY_INTERFACE(response, phalcon_http_responseinterface_ce);
-	
-	/** 
+
+	/**
 	 * Dispatcher exceptions automatically send 404 status
 	 */
 	PHALCON_INIT_VAR(status_code);
 	ZVAL_LONG(status_code, 404);
-	
+
 	PHALCON_INIT_VAR(status_message);
 	ZVAL_STRING(status_message, "Not Found", 1);
 	PHALCON_CALL_METHOD(NULL, response, "setstatuscode", status_code, status_message);
-	
-	/** 
+
+	/**
 	 * Create the real exception
 	 */
 	PHALCON_INIT_NVAR(exception);
 	object_init_ex(exception, phalcon_mvc_dispatcher_exception_ce);
 	PHALCON_CALL_METHOD(NULL, exception, "__construct", message, exception_code);
-	
+
 	PHALCON_OBS_VAR(events_manager);
 	phalcon_read_property_this(&events_manager, this_ptr, SL("_eventsManager"), PH_NOISY TSRMLS_CC);
 	if (Z_TYPE_P(events_manager) == IS_OBJECT) {
-	
+
 		PHALCON_INIT_VAR(event_name);
 		ZVAL_STRING(event_name, "dispatch:beforeException", 1);
-	
+
 		PHALCON_CALL_METHOD(&status, events_manager, "fire", event_name, this_ptr, exception);
 		if (PHALCON_IS_FALSE(status)) {
 			RETURN_MM_FALSE;
 		}
 	}
-	
-	/** 
+
+	/**
 	 * Throw the exception if it wasn't handled
 	 */
 	phalcon_throw_exception(exception TSRMLS_CC);
@@ -278,12 +280,12 @@ PHP_METHOD(Phalcon_Mvc_Dispatcher, _handleException){
 	zval *exception, *events_manager, *event_name;
 
 	phalcon_fetch_params(0, 1, 0, &exception);
-	
+
 	events_manager = phalcon_fetch_nproperty_this(this_ptr, SL("_eventsManager"), PH_NOISY TSRMLS_CC);
 	if (Z_TYPE_P(events_manager) == IS_OBJECT) {
 		PHALCON_ALLOC_GHOST_ZVAL(event_name);
 		ZVAL_STRING(event_name, "dispatch:beforeException", 1);
-	
+
 		PHALCON_RETURN_CALL_METHODW(events_manager, "fire", event_name, this_ptr, exception);
 	}
 }

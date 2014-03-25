@@ -52,6 +52,59 @@ static const unsigned char tolower_map[256] = {
 };
 #endif
 
+#ifndef PHALCON_RELEASE
+void phalcon_fcall_cache_dtor(void *pData)
+{
+	phalcon_fcall_cache_entry **entry = (phalcon_fcall_cache_entry**)pData;
+	free(*entry);
+}
+#endif
+
+int phalcon_cleanup_fcache(void *pDest TSRMLS_DC, int num_args, va_list args, zend_hash_key *hash_key)
+{
+	phalcon_fcall_cache_entry **entry = (phalcon_fcall_cache_entry**)pDest;
+	zend_class_entry *scope;
+	uint len = hash_key->nKeyLength;
+
+	assert(hash_key->arKey != NULL);
+	assert(hash_key->nKeyLength > 2 * sizeof(zend_class_entry**));
+
+	memcpy(&scope, &hash_key->arKey[len - 2 * sizeof(zend_class_entry**)], sizeof(zend_class_entry*));
+
+/*
+#ifndef PHALCON_RELEASE
+	{
+		zend_class_entry *cls;
+		memcpy(&cls, &hash_key->arKey[len - sizeof(zend_class_entry**)], sizeof(zend_class_entry*));
+
+		fprintf(stderr, "func: %s, cls: %s, scope: %s [%u]\n", (*entry)->f->common.function_name, (cls ? cls->name : "N/A"), (scope ? scope->name : "N/A"), (uint)(*entry)->times);
+	}
+#endif
+*/
+
+#ifndef PHALCON_RELEASE
+	if ((*entry)->f->type != ZEND_INTERNAL_FUNCTION || (scope && scope->type != ZEND_INTERNAL_CLASS)) {
+		return ZEND_HASH_APPLY_REMOVE;
+	}
+#else
+	if ((*entry)->type != ZEND_INTERNAL_FUNCTION || (scope && scope->type != ZEND_INTERNAL_CLASS)) {
+		return ZEND_HASH_APPLY_REMOVE;
+	}
+#endif
+
+#if PHP_VERSION_ID >= 50400
+	if (scope && scope->type == ZEND_INTERNAL_CLASS && scope->info.internal.module->type != MODULE_PERSISTENT) {
+		return ZEND_HASH_APPLY_REMOVE;
+	}
+#else
+	if (scope && scope->type == ZEND_INTERNAL_CLASS && scope->module->type != MODULE_PERSISTENT) {
+		return ZEND_HASH_APPLY_REMOVE;
+	}
+#endif
+
+	return ZEND_HASH_APPLY_KEEP;
+}
+
 int phalcon_has_constructor_ce(const zend_class_entry *ce)
 {
 	while (ce) {

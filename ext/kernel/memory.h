@@ -23,6 +23,9 @@
 #include "php_phalcon.h"
 #include "kernel/main.h"
 
+void phalcon_initialize_memory(zend_phalcon_globals *phalcon_globals_ptr TSRMLS_DC);
+void phalcon_deinitialize_memory(TSRMLS_D);
+
 /* Memory Frames */
 #ifndef PHALCON_RELEASE
 void phalcon_dump_memory_frame(phalcon_memory_entry *active_memory TSRMLS_DC);

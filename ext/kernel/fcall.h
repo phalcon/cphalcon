@@ -693,6 +693,12 @@ PHALCON_ATTR_WARN_UNUSED_RESULT static inline int phalcon_call_user_func_array(z
 	return (EG(exception)) ? FAILURE : status;
 }
 
+#ifndef PHALCON_RELEASE
+void phalcon_fcall_cache_dtor(void *pData);
+#endif
+
+int phalcon_cleanup_fcache(void *pDest TSRMLS_DC, int num_args, va_list args, zend_hash_key *hash_key);
+
 /**
  * @brief Checks if the class defines a constructor
  * @param ce Class entry
