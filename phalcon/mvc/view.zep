@@ -582,8 +582,7 @@ class View extends \Phalcon\Di\Injectable implements \Phalcon\Mvc\ViewInterface
 	 * @param boolean mustClean
 	 * @param mixed cache
 	 */
-	protected function _engineRender(engines, string viewPath, boolean silence,
-		boolean mustClean, cache)
+	protected function _engineRender(engines, string viewPath, boolean silence, boolean mustClean, cache)
 	{
 		boolean notExists;
 		int renderLevel, cacheLevel;
@@ -1146,7 +1145,7 @@ class View extends \Phalcon\Di\Injectable implements \Phalcon\Mvc\ViewInterface
 		 * The injected service must be an object
 		 */
 		let viewCache = <\Phalcon\Cache\BackendInterface> dependencyInjector->getShared(cacheService);
-		if viewCache != "object" {
+		if typeof viewCache != "object" {
 			throw new \Phalcon\Mvc\View\Exception("The injected caching service is invalid");
 		}
 
