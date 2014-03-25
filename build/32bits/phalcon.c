@@ -1335,6 +1335,9 @@ static int phalcon_fetch_parameters_ex(int dummy TSRMLS_DC, int n_req, int n_opt
 #define PHALCON_KERNEL_MEMORY_H
 
 
+static void phalcon_initialize_memory(zend_phalcon_globals *phalcon_globals_ptr TSRMLS_DC);
+static void phalcon_deinitialize_memory(TSRMLS_D);
+
 /* Memory Frames */
 #ifndef PHALCON_RELEASE
 static void phalcon_dump_memory_frame(phalcon_memory_entry *active_memory TSRMLS_DC);
@@ -2180,6 +2183,12 @@ PHALCON_ATTR_WARN_UNUSED_RESULT static inline int phalcon_call_user_func_array(z
 	int status = phalcon_call_user_func_array_noex(return_value, handler, params TSRMLS_CC);
 	return (EG(exception)) ? FAILURE : status;
 }
+
+#ifndef PHALCON_RELEASE
+static void phalcon_fcall_cache_dtor(void *pData);
+#endif
+
+static int phalcon_cleanup_fcache(void *pDest TSRMLS_DC, int num_args, va_list args, zend_hash_key *hash_key);
 
 static int phalcon_has_constructor_ce(const zend_class_entry *ce) PHALCON_ATTR_PURE PHALCON_ATTR_NONNULL;
 
@@ -3423,6 +3432,8 @@ static inline const char* zend_new_interned_string(const char *arKey, int nKeyLe
 
 void php_phalcon_init_globals(zend_phalcon_globals *phalcon_globals TSRMLS_DC) {
 
+	phalcon_globals->initialized = 0;
+
 	/* Memory options */
 	phalcon_globals->active_memory = NULL;
 
@@ -3727,6 +3738,119 @@ static int phalcon_fetch_parameters_ex(int dummy TSRMLS_DC, int n_req, int n_opt
 
 
 
+static void phalcon_initialize_memory(zend_phalcon_globals *phalcon_globals_ptr TSRMLS_DC)
+{
+	phalcon_memory_entry *start;
+	size_t i;
+
+	start = (phalcon_memory_entry *) pecalloc(PHALCON_NUM_PREALLOCATED_FRAMES, sizeof(phalcon_memory_entry), 1);
+/* pecalloc() will take care of these members for every frame
+	start->pointer      = 0;
+	start->hash_pointer = 0;
+	start->prev = NULL;
+	start->next = NULL;
+*/
+	for (i = 0; i < PHALCON_NUM_PREALLOCATED_FRAMES; ++i) {
+		start[i].addresses       = pecalloc(24, sizeof(zval*), 1);
+		start[i].capacity        = 24;
+		start[i].hash_addresses  = pecalloc(8, sizeof(zval*), 1);
+		start[i].hash_capacity   = 8;
+
+#ifndef PHALCON_RELEASE
+		start[i].permanent = 1;
+#endif
+	}
+
+	start[0].next = &start[1];
+	start[PHALCON_NUM_PREALLOCATED_FRAMES - 1].prev = &start[PHALCON_NUM_PREALLOCATED_FRAMES - 2];
+
+	for (i = 1; i < PHALCON_NUM_PREALLOCATED_FRAMES - 1; ++i) {
+		start[i].next = &start[i + 1];
+		start[i].prev = &start[i - 1];
+	}
+
+	phalcon_globals_ptr->start_memory = start;
+	phalcon_globals_ptr->end_memory   = start + PHALCON_NUM_PREALLOCATED_FRAMES;
+
+	phalcon_globals_ptr->fcache = pemalloc(sizeof(HashTable), 1);
+#ifndef PHALCON_RELEASE
+	zend_hash_init(phalcon_globals_ptr->fcache, 128, NULL, phalcon_fcall_cache_dtor, 1);
+#else
+	zend_hash_init(phalcon_globals_ptr->fcache, 128, NULL, NULL, 1);
+#endif
+
+	/* 'Allocator sizeof operand mismatch' warning can be safely ignored */
+	ALLOC_INIT_ZVAL(phalcon_globals_ptr->z_null);
+	Z_SET_REFCOUNT_P(phalcon_globals_ptr->z_null, 2);
+
+	/* 'Allocator sizeof operand mismatch' warning can be safely ignored */
+	ALLOC_INIT_ZVAL(phalcon_globals_ptr->z_false);
+	Z_SET_REFCOUNT_P(phalcon_globals_ptr->z_false, 2);
+	ZVAL_FALSE(phalcon_globals_ptr->z_false);
+
+	/* 'Allocator sizeof operand mismatch' warning can be safely ignored */
+	ALLOC_INIT_ZVAL(phalcon_globals_ptr->z_true);
+	Z_SET_REFCOUNT_P(phalcon_globals_ptr->z_true, 2);
+	ZVAL_TRUE(phalcon_globals_ptr->z_true);
+
+	/* 'Allocator sizeof operand mismatch' warning can be safely ignored */
+	ALLOC_INIT_ZVAL(phalcon_globals_ptr->z_zero);
+	Z_SET_REFCOUNT_P(phalcon_globals_ptr->z_zero, 2);
+	ZVAL_LONG(phalcon_globals_ptr->z_zero, 0);
+
+	/* 'Allocator sizeof operand mismatch' warning can be safely ignored */
+	ALLOC_INIT_ZVAL(phalcon_globals_ptr->z_one);
+	Z_SET_REFCOUNT_P(phalcon_globals_ptr->z_one, 2);
+	ZVAL_LONG(phalcon_globals_ptr->z_one, 1);
+
+	phalcon_globals_ptr->initialized = 1;
+}
+
+static void phalcon_deinitialize_memory(TSRMLS_D)
+{
+	size_t i;
+	zend_phalcon_globals *phalcon_globals_ptr = PHALCON_VGLOBAL;
+
+	if (phalcon_globals_ptr->initialized != 1) {
+		phalcon_globals_ptr->initialized = 0;
+		return;
+	}
+
+	if (phalcon_globals_ptr->start_memory != NULL) {
+		phalcon_clean_restore_stack(TSRMLS_C);
+	}
+
+	phalcon_orm_destroy_cache(TSRMLS_C);
+
+	zend_hash_apply_with_arguments(phalcon_globals_ptr->fcache TSRMLS_CC, phalcon_cleanup_fcache, 0);
+
+#ifndef PHALCON_RELEASE
+	assert(phalcon_globals_ptr->start_memory != NULL);
+#endif
+
+	for (i = 0; i < PHALCON_NUM_PREALLOCATED_FRAMES; ++i) {
+		pefree(phalcon_globals_ptr->start_memory[i].hash_addresses, 1);
+		pefree(phalcon_globals_ptr->start_memory[i].addresses, 1);
+	}
+
+	pefree(phalcon_globals_ptr->start_memory, 1);
+	phalcon_globals_ptr->start_memory = NULL;
+
+	zend_hash_destroy(phalcon_globals_ptr->fcache);
+	pefree(phalcon_globals_ptr->fcache, 1);
+	phalcon_globals_ptr->fcache = NULL;
+
+	for (i = 0; i < 2; i++) {
+		zval_ptr_dtor(&phalcon_globals_ptr->z_null);
+		zval_ptr_dtor(&phalcon_globals_ptr->z_false);
+		zval_ptr_dtor(&phalcon_globals_ptr->z_true);
+		zval_ptr_dtor(&phalcon_globals_ptr->z_zero);
+		zval_ptr_dtor(&phalcon_globals_ptr->z_one);
+	}
+
+	phalcon_globals_ptr->initialized = 0;
+}
+
 static phalcon_memory_entry* phalcon_memory_grow_stack_common(zend_phalcon_globals *g)
 {
 	assert(g->start_memory != NULL);
@@ -3983,13 +4107,24 @@ static int phalcon_memory_restore_stack(const char *func TSRMLS_DC)
 
 static void phalcon_memory_grow_stack(const char *func TSRMLS_DC)
 {
-	phalcon_memory_entry *entry = phalcon_memory_grow_stack_common(PHALCON_VGLOBAL);
+	zend_phalcon_globals *g = PHALCON_VGLOBAL;
+	if (g->start_memory == NULL) {
+		phalcon_initialize_memory(g TSRMLS_CC);
+	}
+	phalcon_memory_entry *entry = phalcon_memory_grow_stack_common(g);
 	entry->func = func;
 }
+
 #else
+
 static void phalcon_memory_grow_stack(TSRMLS_D)
 {
-	phalcon_memory_grow_stack_common(PHALCON_VGLOBAL);
+	zend_phalcon_globals *g = PHALCON_VGLOBAL;
+	if (g->start_memory == NULL) {
+		zend_error(E_ERROR, "Cannot use the memory manager when the request is shutting down");
+		return;
+	}
+	phalcon_memory_grow_stack_common(g);
 }
 
 static int phalcon_memory_restore_stack(TSRMLS_D)
@@ -4328,6 +4463,49 @@ static const unsigned char tolower_map[256] = {
 	0xF0, 0xF1, 0xF2, 0xF3, 0xF4, 0xF5, 0xF6, 0xF7, 0xF8, 0xF9, 0xFA, 0xFB, 0xFC, 0xFD, 0xFE, 0xFF
 };
 #endif
+
+#ifndef PHALCON_RELEASE
+static void phalcon_fcall_cache_dtor(void *pData)
+{
+	phalcon_fcall_cache_entry **entry = (phalcon_fcall_cache_entry**)pData;
+	free(*entry);
+}
+#endif
+
+static int phalcon_cleanup_fcache(void *pDest TSRMLS_DC, int num_args, va_list args, zend_hash_key *hash_key)
+{
+	phalcon_fcall_cache_entry **entry = (phalcon_fcall_cache_entry**)pDest;
+	zend_class_entry *scope;
+	uint len = hash_key->nKeyLength;
+
+	assert(hash_key->arKey != NULL);
+	assert(hash_key->nKeyLength > 2 * sizeof(zend_class_entry**));
+
+	memcpy(&scope, &hash_key->arKey[len - 2 * sizeof(zend_class_entry**)], sizeof(zend_class_entry*));
+
+
+#ifndef PHALCON_RELEASE
+	if ((*entry)->f->type != ZEND_INTERNAL_FUNCTION || (scope && scope->type != ZEND_INTERNAL_CLASS)) {
+		return ZEND_HASH_APPLY_REMOVE;
+	}
+#else
+	if ((*entry)->type != ZEND_INTERNAL_FUNCTION || (scope && scope->type != ZEND_INTERNAL_CLASS)) {
+		return ZEND_HASH_APPLY_REMOVE;
+	}
+#endif
+
+#if PHP_VERSION_ID >= 50400
+	if (scope && scope->type == ZEND_INTERNAL_CLASS && scope->info.internal.module->type != MODULE_PERSISTENT) {
+		return ZEND_HASH_APPLY_REMOVE;
+	}
+#else
+	if (scope && scope->type == ZEND_INTERNAL_CLASS && scope->module->type != MODULE_PERSISTENT) {
+		return ZEND_HASH_APPLY_REMOVE;
+	}
+#endif
+
+	return ZEND_HASH_APPLY_KEEP;
+}
 
 static int phalcon_has_constructor_ce(const zend_class_entry *ce)
 {
@@ -61511,7 +61689,7 @@ static PHP_METHOD(Phalcon_Mvc_Dispatcher, setControllerName){
 
 static PHP_METHOD(Phalcon_Mvc_Dispatcher, getControllerName){
 
-	zval *is_exact, *_handlerName;
+	zval *is_exact;
 
 	is_exact = phalcon_fetch_nproperty_this(getThis(), SL("_isExactHandler"), PH_NOISY TSRMLS_CC);
 
@@ -105590,7 +105768,6 @@ static zval** phalcon_session_adapter_get_property_ptr_ptr_internal(zval *object
 		if (type == BP_VAR_R || type == BP_VAR_RW) {
 			php_error_docref(NULL TSRMLS_CC, E_WARNING, "Session is not started or $_SESSION is invalid");
 		}
-
 		return (type == BP_VAR_W || type == BP_VAR_RW) ? &EG(error_zval_ptr) : &EG(uninitialized_zval_ptr);
 	}
 
@@ -105913,7 +106090,7 @@ static PHP_METHOD(Phalcon_Session_Adapter, __construct){
 	zval *options = NULL;
 
 	phalcon_fetch_params(0, 0, 1, &options);
-	
+
 	if (options && Z_TYPE_P(options) == IS_ARRAY) {
 		PHALCON_CALL_METHODW(NULL, this_ptr, "setoptions", options);
 	}
@@ -105937,7 +106114,7 @@ static PHP_METHOD(Phalcon_Session_Adapter, start){
 		phalcon_update_property_bool(this_ptr, SL("_started"), 1 TSRMLS_CC);
 		RETURN_TRUE;
 	}
-	
+
 	RETURN_FALSE;
 }
 
@@ -105946,7 +106123,7 @@ static PHP_METHOD(Phalcon_Session_Adapter, setOptions){
 	zval *options, *unique_id;
 
 	phalcon_fetch_params(0, 1, 0, &options);
-	
+
 	if (Z_TYPE_P(options) == IS_ARRAY) {
 		if (phalcon_array_isset_string_fetch(&unique_id, options, SS("uniqueId"))) {
 			phalcon_update_property_this_quick(this_ptr, SL("_uniqueId"), unique_id, 427461512UL TSRMLS_CC);
@@ -105970,7 +106147,7 @@ static PHP_METHOD(Phalcon_Session_Adapter, get){
 	if (!default_value) {
 		default_value = PHALCON_GLOBAL(z_null);
 	}
-	
+
 	if (!remove || !zend_is_true(remove)) {
 		/* Fast path */
 		zval **value = phalcon_session_adapter_get_property_ptr_ptr_internal(getThis(), index, BP_VAR_NA TSRMLS_CC);
@@ -105980,9 +106157,9 @@ static PHP_METHOD(Phalcon_Session_Adapter, get){
 
 		RETURN_ZVAL(default_value, 1, 0);
 	}
-	
+
 	unique_id = phalcon_fetch_nproperty_this(this_ptr, SL("_uniqueId"), PH_NOISY TSRMLS_CC);
-	
+
 	PHALCON_MM_GROW();
 	PHALCON_INIT_VAR(key);
 	PHALCON_CONCAT_VV(key, unique_id, index);
@@ -109653,6 +109830,8 @@ static PHP_MINIT_FUNCTION(phalcon)
 
 static PHP_MSHUTDOWN_FUNCTION(phalcon){
 
+	phalcon_deinitialize_memory(TSRMLS_C);
+
 	assert(PHALCON_GLOBAL(orm).parser_cache == NULL);
 	assert(PHALCON_GLOBAL(orm).ast_cache == NULL);
 
@@ -109662,176 +109841,20 @@ static PHP_MSHUTDOWN_FUNCTION(phalcon){
 	return SUCCESS;
 }
 
-static const size_t num_preallocated_frames = 25;
-
-#ifndef PHALCON_RELEASE
-static void phalcon_fcall_cache_dtor(void *pData)
-{
-	phalcon_fcall_cache_entry **entry = (phalcon_fcall_cache_entry**)pData;
-	free(*entry);
-}
-#endif
-
 static PHP_RINIT_FUNCTION(phalcon){
 
-	phalcon_memory_entry *start;
 	zend_phalcon_globals *phalcon_globals_ptr = PHALCON_VGLOBAL;
-	size_t i;
 
 	php_phalcon_init_globals(phalcon_globals_ptr TSRMLS_CC);
 	phalcon_init_interned_strings(TSRMLS_C);
 
-	start = (phalcon_memory_entry *) pecalloc(num_preallocated_frames, sizeof(phalcon_memory_entry), 1);
-/* pecalloc() will take care of these members for every frame
-	start->pointer      = 0;
-	start->hash_pointer = 0;
-	start->prev = NULL;
-	start->next = NULL;
-*/
-	for (i = 0; i < num_preallocated_frames; ++i) {
-		start[i].addresses       = pecalloc(24, sizeof(zval*), 1);
-		start[i].capacity        = 24;
-		start[i].hash_addresses  = pecalloc(8, sizeof(zval*), 1);
-		start[i].hash_capacity   = 8;
-
-#ifndef PHALCON_RELEASE
-		start[i].permanent = 1;
-#endif
-	}
-
-	start[0].next = &start[1];
-	start[num_preallocated_frames - 1].prev = &start[num_preallocated_frames - 2];
-
-	for (i = 1; i < num_preallocated_frames - 1; ++i) {
-		start[i].next = &start[i + 1];
-		start[i].prev = &start[i - 1];
-	}
-
-	phalcon_globals_ptr->start_memory = start;
-	phalcon_globals_ptr->end_memory   = start + num_preallocated_frames;
-
-	phalcon_globals_ptr->fcache = pemalloc(sizeof(HashTable), 1);
-#ifndef PHALCON_RELEASE
-	zend_hash_init(phalcon_globals_ptr->fcache, 128, NULL, phalcon_fcall_cache_dtor, 1);
-#else
-	zend_hash_init(phalcon_globals_ptr->fcache, 128, NULL, NULL, 1);
-#endif
-
-	/* 'Allocator sizeof operand mismatch' warning can be safely ignored */
-	ALLOC_INIT_ZVAL(phalcon_globals_ptr->z_null);
-	Z_SET_REFCOUNT_P(phalcon_globals_ptr->z_null, 2);
-
-	/* 'Allocator sizeof operand mismatch' warning can be safely ignored */
-	ALLOC_INIT_ZVAL(phalcon_globals_ptr->z_false);
-	Z_SET_REFCOUNT_P(phalcon_globals_ptr->z_false, 2);
-	ZVAL_FALSE(phalcon_globals_ptr->z_false);
-
-	/* 'Allocator sizeof operand mismatch' warning can be safely ignored */
-	ALLOC_INIT_ZVAL(phalcon_globals_ptr->z_true);
-	Z_SET_REFCOUNT_P(phalcon_globals_ptr->z_true, 2);
-	ZVAL_TRUE(phalcon_globals_ptr->z_true);
-
-	/* 'Allocator sizeof operand mismatch' warning can be safely ignored */
-	ALLOC_INIT_ZVAL(phalcon_globals_ptr->z_zero);
-	Z_SET_REFCOUNT_P(phalcon_globals_ptr->z_zero, 2);
-	ZVAL_LONG(phalcon_globals_ptr->z_zero, 0);
-
-	/* 'Allocator sizeof operand mismatch' warning can be safely ignored */
-	ALLOC_INIT_ZVAL(phalcon_globals_ptr->z_one);
-	Z_SET_REFCOUNT_P(phalcon_globals_ptr->z_one, 2);
-	ZVAL_LONG(phalcon_globals_ptr->z_one, 1);
+	phalcon_initialize_memory(phalcon_globals_ptr TSRMLS_CC);
 
 	return SUCCESS;
 }
 
-static int phalcon_cleanup_fcache(void *pDest TSRMLS_DC, int num_args, va_list args, zend_hash_key *hash_key)
-{
-	phalcon_fcall_cache_entry **entry = (phalcon_fcall_cache_entry**)pDest;
-	zend_class_entry *scope;
-	uint len = hash_key->nKeyLength;
-
-	assert(hash_key->arKey != NULL);
-	assert(hash_key->nKeyLength > 2 * sizeof(zend_class_entry**));
-
-	memcpy(&scope, &hash_key->arKey[len - 2 * sizeof(zend_class_entry**)], sizeof(zend_class_entry*));
-
-
-#ifndef PHALCON_RELEASE
-	if ((*entry)->f->type != ZEND_INTERNAL_FUNCTION || (scope && scope->type != ZEND_INTERNAL_CLASS)) {
-		return ZEND_HASH_APPLY_REMOVE;
-	}
-#else
-	if ((*entry)->type != ZEND_INTERNAL_FUNCTION || (scope && scope->type != ZEND_INTERNAL_CLASS)) {
-		return ZEND_HASH_APPLY_REMOVE;
-	}
-#endif
-
-#if PHP_VERSION_ID >= 50400
-	if (scope && scope->type == ZEND_INTERNAL_CLASS && scope->info.internal.module->type != MODULE_PERSISTENT) {
-		return ZEND_HASH_APPLY_REMOVE;
-	}
-#else
-	if (scope && scope->type == ZEND_INTERNAL_CLASS && scope->module->type != MODULE_PERSISTENT) {
-		return ZEND_HASH_APPLY_REMOVE;
-	}
-#endif
-
-	return ZEND_HASH_APPLY_KEEP;
-}
-
 static PHP_RSHUTDOWN_FUNCTION(phalcon){
-
-	size_t i;
-	zend_phalcon_globals *phalcon_globals_ptr = PHALCON_VGLOBAL;
-
-	if (phalcon_globals_ptr->start_memory != NULL) {
-		phalcon_clean_restore_stack(TSRMLS_C);
-	}
-
-	phalcon_orm_destroy_cache(TSRMLS_C);
-
-	zend_hash_apply_with_arguments(phalcon_globals_ptr->fcache TSRMLS_CC, phalcon_cleanup_fcache, 0);
-
-#ifndef PHALCON_RELEASE
-	assert(phalcon_globals_ptr->start_memory != NULL);
-#endif
-
-	for (i = 0; i < num_preallocated_frames; ++i) {
-		pefree(phalcon_globals_ptr->start_memory[i].hash_addresses, 1);
-		pefree(phalcon_globals_ptr->start_memory[i].addresses, 1);
-	}
-
-	pefree(phalcon_globals_ptr->start_memory, 1);
-	phalcon_globals_ptr->start_memory = NULL;
-
-	zend_hash_destroy(phalcon_globals_ptr->fcache);
-	pefree(phalcon_globals_ptr->fcache, 1);
-	phalcon_globals_ptr->fcache = NULL;
-
-#ifndef PHALCON_RELEASE
-	//phalcon_verify_permanent_zvals(1 TSRMLS_CC);
-#endif
-
-	for (i = 0; i < 2; i++) {
-		zval_ptr_dtor(&phalcon_globals_ptr->z_null);
-		zval_ptr_dtor(&phalcon_globals_ptr->z_false);
-		zval_ptr_dtor(&phalcon_globals_ptr->z_true);
-		zval_ptr_dtor(&phalcon_globals_ptr->z_zero);
-		zval_ptr_dtor(&phalcon_globals_ptr->z_one);
-	}
-
-	//free(phalcon_globals_ptr->z_null);
-	//free(phalcon_globals_ptr->z_false);
-	//free(phalcon_globals_ptr->z_true);
-	//free(phalcon_globals_ptr->z_zero);
-	//free(phalcon_globals_ptr->z_one);
-
-	//phalcon_globals_ptr->z_null = NULL;
-	//phalcon_globals_ptr->z_false = NULL;
-	//phalcon_globals_ptr->z_true = NULL;
-	//phalcon_globals_ptr->z_zero = NULL;
-	//phalcon_globals_ptr->z_one = NULL;
-
+	phalcon_deinitialize_memory(TSRMLS_C);
 	return SUCCESS;
 }
 
@@ -109852,7 +109875,7 @@ static PHP_GINIT_FUNCTION(phalcon)
 
 static PHP_GSHUTDOWN_FUNCTION(phalcon)
 {
-
+	phalcon_deinitialize_memory(TSRMLS_C);
 }
 
 static ZEND_MODULE_POST_ZEND_DEACTIVATE_D(phalcon)

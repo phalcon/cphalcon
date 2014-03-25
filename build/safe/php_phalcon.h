@@ -32,6 +32,8 @@
 #define PHP_PHALCON_VERSION "1.3.1"
 #define PHP_PHALCON_EXTNAME "phalcon"
 
+#define PHALCON_NUM_PREALLOCATED_FRAMES 25
+
 /** Memory frame */
 typedef struct _phalcon_memory_entry {
 	size_t pointer;
@@ -86,6 +88,9 @@ typedef struct _phalcon_security_options {
 } phalcon_security_options;
 
 ZEND_BEGIN_MODULE_GLOBALS(phalcon)
+
+	/* Controls double initialization of memory frames */
+	int initialized;
 
 	/** Memory */
 	phalcon_memory_entry *start_memory;    /**< The first preallocated frame */
