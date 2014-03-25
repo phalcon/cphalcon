@@ -101,6 +101,8 @@ PHP_METHOD(Phalcon_Tag, setDocType);
 PHP_METHOD(Phalcon_Tag, getDocType);
 PHP_METHOD(Phalcon_Tag, tagHtml);
 PHP_METHOD(Phalcon_Tag, tagHtmlClose);
+PHP_METHOD(Phalcon_Tag, getDefault);
+PHP_METHOD(Phalcon_Tag, getDefaults);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_tag_setdi, 0, 0, 1)
 	ZEND_ARG_INFO(0, dependencyInjector)
@@ -269,6 +271,8 @@ static const zend_function_entry phalcon_tag_method_entry[] = {
 	PHP_ME(Phalcon_Tag, getDocType, NULL, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Tag, tagHtml, arginfo_phalcon_tag_taghtml, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Tag, tagHtmlClose, arginfo_phalcon_tag_taghtmlclose, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
+	PHP_ME(Phalcon_Tag, getDefault, NULL, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
+	PHP_ME(Phalcon_Tag, getDefaults, NULL, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
 	PHP_FE_END
 };
 
@@ -2175,4 +2179,38 @@ PHP_METHOD(Phalcon_Tag, tagHtmlClose){
 	}
 	
 	RETURN_CTOR(local_code);
+}
+/**
+ * Return default value
+ *
+ * @param string $name
+ * @return mixed
+ */
+PHP_METHOD(Phalcon_Tag, getDefault){
+
+	zval *name, *display_values, *value;
+
+	phalcon_fetch_params(0, 1, 0, &name);
+	
+	display_values = phalcon_fetch_static_property_ce(phalcon_tag_ce, SL("_displayValues") TSRMLS_CC);
+
+	if (!phalcon_array_isset_fetch(&value, display_values, name)) {
+		RETURN_NULL();
+	}
+	
+	RETURN_ZVAL(value, 1, 0);
+}
+
+/**
+ * Return default values
+ *
+ * @return mixed
+ */
+PHP_METHOD(Phalcon_Tag, getDefaults){
+
+	zval *display_values;
+	
+	display_values = phalcon_fetch_static_property_ce(phalcon_tag_ce, SL("_displayValues") TSRMLS_CC);
+
+	RETURN_ZVAL(display_values, 1, 0);
 }

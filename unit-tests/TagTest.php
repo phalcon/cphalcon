@@ -142,4 +142,17 @@ HTML;
 		$html = \Phalcon\Tag::stylesheetLink(array('css/phalcon.css', 'rel' => 'stylesheet/less'));
 		$this->assertEquals($html, '<link rel="stylesheet/less" type="text/css" href="/css/phalcon.css" />'.PHP_EOL);
 	}
+
+	public function testDefault()
+	{
+		Tag::setDefault('username', 'dreamsxin');
+
+		$this->assertEquals(Tag::getDefault('username'), 'dreamsxin');
+
+		$data = array('username' => 'dreamsxin', 'email' => 'dreamsxin@qq.com');
+
+		Tag::setDefaults($data);
+
+		$this->assertEquals(Tag::getDefaults(), $data);
+	}
 }
