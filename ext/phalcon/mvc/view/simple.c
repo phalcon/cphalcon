@@ -411,7 +411,9 @@ PHP_METHOD(Phalcon_Mvc_View_Simple, render) {
 			zephir_read_property_this(&cacheOptions, this_ptr, SL("_cacheOptions"), PH_NOISY_CC);
 			if (Z_TYPE_P(cacheOptions) == IS_ARRAY) {
 				ZEPHIR_OBS_NVAR(key);
+				zephir_array_isset_string_fetch(&key, cacheOptions, SS("key"), 0 TSRMLS_CC);
 				ZEPHIR_OBS_NVAR(lifetime);
+				zephir_array_isset_string_fetch(&lifetime, cacheOptions, SS("lifetime"), 0 TSRMLS_CC);
 			}
 			if (Z_TYPE_P(key) == IS_NULL) {
 				ZEPHIR_CALL_FUNCTION(&key, "md5", &_1, path);
@@ -577,7 +579,7 @@ PHP_METHOD(Phalcon_Mvc_View_Simple, getCacheOptions) {
 PHP_METHOD(Phalcon_Mvc_View_Simple, _createCache) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
-	zval *dependencyInjector, *cacheService = NULL, *cacheOptions, *viewCache = NULL;
+	zval *dependencyInjector, *cacheService = NULL, *cacheOptions, *viewCache = NULL, *_0 = NULL;
 
 	ZEPHIR_MM_GROW();
 
@@ -593,10 +595,12 @@ PHP_METHOD(Phalcon_Mvc_View_Simple, _createCache) {
 	zephir_read_property_this(&cacheOptions, this_ptr, SL("_cacheOptions"), PH_NOISY_CC);
 	if (Z_TYPE_P(cacheOptions) == IS_ARRAY) {
 		ZEPHIR_OBS_NVAR(cacheService);
+		zephir_array_isset_string_fetch(&cacheService, cacheOptions, SS("service"), 0 TSRMLS_CC);
 	}
-	ZEPHIR_CALL_METHOD(&viewCache, dependencyInjector, "getshared", NULL, cacheService);
+	ZEPHIR_CALL_METHOD(&_0, dependencyInjector, "getshared", NULL, cacheService);
 	zephir_check_call_status();
-	if (Z_TYPE_P(viewCache) == IS_OBJECT) {
+	ZEPHIR_CPY_WRT(viewCache, _0);
+	if (Z_TYPE_P(viewCache) != IS_OBJECT) {
 		ZEPHIR_THROW_EXCEPTION_STR(phalcon_mvc_view_exception_ce, "The injected caching service is invalid");
 		return;
 	}

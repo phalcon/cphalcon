@@ -248,9 +248,10 @@ PHP_METHOD(Phalcon_Db_Result_Pdo, fetchAll) {
  */
 PHP_METHOD(Phalcon_Db_Result_Pdo, numRows) {
 
+	zephir_nts_static zephir_fcall_cache_entry *_3 = NULL;
 	zend_bool _0;
 	int ZEPHIR_LAST_CALL_STATUS;
-	zval *sqlStatement, *rowCount = NULL, *connection, *type = NULL, *pdoStatement, *matches, *result = NULL, *row = NULL, *_1, _2, *_3, *_4, *_5, *_6;
+	zval *sqlStatement, *rowCount = NULL, *connection, *type = NULL, *pdoStatement, *matches, *result = NULL, *row = NULL, *_1, *_2 = NULL, *_4, *_5, *_6, *_7;
 
 	ZEPHIR_MM_GROW();
 
@@ -278,16 +279,19 @@ PHP_METHOD(Phalcon_Db_Result_Pdo, numRows) {
 				ZEPHIR_INIT_VAR(matches);
 				ZVAL_NULL(matches);
 				ZEPHIR_INIT_VAR(_1);
-				ZEPHIR_SINIT_VAR(_2);
-				ZVAL_STRING(&_2, "/^SELECT\\s+(.*)/i", 0);
-				zephir_preg_match(_1, &(_1), &_2, sqlStatement, matches, 0, 0 , 0  TSRMLS_CC);
-				if (zephir_is_true(_1)) {
-					zephir_array_fetch_long(&_3, matches, 1, PH_NOISY | PH_READONLY TSRMLS_CC);
-					ZEPHIR_INIT_VAR(_4);
-					ZEPHIR_CONCAT_SVS(_4, "SELECT COUNT(*) \"numrows\" FROM (SELECT ", _3, ")");
-					_5 = zephir_fetch_nproperty_this(this_ptr, SL("_bindParams"), PH_NOISY_CC);
-					_6 = zephir_fetch_nproperty_this(this_ptr, SL("_bindTypes"), PH_NOISY_CC);
-					ZEPHIR_CALL_METHOD(&result, connection, "query", NULL, _4, _5, _6);
+				ZVAL_STRING(_1, "/^SELECT\\s+(.*)/i", 0);
+				Z_SET_ISREF_P(matches);
+				ZEPHIR_CALL_FUNCTION(&_2, "preg_match", &_3, _1, sqlStatement, matches);
+				zephir_check_temp_parameter(_1);
+				Z_UNSET_ISREF_P(matches);
+				zephir_check_call_status();
+				if (zephir_is_true(_2)) {
+					zephir_array_fetch_long(&_4, matches, 1, PH_NOISY | PH_READONLY TSRMLS_CC);
+					ZEPHIR_INIT_VAR(_5);
+					ZEPHIR_CONCAT_SVS(_5, "SELECT COUNT(*) \"numrows\" FROM (SELECT ", _4, ")");
+					_6 = zephir_fetch_nproperty_this(this_ptr, SL("_bindParams"), PH_NOISY_CC);
+					_7 = zephir_fetch_nproperty_this(this_ptr, SL("_bindTypes"), PH_NOISY_CC);
+					ZEPHIR_CALL_METHOD(&result, connection, "query", NULL, _5, _6, _7);
 					zephir_check_call_status();
 					ZEPHIR_CALL_METHOD(&row, result, "fetch",  NULL);
 					zephir_check_call_status();

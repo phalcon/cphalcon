@@ -1095,6 +1095,7 @@ PHP_METHOD(Phalcon_Mvc_Model, find) {
 	ZEPHIR_OBS_NVAR(bindParams);
 	if (zephir_array_isset_string_fetch(&bindParams, params, SS("bind"), 0 TSRMLS_CC)) {
 		ZEPHIR_OBS_NVAR(bindTypes);
+		zephir_array_isset_string_fetch(&bindTypes, params, SS("bindTypes"), 0 TSRMLS_CC);
 	}
 	ZEPHIR_OBS_VAR(cache);
 	if (zephir_array_isset_string_fetch(&cache, params, SS("cache"), 0 TSRMLS_CC)) {
@@ -1179,6 +1180,7 @@ PHP_METHOD(Phalcon_Mvc_Model, findFirst) {
 	ZEPHIR_OBS_NVAR(bindParams);
 	if (zephir_array_isset_string_fetch(&bindParams, params, SS("bind"), 0 TSRMLS_CC)) {
 		ZEPHIR_OBS_NVAR(bindTypes);
+		zephir_array_isset_string_fetch(&bindTypes, params, SS("bindTypes"), 0 TSRMLS_CC);
 	}
 	ZEPHIR_OBS_VAR(cache);
 	if (zephir_array_isset_string_fetch(&cache, params, SS("cache"), 0 TSRMLS_CC)) {
@@ -1504,6 +1506,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _groupResult) {
 	ZEPHIR_OBS_NVAR(bindParams);
 	if (zephir_array_isset_string_fetch(&bindParams, params, SS("bind"), 0 TSRMLS_CC)) {
 		ZEPHIR_OBS_NVAR(bindTypes);
+		zephir_array_isset_string_fetch(&bindTypes, params, SS("bindTypes"), 0 TSRMLS_CC);
 	}
 	ZEPHIR_CALL_METHOD(&resultset, query, "execute", NULL, bindParams, bindTypes);
 	zephir_check_call_status();
@@ -2057,6 +2060,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _checkForeignKeysRestrict) {
 				ZVAL_LONG(action, 1);
 				if (Z_TYPE_P(foreignKey) == IS_ARRAY) {
 					ZEPHIR_OBS_NVAR(action);
+					zephir_array_isset_string_fetch(&action, foreignKey, SS("action"), 0 TSRMLS_CC);
 				}
 				if (ZEPHIR_IS_LONG(action, 1)) {
 					ZEPHIR_CALL_METHOD(&_4, relation, "getreferencedmodel",  NULL);
@@ -2080,6 +2084,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _checkForeignKeysRestrict) {
 							ZEPHIR_GET_HMKEY(position, _6, _5);
 							ZEPHIR_GET_HVALUE(field, _7);
 							ZEPHIR_OBS_NVAR(value);
+							zephir_read_property_zval(&value, this_ptr, field, PH_SILENT_CC);
 							zephir_array_fetch(&_8, referencedFields, position, PH_NOISY | PH_READONLY TSRMLS_CC);
 							ZEPHIR_INIT_LNVAR(_9);
 							ZEPHIR_CONCAT_SVSV(_9, "[", _8, "] = ?", position);
@@ -2088,6 +2093,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _checkForeignKeysRestrict) {
 						}
 					} else {
 						ZEPHIR_OBS_NVAR(value);
+						zephir_read_property_zval(&value, this_ptr, fields, PH_SILENT_CC);
 						ZEPHIR_INIT_LNVAR(_9);
 						ZEPHIR_CONCAT_SVS(_9, "[", referencedFields, "] = ?0");
 						zephir_array_append(&conditions, _9, PH_SEPARATE);
@@ -2182,6 +2188,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _checkForeignKeysReverseCascade) {
 				ZVAL_LONG(action, 0);
 				if (Z_TYPE_P(foreignKey) == IS_ARRAY) {
 					ZEPHIR_OBS_NVAR(action);
+					zephir_array_isset_string_fetch(&action, foreignKey, SS("action"), 0 TSRMLS_CC);
 				}
 				if (ZEPHIR_IS_LONG(action, 2)) {
 					ZEPHIR_CALL_METHOD(&_4, relation, "getreferencedmodel",  NULL);
@@ -2205,6 +2212,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _checkForeignKeysReverseCascade) {
 							ZEPHIR_GET_HMKEY(position, _6, _5);
 							ZEPHIR_GET_HVALUE(field, _7);
 							ZEPHIR_OBS_NVAR(value);
+							zephir_read_property_zval(&value, this_ptr, field, PH_SILENT_CC);
 							zephir_array_fetch(&_8, referencedFields, position, PH_NOISY | PH_READONLY TSRMLS_CC);
 							ZEPHIR_INIT_LNVAR(_9);
 							ZEPHIR_CONCAT_SVSV(_9, "[", _8, "] = ?", position);
@@ -2213,6 +2221,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _checkForeignKeysReverseCascade) {
 						}
 					} else {
 						ZEPHIR_OBS_NVAR(value);
+						zephir_read_property_zval(&value, this_ptr, fields, PH_SILENT_CC);
 						ZEPHIR_INIT_LNVAR(_9);
 						ZEPHIR_CONCAT_SVS(_9, "[", referencedFields, "] = ?0");
 						zephir_array_append(&conditions, _9, PH_SEPARATE);
@@ -2279,6 +2288,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _checkForeignKeysReverseRestrict) {
 				ZVAL_LONG(action, 1);
 				if (Z_TYPE_P(foreignKey) == IS_ARRAY) {
 					ZEPHIR_OBS_NVAR(action);
+					zephir_array_isset_string_fetch(&action, foreignKey, SS("action"), 0 TSRMLS_CC);
 				}
 				if (ZEPHIR_IS_LONG(action, 1)) {
 					ZEPHIR_CALL_METHOD(&relationClass, relation, "getreferencedmodel",  NULL);
@@ -2302,6 +2312,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _checkForeignKeysReverseRestrict) {
 							ZEPHIR_GET_HMKEY(position, _4, _3);
 							ZEPHIR_GET_HVALUE(field, _5);
 							ZEPHIR_OBS_NVAR(value);
+							zephir_read_property_zval(&value, this_ptr, field, PH_SILENT_CC);
 							zephir_array_fetch(&_6, referencedFields, position, PH_NOISY | PH_READONLY TSRMLS_CC);
 							ZEPHIR_INIT_LNVAR(_7);
 							ZEPHIR_CONCAT_SVSV(_7, "[", _6, "] = ?", position);
@@ -2310,6 +2321,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _checkForeignKeysReverseRestrict) {
 						}
 					} else {
 						ZEPHIR_OBS_NVAR(value);
+						zephir_read_property_zval(&value, this_ptr, fields, PH_SILENT_CC);
 						ZEPHIR_INIT_LNVAR(_7);
 						ZEPHIR_CONCAT_SVS(_7, "[", referencedFields, "] = ?0");
 						zephir_array_append(&conditions, _7, PH_SEPARATE);
@@ -5011,6 +5023,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _getRelatedRecords) {
 	}
 	if (Z_TYPE_P(relation) == IS_OBJECT) {
 		ZEPHIR_OBS_VAR(extraArgs);
+		zephir_array_isset_long_fetch(&extraArgs, arguments, 0, 0 TSRMLS_CC);
 		ZEPHIR_INIT_VAR(_4);
 		array_init_size(_4, 3);
 		zephir_array_fast_append(_4, manager);

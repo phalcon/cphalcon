@@ -478,7 +478,7 @@ PHP_METHOD(Phalcon_Validation, getLabel) {
 PHP_METHOD(Phalcon_Validation, appendMessage) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
-	zval *message, *messages;
+	zval *message, *_0;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &message);
@@ -489,9 +489,8 @@ PHP_METHOD(Phalcon_Validation, appendMessage) {
 		ZEPHIR_THROW_EXCEPTION_STR(spl_ce_InvalidArgumentException, "Parameter 'message' must be an instance of 'Phalcon\\Validation\\MessageInterface'");
 		return;
 	}
-	ZEPHIR_OBS_VAR(messages);
-	zephir_read_property_this(&messages, this_ptr, SL("_messages"), PH_NOISY_CC);
-	ZEPHIR_CALL_METHOD(NULL, messages, "appendmessage", NULL, message);
+	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_messages"), PH_NOISY_CC);
+	ZEPHIR_CALL_METHOD(NULL, _0, "appendmessage", NULL, message);
 	zephir_check_call_status();
 	RETURN_THIS();
 

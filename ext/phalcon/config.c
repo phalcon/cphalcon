@@ -340,7 +340,11 @@ PHP_METHOD(Phalcon_Config, toArray) {
 				ZEPHIR_CALL_METHOD(&_5, value, "toarray",  NULL);
 				zephir_check_call_status();
 				zephir_array_update_zval(&arrayConfig, key, &_5, PH_COPY | PH_SEPARATE);
+			} else {
+				zephir_array_update_zval(&arrayConfig, key, &value, PH_COPY | PH_SEPARATE);
 			}
+		} else {
+			zephir_array_update_zval(&arrayConfig, key, &value, PH_COPY | PH_SEPARATE);
 		}
 	}
 	RETURN_CCTOR(arrayConfig);

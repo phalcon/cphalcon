@@ -164,8 +164,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, __construct) {
 						ZEPHIR_GET_HVALUE(singleConditionArray, _3);
 						if (Z_TYPE_P(singleConditionArray) == IS_ARRAY) {
 							ZEPHIR_OBS_NVAR(singleCondition);
+							zephir_array_isset_long_fetch(&singleCondition, singleConditionArray, 0, 0 TSRMLS_CC);
 							ZEPHIR_OBS_NVAR(singleParams);
+							zephir_array_isset_long_fetch(&singleParams, singleConditionArray, 1, 0 TSRMLS_CC);
 							ZEPHIR_OBS_NVAR(singleTypes);
+							zephir_array_isset_long_fetch(&singleTypes, singleConditionArray, 2, 0 TSRMLS_CC);
 							if (Z_TYPE_P(singleCondition) == IS_STRING) {
 								Z_SET_ISREF_P(mergedConditions);
 								ZEPHIR_CALL_FUNCTION(&_4, "array_push", &_5, mergedConditions, singleCondition);
@@ -223,7 +226,9 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, __construct) {
 		if (zephir_array_isset_string_fetch(&limitClause, params, SS("limit"), 0 TSRMLS_CC)) {
 			if (Z_TYPE_P(limitClause) == IS_ARRAY) {
 				ZEPHIR_OBS_VAR(limit);
+				zephir_array_isset_long_fetch(&limit, limitClause, 0, 0 TSRMLS_CC);
 				ZEPHIR_OBS_VAR(offset);
+				zephir_array_isset_long_fetch(&offset, limitClause, 1, 0 TSRMLS_CC);
 				ZEPHIR_CALL_FUNCTION(&_4, "is_int", &_7, limit);
 				zephir_check_call_status();
 				if (zephir_is_true(_4)) {

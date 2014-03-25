@@ -22,7 +22,6 @@
 #include "ext/spl/spl_exceptions.h"
 #include "kernel/hash.h"
 #include "kernel/concat.h"
-#include "kernel/variables.h"
 
 
 /*
@@ -479,12 +478,12 @@ PHP_METHOD(Phalcon_Mvc_Router, setDefaults) {
  */
 PHP_METHOD(Phalcon_Mvc_Router, handle) {
 
-	zephir_nts_static zephir_fcall_cache_entry *_15 = NULL;
 	zval *_9 = NULL, *_14 = NULL;
+	zephir_nts_static zephir_fcall_cache_entry *_8 = NULL, *_15 = NULL;
 	HashTable *_3, *_11;
 	HashPosition _2, _10;
 	int ZEPHIR_LAST_CALL_STATUS;
-	zval *uri = NULL, *realUri = NULL, *request = NULL, *currentHostName = NULL, *routeFound = NULL, *parts = NULL, *params, *matches, *notFoundPaths, *vnamespace, *module, *controller, *action, *paramsStr, *strParams = NULL, *route = NULL, *methods = NULL, *dependencyInjector = NULL, *hostname = NULL, *regexHostName = NULL, *matched = NULL, *pattern = NULL, *handledUri = NULL, *beforeMatch = NULL, *paths = NULL, *converters = NULL, *part = NULL, *position = NULL, *matchPosition = NULL, *converter = NULL, *_0, _1 = zval_used_for_init, **_4, *_5, *_6 = NULL, *_7 = NULL, *_8 = NULL, **_12, *_13 = NULL, *_16, *_17, *_18, *_19;
+	zval *uri = NULL, *realUri = NULL, *request = NULL, *currentHostName = NULL, *routeFound = NULL, *parts = NULL, *params, *matches, *notFoundPaths, *vnamespace, *module, *controller, *action, *paramsStr, *strParams = NULL, *route = NULL, *methods = NULL, *dependencyInjector = NULL, *hostname = NULL, *regexHostName = NULL, *matched = NULL, *pattern = NULL, *handledUri = NULL, *beforeMatch = NULL, *paths = NULL, *converters = NULL, *part = NULL, *position = NULL, *matchPosition = NULL, *converter = NULL, *_0, _1 = zval_used_for_init, **_4, *_5, *_6 = NULL, *_7 = NULL, **_12, *_13 = NULL, *_16, *_17, *_18, *_19;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 1, &uri);
@@ -589,8 +588,8 @@ PHP_METHOD(Phalcon_Mvc_Router, handle) {
 				} else {
 					ZEPHIR_CPY_WRT(regexHostName, hostname);
 				}
-				ZEPHIR_INIT_NVAR(_8);
-				zephir_preg_match(matched, &(matched), regexHostName, currentHostName, _8, 0, 0 , 0  TSRMLS_CC);
+				ZEPHIR_CALL_FUNCTION(&matched, "preg_match", &_8, regexHostName, currentHostName);
+				zephir_check_call_status();
 			} else {
 				ZVAL_BOOL(matched, ZEPHIR_IS_EQUAL(currentHostName, hostname));
 			}
@@ -600,12 +599,12 @@ PHP_METHOD(Phalcon_Mvc_Router, handle) {
 		}
 		ZEPHIR_CALL_METHOD(&pattern, route, "getcompiledpattern",  NULL);
 		zephir_check_call_status();
-		if (Z_TYPE_P(pattern) != IS_STRING) {
-			zephir_var_dump(&this_ptr TSRMLS_CC);
-		}
 		ZEPHIR_INIT_NVAR(routeFound);
-		if (zephir_memnstr_str(pattern, SL("^"), "phalcon/mvc/router.zep", 445)) {
-			zephir_preg_match(routeFound, &(routeFound), pattern, handledUri, matches, 0, 0 , 0  TSRMLS_CC);
+		if (zephir_memnstr_str(pattern, SL("^"), "phalcon/mvc/router.zep", 443)) {
+			Z_SET_ISREF_P(matches);
+			ZEPHIR_CALL_FUNCTION(&routeFound, "preg_match", &_8, pattern, handledUri, matches);
+			Z_UNSET_ISREF_P(matches);
+			zephir_check_call_status();
 		} else {
 			ZVAL_BOOL(routeFound, ZEPHIR_IS_EQUAL(pattern, handledUri));
 		}

@@ -886,7 +886,9 @@ PHP_METHOD(Phalcon_Mvc_View, _engineRender) {
 					if (zephir_array_isset_string_fetch(&cacheOptions, viewOptions, SS("cache"), 0 TSRMLS_CC)) {
 						if (Z_TYPE_P(cacheOptions) == IS_ARRAY) {
 							ZEPHIR_OBS_NVAR(key);
+							zephir_array_isset_string_fetch(&key, cacheOptions, SS("key"), 0 TSRMLS_CC);
 							ZEPHIR_OBS_NVAR(lifetime);
+							zephir_array_isset_string_fetch(&lifetime, cacheOptions, SS("lifetime"), 0 TSRMLS_CC);
 						}
 					}
 				}
@@ -1258,7 +1260,7 @@ PHP_METHOD(Phalcon_Mvc_View, pick) {
 	} else {
 		ZEPHIR_INIT_VAR(layout);
 		ZVAL_NULL(layout);
-		if (zephir_memnstr_str(renderView, SL("/"), "phalcon/mvc/view.zep", 973)) {
+		if (zephir_memnstr_str(renderView, SL("/"), "phalcon/mvc/view.zep", 972)) {
 			ZEPHIR_INIT_VAR(parts);
 			zephir_fast_explode_str(parts, SL("/"), renderView, LONG_MAX TSRMLS_CC);
 			ZEPHIR_OBS_NVAR(layout);
@@ -1480,7 +1482,7 @@ PHP_METHOD(Phalcon_Mvc_View, _createCache) {
 	ZEPHIR_CALL_METHOD(&_1, dependencyInjector, "getshared", NULL, cacheService);
 	zephir_check_call_status();
 	ZEPHIR_CPY_WRT(viewCache, _1);
-	if (!ZEPHIR_IS_STRING(viewCache, "object")) {
+	if (Z_TYPE_P(viewCache) != IS_OBJECT) {
 		ZEPHIR_THROW_EXCEPTION_STR(phalcon_mvc_view_exception_ce, "The injected caching service is invalid");
 		return;
 	}

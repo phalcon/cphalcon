@@ -241,6 +241,10 @@ PHP_METHOD(Phalcon_Db_Reference, __set_state) {
 		ZEPHIR_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "_name parameter is required");
 		return;
 	}
+	zephir_array_isset_string_fetch(&referencedSchema, data, SS("_referencedSchema"), 1 TSRMLS_CC);
+	zephir_array_isset_string_fetch(&referencedTable, data, SS("_referencedTable"), 1 TSRMLS_CC);
+	zephir_array_isset_string_fetch(&columns, data, SS("_columns"), 1 TSRMLS_CC);
+	zephir_array_isset_string_fetch(&referencedColumns, data, SS("_referencedColumns"), 1 TSRMLS_CC);
 	object_init_ex(return_value, phalcon_db_reference_ce);
 	ZEPHIR_INIT_VAR(_0);
 	array_init_size(_0, 7);

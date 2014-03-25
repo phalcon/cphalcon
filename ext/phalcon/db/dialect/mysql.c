@@ -898,6 +898,7 @@ PHP_METHOD(Phalcon_Db_Dialect_MySQL, createTable) {
 	ZEPHIR_OBS_VAR(options);
 	if (zephir_array_isset_string_fetch(&options, definition, SS("options"), 0 TSRMLS_CC)) {
 		ZEPHIR_OBS_NVAR(temporary);
+		zephir_array_isset_string_fetch(&temporary, options, SS("temporary"), 0 TSRMLS_CC);
 	}
 	ZEPHIR_INIT_VAR(sql);
 	if (zephir_is_true(temporary)) {

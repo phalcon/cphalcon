@@ -20,6 +20,7 @@
 #include "kernel/array.h"
 #include "kernel/fcall.h"
 #include "kernel/concat.h"
+#include "phalcon/mvc/url/utils.h"
 
 
 /*
@@ -310,7 +311,7 @@ PHP_METHOD(Phalcon_Mvc_Url, getBasePath) {
 PHP_METHOD(Phalcon_Mvc_Url, get) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
-	zval *uri = NULL, *baseUri = NULL, *router = NULL, *dependencyInjector = NULL, *routeName, *route = NULL, *_0, *_1 = NULL, *_2, *_3, *_4, *_5 = NULL, *_6 = NULL;
+	zval *uri = NULL, *baseUri = NULL, *router = NULL, *dependencyInjector = NULL, *routeName, *route = NULL, *_0, *_1 = NULL, *_2 = NULL, *_3, *_4, *_5 = NULL;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 1, &uri);
@@ -359,13 +360,13 @@ PHP_METHOD(Phalcon_Mvc_Url, get) {
 			ZEPHIR_MM_RESTORE();
 			return;
 		}
+		ZEPHIR_INIT_NVAR(_2);
 		ZEPHIR_CALL_METHOD(&_1, route, "getpattern",  NULL);
 		zephir_check_call_status();
 		ZEPHIR_CALL_METHOD(&_5, route, "getreversedpaths",  NULL);
 		zephir_check_call_status();
-		ZEPHIR_CALL_FUNCTION(&_6, "phalcon_replace_paths", NULL, _1, _5, uri);
-		zephir_check_call_status();
-		ZEPHIR_CONCAT_VV(return_value, baseUri, _6);
+		phalcon_replace_paths(_2, _1, _5, uri TSRMLS_CC);
+		ZEPHIR_CONCAT_VV(return_value, baseUri, _2);
 		RETURN_MM();
 	}
 	ZEPHIR_CONCAT_VV(return_value, baseUri, uri);

@@ -2475,6 +2475,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, _statementList) {
 				ZEPHIR_OBS_NVAR(blockName);
 				zephir_array_fetch_string(&blockName, statement, SL("name"), PH_NOISY TSRMLS_CC);
 				ZEPHIR_OBS_NVAR(blockStatements);
+				zephir_array_isset_string_fetch(&blockStatements, statement, SS("block_statements"), 0 TSRMLS_CC);
 				ZEPHIR_OBS_NVAR(blocks);
 				zephir_read_property_this(&blocks, this_ptr, SL("_blocks"), PH_NOISY_CC);
 				if (blockMode) {
