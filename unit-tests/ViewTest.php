@@ -443,6 +443,15 @@ class ViewTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($view->getContent(), 'here');
 		$this->assertEquals('1', $listener->getLevels());
 		$listener->reset();
+	}
 
+	public function testIssue2140()
+	{
+		$view = new View();
+		$view->setBasePath(__DIR__.'/../');
+		$view->setViewsDir('unit-tests/views/');
+
+		$html = $view->partial('test2/index', NULL, FALSE);
+		$this->assertEquals($html, 'here');
 	}
 }
