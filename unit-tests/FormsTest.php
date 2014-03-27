@@ -516,4 +516,32 @@ class FormsTest extends PHPUnit_Framework_TestCase
 
 		$this->assertEquals('<input type="text" name="name" class="big-input" />', $element->render());
 	}
+
+	public function testIssue1992()
+	{
+		$form = new \Phalcon\Forms\Form();
+
+		$name = new \Phalcon\Forms\Element\Text("name");
+		$name->addValidator(new StringLength(array(
+				'min' => 10,
+				'messageMinimum' => 'The name is too short'
+		)));
+
+		$form->add($name);
+
+		$form->appendMessage("name", new \Phalcon\Validation\Message('Must be not empty '));
+
+		$messages = $form->getMessages();
+		$this->assertEquals(count($messages), 1);
+
+		$this->assertFalse($form->isValid(array('name' => 'phalcon')));
+
+		$this->assertEquals(count($messages), 1);
+
+		$form->appendMessages("name", array(new \Phalcon\Validation\Message('Must be not empty '), new \Phalcon\Validation\Message('Must be an email address')));
+		
+		$messages = $form->getMessages();
+
+		$this->assertEquals(count($messages), 3);
+	}
 }
