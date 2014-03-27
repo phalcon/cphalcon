@@ -27,6 +27,7 @@
 #include "kernel/fcall.h"
 #include "kernel/exception.h"
 #include "kernel/concat.h"
+#include "kernel/operators.h"
 
 #include "interned-strings.h"
 
@@ -84,7 +85,7 @@ PHALCON_INIT_CLASS(Phalcon_Mvc_Model_Validator_Url){
  */
 PHP_METHOD(Phalcon_Mvc_Model_Validator_Url, validate){
 
-	zval *record, *option = NULL, *field = NULL, *value = NULL, *flag, *is_valid = NULL;
+	zval *record, *option = NULL, *field = NULL, *allow_empty = NULL, *value = NULL, *flag, *is_valid = NULL;
 	zval *message = NULL, *type, *is_set_code = NULL, *code;
 
 	PHALCON_MM_GROW();
@@ -102,6 +103,20 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Url, validate){
 	
 	PHALCON_CALL_METHOD(&value, record, "readattribute", field);
 	
+	/*
+	 * Allow empty
+	 */
+	PHALCON_INIT_NVAR(option);
+	ZVAL_STRING(option, "allowEmpty", 1);
+
+	PHALCON_CALL_METHOD(&allow_empty, this_ptr, "getoption", option);
+
+	if (allow_empty && zend_is_true(allow_empty)) {
+		if (PHALCON_IS_EMPTY(value)) {
+			RETURN_MM_TRUE;
+		}
+	}
+
 	PHALCON_INIT_VAR(flag);
 	ZVAL_LONG(flag, 273);
 	
