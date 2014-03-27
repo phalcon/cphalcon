@@ -487,4 +487,3 @@ PHP_METHOD(Phalcon_Db_Result_Pdo, nextRowset){
 
 	RETURN_MM();
 }
-
