@@ -142,4 +142,19 @@ HTML;
 		$html = \Phalcon\Tag::stylesheetLink(array('css/phalcon.css', 'rel' => 'stylesheet/less'));
 		$this->assertEquals($html, '<link rel="stylesheet/less" type="text/css" href="/css/phalcon.css" />'.PHP_EOL);
 	}
+
+	public function testIssue2002()
+	{
+		$di = new Phalcon\DI\FactoryDefault();
+		$di->getshared('url')->setBaseUri('/');
+		\Phalcon\Tag::setDI($di);
+
+		$html = Phalcon\Tag::linkTo(array('signup/register', 'Register Here!', 'query' => array('a' => 1, 'b' => 2)));
+		$this->assertEquals($html, '<a href="/signup/register?a=1&b2">Register Here!</a>');
+
+		// remote
+
+		$html = Phalcon\Tag::linkTo(array('http://phalconphp.com/en/', 'Phalcon Home', FALSE, 'query' => array('a' => 1, 'b' => 2)));
+		$this->assertEquals($html, '<a href="http://phalconphp.com/en/?a=1&b2">Phalcon Home</a>');
+	 }
 }
