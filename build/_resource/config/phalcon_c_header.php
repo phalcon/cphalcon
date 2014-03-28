@@ -16,6 +16,8 @@ return <<<HEADER
 
 #include <main/php.h>
 
+#define PHALCON_RELEASE 1
+
 #include "php_phalcon.h"
 #include "phalcon.h"
 
@@ -66,8 +68,6 @@ return <<<HEADER
 #include <ext/mbstring/mbstring.h>
 #include <ext/mbstring/php_unicode.h>
 #endif
-
-#include <ext/pdo/php_pdo_driver.h>
 
 #include <Zend/zend_API.h>
 #include <Zend/zend_operators.h>

@@ -206,4 +206,3 @@ PHP_METHOD(Phalcon_Mvc_Collection_Document, writeAttribute){
 	phalcon_update_property_zval_zval(this_ptr, attribute, value TSRMLS_CC);
 	
 }
-

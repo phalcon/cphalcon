@@ -5726,6 +5726,8 @@ PHALCON_INIT_CLASS(Phalcon_Paginator_Exception);
 
 #endif /* PHALCON_PAGINATOR_EXCEPTION_H */
 
+
+
 #ifndef PSR_LOG_ABSTRACTLOGGER_H
 #define PSR_LOG_ABSTRACTLOGGER_H
 
@@ -5745,6 +5747,8 @@ PHP_FUNCTION(Psr_Log_Info);
 PHP_FUNCTION(Psr_Log_Debug);
 
 #endif /* PSR_LOG_ABSTRACTLOGGER_H */
+
+
 #ifndef PSR_LOG_INVALIDARGUMENTEXCEPTION_H
 #define PSR_LOG_INVALIDARGUMENTEXCEPTION_H
 
@@ -5800,6 +5804,8 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_psr_log_loggerinterface_logspecialized, 0, 0, 1)
 ZEND_END_ARG_INFO()
 
 #endif /* PSR_LOG_LOGGERINTERFACE_H */
+
+
 #ifndef PSR_LOG_LOGGERTRAIT_H
 #define PSR_LOG_LOGGERTRAIT_H
 
@@ -5810,6 +5816,8 @@ zend_class_entry *psr_log_loggertrait_ce;
 PHALCON_INIT_CLASS(Psr_Log_LoggerTrait);
 
 #endif /* PSR_LOG_LOGGERTRAIT_H */
+
+
 #ifndef PSR_LOG_LOGLEVEL_H
 #define PSR_LOG_LOGLEVEL_H
 
@@ -5829,6 +5837,8 @@ zend_class_entry *psr_log_loglevel_ce;
 PHALCON_INIT_CLASS(Psr_Log_LogLevel);
 
 #endif /* PSR_LOG_LOGLEVEL_H */
+
+
 #ifndef PSR_LOG_NULLLOGGER_H
 #define PSR_LOG_NULLLOGGER_H
 

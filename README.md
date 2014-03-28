@@ -12,7 +12,7 @@ Phalcon is written in C with platform independence in mind. As a result, Phalcon
 
 To install Phalcon on Windows:
 
-1. Download [Phalcon for Windows](http://phalconphp.com/en/download/windows) 
+1. Download [Phalcon for Windows](http://phalconphp.com/en/download/windows)
 2. Extract the DLL file and copy it to your PHP extensions directory
 3. Edit your php.ini file and add this line: `extension=php_phalcon.dll`
 4. Finally, restart your webserver

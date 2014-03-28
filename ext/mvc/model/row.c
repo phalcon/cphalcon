@@ -42,7 +42,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Row, offsetSet);
 PHP_METHOD(Phalcon_Mvc_Model_Row, offsetUnset);
 PHP_METHOD(Phalcon_Mvc_Model_Row, toArray);
 PHP_METHOD(Phalcon_Mvc_Model_Row, count);
-PHP_METHOD(Phalcon_Mvc_Model_Row, __wakeup);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_row_setdirtystate, 0, 0, 1)
 	ZEND_ARG_INFO(0, dirtyState)
@@ -72,202 +71,9 @@ static const zend_function_entry phalcon_mvc_model_row_method_entry[] = {
 	PHP_ME(Phalcon_Mvc_Model_Row, offsetSet, arginfo_phalcon_mvc_model_row_offsetset, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_Row, offsetUnset, arginfo_phalcon_mvc_model_row_offsetunset, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_Row, toArray, NULL, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Mvc_Model_Row, count, NULL, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Mvc_Model_Row, __wakeup, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Model_Row, count, NULL, ZEND_ACC_PUBLIC)	
 	PHP_FE_END
 };
-
-static zend_object_handlers phalcon_mvc_model_row_object_handlers;
-
-typedef struct _phalcon_mvc_model_row_object {
-	zend_object obj;  /**< Zend object data */
-	HashTable* props; /**< Properties */
-} phalcon_mvc_model_row_object;
-
-/**
- * @brief Fetches @c phalcon_mvc_model_row_object
- * @see phalcon_mvc_model_row_object
- * @param zobj @c \Phalcon\Mvc\Row instance
- * @return phalcon_mvc_model_row_object associated with @a zobj
- */
-static inline phalcon_mvc_model_row_object* phalcon_mvc_model_row_get_object(zval* zobj TSRMLS_DC)
-{
-	return (phalcon_mvc_model_row_object*)zend_objects_get_address(zobj TSRMLS_CC);
-}
-
-static int phalcon_mvc_model_row_count_elements(zval *object, long int *count TSRMLS_DC)
-{
-	phalcon_mvc_model_row_object* obj = phalcon_mvc_model_row_get_object(object TSRMLS_CC);
-	*count = zend_hash_num_elements(obj->props);
-	return SUCCESS;
-}
-
-/**
- * @brief @c read_dimension handler, used instead of @c offsetGet() method
- */
-static zval* phalcon_mvc_model_row_read_dimension(zval *object, zval *offset, int type TSRMLS_DC)
-{
-	phalcon_mvc_model_row_object* obj = phalcon_mvc_model_row_get_object(object TSRMLS_CC);
-	zval **ret;
-
-	if (UNEXPECTED(!is_phalcon_class(obj->obj.ce))) {
-		return zend_get_std_object_handlers()->read_dimension(object, offset, type TSRMLS_CC);
-	}
-
-	if (UNEXPECTED(!offset)) {
-		return EG(uninitialized_zval_ptr);
-	}
-
-	ret = phalcon_hash_get(obj->props, offset, type);
-	if (ret) {
-		return *ret;
-	}
-
-	zend_throw_exception_ex(phalcon_mvc_model_exception_ce, 0 TSRMLS_CC, "The index does not exist in the row");
-	return NULL;
-}
-
-/**
- * @brief @c write_dimension handler, used instead of @c offsetSet() method
- */
-static void phalcon_mvc_model_row_write_dimension(zval *object, zval *offset, zval *value TSRMLS_DC)
-{
-	phalcon_mvc_model_row_object* obj = phalcon_mvc_model_row_get_object(object TSRMLS_CC);
-
-	if (UNEXPECTED(!is_phalcon_class(obj->obj.ce))) {
-		zend_get_std_object_handlers()->write_dimension(object, offset, value TSRMLS_CC);
-		return;
-	}
-
-	zend_throw_exception_ex(phalcon_mvc_model_exception_ce, 0 TSRMLS_CC, "Phalcon\\Mvc\\Row is an immutable ArrayAccess object");
-}
-
-static int phalcon_mvc_model_row_has_dimension(zval *object, zval *offset, int check_empty TSRMLS_DC)
-{
-	phalcon_mvc_model_row_object* obj = phalcon_mvc_model_row_get_object(object TSRMLS_CC);
-	zval **tmp;
-
-	if (UNEXPECTED(!is_phalcon_class(obj->obj.ce))) {
-		return zend_get_std_object_handlers()->has_dimension(object, offset, check_empty TSRMLS_CC);
-	}
-
-	tmp = phalcon_hash_get(obj->props, offset, BP_VAR_NA);
-	if (!tmp) {
-		return 0;
-	}
-
-	if (0 == check_empty) {
-		return Z_TYPE_PP(tmp) != IS_NULL;
-	}
-
-	if (1 == check_empty) {
-		return zend_is_true(*tmp);
-	}
-
-	return 1;
-}
-
-static void phalcon_mvc_model_row_unset_dimension(zval *object, zval *offset TSRMLS_DC)
-{
-	phalcon_mvc_model_row_object* obj = phalcon_mvc_model_row_get_object(object TSRMLS_CC);
-
-	if (UNEXPECTED(!is_phalcon_class(obj->obj.ce))) {
-		zend_get_std_object_handlers()->unset_dimension(object, offset TSRMLS_CC);
-		return;
-	}
-
-	zend_throw_exception_ex(phalcon_mvc_model_exception_ce, 0 TSRMLS_CC, "Phalcon\\Mvc\\Row is an immutable ArrayAccess object");
-}
-
-/**
- * @brief Returns the list of all internal properties. Used by @c print_r() and other functions
- */
-static HashTable* phalcon_mvc_model_row_get_properties(zval* object TSRMLS_DC)
-{
-	HashTable* props = zend_std_get_properties(object TSRMLS_CC);
-
-	if (!GC_G(gc_active)) {
-		phalcon_mvc_model_row_object* obj = phalcon_mvc_model_row_get_object(object TSRMLS_CC);
-		zend_hash_copy(props, obj->props, (copy_ctor_func_t)zval_add_ref, NULL, sizeof(zval*));
-	}
-
-	return props;
-}
-
-/**
- * @brief Fast object compare function
- */
-static int phalcon_mvc_model_row_compare_objects(zval *object1, zval *object2 TSRMLS_DC)
-{
-	phalcon_mvc_model_row_object *zobj1, *zobj2;
-	zval result;
-
-	zobj1 = phalcon_mvc_model_row_get_object(object1 TSRMLS_CC);
-	zobj2 = phalcon_mvc_model_row_get_object(object2 TSRMLS_CC);
-
-	if (zobj1->obj.ce != zobj2->obj.ce) {
-		return 1;
-	}
-
-	if (zobj1->props == zobj2->props) {
-		return 0;
-	}
-
-	zend_compare_symbol_tables(&result, zobj1->props, zobj2->props TSRMLS_CC);
-	assert(Z_TYPE_P(&result) == IS_LONG);
-	return Z_LVAL_P(&result);
-}
-
-/**
- * @brief Frees all memory associated with @c phalcon_mvc_model_row_object
- */
-static void phalcon_mvc_model_row_object_dtor(void* v TSRMLS_DC)
-{
-	phalcon_mvc_model_row_object* obj = v;
-
-	zend_hash_destroy(obj->props);
-	FREE_HASHTABLE(obj->props);
-	zend_object_std_dtor(&(obj->obj) TSRMLS_CC);
-	efree(obj);
-}
-
-/**
- * @brief Constructs @c phalcon_mvc_model_row_object
- */
-static zend_object_value phalcon_mvc_model_row_object_ctor(zend_class_entry* ce TSRMLS_DC)
-{
-	phalcon_mvc_model_row_object *obj = ecalloc(1, sizeof(phalcon_mvc_model_row_object));
-	zend_object_value retval;
-
-	zend_object_std_init(&obj->obj, ce TSRMLS_CC);
-	object_properties_init(&obj->obj, ce);
-
-	ALLOC_HASHTABLE(obj->props);
-	zend_hash_init(obj->props, 0, NULL, ZVAL_PTR_DTOR, 0);
-
-	retval.handle = zend_objects_store_put(
-		obj,
-		(zend_objects_store_dtor_t)zend_objects_destroy_object,
-		phalcon_mvc_model_row_object_dtor,
-		NULL
-		TSRMLS_CC
-	);
-
-	retval.handlers = &phalcon_mvc_model_row_object_handlers;
-	return retval;
-}
-
-static zend_object_value phalcon_mvc_model_row_clone_obj(zval *object TSRMLS_DC)
-{
-	phalcon_mvc_model_row_object *orig  = phalcon_mvc_model_row_get_object(object TSRMLS_CC);
-	zend_object_value result            = phalcon_mvc_model_row_object_ctor(Z_OBJCE_P(object) TSRMLS_CC);
-	phalcon_mvc_model_row_object *clone = zend_object_store_get_object_by_handle(result.handle TSRMLS_CC);
-
-	zend_objects_clone_members(&clone->obj, result, &orig->obj, Z_OBJ_HANDLE_P(object) TSRMLS_CC);
-	zend_hash_copy(clone->props, orig->props, (copy_ctor_func_t)zval_add_ref, NULL, sizeof(zval*));
-
-	return result;
-}
 
 /**
  * Phalcon\Mvc\Model\Row initializer
@@ -275,18 +81,6 @@ static zend_object_value phalcon_mvc_model_row_clone_obj(zval *object TSRMLS_DC)
 PHALCON_INIT_CLASS(Phalcon_Mvc_Model_Row){
 
 	PHALCON_REGISTER_CLASS(Phalcon\\Mvc\\Model, Row, mvc_model_row, phalcon_mvc_model_row_method_entry, 0);
-
-	phalcon_mvc_model_row_ce->create_object = phalcon_mvc_model_row_object_ctor;
-
-	phalcon_mvc_model_row_object_handlers = *zend_get_std_object_handlers();
-	phalcon_mvc_model_row_object_handlers.count_elements  = phalcon_mvc_model_row_count_elements;
-	phalcon_mvc_model_row_object_handlers.read_dimension  = phalcon_mvc_model_row_read_dimension;
-	phalcon_mvc_model_row_object_handlers.write_dimension = phalcon_mvc_model_row_write_dimension;
-	phalcon_mvc_model_row_object_handlers.unset_dimension = phalcon_mvc_model_row_unset_dimension;
-	phalcon_mvc_model_row_object_handlers.has_dimension   = phalcon_mvc_model_row_has_dimension;
-	phalcon_mvc_model_row_object_handlers.get_properties  = phalcon_mvc_model_row_get_properties;
-	phalcon_mvc_model_row_object_handlers.compare_objects = phalcon_mvc_model_row_compare_objects;
-	phalcon_mvc_model_row_object_handlers.clone_obj       = phalcon_mvc_model_row_clone_obj;
 
 	zend_class_implements(phalcon_mvc_model_row_ce TSRMLS_CC, 3, zend_ce_arrayaccess, spl_ce_Countable, phalcon_mvc_model_resultinterface_ce);
 
@@ -315,11 +109,14 @@ PHP_METHOD(Phalcon_Mvc_Model_Row, setDirtyState){
  */
 PHP_METHOD(Phalcon_Mvc_Model_Row, offsetExists){
 
-	zval **index;
+	zval *index;
 
-	phalcon_fetch_params_ex(1, 0, &index);
+	phalcon_fetch_params(0, 1, 0, &index);
 	
-	RETURN_BOOL(phalcon_mvc_model_row_has_dimension(getThis(), *index, 0 TSRMLS_CC));
+	if (phalcon_isset_property_zval(this_ptr, index TSRMLS_CC)) {
+		RETURN_TRUE;
+	}
+	RETURN_FALSE;
 }
 
 /**
@@ -330,11 +127,20 @@ PHP_METHOD(Phalcon_Mvc_Model_Row, offsetExists){
  */
 PHP_METHOD(Phalcon_Mvc_Model_Row, offsetGet){
 
-	zval **index, *ret;
+	zval *index, *value;
 
-	phalcon_fetch_params_ex(1, 0, &index);
-	ret = phalcon_mvc_model_row_read_dimension(getThis(), *index, BP_VAR_R TSRMLS_CC);
-	RETURN_ZVAL(ret, 1, 0);
+	PHALCON_MM_GROW();
+
+	phalcon_fetch_params(1, 1, 0, &index);
+	
+	if (phalcon_isset_property_zval(this_ptr, index TSRMLS_CC)) {
+		PHALCON_OBS_VAR(value);
+		phalcon_read_property_zval(&value, this_ptr, index, PH_NOISY TSRMLS_CC);
+		RETURN_CTOR(value);
+	}
+
+	PHALCON_THROW_EXCEPTION_STRW(phalcon_mvc_model_exception_ce, "The index does not exist in the row");
+	return;
 }
 
 /**
@@ -345,10 +151,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Row, offsetGet){
  */
 PHP_METHOD(Phalcon_Mvc_Model_Row, offsetSet){
 
-	zval **index, **value;
+	zval *index, *value;
 
-	phalcon_fetch_params_ex(2, 0, &index, &value);
-	phalcon_mvc_model_row_write_dimension(getThis(), *index, *value TSRMLS_CC);
+	phalcon_fetch_params(0, 2, 0, &index, &value);
+	
+	phalcon_update_property_zval_zval(this_ptr, index, value TSRMLS_CC);
 }
 
 /**
@@ -358,10 +165,12 @@ PHP_METHOD(Phalcon_Mvc_Model_Row, offsetSet){
  */
 PHP_METHOD(Phalcon_Mvc_Model_Row, offsetUnset){
 
-	zval **offset;
+	zval *offset;
 
-	phalcon_fetch_params_ex(1, 0, &offset);
-	phalcon_mvc_model_row_unset_dimension(getThis(), *offset TSRMLS_CC);
+	phalcon_fetch_params(0, 1, 0, &offset);
+	
+	PHALCON_THROW_EXCEPTION_STRW(phalcon_mvc_model_exception_ce, "The index does not exist in the row");
+	return;
 }
 
 /**
@@ -371,25 +180,29 @@ PHP_METHOD(Phalcon_Mvc_Model_Row, offsetUnset){
  */
 PHP_METHOD(Phalcon_Mvc_Model_Row, toArray){
 
-	HashTable *properties = phalcon_mvc_model_row_get_properties(getThis() TSRMLS_CC);
+	HashTable *properties;
+
+	properties = Z_OBJ_HT_P(this_ptr)->get_properties(this_ptr TSRMLS_CC);
+
+	if (!properties) {
+		RETURN_FALSE;
+	}
 
 	array_init_size(return_value, zend_hash_num_elements(properties));
 	zend_hash_copy(Z_ARRVAL_P(return_value), properties, (copy_ctor_func_t)zval_add_ref, NULL, sizeof(zval*));
 }
 
+/**
+ * Counts how many properties were added to the row
+ *
+ * @return int
+ */
 PHP_METHOD(Phalcon_Mvc_Model_Row, count){
-	long int cnt;
-
-	phalcon_mvc_model_row_count_elements(getThis(), &cnt TSRMLS_CC);
-	RETURN_LONG(cnt);
+	HashTable *properties;
+	properties = Z_OBJ_HT_P(this_ptr)->get_properties(this_ptr TSRMLS_CC);	
+	if (properties) {
+		RETURN_LONG(zend_hash_num_elements(properties));
+	}
+	RETURN_LONG(0);
 }
 
-PHP_METHOD(Phalcon_Mvc_Model_Row, __wakeup)
-{
-	HashTable *props;
-	phalcon_mvc_model_row_object *obj;
-
-	obj   = phalcon_mvc_model_row_get_object(getThis() TSRMLS_CC);
-	props = zend_std_get_properties(getThis() TSRMLS_CC);
-	zend_hash_copy(obj->props, props, (copy_ctor_func_t)zval_add_ref, NULL, sizeof(zval*));
-}
