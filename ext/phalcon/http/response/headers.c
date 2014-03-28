@@ -101,12 +101,17 @@ PHP_METHOD(Phalcon_Http_Response_Headers, get) {
  */
 PHP_METHOD(Phalcon_Http_Response_Headers, setRaw) {
 
-	zval *header;
+	zval *header, *_0;
 
-	zephir_fetch_params(0, 1, 0, &header);
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 1, 0, &header);
 
 
 
+	ZEPHIR_INIT_VAR(_0);
+	ZVAL_STRING(_0, "", 1);
+	zephir_update_property_array(this_ptr, SL("_headers"), header, _0 TSRMLS_CC);
+	ZEPHIR_MM_RESTORE();
 
 }
 

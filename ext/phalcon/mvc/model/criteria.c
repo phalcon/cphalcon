@@ -76,17 +76,21 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_Criteria) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_Criteria, setDI) {
 
-	zval *dependencyInjector;
+	zval *dependencyInjector, *_0;
 
-	zephir_fetch_params(0, 1, 0, &dependencyInjector);
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 1, 0, &dependencyInjector);
 
 
 
 	if (!(zephir_instance_of_ev(dependencyInjector, phalcon_diinterface_ce TSRMLS_CC))) {
-		ZEPHIR_THROW_EXCEPTION_STRW(spl_ce_InvalidArgumentException, "Parameter 'dependencyInjector' must be an instance of 'Phalcon\\DiInterface'");
+		ZEPHIR_THROW_EXCEPTION_STR(spl_ce_InvalidArgumentException, "Parameter 'dependencyInjector' must be an instance of 'Phalcon\\DiInterface'");
 		return;
 	}
-	//missing
+	ZEPHIR_INIT_VAR(_0);
+	ZVAL_STRING(_0, "di", 1);
+	zephir_update_property_array(this_ptr, SL("_params"), _0, dependencyInjector TSRMLS_CC);
+	ZEPHIR_MM_RESTORE();
 
 }
 

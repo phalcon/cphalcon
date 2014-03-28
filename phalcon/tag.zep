@@ -83,42 +83,39 @@ class Tag
 	{
 		var result, autoescape;
 
-		let result = null;
-		let autoescape = null;
-
 		if !fetch autoescape, params["escape"] {
 			let autoescape = self::_autoEscape;
 		}
 
-		if autoescape == true {
+		if autoescape {
 			let result = self::getEscaperService();
+		} else {
+			let result = null;
 		}
 
 		return result;
 	}
 
-	public static function renderAttributes(String code, attributes)
+	public static function renderAttributes(string code, attributes)
 	{
 		var order, escaper, attrs, value, escaped, attribute, key;
 
 		let attrs = [];
-		let order = ["type","for","src","href","action","id","name","value","class"];
+		let order = ["type", "for", "src", "href", "action", "id", "name", "value", "class"];
 
 		let escaper = self::getEscaper(attributes);
 
-		for attribute,value in attributes {
+		for attribute, value in attributes {
 			if isset order[attribute] {
 				let attrs[attribute] = value;
 			}
 		}
 
-		let attrs = array_merge_recursive(attrs,attributes);
+		let attrs = array_merge_recursive(attrs, attributes);
 
-		if isset attrs["escape"] {
-			unset attrs["escape"];
-		}
+		unset attrs["escape"];
 
-		for key,value in attrs {
+		for key, value in attrs {
 			if typeof key == "string" {
 				if escaper {
 					let escaped = escaper->escapeHtmlAttr(value);
@@ -235,7 +232,8 @@ class Tag
 	 * @param string id
 	 * @param string value
 	 */
-	public static function setDefault(string id, value){
+	public static function setDefault(string id, value)
+	{
 		if value !== null {
 			if typeof value == "array" || typeof value == "object" {
 				throw new \Phalcon\Tag\Exception("Only scalar values can be assigned to UI components");
@@ -284,14 +282,10 @@ class Tag
 	 */
 	public static function hasValue(name)
 	{
-		var displayValues;
-
-		let displayValues = self::_displayValues;
-
 		/**
 		 * Check if there is a predefined value for it
 		 */
-		if isset displayValues[name] {
+		if isset self::_displayValues[name] {
 			return true;
 		} else {
 			/**
@@ -315,14 +309,12 @@ class Tag
 	 */
 	public static function getValue(name, params=null)
 	{
-		var value, autoescape, displayValues, escaper;
-
-		let displayValues = self::_displayValues;
+		var value, autoescape, escaper;
 
 		/**
 		 * Check if there is a predefined value for it
 		 */
-		if !fetch value, displayValues[name] {
+		if !fetch value, self::_displayValues[name] {
 			/**
 			 * Check if there is a post value for the item
 			 */
@@ -337,15 +329,13 @@ class Tag
 		if typeof value == "string" {
 
 			if self::_autoEscape {
-				let escaper = self::getEscaperService();
-				return escaper->escapeHtmlAttr(value);
+				return self::getEscaperService()->escapeHtmlAttr(value);
 			}
 
 			if typeof params == "array" {
 				if fetch autoescape, params["escape"] {
 					if autoescape {
-						let escaper = self::getEscaperService();
-						return escaper->escapeHtmlAttr(value);
+						return self::getEscaperService()->escapeHtmlAttr(value);
 					}
 				}
 			}
@@ -456,6 +446,7 @@ class Tag
 		}
 
 		if asValue == false {
+
 			if !fetch id, params[0] {
 				let params[0] = params["id"];
 			}
@@ -471,7 +462,7 @@ class Tag
 			/**
 			* Automatically assign the id if the name is not an array
 			*/
-			if !strpos(id, "[") {
+			if !memstr(id, "[") {
 				if !isset params["id"] {
 					let params["id"] = id;
 				}
@@ -481,8 +472,7 @@ class Tag
 			 * Use the parameter "value" if the developer had set it
 			 */
 			if !isset params["value"] {
-				let value = self::getValue(id, params);
-				let params["value"] = value;
+				let params["value"] = self::getValue(id, params);
 			}
 
 		} else {
@@ -490,26 +480,23 @@ class Tag
 			 * Use the "id" as value if the user hadn"t set it
 			 */
 			if !isset params["value"] {
-				if isset params[0] {
-					let value = params[0];
+				if fetch value, params[0] {
 					let params["value"] = value;
 				}
 			}
 		}
 
-		let code = "<input type=\"".type."\"";
-		for key,value in params {
+		let code = "<input type=\"" . type . "\"";
+		for key, value in params {
 			if typeof key != "integer" {
-				let code .= " ".key."=\"".value."\"";
+				let code .= " " . key . "=\"" . value . "\"";
 			}
 		}
-
-		let doctype = self::_documentType;
 
 		/**
 		 * Check if Doctype is XHTML
 		 */
-		if doctype > 5 {
+		if self::_documentType > 5 {
 			let code .= " />";
 		} else {
 			let code .= ">";
@@ -1028,14 +1015,8 @@ class Tag
 			let params = parameters;
 		}
 
-		if isset params[0] {
-			let paramsAction = params[0];
-		} else {
-			if isset params["action"] {
-				let paramsAction = params["action"];
-			} else {
-				let paramsAction = null;
-			}
+		if !fetch paramsAction, params[0] {
+			fetch paramsAction, params["action"];
 		}
 
 		/**
@@ -1048,16 +1029,14 @@ class Tag
 		let action = null;
 
 		if !empty paramsAction {
-			let url = self::getUrlService();
-			let action = url->get(paramsAction);
+			let action = self::getUrlService()->get(paramsAction);
 		}
 
 		/**
 		 * Check for extra parameters
 		 */
-		if isset params["parameters"] {
-			let parameters = params["parameters"];
-			let action .= "?".parameters;
+		if fetch parameters, params["parameters"] {
+			let action .= "?" . parameters;
 		}
 
 		if !empty action {
@@ -1065,9 +1044,9 @@ class Tag
 		}
 
 		let code = "<form";
-		for key,avalue in params {
+		for key, avalue in params {
 			if typeof key != "integer" {
-				let code .= " ".key."=\"".avalue."\"";
+				let code .= " " . key . "=\"" . avalue . "\"";
 			}
 		}
 		let code .= ">";
@@ -1313,19 +1292,16 @@ class Tag
 		 * URLs are generated through the "url" service
 		 */
 		if local {
-			let url = self::getUrlService();
-			let params["src"] = url->getStatic(params["src"]);
+			let params["src"] = self::getUrlService()->getStatic(params["src"]);
 		}
-
-		let eol = PHP_EOL;
 
 		let code = "<script";
-		for key,value in params {
+		for key, value in params {
 			if typeof key != "integer" {
-				let code.= " ".key."=\"".value."\"";
+				let code .= " " . key . "=\"" . value . "\"";
 			}
 		}
-		let code.="></script>".eol;
+		let code .= "></script>" . PHP_EOL;
 
 		return code;
 	}
@@ -1351,7 +1327,7 @@ class Tag
 	 */
 	public static function image(parameters=null, local=true)
 	{
-		var params, code, url, key, value, doctype;
+		var params, code, url, key, value, src;
 
 		if typeof parameters != "array" {
 			let params = [parameters];
@@ -1360,8 +1336,8 @@ class Tag
 		}
 
 		if !isset params["src"] {
-			if isset params[0] {
-				let params["src"] = params[0];
+			if fetch src, params[0] {
+				let params["src"] = src;
 			} else {
 				let params["src"] = "";
 			}
@@ -1371,23 +1347,20 @@ class Tag
 		 * Use the "url" service if the URI is local
 		 */
 		if local {
-			let url = self::getUrlService();
-			let params["src"] = url->getStatic(params["src"]);
+			let params["src"] = self::getUrlService()->getStatic(params["src"]);
 		}
 
 		let code = "<img";
-		for key,value in params {
+		for key, value in params {
 			if typeof key != "integer" {
 				let code .= " ".key."=\"".value."\"";
 			}
 		}
 
-		let doctype = self::_documentType;
-
 		/**
 		 * Check if Doctype is XHTML
 		 */
-		if doctype > 5 {
+		if self::_documentType > 5 {
 			let code .= " />";
 		} else {
 			let code .= ">";
@@ -1412,14 +1385,11 @@ class Tag
 	{
 		var pattern, friendly, friendlyText;
 
-		let pattern = "~[^a-z0-9A-Z]+~";
-		let friendly = preg_replace(pattern, separator, text);
+		let friendly = preg_replace("~[^a-z0-9A-Z]+~", separator, text);
 		if !empty lowercase {
-			let friendlyText = strtolower(friendly);
-		} else {
-			let friendlyText = friendly;
+			return strtolower(friendly);
 		}
-		return friendlyText;
+		return friendly;
 	}
 
 	/**
@@ -1437,35 +1407,33 @@ class Tag
 	 *
 	 * @return string
 	 */
-	public static function getDocType()
+	public static function getDocType() -> string
 	{
-		var doctype;
 
-		let doctype = self::_documentType;
-		switch doctype
+		switch self::_documentType
 		{
-			case 1:  return "<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 3.2 Final//EN\">".PHP_EOL;
+			case 1:  return "<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 3.2 Final//EN\">" . PHP_EOL;
             /* no break */
-            case 2:  return "<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.01//EN\"". PHP_EOL ."\t\"http://www.w3.org/TR/html4/strict.dtd\">".PHP_EOL;
+            case 2:  return "<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.01//EN\"" . PHP_EOL . "\t\"http://www.w3.org/TR/html4/strict.dtd\">" . PHP_EOL;
             /* no break */
-            case 3:  return "<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\"".PHP_EOL."\t\"http://www.w3.org/TR/html4/loose.dtd\">".PHP_EOL;
+            case 3:  return "<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\"" . PHP_EOL . "\t\"http://www.w3.org/TR/html4/loose.dtd\">" . PHP_EOL;
             /* no break */
-            case 4:  return "<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.01 Frameset//EN\"".PHP_EOL."\t\"http://www.w3.org/TR/html4/frameset.dtd\">".PHP_EOL;
+            case 4:  return "<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.01 Frameset//EN\"" . PHP_EOL . "\t\"http://www.w3.org/TR/html4/frameset.dtd\">" . PHP_EOL;
             /* no break */
-            case 5:  return "<!DOCTYPE html>".PHP_EOL;
+            case 5:  return "<!DOCTYPE html>" . PHP_EOL;
             /* no break */
-            case 6:  return "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\"".PHP_EOL."\t\"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">".PHP_EOL;
+            case 6:  return "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\"" . PHP_EOL . "\t\"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">" . PHP_EOL;
             /* no break */
-            case 7:  return "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\"".PHP_EOL."\t\"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">".PHP_EOL;
+            case 7:  return "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\"" . PHP_EOL."\t\"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">" . PHP_EOL;
             /* no break */
-            case 8:  return "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Frameset//EN\"".PHP_EOL."\t\"http://www.w3.org/TR/xhtml1/DTD/xhtml1-frameset.dtd\">".PHP_EOL;
+            case 8:  return "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Frameset//EN\"" . PHP_EOL . "\t\"http://www.w3.org/TR/xhtml1/DTD/xhtml1-frameset.dtd\">" . PHP_EOL;
             /* no break */
-            case 9:  return "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.1//EN\"".PHP_EOL."\t\"http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd\">".PHP_EOL;
+            case 9:  return "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.1//EN\"" . PHP_EOL . "\t\"http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd\">" . PHP_EOL;
             /* no break */
-            case 10: return "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 2.0//EN\"".PHP_EOL."\t\"http://www.w3.org/MarkUp/DTD/xhtml2.dtd\">".PHP_EOL;
-            /* no break */
-            default: return "";
+            case 10: return "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 2.0//EN\"" . PHP_EOL . "\t\"http://www.w3.org/MarkUp/DTD/xhtml2.dtd\">" . PHP_EOL;
 		}
+
+		return "";
 	}
 
 	/**
@@ -1482,9 +1450,9 @@ class Tag
 	 * @param boolean useEol
 	 * @return string
 	 */
-	public static function tagHtml(tagName, parameters=null, selfClose=false, onlyStart=false, useEol=false)
+	public static function tagHtml(tagName, parameters=null, selfClose=false, onlyStart=false, useEol=false) -> string
 	{
- 		var params, localCode, key, value, doctype;
+ 		var params, localCode, key, value;
 
 		if typeof parameters != "array" {
 			let params = [parameters];
@@ -1492,20 +1460,18 @@ class Tag
 			let params = parameters;
 		}
 
-		let localCode = "<".tagName;
+		let localCode = "<" . tagName;
 
-		for key,value in params {
+		for key, value in params {
 			if typeof key != "integer" {
 				let localCode .= " ".key."=\"".value."\"";
 			}
 		}
 
-		let doctype = self::_documentType;
-
 		/**
 		 * Check if Doctype is XHTML
 		 */
-		if doctype > 5 {
+		if self::_documentType > 5 {
 			if selfClose {
 				let localCode .= " />";
 			} else {
