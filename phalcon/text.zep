@@ -69,7 +69,7 @@ abstract class Text
 
 	/**
 	 * Adds a number to a string or increment that number if it already is defined
-     *
+	 *
 	 *<code>
 	 *	echo Phalcon\Text::increment("a"); // "a_1"
 	 *	echo Phalcon\Text::increment("a_1"); // "a_2"
@@ -116,7 +116,7 @@ abstract class Text
 
 	/**
 	 * Check if a string starts with a given string
-     *
+	 *
 	 *<code>
 	 *	echo Phalcon\Text::startsWith("Hello", "He"); // true
 	 *	echo Phalcon\Text::startsWith("Hello", "he"); // false
@@ -135,7 +135,7 @@ abstract class Text
 
 	/**
 	 * Check if a string ends with a given string
-     *
+	 *
 	 *<code>
 	 *	echo Phalcon\Text::endsWith("Hello", "llo"); // true
 	 *	echo Phalcon\Text::endsWith("Hello", "LLO"); // false

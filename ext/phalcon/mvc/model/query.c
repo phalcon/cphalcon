@@ -267,8 +267,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getQualified) {
 	HashTable *_4;
 	HashPosition _3;
 	int number, ZEPHIR_LAST_CALL_STATUS;
-	zend_bool hasModel;
-	zval *expr, *columnName, *sqlColumnAliases, *metaData, *sqlAliases, *source = NULL, *sqlAliasesModelsInstances, *realColumnName = NULL, *columnDomain, *model = NULL, *models, *columnMap = NULL, *_0 = NULL, *_1, *_2 = NULL, **_5, *_6 = NULL, *_7, *_9;
+	zval *expr, *columnName, *sqlColumnAliases, *metaData, *sqlAliases, *source = NULL, *sqlAliasesModelsInstances, *realColumnName = NULL, *columnDomain, *model = NULL, *models, *columnMap = NULL, *hasModel = NULL, *_0 = NULL, *_1, *_2 = NULL, **_5, *_6 = NULL, *_7, *_9;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &expr);
@@ -346,7 +345,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getQualified) {
 		}
 	} else {
 		number = 0;
-		hasModel = 0;
+		ZEPHIR_INIT_VAR(hasModel);
+		ZVAL_BOOL(hasModel, 0);
 		_1 = zephir_fetch_nproperty_this(this_ptr, SL("_modelsInstances"), PH_NOISY_CC);
 		zephir_is_iterable(_1, &_4, &_3, 0, 0);
 		for (
@@ -370,10 +370,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getQualified) {
 					ZEPHIR_MM_RESTORE();
 					return;
 				}
-				hasModel = zephir_is_true(model);
+				ZEPHIR_CPY_WRT(hasModel, model);
 			}
 		}
-		if (hasModel == 0) {
+		if (ZEPHIR_IS_FALSE(hasModel)) {
 			ZEPHIR_INIT_LNVAR(_0);
 			object_init_ex(_0, phalcon_mvc_model_exception_ce);
 			_1 = zephir_fetch_nproperty_this(this_ptr, SL("_phql"), PH_NOISY_CC);
@@ -393,7 +393,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getQualified) {
 		}
 		ZEPHIR_OBS_NVAR(source);
 		ZEPHIR_INIT_VAR(_9);
-		zephir_get_class(_9, (hasModel ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false)), 0 TSRMLS_CC);
+		zephir_get_class(_9, hasModel, 0 TSRMLS_CC);
 		if (!(zephir_array_isset_fetch(&source, models, _9, 0 TSRMLS_CC))) {
 			ZEPHIR_INIT_LNVAR(_0);
 			object_init_ex(_0, phalcon_mvc_model_exception_ce);
@@ -408,7 +408,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getQualified) {
 		}
 		ZEPHIR_INIT_NVAR(columnMap);
 		if (ZEPHIR_GLOBAL(orm).column_renaming) {
-			ZEPHIR_CALL_METHOD(&columnMap, metaData, "getreversecolumnmap", NULL, (hasModel ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false)));
+			ZEPHIR_CALL_METHOD(&columnMap, metaData, "getreversecolumnmap", NULL, hasModel);
 			zephir_check_call_status();
 		} else {
 			ZVAL_NULL(columnMap);
@@ -2613,8 +2613,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _executeSelect) {
 	HashTable *_2, *_6, *_10, *_13, *_18, *_21, *_24;
 	HashPosition _1, _5, _9, _12, _17, _20, _23;
 	int numberObjects, ZEPHIR_LAST_CALL_STATUS;
-	zend_bool resultData, haveObjects, haveScalars, isComplex, isSimpleStd;
-	zval *intermediate, *bindParams, *bindTypes, *manager, *modelName = NULL, *models, *model = NULL, *connection = NULL, *connections, *columns, *column = NULL, *selectColumns, *simpleColumnMap = NULL, *metaData, *aliasCopy = NULL, *sqlColumn = NULL, *attributes = NULL, *instance = NULL, *columnMap = NULL, *attribute = NULL, *isKeepingSnapshots = NULL, *columnAlias = NULL, *sqlAlias = NULL, *dialect = NULL, *sqlSelect = NULL, *processed = NULL, *wildcard = NULL, *value = NULL, *processedTypes = NULL, *typeWildcard = NULL, *result = NULL, *cache, *resultObject = NULL, *_0, **_3, *_4 = NULL, **_7, *_8, **_11, **_14, *_16 = NULL, **_19, **_22, **_25, *_26 = NULL;
+	zend_bool haveObjects, haveScalars, isComplex, isSimpleStd;
+	zval *intermediate, *bindParams, *bindTypes, *manager, *modelName = NULL, *models, *model = NULL, *connection = NULL, *connections, *columns, *column = NULL, *selectColumns, *simpleColumnMap = NULL, *metaData, *aliasCopy = NULL, *sqlColumn = NULL, *attributes = NULL, *instance = NULL, *columnMap = NULL, *attribute = NULL, *isKeepingSnapshots = NULL, *columnAlias = NULL, *sqlAlias = NULL, *dialect = NULL, *sqlSelect = NULL, *processed = NULL, *wildcard = NULL, *value = NULL, *processedTypes = NULL, *typeWildcard = NULL, *result = NULL, *resultData = NULL, *cache, *resultObject = NULL, *_0, **_3, *_4 = NULL, **_7, *_8, **_11, **_14, *_16 = NULL, **_19, **_22, **_25, *_26 = NULL;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 3, 0, &intermediate, &bindParams, &bindTypes);
@@ -2863,9 +2863,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _executeSelect) {
 	ZEPHIR_CALL_METHOD(&_4, result, "numrows", NULL, result);
 	zephir_check_call_status();
 	if (zephir_is_true(_4)) {
-		resultData = zephir_is_true(result);
+		ZEPHIR_CPY_WRT(resultData, result);
 	} else {
-		resultData = 0;
+		ZEPHIR_INIT_VAR(resultData);
+		ZVAL_BOOL(resultData, 0);
 	}
 	ZEPHIR_OBS_VAR(cache);
 	zephir_read_property_this(&cache, this_ptr, SL("_cache"), PH_NOISY_CC);
@@ -2887,12 +2888,12 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _executeSelect) {
 			zephir_check_call_status();
 		}
 		object_init_ex(return_value, phalcon_mvc_model_resultset_simple_ce);
-		ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, simpleColumnMap, resultObject, (resultData ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false)), cache, isKeepingSnapshots);
+		ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, simpleColumnMap, resultObject, resultData, cache, isKeepingSnapshots);
 		zephir_check_call_status();
 		RETURN_MM();
 	}
 	object_init_ex(return_value, phalcon_mvc_model_resultset_complex_ce);
-	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, columns, (resultData ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false)), cache);
+	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, columns, resultData, cache);
 	zephir_check_call_status();
 	RETURN_MM();
 

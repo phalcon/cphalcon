@@ -98,7 +98,7 @@ PHP_METHOD(Phalcon_Validation_Message_Group, offsetGet) {
 
 	zephir_fetch_params(0, 1, 0, &index_param);
 
-		if (Z_TYPE_P(index_param) != IS_LONG) {
+	if (Z_TYPE_P(index_param) != IS_LONG) {
 			zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'index' must be a long/integer") TSRMLS_CC);
 			RETURN_NULL();
 		}
@@ -131,7 +131,7 @@ PHP_METHOD(Phalcon_Validation_Message_Group, offsetSet) {
 
 	zephir_fetch_params(0, 2, 0, &index_param, &message);
 
-		if (Z_TYPE_P(index_param) != IS_LONG) {
+	if (Z_TYPE_P(index_param) != IS_LONG) {
 			zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'index' must be a long/integer") TSRMLS_CC);
 			RETURN_NULL();
 		}

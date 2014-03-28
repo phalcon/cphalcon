@@ -114,7 +114,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, getCompiler) {
 		zephir_check_call_status();
 		ZEPHIR_OBS_VAR(dependencyInjector);
 		zephir_read_property_this(&dependencyInjector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
-		if (Z_TYPE_P(dependencyInjector) != IS_OBJECT) {
+		if (Z_TYPE_P(dependencyInjector) == IS_OBJECT) {
 			ZEPHIR_CALL_METHOD(NULL, compiler, "setdi", NULL, dependencyInjector);
 			zephir_check_call_status();
 		}

@@ -98,7 +98,7 @@ PHP_METHOD(Phalcon_Events_Manager, attach) {
 	if (!priority_param) {
 		priority = 100;
 	} else {
-		if (Z_TYPE_P(priority_param) != IS_LONG) {
+	if (Z_TYPE_P(priority_param) != IS_LONG) {
 			zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'priority' must be a long/integer") TSRMLS_CC);
 			RETURN_MM_NULL();
 		}
