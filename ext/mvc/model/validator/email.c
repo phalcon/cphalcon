@@ -90,6 +90,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Email, validate){
 	zval *record, *option = NULL, *field_name = NULL, *regs, *invalid = NULL;
 	zval *value = NULL, *pattern, *match_pattern, *match_zero;
 	zval *message = NULL, *type, *is_set_code = NULL, *code = NULL;
+	zval *allow_empty = NULL;
 
 	PHALCON_MM_GROW();
 
@@ -110,6 +111,17 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Email, validate){
 	ZVAL_BOOL(invalid, 0);
 	
 	PHALCON_CALL_METHOD(&value, record, "readattribute", field_name);
+
+	/*
+	 * Allow empty
+	 */
+	PHALCON_INIT_NVAR(option);
+	ZVAL_STRING(option, "allowEmpty", 1);
+
+	PHALCON_CALL_METHOD(&allow_empty, this_ptr, "getoption", option);
+	if (allow_empty && zend_is_true(allow_empty) && PHALCON_IS_EMPTY(value)) {
+		RETURN_MM_TRUE;
+	}
 	
 	/** 
 	 * We check if the email has a valid format using a regular expression
