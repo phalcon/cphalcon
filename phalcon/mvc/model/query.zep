@@ -93,23 +93,23 @@ class Query implements \Phalcon\Mvc\Model\QueryInterface, \Phalcon\Di\InjectionA
 
 	const TYPE_DELETE = 303;
 
-        /**
+	/**
 	 * Phalcon\Mvc\Model\Query constructor
 	 *
 	 * @param string $phql
 	 * @param Phalcon\DiInterface dependencyInjector
 	 */
-        public function __construct(phql=null, <\Phalcon\DiInterface> dependencyInjector=null)
-        {
-                if typeof phql != "null" {
-                        let this->_phql = phql;
-                }
-                
-                if typeof dependencyInjector == "object" {
-                        this->setDI(dependencyInjector);
-                }
-        }
-        
+	public function __construct(phql=null, <\Phalcon\DiInterface> dependencyInjector=null)
+	{
+		if typeof phql != "null" {
+			let this->_phql = phql;
+		}
+
+		if typeof dependencyInjector == "object" {
+			this->setDI(dependencyInjector);
+		}
+	}
+
 	/**
 	 * Sets the dependency injection container
 	 *
@@ -173,7 +173,7 @@ class Query implements \Phalcon\Mvc\Model\QueryInterface, \Phalcon\Di\InjectionA
 	 * @param array expr
 	 * @return string
 	 */
-	protected function _getQualified(expr)
+	protected final function _getQualified(expr)
 	{
 		var columnName, sqlColumnAliases, metaData, sqlAliases,
 			source, sqlAliasesModelsInstances, realColumnName, columnDomain,
@@ -321,7 +321,7 @@ class Query implements \Phalcon\Mvc\Model\QueryInterface, \Phalcon\Di\InjectionA
 	 * @param array argument
 	 * @return string
 	 */
-	protected function _getCallArgument(argument)
+	protected final function _getCallArgument(argument)
 	{
 		if argument["type"] == PHQL_T_ALL {
 			return ["type": "all"];
@@ -335,7 +335,7 @@ class Query implements \Phalcon\Mvc\Model\QueryInterface, \Phalcon\Di\InjectionA
 	 * @param array expr
 	 * @return array
 	 */
-	protected function _getFunctionCall(expr)
+	protected final function _getFunctionCall(expr)
 	{
 		var arguments, argument, functionArgs;
 
@@ -374,7 +374,7 @@ class Query implements \Phalcon\Mvc\Model\QueryInterface, \Phalcon\Di\InjectionA
 	 * @param boolean quoting
 	 * @return string
 	 */
-	protected function _getExpression(expr, boolean quoting=true) -> string
+	protected final function _getExpression(expr, boolean quoting=true) -> string
 	{
 		var exprType, exprLeft, exprRight, left, right, listItems, exprListItem,
 			exprReturn, tempNotQuoting, value, escapedValue, exprValue;
@@ -620,7 +620,7 @@ class Query implements \Phalcon\Mvc\Model\QueryInterface, \Phalcon\Di\InjectionA
 	 * @param array column
 	 * @return array
 	 */
-	protected function _getSelectColumn(column)
+	protected final function _getSelectColumn(column)
 	{
 		var sqlColumns, columnType, sqlAliases, modelName, source,
 			columnDomain, sqlColumnAlias, bestAlias, preparedAlias, sqlExprColumn,
@@ -741,7 +741,7 @@ class Query implements \Phalcon\Mvc\Model\QueryInterface, \Phalcon\Di\InjectionA
 	 * @param array qualifiedName
 	 * @return string
 	 */
-	protected function _getTable(<\Phalcon\Mvc\Model\ManagerInterface> manager, qualifiedName)
+	protected final function _getTable(<\Phalcon\Mvc\Model\ManagerInterface> manager, qualifiedName)
 	{
 		var modelName, model, source, schema;
 
@@ -768,7 +768,7 @@ class Query implements \Phalcon\Mvc\Model\QueryInterface, \Phalcon\Di\InjectionA
 	 * @param array join
 	 * @return array
 	 */
-	protected function _getJoin(<\Phalcon\Mvc\Model\ManagerInterface> manager, join)
+	protected final function _getJoin(<\Phalcon\Mvc\Model\ManagerInterface> manager, join)
 	{
 
 		var qualified, modelName, source, model, schema;
@@ -800,7 +800,7 @@ class Query implements \Phalcon\Mvc\Model\QueryInterface, \Phalcon\Di\InjectionA
 	 * @param array join
 	 * @return string
 	 */
-	protected function _getJoinType(join) -> string
+	protected final function _getJoinType(join) -> string
 	{
 		var type;
 
@@ -839,7 +839,7 @@ class Query implements \Phalcon\Mvc\Model\QueryInterface, \Phalcon\Di\InjectionA
 	 * @param Phalcon\Mvc\Model\RelationInterface relation
 	 * @return array
 	 */
-	protected function _getSingleJoin(string! joinType, joinSource, modelAlias, joinAlias,
+	protected final function _getSingleJoin(string! joinType, joinSource, modelAlias, joinAlias,
 		<\Phalcon\Mvc\Model\RelationInterface> relation)
 	{
 		var fields, referencedFields, sqlJoinConditions,
@@ -935,7 +935,7 @@ class Query implements \Phalcon\Mvc\Model\QueryInterface, \Phalcon\Di\InjectionA
 	 * @param Phalcon\Mvc\Model\RelationInterface relation
 	 * @return array
 	 */
-	protected function _getMultiJoin(joinType, joinSource, modelAlias, joinAlias,
+	protected final function _getMultiJoin(joinType, joinSource, modelAlias, joinAlias,
 		<\Phalcon\Mvc\Model\RelationInterface> relation)
 	{
 		var sqlJoins, fields, referencedFields,
@@ -1103,7 +1103,7 @@ class Query implements \Phalcon\Mvc\Model\QueryInterface, \Phalcon\Di\InjectionA
 	 * @param array select
 	 * @return array
 	 */
-	protected function _getJoins(select)
+	protected final function _getJoins(select)
 	{
 		var models, sqlAliases, sqlAliasesModels, sqlModelsAliases, sqlAliasesModelsInstances,
 			modelsInstances, fromModels, sqlJoins, joinModels, joinSources, joinTypes, joinPreCondition,
@@ -1413,7 +1413,7 @@ class Query implements \Phalcon\Mvc\Model\QueryInterface, \Phalcon\Di\InjectionA
 	 * @param array $order
 	 * @return string
 	 */
-	protected function _getOrderClause(order)
+	protected final function _getOrderClause(order)
 	{
 		var orderColumns, orderParts, orderItem, orderPartExpr,
 			orderSort, orderPartSort;
@@ -1454,7 +1454,7 @@ class Query implements \Phalcon\Mvc\Model\QueryInterface, \Phalcon\Di\InjectionA
 	 * @param array $group
 	 * @return array
 	 */
-	protected function _getGroupClause(group)
+	protected final function _getGroupClause(group)
 	{
 		var groupItem, groupParts;
 
@@ -1477,7 +1477,7 @@ class Query implements \Phalcon\Mvc\Model\QueryInterface, \Phalcon\Di\InjectionA
 	 *
 	 * @return array
 	 */
-	protected function _prepareSelect()
+	protected final function _prepareSelect()
 	{
 		var ast, sqlModels, sqlTables, sqlAliases, sqlColumns, select, tables, columns,
 			sqlAliasesModels, sqlModelsAliases, sqlAliasesModelsInstances,
@@ -1763,7 +1763,7 @@ class Query implements \Phalcon\Mvc\Model\QueryInterface, \Phalcon\Di\InjectionA
 	 *
 	 * @return array
 	 */
-	protected function _prepareInsert()
+	protected final function _prepareInsert()
 	{
 		var ast, qualifiedName, manager, modelName, model, source, schema,
 			sqlAliases, exprValues, exprValue, sqlInsert, metaData, fields,
@@ -1852,7 +1852,7 @@ class Query implements \Phalcon\Mvc\Model\QueryInterface, \Phalcon\Di\InjectionA
 	 *
 	 * @return array
 	 */
-	protected function _prepareUpdate()
+	protected final function _prepareUpdate()
 	{
 		var ast, update, tables, values, modelsInstances, models,
 			sqlTables, sqlAliases, sqlAliasesModelsInstances, updateTables,
@@ -2001,7 +2001,7 @@ class Query implements \Phalcon\Mvc\Model\QueryInterface, \Phalcon\Di\InjectionA
 	 *
 	 * @return array
 	 */
-	protected function _prepareDelete()
+	protected final function _prepareDelete()
 	{
 		var ast, delete, tables, models, modelsInstances,
 			sqlTables, sqlModels, sqlAliases, sqlAliasesModelsInstances,
@@ -2158,7 +2158,7 @@ class Query implements \Phalcon\Mvc\Model\QueryInterface, \Phalcon\Di\InjectionA
 			if fetch type, ast["type"] {
 
 				let this->_ast = ast,
-                                        this->_type = type;
+										this->_type = type;
 				switch type {
 
 					case PHQL_T_SELECT:
@@ -2216,7 +2216,7 @@ class Query implements \Phalcon\Mvc\Model\QueryInterface, \Phalcon\Di\InjectionA
 	 * @param array bindTypes
 	 * @return Phalcon\Mvc\Model\ResultsetInterface
 	 */
-	protected function _executeSelect(intermediate, bindParams, bindTypes) -> <\Phalcon\Mvc\Model\ResultsetInterface>
+	protected final function _executeSelect(intermediate, bindParams, bindTypes) -> <\Phalcon\Mvc\Model\ResultsetInterface>
 	{
 
 		var manager, modelName, models, model, connection, connections,
@@ -2536,7 +2536,7 @@ class Query implements \Phalcon\Mvc\Model\QueryInterface, \Phalcon\Di\InjectionA
 	 * @param array bindTypes
 	 * @return Phalcon\Mvc\Model\Query\StatusInterface
 	 */
-	protected function _executeInsert(intermediate, bindParams, bindTypes) -> <\Phalcon\Mvc\Model\Query\StatusInterface>
+	protected final function _executeInsert(intermediate, bindParams, bindTypes) -> <\Phalcon\Mvc\Model\Query\StatusInterface>
 	{
 		var modelName, manager, connection, metaData, attributes,
 			fields, columnMap, dialect, insertValues, number, value, model,
@@ -2671,7 +2671,7 @@ class Query implements \Phalcon\Mvc\Model\QueryInterface, \Phalcon\Di\InjectionA
 	 * @param array bindTypes
 	 * @return Phalcon\Mvc\Model\Query\StatusInterface
 	 */
-	protected function _executeUpdate(intermediate, bindParams, bindTypes) -> <\Phalcon\Mvc\Model\Query\StatusInterface>
+	protected final function _executeUpdate(intermediate, bindParams, bindTypes) -> <\Phalcon\Mvc\Model\Query\StatusInterface>
 	{
 		var models, modelName, model, connection, dialect,
 			fields, values, updateValues, fieldName, value,
@@ -2818,7 +2818,7 @@ class Query implements \Phalcon\Mvc\Model\QueryInterface, \Phalcon\Di\InjectionA
 	 * @param array bindTypes
 	 * @return Phalcon\Mvc\Model\Query\StatusInterface
 	 */
-	protected function _executeDelete(intermediate, bindParams, bindTypes) -> <\Phalcon\Mvc\Model\Query\StatusInterface>
+	protected final function _executeDelete(intermediate, bindParams, bindTypes) -> <\Phalcon\Mvc\Model\Query\StatusInterface>
 	{
 		var models, modelName, model, records, connection, record;
 
@@ -2900,7 +2900,7 @@ class Query implements \Phalcon\Mvc\Model\QueryInterface, \Phalcon\Di\InjectionA
 	 * @param array bindTypes
 	 * @return Phalcon\Mvc\Model\ResultsetInterface
 	 */
-	protected function _getRelatedRecords(<\Phalcon\Mvc\ModelInterface> model, intermediate, bindParams, bindTypes)
+	protected final function _getRelatedRecords(<\Phalcon\Mvc\ModelInterface> model, intermediate, bindParams, bindTypes)
 	 -> <\Phalcon\Mvc\Model\ResultsetInterface>
 	{
 		var selectIr, whereConditions, limitConditions, query;
