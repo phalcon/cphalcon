@@ -2589,7 +2589,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, parse) {
 		return;
 	}
 	if (Z_TYPE_P(uniqueId) == IS_LONG) {
-		zephir_update_static_property_ce(phalcon_mvc_model_query_ce, SL("_irPhqlCache"), irPhql TSRMLS_CC);
 	}
 	zephir_update_property_this(this_ptr, SL("_intermediate"), irPhql TSRMLS_CC);
 	RETURN_CCTOR(irPhql);

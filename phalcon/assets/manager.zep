@@ -136,12 +136,11 @@ class Manager
 	 * @param Phalcon\Assets\Resource resource
 	 * @return Phalcon\Assets\Manager
 	 */
-	public function addResourceByType(string! type, <\Phalcon\Assets\Resource> resource) -> <\Phalcon\Assets\Manager>
+	public function addResourceByType(string! type, <\Phalcon\Assets\Resource> $resource) -> <\Phalcon\Assets\Manager>
 	{
-		var collections, collection;
+		var collection;
 
-		let collections = this->_collections;
-		if !fetch collection, collections[type] {
+		if !fetch collection, this->_collections[type] {
                         let collection = new \Phalcon\Assets\Collection();
 			let this->_collections[type] = collection;
 		}
@@ -149,7 +148,7 @@ class Manager
 		/**
 		 * Add the resource to the collection
 		 */
-		collection->add(resource);
+		collection->add($resource);
 
 		return this;
 	}
@@ -161,23 +160,19 @@ class Manager
 	 * $assets->addResource(new Phalcon\Assets\Resource('css', 'css/style.css'));
 	 *</code>
 	 *
-	 * @param Phalcon\Assets\Resource resource
+	 * @param Phalcon\Assets\Resource $resource
 	 * @return Phalcon\Assets\Manager
 	 */
-	public function addResource(<\Phalcon\Assets\Resource> resource) -> <\Phalcon\Assets\Manager>
+	public function addResource(<\Phalcon\Assets\Resource> $resource) -> <\Phalcon\Assets\Manager>
 	{
-		var type;
-
-		if typeof resource != "object" {
+		if typeof $resource != "object" {
 			throw new \Phalcon\Assets\Exception("Resource must be an object");
 		}
-
-		let type = resource->getType();
 
 		/**
 		 * Adds the resource by its type
 		 */
-		this->addResourceByType(type, resource);
+		this->addResourceByType($resource->getType(), $resource);
 		return this;
 	}
 
@@ -267,11 +262,9 @@ class Manager
 	 */
 	public function collection(string name) -> <\Phalcon\Assets\Collection>
 	{
-		var collections, collection;
+		var collection;
 
-		let collections = this->_collections;
-
-		if !fetch collection, collections[name] {
+		if !fetch collection, this->_collections[name] {
 			let collection = new \Phalcon\Assets\Collection();
 			let this->_collections[name] = collection;
 		}
@@ -291,7 +284,7 @@ class Manager
 		var output, resources, filters, prefix, sourceBasePath = null,
 			targetBasePath, options, collectionSourcePath, completeSourcePath,
 			collectionTargetPath, completeTargetPath, filteredJoinedContent, join,
-			resource, filterNeeded, local, sourcePath, targetPath, path, prefixedPath,
+			$resource, filterNeeded, local, sourcePath, targetPath, path, prefixedPath,
 			attributes, parameters, html, useImplicitOutput, content, mustFilter,
 			filter, filteredContent, typeCss, targetUri;
 
@@ -403,14 +396,14 @@ class Manager
 		/**
 		 * walk in resources
 		 */
-		for resource in resources {
+		for $resource in resources {
 			let filterNeeded = false;
-			let type = resource->getType();
+			let type = $resource->getType();
 
 			/**
 			 * Is the resource local?
 			 */
-			let local = resource->getLocal();
+			let local = $resource->getLocal();
 
 			/**
 			 * If the collection must not be joined we must print a HTML for each one
@@ -422,13 +415,13 @@ class Manager
 						/**
 						 * Get the complete path
 						 */
-						let sourcePath = resource->getRealSourcePath();
+						let sourcePath = $resource->getRealSourcePath();
 
 						/**
 						 * We need a valid source path
 						 */
 						if !sourcePath {
-							let sourcePath = resource->getPath();
+							let sourcePath = $resource->getPath();
 							throw new \Phalcon\Assets\Exception("Resource '". sourcePath. "' does not have a valid source path");
 						}
 					} else {
@@ -436,7 +429,7 @@ class Manager
 						/**
 						 * Get the complete source path
 						 */
-						let sourcePath = resource->getPath();
+						let sourcePath = $resource->getPath();
 
 						/**
 						 * resources paths are always filtered
@@ -445,13 +438,13 @@ class Manager
 					}
 
 					/**
-					* Get the target path, we need to write the filtered content to a file
-					*/
-					let targetPath = resource->getRealTargetPath(completeTargetPath);
+					 * Get the target path, we need to write the filtered content to a file
+					 */
+					let targetPath = $resource->getRealTargetPath(completeTargetPath);
 
 					/**
-					* We need a valid final target path
-					*/
+					 * We need a valid final target path
+					 */
 					if !targetPath {
 						throw new \Phalcon\Assets\Exception("Resource '". sourcePath. "' does not have a valid target path");
 					}
@@ -478,7 +471,7 @@ class Manager
 				/**
 				 * If there are not filters, just print/buffer the HTML
 				 */
-				let path = resource->getRealTargetUri();
+				let path = $resource->getRealTargetUri();
 
 				if prefix {
 					let prefixedPath = prefix . path;
@@ -489,7 +482,7 @@ class Manager
 				/**
 				 * Gets extra HTML attributes in the resource
 				 */
-				let attributes = resource->getAttributes();
+				let attributes = $resource->getAttributes();
 
 				/**
 				 * Prepare the parameters for the callback
@@ -525,12 +518,12 @@ class Manager
 				/**
 				 * Gets the resource's content
 				 */
-				let content = resource->getContent(completeSourcePath);
+				let content = $resource->getContent(completeSourcePath);
 
 				/**
 				 * Check if the resource must be filtered
 				 */
-				let mustFilter = resource->getFilter();
+				let mustFilter = $resource->getFilter();
 
 				/**
 				 * Only filter the resource if it's marked as 'filterable'
@@ -599,7 +592,7 @@ class Manager
 				/**
 				 * Generate the HTML using the original path in the resource
 				 */
-				let path = resource->getRealTargetUri();
+				let path = $resource->getRealTargetUri();
 
 				if prefix {
 					let prefixedPath = prefix . path;
@@ -610,7 +603,7 @@ class Manager
 				/**
 				 * Gets extra HTML attributes in the resource
 				 */
-				let attributes = resource->getAttributes();
+				let attributes = $resource->getAttributes();
 
 				/**
 				 * Filtered resources are always local
@@ -669,7 +662,7 @@ class Manager
 				/**
 				 * Gets extra HTML attributes in the resource
 				 */
-				let attributes = resource->getAttributes();
+				let attributes = $resource->getAttributes();
 
 				/**
 				 *  Gets local

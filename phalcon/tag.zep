@@ -496,7 +496,7 @@ class Tag
 		/**
 		 * Check if Doctype is XHTML
 		 */
-		if self::_documentType > 5 {
+		if self::_documentType > self::HTML5 {
 			let code .= " />";
 		} else {
 			let code .= ">";
@@ -571,19 +571,17 @@ class Tag
 			let params["value"] = value;
 		}
 
-		let code = "<input type=\"".type."\"";
-		for key,value in params {
+		let code = "<input type=\"" . type . "\"";
+		for key, value in params {
 			if typeof key != "integer" {
-				let code.= " ".key."=\"".value."\"";
+				let code .= " " . key . "=\"" . value . "\"";
 			}
 		}
 
-		let doctype = self::_documentType;
-
 		/**
-		* Check if Doctype is XHTML
-		*/
-		if doctype > 5 {
+		 * Check if Doctype is XHTML
+		 */
+		if self::_documentType > self::HTML5 {
 			let code .= " />";
 		} else {
 			let code .= ">";
@@ -1209,28 +1207,23 @@ class Tag
 		 * URLs are generated through the "url" service
 		 */
 		if local {
-			let url = self::getUrlService();
-			let params["href"] = url->getStatic(params["href"]);;
+			let params["href"] = self::getUrlService()->getStatic(params["href"]);;
 		}
 
 		let code = "<link rel=\"stylesheet\"";
-		for key,value in params {
+		for key, value in params {
 			if typeof key != "integer" {
-				let code .= " ".key."=\"".value."\"";
+				let code .= " " . key . "=\"" . value . "\"";
 			}
 		}
-
-		let doctype = self::_documentType;
-
-		let eol = PHP_EOL;
 
 		/**
 		 * Check if Doctype is XHTML
 		 */
-		if doctype > 5 {
-			let code .= " />".eol;
+		if self::_documentType > self::HTML5 {
+			let code .= " />" . PHP_EOL;
 		} else {
-			let code .= ">".eol;
+			let code .= ">" . PHP_EOL;
 		}
 
 		return code;
@@ -1266,8 +1259,7 @@ class Tag
 
 		if !isset params["src"] {
 			if isset params[0] {
-				let firstParam = params[0];
-				let params["src"] = firstParam;
+				let params["src"] = params[0];
 			} else {
 				let params["src"] = "";
 			}
@@ -1360,7 +1352,7 @@ class Tag
 		/**
 		 * Check if Doctype is XHTML
 		 */
-		if self::_documentType > 5 {
+		if self::_documentType > self::HTML5 {
 			let code .= " />";
 		} else {
 			let code .= ">";
@@ -1464,14 +1456,14 @@ class Tag
 
 		for key, value in params {
 			if typeof key != "integer" {
-				let localCode .= " ".key."=\"".value."\"";
+				let localCode .= " " . key . "=\"" . value . "\"";
 			}
 		}
 
 		/**
 		 * Check if Doctype is XHTML
 		 */
-		if self::_documentType > 5 {
+		if self::_documentType > self::HTML5 {
 			if selfClose {
 				let localCode .= " />";
 			} else {
@@ -1481,7 +1473,7 @@ class Tag
 			if onlyStart {
 				let localCode .= ">";
 			} else {
-				let localCode .= "></". tagName . ">";
+				let localCode .= "></" . tagName . ">";
 			}
 		}
 
@@ -1505,15 +1497,10 @@ class Tag
 	 */
 	public static function tagHtmlClose(tagName, useEol=false)
 	{
- 		var localCode;
-
-		let localCode = "</" . tagName . ">";
-
 		if useEol {
-			let localCode .= PHP_EOL;
+			return "</" . tagName . ">" . PHP_EOL;
 		}
-
-		return localCode;
+		return "</" . tagName . ">";
 	}
 
 }

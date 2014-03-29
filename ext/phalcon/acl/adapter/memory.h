@@ -37,7 +37,7 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_acl_adapter_memory_isresource, 0, 0, 1)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_acl_adapter_memory_addresource, 0, 0, 2)
-	ZEND_ARG_INFO(0, resource)
+	ZEND_ARG_INFO(0, resourceValue)
 	ZEND_ARG_INFO(0, accessList)
 ZEND_END_ARG_INFO()
 
@@ -71,8 +71,8 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_acl_adapter_memory_deny, 0, 0, 3)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_acl_adapter_memory_isallowed, 0, 0, 3)
-	ZEND_ARG_INFO(0, role)
-	ZEND_ARG_INFO(0, resource)
+	ZEND_ARG_INFO(0, roleName)
+	ZEND_ARG_INFO(0, resourceName)
 	ZEND_ARG_INFO(0, access)
 ZEND_END_ARG_INFO()
 

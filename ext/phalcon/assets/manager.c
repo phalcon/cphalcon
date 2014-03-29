@@ -272,7 +272,7 @@ PHP_METHOD(Phalcon_Assets_Manager, addJs) {
 PHP_METHOD(Phalcon_Assets_Manager, addResourceByType) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
-	zval *type_param = NULL, *resource, *collections, *collection;
+	zval *type_param = NULL, *resource, *collection, *_0;
 	zval *type = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -295,10 +295,9 @@ PHP_METHOD(Phalcon_Assets_Manager, addResourceByType) {
 		ZEPHIR_THROW_EXCEPTION_STR(spl_ce_InvalidArgumentException, "Parameter 'resource' must be an instance of 'Phalcon\\Assets\\Resource'");
 		return;
 	}
-	ZEPHIR_OBS_VAR(collections);
-	zephir_read_property_this(&collections, this_ptr, SL("_collections"), PH_NOISY_CC);
 	ZEPHIR_OBS_VAR(collection);
-	if (!(zephir_array_isset_fetch(&collection, collections, type, 0 TSRMLS_CC))) {
+	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_collections"), PH_NOISY_CC);
+	if (!(zephir_array_isset_fetch(&collection, _0, type, 0 TSRMLS_CC))) {
 		ZEPHIR_INIT_BNVAR(collection);
 		object_init_ex(collection, phalcon_assets_collection_ce);
 		if (zephir_has_constructor(collection TSRMLS_CC)) {
@@ -320,13 +319,13 @@ PHP_METHOD(Phalcon_Assets_Manager, addResourceByType) {
  * $assets->addResource(new Phalcon\Assets\Resource('css', 'css/style.css'));
  *</code>
  *
- * @param Phalcon\Assets\Resource resource
+ * @param Phalcon\Assets\Resource $resource
  * @return Phalcon\Assets\Manager
  */
 PHP_METHOD(Phalcon_Assets_Manager, addResource) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
-	zval *resource, *type = NULL;
+	zval *resource, *_0 = NULL;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &resource);
@@ -341,9 +340,9 @@ PHP_METHOD(Phalcon_Assets_Manager, addResource) {
 		ZEPHIR_THROW_EXCEPTION_STR(phalcon_assets_exception_ce, "Resource must be an object");
 		return;
 	}
-	ZEPHIR_CALL_METHOD(&type, resource, "gettype",  NULL);
+	ZEPHIR_CALL_METHOD(&_0, resource, "gettype",  NULL);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(NULL, this_ptr, "addresourcebytype", NULL, type, resource);
+	ZEPHIR_CALL_METHOD(NULL, this_ptr, "addresourcebytype", NULL, _0, resource);
 	zephir_check_call_status();
 	RETURN_THIS();
 
@@ -491,7 +490,7 @@ PHP_METHOD(Phalcon_Assets_Manager, getJs) {
 PHP_METHOD(Phalcon_Assets_Manager, collection) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
-	zval *name_param = NULL, *collections, *collection;
+	zval *name_param = NULL, *collection, *_0;
 	zval *name = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -500,9 +499,9 @@ PHP_METHOD(Phalcon_Assets_Manager, collection) {
 	zephir_get_strval(name, name_param);
 
 
-	collections = zephir_fetch_nproperty_this(this_ptr, SL("_collections"), PH_NOISY_CC);
 	ZEPHIR_OBS_VAR(collection);
-	if (!(zephir_array_isset_fetch(&collection, collections, name, 0 TSRMLS_CC))) {
+	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_collections"), PH_NOISY_CC);
+	if (!(zephir_array_isset_fetch(&collection, _0, name, 0 TSRMLS_CC))) {
 		ZEPHIR_INIT_BNVAR(collection);
 		object_init_ex(collection, phalcon_assets_collection_ce);
 		if (zephir_has_constructor(collection TSRMLS_CC)) {
@@ -700,7 +699,7 @@ PHP_METHOD(Phalcon_Assets_Manager, output) {
 			ZEPHIR_INIT_NVAR(parameters);
 			array_init(parameters);
 			if (Z_TYPE_P(attributes) == IS_ARRAY) {
-				zephir_array_update_long(&attributes, 0, &prefixedPath, PH_COPY | PH_SEPARATE, "phalcon/assets/manager.zep", 499);
+				zephir_array_update_long(&attributes, 0, &prefixedPath, PH_COPY | PH_SEPARATE, "phalcon/assets/manager.zep", 492);
 				zephir_array_append(&parameters, attributes, PH_SEPARATE);
 			} else {
 				zephir_array_append(&parameters, prefixedPath, PH_SEPARATE);
@@ -783,7 +782,7 @@ PHP_METHOD(Phalcon_Assets_Manager, output) {
 			ZEPHIR_INIT_NVAR(parameters);
 			array_init(parameters);
 			if (Z_TYPE_P(attributes) == IS_ARRAY) {
-				zephir_array_update_long(&attributes, 0, &prefixedPath, PH_COPY | PH_SEPARATE, "phalcon/assets/manager.zep", 625);
+				zephir_array_update_long(&attributes, 0, &prefixedPath, PH_COPY | PH_SEPARATE, "phalcon/assets/manager.zep", 618);
 				zephir_array_append(&parameters, attributes, PH_SEPARATE);
 			} else {
 				zephir_array_append(&parameters, prefixedPath, PH_SEPARATE);
@@ -817,7 +816,7 @@ PHP_METHOD(Phalcon_Assets_Manager, output) {
 			ZEPHIR_INIT_NVAR(parameters);
 			array_init(parameters);
 			if (Z_TYPE_P(attributes) == IS_ARRAY) {
-				zephir_array_update_long(&attributes, 0, &prefixedPath, PH_COPY | PH_SEPARATE, "phalcon/assets/manager.zep", 684);
+				zephir_array_update_long(&attributes, 0, &prefixedPath, PH_COPY | PH_SEPARATE, "phalcon/assets/manager.zep", 677);
 				zephir_array_append(&parameters, attributes, PH_SEPARATE);
 			} else {
 				zephir_array_append(&parameters, prefixedPath, PH_SEPARATE);

@@ -808,7 +808,7 @@ PHP_METHOD(Phalcon_Mvc_Model, cloneResultMap) {
 	HashPosition _1;
 	zend_bool keepSnapshots;
 	int dirtyState, ZEPHIR_LAST_CALL_STATUS;
-	zval *base, *data, *columnMap, *dirtyState_param = NULL, *keepSnapshots_param = NULL, *object, *attribute = NULL, *key = NULL, *value = NULL, *_0, **_3, *_4 = NULL, *_5 = NULL;
+	zval *base, *data, *columnMap, *dirtyState_param = NULL, *keepSnapshots_param = NULL, *instance, *attribute = NULL, *key = NULL, *value = NULL, *_0, **_3, *_4 = NULL, *_5 = NULL;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 3, 2, &base, &data, &columnMap, &dirtyState_param, &keepSnapshots_param);
@@ -833,13 +833,13 @@ PHP_METHOD(Phalcon_Mvc_Model, cloneResultMap) {
 		ZEPHIR_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Data to dump in the object must be an Array");
 		return;
 	}
-	ZEPHIR_INIT_VAR(object);
-	if (zephir_clone(object, base TSRMLS_CC) == FAILURE) {
+	ZEPHIR_INIT_VAR(instance);
+	if (zephir_clone(instance, base TSRMLS_CC) == FAILURE) {
 		RETURN_MM();
 	}
 	ZEPHIR_INIT_VAR(_0);
 	ZVAL_LONG(_0, dirtyState);
-	ZEPHIR_CALL_METHOD(NULL, object, "setdirtystate", NULL, _0);
+	ZEPHIR_CALL_METHOD(NULL, instance, "setdirtystate", NULL, _0);
 	zephir_check_call_status();
 	zephir_is_iterable(data, &_2, &_1, 0, 0);
 	for (
@@ -852,7 +852,7 @@ PHP_METHOD(Phalcon_Mvc_Model, cloneResultMap) {
 			if (Z_TYPE_P(columnMap) == IS_ARRAY) {
 				ZEPHIR_OBS_NVAR(attribute);
 				if (zephir_array_isset_fetch(&attribute, columnMap, key, 0 TSRMLS_CC)) {
-					zephir_update_property_zval_zval(object, attribute, value TSRMLS_CC);
+					zephir_update_property_zval_zval(instance, attribute, value TSRMLS_CC);
 				} else {
 					ZEPHIR_INIT_LNVAR(_4);
 					object_init_ex(_4, phalcon_mvc_model_exception_ce);
@@ -865,19 +865,19 @@ PHP_METHOD(Phalcon_Mvc_Model, cloneResultMap) {
 					return;
 				}
 			} else {
-				zephir_update_property_zval_zval(object, key, value TSRMLS_CC);
+				zephir_update_property_zval_zval(instance, key, value TSRMLS_CC);
 			}
 		}
 	}
 	if (keepSnapshots) {
-		ZEPHIR_CALL_METHOD(NULL, object, "setsnapshotdata", NULL, data, columnMap);
+		ZEPHIR_CALL_METHOD(NULL, instance, "setsnapshotdata", NULL, data, columnMap);
 		zephir_check_call_status();
 	}
-	if ((zephir_method_exists_ex(object, SS("afterfetch") TSRMLS_CC) == SUCCESS)) {
-		ZEPHIR_CALL_METHOD(NULL, object, "afterfetch", NULL);
+	if ((zephir_method_exists_ex(instance, SS("afterfetch") TSRMLS_CC) == SUCCESS)) {
+		ZEPHIR_CALL_METHOD(NULL, instance, "afterfetch", NULL);
 		zephir_check_call_status();
 	}
-	RETURN_CCTOR(object);
+	RETURN_CCTOR(instance);
 
 }
 
@@ -978,7 +978,7 @@ PHP_METHOD(Phalcon_Mvc_Model, cloneResult) {
 	HashTable *_2;
 	HashPosition _1;
 	int dirtyState, ZEPHIR_LAST_CALL_STATUS;
-	zval *base, *data, *dirtyState_param = NULL, *object, *key = NULL, *value = NULL, *_0, **_3;
+	zval *base, *data, *dirtyState_param = NULL, *instance, *key = NULL, *value = NULL, *_0, **_3;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 1, &base, &data, &dirtyState_param);
@@ -998,13 +998,13 @@ PHP_METHOD(Phalcon_Mvc_Model, cloneResult) {
 		ZEPHIR_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Data to dump in the object must be an Array");
 		return;
 	}
-	ZEPHIR_INIT_VAR(object);
-	if (zephir_clone(object, base TSRMLS_CC) == FAILURE) {
+	ZEPHIR_INIT_VAR(instance);
+	if (zephir_clone(instance, base TSRMLS_CC) == FAILURE) {
 		RETURN_MM();
 	}
 	ZEPHIR_INIT_VAR(_0);
 	ZVAL_LONG(_0, dirtyState);
-	ZEPHIR_CALL_METHOD(NULL, object, "setdirtystate", NULL, _0);
+	ZEPHIR_CALL_METHOD(NULL, instance, "setdirtystate", NULL, _0);
 	zephir_check_call_status();
 	zephir_is_iterable(data, &_2, &_1, 0, 0);
 	for (
@@ -1017,13 +1017,13 @@ PHP_METHOD(Phalcon_Mvc_Model, cloneResult) {
 			ZEPHIR_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Invalid key in array data provided to dumpResult()");
 			return;
 		}
-		zephir_update_property_zval_zval(object, key, value TSRMLS_CC);
+		zephir_update_property_zval_zval(instance, key, value TSRMLS_CC);
 	}
-	if ((zephir_method_exists_ex(object, SS("afterfetch") TSRMLS_CC) == SUCCESS)) {
-		ZEPHIR_CALL_METHOD(NULL, object, "afterfetch", NULL);
+	if ((zephir_method_exists_ex(instance, SS("afterfetch") TSRMLS_CC) == SUCCESS)) {
+		ZEPHIR_CALL_METHOD(NULL, instance, "afterfetch", NULL);
 		zephir_check_call_status();
 	}
-	RETURN_CCTOR(object);
+	RETURN_CCTOR(instance);
 
 }
 

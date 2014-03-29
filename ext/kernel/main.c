@@ -309,11 +309,11 @@ int zephir_is_iterable_ex(zval *arr, HashTable **arr_hash, HashPosition *hash_po
 
 	if (reverse) {
 		if (hash_position) {
-			*hash_position = (*arr_hash)->pListTail;		
+			*hash_position = (*arr_hash)->pListTail;
 		} else {
 			(*arr_hash)->pInternalPointer = (*arr_hash)->pListTail;
-		}		
-	} else {		
+		}
+	} else {
 		if (hash_position) {
 			*hash_position = (*arr_hash)->pListHead;
 		} else {
@@ -379,6 +379,7 @@ int zephir_fetch_parameters(int num_args TSRMLS_DC, int required_args, int optio
 void zephir_gettype(zval *return_value, zval *arg TSRMLS_DC) {
 
 	switch (Z_TYPE_P(arg)) {
+
 		case IS_NULL:
 			RETVAL_STRING("NULL", 1);
 			break;
@@ -394,17 +395,17 @@ void zephir_gettype(zval *return_value, zval *arg TSRMLS_DC) {
 		case IS_DOUBLE:
 			RETVAL_STRING("double", 1);
 			break;
-	
+
 		case IS_STRING:
 			RETVAL_STRING("string", 1);
 			break;
-	
+
 		case IS_ARRAY:
 			RETVAL_STRING("array", 1);
 			break;
 
 		case IS_OBJECT:
-			RETVAL_STRING("object", 1);	
+			RETVAL_STRING("object", 1);
 			break;
 
 		case IS_RESOURCE:

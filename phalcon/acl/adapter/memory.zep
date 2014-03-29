@@ -155,24 +155,22 @@ class Memory extends Adapter
 	  */
 	 public function addRole(role, accessInherits)
 	 {
-		var roleName, object, rolesNames;
+		var roleName, roleObject;
 
 		if typeof role == "object" {
 			let roleName = role->getName();
-			let object = role;
+			let roleObject = role;
 		} else {
 			let roleName = role;
-			let object = new \Phalcon\Acl\Role(role);
+			let roleObject = new \Phalcon\Acl\Role(role);
 		}
 
-		let rolesNames = this->_rolesNames;
-		if isset rolesNames[roleName] {
+		if isset this->_rolesNames[roleName] {
 			return false;
 		}
 
-		let this->_roles[] = object;
+		let this->_roles[] = roleObject;
 		let this->_rolesNames[] = roleName;
-
 		let this->_access[] = roleName . "!*!*";
 
 		if accessInherits == null {
@@ -267,21 +265,20 @@ class Memory extends Adapter
 	 * @param   array $accessList
 	 * @return  boolean
 	 */
-	 public function addResource(resource, accessList)
+	 public function addResource(resourceValue, accessList)
 	 {
-		var resourcesNames, resourceName, object;
+		var resourceName, resourceObject;
 
-		if typeof resource == "object" {
-			let resourceName = resource->getName();
-			let object = resource;
+		if typeof resourceValue == "object" {
+			let resourceName = resourceValue->getName();
+			let resourceObject = resourceObject;
 		 } else {
-			let resourceName = resource;
-			let object = new \Phalcon\Acl\Resource(resourceName);
+			let resourceName = resourceObject;
+			let resourceObject = new \Phalcon\Acl\Resource(resourceName);
 		 }
 
-		 let resourcesNames = this->_resourcesNames;
-		 if isset resourcesNames[resourceName] {
-			let this->_resources[] = object;
+		 if isset this->_resourcesNames[resourceName] {
+			let this->_resources[] = resourceObject;
 			let this->_resourcesNames[resourceName] = true;
 		 }
 
@@ -493,20 +490,20 @@ class Memory extends Adapter
 	 * $acl->isAllowed('guests', '*', 'edit');
 	 * </code>
 	 *
-	 * @param  string $role
-	 * @param  string $resource
-	 * @param  string $access
+	 * @param  string roleName
+	 * @param  string resourceName
+	 * @param  string access
 	 * @return boolean
 	 */
-	 public function isAllowed(role, resource, access)
+	 public function isAllowed(roleName, resourceName, access)
 	 {
 		var eventsManager, accessList, accessKey,
 			haveAccess = null, roleInherits, inheritedRole, rolesNames,
 			inheritedRoles;
 
-		let this->_activeRole = role;
-		let this->_activeResource = resource;
-		let this->_activeAccess = resource;
+		let this->_activeRole = roleName;
+		let this->_activeResource = resourceName;
+		let this->_activeAccess = access;
 		let accessList = this->_access;
 		let eventsManager = <\Phalcon\Events\Manager> this->_eventsManager;;
 
@@ -520,11 +517,11 @@ class Memory extends Adapter
 		 * Check if the role exists
 		 */
 		 let rolesNames = this->_rolesNames;
-		 if !isset rolesNames[role] {
+		 if !isset rolesNames[roleName] {
 			return this->_defaultAccess;
 		 }
 
-		 let accessKey = role . "!" . resource . "!" . access;
+		 let accessKey = roleName . "!" . resourceName . "!" . access;
 
 		 /**
 		 * Check if there is a direct combination for role-resource-access
@@ -539,10 +536,10 @@ class Memory extends Adapter
 		 if haveAccess == null {
 
 			let roleInherits = this->_roleInherits;
-			if fetch inheritedRoles, roleInherits[role] {
+			if fetch inheritedRoles, roleInherits[roleName] {
 				if typeof inheritedRoles == "array" {
 					for inheritedRole in inheritedRoles {
-						let accessKey = inheritedRole . "!" . resource . "!" . access;
+						let accessKey = inheritedRole . "!" . resourceName . "!" . access;
 
 						/**
 						 * Check if there is a direct combination in one of the inherited roles
@@ -560,7 +557,7 @@ class Memory extends Adapter
 		 */
 		 if haveAccess == null {
 
-			let accessKey =  role . "!" . resource . "!*";
+			let accessKey =  roleName . "!" . resourceName . "!*";
 
 			/**
 			 * In the direct role
@@ -570,7 +567,7 @@ class Memory extends Adapter
 			 } else {
 				if typeof inheritedRoles == "array" {
 					for inheritedRole in inheritedRoles {
-						let accessKey = inheritedRole . "!" . resource . "!*";
+						let accessKey = inheritedRole . "!" . resourceName . "!*";
 
 						/**
 						 * In the inherited roles
@@ -589,7 +586,7 @@ class Memory extends Adapter
 		 */
 		 if haveAccess == null {
 
-			let accessKey =  role . "!*!*";
+			let accessKey =  roleName . "!*!*";
 
 			/**
 			 * Try in the direct role

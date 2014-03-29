@@ -493,18 +493,18 @@ abstract class Model implements \Phalcon\Mvc\ModelInterface, \Phalcon\Mvc\Model\
 	public static function cloneResultMap(<\Phalcon\Mvc\ModelInterface> base, var data, var columnMap,
 		int dirtyState=0, boolean keepSnapshots=null) -> <\Phalcon\Mvc\Model>
 	{
-		var object, attribute, key, value;
+		var instance, attribute, key, value;
 
 		if typeof data != "array" {
 			throw new \Phalcon\Mvc\Model\Exception("Data to dump in the object must be an Array");
 		}
 
-		let object = clone base;
+		let instance = clone base;
 
 		/**
 		 * Change the dirty state to persistent
 		 */
-		object->setDirtyState(dirtyState);
+		instance->setDirtyState(dirtyState);
 
 		for key, value in data {
 
@@ -518,12 +518,12 @@ abstract class Model implements \Phalcon\Mvc\ModelInterface, \Phalcon\Mvc\Model\
 					 * Every field must be part of the column map
 					 */
 					if fetch attribute, columnMap[key] {
-						let object->{attribute} = value;
+						let instance->{attribute} = value;
 					} else {
 						throw new \Phalcon\Mvc\Model\Exception("Column '" . key . "' doesn't make part of the column map");
 					}
 				} else {
-					let object->{key} = value;
+					let instance->{key} = value;
 				}
 			}
 		}
@@ -532,17 +532,17 @@ abstract class Model implements \Phalcon\Mvc\ModelInterface, \Phalcon\Mvc\Model\
 		 * Models that keep snapshots store the original data in t
 		 */
 		if keepSnapshots {
-			object->setSnapshotData(data, columnMap);
+			instance->setSnapshotData(data, columnMap);
 		}
 
 		/**
 		 * Call afterFetch, this allows the developer to execute actions after a record is fetched from the database
 		 */
-		if method_exists(object, "afterFetch") {
-			object->{"afterFetch"}();
+		if method_exists(instance, "afterFetch") {
+			instance->{"afterFetch"}();
 		}
 
-		return object;
+		return instance;
 	}
 
 	/**
@@ -626,7 +626,7 @@ abstract class Model implements \Phalcon\Mvc\ModelInterface, \Phalcon\Mvc\Model\
 	 */
 	public static function cloneResult(<\Phalcon\Mvc\ModelInterface> base, var data, int dirtyState=0)
 	{
-		var object, key, value;
+		var instance, key, value;
 
 		if typeof data != "array" {
 			throw new \Phalcon\Mvc\Model\Exception("Data to dump in the object must be an Array");
@@ -635,28 +635,28 @@ abstract class Model implements \Phalcon\Mvc\ModelInterface, \Phalcon\Mvc\Model\
 		/**
 		 * Clone the base record
 		 */
-		let object = clone base;
+		let instance = clone base;
 
 		/**
 		 * Mark the object as persistent
 		 */
-		object->setDirtyState(dirtyState);
+		instance->setDirtyState(dirtyState);
 
 		for key, value in data {
 			if typeof key != "string" {
 				throw new \Phalcon\Mvc\Model\Exception("Invalid key in array data provided to dumpResult()");
 			}
-			let object->{key} = value;
+			let instance->{key} = value;
 		}
 
 		/**
 		 * Call afterFetch, this allows the developer to execute actions after a record is fetched from the database
 		 */
-		if method_exists(object, "afterFetch") {
-			object->{"afterFetch"}();
+		if method_exists(instance, "afterFetch") {
+			instance->{"afterFetch"}();
 		}
 
-		return object;
+		return instance;
 	}
 
 	/**
