@@ -92,7 +92,7 @@ fi
 
 if try_gcc_options -march=native; then
     echo "Warning: Your compiler supports the -march=native option which you may prefer" >&2
-    #gcc -march=native --verbose -xc /dev/null 2>&1 | sed -n 's|.*/dev/null \(-march.*-mtune[^ ]*\).*|\1|p' >&2
+    gcc -march=native --verbose -xc /dev/null 2>&1 | sed -n 's|.*/dev/null \(-march.*-mtune[^ ]*\).*|\1|p' >&2
 fi
 
 #if ! try_gcc_options -march=i386; then
@@ -306,6 +306,8 @@ Please consider upgrading QEMU or configuring it to use a specific model." >&2
             line="core-avx-i corei7-avx corei7 core2 pentium-m pentium4 pentium3 pentium2 pentiumpro pentium-mmx pentium i486 i386"
         elif [ $cpu_model -eq 60 ]; then #Haswell
             line="core-avx2 core-avx-i corei7-avx corei7 core2 pentium-m pentium4 pentium3 pentium2 pentiumpro pentium-mmx pentium i486 i386"
+        elif [ $cpu_model -eq 69 ]; then #Haswell/Lynnfield/Clarkdale/Sandy Bridge
+            line="core-avx2 core-avx-i core2 pentium-m pentium4 pentium3 pentium2 pentiumpro pentium-mmx pentium i486 i386"
         elif [ $cpu_model -eq 15 ] ||
              # ^ Merom ^
              [ $cpu_model -eq 22 ] ||

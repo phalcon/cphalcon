@@ -474,7 +474,7 @@ PHP_METHOD(Phalcon_Loader, autoLoad){
 	zval *class_name, *events_manager, *event_name = NULL;
 	zval *classes, *file_path = NULL, *extensions, *ds, *namespace_separator;
 	zval *empty_str, *namespaces, *directory = NULL;
-	zval *ns_prefix = NULL, *file_name = NULL, *fixed_directory = NULL;
+	zval *ns_prefix = NULL, *ns_prefixed = NULL, *file_name = NULL, *fixed_directory = NULL;
 	zval *extension = NULL, *pseudo_separator, *prefixes;
 	zval *prefix = NULL, *ds_class_name, *ns_class_name;
 	zval *directories;
@@ -548,7 +548,10 @@ PHP_METHOD(Phalcon_Loader, autoLoad){
 			/** 
 			 * The class name must start with the current namespace
 			 */
-			if (phalcon_start_with(class_name, ns_prefix, NULL)) {
+			PHALCON_INIT_NVAR(ns_prefixed);
+			PHALCON_CONCAT_VV(ns_prefixed, ns_prefix, namespace_separator);
+
+			if (phalcon_start_with(class_name, ns_prefixed, NULL)) {
 	
 				/** 
 				 * Get the possible file path

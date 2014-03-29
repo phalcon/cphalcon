@@ -14,7 +14,6 @@
   +------------------------------------------------------------------------+
   | Authors: Andres Gutierrez <andres@phalconphp.com>                      |
   |          Eduar Carvajal <eduar@phalconphp.com>                         |
-  |          Antonio Lopez <alantonilopez@gmail.com>                       |
   +------------------------------------------------------------------------+
 */
 
