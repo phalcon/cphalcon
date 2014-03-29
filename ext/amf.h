@@ -57,6 +57,14 @@
 #define PHALCON_AMF3_OPTION_CLASS_AUTOLOAD    0x02
 #define PHALCON_AMF3_OPTION_CLASS_CONSTRUCT   0x04
 
+#define ZVAL_RESET(A) \
+	if (!(A)) { \
+		ALLOC_INIT_ZVAL((A)); \
+	} else { \
+		zval_dtor((A)); \
+		ZVAL_NULL((A)); \
+	}
+
 extern zend_class_entry *phalcon_amf_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Amf);

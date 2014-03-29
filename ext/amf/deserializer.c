@@ -514,7 +514,7 @@ PHP_METHOD(Phalcon_Amf_Deserializer, readData){
 	
 	switch (type) {
 		case 0x11: //Amf3-specific
-			PHALCON_RETURN_CALL_CE_STATIC(phalcon_amf_ce, "decode", rawdata, rawpos);
+			PHALCON_RETURN_CALL_CE_STATICW(phalcon_amf_ce, "decode", rawdata, rawpos);
 			break;
 		case 0: // number
 			PHALCON_RETURN_CALL_SELFW("readdouble");
