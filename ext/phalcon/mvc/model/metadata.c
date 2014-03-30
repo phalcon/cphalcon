@@ -391,7 +391,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, writeMetaDataIndex) {
 
 	zend_bool _0, _1;
 	int index, ZEPHIR_LAST_CALL_STATUS;
-	zval *model, *index_param = NULL, *data, *source = NULL, *schema = NULL, *key, *metaData, *_2, *_3;
+	zval *model, *index_param = NULL, *data, *source = NULL, *schema = NULL, *key, *metaData, *_2;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 3, 0, &model, &index_param, &data);
@@ -429,8 +429,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, writeMetaDataIndex) {
 		ZEPHIR_CALL_METHOD(NULL, this_ptr, "_initialize", NULL, model, key, source, schema);
 		zephir_check_call_status();
 	}
-	_3 = zephir_fetch_nproperty_this(this_ptr, SL("_metaData"), PH_NOISY_CC);
-	zephir_array_update_multi(&_3, &data TSRMLS_CC, SL("zl"), 2, key, index);
+	zephir_update_property_array_multi(this_ptr, SL("_metaData"), &data TSRMLS_CC, SL("zl"), 2, key, index);
 	ZEPHIR_MM_RESTORE();
 
 }

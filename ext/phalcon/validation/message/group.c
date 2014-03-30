@@ -126,28 +126,32 @@ PHP_METHOD(Phalcon_Validation_Message_Group, offsetGet) {
  */
 PHP_METHOD(Phalcon_Validation_Message_Group, offsetSet) {
 
-	zval *index_param = NULL, *message;
+	zval *index_param = NULL, *message, *_0;
 	int index;
 
-	zephir_fetch_params(0, 2, 0, &index_param, &message);
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 2, 0, &index_param, &message);
 
 	if (Z_TYPE_P(index_param) != IS_LONG) {
 			zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'index' must be a long/integer") TSRMLS_CC);
-			RETURN_NULL();
+			RETURN_MM_NULL();
 		}
 
 		index = Z_LVAL_P(index_param);
 
 
 	if (!(zephir_instance_of_ev(message, phalcon_validation_message_ce TSRMLS_CC))) {
-		ZEPHIR_THROW_EXCEPTION_STRW(spl_ce_InvalidArgumentException, "Parameter 'message' must be an instance of 'Phalcon\\Validation\\Message'");
+		ZEPHIR_THROW_EXCEPTION_STR(spl_ce_InvalidArgumentException, "Parameter 'message' must be an instance of 'Phalcon\\Validation\\Message'");
 		return;
 	}
 	if (Z_TYPE_P(message) != IS_OBJECT) {
-		ZEPHIR_THROW_EXCEPTION_STRW(phalcon_validation_exception_ce, "The message must be an object");
+		ZEPHIR_THROW_EXCEPTION_STR(phalcon_validation_exception_ce, "The message must be an object");
 		return;
 	}
-	//missing
+	ZEPHIR_INIT_VAR(_0);
+	ZVAL_LONG(_0, index);
+	zephir_update_property_array(this_ptr, SL("_messages"), _0, message TSRMLS_CC);
+	ZEPHIR_MM_RESTORE();
 
 }
 

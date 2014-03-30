@@ -551,9 +551,8 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, _reflection) {
 			break;
 		}
 	}
-	ZEPHIR_INIT_VAR(pseudo);
 	if (fade_in) {
-		ZEPHIR_INIT_BNVAR(pseudo);
+		ZEPHIR_INIT_VAR(pseudo);
 		ZVAL_STRING(pseudo, "gradient:black-transparent", 1);
 	} else {
 		ZEPHIR_INIT_BNVAR(pseudo);
