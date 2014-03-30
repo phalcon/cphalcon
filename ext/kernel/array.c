@@ -1256,7 +1256,9 @@ int zephir_array_update_multi(zval **arr, zval **value TSRMLS_DC, const char *ty
 
 	p = *arr;
 	for (i = 0; i < types_length; ++i) {
+
 		switch (types[i]) {
+
 			case 's':
 				s = va_arg(ap, char*);
 				l = va_arg(ap, int);
@@ -1279,6 +1281,7 @@ int zephir_array_update_multi(zval **arr, zval **value TSRMLS_DC, const char *ty
 					p = tmp;
 				}
 				break;
+
 			case 'l':
 				ll = va_arg(ap, long);
 				if (zephir_array_isset_long_fetch(&fetched, p, ll, 1 TSRMLS_CC)) {
@@ -1300,6 +1303,7 @@ int zephir_array_update_multi(zval **arr, zval **value TSRMLS_DC, const char *ty
 					p = tmp;
 				}
 				break;
+
 			case 'z':
 				item = va_arg(ap, zval*);
 				if (zephir_array_isset_fetch(&fetched, p, item, 1 TSRMLS_CC)) {
@@ -1320,6 +1324,10 @@ int zephir_array_update_multi(zval **arr, zval **value TSRMLS_DC, const char *ty
 					zephir_array_update_zval(&p, item, &tmp, PH_SEPARATE);
 					p = tmp;
 				}
+				break;
+
+			case 'a':
+				zephir_array_append(&p, *value, PH_SEPARATE);
 				break;
 		}
 	}

@@ -1856,11 +1856,11 @@ PHP_METHOD(Phalcon_Db_Adapter, listViews) {
  */
 PHP_METHOD(Phalcon_Db_Adapter, describeIndexes) {
 
-	zephir_fcall_cache_entry *_11 = NULL;
-	HashTable *_5, *_8;
-	HashPosition _4, _7;
+	zephir_fcall_cache_entry *_12 = NULL;
+	HashTable *_5, *_9;
+	HashPosition _4, _8;
 	int ZEPHIR_LAST_CALL_STATUS;
-	zval *table_param = NULL, *schema = NULL, *indexes, *index = NULL, *keyName, *indexObjects, *name = NULL, *indexColumns = NULL, *_0 = NULL, *_1, *_2 = NULL, *_3 = NULL, **_6, **_9, *_10 = NULL;
+	zval *table_param = NULL, *schema = NULL, *indexes, *index = NULL, *keyName, *indexObjects, *name = NULL, *indexColumns = NULL, *_0 = NULL, *_1, *_2 = NULL, *_3 = NULL, **_6, *_7, **_10, *_11 = NULL;
 	zval *table = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -1903,21 +1903,23 @@ PHP_METHOD(Phalcon_Db_Adapter, describeIndexes) {
 			array_init(_3);
 			zephir_array_update_zval(&indexes, keyName, &_3, PH_COPY | PH_SEPARATE);
 		}
+		zephir_array_fetch_long(&_7, index, 4, PH_NOISY | PH_READONLY TSRMLS_CC);
+		zephir_array_update_multi(&indexes, &_7 TSRMLS_CC, SL("za"), 2, keyName);
 	}
 	ZEPHIR_INIT_VAR(indexObjects);
 	array_init(indexObjects);
-	zephir_is_iterable(indexes, &_8, &_7, 0, 0);
+	zephir_is_iterable(indexes, &_9, &_8, 0, 0);
 	for (
-	  ; zephir_hash_get_current_data_ex(_8, (void**) &_9, &_7) == SUCCESS
-	  ; zephir_hash_move_forward_ex(_8, &_7)
+	  ; zephir_hash_get_current_data_ex(_9, (void**) &_10, &_8) == SUCCESS
+	  ; zephir_hash_move_forward_ex(_9, &_8)
 	) {
-		ZEPHIR_GET_HMKEY(name, _8, _7);
-		ZEPHIR_GET_HVALUE(indexColumns, _9);
-		ZEPHIR_INIT_LNVAR(_10);
-		object_init_ex(_10, phalcon_db_index_ce);
-		ZEPHIR_CALL_METHOD(NULL, _10, "__construct", &_11, name, indexColumns);
+		ZEPHIR_GET_HMKEY(name, _9, _8);
+		ZEPHIR_GET_HVALUE(indexColumns, _10);
+		ZEPHIR_INIT_LNVAR(_11);
+		object_init_ex(_11, phalcon_db_index_ce);
+		ZEPHIR_CALL_METHOD(NULL, _11, "__construct", &_12, name, indexColumns);
 		zephir_check_call_status();
-		zephir_array_update_zval(&indexObjects, name, &_10, PH_COPY | PH_SEPARATE);
+		zephir_array_update_zval(&indexObjects, name, &_11, PH_COPY | PH_SEPARATE);
 	}
 	RETURN_CCTOR(indexObjects);
 
@@ -1936,12 +1938,12 @@ PHP_METHOD(Phalcon_Db_Adapter, describeIndexes) {
  */
 PHP_METHOD(Phalcon_Db_Adapter, describeReferences) {
 
-	zephir_fcall_cache_entry *_13 = NULL;
+	zephir_fcall_cache_entry *_15 = NULL;
 	zval *_7 = NULL;
-	HashTable *_5, *_10;
-	HashPosition _4, _9;
+	HashTable *_5, *_12;
+	HashPosition _4, _11;
 	int ZEPHIR_LAST_CALL_STATUS;
-	zval *table_param = NULL, *schema_param = NULL, *emptyArr, *references, *reference = NULL, *arrayReference = NULL, *constraintName, *referenceObjects, *name = NULL, *_0 = NULL, *_1, *_2 = NULL, *_3, **_6, *_8 = NULL, **_11, *_12 = NULL;
+	zval *table_param = NULL, *schema_param = NULL, *references, *reference = NULL, *arrayReference = NULL, *constraintName, *referenceObjects, *name = NULL, *_0 = NULL, *_1, *_2 = NULL, *_3 = NULL, **_6, *_8 = NULL, *_9, *_10, **_13, *_14 = NULL;
 	zval *table = NULL, *schema = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -1976,8 +1978,6 @@ PHP_METHOD(Phalcon_Db_Adapter, describeReferences) {
 	}
 
 
-	ZEPHIR_INIT_VAR(emptyArr);
-	array_init(emptyArr);
 	ZEPHIR_INIT_VAR(references);
 	array_init(references);
 	_1 = zephir_fetch_nproperty_this(this_ptr, SL("_dialect"), PH_NOISY_CC);
@@ -2003,22 +2003,30 @@ PHP_METHOD(Phalcon_Db_Adapter, describeReferences) {
 			ZEPHIR_OBS_NVAR(_8);
 			zephir_array_fetch_long(&_8, reference, 4, PH_NOISY TSRMLS_CC);
 			zephir_array_update_string(&_7, SL("referencedTable"), &_8, PH_COPY | PH_SEPARATE);
-			zephir_array_update_string(&_7, SL("columns"), &emptyArr, PH_COPY | PH_SEPARATE);
-			zephir_array_update_string(&_7, SL("referencedColumns"), &emptyArr, PH_COPY | PH_SEPARATE);
+			ZEPHIR_INIT_NVAR(_3);
+			array_init(_3);
+			zephir_array_update_string(&_7, SL("columns"), &_3, PH_COPY | PH_SEPARATE);
+			ZEPHIR_INIT_NVAR(_3);
+			array_init(_3);
+			zephir_array_update_string(&_7, SL("referencedColumns"), &_3, PH_COPY | PH_SEPARATE);
 			zephir_array_update_zval(&references, constraintName, &_7, PH_COPY | PH_SEPARATE);
 		}
+		zephir_array_fetch_long(&_9, reference, 1, PH_NOISY | PH_READONLY TSRMLS_CC);
+		zephir_array_update_multi(&references, &_9 TSRMLS_CC, SL("zsa"), 4, constraintName, SL("columns"));
+		zephir_array_fetch_long(&_10, reference, 5, PH_NOISY | PH_READONLY TSRMLS_CC);
+		zephir_array_update_multi(&references, &_10 TSRMLS_CC, SL("zsa"), 4, constraintName, SL("referencedColumns"));
 	}
 	ZEPHIR_INIT_VAR(referenceObjects);
 	array_init(referenceObjects);
-	zephir_is_iterable(references, &_10, &_9, 0, 0);
+	zephir_is_iterable(references, &_12, &_11, 0, 0);
 	for (
-	  ; zephir_hash_get_current_data_ex(_10, (void**) &_11, &_9) == SUCCESS
-	  ; zephir_hash_move_forward_ex(_10, &_9)
+	  ; zephir_hash_get_current_data_ex(_12, (void**) &_13, &_11) == SUCCESS
+	  ; zephir_hash_move_forward_ex(_12, &_11)
 	) {
-		ZEPHIR_GET_HMKEY(name, _10, _9);
-		ZEPHIR_GET_HVALUE(arrayReference, _11);
-		ZEPHIR_INIT_LNVAR(_12);
-		object_init_ex(_12, phalcon_db_reference_ce);
+		ZEPHIR_GET_HMKEY(name, _12, _11);
+		ZEPHIR_GET_HVALUE(arrayReference, _13);
+		ZEPHIR_INIT_LNVAR(_14);
+		object_init_ex(_14, phalcon_db_reference_ce);
 		ZEPHIR_INIT_NVAR(_7);
 		array_init_size(_7, 7);
 		ZEPHIR_OBS_NVAR(_8);
@@ -2033,9 +2041,9 @@ PHP_METHOD(Phalcon_Db_Adapter, describeReferences) {
 		ZEPHIR_OBS_NVAR(_8);
 		zephir_array_fetch_string(&_8, arrayReference, SL("referencedColumns"), PH_NOISY TSRMLS_CC);
 		zephir_array_update_string(&_7, SL("referencedColumns"), &_8, PH_COPY | PH_SEPARATE);
-		ZEPHIR_CALL_METHOD(NULL, _12, "__construct", &_13, name, _7);
+		ZEPHIR_CALL_METHOD(NULL, _14, "__construct", &_15, name, _7);
 		zephir_check_call_status();
-		zephir_array_update_zval(&referenceObjects, name, &_12, PH_COPY | PH_SEPARATE);
+		zephir_array_update_zval(&referenceObjects, name, &_14, PH_COPY | PH_SEPARATE);
 	}
 	RETURN_CCTOR(referenceObjects);
 

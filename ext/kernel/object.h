@@ -81,6 +81,7 @@ int zephir_update_property_empty_array(zend_class_entry *ce, zval *object, char 
 int zephir_update_property_array(zval *object, const char *property, zend_uint property_length, const zval *index, zval *value TSRMLS_DC);
 int zephir_update_property_array_string(zval *object, char *property, unsigned int property_length, char *index, unsigned int index_length, zval *value TSRMLS_DC);
 int zephir_update_property_array_append(zval *object, char *property, unsigned int property_length, zval *value TSRMLS_DC);
+int zephir_update_property_array_multi(zval *object, const char *property, zend_uint property_length, zval **value TSRMLS_DC, const char *types, int types_length, int types_count, ...);
 
 /** Increment/Decrement properties */
 int zephir_property_incr(zval *object, char *property_name, unsigned int property_length TSRMLS_DC);

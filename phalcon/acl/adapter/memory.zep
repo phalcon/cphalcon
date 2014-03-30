@@ -188,7 +188,7 @@ class Memory extends Adapter
 	  */
 	 public function addInherit(roleName, roleToInherit)
 	 {
-		var roleInheritName, rolesInherits, rolesNames;
+		var roleInheritName, rolesNames;
 
 		let rolesNames = this->_rolesNames;
 		if !isset rolesNames[roleName] {
@@ -212,12 +212,11 @@ class Memory extends Adapter
 			return false;
 		}
 
-		let rolesInherits = this->_roleInherits;
-		if !isset rolesInherits[roleName] {
+		if !isset this->_roleInherits[roleName] {
 			let this->_roleInherits[roleName] = true;
 		}
 
-		//let this->_roleInherits[roleName][] = this->_roleInherits;
+		let this->_roleInherits[roleName][] = this->_roleInherits;
 
 		return true;
 	 }
@@ -355,15 +354,13 @@ class Memory extends Adapter
 	 */
 	 public function _allowOrDeny(roleName, resourceName, access, action)
 	 {
-		var defaultAccess, accessList, accessName, accessKey, accessKeyAll, rolesNames, resourcesNames;
+		var defaultAccess, accessList, accessName, accessKey, accessKeyAll;
 
-		let rolesNames = this->_rolesNames;
-		if isset rolesNames[roleName] {
+		if isset this->_rolesNames[roleName] {
 			throw new \Phalcon\Acl\Exception("Role '" . roleName . "' does not exist in ACL");
 		}
 
-		let resourcesNames = this->_resourcesNames;
-		if isset resourcesNames[resourceName] {
+		if isset this->_resourcesNames[resourceName] {
 			throw new \Phalcon\Acl\Exception("Resource '" . resourceName . "' does not exist in ACL");
 		}
 
@@ -380,6 +377,7 @@ class Memory extends Adapter
 			}
 
 			for accessName in access {
+
 				let accessKey = roleName . "!" .resourceName . "!" . accessName;
 				let this->_access[accessKey] = action;
 

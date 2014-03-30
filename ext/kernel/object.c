@@ -999,7 +999,7 @@ int zephir_update_property_array(zval *object, const char *property, zend_uint p
 /**
  * Multiple array-offset update
  */
-int zephir_update_property_array_multi(zval *object, const char *property, zend_uint property_length, zval **arr, zval **value TSRMLS_DC, const char *types, int types_length, int types_count, ...) {
+int zephir_update_property_array_multi(zval *object, const char *property, zend_uint property_length, zval **value TSRMLS_DC, const char *types, int types_length, int types_count, ...) {
 
 	int i, l, ll; char *s;
 	va_list ap;
@@ -1044,6 +1044,7 @@ int zephir_update_property_array_multi(zval *object, const char *property, zend_
 		p = tmp_arr;
 		for (i = 0; i < types_length; ++i) {
 			switch (types[i]) {
+
 				case 's':
 					s = va_arg(ap, char*);
 					l = va_arg(ap, int);
@@ -1066,6 +1067,7 @@ int zephir_update_property_array_multi(zval *object, const char *property, zend_
 						p = tmp;
 					}
 					break;
+
 				case 'l':
 					ll = va_arg(ap, long);
 					if (zephir_array_isset_long_fetch(&fetched, p, ll, 1 TSRMLS_CC)) {
@@ -1087,6 +1089,7 @@ int zephir_update_property_array_multi(zval *object, const char *property, zend_
 						p = tmp;
 					}
 					break;
+
 				case 'z':
 					item = va_arg(ap, zval*);
 					if (zephir_array_isset_fetch(&fetched, p, item, 1 TSRMLS_CC)) {
@@ -1107,6 +1110,10 @@ int zephir_update_property_array_multi(zval *object, const char *property, zend_
 						zephir_array_update_zval(&p, item, &tmp, PH_SEPARATE);
 						p = tmp;
 					}
+					break;
+
+				case 'a':
+					zephir_array_append(&p, *value, PH_SEPARATE);
 					break;
 			}
 		}
