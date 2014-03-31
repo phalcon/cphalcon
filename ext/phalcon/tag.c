@@ -1859,7 +1859,7 @@ PHP_METHOD(Phalcon_Tag, stylesheetLink) {
 	HashTable *_5;
 	HashPosition _4;
 	int ZEPHIR_LAST_CALL_STATUS;
-	zval *parameters = NULL, *local = NULL, *params = NULL, *firstParam, *code, *key = NULL, *value = NULL, *_0 = NULL, *_1 = NULL, *_2 = NULL, *_3, **_6, *_7 = NULL, *_8, *_9, *_10;
+	zval *parameters = NULL, *local = NULL, *params = NULL, *code, *key = NULL, *value = NULL, *_0, *_1 = NULL, *_2 = NULL, *_3 = NULL, **_6, *_7 = NULL, *_8, *_9, *_10;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 2, &parameters, &local);
@@ -1884,13 +1884,12 @@ PHP_METHOD(Phalcon_Tag, stylesheetLink) {
 	}
 	if (!(zephir_array_isset_string(params, SS("href")))) {
 		if (zephir_array_isset_long(params, 0)) {
-			ZEPHIR_OBS_VAR(firstParam);
-			zephir_array_fetch_long(&firstParam, params, 0, PH_NOISY TSRMLS_CC);
-			zephir_array_update_string(&params, SL("href"), &firstParam, PH_COPY | PH_SEPARATE);
-		} else {
-			ZEPHIR_INIT_VAR(_0);
-			ZVAL_STRING(_0, "", 1);
+			zephir_array_fetch_long(&_0, params, 0, PH_NOISY | PH_READONLY TSRMLS_CC);
 			zephir_array_update_string(&params, SL("href"), &_0, PH_COPY | PH_SEPARATE);
+		} else {
+			ZEPHIR_INIT_VAR(_1);
+			ZVAL_STRING(_1, "", 1);
+			zephir_array_update_string(&params, SL("href"), &_1, PH_COPY | PH_SEPARATE);
 		}
 	}
 	ZEPHIR_INIT_BNVAR(local);
@@ -1906,17 +1905,17 @@ PHP_METHOD(Phalcon_Tag, stylesheetLink) {
 		}
 	}
 	if (!(zephir_array_isset_string(params, SS("type")))) {
-		ZEPHIR_INIT_NVAR(_0);
-		ZVAL_STRING(_0, "text/css", 1);
-		zephir_array_update_string(&params, SL("type"), &_0, PH_COPY | PH_SEPARATE);
+		ZEPHIR_INIT_NVAR(_1);
+		ZVAL_STRING(_1, "text/css", 1);
+		zephir_array_update_string(&params, SL("type"), &_1, PH_COPY | PH_SEPARATE);
 	}
 	if (zephir_is_true(local)) {
-		ZEPHIR_CALL_SELF(&_1, "geturlservice", NULL);
+		ZEPHIR_CALL_SELF(&_2, "geturlservice", NULL);
 		zephir_check_call_status();
-		zephir_array_fetch_string(&_3, params, SL("href"), PH_NOISY | PH_READONLY TSRMLS_CC);
-		ZEPHIR_CALL_METHOD(&_2, _1, "getstatic", NULL, _3);
+		zephir_array_fetch_string(&_0, params, SL("href"), PH_NOISY | PH_READONLY TSRMLS_CC);
+		ZEPHIR_CALL_METHOD(&_3, _2, "getstatic", NULL, _0);
 		zephir_check_call_status();
-		zephir_array_update_string(&params, SL("href"), &_2, PH_COPY | PH_SEPARATE);
+		zephir_array_update_string(&params, SL("href"), &_3, PH_COPY | PH_SEPARATE);
 		//missing empty
 	}
 	ZEPHIR_INIT_VAR(code);
@@ -1936,10 +1935,10 @@ PHP_METHOD(Phalcon_Tag, stylesheetLink) {
 	}
 	_8 = zephir_fetch_static_property_ce(phalcon_tag_ce, SL("_documentType") TSRMLS_CC);
 	if (ZEPHIR_GT_LONG(_8, 5)) {
-		ZEPHIR_INIT_NVAR(_0);
-		ZEPHIR_GET_CONSTANT(_0, "PHP_EOL");
+		ZEPHIR_INIT_NVAR(_1);
+		ZEPHIR_GET_CONSTANT(_1, "PHP_EOL");
 		ZEPHIR_INIT_LNVAR(_7);
-		ZEPHIR_CONCAT_SV(_7, " />", _0);
+		ZEPHIR_CONCAT_SV(_7, " />", _1);
 		zephir_concat_self(&code, _7 TSRMLS_CC);
 	} else {
 		ZEPHIR_INIT_VAR(_9);

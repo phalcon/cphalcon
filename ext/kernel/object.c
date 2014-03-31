@@ -1462,12 +1462,12 @@ int zephir_read_static_property(zval **result, const char *class_name, unsigned 
 	return FAILURE;
 }
 
-int zephir_update_static_property_ce(zend_class_entry *ce, char *name, int len, zval *value TSRMLS_DC) {
+int zephir_update_static_property_ce(zend_class_entry *ce, const char *name, int len, zval *value TSRMLS_DC) {
 	assert(ce != NULL);
 	return zephir_update_static_property_ex(ce, name, len, value, NULL TSRMLS_CC);
 }
 
-int zephir_update_static_property_ce_cache(zend_class_entry *ce, char *name, int len, zval *value, zend_property_info **property_info TSRMLS_DC) {
+int zephir_update_static_property_ce_cache(zend_class_entry *ce, const char *name, int len, zval *value, zend_property_info **property_info TSRMLS_DC) {
 	assert(ce != NULL);
 	return zephir_update_static_property_ex(ce, name, len, value, property_info TSRMLS_CC);
 }
@@ -1595,7 +1595,7 @@ int zephir_update_static_property_array_multi_ce(zend_class_entry *ce, const cha
 	va_end(ap);
 
 	if (separated) {
-		//zephir_update_property_zval(object, property, property_length, tmp_arr TSRMLS_CC);
+		zephir_update_static_property_ce(ce, property, property_length, tmp_arr TSRMLS_CC);
 	}
 
 	return SUCCESS;
@@ -1806,4 +1806,34 @@ int zephir_property_decr(zval *object, char *property_name, unsigned int propert
 	}
 
 	return SUCCESS;
+}
+
+int zephir_fetch_property(zval **result, zval *object, const char *property_name, zend_uint property_length, int silent TSRMLS_DC) {
+
+	if (zephir_isset_property(object, property_name, property_length TSRMLS_CC)) {
+		zephir_read_property(result, object, property_name, property_length, 0 TSRMLS_CC);
+		return 1;
+	}
+
+	*result = ZEPHIR_GLOBAL(global_null);
+	Z_ADDREF_P(*result);
+	return 0;
+}
+
+int zephir_fetch_property_zval(zval **result, zval *object, zval *property, int silent TSRMLS_DC) {
+
+	if (unlikely(Z_TYPE_P(property) != IS_STRING)) {
+		*result = ZEPHIR_GLOBAL(global_null);
+		Z_ADDREF_P(*result);
+		return 0;
+	}
+
+	if (zephir_isset_property(object, Z_STRVAL_P(property), Z_STRLEN_P(property) TSRMLS_CC)) {
+		zephir_read_property(result, object, Z_STRVAL_P(property), Z_STRLEN_P(property), 0 TSRMLS_CC);
+		return 1;
+	}
+
+	*result = ZEPHIR_GLOBAL(global_null);
+	Z_ADDREF_P(*result);
+	return 0;
 }

@@ -309,7 +309,7 @@ class Tag
 	 */
 	public static function getValue(name, params=null)
 	{
-		var value, autoescape, escaper;
+		var value, autoescape;
 
 		/**
 		 * Check if there is a predefined value for it
@@ -435,7 +435,7 @@ class Tag
 	 */
 	static protected function _inputField(string type, parameters, boolean asValue=false) -> string
 	{
-		var params, id, value, key, code, name, doctype;
+		var params, id, value, key, code, name;
 
 		let params = [];
 
@@ -514,7 +514,7 @@ class Tag
 	 */
 	static protected function _inputFieldChecked(string type, parameters) -> string
 	{
-		var params, value, id, key, code, name, currentValue, doctype;
+		var params, value, id, key, code, name, currentValue;
 
 		if  typeof parameters != "array" {
 			let params = [parameters];
@@ -1005,7 +1005,7 @@ class Tag
 	 */
 	static public function form(parameters) -> string
 	{
-		var params, paramsAction, action, url, code, key, avalue;
+		var params, paramsAction, action, code, key, avalue;
 
 		if typeof parameters != "array" {
 			let params = [parameters];
@@ -1171,7 +1171,7 @@ class Tag
 	 */
 	public static function stylesheetLink(parameters=null, local=true)
 	{
-		var params, firstParam, url, code, key, value, doctype, eol;
+		var params, code, key, value;
 
 		if typeof parameters != "array" {
 			let params = [parameters, local];
@@ -1181,8 +1181,7 @@ class Tag
 
 		if !isset params["href"] {
 			if isset params[0] {
-				let firstParam = params[0];
-				let params["href"] = firstParam;
+				let params["href"] = params[0];
 			} else {
 				let params["href"] = "";
 			}
@@ -1249,7 +1248,7 @@ class Tag
 	 */
 	public static function javascriptInclude(parameters=null, local=true)
 	{
- 		var params, firstParam, code, url, eol, key, value;
+ 		var params, code, key, value;
 
 		if typeof parameters != "array" {
 			let params = [parameters, local];
@@ -1319,7 +1318,7 @@ class Tag
 	 */
 	public static function image(parameters=null, local=true)
 	{
-		var params, code, url, key, value, src;
+		var params, code, key, value, src;
 
 		if typeof parameters != "array" {
 			let params = [parameters];
@@ -1375,7 +1374,7 @@ class Tag
 	 */
 	public static function friendlyTitle(text, separator="-", lowercase=true) -> string
 	{
-		var pattern, friendly, friendlyText;
+		var friendly;
 
 		let friendly = preg_replace("~[^a-z0-9A-Z]+~", separator, text);
 		if !empty lowercase {

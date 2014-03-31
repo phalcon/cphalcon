@@ -89,7 +89,7 @@ PHP_METHOD(Phalcon_Mvc_Collection_Document, offsetGet) {
 
 
 	ZEPHIR_OBS_VAR(value);
-	if (zephir_read_property_zval(&value, this_ptr, index, PH_SILENT_CC)) {
+	if (zephir_fetch_property_zval(&value, this_ptr, index, PH_SILENT_CC)) {
 		RETURN_CCTOR(value);
 	}
 	ZEPHIR_THROW_EXCEPTION_STR(phalcon_mvc_collection_exception_ce, "The index does not exist in the row");
@@ -154,7 +154,7 @@ PHP_METHOD(Phalcon_Mvc_Collection_Document, readAttribute) {
 
 
 	ZEPHIR_OBS_VAR(value);
-	if (zephir_read_property_zval(&value, this_ptr, attribute, PH_SILENT_CC)) {
+	if (zephir_fetch_property_zval(&value, this_ptr, attribute, PH_SILENT_CC)) {
 		RETURN_CTOR(value);
 	}
 	RETURN_MM_NULL();

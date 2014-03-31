@@ -106,7 +106,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Row, offsetGet) {
 
 
 	ZEPHIR_OBS_VAR(value);
-	if (zephir_read_property_zval(&value, this_ptr, index, PH_SILENT_CC)) {
+	if (zephir_fetch_property_zval(&value, this_ptr, index, PH_SILENT_CC)) {
 		RETURN_CCTOR(value);
 	}
 	ZEPHIR_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "The index does not exist in the row");

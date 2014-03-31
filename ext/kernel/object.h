@@ -66,6 +66,8 @@ int zephir_read_property(zval **result, zval *object, const char *property_name,
 int zephir_read_property_zval(zval **result, zval *object, zval *property, int silent TSRMLS_DC);
 int zephir_return_property(zval *return_value, zval **return_value_ptr, zval *object, char *property_name, unsigned int property_length TSRMLS_DC);
 int zephir_return_property_quick(zval *return_value, zval **return_value_ptr, zval *object, char *property_name, unsigned int property_length, unsigned long key TSRMLS_DC);
+int zephir_fetch_property(zval **result, zval *object, const char *property_name, zend_uint property_length, int silent TSRMLS_DC);
+int zephir_fetch_property_zval(zval **result, zval *object, zval *property, int silent TSRMLS_DC);
 
 /** Updating properties */
 int zephir_update_property_this(zval *object, char *property_name, unsigned int property_length, zval *value TSRMLS_DC);
@@ -92,12 +94,13 @@ int zephir_unset_property_array(zval *object, char *property, unsigned int prope
 
 /** Static properties */
 int zephir_read_static_property(zval **result, const char *class_name, unsigned int class_length, char *property_name, unsigned int property_length TSRMLS_DC);
-int zephir_update_static_property_ce(zend_class_entry *ce, char *name, int len, zval *value TSRMLS_DC);
-int zephir_update_static_property_ce_cache(zend_class_entry *ce, char *name, int len, zval *value, zend_property_info **property_info TSRMLS_DC);
+int zephir_update_static_property_ce(zend_class_entry *ce, const char *name, int len, zval *value TSRMLS_DC);
+int zephir_update_static_property_ce_cache(zend_class_entry *ce, const char *name, int len, zval *value, zend_property_info **property_info TSRMLS_DC);
 int zephir_update_static_property(const char *class_name, unsigned int class_length, char *name, unsigned int name_length, zval *value TSRMLS_DC);
 int zephir_read_static_property_ce(zval **result, zend_class_entry *ce, const char *property, int len TSRMLS_DC);
 int zephir_read_class_property(zval **result, int type, const char *property, int len TSRMLS_DC);
 zval* zephir_fetch_static_property_ce(zend_class_entry *ce, const char *property, int len TSRMLS_DC);
+int zephir_update_static_property_array_multi_ce(zend_class_entry *ce, const char *property, zend_uint property_length, zval **value TSRMLS_DC, const char *types, int types_length, int types_count, ...);
 
 /** Create instances */
 int zephir_create_instance(zval *return_value, const zval *class_name TSRMLS_DC);

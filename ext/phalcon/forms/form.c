@@ -828,7 +828,7 @@ PHP_METHOD(Phalcon_Forms_Form, getValue) {
 			RETURN_MM();
 		}
 		ZEPHIR_OBS_VAR(value);
-		if (zephir_read_property_zval(&value, entity, name, PH_SILENT_CC)) {
+		if (zephir_fetch_property_zval(&value, entity, name, PH_SILENT_CC)) {
 			RETURN_CCTOR(value);
 		}
 	}
