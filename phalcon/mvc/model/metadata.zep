@@ -655,7 +655,7 @@ abstract class MetaData implements \Phalcon\Di\InjectionAwareInterface
 	 */
 	public function hasAttribute(<\Phalcon\Mvc\ModelInterface> model, string attribute) -> boolean
 	{
-		var columnMap, metaData, dataTypes;
+		var columnMap, metaData;
 
 		let columnMap = this->getReverseColumnMap(model);
 		if typeof columnMap == "array" {

@@ -34,6 +34,8 @@ use Phalcon\Mvc\Model\Relation;
 use Phalcon\Mvc\Model\BehaviorInterface;
 use Phalcon\Mvc\Model\Exception;
 use Phalcon\Mvc\Model\MetadataInterface;
+use Phalcon\Mvc\Model\MessageInterface;
+use Phalcon\Events\ManagerInterface as EventsManagerInterface;
 
 /**
  * Phalcon\Mvc\Model
@@ -185,7 +187,7 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 	 *
 	 * @param Phalcon\Events\ManagerInterface eventsManager
 	 */
-	protected function setEventsManager(<ManagerInterface> eventsManager)
+	protected function setEventsManager(<EventsManagerInterface> eventsManager)
 	{
 		this->_modelsManager->setCustomEventsManager(this, eventsManager);
 	}
@@ -195,7 +197,7 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 	 *
 	 * @return Phalcon\Events\ManagerInterface
 	 */
-	protected function getEventsManager() -> <\Phalcon\Events\ManagerInterface>
+	protected function getEventsManager() -> <EventsManagerInterface>
 	{
 		return this->_modelsManager->getCustomEventsManager(this);
 	}
