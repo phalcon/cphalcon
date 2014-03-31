@@ -146,6 +146,7 @@ PHP_METHOD(Phalcon_Logger_Formatter_Firephp, getTypeString) {
  * @param string $message
  * @param int $type
  * @param int $timestamp
+ * @param array $context
  * @return string
  */
 PHP_METHOD(Phalcon_Logger_Formatter_Firephp, format) {
