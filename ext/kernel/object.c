@@ -1810,7 +1810,7 @@ int zephir_property_decr(zval *object, char *property_name, unsigned int propert
 
 int zephir_fetch_property(zval **result, zval *object, const char *property_name, zend_uint property_length, int silent TSRMLS_DC) {
 
-	if (zephir_isset_property(object, property_name, property_length TSRMLS_CC)) {
+	if (zephir_isset_property(object, property_name, property_length + 1 TSRMLS_CC)) {
 		zephir_read_property(result, object, property_name, property_length, 0 TSRMLS_CC);
 		return 1;
 	}
@@ -1828,7 +1828,7 @@ int zephir_fetch_property_zval(zval **result, zval *object, zval *property, int 
 		return 0;
 	}
 
-	if (zephir_isset_property(object, Z_STRVAL_P(property), Z_STRLEN_P(property) TSRMLS_CC)) {
+	if (zephir_isset_property(object, Z_STRVAL_P(property), Z_STRLEN_P(property) + 1 TSRMLS_CC)) {
 		zephir_read_property(result, object, Z_STRVAL_P(property), Z_STRLEN_P(property), 0 TSRMLS_CC);
 		return 1;
 	}
