@@ -112,6 +112,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_Transaction_Manager) {
 PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, __construct) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
+	zephir_nts_static zephir_fcall_cache_entry *_1 = NULL;
 	zend_bool _0;
 	zval *dependencyInjector = NULL;
 
@@ -136,7 +137,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, __construct) {
 	if (zephir_is_true(dependencyInjector)) {
 		zephir_update_property_this(this_ptr, SL("_dependencyInjector"), dependencyInjector TSRMLS_CC);
 	} else {
-		ZEPHIR_CALL_CE_STATIC(&dependencyInjector, phalcon_di_ce, "getdefault", NULL);
+		ZEPHIR_CALL_CE_STATIC(&dependencyInjector, phalcon_di_ce, "getdefault", &_1);
 		zephir_check_call_status();
 		zephir_update_property_this(this_ptr, SL("_dependencyInjector"), dependencyInjector TSRMLS_CC);
 	}

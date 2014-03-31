@@ -99,11 +99,12 @@ PHP_METHOD(Phalcon_Version, _getVersion) {
 PHP_METHOD(Phalcon_Version, get) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
+	zephir_nts_static zephir_fcall_cache_entry *_0 = NULL;
 	zval *version = NULL, *major, *medium, *minor, *special, *specialNumber, *result, *suffix = NULL;
 
 	ZEPHIR_MM_GROW();
 
-	ZEPHIR_CALL_SELF(&version, "_getversion", NULL);
+	ZEPHIR_CALL_SELF(&version, "_getversion", &_0);
 	zephir_check_call_status();
 	ZEPHIR_OBS_VAR(major);
 	zephir_array_fetch_long(&major, version, 0, PH_NOISY TSRMLS_CC);
@@ -155,13 +156,13 @@ PHP_METHOD(Phalcon_Version, get) {
  */
 PHP_METHOD(Phalcon_Version, getId) {
 
-	zephir_nts_static zephir_fcall_cache_entry *_2 = NULL;
 	int ZEPHIR_LAST_CALL_STATUS;
-	zval *version = NULL, *major, *medium, *minor, *special, *specialNumber, _0 = zval_used_for_init, *_1 = NULL, *_3 = NULL;
+	zephir_nts_static zephir_fcall_cache_entry *_0 = NULL, *_3 = NULL;
+	zval *version = NULL, *major, *medium, *minor, *special, *specialNumber, _1 = zval_used_for_init, *_2 = NULL, *_4 = NULL;
 
 	ZEPHIR_MM_GROW();
 
-	ZEPHIR_CALL_SELF(&version, "_getversion", NULL);
+	ZEPHIR_CALL_SELF(&version, "_getversion", &_0);
 	zephir_check_call_status();
 	ZEPHIR_OBS_VAR(major);
 	zephir_array_fetch_long(&major, version, 0, PH_NOISY TSRMLS_CC);
@@ -173,15 +174,15 @@ PHP_METHOD(Phalcon_Version, getId) {
 	zephir_array_fetch_long(&special, version, 3, PH_NOISY TSRMLS_CC);
 	ZEPHIR_OBS_VAR(specialNumber);
 	zephir_array_fetch_long(&specialNumber, version, 4, PH_NOISY TSRMLS_CC);
-	ZEPHIR_SINIT_VAR(_0);
-	ZVAL_STRING(&_0, "%02s", 0);
-	ZEPHIR_CALL_FUNCTION(&_1, "sprintf", &_2, &_0, medium);
+	ZEPHIR_SINIT_VAR(_1);
+	ZVAL_STRING(&_1, "%02s", 0);
+	ZEPHIR_CALL_FUNCTION(&_2, "sprintf", &_3, &_1, medium);
 	zephir_check_call_status();
-	ZEPHIR_SINIT_NVAR(_0);
-	ZVAL_STRING(&_0, "%02s", 0);
-	ZEPHIR_CALL_FUNCTION(&_3, "sprintf", &_2, &_0, minor);
+	ZEPHIR_SINIT_NVAR(_1);
+	ZVAL_STRING(&_1, "%02s", 0);
+	ZEPHIR_CALL_FUNCTION(&_4, "sprintf", &_3, &_1, minor);
 	zephir_check_call_status();
-	ZEPHIR_CONCAT_VVVVV(return_value, major, _1, _3, special, specialNumber);
+	ZEPHIR_CONCAT_VVVVV(return_value, major, _2, _4, special, specialNumber);
 	RETURN_MM();
 
 }

@@ -664,6 +664,7 @@ PHP_METHOD(Phalcon_Forms_Element, getDefault) {
 PHP_METHOD(Phalcon_Forms_Element, getValue) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
+	zephir_nts_static zephir_fcall_cache_entry *_1 = NULL;
 	zval *name, *form, *value = NULL, *_0 = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -675,7 +676,7 @@ PHP_METHOD(Phalcon_Forms_Element, getValue) {
 	ZEPHIR_OBS_VAR(form);
 	zephir_read_property_this(&form, this_ptr, SL("_form"), PH_NOISY_CC);
 	if (Z_TYPE_P(form) == IS_OBJECT) {
-		ZEPHIR_CALL_CE_STATIC(&_0, phalcon_tag_ce, "hasvalue", NULL, name);
+		ZEPHIR_CALL_CE_STATIC(&_0, phalcon_tag_ce, "hasvalue", &_1, name);
 		zephir_check_call_status();
 		if (!(zephir_is_true(_0))) {
 			ZEPHIR_CALL_METHOD(&value, form, "getvalue", NULL, name);
@@ -803,12 +804,13 @@ PHP_METHOD(Phalcon_Forms_Element, appendMessage) {
 PHP_METHOD(Phalcon_Forms_Element, clear) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
-	zval *_0;
+	zval *_1;
+	zephir_nts_static zephir_fcall_cache_entry *_0 = NULL;
 
 	ZEPHIR_MM_GROW();
 
-	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_name"), PH_NOISY_CC);
-	ZEPHIR_CALL_CE_STATIC(NULL, phalcon_tag_ce, "setdefault", NULL, _0, ZEPHIR_GLOBAL(global_null));
+	_1 = zephir_fetch_nproperty_this(this_ptr, SL("_name"), PH_NOISY_CC);
+	ZEPHIR_CALL_CE_STATIC(NULL, phalcon_tag_ce, "setdefault", &_0, _1, ZEPHIR_GLOBAL(global_null));
 	zephir_check_call_status();
 	RETURN_THIS();
 

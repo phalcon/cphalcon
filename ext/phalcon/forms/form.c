@@ -340,6 +340,7 @@ PHP_METHOD(Phalcon_Forms_Form, bind) {
 		ZEPHIR_INIT_NVAR(method);
 		ZEPHIR_CONCAT_SV(method, "set", key);
 		if ((zephir_method_exists(entity, method TSRMLS_CC)  == SUCCESS)) {
+			ZEPHIR_CALL_METHOD(NULL, entity, Z_STRVAL_P(method), NULL, filteredValue);
 			zephir_check_call_status();
 			continue;
 		}
@@ -824,6 +825,7 @@ PHP_METHOD(Phalcon_Forms_Form, getValue) {
 		ZEPHIR_CONCAT_SV(_0, "get", name);
 		ZEPHIR_CPY_WRT(method, _0);
 		if ((zephir_method_exists(entity, method TSRMLS_CC)  == SUCCESS)) {
+			ZEPHIR_RETURN_CALL_METHOD(entity, Z_STRVAL_P(method), NULL);
 			zephir_check_call_status();
 			RETURN_MM();
 		}

@@ -86,6 +86,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Cache_Backend_Mongo) {
 PHP_METHOD(Phalcon_Cache_Backend_Mongo, __construct) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
+	zephir_nts_static zephir_fcall_cache_entry *_0 = NULL;
 	zval *frontend, *options = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -114,7 +115,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Mongo, __construct) {
 		ZEPHIR_THROW_EXCEPTION_STR(phalcon_cache_exception_ce, "The parameter 'collection' is required");
 		return;
 	}
-	ZEPHIR_CALL_PARENT(NULL, phalcon_cache_backend_mongo_ce, this_ptr, "__construct", NULL, frontend, options);
+	ZEPHIR_CALL_PARENT(NULL, phalcon_cache_backend_mongo_ce, this_ptr, "__construct", &_0, frontend, options);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 

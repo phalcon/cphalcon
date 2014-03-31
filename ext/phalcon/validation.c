@@ -536,8 +536,9 @@ PHP_METHOD(Phalcon_Validation, bind) {
  */
 PHP_METHOD(Phalcon_Validation, getValue) {
 
+	zephir_nts_static zephir_fcall_cache_entry *_1 = NULL;
 	int ZEPHIR_LAST_CALL_STATUS;
-	zval *field_param = NULL, *entity, *method = NULL, *value = NULL, *data, *values, *filters, *fieldFilters, *dependencyInjector = NULL, *filterService = NULL, *_1;
+	zval *field_param = NULL, *entity, *method = NULL, *value = NULL, *data, *values, *filters, *fieldFilters, *dependencyInjector = NULL, *filterService = NULL, *_2;
 	zval *field = NULL, *_0;
 
 	ZEPHIR_MM_GROW();
@@ -553,6 +554,7 @@ PHP_METHOD(Phalcon_Validation, getValue) {
 		ZEPHIR_CONCAT_SV(_0, "get", field);
 		ZEPHIR_CPY_WRT(method, _0);
 		if ((zephir_method_exists(entity, method TSRMLS_CC)  == SUCCESS)) {
+			ZEPHIR_CALL_METHOD(&value, entity, Z_STRVAL_P(method),  NULL);
 			zephir_check_call_status();
 		} else {
 			if ((zephir_method_exists_ex(entity, SS("readattribute") TSRMLS_CC) == SUCCESS)) {
@@ -608,17 +610,17 @@ PHP_METHOD(Phalcon_Validation, getValue) {
 					ZEPHIR_CALL_METHOD(&dependencyInjector, this_ptr, "getdi",  NULL);
 					zephir_check_call_status();
 					if (Z_TYPE_P(dependencyInjector) != IS_OBJECT) {
-						ZEPHIR_CALL_CE_STATIC(&dependencyInjector, phalcon_di_ce, "getdefault", NULL);
+						ZEPHIR_CALL_CE_STATIC(&dependencyInjector, phalcon_di_ce, "getdefault", &_1);
 						zephir_check_call_status();
 						if (Z_TYPE_P(dependencyInjector) != IS_OBJECT) {
 							ZEPHIR_THROW_EXCEPTION_STR(phalcon_validation_exception_ce, "A dependency injector is required to obtain the 'filter' service");
 							return;
 						}
 					}
-					ZEPHIR_INIT_VAR(_1);
-					ZVAL_STRING(_1, "filter", 0);
-					ZEPHIR_CALL_METHOD(&filterService, dependencyInjector, "getshared", NULL, _1);
-					zephir_check_temp_parameter(_1);
+					ZEPHIR_INIT_VAR(_2);
+					ZVAL_STRING(_2, "filter", 0);
+					ZEPHIR_CALL_METHOD(&filterService, dependencyInjector, "getshared", NULL, _2);
+					zephir_check_temp_parameter(_2);
 					zephir_check_call_status();
 					if (Z_TYPE_P(filterService) != IS_OBJECT) {
 						ZEPHIR_THROW_EXCEPTION_STR(phalcon_validation_exception_ce, "Returned 'filter' service is invalid");

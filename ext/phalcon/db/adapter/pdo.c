@@ -87,6 +87,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Db_Adapter_Pdo) {
  */
 PHP_METHOD(Phalcon_Db_Adapter_Pdo, __construct) {
 
+	zephir_nts_static zephir_fcall_cache_entry *_0 = NULL;
 	int ZEPHIR_LAST_CALL_STATUS;
 	zval *descriptor;
 
@@ -101,7 +102,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, __construct) {
 	}
 	ZEPHIR_CALL_METHOD(NULL, this_ptr, "connect", NULL, descriptor);
 	zephir_check_call_status();
-	ZEPHIR_CALL_PARENT(NULL, phalcon_db_adapter_pdo_ce, this_ptr, "__construct", NULL, descriptor);
+	ZEPHIR_CALL_PARENT(NULL, phalcon_db_adapter_pdo_ce, this_ptr, "__construct", &_0, descriptor);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 

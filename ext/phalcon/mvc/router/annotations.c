@@ -210,6 +210,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Annotations, addModuleResource) {
  */
 PHP_METHOD(Phalcon_Mvc_Router_Annotations, handle) {
 
+	zephir_nts_static zephir_fcall_cache_entry *_17 = NULL;
 	zephir_fcall_cache_entry *_8 = NULL, *_16 = NULL;
 	HashTable *_2, *_6, *_10, *_14;
 	HashPosition _1, _5, _9, _13;
@@ -353,7 +354,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Annotations, handle) {
 		}
 		zephir_update_property_this(this_ptr, SL("_processed"), (1) ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
 	}
-	ZEPHIR_CALL_PARENT(NULL, phalcon_mvc_router_annotations_ce, this_ptr, "handle", NULL, realUri);
+	ZEPHIR_CALL_PARENT(NULL, phalcon_mvc_router_annotations_ce, this_ptr, "handle", &_17, realUri);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 

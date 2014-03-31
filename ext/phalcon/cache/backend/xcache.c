@@ -80,6 +80,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Cache_Backend_Xcache) {
 PHP_METHOD(Phalcon_Cache_Backend_Xcache, __construct) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
+	zephir_nts_static zephir_fcall_cache_entry *_1 = NULL;
 	zval *frontend, *options = NULL, *_0;
 
 	ZEPHIR_MM_GROW();
@@ -101,7 +102,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Xcache, __construct) {
 		ZVAL_STRING(_0, "_PHCX", 1);
 		zephir_array_update_string(&options, SL("statsKey"), &_0, PH_COPY | PH_SEPARATE);
 	}
-	ZEPHIR_CALL_PARENT(NULL, phalcon_cache_backend_xcache_ce, this_ptr, "__construct", NULL, frontend, options);
+	ZEPHIR_CALL_PARENT(NULL, phalcon_cache_backend_xcache_ce, this_ptr, "__construct", &_1, frontend, options);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 

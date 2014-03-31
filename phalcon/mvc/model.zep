@@ -2308,7 +2308,7 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 				 */
 				if typeof columnMap == "array" {
 					if !fetch attributeField, columnMap[field] {
-						throw Exception("Column '" . field . "' isn't part of the column map");
+						throw new Exception("Column '" . field . "' isn't part of the column map");
 					}
 				} else {
 					let attributeField = field;
