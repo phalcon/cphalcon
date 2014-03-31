@@ -23,6 +23,8 @@
 zend_class_entry *phalcon_annotations_adapterinterface_ce;
 
 static const zend_function_entry phalcon_annotations_adapterinterface_method_entry[] = {
+	PHP_ABSTRACT_ME(Phalcon_Annotations_AdapterInterface, read, arginfo_phalcon_annotations_adapterinterface_read)
+	PHP_ABSTRACT_ME(Phalcon_Annotations_AdapterInterface, write, arginfo_phalcon_annotations_adapterinterface_write)
 	PHP_ABSTRACT_ME(Phalcon_Annotations_AdapterInterface, setReader, arginfo_phalcon_annotations_adapterinterface_setreader)
 	PHP_ABSTRACT_ME(Phalcon_Annotations_AdapterInterface, getReader, NULL)
 	PHP_ABSTRACT_ME(Phalcon_Annotations_AdapterInterface, get, arginfo_phalcon_annotations_adapterinterface_get)
@@ -42,6 +44,22 @@ PHALCON_INIT_CLASS(Phalcon_Annotations_AdapterInterface){
 
 	return SUCCESS;
 }
+
+/**
+ * Read parsed annotations
+ * 
+ * @param string $key
+ * @return Phalcon\Annotations\Reflection
+*/
+PHALCON_DOC_METHOD(Phalcon_Annotations_AdapterInterface, read);
+
+/**
+ * Write parsed annotations
+ * 
+ * @param string $key
+ * @param Phalcon\Annotations\Reflection $data
+*/
+PHALCON_DOC_METHOD(Phalcon_Annotations_AdapterInterface, write);
 
 /**
  * Sets the annotations parser
