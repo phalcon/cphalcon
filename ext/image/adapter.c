@@ -394,8 +394,8 @@ PHP_METHOD(Phalcon_Image_Adapter, liquidRescale){
  *
  * @param int $width new width
  * @param int $height new height
- * @param int $offset_x  offset from the left
- * @param int $offset_y  offset from the top
+ * @param int $offset_x offset from the left, if it's true then will center
+ * @param int $offset_y offset from the top, if it's true then will middle
  * @return Phalcon\Image\Adapter
  */
 PHP_METHOD(Phalcon_Image_Adapter, crop){
@@ -415,6 +415,26 @@ PHP_METHOD(Phalcon_Image_Adapter, crop){
 	image_width  = phalcon_fetch_nproperty_this(this_ptr, SL("_width"), PH_NOISY TSRMLS_CC);
 	image_height = phalcon_fetch_nproperty_this(this_ptr, SL("_height"), PH_NOISY TSRMLS_CC);
 
+	SEPARATE_ZVAL_IF_NOT_REF(w);
+	if (Z_TYPE_PP(w) != IS_LONG) {
+		convert_to_long(*w);
+	}
+
+	SEPARATE_ZVAL_IF_NOT_REF(h);
+	if (Z_TYPE_PP(h) != IS_LONG) {
+		convert_to_long(*h);
+	}
+
+	if (ofs_x && Z_TYPE_PP(ofs_x) != IS_NULL && Z_TYPE_PP(ofs_x) != IS_BOOL && Z_TYPE_PP(ofs_x) != IS_LONG) {
+		SEPARATE_ZVAL_IF_NOT_REF(ofs_x);
+		convert_to_long(*ofs_x);
+	}
+		
+	if (ofs_y && Z_TYPE_PP(ofs_y) != IS_NULL && Z_TYPE_PP(ofs_y) != IS_BOOL && Z_TYPE_PP(ofs_x) != IS_LONG) {
+		SEPARATE_ZVAL_IF_NOT_REF(ofs_y);
+		convert_to_long(*ofs_y);
+	}
+
 	tmp_width        = Z_LVAL_PP(w);
 	tmp_height       = Z_LVAL_PP(h);
 	tmp_image_width  = phalcon_get_intval(image_width);
@@ -430,26 +450,30 @@ PHP_METHOD(Phalcon_Image_Adapter, crop){
 
 	if (!ofs_x) {
 		tmp_offset_x = (int)(((tmp_image_width - tmp_width) / 2) + 0.5);
-	} else if (PHALCON_IS_TRUE(*ofs_x)) {
+	} else if (Z_TYPE_PP(ofs_x) == IS_BOOL && PHALCON_IS_TRUE(*ofs_x)) {
 		tmp_offset_x = tmp_image_width - tmp_width;
-	} else if (Z_TYPE_PP(ofs_x) != IS_LONG) {
-		tmp_offset_x = (int)(((tmp_image_width - tmp_width) / 2) + 0.5);
-	} else if (Z_LVAL_PP(ofs_x) < 0) {
-		tmp_offset_x = (int)(tmp_image_width - tmp_width + Z_LVAL_PP(ofs_x) + 0.5);
+	} else if (Z_TYPE_PP(ofs_x) == IS_LONG) {
+		if (Z_LVAL_PP(ofs_x) < 0) {
+			tmp_offset_x = (int)(tmp_image_width - tmp_width + Z_LVAL_PP(ofs_x) + 0.5);
+		} else {
+			tmp_offset_x = Z_LVAL_PP(ofs_x);
+		}
 	} else {
-		tmp_offset_x = Z_LVAL_PP(ofs_x);
+		tmp_offset_x = (int)(((tmp_image_width - tmp_width) / 2) + 0.5);
 	}
 
 	if (!ofs_y) {
 		tmp_offset_y = (int)(((tmp_image_height - tmp_height) / 2) + 0.5);
-	} else if (PHALCON_IS_TRUE(*ofs_y)) {
+	} else if (Z_TYPE_PP(ofs_x) == IS_BOOL && PHALCON_IS_TRUE(*ofs_y)) {
 		tmp_offset_y = tmp_image_height - tmp_height;
-	} else if (Z_TYPE_PP(ofs_y) != IS_LONG) {
-		tmp_offset_y = (int)(((tmp_image_height - tmp_height) / 2) + 0.5);
-	} else if (Z_LVAL_PP(ofs_y) < 0) {
-		tmp_offset_y = tmp_image_height - tmp_height + Z_LVAL_PP(ofs_y);
+	} else if (Z_TYPE_PP(ofs_y) == IS_LONG) {
+		if (Z_LVAL_PP(ofs_y) < 0) {
+			tmp_offset_y = tmp_image_height - tmp_height + Z_LVAL_PP(ofs_y);
+		} else {
+			tmp_offset_y = Z_LVAL_PP(ofs_y);
+		}
 	} else {
-		tmp_offset_y = Z_LVAL_PP(ofs_y);
+		tmp_offset_y = (int)(((tmp_image_height - tmp_height) / 2) + 0.5);
 	}
 
 	tmp_max_width  = tmp_image_width  - tmp_offset_x;
