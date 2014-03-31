@@ -96,7 +96,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Di) {
  */
 PHP_METHOD(Phalcon_Di, __construct) {
 
-	zval *defaultDi, *_0;
+	zval *defaultDi;
 
 
 	zephir_read_static_property_ce(&defaultDi, phalcon_di_ce, SL("_default") TSRMLS_CC);
@@ -803,7 +803,7 @@ PHP_METHOD(Phalcon_Di, __call) {
  */
 PHP_METHOD(Phalcon_Di, setDefault) {
 
-	zval *dependencyInjector, *_0;
+	zval *dependencyInjector;
 
 	zephir_fetch_params(0, 1, 0, &dependencyInjector);
 
@@ -836,8 +836,6 @@ PHP_METHOD(Phalcon_Di, getDefault) {
  * Resets the internal default DI
  */
 PHP_METHOD(Phalcon_Di, reset) {
-
-	zval *_0;
 
 
 	zephir_update_static_property_ce(phalcon_di_ce, SL("_default"), ZEPHIR_GLOBAL(global_null) TSRMLS_CC);

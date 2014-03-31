@@ -54,7 +54,7 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, check) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
 	zephir_nts_static zephir_fcall_cache_entry *_4 = NULL, *_5 = NULL;
-	zval *_0, _1, _2 = zval_used_for_init, *_3 = NULL, *_6;
+	zval *_0, _1, _2 = zval_used_for_init, *_3 = NULL;
 
 	ZEPHIR_MM_GROW();
 
@@ -80,8 +80,8 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, check) {
 		zephir_update_property_this(this_ptr, SL("_version"), _3 TSRMLS_CC);
 	}
 	zephir_update_static_property_ce(phalcon_image_adapter_imagick_ce, SL("_checked"), ZEPHIR_GLOBAL(global_true) TSRMLS_CC);
-	_6 = zephir_fetch_static_property_ce(phalcon_image_adapter_imagick_ce, SL("_checked") TSRMLS_CC);
-	RETURN_CTOR(_6);
+	_0 = zephir_fetch_static_property_ce(phalcon_image_adapter_imagick_ce, SL("_checked") TSRMLS_CC);
+	RETURN_CTOR(_0);
 
 }
 

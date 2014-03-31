@@ -1335,12 +1335,12 @@ int zephir_method_quick_exists_ex(const zval *object, const char *method_name, u
 	return FAILURE;
 }
 
-zval* zephir_fetch_static_property_ce(zend_class_entry *ce, char *property, int len TSRMLS_DC) {
+zval* zephir_fetch_static_property_ce(zend_class_entry *ce, const char *property, int len TSRMLS_DC) {
 	assert(ce != NULL);
 	return zend_read_static_property(ce, property, len, (zend_bool) ZEND_FETCH_CLASS_SILENT TSRMLS_CC);
 }
 
-int zephir_read_static_property_ce(zval **result, zend_class_entry *ce, char *property, int len TSRMLS_DC) {
+int zephir_read_static_property_ce(zval **result, zend_class_entry *ce, const char *property, int len TSRMLS_DC) {
 	assert(ce != NULL);
 
 	*result = zephir_fetch_static_property_ce(ce, property, len TSRMLS_CC);
@@ -1463,13 +1463,142 @@ int zephir_read_static_property(zval **result, const char *class_name, unsigned 
 }
 
 int zephir_update_static_property_ce(zend_class_entry *ce, char *name, int len, zval *value TSRMLS_DC) {
-	//assert(ce != NULL);
+	assert(ce != NULL);
 	return zephir_update_static_property_ex(ce, name, len, value, NULL TSRMLS_CC);
 }
 
 int zephir_update_static_property_ce_cache(zend_class_entry *ce, char *name, int len, zval *value, zend_property_info **property_info TSRMLS_DC) {
-	//assert(ce != NULL);
+	assert(ce != NULL);
 	return zephir_update_static_property_ex(ce, name, len, value, property_info TSRMLS_CC);
+}
+
+/*
+ * Multiple array-offset update
+ */
+int zephir_update_static_property_array_multi_ce(zend_class_entry *ce, const char *property, zend_uint property_length, zval **value TSRMLS_DC, const char *types, int types_length, int types_count, ...) {
+
+	int i, l, ll; char *s;
+	va_list ap;
+	zval *fetched, *tmp_arr, *tmp, *p, *item;
+	int separated = 0;
+
+	zephir_read_static_property_ce(&tmp_arr, ce, property, property_length TSRMLS_CC);
+
+	Z_DELREF_P(tmp_arr);
+
+	/** Separation only when refcount > 1 */
+	if (Z_REFCOUNT_P(tmp_arr) > 1) {
+		zval *new_zv;
+		ALLOC_ZVAL(new_zv);
+		INIT_PZVAL_COPY(new_zv, tmp_arr);
+		tmp_arr = new_zv;
+		zval_copy_ctor(new_zv);
+		Z_SET_REFCOUNT_P(tmp_arr, 0);
+		separated = 1;
+	}
+
+	/** Convert the value to array if not is an array */
+	if (Z_TYPE_P(tmp_arr) != IS_ARRAY) {
+		if (separated) {
+			convert_to_array(tmp_arr);
+		} else {
+			zval *new_zv;
+			ALLOC_ZVAL(new_zv);
+			INIT_PZVAL_COPY(new_zv, tmp_arr);
+			tmp_arr = new_zv;
+			zval_copy_ctor(new_zv);
+			Z_SET_REFCOUNT_P(tmp_arr, 0);
+			array_init(tmp_arr);
+			separated = 1;
+		}
+	}
+
+	va_start(ap, types_count);
+
+	p = tmp_arr;
+	for (i = 0; i < types_length; ++i) {
+		switch (types[i]) {
+
+			case 's':
+				s = va_arg(ap, char*);
+				l = va_arg(ap, int);
+				if (zephir_array_isset_string_fetch(&fetched, p, s, l + 1, 1 TSRMLS_CC)) {
+					if (Z_TYPE_P(fetched) == IS_ARRAY) {
+						if (i == (types_length - 1)) {
+							zephir_array_update_string(&fetched, s, l, value, PH_COPY | PH_SEPARATE);
+						} else {
+							p = fetched;
+						}
+						continue;
+					}
+				}
+				if (i == (types_length - 1)) {
+					zephir_array_update_string(&p, s, l, value, PH_COPY | PH_SEPARATE);
+				} else {
+					MAKE_STD_ZVAL(tmp);
+					array_init(tmp);
+					zephir_array_update_string(&p, s, l, &tmp, PH_SEPARATE);
+					p = tmp;
+				}
+				break;
+
+			case 'l':
+				ll = va_arg(ap, long);
+				if (zephir_array_isset_long_fetch(&fetched, p, ll, 1 TSRMLS_CC)) {
+					if (Z_TYPE_P(fetched) == IS_ARRAY) {
+						if (i == (types_length - 1)) {
+							zephir_array_update_long(&fetched, ll, value, PH_COPY | PH_SEPARATE, "", 0);
+						} else {
+							p = fetched;
+						}
+						continue;
+					}
+				}
+				if (i == (types_length - 1)) {
+					zephir_array_update_long(&p, ll, value, PH_COPY | PH_SEPARATE, "", 0);
+				} else {
+					MAKE_STD_ZVAL(tmp);
+					array_init(tmp);
+					zephir_array_update_long(&p, ll, &tmp, PH_SEPARATE, "", 0);
+					p = tmp;
+				}
+				break;
+
+			case 'z':
+				item = va_arg(ap, zval*);
+				if (zephir_array_isset_fetch(&fetched, p, item, 1 TSRMLS_CC)) {
+					if (Z_TYPE_P(fetched) == IS_ARRAY) {
+						if (i == (types_length - 1)) {
+							zephir_array_update_zval(&fetched, item, value, PH_COPY | PH_SEPARATE);
+						} else {
+							p = fetched;
+						}
+						continue;
+					}
+				}
+				if (i == (types_length - 1)) {
+					zephir_array_update_zval(&p, item, value, PH_COPY | PH_SEPARATE);
+				} else {
+					MAKE_STD_ZVAL(tmp);
+					array_init(tmp);
+					zephir_array_update_zval(&p, item, &tmp, PH_SEPARATE);
+					p = tmp;
+				}
+				break;
+
+			case 'a':
+				zephir_array_append(&p, *value, PH_SEPARATE);
+				break;
+		}
+	}
+
+	va_end(ap);
+
+	if (separated) {
+		//zephir_update_property_zval(object, property, property_length, tmp_arr TSRMLS_CC);
+	}
+
+	return SUCCESS;
 }
 
 /**
@@ -1484,7 +1613,7 @@ int zephir_update_static_property(const char *class_name, unsigned int class_len
 	return FAILURE;
 }
 
-int zephir_read_class_property(zval **result, int type, char *property, int len TSRMLS_DC) {
+int zephir_read_class_property(zval **result, int type, const char *property, int len TSRMLS_DC) {
 	zend_class_entry *ce;
 
 	type |= (ZEND_FETCH_CLASS_SILENT | ZEND_FETCH_CLASS_NO_AUTOLOAD);

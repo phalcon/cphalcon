@@ -429,7 +429,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, writeMetaDataIndex) {
 		ZEPHIR_CALL_METHOD(NULL, this_ptr, "_initialize", NULL, model, key, source, schema);
 		zephir_check_call_status();
 	}
-	zephir_update_property_array_multi(this_ptr, SL("_metaData"), &data TSRMLS_CC, SL("zl"), 3, key, index);
+	zephir_update_property_array_multi(this_ptr, SL("_metaData"), &data TSRMLS_CC, SL("zl"), 2, key, index);
 	ZEPHIR_MM_RESTORE();
 
 }

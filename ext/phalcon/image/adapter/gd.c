@@ -54,7 +54,7 @@ PHP_METHOD(Phalcon_Image_Adapter_Gd, check) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
 	zephir_nts_static zephir_fcall_cache_entry *_3 = NULL, *_6 = NULL, *_8 = NULL;
-	zval *version = NULL, *info = NULL, *matches, *_0, _1 = zval_used_for_init, *_2 = NULL, *_4, *_5, _7, *_9, *_10, *_11;
+	zval *version = NULL, *info = NULL, *matches, *_0, _1 = zval_used_for_init, *_2 = NULL, *_4, *_5, _7, *_9, *_10;
 
 	ZEPHIR_MM_GROW();
 
@@ -111,8 +111,8 @@ PHP_METHOD(Phalcon_Image_Adapter_Gd, check) {
 		return;
 	}
 	zephir_update_static_property_ce(phalcon_image_adapter_gd_ce, SL("_checked"), ZEPHIR_GLOBAL(global_true) TSRMLS_CC);
-	_11 = zephir_fetch_static_property_ce(phalcon_image_adapter_gd_ce, SL("_checked") TSRMLS_CC);
-	RETURN_CTOR(_11);
+	_0 = zephir_fetch_static_property_ce(phalcon_image_adapter_gd_ce, SL("_checked") TSRMLS_CC);
+	RETURN_CTOR(_0);
 
 }
 
