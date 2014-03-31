@@ -611,12 +611,12 @@ PHP_METHOD(Phalcon_Mvc_Collection, cloneResult) {
  */
 PHP_METHOD(Phalcon_Mvc_Collection, _getResultset) {
 
-	HashTable *_3;
-	HashPosition _2;
-	zephir_nts_static zephir_fcall_cache_entry *_0 = NULL;
+	zephir_fcall_cache_entry *_5 = NULL;
+	HashTable *_2;
+	HashPosition _1;
 	int ZEPHIR_LAST_CALL_STATUS;
 	zend_bool unique;
-	zval *params, *collection, *connection, *unique_param = NULL, *source = NULL, *mongoCollection = NULL, *conditions = NULL, *base = NULL, *documentsCursor = NULL, *fields, *skip, *limit, *sort, *document = NULL, *collections, *_1 = NULL, **_4, *_5 = NULL;
+	zval *params, *collection, *connection, *unique_param = NULL, *source = NULL, *mongoCollection = NULL, *conditions = NULL, *base = NULL, *documentsCursor = NULL, *fields, *skip, *limit, *sort, *document = NULL, *collections, *_0 = NULL, **_3, *_4 = NULL;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 4, 0, &params, &collection, &connection, &unique_param);
@@ -684,7 +684,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, _getResultset) {
 		ZEPHIR_CALL_METHOD(&document, documentsCursor, "current",  NULL);
 		zephir_check_call_status();
 		if (Z_TYPE_P(document) == IS_ARRAY) {
-			ZEPHIR_RETURN_CALL_SELF("cloneresult", &_0, base, document);
+			ZEPHIR_RETURN_CALL_SELF("cloneresult", NULL, base, document);
 			zephir_check_call_status();
 			RETURN_MM();
 		}
@@ -692,17 +692,17 @@ PHP_METHOD(Phalcon_Mvc_Collection, _getResultset) {
 	}
 	ZEPHIR_INIT_VAR(collections);
 	array_init(collections);
-	ZEPHIR_CALL_FUNCTION(&_1, "iterator_to_array", NULL, documentsCursor);
+	ZEPHIR_CALL_FUNCTION(&_0, "iterator_to_array", NULL, documentsCursor);
 	zephir_check_call_status();
-	zephir_is_iterable(_1, &_3, &_2, 0, 0);
+	zephir_is_iterable(_0, &_2, &_1, 0, 0);
 	for (
-	  ; zephir_hash_get_current_data_ex(_3, (void**) &_4, &_2) == SUCCESS
-	  ; zephir_hash_move_forward_ex(_3, &_2)
+	  ; zephir_hash_get_current_data_ex(_2, (void**) &_3, &_1) == SUCCESS
+	  ; zephir_hash_move_forward_ex(_2, &_1)
 	) {
-		ZEPHIR_GET_HVALUE(document, _4);
-		ZEPHIR_CALL_SELF(&_5, "cloneresult", &_0, base, document);
+		ZEPHIR_GET_HVALUE(document, _3);
+		ZEPHIR_CALL_SELF(&_4, "cloneresult", &_5, base, document);
 		zephir_check_call_status();
-		zephir_array_append(&collections, _5, PH_SEPARATE);
+		zephir_array_append(&collections, _4, PH_SEPARATE);
 	}
 	RETURN_CCTOR(collections);
 
@@ -1395,8 +1395,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, save) {
  */
 PHP_METHOD(Phalcon_Mvc_Collection, findById) {
 
-	zval *_5, *_6;
-	zephir_nts_static zephir_fcall_cache_entry *_4 = NULL;
+	zval *_4, *_5;
 	int ZEPHIR_LAST_CALL_STATUS;
 	zend_class_entry *_0, *_3;
 	zval *id, *className, *collection, *mongoId = NULL, *_1 = NULL, *_2 = NULL;
@@ -1434,13 +1433,13 @@ PHP_METHOD(Phalcon_Mvc_Collection, findById) {
 	} else {
 		ZEPHIR_CPY_WRT(mongoId, id);
 	}
+	ZEPHIR_INIT_VAR(_4);
+	array_init_size(_4, 2);
 	ZEPHIR_INIT_VAR(_5);
 	array_init_size(_5, 2);
-	ZEPHIR_INIT_VAR(_6);
-	array_init_size(_6, 2);
-	zephir_array_update_string(&_6, SL("_id"), &mongoId, PH_COPY | PH_SEPARATE);
-	zephir_array_fast_append(_5, _6);
-	ZEPHIR_RETURN_CALL_SELF("findfirst", &_4, _5);
+	zephir_array_update_string(&_5, SL("_id"), &mongoId, PH_COPY | PH_SEPARATE);
+	zephir_array_fast_append(_4, _5);
+	ZEPHIR_RETURN_CALL_SELF("findfirst", NULL, _4);
 	zephir_check_call_status();
 	RETURN_MM();
 
@@ -1475,7 +1474,6 @@ PHP_METHOD(Phalcon_Mvc_Collection, findById) {
  */
 PHP_METHOD(Phalcon_Mvc_Collection, findFirst) {
 
-	zephir_nts_static zephir_fcall_cache_entry *_1 = NULL;
 	int ZEPHIR_LAST_CALL_STATUS;
 	zend_class_entry *_0;
 	zval *parameters = NULL, *className, *collection, *connection = NULL;
@@ -1505,7 +1503,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, findFirst) {
 	}
 	ZEPHIR_CALL_METHOD(&connection, collection, "getconnection",  NULL);
 	zephir_check_call_status();
-	ZEPHIR_RETURN_CALL_SELF("_getresultset", &_1, parameters, collection, connection, ZEPHIR_GLOBAL(global_true));
+	ZEPHIR_RETURN_CALL_SELF("_getresultset", NULL, parameters, collection, connection, ZEPHIR_GLOBAL(global_true));
 	zephir_check_call_status();
 	RETURN_MM();
 
@@ -1551,10 +1549,9 @@ PHP_METHOD(Phalcon_Mvc_Collection, findFirst) {
  */
 PHP_METHOD(Phalcon_Mvc_Collection, find) {
 
-	zephir_nts_static zephir_fcall_cache_entry *_1 = NULL;
 	int ZEPHIR_LAST_CALL_STATUS;
 	zend_class_entry *_0;
-	zval *parameters = NULL, *className, *collection, *_2 = NULL;
+	zval *parameters = NULL, *className, *collection, *_1 = NULL;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 1, &parameters);
@@ -1579,9 +1576,9 @@ PHP_METHOD(Phalcon_Mvc_Collection, find) {
 		ZEPHIR_CALL_METHOD(NULL, collection, "__construct", NULL);
 		zephir_check_call_status();
 	}
-	ZEPHIR_CALL_METHOD(&_2, collection, "getconnection",  NULL);
+	ZEPHIR_CALL_METHOD(&_1, collection, "getconnection",  NULL);
 	zephir_check_call_status();
-	ZEPHIR_RETURN_CALL_SELF("_getresultset", &_1, parameters, collection, _2, ZEPHIR_GLOBAL(global_false));
+	ZEPHIR_RETURN_CALL_SELF("_getresultset", NULL, parameters, collection, _1, ZEPHIR_GLOBAL(global_false));
 	zephir_check_call_status();
 	RETURN_MM();
 
@@ -1599,7 +1596,6 @@ PHP_METHOD(Phalcon_Mvc_Collection, find) {
  */
 PHP_METHOD(Phalcon_Mvc_Collection, count) {
 
-	zephir_nts_static zephir_fcall_cache_entry *_1 = NULL;
 	int ZEPHIR_LAST_CALL_STATUS;
 	zend_class_entry *_0;
 	zval *parameters = NULL, *className, *collection, *connection = NULL;
@@ -1629,7 +1625,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, count) {
 	}
 	ZEPHIR_CALL_METHOD(&connection, collection, "getconnection",  NULL);
 	zephir_check_call_status();
-	ZEPHIR_RETURN_CALL_SELF("_getgroupresultset", &_1, parameters, collection, connection);
+	ZEPHIR_RETURN_CALL_SELF("_getgroupresultset", NULL, parameters, collection, connection);
 	zephir_check_call_status();
 	RETURN_MM();
 

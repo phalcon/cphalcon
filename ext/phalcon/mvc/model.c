@@ -1550,8 +1550,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _groupResult) {
 PHP_METHOD(Phalcon_Mvc_Model, count) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
-	zephir_nts_static zephir_fcall_cache_entry *_0 = NULL;
-	zval *parameters = NULL, *_1, *_2;
+	zval *parameters = NULL, *_0, *_1;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 1, &parameters);
@@ -1561,13 +1560,13 @@ PHP_METHOD(Phalcon_Mvc_Model, count) {
 	}
 
 
+	ZEPHIR_INIT_VAR(_0);
+	ZVAL_STRING(_0, "COUNT", 0);
 	ZEPHIR_INIT_VAR(_1);
-	ZVAL_STRING(_1, "COUNT", 0);
-	ZEPHIR_INIT_VAR(_2);
-	ZVAL_STRING(_2, "rowcount", 0);
-	ZEPHIR_RETURN_CALL_SELF("_groupresult", &_0, _1, _2, parameters);
+	ZVAL_STRING(_1, "rowcount", 0);
+	ZEPHIR_RETURN_CALL_SELF("_groupresult", NULL, _0, _1, parameters);
+	zephir_check_temp_parameter(_0);
 	zephir_check_temp_parameter(_1);
-	zephir_check_temp_parameter(_2);
 	zephir_check_call_status();
 	RETURN_MM();
 
@@ -1594,8 +1593,7 @@ PHP_METHOD(Phalcon_Mvc_Model, count) {
 PHP_METHOD(Phalcon_Mvc_Model, sum) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
-	zephir_nts_static zephir_fcall_cache_entry *_0 = NULL;
-	zval *parameters = NULL, *_1, *_2;
+	zval *parameters = NULL, *_0, *_1;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 1, &parameters);
@@ -1605,13 +1603,13 @@ PHP_METHOD(Phalcon_Mvc_Model, sum) {
 	}
 
 
+	ZEPHIR_INIT_VAR(_0);
+	ZVAL_STRING(_0, "SUM", 0);
 	ZEPHIR_INIT_VAR(_1);
-	ZVAL_STRING(_1, "SUM", 0);
-	ZEPHIR_INIT_VAR(_2);
-	ZVAL_STRING(_2, "sumatory", 0);
-	ZEPHIR_RETURN_CALL_SELF("_groupresult", &_0, _1, _2, parameters);
+	ZVAL_STRING(_1, "sumatory", 0);
+	ZEPHIR_RETURN_CALL_SELF("_groupresult", NULL, _0, _1, parameters);
+	zephir_check_temp_parameter(_0);
 	zephir_check_temp_parameter(_1);
-	zephir_check_temp_parameter(_2);
 	zephir_check_call_status();
 	RETURN_MM();
 
@@ -1638,8 +1636,7 @@ PHP_METHOD(Phalcon_Mvc_Model, sum) {
 PHP_METHOD(Phalcon_Mvc_Model, maximum) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
-	zephir_nts_static zephir_fcall_cache_entry *_0 = NULL;
-	zval *parameters = NULL, *_1, *_2;
+	zval *parameters = NULL, *_0, *_1;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 1, &parameters);
@@ -1649,13 +1646,13 @@ PHP_METHOD(Phalcon_Mvc_Model, maximum) {
 	}
 
 
+	ZEPHIR_INIT_VAR(_0);
+	ZVAL_STRING(_0, "MAX", 0);
 	ZEPHIR_INIT_VAR(_1);
-	ZVAL_STRING(_1, "MAX", 0);
-	ZEPHIR_INIT_VAR(_2);
-	ZVAL_STRING(_2, "maximum", 0);
-	ZEPHIR_RETURN_CALL_SELF("_groupresult", &_0, _1, _2, parameters);
+	ZVAL_STRING(_1, "maximum", 0);
+	ZEPHIR_RETURN_CALL_SELF("_groupresult", NULL, _0, _1, parameters);
+	zephir_check_temp_parameter(_0);
 	zephir_check_temp_parameter(_1);
-	zephir_check_temp_parameter(_2);
 	zephir_check_call_status();
 	RETURN_MM();
 
@@ -1682,8 +1679,7 @@ PHP_METHOD(Phalcon_Mvc_Model, maximum) {
 PHP_METHOD(Phalcon_Mvc_Model, minimum) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
-	zephir_nts_static zephir_fcall_cache_entry *_0 = NULL;
-	zval *parameters = NULL, *_1, *_2;
+	zval *parameters = NULL, *_0, *_1;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 1, &parameters);
@@ -1693,13 +1689,13 @@ PHP_METHOD(Phalcon_Mvc_Model, minimum) {
 	}
 
 
+	ZEPHIR_INIT_VAR(_0);
+	ZVAL_STRING(_0, "MIN", 0);
 	ZEPHIR_INIT_VAR(_1);
-	ZVAL_STRING(_1, "MIN", 0);
-	ZEPHIR_INIT_VAR(_2);
-	ZVAL_STRING(_2, "minimum", 0);
-	ZEPHIR_RETURN_CALL_SELF("_groupresult", &_0, _1, _2, parameters);
+	ZVAL_STRING(_1, "minimum", 0);
+	ZEPHIR_RETURN_CALL_SELF("_groupresult", NULL, _0, _1, parameters);
+	zephir_check_temp_parameter(_0);
 	zephir_check_temp_parameter(_1);
-	zephir_check_temp_parameter(_2);
 	zephir_check_call_status();
 	RETURN_MM();
 
@@ -1726,8 +1722,7 @@ PHP_METHOD(Phalcon_Mvc_Model, minimum) {
 PHP_METHOD(Phalcon_Mvc_Model, average) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
-	zephir_nts_static zephir_fcall_cache_entry *_0 = NULL;
-	zval *parameters = NULL, *_1, *_2;
+	zval *parameters = NULL, *_0, *_1;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 1, &parameters);
@@ -1737,13 +1732,13 @@ PHP_METHOD(Phalcon_Mvc_Model, average) {
 	}
 
 
+	ZEPHIR_INIT_VAR(_0);
+	ZVAL_STRING(_0, "AVG", 0);
 	ZEPHIR_INIT_VAR(_1);
-	ZVAL_STRING(_1, "AVG", 0);
-	ZEPHIR_INIT_VAR(_2);
-	ZVAL_STRING(_2, "average", 0);
-	ZEPHIR_RETURN_CALL_SELF("_groupresult", &_0, _1, _2, parameters);
+	ZVAL_STRING(_1, "average", 0);
+	ZEPHIR_RETURN_CALL_SELF("_groupresult", NULL, _0, _1, parameters);
+	zephir_check_temp_parameter(_0);
 	zephir_check_temp_parameter(_1);
-	zephir_check_temp_parameter(_2);
 	zephir_check_call_status();
 	RETURN_MM();
 
