@@ -1144,7 +1144,7 @@ PHP_METHOD(Phalcon_Mvc_View, exists) {
  */
 PHP_METHOD(Phalcon_Mvc_View, render){
 
-	zval *controller_name, *action_name, *params = NULL;
+	zval *namespace_name, *controller_name, *action_name, *params = NULL;
 	zval *disabled, *contents = NULL, *layouts_dir = NULL, *layout;
 	zval *layout_name = NULL, *engines = NULL, *pick_view, *render_view = NULL;
 	zval *pick_view_action, *cache = NULL, *cache_level;
@@ -1159,7 +1159,7 @@ PHP_METHOD(Phalcon_Mvc_View, render){
 
 	PHALCON_MM_GROW();
 
-	phalcon_fetch_params(1, 2, 1, &controller_name, &action_name, &params);
+	phalcon_fetch_params(1, 3, 1, &namespace_name, &controller_name, &action_name, &params);
 	
 	if (!params) {
 		params = PHALCON_GLOBAL(z_null);
@@ -1180,6 +1180,7 @@ PHP_METHOD(Phalcon_Mvc_View, render){
 		RETURN_MM_FALSE;
 	}
 	
+	phalcon_update_property_this(this_ptr, SL("_namespaceName"), namespace_name TSRMLS_CC);
 	phalcon_update_property_this(this_ptr, SL("_controllerName"), controller_name TSRMLS_CC);
 	phalcon_update_property_this(this_ptr, SL("_actionName"), action_name TSRMLS_CC);
 	phalcon_update_property_this(this_ptr, SL("_params"), params TSRMLS_CC);
@@ -1217,7 +1218,11 @@ PHP_METHOD(Phalcon_Mvc_View, render){
 	phalcon_read_property_this(&pick_view, this_ptr, SL("_pickView"), PH_NOISY TSRMLS_CC);
 	if (Z_TYPE_P(pick_view) == IS_NULL) {
 		PHALCON_INIT_VAR(render_view);
-		PHALCON_CONCAT_VSV(render_view, controller_name, "/", action_name);
+		if (zend_is_true(namespace_name)) {
+			PHALCON_CONCAT_VSVSV(render_view, namespace_name, "/", controller_name, "/", action_name);
+		} else {
+			PHALCON_CONCAT_VSV(render_view, controller_name, "/", action_name);
+		}
 	} else {
 		/** 
 		 * The 'picked' view is an array, where the first element is controller and the
@@ -1589,12 +1594,12 @@ PHP_METHOD(Phalcon_Mvc_View, partial){
  */
 PHP_METHOD(Phalcon_Mvc_View, getRender){
 
-	zval *controller_name, *action_name, *params = NULL;
+	zval *namespace_name, *controller_name, *action_name, *params = NULL;
 	zval *config_callback = NULL, *view, *status;
 
 	PHALCON_MM_GROW();
 
-	phalcon_fetch_params(1, 2, 2, &controller_name, &action_name, &params, &config_callback);
+	phalcon_fetch_params(1, 3, 2, &namespace_name, &controller_name, &action_name, &params, &config_callback);
 	
 	if (!params) {
 		PHALCON_INIT_VAR(params);
@@ -1646,7 +1651,7 @@ PHP_METHOD(Phalcon_Mvc_View, getRender){
 	/** 
 	 * Perform the render passing only the controller and action
 	 */
-	PHALCON_CALL_METHOD(NULL, view, "render", controller_name, action_name);
+	PHALCON_CALL_METHOD(NULL, view, "render", namespace_name, controller_name, action_name);
 	
 	/** 
 	 * Stop the output buffering
