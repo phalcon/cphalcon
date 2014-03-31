@@ -520,7 +520,7 @@ PHP_METHOD(Phalcon_DI_Service, getParameter){
 
 	/* Update the parameter */
 	if (
-		    phalcon_array_isset_string_fetch(&arguments, definition, SS("arguments"))
+			phalcon_array_isset_string_fetch(&arguments, definition, SS("arguments"))
 		 && phalcon_array_isset_fetch(&parameter, arguments, *position)
 	) {
 		RETURN_ZVAL(parameter, 1, 0);
@@ -553,7 +553,7 @@ PHP_METHOD(Phalcon_DI_Service, __set_state){
 	phalcon_fetch_params(0, 1, 0, &attributes);
 
 	if (
-		    !phalcon_array_isset_string_fetch(&name, attributes, SS("_name"))
+			!phalcon_array_isset_string_fetch(&name, attributes, SS("_name"))
 		 || !phalcon_array_isset_string_fetch(&definition, attributes, SS("_definition"))
 		 || !phalcon_array_isset_string_fetch(&shared, attributes, SS("_shared"))
 	) {

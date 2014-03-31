@@ -575,6 +575,7 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch){
 	zval *exception = NULL;
 	zval *dependency_injector, *events_manager, *tmp;
 	zval *handler_suffix, *action_suffix, *namespace_name, *handler_name, *action_name;
+	zval *camelized_namespace = NULL;
 	int number_dispatches = 0;
 
 	PHALCON_MM_GROW();
@@ -710,7 +711,9 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch){
 			if (phalcon_end_with_str(namespace_name, SL("\\"))) {
 				PHALCON_CONCAT_VVV(handler_class, namespace_name, camelized_class, handler_suffix);
 			} else {
-				PHALCON_CONCAT_VSVV(handler_class, namespace_name, "\\", camelized_class, handler_suffix);
+				PHALCON_INIT_VAR(camelized_namespace);
+				phalcon_camelize(camelized_namespace, namespace_name);
+				PHALCON_CONCAT_VSVV(handler_class, camelized_namespace, "\\", camelized_class, handler_suffix);
 			}
 		} else {
 			PHALCON_CONCAT_VV(handler_class, camelized_class, handler_suffix);
@@ -1097,6 +1100,7 @@ PHP_METHOD(Phalcon_Dispatcher, getHandlerClass){
 
 	zval *camelized_class = NULL;
 	zval *handler_suffix, *namespace_name, *handler_name;
+	zval *camelized_namespace;
 
 	PHALCON_MM_GROW();
 
@@ -1143,7 +1147,9 @@ PHP_METHOD(Phalcon_Dispatcher, getHandlerClass){
 		if (phalcon_end_with_str(namespace_name, SL("\\"))) {
 			PHALCON_CONCAT_VVV(return_value, namespace_name, camelized_class, handler_suffix);
 		} else {
-			PHALCON_CONCAT_VSVV(return_value, namespace_name, "\\", camelized_class, handler_suffix);
+			PHALCON_INIT_VAR(camelized_namespace);
+			phalcon_camelize(camelized_namespace, namespace_name);
+			PHALCON_CONCAT_VSVV(return_value, camelized_namespace, "\\", camelized_class, handler_suffix);
 		}
 	} else {
 		PHALCON_CONCAT_VV(return_value, camelized_class, handler_suffix);
