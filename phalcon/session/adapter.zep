@@ -141,10 +141,7 @@ abstract class Adapter
 	 */
 	public function has(string index) -> boolean
 	{
-		if isset _SESSION[this->_uniqueId . index] {
-			return true;
-		}
-		return false;
+		return isset _SESSION[this->_uniqueId . index];
 	}
 
 	/**
@@ -200,10 +197,8 @@ abstract class Adapter
 	 */
 	public function destroy() -> boolean
 	{
-		var destroyed;
-		let destroyed = session_destroy(),
-			this->_started = false;
-		return destroyed;
+		let this->_started = false;
+		return session_destroy();
 	}
 
 }

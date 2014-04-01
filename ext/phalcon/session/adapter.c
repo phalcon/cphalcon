@@ -244,10 +244,7 @@ PHP_METHOD(Phalcon_Session_Adapter, has) {
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_uniqueId"), PH_NOISY_CC);
 	ZEPHIR_INIT_VAR(_1);
 	ZEPHIR_CONCAT_VV(_1, _0, index);
-	if (zephir_array_isset(_SESSION, _1)) {
-		RETURN_MM_BOOL(1);
-	}
-	RETURN_MM_BOOL(0);
+	RETURN_MM_BOOL(zephir_array_isset(_SESSION, _1));
 
 }
 
@@ -329,14 +326,13 @@ PHP_METHOD(Phalcon_Session_Adapter, isStarted) {
 PHP_METHOD(Phalcon_Session_Adapter, destroy) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
-	zval *destroyed = NULL;
 
 	ZEPHIR_MM_GROW();
 
-	ZEPHIR_CALL_FUNCTION(&destroyed, "session_destroy", NULL);
-	zephir_check_call_status();
 	zephir_update_property_this(this_ptr, SL("_started"), (0) ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
-	RETURN_CCTOR(destroyed);
+	ZEPHIR_RETURN_CALL_FUNCTION("session_destroy", NULL);
+	zephir_check_call_status();
+	RETURN_MM();
 
 }
 

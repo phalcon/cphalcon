@@ -19,6 +19,7 @@
 #include "kernel/array.h"
 #include "kernel/hash.h"
 #include "kernel/exception.h"
+#include "kernel/filter.h"
 
 
 /*
@@ -295,6 +296,7 @@ PHP_METHOD(Phalcon_Escaper, escapeCss) {
 
 	ZEPHIR_CALL_METHOD(&_0, this_ptr, "normalizeencoding", NULL, css);
 	zephir_check_call_status();
+	zephir_escape_css(return_value, _0 TSRMLS_CC);
 	RETURN_MM();
 
 }
@@ -319,6 +321,7 @@ PHP_METHOD(Phalcon_Escaper, escapeJs) {
 
 	ZEPHIR_CALL_METHOD(&_0, this_ptr, "normalizeencoding", NULL, js);
 	zephir_check_call_status();
+	zephir_escape_css(return_value, _0 TSRMLS_CC);
 	RETURN_MM();
 
 }

@@ -60,12 +60,10 @@ class PhalconEscapeCssOptimizer extends OptimizerAbstract
 			$symbolVariable->initVariant($context);
 		}
 
-		$context->headersManager->add('kernel/array');
-
-		$symbolVariable->setDynamicTypes('array');
+		$context->headersManager->add('kernel/filter');
 
 		$resolvedParams = $call->getReadOnlyResolvedParams($expression['parameters'], $context, $expression);
-		//$context->codePrinter->output('zephir_fast_array_merge(' . $symbolVariable->getName() . ', &(' . $resolvedParams[0] . '), &(' . $resolvedParams[1] . ') TSRMLS_CC);');
+		$context->codePrinter->output('zephir_escape_css(' . $symbolVariable->getName() . ', ' . $resolvedParams[0] . ' TSRMLS_CC);');
 		return new CompiledExpression('variable', $symbolVariable->getRealName(), $expression);
 	}
 
