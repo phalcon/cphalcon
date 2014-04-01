@@ -142,8 +142,6 @@ PHP_METHOD(Phalcon_Http_Request_File, __construct){
 			PHALCON_CALL_FUNCTION(&extension, "pathinfo", name, constant);
 			phalcon_update_property_this(this_ptr, SL("_extension"), extension TSRMLS_CC);
 		}
-
-		
 	}
 	
 	if (phalcon_array_isset_string(file, SS("tmp_name"))) {
