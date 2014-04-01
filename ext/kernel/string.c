@@ -239,8 +239,14 @@ void phalcon_camelize(zval *return_value, const zval *str){
 
 	for (i = 0; i < len; i++) {
 		ch = *marker;
-		if (i == 0 || ch == '-' || ch == '_') {
+		if (i == 0 || ch == '-' || ch == '_' || ch == '\\') {
 			if (ch == '-' || ch == '_') {
+				i++;
+				marker++;
+			}
+
+			if (ch == '\\') {
+				smart_str_appendc(&camelize_str, *marker);
 				i++;
 				marker++;
 			}
