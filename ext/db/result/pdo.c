@@ -437,24 +437,33 @@ PHP_METHOD(Phalcon_Db_Result_Pdo, dataSeek){
 PHP_METHOD(Phalcon_Db_Result_Pdo, setFetchMode){
 
 
-	long fetch_mode;
-	zval *pdo_statement, *fetch_type;
+	zval *fetch_mode, *fetch_arg1 = NULL, *fetch_arg2 = NULL;
+	zval *pdo_statement;
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "l", &fetch_mode) == FAILURE) {
-		RETURN_MM_NULL();
-	}
+	phalcon_fetch_params(1, 1, 2, &fetch_mode, &fetch_arg1, &fetch_arg2);
 
-	PHALCON_INIT_VAR(fetch_type);
-	ZVAL_LONG(fetch_type, fetch_mode);
+	PHALCON_SEPARATE_PARAM(fetch_mode);
+	if (Z_TYPE_P(fetch_mode) != IS_LONG) {
+		convert_to_long(fetch_mode);
+	}
 
 	PHALCON_OBS_VAR(pdo_statement);
 	phalcon_read_property(&pdo_statement, this_ptr, SL("_pdoStatement"), PH_NOISY TSRMLS_CC);
 
-	if (Z_LVAL_P(fetch_type) != 0) {
-		PHALCON_CALL_METHOD(NULL, pdo_statement, "setfetchmode", fetch_type);
-		phalcon_update_property_long(this_ptr, SL("_fetchMode"), Z_LVAL_P(fetch_type) TSRMLS_CC);
+	if (Z_LVAL_P(fetch_mode) != 0) {
+		if (fetch_arg1 && fetch_arg2) {
+			PHALCON_CALL_METHOD(NULL, pdo_statement, "setfetchmode", fetch_mode, fetch_arg1, fetch_arg2);
+		} else if (fetch_arg1) {
+			PHALCON_CALL_METHOD(NULL, pdo_statement, "setfetchmode", fetch_mode, fetch_arg1);
+		} else if (fetch_arg2) {
+			PHALCON_CALL_METHOD(NULL, pdo_statement, "setfetchmode", fetch_mode, fetch_arg2);
+		} else {
+			PHALCON_CALL_METHOD(NULL, pdo_statement, "setfetchmode", fetch_mode);
+		}
+		
+		phalcon_update_property_long(this_ptr, SL("_fetchMode"), Z_LVAL_P(fetch_mode) TSRMLS_CC);
 	}
 
 	RETURN_MM_NULL();
