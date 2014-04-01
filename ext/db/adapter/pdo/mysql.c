@@ -216,17 +216,6 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Mysql, describeColumns){
 			}
 
 			/**
-			 * Tinyint(1) is boolean
-			 */
-			if (phalcon_memnstr_str(column_type, SL("tinyint(1)"))) {
-				phalcon_array_update_string_long(&definition, SL("type"), 8, 0);
-				phalcon_array_update_string_long(&definition, SL("bindType"), 5, 0);
-				PHALCON_INIT_NVAR(column_type);
-				ZVAL_STRING(column_type, "boolean", 1); // Change column type to skip size check.
-				break;
-			}
-
-			/**
 			 * Smallint/Bigint/Integers/Int are int
 			 */
 			if (phalcon_memnstr_str(column_type, SL("int"))) {
