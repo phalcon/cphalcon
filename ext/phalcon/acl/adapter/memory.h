@@ -18,7 +18,7 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, isAllowed);
 PHP_METHOD(Phalcon_Acl_Adapter_Memory, getRoles);
 PHP_METHOD(Phalcon_Acl_Adapter_Memory, getResources);
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_acl_adapter_memory_addrole, 0, 0, 2)
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_acl_adapter_memory_addrole, 0, 0, 1)
 	ZEND_ARG_INFO(0, role)
 	ZEND_ARG_INFO(0, accessInherits)
 ZEND_END_ARG_INFO()
