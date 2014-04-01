@@ -170,8 +170,8 @@ class Memory extends Adapter
 		}
 
 		let this->_roles[] = roleObject;
-		let this->_rolesNames[] = roleName;
-		let this->_access[] = roleName . "!*!*";
+		let this->_rolesNames[roleName] = true;
+		let this->_access[roleName . "!*!*"] = this->_defaultAccess;
 
 		if accessInherits != null {
 			return this->addInherit(roleName, accessInherits);
@@ -270,7 +270,7 @@ class Memory extends Adapter
 
 		if typeof resourceValue == "object" {
 			let resourceName   = resourceValue->getName();
-			let resourceObject = resourceObject;
+			let resourceObject = resourceValue;
 		 } else {
 			let resourceName   = resourceObject;
 			let resourceObject = new \Phalcon\Acl\Resource(resourceName);
@@ -292,7 +292,7 @@ class Memory extends Adapter
 	  */
 	 public function addResourceAccess(resourceName, accessList)
 	 {
-		var accessName, accessKey, resourcesNames, exists;
+		var accessName, accessKey, exists;
 
 		if !isset this->_resourcesNames[resourceName] {
 			throw new \Phalcon\Acl\Exception("Resource '" . resourceName . "' does not exist in ACL");
@@ -353,7 +353,7 @@ class Memory extends Adapter
 	 */
 	public function _allowOrDeny(roleName, resourceName, access, action)
 	{
-		var defaultAccess, accessList, accessName, accessKey, accessKeyAll;
+		var defaultAccess, accessList, accessName, accessKey, accessKeyAll, internalAccess;
 
 		if !isset this->_rolesNames[roleName] {
 			throw new \Phalcon\Acl\Exception("Role '" . roleName . "' does not exist in ACL");
@@ -364,7 +364,8 @@ class Memory extends Adapter
 		}
 
 		let defaultAccess = this->_defaultAccess;
-		let accessList = this->_access;
+		let accessList = this->_accessList;
+		let internalAccess = this->_access;
 
 		if typeof access == "array" {
 
@@ -479,21 +480,21 @@ class Memory extends Adapter
 	 }
 
 	 /**
-	 * Check whether a role is allowed to access an action from a resource
-	 *
-	 * <code>
-	 * //Does andres have access to the customers resource to create?
-	 * $acl->isAllowed('andres', 'Products', 'create');
-	 *
-	 * //Do guests have access to any resource to edit?
-	 * $acl->isAllowed('guests', '*', 'edit');
-	 * </code>
-	 *
-	 * @param  string roleName
-	 * @param  string resourceName
-	 * @param  string access
-	 * @return boolean
-	 */
+	  * Check whether a role is allowed to access an action from a resource
+	  *
+	  * <code>
+	  * //Does andres have access to the customers resource to create?
+	  * $acl->isAllowed('andres', 'Products', 'create');
+	  *
+	  * //Do guests have access to any resource to edit?
+	  * $acl->isAllowed('guests', '*', 'edit');
+	  * </code>
+	  *
+	  * @param  string roleName
+	  * @param  string resourceName
+	  * @param  string access
+	  * @return boolean
+	  */
 	 public function isAllowed(roleName, resourceName, access)
 	 {
 		var eventsManager, accessList, accessKey,

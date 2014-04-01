@@ -460,4 +460,6 @@ int zephir_fetch_parameters(int num_args TSRMLS_DC, int required_args, int optio
 #define ZEPHIR_DEBUG_PARAMS , const char *file, int line
 #endif
 
+#define ZEPHIR_CHECK_POINTER(v) if (!v) fprintf(stderr, "%s:%d\n", __PRETTY_FUNCTION__, __LINE__);
+
 #endif /* ZEPHIR_KERNEL_MAIN_H */
