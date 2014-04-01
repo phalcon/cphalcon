@@ -1743,7 +1743,7 @@ PHP_METHOD(Phalcon_Tag, setTitleSeparator) {
  */
 PHP_METHOD(Phalcon_Tag, appendTitle) {
 
-	zval *title_param = NULL;
+	zval *title_param = NULL, *_0, *_1, *_2;
 	zval *title = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -1752,7 +1752,11 @@ PHP_METHOD(Phalcon_Tag, appendTitle) {
 	zephir_get_strval(title, title_param);
 
 
-	zephir_update_static_property_ce(phalcon_tag_ce, SL("_documentTitle"), title TSRMLS_CC);
+	zephir_read_static_property_ce(&_0, phalcon_tag_ce, SL("_documentTitle") TSRMLS_CC);
+	zephir_read_static_property_ce(&_1, phalcon_tag_ce, SL("_documentTitleSeparator") TSRMLS_CC);
+	ZEPHIR_INIT_VAR(_2);
+	ZEPHIR_CONCAT_VVV(_2, _0, _1, title);
+	zephir_update_static_property_ce(phalcon_tag_ce, SL("_documentTitle"), _2 TSRMLS_CC);
 	ZEPHIR_MM_RESTORE();
 
 }
@@ -1764,7 +1768,7 @@ PHP_METHOD(Phalcon_Tag, appendTitle) {
  */
 PHP_METHOD(Phalcon_Tag, prependTitle) {
 
-	zval *title_param = NULL, *_0, *_1;
+	zval *title_param = NULL, *_0, *_1, *_2;
 	zval *title = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -1773,10 +1777,11 @@ PHP_METHOD(Phalcon_Tag, prependTitle) {
 	zephir_get_strval(title, title_param);
 
 
-	zephir_read_static_property_ce(&_0, phalcon_tag_ce, SL("_documentTitle") TSRMLS_CC);
-	ZEPHIR_INIT_VAR(_1);
-	ZEPHIR_CONCAT_VV(_1, title, _0);
-	zephir_update_static_property_ce(phalcon_tag_ce, SL("_documentTitle"), _1 TSRMLS_CC);
+	zephir_read_static_property_ce(&_0, phalcon_tag_ce, SL("_documentTitleSeparator") TSRMLS_CC);
+	zephir_read_static_property_ce(&_1, phalcon_tag_ce, SL("_documentTitle") TSRMLS_CC);
+	ZEPHIR_INIT_VAR(_2);
+	ZEPHIR_CONCAT_VVV(_2, title, _0, _1);
+	zephir_update_static_property_ce(phalcon_tag_ce, SL("_documentTitle"), _2 TSRMLS_CC);
 	ZEPHIR_MM_RESTORE();
 
 }
