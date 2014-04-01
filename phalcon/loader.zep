@@ -97,11 +97,8 @@ class Loader implements \Phalcon\Events\EventsAwareInterface
 	 * @param array extensions
 	 * @return Phalcon\Loader
 	 */
-	public function setExtensions(extensions) -> <\Phalcon\Loader>
+	public function setExtensions(array! extensions) -> <\Phalcon\Loader>
 	{
-		if typeof extensions != "array" {
-			throw new \Phalcon\Loader\Exception("Parameter extensions must be an array");
-		}
 		let this->_extensions = extensions;
 		return this;
 	}

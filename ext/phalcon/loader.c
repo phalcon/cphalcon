@@ -16,6 +16,7 @@
 #include "kernel/array.h"
 #include "kernel/object.h"
 #include "kernel/exception.h"
+#include "ext/spl/spl_exceptions.h"
 #include "kernel/operators.h"
 #include "kernel/fcall.h"
 #include "kernel/require.h"
@@ -23,7 +24,6 @@
 #include "kernel/string.h"
 #include "kernel/concat.h"
 #include "kernel/file.h"
-#include "ext/spl/spl_exceptions.h"
 
 
 /*
@@ -154,16 +154,18 @@ PHP_METHOD(Phalcon_Loader, getEventsManager) {
  */
 PHP_METHOD(Phalcon_Loader, setExtensions) {
 
-	zval *extensions;
+	zval *extensions_param = NULL;
+	zval *extensions = NULL;
 
-	zephir_fetch_params(0, 1, 0, &extensions);
-
-
+	zephir_fetch_params(0, 1, 0, &extensions_param);
 
 	if (Z_TYPE_P(extensions) != IS_ARRAY) {
-		ZEPHIR_THROW_EXCEPTION_STRW(phalcon_loader_exception_ce, "Parameter extensions must be an array");
-		return;
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'extensions' must be an array") TSRMLS_CC);
+		RETURN_NULL();
 	}
+
+
+
 	zephir_update_property_this(this_ptr, SL("_extensions"), extensions TSRMLS_CC);
 	RETURN_THISW();
 

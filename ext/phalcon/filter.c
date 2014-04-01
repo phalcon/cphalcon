@@ -22,6 +22,7 @@
 #include "kernel/array.h"
 #include "Zend/zend_closures.h"
 #include "kernel/string.h"
+#include "kernel/filter.h"
 #include "kernel/concat.h"
 
 
@@ -275,8 +276,7 @@ PHP_METHOD(Phalcon_Filter, _sanitize) {
 			RETURN_MM();
 		}
 		if (ZEPHIR_IS_STRING(filter, "alphanum")) {
-			ZEPHIR_RETURN_CALL_FUNCTION("phalcon_filter_alphanum", NULL, value);
-			zephir_check_call_status();
+			zephir_filter_alphanum(return_value, value);
 			RETURN_MM();
 		}
 		if (ZEPHIR_IS_STRING(filter, "trim")) {
