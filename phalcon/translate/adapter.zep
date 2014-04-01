@@ -20,14 +20,13 @@
 namespace Phalcon\Translate;
 
 use Phalcon\Translate\Exception;
-use Phalcon\Translate\AdapterInterface;
 
 /**
-* Phalcon\Translate\Adapter
-*
-* Base class for Phalcon\Translate adapters
-*/
-class Adapter implements AdapterInterface
+ * Phalcon\Translate\Adapter
+ *
+ * Base class for Phalcon\Translate adapters
+ */
+class Adapter
 {
 
 	/**
@@ -39,7 +38,7 @@ class Adapter implements AdapterInterface
 	 */
 	public function  t(string! translateKey, placeholders=null)
 	{
-		return this->query(translateKey, placeholders);
+		return this->{"query"}(translateKey, placeholders);
 	}
 
 	/**
@@ -61,7 +60,7 @@ class Adapter implements AdapterInterface
 	 */
 	public function offsetExists(string! translateKey) -> boolean
 	{
-		return this->exists(translateKey);
+		return this->{"exists"}(translateKey);
 	}
 
 	/**
@@ -82,7 +81,7 @@ class Adapter implements AdapterInterface
 	 */
 	public function offsetGet(string! translateKey)
 	{
-		return this->query(translateKey, null);
+		return this->{"query"}(translateKey, null);
 	}
 
 }

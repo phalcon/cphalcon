@@ -28,13 +28,6 @@ interface AdapterInterface
 {
 
 	/**
-	 * Phalcon\Translate\Adapter\NativeArray constructor
-	 *
-	 * @param array options
-	 */
-	public function __construct(options);
-
-	/**
 	 * Returns the translation string of the given key
 	 *
 	 * @param	string translateKey

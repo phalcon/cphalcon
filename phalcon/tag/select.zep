@@ -94,7 +94,7 @@ abstract class Select
 		let code = "<select";
 		if typeof params == "array" {
 			for key, avalue in params {
-				if typeof key != "array" && typeof avalue != "array" {
+				if typeof key != "integer" && typeof avalue != "array" {
 					let code .= " " . key . "=\"" . avalue . "\"";
 				}
 			}

@@ -87,7 +87,7 @@ PHP_METHOD(Phalcon_Tag_Select, selectField) {
 	ZEPHIR_OBS_VAR(id);
 	if (!(zephir_array_isset_long_fetch(&id, params, 0, 0 TSRMLS_CC))) {
 		zephir_array_fetch_string(&_0, params, SL("id"), PH_NOISY | PH_READONLY TSRMLS_CC);
-		zephir_array_update_long(&params, 0, &_0, PH_COPY | PH_SEPARATE, "phalcon/tag/select.zep", 48);
+		zephir_array_update_long(&params, 0, &_0, PH_COPY | PH_SEPARATE, "phalcon/tag/select.zep", 50);
 	}
 	ZEPHIR_OBS_VAR(name);
 	if (!(zephir_array_isset_string_fetch(&name, params, SS("name"), 0 TSRMLS_CC))) {
@@ -97,7 +97,7 @@ PHP_METHOD(Phalcon_Tag_Select, selectField) {
 			zephir_array_update_string(&params, SL("name"), &id, PH_COPY | PH_SEPARATE);
 		}
 	}
-	if (!(zephir_memnstr_str(id, SL("["), "phalcon/tag/select.zep", 62))) {
+	if (!(zephir_memnstr_str(id, SL("["), "phalcon/tag/select.zep", 64))) {
 		if (!(zephir_array_isset_string(params, SS("id")))) {
 			zephir_array_update_string(&params, SL("id"), &id, PH_COPY | PH_SEPARATE);
 		}
@@ -139,7 +139,7 @@ PHP_METHOD(Phalcon_Tag_Select, selectField) {
 		) {
 			ZEPHIR_GET_HMKEY(key, _3, _2);
 			ZEPHIR_GET_HVALUE(avalue, _4);
-			_5 = Z_TYPE_P(key) != IS_ARRAY;
+			_5 = Z_TYPE_P(key) != IS_LONG;
 			if (_5) {
 				_5 = Z_TYPE_P(avalue) != IS_ARRAY;
 			}
@@ -288,7 +288,7 @@ PHP_METHOD(Phalcon_Tag_Select, _optionsFromResultset) {
 					ZEPHIR_INIT_NVAR(params);
 					array_init(params);
 				}
-				zephir_array_update_long(&params, 0, &option, PH_COPY | PH_SEPARATE, "phalcon/tag/select.zep", 218);
+				zephir_array_update_long(&params, 0, &option, PH_COPY | PH_SEPARATE, "phalcon/tag/select.zep", 221);
 				ZEPHIR_INIT_NVAR(_2);
 				ZEPHIR_CALL_USER_FUNC_ARRAY(_2, using, params);
 				zephir_check_call_status();

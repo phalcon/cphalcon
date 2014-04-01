@@ -20,7 +20,6 @@
 #include "kernel/concat.h"
 #include "kernel/fcall.h"
 #include "kernel/string.h"
-#include "kernel/variables.h"
 
 
 /*
@@ -340,7 +339,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, readMetaData) {
 PHP_METHOD(Phalcon_Mvc_Model_MetaData, readMetaDataIndex) {
 
 	int index, ZEPHIR_LAST_CALL_STATUS;
-	zval *model, *index_param = NULL, *source = NULL, *schema = NULL, *key, *x, *_0, *_1, *_2, *_3, *_4, *_5 = NULL;
+	zval *model, *index_param = NULL, *source = NULL, *schema = NULL, *key, *_0, *_1, *_2, *_3, *_4;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &model, &index_param);
@@ -371,11 +370,8 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, readMetaDataIndex) {
 	}
 	_2 = zephir_fetch_nproperty_this(this_ptr, SL("_metaData"), PH_NOISY_CC);
 	zephir_array_fetch(&_3, _2, key, PH_NOISY | PH_READONLY TSRMLS_CC);
-	ZEPHIR_OBS_VAR(x);
-	zephir_array_fetch_long(&x, _3, index, PH_NOISY TSRMLS_CC);
-	ZEPHIR_CPY_WRT(_5, x);
-	zephir_var_dump(&_5 TSRMLS_CC);
-	RETURN_CCTOR(x);
+	zephir_array_fetch_long(&_4, _3, index, PH_NOISY | PH_READONLY TSRMLS_CC);
+	RETURN_CTOR(_4);
 
 }
 

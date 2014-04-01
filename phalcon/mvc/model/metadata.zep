@@ -289,9 +289,7 @@ abstract class MetaData implements \Phalcon\Di\InjectionAwareInterface
 			return this->_metaData[key][index];
 		}
 
-		let x = this->_metaData[key][index];
-		var_dump(x);
-		return x;
+		return this->_metaData[key][index];
 	}
 
 	/**

@@ -87,7 +87,7 @@ PHP_METHOD(Phalcon_Validation_Validator, __construct) {
  */
 PHP_METHOD(Phalcon_Validation_Validator, isSetOption) {
 
-	zval *key_param = NULL, *options;
+	zval *key_param = NULL, *_0;
 	zval *key = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -96,11 +96,8 @@ PHP_METHOD(Phalcon_Validation_Validator, isSetOption) {
 	zephir_get_strval(key, key_param);
 
 
-	options = zephir_fetch_nproperty_this(this_ptr, SL("_options"), PH_NOISY_CC);
-	if (Z_TYPE_P(options) == IS_ARRAY) {
-		RETURN_MM_BOOL(zephir_array_isset(options, key));
-	}
-	RETURN_MM_BOOL(0);
+	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_options"), PH_NOISY_CC);
+	RETURN_MM_BOOL(zephir_array_isset(_0, key));
 
 }
 

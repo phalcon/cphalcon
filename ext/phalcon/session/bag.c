@@ -369,7 +369,7 @@ PHP_METHOD(Phalcon_Session_Bag, has) {
  * var_dump(isset($user['name']));
  *</code>
  *
- * @param string $property
+ * @param string property
  * @return boolean
  */
 PHP_METHOD(Phalcon_Session_Bag, __isset) {
@@ -395,7 +395,7 @@ PHP_METHOD(Phalcon_Session_Bag, __isset) {
  * $user->remove('name');
  *</code>
  *
- * @param string $property
+ * @param string property
  * @return boolean
  */
 PHP_METHOD(Phalcon_Session_Bag, remove) {

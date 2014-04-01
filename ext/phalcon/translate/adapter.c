@@ -36,15 +36,14 @@
  +------------------------------------------------------------------------+
  */
 /**
-* Phalcon\Translate\Adapter
-*
-* Base class for Phalcon\Translate adapters
-*/
+ * Phalcon\Translate\Adapter
+ *
+ * Base class for Phalcon\Translate adapters
+ */
 ZEPHIR_INIT_CLASS(Phalcon_Translate_Adapter) {
 
-	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Translate, Adapter, phalcon, translate_adapter, phalcon_translate_adapter_nativearray_ce, phalcon_translate_adapter_method_entry, 0);
+	ZEPHIR_REGISTER_CLASS(Phalcon\\Translate, Adapter, phalcon, translate_adapter, phalcon_translate_adapter_method_entry, 0);
 
-	zend_class_implements(phalcon_translate_adapter_ce TSRMLS_CC, 1, phalcon_translate_adapterinterface_ce);
 	return SUCCESS;
 
 }

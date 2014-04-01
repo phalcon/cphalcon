@@ -43,13 +43,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Translate_AdapterInterface) {
 }
 
 /**
- * Phalcon\Translate\Adapter\NativeArray constructor
- *
- * @param array options
- */
-ZEPHIR_DOC_METHOD(Phalcon_Translate_AdapterInterface, __construct);
-
-/**
  * Returns the translation string of the given key
  *
  * @param	string translateKey

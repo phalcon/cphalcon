@@ -40,14 +40,13 @@
  +------------------------------------------------------------------------+
  */
 /**
-* Phalcon\Translate\Adapter\NativeArray
-*
-* Allows to define translation lists using PHP arrays
-*
-*/
+ * Phalcon\Translate\Adapter\NativeArray
+ *
+ * Allows to define translation lists using PHP arrays
+ */
 ZEPHIR_INIT_CLASS(Phalcon_Translate_Adapter_NativeArray) {
 
-	ZEPHIR_REGISTER_CLASS(Phalcon\\Translate\\Adapter, NativeArray, phalcon, translate_adapter_nativearray, phalcon_translate_adapter_nativearray_method_entry, 0);
+	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Translate\\Adapter, NativeArray, phalcon, translate_adapter_nativearray, phalcon_translate_adapter_ce, phalcon_translate_adapter_nativearray_method_entry, 0);
 
 	zend_declare_property_null(phalcon_translate_adapter_nativearray_ce, SL("_translate"), ZEND_ACC_PROTECTED TSRMLS_CC);
 

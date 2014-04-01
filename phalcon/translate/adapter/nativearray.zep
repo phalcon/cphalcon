@@ -19,6 +19,9 @@
 
 namespace Phalcon\Translate\Adapter;
 
+use Phalcon\Translate\Exception;
+use Phalcon\Translate\AdapterInterface;
+
 /**
  * Phalcon\Translate\Adapter\NativeArray
  *
@@ -39,15 +42,15 @@ class NativeArray extends \Phalcon\Translate\Adapter
 		var data;
 
 		if typeof options != "array" {
-			throw new \Phalcon\Translate\Exception("Invalid options");
+			throw new Exception("Invalid options");
 		}
 
 		if !fetch data, options["content"] {
-			throw new \Phalcon\Translate\Exception("Translation content was not provided");
+			throw new Exception("Translation content was not provided");
 		}
 
 		if typeof data != "array" {
-			throw new \Phalcon\Translate\Exception("Translation data must be an array");
+			throw new Exception("Translation data must be an array");
 		}
 
 		let this->_translate = data;

@@ -60,7 +60,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Db_Adapter) {
 	/**
 	 * Descriptor used to connect to a database
 	 *
-	 * @var stdClass
+	 * @var stdClassxcvb
 	 */
 	zend_declare_property_null(phalcon_db_adapter_ce, SL("_descriptor"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
@@ -551,7 +551,6 @@ PHP_METHOD(Phalcon_Db_Adapter, insert) {
  */
 PHP_METHOD(Phalcon_Db_Adapter, update) {
 
-	zephir_fcall_cache_entry *_5 = NULL;
 	int ZEPHIR_LAST_CALL_STATUS;
 	HashTable *_1;
 	HashPosition _0;
@@ -645,13 +644,11 @@ PHP_METHOD(Phalcon_Db_Adapter, update) {
 			}
 			ZEPHIR_OBS_VAR(whereBind);
 			if (zephir_array_isset_string_fetch(&whereBind, whereCondition, SS("bind"), 0 TSRMLS_CC)) {
-				ZEPHIR_CALL_FUNCTION(NULL, "merge_append", &_5, updateValues, whereBind);
-				zephir_check_call_status();
+				zephir_merge_append(updateValues, whereBind TSRMLS_CC);
 			}
 			ZEPHIR_OBS_VAR(whereTypes);
 			if (zephir_array_isset_string_fetch(&whereTypes, whereCondition, SS("bindTypes"), 0 TSRMLS_CC)) {
-				ZEPHIR_CALL_FUNCTION(NULL, "merge_append", &_5, bindDataTypes, whereTypes);
-				zephir_check_call_status();
+				zephir_merge_append(bindDataTypes, whereTypes TSRMLS_CC);
 			}
 		}
 	} else {
