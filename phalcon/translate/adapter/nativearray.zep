@@ -20,21 +20,20 @@
 namespace Phalcon\Translate\Adapter;
 
 /**
-* Phalcon\Translate\Adapter\NativeArray
-*
-* Allows to define translation lists using PHP arrays
-*
-*/
-class NativeArray
+ * Phalcon\Translate\Adapter\NativeArray
+ *
+ * Allows to define translation lists using PHP arrays
+ */
+class NativeArray extends \Phalcon\Translate\Adapter
 {
 
 	protected _translate;
 
 	/**
-	* Phalcon\Translate\Adapter\NativeArray constructor
-	*
-	* @param array options
-	*/
+	 * Phalcon\Translate\Adapter\NativeArray constructor
+	 *
+	 * @param array options
+	 */
 	public function __construct(options)
 	{
 		var data;
@@ -55,13 +54,13 @@ class NativeArray
 	}
 
 	/**
-	* Returns the translation related to the given key
-	*
-	* @param string  index
-	* @param array   placeholders
-	* @return string
-	*/
-	public function query(string! index, placeholders=null)
+	 * Returns the translation related to the given key
+	 *
+	 * @param string  index
+	 * @param array   placeholders
+	 * @return string
+	 */
+	public function query(string! index, placeholders=null) -> string
 	{
 		var traslation, key, value;
 
@@ -79,12 +78,12 @@ class NativeArray
 	}
 
 	/**
-	* Check whether is defined a translation key in the internal array
-	*
-	* @param    string index
-	* @return   bool
-	*/
-	public function exists(string! index)
+	 * Check whether is defined a translation key in the internal array
+	 *
+	 * @param    string index
+	 * @return   bool
+	 */
+	public function exists(string! index) -> boolean
 	{
 		return isset this->_translate[index];
 	}

@@ -19,12 +19,15 @@
 
 namespace Phalcon\Translate;
 
+use Phalcon\Translate\Exception;
+use Phalcon\Translate\AdapterInterface;
+
 /**
 * Phalcon\Translate\Adapter
 *
 * Base class for Phalcon\Translate adapters
 */
-class Adapter extends \Phalcon\Translate\Adapter\NativeArray implements \Phalcon\Translate\AdapterInterface
+class Adapter implements AdapterInterface
 {
 
 	/**
@@ -47,7 +50,7 @@ class Adapter extends \Phalcon\Translate\Adapter\NativeArray implements \Phalcon
 	 */
 	public function offsetSet(offset, value)
 	{
-		throw new \Phalcon\Translate\Exception("Translate is an immutable ArrayAccess object");
+		throw new Exception("Translate is an immutable ArrayAccess object");
 	}
 
 	/**
@@ -68,7 +71,7 @@ class Adapter extends \Phalcon\Translate\Adapter\NativeArray implements \Phalcon
 	 */
 	public function offsetUnset()
 	{
-		throw new \Phalcon\Translate\Exception("Translate is an immutable ArrayAccess object");
+		throw new Exception("Translate is an immutable ArrayAccess object");
 	}
 
 	/**

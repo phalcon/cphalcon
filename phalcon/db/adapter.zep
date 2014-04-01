@@ -1,4 +1,4 @@
-
+`''
 /*
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
@@ -37,7 +37,7 @@ abstract class Adapter implements \Phalcon\Events\EventsAwareInterface
 	/**
 	 * Descriptor used to connect to a database
 	 *
-	 * @var stdClass
+	 * @var stdClassxcvb
 	 */
 	protected _descriptor;
 

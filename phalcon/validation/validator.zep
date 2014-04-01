@@ -18,6 +18,8 @@
 
 namespace Phalcon\Validation;
 
+use Phalcon\Validation\Exception;
+
 /**
  * Phalcon\Validation\Validator
  *
@@ -36,7 +38,7 @@ class Validator
 	{
 		if typeof options != "array" {
 			if typeof options != "null" {
-				throw new \Phalcon\Validation\Exception("Options must be an array");
+				throw new Exception("Options must be an array");
 			}
 		} else {
 			let this->_options = options;
@@ -51,12 +53,7 @@ class Validator
 	 */
 	public function isSetOption(string key)
 	{
-		var options;
-		let options = this->_options;
-		if typeof options == "array" {
-			return isset options[key];
-		}
-		return false;
+		return isset this->_options[key];
 	}
 
 	/**

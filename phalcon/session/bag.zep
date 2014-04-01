@@ -230,7 +230,7 @@ class Bag implements \Phalcon\Di\InjectionAwareInterface, \Phalcon\Session\BagIn
 	 * var_dump(isset($user['name']));
 	 *</code>
 	 *
-	 * @param string $property
+	 * @param string property
 	 * @return boolean
 	 */
 	public function __isset(property) -> boolean
@@ -245,10 +245,10 @@ class Bag implements \Phalcon\Di\InjectionAwareInterface, \Phalcon\Session\BagIn
 	 * $user->remove('name');
 	 *</code>
 	 *
-	 * @param string $property
+	 * @param string property
 	 * @return boolean
 	 */
-	public function remove($property) -> boolean
+	public function remove(property) -> boolean
 	{
 		if isset this->_data[property] {
 			unset this->_data[property];

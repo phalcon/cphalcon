@@ -19,6 +19,8 @@
 
 namespace Phalcon\Tag;
 
+use Phalcon\Tag\Exception;
+
 /**
  * Phalcon\Tag\Select
  *
@@ -118,10 +120,10 @@ abstract class Select
 			 * The options is a resultset
 			 */
 			if !fetch using, params["using"] {
-				throw new \Phalcon\Tag\Exception("The \"using\" parameter is required");
+				throw new Exception("The \"using\" parameter is required");
 			} else {
 				if typeof using != "array" && typeof using != "object" {
-					throw new \Phalcon\Tag\Exception("The \"using\" parameter should be an Array");
+					throw new Exception("The \"using\" parameter should be an Array");
 				}
 			}
 
@@ -131,12 +133,13 @@ abstract class Select
 			let code .= self::_optionsFromResultset(options, using, value, closeOption);
 		} else {
 			if typeof options == "array" {
+
 				/**
 				 * Create the SELECT"s option from an array
 				 */
 				let code .= self::_optionsFromArray(options, value, closeOption);
 			} else {
-				throw new \Phalcon\Tag\Exception("Invalid data provided to SELECT helper");
+				throw new Exception("Invalid data provided to SELECT helper");
 			}
 		}
 
@@ -186,7 +189,7 @@ abstract class Select
 						let optionValue = option[usingZero];
 						let optionText = option[usingOne];
 					} else {
-						throw new \Phalcon\Tag\Exception("Resultset returned an invalid value");
+						throw new Exception("Resultset returned an invalid value");
 					}
 				}
 
