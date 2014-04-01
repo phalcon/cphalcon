@@ -1097,7 +1097,7 @@ class Tag
 	 */
 	public static function appendTitle(string title)
 	{
-		let self::_documentTitle .= title;
+		let self::_documentTitle = self::_documentTitle . self::_documentTitleSeparator . title;
 	}
 
 	/**
@@ -1107,7 +1107,7 @@ class Tag
 	 */
 	public static function prependTitle(string title)
 	{
-		let self::_documentTitle = title . self::_documentTitle;
+		let self::_documentTitle = title . self::_documentTitleSeparator . self::_documentTitle;
 	}
 
 	/**
