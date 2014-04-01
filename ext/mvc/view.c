@@ -1218,7 +1218,7 @@ PHP_METHOD(Phalcon_Mvc_View, render){
 	phalcon_read_property_this(&pick_view, this_ptr, SL("_pickView"), PH_NOISY TSRMLS_CC);
 	if (Z_TYPE_P(pick_view) == IS_NULL) {
 		PHALCON_INIT_VAR(render_view);
-		if (zend_is_true(namespace_name)) {
+		if (!PHALCON_IS_EMPTY(namespace_name)) {
 			PHALCON_CONCAT_VSVSV(render_view, namespace_name, "/", controller_name, "/", action_name);
 		} else {
 			PHALCON_CONCAT_VSV(render_view, controller_name, "/", action_name);
