@@ -436,7 +436,6 @@ PHP_METHOD(Phalcon_Db_Result_Pdo, dataSeek){
  */
 PHP_METHOD(Phalcon_Db_Result_Pdo, setFetchMode){
 
-
 	zval *fetch_mode, *fetch_arg1 = NULL, *fetch_arg2 = NULL;
 	zval *pdo_statement;
 
