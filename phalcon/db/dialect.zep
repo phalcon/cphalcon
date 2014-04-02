@@ -280,7 +280,7 @@ abstract class Dialect
 	 * @param string escapeChar
 	 * @return string
 	 */
-	public function getSqlTable(table, string escapeChar=null) -> string
+	public final function getSqlTable(table, string escapeChar=null) -> string
 	{
 		var sqlTable, sqlSchema, aliasName, sqlTableAlias,
 			schemaName, tableName;
@@ -307,7 +307,7 @@ abstract class Dialect
 			 */
 			let schemaName = table[1];
 
-			if typeof schemaName != "array" {
+			if schemaName != null && schemaName != "" {
 				if globals_get("db.escape_identifiers") {
 					let sqlSchema = escapeChar . schemaName . escapeChar . "." . sqlTable;
 				} else {

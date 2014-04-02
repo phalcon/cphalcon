@@ -2812,10 +2812,10 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compileString) {
  */
 PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compileFile) {
 
-	zephir_nts_static zephir_fcall_cache_entry *_2 = NULL, *_3 = NULL;
+	zephir_nts_static zephir_fcall_cache_entry *_2 = NULL, *_3 = NULL, *_5 = NULL;
 	int ZEPHIR_LAST_CALL_STATUS;
 	zend_bool extendsMode;
-	zval *path_param = NULL, *compiledPath_param = NULL, *extendsMode_param = NULL, *viewCode, *compilation = NULL, *finalCompilation = NULL, *_0 = NULL, *_4;
+	zval *path_param = NULL, *compiledPath_param = NULL, *extendsMode_param = NULL, *viewCode, *compilation = NULL, *finalCompilation = NULL, *_0 = NULL, *_4 = NULL;
 	zval *path = NULL, *compiledPath = NULL, *_1 = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -2887,8 +2887,8 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compileFile) {
 	} else {
 		ZEPHIR_CPY_WRT(finalCompilation, compilation);
 	}
-	ZEPHIR_INIT_VAR(_4);
-	zephir_file_put_contents(_4, compiledPath, finalCompilation TSRMLS_CC);
+	ZEPHIR_CALL_FUNCTION(&_4, "file_put_contents", &_5, compiledPath, finalCompilation);
+	zephir_check_call_status();
 	if (ZEPHIR_IS_FALSE(_4)) {
 		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_view_exception_ce, "Volt directory can't be written", "phalcon/mvc/view/engine/volt/compiler.zep", 2477);
 		return;

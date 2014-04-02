@@ -21,6 +21,7 @@
 #include "kernel/operators.h"
 #include "kernel/exception.h"
 #include "kernel/variables.h"
+#include "kernel/fcall.h"
 #include "ext/spl/spl_exceptions.h"
 
 
@@ -130,7 +131,9 @@ PHP_METHOD(Phalcon_Annotations_Adapter_Files, read) {
  */
 PHP_METHOD(Phalcon_Annotations_Adapter_Files, write) {
 
-	zval *key_param = NULL, *data, *path, *_0, *_1, _2, *_3, *_4, *_5;
+	int ZEPHIR_LAST_CALL_STATUS;
+	zephir_nts_static zephir_fcall_cache_entry *_6 = NULL;
+	zval *key_param = NULL, *data, *path, *_0, *_1, _2, *_3, *_4, *_5 = NULL;
 	zval *key = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -161,12 +164,12 @@ PHP_METHOD(Phalcon_Annotations_Adapter_Files, write) {
 	ZEPHIR_INIT_VAR(path);
 	ZEPHIR_CONCAT_VVS(path, _0, _1, ".php");
 	ZEPHIR_INIT_VAR(_3);
+	zephir_var_export_ex(_3, &(data) TSRMLS_CC);
 	ZEPHIR_INIT_VAR(_4);
-	zephir_var_export_ex(_4, &(data) TSRMLS_CC);
-	ZEPHIR_INIT_VAR(_5);
-	ZEPHIR_CONCAT_SVS(_5, "<?php return ", _4, "; ");
-	zephir_file_put_contents(_3, path, _5 TSRMLS_CC);
-	if (ZEPHIR_IS_FALSE(_3)) {
+	ZEPHIR_CONCAT_SVS(_4, "<?php return ", _3, "; ");
+	ZEPHIR_CALL_FUNCTION(&_5, "file_put_contents", &_6, path, _4);
+	zephir_check_call_status();
+	if (ZEPHIR_IS_FALSE(_5)) {
 		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_annotations_exception_ce, "Annotations directory cannot be written", "phalcon/annotations/adapter/files.zep", 90);
 		return;
 	}

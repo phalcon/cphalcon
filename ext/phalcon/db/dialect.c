@@ -416,6 +416,7 @@ PHP_METHOD(Phalcon_Db_Dialect, getSqlExpression) {
  */
 PHP_METHOD(Phalcon_Db_Dialect, getSqlTable) {
 
+	zend_bool _2;
 	zval *escapeChar = NULL, *_1 = NULL;
 	zval *table, *escapeChar_param = NULL, *sqlTable = NULL, *sqlSchema = NULL, *aliasName, *sqlTableAlias = NULL, *schemaName, *tableName, *_0;
 
@@ -447,7 +448,11 @@ PHP_METHOD(Phalcon_Db_Dialect, getSqlTable) {
 		}
 		ZEPHIR_OBS_VAR(schemaName);
 		zephir_array_fetch_long(&schemaName, table, 1, PH_NOISY TSRMLS_CC);
-		if (Z_TYPE_P(schemaName) != IS_ARRAY) {
+		_2 = Z_TYPE_P(schemaName) != IS_NULL;
+		if (_2) {
+			_2 = !ZEPHIR_IS_STRING(schemaName, "");
+		}
+		if (_2) {
 			ZEPHIR_INIT_VAR(sqlSchema);
 			if (ZEPHIR_GLOBAL(db).escape_identifiers) {
 				ZEPHIR_CONCAT_VVVSV(sqlSchema, escapeChar, schemaName, escapeChar, ".", sqlTable);
@@ -486,8 +491,7 @@ PHP_METHOD(Phalcon_Db_Dialect, getSqlTable) {
  */
 PHP_METHOD(Phalcon_Db_Dialect, select) {
 
-	zephir_fcall_cache_entry *_8 = NULL;
-	zephir_nts_static zephir_fcall_cache_entry *_3 = NULL;
+	zephir_nts_static zephir_fcall_cache_entry *_3 = NULL, *_8 = NULL;
 	int ZEPHIR_LAST_CALL_STATUS;
 	HashTable *_1, *_5, *_10, *_15, *_21, *_25;
 	HashPosition _0, _4, _9, _14, _20, _24;

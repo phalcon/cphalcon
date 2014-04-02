@@ -526,7 +526,7 @@ PHP_METHOD(Phalcon_Assets_Manager, output) {
 	zephir_fcall_cache_entry *_7 = NULL, *_9 = NULL, *_10 = NULL;
 	HashTable *_5, *_13;
 	HashPosition _4, _12;
-	zephir_nts_static zephir_fcall_cache_entry *_3 = NULL;
+	zephir_nts_static zephir_fcall_cache_entry *_3 = NULL, *_15 = NULL;
 	int ZEPHIR_LAST_CALL_STATUS;
 	zend_bool filterNeeded;
 	zval *collection, *callback, *type = NULL, *output, *resources = NULL, *filters = NULL, *prefix = NULL, *sourceBasePath = NULL, *targetBasePath = NULL, *options, *collectionSourcePath = NULL, *completeSourcePath = NULL, *collectionTargetPath = NULL, *completeTargetPath = NULL, *filteredJoinedContent = NULL, *join = NULL, *resource = NULL, *local = NULL, *sourcePath = NULL, *targetPath = NULL, *path = NULL, *prefixedPath = NULL, *attributes = NULL, *parameters = NULL, *html = NULL, *useImplicitOutput, *content = NULL, *mustFilter = NULL, *filter = NULL, *filteredContent = NULL, *typeCss, *targetUri = NULL, *_0 = NULL, *_1 = NULL, *_2 = NULL, **_6, *_8 = NULL, *_11 = NULL, **_14;
@@ -763,7 +763,8 @@ PHP_METHOD(Phalcon_Assets_Manager, output) {
 				}
 			}
 			if (!(zephir_is_true(join))) {
-				zephir_file_put_contents(NULL, targetPath, filteredContent TSRMLS_CC);
+				ZEPHIR_CALL_FUNCTION(NULL, "file_put_contents", &_15, targetPath, filteredContent);
+				zephir_check_call_status();
 			}
 		}
 		if (!(zephir_is_true(join))) {
@@ -800,7 +801,8 @@ PHP_METHOD(Phalcon_Assets_Manager, output) {
 	}
 	if (Z_TYPE_P(filters) == IS_ARRAY) {
 		if (ZEPHIR_IS_TRUE(join)) {
-			zephir_file_put_contents(NULL, completeTargetPath, filteredJoinedContent TSRMLS_CC);
+			ZEPHIR_CALL_FUNCTION(NULL, "file_put_contents", &_15, completeTargetPath, filteredJoinedContent);
+			zephir_check_call_status();
 			ZEPHIR_CALL_METHOD(&targetUri, collection, "gettargeturi",  NULL);
 			zephir_check_call_status();
 			if (zephir_is_true(prefix)) {

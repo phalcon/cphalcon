@@ -19,6 +19,8 @@
 
 namespace Phalcon\Cache\Backend;
 
+use Phalcon\Cache\Exception;
+
 /**
  * Phalcon\Cache\Backend\File
  *
@@ -62,7 +64,7 @@ class File extends \Phalcon\Cache\Backend implements \Phalcon\Cache\BackendInter
 	public function __construct(<\Phalcon\Cache\FrontendInterface> frontend, options=null)
 	{
 		if !isset options["cacheDir"] {
-			throw new \Phalcon\Cache\Exception("Cache directory must be specified with the option cacheDir");
+			throw new Exception("Cache directory must be specified with the option cacheDir");
 		}
 
 		parent::__construct(frontend, options);
@@ -88,7 +90,7 @@ class File extends \Phalcon\Cache\Backend implements \Phalcon\Cache\BackendInter
 		let this->_lastKey = prefixedKey;
 
 		if !fetch cacheDir, options["cacheDir"] {
-			throw new \Phalcon\Cache\Exception("Unexpected inconsistency in options");
+			throw new Exception("Unexpected inconsistency in options");
 		}
 
 		let cacheFile = cacheDir . prefixedKey;
@@ -129,7 +131,7 @@ class File extends \Phalcon\Cache\Backend implements \Phalcon\Cache\BackendInter
 				 */
 				let cachedContent = file_get_contents(cacheFile);
 				if !cachedContent {
-					throw new \Phalcon\Cache\Exception("Cache file ". cacheFile. " could not be opened");
+					throw new Exception("Cache file ". cacheFile. " could not be opened");
 				}
 
 				if is_numeric(cachedContent) {
@@ -163,13 +165,13 @@ class File extends \Phalcon\Cache\Backend implements \Phalcon\Cache\BackendInter
 		}
 
 		if !lastKey {
-			throw new \Phalcon\Cache\Exception("The cache must be started first");
+			throw new Exception("The cache must be started first");
 		}
 
 		let frontend = this->_frontend;
 
 		if !fetch cacheDir, this->_options["cacheDir"] {
-			throw new \Phalcon\Cache\Exception("Unexpected inconsistency in options");
+			throw new Exception("Unexpected inconsistency in options");
 		}
 
 		let cacheFile = cacheDir . lastKey;
@@ -191,8 +193,8 @@ class File extends \Phalcon\Cache\Backend implements \Phalcon\Cache\BackendInter
 			let status = file_put_contents(cacheFile, cachedContent);
 		}
 
-		if !status {
-			throw new \Phalcon\Cache\Exception("Cache directory is not writable");
+		if status === false {
+			throw new Exception("Cache file ". cacheFile. " could not be written");
 		}
 
 		let isBuffering = frontend->isBuffering();
@@ -218,14 +220,11 @@ class File extends \Phalcon\Cache\Backend implements \Phalcon\Cache\BackendInter
 	{
 		var prefix, prefixedKey, cacheFile, cacheDir;
 
-		let prefix = this->_prefix;
-		let prefixedKey = prefix . keyName;
-
 		if !fetch cacheDir, this->_options["cacheDir"] {
-			throw new \Phalcon\Cache\Exception("Unexpected inconsistency in options");
+			throw new Exception("Unexpected inconsistency in options");
 		}
 
-		let cacheFile = cacheDir . prefixedKey;
+		let cacheFile = cacheDir . this->_prefix . keyName;
 		if file_exists(cacheFile) {
 			return unlink(cacheFile);
 		}
@@ -244,7 +243,7 @@ class File extends \Phalcon\Cache\Backend implements \Phalcon\Cache\BackendInter
 		var item, key, ret, cacheDir;
 
 		if !fetch cacheDir, this->_options["cacheDir"] {
-			throw new \Phalcon\Cache\Exception("Unexpected inconsistency in options");
+			throw new Exception("Unexpected inconsistency in options");
 		}
 
 		/**
@@ -354,14 +353,14 @@ class File extends \Phalcon\Cache\Backend implements \Phalcon\Cache\BackendInter
 				let cachedContent = file_get_contents(cacheFile);
 
 				if !cachedContent {
-					throw new \Phalcon\Cache\Exception("Cache file " . cacheFile . " could not be opened");
+					throw new Exception("Cache file " . cacheFile . " could not be opened");
 				}
 
 				if is_numeric(cachedContent) {
 
 					let result = value + cachedContent;
 					if !file_put_contents(cacheFile, result) {
-						throw new \Phalcon\Cache\Exception("Cache directory can't be written");
+						throw new Exception("Cache directory can't be written");
 					}
 
 					return result;
@@ -414,7 +413,7 @@ class File extends \Phalcon\Cache\Backend implements \Phalcon\Cache\BackendInter
 				let cachedContent = file_get_contents(cacheFile);
 
 				if !cachedContent {
-					throw new \Phalcon\Cache\Exception("Cache file " . cacheFile . " could not be opened");
+					throw new Exception("Cache file " . cacheFile . " could not be opened");
 				}
 
 				if is_numeric(cachedContent) {
@@ -423,7 +422,7 @@ class File extends \Phalcon\Cache\Backend implements \Phalcon\Cache\BackendInter
 					let status = file_put_contents(cacheFile, result);
 
 					if !status {
-						throw new \Phalcon\Cache\Exception("Cache directory can't be written");
+						throw new Exception("Cache directory can't be written");
 					}
 
 					return result;

@@ -478,7 +478,7 @@ class Request implements \Phalcon\Http\RequestInterface, \Phalcon\Di\InjectionAw
 		let address = null;
 
 		/**
-		 * Proxies uses this IP</comment>
+		 * Proxies uses this IP
 		 */
 		if trustForwardedHeader {
 			fetch address, _SERVER["HTTP_X_FORWARDED_FOR"];

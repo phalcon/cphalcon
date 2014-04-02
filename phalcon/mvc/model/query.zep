@@ -2742,7 +2742,7 @@ class Query implements \Phalcon\Mvc\Model\QueryInterface, \Phalcon\Di\InjectionA
 				case PHQL_T_NPLACEHOLDER:
 				case PHQL_T_SPLACEHOLDER:
 
-					if typeof bindParams == "array" {
+					if typeof bindParams != "array" {
 						throw new Exception("Bound parameter cannot be replaced because placeholders is not an array");
 					}
 
@@ -2971,7 +2971,7 @@ class Query implements \Phalcon\Mvc\Model\QueryInterface, \Phalcon\Di\InjectionA
 			/**
 			 * The user must set a cache key
 			 */
-			if fetch key, cacheOptions["key"] {
+			if !fetch key, cacheOptions["key"] {
 				throw new Exception("A cache key must be provided to identify the cached resultset in the cache backend");
 			}
 

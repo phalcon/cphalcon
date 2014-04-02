@@ -3162,7 +3162,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _executeUpdate) {
 				break;
 			}
 			if (ZEPHIR_IS_LONG(_5, 273) || ZEPHIR_IS_LONG(_5, 274)) {
-				if (Z_TYPE_P(bindParams) == IS_ARRAY) {
+				if (Z_TYPE_P(bindParams) != IS_ARRAY) {
 					ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_model_exception_ce, "Bound parameter cannot be replaced because placeholders is not an array", "phalcon/mvc/model/query.zep", 2746);
 					return;
 				}
@@ -3448,7 +3448,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, execute) {
 			return;
 		}
 		ZEPHIR_OBS_VAR(key);
-		if (zephir_array_isset_string_fetch(&key, cacheOptions, SS("key"), 0 TSRMLS_CC)) {
+		if (!(zephir_array_isset_string_fetch(&key, cacheOptions, SS("key"), 0 TSRMLS_CC))) {
 			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_model_exception_ce, "A cache key must be provided to identify the cached resultset in the cache backend", "phalcon/mvc/model/query.zep", 2975);
 			return;
 		}

@@ -204,12 +204,10 @@ class Memory extends \Phalcon\Cache\Backend implements \Phalcon\Cache\BackendInt
 			let this->_lastKey = lastKey;
 		}
 
-		let data = this->_data;
-		if !isset data[lastKey] {
+		if !fetch cachedContent, this->_data[lastKey] {
 			return null;
 		}
 
-		let cachedContent = data[lastKey];
 		if !cachedContent {
 			return null;
 		}
@@ -225,12 +223,12 @@ class Memory extends \Phalcon\Cache\Backend implements \Phalcon\Cache\BackendInt
 	}
 
 	/**
-	* Decrement of $keyName by given $value
-	*
-	* @param  string $keyName
-	* @param  long $value
-	* @return long
-	*/
+	 * Decrement of $keyName by given $value
+	 *
+	 * @param  string $keyName
+	 * @param  long $value
+	 * @return long
+	 */
 	public function decrement(keyName=null, value=null)
 	{
 		var lastKey, prefix, data, cachedContent, result;
@@ -239,15 +237,14 @@ class Memory extends \Phalcon\Cache\Backend implements \Phalcon\Cache\BackendInt
 			let lastKey = this->_lastKey;
 		} else {
 			let prefix = this->_prefix;
-			let this->_lastKey = prefix . keyName;
+			let lastKey = prefix . keyName;
+			let this->_lastKey = lastKey;
 		}
 
-		let data = this->_data;
-		if !isset data[lastKey] {
+		if !fetch cachedContent, this->_data[lastKey] {
 			return null;
 		}
 
-		let cachedContent = data[lastKey];
 		if !cachedContent {
 			return null;
 		}
