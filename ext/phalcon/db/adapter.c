@@ -644,11 +644,11 @@ PHP_METHOD(Phalcon_Db_Adapter, update) {
 			}
 			ZEPHIR_OBS_VAR(whereBind);
 			if (zephir_array_isset_string_fetch(&whereBind, whereCondition, SS("bind"), 0 TSRMLS_CC)) {
-				zephir_merge_append(updateValues, whereBind TSRMLS_CC);
+				zephir_merge_append(updateValues, whereBind);
 			}
 			ZEPHIR_OBS_VAR(whereTypes);
 			if (zephir_array_isset_string_fetch(&whereTypes, whereCondition, SS("bindTypes"), 0 TSRMLS_CC)) {
-				zephir_merge_append(bindDataTypes, whereTypes TSRMLS_CC);
+				zephir_merge_append(bindDataTypes, whereTypes);
 			}
 		}
 	} else {
