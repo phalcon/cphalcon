@@ -75,7 +75,7 @@ PHP_METHOD(Phalcon_Forms_Manager, create) {
 
 
 	if (Z_TYPE_P(name) != IS_STRING) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_forms_exception_ce, "The form name must be string", "phalcon/forms/manager.zep", 42);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_forms_exception_ce, "The form name must be string", "phalcon/forms/manager.zep", 41);
 		return;
 	}
 	ZEPHIR_INIT_VAR(form);

@@ -101,7 +101,7 @@ PHP_METHOD(Phalcon_Assets_Manager, setOptions) {
 
 
 	if (Z_TYPE_P(options) != IS_ARRAY) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_assets_exception_ce, "Options must be an array", "phalcon/assets/manager.zep", 62);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_assets_exception_ce, "Options must be an array", "phalcon/assets/manager.zep", 61);
 		return;
 	}
 	zephir_update_property_this(this_ptr, SL("_options"), options TSRMLS_CC);
@@ -337,7 +337,7 @@ PHP_METHOD(Phalcon_Assets_Manager, addResource) {
 		return;
 	}
 	if (Z_TYPE_P(resource) != IS_OBJECT) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_assets_exception_ce, "Resource must be an object", "phalcon/assets/manager.zep", 170);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_assets_exception_ce, "Resource must be an object", "phalcon/assets/manager.zep", 169);
 		return;
 	}
 	ZEPHIR_CALL_METHOD(&_0, resource, "gettype",  NULL);
@@ -424,7 +424,7 @@ PHP_METHOD(Phalcon_Assets_Manager, get) {
 	zephir_read_property_this(&collections, this_ptr, SL("_collections"), PH_NOISY_CC);
 	ZEPHIR_OBS_VAR(collection);
 	if (!(zephir_array_isset_fetch(&collection, collections, id, 0 TSRMLS_CC))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_assets_exception_ce, "The collection does not exist in the manager", "phalcon/assets/manager.zep", 213);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_assets_exception_ce, "The collection does not exist in the manager", "phalcon/assets/manager.zep", 212);
 		return;
 	}
 	RETURN_CCTOR(collection);
@@ -728,7 +728,7 @@ PHP_METHOD(Phalcon_Assets_Manager, output) {
 				) {
 					ZEPHIR_GET_HVALUE(filter, _14);
 					if (Z_TYPE_P(filter) != IS_OBJECT) {
-						ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_assets_exception_ce, "Filter is invalid", "phalcon/assets/manager.zep", 539);
+						ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_assets_exception_ce, "Filter is invalid", "phalcon/assets/manager.zep", 538);
 						return;
 					}
 					ZEPHIR_CALL_METHOD(&filteredContent, filter, "filter", NULL, content);

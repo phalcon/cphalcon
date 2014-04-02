@@ -208,7 +208,7 @@ PHP_METHOD(Phalcon_Loader, registerNamespaces) {
 
 
 	if (Z_TYPE_P(namespaces) != IS_ARRAY) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_loader_exception_ce, "Parameter namespaces must be an array", "phalcon/loader.zep", 130);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_loader_exception_ce, "Parameter namespaces must be an array", "phalcon/loader.zep", 129);
 		return;
 	}
 	if (merge) {
@@ -263,7 +263,7 @@ PHP_METHOD(Phalcon_Loader, registerPrefixes) {
 
 
 	if (Z_TYPE_P(prefixes) != IS_ARRAY) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_loader_exception_ce, "Parameter prefixes must be an array", "phalcon/loader.zep", 170);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_loader_exception_ce, "Parameter prefixes must be an array", "phalcon/loader.zep", 169);
 		return;
 	}
 	if (merge) {
@@ -318,7 +318,7 @@ PHP_METHOD(Phalcon_Loader, registerDirs) {
 
 
 	if (Z_TYPE_P(directories) != IS_ARRAY) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_loader_exception_ce, "Parameter directories must be an array", "phalcon/loader.zep", 209);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_loader_exception_ce, "Parameter directories must be an array", "phalcon/loader.zep", 208);
 		return;
 	}
 	if (merge) {
@@ -370,7 +370,7 @@ PHP_METHOD(Phalcon_Loader, registerClasses) {
 
 
 	if (Z_TYPE_P(classes) != IS_ARRAY) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_loader_exception_ce, "Parameter classes must be an array", "phalcon/loader.zep", 248);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_loader_exception_ce, "Parameter classes must be an array", "phalcon/loader.zep", 247);
 		return;
 	}
 	if (zephir_is_true(merge)) {

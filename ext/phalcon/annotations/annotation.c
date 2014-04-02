@@ -90,7 +90,7 @@ PHP_METHOD(Phalcon_Annotations_Annotation, __construct) {
 
 
 	if (Z_TYPE_P(reflectionData) != IS_ARRAY) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_annotations_exception_ce, "Reflection data must be an array", "phalcon/annotations/annotation.zep", 59);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_annotations_exception_ce, "Reflection data must be an array", "phalcon/annotations/annotation.zep", 58);
 		return;
 	}
 	zephir_array_fetch_string(&_0, reflectionData, SL("name"), PH_NOISY | PH_READONLY TSRMLS_CC);
@@ -152,7 +152,7 @@ PHP_METHOD(Phalcon_Annotations_Annotation, getExpression) {
 
 
 	if (Z_TYPE_P(expr) != IS_ARRAY) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_annotations_exception_ce, "The expression is not valid", "phalcon/annotations/annotation.zep", 102);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_annotations_exception_ce, "The expression is not valid", "phalcon/annotations/annotation.zep", 101);
 		return;
 	}
 	ZEPHIR_OBS_VAR(type);

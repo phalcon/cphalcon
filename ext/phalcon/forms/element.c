@@ -262,7 +262,7 @@ PHP_METHOD(Phalcon_Forms_Element, addValidators) {
 
 
 	if (Z_TYPE_P(validators) != IS_ARRAY) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_forms_exception_ce, "The validators parameter must be an array", "phalcon/forms/element.zep", 157);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_forms_exception_ce, "The validators parameter must be an array", "phalcon/forms/element.zep", 156);
 		return;
 	}
 	if (merge) {
@@ -299,7 +299,7 @@ PHP_METHOD(Phalcon_Forms_Element, addValidator) {
 		return;
 	}
 	if (Z_TYPE_P(validator) != IS_OBJECT) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_forms_exception_ce, "The validators parameter must be an object", "phalcon/forms/element.zep", 180);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_forms_exception_ce, "The validators parameter must be an object", "phalcon/forms/element.zep", 179);
 		return;
 	}
 	zephir_update_property_array_append(this_ptr, SL("_validators"), validator TSRMLS_CC);
@@ -456,7 +456,7 @@ PHP_METHOD(Phalcon_Forms_Element, setAttributes) {
 
 
 	if (Z_TYPE_P(attributes) != IS_ARRAY) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_forms_exception_ce, "Parameter 'attributes' must be an array", "phalcon/forms/element.zep", 305);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_forms_exception_ce, "Parameter 'attributes' must be an array", "phalcon/forms/element.zep", 304);
 		return;
 	}
 	zephir_update_property_this(this_ptr, SL("_attributes"), attributes TSRMLS_CC);

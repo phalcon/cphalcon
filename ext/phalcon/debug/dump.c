@@ -78,7 +78,7 @@ PHP_METHOD(Phalcon_Debug_Dump, __construct) {
 
 	if (Z_TYPE_P(styles) != IS_ARRAY) {
 		if (Z_TYPE_P(styles) != IS_NULL) {
-			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_debug_exception_ce, "The styles must be a array", "phalcon/debug/dump.zep", 42);
+			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_debug_exception_ce, "The styles must be a array", "phalcon/debug/dump.zep", 41);
 			return;
 		}
 	}
@@ -652,7 +652,7 @@ PHP_METHOD(Phalcon_Debug_Dump, setStyles) {
 		array_init(styles);
 	}
 	if (Z_TYPE_P(styles) != IS_ARRAY) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_debug_exception_ce, "Styles must be an array", "phalcon/debug/dump.zep", 202);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_debug_exception_ce, "Styles must be an array", "phalcon/debug/dump.zep", 201);
 		return;
 	}
 	ZEPHIR_INIT_VAR(defaultStyles);

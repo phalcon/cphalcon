@@ -70,7 +70,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator, __construct) {
 
 
 	if (Z_TYPE_P(options) != IS_ARRAY) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_mvc_model_exception_ce, "options argument must be an Array", "phalcon/mvc/model/validator.zep", 43);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_mvc_model_exception_ce, "options argument must be an Array", "phalcon/mvc/model/validator.zep", 42);
 		return;
 	}
 	zephir_update_property_this(this_ptr, SL("_options"), options TSRMLS_CC);

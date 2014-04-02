@@ -199,7 +199,7 @@ PHP_METHOD(Phalcon_Cli_Router, handle) {
 
 
 	if (Z_TYPE_P(arguments) != IS_ARRAY) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_cli_router_exception_ce, "Arguments must be an Array", "phalcon/cli/router.zep", 124);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_cli_router_exception_ce, "Arguments must be an Array", "phalcon/cli/router.zep", 123);
 		return;
 	}
 	ZEPHIR_INIT_VAR(moduleName);

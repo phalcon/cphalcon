@@ -94,7 +94,7 @@ PHP_METHOD(Phalcon_Annotations_Collection, __construct) {
 
 	if (Z_TYPE_P(reflectionData) != IS_NULL) {
 		if (Z_TYPE_P(reflectionData) != IS_ARRAY) {
-			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_annotations_exception_ce, "Reflection data must be an array", "phalcon/annotations/collection.zep", 59);
+			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_annotations_exception_ce, "Reflection data must be an array", "phalcon/annotations/collection.zep", 58);
 			return;
 		}
 	}

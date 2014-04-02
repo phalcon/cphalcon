@@ -145,7 +145,7 @@ PHP_METHOD(Phalcon_Validation_Message_Group, offsetSet) {
 		return;
 	}
 	if (Z_TYPE_P(message) != IS_OBJECT) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_validation_exception_ce, "The message must be an object", "phalcon/validation/message/group.zep", 79);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_validation_exception_ce, "The message must be an object", "phalcon/validation/message/group.zep", 78);
 		return;
 	}
 	ZEPHIR_INIT_VAR(_0);
@@ -256,7 +256,7 @@ PHP_METHOD(Phalcon_Validation_Message_Group, appendMessages) {
 
 	if (Z_TYPE_P(messages) != IS_ARRAY) {
 		if (Z_TYPE_P(messages) != IS_OBJECT) {
-			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_validation_exception_ce, "The messages must be array or object", "phalcon/validation/message/group.zep", 145);
+			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_validation_exception_ce, "The messages must be array or object", "phalcon/validation/message/group.zep", 144);
 			return;
 		}
 	}

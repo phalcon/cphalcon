@@ -188,7 +188,7 @@ PHP_METHOD(Phalcon_Cli_Console, registerModules) {
 
 
 	if (Z_TYPE_P(modules) != IS_ARRAY) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_cli_console_exception_ce, "Modules must be an Array", "phalcon/cli/console.zep", 113);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_cli_console_exception_ce, "Modules must be an Array", "phalcon/cli/console.zep", 112);
 		return;
 	}
 	zephir_update_property_this(this_ptr, SL("_modules"), modules TSRMLS_CC);
@@ -219,7 +219,7 @@ PHP_METHOD(Phalcon_Cli_Console, addModules) {
 
 
 	if (Z_TYPE_P(modules) != IS_ARRAY) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_cli_console_exception_ce, "Modules must be an Array", "phalcon/cli/console.zep", 135);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_cli_console_exception_ce, "Modules must be an Array", "phalcon/cli/console.zep", 134);
 		return;
 	}
 	ZEPHIR_INIT_VAR(_0);
@@ -264,7 +264,7 @@ PHP_METHOD(Phalcon_Cli_Console, handle) {
 	ZEPHIR_OBS_VAR(dependencyInjector);
 	zephir_read_property_this(&dependencyInjector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
 	if (Z_TYPE_P(dependencyInjector) != IS_OBJECT) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_cli_console_exception_ce, "A dependency injection object is required to access internal services", "phalcon/cli/console.zep", 164);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_cli_console_exception_ce, "A dependency injection object is required to access internal services", "phalcon/cli/console.zep", 163);
 		return;
 	}
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_eventsManager"), PH_NOISY_CC);
@@ -306,7 +306,7 @@ PHP_METHOD(Phalcon_Cli_Console, handle) {
 		ZEPHIR_OBS_VAR(module);
 		zephir_array_fetch(&module, modules, moduleName, PH_NOISY TSRMLS_CC);
 		if (Z_TYPE_P(module) != IS_ARRAY) {
-			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_cli_console_exception_ce, "Invalid module definition path", "phalcon/cli/console.zep", 188);
+			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_cli_console_exception_ce, "Invalid module definition path", "phalcon/cli/console.zep", 187);
 			return;
 		}
 		ZEPHIR_OBS_VAR(path);

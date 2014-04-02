@@ -86,7 +86,7 @@ PHP_METHOD(Phalcon_Logger_Multiple, push) {
 		return;
 	}
 	if (Z_TYPE_P(logger) == IS_OBJECT) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_logger_exception_ce, "The logger is invalid", "phalcon/logger/multiple.zep", 43);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_logger_exception_ce, "The logger is invalid", "phalcon/logger/multiple.zep", 42);
 		return;
 	}
 	zephir_update_property_array_append(this_ptr, SL("_loggers"), logger TSRMLS_CC);

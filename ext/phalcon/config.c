@@ -96,7 +96,7 @@ PHP_METHOD(Phalcon_Config, __construct) {
 
 	if (Z_TYPE_P(arrayConfig) != IS_ARRAY) {
 		if (Z_TYPE_P(arrayConfig) != IS_NULL) {
-			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_config_exception_ce, "The configuration must be an Array", "phalcon/config.zep", 66);
+			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_config_exception_ce, "The configuration must be an Array", "phalcon/config.zep", 65);
 			return;
 		} else {
 			RETURN_MM_NULL();
@@ -110,7 +110,7 @@ PHP_METHOD(Phalcon_Config, __construct) {
 		ZEPHIR_GET_HMKEY(key, _1, _0);
 		ZEPHIR_GET_HVALUE(value, _2);
 		if (Z_TYPE_P(key) != IS_STRING) {
-			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_config_exception_ce, "Only string keys are allowed as configuration properties", "phalcon/config.zep", 78);
+			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_config_exception_ce, "Only string keys are allowed as configuration properties", "phalcon/config.zep", 77);
 			return;
 		}
 		if (Z_TYPE_P(value) == IS_ARRAY) {

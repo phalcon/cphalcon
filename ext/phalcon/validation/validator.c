@@ -70,7 +70,7 @@ PHP_METHOD(Phalcon_Validation_Validator, __construct) {
 
 	if (Z_TYPE_P(options) != IS_ARRAY) {
 		if (Z_TYPE_P(options) != IS_NULL) {
-			ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_validation_exception_ce, "Options must be an array", "phalcon/validation/validator.zep", 42);
+			ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_validation_exception_ce, "Options must be an array", "phalcon/validation/validator.zep", 41);
 			return;
 		}
 	} else {

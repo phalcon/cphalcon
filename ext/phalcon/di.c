@@ -350,7 +350,7 @@ PHP_METHOD(Phalcon_Di, getRaw) {
 	ZEPHIR_CONCAT_SVS(_2, "Service '", name, "' wasn't found in the dependency injection container");
 	ZEPHIR_CALL_METHOD(NULL, _1, "__construct", NULL, _2);
 	zephir_check_call_status();
-	zephir_throw_exception_debug(_1, "phalcon/di.zep", 171 TSRMLS_CC);
+	zephir_throw_exception_debug(_1, "phalcon/di.zep", 173 TSRMLS_CC);
 	ZEPHIR_MM_RESTORE();
 	return;
 
@@ -395,7 +395,7 @@ PHP_METHOD(Phalcon_Di, getService) {
 	ZEPHIR_CONCAT_SVS(_2, "Service '", name, "' wasn't found in the dependency injection container");
 	ZEPHIR_CALL_METHOD(NULL, _1, "__construct", NULL, _2);
 	zephir_check_call_status();
-	zephir_throw_exception_debug(_1, "phalcon/di.zep", 188 TSRMLS_CC);
+	zephir_throw_exception_debug(_1, "phalcon/di.zep", 190 TSRMLS_CC);
 	ZEPHIR_MM_RESTORE();
 	return;
 
@@ -461,7 +461,7 @@ PHP_METHOD(Phalcon_Di, get) {
 			ZEPHIR_CONCAT_SVS(_2, "Service '", name, "' wasn't found in the dependency injection container");
 			ZEPHIR_CALL_METHOD(NULL, _1, "__construct", NULL, _2);
 			zephir_check_call_status();
-			zephir_throw_exception_debug(_1, "phalcon/di.zep", 222 TSRMLS_CC);
+			zephir_throw_exception_debug(_1, "phalcon/di.zep", 224 TSRMLS_CC);
 			ZEPHIR_MM_RESTORE();
 			return;
 		}
@@ -793,7 +793,7 @@ PHP_METHOD(Phalcon_Di, __call) {
 	ZEPHIR_CONCAT_SVS(_6, "Call to undefined method or service '", method, "'");
 	ZEPHIR_CALL_METHOD(NULL, _5, "__construct", NULL, _6);
 	zephir_check_call_status();
-	zephir_throw_exception_debug(_5, "phalcon/di.zep", 395 TSRMLS_CC);
+	zephir_throw_exception_debug(_5, "phalcon/di.zep", 397 TSRMLS_CC);
 	ZEPHIR_MM_RESTORE();
 	return;
 

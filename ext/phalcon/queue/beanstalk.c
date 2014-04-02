@@ -119,7 +119,7 @@ PHP_METHOD(Phalcon_Queue_Beanstalk, connect) {
 	ZEPHIR_CALL_FUNCTION(&connection, "fsockopen", &_2, _0, _1, ZEPHIR_GLOBAL(global_null), ZEPHIR_GLOBAL(global_null));
 	zephir_check_call_status();
 	if (Z_TYPE_P(connection) != IS_RESOURCE) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_exception_ce, "Can't connect to Beanstalk server", "phalcon/queue/beanstalk.zep", 77);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_exception_ce, "Can't connect to Beanstalk server", "phalcon/queue/beanstalk.zep", 76);
 		return;
 	}
 	ZEPHIR_SINIT_VAR(_3);
@@ -408,7 +408,7 @@ PHP_METHOD(Phalcon_Queue_Beanstalk, read) {
 		zephir_check_call_status();
 		zephir_array_fetch_string(&_3, meta, SL("timed_out"), PH_NOISY | PH_READONLY TSRMLS_CC);
 		if (zephir_is_true(_3)) {
-			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_exception_ce, "Connection timed out", "phalcon/queue/beanstalk.zep", 284);
+			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_exception_ce, "Connection timed out", "phalcon/queue/beanstalk.zep", 283);
 			return;
 		}
 		ZEPHIR_SINIT_NVAR(_0);
