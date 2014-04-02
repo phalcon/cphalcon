@@ -312,9 +312,10 @@ PHP_METHOD(Phalcon_Mvc_Collection, getReservedAttributes) {
 
 	ZEPHIR_MM_GROW();
 
+	ZEPHIR_OBS_VAR(reserved);
 	zephir_read_static_property_ce(&reserved, phalcon_mvc_collection_ce, SL("_reserved") TSRMLS_CC);
 	if (Z_TYPE_P(reserved) == IS_NULL) {
-		ZEPHIR_INIT_VAR(reserved);
+		ZEPHIR_INIT_BNVAR(reserved);
 		array_init_size(reserved, 7);
 		zephir_array_update_string(&reserved, SL("_connection"), &ZEPHIR_GLOBAL(global_true), PH_COPY | PH_SEPARATE);
 		zephir_array_update_string(&reserved, SL("_dependencyInjector"), &ZEPHIR_GLOBAL(global_true), PH_COPY | PH_SEPARATE);
@@ -1330,6 +1331,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, save) {
 	ZEPHIR_INIT_VAR(_1);
 	array_init(_1);
 	zephir_update_property_this(this_ptr, SL("_errorMessages"), _1 TSRMLS_CC);
+	ZEPHIR_OBS_VAR(disableEvents);
 	zephir_read_static_property_ce(&disableEvents, phalcon_mvc_collection_ce, SL("_disableEvents") TSRMLS_CC);
 	ZEPHIR_CALL_METHOD(&_2, this_ptr, "_presave", NULL, dependencyInjector, disableEvents, exists);
 	zephir_check_call_status();
@@ -1783,6 +1785,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, delete) {
 		ZEPHIR_THROW_EXCEPTION_STR(phalcon_mvc_collection_exception_ce, "The document cannot be deleted because it doesn't exist");
 		return;
 	}
+	ZEPHIR_OBS_VAR(disableEvents);
 	zephir_read_static_property_ce(&disableEvents, phalcon_mvc_collection_ce, SL("_disableEvents") TSRMLS_CC);
 	if (!(zephir_is_true(disableEvents))) {
 		ZEPHIR_INIT_VAR(_1);

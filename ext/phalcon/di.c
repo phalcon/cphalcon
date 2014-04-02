@@ -12,9 +12,9 @@
 #include <Zend/zend_interfaces.h>
 
 #include "kernel/main.h"
+#include "kernel/memory.h"
 #include "kernel/object.h"
 #include "kernel/operators.h"
-#include "kernel/memory.h"
 #include "kernel/fcall.h"
 #include "ext/spl/spl_exceptions.h"
 #include "kernel/exception.h"
@@ -98,11 +98,14 @@ PHP_METHOD(Phalcon_Di, __construct) {
 
 	zval *defaultDi;
 
+	ZEPHIR_MM_GROW();
 
+	ZEPHIR_OBS_VAR(defaultDi);
 	zephir_read_static_property_ce(&defaultDi, phalcon_di_ce, SL("_default") TSRMLS_CC);
 	if (!(zephir_is_true(defaultDi))) {
 		zephir_update_static_property_ce(phalcon_di_ce, SL("_default"), this_ptr TSRMLS_CC);
 	}
+	ZEPHIR_MM_RESTORE();
 
 }
 

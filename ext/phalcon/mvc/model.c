@@ -5097,7 +5097,8 @@ PHP_METHOD(Phalcon_Mvc_Model, __call) {
  */
 PHP_METHOD(Phalcon_Mvc_Model, __callStatic) {
 
-	zend_class_entry *_5;
+	zval *_8, *_9;
+	zend_class_entry *_5, *_7;
 	int ZEPHIR_LAST_CALL_STATUS;
 	zephir_nts_static zephir_fcall_cache_entry *_1 = NULL, *_6 = NULL;
 	zval *method_param = NULL, *arguments = NULL, *extraMethod = NULL, *type = NULL, *modelName, *value, *model, *attributes = NULL, *field = NULL, *extraMethodFirst = NULL, *metaData = NULL, _0 = zval_used_for_init, *_2 = NULL, *_3 = NULL;
@@ -5205,7 +5206,19 @@ PHP_METHOD(Phalcon_Mvc_Model, __callStatic) {
 			}
 		}
 	}
-	RETURN_MM_NULL();
+	_7 = zend_fetch_class(Z_STRVAL_P(modelName), Z_STRLEN_P(modelName), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
+	ZEPHIR_INIT_VAR(_8);
+	array_init_size(_8, 3);
+	ZEPHIR_INIT_LNVAR(_2);
+	ZEPHIR_CONCAT_VS(_2, field, " = ?0");
+	zephir_array_update_string(&_8, SL("conditions"), &_2, PH_COPY | PH_SEPARATE);
+	ZEPHIR_INIT_VAR(_9);
+	array_init_size(_9, 2);
+	zephir_array_fast_append(_9, value);
+	zephir_array_update_string(&_8, SL("bind"), &_9, PH_COPY | PH_SEPARATE);
+	ZEPHIR_RETURN_CALL_CE_STATIC(_7, "type", NULL, _8);
+	zephir_check_call_status();
+	RETURN_MM();
 
 }
 
