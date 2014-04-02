@@ -103,7 +103,7 @@ PHP_METHOD(Phalcon_Db, setup) {
 
 
 	if (Z_TYPE_P(options) != IS_ARRAY) {
-		ZEPHIR_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "Options must be an array");
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "Options must be an array", "phalcon/db.zep", 80);
 		return;
 	}
 	ZEPHIR_OBS_VAR(escapeIdentifiers);

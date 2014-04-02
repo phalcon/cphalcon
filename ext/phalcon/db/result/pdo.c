@@ -114,11 +114,11 @@ PHP_METHOD(Phalcon_Db_Result_Pdo, __construct) {
 
 
 	if (!(zephir_instance_of_ev(connection, phalcon_db_adapterinterface_ce TSRMLS_CC))) {
-		ZEPHIR_THROW_EXCEPTION_STRW(spl_ce_InvalidArgumentException, "Parameter 'connection' must be an instance of 'Phalcon\\Db\\AdapterInterface'");
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(spl_ce_InvalidArgumentException, "Parameter 'connection' must be an instance of 'Phalcon\\Db\\AdapterInterface'", "", 0);
 		return;
 	}
 	if (!(zephir_is_instance_of(result, SL("PDOStatement") TSRMLS_CC))) {
-		ZEPHIR_THROW_EXCEPTION_STRW(spl_ce_InvalidArgumentException, "Parameter 'result' must be an instance of 'PDOStatement'");
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(spl_ce_InvalidArgumentException, "Parameter 'result' must be an instance of 'PDOStatement'", "", 0);
 		return;
 	}
 	zephir_update_property_this(this_ptr, SL("_connection"), connection TSRMLS_CC);

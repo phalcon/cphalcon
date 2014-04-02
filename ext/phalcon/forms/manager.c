@@ -75,7 +75,7 @@ PHP_METHOD(Phalcon_Forms_Manager, create) {
 
 
 	if (Z_TYPE_P(name) != IS_STRING) {
-		ZEPHIR_THROW_EXCEPTION_STR(phalcon_forms_exception_ce, "The form name must be string");
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_forms_exception_ce, "The form name must be string", "phalcon/forms/manager.zep", 42);
 		return;
 	}
 	ZEPHIR_INIT_VAR(form);
@@ -114,7 +114,7 @@ PHP_METHOD(Phalcon_Forms_Manager, get) {
 		ZEPHIR_CONCAT_SVS(_2, "There is no form with name='", name, "'");
 		ZEPHIR_CALL_METHOD(NULL, _1, "__construct", NULL, _2);
 		zephir_check_call_status();
-		zephir_throw_exception(_1 TSRMLS_CC);
+		zephir_throw_exception_debug(_1, "phalcon/forms/manager.zep", 59 TSRMLS_CC);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
@@ -163,7 +163,7 @@ PHP_METHOD(Phalcon_Forms_Manager, set) {
 
 
 	if (!(zephir_instance_of_ev(form, phalcon_forms_form_ce TSRMLS_CC))) {
-		ZEPHIR_THROW_EXCEPTION_STR(spl_ce_InvalidArgumentException, "Parameter 'form' must be an instance of 'Phalcon\\Forms\\Form'");
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(spl_ce_InvalidArgumentException, "Parameter 'form' must be an instance of 'Phalcon\\Forms\\Form'", "", 0);
 		return;
 	}
 	zephir_update_property_array(this_ptr, SL("_forms"), name, form TSRMLS_CC);

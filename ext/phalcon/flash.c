@@ -156,7 +156,7 @@ PHP_METHOD(Phalcon_Flash, setCssClasses) {
 		zephir_update_property_this(this_ptr, SL("_cssClasses"), cssClasses TSRMLS_CC);
 		RETURN_THISW();
 	}
-	ZEPHIR_THROW_EXCEPTION_STRW(phalcon_flash_exception_ce, "CSS classes must be an Array");
+	ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_flash_exception_ce, "CSS classes must be an Array", "phalcon/flash.zep", 96);
 	return;
 
 }

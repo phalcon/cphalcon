@@ -272,7 +272,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Annotations, handle) {
 						_0 = zephir_fetch_nproperty_this(this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
 						ZEPHIR_CPY_WRT(dependencyInjector, _0);
 						if (Z_TYPE_P(dependencyInjector) != IS_OBJECT) {
-							ZEPHIR_THROW_EXCEPTION_STR(phalcon_mvc_router_exception_ce, "A dependency injection container is required to access the 'annotations' service");
+							ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_router_exception_ce, "A dependency injection container is required to access the 'annotations' service", "phalcon/mvc/router/annotations.zep", 138);
 							return;
 						}
 						ZEPHIR_INIT_NVAR(_4);
@@ -389,7 +389,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Annotations, processControllerAnnotation) {
 
 
 	if (!(zephir_instance_of_ev(annotation, phalcon_annotations_annotation_ce TSRMLS_CC))) {
-		ZEPHIR_THROW_EXCEPTION_STR(spl_ce_InvalidArgumentException, "Parameter 'annotation' must be an instance of 'Phalcon\\Annotations\\Annotation'");
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(spl_ce_InvalidArgumentException, "Parameter 'annotation' must be an instance of 'Phalcon\\Annotations\\Annotation'", "", 0);
 		return;
 	}
 	ZEPHIR_CALL_METHOD(&_0, annotation, "getname",  NULL);
@@ -474,7 +474,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Annotations, processActionAnnotation) {
 
 
 	if (!(zephir_instance_of_ev(annotation, phalcon_annotations_annotation_ce TSRMLS_CC))) {
-		ZEPHIR_THROW_EXCEPTION_STR(spl_ce_InvalidArgumentException, "Parameter 'annotation' must be an instance of 'Phalcon\\Annotations\\Annotation'");
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(spl_ce_InvalidArgumentException, "Parameter 'annotation' must be an instance of 'Phalcon\\Annotations\\Annotation'", "", 0);
 		return;
 	}
 	isRoute = 0;

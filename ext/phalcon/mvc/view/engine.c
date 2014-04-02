@@ -71,7 +71,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine, __construct) {
 
 
 	if (!(zephir_instance_of_ev(view, phalcon_mvc_viewinterface_ce TSRMLS_CC))) {
-		ZEPHIR_THROW_EXCEPTION_STRW(spl_ce_InvalidArgumentException, "Parameter 'view' must be an instance of 'Phalcon\\Mvc\\ViewInterface'");
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(spl_ce_InvalidArgumentException, "Parameter 'view' must be an instance of 'Phalcon\\Mvc\\ViewInterface'", "", 0);
 		return;
 	}
 	_0 = Z_TYPE_P(dependencyInjector) != IS_NULL;
@@ -79,7 +79,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine, __construct) {
 		_0 = !zephir_instance_of_ev(dependencyInjector, phalcon_diinterface_ce TSRMLS_CC);
 	}
 	if (_0) {
-		ZEPHIR_THROW_EXCEPTION_STRW(spl_ce_InvalidArgumentException, "Parameter 'dependencyInjector' must be an instance of 'Phalcon\\DiInterface'");
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(spl_ce_InvalidArgumentException, "Parameter 'dependencyInjector' must be an instance of 'Phalcon\\DiInterface'", "", 0);
 		return;
 	}
 	zephir_update_property_this(this_ptr, SL("_view"), view TSRMLS_CC);

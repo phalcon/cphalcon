@@ -97,7 +97,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Uniqueness, validate) {
 
 
 	if (!(zephir_instance_of_ev(record, phalcon_mvc_modelinterface_ce TSRMLS_CC))) {
-		ZEPHIR_THROW_EXCEPTION_STR(spl_ce_InvalidArgumentException, "Parameter 'record' must be an instance of 'Phalcon\\Mvc\\ModelInterface'");
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(spl_ce_InvalidArgumentException, "Parameter 'record' must be an instance of 'Phalcon\\Mvc\\ModelInterface'", "", 0);
 		return;
 	}
 	ZEPHIR_CALL_METHOD(&dependencyInjector, record, "getdi",  NULL);
@@ -144,7 +144,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Uniqueness, validate) {
 					ZEPHIR_CONCAT_SVS(_5, "Column '", composeField, "' isn't part of the column map");
 					ZEPHIR_CALL_METHOD(NULL, _4, "__construct", &_6, _5);
 					zephir_check_call_status();
-					zephir_throw_exception(_4 TSRMLS_CC);
+					zephir_throw_exception_debug(_4, "phalcon/mvc/model/validator/uniqueness.zep", 96 TSRMLS_CC);
 					ZEPHIR_MM_RESTORE();
 					return;
 				}
@@ -159,7 +159,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Uniqueness, validate) {
 				ZEPHIR_CONCAT_SVS(_5, "Column '", columnField, "' isn't part of the table columns");
 				ZEPHIR_CALL_METHOD(NULL, _4, "__construct", &_7, _5);
 				zephir_check_call_status();
-				zephir_throw_exception(_4 TSRMLS_CC);
+				zephir_throw_exception_debug(_4, "phalcon/mvc/model/validator/uniqueness.zep", 106 TSRMLS_CC);
 				ZEPHIR_MM_RESTORE();
 				return;
 			}
@@ -184,7 +184,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Uniqueness, validate) {
 				ZEPHIR_CONCAT_SVS(_11, "Column '", field, "' isn't part of the column map");
 				ZEPHIR_CALL_METHOD(NULL, _10, "__construct", NULL, _11);
 				zephir_check_call_status();
-				zephir_throw_exception(_10 TSRMLS_CC);
+				zephir_throw_exception_debug(_10, "phalcon/mvc/model/validator/uniqueness.zep", 126 TSRMLS_CC);
 				ZEPHIR_MM_RESTORE();
 				return;
 			}
@@ -199,7 +199,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Uniqueness, validate) {
 			ZEPHIR_CONCAT_SVS(_11, "Column '", columnField, "' isn't part of the table columns");
 			ZEPHIR_CALL_METHOD(NULL, _10, "__construct", NULL, _11);
 			zephir_check_call_status();
-			zephir_throw_exception(_10 TSRMLS_CC);
+			zephir_throw_exception_debug(_10, "phalcon/mvc/model/validator/uniqueness.zep", 136 TSRMLS_CC);
 			ZEPHIR_MM_RESTORE();
 			return;
 		}
@@ -238,7 +238,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Uniqueness, validate) {
 				ZEPHIR_CONCAT_SVS(_17, "Column '", primaryField, "' isn't part of the table columns");
 				ZEPHIR_CALL_METHOD(NULL, _16, "__construct", &_18, _17);
 				zephir_check_call_status();
-				zephir_throw_exception(_16 TSRMLS_CC);
+				zephir_throw_exception_debug(_16, "phalcon/mvc/model/validator/uniqueness.zep", 166 TSRMLS_CC);
 				ZEPHIR_MM_RESTORE();
 				return;
 			}
@@ -251,7 +251,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Uniqueness, validate) {
 					ZEPHIR_CONCAT_SVS(_11, "Column '", primaryField, "' isn't part of the column map");
 					ZEPHIR_CALL_METHOD(NULL, _10, "__construct", &_19, _11);
 					zephir_check_call_status();
-					zephir_throw_exception(_10 TSRMLS_CC);
+					zephir_throw_exception_debug(_10, "phalcon/mvc/model/validator/uniqueness.zep", 174 TSRMLS_CC);
 					ZEPHIR_MM_RESTORE();
 					return;
 				}

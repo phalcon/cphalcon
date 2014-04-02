@@ -96,7 +96,7 @@ PHP_METHOD(Phalcon_Mvc_Collection_Manager, setDI) {
 
 
 	if (!(zephir_instance_of_ev(dependencyInjector, phalcon_diinterface_ce TSRMLS_CC))) {
-		ZEPHIR_THROW_EXCEPTION_STRW(spl_ce_InvalidArgumentException, "Parameter 'dependencyInjector' must be an instance of 'Phalcon\\DiInterface'");
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(spl_ce_InvalidArgumentException, "Parameter 'dependencyInjector' must be an instance of 'Phalcon\\DiInterface'", "", 0);
 		return;
 	}
 	zephir_update_property_this(this_ptr, SL("_dependencyInjector"), dependencyInjector TSRMLS_CC);
@@ -129,7 +129,7 @@ PHP_METHOD(Phalcon_Mvc_Collection_Manager, setEventsManager) {
 
 
 	if (!(zephir_instance_of_ev(eventsManager, phalcon_events_managerinterface_ce TSRMLS_CC))) {
-		ZEPHIR_THROW_EXCEPTION_STRW(spl_ce_InvalidArgumentException, "Parameter 'eventsManager' must be an instance of 'Phalcon\\Events\\ManagerInterface'");
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(spl_ce_InvalidArgumentException, "Parameter 'eventsManager' must be an instance of 'Phalcon\\Events\\ManagerInterface'", "", 0);
 		return;
 	}
 	zephir_update_property_this(this_ptr, SL("_eventsManager"), eventsManager TSRMLS_CC);
@@ -164,11 +164,11 @@ PHP_METHOD(Phalcon_Mvc_Collection_Manager, setCustomEventsManager) {
 
 
 	if (!(zephir_instance_of_ev(model, phalcon_mvc_collectioninterface_ce TSRMLS_CC))) {
-		ZEPHIR_THROW_EXCEPTION_STR(spl_ce_InvalidArgumentException, "Parameter 'model' must be an instance of 'Phalcon\\Mvc\\CollectionInterface'");
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(spl_ce_InvalidArgumentException, "Parameter 'model' must be an instance of 'Phalcon\\Mvc\\CollectionInterface'", "", 0);
 		return;
 	}
 	if (!(zephir_instance_of_ev(eventsManager, phalcon_events_managerinterface_ce TSRMLS_CC))) {
-		ZEPHIR_THROW_EXCEPTION_STR(spl_ce_InvalidArgumentException, "Parameter 'eventsManager' must be an instance of 'Phalcon\\Events\\ManagerInterface'");
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(spl_ce_InvalidArgumentException, "Parameter 'eventsManager' must be an instance of 'Phalcon\\Events\\ManagerInterface'", "", 0);
 		return;
 	}
 	ZEPHIR_INIT_VAR(_0);
@@ -194,7 +194,7 @@ PHP_METHOD(Phalcon_Mvc_Collection_Manager, getCustomEventsManager) {
 
 
 	if (!(zephir_instance_of_ev(model, phalcon_mvc_collectioninterface_ce TSRMLS_CC))) {
-		ZEPHIR_THROW_EXCEPTION_STR(spl_ce_InvalidArgumentException, "Parameter 'model' must be an instance of 'Phalcon\\Mvc\\CollectionInterface'");
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(spl_ce_InvalidArgumentException, "Parameter 'model' must be an instance of 'Phalcon\\Mvc\\CollectionInterface'", "", 0);
 		return;
 	}
 	ZEPHIR_OBS_VAR(customEventsManager);
@@ -227,7 +227,7 @@ PHP_METHOD(Phalcon_Mvc_Collection_Manager, initialize) {
 
 
 	if (!(zephir_instance_of_ev(model, phalcon_mvc_collectioninterface_ce TSRMLS_CC))) {
-		ZEPHIR_THROW_EXCEPTION_STR(spl_ce_InvalidArgumentException, "Parameter 'model' must be an instance of 'Phalcon\\Mvc\\CollectionInterface'");
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(spl_ce_InvalidArgumentException, "Parameter 'model' must be an instance of 'Phalcon\\Mvc\\CollectionInterface'", "", 0);
 		return;
 	}
 	ZEPHIR_INIT_VAR(className);
@@ -320,11 +320,11 @@ PHP_METHOD(Phalcon_Mvc_Collection_Manager, setConnectionService) {
 
 
 	if (!(zephir_instance_of_ev(model, phalcon_mvc_collectioninterface_ce TSRMLS_CC))) {
-		ZEPHIR_THROW_EXCEPTION_STR(spl_ce_InvalidArgumentException, "Parameter 'model' must be an instance of 'Phalcon\\Mvc\\CollectionInterface'");
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(spl_ce_InvalidArgumentException, "Parameter 'model' must be an instance of 'Phalcon\\Mvc\\CollectionInterface'", "", 0);
 		return;
 	}
 	if (Z_TYPE_P(model) != IS_OBJECT) {
-		ZEPHIR_THROW_EXCEPTION_STR(phalcon_mvc_collection_exception_ce, "A valid collection instance is required");
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_collection_exception_ce, "A valid collection instance is required", "phalcon/mvc/collection/manager.zep", 198);
 		return;
 	}
 	ZEPHIR_INIT_VAR(_0);
@@ -352,11 +352,11 @@ PHP_METHOD(Phalcon_Mvc_Collection_Manager, useImplicitObjectIds) {
 
 
 	if (!(zephir_instance_of_ev(model, phalcon_mvc_collectioninterface_ce TSRMLS_CC))) {
-		ZEPHIR_THROW_EXCEPTION_STR(spl_ce_InvalidArgumentException, "Parameter 'model' must be an instance of 'Phalcon\\Mvc\\CollectionInterface'");
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(spl_ce_InvalidArgumentException, "Parameter 'model' must be an instance of 'Phalcon\\Mvc\\CollectionInterface'", "", 0);
 		return;
 	}
 	if (Z_TYPE_P(model) != IS_OBJECT) {
-		ZEPHIR_THROW_EXCEPTION_STR(phalcon_mvc_collection_exception_ce, "A valid collection instance is required");
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_collection_exception_ce, "A valid collection instance is required", "phalcon/mvc/collection/manager.zep", 214);
 		return;
 	}
 	ZEPHIR_INIT_VAR(_0);
@@ -384,11 +384,11 @@ PHP_METHOD(Phalcon_Mvc_Collection_Manager, isUsingImplicitObjectIds) {
 
 
 	if (!(zephir_instance_of_ev(model, phalcon_mvc_collectioninterface_ce TSRMLS_CC))) {
-		ZEPHIR_THROW_EXCEPTION_STR(spl_ce_InvalidArgumentException, "Parameter 'model' must be an instance of 'Phalcon\\Mvc\\CollectionInterface'");
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(spl_ce_InvalidArgumentException, "Parameter 'model' must be an instance of 'Phalcon\\Mvc\\CollectionInterface'", "", 0);
 		return;
 	}
 	if (Z_TYPE_P(model) != IS_OBJECT) {
-		ZEPHIR_THROW_EXCEPTION_STR(phalcon_mvc_collection_exception_ce, "A valid collection instance is required");
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_collection_exception_ce, "A valid collection instance is required", "phalcon/mvc/collection/manager.zep", 231);
 		return;
 	}
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_implicitObjectsIds"), PH_NOISY_CC);
@@ -418,11 +418,11 @@ PHP_METHOD(Phalcon_Mvc_Collection_Manager, getConnection) {
 
 
 	if (!(zephir_instance_of_ev(model, phalcon_mvc_collectioninterface_ce TSRMLS_CC))) {
-		ZEPHIR_THROW_EXCEPTION_STR(spl_ce_InvalidArgumentException, "Parameter 'model' must be an instance of 'Phalcon\\Mvc\\CollectionInterface'");
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(spl_ce_InvalidArgumentException, "Parameter 'model' must be an instance of 'Phalcon\\Mvc\\CollectionInterface'", "", 0);
 		return;
 	}
 	if (Z_TYPE_P(model) != IS_OBJECT) {
-		ZEPHIR_THROW_EXCEPTION_STR(phalcon_mvc_collection_exception_ce, "A valid collection instance is required");
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_collection_exception_ce, "A valid collection instance is required", "phalcon/mvc/collection/manager.zep", 255);
 		return;
 	}
 	ZEPHIR_INIT_VAR(service);
@@ -440,13 +440,13 @@ PHP_METHOD(Phalcon_Mvc_Collection_Manager, getConnection) {
 	ZEPHIR_OBS_VAR(dependencyInjector);
 	zephir_read_property_this(&dependencyInjector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
 	if (Z_TYPE_P(dependencyInjector) != IS_OBJECT) {
-		ZEPHIR_THROW_EXCEPTION_STR(phalcon_mvc_collection_exception_ce, "A dependency injector container is required to obtain the services related to the ORM");
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_collection_exception_ce, "A dependency injector container is required to obtain the services related to the ORM", "phalcon/mvc/collection/manager.zep", 273);
 		return;
 	}
 	ZEPHIR_CALL_METHOD(&connection, dependencyInjector, "getshared", NULL, service);
 	zephir_check_call_status();
 	if (Z_TYPE_P(connection) != IS_OBJECT) {
-		ZEPHIR_THROW_EXCEPTION_STR(phalcon_mvc_collection_exception_ce, "Invalid injected connection service");
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_collection_exception_ce, "Invalid injected connection service", "phalcon/mvc/collection/manager.zep", 281);
 		return;
 	}
 	RETURN_CCTOR(connection);
@@ -483,7 +483,7 @@ PHP_METHOD(Phalcon_Mvc_Collection_Manager, notifyEvent) {
 
 
 	if (!(zephir_instance_of_ev(model, phalcon_mvc_collectioninterface_ce TSRMLS_CC))) {
-		ZEPHIR_THROW_EXCEPTION_STR(spl_ce_InvalidArgumentException, "Parameter 'model' must be an instance of 'Phalcon\\Mvc\\CollectionInterface'");
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(spl_ce_InvalidArgumentException, "Parameter 'model' must be an instance of 'Phalcon\\Mvc\\CollectionInterface'", "", 0);
 		return;
 	}
 	ZEPHIR_OBS_VAR(eventsManager);

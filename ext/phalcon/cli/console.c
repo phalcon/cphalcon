@@ -86,7 +86,7 @@ PHP_METHOD(Phalcon_Cli_Console, __construct) {
 		_0 = !zephir_instance_of_ev(dependencyInjector, phalcon_diinterface_ce TSRMLS_CC);
 	}
 	if (_0) {
-		ZEPHIR_THROW_EXCEPTION_STRW(spl_ce_InvalidArgumentException, "Parameter 'dependencyInjector' must be an instance of 'Phalcon\\DiInterface'");
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(spl_ce_InvalidArgumentException, "Parameter 'dependencyInjector' must be an instance of 'Phalcon\\DiInterface'", "", 0);
 		return;
 	}
 	if (Z_TYPE_P(dependencyInjector) == IS_OBJECT) {
@@ -109,7 +109,7 @@ PHP_METHOD(Phalcon_Cli_Console, setDI) {
 
 
 	if (!(zephir_instance_of_ev(dependencyInjector, phalcon_diinterface_ce TSRMLS_CC))) {
-		ZEPHIR_THROW_EXCEPTION_STRW(spl_ce_InvalidArgumentException, "Parameter 'dependencyInjector' must be an instance of 'Phalcon\\DiInterface'");
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(spl_ce_InvalidArgumentException, "Parameter 'dependencyInjector' must be an instance of 'Phalcon\\DiInterface'", "", 0);
 		return;
 	}
 	zephir_update_property_this(this_ptr, SL("_dependencyInjector"), dependencyInjector TSRMLS_CC);
@@ -142,7 +142,7 @@ PHP_METHOD(Phalcon_Cli_Console, setEventsManager) {
 
 
 	if (!(zephir_instance_of_ev(eventsManager, phalcon_events_managerinterface_ce TSRMLS_CC))) {
-		ZEPHIR_THROW_EXCEPTION_STRW(spl_ce_InvalidArgumentException, "Parameter 'eventsManager' must be an instance of 'Phalcon\\Events\\ManagerInterface'");
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(spl_ce_InvalidArgumentException, "Parameter 'eventsManager' must be an instance of 'Phalcon\\Events\\ManagerInterface'", "", 0);
 		return;
 	}
 	zephir_update_property_this(this_ptr, SL("_eventsManager"), eventsManager TSRMLS_CC);
@@ -188,7 +188,7 @@ PHP_METHOD(Phalcon_Cli_Console, registerModules) {
 
 
 	if (Z_TYPE_P(modules) != IS_ARRAY) {
-		ZEPHIR_THROW_EXCEPTION_STRW(phalcon_cli_console_exception_ce, "Modules must be an Array");
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_cli_console_exception_ce, "Modules must be an Array", "phalcon/cli/console.zep", 113);
 		return;
 	}
 	zephir_update_property_this(this_ptr, SL("_modules"), modules TSRMLS_CC);
@@ -219,7 +219,7 @@ PHP_METHOD(Phalcon_Cli_Console, addModules) {
 
 
 	if (Z_TYPE_P(modules) != IS_ARRAY) {
-		ZEPHIR_THROW_EXCEPTION_STR(phalcon_cli_console_exception_ce, "Modules must be an Array");
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_cli_console_exception_ce, "Modules must be an Array", "phalcon/cli/console.zep", 135);
 		return;
 	}
 	ZEPHIR_INIT_VAR(_0);
@@ -264,7 +264,7 @@ PHP_METHOD(Phalcon_Cli_Console, handle) {
 	ZEPHIR_OBS_VAR(dependencyInjector);
 	zephir_read_property_this(&dependencyInjector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
 	if (Z_TYPE_P(dependencyInjector) != IS_OBJECT) {
-		ZEPHIR_THROW_EXCEPTION_STR(phalcon_cli_console_exception_ce, "A dependency injection object is required to access internal services");
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_cli_console_exception_ce, "A dependency injection object is required to access internal services", "phalcon/cli/console.zep", 164);
 		return;
 	}
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_eventsManager"), PH_NOISY_CC);
@@ -299,14 +299,14 @@ PHP_METHOD(Phalcon_Cli_Console, handle) {
 			ZEPHIR_CONCAT_SVS(_4, "Module '", moduleName, "' isn't registered in the console container");
 			ZEPHIR_CALL_METHOD(NULL, _3, "__construct", NULL, _4);
 			zephir_check_call_status();
-			zephir_throw_exception(_3 TSRMLS_CC);
+			zephir_throw_exception_debug(_3, "phalcon/cli/console.zep", 182 TSRMLS_CC);
 			ZEPHIR_MM_RESTORE();
 			return;
 		}
 		ZEPHIR_OBS_VAR(module);
 		zephir_array_fetch(&module, modules, moduleName, PH_NOISY TSRMLS_CC);
 		if (Z_TYPE_P(module) != IS_ARRAY) {
-			ZEPHIR_THROW_EXCEPTION_STR(phalcon_cli_console_exception_ce, "Invalid module definition path");
+			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_cli_console_exception_ce, "Invalid module definition path", "phalcon/cli/console.zep", 188);
 			return;
 		}
 		ZEPHIR_OBS_VAR(path);
@@ -318,7 +318,7 @@ PHP_METHOD(Phalcon_Cli_Console, handle) {
 				ZEPHIR_CONCAT_SVS(_4, "Module definition path '", path, "' doesn't exist");
 				ZEPHIR_CALL_METHOD(NULL, _3, "__construct", NULL, _4);
 				zephir_check_call_status();
-				zephir_throw_exception(_3 TSRMLS_CC);
+				zephir_throw_exception_debug(_3, "phalcon/cli/console.zep", 192 TSRMLS_CC);
 				ZEPHIR_MM_RESTORE();
 				return;
 			}

@@ -377,7 +377,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, offsetGet) {
 		}
 		RETURN_MM_BOOL(0);
 	}
-	ZEPHIR_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "The index does not exist in the cursor");
+	ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_model_exception_ce, "The index does not exist in the cursor", "phalcon/mvc/model/resultset.zep", 277);
 	return;
 
 }
@@ -397,10 +397,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, offsetSet) {
 
 
 	if (!(zephir_instance_of_ev(value, phalcon_mvc_modelinterface_ce TSRMLS_CC))) {
-		ZEPHIR_THROW_EXCEPTION_STRW(spl_ce_InvalidArgumentException, "Parameter 'value' must be an instance of 'Phalcon\\Mvc\\ModelInterface'");
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(spl_ce_InvalidArgumentException, "Parameter 'value' must be an instance of 'Phalcon\\Mvc\\ModelInterface'", "", 0);
 		return;
 	}
-	ZEPHIR_THROW_EXCEPTION_STRW(phalcon_mvc_model_exception_ce, "Cursor is an immutable ArrayAccess object");
+	ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_mvc_model_exception_ce, "Cursor is an immutable ArrayAccess object", "phalcon/mvc/model/resultset.zep", 288);
 	return;
 
 }
@@ -420,7 +420,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, offsetUnset) {
 	offset = zephir_get_intval(offset_param);
 
 
-	ZEPHIR_THROW_EXCEPTION_STRW(phalcon_mvc_model_exception_ce, "Cursor is an immutable ArrayAccess object");
+	ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_mvc_model_exception_ce, "Cursor is an immutable ArrayAccess object", "phalcon/mvc/model/resultset.zep", 298);
 	return;
 
 }
@@ -629,7 +629,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, delete) {
 		_0 = !zephir_instance_of_ev(conditionCallback, zend_ce_closure TSRMLS_CC);
 	}
 	if (_0) {
-		ZEPHIR_THROW_EXCEPTION_STR(spl_ce_InvalidArgumentException, "Parameter 'conditionCallback' must be an instance of 'Closure'");
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(spl_ce_InvalidArgumentException, "Parameter 'conditionCallback' must be an instance of 'Closure'", "", 0);
 		return;
 	}
 	transaction = 0;
@@ -643,7 +643,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, delete) {
 		ZEPHIR_GET_HVALUE(record, _4);
 		if (transaction == 0) {
 			if (!((zephir_method_exists_ex(record, SS("getwriteconnection") TSRMLS_CC) == SUCCESS))) {
-				ZEPHIR_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "The returned record is not valid");
+				ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_model_exception_ce, "The returned record is not valid", "phalcon/mvc/model/resultset.zep", 444);
 				return;
 			}
 			ZEPHIR_CALL_METHOD(&connection, record, "getwriteconnection",  NULL);

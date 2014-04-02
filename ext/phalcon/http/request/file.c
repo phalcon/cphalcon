@@ -94,7 +94,7 @@ PHP_METHOD(Phalcon_Http_Request_File, __construct) {
 
 
 	if (Z_TYPE_P(file) != IS_ARRAY) {
-		ZEPHIR_THROW_EXCEPTION_STRW(phalcon_http_request_exception_ce, "Phalcon\\Http\\Request\\File requires a valid uploaded file");
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_http_request_exception_ce, "Phalcon\\Http\\Request\\File requires a valid uploaded file", "phalcon/http/request/file.zep", 69);
 		return;
 	}
 	if (zephir_array_isset_string_fetch(&name, file, SS("name"), 1 TSRMLS_CC)) {

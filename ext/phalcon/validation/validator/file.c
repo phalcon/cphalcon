@@ -100,7 +100,7 @@ PHP_METHOD(Phalcon_Validation_Validator_File, validate) {
 
 
 	if (!(zephir_instance_of_ev(validation, phalcon_validation_ce TSRMLS_CC))) {
-		ZEPHIR_THROW_EXCEPTION_STR(spl_ce_InvalidArgumentException, "Parameter 'validation' must be an instance of 'Phalcon\\Validation'");
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(spl_ce_InvalidArgumentException, "Parameter 'validation' must be an instance of 'Phalcon\\Validation'", "", 0);
 		return;
 	}
 	ZEPHIR_CALL_METHOD(&value, validation, "getvalue", NULL, field);
@@ -364,7 +364,7 @@ PHP_METHOD(Phalcon_Validation_Validator_File, validate) {
 		zephir_check_temp_parameter(_24);
 		zephir_check_call_status();
 		if (Z_TYPE_P(types) != IS_ARRAY) {
-			ZEPHIR_THROW_EXCEPTION_STR(phalcon_validation_exception_ce, "Option 'allowedTypes' must be an array");
+			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_validation_exception_ce, "Option 'allowedTypes' must be an array", "phalcon/validation/validator/file.zep", 136);
 			return;
 		}
 		if ((zephir_function_exists_ex(SS("finfo_open") TSRMLS_CC) == SUCCESS)) {

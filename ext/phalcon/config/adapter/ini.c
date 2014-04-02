@@ -92,7 +92,7 @@ PHP_METHOD(Phalcon_Config_Adapter_Ini, __construct) {
 		ZEPHIR_CONCAT_SVS(_3, "Configuration file ", _2, " can't be loaded");
 		ZEPHIR_CALL_METHOD(NULL, _1, "__construct", NULL, _3);
 		zephir_check_call_status();
-		zephir_throw_exception(_1 TSRMLS_CC);
+		zephir_throw_exception_debug(_1, "phalcon/config/adapter/ini.zep", 38 TSRMLS_CC);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}

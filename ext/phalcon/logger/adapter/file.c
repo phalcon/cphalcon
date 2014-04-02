@@ -116,7 +116,7 @@ PHP_METHOD(Phalcon_Logger_Adapter_File, __construct) {
 		ZEPHIR_OBS_VAR(mode);
 		if (zephir_array_isset_string_fetch(&mode, options, SS("mode"), 0 TSRMLS_CC)) {
 			if (zephir_memnstr_str(mode, SL("r"), "phalcon/logger/adapter/file.zep", 67)) {
-				ZEPHIR_THROW_EXCEPTION_STR(phalcon_logger_exception_ce, "Logger must be opened in append or write mode");
+				ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_logger_exception_ce, "Logger must be opened in append or write mode", "phalcon/logger/adapter/file.zep", 69);
 				return;
 			}
 		}
@@ -133,7 +133,7 @@ PHP_METHOD(Phalcon_Logger_Adapter_File, __construct) {
 		ZEPHIR_CONCAT_SVS(_2, "Can't open log file at '", name, "'");
 		ZEPHIR_CALL_METHOD(NULL, _1, "__construct", NULL, _2);
 		zephir_check_call_status();
-		zephir_throw_exception(_1 TSRMLS_CC);
+		zephir_throw_exception_debug(_1, "phalcon/logger/adapter/file.zep", 80 TSRMLS_CC);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
@@ -203,7 +203,7 @@ PHP_METHOD(Phalcon_Logger_Adapter_File, logInternal) {
 	ZEPHIR_OBS_VAR(fileHandler);
 	zephir_read_property_this(&fileHandler, this_ptr, SL("_fileHandler"), PH_NOISY_CC);
 	if (!(zephir_is_true(fileHandler))) {
-		ZEPHIR_THROW_EXCEPTION_STR(phalcon_logger_exception_ce, "Cannot send message to the log because it is invalid");
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_logger_exception_ce, "Cannot send message to the log because it is invalid", "phalcon/logger/adapter/file.zep", 119);
 		return;
 	}
 	ZEPHIR_CALL_METHOD(&formatter, this_ptr, "getformatter",  NULL);
@@ -249,7 +249,7 @@ PHP_METHOD(Phalcon_Logger_Adapter_File, __wakeup) {
 	ZEPHIR_OBS_VAR(path);
 	zephir_read_property_this(&path, this_ptr, SL("_path"), PH_NOISY_CC);
 	if (Z_TYPE_P(path) != IS_STRING) {
-		ZEPHIR_THROW_EXCEPTION_STR(phalcon_logger_exception_ce, "Invalid data passed to Phalcon\\Logger\\Adapter\\File::__wakeup()");
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_logger_exception_ce, "Invalid data passed to Phalcon\\Logger\\Adapter\\File::__wakeup()", "phalcon/logger/adapter/file.zep", 146);
 		return;
 	}
 	ZEPHIR_OBS_VAR(mode);
@@ -259,11 +259,11 @@ PHP_METHOD(Phalcon_Logger_Adapter_File, __wakeup) {
 		ZVAL_STRING(mode, "ab", 1);
 	}
 	if (Z_TYPE_P(mode) != IS_STRING) {
-		ZEPHIR_THROW_EXCEPTION_STR(phalcon_logger_exception_ce, "Invalid data passed to Phalcon\\Logger\\Adapter\\File::__wakeup()");
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_logger_exception_ce, "Invalid data passed to Phalcon\\Logger\\Adapter\\File::__wakeup()", "phalcon/logger/adapter/file.zep", 154);
 		return;
 	}
 	if (zephir_memnstr_str(mode, SL("r"), "phalcon/logger/adapter/file.zep", 156)) {
-		ZEPHIR_THROW_EXCEPTION_STR(phalcon_logger_exception_ce, "Logger must be opened in append or write mode");
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_logger_exception_ce, "Logger must be opened in append or write mode", "phalcon/logger/adapter/file.zep", 158);
 		return;
 	}
 	ZEPHIR_CALL_FUNCTION(&_1, "fopen", &_2, path, mode);

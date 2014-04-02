@@ -108,7 +108,7 @@ PHP_METHOD(Phalcon_Events_Manager, attach) {
 
 
 	if (Z_TYPE_P(handler) != IS_OBJECT) {
-		ZEPHIR_THROW_EXCEPTION_STR(phalcon_events_exception_ce, "Event handler must be an Object");
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_events_exception_ce, "Event handler must be an Object", "phalcon/events/manager.zep", 54);
 		return;
 	}
 	ZEPHIR_OBS_VAR(events);
@@ -289,11 +289,11 @@ PHP_METHOD(Phalcon_Events_Manager, fireQueue) {
 		_0 = Z_TYPE_P(queue) != IS_OBJECT;
 	}
 	if (_0) {
-		ZEPHIR_THROW_EXCEPTION_STR(phalcon_events_exception_ce, "The queue is not valid");
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_events_exception_ce, "The queue is not valid", "phalcon/events/manager.zep", 190);
 		return;
 	}
 	if (Z_TYPE_P(event) != IS_OBJECT) {
-		ZEPHIR_THROW_EXCEPTION_STR(phalcon_events_exception_ce, "The event is not valid");
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_events_exception_ce, "The event is not valid", "phalcon/events/manager.zep", 194);
 		return;
 	}
 	ZEPHIR_INIT_VAR(status);
@@ -303,7 +303,7 @@ PHP_METHOD(Phalcon_Events_Manager, fireQueue) {
 	ZEPHIR_CALL_METHOD(&eventName, event, "gettype",  NULL);
 	zephir_check_call_status();
 	if (Z_TYPE_P(eventName) != IS_STRING) {
-		ZEPHIR_THROW_EXCEPTION_STR(phalcon_events_exception_ce, "The event type not valid");
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_events_exception_ce, "The event type not valid", "phalcon/events/manager.zep", 204);
 		return;
 	}
 	ZEPHIR_CALL_METHOD(&source, event, "getsource",  NULL);
@@ -480,7 +480,7 @@ PHP_METHOD(Phalcon_Events_Manager, fire) {
 		ZEPHIR_CONCAT_SV(_1, "Invalid event type ", eventType);
 		ZEPHIR_CALL_METHOD(NULL, _0, "__construct", NULL, _1);
 		zephir_check_call_status();
-		zephir_throw_exception(_0 TSRMLS_CC);
+		zephir_throw_exception_debug(_0, "phalcon/events/manager.zep", 428 TSRMLS_CC);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}

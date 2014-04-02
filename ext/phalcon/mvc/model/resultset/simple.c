@@ -96,7 +96,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, __construct) {
 		_0 = !zephir_instance_of_ev(cache, phalcon_cache_backendinterface_ce TSRMLS_CC);
 	}
 	if (_0) {
-		ZEPHIR_THROW_EXCEPTION_STR(spl_ce_InvalidArgumentException, "Parameter 'cache' must be an instance of 'Phalcon\\Cache\\BackendInterface'");
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(spl_ce_InvalidArgumentException, "Parameter 'cache' must be an instance of 'Phalcon\\Cache\\BackendInterface'", "", 0);
 		return;
 	}
 	zephir_update_property_this(this_ptr, SL("_model"), model TSRMLS_CC);
@@ -302,7 +302,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, toArray) {
 						ZEPHIR_CONCAT_SVS(_8, "Column '", key, "' is not part of the column map");
 						ZEPHIR_CALL_METHOD(NULL, _7, "__construct", &_9, _8);
 						zephir_check_call_status();
-						zephir_throw_exception(_7 TSRMLS_CC);
+						zephir_throw_exception_debug(_7, "phalcon/mvc/model/resultset/simple.zep", 255 TSRMLS_CC);
 						ZEPHIR_MM_RESTORE();
 						return;
 					}
@@ -389,7 +389,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, unserialize) {
 	ZEPHIR_CALL_FUNCTION(&resultset, "unserialize", &_1, data);
 	zephir_check_call_status();
 	if (Z_TYPE_P(resultset) != IS_ARRAY) {
-		ZEPHIR_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Invalid serialization data");
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_model_exception_ce, "Invalid serialization data", "phalcon/mvc/model/resultset/simple.zep", 316);
 		return;
 	}
 	zephir_array_fetch_string(&_2, resultset, SL("model"), PH_NOISY | PH_READONLY TSRMLS_CC);

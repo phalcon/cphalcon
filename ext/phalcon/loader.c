@@ -127,7 +127,7 @@ PHP_METHOD(Phalcon_Loader, setEventsManager) {
 
 
 	if (!(zephir_instance_of_ev(eventsManager, phalcon_events_managerinterface_ce TSRMLS_CC))) {
-		ZEPHIR_THROW_EXCEPTION_STRW(spl_ce_InvalidArgumentException, "Parameter 'eventsManager' must be an instance of 'Phalcon\\Events\\ManagerInterface'");
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(spl_ce_InvalidArgumentException, "Parameter 'eventsManager' must be an instance of 'Phalcon\\Events\\ManagerInterface'", "", 0);
 		return;
 	}
 	zephir_update_property_this(this_ptr, SL("_eventsManager"), eventsManager TSRMLS_CC);
@@ -208,7 +208,7 @@ PHP_METHOD(Phalcon_Loader, registerNamespaces) {
 
 
 	if (Z_TYPE_P(namespaces) != IS_ARRAY) {
-		ZEPHIR_THROW_EXCEPTION_STR(phalcon_loader_exception_ce, "Parameter namespaces must be an array");
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_loader_exception_ce, "Parameter namespaces must be an array", "phalcon/loader.zep", 130);
 		return;
 	}
 	if (merge) {
@@ -263,7 +263,7 @@ PHP_METHOD(Phalcon_Loader, registerPrefixes) {
 
 
 	if (Z_TYPE_P(prefixes) != IS_ARRAY) {
-		ZEPHIR_THROW_EXCEPTION_STR(phalcon_loader_exception_ce, "Parameter prefixes must be an array");
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_loader_exception_ce, "Parameter prefixes must be an array", "phalcon/loader.zep", 170);
 		return;
 	}
 	if (merge) {
@@ -318,7 +318,7 @@ PHP_METHOD(Phalcon_Loader, registerDirs) {
 
 
 	if (Z_TYPE_P(directories) != IS_ARRAY) {
-		ZEPHIR_THROW_EXCEPTION_STR(phalcon_loader_exception_ce, "Parameter directories must be an array");
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_loader_exception_ce, "Parameter directories must be an array", "phalcon/loader.zep", 209);
 		return;
 	}
 	if (merge) {
@@ -370,7 +370,7 @@ PHP_METHOD(Phalcon_Loader, registerClasses) {
 
 
 	if (Z_TYPE_P(classes) != IS_ARRAY) {
-		ZEPHIR_THROW_EXCEPTION_STR(phalcon_loader_exception_ce, "Parameter classes must be an array");
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_loader_exception_ce, "Parameter classes must be an array", "phalcon/loader.zep", 248);
 		return;
 	}
 	if (zephir_is_true(merge)) {

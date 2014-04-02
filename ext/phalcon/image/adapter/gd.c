@@ -63,7 +63,7 @@ PHP_METHOD(Phalcon_Image_Adapter_Gd, check) {
 		RETURN_MM_BOOL(1);
 	}
 	if (!((zephir_function_exists_ex(SS("gd_info") TSRMLS_CC) == SUCCESS))) {
-		ZEPHIR_THROW_EXCEPTION_STR(phalcon_image_exception_ce, "GD is either not installed or not enabled, check your configuration");
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_image_exception_ce, "GD is either not installed or not enabled, check your configuration", "phalcon/image/adapter/gd.zep", 34);
 		return;
 	}
 	ZEPHIR_INIT_VAR(version);
@@ -106,7 +106,7 @@ PHP_METHOD(Phalcon_Image_Adapter_Gd, check) {
 		ZEPHIR_CONCAT_SV(_10, "Phalcon\\Image\\Adapter\\GD requires GD version '2.0.1' or greater, you have ", version);
 		ZEPHIR_CALL_METHOD(NULL, _9, "__construct", NULL, _10);
 		zephir_check_call_status();
-		zephir_throw_exception(_9 TSRMLS_CC);
+		zephir_throw_exception_debug(_9, "phalcon/image/adapter/gd.zep", 47 TSRMLS_CC);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
@@ -222,11 +222,11 @@ PHP_METHOD(Phalcon_Image_Adapter_Gd, __construct) {
 				ZEPHIR_CONCAT_SVS(_14, "Installed GD does not support ", _11, " images");
 				ZEPHIR_CALL_METHOD(NULL, _13, "__construct", NULL, _14);
 				zephir_check_call_status();
-				zephir_throw_exception(_13 TSRMLS_CC);
+				zephir_throw_exception_debug(_13, "phalcon/image/adapter/gd.zep", 95 TSRMLS_CC);
 				ZEPHIR_MM_RESTORE();
 				return;
 			} else {
-				ZEPHIR_THROW_EXCEPTION_STR(phalcon_image_exception_ce, "Installed GD does not support such images");
+				ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_image_exception_ce, "Installed GD does not support such images", "phalcon/image/adapter/gd.zep", 98);
 				return;
 			}
 			break;
@@ -248,7 +248,7 @@ PHP_METHOD(Phalcon_Image_Adapter_Gd, __construct) {
 			ZEPHIR_CONCAT_SV(_14, "Failed to create image from file ", _1);
 			ZEPHIR_CALL_METHOD(NULL, _13, "__construct", NULL, _14);
 			zephir_check_call_status();
-			zephir_throw_exception(_13 TSRMLS_CC);
+			zephir_throw_exception_debug(_13, "phalcon/image/adapter/gd.zep", 106 TSRMLS_CC);
 			ZEPHIR_MM_RESTORE();
 			return;
 		}
@@ -898,7 +898,7 @@ PHP_METHOD(Phalcon_Image_Adapter_Gd, _watermark) {
 
 
 	if (!(zephir_instance_of_ev(watermark, phalcon_image_adapter_ce TSRMLS_CC))) {
-		ZEPHIR_THROW_EXCEPTION_STR(spl_ce_InvalidArgumentException, "Parameter 'watermark' must be an instance of 'Phalcon\\Image\\Adapter'");
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(spl_ce_InvalidArgumentException, "Parameter 'watermark' must be an instance of 'Phalcon\\Image\\Adapter'", "", 0);
 		return;
 	}
 	ZEPHIR_CALL_METHOD(&_0, watermark, "render",  NULL);
@@ -1037,7 +1037,7 @@ PHP_METHOD(Phalcon_Image_Adapter_Gd, _text) {
 			_12 = !s5;
 		}
 		if (_12) {
-			ZEPHIR_THROW_EXCEPTION_STR(phalcon_image_exception_ce, "Call to imagettfbbox() failed");
+			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_image_exception_ce, "Call to imagettfbbox() failed", "phalcon/image/adapter/gd.zep", 353);
 			return;
 		}
 		ZEPHIR_SINIT_NVAR(_0);
@@ -1138,7 +1138,7 @@ PHP_METHOD(Phalcon_Image_Adapter_Gd, _mask) {
 
 
 	if (!(zephir_instance_of_ev(mask, phalcon_image_adapter_ce TSRMLS_CC))) {
-		ZEPHIR_THROW_EXCEPTION_STR(spl_ce_InvalidArgumentException, "Parameter 'mask' must be an instance of 'Phalcon\\Image\\Adapter'");
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(spl_ce_InvalidArgumentException, "Parameter 'mask' must be an instance of 'Phalcon\\Image\\Adapter'", "", 0);
 		return;
 	}
 	ZEPHIR_CALL_METHOD(&_0, mask, "render",  NULL);
@@ -1526,7 +1526,7 @@ PHP_METHOD(Phalcon_Image_Adapter_Gd, _save) {
 	ZEPHIR_CONCAT_SVS(_14, "Installed GD does not support '", ext, "' images");
 	ZEPHIR_CALL_METHOD(NULL, _13, "__construct", NULL, _14);
 	zephir_check_call_status();
-	zephir_throw_exception(_13 TSRMLS_CC);
+	zephir_throw_exception_debug(_13, "phalcon/image/adapter/gd.zep", 530 TSRMLS_CC);
 	ZEPHIR_MM_RESTORE();
 	return;
 
@@ -1626,7 +1626,7 @@ PHP_METHOD(Phalcon_Image_Adapter_Gd, _render) {
 	ZEPHIR_CONCAT_SVS(_15, "Installed GD does not support '", ext, "' images");
 	ZEPHIR_CALL_METHOD(NULL, _14, "__construct", NULL, _15);
 	zephir_check_call_status();
-	zephir_throw_exception(_14 TSRMLS_CC);
+	zephir_throw_exception_debug(_14, "phalcon/image/adapter/gd.zep", 557 TSRMLS_CC);
 	ZEPHIR_MM_RESTORE();
 	return;
 

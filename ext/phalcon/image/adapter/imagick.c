@@ -65,7 +65,7 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, check) {
 	ZEPHIR_SINIT_VAR(_1);
 	ZVAL_STRING(&_1, "imagick", 0);
 	if (!(zephir_class_exists(&_1, 1 TSRMLS_CC))) {
-		ZEPHIR_THROW_EXCEPTION_STR(phalcon_image_exception_ce, "Imagick is not installed, or the extension is not loaded");
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_image_exception_ce, "Imagick is not installed, or the extension is not loaded", "phalcon/image/adapter/imagick.zep", 34);
 		return;
 	}
 	ZEPHIR_SINIT_VAR(_2);
@@ -150,7 +150,7 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, __construct) {
 			ZEPHIR_CONCAT_SVS(_11, "Imagick::readImage ", _10, " failed");
 			ZEPHIR_CALL_METHOD(NULL, _9, "__construct", NULL, _11);
 			zephir_check_call_status();
-			zephir_throw_exception(_9 TSRMLS_CC);
+			zephir_throw_exception_debug(_9, "phalcon/image/adapter/imagick.zep", 61 TSRMLS_CC);
 			ZEPHIR_MM_RESTORE();
 			return;
 		}
@@ -192,7 +192,7 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, __construct) {
 			ZEPHIR_CONCAT_SV(_11, "Failed to create image from file ", _3);
 			ZEPHIR_CALL_METHOD(NULL, _9, "__construct", NULL, _11);
 			zephir_check_call_status();
-			zephir_throw_exception(_9 TSRMLS_CC);
+			zephir_throw_exception_debug(_9, "phalcon/image/adapter/imagick.zep", 77 TSRMLS_CC);
 			ZEPHIR_MM_RESTORE();
 			return;
 		}
@@ -759,7 +759,7 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, _watermark) {
 
 
 	if (!(zephir_instance_of_ev(image, phalcon_image_adapter_ce TSRMLS_CC))) {
-		ZEPHIR_THROW_EXCEPTION_STR(spl_ce_InvalidArgumentException, "Parameter 'image' must be an instance of 'Phalcon\\Image\\Adapter'");
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(spl_ce_InvalidArgumentException, "Parameter 'image' must be an instance of 'Phalcon\\Image\\Adapter'", "", 0);
 		return;
 	}
 	opacity = (opacity / 100);
@@ -936,7 +936,7 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, _mask) {
 
 
 	if (!(zephir_instance_of_ev(image, phalcon_image_adapter_ce TSRMLS_CC))) {
-		ZEPHIR_THROW_EXCEPTION_STR(spl_ce_InvalidArgumentException, "Parameter 'image' must be an instance of 'Phalcon\\Image\\Adapter'");
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(spl_ce_InvalidArgumentException, "Parameter 'image' must be an instance of 'Phalcon\\Image\\Adapter'", "", 0);
 		return;
 	}
 	ZEPHIR_INIT_VAR(mask);

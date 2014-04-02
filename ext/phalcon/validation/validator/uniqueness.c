@@ -103,7 +103,7 @@ PHP_METHOD(Phalcon_Validation_Validator_Uniqueness, validate) {
 
 
 	if (!(zephir_instance_of_ev(validation, phalcon_validation_ce TSRMLS_CC))) {
-		ZEPHIR_THROW_EXCEPTION_STR(spl_ce_InvalidArgumentException, "Parameter 'validation' must be an instance of 'Phalcon\\Validation'");
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(spl_ce_InvalidArgumentException, "Parameter 'validation' must be an instance of 'Phalcon\\Validation'", "", 0);
 		return;
 	}
 	ZEPHIR_CALL_METHOD(&value, validation, "getvalue", NULL, field);
@@ -119,7 +119,7 @@ PHP_METHOD(Phalcon_Validation_Validator_Uniqueness, validate) {
 	zephir_check_temp_parameter(_0);
 	zephir_check_call_status();
 	if (ZEPHIR_IS_EMPTY(model)) {
-		ZEPHIR_THROW_EXCEPTION_STR(phalcon_validation_exception_ce, "Model must be set");
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_validation_exception_ce, "Model must be set", "phalcon/validation/validator/uniqueness.zep", 64);
 		return;
 	}
 	if (ZEPHIR_IS_EMPTY(attribute)) {

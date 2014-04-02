@@ -254,12 +254,12 @@ PHP_METHOD(Phalcon_Db_Dialect, getSqlExpression) {
 		}
 	}
 	if (Z_TYPE_P(expression) != IS_ARRAY) {
-		ZEPHIR_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "Invalid SQL expression");
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "Invalid SQL expression", "phalcon/db/dialect.zep", 128);
 		return;
 	}
 	ZEPHIR_OBS_VAR(type);
 	if (!(zephir_array_isset_string_fetch(&type, expression, SS("type"), 0 TSRMLS_CC))) {
-		ZEPHIR_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "Invalid SQL expression");
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "Invalid SQL expression", "phalcon/db/dialect.zep", 132);
 		return;
 	}
 	if (ZEPHIR_IS_STRING(type, "qualified")) {
@@ -401,7 +401,7 @@ PHP_METHOD(Phalcon_Db_Dialect, getSqlExpression) {
 	ZEPHIR_CONCAT_SVS(_16, "Invalid SQL expression type '", type, "'");
 	ZEPHIR_CALL_METHOD(NULL, _15, "__construct", NULL, _16);
 	zephir_check_call_status();
-	zephir_throw_exception(_15 TSRMLS_CC);
+	zephir_throw_exception_debug(_15, "phalcon/db/dialect.zep", 273 TSRMLS_CC);
 	ZEPHIR_MM_RESTORE();
 	return;
 
@@ -499,17 +499,17 @@ PHP_METHOD(Phalcon_Db_Dialect, select) {
 
 
 	if (Z_TYPE_P(definition) != IS_ARRAY) {
-		ZEPHIR_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "Invalid SELECT definition");
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "Invalid SELECT definition", "phalcon/db/dialect.zep", 362);
 		return;
 	}
 	ZEPHIR_OBS_VAR(tables);
 	if (!(zephir_array_isset_string_fetch(&tables, definition, SS("tables"), 0 TSRMLS_CC))) {
-		ZEPHIR_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "The index 'tables' is required in the definition array");
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "The index 'tables' is required in the definition array", "phalcon/db/dialect.zep", 366);
 		return;
 	}
 	ZEPHIR_OBS_VAR(columns);
 	if (!(zephir_array_isset_string_fetch(&columns, definition, SS("columns"), 0 TSRMLS_CC))) {
-		ZEPHIR_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "The index 'columns' is required in the definition array");
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "The index 'columns' is required in the definition array", "phalcon/db/dialect.zep", 370);
 		return;
 	}
 	ZEPHIR_INIT_VAR(escapeChar);

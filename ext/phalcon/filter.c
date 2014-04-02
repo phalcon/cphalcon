@@ -98,7 +98,7 @@ PHP_METHOD(Phalcon_Filter, add) {
 
 
 	if (Z_TYPE_P(handler) != IS_OBJECT) {
-		ZEPHIR_THROW_EXCEPTION_STR(phalcon_filter_exception_ce, "Filter must be an object");
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_filter_exception_ce, "Filter must be an object", "phalcon/filter.zep", 54);
 		return;
 	}
 	zephir_update_property_array(this_ptr, SL("_filters"), name, handler TSRMLS_CC);
@@ -312,7 +312,7 @@ PHP_METHOD(Phalcon_Filter, _sanitize) {
 		ZEPHIR_CONCAT_SVS(_9, "Sanitize filter '", filter, "' is not supported");
 		ZEPHIR_CALL_METHOD(NULL, _8, "__construct", NULL, _9);
 		zephir_check_call_status();
-		zephir_throw_exception(_8 TSRMLS_CC);
+		zephir_throw_exception_debug(_8, "phalcon/filter.zep", 182 TSRMLS_CC);
 		ZEPHIR_MM_RESTORE();
 		return;
 	} while(0);

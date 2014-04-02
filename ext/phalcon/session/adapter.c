@@ -128,7 +128,7 @@ PHP_METHOD(Phalcon_Session_Adapter, setOptions) {
 
 
 	if (Z_TYPE_P(options) != IS_ARRAY) {
-		ZEPHIR_THROW_EXCEPTION_STRW(phalcon_session_exception_ce, "Options must be an Array");
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_session_exception_ce, "Options must be an Array", "phalcon/session/adapter.zep", 80);
 		return;
 	}
 	if (zephir_array_isset_string_fetch(&uniqueId, options, SS("uniqueId"), 1 TSRMLS_CC)) {

@@ -128,7 +128,7 @@ PHP_METHOD(Phalcon_Acl_Resource, __construct) {
 
 
 	if (ZEPHIR_IS_STRING(name, "*")) {
-		ZEPHIR_THROW_EXCEPTION_STR(phalcon_acl_exception_ce, "Resource name cannot be '*'");
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_acl_exception_ce, "Resource name cannot be '*'", "phalcon/acl/resource.zep", 52);
 		return;
 	}
 	zephir_update_property_this(this_ptr, SL("_name"), name TSRMLS_CC);

@@ -301,7 +301,7 @@ PHP_METHOD(Phalcon_Di, setRaw) {
 
 
 	if (!(zephir_instance_of_ev(rawDefinition, phalcon_di_serviceinterface_ce TSRMLS_CC))) {
-		ZEPHIR_THROW_EXCEPTION_STR(spl_ce_InvalidArgumentException, "Parameter 'rawDefinition' must be an instance of 'Phalcon\\Di\\ServiceInterface'");
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(spl_ce_InvalidArgumentException, "Parameter 'rawDefinition' must be an instance of 'Phalcon\\Di\\ServiceInterface'", "", 0);
 		return;
 	}
 	zephir_update_property_array(this_ptr, SL("_services"), name, rawDefinition TSRMLS_CC);
@@ -350,7 +350,7 @@ PHP_METHOD(Phalcon_Di, getRaw) {
 	ZEPHIR_CONCAT_SVS(_2, "Service '", name, "' wasn't found in the dependency injection container");
 	ZEPHIR_CALL_METHOD(NULL, _1, "__construct", NULL, _2);
 	zephir_check_call_status();
-	zephir_throw_exception(_1 TSRMLS_CC);
+	zephir_throw_exception_debug(_1, "phalcon/di.zep", 171 TSRMLS_CC);
 	ZEPHIR_MM_RESTORE();
 	return;
 
@@ -395,7 +395,7 @@ PHP_METHOD(Phalcon_Di, getService) {
 	ZEPHIR_CONCAT_SVS(_2, "Service '", name, "' wasn't found in the dependency injection container");
 	ZEPHIR_CALL_METHOD(NULL, _1, "__construct", NULL, _2);
 	zephir_check_call_status();
-	zephir_throw_exception(_1 TSRMLS_CC);
+	zephir_throw_exception_debug(_1, "phalcon/di.zep", 188 TSRMLS_CC);
 	ZEPHIR_MM_RESTORE();
 	return;
 
@@ -461,7 +461,7 @@ PHP_METHOD(Phalcon_Di, get) {
 			ZEPHIR_CONCAT_SVS(_2, "Service '", name, "' wasn't found in the dependency injection container");
 			ZEPHIR_CALL_METHOD(NULL, _1, "__construct", NULL, _2);
 			zephir_check_call_status();
-			zephir_throw_exception(_1 TSRMLS_CC);
+			zephir_throw_exception_debug(_1, "phalcon/di.zep", 222 TSRMLS_CC);
 			ZEPHIR_MM_RESTORE();
 			return;
 		}
@@ -793,7 +793,7 @@ PHP_METHOD(Phalcon_Di, __call) {
 	ZEPHIR_CONCAT_SVS(_6, "Call to undefined method or service '", method, "'");
 	ZEPHIR_CALL_METHOD(NULL, _5, "__construct", NULL, _6);
 	zephir_check_call_status();
-	zephir_throw_exception(_5 TSRMLS_CC);
+	zephir_throw_exception_debug(_5, "phalcon/di.zep", 395 TSRMLS_CC);
 	ZEPHIR_MM_RESTORE();
 	return;
 
@@ -813,7 +813,7 @@ PHP_METHOD(Phalcon_Di, setDefault) {
 
 
 	if (!(zephir_instance_of_ev(dependencyInjector, phalcon_diinterface_ce TSRMLS_CC))) {
-		ZEPHIR_THROW_EXCEPTION_STRW(spl_ce_InvalidArgumentException, "Parameter 'dependencyInjector' must be an instance of 'Phalcon\\DiInterface'");
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(spl_ce_InvalidArgumentException, "Parameter 'dependencyInjector' must be an instance of 'Phalcon\\DiInterface'", "", 0);
 		return;
 	}
 	zephir_update_static_property_ce(phalcon_di_ce, SL("_default"), dependencyInjector TSRMLS_CC);

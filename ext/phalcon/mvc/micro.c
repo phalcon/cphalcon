@@ -111,7 +111,7 @@ PHP_METHOD(Phalcon_Mvc_Micro, __construct) {
 		_0 = !zephir_instance_of_ev(dependencyInjector, phalcon_diinterface_ce TSRMLS_CC);
 	}
 	if (_0) {
-		ZEPHIR_THROW_EXCEPTION_STR(spl_ce_InvalidArgumentException, "Parameter 'dependencyInjector' must be an instance of 'Phalcon\\DiInterface'");
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(spl_ce_InvalidArgumentException, "Parameter 'dependencyInjector' must be an instance of 'Phalcon\\DiInterface'", "", 0);
 		return;
 	}
 	if (Z_TYPE_P(dependencyInjector) == IS_OBJECT) {
@@ -140,7 +140,7 @@ PHP_METHOD(Phalcon_Mvc_Micro, setDI) {
 
 
 	if (!(zephir_instance_of_ev(dependencyInjector, phalcon_diinterface_ce TSRMLS_CC))) {
-		ZEPHIR_THROW_EXCEPTION_STR(spl_ce_InvalidArgumentException, "Parameter 'dependencyInjector' must be an instance of 'Phalcon\\DiInterface'");
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(spl_ce_InvalidArgumentException, "Parameter 'dependencyInjector' must be an instance of 'Phalcon\\DiInterface'", "", 0);
 		return;
 	}
 	ZEPHIR_INIT_VAR(_0);
@@ -454,23 +454,23 @@ PHP_METHOD(Phalcon_Mvc_Micro, mount) {
 
 
 	if (!(zephir_instance_of_ev(collection, phalcon_mvc_micro_collection_ce TSRMLS_CC))) {
-		ZEPHIR_THROW_EXCEPTION_STR(spl_ce_InvalidArgumentException, "Parameter 'collection' must be an instance of 'Phalcon\\Mvc\\Micro\\Collection'");
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(spl_ce_InvalidArgumentException, "Parameter 'collection' must be an instance of 'Phalcon\\Mvc\\Micro\\Collection'", "", 0);
 		return;
 	}
 	if (Z_TYPE_P(collection) != IS_OBJECT) {
-		ZEPHIR_THROW_EXCEPTION_STR(phalcon_mvc_micro_exception_ce, "The collection is not valid");
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_micro_exception_ce, "The collection is not valid", "phalcon/mvc/micro.zep", 389);
 		return;
 	}
 	ZEPHIR_CALL_METHOD(&mainHandler, collection, "gethandler",  NULL);
 	zephir_check_call_status();
 	if (!(ZEPHIR_IS_EMPTY(mainHandler))) {
-		ZEPHIR_THROW_EXCEPTION_STR(phalcon_mvc_micro_exception_ce, "The collection requires a main handler");
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_micro_exception_ce, "The collection requires a main handler", "phalcon/mvc/micro.zep", 397);
 		return;
 	}
 	ZEPHIR_CALL_METHOD(&handlers, collection, "gethandlers",  NULL);
 	zephir_check_call_status();
 	if (!(zephir_fast_count_int(handlers TSRMLS_CC))) {
-		ZEPHIR_THROW_EXCEPTION_STR(phalcon_mvc_micro_exception_ce, "There are no handlers to mount");
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_micro_exception_ce, "There are no handlers to mount", "phalcon/mvc/micro.zep", 402);
 		return;
 	}
 	if (Z_TYPE_P(handlers) == IS_ARRAY) {
@@ -493,7 +493,7 @@ PHP_METHOD(Phalcon_Mvc_Micro, mount) {
 		) {
 			ZEPHIR_GET_HVALUE(handler, _2);
 			if (Z_TYPE_P(handler) != IS_ARRAY) {
-				ZEPHIR_THROW_EXCEPTION_STR(phalcon_mvc_micro_exception_ce, "One of the registered handlers is invalid");
+				ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_micro_exception_ce, "One of the registered handlers is invalid", "phalcon/mvc/micro.zep", 426);
 				return;
 			}
 			ZEPHIR_OBS_NVAR(methods);
@@ -733,7 +733,7 @@ PHP_METHOD(Phalcon_Mvc_Micro, handle) {
 	ZEPHIR_OBS_VAR(dependencyInjector);
 	zephir_read_property_this(&dependencyInjector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
 	if (Z_TYPE_P(dependencyInjector) != IS_OBJECT) {
-		ZEPHIR_THROW_EXCEPTION_STR(phalcon_mvc_micro_exception_ce, "A dependency injection container is required to access related dispatching services");
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_micro_exception_ce, "A dependency injection container is required to access related dispatching services", "phalcon/mvc/micro.zep", 599);
 		return;
 	}
 	ZEPHIR_OBS_VAR(eventsManager);
@@ -764,7 +764,7 @@ PHP_METHOD(Phalcon_Mvc_Micro, handle) {
 		ZEPHIR_CALL_METHOD(&_0, matchedRoute, "getrouteid",  NULL);
 		zephir_check_call_status();
 		if (!(zephir_array_isset_fetch(&handler, _2, _0, 0 TSRMLS_CC))) {
-			ZEPHIR_THROW_EXCEPTION_STR(phalcon_mvc_micro_exception_ce, "Matched route doesn't have an associate handler");
+			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_micro_exception_ce, "Matched route doesn't have an associate handler", "phalcon/mvc/micro.zep", 629);
 			return;
 		}
 		zephir_update_property_this(this_ptr, SL("_activeHandler"), handler TSRMLS_CC);
@@ -803,7 +803,7 @@ PHP_METHOD(Phalcon_Mvc_Micro, handle) {
 					}
 				}
 				if (!(zephir_is_callable(before TSRMLS_CC))) {
-					ZEPHIR_THROW_EXCEPTION_STR(phalcon_mvc_micro_exception_ce, "The before handler is not callable");
+					ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_micro_exception_ce, "The before handler is not callable", "phalcon/mvc/micro.zep", 679);
 					return;
 				}
 				ZEPHIR_CALL_FUNCTION(&_3, "call_user_func", &_8, before);
@@ -851,7 +851,7 @@ PHP_METHOD(Phalcon_Mvc_Micro, handle) {
 					}
 				}
 				if (!(zephir_is_callable(after TSRMLS_CC))) {
-					ZEPHIR_THROW_EXCEPTION_STR(phalcon_mvc_micro_exception_ce, "One of the 'after' handlers is not callable");
+					ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_micro_exception_ce, "One of the 'after' handlers is not callable", "phalcon/mvc/micro.zep", 746);
 					return;
 				}
 				ZEPHIR_CALL_FUNCTION(&status, "call_user_func", &_8, after);
@@ -874,7 +874,7 @@ PHP_METHOD(Phalcon_Mvc_Micro, handle) {
 		ZEPHIR_OBS_VAR(notFoundHandler);
 		zephir_read_property_this(&notFoundHandler, this_ptr, SL("_notFoundHandler"), PH_NOISY_CC);
 		if (!(zephir_is_callable(notFoundHandler TSRMLS_CC))) {
-			ZEPHIR_THROW_EXCEPTION_STR(phalcon_mvc_micro_exception_ce, "The Not-Found handler is not callable or is not defined");
+			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_micro_exception_ce, "The Not-Found handler is not callable or is not defined", "phalcon/mvc/micro.zep", 770);
 			return;
 		}
 		ZEPHIR_CALL_FUNCTION(&returnedValue, "call_user_func", &_8, notFoundHandler);
@@ -913,7 +913,7 @@ PHP_METHOD(Phalcon_Mvc_Micro, handle) {
 				}
 			}
 			if (!(zephir_is_callable(finish TSRMLS_CC))) {
-				ZEPHIR_THROW_EXCEPTION_STR(phalcon_mvc_micro_exception_ce, "One of finish handlers is not callable");
+				ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_micro_exception_ce, "One of finish handlers is not callable", "phalcon/mvc/micro.zep", 829);
 				return;
 			}
 			if (Z_TYPE_P(params) == IS_NULL) {

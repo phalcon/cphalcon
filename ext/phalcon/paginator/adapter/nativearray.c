@@ -146,7 +146,7 @@ PHP_METHOD(Phalcon_Paginator_Adapter_NativeArray, getPaginate) {
 	ZEPHIR_OBS_VAR(items);
 	zephir_array_fetch_string(&items, config, SL("data"), PH_NOISY TSRMLS_CC);
 	if (Z_TYPE_P(items) != IS_ARRAY) {
-		ZEPHIR_THROW_EXCEPTION_STR(phalcon_paginator_exception_ce, "Invalid data for paginator");
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_paginator_exception_ce, "Invalid data for paginator", "phalcon/paginator/adapter/nativearray.zep", 109);
 		return;
 	}
 	ZEPHIR_OBS_VAR(_0);

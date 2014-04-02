@@ -225,7 +225,7 @@ PHP_METHOD(Phalcon_Mvc_Dispatcher, _throwDispatchException) {
 		ZEPHIR_CALL_METHOD(NULL, _0, "__construct", NULL, _1, _2);
 		zephir_check_temp_parameter(_1);
 		zephir_check_call_status();
-		zephir_throw_exception(_0 TSRMLS_CC);
+		zephir_throw_exception_debug(_0, "phalcon/mvc/dispatcher.zep", 109 TSRMLS_CC);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
@@ -260,7 +260,7 @@ PHP_METHOD(Phalcon_Mvc_Dispatcher, _throwDispatchException) {
 			RETURN_MM_BOOL(0);
 		}
 	}
-	zephir_throw_exception(exception TSRMLS_CC);
+	zephir_throw_exception_debug(exception, "phalcon/mvc/dispatcher.zep", 134 TSRMLS_CC);
 	ZEPHIR_MM_RESTORE();
 	return;
 
@@ -282,7 +282,7 @@ PHP_METHOD(Phalcon_Mvc_Dispatcher, _handleException) {
 
 
 	if (!(zephir_is_instance_of(exception, SL("Phalcon\\Mvc\\Exception") TSRMLS_CC))) {
-		ZEPHIR_THROW_EXCEPTION_STR(spl_ce_InvalidArgumentException, "Parameter 'exception' must be an instance of 'Phalcon\\Mvc\\Exception'");
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(spl_ce_InvalidArgumentException, "Parameter 'exception' must be an instance of 'Phalcon\\Mvc\\Exception'", "", 0);
 		return;
 	}
 	ZEPHIR_OBS_VAR(eventsManager);

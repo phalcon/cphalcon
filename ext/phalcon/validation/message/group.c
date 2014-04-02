@@ -141,11 +141,11 @@ PHP_METHOD(Phalcon_Validation_Message_Group, offsetSet) {
 
 
 	if (!(zephir_instance_of_ev(message, phalcon_validation_message_ce TSRMLS_CC))) {
-		ZEPHIR_THROW_EXCEPTION_STR(spl_ce_InvalidArgumentException, "Parameter 'message' must be an instance of 'Phalcon\\Validation\\Message'");
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(spl_ce_InvalidArgumentException, "Parameter 'message' must be an instance of 'Phalcon\\Validation\\Message'", "", 0);
 		return;
 	}
 	if (Z_TYPE_P(message) != IS_OBJECT) {
-		ZEPHIR_THROW_EXCEPTION_STR(phalcon_validation_exception_ce, "The message must be an object");
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_validation_exception_ce, "The message must be an object", "phalcon/validation/message/group.zep", 79);
 		return;
 	}
 	ZEPHIR_INIT_VAR(_0);
@@ -225,7 +225,7 @@ PHP_METHOD(Phalcon_Validation_Message_Group, appendMessage) {
 
 
 	if (!(zephir_instance_of_ev(message, phalcon_validation_messageinterface_ce TSRMLS_CC))) {
-		ZEPHIR_THROW_EXCEPTION_STRW(spl_ce_InvalidArgumentException, "Parameter 'message' must be an instance of 'Phalcon\\Validation\\MessageInterface'");
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(spl_ce_InvalidArgumentException, "Parameter 'message' must be an instance of 'Phalcon\\Validation\\MessageInterface'", "", 0);
 		return;
 	}
 	zephir_update_property_array_append(this_ptr, SL("_messages"), message TSRMLS_CC);
@@ -256,7 +256,7 @@ PHP_METHOD(Phalcon_Validation_Message_Group, appendMessages) {
 
 	if (Z_TYPE_P(messages) != IS_ARRAY) {
 		if (Z_TYPE_P(messages) != IS_OBJECT) {
-			ZEPHIR_THROW_EXCEPTION_STR(phalcon_validation_exception_ce, "The messages must be array or object");
+			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_validation_exception_ce, "The messages must be array or object", "phalcon/validation/message/group.zep", 145);
 			return;
 		}
 	}

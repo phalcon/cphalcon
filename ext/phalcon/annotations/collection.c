@@ -94,7 +94,7 @@ PHP_METHOD(Phalcon_Annotations_Collection, __construct) {
 
 	if (Z_TYPE_P(reflectionData) != IS_NULL) {
 		if (Z_TYPE_P(reflectionData) != IS_ARRAY) {
-			ZEPHIR_THROW_EXCEPTION_STR(phalcon_annotations_exception_ce, "Reflection data must be an array");
+			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_annotations_exception_ce, "Reflection data must be an array", "phalcon/annotations/collection.zep", 59);
 			return;
 		}
 	}
@@ -263,7 +263,7 @@ PHP_METHOD(Phalcon_Annotations_Collection, get) {
 	ZEPHIR_CONCAT_SVS(_5, "The collection doesn't have an annotation called '", name, "'");
 	ZEPHIR_CALL_METHOD(NULL, _4, "__construct", NULL, _5);
 	zephir_check_call_status();
-	zephir_throw_exception(_4 TSRMLS_CC);
+	zephir_throw_exception_debug(_4, "phalcon/annotations/collection.zep", 159 TSRMLS_CC);
 	ZEPHIR_MM_RESTORE();
 	return;
 

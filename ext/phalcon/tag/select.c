@@ -171,7 +171,7 @@ PHP_METHOD(Phalcon_Tag_Select, selectField) {
 	if (Z_TYPE_P(options) == IS_OBJECT) {
 		ZEPHIR_OBS_VAR(using);
 		if (!(zephir_array_isset_string_fetch(&using, params, SS("using"), 0 TSRMLS_CC))) {
-			ZEPHIR_THROW_EXCEPTION_STR(phalcon_tag_exception_ce, "The \"using\" parameter is required");
+			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_tag_exception_ce, "The \"using\" parameter is required", "phalcon/tag/select.zep", 124);
 			return;
 		} else {
 			_5 = Z_TYPE_P(using) != IS_ARRAY;
@@ -179,7 +179,7 @@ PHP_METHOD(Phalcon_Tag_Select, selectField) {
 				_5 = Z_TYPE_P(using) != IS_OBJECT;
 			}
 			if (_5) {
-				ZEPHIR_THROW_EXCEPTION_STR(phalcon_tag_exception_ce, "The \"using\" parameter should be an Array");
+				ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_tag_exception_ce, "The \"using\" parameter should be an Array", "phalcon/tag/select.zep", 127);
 				return;
 			}
 		}
@@ -192,7 +192,7 @@ PHP_METHOD(Phalcon_Tag_Select, selectField) {
 			zephir_check_call_status();
 			zephir_concat_self(&code, _10 TSRMLS_CC);
 		} else {
-			ZEPHIR_THROW_EXCEPTION_STR(phalcon_tag_exception_ce, "Invalid data provided to SELECT helper");
+			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_tag_exception_ce, "Invalid data provided to SELECT helper", "phalcon/tag/select.zep", 143);
 			return;
 		}
 	}
@@ -257,7 +257,7 @@ PHP_METHOD(Phalcon_Tag_Select, _optionsFromResultset) {
 					ZEPHIR_OBS_NVAR(optionText);
 					zephir_array_fetch(&optionText, option, usingOne, PH_NOISY TSRMLS_CC);
 				} else {
-					ZEPHIR_THROW_EXCEPTION_STR(phalcon_tag_exception_ce, "Resultset returned an invalid value");
+					ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_tag_exception_ce, "Resultset returned an invalid value", "phalcon/tag/select.zep", 193);
 					return;
 				}
 			}

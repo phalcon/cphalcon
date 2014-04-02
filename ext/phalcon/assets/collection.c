@@ -301,7 +301,7 @@ PHP_METHOD(Phalcon_Assets_Collection, add) {
 
 
 	if (!(zephir_instance_of_ev(resource, phalcon_assets_resource_ce TSRMLS_CC))) {
-		ZEPHIR_THROW_EXCEPTION_STRW(spl_ce_InvalidArgumentException, "Parameter 'resource' must be an instance of 'Phalcon\\Assets\\Resource'");
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(spl_ce_InvalidArgumentException, "Parameter 'resource' must be an instance of 'Phalcon\\Assets\\Resource'", "", 0);
 		return;
 	}
 	zephir_update_property_array_append(this_ptr, SL("_resources"), resource TSRMLS_CC);

@@ -126,7 +126,7 @@ PHP_METHOD(Phalcon_Http_Response, setDI) {
 
 
 	if (!(zephir_instance_of_ev(dependencyInjector, phalcon_diinterface_ce TSRMLS_CC))) {
-		ZEPHIR_THROW_EXCEPTION_STRW(spl_ce_InvalidArgumentException, "Parameter 'dependencyInjector' must be an instance of 'Phalcon\\DiInterface'");
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(spl_ce_InvalidArgumentException, "Parameter 'dependencyInjector' must be an instance of 'Phalcon\\DiInterface'", "", 0);
 		return;
 	}
 	zephir_update_property_this(this_ptr, SL("_dependencyInjector"), dependencyInjector TSRMLS_CC);
@@ -152,7 +152,7 @@ PHP_METHOD(Phalcon_Http_Response, getDI) {
 		ZEPHIR_CALL_CE_STATIC(&dependencyInjector, phalcon_di_ce, "getdefault", &_1);
 		zephir_check_call_status();
 		if (Z_TYPE_P(dependencyInjector) != IS_OBJECT) {
-			ZEPHIR_THROW_EXCEPTION_STR(phalcon_http_request_exception_ce, "A dependency injection object is required to access the 'url' service");
+			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_http_request_exception_ce, "A dependency injection object is required to access the 'url' service", "phalcon/http/response.zep", 91);
 			return;
 		}
 		zephir_update_property_this(this_ptr, SL("_dependencyInjector"), dependencyInjector TSRMLS_CC);
@@ -264,11 +264,11 @@ PHP_METHOD(Phalcon_Http_Response, setCookies) {
 
 
 	if (!(zephir_instance_of_ev(cookies, phalcon_http_response_cookiesinterface_ce TSRMLS_CC))) {
-		ZEPHIR_THROW_EXCEPTION_STRW(spl_ce_InvalidArgumentException, "Parameter 'cookies' must be an instance of 'Phalcon\\Http\\Response\\CookiesInterface'");
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(spl_ce_InvalidArgumentException, "Parameter 'cookies' must be an instance of 'Phalcon\\Http\\Response\\CookiesInterface'", "", 0);
 		return;
 	}
 	if (Z_TYPE_P(cookies) != IS_OBJECT) {
-		ZEPHIR_THROW_EXCEPTION_STRW(phalcon_http_response_exception_ce, "The cookies bag is not valid");
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_http_response_exception_ce, "The cookies bag is not valid", "phalcon/http/response.zep", 169);
 		return;
 	}
 	zephir_update_property_this(this_ptr, SL("_cookies"), cookies TSRMLS_CC);
@@ -391,7 +391,7 @@ PHP_METHOD(Phalcon_Http_Response, setExpires) {
 
 
 	if (!(zephir_is_instance_of(datetime, SL("DateTime") TSRMLS_CC))) {
-		ZEPHIR_THROW_EXCEPTION_STR(spl_ce_InvalidArgumentException, "Parameter 'datetime' must be an instance of 'DateTime'");
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(spl_ce_InvalidArgumentException, "Parameter 'datetime' must be an instance of 'DateTime'", "", 0);
 		return;
 	}
 	ZEPHIR_CALL_METHOD(&headers, this_ptr, "getheaders",  NULL);
@@ -753,7 +753,7 @@ PHP_METHOD(Phalcon_Http_Response, send) {
 
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_sent"), PH_NOISY_CC);
 	if (zephir_is_true(_0)) {
-		ZEPHIR_THROW_EXCEPTION_STR(phalcon_http_response_exception_ce, "Response was already sent");
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_http_response_exception_ce, "Response was already sent", "phalcon/http/response.zep", 471);
 		return;
 	}
 	ZEPHIR_OBS_VAR(headers);

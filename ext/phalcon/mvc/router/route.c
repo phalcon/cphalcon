@@ -553,7 +553,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Route, reConfigure) {
 		array_init(routePaths);
 	}
 	if (Z_TYPE_P(routePaths) != IS_ARRAY) {
-		ZEPHIR_THROW_EXCEPTION_STR(phalcon_mvc_router_exception_ce, "The route contains invalid paths");
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_router_exception_ce, "The route contains invalid paths", "phalcon/mvc/router/route.zep", 363);
 		return;
 	}
 	if (!(zephir_start_with_str(pattern, SL("#")))) {

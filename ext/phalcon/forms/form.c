@@ -95,7 +95,7 @@ PHP_METHOD(Phalcon_Forms_Form, __construct) {
 
 	if (Z_TYPE_P(entity) != IS_NULL) {
 		if (Z_TYPE_P(entity) != IS_OBJECT) {
-			ZEPHIR_THROW_EXCEPTION_STR(phalcon_forms_exception_ce, "The base entity is not valid");
+			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_forms_exception_ce, "The base entity is not valid", "phalcon/forms/form.zep", 57);
 			return;
 		}
 		zephir_update_property_this(this_ptr, SL("_entity"), entity TSRMLS_CC);
@@ -203,7 +203,7 @@ PHP_METHOD(Phalcon_Forms_Form, setUserOptions) {
 
 
 	if (Z_TYPE_P(options) != IS_ARRAY) {
-		ZEPHIR_THROW_EXCEPTION_STRW(phalcon_forms_exception_ce, "Parameter 'options' must be an array");
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_forms_exception_ce, "Parameter 'options' must be an array", "phalcon/forms/form.zep", 137);
 		return;
 	}
 	zephir_update_property_this(this_ptr, SL("_options"), options TSRMLS_CC);
@@ -292,13 +292,13 @@ PHP_METHOD(Phalcon_Forms_Form, bind) {
 
 
 	if (Z_TYPE_P(data) != IS_ARRAY) {
-		ZEPHIR_THROW_EXCEPTION_STR(phalcon_forms_exception_ce, "The data must be an array");
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_forms_exception_ce, "The data must be an array", "phalcon/forms/form.zep", 202);
 		return;
 	}
 	ZEPHIR_OBS_VAR(elements);
 	zephir_read_property_this(&elements, this_ptr, SL("_elements"), PH_NOISY_CC);
 	if (Z_TYPE_P(elements) != IS_ARRAY) {
-		ZEPHIR_THROW_EXCEPTION_STR(phalcon_forms_exception_ce, "There are no elements in the form");
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_forms_exception_ce, "There are no elements in the form", "phalcon/forms/form.zep", 207);
 		return;
 	}
 	ZEPHIR_INIT_VAR(filter);
@@ -581,11 +581,11 @@ PHP_METHOD(Phalcon_Forms_Form, add) {
 
 
 	if (!(zephir_instance_of_ev(element, phalcon_forms_elementinterface_ce TSRMLS_CC))) {
-		ZEPHIR_THROW_EXCEPTION_STR(spl_ce_InvalidArgumentException, "Parameter 'element' must be an instance of 'Phalcon\\Forms\\ElementInterface'");
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(spl_ce_InvalidArgumentException, "Parameter 'element' must be an instance of 'Phalcon\\Forms\\ElementInterface'", "", 0);
 		return;
 	}
 	if (Z_TYPE_P(element) != IS_OBJECT) {
-		ZEPHIR_THROW_EXCEPTION_STR(phalcon_forms_exception_ce, "The element is not valid");
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_forms_exception_ce, "The element is not valid", "phalcon/forms/form.zep", 450);
 		return;
 	}
 	ZEPHIR_CALL_METHOD(&name, element, "getname",  NULL);
@@ -638,7 +638,7 @@ PHP_METHOD(Phalcon_Forms_Form, render) {
 		ZEPHIR_CONCAT_SVS(_2, "Element with ID=", name, " is not part of the form");
 		ZEPHIR_CALL_METHOD(NULL, _1, "__construct", NULL, _2);
 		zephir_check_call_status();
-		zephir_throw_exception(_1 TSRMLS_CC);
+		zephir_throw_exception_debug(_1, "phalcon/forms/form.zep", 481 TSRMLS_CC);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
@@ -687,7 +687,7 @@ PHP_METHOD(Phalcon_Forms_Form, get) {
 	ZEPHIR_CONCAT_SVS(_2, "Element with ID=", name, " is not part of the form");
 	ZEPHIR_CALL_METHOD(NULL, _1, "__construct", NULL, _2);
 	zephir_check_call_status();
-	zephir_throw_exception(_1 TSRMLS_CC);
+	zephir_throw_exception_debug(_1, "phalcon/forms/form.zep", 501 TSRMLS_CC);
 	ZEPHIR_MM_RESTORE();
 	return;
 
@@ -734,7 +734,7 @@ PHP_METHOD(Phalcon_Forms_Form, label) {
 	ZEPHIR_CONCAT_SVS(_2, "Element with ID=", name, " is not part of the form");
 	ZEPHIR_CALL_METHOD(NULL, _1, "__construct", NULL, _2);
 	zephir_check_call_status();
-	zephir_throw_exception(_1 TSRMLS_CC);
+	zephir_throw_exception_debug(_1, "phalcon/forms/form.zep", 518 TSRMLS_CC);
 	ZEPHIR_MM_RESTORE();
 	return;
 
@@ -777,7 +777,7 @@ PHP_METHOD(Phalcon_Forms_Form, getLabel) {
 		ZEPHIR_CONCAT_SVS(_2, "Element with ID=", name, " is not part of the form");
 		ZEPHIR_CALL_METHOD(NULL, _1, "__construct", NULL, _2);
 		zephir_check_call_status();
-		zephir_throw_exception(_1 TSRMLS_CC);
+		zephir_throw_exception_debug(_1, "phalcon/forms/form.zep", 532 TSRMLS_CC);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}

@@ -146,7 +146,7 @@ PHP_METHOD(Phalcon_Image_Adapter, resize) {
 			_0 = !height;
 		}
 		if (_0) {
-			ZEPHIR_THROW_EXCEPTION_STR(phalcon_image_exception_ce, "width and height must be specified");
+			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_image_exception_ce, "width and height must be specified", "phalcon/image/adapter.zep", 58);
 			return;
 		}
 	} else {
@@ -156,7 +156,7 @@ PHP_METHOD(Phalcon_Image_Adapter, resize) {
 				_0 = !height;
 			}
 			if (_0) {
-				ZEPHIR_THROW_EXCEPTION_STR(phalcon_image_exception_ce, "width and height must be specified");
+				ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_image_exception_ce, "width and height must be specified", "phalcon/image/adapter.zep", 66);
 				return;
 			}
 			ZEPHIR_INIT_VAR(_1);
@@ -177,7 +177,7 @@ PHP_METHOD(Phalcon_Image_Adapter, resize) {
 				_4 = !height;
 			}
 			if (_4) {
-				ZEPHIR_THROW_EXCEPTION_STR(phalcon_image_exception_ce, "width and height must be specified");
+				ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_image_exception_ce, "width and height must be specified", "phalcon/image/adapter.zep", 75);
 				return;
 			}
 			ZEPHIR_INIT_LNVAR(_1);
@@ -195,7 +195,7 @@ PHP_METHOD(Phalcon_Image_Adapter, resize) {
 		do {
 			if (master == 2) {
 				if (!(width)) {
-					ZEPHIR_THROW_EXCEPTION_STR(phalcon_image_exception_ce, "width must be specified");
+					ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_image_exception_ce, "width must be specified", "phalcon/image/adapter.zep", 85);
 					return;
 				}
 				_2 = zephir_fetch_nproperty_this(this_ptr, SL("_height"), PH_NOISY_CC);
@@ -205,7 +205,7 @@ PHP_METHOD(Phalcon_Image_Adapter, resize) {
 			}
 			if (master == 3) {
 				if (!(height)) {
-					ZEPHIR_THROW_EXCEPTION_STR(phalcon_image_exception_ce, "height must be specified");
+					ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_image_exception_ce, "height must be specified", "phalcon/image/adapter.zep", 92);
 					return;
 				}
 				_2 = zephir_fetch_nproperty_this(this_ptr, SL("_width"), PH_NOISY_CC);
@@ -219,7 +219,7 @@ PHP_METHOD(Phalcon_Image_Adapter, resize) {
 					_4 = !height;
 				}
 				if (_4) {
-					ZEPHIR_THROW_EXCEPTION_STR(phalcon_image_exception_ce, "width and height must be specified");
+					ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_image_exception_ce, "width and height must be specified", "phalcon/image/adapter.zep", 100);
 					return;
 				}
 				_2 = zephir_fetch_nproperty_this(this_ptr, SL("_width"), PH_NOISY_CC);
@@ -562,7 +562,7 @@ PHP_METHOD(Phalcon_Image_Adapter, watermark) {
 
 
 	if (!(zephir_instance_of_ev(watermark, phalcon_image_adapter_ce TSRMLS_CC))) {
-		ZEPHIR_THROW_EXCEPTION_STR(spl_ce_InvalidArgumentException, "Parameter 'watermark' must be an instance of 'Phalcon\\Image\\Adapter'");
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(spl_ce_InvalidArgumentException, "Parameter 'watermark' must be an instance of 'Phalcon\\Image\\Adapter'", "", 0);
 		return;
 	}
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_width"), PH_NOISY_CC);
@@ -743,7 +743,7 @@ PHP_METHOD(Phalcon_Image_Adapter, mask) {
 
 
 	if (!(zephir_instance_of_ev(watermark, phalcon_image_adapter_ce TSRMLS_CC))) {
-		ZEPHIR_THROW_EXCEPTION_STR(spl_ce_InvalidArgumentException, "Parameter 'watermark' must be an instance of 'Phalcon\\Image\\Adapter'");
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(spl_ce_InvalidArgumentException, "Parameter 'watermark' must be an instance of 'Phalcon\\Image\\Adapter'", "", 0);
 		return;
 	}
 	ZEPHIR_CALL_METHOD(NULL, this_ptr, "_mask", NULL, watermark);

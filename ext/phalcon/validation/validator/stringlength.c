@@ -98,7 +98,7 @@ PHP_METHOD(Phalcon_Validation_Validator_StringLength, validate) {
 
 
 	if (!(zephir_instance_of_ev(validation, phalcon_validation_ce TSRMLS_CC))) {
-		ZEPHIR_THROW_EXCEPTION_STR(spl_ce_InvalidArgumentException, "Parameter 'validation' must be an instance of 'Phalcon\\Validation'");
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(spl_ce_InvalidArgumentException, "Parameter 'validation' must be an instance of 'Phalcon\\Validation'", "", 0);
 		return;
 	}
 	ZEPHIR_INIT_VAR(_0);
@@ -116,7 +116,7 @@ PHP_METHOD(Phalcon_Validation_Validator_StringLength, validate) {
 		_1 = !zephir_is_true(isSetMax);
 	}
 	if (_1) {
-		ZEPHIR_THROW_EXCEPTION_STR(phalcon_validation_exception_ce, "A minimum or maximum must be set");
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_validation_exception_ce, "A minimum or maximum must be set", "phalcon/validation/validator/stringlength.zep", 61);
 		return;
 	}
 	ZEPHIR_CALL_METHOD(&value, validation, "getvalue", NULL, field);
