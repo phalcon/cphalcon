@@ -795,7 +795,7 @@ PHP_METHOD(Phalcon_Mvc_Model, assign) {
  *));
  *</code>
  *
- * @param Phalcon\Mvc\Model base
+ * @param Phalcon\Mvc\ModelInterface|Phalcon\Mvc\Model\Row base
  * @param array data
  * @param array columnMap
  * @param int dirtyState
@@ -826,10 +826,6 @@ PHP_METHOD(Phalcon_Mvc_Model, cloneResultMap) {
 	}
 
 
-	if (!(zephir_instance_of_ev(base, phalcon_mvc_modelinterface_ce TSRMLS_CC))) {
-		ZEPHIR_THROW_EXCEPTION_STR(spl_ce_InvalidArgumentException, "Parameter 'base' must be an instance of 'Phalcon\\Mvc\\ModelInterface'");
-		return;
-	}
 	if (Z_TYPE_P(data) != IS_ARRAY) {
 		ZEPHIR_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Data to dump in the object must be an Array");
 		return;
@@ -5097,8 +5093,8 @@ PHP_METHOD(Phalcon_Mvc_Model, __call) {
  */
 PHP_METHOD(Phalcon_Mvc_Model, __callStatic) {
 
-	zval *_8, *_9;
-	zend_class_entry *_5, *_7;
+	zval *_7, *_8;
+	zend_class_entry *_5, *_9;
 	int ZEPHIR_LAST_CALL_STATUS;
 	zephir_nts_static zephir_fcall_cache_entry *_1 = NULL, *_6 = NULL;
 	zval *method_param = NULL, *arguments = NULL, *extraMethod = NULL, *type = NULL, *modelName, *value, *model, *attributes = NULL, *field = NULL, *extraMethodFirst = NULL, *metaData = NULL, _0 = zval_used_for_init, *_2 = NULL, *_3 = NULL;
@@ -5145,7 +5141,7 @@ PHP_METHOD(Phalcon_Mvc_Model, __callStatic) {
 	}
 	ZEPHIR_INIT_VAR(modelName);
 	zephir_get_called_class(modelName TSRMLS_CC);
-	if (zephir_is_true(extraMethod)) {
+	if (!(zephir_is_true(extraMethod))) {
 		ZEPHIR_INIT_VAR(_2);
 		object_init_ex(_2, phalcon_mvc_model_exception_ce);
 		ZEPHIR_INIT_VAR(_3);
@@ -5206,17 +5202,17 @@ PHP_METHOD(Phalcon_Mvc_Model, __callStatic) {
 			}
 		}
 	}
-	_7 = zend_fetch_class(Z_STRVAL_P(modelName), Z_STRLEN_P(modelName), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
-	ZEPHIR_INIT_VAR(_8);
-	array_init_size(_8, 3);
+	ZEPHIR_INIT_VAR(_7);
+	array_init_size(_7, 3);
 	ZEPHIR_INIT_LNVAR(_2);
 	ZEPHIR_CONCAT_VS(_2, field, " = ?0");
-	zephir_array_update_string(&_8, SL("conditions"), &_2, PH_COPY | PH_SEPARATE);
-	ZEPHIR_INIT_VAR(_9);
-	array_init_size(_9, 2);
-	zephir_array_fast_append(_9, value);
-	zephir_array_update_string(&_8, SL("bind"), &_9, PH_COPY | PH_SEPARATE);
-	ZEPHIR_RETURN_CALL_CE_STATIC(_7, "type", NULL, _8);
+	zephir_array_update_string(&_7, SL("conditions"), &_2, PH_COPY | PH_SEPARATE);
+	ZEPHIR_INIT_VAR(_8);
+	array_init_size(_8, 2);
+	zephir_array_fast_append(_8, value);
+	zephir_array_update_string(&_7, SL("bind"), &_8, PH_COPY | PH_SEPARATE);
+	_9 = zend_fetch_class(Z_STRVAL_P(modelName), Z_STRLEN_P(modelName), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
+	ZEPHIR_RETURN_CALL_CE_STATIC(_9, Z_STRVAL_P(type), NULL, _7);
 	zephir_check_call_status();
 	RETURN_MM();
 
@@ -5339,6 +5335,7 @@ PHP_METHOD(Phalcon_Mvc_Model, __get) {
  * Magic method to check if a property is a valid relation
  *
  * @param string property
+ * @return boolean
  */
 PHP_METHOD(Phalcon_Mvc_Model, __isset) {
 
@@ -5564,17 +5561,21 @@ PHP_METHOD(Phalcon_Mvc_Model, setup) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
 	zephir_fcall_cache_entry *_1 = NULL;
-	zval *options, *disableEvents, *columnRenaming, *notNullValidations, *exceptionOnFailedSave, *phqlLiterals, *virtualForeignKeys, *_0 = NULL;
+	zval *options_param = NULL, *disableEvents, *columnRenaming, *notNullValidations, *exceptionOnFailedSave, *phqlLiterals, *virtualForeignKeys, *_0 = NULL;
+	zval *options = NULL;
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 0, &options);
+	zephir_fetch_params(1, 1, 0, &options_param);
 
-
-
-	if (Z_TYPE_P(options) != IS_ARRAY) {
-		ZEPHIR_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Options must be an array");
-		return;
+	if (Z_TYPE_P(options_param) != IS_ARRAY) {
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'options' must be an array") TSRMLS_CC);
+		RETURN_MM_NULL();
 	}
+
+		options = options_param;
+
+
+
 	ZEPHIR_OBS_VAR(disableEvents);
 	if (zephir_array_isset_string_fetch(&disableEvents, options, SS("events"), 0 TSRMLS_CC)) {
 		ZEPHIR_INIT_VAR(_0);

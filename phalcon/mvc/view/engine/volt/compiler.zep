@@ -221,7 +221,7 @@ class Compiler implements \Phalcon\Di\InjectionAwareInterface
 	 * @param object extension
 	 * @return Phalcon\Mvc\View\Engine\Volt\Compiler
 	 */
-	public function addExtension(extension)
+	public function addExtension(extension) -> <Compiler>
 	{
 		if typeof extension != "object" {
 			throw new \Phalcon\Mvc\View\Exception("The extension is not valid");
@@ -300,7 +300,7 @@ class Compiler implements \Phalcon\Di\InjectionAwareInterface
 	 * @param string prefix
 	 * @return Phalcon\Mvc\View\Engine\Volt\Compiler
 	 */
-	public function setUniquePrefix(string! prefix) -> <\Phalcon\Mvc\View\Engine\Volt\Compiler>
+	public function setUniquePrefix(string! prefix) -> <Compiler>
 	{
 		let this->_prefix = prefix;
 		return this;
@@ -321,8 +321,7 @@ class Compiler implements \Phalcon\Di\InjectionAwareInterface
 		 * If the unique prefix is not set we use a hash using the modified Berstein algotithm
 		 */
 		if !prefix {
-			//let prefix = phalcon_unique_path_key(this->_currentPath);
-			let prefix = md5(this->_currentPath);
+			let prefix = unique_path_key(this->_currentPath);
 			let this->_prefix = prefix;
 		}
 
@@ -759,7 +758,7 @@ class Compiler implements \Phalcon\Di\InjectionAwareInterface
 	 * @param string left
 	 * @return string
 	 */
-	protected function resolveFilter(filter, left)
+	final protected function resolveFilter(filter, left)
 	{
 		var code, type, functionName, name, file, line,
 			extensions, filters, funcArguments, arguments, definition;
@@ -873,42 +872,42 @@ class Compiler implements \Phalcon\Di\InjectionAwareInterface
 		 * "length" uses the length method implemented in the Volt adapter
 		 */
 		if name == "length" {
-			return "this->length(" . arguments . ")";
+			return "$this->length(" . arguments . ")";
 		}
 
 		/**
 		 * "e" filter uses the escaper component
 		 */
 		if name == "e" {
-			return "this->escaper->escapeHtml(" . arguments . ")";
+			return "$this->escaper->escapeHtml(" . arguments . ")";
 		}
 
 		/**
 		 * "escape" filter uses the escaper component
 		 */
 		if name == "escape" {
-			return "this->escaper->escapeHtml(" . arguments . ")";
+			return "$this->escaper->escapeHtml(" . arguments . ")";
 		}
 
 		/**
 		 * "escapecss" filter uses the escaper component to filter css
 		 */
 		if name == "escape_css" {
-			return "this->escaper->escapeCss(" . arguments . ")";
+			return "$this->escaper->escapeCss(" . arguments . ")";
 		}
 
 		/**
 		 * "escapejs" filter uses the escaper component to escape javascript
 		 */
 		if name == "escape_js" {
-			return "this->escaper->escapeJs(" . arguments . ")";
+			return "$this->escaper->escapeJs(" . arguments . ")";
 		}
 
 		/**
 		 * "escapeattr" filter uses the escaper component to escape html attributes
 		 */
 		if name == "escape_attr" {
-			return "this->escaper->escapeHtmlAttr(" . arguments . ")";
+			return "$this->escaper->escapeHtmlAttr(" . arguments . ")";
 		}
 
 		/**
@@ -1084,7 +1083,7 @@ class Compiler implements \Phalcon\Di\InjectionAwareInterface
 	 * @param array expr
 	 * @return string
 	 */
-	public function expression(expr)
+	final public function expression(expr)
 	{
 		var exprCode, extensions, items, singleExpr, singleExprCode, name,
 			left, leftCode, right, rightCode, type, startCode, endCode, start, end;
@@ -1374,7 +1373,7 @@ class Compiler implements \Phalcon\Di\InjectionAwareInterface
 	 * @param array statements
 	 * @return string|array
 	 */
-	protected function _statementListOrExtends(statements)
+	final protected function _statementListOrExtends(statements)
 	{
 		var statement;
 		boolean isStatementList;
@@ -1495,11 +1494,11 @@ class Compiler implements \Phalcon\Di\InjectionAwareInterface
 			let compilation .= "<?php $" . prefixLevel . "iterator = " . exprCode . "; ";
 			let compilation .= "$" . prefixLevel . "incr = 0; ";
 			let compilation .= "$" . prefixLevel . "loop = new stdClass(); ";
-			let compilation .= "$" . prefixLevel . "loop->length = count(" . prefixLevel . "iterator); ";
+			let compilation .= "$" . prefixLevel . "loop->length = count($" . prefixLevel . "iterator); ";
 			let compilation .= "$" . prefixLevel . "loop->index = 1; ";
 			let compilation .= "$" . prefixLevel . "loop->index0 = 1; ";
-			let compilation .= "$" . prefixLevel . "loop->revindex = " . prefixLevel . "loop->length; ";
-			let compilation .= "$" . prefixLevel . "loop->revindex0 = " . prefixLevel . "loop->length - 1; ?>";
+			let compilation .= "$" . prefixLevel . "loop->revindex = $" . prefixLevel . "loop->length; ";
+			let compilation .= "$" . prefixLevel . "loop->revindex0 = $" . prefixLevel . "loop->length - 1; ?>";
 			let iterator = "$" . prefixLevel . "iterator";
 		} else {
 			let iterator = exprCode;
@@ -1532,12 +1531,12 @@ class Compiler implements \Phalcon\Di\InjectionAwareInterface
 		 * Generate the loop context inside the cycle
 		 */
 		if isset loopContext[level] {
-			let compilation .= "<?php $" . prefixLevel . "loop->first = (" . prefixLevel . "incr == 0); ";
-			let compilation .= "$" . prefixLevel . "loop->index = " . prefixLevel . "incr + 1; ";
-			let compilation .= "$" . prefixLevel . "loop->index0 = " . prefixLevel . "incr; ";
-			let compilation .= "$" . prefixLevel . "loop->revindex = " . prefixLevel . "loop->length - " . prefixLevel . "incr; ";
-			let compilation .= "$" . prefixLevel . "loop->revindex0 = " . prefixLevel . "loop->length - (" . prefixLevel . "incr + 1); ";
-			let compilation .= "$" . prefixLevel . "loop->last = (" . prefixLevel . "incr == (" . prefixLevel . "loop->length - 1)); ?>";
+			let compilation .= "<?php $" . prefixLevel . "loop->first = ($" . prefixLevel . "incr == 0); ";
+			let compilation .= "$" . prefixLevel . "loop->index = $" . prefixLevel . "incr + 1; ";
+			let compilation .= "$" . prefixLevel . "loop->index0 = $" . prefixLevel . "incr; ";
+			let compilation .= "$" . prefixLevel . "loop->revindex = $" . prefixLevel . "loop->length - $" . prefixLevel . "incr; ";
+			let compilation .= "$" . prefixLevel . "loop->revindex0 = $" . prefixLevel . "loop->length - ($" . prefixLevel . "incr + 1); ";
+			let compilation .= "$" . prefixLevel . "loop->last = ($" . prefixLevel . "incr == ($" . prefixLevel . "loop->length - 1)); ?>";
 		}
 
 		/**
@@ -2052,7 +2051,7 @@ class Compiler implements \Phalcon\Di\InjectionAwareInterface
 	 * @param boolean extendsMode
 	 * @return string
 	 */
-	protected function _statementList(statements, boolean extendsMode=false) -> string
+	final protected function _statementList(statements, boolean extendsMode=false) -> string
 	{
 		var extended, blockMode, compilation, extensions,
 			statement, tempCompilation, type, blockName, blockStatements,
@@ -2309,7 +2308,7 @@ class Compiler implements \Phalcon\Di\InjectionAwareInterface
 	 * @param boolean extendsMode
 	 * @return string
 	 */
-	protected function _compileSource(string! viewCode, boolean extendsMode=false) -> string
+	final protected function _compileSource(string! viewCode, boolean extendsMode=false) -> string
 	{
 		var currentPath, intermediate, extended,
 			finalCompilation, blocks, extendedBlocks, name, block,

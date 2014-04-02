@@ -69,8 +69,8 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_Resultset_Simple) {
  * Phalcon\Mvc\Model\Resultset\Simple constructor
  *
  * @param array columnMap
- * @param Phalcon\Mvc\ModelInterface model
- * @param Phalcon\Db\Result\Pdo result
+ * @param Phalcon\Mvc\ModelInterface|Phalcon\Mvc\Model\Row model
+ * @param Phalcon\Db\Result\Pdo|null result
  * @param Phalcon\Cache\BackendInterface cache
  * @param boolean keepSnapshots
  */
@@ -91,10 +91,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, __construct) {
 	}
 
 
-	if (!(zephir_instance_of_ev(model, phalcon_mvc_modelinterface_ce TSRMLS_CC))) {
-		ZEPHIR_THROW_EXCEPTION_STR(spl_ce_InvalidArgumentException, "Parameter 'model' must be an instance of 'Phalcon\\Mvc\\ModelInterface'");
-		return;
-	}
 	_0 = Z_TYPE_P(cache) != IS_NULL;
 	if (_0) {
 		_0 = !zephir_instance_of_ev(cache, phalcon_cache_backendinterface_ce TSRMLS_CC);

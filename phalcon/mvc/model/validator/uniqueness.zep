@@ -19,6 +19,8 @@
 
 namespace Phalcon\Mvc\Model\Validator;
 
+use Phalcon\Mvc\Model;
+
 /**
  * Phalcon\Mvc\Model\Validator\Uniqueness
  *
@@ -130,7 +132,7 @@ class Uniqueness extends \Phalcon\Mvc\Model\Validator implements \Phalcon\Mvc\Mo
 			/**
 			 * Some database systems require that we pass the values using bind casting
 			 */
-			if !isset bindDataTypes[columnField] {
+			if !fetch bindType, bindDataTypes[columnField] {
 				throw new \Phalcon\Mvc\Model\Exception("Column '" . columnField . "' isn't part of the table columns");
 			}
 
@@ -139,8 +141,7 @@ class Uniqueness extends \Phalcon\Mvc\Model\Validator implements \Phalcon\Mvc\Mo
 			 */
 			let conditions[] = "[" . field . "] = ?0";
 			let bindParams[] = record->readAttribute(field);
-			let bindType = bindDataTypes[columnField];
-			let bindTypes[] = bindType;
+			let bindTypes[]  = bindType;
 
 			let number++;
 		}
@@ -148,7 +149,7 @@ class Uniqueness extends \Phalcon\Mvc\Model\Validator implements \Phalcon\Mvc\Mo
 		/**
 		 * If the operation is update, there must be values in the object
 		 */
-		if record->getOperationMade() == 2 {
+		if record->getOperationMade() == Model::OP_UPDATE {
 
 			/**
 			 * We build a query with the primary key attributes

@@ -500,15 +500,14 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 	 *));
 	 *</code>
 	 *
-	 * @param Phalcon\Mvc\Model base
+	 * @param Phalcon\Mvc\ModelInterface|Phalcon\Mvc\Model\Row base
 	 * @param array data
 	 * @param array columnMap
 	 * @param int dirtyState
 	 * @param boolean keepSnapshots
 	 * @return Phalcon\Mvc\Model
 	 */
-	public static function cloneResultMap(<ModelInterface> base, var data, var columnMap,
-		int dirtyState=0, boolean keepSnapshots=null) -> <\Phalcon\Mvc\Model>
+	public static function cloneResultMap(var base, var data, var columnMap, int dirtyState=0, boolean keepSnapshots=null) -> <\Phalcon\Mvc\Model>
 	{
 		var instance, attribute, key, value;
 
@@ -4045,7 +4044,7 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 		 */
 		let modelName = get_called_class();
 
-		if extraMethod {
+		if !extraMethod {
 			throw new Exception("The static method '" . method . "' doesn't exist on model '" . modelName . "'");
 		}
 
@@ -4199,8 +4198,9 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 	 * Magic method to check if a property is a valid relation
 	 *
 	 * @param string property
+	 * @return boolean
 	 */
-	public function __isset(string! property)
+	public function __isset(string! property) -> boolean
 	{
 		var modelName, manager, relation;
 
@@ -4359,14 +4359,10 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 	 *
 	 * @param array options
 	 */
-	public static function setup(var options)
+	public static function setup(array! options)
 	{
 		var disableEvents, columnRenaming, notNullValidations,
 			exceptionOnFailedSave, phqlLiterals, virtualForeignKeys;
-
-		if typeof options != "array" {
-			throw new Exception("Options must be an array");
-		}
 
 		/**
 		 * Enables/Disables globally the internal events

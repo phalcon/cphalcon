@@ -200,7 +200,8 @@ class Memory extends \Phalcon\Cache\Backend implements \Phalcon\Cache\BackendInt
 			let lastKey = this->_lastKey;
 		} else {
 			let prefix = this->_prefix;
-			let this->_lastKey = prefix . keyName;
+			let lastKey = prefix . keyName;
+			let this->_lastKey = lastKey;
 		}
 
 		let data = this->_data;

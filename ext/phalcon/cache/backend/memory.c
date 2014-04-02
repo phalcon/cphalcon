@@ -297,7 +297,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Memory, exists) {
  */
 PHP_METHOD(Phalcon_Cache_Backend_Memory, increment) {
 
-	zval *keyName = NULL, *value = NULL, *lastKey = NULL, *prefix, *data, *cachedContent, *result, *_0;
+	zval *keyName = NULL, *value = NULL, *lastKey, *prefix, *data, *cachedContent, *result;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 2, &keyName, &value);
@@ -312,13 +312,13 @@ PHP_METHOD(Phalcon_Cache_Backend_Memory, increment) {
 	}
 
 
+	ZEPHIR_INIT_VAR(lastKey);
 	if (!(zephir_is_true(keyName))) {
-		lastKey = zephir_fetch_nproperty_this(this_ptr, SL("_lastKey"), PH_NOISY_CC);
+		zephir_read_property_this(&lastKey, this_ptr, SL("_lastKey"), PH_NOISY_CC);
 	} else {
 		prefix = zephir_fetch_nproperty_this(this_ptr, SL("_prefix"), PH_NOISY_CC);
-		ZEPHIR_INIT_VAR(_0);
-		ZEPHIR_CONCAT_VV(_0, prefix, keyName);
-		zephir_update_property_this(this_ptr, SL("_lastKey"), _0 TSRMLS_CC);
+		ZEPHIR_CONCAT_VV(lastKey, prefix, keyName);
+		zephir_update_property_this(this_ptr, SL("_lastKey"), lastKey TSRMLS_CC);
 	}
 	data = zephir_fetch_nproperty_this(this_ptr, SL("_data"), PH_NOISY_CC);
 	if (!(zephir_array_isset(data, lastKey))) {

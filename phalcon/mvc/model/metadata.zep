@@ -274,7 +274,7 @@ abstract class MetaData implements \Phalcon\Di\InjectionAwareInterface
 	 */
 	public function readMetaDataIndex(<\Phalcon\Mvc\ModelInterface> model, int index)
 	{
-		var source, schema, key, x;
+		var source, schema, key;
 
 		let source = model->getSource(),
 			schema = model->getSchema();

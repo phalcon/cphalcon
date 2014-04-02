@@ -191,7 +191,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Uniqueness, validate) {
 		} else {
 			ZEPHIR_CPY_WRT(columnField, field);
 		}
-		if (!(zephir_array_isset(bindDataTypes, columnField))) {
+		ZEPHIR_OBS_NVAR(bindType);
+		if (!(zephir_array_isset_fetch(&bindType, bindDataTypes, columnField, 0 TSRMLS_CC))) {
 			ZEPHIR_INIT_LNVAR(_10);
 			object_init_ex(_10, phalcon_mvc_model_exception_ce);
 			ZEPHIR_INIT_LNVAR(_11);
@@ -208,8 +209,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Uniqueness, validate) {
 		ZEPHIR_CALL_METHOD(&_9, record, "readattribute", NULL, field);
 		zephir_check_call_status();
 		zephir_array_append(&bindParams, _9, PH_SEPARATE);
-		ZEPHIR_OBS_NVAR(bindType);
-		zephir_array_fetch(&bindType, bindDataTypes, columnField, PH_NOISY TSRMLS_CC);
 		zephir_array_append(&bindTypes, bindType, PH_SEPARATE);
 		number++;
 	}

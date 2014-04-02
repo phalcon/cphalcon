@@ -94,10 +94,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, setDI) {
 		ZEPHIR_THROW_EXCEPTION_STR(spl_ce_InvalidArgumentException, "Parameter 'dependencyInjector' must be an instance of 'Phalcon\\DiInterface'");
 		return;
 	}
-	if (Z_TYPE_P(dependencyInjector) == IS_OBJECT) {
-		ZEPHIR_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Dependency Injector is invalid");
-		return;
-	}
 	ZEPHIR_INIT_VAR(_0);
 	ZVAL_STRING(_0, "di", 1);
 	zephir_update_property_array(this_ptr, SL("_params"), _0, dependencyInjector TSRMLS_CC);
@@ -182,10 +178,12 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, bind) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &bindParams_param);
 
-	if (Z_TYPE_P(bindParams) != IS_ARRAY) {
+	if (Z_TYPE_P(bindParams_param) != IS_ARRAY) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'bindParams' must be an array") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
+
+		bindParams = bindParams_param;
 
 
 
@@ -211,10 +209,12 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, bindTypes) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &bindTypes_param);
 
-	if (Z_TYPE_P(bindTypes) != IS_ARRAY) {
+	if (Z_TYPE_P(bindTypes_param) != IS_ARRAY) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'bindTypes' must be an array") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
+
+		bindTypes = bindTypes_param;
 
 
 
@@ -934,10 +934,12 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, inWhere) {
 		ZEPHIR_INIT_VAR(expr);
 		ZVAL_EMPTY_STRING(expr);
 	}
-	if (Z_TYPE_P(values) != IS_ARRAY) {
+	if (Z_TYPE_P(values_param) != IS_ARRAY) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'values' must be an array") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
+
+		values = values_param;
 
 
 
@@ -1007,10 +1009,12 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, notInWhere) {
 		ZEPHIR_INIT_VAR(expr);
 		ZVAL_EMPTY_STRING(expr);
 	}
-	if (Z_TYPE_P(values) != IS_ARRAY) {
+	if (Z_TYPE_P(values_param) != IS_ARRAY) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'values' must be an array") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
+
+		values = values_param;
 
 
 
@@ -1386,10 +1390,12 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, fromInput) {
 		ZEPHIR_INIT_VAR(modelName);
 		ZVAL_EMPTY_STRING(modelName);
 	}
-	if (Z_TYPE_P(data) != IS_ARRAY) {
+	if (Z_TYPE_P(data_param) != IS_ARRAY) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'data' must be an array") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
+
+		data = data_param;
 
 
 
@@ -1472,9 +1478,9 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, fromInput) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_Criteria, execute) {
 
+	zend_class_entry *_1;
 	int ZEPHIR_LAST_CALL_STATUS;
-	zend_class_entry *_0;
-	zval *model, *_1 = NULL;
+	zval *model, *_0 = NULL;
 
 	ZEPHIR_MM_GROW();
 
@@ -1484,10 +1490,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, execute) {
 		ZEPHIR_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Model name must be string");
 		return;
 	}
-	_0 = zend_fetch_class(Z_STRVAL_P(model), Z_STRLEN_P(model), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
-	ZEPHIR_CALL_METHOD(&_1, this_ptr, "getparams",  NULL);
+	ZEPHIR_CALL_METHOD(&_0, this_ptr, "getparams",  NULL);
 	zephir_check_call_status();
-	ZEPHIR_RETURN_CALL_CE_STATIC(_0, "find", NULL, _1);
+	_1 = zend_fetch_class(Z_STRVAL_P(model), Z_STRLEN_P(model), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
+	ZEPHIR_RETURN_CALL_CE_STATIC(_1, "find", NULL, _0);
 	zephir_check_call_status();
 	RETURN_MM();
 

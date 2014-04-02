@@ -159,10 +159,12 @@ PHP_METHOD(Phalcon_Loader, setExtensions) {
 
 	zephir_fetch_params(0, 1, 0, &extensions_param);
 
-	if (Z_TYPE_P(extensions) != IS_ARRAY) {
+	if (Z_TYPE_P(extensions_param) != IS_ARRAY) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'extensions' must be an array") TSRMLS_CC);
 		RETURN_NULL();
 	}
+
+		extensions = extensions_param;
 
 
 

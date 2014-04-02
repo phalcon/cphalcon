@@ -61,9 +61,6 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
 	 */
 	public function setDI(<DiInterface> dependencyInjector)
 	{
-		if typeof dependencyInjector == "object" {
-			throw new Exception("Dependency Injector is invalid");
-		}
 		let this->_params["di"] = dependencyInjector;
 	}
 
@@ -770,7 +767,7 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
 	 */
 	public static function fromInput(<DiInterface> dependencyInjector, string! modelName, array! data) -> <Criteria>
 	{
-		var conditions, field, value, type, crteria, metaData, model, dataTypes, bind, criteria;
+		var conditions, field, value, type, metaData, model, dataTypes, bind, criteria;
 
 		let conditions = [];
 		if count(data) {
