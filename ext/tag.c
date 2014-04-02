@@ -2059,6 +2059,8 @@ PHP_METHOD(Phalcon_Tag, getDocType){
 		/* no break */
 		case 10: RETURN_STRING("<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 2.0//EN\"" PHP_EOL "\t\"http://www.w3.org/MarkUp/DTD/xhtml2.dtd\">" PHP_EOL, 1);
 		/* no break */
+		case 11: RETURN_STRING("<!DOCTYPE html>" PHP_EOL, 1);
+		/* no break */
 		default: RETURN_EMPTY_STRING();
 	}
 }
