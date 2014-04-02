@@ -351,9 +351,9 @@ class Loader implements \Phalcon\Events\EventsAwareInterface
 				if starts_with(className, nsPrefix) {
 
 					/**
-					 * Get the possible file path
+					 * Append the namespace separator to the prefix
 					 */
-					let fileName = str_replace(namespaceSeparator, ds, ltrim(className, nsPrefix));
+					let fileName = str_replace(nsPrefix . namespaceSeparator, "", className);
 					if fileName {
 
 						/**
@@ -415,7 +415,8 @@ class Loader implements \Phalcon\Events\EventsAwareInterface
 					/**
 					 * Get the possible file path
 					 */
-					let fileName = str_replace(["_", namespaceSeparator], ds, ltrim(className, prefix));
+					let fileName = str_replace(prefix . namespaceSeparator, "", className);
+					let fileName = str_replace(prefix . "_", "", fileName);
 
 					if fileName {
 

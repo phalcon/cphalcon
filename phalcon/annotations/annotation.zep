@@ -103,15 +103,18 @@ class Annotation
 
 		let type = expr["type"];
 		switch type {
+
 			case 301:
 			case 302:
 			case 303:
 			case 307:
 				let value = expr["value"];
 				break;
+
 			case 304:
 				let value = null;
 				break;
+
 			case 305:
 				let value = false;
 				break;

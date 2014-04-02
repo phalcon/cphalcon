@@ -1499,6 +1499,8 @@ class Query implements \Phalcon\Mvc\Model\QueryInterface, \Phalcon\Di\InjectionA
 			throw new \Phalcon\Mvc\Model\Exception("Corrupted SELECT AST");
 		}
 
+		print_r(select);
+
 		/**
 		 * sql_models are all the models that are using in the query
 		 */
@@ -1604,7 +1606,8 @@ class Query implements \Phalcon\Mvc\Model\QueryInterface, \Phalcon\Di\InjectionA
 					throw new \Phalcon\Mvc\Model\Exception("Alias '" . alias . "' is already used, when preparing: " . this->_phql);
 				}
 
-				let sqlAliasesModels[alias] = modelName,
+				let sqlAliases[alias] = alias,
+					sqlAliasesModels[alias] = modelName,
 					sqlModelsAliases[modelName] = alias,
 					sqlAliasesModelsInstances[alias] = model;
 
