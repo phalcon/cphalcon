@@ -19,6 +19,11 @@
 
 namespace Phalcon\Mvc\Model;
 
+use Phalcon\Mvc\Model\Relation;
+use Phalcon\Mvc\Model\RelationInterface;
+use Phalcon\Mvc\Model\Exception;
+use Phalcon\Mvc\ModelInterface;
+
 /**
  * Phalcon\Mvc\Model\Manager
  *
@@ -177,7 +182,7 @@ class Manager implements \Phalcon\Mvc\Model\ManagerInterface, \Phalcon\Di\Inject
 	 * @param Phalcon\Mvc\ModelInterface model
 	 * @param Phalcon\Events\ManagerInterface eventsManager
 	 */
-	public function setCustomEventsManager(<\Phalcon\Mvc\ModelInterface> model, <\Phalcon\Events\ManagerInterface> eventsManager)
+	public function setCustomEventsManager(<ModelInterface> model, <\Phalcon\Events\ManagerInterface> eventsManager)
 	{
 		let this->_customEventsManager[get_class_lower(model)] = eventsManager;
 	}
@@ -188,7 +193,7 @@ class Manager implements \Phalcon\Mvc\Model\ManagerInterface, \Phalcon\Di\Inject
 	 * @param Phalcon\Mvc\ModelInterface model
 	 * @return Phalcon\Events\ManagerInterface
 	 */
-	public function getCustomEventsManager(<\Phalcon\Mvc\ModelInterface> model) -> <\Phalcon\Events\ManagerInterface> | boolean
+	public function getCustomEventsManager(<ModelInterface> model) -> <\Phalcon\Events\ManagerInterface> | boolean
 	{
 		var customEventsManager, eventsManager;
 		let customEventsManager = this->_customEventsManager;
@@ -206,7 +211,7 @@ class Manager implements \Phalcon\Mvc\Model\ManagerInterface, \Phalcon\Di\Inject
 	 * @param Phalcon\Mvc\ModelInterface model
 	 * @return boolean
 	 */
-	public function initialize(<\Phalcon\Mvc\ModelInterface> model) -> boolean
+	public function initialize(<ModelInterface> model) -> boolean
 	{
 		var className, eventsManager;
 
@@ -263,7 +268,7 @@ class Manager implements \Phalcon\Mvc\Model\ManagerInterface, \Phalcon\Di\Inject
 	 *
 	 * @return Phalcon\Mvc\ModelInterface
 	 */
-	public function getLastInitialized() -> <\Phalcon\Mvc\ModelInterface>
+	public function getLastInitialized() -> <ModelInterface>
 	{
 		return this->_lastInitialized;
 	}
@@ -275,15 +280,14 @@ class Manager implements \Phalcon\Mvc\Model\ManagerInterface, \Phalcon\Di\Inject
 	 * @param  boolean newInstance
 	 * @return Phalcon\Mvc\ModelInterface
 	 */
-	public function load(string! modelName, boolean newInstance=false) -> <\Phalcon\Mvc\ModelInterface>
+	public function load(string! modelName, boolean newInstance=false) -> <ModelInterface>
 	{
-		var initialized, model;
+		var model;
 
 		/**
 		 * Check if a model with the same is already loaded
 		 */
-		let initialized = this->_initialized;
-		if fetch model, initialized[strtolower(modelName)] {
+		if fetch model, this->_initialized[strtolower(modelName)] {
 			if newInstance {
 				return clone model;
 			}
@@ -300,7 +304,7 @@ class Manager implements \Phalcon\Mvc\Model\ManagerInterface, \Phalcon\Di\Inject
 		/**
 		 * The model doesn't exist throw an exception
 		 */
-		throw new \Phalcon\Mvc\Model\Exception("Model '" . modelName . "' could not be loaded");
+		throw new Exception("Model '" . modelName . "' could not be loaded");
 	}
 
 	/**
@@ -320,11 +324,11 @@ class Manager implements \Phalcon\Mvc\Model\ManagerInterface, \Phalcon\Di\Inject
 	 * @param Phalcon\Mvc\Model model
 	 * @return string
 	 */
-	public function getModelSource(<\Phalcon\Mvc\ModelInterface> model) -> string
+	public function getModelSource(<ModelInterface> model) -> string
 	{
 		var sources, entityName, source;
 
-		let entityName = get_class_lower($model);
+		let entityName = get_class_lower(model);
 
 		let sources = this->_sources;
 		if typeof sources == "array" {
@@ -344,7 +348,7 @@ class Manager implements \Phalcon\Mvc\Model\ManagerInterface, \Phalcon\Di\Inject
 	 * @param Phalcon\Mvc\Model model
 	 * @param string schema
 	 */
-	public function setModelSchema(<\Phalcon\Mvc\ModelInterface> model, string! schema) -> void
+	public function setModelSchema(<ModelInterface> model, string! schema) -> void
 	{
 		let this->_schemas[get_class_lower(model)] = schema;
 	}
@@ -355,7 +359,7 @@ class Manager implements \Phalcon\Mvc\Model\ManagerInterface, \Phalcon\Di\Inject
 	 * @param Phalcon\Mvc\Model model
 	 * @return string
 	 */
-	public function getModelSchema(<\Phalcon\Mvc\ModelInterface> model) -> string
+	public function getModelSchema(<ModelInterface> model) -> string
 	{
 		var schemas, schema;
 		let schemas = this->_schemas;
@@ -373,7 +377,7 @@ class Manager implements \Phalcon\Mvc\Model\ManagerInterface, \Phalcon\Di\Inject
 	 * @param Phalcon\Mvc\ModelInterface model
 	 * @param string connectionService
 	 */
-	public function setConnectionService(<\Phalcon\Mvc\ModelInterface> model, string! connectionService) -> void
+	public function setConnectionService(<ModelInterface> model, string! connectionService) -> void
 	{
 		var entityName;
 		let entityName = get_class_lower(model),
@@ -387,7 +391,7 @@ class Manager implements \Phalcon\Mvc\Model\ManagerInterface, \Phalcon\Di\Inject
 	 * @param Phalcon\Mvc\ModelInterface model
 	 * @param string connectionService
 	 */
-	public function setWriteConnectionService(<\Phalcon\Mvc\ModelInterface> model, string! connectionService) -> void
+	public function setWriteConnectionService(<ModelInterface> model, string! connectionService) -> void
 	{
 		let this->_writeConnectionServices[get_class_lower(model)] = connectionService;
 	}
@@ -398,7 +402,7 @@ class Manager implements \Phalcon\Mvc\Model\ManagerInterface, \Phalcon\Di\Inject
 	 * @param Phalcon\Mvc\ModelInterface model
 	 * @param string connectionService
 	 */
-	public function setReadConnectionService(<\Phalcon\Mvc\ModelInterface> model, string! connectionService) -> void
+	public function setReadConnectionService(<ModelInterface> model, string! connectionService) -> void
 	{
 		let this->_readConnectionServices[get_class_lower(model)] = connectionService;
 	}
@@ -409,7 +413,7 @@ class Manager implements \Phalcon\Mvc\Model\ManagerInterface, \Phalcon\Di\Inject
 	 * @param Phalcon\Mvc\ModelInterface model
 	 * @return Phalcon\Db\AdapterInterface
 	 */
-	public function getReadConnection(<\Phalcon\Mvc\ModelInterface> model) -> <\Phalcon\Db\AdapterInterface>
+	public function getReadConnection(<ModelInterface> model) -> <\Phalcon\Db\AdapterInterface>
 	{
 		var connectionServices, dependencyInjector, service = null, connection;
 
@@ -424,7 +428,7 @@ class Manager implements \Phalcon\Mvc\Model\ManagerInterface, \Phalcon\Di\Inject
 
 		let dependencyInjector = <\Phalcon\DiInterface> this->_dependencyInjector;
 		if typeof dependencyInjector != "object" {
-			throw new \Phalcon\Mvc\Model\Exception("A dependency injector container is required to obtain the services related to the ORM");
+			throw new Exception("A dependency injector container is required to obtain the services related to the ORM");
 		}
 
 		/**
@@ -436,7 +440,7 @@ class Manager implements \Phalcon\Mvc\Model\ManagerInterface, \Phalcon\Di\Inject
 			let connection = <\Phalcon\Db\AdapterInterface> dependencyInjector->getShared("db");
 		}
 		if typeof connection != "object" {
-			throw new \Phalcon\Mvc\Model\Exception("Invalid injected connection service");
+			throw new Exception("Invalid injected connection service");
 		}
 
 		return connection;
@@ -448,7 +452,7 @@ class Manager implements \Phalcon\Mvc\Model\ManagerInterface, \Phalcon\Di\Inject
 	 * @param Phalcon\Mvc\ModelInterface model
 	 * @return Phalcon\Db\AdapterInterface
 	 */
-	public function getWriteConnection(<\Phalcon\Mvc\ModelInterface> model) -> <\Phalcon\Db\AdapterInterface>
+	public function getWriteConnection(<ModelInterface> model) -> <\Phalcon\Db\AdapterInterface>
 	{
 		var connectionServices, dependencyInjector, service = null, connection;
 
@@ -463,7 +467,7 @@ class Manager implements \Phalcon\Mvc\Model\ManagerInterface, \Phalcon\Di\Inject
 
 		let dependencyInjector = <\Phalcon\DiInterface> this->_dependencyInjector;
 		if typeof dependencyInjector != "object" {
-			throw new \Phalcon\Mvc\Model\Exception("A dependency injector container is required to obtain the services related to the ORM");
+			throw new Exception("A dependency injector container is required to obtain the services related to the ORM");
 		}
 
 		/**
@@ -475,7 +479,7 @@ class Manager implements \Phalcon\Mvc\Model\ManagerInterface, \Phalcon\Di\Inject
 			let connection = <\Phalcon\Db\AdapterInterface> dependencyInjector->getShared("db");
 		}
 		if typeof connection != "object" {
-			throw new \Phalcon\Mvc\Model\Exception("Invalid injected connection service");
+			throw new Exception("Invalid injected connection service");
 		}
 
 		return connection;
@@ -487,7 +491,7 @@ class Manager implements \Phalcon\Mvc\Model\ManagerInterface, \Phalcon\Di\Inject
 	 * @param Phalcon\Mvc\ModelInterface model
 	 * @param string
 	 */
-	public function getReadConnectionService(<\Phalcon\Mvc\ModelInterface> model) -> string
+	public function getReadConnectionService(<ModelInterface> model) -> string
 	{
 		var connectionServices, connection;
 		let connectionServices = this->_readConnectionServices;
@@ -505,7 +509,7 @@ class Manager implements \Phalcon\Mvc\Model\ManagerInterface, \Phalcon\Di\Inject
 	 * @param Phalcon\Mvc\ModelInterface model
 	 * @param string
 	 */
-	public function getWriteConnectionService(<\Phalcon\Mvc\ModelInterface> model) -> string
+	public function getWriteConnectionService(<ModelInterface> model) -> string
 	{
 		var connectionServices, connection;
 		let connectionServices = this->_writeConnectionServices;
@@ -524,7 +528,7 @@ class Manager implements \Phalcon\Mvc\Model\ManagerInterface, \Phalcon\Di\Inject
 	 * @param string eventName
 	 * @param Phalcon\Mvc\ModelInterface model
 	 */
-	public function notifyEvent(string! eventName, <\Phalcon\Mvc\ModelInterface> model)
+	public function notifyEvent(string! eventName, <ModelInterface> model)
 	{
 		var status, behavior, modelsBehaviors, eventsManager,
 			customEventsManager, behaviors;
@@ -588,7 +592,7 @@ class Manager implements \Phalcon\Mvc\Model\ManagerInterface, \Phalcon\Di\Inject
 	 * @param array data
 	 * @return boolean
 	 */
-	public function missingMethod(<\Phalcon\Mvc\ModelInterface> model, string! eventName, var data) -> boolean
+	public function missingMethod(<ModelInterface> model, string! eventName, var data) -> boolean
 	{
 		var behaviors, modelsBehaviors, result, eventsManager, behavior;
 
@@ -630,7 +634,7 @@ class Manager implements \Phalcon\Mvc\Model\ManagerInterface, \Phalcon\Di\Inject
 	 * @param Phalcon\Mvc\ModelInterface model
 	 * @param Phalcon\Mvc\Model\BehaviorInterface behavior
 	 */
-	public function addBehavior(<\Phalcon\Mvc\ModelInterface> model, <\Phalcon\Mvc\Model\BehaviorInterface> behavior)
+	public function addBehavior(<ModelInterface> model, <\Phalcon\Mvc\Model\BehaviorInterface> behavior)
 	{
 		var entityName, modelsBehaviors;
 
@@ -660,7 +664,7 @@ class Manager implements \Phalcon\Mvc\Model\ManagerInterface, \Phalcon\Di\Inject
 	 * @param Phalcon\Mvc\ModelInterface model
 	 * @param boolean keepSnapshots
 	 */
-	public function keepSnapshots(<\Phalcon\Mvc\ModelInterface> model, boolean keepSnapshots) -> void
+	public function keepSnapshots(<ModelInterface> model, boolean keepSnapshots) -> void
 	{
 		let this->_keepSnapshots[get_class_lower(model)] = keepSnapshots;
 	}
@@ -671,7 +675,7 @@ class Manager implements \Phalcon\Mvc\Model\ManagerInterface, \Phalcon\Di\Inject
 	 * @param Phalcon\Mvc\ModelInterface model
 	 * @return boolean
 	 */
-	public function isKeepingSnapshots(<\Phalcon\Mvc\ModelInterface> model) -> boolean
+	public function isKeepingSnapshots(<ModelInterface> model) -> boolean
 	{
 		var keepSnapshots, isKeeping;
 		let keepSnapshots = this->_keepSnapshots;
@@ -689,7 +693,7 @@ class Manager implements \Phalcon\Mvc\Model\ManagerInterface, \Phalcon\Di\Inject
 	 * @param Phalcon\Mvc\ModelInterface model
 	 * @param boolean dynamicUpdate
 	 */
-	public function useDynamicUpdate(<\Phalcon\Mvc\ModelInterface> model, boolean dynamicUpdate)
+	public function useDynamicUpdate(<ModelInterface> model, boolean dynamicUpdate)
 	{
 		var entityName;
 		let entityName = get_class_lower(model),
@@ -703,7 +707,7 @@ class Manager implements \Phalcon\Mvc\Model\ManagerInterface, \Phalcon\Di\Inject
 	 * @param Phalcon\Mvc\Model model
 	 * @return boolean
 	 */
-	public function isUsingDynamicUpdate(<\Phalcon\Mvc\ModelInterface> model) -> boolean
+	public function isUsingDynamicUpdate(<ModelInterface> model) -> boolean
 	{
 		var dynamicUpdate, isUsing;
 		let dynamicUpdate = this->_dynamicUpdate;
@@ -725,7 +729,7 @@ class Manager implements \Phalcon\Mvc\Model\ManagerInterface, \Phalcon\Di\Inject
 	 * @param	array options
 	 * @return  Phalcon\Mvc\Model\Relation
 	 */
-	public function addHasOne(<\Phalcon\Mvc\ModelInterface> model, var fields, string! referencedModel,
+	public function addHasOne(<ModelInterface> model, var fields, string! referencedModel,
 		var referencedFields, var options=null) -> <\Phalcon\Mvc\Model\Relation>
 	{
 		var entityName, referencedEntity, relation,
@@ -745,15 +749,15 @@ class Manager implements \Phalcon\Mvc\Model\ManagerInterface, \Phalcon\Di\Inject
 		 */
 		if typeof referencedFields == "array" {
 			if count(fields) != count(referencedFields) {
-				throw new \Phalcon\Mvc\Model\Exception("Number of referenced fields are not the same");
+				throw new Exception("Number of referenced fields are not the same");
 			}
 		}
 
 		/**
 		 * Create a relationship instance
 		 */
-		let relation = new \Phalcon\Mvc\Model\Relation(
-			\Phalcon\Mvc\Model\Relation::HAS_ONE,
+		let relation = new Relation(
+			Relation::HAS_ONE,
 			referencedModel,
 			fields,
 			referencedFields,
@@ -808,7 +812,7 @@ class Manager implements \Phalcon\Mvc\Model\ManagerInterface, \Phalcon\Di\Inject
 	 * @param	array options
 	 * @return  Phalcon\Mvc\Model\Relation
 	 */
-	public function addBelongsTo(<\Phalcon\Mvc\ModelInterface> model, var fields, string! referencedModel,
+	public function addBelongsTo(<ModelInterface> model, var fields, string! referencedModel,
 		var referencedFields, var options=null) -> <\Phalcon\Mvc\Model\Relation>
 	{
 		var entityName, referencedEntity, relation, keyRelation, relations, alias, lowerAlias, singleRelations;
@@ -827,14 +831,14 @@ class Manager implements \Phalcon\Mvc\Model\ManagerInterface, \Phalcon\Di\Inject
 		 */
 		if typeof referencedFields == "array" {
 			if count(fields) != count(referencedFields) {
-				throw new \Phalcon\Mvc\Model\Exception("Number of referenced fields are not the same");
+				throw new Exception("Number of referenced fields are not the same");
 			}
 		}
 
 		/**
 		 * Create a relationship instance
 		 */
-		let relation = new \Phalcon\Mvc\Model\Relation(
+		let relation = new Relation(
 			\Phalcon\Mvc\Model\Relation::BELONGS_TO,
 			referencedModel,
 			fields,
@@ -889,7 +893,7 @@ class Manager implements \Phalcon\Mvc\Model\ManagerInterface, \Phalcon\Di\Inject
 	 * @param	mixed referencedFields
 	 * @param	array options
 	 */
-	public function addHasMany(<\Phalcon\Mvc\ModelInterface> model, var fields, string! referencedModel,
+	public function addHasMany(<ModelInterface> model, var fields, string! referencedModel,
 		var referencedFields, var options=null) -> <\Phalcon\Mvc\Model\Relation>
 	{
 		var entityName, referencedEntity, hasMany, relation,
@@ -909,15 +913,15 @@ class Manager implements \Phalcon\Mvc\Model\ManagerInterface, \Phalcon\Di\Inject
 		 */
 		if typeof referencedFields == "array" {
 			if count(fields) != count(referencedFields) {
-				throw new \Phalcon\Mvc\Model\Exception("Number of referenced fields are not the same");
+				throw new Exception("Number of referenced fields are not the same");
 			}
 		}
 
 		/**
 		 * Create a relationship instance
 		 */
-		let relation = new \Phalcon\Mvc\Model\Relation(
-			\Phalcon\Mvc\Model\Relation::BELONGS_TO,
+		let relation = new Relation(
+			Relation::HAS_MANY,
 			referencedModel,
 			fields,
 			referencedFields,
@@ -945,8 +949,7 @@ class Manager implements \Phalcon\Mvc\Model\ManagerInterface, \Phalcon\Di\Inject
 		/**
 		 * Get existing relations by model
 		 */
-		let hasManySingle = this->_hasManySingle;
-		if !fetch singleRelations, hasManySingle[entityName] {
+		if !fetch singleRelations, this->_hasManySingle[entityName] {
 			let singleRelations = [];
 		}
 
@@ -976,7 +979,7 @@ class Manager implements \Phalcon\Mvc\Model\ManagerInterface, \Phalcon\Di\Inject
 	 * @param   array options
 	 * @return  Phalcon\Mvc\Model\Relation
 	 */
-	public function addHasManyToMany(<\Phalcon\Mvc\ModelInterface> model, var fields, string! intermediateModel,
+	public function addHasManyToMany(<ModelInterface> model, var fields, string! intermediateModel,
 		var intermediateFields, var intermediateReferencedFields, string! referencedModel, var referencedFields, var options=null) -> <\Phalcon\Mvc\Model\Relation>
 	{
 		var entityName, referencedEntity, hasManyToMany, relation,
@@ -998,7 +1001,7 @@ class Manager implements \Phalcon\Mvc\Model\ManagerInterface, \Phalcon\Di\Inject
 		 */
 		if typeof intermediateFields == "array" {
 			if count(fields) != count(intermediateFields) {
-				throw new \Phalcon\Mvc\Model\Exception("Number of referenced fields are not the same");
+				throw new Exception("Number of referenced fields are not the same");
 			}
 		}
 
@@ -1007,15 +1010,15 @@ class Manager implements \Phalcon\Mvc\Model\ManagerInterface, \Phalcon\Di\Inject
 		 */
 		if typeof intermediateReferencedFields == "array" {
 			if count(fields) != count(intermediateFields) {
-				throw new \Phalcon\Mvc\Model\Exception("Number of referenced fields are not the same");
+				throw new Exception("Number of referenced fields are not the same");
 			}
 		}
 
 		/**
 		 * Create a relationship instance
 		 */
-		let relation = new \Phalcon\Mvc\Model\Relation(
-			\Phalcon\Mvc\Model\Relation::HAS_MANY_THROUGH,
+		let relation = new Relation(
+			Relation::HAS_MANY_THROUGH,
 			referencedModel,
 			fields,
 			referencedFields,
@@ -1054,8 +1057,7 @@ class Manager implements \Phalcon\Mvc\Model\ManagerInterface, \Phalcon\Di\Inject
 		/**
 		 * Get existing relations by model
 		 */
-		let hasManyToManySingle = this->_hasManyToManySingle;
-		if fetch singleRelations, hasManyToManySingle[entityName] {
+		if fetch singleRelations, this->_hasManyToManySingle[entityName] {
 			let singleRelations = [];
 		}
 
@@ -1084,8 +1086,7 @@ class Manager implements \Phalcon\Mvc\Model\ManagerInterface, \Phalcon\Di\Inject
 
 		var initialized, entityName, keyRelation, belongsTo;
 
-		let initialized = this->_initialized,
-			entityName = strtolower(modelName);
+		let entityName = strtolower(modelName);
 
 		/**
 		 * Relationship unique key
@@ -1095,12 +1096,11 @@ class Manager implements \Phalcon\Mvc\Model\ManagerInterface, \Phalcon\Di\Inject
 		/**
 		 * Initialize the model first
 		 */
-		if !isset initialized[entityName] {
+		if !isset this->_initialized[entityName] {
 			this->load(modelName);
 		}
 
-		let belongsTo = this->_belongsTo;
-		return isset belongsTo[keyRelation];
+		return isset this->_belongsTo[keyRelation];
 	}
 
 	/**
@@ -1115,8 +1115,7 @@ class Manager implements \Phalcon\Mvc\Model\ManagerInterface, \Phalcon\Di\Inject
 
 		var initialized, entityName, keyRelation, hasMany;
 
-		let initialized = this->_initialized,
-			entityName = strtolower(modelName);
+		let entityName = strtolower(modelName);
 
 		/**
 		 * Relationship unique key
@@ -1126,12 +1125,11 @@ class Manager implements \Phalcon\Mvc\Model\ManagerInterface, \Phalcon\Di\Inject
 		/**
 		 * Initialize the model first
 		 */
-		if !isset initialized[entityName] {
+		if !isset this->_initialized[entityName] {
 			this->load(modelName);
 		}
 
-		let hasMany = this->_hasMany;
-		return isset hasMany[keyRelation];
+		return isset this->_hasMany[keyRelation];
 	}
 
 	/**
@@ -1144,10 +1142,9 @@ class Manager implements \Phalcon\Mvc\Model\ManagerInterface, \Phalcon\Di\Inject
 	public function existsHasOne(string! modelName, string! modelRelation) -> boolean
 	{
 
-		var initialized, entityName, keyRelation, hasOne;
+		var entityName, keyRelation, hasOne;
 
-		let initialized = this->_initialized,
-			entityName = strtolower(modelName);
+		let entityName = strtolower(modelName);
 
 		/**
 		 * Relationship unique key
@@ -1157,12 +1154,11 @@ class Manager implements \Phalcon\Mvc\Model\ManagerInterface, \Phalcon\Di\Inject
 		/**
 		 * Initialize the model first
 		 */
-		if !isset initialized[entityName] {
+		if !isset this->_initialized[entityName] {
 			this->load(modelName);
 		}
 
-		let hasOne = this->_hasOne;
-		return isset hasOne[keyRelation];
+		return isset this->_hasOne[keyRelation];
 	}
 
 	/**
@@ -1174,10 +1170,9 @@ class Manager implements \Phalcon\Mvc\Model\ManagerInterface, \Phalcon\Di\Inject
 	 */
 	public function existsHasManyToMany(string! modelName, string! modelRelation) -> boolean
 	{
-		var initialized, entityName, keyRelation, hasManyToMany;
+		var entityName, keyRelation, hasManyToMany;
 
-		let initialized = this->_initialized,
-			entityName = strtolower(modelName);
+		let entityName = strtolower(modelName);
 
 		/**
 		 * Relationship unique key
@@ -1187,12 +1182,11 @@ class Manager implements \Phalcon\Mvc\Model\ManagerInterface, \Phalcon\Di\Inject
 		/**
 		 * Initialize the model first
 		 */
-		if !isset initialized[entityName] {
+		if !isset this->_initialized[entityName] {
 			this->load(modelName);
 		}
 
-		let hasManyToMany = this->_hasManyToMany;
-		return isset hasManyToMany[keyRelation];
+		return isset this->_hasManyToMany[keyRelation];
 	}
 
 	/**
@@ -1218,13 +1212,12 @@ class Manager implements \Phalcon\Mvc\Model\ManagerInterface, \Phalcon\Di\Inject
 	 * Helper method to query records based on a relation definition
 	 *
 	 * @param Phalcon\Mvc\Model\RelationInterface relation
-	 * @param string $method
+	 * @param string method
 	 * @param Phalcon\Mvc\ModelInterface record
 	 * @param array parameters
 	 * @return Phalcon\Mvc\Model\Resultset\Simple|Phalcon\Mvc\Model\Resultset\Simple|false
 	 */
-	public function getRelationRecords(<\Phalcon\Mvc\Model\RelationInterface> relation,
-		string! method, <\Phalcon\Mvc\ModelInterface> record, var parameters=null)
+	public function getRelationRecords(<RelationInterface> relation, string! method, <ModelInterface> record, var parameters=null)
 	{
 		var preConditions, placeholders, referencedModel, intermediateModel,
 			intermediateFields, joinConditions, query, fields, builder,
@@ -1287,7 +1280,7 @@ class Manager implements \Phalcon\Mvc\Model\ManagerInterface, \Phalcon\Di\Inject
 				let conditions[] = "[" . intermediateModel . "].[" . intermediateFields . "] = ?0",
 					placeholders[] = record->readAttribute(fields);
 			} else {
-				throw new \Phalcon\Mvc\Model\Exception("Not supported");
+				throw new Exception("Not supported");
 			}
 
 			let joinConditions = [];
@@ -1295,11 +1288,11 @@ class Manager implements \Phalcon\Mvc\Model\ManagerInterface, \Phalcon\Di\Inject
 			/**
 			 * Create the join conditions
 			 */
-			let intermediateFields = $relation->getIntermediateReferencedFields();
+			let intermediateFields = relation->getIntermediateReferencedFields();
 			if typeof intermediateFields != "array" {
 				let joinConditions[] = "[" . intermediateModel . "].[" . intermediateFields . "] = [" . referencedModel . "].[" . relation->getReferencedFields() . "]";
 			} else {
-				throw new \Phalcon\Mvc\Model\Exception("Not supported");
+				throw new Exception("Not supported");
 			}
 
 			/**
@@ -1323,8 +1316,7 @@ class Manager implements \Phalcon\Mvc\Model\ManagerInterface, \Phalcon\Di\Inject
 			 * Get the query
 			 * Execute the query
 			 */
-			let query = builder->getQuery();
-			return query->execute();
+			return builder->getQuery()->execute();
 		}
 
 		if preConditions !== null {
@@ -1353,7 +1345,7 @@ class Manager implements \Phalcon\Mvc\Model\ManagerInterface, \Phalcon\Di\Inject
 		}
 
 		/**
-		 * We don"t trust the user or data in the database so we use bound parameters
+		 * We don't trust the user or data in the database so we use bound parameters
 		 * Create a valid params array to pass to the find/findFirst method
 		 */
 		let findParams = [
@@ -1373,15 +1365,18 @@ class Manager implements \Phalcon\Mvc\Model\ManagerInterface, \Phalcon\Di\Inject
 		 */
 		if method === null {
 			switch relation->getType() {
-				case \Phalcon\Mvc\Model\Relation::BELONGS_TO:
-				case \Phalcon\Mvc\Model\Relation::HAS_ONE:
+
+				case Relation::BELONGS_TO:
+				case Relation::HAS_ONE:
 					let retrieveMethod = "findFirst";
 					break;
-				case \Phalcon\Mvc\Model\Relation::HAS_MANY:
+
+				case Relation::HAS_MANY:
 					let retrieveMethod = "find";
 					break;
+
 				default:
-					throw new \Phalcon\Mvc\Model\Exception("Unkown relation type");
+					throw new Exception("Unkown relation type");
 			}
 		} else {
 			let retrieveMethod = method;
@@ -1426,9 +1421,8 @@ class Manager implements \Phalcon\Mvc\Model\ManagerInterface, \Phalcon\Di\Inject
 	 */
 	public function getReusableRecords(string! modelName, string! key)
 	{
-		var reusable, records;
-		let reusable = this->_reusable;
-		if fetch records, reusable[key] {
+		var records;
+		if fetch records, this->_reusable[key] {
 			return records;
 		}
 		return null;
@@ -1466,7 +1460,7 @@ class Manager implements \Phalcon\Mvc\Model\ManagerInterface, \Phalcon\Di\Inject
 	 * @return Phalcon\Mvc\Model\ResultsetInterface
 	 */
 	public function getBelongsToRecords(string! method, string! modelName,
-		<\Phalcon\Mvc\ModelInterface> modelRelation, record, parameters=null)
+		<ModelInterface> modelRelation, record, parameters=null)
 		-> <\Phalcon\Mvc\Model\ResultsetInterface> | boolean
 	{
 
@@ -1504,8 +1498,7 @@ class Manager implements \Phalcon\Mvc\Model\ManagerInterface, \Phalcon\Di\Inject
 	 * @param array parameters
 	 * @return Phalcon\Mvc\Model\ResultsetInterface
 	 */
-	public function getHasManyRecords(string! method, string! modelName,
-		<\Phalcon\Mvc\ModelInterface> modelRelation, record, parameters=null)
+	public function getHasManyRecords(string! method, string! modelName, <ModelInterface> modelRelation, record, parameters=null)
 		-> <\Phalcon\Mvc\Model\ResultsetInterface> | boolean
 	{
 
@@ -1543,9 +1536,8 @@ class Manager implements \Phalcon\Mvc\Model\ManagerInterface, \Phalcon\Di\Inject
 	 * @param array parameters
 	 * @return Phalcon\Mvc\ModelInterface
 	 */
-	public function getHasOneRecords(string! method, string! modelName,
-		<\Phalcon\Mvc\ModelInterface> modelRelation, record, parameters=null)
-		-> <\Phalcon\Mvc\ModelInterface> | boolean
+	public function getHasOneRecords(string! method, string! modelName, <ModelInterface> modelRelation, record, parameters=null)
+		-> <ModelInterface> | boolean
 	{
 		var hasOne, keyRelation, relations;
 
@@ -1581,7 +1573,7 @@ class Manager implements \Phalcon\Mvc\Model\ManagerInterface, \Phalcon\Di\Inject
 	 * @param  Phalcon\Mvc\ModelInterface model
 	 * @return Phalcon\Mvc\Model\RelationInterface[]
 	 */
-	public function getBelongsTo(<\Phalcon\Mvc\ModelInterface> model)
+	public function getBelongsTo(<ModelInterface> model)
 	{
 		var belongsToSingle, relations;
 		let belongsToSingle = this->_belongsToSingle;
@@ -1599,7 +1591,7 @@ class Manager implements \Phalcon\Mvc\Model\ManagerInterface, \Phalcon\Di\Inject
 	 * @param  Phalcon\Mvc\ModelInterface model
 	 * @return Phalcon\Mvc\Model\RelationInterface[]
 	 */
-	public function getHasMany(<\Phalcon\Mvc\ModelInterface> model)
+	public function getHasMany(<ModelInterface> model)
 	{
 		var hasManySingle, relations;
 		let hasManySingle = this->_hasManySingle;
@@ -1618,7 +1610,7 @@ class Manager implements \Phalcon\Mvc\Model\ManagerInterface, \Phalcon\Di\Inject
 	 * @param  Phalcon\Mvc\ModelInterface $model
 	 * @return array
 	 */
-	public function getHasOne(<\Phalcon\Mvc\ModelInterface> model)
+	public function getHasOne(<ModelInterface> model)
 	{
 		var hasOneSingle, relations;
 		let hasOneSingle = this->_hasOneSingle;
@@ -1636,7 +1628,7 @@ class Manager implements \Phalcon\Mvc\Model\ManagerInterface, \Phalcon\Di\Inject
 	 * @param  Phalcon\Mvc\ModelInterface model
 	 * @return Phalcon\Mvc\Model\RelationInterface[]
 	 */
-	public function getHasManyToMany(<\Phalcon\Mvc\ModelInterface> model)
+	public function getHasManyToMany(<ModelInterface> model)
 	{
 		var hasManyToManySingle, relations;
 		let hasManyToManySingle = this->_hasManyToManySingle;
@@ -1654,7 +1646,7 @@ class Manager implements \Phalcon\Mvc\Model\ManagerInterface, \Phalcon\Di\Inject
 	 * @param  Phalcon\Mvc\ModelInterface model
 	 * @return array
 	 */
-	public function getHasOneAndHasMany(<\Phalcon\Mvc\ModelInterface> model)
+	public function getHasOneAndHasMany(<ModelInterface> model)
 	{
 		return array_merge(this->getHasOne(model), this->getHasMany(model));
 	}
@@ -1771,7 +1763,7 @@ class Manager implements \Phalcon\Mvc\Model\ManagerInterface, \Phalcon\Di\Inject
 
 		let dependencyInjector = this->_dependencyInjector;
 		if typeof dependencyInjector != "object" {
-			throw new \Phalcon\Mvc\Model\Exception("A dependency injection object is required to access ORM services");
+			throw new Exception("A dependency injection object is required to access ORM services");
 		}
 
 		/**
@@ -1797,7 +1789,7 @@ class Manager implements \Phalcon\Mvc\Model\ManagerInterface, \Phalcon\Di\Inject
 
 		let dependencyInjector = <\Phalcon\DiInterface> this->_dependencyInjector;
 		if typeof dependencyInjector != "object" {
-			throw new \Phalcon\Mvc\Model\Exception("A dependency injection object is required to access ORM services");
+			throw new Exception("A dependency injection object is required to access ORM services");
 		}
 
 		/**
@@ -1826,7 +1818,7 @@ class Manager implements \Phalcon\Mvc\Model\ManagerInterface, \Phalcon\Di\Inject
 
 		let dependencyInjector = <\Phalcon\DiInterface> this->_dependencyInjector;
 		if typeof dependencyInjector != "object" {
-			throw new \Phalcon\Mvc\Model\Exception("A dependency injection object is required to access ORM services");
+			throw new Exception("A dependency injection object is required to access ORM services");
 		}
 
 		/**
@@ -1869,7 +1861,7 @@ class Manager implements \Phalcon\Mvc\Model\ManagerInterface, \Phalcon\Di\Inject
 		if fetch namespaceName, this->_namespaceAliases[alias] {
 			return namespaceName;
 		}
-		throw new \Phalcon\Mvc\Model\Exception("Namespace alias '" . alias . "' is not registered");
+		throw new Exception("Namespace alias '" . alias . "' is not registered");
 	}
 
 	/**
