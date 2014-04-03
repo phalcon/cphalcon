@@ -55,11 +55,8 @@ class Manager
 	 * @param array options
 	 * @return Phalcon\Assets\Manager
 	 */
-	public function setOptions(options) -> <\Phalcon\Assets\Manager>
+	public function setOptions(array! options) -> <\Phalcon\Assets\Manager>
 	{
-		if  typeof options != "array" {
-			throw new \Phalcon\Assets\Exception("Options must be an array");
-		}
 		let this->_options = options;
 		return this;
 	}
@@ -141,7 +138,7 @@ class Manager
 		var collection;
 
 		if !fetch collection, this->_collections[type] {
-                        let collection = new \Phalcon\Assets\Collection();
+			let collection = new \Phalcon\Assets\Collection();
 			let this->_collections[type] = collection;
 		}
 
@@ -165,10 +162,6 @@ class Manager
 	 */
 	public function addResource(<\Phalcon\Assets\Resource> $resource) -> <\Phalcon\Assets\Manager>
 	{
-		if typeof $resource != "object" {
-			throw new \Phalcon\Assets\Exception("Resource must be an object");
-		}
-
 		/**
 		 * Adds the resource by its type
 		 */
@@ -205,10 +198,9 @@ class Manager
 	*/
 	public function get(string! id) -> <\Phalcon\Assets\Collection>
 	{
-		var collections, collection;
+		var collection;
 
-		let collections = this->_collections;
-		if !fetch collection, collections[id] {
+		if !fetch collection, this->_collections[id] {
 			throw new \Phalcon\Assets\Exception("The collection does not exist in the manager");
 		}
 
@@ -222,13 +214,12 @@ class Manager
 	 */
 	public function getCss() -> <\Phalcon\Assets\Collection>
 	{
-		var collection, collections;
+		var collection;
 
 		/**
 		 * Check if the collection does not exist and create an implicit collection
 		 */
-		let collections = this->_collections;
-		if !fetch collection, collections["css"] {
+		if !fetch collection, this->_collections["css"] {
 			return new \Phalcon\Assets\Collection();
 		}
 		return collection;
@@ -241,13 +232,12 @@ class Manager
 	 */
 	public function getJs() -> <\Phalcon\Assets\Collection>
 	{
-		var collections, collection;
+		var collection;
 
 		/**
 		 * Check if the collection does not exist and create an implicit collection
 		 */
-		let collections = this->_collections;
-		if !fetch collection, collections["js"] {
+		if !fetch collection, this->_collections["js"] {
 			return new \Phalcon\Assets\Collection();
 		}
 

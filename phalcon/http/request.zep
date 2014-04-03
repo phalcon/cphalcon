@@ -391,8 +391,7 @@ class Request implements \Phalcon\Http\RequestInterface, \Phalcon\Di\InjectionAw
 	{
 		var server, serverAddr;
 
-		let server = _SERVER;
-		if fetch serverAddr, server["SERVER_ADDR"] {
+		if fetch serverAddr, _SERVER["SERVER_ADDR"] {
 			return serverAddr;
 		}
 		return gethostbyname("localhost");
@@ -405,10 +404,9 @@ class Request implements \Phalcon\Http\RequestInterface, \Phalcon\Di\InjectionAw
 	 */
 	public function getServerName() -> string
 	{
-		var server, serverName;
+		var serverName;
 
-		let server = _SERVER;
-		if fetch serverName, server["SERVER_NAME"] {
+		if fetch serverName, _SERVER["SERVER_NAME"] {
 			return serverName;
 		}
 
@@ -473,9 +471,7 @@ class Request implements \Phalcon\Http\RequestInterface, \Phalcon\Di\InjectionAw
 	 */
 	public function getClientAddress(boolean trustForwardedHeader=false) -> string | boolean
 	{
-		var address;
-
-		let address = null;
+		var address = null;
 
 		/**
 		 * Proxies uses this IP
@@ -631,6 +627,7 @@ class Request implements \Phalcon\Http\RequestInterface, \Phalcon\Di\InjectionAw
 	/**
 	 * Checks whether request include attached files
 	 *
+	 * @param boolean onlySuccessful
 	 * @return boolean
 	 */
 	public function hasFiles(boolean onlySuccessful=false) -> long
@@ -917,9 +914,10 @@ class Request implements \Phalcon\Http\RequestInterface, \Phalcon\Di\InjectionAw
 	 *
 	 * @return array
 	 */
-	public function getDigestAuth()
+	public function getDigestAuth() -> array
 	{
-		var auth, digest, matches, match;
+		var digest, matches, match;
+		array auth;
 
 		let auth = [];
 		if fetch digest, _SERVER["PHP_AUTH_USER"] {

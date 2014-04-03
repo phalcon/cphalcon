@@ -1355,7 +1355,7 @@ class Manager implements \Phalcon\Mvc\Model\ManagerInterface, \Phalcon\Di\Inject
 		];
 
 		if typeof parameters == "array" {
-			let findArguments = [findParams, parameters];
+			let findArguments = array_merge(findParams, parameters);
 		} else {
 			let findArguments = findParams;
 		}
@@ -1376,7 +1376,7 @@ class Manager implements \Phalcon\Mvc\Model\ManagerInterface, \Phalcon\Di\Inject
 					break;
 
 				default:
-					throw new Exception("Unkown relation type");
+					throw new Exception("Unknown relation type");
 			}
 		} else {
 			let retrieveMethod = method;

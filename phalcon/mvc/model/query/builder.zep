@@ -540,17 +540,15 @@ class Builder implements \Phalcon\Mvc\Model\Query\BuilderInterface, \Phalcon\Di\
 		var currentBindParams, currentBindTypes, mergedParams,
 			mergedTypes, currentConditions, newConditions;
 
-		let currentConditions = this->_conditions;
-
 		/**
 		 * Nest the condition to current ones or set as unique
 		 */
+		let currentConditions = this->_conditions;
 		if currentConditions {
-			let newConditions = "(" . currentConditions . ") OR (" . conditions . ")";
+			let this->_conditions = "(" . currentConditions . ") OR (" . conditions . ")";
 		} else {
-			let newConditions = conditions;
+			let this->_conditions = conditions;
 		}
-		let this->_conditions = newConditions;
 
 		/**
 		 * Merge the bind params to the current ones
