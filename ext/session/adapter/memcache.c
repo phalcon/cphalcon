@@ -137,8 +137,6 @@ PHP_METHOD(Phalcon_Session_Adapter_Memcache, __construct){
 		return;
 	}
 
-	phalcon_update_property_this(this_ptr, SL("_host"), host TSRMLS_CC);
-
 	if (!phalcon_array_isset_string_fetch(&port, options, SS("port"))) {
 		PHALCON_INIT_VAR(port);
 		ZVAL_LONG(port, 11211);
@@ -236,6 +234,8 @@ PHP_METHOD(Phalcon_Session_Adapter_Memcache, __construct){
 			zval_ptr_dtor(&PS(mod_user_names).names[5]);
 	}
 	PS(mod_user_names).names[5] = callable;
+
+	PHALCON_CALL_PARENT(NULL, phalcon_session_adapter_memcache_ce, this_ptr, "__construct", options);
 	
 	PHALCON_MM_RESTORE();
 }
@@ -347,6 +347,5 @@ PHP_METHOD(Phalcon_Session_Adapter_Memcache, destroy){
  */
 PHP_METHOD(Phalcon_Session_Adapter_Memcache, gc){
 
-	RETURN_TRUE;
 }
 
