@@ -846,6 +846,7 @@ PHP_METHOD(Phalcon_Http_Request, getClientAddress) {
 	}
 	if (Z_TYPE_P(address) == IS_NULL) {
 		ZEPHIR_OBS_NVAR(address);
+		zephir_get_global(&_SERVER, SS("_SERVER") TSRMLS_CC);
 		zephir_array_isset_string_fetch(&address, _SERVER, SS("REMOTE_ADDR"), 0 TSRMLS_CC);
 	}
 	if (Z_TYPE_P(address) == IS_STRING) {
