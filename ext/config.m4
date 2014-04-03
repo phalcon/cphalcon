@@ -273,6 +273,7 @@ session/exception.c \
 session/baginterface.c \
 session/adapterinterface.c \
 session/adapter.c \
+session/adapter/memcache.c \
 diinterface.c \
 escaper.c \
 crypt/exception.c \

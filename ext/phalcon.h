@@ -334,6 +334,7 @@
 #include "session/bag.h"
 #include "session/baginterface.h"
 #include "session/exception.h"
+#include "session/adapter/memcache.h"
 
 #include "tag.h"
 #include "tag/exception.h"
