@@ -366,12 +366,12 @@ PHP_METHOD(Phalcon_Mvc_Collection, setSource) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &source_param);
 
-	if (Z_TYPE_P(source_param) != IS_STRING && Z_TYPE_P(source_param) != IS_NULL) {
+	if (unlikely(Z_TYPE_P(source_param) != IS_STRING && Z_TYPE_P(source_param) != IS_NULL)) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'source' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
 
-	if (Z_TYPE_P(source_param) == IS_STRING) {
+	if (unlikely(Z_TYPE_P(source_param) == IS_STRING)) {
 		source = source_param;
 	} else {
 		ZEPHIR_INIT_VAR(source);
@@ -493,12 +493,12 @@ PHP_METHOD(Phalcon_Mvc_Collection, readAttribute) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &attribute_param);
 
-	if (Z_TYPE_P(attribute_param) != IS_STRING && Z_TYPE_P(attribute_param) != IS_NULL) {
+	if (unlikely(Z_TYPE_P(attribute_param) != IS_STRING && Z_TYPE_P(attribute_param) != IS_NULL)) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'attribute' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
 
-	if (Z_TYPE_P(attribute_param) == IS_STRING) {
+	if (unlikely(Z_TYPE_P(attribute_param) == IS_STRING)) {
 		attribute = attribute_param;
 	} else {
 		ZEPHIR_INIT_VAR(attribute);
@@ -533,12 +533,12 @@ PHP_METHOD(Phalcon_Mvc_Collection, writeAttribute) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &attribute_param, &value);
 
-	if (Z_TYPE_P(attribute_param) != IS_STRING && Z_TYPE_P(attribute_param) != IS_NULL) {
+	if (unlikely(Z_TYPE_P(attribute_param) != IS_STRING && Z_TYPE_P(attribute_param) != IS_NULL)) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'attribute' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
 
-	if (Z_TYPE_P(attribute_param) == IS_STRING) {
+	if (unlikely(Z_TYPE_P(attribute_param) == IS_STRING)) {
 		attribute = attribute_param;
 	} else {
 		ZEPHIR_INIT_VAR(attribute);
@@ -645,7 +645,6 @@ PHP_METHOD(Phalcon_Mvc_Collection, _getResultset) {
 			array_init(conditions);
 		}
 	}
-	ZEPHIR_INIT_VAR(documentsCursor);
 	ZEPHIR_OBS_VAR(fields);
 	if (zephir_array_isset_string_fetch(&fields, params, SS("fields"), 0 TSRMLS_CC)) {
 		ZEPHIR_CALL_METHOD(&documentsCursor, mongoCollection, "find", NULL, conditions, fields);
@@ -1053,12 +1052,12 @@ PHP_METHOD(Phalcon_Mvc_Collection, fireEvent) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &eventName_param);
 
-	if (Z_TYPE_P(eventName_param) != IS_STRING && Z_TYPE_P(eventName_param) != IS_NULL) {
+	if (unlikely(Z_TYPE_P(eventName_param) != IS_STRING && Z_TYPE_P(eventName_param) != IS_NULL)) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'eventName' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
 
-	if (Z_TYPE_P(eventName_param) == IS_STRING) {
+	if (unlikely(Z_TYPE_P(eventName_param) == IS_STRING)) {
 		eventName = eventName_param;
 	} else {
 		ZEPHIR_INIT_VAR(eventName);
@@ -1092,12 +1091,12 @@ PHP_METHOD(Phalcon_Mvc_Collection, fireEventCancel) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &eventName_param);
 
-	if (Z_TYPE_P(eventName_param) != IS_STRING && Z_TYPE_P(eventName_param) != IS_NULL) {
+	if (unlikely(Z_TYPE_P(eventName_param) != IS_STRING && Z_TYPE_P(eventName_param) != IS_NULL)) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'eventName' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
 
-	if (Z_TYPE_P(eventName_param) == IS_STRING) {
+	if (unlikely(Z_TYPE_P(eventName_param) == IS_STRING)) {
 		eventName = eventName_param;
 	} else {
 		ZEPHIR_INIT_VAR(eventName);

@@ -395,7 +395,6 @@ PHP_METHOD(Phalcon_Queue_Beanstalk, read) {
 			RETURN_MM_BOOL(0);
 		}
 	}
-	ZEPHIR_INIT_VAR(packet);
 	if (zephir_is_true(length)) {
 		if (zephir_feof(connection TSRMLS_CC)) {
 			RETURN_MM_BOOL(0);
@@ -411,6 +410,7 @@ PHP_METHOD(Phalcon_Queue_Beanstalk, read) {
 			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_exception_ce, "Connection timed out", "phalcon/queue/beanstalk.zep", 283);
 			return;
 		}
+		ZEPHIR_INIT_VAR(packet);
 		ZEPHIR_SINIT_NVAR(_0);
 		ZVAL_STRING(&_0, "\r\n", 0);
 		zephir_fast_trim(packet, data, &_0, ZEPHIR_TRIM_RIGHT TSRMLS_CC);

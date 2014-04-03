@@ -341,7 +341,6 @@ PHP_METHOD(Phalcon_Db_Result_Pdo, dataSeek) {
 	zephir_read_property_this(&sqlStatement, this_ptr, SL("_sqlStatement"), PH_NOISY_CC);
 	ZEPHIR_OBS_VAR(bindParams);
 	zephir_read_property_this(&bindParams, this_ptr, SL("_bindParams"), PH_NOISY_CC);
-	ZEPHIR_INIT_VAR(statement);
 	if (Z_TYPE_P(bindParams) == IS_ARRAY) {
 		ZEPHIR_CALL_METHOD(&statement, pdo, "prepare", NULL, sqlStatement);
 		zephir_check_call_status();

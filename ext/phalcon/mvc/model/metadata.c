@@ -137,7 +137,6 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, _initialize) {
 			if (Z_TYPE_P(data) != IS_NULL) {
 				zephir_update_property_array(this_ptr, SL("_metaData"), key, metaData TSRMLS_CC);
 			} else {
-				ZEPHIR_INIT_VAR(modelMetadata);
 				if ((zephir_method_exists_ex(model, SS("metadata") TSRMLS_CC) == SUCCESS)) {
 					ZEPHIR_CALL_METHOD(&modelMetadata, model, "metadata",  NULL);
 					zephir_check_call_status();

@@ -14,9 +14,9 @@
 #include "kernel/main.h"
 #include "kernel/object.h"
 #include "kernel/exception.h"
-#include "kernel/memory.h"
 #include "kernel/operators.h"
 #include "kernel/fcall.h"
+#include "kernel/memory.h"
 #include "kernel/array.h"
 
 
@@ -127,7 +127,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction, __construct) {
 		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(spl_ce_InvalidArgumentException, "Parameter 'dependencyInjector' must be an instance of 'Phalcon\\DiInterface'", "", 0);
 		return;
 	}
-	ZEPHIR_INIT_VAR(connection);
 	if (zephir_is_true(service)) {
 		ZEPHIR_CALL_METHOD(&connection, dependencyInjector, "get", NULL, service);
 		zephir_check_call_status();

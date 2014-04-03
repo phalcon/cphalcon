@@ -120,11 +120,11 @@ PHP_METHOD(Phalcon_Tag, getEscaper) {
 		ZEPHIR_OBS_NVAR(autoescape);
 		zephir_read_static_property_ce(&autoescape, phalcon_tag_ce, SL("_autoEscape") TSRMLS_CC);
 	}
-	ZEPHIR_INIT_VAR(result);
 	if (zephir_is_true(autoescape)) {
 		ZEPHIR_CALL_SELF(&result, "getescaperservice", NULL);
 		zephir_check_call_status();
 	} else {
+		ZEPHIR_INIT_NVAR(result);
 		ZVAL_NULL(result);
 	}
 	RETURN_CCTOR(result);

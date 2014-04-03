@@ -128,12 +128,12 @@ PHP_METHOD(Phalcon_Image_Adapter_Gd, __construct) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 2, &file_param, &width_param, &height_param);
 
-	if (Z_TYPE_P(file_param) != IS_STRING && Z_TYPE_P(file_param) != IS_NULL) {
+	if (unlikely(Z_TYPE_P(file_param) != IS_STRING && Z_TYPE_P(file_param) != IS_NULL)) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'file' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
 
-	if (Z_TYPE_P(file_param) == IS_STRING) {
+	if (unlikely(Z_TYPE_P(file_param) == IS_STRING)) {
 		file = file_param;
 	} else {
 		ZEPHIR_INIT_VAR(file);
@@ -299,7 +299,6 @@ PHP_METHOD(Phalcon_Image_Adapter_Gd, _resize) {
 	height = zephir_get_intval(height_param);
 
 
-	ZEPHIR_INIT_VAR(image);
 	ZEPHIR_INIT_VAR(_0);
 	ZEPHIR_GET_CONSTANT(_0, "PHP_VERSION");
 	ZEPHIR_SINIT_VAR(_1);
@@ -433,7 +432,6 @@ PHP_METHOD(Phalcon_Image_Adapter_Gd, _crop) {
 	offset_y = zephir_get_intval(offset_y_param);
 
 
-	ZEPHIR_INIT_VAR(image);
 	ZEPHIR_INIT_VAR(_0);
 	ZEPHIR_GET_CONSTANT(_0, "PHP_VERSION");
 	ZEPHIR_SINIT_VAR(_1);
@@ -1002,7 +1000,6 @@ PHP_METHOD(Phalcon_Image_Adapter_Gd, _text) {
 	ZEPHIR_CALL_FUNCTION(&_3, "round", &_4, _1);
 	zephir_check_call_status();
 	opacity = zephir_get_intval(_3);
-	ZEPHIR_INIT_VAR(color);
 	if (fontfile && Z_STRLEN_P(fontfile)) {
 		ZEPHIR_SINIT_NVAR(_0);
 		ZVAL_LONG(&_0, size);

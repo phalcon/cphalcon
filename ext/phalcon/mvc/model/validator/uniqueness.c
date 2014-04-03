@@ -111,11 +111,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Uniqueness, validate) {
 	array_init(bindTypes);
 	ZEPHIR_CALL_METHOD(&bindDataTypes, metaData, "getbindtypes", NULL, record);
 	zephir_check_call_status();
-	ZEPHIR_INIT_VAR(columnMap);
 	if (ZEPHIR_GLOBAL(orm).column_renaming) {
 		ZEPHIR_CALL_METHOD(&columnMap, metaData, "getreversecolumnmap", NULL, record);
 		zephir_check_call_status();
 	} else {
+		ZEPHIR_INIT_NVAR(columnMap);
 		ZVAL_NULL(columnMap);
 	}
 	ZEPHIR_INIT_VAR(conditions);
@@ -215,11 +215,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Uniqueness, validate) {
 	ZEPHIR_CALL_METHOD(&_12, record, "getoperationmade",  NULL);
 	zephir_check_call_status();
 	if (ZEPHIR_IS_LONG(_12, 2)) {
-		ZEPHIR_INIT_BNVAR(columnMap);
 		if (ZEPHIR_GLOBAL(orm).column_renaming) {
 			ZEPHIR_CALL_METHOD(&columnMap, metaData, "getcolumnmap", NULL, record);
 			zephir_check_call_status();
 		} else {
+			ZEPHIR_INIT_NVAR(columnMap);
 			ZVAL_NULL(columnMap);
 		}
 		ZEPHIR_CALL_METHOD(&_9, metaData, "getprimarykeyattributes", NULL, record);

@@ -84,12 +84,12 @@ PHP_METHOD(Phalcon_Di_Service, __construct) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 1, &name_param, &definition, &shared_param);
 
-	if (Z_TYPE_P(name_param) != IS_STRING && Z_TYPE_P(name_param) != IS_NULL) {
+	if (unlikely(Z_TYPE_P(name_param) != IS_STRING && Z_TYPE_P(name_param) != IS_NULL)) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'name' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
 
-	if (Z_TYPE_P(name_param) == IS_STRING) {
+	if (unlikely(Z_TYPE_P(name_param) == IS_STRING)) {
 		name = name_param;
 	} else {
 		ZEPHIR_INIT_VAR(name);
@@ -248,11 +248,12 @@ PHP_METHOD(Phalcon_Di_Service, resolve) {
 	if (Z_TYPE_P(definition) == IS_STRING) {
 		if (zephir_class_exists(definition, 1 TSRMLS_CC)) {
 			if (Z_TYPE_P(parameters) == IS_ARRAY) {
-				ZEPHIR_INIT_BNVAR(instance);
 				if (zephir_fast_count_int(parameters TSRMLS_CC)) {
+					ZEPHIR_INIT_BNVAR(instance);
 					ZEPHIR_LAST_CALL_STATUS = zephir_create_instance_params(instance, definition, parameters TSRMLS_CC);
 					zephir_check_call_status();
 				} else {
+					ZEPHIR_INIT_BNVAR(instance);
 					ZEPHIR_LAST_CALL_STATUS = zephir_create_instance(instance, definition TSRMLS_CC);
 					zephir_check_call_status();
 				}
@@ -267,8 +268,8 @@ PHP_METHOD(Phalcon_Di_Service, resolve) {
 	} else {
 		if (Z_TYPE_P(definition) == IS_OBJECT) {
 			if (zephir_instance_of_ev(definition, zend_ce_closure TSRMLS_CC)) {
-				ZEPHIR_INIT_BNVAR(instance);
 				if (Z_TYPE_P(parameters) == IS_ARRAY) {
+					ZEPHIR_INIT_BNVAR(instance);
 					ZEPHIR_CALL_USER_FUNC_ARRAY(instance, definition, parameters);
 					zephir_check_call_status();
 				} else {
