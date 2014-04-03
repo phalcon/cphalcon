@@ -47,13 +47,11 @@ class SessionTest extends PHPUnit_Framework_TestCase
 		$session = new Phalcon\Session\Adapter\Memcache(array(
 			'host' => '127.0.0.1',
 			'port' => '11211',
-			'prefix' => 'session'
+			'prefix' => 'memcache'
 		));
 
 		$this->assertFalse($session->start());
 		$this->assertFalse($session->isStarted());
-
-		@session_start();
 
 		$session->set('some', 'value');
 
@@ -73,13 +71,10 @@ class SessionTest extends PHPUnit_Framework_TestCase
 				'host' => '127.0.0.1',
 				'port' => '11211'
 			),
-			'prefix' => 'session'
+			'prefix' => 'libmemcached'
 		));
 
 		$this->assertFalse($session->start());
-		$this->assertFalse($session->isStarted());
-
-		@session_start();
 
 		$session->set('some', 'value');
 
