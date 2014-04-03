@@ -429,6 +429,7 @@ static PHP_MINIT_FUNCTION(phalcon)
 	PHALCON_INIT(Phalcon_Session_Bag);
 	PHALCON_INIT(Phalcon_Session_Adapter_Files);
 	PHALCON_INIT(Phalcon_Session_Adapter_Memcache);
+	PHALCON_INIT(Phalcon_Session_Adapter_Libmemcached);
 	PHALCON_INIT(Phalcon_Filter);
 	PHALCON_INIT(Phalcon_DI_FactoryDefault_CLI);
 	PHALCON_INIT(Phalcon_DI_Service);
