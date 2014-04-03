@@ -137,8 +137,6 @@ PHP_METHOD(Phalcon_Session_Adapter_Memcache, __construct){
 		return;
 	}
 
-	phalcon_update_property_this(this_ptr, SL("_host"), host TSRMLS_CC);
-
 	if (!phalcon_array_isset_string_fetch(&port, options, SS("port"))) {
 		PHALCON_INIT_VAR(port);
 		ZVAL_LONG(port, 11211);
