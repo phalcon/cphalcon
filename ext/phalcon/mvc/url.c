@@ -127,12 +127,12 @@ PHP_METHOD(Phalcon_Mvc_Url, setBaseUri) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &baseUri_param);
 
-	if (Z_TYPE_P(baseUri_param) != IS_STRING && Z_TYPE_P(baseUri_param) != IS_NULL) {
+	if (unlikely(Z_TYPE_P(baseUri_param) != IS_STRING && Z_TYPE_P(baseUri_param) != IS_NULL)) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'baseUri' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
 
-	if (Z_TYPE_P(baseUri_param) == IS_STRING) {
+	if (unlikely(Z_TYPE_P(baseUri_param) == IS_STRING)) {
 		baseUri = baseUri_param;
 	} else {
 		ZEPHIR_INIT_VAR(baseUri);
@@ -167,12 +167,12 @@ PHP_METHOD(Phalcon_Mvc_Url, setStaticBaseUri) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &staticBaseUri_param);
 
-	if (Z_TYPE_P(staticBaseUri_param) != IS_STRING && Z_TYPE_P(staticBaseUri_param) != IS_NULL) {
+	if (unlikely(Z_TYPE_P(staticBaseUri_param) != IS_STRING && Z_TYPE_P(staticBaseUri_param) != IS_NULL)) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'staticBaseUri' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
 
-	if (Z_TYPE_P(staticBaseUri_param) == IS_STRING) {
+	if (unlikely(Z_TYPE_P(staticBaseUri_param) == IS_STRING)) {
 		staticBaseUri = staticBaseUri_param;
 	} else {
 		ZEPHIR_INIT_VAR(staticBaseUri);
@@ -200,13 +200,13 @@ PHP_METHOD(Phalcon_Mvc_Url, getBaseUri) {
 	ZEPHIR_OBS_VAR(baseUri);
 	zephir_read_property_this(&baseUri, this_ptr, SL("_baseUri"), PH_NOISY_CC);
 	if (Z_TYPE_P(baseUri) == IS_NULL) {
-		ZEPHIR_INIT_VAR(uri);
 		ZEPHIR_OBS_VAR(phpSelf);
 		zephir_get_global(&_SERVER, SS("_SERVER") TSRMLS_CC);
 		if (zephir_array_isset_string_fetch(&phpSelf, _SERVER, SS("PHP_SELF"), 0 TSRMLS_CC)) {
 			ZEPHIR_CALL_FUNCTION(&uri, "phalcon_get_uri", NULL, phpSelf);
 			zephir_check_call_status();
 		} else {
+			ZEPHIR_INIT_NVAR(uri);
 			ZVAL_NULL(uri);
 		}
 		ZEPHIR_INIT_BNVAR(baseUri);
@@ -262,12 +262,12 @@ PHP_METHOD(Phalcon_Mvc_Url, setBasePath) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &basePath_param);
 
-	if (Z_TYPE_P(basePath_param) != IS_STRING && Z_TYPE_P(basePath_param) != IS_NULL) {
+	if (unlikely(Z_TYPE_P(basePath_param) != IS_STRING && Z_TYPE_P(basePath_param) != IS_NULL)) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'basePath' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
 
-	if (Z_TYPE_P(basePath_param) == IS_STRING) {
+	if (unlikely(Z_TYPE_P(basePath_param) == IS_STRING)) {
 		basePath = basePath_param;
 	} else {
 		ZEPHIR_INIT_VAR(basePath);

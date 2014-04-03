@@ -269,7 +269,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Mongo, get) {
 PHP_METHOD(Phalcon_Cache_Backend_Mongo, save) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
-	zval *keyName = NULL, *content = NULL, *lifetime = NULL, *stopBuffer = NULL, *lastkey, *prefix, *frontend, *cachedContent = NULL, *tmp, *ttl = NULL, *collection = NULL, *timestamp, *conditions, *document = NULL, *preparedContent = NULL, *isBuffering = NULL, *data, *_0 = NULL;
+	zval *keyName = NULL, *content = NULL, *lifetime = NULL, *stopBuffer = NULL, *lastkey = NULL, *prefix, *frontend, *cachedContent = NULL, *tmp, *ttl = NULL, *collection = NULL, *timestamp, *conditions, *document = NULL, *preparedContent = NULL, *isBuffering = NULL, *data, *_0 = NULL;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 4, &keyName, &content, &lifetime, &stopBuffer);
@@ -292,12 +292,13 @@ PHP_METHOD(Phalcon_Cache_Backend_Mongo, save) {
 	array_init(conditions);
 	ZEPHIR_INIT_VAR(data);
 	array_init(data);
-	ZEPHIR_INIT_VAR(lastkey);
 	if (!(zephir_is_true(keyName))) {
+		ZEPHIR_OBS_VAR(lastkey);
 		zephir_read_property_this(&lastkey, this_ptr, SL("_lastKey"), PH_NOISY_CC);
 	} else {
 		ZEPHIR_OBS_VAR(prefix);
 		zephir_read_property_this(&prefix, this_ptr, SL("_prefix"), PH_NOISY_CC);
+		ZEPHIR_INIT_NVAR(lastkey);
 		ZEPHIR_CONCAT_VV(lastkey, prefix, keyName);
 	}
 	if (!(zephir_is_true(lastkey))) {
@@ -489,7 +490,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Mongo, queryKeys) {
 PHP_METHOD(Phalcon_Cache_Backend_Mongo, exists) {
 
 	int number, ZEPHIR_LAST_CALL_STATUS;
-	zval *keyName = NULL, *lifetime = NULL, *lastKey, *collection = NULL, *conditions, *timeCondition, *_0 = NULL, *_1;
+	zval *keyName = NULL, *lifetime = NULL, *lastKey = NULL, *collection = NULL, *conditions, *timeCondition, *_0 = NULL, *_1;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 2, &keyName, &lifetime);
@@ -509,11 +510,12 @@ PHP_METHOD(Phalcon_Cache_Backend_Mongo, exists) {
 	ZEPHIR_CALL_FUNCTION(&_0, "time", NULL);
 	zephir_check_call_status();
 	zephir_array_update_string(&timeCondition, SL("$gt"), &_0, PH_COPY | PH_SEPARATE);
-	ZEPHIR_INIT_VAR(lastKey);
 	if (Z_TYPE_P(keyName) == IS_NULL) {
+		ZEPHIR_OBS_VAR(lastKey);
 		zephir_read_property_this(&lastKey, this_ptr, SL("_lastKey"), PH_NOISY_CC);
 	} else {
 		_1 = zephir_fetch_nproperty_this(this_ptr, SL("_prefix"), PH_NOISY_CC);
+		ZEPHIR_INIT_NVAR(lastKey);
 		ZEPHIR_CONCAT_VV(lastKey, _1, keyName);
 	}
 	if (zephir_is_true(lastKey)) {

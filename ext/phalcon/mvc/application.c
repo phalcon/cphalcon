@@ -234,12 +234,12 @@ PHP_METHOD(Phalcon_Mvc_Application, setDefaultModule) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &defaultModule_param);
 
-	if (Z_TYPE_P(defaultModule_param) != IS_STRING && Z_TYPE_P(defaultModule_param) != IS_NULL) {
+	if (unlikely(Z_TYPE_P(defaultModule_param) != IS_STRING && Z_TYPE_P(defaultModule_param) != IS_NULL)) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'defaultModule' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
 
-	if (Z_TYPE_P(defaultModule_param) == IS_STRING) {
+	if (unlikely(Z_TYPE_P(defaultModule_param) == IS_STRING)) {
 		defaultModule = defaultModule_param;
 	} else {
 		ZEPHIR_INIT_VAR(defaultModule);

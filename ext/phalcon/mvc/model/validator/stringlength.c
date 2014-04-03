@@ -144,11 +144,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_StringLength, validate) {
 	if (_3) {
 		RETURN_MM_BOOL(1);
 	}
-	ZEPHIR_INIT_VAR(length);
 	if ((zephir_function_exists_ex(SS("mb_strlen") TSRMLS_CC) == SUCCESS)) {
 		ZEPHIR_CALL_FUNCTION(&length, "mb_strlen", NULL, value);
 		zephir_check_call_status();
 	} else {
+		ZEPHIR_INIT_NVAR(length);
 		ZVAL_LONG(length, zephir_fast_strlen_ev(value));
 	}
 	invalidMaximum = 0;

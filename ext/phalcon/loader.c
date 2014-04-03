@@ -159,7 +159,7 @@ PHP_METHOD(Phalcon_Loader, setExtensions) {
 
 	zephir_fetch_params(0, 1, 0, &extensions_param);
 
-	if (Z_TYPE_P(extensions_param) != IS_ARRAY) {
+	if (unlikely(Z_TYPE_P(extensions_param) != IS_ARRAY)) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'extensions' must be an array") TSRMLS_CC);
 		RETURN_NULL();
 	}
@@ -477,12 +477,12 @@ PHP_METHOD(Phalcon_Loader, autoLoad) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &className_param);
 
-	if (Z_TYPE_P(className_param) != IS_STRING && Z_TYPE_P(className_param) != IS_NULL) {
+	if (unlikely(Z_TYPE_P(className_param) != IS_STRING && Z_TYPE_P(className_param) != IS_NULL)) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'className' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
 
-	if (Z_TYPE_P(className_param) == IS_STRING) {
+	if (unlikely(Z_TYPE_P(className_param) == IS_STRING)) {
 		className = className_param;
 	} else {
 		ZEPHIR_INIT_VAR(className);

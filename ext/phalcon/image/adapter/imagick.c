@@ -97,12 +97,12 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, __construct) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 2, &file_param, &width_param, &height_param);
 
-	if (Z_TYPE_P(file_param) != IS_STRING && Z_TYPE_P(file_param) != IS_NULL) {
+	if (unlikely(Z_TYPE_P(file_param) != IS_STRING && Z_TYPE_P(file_param) != IS_NULL)) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'file' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
 
-	if (Z_TYPE_P(file_param) == IS_STRING) {
+	if (unlikely(Z_TYPE_P(file_param) == IS_STRING)) {
 		file = file_param;
 	} else {
 		ZEPHIR_INIT_VAR(file);
@@ -875,7 +875,6 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, _text) {
 		ZEPHIR_CALL_FUNCTION(&_8, "abs", &_9, &_1);
 		zephir_check_call_status();
 		offset_x = zephir_get_numberval(_8);
-		ZEPHIR_INIT_VAR(gravity);
 		if (offset_y < 0) {
 			ZEPHIR_SINIT_NVAR(_1);
 			ZVAL_LONG(&_1, offset_y);

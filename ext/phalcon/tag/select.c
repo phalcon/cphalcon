@@ -239,15 +239,15 @@ PHP_METHOD(Phalcon_Tag_Select, _optionsFromResultset) {
 			ZEPHIR_OBS_NVAR(usingOne);
 			zephir_array_fetch_long(&usingOne, using, 1, PH_NOISY TSRMLS_CC);
 			if (Z_TYPE_P(option) == IS_OBJECT) {
-				ZEPHIR_INIT_NVAR(optionValue);
-				ZEPHIR_INIT_NVAR(optionText);
 				if ((zephir_method_exists_ex(option, SS("readattribute") TSRMLS_CC) == SUCCESS)) {
 					ZEPHIR_CALL_METHOD(&optionValue, option, "readattribute", NULL, usingZero);
 					zephir_check_call_status();
 					ZEPHIR_CALL_METHOD(&optionText, option, "readattribute", NULL, usingOne);
 					zephir_check_call_status();
 				} else {
+					ZEPHIR_OBS_NVAR(optionValue);
 					zephir_read_property(&optionValue, option, SL("usingZero"), PH_NOISY_CC);
+					ZEPHIR_OBS_NVAR(optionText);
 					zephir_read_property(&optionText, option, SL("usingOne"), PH_NOISY_CC);
 				}
 			} else {

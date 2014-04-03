@@ -342,12 +342,12 @@ PHP_METHOD(Phalcon_Mvc_Micro, head) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &routePattern_param, &handler);
 
-	if (Z_TYPE_P(routePattern_param) != IS_STRING && Z_TYPE_P(routePattern_param) != IS_NULL) {
+	if (unlikely(Z_TYPE_P(routePattern_param) != IS_STRING && Z_TYPE_P(routePattern_param) != IS_NULL)) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'routePattern' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
 
-	if (Z_TYPE_P(routePattern_param) == IS_STRING) {
+	if (unlikely(Z_TYPE_P(routePattern_param) == IS_STRING)) {
 		routePattern = routePattern_param;
 	} else {
 		ZEPHIR_INIT_VAR(routePattern);
@@ -410,12 +410,12 @@ PHP_METHOD(Phalcon_Mvc_Micro, options) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &routePattern_param, &handler);
 
-	if (Z_TYPE_P(routePattern_param) != IS_STRING && Z_TYPE_P(routePattern_param) != IS_NULL) {
+	if (unlikely(Z_TYPE_P(routePattern_param) != IS_STRING && Z_TYPE_P(routePattern_param) != IS_NULL)) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'routePattern' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
 
-	if (Z_TYPE_P(routePattern_param) == IS_STRING) {
+	if (unlikely(Z_TYPE_P(routePattern_param) == IS_STRING)) {
 		routePattern = routePattern_param;
 	} else {
 		ZEPHIR_INIT_VAR(routePattern);
@@ -757,7 +757,6 @@ PHP_METHOD(Phalcon_Mvc_Micro, handle) {
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(&matchedRoute, router, "getmatchedroute",  NULL);
 	zephir_check_call_status();
-	ZEPHIR_INIT_VAR(returnedValue);
 	if (Z_TYPE_P(matchedRoute) == IS_OBJECT) {
 		ZEPHIR_OBS_VAR(handler);
 		_2 = zephir_fetch_nproperty_this(this_ptr, SL("_handlers"), PH_NOISY_CC);
@@ -819,6 +818,7 @@ PHP_METHOD(Phalcon_Mvc_Micro, handle) {
 		}
 		ZEPHIR_CALL_METHOD(&params, router, "getparams",  NULL);
 		zephir_check_call_status();
+		ZEPHIR_INIT_VAR(returnedValue);
 		ZEPHIR_CALL_USER_FUNC_ARRAY(returnedValue, handler, params);
 		zephir_check_call_status();
 		zephir_update_property_this(this_ptr, SL("_returnedValue"), returnedValue TSRMLS_CC);
