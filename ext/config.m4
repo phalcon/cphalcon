@@ -274,6 +274,7 @@ session/baginterface.c \
 session/adapterinterface.c \
 session/adapter.c \
 session/adapter/memcache.c \
+session/adapter/libmemcached.c \
 diinterface.c \
 escaper.c \
 crypt/exception.c \
