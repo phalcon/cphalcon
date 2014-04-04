@@ -423,6 +423,7 @@ static PHP_MINIT_FUNCTION(phalcon)
 	PHALCON_INIT(Phalcon_Kernel);
 	PHALCON_INIT(Phalcon_Debug);
 	PHALCON_INIT(Phalcon_Text);
+	PHALCON_INIT(Phalcon_Date);
 	PHALCON_INIT(Phalcon_Security);
 	PHALCON_INIT(Phalcon_Version);
 	PHALCON_INIT(Phalcon_Session_Bag);
@@ -556,7 +557,18 @@ static PHP_MINIT_FUNCTION(phalcon)
 	PHALCON_INIT(Phalcon_Image_Adapter);
 	PHALCON_INIT(Phalcon_Image_Adapter_GD);
 	PHALCON_INIT(Phalcon_Image_Adapter_Imagick);
+	PHALCON_INIT(Phalcon_Amf);
+	PHALCON_INIT(Phalcon_Amf_Header);
+	PHALCON_INIT(Phalcon_Amf_Message);
+	PHALCON_INIT(Phalcon_Amf_Packet);
+	PHALCON_INIT(Phalcon_Amf_Deserializer);
+	PHALCON_INIT(Phalcon_Amf_Serializer);
+	PHALCON_INIT(Phalcon_Amf_Exception);
+	PHALCON_INIT(Phalcon_Mvc_Amf);
+	PHALCON_INIT(Phalcon_Mvc_Amf_Exception);
 	PHALCON_INIT(Phalcon_Registry);
+	PHALCON_INIT(Phalcon_Mvc_Model_Validator_Json);
+	PHALCON_INIT(Phalcon_Arr);
 
 #if PHP_VERSION_ID < 50500
 	setlocale(LC_ALL, old_lc_all);

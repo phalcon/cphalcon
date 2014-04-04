@@ -17,7 +17,7 @@
   +------------------------------------------------------------------------+
 */
 
-#include "mvc/model/validator/email.h"
+#include "mvc/model/validator/json.h"
 #include "mvc/model/validator.h"
 #include "mvc/model/validatorinterface.h"
 #include "mvc/model/exception.h"
@@ -34,20 +34,20 @@
 #include "interned-strings.h"
 
 /**
- * Phalcon\Mvc\Model\Validator\Email
+ * Phalcon\Mvc\Model\Validator\Json
  *
- * Allows to validate if email fields has correct values
+ * Allows to validate if json fields has correct values
  *
  *<code>
- *	use Phalcon\Mvc\Model\Validator\Email as EmailValidator;
+ *	use Phalcon\Mvc\Model\Validator\Json as JsonValidator;
  *
  *	class Subscriptors extends Phalcon\Mvc\Model
  *	{
  *
  *		public function validation()
  *		{
- *			$this->validate(new EmailValidator(array(
- *				'field' => 'electronic_mail'
+ *			$this->validate(new JsonValidator(array(
+ *				'field' => 'json_data'
  *      	)));
  *      	if ($this->validationHasFailed() == true) {
  *				return false;
@@ -58,23 +58,23 @@
  *</code>
  *
  */
-zend_class_entry *phalcon_mvc_model_validator_email_ce;
+zend_class_entry *phalcon_mvc_model_validator_json_ce;
 
-PHP_METHOD(Phalcon_Mvc_Model_Validator_Email, validate);
+PHP_METHOD(Phalcon_Mvc_Model_Validator_Json, validate);
 
-static const zend_function_entry phalcon_mvc_model_validator_email_method_entry[] = {
-	PHP_ME(Phalcon_Mvc_Model_Validator_Email, validate, arginfo_phalcon_mvc_model_validatorinterface_validate, ZEND_ACC_PUBLIC)
+static const zend_function_entry phalcon_mvc_model_validator_json_method_entry[] = {
+	PHP_ME(Phalcon_Mvc_Model_Validator_Json, validate, arginfo_phalcon_mvc_model_validatorinterface_validate, ZEND_ACC_PUBLIC)
 	PHP_FE_END
 };
 
 /**
- * Phalcon\Mvc\Model\Validator\Email initializer
+ * Phalcon\Mvc\Model\Validator\Json initializer
  */
-PHALCON_INIT_CLASS(Phalcon_Mvc_Model_Validator_Email){
+PHALCON_INIT_CLASS(Phalcon_Mvc_Model_Validator_Json){
 
-	PHALCON_REGISTER_CLASS_EX(Phalcon\\Mvc\\Model\\Validator, Email, mvc_model_validator_email, phalcon_mvc_model_validator_ce, phalcon_mvc_model_validator_email_method_entry, 0);
+	PHALCON_REGISTER_CLASS_EX(Phalcon\\Mvc\\Model\\Validator, Json, mvc_model_validator_json, phalcon_mvc_model_validator_ce, phalcon_mvc_model_validator_json_method_entry, 0);
 
-	zend_class_implements(phalcon_mvc_model_validator_email_ce TSRMLS_CC, 1, phalcon_mvc_model_validatorinterface_ce);
+	zend_class_implements(phalcon_mvc_model_validator_json_ce TSRMLS_CC, 1, phalcon_mvc_model_validatorinterface_ce);
 
 	return SUCCESS;
 }
@@ -85,10 +85,10 @@ PHALCON_INIT_CLASS(Phalcon_Mvc_Model_Validator_Email){
  * @param Phalcon\Mvc\ModelInterface $record
  * @return boolean
  */
-PHP_METHOD(Phalcon_Mvc_Model_Validator_Email, validate){
+PHP_METHOD(Phalcon_Mvc_Model_Validator_Json, validate){
 
-	zval *record, *option = NULL, *field_name = NULL, *allow_empty = NULL, *regs, *invalid = NULL;
-	zval *value = NULL, *pattern, *match_pattern, *match_zero;
+	zval *record, *option = NULL, *field_name = NULL, *invalid = NULL;
+	zval *value = NULL, *keys = NULL, *assoc, *json = NULL, *constant, *ret = NULL;
 	zval *message = NULL, *type, *is_set_code = NULL, *code = NULL;
 
 	PHALCON_MM_GROW();
@@ -104,44 +104,43 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Email, validate){
 		return;
 	}
 	
-	PHALCON_INIT_VAR(regs);
-	
 	PHALCON_INIT_VAR(invalid);
 	ZVAL_BOOL(invalid, 0);
 	
 	PHALCON_CALL_METHOD(&value, record, "readattribute", field_name);
 	
-	/*
-	 * Allow empty
-	 */
-	PHALCON_INIT_NVAR(option);
-	ZVAL_STRING(option, "allowEmpty", 1);
+	PHALCON_INIT_VAR(assoc);
+	ZVAL_TRUE(assoc);
 
-	PHALCON_CALL_METHOD(&allow_empty, this_ptr, "getoption", option);
+	PHALCON_CALL_FUNCTION(&json, "json_decode", value, assoc);
+	
+	if (Z_TYPE_P(json) == IS_NULL) {
+		PHALCON_INIT_VAR(constant);
+		if (zend_get_constant(SL("JSON_ERROR_NONE"), constant TSRMLS_CC)) {
+			PHALCON_INIT_NVAR(ret);
+			PHALCON_CALL_FUNCTION(&ret, "json_last_error");
 
-	if (allow_empty && zend_is_true(allow_empty)) {
-		if (PHALCON_IS_EMPTY(value)) {
-			RETURN_MM_TRUE;
+			if (!PHALCON_IS_EQUAL(ret, constant)) {
+				PHALCON_INIT_NVAR(invalid);
+				ZVAL_BOOL(invalid, 1);
+			}
 		}
 	}
-	
-	/** 
-	 * We check if the email has a valid format using a regular expression
-	 */
-	PHALCON_INIT_VAR(pattern);
-	ZVAL_STRING(pattern, "/^([^\\x00-\\x20\\x22\\x28\\x29\\x2c\\x2e\\x3a-\\x3c\\x3e\\x40\\x5b-\\x5d\\x7f-\\xff]+|\\x22([^\\x0d\\x22\\x5c\\x80-\\xff]|\\x5c[\\x00-\\x7f])*\\x22)(\\x2e([^\\x00-\\x20\\x22\\x28\\x29\\x2c\\x2e\\x3a-\\x3c\\x3e\\x40\\x5b-\\x5d\\x7f-\\xff]+|\\x22([^\\x0d\\x22\\x5c\\x80-\\xff]|\\x5c[\\x00-\\x7f])*\\x22))*\\x40([^\\x00-\\x20\\x22\\x28\\x29\\x2c\\x2e\\x3a-\\x3c\\x3e\\x40\\x5b-\\x5d\\x7f-\\xff]+|\\x5b([^\\x0d\\x5b-\\x5d\\x80-\\xff]|\\x5c[\\x00-\\x7f])*\\x5d)(\\x2e([^\\x00-\\x20\\x22\\x28\\x29\\x2c\\x2e\\x3a-\\x3c\\x3e\\x40\\x5b-\\x5d\\x7f-\\xff]+|\\x5b([^\\x0d\\x5b-\\x5d\\x80-\\xff]|\\x5c[\\x00-\\x7f])*\\x5d))*$/", 1);
-	
-	PHALCON_INIT_VAR(match_pattern);
-	RETURN_MM_ON_FAILURE(phalcon_preg_match(match_pattern, pattern, value, regs TSRMLS_CC));
-	
-	if (zend_is_true(match_pattern)) {
-		PHALCON_OBS_VAR(match_zero);
-		phalcon_array_fetch_long(&match_zero, regs, 0, PH_NOISY);
-	
-		is_not_equal_function(invalid, match_zero, value TSRMLS_CC);
-	} else {
-		PHALCON_INIT_NVAR(invalid);
-		ZVAL_BOOL(invalid, 1);
+
+	if (!PHALCON_IS_TRUE(invalid)) {
+		PHALCON_INIT_NVAR(option);
+		ZVAL_STRING(option, "keys", 1);
+
+		PHALCON_CALL_METHOD(&keys, this_ptr, "getoption", option);
+
+		if (Z_TYPE_P(keys) != IS_NULL) {
+			PHALCON_INIT_NVAR(ret);
+			PHALCON_CALL_FUNCTION(&ret, "array_key_exists", keys, json);
+			if (!zend_is_true(ret)) {
+				PHALCON_INIT_NVAR(invalid);
+				ZVAL_BOOL(invalid, 1);
+			}
+		}
 	}
 	
 	if (PHALCON_IS_TRUE(invalid)) {
@@ -155,11 +154,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Email, validate){
 		PHALCON_CALL_METHOD(&message, this_ptr, "getoption", option);
 		if (!zend_is_true(message)) {
 			PHALCON_INIT_NVAR(message);
-			PHALCON_CONCAT_SVS(message, "Value of field '", field_name, "' must have a valid e-mail format");
+			PHALCON_CONCAT_SVS(message, "Value of field '", field_name, "' must have a valid json format");
 		}
 	
 		PHALCON_INIT_VAR(type);
-		ZVAL_STRING(type, "Email", 1);
+		ZVAL_STRING(type, "Json", 1);
 
 		/*
 		 * Is code set
