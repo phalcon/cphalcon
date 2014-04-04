@@ -261,12 +261,16 @@ PHP_METHOD(Phalcon_Session_Adapter_Libmemcached, read){
 	prefix = phalcon_fetch_nproperty_this(this_ptr, SL("_prefix"), PH_NOISY TSRMLS_CC);
 	libmemcached = phalcon_fetch_nproperty_this(this_ptr, SL("_libmemcached"), PH_NOISY TSRMLS_CC);
 
-	PHALCON_INIT_VAR(real_sid);
-	PHALCON_CONCAT_VV(real_sid, prefix, sid)
+	if (Z_TYPE_P(libmemcached) == IS_OBJECT) {
+		PHALCON_INIT_VAR(real_sid);
+		PHALCON_CONCAT_VV(real_sid, prefix, sid)
 
-	PHALCON_RETURN_CALL_METHOD(libmemcached, "get", real_sid, lifetime);
+		PHALCON_RETURN_CALL_METHOD(libmemcached, "get", real_sid, lifetime);
 
-	RETURN_MM();
+		RETURN_MM();
+	} else {
+		RETURN_MM_FALSE;
+	}
 }
 
 /**
@@ -287,12 +291,14 @@ PHP_METHOD(Phalcon_Session_Adapter_Libmemcached, write){
 	prefix = phalcon_fetch_nproperty_this(this_ptr, SL("_prefix"), PH_NOISY TSRMLS_CC);
 	libmemcached = phalcon_fetch_nproperty_this(this_ptr, SL("_libmemcached"), PH_NOISY TSRMLS_CC);
 
-	PHALCON_INIT_VAR(real_sid);
-	PHALCON_CONCAT_VV(real_sid, prefix, sid)
+	if (Z_TYPE_P(libmemcached) == IS_OBJECT) {
+		PHALCON_INIT_VAR(real_sid);
+		PHALCON_CONCAT_VV(real_sid, prefix, sid)
 
-	PHALCON_RETURN_CALL_METHOD(libmemcached, "save", real_sid, data, lifetime);
+		PHALCON_CALL_METHOD(NULL, libmemcached, "save", real_sid, data, lifetime);	
+	}
 
-	RETURN_MM();
+	PHALCON_MM_RESTORE();
 }
 
 /**
@@ -318,12 +324,16 @@ PHP_METHOD(Phalcon_Session_Adapter_Libmemcached, destroy){
 	prefix = phalcon_fetch_nproperty_this(this_ptr, SL("_prefix"), PH_NOISY TSRMLS_CC);
 	libmemcached = phalcon_fetch_nproperty_this(this_ptr, SL("_libmemcached"), PH_NOISY TSRMLS_CC);
 
-	PHALCON_INIT_VAR(real_sid);
-	PHALCON_CONCAT_VV(real_sid, prefix, sid)
+	if (Z_TYPE_P(libmemcached) == IS_OBJECT) {
+		PHALCON_INIT_VAR(real_sid);
+		PHALCON_CONCAT_VV(real_sid, prefix, sid)
 
-	PHALCON_RETURN_CALL_METHOD(libmemcached, "delete", real_sid);
+		PHALCON_RETURN_CALL_METHOD(libmemcached, "delete", real_sid);
 
-	RETURN_MM();
+		RETURN_MM();
+	} else {
+		RETURN_MM_FALSE;
+	}
 }
 
 /**
@@ -332,5 +342,6 @@ PHP_METHOD(Phalcon_Session_Adapter_Libmemcached, destroy){
  */
 PHP_METHOD(Phalcon_Session_Adapter_Libmemcached, gc){
 
+	RETURN_TRUE;
 }
 
