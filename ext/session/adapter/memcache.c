@@ -183,7 +183,7 @@ PHP_METHOD(Phalcon_Session_Adapter_Memcache, __construct){
 
 	phalcon_update_property_this(this_ptr, SL("_memcache"), memcache TSRMLS_CC);
 
-		/* open callback */
+	/* open callback */
 	PHALCON_INIT_VAR(callable_open);
 	array_init_size(callable_open, 2);
 	phalcon_array_append(&callable_open, this_ptr, 0);
