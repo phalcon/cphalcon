@@ -225,4 +225,16 @@ class Collection implements \Countable, \Iterator
 
 		return completePath;
 	}
+
+	/**
+	 * Adds a filter to the collection
+	 *
+	 * @param Phalcon\Assets\FilterInterface $filter
+	 * @return Phalcon\Assets\Collection
+	 */
+	public function addFilter(<\Phalcon\Assets\FilterInterface> $filter) -> <\Phalcon\Assets\Collection>
+	{
+		let this->_filters[] = $filter;
+		return this;
+	}
 }
