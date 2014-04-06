@@ -107,7 +107,6 @@ PHALCON_INIT_CLASS(Phalcon_Session_Adapter_Libmemcached){
 	PHALCON_REGISTER_CLASS_EX(Phalcon\\Session\\Adapter, Libmemcached, session_adapter_libmemcached, phalcon_session_adapter_ce, phalcon_session_adapter_libmemcached_method_entry, 0);
 
 	zend_declare_property_null(phalcon_session_adapter_libmemcached_ce, SL("_lifetime"), ZEND_ACC_PROTECTED TSRMLS_CC);
-	zend_declare_property_null(phalcon_session_adapter_libmemcached_ce, SL("_prefix"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_session_adapter_libmemcached_ce, SL("_libmemcached"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
 	zend_class_implements(phalcon_session_adapter_libmemcached_ce TSRMLS_CC, 1, phalcon_session_adapterinterface_ce);
@@ -152,15 +151,16 @@ PHP_METHOD(Phalcon_Session_Adapter_Libmemcached, __construct){
 
 	phalcon_update_property_this(this_ptr, SL("_lifetime"), lifetime TSRMLS_CC);
 
-	if (phalcon_array_isset_string_fetch(&prefix, options, SS("prefix"))) {
-		phalcon_update_property_this(this_ptr, SL("_prefix"), prefix TSRMLS_CC);
+	if (!phalcon_array_isset_string_fetch(&prefix, options, SS("prefix"))) {
+		PHALCON_INIT_VAR(prefix);
+                ZVAL_EMPTY_STRING(prefix);
 	}
 
 	/* create libmemcached instance */
 	PHALCON_INIT_VAR(option);
 	array_init_size(option, 1);
 
-	phalcon_array_update_string(&option, SL("lifetime"), lifetime, 0);
+	phalcon_array_update_string(&option, SL("lifetime"), lifetime, PH_COPY);
 
 	PHALCON_INIT_VAR(frontend_data);
 	object_init_ex(frontend_data, phalcon_cache_frontend_data_ce);
@@ -170,10 +170,11 @@ PHP_METHOD(Phalcon_Session_Adapter_Libmemcached, __construct){
 	PHALCON_INIT_NVAR(option);
 	array_init(option);
 
-	phalcon_array_update_string(&option, SL("servers"), servers, 0);
+	phalcon_array_update_string(&option, SL("servers"), servers, PH_COPY);
 	if (client) {
-		phalcon_array_update_string(&option, SL("client"), client, 0);
+		phalcon_array_update_string(&option, SL("client"), client, PH_COPY);
 	}
+	phalcon_array_update_string(&option, SL("prefix"), prefix, PH_COPY);
 
 	PHALCON_INIT_VAR(libmemcached);
 	object_init_ex(libmemcached, phalcon_cache_backend_libmemcached_ce);
@@ -251,21 +252,17 @@ PHP_METHOD(Phalcon_Session_Adapter_Libmemcached, close){
 PHP_METHOD(Phalcon_Session_Adapter_Libmemcached, read){
 
 	zval *sid;
-	zval *lifetime, *prefix, *real_sid, *libmemcached;
+	zval *lifetime, *libmemcached;
 
 	PHALCON_MM_GROW();
 
 	phalcon_fetch_params(1, 1, 0, &sid);
 
 	lifetime = phalcon_fetch_nproperty_this(this_ptr, SL("_lifetime"), PH_NOISY TSRMLS_CC);
-	prefix = phalcon_fetch_nproperty_this(this_ptr, SL("_prefix"), PH_NOISY TSRMLS_CC);
 	libmemcached = phalcon_fetch_nproperty_this(this_ptr, SL("_libmemcached"), PH_NOISY TSRMLS_CC);
 
 	if (Z_TYPE_P(libmemcached) == IS_OBJECT) {
-		PHALCON_INIT_VAR(real_sid);
-		PHALCON_CONCAT_VV(real_sid, prefix, sid)
-
-		PHALCON_RETURN_CALL_METHOD(libmemcached, "get", real_sid, lifetime);
+		PHALCON_RETURN_CALL_METHOD(libmemcached, "get", sid, lifetime);
 
 		RETURN_MM();
 	} else {
@@ -281,21 +278,17 @@ PHP_METHOD(Phalcon_Session_Adapter_Libmemcached, read){
 PHP_METHOD(Phalcon_Session_Adapter_Libmemcached, write){
 
 	zval *sid, *data;
-	zval *lifetime, *prefix, *real_sid, *libmemcached;
+	zval *lifetime, *libmemcached;
 
 	PHALCON_MM_GROW();
 
 	phalcon_fetch_params(1, 2, 0, &sid, &data);
 
 	lifetime = phalcon_fetch_nproperty_this(this_ptr, SL("_lifetime"), PH_NOISY TSRMLS_CC);
-	prefix = phalcon_fetch_nproperty_this(this_ptr, SL("_prefix"), PH_NOISY TSRMLS_CC);
 	libmemcached = phalcon_fetch_nproperty_this(this_ptr, SL("_libmemcached"), PH_NOISY TSRMLS_CC);
 
 	if (Z_TYPE_P(libmemcached) == IS_OBJECT) {
-		PHALCON_INIT_VAR(real_sid);
-		PHALCON_CONCAT_VV(real_sid, prefix, sid)
-
-		PHALCON_CALL_METHOD(NULL, libmemcached, "save", real_sid, data, lifetime);	
+		PHALCON_CALL_METHOD(NULL, libmemcached, "save", sid, data, lifetime);	
 	}
 
 	PHALCON_MM_RESTORE();
@@ -310,7 +303,7 @@ PHP_METHOD(Phalcon_Session_Adapter_Libmemcached, write){
 PHP_METHOD(Phalcon_Session_Adapter_Libmemcached, destroy){
 
 	zval *sid = NULL;
-	zval *prefix, *real_sid, *libmemcached;
+	zval *libmemcached;
 
 	PHALCON_MM_GROW();
 
@@ -321,14 +314,10 @@ PHP_METHOD(Phalcon_Session_Adapter_Libmemcached, destroy){
 		PHALCON_CALL_SELF(&sid, "getid");
 	}
 
-	prefix = phalcon_fetch_nproperty_this(this_ptr, SL("_prefix"), PH_NOISY TSRMLS_CC);
 	libmemcached = phalcon_fetch_nproperty_this(this_ptr, SL("_libmemcached"), PH_NOISY TSRMLS_CC);
 
 	if (Z_TYPE_P(libmemcached) == IS_OBJECT) {
-		PHALCON_INIT_VAR(real_sid);
-		PHALCON_CONCAT_VV(real_sid, prefix, sid)
-
-		PHALCON_RETURN_CALL_METHOD(libmemcached, "delete", real_sid);
+		PHALCON_RETURN_CALL_METHOD(libmemcached, "delete", sid);
 
 		RETURN_MM();
 	} else {

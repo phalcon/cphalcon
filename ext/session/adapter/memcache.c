@@ -103,7 +103,6 @@ PHALCON_INIT_CLASS(Phalcon_Session_Adapter_Memcache){
 	PHALCON_REGISTER_CLASS_EX(Phalcon\\Session\\Adapter, Memcache, session_adapter_memcache, phalcon_session_adapter_ce, phalcon_session_adapter_memcache_method_entry, 0);
 
 	zend_declare_property_null(phalcon_session_adapter_memcache_ce, SL("_lifetime"), ZEND_ACC_PROTECTED TSRMLS_CC);
-	zend_declare_property_null(phalcon_session_adapter_memcache_ce, SL("_prefix"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_session_adapter_memcache_ce, SL("_memcache"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
 	zend_class_implements(phalcon_session_adapter_memcache_ce TSRMLS_CC, 1, phalcon_session_adapterinterface_ce);
@@ -154,8 +153,9 @@ PHP_METHOD(Phalcon_Session_Adapter_Memcache, __construct){
 		ZVAL_FALSE(persistent);
 	}
 
-	if (phalcon_array_isset_string_fetch(&prefix, options, SS("prefix"))) {
-		phalcon_update_property_this(this_ptr, SL("_prefix"), prefix TSRMLS_CC);
+	if (!phalcon_array_isset_string_fetch(&prefix, options, SS("prefix"))) {
+		PHALCON_INIT_VAR(prefix);
+		ZVAL_EMPTY_STRING(prefix);
 	}
 
 	/* create memcache instance */
@@ -175,6 +175,7 @@ PHP_METHOD(Phalcon_Session_Adapter_Memcache, __construct){
 	phalcon_array_update_string(&option, SL("host"), host, PH_COPY);
 	phalcon_array_update_string(&option, SL("port"), port, PH_COPY);
 	phalcon_array_update_string(&option, SL("persistent"), persistent, PH_COPY);
+	phalcon_array_update_string(&option, SL("prefix"), prefix, PH_COPY);
 
 	PHALCON_INIT_VAR(memcache);
 	object_init_ex(memcache, phalcon_cache_backend_memcache_ce);
@@ -252,21 +253,17 @@ PHP_METHOD(Phalcon_Session_Adapter_Memcache, close){
 PHP_METHOD(Phalcon_Session_Adapter_Memcache, read){
 
 	zval *sid;
-	zval *lifetime, *prefix, *real_sid, *memcache;
+	zval *lifetime, *memcache;
 
 	PHALCON_MM_GROW();
 
 	phalcon_fetch_params(1, 1, 0, &sid);
 
 	lifetime = phalcon_fetch_nproperty_this(this_ptr, SL("_lifetime"), PH_NOISY TSRMLS_CC);
-	prefix = phalcon_fetch_nproperty_this(this_ptr, SL("_prefix"), PH_NOISY TSRMLS_CC);
 	memcache = phalcon_fetch_nproperty_this(this_ptr, SL("_memcache"), PH_NOISY TSRMLS_CC);
 
 	if (Z_TYPE_P(memcache) == IS_OBJECT) {
-		PHALCON_INIT_VAR(real_sid);
-		PHALCON_CONCAT_VV(real_sid, prefix, sid)
-
-		PHALCON_RETURN_CALL_METHOD(memcache, "get", real_sid, lifetime);
+		PHALCON_RETURN_CALL_METHOD(memcache, "get", sid, lifetime);
 
 		RETURN_MM();	
 	} else {
@@ -283,21 +280,17 @@ PHP_METHOD(Phalcon_Session_Adapter_Memcache, read){
 PHP_METHOD(Phalcon_Session_Adapter_Memcache, write){
 
 	zval *sid, *data;
-	zval *lifetime, *prefix, *real_sid, *memcache;
+	zval *lifetime, *memcache;
 
 	PHALCON_MM_GROW();
 
 	phalcon_fetch_params(1, 2, 0, &sid, &data);
 
 	lifetime = phalcon_fetch_nproperty_this(this_ptr, SL("_lifetime"), PH_NOISY TSRMLS_CC);
-	prefix = phalcon_fetch_nproperty_this(this_ptr, SL("_prefix"), PH_NOISY TSRMLS_CC);
 	memcache = phalcon_fetch_nproperty_this(this_ptr, SL("_memcache"), PH_NOISY TSRMLS_CC);
 
 	if (Z_TYPE_P(memcache) == IS_OBJECT) {
-		PHALCON_INIT_VAR(real_sid);
-		PHALCON_CONCAT_VV(real_sid, prefix, sid)
-
-		PHALCON_CALL_METHOD(NULL, memcache, "save", real_sid, data, lifetime);
+		PHALCON_CALL_METHOD(NULL, memcache, "save", sid, data, lifetime);
 	}
 
 	PHALCON_MM_RESTORE();
@@ -312,7 +305,7 @@ PHP_METHOD(Phalcon_Session_Adapter_Memcache, write){
 PHP_METHOD(Phalcon_Session_Adapter_Memcache, destroy){
 
 	zval *sid = NULL;
-	zval *prefix, *real_sid, *memcache;
+	zval *memcache;
 
 	PHALCON_MM_GROW();
 
@@ -323,14 +316,10 @@ PHP_METHOD(Phalcon_Session_Adapter_Memcache, destroy){
 		PHALCON_CALL_SELF(&sid, "getid");
 	}
 
-	prefix = phalcon_fetch_nproperty_this(this_ptr, SL("_prefix"), PH_NOISY TSRMLS_CC);
 	memcache = phalcon_fetch_nproperty_this(this_ptr, SL("_memcache"), PH_NOISY TSRMLS_CC);
 
 	if (Z_TYPE_P(memcache) == IS_OBJECT) {
-		PHALCON_INIT_VAR(real_sid);
-		PHALCON_CONCAT_VV(real_sid, prefix, sid)
-
-		PHALCON_RETURN_CALL_METHOD(memcache, "delete", real_sid);
+		PHALCON_RETURN_CALL_METHOD(memcache, "delete", sid);
 
 		RETURN_MM();
 	} else {
