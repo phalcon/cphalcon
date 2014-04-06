@@ -328,6 +328,32 @@ class ModelsQueryExecuteTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals(count($result), 1);
 		$this->assertEquals($result[0]->number, 1);
 
+		//Cast function
+		//TODO: CHAR in postgresql is acually a single char, but I can't specify a length
+		//for the field type like CHAR(10) because phalcon phql doesn't support it
+		$cast_type = "CHAR";
+		if ($di->get("db") instanceof Phalcon\Db\Adapter\Pdo\Postgresql)
+			$cast_type = "TEXT";
+		$result = $manager->executeQuery("SELECT CAST(year AS $cast_type) test FROM Robots LIMIT 1");
+		$this->assertInstanceOf('Phalcon\Mvc\Model\Resultset\Simple', $result);
+		$this->assertInstanceOf('Phalcon\Mvc\Model\Row', $result[0]);
+		$this->assertEquals(Robots::findFirst()->year, $result[0]->test);
+
+		//Convert using... is supported only by mysql (and it's in the sql standards, bad postgresql/sqlite!)
+		if ($di->get("db") instanceof Phalcon\Db\Adapter\Pdo\Mysql)
+		{
+			$result = $manager->executeQuery("SELECT CONVERT(year USING utf8) test FROM Robots LIMIT 1");
+			$this->assertInstanceOf('Phalcon\Mvc\Model\Resultset\Simple', $result);
+			$this->assertInstanceOf('Phalcon\Mvc\Model\Row', $result[0]);
+			$this->assertEquals(Robots::findFirst()->year, $result[0]->test);
+		}
+
+		//Nested Cast
+		$result = $manager->executeQuery("SELECT CAST(CAST(year AS $cast_type) AS DECIMAL) test FROM Robots LIMIT 1");
+		$this->assertInstanceOf('Phalcon\Mvc\Model\Resultset\Simple', $result);
+		$this->assertInstanceOf('Phalcon\Mvc\Model\Row', $result[0]);
+		$this->assertEquals(Robots::findFirst()->year, $result[0]->test);
+
 		$result = $manager->executeQuery('SELECT r.id, r.* FROM Robots r');
 		$this->assertInstanceOf('Phalcon\Mvc\Model\Resultset\Complex', $result);
 		$this->assertNotEquals(gettype($result[0]->id), 'object');
@@ -371,7 +397,7 @@ class ModelsQueryExecuteTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($result[1]->r->id, 1);
 		$this->assertEquals($result[1]->p->id, 2);
 
-		/** Joins with namespaces */
+		//Joins with namespaces
 		$result = $manager->executeQuery('SELECT Some\Robots.*, Some\RobotsParts.* FROM Some\Robots JOIN Some\RobotsParts ON Some\Robots.id = Some\RobotsParts.robots_id ORDER BY Some\Robots.id, Some\RobotsParts.id');
 		$this->assertInstanceOf('Phalcon\Mvc\Model\Resultset\Complex', $result);
 		$this->assertEquals(gettype($result[0]->{'some\Robots'}), 'object');
@@ -384,7 +410,7 @@ class ModelsQueryExecuteTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($result[1]->{'some\Robots'}->id, 1);
 		$this->assertEquals($result[1]->{'some\RobotsParts'}->id, 2);
 
-		/** Joins with namespaces and aliases */
+		//Joins with namespaces and aliases
 		$result = $manager->executeQuery('SELECT r.*, p.* FROM Some\Robots r JOIN Some\RobotsParts p ON r.id = p.robots_id ORDER BY r.id, p.id');
 		$this->assertInstanceOf('Phalcon\Mvc\Model\Resultset\Complex', $result);
 		$this->assertEquals(gettype($result[0]->r), 'object');
