@@ -74,8 +74,8 @@ class Memcache extends \Phalcon\Session\Adapter implements \Phalcon\Session\Adap
 			let this->_lifetime = options["lifetime"];
 		}
 
-		let this->_memcache = new Phalcon\Cache\Backend\Memcache(
-			new Phalcon\Cache\Frontend\Data(["lifetime": this->_lifetime]),
+		let this->_memcache = new \Phalcon\Cache\Backend\Memcache(
+			new \Phalcon\Cache\Frontend\Data(["lifetime": this->_lifetime]),
 			options
 		);
 
