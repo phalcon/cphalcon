@@ -414,10 +414,10 @@ PHP_METHOD(Phalcon_Security, hash)
 	char *salt;
 	int salt_len, i_factor, i_hash;
 
+	PHALCON_MM_GROW();
+
 	phalcon_fetch_params_ex(1, 1, &password, &work_factor);
 	PHALCON_ENSURE_IS_STRING(password);
-
-	PHALCON_MM_GROW();
 
 	if (!work_factor || Z_TYPE_PP(work_factor) == IS_NULL) {
 		tmp         = phalcon_fetch_nproperty_this(this_ptr, SL("_workFactor"), PH_NOISY TSRMLS_CC);
@@ -601,22 +601,22 @@ PHP_METHOD(Phalcon_Security, hash)
 		}
 	}
 
-	PHALCON_MM_RESTORE();
-
 	zval *z_salt;
 
 	PHALCON_ALLOC_GHOST_ZVAL(z_salt);
 	ZVAL_STRINGL(z_salt, salt, salt_len, 0);
 
-	PHALCON_RETURN_CALL_FUNCTIONW("crypt", *password, z_salt);
+	PHALCON_RETURN_CALL_FUNCTION("crypt", *password, z_salt);
 	if (return_value_ptr) {
 		return_value = *return_value_ptr;
 	}
 
 	if (Z_STRLEN_P(return_value) < 13) {
 		zval_dtor(return_value);
-		RETURN_FALSE;
+		RETURN_MM_FALSE;
 	}
+
+	PHALCON_MM_RESTORE();
 }
 
 /**
