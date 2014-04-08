@@ -893,7 +893,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getExpression){
 	
 			case PHQL_T_INTEGER:
 			case PHQL_T_DOUBLE:
-			case PHQL_T_RAW_QUALIFIED:
 				PHALCON_OBS_VAR(value);
 				phalcon_array_fetch_string(&value, expr, SL("value"), PH_NOISY);
 	
@@ -901,7 +900,16 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getExpression){
 				add_assoc_stringl_ex(return_value, ISS(type), SL("literal"), 1);
 				phalcon_array_update_string(&return_value, ISL(value), value, PH_COPY);
 				break;
+			
+			case PHQL_T_RAW_QUALIFIED:
+				PHALCON_OBS_VAR(value);
+				phalcon_array_fetch_string(&value, expr, SL("name"), PH_NOISY);
 	
+				array_init_size(return_value, 2);
+				add_assoc_stringl_ex(return_value, ISS(type), SL("literal"), 1);
+				phalcon_array_update_string(&return_value, ISL(value), value, PH_COPY);
+				break;
+
 			case PHQL_T_TRUE:
 				array_init_size(return_value, 2);
 				add_assoc_stringl_ex(return_value, ISS(type), SL("literal"), 1);
