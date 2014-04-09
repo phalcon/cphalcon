@@ -1,4 +1,3 @@
-
 /*
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
@@ -549,7 +548,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getFrom){
  *	$builder->join('Robots');
  *	$builder->join('Robots', 'r.id = RobotsParts.robots_id');
  *	$builder->join('Robots', 'r.id = RobotsParts.robots_id', 'r');
- *	$builder->join('Robots', 'r.id = RobotsParts.robots_id', 'r', 'LEFT');
  *</code>
  *
  * @param string $model
@@ -595,7 +593,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, join){
  *	$builder->innerJoin('Robots');
  *	$builder->innerJoin('Robots', 'r.id = RobotsParts.robots_id');
  *	$builder->innerJoin('Robots', 'r.id = RobotsParts.robots_id', 'r');
- *	$builder->innerJoin('Robots', 'r.id = RobotsParts.robots_id', 'r', 'LEFT');
  *</code>
  *
  * @param string $model
