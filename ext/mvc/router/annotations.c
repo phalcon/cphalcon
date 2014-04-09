@@ -528,7 +528,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Annotations, processActionAnnotation){
 		}
 
 		phalcon_array_update_string(&paths, ISL(controller), controller, PH_COPY);
-		phalcon_array_update_string(&paths, ISL(action), action_name, PH_COPY);
+		phalcon_array_update_string(&paths, ISL(action), real_action_name, PH_COPY);
 		phalcon_array_update_string(&paths, SL("\0exact"), PHALCON_GLOBAL(z_true), PH_COPY);
 	
 		PHALCON_INIT_VAR(position);

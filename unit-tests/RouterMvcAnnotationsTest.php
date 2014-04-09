@@ -48,6 +48,14 @@ class RobotsController
 
 	}
 
+	/**
+	 * @Route("/delete/{id:[0-9]+}", methods={"POST", "DELETE"}, name="delete-robot")
+	 */
+	public function deleteRobotAction()
+	{
+
+	}
+
 }
 
 class ProductsController
@@ -100,7 +108,7 @@ class RouterMvcAnnotationsTest extends PHPUnit_Framework_TestCase
 
 		$router->handle();
 
-		$this->assertEquals(count($router->getRoutes()), 6);
+		$this->assertEquals(count($router->getRoutes()), 7);
 
 		$route = $router->getRouteByName('save-robot');
 		$this->assertTrue(is_object($route));
@@ -159,6 +167,13 @@ class RouterMvcAnnotationsTest extends PHPUnit_Framework_TestCase
 				'controller' => 'Robots',
 				'action' => 'save',
 				'params' => array()
+			),
+			array(
+				'uri' => '/robots/delete/100',
+				'method' => 'POST',
+				'controller' => 'Robots',
+				'action' => 'deleteRobot',
+				'params' => array('id' => '100')
 			),
 		);
 
