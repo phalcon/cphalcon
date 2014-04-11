@@ -6361,15 +6361,15 @@ PHP_METHOD(Phalcon_Mvc_Model, __set){
 			PHALCON_GET_HKEY(key, ah0, hp0);
 			PHALCON_GET_HVALUE(item);
 
-			PHALCON_INIT_NVAR(lower_key);
-			phalcon_fast_strtolower(lower_key, key);
-
 			if (Z_TYPE_P(item) == IS_OBJECT) {
 				if (instanceof_function_ex(Z_OBJCE_P(item), phalcon_mvc_modelinterface_ce, 1 TSRMLS_CC)) {
 					i++;
 					phalcon_array_append(&related, item, 0);
 				}
 			} else {
+				PHALCON_INIT_NVAR(lower_key);
+				phalcon_fast_strtolower(lower_key, key);
+
 				phalcon_update_property_zval_zval(this_ptr, lower_key, item TSRMLS_CC);
 
 				PHALCON_CALL_METHOD(&relation, manager, "getrelationbyalias", model_name, lower_property);
