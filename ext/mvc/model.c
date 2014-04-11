@@ -5202,6 +5202,7 @@ PHP_METHOD(Phalcon_Mvc_Model, writeAttribute){
  *</code>
  *
  * @param array $attributes
+ * @param boolean $replace
  */
 PHP_METHOD(Phalcon_Mvc_Model, skipAttributes){
 
@@ -5265,6 +5266,7 @@ PHP_METHOD(Phalcon_Mvc_Model, skipAttributes){
  *</code>
  *
  * @param array $attributes
+ * @param boolean $replace
  */
 PHP_METHOD(Phalcon_Mvc_Model, skipAttributesOnCreate){
 
@@ -5328,6 +5330,7 @@ PHP_METHOD(Phalcon_Mvc_Model, skipAttributesOnCreate){
  *</code>
  *
  * @param array $attributes
+ * @param boolean $replace
  */
 PHP_METHOD(Phalcon_Mvc_Model, skipAttributesOnUpdate){
 
