@@ -6313,6 +6313,11 @@ PHP_METHOD(Phalcon_Mvc_Model, __callStatic){
 PHP_METHOD(Phalcon_Mvc_Model, __set){
 
 	zval *property, *value, *lower_property = NULL;
+	zval *key = NULL, *lower_key = NULL, *item = NULL, *model_name, *manager = NULL;
+	zval *relation = NULL, *new_instance, *referenced_model_name = NULL, *referenced_model = NULL;
+	HashTable *ah0;
+	HashPosition hp0;
+	zval **hd;
 
 	PHALCON_MM_GROW();
 
@@ -6336,11 +6341,48 @@ PHP_METHOD(Phalcon_Mvc_Model, __set){
 	/** 
 	 * Check if the value is an array
 	 */
-	if (Z_TYPE_P(value) == IS_ARRAY) { 
-		PHALCON_INIT_NVAR(lower_property);
+	if (Z_TYPE_P(value) == IS_ARRAY) {
+		PHALCON_INIT_VAR(lower_property);
 		phalcon_fast_strtolower(lower_property, property);
-		phalcon_update_property_array(this_ptr, SL("_related"), lower_property, value TSRMLS_CC);
-		phalcon_update_property_long(this_ptr, SL("_dirtyState"), 1 TSRMLS_CC);
+
+		PHALCON_INIT_VAR(model_name);
+		phalcon_get_class(model_name, this_ptr, 0 TSRMLS_CC);
+		
+		PHALCON_CALL_METHOD(&manager, this_ptr, "getmodelsmanager");
+		
+		phalcon_is_iterable(value, &ah0, &hp0, 0, 0);
+		
+		while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
+		
+			PHALCON_GET_HKEY(key, ah0, hp0);
+			PHALCON_GET_HVALUE(item);
+
+			PHALCON_INIT_NVAR(lower_key);
+			phalcon_fast_strtolower(lower_key, key);
+
+			if (Z_TYPE_P(item) == IS_OBJECT) {
+				if (instanceof_function_ex(Z_OBJCE_P(item), phalcon_mvc_modelinterface_ce, 1 TSRMLS_CC)) {
+					phalcon_update_property_array(this_ptr, SL("_related"), lower_property, item TSRMLS_CC);
+					phalcon_update_property_long(this_ptr, SL("_dirtyState"), 1 TSRMLS_CC);
+				}
+			} else {
+				phalcon_update_property_zval_zval(this_ptr, lower_key, item TSRMLS_CC);
+
+				PHALCON_CALL_METHOD(&relation, manager, "getrelationbyalias", model_name, lower_property);
+				if (Z_TYPE_P(relation) == IS_OBJECT) {					
+					PHALCON_INIT_VAR(new_instance);
+					ZVAL_FALSE(new_instance);
+
+					PHALCON_CALL_METHOD(&referenced_model_name, relation, "getreferencedmodel");
+					PHALCON_CALL_METHOD(&referenced_model, manager, "load", referenced_model_name, new_instance);
+					PHALCON_CALL_METHOD(NULL, referenced_model, "writeattribute", lower_key, item);	
+				}
+			}
+
+			zend_hash_move_forward_ex(ah0, &hp0);
+		}
+
+		
 		RETURN_CTOR(value);
 	}
 	
