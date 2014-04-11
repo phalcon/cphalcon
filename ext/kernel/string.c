@@ -845,12 +845,16 @@ void phalcon_remove_extra_slashes(zval *return_value, const zval *str) {
 		i = Z_STRLEN_P(str);
 	}
 
-	removed_str = emalloc(i + 1);
-	memcpy(removed_str, Z_STRVAL_P(str), i);
-	removed_str[i] = '\0';
+    if (i <= Z_STRLEN_P(str)) {
 
-	RETURN_STRINGL(removed_str, i, 0);
+    	removed_str = emalloc(i + 1);
+    	memcpy(removed_str, Z_STRVAL_P(str), i);
+    	removed_str[i] = '\0';
 
+    	RETURN_STRINGL(removed_str, i, 0);
+    }
+
+    RETURN_EMPTY_STRING();
 }
 
 /**
@@ -1397,11 +1401,11 @@ void phalcon_add_trailing_slash(zval** v)
 		char *c = Z_STRVAL_PP(v);
 
 #ifdef PHP_WIN32
-		if (c[len-1] != '/' && c[len-1] != '\\')
+		if (c[len - 1] != '/' && c[len - 1] != '\\')
 #else
-		if (c[len-1] != PHP_DIR_SEPARATOR)
+		if (c[len - 1] != PHP_DIR_SEPARATOR)
 #endif
-		{
+		{            
 			SEPARATE_ZVAL(v);
 			c = Z_STRVAL_PP(v);
 
@@ -1409,7 +1413,7 @@ void phalcon_add_trailing_slash(zval** v)
 				c = erealloc(c, len+2);
 			}
 			else {
-				c = emalloc(len+2);
+				c = emalloc(len + 2);
 				if (c != NULL) {
 					memcpy(c, Z_STRVAL_PP(v), Z_STRLEN_PP(v));
 				}
@@ -1417,7 +1421,7 @@ void phalcon_add_trailing_slash(zval** v)
 
 			if (c != NULL) {
 				c[len]   = PHP_DIR_SEPARATOR;
-				c[len+1] = 0;
+				c[len + 1] = 0;
 
 				ZVAL_STRINGL(*v, c, len+1, 0);
 			}

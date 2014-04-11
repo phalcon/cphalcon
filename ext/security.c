@@ -904,12 +904,6 @@ PHP_METHOD(Phalcon_Security, getSessionToken){
 PHP_METHOD(Phalcon_Security, computeHmac)
 {
 	zval **data, **key, **algo, **raw = NULL;
-#ifdef PHALCON_USE_PHP_HASH
-	const php_hash_ops *ops;
-	void *context;
-	unsigned char *block, *digest;
-	int i;
-#endif
 
 	phalcon_fetch_params_ex(3, 1, &data, &key, &algo, &raw);
 
@@ -917,68 +911,7 @@ PHP_METHOD(Phalcon_Security, computeHmac)
 		raw = &(PHALCON_GLOBAL(z_false));
 	}
 
-#ifdef PHALCON_USE_PHP_HASH
-	PHALCON_ENSURE_IS_STRING(data);
-	PHALCON_ENSURE_IS_STRING(key);
-	PHALCON_ENSURE_IS_STRING(algo);
-
-	ops = php_hash_fetch_ops(Z_STRVAL_PP(algo), Z_STRLEN_PP(algo));
-	if (!ops) {
-		zend_throw_exception_ex(phalcon_security_exception_ce, 0 TSRMLS_CC, "Unknown hashing algorithm: %s", Z_STRVAL_PP(algo));
-		return;
-	}
-
-	/* Allocate all memory we need in one chunk */
-	context = ecalloc(1, ops->context_size + ops->block_size);
-	block   = (unsigned char*)context + ops->context_size;
-	digest  = ecalloc(1, ops->digest_size + 1);
-	ops->hash_init(context);
-
-	if (Z_STRLEN_PP(key) > ops->block_size) {
-		/* Reduce the key */
-		ops->hash_update(context, (unsigned char*)(Z_STRVAL_PP(key)), Z_STRLEN_PP(key));
-		ops->hash_final(block, context);
-		/* Reinitialize the context */
-		ops->hash_init(context);
-	}
-	else {
-		memcpy(block, Z_STRVAL_PP(key), Z_STRLEN_PP(key));
-	}
-
-	for (i=0; i<ops->block_size; ++i) {
-		block[i] ^= 0x36;
-	}
-
-	ops->hash_update(context, block, ops->block_size);
-	ops->hash_update(context, (unsigned char*)(Z_STRVAL_PP(data)), Z_STRLEN_PP(data));
-	ops->hash_final(digest, context);
-
-	for(i=0; i < ops->block_size; i++) {
-		block[i] ^= 0x6A;
-	}
-
-	ops->hash_init(context);
-	ops->hash_update(context, block, ops->block_size);
-	ops->hash_update(context, digest, ops->digest_size);
-	ops->hash_final(digest, context);
-
-	memset(block, 0, ops->block_size);
-	efree(context);
-
-	if (!zend_is_true(*raw)) {
-		char *hex_digest = safe_emalloc(ops->digest_size, 2, 1);
-
-		php_hash_bin2hex(hex_digest, digest, ops->digest_size);
-		efree(digest);
-		hex_digest[2 * ops->digest_size] = 0;
-
-		RETURN_STRINGL(hex_digest, 2 * ops->digest_size, 0);
-	}
-
-	RETURN_STRINGL((char*)digest, ops->digest_size, 0);
-#else
 	PHALCON_RETURN_CALL_FUNCTIONW("hash_hmac", *algo, *data, *key, *raw);
-#endif
 }
 
 /**
@@ -1054,24 +987,33 @@ PHP_METHOD(Phalcon_Security, pbkdf2)
 		d           = div(i_size, i_hash_len);
 		block_count = d.quot + (d.rem ? 1 : 0);
 
-		for (i=1; i<=block_count; ++i) {
+		for (i = 1; i <= block_count; ++i) {
+
 			s[salt_len+0] = (unsigned char)(i >> 24);
 			s[salt_len+1] = (unsigned char)(i >> 16);
 			s[salt_len+2] = (unsigned char)(i >> 8);
 			s[salt_len+3] = (unsigned char)(i);
 
 			PHALCON_CALL_FUNCTION(&K1, "hash_hmac", algo, computed_salt, *password, PHALCON_GLOBAL(z_true));
+            if (Z_TYPE_P(K1) != IS_STRING) {
+                RETURN_MM_FALSE;
+            }
+
 			PHALCON_CPY_WRT_CTOR(K2, K1);
 
-			for (j=1; j<i_iterations; ++j) {
+			for (j = 1; j < i_iterations; ++j) {
 				char *k1, *k2;
 
 				PHALCON_CALL_FUNCTION(&tmp, "hash_hmac", algo, K1, *password, PHALCON_GLOBAL(z_true));
+                if (Z_TYPE_P(tmp) != IS_STRING) {
+                    RETURN_MM_FALSE;
+                }
+
 				PHALCON_CPY_WRT(K1, tmp);
 
 				k1 = Z_STRVAL_P(K1);
 				k2 = Z_STRVAL_P(K2);
-				for (k=0; k<Z_STRLEN_P(K2); ++k) {
+				for (k = 0; k < Z_STRLEN_P(K2); ++k) {
 					k2[k] ^= k1[k];
 				}
 			}
@@ -1172,7 +1114,7 @@ PHP_METHOD(Phalcon_Security, deriveKey)
 			memcpy(K1, Z_STRVAL_PP(password), pass_len);
 		}
 
-		for (i=0; i<ops->block_size; ++i) {
+		for (i = 0; i < ops->block_size; ++i) {
 			K2[i] = K1[i] ^ 0x5C;
 			K1[i] = K1[i] ^ 0x36;
 		}
