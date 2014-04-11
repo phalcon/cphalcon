@@ -351,7 +351,7 @@ ZEND_DECLARE_MODULE_GLOBALS(phalcon)
 
 #define ZEPHIR_NUM_PREALLOCATED_FRAMES 25
 
-void zephir_initialize_memory(zend_zephir_globals *zephir_globals_ptr TSRMLS_DC)
+void zephir_initialize_memory(zend_zephir_globals_def *zephir_globals_ptr TSRMLS_DC)
 {
 	zephir_memory_entry *start;
 	size_t i;
@@ -386,11 +386,7 @@ void zephir_initialize_memory(zend_zephir_globals *zephir_globals_ptr TSRMLS_DC)
 	zephir_globals_ptr->end_memory   = start + ZEPHIR_NUM_PREALLOCATED_FRAMES;
 
 	zephir_globals_ptr->fcache = pemalloc(sizeof(HashTable), 1);
-#ifndef ZEPHIR_RELEASE
-	zend_hash_init(zephir_globals_ptr->fcache, 128, NULL, zephir_fcall_cache_dtor, 1);
-#else
-	zend_hash_init(zephir_globals_ptr->fcache, 128, NULL, NULL, 1);
-#endif
+	zend_hash_init(zephir_globals_ptr->fcache, 128, NULL, NULL, 1); // zephir_fcall_cache_dtor
 
 	/* 'Allocator sizeof operand mismatch' warning can be safely ignored */
 	ALLOC_INIT_ZVAL(zephir_globals_ptr->global_null);
@@ -457,7 +453,7 @@ int zephir_cleanup_fcache(void *pDest TSRMLS_DC, int num_args, va_list args, zen
 void zephir_deinitialize_memory(TSRMLS_D)
 {
 	size_t i;
-	zend_zephir_globals *zephir_globals_ptr = ZEPHIR_VGLOBAL;
+	zend_zephir_globals_def *zephir_globals_ptr = ZEPHIR_VGLOBAL;
 
 	//if (zephir_globals_ptr->initialized != 1) {
 	//	zephir_globals_ptr->initialized = 0;

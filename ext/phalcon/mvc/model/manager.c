@@ -2035,7 +2035,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getRelationRecords) {
 		}
 	}
 	ZEPHIR_INIT_VAR(findParams);
-	array_init_size(findParams, 5);
+	array_init_size(findParams, 4);
 	ZEPHIR_INIT_NVAR(_3);
 	zephir_fast_join_str(_3, SL(" AND "), conditions TSRMLS_CC);
 	zephir_array_fast_append(findParams, _3);
@@ -2045,9 +2045,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getRelationRecords) {
 	zephir_array_update_string(&findParams, SL("di"), &_2, PH_COPY | PH_SEPARATE);
 	if (Z_TYPE_P(parameters) == IS_ARRAY) {
 		ZEPHIR_INIT_VAR(findArguments);
-		array_init_size(findArguments, 3);
-		zephir_array_fast_append(findArguments, findParams);
-		zephir_array_fast_append(findArguments, parameters);
+		zephir_fast_array_merge(findArguments, &(findParams), &(parameters) TSRMLS_CC);
 	} else {
 		ZEPHIR_CPY_WRT(findArguments, findParams);
 	}
@@ -2065,7 +2063,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getRelationRecords) {
 				ZVAL_STRING(retrieveMethod, "find", 1);
 				break;
 			}
-			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_model_exception_ce, "Unkown relation type", "phalcon/mvc/model/manager.zep", 1379);
+			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_model_exception_ce, "Unknown relation type", "phalcon/mvc/model/manager.zep", 1379);
 			return;
 		} while(0);
 

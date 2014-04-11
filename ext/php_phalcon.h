@@ -77,8 +77,8 @@ ZEND_EXTERN_MODULE_GLOBALS(phalcon)
 	#define ZEPHIR_VGLOBAL &(phalcon_globals)
 #endif
 
-#define zephir_globals phalcon_globals
-#define zend_zephir_globals zend_phalcon_globals
+#define zephir_globals_def phalcon_globals
+#define zend_zephir_globals_def zend_phalcon_globals
 
 extern zend_module_entry phalcon_module_entry;
 #define phpext_phalcon_ptr &phalcon_module_entry
