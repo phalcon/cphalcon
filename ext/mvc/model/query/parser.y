@@ -589,7 +589,7 @@ column_list(R) ::= column_list(L) COMMA column_item(C) . {
 }
 
 column_list(R) ::= column_item(I) . {
-	R = I;
+	R = phql_ret_zval_list(I, NULL);
 }
 
 %destructor column_item { zval_ptr_dtor(&$$); }
@@ -735,7 +735,7 @@ values_list(R) ::= values_list(L) COMMA value_item(I) . {
 }
 
 values_list(R) ::= value_item(I) . {
-	R = I;
+	R = phql_ret_zval_list(I, NULL);
 }
 
 value_item(R) ::= expr(E) . {
@@ -748,8 +748,8 @@ field_list(R) ::= field_list(L) COMMA field_item(I) . {
 	R = phql_ret_zval_list(L, I);
 }
 
-field_list(R) ::= field_item(F) . {
-	R = F;
+field_list(R) ::= field_item(I) . {
+	R = phql_ret_zval_list(I, NULL);
 }
 
 %destructor field_item { zval_ptr_dtor(&$$); }

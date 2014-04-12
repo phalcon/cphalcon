@@ -20,6 +20,14 @@
 
 use Phalcon\Mvc\Model\Query as Query;
 
+class Issue_2019 extends \Phalcon\Mvc\Model
+{
+	public function getSource()
+	{
+		return "issue_2019";
+	}
+}
+
 class ModelsQueryExecuteTest extends PHPUnit_Framework_TestCase
 {
 
@@ -84,6 +92,7 @@ class ModelsQueryExecuteTest extends PHPUnit_Framework_TestCase
 		$this->_testDeleteExecute($di);
 		$this->_testDeleteRenamedExecute($di);
 
+		$this->_testIssue2019($di);
 	}
 
 	public function testExecutePostgresql()
@@ -136,6 +145,18 @@ class ModelsQueryExecuteTest extends PHPUnit_Framework_TestCase
 		$this->_testDeleteExecute($di);
 		$this->_testDeleteRenamedExecute($di);
 
+	}
+
+	public function _testIssue2019($di)
+	{
+		$manager = $di->getShared('modelsManager');
+		$di->getShared('db')->delete("issue_2019");
+
+		//Test insert with single field
+		$status = $manager->executeQuery('INSERT INTO Issue_2019 (column) VALUES (:column:)', array(
+			"column" => "yeahyeah@hotmail.com",
+		));
+		$this->assertTrue($status->success());
 	}
 
 	public function _testSelectExecute($di)
@@ -702,9 +723,7 @@ class ModelsQueryExecuteTest extends PHPUnit_Framework_TestCase
 			"status" => "P"
 		));
 		$this->assertTrue($status->success());
-
 		$this->assertTrue($status->getModel()->id > 0);
-
 	}
 
 	public function _testInsertRenamedExecute($di)
@@ -766,7 +785,6 @@ class ModelsQueryExecuteTest extends PHPUnit_Framework_TestCase
 			"statut" => "P"
 		));
 		$this->assertTrue($status->success());
-
 		$this->assertTrue($status->getModel()->code > 0);
 
 	}
