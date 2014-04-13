@@ -567,3 +567,26 @@ PHP_METHOD(Phalcon_Assets_Collection, getRealTargetPath) {
 
 }
 
+/**
+ * Adds a filter to the collection
+ *
+ * @param Phalcon\Assets\FilterInterface $filter
+ * @return Phalcon\Assets\Collection
+ */
+PHP_METHOD(Phalcon_Assets_Collection, addFilter) {
+
+	zval *filter;
+
+	zephir_fetch_params(0, 1, 0, &filter);
+
+
+
+	if (!(zephir_instance_of_ev(filter, phalcon_assets_filterinterface_ce TSRMLS_CC))) {
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(spl_ce_InvalidArgumentException, "Parameter 'filter' must be an instance of 'Phalcon\\Assets\\FilterInterface'", "", 0);
+		return;
+	}
+	zephir_update_property_array_append(this_ptr, SL("_filters"), filter TSRMLS_CC);
+	RETURN_THISW();
+
+}
+

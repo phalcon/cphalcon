@@ -290,6 +290,7 @@
 #include "phalcon/session.h"
 #include "phalcon/session/adapter.h"
 #include "phalcon/session/adapter/files.h"
+#include "phalcon/session/adapter/memcache.h"
 #include "phalcon/session/adapterinterface.h"
 #include "phalcon/session/bag.h"
 #include "phalcon/session/baginterface.h"
