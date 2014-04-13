@@ -818,7 +818,10 @@ PHP_METHOD(Phalcon_Mvc_Micro, handle){
 						 * Call the middleware
 						 */
 						PHALCON_CALL_METHOD(&status, before, "call", this_ptr);
-	
+						if (PHALCON_IS_FALSE(status)) {
+							RETURN_MM_FALSE;
+						}
+
 						/** 
 						 * Reload the status
 						 */
@@ -828,7 +831,7 @@ PHP_METHOD(Phalcon_Mvc_Micro, handle){
 						 * break the execution if the middleware was stopped
 						 */
 						if (zend_is_true(stopped)) {
-							break;
+							RETURN_CCTOR(status);
 						}
 	
 						zend_hash_move_forward_ex(ah0, &hp0);
