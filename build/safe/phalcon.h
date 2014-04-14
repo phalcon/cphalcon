@@ -1679,6 +1679,8 @@ ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_resultinterface_setfetchmode, 0, 0, 1)
 	ZEND_ARG_INFO(0, fetchMode)
+	ZEND_ARG_INFO(0, fetchArg1)
+	ZEND_ARG_INFO(0, fetchArg2)
 ZEND_END_ARG_INFO()
 
 #endif /* PHALCON_DB_RESULTINTERFACE_H */

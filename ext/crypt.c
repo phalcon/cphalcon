@@ -130,7 +130,7 @@ PHP_METHOD(Phalcon_Crypt, setCipher){
 	zval *cipher;
 
 	phalcon_fetch_params(0, 1, 0, &cipher);
-	
+
 	phalcon_update_property_this(this_ptr, SL("_cipher"), cipher TSRMLS_CC);
 	RETURN_THISW();
 }
@@ -253,7 +253,11 @@ static void phalcon_crypt_pad_text(zval *return_value, zval *text, zval *mode, u
 	str_mode = Z_STRVAL_P(mode);
 
 	if (!strcmp(str_mode, "ecb") || !strcmp(str_mode, "cbc")) {
+
 		padding_size = block_size - (Z_STRLEN_P(text) % block_size);
+		if (padding_size >= 256) {
+			RETURN_MM_FALSE;
+		}
 
 		switch (padding_type) {
 			case PHALCON_CRYPT_PADDING_ANSI_X_923:
@@ -266,11 +270,11 @@ static void phalcon_crypt_pad_text(zval *return_value, zval *text, zval *mode, u
 				break;
 
 			case PHALCON_CRYPT_PADDING_ISO_10126:
-				for (i=0; i<padding_size-1; ++i) {
+				for (i = 0; i < padding_size - 1; ++i) {
 					padding[i] = (unsigned char)rand();
 				}
 
-				padding[padding_size-1] = (unsigned char)padding_size;
+				padding[padding_size - 1] = (unsigned char)padding_size;
 				break;
 
 			case PHALCON_CRYPT_PADDING_ISO_IEC_7816_4:
@@ -330,8 +334,8 @@ static void phalcon_crypt_unpad_text(zval *return_value, zval *text, zval *mode,
 	if (text_len && (text_len % block_size == 0) && (!strcmp(str_mode, "ecb") || !strcmp(str_mode, "cbc"))) {
 		switch (padding_type) {
 			case PHALCON_CRYPT_PADDING_ANSI_X_923:
-				if ((unsigned char)(str_text[text_len-1]) <= block_size) {
-					padding_size = str_text[text_len-1];
+				if ((unsigned char)(str_text[text_len - 1]) <= block_size) {
+					padding_size = str_text[text_len - 1];
 
 					memset(padding, 0, padding_size - 1);
 					padding[padding_size-1] = (unsigned char)padding_size;
@@ -444,6 +448,7 @@ PHP_METHOD(Phalcon_Crypt, encrypt){
 		PHALCON_THROW_EXCEPTION_STR(phalcon_crypt_exception_ce, "mcrypt extension is required");
 		return;
 	}
+
 	if (!key || Z_TYPE_P(key) == IS_NULL) {
 		encrypt_key = phalcon_fetch_nproperty_this(this_ptr, SL("_key"), PH_NOISY TSRMLS_CC);
 	} else {
@@ -452,33 +457,33 @@ PHP_METHOD(Phalcon_Crypt, encrypt){
 			convert_to_string(encrypt_key);
 		}
 	}
-	
+
 	if (PHALCON_IS_EMPTY(encrypt_key)) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_crypt_exception_ce, "Encryption key cannot be empty");
 		return;
 	}
-	
+
 	cipher = phalcon_fetch_nproperty_this(this_ptr, SL("_cipher"), PH_NOISY TSRMLS_CC);
 	mode   = phalcon_fetch_nproperty_this(this_ptr, SL("_mode"), PH_NOISY TSRMLS_CC);
-	
+
 	PHALCON_CALL_FUNCTION(&iv_size, "mcrypt_get_iv_size", cipher, mode);
 	if (unlikely(Z_TYPE_P(iv_size) != IS_LONG)) {
 		convert_to_long(iv_size);
 	}
-	
+
 	if (Z_STRLEN_P(encrypt_key) > Z_LVAL_P(iv_size)) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_crypt_exception_ce, "Size of key is too large for this algorithm");
 		return;
 	}
-	
+
 	PHALCON_INIT_VAR(rand);
 	ZVAL_LONG(rand, 2);
-	
+
 	PHALCON_CALL_FUNCTION(&iv, "mcrypt_create_iv", iv_size, rand);
 	if (unlikely(Z_TYPE_P(iv) != IS_STRING)) {
 		convert_to_string(iv);
 	}
-	
+
 	PHALCON_CALL_FUNCTION(&block_size, "mcrypt_get_block_size", cipher, mode);
 	if (unlikely(Z_TYPE_P(block_size) != IS_LONG)) {
 		convert_to_long(block_size);
@@ -496,7 +501,7 @@ PHP_METHOD(Phalcon_Crypt, encrypt){
 	assert(Z_TYPE_P(padded) == IS_STRING);
 
 	PHALCON_CALL_FUNCTION(&encrypt, "mcrypt_encrypt", cipher, encrypt_key, padded, mode, iv);
-	
+
 	PHALCON_CONCAT_VV(return_value, iv, encrypt);
 	RETURN_MM();
 }
@@ -521,7 +526,7 @@ PHP_METHOD(Phalcon_Crypt, decrypt){
 	PHALCON_MM_GROW();
 
 	phalcon_fetch_params(1, 1, 1, &text, &key);
-	
+
 	if (phalcon_function_exists_ex(SS("mcrypt_get_iv_size") TSRMLS_CC) == FAILURE) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_crypt_exception_ce, "mcrypt extension is required");
 		return;
@@ -532,37 +537,37 @@ PHP_METHOD(Phalcon_Crypt, decrypt){
 	} else {
 		decrypt_key = key;
 	}
-	
+
 	if (PHALCON_IS_EMPTY(decrypt_key)) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_crypt_exception_ce, "Decryption key cannot be empty");
 		return;
 	}
-	
+
 	cipher = phalcon_fetch_nproperty_this(this_ptr, SL("_cipher"), PH_NOISY TSRMLS_CC);
 	mode   = phalcon_fetch_nproperty_this(this_ptr, SL("_mode"), PH_NOISY TSRMLS_CC);
-	
+
 	PHALCON_CALL_FUNCTION(&iv_size, "mcrypt_get_iv_size", cipher, mode);
 	if (unlikely(Z_TYPE_P(iv_size) != IS_LONG)) {
 		convert_to_long(iv_size);
 	}
-	
+
 	PHALCON_INIT_VAR(key_size);
 	phalcon_fast_strlen(key_size, decrypt_key);
 	if (PHALCON_GT(key_size, iv_size)) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_crypt_exception_ce, "Size of key is too large for this algorithm");
 		return;
 	}
-	
+
 	PHALCON_INIT_VAR(text_size);
 	phalcon_fast_strlen(text_size, text);
 	if (PHALCON_GT(key_size, text_size)) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_crypt_exception_ce, "Size of IV is larger than text to decrypt");
 		return;
 	}
-	
+
 	PHALCON_INIT_VAR(iv);
 	phalcon_substr(iv, text, 0, Z_LVAL_P(iv_size));
-	
+
 	PHALCON_INIT_VAR(text_to_decipher);
 	phalcon_substr(text_to_decipher, text, Z_LVAL_P(iv_size), 0);
 
@@ -601,7 +606,7 @@ PHP_METHOD(Phalcon_Crypt, encryptBase64){
 	PHALCON_MM_GROW();
 
 	phalcon_fetch_params(1, 1, 2, &text, &key, &safe);
-	
+
 	if (!key) {
 		key = PHALCON_GLOBAL(z_null);
 	}
@@ -609,14 +614,14 @@ PHP_METHOD(Phalcon_Crypt, encryptBase64){
 	if (!safe) {
 		safe = PHALCON_GLOBAL(z_false);
 	}
-	
+
 	PHALCON_CALL_METHOD(&encrypted, this_ptr, "encrypt", text, key);
 	phalcon_base64_encode(return_value, encrypted);
 
 	if (zend_is_true(safe)) {
 		php_strtr(Z_STRVAL_P(return_value), Z_STRLEN_P(return_value), "+/", "-_", 2);
 	}
-	
+
 	RETURN_MM();
 }
 

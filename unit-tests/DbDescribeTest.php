@@ -522,6 +522,7 @@ class DbDescribeTest extends PHPUnit_Framework_TestCase
 			'artists',
 			'customers',
 			'issue_1534',
+			'issue_2019',
 			'm2m_parts',
 			'm2m_robots',
 			'm2m_robots_parts',

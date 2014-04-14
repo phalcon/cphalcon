@@ -99,7 +99,7 @@ PHP_METHOD(Phalcon_Kernel, preComputeHashKey){
 	}
 
 	strKey = emalloc(24);
-	sprintf(strKey, "%lu", hash);
+	snprintf(strKey, 24, "%lu", hash);
 
 	RETURN_STRING(strKey, 0);
 }
@@ -123,7 +123,7 @@ PHP_METHOD(Phalcon_Kernel, preComputeHashKey32){
 	nKeyLength++;
 	hash = zend_inline_hash_func(arKey, nKeyLength) & 0xFFFFFFFFul;
 	strKey = emalloc(24);
-	sprintf(strKey, "%lu", hash);
+	snprintf(strKey, 24, "%lu", hash);
 
 	RETURN_STRING(strKey, 0);
 }
@@ -175,7 +175,7 @@ PHP_METHOD(Phalcon_Kernel, preComputeHashKey64){
 	}
 
 	strKey = emalloc(24);
-	sprintf(strKey, "%llu", hash);
+	snprintf(strKey, 24, "%llu", hash);
 
 	RETURN_STRING(strKey, 0);
 }

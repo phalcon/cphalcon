@@ -102,12 +102,12 @@ int phalcon_vdump(zval *uservar TSRMLS_DC){
 }
 
 int phalcon_dump_ce(zend_class_entry *ce TSRMLS_DC){
-	char *message = emalloc(sizeof(char *)*120);
+	char *message = emalloc(sizeof(char *) * 120);
 	if(ce){
-		sprintf(message, "- ClassType => %d", ce->type);
+		snprintf(message, 120, "- ClassType => %d", ce->type);
 		phalcon_step_over(message);
 		if(ce->name){
-			sprintf(message, "- ClassName => %s", ce->name);
+			snprintf(message, 120, "- ClassName => %s", ce->name);
 			phalcon_step_over(message);
 		} else {
 			phalcon_step_over("- ClassName => NULL");
@@ -119,12 +119,12 @@ int phalcon_dump_ce(zend_class_entry *ce TSRMLS_DC){
 }
 
 int phalcon_class_debug(zval *val TSRMLS_DC){
-	char *message = emalloc(sizeof(char *)*120);
+	char *message = emalloc(sizeof(char *) * 120);
 	zend_class_entry *ce;
-	if(val){
+	if (val) {
 		ce = Z_OBJCE_P(val);
 		if(ce){
-			sprintf(message, "- MemoryAddress => %p", val);
+			snprintf(message, 120, "- MemoryAddress => %p", val);
 			phalcon_step_over(message);
 			phalcon_dump_ce(ce TSRMLS_CC);
 		} else {
