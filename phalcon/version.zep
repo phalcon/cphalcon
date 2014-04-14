@@ -40,7 +40,7 @@ class Version
 	 */
 	protected static function _getVersion()
 	{
-		return [2, 0, 0, 1, 1];
+		return [2, 0, 0, 2, 1];
 	}
 
 	/**
