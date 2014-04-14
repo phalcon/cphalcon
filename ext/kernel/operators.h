@@ -31,6 +31,7 @@
 
 #define ZEPHIR_IS_NOT_FALSE(var)   (Z_TYPE_P(var) != IS_BOOL || (Z_TYPE_P(var) == IS_BOOL && Z_BVAL_P(var)))
 #define ZEPHIR_IS_NOT_TRUE(var)    (Z_TYPE_P(var) != IS_BOOL || (Z_TYPE_P(var) == IS_BOOL && !Z_BVAL_P(var)))
+#define ZEPHIR_IS_BOOL(op1, op2)   ((Z_TYPE_P(op1) == IS_BOOL && Z_BVAL_P(op1) == op2) || zephir_compare_strict_bool(op1, op2 TSRMLS_CC))
 
 /** SQL null empty **/
 #define ZEPHIR_IS_EMPTY(var)       (Z_TYPE_P(var) == IS_NULL || (Z_TYPE_P(var) == IS_STRING && !Z_STRLEN_P(var)) || (Z_TYPE_P(var) == IS_ARRAY && zend_hash_num_elements(Z_ARRVAL_P(var)) == 0))
@@ -93,6 +94,7 @@ void zephir_concat_self_char(zval **left, unsigned char right TSRMLS_DC);
 /** Strict comparing */
 int zephir_compare_strict_string(zval *op1, const char *op2, int op2_length);
 int zephir_compare_strict_long(zval *op1, long op2 TSRMLS_DC);
+int zephir_compare_strict_bool(zval *op1, zend_bool op2 TSRMLS_DC);
 
 void zephir_cast(zval *result, zval *var, zend_uint type);
 long zephir_get_intval_ex(const zval *op);

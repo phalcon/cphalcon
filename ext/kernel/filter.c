@@ -39,7 +39,7 @@
 /**
  * Filter alphanum string
  */
-void zephir_filter_alphanum(zval *return_value, zval *param){
+void zephir_filter_alphanum(zval *return_value, zval *param) {
 
 	unsigned int i;
 	unsigned char ch;

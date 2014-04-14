@@ -19,6 +19,7 @@
 #include "kernel/array.h"
 #include "kernel/hash.h"
 #include "kernel/exception.h"
+#include "kernel/filter.h"
 
 
 /*
@@ -207,7 +208,7 @@ PHP_METHOD(Phalcon_Escaper, normalizeEncoding) {
 
 
 	if (!((zephir_function_exists_ex(SS("mb_convert_encoding") TSRMLS_CC) == SUCCESS))) {
-		ZEPHIR_THROW_EXCEPTION_STR(phalcon_escaper_exception_ce, "Extension 'mbstring' is required");
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_escaper_exception_ce, "Extension 'mbstring' is required", "phalcon/escaper.zep", 137);
 		return;
 	}
 	ZEPHIR_CALL_METHOD(&_0, this_ptr, "detectencoding", NULL, str);
@@ -295,6 +296,7 @@ PHP_METHOD(Phalcon_Escaper, escapeCss) {
 
 	ZEPHIR_CALL_METHOD(&_0, this_ptr, "normalizeencoding", NULL, css);
 	zephir_check_call_status();
+	zephir_escape_css(return_value, _0 TSRMLS_CC);
 	RETURN_MM();
 
 }
@@ -319,6 +321,7 @@ PHP_METHOD(Phalcon_Escaper, escapeJs) {
 
 	ZEPHIR_CALL_METHOD(&_0, this_ptr, "normalizeencoding", NULL, js);
 	zephir_check_call_status();
+	zephir_escape_css(return_value, _0 TSRMLS_CC);
 	RETURN_MM();
 
 }

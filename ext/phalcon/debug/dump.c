@@ -78,7 +78,7 @@ PHP_METHOD(Phalcon_Debug_Dump, __construct) {
 
 	if (Z_TYPE_P(styles) != IS_ARRAY) {
 		if (Z_TYPE_P(styles) != IS_NULL) {
-			ZEPHIR_THROW_EXCEPTION_STR(phalcon_debug_exception_ce, "The styles must be a array");
+			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_debug_exception_ce, "The styles must be a array", "phalcon/debug/dump.zep", 41);
 			return;
 		}
 	}
@@ -652,7 +652,7 @@ PHP_METHOD(Phalcon_Debug_Dump, setStyles) {
 		array_init(styles);
 	}
 	if (Z_TYPE_P(styles) != IS_ARRAY) {
-		ZEPHIR_THROW_EXCEPTION_STR(phalcon_debug_exception_ce, "Styles must be an array");
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_debug_exception_ce, "Styles must be an array", "phalcon/debug/dump.zep", 201);
 		return;
 	}
 	ZEPHIR_INIT_VAR(defaultStyles);
@@ -689,12 +689,12 @@ PHP_METHOD(Phalcon_Debug_Dump, getStyle) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &type_param);
 
-	if (Z_TYPE_P(type_param) != IS_STRING && Z_TYPE_P(type_param) != IS_NULL) {
+	if (unlikely(Z_TYPE_P(type_param) != IS_STRING && Z_TYPE_P(type_param) != IS_NULL)) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'type' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
 
-	if (Z_TYPE_P(type_param) == IS_STRING) {
+	if (unlikely(Z_TYPE_P(type_param) == IS_STRING)) {
 		type = type_param;
 	} else {
 		ZEPHIR_INIT_VAR(type);

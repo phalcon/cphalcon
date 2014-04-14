@@ -96,12 +96,12 @@ PHP_METHOD(Phalcon_Mvc_Model_Message, __construct) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 3, &message_param, &field, &type, &model);
 
-	if (Z_TYPE_P(message_param) != IS_STRING && Z_TYPE_P(message_param) != IS_NULL) {
+	if (unlikely(Z_TYPE_P(message_param) != IS_STRING && Z_TYPE_P(message_param) != IS_NULL)) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'message' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
 
-	if (Z_TYPE_P(message_param) == IS_STRING) {
+	if (unlikely(Z_TYPE_P(message_param) == IS_STRING)) {
 		message = message_param;
 	} else {
 		ZEPHIR_INIT_VAR(message);
@@ -142,12 +142,12 @@ PHP_METHOD(Phalcon_Mvc_Model_Message, setType) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &type_param);
 
-	if (Z_TYPE_P(type_param) != IS_STRING && Z_TYPE_P(type_param) != IS_NULL) {
+	if (unlikely(Z_TYPE_P(type_param) != IS_STRING && Z_TYPE_P(type_param) != IS_NULL)) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'type' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
 
-	if (Z_TYPE_P(type_param) == IS_STRING) {
+	if (unlikely(Z_TYPE_P(type_param) == IS_STRING)) {
 		type = type_param;
 	} else {
 		ZEPHIR_INIT_VAR(type);
@@ -186,12 +186,12 @@ PHP_METHOD(Phalcon_Mvc_Model_Message, setMessage) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &message_param);
 
-	if (Z_TYPE_P(message_param) != IS_STRING && Z_TYPE_P(message_param) != IS_NULL) {
+	if (unlikely(Z_TYPE_P(message_param) != IS_STRING && Z_TYPE_P(message_param) != IS_NULL)) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'message' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
 
-	if (Z_TYPE_P(message_param) == IS_STRING) {
+	if (unlikely(Z_TYPE_P(message_param) == IS_STRING)) {
 		message = message_param;
 	} else {
 		ZEPHIR_INIT_VAR(message);
@@ -230,12 +230,12 @@ PHP_METHOD(Phalcon_Mvc_Model_Message, setField) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &field_param);
 
-	if (Z_TYPE_P(field_param) != IS_STRING && Z_TYPE_P(field_param) != IS_NULL) {
+	if (unlikely(Z_TYPE_P(field_param) != IS_STRING && Z_TYPE_P(field_param) != IS_NULL)) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'field' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
 
-	if (Z_TYPE_P(field_param) == IS_STRING) {
+	if (unlikely(Z_TYPE_P(field_param) == IS_STRING)) {
 		field = field_param;
 	} else {
 		ZEPHIR_INIT_VAR(field);
@@ -275,7 +275,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Message, setModel) {
 
 
 	if (!(zephir_instance_of_ev(model, phalcon_mvc_modelinterface_ce TSRMLS_CC))) {
-		ZEPHIR_THROW_EXCEPTION_STRW(spl_ce_InvalidArgumentException, "Parameter 'model' must be an instance of 'Phalcon\\Mvc\\ModelInterface'");
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(spl_ce_InvalidArgumentException, "Parameter 'model' must be an instance of 'Phalcon\\Mvc\\ModelInterface'", "", 0);
 		return;
 	}
 	zephir_update_property_this(this_ptr, SL("_model"), model TSRMLS_CC);

@@ -17,7 +17,6 @@
 #include "kernel/fcall.h"
 #include "kernel/memory.h"
 #include "kernel/operators.h"
-#include "kernel/string.h"
 #include "kernel/array.h"
 
 
@@ -81,11 +80,11 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_Validator_Regex) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_Validator_Regex, validate) {
 
-	zephir_nts_static zephir_fcall_cache_entry *_6 = NULL;
-	zval *_4;
+	zval *_6;
+	zephir_nts_static zephir_fcall_cache_entry *_4 = NULL, *_7 = NULL;
 	int ZEPHIR_LAST_CALL_STATUS;
 	zend_bool failed, _2;
-	zval *record, *field = NULL, *value = NULL, *matches, *pattern = NULL, *message = NULL, *_0, *_1 = NULL, *_3, *_5 = NULL;
+	zval *record, *field = NULL, *value = NULL, *matches, *pattern = NULL, *message = NULL, *_0, *_1 = NULL, *_3 = NULL, *_5;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &record);
@@ -93,7 +92,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Regex, validate) {
 
 
 	if (!(zephir_instance_of_ev(record, phalcon_mvc_modelinterface_ce TSRMLS_CC))) {
-		ZEPHIR_THROW_EXCEPTION_STR(spl_ce_InvalidArgumentException, "Parameter 'record' must be an instance of 'Phalcon\\Mvc\\ModelInterface'");
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(spl_ce_InvalidArgumentException, "Parameter 'record' must be an instance of 'Phalcon\\Mvc\\ModelInterface'", "", 0);
 		return;
 	}
 	ZEPHIR_INIT_VAR(_0);
@@ -102,7 +101,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Regex, validate) {
 	zephir_check_temp_parameter(_0);
 	zephir_check_call_status();
 	if (Z_TYPE_P(field) != IS_STRING) {
-		ZEPHIR_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Field name must be a string");
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_model_exception_ce, "Field name must be a string", "phalcon/mvc/model/validator/regex.zep", 62);
 		return;
 	}
 	ZEPHIR_INIT_BNVAR(_0);
@@ -111,7 +110,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Regex, validate) {
 	zephir_check_temp_parameter(_0);
 	zephir_check_call_status();
 	if (!(zephir_is_true(_1))) {
-		ZEPHIR_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Validator requires a perl-compatible regex pattern");
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_model_exception_ce, "Validator requires a perl-compatible regex pattern", "phalcon/mvc/model/validator/regex.zep", 69);
 		return;
 	}
 	ZEPHIR_CALL_METHOD(&value, record, "readattribute", NULL, field);
@@ -136,11 +135,13 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Regex, validate) {
 	failed = 0;
 	ZEPHIR_INIT_VAR(matches);
 	ZVAL_NULL(matches);
-	ZEPHIR_INIT_BNVAR(_0);
-	zephir_preg_match(_0, &(_0), pattern, value, matches, 0, 0 , 0  TSRMLS_CC);
-	if (zephir_is_true(_0)) {
-		zephir_array_fetch_long(&_3, matches, 0, PH_NOISY | PH_READONLY TSRMLS_CC);
-		failed = !ZEPHIR_IS_EQUAL(_3, value);
+	Z_SET_ISREF_P(matches);
+	ZEPHIR_CALL_FUNCTION(&_3, "preg_match", &_4, pattern, value, matches);
+	Z_UNSET_ISREF_P(matches);
+	zephir_check_call_status();
+	if (zephir_is_true(_3)) {
+		zephir_array_fetch_long(&_5, matches, 0, PH_NOISY | PH_READONLY TSRMLS_CC);
+		failed = !ZEPHIR_IS_EQUAL(_5, value);
 	} else {
 		failed = 1;
 	}
@@ -151,17 +152,17 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Regex, validate) {
 		zephir_check_temp_parameter(_0);
 		zephir_check_call_status();
 		if (ZEPHIR_IS_EMPTY(message)) {
-			ZEPHIR_INIT_VAR(message);
+			ZEPHIR_INIT_NVAR(message);
 			ZVAL_STRING(message, "Value of field :field doesn't match regular expression", 1);
 		}
-		ZEPHIR_INIT_VAR(_4);
-		array_init_size(_4, 2);
-		zephir_array_update_string(&_4, SL(":field"), &field, PH_COPY | PH_SEPARATE);
-		ZEPHIR_CALL_FUNCTION(&_5, "strtr", &_6, message, _4);
+		ZEPHIR_INIT_VAR(_6);
+		array_init_size(_6, 2);
+		zephir_array_update_string(&_6, SL(":field"), &field, PH_COPY | PH_SEPARATE);
+		ZEPHIR_CALL_FUNCTION(&_3, "strtr", &_7, message, _6);
 		zephir_check_call_status();
 		ZEPHIR_INIT_BNVAR(_0);
 		ZVAL_STRING(_0, "Regex", 0);
-		ZEPHIR_CALL_METHOD(NULL, this_ptr, "appendmessage", NULL, _5, field, _0);
+		ZEPHIR_CALL_METHOD(NULL, this_ptr, "appendmessage", NULL, _3, field, _0);
 		zephir_check_temp_parameter(_0);
 		zephir_check_call_status();
 		RETURN_MM_BOOL(0);

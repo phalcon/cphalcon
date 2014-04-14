@@ -97,7 +97,7 @@ PHP_METHOD(Phalcon_Cli_Router, setDI) {
 
 
 	if (!(zephir_instance_of_ev(dependencyInjector, phalcon_diinterface_ce TSRMLS_CC))) {
-		ZEPHIR_THROW_EXCEPTION_STRW(spl_ce_InvalidArgumentException, "Parameter 'dependencyInjector' must be an instance of 'Phalcon\\DiInterface'");
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(spl_ce_InvalidArgumentException, "Parameter 'dependencyInjector' must be an instance of 'Phalcon\\DiInterface'", "", 0);
 		return;
 	}
 	zephir_update_property_this(this_ptr, SL("_dependencyInjector"), dependencyInjector TSRMLS_CC);
@@ -199,7 +199,7 @@ PHP_METHOD(Phalcon_Cli_Router, handle) {
 
 
 	if (Z_TYPE_P(arguments) != IS_ARRAY) {
-		ZEPHIR_THROW_EXCEPTION_STR(phalcon_cli_router_exception_ce, "Arguments must be an Array");
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_cli_router_exception_ce, "Arguments must be an Array", "phalcon/cli/router.zep", 123);
 		return;
 	}
 	ZEPHIR_INIT_VAR(moduleName);

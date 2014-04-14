@@ -19,6 +19,8 @@
 
 namespace Phalcon\Db;
 
+use Phalcon\Db\Exception;
+
 /**
  * Phalcon\Db\Dialect
  *
@@ -92,7 +94,7 @@ abstract class Dialect
 	 * @param	array columnList
 	 * @return	string
 	 */
-	public function getColumnList(columnList) -> string
+	public final function getColumnList(columnList) -> string
 	{
 		var strList, escapeChar, column;
 		let strList = [],
@@ -110,7 +112,7 @@ abstract class Dialect
 	 * @param string escapeChar
 	 * @return string
 	 */
-	public function getSqlExpression(var expression, string escapeChar=null) -> string
+	public final function getSqlExpression(var expression, string escapeChar=null) -> string
 	{
 		var type, domain, operator, left, right, name, sqlItems,
 			escapedName, sqlArguments, arguments, argument, item;
@@ -122,11 +124,11 @@ abstract class Dialect
 		}
 
 		if typeof expression != "array" {
-			throw new \Phalcon\Db\Exception("Invalid SQL expression");
+			throw new Exception("Invalid SQL expression");
 		}
 
 		if !fetch type, expression["type"] {
-			throw new \Phalcon\Db\Exception("Invalid SQL expression");
+			throw new Exception("Invalid SQL expression");
 		}
 
 		/**
@@ -257,7 +259,7 @@ abstract class Dialect
 		/**
 		 * Resolve CONVERT of values encodings
 		 */
-		if type == "convert"{
+		if type == "convert" {
 
 			let left = this->getSqlExpression(expression["left"], escapeChar),
 				right = this->getSqlExpression(expression["right"], escapeChar);
@@ -268,7 +270,7 @@ abstract class Dialect
 		/**
 		 * Expression type wasn't found
 		 */
-		throw new \Phalcon\Db\Exception("Invalid SQL expression type '" . type . "'");
+		throw new Exception("Invalid SQL expression type '" . type . "'");
 	}
 
 	/**
@@ -278,7 +280,7 @@ abstract class Dialect
 	 * @param string escapeChar
 	 * @return string
 	 */
-	public function getSqlTable(table, string escapeChar=null) -> string
+	public final function getSqlTable(table, string escapeChar=null) -> string
 	{
 		var sqlTable, sqlSchema, aliasName, sqlTableAlias,
 			schemaName, tableName;
@@ -305,7 +307,7 @@ abstract class Dialect
 			 */
 			let schemaName = table[1];
 
-			if typeof schemaName != "array" {
+			if schemaName != null && schemaName != "" {
 				if globals_get("db.escape_identifiers") {
 					let sqlSchema = escapeChar . schemaName . escapeChar . "." . sqlTable;
 				} else {
@@ -356,15 +358,15 @@ abstract class Dialect
 			orderSqlItemType, limitValue, number, offset;
 
 		if typeof definition != "array" {
-			throw new \Phalcon\Db\Exception("Invalid SELECT definition");
+			throw new Exception("Invalid SELECT definition");
 		}
 
 		if !fetch tables, definition["tables"] {
-			throw new \Phalcon\Db\Exception("The index 'tables' is required in the definition array");
+			throw new Exception("The index 'tables' is required in the definition array");
 		}
 
 		if !fetch columns, definition["columns"] {
-			throw new \Phalcon\Db\Exception("The index 'columns' is required in the definition array");
+			throw new Exception("The index 'columns' is required in the definition array");
 		}
 
 		if globals_get("db.escape_identifiers") {
@@ -503,7 +505,7 @@ abstract class Dialect
 			/**
 			 * Check for a HAVING clause
 			 */
-			if fetch havingConditions,  definition["having"] {
+			if fetch havingConditions, definition["having"] {
 				let sql .= " HAVING " . this->getSqlExpression(havingConditions, escapeChar);
 			}
 		}

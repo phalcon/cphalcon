@@ -70,7 +70,7 @@ PHP_METHOD(Phalcon_Validation_Validator, __construct) {
 
 	if (Z_TYPE_P(options) != IS_ARRAY) {
 		if (Z_TYPE_P(options) != IS_NULL) {
-			ZEPHIR_THROW_EXCEPTION_STRW(phalcon_validation_exception_ce, "Options must be an array");
+			ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_validation_exception_ce, "Options must be an array", "phalcon/validation/validator.zep", 41);
 			return;
 		}
 	} else {
@@ -87,7 +87,7 @@ PHP_METHOD(Phalcon_Validation_Validator, __construct) {
  */
 PHP_METHOD(Phalcon_Validation_Validator, isSetOption) {
 
-	zval *key_param = NULL, *options;
+	zval *key_param = NULL, *_0;
 	zval *key = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -96,11 +96,8 @@ PHP_METHOD(Phalcon_Validation_Validator, isSetOption) {
 	zephir_get_strval(key, key_param);
 
 
-	options = zephir_fetch_nproperty_this(this_ptr, SL("_options"), PH_NOISY_CC);
-	if (Z_TYPE_P(options) == IS_ARRAY) {
-		RETURN_MM_BOOL(zephir_array_isset(options, key));
-	}
-	RETURN_MM_BOOL(0);
+	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_options"), PH_NOISY_CC);
+	RETURN_MM_BOOL(zephir_array_isset(_0, key));
 
 }
 
@@ -119,12 +116,12 @@ PHP_METHOD(Phalcon_Validation_Validator, getOption) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &key_param);
 
-	if (Z_TYPE_P(key_param) != IS_STRING && Z_TYPE_P(key_param) != IS_NULL) {
+	if (unlikely(Z_TYPE_P(key_param) != IS_STRING && Z_TYPE_P(key_param) != IS_NULL)) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'key' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
 
-	if (Z_TYPE_P(key_param) == IS_STRING) {
+	if (unlikely(Z_TYPE_P(key_param) == IS_STRING)) {
 		key = key_param;
 	} else {
 		ZEPHIR_INIT_VAR(key);
@@ -156,12 +153,12 @@ PHP_METHOD(Phalcon_Validation_Validator, setOption) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &key_param, &value);
 
-	if (Z_TYPE_P(key_param) != IS_STRING && Z_TYPE_P(key_param) != IS_NULL) {
+	if (unlikely(Z_TYPE_P(key_param) != IS_STRING && Z_TYPE_P(key_param) != IS_NULL)) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'key' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
 
-	if (Z_TYPE_P(key_param) == IS_STRING) {
+	if (unlikely(Z_TYPE_P(key_param) == IS_STRING)) {
 		key = key_param;
 	} else {
 		ZEPHIR_INIT_VAR(key);

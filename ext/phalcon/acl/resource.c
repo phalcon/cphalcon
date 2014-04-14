@@ -108,12 +108,12 @@ PHP_METHOD(Phalcon_Acl_Resource, __construct) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 1, &name_param, &description_param);
 
-	if (Z_TYPE_P(name_param) != IS_STRING && Z_TYPE_P(name_param) != IS_NULL) {
+	if (unlikely(Z_TYPE_P(name_param) != IS_STRING && Z_TYPE_P(name_param) != IS_NULL)) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'name' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
 
-	if (Z_TYPE_P(name_param) == IS_STRING) {
+	if (unlikely(Z_TYPE_P(name_param) == IS_STRING)) {
 		name = name_param;
 	} else {
 		ZEPHIR_INIT_VAR(name);
@@ -128,7 +128,7 @@ PHP_METHOD(Phalcon_Acl_Resource, __construct) {
 
 
 	if (ZEPHIR_IS_STRING(name, "*")) {
-		ZEPHIR_THROW_EXCEPTION_STR(phalcon_acl_exception_ce, "Resource name cannot be '*'");
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_acl_exception_ce, "Resource name cannot be '*'", "phalcon/acl/resource.zep", 51);
 		return;
 	}
 	zephir_update_property_this(this_ptr, SL("_name"), name TSRMLS_CC);

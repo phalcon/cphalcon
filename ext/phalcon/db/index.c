@@ -105,12 +105,12 @@ PHP_METHOD(Phalcon_Db_Index, __construct) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &name_param, &columns);
 
-	if (Z_TYPE_P(name_param) != IS_STRING && Z_TYPE_P(name_param) != IS_NULL) {
+	if (unlikely(Z_TYPE_P(name_param) != IS_STRING && Z_TYPE_P(name_param) != IS_NULL)) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'name' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
 
-	if (Z_TYPE_P(name_param) == IS_STRING) {
+	if (unlikely(Z_TYPE_P(name_param) == IS_STRING)) {
 		name = name_param;
 	} else {
 		ZEPHIR_INIT_VAR(name);
@@ -141,12 +141,12 @@ PHP_METHOD(Phalcon_Db_Index, __set_state) {
 
 	ZEPHIR_OBS_VAR(indexName);
 	if (!(zephir_array_isset_string_fetch(&indexName, data, SS("_indexName"), 0 TSRMLS_CC))) {
-		ZEPHIR_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "_indexName parameter is required");
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "_indexName parameter is required", "phalcon/db/index.zep", 68);
 		return;
 	}
 	ZEPHIR_OBS_VAR(columns);
 	if (!(zephir_array_isset_string_fetch(&columns, data, SS("_columns"), 0 TSRMLS_CC))) {
-		ZEPHIR_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "_columns parameter is required");
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "_columns parameter is required", "phalcon/db/index.zep", 72);
 		return;
 	}
 	object_init_ex(return_value, phalcon_db_index_ce);

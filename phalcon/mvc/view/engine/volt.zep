@@ -36,7 +36,7 @@ class Volt extends \Phalcon\Mvc\View\Engine implements \Phalcon\Mvc\View\EngineI
 	 *
 	 * @param array options
 	 */
-	public function setOptions($options)
+	public function setOptions(options)
 	{
 		if typeof options != "array" {
 			throw new \Phalcon\Mvc\View\Exception("Options parameter must be an array");
@@ -72,7 +72,7 @@ class Volt extends \Phalcon\Mvc\View\Engine implements \Phalcon\Mvc\View\EngineI
 			 * Pass the IoC to the compiler only of it's an object
 			 */
 			let dependencyInjector = this->_dependencyInjector;
-			if typeof dependencyInjector != "object" {
+			if typeof dependencyInjector == "object" {
 				compiler->setDi(dependencyInjector);
 			}
 

@@ -128,7 +128,7 @@ class Base64 implements \Phalcon\Cache\FrontendInterface
 	 * @param mixed data
 	 * @return string
 	 */
-	public function beforeStore(data)
+	public function beforeStore(data) -> string
 	{
 		return base64_encode(data);
 	}
@@ -139,7 +139,7 @@ class Base64 implements \Phalcon\Cache\FrontendInterface
 	 * @param mixed data
 	 * @return mixed
 	 */
-	public function afterRetrieve(data)
+	public function afterRetrieve(data) -> string
 	{
 		return base64_decode(data);
 	}

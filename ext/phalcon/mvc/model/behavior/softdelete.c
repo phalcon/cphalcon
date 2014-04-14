@@ -71,12 +71,12 @@ PHP_METHOD(Phalcon_Mvc_Model_Behavior_SoftDelete, notify) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &type_param, &model);
 
-	if (Z_TYPE_P(type_param) != IS_STRING && Z_TYPE_P(type_param) != IS_NULL) {
+	if (unlikely(Z_TYPE_P(type_param) != IS_STRING && Z_TYPE_P(type_param) != IS_NULL)) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'type' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
 
-	if (Z_TYPE_P(type_param) == IS_STRING) {
+	if (unlikely(Z_TYPE_P(type_param) == IS_STRING)) {
 		type = type_param;
 	} else {
 		ZEPHIR_INIT_VAR(type);
@@ -85,7 +85,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Behavior_SoftDelete, notify) {
 
 
 	if (!(zephir_instance_of_ev(model, phalcon_mvc_modelinterface_ce TSRMLS_CC))) {
-		ZEPHIR_THROW_EXCEPTION_STR(spl_ce_InvalidArgumentException, "Parameter 'model' must be an instance of 'Phalcon\\Mvc\\ModelInterface'");
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(spl_ce_InvalidArgumentException, "Parameter 'model' must be an instance of 'Phalcon\\Mvc\\ModelInterface'", "", 0);
 		return;
 	}
 	if (ZEPHIR_IS_STRING(type, "beforeDelete")) {
@@ -93,12 +93,12 @@ PHP_METHOD(Phalcon_Mvc_Model_Behavior_SoftDelete, notify) {
 		zephir_check_call_status();
 		ZEPHIR_OBS_VAR(value);
 		if (!(zephir_array_isset_string_fetch(&value, options, SS("value"), 0 TSRMLS_CC))) {
-			ZEPHIR_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "The option 'value' is required");
+			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_model_exception_ce, "The option 'value' is required", "phalcon/mvc/model/behavior/softdelete.zep", 49);
 			return;
 		}
 		ZEPHIR_OBS_VAR(field);
 		if (!(zephir_array_isset_string_fetch(&field, options, SS("field"), 0 TSRMLS_CC))) {
-			ZEPHIR_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "The option 'field' is required");
+			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_model_exception_ce, "The option 'field' is required", "phalcon/mvc/model/behavior/softdelete.zep", 56);
 			return;
 		}
 		ZEPHIR_CALL_METHOD(NULL, model, "skipoperation", NULL, ZEPHIR_GLOBAL(global_true));

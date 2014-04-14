@@ -19,6 +19,10 @@
 
 namespace Phalcon\Annotations;
 
+use Phalcon\Annotations\ReaderInterface;
+use Phalcon\Annotations\Exception;
+use Phalcon\Annotations\Collection;
+
 /**
  * Phalcon\Annotations\Adapter
  *
@@ -36,10 +40,10 @@ abstract class Adapter
 	 *
 	 * @param Phalcon\Annotations\ReaderInterface reader
 	 */
-	public function setReader(<\Phalcon\Annotations\ReaderInterface> reader)
+	public function setReader(<ReaderInterface> reader)
 	{
 		if typeof reader != "object" {
-			throw new \Phalcon\Annotations\Exception("Invalid annotations reader");
+			throw new Exception("Invalid annotations reader");
 		}
 		let this->_reader = reader;
 	}
@@ -49,7 +53,7 @@ abstract class Adapter
 	 *
 	 * @return Phalcon\Annotations\ReaderInterface
 	 */
-	public function getReader() -> <\Phalcon\Annotations\ReaderInterface>
+	public function getReader() -> <ReaderInterface>
 	{
 		var reader;
 		let reader = this->_reader;
@@ -144,7 +148,7 @@ abstract class Adapter
 	 * @param string methodName
 	 * @return Phalcon\Annotations\Collection
 	 */
-	public function getMethod(string className, string methodName) -> <\Phalcon\Annotations\Collection>
+	public function getMethod(string className, string methodName) -> <Collection>
 	{
 		var classAnnotations, methods, name, method;
 
@@ -170,7 +174,7 @@ abstract class Adapter
 		/**
 		 * Returns a collection anyways
 		 */
-		return new \Phalcon\Annotations\Collection();
+		return new Collection();
 	}
 
 	/**
@@ -205,7 +209,7 @@ abstract class Adapter
 	 * @param string propertyName
 	 * @return Phalcon\Annotations\Collection
 	 */
-	public function getProperty(string className, string propertyName) -> <\Phalcon\Annotations\Collection>
+	public function getProperty(string className, string propertyName) -> <Collection>
 	{
 		var classAnnotations, properties, name, property;
 
@@ -231,7 +235,7 @@ abstract class Adapter
 		/**
 		 * Returns a collection anyways
 		 */
-		return new \Phalcon\Annotations\Collection();
+		return new Collection();
 	}
 
 }

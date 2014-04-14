@@ -134,7 +134,7 @@ PHP_METHOD(Phalcon_Dispatcher, setDI) {
 
 
 	if (!(zephir_instance_of_ev(dependencyInjector, phalcon_diinterface_ce TSRMLS_CC))) {
-		ZEPHIR_THROW_EXCEPTION_STRW(spl_ce_InvalidArgumentException, "Parameter 'dependencyInjector' must be an instance of 'Phalcon\\DiInterface'");
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(spl_ce_InvalidArgumentException, "Parameter 'dependencyInjector' must be an instance of 'Phalcon\\DiInterface'", "", 0);
 		return;
 	}
 	zephir_update_property_this(this_ptr, SL("_dependencyInjector"), dependencyInjector TSRMLS_CC);
@@ -167,7 +167,7 @@ PHP_METHOD(Phalcon_Dispatcher, setEventsManager) {
 
 
 	if (!(zephir_instance_of_ev(eventsManager, phalcon_events_managerinterface_ce TSRMLS_CC))) {
-		ZEPHIR_THROW_EXCEPTION_STRW(spl_ce_InvalidArgumentException, "Parameter 'eventsManager' must be an instance of 'Phalcon\\Events\\ManagerInterface'");
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(spl_ce_InvalidArgumentException, "Parameter 'eventsManager' must be an instance of 'Phalcon\\Events\\ManagerInterface'", "", 0);
 		return;
 	}
 	zephir_update_property_this(this_ptr, SL("_eventsManager"), eventsManager TSRMLS_CC);
@@ -783,6 +783,7 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch) {
 		zephir_array_fast_append(_10, handler);
 		zephir_array_fast_append(_10, actionMethod);
 		ZEPHIR_CALL_USER_FUNC_ARRAY(_1, _10, params);
+		zephir_check_call_status();
 		zephir_update_property_this(this_ptr, SL("_returnedValue"), _1 TSRMLS_CC);
 		zephir_update_property_this(this_ptr, SL("_lastHandler"), handler TSRMLS_CC);
 		if (Z_TYPE_P(eventsManager) == IS_OBJECT) {

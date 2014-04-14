@@ -439,9 +439,7 @@ class Router
 			 * If the route has parentheses use preg_match
 			 */
 			let pattern = route->getCompiledPattern();
-			if typeof pattern != "string" {
-				var_dump(this);
-			}
+
 			if memstr(pattern, "^") {
 				let routeFound = preg_match(pattern, handledUri, matches);
 			} else {
@@ -475,8 +473,7 @@ class Router
 				/**
 				 * Start from the default paths
 				 */
-				let paths = route->getPaths(),
-					parts = paths;
+				let paths = route->getPaths(), parts = paths;
 
 				/**
 				 * Check if the matches has variables

@@ -262,7 +262,7 @@ int zephir_compare_strict_long(zval *op1, long op2 TSRMLS_DC) {
 		case IS_LONG:
 			return Z_LVAL_P(op1) == op2;
 		case IS_DOUBLE:
-			return Z_LVAL_P(op1) == (double) op2;
+			return Z_DVAL_P(op1) == (double) op2;
 		case IS_NULL:
 			return 0 == op2;
 		case IS_BOOL:
@@ -275,6 +275,39 @@ int zephir_compare_strict_long(zval *op1, long op2 TSRMLS_DC) {
 			{
 				zval result, op2_tmp;
 				ZVAL_LONG(&op2_tmp, op2);
+				is_equal_function(&result, op1, &op2_tmp TSRMLS_CC);
+				bool_result = Z_BVAL(result);
+				return bool_result;
+			}
+	}
+
+	return 0;
+}
+
+/**
+ * Natural compare with bool operandus on right
+ */
+int zephir_compare_strict_bool(zval *op1, zend_bool op2 TSRMLS_DC) {
+
+	int bool_result;
+
+	switch (Z_TYPE_P(op1)) {
+		case IS_LONG:
+			return (Z_LVAL_P(op1) ? 1 : 0) == op2;
+		case IS_DOUBLE:
+			return (Z_DVAL_P(op1) ? 1 : 0) == op2;
+		case IS_NULL:
+			return 0 == op2;
+		case IS_BOOL:
+			if (Z_BVAL_P(op1)) {
+				return 1 == op2;
+			} else {
+				return 0 == op2;
+			}
+		default:
+			{
+				zval result, op2_tmp;
+				ZVAL_BOOL(&op2_tmp, op2);
 				is_equal_function(&result, op1, &op2_tmp TSRMLS_CC);
 				bool_result = Z_BVAL(result);
 				return bool_result;
@@ -426,19 +459,28 @@ zend_bool zephir_get_boolval_ex(const zval *op) {
 	double double_value = 0;
 
 	switch (Z_TYPE_P(op)) {
+        case IS_ARRAY:
+            return zend_hash_num_elements(Z_ARRVAL_P(op)) ? (zend_bool) 1 : 0;
+            break;
+#if PHP_VERSION_ID > 50400
+	    case IS_CALLABLE:
+#endif
+	    case IS_RESOURCE:
+	    case IS_OBJECT:
+	        return (zend_bool) 1;
 		case IS_LONG:
-			return (zend_bool) (Z_LVAL_P(op) ? 1 : 0);
+			return (Z_LVAL_P(op) ? (zend_bool) 1 : 0);
 		case IS_BOOL:
 			return Z_BVAL_P(op);
 		case IS_DOUBLE:
-			return (zend_bool) (Z_DVAL_P(op) ? 1 : 0);
+			return (Z_DVAL_P(op) ? (zend_bool) 1 : 0);
 		case IS_STRING:
 			if ((type = is_numeric_string(Z_STRVAL_P(op), Z_STRLEN_P(op), &long_value, &double_value, 0))) {
 				if (type == IS_LONG) {
-					return (zend_bool) (long_value ? 1 : 0);
+					return (long_value ? (zend_bool) 1 : 0);
 				} else {
 					if (type == IS_DOUBLE) {
-						return (zend_bool) (double_value ? 1 : 0);
+						return (double_value ? (zend_bool) 1 : 0);
 					} else {
 						return 0;
 					}

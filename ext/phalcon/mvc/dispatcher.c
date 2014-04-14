@@ -88,12 +88,12 @@ PHP_METHOD(Phalcon_Mvc_Dispatcher, setControllerSuffix) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &controllerSuffix_param);
 
-	if (Z_TYPE_P(controllerSuffix_param) != IS_STRING && Z_TYPE_P(controllerSuffix_param) != IS_NULL) {
+	if (unlikely(Z_TYPE_P(controllerSuffix_param) != IS_STRING && Z_TYPE_P(controllerSuffix_param) != IS_NULL)) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'controllerSuffix' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
 
-	if (Z_TYPE_P(controllerSuffix_param) == IS_STRING) {
+	if (unlikely(Z_TYPE_P(controllerSuffix_param) == IS_STRING)) {
 		controllerSuffix = controllerSuffix_param;
 	} else {
 		ZEPHIR_INIT_VAR(controllerSuffix);
@@ -119,12 +119,12 @@ PHP_METHOD(Phalcon_Mvc_Dispatcher, setDefaultController) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &controllerName_param);
 
-	if (Z_TYPE_P(controllerName_param) != IS_STRING && Z_TYPE_P(controllerName_param) != IS_NULL) {
+	if (unlikely(Z_TYPE_P(controllerName_param) != IS_STRING && Z_TYPE_P(controllerName_param) != IS_NULL)) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'controllerName' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
 
-	if (Z_TYPE_P(controllerName_param) == IS_STRING) {
+	if (unlikely(Z_TYPE_P(controllerName_param) == IS_STRING)) {
 		controllerName = controllerName_param;
 	} else {
 		ZEPHIR_INIT_VAR(controllerName);
@@ -150,12 +150,12 @@ PHP_METHOD(Phalcon_Mvc_Dispatcher, setControllerName) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &controllerName_param);
 
-	if (Z_TYPE_P(controllerName_param) != IS_STRING && Z_TYPE_P(controllerName_param) != IS_NULL) {
+	if (unlikely(Z_TYPE_P(controllerName_param) != IS_STRING && Z_TYPE_P(controllerName_param) != IS_NULL)) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'controllerName' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
 
-	if (Z_TYPE_P(controllerName_param) == IS_STRING) {
+	if (unlikely(Z_TYPE_P(controllerName_param) == IS_STRING)) {
 		controllerName = controllerName_param;
 	} else {
 		ZEPHIR_INIT_VAR(controllerName);
@@ -195,12 +195,12 @@ PHP_METHOD(Phalcon_Mvc_Dispatcher, _throwDispatchException) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 1, &message_param, &exceptionCode_param);
 
-	if (Z_TYPE_P(message_param) != IS_STRING && Z_TYPE_P(message_param) != IS_NULL) {
+	if (unlikely(Z_TYPE_P(message_param) != IS_STRING && Z_TYPE_P(message_param) != IS_NULL)) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'message' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
 
-	if (Z_TYPE_P(message_param) == IS_STRING) {
+	if (unlikely(Z_TYPE_P(message_param) == IS_STRING)) {
 		message = message_param;
 	} else {
 		ZEPHIR_INIT_VAR(message);
@@ -225,7 +225,7 @@ PHP_METHOD(Phalcon_Mvc_Dispatcher, _throwDispatchException) {
 		ZEPHIR_CALL_METHOD(NULL, _0, "__construct", NULL, _1, _2);
 		zephir_check_temp_parameter(_1);
 		zephir_check_call_status();
-		zephir_throw_exception(_0 TSRMLS_CC);
+		zephir_throw_exception_debug(_0, "phalcon/mvc/dispatcher.zep", 109 TSRMLS_CC);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
@@ -260,7 +260,7 @@ PHP_METHOD(Phalcon_Mvc_Dispatcher, _throwDispatchException) {
 			RETURN_MM_BOOL(0);
 		}
 	}
-	zephir_throw_exception(exception TSRMLS_CC);
+	zephir_throw_exception_debug(exception, "phalcon/mvc/dispatcher.zep", 134 TSRMLS_CC);
 	ZEPHIR_MM_RESTORE();
 	return;
 
@@ -282,7 +282,7 @@ PHP_METHOD(Phalcon_Mvc_Dispatcher, _handleException) {
 
 
 	if (!(zephir_is_instance_of(exception, SL("Phalcon\\Mvc\\Exception") TSRMLS_CC))) {
-		ZEPHIR_THROW_EXCEPTION_STR(spl_ce_InvalidArgumentException, "Parameter 'exception' must be an instance of 'Phalcon\\Mvc\\Exception'");
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(spl_ce_InvalidArgumentException, "Parameter 'exception' must be an instance of 'Phalcon\\Mvc\\Exception'", "", 0);
 		return;
 	}
 	ZEPHIR_OBS_VAR(eventsManager);

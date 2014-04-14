@@ -96,12 +96,12 @@ PHP_METHOD(Phalcon_Http_Cookie, __construct) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 6, &name_param, &value, &expire, &path, &secure, &domain, &httpOnly);
 
-	if (Z_TYPE_P(name_param) != IS_STRING && Z_TYPE_P(name_param) != IS_NULL) {
+	if (unlikely(Z_TYPE_P(name_param) != IS_STRING && Z_TYPE_P(name_param) != IS_NULL)) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'name' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
 
-	if (Z_TYPE_P(name_param) == IS_STRING) {
+	if (unlikely(Z_TYPE_P(name_param) == IS_STRING)) {
 		name = name_param;
 	} else {
 		ZEPHIR_INIT_VAR(name);
@@ -164,7 +164,7 @@ PHP_METHOD(Phalcon_Http_Cookie, setDI) {
 
 
 	if (!(zephir_instance_of_ev(dependencyInjector, phalcon_diinterface_ce TSRMLS_CC))) {
-		ZEPHIR_THROW_EXCEPTION_STRW(spl_ce_InvalidArgumentException, "Parameter 'dependencyInjector' must be an instance of 'Phalcon\\DiInterface'");
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(spl_ce_InvalidArgumentException, "Parameter 'dependencyInjector' must be an instance of 'Phalcon\\DiInterface'", "", 0);
 		return;
 	}
 	zephir_update_property_this(this_ptr, SL("_dependencyInjector"), dependencyInjector TSRMLS_CC);
@@ -244,7 +244,7 @@ PHP_METHOD(Phalcon_Http_Cookie, getValue) {
 				ZEPHIR_OBS_NVAR(dependencyInjector);
 				zephir_read_property_this(&dependencyInjector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
 				if (Z_TYPE_P(dependencyInjector) != IS_OBJECT) {
-					ZEPHIR_THROW_EXCEPTION_STR(phalcon_http_response_exception_ce, "A dependency injection object is required to access the 'filter' service");
+					ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_http_response_exception_ce, "A dependency injection object is required to access the 'filter' service", "phalcon/http/cookie.zep", 151);
 					return;
 				}
 				ZEPHIR_INIT_VAR(_3);
@@ -266,7 +266,7 @@ PHP_METHOD(Phalcon_Http_Cookie, getValue) {
 						ZEPHIR_OBS_NVAR(dependencyInjector);
 						zephir_read_property_this(&dependencyInjector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
 						if (Z_TYPE_P(dependencyInjector) != IS_OBJECT) {
-							ZEPHIR_THROW_EXCEPTION_STR(phalcon_http_response_exception_ce, "A dependency injection object is required to access the 'filter' service");
+							ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_http_response_exception_ce, "A dependency injection object is required to access the 'filter' service", "phalcon/http/cookie.zep", 177);
 							return;
 						}
 					}
@@ -320,7 +320,7 @@ PHP_METHOD(Phalcon_Http_Cookie, send) {
 	ZEPHIR_OBS_VAR(dependencyInjector);
 	zephir_read_property_this(&dependencyInjector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
 	if (Z_TYPE_P(dependencyInjector) != IS_OBJECT) {
-		ZEPHIR_THROW_EXCEPTION_STR(phalcon_http_response_exception_ce, "A dependency injection object is required to access the 'session' service");
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_http_response_exception_ce, "A dependency injection object is required to access the 'session' service", "phalcon/http/cookie.zep", 221);
 		return;
 	}
 	ZEPHIR_INIT_VAR(definition);
@@ -356,7 +356,7 @@ PHP_METHOD(Phalcon_Http_Cookie, send) {
 	if (zephir_is_true(_3)) {
 		if (!(ZEPHIR_IS_EMPTY(value))) {
 			if (Z_TYPE_P(dependencyInjector) != IS_OBJECT) {
-				ZEPHIR_THROW_EXCEPTION_STR(phalcon_http_response_exception_ce, "A dependency injection object is required to access the 'filter' service");
+				ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_http_response_exception_ce, "A dependency injection object is required to access the 'filter' service", "phalcon/http/cookie.zep", 259);
 				return;
 			}
 			ZEPHIR_INIT_NVAR(_1);
@@ -576,12 +576,12 @@ PHP_METHOD(Phalcon_Http_Cookie, setPath) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &path_param);
 
-	if (Z_TYPE_P(path_param) != IS_STRING && Z_TYPE_P(path_param) != IS_NULL) {
+	if (unlikely(Z_TYPE_P(path_param) != IS_STRING && Z_TYPE_P(path_param) != IS_NULL)) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'path' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
 
-	if (Z_TYPE_P(path_param) == IS_STRING) {
+	if (unlikely(Z_TYPE_P(path_param) == IS_STRING)) {
 		path = path_param;
 	} else {
 		ZEPHIR_INIT_VAR(path);
@@ -635,12 +635,12 @@ PHP_METHOD(Phalcon_Http_Cookie, setDomain) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &domain_param);
 
-	if (Z_TYPE_P(domain_param) != IS_STRING && Z_TYPE_P(domain_param) != IS_NULL) {
+	if (unlikely(Z_TYPE_P(domain_param) != IS_STRING && Z_TYPE_P(domain_param) != IS_NULL)) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'domain' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
 
-	if (Z_TYPE_P(domain_param) == IS_STRING) {
+	if (unlikely(Z_TYPE_P(domain_param) == IS_STRING)) {
 		domain = domain_param;
 	} else {
 		ZEPHIR_INIT_VAR(domain);

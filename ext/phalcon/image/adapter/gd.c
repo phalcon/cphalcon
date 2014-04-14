@@ -17,11 +17,11 @@
 #include "kernel/exception.h"
 #include "kernel/memory.h"
 #include "kernel/fcall.h"
-#include "kernel/string.h"
 #include "kernel/array.h"
 #include "kernel/concat.h"
 #include "kernel/file.h"
 #include "ext/spl/spl_exceptions.h"
+#include "kernel/string.h"
 
 
 /*
@@ -53,8 +53,8 @@ ZEPHIR_INIT_CLASS(Phalcon_Image_Adapter_Gd) {
 PHP_METHOD(Phalcon_Image_Adapter_Gd, check) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
-	zephir_nts_static zephir_fcall_cache_entry *_3 = NULL, *_8 = NULL;
-	zval *version = NULL, *info = NULL, *matches, *_0, _1 = zval_used_for_init, *_2 = NULL, *_4, *_5, _6, _7, *_9, *_10, *_11;
+	zephir_nts_static zephir_fcall_cache_entry *_3 = NULL, *_6 = NULL, *_8 = NULL;
+	zval *version = NULL, *info = NULL, *matches, *_0, _1 = zval_used_for_init, *_2 = NULL, *_4, *_5, _7, *_9, *_10;
 
 	ZEPHIR_MM_GROW();
 
@@ -63,7 +63,7 @@ PHP_METHOD(Phalcon_Image_Adapter_Gd, check) {
 		RETURN_MM_BOOL(1);
 	}
 	if (!((zephir_function_exists_ex(SS("gd_info") TSRMLS_CC) == SUCCESS))) {
-		ZEPHIR_THROW_EXCEPTION_STR(phalcon_image_exception_ce, "GD is either not installed or not enabled, check your configuration");
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_image_exception_ce, "GD is either not installed or not enabled, check your configuration", "phalcon/image/adapter/gd.zep", 33);
 		return;
 	}
 	ZEPHIR_INIT_VAR(version);
@@ -80,21 +80,24 @@ PHP_METHOD(Phalcon_Image_Adapter_Gd, check) {
 		zephir_check_call_status();
 		ZEPHIR_INIT_VAR(matches);
 		ZVAL_NULL(matches);
-		ZEPHIR_INIT_VAR(_4);
-		zephir_array_fetch_string(&_5, info, SL("GD Version"), PH_NOISY | PH_READONLY TSRMLS_CC);
-		ZEPHIR_SINIT_NVAR(_1);
-		ZVAL_STRING(&_1, "/\\d+\\.\\d+(?:\\.\\d+)?/", 0);
-		zephir_preg_match(_4, &(_4), &_1, _5, matches, 0, 0 , 0  TSRMLS_CC);
-		if (zephir_is_true(_4)) {
+		zephir_array_fetch_string(&_4, info, SL("GD Version"), PH_NOISY | PH_READONLY TSRMLS_CC);
+		ZEPHIR_INIT_VAR(_5);
+		ZVAL_STRING(_5, "/\\d+\\.\\d+(?:\\.\\d+)?/", 0);
+		Z_SET_ISREF_P(matches);
+		ZEPHIR_CALL_FUNCTION(&_2, "preg_match", &_6, _5, _4, matches);
+		zephir_check_temp_parameter(_5);
+		Z_UNSET_ISREF_P(matches);
+		zephir_check_call_status();
+		if (zephir_is_true(_2)) {
 			ZEPHIR_OBS_NVAR(version);
 			zephir_array_fetch_long(&version, matches, 0, PH_NOISY TSRMLS_CC);
 		}
 	}
-	ZEPHIR_SINIT_VAR(_6);
-	ZVAL_STRING(&_6, "2.0.1", 0);
+	ZEPHIR_SINIT_NVAR(_1);
+	ZVAL_STRING(&_1, "2.0.1", 0);
 	ZEPHIR_SINIT_VAR(_7);
 	ZVAL_STRING(&_7, ">=", 0);
-	ZEPHIR_CALL_FUNCTION(&_2, "version_compare", &_8, version, &_6, &_7);
+	ZEPHIR_CALL_FUNCTION(&_2, "version_compare", &_8, version, &_1, &_7);
 	zephir_check_call_status();
 	if (!(zephir_is_true(_2))) {
 		ZEPHIR_INIT_VAR(_9);
@@ -103,13 +106,13 @@ PHP_METHOD(Phalcon_Image_Adapter_Gd, check) {
 		ZEPHIR_CONCAT_SV(_10, "Phalcon\\Image\\Adapter\\GD requires GD version '2.0.1' or greater, you have ", version);
 		ZEPHIR_CALL_METHOD(NULL, _9, "__construct", NULL, _10);
 		zephir_check_call_status();
-		zephir_throw_exception(_9 TSRMLS_CC);
+		zephir_throw_exception_debug(_9, "phalcon/image/adapter/gd.zep", 47 TSRMLS_CC);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
 	zephir_update_static_property_ce(phalcon_image_adapter_gd_ce, SL("_checked"), ZEPHIR_GLOBAL(global_true) TSRMLS_CC);
-	_11 = zephir_fetch_static_property_ce(phalcon_image_adapter_gd_ce, SL("_checked") TSRMLS_CC);
-	RETURN_CTOR(_11);
+	_0 = zephir_fetch_static_property_ce(phalcon_image_adapter_gd_ce, SL("_checked") TSRMLS_CC);
+	RETURN_CTOR(_0);
 
 }
 
@@ -125,12 +128,12 @@ PHP_METHOD(Phalcon_Image_Adapter_Gd, __construct) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 2, &file_param, &width_param, &height_param);
 
-	if (Z_TYPE_P(file_param) != IS_STRING && Z_TYPE_P(file_param) != IS_NULL) {
+	if (unlikely(Z_TYPE_P(file_param) != IS_STRING && Z_TYPE_P(file_param) != IS_NULL)) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'file' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
 
-	if (Z_TYPE_P(file_param) == IS_STRING) {
+	if (unlikely(Z_TYPE_P(file_param) == IS_STRING)) {
 		file = file_param;
 	} else {
 		ZEPHIR_INIT_VAR(file);
@@ -219,11 +222,11 @@ PHP_METHOD(Phalcon_Image_Adapter_Gd, __construct) {
 				ZEPHIR_CONCAT_SVS(_14, "Installed GD does not support ", _11, " images");
 				ZEPHIR_CALL_METHOD(NULL, _13, "__construct", NULL, _14);
 				zephir_check_call_status();
-				zephir_throw_exception(_13 TSRMLS_CC);
+				zephir_throw_exception_debug(_13, "phalcon/image/adapter/gd.zep", 95 TSRMLS_CC);
 				ZEPHIR_MM_RESTORE();
 				return;
 			} else {
-				ZEPHIR_THROW_EXCEPTION_STR(phalcon_image_exception_ce, "Installed GD does not support such images");
+				ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_image_exception_ce, "Installed GD does not support such images", "phalcon/image/adapter/gd.zep", 97);
 				return;
 			}
 			break;
@@ -245,7 +248,7 @@ PHP_METHOD(Phalcon_Image_Adapter_Gd, __construct) {
 			ZEPHIR_CONCAT_SV(_14, "Failed to create image from file ", _1);
 			ZEPHIR_CALL_METHOD(NULL, _13, "__construct", NULL, _14);
 			zephir_check_call_status();
-			zephir_throw_exception(_13 TSRMLS_CC);
+			zephir_throw_exception_debug(_13, "phalcon/image/adapter/gd.zep", 106 TSRMLS_CC);
 			ZEPHIR_MM_RESTORE();
 			return;
 		}
@@ -296,7 +299,6 @@ PHP_METHOD(Phalcon_Image_Adapter_Gd, _resize) {
 	height = zephir_get_intval(height_param);
 
 
-	ZEPHIR_INIT_VAR(image);
 	ZEPHIR_INIT_VAR(_0);
 	ZEPHIR_GET_CONSTANT(_0, "PHP_VERSION");
 	ZEPHIR_SINIT_VAR(_1);
@@ -430,7 +432,6 @@ PHP_METHOD(Phalcon_Image_Adapter_Gd, _crop) {
 	offset_y = zephir_get_intval(offset_y_param);
 
 
-	ZEPHIR_INIT_VAR(image);
 	ZEPHIR_INIT_VAR(_0);
 	ZEPHIR_GET_CONSTANT(_0, "PHP_VERSION");
 	ZEPHIR_SINIT_VAR(_1);
@@ -895,7 +896,7 @@ PHP_METHOD(Phalcon_Image_Adapter_Gd, _watermark) {
 
 
 	if (!(zephir_instance_of_ev(watermark, phalcon_image_adapter_ce TSRMLS_CC))) {
-		ZEPHIR_THROW_EXCEPTION_STR(spl_ce_InvalidArgumentException, "Parameter 'watermark' must be an instance of 'Phalcon\\Image\\Adapter'");
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(spl_ce_InvalidArgumentException, "Parameter 'watermark' must be an instance of 'Phalcon\\Image\\Adapter'", "", 0);
 		return;
 	}
 	ZEPHIR_CALL_METHOD(&_0, watermark, "render",  NULL);
@@ -999,7 +1000,6 @@ PHP_METHOD(Phalcon_Image_Adapter_Gd, _text) {
 	ZEPHIR_CALL_FUNCTION(&_3, "round", &_4, _1);
 	zephir_check_call_status();
 	opacity = zephir_get_intval(_3);
-	ZEPHIR_INIT_VAR(color);
 	if (fontfile && Z_STRLEN_P(fontfile)) {
 		ZEPHIR_SINIT_NVAR(_0);
 		ZVAL_LONG(&_0, size);
@@ -1034,7 +1034,7 @@ PHP_METHOD(Phalcon_Image_Adapter_Gd, _text) {
 			_12 = !s5;
 		}
 		if (_12) {
-			ZEPHIR_THROW_EXCEPTION_STR(phalcon_image_exception_ce, "Call to imagettfbbox() failed");
+			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_image_exception_ce, "Call to imagettfbbox() failed", "phalcon/image/adapter/gd.zep", 352);
 			return;
 		}
 		ZEPHIR_SINIT_NVAR(_0);
@@ -1135,7 +1135,7 @@ PHP_METHOD(Phalcon_Image_Adapter_Gd, _mask) {
 
 
 	if (!(zephir_instance_of_ev(mask, phalcon_image_adapter_ce TSRMLS_CC))) {
-		ZEPHIR_THROW_EXCEPTION_STR(spl_ce_InvalidArgumentException, "Parameter 'mask' must be an instance of 'Phalcon\\Image\\Adapter'");
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(spl_ce_InvalidArgumentException, "Parameter 'mask' must be an instance of 'Phalcon\\Image\\Adapter'", "", 0);
 		return;
 	}
 	ZEPHIR_CALL_METHOD(&_0, mask, "render",  NULL);
@@ -1523,7 +1523,7 @@ PHP_METHOD(Phalcon_Image_Adapter_Gd, _save) {
 	ZEPHIR_CONCAT_SVS(_14, "Installed GD does not support '", ext, "' images");
 	ZEPHIR_CALL_METHOD(NULL, _13, "__construct", NULL, _14);
 	zephir_check_call_status();
-	zephir_throw_exception(_13 TSRMLS_CC);
+	zephir_throw_exception_debug(_13, "phalcon/image/adapter/gd.zep", 530 TSRMLS_CC);
 	ZEPHIR_MM_RESTORE();
 	return;
 
@@ -1623,7 +1623,7 @@ PHP_METHOD(Phalcon_Image_Adapter_Gd, _render) {
 	ZEPHIR_CONCAT_SVS(_15, "Installed GD does not support '", ext, "' images");
 	ZEPHIR_CALL_METHOD(NULL, _14, "__construct", NULL, _15);
 	zephir_check_call_status();
-	zephir_throw_exception(_14 TSRMLS_CC);
+	zephir_throw_exception_debug(_14, "phalcon/image/adapter/gd.zep", 557 TSRMLS_CC);
 	ZEPHIR_MM_RESTORE();
 	return;
 

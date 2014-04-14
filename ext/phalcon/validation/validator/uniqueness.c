@@ -17,6 +17,7 @@
 #include "kernel/fcall.h"
 #include "kernel/memory.h"
 #include "kernel/operators.h"
+#include "kernel/concat.h"
 #include "kernel/array.h"
 #include "ext/spl/spl_exceptions.h"
 
@@ -78,20 +79,22 @@ ZEPHIR_INIT_CLASS(Phalcon_Validation_Validator_Uniqueness) {
  */
 PHP_METHOD(Phalcon_Validation_Validator_Uniqueness, validate) {
 
-	zephir_nts_static zephir_fcall_cache_entry *_3 = NULL;
+	zephir_nts_static zephir_fcall_cache_entry *_6 = NULL;
+	zend_class_entry *_4;
+	zval *_1, *_3;
 	int ZEPHIR_LAST_CALL_STATUS;
 	zval *field = NULL;
-	zval *validation, *field_param = NULL, *attribute = NULL, *value = NULL, *model = NULL, *number, *message = NULL, *label = NULL, *replacePairs, *_0, *_1, *_2 = NULL;
+	zval *validation, *field_param = NULL, *attribute = NULL, *value = NULL, *model = NULL, *number = NULL, *message = NULL, *label = NULL, *replacePairs, *_0, *_2 = NULL, *_5 = NULL;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &validation, &field_param);
 
-	if (Z_TYPE_P(field_param) != IS_STRING && Z_TYPE_P(field_param) != IS_NULL) {
+	if (unlikely(Z_TYPE_P(field_param) != IS_STRING && Z_TYPE_P(field_param) != IS_NULL)) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'field' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
 
-	if (Z_TYPE_P(field_param) == IS_STRING) {
+	if (unlikely(Z_TYPE_P(field_param) == IS_STRING)) {
 		field = field_param;
 	} else {
 		ZEPHIR_INIT_VAR(field);
@@ -100,7 +103,7 @@ PHP_METHOD(Phalcon_Validation_Validator_Uniqueness, validate) {
 
 
 	if (!(zephir_instance_of_ev(validation, phalcon_validation_ce TSRMLS_CC))) {
-		ZEPHIR_THROW_EXCEPTION_STR(spl_ce_InvalidArgumentException, "Parameter 'validation' must be an instance of 'Phalcon\\Validation'");
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(spl_ce_InvalidArgumentException, "Parameter 'validation' must be an instance of 'Phalcon\\Validation'", "", 0);
 		return;
 	}
 	ZEPHIR_CALL_METHOD(&value, validation, "getvalue", NULL, field);
@@ -116,14 +119,24 @@ PHP_METHOD(Phalcon_Validation_Validator_Uniqueness, validate) {
 	zephir_check_temp_parameter(_0);
 	zephir_check_call_status();
 	if (ZEPHIR_IS_EMPTY(model)) {
-		ZEPHIR_THROW_EXCEPTION_STR(phalcon_validation_exception_ce, "Model must be set");
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_validation_exception_ce, "Model must be set", "phalcon/validation/validator/uniqueness.zep", 63);
 		return;
 	}
 	if (ZEPHIR_IS_EMPTY(attribute)) {
 		ZEPHIR_CPY_WRT(attribute, field);
 	}
-	ZEPHIR_INIT_VAR(number);
-	ZVAL_NULL(number);
+	ZEPHIR_INIT_VAR(_1);
+	array_init_size(_1, 3);
+	ZEPHIR_INIT_VAR(_2);
+	ZEPHIR_CONCAT_VS(_2, attribute, "=:value:");
+	zephir_array_fast_append(_1, _2);
+	ZEPHIR_INIT_VAR(_3);
+	array_init_size(_3, 2);
+	zephir_array_update_string(&_3, SL("value"), &value, PH_COPY | PH_SEPARATE);
+	zephir_array_update_string(&_1, SL("bind"), &_3, PH_COPY | PH_SEPARATE);
+	_4 = zend_fetch_class(Z_STRVAL_P(model), Z_STRLEN_P(model), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
+	ZEPHIR_CALL_CE_STATIC(&number, _4, "count", NULL, _1);
+	zephir_check_call_status();
 	if (zephir_is_true(number)) {
 		ZEPHIR_INIT_BNVAR(_0);
 		ZVAL_STRING(_0, "label", 0);
@@ -152,16 +165,16 @@ PHP_METHOD(Phalcon_Validation_Validator_Uniqueness, validate) {
 			zephir_check_temp_parameter(_0);
 			zephir_check_call_status();
 		}
-		ZEPHIR_INIT_VAR(_1);
-		object_init_ex(_1, phalcon_validation_message_ce);
-		ZEPHIR_CALL_FUNCTION(&_2, "strtr", &_3, message, replacePairs);
+		ZEPHIR_INIT_LNVAR(_2);
+		object_init_ex(_2, phalcon_validation_message_ce);
+		ZEPHIR_CALL_FUNCTION(&_5, "strtr", &_6, message, replacePairs);
 		zephir_check_call_status();
 		ZEPHIR_INIT_BNVAR(_0);
 		ZVAL_STRING(_0, "Uniqueness", 0);
-		ZEPHIR_CALL_METHOD(NULL, _1, "__construct", NULL, _2, field, _0);
+		ZEPHIR_CALL_METHOD(NULL, _2, "__construct", NULL, _5, field, _0);
 		zephir_check_temp_parameter(_0);
 		zephir_check_call_status();
-		ZEPHIR_CALL_METHOD(NULL, validation, "appendmessage", NULL, _1);
+		ZEPHIR_CALL_METHOD(NULL, validation, "appendmessage", NULL, _2);
 		zephir_check_call_status();
 		RETURN_MM_BOOL(0);
 	}

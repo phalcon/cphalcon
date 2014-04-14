@@ -347,7 +347,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, offsetGet) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &index_param);
 
-		if (Z_TYPE_P(index_param) != IS_LONG) {
+	if (unlikely(Z_TYPE_P(index_param) != IS_LONG)) {
 			zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'index' must be a long/integer") TSRMLS_CC);
 			RETURN_MM_NULL();
 		}
@@ -377,7 +377,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, offsetGet) {
 		}
 		RETURN_MM_BOOL(0);
 	}
-	ZEPHIR_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "The index does not exist in the cursor");
+	ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_model_exception_ce, "The index does not exist in the cursor", "phalcon/mvc/model/resultset.zep", 276);
 	return;
 
 }
@@ -397,10 +397,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, offsetSet) {
 
 
 	if (!(zephir_instance_of_ev(value, phalcon_mvc_modelinterface_ce TSRMLS_CC))) {
-		ZEPHIR_THROW_EXCEPTION_STRW(spl_ce_InvalidArgumentException, "Parameter 'value' must be an instance of 'Phalcon\\Mvc\\ModelInterface'");
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(spl_ce_InvalidArgumentException, "Parameter 'value' must be an instance of 'Phalcon\\Mvc\\ModelInterface'", "", 0);
 		return;
 	}
-	ZEPHIR_THROW_EXCEPTION_STRW(phalcon_mvc_model_exception_ce, "Cursor is an immutable ArrayAccess object");
+	ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_mvc_model_exception_ce, "Cursor is an immutable ArrayAccess object", "phalcon/mvc/model/resultset.zep", 287);
 	return;
 
 }
@@ -420,7 +420,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, offsetUnset) {
 	offset = zephir_get_intval(offset_param);
 
 
-	ZEPHIR_THROW_EXCEPTION_STRW(phalcon_mvc_model_exception_ce, "Cursor is an immutable ArrayAccess object");
+	ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_mvc_model_exception_ce, "Cursor is an immutable ArrayAccess object", "phalcon/mvc/model/resultset.zep", 297);
 	return;
 
 }
@@ -629,7 +629,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, delete) {
 		_0 = !zephir_instance_of_ev(conditionCallback, zend_ce_closure TSRMLS_CC);
 	}
 	if (_0) {
-		ZEPHIR_THROW_EXCEPTION_STR(spl_ce_InvalidArgumentException, "Parameter 'conditionCallback' must be an instance of 'Closure'");
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(spl_ce_InvalidArgumentException, "Parameter 'conditionCallback' must be an instance of 'Closure'", "", 0);
 		return;
 	}
 	transaction = 0;
@@ -643,7 +643,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, delete) {
 		ZEPHIR_GET_HVALUE(record, _4);
 		if (transaction == 0) {
 			if (!((zephir_method_exists_ex(record, SS("getwriteconnection") TSRMLS_CC) == SUCCESS))) {
-				ZEPHIR_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "The returned record is not valid");
+				ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_model_exception_ce, "The returned record is not valid", "phalcon/mvc/model/resultset.zep", 443);
 				return;
 			}
 			ZEPHIR_CALL_METHOD(&connection, record, "getwriteconnection",  NULL);
@@ -658,6 +658,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, delete) {
 			array_init_size(_6, 2);
 			zephir_array_fast_append(_6, record);
 			ZEPHIR_CALL_USER_FUNC_ARRAY(_5, conditionCallback, _6);
+			zephir_check_call_status();
 			if (ZEPHIR_IS_FALSE(_5)) {
 				continue;
 			}
@@ -723,6 +724,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, filter) {
 		zephir_array_update_long(&parameters, 0, &record, PH_COPY | PH_SEPARATE, "phalcon/mvc/model/resultset.zep", 512);
 		ZEPHIR_INIT_NVAR(processedRecord);
 		ZEPHIR_CALL_USER_FUNC_ARRAY(processedRecord, filter, parameters);
+		zephir_check_call_status();
 		if (Z_TYPE_P(processedRecord) != IS_OBJECT) {
 			if (Z_TYPE_P(processedRecord) != IS_ARRAY) {
 				continue;

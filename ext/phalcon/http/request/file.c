@@ -94,7 +94,7 @@ PHP_METHOD(Phalcon_Http_Request_File, __construct) {
 
 
 	if (Z_TYPE_P(file) != IS_ARRAY) {
-		ZEPHIR_THROW_EXCEPTION_STRW(phalcon_http_request_exception_ce, "Phalcon\\Http\\Request\\File requires a valid uploaded file");
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_http_request_exception_ce, "Phalcon\\Http\\Request\\File requires a valid uploaded file", "phalcon/http/request/file.zep", 68);
 		return;
 	}
 	if (zephir_array_isset_string_fetch(&name, file, SS("name"), 1 TSRMLS_CC)) {
@@ -204,12 +204,12 @@ PHP_METHOD(Phalcon_Http_Request_File, moveTo) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &destination_param);
 
-	if (Z_TYPE_P(destination_param) != IS_STRING && Z_TYPE_P(destination_param) != IS_NULL) {
+	if (unlikely(Z_TYPE_P(destination_param) != IS_STRING && Z_TYPE_P(destination_param) != IS_NULL)) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'destination' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
 
-	if (Z_TYPE_P(destination_param) == IS_STRING) {
+	if (unlikely(Z_TYPE_P(destination_param) == IS_STRING)) {
 		destination = destination_param;
 	} else {
 		ZEPHIR_INIT_VAR(destination);

@@ -106,12 +106,12 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Files, read) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &key_param);
 
-	if (Z_TYPE_P(key_param) != IS_STRING && Z_TYPE_P(key_param) != IS_NULL) {
+	if (unlikely(Z_TYPE_P(key_param) != IS_STRING && Z_TYPE_P(key_param) != IS_NULL)) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'key' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
 
-	if (Z_TYPE_P(key_param) == IS_STRING) {
+	if (unlikely(Z_TYPE_P(key_param) == IS_STRING)) {
 		key = key_param;
 	} else {
 		ZEPHIR_INIT_VAR(key);
@@ -151,12 +151,12 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Files, write) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &key_param, &data);
 
-	if (Z_TYPE_P(key_param) != IS_STRING && Z_TYPE_P(key_param) != IS_NULL) {
+	if (unlikely(Z_TYPE_P(key_param) != IS_STRING && Z_TYPE_P(key_param) != IS_NULL)) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'key' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
 
-	if (Z_TYPE_P(key_param) == IS_STRING) {
+	if (unlikely(Z_TYPE_P(key_param) == IS_STRING)) {
 		key = key_param;
 	} else {
 		ZEPHIR_INIT_VAR(key);
@@ -178,7 +178,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Files, write) {
 	ZEPHIR_CONCAT_SVS(_5, "<?php return ", _4, "; ");
 	zephir_file_put_contents(_3, path, _5 TSRMLS_CC);
 	if (ZEPHIR_IS_FALSE(_3)) {
-		ZEPHIR_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Meta-Data directory cannot be written");
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_model_exception_ce, "Meta-Data directory cannot be written", "phalcon/mvc/model/metadata/files.zep", 82);
 		return;
 	}
 	ZEPHIR_MM_RESTORE();

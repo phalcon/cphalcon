@@ -50,13 +50,9 @@ class Annotation
 	 *
 	 * @param array reflectionData
 	 */
- 	public function __construct(reflectionData)
+ 	public function __construct(array! reflectionData)
 	{
   		var name, exprArguments, argument, resolvedArgument, arguments;
-
-		if typeof reflectionData != "array" {
-			throw new \Phalcon\Annotations\Exception("Reflection data must be an array");
-		}
 
 		let this->_name = reflectionData["name"];
 
@@ -93,34 +89,33 @@ class Annotation
 	 * @param array expr
 	 * @return mixed
 	 */
-	public function getExpression(expr)
+	public function getExpression(array! expr)
 	{
 		var value, item, resolvedItem, arrayValue, name, type;
 
-		if typeof expr != "array" {
-			throw new \Phalcon\Annotations\Exception("The expression is not valid");
-		}
-
 		let type = expr["type"];
 		switch type {
-			case 301:
-			case 302:
-			case 303:
-			case 307:
+
+			case PHANNOT_T_INTEGER:
+			case PHANNOT_T_DOUBLE:
+			case PHANNOT_T_STRING:
+			case PHANNOT_T_IDENTIFIER:
 				let value = expr["value"];
 				break;
-			case 304:
+
+			case PHANNOT_T_NULL:
 				let value = null;
 				break;
-			case 305:
+
+			case PHANNOT_T_FALSE:
 				let value = false;
 				break;
 
-			case 306:
+			case PHANNOT_T_TRUE:
 				let value = true;
 				break;
 
-			case 308:
+			case PHANNOT_T_ARRAY:
 				let arrayValue = null;
 				for item in expr["items"] {
 					let resolvedItem = this->getExpression(item["expr"]);
@@ -132,7 +127,7 @@ class Annotation
 				}
 				return arrayValue;
 
-			case 300:
+			case PHANNOT_T_ANNOTATION:
 				return new \Phalcon\Annotations\Annotation(expr);
 
    			default:

@@ -136,12 +136,12 @@ PHP_METHOD(Phalcon_Annotations_Adapter_Files, write) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &key_param, &data);
 
-	if (Z_TYPE_P(key_param) != IS_STRING && Z_TYPE_P(key_param) != IS_NULL) {
+	if (unlikely(Z_TYPE_P(key_param) != IS_STRING && Z_TYPE_P(key_param) != IS_NULL)) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'key' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
 
-	if (Z_TYPE_P(key_param) == IS_STRING) {
+	if (unlikely(Z_TYPE_P(key_param) == IS_STRING)) {
 		key = key_param;
 	} else {
 		ZEPHIR_INIT_VAR(key);
@@ -150,7 +150,7 @@ PHP_METHOD(Phalcon_Annotations_Adapter_Files, write) {
 
 
 	if (!(zephir_instance_of_ev(data, phalcon_annotations_reflection_ce TSRMLS_CC))) {
-		ZEPHIR_THROW_EXCEPTION_STR(spl_ce_InvalidArgumentException, "Parameter 'data' must be an instance of 'Phalcon\\Annotations\\Reflection'");
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(spl_ce_InvalidArgumentException, "Parameter 'data' must be an instance of 'Phalcon\\Annotations\\Reflection'", "", 0);
 		return;
 	}
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_annotationsDir"), PH_NOISY_CC);
@@ -167,7 +167,7 @@ PHP_METHOD(Phalcon_Annotations_Adapter_Files, write) {
 	ZEPHIR_CONCAT_SVS(_5, "<?php return ", _4, "; ");
 	zephir_file_put_contents(_3, path, _5 TSRMLS_CC);
 	if (ZEPHIR_IS_FALSE(_3)) {
-		ZEPHIR_THROW_EXCEPTION_STR(phalcon_annotations_exception_ce, "Annotations directory cannot be written");
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_annotations_exception_ce, "Annotations directory cannot be written", "phalcon/annotations/adapter/files.zep", 90);
 		return;
 	}
 	ZEPHIR_MM_RESTORE();

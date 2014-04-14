@@ -59,19 +59,19 @@ PHP_METHOD(Phalcon_Config_Adapter_Ini, __construct) {
 	HashTable *_5, *_8;
 	HashPosition _4, _7;
 	int ZEPHIR_LAST_CALL_STATUS;
-	zephir_nts_static zephir_fcall_cache_entry *_0 = NULL;
+	zephir_nts_static zephir_fcall_cache_entry *_0 = NULL, *_12 = NULL;
 	zval *filePath_param = NULL, *config, *iniConfig = NULL, *section = NULL, *directives = NULL, *directiveParts = NULL, *key = NULL, *value = NULL, *_1, *_2, *_3, **_6, **_9, *_10, *_11;
 	zval *filePath = NULL;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &filePath_param);
 
-	if (Z_TYPE_P(filePath_param) != IS_STRING && Z_TYPE_P(filePath_param) != IS_NULL) {
+	if (unlikely(Z_TYPE_P(filePath_param) != IS_STRING && Z_TYPE_P(filePath_param) != IS_NULL)) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'filePath' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
 
-	if (Z_TYPE_P(filePath_param) == IS_STRING) {
+	if (unlikely(Z_TYPE_P(filePath_param) == IS_STRING)) {
 		filePath = filePath_param;
 	} else {
 		ZEPHIR_INIT_VAR(filePath);
@@ -92,7 +92,7 @@ PHP_METHOD(Phalcon_Config_Adapter_Ini, __construct) {
 		ZEPHIR_CONCAT_SVS(_3, "Configuration file ", _2, " can't be loaded");
 		ZEPHIR_CALL_METHOD(NULL, _1, "__construct", NULL, _3);
 		zephir_check_call_status();
-		zephir_throw_exception(_1 TSRMLS_CC);
+		zephir_throw_exception_debug(_1, "phalcon/config/adapter/ini.zep", 38 TSRMLS_CC);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
@@ -121,7 +121,7 @@ PHP_METHOD(Phalcon_Config_Adapter_Ini, __construct) {
 			}
 		}
 	}
-	ZEPHIR_CALL_PARENT(NULL, phalcon_config_adapter_ini_ce, this_ptr, "__construct", NULL, config);
+	ZEPHIR_CALL_PARENT(NULL, phalcon_config_adapter_ini_ce, this_ptr, "__construct", &_12, config);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 

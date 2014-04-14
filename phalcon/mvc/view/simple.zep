@@ -479,8 +479,8 @@ class Simple extends \Phalcon\Di\Injectable
 		/**
 		 * The injected service must be an object
 		 */
-		let viewCache = dependencyInjector->getShared(cacheService);
-		if typeof viewCache == "object" {
+		let viewCache = <\Phalcon\Cache\BackendInterface> dependencyInjector->getShared(cacheService);
+		if typeof viewCache != "object" {
 			throw new \Phalcon\Mvc\View\Exception("The injected caching service is invalid");
 		}
 

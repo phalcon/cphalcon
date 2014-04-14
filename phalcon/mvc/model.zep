@@ -19,6 +19,24 @@
 
 namespace Phalcon\Mvc;
 
+use Phalcon\DiInterface;
+use Phalcon\Mvc\Model\Message;
+use Phalcon\Mvc\ModelInterface;
+use Phalcon\Mvc\Model\ResultInterface;
+use Phalcon\Di\InjectionAwareInterface;
+use Phalcon\Mvc\Model\ManagerInterface;
+use Phalcon\Mvc\Model\MetaDataInterface;
+use Phalcon\Db\AdapterInterface;
+use Phalcon\Mvc\Model\TransactionInterface;
+use Phalcon\Mvc\Model\Resultset;
+use Phalcon\Mvc\Model\Query\Builder;
+use Phalcon\Mvc\Model\Relation;
+use Phalcon\Mvc\Model\BehaviorInterface;
+use Phalcon\Mvc\Model\Exception;
+use Phalcon\Mvc\Model\MetadataInterface;
+use Phalcon\Mvc\Model\MessageInterface;
+use Phalcon\Events\ManagerInterface as EventsManagerInterface;
+
 /**
  * Phalcon\Mvc\Model
  *
@@ -51,7 +69,7 @@ namespace Phalcon\Mvc;
  * </code>
  *
  */
-abstract class Model implements \Phalcon\Mvc\ModelInterface, \Phalcon\Mvc\Model\ResultInterface, \Phalcon\Di\InjectionAwareInterface, \Serializable
+abstract class Model implements ModelInterface, ResultInterface, InjectionAwareInterface, \Serializable
 {
 
 	protected _dependencyInjector;
@@ -100,8 +118,7 @@ abstract class Model implements \Phalcon\Mvc\ModelInterface, \Phalcon\Mvc\Model\
 	 * @param Phalcon\DiInterface dependencyInjector
 	 * @param Phalcon\Mvc\Model\ManagerInterface modelsManager
 	 */
-	public final function __construct(<\Phalcon\DiInterface> dependencyInjector=null,
-			<\Phalcon\Mvc\Model\ManagerInterface> modelsManager=null)
+	public final function __construct(<DiInterface> dependencyInjector=null, <ManagerInterface> modelsManager=null)
 	{
 
 		/**
@@ -112,7 +129,7 @@ abstract class Model implements \Phalcon\Mvc\ModelInterface, \Phalcon\Mvc\Model\
 		}
 
 		if typeof dependencyInjector != "object" {
-			throw new \Phalcon\Mvc\Model\Exception("A dependency injector container is required to obtain the services related to the ORM");
+			throw new Exception("A dependency injector container is required to obtain the services related to the ORM");
 		}
 
 		let this->_dependencyInjector = dependencyInjector;
@@ -121,9 +138,9 @@ abstract class Model implements \Phalcon\Mvc\ModelInterface, \Phalcon\Mvc\Model\
 		 * Inject the manager service from the DI
 		 */
 		if typeof modelsManager != "object" {
-			let modelsManager = <\Phalcon\Mvc\Model\Manager> dependencyInjector->getShared("modelsManager");
+			let modelsManager = <ManagerInterface> dependencyInjector->getShared("modelsManager");
 			if typeof modelsManager != "object" {
-				throw new \Phalcon\Mvc\Model\Exception("The injected service 'modelsManager' is not valid");
+				throw new Exception("The injected service 'modelsManager' is not valid");
 			}
 		}
 
@@ -150,7 +167,7 @@ abstract class Model implements \Phalcon\Mvc\ModelInterface, \Phalcon\Mvc\Model\
 	 *
 	 * @param Phalcon\DiInterface dependencyInjector
 	 */
-	public function setDI(<\Phalcon\DiInterface> dependencyInjector)
+	public function setDI(<DiInterface> dependencyInjector)
 	{
 		let this->_dependencyInjector = dependencyInjector;
 	}
@@ -160,7 +177,7 @@ abstract class Model implements \Phalcon\Mvc\ModelInterface, \Phalcon\Mvc\Model\
 	 *
 	 * @return Phalcon\DiInterface
 	 */
-	public function getDI() -> <\Phalcon\DiInterface>
+	public function getDI() -> <DiInterface>
 	{
 		return this->_dependencyInjector;
 	}
@@ -170,7 +187,7 @@ abstract class Model implements \Phalcon\Mvc\ModelInterface, \Phalcon\Mvc\Model\
 	 *
 	 * @param Phalcon\Events\ManagerInterface eventsManager
 	 */
-	protected function setEventsManager(<\Phalcon\Events\ManagerInterface> eventsManager)
+	protected function setEventsManager(<EventsManagerInterface> eventsManager)
 	{
 		this->_modelsManager->setCustomEventsManager(this, eventsManager);
 	}
@@ -180,7 +197,7 @@ abstract class Model implements \Phalcon\Mvc\ModelInterface, \Phalcon\Mvc\Model\
 	 *
 	 * @return Phalcon\Events\ManagerInterface
 	 */
-	protected function getEventsManager() -> <\Phalcon\Events\ManagerInterface>
+	protected function getEventsManager() -> <EventsManagerInterface>
 	{
 		return this->_modelsManager->getCustomEventsManager(this);
 	}
@@ -190,7 +207,7 @@ abstract class Model implements \Phalcon\Mvc\ModelInterface, \Phalcon\Mvc\Model\
 	 *
 	 * @return Phalcon\Mvc\Model\MetaDataInterface
 	 */
-	public function getModelsMetaData() -> <\Phalcon\Mvc\Model\MetaDataInterface>
+	public function getModelsMetaData() -> <MetadataInterface>
 	{
 		var metaData, dependencyInjector;
 
@@ -200,17 +217,17 @@ abstract class Model implements \Phalcon\Mvc\ModelInterface, \Phalcon\Mvc\Model\
 			/**
 			 * Check if the DI is valid
 			 */
-			let dependencyInjector = <\Phalcon\DiInterface> this->_dependencyInjector;
+			let dependencyInjector = <DiInterface> this->_dependencyInjector;
 			if typeof dependencyInjector != "object" {
-				throw new \Phalcon\Mvc\Model\Exception("A dependency injector container is required to obtain the services related to the ORM");
+				throw new Exception("A dependency injector container is required to obtain the services related to the ORM");
 			}
 
 			/**
 			 * Obtain the models-metadata service from the DI
 			 */
-			let metaData = <\Phalcon\Mvc\Model\MetaDataInterface> dependencyInjector->getShared("modelsMetadata");
+			let metaData = <MetaDataInterface> dependencyInjector->getShared("modelsMetadata");
 			if typeof metaData != "object" {
-				throw new \Phalcon\Mvc\Model\Exception("The injected service 'modelsMetadata' is not valid");
+				throw new Exception("The injected service 'modelsMetadata' is not valid");
 			}
 
 			/**
@@ -226,7 +243,7 @@ abstract class Model implements \Phalcon\Mvc\ModelInterface, \Phalcon\Mvc\Model\
 	 *
 	 * @return Phalcon\Mvc\Model\ManagerInterface
 	 */
-	public function getModelsManager() -> <\Phalcon\Mvc\Model\ManagerInterface>
+	public function getModelsManager() -> <ManagerInterface>
 	{
 		return this->_modelsManager;
 	}
@@ -270,13 +287,13 @@ abstract class Model implements \Phalcon\Mvc\ModelInterface, \Phalcon\Mvc\Model\
 	 * @param Phalcon\Mvc\Model\TransactionInterface $transaction
 	 * @return Phalcon\Mvc\Model
 	 */
-	public function setTransaction(<\Phalcon\Mvc\Model\TransactionInterface> transaction) -> <\Phalcon\Mvc\Model>
+	public function setTransaction(<TransactionInterface> transaction) -> <\Phalcon\Mvc\Model>
 	{
 		if typeof transaction == "object" {
 			let this->_transaction = transaction;
 			return this;
 		}
-		throw new \Phalcon\Mvc\Model\Exception("Transaction should be an object");
+		throw new Exception("Transaction should be an object");
 	}
 
 	/**
@@ -287,7 +304,7 @@ abstract class Model implements \Phalcon\Mvc\ModelInterface, \Phalcon\Mvc\Model\
 	 */
 	protected function setSource(string! source) -> <\Phalcon\Mvc\Model>
 	{
-		(<\Phalcon\Mvc\Model\ManagerInterface> this->_modelsManager)->setModelSource(this, source);
+		(<ManagerInterface> this->_modelsManager)->setModelSource(this, source);
 		return this;
 	}
 
@@ -298,7 +315,7 @@ abstract class Model implements \Phalcon\Mvc\ModelInterface, \Phalcon\Mvc\Model\
 	 */
 	public function getSource() -> string
 	{
-		return (<\Phalcon\Mvc\Model\ManagerInterface> this->_modelsManager)->getModelSource(this);
+		return (<ManagerInterface> this->_modelsManager)->getModelSource(this);
 	}
 
 	/**
@@ -309,7 +326,7 @@ abstract class Model implements \Phalcon\Mvc\ModelInterface, \Phalcon\Mvc\Model\
 	 */
 	protected function setSchema(string! schema) -> <\Phalcon\Mvc\Model>
 	{
-		return (<\Phalcon\Mvc\Model\ManagerInterface> this->_modelsManager)->setModelSchema(this, schema);
+		return (<ManagerInterface> this->_modelsManager)->setModelSchema(this, schema);
 	}
 
 	/**
@@ -319,7 +336,7 @@ abstract class Model implements \Phalcon\Mvc\ModelInterface, \Phalcon\Mvc\Model\
 	 */
 	public function getSchema() -> string
 	{
-		return (<\Phalcon\Mvc\Model\ManagerInterface> this->_modelsManager)->getModelSchema(this);
+		return (<ManagerInterface> this->_modelsManager)->getModelSchema(this);
 	}
 
 	/**
@@ -330,7 +347,7 @@ abstract class Model implements \Phalcon\Mvc\ModelInterface, \Phalcon\Mvc\Model\
 	 */
 	public function setConnectionService(string! connectionService) -> <\Phalcon\Mvc\Model>
 	{
-		(<\Phalcon\Mvc\Model\ManagerInterface> this->_modelsManager)->setConnectionService(this, connectionService);
+		(<ManagerInterface> this->_modelsManager)->setConnectionService(this, connectionService);
 		return this;
 	}
 
@@ -342,7 +359,7 @@ abstract class Model implements \Phalcon\Mvc\ModelInterface, \Phalcon\Mvc\Model\
 	 */
 	public function setReadConnectionService(string! connectionService) -> <\Phalcon\Mvc\Model>
 	{
-		(<\Phalcon\Mvc\Model\ManagerInterface> this->_modelsManager)->setReadConnectionService(this, connectionService);
+		(<ManagerInterface> this->_modelsManager)->setReadConnectionService(this, connectionService);
 		return this;
 	}
 
@@ -354,7 +371,7 @@ abstract class Model implements \Phalcon\Mvc\ModelInterface, \Phalcon\Mvc\Model\
 	 */
 	public function setWriteConnectionService(string! connectionService) -> <\Phalcon\Mvc\Model>
 	{
-		return (<\Phalcon\Mvc\Model\ManagerInterface> this->_modelsManager)->setWriteConnectionService(this, connectionService);
+		return (<ManagerInterface> this->_modelsManager)->setWriteConnectionService(this, connectionService);
 	}
 
 	/**
@@ -364,7 +381,7 @@ abstract class Model implements \Phalcon\Mvc\ModelInterface, \Phalcon\Mvc\Model\
 	 */
 	public function getReadConnectionService() -> string
 	{
-		return (<\Phalcon\Mvc\Model\ManagerInterface> this->_modelsManager)->getReadConnectionService(this);
+		return (<ManagerInterface> this->_modelsManager)->getReadConnectionService(this);
 	}
 
 	/**
@@ -374,7 +391,7 @@ abstract class Model implements \Phalcon\Mvc\ModelInterface, \Phalcon\Mvc\Model\
 	 */
 	public function getWriteConnectionService() -> string
 	{
-		return (<\Phalcon\Mvc\Model\ManagerInterface> this->_modelsManager)->getWriteConnectionService(this);
+		return (<ManagerInterface> this->_modelsManager)->getWriteConnectionService(this);
 	}
 
 	/**
@@ -404,9 +421,9 @@ abstract class Model implements \Phalcon\Mvc\ModelInterface, \Phalcon\Mvc\Model\
 	 *
 	 * @return Phalcon\Db\AdapterInterface
 	 */
-	public function getReadConnection() -> <\Phalcon\Db\AdapterInterface>
+	public function getReadConnection() -> <AdapterInterface>
 	{
-		return (<\Phalcon\Mvc\Model\ManagerInterface> this->_modelsManager)->getReadConnection(this);
+		return (<ManagerInterface> this->_modelsManager)->getReadConnection(this);
 	}
 
 	/**
@@ -414,16 +431,16 @@ abstract class Model implements \Phalcon\Mvc\ModelInterface, \Phalcon\Mvc\Model\
 	 *
 	 * @return Phalcon\Db\AdapterInterface
 	 */
-	public function getWriteConnection() -> <\Phalcon\Db\AdapterInterface>
+	public function getWriteConnection() -> <AdapterInterface>
 	{
 		var transaction;
 
-		let transaction = <\Phalcon\Mvc\Model\TransactionInterface> this->_transaction;
+		let transaction = <TransactionInterface> this->_transaction;
 		if typeof transaction == "object" {
 			return transaction->getConnection();
 		}
 
-		return (<\Phalcon\Mvc\Model\ManagerInterface> this->_modelsManager)->getWriteConnection(this);
+		return (<ManagerInterface> this->_modelsManager)->getWriteConnection(this);
 	}
 
 	/**
@@ -446,7 +463,7 @@ abstract class Model implements \Phalcon\Mvc\ModelInterface, \Phalcon\Mvc\Model\
 		var key, value, attribute;
 
 		if typeof data != "array" {
-			throw new \Phalcon\Mvc\Model\Exception("Data to dump in the object must be an Array");
+			throw new Exception("Data to dump in the object must be an Array");
 		}
 
 		for key, value in data {
@@ -462,7 +479,7 @@ abstract class Model implements \Phalcon\Mvc\ModelInterface, \Phalcon\Mvc\Model\
 				if fetch attribute, columnMap[key] {
 					let this->{attribute} = value;
 				} else {
-					throw new \Phalcon\Mvc\Model\Exception("Column '" . key. "' doesn\'t make part of the column map");
+					throw new Exception("Column '" . key. "' doesn\'t make part of the column map");
 				}
 			} else {
 				let this->{key} = value;
@@ -483,28 +500,27 @@ abstract class Model implements \Phalcon\Mvc\ModelInterface, \Phalcon\Mvc\Model\
 	 *));
 	 *</code>
 	 *
-	 * @param Phalcon\Mvc\Model base
+	 * @param Phalcon\Mvc\ModelInterface|Phalcon\Mvc\Model\Row base
 	 * @param array data
 	 * @param array columnMap
 	 * @param int dirtyState
 	 * @param boolean keepSnapshots
 	 * @return Phalcon\Mvc\Model
 	 */
-	public static function cloneResultMap(<\Phalcon\Mvc\ModelInterface> base, var data, var columnMap,
-		int dirtyState=0, boolean keepSnapshots=null) -> <\Phalcon\Mvc\Model>
+	public static function cloneResultMap(var base, var data, var columnMap, int dirtyState=0, boolean keepSnapshots=null) -> <\Phalcon\Mvc\Model>
 	{
-		var object, attribute, key, value;
+		var instance, attribute, key, value;
 
 		if typeof data != "array" {
-			throw new \Phalcon\Mvc\Model\Exception("Data to dump in the object must be an Array");
+			throw new Exception("Data to dump in the object must be an Array");
 		}
 
-		let object = clone base;
+		let instance = clone base;
 
 		/**
 		 * Change the dirty state to persistent
 		 */
-		object->setDirtyState(dirtyState);
+		instance->setDirtyState(dirtyState);
 
 		for key, value in data {
 
@@ -518,12 +534,12 @@ abstract class Model implements \Phalcon\Mvc\ModelInterface, \Phalcon\Mvc\Model\
 					 * Every field must be part of the column map
 					 */
 					if fetch attribute, columnMap[key] {
-						let object->{attribute} = value;
+						let instance->{attribute} = value;
 					} else {
-						throw new \Phalcon\Mvc\Model\Exception("Column '" . key . "' doesn't make part of the column map");
+						throw new Exception("Column '" . key . "' doesn't make part of the column map");
 					}
 				} else {
-					let object->{key} = value;
+					let instance->{key} = value;
 				}
 			}
 		}
@@ -532,17 +548,17 @@ abstract class Model implements \Phalcon\Mvc\ModelInterface, \Phalcon\Mvc\Model\
 		 * Models that keep snapshots store the original data in t
 		 */
 		if keepSnapshots {
-			object->setSnapshotData(data, columnMap);
+			instance->setSnapshotData(data, columnMap);
 		}
 
 		/**
 		 * Call afterFetch, this allows the developer to execute actions after a record is fetched from the database
 		 */
-		if method_exists(object, "afterFetch") {
-			object->{"afterFetch"}();
+		if method_exists(instance, "afterFetch") {
+			instance->{"afterFetch"}();
 		}
 
-		return object;
+		return instance;
 	}
 
 	/**
@@ -558,14 +574,14 @@ abstract class Model implements \Phalcon\Mvc\ModelInterface, \Phalcon\Mvc\Model\
 		var hydrate, key, value, attribute;
 
 		if typeof data != "array" {
-			throw new \Phalcon\Mvc\Model\Exception("Data to hidrate must be an Array");
+			throw new Exception("Data to hidrate must be an Array");
 		}
 
 		/**
 		 * If there is no column map and the hydration mode is arrays return the data as it is
 		 */
 		if typeof columnMap != "array" {
-			if hydrationMode == \Phalcon\Mvc\Model\Resultset::HYDRATE_ARRAYS {
+			if hydrationMode == Resultset::HYDRATE_ARRAYS {
 				return data;
 			}
 		}
@@ -573,7 +589,7 @@ abstract class Model implements \Phalcon\Mvc\ModelInterface, \Phalcon\Mvc\Model\
 		/**
 		 * Create the destination object according to the hydration mode
 		 */
-		if hydrationMode == \Phalcon\Mvc\Model\Resultset::HYDRATE_ARRAYS {
+		if hydrationMode == Resultset::HYDRATE_ARRAYS {
 			let hydrate = [];
 		} else {
 			let hydrate = new \stdclass();
@@ -587,16 +603,16 @@ abstract class Model implements \Phalcon\Mvc\ModelInterface, \Phalcon\Mvc\Model\
 					 * Every field must be part of the column map
 					 */
 					if !fetch attribute, columnMap[key] {
-						throw new \Phalcon\Mvc\Model\Exception("Column '" . key . "' doesn't make part of the column map");
+						throw new Exception("Column '" . key . "' doesn't make part of the column map");
 					}
 
-					if hydrationMode == \Phalcon\Mvc\Model\Resultset::HYDRATE_ARRAYS {
+					if hydrationMode == Resultset::HYDRATE_ARRAYS {
 						let hydrate[attribute] = value;
 					} else {
 						let hydrate->{attribute} = value;
 					}
 				} else {
-					if hydrationMode == \Phalcon\Mvc\Model\Resultset::HYDRATE_ARRAYS {
+					if hydrationMode == Resultset::HYDRATE_ARRAYS {
 						let hydrate[key] = value;
 					} else {
 						let hydrate->{key} = value;
@@ -624,39 +640,39 @@ abstract class Model implements \Phalcon\Mvc\ModelInterface, \Phalcon\Mvc\Model\
 	 * @param int dirtyState
 	 * @return Phalcon\Mvc\Model
 	 */
-	public static function cloneResult(<\Phalcon\Mvc\ModelInterface> base, var data, int dirtyState=0)
+	public static function cloneResult(<ModelInterface> base, var data, int dirtyState=0)
 	{
-		var object, key, value;
+		var instance, key, value;
 
 		if typeof data != "array" {
-			throw new \Phalcon\Mvc\Model\Exception("Data to dump in the object must be an Array");
+			throw new Exception("Data to dump in the object must be an Array");
 		}
 
 		/**
 		 * Clone the base record
 		 */
-		let object = clone base;
+		let instance = clone base;
 
 		/**
 		 * Mark the object as persistent
 		 */
-		object->setDirtyState(dirtyState);
+		instance->setDirtyState(dirtyState);
 
 		for key, value in data {
 			if typeof key != "string" {
-				throw new \Phalcon\Mvc\Model\Exception("Invalid key in array data provided to dumpResult()");
+				throw new Exception("Invalid key in array data provided to dumpResult()");
 			}
-			let object->{key} = value;
+			let instance->{key} = value;
 		}
 
 		/**
 		 * Call afterFetch, this allows the developer to execute actions after a record is fetched from the database
 		 */
-		if method_exists(object, "afterFetch") {
-			object->{"afterFetch"}();
+		if method_exists(instance, "afterFetch") {
+			instance->{"afterFetch"}();
 		}
 
-		return object;
+		return instance;
 	}
 
 	/**
@@ -688,7 +704,7 @@ abstract class Model implements \Phalcon\Mvc\ModelInterface, \Phalcon\Mvc\Model\
 	 * @param 	array parameters
 	 * @return  Phalcon\Mvc\Model\ResultsetInterface
 	 */
-	public static function find(var parameters=null) -> <\Phalcon\Mvc\Model\ResultsetInterface>
+	public static function find(var parameters=null) -> <ResultsetInterface>
 	{
 		var params, builder, query, bindParams, bindTypes, cache, resultset, hydration;
 
@@ -704,7 +720,7 @@ abstract class Model implements \Phalcon\Mvc\ModelInterface, \Phalcon\Mvc\Model\
 		/**
 		 * Builds a query with the passed parameters
 		 */
-		let builder = new \Phalcon\Mvc\Model\Query\Builder(params);
+		let builder = new Builder(params);
 		builder->from(get_called_class());
 
 		let query = builder->getQuery(),
@@ -780,7 +796,7 @@ abstract class Model implements \Phalcon\Mvc\ModelInterface, \Phalcon\Mvc\Model\
 		/**
 		 * Builds a query with the passed parameters
 		 */
-		let builder = new \Phalcon\Mvc\Model\Query\Builder(params);
+		let builder = new Builder(params);
 		builder->from(get_called_class());
 
 		/**
@@ -821,7 +837,7 @@ abstract class Model implements \Phalcon\Mvc\ModelInterface, \Phalcon\Mvc\Model\
 	 * @param Phalcon\DiInterface dependencyInjector
 	 * @return Phalcon\Mvc\Model\Criteria
 	 */
-	public static function query(<\Phalcon\DiInterface> dependencyInjector=null) -> <\Phalcon\Mvc\Model\Criteria>
+	public static function query(<DiInterface> dependencyInjector=null) -> <\Phalcon\Mvc\Model\Criteria>
 	{
 		var criteria;
 
@@ -847,8 +863,7 @@ abstract class Model implements \Phalcon\Mvc\ModelInterface, \Phalcon\Mvc\Model\
 	 * @param string|array table
 	 * @return boolean
 	 */
-	protected function _exists(<\Phalcon\Mvc\Model\MetadataInterface> metaData,
-		<\Phalcon\Db\AdapterInterface> connection, var table=null) -> boolean
+	protected function _exists(<MetadataInterface> metaData, <AdapterInterface> connection, var table=null) -> boolean
 	{
 		int numberEmpty, numberPrimary;
 		var uniqueParams, uniqueTypes, uniqueKey, columnMap, primaryKeys,
@@ -893,7 +908,7 @@ abstract class Model implements \Phalcon\Mvc\ModelInterface, \Phalcon\Mvc\Model\
 
 				if typeof columnMap == "array" {
 					if !fetch attributeField, columnMap[field] {
-						throw new \Phalcon\Mvc\Model\Exception("Column '" . field . "' isn't part of the column map");
+						throw new Exception("Column '" . field . "' isn't part of the column map");
 					}
 				} else {
 					let attributeField = field;
@@ -903,7 +918,7 @@ abstract class Model implements \Phalcon\Mvc\ModelInterface, \Phalcon\Mvc\Model\
 				 * If the primary key attribute is set append it to the conditions
 				 */
 				let value = null;
-				if 1 { //@todo fetch value, this->{attributeField}
+				if fetch value, this->{attributeField} {
 
 					/**
 					 * We count how many fields are empty, if all fields are empy we don't perform an 'exist' check
@@ -919,7 +934,7 @@ abstract class Model implements \Phalcon\Mvc\ModelInterface, \Phalcon\Mvc\Model\
 				}
 
 				if !fetch type, bindDataTypes[field] {
-					throw new \Phalcon\Mvc\Model\Exception("Column '" . field . "' isn't part of the table columns");
+					throw new Exception("Column '" . field . "' isn't part of the table columns");
 				}
 
 				let uniqueTypes[] = type,
@@ -997,7 +1012,7 @@ abstract class Model implements \Phalcon\Mvc\ModelInterface, \Phalcon\Mvc\Model\
 	 * @param array parameters
 	 * @return Phalcon\Mvc\Model\ResultsetInterface
 	 */
-	protected static function _groupResult(string! functionName, string! alias, var parameters) -> <\Phalcon\Mvc\Model\ResultsetInterface>
+	protected static function _groupResult(string! functionName, string! alias, var parameters) -> <ResultsetInterface>
 	{
 		var params, distinctColumn, groupColumn, columns,
 			bindParams, bindTypes, resultset, cache, firstRow, groupColumns,
@@ -1032,7 +1047,7 @@ abstract class Model implements \Phalcon\Mvc\ModelInterface, \Phalcon\Mvc\Model\
 		/**
 		 * Builds a query with the passed parameters
 		 */
-		let builder = new \Phalcon\Mvc\Model\Query\Builder(params);
+		let builder = new Builder(params);
 		builder->columns(columns);
 		builder->from(get_called_class());
 
@@ -1195,7 +1210,6 @@ abstract class Model implements \Phalcon\Mvc\ModelInterface, \Phalcon\Mvc\Model\
 	 */
 	public function fireEvent(string! eventName) -> boolean
 	{
-		var modelsManager;
 
 		/**
 		 * Check if there is a method with the same name of the event
@@ -1207,8 +1221,7 @@ abstract class Model implements \Phalcon\Mvc\ModelInterface, \Phalcon\Mvc\Model\
 		/**
 		 * Send a notification to the events manager
 		 */
-		let modelsManager = <\Phalcon\Mvc\Model\ManagerInterface> this->_modelsManager;
-		return modelsManager->notifyEvent(eventName, this);
+		return (<ManagerInterface> this->_modelsManager)->notifyEvent(eventName, this);
 	}
 
 	/**
@@ -1220,7 +1233,6 @@ abstract class Model implements \Phalcon\Mvc\ModelInterface, \Phalcon\Mvc\Model\
 	 */
 	public function fireEventCancel(string! eventName)
 	{
-		var modelsManager;
 
 		/**
 		 * Check if there is a method with the same name of the event
@@ -1234,8 +1246,7 @@ abstract class Model implements \Phalcon\Mvc\ModelInterface, \Phalcon\Mvc\Model\
 		/**
 		 * Send a notification to the events manager
 		 */
-		let modelsManager = <\Phalcon\Mvc\Model\ManagerInterface> this->_modelsManager;
-		if modelsManager->notifyEvent(eventName, this) === false {
+		if (<ManagerInterface> this->_modelsManager)->notifyEvent(eventName, this) === false {
 			return false;
 		}
 
@@ -1277,7 +1288,7 @@ abstract class Model implements \Phalcon\Mvc\ModelInterface, \Phalcon\Mvc\Model\
 	 * @param Phalcon\Mvc\Model\MessageInterface message
 	 * @return Phalcon\Mvc\Model
 	 */
-	public function appendMessage(<\Phalcon\Mvc\Model\MessageInterface> message) -> <\Phalcon\Mvc\Model>
+	public function appendMessage(<MessageInterface> message) -> <\Phalcon\Mvc\Model>
 	{
 		let this->_errorMessages[] = message;
 		return this;
@@ -1317,7 +1328,7 @@ abstract class Model implements \Phalcon\Mvc\ModelInterface, \Phalcon\Mvc\Model\
 		 * Valid validators are objects
 		 */
 		if typeof validator != "object" {
-			throw new \Phalcon\Mvc\Model\Exception("Validator must be an Object");
+			throw new Exception("Validator must be an Object");
 		}
 
 		/**
@@ -1362,9 +1373,7 @@ abstract class Model implements \Phalcon\Mvc\ModelInterface, \Phalcon\Mvc\Model\
 		var errorMessages;
 		let errorMessages = this->_errorMessages;
 		if typeof errorMessages == "array" {
-			if count(errorMessages) {
-				return true;
-			}
+			return count(errorMessages) > 0;
 		}
 		return false;
 	}
@@ -1410,7 +1419,7 @@ abstract class Model implements \Phalcon\Mvc\ModelInterface, \Phalcon\Mvc\Model\
 		/**
 		 * Get the models manager
 		 */
-		let manager = <\Phalcon\Mvc\Model\ManagerInterface> this->_modelsManager;
+		let manager = <ManagerInterface> this->_modelsManager;
 
 		/**
 		 * We check if some of the belongsTo relations act as virtual foreign key
@@ -1427,7 +1436,7 @@ abstract class Model implements \Phalcon\Mvc\ModelInterface, \Phalcon\Mvc\Model\
 					/**
 					 * By default action is restrict
 					 */
-					let action = \Phalcon\Mvc\Model\Relation::ACTION_RESTRICT;
+					let action = Relation::ACTION_RESTRICT;
 
 					/**
 					 * Try to find a different action in the foreign key's options
@@ -1439,7 +1448,7 @@ abstract class Model implements \Phalcon\Mvc\ModelInterface, \Phalcon\Mvc\Model\
 					/**
 					 * Check only if the operation is restrict
 					 */
-					if action == \Phalcon\Mvc\Model\Relation::ACTION_RESTRICT {
+					if action == Relation::ACTION_RESTRICT {
 
 						/**
 						 * Load the referenced model if needed
@@ -1496,7 +1505,7 @@ abstract class Model implements \Phalcon\Mvc\ModelInterface, \Phalcon\Mvc\Model\
 							/**
 							 * Create a message
 							 */
-							this->appendMessage(new \Phalcon\Mvc\Model\Message(message, fields, "ConstraintViolation"));
+							this->appendMessage(new Message(message, fields, "ConstraintViolation"));
 							let error = true;
 							break;
 						}
@@ -1536,7 +1545,7 @@ abstract class Model implements \Phalcon\Mvc\ModelInterface, \Phalcon\Mvc\Model\
 		/**
 		 * Get the models manager
 		 */
-		let manager = <\Phalcon\Mvc\Model\ManagerInterface> this->_modelsManager;
+		let manager = <ManagerInterface> this->_modelsManager;
 
 		/**
 		 * We check if some of the hasOne/hasMany relations is a foreign key
@@ -1556,7 +1565,7 @@ abstract class Model implements \Phalcon\Mvc\ModelInterface, \Phalcon\Mvc\Model\
 					/**
 					 * By default action is restrict
 					 */
-					let action = \Phalcon\Mvc\Model\Relation::NO_ACTION;
+					let action = Relation::NO_ACTION;
 
 					/**
 					 * Try to find a different action in the foreign key's options
@@ -1568,7 +1577,7 @@ abstract class Model implements \Phalcon\Mvc\ModelInterface, \Phalcon\Mvc\Model\
 					/**
 					 * Check only if the operation is restrict
 					 */
-					if action == \Phalcon\Mvc\Model\Relation::ACTION_CASCADE {
+					if action == Relation::ACTION_CASCADE {
 
 						/**
 						 * Load a plain instance from the models manager
@@ -1758,7 +1767,7 @@ abstract class Model implements \Phalcon\Mvc\ModelInterface, \Phalcon\Mvc\Model\
 	 * @param string identityField
 	 * @return boolean
 	 */
-	protected function _preSave(<\Phalcon\Mvc\Model\MetadataInterface> metaData, boolean exists, var identityField) -> boolean
+	protected function _preSave(<MetadataInterface> metaData, boolean exists, var identityField) -> boolean
 	{
 
 		var notNull, columnMap, dataTypeNumeric, automaticAttributes, field, attributeField, value;
@@ -1831,7 +1840,7 @@ abstract class Model implements \Phalcon\Mvc\ModelInterface, \Phalcon\Mvc\Model\
 				for field in notNull {
 
 					/**
-					 * We don"t check fields that must be omitted
+					 * We don't check fields that must be omitted
 					 */
 					if !isset automaticAttributes[field] {
 
@@ -1839,7 +1848,7 @@ abstract class Model implements \Phalcon\Mvc\ModelInterface, \Phalcon\Mvc\Model\
 
 						if typeof columnMap == "array" {
 							if !fetch attributeField, columnMap[field] {
-								throw new \Phalcon\Mvc\Model\Exception("Column '" . field . "' isn't part of the column map");
+								throw new Exception("Column '" . field . "' isn't part of the column map");
 							}
 						} else {
 							let attributeField = field;
@@ -1883,7 +1892,7 @@ abstract class Model implements \Phalcon\Mvc\ModelInterface, \Phalcon\Mvc\Model\
 							/**
 							 * A implicit PresenceOf message is created
 							 */
-							let this->_errorMessages[] = new \Phalcon\Mvc\Model\Message(attributeField . " is required", attributeField, "PresenceOf"),
+							let this->_errorMessages[] = new Message(attributeField . " is required", attributeField, "PresenceOf"),
 								error = true;
 						}
 					}
@@ -1999,7 +2008,7 @@ abstract class Model implements \Phalcon\Mvc\ModelInterface, \Phalcon\Mvc\Model\
 	 * @param boolean|string identityField
 	 * @return boolean
 	 */
-	protected function _doLowInsert(<\Phalcon\Mvc\Model\MetadataInterface> metaData, <\Phalcon\Db\AdapterInterface> connection,
+	protected function _doLowInsert(<MetadataInterface> metaData, <\Phalcon\Db\AdapterInterface> connection,
 		table, identityField)
 	{
 		var bindSkip, fields, values, bindTypes, attributes, bindDataTypes, automaticAttributes,
@@ -2034,7 +2043,7 @@ abstract class Model implements \Phalcon\Mvc\ModelInterface, \Phalcon\Mvc\Model\
 				 */
 				if typeof columnMap == "array" {
 					if !fetch attributeField, columnMap[field] {
-						throw new \Phalcon\Mvc\Model\Exception("Column '" . field . "' isn't part of the column map");
+						throw new Exception("Column '" . field . "' isn't part of the column map");
 					}
 				} else {
 					let attributeField = field;
@@ -2056,7 +2065,7 @@ abstract class Model implements \Phalcon\Mvc\ModelInterface, \Phalcon\Mvc\Model\
 						 * Every column must have a bind data type defined
 						 */
 						if !fetch bindType, bindDataTypes[field] {
-							throw new \Phalcon\Mvc\Model\Exception("Column '" . field . "' have not defined a bind data type");
+							throw new Exception("Column '" . field . "' have not defined a bind data type");
 						}
 
 						let values[] = value, bindTypes[] = bindType;
@@ -2087,7 +2096,7 @@ abstract class Model implements \Phalcon\Mvc\ModelInterface, \Phalcon\Mvc\Model\
 			 */
 			if typeof columnMap == "array" {
 				if !fetch attributeField, columnMap[identityField] {
-					throw new \Phalcon\Mvc\Model\Exception("Identity column '" . identityField . "' isn't part of the column map");
+					throw new Exception("Identity column '" . identityField . "' isn't part of the column map");
 				}
 			} else {
 				let attributeField = identityField;
@@ -2115,7 +2124,7 @@ abstract class Model implements \Phalcon\Mvc\ModelInterface, \Phalcon\Mvc\Model\
 					 * The field is valid we look for a bind value (normally int)
 					 */
 					if !fetch bindType, bindDataTypes[identityField] {
-						throw new \Phalcon\Mvc\Model\Exception("Identity column '" . identityField . "' isn\'t part of the table columns");
+						throw new Exception("Identity column '" . identityField . "' isn\'t part of the table columns");
 					}
 
 					let values[] = value, bindTypes[] = bindType;
@@ -2213,7 +2222,7 @@ abstract class Model implements \Phalcon\Mvc\ModelInterface, \Phalcon\Mvc\Model\
 				 * Check a bind type for field to update
 				 */
 				if !fetch bindType, bindDataTypes[field] {
-					throw new \Phalcon\Mvc\Model\Exception("Column '" . field . "' have not defined a bind data type");
+					throw new Exception("Column '" . field . "' have not defined a bind data type");
 				}
 
 				/**
@@ -2221,7 +2230,7 @@ abstract class Model implements \Phalcon\Mvc\ModelInterface, \Phalcon\Mvc\Model\
 				 */
 				if typeof columnMap == "array" {
 					if !fetch attributeField, columnMap[field] {
-						throw new \Phalcon\Mvc\Model\Exception("Column '" . field . "' isn't part of the column map");
+						throw new Exception("Column '" . field . "' isn't part of the column map");
 					}
 				} else {
 					let attributeField = field;
@@ -2287,7 +2296,7 @@ abstract class Model implements \Phalcon\Mvc\ModelInterface, \Phalcon\Mvc\Model\
 			 * We can't create dynamic SQL without a primary key
 			 */
 			if !count(primaryKeys) {
-				throw new \Phalcon\Mvc\Model\Exception("A primary key must be defined in the model in order to perform the operation");
+				throw new Exception("A primary key must be defined in the model in order to perform the operation");
 			}
 
 			let uniqueParams = [];
@@ -2298,7 +2307,7 @@ abstract class Model implements \Phalcon\Mvc\ModelInterface, \Phalcon\Mvc\Model\
 				 */
 				if typeof columnMap == "array" {
 					if !fetch attributeField, columnMap[field] {
-						throw new \Phalcon\Mvc\Model\Exception("Column '" . field . "' isn't part of the column map");
+						throw new Exception("Column '" . field . "' isn't part of the column map");
 					}
 				} else {
 					let attributeField = field;
@@ -2366,7 +2375,7 @@ abstract class Model implements \Phalcon\Mvc\ModelInterface, \Phalcon\Mvc\Model\
 
 					if typeof record != "object" {
 						connection->rollback(nesting);
-						throw new \Phalcon\Mvc\Model\Exception("Only objects can be stored as part of belongs-to relations");
+						throw new Exception("Only objects can be stored as part of belongs-to relations");
 					}
 
 					let columns = relation->getFields(),
@@ -2375,7 +2384,7 @@ abstract class Model implements \Phalcon\Mvc\ModelInterface, \Phalcon\Mvc\Model\
 
 					if typeof columns == "array" {
 						connection->rollback(nesting);
-						throw new \Phalcon\Mvc\Model\Exception("Not implemented");
+						throw new Exception("Not implemented");
 					}
 
 					/**
@@ -2458,7 +2467,7 @@ abstract class Model implements \Phalcon\Mvc\ModelInterface, \Phalcon\Mvc\Model\
 				if typeof record != "object" {
 					if typeof record != "array" {
 						connection->rollback(nesting);
-						throw new \Phalcon\Mvc\Model\Exception("Only objects/arrays can be stored as part of has-many/has-one/has-many-to-many relations");
+						throw new Exception("Only objects/arrays can be stored as part of has-many/has-one/has-many-to-many relations");
 					}
 				}
 
@@ -2468,7 +2477,7 @@ abstract class Model implements \Phalcon\Mvc\ModelInterface, \Phalcon\Mvc\Model\
 
 				if typeof columns == "array" {
 					connection->rollback(nesting);
-					throw new \Phalcon\Mvc\Model\Exception("Not implemented");
+					throw new Exception("Not implemented");
 				}
 
 				/**
@@ -2482,7 +2491,7 @@ abstract class Model implements \Phalcon\Mvc\ModelInterface, \Phalcon\Mvc\Model\
 
 				if !fetch value, this->{columns} {
 					connection->rollback(nesting);
-					throw new \Phalcon\Mvc\Model\Exception("The column '" . columns . "' needs to be present in the model");
+					throw new Exception("The column '" . columns . "' needs to be present in the model");
 				}
 
 				/**
@@ -2598,7 +2607,7 @@ abstract class Model implements \Phalcon\Mvc\ModelInterface, \Phalcon\Mvc\Model\
 			} else {
 				if typeof record != "array" {
 					connection->rollback(nesting);
-					throw new \Phalcon\Mvc\Model\Exception("There are no defined relations for the model '" . className . "' using alias '" . name . "'");
+					throw new Exception("There are no defined relations for the model '" . className . "' using alias '" . name . "'");
 				}
 			}
 		}
@@ -2645,7 +2654,7 @@ abstract class Model implements \Phalcon\Mvc\ModelInterface, \Phalcon\Mvc\Model\
 		if data !== null {
 
 			if typeof data != "array" {
-				throw new \Phalcon\Mvc\Model\Exception("Data passed to save() must be an array");
+				throw new Exception("Data passed to save() must be an array");
 			}
 
 			/**
@@ -2844,7 +2853,7 @@ abstract class Model implements \Phalcon\Mvc\ModelInterface, \Phalcon\Mvc\Model\
 		if data !== null {
 
 			if typeof data != "array" {
-				throw new \Phalcon\Mvc\Model\Exception("Data passed to create() must be an array");
+				throw new Exception("Data passed to create() must be an array");
 			}
 
 			if globals_get("orm.column_renaming") {
@@ -2863,7 +2872,7 @@ abstract class Model implements \Phalcon\Mvc\ModelInterface, \Phalcon\Mvc\Model\
 				 */
 				if typeof columnMap == "array" {
 					if !fetch attributeField, columnMap[attribute]{
-						throw new \Phalcon\Mvc\Model\Exception("Column '" . attribute . "' isn't part of the column map");
+						throw new Exception("Column '" . attribute . "' isn't part of the column map");
 					}
 				} else {
 					let attributeField = attribute;
@@ -2903,7 +2912,7 @@ abstract class Model implements \Phalcon\Mvc\ModelInterface, \Phalcon\Mvc\Model\
 		 */
 		if this->_exists(metaData, this->getReadConnection()) {
 			let this->_errorMessages = [
-				new \Phalcon\Mvc\Model\Message("Record cannot be created because it already exists", null, "InvalidCreateAttempt")
+				new Message("Record cannot be created because it already exists", null, "InvalidCreateAttempt")
 			];
 			return false;
 		}
@@ -2942,7 +2951,7 @@ abstract class Model implements \Phalcon\Mvc\ModelInterface, \Phalcon\Mvc\Model\
 		if data !== null {
 
 			if typeof data != "array" {
-				throw new \Phalcon\Mvc\Model\Exception("Data passed to update() must be an array");
+				throw new Exception("Data passed to update() must be an array");
 			}
 
 			let metaData = this->getModelsMetaData();
@@ -2962,7 +2971,7 @@ abstract class Model implements \Phalcon\Mvc\ModelInterface, \Phalcon\Mvc\Model\
 				 */
 				if typeof columnMap == "array" {
 					if !fetch attributeField, columnMap[attribute] {
-						throw new \Phalcon\Mvc\Model\Exception("Column '" . attribute . "' isn't part of the column map");
+						throw new Exception("Column '" . attribute . "' isn't part of the column map");
 					}
 				} else {
 					let attributeField = attribute;
@@ -3007,7 +3016,7 @@ abstract class Model implements \Phalcon\Mvc\ModelInterface, \Phalcon\Mvc\Model\
 			}
 
 			if this->_exists(metaData, this->getReadConnection()) {
-				let this->_errorMessages = [new \Phalcon\Mvc\Model\Message("Record cannot be updated because it does not exist", null, "InvalidUpdateAttempt")];
+				let this->_errorMessages = [new Message("Record cannot be updated because it does not exist", null, "InvalidUpdateAttempt")];
 				return false;
 			}
 		}
@@ -3073,7 +3082,7 @@ abstract class Model implements \Phalcon\Mvc\ModelInterface, \Phalcon\Mvc\Model\
 		 * We can't create dynamic SQL without a primary key
 		 */
 		if !count(primaryKeys) {
-			throw new \Phalcon\Mvc\Model\Exception("A primary key must be defined in the model in order to perform the operation");
+			throw new Exception("A primary key must be defined in the model in order to perform the operation");
 		}
 
 		/**
@@ -3085,7 +3094,7 @@ abstract class Model implements \Phalcon\Mvc\ModelInterface, \Phalcon\Mvc\Model\
 			 * Every column part of the primary key must be in the bind data types
 			 */
 			if !fetch bindType, bindDataTypes[primaryKey] {
-				throw new \Phalcon\Mvc\Model\Exception("Column '" . primaryKey . "' have not defined a bind data type");
+				throw new Exception("Column '" . primaryKey . "' have not defined a bind data type");
 			}
 
 			/**
@@ -3093,7 +3102,7 @@ abstract class Model implements \Phalcon\Mvc\ModelInterface, \Phalcon\Mvc\Model\
 			 */
 			if typeof columnMap == "array" {
 				if !fetch attributeField, columnMap[primaryKey] {
-					throw new \Phalcon\Mvc\Model\Exception("Column '" . primaryKey . "' isn't part of the column map");
+					throw new Exception("Column '" . primaryKey . "' isn't part of the column map");
 				}
 			} else {
 				let attributeField = primaryKey;
@@ -3103,7 +3112,7 @@ abstract class Model implements \Phalcon\Mvc\ModelInterface, \Phalcon\Mvc\Model\
 			 * If the attribute is currently set in the object add it to the conditions
 			 */
 			if !fetch value, this->{attributeField} {
-				throw new \Phalcon\Mvc\Model\Exception("Cannot delete the record because the primary key attribute: '" . attributeField . "' wasn't set");
+				throw new Exception("Cannot delete the record because the primary key attribute: '" . attributeField . "' wasn't set");
 			}
 
 			/**
@@ -3191,7 +3200,7 @@ abstract class Model implements \Phalcon\Mvc\ModelInterface, \Phalcon\Mvc\Model\
 			uniqueKey, uniqueParams, dialect, row, fields, attribute;
 
 		if this->_dirtyState != 0 {
-			throw new \Phalcon\Mvc\Model\Exception("The record cannot be refreshed because it does not exist or is deleted");
+			throw new Exception("The record cannot be refreshed because it does not exist or is deleted");
 		}
 
 		let metaData = this->getModelsMetaData(),
@@ -3213,7 +3222,7 @@ abstract class Model implements \Phalcon\Mvc\ModelInterface, \Phalcon\Mvc\Model\
 			 * We need to check if the record exists
 			 */
 			if this->_exists(metaData, readConnection, table) {
-				throw new \Phalcon\Mvc\Model\Exception("The record cannot be refreshed because it does not exist or is deleted");
+				throw new Exception("The record cannot be refreshed because it does not exist or is deleted");
 			}
 
 			let uniqueKey = this->_uniqueKey;
@@ -3221,7 +3230,7 @@ abstract class Model implements \Phalcon\Mvc\ModelInterface, \Phalcon\Mvc\Model\
 
 		let uniqueParams = this->_uniqueParams;
 		if typeof uniqueParams != "array" {
-			throw new \Phalcon\Mvc\Model\Exception("The record cannot be refreshed because it does not exist or is deleted");
+			throw new Exception("The record cannot be refreshed because it does not exist or is deleted");
 		}
 
 		/**
@@ -3319,7 +3328,7 @@ abstract class Model implements \Phalcon\Mvc\ModelInterface, \Phalcon\Mvc\Model\
 		var keysAttributes, metaData, attribute;
 
 		if typeof attributes != "array" {
-			throw new \Phalcon\Mvc\Model\Exception("Attributes must be an array");
+			throw new Exception("Attributes must be an array");
 		}
 
 		let keysAttributes = [];
@@ -3357,7 +3366,7 @@ abstract class Model implements \Phalcon\Mvc\ModelInterface, \Phalcon\Mvc\Model\
 		var keysAttributes, metaData, attribute;
 
 		if typeof attributes != "array" {
-			throw new \Phalcon\Mvc\Model\Exception("Attributes must be an array");
+			throw new Exception("Attributes must be an array");
 		}
 
 		let keysAttributes = [];
@@ -3391,10 +3400,10 @@ abstract class Model implements \Phalcon\Mvc\ModelInterface, \Phalcon\Mvc\Model\
 	 */
 	protected function skipAttributesOnUpdate(attributes)
 	{
-		var keysAttributes, metaData, attribute;
+		var keysAttributes, attribute;
 
 		if typeof attributes != "array" {
-			throw new \Phalcon\Mvc\Model\Exception("Attributes must be an array");
+			throw new Exception("Attributes must be an array");
 		}
 
 		let keysAttributes = [];
@@ -3402,8 +3411,7 @@ abstract class Model implements \Phalcon\Mvc\ModelInterface, \Phalcon\Mvc\Model\
 			let keysAttributes[attribute] = null;
 		}
 
-		let metaData = this->getModelsMetaData();
-		metaData->setAutomaticUpdateAttributes(this, keysAttributes);
+		this->getModelsMetaData()->setAutomaticUpdateAttributes(this, keysAttributes);
 	}
 
 	/**
@@ -3429,11 +3437,9 @@ abstract class Model implements \Phalcon\Mvc\ModelInterface, \Phalcon\Mvc\Model\
 	 * @param   array options
 	 * @return  Phalcon\Mvc\Model\Relation
 	 */
-	protected function hasOne(fields, string! referenceModel, referencedFields, options=null) -> <\Phalcon\Mvc\Model\Relation>
+	protected function hasOne(fields, string! referenceModel, referencedFields, options=null) -> <Relation>
 	{
-		var manager;
-		let manager = this->_modelsManager;
-		return manager->addHasOne(this, fields, referenceModel, referencedFields, options);
+		return (<ManagerInterface> this->_modelsManager)->addHasOne(this, fields, referenceModel, referencedFields, options);
 	}
 
 	/**
@@ -3459,11 +3465,9 @@ abstract class Model implements \Phalcon\Mvc\ModelInterface, \Phalcon\Mvc\Model\
 	 * @param   array options
 	 * @return  Phalcon\Mvc\Model\Relation
 	 */
-	protected function belongsTo(fields, string! referenceModel, referencedFields, options=null) -> <\Phalcon\Mvc\Model\Relation>
+	protected function belongsTo(fields, string! referenceModel, referencedFields, options=null) -> <Relation>
 	{
-		var manager;
-		let manager = this->_modelsManager;
-		return manager->addBelongsTo(this, fields, referenceModel, referencedFields, options);
+		return (<ManagerInterface> this->_modelsManager)->addBelongsTo(this, fields, referenceModel, referencedFields, options);
 	}
 
 	/**
@@ -3489,11 +3493,9 @@ abstract class Model implements \Phalcon\Mvc\ModelInterface, \Phalcon\Mvc\Model\
 	 * @param   array options
 	 * @return  Phalcon\Mvc\Model\Relation
 	 */
-	protected function hasMany(fields, string! referenceModel, referencedFields, options=null) -> <\Phalcon\Mvc\Model\Relation>
+	protected function hasMany(fields, string! referenceModel, referencedFields, options=null) -> <Relation>
 	{
-		var manager;
-		let manager = this->_modelsManager;
-		return manager->addHasMany(this, fields, referenceModel, referencedFields, options);
+		return (<ManagerInterface> this->_modelsManager)->addHasMany(this, fields, referenceModel, referencedFields, options);
 	}
 
 	/**
@@ -3531,11 +3533,9 @@ abstract class Model implements \Phalcon\Mvc\ModelInterface, \Phalcon\Mvc\Model\
 	 * @return  Phalcon\Mvc\Model\Relation
 	 */
 	protected function hasManyToMany(fields, string! intermediateModel, intermediateFields, intermediateReferencedFields,
-		string referenceModel, referencedFields, options=null) -> <\Phalcon\Mvc\Model\Relation>
+		string referenceModel, referencedFields, options=null) -> <Relation>
 	{
-		var manager;
-		let manager = this->_modelsManager;
-		return manager->addHasManyToMany(
+		return (<ManagerInterface> this->_modelsManager)->addHasManyToMany(
 			this,
 			fields,
 			intermediateModel,
@@ -3573,11 +3573,9 @@ abstract class Model implements \Phalcon\Mvc\ModelInterface, \Phalcon\Mvc\Model\
 	 *
 	 * @param Phalcon\Mvc\Model\BehaviorInterface behavior
 	 */
-	protected function addBehavior(<\Phalcon\Mvc\Model\BehaviorInterface> behavior)
+	protected function addBehavior(<BehaviorInterface> behavior)
 	{
-		var manager;
-		let manager = this->_modelsManager;
-		manager->addBehavior(this, behavior);
+		(<ManagerInterface> this->_modelsManager)->addBehavior(this, behavior);
 	}
 
 	/**
@@ -3601,9 +3599,7 @@ abstract class Model implements \Phalcon\Mvc\ModelInterface, \Phalcon\Mvc\Model\
 	 */
 	protected function keepSnapshots(boolean keepSnapshot)
 	{
-		var manager;
-		let manager = this->_modelsManager;
-		manager->keepSnapshots(this, keepSnapshot);
+		(<ManagerInterface> this->_modelsManager)->keepSnapshots(this, keepSnapshot);
 	}
 
 	/**
@@ -3618,7 +3614,7 @@ abstract class Model implements \Phalcon\Mvc\ModelInterface, \Phalcon\Mvc\Model\
 		var key, value, snapshot, attribute;
 
 		if typeof data == "array" {
-			throw new \Phalcon\Mvc\Model\Exception("The snapshot data must be an array");
+			throw new Exception("The snapshot data must be an array");
 		}
 
 		/**
@@ -3640,7 +3636,7 @@ abstract class Model implements \Phalcon\Mvc\ModelInterface, \Phalcon\Mvc\Model\
 				 * Every field must be part of the column map
 				 */
 				if !fetch attribute, columnMap[key] {
-					throw new \Phalcon\Mvc\Model\Exception("Column '" . key . "' doesn't make part of the column map");
+					throw new Exception("Column '" . key . "' doesn't make part of the column map");
 				}
 
 				let snapshot[attribute] = value;
@@ -3691,14 +3687,14 @@ abstract class Model implements \Phalcon\Mvc\ModelInterface, \Phalcon\Mvc\Model\
 
 		let snapshot = this->_snapshot;
 		if typeof snapshot != "array" {
-			throw new \Phalcon\Mvc\Model\Exception("The record doesn't have a valid data snapshot");
+			throw new Exception("The record doesn't have a valid data snapshot");
 		}
 
 		/**
 		 * Dirty state must be DIRTY_PERSISTENT to make the checking
 		 */
 		if this->_dirtyState != self::DIRTY_STATE_PERSISTENT {
-			throw new \Phalcon\Mvc\Model\Exception("Change checking cannot be performed because the object has not been persisted or is deleted");
+			throw new Exception("Change checking cannot be performed because the object has not been persisted or is deleted");
 		}
 
 		/**
@@ -3730,11 +3726,11 @@ abstract class Model implements \Phalcon\Mvc\ModelInterface, \Phalcon\Mvc\Model\
 			 */
 			if typeof columnMap == "array" {
 				if !isset columnMap[fieldName] {
-					throw new \Phalcon\Mvc\Model\Exception("The field '" . fieldName . "' is not part of the model");
+					throw new Exception("The field '" . fieldName . "' is not part of the model");
 				}
 			} else {
 				if !isset allAttributes[fieldName] {
-					throw new \Phalcon\Mvc\Model\Exception("The field '" . fieldName . "' is not part of the model");
+					throw new Exception("The field '" . fieldName . "' is not part of the model");
 				}
 			}
 
@@ -3742,14 +3738,14 @@ abstract class Model implements \Phalcon\Mvc\ModelInterface, \Phalcon\Mvc\Model\
 			 * The field is not part of the model, throw exception
 			 */
 			if !fetch value, this->{fieldName} {
-				throw new \Phalcon\Mvc\Model\Exception("The field '" . fieldName . "' is not defined on the model");
+				throw new Exception("The field '" . fieldName . "' is not defined on the model");
 			}
 
 			/**
 			 * The field is not part of the data snapshot, throw exception
 			 */
 			if !fetch originalValue, snapshot[fieldName] {
-				throw new \Phalcon\Mvc\Model\Exception("The field '" . fieldName . "' was not found in the snapshot");
+				throw new Exception("The field '" . fieldName . "' was not found in the snapshot");
 			}
 
 			/**
@@ -3800,14 +3796,14 @@ abstract class Model implements \Phalcon\Mvc\ModelInterface, \Phalcon\Mvc\Model\
 
 		let snapshot = this->_snapshot;
 		if typeof snapshot != "array" {
-			throw new \Phalcon\Mvc\Model\Exception("The record doesn't have a valid data snapshot");
+			throw new Exception("The record doesn't have a valid data snapshot");
 		}
 
 		/**
 		 * Dirty state must be DIRTY_PERSISTENT to make the checking
 		 */
 		if this->_dirtyState != self::DIRTY_STATE_PERSISTENT {
-			throw new \Phalcon\Mvc\Model\Exception("Change checking cannot be performed because the object has not been persisted or is deleted");
+			throw new Exception("Change checking cannot be performed because the object has not been persisted or is deleted");
 		}
 
 		/**
@@ -3885,9 +3881,7 @@ abstract class Model implements \Phalcon\Mvc\ModelInterface, \Phalcon\Mvc\Model\
 	 */
 	protected function useDynamicUpdate(boolean dynamicUpdate)
 	{
-		var manager;
-		let manager = this->_modelsManager;
-		manager->useDynamicUpdate(this, dynamicUpdate);
+		(<ManagerInterface> this->_modelsManager)->useDynamicUpdate(this, dynamicUpdate);
 	}
 
 	/**
@@ -3897,19 +3891,18 @@ abstract class Model implements \Phalcon\Mvc\ModelInterface, \Phalcon\Mvc\Model\
 	 * @param array arguments
 	 * @return Phalcon\Mvc\Model\ResultsetInterface
 	 */
-	public function getRelated(string alias, arguments=null) -> <\Phalcon\Mvc\Model\ResultsetInterface>
+	public function getRelated(string alias, arguments=null) -> <ResultsetInterface>
 	{
-		var manager, relation, className;
-
-		let manager = this->_modelsManager;
+		var relation, className, manager;
 
 		/**
 		 * Query the relation by alias
 		 */
 		let className = get_class(this),
+			manager = <ManagerInterface> this->_modelsManager,
 			relation = manager->getRelationByAlias(className, alias);
 		if typeof relation != "object" {
-			throw new \Phalcon\Mvc\Model\Exception("There is no defined relations for the model '" . className . "' using alias '" . alias . "'");
+			throw new Exception("There is no defined relations for the model '" . className . "' using alias '" . alias . "'");
 		}
 
 		/**
@@ -3978,7 +3971,7 @@ abstract class Model implements \Phalcon\Mvc\ModelInterface, \Phalcon\Mvc\Model\
 	 */
 	public function __call(string method, arguments=null)
 	{
-		var modelName, modelsManager, status, records;
+		var modelName, status, records;
 
 		let modelName = get_class(this);
 
@@ -3993,8 +3986,7 @@ abstract class Model implements \Phalcon\Mvc\ModelInterface, \Phalcon\Mvc\Model\
 		/**
 		 * Try to find a replacement for the missing method in a behavior/listener
 		 */
-		let modelsManager = this->_modelsManager,
-			status = modelsManager->missingMethod(this, method, arguments);
+		let status = (<ManagerInterface> this->_modelsManager)->missingMethod(this, method, arguments);
 		if status !== null {
 			return status;
 		}
@@ -4002,7 +3994,7 @@ abstract class Model implements \Phalcon\Mvc\ModelInterface, \Phalcon\Mvc\Model\
 		/**
 		 * The method doesn't exist throw an exception
 		 */
-		throw new \Phalcon\Mvc\Model\Exception("The method '" . method . "' doesn't exist on model '" . modelName . "'");
+		throw new Exception("The method '" . method . "' doesn't exist on model '" . modelName . "'");
 	}
 
 	/**
@@ -4052,12 +4044,12 @@ abstract class Model implements \Phalcon\Mvc\ModelInterface, \Phalcon\Mvc\Model\
 		 */
 		let modelName = get_called_class();
 
-		if extraMethod {
-			throw new \Phalcon\Mvc\Model\Exception("The static method '" . method . "' doesn't exist on model '" . modelName . "'");
+		if !extraMethod {
+			throw new Exception("The static method '" . method . "' doesn't exist on model '" . modelName . "'");
 		}
 
 		if !fetch value, arguments[0] {
-			throw new \Phalcon\Mvc\Model\Exception("The static method '" . method . "' requires one argument");
+			throw new Exception("The static method '" . method . "' requires one argument");
 		}
 
 		let model = new {modelName}(),
@@ -4091,7 +4083,7 @@ abstract class Model implements \Phalcon\Mvc\ModelInterface, \Phalcon\Mvc\Model\
 				 */
 				let field = uncamelize(extraMethod);
 				if !isset attributes[field] {
-					throw new \Phalcon\Mvc\Model\Exception("Cannot resolve attribute '" . extraMethod . "' in the model");
+					throw new Exception("Cannot resolve attribute '" . extraMethod . "' in the model");
 				}
 			}
 		}
@@ -4206,8 +4198,9 @@ abstract class Model implements \Phalcon\Mvc\ModelInterface, \Phalcon\Mvc\Model\
 	 * Magic method to check if a property is a valid relation
 	 *
 	 * @param string property
+	 * @return boolean
 	 */
-	public function __isset(string! property)
+	public function __isset(string! property) -> boolean
 	{
 		var modelName, manager, relation;
 
@@ -4268,7 +4261,7 @@ abstract class Model implements \Phalcon\Mvc\ModelInterface, \Phalcon\Mvc\Model\
 				 */
 				let dependencyInjector = \Phalcon\Di::getDefault();
 				if typeof dependencyInjector != "object" {
-					throw new \Phalcon\Mvc\Model\Exception("A dependency injector container is required to obtain the services related to the ORM");
+					throw new Exception("A dependency injector container is required to obtain the services related to the ORM");
 				}
 
 				/**
@@ -4281,7 +4274,7 @@ abstract class Model implements \Phalcon\Mvc\ModelInterface, \Phalcon\Mvc\Model\
 				 */
 				let manager = dependencyInjector->getShared("modelsManager");
 				if typeof manager != "object" {
-					throw new \Phalcon\Mvc\Model\Exception("The injected service 'modelsManager' is not valid");
+					throw new Exception("The injected service 'modelsManager' is not valid");
 				}
 
 				/**
@@ -4304,7 +4297,7 @@ abstract class Model implements \Phalcon\Mvc\ModelInterface, \Phalcon\Mvc\Model\
 				return null;
 			}
 		}
-		throw new \Phalcon\Mvc\Model\Exception("Invalid serialization data");
+		throw new Exception("Invalid serialization data");
 	}
 
 	/**
@@ -4345,7 +4338,7 @@ abstract class Model implements \Phalcon\Mvc\ModelInterface, \Phalcon\Mvc\Model\
 			 */
 			if typeof columnMap == "array" {
 				if !fetch attributeField, columnMap[attribute] {
-					throw new \Phalcon\Mvc\Model\Exception("Column '" . attribute . "' doesn't make part of the column map");
+					throw new Exception("Column '" . attribute . "' doesn't make part of the column map");
 				}
 			} else {
 				let attributeField = attribute;
@@ -4366,14 +4359,10 @@ abstract class Model implements \Phalcon\Mvc\ModelInterface, \Phalcon\Mvc\Model\
 	 *
 	 * @param array options
 	 */
-	public static function setup(var options)
+	public static function setup(array! options)
 	{
 		var disableEvents, columnRenaming, notNullValidations,
 			exceptionOnFailedSave, phqlLiterals, virtualForeignKeys;
-
-		if typeof options != "array" {
-			throw new \Phalcon\Mvc\Model\Exception("Options must be an array");
-		}
 
 		/**
 		 * Enables/Disables globally the internal events

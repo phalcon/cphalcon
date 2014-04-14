@@ -186,7 +186,7 @@ PHP_METHOD(Phalcon_Cli_Dispatcher, _throwDispatchException) {
 			RETURN_MM_BOOL(0);
 		}
 	}
-	zephir_throw_exception(exception TSRMLS_CC);
+	zephir_throw_exception_debug(exception, "phalcon/cli/dispatcher.zep", 114 TSRMLS_CC);
 	ZEPHIR_MM_RESTORE();
 	return;
 

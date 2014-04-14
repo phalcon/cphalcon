@@ -19,12 +19,14 @@
 
 namespace Phalcon\Translate;
 
+use Phalcon\Translate\Exception;
+
 /**
-* Phalcon\Translate\Adapter
-*
-* Base class for Phalcon\Translate adapters
-*/
-class Adapter extends \Phalcon\Translate\Adapter\NativeArray implements \Phalcon\Translate\AdapterInterface
+ * Phalcon\Translate\Adapter
+ *
+ * Base class for Phalcon\Translate adapters
+ */
+class Adapter
 {
 
 	/**
@@ -36,7 +38,7 @@ class Adapter extends \Phalcon\Translate\Adapter\NativeArray implements \Phalcon
 	 */
 	public function  t(string! translateKey, placeholders=null)
 	{
-		return this->query(translateKey, placeholders);
+		return this->{"query"}(translateKey, placeholders);
 	}
 
 	/**
@@ -47,7 +49,7 @@ class Adapter extends \Phalcon\Translate\Adapter\NativeArray implements \Phalcon
 	 */
 	public function offsetSet(offset, value)
 	{
-		throw new \Phalcon\Translate\Exception("Translate is an immutable ArrayAccess object");
+		throw new Exception("Translate is an immutable ArrayAccess object");
 	}
 
 	/**
@@ -58,7 +60,7 @@ class Adapter extends \Phalcon\Translate\Adapter\NativeArray implements \Phalcon
 	 */
 	public function offsetExists(string! translateKey) -> boolean
 	{
-		return this->exists(translateKey);
+		return this->{"exists"}(translateKey);
 	}
 
 	/**
@@ -68,7 +70,7 @@ class Adapter extends \Phalcon\Translate\Adapter\NativeArray implements \Phalcon
 	 */
 	public function offsetUnset()
 	{
-		throw new \Phalcon\Translate\Exception("Translate is an immutable ArrayAccess object");
+		throw new Exception("Translate is an immutable ArrayAccess object");
 	}
 
 	/**
@@ -79,7 +81,7 @@ class Adapter extends \Phalcon\Translate\Adapter\NativeArray implements \Phalcon
 	 */
 	public function offsetGet(string! translateKey)
 	{
-		return this->query(translateKey, null);
+		return this->{"query"}(translateKey, null);
 	}
 
 }

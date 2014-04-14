@@ -69,7 +69,7 @@ PHP_METHOD(Phalcon_Flash_Session, setDI) {
 
 
 	if (!(zephir_instance_of_ev(dependencyInjector, phalcon_diinterface_ce TSRMLS_CC))) {
-		ZEPHIR_THROW_EXCEPTION_STRW(spl_ce_InvalidArgumentException, "Parameter 'dependencyInjector' must be an instance of 'Phalcon\\DiInterface'");
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(spl_ce_InvalidArgumentException, "Parameter 'dependencyInjector' must be an instance of 'Phalcon\\DiInterface'", "", 0);
 		return;
 	}
 	zephir_update_property_this(this_ptr, SL("_dependencyInjector"), dependencyInjector TSRMLS_CC);
@@ -109,7 +109,7 @@ PHP_METHOD(Phalcon_Flash_Session, _getSessionMessages) {
 	ZEPHIR_OBS_VAR(dependencyInjector);
 	zephir_read_property_this(&dependencyInjector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
 	if (Z_TYPE_P(dependencyInjector) != IS_OBJECT) {
-		ZEPHIR_THROW_EXCEPTION_STR(phalcon_flash_exception_ce, "A dependency injection container is required to access the 'session' service");
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_flash_exception_ce, "A dependency injection container is required to access the 'session' service", "phalcon/flash/session.zep", 64);
 		return;
 	}
 	ZEPHIR_INIT_VAR(_1);
@@ -152,7 +152,7 @@ PHP_METHOD(Phalcon_Flash_Session, _setSessionMessages) {
 	ZEPHIR_OBS_VAR(dependencyInjector);
 	zephir_read_property_this(&dependencyInjector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
 	if (Z_TYPE_P(dependencyInjector) != IS_OBJECT) {
-		ZEPHIR_THROW_EXCEPTION_STR(phalcon_flash_exception_ce, "A dependency injection container is required to access the 'session' service");
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_flash_exception_ce, "A dependency injection container is required to access the 'session' service", "phalcon/flash/session.zep", 88);
 		return;
 	}
 	ZEPHIR_INIT_VAR(_1);
@@ -192,7 +192,7 @@ PHP_METHOD(Phalcon_Flash_Session, message) {
 	ZEPHIR_CALL_METHOD(&messages, this_ptr, "_getsessionmessages", NULL, ZEPHIR_GLOBAL(global_false));
 	zephir_check_call_status();
 	if (Z_TYPE_P(messages) != IS_ARRAY) {
-		ZEPHIR_INIT_VAR(messages);
+		ZEPHIR_INIT_BNVAR(messages);
 		array_init(messages);
 	}
 	if (!(zephir_array_isset(messages, type))) {

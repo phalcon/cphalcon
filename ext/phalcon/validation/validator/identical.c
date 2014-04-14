@@ -79,12 +79,12 @@ PHP_METHOD(Phalcon_Validation_Validator_Identical, validate) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &validation, &field_param);
 
-	if (Z_TYPE_P(field_param) != IS_STRING && Z_TYPE_P(field_param) != IS_NULL) {
+	if (unlikely(Z_TYPE_P(field_param) != IS_STRING && Z_TYPE_P(field_param) != IS_NULL)) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'field' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
 
-	if (Z_TYPE_P(field_param) == IS_STRING) {
+	if (unlikely(Z_TYPE_P(field_param) == IS_STRING)) {
 		field = field_param;
 	} else {
 		ZEPHIR_INIT_VAR(field);
@@ -93,7 +93,7 @@ PHP_METHOD(Phalcon_Validation_Validator_Identical, validate) {
 
 
 	if (!(zephir_instance_of_ev(validation, phalcon_validation_ce TSRMLS_CC))) {
-		ZEPHIR_THROW_EXCEPTION_STR(spl_ce_InvalidArgumentException, "Parameter 'validation' must be an instance of 'Phalcon\\Validation'");
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(spl_ce_InvalidArgumentException, "Parameter 'validation' must be an instance of 'Phalcon\\Validation'", "", 0);
 		return;
 	}
 	ZEPHIR_CALL_METHOD(&_0, validation, "getvalue", NULL, field);

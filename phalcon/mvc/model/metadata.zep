@@ -245,7 +245,7 @@ abstract class MetaData implements \Phalcon\Di\InjectionAwareInterface
 	 */
 	public function readMetaData(<\Phalcon\Mvc\ModelInterface> model)
 	{
-		var source, schema, key, metaData;
+		var source, schema, key;
 
 		let source = model->getSource(),
 			schema = model->getSchema();
@@ -254,9 +254,7 @@ abstract class MetaData implements \Phalcon\Di\InjectionAwareInterface
 		 * Unique key for meta-data is created using class-name-schema-source
 		 */
 		let key = get_class_lower(model) . "-" . schema . source;
-
-		let metaData = this->_metaData;
-		if !isset metaData[key] {
+		if !isset this->_metaData[key] {
 			this->_initialize(model, key, source, schema);
 		}
 
@@ -276,7 +274,7 @@ abstract class MetaData implements \Phalcon\Di\InjectionAwareInterface
 	 */
 	public function readMetaDataIndex(<\Phalcon\Mvc\ModelInterface> model, int index)
 	{
-		var source, schema, key, metaData;
+		var source, schema, key;
 
 		let source = model->getSource(),
 			schema = model->getSchema();
@@ -286,13 +284,12 @@ abstract class MetaData implements \Phalcon\Di\InjectionAwareInterface
 		 */
 		let key = get_class_lower(model) . "-" . schema . source;
 
-		let metaData = this->_metaData;
-		if !isset metaData[key] {
+		if !isset this->_metaData[key] {
 			this->_initialize(model, key, source, schema);
 			return this->_metaData[key][index];
 		}
 
-		return metaData[key][index];
+		return this->_metaData[key][index];
 	}
 
 	/**
@@ -308,7 +305,7 @@ abstract class MetaData implements \Phalcon\Di\InjectionAwareInterface
 	 */
 	public function writeMetaDataIndex(<\Phalcon\Mvc\ModelInterface> model, int index, var data) -> void
 	{
-		var source, schema, key, metaData;
+		var source, schema, key;
 
 		if typeof data != "array" && typeof data != "string" &&  typeof data != "boolean" {
 			throw new \Phalcon\Mvc\Model\Exception("Invalid data for index");
@@ -322,8 +319,7 @@ abstract class MetaData implements \Phalcon\Di\InjectionAwareInterface
 		 */
 		let key = get_class_lower(model) . "-" . schema . source;
 
-		let metaData = this->_metaData;
-		if !isset metaData[key] {
+		if !isset this->_metaData[key] {
 			this->_initialize(model, key, source, schema);
 		}
 
@@ -342,11 +338,10 @@ abstract class MetaData implements \Phalcon\Di\InjectionAwareInterface
 	 */
 	public function readColumnMap(<\Phalcon\Mvc\ModelInterface> model)
 	{
-		var keyName, columnMap, data;
+		var keyName, data;
 
-		let keyName = get_class_lower(model),
-			columnMap = this->_columnMap;
-		if !fetch data, columnMap[keyName] {
+		let keyName = get_class_lower(model);
+		if !fetch data, this->_columnMap[keyName] {
 			this->_initialize(model, null, null, null);
 			let data = this->_columnMap[keyName];
 		}
@@ -510,12 +505,7 @@ abstract class MetaData implements \Phalcon\Di\InjectionAwareInterface
 	 */
 	public function getIdentityField(<\Phalcon\Mvc\ModelInterface> model)
 	{
-		var data;
-		let data = this->readMetaDataIndex(model, self::MODELS_IDENTITY_COLUMN);
-		if typeof data != "array" {
-			throw new \Phalcon\Mvc\Model\Exception("The meta-data is invalid or is corrupt");
-		}
-		return data;
+		return this->readMetaDataIndex(model, self::MODELS_IDENTITY_COLUMN);
 	}
 
 	/**
@@ -663,15 +653,14 @@ abstract class MetaData implements \Phalcon\Di\InjectionAwareInterface
 	 */
 	public function hasAttribute(<\Phalcon\Mvc\ModelInterface> model, string attribute) -> boolean
 	{
-		var columnMap, metaData, dataTypes;
+		var columnMap, metaData;
 
 		let columnMap = this->getReverseColumnMap(model);
 		if typeof columnMap == "array" {
 			return isset columnMap[attribute];
 		} else {
-			let metaData = this->readMetaData(model),
-				dataTypes = metaData[self::MODELS_DATA_TYPES];
-			return isset dataTypes[attribute];
+			let metaData = this->readMetaData(model);
+			return isset metaData[self::MODELS_DATA_TYPES][attribute];
 		}
 
 		return false;

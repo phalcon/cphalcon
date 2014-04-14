@@ -24,7 +24,7 @@ namespace Phalcon\Assets;
  *
  * Represents a collection of resources
  */
-class Collection //implements Countable, Iterator
+class Collection implements \Countable, \Iterator
 {
 
 	protected _prefix { get, set };
@@ -55,9 +55,9 @@ class Collection //implements Countable, Iterator
 	 * @param Phalcon\Assets\Resource resource
 	 * @return Phalcon\Assets\Collection
 	 */
-	public function add(<\Phalcon\Assets\Resource> resource) -> <\Phalcon\Assets\Collection>
+	public function add(<\Phalcon\Assets\Resource> $resource) -> <\Phalcon\Assets\Collection>
 	{
-		let this->_resources[] = resource;
+		let this->_resources[] = $resource;
 		return this;
 	}
 
@@ -105,7 +105,7 @@ class Collection //implements Countable, Iterator
 	 */
 	public function addJs(string! path, var local, boolean filter, attributes=null) -> <\Phalcon\Assets\Collection>
 	{
-		var resource, collectionLocal, collectionAttributes;
+		var collectionLocal, collectionAttributes;
 
 		if !filter {
 			let filter = true;
@@ -123,9 +123,8 @@ class Collection //implements Countable, Iterator
 			let collectionAttributes = this->_attributes;
 		}
 
-		let resource = new \Phalcon\Assets\Resource\Js(collectionLocal, filter, collectionAttributes);
+		let this->_resources[] = new \Phalcon\Assets\Resource\Js(collectionLocal, filter, collectionAttributes);
 
-		let this->_resources[] = resource;
 		return this;
 	}
 
@@ -154,17 +153,9 @@ class Collection //implements Countable, Iterator
 	 */
 	public function current() -> <\Phalcon\Assets\Resource>
 	{
-		var position, resource, resources;
-
-		let position = this->_position;
-		let resources = this->_resources;
-
-		let resource = null;
-		if isset resources[position] {
-			let resource = resources[position];
-		}
-
-		return resource;
+		var $resource;
+		fetch $resource, this->_resources[this->_position];
+		return $resource;
 	}
 
 	/**
@@ -193,14 +184,7 @@ class Collection //implements Countable, Iterator
 	 */
 	public function valid() -> boolean
 	{
-		var resources;
-
-		let resources = this->_resources;
-
-		if isset resources[this->_position] {
-			return true;
-		}
-		return false;
+		return isset this->_resources[this->_position];
 	}
 
 	/**
@@ -240,5 +224,17 @@ class Collection //implements Countable, Iterator
 		}
 
 		return completePath;
+	}
+
+	/**
+	 * Adds a filter to the collection
+	 *
+	 * @param Phalcon\Assets\FilterInterface $filter
+	 * @return Phalcon\Assets\Collection
+	 */
+	public function addFilter(<\Phalcon\Assets\FilterInterface> $filter) -> <\Phalcon\Assets\Collection>
+	{
+		let this->_filters[] = $filter;
+		return this;
 	}
 }

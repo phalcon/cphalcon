@@ -95,7 +95,7 @@ PHP_METHOD(Phalcon_Forms_Form, __construct) {
 
 	if (Z_TYPE_P(entity) != IS_NULL) {
 		if (Z_TYPE_P(entity) != IS_OBJECT) {
-			ZEPHIR_THROW_EXCEPTION_STR(phalcon_forms_exception_ce, "The base entity is not valid");
+			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_forms_exception_ce, "The base entity is not valid", "phalcon/forms/form.zep", 56);
 			return;
 		}
 		zephir_update_property_this(this_ptr, SL("_entity"), entity TSRMLS_CC);
@@ -203,7 +203,7 @@ PHP_METHOD(Phalcon_Forms_Form, setUserOptions) {
 
 
 	if (Z_TYPE_P(options) != IS_ARRAY) {
-		ZEPHIR_THROW_EXCEPTION_STRW(phalcon_forms_exception_ce, "Parameter 'options' must be an array");
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_forms_exception_ce, "Parameter 'options' must be an array", "phalcon/forms/form.zep", 136);
 		return;
 	}
 	zephir_update_property_this(this_ptr, SL("_options"), options TSRMLS_CC);
@@ -292,13 +292,13 @@ PHP_METHOD(Phalcon_Forms_Form, bind) {
 
 
 	if (Z_TYPE_P(data) != IS_ARRAY) {
-		ZEPHIR_THROW_EXCEPTION_STR(phalcon_forms_exception_ce, "The data must be an array");
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_forms_exception_ce, "The data must be an array", "phalcon/forms/form.zep", 201);
 		return;
 	}
 	ZEPHIR_OBS_VAR(elements);
 	zephir_read_property_this(&elements, this_ptr, SL("_elements"), PH_NOISY_CC);
 	if (Z_TYPE_P(elements) != IS_ARRAY) {
-		ZEPHIR_THROW_EXCEPTION_STR(phalcon_forms_exception_ce, "There are no elements in the form");
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_forms_exception_ce, "There are no elements in the form", "phalcon/forms/form.zep", 206);
 		return;
 	}
 	ZEPHIR_INIT_VAR(filter);
@@ -340,6 +340,7 @@ PHP_METHOD(Phalcon_Forms_Form, bind) {
 		ZEPHIR_INIT_NVAR(method);
 		ZEPHIR_CONCAT_SV(method, "set", key);
 		if ((zephir_method_exists(entity, method TSRMLS_CC)  == SUCCESS)) {
+			ZEPHIR_CALL_METHOD(NULL, entity, Z_STRVAL_P(method), NULL, filteredValue);
 			zephir_check_call_status();
 			continue;
 		}
@@ -580,11 +581,11 @@ PHP_METHOD(Phalcon_Forms_Form, add) {
 
 
 	if (!(zephir_instance_of_ev(element, phalcon_forms_elementinterface_ce TSRMLS_CC))) {
-		ZEPHIR_THROW_EXCEPTION_STR(spl_ce_InvalidArgumentException, "Parameter 'element' must be an instance of 'Phalcon\\Forms\\ElementInterface'");
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(spl_ce_InvalidArgumentException, "Parameter 'element' must be an instance of 'Phalcon\\Forms\\ElementInterface'", "", 0);
 		return;
 	}
 	if (Z_TYPE_P(element) != IS_OBJECT) {
-		ZEPHIR_THROW_EXCEPTION_STR(phalcon_forms_exception_ce, "The element is not valid");
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_forms_exception_ce, "The element is not valid", "phalcon/forms/form.zep", 449);
 		return;
 	}
 	ZEPHIR_CALL_METHOD(&name, element, "getname",  NULL);
@@ -612,12 +613,12 @@ PHP_METHOD(Phalcon_Forms_Form, render) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 1, &name_param, &attributes);
 
-	if (Z_TYPE_P(name_param) != IS_STRING && Z_TYPE_P(name_param) != IS_NULL) {
+	if (unlikely(Z_TYPE_P(name_param) != IS_STRING && Z_TYPE_P(name_param) != IS_NULL)) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'name' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
 
-	if (Z_TYPE_P(name_param) == IS_STRING) {
+	if (unlikely(Z_TYPE_P(name_param) == IS_STRING)) {
 		name = name_param;
 	} else {
 		ZEPHIR_INIT_VAR(name);
@@ -637,7 +638,7 @@ PHP_METHOD(Phalcon_Forms_Form, render) {
 		ZEPHIR_CONCAT_SVS(_2, "Element with ID=", name, " is not part of the form");
 		ZEPHIR_CALL_METHOD(NULL, _1, "__construct", NULL, _2);
 		zephir_check_call_status();
-		zephir_throw_exception(_1 TSRMLS_CC);
+		zephir_throw_exception_debug(_1, "phalcon/forms/form.zep", 481 TSRMLS_CC);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
@@ -662,12 +663,12 @@ PHP_METHOD(Phalcon_Forms_Form, get) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &name_param);
 
-	if (Z_TYPE_P(name_param) != IS_STRING && Z_TYPE_P(name_param) != IS_NULL) {
+	if (unlikely(Z_TYPE_P(name_param) != IS_STRING && Z_TYPE_P(name_param) != IS_NULL)) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'name' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
 
-	if (Z_TYPE_P(name_param) == IS_STRING) {
+	if (unlikely(Z_TYPE_P(name_param) == IS_STRING)) {
 		name = name_param;
 	} else {
 		ZEPHIR_INIT_VAR(name);
@@ -686,7 +687,7 @@ PHP_METHOD(Phalcon_Forms_Form, get) {
 	ZEPHIR_CONCAT_SVS(_2, "Element with ID=", name, " is not part of the form");
 	ZEPHIR_CALL_METHOD(NULL, _1, "__construct", NULL, _2);
 	zephir_check_call_status();
-	zephir_throw_exception(_1 TSRMLS_CC);
+	zephir_throw_exception_debug(_1, "phalcon/forms/form.zep", 501 TSRMLS_CC);
 	ZEPHIR_MM_RESTORE();
 	return;
 
@@ -707,12 +708,12 @@ PHP_METHOD(Phalcon_Forms_Form, label) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &name_param);
 
-	if (Z_TYPE_P(name_param) != IS_STRING && Z_TYPE_P(name_param) != IS_NULL) {
+	if (unlikely(Z_TYPE_P(name_param) != IS_STRING && Z_TYPE_P(name_param) != IS_NULL)) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'name' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
 
-	if (Z_TYPE_P(name_param) == IS_STRING) {
+	if (unlikely(Z_TYPE_P(name_param) == IS_STRING)) {
 		name = name_param;
 	} else {
 		ZEPHIR_INIT_VAR(name);
@@ -733,7 +734,7 @@ PHP_METHOD(Phalcon_Forms_Form, label) {
 	ZEPHIR_CONCAT_SVS(_2, "Element with ID=", name, " is not part of the form");
 	ZEPHIR_CALL_METHOD(NULL, _1, "__construct", NULL, _2);
 	zephir_check_call_status();
-	zephir_throw_exception(_1 TSRMLS_CC);
+	zephir_throw_exception_debug(_1, "phalcon/forms/form.zep", 518 TSRMLS_CC);
 	ZEPHIR_MM_RESTORE();
 	return;
 
@@ -754,12 +755,12 @@ PHP_METHOD(Phalcon_Forms_Form, getLabel) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &name_param);
 
-	if (Z_TYPE_P(name_param) != IS_STRING && Z_TYPE_P(name_param) != IS_NULL) {
+	if (unlikely(Z_TYPE_P(name_param) != IS_STRING && Z_TYPE_P(name_param) != IS_NULL)) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'name' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
 
-	if (Z_TYPE_P(name_param) == IS_STRING) {
+	if (unlikely(Z_TYPE_P(name_param) == IS_STRING)) {
 		name = name_param;
 	} else {
 		ZEPHIR_INIT_VAR(name);
@@ -776,7 +777,7 @@ PHP_METHOD(Phalcon_Forms_Form, getLabel) {
 		ZEPHIR_CONCAT_SVS(_2, "Element with ID=", name, " is not part of the form");
 		ZEPHIR_CALL_METHOD(NULL, _1, "__construct", NULL, _2);
 		zephir_check_call_status();
-		zephir_throw_exception(_1 TSRMLS_CC);
+		zephir_throw_exception_debug(_1, "phalcon/forms/form.zep", 532 TSRMLS_CC);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
@@ -804,12 +805,12 @@ PHP_METHOD(Phalcon_Forms_Form, getValue) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &name_param);
 
-	if (Z_TYPE_P(name_param) != IS_STRING && Z_TYPE_P(name_param) != IS_NULL) {
+	if (unlikely(Z_TYPE_P(name_param) != IS_STRING && Z_TYPE_P(name_param) != IS_NULL)) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'name' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
 
-	if (Z_TYPE_P(name_param) == IS_STRING) {
+	if (unlikely(Z_TYPE_P(name_param) == IS_STRING)) {
 		name = name_param;
 	} else {
 		ZEPHIR_INIT_VAR(name);
@@ -824,11 +825,12 @@ PHP_METHOD(Phalcon_Forms_Form, getValue) {
 		ZEPHIR_CONCAT_SV(_0, "get", name);
 		ZEPHIR_CPY_WRT(method, _0);
 		if ((zephir_method_exists(entity, method TSRMLS_CC)  == SUCCESS)) {
+			ZEPHIR_RETURN_CALL_METHOD(entity, Z_STRVAL_P(method), NULL);
 			zephir_check_call_status();
 			RETURN_MM();
 		}
 		ZEPHIR_OBS_VAR(value);
-		if (zephir_read_property_zval(&value, entity, name, PH_SILENT_CC)) {
+		if (zephir_fetch_property_zval(&value, entity, name, PH_SILENT_CC)) {
 			RETURN_CCTOR(value);
 		}
 	}
@@ -857,12 +859,12 @@ PHP_METHOD(Phalcon_Forms_Form, has) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &name_param);
 
-	if (Z_TYPE_P(name_param) != IS_STRING && Z_TYPE_P(name_param) != IS_NULL) {
+	if (unlikely(Z_TYPE_P(name_param) != IS_STRING && Z_TYPE_P(name_param) != IS_NULL)) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'name' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
 
-	if (Z_TYPE_P(name_param) == IS_STRING) {
+	if (unlikely(Z_TYPE_P(name_param) == IS_STRING)) {
 		name = name_param;
 	} else {
 		ZEPHIR_INIT_VAR(name);
@@ -889,12 +891,12 @@ PHP_METHOD(Phalcon_Forms_Form, remove) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &name_param);
 
-	if (Z_TYPE_P(name_param) != IS_STRING && Z_TYPE_P(name_param) != IS_NULL) {
+	if (unlikely(Z_TYPE_P(name_param) != IS_STRING && Z_TYPE_P(name_param) != IS_NULL)) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'name' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
 
-	if (Z_TYPE_P(name_param) == IS_STRING) {
+	if (unlikely(Z_TYPE_P(name_param) == IS_STRING)) {
 		name = name_param;
 	} else {
 		ZEPHIR_INIT_VAR(name);

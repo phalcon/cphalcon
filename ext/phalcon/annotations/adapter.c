@@ -69,11 +69,11 @@ PHP_METHOD(Phalcon_Annotations_Adapter, setReader) {
 
 
 	if (!(zephir_instance_of_ev(reader, phalcon_annotations_readerinterface_ce TSRMLS_CC))) {
-		ZEPHIR_THROW_EXCEPTION_STRW(spl_ce_InvalidArgumentException, "Parameter 'reader' must be an instance of 'Phalcon\\Annotations\\ReaderInterface'");
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(spl_ce_InvalidArgumentException, "Parameter 'reader' must be an instance of 'Phalcon\\Annotations\\ReaderInterface'", "", 0);
 		return;
 	}
 	if (Z_TYPE_P(reader) != IS_OBJECT) {
-		ZEPHIR_THROW_EXCEPTION_STRW(phalcon_annotations_exception_ce, "Invalid annotations reader");
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_annotations_exception_ce, "Invalid annotations reader", "phalcon/annotations/adapter.zep", 46);
 		return;
 	}
 	zephir_update_property_this(this_ptr, SL("_reader"), reader TSRMLS_CC);
@@ -145,7 +145,7 @@ PHP_METHOD(Phalcon_Annotations_Adapter, get) {
 		ZEPHIR_CALL_METHOD(&parsedAnnotations, reader, "parse", NULL, realClassName);
 		zephir_check_call_status();
 		if (Z_TYPE_P(parsedAnnotations) == IS_ARRAY) {
-			ZEPHIR_INIT_VAR(classAnnotations);
+			ZEPHIR_INIT_BNVAR(classAnnotations);
 			object_init_ex(classAnnotations, phalcon_annotations_reflection_ce);
 			ZEPHIR_CALL_METHOD(NULL, classAnnotations, "__construct", NULL, parsedAnnotations);
 			zephir_check_call_status();

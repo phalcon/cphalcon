@@ -84,7 +84,7 @@ interface AdapterInterface
 	 * @param   array accessList
 	 * @return  boolean
 	 */
-	public function addResource(resource, accessList=null);
+	public function addResource(resourceObject, accessList=null);
 
 	/**
 	 * Adds access to resources
@@ -129,7 +129,7 @@ interface AdapterInterface
 	 * @param  string access
 	 * @return boolean
 	 */
-	public function isAllowed(role, resource, access);
+	public function isAllowed(roleName, resourceName, access);
 
 	/**
 	 * Returns the role which the list is checking if it's allowed to certain resource/access

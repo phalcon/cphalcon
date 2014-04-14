@@ -73,7 +73,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, setOptions) {
 
 
 	if (Z_TYPE_P(options) != IS_ARRAY) {
-		ZEPHIR_THROW_EXCEPTION_STRW(phalcon_mvc_view_exception_ce, "Options parameter must be an array");
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_mvc_view_exception_ce, "Options parameter must be an array", "phalcon/mvc/view/engine/volt.zep", 42);
 		return;
 	}
 	zephir_update_property_this(this_ptr, SL("_options"), options TSRMLS_CC);
@@ -114,7 +114,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, getCompiler) {
 		zephir_check_call_status();
 		ZEPHIR_OBS_VAR(dependencyInjector);
 		zephir_read_property_this(&dependencyInjector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
-		if (Z_TYPE_P(dependencyInjector) != IS_OBJECT) {
+		if (Z_TYPE_P(dependencyInjector) == IS_OBJECT) {
 			ZEPHIR_CALL_METHOD(NULL, compiler, "setdi", NULL, dependencyInjector);
 			zephir_check_call_status();
 		}
@@ -150,12 +150,12 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, render) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 1, &templatePath_param, &params, &mustClean_param);
 
-	if (Z_TYPE_P(templatePath_param) != IS_STRING && Z_TYPE_P(templatePath_param) != IS_NULL) {
+	if (unlikely(Z_TYPE_P(templatePath_param) != IS_STRING && Z_TYPE_P(templatePath_param) != IS_NULL)) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'templatePath' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
 
-	if (Z_TYPE_P(templatePath_param) == IS_STRING) {
+	if (unlikely(Z_TYPE_P(templatePath_param) == IS_STRING)) {
 		templatePath = templatePath_param;
 	} else {
 		ZEPHIR_INIT_VAR(templatePath);
@@ -231,11 +231,11 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, length) {
 			ZEPHIR_INIT_BNVAR(length);
 			ZVAL_LONG(length, zephir_fast_count_int(item TSRMLS_CC));
 		} else {
-			ZEPHIR_INIT_BNVAR(length);
 			if ((zephir_function_exists_ex(SS("mb_strlen") TSRMLS_CC) == SUCCESS)) {
 				ZEPHIR_CALL_FUNCTION(&length, "mb_strlen", NULL, item);
 				zephir_check_call_status();
 			} else {
+				ZEPHIR_INIT_BNVAR(length);
 				ZVAL_LONG(length, zephir_fast_strlen_ev(item));
 			}
 		}
@@ -273,7 +273,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, isIncluded) {
 		zephir_fast_strpos(return_value, haystack, needle, 0 );
 		RETURN_MM();
 	}
-	ZEPHIR_THROW_EXCEPTION_STR(phalcon_mvc_view_exception_ce, "Invalid haystack");
+	ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_view_exception_ce, "Invalid haystack", "phalcon/mvc/view/engine/volt.zep", 181);
 	return;
 
 }
@@ -296,23 +296,23 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, convertEncoding) {
 	zephir_fetch_params(1, 3, 0, &text_param, &from_param, &to_param);
 
 	zephir_get_strval(text, text_param);
-	if (Z_TYPE_P(from_param) != IS_STRING && Z_TYPE_P(from_param) != IS_NULL) {
+	if (unlikely(Z_TYPE_P(from_param) != IS_STRING && Z_TYPE_P(from_param) != IS_NULL)) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'from' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
 
-	if (Z_TYPE_P(from_param) == IS_STRING) {
+	if (unlikely(Z_TYPE_P(from_param) == IS_STRING)) {
 		from = from_param;
 	} else {
 		ZEPHIR_INIT_VAR(from);
 		ZVAL_EMPTY_STRING(from);
 	}
-	if (Z_TYPE_P(to_param) != IS_STRING && Z_TYPE_P(to_param) != IS_NULL) {
+	if (unlikely(Z_TYPE_P(to_param) != IS_STRING && Z_TYPE_P(to_param) != IS_NULL)) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'to' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
 
-	if (Z_TYPE_P(to_param) == IS_STRING) {
+	if (unlikely(Z_TYPE_P(to_param) == IS_STRING)) {
 		to = to_param;
 	} else {
 		ZEPHIR_INIT_VAR(to);
@@ -344,7 +344,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, convertEncoding) {
 		zephir_check_call_status();
 		RETURN_MM();
 	}
-	ZEPHIR_THROW_EXCEPTION_STR(phalcon_mvc_view_exception_ce, "Any of 'mbstring' or 'iconv' is required to perform the charset conversion");
+	ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_view_exception_ce, "Any of 'mbstring' or 'iconv' is required to perform the charset conversion", "phalcon/mvc/view/engine/volt.zep", 230);
 	return;
 
 }

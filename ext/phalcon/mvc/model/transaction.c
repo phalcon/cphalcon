@@ -14,9 +14,9 @@
 #include "kernel/main.h"
 #include "kernel/object.h"
 #include "kernel/exception.h"
-#include "kernel/memory.h"
 #include "kernel/operators.h"
 #include "kernel/fcall.h"
+#include "kernel/memory.h"
 #include "kernel/array.h"
 
 
@@ -124,10 +124,9 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction, __construct) {
 
 
 	if (!(zephir_instance_of_ev(dependencyInjector, phalcon_diinterface_ce TSRMLS_CC))) {
-		ZEPHIR_THROW_EXCEPTION_STR(spl_ce_InvalidArgumentException, "Parameter 'dependencyInjector' must be an instance of 'Phalcon\\DiInterface'");
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(spl_ce_InvalidArgumentException, "Parameter 'dependencyInjector' must be an instance of 'Phalcon\\DiInterface'", "", 0);
 		return;
 	}
-	ZEPHIR_INIT_VAR(connection);
 	if (zephir_is_true(service)) {
 		ZEPHIR_CALL_METHOD(&connection, dependencyInjector, "get", NULL, service);
 		zephir_check_call_status();
@@ -161,7 +160,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction, setTransactionManager) {
 
 
 	if (!(zephir_instance_of_ev(manager, phalcon_mvc_model_transaction_managerinterface_ce TSRMLS_CC))) {
-		ZEPHIR_THROW_EXCEPTION_STRW(spl_ce_InvalidArgumentException, "Parameter 'manager' must be an instance of 'Phalcon\\Mvc\\Model\\Transaction\\ManagerInterface'");
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(spl_ce_InvalidArgumentException, "Parameter 'manager' must be an instance of 'Phalcon\\Mvc\\Model\\Transaction\\ManagerInterface'", "", 0);
 		return;
 	}
 	zephir_update_property_this(this_ptr, SL("_manager"), manager TSRMLS_CC);
@@ -214,6 +213,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction, commit) {
 		array_init_size(_3, 2);
 		zephir_array_fast_append(_3, this_ptr);
 		ZEPHIR_CALL_USER_FUNC_ARRAY(_0, _1, _3);
+		zephir_check_call_status();
 	}
 	_4 = zephir_fetch_nproperty_this(this_ptr, SL("_connection"), PH_NOISY_CC);
 	ZEPHIR_RETURN_CALL_METHOD(_4, "commit", NULL);
@@ -262,6 +262,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction, rollback) {
 		array_init_size(_3, 2);
 		zephir_array_fast_append(_3, this_ptr);
 		ZEPHIR_CALL_USER_FUNC_ARRAY(_0, _1, _3);
+		zephir_check_call_status();
 	}
 	ZEPHIR_OBS_VAR(connection);
 	zephir_read_property_this(&connection, this_ptr, SL("_connection"), PH_NOISY_CC);
@@ -280,7 +281,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction, rollback) {
 		_6 = zephir_fetch_nproperty_this(this_ptr, SL("_rollbackRecord"), PH_NOISY_CC);
 		ZEPHIR_CALL_METHOD(NULL, _5, "__construct", NULL, rollbackMessage, _6);
 		zephir_check_call_status();
-		zephir_throw_exception(_5 TSRMLS_CC);
+		zephir_throw_exception_debug(_5, "phalcon/mvc/model/transaction.zep", 160 TSRMLS_CC);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
@@ -415,7 +416,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction, setRollbackedRecord) {
 
 
 	if (!(zephir_instance_of_ev(record, phalcon_mvc_modelinterface_ce TSRMLS_CC))) {
-		ZEPHIR_THROW_EXCEPTION_STRW(spl_ce_InvalidArgumentException, "Parameter 'record' must be an instance of 'Phalcon\\Mvc\\ModelInterface'");
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(spl_ce_InvalidArgumentException, "Parameter 'record' must be an instance of 'Phalcon\\Mvc\\ModelInterface'", "", 0);
 		return;
 	}
 	zephir_update_property_this(this_ptr, SL("_rollbackRecord"), record TSRMLS_CC);

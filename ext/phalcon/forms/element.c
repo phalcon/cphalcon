@@ -113,7 +113,7 @@ PHP_METHOD(Phalcon_Forms_Element, setForm) {
 
 
 	if (!(zephir_instance_of_ev(form, phalcon_forms_form_ce TSRMLS_CC))) {
-		ZEPHIR_THROW_EXCEPTION_STRW(spl_ce_InvalidArgumentException, "Parameter 'form' must be an instance of 'Phalcon\\Forms\\Form'");
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(spl_ce_InvalidArgumentException, "Parameter 'form' must be an instance of 'Phalcon\\Forms\\Form'", "", 0);
 		return;
 	}
 	zephir_update_property_this(this_ptr, SL("_form"), form TSRMLS_CC);
@@ -147,12 +147,12 @@ PHP_METHOD(Phalcon_Forms_Element, setName) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &name_param);
 
-	if (Z_TYPE_P(name_param) != IS_STRING && Z_TYPE_P(name_param) != IS_NULL) {
+	if (unlikely(Z_TYPE_P(name_param) != IS_STRING && Z_TYPE_P(name_param) != IS_NULL)) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'name' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
 
-	if (Z_TYPE_P(name_param) == IS_STRING) {
+	if (unlikely(Z_TYPE_P(name_param) == IS_STRING)) {
 		name = name_param;
 	} else {
 		ZEPHIR_INIT_VAR(name);
@@ -262,7 +262,7 @@ PHP_METHOD(Phalcon_Forms_Element, addValidators) {
 
 
 	if (Z_TYPE_P(validators) != IS_ARRAY) {
-		ZEPHIR_THROW_EXCEPTION_STR(phalcon_forms_exception_ce, "The validators parameter must be an array");
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_forms_exception_ce, "The validators parameter must be an array", "phalcon/forms/element.zep", 156);
 		return;
 	}
 	if (merge) {
@@ -295,11 +295,11 @@ PHP_METHOD(Phalcon_Forms_Element, addValidator) {
 
 
 	if (!(zephir_instance_of_ev(validator, phalcon_validation_validatorinterface_ce TSRMLS_CC))) {
-		ZEPHIR_THROW_EXCEPTION_STRW(spl_ce_InvalidArgumentException, "Parameter 'validator' must be an instance of 'Phalcon\\Validation\\ValidatorInterface'");
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(spl_ce_InvalidArgumentException, "Parameter 'validator' must be an instance of 'Phalcon\\Validation\\ValidatorInterface'", "", 0);
 		return;
 	}
 	if (Z_TYPE_P(validator) != IS_OBJECT) {
-		ZEPHIR_THROW_EXCEPTION_STRW(phalcon_forms_exception_ce, "The validators parameter must be an object");
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_forms_exception_ce, "The validators parameter must be an object", "phalcon/forms/element.zep", 179);
 		return;
 	}
 	zephir_update_property_array_append(this_ptr, SL("_validators"), validator TSRMLS_CC);
@@ -456,7 +456,7 @@ PHP_METHOD(Phalcon_Forms_Element, setAttributes) {
 
 
 	if (Z_TYPE_P(attributes) != IS_ARRAY) {
-		ZEPHIR_THROW_EXCEPTION_STRW(phalcon_forms_exception_ce, "Parameter 'attributes' must be an array");
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_forms_exception_ce, "Parameter 'attributes' must be an array", "phalcon/forms/element.zep", 304);
 		return;
 	}
 	zephir_update_property_this(this_ptr, SL("_attributes"), attributes TSRMLS_CC);
@@ -664,6 +664,7 @@ PHP_METHOD(Phalcon_Forms_Element, getDefault) {
 PHP_METHOD(Phalcon_Forms_Element, getValue) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
+	zephir_nts_static zephir_fcall_cache_entry *_1 = NULL;
 	zval *name, *form, *value = NULL, *_0 = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -675,7 +676,7 @@ PHP_METHOD(Phalcon_Forms_Element, getValue) {
 	ZEPHIR_OBS_VAR(form);
 	zephir_read_property_this(&form, this_ptr, SL("_form"), PH_NOISY_CC);
 	if (Z_TYPE_P(form) == IS_OBJECT) {
-		ZEPHIR_CALL_CE_STATIC(&_0, phalcon_tag_ce, "hasvalue", NULL, name);
+		ZEPHIR_CALL_CE_STATIC(&_0, phalcon_tag_ce, "hasvalue", &_1, name);
 		zephir_check_call_status();
 		if (!(zephir_is_true(_0))) {
 			ZEPHIR_CALL_METHOD(&value, form, "getvalue", NULL, name);
@@ -752,7 +753,7 @@ PHP_METHOD(Phalcon_Forms_Element, setMessages) {
 
 
 	if (!(zephir_instance_of_ev(group, phalcon_validation_message_group_ce TSRMLS_CC))) {
-		ZEPHIR_THROW_EXCEPTION_STRW(spl_ce_InvalidArgumentException, "Parameter 'group' must be an instance of 'Phalcon\\Validation\\Message\\Group'");
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(spl_ce_InvalidArgumentException, "Parameter 'group' must be an instance of 'Phalcon\\Validation\\Message\\Group'", "", 0);
 		return;
 	}
 	zephir_update_property_this(this_ptr, SL("_messages"), group TSRMLS_CC);
@@ -777,7 +778,7 @@ PHP_METHOD(Phalcon_Forms_Element, appendMessage) {
 
 
 	if (!(zephir_instance_of_ev(message, phalcon_validation_message_ce TSRMLS_CC))) {
-		ZEPHIR_THROW_EXCEPTION_STR(spl_ce_InvalidArgumentException, "Parameter 'message' must be an instance of 'Phalcon\\Validation\\Message'");
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(spl_ce_InvalidArgumentException, "Parameter 'message' must be an instance of 'Phalcon\\Validation\\Message'", "", 0);
 		return;
 	}
 	ZEPHIR_OBS_VAR(messages);
@@ -803,12 +804,13 @@ PHP_METHOD(Phalcon_Forms_Element, appendMessage) {
 PHP_METHOD(Phalcon_Forms_Element, clear) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
-	zval *_0;
+	zval *_1;
+	zephir_nts_static zephir_fcall_cache_entry *_0 = NULL;
 
 	ZEPHIR_MM_GROW();
 
-	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_name"), PH_NOISY_CC);
-	ZEPHIR_CALL_CE_STATIC(NULL, phalcon_tag_ce, "setdefault", NULL, _0, ZEPHIR_GLOBAL(global_null));
+	_1 = zephir_fetch_nproperty_this(this_ptr, SL("_name"), PH_NOISY_CC);
+	ZEPHIR_CALL_CE_STATIC(NULL, phalcon_tag_ce, "setdefault", &_0, _1, ZEPHIR_GLOBAL(global_null));
 	zephir_check_call_status();
 	RETURN_THIS();
 

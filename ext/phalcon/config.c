@@ -96,7 +96,7 @@ PHP_METHOD(Phalcon_Config, __construct) {
 
 	if (Z_TYPE_P(arrayConfig) != IS_ARRAY) {
 		if (Z_TYPE_P(arrayConfig) != IS_NULL) {
-			ZEPHIR_THROW_EXCEPTION_STR(phalcon_config_exception_ce, "The configuration must be an Array");
+			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_config_exception_ce, "The configuration must be an Array", "phalcon/config.zep", 65);
 			return;
 		} else {
 			RETURN_MM_NULL();
@@ -110,7 +110,7 @@ PHP_METHOD(Phalcon_Config, __construct) {
 		ZEPHIR_GET_HMKEY(key, _1, _0);
 		ZEPHIR_GET_HVALUE(value, _2);
 		if (Z_TYPE_P(key) != IS_STRING) {
-			ZEPHIR_THROW_EXCEPTION_STR(phalcon_config_exception_ce, "Only string keys are allowed as configuration properties");
+			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_config_exception_ce, "Only string keys are allowed as configuration properties", "phalcon/config.zep", 77);
 			return;
 		}
 		if (Z_TYPE_P(value) == IS_ARRAY) {
@@ -162,12 +162,12 @@ PHP_METHOD(Phalcon_Config, offsetExists) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &index_param);
 
-	if (Z_TYPE_P(index_param) != IS_STRING && Z_TYPE_P(index_param) != IS_NULL) {
+	if (unlikely(Z_TYPE_P(index_param) != IS_STRING && Z_TYPE_P(index_param) != IS_NULL)) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'index' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
 
-	if (Z_TYPE_P(index_param) == IS_STRING) {
+	if (unlikely(Z_TYPE_P(index_param) == IS_STRING)) {
 		index = index_param;
 	} else {
 		ZEPHIR_INIT_VAR(index);
@@ -223,12 +223,12 @@ PHP_METHOD(Phalcon_Config, offsetGet) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &index_param);
 
-	if (Z_TYPE_P(index_param) != IS_STRING && Z_TYPE_P(index_param) != IS_NULL) {
+	if (unlikely(Z_TYPE_P(index_param) != IS_STRING && Z_TYPE_P(index_param) != IS_NULL)) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'index' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
 
-	if (Z_TYPE_P(index_param) == IS_STRING) {
+	if (unlikely(Z_TYPE_P(index_param) == IS_STRING)) {
 		index = index_param;
 	} else {
 		ZEPHIR_INIT_VAR(index);
@@ -340,7 +340,11 @@ PHP_METHOD(Phalcon_Config, toArray) {
 				ZEPHIR_CALL_METHOD(&_5, value, "toarray",  NULL);
 				zephir_check_call_status();
 				zephir_array_update_zval(&arrayConfig, key, &_5, PH_COPY | PH_SEPARATE);
+			} else {
+				zephir_array_update_zval(&arrayConfig, key, &value, PH_COPY | PH_SEPARATE);
 			}
+		} else {
+			zephir_array_update_zval(&arrayConfig, key, &value, PH_COPY | PH_SEPARATE);
 		}
 	}
 	RETURN_CCTOR(arrayConfig);

@@ -20,6 +20,8 @@
 
 namespace Phalcon;
 
+use Phalcon\Di\ServiceInterface;
+
 /**
  * Phalcon\Di
  *
@@ -85,7 +87,7 @@ class Di implements \Phalcon\DiInterface
 	 * @param boolean shared
 	 * @return Phalcon\Di\ServiceInterface
 	 */
-	public function set(string! name, definition, shared=false) -> <\Phalcon\Di\ServiceInterface>
+	public function set(string! name, definition, shared=false) -> <ServiceInterface>
 	{
 		var service;
 		let service = new \Phalcon\Di\Service(name, definition, shared),
@@ -100,7 +102,7 @@ class Di implements \Phalcon\DiInterface
 	 * @param mixed definition
 	 * @return Phalcon\Di\ServiceInterface
 	 */
-	public function setShared(string! name, definition) -> <\Phalcon\Di\ServiceInterface>
+	public function setShared(string! name, definition) -> <ServiceInterface>
 	{
 		var service;
 		let service = new \Phalcon\Di\Service(name, definition, true),
@@ -128,7 +130,7 @@ class Di implements \Phalcon\DiInterface
 	 * @param boolean shared
 	 * @return Phalcon\Di\ServiceInterface|false
 	 */
-	public function attempt(string! name, definition, boolean shared=false) -> <\Phalcon\Di\ServiceInterface> | boolean
+	public function attempt(string! name, definition, boolean shared=false) -> <ServiceInterface> | boolean
 	{
 		var service;
 
@@ -148,7 +150,7 @@ class Di implements \Phalcon\DiInterface
 	 * @param Phalcon\Di\ServiceInterface rawDefinition
 	 * @return Phalcon\Di\ServiceInterface
 	 */
-	public function setRaw(string! name, <\Phalcon\Di\ServiceInterface> rawDefinition) -> <\Phalcon\Di\ServiceInterface>
+	public function setRaw(string! name, <ServiceInterface> rawDefinition) -> <ServiceInterface>
 	{
 		let this->_services[name] = rawDefinition;
 		return rawDefinition;
@@ -177,7 +179,7 @@ class Di implements \Phalcon\DiInterface
 	 * @param string name
 	 * @return Phalcon\Di\ServiceInterface
 	 */
-	public function getService(string! name) -> <\Phalcon\Di\ServiceInterface>
+	public function getService(string! name) -> <ServiceInterface>
 	{
 		var service;
 

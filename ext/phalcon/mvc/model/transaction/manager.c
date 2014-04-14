@@ -112,6 +112,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_Transaction_Manager) {
 PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, __construct) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
+	zephir_nts_static zephir_fcall_cache_entry *_1 = NULL;
 	zend_bool _0;
 	zval *dependencyInjector = NULL;
 
@@ -130,18 +131,18 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, __construct) {
 		_0 = !zephir_instance_of_ev(dependencyInjector, phalcon_diinterface_ce TSRMLS_CC);
 	}
 	if (_0) {
-		ZEPHIR_THROW_EXCEPTION_STR(spl_ce_InvalidArgumentException, "Parameter 'dependencyInjector' must be an instance of 'Phalcon\\DiInterface'");
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(spl_ce_InvalidArgumentException, "Parameter 'dependencyInjector' must be an instance of 'Phalcon\\DiInterface'", "", 0);
 		return;
 	}
 	if (zephir_is_true(dependencyInjector)) {
 		zephir_update_property_this(this_ptr, SL("_dependencyInjector"), dependencyInjector TSRMLS_CC);
 	} else {
-		ZEPHIR_CALL_CE_STATIC(&dependencyInjector, phalcon_di_ce, "getdefault", NULL);
+		ZEPHIR_CALL_CE_STATIC(&dependencyInjector, phalcon_di_ce, "getdefault", &_1);
 		zephir_check_call_status();
 		zephir_update_property_this(this_ptr, SL("_dependencyInjector"), dependencyInjector TSRMLS_CC);
 	}
 	if (Z_TYPE_P(dependencyInjector) != IS_OBJECT) {
-		ZEPHIR_THROW_EXCEPTION_STR(phalcon_mvc_model_transaction_exception_ce, "A dependency injector container is required to obtain the services related to the ORM");
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_model_transaction_exception_ce, "A dependency injector container is required to obtain the services related to the ORM", "phalcon/mvc/model/transaction/manager.zep", 95);
 		return;
 	}
 	ZEPHIR_MM_RESTORE();
@@ -162,7 +163,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, setDI) {
 
 
 	if (!(zephir_instance_of_ev(dependencyInjector, phalcon_diinterface_ce TSRMLS_CC))) {
-		ZEPHIR_THROW_EXCEPTION_STRW(spl_ce_InvalidArgumentException, "Parameter 'dependencyInjector' must be an instance of 'Phalcon\\DiInterface'");
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(spl_ce_InvalidArgumentException, "Parameter 'dependencyInjector' must be an instance of 'Phalcon\\DiInterface'", "", 0);
 		return;
 	}
 	zephir_update_property_this(this_ptr, SL("_dependencyInjector"), dependencyInjector TSRMLS_CC);
@@ -195,12 +196,12 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, setDbService) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &service_param);
 
-	if (Z_TYPE_P(service_param) != IS_STRING && Z_TYPE_P(service_param) != IS_NULL) {
+	if (unlikely(Z_TYPE_P(service_param) != IS_STRING && Z_TYPE_P(service_param) != IS_NULL)) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'service' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
 
-	if (Z_TYPE_P(service_param) == IS_STRING) {
+	if (unlikely(Z_TYPE_P(service_param) == IS_STRING)) {
 		service = service_param;
 	} else {
 		ZEPHIR_INIT_VAR(service);
@@ -346,7 +347,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, getOrCreateTransaction) {
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
 	ZEPHIR_CPY_WRT(dependencyInjector, _0);
 	if (Z_TYPE_P(dependencyInjector) != IS_OBJECT) {
-		ZEPHIR_THROW_EXCEPTION_STR(phalcon_mvc_model_transaction_exception_ce, "A dependency injector container is required to obtain the services related to the ORM");
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_model_transaction_exception_ce, "A dependency injector container is required to obtain the services related to the ORM", "phalcon/mvc/model/transaction/manager.zep", 203);
 		return;
 	}
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_number"), PH_NOISY_CC);
@@ -500,7 +501,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, notifyRollback) {
 
 
 	if (!(zephir_instance_of_ev(transaction, phalcon_mvc_model_transactioninterface_ce TSRMLS_CC))) {
-		ZEPHIR_THROW_EXCEPTION_STR(spl_ce_InvalidArgumentException, "Parameter 'transaction' must be an instance of 'Phalcon\\Mvc\\Model\\TransactionInterface'");
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(spl_ce_InvalidArgumentException, "Parameter 'transaction' must be an instance of 'Phalcon\\Mvc\\Model\\TransactionInterface'", "", 0);
 		return;
 	}
 	ZEPHIR_CALL_METHOD(NULL, this_ptr, "_collecttransaction", NULL, transaction);
@@ -525,7 +526,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, notifyCommit) {
 
 
 	if (!(zephir_instance_of_ev(transaction, phalcon_mvc_model_transactioninterface_ce TSRMLS_CC))) {
-		ZEPHIR_THROW_EXCEPTION_STR(spl_ce_InvalidArgumentException, "Parameter 'transaction' must be an instance of 'Phalcon\\Mvc\\Model\\TransactionInterface'");
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(spl_ce_InvalidArgumentException, "Parameter 'transaction' must be an instance of 'Phalcon\\Mvc\\Model\\TransactionInterface'", "", 0);
 		return;
 	}
 	ZEPHIR_CALL_METHOD(NULL, this_ptr, "_collecttransaction", NULL, transaction);
@@ -551,7 +552,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, _collectTransaction) {
 
 
 	if (!(zephir_instance_of_ev(transaction, phalcon_mvc_model_transactioninterface_ce TSRMLS_CC))) {
-		ZEPHIR_THROW_EXCEPTION_STR(spl_ce_InvalidArgumentException, "Parameter 'transaction' must be an instance of 'Phalcon\\Mvc\\Model\\TransactionInterface'");
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(spl_ce_InvalidArgumentException, "Parameter 'transaction' must be an instance of 'Phalcon\\Mvc\\Model\\TransactionInterface'", "", 0);
 		return;
 	}
 	ZEPHIR_OBS_VAR(transactions);

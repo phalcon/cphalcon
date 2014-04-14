@@ -83,11 +83,11 @@ PHP_METHOD(Phalcon_Di_Injectable, setDI) {
 
 
 	if (!(zephir_instance_of_ev(dependencyInjector, phalcon_diinterface_ce TSRMLS_CC))) {
-		ZEPHIR_THROW_EXCEPTION_STRW(spl_ce_InvalidArgumentException, "Parameter 'dependencyInjector' must be an instance of 'Phalcon\\DiInterface'");
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(spl_ce_InvalidArgumentException, "Parameter 'dependencyInjector' must be an instance of 'Phalcon\\DiInterface'", "", 0);
 		return;
 	}
 	if (Z_TYPE_P(dependencyInjector) != IS_OBJECT) {
-		ZEPHIR_THROW_EXCEPTION_STRW(phalcon_di_exception_ce, "Dependency Injector is invalid");
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_di_exception_ce, "Dependency Injector is invalid", "phalcon/di/injectable.zep", 53);
 		return;
 	}
 	zephir_update_property_this(this_ptr, SL("_dependencyInjector"), dependencyInjector TSRMLS_CC);
@@ -102,6 +102,7 @@ PHP_METHOD(Phalcon_Di_Injectable, setDI) {
 PHP_METHOD(Phalcon_Di_Injectable, getDI) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
+	zephir_nts_static zephir_fcall_cache_entry *_0 = NULL;
 	zval *dependencyInjector = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -109,7 +110,7 @@ PHP_METHOD(Phalcon_Di_Injectable, getDI) {
 	ZEPHIR_OBS_VAR(dependencyInjector);
 	zephir_read_property_this(&dependencyInjector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
 	if (Z_TYPE_P(dependencyInjector) != IS_OBJECT) {
-		ZEPHIR_CALL_CE_STATIC(&dependencyInjector, phalcon_di_ce, "getdefault", NULL);
+		ZEPHIR_CALL_CE_STATIC(&dependencyInjector, phalcon_di_ce, "getdefault", &_0);
 		zephir_check_call_status();
 	}
 	RETURN_CCTOR(dependencyInjector);
@@ -130,7 +131,7 @@ PHP_METHOD(Phalcon_Di_Injectable, setEventsManager) {
 
 
 	if (!(zephir_instance_of_ev(eventsManager, phalcon_events_managerinterface_ce TSRMLS_CC))) {
-		ZEPHIR_THROW_EXCEPTION_STRW(spl_ce_InvalidArgumentException, "Parameter 'eventsManager' must be an instance of 'Phalcon\\Events\\ManagerInterface'");
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(spl_ce_InvalidArgumentException, "Parameter 'eventsManager' must be an instance of 'Phalcon\\Events\\ManagerInterface'", "", 0);
 		return;
 	}
 	zephir_update_property_this(this_ptr, SL("_eventsManager"), eventsManager TSRMLS_CC);
@@ -156,21 +157,21 @@ PHP_METHOD(Phalcon_Di_Injectable, getEventsManager) {
  */
 PHP_METHOD(Phalcon_Di_Injectable, __get) {
 
-	zephir_nts_static zephir_fcall_cache_entry *_5 = NULL;
-	zval *_2;
+	zval *_3;
 	int ZEPHIR_LAST_CALL_STATUS;
-	zval *propertyName_param = NULL, *dependencyInjector = NULL, *hasService = NULL, *service = NULL, *persistent = NULL, *_0, *_1 = NULL, *_3 = NULL;
-	zval *propertyName = NULL, *_4;
+	zephir_nts_static zephir_fcall_cache_entry *_1 = NULL, *_6 = NULL;
+	zval *propertyName_param = NULL, *dependencyInjector = NULL, *hasService = NULL, *service = NULL, *persistent = NULL, *_0, *_2 = NULL, *_4 = NULL;
+	zval *propertyName = NULL, *_5;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &propertyName_param);
 
-	if (Z_TYPE_P(propertyName_param) != IS_STRING && Z_TYPE_P(propertyName_param) != IS_NULL) {
+	if (unlikely(Z_TYPE_P(propertyName_param) != IS_STRING && Z_TYPE_P(propertyName_param) != IS_NULL)) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'propertyName' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
 
-	if (Z_TYPE_P(propertyName_param) == IS_STRING) {
+	if (unlikely(Z_TYPE_P(propertyName_param) == IS_STRING)) {
 		propertyName = propertyName_param;
 	} else {
 		ZEPHIR_INIT_VAR(propertyName);
@@ -181,10 +182,10 @@ PHP_METHOD(Phalcon_Di_Injectable, __get) {
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
 	ZEPHIR_CPY_WRT(dependencyInjector, _0);
 	if (Z_TYPE_P(dependencyInjector) != IS_OBJECT) {
-		ZEPHIR_CALL_CE_STATIC(&dependencyInjector, phalcon_di_ce, "getdefault", NULL);
+		ZEPHIR_CALL_CE_STATIC(&dependencyInjector, phalcon_di_ce, "getdefault", &_1);
 		zephir_check_call_status();
 		if (Z_TYPE_P(dependencyInjector) != IS_OBJECT) {
-			ZEPHIR_THROW_EXCEPTION_STR(phalcon_di_exception_ce, "A dependency injection object is required to access the application services");
+			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_di_exception_ce, "A dependency injection object is required to access the application services", "phalcon/di/injectable.zep", 107);
 			return;
 		}
 	}
@@ -200,22 +201,22 @@ PHP_METHOD(Phalcon_Di_Injectable, __get) {
 		RETURN_CCTOR(dependencyInjector);
 	}
 	if (ZEPHIR_IS_STRING(propertyName, "persistent")) {
-		ZEPHIR_INIT_VAR(_2);
-		array_init_size(_2, 2);
 		ZEPHIR_INIT_VAR(_3);
-		zephir_get_class(_3, this_ptr, 0 TSRMLS_CC);
-		zephir_array_fast_append(_2, _3);
-		ZEPHIR_INIT_NVAR(_3);
-		ZVAL_STRING(_3, "sessionBag", 0);
-		ZEPHIR_CALL_METHOD(&_1, dependencyInjector, "get", NULL, _3, _2);
-		zephir_check_temp_parameter(_3);
+		array_init_size(_3, 2);
+		ZEPHIR_INIT_VAR(_4);
+		zephir_get_class(_4, this_ptr, 0 TSRMLS_CC);
+		zephir_array_fast_append(_3, _4);
+		ZEPHIR_INIT_NVAR(_4);
+		ZVAL_STRING(_4, "sessionBag", 0);
+		ZEPHIR_CALL_METHOD(&_2, dependencyInjector, "get", NULL, _4, _3);
+		zephir_check_temp_parameter(_4);
 		zephir_check_call_status();
-		ZEPHIR_CPY_WRT(persistent, _1);
+		ZEPHIR_CPY_WRT(persistent, _2);
 		RETURN_CCTOR(persistent);
 	}
-	ZEPHIR_INIT_VAR(_4);
-	ZEPHIR_CONCAT_SV(_4, "Access to undefined property ", propertyName);
-	ZEPHIR_CALL_FUNCTION(NULL, "trigger_error", &_5, _4);
+	ZEPHIR_INIT_VAR(_5);
+	ZEPHIR_CONCAT_SV(_5, "Access to undefined property ", propertyName);
+	ZEPHIR_CALL_FUNCTION(NULL, "trigger_error", &_6, _5);
 	zephir_check_call_status();
 	RETURN_MM_NULL();
 

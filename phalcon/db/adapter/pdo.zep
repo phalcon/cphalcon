@@ -19,6 +19,8 @@
 
 namespace Phalcon\Db\Adapter;
 
+use Phalcon\Db\Exception;
+
 /**
  * Phalcon\Db\Adapter\Pdo
  *
@@ -61,7 +63,7 @@ abstract class Pdo extends \Phalcon\Db\Adapter
 	{
 
 		if typeof descriptor != "array" {
-			throw new \Phalcon\Db\Exception("The descriptor must be an array");
+			throw new Exception("The descriptor must be an array");
 		}
 
 		this->connect(descriptor);
@@ -189,7 +191,7 @@ abstract class Pdo extends \Phalcon\Db\Adapter
 		var wildcard, value, type, castValue, parameter;
 
 		if typeof placeholders != "array" {
-			throw new \Phalcon\Db\Exception("Placeholders must be an array");
+			throw new Exception("Placeholders must be an array");
 		}
 
 		for wildcard, value in placeholders {
@@ -200,22 +202,21 @@ abstract class Pdo extends \Phalcon\Db\Adapter
 				if typeof wildcard == "string" {
 					let parameter = wildcard;
 				} else {
-					throw new \Phalcon\Db\Exception("Invalid bind parameter (1)");
+					throw new Exception("Invalid bind parameter (1)");
 				}
 			}
 
 			if typeof dataTypes == "array" {
 
 				if !fetch type, dataTypes[wildcard] {
-					throw new \Phalcon\Db\Exception("Invalid bind type parameter (2)");
+					throw new Exception("Invalid bind type parameter (2)");
 				}
 
 				/**
 				 * The bind type is double so we try to get the double value
 				 */
 				if type == \Phalcon\Db\Column::BIND_PARAM_DECIMAL {
-					let castValue = doubleval(value),
-						type = \Phalcon\Db\Column::BIND_SKIP;
+					let castValue = doubleval(value), type = \Phalcon\Db\Column::BIND_SKIP;
 				} else {
 					let castValue = value;
 				}
@@ -532,7 +533,7 @@ abstract class Pdo extends \Phalcon\Db\Adapter
 		 */
 		let transactionLevel = this->_transactionLevel;
 		if !transactionLevel {
-			throw new \Phalcon\Db\Exception("There is no active transaction");
+			throw new Exception("There is no active transaction");
 		}
 
 		if transactionLevel == 1 {
@@ -611,7 +612,7 @@ abstract class Pdo extends \Phalcon\Db\Adapter
 		 */
 		let transactionLevel = this->_transactionLevel;
 		if !transactionLevel {
-			throw new \Phalcon\Db\Exception("There is no active transaction");
+			throw new Exception("There is no active transaction");
 		}
 
 		if transactionLevel == 1 {

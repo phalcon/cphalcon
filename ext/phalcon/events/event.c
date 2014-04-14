@@ -127,12 +127,12 @@ PHP_METHOD(Phalcon_Events_Event, __construct) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 2, &type_param, &source, &data, &cancelable);
 
-	if (Z_TYPE_P(type_param) != IS_STRING && Z_TYPE_P(type_param) != IS_NULL) {
+	if (unlikely(Z_TYPE_P(type_param) != IS_STRING && Z_TYPE_P(type_param) != IS_NULL)) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'type' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
 
-	if (Z_TYPE_P(type_param) == IS_STRING) {
+	if (unlikely(Z_TYPE_P(type_param) == IS_STRING)) {
 		type = type_param;
 	} else {
 		ZEPHIR_INIT_VAR(type);
@@ -170,7 +170,7 @@ PHP_METHOD(Phalcon_Events_Event, stop) {
 	if (zephir_is_true(_0)) {
 		zephir_update_property_this(this_ptr, SL("_stopped"), (1) ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
 	} else {
-		ZEPHIR_THROW_EXCEPTION_STRW(phalcon_events_exception_ce, "Trying to cancel a non-cancelable event");
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_events_exception_ce, "Trying to cancel a non-cancelable event", "phalcon/events/event.zep", 71);
 		return;
 	}
 

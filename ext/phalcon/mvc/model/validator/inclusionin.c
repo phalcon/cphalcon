@@ -92,7 +92,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Inclusionin, validate) {
 
 
 	if (!(zephir_instance_of_ev(record, phalcon_mvc_modelinterface_ce TSRMLS_CC))) {
-		ZEPHIR_THROW_EXCEPTION_STR(spl_ce_InvalidArgumentException, "Parameter 'record' must be an instance of 'Phalcon\\Mvc\\ModelInterface'");
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(spl_ce_InvalidArgumentException, "Parameter 'record' must be an instance of 'Phalcon\\Mvc\\ModelInterface'", "", 0);
 		return;
 	}
 	ZEPHIR_INIT_VAR(_0);
@@ -101,7 +101,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Inclusionin, validate) {
 	zephir_check_temp_parameter(_0);
 	zephir_check_call_status();
 	if (Z_TYPE_P(field) != IS_STRING) {
-		ZEPHIR_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Field name must be a string");
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_model_exception_ce, "Field name must be a string", "phalcon/mvc/model/validator/inclusionin.zep", 61);
 		return;
 	}
 	ZEPHIR_INIT_BNVAR(_0);
@@ -110,7 +110,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Inclusionin, validate) {
 	zephir_check_temp_parameter(_0);
 	zephir_check_call_status();
 	if (ZEPHIR_IS_FALSE(_1)) {
-		ZEPHIR_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "The option 'domain' is required for this validator");
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_model_exception_ce, "The option 'domain' is required for this validator", "phalcon/mvc/model/validator/inclusionin.zep", 68);
 		return;
 	}
 	ZEPHIR_INIT_BNVAR(_0);
@@ -119,7 +119,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Inclusionin, validate) {
 	zephir_check_temp_parameter(_0);
 	zephir_check_call_status();
 	if (Z_TYPE_P(domain) != IS_ARRAY) {
-		ZEPHIR_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Option 'domain' must be an array");
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_model_exception_ce, "Option 'domain' must be an array", "phalcon/mvc/model/validator/inclusionin.zep", 73);
 		return;
 	}
 	ZEPHIR_CALL_METHOD(&value, record, "readattribute", NULL, field);
@@ -143,7 +143,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Inclusionin, validate) {
 		zephir_check_temp_parameter(_0);
 		zephir_check_call_status();
 		if (ZEPHIR_IS_EMPTY(message)) {
-			ZEPHIR_INIT_VAR(message);
+			ZEPHIR_INIT_NVAR(message);
 			ZVAL_STRING(message, "Value of field :field must be part of list: :domain", 1);
 		}
 		ZEPHIR_INIT_VAR(_4);

@@ -154,12 +154,37 @@ class RequestTest extends PHPUnit_Framework_TestCase
 
 		$_FILES = array (
 			'photo' => array(
-				'name' => array(0 => 'f0', 1 => 'f1', 2 => array(0 => 'f2', 1 => 'f3'), 3 => array(0 => array(0 => array(0 => array(0 => 'f4'))))),
-				'type' => array(0 => 'text/plain', 1 => 'text/csv', 2 => array(0 => 'image/png', 1 => 'image/gif'), 3 => array(0 => array(0 => array(0 => array(0 => 'application/octet-stream'))))),
-				'tmp_name' => array(0 => 't0', 1 => 't1', 2 => array(0 => 't2', 1 => 't3'), 3 => array(0 => array(0 => array(0 => array(0 => 't4'))))),
-				'error' => array(0 => 0, 1 => 0, 2 => array(0 => 0, 1 => 0), 3 => array(0 => array(0 => array(0 => array(0 => 8))))),
-				'size' => array(0 => 10, 1 => 20, 2 => array(0 => 30, 1 => 40), 3 => array(0 => array(0 => array(0 => array(0 => 50))))),
-			),
+				'name' => array(
+					0 => 'f0',
+					1 => 'f1',
+					2 => array(0 => 'f2', 1 => 'f3'),
+					3 => array(0 => array(0 => array(0 => array(0 => 'f4'))))
+				),
+				'type' => array(
+					0 => 'text/plain',
+					1 => 'text/csv',
+					2 => array(0 => 'image/png', 1 => 'image/gif'),
+					3 => array(0 => array(0 => array(0 => array(0 => 'application/octet-stream'))))
+				),
+				'tmp_name' => array(
+					0 => 't0',
+					1 => 't1',
+					2 => array(0 => 't2', 1 => 't3'),
+					3 => array(0 => array(0 => array(0 => array(0 => 't4'))))
+				),
+				'error' => array(
+					0 => 0,
+					1 => 0,
+					2 => array(0 => 0, 1 => 0),
+					3 => array(0 => array(0 => array(0 => array(0 => 8))))
+				),
+				'size' => array(
+					0 => 10,
+					1 => 20,
+					2 => array(0 => 30, 1 => 40),
+					3 => array(0 => array(0 => array(0 => array(0 => 50))))
+				),
+			)
 		);
 
 		$all        = $request->getUploadedFiles(false);
@@ -168,7 +193,7 @@ class RequestTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals(count($all), 5);
 		$this->assertEquals(count($successful), 4);
 
-		for ($i=0; $i<=4; ++$i) {
+		for ($i = 0; $i <= 4; ++$i) {
 			$this->assertFalse($all[$i]->isUploadedFile());
 		}
 

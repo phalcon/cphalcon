@@ -37,7 +37,7 @@ abstract class Adapter implements \Phalcon\Events\EventsAwareInterface
 	/**
 	 * Descriptor used to connect to a database
 	 *
-	 * @var stdClass
+	 * @var stdClassxcvb
 	 */
 	protected _descriptor;
 
@@ -866,7 +866,7 @@ abstract class Adapter implements \Phalcon\Events\EventsAwareInterface
 				let indexes[keyName] = [];
 			}
 
-			//let indexes[keyName][] = index[4];
+			let indexes[keyName][] = index[4];
 		}
 
 		let indexObjects = [];
@@ -894,10 +894,10 @@ abstract class Adapter implements \Phalcon\Events\EventsAwareInterface
 	 */
 	public function describeReferences(string! table, string! schema=null)
 	{
-		var emptyArr, references, reference,
+		var references, reference,
 			arrayReference, constraintName, referenceObjects, name;
 
-		let emptyArr = [], references = [];
+		let references = [];
 
 		for reference in this->fetchAll(this->_dialect->describeReferences(table, schema), \Phalcon\Db::FETCH_NUM) {
 
@@ -906,13 +906,13 @@ abstract class Adapter implements \Phalcon\Events\EventsAwareInterface
 				let references[constraintName] = [
 					"referencedSchema"  : reference[3],
 					"referencedTable"   : reference[4],
-					"columns"           : emptyArr,
-					"referencedColumns" : emptyArr
+					"columns"           : [],
+					"referencedColumns" : []
 				];
 			}
 
-			//let references[constraintName]["columns"][] = reference[1],
-			//	references[constraintName]["referencedColumns"][] = reference[5];
+			let references[constraintName]["columns"][] = reference[1],
+				references[constraintName]["referencedColumns"][] = reference[5];
 		}
 
 		let referenceObjects = [];

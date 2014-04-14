@@ -12,15 +12,15 @@
 #include <Zend/zend_interfaces.h>
 
 #include "kernel/main.h"
-#include "kernel/exception.h"
 #include "kernel/array.h"
 #include "kernel/object.h"
 #include "kernel/memory.h"
 #include "kernel/hash.h"
 #include "kernel/fcall.h"
+#include "ext/spl/spl_exceptions.h"
+#include "kernel/exception.h"
 #include "kernel/operators.h"
 #include "kernel/concat.h"
-#include "ext/spl/spl_exceptions.h"
 
 
 /*
@@ -82,17 +82,21 @@ PHP_METHOD(Phalcon_Annotations_Annotation, __construct) {
 	int ZEPHIR_LAST_CALL_STATUS;
 	HashTable *_2;
 	HashPosition _1;
-	zval *reflectionData, *name, *exprArguments, *argument = NULL, *resolvedArgument = NULL, *arguments = NULL, *_0, **_3, *_4;
+	zval *reflectionData_param = NULL, *name, *exprArguments, *argument = NULL, *resolvedArgument = NULL, *arguments = NULL, *_0, **_3, *_4;
+	zval *reflectionData = NULL;
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 0, &reflectionData);
+	zephir_fetch_params(1, 1, 0, &reflectionData_param);
 
-
-
-	if (Z_TYPE_P(reflectionData) != IS_ARRAY) {
-		ZEPHIR_THROW_EXCEPTION_STR(phalcon_annotations_exception_ce, "Reflection data must be an array");
-		return;
+	if (unlikely(Z_TYPE_P(reflectionData_param) != IS_ARRAY)) {
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'reflectionData' must be an array") TSRMLS_CC);
+		RETURN_MM_NULL();
 	}
+
+		reflectionData = reflectionData_param;
+
+
+
 	zephir_array_fetch_string(&_0, reflectionData, SL("name"), PH_NOISY | PH_READONLY TSRMLS_CC);
 	zephir_update_property_this(this_ptr, SL("_name"), _0 TSRMLS_CC);
 	ZEPHIR_OBS_VAR(exprArguments);
@@ -144,17 +148,21 @@ PHP_METHOD(Phalcon_Annotations_Annotation, getExpression) {
 	int ZEPHIR_LAST_CALL_STATUS;
 	HashTable *_2;
 	HashPosition _1;
-	zval *expr, *value = NULL, *item = NULL, *resolvedItem = NULL, *arrayValue = NULL, *name = NULL, *type, *_0, **_3, *_4, *_6, *_7;
+	zval *expr_param = NULL, *value = NULL, *item = NULL, *resolvedItem = NULL, *arrayValue = NULL, *name = NULL, *type, *_0, **_3, *_4, *_6, *_7;
+	zval *expr = NULL;
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 0, &expr);
+	zephir_fetch_params(1, 1, 0, &expr_param);
 
-
-
-	if (Z_TYPE_P(expr) != IS_ARRAY) {
-		ZEPHIR_THROW_EXCEPTION_STR(phalcon_annotations_exception_ce, "The expression is not valid");
-		return;
+	if (unlikely(Z_TYPE_P(expr_param) != IS_ARRAY)) {
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'expr' must be an array") TSRMLS_CC);
+		RETURN_MM_NULL();
 	}
+
+		expr = expr_param;
+
+
+
 	ZEPHIR_OBS_VAR(type);
 	zephir_array_fetch_string(&type, expr, SL("type"), PH_NOISY TSRMLS_CC);
 	do {
@@ -213,7 +221,7 @@ PHP_METHOD(Phalcon_Annotations_Annotation, getExpression) {
 		ZEPHIR_CONCAT_SVS(_7, "The expression ", type, " is unknown");
 		ZEPHIR_CALL_METHOD(NULL, _6, "__construct", NULL, _7);
 		zephir_check_call_status();
-		zephir_throw_exception(_6 TSRMLS_CC);
+		zephir_throw_exception_debug(_6, "phalcon/annotations/annotation.zep", 134 TSRMLS_CC);
 		ZEPHIR_MM_RESTORE();
 		return;
 	} while(0);
@@ -319,12 +327,12 @@ PHP_METHOD(Phalcon_Annotations_Annotation, getNamedArgument) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &name_param);
 
-	if (Z_TYPE_P(name_param) != IS_STRING && Z_TYPE_P(name_param) != IS_NULL) {
+	if (unlikely(Z_TYPE_P(name_param) != IS_STRING && Z_TYPE_P(name_param) != IS_NULL)) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'name' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
 
-	if (Z_TYPE_P(name_param) == IS_STRING) {
+	if (unlikely(Z_TYPE_P(name_param) == IS_STRING)) {
 		name = name_param;
 	} else {
 		ZEPHIR_INIT_VAR(name);
@@ -355,12 +363,12 @@ PHP_METHOD(Phalcon_Annotations_Annotation, getNamedParameter) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &name_param);
 
-	if (Z_TYPE_P(name_param) != IS_STRING && Z_TYPE_P(name_param) != IS_NULL) {
+	if (unlikely(Z_TYPE_P(name_param) != IS_STRING && Z_TYPE_P(name_param) != IS_NULL)) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'name' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
 
-	if (Z_TYPE_P(name_param) == IS_STRING) {
+	if (unlikely(Z_TYPE_P(name_param) == IS_STRING)) {
 		name = name_param;
 	} else {
 		ZEPHIR_INIT_VAR(name);

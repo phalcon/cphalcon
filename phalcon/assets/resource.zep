@@ -28,7 +28,7 @@ namespace Phalcon\Assets;
  * $resource = new \Phalcon\Assets\Resource('js', 'javascripts/jquery.js');
  *</code>
  */
- class Resource
+ class $Resource
 {
 
 	protected _type;

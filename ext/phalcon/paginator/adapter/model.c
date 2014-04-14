@@ -137,7 +137,7 @@ PHP_METHOD(Phalcon_Paginator_Adapter_Model, getPaginate) {
 		pageNumber = 1;
 	}
 	if (show <= 0) {
-		ZEPHIR_THROW_EXCEPTION_STR(phalcon_paginator_exception_ce, "The start page number is zero or less");
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_paginator_exception_ce, "The start page number is zero or less", "phalcon/paginator/adapter/model.zep", 95);
 		return;
 	}
 	n = zephir_fast_count_int(items TSRMLS_CC);
@@ -152,7 +152,7 @@ PHP_METHOD(Phalcon_Paginator_Adapter_Model, getPaginate) {
 	zephir_check_call_status();
 	totalPages = zephir_get_intval(_3);
 	if (Z_TYPE_P(items) != IS_OBJECT) {
-		ZEPHIR_THROW_EXCEPTION_STR(phalcon_paginator_exception_ce, "Invalid data for paginator");
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_paginator_exception_ce, "Invalid data for paginator", "phalcon/paginator/adapter/model.zep", 106);
 		return;
 	}
 	if (pageNumber <= 0) {

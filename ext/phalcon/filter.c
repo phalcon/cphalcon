@@ -22,6 +22,7 @@
 #include "kernel/array.h"
 #include "Zend/zend_closures.h"
 #include "kernel/string.h"
+#include "kernel/filter.h"
 #include "kernel/concat.h"
 
 
@@ -83,12 +84,12 @@ PHP_METHOD(Phalcon_Filter, add) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &name_param, &handler);
 
-	if (Z_TYPE_P(name_param) != IS_STRING && Z_TYPE_P(name_param) != IS_NULL) {
+	if (unlikely(Z_TYPE_P(name_param) != IS_STRING && Z_TYPE_P(name_param) != IS_NULL)) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'name' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
 
-	if (Z_TYPE_P(name_param) == IS_STRING) {
+	if (unlikely(Z_TYPE_P(name_param) == IS_STRING)) {
 		name = name_param;
 	} else {
 		ZEPHIR_INIT_VAR(name);
@@ -97,7 +98,7 @@ PHP_METHOD(Phalcon_Filter, add) {
 
 
 	if (Z_TYPE_P(handler) != IS_OBJECT) {
-		ZEPHIR_THROW_EXCEPTION_STR(phalcon_filter_exception_ce, "Filter must be an object");
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_filter_exception_ce, "Filter must be an object", "phalcon/filter.zep", 53);
 		return;
 	}
 	zephir_update_property_array(this_ptr, SL("_filters"), name, handler TSRMLS_CC);
@@ -208,12 +209,12 @@ PHP_METHOD(Phalcon_Filter, _sanitize) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &value, &filter_param);
 
-	if (Z_TYPE_P(filter_param) != IS_STRING && Z_TYPE_P(filter_param) != IS_NULL) {
+	if (unlikely(Z_TYPE_P(filter_param) != IS_STRING && Z_TYPE_P(filter_param) != IS_NULL)) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'filter' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
 
-	if (Z_TYPE_P(filter_param) == IS_STRING) {
+	if (unlikely(Z_TYPE_P(filter_param) == IS_STRING)) {
 		filter = filter_param;
 	} else {
 		ZEPHIR_INIT_VAR(filter);
@@ -229,6 +230,7 @@ PHP_METHOD(Phalcon_Filter, _sanitize) {
 			array_init_size(_1, 2);
 			zephir_array_fast_append(_1, value);
 			ZEPHIR_CALL_USER_FUNC_ARRAY(return_value, filterObject, _1);
+			zephir_check_call_status();
 			RETURN_MM();
 		}
 		ZEPHIR_RETURN_CALL_METHOD(filterObject, "filter", NULL, value);
@@ -274,8 +276,7 @@ PHP_METHOD(Phalcon_Filter, _sanitize) {
 			RETURN_MM();
 		}
 		if (ZEPHIR_IS_STRING(filter, "alphanum")) {
-			ZEPHIR_RETURN_CALL_FUNCTION("phalcon_filter_alphanum", NULL, value);
-			zephir_check_call_status();
+			zephir_filter_alphanum(return_value, value);
 			RETURN_MM();
 		}
 		if (ZEPHIR_IS_STRING(filter, "trim")) {
@@ -311,7 +312,7 @@ PHP_METHOD(Phalcon_Filter, _sanitize) {
 		ZEPHIR_CONCAT_SVS(_9, "Sanitize filter '", filter, "' is not supported");
 		ZEPHIR_CALL_METHOD(NULL, _8, "__construct", NULL, _9);
 		zephir_check_call_status();
-		zephir_throw_exception(_8 TSRMLS_CC);
+		zephir_throw_exception_debug(_8, "phalcon/filter.zep", 182 TSRMLS_CC);
 		ZEPHIR_MM_RESTORE();
 		return;
 	} while(0);

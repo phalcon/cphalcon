@@ -54,18 +54,19 @@ ZEPHIR_INIT_CLASS(Phalcon_Config_Adapter_Json) {
 PHP_METHOD(Phalcon_Config_Adapter_Json, __construct) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
-	zval *filePath_param = NULL, *_0, *_1;
+	zephir_nts_static zephir_fcall_cache_entry *_0 = NULL;
+	zval *filePath_param = NULL, *_1, *_2;
 	zval *filePath = NULL;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &filePath_param);
 
-	if (Z_TYPE_P(filePath_param) != IS_STRING && Z_TYPE_P(filePath_param) != IS_NULL) {
+	if (unlikely(Z_TYPE_P(filePath_param) != IS_STRING && Z_TYPE_P(filePath_param) != IS_NULL)) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'filePath' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
 
-	if (Z_TYPE_P(filePath_param) == IS_STRING) {
+	if (unlikely(Z_TYPE_P(filePath_param) == IS_STRING)) {
 		filePath = filePath_param;
 	} else {
 		ZEPHIR_INIT_VAR(filePath);
@@ -73,11 +74,11 @@ PHP_METHOD(Phalcon_Config_Adapter_Json, __construct) {
 	}
 
 
-	ZEPHIR_INIT_VAR(_0);
 	ZEPHIR_INIT_VAR(_1);
-	zephir_file_get_contents(_1, filePath TSRMLS_CC);
-	zephir_json_decode(_0, &(_0), _1, zephir_get_intval(ZEPHIR_GLOBAL(global_true))  TSRMLS_CC);
-	ZEPHIR_CALL_PARENT(NULL, phalcon_config_adapter_json_ce, this_ptr, "__construct", NULL, _0);
+	ZEPHIR_INIT_VAR(_2);
+	zephir_file_get_contents(_2, filePath TSRMLS_CC);
+	zephir_json_decode(_1, &(_1), _2, zephir_get_intval(ZEPHIR_GLOBAL(global_true))  TSRMLS_CC);
+	ZEPHIR_CALL_PARENT(NULL, phalcon_config_adapter_json_ce, this_ptr, "__construct", &_0, _1);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 

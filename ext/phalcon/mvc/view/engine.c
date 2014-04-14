@@ -71,7 +71,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine, __construct) {
 
 
 	if (!(zephir_instance_of_ev(view, phalcon_mvc_viewinterface_ce TSRMLS_CC))) {
-		ZEPHIR_THROW_EXCEPTION_STRW(spl_ce_InvalidArgumentException, "Parameter 'view' must be an instance of 'Phalcon\\Mvc\\ViewInterface'");
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(spl_ce_InvalidArgumentException, "Parameter 'view' must be an instance of 'Phalcon\\Mvc\\ViewInterface'", "", 0);
 		return;
 	}
 	_0 = Z_TYPE_P(dependencyInjector) != IS_NULL;
@@ -79,7 +79,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine, __construct) {
 		_0 = !zephir_instance_of_ev(dependencyInjector, phalcon_diinterface_ce TSRMLS_CC);
 	}
 	if (_0) {
-		ZEPHIR_THROW_EXCEPTION_STRW(spl_ce_InvalidArgumentException, "Parameter 'dependencyInjector' must be an instance of 'Phalcon\\DiInterface'");
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(spl_ce_InvalidArgumentException, "Parameter 'dependencyInjector' must be an instance of 'Phalcon\\DiInterface'", "", 0);
 		return;
 	}
 	zephir_update_property_this(this_ptr, SL("_view"), view TSRMLS_CC);
@@ -122,12 +122,12 @@ PHP_METHOD(Phalcon_Mvc_View_Engine, partial) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 1, &partialPath_param, &params);
 
-	if (Z_TYPE_P(partialPath_param) != IS_STRING && Z_TYPE_P(partialPath_param) != IS_NULL) {
+	if (unlikely(Z_TYPE_P(partialPath_param) != IS_STRING && Z_TYPE_P(partialPath_param) != IS_NULL)) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'partialPath' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
 
-	if (Z_TYPE_P(partialPath_param) == IS_STRING) {
+	if (unlikely(Z_TYPE_P(partialPath_param) == IS_STRING)) {
 		partialPath = partialPath_param;
 	} else {
 		ZEPHIR_INIT_VAR(partialPath);

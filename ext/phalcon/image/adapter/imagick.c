@@ -54,7 +54,7 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, check) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
 	zephir_nts_static zephir_fcall_cache_entry *_4 = NULL, *_5 = NULL;
-	zval *_0, _1, _2 = zval_used_for_init, *_3 = NULL, *_6;
+	zval *_0, _1, _2 = zval_used_for_init, *_3 = NULL;
 
 	ZEPHIR_MM_GROW();
 
@@ -65,7 +65,7 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, check) {
 	ZEPHIR_SINIT_VAR(_1);
 	ZVAL_STRING(&_1, "imagick", 0);
 	if (!(zephir_class_exists(&_1, 1 TSRMLS_CC))) {
-		ZEPHIR_THROW_EXCEPTION_STR(phalcon_image_exception_ce, "Imagick is not installed, or the extension is not loaded");
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_image_exception_ce, "Imagick is not installed, or the extension is not loaded", "phalcon/image/adapter/imagick.zep", 33);
 		return;
 	}
 	ZEPHIR_SINIT_VAR(_2);
@@ -80,8 +80,8 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, check) {
 		zephir_update_property_this(this_ptr, SL("_version"), _3 TSRMLS_CC);
 	}
 	zephir_update_static_property_ce(phalcon_image_adapter_imagick_ce, SL("_checked"), ZEPHIR_GLOBAL(global_true) TSRMLS_CC);
-	_6 = zephir_fetch_static_property_ce(phalcon_image_adapter_imagick_ce, SL("_checked") TSRMLS_CC);
-	RETURN_CTOR(_6);
+	_0 = zephir_fetch_static_property_ce(phalcon_image_adapter_imagick_ce, SL("_checked") TSRMLS_CC);
+	RETURN_CTOR(_0);
 
 }
 
@@ -97,12 +97,12 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, __construct) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 2, &file_param, &width_param, &height_param);
 
-	if (Z_TYPE_P(file_param) != IS_STRING && Z_TYPE_P(file_param) != IS_NULL) {
+	if (unlikely(Z_TYPE_P(file_param) != IS_STRING && Z_TYPE_P(file_param) != IS_NULL)) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'file' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
 
-	if (Z_TYPE_P(file_param) == IS_STRING) {
+	if (unlikely(Z_TYPE_P(file_param) == IS_STRING)) {
 		file = file_param;
 	} else {
 		ZEPHIR_INIT_VAR(file);
@@ -150,7 +150,7 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, __construct) {
 			ZEPHIR_CONCAT_SVS(_11, "Imagick::readImage ", _10, " failed");
 			ZEPHIR_CALL_METHOD(NULL, _9, "__construct", NULL, _11);
 			zephir_check_call_status();
-			zephir_throw_exception(_9 TSRMLS_CC);
+			zephir_throw_exception_debug(_9, "phalcon/image/adapter/imagick.zep", 61 TSRMLS_CC);
 			ZEPHIR_MM_RESTORE();
 			return;
 		}
@@ -192,7 +192,7 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, __construct) {
 			ZEPHIR_CONCAT_SV(_11, "Failed to create image from file ", _3);
 			ZEPHIR_CALL_METHOD(NULL, _9, "__construct", NULL, _11);
 			zephir_check_call_status();
-			zephir_throw_exception(_9 TSRMLS_CC);
+			zephir_throw_exception_debug(_9, "phalcon/image/adapter/imagick.zep", 77 TSRMLS_CC);
 			ZEPHIR_MM_RESTORE();
 			return;
 		}
@@ -429,6 +429,7 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, _flip) {
 	zephir_check_call_status();
 	while (1) {
 		_2 = zephir_fetch_nproperty_this(this_ptr, SL("_image"), PH_NOISY_CC);
+		ZEPHIR_CALL_METHOD(NULL, _2, Z_STRVAL_P(func), NULL);
 		zephir_check_call_status();
 		_3 = zephir_fetch_nproperty_this(this_ptr, SL("_image"), PH_NOISY_CC);
 		ZEPHIR_CALL_METHOD(&_4, _3, "nextimage",  NULL);
@@ -551,9 +552,8 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, _reflection) {
 			break;
 		}
 	}
-	ZEPHIR_INIT_VAR(pseudo);
 	if (fade_in) {
-		ZEPHIR_INIT_BNVAR(pseudo);
+		ZEPHIR_INIT_VAR(pseudo);
 		ZVAL_STRING(pseudo, "gradient:black-transparent", 1);
 	} else {
 		ZEPHIR_INIT_BNVAR(pseudo);
@@ -759,7 +759,7 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, _watermark) {
 
 
 	if (!(zephir_instance_of_ev(image, phalcon_image_adapter_ce TSRMLS_CC))) {
-		ZEPHIR_THROW_EXCEPTION_STR(spl_ce_InvalidArgumentException, "Parameter 'image' must be an instance of 'Phalcon\\Image\\Adapter'");
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(spl_ce_InvalidArgumentException, "Parameter 'image' must be an instance of 'Phalcon\\Image\\Adapter'", "", 0);
 		return;
 	}
 	opacity = (opacity / 100);
@@ -875,7 +875,6 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, _text) {
 		ZEPHIR_CALL_FUNCTION(&_8, "abs", &_9, &_1);
 		zephir_check_call_status();
 		offset_x = zephir_get_numberval(_8);
-		ZEPHIR_INIT_VAR(gravity);
 		if (offset_y < 0) {
 			ZEPHIR_SINIT_NVAR(_1);
 			ZVAL_LONG(&_1, offset_y);
@@ -936,7 +935,7 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, _mask) {
 
 
 	if (!(zephir_instance_of_ev(image, phalcon_image_adapter_ce TSRMLS_CC))) {
-		ZEPHIR_THROW_EXCEPTION_STR(spl_ce_InvalidArgumentException, "Parameter 'image' must be an instance of 'Phalcon\\Image\\Adapter'");
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(spl_ce_InvalidArgumentException, "Parameter 'image' must be an instance of 'Phalcon\\Image\\Adapter'", "", 0);
 		return;
 	}
 	ZEPHIR_INIT_VAR(mask);

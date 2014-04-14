@@ -109,7 +109,7 @@ PHP_METHOD(Phalcon_Cache_Multiple, __construct) {
 
 	if (Z_TYPE_P(backends) != IS_NULL) {
 		if (Z_TYPE_P(backends) != IS_ARRAY) {
-			ZEPHIR_THROW_EXCEPTION_STRW(phalcon_cache_exception_ce, "The backends must be an array");
+			ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_cache_exception_ce, "The backends must be an array", "phalcon/cache/multiple.zep", 81);
 			return;
 		}
 		zephir_update_property_this(this_ptr, SL("_backends"), backends TSRMLS_CC);
@@ -132,11 +132,11 @@ PHP_METHOD(Phalcon_Cache_Multiple, push) {
 
 
 	if (!(zephir_instance_of_ev(backend, phalcon_cache_backendinterface_ce TSRMLS_CC))) {
-		ZEPHIR_THROW_EXCEPTION_STRW(spl_ce_InvalidArgumentException, "Parameter 'backend' must be an instance of 'Phalcon\\Cache\\BackendInterface'");
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(spl_ce_InvalidArgumentException, "Parameter 'backend' must be an instance of 'Phalcon\\Cache\\BackendInterface'", "", 0);
 		return;
 	}
 	if (Z_TYPE_P(backend) != IS_OBJECT) {
-		ZEPHIR_THROW_EXCEPTION_STRW(phalcon_cache_exception_ce, "The backend is not valid");
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_cache_exception_ce, "The backend is not valid", "phalcon/cache/multiple.zep", 96);
 		return;
 	}
 	zephir_update_property_this(this_ptr, SL("_backends"), backend TSRMLS_CC);

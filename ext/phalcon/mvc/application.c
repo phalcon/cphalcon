@@ -93,8 +93,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Application) {
 
 	zend_declare_property_null(phalcon_mvc_application_ce, SL("_modules"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
-	zend_declare_property_null(phalcon_mvc_application_ce, SL("_moduleObject"), ZEND_ACC_PROTECTED TSRMLS_CC);
-
 	zend_declare_property_bool(phalcon_mvc_application_ce, SL("_implicitView"), 1, ZEND_ACC_PROTECTED TSRMLS_CC);
 
 	return SUCCESS;
@@ -123,7 +121,7 @@ PHP_METHOD(Phalcon_Mvc_Application, __construct) {
 		_0 = !zephir_instance_of_ev(dependencyInjector, phalcon_diinterface_ce TSRMLS_CC);
 	}
 	if (_0) {
-		ZEPHIR_THROW_EXCEPTION_STRW(spl_ce_InvalidArgumentException, "Parameter 'dependencyInjector' must be an instance of 'Phalcon\\DiInterface'");
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(spl_ce_InvalidArgumentException, "Parameter 'dependencyInjector' must be an instance of 'Phalcon\\DiInterface'", "", 0);
 		return;
 	}
 	if (Z_TYPE_P(dependencyInjector) == IS_OBJECT) {
@@ -190,7 +188,7 @@ PHP_METHOD(Phalcon_Mvc_Application, registerModules) {
 
 
 	if (Z_TYPE_P(modules) != IS_ARRAY) {
-		ZEPHIR_THROW_EXCEPTION_STR(phalcon_mvc_application_exception_ce, "Modules must be an Array");
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_application_exception_ce, "Modules must be an Array", "phalcon/mvc/application.zep", 126);
 		return;
 	}
 	if (merge == 0) {
@@ -236,12 +234,12 @@ PHP_METHOD(Phalcon_Mvc_Application, setDefaultModule) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &defaultModule_param);
 
-	if (Z_TYPE_P(defaultModule_param) != IS_STRING && Z_TYPE_P(defaultModule_param) != IS_NULL) {
+	if (unlikely(Z_TYPE_P(defaultModule_param) != IS_STRING && Z_TYPE_P(defaultModule_param) != IS_NULL)) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'defaultModule' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
 
-	if (Z_TYPE_P(defaultModule_param) == IS_STRING) {
+	if (unlikely(Z_TYPE_P(defaultModule_param) == IS_STRING)) {
 		defaultModule = defaultModule_param;
 	} else {
 		ZEPHIR_INIT_VAR(defaultModule);
@@ -290,7 +288,7 @@ PHP_METHOD(Phalcon_Mvc_Application, handle) {
 	ZEPHIR_OBS_VAR(dependencyInjector);
 	zephir_read_property_this(&dependencyInjector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
 	if (Z_TYPE_P(dependencyInjector) != IS_OBJECT) {
-		ZEPHIR_THROW_EXCEPTION_STR(phalcon_mvc_application_exception_ce, "A dependency injection object is required to access internal services");
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_application_exception_ce, "A dependency injection object is required to access internal services", "phalcon/mvc/application.zep", 191);
 		return;
 	}
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_eventsManager"), PH_NOISY_CC);
@@ -316,7 +314,7 @@ PHP_METHOD(Phalcon_Mvc_Application, handle) {
 	ZEPHIR_CALL_METHOD(&moduleName, router, "getmodulename",  NULL);
 	zephir_check_call_status();
 	if (!(zephir_is_true(moduleName))) {
-		ZEPHIR_OBS_VAR(moduleName);
+		ZEPHIR_OBS_NVAR(moduleName);
 		zephir_read_property_this(&moduleName, this_ptr, SL("_defaultModule"), PH_NOISY_CC);
 	}
 	ZEPHIR_INIT_VAR(moduleObject);
@@ -341,13 +339,13 @@ PHP_METHOD(Phalcon_Mvc_Application, handle) {
 			ZEPHIR_CONCAT_SVS(_4, "Module '", moduleName, "' isn't registered in the application container");
 			ZEPHIR_CALL_METHOD(NULL, _3, "__construct", NULL, _4);
 			zephir_check_call_status();
-			zephir_throw_exception(_3 TSRMLS_CC);
+			zephir_throw_exception_debug(_3, "phalcon/mvc/application.zep", 237 TSRMLS_CC);
 			ZEPHIR_MM_RESTORE();
 			return;
 		}
 		if (Z_TYPE_P(module) != IS_ARRAY) {
 			if (Z_TYPE_P(module) != IS_OBJECT) {
-				ZEPHIR_THROW_EXCEPTION_STR(phalcon_mvc_application_exception_ce, "Invalid module definition");
+				ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_application_exception_ce, "Invalid module definition", "phalcon/mvc/application.zep", 245);
 				return;
 			}
 		}
@@ -371,7 +369,7 @@ PHP_METHOD(Phalcon_Mvc_Application, handle) {
 						ZEPHIR_CONCAT_SVS(_4, "Module definition path '", path, "' doesn't exist");
 						ZEPHIR_CALL_METHOD(NULL, _3, "__construct", NULL, _4);
 						zephir_check_call_status();
-						zephir_throw_exception(_3 TSRMLS_CC);
+						zephir_throw_exception_debug(_3, "phalcon/mvc/application.zep", 269 TSRMLS_CC);
 						ZEPHIR_MM_RESTORE();
 						return;
 					}
@@ -391,8 +389,9 @@ PHP_METHOD(Phalcon_Mvc_Application, handle) {
 				array_init_size(_6, 2);
 				zephir_array_fast_append(_6, dependencyInjector);
 				ZEPHIR_CALL_USER_FUNC_ARRAY(moduleObject, module, _6);
+				zephir_check_call_status();
 			} else {
-				ZEPHIR_THROW_EXCEPTION_STR(phalcon_mvc_application_exception_ce, "Invalid module definition");
+				ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_application_exception_ce, "Invalid module definition", "phalcon/mvc/application.zep", 290);
 				return;
 			}
 		}
