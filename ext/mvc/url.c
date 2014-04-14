@@ -287,6 +287,7 @@ PHP_METHOD(Phalcon_Mvc_Url, getBasePath){
  *
  * @param string|array $uri
  * @param array|object args Optional arguments to be appended to the query string
+ * @param bool|null $local
  * @return string
  */
 PHP_METHOD(Phalcon_Mvc_Url, get){
