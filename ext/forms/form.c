@@ -932,7 +932,7 @@ PHP_METHOD(Phalcon_Forms_Form, add){
 	 */
 	PHALCON_CALL_METHOD(NULL, element, "setform", this_ptr);
 
-	if (!pos) {
+	if (!pos || Z_TYPE_P(pos) == IS_NULL) {
 		/* Append the element by its name */
 		phalcon_update_property_array(this_ptr, SL("_elements"), name, element TSRMLS_CC);
 	} else {
