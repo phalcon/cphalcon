@@ -1,4 +1,3 @@
-
 /*
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
@@ -376,7 +375,7 @@ class Loader implements \Phalcon\Events\EventsAwareInterface
 							/**
 							 * This is probably a good path, let's check if the file does exist
 							 */
-							if file_exists(filePath) {
+							if is_file(filePath) {
 
 								if typeof eventsManager == "object" {
 									let this->_foundPath = filePath;
@@ -434,7 +433,7 @@ class Loader implements \Phalcon\Events\EventsAwareInterface
 								eventsManager->fire("loader:beforeCheckPath", this, filePath);
 							}
 
-							if file_exists(filePath) {
+							if is_file(filePath) {
 
 								/**
 								 * Call 'pathFound' event
@@ -491,7 +490,7 @@ class Loader implements \Phalcon\Events\EventsAwareInterface
 					/**
 					 * Check in every directory if the class exists here
 					 */
-					if file_exists(filePath) {
+					if is_file(filePath) {
 
 						/**
 						 * Call 'pathFound' event
