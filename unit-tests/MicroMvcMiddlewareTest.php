@@ -49,6 +49,23 @@ class MyMiddlewareStop implements Phalcon\Mvc\Micro\MiddlewareInterface
 	}
 }
 
+
+class MyMiddlewareStopByReturnFalse implements Phalcon\Mvc\Micro\MiddlewareInterface
+{
+    protected $_number = 0;
+
+    public function call($application)
+    {
+        $this->_number++;
+        return false;
+    }
+
+    public function getNumber()
+    {
+        return $this->_number;
+    }
+}
+
 class MicroMvcMiddlewareTest extends PHPUnit_Framework_TestCase
 {
 
@@ -139,8 +156,53 @@ class MicroMvcMiddlewareTest extends PHPUnit_Framework_TestCase
 
 		$app->handle('/api/site');
 
-		$this->assertEquals($middleware->getNumber(), 3);
+		$this->assertEquals($middleware->getNumber(), 1);
 	}
 
-}
+    public function testMicroStopMiddlewareByReturnFalseClasses()
+    {
 
+        $app = new Phalcon\Mvc\Micro();
+
+        $app->map('/api/site', function(){
+            return true;
+        });
+
+        $middleware = new MyMiddlewareStopByReturnFalse();
+
+        $app->before($middleware);
+        $app->before($middleware);
+
+        $app->after($middleware);
+        $app->after($middleware);
+
+        $app->finish($middleware);
+        $app->finish($middleware);
+
+        $app->handle('/api/site');
+
+        $this->assertEquals($middleware->getNumber(), 1);
+    }
+
+    public function testMicroStopMiddlewareForAfterAndFinishEvents()
+    {
+        $app = new Phalcon\Mvc\Micro();
+
+        $app->map('/api/site', function(){
+            return true;
+        });
+
+        $middleware = new MyMiddlewareStop();
+
+        $app->after($middleware);
+        $app->after($middleware);
+
+        $app->finish($middleware);
+        $app->finish($middleware);
+
+        $app->handle('/api/site');
+
+        $this->assertEquals($middleware->getNumber(), 2);
+    }
+
+}
