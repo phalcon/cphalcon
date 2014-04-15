@@ -116,6 +116,7 @@ class Di implements \Phalcon\DiInterface
 	public function remove(string! name)
 	{
 		unset this->_services[name];
+		unset this->_sharedInstances[name];
 	}
 
 	/**
@@ -349,7 +350,7 @@ class Di implements \Phalcon\DiInterface
 	 */
 	public function offsetUnset(string! name) -> boolean
 	{
-		return false;
+		$this->remove(name);
 	}
 
 	/**
