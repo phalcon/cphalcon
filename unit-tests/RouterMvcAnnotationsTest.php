@@ -87,6 +87,19 @@ class ProductsController
 
 }
 
+class MainController
+{
+
+	/**
+	 * @Get("/")
+	 */
+	public function indexAction()
+	{
+
+	}
+
+}
+
 class RouterMvcAnnotationsTest extends PHPUnit_Framework_TestCase
 {
 	public function _getDI()
@@ -105,10 +118,11 @@ class RouterMvcAnnotationsTest extends PHPUnit_Framework_TestCase
 
 		$router->addResource('Robots');
 		$router->addResource('Products');
+		$router->addResource('Main');
 
 		$router->handle();
 
-		$this->assertEquals(count($router->getRoutes()), 7);
+		$this->assertEquals(count($router->getRoutes()), 8);
 
 		$route = $router->getRouteByName('save-robot');
 		$this->assertTrue(is_object($route));
@@ -174,6 +188,13 @@ class RouterMvcAnnotationsTest extends PHPUnit_Framework_TestCase
 				'controller' => 'Robots',
 				'action' => 'deleteRobot',
 				'params' => array('id' => '100')
+			),
+			array(
+				'uri' => '/',
+				'method' => 'GET',
+				'controller' => 'Main',
+				'action' => 'index',
+				'params' => array()
 			),
 		);
 
