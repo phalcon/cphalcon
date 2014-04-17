@@ -18,8 +18,8 @@
 #include "kernel/operators.h"
 #include "ext/spl/spl_exceptions.h"
 #include "kernel/array.h"
-#include "kernel/fcall.h"
 #include "kernel/concat.h"
+#include "kernel/fcall.h"
 #include "phalcon/mvc/url/utils.h"
 
 
@@ -192,7 +192,6 @@ PHP_METHOD(Phalcon_Mvc_Url, setStaticBaseUri) {
  */
 PHP_METHOD(Phalcon_Mvc_Url, getBaseUri) {
 
-	int ZEPHIR_LAST_CALL_STATUS;
 	zval *baseUri, *phpSelf, *uri = NULL, *_SERVER;
 
 	ZEPHIR_MM_GROW();
@@ -203,8 +202,8 @@ PHP_METHOD(Phalcon_Mvc_Url, getBaseUri) {
 		ZEPHIR_OBS_VAR(phpSelf);
 		zephir_get_global(&_SERVER, SS("_SERVER") TSRMLS_CC);
 		if (zephir_array_isset_string_fetch(&phpSelf, _SERVER, SS("PHP_SELF"), 0 TSRMLS_CC)) {
-			ZEPHIR_CALL_FUNCTION(&uri, "phalcon_get_uri", NULL, phpSelf);
-			zephir_check_call_status();
+			ZEPHIR_INIT_VAR(uri);
+			phalcon_get_uri(uri, phpSelf TSRMLS_CC);
 		} else {
 			ZEPHIR_INIT_NVAR(uri);
 			ZVAL_NULL(uri);

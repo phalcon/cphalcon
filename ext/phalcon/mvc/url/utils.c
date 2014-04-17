@@ -33,6 +33,38 @@
 #include <ext/standard/php_smart_str.h>
 #include <ext/standard/php_string.h>
 
+void phalcon_get_uri(zval *return_value, zval *path) {
+
+	int i, found = 0, mark = 0;
+	char *cursor, *str, ch;
+
+	if (Z_TYPE_P(path) != IS_STRING) {
+		RETURN_EMPTY_STRING();
+	}
+
+	if (Z_STRLEN_P(path) > 0) {
+		cursor = Z_STRVAL_P(path) + Z_STRLEN_P(path) - 1;
+		for (i = Z_STRLEN_P(path); i > 0; i--) {
+			ch = *cursor;
+			if (ch == '/' || ch == '\\') {
+				found++;
+				if (found == 1) {
+					mark = i - 1;
+				} else {
+					str = emalloc(mark - i + 1);
+					memcpy(str, Z_STRVAL_P(path) + i, mark - i);
+					str[mark - i] = '\0';
+					ZVAL_STRINGL(return_value, str, mark - i, 0);
+					return;
+				}
+			}
+			cursor--;
+		}
+	}
+
+	RETURN_EMPTY_STRING();
+}
+
 zval *phalcon_replace_marker(int named, zval *paths, zval *replacements, unsigned long *position, char *cursor, char *marker){
 
 	zval **zv, **tmp;

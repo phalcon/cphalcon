@@ -630,7 +630,7 @@ class Debug
 	 */
 	public function onUncaughtException(exception) -> boolean
 	{
-		var obLevel, message, className, escapedMessage, html, showBackTrace,
+		var obLevel, className, escapedMessage, html, showBackTrace,
 		dataVars, n, traceItem, keyRequest, value, keyServer, keyFile, keyVar, dataVar;
 
 		let obLevel = ob_get_level();
