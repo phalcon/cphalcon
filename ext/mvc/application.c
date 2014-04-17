@@ -544,12 +544,13 @@ PHP_METHOD(Phalcon_Mvc_Application, handle){
 	
 				/* Check if the view process has been treated by the developer */
 				if (PHALCON_IS_NOT_FALSE(render_status)) {
+					PHALCON_CALL_METHOD(&namespace_name, dispatcher, "getnamespacename");
 					PHALCON_CALL_METHOD(&controller_name, dispatcher, "getcontrollername");
 					PHALCON_CALL_METHOD(&action_name, dispatcher, "getactionname");
 					PHALCON_CALL_METHOD(&params, dispatcher, "getparams");
 	
 					/* Automatic render based on the latest controller executed */
-					PHALCON_CALL_METHOD(NULL, view, "render", controller_name, action_name, params);
+					PHALCON_CALL_METHOD(NULL, view, "render", controller_name, action_name, params, namespace_name);
 				}
 			}
 		}

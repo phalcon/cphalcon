@@ -230,6 +230,7 @@ PHALCON_INIT_CLASS(Phalcon_Mvc_View){
 	zend_declare_property_null(phalcon_mvc_view_ce, SL("_registeredEngines"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_string(phalcon_mvc_view_ce, SL("_mainView"), "index", ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_mvc_view_ce, SL("_controllerName"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_mvc_view_ce, SL("_namespaceName"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_mvc_view_ce, SL("_actionName"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_mvc_view_ce, SL("_params"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_mvc_view_ce, SL("_pickView"), ZEND_ACC_PROTECTED TSRMLS_CC);
@@ -1153,16 +1154,21 @@ PHP_METHOD(Phalcon_Mvc_View, render){
 	zval *templates_before, *template_before = NULL;
 	zval *view_temp_path = NULL, *templates_after, *template_after = NULL;
 	zval *main_view, *is_started = NULL, *is_fresh = NULL;
+	zval *namespace_name = NULL, *lower_controller_name, *lower_action_name, *lower_namespace_name;
 	HashTable *ah0, *ah1;
 	HashPosition hp0, hp1;
 	zval **hd;
 
 	PHALCON_MM_GROW();
 
-	phalcon_fetch_params(1, 2, 1, &controller_name, &action_name, &params);
+	phalcon_fetch_params(1, 2, 2, &controller_name, &action_name, &params, &namespace_name);
 	
 	if (!params) {
 		params = PHALCON_GLOBAL(z_null);
+	}
+
+	if (!namespace_name) {
+		namespace_name = PHALCON_GLOBAL(z_null);
 	}
 	
 	phalcon_update_property_this(this_ptr, SL("_currentRenderLevel"), PHALCON_GLOBAL(z_zero) TSRMLS_CC);
@@ -1183,7 +1189,17 @@ PHP_METHOD(Phalcon_Mvc_View, render){
 	phalcon_update_property_this(this_ptr, SL("_controllerName"), controller_name TSRMLS_CC);
 	phalcon_update_property_this(this_ptr, SL("_actionName"), action_name TSRMLS_CC);
 	phalcon_update_property_this(this_ptr, SL("_params"), params TSRMLS_CC);
-	
+	phalcon_update_property_this(this_ptr, SL("_namespaceName"), namespace_name TSRMLS_CC);
+
+	PHALCON_INIT_VAR(lower_controller_name);
+	phalcon_fast_strtolower(lower_controller_name, controller_name);
+
+	PHALCON_INIT_VAR(lower_action_name);
+	phalcon_fast_strtolower(lower_action_name, action_name);
+
+	PHALCON_INIT_VAR(lower_namespace_name);
+	phalcon_fast_strtolower(lower_namespace_name, namespace_name);
+
 	/** 
 	 * Check if there is a layouts directory set
 	 */
@@ -1201,8 +1217,11 @@ PHP_METHOD(Phalcon_Mvc_View, render){
 	phalcon_read_property_this(&layout, this_ptr, SL("_layout"), PH_NOISY TSRMLS_CC);
 	if (zend_is_true(layout)) {
 		PHALCON_CPY_WRT(layout_name, layout);
+	} else if (zend_is_true(namespace_name)) {
+		PHALCON_INIT_VAR(layout_name);
+		PHALCON_CONCAT_VSV(layout_name, lower_namespace_name, "/", lower_controller_name);
 	} else {
-		PHALCON_CPY_WRT(layout_name, controller_name);
+		PHALCON_CPY_WRT(layout_name, lower_controller_name);
 	}
 	
 	/** 
@@ -1217,7 +1236,12 @@ PHP_METHOD(Phalcon_Mvc_View, render){
 	phalcon_read_property_this(&pick_view, this_ptr, SL("_pickView"), PH_NOISY TSRMLS_CC);
 	if (Z_TYPE_P(pick_view) == IS_NULL) {
 		PHALCON_INIT_VAR(render_view);
-		PHALCON_CONCAT_VSV(render_view, controller_name, "/", action_name);
+
+		if (zend_is_true(namespace_name)) {
+			PHALCON_CONCAT_VSVSV(render_view, lower_namespace_name, "/", lower_controller_name, "/", lower_action_name);
+		} else {
+			PHALCON_CONCAT_VSV(render_view, lower_controller_name, "/", lower_action_name);
+		}
 	} else {
 		/** 
 		 * The 'picked' view is an array, where the first element is controller and the
