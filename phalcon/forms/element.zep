@@ -407,8 +407,8 @@ abstract class Element
 
 		/**
 		 * Check if there is an "id" attribute defined
- 		 */
- 		let attributes = this->_attributes;
+		 */
+		let attributes = this->_attributes;
 		if fetch name, attributes["id"] {
 			let name = this->_name;
 		}

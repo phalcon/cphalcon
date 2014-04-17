@@ -615,7 +615,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Mongo, increment) {
 	ZEPHIR_OBS_VAR(modifiedTime);
 	zephir_array_fetch_string(&modifiedTime, document, SL("time"), PH_NOISY TSRMLS_CC);
 	ZEPHIR_SINIT_VAR(difference);
-	sub_function(&difference, timestamp, ttl TSRMLS_CC);
+	zephir_sub_function(&difference, timestamp, ttl TSRMLS_CC);
 	notExpired = ZEPHIR_LT(&difference, modifiedTime);
 	if (notExpired == 1) {
 		if (!(zephir_array_isset_string(document, SS("data")))) {
@@ -690,7 +690,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Mongo, decrement) {
 	ZEPHIR_OBS_VAR(modifiedTime);
 	zephir_array_fetch_string(&modifiedTime, document, SL("time"), PH_NOISY TSRMLS_CC);
 	ZEPHIR_SINIT_VAR(difference);
-	sub_function(&difference, timestamp, ttl TSRMLS_CC);
+	zephir_sub_function(&difference, timestamp, ttl TSRMLS_CC);
 	notExpired = ZEPHIR_LT(&difference, modifiedTime);
 	if (notExpired == 1) {
 		if (!(zephir_array_isset_string(document, SS("data")))) {
@@ -701,7 +701,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Mongo, decrement) {
 		zephir_array_fetch_string(&cachedContent, document, SL("data"), PH_NOISY TSRMLS_CC);
 		if (zephir_is_numeric(cachedContent)) {
 			ZEPHIR_INIT_VAR(keys);
-			sub_function(keys, cachedContent, value TSRMLS_CC);
+			zephir_sub_function(keys, cachedContent, value TSRMLS_CC);
 			ZEPHIR_INIT_NVAR(ttl);
 			zephir_add_function(ttl, lifetime, timestamp TSRMLS_CC);
 			ZEPHIR_CALL_METHOD(NULL, this_ptr, "save", NULL, prefixedKey, keys);

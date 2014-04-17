@@ -399,7 +399,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, slice) {
 	ZEPHIR_INIT_NVAR(length);
 	if (Z_TYPE_P(end) != IS_NULL) {
 		ZEPHIR_INIT_VAR(_1);
-		sub_function(_1, end, start TSRMLS_CC);
+		zephir_sub_function(_1, end, start TSRMLS_CC);
 		ZVAL_LONG(length, (zephir_get_numberval(_1) + 1));
 	} else {
 		ZVAL_NULL(length);

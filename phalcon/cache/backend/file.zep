@@ -210,7 +210,7 @@ class File extends \Phalcon\Cache\Backend implements \Phalcon\Cache\BackendInter
 	 */
 	public function delete(var keyName) -> boolean
 	{
-		var prefix, prefixedKey, cacheFile, cacheDir;
+		var prefixedKey, cacheFile, cacheDir;
 
 		if !fetch cacheDir, this->_options["cacheDir"] {
 			throw new Exception("Unexpected inconsistency in options");

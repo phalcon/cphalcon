@@ -71,7 +71,7 @@ class NativeArray extends \Phalcon\Translate\Adapter
 			if typeof placeholders == "array" {
 				if count(placeholders) {
 					for key, value in placeholders {
-						let traslation = str_replace("%". key ."%", value, traslation);
+						let traslation = str_replace("%" . key . "%", value, traslation);
 					}
 				}
 			}

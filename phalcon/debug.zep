@@ -48,7 +48,7 @@ class Debug
 	 * @param string uri
 	 * @return Phalcon\Debug
 	 */
-	public function setUri(uri)
+	public function setUri(uri) -> <Debug>
 	{
 		let this->_uri = uri;
 		return this;
@@ -60,7 +60,7 @@ class Debug
 	 * @param boolean showBackTrace
 	 * @return Phalcon\Debug
 	 */
-	public function setShowBackTrace(showBackTrace)
+	public function setShowBackTrace(boolean showBackTrace) -> <Debug>
 	{
 		let this->_showBackTrace = showBackTrace;
 		return this;
@@ -72,7 +72,7 @@ class Debug
 	 * @param boolean showFiles
 	 * @return Phalcon\Debug
 	 */
-	public function setShowFiles(showFiles)
+	public function setShowFiles(boolean showFiles) -> <Debug>
 	{
 		let this->_showFiles = showFiles;
 		return this;
@@ -85,7 +85,7 @@ class Debug
 	 * @param boolean showFileFragment
 	 * @return Phalcon\Debug
 	 */
-	public function setShowFileFragment(showFileFragment)
+	public function setShowFileFragment(showFileFragment) -> <Debug>
 	{
 		let this->_showFileFragment = showFileFragment;
 		return this;
@@ -98,7 +98,7 @@ class Debug
 	 * @param boolean lowSeverity
 	 * @return Phalcon\Debug
 	 */
-	public function listen(exceptions=true, lowSeverity=false)
+	public function listen(exceptions=true, lowSeverity=false) -> <Debug>
 	{
 		if exceptions {
 			this->listenExceptions();
@@ -116,7 +116,7 @@ class Debug
 	 */
 	public function listenExceptions()
 	{
-	    set_exception_handler([this, "onUncaughtException"]);
+		set_exception_handler([this, "onUncaughtException"]);
 		return this;
 	}
 
@@ -125,7 +125,7 @@ class Debug
 	 *
 	 * @return Phalcon\Debug
 	 */
-	public function listenLowSeverity()
+	public function listenLowSeverity() -> <Debug>
 	{
 		set_exception_handler([this, "onUncaughtLowSeverity"]);
 		return this;
@@ -138,7 +138,7 @@ class Debug
 	 * @param string key
 	 * @return Phalcon\Debug
 	 */
-	public function debugVar(varz, key=null)
+	public function debugVar(varz, key=null) -> <Debug>
 	{
 		let this->_data[] = [varz, debug_backtrace(), time()];
 		return this;
@@ -149,7 +149,7 @@ class Debug
 	 *
 	 * @return Phalcon\Debug
 	 */
-	public function clearVars()
+	public function clearVars() -> <Debug>
 	{
 		let this->_data = null;
 		return this;
@@ -163,10 +163,8 @@ class Debug
 	 */
 	protected function _escapeString(value)
 	{
-	    var replacedValue;
 		if typeof value == "string" {
-			let replacedValue = str_replace("\n", "\\n", value);
-			return htmlentities(replacedValue, ENT_COMPAT, "utf-8");
+			return htmlentities(str_replace("\n", "\\n", value), ENT_COMPAT, "utf-8");
 		}
 		return value;
 	}
@@ -179,52 +177,44 @@ class Debug
 	 */
 	protected function _getArrayDump(argument, n = 0)
 	{
-	    var numberArguments, one, dump, varDump, escapedString, next, arrayDump, k, v, arguments, className, joinedDump;
+		var numberArguments, one, dump, varDump, k, v, arguments;
 
 		let numberArguments = count(argument);
 		if n < 3 {
 			if numberArguments > 0 {
 				if numberArguments < 10 {
-					let one = 1;
+
 					let dump = [];
-					for  k,v in argument {
+					for  k, v in argument {
 						if is_scalar(v) {
 							if v == "" {
-								let varDump = "[". k . "] =&gt; (empty string)";
+								let varDump = "[" . k . "] =&gt; (empty string)";
 							} else {
-								let escapedString = this->_escapeString(v);
-								let varDump = "[" . k . "] =&gt; " . escapedString;
+								let varDump = "[" . k . "] =&gt; " . this->_escapeString(v);
 							}
 							let dump[] = varDump;
 						} else {
 
 							if typeof v == "array" {
-								let next = n + one;
-								let arrayDump = this->_getArrayDump(v, next);
-								let varDump = "[" . k . "] =&gt; Array(" . arrayDump . ")";
-								let dump[] = varDump;
+								let dump[] = "[" . k . "] =&gt; Array(" . this->_getArrayDump(v, n + 1) . ")";
 								continue;
 							}
 
 							if typeof v == "object" {
-								let className = get_class(v);
-								let varDump = "[" . k . "] =&gt; Object(" . className . ")";
-								let dump[] = varDump;
+								let dump[] = "[" . k . "] =&gt; Object(" . get_class(v) . ")";
 								continue;
 							}
 
 							if typeof v == "null" {
-								let varDump = "[" . k . "] =&gt; null";
-								let dump[] = varDump;
+								let dump[] = "[" . k . "] =&gt; null";
 								continue;
 							}
 
-							let varDump = "[" . k . "] =&gt; ".v;
-							let dump[] = varDump;
+							let dump[] = "[" . k . "] =&gt; " . v;
 						}
 					}
-					let joinedDump = join(", ", dump);
-					return joinedDump;
+
+					return join(", ", dump);
 				}
 				return numberArguments;
 			}
@@ -240,7 +230,7 @@ class Debug
 	 */
 	protected function _getVarDump(variable)
 	{
-	    var className, dumpedObject, dump, arrayDump;
+		var className, dumpedObject, dump, arrayDump;
 
 		if is_scalar(variable) {
 
@@ -283,8 +273,7 @@ class Debug
 				/**
 				 * dump() must return an array, generate a recursive representation using getArrayDump
 				 */
-				let arrayDump = this->_getArrayDump(dumpedObject);
-				let dump = "Object(" . className  . ": " . arrayDump . ")";
+				let dump = "Object(" . className  . ": " . this->_getArrayDump(dumpedObject) . ")";
 			} else {
 
 				/**
@@ -299,8 +288,7 @@ class Debug
 		 * Recursively process the array and enclose it in []
 		 */
 		if typeof variable == "array" {
-			let arrayDump = this->_getArrayDump(variable);
-			return "Array(" . arrayDump . ")";
+			return "Array(" . this->_getArrayDump(variable) . ")";
 		}
 
 		/**
@@ -323,7 +311,7 @@ class Debug
 	 */
 	public function getMajorVersion()
 	{
-	    var parts;
+		var parts;
 
 		let parts = explode(" ", \Phalcon\Version::get());
 		return parts[0];
@@ -336,7 +324,9 @@ class Debug
 	 */
 	public function getVersion()
 	{
-		return "<div class=\"version\">Phalcon Framework <a target=\"_new\" href=\"http://docs.phalconphp.com/en/" .  this->getMajorVersion() . "/\">" . \Phalcon\Version::get() . "</a></div>";
+		return "<div class=\"version\">Phalcon Framework <a target=\"_new\" href=\"http://docs.phalconphp.com/en/" .
+			this->getMajorVersion() . "/\">" .
+			\Phalcon\Version::get() . "</a></div>";
 	}
 
 	/**
@@ -346,11 +336,11 @@ class Debug
 	 */
 	public function getCssSources()
 	{
-	    var uri, sources;
+		var uri, sources;
 
 		let uri = this->_uri;
-		let sources  = "<link href=\"".uri."jquery/jquery-ui.css\" type=\"text/css\" rel=\"stylesheet\" />";
-		let sources .= "<link href=\"".uri."themes/default/style.css\" type=\"text/css\" rel=\"stylesheet\" />";
+		let sources  = "<link href=\"" . uri . "jquery/jquery-ui.css\" type=\"text/css\" rel=\"stylesheet\" />";
+		let sources .= "<link href=\"" . uri . "themes/default/style.css\" type=\"text/css\" rel=\"stylesheet\" />";
 		return sources;
 	}
 
@@ -361,7 +351,7 @@ class Debug
 	 */
 	public function getJsSources()
 	{
-	    var uri, sources;
+		var uri, sources;
 
 		let uri = this->_uri;
 		let sources  = "<script type=\"text/javascript\" src=\"" . uri . "jquery/jquery.js\"></script>";
@@ -381,19 +371,19 @@ class Debug
 	protected function showTraceItem(n, trace)
 	{
 
-        var space, twoSpaces, underscore, minus, isPhalconClass, className, pattern, namespaceSeparator,
-        prepareInternalClass, preparedFunctionName, html, classReflection, prepareUriClass, isInternal,
-        lowerClassName, type, functionName, functionReflection, traceArgs, arguments, argument, dumpedArgument,
-        spanArgument, joinedArguments, one, filez, line, showFiles, lines, numberLines, showFileFragment, seven,
-        beforeLine, firstLine, afterLine, lastLine, commentPattern, utf8, entCompat, tab, comment, i, linePosition,
-        currentLine, trimmed, isComment, spacedCurrentLine, escapedLine;
+		var space, twoSpaces, underscore, minus, isPhalconClass, className, pattern, namespaceSeparator,
+		prepareInternalClass, preparedFunctionName, html, classReflection, prepareUriClass, isInternal,
+		lowerClassName, type, functionName, functionReflection, traceArgs, arguments, argument, 
+		spanArgument, joinedArguments, one, filez, line, showFiles, lines, numberLines, showFileFragment, seven,
+		beforeLine, firstLine, afterLine, lastLine, commentPattern, utf8, entCompat, tab, comment, i, linePosition,
+		currentLine, trimmed, isComment, spacedCurrentLine;
 
 		let space = " ";
 		let twoSpaces = "  ";
 		let underscore = "_";
 		let minus = "-";
 
-        /**
+		/**
 		 * Every trace in the backtrace have a unique number
 		 */
 		let html = "<tr><td align=\"right\" valign=\"top\" class=\"error-number\">#".n."</td><td>";
@@ -402,14 +392,10 @@ class Debug
 
 			let className = trace["class"];
 
-			let pattern = "/^Phalcon/";
-
-			let isPhalconClass = preg_match(pattern, className);
-
 			/**
 			 * We assume that classes starting by Phalcon are framework"s classes
 			 */
-			if isPhalconClass {
+			if preg_match("/^Phalcon/", className) {
 
 				let namespaceSeparator = "\\";
 
@@ -421,7 +407,7 @@ class Debug
 				/**
 				 * Generate a link to the official docs
 				 */
-				let html .= "<span class=\"error-class\"><a target=\"_new\" href=\"http://docs.phalconphp.com/en/latest/api/".prepareUriClass.".html\">".className."</a></span>";
+				let html .= "<span class=\"error-class\"><a target=\"_new\" href=\"http://docs.phalconphp.com/en/latest/api/" . prepareUriClass . ".html\">" . className . "</a></span>";
 			} else {
 
 				let classReflection = new \ReflectionClass(className);
@@ -429,36 +415,32 @@ class Debug
 				/**
 				 * Check if classes are PHP"s classes
 				 */
-				let isInternal = classReflection->isInternal();
-				if isInternal {
-					let lowerClassName = strtolower(className);
-					let prepareInternalClass = str_replace(underscore, minus, lowerClassName);
+				if classReflection->isInternal() {
+
+					let prepareInternalClass = str_replace(underscore, minus, strtolower(className));
 
 					/**
 					 * Generate a link to the official docs
 					 */
-					let html .= "<span class=\"error-class\"><a target=\"_new\" href=\"http://php.net/manual/en/class.".prepareInternalClass.".php\">".className."</a></span>";
+					let html .= "<span class=\"error-class\"><a target=\"_new\" href=\"http://php.net/manual/en/class." . prepareInternalClass . ".php\">" . className . "</a></span>";
 				} else {
-					let html .= "<span class=\"error-class\">".className."</span>";
+					let html .= "<span class=\"error-class\">" . className . "</span>";
 				}
 			}
 
 			/**
 			 * Object access operator: static/instance
 			 */
-			let type = trace["type"];
-			let html .= type;
+			let html .= trace["type"];
 		}
 
 		/**
 		 * Normally the backtrace contains only classes
 		 */
+		let functionName = trace["function"];
 		if isset trace["class"] {
-			let functionName = trace["function"];
-			let html .= "<span class=\"error-function\">".functionName."</span>";
+			let html .= "<span class=\"error-function\">" . functionName . "</span>";
 		} else {
-
-			let functionName = trace["function"];
 
 			/**
 			 * Check if the function exists
@@ -467,22 +449,20 @@ class Debug
 
 				let functionReflection = new \ReflectionFunction(functionName);
 
-				let isInternal = functionReflection->isInternal();
-
 				/**
 				 * Internal functions links to the PHP documentation
 				 */
-				if isInternal {
+				if functionReflection->isInternal() {
 					/**
 					 * Prepare function"s name according to the conventions in the docs
 					 */
 					let preparedFunctionName = str_replace(underscore, minus, functionName);
-					let html .= "<span class=\"error-function\"><a target=\"_new\" href=\"http://php.net/manual/en/function.".preparedFunctionName.".php\">".functionName."</a></span>";
+					let html .= "<span class=\"error-function\"><a target=\"_new\" href=\"http://php.net/manual/en/function." . preparedFunctionName . ".php\">" . functionName . "</a></span>";
 				} else {
-					let html .= "<span class=\"error-function\">".functionName."</span>";
+					let html .= "<span class=\"error-function\">" . functionName . "</span>";
 				}
 			} else {
-				let html .= "<span class=\"error-function\">".functionName."</span>";
+				let html .= "<span class=\"error-function\">" . functionName . "</span>";
 			}
 		}
 
@@ -498,22 +478,15 @@ class Debug
 
 					/**
 					 * Every argument is generated using _getVarDump
-					 */
-					let dumpedArgument = this->_getVarDump(argument);
-					let spanArgument = "<span class=\"error-parameter\">".dumpedArgument."</span>";
-
-					/**
 					 * Append the HTML generated to the argument"s list
 					 */
-					let arguments[] = spanArgument;
+					let arguments[] = "<span class=\"error-parameter\">" . this->_getVarDump(argument) . "</span>";
 				}
 
 				/**
 				 * Join all the arguments
 				 */
-				let joinedArguments = join(", ", arguments);
-
-				let html .= "(" . joinedArguments  . ")";
+				let html .= "(" . join(", ", arguments)  . ")";
 			} else {
 				let html .= "()";
 			}
@@ -522,17 +495,14 @@ class Debug
 		/**
 		 * When "file" is present, it usually means the function is provided by the user
 		 */
-		if isset trace["file"] {
+		if fetch filez, trace["file"] {
 
-			let one = 1;
-
-			let filez = trace["file"];
 			let line = trace["line"];
 
 			/**
 			 * Realpath to the file and its line using a special header
 			 */
-			let html .= "<br/><div class=\"error-file\">".filez." (".line.")</div>";
+			let html .= "<br/><div class=\"error-file\">" . filez . " (" . line . ")</div>";
 
 			let showFiles = this->_showFiles;
 
@@ -555,23 +525,21 @@ class Debug
 				if showFileFragment {
 
 					/**
-					 * Take seven lines back to the current exception"s line, @TODO add an option for this
+					 * Take seven lines back to the current exception's line, @TODO add an option for this
 					 */
-					let seven = 7;
-
-					let beforeLine = line - seven;
+					let beforeLine = line - 7;
 
 					/**
 					 * Check for overflows
 					 */
 					if beforeLine < 1 {
-						let firstLine = one;
+						let firstLine = 1;
 					} else {
 						let firstLine = beforeLine;
 					}
 
 					/**
-					 * Take five lines after the current exception"s line, @TODO add an option for this
+					 * Take five lines after the current exception's line, @TODO add an option for this
 					 */
 					let afterLine = line + 5;
 
@@ -586,7 +554,7 @@ class Debug
 
 					let html .= "<pre class=\"prettyprint highlight:" . firstLine . ":" . line . " linenums:" . firstLine . "\">";
 				} else {
-					let firstLine = one;
+					let firstLine = 1;
 					let lastLine = numberLines;
 					let html .= "<pre class=\"prettyprint highlight:" . firstLine . ":" . line . " linenums error-scroll\">";
 				}
@@ -599,7 +567,7 @@ class Debug
 				let utf8 = "UTF-8";
 
 				/**
-				 * Don"t escape quotes
+				 * Don't escape quotes
 				 */
 				let entCompat = ENT_COMPAT;
 
@@ -612,7 +580,7 @@ class Debug
 					/**
 					 * Current line in the file
 					 */
-					let linePosition = i - one;
+					let linePosition = i - 1;
 
 					/**
 					 * Current line content in the piece of file
@@ -624,11 +592,8 @@ class Debug
 					 */
 					if showFileFragment {
 						if i == firstLine {
-							let trimmed = rtrim(currentLine);
-							let isComment = preg_match(commentPattern, currentLine);
-							if isComment {
-								let spacedCurrentLine = str_replace(comment, space, currentLine);
-								let currentLine = spacedCurrentLine;
+							if preg_match(commentPattern, rtrim(currentLine)) {
+								let currentLine = str_replace(comment, space, currentLine);
 							}
 						}
 					}
@@ -642,9 +607,7 @@ class Debug
 						if currentLine == "\r\n" {
 							let html .= "&nbsp;\n";
 						} else {
-							let spacedCurrentLine = str_replace(tab, twoSpaces, currentLine);
-							let escapedLine = htmlentities(spacedCurrentLine, entCompat, utf8);
-							let html .= escapedLine;
+							let html .= htmlentities(str_replace(tab, twoSpaces, currentLine), entCompat, utf8);
 						}
 					}
 
@@ -665,11 +628,10 @@ class Debug
 	 * @param \Exception exception
 	 * @return boolean
 	 */
-	public function onUncaughtException(exception)
+	public function onUncaughtException(exception) -> boolean
 	{
-        var obLevel, isActive, message, className, cssSources, escapedMessage, html, version, file, line, showBackTrace,
-        dataVars, trace, n, traceItem, htmlItem, keyRequest, value, keyServer, files, keyFile, trueUsage, memory, keyVar,
-         dataVar, variable, dumpedArgument, jsSources;
+		var obLevel, message, className, escapedMessage, html, showBackTrace,
+		dataVars, n, traceItem, keyRequest, value, keyServer, keyFile, keyVar, dataVar;
 
 		let obLevel = ob_get_level();
 
@@ -680,59 +642,44 @@ class Debug
 			ob_end_clean();
 		}
 
-		let isActive = self::_isActive;
-
 		/**
 		 * Avoid that multiple exceptions being showed
 		 */
-		if isActive {
-			let message = exception->getMessage();
-			echo message;
+		if self::_isActive {
+			echo exception->getMessage();
 			return;
 		}
-
-		let isActive = true;
 
 		/**
 		 * Globally block the debug component to avoid other exceptions must be shown
 		 */
-		let self::_isActive = isActive;
+		let self::_isActive = true;
 
 		let className = get_class(exception);
 
-		let message = exception->getMessage();
+		/**
+		 * Escape the exception's message avoiding possible XSS injections?
+		 */
+		let escapedMessage = exception->getMessage();
 
 		/**
 		 * CSS static sources to style the error presentation
-		 */
-		let cssSources = this->getCssSources();
-
-		/**
-		 * Escape the exception"s message avoiding possible XSS injections?
-		 */
-		let escapedMessage = message;
-
-		/**
 		 * Use the exception info as document"s title
 		 */
-		let html = "<html><head><title>".className.": ".escapedMessage."</title>";
-		let html .= cssSources."</head><body>";
+		let html = "<html><head><title>" . className . ": " . escapedMessage . "</title>";
+		let html .= this->getCssSources() . "</head><body>";
 
 		/**
 		 * Get the version link
 		 */
-		let version = this->getVersion();
-		let html .= version;
-
-		let file = exception->getFile();
-		let line = exception->getLine();
+		let html .= this->getVersion();
 
 		/**
 		 * Main exception info
 		 */
 		let html .= "<div align=\"center\"><div class=\"error-main\">";
-		let html .= "<h1>".className.": ".escapedMessage."</h1>";
-		let html .= "<span class=\"error-file\">".file." (".line.")</span>";
+		let html .= "<h1>" . className . ": " . escapedMessage . "</h1>";
+		let html .= "<span class=\"error-file\">" . exception->getFile() . " (" . exception->getLine() . ")</span>";
 		let html .= "</div>";
 
 		let showBackTrace = this->_showBackTrace;
@@ -762,15 +709,11 @@ class Debug
 			 * Print backtrace
 			 */
 			let html .= "<div id=\"error-tabs-1\"><table cellspacing=\"0\" align=\"center\" width=\"100%\">";
-			let trace = exception->getTrace();
-			for n,traceItem in trace  {
-
+			for n, traceItem in exception->getTrace()  {
 				/**
 				 * Every line in the trace is rendered using "showTraceItem"
 				 */
-				let htmlItem = this->showTraceItem(n, traceItem);
-
-				let html .= htmlItem;
+				let html .= this->showTraceItem(n, traceItem);
 			}
 			let html .= "</table></div>";
 
@@ -779,8 +722,8 @@ class Debug
 			 */
 			let html .= "<div id=\"error-tabs-2\"><table cellspacing=\"0\" align=\"center\" class=\"superglobal-detail\">";
 			let html .= "<tr><th>Key</th><th>Value</th></tr>";
-			for keyRequest,value in _REQUEST {
-				let html .= "<tr><td class=\"key\">".keyRequest."</td><td>".value."</td></tr>";
+			for keyRequest, value in _REQUEST {
+				let html .= "<tr><td class=\"key\">" . keyRequest . "</td><td>" . value . "</td></tr>";
 			}
 			let html .= "</table></div>";
 
@@ -789,31 +732,27 @@ class Debug
 			 */
 			let html .= "<div id=\"error-tabs-3\"><table cellspacing=\"0\" align=\"center\" class=\"superglobal-detail\">";
 			let html .= "<tr><th>Key</th><th>Value</th></tr>";
-			for keyServer,value in _SERVER {
-				let html .= "<tr><td class=\"key\">".keyServer."</td><td>".value."</td></tr>";
+			for keyServer, value in _SERVER {
+				let html .= "<tr><td class=\"key\">" . keyServer . "</td><td>" . value . "</td></tr>";
 			}
 			let html .= "</table></div>";
 
 			/**
 			 * Show included files
 			 */
-			let files = get_included_files();
 
 			let html .= "<div id=\"error-tabs-4\"><table cellspacing=\"0\" align=\"center\" class=\"superglobal-detail\">";
 			let html .= "<tr><th>#</th><th>Path</th></tr>";
-			for keyFile,value in files {
-				let html .= "<tr><td>".keyFile."</th><td>".value."</td></tr>";
+			for keyFile, value in get_included_files() {
+				let html .= "<tr><td>" . keyFile . "</th><td>" . value . "</td></tr>";
 			}
 			let html .= "</table></div>";
 
 			/**
 			 * Memory usage
 			 */
-			let trueUsage = true;
-			let memory = memory_get_usage(trueUsage);
-
 			let html .= "<div id=\"error-tabs-5\"><table cellspacing=\"0\" align=\"center\" class=\"superglobal-detail\">";
-			let html .= "<tr><th colspan=\"2\">Memory</th></tr><tr><td>Usage</td><td>".memory."</td></tr>";
+			let html .= "<tr><th colspan=\"2\">Memory</th></tr><tr><td>Usage</td><td>" . memory_get_usage(true) . "</td></tr>";
 			let html .= "</table></div>";
 
 			/**
@@ -822,10 +761,8 @@ class Debug
 			if typeof  dataVars == "array" {
 				let html .= "<div id=\"error-tabs-6\"><table cellspacing=\"0\" align=\"center\" class=\"superglobal-detail\">";
 				let html .= "<tr><th>Key</th><th>Value</th></tr>";
-				for keyVar,dataVar in dataVars {
-					let variable = dataVar[0];
-					let dumpedArgument = this->_getVarDump(variable);
-					let html .= "<tr><td class=\"key\">".keyVar."</td><td>".dumpedArgument."</td></tr>";
+				for keyVar, dataVar in dataVars {
+					let html .= "<tr><td class=\"key\">" . keyVar . "</td><td>" . this->_getVarDump(dataVar[0]) . "</td></tr>";
 				}
 				let html .= "</table></div>";
 			}
@@ -836,20 +773,17 @@ class Debug
 		/**
 		 * Get Javascript sources
 		 */
-		let jsSources = this->getJsSources();
-		let html .=  jsSources . "</div></body></html>";
+		let html .=  this->getJsSources() . "</div></body></html>";
 
 		/**
 		 * Print the HTML, @TODO, add an option to store the html
 		 */
 		echo html;
 
-		let isActive = false;
-
 		/**
 		 * Unlock the exception renderer
 		 */
-		let self::_isActive = isActive;
+		let self::_isActive = false;
 
 		return true;
 	}

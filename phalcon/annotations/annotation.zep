@@ -50,9 +50,9 @@ class Annotation
 	 *
 	 * @param array reflectionData
 	 */
- 	public function __construct(array! reflectionData)
+	public function __construct(array! reflectionData)
 	{
-  		var name, exprArguments, argument, resolvedArgument, arguments;
+		var name, exprArguments, argument, resolvedArgument, arguments;
 
 		let this->_name = reflectionData["name"];
 
@@ -64,14 +64,14 @@ class Annotation
 				let resolvedArgument =  this->getExpression(argument["expr"]);
 				if fetch name, argument["name"] {
 					let arguments = name[resolvedArgument];
-	   			} else {
+				} else {
 					let arguments = resolvedArgument;
 				}
 			}
 			let this->_arguments = arguments;
 			let this->_exprArguments = exprArguments;
 		}
- 	}
+	}
 
 	/**
 	 * Returns the annotation's name
@@ -130,14 +130,14 @@ class Annotation
 			case PHANNOT_T_ANNOTATION:
 				return new \Phalcon\Annotations\Annotation(expr);
 
-   			default:
+			default:
 				throw new \Phalcon\Annotations\Exception("The expression ". type. " is unknown");
 		}
 
 		return value;
 	}
 
- 	/**
+	/**
 	 * Returns the expression arguments without resolving
 	 *
 	 * @return array
@@ -202,7 +202,7 @@ class Annotation
 	{
 		var argument;
 		if fetch argument, this->_arguments[name] {
- 			return argument;
+			return argument;
 		}
 	}
 

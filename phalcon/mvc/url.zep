@@ -19,6 +19,10 @@
 
 namespace Phalcon\Mvc;
 
+use Phalcon\DiInterface;
+use Phalcon\Mvc\RouterInterface;
+use Phalcon\Mvc\Router\RouteInterface;
+
 /**
  * Phalcon\Mvc\Url
  *
@@ -52,7 +56,7 @@ class Url implements \Phalcon\Mvc\UrlInterface, \Phalcon\Di\InjectionAwareInterf
 	 *
 	 * @param Phalcon\DiInterface dependencyInjector
 	 */
-	public function setDI(<\Phalcon\DiInterface> dependencyInjector)
+	public function setDI(<DiInterface> dependencyInjector)
 	{
 		let this->_dependencyInjector = dependencyInjector;
 	}
@@ -62,7 +66,7 @@ class Url implements \Phalcon\Mvc\UrlInterface, \Phalcon\Di\InjectionAwareInterf
 	 *
 	 * @return Phalcon\DiInterface
 	 */
-	public function getDI() -> <\Phalcon\DiInterface>
+	public function getDI() -> <DiInterface>
 	{
 		return this->_dependencyInjector;
 	}
@@ -198,26 +202,26 @@ class Url implements \Phalcon\Mvc\UrlInterface, \Phalcon\Di\InjectionAwareInterf
 				throw new \Phalcon\Mvc\Url\Exception("It's necessary to define the route name with the parameter 'for'");
 			}
 
-			let router =  <\Phalcon\Mvc\RouterInterface> this->_router;
+			let router =  <RouterInterface> this->_router;
 
 			/**
 			 * Check if the router has not previously set
 			 */
 			if typeof router != "object" {
 
-				let dependencyInjector = <\Phalcon\DiInterface> this->_dependencyInjector;
+				let dependencyInjector = <DiInterface> this->_dependencyInjector;
 				if typeof dependencyInjector != "object" {
 					throw new \Phalcon\Mvc\Url\Exception("A dependency injector container is required to obtain the 'router' service");
 				}
 
-				let router = <\Phalcon\Mvc\RouterInterface> dependencyInjector->getShared("router"),
+				let router = <RouterInterface> dependencyInjector->getShared("router"),
 					this->_router = router;
 			}
 
 			/**
 			 * Every route is uniquely differenced by a name
 			 */
-			let route = <\Phalcon\Mvc\Router\RouteInterface> router->getRouteByName(routeName);
+			let route = <RouteInterface> router->getRouteByName(routeName);
 			if typeof route != "object" {
 				throw new \Phalcon\Mvc\Url\Exception("Cannot obtain a route using the name '" . routeName . "'");
 			}

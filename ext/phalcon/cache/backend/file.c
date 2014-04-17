@@ -487,7 +487,7 @@ PHP_METHOD(Phalcon_Cache_Backend_File, increment) {
 			ZEPHIR_CPY_WRT(ttl, lifetime);
 		}
 		ZEPHIR_INIT_VAR(_3);
-		sub_function(_3, timestamp, ttl TSRMLS_CC);
+		zephir_sub_function(_3, timestamp, ttl TSRMLS_CC);
 		ZEPHIR_INIT_VAR(_4);
 		zephir_filemtime(_4, cacheFile TSRMLS_CC);
 		if (ZEPHIR_LT(_3, _4)) {
@@ -567,7 +567,7 @@ PHP_METHOD(Phalcon_Cache_Backend_File, decrement) {
 			ZEPHIR_CPY_WRT(ttl, lifetime);
 		}
 		ZEPHIR_INIT_VAR(_4);
-		sub_function(_4, timestamp, ttl TSRMLS_CC);
+		zephir_sub_function(_4, timestamp, ttl TSRMLS_CC);
 		ZEPHIR_INIT_VAR(_5);
 		zephir_filemtime(_5, cacheFile TSRMLS_CC);
 		if (ZEPHIR_LT(_4, _5)) {

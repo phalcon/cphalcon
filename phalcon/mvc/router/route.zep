@@ -134,7 +134,7 @@ class Route
 	 * @param string|array httpMethods
 	 * @return Phalcon\Mvc\Router\Route
 	 */
-	public function via(httpMethods) -> <\Phalcon\Mvc\Router\Route>
+	public function via(httpMethods) -> <Route>
 	{
 		let this->_methods = httpMethods;
 		return this;
@@ -424,7 +424,7 @@ class Route
 	 * @param string name
 	 * @return Phalcon\Mvc\Router\Route
 	 */
-	public function setName(string! name) -> <\Phalcon\Mvc\Router\Route>
+	public function setName(string! name) -> <Route>
 	{
 		let this->_name = name;
 		return this;
@@ -438,7 +438,7 @@ class Route
 	 * @param callback callback
 	 * @return Phalcon\Mvc\Router\Route
 	 */
-	public function beforeMatch(var callback) -> <\Phalcon\Mvc\Router\Route>
+	public function beforeMatch(var callback) -> <Route>
 	{
 		let this->_beforeMatch = callback;
 		return this;
@@ -521,7 +521,7 @@ class Route
 	 * @param string|array httpMethods
 	 * @return Phalcon\Mvc\Router\Route
 	 */
-	public function setHttpMethods(httpMethods) -> <\Phalcon\Mvc\Router\Route>
+	public function setHttpMethods(httpMethods) -> <Route>
 	{
 		let this->_methods = httpMethods;
 		return this;
@@ -547,7 +547,7 @@ class Route
 	 * @param string|array httpMethods
 	 * @return Phalcon\Mvc\Router\Route
 	 */
-	public function setHostname(hostname) -> <\Phalcon\Mvc\Router\Route>
+	public function setHostname(hostname) -> <Route>
 	{
 		let this->_hostname = hostname;
 		return this;
@@ -570,7 +570,7 @@ class Route
 	 * @param callable converter
 	 * @return Phalcon\Mvc\Router\Route
 	 */
-	public function convert(string! name, converter) -> <\Phalcon\Mvc\Router\Route>
+	public function convert(string! name, converter) -> <Route>
 	{
 		let this->_converters[name] = converter;
 		return this;

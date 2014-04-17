@@ -1540,13 +1540,13 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, addHasManyToMany) {
 	}
 	if (Z_TYPE_P(intermediateFields) == IS_ARRAY) {
 		if (zephir_fast_count_int(fields TSRMLS_CC) != zephir_fast_count_int(intermediateFields TSRMLS_CC)) {
-			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_model_exception_ce, "Number of referenced fields are not the same", "phalcon/mvc/model/manager.zep", 1004);
+			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_model_exception_ce, "Number of referenced fields are not the same", "phalcon/mvc/model/manager.zep", 1003);
 			return;
 		}
 	}
 	if (Z_TYPE_P(intermediateReferencedFields) == IS_ARRAY) {
 		if (zephir_fast_count_int(fields TSRMLS_CC) != zephir_fast_count_int(intermediateFields TSRMLS_CC)) {
-			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_model_exception_ce, "Number of referenced fields are not the same", "phalcon/mvc/model/manager.zep", 1013);
+			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_model_exception_ce, "Number of referenced fields are not the same", "phalcon/mvc/model/manager.zep", 1012);
 			return;
 		}
 	}
@@ -1957,7 +1957,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getRelationRecords) {
 			zephir_check_call_status();
 			zephir_array_append(&placeholders, _0, PH_SEPARATE);
 		} else {
-			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_model_exception_ce, "Not supported", "phalcon/mvc/model/manager.zep", 1283);
+			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_model_exception_ce, "Not supported", "phalcon/mvc/model/manager.zep", 1282);
 			return;
 		}
 		ZEPHIR_INIT_VAR(joinConditions);
@@ -1971,7 +1971,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getRelationRecords) {
 			ZEPHIR_CONCAT_SVSVSVSVS(_1, "[", intermediateModel, "].[", intermediateFields, "] = [", referencedModel, "].[", _2, "]");
 			zephir_array_append(&joinConditions, _1, PH_SEPARATE);
 		} else {
-			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_model_exception_ce, "Not supported", "phalcon/mvc/model/manager.zep", 1295);
+			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_model_exception_ce, "Not supported", "phalcon/mvc/model/manager.zep", 1294);
 			return;
 		}
 		if (!(ZEPHIR_IS_EMPTY(preConditions))) {
@@ -2063,7 +2063,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getRelationRecords) {
 				ZVAL_STRING(retrieveMethod, "find", 1);
 				break;
 			}
-			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_model_exception_ce, "Unknown relation type", "phalcon/mvc/model/manager.zep", 1379);
+			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_model_exception_ce, "Unknown relation type", "phalcon/mvc/model/manager.zep", 1378);
 			return;
 		} while(0);
 
@@ -2768,7 +2768,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, createQuery) {
 	ZEPHIR_OBS_VAR(dependencyInjector);
 	zephir_read_property_this(&dependencyInjector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
 	if (Z_TYPE_P(dependencyInjector) != IS_OBJECT) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_model_exception_ce, "A dependency injection object is required to access ORM services", "phalcon/mvc/model/manager.zep", 1766);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_model_exception_ce, "A dependency injection object is required to access ORM services", "phalcon/mvc/model/manager.zep", 1765);
 		return;
 	}
 	ZEPHIR_INIT_VAR(query);
@@ -2817,7 +2817,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, executeQuery) {
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
 	ZEPHIR_CPY_WRT(dependencyInjector, _0);
 	if (Z_TYPE_P(dependencyInjector) != IS_OBJECT) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_model_exception_ce, "A dependency injection object is required to access ORM services", "phalcon/mvc/model/manager.zep", 1792);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_model_exception_ce, "A dependency injection object is required to access ORM services", "phalcon/mvc/model/manager.zep", 1791);
 		return;
 	}
 	ZEPHIR_INIT_VAR(query);
@@ -2855,7 +2855,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, createBuilder) {
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
 	ZEPHIR_CPY_WRT(dependencyInjector, _0);
 	if (Z_TYPE_P(dependencyInjector) != IS_OBJECT) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_model_exception_ce, "A dependency injection object is required to access ORM services", "phalcon/mvc/model/manager.zep", 1821);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_model_exception_ce, "A dependency injection object is required to access ORM services", "phalcon/mvc/model/manager.zep", 1820);
 		return;
 	}
 	object_init_ex(return_value, phalcon_mvc_model_query_builder_ce);
@@ -2939,7 +2939,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getNamespaceAlias) {
 	ZEPHIR_CONCAT_SVS(_2, "Namespace alias '", alias, "' is not registered");
 	ZEPHIR_CALL_METHOD(NULL, _1, "__construct", NULL, _2);
 	zephir_check_call_status();
-	zephir_throw_exception_debug(_1, "phalcon/mvc/model/manager.zep", 1864 TSRMLS_CC);
+	zephir_throw_exception_debug(_1, "phalcon/mvc/model/manager.zep", 1863 TSRMLS_CC);
 	ZEPHIR_MM_RESTORE();
 	return;
 

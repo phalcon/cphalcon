@@ -50,7 +50,7 @@
  * $di['router'] = function() {
  *
  *		//Use the annotations router
- *		$router = new \Phalcon\Mvc\Router\Annotations(false);
+ *		$router = new Annotations(false);
  *
  *		//This will do the same as above but only if the handled uri starts with /robots
  * 		$router->addResource('Robots', '/robots');
@@ -272,7 +272,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Annotations, handle) {
 						_0 = zephir_fetch_nproperty_this(this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
 						ZEPHIR_CPY_WRT(dependencyInjector, _0);
 						if (Z_TYPE_P(dependencyInjector) != IS_OBJECT) {
-							ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_router_exception_ce, "A dependency injection container is required to access the 'annotations' service", "phalcon/mvc/router/annotations.zep", 137);
+							ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_router_exception_ce, "A dependency injection container is required to access the 'annotations' service", "phalcon/mvc/router/annotations.zep", 139);
 							return;
 						}
 						ZEPHIR_INIT_NVAR(_4);
@@ -283,7 +283,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Annotations, handle) {
 					}
 					ZEPHIR_OBS_NVAR(handler);
 					zephir_array_fetch_long(&handler, scope, 1, PH_NOISY TSRMLS_CC);
-					if (zephir_memnstr_str(handler, SL("\\"), "phalcon/mvc/router/annotations.zep", 148)) {
+					if (zephir_memnstr_str(handler, SL("\\"), "phalcon/mvc/router/annotations.zep", 150)) {
 						ZEPHIR_INIT_NVAR(controllerName);
 						zephir_get_class_ns(controllerName, handler, 0 TSRMLS_CC);
 						ZEPHIR_INIT_NVAR(lowerControllerName);

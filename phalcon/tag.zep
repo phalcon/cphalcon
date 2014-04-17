@@ -154,7 +154,7 @@ class Tag
 
 	/**
 	 * Return a URL service from the default DI
-     *
+	 *
 	 * @return Phalcon\Mvc\UrlInterface
 	 */
 	public static function getUrlService() -> <\Phalcon\Mvc\UrlInterface>
@@ -907,7 +907,7 @@ class Tag
 	 *		"using" => array("id", "name")
 	 * 	));
 	 *</code>
-     *
+	 *
 	 * Volt syntax:
 	 *<code>
 	 * {{ select("robotId", robots, "using": ["id", "name"]) }}
@@ -928,7 +928,7 @@ class Tag
 	 *<code>
 	 * echo Phalcon\Tag::textArea(array("comments", "cols" => 10, "rows" => 4))
 	 *</code>
-     *
+	 *
 	 * Volt syntax:
 	 *<code>
 	 * {{ text_area("comments", "cols": 10, "rows": 4) }}
@@ -1248,7 +1248,7 @@ class Tag
 	 */
 	public static function javascriptInclude(parameters=null, local=true)
 	{
- 		var params, code, key, value;
+		var params, code, key, value;
 
 		if typeof parameters != "array" {
 			let params = [parameters, local];
@@ -1404,24 +1404,24 @@ class Tag
 		switch self::_documentType
 		{
 			case 1:  return "<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 3.2 Final//EN\">" . PHP_EOL;
-            /* no break */
-            case 2:  return "<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.01//EN\"" . PHP_EOL . "\t\"http://www.w3.org/TR/html4/strict.dtd\">" . PHP_EOL;
-            /* no break */
-            case 3:  return "<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\"" . PHP_EOL . "\t\"http://www.w3.org/TR/html4/loose.dtd\">" . PHP_EOL;
-            /* no break */
-            case 4:  return "<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.01 Frameset//EN\"" . PHP_EOL . "\t\"http://www.w3.org/TR/html4/frameset.dtd\">" . PHP_EOL;
-            /* no break */
-            case 5:  return "<!DOCTYPE html>" . PHP_EOL;
-            /* no break */
-            case 6:  return "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\"" . PHP_EOL . "\t\"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">" . PHP_EOL;
-            /* no break */
-            case 7:  return "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\"" . PHP_EOL."\t\"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">" . PHP_EOL;
-            /* no break */
-            case 8:  return "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Frameset//EN\"" . PHP_EOL . "\t\"http://www.w3.org/TR/xhtml1/DTD/xhtml1-frameset.dtd\">" . PHP_EOL;
-            /* no break */
-            case 9:  return "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.1//EN\"" . PHP_EOL . "\t\"http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd\">" . PHP_EOL;
-            /* no break */
-            case 10: return "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 2.0//EN\"" . PHP_EOL . "\t\"http://www.w3.org/MarkUp/DTD/xhtml2.dtd\">" . PHP_EOL;
+			/* no break */
+			case 2:  return "<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.01//EN\"" . PHP_EOL . "\t\"http://www.w3.org/TR/html4/strict.dtd\">" . PHP_EOL;
+			/* no break */
+			case 3:  return "<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\"" . PHP_EOL . "\t\"http://www.w3.org/TR/html4/loose.dtd\">" . PHP_EOL;
+			/* no break */
+			case 4:  return "<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.01 Frameset//EN\"" . PHP_EOL . "\t\"http://www.w3.org/TR/html4/frameset.dtd\">" . PHP_EOL;
+			/* no break */
+			case 5:  return "<!DOCTYPE html>" . PHP_EOL;
+			/* no break */
+			case 6:  return "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\"" . PHP_EOL . "\t\"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">" . PHP_EOL;
+			/* no break */
+			case 7:  return "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\"" . PHP_EOL."\t\"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">" . PHP_EOL;
+			/* no break */
+			case 8:  return "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Frameset//EN\"" . PHP_EOL . "\t\"http://www.w3.org/TR/xhtml1/DTD/xhtml1-frameset.dtd\">" . PHP_EOL;
+			/* no break */
+			case 9:  return "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.1//EN\"" . PHP_EOL . "\t\"http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd\">" . PHP_EOL;
+			/* no break */
+			case 10: return "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 2.0//EN\"" . PHP_EOL . "\t\"http://www.w3.org/MarkUp/DTD/xhtml2.dtd\">" . PHP_EOL;
 		}
 
 		return "";
@@ -1443,7 +1443,7 @@ class Tag
 	 */
 	public static function tagHtml(tagName, parameters=null, selfClose=false, onlyStart=false, useEol=false) -> string
 	{
- 		var params, localCode, key, value;
+		var params, localCode, key, value;
 
 		if typeof parameters != "array" {
 			let params = [parameters];

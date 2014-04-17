@@ -571,7 +571,7 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
 	 */
 	public function notInWhere(string! expr, array! values) -> <Criteria>
 	{
-		var hiddenParam, bindParams, bindKeys, value, key, queryKey;
+		var hiddenParam, bindParams, bindKeys, value, key;
 
 		let hiddenParam = this->_hiddenParamNumber;
 

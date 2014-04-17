@@ -569,7 +569,7 @@ PHP_METHOD(Phalcon_Image_Adapter, watermark) {
 	ZEPHIR_CALL_METHOD(&_1, watermark, "getwidth",  NULL);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(_2);
-	sub_function(_2, _0, _1 TSRMLS_CC);
+	zephir_sub_function(_2, _0, _1 TSRMLS_CC);
 	tmp = zephir_get_numberval(_2);
 	if (offset_x < 0) {
 		offset_x = 0;
@@ -582,7 +582,7 @@ PHP_METHOD(Phalcon_Image_Adapter, watermark) {
 	ZEPHIR_CALL_METHOD(&_1, watermark, "getheight",  NULL);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(_3);
-	sub_function(_3, _0, _1 TSRMLS_CC);
+	zephir_sub_function(_3, _0, _1 TSRMLS_CC);
 	tmp = zephir_get_numberval(_3);
 	if (offset_y < 0) {
 		offset_y = 0;

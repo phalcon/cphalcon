@@ -48,7 +48,7 @@
  * $router = new \Phalcon\Mvc\Router();
  *
  * //Create a group with a common module and controller
- * $blog = new \Phalcon\Mvc\Router\Group(array(
+ * $blog = new Group(array(
  * 	'module' => 'blog',
  * 	'controller' => 'index'
  * ));

@@ -389,7 +389,7 @@ class Request implements \Phalcon\Http\RequestInterface, \Phalcon\Di\InjectionAw
 	 */
 	public function getServerAddress() -> string
 	{
-		var server, serverAddr;
+		var serverAddr;
 
 		if fetch serverAddr, _SERVER["SERVER_ADDR"] {
 			return serverAddr;

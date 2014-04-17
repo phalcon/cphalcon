@@ -538,7 +538,7 @@ class Builder implements \Phalcon\Mvc\Model\Query\BuilderInterface, \Phalcon\Di\
 	public function orWhere(string! conditions, bindParams=null, bindTypes=null) -> <\Phalcon\Mvc\Model\Query\Builder>
 	{
 		var currentBindParams, currentBindTypes, mergedParams,
-			mergedTypes, currentConditions, newConditions;
+			mergedTypes, currentConditions;
 
 		/**
 		 * Nest the condition to current ones or set as unique

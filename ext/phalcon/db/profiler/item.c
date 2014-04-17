@@ -168,7 +168,7 @@ PHP_METHOD(Phalcon_Db_Profiler_Item, getTotalElapsedSeconds) {
 
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_finalTime"), PH_NOISY_CC);
 	_1 = zephir_fetch_nproperty_this(this_ptr, SL("_initialTime"), PH_NOISY_CC);
-	sub_function(return_value, _0, _1 TSRMLS_CC);
+	zephir_sub_function(return_value, _0, _1 TSRMLS_CC);
 	return;
 
 }

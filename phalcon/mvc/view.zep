@@ -19,6 +19,8 @@
 
 namespace Phalcon\Mvc;
 
+use Phalcon\Mvc\View\Exception;
+
 /**
  * Phalcon\Mvc\View
  *
@@ -404,7 +406,7 @@ class View extends \Phalcon\Di\Injectable implements \Phalcon\Mvc\ViewInterface
 		var viewParams;
 
 		if typeof params != "array" {
-			throw new \Phalcon\Mvc\View\Exception("The render parameters must be an array");
+			throw new Exception("The render parameters must be an array");
 		}
 
 		if merge {
@@ -536,7 +538,7 @@ class View extends \Phalcon\Di\Injectable implements \Phalcon\Mvc\ViewInterface
 			} else {
 
 				if typeof dependencyInjector != "object" {
-					throw new \Phalcon\Mvc\View\Exception("A dependency injector container is required to obtain the application services");
+					throw new Exception("A dependency injector container is required to obtain the application services");
 				}
 
 				let arguments = [this, dependencyInjector];
@@ -559,7 +561,7 @@ class View extends \Phalcon\Di\Injectable implements \Phalcon\Mvc\ViewInterface
 						 * Engine can be a string representing a service in the DI
 						 */
 						if typeof engineService != "string" {
-							throw new \Phalcon\Mvc\View\Exception("Invalid template engine registration for extension: " . extension);
+							throw new Exception("Invalid template engine registration for extension: " . extension);
 						}
 
 						let engines[extension] = dependencyInjector->getShared(engineService, arguments);
@@ -695,7 +697,7 @@ class View extends \Phalcon\Di\Injectable implements \Phalcon\Mvc\ViewInterface
 			}
 
 			if !silence {
-				throw new \Phalcon\Mvc\View\Exception("View '" . viewsDirPath . "' was not found in the views directory");
+				throw new Exception("View '" . viewsDirPath . "' was not found in the views directory");
 			}
 		}
 	}
@@ -717,7 +719,7 @@ class View extends \Phalcon\Di\Injectable implements \Phalcon\Mvc\ViewInterface
 	public function registerEngines(engines) -> <\Phalcon\Mvc\View>
 	{
 		if typeof engines != "array" {
-			throw new \Phalcon\Mvc\View\Exception("Engines to register must be an array");
+			throw new Exception("Engines to register must be an array");
 		}
 		let this->_registeredEngines = engines;
 		return this;
@@ -1127,7 +1129,7 @@ class View extends \Phalcon\Di\Injectable implements \Phalcon\Mvc\ViewInterface
 
 		let dependencyInjector = <\Phalcon\DiInterface> this->_dependencyInjector;
 		if typeof dependencyInjector != "object" {
-			throw new \Phalcon\Mvc\View\Exception("A dependency injector container is required to obtain the view cache services");
+			throw new Exception("A dependency injector container is required to obtain the view cache services");
 		}
 
 		let cacheService = "viewCache";
@@ -1146,7 +1148,7 @@ class View extends \Phalcon\Di\Injectable implements \Phalcon\Mvc\ViewInterface
 		 */
 		let viewCache = <\Phalcon\Cache\BackendInterface> dependencyInjector->getShared(cacheService);
 		if typeof viewCache != "object" {
-			throw new \Phalcon\Mvc\View\Exception("The injected caching service is invalid");
+			throw new Exception("The injected caching service is invalid");
 		}
 
 		return viewCache;

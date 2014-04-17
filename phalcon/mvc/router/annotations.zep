@@ -19,6 +19,8 @@
 
 namespace Phalcon\Mvc\Router;
 
+use Phalcon\Mvc\Router\Annotations;
+
 /**
  * Phalcon\Mvc\Router\Annotations
  *
@@ -28,7 +30,7 @@ namespace Phalcon\Mvc\Router;
  * $di['router'] = function() {
  *
  *		//Use the annotations router
- *		$router = new \Phalcon\Mvc\Router\Annotations(false);
+ *		$router = new Annotations(false);
  *
  *		//This will do the same as above but only if the handled uri starts with /robots
  * 		$router->addResource('Robots', '/robots');
@@ -57,7 +59,7 @@ class Annotations extends \Phalcon\Mvc\Router
 	 * @param string prefix
 	 * @return Phalcon\Mvc\Router\Annotations
 	 */
-	public function addResource(string! handler, string! prefix=null) -> <\Phalcon\Mvc\Router\Annotations>
+	public function addResource(string! handler, string! prefix=null) -> <Annotations>
 	{
 
 		let this->_handlers[] = [prefix, handler],
@@ -75,7 +77,7 @@ class Annotations extends \Phalcon\Mvc\Router
 	 * @param string prefix
 	 * @return Phalcon\Mvc\Router\Annotations
 	 */
-	public function addModuleResource(string! module, string! handler, string! prefix=null) -> <\Phalcon\Mvc\Router\Annotations>
+	public function addModuleResource(string! module, string! handler, string! prefix=null) -> <Annotations>
 	{
 
 		let this->_handlers[] = [prefix, handler, module],

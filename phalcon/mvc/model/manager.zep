@@ -897,7 +897,7 @@ class Manager implements \Phalcon\Mvc\Model\ManagerInterface, \Phalcon\Di\Inject
 		var referencedFields, var options=null) -> <\Phalcon\Mvc\Model\Relation>
 	{
 		var entityName, referencedEntity, hasMany, relation,
-			keyRelation, relations, alias, lowerAlias, hasManySingle, singleRelations;
+			keyRelation, relations, alias, lowerAlias, singleRelations;
 
 		let entityName = get_class_lower(model),
 			referencedEntity = strtolower(referencedModel),
@@ -983,8 +983,7 @@ class Manager implements \Phalcon\Mvc\Model\ManagerInterface, \Phalcon\Di\Inject
 		var intermediateFields, var intermediateReferencedFields, string! referencedModel, var referencedFields, var options=null) -> <\Phalcon\Mvc\Model\Relation>
 	{
 		var entityName, referencedEntity, hasManyToMany, relation,
-			keyRelation, relations, alias, lowerAlias, hasManyToManySingle, singleRelations,
-			intermediateEntity;
+			keyRelation, relations, alias, lowerAlias, singleRelations, intermediateEntity;
 
 		let entityName = get_class_lower(model),
 			intermediateEntity = strtolower(intermediateModel),
@@ -1084,7 +1083,7 @@ class Manager implements \Phalcon\Mvc\Model\ManagerInterface, \Phalcon\Di\Inject
 	public function existsBelongsTo(string! modelName, string! modelRelation) -> boolean
 	{
 
-		var initialized, entityName, keyRelation, belongsTo;
+		var entityName, keyRelation;
 
 		let entityName = strtolower(modelName);
 
@@ -1113,7 +1112,7 @@ class Manager implements \Phalcon\Mvc\Model\ManagerInterface, \Phalcon\Di\Inject
 	public function existsHasMany(string! modelName, string! modelRelation) -> boolean
 	{
 
-		var initialized, entityName, keyRelation, hasMany;
+		var entityName, keyRelation;
 
 		let entityName = strtolower(modelName);
 
@@ -1142,7 +1141,7 @@ class Manager implements \Phalcon\Mvc\Model\ManagerInterface, \Phalcon\Di\Inject
 	public function existsHasOne(string! modelName, string! modelRelation) -> boolean
 	{
 
-		var entityName, keyRelation, hasOne;
+		var entityName, keyRelation;
 
 		let entityName = strtolower(modelName);
 
@@ -1170,7 +1169,7 @@ class Manager implements \Phalcon\Mvc\Model\ManagerInterface, \Phalcon\Di\Inject
 	 */
 	public function existsHasManyToMany(string! modelName, string! modelRelation) -> boolean
 	{
-		var entityName, keyRelation, hasManyToMany;
+		var entityName, keyRelation;
 
 		let entityName = strtolower(modelName);
 
@@ -1220,7 +1219,7 @@ class Manager implements \Phalcon\Mvc\Model\ManagerInterface, \Phalcon\Di\Inject
 	public function getRelationRecords(<RelationInterface> relation, string! method, <ModelInterface> record, var parameters=null)
 	{
 		var preConditions, placeholders, referencedModel, intermediateModel,
-			intermediateFields, joinConditions, query, fields, builder,
+			intermediateFields, joinConditions, fields, builder,
 			conditions, refPosition, field, referencedFields, findParams,
 			findArguments, retrieveMethod, uniqueKey, records, arguments;
 		boolean reusable;
