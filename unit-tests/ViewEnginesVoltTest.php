@@ -538,6 +538,11 @@ class ViewEnginesVoltTest extends PHPUnit_Framework_TestCase
 		$this->assertTrue(is_array($intermediate));
 		$this->assertEquals(count($intermediate), 1);
 
+		//Require
+		$intermediate = $volt->parse('{% require "some/file.volt" %}');
+		$this->assertTrue(is_array($intermediate));
+		$this->assertEquals(count($intermediate), 1);
+
 		//Cache
 		$intermediate = $volt->parse('{% cache sidebar %} hello {% endcache %}');
 		$this->assertTrue(is_array($intermediate));
