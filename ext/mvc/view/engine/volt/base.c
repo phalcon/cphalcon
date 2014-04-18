@@ -81,6 +81,7 @@ const phvolt_token_names phvolt_tokens[] =
   { SL("IS"),             PHVOLT_T_IS },
   { SL("DEFINED"),        PHVOLT_T_DEFINED },
   { SL("INCLUDE"),        PHVOLT_T_INCLUDE },
+  { SL("REQUIRE"),        PHVOLT_T_REQUIRE },
   { SL("DO"),             PHVOLT_T_DO },
   { SL("WHITESPACE"),     PHVOLT_T_IGNORE },
   { SL("AUTOESCAPE"),     PHVOLT_T_AUTOESCAPE },
@@ -595,6 +596,10 @@ int phvolt_internal_parse_view(zval **result, zval *view_code, zval *template_pa
 
 			case PHVOLT_T_INCLUDE:
 				phvolt_(phvolt_parser, PHVOLT_INCLUDE, NULL, parser_status);
+				break;
+
+			case PHVOLT_T_REQUIRE:
+				phvolt_(phvolt_parser, PHVOLT_REQUIRE, NULL, parser_status);
 				break;
 
 			case PHVOLT_T_WITH:
