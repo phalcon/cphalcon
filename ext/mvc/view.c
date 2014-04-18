@@ -876,6 +876,7 @@ PHP_METHOD(Phalcon_Mvc_View, _engineRender){
 	zval *view_params, *events_manager, *engine = NULL;
 	zval *extension = NULL, *view_engine_path = NULL, *event_name = NULL;
 	zval *status = NULL, *exception_message;
+
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -1502,10 +1503,11 @@ PHP_METHOD(Phalcon_Mvc_View, partial){
 
 	zval *partial_path, *params = NULL, *view_params, *new_params = NULL;
 	zval *partials_dir, *real_path, *engines = NULL;
+	zval *ignore_missing = NULL;
 
 	PHALCON_MM_GROW();
 
-	phalcon_fetch_params(1, 1, 1, &partial_path, &params);
+	phalcon_fetch_params(1, 1, 2, &partial_path, &params, &ignore_missing);
 	
 	if (!params) {
 		params = PHALCON_GLOBAL(z_null);
@@ -1559,7 +1561,10 @@ PHP_METHOD(Phalcon_Mvc_View, partial){
 	/** 
 	 * Call engine render, this checks in every registered engine for the partial
 	 */
-	PHALCON_CALL_METHOD(NULL, this_ptr, "_enginerender", engines, real_path, PHALCON_GLOBAL(z_false), PHALCON_GLOBAL(z_false), PHALCON_GLOBAL(z_false));
+	if (!ignore_missing) {
+            ignore_missing = PHALCON_GLOBAL(z_false);
+        }
+	PHALCON_CALL_METHOD(NULL, this_ptr, "_enginerender", engines, real_path, ignore_missing, PHALCON_GLOBAL(z_false), PHALCON_GLOBAL(z_false));
 	
 	/** 
 	 * Now we need to restore the original view parameters

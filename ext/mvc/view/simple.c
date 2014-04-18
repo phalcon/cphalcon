@@ -96,6 +96,7 @@ ZEND_END_ARG_INFO()
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_view_simple_partial, 0, 0, 1)
 	ZEND_ARG_INFO(0, partialPath)
 	ZEND_ARG_INFO(0, params)
+	ZEND_ARG_INFO(0, ignoreMissing)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_view_simple_setcacheoptions, 0, 0, 1)
@@ -640,10 +641,12 @@ PHP_METHOD(Phalcon_Mvc_View_Simple, partial){
 
 	zval *partial_path, *params = NULL, *view_params = NULL, *merged_params = NULL;
 	zval *content;
+	zval *ignore_missing = NULL;
 
 	PHALCON_MM_GROW();
 
-	phalcon_fetch_params(1, 1, 1, &partial_path, &params);
+	// ignore_missing is not supported by the internal renderer, i.e. it has no effect
+	phalcon_fetch_params(1, 1, 2, &partial_path, &params, &ignore_missing);
 	
 	if (!params) {
 		params = PHALCON_GLOBAL(z_null);

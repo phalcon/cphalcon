@@ -2567,6 +2567,13 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compileInclude){
 			ZVAL_BOOL(extended, 0);
 	
 			/** 
+			 * Check if the template exists
+			 */
+			if (phalcon_file_exists(final_path TSRMLS_CC) == FAILURE) {
+				RETURN_MM();
+			}
+
+			/** 
 			 * Clone the original compiler
 			 */
 			PHALCON_INIT_VAR(sub_compiler);
@@ -2601,7 +2608,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compileInclude){
 	 */
 	PHALCON_CALL_METHOD(&path, this_ptr, "expression", path_expr);
 	if (!phalcon_array_isset_string(statement, SS("params"))) {
-		PHALCON_CONCAT_SVS(return_value, "<?php $this->partial(", path, "); ?>");
+		PHALCON_CONCAT_SVS(return_value, "<?php $this->partial(", path, ", null, true); ?>");
 		RETURN_MM();
 	}
 	
@@ -2609,7 +2616,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compileInclude){
 	phalcon_array_fetch_string(&expr_params, statement, SL("params"), PH_NOISY);
 	
 	PHALCON_CALL_METHOD(&params, this_ptr, "expression", expr_params);
-	PHALCON_CONCAT_SVSVS(return_value, "<?php $this->partial(", path, ", ", params, "); ?>");
+	PHALCON_CONCAT_SVSVS(return_value, "<?php $this->partial(", path, ", ", params, ", true); ?>");
 	
 	RETURN_MM();
 }
