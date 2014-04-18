@@ -66,16 +66,17 @@
 #define PHVOLT_EXTENDS                        63
 #define PHVOLT_INCLUDE                        64
 #define PHVOLT_WITH                           65
-#define PHVOLT_DO                             66
-#define PHVOLT_RETURN                         67
-#define PHVOLT_AUTOESCAPE                     68
-#define PHVOLT_ENDAUTOESCAPE                  69
-#define PHVOLT_BREAK                          70
-#define PHVOLT_CONTINUE                       71
-#define PHVOLT_RAW_FRAGMENT                   72
-#define PHVOLT_DEFINED                        73
-#define PHVOLT_SBRACKET_CLOSE                 74
-#define PHVOLT_CBRACKET_OPEN                  75
-#define PHVOLT_CBRACKET_CLOSE                 76
+#define PHVOLT_REQUIRE                        66
+#define PHVOLT_DO                             67
+#define PHVOLT_RETURN                         68
+#define PHVOLT_AUTOESCAPE                     69
+#define PHVOLT_ENDAUTOESCAPE                  70
+#define PHVOLT_BREAK                          71
+#define PHVOLT_CONTINUE                       72
+#define PHVOLT_RAW_FRAGMENT                   73
+#define PHVOLT_DEFINED                        74
+#define PHVOLT_SBRACKET_CLOSE                 75
+#define PHVOLT_CBRACKET_OPEN                  76
+#define PHVOLT_CBRACKET_CLOSE                 77
 
 #endif /* PHALCON_MVC_VIEW_ENGINE_VOLT_PARSER_H */

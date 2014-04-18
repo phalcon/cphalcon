@@ -341,6 +341,12 @@ int phvolt_get_token(phvolt_scanner_state *s, phvolt_scanner_token *token) {
 			return 0;
 		}
 
+		'require' {
+			s->statement_position++;
+			token->opcode = PHVOLT_T_REQUIRE;
+			return 0;
+		}
+
 		'cache' {
 			s->statement_position++;
 			token->opcode = PHVOLT_T_CACHE;
