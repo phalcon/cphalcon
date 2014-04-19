@@ -1790,7 +1790,7 @@ PHP_METHOD(Phalcon_Tag, stylesheetLink){
 	
 	PHALCON_INIT_VAR(code);
 	
-	if (!phalcon_array_isset_string(params, SS("ref"))) {
+	if (!phalcon_array_isset_string(params, SS("rel"))) {
 		ZVAL_STRING(code, "<link rel=\"stylesheet\"", 1);
 	} else {
 		ZVAL_STRING(code, "<link", 1);
