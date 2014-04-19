@@ -544,7 +544,11 @@ PHP_METHOD(Phalcon_Mvc_Router_Annotations, processActionAnnotation){
 				PHALCON_INIT_VAR(uri);
 				PHALCON_CONCAT_VV(uri, route_prefix, value);
 			} else {
-				PHALCON_CPY_WRT(uri, route_prefix);
+				if (Z_TYPE_P(route_prefix) != IS_NULL) {
+					PHALCON_CPY_WRT(uri, route_prefix);
+				} else {
+					PHALCON_CPY_WRT(uri, value);
+				}
 			}
 		} else {
 			PHALCON_INIT_NVAR(uri);

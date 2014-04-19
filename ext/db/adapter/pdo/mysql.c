@@ -324,12 +324,14 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Mysql, describeColumns){
 				if (phalcon_array_isset_long(matches, 1)) {
 					PHALCON_OBS_NVAR(match_one);
 					phalcon_array_fetch_long(&match_one, matches, 1, PH_NOISY);
-					phalcon_array_update_string(&definition, SL("size"), match_one, PH_COPY | PH_SEPARATE);
+					convert_to_long(match_one);
+					phalcon_array_update_string(&definition, SL("size"), match_one, PH_COPY);
 				}
 				if (phalcon_array_isset_long(matches, 2)) {
 					PHALCON_OBS_NVAR(match_two);
 					phalcon_array_fetch_long(&match_two, matches, 2, PH_NOISY);
-					phalcon_array_update_string(&definition, SL("scale"), match_two, PH_COPY | PH_SEPARATE);
+					convert_to_long(match_two);
+					phalcon_array_update_string(&definition, SL("scale"), match_two, PH_COPY);
 				}
 			}
 		}
@@ -379,6 +381,15 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Mysql, describeColumns){
 	
 		PHALCON_OBS_NVAR(column_name);
 		phalcon_array_fetch_long(&column_name, field, 0, PH_NOISY);
+	
+		/** 
+		 * If the column set the default values, get it
+		 */
+		PHALCON_OBS_NVAR(attribute);
+		phalcon_array_fetch_long(&attribute, field, 4, PH_NOISY);
+		if (Z_TYPE_P(attribute) == IS_STRING) {
+			phalcon_array_update_string(&definition, SL("default"), attribute, PH_COPY);
+		}
 	
 		/** 
 		 * Every route is stored as a Phalcon\Db\Column

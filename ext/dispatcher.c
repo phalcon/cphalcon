@@ -708,7 +708,7 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch){
 		 */
 		PHALCON_INIT_NVAR(handler_class);
 		if (zend_is_true(namespace_name)) {
-			PHALCON_INIT_VAR(camelized_namespace);
+			PHALCON_INIT_NVAR(camelized_namespace);
 			phalcon_camelize(camelized_namespace, namespace_name);
 			if (phalcon_end_with_str(camelized_namespace, SL("\\"))) {
 				PHALCON_CONCAT_VVV(handler_class, camelized_namespace, camelized_class, handler_suffix);
