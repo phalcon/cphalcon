@@ -82,6 +82,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Annotations, getMetaData){
 	zval *column_type_name, *column_nullable_name;
 	zval *prop_annotations = NULL, *property = NULL, *has_annotation = NULL;
 	zval *column_annotation = NULL, *feature = NULL;
+	zval *field_default_values, *column_default_value = NULL;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -152,6 +153,9 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Annotations, getMetaData){
 	PHALCON_INIT_VAR(identity_field);
 	ZVAL_FALSE(identity_field);
 	
+	PHALCON_INIT_VAR(field_default_values);
+	array_init(field_default_values);
+	
 	PHALCON_INIT_VAR(column_annot_name);
 	ZVAL_STRING(column_annot_name, "Column", 1);
 	
@@ -163,6 +167,9 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Annotations, getMetaData){
 	
 	PHALCON_INIT_VAR(column_type_name);
 	ZVAL_STRING(column_type_name, "type", 1);
+	
+	PHALCON_INIT_VAR(column_default_value);
+	ZVAL_STRING(column_default_value, "default", 1);
 	
 	PHALCON_INIT_VAR(column_nullable_name);
 	ZVAL_STRING(column_nullable_name, "nullable", 1);
@@ -214,6 +221,11 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Annotations, getMetaData){
 			}
 			phalcon_array_update_zval_long(&field_bind_types, property, 2, PH_SEPARATE);
 		}
+
+		PHALCON_CALL_METHOD(&feature, column_annotation, "getargument", column_default_value);
+		if (!PHALCON_IS_EMPTY(feature)) {
+			phalcon_array_update_zval(&field_default_values, property, feature, PH_SEPARATE);
+		}
 	
 		/** 
 		 * All columns marked with the 'Primary' annotation are considered primary keys
@@ -249,7 +261,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Annotations, getMetaData){
 	/** 
 	 * Create an array using the MODELS_* constants as indexes
 	 */
-	array_init_size(return_value, 10);
+	array_init_size(return_value, 11);
 	phalcon_array_update_long(&return_value, 0,  attributes, PH_COPY);
 	phalcon_array_update_long(&return_value, 1,  primary_keys, PH_COPY);
 	phalcon_array_update_long(&return_value, 2,  non_primary_keys, PH_COPY);
@@ -260,6 +272,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Annotations, getMetaData){
 	phalcon_array_update_long(&return_value, 9,  field_bind_types, PH_COPY);
 	phalcon_array_update_long(&return_value, 10, automatic_default, PH_COPY);
 	phalcon_array_update_long(&return_value, 11, automatic_default, PH_COPY);
+	phalcon_array_update_long(&return_value, 12, field_default_values, PH_COPY);
 	
 	PHALCON_MM_RESTORE();
 }

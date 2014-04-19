@@ -84,6 +84,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Introspection, getMetaData){
 	zval *field_bind_types, *automatic_default;
 	zval *identity_field = NULL, *column = NULL, *field_name = NULL, *feature = NULL;
 	zval *type = NULL, *bind_type = NULL;
+	zval *field_default_values, *default_value = NULL;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -171,6 +172,9 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Introspection, getMetaData){
 	PHALCON_INIT_VAR(identity_field);
 	ZVAL_FALSE(identity_field);
 	
+	PHALCON_INIT_VAR(field_default_values);
+	array_init(field_default_values);
+	
 	phalcon_is_iterable(columns, &ah0, &hp0, 0, 0);
 	
 	while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
@@ -225,6 +229,11 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Introspection, getMetaData){
 		 */
 		PHALCON_CALL_METHOD(&bind_type, column, "getbindtype");
 		phalcon_array_update_zval(&field_bind_types, field_name, bind_type, PH_COPY);
+
+		PHALCON_CALL_METHOD(&default_value, column, "getdefaultvalue");
+		if (Z_TYPE_P(default_value) != IS_NULL) {
+			phalcon_array_update_zval(&field_default_values, field_name, default_value, PH_COPY);
+		}
 	
 		zend_hash_move_forward_ex(ah0, &hp0);
 	}
@@ -232,7 +241,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Introspection, getMetaData){
 	/** 
 	 * Create an array using the MODELS_* constants as indexes
 	 */
-	array_init_size(return_value, 10);
+	array_init_size(return_value, 11);
 	phalcon_array_update_long(&return_value, 0,  attributes, PH_COPY);
 	phalcon_array_update_long(&return_value, 1,  primary_keys, PH_COPY);
 	phalcon_array_update_long(&return_value, 2,  non_primary_keys, PH_COPY);
@@ -243,6 +252,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Introspection, getMetaData){
 	phalcon_array_update_long(&return_value, 9,  field_bind_types, PH_COPY);
 	phalcon_array_update_long(&return_value, 10, automatic_default, PH_COPY);
 	phalcon_array_update_long(&return_value, 11, automatic_default, PH_COPY);
+	phalcon_array_update_long(&return_value, 12, field_default_values, PH_COPY);
 	
 	PHALCON_MM_RESTORE();
 }
