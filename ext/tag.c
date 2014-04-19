@@ -733,9 +733,9 @@ PHP_METHOD(Phalcon_Tag, resetInput){
  */
 PHP_METHOD(Phalcon_Tag, linkTo){
 
-	zval *parameters, *text = NULL, *local = NULL,  *params = NULL, *query, *query_string;
+	zval *parameters, *text = NULL, *local = NULL,  *params = NULL;
 	zval *action, *url = NULL, *internal_url = NULL, *link_text, *z_local;
-	zval *code;
+	zval *code, *query;
 
 	PHALCON_MM_GROW();
 
@@ -782,38 +782,19 @@ PHP_METHOD(Phalcon_Tag, linkTo){
 		phalcon_array_unset_string(&params, SS("local"), 0);
 	} else {
 		PHALCON_INIT_VAR(z_local);
-		ZVAL_TRUE(z_local);
+		ZVAL_NULL(z_local);
 	}
-
+	
 	if (phalcon_array_isset_string_fetch(&query, params, SS("query"))) {
 		phalcon_array_unset_string(&params, SS("query"), 0);
-	}
-	else {
+	} else {
 		PHALCON_INIT_VAR(query);
 		ZVAL_NULL(query);
 	}
 
-	if (zend_is_true(z_local) || Z_TYPE_P(params) == IS_ARRAY) {
-		PHALCON_CALL_SELF(&url, "geturlservice");
-		PHALCON_CALL_METHOD(&internal_url, url, "get", action, query);
-		phalcon_array_update_string(&params, SL("href"), internal_url, PH_COPY);
-	} else {
-		if (Z_TYPE_P(query) != IS_NULL) {
-			PHALCON_INIT_VAR(query_string);
-			phalcon_http_build_query(query_string, query, "&" TSRMLS_CC);
-		
-			if (Z_TYPE_P(query_string) == IS_STRING && Z_STRLEN_P(query_string)) {
-					if (phalcon_memnstr_str(action, "?", 1)) {
-							PHALCON_SCONCAT_SV(action, "&", query_string);
-					}
-					else {
-							PHALCON_SCONCAT_SV(action, "?", query_string);
-					}
-			}
-		}
-
-		phalcon_array_update_string(&params, SL("href"), action, PH_COPY);
-	}
+	PHALCON_CALL_SELF(&url, "geturlservice");		
+	PHALCON_CALL_METHOD(&internal_url, url, "get", action, query, z_local);
+	phalcon_array_update_string(&params, SL("href"), internal_url, PH_COPY);
 
 	PHALCON_INIT_VAR(code);
 	ZVAL_STRING(code, "<a", 1);
@@ -1732,6 +1713,7 @@ PHP_METHOD(Phalcon_Tag, stylesheetLink){
 
 	zval *parameters = NULL, *local = NULL, *params = NULL, *first_param;
 	zval *url = NULL, *url_href, *href = NULL, *code, *doctype, *z_local;
+	zval *rel;
 
 	PHALCON_MM_GROW();
 
@@ -1790,10 +1772,11 @@ PHP_METHOD(Phalcon_Tag, stylesheetLink){
 	
 	PHALCON_INIT_VAR(code);
 	
-	if (!phalcon_array_isset_string(params, SS("rel"))) {
-		ZVAL_STRING(code, "<link rel=\"stylesheet\"", 1);
+	if (phalcon_array_isset_string_fetch(&rel, params, SS("rel"))) {
+		phalcon_array_unset_string(&params, SS("rel"), PH_SEPARATE);
+		PHALCON_CONCAT_SVS(code, "<link rel=\"", rel, "\"");
 	} else {
-		ZVAL_STRING(code, "<link", 1);
+		ZVAL_STRING(code, "<link rel=\"stylesheet\"", 1);
 	}
 
 	phalcon_tag_render_attributes(code, params TSRMLS_CC);

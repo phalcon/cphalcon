@@ -158,12 +158,11 @@ HTML;
 
 	public function testIssue2002()
 	{
-		$html = Phalcon\Tag::linkTo(array('signup/register', 'Register Here!', 'query' => array('a' => 1, 'b' => 2)));
-		$this->assertEquals($html, '<a href="/signup/register?a=1&b2">Register Here!</a>');
+		$di = new Phalcon\DI\FactoryDefault();
+		$di->getshared('url')->setBaseUri('/');
+		\Phalcon\Tag::setDI($di);
 
-		// remote
-
-		$html = Phalcon\Tag::linkTo(array('http://phalconphp.com/en/', 'Phalcon Home', FALSE, 'query' => array('a' => 1, 'b' => 2)));
-		$this->assertEquals($html, '<a href="http://phalconphp.com/en/?a=1&b2">Phalcon Home</a>');
-	 }
+		$html = Phalcon\Tag::linkTo(array('signup/register', 'Register Here!', 'class' => 'btn-primary', 'query' => array('from' => 'github', 'token' => '123456')));
+		$this->assertEquals($html, '<a href="/signup/register?from=github&amp;token=123456" class="btn-primary">Register Here!</a>');
+	}
 }
