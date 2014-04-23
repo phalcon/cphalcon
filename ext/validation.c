@@ -436,7 +436,9 @@ PHP_METHOD(Phalcon_Validation, appendMessage){
 	phalcon_fetch_params(1, 1, 0, &message);
 	
 	messages = phalcon_fetch_nproperty_this(this_ptr, SL("_messages"), PH_NOISY TSRMLS_CC);
-	PHALCON_CALL_METHOD(NULL, messages, "appendmessage", message);
+	if (Z_TYPE_P(messages) == IS_OBJECT) {
+		PHALCON_CALL_METHOD(NULL, messages, "appendmessage", message);
+	}
 	RETURN_THIS();
 }
 
