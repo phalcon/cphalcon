@@ -874,8 +874,8 @@ PHP_METHOD(Phalcon_Mvc_View, _engineRender){
 	zval *engines, *view_path, *silence, *must_clean;
 	zval *cache, *not_exists = NULL, *views_dir, *base_path;
 	zval *views_dir_path, *render_level, *cache_level, *cache_mode;
-	zval *is_started = NULL, *key = NULL, *lifetime = NULL, *view_options;
-	zval *cache_options, *cached_view = NULL, *is_fresh = NULL;
+	zval *key = NULL, *lifetime = NULL, *view_options;
+	zval *cache_options, *cached_view = NULL;
 	zval *view_params, *events_manager, *engine = NULL;
 	zval *extension = NULL, *view_engine_path = NULL, *event_name = NULL;
 	zval *status = NULL, *exception_message;
@@ -1168,7 +1168,7 @@ PHP_METHOD(Phalcon_Mvc_View, render){
 	zval *silence = NULL, *disabled_levels, *render_level;
 	zval *templates_before, *template_before = NULL;
 	zval *view_temp_path = NULL, *templates_after, *template_after = NULL;
-	zval *main_view, *is_started = NULL, *is_fresh = NULL;
+	zval *main_view;
 	HashTable *ah0, *ah1;
 	HashPosition hp0, hp1;
 	zval **hd;
