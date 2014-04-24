@@ -71,8 +71,8 @@ PHP_METHOD(Phalcon_Version, _getVersion){
 	add_next_index_long(return_value, 1);
 	add_next_index_long(return_value, 3);
 	add_next_index_long(return_value, 2);
-	add_next_index_long(return_value, PHALCON_VERSION_STABLE);
-	add_next_index_long(return_value, 0);
+	add_next_index_long(return_value, PHALCON_VERSION_ALPHA);
+	add_next_index_long(return_value, 1);
 }
 
 /**

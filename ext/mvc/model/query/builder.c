@@ -1,4 +1,3 @@
-
 /*
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
@@ -543,7 +542,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getFrom){
 }
 
 /**
- * Adds a INNER join to the query
+ * Adds a join to the query
  *
  *<code>
  *	$builder->join('Robots');
@@ -595,13 +594,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, join){
  *	$builder->innerJoin('Robots');
  *	$builder->innerJoin('Robots', 'r.id = RobotsParts.robots_id');
  *	$builder->innerJoin('Robots', 'r.id = RobotsParts.robots_id', 'r');
- *	$builder->innerJoin('Robots', 'r.id = RobotsParts.robots_id', 'r', 'LEFT');
  *</code>
  *
  * @param string $model
  * @param string $conditions
  * @param string $alias
- * @param string $type
  * @return Phalcon\Mvc\Model\Query\Builder
  */
 PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, innerJoin){
@@ -1777,7 +1774,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getPhql){
 	 */
 	PHALCON_OBS_VAR(order);
 	phalcon_read_property_this(&order, this_ptr, SL("_order"), PH_NOISY TSRMLS_CC);
-	if (Z_TYPE_P(order) != IS_NULL) {
+	if (PHALCON_IS_NOT_EMPTY(order)) {
 		if (Z_TYPE_P(order) == IS_ARRAY) { 
 	
 			PHALCON_INIT_VAR(order_items);
