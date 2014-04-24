@@ -247,6 +247,9 @@ PHALCON_INIT_CLASS(Phalcon_Mvc_View){
 	zend_declare_class_constant_long(phalcon_mvc_view_ce, SL("LEVEL_ACTION_VIEW"), 1 TSRMLS_CC);
 	zend_declare_class_constant_long(phalcon_mvc_view_ce, SL("LEVEL_NO_RENDER"), 0 TSRMLS_CC);
 
+	zend_declare_class_constant_bool(phalcon_mvc_view_ce, SL("CACHE_MODE_NONE"), 0 TSRMLS_CC);
+	zend_declare_class_constant_bool(phalcon_mvc_view_ce, SL("CACHE_MODE_INVERSE"), 1 TSRMLS_CC);
+
 	zend_class_implements(phalcon_mvc_view_ce TSRMLS_CC, 1, phalcon_mvc_viewinterface_ce);
 
 	return SUCCESS;
@@ -954,6 +957,24 @@ PHP_METHOD(Phalcon_Mvc_View, _engineRender){
 					}
 				}
 			}
+		}
+
+		/** 
+		 * If a cache key is not set we create one using a md5
+		 */
+		if (Z_TYPE_P(key) == IS_NULL) {
+			PHALCON_INIT_NVAR(key);
+			phalcon_md5(key, view_path);
+		}
+
+		/** 
+		 * We start the cache using the key set
+		 */
+		phalcon_ob_clean(TSRMLS_C);
+		PHALCON_CALL_METHOD(&cached_view, cache, "start", key, lifetime);
+		if (Z_TYPE_P(cached_view) != IS_NULL) {
+			phalcon_update_property_this(this_ptr, SL("_content"), cached_view TSRMLS_CC);
+			RETURN_MM_NULL();
 		}
 
 		/** 
