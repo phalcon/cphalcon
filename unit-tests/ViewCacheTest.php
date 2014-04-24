@@ -120,6 +120,7 @@ class ViewCacheTest extends PHPUnit_Framework_TestCase
 		$view2 = new View();
 		$view2->setDI($di2);
 		$view2->setViewsDir('unit-tests/views/');
+		$view2->setVar("date", $date);
 
 		//Second hit
 		$view2->start();
