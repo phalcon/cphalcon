@@ -890,27 +890,31 @@ PHP_METHOD(Phalcon_Mvc_View, _engineRender){
 	/** 
 	 * Start the cache if there is a cache level enabled
 	 */
-	PHALCON_OBS_VAR(render_level);
-	phalcon_read_property_this(&render_level, this_ptr, SL("_currentRenderLevel"), PH_NOISY TSRMLS_CC);
-
 	PHALCON_OBS_VAR(cache_level);
 	phalcon_read_property_this(&cache_level, this_ptr, SL("_cacheLevel"), PH_NOISY TSRMLS_CC);
 
-	PHALCON_OBS_VAR(cache_mode);
-	phalcon_read_property_this(&cache_mode, this_ptr, SL("_cacheMode"), PH_NOISY TSRMLS_CC);
+	if (zend_is_true(cache_level)) {		
+		PHALCON_OBS_VAR(render_level);
+		phalcon_read_property_this(&render_level, this_ptr, SL("_currentRenderLevel"), PH_NOISY TSRMLS_CC);
 
-	if (PHALCON_IS_TRUE(cache_mode)) {
-		if (PHALCON_LE(render_level, cache_level)) {
-			PHALCON_CALL_METHOD(&cache, this_ptr, "getcache");
+		PHALCON_OBS_VAR(cache_mode);
+		phalcon_read_property_this(&cache_mode, this_ptr, SL("_cacheMode"), PH_NOISY TSRMLS_CC);
+
+		if (PHALCON_IS_TRUE(cache_mode)) {
+			if (PHALCON_LE(render_level, cache_level)) {
+				PHALCON_CALL_METHOD(&cache, this_ptr, "getcache");
+			} else {
+				PHALCON_INIT_VAR(cache);
+			}	
 		} else {
-			PHALCON_INIT_VAR(cache);
-		}	
-	} else {
-		if (PHALCON_GE(render_level, cache_level)) {
-			PHALCON_CALL_METHOD(&cache, this_ptr, "getcache");
-		} else {
-			PHALCON_INIT_VAR(cache);
+			if (PHALCON_GE(render_level, cache_level)) {
+				PHALCON_CALL_METHOD(&cache, this_ptr, "getcache");
+			} else {
+				PHALCON_INIT_VAR(cache);
+			}
 		}
+	} else {
+		PHALCON_INIT_VAR(cache);
 	}
 	
 	PHALCON_INIT_VAR(not_exists);
