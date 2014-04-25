@@ -126,7 +126,7 @@ PHP_METHOD(Phalcon_Escaper, setHtmlQuoteType) {
 
 	ZEPHIR_INIT_ZVAL_NREF(_0);
 	ZVAL_LONG(_0, quoteType);
-	zephir_update_property_zval(this_ptr, SL("_htmlQuoteType"), _0 TSRMLS_CC);
+	zephir_update_property_this(this_ptr, SL("_htmlQuoteType"), _0 TSRMLS_CC);
 
 }
 

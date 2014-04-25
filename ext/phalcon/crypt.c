@@ -348,7 +348,9 @@ PHP_METHOD(Phalcon_Crypt, decrypt) {
  */
 PHP_METHOD(Phalcon_Crypt, encryptBase64) {
 
-	zval *text_param = NULL, *key = NULL;
+	zephir_nts_static zephir_fcall_cache_entry *_1 = NULL;
+	int ZEPHIR_LAST_CALL_STATUS;
+	zval *text_param = NULL, *key = NULL, *_0 = NULL;
 	zval *text = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -370,6 +372,11 @@ PHP_METHOD(Phalcon_Crypt, encryptBase64) {
 	}
 
 
+	ZEPHIR_CALL_METHOD(&_0, this_ptr, "encrypt", NULL, text, key);
+	zephir_check_call_status();
+	ZEPHIR_RETURN_CALL_FUNCTION("base64_encode", &_1, _0);
+	zephir_check_call_status();
+	RETURN_MM();
 
 }
 
@@ -382,7 +389,9 @@ PHP_METHOD(Phalcon_Crypt, encryptBase64) {
  */
 PHP_METHOD(Phalcon_Crypt, decryptBase64) {
 
-	zval *text_param = NULL, *key = NULL;
+	int ZEPHIR_LAST_CALL_STATUS;
+	zephir_nts_static zephir_fcall_cache_entry *_1 = NULL;
+	zval *text_param = NULL, *key = NULL, *_0 = NULL;
 	zval *text = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -404,6 +413,11 @@ PHP_METHOD(Phalcon_Crypt, decryptBase64) {
 	}
 
 
+	ZEPHIR_CALL_FUNCTION(&_0, "base64_decode", &_1, text);
+	zephir_check_call_status();
+	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "decrypt", NULL, _0, key);
+	zephir_check_call_status();
+	RETURN_MM();
 
 }
 

@@ -148,7 +148,7 @@ PHP_METHOD(Phalcon_Security, setRandomBytes) {
 
 	ZEPHIR_INIT_ZVAL_NREF(_0);
 	ZVAL_LONG(_0, randomBytes);
-	zephir_update_property_zval(this_ptr, SL("_numberBytes"), _0 TSRMLS_CC);
+	zephir_update_property_this(this_ptr, SL("_numberBytes"), _0 TSRMLS_CC);
 
 }
 
@@ -206,8 +206,8 @@ PHP_METHOD(Phalcon_Security, getSaltBytes) {
 /**
  * Creates a password hash using bcrypt with a pseudo random salt
  *
- * @param string $password
- * @param int $workFactor
+ * @param string password
+ * @param int workFactor
  * @return string
  */
 PHP_METHOD(Phalcon_Security, hash) {
@@ -245,9 +245,9 @@ PHP_METHOD(Phalcon_Security, hash) {
 /**
  * Checks a plain text password and its hash version to check if the password matches
  *
- * @param string $password
- * @param string $passwordHash
- * @param int $maxPasswordLength
+ * @param string password
+ * @param string passwordHash
+ * @param int maxPasswordLength
  * @return boolean
  */
 PHP_METHOD(Phalcon_Security, checkHash) {
@@ -284,8 +284,8 @@ PHP_METHOD(Phalcon_Security, checkHash) {
 /**
  * Checks if a password hash is a valid bcrypt's hash
  *
- * @param string $password
- * @param string $passwordHash
+ * @param string password
+ * @param string passwordHash
  * @return boolean
  */
 PHP_METHOD(Phalcon_Security, isLegacyHash) {
@@ -307,7 +307,7 @@ PHP_METHOD(Phalcon_Security, isLegacyHash) {
 /**
  * Generates a pseudo random token key to be used as input's name in a CSRF check
  *
- * @param int $numberBytes
+ * @param int numberBytes
  * @return string
  */
 PHP_METHOD(Phalcon_Security, getTokenKey) {
@@ -468,12 +468,7 @@ PHP_METHOD(Phalcon_Security, checkToken) {
 	ZEPHIR_CALL_METHOD(&sessionToken, session, "get", NULL, _0);
 	zephir_check_temp_parameter(_0);
 	zephir_check_call_status();
-	if (ZEPHIR_IS_EQUAL(token, sessionToken)) {
-		RETURN_MM_BOOL(1);
-	} else {
-		RETURN_MM_BOOL(0);
-	}
-	ZEPHIR_MM_RESTORE();
+	RETURN_MM_BOOL(ZEPHIR_IS_EQUAL(token, sessionToken));
 
 }
 
@@ -492,7 +487,7 @@ PHP_METHOD(Phalcon_Security, getSessionToken) {
 	ZEPHIR_OBS_VAR(dependencyInjector);
 	zephir_read_property_this(&dependencyInjector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
 	if (Z_TYPE_P(dependencyInjector) != IS_OBJECT) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_security_exception_ce, "A dependency injection container is required to access the 'session' service", "phalcon/security.zep", 295);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_security_exception_ce, "A dependency injection container is required to access the 'session' service", "phalcon/security.zep", 291);
 		return;
 	}
 	ZEPHIR_INIT_VAR(_0);
@@ -534,7 +529,7 @@ PHP_METHOD(Phalcon_Security, computeHmac) {
 		ZEPHIR_CONCAT_SV(_1, "Unknown hashing algorithm: %s", algo);
 		ZEPHIR_CALL_METHOD(NULL, _0, "__construct", NULL, _1);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(_0, "phalcon/security.zep", 311 TSRMLS_CC);
+		zephir_throw_exception_debug(_0, "phalcon/security.zep", 307 TSRMLS_CC);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}

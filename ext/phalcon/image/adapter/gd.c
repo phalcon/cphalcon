@@ -269,10 +269,10 @@ PHP_METHOD(Phalcon_Image_Adapter_Gd, __construct) {
 		zephir_update_property_this(this_ptr, SL("_realpath"), _11 TSRMLS_CC);
 		ZEPHIR_INIT_ZVAL_NREF(_19);
 		ZVAL_LONG(_19, width);
-		zephir_update_property_zval(this_ptr, SL("_width"), _19 TSRMLS_CC);
+		zephir_update_property_this(this_ptr, SL("_width"), _19 TSRMLS_CC);
 		ZEPHIR_INIT_ZVAL_NREF(_19);
 		ZVAL_LONG(_19, height);
-		zephir_update_property_zval(this_ptr, SL("_height"), _19 TSRMLS_CC);
+		zephir_update_property_this(this_ptr, SL("_height"), _19 TSRMLS_CC);
 		ZEPHIR_INIT_ZVAL_NREF(_19);
 		ZVAL_LONG(_19, 3);
 		zephir_update_property_this(this_ptr, SL("_type"), _19 TSRMLS_CC);

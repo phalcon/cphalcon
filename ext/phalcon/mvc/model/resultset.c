@@ -256,7 +256,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, seek) {
 		}
 		ZEPHIR_INIT_ZVAL_NREF(_1);
 		ZVAL_LONG(_1, position);
-		zephir_update_property_zval(this_ptr, SL("_pointer"), _1 TSRMLS_CC);
+		zephir_update_property_this(this_ptr, SL("_pointer"), _1 TSRMLS_CC);
 	}
 	ZEPHIR_MM_RESTORE();
 
@@ -548,7 +548,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, setHydrateMode) {
 
 	ZEPHIR_INIT_ZVAL_NREF(_0);
 	ZVAL_LONG(_0, hydrateMode);
-	zephir_update_property_zval(this_ptr, SL("_hydrateMode"), _0 TSRMLS_CC);
+	zephir_update_property_this(this_ptr, SL("_hydrateMode"), _0 TSRMLS_CC);
 	RETURN_THISW();
 
 }

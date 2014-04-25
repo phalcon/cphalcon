@@ -206,7 +206,7 @@ class Crypt implements \Phalcon\CryptInterface
 	 */
 	public function encryptBase64(string! text, key=null) -> string
 	{
-
+		return base64_encode($this->encrypt(text, key));
 	}
 
 	/**
@@ -218,7 +218,7 @@ class Crypt implements \Phalcon\CryptInterface
 	 */
 	public function decryptBase64(string! text, key=null) -> string
 	{
-
+		return this->decrypt(base64_decode(text), $key);
 	}
 
 	/**
