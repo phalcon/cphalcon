@@ -20,6 +20,8 @@
 
 namespace Phalcon;
 
+use Phalcon\Tag\Exception;
+
 /**
  * Phalcon\Tag
  *
@@ -137,7 +139,7 @@ class Tag
 	public static function setDI(<\Phalcon\DiInterface> dependencyInjector)
 	{
 		if typeof dependencyInjector != "object" {
-			throw new \Phalcon\Tag\Exception("Parameter dependencyInjector must be an Object");
+			throw new Exception("Parameter dependencyInjector must be an Object");
 		}
 		let self::_dependencyInjector = dependencyInjector;
 	}
@@ -164,14 +166,13 @@ class Tag
 		let url = self::_urlService;
 		if typeof url != "object" {
 
-			//let dependencyInjector = <\Phalcon\DiInterface> self::_dependencyInjector;
-			let dependencyInjector = self::_dependencyInjector;
+			let dependencyInjector = <\Phalcon\DiInterface> self::_dependencyInjector;
 			if typeof dependencyInjector != "object" {
 				let dependencyInjector = \Phalcon\Di::getDefault();
 			}
 
 			if typeof dependencyInjector != "object" {
-				throw new \Phalcon\Tag\Exception("A dependency injector container is required to obtain the \"url\" service");
+				throw new Exception("A dependency injector container is required to obtain the 'url' service");
 			}
 
 			let url = <\Phalcon\Mvc\UrlInterface> dependencyInjector->getShared("url"),
@@ -199,7 +200,7 @@ class Tag
 			}
 
 			if typeof dependencyInjector != "object" {
-				throw new \Phalcon\Tag\Exception("A dependency injector container is required to obtain the \"escaper\" service");
+				throw new Exception("A dependency injector container is required to obtain the 'escaper' service");
 			}
 
 			let escaper = <\Phalcon\EscaperInterface> dependencyInjector->getShared("escaper"),
@@ -236,7 +237,7 @@ class Tag
 	{
 		if value !== null {
 			if typeof value == "array" || typeof value == "object" {
-				throw new \Phalcon\Tag\Exception("Only scalar values can be assigned to UI components");
+				throw new Exception("Only scalar values can be assigned to UI components");
 			}
 		}
 		let self::_displayValues[id] = value;
@@ -258,7 +259,7 @@ class Tag
 	public static function setDefaults(values)
 	{
 		if typeof values != "array" {
-			throw new \Phalcon\Tag\Exception("An array is required as default values");
+			throw new Exception("An array is required as default values");
 		}
 		let self::_displayValues = values;
 	}
@@ -280,7 +281,7 @@ class Tag
 	 * @param string name
 	 * @return boolean
 	 */
-	public static function hasValue(name)
+	public static function hasValue(name) -> boolean
 	{
 		/**
 		 * Check if there is a predefined value for it

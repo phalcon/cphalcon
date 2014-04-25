@@ -120,10 +120,10 @@ abstract class Select
 			 * The options is a resultset
 			 */
 			if !fetch using, params["using"] {
-				throw new Exception("The \"using\" parameter is required");
+				throw new Exception("The 'using' parameter is required");
 			} else {
 				if typeof using != "array" && typeof using != "object" {
-					throw new Exception("The \"using\" parameter should be an Array");
+					throw new Exception("The 'using' parameter should be an Array");
 				}
 			}
 

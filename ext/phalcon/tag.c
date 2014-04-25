@@ -236,7 +236,7 @@ PHP_METHOD(Phalcon_Tag, setDI) {
 		return;
 	}
 	if (Z_TYPE_P(dependencyInjector) != IS_OBJECT) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_tag_exception_ce, "Parameter dependencyInjector must be an Object", "phalcon/tag.zep", 140);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_tag_exception_ce, "Parameter dependencyInjector must be an Object", "phalcon/tag.zep", 142);
 		return;
 	}
 	zephir_update_static_property_ce(phalcon_tag_ce, SL("_dependencyInjector"), dependencyInjector TSRMLS_CC);
@@ -266,30 +266,30 @@ PHP_METHOD(Phalcon_Tag, getDI) {
 PHP_METHOD(Phalcon_Tag, getUrlService) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
-	zephir_nts_static zephir_fcall_cache_entry *_0 = NULL;
-	zval *url = NULL, *dependencyInjector = NULL, *_1 = NULL, *_2;
+	zephir_nts_static zephir_fcall_cache_entry *_1 = NULL;
+	zval *url = NULL, *dependencyInjector = NULL, *_0, *_2 = NULL, *_3;
 
 	ZEPHIR_MM_GROW();
 
 	ZEPHIR_OBS_VAR(url);
 	zephir_read_static_property_ce(&url, phalcon_tag_ce, SL("_urlService") TSRMLS_CC);
 	if (Z_TYPE_P(url) != IS_OBJECT) {
-		ZEPHIR_OBS_VAR(dependencyInjector);
-		zephir_read_static_property_ce(&dependencyInjector, phalcon_tag_ce, SL("_dependencyInjector") TSRMLS_CC);
+		_0 = zephir_fetch_static_property_ce(phalcon_tag_ce, SL("_dependencyInjector") TSRMLS_CC);
+		ZEPHIR_CPY_WRT(dependencyInjector, _0);
 		if (Z_TYPE_P(dependencyInjector) != IS_OBJECT) {
-			ZEPHIR_CALL_CE_STATIC(&dependencyInjector, phalcon_di_ce, "getdefault", &_0);
+			ZEPHIR_CALL_CE_STATIC(&dependencyInjector, phalcon_di_ce, "getdefault", &_1);
 			zephir_check_call_status();
 		}
 		if (Z_TYPE_P(dependencyInjector) != IS_OBJECT) {
-			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_tag_exception_ce, "A dependency injector container is required to obtain the "url" service", "phalcon/tag.zep", 174);
+			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_tag_exception_ce, "A dependency injector container is required to obtain the 'url' service", "phalcon/tag.zep", 175);
 			return;
 		}
-		ZEPHIR_INIT_VAR(_2);
-		ZVAL_STRING(_2, "url", 0);
-		ZEPHIR_CALL_METHOD(&_1, dependencyInjector, "getshared", NULL, _2);
-		zephir_check_temp_parameter(_2);
+		ZEPHIR_INIT_VAR(_3);
+		ZVAL_STRING(_3, "url", 0);
+		ZEPHIR_CALL_METHOD(&_2, dependencyInjector, "getshared", NULL, _3);
+		zephir_check_temp_parameter(_3);
 		zephir_check_call_status();
-		ZEPHIR_CPY_WRT(url, _1);
+		ZEPHIR_CPY_WRT(url, _2);
 		zephir_update_static_property_ce(phalcon_tag_ce, SL("_urlService"), url TSRMLS_CC);
 	}
 	RETURN_CCTOR(url);
@@ -319,7 +319,7 @@ PHP_METHOD(Phalcon_Tag, getEscaperService) {
 			zephir_check_call_status();
 		}
 		if (Z_TYPE_P(dependencyInjector) != IS_OBJECT) {
-			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_tag_exception_ce, "A dependency injector container is required to obtain the "escaper" service", "phalcon/tag.zep", 202);
+			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_tag_exception_ce, "A dependency injector container is required to obtain the 'escaper' service", "phalcon/tag.zep", 203);
 			return;
 		}
 		ZEPHIR_INIT_VAR(_2);
@@ -387,7 +387,7 @@ PHP_METHOD(Phalcon_Tag, setDefault) {
 			_0 = Z_TYPE_P(value) == IS_OBJECT;
 		}
 		if (_0) {
-			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_tag_exception_ce, "Only scalar values can be assigned to UI components", "phalcon/tag.zep", 239);
+			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_tag_exception_ce, "Only scalar values can be assigned to UI components", "phalcon/tag.zep", 240);
 			return;
 		}
 	}
@@ -418,7 +418,7 @@ PHP_METHOD(Phalcon_Tag, setDefaults) {
 
 
 	if (Z_TYPE_P(values) != IS_ARRAY) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_tag_exception_ce, "An array is required as default values", "phalcon/tag.zep", 261);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_tag_exception_ce, "An array is required as default values", "phalcon/tag.zep", 262);
 		return;
 	}
 	zephir_update_static_property_ce(phalcon_tag_ce, SL("_displayValues"), values TSRMLS_CC);
@@ -705,7 +705,7 @@ PHP_METHOD(Phalcon_Tag, _inputField) {
 		ZEPHIR_OBS_VAR(id);
 		if (!(zephir_array_isset_long_fetch(&id, params, 0, 0 TSRMLS_CC))) {
 			zephir_array_fetch_string(&_0, params, SL("id"), PH_NOISY | PH_READONLY TSRMLS_CC);
-			zephir_array_update_long(&params, 0, &_0, PH_COPY | PH_SEPARATE, "phalcon/tag.zep", 451);
+			zephir_array_update_long(&params, 0, &_0, PH_COPY | PH_SEPARATE, "phalcon/tag.zep", 452);
 		}
 		ZEPHIR_OBS_VAR(name);
 		if (zephir_array_isset_string_fetch(&name, params, SS("name"), 0 TSRMLS_CC)) {
@@ -715,7 +715,7 @@ PHP_METHOD(Phalcon_Tag, _inputField) {
 		} else {
 			zephir_array_update_string(&params, SL("name"), &id, PH_COPY | PH_SEPARATE);
 		}
-		if (!(zephir_memnstr_str(id, SL("["), "phalcon/tag.zep", 465))) {
+		if (!(zephir_memnstr_str(id, SL("["), "phalcon/tag.zep", 466))) {
 			if (!(zephir_array_isset_string(params, SS("id")))) {
 				zephir_array_update_string(&params, SL("id"), &id, PH_COPY | PH_SEPARATE);
 			}
@@ -791,7 +791,7 @@ PHP_METHOD(Phalcon_Tag, _inputFieldChecked) {
 	ZVAL_NULL(value);
 	if (!(zephir_array_isset_long(params, 0))) {
 		zephir_array_fetch_string(&_0, params, SL("id"), PH_NOISY | PH_READONLY TSRMLS_CC);
-		zephir_array_update_long(&params, 0, &_0, PH_COPY | PH_SEPARATE, "phalcon/tag.zep", 528);
+		zephir_array_update_long(&params, 0, &_0, PH_COPY | PH_SEPARATE, "phalcon/tag.zep", 529);
 	}
 	ZEPHIR_OBS_VAR(id);
 	zephir_array_fetch_long(&id, params, 0, PH_NOISY TSRMLS_CC);
@@ -1548,7 +1548,7 @@ PHP_METHOD(Phalcon_Tag, textArea) {
 	if (!(zephir_array_isset_long(params, 0))) {
 		if (zephir_array_isset_string(params, SS("id"))) {
 			zephir_array_fetch_string(&_0, params, SL("id"), PH_NOISY | PH_READONLY TSRMLS_CC);
-			zephir_array_update_long(&params, 0, &_0, PH_COPY | PH_SEPARATE, "phalcon/tag.zep", 952);
+			zephir_array_update_long(&params, 0, &_0, PH_COPY | PH_SEPARATE, "phalcon/tag.zep", 953);
 		}
 	}
 	ZEPHIR_OBS_VAR(id);
