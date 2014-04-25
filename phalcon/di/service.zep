@@ -19,6 +19,8 @@
 
 namespace Phalcon\Di;
 
+use Phalcon\Di\Exception;
+
 /**
  * Phalcon\Di\Service
  *
@@ -194,7 +196,7 @@ class Service implements \Phalcon\Di\ServiceInterface
 		 * If the service can't be built, we must throw an exception
 		 */
 		if found === false  {
-			throw new \Phalcon\Di\Exception("Service '" . this->_name . "' cannot be resolved");
+			throw new Exception("Service '" . this->_name . "' cannot be resolved");
 		}
 
 		/**
@@ -214,17 +216,13 @@ class Service implements \Phalcon\Di\ServiceInterface
 	 * @param array parameter
 	 * @return Phalcon\Di\Service
 	 */
-	public function setParameter(int position, parameter) -> <\Phalcon\Di\Service>
+	public function setParameter(int position, array! parameter) -> <\Phalcon\Di\Service>
 	{
 		var definition, arguments;
 
 		let definition = this->_definition;
 		if typeof definition != "array" {
-			throw new \Phalcon\Di\Exception("Definition must be an array to update its parameters");
-		}
-
-		if typeof parameter != "array" {
-			throw new \Phalcon\Di\Exception("The parameter must be an array");
+			throw new Exception("Definition must be an array to update its parameters");
 		}
 
 		/**
@@ -261,7 +259,7 @@ class Service implements \Phalcon\Di\ServiceInterface
 
 		let definition = this->_definition;
 		if typeof definition != "array" {
-			throw new \Phalcon\Di\Exception("Definition must be an array to obtain its parameters");
+			throw new Exception("Definition must be an array to obtain its parameters");
 		}
 
 		/**
@@ -282,20 +280,20 @@ class Service implements \Phalcon\Di\ServiceInterface
 	 * @param array attributes
 	 * @return Phalcon\Di\Service
 	 */
-	public static function __set_state(attributes) -> <\Phalcon\Di\Service>
+	public static function __set_state(array! attributes) -> <\Phalcon\Di\Service>
 	{
 		var name, definition, shared;
 
 		if !fetch name, attributes["_name"] {
-			throw new \Phalcon\Di\Exception("The attribute '_name' is required");
+			throw new Exception("The attribute '_name' is required");
 		}
 
 		if !fetch definition, attributes["_definition"] {
-			throw new \Phalcon\Di\Exception("The attribute '_name' is required");
+			throw new Exception("The attribute '_name' is required");
 		}
 
 		if !fetch shared, attributes["_shared"] {
-			throw new \Phalcon\Di\Exception("The attribute '_shared' is required");
+			throw new Exception("The attribute '_shared' is required");
 		}
 
 		return new self(name, definition, shared);

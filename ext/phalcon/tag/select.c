@@ -171,7 +171,7 @@ PHP_METHOD(Phalcon_Tag_Select, selectField) {
 	if (Z_TYPE_P(options) == IS_OBJECT) {
 		ZEPHIR_OBS_VAR(using);
 		if (!(zephir_array_isset_string_fetch(&using, params, SS("using"), 0 TSRMLS_CC))) {
-			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_tag_exception_ce, "The \"using\" parameter is required", "phalcon/tag/select.zep", 123);
+			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_tag_exception_ce, "The "using" parameter is required", "phalcon/tag/select.zep", 123);
 			return;
 		} else {
 			_5 = Z_TYPE_P(using) != IS_ARRAY;
@@ -179,7 +179,7 @@ PHP_METHOD(Phalcon_Tag_Select, selectField) {
 				_5 = Z_TYPE_P(using) != IS_OBJECT;
 			}
 			if (_5) {
-				ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_tag_exception_ce, "The \"using\" parameter should be an Array", "phalcon/tag/select.zep", 126);
+				ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_tag_exception_ce, "The "using" parameter should be an Array", "phalcon/tag/select.zep", 126);
 				return;
 			}
 		}

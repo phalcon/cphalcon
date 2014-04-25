@@ -19,6 +19,8 @@
 
 namespace Phalcon\Logger;
 
+use Phalcon\Logger;
+
 /**
  * Phalcon\Logger\Formatter
  *
@@ -37,34 +39,34 @@ abstract class Formatter
 	{
 		switch type {
 
-			case \Phalcon\Logger::DEBUG:
+			case Logger::DEBUG:
 				return "DEBUG";
 
-			case \Phalcon\Logger::ERROR:
+			case Logger::ERROR:
 				return "ERROR";
 
-			case \Phalcon\Logger::WARNING:
+			case Logger::WARNING:
 				return "WARNING";
 
-			case \Phalcon\Logger::CRITICAL:
+			case Logger::CRITICAL:
 				return "CRITICAL";
 
-			case \Phalcon\Logger::CUSTOM:
+			case Logger::CUSTOM:
 				return "CUSTOM";
 
-			case \Phalcon\Logger::ALERT:
+			case Logger::ALERT:
 				return "ALERT";
 
-			case \Phalcon\Logger::NOTICE:
+			case Logger::NOTICE:
 				return "NOTICE";
 
-			case \Phalcon\Logger::INFO:
+			case Logger::INFO:
 				return "INFO";
 
-			case \Phalcon\Logger::EMERGENCE:
+			case Logger::EMERGENCE:
 				return "EMERGENCE";
 
-			case \Phalcon\Logger::SPECIAL:
+			case Logger::SPECIAL:
 				return "SPECIAL";
 
 			default:

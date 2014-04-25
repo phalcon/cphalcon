@@ -17,11 +17,11 @@
 #include "kernel/array.h"
 #include "kernel/concat.h"
 #include "kernel/fcall.h"
+#include "ext/spl/spl_exceptions.h"
 #include "kernel/exception.h"
 #include "kernel/operators.h"
 #include "kernel/hash.h"
 #include "kernel/string.h"
-#include "ext/spl/spl_exceptions.h"
 
 
 /*
@@ -162,10 +162,18 @@ PHP_METHOD(Phalcon_Db_Adapter, __construct) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
 	zend_class_entry *_2;
-	zval *descriptor, *dialectClass, *_0, *_1;
+	zval *descriptor_param = NULL, *dialectClass, *_0, *_1;
+	zval *descriptor = NULL;
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 0, &descriptor);
+	zephir_fetch_params(1, 1, 0, &descriptor_param);
+
+	if (unlikely(Z_TYPE_P(descriptor_param) != IS_ARRAY)) {
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'descriptor' must be an array") TSRMLS_CC);
+		RETURN_MM_NULL();
+	}
+
+		descriptor = descriptor_param;
 
 
 

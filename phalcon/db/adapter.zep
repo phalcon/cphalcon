@@ -98,7 +98,7 @@ abstract class Adapter implements \Phalcon\Events\EventsAwareInterface
 	 *
 	 * @param array descriptor
 	 */
-	public function __construct(descriptor)
+	public function __construct(array! descriptor)
 	{
 		var dialectClass;
 

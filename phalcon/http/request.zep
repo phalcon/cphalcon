@@ -255,7 +255,7 @@ class Request implements \Phalcon\Http\RequestInterface, \Phalcon\Di\InjectionAw
 	 * @param string name
 	 * @return boolean
 	 */
-	public function hasServer(string! name) -> boolean
+	public final function hasServer(string! name) -> boolean
 	{
 		return isset _SERVER[name];
 	}
@@ -266,7 +266,7 @@ class Request implements \Phalcon\Http\RequestInterface, \Phalcon\Di\InjectionAw
 	 * @param string header
 	 * @return string
 	 */
-	public function getHeader(string! header) -> string
+	public final function getHeader(string! header) -> string
 	{
 		var serverValue, headerValue;
 
@@ -502,7 +502,7 @@ class Request implements \Phalcon\Http\RequestInterface, \Phalcon\Di\InjectionAw
 	 *
 	 * @return string
 	 */
-	public function getMethod() -> string
+	public final function getMethod() -> string
 	{
 		var requestMethod;
 

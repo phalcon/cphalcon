@@ -103,6 +103,7 @@ int zephir_compare_strict_long(zval *op1, long op2 TSRMLS_DC);
 int zephir_compare_strict_bool(zval *op1, zend_bool op2 TSRMLS_DC);
 
 void zephir_cast(zval *result, zval *var, zend_uint type);
+void zephir_convert_to_object(zval *op);
 long zephir_get_intval_ex(const zval *op);
 double zephir_get_doubleval_ex(const zval *op);
 zend_bool zephir_get_boolval_ex(const zval *op);

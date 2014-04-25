@@ -19,6 +19,8 @@
 
 namespace Phalcon;
 
+use Phalcon\Crypt\Exception;
+
 /**
  * Phalcon\Crypt
  *
@@ -123,7 +125,31 @@ class Crypt implements \Phalcon\CryptInterface
 	 */
 	public function encrypt(string! text, key=null) -> string
 	{
+		var encryptKey, ivSize, iv, cipher, mode;
 
+		if !function_exists("mcrypt_get_iv_size") {
+			throw new Exception("mcrypt extension is required");
+		}
+
+		if key === null {
+			let encryptKey = this->_key;
+		} else {
+			let encryptKey = key;
+		}
+
+		if empty encryptKey {
+			throw new Exception("Encryption key cannot be empty");
+		}
+
+		let cipher = this->_cipher, mode = this->_mode;
+
+		let ivSize = mcrypt_get_iv_size(cipher, mode);
+		if strlen(encryptKey) > ivSize {
+			throw new Exception("Size of key is too large for this algorithm");
+		}
+
+    	let iv = mcrypt_create_iv(ivSize, MCRYPT_RAND);
+		return iv . mcrypt_encrypt(cipher, encryptKey, text, mode, iv);
 	}
 
 	/**
@@ -139,7 +165,36 @@ class Crypt implements \Phalcon\CryptInterface
 	 */
 	public function decrypt(string! text, key=null) -> string
 	{
+		var decryptKey, ivSize, cipher, mode, keySize;
 
+		if !function_exists("mcrypt_get_iv_size") {
+			throw new Exception("mcrypt extension is required");
+		}
+
+		if key === null {
+			let decryptKey = this->_key;
+		} else {
+			let decryptKey = $key;
+		}
+
+		if empty decryptKey {
+			throw new Exception("Decryption key cannot be empty");
+		}
+
+		let cipher = this->_cipher, mode = this->_mode;
+
+		let ivSize = mcrypt_get_iv_size(cipher, mode);
+
+		let keySize = strlen(decryptKey);
+		if keySize > ivSize {
+			throw new Exception("Size of key is too large for this algorithm");
+		}
+
+		if keySize > strlen(text) {
+			throw new Exception("Size of IV is larger than text to decrypt");
+		}
+
+		return mcrypt_decrypt(cipher, decryptKey, substr(text, ivSize), mode, substr(text, 0, ivSize));
 	}
 
 	/**

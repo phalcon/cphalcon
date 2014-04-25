@@ -194,7 +194,7 @@ class Memory extends \Phalcon\Cache\Backend implements \Phalcon\Cache\BackendInt
 	*/
 	public function increment(keyName=null, value=null)
 	{
-		var lastKey, prefix, data, cachedContent, result;
+		var lastKey, prefix, cachedContent, result;
 
 		if !keyName {
 			let lastKey = this->_lastKey;
@@ -231,7 +231,7 @@ class Memory extends \Phalcon\Cache\Backend implements \Phalcon\Cache\BackendInt
 	 */
 	public function decrement(keyName=null, value=null)
 	{
-		var lastKey, prefix, data, cachedContent, result;
+		var lastKey, prefix, cachedContent, result;
 
 		if !keyName {
 			let lastKey = this->_lastKey;

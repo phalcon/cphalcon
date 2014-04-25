@@ -19,4 +19,102 @@
 
 namespace Phalcon\Logger\Adapter;
 
-class Stream { }
+use Phalcon\Logger\Exception;
+
+/**
+ * Phalcon\Logger\Adapter\Stream
+ *
+ * Sends logs to a valid PHP stream
+ *
+ *<code>
+ *	$logger = new \Phalcon\Logger\Adapter\Stream("php://stderr");
+ *	$logger->log("This is a message");
+ *	$logger->log("This is an error", \Phalcon\Logger::ERROR);
+ *	$logger->error("This is another error");
+ *</code>
+ */
+class Stream extends \Phalcon\Logger\Adapter implements \Phalcon\Logger\AdapterInterface
+{
+
+	/**
+	 * File handler resource
+	 *
+	 * @var resource
+	 */
+	protected _stream;
+
+	/**
+	 * Phalcon\Logger\Adapter\Stream constructor
+	 *
+	 * @param string name
+	 * @param array options
+	 */
+	public function __construct(string! name, options=null)
+	{
+		var mode, stream;
+
+		if fetch mode, options["mode"] {
+			if memstr(mode, "r") {
+				throw new Exception("Stream must be opened in append or write mode");
+			}
+		} else {
+			let mode = "ab";
+		}
+
+		/**
+		 * We use 'fopen' to respect to open-basedir directive
+		 */
+		let stream = fopen(name, mode);
+		if !stream {
+			throw new Exception("Can't open stream '" . name . "'");
+		}
+
+		let this->_stream = stream;
+	}
+
+	/**
+	 * Returns the internal formatter
+	 *
+	 * @return Phalcon\Logger\Formatter\Line
+	 */
+	public function getFormatter() -> <Phalcon\Logger\FormatterInterface>
+	{
+		var formatter;
+
+		let formatter = this->_formatter;
+		if typeof formatter == "object" {
+			let formatter = new \Phalcon\Logger\Formatter\Line(), this->_formatter = formatter;
+		}
+		return formatter;
+	}
+
+	/**
+	 * Writes the log to the stream itself
+	 *
+	 * @param string message
+	 * @param int type
+	 * @param int time
+	 */
+	public function logInternal(message, int type, int time)
+	{
+		var stream;
+
+		let stream = this->_stream;
+		if !stream {
+			throw new Exception("Cannot send message to the log because it is invalid");
+		}
+
+		fwrite(stream, this->getFormatter()->format(message, type, time));
+	}
+
+	/**
+ 	 * Closes the logger
+ 	 *
+ 	 * @return boolean
+ 	 */
+	public function close() -> boolean
+	{
+		return fclose(this->_stream);
+	}
+
+}

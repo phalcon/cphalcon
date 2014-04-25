@@ -494,7 +494,7 @@ class Manager implements \Phalcon\Events\ManagerInterface
 	 * @param string type
 	 * @return boolean
 	 */
-	public function hasListeners(string! type)
+	public function hasListeners(string! type) -> boolean
 	{
 		return isset this->_events[type];
 	}

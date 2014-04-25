@@ -16,7 +16,10 @@
 #include "ext/spl/spl_exceptions.h"
 #include "kernel/exception.h"
 #include "kernel/memory.h"
+#include "kernel/operators.h"
 #include "kernel/fcall.h"
+#include "kernel/string.h"
+#include "kernel/concat.h"
 
 
 /*
@@ -199,7 +202,8 @@ PHP_METHOD(Phalcon_Crypt, getKey) {
  */
 PHP_METHOD(Phalcon_Crypt, encrypt) {
 
-	zval *text_param = NULL, *key = NULL;
+	int ZEPHIR_LAST_CALL_STATUS;
+	zval *text_param = NULL, *key = NULL, *encryptKey = NULL, *ivSize = NULL, *iv = NULL, *cipher, *mode, _0, *_1 = NULL;
 	zval *text = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -221,6 +225,38 @@ PHP_METHOD(Phalcon_Crypt, encrypt) {
 	}
 
 
+	if (!((zephir_function_exists_ex(SS("mcrypt_get_iv_size") TSRMLS_CC) == SUCCESS))) {
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_crypt_exception_ce, "mcrypt extension is required", "phalcon/crypt.zep", 131);
+		return;
+	}
+	if (Z_TYPE_P(key) == IS_NULL) {
+		ZEPHIR_OBS_VAR(encryptKey);
+		zephir_read_property_this(&encryptKey, this_ptr, SL("_key"), PH_NOISY_CC);
+	} else {
+		ZEPHIR_CPY_WRT(encryptKey, key);
+	}
+	if (ZEPHIR_IS_EMPTY(encryptKey)) {
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_crypt_exception_ce, "Encryption key cannot be empty", "phalcon/crypt.zep", 141);
+		return;
+	}
+	ZEPHIR_OBS_VAR(cipher);
+	zephir_read_property_this(&cipher, this_ptr, SL("_cipher"), PH_NOISY_CC);
+	ZEPHIR_OBS_VAR(mode);
+	zephir_read_property_this(&mode, this_ptr, SL("_mode"), PH_NOISY_CC);
+	ZEPHIR_CALL_FUNCTION(&ivSize, "mcrypt_get_iv_size", NULL, cipher, mode);
+	zephir_check_call_status();
+	if (ZEPHIR_LT_LONG(ivSize, zephir_fast_strlen_ev(encryptKey))) {
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_crypt_exception_ce, "Size of key is too large for this algorithm", "phalcon/crypt.zep", 148);
+		return;
+	}
+	ZEPHIR_SINIT_VAR(_0);
+	ZVAL_LONG(&_0, 2);
+	ZEPHIR_CALL_FUNCTION(&iv, "mcrypt_create_iv", NULL, ivSize, &_0);
+	zephir_check_call_status();
+	ZEPHIR_CALL_FUNCTION(&_1, "mcrypt_encrypt", NULL, cipher, encryptKey, text, mode, iv);
+	zephir_check_call_status();
+	ZEPHIR_CONCAT_VV(return_value, iv, _1);
+	RETURN_MM();
 
 }
 
@@ -237,7 +273,9 @@ PHP_METHOD(Phalcon_Crypt, encrypt) {
  */
 PHP_METHOD(Phalcon_Crypt, decrypt) {
 
-	zval *text_param = NULL, *key = NULL;
+	zephir_nts_static zephir_fcall_cache_entry *_1 = NULL;
+	int ZEPHIR_LAST_CALL_STATUS;
+	zval *text_param = NULL, *key = NULL, *decryptKey = NULL, *ivSize = NULL, *cipher, *mode, *keySize, *_0 = NULL, _2, *_3 = NULL;
 	zval *text = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -259,6 +297,45 @@ PHP_METHOD(Phalcon_Crypt, decrypt) {
 	}
 
 
+	if (!((zephir_function_exists_ex(SS("mcrypt_get_iv_size") TSRMLS_CC) == SUCCESS))) {
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_crypt_exception_ce, "mcrypt extension is required", "phalcon/crypt.zep", 171);
+		return;
+	}
+	if (Z_TYPE_P(key) == IS_NULL) {
+		ZEPHIR_OBS_VAR(decryptKey);
+		zephir_read_property_this(&decryptKey, this_ptr, SL("_key"), PH_NOISY_CC);
+	} else {
+		ZEPHIR_CPY_WRT(decryptKey, key);
+	}
+	if (ZEPHIR_IS_EMPTY(decryptKey)) {
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_crypt_exception_ce, "Decryption key cannot be empty", "phalcon/crypt.zep", 181);
+		return;
+	}
+	ZEPHIR_OBS_VAR(cipher);
+	zephir_read_property_this(&cipher, this_ptr, SL("_cipher"), PH_NOISY_CC);
+	ZEPHIR_OBS_VAR(mode);
+	zephir_read_property_this(&mode, this_ptr, SL("_mode"), PH_NOISY_CC);
+	ZEPHIR_CALL_FUNCTION(&ivSize, "mcrypt_get_iv_size", NULL, cipher, mode);
+	zephir_check_call_status();
+	ZEPHIR_INIT_VAR(keySize);
+	ZVAL_LONG(keySize, zephir_fast_strlen_ev(decryptKey));
+	if (ZEPHIR_GT(keySize, ivSize)) {
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_crypt_exception_ce, "Size of key is too large for this algorithm", "phalcon/crypt.zep", 190);
+		return;
+	}
+	if (ZEPHIR_GT_LONG(keySize, zephir_fast_strlen_ev(text))) {
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_crypt_exception_ce, "Size of IV is larger than text to decrypt", "phalcon/crypt.zep", 194);
+		return;
+	}
+	ZEPHIR_CALL_FUNCTION(&_0, "substr", &_1, text, ivSize);
+	zephir_check_call_status();
+	ZEPHIR_SINIT_VAR(_2);
+	ZVAL_LONG(&_2, 0);
+	ZEPHIR_CALL_FUNCTION(&_3, "substr", &_1, text, &_2, ivSize);
+	zephir_check_call_status();
+	ZEPHIR_RETURN_CALL_FUNCTION("mcrypt_decrypt", NULL, cipher, decryptKey, _0, mode, _3);
+	zephir_check_call_status();
+	RETURN_MM();
 
 }
 

@@ -281,7 +281,7 @@ PHP_METHOD(Phalcon_Tag, getUrlService) {
 			zephir_check_call_status();
 		}
 		if (Z_TYPE_P(dependencyInjector) != IS_OBJECT) {
-			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_tag_exception_ce, "A dependency injector container is required to obtain the \"url\" service", "phalcon/tag.zep", 174);
+			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_tag_exception_ce, "A dependency injector container is required to obtain the "url" service", "phalcon/tag.zep", 174);
 			return;
 		}
 		ZEPHIR_INIT_VAR(_2);
@@ -319,7 +319,7 @@ PHP_METHOD(Phalcon_Tag, getEscaperService) {
 			zephir_check_call_status();
 		}
 		if (Z_TYPE_P(dependencyInjector) != IS_OBJECT) {
-			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_tag_exception_ce, "A dependency injector container is required to obtain the \"escaper\" service", "phalcon/tag.zep", 202);
+			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_tag_exception_ce, "A dependency injector container is required to obtain the "escaper" service", "phalcon/tag.zep", 202);
 			return;
 		}
 		ZEPHIR_INIT_VAR(_2);

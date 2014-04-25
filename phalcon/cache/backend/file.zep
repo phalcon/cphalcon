@@ -79,8 +79,7 @@ class File extends \Phalcon\Cache\Backend implements \Phalcon\Cache\BackendInter
 	 */
 	public function get(var keyName, lifetime=null)
 	{
-		var prefixedKey, cacheDir, cacheFile, frontend,
-			lastLifetime, tmp, ttl, cachedContent;
+		var prefixedKey, cacheDir, cacheFile, frontend, lastLifetime, ttl, cachedContent;
 		int modifiedTime;
 
 		let prefixedKey =  this->_prefix . keyName;
@@ -210,7 +209,7 @@ class File extends \Phalcon\Cache\Backend implements \Phalcon\Cache\BackendInter
 	 */
 	public function delete(var keyName) -> boolean
 	{
-		var prefixedKey, cacheFile, cacheDir;
+		var cacheFile, cacheDir;
 
 		if !fetch cacheDir, this->_options["cacheDir"] {
 			throw new Exception("Unexpected inconsistency in options");
@@ -369,8 +368,7 @@ class File extends \Phalcon\Cache\Backend implements \Phalcon\Cache\BackendInter
 	 */
 	public function decrement(var keyName=null, int value=null)
 	{
-		var prefixedKey, cacheFile, timestamp, lifetime, ttl,
-			cachedContent, status, result;
+		var prefixedKey, cacheFile, timestamp, lifetime, ttl, cachedContent, result;
 
 		let prefixedKey = this->_prefix . keyName,
 			this->_lastKey = prefixedKey,

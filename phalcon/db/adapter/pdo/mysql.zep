@@ -19,6 +19,8 @@
 
 namespace Phalcon\Db\Adapter\Pdo;
 
+use Phalcon\Db\Column;
+
 /**
  * Phalcon\Db\Adapter\Pdo\Mysql
  *
@@ -108,7 +110,7 @@ class Mysql extends \Phalcon\Db\Adapter\Pdo implements \Phalcon\Db\AdapterInterf
 			/**
 			 * By default the bind types is two
 			 */
-			let definition = ["bindType": 2];
+			let definition = ["bindType": Column::BIND_PARAM_STR];
 
 			/**
 			 * By checking every column type we convert it to a Phalcon\Db\Column
@@ -121,7 +123,7 @@ class Mysql extends \Phalcon\Db\Adapter\Pdo implements \Phalcon\Db\AdapterInterf
 				 * Enum are treated as char
 				 */
 				if memstr(columnType, "enum") {
-					let definition["type"] = \Phalcon\Db\Column::BIND_PARAM_STR;
+					let definition["type"] = Column::BIND_PARAM_STR;
 					break;
 				}
 
@@ -131,7 +133,7 @@ class Mysql extends \Phalcon\Db\Adapter\Pdo implements \Phalcon\Db\AdapterInterf
 				if memstr(columnType, "int") {
 					let definition["type"] = 0,
 						definition["isNumeric"] = true,
-						definition["bindType"] = \Phalcon\Db\Column::BIND_PARAM_INT;
+						definition["bindType"] = Column::BIND_PARAM_INT;
 					break;
 				}
 
@@ -139,7 +141,7 @@ class Mysql extends \Phalcon\Db\Adapter\Pdo implements \Phalcon\Db\AdapterInterf
 				 * Varchar are varchars
 				 */
 				if memstr(columnType, "varchar") {
-					let definition["type"] = \Phalcon\Db\Column::BIND_PARAM_STR;
+					let definition["type"] = Column::BIND_PARAM_STR;
 					break;
 				}
 
@@ -147,7 +149,7 @@ class Mysql extends \Phalcon\Db\Adapter\Pdo implements \Phalcon\Db\AdapterInterf
 				 * Special type for datetime
 				 */
 				if memstr(columnType, "datetime") {
-					let definition["type"] = \Phalcon\Db\Column::TYPE_DATETIME;
+					let definition["type"] = Column::TYPE_DATETIME;
 					break;
 				}
 
@@ -155,9 +157,9 @@ class Mysql extends \Phalcon\Db\Adapter\Pdo implements \Phalcon\Db\AdapterInterf
 				 * Decimals are floats
 				 */
 				if memstr(columnType, "decimal") {
-					let definition["type"] = \Phalcon\Db\Column::TYPE_DECIMAL,
+					let definition["type"] = Column::TYPE_DECIMAL,
 						definition["isNumeric"] = true,
-						definition["bindType"] = \Phalcon\Db\Column::BIND_PARAM_DECIMAL;
+						definition["bindType"] = Column::BIND_PARAM_DECIMAL;
 					break;
 				}
 
@@ -165,7 +167,7 @@ class Mysql extends \Phalcon\Db\Adapter\Pdo implements \Phalcon\Db\AdapterInterf
 				 * Chars are chars
 				 */
 				if memstr(columnType, "char") {
-					let definition["type"] = \Phalcon\Db\Column::TYPE_CHAR;
+					let definition["type"] = Column::TYPE_CHAR;
 					break;
 				}
 
@@ -173,7 +175,7 @@ class Mysql extends \Phalcon\Db\Adapter\Pdo implements \Phalcon\Db\AdapterInterf
 				 * Date/Datetime are varchars
 				 */
 				if memstr(columnType, "date") {
-					let definition["type"] = \Phalcon\Db\Column::TYPE_DATE;
+					let definition["type"] = Column::TYPE_DATE;
 					break;
 				}
 
@@ -181,24 +183,24 @@ class Mysql extends \Phalcon\Db\Adapter\Pdo implements \Phalcon\Db\AdapterInterf
 				 * Text are varchars
 				 */
 				if memstr(columnType, "text") {
-					let definition["type"] = \Phalcon\Db\Column::TYPE_TEXT;
+					let definition["type"] = Column::TYPE_TEXT;
 					break;
 				}
 
 				/**
 				 * Float/Smallfloats/Decimals are float
 				 */
-				if strpos(columnType, "float") {
-					let definition["type"] = \Phalcon\Db\Column::TYPE_FLOAT,
+				if memstr(columnType, "float") {
+					let definition["type"] = Column::TYPE_FLOAT,
 						definition["isNumeric"] = true,
-						definition["bindType"] = \Phalcon\Db\Column::TYPE_DECIMAL;
+						definition["bindType"] = Column::TYPE_DECIMAL;
 					break;
 				}
 
 				/**
 				 * By default is string
 				 */
-				let definition["type"] = \Phalcon\Db\Column::TYPE_VARCHAR;
+				let definition["type"] = Column::TYPE_VARCHAR;
 				break;
 			}
 
@@ -255,7 +257,7 @@ class Mysql extends \Phalcon\Db\Adapter\Pdo implements \Phalcon\Db\AdapterInterf
 			 * Every route is stored as a Phalcon\Db\Column
 			 */
 			let columnName = field[0],
-				columns[] = new \Phalcon\Db\Column(columnName, definition),
+				columns[] = new Column(columnName, definition),
 				oldColumn = columnName;
 		}
 

@@ -177,7 +177,7 @@ class Debug
 	 */
 	protected function _getArrayDump(argument, n = 0)
 	{
-		var numberArguments, one, dump, varDump, k, v, arguments;
+		var numberArguments, dump, varDump, k, v;
 
 		let numberArguments = count(argument);
 		if n < 3 {
@@ -230,7 +230,7 @@ class Debug
 	 */
 	protected function _getVarDump(variable)
 	{
-		var className, dumpedObject, dump, arrayDump;
+		var className, dumpedObject, dump;
 
 		if is_scalar(variable) {
 
@@ -371,12 +371,12 @@ class Debug
 	protected function showTraceItem(n, trace)
 	{
 
-		var space, twoSpaces, underscore, minus, isPhalconClass, className, pattern, namespaceSeparator,
-		prepareInternalClass, preparedFunctionName, html, classReflection, prepareUriClass, isInternal,
-		lowerClassName, type, functionName, functionReflection, traceArgs, arguments, argument, 
-		spanArgument, joinedArguments, one, filez, line, showFiles, lines, numberLines, showFileFragment, seven,
-		beforeLine, firstLine, afterLine, lastLine, commentPattern, utf8, entCompat, tab, comment, i, linePosition,
-		currentLine, trimmed, isComment, spacedCurrentLine;
+		var space, twoSpaces, underscore, minus, className, namespaceSeparator,
+		prepareInternalClass, preparedFunctionName, html, classReflection, prepareUriClass, 
+		functionName, functionReflection, traceArgs, arguments, argument, 
+		filez, line, showFiles, lines, numberLines, showFileFragment, 
+		beforeLine, firstLine, afterLine, lastLine, commentPattern, utf8, entCompat, tab, 
+		comment, i, linePosition, currentLine;
 
 		let space = " ";
 		let twoSpaces = "  ";

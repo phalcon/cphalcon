@@ -20,6 +20,7 @@
 namespace Phalcon\Db\Adapter;
 
 use Phalcon\Db\Exception;
+use Phalcon\Db\Column;
 
 /**
  * Phalcon\Db\Adapter\Pdo
@@ -59,15 +60,9 @@ abstract class Pdo extends \Phalcon\Db\Adapter
 	 *
 	 * @param array descriptor
 	 */
-	public function __construct(descriptor)
+	public function __construct(array! descriptor)
 	{
-
-		if typeof descriptor != "array" {
-			throw new Exception("The descriptor must be an array");
-		}
-
 		this->connect(descriptor);
-
 		parent::__construct(descriptor);
 	}
 
@@ -215,8 +210,8 @@ abstract class Pdo extends \Phalcon\Db\Adapter
 				/**
 				 * The bind type is double so we try to get the double value
 				 */
-				if type == \Phalcon\Db\Column::BIND_PARAM_DECIMAL {
-					let castValue = doubleval(value), type = \Phalcon\Db\Column::BIND_SKIP;
+				if type == Column::BIND_PARAM_DECIMAL {
+					let castValue = doubleval(value), type = Column::BIND_SKIP;
 				} else {
 					let castValue = value;
 				}
@@ -224,7 +219,7 @@ abstract class Pdo extends \Phalcon\Db\Adapter
 				/**
 				 * 1024 is ignore the bind type
 				 */
-				if type == \Phalcon\Db\Column::BIND_SKIP {
+				if type == Column::BIND_SKIP {
 					statement->bindParam(parameter, castValue);
 				} else {
 					statement->bindParam(parameter, castValue, type);
