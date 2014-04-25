@@ -64,7 +64,7 @@ int zephir_array_isset_fetch(zval **fetched, const zval *arr, zval *index, int r
 	h = Z_ARRVAL_P(arr);
 	switch (Z_TYPE_P(index)) {
 		case IS_NULL:
-			result = zephir_hash_find(h, ZEND_STRS(""), (void**)&val);
+			result = zephir_hash_find(h, SS(""), (void**)&val);
 			break;
 
 		case IS_DOUBLE:
@@ -173,7 +173,7 @@ int ZEPHIR_FASTCALL zephir_array_isset(const zval *arr, zval *index) {
 	h = Z_ARRVAL_P(arr);
 	switch (Z_TYPE_P(index)) {
 		case IS_NULL:
-			return zephir_hash_exists(h, ZEND_STRS(""));
+			return zephir_hash_exists(h, SS(""));
 
 		case IS_DOUBLE:
 			return zend_hash_index_exists(h, (ulong)Z_DVAL_P(index));
@@ -807,7 +807,7 @@ int zephir_array_fetch(zval **return_value, zval *arr, zval *index, int flags TS
 		ht = Z_ARRVAL_P(arr);
 		switch (Z_TYPE_P(index)) {
 			case IS_NULL:
-				result = zephir_hash_find(ht, ZEND_STRS(""), (void**) &zv);
+				result = zephir_hash_find(ht, SS(""), (void**) &zv);
 				sidx   = "";
 				break;
 

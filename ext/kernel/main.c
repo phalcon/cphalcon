@@ -422,3 +422,14 @@ void zephir_gettype(zval *return_value, zval *arg TSRMLS_DC) {
 			RETVAL_STRING("unknown type", 1);
 	}
 }
+
+zend_class_entry* zephir_get_internal_ce(const char *class_name, unsigned int class_name_len TSRMLS_DC) {
+    zend_class_entry** temp_ce;
+
+    if (zend_hash_find(CG(class_table), class_name, class_name_len, (void **)&temp_ce) == FAILURE) {
+        zend_error(E_ERROR, "Class '%s' not found", class_name);
+        return NULL;
+    }
+
+    return *temp_ce;
+}
