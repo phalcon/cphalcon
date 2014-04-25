@@ -15,11 +15,11 @@
 #include "kernel/object.h"
 #include "kernel/operators.h"
 #include "kernel/memory.h"
-#include "kernel/fcall.h"
+#include "kernel/filter.h"
 #include "kernel/array.h"
 #include "kernel/hash.h"
+#include "kernel/fcall.h"
 #include "kernel/exception.h"
-#include "kernel/filter.h"
 
 
 /*
@@ -139,11 +139,11 @@ PHP_METHOD(Phalcon_Escaper, setHtmlQuoteType) {
  */
 PHP_METHOD(Phalcon_Escaper, detectEncoding) {
 
+	int ZEPHIR_LAST_CALL_STATUS;
 	zephir_fcall_cache_entry *_6 = NULL;
 	HashTable *_3;
 	HashPosition _2;
 	zval *_0;
-	int ZEPHIR_LAST_CALL_STATUS;
 	zval *str, *charset = NULL, *_1, **_4, *_5 = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -151,8 +151,8 @@ PHP_METHOD(Phalcon_Escaper, detectEncoding) {
 
 
 
-	ZEPHIR_CALL_FUNCTION(&charset, "phalcon_is_basic_charset", NULL, str);
-	zephir_check_call_status();
+	ZEPHIR_INIT_VAR(charset);
+	zephir_is_basic_charset(charset, str);
 	if (Z_TYPE_P(charset) == IS_STRING) {
 		RETURN_CCTOR(charset);
 	}
