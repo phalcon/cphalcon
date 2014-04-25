@@ -1,4 +1,3 @@
-
 /*
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
@@ -141,7 +140,7 @@ class File implements \Phalcon\Http\Request\FileInterface
         }
 
         let mime = finfo_file(finfo, this->_tmp);
-        fclose(finfo);
+        finfo_close(finfo);
 
         return mime;
 	}
