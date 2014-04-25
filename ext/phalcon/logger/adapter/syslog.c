@@ -138,10 +138,9 @@ PHP_METHOD(Phalcon_Logger_Adapter_Syslog, getFormatter) {
  */
 PHP_METHOD(Phalcon_Logger_Adapter_Syslog, logInternal) {
 
-	zephir_nts_static zephir_fcall_cache_entry *_7 = NULL;
-	zend_class_entry *_4;
+	zephir_nts_static zephir_fcall_cache_entry *_5 = NULL;
 	int type, time, ZEPHIR_LAST_CALL_STATUS;
-	zval *message, *type_param = NULL, *time_param = NULL, *appliedFormat = NULL, *_0 = NULL, *_1, *_2, *_3, *_5, *_6;
+	zval *message, *type_param = NULL, *time_param = NULL, *appliedFormat = NULL, *_0 = NULL, *_1, *_2, *_3, *_4;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 3, 0, &message, &type_param, &time_param);
@@ -159,23 +158,12 @@ PHP_METHOD(Phalcon_Logger_Adapter_Syslog, logInternal) {
 	ZEPHIR_CALL_METHOD(&appliedFormat, _0, "format", NULL, message, _1, _2);
 	zephir_check_call_status();
 	if (Z_TYPE_P(appliedFormat) != IS_ARRAY) {
-		ZEPHIR_INIT_VAR(_3);
-		_4 = zend_fetch_class(SL("Phalcon\\Logger\\Adapter\\Exception"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
-		object_init_ex(_3, _4);
-		if (zephir_has_constructor(_3 TSRMLS_CC)) {
-			ZEPHIR_INIT_BNVAR(_1);
-			ZVAL_STRING(_1, "The formatted message is not valid", 0);
-			ZEPHIR_CALL_METHOD(NULL, _3, "__construct", NULL, _1);
-			zephir_check_temp_parameter(_1);
-			zephir_check_call_status();
-		}
-		zephir_throw_exception_debug(_3, "phalcon/logger/adapter/syslog.zep", 97 TSRMLS_CC);
-		ZEPHIR_MM_RESTORE();
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_logger_exception_ce, "The formatted message is not valid", "phalcon/logger/adapter/syslog.zep", 99);
 		return;
 	}
-	zephir_array_fetch_long(&_5, appliedFormat, 0, PH_NOISY | PH_READONLY TSRMLS_CC);
-	zephir_array_fetch_long(&_6, appliedFormat, 1, PH_NOISY | PH_READONLY TSRMLS_CC);
-	ZEPHIR_CALL_FUNCTION(NULL, "syslog", &_7, _5, _6);
+	zephir_array_fetch_long(&_3, appliedFormat, 0, PH_NOISY | PH_READONLY TSRMLS_CC);
+	zephir_array_fetch_long(&_4, appliedFormat, 1, PH_NOISY | PH_READONLY TSRMLS_CC);
+	ZEPHIR_CALL_FUNCTION(NULL, "syslog", &_5, _3, _4);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 

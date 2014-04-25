@@ -77,7 +77,7 @@ class Stream extends \Phalcon\Logger\Adapter implements \Phalcon\Logger\AdapterI
 	 *
 	 * @return Phalcon\Logger\Formatter\Line
 	 */
-	public function getFormatter() -> <Phalcon\Logger\FormatterInterface>
+	public function getFormatter() -> <\Phalcon\Logger\FormatterInterface>
 	{
 		var formatter;
 

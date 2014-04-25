@@ -19,6 +19,8 @@
 
 namespace Phalcon\Logger\Adapter;
 
+use Phalcon\Logger\Exception;
+
 /**
  * Phalcon\Logger\Adapter\Syslog
  *

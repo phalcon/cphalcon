@@ -148,7 +148,7 @@ class Crypt implements \Phalcon\CryptInterface
 			throw new Exception("Size of key is too large for this algorithm");
 		}
 
-    	let iv = mcrypt_create_iv(ivSize, MCRYPT_RAND);
+		let iv = mcrypt_create_iv(ivSize, MCRYPT_RAND);
 		return iv . mcrypt_encrypt(cipher, encryptKey, text, mode, iv);
 	}
 
