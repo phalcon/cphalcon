@@ -83,7 +83,7 @@ PHP_METHOD(Phalcon_Validation_Validator, __construct) {
  * Checks if an option is defined
  *
  * @param string key
- * @return mixed
+ * @return boolean
  */
 PHP_METHOD(Phalcon_Validation_Validator, isSetOption) {
 

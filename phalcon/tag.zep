@@ -591,11 +591,11 @@ class Tag
 	}
 
 	/**
-	* Builds a HTML input[type="color"] tag
-	*
-	* @param array parameters
-	* @return string
-	*/
+	 * Builds a HTML input[type="color"] tag
+	 *
+	 * @param array parameters
+	 * @return string
+	 */
 	static public function colorField(parameters) -> string
 	{
 		return self::_inputField("color", parameters);

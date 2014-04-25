@@ -47,7 +47,7 @@
  *
  * $app = new \Phalcon\Mvc\Micro();
  *
- * $collection = new \Phalcon\Mvc\Micro\Collection();
+ * $collection = new Collection();
  *
  * $collection->setHandler(new PostsController());
  *

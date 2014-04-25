@@ -59,11 +59,7 @@ class Job
 		queue->write("delete " . this->_id);
 
 		let response = queue->readStatus();
-		if response[0] == "DELETED" {
-			return true;
-		}
-
-		return false;
+		return response[0] == "DELETED";
 	}
 
 }

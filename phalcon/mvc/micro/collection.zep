@@ -28,7 +28,7 @@ namespace Phalcon\Mvc\Micro;
  *
  * $app = new \Phalcon\Mvc\Micro();
  *
- * $collection = new \Phalcon\Mvc\Micro\Collection();
+ * $collection = new Collection();
  *
  * $collection->setHandler(new PostsController());
  *
@@ -39,7 +39,7 @@ namespace Phalcon\Mvc\Micro;
  *</code>
  *
  */
-class Collection implements \Phalcon\Mvc\Micro\CollectionInterface
+class Collection implements CollectionInterface
 {
 
 	protected _prefix;
@@ -68,7 +68,7 @@ class Collection implements \Phalcon\Mvc\Micro\CollectionInterface
 	 * @param string prefix
 	 * @return Phalcon\Mvc\Micro\Collection
 	 */
-	public function setPrefix(string! prefix) -> <\Phalcon\Mvc\Micro\Collection>
+	public function setPrefix(string! prefix) -> <Collection>
 	{
 		let this->_prefix = prefix;
 		return this;
@@ -101,7 +101,7 @@ class Collection implements \Phalcon\Mvc\Micro\CollectionInterface
 	 * @param boolean lazy
 	 * @return Phalcon\Mvc\Micro\Collection
 	 */
-	public function setHandler(var handler, boolean lazy=false) -> <\Phalcon\Mvc\Micro\Collection>
+	public function setHandler(var handler, boolean lazy=false) -> <Collection>
 	{
 		let this->_handler = handler, this->_lazy = lazy;
 		return this;
@@ -113,7 +113,7 @@ class Collection implements \Phalcon\Mvc\Micro\CollectionInterface
 	 * @param boolean lazy
 	 * @return Phalcon\Mvc\Micro\Collection
 	 */
-	public function setLazy(lazy) -> <\Phalcon\Mvc\Micro\Collection>
+	public function setLazy(lazy) -> <Collection>
 	{
 		let this->_lazy = lazy;
 		return this;
@@ -146,7 +146,7 @@ class Collection implements \Phalcon\Mvc\Micro\CollectionInterface
 	 * @param callable handler
 	 * @return Phalcon\Mvc\Micro\Collection
 	 */
-	public function map(string! routePattern, var handler) -> <\Phalcon\Mvc\Micro\Collection>
+	public function map(string! routePattern, var handler) -> <Collection>
 	{
 		return this->_addMap(null, routePattern, handler);
 	}
@@ -158,7 +158,7 @@ class Collection implements \Phalcon\Mvc\Micro\CollectionInterface
 	 * @param callable handler
 	 * @return Phalcon\Mvc\Micro\Collection
 	 */
-	public function get(string! routePattern, handler) -> <\Phalcon\Mvc\Micro\Collection>
+	public function get(string! routePattern, handler) -> <Collection>
 	{
 		this->_addMap("GET", routePattern, handler);
 		return this;
@@ -171,7 +171,7 @@ class Collection implements \Phalcon\Mvc\Micro\CollectionInterface
 	 * @param callable handler
 	 * @return Phalcon\Mvc\Micro\Collection
 	 */
-	public function post(string! routePattern, handler) -> <\Phalcon\Mvc\Micro\Collection>
+	public function post(string! routePattern, handler) -> <Collection>
 	{
 		this->_addMap("POST", routePattern, handler);
 		return this;
@@ -184,7 +184,7 @@ class Collection implements \Phalcon\Mvc\Micro\CollectionInterface
 	 * @param callable handler
 	 * @return Phalcon\Mvc\Micro\Collection
 	 */
-	public function put(string! routePattern, var handler) -> <\Phalcon\Mvc\Micro\Collection>
+	public function put(string! routePattern, var handler) -> <Collection>
 	{
 		this->_addMap("PUT", routePattern, handler);
 		return this;
@@ -197,7 +197,7 @@ class Collection implements \Phalcon\Mvc\Micro\CollectionInterface
 	 * @param callable handler
 	 * @return Phalcon\Mvc\Micro\Collection
 	 */
-	public function patch(string! routePattern, var handler) -> <\Phalcon\Mvc\Micro\Collection>
+	public function patch(string! routePattern, var handler) -> <Collection>
 	{
 		this->_addMap("PATCH", routePattern, handler);
 		return this;
@@ -210,7 +210,7 @@ class Collection implements \Phalcon\Mvc\Micro\CollectionInterface
 	 * @param  callable handler
 	 * @return Phalcon\Mvc\Micro\Collection
 	 */
-	public function head(string! routePattern, var handler) -> <\Phalcon\Mvc\Micro\Collection>
+	public function head(string! routePattern, var handler) -> <Collection>
 	{
 		this->_addMap("HEAD", routePattern, handler);
 		return this;
@@ -223,7 +223,7 @@ class Collection implements \Phalcon\Mvc\Micro\CollectionInterface
 	 * @param callable handler
 	 * @return Phalcon\Mvc\Micro\Collection
 	 */
-	public function delete(string! routePattern, var handler) -> <\Phalcon\Mvc\Micro\Collection>
+	public function delete(string! routePattern, var handler) -> <Collection>
 	{
 		this->_addMap("DELETE", routePattern, handler);
 		return this;
@@ -236,7 +236,7 @@ class Collection implements \Phalcon\Mvc\Micro\CollectionInterface
 	 * @param callable handler
 	 * @return Phalcon\Mvc\Micro\Collection
 	 */
-	public function options(string! routePattern, handler) -> <\Phalcon\Mvc\Micro\Collection>
+	public function options(string! routePattern, handler) -> <Collection>
 	{
 		this->_addMap("OPTIONS", routePattern, handler);
 		return this;

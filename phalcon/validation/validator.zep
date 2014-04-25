@@ -49,9 +49,9 @@ class Validator
 	 * Checks if an option is defined
 	 *
 	 * @param string key
-	 * @return mixed
+	 * @return boolean
 	 */
-	public function isSetOption(string key)
+	public function isSetOption(string key) -> boolean
 	{
 		return isset this->_options[key];
 	}

@@ -113,10 +113,7 @@ PHP_METHOD(Phalcon_Queue_Beanstalk_Job, delete) {
 	ZEPHIR_CALL_METHOD(&response, queue, "readstatus",  NULL);
 	zephir_check_call_status();
 	zephir_array_fetch_long(&_2, response, 0, PH_NOISY | PH_READONLY TSRMLS_CC);
-	if (ZEPHIR_IS_STRING(_2, "DELETED")) {
-		RETURN_MM_BOOL(1);
-	}
-	RETURN_MM_BOOL(0);
+	RETURN_MM_BOOL(ZEPHIR_IS_STRING(_2, "DELETED"));
 
 }
 

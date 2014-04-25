@@ -19,4 +19,29 @@
 
 namespace Phalcon\Logger\Formatter;
 
-class Json { }
+/**
+ * Phalcon\Logger\Formatter\Json
+ *
+ * Formats messages using JSON encoding
+ */
+class Json extends \Phalcon\Logger\Formatter implements \Phalcon\Logger\FormatterInterface
+{
+
+	/**
+	 * Applies a format to a message before sent it to the internal log
+	 *
+	 * @param string message
+	 * @param int type
+	 * @param int timestamp
+	 * @return string
+	 */
+	public function format(string message, int type, int timestamp) -> string
+	{
+		return json_encode([
+			"type": this->getTypeString(type),
+			"message": message,
+			"timestamp": timestamp
+		]);
+	}
+
+}
