@@ -216,7 +216,7 @@ PHALCON_INIT_CLASS(Phalcon_Mvc_View){
 	zend_declare_property_null(phalcon_mvc_view_ce, SL("_options"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_string(phalcon_mvc_view_ce, SL("_basePath"), "", ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_string(phalcon_mvc_view_ce, SL("_content"), "", ZEND_ACC_PROTECTED TSRMLS_CC);
-	zend_declare_property_long(phalcon_mvc_view_ce, SL("_renderLevel"), 5, ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_long(phalcon_mvc_view_ce, SL("_renderLevel"), 6, ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_long(phalcon_mvc_view_ce, SL("_currentRenderLevel"), 0, ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_mvc_view_ce, SL("_disabledLevels"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_mvc_view_ce, SL("_viewParams"), ZEND_ACC_PROTECTED TSRMLS_CC);
@@ -240,8 +240,10 @@ PHALCON_INIT_CLASS(Phalcon_Mvc_View){
 	zend_declare_property_null(phalcon_mvc_view_ce, SL("_activeRenderPath"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_bool(phalcon_mvc_view_ce, SL("_disabled"), 0, ZEND_ACC_PROTECTED TSRMLS_CC);
 
-	zend_declare_class_constant_long(phalcon_mvc_view_ce, SL("LEVEL_MAIN_LAYOUT"), 5 TSRMLS_CC);
-	zend_declare_class_constant_long(phalcon_mvc_view_ce, SL("LEVEL_AFTER_TEMPLATE"), 4 TSRMLS_CC);
+	zend_declare_class_constant_long(phalcon_mvc_view_ce, SL("LEVEL_MAIN_LAYOUT"), 6 TSRMLS_CC);
+	zend_declare_class_constant_long(phalcon_mvc_view_ce, SL("LEVEL_AFTER_TEMPLATE"), 5 TSRMLS_CC);
+	zend_declare_class_constant_long(phalcon_mvc_view_ce, SL("LEVEL_NAMESPACE"), 4 TSRMLS_CC);
+	zend_declare_class_constant_long(phalcon_mvc_view_ce, SL("LEVEL_CONTROLLER"), 3 TSRMLS_CC);
 	zend_declare_class_constant_long(phalcon_mvc_view_ce, SL("LEVEL_LAYOUT"), 3 TSRMLS_CC);
 	zend_declare_class_constant_long(phalcon_mvc_view_ce, SL("LEVEL_BEFORE_TEMPLATE"), 2 TSRMLS_CC);
 	zend_declare_class_constant_long(phalcon_mvc_view_ce, SL("LEVEL_ACTION_VIEW"), 1 TSRMLS_CC);
@@ -1185,7 +1187,7 @@ PHP_METHOD(Phalcon_Mvc_View, render){
 
 	zval *controller_name, *action_name, *params = NULL;
 	zval *disabled, *contents = NULL, *layouts_dir = NULL, *layout;
-	zval *layout_name = NULL, *engines = NULL, *pick_view, *render_view = NULL;
+	zval *layout_name = NULL, *layout_namespace = NULL, *engines = NULL, *pick_view, *render_view = NULL;
 	zval *pick_view_action;
 	zval *events_manager, *event_name = NULL, *status = NULL;
 	zval *silence = NULL, *disabled_levels, *render_level;
@@ -1246,6 +1248,11 @@ PHP_METHOD(Phalcon_Mvc_View, render){
 	if (!zend_is_true(layouts_dir)) {
 		PHALCON_INIT_NVAR(layouts_dir);
 		ZVAL_STRING(layouts_dir, "layouts/", 1);
+	}
+
+	if (zend_is_true(namespace_name)) {
+		PHALCON_INIT_VAR(layout_namespace);
+		PHALCON_CONCAT_SV(layout_namespace, "namespace/", lower_namespace_name);
 	}
 	
 	/** 
@@ -1399,11 +1406,24 @@ PHP_METHOD(Phalcon_Mvc_View, render){
 		}
 	
 		/** 
-		 * Inserts templates after layout
+		 * Inserts namespace layout
 		 */
-		if (PHALCON_GE_LONG(render_level, 4)) {
+		if (PHALCON_GE_LONG(render_level, 4) && layout_namespace) {
 			if (!phalcon_array_isset_long(disabled_levels, 4)) {
 				phalcon_update_property_long(this_ptr, SL("_currentRenderLevel"), 4 TSRMLS_CC);
+
+				PHALCON_INIT_NVAR(view_temp_path);
+				PHALCON_CONCAT_VV(view_temp_path, layouts_dir, layout_namespace);
+				PHALCON_CALL_METHOD(NULL, this_ptr, "_enginerender", engines, view_temp_path, silence, PHALCON_GLOBAL(z_true));
+			}
+		}
+	
+		/** 
+		 * Inserts templates after layout
+		 */
+		if (PHALCON_GE_LONG(render_level, 5)) {
+			if (!phalcon_array_isset_long(disabled_levels, 5)) {
+				phalcon_update_property_long(this_ptr, SL("_currentRenderLevel"), 5 TSRMLS_CC);
 	
 				/** 
 				 * Templates after must be an array
@@ -1437,9 +1457,9 @@ PHP_METHOD(Phalcon_Mvc_View, render){
 		/** 
 		 * Inserts main view
 		 */
-		if (PHALCON_GE_LONG(render_level, 5)) {
-			if (!phalcon_array_isset_long(disabled_levels, 5)) {
-				phalcon_update_property_long(this_ptr, SL("_currentRenderLevel"), 5 TSRMLS_CC);
+		if (PHALCON_GE_LONG(render_level, 6)) {
+			if (!phalcon_array_isset_long(disabled_levels, 6)) {
+				phalcon_update_property_long(this_ptr, SL("_currentRenderLevel"), 6 TSRMLS_CC);
 
 				PHALCON_OBS_VAR(main_view);
 				phalcon_read_property_this(&main_view, this_ptr, SL("_mainView"), PH_NOISY TSRMLS_CC);
