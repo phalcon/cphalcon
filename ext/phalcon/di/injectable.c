@@ -160,7 +160,7 @@ PHP_METHOD(Phalcon_Di_Injectable, __get) {
 	zval *_3;
 	int ZEPHIR_LAST_CALL_STATUS;
 	zephir_nts_static zephir_fcall_cache_entry *_1 = NULL, *_6 = NULL;
-	zval *propertyName_param = NULL, *dependencyInjector = NULL, *hasService = NULL, *service = NULL, *persistent = NULL, *_0, *_2 = NULL, *_4 = NULL;
+	zval *propertyName_param = NULL, *dependencyInjector = NULL, *service = NULL, *persistent = NULL, *_0, *_2 = NULL, *_4 = NULL;
 	zval *propertyName = NULL, *_5;
 
 	ZEPHIR_MM_GROW();
@@ -189,9 +189,9 @@ PHP_METHOD(Phalcon_Di_Injectable, __get) {
 			return;
 		}
 	}
-	ZEPHIR_CALL_METHOD(&hasService, dependencyInjector, "has", NULL, propertyName);
+	ZEPHIR_CALL_METHOD(&_2, dependencyInjector, "has", NULL, propertyName);
 	zephir_check_call_status();
-	if (zephir_is_true(hasService)) {
+	if (zephir_is_true(_2)) {
 		ZEPHIR_CALL_METHOD(&service, dependencyInjector, "getshared", NULL, propertyName);
 		zephir_check_call_status();
 		zephir_update_property_zval_zval(this_ptr, propertyName, service TSRMLS_CC);

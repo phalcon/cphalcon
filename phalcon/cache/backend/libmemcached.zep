@@ -98,7 +98,7 @@ class Libmemcached extends \Phalcon\Cache\Backend implements \Phalcon\Cache\Back
 
 		if !fetch servers, options["servers"] {
 			throw new \Phalcon\Cache\Exception("Servers must be an array");
-		} 
+		}
 
 		if typeof servers != "array" {
 			throw new \Phalcon\Cache\Exception("Servers must be an array");
@@ -246,7 +246,7 @@ class Libmemcached extends \Phalcon\Cache\Backend implements \Phalcon\Cache\Back
 
 		if !isset keys[lastKey] {
 			let keys[lastKey] = tt1;
-			memcache->set(specialKey,keys);
+			memcache->set(specialKey, keys);
 		}
 
 		let isBuffering = frontend->isBuffering();
@@ -271,7 +271,7 @@ class Libmemcached extends \Phalcon\Cache\Backend implements \Phalcon\Cache\Back
 	 */
 	public function increment(keyName=null, value=null)
 	{
-		var memcache, prefix, prefixedKey, cachedContent;
+		var memcache, prefixedKey, cachedContent;
 
 		if !value {
 			let value = 1;
@@ -283,8 +283,7 @@ class Libmemcached extends \Phalcon\Cache\Backend implements \Phalcon\Cache\Back
 			let memcache = this->_memcache;
 		}
 
-		let prefix = this->_prefix;
-		let prefixedKey = prefix . keyName;
+		let prefixedKey = this->_prefix . keyName;
 		let this->_lastKey = prefixedKey;
 		let cachedContent = memcache->increment(prefixedKey, value);
 

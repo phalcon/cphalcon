@@ -98,7 +98,7 @@ abstract class Injectable implements \Phalcon\Di\InjectionAwareInterface, \Phalc
 	 */
 	public function __get(string! propertyName)
 	{
-		var dependencyInjector, hasService, service, persistent;
+		var dependencyInjector, service, persistent;
 
 		let dependencyInjector = <\Phalcon\DiInterface> this->_dependencyInjector;
 		if typeof dependencyInjector != "object" {
@@ -111,8 +111,7 @@ abstract class Injectable implements \Phalcon\Di\InjectionAwareInterface, \Phalc
 		/**
 		 * Fallback to the PHP userland if the cache is not available
 		 */
-		let hasService = dependencyInjector->has(propertyName);
-		if hasService {
+		if dependencyInjector->has(propertyName) {
 			let service = dependencyInjector->getShared(propertyName);
 			let this->{propertyName} = service;
 			return service;
@@ -124,7 +123,7 @@ abstract class Injectable implements \Phalcon\Di\InjectionAwareInterface, \Phalc
 		}
 
 		/**
-		 * Accessing the persistent property will create a session bag in any class
+		 * Accessing the persistent property will create a session bag on any class
 		 */
 		if propertyName == "persistent" {
 			let persistent = <\Phalcon\Session\BagInterface> dependencyInjector->get("sessionBag", [get_class(this)]),

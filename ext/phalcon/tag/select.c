@@ -305,8 +305,7 @@ PHP_METHOD(Phalcon_Tag_Select, _optionsFromResultset) {
 /**
  * Generate the OPTION tags based on an array
  *
- * @param Phalcon\Mvc\ModelInterface resultset
- * @param array using
+ * @param array data
  * @param mixed value
  * @param string closeOption
  */

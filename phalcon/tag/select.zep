@@ -128,14 +128,14 @@ abstract class Select
 			}
 
 			/**
-			 * Create the SELECT"s option from a resultset
+			 * Create the SELECT's option from a resultset
 			 */
 			let code .= self::_optionsFromResultset(options, using, value, closeOption);
 		} else {
 			if typeof options == "array" {
 
 				/**
-				 * Create the SELECT"s option from an array
+				 * Create the SELECT's option from an array
 				 */
 				let code .= self::_optionsFromArray(options, value, closeOption);
 			} else {
@@ -231,8 +231,7 @@ abstract class Select
 	/**
 	 * Generate the OPTION tags based on an array
 	 *
-	 * @param Phalcon\Mvc\ModelInterface resultset
-	 * @param array using
+	 * @param array data
 	 * @param mixed value
 	 * @param string closeOption
 	 */
