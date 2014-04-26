@@ -177,7 +177,7 @@ void phalcon_replace_paths(zval *return_value, zval *pattern, zval *paths, zval 
 	}
 
 	if (!zend_hash_num_elements(Z_ARRVAL_P(paths))) {
-		ZVAL_STRINGL(return_value, Z_STRVAL_P(pattern)+i, Z_STRLEN_P(pattern)-i, 1);
+		ZVAL_STRINGL(return_value, Z_STRVAL_P(pattern) + i, Z_STRLEN_P(pattern) - i, 1);
 		return;
 	}
 

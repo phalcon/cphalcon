@@ -203,7 +203,7 @@ PHP_METHOD(Phalcon_Mvc_Url, getBaseUri) {
 		zephir_get_global(&_SERVER, SS("_SERVER") TSRMLS_CC);
 		if (zephir_array_isset_string_fetch(&phpSelf, _SERVER, SS("PHP_SELF"), 0 TSRMLS_CC)) {
 			ZEPHIR_INIT_VAR(uri);
-			phalcon_get_uri(uri, phpSelf TSRMLS_CC);
+			phalcon_get_uri(uri, phpSelf);
 		} else {
 			ZEPHIR_INIT_NVAR(uri);
 			ZVAL_NULL(uri);
