@@ -55,6 +55,8 @@ class Memcache extends \Phalcon\Session\Adapter implements \Phalcon\Session\Adap
 	 */
 	public function __construct(options=null)
 	{
+		var lifetime;
+
 		if typeof options != "array" {
 			let options = [];
 		}
@@ -64,15 +66,15 @@ class Memcache extends \Phalcon\Session\Adapter implements \Phalcon\Session\Adap
 		}
 
 		if !isset options["port"] {
-			let options["port"] = "11211";
+			let options["port"] = 11211;
 		}
 
 		if !isset options["persistent"] {
-			let options["persistent"] = "0";
+			let options["persistent"] = 0;
 		}
 
-		if isset options["lifetime"] {
-			let this->_lifetime = options["lifetime"];
+		if fetch lifetime, options["lifetime"] {
+			let this->_lifetime = lifetime;
 		}
 
 		let this->_memcache = new \Phalcon\Cache\Backend\Memcache(

@@ -245,7 +245,11 @@ class File extends \Phalcon\Cache\Backend implements \Phalcon\Cache\BackendInter
 
 			if item->isDir() === false {
 				let key = item->getFileName();
-				if starts_with(key, prefix) {
+				if prefix !== null {
+					if starts_with(key, prefix) {
+						let ret[] = key;
+					}
+				} else {
 					let ret[] = key;
 				}
 			}
