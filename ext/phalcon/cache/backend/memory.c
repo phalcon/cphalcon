@@ -294,9 +294,9 @@ PHP_METHOD(Phalcon_Cache_Backend_Memory, exists) {
 /**
  * Increment of given $keyName by $value
  *
- * @param  string $keyName
- * @param  long $lifetime
- * @return boolean
+ * @param  string keyName
+ * @param  long lifetime
+ * @return long
  */
 PHP_METHOD(Phalcon_Cache_Backend_Memory, increment) {
 
@@ -345,8 +345,8 @@ PHP_METHOD(Phalcon_Cache_Backend_Memory, increment) {
 /**
  * Decrement of $keyName by given $value
  *
- * @param  string $keyName
- * @param  long $value
+ * @param  string keyName
+ * @param  long value
  * @return long
  */
 PHP_METHOD(Phalcon_Cache_Backend_Memory, decrement) {
