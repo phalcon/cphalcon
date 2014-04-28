@@ -13,9 +13,9 @@
 
 #include "kernel/main.h"
 #include "kernel/exception.h"
-#include "kernel/memory.h"
 #include "kernel/fcall.h"
 #include "kernel/operators.h"
+#include "kernel/memory.h"
 #include "kernel/concat.h"
 #include "kernel/array.h"
 
@@ -62,8 +62,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Db_Dialect_Postgresql) {
 PHP_METHOD(Phalcon_Db_Dialect_Postgresql, getColumnDefinition) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
-	zend_class_entry *_1, *_4;
-	zval *column, *size = NULL, *columnType = NULL, *columnSql = NULL, *_0 = NULL, *_2 = NULL, *_3 = NULL;
+	zval *column, *size = NULL, *columnType = NULL, *columnSql = NULL, *_0 = NULL;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &column);
@@ -71,18 +70,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Postgresql, getColumnDefinition) {
 
 
 	if (Z_TYPE_P(column) != IS_OBJECT) {
-		ZEPHIR_INIT_VAR(_0);
-		_1 = zend_fetch_class(SL("Phalcon\\Db\\Dialect\\Phalcon\\Db\\Exception"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
-		object_init_ex(_0, _1);
-		if (zephir_has_constructor(_0 TSRMLS_CC)) {
-			ZEPHIR_INIT_VAR(_2);
-			ZVAL_STRING(_2, "Column definition must be an object compatible with Phalcon\Db\ColumnInterface", 0);
-			ZEPHIR_CALL_METHOD(NULL, _0, "__construct", NULL, _2);
-			zephir_check_temp_parameter(_2);
-			zephir_check_call_status();
-		}
-		zephir_throw_exception_debug(_0, "phalcon/db/dialect/postgresql.zep", 43 TSRMLS_CC);
-		ZEPHIR_MM_RESTORE();
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "Column definition must be an object compatible with Phalcon\\Db\\ColumnInterface", "phalcon/db/dialect/postgresql.zep", 44);
 		return;
 	}
 	ZEPHIR_CALL_METHOD(&size, column, "getsize",  NULL);
@@ -106,10 +94,10 @@ PHP_METHOD(Phalcon_Db_Dialect_Postgresql, getColumnDefinition) {
 			break;
 		}
 		if (ZEPHIR_IS_LONG(columnType, 3)) {
-			ZEPHIR_CALL_METHOD(&_3, column, "getscale",  NULL);
+			ZEPHIR_CALL_METHOD(&_0, column, "getscale",  NULL);
 			zephir_check_call_status();
 			ZEPHIR_INIT_NVAR(columnSql);
-			ZEPHIR_CONCAT_SVSVS(columnSql, "NUMERIC(", size, ",", _3, ")");
+			ZEPHIR_CONCAT_SVSVS(columnSql, "NUMERIC(", size, ",", _0, ")");
 			break;
 		}
 		if (ZEPHIR_IS_LONG(columnType, 4)) {
@@ -137,18 +125,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Postgresql, getColumnDefinition) {
 			ZVAL_STRING(columnSql, "SMALLINT(1)", 1);
 			break;
 		}
-		ZEPHIR_INIT_LNVAR(_0);
-		_4 = zend_fetch_class(SL("Phalcon\\Db\\Dialect\\Phalcon\\Db\\Exception"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
-		object_init_ex(_0, _4);
-		if (zephir_has_constructor(_0 TSRMLS_CC)) {
-			ZEPHIR_INIT_NVAR(_2);
-			ZVAL_STRING(_2, "Unrecognized PostgreSQL data type", 0);
-			ZEPHIR_CALL_METHOD(NULL, _0, "__construct", NULL, _2);
-			zephir_check_temp_parameter(_2);
-			zephir_check_call_status();
-		}
-		zephir_throw_exception_debug(_0, "phalcon/db/dialect/postgresql.zep", 78 TSRMLS_CC);
-		ZEPHIR_MM_RESTORE();
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "Unrecognized PostgreSQL data type", "phalcon/db/dialect/postgresql.zep", 79);
 		return;
 	} while(0);
 
@@ -166,27 +143,13 @@ PHP_METHOD(Phalcon_Db_Dialect_Postgresql, getColumnDefinition) {
  */
 PHP_METHOD(Phalcon_Db_Dialect_Postgresql, addColumn) {
 
-	int ZEPHIR_LAST_CALL_STATUS;
-	zend_class_entry *_1;
-	zval *tableName, *schemaName, *column, *_0, *_2;
+	zval *tableName, *schemaName, *column;
 
-	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 3, 0, &tableName, &schemaName, &column);
+	zephir_fetch_params(0, 3, 0, &tableName, &schemaName, &column);
 
 
 
-	ZEPHIR_INIT_VAR(_0);
-	_1 = zend_fetch_class(SL("Phalcon\\Db\\Dialect\\Phalcon\\Db\\Exception"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
-	object_init_ex(_0, _1);
-	if (zephir_has_constructor(_0 TSRMLS_CC)) {
-		ZEPHIR_INIT_VAR(_2);
-		ZVAL_STRING(_2, "Not implemented yet", 0);
-		ZEPHIR_CALL_METHOD(NULL, _0, "__construct", NULL, _2);
-		zephir_check_temp_parameter(_2);
-		zephir_check_call_status();
-	}
-	zephir_throw_exception_debug(_0, "phalcon/db/dialect/postgresql.zep", 110 TSRMLS_CC);
-	ZEPHIR_MM_RESTORE();
+	ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_db_exception_ce, "Not implemented yet", "phalcon/db/dialect/postgresql.zep", 95);
 	return;
 
 }
@@ -201,27 +164,13 @@ PHP_METHOD(Phalcon_Db_Dialect_Postgresql, addColumn) {
  */
 PHP_METHOD(Phalcon_Db_Dialect_Postgresql, modifyColumn) {
 
-	int ZEPHIR_LAST_CALL_STATUS;
-	zend_class_entry *_1;
-	zval *tableName, *schemaName, *column, *_0, *_2;
+	zval *tableName, *schemaName, *column;
 
-	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 3, 0, &tableName, &schemaName, &column);
+	zephir_fetch_params(0, 3, 0, &tableName, &schemaName, &column);
 
 
 
-	ZEPHIR_INIT_VAR(_0);
-	_1 = zend_fetch_class(SL("Phalcon\\Db\\Dialect\\Phalcon\\Db\\Exception"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
-	object_init_ex(_0, _1);
-	if (zephir_has_constructor(_0 TSRMLS_CC)) {
-		ZEPHIR_INIT_VAR(_2);
-		ZVAL_STRING(_2, "Not implemented yet", 0);
-		ZEPHIR_CALL_METHOD(NULL, _0, "__construct", NULL, _2);
-		zephir_check_temp_parameter(_2);
-		zephir_check_call_status();
-	}
-	zephir_throw_exception_debug(_0, "phalcon/db/dialect/postgresql.zep", 139 TSRMLS_CC);
-	ZEPHIR_MM_RESTORE();
+	ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_db_exception_ce, "Not implemented yet", "phalcon/db/dialect/postgresql.zep", 108);
 	return;
 
 }
@@ -236,27 +185,13 @@ PHP_METHOD(Phalcon_Db_Dialect_Postgresql, modifyColumn) {
  */
 PHP_METHOD(Phalcon_Db_Dialect_Postgresql, dropColumn) {
 
-	int ZEPHIR_LAST_CALL_STATUS;
-	zend_class_entry *_1;
-	zval *tableName, *schemaName, *columnName, *_0, *_2;
+	zval *tableName, *schemaName, *columnName;
 
-	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 3, 0, &tableName, &schemaName, &columnName);
+	zephir_fetch_params(0, 3, 0, &tableName, &schemaName, &columnName);
 
 
 
-	ZEPHIR_INIT_VAR(_0);
-	_1 = zend_fetch_class(SL("Phalcon\\Db\\Dialect\\Phalcon\\Db\\Exception"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
-	object_init_ex(_0, _1);
-	if (zephir_has_constructor(_0 TSRMLS_CC)) {
-		ZEPHIR_INIT_VAR(_2);
-		ZVAL_STRING(_2, "Not implemented yet", 0);
-		ZEPHIR_CALL_METHOD(NULL, _0, "__construct", NULL, _2);
-		zephir_check_temp_parameter(_2);
-		zephir_check_call_status();
-	}
-	zephir_throw_exception_debug(_0, "phalcon/db/dialect/postgresql.zep", 159 TSRMLS_CC);
-	ZEPHIR_MM_RESTORE();
+	ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_db_exception_ce, "Not implemented yet", "phalcon/db/dialect/postgresql.zep", 121);
 	return;
 
 }
@@ -271,27 +206,13 @@ PHP_METHOD(Phalcon_Db_Dialect_Postgresql, dropColumn) {
  */
 PHP_METHOD(Phalcon_Db_Dialect_Postgresql, addIndex) {
 
-	int ZEPHIR_LAST_CALL_STATUS;
-	zend_class_entry *_1;
-	zval *tableName, *schemaName, *index, *_0, *_2;
+	zval *tableName, *schemaName, *index;
 
-	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 3, 0, &tableName, &schemaName, &index);
+	zephir_fetch_params(0, 3, 0, &tableName, &schemaName, &index);
 
 
 
-	ZEPHIR_INIT_VAR(_0);
-	_1 = zend_fetch_class(SL("Phalcon\\Db\\Dialect\\Phalcon\\Db\\Exception"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
-	object_init_ex(_0, _1);
-	if (zephir_has_constructor(_0 TSRMLS_CC)) {
-		ZEPHIR_INIT_VAR(_2);
-		ZVAL_STRING(_2, "Not implemented yet", 0);
-		ZEPHIR_CALL_METHOD(NULL, _0, "__construct", NULL, _2);
-		zephir_check_temp_parameter(_2);
-		zephir_check_call_status();
-	}
-	zephir_throw_exception_debug(_0, "phalcon/db/dialect/postgresql.zep", 185 TSRMLS_CC);
-	ZEPHIR_MM_RESTORE();
+	ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_db_exception_ce, "Not implemented yet", "phalcon/db/dialect/postgresql.zep", 134);
 	return;
 
 }
@@ -306,27 +227,13 @@ PHP_METHOD(Phalcon_Db_Dialect_Postgresql, addIndex) {
  */
 PHP_METHOD(Phalcon_Db_Dialect_Postgresql, dropIndex) {
 
-	int ZEPHIR_LAST_CALL_STATUS;
-	zend_class_entry *_1;
-	zval *tableName, *schemaName, *indexName, *_0, *_2;
+	zval *tableName, *schemaName, *indexName;
 
-	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 3, 0, &tableName, &schemaName, &indexName);
+	zephir_fetch_params(0, 3, 0, &tableName, &schemaName, &indexName);
 
 
 
-	ZEPHIR_INIT_VAR(_0);
-	_1 = zend_fetch_class(SL("Phalcon\\Db\\Dialect\\Phalcon\\Db\\Exception"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
-	object_init_ex(_0, _1);
-	if (zephir_has_constructor(_0 TSRMLS_CC)) {
-		ZEPHIR_INIT_VAR(_2);
-		ZVAL_STRING(_2, "Not implemented yet", 0);
-		ZEPHIR_CALL_METHOD(NULL, _0, "__construct", NULL, _2);
-		zephir_check_temp_parameter(_2);
-		zephir_check_call_status();
-	}
-	zephir_throw_exception_debug(_0, "phalcon/db/dialect/postgresql.zep", 205 TSRMLS_CC);
-	ZEPHIR_MM_RESTORE();
+	ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_db_exception_ce, "Not implemented yet", "phalcon/db/dialect/postgresql.zep", 147);
 	return;
 
 }
@@ -341,27 +248,13 @@ PHP_METHOD(Phalcon_Db_Dialect_Postgresql, dropIndex) {
  */
 PHP_METHOD(Phalcon_Db_Dialect_Postgresql, addPrimaryKey) {
 
-	int ZEPHIR_LAST_CALL_STATUS;
-	zend_class_entry *_1;
-	zval *tableName, *schemaName, *index, *_0, *_2;
+	zval *tableName, *schemaName, *index;
 
-	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 3, 0, &tableName, &schemaName, &index);
+	zephir_fetch_params(0, 3, 0, &tableName, &schemaName, &index);
 
 
 
-	ZEPHIR_INIT_VAR(_0);
-	_1 = zend_fetch_class(SL("Phalcon\\Db\\Dialect\\Phalcon\\Db\\Exception"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
-	object_init_ex(_0, _1);
-	if (zephir_has_constructor(_0 TSRMLS_CC)) {
-		ZEPHIR_INIT_VAR(_2);
-		ZVAL_STRING(_2, "Not implemented yet", 0);
-		ZEPHIR_CALL_METHOD(NULL, _0, "__construct", NULL, _2);
-		zephir_check_temp_parameter(_2);
-		zephir_check_call_status();
-	}
-	zephir_throw_exception_debug(_0, "phalcon/db/dialect/postgresql.zep", 230 TSRMLS_CC);
-	ZEPHIR_MM_RESTORE();
+	ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_db_exception_ce, "Not implemented yet", "phalcon/db/dialect/postgresql.zep", 160);
 	return;
 
 }
@@ -375,27 +268,13 @@ PHP_METHOD(Phalcon_Db_Dialect_Postgresql, addPrimaryKey) {
  */
 PHP_METHOD(Phalcon_Db_Dialect_Postgresql, dropPrimaryKey) {
 
-	int ZEPHIR_LAST_CALL_STATUS;
-	zend_class_entry *_1;
-	zval *tableName, *schemaName, *_0, *_2;
+	zval *tableName, *schemaName;
 
-	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 2, 0, &tableName, &schemaName);
+	zephir_fetch_params(0, 2, 0, &tableName, &schemaName);
 
 
 
-	ZEPHIR_INIT_VAR(_0);
-	_1 = zend_fetch_class(SL("Phalcon\\Db\\Dialect\\Phalcon\\Db\\Exception"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
-	object_init_ex(_0, _1);
-	if (zephir_has_constructor(_0 TSRMLS_CC)) {
-		ZEPHIR_INIT_VAR(_2);
-		ZVAL_STRING(_2, "Not implemented yet", 0);
-		ZEPHIR_CALL_METHOD(NULL, _0, "__construct", NULL, _2);
-		zephir_check_temp_parameter(_2);
-		zephir_check_call_status();
-	}
-	zephir_throw_exception_debug(_0, "phalcon/db/dialect/postgresql.zep", 248 TSRMLS_CC);
-	ZEPHIR_MM_RESTORE();
+	ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_db_exception_ce, "Not implemented yet", "phalcon/db/dialect/postgresql.zep", 172);
 	return;
 
 }
@@ -410,27 +289,13 @@ PHP_METHOD(Phalcon_Db_Dialect_Postgresql, dropPrimaryKey) {
  */
 PHP_METHOD(Phalcon_Db_Dialect_Postgresql, addForeignKey) {
 
-	int ZEPHIR_LAST_CALL_STATUS;
-	zend_class_entry *_1;
-	zval *tableName, *schemaName, *reference, *_0, *_2;
+	zval *tableName, *schemaName, *reference;
 
-	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 3, 0, &tableName, &schemaName, &reference);
+	zephir_fetch_params(0, 3, 0, &tableName, &schemaName, &reference);
 
 
 
-	ZEPHIR_INIT_VAR(_0);
-	_1 = zend_fetch_class(SL("Phalcon\\Db\\Dialect\\Phalcon\\Db\\Exception"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
-	object_init_ex(_0, _1);
-	if (zephir_has_constructor(_0 TSRMLS_CC)) {
-		ZEPHIR_INIT_VAR(_2);
-		ZVAL_STRING(_2, "Not implemented yet", 0);
-		ZEPHIR_CALL_METHOD(NULL, _0, "__construct", NULL, _2);
-		zephir_check_temp_parameter(_2);
-		zephir_check_call_status();
-	}
-	zephir_throw_exception_debug(_0, "phalcon/db/dialect/postgresql.zep", 277 TSRMLS_CC);
-	ZEPHIR_MM_RESTORE();
+	ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_db_exception_ce, "Not implemented yet", "phalcon/db/dialect/postgresql.zep", 185);
 	return;
 
 }
@@ -445,27 +310,13 @@ PHP_METHOD(Phalcon_Db_Dialect_Postgresql, addForeignKey) {
  */
 PHP_METHOD(Phalcon_Db_Dialect_Postgresql, dropForeignKey) {
 
-	int ZEPHIR_LAST_CALL_STATUS;
-	zend_class_entry *_1;
-	zval *tableName, *schemaName, *referenceName, *_0, *_2;
+	zval *tableName, *schemaName, *referenceName;
 
-	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 3, 0, &tableName, &schemaName, &referenceName);
+	zephir_fetch_params(0, 3, 0, &tableName, &schemaName, &referenceName);
 
 
 
-	ZEPHIR_INIT_VAR(_0);
-	_1 = zend_fetch_class(SL("Phalcon\\Db\\Dialect\\Phalcon\\Db\\Exception"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
-	object_init_ex(_0, _1);
-	if (zephir_has_constructor(_0 TSRMLS_CC)) {
-		ZEPHIR_INIT_VAR(_2);
-		ZVAL_STRING(_2, "Not implemented yet", 0);
-		ZEPHIR_CALL_METHOD(NULL, _0, "__construct", NULL, _2);
-		zephir_check_temp_parameter(_2);
-		zephir_check_call_status();
-	}
-	zephir_throw_exception_debug(_0, "phalcon/db/dialect/postgresql.zep", 297 TSRMLS_CC);
-	ZEPHIR_MM_RESTORE();
+	ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_db_exception_ce, "Not implemented yet", "phalcon/db/dialect/postgresql.zep", 198);
 	return;
 
 }
@@ -499,27 +350,13 @@ PHP_METHOD(Phalcon_Db_Dialect_Postgresql, _getTableOptions) {
  */
 PHP_METHOD(Phalcon_Db_Dialect_Postgresql, createTable) {
 
-	int ZEPHIR_LAST_CALL_STATUS;
-	zend_class_entry *_1;
-	zval *tableName, *schemaName, *definition, *_0, *_2;
+	zval *tableName, *schemaName, *definition;
 
-	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 3, 0, &tableName, &schemaName, &definition);
+	zephir_fetch_params(0, 3, 0, &tableName, &schemaName, &definition);
 
 
 
-	ZEPHIR_INIT_VAR(_0);
-	_1 = zend_fetch_class(SL("Phalcon\\Db\\Dialect\\Phalcon\\Db\\Exception"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
-	object_init_ex(_0, _1);
-	if (zephir_has_constructor(_0 TSRMLS_CC)) {
-		ZEPHIR_INIT_VAR(_2);
-		ZVAL_STRING(_2, "Not implemented yet", 0);
-		ZEPHIR_CALL_METHOD(NULL, _0, "__construct", NULL, _2);
-		zephir_check_temp_parameter(_2);
-		zephir_check_call_status();
-	}
-	zephir_throw_exception_debug(_0, "phalcon/db/dialect/postgresql.zep", 382 TSRMLS_CC);
-	ZEPHIR_MM_RESTORE();
+	ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_db_exception_ce, "Not implemented yet", "phalcon/db/dialect/postgresql.zep", 222);
 	return;
 
 }
@@ -570,28 +407,15 @@ PHP_METHOD(Phalcon_Db_Dialect_Postgresql, dropTable) {
  */
 PHP_METHOD(Phalcon_Db_Dialect_Postgresql, createView) {
 
-	int ZEPHIR_LAST_CALL_STATUS;
-	zend_class_entry *_1;
-	zval *viewName, *definition, *schemaName, *viewSql, *view = NULL, *_0, *_2;
+	zval *viewName, *definition, *schemaName, *viewSql, *view = NULL;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 3, 0, &viewName, &definition, &schemaName);
 
 
 
-	if (!zephir_array_isset_string(definition, SS("sql"))) {
-		ZEPHIR_INIT_VAR(_0);
-		_1 = zend_fetch_class(SL("Phalcon\\Db\\Dialect\\Phalcon\\Db\\Exception"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
-		object_init_ex(_0, _1);
-		if (zephir_has_constructor(_0 TSRMLS_CC)) {
-			ZEPHIR_INIT_VAR(_2);
-			ZVAL_STRING(_2, "The index \"sql\" is required in the definition array", 0);
-			ZEPHIR_CALL_METHOD(NULL, _0, "__construct", NULL, _2);
-			zephir_check_temp_parameter(_2);
-			zephir_check_call_status();
-		}
-		zephir_throw_exception_debug(_0, "phalcon/db/dialect/postgresql.zep", 423 TSRMLS_CC);
-		ZEPHIR_MM_RESTORE();
+	if (!(zephir_array_isset_string(definition, SS("sql")))) {
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "The index 'sql' is required in the definition array", "phalcon/db/dialect/postgresql.zep", 263);
 		return;
 	}
 	zephir_array_fetch_string(&viewSql, definition, SL("sql"), PH_NOISY | PH_READONLY TSRMLS_CC);

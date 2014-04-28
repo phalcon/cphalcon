@@ -4105,7 +4105,8 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 	 */
 	public function __set(string property, value)
 	{
-		var lowerProperty, related, modelName, manager, lowerKey, relation, referencedModel;
+		var lowerProperty, related, modelName, manager, lowerKey, relation, referencedModel,
+			key, item;
 
 		/**
 		 * Values are probably relationships if they are objects
@@ -4124,10 +4125,12 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 		 * Check if the value is an array
 		 */
 		if typeof value == "array" {
+
 			let lowerProperty = strtolower(property),
 				modelName = get_class(this),
 				manager = this->getModelsManager();
 
+			let related = [];
 			for key, item in value {
 				if typeof item == "object" {
 					if item instanceof \Phalcon\Mvc\ModelInterface {

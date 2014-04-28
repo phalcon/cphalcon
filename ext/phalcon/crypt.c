@@ -203,7 +203,7 @@ PHP_METHOD(Phalcon_Crypt, getKey) {
 PHP_METHOD(Phalcon_Crypt, encrypt) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
-	zval *text_param = NULL, *key = NULL, *encryptKey = NULL, *ivSize = NULL, *iv = NULL, *cipher, *mode, *_0, *_1 = NULL;
+	zval *text_param = NULL, *key = NULL, *encryptKey = NULL, *ivSize = NULL, *iv = NULL, *cipher, *mode, _0, *_1 = NULL;
 	zval *text = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -249,9 +249,9 @@ PHP_METHOD(Phalcon_Crypt, encrypt) {
 		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_crypt_exception_ce, "Size of key is too large for this algorithm", "phalcon/crypt.zep", 148);
 		return;
 	}
-	ZEPHIR_INIT_VAR(_0);
-	ZEPHIR_GET_CONSTANT(_0, "MCRYPT_RAND");
-	ZEPHIR_CALL_FUNCTION(&iv, "mcrypt_create_iv", NULL, ivSize, _0);
+	ZEPHIR_SINIT_VAR(_0);
+	ZVAL_LONG(&_0, 2);
+	ZEPHIR_CALL_FUNCTION(&iv, "mcrypt_create_iv", NULL, ivSize, &_0);
 	zephir_check_call_status();
 	ZEPHIR_CALL_FUNCTION(&_1, "mcrypt_encrypt", NULL, cipher, encryptKey, text, mode, iv);
 	zephir_check_call_status();
