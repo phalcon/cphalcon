@@ -269,10 +269,10 @@ PHP_METHOD(Phalcon_Image_Adapter_Gd, __construct) {
 		zephir_update_property_this(this_ptr, SL("_realpath"), _11 TSRMLS_CC);
 		ZEPHIR_INIT_ZVAL_NREF(_19);
 		ZVAL_LONG(_19, width);
-		zephir_update_property_zval(this_ptr, SL("_width"), _19 TSRMLS_CC);
+		zephir_update_property_this(this_ptr, SL("_width"), _19 TSRMLS_CC);
 		ZEPHIR_INIT_ZVAL_NREF(_19);
 		ZVAL_LONG(_19, height);
-		zephir_update_property_zval(this_ptr, SL("_height"), _19 TSRMLS_CC);
+		zephir_update_property_this(this_ptr, SL("_height"), _19 TSRMLS_CC);
 		ZEPHIR_INIT_ZVAL_NREF(_19);
 		ZVAL_LONG(_19, 3);
 		zephir_update_property_this(this_ptr, SL("_type"), _19 TSRMLS_CC);
@@ -478,7 +478,7 @@ PHP_METHOD(Phalcon_Image_Adapter_Gd, _crop) {
 		}
 	} else {
 		ZEPHIR_INIT_VAR(rect);
-		array_init_size(rect, 6);
+		array_init_size(rect, 7);
 		ZEPHIR_INIT_NVAR(_4);
 		ZVAL_LONG(_4, offset_x);
 		zephir_array_update_string(&rect, SL("x"), &_4, PH_COPY | PH_SEPARATE);
@@ -694,9 +694,9 @@ PHP_METHOD(Phalcon_Image_Adapter_Gd, _sharpen) {
 	zephir_check_call_status();
 	amount = zephir_get_intval(_3);
 	ZEPHIR_INIT_VAR(matrix);
-	array_init_size(matrix, 4);
+	array_init_size(matrix, 5);
 	ZEPHIR_INIT_VAR(_5);
-	array_init_size(_5, 4);
+	array_init_size(_5, 5);
 	ZEPHIR_INIT_VAR(_6);
 	ZVAL_LONG(_6, -1);
 	zephir_array_fast_append(_5, _6);
@@ -708,7 +708,7 @@ PHP_METHOD(Phalcon_Image_Adapter_Gd, _sharpen) {
 	zephir_array_fast_append(_5, _6);
 	zephir_array_fast_append(matrix, _5);
 	ZEPHIR_INIT_BNVAR(_5);
-	array_init_size(_5, 4);
+	array_init_size(_5, 5);
 	ZEPHIR_INIT_BNVAR(_6);
 	ZVAL_LONG(_6, -1);
 	zephir_array_fast_append(_5, _6);
@@ -720,7 +720,7 @@ PHP_METHOD(Phalcon_Image_Adapter_Gd, _sharpen) {
 	zephir_array_fast_append(_5, _6);
 	zephir_array_fast_append(matrix, _5);
 	ZEPHIR_INIT_BNVAR(_5);
-	array_init_size(_5, 4);
+	array_init_size(_5, 5);
 	ZEPHIR_INIT_BNVAR(_6);
 	ZVAL_LONG(_6, -1);
 	zephir_array_fast_append(_5, _6);

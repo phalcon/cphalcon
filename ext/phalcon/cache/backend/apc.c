@@ -18,7 +18,7 @@
 #include "kernel/fcall.h"
 #include "kernel/operators.h"
 #include "kernel/exception.h"
-#include "kernel/hash.h"
+#include "kernel/iterator.h"
 #include "kernel/array.h"
 
 
@@ -225,12 +225,11 @@ PHP_METHOD(Phalcon_Cache_Backend_Apc, delete) {
  */
 PHP_METHOD(Phalcon_Cache_Backend_Apc, queryKeys) {
 
-	zephir_nts_static zephir_fcall_cache_entry *_9 = NULL;
-	HashTable *_5;
-	HashPosition _4;
+	zephir_nts_static zephir_fcall_cache_entry *_6 = NULL;
+	zend_object_iterator *_3;
 	int ZEPHIR_LAST_CALL_STATUS;
 	zend_class_entry *_1;
-	zval *prefix_param = NULL, *prefixPattern = NULL, *apc, *keys, *key = NULL, *item = NULL, *_2, *_3 = NULL, **_6, _7 = zval_used_for_init, *_8 = NULL;
+	zval *prefix_param = NULL, *prefixPattern = NULL, *apc, *keys, *key = NULL, *item = NULL, *_2, _4 = zval_used_for_init, *_5 = NULL;
 	zval *prefix = NULL, *_0;
 
 	ZEPHIR_MM_GROW();
@@ -264,21 +263,20 @@ PHP_METHOD(Phalcon_Cache_Backend_Apc, queryKeys) {
 		zephir_check_temp_parameter(_2);
 		zephir_check_call_status();
 	}
-	ZEPHIR_CALL_FUNCTION(&_3, "iterator", NULL, apc);
-	zephir_check_call_status();
-	zephir_is_iterable(_3, &_5, &_4, 0, 0);
-	for (
-	  ; zephir_hash_get_current_data_ex(_5, (void**) &_6, &_4) == SUCCESS
-	  ; zephir_hash_move_forward_ex(_5, &_4)
-	) {
-		ZEPHIR_GET_HMKEY(key, _5, _4);
-		ZEPHIR_GET_HVALUE(item, _6);
-		ZEPHIR_SINIT_NVAR(_7);
-		ZVAL_LONG(&_7, 5);
-		ZEPHIR_CALL_FUNCTION(&_8, "substr", &_9, key, &_7);
+	_3 = zephir_get_iterator(apc TSRMLS_CC);
+	_3->funcs->rewind(_3 TSRMLS_CC);
+	for (;_3->funcs->valid(_3 TSRMLS_CC) == SUCCESS && !EG(exception); _3->funcs->move_forward(_3 TSRMLS_CC)) {
+		{ zval **tmp; 
+		_3->funcs->get_current_data(_3, &tmp TSRMLS_CC);
+		item = *tmp;
+		}
+		ZEPHIR_SINIT_NVAR(_4);
+		ZVAL_LONG(&_4, 5);
+		ZEPHIR_CALL_FUNCTION(&_5, "substr", &_6, key, &_4);
 		zephir_check_call_status();
-		zephir_array_append(&keys, _8, PH_SEPARATE);
+		zephir_array_append(&keys, _5, PH_SEPARATE);
 	}
+	_3->funcs->dtor(_3 TSRMLS_CC);
 	RETURN_CCTOR(keys);
 
 }

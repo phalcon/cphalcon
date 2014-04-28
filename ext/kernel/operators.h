@@ -23,6 +23,7 @@
 
 /** Strict comparing */
 #define ZEPHIR_IS_LONG(op1, op2)   ((Z_TYPE_P(op1) == IS_LONG && Z_LVAL_P(op1) == op2) || zephir_compare_strict_long(op1, op2 TSRMLS_CC))
+#define ZEPHIR_IS_DOUBLE(op1, op2) ((Z_TYPE_P(op1) == IS_DOUBLE && Z_DVAL_P(op1) == op2) || zephir_compare_strict_double(op1, op2 TSRMLS_CC))
 #define ZEPHIR_IS_STRING(op1, op2) zephir_compare_strict_string(op1, op2, strlen(op2))
 
 /** strict boolean comparison */
@@ -100,6 +101,7 @@ void zephir_concat_self_char(zval **left, unsigned char right TSRMLS_DC);
 /** Strict comparing */
 int zephir_compare_strict_string(zval *op1, const char *op2, int op2_length);
 int zephir_compare_strict_long(zval *op1, long op2 TSRMLS_DC);
+int zephir_compare_strict_double(zval *op1, double op2 TSRMLS_DC);
 int zephir_compare_strict_bool(zval *op1, zend_bool op2 TSRMLS_DC);
 
 void zephir_cast(zval *result, zval *var, zend_uint type);

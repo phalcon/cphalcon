@@ -14,6 +14,7 @@
 #include "kernel/main.h"
 #include "kernel/object.h"
 #include "kernel/exception.h"
+#include "kernel/main.h"
 #include "kernel/operators.h"
 #include "kernel/memory.h"
 #include "kernel/fcall.h"
@@ -117,7 +118,7 @@ PHP_METHOD(Phalcon_Db_Result_Pdo, __construct) {
 		ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(spl_ce_InvalidArgumentException, "Parameter 'connection' must be an instance of 'Phalcon\\Db\\AdapterInterface'", "", 0);
 		return;
 	}
-	if (!(zephir_is_instance_of(result, SL("PDOStatement") TSRMLS_CC))) {
+	if (!(zephir_instance_of_ev(result, zephir_get_internal_ce(SS("pdostatement") TSRMLS_CC) TSRMLS_CC))) {
 		ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(spl_ce_InvalidArgumentException, "Parameter 'result' must be an instance of 'PDOStatement'", "", 0);
 		return;
 	}

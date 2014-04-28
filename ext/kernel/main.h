@@ -70,6 +70,7 @@ int zephir_is_callable(zval *var TSRMLS_DC);
 int zephir_function_exists(const zval *function_name TSRMLS_DC);
 int zephir_function_exists_ex(const char *func_name, unsigned int func_len TSRMLS_DC);
 int zephir_function_quick_exists_ex(const char *func_name, unsigned int func_len, unsigned long key TSRMLS_DC);
+zend_class_entry* zephir_get_internal_ce(const char *class_name, unsigned int class_name_len TSRMLS_DC);
 
 /* types */
 void zephir_gettype(zval *return_value, zval *arg TSRMLS_DC);
@@ -434,6 +435,7 @@ int zephir_fetch_parameters(int num_args TSRMLS_DC, int required_args, int optio
 			return; \
 		} \
 	} while (0)
+
 
 #define ZEPHIR_VERIFY_CLASS(instance, class_ce) \
 	do { \

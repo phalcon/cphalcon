@@ -20,7 +20,8 @@
 #include "kernel/concat.h"
 #include "kernel/file.h"
 #include "kernel/operators.h"
-#include "kernel/hash.h"
+#include "kernel/iterator.h"
+#include "ext/spl/spl_directory.h"
 #include "kernel/string.h"
 
 
@@ -330,11 +331,9 @@ PHP_METHOD(Phalcon_Cache_Backend_File, delete) {
  */
 PHP_METHOD(Phalcon_Cache_Backend_File, queryKeys) {
 
-	HashTable *_5;
-	HashPosition _4;
 	int ZEPHIR_LAST_CALL_STATUS;
-	zend_class_entry *_2;
-	zval *prefix = NULL, *item = NULL, *key = NULL, *ret, *cacheDir, *_0, *_1, *_3 = NULL, **_6, *_7 = NULL;
+	zend_object_iterator *_1;
+	zval *prefix = NULL, *item = NULL, *key = NULL, *ret, *cacheDir, *_0, *_2, *_3 = NULL;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 1, &prefix);
@@ -352,22 +351,20 @@ PHP_METHOD(Phalcon_Cache_Backend_File, queryKeys) {
 	}
 	ZEPHIR_INIT_VAR(ret);
 	array_init(ret);
-	ZEPHIR_INIT_VAR(_1);
-	_2 = zend_fetch_class(SL("DirectoryIterator"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
-	object_init_ex(_1, _2);
-	ZEPHIR_CALL_METHOD(NULL, _1, "__construct", NULL, cacheDir);
+	ZEPHIR_INIT_VAR(_2);
+	object_init_ex(_2, spl_ce_DirectoryIterator);
+	ZEPHIR_CALL_METHOD(NULL, _2, "__construct", NULL, cacheDir);
 	zephir_check_call_status();
-	ZEPHIR_CALL_FUNCTION(&_3, "iterator", NULL, _1);
-	zephir_check_call_status();
-	zephir_is_iterable(_3, &_5, &_4, 0, 0);
-	for (
-	  ; zephir_hash_get_current_data_ex(_5, (void**) &_6, &_4) == SUCCESS
-	  ; zephir_hash_move_forward_ex(_5, &_4)
-	) {
-		ZEPHIR_GET_HVALUE(item, _6);
-		ZEPHIR_CALL_METHOD(&_7, item, "isdir",  NULL);
+	_1 = zephir_get_iterator(_2 TSRMLS_CC);
+	_1->funcs->rewind(_1 TSRMLS_CC);
+	for (;_1->funcs->valid(_1 TSRMLS_CC) == SUCCESS && !EG(exception); _1->funcs->move_forward(_1 TSRMLS_CC)) {
+		{ zval **tmp; 
+		_1->funcs->get_current_data(_1, &tmp TSRMLS_CC);
+		item = *tmp;
+		}
+		ZEPHIR_CALL_METHOD(&_3, item, "isdir",  NULL);
 		zephir_check_call_status();
-		if (ZEPHIR_IS_FALSE(_7)) {
+		if (ZEPHIR_IS_FALSE(_3)) {
 			ZEPHIR_CALL_METHOD(&key, item, "getfilename",  NULL);
 			zephir_check_call_status();
 			if (zephir_start_with(key, prefix, 0)) {
@@ -375,6 +372,7 @@ PHP_METHOD(Phalcon_Cache_Backend_File, queryKeys) {
 			}
 		}
 	}
+	_1->funcs->dtor(_1 TSRMLS_CC);
 	RETURN_CCTOR(ret);
 
 }

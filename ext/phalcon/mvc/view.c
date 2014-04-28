@@ -335,7 +335,7 @@ PHP_METHOD(Phalcon_Mvc_View, setRenderLevel) {
 
 	ZEPHIR_INIT_ZVAL_NREF(_0);
 	ZVAL_LONG(_0, level);
-	zephir_update_property_zval(this_ptr, SL("_renderLevel"), _0 TSRMLS_CC);
+	zephir_update_property_this(this_ptr, SL("_renderLevel"), _0 TSRMLS_CC);
 	RETURN_THISW();
 
 }

@@ -2072,3 +2072,61 @@ void zephir_concat_vvvvv(zval **result, zval *op1, zval *op2, zval *op3, zval *o
 
 }
 
+void zephir_concat_function(zval *result, zval *op1, zval *op2 TSRMLS_DC) /* {{{ */
+{
+#if PHP_VERSION_ID < 50400
+	zval op1_copy, op2_copy;
+	int use_copy1 = 0, use_copy2 = 0;
+
+	if (Z_TYPE_P(op1) != IS_STRING) {
+		zend_make_printable_zval(op1, &op1_copy, &use_copy1);
+	}
+	if (Z_TYPE_P(op2) != IS_STRING) {
+		zend_make_printable_zval(op2, &op2_copy, &use_copy2);
+	}
+
+	if (use_copy1) {
+		/* We have created a converted copy of op1. Therefore, op1 won't become the result so
+		 * we have to free it.
+		 */
+		if (result == op1) {
+			zval_dtor(op1);
+		}
+		op1 = &op1_copy;
+	}
+	if (use_copy2) {
+		op2 = &op2_copy;
+	}
+	if (result==op1 && !IS_INTERNED(Z_STRVAL_P(op1))) {	/* special case, perform operations on result */
+		uint res_len = Z_STRLEN_P(op1) + Z_STRLEN_P(op2);
+
+		if (Z_STRLEN_P(result) < 0 || (int) (Z_STRLEN_P(op1) + Z_STRLEN_P(op2)) < 0) {
+			efree(Z_STRVAL_P(result));
+			ZVAL_EMPTY_STRING(result);
+			zend_error(E_ERROR, "String size overflow");
+		}
+
+		Z_STRVAL_P(result) = erealloc(Z_STRVAL_P(result), res_len+1);
+
+		memcpy(Z_STRVAL_P(result)+Z_STRLEN_P(result), Z_STRVAL_P(op2), Z_STRLEN_P(op2));
+		Z_STRVAL_P(result)[res_len]=0;
+		Z_STRLEN_P(result) = res_len;
+	} else {
+		int length = Z_STRLEN_P(op1) + Z_STRLEN_P(op2);
+		char *buf = (char *) emalloc(length + 1);
+
+		memcpy(buf, Z_STRVAL_P(op1), Z_STRLEN_P(op1));
+		memcpy(buf + Z_STRLEN_P(op1), Z_STRVAL_P(op2), Z_STRLEN_P(op2));
+		buf[length] = 0;
+		ZVAL_STRINGL(result, buf, length, 0);
+	}
+	if (use_copy1) {
+		zval_dtor(op1);
+	}
+	if (use_copy2) {
+		zval_dtor(op2);
+	}
+#else
+    concat_function(result, op1, op2 TSRMLS_CC);
+#endif
+}

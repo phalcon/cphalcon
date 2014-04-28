@@ -126,7 +126,7 @@ PHP_METHOD(Phalcon_Escaper, setHtmlQuoteType) {
 
 	ZEPHIR_INIT_ZVAL_NREF(_0);
 	ZVAL_LONG(_0, quoteType);
-	zephir_update_property_zval(this_ptr, SL("_htmlQuoteType"), _0 TSRMLS_CC);
+	zephir_update_property_this(this_ptr, SL("_htmlQuoteType"), _0 TSRMLS_CC);
 
 }
 
@@ -160,7 +160,7 @@ PHP_METHOD(Phalcon_Escaper, detectEncoding) {
 		RETURN_MM_NULL();
 	}
 	ZEPHIR_INIT_VAR(_0);
-	array_init_size(_0, 6);
+	array_init_size(_0, 7);
 	ZEPHIR_INIT_VAR(_1);
 	ZVAL_STRING(_1, "UTF-32", 1);
 	zephir_array_fast_append(_0, _1);

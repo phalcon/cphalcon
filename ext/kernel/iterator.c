@@ -18,6 +18,24 @@
 	+------------------------------------------------------------------------+
 */
 
+#ifdef HAVE_CONFIG_H
+#include "config.h"
+#endif
+
+#include "php.h"
+
+#ifdef PHP_WIN32
+#include "php_string.h"
+#endif
+
+#include "php_ext.h"
+
+#include "kernel/main.h"
+#include "kernel/memory.h"
+
+/**
+ * Returns an iterator from the object
+ */
 zend_object_iterator *zephir_get_iterator(zval *iterator TSRMLS_DC) {
 
 	zend_class_entry *ce;

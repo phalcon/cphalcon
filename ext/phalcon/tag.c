@@ -150,7 +150,7 @@ PHP_METHOD(Phalcon_Tag, renderAttributes) {
 	ZEPHIR_INIT_VAR(attrs);
 	array_init(attrs);
 	ZEPHIR_INIT_VAR(order);
-	array_init_size(order, 12);
+	array_init_size(order, 13);
 	ZEPHIR_INIT_VAR(_0);
 	ZVAL_STRING(_0, "type", 1);
 	zephir_array_fast_append(order, _0);
@@ -599,7 +599,7 @@ PHP_METHOD(Phalcon_Tag, linkTo) {
 
 	if (Z_TYPE_P(parameters) != IS_ARRAY) {
 		ZEPHIR_INIT_VAR(params);
-		array_init_size(params, 4);
+		array_init_size(params, 5);
 		zephir_array_fast_append(params, parameters);
 		zephir_array_fast_append(params, text);
 		zephir_array_fast_append(params, local);
