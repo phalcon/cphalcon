@@ -182,6 +182,9 @@ PHP_METHOD(Phalcon_DI_FactoryDefault_CLI, __construct){
 	object_init_ex(events_manager, phalcon_di_service_ce);
 	PHALCON_CALL_METHOD(NULL, events_manager, "__construct", name, definition, shared);
 	
+	PHALCON_INIT_NVAR(name);
+	ZVAL_STRING(name, "transactions", 1);
+
 	PHALCON_INIT_NVAR(definition);
 	ZVAL_STRING(definition, "Phalcon\\Mvc\\Model\\Transaction\\Manager", 1);
 	
