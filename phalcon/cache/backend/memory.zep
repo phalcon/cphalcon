@@ -122,7 +122,7 @@ class Memory extends \Phalcon\Cache\Backend implements \Phalcon\Cache\BackendInt
 	 * @param string keyName
 	 * @return boolean
 	 */
-	public function delete(var keyName)
+	public function delete(var keyName) -> boolean
 	{
 		var key;
 
@@ -186,12 +186,12 @@ class Memory extends \Phalcon\Cache\Backend implements \Phalcon\Cache\BackendInt
 	}
 
 	/**
-	* Increment of given $keyName by $value
-	*
-	* @param  string $keyName
-	* @param  long $lifetime
-	* @return boolean
-	*/
+	 * Increment of given $keyName by $value
+	 *
+	 * @param  string keyName
+	 * @param  long lifetime
+	 * @return long
+	 */
 	public function increment(keyName=null, value=null)
 	{
 		var lastKey, prefix, cachedContent, result;
@@ -225,8 +225,8 @@ class Memory extends \Phalcon\Cache\Backend implements \Phalcon\Cache\BackendInt
 	/**
 	 * Decrement of $keyName by given $value
 	 *
-	 * @param  string $keyName
-	 * @param  long $value
+	 * @param  string keyName
+	 * @param  long value
 	 * @return long
 	 */
 	public function decrement(keyName=null, value=null)
@@ -260,10 +260,10 @@ class Memory extends \Phalcon\Cache\Backend implements \Phalcon\Cache\BackendInt
 	}
 
 	/**
-	* Immediately invalidates all existing items.
-	*
-	* @return boolean
-	*/
+	 * Immediately invalidates all existing items.
+	 *
+	 * @return boolean
+	 */
 	public function flush()
 	{
 		let this->_data = null;

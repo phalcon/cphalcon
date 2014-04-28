@@ -51,11 +51,6 @@ abstract class Pdo extends \Phalcon\Db\Adapter
 	protected _affectedRows;
 
 	/**
-	 * Transaction level
-	 */
-	protected _transactionLevel = 0;
-
-	/**
 	 * Constructor for Phalcon\Db\Adapter\Pdo
 	 *
 	 * @param array descriptor
@@ -468,7 +463,7 @@ abstract class Pdo extends \Phalcon\Db\Adapter
 		/**
 		 * Check the transaction nesting level
 		 */
-		let transactionLevel = this->_transactionLevel;
+		let transactionLevel = (int) this->_transactionLevel;
 
 		if transactionLevel == 1 {
 
@@ -483,24 +478,22 @@ abstract class Pdo extends \Phalcon\Db\Adapter
 			return pdo->beginTransaction();
 		} else {
 
-			if transactionLevel {
+			/**
+			 * Check if the current database system supports nested transactions
+			 */
+			if transactionLevel && nesting && this->isNestedTransactionsWithSavepoints() {
 
-				if nesting {
-					if this->isNestedTransactionsWithSavepoints() {
+				let eventsManager = <\Phalcon\Events\Manager> this->_eventsManager,
+					savepointName = this->getNestedTransactionSavepointName();
 
-						let eventsManager = <\Phalcon\Events\Manager> this->_eventsManager,
-							savepointName = this->getNestedTransactionSavepointName();
-
-						/**
-						 * Notify the events manager about the created savepoint
-						 */
-						if typeof eventsManager == "object" {
-							eventsManager->fire("db:createSavepoint", this, savepointName);
-						}
-
-						return this->createSavepoint(savepointName);
-					}
+				/**
+				 * Notify the events manager about the created savepoint
+				 */
+				if typeof eventsManager == "object" {
+					eventsManager->fire("db:createSavepoint", this, savepointName);
 				}
+
+				return this->createSavepoint(savepointName);
 			}
 
 		}
@@ -526,7 +519,7 @@ abstract class Pdo extends \Phalcon\Db\Adapter
 		/**
 		 * Check the transaction nesting level
 		 */
-		let transactionLevel = this->_transactionLevel;
+		let transactionLevel = (int) this->_transactionLevel;
 		if !transactionLevel {
 			throw new Exception("There is no active transaction");
 		}
@@ -550,29 +543,27 @@ abstract class Pdo extends \Phalcon\Db\Adapter
 
 		} else {
 
-			if transactionLevel {
+			/**
+			 * Check if the current database system supports nested transactions
+			 */
+			if transactionLevel && nesting && this->isNestedTransactionsWithSavepoints() {
 
-				if nesting {
-					if this->isNestedTransactionsWithSavepoints() {
+				let savepointName = this->getNestedTransactionSavepointName();
 
-						let savepointName = this->getNestedTransactionSavepointName();
-
-						/**
-						 * Notify the events manager about the rolled back savepoint
-						 */
-						let eventsManager = <\Phalcon\Events\Manager> this->_eventsManager;
-						if typeof eventsManager == "object" {
-							eventsManager->fire("db:rollbackSavepoint", this, savepointName);
-						}
-
-						/**
-						 * Reduce the transaction nesting level
-						 */
-						let this->_transactionLevel--;
-
-						return this->rollbackSavepoint(savepointName);
-					}
+				/**
+				 * Notify the events manager about the rolled back savepoint
+				 */
+				let eventsManager = <\Phalcon\Events\Manager> this->_eventsManager;
+				if typeof eventsManager == "object" {
+					eventsManager->fire("db:rollbackSavepoint", this, savepointName);
 				}
+
+				/**
+				 * Reduce the transaction nesting level
+				 */
+				let this->_transactionLevel--;
+
+				return this->rollbackSavepoint(savepointName);
 			}
 
 		}
@@ -605,7 +596,7 @@ abstract class Pdo extends \Phalcon\Db\Adapter
 		/**
 		 * Check the transaction nesting level
 		 */
-		let transactionLevel = this->_transactionLevel;
+		let transactionLevel = (int) this->_transactionLevel;
 		if !transactionLevel {
 			throw new Exception("There is no active transaction");
 		}
@@ -628,32 +619,26 @@ abstract class Pdo extends \Phalcon\Db\Adapter
 			return pdo->commit();
 		} else {
 
-			if transactionLevel {
+			/**
+			 * Check if the current database system supports nested transactions
+			 */
+			if transactionLevel && nesting && this->isNestedTransactionsWithSavepoints() {
 
-				if nesting {
-
-					/**
-					 * Check if the current database system supports nested transactions
-					 */
-					if this->isNestedTransactionsWithSavepoints() {
-
-						/**
-						 * Notify the events manager about the commited savepoint
-						 */
-						let eventsManager = <\Phalcon\Events\Manager> this->_eventsManager,
-							savepointName = this->getNestedTransactionSavepointName();
-						if typeof eventsManager == "object" {
-							eventsManager->fire("db:releaseSavepoint", this, savepointName);
-						}
-
-						/**
-						 * Reduce the transaction nesting level
-						 */
-						let this->_transactionLevel--;
-
-						return this->releaseSavepoint(savepointName);
-					}
+				/**
+				 * Notify the events manager about the commited savepoint
+				 */
+				let eventsManager = <\Phalcon\Events\Manager> this->_eventsManager,
+					savepointName = this->getNestedTransactionSavepointName();
+				if typeof eventsManager == "object" {
+					eventsManager->fire("db:releaseSavepoint", this, savepointName);
 				}
+
+				/**
+				 * Reduce the transaction nesting level
+				 */
+				let this->_transactionLevel--;
+
+				return this->releaseSavepoint(savepointName);
 			}
 
 		}
@@ -701,9 +686,9 @@ abstract class Pdo extends \Phalcon\Db\Adapter
 	/**
 	 * Return internal PDO handler
 	 *
-	 * @return \Pdo
+	 * @return \PDO
 	 */
-	public function getInternalHandler() -> <Pdo>
+	public function getInternalHandler()
 	{
 		return this->_pdo;
 	}

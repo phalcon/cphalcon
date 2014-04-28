@@ -19,6 +19,8 @@
 
 namespace Phalcon\Cache\Backend;
 
+use Phalcon\Cache\Exception;
+
 /**
  * Phalcon\Cache\Backend\Memcache
  *
@@ -70,11 +72,11 @@ class Memcache extends \Phalcon\Cache\Backend implements \Phalcon\Cache\BackendI
 		}
 
 		if !isset options["port"] {
-			let options["port"] = "11211";
+			let options["port"] = 11211;
 		}
 
 		if !isset options["persistent"] {
-			let options["persistent"] = "0";
+			let options["persistent"] = false;
 		}
 
 		if !isset options["statsKey"] {
@@ -94,13 +96,9 @@ class Memcache extends \Phalcon\Cache\Backend implements \Phalcon\Cache\BackendI
 		let options = this->_options;
 		let memcache = new \Memcache();
 
-		if !isset options["host"] || !isset options["port"] || !isset options["persistent"] {
-			throw new \Phalcon\Cache\Exception("Unexpected inconsistency in options");
+		if !fetch host, options["host"] || !fetch port, options["port"] || !fetch persistent, options["persistent"] {
+			throw new Exception("Unexpected inconsistency in options");
 		}
-
-		let host = options["host"];
-		let port = options["port"];
-		let persistent = options["persistent"];
 
 		if persistent {
 			let success = memcache->pconnect(host, port);
@@ -109,7 +107,7 @@ class Memcache extends \Phalcon\Cache\Backend implements \Phalcon\Cache\BackendI
 		}
 
 		if !success {
-			throw new \Phalcon\Cache\Exception("Cannot connect to Memcached server");
+			throw new Exception("Cannot connect to Memcached server");
 		}
 
 		let this->_memcache = memcache;
@@ -170,7 +168,7 @@ class Memcache extends \Phalcon\Cache\Backend implements \Phalcon\Cache\BackendI
 		}
 
 		if !lastKey {
-			throw new \Phalcon\Cache\Exception("The cache must be started first");
+			throw new Exception("The cache must be started first");
 		}
 
 		let frontend = this->_frontend;
@@ -216,13 +214,13 @@ class Memcache extends \Phalcon\Cache\Backend implements \Phalcon\Cache\BackendI
 		}
 
 		if !success {
-			throw new \Phalcon\Cache\Exception("Failed storing data in memcached");
+			throw new Exception("Failed storing data in memcached");
 		}
 
 		let options = this->_options;
 
 		if !isset options["statsKey"] {
-			throw new \Phalcon\Cache\Exception("Unexpected inconsistency in options");
+			throw new Exception("Unexpected inconsistency in options");
 		}
 		let specialKey = options["statsKey"];
 
@@ -273,7 +271,7 @@ class Memcache extends \Phalcon\Cache\Backend implements \Phalcon\Cache\BackendI
 		let options = this->_options;
 
 		if !isset options["statsKey"] {
-			throw new \Phalcon\Cache\Exception("Unexpected inconsistency in options");
+			throw new Exception("Unexpected inconsistency in options");
 		}
 
 		let specialKey = options["statsKey"];
@@ -310,7 +308,7 @@ class Memcache extends \Phalcon\Cache\Backend implements \Phalcon\Cache\BackendI
 		let options = this->_options;
 
 		if !isset options["statsKey"] {
-			throw new \Phalcon\Cache\Exception("Unexpected inconsistency in options");
+			throw new Exception("Unexpected inconsistency in options");
 		}
 
 		let specialKey = options["statsKey"];
@@ -335,9 +333,9 @@ class Memcache extends \Phalcon\Cache\Backend implements \Phalcon\Cache\BackendI
 	 * @param   long lifetime
 	 * @return boolean
 	 */
-	public function exists(keyName=null, lifetime=null)
+	public function exists(keyName=null, lifetime=null) -> boolean
 	{
-		var lastKey, memcache, value, prefix;
+		var lastKey, memcache, prefix;
 
 		if !keyName {
 			let lastKey = this->_lastKey;
@@ -347,19 +345,20 @@ class Memcache extends \Phalcon\Cache\Backend implements \Phalcon\Cache\BackendI
 		}
 
 		if lastKey {
+
 			let memcache = this->_memcache;
 			if typeof memcache != "object" {
 				this->_connect();
 				let memcache = this->_memcache;
 			}
-			let value = memcache->get(lastKey);
-			if !value {
+
+			if !memcache->get(lastKey) {
 				return false;
 			}
 			return true;
-		} else {
-			return false;
 		}
+
+		return false;
 	}
 
 }

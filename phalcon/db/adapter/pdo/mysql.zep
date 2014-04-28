@@ -86,16 +86,8 @@ class Mysql extends \Phalcon\Db\Adapter\Pdo implements \Phalcon\Db\AdapterInterf
 	 */
 	public function describeColumns(string table, string schema=null)
 	{
-		var describe, columns, columnType, field, definition,
-			oldColumn, dialect, sizePattern, matches, matchOne, columnName;
-
-		/**
-		 * Get the SQL to describe a table
-		 * We're using FETCH_NUM to fetch the columns
-		 * Get the describe
-		 */
-		let dialect = this->_dialect,
-			describe = this->fetchAll(dialect->describeColumns(table, schema), \Phalcon\Db::FETCH_NUM);
+		var columns, columnType, field, definition,
+			oldColumn, sizePattern, matches, matchOne, columnName;
 
 		let oldColumn = null,
 			sizePattern = "#\\(([0-9]+)(,[0-9]+)*\\)#";
@@ -103,9 +95,12 @@ class Mysql extends \Phalcon\Db\Adapter\Pdo implements \Phalcon\Db\AdapterInterf
 		let columns = [];
 
 		/**
+		 * Get the SQL to describe a table
+		 * We're using FETCH_NUM to fetch the columns
+		 * Get the describe
 		 * Field Indexes: 0:name, 1:type, 2:not null, 3:key, 4:default, 5:extra
 		 */
-		for field in describe {
+		for field in this->fetchAll(this->_dialect->describeColumns(table, schema), \Phalcon\Db::FETCH_NUM) {
 
 			/**
 			 * By default the bind types is two
