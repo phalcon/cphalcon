@@ -108,7 +108,7 @@ class Annotations extends \Phalcon\Mvc\Router
 			let realUri = uri;
 		}
 
-		if this->_processed {
+		if !this->_processed {
 
 			let annotationsService = null;
 
