@@ -21,7 +21,6 @@
 #include "kernel/array.h"
 #include "kernel/concat.h"
 #include "kernel/string.h"
-#include "kernel/iterator.h"
 
 
 /*
@@ -292,23 +291,25 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Complex, valid) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_Resultset_Complex, toArray) {
 
-	zend_object_iterator *_0;
-	zval *records, *current = NULL;
+	HashTable *_2;
+	HashPosition _1;
+	int ZEPHIR_LAST_CALL_STATUS;
+	zval *records, *current = NULL, *_0 = NULL, **_3;
 
 	ZEPHIR_MM_GROW();
 
 	ZEPHIR_INIT_VAR(records);
 	array_init(records);
-	_0 = zephir_get_iterator(this_ptr TSRMLS_CC);
-	_0->funcs->rewind(_0 TSRMLS_CC);
-	for (;_0->funcs->valid(_0 TSRMLS_CC) == SUCCESS && !EG(exception); _0->funcs->move_forward(_0 TSRMLS_CC)) {
-		{ zval **tmp; 
-		_0->funcs->get_current_data(_0, &tmp TSRMLS_CC);
-		current = *tmp;
-		}
+	ZEPHIR_CALL_FUNCTION(&_0, "iterator", NULL, this_ptr);
+	zephir_check_call_status();
+	zephir_is_iterable(_0, &_2, &_1, 0, 0);
+	for (
+	  ; zephir_hash_get_current_data_ex(_2, (void**) &_3, &_1) == SUCCESS
+	  ; zephir_hash_move_forward_ex(_2, &_1)
+	) {
+		ZEPHIR_GET_HVALUE(current, _3);
 		zephir_array_append(&records, current, PH_SEPARATE);
 	}
-	_0->funcs->dtor(_0 TSRMLS_CC);
 	RETURN_CCTOR(records);
 
 }
@@ -336,7 +337,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Complex, serialize) {
 	ZEPHIR_OBS_VAR(hydrateMode);
 	zephir_read_property_this(&hydrateMode, this_ptr, SL("_hydrateMode"), PH_NOISY_CC);
 	ZEPHIR_INIT_VAR(_0);
-	array_init_size(_0, 7);
+	array_init_size(_0, 6);
 	zephir_array_update_string(&_0, SL("cache"), &cache, PH_COPY | PH_SEPARATE);
 	zephir_array_update_string(&_0, SL("rows"), &records, PH_COPY | PH_SEPARATE);
 	zephir_array_update_string(&_0, SL("columnTypes"), &columnTypes, PH_COPY | PH_SEPARATE);

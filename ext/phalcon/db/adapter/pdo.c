@@ -23,7 +23,6 @@
 #include "kernel/concat.h"
 #include "kernel/string.h"
 #include "ext/pdo/php_pdo_driver.h"
-#include "kernel/main.h"
 
 
 /*
@@ -280,7 +279,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, executePrepared) {
 
 
 
-	if (!(zephir_instance_of_ev(statement, zephir_get_internal_ce(SS("pdostatement") TSRMLS_CC) TSRMLS_CC))) {
+	if (!(zephir_is_instance_of(statement, SL("PDOStatement") TSRMLS_CC))) {
 		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(spl_ce_InvalidArgumentException, "Parameter 'statement' must be an instance of 'PDOStatement'", "", 0);
 		return;
 	}

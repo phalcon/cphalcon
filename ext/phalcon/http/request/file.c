@@ -17,7 +17,6 @@
 #include "kernel/object.h"
 #include "kernel/memory.h"
 #include "kernel/fcall.h"
-#include "kernel/file.h"
 #include "ext/spl/spl_exceptions.h"
 
 
@@ -94,7 +93,7 @@ PHP_METHOD(Phalcon_Http_Request_File, __construct) {
 
 
 	if (Z_TYPE_P(file) != IS_ARRAY) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_http_request_exception_ce, "Phalcon\\Http\\Request\\File requires a valid uploaded file", "phalcon/http/request/file.zep", 68);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_http_request_exception_ce, "Phalcon\\Http\\Request\\File requires a valid uploaded file", "phalcon/http/request/file.zep", 67);
 		return;
 	}
 	if (zephir_array_isset_string_fetch(&name, file, SS("name"), 1 TSRMLS_CC)) {
@@ -183,7 +182,8 @@ PHP_METHOD(Phalcon_Http_Request_File, getRealType) {
 	_1 = zephir_fetch_nproperty_this(this_ptr, SL("_tmp"), PH_NOISY_CC);
 	ZEPHIR_CALL_FUNCTION(&mime, "finfo_file", NULL, finfo, _1);
 	zephir_check_call_status();
-	zephir_fclose(finfo TSRMLS_CC);
+	ZEPHIR_CALL_FUNCTION(NULL, "finfo_close", NULL, finfo);
+	zephir_check_call_status();
 	RETURN_CCTOR(mime);
 
 }

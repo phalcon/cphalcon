@@ -148,7 +148,7 @@ PHP_METHOD(Phalcon_Security, setRandomBytes) {
 
 	ZEPHIR_INIT_ZVAL_NREF(_0);
 	ZVAL_LONG(_0, randomBytes);
-	zephir_update_property_this(this_ptr, SL("_numberBytes"), _0 TSRMLS_CC);
+	zephir_update_property_zval(this_ptr, SL("_numberBytes"), _0 TSRMLS_CC);
 
 }
 

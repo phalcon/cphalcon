@@ -18,7 +18,6 @@
 #include "ext/spl/spl_exceptions.h"
 #include "kernel/exception.h"
 #include "kernel/operators.h"
-#include "kernel/iterator.h"
 #include "kernel/fcall.h"
 #include "kernel/hash.h"
 
@@ -244,10 +243,11 @@ PHP_METHOD(Phalcon_Validation_Message_Group, appendMessage) {
  */
 PHP_METHOD(Phalcon_Validation_Message_Group, appendMessages) {
 
-	zephir_fcall_cache_entry *_1 = NULL;
+	zephir_fcall_cache_entry *_4 = NULL;
+	HashTable *_2;
+	HashPosition _1;
 	int ZEPHIR_LAST_CALL_STATUS;
-	zend_object_iterator *_0;
-	zval *messages, *currentMessages, *finalMessages = NULL, *message = NULL;
+	zval *messages, *currentMessages, *finalMessages = NULL, *message = NULL, *_0 = NULL, **_3;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &messages);
@@ -271,17 +271,17 @@ PHP_METHOD(Phalcon_Validation_Message_Group, appendMessages) {
 		}
 		zephir_update_property_this(this_ptr, SL("_messages"), finalMessages TSRMLS_CC);
 	} else {
-		_0 = zephir_get_iterator(messages TSRMLS_CC);
-		_0->funcs->rewind(_0 TSRMLS_CC);
-		for (;_0->funcs->valid(_0 TSRMLS_CC) == SUCCESS && !EG(exception); _0->funcs->move_forward(_0 TSRMLS_CC)) {
-			{ zval **tmp; 
-			_0->funcs->get_current_data(_0, &tmp TSRMLS_CC);
-			message = *tmp;
-			}
-			ZEPHIR_CALL_METHOD(NULL, this_ptr, "appendmessage", &_1, message);
+		ZEPHIR_CALL_FUNCTION(&_0, "iterator", NULL, messages);
+		zephir_check_call_status();
+		zephir_is_iterable(_0, &_2, &_1, 0, 0);
+		for (
+		  ; zephir_hash_get_current_data_ex(_2, (void**) &_3, &_1) == SUCCESS
+		  ; zephir_hash_move_forward_ex(_2, &_1)
+		) {
+			ZEPHIR_GET_HVALUE(message, _3);
+			ZEPHIR_CALL_METHOD(NULL, this_ptr, "appendmessage", &_4, message);
 			zephir_check_call_status();
 		}
-		_0->funcs->dtor(_0 TSRMLS_CC);
 	}
 	ZEPHIR_MM_RESTORE();
 

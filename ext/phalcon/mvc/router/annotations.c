@@ -193,7 +193,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Annotations, addModuleResource) {
 
 
 	ZEPHIR_INIT_VAR(_0);
-	array_init_size(_0, 5);
+	array_init_size(_0, 4);
 	zephir_array_fast_append(_0, prefix);
 	zephir_array_fast_append(_0, handler);
 	zephir_array_fast_append(_0, module);
@@ -246,7 +246,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Annotations, handle) {
 		ZEPHIR_CPY_WRT(realUri, uri);
 	}
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_processed"), PH_NOISY_CC);
-	if (zephir_is_true(_0)) {
+	if (!(zephir_is_true(_0))) {
 		ZEPHIR_INIT_VAR(annotationsService);
 		ZVAL_NULL(annotationsService);
 		ZEPHIR_OBS_VAR(handlers);

@@ -19,7 +19,7 @@
 #include "kernel/exception.h"
 #include "ext/spl/spl_exceptions.h"
 #include "Zend/zend_closures.h"
-#include "kernel/iterator.h"
+#include "kernel/hash.h"
 #include "kernel/array.h"
 
 
@@ -256,7 +256,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, seek) {
 		}
 		ZEPHIR_INIT_ZVAL_NREF(_1);
 		ZVAL_LONG(_1, position);
-		zephir_update_property_this(this_ptr, SL("_pointer"), _1 TSRMLS_CC);
+		zephir_update_property_zval(this_ptr, SL("_pointer"), _1 TSRMLS_CC);
 	}
 	ZEPHIR_MM_RESTORE();
 
@@ -548,7 +548,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, setHydrateMode) {
 
 	ZEPHIR_INIT_ZVAL_NREF(_0);
 	ZVAL_LONG(_0, hydrateMode);
-	zephir_update_property_this(this_ptr, SL("_hydrateMode"), _0 TSRMLS_CC);
+	zephir_update_property_zval(this_ptr, SL("_hydrateMode"), _0 TSRMLS_CC);
 	RETURN_THISW();
 
 }
@@ -609,11 +609,12 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, getMessages) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_Resultset, delete) {
 
-	zval *_3 = NULL;
+	zval *_6 = NULL;
+	HashTable *_3;
+	HashPosition _2;
 	int ZEPHIR_LAST_CALL_STATUS;
-	zend_object_iterator *_1;
 	zend_bool _0, transaction;
-	zval *conditionCallback = NULL, *record = NULL, *connection = NULL, *_2 = NULL, *_4 = NULL;
+	zval *conditionCallback = NULL, *record = NULL, *connection = NULL, *_1 = NULL, **_4, *_5 = NULL, *_7 = NULL;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 1, &conditionCallback);
@@ -632,13 +633,14 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, delete) {
 		return;
 	}
 	transaction = 0;
-	_1 = zephir_get_iterator(this_ptr TSRMLS_CC);
-	_1->funcs->rewind(_1 TSRMLS_CC);
-	for (;_1->funcs->valid(_1 TSRMLS_CC) == SUCCESS && !EG(exception); _1->funcs->move_forward(_1 TSRMLS_CC)) {
-		{ zval **tmp; 
-		_1->funcs->get_current_data(_1, &tmp TSRMLS_CC);
-		record = *tmp;
-		}
+	ZEPHIR_CALL_FUNCTION(&_1, "iterator", NULL, this_ptr);
+	zephir_check_call_status();
+	zephir_is_iterable(_1, &_3, &_2, 0, 0);
+	for (
+	  ; zephir_hash_get_current_data_ex(_3, (void**) &_4, &_2) == SUCCESS
+	  ; zephir_hash_move_forward_ex(_3, &_2)
+	) {
+		ZEPHIR_GET_HVALUE(record, _4);
 		if (transaction == 0) {
 			if (!((zephir_method_exists_ex(record, SS("getwriteconnection") TSRMLS_CC) == SUCCESS))) {
 				ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_model_exception_ce, "The returned record is not valid", "phalcon/mvc/model/resultset.zep", 443);
@@ -651,29 +653,28 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, delete) {
 			zephir_check_call_status();
 		}
 		if (Z_TYPE_P(conditionCallback) == IS_OBJECT) {
-			ZEPHIR_INIT_NVAR(_2);
-			ZEPHIR_INIT_NVAR(_3);
-			array_init_size(_3, 2);
-			zephir_array_fast_append(_3, record);
-			ZEPHIR_CALL_USER_FUNC_ARRAY(_2, conditionCallback, _3);
+			ZEPHIR_INIT_NVAR(_5);
+			ZEPHIR_INIT_NVAR(_6);
+			array_init_size(_6, 2);
+			zephir_array_fast_append(_6, record);
+			ZEPHIR_CALL_USER_FUNC_ARRAY(_5, conditionCallback, _6);
 			zephir_check_call_status();
-			if (ZEPHIR_IS_FALSE(_2)) {
+			if (ZEPHIR_IS_FALSE(_5)) {
 				continue;
 			}
 		}
-		ZEPHIR_CALL_METHOD(&_4, record, "delete",  NULL);
+		ZEPHIR_CALL_METHOD(&_7, record, "delete",  NULL);
 		zephir_check_call_status();
-		if (!(zephir_is_true(_4))) {
-			ZEPHIR_CALL_METHOD(&_4, record, "getmessages",  NULL);
+		if (!(zephir_is_true(_7))) {
+			ZEPHIR_CALL_METHOD(&_7, record, "getmessages",  NULL);
 			zephir_check_call_status();
-			zephir_update_property_this(this_ptr, SL("_errorMessages"), _4 TSRMLS_CC);
+			zephir_update_property_this(this_ptr, SL("_errorMessages"), _7 TSRMLS_CC);
 			ZEPHIR_CALL_METHOD(NULL, connection, "rollback", NULL);
 			zephir_check_call_status();
 			transaction = 0;
 			break;
 		}
 	}
-	_1->funcs->dtor(_1 TSRMLS_CC);
 	if (transaction == 1) {
 		ZEPHIR_CALL_METHOD(NULL, connection, "commit", NULL);
 		zephir_check_call_status();
@@ -698,9 +699,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, delete) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_Resultset, filter) {
 
+	HashTable *_2;
+	HashPosition _1;
 	int ZEPHIR_LAST_CALL_STATUS;
-	zend_object_iterator *_0;
-	zval *filter, *records, *record = NULL, *parameters, *processedRecord = NULL;
+	zval *filter, *records, *record = NULL, *parameters, *processedRecord = NULL, *_0 = NULL, **_3;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &filter);
@@ -711,13 +713,14 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, filter) {
 	array_init(records);
 	ZEPHIR_INIT_VAR(parameters);
 	array_init(parameters);
-	_0 = zephir_get_iterator(this_ptr TSRMLS_CC);
-	_0->funcs->rewind(_0 TSRMLS_CC);
-	for (;_0->funcs->valid(_0 TSRMLS_CC) == SUCCESS && !EG(exception); _0->funcs->move_forward(_0 TSRMLS_CC)) {
-		{ zval **tmp; 
-		_0->funcs->get_current_data(_0, &tmp TSRMLS_CC);
-		record = *tmp;
-		}
+	ZEPHIR_CALL_FUNCTION(&_0, "iterator", NULL, this_ptr);
+	zephir_check_call_status();
+	zephir_is_iterable(_0, &_2, &_1, 0, 0);
+	for (
+	  ; zephir_hash_get_current_data_ex(_2, (void**) &_3, &_1) == SUCCESS
+	  ; zephir_hash_move_forward_ex(_2, &_1)
+	) {
+		ZEPHIR_GET_HVALUE(record, _3);
 		zephir_array_update_long(&parameters, 0, &record, PH_COPY | PH_SEPARATE, "phalcon/mvc/model/resultset.zep", 512);
 		ZEPHIR_INIT_NVAR(processedRecord);
 		ZEPHIR_CALL_USER_FUNC_ARRAY(processedRecord, filter, parameters);
@@ -729,7 +732,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, filter) {
 		}
 		zephir_array_append(&records, processedRecord, PH_SEPARATE);
 	}
-	_0->funcs->dtor(_0 TSRMLS_CC);
 	RETURN_CCTOR(records);
 
 }
