@@ -68,7 +68,7 @@ class Event
 		if this->_cancelable {
 			let this->_stopped = true;
 		} else {
-			throw new \Phalcon\Events\Exception("Trying to cancel a non-cancelable event");
+			throw new Exception("Trying to cancel a non-cancelable event");
 		}
 	}
 

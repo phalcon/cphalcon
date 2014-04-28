@@ -65,7 +65,7 @@ abstract class Element
 	 * @param Phalcon\Forms\Form form
 	 * @return Phalcon\Forms\ElementInterface
 	 */
-	public function setForm(<\Phalcon\Forms\Form> form) -> <\Phalcon\Forms\ElementInterface>
+	public function setForm(<Form> form) -> <ElementInterface>
 	{
 		let this->_form = form;
 		return this;
@@ -76,7 +76,7 @@ abstract class Element
 	 *
 	 * @return Phalcon\Forms\ElementInterface
 	 */
-	public function getForm() -> <\Phalcon\Forms\ElementInterface>
+	public function getForm() -> <ElementInterface>
 	{
 		return this->_form;
 	}
@@ -87,7 +87,7 @@ abstract class Element
 	 * @param string name
 	 * @return Phalcon\Forms\ElementInterface
 	 */
-	public function setName(string! name) -> <\Phalcon\Forms\ElementInterface>
+	public function setName(string! name) -> <ElementInterface>
 	{
 		let this->_name = name;
 		return this;
@@ -109,7 +109,7 @@ abstract class Element
 	 * @param array|string filters
 	 * @return Phalcon\Forms\ElementInterface
 	 */
-	public function setFilters(var filters) -> <\Phalcon\Forms\ElementInterface>
+	public function setFilters(var filters) -> <ElementInterface>
 	{
 		let this->_filters = filters;
 		return this;
@@ -121,7 +121,7 @@ abstract class Element
 	 * @param string filter
 	 * @return Phalcon\Forms\ElementInterface
 	 */
-	public function addFilter(string filter) -> <\Phalcon\Forms\ElementInterface>
+	public function addFilter(string filter) -> <ElementInterface>
 	{
 		var filters;
 		let filters = this->_filters;
@@ -149,7 +149,7 @@ abstract class Element
 	 * @param Phalcon\Validation\ValidatorInterface[]
 	 * @return Phalcon\Forms\ElementInterface
 	 */
-	public function addValidators(validators, boolean merge=true) -> <\Phalcon\Forms\ElementInterface>
+	public function addValidators(validators, boolean merge=true) -> <ElementInterface>
 	{
 		var currentValidators, mergedValidators;
 		if typeof validators != "array" {
@@ -173,10 +173,10 @@ abstract class Element
 	 * @param Phalcon\Validation\ValidatorInterface
 	 * @return Phalcon\Forms\ElementInterface
 	 */
-	public function addValidator(<\Phalcon\Validation\ValidatorInterface> validator) -> <\Phalcon\Forms\ElementInterface>
+	public function addValidator(<\Phalcon\Validation\ValidatorInterface> validator) -> <ElementInterface>
 	{
 		if typeof validator != "object" {
-			throw new \Phalcon\Forms\Exception("The validators parameter must be an object");
+			throw new Exception("The validators parameter must be an object");
 		}
 		let this->_validators[] = validator;
 		return this;
@@ -269,7 +269,7 @@ abstract class Element
 	 * @param mixed value
 	 * @return Phalcon\Forms\ElementInterface
 	 */
-	public function setAttribute(string attribute, value) -> <\Phalcon\Forms\ElementInterface>
+	public function setAttribute(string attribute, value) -> <ElementInterface>
 	{
 		let this->_attributes[attribute] = value;
 		return this;
@@ -298,10 +298,10 @@ abstract class Element
 	 * @param array attributes
 	 * @return Phalcon\Forms\ElementInterface
 	 */
-	public function setAttributes(attributes) -> <\Phalcon\Forms\ElementInterface>
+	public function setAttributes(attributes) -> <ElementInterface>
 	{
 		if typeof attributes != "array" {
-			throw new \Phalcon\Forms\Exception("Parameter 'attributes' must be an array");
+			throw new Exception("Parameter 'attributes' must be an array");
 		}
 		let this->_attributes = attributes;
 		return this;
@@ -329,7 +329,7 @@ abstract class Element
 	 * @param mixed value
 	 * @return Phalcon\Forms\ElementInterface
 	 */
-	public function setUserOption(string option, value) -> <\Phalcon\Forms\ElementInterface>
+	public function setUserOption(string option, value) -> <ElementInterface>
 	{
 		let this->_options[option] = value;
 		return this;
@@ -358,7 +358,7 @@ abstract class Element
 	 * @param array options
 	 * @return Phalcon\Forms\ElementInterface
 	 */
-	public function setUserOptions(options) -> <\Phalcon\Forms\ElementInterface>
+	public function setUserOptions(options) -> <ElementInterface>
 	{
 		let this->_options = options;
 		return this;
@@ -380,7 +380,7 @@ abstract class Element
 	 * @param string label
 	 * @return Phalcon\Forms\ElementInterface
 	 */
-	public function setLabel(string label) -> <\Phalcon\Forms\ElementInterface>
+	public function setLabel(string label) -> <ElementInterface>
 	{
 		let this->_label = label;
 		return this;
@@ -430,7 +430,7 @@ abstract class Element
 	 * @param mixed value
 	 * @return Phalcon\Forms\ElementInterface
 	 */
-	public function setDefault(value) -> <\Phalcon\Forms\ElementInterface>
+	public function setDefault(value) -> <ElementInterface>
 	{
 		let this->_value = value;
 		return this;
@@ -533,7 +533,7 @@ abstract class Element
 	 * @param Phalcon\Validation\Message\Group group
 	 * @return Phalcon\Forms\ElementInterface
 	 */
-	public function setMessages(<\Phalcon\Validation\Message\Group> group) -> <\Phalcon\Forms\ElementInterface>
+	public function setMessages(<\Phalcon\Validation\Message\Group> group) -> <ElementInterface>
 	{
 		let this->_messages = group;
 		return this;
@@ -545,7 +545,7 @@ abstract class Element
 	 * @param Phalcon\Validation\Message message
 	 * @return Phalcon\Forms\ElementInterface
 	 */
-	public function appendMessage(<\Phalcon\Validation\Message> message) -> <\Phalcon\Forms\ElementInterface>
+	public function appendMessage(<\Phalcon\Validation\Message> message) -> <ElementInterface>
 	{
 		var messages;
 
@@ -562,7 +562,7 @@ abstract class Element
 	 *
 	 * @return Phalcon\Forms\Element
 	 */
-	public function clear() -> <\Phalcon\Forms\Element>
+	public function clear() -> <Element>
 	{
 		\Phalcon\Tag::setDefault(this->_name, null);
 		return this;
