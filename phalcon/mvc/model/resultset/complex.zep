@@ -19,13 +19,18 @@
 
 namespace Phalcon\Mvc\Model\Resultset;
 
+use Phalcon\Mvc\Model;
+use Phalcon\Mvc\Model\Resultset;
+use Phalcon\Mvc\Model\ResultsetInterface;
+use Phalcon\Mvc\Model\Exception;
+
 /**
  * Phalcon\Mvc\Model\Resultset\Complex
  *
  * Complex resultsets may include complete objects and scalar values.
  * This class builds every complex row as it is required
  */
-class Complex extends \Phalcon\Mvc\Model\Resultset implements \Phalcon\Mvc\Model\ResultsetInterface
+class Complex extends Resultset implements ResultsetInterface
 {
 	protected _columnTypes;
 
@@ -128,15 +133,15 @@ class Complex extends \Phalcon\Mvc\Model\Resultset implements \Phalcon\Mvc\Model
 				 */
 				switch hydrateMode {
 
-					case \Phalcon\Mvc\Model\Resultset::HYDRATE_RECORDS:
+					case Resultset::HYDRATE_RECORDS:
 						let activeRow = new \Phalcon\Mvc\Model\Row();
 						break;
 
-					case \Phalcon\Mvc\Model\Resultset::HYDRATE_ARRAYS:
+					case Resultset::HYDRATE_ARRAYS:
 						let activeRow = [];
 						break;
 
-					case \Phalcon\Mvc\Model\Resultset::HYDRATE_OBJECTS:
+					case Resultset::HYDRATE_OBJECTS:
 						let activeRow = new \stdClass();
 						break;
 				}
@@ -193,14 +198,14 @@ class Complex extends \Phalcon\Mvc\Model\Resultset implements \Phalcon\Mvc\Model
 								 * Get the base instance
 								 * Assign the values to the attributes using a column map
 								 */
-								let value = \Phalcon\Mvc\Model::cloneResultMap(column["instance"], rowModel, columnMap, dirtyState, keepSnapshots);
+								let value = Model::cloneResultMap(column["instance"], rowModel, columnMap, dirtyState, keepSnapshots);
 								break;
 
 							default:
 								/**
 				 				 * Other kinds of hydrations
 				 				 */
-								let value = \Phalcon\Mvc\Model::cloneResultMapHydrate(rowModel, columnMap, hydrateMode);
+								let value = Model::cloneResultMapHydrate(rowModel, columnMap, hydrateMode);
 								break;
 						}
 
@@ -235,7 +240,7 @@ class Complex extends \Phalcon\Mvc\Model\Resultset implements \Phalcon\Mvc\Model
 					 */
 					switch hydrateMode {
 
-						case \Phalcon\Mvc\Model\Resultset::HYDRATE_ARRAYS:
+						case Resultset::HYDRATE_ARRAYS:
 							let activeRow[attribute] = value;
 							break;
 
@@ -331,7 +336,7 @@ class Complex extends \Phalcon\Mvc\Model\Resultset implements \Phalcon\Mvc\Model
 
 		let resultset = unserialize(data);
 		if typeof resultset != "array" {
-			throw new \Phalcon\Mvc\Model\Exception("Invalid serialization data");
+			throw new Exception("Invalid serialization data");
 		}
 
 		let this->_rows = resultset["rows"],
