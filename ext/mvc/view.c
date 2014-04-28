@@ -1195,14 +1195,16 @@ PHP_METHOD(Phalcon_Mvc_View, render){
 	zval *view_temp_path = NULL, *templates_after, *template_after = NULL;
 	zval *main_view;
 	zval *namespace_name = NULL, *lower_controller_name, *lower_action_name, *lower_namespace_name;
+	zval *ds, *namespace_separator, *ds_lower_namespace_name = NULL;
 	HashTable *ah0, *ah1;
 	HashPosition hp0, hp1;
 	zval **hd;
+	char slash[2] = {DEFAULT_SLASH, 0};
 
 	PHALCON_MM_GROW();
 
 	phalcon_fetch_params(1, 2, 2, &controller_name, &action_name, &params, &namespace_name);
-	
+
 	if (!params) {
 		params = PHALCON_GLOBAL(z_null);
 	}
@@ -1210,6 +1212,12 @@ PHP_METHOD(Phalcon_Mvc_View, render){
 	if (!namespace_name) {
 		namespace_name = PHALCON_GLOBAL(z_null);
 	}
+
+	PHALCON_INIT_VAR(ds);
+	ZVAL_STRING(ds, slash, 1);
+		
+	PHALCON_INIT_VAR(namespace_separator);
+	ZVAL_STRING(namespace_separator, "\\", 1);
 	
 	phalcon_update_property_this(this_ptr, SL("_currentRenderLevel"), PHALCON_GLOBAL(z_zero) TSRMLS_CC);
 
@@ -1237,9 +1245,6 @@ PHP_METHOD(Phalcon_Mvc_View, render){
 	PHALCON_INIT_VAR(lower_action_name);
 	phalcon_fast_strtolower(lower_action_name, action_name);
 
-	PHALCON_INIT_VAR(lower_namespace_name);
-	phalcon_fast_strtolower(lower_namespace_name, namespace_name);
-
 	/** 
 	 * Check if there is a layouts directory set
 	 */
@@ -1251,8 +1256,14 @@ PHP_METHOD(Phalcon_Mvc_View, render){
 	}
 
 	if (zend_is_true(namespace_name)) {
+		PHALCON_INIT_VAR(lower_namespace_name);
+		phalcon_fast_strtolower(lower_namespace_name, namespace_name);
+
+		PHALCON_INIT_VAR(ds_lower_namespace_name);
+		phalcon_fast_str_replace(ds_lower_namespace_name, namespace_separator, ds, lower_namespace_name);
+
 		PHALCON_INIT_VAR(layout_namespace);
-		PHALCON_CONCAT_SV(layout_namespace, "namespace/", lower_namespace_name);
+		PHALCON_CONCAT_SV(layout_namespace, "namespace/", ds_lower_namespace_name);
 	}
 	
 	/** 
@@ -1262,9 +1273,9 @@ PHP_METHOD(Phalcon_Mvc_View, render){
 	phalcon_read_property_this(&layout, this_ptr, SL("_layout"), PH_NOISY TSRMLS_CC);
 	if (zend_is_true(layout)) {
 		PHALCON_CPY_WRT(layout_name, layout);
-	} else if (zend_is_true(namespace_name)) {
+	} else if (ds_lower_namespace_name) {
 		PHALCON_INIT_VAR(layout_name);
-		PHALCON_CONCAT_VSV(layout_name, lower_namespace_name, "/", lower_controller_name);
+		PHALCON_CONCAT_VSV(layout_name, ds_lower_namespace_name, "/", lower_controller_name);
 	} else {
 		PHALCON_CPY_WRT(layout_name, lower_controller_name);
 	}
@@ -1282,8 +1293,8 @@ PHP_METHOD(Phalcon_Mvc_View, render){
 	if (Z_TYPE_P(pick_view) == IS_NULL) {
 		PHALCON_INIT_VAR(render_view);
 
-		if (zend_is_true(namespace_name)) {
-			PHALCON_CONCAT_VSVSV(render_view, lower_namespace_name, "/", lower_controller_name, "/", lower_action_name);
+		if (ds_lower_namespace_name) {
+			PHALCON_CONCAT_VSVSV(render_view, ds_lower_namespace_name, "/", lower_controller_name, "/", lower_action_name);
 		} else {
 			PHALCON_CONCAT_VSV(render_view, lower_controller_name, "/", lower_action_name);
 		}
