@@ -20,6 +20,7 @@
 namespace Phalcon\Session;
 
 use Phalcon\DiInterface;
+use Phalcon\Di\InjectionAwareInterface;
 
 /**
  * Phalcon\Session\Bag
@@ -33,7 +34,7 @@ use Phalcon\DiInterface;
  *	$user->age = 22;
  *</code>
  */
-class Bag implements \Phalcon\Di\InjectionAwareInterface, \Phalcon\Session\BagInterface
+class Bag implements InjectionAwareInterface, BagInterface
 {
 
 	protected _dependencyInjector;

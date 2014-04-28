@@ -76,7 +76,7 @@ abstract class Adapter
 		var uniqueId;
 
 		if typeof options != "array" {
-			throw new \Phalcon\Session\Exception("Options must be an Array");
+			throw new Exception("Options must be an Array");
 		}
 
 		if fetch uniqueId, options["uniqueId"] {

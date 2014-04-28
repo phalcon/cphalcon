@@ -33,8 +33,8 @@ class Manager
 	 * @param object entity
 	 * @return Phalcon\Forms\Form
 	 */
-	{
 	public function create(name=null, entity=null) -> <Form>
+	{
 		var form;
 
 		if typeof name != "string" {
