@@ -114,7 +114,7 @@ PHP_METHOD(Phalcon_Forms_Manager, get) {
 		ZEPHIR_CONCAT_SVS(_2, "There is no form with name='", name, "'");
 		ZEPHIR_CALL_METHOD(NULL, _1, "__construct", NULL, _2);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(_1, "phalcon/forms/manager.zep", 59 TSRMLS_CC);
+		zephir_throw_exception_debug(_1, "phalcon/forms/manager.zep", 60 TSRMLS_CC);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
