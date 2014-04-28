@@ -54,9 +54,7 @@ class Apc extends \Phalcon\Cache\Backend implements \Phalcon\Cache\BackendInterf
 	 */
 	public function get(keyName, lifetime=null)
 	{
-		var frontend, prefixedKey, cachedContent;
-
-		let frontend = this->_frontend;
+		var prefixedKey, cachedContent;
 
 		let prefixedKey = "_PHCA" . this->_prefix . keyName,
 			this->_lastKey = prefixedKey;
@@ -66,7 +64,7 @@ class Apc extends \Phalcon\Cache\Backend implements \Phalcon\Cache\BackendInterf
 			return null;
 		}
 
-		return frontend->afterRetrieve(cachedContent);
+		return this->_frontend->afterRetrieve(cachedContent);
 	}
 
 	/**
