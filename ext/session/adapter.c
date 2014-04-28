@@ -215,7 +215,7 @@ static int phalcon_session_adapter_has_property(zval *object, zval *member, int 
 
 static void phalcon_session_adapter_write_property(zval *object, zval *member, zval *value ZLK_DC TSRMLS_DC)
 {
-	if (!is_phalcon_class(Z_OBJCE_P(object))) {
+	if (!is_phalcon_class(Z_OBJCE_P(object)) || phalcon_isset_property_zval(object, member TSRMLS_CC)) {
 		zend_get_std_object_handlers()->write_property(object, member, value ZLK_CC TSRMLS_CC);
 	}
 	else {
