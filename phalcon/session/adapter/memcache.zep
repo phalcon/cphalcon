@@ -44,8 +44,9 @@ namespace Phalcon\Session\Adapter;
 class Memcache extends \Phalcon\Session\Adapter implements \Phalcon\Session\AdapterInterface
 {
 
-	protected _memcache = NULL {get};
-	protected _lifetime = 8600 {get};
+	protected _memcache = NULL { get };
+
+	protected _lifetime = 8600 { get };
 
 	/**
 	 * Phalcon\Session\Adapter\Memcache constructor
@@ -131,10 +132,9 @@ class Memcache extends \Phalcon\Session\Adapter implements \Phalcon\Session\Adap
      */
     public function destroy(session_id = null)
     {
-        if (is_null(session_id)) {
+        if session_id === null {
             let session_id = this->getId();
         }
-        
         return this->_memcache->delete(session_id);
     }
 

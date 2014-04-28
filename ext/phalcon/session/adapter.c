@@ -155,29 +155,37 @@ PHP_METHOD(Phalcon_Session_Adapter, getOptions) {
  *
  * @param string index
  * @param mixed defaultValue
+ * @param boolean remove
  * @return mixed
  */
 PHP_METHOD(Phalcon_Session_Adapter, get) {
 
-	zval *index_param = NULL, *defaultValue = NULL, *value, *_SESSION, *_0, *_1;
+	zval *index_param = NULL, *defaultValue = NULL, *remove = NULL, *value, *key, *_0, *_SESSION;
 	zval *index = NULL;
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 1, &index_param, &defaultValue);
+	zephir_fetch_params(1, 1, 2, &index_param, &defaultValue, &remove);
 
 	zephir_get_strval(index, index_param);
 	if (!defaultValue) {
 		defaultValue = ZEPHIR_GLOBAL(global_null);
 	}
+	if (!remove) {
+		remove = ZEPHIR_GLOBAL(global_false);
+	}
 
 
-	zephir_get_global(&_SESSION, SS("_SESSION") TSRMLS_CC);
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_uniqueId"), PH_NOISY_CC);
-	ZEPHIR_INIT_VAR(_1);
-	ZEPHIR_CONCAT_VV(_1, _0, index);
-	if (zephir_array_isset_fetch(&value, _SESSION, _1, 1 TSRMLS_CC)) {
+	ZEPHIR_INIT_VAR(key);
+	ZEPHIR_CONCAT_VV(key, _0, index);
+	ZEPHIR_OBS_VAR(value);
+	zephir_get_global(&_SESSION, SS("_SESSION") TSRMLS_CC);
+	if (zephir_array_isset_fetch(&value, _SESSION, key, 0 TSRMLS_CC)) {
 		if (!(ZEPHIR_IS_EMPTY(value))) {
-			RETURN_CTOR(value);
+			if (zephir_is_true(remove)) {
+				zephir_array_unset(&_SESSION, key, PH_SEPARATE);
+			}
+			RETURN_CCTOR(value);
 		}
 	}
 	RETURN_CCTOR(defaultValue);
