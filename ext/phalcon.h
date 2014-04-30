@@ -349,6 +349,7 @@
 #include "validation.h"
 #include "validation/exception.h"
 #include "validation/message.h"
+#include "validation/messageinterface.h"
 #include "validation/message/group.h"
 #include "validation/validator.h"
 #include "validation/validatorinterface.h"
