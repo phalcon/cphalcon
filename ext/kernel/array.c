@@ -1123,11 +1123,19 @@ void zephir_array_merge_recursive_n(zval **a1, zval *a2 TSRMLS_DC)
  * @param arg
  * @note Reference count of @c arg will be incremented
  */
-void zephir_array_unshift(zval *arr, zval *arg)
+void zephir_array_unshift(zval *arr, zval *arg TSRMLS_DC)
 {
 	if (likely(Z_TYPE_P(arr) == IS_ARRAY)) {
 		zval** args[1]      = { &arg };
-		HashTable *newhash = php_splice(Z_ARRVAL_P(arr), 0, 0, args, 1, NULL);
+
+		HashTable *newhash = Z_ARRVAL_P(arr);
+
+		#if PHP_VERSION_ID < 50600
+			newhash = php_splice(newhash, 0, 0, args, 1, NULL);
+		#else
+			php_splice(newhash, 0, 0, args, 1, NULL TSRMLS_CC);
+		#endif
+
 		HashTable  oldhash = *Z_ARRVAL_P(arr);
 		*Z_ARRVAL_P(arr)   = *newhash;
 

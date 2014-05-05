@@ -139,11 +139,11 @@ PHP_METHOD(Phalcon_Security, setRandomBytes) {
 	zephir_fetch_params(0, 1, 0, &randomBytes_param);
 
 	if (unlikely(Z_TYPE_P(randomBytes_param) != IS_LONG)) {
-			zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'randomBytes' must be a long/integer") TSRMLS_CC);
-			RETURN_NULL();
-		}
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'randomBytes' must be a long/integer") TSRMLS_CC);
+		RETURN_NULL();
+	}
 
-		randomBytes = Z_LVAL_P(randomBytes_param);
+	randomBytes = Z_LVAL_P(randomBytes_param);
 
 
 	ZEPHIR_INIT_ZVAL_NREF(_0);

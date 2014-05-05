@@ -12,9 +12,9 @@
 #include <Zend/zend_interfaces.h>
 
 #include "kernel/main.h"
-#include "kernel/memory.h"
-#include "kernel/object.h"
 #include "kernel/concat.h"
+#include "kernel/object.h"
+#include "kernel/memory.h"
 #include "kernel/fcall.h"
 #include "kernel/operators.h"
 #include "kernel/exception.h"
@@ -81,7 +81,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Cache_Backend_Apc) {
 PHP_METHOD(Phalcon_Cache_Backend_Apc, get) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
-	zval *keyName, *lifetime = NULL, *frontend, *prefixedKey, *cachedContent = NULL, *_0;
+	zval *keyName, *lifetime = NULL, *prefixedKey, *cachedContent = NULL, *_0, *_1;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 1, &keyName, &lifetime);
@@ -91,8 +91,6 @@ PHP_METHOD(Phalcon_Cache_Backend_Apc, get) {
 	}
 
 
-	ZEPHIR_OBS_VAR(frontend);
-	zephir_read_property_this(&frontend, this_ptr, SL("_frontend"), PH_NOISY_CC);
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_prefix"), PH_NOISY_CC);
 	ZEPHIR_INIT_VAR(prefixedKey);
 	ZEPHIR_CONCAT_SVV(prefixedKey, "_PHCA", _0, keyName);
@@ -102,7 +100,8 @@ PHP_METHOD(Phalcon_Cache_Backend_Apc, get) {
 	if (ZEPHIR_IS_FALSE(cachedContent)) {
 		RETURN_MM_NULL();
 	}
-	ZEPHIR_RETURN_CALL_METHOD(frontend, "afterretrieve", NULL, cachedContent);
+	_1 = zephir_fetch_nproperty_this(this_ptr, SL("_frontend"), PH_NOISY_CC);
+	ZEPHIR_RETURN_CALL_METHOD(_1, "afterretrieve", NULL, cachedContent);
 	zephir_check_call_status();
 	RETURN_MM();
 
@@ -149,7 +148,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Apc, save) {
 		ZEPHIR_CONCAT_SVV(lastKey, "_PHCA", _0, keyName);
 	}
 	if (!(zephir_is_true(lastKey))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_cache_exception_ce, "The cache must be started first", "phalcon/cache/backend/apc.zep", 91);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_cache_exception_ce, "The cache must be started first", "phalcon/cache/backend/apc.zep", 89);
 		return;
 	}
 	ZEPHIR_OBS_VAR(frontend);
