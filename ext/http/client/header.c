@@ -183,7 +183,7 @@ PHP_METHOD(Phalcon_Http_Client_Header, __construct){
 
 PHP_METHOD(Phalcon_Http_Client_Header, set){
 
-	zval *name, *value, *fields;
+	zval *name, *value;
 
 	phalcon_fetch_params(0, 2, 0, &name, &value);
 
@@ -208,8 +208,7 @@ PHP_METHOD(Phalcon_Http_Client_Header, addMultiple){
 
 	phalcon_fetch_params(1, 1, 0, &values);
 
-	PHALCON_OBS_VAR(fields);
-	phalcon_read_property_this(&fields, this_ptr, SL("_fields"), PH_NOISY);
+	fields = phalcon_fetch_nproperty_this(this_ptr, SL("_fields"), PH_NOISY TSRMLS_CC);
 
 	phalcon_array_merge_recursive_n(&fields, values);
 
@@ -226,8 +225,7 @@ PHP_METHOD(Phalcon_Http_Client_Header, get){
 
 	phalcon_fetch_params(1, 1, 0, &name);
 
-	PHALCON_OBS_VAR(fields);
-	phalcon_read_property_this(&fields, this_ptr, SL("_fields"), PH_NOISY);
+	fields = phalcon_fetch_nproperty_this(this_ptr, SL("_fields"), PH_NOISY TSRMLS_CC);
 
 	PHALCON_OBS_VAR(field);
 	phalcon_array_fetch(&field, fields, name, PH_NOISY);
@@ -242,14 +240,13 @@ PHP_METHOD(Phalcon_Http_Client_Header, getAll){
 
 PHP_METHOD(Phalcon_Http_Client_Header, remove){
 
-	zval *name, *fields, *field;
+	zval *name, *fields;
 
 	PHALCON_MM_GROW();
 
 	phalcon_fetch_params(1, 1, 0, &name);
 
-	PHALCON_OBS_VAR(fields);
-	phalcon_read_property_this(&fields, this_ptr, SL("_fields"), PH_NOISY);
+	fields = phalcon_fetch_nproperty_this(this_ptr, SL("_fields"), PH_NOISY TSRMLS_CC);
 	
 	phalcon_array_unset(&fields, name, 0);
 
@@ -337,10 +334,10 @@ PHP_METHOD(Phalcon_Http_Client_Header, build){
 	PHALCON_OBS_VAR(messages);
 	phalcon_read_static_property_ce(&messages, phalcon_http_client_header_ce, SL("_messages") TSRMLS_CC);
 
-	status_code = phalcon_fetch_nproperty_this(this_ptr, SL("_status_code"), PH_NOISY);
+	status_code = phalcon_fetch_nproperty_this(this_ptr, SL("_status_code"), PH_NOISY TSRMLS_CC);
 	
 	if ((f & PHALCON_HTTP_CLIENT_HEADER_BUILD_STATUS) && phalcon_array_isset_fetch(&message, messages, status_code)) {
-		version  = phalcon_fetch_nproperty_this(this_ptr, SL("_version "), PH_NOISY);
+		version  = phalcon_fetch_nproperty_this(this_ptr, SL("_version "), PH_NOISY TSRMLS_CC);
 
 		PHALCON_INIT_NVAR(line);
 		PHALCON_CONCAT_SVS(line, "HTTP/", version, " ");
@@ -350,7 +347,7 @@ PHP_METHOD(Phalcon_Http_Client_Header, build){
 
 	}
 
-	fields = phalcon_fetch_nproperty_this(this_ptr, SL("_fields"), PH_NOISY);
+	fields = phalcon_fetch_nproperty_this(this_ptr, SL("_fields"), PH_NOISY TSRMLS_CC);
 
 	phalcon_is_iterable(fields, &ah0, &hp0, 0, 0);	
 	while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
@@ -380,7 +377,7 @@ PHP_METHOD(Phalcon_Http_Client_Header, count){
 
 	zval *fields;
 
-	fields = phalcon_fetch_nproperty_this(this_ptr, SL("_fields"), PH_NOISY);
+	fields = phalcon_fetch_nproperty_this(this_ptr, SL("_fields"), PH_NOISY TSRMLS_CC);
 	phalcon_fast_count(return_value, fields TSRMLS_CC);
 }
 

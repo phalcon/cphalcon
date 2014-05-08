@@ -24,7 +24,7 @@
 
 extern zend_class_entry *phalcon_http_client_adapterinterface_ce;
 
-PHALCON_INIT_CLASS(Phalcon_Http_Client_Adapterinterface);
+PHALCON_INIT_CLASS(Phalcon_Http_Client_AdapterInterface);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_http_client_adapterinterface_setuseragent, 0, 0, 1)
 	ZEND_ARG_INFO(0, useragent)
