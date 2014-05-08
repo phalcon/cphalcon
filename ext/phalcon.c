@@ -242,6 +242,7 @@ static PHP_MINIT_FUNCTION(phalcon)
 	PHALCON_INIT(Phalcon_Http_Cookie_Exception);
 	PHALCON_INIT(Phalcon_Http_Request_Exception);
 	PHALCON_INIT(Phalcon_Http_Response_Exception);
+	PHALCON_INIT(Phalcon_Http_Client_Exception);
 	PHALCON_INIT(Phalcon_Image_Exception);
 	PHALCON_INIT(Phalcon_Mvc_Application_Exception);
 	PHALCON_INIT(Phalcon_Mvc_Collection_Exception);
@@ -294,6 +295,7 @@ static PHP_MINIT_FUNCTION(phalcon)
 	PHALCON_INIT(Phalcon_Http_ResponseInterface);
 	PHALCON_INIT(Phalcon_Http_Response_CookiesInterface);
 	PHALCON_INIT(Phalcon_Http_Response_HeadersInterface);
+	PHALCON_INIT(Phalcon_Http_Client_AdapterInterface);
 	PHALCON_INIT(Phalcon_Image_AdapterInterface);
 	PHALCON_INIT(Phalcon_Logger_AdapterInterface);
 	PHALCON_INIT(Phalcon_Logger_FormatterInterface);
@@ -490,6 +492,11 @@ static PHP_MINIT_FUNCTION(phalcon)
 	PHALCON_INIT(Phalcon_Http_Request_File);
 	PHALCON_INIT(Phalcon_Http_Response_Cookies);
 	PHALCON_INIT(Phalcon_Http_Response_Headers);
+	PHALCON_INIT(Phalcon_Http_Uri);
+	PHALCON_INIT(Phalcon_Http_Client_Header);
+	PHALCON_INIT(Phalcon_Http_Client_Response);
+	PHALCON_INIT(Phalcon_Http_Client_Adapter)
+	PHALCON_INIT(Phalcon_Http_Client_Adapter_Curl)
 	PHALCON_INIT(Phalcon_Queue_Beanstalk);
 	PHALCON_INIT(Phalcon_Queue_Beanstalk_Job);
 	PHALCON_INIT(Phalcon_Mvc_View);

@@ -177,6 +177,13 @@
 #include "http/response/exception.h"
 #include "http/response/headers.h"
 #include "http/response/headersinterface.h"
+#include "http/uri.h"
+#include "http/client/exception.h"
+#include "http/client/header.h"
+#include "http/client/response.h"
+#include "http/client/adapter.h"
+#include "http/client/adapterinterface.h"
+#include "http/client/adapter/curl.h"
 
 #include "image.h"
 #include "image/adapter.h"
