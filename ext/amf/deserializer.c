@@ -394,8 +394,11 @@ PHP_METHOD(Phalcon_Amf_Deserializer, readUTF){
 	zval *vallength = NULL;
 	int size, length, pos;
 
+	rawdata = phalcon_fetch_nproperty_this(this_ptr, SL("_rawData"), PH_NOISY TSRMLS_CC);
 	rawsize = phalcon_fetch_nproperty_this(this_ptr, SL("_rawSize"), PH_NOISY TSRMLS_CC);
+	rawpos = phalcon_fetch_nproperty_this(this_ptr, SL("_rawPos"), PH_NOISY TSRMLS_CC);
 	size = phalcon_get_intval(rawsize);
+	pos = phalcon_get_intval(rawpos);
 
 	PHALCON_CALL_SELFW(&vallength, "readint");
 
@@ -410,11 +413,6 @@ PHP_METHOD(Phalcon_Amf_Deserializer, readUTF){
 		return;
 	}
 
-	rawdata = phalcon_fetch_nproperty_this(this_ptr, SL("_rawData"), PH_NOISY TSRMLS_CC);
-	rawpos = phalcon_fetch_nproperty_this(this_ptr, SL("_rawPos"), PH_NOISY TSRMLS_CC);
-
-	pos = phalcon_get_intval(rawpos);
-
 	phalcon_substr(return_value, rawdata, pos, length);
 
 	phalcon_update_property_long(this_ptr, SL("_rawPos"), pos + length TSRMLS_CC);
@@ -427,8 +425,11 @@ PHP_METHOD(Phalcon_Amf_Deserializer, readLongUTF){
 	int size, pos;
 	long length;
 
+	rawdata = phalcon_fetch_nproperty_this(this_ptr, SL("_rawData"), PH_NOISY TSRMLS_CC);
 	rawsize = phalcon_fetch_nproperty_this(this_ptr, SL("_rawSize"), PH_NOISY TSRMLS_CC);
+	rawpos = phalcon_fetch_nproperty_this(this_ptr, SL("_rawPos"), PH_NOISY TSRMLS_CC);
 	size = phalcon_get_intval(rawsize);
+	pos = phalcon_get_intval(rawpos);
 
 	PHALCON_CALL_SELFW(&vallength, "readlong");
 
@@ -442,11 +443,6 @@ PHP_METHOD(Phalcon_Amf_Deserializer, readLongUTF){
 		zend_throw_exception_ex(phalcon_amf_exception_ce, 0 TSRMLS_CC, "Insufficient type data at position %d", pos);
 		return;
 	}
-
-	rawdata = phalcon_fetch_nproperty_this(this_ptr, SL("_rawData"), PH_NOISY TSRMLS_CC);
-	rawpos = phalcon_fetch_nproperty_this(this_ptr, SL("_rawPos"), PH_NOISY TSRMLS_CC);
-
-	pos = phalcon_get_intval(rawpos);
 
 	phalcon_substr(return_value, rawdata, pos, length);
 

@@ -475,8 +475,8 @@ static int phalcon_amf_decode_object(zval **val, const char *buf, int pos, int s
 			int i, n = pfx >> 2;
 			const char *cls;
 			int clen;
-			char **fld;
-			int *flen;
+			char **fld = NULL;
+			int *flen = NULL;
 			ofs = phalcon_amf_decode_str(&cls, &clen, 0, buf, pos, size, 0, sht TSRMLS_CC);
 			if (ofs < 0) return -1;
 			pos += ofs;
