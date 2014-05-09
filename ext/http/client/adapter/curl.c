@@ -51,8 +51,8 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_http_client_adapter_curl___construct, 0, 
 ZEND_END_ARG_INFO()
 
 static const zend_function_entry phalcon_http_client_adapter_curl_method_entry[] = {
-	PHP_ME(Phalcon_Http_Client_Adapter_Curl, __construct, arginfo_phalcon_http_client_adapter_curl___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR) 
-	PHP_ME(Phalcon_Http_Client_Adapter_Curl, sendInternal, NULL, ZEND_ACC_PROTECTED) 
+	PHP_ME(Phalcon_Http_Client_Adapter_Curl, __construct, arginfo_phalcon_http_client_adapter_curl___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
+	PHP_ME(Phalcon_Http_Client_Adapter_Curl, sendInternal, NULL, ZEND_ACC_PROTECTED)
 	PHP_FE_END
 };
 
@@ -123,13 +123,8 @@ PHP_METHOD(Phalcon_Http_Client_Adapter_Curl, __construct){
 	}
 
 	PHALCON_INIT_NVAR(constant);
-	if (zend_get_constant(SL("CURLOPT_CONNECTTIMEOUT"), constant TSRMLS_CC)) {
-		phalcon_array_update_zval_long(&options, constant, 30, 0);
-	}
-
-	PHALCON_INIT_NVAR(constant);
-	if (zend_get_constant(SL("CURLOPT_TIMEOUT"), constant TSRMLS_CC)) {
-		phalcon_array_update_zval_long(&options, constant, 30, 0);
+	if (zend_get_constant(SL("CURLOPT_USERAGENT"), constant TSRMLS_CC)) {
+		phalcon_array_update_zval_string(&options, constant, SL("Phalcon HTTP Client(Curl)"), PH_COPY);
 	}
 
 	PHALCON_CALL_FUNCTION(NULL, "curl_setopt_array", curl, options);

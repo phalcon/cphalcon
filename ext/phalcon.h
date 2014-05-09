@@ -184,6 +184,7 @@
 #include "http/client/adapter.h"
 #include "http/client/adapterinterface.h"
 #include "http/client/adapter/curl.h"
+#include "http/client/adapter/stream.h"
 
 #include "image.h"
 #include "image/adapter.h"
