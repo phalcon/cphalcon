@@ -742,7 +742,12 @@ void phalcon_array_unshift(zval *arr, zval *arg)
 {
 	if (likely(Z_TYPE_P(arr) == IS_ARRAY)) {
 		zval** args[1]      = { &arg };
+#if PHP_VERSION_ID >= 50600
+		HashTable *newhash = php_splice(Z_ARRVAL_P(arr), 0, 0, args, 1, NULL TSRMLS_CC);
+#else
 		HashTable *newhash = php_splice(Z_ARRVAL_P(arr), 0, 0, args, 1, NULL);
+#endif
+
 		HashTable  oldhash = *Z_ARRVAL_P(arr);
 		*Z_ARRVAL_P(arr)   = *newhash;
 
