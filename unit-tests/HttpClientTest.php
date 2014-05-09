@@ -21,4 +21,13 @@ class HttpClientTest extends PHPUnit_Framework_TestCase
 
 		$this->assertEquals($response->getStatusCode(), 200);
 	}
+
+	public function testStream()
+	{
+		$client = new Phalcon\Http\Client\Adapter\Stream('http://phalconphp.com/');
+
+		$response = $client->get();
+
+		$this->assertEquals($response->getStatusCode(), 200);
+	}
 }

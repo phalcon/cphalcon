@@ -99,6 +99,7 @@ http/client/response.c \
 http/client/adapterinterface.c \
 http/client/adapter.c \
 http/client/adapter/curl.c \
+http/client/adapter/stream.c \
 dispatcherinterface.c \
 di.c \
 loader/exception.c \

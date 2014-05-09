@@ -501,6 +501,7 @@ static PHP_MINIT_FUNCTION(phalcon)
 	PHALCON_INIT(Phalcon_Http_Client_Response);
 	PHALCON_INIT(Phalcon_Http_Client_Adapter)
 	PHALCON_INIT(Phalcon_Http_Client_Adapter_Curl)
+	PHALCON_INIT(Phalcon_Http_Client_Adapter_Stream)
 	PHALCON_INIT(Phalcon_Queue_Beanstalk);
 	PHALCON_INIT(Phalcon_Queue_Beanstalk_Job);
 	PHALCON_INIT(Phalcon_Mvc_View);
