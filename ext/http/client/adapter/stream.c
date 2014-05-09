@@ -257,7 +257,7 @@ PHP_METHOD(Phalcon_Http_Client_Adapter_Stream, errorHandler){
 PHP_METHOD(Phalcon_Http_Client_Adapter_Stream, sendInternal){
 
 	zval *stream, *http, *option = NULL, *header, *handler, *base_uri, *url = NULL, *method, *useragent, *timeout;
-	zval *content = NULL, *response;
+	zval *fp = NULL, *meta = NULL, *wrapper_data, *bodystr = NULL, *response;
 
 	PHALCON_MM_GROW();
 
@@ -301,15 +301,25 @@ PHP_METHOD(Phalcon_Http_Client_Adapter_Stream, sendInternal){
 
 	PHALCON_CALL_FUNCTION(NULL, "set_error_handler", handler);
 
-	PHALCON_CALL_FUNCTION(&content, "file_get_contents", url, PHALCON_GLOBAL(z_false), stream);
+	PHALCON_INIT_NVAR(option);
+	ZVAL_STRING(option, "r", 1);
+
+	PHALCON_CALL_FUNCTION(&fp, "fopen", url, option, PHALCON_GLOBAL(z_false), stream);
 
 	PHALCON_CALL_FUNCTION(NULL, "restore_error_handler");
+
+	PHALCON_CALL_FUNCTION(&meta, "stream_get_meta_data", fp);
+	PHALCON_CALL_FUNCTION(&bodystr, "stream_get_contents", fp);
 
 	PHALCON_INIT_VAR(response);
 	object_init_ex(response, phalcon_http_client_response_ce);
 	PHALCON_CALL_METHOD(NULL, response, "__construct");
 
-	PHALCON_CALL_METHOD(NULL, response, "setbody", content);
+	if (phalcon_array_isset_string_fetch(&wrapper_data, meta, SS("wrapper_data"))) {
+		PHALCON_CALL_METHOD(NULL, response, "setHeader", wrapper_data);
+	}
+
+	PHALCON_CALL_METHOD(NULL, response, "setbody", bodystr);
 
 	RETURN_CTOR(response);
 }

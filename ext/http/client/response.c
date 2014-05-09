@@ -115,12 +115,15 @@ PHP_METHOD(Phalcon_Http_Client_Response, __construct){
 
 PHP_METHOD(Phalcon_Http_Client_Response, setHeader){
 
-	zval *header;
+	zval *headers, *header, *status_code = NULL;
 
-	phalcon_fetch_params(0, 1, 0, &header);
+	phalcon_fetch_params(0, 1, 0, &headers);
 
 	header = phalcon_fetch_nproperty_this(this_ptr, SL("_header"), PH_NOISY TSRMLS_CC);
-	PHALCON_CALL_METHODW(NULL, header, "parse", header);
+	PHALCON_CALL_METHODW(NULL, header, "parse", headers);
+	
+	PHALCON_CALL_METHODW(&status_code, header, "getstatuscode");
+	PHALCON_CALL_SELFW(NULL, "setstatuscode", status_code);
 
 	RETURN_THISW();
 }
@@ -148,11 +151,15 @@ PHP_METHOD(Phalcon_Http_Client_Response, getBody){
 
 PHP_METHOD(Phalcon_Http_Client_Response, setStatusCode){
 	
-	zval *status_code;
+	zval *status_code, *header;
 
 	phalcon_fetch_params(0, 1, 0, &status_code);
 
 	phalcon_update_property_this(this_ptr, SL("_status_code"), status_code TSRMLS_CC);
+
+	header = phalcon_fetch_nproperty_this(this_ptr, SL("_header"), PH_NOISY TSRMLS_CC);
+	
+	PHALCON_CALL_METHODW(NULL, header, "setstatuscode", status_code);
 
 	RETURN_THISW();
 }
