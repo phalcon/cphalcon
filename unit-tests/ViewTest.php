@@ -298,7 +298,7 @@ class ViewTest extends PHPUnit_Framework_TestCase
 
 		$content = $view->getRender('test5', 'index', array('cool_var' => 'le-this'));
 
-		$this->assertEquals($content, '<html>Hey, this is a partial, also le-this</html>' . PHP_EOL);
+		$this->assertEquals($content, 'Hey, this is a partial, also le-this');
 	}
 
 	protected function _getViewDisabled($level=null)
@@ -400,7 +400,7 @@ class ViewTest extends PHPUnit_Framework_TestCase
 		$view->render('test3', 'other');
 		$view->finish();
 		$this->assertEquals($view->getContent(), '<html>lolhere</html>'.PHP_EOL);
-		$this->assertEquals('1,3,5', $listener->getLevels());
+		$this->assertEquals('1,3,6', $listener->getLevels());
 		$listener->reset();
 
 		//Templates
@@ -411,7 +411,7 @@ class ViewTest extends PHPUnit_Framework_TestCase
 		$view->finish();
 
 		$this->assertEquals($view->getContent(), '<html>zuplolhere</html>' . PHP_EOL);
-		$this->assertEquals('1,3,4,5', $listener->getLevels());
+		$this->assertEquals('1,3,5,6', $listener->getLevels());
 		$listener->reset();
 
 		$view->cleanTemplateAfter();
@@ -423,7 +423,7 @@ class ViewTest extends PHPUnit_Framework_TestCase
 		$view->render('test3', 'other');
 		$view->finish();
 		$this->assertEquals($view->getContent(), '<html>lolhere</html>' . PHP_EOL);
-		$this->assertEquals('1,3,5', $listener->getLevels());
+		$this->assertEquals('1,3,6', $listener->getLevels());
 		$listener->reset();
 
 		$view->setRenderLevel(View::LEVEL_LAYOUT);
