@@ -109,7 +109,7 @@ int phalcon_update_static_property_array_multi_ce(zend_class_entry *ce, const ch
 				} else {
 					MAKE_STD_ZVAL(tmp);
 					array_init(tmp);
-					phalcon_array_update_string(&p, s, l, &tmp, PH_SEPARATE);
+					phalcon_array_update_string(&p, s, l, tmp, PH_SEPARATE);
 					p = tmp;
 				}
 				break;
