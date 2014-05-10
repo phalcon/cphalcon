@@ -716,7 +716,7 @@ void phalcon_array_merge_recursive_n(zval **a1, zval *a2) PHALCON_ATTR_NONNULL;
  * @param arg
  * @note Reference count of @c arg will be incremented
  */
-void phalcon_array_unshift(zval *arr, zval *arg) PHALCON_ATTR_NONNULL;
+void phalcon_array_unshift(zval *arr, zval *arg TSRMLS_DC) PHALCON_ATTR_NONNULL;
 
 /**
  * @brief <tt>$return_value = array_keys($arr)</tt>

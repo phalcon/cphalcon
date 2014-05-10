@@ -1270,7 +1270,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, resolveFilter){
 			phalcon_array_update_string(&resolved_param, ISL(file), file, PH_COPY);
 			phalcon_array_update_string(&resolved_param, ISL(line), line, PH_COPY);
 	
-			phalcon_array_unshift(func_arguments, resolved_param);
+			phalcon_array_unshift(func_arguments, resolved_param TSRMLS_CC);
 		}
 	
 		PHALCON_CALL_METHOD(&arguments, this_ptr, "expression", func_arguments);
