@@ -24,8 +24,8 @@ before_script:
 
 script:
  - phpunit --version
- - ZEND_DONT_UNLOAD_MODULES=1 phpunit --debug -c unit-tests/phpunit.xml
- - ZEND_DONT_UNLOAD_MODULES=1 PHALCON_NO_RVO=1 phpunit --debug -c unit-tests/phpunit.xml
+ - ZEND_DONT_UNLOAD_MODULES=1 phpunit --debug -c unit-tests/phpunit.xml unit-tests/
+ - ZEND_DONT_UNLOAD_MODULES=1 PHALCON_NO_RVO=1 phpunit --debug -c unit-tests/phpunit.xml unit-tests/
 
 after_failure:
  - sudo apt-get -qq install gdb
