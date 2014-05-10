@@ -1141,9 +1141,6 @@ class CacheTest extends PHPUnit_Framework_TestCase
 
 		//Delete
 		$this->assertTrue($cache->delete('test-data'));
-
-		$memcache->quit();
-
 	}
 
 	public function testDataLibmemcachedCacheOption()
@@ -1218,8 +1215,6 @@ class CacheTest extends PHPUnit_Framework_TestCase
 		//Delete
 		$this->assertTrue($cache->delete('test-data'));
 		$this->assertTrue($cache2->delete('test-data'));
-
-		$memcache->quit();
 	}
 
 	public function testCacheFileFlush()
