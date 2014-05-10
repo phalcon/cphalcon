@@ -24,7 +24,7 @@ zend_class_entry *phalcon_http_client_adapterinterface_ce;
 
 static const zend_function_entry phalcon_http_client_adapterinterface_method_entry[] = {
 	PHP_ABSTRACT_ME(Phalcon_Http_Client_AdapterInterface, setUserAgent, arginfo_phalcon_http_client_adapterinterface_setuseragent)
-	PHP_ABSTRACT_ME(Phalcon_Http_Client_AdapterInterface, setAuthentication, arginfo_phalcon_http_client_adapterinterface_setauthentication)
+	PHP_ABSTRACT_ME(Phalcon_Http_Client_AdapterInterface, setAuth, arginfo_phalcon_http_client_adapterinterface_setauth)
 	PHP_ABSTRACT_ME(Phalcon_Http_Client_AdapterInterface, setHeader, arginfo_phalcon_http_client_adapterinterface_setheader)
 	PHP_ABSTRACT_ME(Phalcon_Http_Client_AdapterInterface, setHeaders, arginfo_phalcon_http_client_adapterinterface_setheaders)
 	PHP_ABSTRACT_ME(Phalcon_Http_Client_AdapterInterface, setData, arginfo_phalcon_http_client_adapterinterface_setdata)
@@ -54,7 +54,7 @@ PHALCON_INIT_CLASS(Phalcon_Http_Client_AdapterInterface){
 }
 
 PHALCON_DOC_METHOD(Phalcon_Http_Client_AdapterInterface, setUserAgent);
-PHALCON_DOC_METHOD(Phalcon_Http_Client_AdapterInterface, setAuthentication);
+PHALCON_DOC_METHOD(Phalcon_Http_Client_AdapterInterface, setAuth);
 PHALCON_DOC_METHOD(Phalcon_Http_Client_AdapterInterface, setHeader);
 PHALCON_DOC_METHOD(Phalcon_Http_Client_AdapterInterface, setHeaders);
 PHALCON_DOC_METHOD(Phalcon_Http_Client_AdapterInterface, setData);
