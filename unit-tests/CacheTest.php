@@ -1039,9 +1039,6 @@ class CacheTest extends PHPUnit_Framework_TestCase
 
 		//Delete entry from cache
 		$this->assertTrue($cache->delete('test-output'));
-
-		$memcache->quit();
-
 	}
 
 	public function testLibMemcachedIncrement() {
