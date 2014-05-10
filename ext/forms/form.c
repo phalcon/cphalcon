@@ -1366,7 +1366,7 @@ PHP_METHOD(Phalcon_Forms_Form, appendMessage){
 
 	PHALCON_CALL_METHOD(NULL, element_messages, "appendmessage", message);
 
-	phalcon_array_update_zval(&current_messages, filed, element_messages, PH_COPY | PH_SEPARATE);
+	phalcon_array_update_zval(&current_messages, filed, element_messages, PH_COPY);
 	phalcon_update_property_this(this_ptr, SL("_messages"), current_messages TSRMLS_CC);
 
 	RETURN_THIS();
