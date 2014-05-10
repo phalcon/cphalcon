@@ -16,7 +16,7 @@ before_install:
 
 install:
  - composer --prefer-source install
- 
+
 before_script:
  - git submodule --quiet update --init --recursive
  - (cd php-tests/library/Mustache; git checkout master)
