@@ -39,11 +39,12 @@
 zend_class_entry *phalcon_http_client_adapter_ce; 
 
 PHP_METHOD(Phalcon_Http_Client_Adapter, setUserAgent);
-PHP_METHOD(Phalcon_Http_Client_Adapter, setAuthentication);
+PHP_METHOD(Phalcon_Http_Client_Adapter, setAuth);
 PHP_METHOD(Phalcon_Http_Client_Adapter, setHeader);
 PHP_METHOD(Phalcon_Http_Client_Adapter, setHeaders);
 PHP_METHOD(Phalcon_Http_Client_Adapter, setData);
 PHP_METHOD(Phalcon_Http_Client_Adapter, setFile);
+PHP_METHOD(Phalcon_Http_Client_Adapter, getPath);
 PHP_METHOD(Phalcon_Http_Client_Adapter, get);
 PHP_METHOD(Phalcon_Http_Client_Adapter, head);
 PHP_METHOD(Phalcon_Http_Client_Adapter, post);
@@ -57,11 +58,12 @@ PHP_METHOD(Phalcon_Http_Client_Adapter, send);
 
 static const zend_function_entry phalcon_http_client_adapter_method_entry[] = {
 	PHP_ME(Phalcon_Http_Client_Adapter, setUserAgent, arginfo_phalcon_http_client_adapterinterface_setuseragent, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Http_Client_Adapter, setAuthentication, arginfo_phalcon_http_client_adapterinterface_setauthentication, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Http_Client_Adapter, setAuth, arginfo_phalcon_http_client_adapterinterface_setauth, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Http_Client_Adapter, setHeader, arginfo_phalcon_http_client_adapterinterface_setheader, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Http_Client_Adapter, setHeaders, arginfo_phalcon_http_client_adapterinterface_setheaders, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Http_Client_Adapter, setData, arginfo_phalcon_http_client_adapterinterface_setdata, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Http_Client_Adapter, setFile, arginfo_phalcon_http_client_adapterinterface_setfile, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Http_Client_Adapter, getPath, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Http_Client_Adapter, get, arginfo_phalcon_http_client_adapterinterface_get, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Http_Client_Adapter, head, arginfo_phalcon_http_client_adapterinterface_head, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Http_Client_Adapter, post, arginfo_phalcon_http_client_adapterinterface_post, ZEND_ACC_PUBLIC)
@@ -91,7 +93,9 @@ PHALCON_INIT_CLASS(Phalcon_Http_Client_Adapter){
 	zend_declare_property_null(phalcon_http_client_adapter_ce, SL("_useragent"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_http_client_adapter_ce, SL("_username"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_http_client_adapter_ce, SL("_password"), ZEND_ACC_PROTECTED TSRMLS_CC);
-	zend_declare_property_string(phalcon_http_client_adapter_ce, SL("_authtype"), "any", ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_http_client_adapter_ce, SL("_authtype"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_http_client_adapter_ce, SL("_digest"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_http_client_adapter_ce, SL("_entity_body"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_http_client_adapter_ce, SL("_data"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_http_client_adapter_ce, SL("_file"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_long(phalcon_http_client_adapter_ce, SL("_timeout"), 30, ZEND_ACC_PROTECTED TSRMLS_CC);
@@ -106,6 +110,12 @@ PHALCON_INIT_CLASS(Phalcon_Http_Client_Adapter){
 	return SUCCESS;
 }
 
+/**
+ * Sets the value of the userAgent property
+ *
+ * @param string $useragent
+ * @return Phalcon\Http\Client\Adapter
+ */
 PHP_METHOD(Phalcon_Http_Client_Adapter, setUserAgent){
 
 	zval *useragent;
@@ -117,22 +127,52 @@ PHP_METHOD(Phalcon_Http_Client_Adapter, setUserAgent){
 	RETURN_THISW();
 }
 
-PHP_METHOD(Phalcon_Http_Client_Adapter, setAuthentication){
+/**
+ * Set authentication credential
+ *
+ * @param string $username
+ * @param string $password
+ * @param string $authtype
+ * @param array $digest
+ * @param string $entityBody
+ * @return Phalcon\Http\Client\Adapter
+ */
+PHP_METHOD(Phalcon_Http_Client_Adapter, setAuth){
 
-	zval *username, *password, *authtype = NULL;
+	zval *username, *password, *authtype = NULL, *digest = NULL, *entity_body = NULL;
 
-	phalcon_fetch_params(0, 2, 1, &username, &password, &authtype);
+	PHALCON_MM_GROW();
+
+	phalcon_fetch_params(1, 2, 3, &username, &password, &authtype, &digest, &entity_body);
 
 	phalcon_update_property_this(this_ptr, SL("_username"), username TSRMLS_CC);
 	phalcon_update_property_this(this_ptr, SL("_password"), password TSRMLS_CC);
 
-	if (authtype) {
-		phalcon_update_property_this(this_ptr, SL("_authtype"), authtype TSRMLS_CC);
+	if (!authtype) {
+		PHALCON_INIT_NVAR(authtype);
+		ZVAL_STRING(authtype, "any", 1);
 	}
 
-	RETURN_THISW();
+	phalcon_update_property_this(this_ptr, SL("_authtype"), authtype TSRMLS_CC);
+
+	if (digest && Z_TYPE_P(digest) == IS_ARRAY) {
+		phalcon_update_property_this(this_ptr, SL("_digest"), digest TSRMLS_CC);
+	}
+
+	if (entity_body) {
+		phalcon_update_property_this(this_ptr, SL("_entity_body"), entity_body TSRMLS_CC);
+	}
+
+	RETURN_THIS();
 }
 
+/**
+ * Set header
+ *
+ * @param string $name
+ * @param string $value
+ * @return Phalcon\Http\Client\Adapter
+ */
 PHP_METHOD(Phalcon_Http_Client_Adapter, setHeader){
 
 	zval *name, *value, *header;
@@ -146,6 +186,12 @@ PHP_METHOD(Phalcon_Http_Client_Adapter, setHeader){
 	RETURN_THISW();
 }
 
+/**
+ * Set headers
+ *
+ * @param array $headers
+ * @return Phalcon\Http\Client\Adapter
+ */
 PHP_METHOD(Phalcon_Http_Client_Adapter, setHeaders){
 
 	zval *headers, *header;
@@ -159,6 +205,12 @@ PHP_METHOD(Phalcon_Http_Client_Adapter, setHeaders){
 	RETURN_THISW();
 }
 
+/**
+ * Set data
+ *
+ * @param array|string $data
+ * @return Phalcon\Http\Client\Adapter
+ */
 PHP_METHOD(Phalcon_Http_Client_Adapter, setData){
 
 	zval *data;
@@ -175,6 +227,12 @@ PHP_METHOD(Phalcon_Http_Client_Adapter, setData){
 	RETURN_THISW();
 }
 
+/**
+ * Set send file
+ *
+ * @param string $file
+ * @return Phalcon\Http\Client\Adapter
+ */
 PHP_METHOD(Phalcon_Http_Client_Adapter, setFile){
 
 	zval *file;
@@ -186,6 +244,27 @@ PHP_METHOD(Phalcon_Http_Client_Adapter, setFile){
 	RETURN_THISW();
 }
 
+/**
+ * Retrieve the URI path
+ *
+ * @return string
+ */
+PHP_METHOD(Phalcon_Http_Client_Adapter, getPath){
+
+	zval *base_uri;
+
+	base_uri = phalcon_fetch_nproperty_this(this_ptr, SL("_base_uri"), PH_NOISY TSRMLS_CC);
+
+	PHALCON_CALL_METHODW(&return_value, base_uri, "getpath");
+}
+
+/**
+ * Send GET request
+ *
+ * @param string $uri
+ * @param string $data
+ * @return Phalcon\Http\Client\Adapter
+ */
 PHP_METHOD(Phalcon_Http_Client_Adapter, get){
 
 	zval *uri = NULL, *data = NULL;
@@ -205,6 +284,13 @@ PHP_METHOD(Phalcon_Http_Client_Adapter, get){
 	PHALCON_RETURN_CALL_METHODW(this_ptr, "send");
 }
 
+/**
+ * Send HEAD request
+ *
+ * @param string $uri
+ * @param string $data
+ * @return Phalcon\Http\Client\Adapter
+ */
 PHP_METHOD(Phalcon_Http_Client_Adapter, head){
 
 	zval *uri = NULL, *data = NULL;
@@ -224,6 +310,13 @@ PHP_METHOD(Phalcon_Http_Client_Adapter, head){
 	PHALCON_RETURN_CALL_METHODW(this_ptr, "send");
 }
 
+/**
+ * Send POST request
+ *
+ * @param string $uri
+ * @param string $data
+ * @return Phalcon\Http\Client\Adapter
+ */
 PHP_METHOD(Phalcon_Http_Client_Adapter, post){
 
 	zval *uri = NULL, *data = NULL;
@@ -243,6 +336,13 @@ PHP_METHOD(Phalcon_Http_Client_Adapter, post){
 	PHALCON_RETURN_CALL_METHODW(this_ptr, "send");
 }
 
+/**
+ * Send PUT request
+ *
+ * @param string $uri
+ * @param string $data
+ * @return Phalcon\Http\Client\Adapter
+ */
 PHP_METHOD(Phalcon_Http_Client_Adapter, put){
 
 	zval *uri = NULL, *data = NULL;
@@ -262,6 +362,13 @@ PHP_METHOD(Phalcon_Http_Client_Adapter, put){
 	PHALCON_RETURN_CALL_METHODW(this_ptr, "send");
 }
 
+/**
+ * Send DELETE request
+ *
+ * @param string $uri
+ * @param string $data
+ * @return Phalcon\Http\Client\Adapter
+ */
 PHP_METHOD(Phalcon_Http_Client_Adapter, delete){
 
 	zval *uri = NULL, *data = NULL;
@@ -281,6 +388,12 @@ PHP_METHOD(Phalcon_Http_Client_Adapter, delete){
 	PHALCON_RETURN_CALL_METHODW(this_ptr, "send");
 }
 
+/**
+ * Set URI
+ *
+ * @param string $uri
+ * @return Phalcon\Http\Client\Adapter
+ */
 PHP_METHOD(Phalcon_Http_Client_Adapter, setUri){
 
 	zval *uri, *base_uri;
@@ -296,6 +409,12 @@ PHP_METHOD(Phalcon_Http_Client_Adapter, setUri){
 	RETURN_THISW();
 }
 
+/**
+ * Set base URI
+ *
+ * @param string $uri
+ * @return Phalcon\Http\Client\Adapter
+ */
 PHP_METHOD(Phalcon_Http_Client_Adapter, setBaseUri){
 
 	zval *uri, *base_uri;
@@ -313,6 +432,12 @@ PHP_METHOD(Phalcon_Http_Client_Adapter, setBaseUri){
 	RETURN_THIS();
 }
 
+/**
+ * Set method
+ *
+ * @param string $uri
+ * @return Phalcon\Http\Client\Adapter
+ */
 PHP_METHOD(Phalcon_Http_Client_Adapter, setMethod){
 
 	zval *method;
@@ -324,6 +449,12 @@ PHP_METHOD(Phalcon_Http_Client_Adapter, setMethod){
 	RETURN_THISW();
 }
 
+/**
+ * Set the request timeout
+ *
+ * @param string $uri
+ * @return Phalcon\Http\Client\Adapter
+ */
 PHP_METHOD(Phalcon_Http_Client_Adapter, setTimeOut){
 
 	zval *time;
@@ -335,6 +466,11 @@ PHP_METHOD(Phalcon_Http_Client_Adapter, setTimeOut){
 	RETURN_THISW();
 }
 
+/**
+ * Send request
+ *
+ * @return Phalcon\Http\Client\Response
+ */
 PHP_METHOD(Phalcon_Http_Client_Adapter, send){
 
 	PHALCON_RETURN_CALL_METHODW(this_ptr, "sendinternal");

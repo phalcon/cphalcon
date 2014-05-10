@@ -141,8 +141,10 @@ PHP_METHOD(Phalcon_Http_Client_Adapter_Stream, __construct){
 
 PHP_METHOD(Phalcon_Http_Client_Adapter_Stream, buildBody){
 
-	zval *stream, *header, *headers = NULL, *http, *option = NULL, *data, *file, *body, *uniqid = NULL, *boundary;
-	zval *key = NULL, *value = NULL, *path_parts = NULL, *filename, *basename, *filedata = NULL;
+	zval *stream, *header, *data, *file, *username, *password, *authtype, *digest, *method, *entity_body;
+	zval *key = NULL, *value = NULL, *realm, *qop, *nonce, *nc, *cnonce, *qoc, *ha1 = NULL, *path = NULL, *md5_entity_body = NULL, *ha2 = NULL;
+	zval *http, *option = NULL, *body, *headers = NULL, *uniqid = NULL, *boundary;
+	zval *path_parts = NULL, *filename, *basename, *filedata = NULL, *tmp = NULL;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -153,6 +155,111 @@ PHP_METHOD(Phalcon_Http_Client_Adapter_Stream, buildBody){
 	header = phalcon_fetch_nproperty_this(this_ptr, SL("_header"), PH_NOISY TSRMLS_CC);
 	data = phalcon_fetch_nproperty_this(this_ptr, SL("_data"), PH_NOISY TSRMLS_CC);
 	file = phalcon_fetch_nproperty_this(this_ptr, SL("_file"), PH_NOISY TSRMLS_CC);
+	username = phalcon_fetch_nproperty_this(this_ptr, SL("_username"), PH_NOISY TSRMLS_CC);
+	password = phalcon_fetch_nproperty_this(this_ptr, SL("_password"), PH_NOISY TSRMLS_CC);
+	authtype = phalcon_fetch_nproperty_this(this_ptr, SL("_authtype"), PH_NOISY TSRMLS_CC);
+	digest = phalcon_fetch_nproperty_this(this_ptr, SL("_digest"), PH_NOISY TSRMLS_CC);
+	method = phalcon_fetch_nproperty_this(this_ptr, SL("_method"), PH_NOISY TSRMLS_CC);
+	entity_body = phalcon_fetch_nproperty_this(this_ptr, SL("_entity_body"), PH_NOISY TSRMLS_CC);
+
+	if (PHALCON_IS_NOT_EMPTY(username)) {
+		if (PHALCON_IS_STRING(authtype, "basic")) {
+			PHALCON_INIT_NVAR(key);
+			ZVAL_STRING(key, "Authorization", 1);
+
+			PHALCON_INIT_NVAR(value);
+			PHALCON_CONCAT_SVSV(value, "Basic ", username, ":", password);
+
+			PHALCON_CALL_METHOD(NULL, header, "set", key, value);
+		} else if (PHALCON_IS_STRING(authtype, "digest") && PHALCON_IS_NOT_EMPTY(digest)) {
+			if (phalcon_array_isset_string_fetch(&realm, digest, SS("realm"))) {
+				PHALCON_INIT_VAR(realm);
+				ZVAL_NULL(realm);
+			}
+
+			PHALCON_INIT_NVAR(tmp);
+			PHALCON_CONCAT_VSVSV(tmp, username, ":", realm, ":", password);
+
+			PHALCON_CALL_FUNCTION(&ha1, "md5", tmp);
+
+			if (!phalcon_array_isset_string_fetch(&qop, digest, SS("qop"))) {
+				PHALCON_INIT_VAR(qop);
+				ZVAL_NULL(qop);
+			}
+
+			if (PHALCON_IS_EMPTY(qop) || phalcon_memnstr_str(qop, SL("auth"))) {
+				PHALCON_CALL_SELF(&path, "getpath");
+
+				PHALCON_INIT_NVAR(tmp);
+				PHALCON_CONCAT_VSV(tmp, method, ":", path);
+
+				PHALCON_CALL_FUNCTION(&ha2, "md5", tmp);
+				
+			} else if (phalcon_memnstr_str(qop, SL("auth-int"))) {
+				PHALCON_CALL_SELF(&path, "getpath");
+
+				PHALCON_CALL_FUNCTION(&md5_entity_body, "md5", entity_body);
+
+				PHALCON_INIT_NVAR(tmp);
+				PHALCON_CONCAT_VSVSV(tmp, method, ":", path, ":", md5_entity_body);
+
+				PHALCON_CALL_FUNCTION(&ha2, "md5", tmp);
+			}
+
+			PHALCON_INIT_NVAR(key);
+			ZVAL_STRING(key, "Authorization", 1);
+
+			if (phalcon_array_isset_string_fetch(&nonce, digest, SS("nonce"))) {
+				PHALCON_INIT_VAR(nonce);
+				ZVAL_NULL(nonce);
+			}
+
+
+			if (PHALCON_IS_EMPTY(qop)) {
+				PHALCON_INIT_NVAR(tmp);
+				PHALCON_CONCAT_VSVSV(tmp, ha1, ":", nonce, ":", ha2);
+
+				PHALCON_CALL_FUNCTION(&value, "md5", tmp);
+
+				PHALCON_INIT_NVAR(tmp);
+				PHALCON_CONCAT_SV(tmp, "Digest ", value);
+
+				PHALCON_CALL_METHOD(NULL, header, "set", key, tmp);
+			} else {			
+				if (phalcon_array_isset_string_fetch(&nc, digest, SS("nc"))) {
+					PHALCON_INIT_VAR(nc);
+					ZVAL_NULL(nc);
+				}
+				
+				if (phalcon_array_isset_string_fetch(&cnonce, digest, SS("cnonce"))) {
+					PHALCON_INIT_VAR(cnonce);
+					ZVAL_NULL(cnonce);
+				}
+				
+				if (phalcon_array_isset_string_fetch(&qoc, digest, SS("qoc"))) {
+					PHALCON_INIT_VAR(qoc);
+					ZVAL_NULL(qoc);
+				}
+				
+				if (phalcon_array_isset_string_fetch(&qoc, digest, SS("qoc"))) {
+					PHALCON_INIT_VAR(qoc);
+					ZVAL_NULL(qoc);
+				}
+
+				PHALCON_INIT_NVAR(tmp);
+				PHALCON_CONCAT_VSVSVS(tmp, ha1, ":", nonce, ":", nc, ":");
+
+				PHALCON_SCONCAT_VSVSV(tmp, cnonce, ":", qoc, ":", ha2);
+
+				PHALCON_CALL_FUNCTION(&value, "md5", tmp);
+
+				PHALCON_INIT_NVAR(tmp);
+				PHALCON_CONCAT_SV(tmp, "Digest ", value);
+
+				PHALCON_CALL_METHOD(NULL, header, "set", key, tmp);
+			}
+		}
+	}
 
 	PHALCON_INIT_VAR(http);
 	ZVAL_STRING(http, "http", 1);

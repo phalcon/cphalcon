@@ -63,6 +63,7 @@ PHP_METHOD(Phalcon_Http_Uri, __set);
 PHP_METHOD(Phalcon_Http_Uri, __get);
 PHP_METHOD(Phalcon_Http_Uri, __isset);
 PHP_METHOD(Phalcon_Http_Uri, getParts);
+PHP_METHOD(Phalcon_Http_Uri, getPath);
 PHP_METHOD(Phalcon_Http_Uri, build);
 PHP_METHOD(Phalcon_Http_Uri, resolve);
 PHP_METHOD(Phalcon_Http_Uri, extend);
@@ -110,6 +111,7 @@ static const zend_function_entry phalcon_http_uri_method_entry[] = {
 	PHP_ME(Phalcon_Http_Uri, __get, arginfo_phalcon_http_uri___get, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Http_Uri, __isset, arginfo_phalcon_http_uri___isset, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Http_Uri, getParts, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Http_Uri, getPath, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Http_Uri, build, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Http_Uri, resolve, arginfo_phalcon_http_uri_resolve, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Http_Uri, extend, arginfo_phalcon_http_uri_extend, ZEND_ACC_PUBLIC)
@@ -251,6 +253,24 @@ PHP_METHOD(Phalcon_Http_Uri, __isset){
 PHP_METHOD(Phalcon_Http_Uri, getParts){
 	
 	RETURN_MEMBER(this_ptr, "_parts");
+}
+
+/**
+ * Retrieve the URI path
+ *
+ * @return string
+ */
+PHP_METHOD(Phalcon_Http_Uri, getPath){
+
+	zval *parts, *value;
+
+	parts = phalcon_fetch_nproperty_this(this_ptr, SL("_parts"), PH_NOISY TSRMLS_CC);
+
+	if (!phalcon_array_isset_string_fetch(&value, parts, SS("path"))) {
+		 RETURN_NULL();
+	}
+
+	RETURN_ZVAL(value, 1, 0);
 }
 
 /**
