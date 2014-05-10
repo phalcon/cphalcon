@@ -43,7 +43,7 @@ class CollectionsSerializeTest extends PHPUnit_Framework_TestCase
 
 	public function testCollectionsEvents()
 	{
-		if (!class_exists('Mongo')) {
+		if (!class_exists('MongoClient')) {
 			$this->markTestSkipped("Mongo class does not exist, test skipped");
 			return;
 		}
@@ -53,7 +53,7 @@ class CollectionsSerializeTest extends PHPUnit_Framework_TestCase
 		$di = new Phalcon\DI();
 
 		$di->set('mongo', function(){
-			$mongo = new Mongo();
+			$mongo = new MongoClient();
 			return $mongo->phalcon_test;
 		});
 

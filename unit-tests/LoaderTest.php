@@ -206,10 +206,7 @@ class LoaderTest extends PHPUnit_Framework_TestCase
 		$trace = array();
 
 		$eventsManager->attach('loader', function($event, $loader) use (&$trace) {
-			if(!isset($trace[$event->getType()])){
-				$trace[$event->getType()] = array();
-			}
-			$trace[$event->getType()][] = $loader->getCheckedPath();
+			$trace[$event->getType()] = $loader->getCheckedPath();
 		});
 
 		$loader->setEventsManager($eventsManager);
@@ -220,15 +217,9 @@ class LoaderTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals(get_class($test), 'VousTest');
 
 		$this->assertEquals($trace, array(
-			'beforeCheckClass' => array(
-				0 => NULL,
-			),
-			'beforeCheckPath' => array(
-				0 => 'unit-tests/vendor/example/other/VousTest.php',
-			),
-			'pathFound' => array(
-				0 => 'unit-tests/vendor/example/other/VousTest.php',
-			),
+			'beforeCheckClass' => NULL,
+			'beforeCheckPath' => 'unit-tests/vendor/example/other/VousTest.php',
+			'pathFound' => 'unit-tests/vendor/example/other/VousTest.php',
 		));
 
 		$loader->unregister();
