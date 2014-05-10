@@ -183,7 +183,7 @@ PHP_METHOD(Phalcon_Http_Client_Header, __construct){
 	phalcon_array_update_long_string(&messages, 505, SL("HTTP Version Not Supported"), PH_SEPARATE);
 	phalcon_array_update_long_string(&messages, 506, SL("Bandwidth Limit Exceeded"), PH_SEPARATE);
 
-	phalcon_update_property_this(this_ptr, SL("_messages"), messages TSRMLS_CC);
+	phalcon_update_static_property_ce(phalcon_http_client_header_ce, SL("_messages"), messages TSRMLS_CC);
 	phalcon_update_property_empty_array(this_ptr, SL("_fields") TSRMLS_CC);
 
 	PHALCON_MM_RESTORE();
