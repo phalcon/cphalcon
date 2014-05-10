@@ -23,6 +23,7 @@ before_script:
 
 script:
  - phpunit --version
+ - sudo chmod a+rwx unit-tests/ -R
  - ZEND_DONT_UNLOAD_MODULES=1 phpunit --debug -c unit-tests/phpunit.xml unit-tests/
  - ZEND_DONT_UNLOAD_MODULES=1 PHALCON_NO_RVO=1 phpunit --debug -c unit-tests/phpunit.xml unit-tests/
 
