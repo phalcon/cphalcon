@@ -33,7 +33,7 @@ class ApplicationMvcTest extends PHPUnit_Framework_TestCase
 
 		$loader->register();
 
-		$_GET['_url'] = '/test2';
+		$_GET['_url'] = '/test2/index';
 
 		$di = new Phalcon\DI\FactoryDefault();
 

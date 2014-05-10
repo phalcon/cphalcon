@@ -72,7 +72,7 @@ class ViewCacheTest extends PHPUnit_Framework_TestCase
 		$view->cache(true);
 		$view->render('test8', 'index');
 		$view->finish();
-		$this->assertEquals($view->getContent(), $content);
+		$this->assertEquals($view->getContent(), $date);
 
 		$view->reset();
 
@@ -162,7 +162,7 @@ class ViewCacheTest extends PHPUnit_Framework_TestCase
 		$view->cache(true);
 		$view->render('test8', 'other');
 		$view->finish();
-		$this->assertEquals($view->getContent(), $content);
+		$this->assertEquals($view->getContent(), $date);
 
 	}
 
