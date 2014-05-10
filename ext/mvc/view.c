@@ -875,7 +875,7 @@ PHP_METHOD(Phalcon_Mvc_View, _loadTemplateEngines){
 PHP_METHOD(Phalcon_Mvc_View, _engineRender){
 
 	zval *engines, *view_path, *silence, *must_clean;
-	zval *cache, *not_exists = NULL, *views_dir, *base_path;
+	zval *cache = NULL, *not_exists = NULL, *views_dir, *base_path;
 	zval *views_dir_path, *render_level, *cache_level, *cache_mode;
 	zval *key = NULL, *lifetime = NULL, *view_options;
 	zval *cache_options, *cached_view = NULL;
