@@ -6,7 +6,7 @@
         "php": "~5.3"
     },
     "require-dev": {
-        "phpunit/phpunit": "*@stable"
+        "phpunit/phpunit": "3.7.*"
     },
     "license": "MIT",
     "authors": [
