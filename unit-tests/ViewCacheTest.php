@@ -50,7 +50,7 @@ class ViewCacheTest extends PHPUnit_Framework_TestCase
 	public function testCacheDI()
 	{
 		$date = date("r");
-		$content = '<html>'.$date.'</html>'.PHP_EOL;
+		$content = $date;
 
 		$di = $this->_getDi();
 		$view = new View();
