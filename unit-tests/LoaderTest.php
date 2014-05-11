@@ -207,6 +207,7 @@ class LoaderTest extends PHPUnit_Framework_TestCase
 
 		$eventsManager->attach('loader', function($event, $loader) use (&$trace) {
 			$trace[$event->getType()] = $loader->getCheckedPath();
+			var_dump($trace);
 		});
 
 		$loader->setEventsManager($eventsManager);
