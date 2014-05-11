@@ -78,15 +78,15 @@ class ViewCacheTest extends PHPUnit_Framework_TestCase
 
 		sleep(1);
 		
-		$date2 = date("r");
-		$view->setVar("date", $date2);
+		$date = date("r");
+		$view->setVar("date", $date);
 
 		//Third hit after 1 second
 		$view->start();
 		$view->cache(true);
 		$view->render('test8', 'index');
 		$view->finish();
-		$this->assertEquals($view->getContent(), $date2);
+		$this->assertEquals($view->getContent(), $date);
 
 		$view->reset();
 
