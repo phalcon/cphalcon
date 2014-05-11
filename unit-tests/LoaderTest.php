@@ -201,23 +201,23 @@ class LoaderTest extends PHPUnit_Framework_TestCase
 
 		$eventsManager = new Phalcon\Events\Manager();
 
-		$_GET = array();
+		$trace = array();
 
 		$eventsManager->attach('loader', function($event, $loader) use (&$trace) {
-			$_GET[$event->getType()] = $loader->getCheckedPath();
+			$trace[$event->getType()] = $loader->getCheckedPath();
 		});
 
 		$loader->setEventsManager($eventsManager);
 
 		$loader->register();
 
-		$test = new VousTest();
-		$this->assertEquals(get_class($test), 'VousTest');
+		$test = new VousTest3();
+		$this->assertEquals(get_class($test), 'VousTest3');
 
-		$this->assertEquals($_GET, array(
+		$this->assertEquals($trace, array(
 			'beforeCheckClass' => NULL,
-			'beforeCheckPath' => 'unit-tests/vendor/example/other/VousTest.php',
-			'pathFound' => 'unit-tests/vendor/example/other/VousTest.php',
+			'beforeCheckPath' => 'unit-tests/vendor/example/other/VousTest3.php',
+			'pathFound' => 'unit-tests/vendor/example/other/VousTest3.php',
 		));
 
 		$loader->unregister();
