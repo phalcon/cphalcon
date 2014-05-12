@@ -711,6 +711,12 @@ void phalcon_fast_array_merge(zval *return_value, zval **array1, zval **array2 T
 void phalcon_array_merge_recursive_n(zval **a1, zval *a2) PHALCON_ATTR_NONNULL;
 
 /**
+ * Port php_splice function from PHP 5.5 because it did`nt work in php 5.6 beta 1
+ * Latest param TSRMLS_DC like in php 5.6
+ */
+HashTable* phalcon_array_splice(HashTable *in_hash, int offset, int length, zval ***list, int list_count, HashTable **removed TSRMLS_DC);
+
+/**
  * @brief array_unshift($arr, $arg)
  * @param arr
  * @param arg
