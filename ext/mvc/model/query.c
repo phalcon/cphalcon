@@ -222,7 +222,6 @@ PHALCON_INIT_CLASS(Phalcon_Mvc_Model_Query){
 	zend_declare_property_null(phalcon_mvc_model_query_ce, SL("_uniqueRow"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_mvc_model_query_ce, SL("_bindParams"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_mvc_model_query_ce, SL("_bindTypes"), ZEND_ACC_PROTECTED TSRMLS_CC);
-	zend_declare_property_null(phalcon_mvc_model_query_ce, SL("_irPhqlCache"), ZEND_ACC_STATIC|ZEND_ACC_PROTECTED TSRMLS_CC);
 
 	zend_declare_class_constant_long(phalcon_mvc_model_query_ce, SL("TYPE_SELECT"), 309 TSRMLS_CC);
 	zend_declare_class_constant_long(phalcon_mvc_model_query_ce, SL("TYPE_INSERT"), 306 TSRMLS_CC);
@@ -3399,36 +3398,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, parse){
 	
 	PHALCON_INIT_VAR(unique_id);
 	
-	if (Z_TYPE_P(ast) == IS_ARRAY) { 
-	
-		/** 
-		 * Check if the prepared PHQL is already cached
-		 */
-		if (phalcon_array_isset_string(ast, SS("id"))) {
-	
-			/** 
-			 * Parsed ASTs have a unique id
-			 */
-			PHALCON_OBS_NVAR(unique_id);
-			phalcon_array_fetch_string(&unique_id, ast, SL("id"), PH_NOISY);
-	
-			PHALCON_OBS_NVAR(ir_phql_cache);
-			phalcon_read_static_property(&ir_phql_cache, SL("phalcon\\mvc\\model\\query"), SL("_irPhqlCache") TSRMLS_CC);
-			if (phalcon_array_isset(ir_phql_cache, unique_id)) {
-	
-				PHALCON_OBS_NVAR(ir_phql);
-				phalcon_array_fetch(&ir_phql, ir_phql_cache, unique_id, PH_NOISY);
-				if (Z_TYPE_P(ir_phql) == IS_ARRAY) { 
-					/** 
-					 * Assign the type to the query
-					 */
-					PHALCON_OBS_VAR(type);
-					phalcon_array_fetch_string(&type, ast, ISL(type), PH_NOISY);
-					phalcon_update_property_this(this_ptr, SL("_type"), type TSRMLS_CC);
-					RETURN_CTOR(ir_phql);
-				}
-			}
-		}
+	if (Z_TYPE_P(ast) == IS_ARRAY) {
 	
 		/** 
 		 * A valid AST must have a type
@@ -3473,18 +3443,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, parse){
 	if (Z_TYPE_P(ir_phql) != IS_ARRAY) { 
 		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Corrupted AST");
 		return;
-	}
-	
-	/** 
-	 * Store the prepared AST in the cache
-	 */
-	if (Z_TYPE_P(unique_id) == IS_LONG) {
-		if (Z_TYPE_P(ir_phql_cache) != IS_ARRAY) { 
-			PHALCON_INIT_NVAR(ir_phql_cache);
-			array_init(ir_phql_cache);
-		}
-		phalcon_array_update_zval(&ir_phql_cache, unique_id, ir_phql, PH_COPY | PH_SEPARATE);
-		phalcon_update_static_property_ce(phalcon_mvc_model_query_ce, SL("_irPhqlCache"), ir_phql_cache TSRMLS_CC);
 	}
 	
 	phalcon_update_property_this(this_ptr, SL("_intermediate"), ir_phql TSRMLS_CC);
