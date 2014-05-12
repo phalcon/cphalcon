@@ -175,9 +175,10 @@ abstract class Resultset
 				}
 
 				if typeof rows == "array" {
-					reset(rows);
-					for i in range(0, position) {
+					let i = 0;
+					while i < position {
 						next(rows);
+						let i++;
 					}
 				}
 			}
