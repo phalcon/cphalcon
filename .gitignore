@@ -45,3 +45,5 @@ build/install2
 /ext/run-tests.php
 /ext/coverage
 /unit-tests/nbproject/private/
+/vendor/
+composer.lock

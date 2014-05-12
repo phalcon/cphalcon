@@ -62,6 +62,26 @@ HTML;
 		$this->assertEquals($ret, $html);
 	}
 
+	/**
+	 * @see 2402 issue
+	 * @link https://github.com/phalcon/cphalcon/issues/2402
+	 * @throws Exception
+	 */
+	public function testDisplayValues()
+	{
+		Tag::setDefault('property1', 'testVal1');
+		Tag::setDefault('property2', 'testVal2');
+		Tag::setDefault('property3', 'testVal3');
+
+		$this->assertTrue(Tag::hasValue('property1'));
+		$this->assertTrue(Tag::hasValue('property2'));
+		$this->assertTrue(Tag::hasValue('property3'));
+
+		$this->assertEquals('testVal1', Tag::getValue('property1'));
+		$this->assertEquals('testVal2', Tag::getValue('property2'));
+		$this->assertEquals('testVal3', Tag::getValue('property3'));
+	}
+
 	public function testSetTitleSeparator()
 	{
 
