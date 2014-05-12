@@ -7,7 +7,7 @@ Phalcon\Crypt\decryptBase64() modifies its argument - https://github.com/phalcon
 <?php
 $crypt   = new \Phalcon\Crypt();
 $source  = 'Life is much too short to be intoxicated';
-$key     = 'very secret key';
+$key     = 'very secret key ';
 
 do {
 	$dest = $crypt->encryptBase64($source, $key, true);
