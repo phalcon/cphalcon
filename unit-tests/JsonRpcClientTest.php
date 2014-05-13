@@ -32,7 +32,7 @@ class JsonRpcClientTest extends PHPUnit_Framework_TestCase
 {
 	public function testClient()
 	{
-		$client = new Phalcon\Http\Client\Adapter\Stream('http://myleftstudio.com:81/jsonrpc/');
+		$client = new Phalcon\Http\Client\Adapter\Stream('http://myleftstudio.com/jsonrpc/');
 
 		$rpc = new Phalcon\JsonRpc\Client($client);
 		$response = $rpc->call('index/index', array('message' => 'helloword'));
