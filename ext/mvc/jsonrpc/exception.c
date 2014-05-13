@@ -17,7 +17,7 @@
   +------------------------------------------------------------------------+
 */
 
-#include "mvc/application/exception.h"
+#include "mvc/jsonrpc/exception.h"
 #include "mvc/../exception.h"
 #include "kernel/main.h"
 
