@@ -206,6 +206,8 @@ mvc/model/metadatainterface.c \
 mvc/model/relationinterface.c \
 mvc/model/messageinterface.c \
 mvc/model/transactioninterface.c \
+mvc/jsonrpc.c \
+mvc/jsonrpc/exception.c \
 config/adapter/ini.c \
 config/adapter/json.c \
 config/adapter/php.c \
@@ -365,6 +367,9 @@ psr/log/loggerinterface.c \
 psr/log/loggertrait.c \
 psr/log/loglevel.c \
 psr/log/nulllogger.c \
+jsonrpc/client.c \
+jsonrpc/client/exception.c \
+jsonrpc/response.c \
 registry.c"
 
 	PHP_NEW_EXTENSION(phalcon, $phalcon_sources, $ext_shared)
