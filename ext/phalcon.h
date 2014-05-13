@@ -314,6 +314,9 @@
 #include "mvc/view/simple.h"
 #include "mvc/jsonrpc.h"
 #include "mvc/jsonrpc/exception.h"
+#include "jsonrpc/client.h"
+#include "jsonrpc/client/exception.h"
+#include "jsonrpc/client/response.h"
 
 #include "paginator/adapterinterface.h"
 #include "paginator/adapter/model.h"
@@ -372,10 +375,6 @@
 #include "validation/validator/regex.h"
 #include "validation/validator/stringlength.h"
 #include "validation/validator/url.h"
-
-#include "jsonrpc/client.h"
-#include "jsonrpc/client/exception.h"
-#include "jsonrpc/response.h"
 
 #include "version.h"
 

@@ -558,6 +558,9 @@ static PHP_MINIT_FUNCTION(phalcon)
 	PHALCON_INIT(Phalcon_Mvc_View_Engine_Volt_Compiler);
 	PHALCON_INIT(Phalcon_Mvc_JsonRpc);
 	PHALCON_INIT(Phalcon_Mvc_JsonRpc_Exception);
+	PHALCON_INIT(Phalcon_JsonRpc_Client);
+	PHALCON_INIT(Phalcon_JsonRpc_Client_Exception);
+	PHALCON_INIT(Phalcon_JsonRpc_Client_Response);
 	PHALCON_INIT(Phalcon_Events_Event);
 	PHALCON_INIT(Phalcon_Events_Manager);
 	PHALCON_INIT(Phalcon_Image);
@@ -565,9 +568,6 @@ static PHP_MINIT_FUNCTION(phalcon)
 	PHALCON_INIT(Phalcon_Image_Adapter_GD);
 	PHALCON_INIT(Phalcon_Image_Adapter_Imagick);
 	PHALCON_INIT(Phalcon_Registry);
-	PHALCON_INIT(Phalcon_JsonRpc_Client);
-	PHALCON_INIT(Phalcon_JsonRpc_Client_Exception);
-	PHALCON_INIT(Phalcon_JsonRpc_Response);
 
 #if PHP_VERSION_ID < 50500
 	setlocale(LC_ALL, old_lc_all);

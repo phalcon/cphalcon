@@ -17,14 +17,14 @@
   |          ZhuZongXin <dreamsxin@qq.com>                                 |
   +------------------------------------------------------------------------+
 */
-#ifndef PHALCON_JSONRPC_RESPONSE_H
-#define PHALCON_JSONRPC_RESPONSE_H
+#ifndef PHALCON_JSONRPC_CLIENT_RESPONSE_H
+#define PHALCON_JSONRPC_CLIENT_RESPONSE_H
 
 #include "php_phalcon.h"
 
-extern zend_class_entry *phalcon_jsonrpc_response_ce;
+extern zend_class_entry *phalcon_jsonrpc_client_response_ce;
 
-PHALCON_INIT_CLASS(Phalcon_JsonRpc_Response);
+PHALCON_INIT_CLASS(Phalcon_JsonRpc_Client_Response);
 
-#endif /* PHALCON_JSONRPC_RESPONSE_H */
+#endif /* PHALCON_JSONRPC_CLIENT_RESPONSE_H */
 

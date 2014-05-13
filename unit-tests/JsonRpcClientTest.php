@@ -6,12 +6,8 @@ class JsonRpcClientTest extends PHPUnit_Framework_TestCase
 	{
 		$data = array('message' => 'helloword');
 
-		$client = new Phalcon\Http\Client\Adapter\Stream('http://rpc.edu.local');
+		$client = new Phalcon\Http\Client\Adapter\Stream('http://phalcon.com');
 
 		$rpc = new Phalcon\JsonRpc\Client($client);
-
-		$response = $rpc->call('index/index', $data);
-
-		var_dump($response);
 	}
 }
