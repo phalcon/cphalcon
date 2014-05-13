@@ -263,7 +263,7 @@ PHP_METHOD(Phalcon_Http_Client_Adapter, getPath){
  *
  * @param string $uri
  * @param string $data
- * @return Phalcon\Http\Client\Adapter
+ * @return Phalcon\Http\Client\Response
  */
 PHP_METHOD(Phalcon_Http_Client_Adapter, get){
 
@@ -289,7 +289,7 @@ PHP_METHOD(Phalcon_Http_Client_Adapter, get){
  *
  * @param string $uri
  * @param string $data
- * @return Phalcon\Http\Client\Adapter
+ * @return Phalcon\Http\Client\Response
  */
 PHP_METHOD(Phalcon_Http_Client_Adapter, head){
 
@@ -315,7 +315,7 @@ PHP_METHOD(Phalcon_Http_Client_Adapter, head){
  *
  * @param string $uri
  * @param string $data
- * @return Phalcon\Http\Client\Adapter
+ * @return Phalcon\Http\Client\Response
  */
 PHP_METHOD(Phalcon_Http_Client_Adapter, post){
 
@@ -341,7 +341,7 @@ PHP_METHOD(Phalcon_Http_Client_Adapter, post){
  *
  * @param string $uri
  * @param string $data
- * @return Phalcon\Http\Client\Adapter
+ * @return Phalcon\Http\Client\Response
  */
 PHP_METHOD(Phalcon_Http_Client_Adapter, put){
 
@@ -367,7 +367,7 @@ PHP_METHOD(Phalcon_Http_Client_Adapter, put){
  *
  * @param string $uri
  * @param string $data
- * @return Phalcon\Http\Client\Adapter
+ * @return Phalcon\Http\Client\Response
  */
 PHP_METHOD(Phalcon_Http_Client_Adapter, delete){
 

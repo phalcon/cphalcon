@@ -272,6 +272,14 @@ PHP_METHOD(Phalcon_Http_Client_Adapter_Stream, buildBody){
 	PHALCON_INIT_VAR(body);
 
 	if (PHALCON_IS_NOT_EMPTY(data) && Z_TYPE_P(data) == IS_STRING){
+		PHALCON_INIT_NVAR(key);
+		ZVAL_STRING(key, "Content-Type", 1);
+
+		PHALCON_INIT_NVAR(value);
+		ZVAL_STRING(value, "application/x-www-form-urlencoded", 1);
+
+		PHALCON_CALL_METHOD(NULL, header, "set", key, value);
+
 		PHALCON_INIT_NVAR(option);
 		ZVAL_LONG(option, PHALCON_HTTP_CLIENT_HEADER_BUILD_FIELDS);
 		
