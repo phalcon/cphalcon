@@ -128,14 +128,13 @@ PHP_METHOD(Phalcon_JsonRpc_Client, call){
 	}
 	
 	phalcon_array_update_string(&jsonrpc_message, SL("id"), id, PH_COPY);
-;
+
 	PHALCON_CALL_FUNCTION(&json_message, "json_encode", jsonrpc_message);
 
 	PHALCON_CALL_METHOD(NULL, httpclient, "setdata", json_message);
 	PHALCON_CALL_METHOD(&response, httpclient, "post");
 
-	PHALCON_VERIFY_INTERFACE_EX(response, phalcon_http_client_response_ce, phalcon_jsonrpc_client_exception_ce, 0);
-
+	PHALCON_VERIFY_CLASS_EX(response, phalcon_http_client_response_ce, phalcon_jsonrpc_client_exception_ce, 1);
 
 	PHALCON_CALL_METHOD(&code, response, "getstatuscode");
 	PHALCON_CALL_METHOD(&body, response, "getbody");
@@ -157,14 +156,14 @@ PHP_METHOD(Phalcon_JsonRpc_Client, call){
 				PHALCON_CALL_METHOD(NULL, jsonrpc_response, "setid", id);
 			}
 
-			if (phalcon_array_isset_string(result, SS("result"))) {
+			if (phalcon_array_isset_string(json, SS("result"))) {
 				PHALCON_OBS_VAR(result);
 				phalcon_array_fetch_string(&result, json, SL("result"), PH_NOISY);
 
 				PHALCON_CALL_METHOD(NULL, jsonrpc_response, "setresult", result);
 			}
 
-			if (phalcon_array_isset_string(error, SS("error"))) {
+			if (phalcon_array_isset_string(json, SS("error"))) {
 				PHALCON_OBS_VAR(error);
 				phalcon_array_fetch_string(&error, json, SL("error"), PH_NOISY);
 
@@ -173,6 +172,6 @@ PHP_METHOD(Phalcon_JsonRpc_Client, call){
 		}
 	}
 
-	RETURN_CTOR(response);
+	RETURN_CTOR(jsonrpc_response);
 }
 

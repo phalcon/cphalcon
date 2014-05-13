@@ -325,7 +325,7 @@ PHP_METHOD(Phalcon_Mvc_JsonRpc, handle){
 			phalcon_array_fetch_string(&jsonrpc_params, data, SL("params"), PH_NOISY);
 		} else {
 			PHALCON_INIT_VAR(jsonrpc_params);
-			ZVAL_NULL(jsonrpc_params);
+			array_init(jsonrpc_params);
 		}
 
 		PHALCON_INIT_NVAR(service);

@@ -39,3 +39,4 @@ PHALCON_INIT_CLASS(Phalcon_JsonRpc_Client_Exception){
 
 	return SUCCESS;
 }
+

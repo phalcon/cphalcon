@@ -495,15 +495,15 @@ static PHP_MINIT_FUNCTION(phalcon)
 	PHALCON_INIT(Phalcon_Http_Request_File);
 	PHALCON_INIT(Phalcon_Http_Response_Cookies);
 	PHALCON_INIT(Phalcon_Http_Response_Headers);
-	PHALCON_INIT(Phalcon_Mvc_JsonRpc);
-	PHALCON_INIT(Phalcon_JsonRpc_Client);
-	PHALCON_INIT(Phalcon_JsonRpc_Client_Response);
 	PHALCON_INIT(Phalcon_Http_Uri);
 	PHALCON_INIT(Phalcon_Http_Client_Header);
 	PHALCON_INIT(Phalcon_Http_Client_Response);
 	PHALCON_INIT(Phalcon_Http_Client_Adapter);
 	PHALCON_INIT(Phalcon_Http_Client_Adapter_Curl);
 	PHALCON_INIT(Phalcon_Http_Client_Adapter_Stream);
+	PHALCON_INIT(Phalcon_Mvc_JsonRpc);
+	PHALCON_INIT(Phalcon_JsonRpc_Client);
+	PHALCON_INIT(Phalcon_JsonRpc_Client_Response);
 	PHALCON_INIT(Phalcon_Queue_Beanstalk);
 	PHALCON_INIT(Phalcon_Queue_Beanstalk_Job);
 	PHALCON_INIT(Phalcon_Mvc_View);

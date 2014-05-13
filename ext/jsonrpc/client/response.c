@@ -75,7 +75,7 @@ static const zend_function_entry phalcon_jsonrpc_client_response_method_entry[] 
  */
 PHALCON_INIT_CLASS(Phalcon_JsonRpc_Client_Response){
 
-	PHALCON_REGISTER_CLASS(Phalcon\\Http\\Client, Response, jsonrpc_client_response, phalcon_jsonrpc_client_response_method_entry, 0);
+	PHALCON_REGISTER_CLASS(Phalcon\\JsonRPc\\Client, Response, jsonrpc_client_response, phalcon_jsonrpc_client_response_method_entry, 0);
 
 	zend_declare_property_null(phalcon_jsonrpc_client_response_ce, SL("_body"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_jsonrpc_client_response_ce, SL("_id"), ZEND_ACC_PROTECTED TSRMLS_CC);
@@ -160,3 +160,4 @@ PHP_METHOD(Phalcon_JsonRpc_Client_Response, getCode){
 
 	RETURN_MEMBER(this_ptr, "_code");
 }
+
