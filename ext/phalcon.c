@@ -261,6 +261,9 @@ static PHP_MINIT_FUNCTION(phalcon)
 	PHALCON_INIT(Phalcon_Loader_Exception);
 	PHALCON_INIT(Phalcon_Logger_Exception);
 	PHALCON_INIT(Phalcon_Translate_Exception);
+	PHALCON_INIT(Phalcon_Mvc_Micro_Exception);
+	PHALCON_INIT(Phalcon_Mvc_JsonRpc_Exception);
+	PHALCON_INIT(Phalcon_JsonRpc_Client_Exception);
 
 	/* 2. Register interfaces */
 	PHALCON_INIT(Phalcon_DiInterface);
@@ -492,6 +495,9 @@ static PHP_MINIT_FUNCTION(phalcon)
 	PHALCON_INIT(Phalcon_Http_Request_File);
 	PHALCON_INIT(Phalcon_Http_Response_Cookies);
 	PHALCON_INIT(Phalcon_Http_Response_Headers);
+	PHALCON_INIT(Phalcon_Mvc_JsonRpc);
+	PHALCON_INIT(Phalcon_JsonRpc_Client);
+	PHALCON_INIT(Phalcon_JsonRpc_Client_Response);
 	PHALCON_INIT(Phalcon_Http_Uri);
 	PHALCON_INIT(Phalcon_Http_Client_Header);
 	PHALCON_INIT(Phalcon_Http_Client_Response);
@@ -513,7 +519,6 @@ static PHP_MINIT_FUNCTION(phalcon)
 	PHALCON_INIT(Phalcon_Mvc_Model_Row);
 	PHALCON_INIT(Phalcon_Mvc_Model_Query);
 	PHALCON_INIT(Phalcon_Mvc_Micro_Collection);
-	PHALCON_INIT(Phalcon_Mvc_Micro_Exception);
 	PHALCON_INIT(Phalcon_Mvc_Micro_LazyLoader);
 	PHALCON_INIT(Phalcon_Mvc_Model_Criteria);
 	PHALCON_INIT(Phalcon_Mvc_Model_Manager);
@@ -556,11 +561,6 @@ static PHP_MINIT_FUNCTION(phalcon)
 	PHALCON_INIT(Phalcon_Mvc_View_Engine_Volt);
 	PHALCON_INIT(Phalcon_Mvc_View_Engine_Php);
 	PHALCON_INIT(Phalcon_Mvc_View_Engine_Volt_Compiler);
-	PHALCON_INIT(Phalcon_Mvc_JsonRpc);
-	PHALCON_INIT(Phalcon_Mvc_JsonRpc_Exception);
-	PHALCON_INIT(Phalcon_JsonRpc_Client);
-	PHALCON_INIT(Phalcon_JsonRpc_Client_Exception);
-	PHALCON_INIT(Phalcon_JsonRpc_Client_Response);
 	PHALCON_INIT(Phalcon_Events_Event);
 	PHALCON_INIT(Phalcon_Events_Manager);
 	PHALCON_INIT(Phalcon_Image);
