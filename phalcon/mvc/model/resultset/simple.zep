@@ -108,6 +108,7 @@ class Simple extends \Phalcon\Mvc\Model\Resultset
 				let result = this->_result;
 				if typeof result == "object" {
 					let this->_rows = result->fetchAll();
+					let rows = this->_rows;
 				}
 			}
 
