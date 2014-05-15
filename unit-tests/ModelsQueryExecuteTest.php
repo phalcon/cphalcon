@@ -93,6 +93,7 @@ class ModelsQueryExecuteTest extends PHPUnit_Framework_TestCase
 		$this->_testDeleteRenamedExecute($di);
 
 		$this->_testIssue2019($di);
+		$this->_testIssue1803($di);
 	}
 
 	public function testExecutePostgresql()
@@ -887,6 +888,18 @@ class ModelsQueryExecuteTest extends PHPUnit_Framework_TestCase
 		));
 		$this->assertTrue($status->success());
 
+	}
+
+	public function _testIssue1803($di)
+	{
+		$manager = $di->getShared('modelsManager');
+
+		$result = $manager->executeQuery('SELECT r1.*, r2.*, r3.* FROM Robots AS r1 LEFT JOIN Robots AS r2 ON r2.id = r1.id LEFT JOIN Robots AS r3 ON r3.id = r1.id LIMIT 1');
+		
+		$this->assertInstanceOf('Phalcon\Mvc\Model\Resultset\Complex', $result);
+		$this->assertEquals(gettype($result[0]->r1), 'object');
+		$this->assertEquals(get_class($result[0]->r1), 'Robots');
+		$this->assertEquals(count($result[0]), 3);
 	}
 
 }
