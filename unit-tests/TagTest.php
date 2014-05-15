@@ -62,6 +62,26 @@ HTML;
 		$this->assertEquals($ret, $html);
 	}
 
+	/**
+	 * @see 2402 issue
+	 * @link https://github.com/phalcon/cphalcon/issues/2402
+	 * @throws Exception
+	 */
+	public function testDisplayValues()
+	{
+		Tag::setDefault('property1', 'testVal1');
+		Tag::setDefault('property2', 'testVal2');
+		Tag::setDefault('property3', 'testVal3');
+
+		$this->assertTrue(Tag::hasValue('property1'));
+		$this->assertTrue(Tag::hasValue('property2'));
+		$this->assertTrue(Tag::hasValue('property3'));
+
+		$this->assertEquals('testVal1', Tag::getValue('property1'));
+		$this->assertEquals('testVal2', Tag::getValue('property2'));
+		$this->assertEquals('testVal3', Tag::getValue('property3'));
+	}
+
 	public function testSetTitleSeparator()
 	{
 
@@ -141,5 +161,15 @@ HTML;
 
 		$html = \Phalcon\Tag::stylesheetLink(array('css/phalcon.css', 'rel' => 'stylesheet/less'));
 		$this->assertEquals($html, '<link rel="stylesheet/less" type="text/css" href="/css/phalcon.css" />'.PHP_EOL);
+	}
+
+	public function testIssue2002()
+	{
+		$di = new Phalcon\DI\FactoryDefault();
+		$di->getshared('url')->setBaseUri('/');
+		\Phalcon\Tag::setDI($di);
+
+		$html = Phalcon\Tag::linkTo(array('signup/register', 'Register Here!', 'class' => 'btn-primary', 'query' => array('from' => 'github', 'token' => '123456')));
+		$this->assertEquals($html, '<a href="/signup/register?from=github&amp;token=123456" class="btn-primary">Register Here!</a>');
 	}
 }
