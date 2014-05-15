@@ -205,6 +205,7 @@ int phalcon_unset_property_array(zval *object, const char *property, zend_uint p
 /** Static properties */
 int phalcon_read_static_property(zval **result, const char *class_name, zend_uint class_length, const char *property_name, zend_uint property_length TSRMLS_DC) PHALCON_ATTR_NONNULL;
 int phalcon_read_class_property(zval **result, int type, const char *property, zend_uint len TSRMLS_DC) PHALCON_ATTR_NONNULL;
+int phalcon_update_static_property_array_multi_ce(zend_class_entry *ce, const char *property, zend_uint property_length, zval *value TSRMLS_DC, const char *types, int types_length, int types_count, ...);
 
 PHALCON_ATTR_NONNULL static inline zval* phalcon_fetch_static_property_ce(zend_class_entry *ce, const char *property, zend_uint len TSRMLS_DC)
 {

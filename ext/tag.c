@@ -564,8 +564,7 @@ PHP_METHOD(Phalcon_Tag, setAutoescape){
  */
 PHP_METHOD(Phalcon_Tag, setDefault){
 
-	zval *id, *value, *t0;
-	int separate = 0;
+	zval *id, *value;
 
 	phalcon_fetch_params(0, 2, 0, &id, &value);
 	
@@ -576,24 +575,7 @@ PHP_METHOD(Phalcon_Tag, setDefault){
 		}
 	}
 
-	t0 = phalcon_fetch_static_property_ce(phalcon_tag_ce, SL("_displayValues") TSRMLS_CC);
-	if (Z_REFCOUNT_P(t0) > 1) {
-		separate = 1;
-		ALLOC_INIT_ZVAL(t0);
-		Z_DELREF_P(t0);
-	}
-
-	if (Z_TYPE_P(t0) == IS_NULL) {
-		array_init_size(t0, 1);
-	}
-	else if (Z_TYPE_P(t0) != IS_ARRAY) {
-		convert_to_array(t0);
-	}
-
-	phalcon_array_update_zval(&t0, id, value, PH_COPY);
-	if (separate) {
-		phalcon_update_static_property_ce(phalcon_tag_ce, SL("_displayValues"), t0 TSRMLS_CC);
-	}
+	phalcon_update_static_property_array_multi_ce(phalcon_tag_ce, SL("_displayValues"), value TSRMLS_CC, SL("z"), 1, id);
 }
 
 /**
