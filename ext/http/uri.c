@@ -305,7 +305,7 @@ PHP_METHOD(Phalcon_Http_Uri, build){
 	}
 
 	if (phalcon_array_isset_string_fetch(&port, parts, SS("port")) && PHALCON_IS_NOT_EMPTY(port)) {
-		PHALCON_CONCAT_SV(uri, ":", port);
+		PHALCON_SCONCAT_SV(uri, ":", port);
 	}
 
 	if (phalcon_array_isset_string_fetch(&path, parts, SS("path")) && PHALCON_IS_NOT_EMPTY(path)) {
