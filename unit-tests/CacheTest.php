@@ -661,7 +661,7 @@ class CacheTest extends PHPUnit_Framework_TestCase
 		}
 
 		//remove existing
-		$mongo = new Mongo();
+		$mongo = new MongoClient();
 		$database = $mongo->phalcon_test;
 		$collection = $database->caches;
 		$collection->remove();
@@ -726,7 +726,7 @@ class CacheTest extends PHPUnit_Framework_TestCase
 		}
 
 		//remove existing
-		$mongo = new Mongo();
+		$mongo = new MongoClient();
 		$database = $mongo->phalcon_test;
 		$collection = $database->caches;
 		$collection->remove();
@@ -768,7 +768,7 @@ class CacheTest extends PHPUnit_Framework_TestCase
 		$frontCache = new Phalcon\Cache\Frontend\Data(array('lifetime' => 200));
 
 		$cache = new Phalcon\Cache\Backend\Mongo($frontCache, array(
-			'mongo' => new Mongo(),
+			'mongo' => new MongoClient(),
 			'db' => 'phalcon_test',
 			'collection' => 'caches'
 		));
@@ -793,7 +793,7 @@ class CacheTest extends PHPUnit_Framework_TestCase
 		$frontCache = new Phalcon\Cache\Frontend\Data(array('lifetime' => 200));
 
 		$cache = new Phalcon\Cache\Backend\Mongo($frontCache, array(
-			'mongo' => new Mongo(),
+			'mongo' => new MongoClient(),
 			'db' => 'phalcon_test',
 			'collection' => 'caches'
 		));
@@ -1316,7 +1316,7 @@ class CacheTest extends PHPUnit_Framework_TestCase
 			return false;
 		}
 
-		$mongo = new Mongo();
+		$mongo = new MongoClient();
 		$database = $mongo->phalcon_test;
 		$collection = $database->caches;
 		$collection->remove();

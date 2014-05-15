@@ -44,6 +44,135 @@ int phalcon_get_class_constant(zval *return_value, const zend_class_entry *ce, c
 	return SUCCESS;
 }
 
+/*
+ * Multiple array-offset update
+ */
+int phalcon_update_static_property_array_multi_ce(zend_class_entry *ce, const char *property, zend_uint property_length, zval *value TSRMLS_DC, const char *types, int types_length, int types_count, ...) {
+
+	int i, l, ll; char *s;
+	va_list ap;
+	zval *fetched, *tmp_arr, *tmp, *p, *item;
+	int separated = 0;
+
+	phalcon_read_static_property_ce(&tmp_arr, ce, property, property_length TSRMLS_CC);
+
+	Z_DELREF_P(tmp_arr);
+
+	/** Separation only when refcount > 1 */
+	if (Z_REFCOUNT_P(tmp_arr) > 1) {
+		zval *new_zv;
+		ALLOC_ZVAL(new_zv);
+		INIT_PZVAL_COPY(new_zv, tmp_arr);
+		tmp_arr = new_zv;
+		zval_copy_ctor(new_zv);
+		Z_SET_REFCOUNT_P(tmp_arr, 0);
+		separated = 1;
+	}
+
+	/** Convert the value to array if not is an array */
+	if (Z_TYPE_P(tmp_arr) != IS_ARRAY) {
+		if (separated) {
+			convert_to_array(tmp_arr);
+		} else {
+			zval *new_zv;
+			ALLOC_ZVAL(new_zv);
+			INIT_PZVAL_COPY(new_zv, tmp_arr);
+			tmp_arr = new_zv;
+			zval_copy_ctor(new_zv);
+			Z_SET_REFCOUNT_P(tmp_arr, 0);
+			array_init(tmp_arr);
+			separated = 1;
+		}
+	}
+
+	va_start(ap, types_count);
+
+	p = tmp_arr;
+	for (i = 0; i < types_length; ++i) {
+		switch (types[i]) {
+
+			case 's':
+				s = va_arg(ap, char*);
+				l = va_arg(ap, int);
+				if (phalcon_array_isset_string_fetch(&fetched, p, s, l + 1)) {
+					if (Z_TYPE_P(fetched) == IS_ARRAY) {
+						if (i == (types_length - 1)) {
+							phalcon_array_update_string(&fetched, s, l, value, PH_COPY | PH_SEPARATE);
+						} else {
+							p = fetched;
+						}
+						continue;
+					}
+				}
+				if (i == (types_length - 1)) {
+					phalcon_array_update_string(&p, s, l, value, PH_COPY | PH_SEPARATE);
+				} else {
+					MAKE_STD_ZVAL(tmp);
+					array_init(tmp);
+					phalcon_array_update_string(&p, s, l, tmp, PH_SEPARATE);
+					p = tmp;
+				}
+				break;
+
+			case 'l':
+				ll = va_arg(ap, long);
+				if (phalcon_array_isset_long_fetch(&fetched, p, ll)) {
+					if (Z_TYPE_P(fetched) == IS_ARRAY) {
+						if (i == (types_length - 1)) {
+							phalcon_array_update_long(&fetched, ll, value, PH_COPY | PH_SEPARATE);
+						} else {
+							p = fetched;
+						}
+						continue;
+					}
+				}
+				if (i == (types_length - 1)) {
+					phalcon_array_update_long(&p, ll, value, PH_COPY | PH_SEPARATE);
+				} else {
+					MAKE_STD_ZVAL(tmp);
+					array_init(tmp);
+					phalcon_array_update_long(&p, ll, tmp, PH_SEPARATE);
+					p = tmp;
+				}
+				break;
+
+			case 'z':
+				item = va_arg(ap, zval*);
+				if (phalcon_array_isset_fetch(&fetched, p, item)) {
+					if (Z_TYPE_P(fetched) == IS_ARRAY) {
+						if (i == (types_length - 1)) {
+							phalcon_array_update_zval(&fetched, item, value, PH_COPY | PH_SEPARATE);
+						} else {
+							p = fetched;
+						}
+						continue;
+					}
+				}
+				if (i == (types_length - 1)) {
+					phalcon_array_update_zval(&p, item, value, PH_COPY | PH_SEPARATE);
+				} else {
+					MAKE_STD_ZVAL(tmp);
+					array_init(tmp);
+					phalcon_array_update_zval(&p, item, tmp, PH_SEPARATE);
+					p = tmp;
+				}
+				break;
+
+			case 'a':
+				phalcon_array_append(&p, value, PH_SEPARATE);
+				break;
+		}
+	}
+
+	va_end(ap);
+
+	if (separated) {
+		phalcon_update_static_property_ce(ce, property, property_length, tmp_arr TSRMLS_CC);
+	}
+
+	return SUCCESS;
+}
+
 /**
  * Returns a class name into a zval result
  */
