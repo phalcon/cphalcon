@@ -17,6 +17,9 @@ before_install:
  - ./unit-tests/ci/install_prereqs.sh
  - ./unit-tests/ci/setup_dbs.sh
 
+install:
+ - composer --prefer-source install
+
 before_script:
  - git submodule --quiet update --init --recursive
  - (cd ext; export CFLAGS="-g3 -O1 -std=gnu90 -Wall -Werror -Wno-error=uninitialized"; phpize && ./configure --silent --enable-phalcon && make --silent -j4 > /dev/null && sudo make --silent install && phpenv config-add ../unit-tests/ci/phalcon.ini)
