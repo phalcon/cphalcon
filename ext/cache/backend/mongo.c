@@ -187,7 +187,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Mongo, _getCollection){
 				return;
 			}
 	
-			ce0 = zend_fetch_class(SL("Mongo"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
+			ce0 = zend_fetch_class(SL("MongoClient"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
 	
 			PHALCON_INIT_VAR(mongo);
 			object_init_ex(mongo, ce0);
