@@ -1179,7 +1179,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getSelectColumn){
 	zval *source = NULL, *model_name = NULL, *sql_column = NULL;
 	zval *column_domain, *exception_message = NULL;
 	zval *sql_column_alias = NULL;
-	zval *best_alias, *prepared_alias = NULL;
+	zval *prepared_alias = NULL;
 	zval *column_data, *sql_expr_column = NULL;
 	HashTable *ah0;
 	HashPosition hp0;
@@ -1234,7 +1234,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getSelectColumn){
 	 * Check if selected column is qualified.*
 	 */
 	if (PHALCON_IS_LONG(column_type, PHQL_T_DOMAINALL)) {
-		zval *source, *sql_aliases_models, *sql_models_aliases;
+		zval *source, *sql_aliases_models;
 		zval *sql_aliases = phalcon_fetch_nproperty_this(this_ptr, SL("_sqlAliases"), PH_NOISY TSRMLS_CC);
 	
 		/** 
