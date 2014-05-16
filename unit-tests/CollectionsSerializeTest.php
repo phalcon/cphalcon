@@ -53,7 +53,7 @@ class CollectionsSerializeTest extends PHPUnit_Framework_TestCase
 		$di = new Phalcon\DI();
 
 		$di->set('mongo', function(){
-			$mongo = new Mongo();
+			$mongo = new MongoClient();
 			return $mongo->phalcon_test;
 		});
 

@@ -480,3 +480,5 @@ ext/.DS_Store
 ext/mvc/view/engine/volt/parser.out
 ext/mvc/view/engine/volt/lemon
 .temp/
+/vendor/
+composer.lock

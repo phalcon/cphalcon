@@ -105,7 +105,7 @@ class Mongo extends \Phalcon\Cache\Backend implements \Phalcon\Cache\BackendInte
 				if !server || typeof server != "string" {
 					throw new \Phalcon\Cache\Exception("The backend requires a valid MongoDB connection string");
 				}
-				let mongo = new \Mongo();
+				let mongo = new \MongoClient();
 			}
 
 			/**
