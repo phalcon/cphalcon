@@ -73,6 +73,7 @@
 #include "config/adapter/ini.h"
 #include "config/adapter/json.h"
 #include "config/adapter/php.h"
+#include "config/adapter/yaml.h"
 #include "config/exception.h"
 
 #include "crypt.h"
