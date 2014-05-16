@@ -544,7 +544,7 @@ class CacheTest extends PHPUnit_Framework_TestCase
 		}
 
 		//remove existing
-		$mongo = new Mongo();
+		$mongo = new MongoClient();
 		$database = $mongo->phalcon_test;
 		$collection = $database->caches;
 		$collection->remove();
@@ -610,7 +610,7 @@ class CacheTest extends PHPUnit_Framework_TestCase
 		}
 
 		//remove existing
-		$mongo = new Mongo();
+		$mongo = new MongoClient();
 		$database = $mongo->phalcon_test;
 		$collection = $database->caches;
 		$collection->remove();
