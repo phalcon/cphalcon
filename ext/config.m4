@@ -217,6 +217,7 @@ jsonrpc/client/response.c \
 config/adapter/ini.c \
 config/adapter/json.c \
 config/adapter/php.c \
+config/adapter/yaml.c \
 config/exception.c \
 filterinterface.c \
 logger/multiple.c \
