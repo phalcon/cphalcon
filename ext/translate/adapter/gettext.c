@@ -43,6 +43,38 @@
  */
 zend_class_entry *phalcon_translate_adapter_gettext_ce;
 
+static zend_object_handlers phalcon_translate_adapter_gettext_object_handlers;
+
+static zval* phalcon_translate_adapter_gettext_read_dimension(zval *object, zval *offset, int type TSRMLS_DC)
+{
+	zval *translation;
+	char *msgstr;
+
+	if (!is_phalcon_class(Z_OBJCE_P(object))) {
+		return zend_get_std_object_handlers()->read_dimension(object, offset, type TSRMLS_CC);
+	}
+
+	msgstr = gettext(Z_STRVAL_P(offset));
+
+	PHALCON_INIT_VAR(translation);
+	ZVAL_STRING(translation, msgstr, 1);
+
+	return translation;
+}
+
+static int phalcon_translate_adapter_gettext_has_dimension(zval *object, zval *offset, int check_empty TSRMLS_DC)
+{
+	char *msgstr;
+
+	if (!is_phalcon_class(Z_OBJCE_P(object))) {
+		return zend_get_std_object_handlers()->has_dimension(object, offset, check_empty TSRMLS_CC);
+	}
+
+	msgstr = gettext(Z_STRVAL_P(offset));
+
+	return (1 == check_empty) ? strlen(msgstr) : 1;
+}
+
 PHP_METHOD(Phalcon_Translate_Adapter_Gettext, __construct);
 PHP_METHOD(Phalcon_Translate_Adapter_Gettext, query);
 PHP_METHOD(Phalcon_Translate_Adapter_Gettext, exists);
@@ -70,6 +102,10 @@ PHALCON_INIT_CLASS(Phalcon_Translate_Adapter_Gettext){
 	zend_declare_property_null(phalcon_translate_adapter_gettext_ce, SL("_directory"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
 	zend_class_implements(phalcon_translate_adapter_gettext_ce TSRMLS_CC, 1, phalcon_translate_adapterinterface_ce);
+
+	phalcon_translate_adapter_gettext_object_handlers                = phalcon_translate_adapter_object_handlers;
+	phalcon_translate_adapter_gettext_object_handlers.read_dimension = phalcon_translate_adapter_gettext_read_dimension;
+	phalcon_translate_adapter_gettext_object_handlers.has_dimension  = phalcon_translate_adapter_gettext_has_dimension;
 
 	return SUCCESS;
 }
@@ -171,9 +207,7 @@ PHP_METHOD(Phalcon_Translate_Adapter_Gettext, query){
 	PHALCON_INIT_VAR(translation);
 	ZVAL_STRING(translation, msgstr, 1);
 
-	if (Z_TYPE_P(placeholders) == IS_ARRAY && zend_hash_num_elements(Z_ARRVAL_P(placeholders))) {
-		
-
+	if (placeholders && Z_TYPE_P(placeholders) == IS_ARRAY && zend_hash_num_elements(Z_ARRVAL_P(placeholders))) {
 		phalcon_is_iterable(placeholders, &ah0, &hp0, 0, 0);
 		while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 			PHALCON_GET_HKEY(key, ah0, hp0);
@@ -186,6 +220,8 @@ PHP_METHOD(Phalcon_Translate_Adapter_Gettext, query){
 			phalcon_fast_str_replace(replaced, key_placeholder, value, translation);
 
 			PHALCON_CPY_WRT(translation, replaced);
+
+			zend_hash_move_forward_ex(ah0, &hp0);
 		}
 	}
 
