@@ -43,16 +43,16 @@ class TranslateTest extends PHPUnit_Framework_TestCase
 	public function testGettext()
 	{
 		$t = new \Phalcon\Translate\Adapter\Gettext(array(
-			'locale' => 'zh_CN.utf8',
+			'locale' => 'en_US.utf8',
 			'defaultDomain' => 'messages',
 			'directory' => __DIR__ . DIRECTORY_SEPARATOR . 'locale'
 		));
 
-		$this->assertTrue($t->exists('Hello!'));
-		$this->assertEquals($t->query('Hello!'), '你好！');
-		$this->assertEquals($t['Hello!'], '你好！');
+		$this->assertTrue($t->exists('你好！'));
+		$this->assertEquals($t->query('你好！'), 'Hello!');
+		$this->assertEquals($t['你好！'], 'Hello!');
 
-		$actual   = $t->_('Hello %name%!', array('name' => 'Phalcon'));
-		$this->assertEquals($actual, '你好 Phalcon！');
+		$actual   = $t->_('你好 %name%！', array('name' => 'Phalcon'));
+		$this->assertEquals($actual, 'Hello Phalcon!');
 	}
 }
