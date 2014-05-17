@@ -65,8 +65,9 @@ PHALCON_INIT_CLASS(Phalcon_Translate_Adapter_Gettext){
 
 	PHALCON_REGISTER_CLASS_EX(Phalcon\\Translate\\Adapter, Gettext, translate_adapter_gettext, phalcon_translate_adapter_ce, phalcon_translate_adapter_gettext_method_entry, 0);
 
-	zend_declare_property_null(phalcon_translate_adapter_gettext_ce, SL("_directory"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_translate_adapter_gettext_ce, SL("_locale"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_translate_adapter_gettext_ce, SL("_defaultDomain"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_translate_adapter_gettext_ce, SL("_directory"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
 	zend_class_implements(phalcon_translate_adapter_gettext_ce TSRMLS_CC, 1, phalcon_translate_adapterinterface_ce);
 
@@ -85,7 +86,6 @@ PHP_METHOD(Phalcon_Translate_Adapter_Gettext, __construct){
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
-	char *retval;
 
 	PHALCON_MM_GROW();
 
@@ -111,6 +111,10 @@ PHP_METHOD(Phalcon_Translate_Adapter_Gettext, __construct){
 		return;
 	}
 
+	phalcon_update_property_this(this_ptr, SL("_locale"), locale TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_defaultDomain"), default_domain TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_directory"), directory TSRMLS_CC);
+
 	PHALCON_INIT_VAR(setting);
 	PHALCON_CONCAT_SV(setting, "LC_ALL=", locale);
 
@@ -124,12 +128,12 @@ PHP_METHOD(Phalcon_Translate_Adapter_Gettext, __construct){
 			PHALCON_GET_HKEY(key, ah0, hp0);
 			PHALCON_GET_HVALUE(value);
 
-			retval = bindtextdomain(Z_STRVAL_P(key), Z_STRVAL_P(value));
+			bindtextdomain(Z_STRVAL_P(key), Z_STRVAL_P(value));
 
 			zend_hash_move_forward_ex(ah0, &hp0);
 		}
 	} else {
-		retval = bindtextdomain(Z_STRVAL_P(default_domain), Z_STRVAL_P(directory));
+		bindtextdomain(Z_STRVAL_P(default_domain), Z_STRVAL_P(directory));
 	}
 
 	textdomain(Z_STRVAL_P(default_domain));
@@ -196,7 +200,7 @@ PHP_METHOD(Phalcon_Translate_Adapter_Gettext, query){
  */
 PHP_METHOD(Phalcon_Translate_Adapter_Gettext, exists){
 
-	zval *index, *placeholders = NULL, *domain = NULL;
+	zval *index, *domain = NULL;
 	char *msgstr;
 
 	phalcon_fetch_params(0, 1, 1, &index, &domain);
