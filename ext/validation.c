@@ -96,7 +96,7 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_validation_getvalue, 0, 0, 1)
 	ZEND_ARG_INFO(0, attribute)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_validation_setdefaultmessages, 0, 0, 1)
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_validation_setdefaultmessages, 0, 0, 0)
 	ZEND_ARG_INFO(0, messages)
 ZEND_END_ARG_INFO()
 
