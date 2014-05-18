@@ -96,7 +96,7 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_validation_getvalue, 0, 0, 1)
 	ZEND_ARG_INFO(0, attribute)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_validation_setdefaultmessages, 0, 0, 0)
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_validation_setdefaultmessages, 0, 0, 1)
 	ZEND_ARG_INFO(0, messages)
 ZEND_END_ARG_INFO()
 
@@ -602,6 +602,7 @@ PHP_METHOD(Phalcon_Validation, setDefaultMessages)
 {
 	zval *messages = NULL, *m, *default_messages;
 
+	PHALCON_MM_GROW();
 	phalcon_fetch_params(1, 0, 1, &messages);
 
 	if (messages && Z_TYPE_P(messages) != IS_NULL && Z_TYPE_P(messages) != IS_ARRAY) {
@@ -609,7 +610,6 @@ PHP_METHOD(Phalcon_Validation, setDefaultMessages)
 		return;
 	}
 
-	PHALCON_MM_GROW();
 	PHALCON_INIT_VAR(default_messages);
 	array_init_size(default_messages, 22);
 
