@@ -602,7 +602,7 @@ PHP_METHOD(Phalcon_Validation, setDefaultMessages)
 {
 	zval *messages = NULL, *m, *default_messages;
 
-	phalcon_fetch_params(0, 0, 0, &messages);
+	phalcon_fetch_params(1, 0, 1, &messages);
 
 	if (messages && Z_TYPE_P(messages) != IS_NULL && Z_TYPE_P(messages) != IS_ARRAY) {
 		zend_throw_exception_ex(phalcon_validation_exception_ce, 0 TSRMLS_CC, "Messages must be an array");
