@@ -1753,6 +1753,14 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getPhql){
 			} else {
 				if (phalcon_memnstr_str(group, SL("."))) {
 					PHALCON_SCONCAT_SV(phql, " GROUP BY ", group);
+				} else if (phalcon_memnstr_str(group, SL(","))) {
+					PHALCON_INIT_VAR(group_items);
+					phalcon_fast_explode_str(group_items, SL(", "), group);
+
+					PHALCON_INIT_VAR(joined_items);
+					phalcon_fast_join_str(joined_items, SL("], ["), group_items TSRMLS_CC);
+
+					PHALCON_SCONCAT_SVS(phql, " GROUP BY [", joined_items, "]");
 				} else {
 					PHALCON_SCONCAT_SVS(phql, " GROUP BY [", group, "]");
 				}
