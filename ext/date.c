@@ -51,6 +51,7 @@ PHP_METHOD(Phalcon_Date, fuzzy_span2);
 PHP_METHOD(Phalcon_Date, unix2dos);
 PHP_METHOD(Phalcon_Date, dos2unix);
 PHP_METHOD(Phalcon_Date, formatted_time);
+PHP_METHOD(Phalcon_Date, valid);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_date_offset, 0, 0, 1)
 	ZEND_ARG_INFO(0, remote)
@@ -132,6 +133,11 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_date_formatted_time, 0, 0, 0)
 	ZEND_ARG_INFO(0, timezone)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_date_valid, 0, 0, 1)
+	ZEND_ARG_INFO(0, date)
+	ZEND_ARG_INFO(0, format)
+ZEND_END_ARG_INFO()
+
 static const zend_function_entry phalcon_date_method_entry[] = {
 	PHP_ME(Phalcon_Date, offset, arginfo_phalcon_date_offset, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Date, seconds, arginfo_phalcon_date_seconds, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
@@ -149,6 +155,7 @@ static const zend_function_entry phalcon_date_method_entry[] = {
 	PHP_ME(Phalcon_Date, unix2dos, arginfo_phalcon_date_unix2dos, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Date, dos2unix, arginfo_phalcon_date_dos2unix, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Date, formatted_time, arginfo_phalcon_date_formatted_time, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
+	PHP_ME(Phalcon_Date, valid, arginfo_phalcon_date_valid, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
 	PHP_FE_END
 };
 
@@ -1251,4 +1258,39 @@ PHP_METHOD(Phalcon_Date, formatted_time){
 	PHALCON_RETURN_CALL_METHOD(dt, "format", timestamp_format);
 
 	PHALCON_MM_RESTORE();
+}
+
+/**
+ * Returns a date/time string with the specified timestamp format
+ *
+ *     $ret = Phalcon\Date::valid('2012-01-22');
+ *     $ret = Phalcon\Date::valid('2012-01-22 11:00:00', 'Y-m-d H:i:s');
+ *
+ * @param string $date_str
+ * @param string $date_format
+ * @return string
+ */
+PHP_METHOD(Phalcon_Date, valid){
+	
+	zval *date = NULL, *format = NULL, *time = NULL, *format_date = NULL;
+	zend_class_entry *ce0, *ce1;
+
+	PHALCON_MM_GROW();
+
+	phalcon_fetch_params(1, 1, 1, &date, &format);
+
+	if (!format) {
+		PHALCON_INIT_VAR(format);
+		ZVAL_STRING(format, "Y-m-d", 1);
+	}
+
+	
+	PHALCON_CALL_FUNCTION(&time, "strtotime", date);
+	PHALCON_CALL_FUNCTION(&format_date, "date", format, time);
+
+	if (phalcon_is_equal(date, format_date TSRMLS_CC)) {
+		RETURN_MM_TRUE;
+	} else {
+		RETURN_MM_FALSE;
+	}
 }
