@@ -6420,6 +6420,7 @@ PHP_METHOD(Phalcon_Mvc_Model, __callStatic){
 PHP_METHOD(Phalcon_Mvc_Model, __set){
 
 	zval *property, *value, *lower_property = NULL;
+	zval *meta_data = NULL, *reversed_column_map = NULL;
 	zval *related, *key = NULL, *lower_key = NULL, *item = NULL, *model_name, *manager = NULL;
 	zval *relation = NULL, *new_instance, *referenced_model_name = NULL, *referenced_model = NULL;
 	HashTable *ah0;
@@ -6430,6 +6431,16 @@ PHP_METHOD(Phalcon_Mvc_Model, __set){
 	PHALCON_MM_GROW();
 
 	phalcon_fetch_params(1, 2, 0, &property, &value);
+
+	if (Z_TYPE_P(property) == IS_STRING) {
+		PHALCON_CALL_METHOD(&meta_data, this_ptr, "getmodelsmetadata");
+		PHALCON_CALL_METHOD(&reversed_column_map, meta_data, "getreversecolumnmap", this_ptr);
+
+		if (phalcon_array_isset(reversed_column_map, property)) {
+			phalcon_update_property_zval_zval(this_ptr, property, value TSRMLS_CC);
+			RETURN_CTOR(value);
+		}
+	}
 	
 	/** 
 	 * Values are probably relationships if they are objects
