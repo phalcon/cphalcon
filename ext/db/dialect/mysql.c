@@ -353,6 +353,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, addIndex){
 
 	zval *table_name, *schema_name, *index, *sql = NULL, *columns = NULL;
 	zval *quoted_column_list = NULL, *name = NULL;
+	zval *index_type = NULL;
 
 	PHALCON_MM_GROW();
 
@@ -360,9 +361,18 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, addIndex){
 	
 	PHALCON_VERIFY_INTERFACE_EX(index, phalcon_db_indexinterface_ce, phalcon_db_exception_ce, 1);
 
+	PHALCON_CALL_METHOD(&index_type, index, "gettype");
+
 	if (zend_is_true(schema_name)) {
 		PHALCON_INIT_VAR(sql);
-		PHALCON_CONCAT_SVSVS(sql, "ALTER TABLE `", schema_name, "`.`", table_name, "` ADD INDEX ");
+		if (index_type && Z_TYPE_P(index_type) == IS_STRING && Z_STRLEN_P(index_type) > 0) {
+			PHALCON_CONCAT_SVSVSVS(sql, "ALTER TABLE `", schema_name, "`.`", table_name, "` ADD ", index_type, " INDEX ");
+		} else {
+			PHALCON_CONCAT_SVSVS(sql, "ALTER TABLE `", schema_name, "`.`", table_name, "` ADD INDEX ");
+		}
+	} else if (index_type && Z_TYPE_P(index_type) == IS_STRING && Z_STRLEN_P(index_type) > 0) {
+		PHALCON_INIT_NVAR(sql);
+		PHALCON_CONCAT_SVSVS(sql, "ALTER TABLE `", table_name, "` ADD ", index_type, " INDEX ");
 	} else {
 		PHALCON_INIT_NVAR(sql);
 		PHALCON_CONCAT_SVS(sql, "ALTER TABLE `", table_name, "` ADD INDEX ");
@@ -650,6 +660,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, createTable){
 	zval *index_name = NULL, *column_list = NULL, *index_sql = NULL, *references;
 	zval *reference = NULL, *name = NULL, *referenced_table = NULL, *referenced_columns = NULL;
 	zval *constaint_sql = NULL, *reference_sql = NULL, *joined_lines;
+	zval *index_type = NULL;
 	HashTable *ah0, *ah1, *ah2;
 	HashPosition hp0, hp1, hp2;
 	zval **hd;
@@ -754,6 +765,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, createTable){
 			PHALCON_CALL_METHOD(&index_name, index, "getname");
 			PHALCON_CALL_METHOD(&columns, index, "getcolumns");
 			PHALCON_CALL_METHOD(&column_list, this_ptr, "getcolumnlist", columns);
+			PHALCON_CALL_METHOD(&index_type, index, "gettype");
 	
 			/** 
 			 * If the index name is primary we add a primary key
@@ -761,6 +773,8 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, createTable){
 			PHALCON_INIT_NVAR(index_sql);
 			if (PHALCON_IS_STRING(index_name, "PRIMARY")) {
 				PHALCON_CONCAT_SVS(index_sql, "PRIMARY KEY (", column_list, ")");
+			} else if (index_type && Z_TYPE_P(index_type) == IS_STRING && Z_STRLEN_P(index_type) > 0) {
+				PHALCON_CONCAT_VSVSVS(index_sql, index_type, " KEY `", index_name, "` (", column_list, ")");
 			} else {
 				PHALCON_CONCAT_SVSVS(index_sql, "KEY `", index_name, "` (", column_list, ")");
 			}

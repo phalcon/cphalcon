@@ -273,6 +273,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Sqlite, addIndex){
 
 	zval *table_name, *schema_name, *index, *sql = NULL, *columns = NULL;
 	zval *quoted_column_list = NULL, *name = NULL;
+	zval *index_type = NULL;
 
 	PHALCON_MM_GROW();
 
@@ -281,12 +282,18 @@ PHP_METHOD(Phalcon_Db_Dialect_Sqlite, addIndex){
 	PHALCON_VERIFY_INTERFACE_EX(index, phalcon_db_indexinterface_ce, phalcon_db_exception_ce, 1);
 
 	PHALCON_CALL_METHOD(&name, index, "getname");
+	PHALCON_CALL_METHOD(&index_type, index, "gettype");
 
 	PHALCON_INIT_VAR(sql);
 	if (zend_is_true(schema_name)) {
-		PHALCON_CONCAT_SVSVSVS(sql, "CREATE INDEX \"", schema_name, "\".\"", name, "\" ON \"", table_name, "\" (");
-	}
-	else {
+		if (index_type && Z_TYPE_P(index_type) == IS_STRING && Z_STRLEN_P(index_type) > 0) {
+			PHALCON_CONCAT_SVSVSVSVS(sql, "CREATE ", index_type, " INDEX \"", schema_name, "\".\"", name, "\" ON \"", table_name, "\" (");
+		} else {
+			PHALCON_CONCAT_SVSVSVS(sql, "CREATE INDEX \"", schema_name, "\".\"", name, "\" ON \"", table_name, "\" (");
+		}
+	} else if (index_type && Z_TYPE_P(index_type) == IS_STRING && Z_STRLEN_P(index_type) > 0) {
+		PHALCON_CONCAT_SVSVSVS(sql, "CREATE ", index_type, " INDEX \"", name, "\" ON \"", table_name, "\" (");
+	} else {
 		PHALCON_CONCAT_SVSVS(sql, "CREATE INDEX \"", name, "\" ON \"", table_name, "\" (");
 	}
 
