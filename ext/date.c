@@ -1273,7 +1273,6 @@ PHP_METHOD(Phalcon_Date, formatted_time){
 PHP_METHOD(Phalcon_Date, valid){
 	
 	zval *date = NULL, *format = NULL, *time = NULL, *format_date = NULL;
-	zend_class_entry *ce0, *ce1;
 
 	PHALCON_MM_GROW();
 
