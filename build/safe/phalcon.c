@@ -2434,7 +2434,9 @@ static void phalcon_fast_array_merge(zval *return_value, zval **array1, zval **a
 
 static void phalcon_array_merge_recursive_n(zval **a1, zval *a2) PHALCON_ATTR_NONNULL;
 
-static void phalcon_array_unshift(zval *arr, zval *arg) PHALCON_ATTR_NONNULL;
+HashTable* phalcon_array_splice(HashTable *in_hash, int offset, int length, zval ***list, int list_count, HashTable **removed TSRMLS_DC);
+
+static void phalcon_array_unshift(zval *arr, zval *arg TSRMLS_DC) PHALCON_ATTR_NONNULL;
 
 static void phalcon_array_keys(zval *return_value, zval *arr) PHALCON_ATTR_NONNULL;
 
@@ -2641,6 +2643,7 @@ static int phalcon_unset_property_array(zval *object, const char *property, zend
 /** Static properties */
 static int phalcon_read_static_property(zval **result, const char *class_name, zend_uint class_length, const char *property_name, zend_uint property_length TSRMLS_DC) PHALCON_ATTR_NONNULL;
 static int phalcon_read_class_property(zval **result, int type, const char *property, zend_uint len TSRMLS_DC) PHALCON_ATTR_NONNULL;
+static int phalcon_update_static_property_array_multi_ce(zend_class_entry *ce, const char *property, zend_uint property_length, zval *value TSRMLS_DC, const char *types, int types_length, int types_count, ...);
 
 PHALCON_ATTR_NONNULL static inline zval* phalcon_fetch_static_property_ce(zend_class_entry *ce, const char *property, zend_uint len TSRMLS_DC)
 {
@@ -6051,11 +6054,103 @@ static void phalcon_array_merge_recursive_n(zval **a1, zval *a2)
 	}
 }
 
-static void phalcon_array_unshift(zval *arr, zval *arg)
+HashTable* phalcon_array_splice(HashTable *in_hash, int offset, int length, zval ***list, int list_count, HashTable **removed TSRMLS_DC) /* {{{ */
+{
+	HashTable 	*out_hash = NULL;	/* Output hashtable */
+	int			 num_in,			/* Number of entries in the input hashtable */
+				 pos,				/* Current position in the hashtable */
+				 i;					/* Loop counter */
+	Bucket		*p;					/* Pointer to hash bucket */
+	zval		*entry;				/* Hash entry */
+
+	/* If input hash doesn't exist, we have nothing to do */
+	if (!in_hash) {
+		return NULL;
+	}
+
+	/* Get number of entries in the input hash */
+	num_in = zend_hash_num_elements(in_hash);
+
+	/* Clamp the offset.. */
+	if (offset > num_in) {
+		offset = num_in;
+	} else if (offset < 0 && (offset = (num_in + offset)) < 0) {
+		offset = 0;
+	}
+
+	/* ..and the length */
+	if (length < 0) {
+		length = num_in - offset + length;
+	} else if (((unsigned)offset + (unsigned)length) > (unsigned)num_in) {
+		length = num_in - offset;
+	}
+
+	/* Create and initialize output hash */
+	ALLOC_HASHTABLE(out_hash);
+	zend_hash_init(out_hash, (length > 0 ? num_in - length : 0) + list_count, NULL, ZVAL_PTR_DTOR, 0);
+
+	/* Start at the beginning of the input hash and copy entries to output hash until offset is reached */
+	for (pos = 0, p = in_hash->pListHead; pos < offset && p ; pos++, p = p->pListNext) {
+		/* Get entry and increase reference count */
+		entry = *((zval **)p->pData);
+		Z_ADDREF_P(entry);
+
+		/* Update output hash depending on key type */
+		if (p->nKeyLength == 0) {
+			zend_hash_next_index_insert(out_hash, &entry, sizeof(zval *), NULL);
+		} else {
+			zend_hash_quick_update(out_hash, p->arKey, p->nKeyLength, p->h, &entry, sizeof(zval *), NULL);
+		}
+	}
+
+	/* If hash for removed entries exists, go until offset+length and copy the entries to it */
+	if (removed != NULL) {
+		for ( ; pos < offset + length && p; pos++, p = p->pListNext) {
+			entry = *((zval **)p->pData);
+			Z_ADDREF_P(entry);
+			if (p->nKeyLength == 0) {
+				zend_hash_next_index_insert(*removed, &entry, sizeof(zval *), NULL);
+			} else {
+				zend_hash_quick_update(*removed, p->arKey, p->nKeyLength, p->h, &entry, sizeof(zval *), NULL);
+			}
+		}
+	} else { /* otherwise just skip those entries */
+		for ( ; pos < offset + length && p; pos++, p = p->pListNext);
+	}
+
+	/* If there are entries to insert.. */
+	if (list != NULL) {
+		/* ..for each one, create a new zval, copy entry into it and copy it into the output hash */
+		for (i = 0; i < list_count; i++) {
+			entry = *list[i];
+			Z_ADDREF_P(entry);
+			zend_hash_next_index_insert(out_hash, &entry, sizeof(zval *), NULL);
+		}
+	}
+
+	/* Copy the remaining input hash entries to the output hash */
+	for ( ; p ; p = p->pListNext) {
+		entry = *((zval **)p->pData);
+		Z_ADDREF_P(entry);
+		if (p->nKeyLength == 0) {
+			zend_hash_next_index_insert(out_hash, &entry, sizeof(zval *), NULL);
+		} else {
+			zend_hash_quick_update(out_hash, p->arKey, p->nKeyLength, p->h, &entry, sizeof(zval *), NULL);
+		}
+	}
+
+	zend_hash_internal_pointer_reset(out_hash);
+	return out_hash;
+}
+/* }}} */
+
+static void phalcon_array_unshift(zval *arr, zval *arg TSRMLS_DC)
 {
 	if (likely(Z_TYPE_P(arr) == IS_ARRAY)) {
 		zval** args[1]      = { &arg };
-		HashTable *newhash = php_splice(Z_ARRVAL_P(arr), 0, 0, args, 1, NULL);
+
+		HashTable *newhash = phalcon_array_splice(Z_ARRVAL_P(arr), 0, 0, args, 1, NULL TSRMLS_CC);
+
 		HashTable  oldhash = *Z_ARRVAL_P(arr);
 		*Z_ARRVAL_P(arr)   = *newhash;
 
@@ -6545,6 +6640,132 @@ static int phalcon_get_class_constant(zval *return_value, const zend_class_entry
 	}
 
 	ZVAL_ZVAL(return_value, *result_ptr, 1, 0);
+	return SUCCESS;
+}
+
+static int phalcon_update_static_property_array_multi_ce(zend_class_entry *ce, const char *property, zend_uint property_length, zval *value TSRMLS_DC, const char *types, int types_length, int types_count, ...) {
+
+	int i, l, ll; char *s;
+	va_list ap;
+	zval *fetched, *tmp_arr, *tmp, *p, *item;
+	int separated = 0;
+
+	phalcon_read_static_property_ce(&tmp_arr, ce, property, property_length TSRMLS_CC);
+
+	Z_DELREF_P(tmp_arr);
+
+	/** Separation only when refcount > 1 */
+	if (Z_REFCOUNT_P(tmp_arr) > 1) {
+		zval *new_zv;
+		ALLOC_ZVAL(new_zv);
+		INIT_PZVAL_COPY(new_zv, tmp_arr);
+		tmp_arr = new_zv;
+		zval_copy_ctor(new_zv);
+		Z_SET_REFCOUNT_P(tmp_arr, 0);
+		separated = 1;
+	}
+
+	/** Convert the value to array if not is an array */
+	if (Z_TYPE_P(tmp_arr) != IS_ARRAY) {
+		if (separated) {
+			convert_to_array(tmp_arr);
+		} else {
+			zval *new_zv;
+			ALLOC_ZVAL(new_zv);
+			INIT_PZVAL_COPY(new_zv, tmp_arr);
+			tmp_arr = new_zv;
+			zval_copy_ctor(new_zv);
+			Z_SET_REFCOUNT_P(tmp_arr, 0);
+			array_init(tmp_arr);
+			separated = 1;
+		}
+	}
+
+	va_start(ap, types_count);
+
+	p = tmp_arr;
+	for (i = 0; i < types_length; ++i) {
+		switch (types[i]) {
+
+			case 's':
+				s = va_arg(ap, char*);
+				l = va_arg(ap, int);
+				if (phalcon_array_isset_string_fetch(&fetched, p, s, l + 1)) {
+					if (Z_TYPE_P(fetched) == IS_ARRAY) {
+						if (i == (types_length - 1)) {
+							phalcon_array_update_string(&fetched, s, l, value, PH_COPY | PH_SEPARATE);
+						} else {
+							p = fetched;
+						}
+						continue;
+					}
+				}
+				if (i == (types_length - 1)) {
+					phalcon_array_update_string(&p, s, l, value, PH_COPY | PH_SEPARATE);
+				} else {
+					MAKE_STD_ZVAL(tmp);
+					array_init(tmp);
+					phalcon_array_update_string(&p, s, l, tmp, PH_SEPARATE);
+					p = tmp;
+				}
+				break;
+
+			case 'l':
+				ll = va_arg(ap, long);
+				if (phalcon_array_isset_long_fetch(&fetched, p, ll)) {
+					if (Z_TYPE_P(fetched) == IS_ARRAY) {
+						if (i == (types_length - 1)) {
+							phalcon_array_update_long(&fetched, ll, value, PH_COPY | PH_SEPARATE);
+						} else {
+							p = fetched;
+						}
+						continue;
+					}
+				}
+				if (i == (types_length - 1)) {
+					phalcon_array_update_long(&p, ll, value, PH_COPY | PH_SEPARATE);
+				} else {
+					MAKE_STD_ZVAL(tmp);
+					array_init(tmp);
+					phalcon_array_update_long(&p, ll, tmp, PH_SEPARATE);
+					p = tmp;
+				}
+				break;
+
+			case 'z':
+				item = va_arg(ap, zval*);
+				if (phalcon_array_isset_fetch(&fetched, p, item)) {
+					if (Z_TYPE_P(fetched) == IS_ARRAY) {
+						if (i == (types_length - 1)) {
+							phalcon_array_update_zval(&fetched, item, value, PH_COPY | PH_SEPARATE);
+						} else {
+							p = fetched;
+						}
+						continue;
+					}
+				}
+				if (i == (types_length - 1)) {
+					phalcon_array_update_zval(&p, item, value, PH_COPY | PH_SEPARATE);
+				} else {
+					MAKE_STD_ZVAL(tmp);
+					array_init(tmp);
+					phalcon_array_update_zval(&p, item, tmp, PH_SEPARATE);
+					p = tmp;
+				}
+				break;
+
+			case 'a':
+				phalcon_array_append(&p, value, PH_SEPARATE);
+				break;
+		}
+	}
+
+	va_end(ap);
+
+	if (separated) {
+		phalcon_update_static_property_ce(ce, property, property_length, tmp_arr TSRMLS_CC);
+	}
+
 	return SUCCESS;
 }
 
@@ -14952,7 +15173,7 @@ PHALCON_INIT_CLASS(Phalcon_Debug){
 
 	PHALCON_REGISTER_CLASS(Phalcon, Debug, debug, phalcon_debug_method_entry, 0);
 
-	zend_declare_property_string(phalcon_debug_ce, SL("_uri"), "//static.phalconphp.com/debug/1.2.0/", ZEND_ACC_PUBLIC TSRMLS_CC);
+	zend_declare_property_string(phalcon_debug_ce, SL("_uri"), "//d2yyr506dy8ck0.cloudfront.net/debug/1.2.0/", ZEND_ACC_PUBLIC TSRMLS_CC);
 	zend_declare_property_string(phalcon_debug_ce, SL("_theme"), "default", ZEND_ACC_PUBLIC TSRMLS_CC);
 	zend_declare_property_bool(phalcon_debug_ce, SL("_hideDocumentRoot"), 0, ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_bool(phalcon_debug_ce, SL("_showBackTrace"), 1, ZEND_ACC_PROTECTED TSRMLS_CC);
@@ -21458,8 +21679,7 @@ static PHP_METHOD(Phalcon_Tag, setAutoescape){
 
 static PHP_METHOD(Phalcon_Tag, setDefault){
 
-	zval *id, *value, *t0;
-	int separate = 0;
+	zval *id, *value;
 
 	phalcon_fetch_params(0, 2, 0, &id, &value);
 	
@@ -21470,24 +21690,7 @@ static PHP_METHOD(Phalcon_Tag, setDefault){
 		}
 	}
 
-	t0 = phalcon_fetch_static_property_ce(phalcon_tag_ce, SL("_displayValues") TSRMLS_CC);
-	if (Z_REFCOUNT_P(t0) > 1) {
-		separate = 1;
-		ALLOC_INIT_ZVAL(t0);
-		Z_DELREF_P(t0);
-	}
-
-	if (Z_TYPE_P(t0) == IS_NULL) {
-		array_init_size(t0, 1);
-	}
-	else if (Z_TYPE_P(t0) != IS_ARRAY) {
-		convert_to_array(t0);
-	}
-
-	phalcon_array_update_zval(&t0, id, value, PH_COPY);
-	if (separate) {
-		phalcon_update_static_property_ce(phalcon_tag_ce, SL("_displayValues"), t0 TSRMLS_CC);
-	}
+	phalcon_update_static_property_array_multi_ce(phalcon_tag_ce, SL("_displayValues"), value TSRMLS_CC, SL("z"), 1, id);
 }
 
 static PHP_METHOD(Phalcon_Tag, setDefaults){
@@ -33831,7 +34034,7 @@ static PHP_METHOD(Phalcon_Cache_Backend_Mongo, _getCollection){
 				return;
 			}
 	
-			ce0 = zend_fetch_class(SL("Mongo"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
+			ce0 = zend_fetch_class(SL("MongoClient"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
 	
 			PHALCON_INIT_VAR(mongo);
 			object_init_ex(mongo, ce0);
@@ -96364,7 +96567,7 @@ static PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, resolveFilter){
 			phalcon_array_update_string(&resolved_param, ISL(file), file, PH_COPY);
 			phalcon_array_update_string(&resolved_param, ISL(line), line, PH_COPY);
 	
-			phalcon_array_unshift(func_arguments, resolved_param);
+			phalcon_array_unshift(func_arguments, resolved_param TSRMLS_CC);
 		}
 	
 		PHALCON_CALL_METHOD(&arguments, this_ptr, "expression", func_arguments);
