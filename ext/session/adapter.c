@@ -402,18 +402,24 @@ PHALCON_INIT_CLASS(Phalcon_Session_Adapter){
 	zend_declare_property_bool(phalcon_session_adapter_ce, SL("_started"), 0, ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_session_adapter_ce, SL("_options"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
-	if (!nusphere_dbg_present) {
-		phalcon_session_adapter_object_handlers = *zend_get_std_object_handlers();
-		phalcon_session_adapter_object_handlers.get_property_ptr_ptr = phalcon_session_adapter_get_property_ptr_ptr;
-		phalcon_session_adapter_object_handlers.has_property         = phalcon_session_adapter_has_property;
-		phalcon_session_adapter_object_handlers.write_property       = phalcon_session_adapter_write_property;
-		phalcon_session_adapter_object_handlers.unset_property       = phalcon_session_adapter_unset_property;
-		phalcon_session_adapter_object_handlers.count_elements       = phalcon_session_adapter_count_elements;
-		phalcon_session_adapter_object_handlers.read_dimension       = phalcon_session_adapter_read_dimension;
-		phalcon_session_adapter_object_handlers.write_dimension      = phalcon_session_adapter_write_dimension;
-		phalcon_session_adapter_object_handlers.has_dimension        = phalcon_session_adapter_has_dimension;
-		phalcon_session_adapter_object_handlers.unset_dimension      = phalcon_session_adapter_unset_dimension;
-	}
+	/**
+	 * T2414 - niden - Removed if statement for nuSphere Debugger
+	   if (!nusphere_dbg_present) {
+	 */
+	phalcon_session_adapter_object_handlers = *zend_get_std_object_handlers();
+	phalcon_session_adapter_object_handlers.get_property_ptr_ptr = phalcon_session_adapter_get_property_ptr_ptr;
+	phalcon_session_adapter_object_handlers.has_property         = phalcon_session_adapter_has_property;
+	phalcon_session_adapter_object_handlers.write_property       = phalcon_session_adapter_write_property;
+	phalcon_session_adapter_object_handlers.unset_property       = phalcon_session_adapter_unset_property;
+	phalcon_session_adapter_object_handlers.count_elements       = phalcon_session_adapter_count_elements;
+	phalcon_session_adapter_object_handlers.read_dimension       = phalcon_session_adapter_read_dimension;
+	phalcon_session_adapter_object_handlers.write_dimension      = phalcon_session_adapter_write_dimension;
+	phalcon_session_adapter_object_handlers.has_dimension        = phalcon_session_adapter_has_dimension;
+	phalcon_session_adapter_object_handlers.unset_dimension      = phalcon_session_adapter_unset_dimension;
+	/**
+	 * T2414 - niden - Removed if statement for nuSphere Debugger
+       }
+	 */
 
 	phalcon_session_adapter_ce->get_iterator = phalcon_session_adapter_get_iterator;
 
