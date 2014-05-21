@@ -94,7 +94,7 @@ abstract class Dialect
 	 * @param	array columnList
 	 * @return	string
 	 */
-	public final function getColumnList(columnList) -> string
+	public final function getColumnList(array! columnList) -> string
 	{
 		var strList, escapeChar, column;
 		let strList = [],
@@ -112,7 +112,7 @@ abstract class Dialect
 	 * @param string escapeChar
 	 * @return string
 	 */
-	public final function getSqlExpression(var expression, string escapeChar=null) -> string
+	public final function getSqlExpression(array! expression, string escapeChar=null) -> string
 	{
 		var type, domain, operator, left, right, name, sqlItems,
 			escapedName, sqlArguments, arguments, argument, item;
@@ -121,10 +121,6 @@ abstract class Dialect
 			if escapeChar === null{
 				let escapeChar = (string) this->_escapeChar;
 			}
-		}
-
-		if typeof expression != "array" {
-			throw new Exception("Invalid SQL expression");
 		}
 
 		if !fetch type, expression["type"] {
@@ -280,7 +276,7 @@ abstract class Dialect
 	 * @param string escapeChar
 	 * @return string
 	 */
-	public final function getSqlTable(table, string escapeChar=null) -> string
+	public final function getSqlTable(var table, string escapeChar=null) -> string
 	{
 		var sqlTable, sqlSchema, aliasName, sqlTableAlias,
 			schemaName, tableName;
@@ -346,7 +342,7 @@ abstract class Dialect
 	 * @param array definition
 	 * @return string
 	 */
-	public function select(definition) -> string
+	public function select(array! definition) -> string
 	{
 		var tables, columns, escapeChar, columnItem, column,
 			selectedColumns, columnSql, columnDomainSql, columnAlias,
@@ -356,10 +352,6 @@ abstract class Dialect
 			groupFields, groupField, groupItems, havingConditions,
 			orderFields, orderItem, orderItems, orderSqlItem, sqlOrderType,
 			orderSqlItemType, limitValue, number, offset;
-
-		if typeof definition != "array" {
-			throw new Exception("Invalid SELECT definition");
-		}
 
 		if !fetch tables, definition["tables"] {
 			throw new Exception("The index 'tables' is required in the definition array");

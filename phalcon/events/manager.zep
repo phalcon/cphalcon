@@ -47,7 +47,7 @@ class Manager implements ManagerInterface
 	 */
 	public function attach(string! eventType, var handler, int! priority=100)
 	{
-		var priorityQueue, events;
+		var priorityQueue;
 
 		if typeof handler != "object" {
 			throw new Exception("Event handler must be an Object");
@@ -57,40 +57,25 @@ class Manager implements ManagerInterface
 
 			if this->_enablePriorities {
 
-				/**
-				 * Create a SplPriorityQueue to store the events with priorities
-				 */
+				// Create a SplPriorityQueue to store the events with priorities
 				let priorityQueue = new \SplPriorityQueue();
 
-				/**
-				 * Extract only the Data
-				 * Set extraction flags
-				 */
-				priorityQueue->setExtractFlags(1);
+				// Extract only the Data // Set extraction flags
+				priorityQueue->setExtractFlags(\SplPriorityQueue::EXTR_DATA);
 
-				/**
-				 * Append the events to the queue
-				 */
+				// Append the events to the queue
 				let this->_events[eventType] = priorityQueue;
 
-			} else {
-				let priorityQueue = [];
 			}
 
-		} else {
-			let priorityQueue = [];
 		}
 
-		/**
-		 * Insert the handler in the queue
-		 */
+		// Insert the handler in the queue
 		if typeof priorityQueue == "object" {
 			priorityQueue->insert(handler, priority);
 		} else {
 
-			/**
-			 * Append the events to the queue
-			 */
+			// Append the events to the queue
 			let this->_events[eventType][] = handler;
 		}
 
@@ -151,18 +136,11 @@ class Manager implements ManagerInterface
 	 *
 	 * @param string type
 	 */
-	public function dettachAll(string type=null)
+	public function dettachAll(string! type=null)
 	{
-		var events;
-		let events = this->_events;
-		if type === null {
-			let events = null;
-		} else {
-			if isset events[type] {
-				let events[type] = null;
-			}
+		if isset this->_events[type] {
+			let this->_events[type] = null;
 		}
-		let this->_events = events;
 	}
 
 	/**
@@ -172,7 +150,7 @@ class Manager implements ManagerInterface
 	 * @param Phalcon\Events\Event event
 	 * @return mixed
 	 */
-	public function fireQueue(var queue, var event)
+	public final function fireQueue(var queue, var event)
 	{
 		var status, arguments, eventName, data, iterator, source, handler;
 		boolean collect, cancelable;
@@ -187,87 +165,59 @@ class Manager implements ManagerInterface
 
 		let status = null, arguments = null;
 
-		/**
-		 * Get the event type
-		 */
+		// Get the event type
 		let eventName = event->getType();
 		if typeof eventName != "string" {
 			throw new Exception("The event type not valid");
 		}
 
-		/**
-		 * Get the object who triggered the event
-		 */
+		// Get the object who triggered the event
 		let source = event->getSource();
 
-		/**
-		 * Get extra data passed to the event
-		 */
+		// Get extra data passed to the event
 		let data = event->getData();
 
-		/**
-		 * Tell if the event is cancelable
-		 */
+		// Tell if the event is cancelable
 		let cancelable = (boolean) event->getCancelable();
 
-		/**
-		 * Responses need to be traced?
-		 */
+		// Responses need to be traced?
 		let collect = (boolean) this->_collect;
 
 		if queue == "object" {
 
-			/**
-			 * We need to clone the queue before iterate over it
-			 */
+			// We need to clone the queue before iterate over it
 			let iterator = clone queue;
 
-			/**
-			 * Move the queue to the top
-			 */
+			// Move the queue to the top
 			iterator->top();
 
 			while iterator->valid() {
 
-				/**
-				 * Get the current data
-				 */
+				// Get the current data
 				let handler = iterator->current();
 
-				/**
-				 * Only handler objects are valid
-				 */
+				// Only handler objects are valid
 				if typeof handler == "object" {
 
-					/**
-					 * Check if the event is a closure
-					 */
+					// Check if the event is a closure
 					if handler instanceof \Closure {
 
-						/**
-						 * Create the closure arguments
-						 */
+						// Create the closure arguments
 						if arguments === null {
 							let arguments = [event, source, data];
 						}
 
-						/**
-						 * Call the function in the PHP userland
-						 */
+						// Call the function in the PHP userland
 						let status = call_user_func_array(handler, arguments);
 
-						/**
-						 * Trace the response
-						 */
+						// Trace the response
 						if collect {
 							let this->_responses[] = status;
 						}
 
 						if cancelable {
 
-							/**
-							 * Check if the event was stopped by the user
-						 	 */
+							// Check if the event was stopped by the user
 							if event->isStopped() {
 								break;
 							}
@@ -275,28 +225,20 @@ class Manager implements ManagerInterface
 
 					} else {
 
-						/**
-						 * Check if the listener has implemented an event with the same name
-						 */
+						// Check if the listener has implemented an event with the same name
 						if method_exists(handler, eventName) {
 
-							/**
-							 * Call the function in the PHP userland
-							 */
+							// Call the function in the PHP userland
 							let status = handler->{eventName}(event, source, data);
 
-							/**
-							 * Collect the response
-							 */
+							// Collect the response
 							if collect {
 								let this->_responses[] = status;
 							}
 
 							if cancelable {
 
-								/**
-								 * Check if the event was stopped by the user
-						 		 */
+								// Check if the event was stopped by the user
 								if event->isStopped() {
 									break;
 								}
@@ -313,40 +255,28 @@ class Manager implements ManagerInterface
 
 			for handler in queue {
 
-				/**
-				 * Only handler objects are valid
-				 */
+				// Only handler objects are valid
 				if typeof handler == "object" {
 
-					/**
-					 * Check if the event is a closure
-					 */
+					// Check if the event is a closure
 					if handler instanceof \Closure {
 
-						/**
-						 * Create the closure arguments
-						 */
+						// Create the closure arguments
 						if arguments === null {
 							let arguments = [event, source, data];
 						}
 
-						/**
-						 * Call the function in the PHP userland
-						 */
+						// Call the function in the PHP userland
 						let status = call_user_func_array(handler, arguments);
 
-						/**
-						 * Trace the response
-						 */
+						// Trace the response
 						if collect {
 							let this->_responses[] = status;
 						}
 
 						if cancelable {
 
-							/**
-							 * Check if the event was stopped by the user
-						 	 */
+							// Check if the event was stopped by the user
 							if event->isStopped() {
 								break;
 							}
@@ -354,28 +284,20 @@ class Manager implements ManagerInterface
 
 					} else {
 
-						/**
-						 * Check if the listener has implemented an event with the same name
-						 */
+						// Check if the listener has implemented an event with the same name
 						if method_exists(handler, eventName) {
 
-							/**
-							 * Call the function in the PHP userland
-							 */
+							// Call the function in the PHP userland
 							let status = handler->{eventName}(event, source, data);
 
-							/**
-							 * Collect the response
-							 */
+							// Collect the response
 							if collect {
 								let this->_responses[] = status;
 							}
 
 							if cancelable {
 
-								/**
-								 * Check if the event was stopped by the user
-						 		 */
+								// Check if the event was stopped by the user
 								if event->isStopped() {
 									break;
 								}
@@ -413,9 +335,7 @@ class Manager implements ManagerInterface
 			return null;
 		}
 
-		/**
-		 * All valid events must have a colon separator
-		 */
+		// All valid events must have a colon separator
 		if !memstr(eventType, ":") {
 			throw new Exception("Invalid event type " . eventType);
 		}
@@ -426,52 +346,38 @@ class Manager implements ManagerInterface
 
 		let status = null;
 
-		/**
-		 * Responses must be traced?
-		 */
+		// Responses must be traced?
 		if this->_collect {
 			let this->_responses = null;
 		}
 
 		let event = null;
 
-		/**
-		 * Check if events are grouped by type
-		 */
+		// Check if events are grouped by type
 		if fetch fireEvents, events[type] {
 
 			if typeof fireEvents == "object" || typeof fireEvents == "array" {
 
-				/**
-				 * Create the event context
-				 */
+				// Create the event context
 				let event = new Event(eventName, source, data, cancelable);
 
-				/**
-				 * Call the events queue
-				 */
+				// Call the events queue
 				let status = this->fireQueue(fireEvents, event);
 
 			}
 		}
 
-		/**
-		 * Check if there are listeners for the event type itself
-		 */
+		// Check if there are listeners for the event type itself
 		if fetch fireEvents, events[eventType] {
 
 			if typeof fireEvents == "object" || typeof fireEvents == "array" {
 
-				/**
-				 * Create the event if it wasn't created before
-				 */
+				// Create the event if it wasn't created before
 				if event === null {
 					let event = new Event(eventName, source, data, cancelable);
 				}
 
-				/**
-				 * Call the events queue
-				 */
+				// Call the events queue
 				let status = this->fireQueue(fireEvents, event);
 			}
 

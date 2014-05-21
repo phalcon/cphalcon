@@ -163,14 +163,8 @@ abstract class Select
 		let code = "";
 		let params = null;
 
-		resultset->rewind();
 
-		while resultset->valid() !== false {
-
-			/**
-			 * Get the current option
-			 */
-			let option = resultset->current();
+		for option in iterator(resultset) {
 
 			if typeof using == "array" {
 
@@ -222,9 +216,8 @@ abstract class Select
 					let code .= call_user_func_array(using, params);
 				}
 			}
-
-		    resultset->next();
 		}
+
 		return code;
 	}
 

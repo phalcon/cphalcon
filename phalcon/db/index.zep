@@ -49,7 +49,7 @@ class Index implements \Phalcon\Db\IndexInterface
 	 * @param string name
 	 * @param array columns
 	 */
-	public function __construct(string! name, columns)
+	public function __construct(string! name, array! columns)
 	{
 		let this->_name = name;
 		let this->_columns = columns;
@@ -60,7 +60,7 @@ class Index implements \Phalcon\Db\IndexInterface
 	 *
 	 * @param array data
 	 */
-	public static function __set_state(var data) -> <\Phalcon\Db\Index>
+	public static function __set_state(array! data) -> <\Phalcon\Db\Index>
 	{
 		var indexName, columns;
 

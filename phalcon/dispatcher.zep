@@ -340,7 +340,7 @@ abstract class Dispatcher implements \Phalcon\DispatcherInterface, \Phalcon\Di\I
 		var value, handler, dependencyInjector, namespaceName, handlerName,
 			actionName, camelizedClass, params, eventsManager,
 			handlerSuffix, actionSuffix, handlerClass, status, actionMethod,
-			wasFresh = false;
+			wasFresh = false, e;
 
 		let dependencyInjector = <\Phalcon\DiInterface> this->_dependencyInjector;
 		if typeof dependencyInjector != "object" {
@@ -348,9 +348,7 @@ abstract class Dispatcher implements \Phalcon\DispatcherInterface, \Phalcon\Di\I
 			return false;
 		}
 
-		/**
-		 * Calling beforeDispatchLoop
-		 */
+		// Calling beforeDispatchLoop
 		let eventsManager = <\Phalcon\Events\Manager> this->_eventsManager;
 		if typeof eventsManager == "object" {
 			if eventsManager->fire("dispatch:beforeDispatchLoop", this) === false {
@@ -371,9 +369,7 @@ abstract class Dispatcher implements \Phalcon\DispatcherInterface, \Phalcon\Di\I
 
 			let numberDispatches++;
 
-			/**
-			 * Throw an exception after 256 consecutive forwards
-			 */
+			// Throw an exception after 256 consecutive forwards
 			if numberDispatches == 256 {
 				this->{"_throwDispatchException"}("Dispatcher has detected a cyclic routing causing stability problems", self::EXCEPTION_CYCLIC_ROUTING);
 				break;
@@ -381,62 +377,48 @@ abstract class Dispatcher implements \Phalcon\DispatcherInterface, \Phalcon\Di\I
 
 			let this->_finished = true;
 
-			/**
-			 * If the current namespace is null we used the set in this->_defaultNamespace
-			 */
+			// If the current namespace is null we used the set in this->_defaultNamespace
 			let namespaceName = this->_namespaceName;
 			if !namespaceName {
 				let namespaceName = this->_defaultNamespace;
 				let this->_namespaceName = namespaceName;
 			}
 
-			/**
-			 * If the handler is null we use the set in this->_defaultHandler
-			 */
+			// If the handler is null we use the set in this->_defaultHandler
 			let handlerName = this->_handlerName;
 			if !handlerName {
 				let handlerName = this->_defaultHandler;
 				let this->_handlerName = handlerName;
 			}
 
-			/**
-			 * If the action is null we use the set in this->_defaultAction
-			 */
+			// If the action is null we use the set in this->_defaultAction
 			let actionName = this->_actionName;
 			if !actionName {
 				let actionName = this->_defaultAction;
 				let this->_actionName = actionName;
 			}
 
-			/**
-			 * Calling beforeDispatch
-			 */
+			// Calling beforeDispatch
 			if typeof eventsManager == "object" {
 
 				if eventsManager->fire("dispatch:beforeDispatch", this) === false {
 					continue;
 				}
 
-				/**
-				 * Check if the user made a forward in the listener
-				 */
+				// Check if the user made a forward in the listener
 				if this->_finished === false {
 					continue;
 				}
 			}
 
-			/**
-			 * We don't camelize the classes if they are in namespaces
-			 */
+			// We don't camelize the classes if they are in namespaces
 			if !memstr(handlerName, "\\") {
 				let camelizedClass = camelize(handlerName);
 			} else {
 				let camelizedClass = handlerName;
 			}
 
-			/**
-			 * Create the complete controller class name prepending the namespace
-			 */
+			// Create the complete controller class name prepending the namespace
 			if namespaceName {
 				if ends_with(namespaceName, "\\") {
 					let handlerClass = namespaceName . camelizedClass . handlerSuffix;
@@ -447,27 +429,19 @@ abstract class Dispatcher implements \Phalcon\DispatcherInterface, \Phalcon\Di\I
 				let handlerClass = camelizedClass . handlerSuffix;
 			}
 
-			/**
-			 * Handlers are retrieved as shared instances from the Service Container
-			 */
+			// Handlers are retrieved as shared instances from the Service Container
 			let hasService = (bool) dependencyInjector->has(handlerClass);
 			if !hasService {
-				/**
-				 * DI doesn't have a service with that name, try to load it using an autoloader
-				 */
+				// DI doesn't have a service with that name, try to load it using an autoloader
 				let hasService = (bool) class_exists(handlerClass);
 			}
 
-			/**
-			 * If the service can be loaded we throw an exception
-			 */
+			// If the service can be loaded we throw an exception
 			if !hasService {
 				let status = this->{"_throwDispatchException"}(handlerClass . " handler class cannot be loaded", self::EXCEPTION_HANDLER_NOT_FOUND);
 				if status === false {
 
-					/**
-					 * Check if the user made a forward in the listener
-					 */
+					// Check if the user made a forward in the listener
 					if this->_finished === false {
 						continue;
 					}
@@ -475,14 +449,10 @@ abstract class Dispatcher implements \Phalcon\DispatcherInterface, \Phalcon\Di\I
 				break;
 			}
 
-			/**
-			 * Handlers must be only objects
-			 */
+			// Handlers must be only objects
 			let handler = dependencyInjector->getShared(handlerClass);
 
-			/**
-			 * If the object was recently created in the DI we initialize it
-			 */
+			// If the object was recently created in the DI we initialize it
 			if dependencyInjector->wasFreshInstance() === true {
 				let wasFresh = true;
 			}
@@ -499,15 +469,11 @@ abstract class Dispatcher implements \Phalcon\DispatcherInterface, \Phalcon\Di\I
 
 			let this->_activeHandler = handler;
 
-			/**
-			 * Check if the params is an array
-			 */
+			// Check if the params is an array
 			let params = this->_params;
 			if typeof params != "array" {
 
-				/**
-				 * An invalid parameter variable was passed throw an exception
-				 */
+				// An invalid parameter variable was passed throw an exception
 				let status = this->{"_throwDispatchException"}("Action parameters must be an Array", self::EXCEPTION_INVALID_PARAMS);
 				if status === false {
 					if this->_finished === false {
@@ -517,15 +483,11 @@ abstract class Dispatcher implements \Phalcon\DispatcherInterface, \Phalcon\Di\I
 				break;
 			}
 
-			/**
-		 	 * Check if the method exists in the handler
-		 	 */
+			// Check if the method exists in the handler
 			let actionMethod = actionName . actionSuffix;
 			if !method_exists(handler, actionMethod) {
 
-				/**
-				 * Call beforeNotFoundAction
-				 */
+				// Call beforeNotFoundAction
 				if typeof eventsManager == "object" {
 
 					if eventsManager->fire("dispatch:beforeNotFoundAction", this) === false {
@@ -537,9 +499,7 @@ abstract class Dispatcher implements \Phalcon\DispatcherInterface, \Phalcon\Di\I
 					}
 				}
 
-				/**
-				 * Try to throw an exception when an action isn't defined on the object
-				 */
+				// Try to throw an exception when an action isn't defined on the object
 				let status = this->{"_throwDispatchException"}("Action '" . actionName . "' was not found on handler '" . handlerName . "'", self::EXCEPTION_ACTION_NOT_FOUND);
 				if status === false {
 					if this->_finished === false {
@@ -550,55 +510,50 @@ abstract class Dispatcher implements \Phalcon\DispatcherInterface, \Phalcon\Di\I
 				break;
 			}
 
-			/**
-			 * Calling beforeExecuteRoute
-			 */
+			// Calling beforeExecuteRoute
 			if typeof eventsManager == "object" {
 
 				if eventsManager->fire("dispatch:beforeExecuteRoute", this) === false {
 					continue;
 				}
 
-				/**
-				 * Check if the user made a forward in the listener
-				 */
+				// Check if the user made a forward in the listener
 				if this->_finished === false {
 					continue;
 				}
 			}
 
-			/**
-			 * Calling beforeExecuteRoute as callback and event
-			 */
+			// Calling beforeExecuteRoute as callback and event
 			if method_exists(handler, "beforeExecuteRoute") {
 
 				if handler->beforeExecuteRoute(this) === false {
 					continue;
 				}
 
-				/**
-				 * Check if the user made a forward in the listener
-				 */
+				// Check if the user made a forward in the listener
 				if this->_finished === false {
 					continue;
 				}
 			}
 
-			if (wasFresh === true) {
+			if wasFresh === true {
 				if method_exists(handler, "initialize") {
 					handler->initialize();
 				}
 			}
 
-			/**
-			 * We update the latest value produced by the latest handler
-			 */
-			let this->_returnedValue = call_user_func_array([handler, actionMethod], params),
-				this->_lastHandler = handler;
+			try {
 
-			/**
-			  * Calling afterExecuteRoute
-			  */
+				// We update the latest value produced by the latest handler
+				let this->_returnedValue = call_user_func_array([handler, actionMethod], params),
+					this->_lastHandler = handler;
+
+			} catch \Exception, e {
+				this->{"_throwDispatchException"}(e->getMessage()); // create a method that receives the exception itself?
+				return null;
+			}
+
+			// Calling afterExecuteRoute
 			if typeof eventsManager == "object" {
 
 				if eventsManager->fire("dispatch:afterExecuteRoute", this, value) === false {
@@ -609,15 +564,11 @@ abstract class Dispatcher implements \Phalcon\DispatcherInterface, \Phalcon\Di\I
 					continue;
 				}
 
-				/**
-				 * Call afterDispatch
-				 */
+				// Call afterDispatch
 				eventsManager->fire("dispatch:afterDispatch", this);
 			}
 
-			/**
-			 * Calling afterExecuteRoute as callback and event
-			 */
+			// Calling afterExecuteRoute as callback and event
 			if method_exists(handler, "afterExecuteRoute") {
 
 				if handler->afterExecuteRoute(this, value) === false {
@@ -631,9 +582,7 @@ abstract class Dispatcher implements \Phalcon\DispatcherInterface, \Phalcon\Di\I
 
 		}
 
-		/**
-		 * Call afterDispatchLoop
-		 */
+		// Call afterDispatchLoop
 		if typeof eventsManager == "object" {
 			eventsManager->fire("dispatch:afterDispatchLoop", this);
 		}
@@ -660,16 +609,12 @@ abstract class Dispatcher implements \Phalcon\DispatcherInterface, \Phalcon\Di\I
 			return null;
 		}
 
-		/**
-		 * Check if we need to forward to another namespace
-		 */
+		// Check if we need to forward to another namespace
 		if fetch namespaceName, forward["namespace"] {
 			let this->_namespaceName = namespaceName;
 		}
 
-		/**
-		 * Check if we need to forward to another controller
-		 */
+		// Check if we need to forward to another controller
 		if fetch controllerName, forward["controller"] {
 			let this->_handlerName = controllerName;
 		} else {
@@ -678,16 +623,12 @@ abstract class Dispatcher implements \Phalcon\DispatcherInterface, \Phalcon\Di\I
 			}
 		}
 
-		/**
-		 * Check if we need to forward to another action
-		 */
+		// Check if we need to forward to another action
 		if fetch actionName, forward["action"] {
 			let this->_actionName = actionName;
 		}
 
-		/**
-		 * Check if we need to forward changing the current parameters
-		 */
+		// Check if we need to forward changing the current parameters
 		if fetch params, forward["params"] {
 			let this->_params = params;
 		}

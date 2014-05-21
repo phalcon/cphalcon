@@ -19,12 +19,15 @@
 
 namespace Phalcon\Db;
 
+use Phalcon\Db\Exception;
+use Phalcon\Events\EventsAwareInterface;
+
 /**
  * Phalcon\Db\Adapter
  *
  * Base class for Phalcon\Db adapters
  */
-abstract class Adapter implements \Phalcon\Events\EventsAwareInterface
+abstract class Adapter implements EventsAwareInterface
 {
 
 	/**
@@ -274,14 +277,14 @@ abstract class Adapter implements \Phalcon\Events\EventsAwareInterface
 			field, insertSql;
 
 		if typeof values != "array" {
-			throw new \Phalcon\Db\Exception("The second parameter for insert isn't an Array");
+			throw new Exception("The second parameter for insert isn't an Array");
 		}
 
 		/**
 		 * A valid array with more than one element is required
 		 */
 		if !count(values) {
-			throw new \Phalcon\Db\Exception("Unable to insert into " . table . " without data");
+			throw new Exception("Unable to insert into " . table . " without data");
 		}
 
 		let placeholders = [],
@@ -307,7 +310,7 @@ abstract class Adapter implements \Phalcon\Events\EventsAwareInterface
 					let insertValues[] = value;
 					if typeof dataTypes == "array" {
 						if !fetch bindType, dataTypes[position] {
-							throw new \Phalcon\Db\Exception("Incomplete number of bind types");
+							throw new Exception("Incomplete number of bind types");
 						}
 						let bindDataTypes[] = bindType;
 					}
@@ -395,7 +398,7 @@ abstract class Adapter implements \Phalcon\Events\EventsAwareInterface
 		for position, value in values {
 
 			if !fetch field, fields[position] {
-				throw new \Phalcon\Db\Exception("The number of values in the update is not the same as fields");
+				throw new Exception("The number of values in the update is not the same as fields");
 			}
 
 			if globals_get("db.escape_identifiers") {
@@ -413,7 +416,7 @@ abstract class Adapter implements \Phalcon\Events\EventsAwareInterface
 					let updateValues[] = value;
 					if typeof dataTypes == "array" {
 						if !fetch bindType, dataTypes[position] {
-							throw new \Phalcon\Db\Exception("Incomplete number of bind types");
+							throw new Exception("Incomplete number of bind types");
 						}
 						let bindDataTypes[] = bindType;
 					}
@@ -445,7 +448,7 @@ abstract class Adapter implements \Phalcon\Events\EventsAwareInterface
 				 * Array conditions may have bound params and bound types
 				 */
 				if typeof whereCondition != "array" {
-					throw new \Phalcon\Db\Exception("Invalid WHERE clause conditions");
+					throw new Exception("Invalid WHERE clause conditions");
 				}
 
 				/**
@@ -619,15 +622,15 @@ abstract class Adapter implements \Phalcon\Events\EventsAwareInterface
 		var columns;
 
 		if typeof definition != "array" {
-			throw new \Phalcon\Db\Exception("Invalid definition to create the table '" . tableName . "'");
+			throw new Exception("Invalid definition to create the table '" . tableName . "'");
 		}
 
 		if !fetch columns, definition["columns"] {
-			throw new \Phalcon\Db\Exception("The table must contain at least one column");
+			throw new Exception("The table must contain at least one column");
 		}
 
 		if !count(columns) {
-			throw new \Phalcon\Db\Exception("The table must contain at least one column");
+			throw new Exception("The table must contain at least one column");
 		}
 
 		return this->{"execute"}(this->_dialect->createTable(tableName, schemaName, definition));
@@ -657,11 +660,11 @@ abstract class Adapter implements \Phalcon\Events\EventsAwareInterface
 	public function createView(string! viewName, definition, schemaName=null) -> boolean
 	{
 		if typeof definition != "array" {
-			throw new \Phalcon\Db\Exception("Invalid definition to create the view '" . viewName . "'");
+			throw new Exception("Invalid definition to create the view '" . viewName . "'");
 		}
 
 		if !isset definition["sql"] {
-			throw new \Phalcon\Db\Exception("The table must contain at least one column");
+			throw new Exception("The table must contain at least one column");
 		}
 
 		return this->{"execute"}(this->_dialect->createView(viewName, definition, schemaName));
@@ -969,7 +972,7 @@ abstract class Adapter implements \Phalcon\Events\EventsAwareInterface
 		let dialect = this->_dialect;
 
 		if !dialect->supportsSavePoints() {
-			throw new \Phalcon\Db\Exception("Savepoints are not supported by this database adapter.");
+			throw new Exception("Savepoints are not supported by this database adapter.");
 		}
 
 		return this->{"execute"}(dialect->createSavepoint(name));
@@ -988,7 +991,7 @@ abstract class Adapter implements \Phalcon\Events\EventsAwareInterface
 		let dialect = this->_dialect;
 
 		if !dialect->supportsSavePoints() {
-			throw new \Phalcon\Db\Exception("Savepoints are not supported by this database adapter");
+			throw new Exception("Savepoints are not supported by this database adapter");
 		}
 
 		if !dialect->supportsReleaseSavePoints() {
@@ -1011,7 +1014,7 @@ abstract class Adapter implements \Phalcon\Events\EventsAwareInterface
 		let dialect = this->_dialect;
 
 		if !dialect->supportsSavePoints() {
-			throw new \Phalcon\Db\Exception("Savepoints are not supported by this database adapter");
+			throw new Exception("Savepoints are not supported by this database adapter");
 		}
 
 		return this->{"execute"}(dialect->rollbackSavepoint(name));
@@ -1027,11 +1030,11 @@ abstract class Adapter implements \Phalcon\Events\EventsAwareInterface
 	{
 
 		if this->_transactionLevel > 0 {
-			throw new \Phalcon\Db\Exception("Nested transaction with savepoints behavior cannot be changed while a transaction is open");
+			throw new Exception("Nested transaction with savepoints behavior cannot be changed while a transaction is open");
 		}
 
 		if !this->_dialect->supportsSavePoints() {
-			throw new \Phalcon\Db\Exception("Savepoints are not supported by this database adapter");
+			throw new Exception("Savepoints are not supported by this database adapter");
 		}
 
 		let this->_transactionsWithSavepoints = nestedTransactionsWithSavepoints;

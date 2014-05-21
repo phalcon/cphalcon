@@ -19,6 +19,8 @@
 
 namespace Phalcon\Db;
 
+use Phalcon\Db\Exception;
+
 /**
  * Phalcon\Db\Column
  *
@@ -233,7 +235,7 @@ class Column implements \Phalcon\Db\ColumnInterface
 		if fetch type, definition["type"] {
 			let this->_type = type;
 		} else {
-			throw new \Phalcon\Db\Exception("Column type is required");
+			throw new Exception("Column type is required");
 		}
 
 		/**
@@ -258,10 +260,10 @@ class Column implements \Phalcon\Db\ColumnInterface
 		 * Check if the column has a decimal scale
 		 */
 		if fetch scale, definition["scale"] {
-			if type == self::TYPE_INTEGER || type == self::TYPE_FLOAT {
+			if type == self::TYPE_INTEGER || type == self::TYPE_FLOAT || type == self::TYPE_DECIMAL {
 				let this->_scale = scale;
 			} else {
-				throw new \Phalcon\Db\Exception("Column type does not support scale parameter");
+				throw new Exception("Column type does not support scale parameter");
 			}
 		}
 
@@ -286,7 +288,7 @@ class Column implements \Phalcon\Db\ColumnInterface
 			if type == self::TYPE_INTEGER {
 				let this->_autoIncrement = autoIncrement;
 			} else {
-				throw new \Phalcon\Db\Exception("Column type cannot be auto-increment");
+				throw new Exception("Column type cannot be auto-increment");
 			}
 		}
 
@@ -405,11 +407,11 @@ class Column implements \Phalcon\Db\ColumnInterface
 			isNumeric, first, bindType, primary;
 
 		if typeof data != "array" {
-			throw new \Phalcon\Db\Exception("Column state must be an array");
+			throw new Exception("Column state must be an array");
 		}
 
 		if !isset data["_name"] {
-			throw new \Phalcon\Db\Exception("Column name is required");
+			throw new Exception("Column name is required");
 		}
 
 		let definition = [];

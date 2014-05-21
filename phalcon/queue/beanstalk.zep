@@ -227,15 +227,13 @@ class Beanstalk
 	 */
 	public function peekReady() -> boolean|<Phalcon\Queue\Beanstalk\Job>
 	{
- 		var response, jobId, length;
+ 		var response;
 
 		this->write("peek-ready");
 
 		let response = this->readStatus();
 		if response[0] == "FOUND" {
-			let jobId = response[1];
-			let length = response[2];
-			return new \Phalcon\Queue\Beanstalk\Job(this, jobId, unserialize(this->read(length)));
+			return new \Phalcon\Queue\Beanstalk\Job(this, response[1], unserialize(this->read(response[2])));
 		}
 
 		return false;

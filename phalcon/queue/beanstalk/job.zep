@@ -53,13 +53,12 @@ class Job
 	 */
 	public function delete() -> boolean
 	{
- 		var queue, response;
+ 		var queue;
 
 		let queue = this->_queue;
 		queue->write("delete " . this->_id);
 
-		let response = queue->readStatus();
-		return response[0] == "DELETED";
+		return queue->readStatus()[0] == "DELETED";
 	}
 
 }
