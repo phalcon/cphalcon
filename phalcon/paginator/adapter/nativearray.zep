@@ -120,7 +120,7 @@ class NativeArray implements AdapterInterface
 
 		let page = new \stdClass(),
 			number = count(items),
-			roundedTotal = number / show,
+			roundedTotal = number / floatval(show),
 			totalPages = (int) roundedTotal;
 
 		/**
