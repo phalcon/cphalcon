@@ -24,7 +24,7 @@ namespace Phalcon\Assets\Filters;
  *
  * Returns the content without make any modification to the original source
  */
-class None
+class None implements \Phalcon\Assets\FilterInterface
 {
 
 	/**
