@@ -70,7 +70,7 @@ class Collection implements \Countable, \Iterator
 	 * @param array attributes
 	 * @return Phalcon\Assets\Collection
 	 */
-	public function addCss(string path, var local, boolean filter, attributes=null) -> <\Phalcon\Assets\Collection>
+	public function addCss(string! path, boolean local = false, boolean filter = false, attributes = null) -> <\Phalcon\Assets\Collection>
 	{
 		var collectionLocal, collectionAttributes;
 
@@ -90,7 +90,8 @@ class Collection implements \Countable, \Iterator
 			let collectionAttributes = this->_attributes;
 		}
 
-		let this->_resources[] = new \Phalcon\Assets\Resource\Css(collectionLocal, filter, collectionAttributes);
+		let this->_resources[] = new \Phalcon\Assets\Resource\Css(path, collectionLocal, filter, collectionAttributes);
+
 		return this;
 	}
 
@@ -103,7 +104,7 @@ class Collection implements \Countable, \Iterator
 	 * @param array attributes
 	 * @return Phalcon\Assets\Collection
 	 */
-	public function addJs(string! path, var local, boolean filter, attributes=null) -> <\Phalcon\Assets\Collection>
+	public function addJs(string! path, boolean local = false, boolean filter = false, attributes = null) -> <\Phalcon\Assets\Collection>
 	{
 		var collectionLocal, collectionAttributes;
 
@@ -123,7 +124,7 @@ class Collection implements \Countable, \Iterator
 			let collectionAttributes = this->_attributes;
 		}
 
-		let this->_resources[] = new \Phalcon\Assets\Resource\Js(collectionLocal, filter, collectionAttributes);
+		let this->_resources[] = new \Phalcon\Assets\Resource\Js(path, collectionLocal, filter, collectionAttributes);
 
 		return this;
 	}
