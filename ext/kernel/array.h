@@ -746,4 +746,6 @@ void phalcon_array_values(zval *return_value, zval *arr) PHALCON_ATTR_NONNULL;
  */
 int phalcon_array_key_exists(zval *arr, zval *key TSRMLS_DC) PHALCON_ATTR_NONNULL;
 
+int phalcon_array_is_associative(zval *arr);
+
 #endif /* PHALCON_KERNEL_ARRAY_H */

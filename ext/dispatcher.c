@@ -73,6 +73,7 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch);
 PHP_METHOD(Phalcon_Dispatcher, forward);
 PHP_METHOD(Phalcon_Dispatcher, wasForwarded);
 PHP_METHOD(Phalcon_Dispatcher, getHandlerClass);
+PHP_METHOD(Phalcon_Dispatcher, camelizeNamespace);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_dispatcher_setmodulename, 0, 0, 1)
 	ZEND_ARG_INFO(0, moduleName)
@@ -114,6 +115,7 @@ static const zend_function_entry phalcon_dispatcher_method_entry[] = {
 	PHP_ME(Phalcon_Dispatcher, forward, arginfo_phalcon_dispatcherinterface_forward, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Dispatcher, wasForwarded, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Dispatcher, getHandlerClass, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Dispatcher, camelizeNamespace, arginfo_phalcon_dispatcherinterface_camelizenamespace, ZEND_ACC_PUBLIC)
 	PHP_FE_END
 };
 
@@ -144,6 +146,7 @@ PHALCON_INIT_CLASS(Phalcon_Dispatcher){
 	zend_declare_property_bool(phalcon_dispatcher_ce, SL("_isExactHandler"), 0, ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_dispatcher_ce, SL("_previousHandlerName"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_dispatcher_ce, SL("_previousActionName"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_bool(phalcon_dispatcher_ce, SL("_camelizeNamespace"), 1, ZEND_ACC_PROTECTED TSRMLS_CC);
 
 	zend_declare_class_constant_long(phalcon_dispatcher_ce, SL("EXCEPTION_NO_DI"), 0 TSRMLS_CC);
 	zend_declare_class_constant_long(phalcon_dispatcher_ce, SL("EXCEPTION_CYCLIC_ROUTING"), 1 TSRMLS_CC);
@@ -575,6 +578,7 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch){
 	zval *exception = NULL;
 	zval *dependency_injector, *events_manager, *tmp;
 	zval *handler_suffix, *action_suffix, *namespace_name, *handler_name, *action_name;
+	zval *camelize, *camelized_namespace = NULL;
 	int number_dispatches = 0;
 
 	PHALCON_MM_GROW();
@@ -706,11 +710,18 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch){
 		 * Create the complete controller class name prepending the namespace
 		 */
 		PHALCON_INIT_NVAR(handler_class);
-		if (zend_is_true(namespace_name)) {
-			if (phalcon_end_with_str(namespace_name, SL("\\"))) {
-				PHALCON_CONCAT_VVV(handler_class, namespace_name, camelized_class, handler_suffix);
+		if (zend_is_true(namespace_name)) {			
+			camelize = phalcon_fetch_nproperty_this(this_ptr, SL("_camelizeNamespace"), PH_NOISY TSRMLS_CC);
+			if (!zend_is_true(camelize)) {
+				camelized_namespace = namespace_name;
 			} else {
-				PHALCON_CONCAT_VSVV(handler_class, namespace_name, "\\", camelized_class, handler_suffix);
+				PHALCON_INIT_VAR(camelized_namespace);
+				phalcon_camelize(camelized_namespace, namespace_name);
+			}
+			if (phalcon_end_with_str(camelized_namespace, SL("\\"))) {
+				PHALCON_CONCAT_VVV(handler_class, camelized_namespace, camelized_class, handler_suffix);
+			} else {
+				PHALCON_CONCAT_VSVV(handler_class, camelized_namespace, "\\", camelized_class, handler_suffix);
 			}
 		} else {
 			PHALCON_CONCAT_VV(handler_class, camelized_class, handler_suffix);
@@ -1096,7 +1107,8 @@ PHP_METHOD(Phalcon_Dispatcher, wasForwarded){
 PHP_METHOD(Phalcon_Dispatcher, getHandlerClass){
 
 	zval *camelized_class = NULL;
-	zval *handler_suffix, *namespace_name, *handler_name;
+	zval *handler_suffix, *namespace_name, *handler_name, *camelize;
+	zval *camelized_namespace = NULL;
 
 	PHALCON_MM_GROW();
 
@@ -1140,10 +1152,17 @@ PHP_METHOD(Phalcon_Dispatcher, getHandlerClass){
 	 * Create the complete controller class name prepending the namespace
 	 */
 	if (zend_is_true(namespace_name)) {
-		if (phalcon_end_with_str(namespace_name, SL("\\"))) {
-			PHALCON_CONCAT_VVV(return_value, namespace_name, camelized_class, handler_suffix);
+		camelize = phalcon_fetch_nproperty_this(this_ptr, SL("_camelizeNamespace"), PH_NOISY TSRMLS_CC);
+		if (!zend_is_true(camelize)) {
+			camelized_namespace = namespace_name;
 		} else {
-			PHALCON_CONCAT_VSVV(return_value, namespace_name, "\\", camelized_class, handler_suffix);
+			PHALCON_INIT_VAR(camelized_namespace);
+			phalcon_camelize(camelized_namespace, namespace_name);
+		}
+		if (phalcon_end_with_str(camelized_namespace, SL("\\"))) {
+			PHALCON_CONCAT_VVV(return_value, camelized_namespace, camelized_class, handler_suffix);
+		} else {
+			PHALCON_CONCAT_VSVV(return_value, camelized_namespace, "\\", camelized_class, handler_suffix);
 		}
 	} else {
 		PHALCON_CONCAT_VV(return_value, camelized_class, handler_suffix);
@@ -1152,4 +1171,28 @@ PHP_METHOD(Phalcon_Dispatcher, getHandlerClass){
 	phalcon_update_property_this(this_ptr, SL("_isExactHandler"), PHALCON_GLOBAL(z_false) TSRMLS_CC);
 
 	PHALCON_MM_RESTORE();
+}
+
+/**
+ * Forwards the execution flow to another controller/action
+ * Dispatchers are unique per module. Forwarding between modules is not allowed
+ *
+ *<code>
+ *  $this->dispatcher->camelizeNamespace(FALSE);
+ *</code>
+ *
+ * @param bool $camelize
+ */
+PHP_METHOD(Phalcon_Dispatcher, camelizeNamespace){
+
+	zval *camelize;
+
+	phalcon_fetch_params(0, 1, 0, &camelize);
+
+	if (PHALCON_IS_TRUE(camelize)) {
+		phalcon_update_property_this(this_ptr, SL("_camelizeNamespace"), PHALCON_GLOBAL(z_true) TSRMLS_CC);
+	} else {
+		phalcon_update_property_this(this_ptr, SL("_camelizeNamespace"), PHALCON_GLOBAL(z_false) TSRMLS_CC);
+	}
+	
 }

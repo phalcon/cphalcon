@@ -73,6 +73,7 @@
 #include "config/adapter/ini.h"
 #include "config/adapter/json.h"
 #include "config/adapter/php.h"
+#include "config/adapter/yaml.h"
 #include "config/exception.h"
 
 #include "crypt.h"
@@ -177,6 +178,14 @@
 #include "http/response/exception.h"
 #include "http/response/headers.h"
 #include "http/response/headersinterface.h"
+#include "http/uri.h"
+#include "http/client/exception.h"
+#include "http/client/header.h"
+#include "http/client/response.h"
+#include "http/client/adapter.h"
+#include "http/client/adapterinterface.h"
+#include "http/client/adapter/curl.h"
+#include "http/client/adapter/stream.h"
 
 #include "image.h"
 #include "image/adapter.h"
@@ -184,6 +193,16 @@
 #include "image/adapter/gd.h"
 #include "image/adapter/imagick.h"
 #include "image/exception.h"
+
+#include "amf.h"
+#include "amf/header.h"
+#include "amf/message.h"
+#include "amf/packet.h"
+#include "amf/deserializer.h"
+#include "amf/serializer.h"
+#include "amf/exception.h"
+#include "mvc/amf.h"
+#include "mvc/amf/exception.h"
 
 #include "kernel.h"
 
@@ -281,6 +300,7 @@
 #include "mvc/model/validator/stringlength.h"
 #include "mvc/model/validator/uniqueness.h"
 #include "mvc/model/validator/url.h"
+#include "mvc/model/validator/json.h"
 #include "mvc/moduledefinitioninterface.h"
 #include "mvc/router.h"
 #include "mvc/routerinterface.h"
@@ -304,6 +324,11 @@
 #include "mvc/view/engine/volt/compiler.h"
 #include "mvc/view/exception.h"
 #include "mvc/view/simple.h"
+#include "mvc/jsonrpc.h"
+#include "mvc/jsonrpc/exception.h"
+#include "jsonrpc/client.h"
+#include "jsonrpc/client/exception.h"
+#include "jsonrpc/client/response.h"
 
 #include "paginator/adapterinterface.h"
 #include "paginator/adapter/model.h"
@@ -334,6 +359,8 @@
 #include "session/bag.h"
 #include "session/baginterface.h"
 #include "session/exception.h"
+#include "session/adapter/memcache.h"
+#include "session/adapter/libmemcached.h"
 
 #include "tag.h"
 #include "tag/exception.h"
@@ -343,12 +370,17 @@
 #include "translate/adapterinterface.h"
 #include "translate/adapter/nativearray.h"
 #include "translate/exception.h"
+#include "translate/adapter/gettext.h"
 
 #include "text.h"
+#include "arr.h"
+
+#include "date.h"
 
 #include "validation.h"
 #include "validation/exception.h"
 #include "validation/message.h"
+#include "validation/messageinterface.h"
 #include "validation/message/group.h"
 #include "validation/validator.h"
 #include "validation/validatorinterface.h"

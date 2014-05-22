@@ -242,6 +242,7 @@ static PHP_MINIT_FUNCTION(phalcon)
 	PHALCON_INIT(Phalcon_Http_Cookie_Exception);
 	PHALCON_INIT(Phalcon_Http_Request_Exception);
 	PHALCON_INIT(Phalcon_Http_Response_Exception);
+	PHALCON_INIT(Phalcon_Http_Client_Exception);
 	PHALCON_INIT(Phalcon_Image_Exception);
 	PHALCON_INIT(Phalcon_Mvc_Application_Exception);
 	PHALCON_INIT(Phalcon_Mvc_Collection_Exception);
@@ -260,6 +261,9 @@ static PHP_MINIT_FUNCTION(phalcon)
 	PHALCON_INIT(Phalcon_Loader_Exception);
 	PHALCON_INIT(Phalcon_Logger_Exception);
 	PHALCON_INIT(Phalcon_Translate_Exception);
+	PHALCON_INIT(Phalcon_Mvc_Micro_Exception);
+	PHALCON_INIT(Phalcon_Mvc_JsonRpc_Exception);
+	PHALCON_INIT(Phalcon_JsonRpc_Client_Exception);
 
 	/* 2. Register interfaces */
 	PHALCON_INIT(Phalcon_DiInterface);
@@ -294,6 +298,7 @@ static PHP_MINIT_FUNCTION(phalcon)
 	PHALCON_INIT(Phalcon_Http_ResponseInterface);
 	PHALCON_INIT(Phalcon_Http_Response_CookiesInterface);
 	PHALCON_INIT(Phalcon_Http_Response_HeadersInterface);
+	PHALCON_INIT(Phalcon_Http_Client_AdapterInterface);
 	PHALCON_INIT(Phalcon_Image_AdapterInterface);
 	PHALCON_INIT(Phalcon_Logger_AdapterInterface);
 	PHALCON_INIT(Phalcon_Logger_FormatterInterface);
@@ -329,6 +334,7 @@ static PHP_MINIT_FUNCTION(phalcon)
 	PHALCON_INIT(Phalcon_Session_BagInterface);
 	PHALCON_INIT(Phalcon_Translate_AdapterInterface);
 	PHALCON_INIT(Phalcon_Validation_ValidatorInterface);
+	PHALCON_INIT(Phalcon_Validation_MessageInterface);
 
 	/* 3. Register PSR-3 classes */
 	if (PHALCON_GLOBAL(register_psr3_classes)) {
@@ -423,10 +429,13 @@ static PHP_MINIT_FUNCTION(phalcon)
 	PHALCON_INIT(Phalcon_Kernel);
 	PHALCON_INIT(Phalcon_Debug);
 	PHALCON_INIT(Phalcon_Text);
+	PHALCON_INIT(Phalcon_Date);
 	PHALCON_INIT(Phalcon_Security);
 	PHALCON_INIT(Phalcon_Version);
 	PHALCON_INIT(Phalcon_Session_Bag);
 	PHALCON_INIT(Phalcon_Session_Adapter_Files);
+	PHALCON_INIT(Phalcon_Session_Adapter_Memcache);
+	PHALCON_INIT(Phalcon_Session_Adapter_Libmemcached);
 	PHALCON_INIT(Phalcon_Filter);
 	PHALCON_INIT(Phalcon_DI_FactoryDefault_CLI);
 	PHALCON_INIT(Phalcon_DI_Service);
@@ -460,6 +469,7 @@ static PHP_MINIT_FUNCTION(phalcon)
 	PHALCON_INIT(Phalcon_Config_Adapter_Ini);
 	PHALCON_INIT(Phalcon_Config_Adapter_Json);
 	PHALCON_INIT(Phalcon_Config_Adapter_Php);
+	PHALCON_INIT(Phalcon_Config_Adapter_Yaml);
 	PHALCON_INIT(Phalcon_Forms_Form);
 	PHALCON_INIT(Phalcon_Forms_Manager);
 	PHALCON_INIT(Phalcon_Forms_Element_Text);
@@ -476,6 +486,7 @@ static PHP_MINIT_FUNCTION(phalcon)
 	PHALCON_INIT(Phalcon_Forms_Element_Radio);
 	PHALCON_INIT(Phalcon_Crypt);
 	PHALCON_INIT(Phalcon_Translate_Adapter_NativeArray);
+	PHALCON_INIT(Phalcon_Translate_Adapter_Gettext);
 	PHALCON_INIT(Phalcon_Escaper);
 	PHALCON_INIT(Phalcon_Assets_Manager);
 	PHALCON_INIT(Phalcon_Assets_Resource_Js);
@@ -490,6 +501,15 @@ static PHP_MINIT_FUNCTION(phalcon)
 	PHALCON_INIT(Phalcon_Http_Request_File);
 	PHALCON_INIT(Phalcon_Http_Response_Cookies);
 	PHALCON_INIT(Phalcon_Http_Response_Headers);
+	PHALCON_INIT(Phalcon_Http_Uri);
+	PHALCON_INIT(Phalcon_Http_Client_Header);
+	PHALCON_INIT(Phalcon_Http_Client_Response);
+	PHALCON_INIT(Phalcon_Http_Client_Adapter);
+	PHALCON_INIT(Phalcon_Http_Client_Adapter_Curl);
+	PHALCON_INIT(Phalcon_Http_Client_Adapter_Stream);
+	PHALCON_INIT(Phalcon_Mvc_JsonRpc);
+	PHALCON_INIT(Phalcon_JsonRpc_Client);
+	PHALCON_INIT(Phalcon_JsonRpc_Client_Response);
 	PHALCON_INIT(Phalcon_Queue_Beanstalk);
 	PHALCON_INIT(Phalcon_Queue_Beanstalk_Job);
 	PHALCON_INIT(Phalcon_Mvc_View);
@@ -505,7 +525,6 @@ static PHP_MINIT_FUNCTION(phalcon)
 	PHALCON_INIT(Phalcon_Mvc_Model_Row);
 	PHALCON_INIT(Phalcon_Mvc_Model_Query);
 	PHALCON_INIT(Phalcon_Mvc_Micro_Collection);
-	PHALCON_INIT(Phalcon_Mvc_Micro_Exception);
 	PHALCON_INIT(Phalcon_Mvc_Micro_LazyLoader);
 	PHALCON_INIT(Phalcon_Mvc_Model_Criteria);
 	PHALCON_INIT(Phalcon_Mvc_Model_Manager);
@@ -554,7 +573,18 @@ static PHP_MINIT_FUNCTION(phalcon)
 	PHALCON_INIT(Phalcon_Image_Adapter);
 	PHALCON_INIT(Phalcon_Image_Adapter_GD);
 	PHALCON_INIT(Phalcon_Image_Adapter_Imagick);
+	PHALCON_INIT(Phalcon_Amf);
+	PHALCON_INIT(Phalcon_Amf_Header);
+	PHALCON_INIT(Phalcon_Amf_Message);
+	PHALCON_INIT(Phalcon_Amf_Packet);
+	PHALCON_INIT(Phalcon_Amf_Deserializer);
+	PHALCON_INIT(Phalcon_Amf_Serializer);
+	PHALCON_INIT(Phalcon_Amf_Exception);
+	PHALCON_INIT(Phalcon_Mvc_Amf);
+	PHALCON_INIT(Phalcon_Mvc_Amf_Exception);
 	PHALCON_INIT(Phalcon_Registry);
+	PHALCON_INIT(Phalcon_Mvc_Model_Validator_Json);
+	PHALCON_INIT(Phalcon_Arr);
 
 #if PHP_VERSION_ID < 50500
 	setlocale(LC_ALL, old_lc_all);

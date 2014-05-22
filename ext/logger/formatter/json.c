@@ -26,7 +26,7 @@
 #include "kernel/string.h"
 #include "kernel/fcall.h"
 #include "kernel/array.h"
-#include "kernel/string.h"
+#include "kernel/concat.h"
 
 /**
  * Phalcon\Logger\Formatter\Json
@@ -65,7 +65,7 @@ PHALCON_INIT_CLASS(Phalcon_Logger_Formatter_Json){
  */
 PHP_METHOD(Phalcon_Logger_Formatter_Json, format){
 
-	zval *message, *type, *timestamp, *context, *interpolated = NULL, *type_str = NULL, *log;
+	zval *message, *type, *timestamp, *context, *interpolated = NULL, *type_str = NULL, *log, *json;
 
 	PHALCON_MM_GROW();
 
@@ -85,6 +85,10 @@ PHP_METHOD(Phalcon_Logger_Formatter_Json, format){
 	phalcon_array_update_string(&log, SL("type"), type_str, PH_COPY);
 	phalcon_array_update_string(&log, SL("message"), interpolated, PH_COPY);
 	phalcon_array_update_string(&log, SL("timestamp"), timestamp, PH_COPY);
-	RETURN_MM_ON_FAILURE(phalcon_json_encode(return_value, log, 0 TSRMLS_CC));
+
+	PHALCON_INIT_VAR(json);
+	RETURN_MM_ON_FAILURE(phalcon_json_encode(json, log, 0 TSRMLS_CC));
+
+	PHALCON_CONCAT_VS(return_value, json, PHP_EOL);
 	RETURN_MM();
 }

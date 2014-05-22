@@ -23,7 +23,6 @@ class SessionTest extends PHPUnit_Framework_TestCase
 
 	public function testSessionFiles()
 	{
-
 		$session = new Phalcon\Session\Adapter\Files();
 
 		$this->assertFalse($session->start());
@@ -40,6 +39,64 @@ class SessionTest extends PHPUnit_Framework_TestCase
 		// Automatically deleted after reading
 		$this->assertEquals($session->get('some', NULL, TRUE), 'value');
 		$this->assertFalse($session->has('some'));
+
+		@session_destroy();
+	}
+
+	public function testSessionMemcache()
+	{
+		$session = new Phalcon\Session\Adapter\Memcache(array(
+			'host' => '127.0.0.1',
+			'port' => '11211',
+			'prefix' => 'memcache'
+		));
+
+		$this->assertFalse($session->start());
+		$this->assertFalse($session->isStarted());
+
+		@session_start();
+
+		$session->set('some', 'value');
+
+		$this->assertEquals($session->get('some'), 'value');
+		$this->assertTrue($session->has('some'));
+		$this->assertEquals($session->get('undefined', 'my-default'), 'my-default');
+		
+		// Automatically deleted after reading
+		$this->assertEquals($session->get('some', NULL, TRUE), 'value');
+		$this->assertFalse($session->has('some'));
+
+		@session_destroy();
+	}
+
+	public function testSessionLibmemcached()
+	{
+		$session = new Phalcon\Session\Adapter\Libmemcached(array(
+			'servers' => array(
+				array(
+					'host' => '127.0.0.1',
+					'port' => '11211'
+				)
+			),
+			'prefix' => 'libmemcached'
+		));
+
+		$this->assertFalse($session->start());
+		$this->assertFalse($session->isStarted());
+
+		@session_start();
+
+		$session->set('some', 'value');
+
+		$this->assertEquals($session->get('some'), 'value');
+		$this->assertTrue($session->has('some'));
+		$this->assertEquals($session->get('undefined', 'my-default'), 'my-default');
+		
+		// Automatically deleted after reading
+		$this->assertEquals($session->get('some', NULL, TRUE), 'value');
+		$this->assertFalse($session->has('some'));
+
+		@session_destroy();
 	}
 
 }

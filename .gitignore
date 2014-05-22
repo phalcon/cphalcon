@@ -9,6 +9,7 @@ unit-tests/annotations/cache/*
 .deps
 .libs/
 *~
+*.swp
 .DS_Store
 *.gcno
 *.gcda

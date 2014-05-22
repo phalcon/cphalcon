@@ -649,6 +649,7 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, _allowOrDeny){
 PHP_METHOD(Phalcon_Acl_Adapter_Memory, allow){
 
 	zval *role_name, *resource_name, *access, *action, *roles_names;
+	zval *key = NULL;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -663,16 +664,14 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, allow){
 	if (!PHALCON_IS_STRING(role_name, "*")) {
 		PHALCON_RETURN_CALL_METHOD(this_ptr, "_allowordeny", role_name, resource_name, access, action);
 	} else {
-		PHALCON_SEPARATE_PARAM(role_name);
-
 		PHALCON_OBS_VAR(roles_names);
 		phalcon_read_property_this(&roles_names, this_ptr, SL("_rolesNames"), PH_NOISY TSRMLS_CC);
 
 		phalcon_is_iterable(roles_names, &ah0, &hp0, 0, 0);	
 		while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
-			PHALCON_GET_HKEY(role_name, ah0, hp0);
+			PHALCON_GET_HKEY(key, ah0, hp0);
 
-			PHALCON_CALL_METHOD(NULL, this_ptr, "_allowordeny", role_name, resource_name, access, action);
+			PHALCON_CALL_METHOD(NULL, this_ptr, "_allowordeny", key, resource_name, access, action);
 			zend_hash_move_forward_ex(ah0, &hp0);
 		}
 	}
@@ -708,6 +707,7 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, allow){
 PHP_METHOD(Phalcon_Acl_Adapter_Memory, deny){
 
 	zval *role_name, *resource_name, *access, *action, *roles_names;
+	zval *key = NULL;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -722,16 +722,14 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, deny){
 	if (!PHALCON_IS_STRING(role_name, "*")) {
 		PHALCON_RETURN_CALL_METHOD(this_ptr, "_allowordeny", role_name, resource_name, access, action);
 	} else {
-		PHALCON_SEPARATE_PARAM(role_name);
-
 		PHALCON_OBS_VAR(roles_names);
 		phalcon_read_property_this(&roles_names, this_ptr, SL("_rolesNames"), PH_NOISY TSRMLS_CC);
 
 		phalcon_is_iterable(roles_names, &ah0, &hp0, 0, 0);
 		while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
-			PHALCON_GET_HKEY(role_name, ah0, hp0);
+			PHALCON_GET_HKEY(key, ah0, hp0);
 
-			PHALCON_CALL_METHOD(NULL, this_ptr, "_allowordeny", role_name, resource_name, access, action);
+			PHALCON_CALL_METHOD(NULL, this_ptr, "_allowordeny", key, resource_name, access, action);
 			zend_hash_move_forward_ex(ah0, &hp0);
 		}
 	}

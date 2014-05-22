@@ -71,6 +71,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, getDataTypes);
 PHP_METHOD(Phalcon_Mvc_Model_MetaData, getDataTypesNumeric);
 PHP_METHOD(Phalcon_Mvc_Model_MetaData, getIdentityField);
 PHP_METHOD(Phalcon_Mvc_Model_MetaData, getBindTypes);
+PHP_METHOD(Phalcon_Mvc_Model_MetaData, getDefaultValues);
 PHP_METHOD(Phalcon_Mvc_Model_MetaData, getAutomaticCreateAttributes);
 PHP_METHOD(Phalcon_Mvc_Model_MetaData, getAutomaticUpdateAttributes);
 PHP_METHOD(Phalcon_Mvc_Model_MetaData, setAutomaticCreateAttributes);
@@ -100,6 +101,7 @@ static const zend_function_entry phalcon_mvc_model_metadata_method_entry[] = {
 	PHP_ME(Phalcon_Mvc_Model_MetaData, getDataTypesNumeric, arginfo_phalcon_mvc_model_metadatainterface_getdatatypesnumeric, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_MetaData, getIdentityField, arginfo_phalcon_mvc_model_metadatainterface_getidentityfield, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_MetaData, getBindTypes, arginfo_phalcon_mvc_model_metadatainterface_getbindtypes, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Model_MetaData, getDefaultValues, arginfo_phalcon_mvc_model_metadatainterface_getdefaultvalues, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_MetaData, getAutomaticCreateAttributes, arginfo_phalcon_mvc_model_metadatainterface_getautomaticcreateattributes, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_MetaData, getAutomaticUpdateAttributes, arginfo_phalcon_mvc_model_metadatainterface_getautomaticupdateattributes, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_MetaData, setAutomaticCreateAttributes, arginfo_phalcon_mvc_model_metadatainterface_setautomaticcreateattributes, ZEND_ACC_PUBLIC)
@@ -851,6 +853,36 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, getBindTypes){
 	
 	PHALCON_INIT_VAR(index);
 	ZVAL_LONG(index, 9);
+	
+	PHALCON_CALL_METHOD(&data, this_ptr, "readmetadataindex", model, index);
+	if (Z_TYPE_P(data) != IS_ARRAY) { 
+		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "The meta-data is invalid or is corrupt");
+		return;
+	}
+	
+	RETURN_CTOR(data);
+}
+
+/**
+ * Returns attributes and their default values
+ *
+ *<code>
+ *	print_r($metaData->getDefaultValues(new Robots()));
+ *</code>
+ *
+ * @param Phalcon\Mvc\ModelInterface $model
+ * @return array
+ */
+PHP_METHOD(Phalcon_Mvc_Model_MetaData, getDefaultValues){
+
+	zval *model, *index, *data = NULL;
+
+	PHALCON_MM_GROW();
+
+	phalcon_fetch_params(1, 1, 0, &model);
+	
+	PHALCON_INIT_VAR(index);
+	ZVAL_LONG(index, 12);
 	
 	PHALCON_CALL_METHOD(&data, this_ptr, "readmetadataindex", model, index);
 	if (Z_TYPE_P(data) != IS_ARRAY) { 

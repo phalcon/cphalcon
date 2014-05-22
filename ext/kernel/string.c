@@ -238,24 +238,22 @@ void phalcon_camelize(zval *return_value, const zval *str){
 	len    = Z_STRLEN_P(str);
 
 	for (i = 0; i < len; i++) {
-		ch = *marker;
-		if (i == 0 || ch == '-' || ch == '_') {
+		ch = marker[i];
+		if (i == 0 || ch == '-' || ch == '_' || ch == '\\') {
 			if (ch == '-' || ch == '_') {
 				i++;
-				marker++;
+			} else if (ch == '\\') {
+				smart_str_appendc(&camelize_str, marker[i]);
+				i++;
 			}
 
-			smart_str_appendc(&camelize_str, toupper(*marker));
+			if (i < len) {
+				smart_str_appendc(&camelize_str, toupper(marker[i]));
+			}
 		}
 		else {
-			smart_str_appendc(&camelize_str, tolower(*marker));
+			smart_str_appendc(&camelize_str, tolower(marker[i]));
 		}
-
-		marker++;
-	}
-
-	if (likely(i == len - 1)) {
-		smart_str_appendc(&camelize_str, *marker);
 	}
 
 	smart_str_0(&camelize_str);

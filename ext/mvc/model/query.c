@@ -1179,7 +1179,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getSelectColumn){
 	zval *source = NULL, *model_name = NULL, *sql_column = NULL;
 	zval *column_domain, *exception_message = NULL;
 	zval *sql_column_alias = NULL;
-	zval *best_alias, *prepared_alias = NULL;
+	zval *prepared_alias = NULL;
 	zval *column_data, *sql_expr_column = NULL;
 	HashTable *ah0;
 	HashPosition hp0;
@@ -1234,7 +1234,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getSelectColumn){
 	 * Check if selected column is qualified.*
 	 */
 	if (PHALCON_IS_LONG(column_type, PHQL_T_DOMAINALL)) {
-		zval *source, *sql_aliases_models, *sql_models_aliases;
+		zval *source, *sql_aliases_models;
 		zval *sql_aliases = phalcon_fetch_nproperty_this(this_ptr, SL("_sqlAliases"), PH_NOISY TSRMLS_CC);
 	
 		/** 
@@ -1264,22 +1264,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getSelectColumn){
 		PHALCON_OBS_VAR(model_name);
 		phalcon_array_fetch(&model_name, sql_aliases_models, column_domain, PH_NOISY);
 	
-		/** 
-		 * Get the best alias for the column
-		 */
-		sql_models_aliases = phalcon_fetch_nproperty_this(this_ptr, SL("_sqlModelsAliases"), PH_NOISY TSRMLS_CC);
-	
-		PHALCON_OBS_VAR(best_alias);
-		phalcon_array_fetch(&best_alias, sql_models_aliases, model_name, PH_NOISY);
-	
-		/** 
-		 * If the best alias is the model name we lowercase the first letter
-		 */
-		if (PHALCON_IS_EQUAL(best_alias, model_name)) {
+		if (PHALCON_IS_EQUAL(column_domain, model_name)) {
 			PHALCON_INIT_VAR(prepared_alias);
 			phalcon_lcfirst(prepared_alias, model_name);
 		} else {
-			PHALCON_CPY_WRT(prepared_alias, best_alias);
+			PHALCON_CPY_WRT(prepared_alias, column_domain);
 		}
 	
 		/** 
@@ -2026,7 +2015,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getJoins){
 			phalcon_array_update_zval(&sql_models_aliases, model_name, alias, PH_COPY | PH_SEPARATE);
 	
 			/** 
-			 * Update model => model
+			 * Update alias => model
 			 */
 			phalcon_array_update_zval(&sql_aliases_models, alias, model_name, PH_COPY | PH_SEPARATE);
 	

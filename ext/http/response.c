@@ -76,6 +76,7 @@ PHP_METHOD(Phalcon_Http_Response, setEtag);
 PHP_METHOD(Phalcon_Http_Response, redirect);
 PHP_METHOD(Phalcon_Http_Response, setContent);
 PHP_METHOD(Phalcon_Http_Response, setJsonContent);
+PHP_METHOD(Phalcon_Http_Response, setBsonContent);
 PHP_METHOD(Phalcon_Http_Response, appendContent);
 PHP_METHOD(Phalcon_Http_Response, getContent);
 PHP_METHOD(Phalcon_Http_Response, isSent);
@@ -121,6 +122,7 @@ static const zend_function_entry phalcon_http_response_method_entry[] = {
 	PHP_ME(Phalcon_Http_Response, redirect, arginfo_phalcon_http_responseinterface_redirect, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Http_Response, setContent, arginfo_phalcon_http_responseinterface_setcontent, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Http_Response, setJsonContent, arginfo_phalcon_http_responseinterface_setjsoncontent, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Http_Response, setBsonContent, arginfo_phalcon_http_responseinterface_setbsoncontent, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Http_Response, appendContent, arginfo_phalcon_http_responseinterface_appendcontent, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Http_Response, getContent, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Http_Response, isSent, NULL, ZEND_ACC_PUBLIC)
@@ -730,6 +732,33 @@ PHP_METHOD(Phalcon_Http_Response, setJsonContent){
 	PHALCON_INIT_VAR(json_content);
 	RETURN_MM_ON_FAILURE(phalcon_json_encode(json_content, content, options TSRMLS_CC));
 	phalcon_update_property_this(this_ptr, SL("_content"), json_content TSRMLS_CC);
+	RETURN_THIS();
+}
+
+/**
+ * Sets HTTP response body. The parameter is automatically converted to BSON
+ *
+ *<code>
+ *	$response->setBsonContent(array("status" => "OK", "pic" => new MongoBinData(file_get_contents("/var/www/phalconphp.jpg")));
+*</code>
+ *
+ * @param mixed $content
+ * @return Phalcon\Http\ResponseInterface
+ */
+PHP_METHOD(Phalcon_Http_Response, setBsonContent){
+
+	zval *content, *bson_content = NULL, *content_type;
+
+	PHALCON_MM_GROW();
+
+	phalcon_fetch_params(1, 1, 0, &content);
+
+	PHALCON_INIT_VAR(content_type);
+	ZVAL_STRING(content_type, "application/bson", 1);
+	PHALCON_CALL_METHOD(NULL, this_ptr, "setContentType", content_type);
+
+	PHALCON_CALL_FUNCTION(&bson_content, "bson_encode", content);
+	phalcon_update_property_this(this_ptr, SL("_content"), bson_content TSRMLS_CC);
 	RETURN_THIS();
 }
 
