@@ -90,7 +90,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Email, validate){
 	zval *record, *option = NULL, *field_name = NULL, *allow_empty = NULL, *regs, *invalid = NULL;
 	zval *value = NULL, *pattern, *match_pattern, *match_zero;
 	zval *message = NULL, *type, *is_set_code = NULL, *code = NULL;
-	zval *allow_empty = NULL;
 
 	PHALCON_MM_GROW();
 

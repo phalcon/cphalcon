@@ -91,7 +91,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Regex, validate){
 	zval *record, *option = NULL, *field_name = NULL, *allow_empty = NULL, *is_set = NULL, *value = NULL;
 	zval *failed = NULL, *matches, *pattern = NULL, *match_pattern;
 	zval *match_zero, *message = NULL, *type, *is_set_code = NULL, *code = NULL;
-	zval *allow_empty = NULL;
 
 	PHALCON_MM_GROW();
 

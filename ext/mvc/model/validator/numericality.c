@@ -87,7 +87,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Numericality, validate){
 
 	zval *record, *option = NULL, *field = NULL, *allow_empty = NULL, *value = NULL, *message = NULL;
 	zval *type, *is_set_code = NULL, *code = NULL;
-	zval *allow_empty = NULL;
 
 	PHALCON_MM_GROW();
 
