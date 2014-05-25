@@ -2314,8 +2314,9 @@ class Compiler implements \Phalcon\Di\InjectionAwareInterface
 			finalCompilation, blocks, extendedBlocks, name, block,
 			blockCompilation, localBlock, compilation;
 
-		let currentPath = this->_currentPath,
-			intermediate = phvolt_parse_view(viewCode, currentPath);
+		let currentPath = this->_currentPath;
+
+		let intermediate = phvolt_parse_view(viewCode, currentPath);
 
 		/**
 		 * The parsing must return a valid array
@@ -2497,7 +2498,7 @@ class Compiler implements \Phalcon\Di\InjectionAwareInterface
 	{
 		var stat, compileAlways, prefix, compiledPath, compiledSeparator, blocksCode,
 			compiledExtension, compilation, options, realCompiledPath,
-			compiledTemplatePath, realTemplatePath, templateSepPath;
+			compiledTemplatePath, templateSepPath;
 
 		/**
 		 * Re-initialize some properties already initialized when the object is cloned
@@ -2590,13 +2591,10 @@ class Compiler implements \Phalcon\Di\InjectionAwareInterface
 			 * Calculate the template realpath's
 			 */
 			if !empty compiledPath {
-
-				let realTemplatePath = realpath(templatePath);
-
 				/**
 				 * Create the virtual path replacing the directory separator by the compiled separator
 				 */
-				let templateSepPath = prepare_virtual_path(realTemplatePath, compiledSeparator);
+				let templateSepPath = prepare_virtual_path(realpath(templatePath), compiledSeparator);
 			} else {
 				let templateSepPath = templatePath;
 			}
@@ -2605,9 +2603,9 @@ class Compiler implements \Phalcon\Di\InjectionAwareInterface
 			 * In extends mode we add an additional 'e' suffix to the file
 			 */
 			if extendsMode === true {
-				let compiledTemplatePath = compiledPath . prefix . templateSepPath . compiledSeparator . "e" . compiledSeparator . compiledExtension;
+				let compiledTemplatePath = realpath(compiledPath) . DIRECTORY_SEPARATOR . prefix . templateSepPath . compiledSeparator . "e" . compiledSeparator . compiledExtension;
 			} else {
-				let compiledTemplatePath = compiledPath . prefix . templateSepPath . compiledExtension;
+				let compiledTemplatePath = realpath(compiledPath) . DIRECTORY_SEPARATOR . prefix . templateSepPath . compiledExtension;
 			}
 
 		} else {
