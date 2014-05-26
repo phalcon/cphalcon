@@ -26,7 +26,7 @@ namespace Phalcon\Assets\Filters;
  * removes newlines and line feeds keeping
  * removes last semicolon from last property
  */
-class Cssmin
+class Cssmin implements \Phalcon\Assets\FilterInterface
 {
 
 	/**

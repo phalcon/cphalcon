@@ -26,7 +26,7 @@ namespace Phalcon\Assets\Filters;
  * replaced with spaces. Carriage returns will be replaced with linefeeds.
  * Most spaces and linefeeds will be removed.
  */
-class Jsmin
+class Jsmin implements \Phalcon\Assets\FilterInterface
 {
 
 	/**
