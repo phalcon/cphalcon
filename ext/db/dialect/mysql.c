@@ -647,7 +647,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, createTable){
 	zval *table = NULL, *temporary = NULL, *options = NULL, *sql = NULL, *create_lines;
 	zval *columns = NULL, *column = NULL, *column_name = NULL, *column_definition = NULL;
 	zval *column_line = NULL, *attribute = NULL, *indexes, *index = NULL;
-	zval *index_name = NULL, *column_list = NULL, *index_sql = NULL, *references;
+	zval *index_name = NULL, *column_list = NULL, *referenced_column_list = NULL, *index_sql = NULL, *references;
 	zval *reference = NULL, *name = NULL, *referenced_table = NULL, *referenced_columns = NULL;
 	zval *constaint_sql = NULL, *reference_sql = NULL, *joined_lines;
 	HashTable *ah0, *ah1, *ah2;
@@ -791,13 +791,13 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, createTable){
 			PHALCON_CALL_METHOD(&column_list, this_ptr, "getcolumnlist", columns);
 			PHALCON_CALL_METHOD(&referenced_table, reference, "getreferencedtable");
 			PHALCON_CALL_METHOD(&referenced_columns, reference, "getreferencedcolumns");
-			PHALCON_CALL_METHOD(&column_list, this_ptr, "getcolumnlist", referenced_columns);
+			PHALCON_CALL_METHOD(&referenced_column_list, this_ptr, "getcolumnlist", referenced_columns);
 	
 			PHALCON_INIT_NVAR(constaint_sql);
 			PHALCON_CONCAT_SVSVS(constaint_sql, "CONSTRAINT `", name, "` FOREIGN KEY (", column_list, ")");
 	
 			PHALCON_INIT_NVAR(reference_sql);
-			PHALCON_CONCAT_VSVSVS(reference_sql, constaint_sql, " REFERENCES `", referenced_table, "`(", column_list, ")");
+			PHALCON_CONCAT_VSVSVS(reference_sql, constaint_sql, " REFERENCES `", referenced_table, "`(", referenced_column_list, ")");
 			phalcon_array_append(&create_lines, reference_sql, PH_SEPARATE);
 	
 			zend_hash_move_forward_ex(ah2, &hp2);
