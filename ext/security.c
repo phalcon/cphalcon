@@ -409,7 +409,7 @@ PHP_METHOD(Phalcon_Security, getSaltBytes)
  */
 PHP_METHOD(Phalcon_Security, hash)
 {
-	zval **password, **work_factor = NULL, *tmp, *n_bytes, *salt_bytes = NULL, *default_hash;
+	zval **password, **work_factor = NULL, *tmp, *n_bytes, *z_salt, *salt_bytes = NULL, *default_hash;
 	char variant;
 	char *salt;
 	int salt_len, i_factor, i_hash;
@@ -600,8 +600,6 @@ PHP_METHOD(Phalcon_Security, hash)
 			break;
 		}
 	}
-
-	zval *z_salt;
 
 	PHALCON_ALLOC_GHOST_ZVAL(z_salt);
 	ZVAL_STRINGL(z_salt, salt, salt_len, 0);
