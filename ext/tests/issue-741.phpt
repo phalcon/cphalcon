@@ -21,4 +21,4 @@ catch (Exception $e) {
 ?>
 --EXPECT--
 Unexpected value type: expected object of type Phalcon\Validation\Message, string given
-Unexpected value type: expected object of type Phalcon\Validation\Message, string given
+Unexpected value type: expected object implementing Phalcon\Validation\MessageInterface, string given

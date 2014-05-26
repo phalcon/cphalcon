@@ -326,6 +326,7 @@ validation/validatorinterface.c \
 validation/message/group.c \
 validation/exception.c \
 validation/message.c \
+validation/messageinterface.c \
 validation/validator/email.c \
 validation/validator/presenceof.c \
 validation/validator/confirmation.c \
