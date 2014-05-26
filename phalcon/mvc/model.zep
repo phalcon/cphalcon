@@ -3613,7 +3613,7 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 	{
 		var key, value, snapshot, attribute;
 
-		if typeof data == "array" {
+		if typeof data != "array" {
 			throw new Exception("The snapshot data must be an array");
 		}
 

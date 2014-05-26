@@ -4615,7 +4615,7 @@ PHP_METHOD(Phalcon_Mvc_Model, setSnapshotData) {
 	}
 
 
-	if (Z_TYPE_P(data) == IS_ARRAY) {
+	if (Z_TYPE_P(data) != IS_ARRAY) {
 		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_model_exception_ce, "The snapshot data must be an array", "phalcon/mvc/model.zep", 3617);
 		return;
 	}
