@@ -719,7 +719,7 @@ PHP_METHOD(Phalcon_Forms_Element, getDefault){
  */
 PHP_METHOD(Phalcon_Forms_Element, getValue){
 
-	zval *name, *value = NULL, *form, *has_default_value = NULL;
+	zval *name, *value = NULL, *current_value = NULL, *form;
 
 	PHALCON_MM_GROW();
 
@@ -730,19 +730,11 @@ PHP_METHOD(Phalcon_Forms_Element, getValue){
 	 */
 	form = phalcon_fetch_nproperty_this(this_ptr, SL("_form"), PH_NOISY TSRMLS_CC);
 	if (Z_TYPE_P(form) == IS_OBJECT) {
-	
-		/** 
-		 * Check if the tag has a default value
-		 */
-		PHALCON_CALL_CE_STATIC(&has_default_value, phalcon_tag_ce, "hasvalue", name);
-		if (!zend_is_true(has_default_value)) {
-			/** 
-			 * Gets the possible value for the widget
-			 */
-			PHALCON_CALL_METHOD(&value, form, "getvalue", name);
-		}
-		else {
-			PHALCON_INIT_VAR(value);
+		PHALCON_CALL_METHOD(&current_value, form, "getvalue", name);
+		if (Z_TYPE_P(current_value) != IS_NULL) {
+			PHALCON_CPY_WRT(value, current_value);
+		} else {
+			PHALCON_CALL_CE_STATIC(&value, phalcon_tag_ce, "getvalue", name);
 		}
 	}
 	else {
