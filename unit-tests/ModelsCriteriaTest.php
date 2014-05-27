@@ -69,11 +69,12 @@ class ModelsCriteriaTest extends PHPUnit_Framework_TestCase
 		$di->set('db', function(){
 			require 'unit-tests/config.db.php';
 			return new Phalcon\Db\Adapter\Pdo\Mysql($configMysql);
-		});
+		}, true);
 
 		$this->_executeTestsNormal($di);
 		$this->_executeTestsRenamed($di);
 		$this->_executeTestsFromInput($di);
+		$this->_executeTestIssues2131($di);
 	}
 
 	public function testModelsPostgresql()
@@ -89,11 +90,12 @@ class ModelsCriteriaTest extends PHPUnit_Framework_TestCase
 		$di->set('db', function(){
 			require 'unit-tests/config.db.php';
 			return new Phalcon\Db\Adapter\Pdo\Postgresql($configPostgresql);
-		});
+		}, true);
 
 		$this->_executeTestsNormal($di);
 		$this->_executeTestsRenamed($di);
 		$this->_executeTestsFromInput($di);
+		$this->_executeTestIssues2131($di);
 	}
 
 	public function testModelsSQLite()
@@ -109,11 +111,12 @@ class ModelsCriteriaTest extends PHPUnit_Framework_TestCase
 		$di->set('db', function(){
 			require 'unit-tests/config.db.php';
 			return new Phalcon\Db\Adapter\Pdo\SQLite($configSqlite);
-		});
+		}, true);
 
 		$this->_executeTestsNormal($di);
 		$this->_executeTestsRenamed($di);
 		$this->_executeTestsFromInput($di);
+		$this->_executeTestIssues2131($di);
 	}
 
 	protected function _executeTestsNormal($di)
@@ -129,7 +132,7 @@ class ModelsCriteriaTest extends PHPUnit_Framework_TestCase
 
 		$personas = Personas::query()
 			->where("estado='A'")
-			->order("nombres")
+			->orderBy("nombres")
 			->execute();
 		$people = People::find(array(
 			"estado='A'",
@@ -144,7 +147,7 @@ class ModelsCriteriaTest extends PHPUnit_Framework_TestCase
 		//Order + limit
 		$personas = Personas::query()
 			->where("estado='A'")
-			->order("nombres")
+			->orderBy("nombres")
 			->limit(100)
 			->execute();
 		$people = People::find(array(
@@ -162,7 +165,7 @@ class ModelsCriteriaTest extends PHPUnit_Framework_TestCase
 		$personas = Personas::query()
 			->where("estado=?1")
 			->bind(array(1 => "A"))
-			->order("nombres")
+			->orderBy("nombres")
 			->limit(100)
 			->execute();
 
@@ -182,7 +185,7 @@ class ModelsCriteriaTest extends PHPUnit_Framework_TestCase
 		$personas = Personas::query()
 			->where("estado=?1")
 			->bind(array(1 => "A"))
-			->order("nombres")
+			->orderBy("nombres")
 			->limit(100, 10)
 			->execute();
 
@@ -201,7 +204,7 @@ class ModelsCriteriaTest extends PHPUnit_Framework_TestCase
 		$personas = Personas::query()
 			->where("estado=:estado:")
 			->bind(array("estado" => "A"))
-			->order("nombres")
+			->orderBy("nombres")
 			->limit(100)
 			->execute();
 
@@ -236,7 +239,7 @@ class ModelsCriteriaTest extends PHPUnit_Framework_TestCase
 
 		$personers = Personers::query()
 			->where("status='A'")
-			->order("navnes")
+			->orderBy("navnes")
 			->execute();
 		$this->assertTrue(is_object($personers));
 		$this->assertEquals(get_class($personers), 'Phalcon\Mvc\Model\Resultset\Simple');
@@ -247,7 +250,7 @@ class ModelsCriteriaTest extends PHPUnit_Framework_TestCase
 
 		$personers  = Personers::query()
 			->where("status='A'")
-			->order("navnes")
+			->orderBy("navnes")
 			->limit(100)
 			->execute();
 		$this->assertTrue(is_object($personers));
@@ -260,7 +263,7 @@ class ModelsCriteriaTest extends PHPUnit_Framework_TestCase
 		$personers = Personers::query()
 			->where("status=?1")
 			->bind(array(1 => "A"))
-			->order("navnes")
+			->orderBy("navnes")
 			->limit(100)
 			->execute();
 		$this->assertTrue(is_object($personers));
@@ -273,7 +276,7 @@ class ModelsCriteriaTest extends PHPUnit_Framework_TestCase
 		$personers = Personers::query()
 			->where("status=:status:")
 			->bind(array("status" => "A"))
-			->order("navnes")
+			->orderBy("navnes")
 			->limit(100)->execute();
 		$this->assertTrue(is_object($personers));
 		$this->assertEquals(get_class($personers), 'Phalcon\Mvc\Model\Resultset\Simple');
@@ -328,6 +331,25 @@ class ModelsCriteriaTest extends PHPUnit_Framework_TestCase
 				'name' => '%ol%',
 			)
 		));
+	}
+	
+	public function _executeTestIssues2131($di)
+	{
+		$di->set('modelsCache', function(){
+			$frontCache = new Phalcon\Cache\Frontend\Data();
+			$modelsCache = new Phalcon\Cache\Backend\File($frontCache, array(
+				'cacheDir' => 'unit-tests/cache/'
+			));
+
+			$modelsCache->delete("cache-2131");
+			return $modelsCache;
+		}, true);
+
+		$personas = Personas::query()->where("estado='I'")->cache(array("key" => "cache-2131"))->execute();
+		$this->assertTrue($personas->isFresh());
+
+		$personas = Personas::query()->where("estado='I'")->cache(array("key" => "cache-2131"))->execute();
+		$this->assertFalse($personas->isFresh());
 	}
 
 }

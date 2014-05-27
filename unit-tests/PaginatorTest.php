@@ -59,7 +59,7 @@ class PaginatorTest extends PHPUnit_Framework_TestCase
 		$di->set('db', function() {
 			require 'unit-tests/config.db.php';
 			return new Phalcon\Db\Adapter\Pdo\Mysql($configMysql);
-		});
+		}, true);
 
 		/*$di->set('db', function() {
 
@@ -85,7 +85,7 @@ class PaginatorTest extends PHPUnit_Framework_TestCase
 		    $connection->setEventsManager($eventsManager);
 
 		    return $connection;
-		});*/
+		}, true);*/
 
 		return $di;
 	}
@@ -386,6 +386,34 @@ class PaginatorTest extends PHPUnit_Framework_TestCase
 
 		$this->assertEquals($page->current, 218);
 		$this->assertEquals($page->total_pages, 218);
+
+		// test of getter/setters of querybuilder adapter
+
+        // -- current page --
+		$currentPage = $paginator->getCurrentPage();
+		$this->assertEquals($currentPage, 218);
+
+		// -- limit --
+		$rowsLimit = $paginator->getLimit();
+		$this->assertEquals($rowsLimit, 10);
+
+		$setterResult = $paginator->setLimit(25);
+		$rowsLimit = $paginator->getLimit();
+		$this->assertEquals($rowsLimit, 25);
+		$this->assertEquals($setterResult, $paginator);
+
+		// -- builder --
+		$queryBuilder = $paginator->getQueryBuilder();
+		$this->assertEquals($builder, $queryBuilder);
+
+		$builder2 = $di['modelsManager']->createBuilder()
+			->columns('cedula, nombres')
+			->from('Personnes');
+
+		$setterResult = $paginator->setQueryBuilder($builder2);
+		$queryBuilder = $paginator->getQueryBuilder();
+		$this->assertEquals($builder2, $queryBuilder);
+		$this->assertEquals($setterResult, $paginator);
 	}
 
 }

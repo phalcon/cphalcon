@@ -4,7 +4,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2013 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -70,7 +70,7 @@ class ModelsRelationsMagicTest extends PHPUnit_Framework_TestCase
 
 		$connection = new Phalcon\Db\Adapter\Pdo\Mysql($configMysql);
 
-		$di->set('db', $connection);
+		$di->set('db', $connection, true);
 
 		$this->_executeQueryRelated();
 		$this->_executeSaveRelatedBelongsTo($connection);
@@ -84,7 +84,7 @@ class ModelsRelationsMagicTest extends PHPUnit_Framework_TestCase
 		$di->set('db', function(){
 			require 'unit-tests/config.db.php';
 			return new Phalcon\Db\Adapter\Pdo\Postgresql($configPostgresql);
-		});
+		}, true);
 
 		$this->_executeQueryRelated();
 		$this->_executeSaveRelatedBelongsTo($connection);
@@ -98,7 +98,7 @@ class ModelsRelationsMagicTest extends PHPUnit_Framework_TestCase
 		$di->set('db', function(){
 			require 'unit-tests/config.db.php';
 			return new Phalcon\Db\Adapter\Pdo\Sqlite($configSqlite);
-		});
+		}, true);
 
 		$this->_executeQueryRelated();
 		$this->_executeSaveRelatedBelongsTo($connection);

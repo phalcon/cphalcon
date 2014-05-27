@@ -79,6 +79,20 @@ class PHPUnit_Framework_TestCase
 		}
 	}
 
+	public function assertCount($cnt, $a)
+	{
+		if (count($a) != $cnt) {
+			throw new Exception('count');
+		}
+	}
+
+	public function assertEmpty($v)
+	{
+		if (!empty($v)) {
+			throw new Exception('not empty');
+		}
+	}
+
 	public function assertGreaterThan($a, $b)
 	{
 		if ($b <= $a){
