@@ -1397,6 +1397,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getPhql){
 	zval *join_type = NULL, *group, *group_items, *group_item = NULL;
 	zval *escaped_item = NULL, *joined_items = NULL, *having, *order;
 	zval *order_items, *order_item = NULL, *limit, *number;
+	zval *replaced, *search, *replace;
 	HashTable *ah0, *ah1, *ah2, *ah3, *ah4, *ah5;
 	HashPosition hp0, hp1, hp2, hp3, hp4, hp5;
 	zval **hd;
@@ -1754,8 +1755,17 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getPhql){
 				if (phalcon_memnstr_str(group, SL("."))) {
 					PHALCON_SCONCAT_SV(phql, " GROUP BY ", group);
 				} else if (phalcon_memnstr_str(group, SL(","))) {
+					PHALCON_INIT_VAR(search);
+					ZVAL_STRING(search, " ", PH_COPY);
+
+					PHALCON_INIT_VAR(replace);
+					ZVAL_EMPTY_STRING(replace);
+
+					PHALCON_INIT_VAR(replaced);
+					phalcon_fast_str_replace(replaced, search, replace, group);
+
 					PHALCON_INIT_VAR(group_items);
-					phalcon_fast_explode_str(group_items, SL(", "), group);
+					phalcon_fast_explode_str(group_items, SL(","), replaced);
 
 					PHALCON_INIT_VAR(joined_items);
 					phalcon_fast_join_str(joined_items, SL("], ["), group_items TSRMLS_CC);
