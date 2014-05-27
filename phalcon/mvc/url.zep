@@ -188,11 +188,28 @@ class Url implements \Phalcon\Mvc\UrlInterface, \Phalcon\Di\InjectionAwareInterf
 	 *</code>
 	 *
 	 * @param string|array uri
+	 * @param array query
+	 * @param bool local
 	 * @return string
 	 */
-	public function get(var uri=null)
+	public function get(var uri=null, var query=null, var local=null)
 	{
 		var baseUri, router, dependencyInjector, routeName, route;
+		var regexp, matched, query_string;
+
+		if local == null {
+			if typeof uri == "string" && strstr(uri, ":") {
+				let regexp = "/^[^:\\/?#]++:/";
+				let matched = preg_match(regexp, uri, matched);
+				if matched {
+					let local = false;
+				} else {
+					let local = true;
+				}
+			} else {
+				let local = true;
+			}
+		}
 
 		let baseUri = this->getBaseUri();
 
@@ -232,7 +249,22 @@ class Url implements \Phalcon\Mvc\UrlInterface, \Phalcon\Di\InjectionAwareInterf
 			return baseUri . phalcon_replace_paths(route->getPattern(), route->getReversedPaths(), uri);
 		}
 
-		return baseUri . uri;
+		if local {
+			let uri = baseUri . uri;
+		}
+
+		if args != null {			
+			let query_string = http_build_query(query);
+			if typeof query_string == "string" && !empty(query_string) {
+				if strncmp(uri, "?", 1) {
+					let uri = uri . "&" . query_string;
+				} else {
+					let uri = uri . "?" . query_string;
+				}
+			}
+		}
+
+		return uri;
 	}
 
 	/**
