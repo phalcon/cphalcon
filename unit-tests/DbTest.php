@@ -21,7 +21,9 @@
 
 class DbTest extends PHPUnit_Framework_TestCase
 {
-
+	/**
+	 * @medium
+	 */
 	public function testDbMysql()
 	{
 		require 'unit-tests/config.db.php';
@@ -35,6 +37,9 @@ class DbTest extends PHPUnit_Framework_TestCase
 		}
 	}
 
+	/**
+	 * @medium
+	 */
 	public function testDbPostgresql()
 	{
 		require 'unit-tests/config.db.php';
@@ -48,6 +53,9 @@ class DbTest extends PHPUnit_Framework_TestCase
 		}
 	}
 
+	/**
+	 * @medium
+	 */
 	public function testDbPostgresqlSchemas()
 	{
 		require 'unit-tests/config.db.php';
@@ -85,6 +93,9 @@ class DbTest extends PHPUnit_Framework_TestCase
 
 	}
 
+	/**
+	 * @medium
+	 */
 	public function testDbSqlite()
 	{
 		require 'unit-tests/config.db.php';

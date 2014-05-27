@@ -4,7 +4,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2013 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -37,11 +37,11 @@ class ApplicationMvcTest extends PHPUnit_Framework_TestCase
 
 		$di = new Phalcon\DI\FactoryDefault();
 
-		/*$di->set('view', function() {
+		$di->set('view', function() {
 			$view = new \Phalcon\Mvc\View();
 			$view->setViewsDir('unit-tests/views/');
 			return $view;
-		});*/
+		});
 
 		$application = new Phalcon\Mvc\Application();
 		$application->setDi($di);
@@ -50,7 +50,7 @@ class ApplicationMvcTest extends PHPUnit_Framework_TestCase
 		$loader->unregister();
 	}
 
-	/*public function testApplicationModulesDefinition()
+	public function testApplicationModulesDefinition()
 	{
 
 		// Creates the autoloader
@@ -165,6 +165,6 @@ class ApplicationMvcTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($application->handle()->getContent(), '<html>here</html>'.PHP_EOL);
 
 		$loader->unregister();
-	}*/
+	}
 
 }

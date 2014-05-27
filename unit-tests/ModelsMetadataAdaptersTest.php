@@ -102,7 +102,7 @@ class ModelsMetadataAdaptersTest extends PHPUnit_Framework_TestCase
 		$di->set('db', function(){
 			require 'unit-tests/config.db.php';
 			return new Phalcon\Db\Adapter\Pdo\Mysql($configMysql);
-		});
+		}, true);
 
 		return $di;
 	}
@@ -131,8 +131,10 @@ class ModelsMetadataAdaptersTest extends PHPUnit_Framework_TestCase
 
 		$this->assertFalse($metaData->isEmpty());
 
-		Robots::findFirst();
+		$metaData->reset();
+		$this->assertTrue($metaData->isEmpty());
 
+		Robots::findFirst();
 	}
 
 	public function testMetadataSession()
@@ -169,8 +171,10 @@ class ModelsMetadataAdaptersTest extends PHPUnit_Framework_TestCase
 
 		$this->assertFalse($metaData->isEmpty());
 
-		Robots::findFirst();
+		$metaData->reset();
+		$this->assertTrue($metaData->isEmpty());
 
+		Robots::findFirst();
 	}
 
 	public function testMetadataApc()
@@ -210,8 +214,10 @@ class ModelsMetadataAdaptersTest extends PHPUnit_Framework_TestCase
 
 		$this->assertFalse($metaData->isEmpty());
 
-		Robots::findFirst();
+		$metaData->reset();
+		$this->assertTrue($metaData->isEmpty());
 
+		Robots::findFirst();
 	}
 
 	public function testMetadataXcache()
@@ -251,8 +257,10 @@ class ModelsMetadataAdaptersTest extends PHPUnit_Framework_TestCase
 
 		$this->assertFalse($metaData->isEmpty());
 
-		Robots::findFirst();
+		$metaData->reset();
+		$this->assertTrue($metaData->isEmpty());
 
+		Robots::findFirst();
 	}
 
 	public function testMetadataFiles()
@@ -271,9 +279,6 @@ class ModelsMetadataAdaptersTest extends PHPUnit_Framework_TestCase
 			));
 		});
 
-		@unlink('unit-tests/cache/meta-robots-robots.php');
-		@unlink('unit-tests/cache/map-robots.php');
-
 		$metaData = $di->getShared('modelsMetadata');
 
 		$metaData->reset();
@@ -286,6 +291,9 @@ class ModelsMetadataAdaptersTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals(require 'unit-tests/cache/map-robots.php', $this->_data['map-robots']);
 
 		$this->assertFalse($metaData->isEmpty());
+
+		$metaData->reset();
+		$this->assertTrue($metaData->isEmpty());
 
 		Robots::findFirst();
 	}

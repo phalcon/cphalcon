@@ -4,7 +4,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2012 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -15,44 +15,37 @@
   +------------------------------------------------------------------------+
   | Authors: Andres Gutierrez <andres@phalconphp.com>                      |
   |          Eduar Carvajal <eduar@phalconphp.com>                         |
+  |          Vladimir Kolesnikov <vladimir@extrememember.com>              |
   +------------------------------------------------------------------------+
 */
 
-class ControllersTest extends PHPUnit_Framework_TestCase
+class PHPTTestSuite extends PHPUnit_Framework_TestCase
 {
-
-	public function testControllers()
+	public static function suite()
 	{
-		$di = new Phalcon\DI();
-
-		$di->set('view', function(){
-			$view = new Phalcon\Mvc\View();
-			$view->setViewsDir('unit-tests/views/');
-			return $view;
-		});
-
-		$di->set('request', function(){
-			return new Phalcon\Http\Request();
-		});
-
-		$di->set('filter', function(){
-			return new Phalcon\Filter();
-		});
-
-		if (!class_exists('Test4Controller', false)) {
-			require __DIR__ . '/controllers/Test4Controller.php';
+		if (empty($_ENV)) {
+			if (isset($_SERVER['PATH'])) {
+				$_ENV['PATH'] = $_SERVER['PATH'];
+			}
+			else {
+				$_ENV['PATH'] = getenv('PATH');
+			}
 		}
 
-		$controller = new Test4Controller();
-		$controller->setDI($di);
+		$directory = __DIR__ . '/../ext/tests/';
 
-		$_POST['email'] = ';ans@ecom.com';
-		$this->assertEquals($controller->requestAction(), 'ans@ecom.com');
+		$facade = new File_Iterator_Facade;
+		$files  = $facade->getFilesAsArray($directory, '.phpt');
 
-		$view = $di->getShared('view');
+		$suite = new PHPUnit_Framework_TestSuite();
 
-		$controller->viewAction();
-		$this->assertEquals(count($view->getParamsToView()), 1);
+		foreach ($files as $file) {
+			$c = file_get_contents($file);
+			if (!preg_match('/^--(?:PUT|(?:GZIP|DEFLATE)_POST|CGI)--$/m', $c)) {
+				$suite->addTestFile($file);
+			}
+		}
+
+		return $suite;
 	}
-
 }

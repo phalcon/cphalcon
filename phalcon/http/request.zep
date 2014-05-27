@@ -80,9 +80,11 @@ class Request implements \Phalcon\Http\RequestInterface, \Phalcon\Di\InjectionAw
 	 * @param string name
 	 * @param string|array filters
 	 * @param mixed defaultValue
+	 * @param boolean notAllowEmpty
+	 * @param boolean noRecursive
 	 * @return mixed
 	 */
-	public function get(string! name=null, filters=null, defaultValue=null)
+	public function get(string! name=null, filters=null, defaultValue=null, notAllowEmpty=false, noRecursive=false)
 	{
 		var request, value, filter, dependencyInjector;
 
@@ -99,8 +101,21 @@ class Request implements \Phalcon\Http\RequestInterface, \Phalcon\Di\InjectionAw
 						let filter = <\Phalcon\Filter> dependencyInjector->getShared("filter");
 						let this->_filter = filter;
 					}
-					return filter->sanitize(value, filters);
+
+					let value = filter->sanitize(value, filters, noRecursive);
+
+					if (empty(value) && notAllowEmpty === true) {
+						return defaultValue;
+					}
+
+					return value;
+
 				} else {
+
+				 	if (empty(value) && notAllowEmpty === true) {
+				 		return defaultValue;
+				 	}
+
 					return value;
 				}
 			}
@@ -124,9 +139,11 @@ class Request implements \Phalcon\Http\RequestInterface, \Phalcon\Di\InjectionAw
 	 * @param string name
 	 * @param string|array filters
 	 * @param mixed defaultValue
+	 * @param boolean notAllowEmpty
+	 * @param boolean noRecursive
 	 * @return mixed
 	 */
-	public function getPost(string! name=null, filters=null, defaultValue=null)
+	public function getPost(string! name=null, filters=null, defaultValue=null, notAllowEmpty=false, noRecursive=false)
 	{
 		var post, value, filter, dependencyInjector;
 
@@ -143,9 +160,23 @@ class Request implements \Phalcon\Http\RequestInterface, \Phalcon\Di\InjectionAw
 						let filter = <\Phalcon\Filter> dependencyInjector->getShared("filter");
 						let this->_filter = filter;
 					}
-					return filter->sanitize(value, filters);
-				} else {
+
+					let value = filter->sanitize(value, filters, noRecursive);
+
+					if (empty(value) && notAllowEmpty === true) {
+						return defaultValue;
+					}
+
 					return value;
+
+				} else {
+
+				 	if (empty(value) && notAllowEmpty === true) {
+				 		return defaultValue;
+				 	}
+
+					return value;
+
 				}
 			}
 			return defaultValue;
@@ -171,9 +202,11 @@ class Request implements \Phalcon\Http\RequestInterface, \Phalcon\Di\InjectionAw
 	 * @param string name
 	 * @param string|array filters
 	 * @param mixed defaultValue
+	 * @param boolean notAllowEmpty
+	 * @param boolean noRecursive
 	 * @return mixed
 	 */
-	public function getQuery(string! name=null, filters=null, defaultValue=null)
+	public function getQuery(string! name=null, filters=null, defaultValue=null, notAllowEmpty=false, noRecursive=false)
 	{
 		var get, value, filter, dependencyInjector;
 
@@ -190,8 +223,21 @@ class Request implements \Phalcon\Http\RequestInterface, \Phalcon\Di\InjectionAw
 						let filter = <\Phalcon\Filter> dependencyInjector->getShared("filter");
 						let this->_filter = filter;
 					}
-					return filter->sanitize(value, filters);
+
+					let value = filter->sanitize(value, filters, noRecursive);
+
+					if (empty(value) && notAllowEmpty === true) {
+						return defaultValue;
+					}
+
+					return value;
+
 				} else {
+
+					if (empty(value) && notAllowEmpty === true) {
+						return defaultValue;
+					}
+
 					return value;
 				}
 			}

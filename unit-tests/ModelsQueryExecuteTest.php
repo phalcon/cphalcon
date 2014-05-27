@@ -73,7 +73,7 @@ class ModelsQueryExecuteTest extends PHPUnit_Framework_TestCase
 		$di->set('db', function() {
 			require 'unit-tests/config.db.php';
 			return new Phalcon\Db\Adapter\Pdo\Mysql($configMysql);
-		});
+		}, true);
 
 		$this->_testSelectExecute($di);
 		$this->_testSelectRenamedExecute($di);
@@ -99,7 +99,7 @@ class ModelsQueryExecuteTest extends PHPUnit_Framework_TestCase
 		$di->set('db', function() {
 			require 'unit-tests/config.db.php';
 			return new Phalcon\Db\Adapter\Pdo\Postgresql($configPostgresql);
-		});
+		}, true);
 
 		$this->_testSelectExecute($di);
 		$this->_testSelectRenamedExecute($di);
@@ -125,7 +125,7 @@ class ModelsQueryExecuteTest extends PHPUnit_Framework_TestCase
 		$di->set('db', function() {
 			require 'unit-tests/config.db.php';
 			return new Phalcon\Db\Adapter\Pdo\Sqlite($configSqlite);
-		});
+		}, true);
 
 		$this->_testSelectExecute($di);
 		$this->_testSelectRenamedExecute($di);
@@ -646,6 +646,7 @@ class ModelsQueryExecuteTest extends PHPUnit_Framework_TestCase
 				'_type' => NULL,
 				'_message' => 'Sorry Marina, but you are not allowed here',
 				'_field' => NULL,
+				'_code' => 0,
 			)),
 		));
 
@@ -656,6 +657,7 @@ class ModelsQueryExecuteTest extends PHPUnit_Framework_TestCase
 				'_type' => 'Email',
 				'_message' => "Value of field 'email' must have a valid e-mail format",
 				'_field' => 'email',
+				'_code' => 0,
 			)),
 		));
 
@@ -696,6 +698,7 @@ class ModelsQueryExecuteTest extends PHPUnit_Framework_TestCase
 				'_type' => NULL,
 				'_message' => 'Désolé Marina, mais vous n\'êtes pas autorisé ici',
 				'_field' => NULL,
+				'_code' => 0,
 			)),
 		));
 
@@ -709,6 +712,7 @@ class ModelsQueryExecuteTest extends PHPUnit_Framework_TestCase
 				'_type' => 'Email',
 				'_message' => "Le courrier électronique est invalide",
 				'_field' => 'courrierElectronique',
+				'_code' => 0,
 			)),
 		));
 
@@ -770,7 +774,7 @@ class ModelsQueryExecuteTest extends PHPUnit_Framework_TestCase
 				"email" => "le-marina@hotmail.com",
 				"limit" => 1,
 			),
-			array('email' => \Phalcon\Db\Column::BIND_PARAM_STR, 'limit' => \Phalcon\Db\Column::BIND_PARAM_INT)
+			array('email' => \Phalcon\Db\Column::BIND_PARAM_STR, /*'limit' => \Phalcon\Db\Column::BIND_PARAM_INT*/)
 		);
 		$this->assertTrue($status->success());
 	}
@@ -820,7 +824,7 @@ class ModelsQueryExecuteTest extends PHPUnit_Framework_TestCase
 				"email" => "fuego@hotmail.com",
 				"limit" => 1,
 			),
-			array('email' => \Phalcon\Db\Column::BIND_PARAM_STR, 'limit' => \Phalcon\Db\Column::BIND_PARAM_INT)
+			array('email' => \Phalcon\Db\Column::BIND_PARAM_STR,/* 'limit' => \Phalcon\Db\Column::BIND_PARAM_INT */)
 		);
 		$this->assertTrue($status->success());
 	}

@@ -18,28 +18,36 @@
 	+------------------------------------------------------------------------+
 */
 
-class SessionTest extends PHPUnit_Framework_TestCase
+class SessionBagTest extends PHPUnit_Framework_TestCase
 {
-
-	public function testSessionFiles()
+	/**
+	 * @covers \Phalcon\Session\Bag::get()
+	 * @covers \Phalcon\Session\Bag::set()
+	 * @covers \Phalcon\Session\Bag::__get()
+	 * @covers \Phalcon\Session\Bag::__set()
+	 */
+	public function testGetSet()
 	{
-
-		$session = new Phalcon\Session\Adapter\Files();
-
-		$this->assertFalse($session->start());
-		$this->assertFalse($session->isStarted());
-
+		\Phalcon\DI::reset();
+		new \Phalcon\DI\FactoryDefault();
 		@session_start();
 
-		$session->set('some', 'value');
+		// Using getters and setters.
+		$bag = new Phalcon\Session\Bag('test1');
+		$bag->set('a', array('b' => 'c'));
+		$this->assertEquals(array('b' => 'c'), $bag->get('a'));
+		$this->assertEquals(array('b' => 'c'), $_SESSION['test1']['a']);
 
-		$this->assertEquals($session->get('some'), 'value');
-		$this->assertTrue($session->has('some'));
-		$this->assertEquals($session->get('undefined', 'my-default'), 'my-default');
-		
-		// Automatically deleted after reading
-		$this->assertEquals($session->get('some', NULL, TRUE), 'value');
-		$this->assertFalse($session->has('some'));
+		// Using direct access.
+		$bag        = new Phalcon\Session\Bag('test2');
+		$bag->a     = array('b' => 'c');
+		$this->assertEquals(array('b' => 'c'), $bag->{'a'});
+		$this->assertEquals(array('b' => 'c'), $_SESSION['test2']['a']);
+
+		// Using direct access with initialising a variable.
+		$bag             = new Phalcon\Session\Bag('test3');
+		$bag->a['b']     = 'c';
+		$this->assertEquals(array('b' => 'c'), $bag->a);
+		$this->assertEquals(array('b' => 'c'), $_SESSION['test3']['a']);
 	}
-
 }

@@ -15,10 +15,14 @@
   +------------------------------------------------------------------------+
   | Authors: Andres Gutierrez <andres@phalconphp.com>                      |
   |          Eduar Carvajal <eduar@phalconphp.com>                         |
+  |          Vladimir Kolesnikov <vladimir@extrememember.com>              |
   +------------------------------------------------------------------------+
 */
 
-class ModelsMultipleSourcesTest extends PHPUnit_Framework_TestCase
+/**
+ * This test has to be in a separate file and cannot be combined with ModelsTest
+ */
+class Issue1801 extends PHPUnit_Framework_TestCase
 {
 
 	public function __construct()
@@ -33,76 +37,84 @@ class ModelsMultipleSourcesTest extends PHPUnit_Framework_TestCase
 
 	public function modelsAutoloader($className)
 	{
-		$className = str_replace('\\', '/', $className);
 		if (file_exists('unit-tests/models/'.$className.'.php')) {
 			require 'unit-tests/models/'.$className.'.php';
 		}
 	}
 
-	protected function _prepareDI()
+	public function tearDown()
+	{
+		Phalcon\Mvc\Model::setup(array('columnRenaming' => true));
+		parent::tearDown();
+	}
+
+	protected function _getDI($dbService)
 	{
 		Phalcon\DI::reset();
 
-		$di = new Phalcon\DI();
+		$di = new Phalcon\DI\FactoryDefault();
 
-		$di->set('modelsManager', function() {
-			return new Phalcon\Mvc\Model\Manager();
-		}, true);
-
-		$di->set('modelsMetadata', function() {
-			return new Phalcon\Mvc\Model\Metadata\Memory();
-		}, true);
-
-		$di->set('db', function() {
-			throw new Exception('Using default database source');
-		}, true);
-
-		$di->set('dbOne', function() {
-			require 'unit-tests/config.db.php';
-			return new Phalcon\Db\Adapter\Pdo\Mysql($configMysql);
-		}, true);
-
-		$di->set('dbTwo', function() {
-			require 'unit-tests/config.db.php';
-			return new Phalcon\Db\Adapter\Pdo\Mysql($configMysql);
-		}, true);
+		$di->set('db', $dbService, true);
+		return $di;
 	}
 
-	public function testSourcesStatic()
+	public function test1801Mysql()
 	{
 		require 'unit-tests/config.db.php';
 		if (empty($configMysql)) {
-			$this->marktestSkipped('Test skipped');
+			$this->markTestSkipped("Skipped");
 			return;
 		}
 
-		$this->_prepareDI();
+		$di = $this->_getDI(function(){
+			require 'unit-tests/config.db.php';
+			$db = new Phalcon\Db\Adapter\Pdo\Mysql($configMysql);
+			return $db;
+		});
 
-		$robot = Store\Robots::findFirst();
-		$this->assertTrue(is_object($robot));
-		$this->assertTrue($robot->save());
-
-		$robotParts = $robot->getRobotParts();
-		$this->assertTrue(is_object($robotParts));
-
-		foreach ($robotParts as $robotPart) {
-			$this->assertTrue(is_object($robotPart->getRobot()));
-			$this->assertTrue(is_object($robotPart->getPart()));
-		}
+		$this->issue1801($di);
 	}
 
-	public function testSourcesInstance()
+	public function test1801Postgresql()
 	{
 		require 'unit-tests/config.db.php';
-		if (empty($configMysql)) {
-			$this->marktestSkipped('Test skipped');
+		if (empty($configPostgresql)) {
+			$this->markTestSkipped("Skipped");
 			return;
 		}
 
-		$this->_prepareDI();
+		$di = $this->_getDI(function(){
+			require 'unit-tests/config.db.php';
+			return new Phalcon\Db\Adapter\Pdo\Postgresql($configPostgresql);
+		});
 
-		$robot = new Store\Robots();
-		$this->assertFalse($robot->save());
+		$this->issue1801($di);
+	}
+
+	public function test1801Sqlite()
+	{
+		require 'unit-tests/config.db.php';
+		if (empty($configSqlite)) {
+			$this->markTestSkipped("Skipped");
+			return;
+		}
+
+		$di = $this->_getDI(function(){
+			require 'unit-tests/config.db.php';
+			return new Phalcon\Db\Adapter\Pdo\Sqlite($configSqlite);
+		});
+
+		$this->issue1801($di);
+	}
+
+	protected function issue1801($di)
+	{
+		Phalcon\Mvc\Model::setup(array('columnRenaming' => false));
+
+		$robot = Robots::findFirst(1);
+		$di->get('modelsMetadata')->reset();
+		$robot = Robots::findFirst(1);
+		$this->assertTrue(true);
 	}
 
 }
