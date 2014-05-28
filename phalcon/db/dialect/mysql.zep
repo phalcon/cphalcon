@@ -206,16 +206,23 @@ class MySQL extends \Phalcon\Db\Dialect //implements Phalcon\Db\DialectInterface
 	 */
 	public function addIndex(string! tableName, string! schemaName, <IndexInterface> index) -> string
 	{
-		var sql;
+		var sql, indexType;
 
 		if typeof index != "object" {
 			throw new Exception("Index parameter must be an object compatible with Phalcon\\Db\\IndexInterface");
 		}
 
 		if schemaName {
-			let sql = "ALTER TABLE `" . schemaName . "`.`" . tableName . "` ADD INDEX ";
+			let sql = "ALTER TABLE `" . schemaName . "`.`" . tableName;
 		} else {
-			let sql = "ALTER TABLE `" . tableName . "` ADD INDEX ";
+			let sql = "ALTER TABLE `" . tableName;
+		}
+
+		let indexType = index->getType();
+		if !empty indexType {
+			let sql .= "` ADD " . indexType . " INDEX ";
+		} else {
+			let sql .= "` ADD INDEX ";
 		}
 
 		let sql .= "`" . index->getName() . "` (" . this->getColumnList(index->getColumns()) . ")";
@@ -404,7 +411,7 @@ class MySQL extends \Phalcon\Db\Dialect //implements Phalcon\Db\DialectInterface
 	{
 		var temporary, options, table, createLines, columns,
 			column, indexes, index, reference, references, indexName,
-			indexSql, sql, columnLine;
+			indexSql, sql, columnLine, indexType;
 
 		if !fetch columns, definition["columns"] {
 			throw new Exception("The index 'columns' is required in the definition array");
@@ -467,6 +474,7 @@ class MySQL extends \Phalcon\Db\Dialect //implements Phalcon\Db\DialectInterface
 			for index in indexes {
 
 				let indexName = index->getName();
+				let indexType = index->getType();
 
 				/**
 				 * If the index name is primary we add a primary key
@@ -474,7 +482,11 @@ class MySQL extends \Phalcon\Db\Dialect //implements Phalcon\Db\DialectInterface
 				if indexName == "PRIMARY" {
 					let indexSql = "PRIMARY KEY (" . this->getColumnList(index->getColumns()) . ")";
 				} else {
-					let indexSql = "KEY `" . indexName . "` (" . this->getColumnList(index->getColumns()) . ")";
+					if !empty indexType {
+						let indexSql = indexType . " KEY `" . indexName . "` (" . this->getColumnList(index->getColumns()) . ")";
+					} else {
+						let indexSql = "KEY `" . indexName . "` (" . this->getColumnList(index->getColumns()) . ")";
+					}
 				}
 
 				let createLines[] = indexSql;
