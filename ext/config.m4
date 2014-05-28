@@ -201,6 +201,7 @@ mvc/model/transactioninterface.c \
 config/adapter/ini.c \
 config/adapter/json.c \
 config/adapter/php.c \
+config/adapter/yaml.c \
 config/exception.c \
 filterinterface.c \
 logger/multiple.c \
@@ -273,6 +274,8 @@ session/exception.c \
 session/baginterface.c \
 session/adapterinterface.c \
 session/adapter.c \
+session/adapter/memcache.c \
+session/adapter/libmemcached.c \
 diinterface.c \
 escaper.c \
 crypt/exception.c \
@@ -320,10 +323,12 @@ translate/adapter/nativearray.c \
 translate/exception.c \
 translate/adapterinterface.c \
 translate/adapter.c \
+translate/adapter/gettext.c \
 validation/validatorinterface.c \
 validation/message/group.c \
 validation/exception.c \
 validation/message.c \
+validation/messageinterface.c \
 validation/validator/email.c \
 validation/validator/presenceof.c \
 validation/validator/confirmation.c \

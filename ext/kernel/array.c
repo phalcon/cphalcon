@@ -738,11 +738,103 @@ void phalcon_array_merge_recursive_n(zval **a1, zval *a2)
 	}
 }
 
-void phalcon_array_unshift(zval *arr, zval *arg)
+HashTable* phalcon_array_splice(HashTable *in_hash, int offset, int length, zval ***list, int list_count, HashTable **removed TSRMLS_DC) /* {{{ */
+{
+	HashTable 	*out_hash = NULL;	/* Output hashtable */
+	int			 num_in,			/* Number of entries in the input hashtable */
+				 pos,				/* Current position in the hashtable */
+				 i;					/* Loop counter */
+	Bucket		*p;					/* Pointer to hash bucket */
+	zval		*entry;				/* Hash entry */
+
+	/* If input hash doesn't exist, we have nothing to do */
+	if (!in_hash) {
+		return NULL;
+	}
+
+	/* Get number of entries in the input hash */
+	num_in = zend_hash_num_elements(in_hash);
+
+	/* Clamp the offset.. */
+	if (offset > num_in) {
+		offset = num_in;
+	} else if (offset < 0 && (offset = (num_in + offset)) < 0) {
+		offset = 0;
+	}
+
+	/* ..and the length */
+	if (length < 0) {
+		length = num_in - offset + length;
+	} else if (((unsigned)offset + (unsigned)length) > (unsigned)num_in) {
+		length = num_in - offset;
+	}
+
+	/* Create and initialize output hash */
+	ALLOC_HASHTABLE(out_hash);
+	zend_hash_init(out_hash, (length > 0 ? num_in - length : 0) + list_count, NULL, ZVAL_PTR_DTOR, 0);
+
+	/* Start at the beginning of the input hash and copy entries to output hash until offset is reached */
+	for (pos = 0, p = in_hash->pListHead; pos < offset && p ; pos++, p = p->pListNext) {
+		/* Get entry and increase reference count */
+		entry = *((zval **)p->pData);
+		Z_ADDREF_P(entry);
+
+		/* Update output hash depending on key type */
+		if (p->nKeyLength == 0) {
+			zend_hash_next_index_insert(out_hash, &entry, sizeof(zval *), NULL);
+		} else {
+			zend_hash_quick_update(out_hash, p->arKey, p->nKeyLength, p->h, &entry, sizeof(zval *), NULL);
+		}
+	}
+
+	/* If hash for removed entries exists, go until offset+length and copy the entries to it */
+	if (removed != NULL) {
+		for ( ; pos < offset + length && p; pos++, p = p->pListNext) {
+			entry = *((zval **)p->pData);
+			Z_ADDREF_P(entry);
+			if (p->nKeyLength == 0) {
+				zend_hash_next_index_insert(*removed, &entry, sizeof(zval *), NULL);
+			} else {
+				zend_hash_quick_update(*removed, p->arKey, p->nKeyLength, p->h, &entry, sizeof(zval *), NULL);
+			}
+		}
+	} else { /* otherwise just skip those entries */
+		for ( ; pos < offset + length && p; pos++, p = p->pListNext);
+	}
+
+	/* If there are entries to insert.. */
+	if (list != NULL) {
+		/* ..for each one, create a new zval, copy entry into it and copy it into the output hash */
+		for (i = 0; i < list_count; i++) {
+			entry = *list[i];
+			Z_ADDREF_P(entry);
+			zend_hash_next_index_insert(out_hash, &entry, sizeof(zval *), NULL);
+		}
+	}
+
+	/* Copy the remaining input hash entries to the output hash */
+	for ( ; p ; p = p->pListNext) {
+		entry = *((zval **)p->pData);
+		Z_ADDREF_P(entry);
+		if (p->nKeyLength == 0) {
+			zend_hash_next_index_insert(out_hash, &entry, sizeof(zval *), NULL);
+		} else {
+			zend_hash_quick_update(out_hash, p->arKey, p->nKeyLength, p->h, &entry, sizeof(zval *), NULL);
+		}
+	}
+
+	zend_hash_internal_pointer_reset(out_hash);
+	return out_hash;
+}
+/* }}} */
+
+void phalcon_array_unshift(zval *arr, zval *arg TSRMLS_DC)
 {
 	if (likely(Z_TYPE_P(arr) == IS_ARRAY)) {
 		zval** args[1]      = { &arg };
-		HashTable *newhash = php_splice(Z_ARRVAL_P(arr), 0, 0, args, 1, NULL);
+
+		HashTable *newhash = phalcon_array_splice(Z_ARRVAL_P(arr), 0, 0, args, 1, NULL TSRMLS_CC);
+
 		HashTable  oldhash = *Z_ARRVAL_P(arr);
 		*Z_ARRVAL_P(arr)   = *newhash;
 

@@ -194,7 +194,7 @@ void phalcon_unique_path_key(zval *return_value, zval *path TSRMLS_DC) {
 	h = zend_hash_func(Z_STRVAL_P(path), Z_STRLEN_P(path) + 1);
 
 	strKey = emalloc(24);
-	sprintf(strKey, "v%lu", h);
+	snprintf(strKey, 23, "v%lu", h);    
 
 	RETURN_STRING(strKey, 0);
 }

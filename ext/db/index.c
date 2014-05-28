@@ -41,17 +41,20 @@ zend_class_entry *phalcon_db_index_ce;
 PHP_METHOD(Phalcon_Db_Index, __construct);
 PHP_METHOD(Phalcon_Db_Index, getName);
 PHP_METHOD(Phalcon_Db_Index, getColumns);
+PHP_METHOD(Phalcon_Db_Index, getType);
 PHP_METHOD(Phalcon_Db_Index, __set_state);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_index___construct, 0, 0, 2)
 	ZEND_ARG_INFO(0, indexName)
 	ZEND_ARG_INFO(0, columns)
+	ZEND_ARG_INFO(0, type)
 ZEND_END_ARG_INFO()
 
 static const zend_function_entry phalcon_db_index_method_entry[] = {
 	PHP_ME(Phalcon_Db_Index, __construct, arginfo_phalcon_db_index___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
 	PHP_ME(Phalcon_Db_Index, getName, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Db_Index, getColumns, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Db_Index, getType, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Db_Index, __set_state, arginfo___set_state, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
 	PHP_FE_END
 };
@@ -65,6 +68,7 @@ PHALCON_INIT_CLASS(Phalcon_Db_Index){
 
 	zend_declare_property_null(phalcon_db_index_ce, SL("_indexName"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_db_index_ce, SL("_columns"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_db_index_ce, SL("_type"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
 	zend_class_implements(phalcon_db_index_ce TSRMLS_CC, 1, phalcon_db_indexinterface_ce);
 
@@ -80,12 +84,21 @@ PHALCON_INIT_CLASS(Phalcon_Db_Index){
 PHP_METHOD(Phalcon_Db_Index, __construct){
 
 	zval *index_name, *columns;
+	zval *type = NULL;
 
-	phalcon_fetch_params(0, 2, 0, &index_name, &columns);
-	
+	PHALCON_MM_GROW();
+
+	phalcon_fetch_params(1, 2, 1, &index_name, &columns, &type);
+
+	if (!type) {
+		type = PHALCON_GLOBAL(z_null);
+	}
+
 	phalcon_update_property_this(this_ptr, SL("_indexName"), index_name TSRMLS_CC);
 	phalcon_update_property_this(this_ptr, SL("_columns"), columns TSRMLS_CC);
-	
+	phalcon_update_property_this(this_ptr, SL("_type"), type TSRMLS_CC);
+
+	PHALCON_MM_RESTORE();
 }
 
 /**
@@ -108,6 +121,29 @@ PHP_METHOD(Phalcon_Db_Index, getColumns){
 
 
 	RETURN_MEMBER(this_ptr, "_columns");
+}
+
+/**
+ * Gets the index type
+ *
+ * @return string
+ */
+PHP_METHOD(Phalcon_Db_Index, getType){
+
+	zval *type = NULL;
+
+	PHALCON_MM_GROW();
+
+	PHALCON_OBS_VAR(type);
+	phalcon_read_property_this(&type, this_ptr, SL("_type"), PH_NOISY TSRMLS_CC);
+
+	if (Z_TYPE_P(type) == IS_STRING) {
+		RETVAL_ZVAL(type, 1, 0);
+	} else {
+		RETVAL_EMPTY_STRING();
+	}
+
+	RETURN_MM();
 }
 
 /**

@@ -287,6 +287,7 @@ PHP_METHOD(Phalcon_Mvc_Url, getBasePath){
  *
  * @param string|array $uri
  * @param array|object args Optional arguments to be appended to the query string
+ * @param bool|null $local
  * @return string
  */
 PHP_METHOD(Phalcon_Mvc_Url, get){
@@ -295,16 +296,22 @@ PHP_METHOD(Phalcon_Mvc_Url, get){
 	zval *service, *route_name, *route = NULL, *exception_message;
 	zval *pattern = NULL, *paths = NULL, *processed_uri, **args = NULL, *query_string;
 	zval *matched, *regexp;
+	zval **z_local = NULL;
 	int local = 1;
 
-	phalcon_fetch_params_ex(0, 2, &uri, &args);
+	phalcon_fetch_params_ex(0, 3, &uri, &args, &z_local);
 
 	PHALCON_MM_GROW();
 
 	if (!uri) {
 		uri = &PHALCON_GLOBAL(z_null);
 	}
-	else if (Z_TYPE_PP(uri) == IS_STRING && strstr(Z_STRVAL_PP(uri), "://")) {
+	else if (z_local && Z_TYPE_PP(z_local) != IS_NULL) {
+		if (!zend_is_true(*z_local)) {
+			local = 0;
+		}
+	}
+	else if (Z_TYPE_PP(uri) == IS_STRING && strstr(Z_STRVAL_PP(uri), ":")) {
 		PHALCON_INIT_VAR(matched);
 		PHALCON_INIT_VAR(regexp);
 		ZVAL_STRING(regexp, "/^[^:\\/?#]++:/", 1);

@@ -48,6 +48,7 @@ PHP_METHOD(Phalcon_Logger_Multiple, info);
 PHP_METHOD(Phalcon_Logger_Multiple, notice);
 PHP_METHOD(Phalcon_Logger_Multiple, warning);
 PHP_METHOD(Phalcon_Logger_Multiple, alert);
+PHP_METHOD(Phalcon_Logger_Multiple, critical); 
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_logger_multiple_push, 0, 0, 1)
 	ZEND_ARG_INFO(0, logger)
@@ -337,6 +338,26 @@ PHP_METHOD(Phalcon_Logger_Multiple, alert){
 	
 	PHALCON_ALLOC_GHOST_ZVAL(type);
 	ZVAL_LONG(type, PHALCON_LOGGER_ALERT);
+	PHALCON_CALL_METHOD(NULL, this_ptr, "log", message, type);
+	
+	PHALCON_MM_RESTORE();
+}
+
+/**
+ * Sends/Writes an critical message to the log
+ *
+ * @param string $message
+ */
+PHP_METHOD(Phalcon_Logger_Multiple, critical){
+
+	zval *message, *type;
+
+	PHALCON_MM_GROW();
+
+	phalcon_fetch_params(1, 1, 0, &message);
+	
+	PHALCON_ALLOC_GHOST_ZVAL(type);
+	ZVAL_LONG(type, PHALCON_LOGGER_CRITICAL);
 	PHALCON_CALL_METHOD(NULL, this_ptr, "log", message, type);
 	
 	PHALCON_MM_RESTORE();

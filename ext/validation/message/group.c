@@ -20,6 +20,7 @@
 #include "validation/message/group.h"
 #include "validation/exception.h"
 #include "validation/message.h"
+#include "validation/messageinterface.h"
 
 #include "kernel/main.h"
 #include "kernel/memory.h"
@@ -459,7 +460,7 @@ PHP_METHOD(Phalcon_Validation_Message_Group, appendMessage){
 	zval *message;
 
 	phalcon_fetch_params(0, 1, 0, &message);
-	PHALCON_VERIFY_CLASS_EX(message, phalcon_validation_message_ce, spl_ce_BadMethodCallException, 0);
+	PHALCON_VERIFY_INTERFACE_EX(message, phalcon_validation_messageinterface_ce, phalcon_validation_exception_ce, 0);
 	phalcon_update_property_array_append(this_ptr, SL("_messages"), message TSRMLS_CC);
 }
 
@@ -474,7 +475,11 @@ PHP_METHOD(Phalcon_Validation_Message_Group, appendMessage){
  */
 PHP_METHOD(Phalcon_Validation_Message_Group, appendMessages){
 
-	zval *messages, *current_messages, *final_messages = NULL;
+	zval *messages;
+	zval *key = NULL, *message = NULL;
+	HashTable *ah0;
+	HashPosition hp0;
+	zval **hd;
 
 	PHALCON_MM_GROW();
 
@@ -487,20 +492,19 @@ PHP_METHOD(Phalcon_Validation_Message_Group, appendMessages){
 		}
 	}
 	
-	PHALCON_OBS_VAR(current_messages);
-	phalcon_read_property_this(&current_messages, this_ptr, SL("_messages"), PH_NOISY TSRMLS_CC);
 	if (Z_TYPE_P(messages) == IS_ARRAY) { 
-	
 		/** 
 		 * An array of messages is simply merged into the current one
 		 */
-		if (Z_TYPE_P(current_messages) == IS_ARRAY) { 
-			PHALCON_INIT_VAR(final_messages);
-			phalcon_fast_array_merge(final_messages, &current_messages, &messages TSRMLS_CC);
-		} else {
-			PHALCON_CPY_WRT(final_messages, messages);
+		phalcon_is_iterable(messages, &ah0, &hp0, 0, 0);
+		while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
+			PHALCON_GET_HKEY(key, ah0, hp0);
+			PHALCON_GET_HVALUE(message);
+
+			PHALCON_CALL_SELF(NULL, "appendmessage", message);
+
+			zend_hash_move_forward_ex(ah0, &hp0);
 		}
-		phalcon_update_property_this(this_ptr, SL("_messages"), final_messages TSRMLS_CC);
 	} else {
 		zend_class_entry *ce     = Z_OBJCE_P(messages);
 		zend_object_iterator *it = ce->get_iterator(ce, messages, 0 TSRMLS_CC);

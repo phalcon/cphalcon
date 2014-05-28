@@ -94,6 +94,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_StringLength, validate){
 	zval *record, *option = NULL, *field = NULL, *is_set_min = NULL, *is_set_max = NULL;
 	zval *value = NULL, *length = NULL, *invalid_maximum = NULL, *invalid_minimum = NULL;
 	zval *maximum = NULL, *message = NULL, *type = NULL, *minimum = NULL, *is_set_code = NULL, *code = NULL;
+	zval *allow_empty = NULL;
 
 	PHALCON_MM_GROW();
 
@@ -128,6 +129,17 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_StringLength, validate){
 	}
 	
 	PHALCON_CALL_METHOD(&value, record, "readattribute", field);
+
+	/*
+	 * Allow empty
+	 */
+	PHALCON_INIT_NVAR(option);
+	ZVAL_STRING(option, "allowEmpty", 1);
+
+	PHALCON_CALL_METHOD(&allow_empty, this_ptr, "getoption", option);
+	if (allow_empty && zend_is_true(allow_empty) && PHALCON_IS_EMPTY(value)) {
+		RETURN_MM_TRUE;
+	}
 	
 	/** 
 	 * Check if mbstring is available to calculate the correct length

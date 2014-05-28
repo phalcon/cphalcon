@@ -73,6 +73,7 @@
 #include "config/adapter/ini.h"
 #include "config/adapter/json.h"
 #include "config/adapter/php.h"
+#include "config/adapter/yaml.h"
 #include "config/exception.h"
 
 #include "crypt.h"
@@ -334,6 +335,8 @@
 #include "session/bag.h"
 #include "session/baginterface.h"
 #include "session/exception.h"
+#include "session/adapter/memcache.h"
+#include "session/adapter/libmemcached.h"
 
 #include "tag.h"
 #include "tag/exception.h"
@@ -343,12 +346,14 @@
 #include "translate/adapterinterface.h"
 #include "translate/adapter/nativearray.h"
 #include "translate/exception.h"
+#include "translate/adapter/gettext.h"
 
 #include "text.h"
 
 #include "validation.h"
 #include "validation/exception.h"
 #include "validation/message.h"
+#include "validation/messageinterface.h"
 #include "validation/message/group.h"
 #include "validation/validator.h"
 #include "validation/validatorinterface.h"

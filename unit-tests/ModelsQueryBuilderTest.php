@@ -506,4 +506,23 @@ class ModelsQueryBuilderTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($expectedPhql, $builderMultipleConditions->getPhql());
 		$this->assertInstanceOf("Phalcon\Mvc\Model\Resultset\Simple", $multipleConditionResult);		
     }
+
+	public function testGroup()
+	{
+		require 'unit-tests/config.db.php';
+		if (empty($configMysql)) {
+			$this->markTestSkipped("Test skipped");
+			return;
+		}
+
+		$di = $this->_getDI();
+
+		$builder = new Builder();
+		$phql = $builder->setDi($di)
+						->columns(array('name', 'SUM(price)'))
+						->from('Robots')
+						->groupBy('id, name')
+						->getPhql();
+		$this->assertEquals($phql, 'SELECT name, SUM(price) FROM [Robots] GROUP BY [id], [name]');
+	}
 }

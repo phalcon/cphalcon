@@ -60,6 +60,7 @@ PHALCON_INIT_CLASS(Phalcon_Logger_Formatter_Json){
  * @param string $message
  * @param int $type
  * @param int $timestamp
+ * @param array $context
  * @return string
  */
 PHP_METHOD(Phalcon_Logger_Formatter_Json, format){
@@ -68,7 +69,7 @@ PHP_METHOD(Phalcon_Logger_Formatter_Json, format){
 
 	PHALCON_MM_GROW();
 
-	phalcon_fetch_params(1, 3, 0, &message, &type, &timestamp, &context);
+	phalcon_fetch_params(1, 4, 0, &message, &type, &timestamp, &context);
 	
 	if (Z_TYPE_P(context) == IS_ARRAY) {
 		PHALCON_CALL_METHOD(&interpolated, this_ptr, "interpolate", message, context);

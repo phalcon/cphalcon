@@ -59,9 +59,14 @@ PHP_METHOD(Phalcon_Session_Adapter, destroy);
 PHP_METHOD(Phalcon_Session_Adapter, __get);
 PHP_METHOD(Phalcon_Session_Adapter, count);
 PHP_METHOD(Phalcon_Session_Adapter, getIterator);
+PHP_METHOD(Phalcon_Session_Adapter, setId);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_session_adapter___construct, 0, 0, 0)
 	ZEND_ARG_INFO(0, options)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_session_adapter_setid, 0, 0, 1)
+	ZEND_ARG_INFO(0, sid)
 ZEND_END_ARG_INFO()
 
 static const zend_function_entry phalcon_session_adapter_method_entry[] = {
@@ -87,6 +92,7 @@ static const zend_function_entry phalcon_session_adapter_method_entry[] = {
 	PHP_MALIAS(Phalcon_Session_Adapter, offsetUnset, remove, arginfo_arrayaccess_offsetunset, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Session_Adapter, count, arginfo_countable_count, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Session_Adapter, getIterator, arginfo_iteratoraggregate_getiterator, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Session_Adapter, setId, arginfo_phalcon_session_adapter_setid, ZEND_ACC_PUBLIC)
 	PHP_FE_END
 };
 
@@ -209,7 +215,7 @@ static int phalcon_session_adapter_has_property(zval *object, zval *member, int 
 
 static void phalcon_session_adapter_write_property(zval *object, zval *member, zval *value ZLK_DC TSRMLS_DC)
 {
-	if (!is_phalcon_class(Z_OBJCE_P(object))) {
+	if (!is_phalcon_class(Z_OBJCE_P(object)) || phalcon_isset_property_zval(object, member TSRMLS_CC)) {
 		zend_get_std_object_handlers()->write_property(object, member, value ZLK_CC TSRMLS_CC);
 	}
 	else {
@@ -396,18 +402,24 @@ PHALCON_INIT_CLASS(Phalcon_Session_Adapter){
 	zend_declare_property_bool(phalcon_session_adapter_ce, SL("_started"), 0, ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_session_adapter_ce, SL("_options"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
-	if (!nusphere_dbg_present) {
-		phalcon_session_adapter_object_handlers = *zend_get_std_object_handlers();
-		phalcon_session_adapter_object_handlers.get_property_ptr_ptr = phalcon_session_adapter_get_property_ptr_ptr;
-		phalcon_session_adapter_object_handlers.has_property         = phalcon_session_adapter_has_property;
-		phalcon_session_adapter_object_handlers.write_property       = phalcon_session_adapter_write_property;
-		phalcon_session_adapter_object_handlers.unset_property       = phalcon_session_adapter_unset_property;
-		phalcon_session_adapter_object_handlers.count_elements       = phalcon_session_adapter_count_elements;
-		phalcon_session_adapter_object_handlers.read_dimension       = phalcon_session_adapter_read_dimension;
-		phalcon_session_adapter_object_handlers.write_dimension      = phalcon_session_adapter_write_dimension;
-		phalcon_session_adapter_object_handlers.has_dimension        = phalcon_session_adapter_has_dimension;
-		phalcon_session_adapter_object_handlers.unset_dimension      = phalcon_session_adapter_unset_dimension;
-	}
+	/**
+	 * T2414 - niden - Removed if statement for nuSphere Debugger
+	   if (!nusphere_dbg_present) {
+	 */
+	phalcon_session_adapter_object_handlers = *zend_get_std_object_handlers();
+	phalcon_session_adapter_object_handlers.get_property_ptr_ptr = phalcon_session_adapter_get_property_ptr_ptr;
+	phalcon_session_adapter_object_handlers.has_property         = phalcon_session_adapter_has_property;
+	phalcon_session_adapter_object_handlers.write_property       = phalcon_session_adapter_write_property;
+	phalcon_session_adapter_object_handlers.unset_property       = phalcon_session_adapter_unset_property;
+	phalcon_session_adapter_object_handlers.count_elements       = phalcon_session_adapter_count_elements;
+	phalcon_session_adapter_object_handlers.read_dimension       = phalcon_session_adapter_read_dimension;
+	phalcon_session_adapter_object_handlers.write_dimension      = phalcon_session_adapter_write_dimension;
+	phalcon_session_adapter_object_handlers.has_dimension        = phalcon_session_adapter_has_dimension;
+	phalcon_session_adapter_object_handlers.unset_dimension      = phalcon_session_adapter_unset_dimension;
+	/**
+	 * T2414 - niden - Removed if statement for nuSphere Debugger
+       }
+	 */
 
 	phalcon_session_adapter_ce->get_iterator = phalcon_session_adapter_get_iterator;
 
@@ -678,4 +690,20 @@ PHP_METHOD(Phalcon_Session_Adapter, getIterator)
 	data = phalcon_get_global(SS("_SESSION") TSRMLS_CC);
 	object_init_ex(return_value, spl_ce_ArrayIterator);
 	PHALCON_CALL_METHODW(NULL, return_value, "__construct", data);
+}
+
+/**
+ * Set the current session id
+ *
+ *<code>
+ *	$session->setId($id);
+ *</code>
+ */
+PHP_METHOD(Phalcon_Session_Adapter, setId){
+
+	zval *sid;
+
+	phalcon_fetch_params(0, 1, 0, &sid);
+
+	RETURN_ON_FAILURE(phalcon_set_session_id(sid TSRMLS_CC));
 }

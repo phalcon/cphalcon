@@ -211,6 +211,15 @@ zend_class_entry *phalcon_annotations_adapterinterface_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Annotations_AdapterInterface);
 
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_annotations_adapterinterface_read, 0, 0, 1)
+	ZEND_ARG_INFO(0, key)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_annotations_adapterinterface_write, 0, 0, 2)
+	ZEND_ARG_INFO(0, key)
+	ZEND_ARG_INFO(0, data)
+ZEND_END_ARG_INFO()
+
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_annotations_adapterinterface_setreader, 0, 0, 1)
 	ZEND_ARG_INFO(0, reader)
 ZEND_END_ARG_INFO()
@@ -1679,6 +1688,8 @@ ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_resultinterface_setfetchmode, 0, 0, 1)
 	ZEND_ARG_INFO(0, fetchMode)
+	ZEND_ARG_INFO(0, fetchArg1)
+	ZEND_ARG_INFO(0, fetchArg2)
 ZEND_END_ARG_INFO()
 
 #endif /* PHALCON_DB_RESULTINTERFACE_H */
@@ -5409,6 +5420,7 @@ ZEND_END_ARG_INFO()
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_urlinterface_get, 0, 0, 0)
 	ZEND_ARG_INFO(0, uri)
 	ZEND_ARG_INFO(0, args)
+	ZEND_ARG_INFO(0, local)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_urlinterface_path, 0, 0, 0)

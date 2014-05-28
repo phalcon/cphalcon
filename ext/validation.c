@@ -436,7 +436,9 @@ PHP_METHOD(Phalcon_Validation, appendMessage){
 	phalcon_fetch_params(1, 1, 0, &message);
 	
 	messages = phalcon_fetch_nproperty_this(this_ptr, SL("_messages"), PH_NOISY TSRMLS_CC);
-	PHALCON_CALL_METHOD(NULL, messages, "appendmessage", message);
+	if (Z_TYPE_P(messages) == IS_OBJECT) {
+		PHALCON_CALL_METHOD(NULL, messages, "appendmessage", message);
+	}
 	RETURN_THIS();
 }
 
@@ -600,14 +602,14 @@ PHP_METHOD(Phalcon_Validation, setDefaultMessages)
 {
 	zval *messages = NULL, *m, *default_messages;
 
-	phalcon_fetch_params(0, 0, 0, &messages);
+	PHALCON_MM_GROW();
+	phalcon_fetch_params(1, 0, 1, &messages);
 
 	if (messages && Z_TYPE_P(messages) != IS_NULL && Z_TYPE_P(messages) != IS_ARRAY) {
 		zend_throw_exception_ex(phalcon_validation_exception_ce, 0 TSRMLS_CC, "Messages must be an array");
 		return;
 	}
 
-	PHALCON_MM_GROW();
 	PHALCON_INIT_VAR(default_messages);
 	array_init_size(default_messages, 22);
 

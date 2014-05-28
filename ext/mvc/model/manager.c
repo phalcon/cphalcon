@@ -2270,7 +2270,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getRelationRecords){
 		RETURN_MM();
 	}
 	
-	if (Z_TYPE_P(pre_conditions) != IS_NULL) {
+	if (PHALCON_IS_NOT_EMPTY(pre_conditions)) {
 		PHALCON_INIT_NVAR(conditions);
 		array_init_size(conditions, 1);
 		phalcon_array_append(&conditions, pre_conditions, PH_SEPARATE);
