@@ -179,7 +179,7 @@ class Security implements \Phalcon\Di\InjectionAwareInterface
 	 * @param int numberBytes
 	 * @return string
 	 */
-	public function getTokenKey(int numberBytes) -> string
+	public function getTokenKey(int numberBytes=null) -> string
 	{
 		var safeBytes, dependencyInjector, session;
 
