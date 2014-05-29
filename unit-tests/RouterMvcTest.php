@@ -4,7 +4,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2013 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -25,8 +25,8 @@ class RouterMvcTest extends PHPUnit_Framework_TestCase
 	{
 		$router->handle($test['uri']);
 		$this->assertEquals($router->getControllerName(), $test['controller']);
-		$this->assertEquals($router->getActionName(),     $test['action']);
-		$this->assertEquals($router->getParams(),         $test['params']);
+		$this->assertEquals($router->getActionName(), $test['action']);
+		$this->assertEquals($router->getParams(), $test['params']);
 	}
 
 	public function testRouter()
@@ -197,7 +197,6 @@ class RouterMvcTest extends PHPUnit_Framework_TestCase
 		$router->add("/show/{id:video([0-9]+)}/{title:[a-z\-]+}", "Videos::show");
 
 		foreach ($tests as $n => $test) {
-			//echo "Testing $n\n";
 			$this->_runTest($router, $test);
 		}
 
@@ -358,6 +357,8 @@ class RouterMvcTest extends PHPUnit_Framework_TestCase
 		$usersAdd = $router->add('/api/users/add')->setHttpMethods('POST')->setName('usersAdd');
 
 		$this->assertEquals($usersAdd, $router->getRouteByName('usersAdd'));
+		//second check when the same route goes from name lookup
+		$this->assertEquals($usersAdd, $router->getRouteByName('usersAdd'));
 		$this->assertEquals($usersFind, $router->getRouteById(0));
 
 	}
@@ -502,6 +503,7 @@ class RouterMvcTest extends PHPUnit_Framework_TestCase
 			$this->assertEquals($paths['module'], $router->getModuleName());
 			$this->assertEquals($paths['controller'], $router->getControllerName());
 			$this->assertEquals($paths['action'], $router->getActionName());
+			$this->assertEquals($blog, $router->getMatchedRoute()->getGroup());
 		}
 	}
 

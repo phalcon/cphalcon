@@ -52,7 +52,7 @@ class CollectionsTest extends PHPUnit_Framework_TestCase
 		$di = new Phalcon\DI();
 
 		$di->set('mongo', function(){
-			$mongo = new MongoClient();
+			$mongo = new Mongo();
 			return $mongo->phalcon_test;
 		});
 

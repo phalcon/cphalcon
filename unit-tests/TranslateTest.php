@@ -15,52 +15,28 @@
   +------------------------------------------------------------------------+
   | Authors: Andres Gutierrez <andres@phalconphp.com>                      |
   |          Eduar Carvajal <eduar@phalconphp.com>                         |
-  |          Rack Lin <racklin@gmail.com>                                  |
+  |          Vladimir Kolesnikov <vladimir@extrememember.com>              |
   +------------------------------------------------------------------------+
 */
 
-class TasksCliTest extends PHPUnit_Framework_TestCase
+class TranslateTest extends PHPUnit_Framework_TestCase
 {
-
-	public function dispatcherAutoloader($className)
+	public function testBasic()
 	{
-		if (file_exists('unit-tests/tasks/'.$className.'.php')) {
-			require 'unit-tests/tasks/'.$className.'.php';
-		}
+		$options = array(
+			'content' => array(
+				'Hello!'                         => 'Привет!',
+				'Hello %fname% %mname% %lname%!' => 'Привет, %fname% %mname% %lname%!',
+			),
+		);
+
+		$t = new \Phalcon\Translate\Adapter\NativeArray($options);
+		$this->assertEquals($options['content']['Hello!'], $t['Hello!']);
+		$this->assertTrue(isset($t['Hello!']));
+		$this->assertFalse(isset($t['Hi there!']));
+
+		$actual   = $t->_('Hello %fname% %mname% %lname%!', array('fname' => 'John', 'lname' => 'Doe', 'mname' => 'D.'));
+		$expected = 'Привет, John D. Doe!';
+		$this->assertEquals($expected, $actual);
 	}
-
-	public function __construct()
-	{
-		spl_autoload_register(array($this, 'dispatcherAutoloader'));
-	}
-
-	public function __destruct()
-	{
-		spl_autoload_unregister(array($this, 'dispatcherAutoloader'));
-	}
-
-	public function testTasks()
-	{
-
-		$di = new \Phalcon\DI\FactoryDefault\CLI();
-
-		$di['registry'] = function()
-		{
-			$registry = new \Phalcon\Registry;
-			$registry->data = 'data';
-			return $registry;
-		};
-
-		$task = new MainTask();
-		$task->setDI($di);
-
-		$this->assertEquals($task->requestRegistryAction(), 'data');
-		$this->assertEquals($task->helloAction(), 'Hello !');
-		$this->assertEquals($task->helloAction('World'), 'Hello World!');
-
-		$task2 = new EchoTask();
-		$task2->setDI($di);
-		$this->assertEquals($task2->mainAction(), 'echoMainAction');
-	}
-
 }

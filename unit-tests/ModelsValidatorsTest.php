@@ -74,7 +74,7 @@ class ModelsValidatorsTest extends PHPUnit_Framework_TestCase
 		$di->set('db', function(){
 			require 'unit-tests/config.db.php';
 			return new Phalcon\Db\Adapter\Pdo\Mysql($configMysql);
-		});
+		}, true);
 
 		$this->_testValidatorsNormal($di);
 		$this->_testValidatorsRenamed($di);
@@ -93,7 +93,7 @@ class ModelsValidatorsTest extends PHPUnit_Framework_TestCase
 		$di->set('db', function(){
 			require 'unit-tests/config.db.php';
 			return new Phalcon\Db\Adapter\Pdo\Postgresql($configPostgresql);
-		});
+		}, true);
 
 		$this->_testValidatorsNormal($di);
 		$this->_testValidatorsRenamed($di);
@@ -114,7 +114,7 @@ class ModelsValidatorsTest extends PHPUnit_Framework_TestCase
 			$conn = new Phalcon\Db\Adapter\Pdo\Sqlite($configSqlite);
 			$conn->getInternalHandler()->sqliteCreateFunction('now', 'sqlite_now', 0);
 			return $conn;
-		});
+		}, true);
 
 		$this->_testValidatorsNormal($di);
 		$this->_testValidatorsRenamed($di);
@@ -122,7 +122,6 @@ class ModelsValidatorsTest extends PHPUnit_Framework_TestCase
 
 	protected function _testValidatorsNormal($di)
 	{
-
 		$connection = $di->getShared('db');
 
 		$success = $connection->delete("subscriptores");
@@ -224,11 +223,21 @@ class ModelsValidatorsTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($messages[0]->getField(), "email");
 		$this->assertEquals($messages[0]->getMessage(), "Value of field 'email' is less than the minimum 7 characters");
 
+		// Issue 1243
+		$subscriptor->email = 'user.@domain.com';
+		$this->assertFalse($subscriptor->save());
+		$messages = $subscriptor->getMessages();
+		$this->assertEquals($messages[0]->getType(), "Email");
+		$this->assertEquals($messages[0]->getField(), "email");
+		$this->assertEquals($messages[0]->getMessage(), "Value of field 'email' must have a valid e-mail format");
+
+		// Issue 1527
+		$subscriptor = Subscriptores::findFirst();
+		//$this->assertTrue($subscriptor->validation()); // This fails
 	}
 
 	protected function _testValidatorsRenamed($di)
 	{
-
 		$connection = $di->getShared('db');
 
 		$success = $connection->delete("subscriptores");
@@ -359,7 +368,6 @@ class ModelsValidatorsTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($messages[0]->getType(), "Email");
 		$this->assertEquals($messages[0]->getField(), "courrierElectronique");
 		$this->assertEquals($messages[0]->getMessage(), "Le courrier électronique est invalide");
-
 	}
 
 }

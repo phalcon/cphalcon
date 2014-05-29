@@ -86,7 +86,7 @@ class ModelsDynamicOperationsTest extends PHPUnit_Framework_TestCase
 			$connection->setEventsManager($eventsManager);
 
 			return $connection;
-		});
+		}, true);
 
 		$this->_executeTestsNormal($di, $tracer);
 
