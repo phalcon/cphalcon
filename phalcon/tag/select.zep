@@ -50,20 +50,20 @@ abstract class Select
 			let params[0] = params["id"];
 		}
 
-		if !fetch name, params["name"] {
-			let params["name"] = id;
-		} else {
-			if !name {
-				let params["name"] = id;
-			}
-		}
-
 		/**
 		 * Automatically assign the id if the name is not an array
 		 */
 		if !memstr(id, "[") {
 			if !isset params["id"] {
 				let params["id"] = id;
+			}
+		}
+
+		if !fetch name, params["name"] {
+			let params["name"] = id;
+		} else {
+			if !name {
+				let params["name"] = id;
 			}
 		}
 
@@ -234,17 +234,21 @@ abstract class Select
 
 		let code = "";
 		for optionValue, optionText in data {
-			if typeof value == "array" {
-				if in_array(optionValue, value) {
-					let code .= "\t<option selected=\"selected\" value=\"" . optionValue . "\">" . optionText . closeOption;
-				} else {
-					let code .= "\t<option value=\"" . optionValue . "\">" . optionText . closeOption;
-				}
+			if typeof optionText == "array" {
+				let code .= "\t<optgroup label=\"" . optionValue . "\">" . PHP_EOL . self::_optionsFromArray(optionText, value, closeOption) . "\t</optgroup>" . PHP_EOL;
 			} else {
-				if optionValue == value {
-					let code .= "\t<option selected=\"selected\" value=\"" . optionValue . "\">" . optionText . closeOption;
+				if typeof value == "array" {
+					if in_array(optionValue, value) {
+						let code .= "\t<option selected=\"selected\" value=\"" . optionValue . "\">" . optionText . closeOption;
+					} else {
+						let code .= "\t<option value=\"" . optionValue . "\">" . optionText . closeOption;
+					}
 				} else {
-					let code .= "\t<option value=\"" . optionValue . "\">" . optionText . closeOption;
+					if optionValue == value {
+						let code .= "\t<option selected=\"selected\" value=\"" . optionValue . "\">" . optionText . closeOption;
+					} else {
+						let code .= "\t<option value=\"" . optionValue . "\">" . optionText . closeOption;
+					}
 				}
 			}
 		}
