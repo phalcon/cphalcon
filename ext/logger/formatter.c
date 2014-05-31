@@ -120,6 +120,7 @@ PHP_METHOD(Phalcon_Logger_Formatter, interpolate)
 			}
 			else if (HASH_KEY_IS_LONG == type) {
 				str_length = spprintf(&idx, 0, "{%ld}", num_index);
+				str_length++; /* count terminating \0 byte */
 			}
 			else { /* Better safe than sorry */
 				continue;
