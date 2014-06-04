@@ -452,7 +452,6 @@ class Memory extends Adapter
 			return this->_allowordeny(roleName, resourceName, access, \Phalcon\Acl::ALLOW);
 		} else {
 			let rolesNames = this->_rolesNames;
-			var_dump(rolesNames);
 			for roleName in rolesNames {
 				this->_allowordeny(roleName, resourceName, access, \Phalcon\Acl::ALLOW);
 			}
@@ -492,7 +491,6 @@ class Memory extends Adapter
 			return this->_allowordeny(roleName, resourceName, access, \Phalcon\Acl::DENY);
 		} else {
 			let rolesNames = this->_rolesNames;
-			var_dump(rolesNames);
 			for roleName in rolesNames {
 				this->_allowordeny(roleName, resourceName, access, \Phalcon\Acl::DENY);
 			}
