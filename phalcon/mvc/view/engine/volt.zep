@@ -92,16 +92,16 @@ class Volt extends \Phalcon\Mvc\View\Engine implements \Phalcon\Mvc\View\EngineI
 	/**
 	 * Renders a view using the template engine
 	 *
-	 * @param string  templatePath
-	 * @param array   params
-	 * @param boolean mustClean
+	 * @param string  $templatePath
+	 * @param array   $params
+	 * @param boolean $mustClean
 	 */
-	public function render(string! templatePath, var params, boolean mustClean=false)
+	public function render(string! templatePath, var params, boolean mustClean = false)
 	{
 		var compiler, compiledTemplatePath, key, value;
 
-		if mustClean === true {
-			ob_clean();
+		if (mustClean) {
+			ob_start();
 		}
 
 		/**
@@ -124,8 +124,9 @@ class Volt extends \Phalcon\Mvc\View\Engine implements \Phalcon\Mvc\View\EngineI
 
 		require compiledTemplatePath;
 
-		if mustClean === true {
+		if (mustClean) {
 			this->_view->setContent(ob_get_contents());
+			ob_clean();
 		}
 	}
 
