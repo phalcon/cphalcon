@@ -68,6 +68,8 @@ class Libmemcached extends \Phalcon\Session\Adapter implements \Phalcon\Session\
 			throw new \Phalcon\Session\Exception("No servers given in options");
 		}
 
+		let servers = options["servers"];
+
 		if !isset options["client"] {
 			let client = NULL;
 		}
