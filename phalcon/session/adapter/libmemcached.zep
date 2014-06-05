@@ -67,9 +67,13 @@ class Libmemcached extends \Phalcon\Session\Adapter implements \Phalcon\Session\
 		if !isset options["servers"] {
 			throw new \Phalcon\Session\Exception("No servers given in options");
 		}
+		
+		let servers = options["servers"];
 
 		if !isset options["client"] {
 			let client = NULL;
+		} else {
+			let client = options["client"];
 		}
 
 		if fetch lifetime, options["lifetime"] {
@@ -80,6 +84,8 @@ class Libmemcached extends \Phalcon\Session\Adapter implements \Phalcon\Session\
 
 		if !fetch prefix, options["prefix"] {
 			let prefix = NULL;
+		} else {
+			let prefix = options["prefix"];
 		}
 
 		let this->_libmemcached = new \Phalcon\Cache\Backend\Libmemcached(
