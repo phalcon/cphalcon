@@ -92,6 +92,26 @@ class Dispatcher extends \Phalcon\Dispatcher implements \Phalcon\Mvc\DispatcherI
 	}
 
 	/**
+	 * Gets previous dispatched controller name
+	 *
+	 * @return string
+	 */
+	public function getPreviousControllerName() -> string
+	{
+		return this->_previousHandlerName;
+	}
+
+	/**
+	 * Gets previous dispatched action name
+	 *
+	 * @return string
+	 */
+	public function getPreviousActionName() -> string
+	{
+		return this->_previousActionName;
+	}
+
+	/**
 	 * Throws an internal exception
 	 *
 	 * @param string message
