@@ -605,7 +605,7 @@ class View extends \Phalcon\Di\Injectable implements \Phalcon\Mvc\ViewInterface
 			cacheMode = (int) this->_cacheMode;
 
 		if cacheLevel {
-			if cache_mode {
+			if cacheMode {
 				if renderLevel <= cacheLevel {
 					let cache = this->getCache();
 				}
