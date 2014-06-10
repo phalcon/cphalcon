@@ -251,7 +251,7 @@ PHP_METHOD(Phalcon_Annotations_Adapter, getMethod){
 	 * Get the full annotations from the class
 	 */
 	PHALCON_CALL_METHOD(&class_annotations, this_ptr, "get", class_name);
-	
+
 	/** 
 	 * A valid annotations reflection is an object
 	 */
@@ -266,7 +266,10 @@ PHP_METHOD(Phalcon_Annotations_Adapter, getMethod){
 	
 				PHALCON_GET_HKEY(name, ah0, hp0);
 				PHALCON_GET_HVALUE(method);
-	
+
+                                phalcon_strtolower_inplace(name);
+                                phalcon_strtolower_inplace(method_name);                                
+
 				if (PHALCON_IS_EQUAL(name, method_name)) {
 					RETURN_CTOR(method);
 				}
