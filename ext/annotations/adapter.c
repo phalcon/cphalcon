@@ -246,7 +246,9 @@ PHP_METHOD(Phalcon_Annotations_Adapter, getMethod){
 	PHALCON_MM_GROW();
 
 	phalcon_fetch_params(1, 2, 0, &class_name, &method_name);
-	
+
+        phalcon_strtolower_inplace(method_name);
+
 	/** 
 	 * Get the full annotations from the class
 	 */
@@ -268,7 +270,6 @@ PHP_METHOD(Phalcon_Annotations_Adapter, getMethod){
 				PHALCON_GET_HVALUE(method);
 
                                 phalcon_strtolower_inplace(name);
-                                phalcon_strtolower_inplace(method_name);                                
 
 				if (PHALCON_IS_EQUAL(name, method_name)) {
 					RETURN_CTOR(method);
