@@ -170,6 +170,7 @@ PHP_METHOD(Phalcon_Mvc_Model, unserialize);
 PHP_METHOD(Phalcon_Mvc_Model, dump);
 PHP_METHOD(Phalcon_Mvc_Model, toArray);
 PHP_METHOD(Phalcon_Mvc_Model, setup);
+PHP_METHOD(Phalcon_Mvc_Model, reset);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model___construct, 0, 0, 0)
 	ZEND_ARG_INFO(0, dependencyInjector)
@@ -386,6 +387,7 @@ static const zend_function_entry phalcon_mvc_model_method_entry[] = {
 	PHP_ME(Phalcon_Mvc_Model, dump, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model, toArray, arginfo_phalcon_mvc_model_toarray, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model, setup, arginfo_phalcon_mvc_model_setup, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
+	PHP_ME(Phalcon_Mvc_Model, reset, NULL, ZEND_ACC_PUBLIC)
 	PHP_FE_END
 };
 
@@ -6916,3 +6918,16 @@ PHP_METHOD(Phalcon_Mvc_Model, setup){
 	PHALCON_MM_RESTORE();
 }
 
+/**
+ * Reset the model data
+ *
+ * <code>
+ * $robot = Robots::findFirst();
+ * $robot->reset();
+ * </code>
+ */
+PHP_METHOD(Phalcon_Mvc_Model, reset){
+
+	phalcon_update_property_null(this_ptr, SL("_uniqueParams") TSRMLS_CC);
+	phalcon_update_property_null(this_ptr, SL("_snapshot") TSRMLS_CC);
+}
