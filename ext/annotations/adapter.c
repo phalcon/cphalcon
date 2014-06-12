@@ -32,6 +32,7 @@
 #include "kernel/array.h"
 #include "kernel/hash.h"
 #include "kernel/operators.h"
+#include "kernel/string.h"
 
 /**
  * Phalcon\Annotations\Adapter
@@ -237,8 +238,8 @@ PHP_METHOD(Phalcon_Annotations_Adapter, getMethods){
  */
 PHP_METHOD(Phalcon_Annotations_Adapter, getMethod){
 
-	zval *class_name, *method_name, *class_annotations = NULL;
-	zval *methods = NULL, *method = NULL, *name = NULL;
+        zval *class_name, *method_name, *lowercased_method_name, *class_annotations = NULL;
+	zval *methods = NULL, *method = NULL, *name = NULL, *lowercased_name = NULL;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -247,7 +248,7 @@ PHP_METHOD(Phalcon_Annotations_Adapter, getMethod){
 
 	phalcon_fetch_params(1, 2, 0, &class_name, &method_name);
 
-        phalcon_strtolower_inplace(method_name);
+        phalcon_fast_strtolower(lowercased_method_name, method_name);
 
 	/** 
 	 * Get the full annotations from the class
@@ -269,7 +270,7 @@ PHP_METHOD(Phalcon_Annotations_Adapter, getMethod){
 				PHALCON_GET_HKEY(name, ah0, hp0);
 				PHALCON_GET_HVALUE(method);
 
-                                phalcon_strtolower_inplace(name);
+                                phalcon_fast_strtolower(lowercased_name, name);
 
 				if (PHALCON_IS_EQUAL(name, method_name)) {
 					RETURN_CTOR(method);
