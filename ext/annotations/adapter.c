@@ -248,6 +248,9 @@ PHP_METHOD(Phalcon_Annotations_Adapter, getMethod){
 
 	phalcon_fetch_params(1, 2, 0, &class_name, &method_name);
 
+        MAKE_STD_ZVAL(lowercased_method_name);
+        MAKE_STD_ZVAL(lowercased_name);
+        
         phalcon_fast_strtolower(lowercased_method_name, method_name);
 
 	/** 
@@ -272,7 +275,7 @@ PHP_METHOD(Phalcon_Annotations_Adapter, getMethod){
 
                                 phalcon_fast_strtolower(lowercased_name, name);
 
-				if (PHALCON_IS_EQUAL(name, method_name)) {
+				if (PHALCON_IS_EQUAL(lowercased_name, lowercased_method_name)) {
 					RETURN_CTOR(method);
 				}
 	
