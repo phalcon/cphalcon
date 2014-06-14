@@ -63,6 +63,10 @@ abstract class Dispatcher implements \Phalcon\DispatcherInterface, \Phalcon\Di\I
 
 	protected _actionSuffix = "Action";
 
+	protected _previousHandlerName = null;
+
+	protected _previousActionName = null;
+
 	const EXCEPTION_NO_DI = 0;
 
 	const EXCEPTION_CYCLIC_ROUTING = 1;
@@ -616,16 +620,19 @@ abstract class Dispatcher implements \Phalcon\DispatcherInterface, \Phalcon\Di\I
 
 		// Check if we need to forward to another controller
 		if fetch controllerName, forward["controller"] {
-			let this->_handlerName = controllerName;
+			let this->_previousHandlerName = this->_handlerName,
+				this->_handlerName = controllerName;
 		} else {
 			if fetch taskName, forward["task"] {
-				let this->_handlerName = taskName;
+				let this->_previousHandlerName = this->_handlerName,
+					this->_handlerName = taskName;
 			}
 		}
 
 		// Check if we need to forward to another action
 		if fetch actionName, forward["action"] {
-			let this->_actionName = actionName;
+			let this->_previousActionName = this->_actionName,
+				this->_actionName = actionName;
 		}
 
 		// Check if we need to forward changing the current parameters
