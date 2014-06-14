@@ -44,15 +44,23 @@ class Index implements \Phalcon\Db\IndexInterface
 	protected _columns { get };
 
 	/**
+	 * Index type
+	 *
+	 * @var string
+	 */
+	protected _type { get };
+
+	/**
 	 * Phalcon\Db\Index constructor
 	 *
 	 * @param string name
 	 * @param array columns
 	 */
-	public function __construct(string! name, array! columns)
+	public function __construct(string! name, array! columns, type=null)
 	{
 		let this->_name = name;
 		let this->_columns = columns;
+		let this->_type = (string) type;
 	}
 
 	/**
@@ -62,7 +70,7 @@ class Index implements \Phalcon\Db\IndexInterface
 	 */
 	public static function __set_state(array! data) -> <\Phalcon\Db\Index>
 	{
-		var indexName, columns;
+		var indexName, columns, type;
 
 		if !fetch indexName, data["_indexName"] {
 			throw new \Phalcon\Db\Exception("_indexName parameter is required");
@@ -72,10 +80,16 @@ class Index implements \Phalcon\Db\IndexInterface
 			throw new \Phalcon\Db\Exception("_columns parameter is required");
 		}
 
+		if isset data["_type"] {
+			let type = data["_type"];
+		} else {
+			let type = "";
+		}
+
 		/**
 		 * Return a Phalcon\Db\Index as part of the returning state
 		 */
-		return new \Phalcon\Db\Index(indexName, columns);
+		return new \Phalcon\Db\Index(indexName, columns, type);
 	}
 
 }

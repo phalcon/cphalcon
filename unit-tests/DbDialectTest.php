@@ -79,6 +79,7 @@ class DbDialectTest extends PHPUnit_Framework_TestCase
 			'index1' => new Index("index1", array('column1')),
 			'index2' => new Index("index2", array('column1', 'column2')),
 			'PRIMARY' => new Index("PRIMARY", array('column3')),
+			'index4' => new Index("index4", array('column4'), 'UNIQUE'),
 		);
 	}
 
@@ -201,6 +202,11 @@ class DbDialectTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($index3->getName(), 'PRIMARY');
 		$this->assertEquals($index3->getColumns(), array('column3'));
 
+		$index4 = $indexes['index4'];
+		$this->assertEquals($index4->getName(), 'index4');
+		$this->assertEquals($index4->getColumns(), array('column4'));
+		$this->assertEquals($index4->getType(), 'UNIQUE');
+
 	}
 
 	public function testReferences()
@@ -311,6 +317,8 @@ class DbDialectTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($dialect->addIndex('table', 'schema', $indexes['index2']), 'ALTER TABLE `schema`.`table` ADD INDEX `index2` (`column1`, `column2`)');
 		$this->assertEquals($dialect->addIndex('table', null, $indexes['PRIMARY']), 'ALTER TABLE `table` ADD INDEX `PRIMARY` (`column3`)');
 		$this->assertEquals($dialect->addIndex('table', 'schema', $indexes['PRIMARY']), 'ALTER TABLE `schema`.`table` ADD INDEX `PRIMARY` (`column3`)');
+		$this->assertEquals($dialect->addIndex('table', null, $indexes['index4']), 'ALTER TABLE `table` ADD UNIQUE INDEX `index4` (`column4`)');
+		$this->assertEquals($dialect->addIndex('table', 'schema', $indexes['index4']), 'ALTER TABLE `schema`.`table` ADD UNIQUE INDEX `index4` (`column4`)');
 
 		//Drop Index
 		$this->assertEquals($dialect->dropIndex('table', null, 'index1'), 'ALTER TABLE `table` DROP INDEX `index1`');
