@@ -204,3 +204,84 @@ PHP_METHOD(Phalcon_Version, getId) {
 
 }
 
+/**
+ * Returns a part of the version based on the parameter passed
+ *
+ * The parameters are:
+ *
+ * Phalcon\Version::MAJOR = 0
+ * Phalcon\Version::MEDIUM = 1
+ * Phalcon\Version::MINOR = 2
+ * Phalcon\Version::SPECIAL = 3
+ * Phalcon\Version::SPECIAL_NUMBER = 4
+ *
+ * If an unrecognized parameter is passed, the function returns the same
+ * results as the get()
+ *
+ * <code>
+ * // For Version 2.0.1 BETA 2
+ *
+ * echo Phalcon\Version::getPart(Phalcon\Version::MAJOR);
+ * // Output: 2
+ *
+ * echo Phalcon\Version::getPart(Phalcon\Version::MEDIUM);
+ * // Output: 0
+ *
+ * echo Phalcon\Version::getPart(Phalcon\Version::MINOR);
+ * // Output: 1
+ *
+ * echo Phalcon\Version::getPart(Phalcon\Version::SPECIAL);
+ * // Output: BETA
+ *
+ * echo Phalcon\Version::getPart(Phalcon\Version::SPECIAL_NUMBER);
+ * // Output: 2
+ * </code>
+ */
+PHP_METHOD(Phalcon_Version, getPart) {
+
+	zval *part_param = NULL, *result = NULL, *version = NULL;
+	int part, ZEPHIR_LAST_CALL_STATUS;
+
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 1, 0, &part_param);
+
+	part = zephir_get_intval(part_param);
+
+
+	ZEPHIR_CALL_SELF(&version, "_getversion", NULL);
+	zephir_check_call_status();
+	do {
+		if (part == 0) {
+			ZEPHIR_OBS_VAR(result);
+			zephir_array_fetch_long(&result, version, 0, PH_NOISY TSRMLS_CC);
+			break;
+		}
+		if (part == 1) {
+			ZEPHIR_OBS_NVAR(result);
+			zephir_array_fetch_long(&result, version, 1, PH_NOISY TSRMLS_CC);
+			break;
+		}
+		if (part == 2) {
+			ZEPHIR_OBS_NVAR(result);
+			zephir_array_fetch_long(&result, version, 2, PH_NOISY TSRMLS_CC);
+			break;
+		}
+		if (part == 3) {
+			ZEPHIR_OBS_NVAR(result);
+			zephir_array_fetch_long(&result, version, 3, PH_NOISY TSRMLS_CC);
+			break;
+		}
+		if (part == 4) {
+			ZEPHIR_OBS_NVAR(result);
+			zephir_array_fetch_long(&result, version, 4, PH_NOISY TSRMLS_CC);
+			break;
+		}
+		ZEPHIR_CALL_SELF(&result, "get", NULL);
+		zephir_check_call_status();
+		break;
+	} while(0);
+
+	RETURN_CCTOR(result);
+
+}
+

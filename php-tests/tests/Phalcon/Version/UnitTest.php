@@ -116,6 +116,24 @@ class UnitTest extends PhTestUnitTestCase
         );
     }
 
+    public function testGetPart()
+    {
+        $id        = Version::getId();
+        $major     = intval($id[0]);
+        $med       = intval($id[1] . $id[2]);
+        $min       = intval($id[3] . $id[4]);
+        $special   = $this->_numberToSpecial($id[5]);
+        $specialNo = ($special) ? $id[6] : '';
+
+        $this->assertEquals($major, Version::getPart(Version::MAJOR));
+        $this->assertEquals($med, Version::getPart(Version::MEDIUM));
+        $this->assertEquals($min, Version::getPart(Version::MINOR));
+        $this->assertEquals($special, Version::getPart(Version::SPECIAL));
+        $this->assertEquals($specialNo, Version::getPart(Version::SPECIAL_NUMBER));
+        $this->assertEquals(Version::get(), Version::getPart(7));
+
+    }
+
     /**
      * Translates a special version (ALPHA, BETA, RC) to a version number
      *
