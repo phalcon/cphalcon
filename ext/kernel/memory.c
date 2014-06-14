@@ -570,8 +570,10 @@ static inline void zephir_dtor_func(zval *zvalue ZEND_FILE_LINE_DC)
 			CHECK_ZVAL_STRING_REL(zvalue);
 			STR_FREE_REL(zvalue->value.str.val);
 			break;
-		case IS_ARRAY:
-		case IS_CONSTANT_ARRAY: {
+#if PHP_VERSION_ID < 50600
+		case IS_CONSTANT_ARRAY:
+#endif
+		case IS_ARRAY:  {
 				TSRMLS_FETCH();
 				if (zvalue->value.ht && (zvalue->value.ht != &EG(symbol_table))) {
 					/* break possible cycles */
