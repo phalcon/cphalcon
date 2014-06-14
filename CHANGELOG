@@ -15,7 +15,6 @@
  - Acl bug
  - #2402 issue
  - Ignore "value" attribute in TextArea.
- - Add Phalcon\Http\Client\Adapter\Curl
  - #2394 Add Phalcon\Validation\MessageInterface
  - Relative namespace
  - #2386
