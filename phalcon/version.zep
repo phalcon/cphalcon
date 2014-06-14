@@ -28,6 +28,17 @@ namespace Phalcon;
 class Version
 {
 
+	const ALPHA = 1;
+	const BETA = 2;
+	const RC = 3;
+	const STABLE = 4;
+
+	const MAJOR = 0;
+	const MEDIUM = 1;
+	const MINOR = 2;
+	const SPECIAL = 3;
+	const SPECIAL_NUMBER = 4;
+
 	/**
 	 * Area where the version number is set. The format is as follows:
 	 * ABBCCDE
@@ -40,7 +51,7 @@ class Version
 	 */
 	protected static function _getVersion()
 	{
-		return [2, 0, 0, 2, 1];
+		return [2, 0, 0, self::BETA, 1];
 	}
 
 	/**
@@ -59,13 +70,13 @@ class Version
 
 		let version       = self::_getVersion();
 
-		let major         = version[0],
-			medium        = version[1],
-			minor         = version[2],
-			special       = version[3],
-			specialNumber = version[4];
+		let major         = version[self::MAJOR],
+			medium        = version[self::MEDIUM],
+			minor         = version[self::MINOR],
+			special       = version[self::SPECIAL],
+			specialNumber = version[self::SPECIAL_NUMBER];
 
-		let result = major . medium . minor . " ";
+		let result = major . "." . medium . "." . minor . " ";
 		switch special {
 			case 1:
 				let suffix = "ALPHA " . specialNumber;
@@ -101,11 +112,11 @@ class Version
 
 		let version       = self::_getVersion();
 
-		let major         = version[0],
-			medium        = version[1],
-			minor         = version[2],
-			special       = version[3],
-			specialNumber = version[4];
+		let major         = version[self::MAJOR],
+			medium        = version[self::MEDIUM],
+			minor         = version[self::MINOR],
+			special       = version[self::SPECIAL],
+			specialNumber = version[self::SPECIAL_NUMBER];
 
 		return major . sprintf("%02s", medium) . sprintf("%02s", minor) . special . specialNumber;
 	}
