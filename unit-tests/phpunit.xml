@@ -12,6 +12,7 @@
 	<testsuites>
 
 		<testsuite name="stable">
+			<file>unit-tests/AclTest.php</file>
 			<!--<file>unit-tests/ModelsMetadataStrategyTest.php</file>-->
 			<file>unit-tests/ControllersTest.php</file>
 			<!--<file>unit-tests/vendor/example/other/VousTest.php</file>-->
