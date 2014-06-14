@@ -59,6 +59,7 @@ static const zend_function_entry phalcon_mvc_modelinterface_method_entry[] = {
 	PHP_ABSTRACT_ME(Phalcon_Mvc_ModelInterface, readAttribute, arginfo_phalcon_mvc_modelinterface_readattribute)
 	PHP_ABSTRACT_ME(Phalcon_Mvc_ModelInterface, writeAttribute, arginfo_phalcon_mvc_modelinterface_writeattribute)
 	PHP_ABSTRACT_ME(Phalcon_Mvc_ModelInterface, getRelated, arginfo_phalcon_mvc_modelinterface_getrelated)
+	PHP_ABSTRACT_ME(Phalcon_Mvc_ModelInterface, reset, NULL)
 	PHP_FE_END
 };
 
@@ -359,3 +360,8 @@ PHALCON_DOC_METHOD(Phalcon_Mvc_ModelInterface, writeAttribute);
  * @return Phalcon\Mvc\Model\ResultsetInterface
  */
 PHALCON_DOC_METHOD(Phalcon_Mvc_ModelInterface, getRelated);
+
+/**
+ * Reset a model instance data
+ */
+PHALCON_DOC_METHOD(Phalcon_Mvc_ModelInterface, reset);
