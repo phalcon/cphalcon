@@ -6388,7 +6388,7 @@ PHP_METHOD(Phalcon_Mvc_Model, __set){
 	zval *property, *value, *lower_property = NULL;
 	zval *meta_data = NULL, *column_map = NULL, *attributes = NULL;
 	zval *related, *key = NULL, *lower_key = NULL, *item = NULL, *model_name, *manager = NULL;
-	zval *relation = NULL, *new_instance, *referenced_model_name = NULL, *referenced_model = NULL;
+	zval *relation = NULL, *referenced_model_name = NULL, *referenced_model = NULL;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -6458,19 +6458,16 @@ PHP_METHOD(Phalcon_Mvc_Model, __set){
 					i++;
 					phalcon_array_append(&related, item, 0);
 				}
-			} else {
+			} else if (Z_TYPE_P(key) == IS_STRING) {
 				PHALCON_INIT_NVAR(lower_key);
 				phalcon_fast_strtolower(lower_key, key);
 
 				phalcon_update_property_zval_zval(this_ptr, lower_key, item TSRMLS_CC);
 
 				PHALCON_CALL_METHOD(&relation, manager, "getrelationbyalias", model_name, lower_property);
-				if (Z_TYPE_P(relation) == IS_OBJECT) {					
-					PHALCON_INIT_VAR(new_instance);
-					ZVAL_FALSE(new_instance);
-
+				if (Z_TYPE_P(relation) == IS_OBJECT) {
 					PHALCON_CALL_METHOD(&referenced_model_name, relation, "getreferencedmodel");
-					PHALCON_CALL_METHOD(&referenced_model, manager, "load", referenced_model_name, new_instance);
+					PHALCON_CALL_METHOD(&referenced_model, manager, "load", referenced_model_name, PHALCON_GLOBAL(z_false));
 					PHALCON_CALL_METHOD(NULL, referenced_model, "writeattribute", lower_key, item);	
 				}
 			}
