@@ -590,6 +590,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, load){
 			}
 
 			RETURN_MM();
+		} else {
+			PHALCON_CALL_METHOD(NULL, model, "reset");
 		}
 	
 		RETURN_CTOR(model);

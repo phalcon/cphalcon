@@ -416,4 +416,37 @@ class PaginatorTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($setterResult, $paginator);
 	}
 
+	public function testIssue2301()
+	{
+		require 'unit-tests/config.db.php';
+		if (empty($configMysql)) {
+			$this->markTestSkipped('Test skipped');
+			return;
+		}
+
+		$this->_loadDI();
+
+		$personnes = Personnes::find(array(
+			'limit' => 11
+		));
+
+		$paginator = new Phalcon\Paginator\Adapter\Model(array(
+			'data' => $personnes,
+			'limit' => 10,
+			'page' => 1
+		));
+
+		//First Page
+		$page = $paginator->getPaginate();
+		$this->assertEquals(get_class($page), 'stdClass');
+
+		$this->assertEquals(count($page->items), 10);
+
+		$this->assertEquals($page->before, 1);
+		$this->assertEquals($page->next, 2);
+		$this->assertEquals($page->last, 2);
+
+		$this->assertEquals($page->current, 1);
+		$this->assertEquals($page->total_pages, 2);
+	}
 }

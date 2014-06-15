@@ -113,7 +113,7 @@ PHP_METHOD(Phalcon_Paginator_Adapter_Model, setCurrentPage){
 PHP_METHOD(Phalcon_Paginator_Adapter_Model, getPaginate){
 
 	zval *z_one, *z_zero, *show, *config, *items, *page_number = NULL;
-	zval *rowcount, *page, *last_show_page, *start, *last_page;
+	zval *rowcount, *page, *last_show_page, *start;
 	zval *possible_pages = NULL, *total_pages, *page_items;
 	zval *valid = NULL, *current = NULL, *maximum_pages, *next = NULL, *additional_page;
 	zval *before = NULL, *remainder, *pages_total = NULL;
@@ -151,11 +151,8 @@ PHP_METHOD(Phalcon_Paginator_Adapter_Model, getPaginate){
 	PHALCON_INIT_VAR(start);
 	mul_function(start, show, last_show_page TSRMLS_CC);
 	
-	PHALCON_INIT_VAR(last_page);
-	sub_function(last_page, rowcount, z_one TSRMLS_CC);
-	
 	PHALCON_INIT_VAR(possible_pages);
-	div_function(possible_pages, last_page, show TSRMLS_CC);
+	div_function(possible_pages, rowcount, show TSRMLS_CC);
 	if (unlikely(Z_TYPE_P(possible_pages)) != IS_DOUBLE) {
 		convert_to_double(possible_pages);
 	}
@@ -179,7 +176,6 @@ PHP_METHOD(Phalcon_Paginator_Adapter_Model, getPaginate){
 		} else {
 			PHALCON_CALL_METHOD(NULL, items, "rewind");
 			PHALCON_CPY_WRT_CTOR(page_number, z_one);
-			PHALCON_CPY_WRT_CTOR(last_page, z_zero);
 			PHALCON_CPY_WRT_CTOR(start, z_zero);
 		}
 	
