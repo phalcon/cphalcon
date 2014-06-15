@@ -199,6 +199,39 @@ int phalcon_compare_strict_long(zval *op1, long op2 TSRMLS_DC){
 }
 
 /**
+ * Natural compare with bool operandus on right
+ */
+int phalcon_compare_strict_bool(zval *op1, zend_bool op2 TSRMLS_DC) {
+
+	int bool_result;
+
+	switch (Z_TYPE_P(op1)) {
+		case IS_LONG:
+			return (Z_LVAL_P(op1) ? 1 : 0) == op2;
+		case IS_DOUBLE:
+			return (Z_DVAL_P(op1) ? 1 : 0) == op2;
+		case IS_NULL:
+			return 0 == op2;
+		case IS_BOOL:
+			if (Z_BVAL_P(op1)) {
+				return 1 == op2;
+			} else {
+				return 0 == op2;
+			}
+		default:
+			{
+				zval result, op2_tmp;
+				ZVAL_BOOL(&op2_tmp, op2);
+				is_equal_function(&result, op1, &op2_tmp TSRMLS_CC);
+				bool_result = Z_BVAL(result);
+				return bool_result;
+			}
+	}
+
+	return 0;
+}
+
+/**
  * Do add function keeping ref_count and is_ref
  */
 int phalcon_add_function(zval *result, zval *op1, zval *op2 TSRMLS_DC){
