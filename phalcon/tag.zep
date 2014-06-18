@@ -1149,7 +1149,7 @@ class Tag
 	*/
 	public static function getTitleSeparator()
 	{
-		return this->_documentTitleSeparator;
+		return self::_documentTitleSeparator;
 	}
 
 	/**
@@ -1172,7 +1172,7 @@ class Tag
 	 */
 	public static function stylesheetLink(parameters=null, local=true)
 	{
-		var params, code, key, value;
+		var params, code, key, value, rel;
 
 		if typeof parameters != "array" {
 			let params = [parameters, local];
@@ -1180,15 +1180,9 @@ class Tag
 			let params = parameters;
 		}
 
-		if !isset params["href"] {
-			if isset params[0] {
-				let params["href"] = params[0];
-			} else {
-				let params["href"] = "";
-			}
+		if typeof local != "bool" {
+			let local = false;
 		}
-
-		let local = false;
 
 		if isset params[1] {
 			let local = params[1];
@@ -1203,14 +1197,28 @@ class Tag
 			let params["type"] = "text/css";
 		}
 
+		if !isset params["href"] {
+			if isset params[0] {
+				let params["href"] = params[0];
+			} else {
+				let params["href"] = "";
+			}
+		}
+
 		/**
 		 * URLs are generated through the "url" service
 		 */
-		if local {
-			let params["href"] = self::getUrlService()->getStatic(params["href"]);;
+		if local === true {
+			let params["href"] = self::getUrlService()->getStatic(params["href"]);
 		}
 
-		let code = "<link rel=\"stylesheet\"";
+		if fetch rel, params["rel"] {
+			let code = "<link rel=\"" . rel . "\"";
+			unset params["rel"];
+		} else {
+			let code = "<link rel=\"stylesheet\"";
+		}
+
 		for key, value in params {
 			if typeof key != "integer" {
 				let code .= " " . key . "=\"" . value . "\"";
@@ -1257,15 +1265,9 @@ class Tag
 			let params = parameters;
 		}
 
-		if !isset params["src"] {
-			if isset params[0] {
-				let params["src"] = params[0];
-			} else {
-				let params["src"] = "";
-			}
+		if typeof local != "bool" {
+			let local = false;
 		}
-
-		let local = false;
 
 		if isset params[1] {
 			let local = params[1];
@@ -1280,10 +1282,18 @@ class Tag
 			let params["type"] = "text/javascript";
 		}
 
+		if !isset params["src"] {
+			if isset params[0] {
+				let params["src"] = params[0];
+			} else {
+				let params["src"] = "";
+			}
+		}
+
 		/**
 		 * URLs are generated through the "url" service
 		 */
-		if local {
+		if local === true {
 			let params["src"] = self::getUrlService()->getStatic(params["src"]);
 		}
 
