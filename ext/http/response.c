@@ -580,14 +580,15 @@ PHP_METHOD(Phalcon_Http_Response, setEtag){
  * @param string|array $location
  * @param boolean $externalRedirect
  * @param int $statusCode
+ * @param query|object args Optional arguments to be appended to the query string
  * @return Phalcon\Http\ResponseInterface
  */
 PHP_METHOD(Phalcon_Http_Response, redirect){
 
-	zval *location = NULL, *external_redirect = NULL, *status_code = NULL;
+	zval *location = NULL, *external_redirect = NULL, *status_code = NULL, *query = NULL;
 	zval *header = NULL, *dependency_injector = NULL, *service;
 	zval *url = NULL, *status_text, *header_name;
-	zval *matched, *pattern;
+	zval *local = NULL;
 
 	static const char* redirect_phrases[] = {
 		/* 300 */ "Multiple Choices",
@@ -603,7 +604,7 @@ PHP_METHOD(Phalcon_Http_Response, redirect){
 
 	PHALCON_MM_GROW();
 
-	phalcon_fetch_params(1, 0, 3, &location, &external_redirect, &status_code);
+	phalcon_fetch_params(1, 0, 4, &location, &external_redirect, &status_code, &query);
 	
 	if (!location) {
 		PHALCON_INIT_VAR(location);
@@ -615,7 +616,11 @@ PHP_METHOD(Phalcon_Http_Response, redirect){
 	}
 	
 	if (!external_redirect) {
-		external_redirect = PHALCON_GLOBAL(z_false);
+		local = PHALCON_GLOBAL(z_true);
+	} else if (zend_is_true(external_redirect)) {
+		local = PHALCON_GLOBAL(z_false);
+	} else {
+		local = PHALCON_GLOBAL(z_true);
 	}
 	
 	if (!status_code) {
@@ -624,40 +629,25 @@ PHP_METHOD(Phalcon_Http_Response, redirect){
 	} else {
 		if (unlikely(Z_TYPE_P(status_code) != IS_LONG)) {
 			PHALCON_SEPARATE_PARAM(status_code);
-			convert_to_long(status_code);			
+			convert_to_long(status_code);
 		}
-	}
-	
-	if (Z_TYPE_P(location) == IS_STRING && zend_is_true(external_redirect)) {
-		header = location;
-	} else if (Z_TYPE_P(location) == IS_STRING && strstr(Z_STRVAL_P(location), "://")) {
-		PHALCON_INIT_VAR(matched);
-		PHALCON_INIT_VAR(pattern);
-		ZVAL_STRING(pattern, "/^[^:\\/?#]++:/", 1);
-		RETURN_MM_ON_FAILURE(phalcon_preg_match(matched, pattern, location, NULL TSRMLS_CC));
-		if (zend_is_true(matched)) {
-			header = location;
-		}
-		else {
-			header = NULL;
-		}
-	}
-	else {
-		header = NULL;
 	}
 
-	if (!header) {
-		PHALCON_CALL_METHOD(&dependency_injector, this_ptr, "getdi");
-	
-		PHALCON_INIT_VAR(service);
-		PHALCON_ZVAL_MAYBE_INTERNED_STRING(service, phalcon_interned_url);
-	
-		PHALCON_CALL_METHOD(&url, dependency_injector, "getshared", service);
-		PHALCON_VERIFY_INTERFACE(url, phalcon_mvc_urlinterface_ce);
-	
-		PHALCON_CALL_METHOD(&header, url, "get", location);
+	if (!query) {
+		PHALCON_INIT_VAR(query);
+		ZVAL_NULL(query);
 	}
-	
+
+	PHALCON_CALL_METHOD(&dependency_injector, this_ptr, "getdi");
+
+	PHALCON_INIT_VAR(service);
+	PHALCON_ZVAL_MAYBE_INTERNED_STRING(service, phalcon_interned_url);
+
+	PHALCON_CALL_METHOD(&url, dependency_injector, "getshared", service);
+	PHALCON_VERIFY_INTERFACE(url, phalcon_mvc_urlinterface_ce);
+
+	PHALCON_CALL_METHOD(&header, url, "get", location, query, local);
+
 	/* The HTTP status is 302 by default, a temporary redirection */
 	PHALCON_INIT_VAR(status_text);
 	if (Z_LVAL_P(status_code) < 300 || Z_LVAL_P(status_code) > 308) {
@@ -671,7 +661,6 @@ PHP_METHOD(Phalcon_Http_Response, redirect){
 	}
 
 	PHALCON_CALL_METHOD(NULL, this_ptr, "setstatuscode", status_code, status_text);
-	
 	/** 
 	 * Change the current location using 'Location'
 	 */
