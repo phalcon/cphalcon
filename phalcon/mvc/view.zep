@@ -129,8 +129,6 @@ class View extends \Phalcon\Di\Injectable implements \Phalcon\Mvc\ViewInterface
 
 	protected _cacheLevel = 0;
 
-	protected _cacheMode = 0;
-
 	protected _activeRenderPath;
 
 	protected _disabled = false;
@@ -251,7 +249,7 @@ class View extends \Phalcon\Di\Injectable implements \Phalcon\Mvc\ViewInterface
 	public function setRenderLevel(int level) -> <\Phalcon\Mvc\View>
 	{
 		let this->_renderLevel = level;
-		return $this;
+		return this;
 	}
 
 	/**
@@ -396,7 +394,7 @@ class View extends \Phalcon\Di\Injectable implements \Phalcon\Mvc\ViewInterface
 	public function setParamToView(string! key, value) -> <\Phalcon\Mvc\View>
 	{
 		let this->_viewParams[key] = value;
-		return $this;
+		return this;
 	}
 
 	/**
@@ -591,30 +589,15 @@ class View extends \Phalcon\Di\Injectable implements \Phalcon\Mvc\ViewInterface
 	 * @param string viewPath
 	 * @param boolean silence
 	 * @param boolean mustClean
+	 * @param Phalcon\Cache\BackendInterface $cache
 	 */
-	protected function _engineRender(engines, string viewPath, boolean silence, boolean mustClean)
+	protected function _engineRender(engines, string viewPath, boolean silence, boolean mustClean, <\Phalcon\Cache\BackendInterface> cache=null)
 	{
 		boolean notExists;
-		int renderLevel, cacheLevel, cacheMode;
+		int renderLevel, cacheLevel;
 		var key, lifetime, viewsDir, basePath, viewsDirPath,
 			viewOptions, cacheOptions, cachedView, viewParams, eventsManager,
-			extension, engine, viewEnginePath, cache;
-
-		let renderLevel = (int) this->_renderLevel,
-			cacheLevel = (int) this->_cacheLevel,
-			cacheMode = (int) this->_cacheMode;
-
-		if cacheLevel {
-			if cacheMode {
-				if renderLevel <= cacheLevel {
-					let cache = this->getCache();
-				}
-			} else {
-				if renderLevel >= cacheLevel {
-					let cache = this->getCache();
-				}
-			}
-		}
+			extension, engine, viewEnginePath;
 
 		let notExists = true,
 			viewsDir = this->_viewsDir,
@@ -622,38 +605,55 @@ class View extends \Phalcon\Di\Injectable implements \Phalcon\Mvc\ViewInterface
 			viewsDirPath = basePath . viewsDir . viewPath;
 
 		if typeof cache == "object" {
+			let renderLevel = (int) this->_renderLevel,
+				cacheLevel = (int) this->_cacheLevel;
 
-			let key = null,
-				lifetime = null;
+			if renderLevel >= cacheLevel {
+				/** 
+				 * Check if the cache is started, the first time a cache is started we start the
+				 * cache
+				 */
+				if cache->isstarted() === false {
+					let key = null,
+						lifetime = null;
 
-			let viewOptions = this->_options;
+					let viewOptions = this->_options;
 
-			/**
-			 * Check if the user has defined a different options to the default
-			 */
-			if typeof viewOptions == "array" {
-				if fetch cacheOptions, viewOptions["cache"] {
-					if typeof cacheOptions == "array" {
-						fetch key, cacheOptions["key"];
-						fetch lifetime, cacheOptions["lifetime"];
+					/**
+					 * Check if the user has defined a different options to the default
+					 */
+					if typeof viewOptions == "array" {
+						if fetch cacheOptions, viewOptions["cache"] {
+							if typeof cacheOptions == "array" {
+								fetch key, cacheOptions["key"];
+								fetch lifetime, cacheOptions["lifetime"];
+							}
+						}
+					}
+
+					/**
+					 * If a cache key is not set we create one using a md5
+					 */
+					if key === null {
+						let key = md5(viewPath);
+					}
+
+					/**
+					 * We start the cache using the key set
+					 */
+					let cachedView = cache->start(key, lifetime);
+					if cachedView !== null {
+						let this->_content = cachedView;
+						return null;
 					}
 				}
-			}
 
-			/**
-			 * If a cache key is not set we create one using a md5
-			 */
-			if key === null {
-				let key = md5(viewPath);
-			}
-
-			/**
-			 * We start the cache using the key set
-			 */
-			let cachedView = cache->start(key, lifetime);
-			if cachedView !== null {
-				let this->_content = cachedView;
-				return null;
+				/** 
+				 * This method only returns true if the cache has not expired
+				 */
+				if cache->isfresh() !== true {
+					return null;
+				}
 			}
 		}
 
