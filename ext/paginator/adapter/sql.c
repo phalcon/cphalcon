@@ -247,7 +247,7 @@ PHP_METHOD(Phalcon_Paginator_Adapter_Sql, getPaginate){
 
 	zval *db, *sql, *total_sql, *bind;
 	zval *limit, *number_page;
-	zval *query = NULL, *items = NULL, *select_count;
+	zval *fetch_mode, *items = NULL;
 	zval *total_query = NULL, *result = NULL, *row = NULL, *rowcount;
 	long int i_limit, i_number_page, i_number, i_before, i_rowcount;
 	long int i_total_pages, i_next;
