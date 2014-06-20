@@ -22,6 +22,8 @@
 #include "paginator/exception.h"
 #include "db/adapterinterface.h"
 
+#include "ext/pdo/php_pdo_driver.h"
+
 #include "kernel/main.h"
 #include "kernel/memory.h"
 #include "kernel/object.h"
@@ -120,7 +122,11 @@ PHP_METHOD(Phalcon_Paginator_Adapter_Sql, __construct){
 	}
 
 	if (phalcon_array_isset_string_fetch(&bind, config, SS("bind"))) {
-		phalcon_update_property_this(this_ptr, SL("_bind"), bind TSRMLS_CC);
+		if (Z_TYPE_P(bind) != IS_ARRAY) {
+			phalcon_update_property_empty_array(this_ptr, SL("_bind") TSRMLS_CC);
+		} else {
+			phalcon_update_property_this(this_ptr, SL("_bind"), bind TSRMLS_CC);
+		}
 	} else {
 		phalcon_update_property_empty_array(this_ptr, SL("_bind") TSRMLS_CC);
 	}
@@ -271,7 +277,10 @@ PHP_METHOD(Phalcon_Paginator_Adapter_Sql, getPaginate){
 	i_number = (i_number_page - 1) * i_limit;
 	i_before = (i_number_page == 1) ? 1 : (i_number_page - 1);
 
-	PHALCON_CALL_METHOD(&row, db, "fetchone", total_sql, PHALCON_GLOBAL(z_null), bind);
+	PHALCON_VAR_INIT(fetch_mode);
+	ZVAL_LONG(fetch_mode, PDO_FETCH_BOTH);
+
+	PHALCON_CALL_METHOD(&row, db, "fetchone", total_sql, fetch_mode, bind);
 	
 	PHALCON_OBS_VAR(rowcount);
 	phalcon_read_property(&rowcount, row, SL("rowcount"), PH_NOISY TSRMLS_CC);
@@ -288,7 +297,7 @@ PHP_METHOD(Phalcon_Paginator_Adapter_Sql, getPaginate){
 		phalcon_array_update_string(&bind, SL("offset"), number, PH_COPY);
 	}
 
-	PHALCON_CALL_METHOD(&items, db, "fetchall", sql, PHALCON_GLOBAL(z_null), bind);
+	PHALCON_CALL_METHOD(&items, db, "fetchall", sql, fetch_mode, bind);
 	
 	i_rowcount    = phalcon_get_intval(rowcount);
 	tp            = ldiv(i_rowcount, i_limit);
