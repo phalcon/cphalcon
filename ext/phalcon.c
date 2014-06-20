@@ -395,6 +395,7 @@ static PHP_MINIT_FUNCTION(phalcon)
 	PHALCON_INIT(Phalcon_Paginator_Adapter_Model);
 	PHALCON_INIT(Phalcon_Paginator_Adapter_NativeArray);
 	PHALCON_INIT(Phalcon_Paginator_Adapter_QueryBuilder);
+	PHALCON_INIT(Phalcon_Paginator_Adapter_Sql);
 	PHALCON_INIT(Phalcon_Validation);
 	PHALCON_INIT(Phalcon_Validation_Message);
 	PHALCON_INIT(Phalcon_Validation_Message_Group);

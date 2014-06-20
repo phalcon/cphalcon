@@ -334,6 +334,7 @@
 #include "paginator/adapter/model.h"
 #include "paginator/adapter/nativearray.h"
 #include "paginator/adapter/querybuilder.h"
+#include "paginator/adapter/sql.h"
 #include "paginator/exception.h"
 
 #include "psr/log/abstractlogger.h"
