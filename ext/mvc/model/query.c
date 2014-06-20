@@ -1473,10 +1473,9 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getSingleJoin){
 
 	zval *join_type, *join_source, *model_alias;
 	zval *join_alias, *relation, *fields = NULL, *referenced_fields = NULL;
-	zval *left = NULL, *left_expr = NULL, *right = NULL, *right_expr = NULL, *sql_join_condition;
-	zval *sql_join_conditions, *sql_join_partial_conditions;
+	zval *left = NULL, *left_expr = NULL, *right = NULL, *right_expr = NULL, *sql_join_condition = NULL;
+	zval *sql_join_conditions;
 	zval *field = NULL, *position = NULL, *exception_message = NULL;
-	zval *sql_equals_join_condition = NULL;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -1524,7 +1523,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getSingleJoin){
 		/** 
 		 * Create a binary operation for the join conditions
 		 */
-		PHALCON_INIT_VAR(sql_join_condition);
+		PHALCON_INIT_NVAR(sql_join_condition);
 		array_init_size(sql_join_condition, 4);
 		add_assoc_stringl_ex(sql_join_condition, ISS(type), SL("binary-op"), 1);
 		add_assoc_stringl_ex(sql_join_condition, ISS(op), SL("="), 1);
@@ -1536,10 +1535,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getSingleJoin){
 		/** 
 		 * Resolve the compound operation
 		 */
-		PHALCON_INIT_VAR(sql_join_partial_conditions);
+		PHALCON_INIT_VAR(sql_join_conditions);
 	
 		phalcon_is_iterable(fields, &ah0, &hp0, 0, 0);
-		array_init_size(sql_join_partial_conditions, zend_hash_num_elements(ah0));
+		array_init_size(sql_join_conditions, zend_hash_num_elements(ah0));
 	
 		while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 			zval *referenced_field;
@@ -1581,13 +1580,13 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getSingleJoin){
 			/** 
 			 * Create a binary operation for the join conditions
 			 */
-			PHALCON_INIT_NVAR(sql_equals_join_condition);
-			array_init_size(sql_equals_join_condition, 4);
-			add_assoc_stringl_ex(sql_equals_join_condition, ISS(type), SL("binary-op"), 1);
-			add_assoc_stringl_ex(sql_equals_join_condition, ISS(op), SL("="), 1);
-			phalcon_array_update_string(&sql_equals_join_condition, ISL(left), left_expr, PH_COPY);
-			phalcon_array_update_string(&sql_equals_join_condition, ISL(right), right_expr, PH_COPY);
-			phalcon_array_append(&sql_join_partial_conditions, sql_equals_join_condition, 0);
+			PHALCON_INIT_NVAR(sql_join_condition);
+			array_init_size(sql_join_condition, 4);
+			add_assoc_stringl_ex(sql_join_condition, ISS(type), SL("binary-op"), 1);
+			add_assoc_stringl_ex(sql_join_condition, ISS(op), SL("="), 1);
+			phalcon_array_update_string(&sql_join_condition, ISL(left), left_expr, PH_COPY);
+			phalcon_array_update_string(&sql_join_condition, ISL(right), right_expr, PH_COPY);
+			phalcon_array_append(&sql_join_conditions, sql_join_condition, 0);
 	
 			zend_hash_move_forward_ex(ah0, &hp0);
 		}

@@ -2059,7 +2059,8 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compileForeach){
 	
 	PHALCON_CALL_METHOD(&prefix, this_ptr, "getuniqueprefix");
 	
-	level = phalcon_fetch_nproperty_this(this_ptr, SL("_foreachLevel"), PH_NOISY TSRMLS_CC);
+	PHALCON_OBS_VAR(level);
+	phalcon_read_property_this(&level, this_ptr, SL("_foreachLevel"), PH_NOISY TSRMLS_CC);
 	
 	/** 
 	 * prefix_level is used to prefix every temporal variable
