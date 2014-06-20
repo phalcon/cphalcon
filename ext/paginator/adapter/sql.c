@@ -128,7 +128,6 @@ PHP_METHOD(Phalcon_Paginator_Adapter_Sql, __construct){
 	phalcon_update_property_this(this_ptr, SL("_db"), db TSRMLS_CC);
 	phalcon_update_property_this(this_ptr, SL("_sql"), sql TSRMLS_CC);
 	phalcon_update_property_this(this_ptr, SL("_total_sql"), total_sql TSRMLS_CC);
-	phalcon_update_property_this(this_ptr, SL("_bind"), bind TSRMLS_CC);
 
 	if (!phalcon_array_isset_string_fetch(&limit, config, SS("limit"))) {
 		PHALCON_THROW_EXCEPTION_STRW(phalcon_paginator_exception_ce, "Parameter 'limit' is required");
@@ -270,7 +269,7 @@ PHP_METHOD(Phalcon_Paginator_Adapter_Sql, getPaginate){
 	i_number = (i_number_page - 1) * i_limit;
 	i_before = (i_number_page == 1) ? 1 : (i_number_page - 1);
 
-	PHALCON_CALL_METHOD(&row, db, "fetchone", total_sql, bind);
+	PHALCON_CALL_METHOD(&row, db, "fetchone", total_sql, PHALCON_GLOBAL(z_null), bind);
 	
 	PHALCON_OBS_VAR(rowcount);
 	phalcon_read_property(&rowcount, row, SL("rowcount"), PH_NOISY TSRMLS_CC);
@@ -286,7 +285,7 @@ PHP_METHOD(Phalcon_Paginator_Adapter_Sql, getPaginate){
 		phalcon_array_update_string(&bind, SL("offset"), number, PH_COPY);
 	}
 
-	PHALCON_CALL_METHOD(&items, db, "fetchall", sql, bind);
+	PHALCON_CALL_METHOD(&items, db, "fetchall", sql, PHALCON_GLOBAL(z_null), bind);
 	
 	i_rowcount    = phalcon_get_intval(rowcount);
 	tp            = ldiv(i_rowcount, i_limit);
