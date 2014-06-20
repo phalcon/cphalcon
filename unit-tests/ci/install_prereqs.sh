@@ -20,7 +20,7 @@ wait
 phpenv config-add "$DIR/memcache.ini"
 phpenv config-add "$DIR/memcached.ini"
 phpenv config-add "$DIR/mongo.ini"
-#phpenv config-add "$DIR/yaml.ini"
+phpenv config-add "$DIR/yaml.ini"
 phpenv config-rm xdebug.ini
 
 sudo apt-get -qq install beanstalkd
