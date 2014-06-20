@@ -277,6 +277,7 @@ PHP_METHOD(Phalcon_Paginator_Adapter_Sql, getPaginate){
 	/* Set the limit clause avoiding negative offsets */
 	if (i_number < i_limit) {
 		phalcon_array_update_string(&bind, SL("limit"), limit, PH_COPY);
+		phalcon_array_update_string_long(&bind, SL("offset"), 0, 0);
 	} else {
 		zval *number;
 		PHALCON_ALLOC_GHOST_ZVAL(number);
