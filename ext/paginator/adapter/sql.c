@@ -278,7 +278,7 @@ PHP_METHOD(Phalcon_Paginator_Adapter_Sql, getPaginate){
 	i_before = (i_number_page == 1) ? 1 : (i_number_page - 1);
 
 	PHALCON_INIT_VAR(fetch_mode);
-	ZVAL_LONG(fetch_mode, PDO_FETCH_BOTH);
+	ZVAL_LONG(fetch_mode, PDO_FETCH_OBJ);
 
 	PHALCON_CALL_METHOD(&row, db, "fetchone", total_sql, fetch_mode, bind);
 	
