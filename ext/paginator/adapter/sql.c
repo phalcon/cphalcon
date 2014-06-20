@@ -121,6 +121,8 @@ PHP_METHOD(Phalcon_Paginator_Adapter_Sql, __construct){
 
 	if (phalcon_array_isset_string_fetch(&bind, config, SS("bind"))) {
 		phalcon_update_property_this(this_ptr, SL("_bind"), bind TSRMLS_CC);
+	} else {
+		phalcon_update_property_empty_array(this_ptr, SL("_bind") TSRMLS_CC);
 	}
 
 	PHALCON_VERIFY_INTERFACE_EX(db, phalcon_db_adapterinterface_ce, phalcon_paginator_exception_ce, 0);
