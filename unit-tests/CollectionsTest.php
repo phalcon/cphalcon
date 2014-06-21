@@ -200,6 +200,26 @@ class CollectionsTest extends PHPUnit_Framework_TestCase
 			array('artist' => 'Massive Attack')
 		)), 2);
 
+		
+		//Create
+		$song = new Songs();
+		$song->artist = 'Massive Attack';
+		$song->name = 'Paradise Circus';
+		$success = $song->create();
+		$this->assertTrue($success);
+
+		//Update
+		$song = new Songs();
+		$song->artist = 'Massive Attack';
+		$song->name = 'Paradise Circus';
+		$success = $song->update();
+		$this->assertFalse($success);
+
+		$song = Songs::findFirst();
+		$song->artist = 'Massive Attack';
+		$song->name = 'Paradise Circus';
+		$success = $song->update();
+		$this->assertTrue($success);
 	}
 
 }
