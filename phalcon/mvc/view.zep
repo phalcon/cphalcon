@@ -93,7 +93,7 @@ class View extends \Phalcon\Di\Injectable implements \Phalcon\Mvc\ViewInterface
 
 	protected _content = "";
 
-	protected _renderLevel = 5;
+	protected _renderLevel = 5 { get };
 
 	protected _disabledLevels;
 
@@ -735,6 +735,38 @@ class View extends \Phalcon\Di\Injectable implements \Phalcon\Mvc\ViewInterface
 		}
 		let this->_registeredEngines = engines;
 		return this;
+	}
+
+	/**
+	 * Checks whether view exists
+	 *
+	 * @param string view
+	 * @return bolean
+	 */
+	public function exists(string! view) -> boolean
+	{
+		var basePath, viewsDir, engines, dependencyInjector, engine, extension, path, exists;
+
+		let basePath = this->_basePath,
+			viewsDir = this->_viewsDir,
+			engines = this->_registeredEngines;
+
+		if typeof engines != "array" {
+			let dependencyInjector = <\Phalcon\DiInterface> this->_dependencyInjector,
+				engines[".phtml"] = new \Phalcon\Mvc\View\Engine\Php(this, dependencyInjector),
+				this->_registeredEngines = engines;
+		}
+
+		for extension, engine in engines {
+			let path = basePath . viewsDir . view . extension,
+				exists = file_exists(path);
+
+				if exists {
+					break;
+				}
+		}
+
+		return exists;
 	}
 
 	/**
