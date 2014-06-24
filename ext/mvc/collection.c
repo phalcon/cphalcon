@@ -1367,6 +1367,9 @@ PHP_METHOD(Phalcon_Mvc_Collection, appendMessage){
 /**
  * Creates/Updates a collection based on the values in the attributes
  *
+ * @param array $data
+ * @param array $whiteList
+ * @param boolean $mode true is insert or false is update
  * @return boolean
  */
 PHP_METHOD(Phalcon_Mvc_Collection, save){
@@ -1375,6 +1378,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, save){
 	zval *collection = NULL, *exists = NULL, *empty_array, *disable_events;
 	zval *status = NULL, *data, *reserved = NULL, *properties = NULL;
 	zval *success = NULL, *options;
+	zval *arr = NULL, *white_list = NULL, *mode = NULL, *value = NULL;
 	HashPosition hp0;
 	zval **hd;
 	zval *dependency_injector, *ok, *id;
@@ -1388,6 +1392,16 @@ PHP_METHOD(Phalcon_Mvc_Collection, save){
 	}
 
 	PHALCON_MM_GROW();
+
+	phalcon_fetch_params(1, 0, 3, &arr, &white_list, &mode);
+
+	if (!arr) {
+		arr = PHALCON_GLOBAL(z_null);
+	}
+	
+	if (!white_list) {
+		white_list = PHALCON_GLOBAL(z_null);
+	}
 
 	PHALCON_CALL_METHOD(&source, this_ptr, "getsource");
 	if (PHALCON_IS_EMPTY(source)) {
@@ -1405,8 +1419,23 @@ PHP_METHOD(Phalcon_Mvc_Collection, save){
 	/** 
 	 * Check the dirty state of the current operation to update the current operation
 	 */
-	PHALCON_CALL_METHOD(&exists, this_ptr, "_exists", collection);
-	phalcon_update_property_long(this_ptr, SL("_operationMade"), (PHALCON_IS_FALSE(exists) ? 1 : 2) TSRMLS_CC);
+	if (!mode || Z_TYPE_P(mode) == IS_NULL) {
+		PHALCON_CALL_METHOD(&exists, this_ptr, "_exists", collection);
+
+		if (mode) {
+			PHALCON_SEPARATE_PARAM(mode);
+		} else {
+			PHALCON_INIT_NVAR(mode);
+		}
+		
+		ZVAL_BOOL(mode, (PHALCON_IS_FALSE(exists) ? 1 : 0));
+		phalcon_update_property_long(this_ptr, SL("_operationMade"), (PHALCON_IS_FALSE(exists) ? 1 : 2) TSRMLS_CC);
+	} else {
+		PHALCON_INIT_NVAR(exists);
+		ZVAL_BOOL(exists, (PHALCON_IS_FALSE(mode) ? 1 : 0));
+
+		phalcon_update_property_long(this_ptr, SL("_operationMade"), (PHALCON_IS_FALSE(exists) ? 1 : 2) TSRMLS_CC);
+	}
 	
 	PHALCON_INIT_VAR(empty_array);
 	array_init(empty_array);
@@ -1444,6 +1473,21 @@ PHP_METHOD(Phalcon_Mvc_Collection, save){
 			zval key = phalcon_get_current_key_w(Z_ARRVAL_P(properties), &hp0);
 
 			if ((PHALCON_IS_STRING(&key, "_id") && Z_TYPE_PP(hd) != IS_NULL) || !phalcon_array_isset(reserved, &key)) {
+				if (Z_TYPE_P(arr) == IS_ARRAY && phalcon_array_isset(arr, &key)) {
+					if (Z_TYPE_P(white_list) != IS_ARRAY || phalcon_fast_in_array(&key, white_list TSRMLS_CC)) {
+						PHALCON_OBS_NVAR(value);
+						phalcon_array_fetch(&value, arr, &key, PH_NOISY);
+
+						if (likely(Z_TYPE(key) == IS_STRING)) {
+							add_assoc_zval_ex(data, Z_STRVAL(key), Z_STRLEN(key)+1, value);
+						}
+						else {
+							add_index_zval(data, Z_LVAL(key), value);
+						}
+						continue;
+					}
+				}
+
 				Z_ADDREF_PP(hd);
 				if (likely(Z_TYPE(key) == IS_STRING)) {
 					add_assoc_zval_ex(data, Z_STRVAL(key), Z_STRLEN(key)+1, *hd);
@@ -1460,7 +1504,11 @@ PHP_METHOD(Phalcon_Mvc_Collection, save){
 	
 	PHALCON_INIT_NVAR(status);
 
-	ZVAL_STRING(&func, "save", 0);
+	if (PHALCON_IS_FALSE(mode)){
+		ZVAL_STRING(&func, "save", 0);
+	} else {
+		ZVAL_STRING(&func, "insert", 0);
+	}
 
 	/**
 	 * We always use safe stores to get the success state
@@ -1900,51 +1948,21 @@ PHP_METHOD(Phalcon_Mvc_Collection, summatory){
  */
 PHP_METHOD(Phalcon_Mvc_Collection, create){
 
-	zval *source = NULL, *connection = NULL, *collection = NULL, *exists = NULL;
-	zval *type, *message, *collection_message, *messages;
+	zval *data = NULL, *white_list = NULL;
 
 	PHALCON_MM_GROW();
 
-	PHALCON_CALL_METHOD(&source, this_ptr, "getsource");
-	if (PHALCON_IS_EMPTY(source)) {
-		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_collection_exception_ce, "Method getSource() returns empty string");
-		return;
+	phalcon_fetch_params(1, 0, 2, &data, &white_list);
+
+	if (!data) {
+		data = PHALCON_GLOBAL(z_null);
 	}
 	
-	PHALCON_CALL_METHOD(&connection, this_ptr, "getconnection");
-	
-	/** 
-	 * Choose a collection according to the collection name
-	 */
-	PHALCON_CALL_METHOD(&collection, connection, "selectcollection", source);
-	
-	/** 
-	 * Check the dirty state of the current operation to update the current operation
-	 */
-	PHALCON_CALL_METHOD(&exists, this_ptr, "_exists", collection);
-
-	/** 
-	 * If the record already exists we must throw an exception
-	 */
-	if (zend_is_true(exists)) {
-		PHALCON_INIT_VAR(type);
-		ZVAL_STRING(type, "InvalidCreateAttempt", 1);
-	
-		PHALCON_INIT_VAR(message);
-		ZVAL_STRING(message, "Document cannot be created because it already exists", 1);
-	
-		PHALCON_INIT_VAR(collection_message);
-		object_init_ex(collection_message, phalcon_mvc_collection_message_ce);
-		PHALCON_CALL_METHOD(NULL, collection_message, "__construct", message, PHALCON_GLOBAL(z_null), type);
-	
-		PHALCON_INIT_VAR(messages);
-		array_init_size(messages, 1);
-		phalcon_array_append(&messages, collection_message, PH_SEPARATE);
-		phalcon_update_property_this(this_ptr, SL("_errorMessages"), messages TSRMLS_CC);
-		RETURN_MM_FALSE;
+	if (!white_list) {
+		white_list = PHALCON_GLOBAL(z_null);
 	}
 
-	PHALCON_RETURN_CALL_METHOD(this_ptr, "save");
+	PHALCON_RETURN_CALL_METHOD(this_ptr, "save", data, white_list, PHALCON_GLOBAL(z_true));
 	RETURN_MM();
 }
 
@@ -1957,8 +1975,19 @@ PHP_METHOD(Phalcon_Mvc_Collection, update){
 
 	zval *source = NULL, *connection = NULL, *collection = NULL, *exists = NULL;
 	zval *type, *message, *collection_message, *messages;
+	zval *data = NULL, *white_list = NULL;
 
 	PHALCON_MM_GROW();
+
+	phalcon_fetch_params(1, 0, 2, &data, &white_list);
+
+	if (!data) {
+		data = PHALCON_GLOBAL(z_null);
+	}
+	
+	if (!white_list) {
+		white_list = PHALCON_GLOBAL(z_null);
+	}
 
 	PHALCON_CALL_METHOD(&source, this_ptr, "getsource");
 	if (PHALCON_IS_EMPTY(source)) {
@@ -1999,7 +2028,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, update){
 		RETURN_MM_FALSE;
 	}
 
-	PHALCON_RETURN_CALL_METHOD(this_ptr, "save");
+	PHALCON_RETURN_CALL_METHOD(this_ptr, "save", data, white_list, PHALCON_GLOBAL(z_false));
 	RETURN_MM();
 }
 
