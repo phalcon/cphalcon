@@ -2181,23 +2181,16 @@ PHP_METHOD(Phalcon_Mvc_Collection, unserialize){
  */
 PHP_METHOD(Phalcon_Mvc_Collection, execute){
 
-	zval *parameters = NULL, *class_name, *collection, *connection = NULL;
-	zval *unique;
+	zval *code, *args = NULL, *class_name, *collection, *connection = NULL;
 	zend_class_entry *ce0;
 
 	PHALCON_MM_GROW();
 
-	phalcon_fetch_params(1, 0, 1, &parameters);
+	phalcon_fetch_params(1, 1, 1, &code, &args);
 	
-	if (!parameters) {
-		parameters = PHALCON_GLOBAL(z_null);
-	}
-	
-	if (Z_TYPE_P(parameters) != IS_NULL) {
-		if (Z_TYPE_P(parameters) != IS_ARRAY) { 
-			PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_collection_exception_ce, "Invalid parameters for findFirst");
-			return;
-		}
+	if (args && Z_TYPE_P(args) != IS_ARRAY) { 
+		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_collection_exception_ce, "Invalid args for execute");
+		return;
 	}
 	
 	PHALCON_INIT_VAR(class_name);
@@ -2212,7 +2205,11 @@ PHP_METHOD(Phalcon_Mvc_Collection, execute){
 	
 	PHALCON_CALL_METHOD(&connection, collection, "getconnection");
 
-	unique = PHALCON_GLOBAL(z_true);
-	PHALCON_RETURN_CALL_SELF("_getresultset", parameters, collection, connection, unique);
-	RETURN_MM();
+	if (args) {
+		PHALCON_RETURN_CALL_METHOD(connection, "execute", code, args);
+	} else {
+		PHALCON_RETURN_CALL_METHOD(connection, "execute", code);
+	}
+
+	PHALCON_MM_RESTORE();
 }
