@@ -2089,7 +2089,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, delete){
 	 * Get the \MongoCollection
 	 */
 	PHALCON_CALL_METHOD(&collection, connection, "selectcollection", source);
-	if (Z_TYPE_P(id) == IS_OBJECT) {
+	if (Z_TYPE_P(id) == IS_OBJECT || Z_TYPE_P(id) == IS_NULL) {
 		PHALCON_CPY_WRT(mongo_id, id);
 	} else {
 		PHALCON_OBS_VAR(collection_manager);
