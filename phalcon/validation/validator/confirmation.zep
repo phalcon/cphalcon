@@ -56,17 +56,11 @@ class Confirmation extends \Phalcon\Validation\Validator implements \Phalcon\Val
 			let label = this->getOption("label");
 			if empty label {
 				let label = validation->getLabel(field);
-				if empty label {
-					let label = field;
-				}
 			}
 
 			let labelWith = this->getOption("labelWith");
 			if empty labelWith {
 				let labelWith = validation->getLabel(fieldWith);
-				if empty labelWith {
-					let labelWith = fieldWith;
-				}
 			}
 
 			let message = this->getOption("message");

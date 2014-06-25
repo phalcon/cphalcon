@@ -56,10 +56,6 @@ class File extends \Phalcon\Validation\Validator implements \Phalcon\Validation\
 
 		if empty label {
 			let label = validation->getLabel(field);
-
-			if empty label {
-				let label = field;
-			}
 		}
 
 		// Upload is larger than PHP allowed size (post_max_size or upload_max_filesize)
