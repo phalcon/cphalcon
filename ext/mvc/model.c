@@ -1372,6 +1372,11 @@ PHP_METHOD(Phalcon_Mvc_Model, find){
 	PHALCON_CALL_METHOD(NULL, builder, "__construct", params);
 	
 	PHALCON_CALL_METHOD(NULL, builder, "from", model_name);
+
+	if (phalcon_method_exists_ex(this_ptr, SS("beforequery") TSRMLS_CC) == SUCCESS) {
+		PHALCON_CALL_METHOD(NULL, this_ptr, "beforequery", builder);
+	}
+
 	PHALCON_CALL_METHOD(&query, builder, "getquery");
 	
 	PHALCON_INIT_VAR(bind_params);
@@ -1476,6 +1481,10 @@ PHP_METHOD(Phalcon_Mvc_Model, findFirst){
 	PHALCON_CALL_METHOD(NULL, builder, "__construct", params);
 	
 	PHALCON_CALL_METHOD(NULL, builder, "from", model_name);
+
+	if (phalcon_method_exists_ex(this_ptr, SS("beforequery") TSRMLS_CC) == SUCCESS) {
+		PHALCON_CALL_METHOD(NULL, this_ptr, "beforequery", builder);
+	}
 	
 	/** 
 	 * Check for bind parameters
@@ -1886,6 +1895,11 @@ PHP_METHOD(Phalcon_Mvc_Model, _groupResult){
 	
 	PHALCON_CALL_METHOD(NULL, builder, "columns", columns);
 	PHALCON_CALL_METHOD(NULL, builder, "from", model_name);
+
+	if (phalcon_method_exists_ex(this_ptr, SS("beforequery") TSRMLS_CC) == SUCCESS) {
+		PHALCON_CALL_METHOD(NULL, this_ptr, "beforequery", builder);
+	}
+
 	PHALCON_CALL_METHOD(&query, builder, "getquery");
 	
 	/** 
