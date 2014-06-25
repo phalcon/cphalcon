@@ -1465,6 +1465,7 @@ PHP_METHOD(Phalcon_Mvc_Model, findFirst){
 	zval *parameters = NULL, *model_name, *params = NULL, *builder;
 	zval *query = NULL, *bind_params = NULL, *bind_types = NULL, *cache;
 	zval *unique, *index, tmp = zval_used_for_init;
+	zval *dependency_injector = NULL, *manager, *model = NULL;
 
 	PHALCON_MM_GROW();
 
@@ -1476,6 +1477,15 @@ PHP_METHOD(Phalcon_Mvc_Model, findFirst){
 	
 	PHALCON_INIT_VAR(model_name);
 	phalcon_get_called_class(model_name  TSRMLS_CC);
+
+	PHALCON_CALL_CE_STATIC(&dependency_injector, phalcon_di_ce, "getdefault");
+
+	PHALCON_INIT_VAR(manager);
+	object_init_ex(manager, phalcon_mvc_model_manager_ce);
+	PHALCON_CALL_METHOD(NULL, manager, "setdi", dependency_injector);
+
+	PHALCON_CALL_METHOD(&model, manager, "load", model_name);
+
 	if (Z_TYPE_P(parameters) != IS_ARRAY) { 
 	
 		PHALCON_INIT_VAR(params);
@@ -1496,8 +1506,8 @@ PHP_METHOD(Phalcon_Mvc_Model, findFirst){
 	
 	PHALCON_CALL_METHOD(NULL, builder, "from", model_name);
 
-	if (phalcon_method_exists_ex(this_ptr, SS("beforequery") TSRMLS_CC) == SUCCESS) {
-		PHALCON_CALL_METHOD(NULL, this_ptr, "beforequery", builder);
+	if (phalcon_method_exists_ex(model, SS("beforequery") TSRMLS_CC) == SUCCESS) {
+		PHALCON_CALL_METHOD(NULL, model, "beforequery", builder);
 	}
 	
 	/** 
@@ -1851,6 +1861,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _groupResult){
 	zval *model_name, *builder, *query = NULL, *bind_params = NULL;
 	zval *bind_types = NULL, *resultset = NULL, *cache, *number_rows;
 	zval *first_row = NULL, *value;
+	zval *dependency_injector = NULL, *manager, *model = NULL;
 
 	PHALCON_MM_GROW();
 
@@ -1899,6 +1910,14 @@ PHP_METHOD(Phalcon_Mvc_Model, _groupResult){
 	
 	PHALCON_INIT_VAR(model_name);
 	phalcon_get_called_class(model_name  TSRMLS_CC);
+
+	PHALCON_CALL_CE_STATIC(&dependency_injector, phalcon_di_ce, "getdefault");
+
+	PHALCON_INIT_VAR(manager);
+	object_init_ex(manager, phalcon_mvc_model_manager_ce);
+	PHALCON_CALL_METHOD(NULL, manager, "setdi", dependency_injector);
+
+	PHALCON_CALL_METHOD(&model, manager, "load", model_name);
 	
 	/** 
 	 * Builds a query with the passed parameters
@@ -1910,8 +1929,8 @@ PHP_METHOD(Phalcon_Mvc_Model, _groupResult){
 	PHALCON_CALL_METHOD(NULL, builder, "columns", columns);
 	PHALCON_CALL_METHOD(NULL, builder, "from", model_name);
 
-	if (phalcon_method_exists_ex(this_ptr, SS("beforequery") TSRMLS_CC) == SUCCESS) {
-		PHALCON_CALL_METHOD(NULL, this_ptr, "beforequery", builder);
+	if (phalcon_method_exists_ex(model, SS("beforequery") TSRMLS_CC) == SUCCESS) {
+		PHALCON_CALL_METHOD(NULL, model, "beforequery", builder);
 	}
 
 	PHALCON_CALL_METHOD(&query, builder, "getquery");
