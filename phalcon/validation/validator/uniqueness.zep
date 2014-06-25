@@ -56,9 +56,9 @@ class Uniqueness extends \Phalcon\Validation\Validator implements \Phalcon\Valid
 		var attribute, value, model, except, number, message, label, replacePairs;
 
 		let value = validation->getValue(field),
-					model = this->getOption("model"),
-					attribute = this->getOption("attribute"),
-					except = this->getOption("except");
+			model = this->getOption("model"),
+			attribute = this->getOption("attribute"),
+			except = this->getOption("except");
 
 		if empty model {
 			throw new \Phalcon\Validation\Exception("Model must be set");
@@ -69,8 +69,8 @@ class Uniqueness extends \Phalcon\Validation\Validator implements \Phalcon\Valid
 		}
 
 		if except  {
-            let number = {model}::count([attribute . "=:value: AND " . attribute . "!= :except:", "bind": ["value": value, 'except': except]]);
-        } else {
+			let number = {model}::count([attribute . "=:value: AND " . attribute . "!= :except:", "bind": ["value": value, "except": except]]);
+		} else {
 			let number = {model}::count([attribute . "=:value:", "bind": ["value": value]]);
 		}
 		if number {
@@ -80,8 +80,8 @@ class Uniqueness extends \Phalcon\Validation\Validator implements \Phalcon\Valid
 				let label = validation->getLabel(field);
 			}
 
-			let message = this->getOption("message");
-			let replacePairs = [":field": label];
+			let message = this->getOption("message"),
+				replacePairs = [":field": label];
 			if empty message {
 				let message = validation->getDefaultMessage("Uniqueness");
 			}
