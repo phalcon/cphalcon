@@ -90,6 +90,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, groupBy);
 PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getGroupBy);
 PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getPhql);
 PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getQuery);
+PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getSharedLock);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_query_builder___construct, 0, 0, 0)
 	ZEND_ARG_INFO(0, params)
@@ -134,6 +135,7 @@ static const zend_function_entry phalcon_mvc_model_query_builder_method_entry[] 
 	PHP_ME(Phalcon_Mvc_Model_Query_Builder, getGroupBy, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_Query_Builder, getPhql, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_Query_Builder, getQuery, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Model_Query_Builder, getSharedLock, NULL, ZEND_ACC_PUBLIC)
 	PHP_FE_END
 };
 
@@ -1855,7 +1857,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getPhql){
 PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getQuery){
 
 	zval *phql = NULL, *dependency_injector, *bind_params;
-	zval *bind_types;
+	zval *bind_types, *shared_lock;
 
 	PHALCON_MM_GROW();
 
@@ -1886,7 +1888,24 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getQuery){
 	if (Z_TYPE_P(bind_types) == IS_ARRAY) { 
 		PHALCON_CALL_METHOD(NULL, return_value, "setbindtypes", bind_types);
 	}
+
+	PHALCON_OBS_VAR(shared_lock);
+	phalcon_read_property_this(&shared_lock, this_ptr, SL("_sharedLock"), PH_NOISY TSRMLS_CC);
+	if (PHALCON_IS_TRUE(shared_lock)) { 
+		PHALCON_CALL_METHOD(NULL, return_value, "setsharedlock", PHALCON_GLOBAL(z_true));
+	}
 	
 	RETURN_MM();
+}
+
+/**
+ * Returns the SHARED LOCK clause
+ *
+ * @return boolean
+ */
+PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getSharedLock){
+
+
+	RETURN_MEMBER(this_ptr, "_sharedLock");
 }
 

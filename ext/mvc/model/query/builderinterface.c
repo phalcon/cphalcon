@@ -52,6 +52,7 @@ static const zend_function_entry phalcon_mvc_model_query_builderinterface_method
 	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_Query_BuilderInterface, getGroupBy, NULL)
 	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_Query_BuilderInterface, getPhql, NULL)
 	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_Query_BuilderInterface, getQuery, NULL)
+	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_Query_BuilderInterface, getSharedLock, NULL)
 	PHP_FE_END
 };
 
@@ -298,3 +299,10 @@ PHALCON_DOC_METHOD(Phalcon_Mvc_Model_Query_BuilderInterface, getPhql);
  * @return Phalcon\Mvc\Model\QueryInterface
  */
 PHALCON_DOC_METHOD(Phalcon_Mvc_Model_Query_BuilderInterface, getQuery);
+
+/**
+ * Returns the SHARED LOCK clause
+ *
+ * @return boolean
+ */
+PHALCON_DOC_METHOD(Phalcon_Mvc_Model_Query_BuilderInterface, getSharedLock);

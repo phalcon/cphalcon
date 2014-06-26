@@ -116,6 +116,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, setBindTypes);
 PHP_METHOD(Phalcon_Mvc_Model_Query, getBindTypes);
 PHP_METHOD(Phalcon_Mvc_Model_Query, setIntermediate);
 PHP_METHOD(Phalcon_Mvc_Model_Query, getIntermediate);
+PHP_METHOD(Phalcon_Mvc_Model_Query, setSharedLock);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_query___construct, 0, 0, 1)
 	ZEND_ARG_INFO(0, phql)
@@ -148,6 +149,10 @@ ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_query_setintermediate, 0, 0, 1)
 	ZEND_ARG_INFO(0, intermediate)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_query_setsharedlock, 0, 0, 1)
+	ZEND_ARG_INFO(0, sharedLock)
 ZEND_END_ARG_INFO()
 
 static const zend_function_entry phalcon_mvc_model_query_method_entry[] = {
@@ -193,6 +198,7 @@ static const zend_function_entry phalcon_mvc_model_query_method_entry[] = {
 	PHP_ME(Phalcon_Mvc_Model_Query, getBindTypes, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_Query, setIntermediate, arginfo_phalcon_mvc_model_query_setintermediate, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_Query, getIntermediate, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Model_Query, setSharedLock, arginfo_phalcon_mvc_model_query_setsharedlock, ZEND_ACC_PUBLIC)
 	PHP_FE_END
 };
 
@@ -223,6 +229,7 @@ PHALCON_INIT_CLASS(Phalcon_Mvc_Model_Query){
 	zend_declare_property_null(phalcon_mvc_model_query_ce, SL("_bindParams"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_mvc_model_query_ce, SL("_bindTypes"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_mvc_model_query_ce, SL("_irPhqlCache"), ZEND_ACC_STATIC|ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_mvc_model_query_ce, SL("_sharedLock"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
 	zend_declare_class_constant_long(phalcon_mvc_model_query_ce, SL("TYPE_SELECT"), 309 TSRMLS_CC);
 	zend_declare_class_constant_long(phalcon_mvc_model_query_ce, SL("TYPE_INSERT"), 306 TSRMLS_CC);
@@ -3540,7 +3547,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _executeSelect){
 	zval *sql_alias = NULL, *dialect = NULL, *sql_select = NULL, *processed = NULL;
 	zval *value = NULL, *wildcard = NULL, *string_wildcard = NULL, *processed_types = NULL;
 	zval *type_wildcard = NULL, *result = NULL, *count = NULL, *result_data = NULL;
-	zval *cache, *result_object = NULL;
+	zval *cache, *result_object = NULL, *shared_lock, *tmp_sql_select = NULL;
 	HashTable *ah0, *ah1, *ah2, *ah3, *ah4, *ah5, *ah6;
 	HashPosition hp0, hp1, hp2, hp3, hp4, hp5, hp6;
 	zval **hd;
@@ -3858,7 +3865,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _executeSelect){
 	 * the database system
 	 */
 	PHALCON_CALL_METHOD(&dialect, connection, "getdialect");
-	PHALCON_CALL_METHOD(&sql_select, dialect, "select", intermediate);
+	PHALCON_CALL_METHOD(&tmp_sql_select, dialect, "select", intermediate);
 
 	/** 
 	 * Replace the placeholders
@@ -3919,7 +3926,18 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _executeSelect){
 	} else {
 		PHALCON_CPY_WRT(processed_types, bind_types);
 	}
-	
+
+	/** 
+	 * Check the SHARED LOCK clause
+	 */
+	PHALCON_OBS_VAR(shared_lock);
+	phalcon_read_property_this(&shared_lock, this_ptr, SL("_sharedLock"), PH_NOISY TSRMLS_CC);
+	if (PHALCON_IS_TRUE(shared_lock)) {
+		PHALCON_CALL_METHOD(&sql_select, dialect, "sharedLock", tmp_sql_select);
+	} else {
+		PHALCON_CPY_WRT(sql_select, tmp_sql_select);
+	}
+
 	/** 
 	 * Execute the query
 	 */
@@ -5051,4 +5069,19 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, getIntermediate){
 
 
 	RETURN_MEMBER(this_ptr, "_intermediate");
+}
+
+/**
+ * Sets the SHARED LOCK clause
+ *
+ * @param boolean $shared_lock
+ */
+PHP_METHOD(Phalcon_Mvc_Model_Query, setSharedLock){
+
+	zval *shared_lock;
+
+	phalcon_fetch_params(0, 1, 0, &shared_lock);
+	
+	phalcon_update_property_this(this_ptr, SL("_sharedLock"), shared_lock TSRMLS_CC);
+	RETURN_THISW();
 }
