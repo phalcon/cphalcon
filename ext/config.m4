@@ -264,6 +264,7 @@ cache/backend/mongo.c \
 cache/backend/memcache.c \
 cache/backend/libmemcached.c \
 cache/backend/memory.c \
+cache/backend/redis.c \
 cache/exception.c \
 cache/backendinterface.c \
 cache/frontendinterface.c \
