@@ -1384,7 +1384,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getGroupBy){
 PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getPhql){
 
 	zval *dependency_injector = NULL, *models, *conditions = NULL, *distinct;
-	zval *model, *phql, *columns;
+	zval *model = NULL, *phql, *columns;
 	zval *selected_columns = NULL, *column = NULL, *column_alias = NULL;
 	zval *aliased_column = NULL, *joined_columns = NULL, *model_column_alias = NULL;
 	zval *selected_column = NULL, *selected_models, *model_alias = NULL;
