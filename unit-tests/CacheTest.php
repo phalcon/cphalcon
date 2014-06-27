@@ -1217,6 +1217,161 @@ class CacheTest extends PHPUnit_Framework_TestCase
 		$this->assertTrue($cache2->delete('test-data'));
 	}
 
+	protected function _prepareRedis()
+	{
+
+		if (!extension_loaded('redis')) {
+			$this->markTestSkipped('Warning: redis extension is not loaded');
+			return false;
+		}
+
+		$redis = new Redis();
+		$redis->connect('127.0.0.1', 6379);
+		//$redis->flushDB();
+		return $redis;
+	}
+
+	public function testRedisIncrement()
+	{
+		$redis = $this->_prepareRedis();
+		if (!$redis) {
+			return false;
+		}
+		
+		$frontCache = new Phalcon\Cache\Frontend\Data(array('lifetime' => 20));
+		$cache = new Phalcon\Cache\Backend\Redis($frontCache, array(
+			'host' => 'localhost',
+			'port' => 6379,
+			// 'auth' => 'foobared',
+			// 'persistent' => false
+		));
+		$cache->delete('increment');
+
+		$cache->save('increment', 1);
+		$this->assertEquals(2, $cache->increment('increment'));
+		$this->assertEquals(4, $cache->increment('increment', 2));
+		$this->assertEquals(14, $cache->increment('increment', 10));
+	}
+
+	public function testRedisDecrement()
+	{
+		$ready = $this->_prepareRedis();
+		if (!$ready) {
+			return false;
+		}
+		
+		$frontCache = new Phalcon\Cache\Frontend\Data(array('lifetime' => 20));
+		$cache = new Phalcon\Cache\Backend\Redis($frontCache, array(
+			'host' => 'localhost',
+			'port' => 6379
+		));
+		$cache->delete('decrement');
+
+		$cache->save('decrement', 100);
+		$this->assertEquals(99, $cache->decrement('decrement'));
+		$this->assertEquals(97, $cache->decrement('decrement', 2));
+		$this->assertEquals(87, $cache->decrement('decrement', 10));
+	}
+
+	public function testOutputRedisCache()
+	{
+
+		$redis = $this->_prepareRedis();
+		if (!$redis) {
+			return false;
+		}
+
+		$redis->delete('_PHCRtest-output');
+
+		$time = date('H:i:s');
+
+		$frontCache = new Phalcon\Cache\Frontend\Output(array('lifetime' => 2));
+		$cache = new Phalcon\Cache\Backend\Redis($frontCache, array(
+			'host' => 'localhost',
+			'port' => 6379
+		));
+
+		ob_start();
+
+		//First time cache
+		$content = $cache->start('test-output');
+		if ($content !== null) {
+			$this->assertTrue(false);
+		}
+
+		echo $time;
+
+		$cache->save(null, null, null, true);
+
+		$obContent = ob_get_contents();
+		ob_end_clean();
+
+		$this->assertEquals($time, $obContent);
+		$this->assertEquals($time, $redis->get('_PHCRtest-output'));
+
+		//Expect same cache
+		$content = $cache->start('test-output');
+		if ($content === null) {
+			$this->assertTrue(false);
+		}
+
+		$this->assertEquals($content, $obContent);
+		$this->assertEquals($content, $redis->get('_PHCRtest-output'));
+
+		//Query keys
+		$keys = $cache->queryKeys();
+		$this->assertEquals($keys, array(
+			0 => 'test-output',
+			1 => 'decrement',
+			2 => 'increment'
+		));
+
+		//Delete entry from cache
+		$this->assertTrue($cache->delete('test-output'));
+	}
+
+	public function testDataRedisCache()
+	{
+		$redis = $this->_prepareRedis();
+		if (!$redis) {
+			return false;
+		}
+
+		$redis->delete('test-data');
+
+		$frontCache = new Phalcon\Cache\Frontend\Data();
+		$cache = new Phalcon\Cache\Backend\Redis($frontCache, array(
+			'host' => 'localhost',
+			'port' => 6379
+		));
+
+		$data = array(1, 2, 3, 4, 5);
+
+		$cache->save('test-data', $data);
+
+		$cachedContent = $cache->get('test-data');
+		$this->assertEquals($cachedContent, $data);
+
+		$cache->save('test-data', "sure, nothing interesting");
+
+		$cachedContent = $cache->get('test-data');
+		$this->assertEquals($cachedContent, "sure, nothing interesting");
+
+		$this->assertTrue($cache->delete('test-data'));
+
+		$cache->save('a', 1);
+		$cache->save('long-key', 'long-val');
+		$cache->save('bcd', 3);
+		$keys = $cache->queryKeys();
+		sort($keys);
+		$this->assertEquals($keys, array('a', 'bcd', 'decrement', 'increment', 'long-key'));
+		$this->assertEquals($cache->queryKeys('long'), array('long-key'));
+
+		$this->assertTrue($cache->delete('a'));
+		$this->assertTrue($cache->delete('long-key'));
+		$this->assertTrue($cache->delete('bcd'));
+	}
+
 	public function testCacheFileFlush()
 	{
 		$frontCache = new Phalcon\Cache\Frontend\Data(array('lifetime' => 10));
@@ -1375,6 +1530,33 @@ class CacheTest extends PHPUnit_Framework_TestCase
 
 		$cache->save('data', "1");
 		$cache->save('data2', "2");
+
+		$this->assertTrue($cache->flush());
+
+		$this->assertFalse($cache->exists('data'));
+		$this->assertFalse($cache->exists('data2'));
+	}
+
+	public function testCacheRedisFlush()
+	{
+		$frontCache = new Phalcon\Cache\Frontend\Data(array('lifetime' => 10));
+
+		$redis = $this->_prepareRedis();
+		if (!$redis) {
+			return false;
+		}
+
+		$frontCache = new Phalcon\Cache\Frontend\Data();
+		$cache = new Phalcon\Cache\Backend\Redis($frontCache, array(
+			'host' => 'localhost',
+			'port' => 6379
+		));
+
+		$cache->save('data', "1");
+		$cache->save('data2', "2");
+
+		$this->assertTrue($cache->exists('data'));
+		$this->assertTrue($cache->exists('data2'));
 
 		$this->assertTrue($cache->flush());
 
