@@ -4706,6 +4706,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, execute){
 	zval *prepared_result = NULL, *intermediate = NULL, *default_bind_params;
 	zval *merged_params = NULL, *default_bind_types;
 	zval *merged_types = NULL, *type, *exception_message;
+	zval *value = NULL;
+	HashTable *ah0;
+	HashPosition hp0;
+	zval **hd;
 	int cache_options_is_not_null;
 
 	PHALCON_MM_GROW();
@@ -4815,7 +4819,29 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, execute){
 	if (Z_TYPE_P(default_bind_params) == IS_ARRAY) { 
 		if (Z_TYPE_P(bind_params) == IS_ARRAY) { 
 			PHALCON_INIT_VAR(merged_params);
-			phalcon_fast_array_merge(merged_params, &default_bind_params, &bind_params TSRMLS_CC);
+			array_init(merged_params);
+
+			phalcon_is_iterable(default_bind_params, &ah0, &hp0, 0, 0);
+			while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
+		
+				PHALCON_GET_HKEY(key, ah0, hp0);
+				PHALCON_GET_HVALUE(value);
+
+				phalcon_array_update_zval(&merged_params, key, value, 0);
+
+				zend_hash_move_forward_ex(ah0, &hp0);
+			}
+
+			phalcon_is_iterable(bind_params, &ah0, &hp0, 0, 0);
+			while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
+		
+				PHALCON_GET_HKEY(key, ah0, hp0);
+				PHALCON_GET_HVALUE(value);
+
+				phalcon_array_update_zval(&merged_params, key, value, 0);
+
+				zend_hash_move_forward_ex(ah0, &hp0);
+			}
 		} else {
 			PHALCON_CPY_WRT(merged_params, default_bind_params);
 		}
