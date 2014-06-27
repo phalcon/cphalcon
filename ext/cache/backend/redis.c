@@ -273,7 +273,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Redis, save){
 
 	zval *key_name = NULL, *content = NULL, *lifetime = NULL, *stop_buffer = NULL;
 	zval *cached_content = NULL, *prepared_content = NULL, *success = NULL;
-	zval *keys = NULL, *ttl = NULL, *is_buffering = NULL;
+	zval *ttl = NULL, *is_buffering = NULL;
 	zval *prefixed_key, *last_key, *frontend, *redis, *options, *special_key;
 
 	PHALCON_MM_GROW();
@@ -385,7 +385,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Redis, save){
 PHP_METHOD(Phalcon_Cache_Backend_Redis, delete){
 
 	zval *key_name, *redis, *prefix, *prefixed_key, *last_key;
-	zval *options, *special_key, *keys = NULL;
+	zval *options, *special_key;
 	zval *ret = NULL;
 
 	PHALCON_MM_GROW();
