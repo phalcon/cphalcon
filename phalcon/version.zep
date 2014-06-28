@@ -65,7 +65,7 @@ class Version
 			special       = version[3],
 			specialNumber = version[4];
 
-		let result = major . medium . minor . " ";
+		let result = major . "." . medium . "." . minor . " ";
 		switch special {
 			case 1:
 				let suffix = "ALPHA " . specialNumber;
