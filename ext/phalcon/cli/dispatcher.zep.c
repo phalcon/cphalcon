@@ -182,7 +182,7 @@ PHP_METHOD(Phalcon_Cli_Dispatcher, _throwDispatchException) {
 		ZEPHIR_CALL_METHOD(&_2, eventsManager, "fire", NULL, _0, this_ptr, exception);
 		zephir_check_temp_parameter(_0);
 		zephir_check_call_status();
-		if (ZEPHIR_IS_FALSE(_2)) {
+		if (ZEPHIR_IS_FALSE_IDENTICAL(_2)) {
 			RETURN_MM_BOOL(0);
 		}
 	}

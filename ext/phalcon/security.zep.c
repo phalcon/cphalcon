@@ -317,9 +317,13 @@ PHP_METHOD(Phalcon_Security, getTokenKey) {
 	int numberBytes, ZEPHIR_LAST_CALL_STATUS;
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 0, &numberBytes_param);
+	zephir_fetch_params(1, 0, 1, &numberBytes_param);
 
-	numberBytes = zephir_get_intval(numberBytes_param);
+	if (!numberBytes_param) {
+		numberBytes = 0;
+	} else {
+		numberBytes = zephir_get_intval(numberBytes_param);
+	}
 
 
 	if (!(numberBytes)) {

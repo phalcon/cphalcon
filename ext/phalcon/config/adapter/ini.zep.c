@@ -83,7 +83,7 @@ PHP_METHOD(Phalcon_Config_Adapter_Ini, __construct) {
 	array_init(config);
 	ZEPHIR_CALL_FUNCTION(&iniConfig, "parse_ini_file", &_0, filePath, ZEPHIR_GLOBAL(global_true));
 	zephir_check_call_status();
-	if (ZEPHIR_IS_FALSE(iniConfig)) {
+	if (ZEPHIR_IS_FALSE_IDENTICAL(iniConfig)) {
 		ZEPHIR_INIT_VAR(_1);
 		object_init_ex(_1, phalcon_config_exception_ce);
 		ZEPHIR_INIT_VAR(_2);

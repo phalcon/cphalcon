@@ -747,7 +747,7 @@ PHP_METHOD(Phalcon_Http_Response, sendCookies) {
 PHP_METHOD(Phalcon_Http_Response, send) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
-	zval *headers, *cookies, *_0;
+	zval *headers, *cookies, *_0, *_1;
 
 	ZEPHIR_MM_GROW();
 
@@ -768,8 +768,8 @@ PHP_METHOD(Phalcon_Http_Response, send) {
 		ZEPHIR_CALL_METHOD(NULL, cookies, "send", NULL);
 		zephir_check_call_status();
 	}
-	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_content"), PH_NOISY_CC);
-	zend_print_zval(_0, 0);
+	_1 = zephir_fetch_nproperty_this(this_ptr, SL("_content"), PH_NOISY_CC);
+	zend_print_zval(_1, 0);
 	zephir_update_property_this(this_ptr, SL("_sent"), (1) ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
 	RETURN_THIS();
 

@@ -192,7 +192,7 @@ PHP_METHOD(Phalcon_Mvc_View_Simple, _loadTemplateEngines) {
 
 	ZEPHIR_OBS_VAR(engines);
 	zephir_read_property_this(&engines, this_ptr, SL("_engines"), PH_NOISY_CC);
-	if (ZEPHIR_IS_FALSE(engines)) {
+	if (ZEPHIR_IS_FALSE_IDENTICAL(engines)) {
 		ZEPHIR_OBS_VAR(dependencyInjector);
 		zephir_read_property_this(&dependencyInjector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
 		ZEPHIR_INIT_BNVAR(engines);
@@ -299,7 +299,7 @@ PHP_METHOD(Phalcon_Mvc_View_Simple, _internalRender) {
 		ZEPHIR_CALL_METHOD(&_0, eventsManager, "fire", NULL, _1, this_ptr);
 		zephir_check_temp_parameter(_1);
 		zephir_check_call_status();
-		if (ZEPHIR_IS_FALSE(_0)) {
+		if (ZEPHIR_IS_FALSE_IDENTICAL(_0)) {
 			RETURN_MM_NULL();
 		}
 	}
@@ -326,7 +326,7 @@ PHP_METHOD(Phalcon_Mvc_View_Simple, _internalRender) {
 				ZEPHIR_CALL_METHOD(&_0, eventsManager, "fire", NULL, _1, this_ptr, viewEnginePath);
 				zephir_check_temp_parameter(_1);
 				zephir_check_call_status();
-				if (ZEPHIR_IS_FALSE(_0)) {
+				if (ZEPHIR_IS_FALSE_IDENTICAL(_0)) {
 					continue;
 				}
 			}
@@ -403,7 +403,7 @@ PHP_METHOD(Phalcon_Mvc_View_Simple, render) {
 	if (Z_TYPE_P(cache) == IS_OBJECT) {
 		ZEPHIR_CALL_METHOD(&_0, cache, "isstarted",  NULL);
 		zephir_check_call_status();
-		if (ZEPHIR_IS_FALSE(_0)) {
+		if (ZEPHIR_IS_FALSE_IDENTICAL(_0)) {
 			ZEPHIR_INIT_VAR(key);
 			ZVAL_NULL(key);
 			ZEPHIR_INIT_VAR(lifetime);
@@ -449,10 +449,10 @@ PHP_METHOD(Phalcon_Mvc_View_Simple, render) {
 	if (Z_TYPE_P(cache) == IS_OBJECT) {
 		ZEPHIR_CALL_METHOD(&_0, cache, "isstarted",  NULL);
 		zephir_check_call_status();
-		if (ZEPHIR_IS_TRUE(_0)) {
+		if (ZEPHIR_IS_TRUE_IDENTICAL(_0)) {
 			ZEPHIR_CALL_METHOD(&_3, cache, "isfresh",  NULL);
 			zephir_check_call_status();
-			if (ZEPHIR_IS_TRUE(_3)) {
+			if (ZEPHIR_IS_TRUE_IDENTICAL(_3)) {
 				ZEPHIR_CALL_METHOD(NULL, cache, "save", NULL);
 				zephir_check_call_status();
 			} else {

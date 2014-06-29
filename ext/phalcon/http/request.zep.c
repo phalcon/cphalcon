@@ -124,16 +124,19 @@ PHP_METHOD(Phalcon_Http_Request, getDI) {
  * @param string name
  * @param string|array filters
  * @param mixed defaultValue
+ * @param boolean notAllowEmpty
+ * @param boolean noRecursive
  * @return mixed
  */
 PHP_METHOD(Phalcon_Http_Request, get) {
 
+	zend_bool _3;
 	int ZEPHIR_LAST_CALL_STATUS;
-	zval *name_param = NULL, *filters = NULL, *defaultValue = NULL, *request = NULL, *value, *filter = NULL, *dependencyInjector = NULL, *_REQUEST, *_0, *_1 = NULL, *_2;
+	zval *name_param = NULL, *filters = NULL, *defaultValue = NULL, *notAllowEmpty = NULL, *noRecursive = NULL, *request = NULL, *value = NULL, *filter = NULL, *dependencyInjector = NULL, *_REQUEST, *_0, *_1 = NULL, *_2;
 	zval *name = NULL;
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 0, 3, &name_param, &filters, &defaultValue);
+	zephir_fetch_params(1, 0, 5, &name_param, &filters, &defaultValue, &notAllowEmpty, &noRecursive);
 
 	if (!name_param) {
 		ZEPHIR_INIT_VAR(name);
@@ -157,11 +160,17 @@ PHP_METHOD(Phalcon_Http_Request, get) {
 	if (!defaultValue) {
 		defaultValue = ZEPHIR_GLOBAL(global_null);
 	}
+	if (!notAllowEmpty) {
+		notAllowEmpty = ZEPHIR_GLOBAL(global_false);
+	}
+	if (!noRecursive) {
+		noRecursive = ZEPHIR_GLOBAL(global_false);
+	}
 
 
 	zephir_get_global(&_REQUEST, SS("_REQUEST") TSRMLS_CC);
 	ZEPHIR_CPY_WRT(request, _REQUEST);
-	if (!ZEPHIR_IS_STRING(name, "")) {
+	if (!ZEPHIR_IS_STRING_IDENTICAL(name, "")) {
 		ZEPHIR_OBS_VAR(value);
 		if (zephir_array_isset_fetch(&value, request, name, 0 TSRMLS_CC)) {
 			if (Z_TYPE_P(filters) != IS_NULL) {
@@ -171,7 +180,7 @@ PHP_METHOD(Phalcon_Http_Request, get) {
 					_0 = zephir_fetch_nproperty_this(this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
 					ZEPHIR_CPY_WRT(dependencyInjector, _0);
 					if (Z_TYPE_P(dependencyInjector) != IS_OBJECT) {
-						ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_http_request_exception_ce, "A dependency injection object is required to access the 'filter' service", "phalcon/http/request.zep", 97);
+						ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_http_request_exception_ce, "A dependency injection object is required to access the 'filter' service", "phalcon/http/request.zep", 99);
 						return;
 					}
 					ZEPHIR_INIT_VAR(_2);
@@ -182,10 +191,25 @@ PHP_METHOD(Phalcon_Http_Request, get) {
 					ZEPHIR_CPY_WRT(filter, _1);
 					zephir_update_property_this(this_ptr, SL("_filter"), filter TSRMLS_CC);
 				}
-				ZEPHIR_RETURN_CALL_METHOD(filter, "sanitize", NULL, value, filters);
+				ZEPHIR_CALL_METHOD(&_1, filter, "sanitize", NULL, value, filters, noRecursive);
 				zephir_check_call_status();
-				RETURN_MM();
+				ZEPHIR_CPY_WRT(value, _1);
+				_3 = ZEPHIR_IS_EMPTY(value);
+				if (_3) {
+					_3 = ZEPHIR_IS_TRUE_IDENTICAL(notAllowEmpty);
+				}
+				if (_3) {
+					RETURN_CCTOR(defaultValue);
+				}
+				RETURN_CCTOR(value);
 			} else {
+				_3 = ZEPHIR_IS_EMPTY(value);
+				if (_3) {
+					_3 = ZEPHIR_IS_TRUE_IDENTICAL(notAllowEmpty);
+				}
+				if (_3) {
+					RETURN_CCTOR(defaultValue);
+				}
 				RETURN_CCTOR(value);
 			}
 		}
@@ -210,16 +234,19 @@ PHP_METHOD(Phalcon_Http_Request, get) {
  * @param string name
  * @param string|array filters
  * @param mixed defaultValue
+ * @param boolean notAllowEmpty
+ * @param boolean noRecursive
  * @return mixed
  */
 PHP_METHOD(Phalcon_Http_Request, getPost) {
 
+	zend_bool _3;
 	int ZEPHIR_LAST_CALL_STATUS;
-	zval *name_param = NULL, *filters = NULL, *defaultValue = NULL, *post = NULL, *value, *filter = NULL, *dependencyInjector = NULL, *_POST, *_0, *_1 = NULL, *_2;
+	zval *name_param = NULL, *filters = NULL, *defaultValue = NULL, *notAllowEmpty = NULL, *noRecursive = NULL, *post = NULL, *value = NULL, *filter = NULL, *dependencyInjector = NULL, *_POST, *_0, *_1 = NULL, *_2;
 	zval *name = NULL;
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 0, 3, &name_param, &filters, &defaultValue);
+	zephir_fetch_params(1, 0, 5, &name_param, &filters, &defaultValue, &notAllowEmpty, &noRecursive);
 
 	if (!name_param) {
 		ZEPHIR_INIT_VAR(name);
@@ -243,11 +270,17 @@ PHP_METHOD(Phalcon_Http_Request, getPost) {
 	if (!defaultValue) {
 		defaultValue = ZEPHIR_GLOBAL(global_null);
 	}
+	if (!notAllowEmpty) {
+		notAllowEmpty = ZEPHIR_GLOBAL(global_false);
+	}
+	if (!noRecursive) {
+		noRecursive = ZEPHIR_GLOBAL(global_false);
+	}
 
 
 	zephir_get_global(&_POST, SS("_POST") TSRMLS_CC);
 	ZEPHIR_CPY_WRT(post, _POST);
-	if (!ZEPHIR_IS_STRING(name, "")) {
+	if (!ZEPHIR_IS_STRING_IDENTICAL(name, "")) {
 		ZEPHIR_OBS_VAR(value);
 		if (zephir_array_isset_fetch(&value, post, name, 0 TSRMLS_CC)) {
 			if (Z_TYPE_P(filters) != IS_NULL) {
@@ -257,7 +290,7 @@ PHP_METHOD(Phalcon_Http_Request, getPost) {
 					_0 = zephir_fetch_nproperty_this(this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
 					ZEPHIR_CPY_WRT(dependencyInjector, _0);
 					if (Z_TYPE_P(dependencyInjector) != IS_OBJECT) {
-						ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_http_request_exception_ce, "A dependency injection object is required to access the 'filter' service", "phalcon/http/request.zep", 141);
+						ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_http_request_exception_ce, "A dependency injection object is required to access the 'filter' service", "phalcon/http/request.zep", 158);
 						return;
 					}
 					ZEPHIR_INIT_VAR(_2);
@@ -268,10 +301,25 @@ PHP_METHOD(Phalcon_Http_Request, getPost) {
 					ZEPHIR_CPY_WRT(filter, _1);
 					zephir_update_property_this(this_ptr, SL("_filter"), filter TSRMLS_CC);
 				}
-				ZEPHIR_RETURN_CALL_METHOD(filter, "sanitize", NULL, value, filters);
+				ZEPHIR_CALL_METHOD(&_1, filter, "sanitize", NULL, value, filters, noRecursive);
 				zephir_check_call_status();
-				RETURN_MM();
+				ZEPHIR_CPY_WRT(value, _1);
+				_3 = ZEPHIR_IS_EMPTY(value);
+				if (_3) {
+					_3 = ZEPHIR_IS_TRUE_IDENTICAL(notAllowEmpty);
+				}
+				if (_3) {
+					RETURN_CCTOR(defaultValue);
+				}
+				RETURN_CCTOR(value);
 			} else {
+				_3 = ZEPHIR_IS_EMPTY(value);
+				if (_3) {
+					_3 = ZEPHIR_IS_TRUE_IDENTICAL(notAllowEmpty);
+				}
+				if (_3) {
+					RETURN_CCTOR(defaultValue);
+				}
 				RETURN_CCTOR(value);
 			}
 		}
@@ -299,16 +347,19 @@ PHP_METHOD(Phalcon_Http_Request, getPost) {
  * @param string name
  * @param string|array filters
  * @param mixed defaultValue
+ * @param boolean notAllowEmpty
+ * @param boolean noRecursive
  * @return mixed
  */
 PHP_METHOD(Phalcon_Http_Request, getQuery) {
 
+	zend_bool _3;
 	int ZEPHIR_LAST_CALL_STATUS;
-	zval *name_param = NULL, *filters = NULL, *defaultValue = NULL, *get = NULL, *value, *filter = NULL, *dependencyInjector = NULL, *_GET, *_0, *_1 = NULL, *_2;
+	zval *name_param = NULL, *filters = NULL, *defaultValue = NULL, *notAllowEmpty = NULL, *noRecursive = NULL, *get = NULL, *value = NULL, *filter = NULL, *dependencyInjector = NULL, *_GET, *_0, *_1 = NULL, *_2;
 	zval *name = NULL;
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 0, 3, &name_param, &filters, &defaultValue);
+	zephir_fetch_params(1, 0, 5, &name_param, &filters, &defaultValue, &notAllowEmpty, &noRecursive);
 
 	if (!name_param) {
 		ZEPHIR_INIT_VAR(name);
@@ -332,11 +383,17 @@ PHP_METHOD(Phalcon_Http_Request, getQuery) {
 	if (!defaultValue) {
 		defaultValue = ZEPHIR_GLOBAL(global_null);
 	}
+	if (!notAllowEmpty) {
+		notAllowEmpty = ZEPHIR_GLOBAL(global_false);
+	}
+	if (!noRecursive) {
+		noRecursive = ZEPHIR_GLOBAL(global_false);
+	}
 
 
 	zephir_get_global(&_GET, SS("_GET") TSRMLS_CC);
 	ZEPHIR_CPY_WRT(get, _GET);
-	if (!ZEPHIR_IS_STRING(name, "")) {
+	if (!ZEPHIR_IS_STRING_IDENTICAL(name, "")) {
 		ZEPHIR_OBS_VAR(value);
 		if (zephir_array_isset_fetch(&value, get, name, 0 TSRMLS_CC)) {
 			if (Z_TYPE_P(filters) != IS_NULL) {
@@ -346,7 +403,7 @@ PHP_METHOD(Phalcon_Http_Request, getQuery) {
 					_0 = zephir_fetch_nproperty_this(this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
 					ZEPHIR_CPY_WRT(dependencyInjector, _0);
 					if (Z_TYPE_P(dependencyInjector) != IS_OBJECT) {
-						ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_http_request_exception_ce, "A dependency injection object is required to access the 'filter' service", "phalcon/http/request.zep", 188);
+						ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_http_request_exception_ce, "A dependency injection object is required to access the 'filter' service", "phalcon/http/request.zep", 221);
 						return;
 					}
 					ZEPHIR_INIT_VAR(_2);
@@ -357,10 +414,25 @@ PHP_METHOD(Phalcon_Http_Request, getQuery) {
 					ZEPHIR_CPY_WRT(filter, _1);
 					zephir_update_property_this(this_ptr, SL("_filter"), filter TSRMLS_CC);
 				}
-				ZEPHIR_RETURN_CALL_METHOD(filter, "sanitize", NULL, value, filters);
+				ZEPHIR_CALL_METHOD(&_1, filter, "sanitize", NULL, value, filters, noRecursive);
 				zephir_check_call_status();
-				RETURN_MM();
+				ZEPHIR_CPY_WRT(value, _1);
+				_3 = ZEPHIR_IS_EMPTY(value);
+				if (_3) {
+					_3 = ZEPHIR_IS_TRUE_IDENTICAL(notAllowEmpty);
+				}
+				if (_3) {
+					RETURN_CCTOR(defaultValue);
+				}
+				RETURN_CCTOR(value);
 			} else {
+				_3 = ZEPHIR_IS_EMPTY(value);
+				if (_3) {
+					_3 = ZEPHIR_IS_TRUE_IDENTICAL(notAllowEmpty);
+				}
+				if (_3) {
+					RETURN_CCTOR(defaultValue);
+				}
 				RETURN_CCTOR(value);
 			}
 		}
@@ -646,7 +718,7 @@ PHP_METHOD(Phalcon_Http_Request, isSoapRequested) {
 	} else {
 		ZEPHIR_OBS_VAR(contentType);
 		if (zephir_array_isset_string_fetch(&contentType, server, SS("CONTENT_TYPE"), 0 TSRMLS_CC)) {
-			RETURN_MM_BOOL(zephir_memnstr_str(contentType, SL("application/soap+xml"), "phalcon/http/request.zep", 329));
+			RETURN_MM_BOOL(zephir_memnstr_str(contentType, SL("application/soap+xml"), "phalcon/http/request.zep", 375));
 		}
 	}
 	RETURN_MM_BOOL(0);
@@ -667,7 +739,7 @@ PHP_METHOD(Phalcon_Http_Request, isSecureRequest) {
 
 	ZEPHIR_CALL_METHOD(&_0, this_ptr, "getscheme",  NULL);
 	zephir_check_call_status();
-	RETURN_MM_BOOL(ZEPHIR_IS_STRING(_0, "https"));
+	RETURN_MM_BOOL(ZEPHIR_IS_STRING_IDENTICAL(_0, "https"));
 
 }
 
@@ -848,7 +920,7 @@ PHP_METHOD(Phalcon_Http_Request, getClientAddress) {
 		zephir_array_isset_string_fetch(&address, _SERVER, SS("REMOTE_ADDR"), 0 TSRMLS_CC);
 	}
 	if (Z_TYPE_P(address) == IS_STRING) {
-		if (zephir_memnstr_str(address, SL(","), "phalcon/http/request.zep", 488)) {
+		if (zephir_memnstr_str(address, SL(","), "phalcon/http/request.zep", 534)) {
 			ZEPHIR_INIT_VAR(_0);
 			zephir_fast_explode_str(_0, SL(","), address, LONG_MAX TSRMLS_CC);
 			zephir_array_fetch_long(&_1, _0, 0, PH_NOISY | PH_READONLY TSRMLS_CC);

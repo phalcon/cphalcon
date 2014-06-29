@@ -121,11 +121,12 @@ PHP_METHOD(Phalcon_Events_Event, getCancelable) {
  */
 PHP_METHOD(Phalcon_Events_Event, __construct) {
 
-	zval *type_param = NULL, *source, *data = NULL, *cancelable = NULL;
+	zend_bool cancelable;
+	zval *type_param = NULL, *source, *data = NULL, *cancelable_param = NULL;
 	zval *type = NULL;
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 2, 2, &type_param, &source, &data, &cancelable);
+	zephir_fetch_params(1, 2, 2, &type_param, &source, &data, &cancelable_param);
 
 	if (unlikely(Z_TYPE_P(type_param) != IS_STRING && Z_TYPE_P(type_param) != IS_NULL)) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'type' must be a string") TSRMLS_CC);
@@ -141,8 +142,10 @@ PHP_METHOD(Phalcon_Events_Event, __construct) {
 	if (!data) {
 		data = ZEPHIR_GLOBAL(global_null);
 	}
-	if (!cancelable) {
-		cancelable = ZEPHIR_GLOBAL(global_true);
+	if (!cancelable_param) {
+		cancelable = 1;
+	} else {
+		cancelable = zephir_get_boolval(cancelable_param);
 	}
 
 
@@ -151,8 +154,8 @@ PHP_METHOD(Phalcon_Events_Event, __construct) {
 	if (Z_TYPE_P(data) != IS_NULL) {
 		zephir_update_property_this(this_ptr, SL("_data"), data TSRMLS_CC);
 	}
-	if (!ZEPHIR_IS_TRUE(cancelable)) {
-		zephir_update_property_this(this_ptr, SL("_cancelable"), cancelable TSRMLS_CC);
+	if (cancelable != 1) {
+		zephir_update_property_this(this_ptr, SL("_cancelable"), cancelable ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
 	}
 	ZEPHIR_MM_RESTORE();
 

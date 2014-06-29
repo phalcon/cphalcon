@@ -13,6 +13,7 @@
 
 #include "kernel/main.h"
 #include "kernel/object.h"
+#include "kernel/operators.h"
 #include "ext/spl/spl_exceptions.h"
 #include "kernel/exception.h"
 #include "kernel/memory.h"
@@ -62,6 +63,13 @@ ZEPHIR_INIT_CLASS(Phalcon_Db_Index) {
 	 */
 	zend_declare_property_null(phalcon_db_index_ce, SL("_columns"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
+	/**
+	 * Index type
+	 *
+	 * @var string
+	 */
+	zend_declare_property_null(phalcon_db_index_ce, SL("_type"), ZEND_ACC_PROTECTED TSRMLS_CC);
+
 	zend_class_implements(phalcon_db_index_ce TSRMLS_CC, 1, phalcon_db_indexinterface_ce);
 	return SUCCESS;
 
@@ -92,6 +100,18 @@ PHP_METHOD(Phalcon_Db_Index, getColumns) {
 }
 
 /**
+ * Index type
+ *
+ * @var string
+ */
+PHP_METHOD(Phalcon_Db_Index, getType) {
+
+
+	RETURN_MEMBER(this_ptr, "_type");
+
+}
+
+/**
  * Phalcon\Db\Index constructor
  *
  * @param string name
@@ -99,11 +119,12 @@ PHP_METHOD(Phalcon_Db_Index, getColumns) {
  */
 PHP_METHOD(Phalcon_Db_Index, __construct) {
 
-	zval *name_param = NULL, *columns;
-	zval *name = NULL;
+	zval *columns = NULL;
+	zval *name_param = NULL, *columns_param = NULL, *type = NULL;
+	zval *name = NULL, *_0 = NULL;
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 2, 0, &name_param, &columns);
+	zephir_fetch_params(1, 2, 1, &name_param, &columns_param, &type);
 
 	if (unlikely(Z_TYPE_P(name_param) != IS_STRING && Z_TYPE_P(name_param) != IS_NULL)) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'name' must be a string") TSRMLS_CC);
@@ -116,10 +137,22 @@ PHP_METHOD(Phalcon_Db_Index, __construct) {
 		ZEPHIR_INIT_VAR(name);
 		ZVAL_EMPTY_STRING(name);
 	}
+	if (unlikely(Z_TYPE_P(columns_param) != IS_ARRAY)) {
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'columns' must be an array") TSRMLS_CC);
+		RETURN_MM_NULL();
+	}
+
+		columns = columns_param;
+
+	if (!type) {
+		type = ZEPHIR_GLOBAL(global_null);
+	}
 
 
 	zephir_update_property_this(this_ptr, SL("_name"), name TSRMLS_CC);
 	zephir_update_property_this(this_ptr, SL("_columns"), columns TSRMLS_CC);
+	zephir_get_strval(_0, type);
+	zephir_update_property_this(this_ptr, SL("_type"), _0 TSRMLS_CC);
 	ZEPHIR_MM_RESTORE();
 
 }
@@ -132,25 +165,40 @@ PHP_METHOD(Phalcon_Db_Index, __construct) {
 PHP_METHOD(Phalcon_Db_Index, __set_state) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
-	zval *data, *indexName, *columns;
+	zval *data_param = NULL, *indexName, *columns, *type = NULL;
+	zval *data = NULL;
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 0, &data);
+	zephir_fetch_params(1, 1, 0, &data_param);
+
+	if (unlikely(Z_TYPE_P(data_param) != IS_ARRAY)) {
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'data' must be an array") TSRMLS_CC);
+		RETURN_MM_NULL();
+	}
+
+		data = data_param;
 
 
 
 	ZEPHIR_OBS_VAR(indexName);
 	if (!(zephir_array_isset_string_fetch(&indexName, data, SS("_indexName"), 0 TSRMLS_CC))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "_indexName parameter is required", "phalcon/db/index.zep", 68);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "_indexName parameter is required", "phalcon/db/index.zep", 76);
 		return;
 	}
 	ZEPHIR_OBS_VAR(columns);
 	if (!(zephir_array_isset_string_fetch(&columns, data, SS("_columns"), 0 TSRMLS_CC))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "_columns parameter is required", "phalcon/db/index.zep", 72);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "_columns parameter is required", "phalcon/db/index.zep", 80);
 		return;
 	}
+	if (zephir_array_isset_string(data, SS("_type"))) {
+		ZEPHIR_OBS_VAR(type);
+		zephir_array_fetch_string(&type, data, SL("_type"), PH_NOISY TSRMLS_CC);
+	} else {
+		ZEPHIR_INIT_NVAR(type);
+		ZVAL_STRING(type, "", 1);
+	}
 	object_init_ex(return_value, phalcon_db_index_ce);
-	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, indexName, columns);
+	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, indexName, columns, type);
 	zephir_check_call_status();
 	RETURN_MM();
 

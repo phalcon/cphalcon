@@ -314,9 +314,9 @@ PHP_METHOD(Phalcon_Queue_Beanstalk, watch) {
  */
 PHP_METHOD(Phalcon_Queue_Beanstalk, peekReady) {
 
-	zephir_nts_static zephir_fcall_cache_entry *_4 = NULL;
+	zephir_nts_static zephir_fcall_cache_entry *_6 = NULL;
 	int ZEPHIR_LAST_CALL_STATUS;
-	zval *response = NULL, *jobId, *length, *_0, *_1, *_2 = NULL, *_3 = NULL;
+	zval *response = NULL, *_0, *_1, *_2, *_3 = NULL, *_4, *_5 = NULL;
 
 	ZEPHIR_MM_GROW();
 
@@ -329,16 +329,14 @@ PHP_METHOD(Phalcon_Queue_Beanstalk, peekReady) {
 	zephir_check_call_status();
 	zephir_array_fetch_long(&_1, response, 0, PH_NOISY | PH_READONLY TSRMLS_CC);
 	if (ZEPHIR_IS_STRING(_1, "FOUND")) {
-		ZEPHIR_OBS_VAR(jobId);
-		zephir_array_fetch_long(&jobId, response, 1, PH_NOISY TSRMLS_CC);
-		ZEPHIR_OBS_VAR(length);
-		zephir_array_fetch_long(&length, response, 2, PH_NOISY TSRMLS_CC);
 		object_init_ex(return_value, phalcon_queue_beanstalk_job_ce);
-		ZEPHIR_CALL_METHOD(&_2, this_ptr, "read", NULL, length);
+		zephir_array_fetch_long(&_2, response, 1, PH_NOISY | PH_READONLY TSRMLS_CC);
+		zephir_array_fetch_long(&_4, response, 2, PH_NOISY | PH_READONLY TSRMLS_CC);
+		ZEPHIR_CALL_METHOD(&_3, this_ptr, "read", NULL, _4);
 		zephir_check_call_status();
-		ZEPHIR_CALL_FUNCTION(&_3, "unserialize", &_4, _2);
+		ZEPHIR_CALL_FUNCTION(&_5, "unserialize", &_6, _3);
 		zephir_check_call_status();
-		ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, this_ptr, jobId, _3);
+		ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, this_ptr, _2, _5);
 		zephir_check_call_status();
 		RETURN_MM();
 	}
@@ -407,7 +405,7 @@ PHP_METHOD(Phalcon_Queue_Beanstalk, read) {
 		zephir_check_call_status();
 		zephir_array_fetch_string(&_3, meta, SL("timed_out"), PH_NOISY | PH_READONLY TSRMLS_CC);
 		if (zephir_is_true(_3)) {
-			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_exception_ce, "Connection timed out", "phalcon/queue/beanstalk.zep", 283);
+			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_exception_ce, "Connection timed out", "phalcon/queue/beanstalk.zep", 281);
 			return;
 		}
 		ZEPHIR_INIT_VAR(packet);

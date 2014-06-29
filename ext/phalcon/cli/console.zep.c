@@ -286,7 +286,7 @@ PHP_METHOD(Phalcon_Cli_Console, handle) {
 			ZEPHIR_CALL_METHOD(&_1, eventsManager, "fire", NULL, _2, this_ptr, moduleName);
 			zephir_check_temp_parameter(_2);
 			zephir_check_call_status();
-			if (ZEPHIR_IS_FALSE(_1)) {
+			if (ZEPHIR_IS_FALSE_IDENTICAL(_1)) {
 				RETURN_MM_BOOL(0);
 			}
 		}
@@ -344,7 +344,7 @@ PHP_METHOD(Phalcon_Cli_Console, handle) {
 			ZEPHIR_CALL_METHOD(&_5, eventsManager, "fire", NULL, _2, this_ptr, moduleObject);
 			zephir_check_temp_parameter(_2);
 			zephir_check_call_status();
-			if (ZEPHIR_IS_FALSE(_5)) {
+			if (ZEPHIR_IS_FALSE_IDENTICAL(_5)) {
 				RETURN_MM_BOOL(0);
 			}
 		}
@@ -373,7 +373,7 @@ PHP_METHOD(Phalcon_Cli_Console, handle) {
 		ZEPHIR_CALL_METHOD(&_8, eventsManager, "fire", NULL, _2, this_ptr, dispatcher);
 		zephir_check_temp_parameter(_2);
 		zephir_check_call_status();
-		if (ZEPHIR_IS_FALSE(_8)) {
+		if (ZEPHIR_IS_FALSE_IDENTICAL(_8)) {
 			RETURN_MM_BOOL(0);
 		}
 	}

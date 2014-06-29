@@ -157,11 +157,11 @@ PHP_METHOD(Phalcon_Di_Injectable, getEventsManager) {
  */
 PHP_METHOD(Phalcon_Di_Injectable, __get) {
 
-	zval *_3;
+	zval *_4;
 	int ZEPHIR_LAST_CALL_STATUS;
-	zephir_nts_static zephir_fcall_cache_entry *_1 = NULL, *_6 = NULL;
-	zval *propertyName_param = NULL, *dependencyInjector = NULL, *service = NULL, *persistent = NULL, *_0, *_2 = NULL, *_4 = NULL;
-	zval *propertyName = NULL, *_5;
+	zephir_nts_static zephir_fcall_cache_entry *_1 = NULL, *_7 = NULL;
+	zval *propertyName_param = NULL, *dependencyInjector = NULL, *service = NULL, *persistent = NULL, *_0, *_2 = NULL, *_3 = NULL, *_5 = NULL;
+	zval *propertyName = NULL, *_6;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &propertyName_param);
@@ -201,22 +201,22 @@ PHP_METHOD(Phalcon_Di_Injectable, __get) {
 		RETURN_CCTOR(dependencyInjector);
 	}
 	if (ZEPHIR_IS_STRING(propertyName, "persistent")) {
-		ZEPHIR_INIT_VAR(_3);
-		array_init_size(_3, 2);
 		ZEPHIR_INIT_VAR(_4);
-		zephir_get_class(_4, this_ptr, 0 TSRMLS_CC);
-		zephir_array_fast_append(_3, _4);
-		ZEPHIR_INIT_NVAR(_4);
-		ZVAL_STRING(_4, "sessionBag", 0);
-		ZEPHIR_CALL_METHOD(&_2, dependencyInjector, "get", NULL, _4, _3);
-		zephir_check_temp_parameter(_4);
+		array_init_size(_4, 2);
+		ZEPHIR_INIT_VAR(_5);
+		zephir_get_class(_5, this_ptr, 0 TSRMLS_CC);
+		zephir_array_fast_append(_4, _5);
+		ZEPHIR_INIT_NVAR(_5);
+		ZVAL_STRING(_5, "sessionBag", 0);
+		ZEPHIR_CALL_METHOD(&_3, dependencyInjector, "get", NULL, _5, _4);
+		zephir_check_temp_parameter(_5);
 		zephir_check_call_status();
-		ZEPHIR_CPY_WRT(persistent, _2);
+		ZEPHIR_CPY_WRT(persistent, _3);
 		RETURN_CCTOR(persistent);
 	}
-	ZEPHIR_INIT_VAR(_5);
-	ZEPHIR_CONCAT_SV(_5, "Access to undefined property ", propertyName);
-	ZEPHIR_CALL_FUNCTION(NULL, "trigger_error", &_6, _5);
+	ZEPHIR_INIT_VAR(_6);
+	ZEPHIR_CONCAT_SV(_6, "Access to undefined property ", propertyName);
+	ZEPHIR_CALL_FUNCTION(NULL, "trigger_error", &_7, _6);
 	zephir_check_call_status();
 	RETURN_MM_NULL();
 

@@ -12,11 +12,11 @@
 #include <Zend/zend_interfaces.h>
 
 #include "kernel/main.h"
+#include "kernel/operators.h"
 #include "kernel/memory.h"
 #include "kernel/concat.h"
 #include "ext/spl/spl_exceptions.h"
 #include "kernel/exception.h"
-#include "kernel/operators.h"
 #include "kernel/object.h"
 #include "kernel/hash.h"
 #include "kernel/array.h"
@@ -192,10 +192,18 @@ PHP_METHOD(Phalcon_Db_Dialect, getColumnList) {
 
 	HashTable *_1;
 	HashPosition _0;
-	zval *columnList, *strList, *escapeChar, *column = NULL, **_2, *_3 = NULL;
+	zval *columnList_param = NULL, *strList, *escapeChar, *column = NULL, **_2, *_3 = NULL;
+	zval *columnList = NULL;
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 0, &columnList);
+	zephir_fetch_params(1, 1, 0, &columnList_param);
+
+	if (unlikely(Z_TYPE_P(columnList_param) != IS_ARRAY)) {
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'columnList' must be an array") TSRMLS_CC);
+		RETURN_MM_NULL();
+	}
+
+		columnList = columnList_param;
 
 
 
@@ -232,10 +240,18 @@ PHP_METHOD(Phalcon_Db_Dialect, getSqlExpression) {
 	zephir_nts_static zephir_fcall_cache_entry *_3 = NULL;
 	int ZEPHIR_LAST_CALL_STATUS;
 	zval *escapeChar = NULL, *_1 = NULL;
-	zval *expression, *escapeChar_param = NULL, *type, *domain, *operator, *left = NULL, *right = NULL, *name = NULL, *sqlItems, *escapedName = NULL, *sqlArguments, *arguments, *argument = NULL, *item = NULL, *_0, *_2, *_4, *_5, *_6 = NULL, **_9, *_10 = NULL, *_11 = NULL, **_14, *_15, *_16;
+	zval *expression_param = NULL, *escapeChar_param = NULL, *type, *domain, *operator, *left = NULL, *right = NULL, *name = NULL, *sqlItems, *escapedName = NULL, *sqlArguments, *arguments, *argument = NULL, *item = NULL, *_0, *_2, *_4, *_5, *_6 = NULL, **_9, *_10 = NULL, *_11 = NULL, **_14, *_15, *_16;
+	zval *expression = NULL;
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 1, &expression, &escapeChar_param);
+	zephir_fetch_params(1, 1, 1, &expression_param, &escapeChar_param);
+
+	if (unlikely(Z_TYPE_P(expression_param) != IS_ARRAY)) {
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'expression' must be an array") TSRMLS_CC);
+		RETURN_MM_NULL();
+	}
+
+		expression = expression_param;
 
 	if (!escapeChar_param) {
 		ZEPHIR_INIT_VAR(escapeChar);
@@ -246,20 +262,16 @@ PHP_METHOD(Phalcon_Db_Dialect, getSqlExpression) {
 
 
 	if (ZEPHIR_GLOBAL(db).escape_identifiers) {
-		if (ZEPHIR_IS_STRING(escapeChar, "")) {
+		if (ZEPHIR_IS_STRING_IDENTICAL(escapeChar, "")) {
 			ZEPHIR_OBS_VAR(_0);
 			zephir_read_property_this(&_0, this_ptr, SL("_escapeChar"), PH_NOISY_CC);
 			zephir_get_strval(_1, _0);
 			ZEPHIR_CPY_WRT(escapeChar, _1);
 		}
 	}
-	if (Z_TYPE_P(expression) != IS_ARRAY) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "Invalid SQL expression", "phalcon/db/dialect.zep", 127);
-		return;
-	}
 	ZEPHIR_OBS_VAR(type);
 	if (!(zephir_array_isset_string_fetch(&type, expression, SS("type"), 0 TSRMLS_CC))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "Invalid SQL expression", "phalcon/db/dialect.zep", 131);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "Invalid SQL expression", "phalcon/db/dialect.zep", 127);
 		return;
 	}
 	if (ZEPHIR_IS_STRING(type, "qualified")) {
@@ -401,7 +413,7 @@ PHP_METHOD(Phalcon_Db_Dialect, getSqlExpression) {
 	ZEPHIR_CONCAT_SVS(_16, "Invalid SQL expression type '", type, "'");
 	ZEPHIR_CALL_METHOD(NULL, _15, "__construct", NULL, _16);
 	zephir_check_call_status();
-	zephir_throw_exception_debug(_15, "phalcon/db/dialect.zep", 273 TSRMLS_CC);
+	zephir_throw_exception_debug(_15, "phalcon/db/dialect.zep", 269 TSRMLS_CC);
 	ZEPHIR_MM_RESTORE();
 	return;
 
@@ -431,7 +443,7 @@ PHP_METHOD(Phalcon_Db_Dialect, getSqlTable) {
 	}
 
 
-	if (ZEPHIR_IS_STRING(escapeChar, "")) {
+	if (ZEPHIR_IS_STRING_IDENTICAL(escapeChar, "")) {
 		ZEPHIR_OBS_VAR(_0);
 		zephir_read_property_this(&_0, this_ptr, SL("_escapeChar"), PH_NOISY_CC);
 		zephir_get_strval(_1, _0);
@@ -495,25 +507,29 @@ PHP_METHOD(Phalcon_Db_Dialect, select) {
 	int ZEPHIR_LAST_CALL_STATUS;
 	HashTable *_1, *_5, *_10, *_15, *_21, *_25;
 	HashPosition _0, _4, _9, _14, _20, _24;
-	zval *definition, *tables, *columns = NULL, *escapeChar = NULL, *columnItem = NULL, *column = NULL, *selectedColumns, *columnSql = NULL, *columnDomainSql = NULL, *columnAlias = NULL, *selectedTables, *sqlJoin = NULL, *joinExpressions = NULL, *joinCondition = NULL, *joinConditionsArray = NULL, *tablesSql = NULL, *columnDomain = NULL, *columnAliasSql = NULL, *columnsSql = NULL, *table = NULL, *sql, *joins, *join = NULL, *sqlTable = NULL, *whereConditions, *groupFields, *groupField = NULL, *groupItems, *havingConditions, *orderFields, *orderItem = NULL, *orderItems, *orderSqlItem = NULL, *sqlOrderType = NULL, *orderSqlItemType = NULL, *limitValue, *number, *offset, **_2, **_6, *_7 = NULL, **_11, *_12, *_13, **_16, *_17 = NULL, *_18 = NULL, *_19 = NULL, **_22, *_23 = NULL, **_26, *_27, *_28;
+	zval *definition_param = NULL, *tables, *columns = NULL, *escapeChar = NULL, *columnItem = NULL, *column = NULL, *selectedColumns, *columnSql = NULL, *columnDomainSql = NULL, *columnAlias = NULL, *selectedTables, *sqlJoin = NULL, *joinExpressions = NULL, *joinCondition = NULL, *joinConditionsArray = NULL, *tablesSql = NULL, *columnDomain = NULL, *columnAliasSql = NULL, *columnsSql = NULL, *table = NULL, *sql, *joins, *join = NULL, *sqlTable = NULL, *whereConditions, *groupFields, *groupField = NULL, *groupItems, *havingConditions, *orderFields, *orderItem = NULL, *orderItems, *orderSqlItem = NULL, *sqlOrderType = NULL, *orderSqlItemType = NULL, *limitValue, *number, *offset, **_2, **_6, *_7 = NULL, **_11, *_12, *_13, **_16, *_17 = NULL, *_18 = NULL, *_19 = NULL, **_22, *_23 = NULL, **_26, *_27, *_28;
+	zval *definition = NULL;
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 0, &definition);
+	zephir_fetch_params(1, 1, 0, &definition_param);
 
-
-
-	if (Z_TYPE_P(definition) != IS_ARRAY) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "Invalid SELECT definition", "phalcon/db/dialect.zep", 361);
-		return;
+	if (unlikely(Z_TYPE_P(definition_param) != IS_ARRAY)) {
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'definition' must be an array") TSRMLS_CC);
+		RETURN_MM_NULL();
 	}
+
+		definition = definition_param;
+
+
+
 	ZEPHIR_OBS_VAR(tables);
 	if (!(zephir_array_isset_string_fetch(&tables, definition, SS("tables"), 0 TSRMLS_CC))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "The index 'tables' is required in the definition array", "phalcon/db/dialect.zep", 365);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "The index 'tables' is required in the definition array", "phalcon/db/dialect.zep", 357);
 		return;
 	}
 	ZEPHIR_OBS_VAR(columns);
 	if (!(zephir_array_isset_string_fetch(&columns, definition, SS("columns"), 0 TSRMLS_CC))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "The index 'columns' is required in the definition array", "phalcon/db/dialect.zep", 369);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "The index 'columns' is required in the definition array", "phalcon/db/dialect.zep", 361);
 		return;
 	}
 	if (ZEPHIR_GLOBAL(db).escape_identifiers) {

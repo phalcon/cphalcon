@@ -264,7 +264,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, prepare) {
  */
 PHP_METHOD(Phalcon_Db_Adapter_Pdo, executePrepared) {
 
-	zephir_fcall_cache_entry *_3 = NULL, *_4 = NULL, *_5 = NULL;
+	zephir_fcall_cache_entry *_3 = NULL;
 	int ZEPHIR_LAST_CALL_STATUS;
 	HashTable *_1;
 	HashPosition _0;
@@ -316,21 +316,15 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, executePrepared) {
 				ZEPHIR_CPY_WRT(castValue, value);
 			}
 			if (ZEPHIR_IS_LONG(type, 1024)) {
-				Z_SET_ISREF_P(castValue);
 				ZEPHIR_CALL_METHOD(NULL, statement, "bindparam", &_3, parameter, castValue);
 				zephir_check_call_status();
-				Z_UNSET_ISREF_P(castValue);
 			} else {
-				Z_SET_ISREF_P(castValue);
-				ZEPHIR_CALL_METHOD(NULL, statement, "bindparam", &_4, parameter, castValue, type);
+				ZEPHIR_CALL_METHOD(NULL, statement, "bindparam", &_3, parameter, castValue, type);
 				zephir_check_call_status();
-				Z_UNSET_ISREF_P(castValue);
 			}
 		} else {
-			Z_SET_ISREF_P(value);
-			ZEPHIR_CALL_METHOD(NULL, statement, "bindparam", &_5, parameter, value);
+			ZEPHIR_CALL_METHOD(NULL, statement, "bindparam", &_3, parameter, value);
 			zephir_check_call_status();
-			Z_UNSET_ISREF_P(value);
 		}
 	}
 	ZEPHIR_CALL_METHOD(NULL, statement, "execute", NULL);
@@ -482,7 +476,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, execute) {
 		ZEPHIR_CALL_METHOD(&_1, eventsManager, "fire", NULL, _2, this_ptr, bindParams);
 		zephir_check_temp_parameter(_2);
 		zephir_check_call_status();
-		if (ZEPHIR_IS_FALSE(_1)) {
+		if (ZEPHIR_IS_FALSE_IDENTICAL(_1)) {
 			RETURN_MM_BOOL(0);
 		}
 	}

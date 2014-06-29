@@ -109,7 +109,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Inclusionin, validate) {
 	ZEPHIR_CALL_METHOD(&_1, this_ptr, "issetoption", NULL, _0);
 	zephir_check_temp_parameter(_0);
 	zephir_check_call_status();
-	if (ZEPHIR_IS_FALSE(_1)) {
+	if (ZEPHIR_IS_FALSE_IDENTICAL(_1)) {
 		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_model_exception_ce, "The option 'domain' is required for this validator", "phalcon/mvc/model/validator/inclusionin.zep", 68);
 		return;
 	}

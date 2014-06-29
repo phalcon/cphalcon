@@ -938,7 +938,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, notifyEvent) {
 				ZEPHIR_GET_HVALUE(behavior, _3);
 				ZEPHIR_CALL_METHOD(&status, behavior, "notify", NULL, eventName, model);
 				zephir_check_call_status();
-				if (ZEPHIR_IS_FALSE(status)) {
+				if (ZEPHIR_IS_FALSE_IDENTICAL(status)) {
 					RETURN_MM_BOOL(0);
 				}
 			}
@@ -951,7 +951,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, notifyEvent) {
 		ZEPHIR_CONCAT_SV(_4, "model:", eventName);
 		ZEPHIR_CALL_METHOD(&status, eventsManager, "fire", NULL, _4, model);
 		zephir_check_call_status();
-		if (ZEPHIR_IS_FALSE(status)) {
+		if (ZEPHIR_IS_FALSE_IDENTICAL(status)) {
 			RETURN_CCTOR(status);
 		}
 	}
@@ -966,7 +966,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, notifyEvent) {
 			ZEPHIR_CONCAT_SV(_4, "model:", eventName);
 			ZEPHIR_CALL_METHOD(&status, customEventsManager, "fire", NULL, _4, model);
 			zephir_check_call_status();
-			if (ZEPHIR_IS_FALSE(status)) {
+			if (ZEPHIR_IS_FALSE_IDENTICAL(status)) {
 				RETURN_MM_BOOL(0);
 			}
 		}
@@ -1953,9 +1953,9 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getRelationRecords) {
 			ZEPHIR_INIT_VAR(_1);
 			ZEPHIR_CONCAT_SVSVS(_1, "[", intermediateModel, "].[", intermediateFields, "] = ?0");
 			zephir_array_append(&conditions, _1, PH_SEPARATE);
-			ZEPHIR_CALL_METHOD(&_0, record, "readattribute", NULL, fields);
+			ZEPHIR_CALL_METHOD(&_2, record, "readattribute", NULL, fields);
 			zephir_check_call_status();
-			zephir_array_append(&placeholders, _0, PH_SEPARATE);
+			zephir_array_append(&placeholders, _2, PH_SEPARATE);
 		} else {
 			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_model_exception_ce, "Not supported", "phalcon/mvc/model/manager.zep", 1282);
 			return;
@@ -2035,7 +2035,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getRelationRecords) {
 		}
 	}
 	ZEPHIR_INIT_VAR(findParams);
-	array_init_size(findParams, 5);
+	array_init_size(findParams, 4);
 	ZEPHIR_INIT_NVAR(_3);
 	zephir_fast_join_str(_3, SL(" AND "), conditions TSRMLS_CC);
 	zephir_array_fast_append(findParams, _3);
@@ -2049,7 +2049,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getRelationRecords) {
 	} else {
 		ZEPHIR_CPY_WRT(findArguments, findParams);
 	}
-	if (ZEPHIR_IS_STRING(method, "")) {
+	if (ZEPHIR_IS_STRING_IDENTICAL(method, "")) {
 		ZEPHIR_CALL_METHOD(&_2, relation, "gettype",  NULL);
 		zephir_check_call_status();
 		do {

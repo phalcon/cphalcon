@@ -683,7 +683,7 @@ PHP_METHOD(Phalcon_Image_Adapter, text) {
 		ZVAL_LONG(&_2, 1);
 		ZEPHIR_CALL_FUNCTION(&_3, "substr", &_4, color, &_1, &_2);
 		zephir_check_call_status();
-		_0 = ZEPHIR_IS_STRING(_3, "#");
+		_0 = ZEPHIR_IS_STRING_IDENTICAL(_3, "#");
 	}
 	if (_0) {
 		ZEPHIR_SINIT_NVAR(_1);
@@ -787,7 +787,7 @@ PHP_METHOD(Phalcon_Image_Adapter, background) {
 		ZVAL_LONG(&_2, 1);
 		ZEPHIR_CALL_FUNCTION(&_3, "substr", &_4, color, &_1, &_2);
 		zephir_check_call_status();
-		_0 = ZEPHIR_IS_STRING(_3, "#");
+		_0 = ZEPHIR_IS_STRING_IDENTICAL(_3, "#");
 	}
 	if (_0) {
 		ZEPHIR_SINIT_NVAR(_1);

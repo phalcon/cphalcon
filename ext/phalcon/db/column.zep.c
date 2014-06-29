@@ -307,7 +307,7 @@ PHP_METHOD(Phalcon_Db_Column, getScale) {
  */
 PHP_METHOD(Phalcon_Db_Column, __construct) {
 
-	zend_bool _0;
+	zend_bool _0, _1;
 	zval *name_param = NULL, *definition, *type, *notNull, *primary, *size, *scale, *dunsigned, *first, *after, *bindType, *isNumeric, *autoIncrement;
 	zval *name = NULL;
 
@@ -332,7 +332,7 @@ PHP_METHOD(Phalcon_Db_Column, __construct) {
 	if (zephir_array_isset_string_fetch(&type, definition, SS("type"), 0 TSRMLS_CC)) {
 		zephir_update_property_this(this_ptr, SL("_type"), type TSRMLS_CC);
 	} else {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "Column type is required", "phalcon/db/column.zep", 236);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "Column type is required", "phalcon/db/column.zep", 238);
 		return;
 	}
 	ZEPHIR_OBS_VAR(notNull);
@@ -353,10 +353,14 @@ PHP_METHOD(Phalcon_Db_Column, __construct) {
 		if (!(_0)) {
 			_0 = ZEPHIR_IS_LONG(type, 7);
 		}
-		if (_0) {
+		_1 = _0;
+		if (!(_1)) {
+			_1 = ZEPHIR_IS_LONG(type, 3);
+		}
+		if (_1) {
 			zephir_update_property_this(this_ptr, SL("_scale"), scale TSRMLS_CC);
 		} else {
-			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "Column type does not support scale parameter", "phalcon/db/column.zep", 264);
+			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "Column type does not support scale parameter", "phalcon/db/column.zep", 266);
 			return;
 		}
 	}
@@ -373,7 +377,7 @@ PHP_METHOD(Phalcon_Db_Column, __construct) {
 		if (ZEPHIR_IS_LONG(type, 0)) {
 			zephir_update_property_this(this_ptr, SL("_autoIncrement"), autoIncrement TSRMLS_CC);
 		} else {
-			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "Column type cannot be auto-increment", "phalcon/db/column.zep", 289);
+			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "Column type cannot be auto-increment", "phalcon/db/column.zep", 291);
 			return;
 		}
 	}
@@ -503,11 +507,11 @@ PHP_METHOD(Phalcon_Db_Column, __set_state) {
 
 
 	if (Z_TYPE_P(data) != IS_ARRAY) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "Column state must be an array", "phalcon/db/column.zep", 408);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "Column state must be an array", "phalcon/db/column.zep", 410);
 		return;
 	}
 	if (!(zephir_array_isset_string(data, SS("_name")))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "Column name is required", "phalcon/db/column.zep", 412);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "Column name is required", "phalcon/db/column.zep", 414);
 		return;
 	}
 	ZEPHIR_INIT_VAR(definition);

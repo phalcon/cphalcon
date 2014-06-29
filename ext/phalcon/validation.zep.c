@@ -143,7 +143,7 @@ PHP_METHOD(Phalcon_Validation, validate) {
 	if ((zephir_method_exists_ex(this_ptr, SS("beforevalidation") TSRMLS_CC) == SUCCESS)) {
 		ZEPHIR_CALL_METHOD(&_0, this_ptr, "beforevalidation", NULL, data, entity, messages);
 		zephir_check_call_status();
-		if (ZEPHIR_IS_FALSE(_0)) {
+		if (ZEPHIR_IS_FALSE_IDENTICAL(_0)) {
 			RETURN_CCTOR(messages);
 		}
 	}
@@ -175,7 +175,7 @@ PHP_METHOD(Phalcon_Validation, validate) {
 		}
 		ZEPHIR_CALL_METHOD(&_0, validator, "validate", NULL, this_ptr, field);
 		zephir_check_call_status();
-		if (ZEPHIR_IS_FALSE(_0)) {
+		if (ZEPHIR_IS_FALSE_IDENTICAL(_0)) {
 			ZEPHIR_INIT_NVAR(_5);
 			ZVAL_STRING(_5, "cancelOnFail", 0);
 			ZEPHIR_CALL_METHOD(&_4, validator, "getoption", NULL, _5);
@@ -336,7 +336,7 @@ PHP_METHOD(Phalcon_Validation, setDefaultMessages) {
 		return;
 	}
 	ZEPHIR_INIT_VAR(defaultMessages);
-	array_init_size(defaultMessages, 29);
+	array_init_size(defaultMessages, 28);
 	add_assoc_stringl_ex(defaultMessages, SS("Alnum"), SL("Field :field must contain only letters and numbers"), 1);
 	add_assoc_stringl_ex(defaultMessages, SS("Alpha"), SL("Field :field must contain only letters"), 1);
 	add_assoc_stringl_ex(defaultMessages, SS("Between"), SL("Field :field must be within the range of :min to :max"), 1);

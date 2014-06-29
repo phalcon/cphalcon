@@ -690,10 +690,10 @@ PHP_METHOD(Phalcon_Mvc_Micro, getSharedService) {
 PHP_METHOD(Phalcon_Mvc_Micro, handle) {
 
 	zephir_nts_static zephir_fcall_cache_entry *_8 = NULL;
-	HashTable *_5, *_10, *_13;
-	HashPosition _4, _9, _12;
+	HashTable *_5, *_10, *_14;
+	HashPosition _4, _9, _13;
 	int ZEPHIR_LAST_CALL_STATUS;
-	zval *uri = NULL, *dependencyInjector, *eventsManager = NULL, *status = NULL, *router = NULL, *matchedRoute = NULL, *handler = NULL, *beforeHandlers, *params = NULL, *returnedValue = NULL, *afterHandlers, *notFoundHandler, *finishHandlers, *finish = NULL, *before = NULL, *after = NULL, *_0 = NULL, *_1 = NULL, *_2, *_3 = NULL, **_6, *_7, **_11, **_14;
+	zval *uri = NULL, *dependencyInjector, *eventsManager = NULL, *status = NULL, *router = NULL, *matchedRoute = NULL, *handler = NULL, *beforeHandlers, *params = NULL, *returnedValue = NULL, *afterHandlers, *notFoundHandler, *finishHandlers, *finish = NULL, *before = NULL, *after = NULL, *_0 = NULL, *_1 = NULL, *_2, *_3 = NULL, **_6, *_7, **_11, *_12, **_15;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 1, &uri);
@@ -719,7 +719,7 @@ PHP_METHOD(Phalcon_Mvc_Micro, handle) {
 		ZEPHIR_CALL_METHOD(&_0, eventsManager, "fire", NULL, _1, this_ptr);
 		zephir_check_temp_parameter(_1);
 		zephir_check_call_status();
-		if (ZEPHIR_IS_FALSE(_0)) {
+		if (ZEPHIR_IS_FALSE_IDENTICAL(_0)) {
 			RETURN_MM_BOOL(0);
 		}
 	}
@@ -748,7 +748,7 @@ PHP_METHOD(Phalcon_Mvc_Micro, handle) {
 			ZEPHIR_CALL_METHOD(&_3, eventsManager, "fire", NULL, _1, this_ptr);
 			zephir_check_temp_parameter(_1);
 			zephir_check_call_status();
-			if (ZEPHIR_IS_FALSE(_3)) {
+			if (ZEPHIR_IS_FALSE_IDENTICAL(_3)) {
 				RETURN_MM_BOOL(0);
 			} else {
 				ZEPHIR_OBS_NVAR(handler);
@@ -782,7 +782,7 @@ PHP_METHOD(Phalcon_Mvc_Micro, handle) {
 				}
 				ZEPHIR_CALL_FUNCTION(&_3, "call_user_func", &_8, before);
 				zephir_check_call_status();
-				if (ZEPHIR_IS_FALSE(_3)) {
+				if (ZEPHIR_IS_FALSE_IDENTICAL(_3)) {
 					RETURN_MM_BOOL(0);
 				}
 				_7 = zephir_fetch_nproperty_this(this_ptr, SL("_stopped"), PH_NOISY_CC);
@@ -818,8 +818,8 @@ PHP_METHOD(Phalcon_Mvc_Micro, handle) {
 					if (zephir_instance_of_ev(after, phalcon_mvc_micro_middlewareinterface_ce TSRMLS_CC)) {
 						ZEPHIR_CALL_METHOD(&status, after, "call", NULL, this_ptr);
 						zephir_check_call_status();
-						_7 = zephir_fetch_nproperty_this(this_ptr, SL("_stopped"), PH_NOISY_CC);
-						if (zephir_is_true(_7)) {
+						_12 = zephir_fetch_nproperty_this(this_ptr, SL("_stopped"), PH_NOISY_CC);
+						if (zephir_is_true(_12)) {
 							break;
 						}
 						continue;
@@ -842,7 +842,7 @@ PHP_METHOD(Phalcon_Mvc_Micro, handle) {
 			ZEPHIR_CALL_METHOD(&_0, eventsManager, "fire", NULL, _1, this_ptr);
 			zephir_check_temp_parameter(_1);
 			zephir_check_call_status();
-			if (ZEPHIR_IS_FALSE(_0)) {
+			if (ZEPHIR_IS_FALSE_IDENTICAL(_0)) {
 				RETURN_MM_BOOL(0);
 			}
 		}
@@ -870,12 +870,12 @@ PHP_METHOD(Phalcon_Mvc_Micro, handle) {
 		zephir_update_property_this(this_ptr, SL("_stopped"), (0) ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
 		ZEPHIR_INIT_NVAR(params);
 		ZVAL_NULL(params);
-		zephir_is_iterable(finishHandlers, &_13, &_12, 0, 0);
+		zephir_is_iterable(finishHandlers, &_14, &_13, 0, 0);
 		for (
-		  ; zephir_hash_get_current_data_ex(_13, (void**) &_14, &_12) == SUCCESS
-		  ; zephir_hash_move_forward_ex(_13, &_12)
+		  ; zephir_hash_get_current_data_ex(_14, (void**) &_15, &_13) == SUCCESS
+		  ; zephir_hash_move_forward_ex(_14, &_13)
 		) {
-			ZEPHIR_GET_HVALUE(finish, _14);
+			ZEPHIR_GET_HVALUE(finish, _15);
 			if (Z_TYPE_P(finish) == IS_OBJECT) {
 				if (zephir_instance_of_ev(finish, phalcon_mvc_micro_middlewareinterface_ce TSRMLS_CC)) {
 					ZEPHIR_CALL_METHOD(&status, finish, "call", NULL, this_ptr);
@@ -899,8 +899,8 @@ PHP_METHOD(Phalcon_Mvc_Micro, handle) {
 			ZEPHIR_INIT_NVAR(status);
 			ZEPHIR_CALL_USER_FUNC_ARRAY(status, finish, params);
 			zephir_check_call_status();
-			_2 = zephir_fetch_nproperty_this(this_ptr, SL("_stopped"), PH_NOISY_CC);
-			if (zephir_is_true(_2)) {
+			_7 = zephir_fetch_nproperty_this(this_ptr, SL("_stopped"), PH_NOISY_CC);
+			if (zephir_is_true(_7)) {
 				break;
 			}
 		}

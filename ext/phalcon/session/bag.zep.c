@@ -193,7 +193,7 @@ PHP_METHOD(Phalcon_Session_Bag, destroy) {
 	ZEPHIR_MM_GROW();
 
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_initalized"), PH_NOISY_CC);
-	if (ZEPHIR_IS_FALSE(_0)) {
+	if (ZEPHIR_IS_FALSE_IDENTICAL(_0)) {
 		ZEPHIR_CALL_METHOD(NULL, this_ptr, "initialize", NULL);
 		zephir_check_call_status();
 	}
@@ -226,7 +226,7 @@ PHP_METHOD(Phalcon_Session_Bag, set) {
 
 
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_initalized"), PH_NOISY_CC);
-	if (ZEPHIR_IS_FALSE(_0)) {
+	if (ZEPHIR_IS_FALSE_IDENTICAL(_0)) {
 		ZEPHIR_CALL_METHOD(NULL, this_ptr, "initialize", NULL);
 		zephir_check_call_status();
 	}
@@ -291,7 +291,7 @@ PHP_METHOD(Phalcon_Session_Bag, get) {
 
 
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_initalized"), PH_NOISY_CC);
-	if (ZEPHIR_IS_FALSE(_0)) {
+	if (ZEPHIR_IS_FALSE_IDENTICAL(_0)) {
 		ZEPHIR_CALL_METHOD(NULL, this_ptr, "initialize", NULL);
 		zephir_check_call_status();
 	}
@@ -352,7 +352,7 @@ PHP_METHOD(Phalcon_Session_Bag, has) {
 
 
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_initalized"), PH_NOISY_CC);
-	if (ZEPHIR_IS_FALSE(_0)) {
+	if (ZEPHIR_IS_FALSE_IDENTICAL(_0)) {
 		ZEPHIR_CALL_METHOD(NULL, this_ptr, "initialize", NULL);
 		zephir_check_call_status();
 	}

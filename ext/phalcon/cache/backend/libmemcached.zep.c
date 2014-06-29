@@ -121,7 +121,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Libmemcached, __construct) {
 		ZEPHIR_INIT_VAR(servers);
 		array_init_size(servers, 2);
 		ZEPHIR_INIT_VAR(_0);
-		array_init_size(_0, 5);
+		array_init_size(_0, 4);
 		add_assoc_stringl_ex(_0, SS("host"), SL("127.0.0.1"), 1);
 		add_assoc_long_ex(_0, SS("port"), 11211);
 		add_assoc_long_ex(_0, SS("weigth"), 1);
@@ -144,7 +144,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Libmemcached, __construct) {
  */
 PHP_METHOD(Phalcon_Cache_Backend_Libmemcached, _connect) {
 
-	zephir_fcall_cache_entry *_6 = NULL, *_7 = NULL;
+	zephir_fcall_cache_entry *_6 = NULL;
 	zephir_nts_static zephir_fcall_cache_entry *_5 = NULL;
 	HashTable *_3;
 	HashPosition _2;
@@ -193,7 +193,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Libmemcached, _connect) {
 					zephir_check_call_status();
 				}
 			} else {
-				ZEPHIR_CALL_METHOD(NULL, memcache, "setoption", &_7, option);
+				ZEPHIR_CALL_METHOD(NULL, memcache, "setoption", &_6, option);
 				zephir_check_call_status();
 			}
 		}

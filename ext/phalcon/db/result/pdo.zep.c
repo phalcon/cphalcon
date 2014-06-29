@@ -258,7 +258,7 @@ PHP_METHOD(Phalcon_Db_Result_Pdo, numRows) {
 
 	ZEPHIR_OBS_VAR(rowCount);
 	zephir_read_property_this(&rowCount, this_ptr, SL("_rowCount"), PH_NOISY_CC);
-	if (ZEPHIR_IS_FALSE(rowCount)) {
+	if (ZEPHIR_IS_FALSE_IDENTICAL(rowCount)) {
 		ZEPHIR_OBS_VAR(connection);
 		zephir_read_property_this(&connection, this_ptr, SL("_connection"), PH_NOISY_CC);
 		ZEPHIR_CALL_METHOD(&type, connection, "gettype",  NULL);
@@ -273,7 +273,7 @@ PHP_METHOD(Phalcon_Db_Result_Pdo, numRows) {
 			ZEPHIR_CALL_METHOD(&rowCount, pdoStatement, "rowcount",  NULL);
 			zephir_check_call_status();
 		}
-		if (ZEPHIR_IS_FALSE(rowCount)) {
+		if (ZEPHIR_IS_FALSE_IDENTICAL(rowCount)) {
 			ZEPHIR_OBS_VAR(sqlStatement);
 			zephir_read_property_this(&sqlStatement, this_ptr, SL("_sqlStatement"), PH_NOISY_CC);
 			if (!(zephir_start_with_str(sqlStatement, SL("SELECT COUNT(*) ")))) {

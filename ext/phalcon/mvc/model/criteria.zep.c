@@ -298,7 +298,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, join) {
 
 
 	ZEPHIR_INIT_VAR(join);
-	array_init_size(join, 7);
+	array_init_size(join, 6);
 	zephir_array_fast_append(join, model);
 	zephir_array_fast_append(join, conditions);
 	zephir_array_fast_append(join, alias);
@@ -368,7 +368,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, innerJoin) {
 
 
 	ZEPHIR_INIT_VAR(join);
-	array_init_size(join, 7);
+	array_init_size(join, 6);
 	zephir_array_fast_append(join, model);
 	zephir_array_fast_append(join, conditions);
 	zephir_array_fast_append(join, alias);
@@ -436,7 +436,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, leftJoin) {
 
 
 	ZEPHIR_INIT_VAR(join);
-	array_init_size(join, 7);
+	array_init_size(join, 6);
 	zephir_array_fast_append(join, model);
 	zephir_array_fast_append(join, conditions);
 	zephir_array_fast_append(join, alias);
@@ -504,7 +504,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, rightJoin) {
 
 
 	ZEPHIR_INIT_VAR(join);
-	array_init_size(join, 7);
+	array_init_size(join, 6);
 	zephir_array_fast_append(join, model);
 	zephir_array_fast_append(join, conditions);
 	zephir_array_fast_append(join, alias);
@@ -1433,7 +1433,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, fromInput) {
 			if (zephir_array_isset_fetch(&type, dataTypes, field, 0 TSRMLS_CC)) {
 				_5 = Z_TYPE_P(value) != IS_NULL;
 				if (_5) {
-					_5 = !ZEPHIR_IS_STRING(value, "");
+					_5 = !ZEPHIR_IS_STRING_IDENTICAL(value, "");
 				}
 				if (_5) {
 					if (ZEPHIR_IS_LONG(type, 2)) {

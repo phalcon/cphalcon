@@ -181,6 +181,30 @@ PHP_METHOD(Phalcon_Mvc_Dispatcher, getControllerName) {
 }
 
 /**
+ * Gets previous dispatched controller name
+ *
+ * @return string
+ */
+PHP_METHOD(Phalcon_Mvc_Dispatcher, getPreviousControllerName) {
+
+
+	RETURN_MEMBER(this_ptr, "_previousHandlerName");
+
+}
+
+/**
+ * Gets previous dispatched action name
+ *
+ * @return string
+ */
+PHP_METHOD(Phalcon_Mvc_Dispatcher, getPreviousActionName) {
+
+
+	RETURN_MEMBER(this_ptr, "_previousActionName");
+
+}
+
+/**
  * Throws an internal exception
  *
  * @param string message
@@ -225,7 +249,7 @@ PHP_METHOD(Phalcon_Mvc_Dispatcher, _throwDispatchException) {
 		ZEPHIR_CALL_METHOD(NULL, _0, "__construct", NULL, _1, _2);
 		zephir_check_temp_parameter(_1);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(_0, "phalcon/mvc/dispatcher.zep", 109 TSRMLS_CC);
+		zephir_throw_exception_debug(_0, "phalcon/mvc/dispatcher.zep", 129 TSRMLS_CC);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
@@ -256,11 +280,11 @@ PHP_METHOD(Phalcon_Mvc_Dispatcher, _throwDispatchException) {
 		ZEPHIR_CALL_METHOD(&_3, eventsManager, "fire", NULL, _1, this_ptr, exception);
 		zephir_check_temp_parameter(_1);
 		zephir_check_call_status();
-		if (ZEPHIR_IS_FALSE(_3)) {
+		if (ZEPHIR_IS_FALSE_IDENTICAL(_3)) {
 			RETURN_MM_BOOL(0);
 		}
 	}
-	zephir_throw_exception_debug(exception, "phalcon/mvc/dispatcher.zep", 134 TSRMLS_CC);
+	zephir_throw_exception_debug(exception, "phalcon/mvc/dispatcher.zep", 154 TSRMLS_CC);
 	ZEPHIR_MM_RESTORE();
 	return;
 
@@ -293,7 +317,7 @@ PHP_METHOD(Phalcon_Mvc_Dispatcher, _handleException) {
 		ZEPHIR_CALL_METHOD(&_0, eventsManager, "fire", NULL, _1, this_ptr, exception);
 		zephir_check_temp_parameter(_1);
 		zephir_check_call_status();
-		if (ZEPHIR_IS_FALSE(_0)) {
+		if (ZEPHIR_IS_FALSE_IDENTICAL(_0)) {
 			RETURN_MM_BOOL(0);
 		}
 	}

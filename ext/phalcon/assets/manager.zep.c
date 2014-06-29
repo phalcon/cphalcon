@@ -522,13 +522,13 @@ PHP_METHOD(Phalcon_Assets_Manager, collection) {
  */
 PHP_METHOD(Phalcon_Assets_Manager, output) {
 
-	zephir_fcall_cache_entry *_7 = NULL, *_9 = NULL, *_10 = NULL;
-	HashTable *_5, *_13;
-	HashPosition _4, _12;
+	zephir_fcall_cache_entry *_7 = NULL;
+	HashTable *_5, *_11;
+	HashPosition _4, _10;
 	zephir_nts_static zephir_fcall_cache_entry *_3 = NULL;
 	int ZEPHIR_LAST_CALL_STATUS;
 	zend_bool filterNeeded;
-	zval *collection, *callback, *type = NULL, *output, *resources = NULL, *filters = NULL, *prefix = NULL, *sourceBasePath = NULL, *targetBasePath = NULL, *options, *collectionSourcePath = NULL, *completeSourcePath = NULL, *collectionTargetPath = NULL, *completeTargetPath = NULL, *filteredJoinedContent = NULL, *join = NULL, *resource = NULL, *local = NULL, *sourcePath = NULL, *targetPath = NULL, *path = NULL, *prefixedPath = NULL, *attributes = NULL, *parameters = NULL, *html = NULL, *useImplicitOutput, *content = NULL, *mustFilter = NULL, *filter = NULL, *filteredContent = NULL, *typeCss, *targetUri = NULL, *_0 = NULL, *_1 = NULL, *_2 = NULL, **_6, *_8 = NULL, *_11 = NULL, **_14;
+	zval *collection, *callback, *type = NULL, *output, *resources = NULL, *filters = NULL, *prefix = NULL, *sourceBasePath = NULL, *targetBasePath = NULL, *options, *collectionSourcePath = NULL, *completeSourcePath = NULL, *collectionTargetPath = NULL, *completeTargetPath = NULL, *filteredJoinedContent = NULL, *join = NULL, *resource = NULL, *local = NULL, *sourcePath = NULL, *targetPath = NULL, *path = NULL, *prefixedPath = NULL, *attributes = NULL, *parameters = NULL, *html = NULL, *useImplicitOutput, *content = NULL, *mustFilter = NULL, *filter = NULL, *filteredContent = NULL, *typeCss, *targetUri = NULL, *_0 = NULL, *_1 = NULL, *_2 = NULL, **_6, *_8 = NULL, *_9 = NULL, **_12;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 3, 0, &collection, &callback, &type);
@@ -655,7 +655,7 @@ PHP_METHOD(Phalcon_Assets_Manager, output) {
 					object_init_ex(_0, phalcon_assets_exception_ce);
 					ZEPHIR_INIT_LNVAR(_8);
 					ZEPHIR_CONCAT_SVS(_8, "Resource '", sourcePath, "' does not have a valid target path");
-					ZEPHIR_CALL_METHOD(NULL, _0, "__construct", &_9, _8);
+					ZEPHIR_CALL_METHOD(NULL, _0, "__construct", &_7, _8);
 					zephir_check_call_status();
 					zephir_throw_exception_debug(_0, "phalcon/assets/manager.zep", 439 TSRMLS_CC);
 					ZEPHIR_MM_RESTORE();
@@ -667,14 +667,14 @@ PHP_METHOD(Phalcon_Assets_Manager, output) {
 						object_init_ex(_0, phalcon_assets_exception_ce);
 						ZEPHIR_INIT_LNVAR(_8);
 						ZEPHIR_CONCAT_SVS(_8, "Resource '", targetPath, "' have the same source and target paths");
-						ZEPHIR_CALL_METHOD(NULL, _0, "__construct", &_10, _8);
+						ZEPHIR_CALL_METHOD(NULL, _0, "__construct", &_7, _8);
 						zephir_check_call_status();
 						zephir_throw_exception_debug(_0, "phalcon/assets/manager.zep", 447 TSRMLS_CC);
 						ZEPHIR_MM_RESTORE();
 						return;
 					}
 					if ((zephir_file_exists(targetPath TSRMLS_CC) == SUCCESS)) {
-						ZEPHIR_INIT_NVAR(_11);
+						ZEPHIR_INIT_NVAR(_9);
 						if (zephir_compare_mtime(targetPath, sourcePath TSRMLS_CC)) {
 							filterNeeded = 1;
 						}
@@ -719,12 +719,12 @@ PHP_METHOD(Phalcon_Assets_Manager, output) {
 			ZEPHIR_CALL_METHOD(&mustFilter, resource, "getfilter",  NULL);
 			zephir_check_call_status();
 			if (ZEPHIR_IS_TRUE(mustFilter)) {
-				zephir_is_iterable(filters, &_13, &_12, 0, 0);
+				zephir_is_iterable(filters, &_11, &_10, 0, 0);
 				for (
-				  ; zephir_hash_get_current_data_ex(_13, (void**) &_14, &_12) == SUCCESS
-				  ; zephir_hash_move_forward_ex(_13, &_12)
+				  ; zephir_hash_get_current_data_ex(_11, (void**) &_12, &_10) == SUCCESS
+				  ; zephir_hash_move_forward_ex(_11, &_10)
 				) {
-					ZEPHIR_GET_HVALUE(filter, _14);
+					ZEPHIR_GET_HVALUE(filter, _12);
 					if (Z_TYPE_P(filter) != IS_OBJECT) {
 						ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_assets_exception_ce, "Filter is invalid", "phalcon/assets/manager.zep", 528);
 						return;

@@ -97,7 +97,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Apc, get) {
 	zephir_update_property_this(this_ptr, SL("_lastKey"), prefixedKey TSRMLS_CC);
 	ZEPHIR_CALL_FUNCTION(&cachedContent, "apc_fetch", NULL, prefixedKey);
 	zephir_check_call_status();
-	if (ZEPHIR_IS_FALSE(cachedContent)) {
+	if (ZEPHIR_IS_FALSE_IDENTICAL(cachedContent)) {
 		RETURN_MM_NULL();
 	}
 	_1 = zephir_fetch_nproperty_this(this_ptr, SL("_frontend"), PH_NOISY_CC);
@@ -177,11 +177,11 @@ PHP_METHOD(Phalcon_Cache_Backend_Apc, save) {
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(&isBuffering, frontend, "isbuffering",  NULL);
 	zephir_check_call_status();
-	if (ZEPHIR_IS_TRUE(stopBuffer)) {
+	if (ZEPHIR_IS_TRUE_IDENTICAL(stopBuffer)) {
 		ZEPHIR_CALL_METHOD(NULL, frontend, "stop", NULL);
 		zephir_check_call_status();
 	}
-	if (ZEPHIR_IS_TRUE(isBuffering)) {
+	if (ZEPHIR_IS_TRUE_IDENTICAL(isBuffering)) {
 		zend_print_zval(cachedContent, 0);
 	}
 	zephir_update_property_this(this_ptr, SL("_started"), (0) ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
@@ -314,7 +314,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Apc, exists) {
 	if (zephir_is_true(lastKey)) {
 		ZEPHIR_CALL_FUNCTION(&_1, "apc_exists", NULL, lastKey);
 		zephir_check_call_status();
-		if (!ZEPHIR_IS_FALSE(_1)) {
+		if (!ZEPHIR_IS_FALSE_IDENTICAL(_1)) {
 			RETURN_MM_BOOL(1);
 		}
 	}

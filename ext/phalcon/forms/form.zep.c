@@ -397,7 +397,7 @@ PHP_METHOD(Phalcon_Forms_Form, isValid) {
 	if ((zephir_method_exists_ex(this_ptr, SS("beforevalidation") TSRMLS_CC) == SUCCESS)) {
 		ZEPHIR_CALL_METHOD(&_0, this_ptr, "beforevalidation", NULL, data, entity);
 		zephir_check_call_status();
-		if (ZEPHIR_IS_FALSE(_0)) {
+		if (ZEPHIR_IS_FALSE_IDENTICAL(_0)) {
 			RETURN_MM_BOOL(0);
 		}
 	}

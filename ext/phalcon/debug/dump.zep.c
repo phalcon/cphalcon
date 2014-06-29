@@ -306,18 +306,18 @@ PHP_METHOD(Phalcon_Debug_Dump, output) {
 			array_init_size(_10, 3);
 			ZEPHIR_INIT_NVAR(_2);
 			ZVAL_STRING(_2, "obj", 0);
-			ZEPHIR_CALL_METHOD(&_11, this_ptr, "getstyle", &_12, _2);
+			ZEPHIR_CALL_METHOD(&_16, this_ptr, "getstyle", &_12, _2);
 			zephir_check_temp_parameter(_2);
 			zephir_check_call_status();
-			zephir_array_update_string(&_10, SL(":style"), &_11, PH_COPY | PH_SEPARATE);
-			ZEPHIR_CALL_FUNCTION(&_11, "get_parent_class", &_23, variable);
+			zephir_array_update_string(&_10, SL(":style"), &_16, PH_COPY | PH_SEPARATE);
+			ZEPHIR_CALL_FUNCTION(&_16, "get_parent_class", &_23, variable);
 			zephir_check_call_status();
-			zephir_array_update_string(&_10, SL(":parent"), &_11, PH_COPY | PH_SEPARATE);
+			zephir_array_update_string(&_10, SL(":parent"), &_16, PH_COPY | PH_SEPARATE);
 			ZEPHIR_SINIT_NVAR(_3);
 			ZVAL_STRING(&_3, " <b style=':style'>extends</b> :parent", 0);
-			ZEPHIR_CALL_FUNCTION(&_11, "strtr", &_4, &_3, _10);
+			ZEPHIR_CALL_FUNCTION(&_16, "strtr", &_4, &_3, _10);
 			zephir_check_call_status();
-			zephir_concat_self(&output, _11 TSRMLS_CC);
+			zephir_concat_self(&output, _16 TSRMLS_CC);
 		}
 		zephir_concat_self_str(&output, SL(" (\n") TSRMLS_CC);
 		do {
@@ -358,7 +358,7 @@ PHP_METHOD(Phalcon_Debug_Dump, output) {
 			ZEPHIR_CALL_FUNCTION(&_16, "str_repeat", &_9, space, tab);
 			zephir_check_call_status();
 			ZEPHIR_INIT_NVAR(_10);
-			array_init_size(_10, 5);
+			array_init_size(_10, 4);
 			ZEPHIR_INIT_NVAR(_2);
 			ZVAL_STRING(_2, "obj", 0);
 			ZEPHIR_CALL_METHOD(&_19, this_ptr, "getstyle", &_12, _2);
@@ -394,7 +394,7 @@ PHP_METHOD(Phalcon_Debug_Dump, output) {
 		ZEPHIR_CALL_FUNCTION(&_8, "str_repeat", &_9, space, tab);
 		zephir_check_call_status();
 		ZEPHIR_INIT_NVAR(_10);
-		array_init_size(_10, 5);
+		array_init_size(_10, 4);
 		ZEPHIR_INIT_NVAR(_2);
 		ZVAL_STRING(_2, "obj", 0);
 		ZEPHIR_CALL_METHOD(&_11, this_ptr, "getstyle", &_12, _2);
@@ -512,10 +512,10 @@ PHP_METHOD(Phalcon_Debug_Dump, output) {
 		array_init_size(_0, 3);
 		ZEPHIR_INIT_NVAR(_2);
 		ZVAL_STRING(_2, "int", 0);
-		ZEPHIR_CALL_METHOD(&_1, this_ptr, "getstyle", &_12, _2);
+		ZEPHIR_CALL_METHOD(&_29, this_ptr, "getstyle", &_12, _2);
 		zephir_check_temp_parameter(_2);
 		zephir_check_call_status();
-		zephir_array_update_string(&_0, SL(":style"), &_1, PH_COPY | PH_SEPARATE);
+		zephir_array_update_string(&_0, SL(":style"), &_29, PH_COPY | PH_SEPARATE);
 		zephir_array_update_string(&_0, SL(":var"), &variable, PH_COPY | PH_SEPARATE);
 		ZEPHIR_SINIT_NVAR(_3);
 		ZVAL_STRING(&_3, "<b style=':style'>Intiger</b> (<span style=':style'>:var</span>)", 0);
@@ -530,10 +530,10 @@ PHP_METHOD(Phalcon_Debug_Dump, output) {
 		array_init_size(_0, 3);
 		ZEPHIR_INIT_NVAR(_2);
 		ZVAL_STRING(_2, "float", 0);
-		ZEPHIR_CALL_METHOD(&_1, this_ptr, "getstyle", &_12, _2);
+		ZEPHIR_CALL_METHOD(&_29, this_ptr, "getstyle", &_12, _2);
 		zephir_check_temp_parameter(_2);
 		zephir_check_call_status();
-		zephir_array_update_string(&_0, SL(":style"), &_1, PH_COPY | PH_SEPARATE);
+		zephir_array_update_string(&_0, SL(":style"), &_29, PH_COPY | PH_SEPARATE);
 		zephir_array_update_string(&_0, SL(":var"), &variable, PH_COPY | PH_SEPARATE);
 		ZEPHIR_SINIT_NVAR(_3);
 		ZVAL_STRING(&_3, "<b style=':style'>Float</b> (<span style=':style'>:var</span>)", 0);
@@ -543,7 +543,7 @@ PHP_METHOD(Phalcon_Debug_Dump, output) {
 	}
 	if (zephir_is_numeric(variable)) {
 		ZEPHIR_INIT_NVAR(_0);
-		array_init_size(_0, 5);
+		array_init_size(_0, 4);
 		ZEPHIR_INIT_NVAR(_2);
 		ZVAL_STRING(_2, "num", 0);
 		ZEPHIR_CALL_METHOD(&_1, this_ptr, "getstyle", &_12, _2);
@@ -560,7 +560,7 @@ PHP_METHOD(Phalcon_Debug_Dump, output) {
 	}
 	if (Z_TYPE_P(variable) == IS_STRING) {
 		ZEPHIR_INIT_NVAR(_0);
-		array_init_size(_0, 5);
+		array_init_size(_0, 4);
 		ZEPHIR_INIT_NVAR(_2);
 		ZVAL_STRING(_2, "str", 0);
 		ZEPHIR_CALL_METHOD(&_1, this_ptr, "getstyle", &_12, _2);
@@ -656,7 +656,7 @@ PHP_METHOD(Phalcon_Debug_Dump, setStyles) {
 		return;
 	}
 	ZEPHIR_INIT_VAR(defaultStyles);
-	array_init_size(defaultStyles, 17);
+	array_init_size(defaultStyles, 14);
 	add_assoc_stringl_ex(defaultStyles, SS("pre"), SL("background-color:#f3f3f3;font-size:11px;padding:10px; border:1px solid #ccc; text-align:left; color:#333"), 1);
 	add_assoc_stringl_ex(defaultStyles, SS("arr"), SL("color:red"), 1);
 	add_assoc_stringl_ex(defaultStyles, SS("bool"), SL("color:green"), 1);

@@ -146,7 +146,6 @@ PHP_METHOD(Phalcon_Cache_Backend_Xcache, get) {
 		zephir_check_call_status();
 		RETURN_MM();
 	}
-	ZEPHIR_MM_RESTORE();
 
 }
 

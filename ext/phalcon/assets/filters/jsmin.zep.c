@@ -46,6 +46,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Assets_Filters_Jsmin) {
 
 	ZEPHIR_REGISTER_CLASS(Phalcon\\Assets\\Filters, Jsmin, phalcon, assets_filters_jsmin, phalcon_assets_filters_jsmin_method_entry, 0);
 
+	zend_class_implements(phalcon_assets_filters_jsmin_ce TSRMLS_CC, 1, phalcon_assets_filterinterface_ce);
 	return SUCCESS;
 
 }

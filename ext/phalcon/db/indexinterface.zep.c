@@ -47,6 +47,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Db_IndexInterface) {
  *
  * @param string indexName
  * @param array columns
+ * @param string type
  */
 ZEPHIR_DOC_METHOD(Phalcon_Db_IndexInterface, __construct);
 
@@ -63,6 +64,13 @@ ZEPHIR_DOC_METHOD(Phalcon_Db_IndexInterface, getName);
  * @return array
  */
 ZEPHIR_DOC_METHOD(Phalcon_Db_IndexInterface, getColumns);
+
+/**
+ * Gets the index type
+ *
+ * @return string
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Db_IndexInterface, getType);
 
 /**
  * Restore a Phalcon\Db\Index object from export
