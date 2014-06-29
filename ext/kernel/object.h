@@ -89,7 +89,8 @@ int zephir_update_property_array_multi(zval *object, const char *property, zend_
 int zephir_property_incr(zval *object, char *property_name, unsigned int property_length TSRMLS_DC);
 int zephir_property_decr(zval *object, char *property_name, unsigned int property_length TSRMLS_DC);
 
-/** Unset Array properties */
+/** Unset properties */
+int zephir_unset_property(zval* object, const char* name TSRMLS_DC);
 int zephir_unset_property_array(zval *object, char *property, unsigned int property_length, zval *index TSRMLS_DC);
 
 /** Static properties */

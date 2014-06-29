@@ -685,4 +685,6 @@ int zephir_call_function(zend_fcall_info *fci, zend_fcall_info_cache *fci_cache 
 
 #define zephir_check_temp_parameter(param) do { if (Z_REFCOUNT_P(param) > 1) zval_copy_ctor(param); else ZVAL_NULL(param); } while(0)
 
+void zephir_eval_php(zval *str, zval *retval_ptr, char *context TSRMLS_DC);
+
 #endif /* ZEPHIR_KERNEL_FCALL_H */

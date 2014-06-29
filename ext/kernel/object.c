@@ -1003,7 +1003,7 @@ int zephir_update_property_array_multi(zval *object, const char *property, zend_
 
 	int i, l, ll; char *s;
 	va_list ap;
-	zval *fetched, *tmp_arr, *tmp, *p, *item, *old_p;
+	zval *fetched, *tmp_arr, *tmp, *p, *item;
 	int separated = 0;
 
 	if (Z_TYPE_P(object) == IS_OBJECT) {
@@ -1042,7 +1042,6 @@ int zephir_update_property_array_multi(zval *object, const char *property, zend_
 		va_start(ap, types_count);
 
 		p = tmp_arr;
-		old_p = NULL;
 		for (i = 0; i < types_length; ++i) {
 			switch (types[i]) {
 
@@ -1054,7 +1053,6 @@ int zephir_update_property_array_multi(zval *object, const char *property, zend_
 							if (i == (types_length - 1)) {
 								zephir_array_update_string(&fetched, s, l, value, PH_COPY | PH_SEPARATE);
 							} else {
-								old_p = p;
 								p = fetched;
 							}
 							continue;
@@ -1077,7 +1075,6 @@ int zephir_update_property_array_multi(zval *object, const char *property, zend_
 							if (i == (types_length - 1)) {
 								zephir_array_update_long(&fetched, ll, value, PH_COPY | PH_SEPARATE, "", 0);
 							} else {
-								old_p = p;
 								p = fetched;
 							}
 							continue;
@@ -1100,7 +1097,6 @@ int zephir_update_property_array_multi(zval *object, const char *property, zend_
 							if (i == (types_length - 1)) {
 								zephir_array_update_zval(&fetched, item, value, PH_COPY | PH_SEPARATE);
 							} else {
-								old_p = p;
 								p = fetched;
 							}
 							continue;
@@ -1117,15 +1113,7 @@ int zephir_update_property_array_multi(zval *object, const char *property, zend_
 					break;
 
 				case 'a':
-					if (Z_REFCOUNT_P(p) > 1) {
-						SEPARATE_ZVAL_IF_NOT_REF(&p);
-						switch (types[i - 1]) {
-							case 'z':
-								zephir_array_update_zval(&old_p, item, &p, PH_COPY);
-								break;
-						}
-					}
-					zephir_array_append(&p, *value, 0);
+					zephir_array_append(&p, *value, PH_SEPARATE);
 					break;
 			}
 		}
@@ -1261,6 +1249,31 @@ int zephir_update_property_empty_array(zend_class_entry *ce, zval *object, char 
 	res = zephir_update_property_zval(object, property_name, property_length, empty_array TSRMLS_CC);
 	zval_ptr_dtor(&empty_array);
 	return res;
+}
+
+int zephir_unset_property(zval* object, const char* name TSRMLS_DC)
+{
+	if (Z_TYPE_P(object) == IS_OBJECT) {
+		zval member;
+		zend_class_entry *old_scope;
+
+		INIT_PZVAL(&member);
+		ZVAL_STRING(&member, name, 0);
+		old_scope = EG(scope);
+		EG(scope) = Z_OBJCE_P(object);
+
+		#if PHP_VERSION_ID < 50400
+			Z_OBJ_HT_P(object)->unset_property(object, &member TSRMLS_CC);
+		#else
+			Z_OBJ_HT_P(object)->unset_property(object, &member, 0 TSRMLS_CC);
+		#endif
+
+		EG(scope) = old_scope;
+
+		return SUCCESS;
+	}
+
+	return FAILURE;
 }
 
 /**

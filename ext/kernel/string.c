@@ -416,7 +416,7 @@ int zephir_memnstr_str(const zval *haystack, char *needle, unsigned int needle_l
  */
 void zephir_fast_strpos(zval *return_value, const zval *haystack, const zval *needle, unsigned int offset) {
 
-	char *found = NULL;
+	const char *found = NULL;
 
 	if (unlikely(Z_TYPE_P(haystack) != IS_STRING || Z_TYPE_P(needle) != IS_STRING)) {
 		ZVAL_NULL(return_value);
@@ -451,7 +451,7 @@ void zephir_fast_strpos(zval *return_value, const zval *haystack, const zval *ne
  */
 void zephir_fast_strpos_str(zval *return_value, const zval *haystack, char *needle, unsigned int needle_length) {
 
-	char *found = NULL;
+	const char *found = NULL;
 
 	if (unlikely(Z_TYPE_P(haystack) != IS_STRING)) {
 		ZVAL_NULL(return_value);
@@ -474,7 +474,7 @@ void zephir_fast_strpos_str(zval *return_value, const zval *haystack, char *need
  */
 void zephir_fast_stripos_str(zval *return_value, zval *haystack, char *needle, unsigned int needle_length) {
 
-	char *found = NULL;
+	const char *found = NULL;
 	char *needle_dup, *haystack_dup;
 
 	if (unlikely(Z_TYPE_P(haystack) != IS_STRING)) {
