@@ -399,10 +399,11 @@ class Form extends \Phalcon\Di\Injectable implements \Countable, \Iterator
 		}
 
 		let group = new \Phalcon\Validation\Message\Group();
-		for element, elementMessages in messages {
-			group->appendMessages(elementMessages);
+		if typeof messages == "array" {
+			for element, elementMessages in messages {
+				group->appendMessages(elementMessages);
+			}
 		}
-
 		return group;
 	}
 
