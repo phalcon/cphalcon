@@ -110,16 +110,9 @@ class Libmemcached extends \Phalcon\Cache\Backend implements \Phalcon\Cache\Back
 
 		let client = options["client"];
 		if typeof client == "array" {
-			for option in client {
-				if typeof option == "string" {
-					let res = constant(option);
-					if res {
-						memcache->setOption(res);
-					}
-				} else {
-					memcache->setOption(option);
-				}
-			}
+			memcache->setOptions(client);
+		} else {
+			throw new Exception("Client options must be instance of array");
 		}
 
 		let this->_memcache = memcache;
