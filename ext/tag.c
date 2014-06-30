@@ -1414,6 +1414,10 @@ PHP_METHOD(Phalcon_Tag, textArea){
 
 	PHALCON_CALL_SELF(&content, "getvalue", id, params);
 
+	if (phalcon_array_isset_string(params, SS("value"))) {
+		phalcon_array_unset_string(&params, SS("value"), 0);
+	}
+
 	PHALCON_OBS_VAR(escaper);
 	phalcon_tag_get_escaper(&escaper, params TSRMLS_CC);
 	if (EG(exception)) {

@@ -516,4 +516,44 @@ class FormsTest extends PHPUnit_Framework_TestCase
 
 		$this->assertEquals('<input type="text" name="name" class="big-input" />', $element->render());
 	}
+
+	public function testIssue2430()
+	{
+		// setup
+		$currentValue  = null;
+		$modifiedValue = 'Modified Value A';
+		if (\Phalcon\Tag::hasValue('element-a')) {
+			$currentValue = \Phalcon\Tag::getValue('element-a');
+		}
+
+		\Phalcon\Tag::setDefault('element-a', 'phalcon_tag_default_a');
+
+		$elementA = new \Phalcon\Forms\Element\Text('element-a');
+		$elementA->setDefault('Default Value A');
+
+		$elementB = new \Phalcon\Forms\Element\Text('element-b');
+		$elementB->addValidator(new \Phalcon\Validation\Validator\PresenceOf());
+
+		$form = new \Phalcon\Forms\Form();
+		$form->add($elementA);
+		$form->add($elementB);
+
+		$data = array(
+			'element-a' => $modifiedValue,
+			'element-b' => '',
+		);
+
+		$element = new \StdClass();
+
+		$result = $form->isValid($data, $element);
+
+		$this->assertEquals(false, $result);
+		$this->assertEquals($modifiedValue, $data['element-a']);
+		$this->assertEquals($modifiedValue, $element->{'element-a'});
+		$this->assertEquals($modifiedValue, $elementA->getValue());
+
+		// teardown
+		\Phalcon\Tag::setDefault('element-a', $currentValue);
+	}
+
 }
