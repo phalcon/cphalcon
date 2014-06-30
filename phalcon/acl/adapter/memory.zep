@@ -272,7 +272,7 @@ class Memory extends Adapter
 			let resourceName   = resourceValue->getName();
 			let resourceObject = resourceValue;
 		 } else {
-			let resourceName   = resourceObject;
+			let resourceName   = resourceValue;
 			let resourceObject = new \Phalcon\Acl\Resource(resourceName);
 		 }
 
