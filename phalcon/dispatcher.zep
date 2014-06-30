@@ -546,16 +546,16 @@ abstract class Dispatcher implements \Phalcon\DispatcherInterface, \Phalcon\Di\I
 				}
 			}
 
-			//try {
+			try {
 
 				// We update the latest value produced by the latest handler
 				let this->_returnedValue = call_user_func_array([handler, actionMethod], params),
 					this->_lastHandler = handler;
 
-			/*} catch \Exception, e {
+			} catch \Exception, e {
 				this->{"_throwDispatchException"}(e->getMessage()); // create a method that receives the exception itself?
 				return null;
-			}*/
+			}
 
 			// Calling afterExecuteRoute
 			if typeof eventsManager == "object" {
