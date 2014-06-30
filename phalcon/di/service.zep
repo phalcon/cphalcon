@@ -41,6 +41,8 @@ class Service implements \Phalcon\Di\ServiceInterface
 
 	protected _shared;
 
+	protected _resolved;
+
 	protected _sharedInstance;
 
 	/**
@@ -206,6 +208,8 @@ class Service implements \Phalcon\Di\ServiceInterface
 			let this->_sharedInstance = instance;
 		}
 
+		let this->_resolved = true;
+
 		return instance;
 	}
 
@@ -272,6 +276,16 @@ class Service implements \Phalcon\Di\ServiceInterface
 		}
 
 		return null;
+	}
+
+	/**
+	 * Returns true if the service was resolved
+	 *
+	 * @return bool
+	 */
+	public function isResolved()
+	{
+		return this->_resolved;
 	}
 
 	/**

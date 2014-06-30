@@ -70,7 +70,7 @@ class Collection implements \Countable, \Iterator
 	 * @param array attributes
 	 * @return Phalcon\Assets\Collection
 	 */
-	public function addCss(string! path, boolean local = false, boolean filter = false, attributes = null) -> <\Phalcon\Assets\Collection>
+	public function addCss(string! path, var local = false, boolean filter = false, attributes = null) -> <\Phalcon\Assets\Collection>
 	{
 		var collectionLocal, collectionAttributes;
 
