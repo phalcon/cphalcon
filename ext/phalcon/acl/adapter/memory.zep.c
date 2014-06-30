@@ -364,7 +364,7 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, addResource) {
 		zephir_check_call_status();
 		ZEPHIR_CPY_WRT(resourceObject, resourceValue);
 	} else {
-		ZEPHIR_CPY_WRT(resourceName, resourceObject);
+		ZEPHIR_CPY_WRT(resourceName, resourceValue);
 		ZEPHIR_INIT_VAR(resourceObject);
 		object_init_ex(resourceObject, phalcon_acl_resource_ce);
 		ZEPHIR_CALL_METHOD(NULL, resourceObject, "__construct", NULL, resourceName);
