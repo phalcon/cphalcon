@@ -796,14 +796,16 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch) {
 
 		try_end_1:
 
-		ZEPHIR_CPY_WRT(e, EG(exception));
-		if (zephir_is_instance_of(e, SL("Exception") TSRMLS_CC)) {
-			zend_clear_exception(TSRMLS_C);
-			ZEPHIR_CALL_METHOD(&_8, e, "getmessage",  NULL);
-			zephir_check_call_status();
-			ZEPHIR_CALL_METHOD(NULL, this_ptr, "_throwdispatchexception", NULL, _8);
-			zephir_check_call_status();
-			RETURN_MM_NULL();
+		if (EG(exception)) {
+			ZEPHIR_CPY_WRT(e, EG(exception));
+			if (zephir_is_instance_of(e, SL("Exception") TSRMLS_CC)) {
+				zend_clear_exception(TSRMLS_C);
+				ZEPHIR_CALL_METHOD(&_8, e, "getmessage",  NULL);
+				zephir_check_call_status();
+				ZEPHIR_CALL_METHOD(NULL, this_ptr, "_throwdispatchexception", NULL, _8);
+				zephir_check_call_status();
+				RETURN_MM_NULL();
+			}
 		}
 		if (Z_TYPE_P(eventsManager) == IS_OBJECT) {
 			ZEPHIR_INIT_NVAR(_2);
