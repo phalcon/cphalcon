@@ -58745,9 +58745,13 @@ static PHP_METHOD(Phalcon_Mvc_Micro, handle){
 			 && (instanceof_function_ex(Z_OBJCE_P(returned_value), phalcon_http_responseinterface_ce, 1 TSRMLS_CC))
 		;
 
-		PHALCON_CALL_METHOD(&returned_response_sent, returned_value, "issent");
+		if (!returned_response) {
+			RETURN_CCTOR(returned_value);
+		}
+
+		PHALCON_CALL_METHOD(&returned_response_sent, returned_value, "isSent");
 		
-		if (returned_response && PHALCON_IS_FALSE(returned_response_sent)) {
+		if (PHALCON_IS_FALSE(returned_response_sent)) {
 			PHALCON_CALL_METHOD(NULL, returned_value, "send");
 		}
 	}
