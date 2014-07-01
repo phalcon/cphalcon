@@ -22,11 +22,11 @@ namespace Phalcon\Cache\Backend;
 use Phalcon\Cache\Exception;
 
 /**
- * Phalcon\Cache\Backend\Memcache
+ * Phalcon\Cache\Backend\Redis
  *
- * Allows to cache output fragments, PHP data or raw data to a memcache backend
+ * Allows to cache output fragments, PHP data or raw data to a redis backend
  *
- * This adapter uses the special memcached key "_PHCM" to store all the keys internally used by the adapter
+ * This adapter uses the special redis key "_PHCR" to store all the keys internally used by the adapter
  *
  *<code>
  *
@@ -35,10 +35,11 @@ use Phalcon\Cache\Exception;
  *    "lifetime" => 172800
  * ));
  *
- * //Create the Cache setting memcached connection options
- * $cache = new \Phalcon\Cache\Backend\Memcache($frontCache, array(
+ * //Create the Cache setting redis connection options
+ * $cache = new Phalcon\Cache\Backend\Redis($frontCache, array(
  *		'host' => 'localhost',
- *		'port' => 11211,
+ *		'port' => 6379,
+ *		'auth' => 'foobared',
  *  	'persistent' => false
  * ));
  *
@@ -50,13 +51,13 @@ use Phalcon\Cache\Exception;
  *
  *</code>
  */
-class Memcache extends \Phalcon\Cache\Backend implements \Phalcon\Cache\BackendInterface
+class Redis extends \Phalcon\Cache\Backend implements \Phalcon\Cache\BackendInterface
 {
 
-	protected _memcache = null;
+	protected _redis = null;
 
 	/**
-	 * Phalcon\Cache\Backend\Memcache constructor
+	 * Phalcon\Cache\Backend\Redis constructor
 	 *
 	 * @param	Phalcon\Cache\FrontendInterface frontend
 	 * @param	array options
@@ -72,45 +73,53 @@ class Memcache extends \Phalcon\Cache\Backend implements \Phalcon\Cache\BackendI
 		}
 
 		if !isset options["port"] {
-			let options["port"] = 11211;
+			let options["port"] = 6379;
 		}
 
 		if !isset options["persistent"] {
 			let options["persistent"] = false;
 		}
 
-		if !isset options["statsKey"] {
-			let options["statsKey"] = "_PHCM";
+		if !isset options["statsKey"] || empty options["statsKey"] {
+			let options["statsKey"] = "_PHCR";
 		}
 
 		parent::__construct(frontend, options);
 	}
 
 	/**
-	* Create internal connection to memcached
+	* Create internal connection to redis
 	*/
 	public function _connect()
 	{
-		var options, memcache, persistent, success, host, port;
+		var options, redis, persistent, success, host, port, auth;
 
 		let options = this->_options;
-		let memcache = new \Memcache();
+		let redis = new \Redis();
 
 		if !fetch host, options["host"] || !fetch port, options["port"] || !fetch persistent, options["persistent"] {
 			throw new Exception("Unexpected inconsistency in options");
 		}
 
 		if persistent {
-			let success = memcache->pconnect(host, port);
+			let success = redis->pconnect(host, port);
 		} else {
-			let success = memcache->connect(host, port);
+			let success = redis->connect(host, port);
 		}
 
 		if !success {
-			throw new Exception("Cannot connect to Memcached server");
+			throw new Exception("Cannot connect to Redisd server");
 		}
 
-		let this->_memcache = memcache;
+		if fetch auth, options["auth"] {
+			let success = redis->auth(auth);
+
+			if !success {
+				throw new Exception("Redisd server is authentication failed");
+			}
+		}
+
+		let this->_redis = redis;
 	}
 
 	/**
@@ -122,19 +131,19 @@ class Memcache extends \Phalcon\Cache\Backend implements \Phalcon\Cache\BackendI
 	 */
 	public function get(keyName, lifetime=null)
 	{
-		var memcache, frontend, prefix, prefixedKey, cachedContent;
+		var redis, frontend, prefix, lastKey, cachedContent;
 
-		let memcache = this->_memcache;
-		if typeof memcache != "object" {
+		let redis = this->_redis;
+		if typeof redis != "object" {
 			this->_connect();
-			let memcache = this->_memcache;
+			let redis = this->_redis;
 		}
 
 		let frontend = this->_frontend;
 		let prefix = this->_prefix;
-		let prefixedKey = prefix . keyName;
-		let this->_lastKey = prefixedKey;
-		let cachedContent = memcache->get(prefixedKey);
+		let lastKey = "_PHCR" . prefix . keyName;
+		let this->_lastKey = lastKey;
+		let cachedContent = redis->get(lastKey);
 
 		if !cachedContent {
 			return null;
@@ -157,14 +166,16 @@ class Memcache extends \Phalcon\Cache\Backend implements \Phalcon\Cache\BackendI
 	 */
 	public function save(keyName=null, content=null, lifetime=null, stopBuffer=true)
 	{
-		var lastKey, prefix, frontend, memcache, cachedContent, preparedContent, tmp, tt1, success, options,
+		var prefixedKey, lastKey, prefix, frontend, redis, cachedContent, preparedContent, tmp, tt1, success, options,
 			specialKey, keys, isBuffering;
 
 		if !keyName {
 			let lastKey = this->_lastKey;
+			let prefixedKey = substr(lastKey, 5);
 		} else {
 			let prefix = this->_prefix;
-			let lastKey = prefix . keyName;
+			let prefixedKey = prefix . keyName;
+			let lastKey = "_PHCR" . prefixedKey;
 		}
 
 		if !lastKey {
@@ -176,10 +187,10 @@ class Memcache extends \Phalcon\Cache\Backend implements \Phalcon\Cache\BackendI
 		/**
 		 * Check if a connection is created or make a new one
 		 */
-		let memcache = this->_memcache;
-		if typeof memcache != "object" {
+		let redis = this->_redis;
+		if typeof redis != "object" {
 			this->_connect();
-			let memcache = this->_memcache;
+			let redis = this->_redis;
 		}
 
 		if !content {
@@ -208,34 +219,26 @@ class Memcache extends \Phalcon\Cache\Backend implements \Phalcon\Cache\BackendI
 		}
 
 		if is_numeric(cachedContent) {
-			let success = memcache->set(lastKey, cachedContent, tt1);
+			let success = redis->set(lastKey, cachedContent);
 		} else {
-			let success = memcache->set(lastKey, preparedContent, tt1);
+			let success = redis->set(lastKey, preparedContent);
 		}
 
 		if !success {
-			throw new Exception("Failed storing data in memcached");
+			throw new Exception("Failed storing data in redis");
 		}
+
+		redis->settimeout(lastKey, tt1);
 
 		let options = this->_options;
 
 		if !isset options["statsKey"] {
 			throw new Exception("Unexpected inconsistency in options");
 		}
+
 		let specialKey = options["statsKey"];
 
-		/**
-		 * Update the stats key
-		 */
-		let keys = memcache->get(specialKey);
-		if typeof keys != "array" {
-			let keys = [];
-		}
-
-		if !isset keys[lastKey] {
-			let keys[lastKey] = tt1;
-			memcache->set(specialKey,keys);
-		}
+		redis->sAdd(specialKey, prefixedKey);
 
 		let isBuffering = frontend->isBuffering();
 
@@ -258,16 +261,17 @@ class Memcache extends \Phalcon\Cache\Backend implements \Phalcon\Cache\BackendI
 	 */
 	public function delete(keyName)
 	{
-		var memcache, prefix, prefixedKey, options, keys, specialKey;
+		var redis, prefix, prefixedKey, lastKey, options, keys, specialKey;
 
-		let memcache = this->_memcache;
-		if typeof memcache != "object" {
+		let redis = this->_redis;
+		if typeof redis != "object" {
 			this->_connect();
-			let memcache = this->_memcache;
+			let redis = this->_redis;
 		}
 
 		let prefix = this->_prefix;
 		let prefixedKey = prefix . keyName;
+		let lastKey = "_PHCR" . prefixedKey;
 		let options = this->_options;
 
 		if !isset options["statsKey"] {
@@ -275,17 +279,13 @@ class Memcache extends \Phalcon\Cache\Backend implements \Phalcon\Cache\BackendI
 		}
 
 		let specialKey = options["statsKey"];
-		let keys = memcache->get(specialKey);
 
-		if typeof keys == "array" {
-			unset keys[prefixedKey];
-			memcache->set(specialKey, keys);
-		}
+		redis->sRem(specialKey, prefixedKey);
 
 		/**
-		* Delete the key from memcached
+		* Delete the key from redis
 		*/
-		memcache->delete(prefixedKey);
+		redis->delete(lastKey);
 	}
 
 	/**
@@ -296,13 +296,13 @@ class Memcache extends \Phalcon\Cache\Backend implements \Phalcon\Cache\BackendI
 	 */
 	public function queryKeys(prefix=null)
 	{
-		var memcache, options, keys, specialKey, key;
+		var redis, options, keys, specialKey, key;
 
-		let memcache = this->_memcache;
+		let redis = this->_redis;
 
-		if typeof memcache != "object" {
+		if typeof redis != "object" {
 			this->_connect();
-			let memcache = this->_memcache;
+			let redis = this->_redis;
 		}
 
 		let options = this->_options;
@@ -314,9 +314,9 @@ class Memcache extends \Phalcon\Cache\Backend implements \Phalcon\Cache\BackendI
 		let specialKey = options["statsKey"];
 
 		/**
-		* Get the key from memcached
+		* Get the key from redis
 		*/
-		let keys = memcache->get(specialKey);
+		let keys = redis->sMembers(specialKey);
 		if typeof keys == "array" {
 			for key in keys {
 				if prefix && !starts_with(key, prefix) {
@@ -337,24 +337,23 @@ class Memcache extends \Phalcon\Cache\Backend implements \Phalcon\Cache\BackendI
 	 */
 	public function exists(keyName=null, lifetime=null) -> boolean
 	{
-		var lastKey, memcache, prefix;
+		var lastKey, redis, prefix;
 
 		if !keyName {
 			let lastKey = this->_lastKey;
 		} else {
 			let prefix = this->_prefix;
-			let lastKey = prefix . keyName;
+			let lastKey = "_PHCR" . prefix . keyName;
 		}
 
 		if lastKey {
-
-			let memcache = this->_memcache;
-			if typeof memcache != "object" {
+			let redis = this->_redis;
+			if typeof redis != "object" {
 				this->_connect();
-				let memcache = this->_memcache;
+				let redis = this->_redis;
 			}
 
-			if !memcache->get(lastKey) {
+			if !redis->get(lastKey) {
 				return false;
 			}
 			return true;
@@ -372,20 +371,20 @@ class Memcache extends \Phalcon\Cache\Backend implements \Phalcon\Cache\BackendI
 	 */
 	public function increment(keyName=null, value=null)
 	{
-		var memcache, prefix, lastKey;
+		var redis, prefix, lastKey;
 
-		let memcache = this->_memcache;
+		let redis = this->_redis;
 
-		if typeof memcache != "object" {
+		if typeof redis != "object" {
 			this->_connect();
-			let memcache = this->_memcache;
+			let redis = this->_redis;
 		}
 
 		if !keyName {
 			let lastKey = this->_lastKey;
 		} else {
 			let prefix = this->_prefix;
-			let lastKey = prefix . keyName;
+			let lastKey = "_PHCR" . prefix . keyName;
 			let this->_lastKey = lastKey;
 		}
 
@@ -393,7 +392,7 @@ class Memcache extends \Phalcon\Cache\Backend implements \Phalcon\Cache\BackendI
 			let value = 1;
 		}
 
-		return memcache->increment(lastKey, value);
+		return redis->incrBy(lastKey, value);
 	}
 
 	/**
@@ -405,20 +404,20 @@ class Memcache extends \Phalcon\Cache\Backend implements \Phalcon\Cache\BackendI
 	 */
 	public function decrement(keyName=null, value=null)
 	{
-		var memcache, prefix, lastKey;
+		var redis, prefix, lastKey;
 
-		let memcache = this->_memcache;
+		let redis = this->_redis;
 
-		if typeof memcache != "object" {
+		if typeof redis != "object" {
 			this->_connect();
-			let memcache = this->_memcache;
+			let redis = this->_redis;
 		}
 
 		if !keyName {
 			let lastKey = this->_lastKey;
 		} else {
 			let prefix = this->_prefix;
-			let lastKey = prefix . keyName;
+			let lastKey = "_PHCR" . prefix . keyName;
 			let this->_lastKey = lastKey;
 		}
 
@@ -426,7 +425,7 @@ class Memcache extends \Phalcon\Cache\Backend implements \Phalcon\Cache\BackendI
 			let value = 1;
 		}
 
-		return memcache->decrement(lastKey, value);
+		return redis->decrBy(lastKey, value);
 	}
 
 	/**
@@ -434,34 +433,34 @@ class Memcache extends \Phalcon\Cache\Backend implements \Phalcon\Cache\BackendI
 	 *
 	 * @return boolean
 	 */
-	public function flush() -> boolean
+	public function flush()
 	{
-		var memcache, options, keys, specialKey, key;
-
-		let memcache = this->_memcache;
-
-		if typeof memcache != "object" {
-			this->_connect();
-			let memcache = this->_memcache;
-		}
-
+		var options, specialKey, redis, prefix, lastKey;
+		
 		let options = this->_options;
 
-		if !fetch specialKey, options["statsKey"] {
-			throw new \Phalcon\Cache\Exception("Unexpected inconsistency in options");
+		if !isset options["statsKey"] {
+			throw new Exception("Unexpected inconsistency in options");
 		}
 
-		/**
-		 * Get the key from memcached
-		 */
-		let keys = memcache->get(specialKey);
+		let specialKey = options["statsKey"];
+
+		let redis = this->_redis;
+
+		if typeof redis != "object" {
+			this->_connect();
+			let redis = this->_redis;
+		}
+
+		let keys = redis->sMembers(specialKey);
 		if typeof keys == "array" {
 			for key in keys {
-				memcache->delete(key);
+				let lastKey = "_PHCR" . key;
+				redis->sRem(specialKey, key);
+				redis->delete(lastKey);
 			}
-			memcache->set(specialKey, keys);
 		}
+
 		return true;
 	}
-
 }
