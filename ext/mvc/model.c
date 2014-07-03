@@ -6848,6 +6848,7 @@ PHP_METHOD(Phalcon_Mvc_Model, setup){
 	zval *options, *disable_events, *virtual_foreign_keys;
 	zval *column_renaming, *not_null_validations;
 	zval *exception_on_failed_save, *phql_literals;
+	zval *phql_cache;
 
 	PHALCON_MM_GROW();
 
@@ -6910,6 +6911,15 @@ PHP_METHOD(Phalcon_Mvc_Model, setup){
 		PHALCON_OBS_VAR(phql_literals);
 		phalcon_array_fetch_string(&phql_literals, options, SL("phqlLiterals"), PH_NOISY);
 		PHALCON_GLOBAL(orm).enable_literals = zend_is_true(phql_literals);
+	}
+	
+	/** 
+	 * Enables/Disables AST cache
+	 */
+	if (phalcon_array_isset_string(options, SS("astCache"))) {
+		PHALCON_OBS_VAR(phql_cache);
+		phalcon_array_fetch_string(&phql_cache, options, SL("astCache"), PH_NOISY);
+		PHALCON_GLOBAL(orm).enable_ast_cache = zend_is_true(phql_cache);
 	}
 	
 	PHALCON_MM_RESTORE();
