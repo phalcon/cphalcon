@@ -40,7 +40,7 @@ class CryptTest extends PHPUnit_Framework_TestCase
 			$encrypt->setMode($mode);
 
 			foreach ($tests as $key => $test) {
-				$encrypt->setKey($key);
+				$encrypt->setKey((string) $key);
 				$encryption = $encrypt->encrypt($test);
 				$this->assertEquals(rtrim($encrypt->decrypt($encryption), "\0"), $test);
 			}
@@ -78,11 +78,9 @@ class CryptTest extends PHPUnit_Framework_TestCase
 			$crypt->setPadding($padding);
 			foreach ($modes as $mode) {
 				$crypt->setMode($mode);
-
 				foreach ($texts as $text) {
 					$encrypted = $crypt->encrypt($text);
-					$actual    = $crypt->decrypt($encrypted);
-
+					$actual = $crypt->decrypt($encrypted);
 					$this->assertEquals($actual, $text);
 				}
 			}

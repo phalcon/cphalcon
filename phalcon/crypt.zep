@@ -42,9 +42,29 @@ class Crypt implements \Phalcon\CryptInterface
 
 	protected _key;
 
+	protected _padding;
+
 	protected _mode = "cbc";
 
 	protected _cipher = "rijndael-256";
+
+	const PADDING_DEFAULT = 0;
+	const PADDING_ANSI_X_923 = 1;
+	const PADDING_PKCS7 = 2;
+	const PADDING_ISO_10126 = 3;
+	const PADDING_ISO_IEC_7816_4 = 4;
+	const PADDING_ZERO = 5;
+	const PADDING_SPACE = 6;
+
+	/**
+	* @brief Phalcon\CryptInterface Phalcon\Crypt::setPadding(int $scheme)
+	*
+	* @param int scheme Padding scheme
+	* @return Phalcon\CryptInterface
+	*/
+	public function setPadding(long! scheme) {
+		let this->_padding = scheme;
+	}
 
 	/**
 	 * Sets the cipher algorithm
@@ -165,7 +185,8 @@ class Crypt implements \Phalcon\CryptInterface
 	 */
 	public function decrypt(string! text, key=null) -> string
 	{
-		var decryptKey, ivSize, cipher, mode, keySize;
+		var decryptKey, ivSize, cipher, mode, keySize, length, block, packing, chr;
+		int p, len;
 
 		if !function_exists("mcrypt_get_iv_size") {
 			throw new Exception("mcrypt extension is required");
@@ -190,11 +211,25 @@ class Crypt implements \Phalcon\CryptInterface
 			throw new Exception("Size of key is too large for this algorithm");
 		}
 
-		if keySize > strlen(text) {
+		let length = strlen(text);
+		if keySize > length {
 			throw new Exception("Size of IV is larger than text to decrypt");
 		}
 
-		return mcrypt_decrypt(cipher, decryptKey, substr(text, ivSize), mode, substr(text, 0, ivSize));
+		let block = mcrypt_get_block_size("tripledes", "cbc");
+		let len = strlen(text) - 1;
+		let packing = ord(text[len]);
+		if packing && (packing < block) {
+			for p in range(len, strlen(text) - packing) {
+				let p = (int) p;
+				let chr = text[p];
+				if ord(chr) != packing {
+					let packing = 0;
+				}
+		  	}
+		}
+
+		return mcrypt_decrypt(cipher, decryptKey, substr(text, ivSize - packing), mode, substr(text, 0, ivSize - packing));
 	}
 
 	/**

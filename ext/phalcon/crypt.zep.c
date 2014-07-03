@@ -13,9 +13,9 @@
 
 #include "kernel/main.h"
 #include "kernel/object.h"
+#include "kernel/memory.h"
 #include "ext/spl/spl_exceptions.h"
 #include "kernel/exception.h"
-#include "kernel/memory.h"
 #include "kernel/operators.h"
 #include "kernel/fcall.h"
 #include "kernel/string.h"
@@ -61,12 +61,55 @@ ZEPHIR_INIT_CLASS(Phalcon_Crypt) {
 
 	zend_declare_property_null(phalcon_crypt_ce, SL("_key"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
+	zend_declare_property_null(phalcon_crypt_ce, SL("_padding"), ZEND_ACC_PROTECTED TSRMLS_CC);
+
 	zend_declare_property_string(phalcon_crypt_ce, SL("_mode"), "cbc", ZEND_ACC_PROTECTED TSRMLS_CC);
 
 	zend_declare_property_string(phalcon_crypt_ce, SL("_cipher"), "rijndael-256", ZEND_ACC_PROTECTED TSRMLS_CC);
 
+	zend_declare_class_constant_long(phalcon_crypt_ce, SL("PADDING_DEFAULT"), 0 TSRMLS_CC);
+
+	zend_declare_class_constant_long(phalcon_crypt_ce, SL("PADDING_ANSI_X_923"), 1 TSRMLS_CC);
+
+	zend_declare_class_constant_long(phalcon_crypt_ce, SL("PADDING_PKCS7"), 2 TSRMLS_CC);
+
+	zend_declare_class_constant_long(phalcon_crypt_ce, SL("PADDING_ISO_10126"), 3 TSRMLS_CC);
+
+	zend_declare_class_constant_long(phalcon_crypt_ce, SL("PADDING_ISO_IEC_7816_4"), 4 TSRMLS_CC);
+
+	zend_declare_class_constant_long(phalcon_crypt_ce, SL("PADDING_ZERO"), 5 TSRMLS_CC);
+
+	zend_declare_class_constant_long(phalcon_crypt_ce, SL("PADDING_SPACE"), 6 TSRMLS_CC);
+
 	zend_class_implements(phalcon_crypt_ce TSRMLS_CC, 1, phalcon_cryptinterface_ce);
 	return SUCCESS;
+
+}
+
+/**
+ * @brief Phalcon\CryptInterface Phalcon\Crypt::setPadding(int $scheme)
+ *
+ * @param int scheme Padding scheme
+ * @return Phalcon\CryptInterface
+ */
+PHP_METHOD(Phalcon_Crypt, setPadding) {
+
+	zval *scheme_param = NULL, *_0;
+	long scheme;
+
+	zephir_fetch_params(0, 1, 0, &scheme_param);
+
+	if (unlikely(Z_TYPE_P(scheme_param) != IS_LONG)) {
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'scheme' must be a long/integer") TSRMLS_CC);
+		RETURN_NULL();
+	}
+
+	scheme = Z_LVAL_P(scheme_param);
+
+
+	ZEPHIR_INIT_ZVAL_NREF(_0);
+	ZVAL_LONG(_0, scheme);
+	zephir_update_property_this(this_ptr, SL("_padding"), _0 TSRMLS_CC);
 
 }
 
@@ -226,7 +269,7 @@ PHP_METHOD(Phalcon_Crypt, encrypt) {
 
 
 	if (!((zephir_function_exists_ex(SS("mcrypt_get_iv_size") TSRMLS_CC) == SUCCESS))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_crypt_exception_ce, "mcrypt extension is required", "phalcon/crypt.zep", 131);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_crypt_exception_ce, "mcrypt extension is required", "phalcon/crypt.zep", 151);
 		return;
 	}
 	if (Z_TYPE_P(key) == IS_NULL) {
@@ -236,7 +279,7 @@ PHP_METHOD(Phalcon_Crypt, encrypt) {
 		ZEPHIR_CPY_WRT(encryptKey, key);
 	}
 	if (ZEPHIR_IS_EMPTY(encryptKey)) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_crypt_exception_ce, "Encryption key cannot be empty", "phalcon/crypt.zep", 141);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_crypt_exception_ce, "Encryption key cannot be empty", "phalcon/crypt.zep", 161);
 		return;
 	}
 	ZEPHIR_OBS_VAR(cipher);
@@ -246,7 +289,7 @@ PHP_METHOD(Phalcon_Crypt, encrypt) {
 	ZEPHIR_CALL_FUNCTION(&ivSize, "mcrypt_get_iv_size", NULL, cipher, mode);
 	zephir_check_call_status();
 	if (ZEPHIR_LT_LONG(ivSize, zephir_fast_strlen_ev(encryptKey))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_crypt_exception_ce, "Size of key is too large for this algorithm", "phalcon/crypt.zep", 148);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_crypt_exception_ce, "Size of key is too large for this algorithm", "phalcon/crypt.zep", 168);
 		return;
 	}
 	ZEPHIR_SINIT_VAR(_0);
@@ -273,9 +316,11 @@ PHP_METHOD(Phalcon_Crypt, encrypt) {
  */
 PHP_METHOD(Phalcon_Crypt, decrypt) {
 
-	zephir_nts_static zephir_fcall_cache_entry *_1 = NULL;
-	int ZEPHIR_LAST_CALL_STATUS;
-	zval *text_param = NULL, *key = NULL, *decryptKey = NULL, *ivSize = NULL, *cipher, *mode, *keySize, *_0 = NULL, _2, *_3 = NULL;
+	zend_bool _4, _5;
+	zephir_nts_static zephir_fcall_cache_entry *_3 = NULL, *_10 = NULL;
+	char _2, _8;
+	int p, len, ZEPHIR_LAST_CALL_STATUS, _6, _7;
+	zval *text_param = NULL, *key = NULL, *decryptKey = NULL, *ivSize = NULL, *cipher, *mode, *keySize, *length, *block = NULL, *packing = NULL, *chr = NULL, _0 = zval_used_for_init, _1 = zval_used_for_init, *_9 = NULL, _11, *_12 = NULL;
 	zval *text = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -298,7 +343,7 @@ PHP_METHOD(Phalcon_Crypt, decrypt) {
 
 
 	if (!((zephir_function_exists_ex(SS("mcrypt_get_iv_size") TSRMLS_CC) == SUCCESS))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_crypt_exception_ce, "mcrypt extension is required", "phalcon/crypt.zep", 171);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_crypt_exception_ce, "mcrypt extension is required", "phalcon/crypt.zep", 192);
 		return;
 	}
 	if (Z_TYPE_P(key) == IS_NULL) {
@@ -308,7 +353,7 @@ PHP_METHOD(Phalcon_Crypt, decrypt) {
 		ZEPHIR_CPY_WRT(decryptKey, key);
 	}
 	if (ZEPHIR_IS_EMPTY(decryptKey)) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_crypt_exception_ce, "Decryption key cannot be empty", "phalcon/crypt.zep", 181);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_crypt_exception_ce, "Decryption key cannot be empty", "phalcon/crypt.zep", 202);
 		return;
 	}
 	ZEPHIR_OBS_VAR(cipher);
@@ -320,20 +365,70 @@ PHP_METHOD(Phalcon_Crypt, decrypt) {
 	ZEPHIR_INIT_VAR(keySize);
 	ZVAL_LONG(keySize, zephir_fast_strlen_ev(decryptKey));
 	if (ZEPHIR_GT(keySize, ivSize)) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_crypt_exception_ce, "Size of key is too large for this algorithm", "phalcon/crypt.zep", 190);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_crypt_exception_ce, "Size of key is too large for this algorithm", "phalcon/crypt.zep", 211);
 		return;
 	}
-	if (ZEPHIR_GT_LONG(keySize, zephir_fast_strlen_ev(text))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_crypt_exception_ce, "Size of IV is larger than text to decrypt", "phalcon/crypt.zep", 194);
+	ZEPHIR_INIT_VAR(length);
+	ZVAL_LONG(length, zephir_fast_strlen_ev(text));
+	if (ZEPHIR_GT(keySize, length)) {
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_crypt_exception_ce, "Size of IV is larger than text to decrypt", "phalcon/crypt.zep", 216);
 		return;
 	}
-	ZEPHIR_CALL_FUNCTION(&_0, "substr", &_1, text, ivSize);
+	ZEPHIR_SINIT_VAR(_0);
+	ZVAL_STRING(&_0, "tripledes", 0);
+	ZEPHIR_SINIT_VAR(_1);
+	ZVAL_STRING(&_1, "cbc", 0);
+	ZEPHIR_CALL_FUNCTION(&block, "mcrypt_get_block_size", NULL, &_0, &_1);
 	zephir_check_call_status();
-	ZEPHIR_SINIT_VAR(_2);
-	ZVAL_LONG(&_2, 0);
-	ZEPHIR_CALL_FUNCTION(&_3, "substr", &_1, text, &_2, ivSize);
+	len = (zephir_fast_strlen_ev(text) - 1);
+	_2 = ZEPHIR_STRING_OFFSET(text, len);
+	ZEPHIR_SINIT_NVAR(_0);
+	ZVAL_LONG(&_0, _2);
+	ZEPHIR_CALL_FUNCTION(&packing, "ord", &_3, &_0);
 	zephir_check_call_status();
-	ZEPHIR_RETURN_CALL_FUNCTION("mcrypt_decrypt", NULL, cipher, decryptKey, _0, mode, _3);
+	_4 = zephir_is_true(packing);
+	if (_4) {
+		_4 = (ZEPHIR_LT(packing, block));
+	}
+	if (_4) {
+		_7 = (zephir_fast_strlen_ev(text) - zephir_get_numberval(packing));
+		_6 = len;
+		_5 = 0;
+		if (_6 <= _7) {
+			while (1) {
+				if (_5) {
+					_6++;
+					if (!(_6 <= _7)) {
+						break;
+					}
+				} else {
+					_5 = 1;
+				}
+				p = _6;
+				p = p;
+				_8 = ZEPHIR_STRING_OFFSET(text, p);
+				ZEPHIR_INIT_NVAR(chr);
+				ZVAL_LONG(chr, _8);
+				ZEPHIR_CALL_FUNCTION(&_9, "ord", &_3, chr);
+				zephir_check_call_status();
+				if (!ZEPHIR_IS_EQUAL(_9, packing)) {
+					ZEPHIR_INIT_NVAR(packing);
+					ZVAL_LONG(packing, 0);
+				}
+			}
+		}
+	}
+	ZEPHIR_SINIT_NVAR(_0);
+	zephir_sub_function(&_0, ivSize, packing TSRMLS_CC);
+	ZEPHIR_CALL_FUNCTION(&_9, "substr", &_10, text, _0);
+	zephir_check_call_status();
+	ZEPHIR_SINIT_NVAR(_1);
+	zephir_sub_function(&_1, ivSize, packing TSRMLS_CC);
+	ZEPHIR_SINIT_VAR(_11);
+	ZVAL_LONG(&_11, 0);
+	ZEPHIR_CALL_FUNCTION(&_12, "substr", &_10, text, &_11, _1);
+	zephir_check_call_status();
+	ZEPHIR_RETURN_CALL_FUNCTION("mcrypt_decrypt", NULL, cipher, decryptKey, _9, mode, _12);
 	zephir_check_call_status();
 	RETURN_MM();
 
