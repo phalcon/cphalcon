@@ -3369,6 +3369,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, parse){
 
 	zval *intermediate, *phql, *ast, *ir_phql = NULL, *ir_phql_cache = NULL;
 	zval *unique_id = NULL, *type = NULL, *exception_message;
+	zval *manager, *model_names = NULL, *tables = NULL, *key_tables, *key_schema, *key_source, *key = NULL, *model_name = NULL, *model = NULL, *table = NULL;
+	zval *schema = NULL, *source = NULL;	
+	HashTable *ah0;
+	HashPosition hp0;
+	zval **hd;
 
 	PHALCON_MM_GROW();
 
@@ -3412,7 +3417,51 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, parse){
 		
 					PHALCON_OBS_NVAR(ir_phql);
 					phalcon_array_fetch(&ir_phql, ir_phql_cache, unique_id, PH_NOISY);
-					if (Z_TYPE_P(ir_phql) == IS_ARRAY) { 
+					if (Z_TYPE_P(ir_phql) == IS_ARRAY) {
+						if (phalcon_array_isset_string_fetch(&model_names, ir_phql, SL("models")) && phalcon_array_isset_string_fetch(&tables, ir_phql, SL("tables"))) {
+							// Obtain the real source including the schema again
+							manager = phalcon_fetch_nproperty_this(this_ptr, SL("_manager"), PH_NOISY TSRMLS_CC);
+
+							if (Z_TYPE_P(manager) != IS_OBJECT) {
+								zend_throw_exception_ex(phalcon_mvc_model_exception_ce, 0 TSRMLS_CC, "dependency Injector is required to get '%s' service", "modelsManager");
+								RETURN_MM();
+							}
+
+							PHALCON_INIT_VAR(key_tables);
+							ZVAL_STRING(key_tables, "tables", 1);
+
+							PHALCON_INIT_VAR(key_schema);
+							ZVAL_LONG(key_schema, 1);
+
+							PHALCON_INIT_VAR(key_source);
+							ZVAL_LONG(key_source, 0);
+
+							phalcon_is_iterable(model_names, &ah0, &hp0, 0, 0);
+		
+							while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
+								PHALCON_GET_HKEY(key, ah0, hp0);
+								PHALCON_GET_HVALUE(model_name);
+
+								PHALCON_OBS_NVAR(table);
+								phalcon_array_fetch(&table, tables, key, PH_NOISY);
+
+								PHALCON_CALL_METHOD(&model, manager, "load", model_name);
+
+								PHALCON_CALL_METHOD(&source, model, "getsource");
+
+								if (Z_TYPE_P(table) == IS_ARRAY) {
+									PHALCON_CALL_METHOD(&schema, model, "getschema");
+
+									phalcon_array_update_zval_zval_zval_multi_3(&ir_phql, key_tables, key, key_schema, schema, PH_COPY | PH_SEPARATE);
+									phalcon_array_update_zval_zval_zval_multi_3(&ir_phql, key_tables, key, key_source, source, PH_COPY | PH_SEPARATE);
+								} else {
+									phalcon_array_update_multi_2(&ir_phql, key_tables, key, source, PH_COPY | PH_SEPARATE);
+								}
+
+								zend_hash_move_forward_ex(ah0, &hp0);
+							}
+						}
+
 						/** 
 						 * Assign the type to the query
 						 */
