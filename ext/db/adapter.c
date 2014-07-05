@@ -311,16 +311,18 @@ PHP_METHOD(Phalcon_Db_Adapter, getDialect){
  * @param int $fetchMode
  * @param array $bindParams
  * @param array $bindTypes
+ * @param mixed $fetchArgument
+ * @param array $ctorArgs
  * @return array
  */
 PHP_METHOD(Phalcon_Db_Adapter, fetchOne){
 
-	zval *sql_query, *fetch_mode = NULL, *bind_params = NULL, *bind_types = NULL;
+	zval *sql_query, *fetch_mode = NULL, *bind_params = NULL, *bind_types = NULL, *fetch_argument = NULL, *ctor_args = NULL;
 	zval *result = NULL;
 
 	PHALCON_MM_GROW();
 
-	phalcon_fetch_params(1, 1, 3, &sql_query, &fetch_mode, &bind_params, &bind_types);
+	phalcon_fetch_params(1, 1, 5, &sql_query, &fetch_mode, &bind_params, &bind_types, &fetch_argument, &ctor_args);
 	
 	if (!fetch_mode) {
 		PHALCON_INIT_VAR(fetch_mode);
@@ -335,12 +337,29 @@ PHP_METHOD(Phalcon_Db_Adapter, fetchOne){
 		bind_types = PHALCON_GLOBAL(z_null);
 	}
 	
+	if (!fetch_argument) {
+		fetch_argument = PHALCON_GLOBAL(z_null);
+	}
+	
+	if (!ctor_args) {
+		ctor_args = PHALCON_GLOBAL(z_null);
+	}
+	
 	PHALCON_CALL_METHOD(&result, this_ptr, "query", sql_query, bind_params, bind_types);
 	if (Z_TYPE_P(result) == IS_OBJECT) {
 		if (Z_TYPE_P(fetch_mode) != IS_NULL) {
-			PHALCON_CALL_METHOD(NULL, result, "setfetchmode", fetch_mode);
+			if (Z_TYPE_P(fetch_argument) != IS_NULL) {
+				if (Z_TYPE_P(ctor_args) != IS_NULL) {
+					PHALCON_RETURN_CALL_METHOD(result, "fetchall", fetch_mode, fetch_argument, ctor_args);
+				} else {
+					PHALCON_RETURN_CALL_METHOD(result, "fetchall", fetch_mode, fetch_argument);
+				}
+			} else {
+				PHALCON_RETURN_CALL_METHOD(result, "fetchall", fetch_mode);
+			}
+		} else {
+			PHALCON_RETURN_CALL_METHOD(result, "fetchall");
 		}
-		PHALCON_RETURN_CALL_METHOD(result, "fetch");
 		RETURN_MM();
 	}
 	
@@ -371,16 +390,18 @@ PHP_METHOD(Phalcon_Db_Adapter, fetchOne){
  * @param int $fetchMode
  * @param array $bindParams
  * @param array $bindTypes
+ * @param mixed $fetchArgument
+ * @param array $ctorArgs
  * @return array
  */
 PHP_METHOD(Phalcon_Db_Adapter, fetchAll){
 
-	zval *sql_query, *fetch_mode = NULL, *bind_params = NULL, *bind_types = NULL;
+	zval *sql_query, *fetch_mode = NULL, *bind_params = NULL, *bind_types = NULL, *fetch_argument = NULL, *ctor_args = NULL;
 	zval *result = NULL;
 
 	PHALCON_MM_GROW();
 
-	phalcon_fetch_params(1, 1, 3, &sql_query, &fetch_mode, &bind_params, &bind_types);
+	phalcon_fetch_params(1, 1, 5, &sql_query, &fetch_mode, &bind_params, &bind_types, &fetch_argument, &ctor_args);
 	
 	if (!fetch_mode) {
 		PHALCON_INIT_VAR(fetch_mode);
@@ -395,13 +416,29 @@ PHP_METHOD(Phalcon_Db_Adapter, fetchAll){
 		bind_types = PHALCON_GLOBAL(z_null);
 	}
 	
+	if (!fetch_argument) {
+		fetch_argument = PHALCON_GLOBAL(z_null);
+	}
+	
+	if (!ctor_args) {
+		ctor_args = PHALCON_GLOBAL(z_null);
+	}
+	
 	PHALCON_CALL_METHOD(&result, this_ptr, "query", sql_query, bind_params, bind_types);
 	if (likely(Z_TYPE_P(result) == IS_OBJECT)) {
 		if (Z_TYPE_P(fetch_mode) != IS_NULL) {
-			PHALCON_CALL_METHOD(NULL, result, "setfetchmode", fetch_mode);
+			if (Z_TYPE_P(fetch_argument) != IS_NULL) {
+				if (Z_TYPE_P(ctor_args) != IS_NULL) {
+					PHALCON_RETURN_CALL_METHOD(result, "fetchall", fetch_mode, fetch_argument, ctor_args);
+				} else {
+					PHALCON_RETURN_CALL_METHOD(result, "fetchall", fetch_mode, fetch_argument);
+				}
+			} else {
+				PHALCON_RETURN_CALL_METHOD(result, "fetchall", fetch_mode);
+			}
+		} else {
+			PHALCON_RETURN_CALL_METHOD(result, "fetchall");
 		}
-
-		PHALCON_RETURN_CALL_METHOD(result, "fetchall");
 	}
 	
 	PHALCON_MM_RESTORE();
