@@ -223,16 +223,45 @@ PHP_METHOD(Phalcon_Db_Result_Pdo, fetchArray){
  *	$robots = $result->fetchAll();
  *</code>
  *
+ * @param int $fetchMode
+ * @param mixed $fetchArgument
+ * @param array $ctorArgs
  * @return array
  */
 PHP_METHOD(Phalcon_Db_Result_Pdo, fetchAll){
 
-	zval *pdo_statement;
+	zval *pdo_statement, *fetch_mode = NULL, *fetch_argument = NULL, *ctor_args = NULL;
 
 	PHALCON_MM_GROW();
 
+	phalcon_fetch_params(1, 0, 3, &fetch_mode, &fetch_argument, &ctor_args);
+
+	if (!fetch_mode) {
+		fetch_mode = PHALCON_GLOBAL(z_null);
+	}
+
+	if (!fetch_argument) {
+		fetch_argument = PHALCON_GLOBAL(z_null);
+	}
+	
+	if (!ctor_args) {
+		ctor_args = PHALCON_GLOBAL(z_null);
+	}
+
 	pdo_statement = phalcon_fetch_nproperty_this(this_ptr, SL("_pdoStatement"), PH_NOISY TSRMLS_CC);
-	PHALCON_RETURN_CALL_METHOD(pdo_statement, "fetchall");
+	if (Z_TYPE_P(fetch_mode) != IS_NULL) {
+		if (Z_TYPE_P(fetch_argument) != IS_NULL) {
+			if (Z_TYPE_P(ctor_args) != IS_NULL) {
+				PHALCON_RETURN_CALL_METHOD(pdo_statement, "fetchall", fetch_mode, fetch_argument, ctor_args);
+			} else {
+				PHALCON_RETURN_CALL_METHOD(pdo_statement, "fetchall", fetch_mode, fetch_argument);
+			}
+		} else {
+			PHALCON_RETURN_CALL_METHOD(pdo_statement, "fetchall", fetch_mode);
+		}
+	} else {
+		PHALCON_RETURN_CALL_METHOD(pdo_statement, "fetchall");
+	}
 	RETURN_MM();
 }
 
