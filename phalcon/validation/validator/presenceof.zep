@@ -52,9 +52,6 @@ class PresenceOf extends \Phalcon\Validation\Validator implements \Phalcon\Valid
 			let label = this->getOption("label");
 			if empty label {
 				let label = validation->getLabel(field);
-				if empty label {
-					let label = field;
-				}
 			}
 
 			let message = this->getOption("message");

@@ -215,13 +215,13 @@ abstract class Pdo extends \Phalcon\Db\Adapter
 				 * 1024 is ignore the bind type
 				 */
 				if type == Column::BIND_SKIP {
-					statement->bindParam(parameter, castValue);
+					statement->bindValue(parameter, castValue);
 				} else {
-					statement->bindParam(parameter, castValue, type);
+					statement->bindValue(parameter, castValue, type);
 				}
 
 			} else {
-				statement->bindParam(parameter, value);
+				statement->bindValue(parameter, value);
 			}
 		}
 

@@ -53,11 +53,12 @@ class Uniqueness extends \Phalcon\Validation\Validator implements \Phalcon\Valid
 	 */
 	public function validate(<\Phalcon\Validation> validation, string! field) -> boolean
 	{
-		var attribute, value, model, number, message, label, replacePairs;
+		var attribute, value, model, except, number, message, label, replacePairs;
 
 		let value = validation->getValue(field),
-					model = this->getOption("model"),
-					attribute = this->getOption("attribute");
+			model = this->getOption("model"),
+			attribute = this->getOption("attribute"),
+			except = this->getOption("except");
 
 		if empty model {
 			throw new \Phalcon\Validation\Exception("Model must be set");
@@ -67,19 +68,20 @@ class Uniqueness extends \Phalcon\Validation\Validator implements \Phalcon\Valid
 			let attribute = field;
 		}
 
-		let number = {model}::count([attribute . "=:value:", "bind": ["value" : value]]);
+		if except  {
+			let number = {model}::count([attribute . "=:value: AND " . attribute . "!= :except:", "bind": ["value": value, "except": except]]);
+		} else {
+			let number = {model}::count([attribute . "=:value:", "bind": ["value": value]]);
+		}
 		if number {
 
 			let label = this->getOption("label");
 			if empty label {
 				let label = validation->getLabel(field);
-				if empty label {
-					let label = field;
-				}
 			}
 
-			let message = this->getOption("message");
-			let replacePairs = [":field": label];
+			let message = this->getOption("message"),
+				replacePairs = [":field": label];
 			if empty message {
 				let message = validation->getDefaultMessage("Uniqueness");
 			}

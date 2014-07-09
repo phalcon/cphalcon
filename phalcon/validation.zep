@@ -301,7 +301,7 @@ class Validation extends \Phalcon\Di\Injectable
 	 * Get label for field
 	 *
 	 * @param string field
-	 * @return mixed
+	 * @return string
 	 */
 	public function getLabel(string! field)
 	{
@@ -312,7 +312,7 @@ class Validation extends \Phalcon\Di\Injectable
 				return value;
 			}
 		}
-		return null;
+		return field;
 	}
 
 	/**

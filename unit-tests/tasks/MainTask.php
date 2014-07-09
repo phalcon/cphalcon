@@ -8,9 +8,9 @@ class MainTask extends \Phalcon\CLI\Task
         return "mainAction";
     }
 
-    public function requestDiAction()
+    public function requestRegistryAction()
     {
-        return $this->di->get('data') ;
+        return $this->di['registry']->data;
     }
 
     public function helloAction($world = "", $symbol = "!")
