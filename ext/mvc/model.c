@@ -3058,6 +3058,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _preSave){
 	zval *null_value, *field = NULL, *is_null = NULL, *attribute_field = NULL;
 	zval *exception_message = NULL, *value = NULL, *message = NULL, *type = NULL;
 	zval *model_message = NULL, *skipped;
+	zval *default_values = NULL;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -3132,9 +3133,10 @@ PHP_METHOD(Phalcon_Mvc_Model, _preSave){
 			if (zend_is_true(exists)) {
 				PHALCON_CALL_METHOD(&automatic_attributes, meta_data, "getautomaticupdateattributes", this_ptr);
 			} else {
-				PHALCON_CALL_METHOD(&automatic_attributes, meta_data, "getautomaticcreateattributes", this_ptr);
+				PHALCON_CALL_METHOD(&automatic_attributes, meta_data, "getautomaticupdateattributes", this_ptr);
+				PHALCON_CALL_METHOD(&default_values, meta_data, "getdefaultvalues", this_ptr);
 			}
-	
+
 			PHALCON_INIT_VAR(error);
 			ZVAL_BOOL(error, 0);
 	
@@ -3183,9 +3185,14 @@ PHP_METHOD(Phalcon_Mvc_Model, _preSave){
 						 * Objects are never treated as null, numeric fields must be numeric to be accepted
 						 * as not null
 						 */
+						if (Z_TYPE_P(value) == IS_NULL && default_values && phalcon_array_isset(default_values, field)) {
+							zend_hash_move_forward_ex(ah0, &hp0);
+							continue;
+						}
+
 						if (Z_TYPE_P(value) != IS_OBJECT) {
 							if (!phalcon_array_isset(data_type_numeric, field)) {
-								if (PHALCON_IS_EMPTY(value)) {
+								if (Z_TYPE_P(value) == IS_NULL) {
 									PHALCON_INIT_NVAR(is_null);
 									ZVAL_BOOL(is_null, 1);
 								}
@@ -3197,10 +3204,12 @@ PHP_METHOD(Phalcon_Mvc_Model, _preSave){
 							}
 						}
 					} else {
-						PHALCON_INIT_NVAR(is_null);
-						ZVAL_BOOL(is_null, 1);
+						if (!default_values || !phalcon_array_isset(default_values, field)) {
+							PHALCON_INIT_NVAR(is_null);
+							ZVAL_BOOL(is_null, 1);
+						}
 					}
-	
+
 					if (PHALCON_IS_TRUE(is_null)) {
 						if (!zend_is_true(exists)) {
 	
@@ -3391,6 +3400,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _doLowInsert){
 	zval *value = NULL, *bind_type = NULL, *default_value = NULL, *use_explicit_identity = NULL;
 	zval *success = NULL, *sequence_name = NULL, *support_sequences = NULL;
 	zval *schema = NULL, *source = NULL, *last_insert_id = NULL;
+	zval *not_null = NULL, *default_values = NULL;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -3417,6 +3427,8 @@ PHP_METHOD(Phalcon_Mvc_Model, _doLowInsert){
 	PHALCON_CALL_METHOD(&attributes, meta_data, "getattributes", this_ptr);
 	PHALCON_CALL_METHOD(&bind_data_types, meta_data, "getbindtypes", this_ptr);
 	PHALCON_CALL_METHOD(&automatic_attributes, meta_data, "getautomaticcreateattributes", this_ptr);
+	PHALCON_CALL_METHOD(&not_null, meta_data, "getnotnullattributes", this_ptr);
+	PHALCON_CALL_METHOD(&default_values, meta_data, "getdefaultvalues", this_ptr);
 
 	if (PHALCON_GLOBAL(orm).column_renaming) {
 		PHALCON_CALL_METHOD(&column_map, meta_data, "getcolumnmap", this_ptr);
@@ -3457,7 +3469,6 @@ PHP_METHOD(Phalcon_Mvc_Model, _doLowInsert){
 			 * Check every attribute in the model except identity field
 			 */
 			if (!PHALCON_IS_EQUAL(field, identity_field)) {
-				phalcon_array_append(&fields, field, PH_SEPARATE);
 	
 				/** 
 				 * This isset checks that the property be defined in the model
@@ -3476,12 +3487,17 @@ PHP_METHOD(Phalcon_Mvc_Model, _doLowInsert){
 	
 					PHALCON_OBS_NVAR(value);
 					phalcon_read_property_zval(&value, this_ptr, attribute_field, PH_NOISY TSRMLS_CC);
-					phalcon_array_append(&values, value, PH_SEPARATE);
-	
-					PHALCON_OBS_NVAR(bind_type);
-					phalcon_array_fetch(&bind_type, bind_data_types, field, PH_NOISY);
-					phalcon_array_append(&bind_types, bind_type, PH_SEPARATE);
-				} else {
+
+					if (Z_TYPE_P(value) != IS_NULL || !phalcon_fast_in_array(field, not_null TSRMLS_CC) || !phalcon_array_isset(default_values, field)) {						
+						phalcon_array_append(&fields, field, PH_SEPARATE);
+						phalcon_array_append(&values, value, PH_SEPARATE);
+		
+						PHALCON_OBS_NVAR(bind_type);
+						phalcon_array_fetch(&bind_type, bind_data_types, field, PH_NOISY);
+						phalcon_array_append(&bind_types, bind_type, PH_SEPARATE);
+					}
+				} else if (!phalcon_fast_in_array(field, not_null TSRMLS_CC) || !phalcon_array_isset(default_values, field)) {
+					phalcon_array_append(&fields, field, PH_SEPARATE);
 					phalcon_array_append(&values, null_value, PH_SEPARATE);
 					phalcon_array_append(&bind_types, bind_skip, PH_SEPARATE);
 				}
