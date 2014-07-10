@@ -117,10 +117,6 @@ class Sqlite extends \Phalcon\Db\Dialect //implements Phalcon\Db\DialectInterfac
 			let sql .= " NOT NULL";
 		}
 
-		if column->isFirst() {
-			let sql .= " FIRST";
-		}
-
 		if column->isAutoincrement() {
 			let sql .= " PRIMARY KEY AUTOINCREMENT";
 		}
