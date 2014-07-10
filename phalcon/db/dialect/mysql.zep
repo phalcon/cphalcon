@@ -303,7 +303,7 @@ class MySQL extends \Phalcon\Db\Dialect //implements Phalcon\Db\DialectInterface
 	 */
 	public function addForeignKey(string! tableName, string! schemaName, <\Phalcon\Db\ReferenceInterface> reference) -> string
 	{
-		var sql, referencedSchema;
+		var sql, referencedSchema, onDelete, onUpdate;
 
 		if typeof reference != "object" {
 			throw new Exception("Index parameter must be an object compatible with Phalcon\\Db\\ReferenceInterface");
@@ -325,7 +325,19 @@ class MySQL extends \Phalcon\Db\Dialect //implements Phalcon\Db\DialectInterface
 			let sql .= "`" . referencedSchema . "`.";
 		}
 
-		return sql . "`" . reference->getReferencedTable() . "`(" . this->getColumnList(reference->getReferencedColumns()) . ")";
+		let sql .= "`" . reference->getReferencedTable() . "`(" . this->getColumnList(reference->getReferencedColumns()) . ")";
+
+		let onDelete = reference->getOnDelete();
+		if !empty onDelete {
+			let sql .= " ON DELETE " . onDelete;
+		}
+
+		let onUpdate = reference->getOnUpdate();
+		if !empty onUpdate {
+			let sql .= " ON UPDATE " . onUpdate;
+		}
+
+		return sql;
 	}
 
 	/**
@@ -411,7 +423,8 @@ class MySQL extends \Phalcon\Db\Dialect //implements Phalcon\Db\DialectInterface
 	{
 		var temporary, options, table, createLines, columns,
 			column, indexes, index, reference, references, indexName,
-			indexSql, sql, columnLine, indexType;
+			indexSql, sql, columnLine, indexType,
+			referenceSql, onDelete, onUpdate;
 
 		if !fetch columns, definition["columns"] {
 			throw new Exception("The index 'columns' is required in the definition array");
@@ -498,8 +511,20 @@ class MySQL extends \Phalcon\Db\Dialect //implements Phalcon\Db\DialectInterface
 		 */
 		if fetch references, definition["references"] {
 			for reference in references {
-				let createLines[] = "CONSTRAINT `" . reference->getName() . "` FOREIGN KEY (" . this->getColumnList(columns) . ")" .
-							   " REFERENCES `" . reference->getReferencedTable() . "`(" . this->getColumnList(reference->getReferencedColumns()) . ")";
+				let referenceSql = "CONSTRAINT `" . reference->getName() . "` FOREIGN KEY (" . this->getColumnList(reference->getColumns()) . ")"
+					. " REFERENCES `" . reference->getReferencedTable() . "`(" . this->getColumnList(reference->getReferencedColumns()) . ")";
+
+				let onDelete = reference->getOnDelete();
+				if !empty onDelete {
+					let referenceSql .= " ON DELETE " . onDelete;
+				}
+
+				let onUpdate = reference->getOnUpdate();
+				if !empty onUpdate {
+					let referenceSql .= " ON UPDATE " . onUpdate;
+				}
+
+				let createLines[] = referenceSql;
 			}
 		}
 
