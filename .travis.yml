@@ -9,6 +9,7 @@ php:
 services:
   - mongodb
   - memcached
+  - redis-server
 
 before_install:
  - ./unit-tests/ci/install_prereqs.sh
