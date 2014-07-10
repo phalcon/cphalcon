@@ -78,6 +78,20 @@ interface ReferenceInterface
 	public function getReferencedColumns();
 
 	/**
+	 * Gets the referenced on delete
+	 *
+	 * @return string
+	 */
+	public function getOnDelete();
+
+	/**
+	 * Gets the referenced on update
+	 *
+	 * @return string
+	 */
+	public function getOnUpdate();
+
+	/**
 	 * Restore a Phalcon\Db\Reference object from export
 	 *
 	 * @param array data

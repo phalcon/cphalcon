@@ -71,6 +71,20 @@ class Reference implements \Phalcon\Db\ReferenceInterface
 	protected _referencedColumns { get };
 
 	/**
+	 * ON DELETE
+	 *
+	 * @var array
+	 */
+	protected _onDelete { get };
+
+	/**
+	 * ON UPDATE
+	 *
+	 * @var array
+	 */
+	protected _onUpdate { get };
+
+	/**
 	 * Phalcon\Db\Reference constructor
 	 *
 	 * @param string name
@@ -79,7 +93,8 @@ class Reference implements \Phalcon\Db\ReferenceInterface
 	public function __construct(string! name, array! definition)
 	{
 		var columns, schema, referencedTable,
-			referencedSchema, referencedColumns;
+			referencedSchema, referencedColumns,
+			onDelete, onUpdate;
 
 		let this->_name = name;
 
@@ -109,6 +124,14 @@ class Reference implements \Phalcon\Db\ReferenceInterface
 			let this->_referencedSchema = referencedSchema;
 		}
 
+		if fetch onDelete, definition["onDelete"] {
+			let this->_onDelete = onDelete;
+		}
+
+		if fetch onUpdate, definition["onUpdate"] {
+			let this->_onUpdate = onUpdate;
+		}
+
 		if count(columns) != count(referencedColumns) {
 			throw new Exception("Number of columns is not equals than the number of columns referenced");
 		}
@@ -123,7 +146,8 @@ class Reference implements \Phalcon\Db\ReferenceInterface
 	public static function __set_state(array! data) -> <\Phalcon\Db\Reference>
 	{
 		var referencedSchema, referencedTable, columns,
-			referencedColumns, constraintName;
+			referencedColumns, constraintName,
+			onDelete, onUpdate;
 
 		if !fetch constraintName, data["_name"] {
 			throw new Exception("_name parameter is required");
@@ -133,12 +157,16 @@ class Reference implements \Phalcon\Db\ReferenceInterface
 		fetch referencedTable, data["_referencedTable"];
 		fetch columns, data["_columns"];
 		fetch referencedColumns, data["_referencedColumns"];
+		fetch onDelete, data["_onDelete"];
+		fetch onUpdate, data["_onUpdate"];
 
 		return new \Phalcon\Db\Reference(constraintName, [
 			"referencedSchema"  : referencedSchema,
 			"referencedTable"   : referencedTable,
 			"columns"           : columns,
-			"referencedColumns" : referencedColumns
+			"referencedColumns" : referencedColumns,
+			"onDelete"          : onDelete,
+			"onUpdate"          : onUpdate
 		]);
 	}
 
