@@ -1402,6 +1402,10 @@ PHP_METHOD(Phalcon_Mvc_Collection, save){
 	if (!white_list) {
 		white_list = PHALCON_GLOBAL(z_null);
 	}
+	
+	if (!mode) {
+		mode = PHALCON_GLOBAL(z_null);
+	}
 
 	PHALCON_CALL_METHOD(&source, this_ptr, "getsource");
 	if (PHALCON_IS_EMPTY(source)) {
@@ -1419,14 +1423,11 @@ PHP_METHOD(Phalcon_Mvc_Collection, save){
 	/** 
 	 * Check the dirty state of the current operation to update the current operation
 	 */
-	if (!mode || Z_TYPE_P(mode) == IS_NULL) {
+	if (Z_TYPE_P(mode) == IS_NULL) {
+		PHALCON_SEPARATE_PARAM(mode);
 		PHALCON_CALL_METHOD(&exists, this_ptr, "_exists", collection);
 
-		if (mode) {
-			PHALCON_SEPARATE_PARAM(mode);
-		} else {
-			PHALCON_INIT_NVAR(mode);
-		}
+		PHALCON_INIT_NVAR(mode);
 		
 		ZVAL_BOOL(mode, (PHALCON_IS_FALSE(exists) ? 1 : 0));
 		phalcon_update_property_long(this_ptr, SL("_operationMade"), (PHALCON_IS_FALSE(exists) ? 1 : 2) TSRMLS_CC);
@@ -1477,7 +1478,8 @@ PHP_METHOD(Phalcon_Mvc_Collection, save){
 					if (Z_TYPE_P(white_list) != IS_ARRAY || phalcon_fast_in_array(&key, white_list TSRMLS_CC)) {
 						PHALCON_OBS_NVAR(value);
 						phalcon_array_fetch(&value, arr, &key, PH_NOISY);
-
+						
+						Z_ADDREF_P(value);
 						if (likely(Z_TYPE(key) == IS_STRING)) {
 							add_assoc_zval_ex(data, Z_STRVAL(key), Z_STRLEN(key)+1, value);
 						}
