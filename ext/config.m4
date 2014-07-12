@@ -152,6 +152,8 @@ mvc/model/metadata/apc.c \
 mvc/model/metadata/xcache.c \
 mvc/model/metadata/memory.c \
 mvc/model/metadata/session.c \
+mvc/model/metadata/memcache.c \
+mvc/model/metadata/libmemcached.c \
 mvc/model/transaction.c \
 mvc/model/validatorinterface.c \
 mvc/model/metadata.c \

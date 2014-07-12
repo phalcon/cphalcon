@@ -247,6 +247,8 @@
 #include "mvc/model/metadata/memory.h"
 #include "mvc/model/metadata/xcache.h"
 #include "mvc/model/metadata/session.h"
+#include "mvc/model/metadata/memcache.h"
+#include "mvc/model/metadata/libmemcached.h"
 #include "mvc/model/metadata/strategy/annotations.h"
 #include "mvc/model/metadata/strategy/introspection.h"
 #include "mvc/model/query.h"
