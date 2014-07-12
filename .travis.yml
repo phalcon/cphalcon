@@ -4,8 +4,10 @@ language:
 
 php:
   - 5.3
+  - 5.3.3
   - 5.4
   - 5.5
+  - 5.6
 
 services:
   - mongodb
@@ -25,10 +27,8 @@ before_script:
  - ulimit -c unlimited || true
 
 script:
- - phpunit --version
- - sudo chmod a+rwx unit-tests/ -R
- - ZEND_DONT_UNLOAD_MODULES=1 phpunit --debug -c unit-tests/phpunit.xml unit-tests/
- - ZEND_DONT_UNLOAD_MODULES=1 PHALCON_NO_RVO=1 phpunit --debug -c unit-tests/phpunit.xml unit-tests/
+ - ZEND_DONT_UNLOAD_MODULES=1 $(phpenv which php) ./unit-tests/ci/phpunit.php --debug -c unit-tests/phpunit.xml
+ - ZEND_DONT_UNLOAD_MODULES=1 PHALCON_NO_RVO=1 $(phpenv which php) ./unit-tests/ci/phpunit.php --debug -c unit-tests/phpunit.xml
 
 after_failure:
  - sudo apt-get -qq install gdb
