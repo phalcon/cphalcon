@@ -194,6 +194,8 @@ PHP_INI_BEGIN()
 	STD_PHP_INI_BOOLEAN("phalcon.orm.exception_on_failed_save", "0", PHP_INI_ALL,    OnUpdateBool, orm.exception_on_failed_save, zend_phalcon_globals, phalcon_globals)
 	/* Enables/Disables literals in PHQL */
 	STD_PHP_INI_BOOLEAN("phalcon.orm.enable_literals",          "1", PHP_INI_ALL,    OnUpdateBool, orm.enable_literals,          zend_phalcon_globals, phalcon_globals)
+	/* Enables/Disables AST cache */
+	STD_PHP_INI_BOOLEAN("phalcon.orm.enable_ast_cache",         "1", PHP_INI_ALL,    OnUpdateBool, orm.enable_ast_cache,         zend_phalcon_globals, phalcon_globals)
 	/* Enables/Disables auttomatic escape */
 	STD_PHP_INI_BOOLEAN("phalcon.db.escape_identifiers",        "1", PHP_INI_ALL,    OnUpdateBool, db.escape_identifiers,        zend_phalcon_globals, phalcon_globals)
 	/* Whether to register PSR-3 classes */
