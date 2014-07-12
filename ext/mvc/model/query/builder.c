@@ -1804,7 +1804,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getQuery){
  */
 PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getConditions){
 
-	zval *conditions, *dependency_injector, *models;
+	zval *conditions, *dependency_injector = NULL, *models;
 	zval *z_one, *number_models, *invalid_condition;
 	zval *model = NULL, *service_name, *meta_data = NULL, *model_instance;
 	zval *no_primary = NULL, *primary_keys = NULL, *first_primary_key;
