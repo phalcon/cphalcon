@@ -435,7 +435,7 @@ class Redis extends \Phalcon\Cache\Backend implements \Phalcon\Cache\BackendInte
 	 */
 	public function flush()
 	{
-		var options, specialKey, redis, prefix, lastKey;
+		var options, specialKey, redis, prefix, keys, key, lastKey;
 		
 		let options = this->_options;
 
