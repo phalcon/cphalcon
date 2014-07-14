@@ -86,7 +86,7 @@
 			<!--<file>unit-tests/TasksCliTest.php</file>-->
 			<!--<file>unit-tests/TranslateTest.php</file>-->
 			<!--<file>unit-tests/UtilsSlugTest.php</file>-->
-			<!--<file>unit-tests/ValidationTest.php</file>-->
+			<file>unit-tests/ValidationTest.php</file>
 			<!--<file>unit-tests/vendor/example/other/VousTest.php</file>-->
 			<!--<file>unit-tests/vendor/example/test/LeTest.php</file>-->
 			<!--<file>unit-tests/vendor/example/test/MoiTest.php</file>-->
