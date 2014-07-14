@@ -39,9 +39,9 @@ class Service implements \Phalcon\Di\ServiceInterface
 
 	protected _definition;
 
-	protected _shared;
+	protected _shared = false;
 
-	protected _resolved;
+	protected _resolved = false;
 
 	protected _sharedInstance;
 
