@@ -134,7 +134,7 @@ class MySQL extends \Phalcon\Db\Dialect //implements Phalcon\Db\DialectInterface
 		if typeof defaultValue == "string" {
 			let sql .= " DEFAULT '" . addcslashes(defaultValue, "'") . "'";
 		} else {
-			if typeof defaultValue == "integer" || typeof defaultValue == "double" {
+			if is_numeric(defaultValue) {
 				let sql .= " DEFAULT " . defaultValue;
 			}
 		}
@@ -182,7 +182,7 @@ class MySQL extends \Phalcon\Db\Dialect //implements Phalcon\Db\DialectInterface
 		if typeof defaultValue == "string" {
 			let sql .= " DEFAULT '" . addcslashes(defaultValue, "'") . "'";
 		} else {
-			if typeof defaultValue == "integer" || typeof defaultValue == "double" {
+			if is_numeric(defaultValue) {
 				let sql .= " DEFAULT " . defaultValue;
 			}
 		}
@@ -481,7 +481,7 @@ class MySQL extends \Phalcon\Db\Dialect //implements Phalcon\Db\DialectInterface
 			if typeof defaultValue == "string" {
 				let columnLine .= " DEFAULT '" . addcslashes(defaultValue, "'") . "'";
 			} else {
-				if typeof defaultValue == "integer" || typeof defaultValue == "double" {
+				if is_numeric(defaultValue) {
 					let columnLine .= " DEFAULT " . defaultValue;
 				}
 			}
