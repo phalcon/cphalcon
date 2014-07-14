@@ -386,8 +386,8 @@ class Gd extends \Phalcon\Image\Adapter implements \Phalcon\Image\AdapterInterfa
 
 	protected function _mask(<\Phalcon\Image\Adapter> mask)
 	{
-		var maskImage, newimage, tempImage, color, index, alpha;
-		int mask_width, mask_height, x, y;
+		var maskImage, newimage, tempImage, color, index, r, g, b;
+		int mask_width, mask_height, x, y, alpha;
 
 		let maskImage   = imagecreatefromstring(mask->render());
 		let mask_width  = (int) imagesx(maskImage);
@@ -399,7 +399,7 @@ class Gd extends \Phalcon\Image\Adapter implements \Phalcon\Image\AdapterInterfa
 		let newimage = this->_create(this->_width, this->_height);
 		imagesavealpha(newimage, true);
 
-		let color = imagecolorallocatealpha(newimage, 0, 0, 0, 127);
+		let color = imagecolorallocatealpha(newimage, 0, 0, 0, alpha);
 
 		imagefill(newimage, 0, 0, color);
 
@@ -418,16 +418,17 @@ class Gd extends \Phalcon\Image\Adapter implements \Phalcon\Image\AdapterInterfa
 			let y = 0;
 			while y < this->_height {
 
-				let index = imagecolorat(maskImage, x, y);
-				let color = imagecolorsforindex(maskImage, index);
+				let index = imagecolorat(maskImage, x, y),
+					color = imagecolorsforindex(maskImage, index);
 
 				if isset color["red"] {
-					let alpha = 127 - (color["red"] / 2);
+					let alpha = 127 - intval(color["red"] / 2);
 				}
 
-				let index = imagecolorat(this->_image, x, y);
-				let color = imagecolorsforindex(this->_image, index);
-				let color = imagecolorallocatealpha(newimage, color["red"], color["green"], color["blue"], alpha);
+				let index = imagecolorat(this->_image, x, y),
+					color = imagecolorsforindex(this->_image, index),
+					r = color["red"], g = color["green"], b = color["blue"],
+					color = imagecolorallocatealpha(newimage, r, g, b, alpha);
 
 				imagesetpixel(newimage, x, y, color);
 				let y++;

@@ -38,7 +38,7 @@
 			<file>unit-tests/DiTest.php</file>
 			<!--<file>unit-tests/EventsTest.php</file>-->
 			<!--<file>unit-tests/FormsTest.php</file>-->
-			<!--<file>unit-tests/ImageTest.php</file>-->
+			<file>unit-tests/ImageTest.php</file>
 			<file>unit-tests/InitTest.php</file>
 			<!--<file>unit-tests/LoaderTest.php</file>-->
 			<!--<file>unit-tests/LoggerTest.php</file>-->
