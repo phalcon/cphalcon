@@ -390,11 +390,11 @@ class Gd extends \Phalcon\Image\Adapter implements \Phalcon\Image\AdapterInterfa
 		int mask_width, mask_height, x, y;
 
 		let maskImage   = imagecreatefromstring(mask->render());
-		let mask_width  = (int) imagesx(mask);
-		let mask_height = (int) imagesy(mask);
+		let mask_width  = (int) imagesx(maskImage);
+		let mask_height = (int) imagesy(maskImage);
 		let alpha = 127;
 
-		imagesavealpha(mask, true);
+		imagesavealpha(maskImage, true);
 
 		let newimage = this->_create(this->_width, this->_height);
 		imagesavealpha(newimage, true);
@@ -422,7 +422,7 @@ class Gd extends \Phalcon\Image\Adapter implements \Phalcon\Image\AdapterInterfa
 				let color = imagecolorsforindex(maskImage, index);
 
 				if isset color["red"] {
-					let alpha = 127 - (alpha["red"] / 2);
+					let alpha = 127 - (color["red"] / 2);
 				}
 
 				let index = imagecolorat(this->_image, x, y);
