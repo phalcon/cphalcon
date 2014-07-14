@@ -43,7 +43,7 @@ class Sqlite extends \Phalcon\Db\Dialect //implements Phalcon\Db\DialectInterfac
 	 */
 	public function getColumnDefinition(<\Phalcon\Db\ColumnInterface> column) -> string
 	{
-		var columnSql, size, scale;
+		var columnSql;
 
 		if typeof column != "object" {
 			throw new Exception("Column definition must be an object compatible with Phalcon\\Db\\ColumnInterface");
@@ -99,7 +99,7 @@ class Sqlite extends \Phalcon\Db\Dialect //implements Phalcon\Db\DialectInterfac
 	 */
 	public function addColumn(string! tableName, string! schemaName, <\Phalcon\Db\ColumnInterface> column) -> string
 	{
-		var afterPosition, sql;
+		var sql, defaultValue;
 
 		if typeof column != "object" {
 			throw new Exception("Column definition must be an object compatible with Phalcon\\Db\\ColumnInterface");
@@ -112,6 +112,15 @@ class Sqlite extends \Phalcon\Db\Dialect //implements Phalcon\Db\DialectInterfac
 		}
 
 		let sql .= "\"" . column->getName() . "\" " . this->getColumnDefinition(column);
+
+		let defaultValue = column->getDefault();
+		if typeof defaultValue == "string" {
+			let sql .= " DEFAULT '" . addcslashes(defaultValue, "'") . "'";
+		} else {
+			if typeof defaultValue == "integer" || typeof defaultValue == "double" {
+				let sql .= " DEFAULT " . defaultValue;
+			}
+		}
 
 		if column->isNotNull() {
 			let sql .= " NOT NULL";

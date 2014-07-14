@@ -71,6 +71,13 @@ interface ColumnInterface
 	public function getScale();
 
 	/**
+	 * Returns column default
+	 *
+	 * @return string
+	 */
+	public function getDefault();
+
+	/**
 	 * Returns true if number column is unsigned
 	 *
 	 * @return boolean
