@@ -222,31 +222,32 @@ PHP_METHOD(Phalcon_Image_Adapter, resize){
 		master = phalcon_get_intval(zmaster);
 	}
 
+	if (width) {
+		PHALCON_SEPARATE_PARAM(width);
+		if (Z_TYPE_P(width) != IS_LONG && Z_TYPE_P(width) != IS_NULL) {
+			convert_to_long(width);
+		}
+	}
+
+	if (height) {
+		PHALCON_SEPARATE_PARAM(height);
+		if (Z_TYPE_P(height) != IS_LONG && Z_TYPE_P(height) != IS_NULL) {
+			convert_to_long(height);
+		}
+	}
+
 	if (PHALCON_IMAGE_TENSILE == master) {
 		if (!width || !height) {
 			PHALCON_THROW_EXCEPTION_STR(phalcon_image_exception_ce, "width and height parameters must be specified");
 			return;
 		}
-
-		if (Z_TYPE_P(width) != IS_LONG) {
-			PHALCON_SEPARATE_PARAM(width);
-			convert_to_long(width);
-		}
-
-		if (Z_TYPE_P(height) != IS_LONG) {
-			convert_to_long(height);
-		}
 	} else {
 		if (!width) {
 			PHALCON_INIT_VAR(width);
-		} else {
-			PHALCON_SEPARATE_PARAM(width);
 		}
 
 		if (!height) {
 			PHALCON_INIT_VAR(height);
-		} else {
-			PHALCON_SEPARATE_PARAM(height);
 		}
 
 		image_width  = phalcon_fetch_nproperty_this(this_ptr, SL("_width"), PH_NOISY TSRMLS_CC);
