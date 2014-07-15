@@ -752,8 +752,8 @@ class View extends \Phalcon\Di\Injectable implements \Phalcon\Mvc\ViewInterface
 			engines = this->_registeredEngines;
 
 		if typeof engines != "array" {
-			let dependencyInjector = <\Phalcon\DiInterface> this->_dependencyInjector,
-				engines[".phtml"] = new \Phalcon\Mvc\View\Engine\Php(this, dependencyInjector),
+			let engines = [], 
+				engines[".phtml"] = "Phalcon\\Mvc\\View\\Engine\\Php",
 				this->_registeredEngines = engines;
 		}
 
