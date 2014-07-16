@@ -115,7 +115,7 @@ class View extends \Phalcon\Di\Injectable implements \Phalcon\Mvc\ViewInterface
 
 	protected _engines = false;
 
-	protected _registeredEngines;
+	protected _registeredEngines { get };
 
 	protected _mainView = "index";
 
@@ -778,7 +778,7 @@ class View extends \Phalcon\Di\Injectable implements \Phalcon\Mvc\ViewInterface
 	 * @return Phalcon\Mvc\View
 	 */
 	public function render(string! controllerName, string! actionName, params=null)
-		-> <\Phalcon\Mvc\View>
+		-> <\Phalcon\Mvc\View>|boolean
 	{
 		boolean silence, mustClean;
 		int renderLevel;
@@ -794,7 +794,7 @@ class View extends \Phalcon\Di\Injectable implements \Phalcon\Mvc\ViewInterface
 		 */
 		if this->_disabled !== false {
 			let this->_content = ob_get_contents();
-			return this;
+			return false;
 		}
 
 		let this->_controllerName = controllerName,
@@ -863,7 +863,7 @@ class View extends \Phalcon\Di\Injectable implements \Phalcon\Mvc\ViewInterface
 		 */
 		if typeof eventsManager == "object" {
 			if eventsManager->fire("view:beforeRender", this) === false {
-				return this;
+				return false;
 			}
 		}
 
