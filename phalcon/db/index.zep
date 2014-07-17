@@ -80,9 +80,7 @@ class Index implements \Phalcon\Db\IndexInterface
 			throw new \Phalcon\Db\Exception("_columns parameter is required");
 		}
 
-		if isset data["_type"] {
-			let type = data["_type"];
-		} else {
+		if !fetch type, data["_type"] {
 			let type = "";
 		}
 

@@ -43,7 +43,7 @@ class Sqlite extends \Phalcon\Db\Dialect //implements Phalcon\Db\DialectInterfac
 	 */
 	public function getColumnDefinition(<\Phalcon\Db\ColumnInterface> column) -> string
 	{
-		var columnSql, size, scale;
+		var columnSql;
 
 		if typeof column != "object" {
 			throw new Exception("Column definition must be an object compatible with Phalcon\\Db\\ColumnInterface");
@@ -99,7 +99,7 @@ class Sqlite extends \Phalcon\Db\Dialect //implements Phalcon\Db\DialectInterfac
 	 */
 	public function addColumn(string! tableName, string! schemaName, <\Phalcon\Db\ColumnInterface> column) -> string
 	{
-		var afterPosition, sql;
+		var sql;
 
 		if typeof column != "object" {
 			throw new Exception("Column definition must be an object compatible with Phalcon\\Db\\ColumnInterface");

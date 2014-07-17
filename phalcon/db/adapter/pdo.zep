@@ -413,6 +413,53 @@ abstract class Pdo extends \Phalcon\Db\Adapter
 	}
 
 	/**
+	 * Converts bound parameters such as :name: or ?1 into PDO bind params ?
+	 *
+	 *<code>
+	 * print_r($connection->convertBoundParams('SELECT * FROM robots WHERE name = :name:', array('Bender')));
+	 *</code>
+	 *
+	 * @param string $sql
+	 * @param array $params
+	 * @return array
+	 */
+	public function convertBoundParams(string! sql, array params = []) -> array
+	{
+		var boundSql, placeHolders, queryParams, bindPattern, matches,
+			setOrder, placeMatch, value;
+
+		let queryParams = [], placeHolders = [],
+			bindPattern = "/\\?([0-9]+)|:([a-zA-Z0-9_]+):/",
+			matches = null, setOrder = 2;
+
+		if preg_match_all(bindPattern, sql, matches, setOrder) {
+			for placeMatch in matches {
+
+				if ! fetch value, params[placeMatch[1]] {
+					if isset placeMatch[2] {
+						if ! fetch value, params[placeMatch[2]] {
+							throw new Exception("Matched parameter wasn't found in parameters list");
+						}
+					} else {
+						throw new Exception("Matched parameter wasn't found in parameters list");
+					}
+				}
+
+				let placeHolders[] = value;
+
+			}
+
+			let boundSql = preg_replace(bindPattern, "?", sql);
+		} else {
+			let boundSql = sql;
+		}
+
+		return [
+			"sql"    : boundSql,
+			"params" : placeHolders ];
+	}
+
+	/**
 	 * Returns the insert id for the auto_increment/serial column inserted in the lastest executed SQL statement
 	 *
 	 *<code>
