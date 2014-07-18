@@ -55,7 +55,7 @@ class Between extends \Phalcon\Validation\Validator implements \Phalcon\Validati
 			return true;
 		}
 
-		if value >= minimum || value <= maximum {
+		if value < minimum || value > maximum {
 
 			let label = this->getOption("label");
 			if empty label {

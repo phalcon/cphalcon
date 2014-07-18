@@ -95,6 +95,8 @@ class View extends \Phalcon\Di\Injectable implements \Phalcon\Mvc\ViewInterface
 
 	protected _renderLevel = 5 { get };
 
+	protected _currentRenderLevel = 0 { get };
+
 	protected _disabledLevels;
 
 	protected _viewParams;
@@ -113,7 +115,7 @@ class View extends \Phalcon\Di\Injectable implements \Phalcon\Mvc\ViewInterface
 
 	protected _engines = false;
 
-	protected _registeredEngines;
+	protected _registeredEngines { get };
 
 	protected _mainView = "index";
 
@@ -658,7 +660,7 @@ class View extends \Phalcon\Di\Injectable implements \Phalcon\Mvc\ViewInterface
 		}
 
 		let viewParams = this->_viewParams,
-			eventsManager = <\Phalcon\Events\Manager> this->_eventsManager;;
+			eventsManager = <\Phalcon\Events\Manager> this->_eventsManager;
 
 		/**
 		 * Views are rendered in each engine
@@ -705,13 +707,6 @@ class View extends \Phalcon\Di\Injectable implements \Phalcon\Mvc\ViewInterface
 				throw new Exception("View '" . viewsDirPath . "' was not found in the views directory");
 			}
 		}
-
-		/** 
-		 * Store the data in the cache
-		 */
-		if typeof cache == "object" {
-			cache->save();
-		}
 	}
 
 	/**
@@ -752,8 +747,8 @@ class View extends \Phalcon\Di\Injectable implements \Phalcon\Mvc\ViewInterface
 			engines = this->_registeredEngines;
 
 		if typeof engines != "array" {
-			let dependencyInjector = <\Phalcon\DiInterface> this->_dependencyInjector,
-				engines[".phtml"] = new \Phalcon\Mvc\View\Engine\Php(this, dependencyInjector),
+			let engines = [], 
+				engines[".phtml"] = "Phalcon\\Mvc\\View\\Engine\\Php",
 				this->_registeredEngines = engines;
 		}
 
@@ -783,21 +778,23 @@ class View extends \Phalcon\Di\Injectable implements \Phalcon\Mvc\ViewInterface
 	 * @return Phalcon\Mvc\View
 	 */
 	public function render(string! controllerName, string! actionName, params=null)
-		-> <\Phalcon\Mvc\View>
+		-> <\Phalcon\Mvc\View>|boolean
 	{
 		boolean silence, mustClean;
 		int renderLevel;
 		var layoutsDir, layout, pickView, layoutName,
 			engines, renderView, pickViewAction, eventsManager,
 			disabledLevels, templatesBefore, templatesAfter,
-			templateBefore, templateAfter;
+			templateBefore, templateAfter, cache;
+
+		let this->_currentRenderLevel = 0;
 
 		/**
 		 * If the view is disabled we simply update the buffer from any output produced in the controller
 		 */
 		if this->_disabled !== false {
 			let this->_content = ob_get_contents();
-			return this;
+			return false;
 		}
 
 		let this->_controllerName = controllerName,
@@ -845,6 +842,15 @@ class View extends \Phalcon\Di\Injectable implements \Phalcon\Mvc\ViewInterface
 			}
 		}
 
+		/** 
+		 * Start the cache if there is a cache level enabled
+		 */
+		if this->_cacheLevel === true {
+			let cache = this->getCache();
+		} else {
+			let cache = null;
+		}
+
 		let eventsManager = this->_eventsManager;
 
 		/**
@@ -857,7 +863,7 @@ class View extends \Phalcon\Di\Injectable implements \Phalcon\Mvc\ViewInterface
 		 */
 		if typeof eventsManager == "object" {
 			if eventsManager->fire("view:beforeRender", this) === false {
-				return this;
+				return false;
 			}
 		}
 
@@ -885,7 +891,8 @@ class View extends \Phalcon\Di\Injectable implements \Phalcon\Mvc\ViewInterface
 			 */
 			if renderLevel >= self::LEVEL_ACTION_VIEW {
 				if !isset disabledLevels[self::LEVEL_ACTION_VIEW] {
-					this->_engineRender(engines, renderView, silence, mustClean);
+					let this->_currentRenderLevel = self::LEVEL_ACTION_VIEW;
+					this->_engineRender(engines, renderView, silence, mustClean, cache);
 				}
 			}
 
@@ -894,8 +901,8 @@ class View extends \Phalcon\Di\Injectable implements \Phalcon\Mvc\ViewInterface
 			 */
 			if renderLevel >= self::LEVEL_BEFORE_TEMPLATE  {
 				if !isset disabledLevels[self::LEVEL_BEFORE_TEMPLATE] {
-
-					let templatesBefore = this->_templatesBefore;
+					let this->_currentRenderLevel = self::LEVEL_BEFORE_TEMPLATE,
+						templatesBefore = this->_templatesBefore;
 
 					/**
 					 * Templates before must be an array
@@ -903,7 +910,7 @@ class View extends \Phalcon\Di\Injectable implements \Phalcon\Mvc\ViewInterface
 					if typeof templatesBefore == "array" {
 						let silence = false;
 						for templateBefore in templatesBefore {
-							this->_engineRender(engines, layoutsDir . templateBefore, silence, mustClean);
+							this->_engineRender(engines, layoutsDir . templateBefore, silence, mustClean, cache);
 						}
 						let silence = true;
 					}
@@ -915,7 +922,8 @@ class View extends \Phalcon\Di\Injectable implements \Phalcon\Mvc\ViewInterface
 			 */
 			if renderLevel >= self::LEVEL_LAYOUT {
 				if !isset disabledLevels[self::LEVEL_LAYOUT] {
-					this->_engineRender(engines, layoutsDir . layoutName, silence, mustClean);
+					let this->_currentRenderLevel = self::LEVEL_LAYOUT;
+					this->_engineRender(engines, layoutsDir . layoutName, silence, mustClean, cache);
 				}
 			}
 
@@ -924,6 +932,7 @@ class View extends \Phalcon\Di\Injectable implements \Phalcon\Mvc\ViewInterface
 			 */
 			if renderLevel >= self::LEVEL_AFTER_TEMPLATE {
 				if !isset disabledLevels[self::LEVEL_AFTER_TEMPLATE] {
+					let this->_currentRenderLevel = self::LEVEL_AFTER_TEMPLATE;
 
 					/**
 					 * Templates after must be an array
@@ -932,7 +941,7 @@ class View extends \Phalcon\Di\Injectable implements \Phalcon\Mvc\ViewInterface
 					if typeof templatesAfter == "array" {
 						let silence = false;
 						for templateAfter in templatesAfter {
-							this->_engineRender(engines, layoutsDir . templateAfter, silence, mustClean);
+							this->_engineRender(engines, layoutsDir . templateAfter, silence, mustClean, cache);
 						}
 						let silence = true;
 					}
@@ -944,10 +953,27 @@ class View extends \Phalcon\Di\Injectable implements \Phalcon\Mvc\ViewInterface
 			 */
 			if renderLevel >= self::LEVEL_MAIN_LAYOUT {
 				if !isset disabledLevels[self::LEVEL_MAIN_LAYOUT] {
-					this->_engineRender(engines, this->_mainView, silence, mustClean);
+					let this->_currentRenderLevel = self::LEVEL_MAIN_LAYOUT;
+					this->_engineRender(engines, this->_mainView, silence, mustClean, cache);
 				}
 			}
 
+			let this->_currentRenderLevel = 0;
+
+			/** 
+			 * Store the data in the cache
+			 */
+			if typeof cache == "object" {
+				if cache->isstarted() === true {
+					if cache->isfresh === true {
+						cache->save();
+					} else {
+						cache->stop();
+					}
+				} else {
+					cache->stop();
+				}
+			}
 		}
 
 		/**

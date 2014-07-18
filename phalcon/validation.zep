@@ -30,7 +30,7 @@ class Validation extends \Phalcon\Di\Injectable
 
 	protected _entity;
 
-	protected _validators;
+	protected _validators { set };
 
 	protected _filters;
 

@@ -229,7 +229,8 @@ class Crypt implements \Phalcon\CryptInterface
 		  	}
 		}
 
-		return mcrypt_decrypt(cipher, decryptKey, substr(text, ivSize - packing), mode, substr(text, 0, ivSize - packing));
+		let len = ivSize - packing;
+		return mcrypt_decrypt(cipher, decryptKey, substr(text, len), mode, substr(text, 0, len));
 	}
 
 	/**

@@ -43,6 +43,8 @@ class Form extends \Phalcon\Di\Injectable implements \Countable, \Iterator
 
 	protected _action;
 
+	protected _validation { set, get };
+
 	/**
 	 * Phalcon\Forms\Form constructor
 	 *
@@ -329,10 +331,18 @@ class Form extends \Phalcon\Di\Injectable implements \Countable, \Iterator
 						let preparedValidators[] = [name, validator];
 					}
 
-					/**
-					 * Create an implicit validation
-					 */
-					let validation = new \Phalcon\Validation(preparedValidators);
+					let validation = this->getValidation();
+					if validation instanceof \Phalcon\Validation {
+						/**
+						 * Set the validators to the validation
+						 */
+						validation->setValidators(preparedValidators);
+					} else {
+						/**
+						 * Create an implicit validation
+						 */
+						let validation = new \Phalcon\Validation(preparedValidators);
+					}
 
 					/**
 					 * Get filters in the element
