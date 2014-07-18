@@ -172,6 +172,13 @@ class Column implements \Phalcon\Db\ColumnInterface
 	protected _scale = 0 { get };
 
 	/**
+	 * String column default value
+	 *
+	 * @var string
+	 */
+	protected _default = null { get };
+
+	/**
 	 * Integer column unsigned?
 	 *
 	 * @var boolean
@@ -225,7 +232,7 @@ class Column implements \Phalcon\Db\ColumnInterface
 	public function __construct(string! name, var definition)
 	{
 		var type, notNull, primary, size, scale, dunsigned, first,
-			after, bindType, isNumeric, autoIncrement;
+			after, bindType, isNumeric, autoIncrement, defaultValue;
 
 		let this->_name = name;
 
@@ -265,6 +272,13 @@ class Column implements \Phalcon\Db\ColumnInterface
 			} else {
 				throw new Exception("Column type does not support scale parameter");
 			}
+		}
+
+		/**
+		 * Check if the field is default value
+		 */
+		if fetch defaultValue, definition["default"] {
+			let this->_default = defaultValue;
 		}
 
 		/**
