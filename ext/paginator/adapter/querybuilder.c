@@ -29,6 +29,7 @@
 #include "kernel/exception.h"
 #include "kernel/operators.h"
 #include "kernel/fcall.h"
+#include "kernel/hash.h"
 #include "kernel/concat.h"
 
 #include "internal/arginfo.h"
