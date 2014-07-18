@@ -29,6 +29,7 @@
 #include "kernel/exception.h"
 #include "kernel/operators.h"
 #include "kernel/fcall.h"
+#include "kernel/concat.h"
 
 #include "internal/arginfo.h"
 
@@ -232,8 +233,15 @@ PHP_METHOD(Phalcon_Paginator_Adapter_QueryBuilder, getPaginate){
 
 	zval *original_builder, *builder, *total_builder;
 	zval *limit, *number_page;
-	zval *query = NULL, *items = NULL, *select_count;
+	zval *query = NULL, *items = NULL;
 	zval *total_query = NULL, *result = NULL, *row = NULL, *rowcount;
+	zval *dependency_injector = NULL, *class_name, *connection = NULL;
+	zval *bind_params = NULL, *bind_types = NULL, *processed = NULL;
+	zval *value = NULL, *wildcard = NULL, *string_wildcard = NULL, *processed_types = NULL;
+	zval *intermediate = NULL, *dialect = NULL, *sql_select = NULL, *sql;
+	HashTable *ah0;
+	HashPosition hp0;
+	zval **hd;
 	long int i_limit, i_number_page, i_number, i_before, i_rowcount;
 	long int i_total_pages, i_next;
 	ldiv_t tp;
@@ -285,25 +293,101 @@ PHP_METHOD(Phalcon_Paginator_Adapter_QueryBuilder, getPaginate){
 
 	/* Execute the query an return the requested slice of data */
 	PHALCON_CALL_METHOD(&items, query, "execute");
-
-	PHALCON_ALLOC_GHOST_ZVAL(select_count);
-	ZVAL_STRING(select_count, "COUNT(*) [rowcount]", 1);
-	
-	/* Change the queried columns by a COUNT(*) */
-	PHALCON_CALL_METHOD(NULL, total_builder, "columns", select_count);
 	
 	/* Remove the 'ORDER BY' clause, PostgreSQL requires this */
 	PHALCON_CALL_METHOD(NULL, total_builder, "orderby", PHALCON_GLOBAL(z_null));
 	
 	/* Obtain the PHQL for the total query */
 	PHALCON_CALL_METHOD(&total_query, total_builder, "getquery");
+
+	PHALCON_CALL_METHOD(&dependency_injector, total_query, "getdi");
+	if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
+		PHALCON_THROW_EXCEPTION_STR(phalcon_paginator_exception_ce, "A dependency injection object is required to access internal services");
+		return;
+	}
+
+	PHALCON_INIT_VAR(class_name);
+	ZVAL_STRING(class_name, "db", 1);
+	PHALCON_CALL_METHOD(&connection, dependency_injector, "get", class_name);
+
+	PHALCON_CALL_METHOD(&intermediate, total_query, "parse");
+
+	PHALCON_CALL_METHOD(&dialect, connection, "getdialect");
+	PHALCON_CALL_METHOD(&sql_select, dialect, "select", intermediate);
+
+
+	PHALCON_CALL_METHOD(&bind_params, total_query, "getbindparams");
+	PHALCON_CALL_METHOD(&bind_types, total_query, "getbindtypes");
 	
-	/* Obtain the result of the total query */
-	PHALCON_CALL_METHOD(&result, total_query, "execute");
-	PHALCON_CALL_METHOD(&row, result, "getfirst");
+
+	PHALCON_INIT_VAR(sql);
+	PHALCON_CONCAT_SVS(sql, "SELECT COUNT(*) \"rowcount\" FROM (", sql_select, ") AS T");
+
+	/** 
+	 * Replace the placeholders
+	 */
+	if (Z_TYPE_P(bind_params) == IS_ARRAY) { 
+	
+		PHALCON_INIT_VAR(processed);
+		array_init(processed);
+	
+		phalcon_is_iterable(bind_params, &ah0, &hp0, 0, 0);
+	
+		while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
+	
+			PHALCON_GET_HKEY(wildcard, ah0, hp0);
+			PHALCON_GET_HVALUE(value);
+	
+			if (Z_TYPE_P(wildcard) == IS_LONG) {
+				PHALCON_INIT_NVAR(string_wildcard);
+				PHALCON_CONCAT_SV(string_wildcard, ":", wildcard);
+				phalcon_array_update_zval(&processed, string_wildcard, value, PH_COPY);
+			} else {
+				phalcon_array_update_zval(&processed, wildcard, value, PH_COPY);
+			}
+	
+			zend_hash_move_forward_ex(ah0, &hp0);
+		}
+	
+	} else {
+		PHALCON_CPY_WRT(processed, bind_params);
+	}
+	
+	/** 
+	 * Replace the bind Types
+	 */
+	if (Z_TYPE_P(bind_types) == IS_ARRAY) { 
+	
+		PHALCON_INIT_VAR(processed_types);
+		array_init(processed_types);
+	
+		phalcon_is_iterable(bind_types, &ah0, &hp0, 0, 0);
+	
+		while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
+	
+			PHALCON_GET_HKEY(wildcard, ah0, hp0);
+			PHALCON_GET_HVALUE(value);
+	
+			if (Z_TYPE_P(wildcard) == IS_LONG) {
+				PHALCON_INIT_NVAR(string_wildcard);
+				PHALCON_CONCAT_SV(string_wildcard, ":", wildcard);
+				phalcon_array_update_zval(&processed_types, string_wildcard, value, PH_COPY | PH_SEPARATE);
+			} else {
+				phalcon_array_update_zval(&processed_types, wildcard, value, PH_COPY | PH_SEPARATE);
+			}
+	
+			zend_hash_move_forward_ex(ah0, &hp0);
+		}
+	
+	} else {
+		PHALCON_CPY_WRT(processed_types, bind_types);
+	}
+
+	PHALCON_CALL_METHOD(&result, connection, "query", sql, processed, processed_types);
+	PHALCON_CALL_METHOD(&row, result, "fetch");
 	
 	PHALCON_OBS_VAR(rowcount);
-	phalcon_read_property(&rowcount, row, SL("rowcount"), PH_NOISY TSRMLS_CC);
+	phalcon_array_fetch_string(&rowcount, row, SL("rowcount"), PH_NOISY);
 	
 	i_rowcount    = phalcon_get_intval(rowcount);
 	tp            = ldiv(i_rowcount, i_limit);
