@@ -257,7 +257,8 @@ PHP_METHOD(Phalcon_Db_Result_Pdo, fetchAll){
 				PHALCON_RETURN_CALL_METHOD(pdo_statement, "fetchall", fetch_mode, fetch_argument);
 			}
 		} else {
-			PHALCON_RETURN_CALL_METHOD(pdo_statement, "fetchall", fetch_mode);
+			PHALCON_CALL_METHOD(NULL, pdo_statement, "setfetchmode", fetch_mode);
+			PHALCON_RETURN_CALL_METHOD(pdo_statement, "fetchall");
 		}
 	} else {
 		PHALCON_RETURN_CALL_METHOD(pdo_statement, "fetchall");
