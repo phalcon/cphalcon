@@ -355,7 +355,8 @@ PHP_METHOD(Phalcon_Db_Adapter, fetchOne){
 					PHALCON_RETURN_CALL_METHOD(result, "fetchall", fetch_mode, fetch_argument);
 				}
 			} else {
-				PHALCON_RETURN_CALL_METHOD(result, "fetchall", fetch_mode);
+				PHALCON_CALL_METHOD(NULL, result, "setfetchmode", fetch_mode);
+				PHALCON_RETURN_CALL_METHOD(result, "fetchall");
 			}
 		} else {
 			PHALCON_RETURN_CALL_METHOD(result, "fetchall");
@@ -434,7 +435,8 @@ PHP_METHOD(Phalcon_Db_Adapter, fetchAll){
 					PHALCON_RETURN_CALL_METHOD(result, "fetchall", fetch_mode, fetch_argument);
 				}
 			} else {
-				PHALCON_RETURN_CALL_METHOD(result, "fetchall", fetch_mode);
+				PHALCON_CALL_METHOD(NULL, result, "setfetchmode", fetch_mode);
+				PHALCON_RETURN_CALL_METHOD(result, "fetchall");
 			}
 		} else {
 			PHALCON_RETURN_CALL_METHOD(result, "fetchall");
