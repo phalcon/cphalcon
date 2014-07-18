@@ -36,7 +36,7 @@ abstract class Engine extends \Phalcon\Di\Injectable
 	 * @param Phalcon\Mvc\ViewInterface view
 	 * @param Phalcon\DiInterface dependencyInjector
 	 */
-	public function __construct(<\Phalcon\Mvc\ViewInterface> view, <\Phalcon\DiInterface> dependencyInjector=null)
+	public function __construct(view, <\Phalcon\DiInterface> dependencyInjector=null)
 	{
 		let this->_view = view;
 		let this->_dependencyInjector = dependencyInjector;

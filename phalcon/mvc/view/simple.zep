@@ -465,7 +465,7 @@ class Simple extends \Phalcon\Di\Injectable
         var dependencyInjector, cacheService, cacheOptions, viewCache;
 
 		let dependencyInjector = this->_dependencyInjector;
-		if typeof dependencyInjector == "object" {
+		if typeof dependencyInjector != "object" {
 			throw new \Phalcon\Mvc\View\Exception("A dependency injector container is required to obtain the view cache services");
 		}
 
@@ -473,7 +473,9 @@ class Simple extends \Phalcon\Di\Injectable
 
 		let cacheOptions = this->_cacheOptions;
 		if typeof cacheOptions == "array" {
-			fetch cacheService, cacheOptions["service"];
+			if isset cacheOptions["service"] {
+				fetch cacheService, cacheOptions["service"];
+			}
 		}
 
 		/**
@@ -567,7 +569,7 @@ class Simple extends \Phalcon\Di\Injectable
 
 		if merge {
 			let viewParams = this->_viewParams;
-			if typeof viewParams != "array" {
+			if typeof viewParams == "array" {
 				let mergedParams = array_merge(viewParams, params);
 			} else {
 				let mergedParams = params;
