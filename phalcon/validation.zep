@@ -165,6 +165,37 @@ class Validation extends \Phalcon\Di\Injectable
 	}
 
 	/**
+	 * Alias of `add` method
+	 *
+	 * @param string field
+	 * @param Phalcon\Validation\ValidatorInterface validator
+	 * @return Phalcon\Validation
+	 */
+	public function rule(string field, <\Phalcon\Validation\ValidatorInterface> validator) -> <\Phalcon\Validation>
+	{
+		return this->add(field, validator);
+	}
+
+	/**
+	 * Adds the validators to a field
+	 *
+	 * @param string field
+	 * @param array validators
+	 * @return Phalcon\Validation
+	 */
+	public function rules(string! field, array! validators) -> <\Phalcon\Validation>
+	{
+		var validator;
+
+		for validator in validators {
+			if validator instanceof \Phalcon\Validation\ValidatorInterface {
+				let this->_validators[] = [field, validator];
+			}
+		}
+		return this;
+	}
+
+	/**
 	 * Adds filters to the field
 	 *
 	 * @param string field
