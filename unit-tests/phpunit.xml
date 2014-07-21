@@ -33,7 +33,7 @@
 			<!--<file>unit-tests/DbProfilerTest.php</file>-->
 			<!--<file>unit-tests/DbTest.php</file>-->
 			<file>unit-tests/DispatcherCliTest.php</file>
-			<!--<file>unit-tests/DispatcherMvcEventsTest.php</file>-->
+			<file>unit-tests/DispatcherMvcEventsTest.php</file>
 			<file>unit-tests/DispatcherMvcTest.php</file>
 			<file>unit-tests/DiTest.php</file>
 			<!--<file>unit-tests/EventsTest.php</file>-->
