@@ -137,11 +137,25 @@ class Manager implements ManagerInterface
 	 *
 	 * @param string type
 	 */
+	public function detachAll(string! type=null)
+	{
+		if type === null {
+			let this->_events = null;
+		} else {
+			if isset this->_events[type] {
+				unset(this->_events[type]);
+			}
+		}
+	}
+
+	/**
+	 * Alias of detachAll
+	 *
+	 * @param string type
+	 */
 	public function dettachAll(string! type=null)
 	{
-		if isset this->_events[type] {
-			let this->_events[type] = null;
-		}
+		this->detachAll(type);
 	}
 
 	/**

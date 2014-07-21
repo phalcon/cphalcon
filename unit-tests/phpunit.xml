@@ -36,7 +36,7 @@
 			<file>unit-tests/DispatcherMvcEventsTest.php</file>
 			<file>unit-tests/DispatcherMvcTest.php</file>
 			<file>unit-tests/DiTest.php</file>
-			<!--<file>unit-tests/EventsTest.php</file>-->
+			<file>unit-tests/EventsTest.php</file>
 			<!--<file>unit-tests/FormsTest.php</file>-->
 			<file>unit-tests/ImageTest.php</file>
 			<file>unit-tests/InitTest.php</file>

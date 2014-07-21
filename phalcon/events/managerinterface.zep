@@ -42,7 +42,7 @@ interface ManagerInterface
 	 *
 	 * @param string type
 	 */
-	public function dettachAll(type=null);
+	public function detachAll(type=null);
 
 	/**
 	 * Fires a event in the events manager causing that the acive listeners will be notified about it
