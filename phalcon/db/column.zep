@@ -404,14 +404,16 @@ class Column implements \Phalcon\Db\ColumnInterface
 	public static function __set_state(data) -> <\Phalcon\Db\Column>
 	{
 		var definition, columnType, notNull, size, dunsigned, after,
-			isNumeric, first, bindType, primary;
+			isNumeric, first, bindType, primary, columnName, scale;
 
 		if typeof data != "array" {
 			throw new Exception("Column state must be an array");
 		}
 
-		if !isset data["_name"] {
-			throw new Exception("Column name is required");
+		if !fetch columnName, data["_columnName"] {
+			if !fetch columnName, data["_name"] {
+				throw new Exception("Column name is required");
+			}
 		}
 
 		let definition = [];
@@ -421,7 +423,7 @@ class Column implements \Phalcon\Db\ColumnInterface
 		}
 
 		if fetch notNull, data["_notNull"] {
-			let definition["_notNull"] = notNull;
+			let definition["notNull"] = notNull;
 		}
 
 		if fetch primary, data["_primary"] {
@@ -430,6 +432,12 @@ class Column implements \Phalcon\Db\ColumnInterface
 
 		if fetch size, data["_size"] {
 			let definition["size"] = size;
+		}
+
+		if fetch scale, data["_scale"] {
+			if definition["type"] == self::TYPE_INTEGER || definition["type"] == self::TYPE_FLOAT || definition["type"] == self::TYPE_DECIMAL {
+				let definition["scale"] = scale;
+			}
 		}
 
 		if fetch dunsigned, data["_unsigned"] {
@@ -452,7 +460,7 @@ class Column implements \Phalcon\Db\ColumnInterface
 			let definition["bindType"] = bindType;
 		}
 
-		return new self(data["_name"], definition);
+		return new self(columnName, definition);
 	}
 
 }

@@ -149,8 +149,10 @@ class Reference implements \Phalcon\Db\ReferenceInterface
 			referencedColumns, constraintName,
 			onDelete, onUpdate;
 
-		if !fetch constraintName, data["_name"] {
-			throw new Exception("_name parameter is required");
+		if !fetch constraintName, data["_referenceName"] {
+			if !fetch constraintName, data["_name"] {
+				throw new Exception("_name parameter is required");
+			}
 		}
 
 		fetch referencedSchema, data["_referencedSchema"];

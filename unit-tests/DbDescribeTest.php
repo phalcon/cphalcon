@@ -521,7 +521,7 @@ class DbDescribeTest extends PHPUnit_Framework_TestCase
 			'albums',
 			'artists',
 			'customers',
-			'issue_1534',
+			//'issue_1534',
 			'm2m_parts',
 			'm2m_robots',
 			'm2m_robots_parts',
