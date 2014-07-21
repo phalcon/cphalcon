@@ -53,7 +53,7 @@ class Manager implements ManagerInterface
 			throw new Exception("Event handler must be an Object");
 		}
 
-		if fetch priorityQueue, this->_events[eventType] {
+		if !fetch priorityQueue, this->_events[eventType] {
 
 			if this->_enablePriorities {
 
@@ -66,17 +66,18 @@ class Manager implements ManagerInterface
 				// Append the events to the queue
 				let this->_events[eventType] = priorityQueue;
 
+			} else {
+				let priorityQueue = [];
 			}
-
 		}
 
 		// Insert the handler in the queue
 		if typeof priorityQueue == "object" {
 			priorityQueue->insert(handler, priority);
 		} else {
-
 			// Append the events to the queue
-			let this->_events[eventType][] = handler;
+			let priorityQueue[] = handler;
+			let this->_events[eventType] = priorityQueue;
 		}
 
 	}
