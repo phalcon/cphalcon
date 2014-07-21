@@ -909,6 +909,18 @@ PHALCON_INIT_CLASS(Phalcon_Config_Adapter_Php);
 #endif /* PHALCON_CONFIG_ADAPTER_PHP_H */
 
 
+#ifndef PHALCON_CONFIG_ADAPTER_YAML_H
+#define PHALCON_CONFIG_ADAPTER_YAML_H
+
+#include "php_phalcon.h"
+
+zend_class_entry *phalcon_config_adapter_yaml_ce;
+
+PHALCON_INIT_CLASS(Phalcon_Config_Adapter_Yaml);
+
+#endif /* PHALCON_CONFIG_ADAPTER_YAML_H */
+
+
 #ifndef PHALCON_CONFIG_EXCEPTION_H
 #define PHALCON_CONFIG_EXCEPTION_H
 
@@ -6064,6 +6076,30 @@ PHALCON_INIT_CLASS(Phalcon_Session_Exception);
 #endif /* PHALCON_SESSION_EXCEPTION_H */
 
 
+#ifndef PHALCON_SESSION_ADAPTER_MEMCACHE_H
+#define PHALCON_SESSION_ADAPTER_MEMCACHE_H
+
+#include "php_phalcon.h"
+
+zend_class_entry *phalcon_session_adapter_memcache_ce;
+
+PHALCON_INIT_CLASS(Phalcon_Session_Adapter_Memcache);
+
+#endif /* PHALCON_SESSION_ADAPTER_MEMCACHE_H */
+
+
+#ifndef PHALCON_SESSION_ADAPTER_LIBMEMCACHED_H
+#define PHALCON_SESSION_ADAPTER_LIBMEMCACHED_H
+
+#include "php_phalcon.h"
+
+zend_class_entry *phalcon_session_adapter_libmemcached_ce;
+
+PHALCON_INIT_CLASS(Phalcon_Session_Adapter_Libmemcached);
+
+#endif /* PHALCON_SESSION_ADAPTER_LIBMEMCACHED_H */
+
+
 
 #ifndef PHALCON_TAG_H
 #define PHALCON_TAG_H
@@ -6162,6 +6198,18 @@ PHALCON_INIT_CLASS(Phalcon_Translate_Exception);
 #endif /* PHALCON_TRANSLATE_EXCEPTION_H */
 
 
+#ifndef PHALCON_TRANSLATE_ADAPTER_GETTEXT_H
+#define PHALCON_TRANSLATE_ADAPTER_GETTEXT_H
+
+#include "php_phalcon.h"
+
+zend_class_entry *phalcon_translate_adapter_gettext_ce;
+
+PHALCON_INIT_CLASS(Phalcon_Translate_Adapter_Gettext);
+
+#endif /* PHALCON_TRANSLATE_ADAPTER_GETTEXT_H */
+
+
 
 #ifndef PHALCON_TEXT_H
 #define PHALCON_TEXT_H
@@ -6220,6 +6268,34 @@ PHALCON_INIT_CLASS(Phalcon_Validation_Message);
 static zval* phalcon_validation_message_construct_helper(zval *message, zval *field, const char *type, zval *code TSRMLS_DC) PHALCON_ATTR_NONNULL;
 
 #endif /* PHALCON_VALIDATION_MESSAGE_H */
+
+
+#ifndef PHALCON_VALIDATION_MESSAGEINTERFACE_H
+#define PHALCON_VALIDATION_MESSAGEINTERFACE_H
+
+#include "php_phalcon.h"
+
+zend_class_entry *phalcon_validation_messageinterface_ce;
+
+PHALCON_INIT_CLASS(Phalcon_Validation_MessageInterface);
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_validation_messageinterface_settype, 0, 0, 1)
+	ZEND_ARG_INFO(0, type)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_validation_messageinterface_setcode, 0, 0, 1)
+	ZEND_ARG_INFO(0, code)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_validation_messageinterface_setmessage, 0, 0, 1)
+	ZEND_ARG_INFO(0, message)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_validation_messageinterface_setfield, 0, 0, 1)
+	ZEND_ARG_INFO(0, field)
+ZEND_END_ARG_INFO()
+
+#endif /* PHALCON_VALIDATION_MESSAGEINTERFACE_H */
 
 
 #ifndef PHALCON_VALIDATION_MESSAGE_GROUP_H
