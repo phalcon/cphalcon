@@ -332,11 +332,13 @@ class Form extends \Phalcon\Di\Injectable implements \Countable, \Iterator
 					}
 
 					let validation = this->getValidation();
-					if validation instanceof \Phalcon\Validation {
-						/**
-						 * Set the validators to the validation
-						 */
-						validation->setValidators(preparedValidators);
+					if typeof validation == "object" {
+						if validation instanceof \Phalcon\Validation {
+							/**
+							 * Set the validators to the validation
+							 */
+							validation->setValidators(preparedValidators);
+						}
 					} else {
 						/**
 						 * Create an implicit validation
@@ -450,11 +452,13 @@ class Form extends \Phalcon\Di\Injectable implements \Countable, \Iterator
 	 * Adds an element to the form
 	 *
 	 * @param Phalcon\Forms\ElementInterface element
+	 * @param string $postion
+ 	 * @param bool $type If $type is TRUE, the element wile add before $postion, else is after
 	 * @return Phalcon\Forms\Form
 	 */
-	public function add(<\Phalcon\Forms\ElementInterface> element) -> <\Phalcon\Forms\Form>
+	public function add(<\Phalcon\Forms\ElementInterface> element, string postion=null, boolean type=null) -> <\Phalcon\Forms\Form>
 	{
-		var name;
+		var name, key, value, elements;
 
 		if typeof element != "object" {
 			throw new \Phalcon\Forms\Exception("The element is not valid");
@@ -470,10 +474,40 @@ class Form extends \Phalcon\Di\Injectable implements \Countable, \Iterator
 		 */
 		element->setForm(this);
 
-		/**
-		 * Append the element by its name
-		 */
-		let this->_elements[name] = element;
+		if postion == null || typeof this->_elements != "array" {
+			/**
+			 * Append the element by its name
+			 */
+			let this->_elements[name] = element;
+		} else {
+			let elements = [];
+			/**
+			 * Walk elements and add the element to a particular position
+			 */
+			for key, value in this->_elements {
+				if key == postion {
+					if type {
+						/**
+						 * Add the element before position
+						 */
+						let elements[name] = element;
+						let elements[key] = value;
+					} else {
+						/**
+						 * Add the element after position
+						 */
+						let elements[key] = value;
+						let elements[name] = element;
+					}
+				} else {
+					/**
+					 * Copy the element to new array
+					 */
+					let elements[key] = value;
+				}
+			}
+			let this->_elements = elements;
+		}
 		return this;
 	}
 
@@ -516,13 +550,15 @@ class Form extends \Phalcon\Di\Injectable implements \Countable, \Iterator
 	 * Generate the label of a element added to the form including HTML
 	 *
 	 * @param string name
+	 * @param array attributes
 	 * @return string
 	 */
-	public function label(string! name) -> string
+	public function label(string! name, array attributes=null) -> string
 	{
 		var element;
 
 		if fetch element, this->_elements[name] {
+			element->setAttributes(attributes);
 			return element->label();
 		}
 
