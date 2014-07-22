@@ -188,11 +188,22 @@ class Url implements \Phalcon\Mvc\UrlInterface, \Phalcon\Di\InjectionAwareInterf
 	 *</code>
 	 *
 	 * @param string|array uri
+	 * @param array|object args Optional arguments to be appended to the query string
+	 * @param bool $local
 	 * @return string
 	 */
-	public function get(var uri=null)
+	public function get(var uri=null, args=null, boolean local=true)
 	{
-		var baseUri, router, dependencyInjector, routeName, route;
+		var baseUri, router, dependencyInjector, routeName, route, matched, queryString, returnValue;
+
+		if !local {
+			if typeof uri == "string" && strstr(uri, ":") {
+				let matched = preg_match("/^[^:\\/?#]++:/", uri);
+				if matched {
+					let local = false;
+				}
+			}
+		}
 
 		let baseUri = this->getBaseUri();
 
@@ -229,10 +240,27 @@ class Url implements \Phalcon\Mvc\UrlInterface, \Phalcon\Di\InjectionAwareInterf
 			/**
 			 * Replace the patterns by its variables
 			 */
-			return baseUri . phalcon_replace_paths(route->getPattern(), route->getReversedPaths(), uri);
+			let returnValue = baseUri . phalcon_replace_paths(route->getPattern(), route->getReversedPaths(), uri);
+		} else {
+			if local {
+				let returnValue = baseUri . uri;
+			} else {
+				let returnValue = uri;
+			}
 		}
 
-		return baseUri . uri;
+		if args {
+			let queryString = http_build_query(args);
+			if typeof queryString == "string" && strlen(queryString) {
+				if strpos(queryString, "?") {
+					let returnValue = returnValue . "&" . queryString;
+				} else {
+					let returnValue = returnValue . "?" . queryString;
+				}
+			}
+		}
+
+		return returnValue;
 	}
 
 	/**
@@ -243,12 +271,7 @@ class Url implements \Phalcon\Mvc\UrlInterface, \Phalcon\Di\InjectionAwareInterf
 	 */
 	public function getStatic(uri=null) -> string
 	{
-		var staticBaseUri;
-		let staticBaseUri = this->_staticBaseUri;
-		if staticBaseUri !== null {
-			return staticBaseUri . uri;
-		}
-		return this->getBaseUri() . uri;
+		return this->getStaticBaseUri() . uri;
 	}
 
 	/**
