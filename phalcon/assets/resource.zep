@@ -218,7 +218,7 @@ namespace Phalcon\Assets;
 	 */
 	public function getSourcePath() -> string
 	{
-		return this->_targetPath;
+		return this->_sourcePath;
 	}
 
 	/**
@@ -240,7 +240,7 @@ namespace Phalcon\Assets;
 	 */
 	public function getTargetPath() -> string
 	{
-		return this->_sourcePath;
+		return this->_targetPath;
 	}
 
 	/**
