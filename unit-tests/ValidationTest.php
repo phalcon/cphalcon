@@ -951,8 +951,7 @@ class ValidationTest extends PHPUnit_Framework_TestCase
 		$validation->add('file', new Phalcon\Validation\Validator\File(array(
 			'mimes' => array('image/png', 'image/jpeg'),
 			'minsize' => 10*1024,
-			'maxsize' => 30*1024,
-			'message' => 'The file is not valid'
+			'maxsize' => 30*1024
 		)));
 
 		$messages = $validation->validate($data);
@@ -961,9 +960,9 @@ class ValidationTest extends PHPUnit_Framework_TestCase
 			'_messages' => array(
 				0 => Phalcon\Validation\Message::__set_state(array(
 					'_type' => 'File',
-					'_message' => 'The file is not valid',
+					'_message' => 'File file the size must not exceed 30720',
 					'_field' => 'file',
-					'_code' => '0',
+					'_code' => 0,
 				))
 			)
 		));
@@ -973,6 +972,17 @@ class ValidationTest extends PHPUnit_Framework_TestCase
 		$data = array();
 
 		$messages = $validation->validate($data);
+
+		$expectedMessages = Phalcon\Validation\Message\Group::__set_state(array(
+			'_messages' => array(
+				0 => Phalcon\Validation\Message::__set_state(array(
+					'_type' => 'File',
+					'_message' => 'Field file is not valid',
+					'_field' => 'file',
+					'_code' => 0,
+				))
+			)
+		));
 
 		$this->assertEquals($expectedMessages, $messages);
 

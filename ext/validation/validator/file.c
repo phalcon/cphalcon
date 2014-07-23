@@ -126,9 +126,6 @@ PHP_METHOD(Phalcon_Validation_Validator_File, validate){
 		ZVAL_FALSE(validation);
 	}
 
-	PHALCON_ALLOC_GHOST_ZVAL(pairs);
-	array_init_size(pairs, 6);
-
 	if (!validation) {
 		PHALCON_CALL_METHOD(&validation, file, "isfile");
 
@@ -150,29 +147,141 @@ PHP_METHOD(Phalcon_Validation_Validator_File, validate){
 
 					PHALCON_CALL_FUNCTION(&mime, "finfo_file", finfo, pathname);
 					PHALCON_CALL_FUNCTION(NULL, "finfo_close", finfo);
-
-					Z_ADDREF_P(mime); add_assoc_zval_ex(pairs, SS(":mime"), mime);
 					
 					if (!phalcon_fast_in_array(mime, mimes TSRMLS_CC)) {
-						PHALCON_INIT_NVAR(validation);
-						ZVAL_FALSE(validation);
+						PHALCON_OBS_VAR(label);
+						RETURN_MM_ON_FAILURE(phalcon_validation_validator_getoption_helper(ce, &label, getThis(), phalcon_interned_label TSRMLS_CC));
+						if (!zend_is_true(label)) {
+							PHALCON_CALL_METHOD(&label, validator, "getlabel", attribute);
+							if (!zend_is_true(label)) {
+								PHALCON_CPY_WRT(label, attribute);
+							}
+						}
+
+						PHALCON_ALLOC_GHOST_ZVAL(pairs);
+						array_init_size(pairs, 2);
+						
+						Z_ADDREF_P(label);
+						add_assoc_zval_ex(pairs, SS(":field"), label);
+
+						Z_ADDREF_P(mime);
+						add_assoc_zval_ex(pairs, SS(":type"), mime);
+
+						PHALCON_OBS_VAR(message_str);
+						RETURN_MM_ON_FAILURE(phalcon_validation_validator_getoption_helper(ce, &message_str, getThis(), phalcon_interned_message TSRMLS_CC));
+						if (!zend_is_true(message_str)) {
+							PHALCON_OBSERVE_OR_NULLIFY_VAR(message_str);
+							RETURN_MM_ON_FAILURE(phalcon_validation_getdefaultmessage_helper(Z_OBJCE_P(validator), &message_str, validator, "FileType" TSRMLS_CC));
+						}
+					
+						PHALCON_OBS_VAR(code);
+						RETURN_MM_ON_FAILURE(phalcon_validation_validator_getoption_helper(ce, &code, getThis(), phalcon_interned_code TSRMLS_CC));
+						if (Z_TYPE_P(code) == IS_NULL) {
+							ZVAL_LONG(code, 0);
+						}
+
+						PHALCON_CALL_FUNCTION(&prepared, "strtr", message_str, pairs);
+
+						message = phalcon_validation_message_construct_helper(prepared, attribute, "File", code TSRMLS_CC);
+						Z_DELREF_P(message);
+					
+						PHALCON_CALL_METHOD(NULL, validator, "appendmessage", message);
+						RETURN_MM_FALSE;
 					}
 				}
 			}
 
-			if (zend_is_true(validation)) {				
+			if (zend_is_true(validation)) {
 				PHALCON_CALL_METHOD(&size, file, "getsize");
-
-				Z_ADDREF_P(size); add_assoc_zval_ex(pairs, SS(":size"), size);
 
 				if (!PHALCON_IS_EMPTY(minsize)) {
 					PHALCON_INIT_NVAR(validation);
 					is_smaller_or_equal_function(validation, minsize, size TSRMLS_CC);
+					if (!zend_is_true(validation)) {
+						PHALCON_OBS_VAR(label);
+						RETURN_MM_ON_FAILURE(phalcon_validation_validator_getoption_helper(ce, &label, getThis(), phalcon_interned_label TSRMLS_CC));
+						if (!zend_is_true(label)) {
+							PHALCON_CALL_METHOD(&label, validator, "getlabel", attribute);
+							if (!zend_is_true(label)) {
+								PHALCON_CPY_WRT(label, attribute);
+							}
+						}
+
+						PHALCON_ALLOC_GHOST_ZVAL(pairs);
+						array_init_size(pairs, 2);
+						
+						Z_ADDREF_P(label);
+						add_assoc_zval_ex(pairs, SS(":field"), label);
+
+						Z_ADDREF_P(minsize);
+						add_assoc_zval_ex(pairs, SS(":min"), minsize);
+
+						PHALCON_OBS_VAR(message_str);
+						RETURN_MM_ON_FAILURE(phalcon_validation_validator_getoption_helper(ce, &message_str, getThis(), phalcon_interned_message TSRMLS_CC));
+						if (!zend_is_true(message_str)) {
+							PHALCON_OBSERVE_OR_NULLIFY_VAR(message_str);
+							RETURN_MM_ON_FAILURE(phalcon_validation_getdefaultmessage_helper(Z_OBJCE_P(validator), &message_str, validator, "FileMinSize" TSRMLS_CC));
+						}
+					
+						PHALCON_OBS_VAR(code);
+						RETURN_MM_ON_FAILURE(phalcon_validation_validator_getoption_helper(ce, &code, getThis(), phalcon_interned_code TSRMLS_CC));
+						if (Z_TYPE_P(code) == IS_NULL) {
+							ZVAL_LONG(code, 0);
+						}
+
+						PHALCON_CALL_FUNCTION(&prepared, "strtr", message_str, pairs);
+
+						message = phalcon_validation_message_construct_helper(prepared, attribute, "File", code TSRMLS_CC);
+						Z_DELREF_P(message);
+					
+						PHALCON_CALL_METHOD(NULL, validator, "appendmessage", message);
+						RETURN_MM_FALSE;
+					}
 				}	
 				
-				if (zend_is_true(validation) && !PHALCON_IS_EMPTY(maxsize)) {
+				if (!PHALCON_IS_EMPTY(maxsize)) {
 					PHALCON_INIT_NVAR(validation);
 					is_smaller_or_equal_function(validation, size, maxsize TSRMLS_CC);
+					if (!zend_is_true(validation)) {
+						PHALCON_OBS_VAR(label);
+						RETURN_MM_ON_FAILURE(phalcon_validation_validator_getoption_helper(ce, &label, getThis(), phalcon_interned_label TSRMLS_CC));
+						if (!zend_is_true(label)) {
+							PHALCON_CALL_METHOD(&label, validator, "getlabel", attribute);
+							if (!zend_is_true(label)) {
+								PHALCON_CPY_WRT(label, attribute);
+							}
+						}
+
+						PHALCON_ALLOC_GHOST_ZVAL(pairs);
+						array_init_size(pairs, 2);
+						
+						Z_ADDREF_P(label);
+						add_assoc_zval_ex(pairs, SS(":field"), label);
+
+						Z_ADDREF_P(maxsize);
+						add_assoc_zval_ex(pairs, SS(":max"), maxsize);
+
+						PHALCON_OBS_VAR(message_str);
+						RETURN_MM_ON_FAILURE(phalcon_validation_validator_getoption_helper(ce, &message_str, getThis(), phalcon_interned_message TSRMLS_CC));
+						if (!zend_is_true(message_str)) {
+							PHALCON_OBSERVE_OR_NULLIFY_VAR(message_str);
+							RETURN_MM_ON_FAILURE(phalcon_validation_getdefaultmessage_helper(Z_OBJCE_P(validator), &message_str, validator, "FileMaxSize" TSRMLS_CC));
+						}
+					
+						PHALCON_OBS_VAR(code);
+						RETURN_MM_ON_FAILURE(phalcon_validation_validator_getoption_helper(ce, &code, getThis(), phalcon_interned_code TSRMLS_CC));
+						if (Z_TYPE_P(code) == IS_NULL) {
+							ZVAL_LONG(code, 0);
+						}
+
+						PHALCON_CALL_FUNCTION(&prepared, "strtr", message_str, pairs);
+
+						message = phalcon_validation_message_construct_helper(prepared, attribute, "File", code TSRMLS_CC);
+						Z_DELREF_P(message);
+					
+						PHALCON_CALL_METHOD(NULL, validator, "appendmessage", message);
+						RETURN_MM_FALSE;
+					}
 				}
 			}
 		}
@@ -190,17 +299,18 @@ PHP_METHOD(Phalcon_Validation_Validator_File, validate){
 
 		PHALCON_INIT_VAR(join_mimes);
 		phalcon_fast_join_str(join_mimes, SL(", "), mimes TSRMLS_CC);
+
+		PHALCON_ALLOC_GHOST_ZVAL(pairs);
+		array_init_size(pairs, 1);
 		
-		Z_ADDREF_P(label); add_assoc_zval_ex(pairs, SS(":field"), label);
-		Z_ADDREF_P(join_mimes); add_assoc_zval_ex(pairs, SS(":mimes"), join_mimes);
-		Z_ADDREF_P(minsize); add_assoc_zval_ex(pairs, SS(":minsize"), minsize);
-		Z_ADDREF_P(maxsize); add_assoc_zval_ex(pairs, SS(":maxsize"), maxsize);
+		Z_ADDREF_P(label);
+		add_assoc_zval_ex(pairs, SS(":field"), label);
 
 		PHALCON_OBS_VAR(message_str);
 		RETURN_MM_ON_FAILURE(phalcon_validation_validator_getoption_helper(ce, &message_str, getThis(), phalcon_interned_message TSRMLS_CC));
 		if (!zend_is_true(message_str)) {
 			PHALCON_OBSERVE_OR_NULLIFY_VAR(message_str);
-			RETURN_MM_ON_FAILURE(phalcon_validation_getdefaultmessage_helper(Z_OBJCE_P(validator), &message_str, validator, "File" TSRMLS_CC));
+			RETURN_MM_ON_FAILURE(phalcon_validation_getdefaultmessage_helper(Z_OBJCE_P(validator), &message_str, validator, "FileValid" TSRMLS_CC));
 		}
 	
 		PHALCON_OBS_VAR(code);
