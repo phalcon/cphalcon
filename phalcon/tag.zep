@@ -377,7 +377,7 @@ class Tag
 	 */
 	public static function linkTo(parameters, text=null, local=true)
 	{
-		var key, value, params, action, url, code;
+		var key, value, params, action, url, code, query;
 
 		if typeof parameters != "array" {
 			let params = [parameters, text, local];
@@ -409,12 +409,14 @@ class Tag
 			}
 		}
 
-		if local {
-			let url = self::getUrlService(),
-				code = "<a href=\"" . url->get(action) . "\"";
+		if !fetch query, params["query"] {
+			let query = null;
 		} else {
-			let code = "<a href=\"" . action . "\"";
+			unset params["query"];
 		}
+
+		let url = self::getUrlService(),
+			code = "<a href=\"" . url->get(action, query, local) . "\"";
 
 		for key, value in params {
 			if typeof key != "integer" {

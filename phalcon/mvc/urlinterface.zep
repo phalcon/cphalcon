@@ -59,9 +59,11 @@ interface UrlInterface
 	 * Generates a URL
 	 *
 	 * @param string|array uri
+	 * @param array query
+	 * @param bool local
 	 * @return string
 	 */
-	public function get(uri=null);
+	public function get(uri=null, query=null, local=null);
 
 	/**
 	 * Generates a local path
