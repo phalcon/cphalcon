@@ -350,16 +350,16 @@ PHP_METHOD(Phalcon_Db_Adapter, fetchOne){
 		if (Z_TYPE_P(fetch_mode) != IS_NULL) {
 			if (Z_TYPE_P(fetch_argument) != IS_NULL) {
 				if (Z_TYPE_P(ctor_args) != IS_NULL) {
-					PHALCON_RETURN_CALL_METHOD(result, "fetchall", fetch_mode, fetch_argument, ctor_args);
+					PHALCON_RETURN_CALL_METHOD(result, "fetch", fetch_mode, fetch_argument, ctor_args);
 				} else {
-					PHALCON_RETURN_CALL_METHOD(result, "fetchall", fetch_mode, fetch_argument);
+					PHALCON_RETURN_CALL_METHOD(result, "fetch", fetch_mode, fetch_argument);
 				}
 			} else {
 				PHALCON_CALL_METHOD(NULL, result, "setfetchmode", fetch_mode);
-				PHALCON_RETURN_CALL_METHOD(result, "fetchall");
+				PHALCON_RETURN_CALL_METHOD(result, "fetch");
 			}
 		} else {
-			PHALCON_RETURN_CALL_METHOD(result, "fetchall");
+			PHALCON_RETURN_CALL_METHOD(result, "fetch");
 		}
 		RETURN_MM();
 	}
