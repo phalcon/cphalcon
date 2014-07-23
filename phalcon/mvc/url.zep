@@ -192,16 +192,20 @@ class Url implements \Phalcon\Mvc\UrlInterface, \Phalcon\Di\InjectionAwareInterf
 	 * @param bool $local
 	 * @return string
 	 */
-	public function get(var uri=null, args=null, boolean local=true)
+	public function get(var uri=null, args=null, boolean local=null)
 	{
-		var baseUri, router, dependencyInjector, routeName, route, matched, queryString, returnValue;
+		var baseUri, router, dependencyInjector, routeName, route, matched, queryString;
 
-		if !local {
+		if local == null {
 			if typeof uri == "string" && strstr(uri, ":") {
 				let matched = preg_match("/^[^:\\/?#]++:/", uri);
 				if matched {
 					let local = false;
+				} else {
+					let local = true;
 				}
+			} else {
+				let local = true;
 			}
 		}
 
@@ -240,27 +244,25 @@ class Url implements \Phalcon\Mvc\UrlInterface, \Phalcon\Di\InjectionAwareInterf
 			/**
 			 * Replace the patterns by its variables
 			 */
-			let returnValue = baseUri . phalcon_replace_paths(route->getPattern(), route->getReversedPaths(), uri);
-		} else {
-			if local {
-				let returnValue = baseUri . uri;
-			} else {
-				let returnValue = uri;
-			}
+			let uri = baseUri . phalcon_replace_paths(route->getPattern(), route->getReversedPaths(), uri);
+		}
+
+		if local {
+			let uri = baseUri . uri;
 		}
 
 		if args {
 			let queryString = http_build_query(args);
 			if typeof queryString == "string" && strlen(queryString) {
-				if strpos(queryString, "?") {
-					let returnValue = returnValue . "&" . queryString;
+				if strpos(queryString, "?") !== false {
+					let uri .= "&" . queryString;
 				} else {
-					let returnValue = returnValue . "?" . queryString;
+					let uri .= "?" . queryString;
 				}
 			}
 		}
 
-		return returnValue;
+		return uri;
 	}
 
 	/**

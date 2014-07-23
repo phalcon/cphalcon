@@ -63,7 +63,7 @@ interface UrlInterface
 	 * @param bool $local
 	 * @return string
 	 */
-	public function get(uri=null, args=null, boolean local=true);
+	public function get(uri=null, args=null, boolean local=null);
 
 	/**
 	 * Generates a local path

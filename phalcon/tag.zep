@@ -100,15 +100,12 @@ class Tag
 
 	public static function renderAttributes(string! code, array! attributes)
 	{
-		var order, escaper, attrs, value, escaped, attribute, key;
+		var order, keys, escaper, attrs, value, escaped, attribute, key;
 
-		let attrs = [],
-			order = ["rel", "type", "for", "src", "href", "action", "id", "name", "value", "class"];
-
-		let escaper = self::getEscaper(attributes);
-
-		let order = array_intersect_key(array_flip(order), attributes),
-        	attrs = array_merge(order, attributes);
+		let order = ["rel", "type", "for", "src", "href", "action", "id", "name", "value", "class"],
+			escaper = self::getEscaper(attributes),
+			keys = array_intersect_key(array_flip(order), attributes),
+        	attrs = array_merge(keys, attributes);
 
 		unset attrs["escape"];
 
