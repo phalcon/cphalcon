@@ -27,7 +27,8 @@ use Phalcon\Validation\Validator\PresenceOf,
 	Phalcon\Validation\Validator\StringLength,
 	Phalcon\Validation\Validator\Email,
 	Phalcon\Validation\Validator\Between,
-	Phalcon\Validation\Validator\Url;
+	Phalcon\Validation\Validator\Url,
+	Phalcon\Validation\Validator\File;
 
 class ValidationTest extends PHPUnit_Framework_TestCase
 {
@@ -937,6 +938,57 @@ class ValidationTest extends PHPUnit_Framework_TestCase
 		$_POST = array('url' => 'http://phalconphp.com');
 
 		$messages = $validation->validate($_POST);
+
+		$this->assertEquals(count($messages), 0);
+	}
+
+	public function testValidationFile()
+	{
+		$data = array('file' => 'unit-tests/assets/phalconphp.jpg');
+
+		$validation = new Phalcon\Validation();
+
+		$validation->add('file', new Phalcon\Validation\Validator\File(array(
+			'mimes' => array('image/png', 'image/jpeg'),
+			'minsize' => 10*1024,
+			'maxsize' => 30*1024
+		)));
+
+		$messages = $validation->validate($data);
+
+		$expectedMessages = Phalcon\Validation\Message\Group::__set_state(array(
+			'_messages' => array(
+				0 => Phalcon\Validation\Message::__set_state(array(
+					'_type' => 'File',
+					'_message' => 'File file the size must not exceed 30720',
+					'_field' => 'file',
+					'_code' => 0,
+				))
+			)
+		));
+
+		$this->assertEquals($expectedMessages, $messages);
+
+		$data = array();
+
+		$messages = $validation->validate($data);
+
+		$expectedMessages = Phalcon\Validation\Message\Group::__set_state(array(
+			'_messages' => array(
+				0 => Phalcon\Validation\Message::__set_state(array(
+					'_type' => 'File',
+					'_message' => 'Field file is not valid',
+					'_field' => 'file',
+					'_code' => 0,
+				))
+			)
+		));
+
+		$this->assertEquals($expectedMessages, $messages);
+
+		$data = array('file' => 'unit-tests/assets/logo.png');
+
+		$messages = $validation->validate($data);
 
 		$this->assertEquals(count($messages), 0);
 	}

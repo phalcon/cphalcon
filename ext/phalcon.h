@@ -400,6 +400,7 @@
 #include "validation/validator/regex.h"
 #include "validation/validator/stringlength.h"
 #include "validation/validator/url.h"
+#include "validation/validator/file.h"
 
 #include "version.h"
 

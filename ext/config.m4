@@ -361,6 +361,7 @@ validation/validator/between.c \
 validation/validator/inclusionin.c \
 validation/validator/stringlength.c \
 validation/validator/url.c \
+validation/validator/file.c \
 validation/validator.c \
 assets/filters/jsminifier.c \
 assets/filters/cssminifier.c \

@@ -625,6 +625,8 @@ PHP_METHOD(Phalcon_Validation, setDefaultMessages)
 	add_assoc_stringl_ex(default_messages, SS("FileMaxResolution"), SL("File :field must not exceed :max resolution"), 1);
 	add_assoc_stringl_ex(default_messages, SS("FileMinResolution"), SL("File :field must be at least :min resolution"), 1);
 	add_assoc_stringl_ex(default_messages, SS("FileSize"),          SL("File :field exceeds the size of :max"), 1);
+	add_assoc_stringl_ex(default_messages, SS("FileMaxSize"),       SL("File :field the size must not exceed :max"), 1);
+	add_assoc_stringl_ex(default_messages, SS("FileMinSize"),       SL("File :field the size must be at least :min"), 1);
 	add_assoc_stringl_ex(default_messages, SS("FileType"),          SL("File :field must be of type: :types"), 1);
 	add_assoc_stringl_ex(default_messages, SS("FileValid"),         SL("Field :field is not valid"), 1);
 	add_assoc_stringl_ex(default_messages, SS("Identical"),         SL("Field :field does not have the expected value"), 1);
