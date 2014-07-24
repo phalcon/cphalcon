@@ -40,7 +40,7 @@
 			<file>unit-tests/FormsTest.php</file>
 			<file>unit-tests/ImageTest.php</file>
 			<file>unit-tests/InitTest.php</file>
-			<!--<file>unit-tests/LoaderTest.php</file>-->
+			<file>unit-tests/LoaderTest.php</file>
 			<!--<file>unit-tests/LoggerTest.php</file>-->
 			<!--<file>unit-tests/MicroMvcCollectionsTest.php</file>-->
 			<!--<file>unit-tests/MicroMvcEventsTest.php</file>-->
