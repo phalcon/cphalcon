@@ -122,9 +122,6 @@ PHP_METHOD(Phalcon_Validation_Validator_Url, validate) {
 		if (ZEPHIR_IS_EMPTY(label)) {
 			ZEPHIR_CALL_METHOD(&label, validation, "getlabel", NULL, field);
 			zephir_check_call_status();
-			if (ZEPHIR_IS_EMPTY(label)) {
-				ZEPHIR_CPY_WRT(label, field);
-			}
 		}
 		ZEPHIR_INIT_BNVAR(_1);
 		ZVAL_STRING(_1, "message", 0);

@@ -12,10 +12,10 @@
 #include <Zend/zend_interfaces.h>
 
 #include "kernel/main.h"
-#include "kernel/exception.h"
 #include "kernel/object.h"
-#include "kernel/fcall.h"
 #include "kernel/memory.h"
+#include "kernel/exception.h"
+#include "kernel/fcall.h"
 #include "kernel/operators.h"
 #include "kernel/hash.h"
 #include "kernel/array.h"
@@ -66,6 +66,18 @@ ZEPHIR_INIT_CLASS(Phalcon_Validation) {
 	zend_declare_property_null(phalcon_validation_ce, SL("_values"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
 	return SUCCESS;
+
+}
+
+PHP_METHOD(Phalcon_Validation, setValidators) {
+
+	zval *validators;
+
+	zephir_fetch_params(0, 1, 0, &validators);
+
+
+
+	zephir_update_property_this(this_ptr, SL("_validators"), validators TSRMLS_CC);
 
 }
 
@@ -436,7 +448,7 @@ PHP_METHOD(Phalcon_Validation, setLabels) {
  * Get label for field
  *
  * @param string field
- * @return mixed
+ * @return string
  */
 PHP_METHOD(Phalcon_Validation, getLabel) {
 
@@ -465,7 +477,7 @@ PHP_METHOD(Phalcon_Validation, getLabel) {
 			RETURN_CTOR(value);
 		}
 	}
-	RETURN_MM_NULL();
+	RETURN_CTOR(field);
 
 }
 

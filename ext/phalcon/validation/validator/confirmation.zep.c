@@ -102,9 +102,6 @@ PHP_METHOD(Phalcon_Validation_Validator_Confirmation, validate) {
 		if (ZEPHIR_IS_EMPTY(label)) {
 			ZEPHIR_CALL_METHOD(&label, validation, "getlabel", NULL, field);
 			zephir_check_call_status();
-			if (ZEPHIR_IS_EMPTY(label)) {
-				ZEPHIR_CPY_WRT(label, field);
-			}
 		}
 		ZEPHIR_INIT_BNVAR(_0);
 		ZVAL_STRING(_0, "labelWith", 0);
@@ -114,9 +111,6 @@ PHP_METHOD(Phalcon_Validation_Validator_Confirmation, validate) {
 		if (ZEPHIR_IS_EMPTY(labelWith)) {
 			ZEPHIR_CALL_METHOD(&labelWith, validation, "getlabel", NULL, fieldWith);
 			zephir_check_call_status();
-			if (ZEPHIR_IS_EMPTY(labelWith)) {
-				ZEPHIR_CPY_WRT(labelWith, fieldWith);
-			}
 		}
 		ZEPHIR_INIT_BNVAR(_0);
 		ZVAL_STRING(_0, "message", 0);

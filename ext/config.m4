@@ -40,6 +40,7 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/cache/backend/memcache.zep.c
 	phalcon/cache/backend/memory.zep.c
 	phalcon/cache/backend/mongo.zep.c
+	phalcon/cache/backend/redis.zep.c
 	phalcon/cache/backend/xcache.zep.c
 	phalcon/cache/backendinterface.zep.c
 	phalcon/cache/exception.zep.c
@@ -61,6 +62,7 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/config.zep.c
 	phalcon/config/adapter/ini.zep.c
 	phalcon/config/adapter/json.zep.c
+	phalcon/config/adapter/php.zep.c
 	phalcon/config/exception.zep.c
 	phalcon/crypt.zep.c
 	phalcon/crypt/exception.zep.c

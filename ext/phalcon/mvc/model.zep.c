@@ -2028,7 +2028,7 @@ PHP_METHOD(Phalcon_Mvc_Model, getMessages) {
  */
 PHP_METHOD(Phalcon_Mvc_Model, _checkForeignKeysRestrict) {
 
-	zephir_fcall_cache_entry *_14 = NULL, *_15 = NULL;
+	zephir_fcall_cache_entry *_14 = NULL;
 	zval *_11 = NULL;
 	HashTable *_2, *_6;
 	HashPosition _1, _5;
@@ -2127,7 +2127,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _checkForeignKeysRestrict) {
 						ZEPHIR_CALL_METHOD(NULL, _9, "__construct", &_14, message, fields, _13);
 						zephir_check_temp_parameter(_13);
 						zephir_check_call_status();
-						ZEPHIR_CALL_METHOD(NULL, this_ptr, "appendmessage", &_15, _9);
+						ZEPHIR_CALL_METHOD(NULL, this_ptr, "appendmessage", NULL, _9);
 						zephir_check_call_status();
 						error = 1;
 						break;
@@ -2256,7 +2256,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _checkForeignKeysReverseCascade) {
  */
 PHP_METHOD(Phalcon_Mvc_Model, _checkForeignKeysReverseRestrict) {
 
-	zephir_fcall_cache_entry *_11 = NULL, *_12 = NULL;
+	zephir_fcall_cache_entry *_11 = NULL;
 	zval *_9 = NULL;
 	HashTable *_1, *_4;
 	HashPosition _0, _3;
@@ -2349,7 +2349,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _checkForeignKeysReverseRestrict) {
 						ZEPHIR_CALL_METHOD(NULL, _7, "__construct", &_11, message, fields, _10);
 						zephir_check_temp_parameter(_10);
 						zephir_check_call_status();
-						ZEPHIR_CALL_METHOD(NULL, this_ptr, "appendmessage", &_12, _7);
+						ZEPHIR_CALL_METHOD(NULL, this_ptr, "appendmessage", NULL, _7);
 						zephir_check_call_status();
 						error = 1;
 						break;
@@ -3046,7 +3046,6 @@ PHP_METHOD(Phalcon_Mvc_Model, _doLowUpdate) {
  */
 PHP_METHOD(Phalcon_Mvc_Model, _preSaveRelatedRecords) {
 
-	zephir_fcall_cache_entry *_8 = NULL;
 	HashTable *_1, *_6;
 	HashPosition _0, _5;
 	int ZEPHIR_LAST_CALL_STATUS;
@@ -3115,7 +3114,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _preSaveRelatedRecords) {
 							ZEPHIR_CALL_METHOD(NULL, message, "setmodel", NULL, record);
 							zephir_check_call_status();
 						}
-						ZEPHIR_CALL_METHOD(NULL, this_ptr, "appendmessage", &_8, message);
+						ZEPHIR_CALL_METHOD(NULL, this_ptr, "appendmessage", NULL, message);
 						zephir_check_call_status();
 					}
 					ZEPHIR_CALL_METHOD(NULL, connection, "rollback", NULL, (nesting ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false)));
@@ -3141,12 +3140,12 @@ PHP_METHOD(Phalcon_Mvc_Model, _preSaveRelatedRecords) {
  */
 PHP_METHOD(Phalcon_Mvc_Model, _postSaveRelatedRecords) {
 
-	zephir_fcall_cache_entry *_6 = NULL, *_15 = NULL;
-	HashTable *_1, *_9, *_13, *_18;
-	HashPosition _0, _8, _12, _17;
+	zephir_fcall_cache_entry *_6 = NULL;
+	HashTable *_1, *_9, *_13, *_17;
+	HashPosition _0, _8, _12, _16;
 	int ZEPHIR_LAST_CALL_STATUS;
 	zend_bool nesting, isThrough;
-	zval *connection, *related, *className, *manager = NULL, *relation = NULL, *name = NULL, *record = NULL, *message = NULL, *columns = NULL, *referencedModel = NULL, *referencedFields = NULL, *relatedRecords = NULL, *value = NULL, *recordAfter = NULL, *intermediateModel = NULL, *intermediateFields = NULL, *intermediateValue = NULL, *intermediateModelName = NULL, *intermediateReferencedFields = NULL, **_2, *_3 = NULL, *_4 = NULL, *_5 = NULL, *_7 = NULL, **_10, *_11 = NULL, **_14, *_16 = NULL, **_19;
+	zval *connection, *related, *className, *manager = NULL, *relation = NULL, *name = NULL, *record = NULL, *message = NULL, *columns = NULL, *referencedModel = NULL, *referencedFields = NULL, *relatedRecords = NULL, *value = NULL, *recordAfter = NULL, *intermediateModel = NULL, *intermediateFields = NULL, *intermediateValue = NULL, *intermediateModelName = NULL, *intermediateReferencedFields = NULL, **_2, *_3 = NULL, *_4 = NULL, *_5 = NULL, *_7 = NULL, **_10, *_11 = NULL, **_14, *_15 = NULL, **_18;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &connection, &related);
@@ -3262,7 +3261,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _postSaveRelatedRecords) {
 								ZEPHIR_CALL_METHOD(NULL, message, "setmodel", NULL, record);
 								zephir_check_call_status();
 							}
-							ZEPHIR_CALL_METHOD(NULL, this_ptr, "appendmessage", &_15, message);
+							ZEPHIR_CALL_METHOD(NULL, this_ptr, "appendmessage", NULL, message);
 							zephir_check_call_status();
 						}
 						ZEPHIR_CALL_METHOD(NULL, connection, "rollback", NULL, (nesting ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false)));
@@ -3273,19 +3272,19 @@ PHP_METHOD(Phalcon_Mvc_Model, _postSaveRelatedRecords) {
 				ZEPHIR_CALL_METHOD(&_11, recordAfter, "save",  NULL);
 				zephir_check_call_status();
 				if (!(zephir_is_true(_11))) {
-					ZEPHIR_CALL_METHOD(&_16, recordAfter, "getmessages",  NULL);
+					ZEPHIR_CALL_METHOD(&_15, recordAfter, "getmessages",  NULL);
 					zephir_check_call_status();
-					zephir_is_iterable(_16, &_18, &_17, 0, 0);
+					zephir_is_iterable(_15, &_17, &_16, 0, 0);
 					for (
-					  ; zephir_hash_get_current_data_ex(_18, (void**) &_19, &_17) == SUCCESS
-					  ; zephir_hash_move_forward_ex(_18, &_17)
+					  ; zephir_hash_get_current_data_ex(_17, (void**) &_18, &_16) == SUCCESS
+					  ; zephir_hash_move_forward_ex(_17, &_16)
 					) {
-						ZEPHIR_GET_HVALUE(message, _19);
+						ZEPHIR_GET_HVALUE(message, _18);
 						if (Z_TYPE_P(message) == IS_OBJECT) {
 							ZEPHIR_CALL_METHOD(NULL, message, "setmodel", NULL, record);
 							zephir_check_call_status();
 						}
-						ZEPHIR_CALL_METHOD(NULL, this_ptr, "appendmessage", &_15, message);
+						ZEPHIR_CALL_METHOD(NULL, this_ptr, "appendmessage", NULL, message);
 						zephir_check_call_status();
 					}
 					ZEPHIR_CALL_METHOD(NULL, connection, "rollback", NULL, (nesting ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false)));

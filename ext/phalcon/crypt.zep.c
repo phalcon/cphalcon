@@ -317,10 +317,10 @@ PHP_METHOD(Phalcon_Crypt, encrypt) {
 PHP_METHOD(Phalcon_Crypt, decrypt) {
 
 	zend_bool _4, _5;
-	zephir_nts_static zephir_fcall_cache_entry *_3 = NULL, *_10 = NULL;
+	zephir_nts_static zephir_fcall_cache_entry *_3 = NULL, *_11 = NULL;
 	char _2, _8;
 	int p, len, ZEPHIR_LAST_CALL_STATUS, _6, _7;
-	zval *text_param = NULL, *key = NULL, *decryptKey = NULL, *ivSize = NULL, *cipher, *mode, *keySize, *length, *block = NULL, *packing = NULL, *chr = NULL, _0 = zval_used_for_init, _1 = zval_used_for_init, *_9 = NULL, _11, *_12 = NULL;
+	zval *text_param = NULL, *key = NULL, *decryptKey = NULL, *ivSize = NULL, *cipher, *mode, *keySize, *length, *block = NULL, *packing = NULL, *chr = NULL, _0 = zval_used_for_init, _1 = zval_used_for_init, *_9 = NULL, *_10, *_12 = NULL;
 	zval *text = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -418,15 +418,18 @@ PHP_METHOD(Phalcon_Crypt, decrypt) {
 			}
 		}
 	}
+	ZEPHIR_INIT_VAR(_10);
+	zephir_sub_function(_10, ivSize, packing TSRMLS_CC);
+	len = zephir_get_numberval(_10);
 	ZEPHIR_SINIT_NVAR(_0);
-	zephir_sub_function(&_0, ivSize, packing TSRMLS_CC);
-	ZEPHIR_CALL_FUNCTION(&_9, "substr", &_10, text, _0);
+	ZVAL_LONG(&_0, len);
+	ZEPHIR_CALL_FUNCTION(&_9, "substr", &_11, text, &_0);
 	zephir_check_call_status();
+	ZEPHIR_SINIT_NVAR(_0);
+	ZVAL_LONG(&_0, 0);
 	ZEPHIR_SINIT_NVAR(_1);
-	zephir_sub_function(&_1, ivSize, packing TSRMLS_CC);
-	ZEPHIR_SINIT_VAR(_11);
-	ZVAL_LONG(&_11, 0);
-	ZEPHIR_CALL_FUNCTION(&_12, "substr", &_10, text, &_11, _1);
+	ZVAL_LONG(&_1, len);
+	ZEPHIR_CALL_FUNCTION(&_12, "substr", &_11, text, &_0, &_1);
 	zephir_check_call_status();
 	ZEPHIR_RETURN_CALL_FUNCTION("mcrypt_decrypt", NULL, cipher, decryptKey, _9, mode, _12);
 	zephir_check_call_status();

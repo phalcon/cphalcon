@@ -3,6 +3,7 @@ extern zend_class_entry *phalcon_validation_ce;
 
 ZEPHIR_INIT_CLASS(Phalcon_Validation);
 
+PHP_METHOD(Phalcon_Validation, setValidators);
 PHP_METHOD(Phalcon_Validation, __construct);
 PHP_METHOD(Phalcon_Validation, validate);
 PHP_METHOD(Phalcon_Validation, add);
@@ -18,6 +19,10 @@ PHP_METHOD(Phalcon_Validation, getLabel);
 PHP_METHOD(Phalcon_Validation, appendMessage);
 PHP_METHOD(Phalcon_Validation, bind);
 PHP_METHOD(Phalcon_Validation, getValue);
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_validation_setvalidators, 0, 0, 1)
+	ZEND_ARG_INFO(0, validators)
+ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_validation___construct, 0, 0, 0)
 	ZEND_ARG_INFO(0, validators)
@@ -72,6 +77,7 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_validation_getvalue, 0, 0, 1)
 ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_validation_method_entry) {
+	PHP_ME(Phalcon_Validation, setValidators, arginfo_phalcon_validation_setvalidators, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Validation, __construct, arginfo_phalcon_validation___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
 	PHP_ME(Phalcon_Validation, validate, arginfo_phalcon_validation_validate, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Validation, add, arginfo_phalcon_validation_add, ZEND_ACC_PUBLIC)

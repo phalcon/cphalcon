@@ -99,7 +99,7 @@ PHP_METHOD(Phalcon_Session_Adapter_Libmemcached, __construct) {
 	zephir_nts_static zephir_fcall_cache_entry *_13 = NULL;
 	int ZEPHIR_LAST_CALL_STATUS;
 	zval *_3, *_5, *_6, *_8, *_9, *_10, *_11, *_12;
-	zval *options = NULL, *servers = NULL, *client = NULL, *lifetime, *prefix = NULL, *_0, *_1, *_2, *_4, *_7;
+	zval *options = NULL, *servers, *client = NULL, *lifetime, *prefix = NULL, *_0, *_1, *_2, *_4, *_7;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 1, &options);
@@ -118,8 +118,6 @@ PHP_METHOD(Phalcon_Session_Adapter_Libmemcached, __construct) {
 		return;
 	}
 	ZEPHIR_OBS_VAR(servers);
-	zephir_array_fetch_string(&servers, options, SL("servers"), PH_NOISY TSRMLS_CC);
-	ZEPHIR_OBS_NVAR(servers);
 	zephir_array_fetch_string(&servers, options, SL("servers"), PH_NOISY TSRMLS_CC);
 	if (!(zephir_array_isset_string(options, SS("client")))) {
 		ZEPHIR_INIT_VAR(client);

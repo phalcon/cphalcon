@@ -116,7 +116,7 @@ PHP_METHOD(Phalcon_Version, get) {
 	ZEPHIR_OBS_VAR(specialNumber);
 	zephir_array_fetch_long(&specialNumber, version, 4, PH_NOISY TSRMLS_CC);
 	ZEPHIR_INIT_VAR(result);
-	ZEPHIR_CONCAT_VVVS(result, major, medium, minor, " ");
+	ZEPHIR_CONCAT_VSVSVS(result, major, ".", medium, ".", minor, " ");
 	do {
 		if (ZEPHIR_IS_LONG(special, 1)) {
 			ZEPHIR_INIT_VAR(suffix);

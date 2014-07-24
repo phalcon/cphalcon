@@ -635,7 +635,6 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, _allowOrDeny) {
  */
 PHP_METHOD(Phalcon_Acl_Adapter_Memory, allow) {
 
-	zephir_fcall_cache_entry *_3 = NULL;
 	HashTable *_1;
 	HashPosition _0;
 	int ZEPHIR_LAST_CALL_STATUS;
@@ -661,7 +660,7 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, allow) {
 		) {
 			ZEPHIR_GET_HMKEY(roleName, _1, _0);
 			ZEPHIR_GET_HVALUE(tmp, _2);
-			ZEPHIR_CALL_METHOD(NULL, this_ptr, "_allowordeny", &_3, roleName, resourceName, access, ZEPHIR_GLOBAL(global_true));
+			ZEPHIR_CALL_METHOD(NULL, this_ptr, "_allowordeny", NULL, roleName, resourceName, access, ZEPHIR_GLOBAL(global_true));
 			zephir_check_call_status();
 		}
 	}
@@ -696,7 +695,6 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, allow) {
  */
 PHP_METHOD(Phalcon_Acl_Adapter_Memory, deny) {
 
-	zephir_fcall_cache_entry *_3 = NULL;
 	HashTable *_1;
 	HashPosition _0;
 	int ZEPHIR_LAST_CALL_STATUS;
@@ -722,7 +720,7 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, deny) {
 		) {
 			ZEPHIR_GET_HMKEY(roleName, _1, _0);
 			ZEPHIR_GET_HVALUE(tmp, _2);
-			ZEPHIR_CALL_METHOD(NULL, this_ptr, "_allowordeny", &_3, roleName, resourceName, access, ZEPHIR_GLOBAL(global_false));
+			ZEPHIR_CALL_METHOD(NULL, this_ptr, "_allowordeny", NULL, roleName, resourceName, access, ZEPHIR_GLOBAL(global_false));
 			zephir_check_call_status();
 		}
 	}

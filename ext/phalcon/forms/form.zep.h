@@ -3,6 +3,8 @@ extern zend_class_entry *phalcon_forms_form_ce;
 
 ZEPHIR_INIT_CLASS(Phalcon_Forms_Form);
 
+PHP_METHOD(Phalcon_Forms_Form, setValidation);
+PHP_METHOD(Phalcon_Forms_Form, getValidation);
 PHP_METHOD(Phalcon_Forms_Form, __construct);
 PHP_METHOD(Phalcon_Forms_Form, setAction);
 PHP_METHOD(Phalcon_Forms_Form, getAction);
@@ -33,6 +35,10 @@ PHP_METHOD(Phalcon_Forms_Form, current);
 PHP_METHOD(Phalcon_Forms_Form, key);
 PHP_METHOD(Phalcon_Forms_Form, next);
 PHP_METHOD(Phalcon_Forms_Form, valid);
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_forms_form_setvalidation, 0, 0, 1)
+	ZEND_ARG_INFO(0, validation)
+ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_forms_form___construct, 0, 0, 0)
 	ZEND_ARG_INFO(0, entity)
@@ -122,6 +128,8 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_forms_form_clear, 0, 0, 0)
 ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_forms_form_method_entry) {
+	PHP_ME(Phalcon_Forms_Form, setValidation, arginfo_phalcon_forms_form_setvalidation, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Forms_Form, getValidation, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Forms_Form, __construct, arginfo_phalcon_forms_form___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
 	PHP_ME(Phalcon_Forms_Form, setAction, arginfo_phalcon_forms_form_setaction, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Forms_Form, getAction, NULL, ZEND_ACC_PUBLIC)

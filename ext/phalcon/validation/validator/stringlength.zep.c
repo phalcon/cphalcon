@@ -141,9 +141,6 @@ PHP_METHOD(Phalcon_Validation_Validator_StringLength, validate) {
 	if (ZEPHIR_IS_EMPTY(label)) {
 		ZEPHIR_CALL_METHOD(&label, validation, "getlabel", NULL, field);
 		zephir_check_call_status();
-		if (ZEPHIR_IS_EMPTY(label)) {
-			ZEPHIR_CPY_WRT(label, field);
-		}
 	}
 	if ((zephir_function_exists_ex(SS("mb_strlen") TSRMLS_CC) == SUCCESS)) {
 		ZEPHIR_CALL_FUNCTION(&length, "mb_strlen", NULL, value);

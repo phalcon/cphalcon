@@ -252,7 +252,6 @@ PHP_METHOD(Phalcon_Flash_Session, getMessages) {
  */
 PHP_METHOD(Phalcon_Flash_Session, output) {
 
-	zephir_fcall_cache_entry *_3 = NULL;
 	HashTable *_1;
 	HashPosition _0;
 	int ZEPHIR_LAST_CALL_STATUS;
@@ -279,7 +278,7 @@ PHP_METHOD(Phalcon_Flash_Session, output) {
 		) {
 			ZEPHIR_GET_HMKEY(type, _1, _0);
 			ZEPHIR_GET_HVALUE(message, _2);
-			ZEPHIR_CALL_METHOD(NULL, this_ptr, "outputmessage", &_3, type, message);
+			ZEPHIR_CALL_METHOD(NULL, this_ptr, "outputmessage", NULL, type, message);
 			zephir_check_call_status();
 		}
 	}

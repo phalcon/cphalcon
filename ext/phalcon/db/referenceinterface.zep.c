@@ -93,6 +93,20 @@ ZEPHIR_DOC_METHOD(Phalcon_Db_ReferenceInterface, getReferencedTable);
 ZEPHIR_DOC_METHOD(Phalcon_Db_ReferenceInterface, getReferencedColumns);
 
 /**
+ * Gets the referenced on delete
+ *
+ * @return string
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Db_ReferenceInterface, getOnDelete);
+
+/**
+ * Gets the referenced on update
+ *
+ * @return string
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Db_ReferenceInterface, getOnUpdate);
+
+/**
  * Restore a Phalcon\Db\Reference object from export
  *
  * @param array data

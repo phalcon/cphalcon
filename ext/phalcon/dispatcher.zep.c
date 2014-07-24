@@ -780,6 +780,20 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch) {
 				ZEPHIR_CALL_METHOD(NULL, handler, "initialize", NULL);
 				zephir_check_call_status();
 			}
+			if (zephir_is_true(eventsManager)) {
+				ZEPHIR_INIT_NVAR(_1);
+				ZVAL_STRING(_1, "dispatch:afterInitialize", 0);
+				ZEPHIR_CALL_METHOD(&_8, eventsManager, "fire", &_4, _1, this_ptr);
+				zephir_check_temp_parameter(_1);
+				zephir_check_call_status();
+				if (ZEPHIR_IS_FALSE_IDENTICAL(_8)) {
+					continue;
+				}
+				_5 = zephir_fetch_nproperty_this(this_ptr, SL("_finished"), PH_NOISY_CC);
+				if (ZEPHIR_IS_FALSE_IDENTICAL(_5)) {
+					continue;
+				}
+			}
 		}
 
 		/* try_start_1: */

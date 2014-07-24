@@ -685,7 +685,6 @@ PHP_METHOD(Phalcon_Http_Request, getScheme) {
  */
 PHP_METHOD(Phalcon_Http_Request, isAjax) {
 
-	zephir_nts_static zephir_fcall_cache_entry *_2 = NULL;
 	int ZEPHIR_LAST_CALL_STATUS;
 	zval *_0 = NULL, *_1;
 
@@ -693,7 +692,7 @@ PHP_METHOD(Phalcon_Http_Request, isAjax) {
 
 	ZEPHIR_INIT_VAR(_1);
 	ZVAL_STRING(_1, "HTTP_X_REQUESTED_WITH", 0);
-	ZEPHIR_CALL_METHOD(&_0, this_ptr, "getheader", &_2, _1);
+	ZEPHIR_CALL_METHOD(&_0, this_ptr, "getheader", NULL, _1);
 	zephir_check_temp_parameter(_1);
 	zephir_check_call_status();
 	RETURN_MM_BOOL(ZEPHIR_IS_STRING(_0, "XMLHttpRequest"));
@@ -976,29 +975,28 @@ PHP_METHOD(Phalcon_Http_Request, getUserAgent) {
  */
 PHP_METHOD(Phalcon_Http_Request, isMethod) {
 
-	HashTable *_2;
-	HashPosition _1;
-	zephir_nts_static zephir_fcall_cache_entry *_0 = NULL;
+	HashTable *_1;
+	HashPosition _0;
 	int ZEPHIR_LAST_CALL_STATUS;
-	zval *methods, *httpMethod = NULL, *method = NULL, **_3;
+	zval *methods, *httpMethod = NULL, *method = NULL, **_2;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &methods);
 
 
 
-	ZEPHIR_CALL_METHOD(&httpMethod, this_ptr, "getmethod",  &_0);
+	ZEPHIR_CALL_METHOD(&httpMethod, this_ptr, "getmethod",  NULL);
 	zephir_check_call_status();
 	if (Z_TYPE_P(methods) == IS_STRING) {
 		RETURN_MM_BOOL(ZEPHIR_IS_EQUAL(methods, httpMethod));
 	} else {
 		if (Z_TYPE_P(methods) == IS_ARRAY) {
-			zephir_is_iterable(methods, &_2, &_1, 0, 0);
+			zephir_is_iterable(methods, &_1, &_0, 0, 0);
 			for (
-			  ; zephir_hash_get_current_data_ex(_2, (void**) &_3, &_1) == SUCCESS
-			  ; zephir_hash_move_forward_ex(_2, &_1)
+			  ; zephir_hash_get_current_data_ex(_1, (void**) &_2, &_0) == SUCCESS
+			  ; zephir_hash_move_forward_ex(_1, &_0)
 			) {
-				ZEPHIR_GET_HVALUE(method, _3);
+				ZEPHIR_GET_HVALUE(method, _2);
 				if (ZEPHIR_IS_EQUAL(method, httpMethod)) {
 					RETURN_MM_BOOL(1);
 				}
@@ -1016,13 +1014,12 @@ PHP_METHOD(Phalcon_Http_Request, isMethod) {
  */
 PHP_METHOD(Phalcon_Http_Request, isPost) {
 
-	zephir_nts_static zephir_fcall_cache_entry *_1 = NULL;
 	int ZEPHIR_LAST_CALL_STATUS;
 	zval *_0 = NULL;
 
 	ZEPHIR_MM_GROW();
 
-	ZEPHIR_CALL_METHOD(&_0, this_ptr, "getmethod",  &_1);
+	ZEPHIR_CALL_METHOD(&_0, this_ptr, "getmethod",  NULL);
 	zephir_check_call_status();
 	RETURN_MM_BOOL(ZEPHIR_IS_STRING(_0, "POST"));
 
@@ -1036,13 +1033,12 @@ PHP_METHOD(Phalcon_Http_Request, isPost) {
  */
 PHP_METHOD(Phalcon_Http_Request, isGet) {
 
-	zephir_nts_static zephir_fcall_cache_entry *_1 = NULL;
 	int ZEPHIR_LAST_CALL_STATUS;
 	zval *_0 = NULL;
 
 	ZEPHIR_MM_GROW();
 
-	ZEPHIR_CALL_METHOD(&_0, this_ptr, "getmethod",  &_1);
+	ZEPHIR_CALL_METHOD(&_0, this_ptr, "getmethod",  NULL);
 	zephir_check_call_status();
 	RETURN_MM_BOOL(ZEPHIR_IS_STRING(_0, "GET"));
 
@@ -1055,13 +1051,12 @@ PHP_METHOD(Phalcon_Http_Request, isGet) {
  */
 PHP_METHOD(Phalcon_Http_Request, isPut) {
 
-	zephir_nts_static zephir_fcall_cache_entry *_1 = NULL;
 	int ZEPHIR_LAST_CALL_STATUS;
 	zval *_0 = NULL;
 
 	ZEPHIR_MM_GROW();
 
-	ZEPHIR_CALL_METHOD(&_0, this_ptr, "getmethod",  &_1);
+	ZEPHIR_CALL_METHOD(&_0, this_ptr, "getmethod",  NULL);
 	zephir_check_call_status();
 	RETURN_MM_BOOL(ZEPHIR_IS_STRING(_0, "PUT"));
 
@@ -1074,13 +1069,12 @@ PHP_METHOD(Phalcon_Http_Request, isPut) {
  */
 PHP_METHOD(Phalcon_Http_Request, isPatch) {
 
-	zephir_nts_static zephir_fcall_cache_entry *_1 = NULL;
 	int ZEPHIR_LAST_CALL_STATUS;
 	zval *_0 = NULL;
 
 	ZEPHIR_MM_GROW();
 
-	ZEPHIR_CALL_METHOD(&_0, this_ptr, "getmethod",  &_1);
+	ZEPHIR_CALL_METHOD(&_0, this_ptr, "getmethod",  NULL);
 	zephir_check_call_status();
 	RETURN_MM_BOOL(ZEPHIR_IS_STRING(_0, "PATCH"));
 
@@ -1093,13 +1087,12 @@ PHP_METHOD(Phalcon_Http_Request, isPatch) {
  */
 PHP_METHOD(Phalcon_Http_Request, isHead) {
 
-	zephir_nts_static zephir_fcall_cache_entry *_1 = NULL;
 	int ZEPHIR_LAST_CALL_STATUS;
 	zval *_0 = NULL;
 
 	ZEPHIR_MM_GROW();
 
-	ZEPHIR_CALL_METHOD(&_0, this_ptr, "getmethod",  &_1);
+	ZEPHIR_CALL_METHOD(&_0, this_ptr, "getmethod",  NULL);
 	zephir_check_call_status();
 	RETURN_MM_BOOL(ZEPHIR_IS_STRING(_0, "HEAD"));
 
@@ -1112,13 +1105,12 @@ PHP_METHOD(Phalcon_Http_Request, isHead) {
  */
 PHP_METHOD(Phalcon_Http_Request, isDelete) {
 
-	zephir_nts_static zephir_fcall_cache_entry *_1 = NULL;
 	int ZEPHIR_LAST_CALL_STATUS;
 	zval *_0 = NULL;
 
 	ZEPHIR_MM_GROW();
 
-	ZEPHIR_CALL_METHOD(&_0, this_ptr, "getmethod",  &_1);
+	ZEPHIR_CALL_METHOD(&_0, this_ptr, "getmethod",  NULL);
 	zephir_check_call_status();
 	RETURN_MM_BOOL(ZEPHIR_IS_STRING(_0, "DELETE"));
 
@@ -1131,13 +1123,12 @@ PHP_METHOD(Phalcon_Http_Request, isDelete) {
  */
 PHP_METHOD(Phalcon_Http_Request, isOptions) {
 
-	zephir_nts_static zephir_fcall_cache_entry *_1 = NULL;
 	int ZEPHIR_LAST_CALL_STATUS;
 	zval *_0 = NULL;
 
 	ZEPHIR_MM_GROW();
 
-	ZEPHIR_CALL_METHOD(&_0, this_ptr, "getmethod",  &_1);
+	ZEPHIR_CALL_METHOD(&_0, this_ptr, "getmethod",  NULL);
 	zephir_check_call_status();
 	RETURN_MM_BOOL(ZEPHIR_IS_STRING(_0, "OPTIONS"));
 
@@ -1151,7 +1142,6 @@ PHP_METHOD(Phalcon_Http_Request, isOptions) {
  */
 PHP_METHOD(Phalcon_Http_Request, hasFiles) {
 
-	zephir_nts_static zephir_fcall_cache_entry *_5 = NULL;
 	HashTable *_1;
 	HashPosition _0;
 	int numberFiles = 0, ZEPHIR_LAST_CALL_STATUS;
@@ -1191,7 +1181,7 @@ PHP_METHOD(Phalcon_Http_Request, hasFiles) {
 				}
 			}
 			if (Z_TYPE_P(error) == IS_ARRAY) {
-				ZEPHIR_CALL_METHOD(&_4, this_ptr, "hasfilehelper", &_5, error, (onlySuccessful ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false)));
+				ZEPHIR_CALL_METHOD(&_4, this_ptr, "hasfilehelper", NULL, error, (onlySuccessful ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false)));
 				zephir_check_call_status();
 				numberFiles += zephir_get_numberval(_4);
 			}
@@ -1203,7 +1193,6 @@ PHP_METHOD(Phalcon_Http_Request, hasFiles) {
 
 PHP_METHOD(Phalcon_Http_Request, hasFileHelper) {
 
-	zephir_nts_static zephir_fcall_cache_entry *_5 = NULL;
 	HashTable *_1;
 	HashPosition _0;
 	int numberFiles = 0, ZEPHIR_LAST_CALL_STATUS;
@@ -1235,7 +1224,7 @@ PHP_METHOD(Phalcon_Http_Request, hasFileHelper) {
 			}
 		}
 		if (Z_TYPE_P(value) == IS_ARRAY) {
-			ZEPHIR_CALL_METHOD(&_4, this_ptr, "hasfilehelper", &_5, value, (onlySuccessful ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false)));
+			ZEPHIR_CALL_METHOD(&_4, this_ptr, "hasfilehelper", NULL, value, (onlySuccessful ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false)));
 			zephir_check_call_status();
 			numberFiles += zephir_get_numberval(_4);
 		}

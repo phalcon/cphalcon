@@ -80,7 +80,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Db_Adapter_Pdo_Oracle) {
  */
 PHP_METHOD(Phalcon_Db_Adapter_Pdo_Oracle, connect) {
 
-	zephir_fcall_cache_entry *_4 = NULL;
 	HashTable *_2;
 	HashPosition _1;
 	int ZEPHIR_LAST_CALL_STATUS;
@@ -112,7 +111,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Oracle, connect) {
 			  ; zephir_hash_move_forward_ex(_2, &_1)
 			) {
 				ZEPHIR_GET_HVALUE(value, _3);
-				ZEPHIR_CALL_METHOD(NULL, this_ptr, "execute", &_4, value);
+				ZEPHIR_CALL_METHOD(NULL, this_ptr, "execute", NULL, value);
 				zephir_check_call_status();
 			}
 		}

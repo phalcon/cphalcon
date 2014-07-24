@@ -499,7 +499,8 @@ PHP_METHOD(Phalcon_Db_Column, getBindType) {
 PHP_METHOD(Phalcon_Db_Column, __set_state) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
-	zval *data, *definition, *columnType, *notNull, *size, *dunsigned, *after, *isNumeric, *first, *bindType, *primary, *_0;
+	zend_bool _1, _3;
+	zval *data, *definition, *columnType, *notNull, *size, *dunsigned, *after, *isNumeric, *first, *bindType, *primary, *columnName = NULL, *scale, *_0, *_2, *_4;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &data);
@@ -510,9 +511,13 @@ PHP_METHOD(Phalcon_Db_Column, __set_state) {
 		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "Column state must be an array", "phalcon/db/column.zep", 410);
 		return;
 	}
-	if (!(zephir_array_isset_string(data, SS("_name")))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "Column name is required", "phalcon/db/column.zep", 414);
-		return;
+	ZEPHIR_OBS_VAR(columnName);
+	if (!(zephir_array_isset_string_fetch(&columnName, data, SS("_columnName"), 0 TSRMLS_CC))) {
+		ZEPHIR_OBS_NVAR(columnName);
+		if (!(zephir_array_isset_string_fetch(&columnName, data, SS("_name"), 0 TSRMLS_CC))) {
+			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "Column name is required", "phalcon/db/column.zep", 415);
+			return;
+		}
 	}
 	ZEPHIR_INIT_VAR(definition);
 	array_init(definition);
@@ -520,13 +525,29 @@ PHP_METHOD(Phalcon_Db_Column, __set_state) {
 		zephir_array_update_string(&definition, SL("type"), &columnType, PH_COPY | PH_SEPARATE);
 	}
 	if (zephir_array_isset_string_fetch(&notNull, data, SS("_notNull"), 1 TSRMLS_CC)) {
-		zephir_array_update_string(&definition, SL("_notNull"), &notNull, PH_COPY | PH_SEPARATE);
+		zephir_array_update_string(&definition, SL("notNull"), &notNull, PH_COPY | PH_SEPARATE);
 	}
 	if (zephir_array_isset_string_fetch(&primary, data, SS("_primary"), 1 TSRMLS_CC)) {
 		zephir_array_update_string(&definition, SL("primary"), &primary, PH_COPY | PH_SEPARATE);
 	}
 	if (zephir_array_isset_string_fetch(&size, data, SS("_size"), 1 TSRMLS_CC)) {
 		zephir_array_update_string(&definition, SL("size"), &size, PH_COPY | PH_SEPARATE);
+	}
+	if (zephir_array_isset_string_fetch(&scale, data, SS("_scale"), 1 TSRMLS_CC)) {
+		zephir_array_fetch_string(&_0, definition, SL("type"), PH_NOISY | PH_READONLY TSRMLS_CC);
+		_1 = ZEPHIR_IS_LONG(_0, 0);
+		if (!(_1)) {
+			zephir_array_fetch_string(&_2, definition, SL("type"), PH_NOISY | PH_READONLY TSRMLS_CC);
+			_1 = ZEPHIR_IS_LONG(_2, 7);
+		}
+		_3 = _1;
+		if (!(_3)) {
+			zephir_array_fetch_string(&_4, definition, SL("type"), PH_NOISY | PH_READONLY TSRMLS_CC);
+			_3 = ZEPHIR_IS_LONG(_4, 3);
+		}
+		if (_3) {
+			zephir_array_update_string(&definition, SL("scale"), &scale, PH_COPY | PH_SEPARATE);
+		}
 	}
 	if (zephir_array_isset_string_fetch(&dunsigned, data, SS("_unsigned"), 1 TSRMLS_CC)) {
 		zephir_array_update_string(&definition, SL("unsigned"), &dunsigned, PH_COPY | PH_SEPARATE);
@@ -544,8 +565,7 @@ PHP_METHOD(Phalcon_Db_Column, __set_state) {
 		zephir_array_update_string(&definition, SL("bindType"), &bindType, PH_COPY | PH_SEPARATE);
 	}
 	object_init_ex(return_value, phalcon_db_column_ce);
-	zephir_array_fetch_string(&_0, data, SL("_name"), PH_NOISY | PH_READONLY TSRMLS_CC);
-	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, _0, definition);
+	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, columnName, definition);
 	zephir_check_call_status();
 	RETURN_MM();
 
