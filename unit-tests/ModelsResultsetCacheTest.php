@@ -127,6 +127,7 @@ class ModelsResultsetCacheTest extends PHPUnit_Framework_TestCase
 			));
 		}, true);
 
+		//Find
 		$robots = Robots::find(array(
 			'cache' => array('key' => 'some'),
 			'order' => 'id'
@@ -141,6 +142,19 @@ class ModelsResultsetCacheTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals(count($robots), 3);
 		$this->assertFalse($robots->isFresh());
 
+
+		//Aggregate functions like sum, count, etc
+		$robotscount = Robots::count(array(
+			'cache' => array('key' => 'some-count'),
+		));
+		$this->assertEquals($robotscount, 3);
+		$this->assertTrue($robots->isFresh());
+
+		$robotscount = Robots::count(array(
+			'cache' => array('key' => 'some-count'),
+		));
+		$this->assertEquals($robotscount, 3);
+		$this->assertFalse($robots->isFresh());
 	}
 
 	protected function _testCacheDefaultDIBindings($di)
