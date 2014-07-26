@@ -91,7 +91,7 @@ class Libmemcached extends \Phalcon\Cache\Backend implements \Phalcon\Cache\Back
 	*/
 	public function _connect()
 	{
-		var options, memcache, client, servers, option, res;
+		var options, memcache, client, servers;
 
 		let options = this->_options;
 		let memcache = new \Memcached();
@@ -112,7 +112,7 @@ class Libmemcached extends \Phalcon\Cache\Backend implements \Phalcon\Cache\Back
 		if typeof client == "array" {
 			memcache->setOptions(client);
 		} else {
-			throw new Exception("Client options must be instance of array");
+			throw new \Phalcon\Cache\Exception("Client options must be instance of array");
 		}
 
 		let this->_memcache = memcache;

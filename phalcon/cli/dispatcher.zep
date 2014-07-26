@@ -100,7 +100,7 @@ class Dispatcher extends \Phalcon\Dispatcher
 	 */
 	protected function _throwDispatchException(string message, int exceptionCode=0)
 	{
-		var exception, eventsManager;
+		var exception;
 
 		let exception = new \Phalcon\Cli\Dispatcher\Exception(message, exceptionCode);
 

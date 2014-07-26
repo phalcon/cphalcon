@@ -38,7 +38,7 @@ abstract class Select
 	public static function selectField(parameters, data=null)
 	{
 		var params, name, id, value, useEmpty, code, emptyValue, emptyText,
-			key, avalue, options, closeOption, using;
+			options, closeOption, using;
 
 		if typeof parameters != "array" {
 			let params = [parameters, data];

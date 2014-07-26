@@ -100,7 +100,7 @@ class Tag
 
 	public static function renderAttributes(string! code, array! attributes)
 	{
-		var order, keys, escaper, attrs, value, escaped, attribute, key;
+		var order, keys, escaper, attrs, value, escaped, key;
 
 		let order = ["rel", "type", "for", "src", "href", "action", "id", "name", "value", "class"],
 			escaper = self::getEscaper(attributes),
@@ -302,7 +302,7 @@ class Tag
 	 */
 	public static function getValue(name, params=null)
 	{
-		var value, autoescape;
+		var value;
 
 
 		if !params || !fetch value, params["value"] {
@@ -354,7 +354,7 @@ class Tag
 	 */
 	public static function linkTo(parameters, text=null, local=true)
 	{
-		var key, value, params, action, query, url, code;
+		var params, action, query, url, code;
 
 		if typeof parameters != "array" {
 			let params = [parameters, text, local];
@@ -410,7 +410,7 @@ class Tag
 	 */
 	static protected function _inputField(string type, parameters, boolean asValue=false) -> string
 	{
-		var params, id, value, key, code, name;
+		var params, id, value, code, name;
 
 		let params = [];
 
@@ -480,7 +480,7 @@ class Tag
 	 */
 	static protected function _inputFieldChecked(string type, parameters) -> string
 	{
-		var params, value, id, key, code, name, currentValue;
+		var params, value, id, code, name, currentValue;
 
 		if  typeof parameters != "array" {
 			let params = [parameters];
@@ -900,7 +900,7 @@ class Tag
 	 */
 	static public function textArea(parameters) -> string
 	{
-		var params, id, key, name, avalue, content, code;
+		var params, id, name, content, code;
 
 		if typeof parameters != "array" {
 			let params = [parameters];
@@ -960,7 +960,7 @@ class Tag
 	 */
 	static public function form(parameters) -> string
 	{
-		var params, paramsAction, action, code, key, avalue;
+		var params, paramsAction, action, code;
 
 		if typeof parameters != "array" {
 			let params = [parameters];
@@ -1121,7 +1121,7 @@ class Tag
 	 */
 	public static function stylesheetLink(parameters=null, local=true)
 	{
-		var params, code, key, value, rel;
+		var params, code, value;
 
 		if typeof parameters != "array" {
 			let params = [parameters, local];
@@ -1199,7 +1199,7 @@ class Tag
 	 */
 	public static function javascriptInclude(parameters=null, local=true)
 	{
-		var params, code, key, value;
+		var params, code;
 
 		if typeof parameters != "array" {
 			let params = [parameters, local];
@@ -1266,7 +1266,7 @@ class Tag
 	 */
 	public static function image(parameters=null, local=true)
 	{
-		var params, code, key, value, src;
+		var params, code, src;
 
 		if typeof parameters != "array" {
 			let params = [parameters];
@@ -1386,7 +1386,7 @@ class Tag
 	 */
 	public static function tagHtml(tagName, parameters=null, selfClose=false, onlyStart=false, useEol=false) -> string
 	{
-		var params, localCode, key, value;
+		var params, localCode;
 
 		if typeof parameters != "array" {
 			let params = [parameters];

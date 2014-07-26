@@ -119,7 +119,7 @@ class Dispatcher extends \Phalcon\Dispatcher implements \Phalcon\Mvc\DispatcherI
 	 */
 	protected function _throwDispatchException(string! message, int exceptionCode=0)
 	{
-		var eventsManager, dependencyInjector, response, exception;
+		var dependencyInjector, response, exception;
 
 		let dependencyInjector = this->_dependencyInjector;
 		if typeof dependencyInjector != "object" {
