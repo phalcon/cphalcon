@@ -170,11 +170,17 @@ class Manager implements ManagerInterface
 		var status, arguments, eventName, data, iterator, source, handler;
 		boolean collect, cancelable;
 
-		if typeof queue != "array" && typeof queue != "object" {
-			throw new Exception("The queue is not valid");
+		if typeof queue != "array" {
+			if typeof queue == "object" {
+				if !(queue instanceof \Phalcon\Events\Event) && !(queue instanceof \SplPriorityQueue) {
+					throw new Exception(sprintf("Unexpected value type: expected object of type Phalcon\\Events\\Event or SplPriorityQueue, %s given", get_class(queue)));	
+				}
+			} else {
+				throw new Exception("The queue is not valid");
+			}
 		}
 
-		if typeof event != "object" {
+		if typeof event != "object" || !(event instanceof \Phalcon\Events\Event) {
 			throw new Exception("The event is not valid");
 		}
 
