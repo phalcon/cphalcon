@@ -1121,7 +1121,7 @@ class Tag
 	 */
 	public static function stylesheetLink(parameters=null, local=true)
 	{
-		var params, code, value;
+		var params, code;
 
 		if typeof parameters != "array" {
 			let params = [parameters, local];
