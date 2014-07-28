@@ -4134,7 +4134,7 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 			for key, item in value {
 				if typeof item == "object" {
 					if item instanceof \Phalcon\Mvc\ModelInterface {
-						let related[] = value;
+						let related[] = item;
 					}
 				} else {
 					let lowerKey = strtolower(key),
