@@ -98,27 +98,19 @@ class Tag
 		return result;
 	}
 
-	public static function renderAttributes(string code, attributes)
+	public static function renderAttributes(string! code, array! attributes)
 	{
-		var order, escaper, attrs, value, escaped, attribute, key;
+		var order, keys, escaper, attrs, value, escaped, key;
 
-		let attrs = [];
-		let order = ["type", "for", "src", "href", "action", "id", "name", "value", "class"];
-
-		let escaper = self::getEscaper(attributes);
-
-		for attribute, value in attributes {
-			if isset order[attribute] {
-				let attrs[attribute] = value;
-			}
-		}
-
-		let attrs = array_merge_recursive(attrs, attributes);
+		let order = ["rel", "type", "for", "src", "href", "action", "id", "name", "value", "class"],
+			escaper = self::getEscaper(attributes),
+			keys = array_intersect_key(array_flip(order), attributes),
+        	attrs = array_merge(keys, attributes);
 
 		unset attrs["escape"];
 
-		for key, value in attrs {
-			if typeof key == "string" {
+		for key, value in attrs {			
+			if typeof key == "string" && value != null {
 				if escaper {
 					let escaped = escaper->escapeHtmlAttr(value);
 				} else {
@@ -310,34 +302,19 @@ class Tag
 	 */
 	public static function getValue(name, params=null)
 	{
-		var value, autoescape;
+		var value;
 
-		/**
-		 * Check if there is a predefined value for it
-		 */
-		if !fetch value, self::_displayValues[name] {
+
+		if !params || !fetch value, params["value"] {
 			/**
-			 * Check if there is a post value for the item
+			 * Check if there is a predefined value for it
 			 */
-			if !fetch value, _POST[name] {
-				return null;
-			}
-		}
-
-		/**
-		 * Escape all values in autoescape mode. Only escaping values
-		 */
-		if typeof value == "string" {
-
-			if self::_autoEscape {
-				return self::getEscaperService()->escapeHtmlAttr(value);
-			}
-
-			if typeof params == "array" {
-				if fetch autoescape, params["escape"] {
-					if autoescape {
-						return self::getEscaperService()->escapeHtmlAttr(value);
-					}
+			if !fetch value, self::_displayValues[name] {
+				/**
+				 * Check if there is a post value for the item
+				 */
+				if !fetch value, _POST[name] {
+					return null;
 				}
 			}
 		}
@@ -377,7 +354,7 @@ class Tag
 	 */
 	public static function linkTo(parameters, text=null, local=true)
 	{
-		var key, value, params, action, url, code;
+		var params, action, query, url, code;
 
 		if typeof parameters != "array" {
 			let params = [parameters, text, local];
@@ -409,19 +386,16 @@ class Tag
 			}
 		}
 
-		if local {
-			let url = self::getUrlService(),
-				code = "<a href=\"" . url->get(action) . "\"";
-		} else {
-			let code = "<a href=\"" . action . "\"";
+		if fetch query, params["query"] {
+			unset params["query"];
+		} else  {
+			let query = null;
 		}
 
-		for key, value in params {
-			if typeof key != "integer" {
-				let code .= " " . key . "=\"" . value . "\"";
-			}
-		}
-		let code .= ">" . text . "</a>";
+		let url = self::getUrlService(),
+			params["href"] = url->get(action, query, local),
+			code = self::renderAttributes("<a", params),
+			code .= ">" . text . "</a>";
 
 		return code;
 	}
@@ -436,7 +410,7 @@ class Tag
 	 */
 	static protected function _inputField(string type, parameters, boolean asValue=false) -> string
 	{
-		var params, id, value, key, code, name;
+		var params, id, value, code, name;
 
 		let params = [];
 
@@ -469,12 +443,7 @@ class Tag
 				}
 			}
 
-			/**
-			 * Use the parameter "value" if the developer had set it
-			 */
-			if !isset params["value"] {
-				let params["value"] = self::getValue(id, params);
-			}
+			let params["value"] = self::getValue(id, params);
 
 		} else {
 			/**
@@ -487,12 +456,8 @@ class Tag
 			}
 		}
 
-		let code = "<input type=\"" . type . "\"";
-		for key, value in params {
-			if typeof key != "integer" {
-				let code .= " " . key . "=\"" . value . "\"";
-			}
-		}
+		let params["type"] = type,
+			code = self::renderAttributes("<input", params);
 
 		/**
 		 * Check if Doctype is XHTML
@@ -515,7 +480,7 @@ class Tag
 	 */
 	static protected function _inputFieldChecked(string type, parameters) -> string
 	{
-		var params, value, id, key, code, name, currentValue;
+		var params, value, id, code, name, currentValue;
 
 		if  typeof parameters != "array" {
 			let params = [parameters];
@@ -553,9 +518,8 @@ class Tag
 		/**
 		 * Automatically check inputs
 		 */
-		if isset params["value"] {
-			let currentValue = params["value"];
-			if currentValue == value {
+		if fetch currentValue, params["value"] {
+			if value && currentValue == value {
 				let params["checked"] = "checked";
 			}
 		} else {
@@ -572,12 +536,8 @@ class Tag
 			let params["value"] = value;
 		}
 
-		let code = "<input type=\"" . type . "\"";
-		for key, value in params {
-			if typeof key != "integer" {
-				let code .= " " . key . "=\"" . value . "\"";
-			}
-		}
+		let params["type"] = type,
+			code = self::renderAttributes("<input", params);
 
 		/**
 		 * Check if Doctype is XHTML
@@ -940,7 +900,7 @@ class Tag
 	 */
 	static public function textArea(parameters) -> string
 	{
-		var params, id, key, name, avalue, content, code;
+		var params, id, name, content, code;
 
 		if typeof parameters != "array" {
 			let params = [parameters];
@@ -975,14 +935,8 @@ class Tag
 			let content = self::getValue(id, params);
 		}
 
-		let code = "<textarea";
-		for key,avalue in params {
-			if typeof key != "integer" {
-				let code .=  " ".key."=\"".avalue."\"";
-			}
-		}
-
-		let code .= ">".content."</textarea>";
+		let code = self::renderAttributes("<textarea", params),
+			code .= ">".content."</textarea>";
 
 		return code;
 	}
@@ -1006,7 +960,7 @@ class Tag
 	 */
 	static public function form(parameters) -> string
 	{
-		var params, paramsAction, action, code, key, avalue;
+		var params, paramsAction, action, code;
 
 		if typeof parameters != "array" {
 			let params = [parameters];
@@ -1042,13 +996,8 @@ class Tag
 			let params["action"] = action;
 		}
 
-		let code = "<form";
-		for key, avalue in params {
-			if typeof key != "integer" {
-				let code .= " " . key . "=\"" . avalue . "\"";
-			}
-		}
-		let code .= ">";
+		let code = self::renderAttributes("<form", params),
+			code .= ">";
 
 		return code;
 	}
@@ -1172,7 +1121,7 @@ class Tag
 	 */
 	public static function stylesheetLink(parameters=null, local=true)
 	{
-		var params, code, key, value, rel;
+		var params, code;
 
 		if typeof parameters != "array" {
 			let params = [parameters, local];
@@ -1212,18 +1161,11 @@ class Tag
 			let params["href"] = self::getUrlService()->getStatic(params["href"]);
 		}
 
-		if fetch rel, params["rel"] {
-			let code = "<link rel=\"" . rel . "\"";
-			unset params["rel"];
-		} else {
-			let code = "<link rel=\"stylesheet\"";
+		if !isset params["rel"] {
+			let params["rel"] = "stylesheet";
 		}
 
-		for key, value in params {
-			if typeof key != "integer" {
-				let code .= " " . key . "=\"" . value . "\"";
-			}
-		}
+		let code = self::renderAttributes("<link", params);
 
 		/**
 		 * Check if Doctype is XHTML
@@ -1257,7 +1199,7 @@ class Tag
 	 */
 	public static function javascriptInclude(parameters=null, local=true)
 	{
-		var params, code, key, value;
+		var params, code;
 
 		if typeof parameters != "array" {
 			let params = [parameters, local];
@@ -1297,13 +1239,8 @@ class Tag
 			let params["src"] = self::getUrlService()->getStatic(params["src"]);
 		}
 
-		let code = "<script";
-		for key, value in params {
-			if typeof key != "integer" {
-				let code .= " " . key . "=\"" . value . "\"";
-			}
-		}
-		let code .= "></script>" . PHP_EOL;
+		let code = self::renderAttributes("<script", params),
+			code .= "></script>" . PHP_EOL;
 
 		return code;
 	}
@@ -1329,7 +1266,7 @@ class Tag
 	 */
 	public static function image(parameters=null, local=true)
 	{
-		var params, code, key, value, src;
+		var params, code, src;
 
 		if typeof parameters != "array" {
 			let params = [parameters];
@@ -1352,12 +1289,7 @@ class Tag
 			let params["src"] = self::getUrlService()->getStatic(params["src"]);
 		}
 
-		let code = "<img";
-		for key, value in params {
-			if typeof key != "integer" {
-				let code .= " ".key."=\"".value."\"";
-			}
-		}
+		let code = self::renderAttributes("<img", params);
 
 		/**
 		 * Check if Doctype is XHTML
@@ -1454,7 +1386,7 @@ class Tag
 	 */
 	public static function tagHtml(tagName, parameters=null, selfClose=false, onlyStart=false, useEol=false) -> string
 	{
-		var params, localCode, key, value;
+		var params, localCode;
 
 		if typeof parameters != "array" {
 			let params = [parameters];
@@ -1462,13 +1394,7 @@ class Tag
 			let params = parameters;
 		}
 
-		let localCode = "<" . tagName;
-
-		for key, value in params {
-			if typeof key != "integer" {
-				let localCode .= " " . key . "=\"" . value . "\"";
-			}
-		}
+		let localCode = self::renderAttributes("<" . tagName, params);
 
 		/**
 		 * Check if Doctype is XHTML

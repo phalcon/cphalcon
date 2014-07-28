@@ -740,7 +740,7 @@ class View extends \Phalcon\Di\Injectable implements \Phalcon\Mvc\ViewInterface
 	 */
 	public function exists(string! view) -> boolean
 	{
-		var basePath, viewsDir, engines, dependencyInjector, engine, extension, path, exists;
+		var basePath, viewsDir, engines, engine, extension, path, exists;
 
 		let basePath = this->_basePath,
 			viewsDir = this->_viewsDir,

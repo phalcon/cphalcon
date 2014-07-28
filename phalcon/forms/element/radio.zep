@@ -17,49 +17,25 @@
  +------------------------------------------------------------------------+
  */
 
-namespace Phalcon\Events;
+namespace Phalcon\Forms\Element;
 
 /**
- * Phalcon\Events\Manager
+ * Phalcon\Forms\Element\Radio
  *
- * Phalcon Events Manager, offers an easy way to intercept and manipulate, if needed,
- * the normal flow of operation. With the EventsManager the developer can create hooks or
- * plugins that will offer monitoring of data, manipulation, conditional execution and much more.
+ * Component INPUT[type=radio] for forms
  */
-interface ManagerInterface
+class Radio extends \Phalcon\Forms\Element implements \Phalcon\Forms\ElementInterface
 {
 
 	/**
-	 * Attach a listener to the events manager
+	 * Renders the element widget returning html
 	 *
-	 * @param string eventType
-	 * @param object handler
+	 * @param array attributes
+	 * @return string
 	 */
-	public function attach(eventType, handler);
-
-	/**
-	 * Removes all events from the EventsManager
-	 *
-	 * @param string type
-	 */
-	public function detachAll(type=null);
-
-	/**
-	 * Fires a event in the events manager causing that the acive listeners will be notified about it
-	 *
-	 * @param string eventType
-	 * @param object source
-	 * @param mixed  data
-	 * @return mixed
-	 */
-	public function fire(eventType, source, data=null);
-
-	/**
-	 * Returns all the attached listeners of a certain type
-	 *
-	 * @param string type
-	 * @return array
-	 */
-	public function getListeners(type);
+	public function render(attributes=null) -> string
+	{
+		return \Phalcon\Tag::radioField(this->prepareAttributes(attributes, true));
+	}
 
 }

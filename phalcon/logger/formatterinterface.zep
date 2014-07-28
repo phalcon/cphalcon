@@ -33,7 +33,8 @@ interface FormatterInterface
 	 * @param string message
 	 * @param int type
 	 * @param int timestamp
+	 * @param array $context
 	 */
-	public function format(string message, int type, int timestamp);
+	public function format(string message, int type, int timestamp, array context=null);
 
 }

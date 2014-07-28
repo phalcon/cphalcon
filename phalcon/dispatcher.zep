@@ -570,8 +570,11 @@ abstract class Dispatcher implements \Phalcon\DispatcherInterface, \Phalcon\Di\I
 					this->_lastHandler = handler;
 
 			} catch \Exception, e {
-				this->{"_throwDispatchException"}(e->getMessage()); // create a method that receives the exception itself?
-				return null;
+				if this->{"_handleException"}(e) === false {
+					if this->_finished === false {
+						continue;
+					}
+				}
 			}
 
 			// Calling afterExecuteRoute

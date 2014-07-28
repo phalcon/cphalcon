@@ -63,9 +63,10 @@ class Line extends \Phalcon\Logger\Formatter implements \Phalcon\Logger\Formatte
 	 * @param string message
 	 * @param int type
 	 * @param int timestamp
+	 * @param array $context
 	 * @return string
 	 */
-	public function format(string! message, int type, int timestamp) -> string
+	public function format(string message, int type, int timestamp, array context=null) -> string
 	{
 		var format;
 
@@ -85,7 +86,13 @@ class Line extends \Phalcon\Logger\Formatter implements \Phalcon\Logger\Formatte
 			let format = str_replace("%type%", this->getTypeString(type), format);
 		}
 
-		return str_replace("%message%", message, format) . PHP_EOL;
+		let format = str_replace("%message%", message, format);
+
+		if typeof context == "array" {
+			let format = this->interpolate(format, context);
+		}
+
+		return format;
 	}
 
 }

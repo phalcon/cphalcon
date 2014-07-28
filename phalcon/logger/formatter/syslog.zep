@@ -33,10 +33,15 @@ class Syslog extends \Phalcon\Logger\Formatter implements \Phalcon\Logger\Format
 	 * @param string message
 	 * @param int type
 	 * @param int timestamp
+	 * @param array $context
 	 * @return array
 	 */
-	public function format(message, int type, int timestamp)
+	public function format(message, int type, int timestamp, array context=null)
 	{
+		if typeof context == "array" {
+			let message = this->interpolate(message, context);
+		}
+
 		return [type, message];
 	}
 

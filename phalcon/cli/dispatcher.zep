@@ -100,18 +100,31 @@ class Dispatcher extends \Phalcon\Dispatcher
 	 */
 	protected function _throwDispatchException(string message, int exceptionCode=0)
 	{
-		var exception, eventsManager;
+		var exception;
 
 		let exception = new \Phalcon\Cli\Dispatcher\Exception(message, exceptionCode);
 
+		if this->_handleException(exception) === false {
+			return false;
+		}
+
+		throw exception;
+	}
+
+	/**
+	 * Handles a user exception
+	 *
+	 * @param \Exception exception
+	 */
+	protected function _handleException(<\Exception> exception)
+	{
+		var eventsManager;
 		let eventsManager = <\Phalcon\Events\Manager> this->_eventsManager;
 		if typeof eventsManager == "object" {
 			if eventsManager->fire("dispatch:beforeException", this, exception) === false {
 				return false;
 			}
 		}
-
-		throw exception;
 	}
 
 	/**

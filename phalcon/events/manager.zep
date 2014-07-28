@@ -53,7 +53,7 @@ class Manager implements ManagerInterface
 			throw new Exception("Event handler must be an Object");
 		}
 
-		if fetch priorityQueue, this->_events[eventType] {
+		if !fetch priorityQueue, this->_events[eventType] {
 
 			if this->_enablePriorities {
 
@@ -66,17 +66,18 @@ class Manager implements ManagerInterface
 				// Append the events to the queue
 				let this->_events[eventType] = priorityQueue;
 
+			} else {
+				let priorityQueue = [];
 			}
-
 		}
 
 		// Insert the handler in the queue
 		if typeof priorityQueue == "object" {
 			priorityQueue->insert(handler, priority);
 		} else {
-
 			// Append the events to the queue
-			let this->_events[eventType][] = handler;
+			let priorityQueue[] = handler;
+			let this->_events[eventType] = priorityQueue;
 		}
 
 	}
@@ -136,11 +137,25 @@ class Manager implements ManagerInterface
 	 *
 	 * @param string type
 	 */
+	public function detachAll(string! type=null)
+	{
+		if type === null {
+			let this->_events = null;
+		} else {
+			if isset this->_events[type] {
+				unset(this->_events[type]);
+			}
+		}
+	}
+
+	/**
+	 * Alias of detachAll
+	 *
+	 * @param string type
+	 */
 	public function dettachAll(string! type=null)
 	{
-		if isset this->_events[type] {
-			let this->_events[type] = null;
-		}
+		this->detachAll(type);
 	}
 
 	/**
@@ -155,11 +170,17 @@ class Manager implements ManagerInterface
 		var status, arguments, eventName, data, iterator, source, handler;
 		boolean collect, cancelable;
 
-		if typeof queue != "array" && typeof queue != "object" {
-			throw new Exception("The queue is not valid");
+		if typeof queue != "array" {
+			if typeof queue == "object" {
+				if !(queue instanceof \Phalcon\Events\Event) && !(queue instanceof \SplPriorityQueue) {
+					throw new Exception(sprintf("Unexpected value type: expected object of type Phalcon\\Events\\Event or SplPriorityQueue, %s given", get_class(queue)));	
+				}
+			} else {
+				throw new Exception("The queue is not valid");
+			}
 		}
 
-		if typeof event != "object" {
+		if typeof event != "object" || !(event instanceof \Phalcon\Events\Event) {
 			throw new Exception("The event is not valid");
 		}
 

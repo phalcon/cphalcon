@@ -38,7 +38,7 @@ abstract class Select
 	public static function selectField(parameters, data=null)
 	{
 		var params, name, id, value, useEmpty, code, emptyValue, emptyText,
-			key, avalue, options, closeOption, using;
+			options, closeOption, using;
 
 		if typeof parameters != "array" {
 			let params = [parameters, data];
@@ -91,14 +91,7 @@ abstract class Select
 			unset params["useEmpty"];
 		}
 
-		let code = "<select";
-		if typeof params == "array" {
-			for key, avalue in params {
-				if typeof key != "integer" && typeof avalue != "array" {
-					let code .= " " . key . "=\"" . avalue . "\"";
-				}
-			}
-		}
+		let code = \Phalcon\Tag::renderAttributes("<select", params);
 		let code .= ">" . PHP_EOL;
 
 		let closeOption = "</option>" . PHP_EOL;
@@ -230,24 +223,25 @@ abstract class Select
 	 */
 	private static function _optionsFromArray(data, value, closeOption)
 	{
-		var code, optionValue, optionText;
+		var code, optionValue, optionText, escaped;
 
 		let code = "";
 		for optionValue, optionText in data {
+			let escaped = htmlspecialchars(optionValue);
 			if typeof optionText == "array" {
-				let code .= "\t<optgroup label=\"" . optionValue . "\">" . PHP_EOL . self::_optionsFromArray(optionText, value, closeOption) . "\t</optgroup>" . PHP_EOL;
+				let code .= "\t<optgroup label=\"" . escaped . "\">" . PHP_EOL . self::_optionsFromArray(optionText, value, closeOption) . "\t</optgroup>" . PHP_EOL;
 			} else {
 				if typeof value == "array" {
 					if in_array(optionValue, value) {
-						let code .= "\t<option selected=\"selected\" value=\"" . optionValue . "\">" . optionText . closeOption;
+						let code .= "\t<option selected=\"selected\" value=\"" . escaped . "\">" . optionText . closeOption;
 					} else {
-						let code .= "\t<option value=\"" . optionValue . "\">" . optionText . closeOption;
+						let code .= "\t<option value=\"" . escaped . "\">" . optionText . closeOption;
 					}
 				} else {
 					if optionValue == value {
-						let code .= "\t<option selected=\"selected\" value=\"" . optionValue . "\">" . optionText . closeOption;
+						let code .= "\t<option selected=\"selected\" value=\"" . escaped . "\">" . optionText . closeOption;
 					} else {
-						let code .= "\t<option value=\"" . optionValue . "\">" . optionText . closeOption;
+						let code .= "\t<option value=\"" . escaped . "\">" . optionText . closeOption;
 					}
 				}
 			}

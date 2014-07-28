@@ -5,6 +5,7 @@ php:
   - 5.3.3
   - 5.4
   - 5.5
+  - 5.6
 
 services:
   - mongodb
@@ -17,11 +18,14 @@ before_install:
 
 install:
  - composer --prefer-source install
+ - composer require phalcon/zephir:dev-master
 
 before_script:
  - git submodule --quiet update --init --recursive
  - (cd php-tests/library/Mustache; git checkout master)
  - (cd php-tests/library/Twig; git checkout master)
+ - (cd vendor/phalcon/zephir; ./unit-tests/ci/before_install.sh; ./install)
+ - ./vendor/bin/zephir generate
  - (cd ext; export CFLAGS="-g3 -O1 -std=gnu90 -Wall"; phpize && ./configure --enable-phalcon && make --silent -j4 && sudo make --silent install && phpenv config-add ../unit-tests/ci/phalcon.ini)
  - ulimit -c unlimited || true
 

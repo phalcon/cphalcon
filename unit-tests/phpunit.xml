@@ -33,15 +33,15 @@
 			<!--<file>unit-tests/DbProfilerTest.php</file>-->
 			<!--<file>unit-tests/DbTest.php</file>-->
 			<file>unit-tests/DispatcherCliTest.php</file>
-			<!--<file>unit-tests/DispatcherMvcEventsTest.php</file>-->
+			<file>unit-tests/DispatcherMvcEventsTest.php</file>
 			<file>unit-tests/DispatcherMvcTest.php</file>
 			<file>unit-tests/DiTest.php</file>
-			<!--<file>unit-tests/EventsTest.php</file>-->
-			<!--<file>unit-tests/FormsTest.php</file>-->
-			<file>unit-tests/ImageTest.php</file>
+			<file>unit-tests/EventsTest.php</file>
+			<file>unit-tests/FormsTest.php</file>
+			<!--<file>unit-tests/ImageTest.php</file>-->
 			<file>unit-tests/InitTest.php</file>
-			<!--<file>unit-tests/LoaderTest.php</file>-->
-			<!--<file>unit-tests/LoggerTest.php</file>-->
+			<file>unit-tests/LoaderTest.php</file>
+			<file>unit-tests/LoggerTest.php</file>
 			<!--<file>unit-tests/MicroMvcCollectionsTest.php</file>-->
 			<!--<file>unit-tests/MicroMvcEventsTest.php</file>-->
 			<!--<file>unit-tests/MicroMvcMiddlewareTest.php</file>-->

@@ -167,7 +167,7 @@ class Redis extends \Phalcon\Cache\Backend implements \Phalcon\Cache\BackendInte
 	public function save(keyName=null, content=null, lifetime=null, stopBuffer=true)
 	{
 		var prefixedKey, lastKey, prefix, frontend, redis, cachedContent, preparedContent, tmp, tt1, success, options,
-			specialKey, keys, isBuffering;
+			specialKey, isBuffering;
 
 		if !keyName {
 			let lastKey = this->_lastKey;
@@ -261,7 +261,7 @@ class Redis extends \Phalcon\Cache\Backend implements \Phalcon\Cache\BackendInte
 	 */
 	public function delete(keyName)
 	{
-		var redis, prefix, prefixedKey, lastKey, options, keys, specialKey;
+		var redis, prefix, prefixedKey, lastKey, options, specialKey;
 
 		let redis = this->_redis;
 		if typeof redis != "object" {
@@ -435,7 +435,7 @@ class Redis extends \Phalcon\Cache\Backend implements \Phalcon\Cache\BackendInte
 	 */
 	public function flush()
 	{
-		var options, specialKey, redis, prefix, keys, key, lastKey;
+		var options, specialKey, redis, keys, key, lastKey;
 		
 		let options = this->_options;
 
