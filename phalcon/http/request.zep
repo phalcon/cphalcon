@@ -104,7 +104,7 @@ class Request implements \Phalcon\Http\RequestInterface, \Phalcon\Di\InjectionAw
 
 					let value = filter->sanitize(value, filters, noRecursive);
 
-					if (empty(value) && notAllowEmpty === true) {
+					if (empty(value) && notAllowEmpty === true) || value === false {
 						return defaultValue;
 					}
 
@@ -966,7 +966,7 @@ class Request implements \Phalcon\Http\RequestInterface, \Phalcon\Di\InjectionAw
 		array auth;
 
 		let auth = [];
-		if fetch digest, _SERVER["PHP_AUTH_USER"] {
+		if fetch digest, _SERVER["PHP_AUTH_DIGEST"] {
 			let matches = [];
 			if !preg_match_all("#(\\w+)=(['\"]?)([^'\" ,]+)\\2#", digest, matches, 2) {
 				return auth;
