@@ -343,6 +343,8 @@ PHP_METHOD(Phalcon_Date, minutes){
 	}
 
 	PHALCON_RETURN_CALL_SELF("seconds", step);
+
+	RETURN_MM();
 }
 
 /**
@@ -607,11 +609,11 @@ PHP_METHOD(Phalcon_Date, months){
 
 			phalcon_array_update_long(&return_value, i, value, PH_COPY | PH_SEPARATE);
 		}
-
-		PHALCON_MM_RESTORE();
 	} else {
 		PHALCON_RETURN_CALL_SELF("hours");
 	}
+
+	RETURN_MM();
 }
 
 /**
