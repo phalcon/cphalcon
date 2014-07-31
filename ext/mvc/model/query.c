@@ -4890,7 +4890,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, execute){
 				PHALCON_GET_HKEY(key, ah0, hp0);
 				PHALCON_GET_HVALUE(value);
 
-				phalcon_array_update_zval(&merged_params, key, value, 0);
+				phalcon_array_update_zval(&merged_params, key, value, PH_COPY);
 
 				zend_hash_move_forward_ex(ah0, &hp0);
 			}
@@ -4901,7 +4901,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, execute){
 				PHALCON_GET_HKEY(key, ah0, hp0);
 				PHALCON_GET_HVALUE(value);
 
-				phalcon_array_update_zval(&merged_params, key, value, 0);
+				phalcon_array_update_zval(&merged_params, key, value, PH_COPY);
 
 				zend_hash_move_forward_ex(ah0, &hp0);
 			}
