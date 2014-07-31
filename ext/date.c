@@ -343,6 +343,8 @@ PHP_METHOD(Phalcon_Date, minutes){
 	}
 
 	PHALCON_RETURN_CALL_SELF("seconds", step);
+
+	PHALCON_MM_RESTORE();
 }
 
 /**
