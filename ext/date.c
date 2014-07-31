@@ -344,7 +344,7 @@ PHP_METHOD(Phalcon_Date, minutes){
 
 	PHALCON_RETURN_CALL_SELF("seconds", step);
 
-	PHALCON_MM_RESTORE();
+	RETURN_MM();
 }
 
 /**
@@ -613,7 +613,7 @@ PHP_METHOD(Phalcon_Date, months){
 		PHALCON_RETURN_CALL_SELF("hours");
 	}
 
-	PHALCON_MM_RESTORE();
+	RETURN_MM();
 }
 
 /**
