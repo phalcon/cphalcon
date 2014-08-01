@@ -547,7 +547,7 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch) {
 
 	zval *_10 = NULL;
 	zephir_fcall_cache_entry *_4 = NULL;
-	zval *value, *handler = NULL, *dependencyInjector = NULL, *namespaceName = NULL, *handlerName = NULL, *actionName = NULL, *camelizedClass = NULL, *params = NULL, *eventsManager = NULL, *handlerSuffix, *actionSuffix, *handlerClass = NULL, *status = NULL, *actionMethod = NULL, *e = NULL, *_0, *_1 = NULL, *_2 = NULL, *_3 = NULL, *_5, *_6 = NULL, *_7 = NULL, *_8 = NULL, *_9, *_11 = NULL;
+	zval *value, *handler = NULL, *dependencyInjector = NULL, *namespaceName = NULL, *handlerName = NULL, *actionName = NULL, *camelizedClass = NULL, *params = NULL, *eventsManager = NULL, *handlerSuffix, *actionSuffix, *handlerClass = NULL, *status = NULL, *actionMethod = NULL, *e = NULL, *_0, *_1 = NULL, *_2 = NULL, *_3 = NULL, *_5, *_6 = NULL, *_7 = NULL, *_8 = NULL, *_9;
 	int numberDispatches, ZEPHIR_LAST_CALL_STATUS;
 	zend_bool hasService, wasFresh = 0;
 
@@ -814,20 +814,23 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch) {
 			ZEPHIR_CPY_WRT(e, EG(exception));
 			if (zephir_is_instance_of(e, SL("Exception") TSRMLS_CC)) {
 				zend_clear_exception(TSRMLS_C);
-				ZEPHIR_CALL_METHOD(&_8, e, "getmessage",  NULL);
+				ZEPHIR_CALL_METHOD(&_8, this_ptr, "_handleexception", NULL, e);
 				zephir_check_call_status();
-				ZEPHIR_CALL_METHOD(NULL, this_ptr, "_throwdispatchexception", NULL, _8);
-				zephir_check_call_status();
-				RETURN_MM_NULL();
+				if (ZEPHIR_IS_FALSE_IDENTICAL(_8)) {
+					_5 = zephir_fetch_nproperty_this(this_ptr, SL("_finished"), PH_NOISY_CC);
+					if (ZEPHIR_IS_FALSE_IDENTICAL(_5)) {
+						continue;
+					}
+				}
 			}
 		}
 		if (Z_TYPE_P(eventsManager) == IS_OBJECT) {
 			ZEPHIR_INIT_NVAR(_2);
 			ZVAL_STRING(_2, "dispatch:afterExecuteRoute", 0);
-			ZEPHIR_CALL_METHOD(&_11, eventsManager, "fire", &_4, _2, this_ptr, value);
+			ZEPHIR_CALL_METHOD(&_8, eventsManager, "fire", &_4, _2, this_ptr, value);
 			zephir_check_temp_parameter(_2);
 			zephir_check_call_status();
-			if (ZEPHIR_IS_FALSE_IDENTICAL(_11)) {
+			if (ZEPHIR_IS_FALSE_IDENTICAL(_8)) {
 				continue;
 			}
 			_5 = zephir_fetch_nproperty_this(this_ptr, SL("_finished"), PH_NOISY_CC);

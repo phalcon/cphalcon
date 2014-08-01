@@ -134,6 +134,7 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/forms/element/hidden.zep.c
 	phalcon/forms/element/numeric.zep.c
 	phalcon/forms/element/password.zep.c
+	phalcon/forms/element/radio.zep.c
 	phalcon/forms/element/select.zep.c
 	phalcon/forms/element/submit.zep.c
 	phalcon/forms/element/text.zep.c

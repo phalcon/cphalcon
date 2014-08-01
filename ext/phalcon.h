@@ -136,6 +136,7 @@
 #include "phalcon/forms/element/hidden.zep.h"
 #include "phalcon/forms/element/numeric.zep.h"
 #include "phalcon/forms/element/password.zep.h"
+#include "phalcon/forms/element/radio.zep.h"
 #include "phalcon/forms/element/select.zep.h"
 #include "phalcon/forms/element/submit.zep.h"
 #include "phalcon/forms/element/text.zep.h"

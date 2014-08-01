@@ -14,9 +14,6 @@
 #include "kernel/main.h"
 #include "kernel/fcall.h"
 #include "kernel/memory.h"
-#include "kernel/require.h"
-#include "ext/spl/spl_exceptions.h"
-#include "kernel/exception.h"
 
 
 /*
@@ -36,49 +33,45 @@
  |          Eduar Carvajal <eduar@phalconphp.com>                         |
  +------------------------------------------------------------------------+
  */
-ZEPHIR_INIT_CLASS(Phalcon_Config_Adapter_Php) {
+/**
+ * Phalcon\Forms\Element\Radio
+ *
+ * Component INPUT[type=radio] for forms
+ */
+ZEPHIR_INIT_CLASS(Phalcon_Forms_Element_Radio) {
 
-	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Config\\Adapter, Php, phalcon, config_adapter_php, phalcon_config_ce, phalcon_config_adapter_php_method_entry, 0);
+	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Forms\\Element, Radio, phalcon, forms_element_radio, phalcon_forms_element_ce, phalcon_forms_element_radio_method_entry, 0);
 
+	zend_class_implements(phalcon_forms_element_radio_ce TSRMLS_CC, 1, phalcon_forms_elementinterface_ce);
 	return SUCCESS;
 
 }
 
 /**
- * Phalcon\Config\Adapter\Php constructor
+ * Renders the element widget returning html
  *
- * @param string filePath
+ * @param array attributes
+ * @return string
  */
-PHP_METHOD(Phalcon_Config_Adapter_Php, __construct) {
+PHP_METHOD(Phalcon_Forms_Element_Radio, render) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
 	zephir_nts_static zephir_fcall_cache_entry *_0 = NULL;
-	zval *filePath_param = NULL, *_1 = NULL;
-	zval *filePath = NULL;
+	zval *attributes = NULL, *_1 = NULL;
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 0, &filePath_param);
+	zephir_fetch_params(1, 0, 1, &attributes);
 
-	if (unlikely(Z_TYPE_P(filePath_param) != IS_STRING && Z_TYPE_P(filePath_param) != IS_NULL)) {
-		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'filePath' must be a string") TSRMLS_CC);
-		RETURN_MM_NULL();
-	}
-
-	if (unlikely(Z_TYPE_P(filePath_param) == IS_STRING)) {
-		filePath = filePath_param;
-	} else {
-		ZEPHIR_INIT_VAR(filePath);
-		ZVAL_EMPTY_STRING(filePath);
+	if (!attributes) {
+		attributes = ZEPHIR_GLOBAL(global_null);
 	}
 
 
-	ZEPHIR_OBSERVE_OR_NULLIFY_PPZV(&_1);
-	if (zephir_require_zval_ret(&_1, filePath TSRMLS_CC) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-	ZEPHIR_CALL_PARENT(NULL, phalcon_config_adapter_php_ce, this_ptr, "__construct", &_0, _1);
+	ZEPHIR_CALL_METHOD(&_1, this_ptr, "prepareattributes", NULL, attributes, ZEPHIR_GLOBAL(global_true));
 	zephir_check_call_status();
-	ZEPHIR_MM_RESTORE();
+	ZEPHIR_RETURN_CALL_CE_STATIC(phalcon_tag_ce, "radiofield", &_0, _1);
+	zephir_check_call_status();
+	RETURN_MM();
 
 }
 

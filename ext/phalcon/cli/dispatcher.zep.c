@@ -154,7 +154,7 @@ PHP_METHOD(Phalcon_Cli_Dispatcher, getTaskName) {
 PHP_METHOD(Phalcon_Cli_Dispatcher, _throwDispatchException) {
 
 	int exceptionCode, ZEPHIR_LAST_CALL_STATUS;
-	zval *message_param = NULL, *exceptionCode_param = NULL, *exception, *eventsManager = NULL, *_0, *_1, *_2 = NULL;
+	zval *message_param = NULL, *exceptionCode_param = NULL, *exception, *_0, *_1 = NULL;
 	zval *message = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -174,21 +174,49 @@ PHP_METHOD(Phalcon_Cli_Dispatcher, _throwDispatchException) {
 	ZVAL_LONG(_0, exceptionCode);
 	ZEPHIR_CALL_METHOD(NULL, exception, "__construct", NULL, message, _0);
 	zephir_check_call_status();
-	_1 = zephir_fetch_nproperty_this(this_ptr, SL("_eventsManager"), PH_NOISY_CC);
-	ZEPHIR_CPY_WRT(eventsManager, _1);
+	ZEPHIR_CALL_METHOD(&_1, this_ptr, "_handleexception", NULL, exception);
+	zephir_check_call_status();
+	if (ZEPHIR_IS_FALSE_IDENTICAL(_1)) {
+		RETURN_MM_BOOL(0);
+	}
+	zephir_throw_exception_debug(exception, "phalcon/cli/dispatcher.zep", 111 TSRMLS_CC);
+	ZEPHIR_MM_RESTORE();
+	return;
+
+}
+
+/**
+ * Handles a user exception
+ *
+ * @param \Exception exception
+ */
+PHP_METHOD(Phalcon_Cli_Dispatcher, _handleException) {
+
+	int ZEPHIR_LAST_CALL_STATUS;
+	zval *exception, *eventsManager = NULL, *_0, *_1 = NULL, *_2;
+
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 1, 0, &exception);
+
+
+
+	if (!(zephir_instance_of_ev(exception, zend_exception_get_default(TSRMLS_C) TSRMLS_CC))) {
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(spl_ce_InvalidArgumentException, "Parameter 'exception' must be an instance of 'Exception'", "", 0);
+		return;
+	}
+	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_eventsManager"), PH_NOISY_CC);
+	ZEPHIR_CPY_WRT(eventsManager, _0);
 	if (Z_TYPE_P(eventsManager) == IS_OBJECT) {
-		ZEPHIR_INIT_BNVAR(_0);
-		ZVAL_STRING(_0, "dispatch:beforeException", 0);
-		ZEPHIR_CALL_METHOD(&_2, eventsManager, "fire", NULL, _0, this_ptr, exception);
-		zephir_check_temp_parameter(_0);
+		ZEPHIR_INIT_VAR(_2);
+		ZVAL_STRING(_2, "dispatch:beforeException", 0);
+		ZEPHIR_CALL_METHOD(&_1, eventsManager, "fire", NULL, _2, this_ptr, exception);
+		zephir_check_temp_parameter(_2);
 		zephir_check_call_status();
-		if (ZEPHIR_IS_FALSE_IDENTICAL(_2)) {
+		if (ZEPHIR_IS_FALSE_IDENTICAL(_1)) {
 			RETURN_MM_BOOL(0);
 		}
 	}
-	zephir_throw_exception_debug(exception, "phalcon/cli/dispatcher.zep", 114 TSRMLS_CC);
 	ZEPHIR_MM_RESTORE();
-	return;
 
 }
 

@@ -463,7 +463,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Sqlite, describeReferences) {
 		zephir_array_fetch_long(&_8, reference, 4, PH_NOISY | PH_READONLY TSRMLS_CC);
 		zephir_array_append(&referencedColumns, _8, PH_SEPARATE);
 		ZEPHIR_INIT_NVAR(_11);
-		array_init_size(_11, 6);
+		array_init_size(_11, 7);
 		zephir_array_update_string(&_11, SL("referencedSchema"), &referencedSchema, PH_COPY | PH_SEPARATE);
 		zephir_array_update_string(&_11, SL("referencedTable"), &referencedTable, PH_COPY | PH_SEPARATE);
 		zephir_array_update_string(&_11, SL("columns"), &columns, PH_COPY | PH_SEPARATE);
@@ -482,7 +482,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Sqlite, describeReferences) {
 		ZEPHIR_INIT_LNVAR(_15);
 		object_init_ex(_15, phalcon_db_reference_ce);
 		ZEPHIR_INIT_NVAR(_11);
-		array_init_size(_11, 6);
+		array_init_size(_11, 7);
 		ZEPHIR_OBS_NVAR(_16);
 		zephir_array_fetch_string(&_16, arrayReference, SL("referencedSchema"), PH_NOISY TSRMLS_CC);
 		zephir_array_update_string(&_11, SL("referencedSchema"), &_16, PH_COPY | PH_SEPARATE);

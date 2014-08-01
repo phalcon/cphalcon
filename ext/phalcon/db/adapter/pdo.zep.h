@@ -23,7 +23,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, isUnderTransaction);
 PHP_METHOD(Phalcon_Db_Adapter_Pdo, getInternalHandler);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_adapter_pdo___construct, 0, 0, 1)
-	ZEND_ARG_INFO(0, descriptor)
+	ZEND_ARG_ARRAY_INFO(0, descriptor, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_adapter_pdo_connect, 0, 0, 0)
@@ -62,7 +62,7 @@ ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_adapter_pdo_convertboundparams, 0, 0, 1)
 	ZEND_ARG_INFO(0, sql)
-	ZEND_ARG_INFO(0, params)
+	ZEND_ARG_ARRAY_INFO(0, params, 1)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_adapter_pdo_lastinsertid, 0, 0, 0)

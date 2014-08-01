@@ -154,7 +154,7 @@ PHP_METHOD(Phalcon_Session_Adapter_Libmemcached, __construct) {
 	ZEPHIR_CALL_METHOD(NULL, _2, "__construct", NULL, _3);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(_5);
-	array_init_size(_5, 4);
+	array_init_size(_5, 5);
 	zephir_array_update_string(&_5, SL("servers"), &servers, PH_COPY | PH_SEPARATE);
 	zephir_array_update_string(&_5, SL("client"), &client, PH_COPY | PH_SEPARATE);
 	zephir_array_update_string(&_5, SL("prefix"), &prefix, PH_COPY | PH_SEPARATE);

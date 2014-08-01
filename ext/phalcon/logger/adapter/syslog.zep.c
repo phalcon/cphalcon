@@ -135,18 +135,23 @@ PHP_METHOD(Phalcon_Logger_Adapter_Syslog, getFormatter) {
  * @param string message
  * @param int type
  * @param int time
+ * @param array $context
  */
 PHP_METHOD(Phalcon_Logger_Adapter_Syslog, logInternal) {
 
 	zephir_nts_static zephir_fcall_cache_entry *_5 = NULL;
+	zval *context = NULL;
 	int type, time, ZEPHIR_LAST_CALL_STATUS;
-	zval *message, *type_param = NULL, *time_param = NULL, *appliedFormat = NULL, *_0 = NULL, *_1, *_2, *_3, *_4;
+	zval *message_param = NULL, *type_param = NULL, *time_param = NULL, *context_param = NULL, *appliedFormat = NULL, *_0 = NULL, *_1, *_2, *_3, *_4;
+	zval *message = NULL;
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 3, 0, &message, &type_param, &time_param);
+	zephir_fetch_params(1, 4, 0, &message_param, &type_param, &time_param, &context_param);
 
+	zephir_get_strval(message, message_param);
 	type = zephir_get_intval(type_param);
 	time = zephir_get_intval(time_param);
+	zephir_get_arrval(context, context_param);
 
 
 	ZEPHIR_CALL_METHOD(&_0, this_ptr, "getformatter",  NULL);
@@ -155,10 +160,10 @@ PHP_METHOD(Phalcon_Logger_Adapter_Syslog, logInternal) {
 	ZVAL_LONG(_1, type);
 	ZEPHIR_INIT_VAR(_2);
 	ZVAL_LONG(_2, time);
-	ZEPHIR_CALL_METHOD(&appliedFormat, _0, "format", NULL, message, _1, _2);
+	ZEPHIR_CALL_METHOD(&appliedFormat, _0, "format", NULL, message, _1, _2, context);
 	zephir_check_call_status();
 	if (Z_TYPE_P(appliedFormat) != IS_ARRAY) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_logger_exception_ce, "The formatted message is not valid", "phalcon/logger/adapter/syslog.zep", 99);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_logger_exception_ce, "The formatted message is not valid", "phalcon/logger/adapter/syslog.zep", 100);
 		return;
 	}
 	zephir_array_fetch_long(&_3, appliedFormat, 0, PH_NOISY | PH_READONLY TSRMLS_CC);

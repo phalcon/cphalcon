@@ -604,23 +604,40 @@ PHP_METHOD(Phalcon_Forms_Element, getLabel) {
  */
 PHP_METHOD(Phalcon_Forms_Element, label) {
 
-	zval *attributes, *label, *name = NULL;
+	zephir_nts_static zephir_fcall_cache_entry *_0 = NULL;
+	int ZEPHIR_LAST_CALL_STATUS;
+	zval *attributes = NULL, *label, *name = NULL, *code = NULL, *_1, *_2 = NULL;
 
 	ZEPHIR_MM_GROW();
 
-	attributes = zephir_fetch_nproperty_this(this_ptr, SL("_attributes"), PH_NOISY_CC);
+	ZEPHIR_CALL_METHOD(&attributes, this_ptr, "getattributes",  NULL);
+	zephir_check_call_status();
 	ZEPHIR_OBS_VAR(name);
-	if (zephir_array_isset_string_fetch(&name, attributes, SS("id"), 0 TSRMLS_CC)) {
+	if (!(zephir_array_isset_string_fetch(&name, attributes, SS("id"), 0 TSRMLS_CC))) {
 		ZEPHIR_OBS_NVAR(name);
 		zephir_read_property_this(&name, this_ptr, SL("_name"), PH_NOISY_CC);
+	} else {
+		zephir_array_unset_string(&attributes, SS("id"), PH_SEPARATE);
 	}
+	if (!(zephir_array_isset_string(attributes, SS("for")))) {
+		zephir_array_update_string(&attributes, SL("for"), &name, PH_COPY | PH_SEPARATE);
+	}
+	ZEPHIR_INIT_VAR(_1);
+	ZVAL_STRING(_1, "<label", 0);
+	ZEPHIR_CALL_CE_STATIC(&code, phalcon_tag_ce, "renderattributes", &_0, _1, attributes);
+	zephir_check_temp_parameter(_1);
+	zephir_check_call_status();
 	label = zephir_fetch_nproperty_this(this_ptr, SL("_label"), PH_NOISY_CC);
 	if (zephir_is_true(label)) {
-		ZEPHIR_CONCAT_SVSVS(return_value, "<label for=\"", name, "\">", label, "</label>");
-		RETURN_MM();
+		ZEPHIR_INIT_VAR(_2);
+		ZEPHIR_CONCAT_SVS(_2, ">", label, "</label>");
+		zephir_concat_self(&code, _2 TSRMLS_CC);
+	} else {
+		ZEPHIR_INIT_LNVAR(_2);
+		ZEPHIR_CONCAT_SVS(_2, ">", name, "</label>");
+		zephir_concat_self(&code, _2 TSRMLS_CC);
 	}
-	ZEPHIR_CONCAT_SVSVS(return_value, "<label for=\"", name, "\">", name, "</label>");
-	RETURN_MM();
+	RETURN_CCTOR(code);
 
 }
 

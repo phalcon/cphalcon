@@ -160,23 +160,28 @@ PHP_METHOD(Phalcon_Logger_Adapter_Stream, getFormatter) {
  * @param string message
  * @param int type
  * @param int time
+ * @param array $context
  */
 PHP_METHOD(Phalcon_Logger_Adapter_Stream, logInternal) {
 
+	zval *context = NULL;
 	int type, time, ZEPHIR_LAST_CALL_STATUS;
-	zval *message, *type_param = NULL, *time_param = NULL, *stream, *_0 = NULL, *_1 = NULL, *_2, *_3;
+	zval *message_param = NULL, *type_param = NULL, *time_param = NULL, *context_param = NULL, *stream, *_0 = NULL, *_1 = NULL, *_2, *_3;
+	zval *message = NULL;
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 3, 0, &message, &type_param, &time_param);
+	zephir_fetch_params(1, 4, 0, &message_param, &type_param, &time_param, &context_param);
 
+	zephir_get_strval(message, message_param);
 	type = zephir_get_intval(type_param);
 	time = zephir_get_intval(time_param);
+	zephir_get_arrval(context, context_param);
 
 
 	ZEPHIR_OBS_VAR(stream);
 	zephir_read_property_this(&stream, this_ptr, SL("_stream"), PH_NOISY_CC);
-	if (!(zephir_is_true(stream))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_logger_exception_ce, "Cannot send message to the log because it is invalid", "phalcon/logger/adapter/stream.zep", 104);
+	if (Z_TYPE_P(stream) != IS_RESOURCE) {
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_logger_exception_ce, "Cannot send message to the log because it is invalid", "phalcon/logger/adapter/stream.zep", 105);
 		return;
 	}
 	ZEPHIR_CALL_METHOD(&_0, this_ptr, "getformatter",  NULL);
@@ -185,7 +190,7 @@ PHP_METHOD(Phalcon_Logger_Adapter_Stream, logInternal) {
 	ZVAL_LONG(_2, type);
 	ZEPHIR_INIT_VAR(_3);
 	ZVAL_LONG(_3, time);
-	ZEPHIR_CALL_METHOD(&_1, _0, "format", NULL, message, _2, _3);
+	ZEPHIR_CALL_METHOD(&_1, _0, "format", NULL, message, _2, _3, context);
 	zephir_check_call_status();
 	zephir_fwrite(NULL, stream, _1 TSRMLS_CC);
 	ZEPHIR_MM_RESTORE();

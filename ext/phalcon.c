@@ -212,6 +212,7 @@ zend_class_entry *phalcon_forms_element_file_ce;
 zend_class_entry *phalcon_forms_element_hidden_ce;
 zend_class_entry *phalcon_forms_element_numeric_ce;
 zend_class_entry *phalcon_forms_element_password_ce;
+zend_class_entry *phalcon_forms_element_radio_ce;
 zend_class_entry *phalcon_forms_element_select_ce;
 zend_class_entry *phalcon_forms_element_submit_ce;
 zend_class_entry *phalcon_forms_element_text_ce;
@@ -703,6 +704,7 @@ static PHP_MINIT_FUNCTION(phalcon)
 	ZEPHIR_INIT(Phalcon_Forms_Element_Hidden);
 	ZEPHIR_INIT(Phalcon_Forms_Element_Numeric);
 	ZEPHIR_INIT(Phalcon_Forms_Element_Password);
+	ZEPHIR_INIT(Phalcon_Forms_Element_Radio);
 	ZEPHIR_INIT(Phalcon_Forms_Element_Select);
 	ZEPHIR_INIT(Phalcon_Forms_Element_Submit);
 	ZEPHIR_INIT(Phalcon_Forms_Element_Text);

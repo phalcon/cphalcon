@@ -13,8 +13,9 @@
 
 #include "kernel/main.h"
 #include "kernel/memory.h"
-#include "kernel/array.h"
 #include "kernel/operators.h"
+#include "kernel/fcall.h"
+#include "kernel/array.h"
 
 
 /*
@@ -54,24 +55,40 @@ ZEPHIR_INIT_CLASS(Phalcon_Logger_Formatter_Syslog) {
  * @param string message
  * @param int type
  * @param int timestamp
+ * @param array $context
  * @return array
  */
 PHP_METHOD(Phalcon_Logger_Formatter_Syslog, format) {
 
-	int type, timestamp;
-	zval *message, *type_param = NULL, *timestamp_param = NULL, *_0;
+	zval *context = NULL;
+	int type, timestamp, ZEPHIR_LAST_CALL_STATUS;
+	zval *message = NULL, *type_param = NULL, *timestamp_param = NULL, *context_param = NULL, *_0, *_1 = NULL, *_2;
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 3, 0, &message, &type_param, &timestamp_param);
+	zephir_fetch_params(1, 3, 1, &message, &type_param, &timestamp_param, &context_param);
 
+	ZEPHIR_SEPARATE_PARAM(message);
 	type = zephir_get_intval(type_param);
 	timestamp = zephir_get_intval(timestamp_param);
+	if (!context_param) {
+	ZEPHIR_INIT_VAR(context);
+	ZVAL_NULL(context);
+	} else {
+		zephir_get_arrval(context, context_param);
+	}
 
 
-	array_init_size(return_value, 3);
 	ZEPHIR_INIT_VAR(_0);
-	ZVAL_LONG(_0, type);
-	zephir_array_fast_append(return_value, _0);
+	zephir_gettype(_0, context TSRMLS_CC);
+	if (ZEPHIR_IS_STRING(_0, "array")) {
+		ZEPHIR_CALL_METHOD(&_1, this_ptr, "interpolate", NULL, message, context);
+		zephir_check_call_status();
+		ZEPHIR_CPY_WRT(message, _1);
+	}
+	array_init_size(return_value, 3);
+	ZEPHIR_INIT_VAR(_2);
+	ZVAL_LONG(_2, type);
+	zephir_array_fast_append(return_value, _2);
 	zephir_array_fast_append(return_value, message);
 	RETURN_MM();
 

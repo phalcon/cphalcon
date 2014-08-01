@@ -74,6 +74,8 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_UrlInterface, getBasePath);
  * Generates a URL
  *
  * @param string|array uri
+ * @param array|object args Optional arguments to be appended to the query string
+ * @param bool $local
  * @return string
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_UrlInterface, get);

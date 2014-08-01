@@ -121,7 +121,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Libmemcached, __construct) {
 		ZEPHIR_INIT_VAR(servers);
 		array_init_size(servers, 2);
 		ZEPHIR_INIT_VAR(_0);
-		array_init_size(_0, 4);
+		array_init_size(_0, 5);
 		add_assoc_stringl_ex(_0, SS("host"), SL("127.0.0.1"), 1);
 		add_assoc_long_ex(_0, SS("port"), 11211);
 		add_assoc_long_ex(_0, SS("weigth"), 1);
@@ -145,8 +145,8 @@ PHP_METHOD(Phalcon_Cache_Backend_Libmemcached, __construct) {
 PHP_METHOD(Phalcon_Cache_Backend_Libmemcached, _connect) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
-	zend_class_entry *_0, *_3;
-	zval *options, *memcache, *client, *servers, *_1 = NULL, *_2, *_4;
+	zend_class_entry *_0;
+	zval *options, *memcache, *client, *servers, *_1 = NULL;
 
 	ZEPHIR_MM_GROW();
 
@@ -178,18 +178,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Libmemcached, _connect) {
 		ZEPHIR_CALL_METHOD(NULL, memcache, "setoptions", NULL, client);
 		zephir_check_call_status();
 	} else {
-		ZEPHIR_INIT_VAR(_2);
-		_3 = zend_fetch_class(SL("Phalcon\\Cache\\Backend\\Exception"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
-		object_init_ex(_2, _3);
-		if (zephir_has_constructor(_2 TSRMLS_CC)) {
-			ZEPHIR_INIT_VAR(_4);
-			ZVAL_STRING(_4, "Client options must be instance of array", 0);
-			ZEPHIR_CALL_METHOD(NULL, _2, "__construct", NULL, _4);
-			zephir_check_temp_parameter(_4);
-			zephir_check_call_status();
-		}
-		zephir_throw_exception_debug(_2, "phalcon/cache/backend/libmemcached.zep", 115 TSRMLS_CC);
-		ZEPHIR_MM_RESTORE();
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_cache_exception_ce, "Client options must be instance of array", "phalcon/cache/backend/libmemcached.zep", 115);
 		return;
 	}
 	zephir_update_property_this(this_ptr, SL("_memcache"), memcache TSRMLS_CC);
