@@ -56,11 +56,24 @@ class Route
 	 */
 	public function __construct(string! pattern, paths=null, httpMethods=null)
 	{
+		var routeId, uniqueId;
+
 		// Configure the route (extract parameters, paths, etc)
 		this->reConfigure(pattern, paths);
 
 		// Update the HTTP method constraints
 		let this->_methods = httpMethods;
+
+        // Get the unique Id from the static member _uniqueId
+		let uniqueId = self::_uniqueId;
+		if uniqueId === null {
+			let uniqueId = 0;
+		}
+
+		// TODO: Add a function that increase static members
+		let routeId = uniqueId,
+			this->_id = routeId,
+			self::_uniqueId = uniqueId + 1;
 	}
 
 	/**

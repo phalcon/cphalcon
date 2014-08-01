@@ -20,6 +20,8 @@
 namespace Phalcon\Mvc;
 
 use Phalcon\Mvc\Micro\Exception;
+use Phalcon\Mvc\Router\RouteInterface;
+use Phalcon\Mvc\Micro\MiddlewareInterface;
 
 /**
  * Phalcon\Mvc\Micro
@@ -101,7 +103,7 @@ class Micro extends \Phalcon\Di\Injectable implements \ArrayAccess
 	 * @param callable handler
 	 * @return Phalcon\Mvc\Router\RouteInterface
 	 */
-	public function map(routePattern, handler) -> <\Phalcon\Mvc\Router\RouteInterface>
+	public function map(routePattern, handler) -> <\>
 	{
 		var router, route;
 
@@ -133,7 +135,7 @@ class Micro extends \Phalcon\Di\Injectable implements \ArrayAccess
 	* @param callable handler
 	* @return Phalcon\Mvc\Router\RouteInterface
 	*/
-	public function get(routePattern, handler) -> <\Phalcon\Mvc\Router\RouteInterface>
+	public function get(routePattern, handler) -> <RouteInterface>
 	{
 		var router, route;
 
@@ -165,7 +167,7 @@ class Micro extends \Phalcon\Di\Injectable implements \ArrayAccess
 	* @param callable $handler
 	* @return Phalcon\Mvc\Router\RouteInterface
 	*/
-	public function post(routePattern, handler) -> <\Phalcon\Mvc\Router\RouteInterface>
+	public function post(routePattern, handler) -> <RouteInterface>
 	{
 		var router, route;
 
@@ -197,7 +199,7 @@ class Micro extends \Phalcon\Di\Injectable implements \ArrayAccess
 	 * @param callable $handler
 	 * @return Phalcon\Mvc\Router\RouteInterface
 	 */
-	public function put(routePattern, handler) -> <\Phalcon\Mvc\Router\RouteInterface>
+	public function put(routePattern, handler) -> <RouteInterface>
 	{
 		var router, route;
 
@@ -229,7 +231,7 @@ class Micro extends \Phalcon\Di\Injectable implements \ArrayAccess
 	 * @param callable $handler
 	 * @return Phalcon\Mvc\Router\RouteInterface
 	 */
-	public function patch(routePattern, handler) -> <\Phalcon\Mvc\Router\RouteInterface>
+	public function patch(routePattern, handler) -> <RouteInterface>
 	{
 		var router, route;
 
@@ -261,7 +263,7 @@ class Micro extends \Phalcon\Di\Injectable implements \ArrayAccess
 	 * @param callable handler
 	 * @return Phalcon\Mvc\Router\RouteInterface
 	 */
-	public function head(string! routePattern, handler) -> <\Phalcon\Mvc\Router\RouteInterface>
+	public function head(string! routePattern, handler) -> <RouteInterface>
 	{
 		var router, route;
 
@@ -293,7 +295,7 @@ class Micro extends \Phalcon\Di\Injectable implements \ArrayAccess
 	 * @param callable handler
 	 * @return Phalcon\Mvc\Router\RouteInterface
 	 */
-	public function delete(routePattern, handler) -> <\Phalcon\Mvc\Router\RouteInterface>
+	public function delete(routePattern, handler) -> <RouteInterface>
 	{
 		var router, route;
 
@@ -325,7 +327,7 @@ class Micro extends \Phalcon\Di\Injectable implements \ArrayAccess
 	 * @param callable handler
 	 * @return Phalcon\Mvc\Router\RouteInterface
 	 */
-	public function options(string! routePattern, handler) -> <\Phalcon\Mvc\Router\RouteInterface>
+	public function options(string! routePattern, handler) -> <RouteInterface>
 	{
 		var router, route;
 
@@ -356,7 +358,7 @@ class Micro extends \Phalcon\Di\Injectable implements \ArrayAccess
 	 * @param Phalcon\Mvc\Micro\Collection collection
 	 * @return Phalcon\Mvc\Micro
 	 */
-	public function mount(<\Phalcon\Mvc\Micro\Collection> collection) -> <\Phalcon\Mvc\Micro>
+	public function mount(<\Phalcon\Mvc\Micro\Collection> collection) -> <Micro>
 	{
 		var mainHandler, handlers, lazy, lazyHandler, prefix, methods, pattern,
 			subHandler, realHandler, prefixedPattern, route, handler;
@@ -441,7 +443,7 @@ class Micro extends \Phalcon\Di\Injectable implements \ArrayAccess
 	 * @param callable handler
 	 * @return Phalcon\Mvc\Micro
 	 */
-	public function notFound(handler) -> <\Phalcon\Mvc\Micro>
+	public function notFound(handler) -> <Micro>
 	{
 		let this->_notFoundHandler = handler;
 		return this;
@@ -452,7 +454,7 @@ class Micro extends \Phalcon\Di\Injectable implements \ArrayAccess
 	 *
 	 * @return Phalcon\Mvc\RouterInterface
 	 */
-	public function getRouter() -> <\Phalcon\Mvc\RouterInterface>
+	public function getRouter() -> <RouterInterface>
 	{
 		var router;
 
@@ -602,7 +604,7 @@ class Micro extends \Phalcon\Di\Injectable implements \ArrayAccess
 		if typeof matchedRoute == "object" {
 
 			if !fetch handler, this->_handlers[matchedRoute->getRouteId()] {
-				throw new Exception("Matched route doesn't have an associate handler");
+				throw new Exception("Matched route doesn't have an associated handler");
 			}
 
 			/**
@@ -632,7 +634,7 @@ class Micro extends \Phalcon\Di\Injectable implements \ArrayAccess
 				for before in beforeHandlers {
 
 					if typeof before == "object" {
-						if before instanceof \Phalcon\Mvc\Micro\MiddlewareInterface {
+						if before instanceof MiddlewareInterface {
 
 							/**
 							 * Call the middleware
