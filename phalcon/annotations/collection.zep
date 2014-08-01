@@ -127,7 +127,7 @@ class Collection implements \Iterator, \Countable
 	 */
 	public function valid() -> boolean
 	{
-		return this->_annotations[this->_position];
+		return isset this->_annotations[this->_position];
 	}
 
 	/**
