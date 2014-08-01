@@ -20,10 +20,11 @@ PHP_METHOD(Phalcon_Mvc_Micro_Collection, head);
 PHP_METHOD(Phalcon_Mvc_Micro_Collection, delete);
 PHP_METHOD(Phalcon_Mvc_Micro_Collection, options);
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_micro_collection__addmap, 0, 0, 3)
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_micro_collection__addmap, 0, 0, 4)
 	ZEND_ARG_INFO(0, method)
 	ZEND_ARG_INFO(0, routePattern)
 	ZEND_ARG_INFO(0, handler)
+	ZEND_ARG_INFO(0, name)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_micro_collection_setprefix, 0, 0, 1)
@@ -42,45 +43,53 @@ ZEND_END_ARG_INFO()
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_micro_collection_map, 0, 0, 2)
 	ZEND_ARG_INFO(0, routePattern)
 	ZEND_ARG_INFO(0, handler)
+	ZEND_ARG_INFO(0, name)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_micro_collection_get, 0, 0, 2)
 	ZEND_ARG_INFO(0, routePattern)
 	ZEND_ARG_INFO(0, handler)
+	ZEND_ARG_INFO(0, name)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_micro_collection_post, 0, 0, 2)
 	ZEND_ARG_INFO(0, routePattern)
 	ZEND_ARG_INFO(0, handler)
+	ZEND_ARG_INFO(0, name)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_micro_collection_put, 0, 0, 2)
 	ZEND_ARG_INFO(0, routePattern)
 	ZEND_ARG_INFO(0, handler)
+	ZEND_ARG_INFO(0, name)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_micro_collection_patch, 0, 0, 2)
 	ZEND_ARG_INFO(0, routePattern)
 	ZEND_ARG_INFO(0, handler)
+	ZEND_ARG_INFO(0, name)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_micro_collection_head, 0, 0, 2)
 	ZEND_ARG_INFO(0, routePattern)
 	ZEND_ARG_INFO(0, handler)
+	ZEND_ARG_INFO(0, name)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_micro_collection_delete, 0, 0, 2)
 	ZEND_ARG_INFO(0, routePattern)
 	ZEND_ARG_INFO(0, handler)
+	ZEND_ARG_INFO(0, name)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_micro_collection_options, 0, 0, 2)
 	ZEND_ARG_INFO(0, routePattern)
 	ZEND_ARG_INFO(0, handler)
+	ZEND_ARG_INFO(0, name)
 ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_mvc_micro_collection_method_entry) {
-	PHP_ME(Phalcon_Mvc_Micro_Collection, _addMap, arginfo_phalcon_mvc_micro_collection__addmap, ZEND_ACC_PROTECTED)
+	PHP_ME(Phalcon_Mvc_Micro_Collection, _addMap, arginfo_phalcon_mvc_micro_collection__addmap, ZEND_ACC_PRIVATE)
 	PHP_ME(Phalcon_Mvc_Micro_Collection, setPrefix, arginfo_phalcon_mvc_micro_collection_setprefix, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Micro_Collection, getPrefix, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Micro_Collection, getHandlers, NULL, ZEND_ACC_PUBLIC)

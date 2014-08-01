@@ -65,7 +65,7 @@ interface AdapterInterface
 	 * @param array $context
 	 * @return Phalcon\Logger\Adapter
 	 */
-	public function log(type, string message, array context);
+	public function log(type, string message = null, array context = null);
 
 	/**
  	 * Starts a transaction

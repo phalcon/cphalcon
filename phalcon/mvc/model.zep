@@ -507,7 +507,7 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 	 * @param boolean keepSnapshots
 	 * @return Phalcon\Mvc\Model
 	 */
-	public static function cloneResultMap(var base, var data, var columnMap, int dirtyState=0, boolean keepSnapshots=null) -> <\Phalcon\Mvc\Model>
+	public static function cloneResultMap(var base, var data, var columnMap, int dirtyState=0, boolean keepSnapshots=null) -> <Model>
 	{
 		var instance, attribute, key, value;
 
@@ -780,7 +780,7 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 	 * @param array parameters
 	 * @return Phalcon\Mvc\Model
 	 */
-	public static function findFirst(parameters=null) -> <\Phalcon\Mvc\Model>
+	public static function findFirst(parameters=null) -> <Model>
 	{
 		var params, builder, query, bindParams, bindTypes, cache;
 
@@ -4147,7 +4147,7 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 				}
 			}
 
-			if count(related) > 0 {			
+			if count(related) > 0 {
 				let this->_related[lowerProperty] = related,
 					this->_dirtyState = 1;
 			}

@@ -98,8 +98,9 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Micro_CollectionInterface, getHandler);
 /**
  * Maps a route to a handler
  *
- * @param string routePattern
- * @param callable handler
+ * @param  string routePattern
+ * @param  callable handler
+ * @param  string name
  * @return Phalcon\Mvc\Router\RouteInterface
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Micro_CollectionInterface, map);
@@ -107,8 +108,9 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Micro_CollectionInterface, map);
 /**
  * Maps a route to a handler that only matches if the HTTP method is GET
  *
- * @param string routePattern
- * @param callable handler
+ * @param  string routePattern
+ * @param  callable handler
+ * @param  string name
  * @return Phalcon\Mvc\Router\RouteInterface
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Micro_CollectionInterface, get);
@@ -116,8 +118,9 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Micro_CollectionInterface, get);
 /**
  * Maps a route to a handler that only matches if the HTTP method is POST
  *
- * @param string routePattern
- * @param callable handler
+ * @param  string routePattern
+ * @param  callable handler
+ * @param  string name
  * @return Phalcon\Mvc\Router\RouteInterface
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Micro_CollectionInterface, post);
@@ -125,8 +128,9 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Micro_CollectionInterface, post);
 /**
  * Maps a route to a handler that only matches if the HTTP method is PUT
  *
- * @param string routePattern
- * @param callable handler
+ * @param  string routePattern
+ * @param  callable handler
+ * @param  string name
  * @return Phalcon\Mvc\Router\RouteInterface
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Micro_CollectionInterface, put);
@@ -134,8 +138,9 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Micro_CollectionInterface, put);
 /**
  * Maps a route to a handler that only matches if the HTTP method is PATCH
  *
- * @param string routePattern
- * @param callable handler
+ * @param  string routePattern
+ * @param  callable handler
+ * @param  string name
  * @return Phalcon\Mvc\Router\RouteInterface
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Micro_CollectionInterface, patch);
@@ -143,8 +148,9 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Micro_CollectionInterface, patch);
 /**
  * Maps a route to a handler that only matches if the HTTP method is HEAD
  *
- * @param string routePattern
- * @param callable handler
+ * @param  string routePattern
+ * @param  callable handler
+ * @param  string name
  * @return Phalcon\Mvc\Router\RouteInterface
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Micro_CollectionInterface, head);
@@ -152,8 +158,9 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Micro_CollectionInterface, head);
 /**
  * Maps a route to a handler that only matches if the HTTP method is DELETE
  *
- * @param string routePattern
- * @param callable handler
+ * @param  string routePattern
+ * @param  callable handler
+ * @param  string name
  * @return Phalcon\Mvc\Router\RouteInterface
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Micro_CollectionInterface, delete);
@@ -161,8 +168,9 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Micro_CollectionInterface, delete);
 /**
  * Maps a route to a handler that only matches if the HTTP method is OPTIONS
  *
- * @param string routePattern
- * @param callable handler
+ * @param  string routePattern
+ * @param  callable handler
+ * @param  string name
  * @return Phalcon\Mvc\Router\RouteInterface
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Micro_CollectionInterface, options);

@@ -42,9 +42,9 @@
 			<file>unit-tests/InitTest.php</file>
 			<file>unit-tests/LoaderTest.php</file>
 			<file>unit-tests/LoggerTest.php</file>
-			<!--<file>unit-tests/MicroMvcCollectionsTest.php</file>-->
+			<file>unit-tests/MicroMvcCollectionsTest.php</file>
 			<!--<file>unit-tests/MicroMvcEventsTest.php</file>-->
-			<!--<file>unit-tests/MicroMvcMiddlewareTest.php</file>-->
+			<file>unit-tests/MicroMvcMiddlewareTest.php</file>
 			<file>unit-tests/MicroMvcTest.php</file>
 			<!--<file>unit-tests/ModelsBehaviorsTest.php</file>-->
 			<!--<file>unit-tests/ModelsCalculationsTest.php</file>-->

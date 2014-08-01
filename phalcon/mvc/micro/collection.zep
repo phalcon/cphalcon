@@ -56,10 +56,11 @@ class Collection implements CollectionInterface
 	 * @param string|array method
 	 * @param string routePattern
 	 * @param mixed handler
+	 * @param string name
 	 */
-	protected function _addMap(string! method, routePattern, handler)
+	private function _addMap(string! method, var routePattern, var handler, var name)
 	{
-		let this->_handlers[] = [method, routePattern, handler];
+		let this->_handlers[] = [method, routePattern, handler, name];
 	}
 
 	/**
@@ -113,7 +114,7 @@ class Collection implements CollectionInterface
 	 * @param boolean lazy
 	 * @return Phalcon\Mvc\Micro\Collection
 	 */
-	public function setLazy(lazy) -> <Collection>
+	public function setLazy(boolean! lazy) -> <Collection>
 	{
 		let this->_lazy = lazy;
 		return this;
@@ -142,64 +143,69 @@ class Collection implements CollectionInterface
 	/**
 	 * Maps a route to a handler
 	 *
-	 * @param string routePattern
-	 * @param callable handler
+	 * @param  string routePattern
+	 * @param  callable handler
+	 * @param  string name
 	 * @return Phalcon\Mvc\Micro\Collection
 	 */
-	public function map(string! routePattern, var handler) -> <Collection>
+	public function map(string! routePattern, var handler, var name = null) -> <Collection>
 	{
-		return this->_addMap(null, routePattern, handler);
+		return this->_addMap(null, routePattern, handler, name);
 	}
 
 	/**
 	 * Maps a route to a handler that only matches if the HTTP method is GET
 	 *
-	 * @param string routePattern
-	 * @param callable handler
+	 * @param  string routePattern
+	 * @param  callable handler
+	 * @param  string name
 	 * @return Phalcon\Mvc\Micro\Collection
 	 */
-	public function get(string! routePattern, handler) -> <Collection>
+	public function get(string! routePattern, handler, var name = null) -> <Collection>
 	{
-		this->_addMap("GET", routePattern, handler);
+		this->_addMap("GET", routePattern, handler, name);
 		return this;
 	}
 
 	/**
 	 * Maps a route to a handler that only matches if the HTTP method is POST
 	 *
-	 * @param string routePattern
-	 * @param callable handler
+	 * @param  string routePattern
+	 * @param  callable handler
+	 * @param  string name
 	 * @return Phalcon\Mvc\Micro\Collection
 	 */
-	public function post(string! routePattern, handler) -> <Collection>
+	public function post(string! routePattern, handler, var name = null) -> <Collection>
 	{
-		this->_addMap("POST", routePattern, handler);
+		this->_addMap("POST", routePattern, handler, name);
 		return this;
 	}
 
 	/**
 	 * Maps a route to a handler that only matches if the HTTP method is PUT
 	 *
-	 * @param string routePattern
-	 * @param callable handler
+	 * @param  string routePattern
+	 * @param  callable handler
+	 * @param  string name
 	 * @return Phalcon\Mvc\Micro\Collection
 	 */
-	public function put(string! routePattern, var handler) -> <Collection>
+	public function put(string! routePattern, var handler, var name = null) -> <Collection>
 	{
-		this->_addMap("PUT", routePattern, handler);
+		this->_addMap("PUT", routePattern, handler, name);
 		return this;
 	}
 
 	/**
 	 * Maps a route to a handler that only matches if the HTTP method is PATCH
 	 *
-	 * @param string routePattern
-	 * @param callable handler
+	 * @param  string routePattern
+	 * @param  callable handler
+	 * @param  string name
 	 * @return Phalcon\Mvc\Micro\Collection
 	 */
-	public function patch(string! routePattern, var handler) -> <Collection>
+	public function patch(string! routePattern, var handler, var name = null) -> <Collection>
 	{
-		this->_addMap("PATCH", routePattern, handler);
+		this->_addMap("PATCH", routePattern, handler, name);
 		return this;
 	}
 
@@ -208,24 +214,26 @@ class Collection implements CollectionInterface
 	 *
 	 * @param  string routePattern
 	 * @param  callable handler
+	 * @param  string name
 	 * @return Phalcon\Mvc\Micro\Collection
 	 */
-	public function head(string! routePattern, var handler) -> <Collection>
+	public function head(string! routePattern, var handler, var name = null) -> <Collection>
 	{
-		this->_addMap("HEAD", routePattern, handler);
+		this->_addMap("HEAD", routePattern, handler, name);
 		return this;
 	}
 
 	/**
 	 * Maps a route to a handler that only matches if the HTTP method is DELETE
 	 *
-	 * @param string   routePattern
-	 * @param callable handler
+	 * @param  string   routePattern
+	 * @param  callable handler
+	 * @param  string name
 	 * @return Phalcon\Mvc\Micro\Collection
 	 */
-	public function delete(string! routePattern, var handler) -> <Collection>
+	public function delete(string! routePattern, var handler, var name = null) -> <Collection>
 	{
-		this->_addMap("DELETE", routePattern, handler);
+		this->_addMap("DELETE", routePattern, handler, name);
 		return this;
 	}
 
@@ -236,9 +244,9 @@ class Collection implements CollectionInterface
 	 * @param callable handler
 	 * @return Phalcon\Mvc\Micro\Collection
 	 */
-	public function options(string! routePattern, handler) -> <Collection>
+	public function options(string! routePattern, handler, var name = null) -> <Collection>
 	{
-		this->_addMap("OPTIONS", routePattern, handler);
+		this->_addMap("OPTIONS", routePattern, handler, name);
 		return this;
 	}
 

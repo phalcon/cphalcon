@@ -233,7 +233,7 @@ abstract class Adapter
  	 * @param array $context
  	 * @return Phalcon\Logger\AdapterInterface
  	 */
-	public function alert(string! message, array context=null) -> <\Phalcon\Logger\AdapterInterface>
+	public function alert(string! message, array context = null) -> <\Phalcon\Logger\AdapterInterface>
 	{
 		this->log(\Phalcon\Logger::ALERT, message, context);
 		return this;
@@ -247,7 +247,7 @@ abstract class Adapter
 	 * @param array $context
 	 * @return Phalcon\Logger\AdapterInterface
 	 */
-	public function log(type, string message=null, array context=null) -> <\Phalcon\Logger\AdapterInterface>
+	public function log(type, string message = null, array context = null) -> <\Phalcon\Logger\AdapterInterface>
 	{
 		var timestamp, transaction, tmp;
 

@@ -22,6 +22,8 @@ namespace Phalcon\Mvc;
 use Phalcon\Mvc\Micro\Exception;
 use Phalcon\Mvc\Router\RouteInterface;
 use Phalcon\Mvc\Micro\MiddlewareInterface;
+use Phalcon\Mvc\Micro\Collection;
+use Phalcon\Mvc\Micro\LazyLoader;
 
 /**
  * Phalcon\Mvc\Micro
@@ -358,21 +360,21 @@ class Micro extends \Phalcon\Di\Injectable implements \ArrayAccess
 	 * @param Phalcon\Mvc\Micro\Collection collection
 	 * @return Phalcon\Mvc\Micro
 	 */
-	public function mount(<\Phalcon\Mvc\Micro\Collection> collection) -> <Micro>
+	public function mount(<Collection> collection) -> <Micro>
 	{
-		var mainHandler, handlers, lazy, lazyHandler, prefix, methods, pattern,
-			subHandler, realHandler, prefixedPattern, route, handler;
+		var mainHandler, handlers, lazyHandler, prefix, methods, pattern,
+			subHandler, realHandler, prefixedPattern, route, handler, name;
 
 		if typeof collection != "object" {
-			throw new Exception("The collection is not valid");
+			throw new Exception("Collection is not valid");
 		}
 
 		/**
 		 * Get the main handler
 		 */
 		let mainHandler = collection->getHandler();
-		if !empty mainHandler {
-			throw new Exception("The collection requires a main handler");
+		if empty mainHandler {
+			throw new Exception("Collection requires a main handler");
 		}
 
 		let handlers = collection->getHandlers();
@@ -385,10 +387,8 @@ class Micro extends \Phalcon\Di\Injectable implements \ArrayAccess
 			/**
 			 * Check if handler is lazy
 			 */
-			let lazy = collection->isLazy();
-
-			if lazy {
-				let lazyHandler = new \Phalcon\Mvc\Micro\Exception(mainHandler);
+			if collection->isLazy() {
+				let lazyHandler = new LazyLoader(mainHandler);
 			} else {
 				let lazyHandler = mainHandler;
 			}
@@ -404,9 +404,10 @@ class Micro extends \Phalcon\Di\Injectable implements \ArrayAccess
 					throw new Exception("One of the registered handlers is invalid");
 				}
 
-				let methods = handler[0];
-				let pattern = handler[1];
+				let methods    = handler[0];
+				let pattern    = handler[1];
 				let subHandler = handler[2];
+				let name       = handler[3];
 
 				/**
 				 * Create a real handler
@@ -414,7 +415,7 @@ class Micro extends \Phalcon\Di\Injectable implements \ArrayAccess
 				let realHandler = [lazyHandler, subHandler];
 
 				if !empty prefix {
-					if pattern == '/' {
+					if pattern == "/" {
 						let prefixedPattern = prefix;
 					} else {
 						let prefixedPattern = prefix . pattern;
@@ -428,8 +429,12 @@ class Micro extends \Phalcon\Di\Injectable implements \ArrayAccess
 				 */
 				let route = this->map(prefixedPattern, realHandler);
 
-				if methods {
+				if typeof methods == "string" || typeof methods == "array" {
 					route->via(methods);
+				}
+
+				if typeof name == "string" {
+					route->setName(name);
 				}
 			}
 		}
