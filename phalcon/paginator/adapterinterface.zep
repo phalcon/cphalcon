@@ -32,7 +32,7 @@ interface AdapterInterface
 	 *
 	 * @param array config
 	 */
-	public function __construct(config);
+	public function __construct(array config);
 
 	/**
 	 * Set the current page number
