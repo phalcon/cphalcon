@@ -854,6 +854,9 @@ int zephir_array_fetch(zval **return_value, zval *arr, zval *index, int flags TS
 	}
 
 	*return_value = ZEPHIR_GLOBAL(global_null);
+	if ((flags & PH_READONLY) != PH_READONLY) {
+		Z_ADDREF_PP(return_value);
+	}
 	return FAILURE;
 }
 
@@ -894,6 +897,9 @@ int zephir_array_fetch_quick_string(zval **return_value, zval *arr, const char *
 	}
 
 	*return_value = ZEPHIR_GLOBAL(global_null);
+	if ((flags & PH_READONLY) != PH_READONLY) {
+		Z_ADDREF_PP(return_value);
+	}
 	return FAILURE;
 }
 
@@ -956,6 +962,9 @@ int zephir_array_fetch_long(zval **return_value, zval *arr, unsigned long index,
 	}
 
 	*return_value = ZEPHIR_GLOBAL(global_null);
+	if ((flags & PH_READONLY) != PH_READONLY) {
+		Z_ADDREF_PP(return_value);
+	}
 	return FAILURE;
 }
 

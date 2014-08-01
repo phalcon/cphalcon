@@ -202,6 +202,10 @@ PHP_METHOD(Phalcon_Annotations_Annotation, getExpression) {
 					ZEPHIR_OBS_NVAR(arrayValue);
 					zephir_array_fetch(&arrayValue, name, resolvedItem, PH_NOISY TSRMLS_CC);
 				} else {
+					if (Z_TYPE_P(arrayValue) != IS_ARRAY) {
+						ZEPHIR_INIT_NVAR(arrayValue);
+						array_init(arrayValue);
+					}
 					zephir_array_append(&arrayValue, resolvedItem, PH_SEPARATE);
 				}
 			}
@@ -219,7 +223,7 @@ PHP_METHOD(Phalcon_Annotations_Annotation, getExpression) {
 		ZEPHIR_CONCAT_SVS(_6, "The expression ", type, " is unknown");
 		ZEPHIR_CALL_METHOD(NULL, _5, "__construct", NULL, _6);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(_5, "phalcon/annotations/annotation.zep", 134 TSRMLS_CC);
+		zephir_throw_exception_debug(_5, "phalcon/annotations/annotation.zep", 140 TSRMLS_CC);
 		ZEPHIR_MM_RESTORE();
 		return;
 	} while(0);

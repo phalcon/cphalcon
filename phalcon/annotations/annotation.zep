@@ -19,6 +19,9 @@
 
 namespace Phalcon\Annotations;
 
+use Phalcon\Annotations\Annotation;
+use Phalcon\Annotations\Exception;
+
 /**
 * Phalcon\Annotations\Annotation
 *
@@ -122,16 +125,19 @@ class Annotation
 					if fetch name, item["name"] {
 						let arrayValue = name[resolvedItem];
 					} else {
+						if typeof arrayValue != "array" {
+							let arrayValue = [];
+						}
 						let arrayValue[] = resolvedItem;
 					}
 				}
 				return arrayValue;
 
 			case PHANNOT_T_ANNOTATION:
-				return new \Phalcon\Annotations\Annotation(expr);
+				return new Annotation(expr);
 
 			default:
-				throw new \Phalcon\Annotations\Exception("The expression ". type. " is unknown");
+				throw new Exception("The expression ". type. " is unknown");
 		}
 
 		return value;
