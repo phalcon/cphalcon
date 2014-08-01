@@ -86,6 +86,6 @@ interface ServiceInterface
 	 * @param array attributes
 	 * @return Phalcon\Di\ServiceInterface
 	 */
-	public static function __set_state(attributes);
+	public static function __set_state(array! attributes);
 
 }

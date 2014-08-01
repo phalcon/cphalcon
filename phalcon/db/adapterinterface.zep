@@ -32,7 +32,7 @@ interface AdapterInterface
 	 *
 	 * @param array descriptor
 	 */
-	public function __construct(descriptor);
+	public function __construct(array! descriptor);
 
 	/**
 	 * Returns the first row in a SQL query result
