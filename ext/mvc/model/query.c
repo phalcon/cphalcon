@@ -25,6 +25,7 @@
 #include "mvc/model/query/status.h"
 #include "mvc/model/resultset/complex.h"
 #include "mvc/model/resultset/simple.h"
+#include "mvc/model/resultinterface.h"
 #include "mvc/model/exception.h"
 #include "mvc/model/managerinterface.h"
 #include "mvc/model/metadatainterface.h"
@@ -4901,11 +4902,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, execute){
  *
  * @param array $bindParams
  * @param array $bindTypes
- * @return Ṕhalcon\Mvc\ModelInterface
+ * @return Phalcon\Mvc\ModelInterface
  */
 PHP_METHOD(Phalcon_Mvc_Model_Query, getSingleResult){
 
-	zval *bind_params = NULL, *bind_types = NULL, *unique_row;
+	zval *bind_params = NULL, *bind_types = NULL;
 	zval *first_result = NULL;
 
 	PHALCON_MM_GROW();
@@ -4919,20 +4920,14 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, getSingleResult){
 	if (!bind_types) {
 		bind_types = PHALCON_GLOBAL(z_null);
 	}
-	
-	unique_row = phalcon_fetch_nproperty_this(this_ptr, SL("_uniqueRow"), PH_NOISY TSRMLS_CC);
-	
-	/** 
-	 * The query is already programmed to return just one row
-	 */
-	if (zend_is_true(unique_row)) {
-		PHALCON_RETURN_CALL_METHOD(this_ptr, "execute", bind_params, bind_types);
+
+	PHALCON_CALL_METHOD(&first_result, this_ptr, "execute", bind_params, bind_types);
+	if (instanceof_function_ex(Z_OBJCE_P(first_result), phalcon_mvc_model_resultinterface_ce, 1 TSRMLS_CC)) {
+		PHALCON_RETURN_CALL_METHOD(first_result, "getfirst");
 		RETURN_MM();
 	}
 	
-	PHALCON_RETURN_CALL_METHOD(this_ptr, "execute", bind_params, bind_types);
-	PHALCON_CALL_METHOD(&first_result, return_value, "getfirst"); /* @todo is this correct? */
-	RETURN_MM();
+	RETURN_CTOR(first_result);
 }
 
 /**
