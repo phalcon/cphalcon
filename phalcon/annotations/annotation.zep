@@ -119,15 +119,12 @@ class Annotation
 				break;
 
 			case PHANNOT_T_ARRAY:
-				let arrayValue = null;
+				let arrayValue = [];
 				for item in expr["items"] {
 					let resolvedItem = this->getExpression(item["expr"]);
 					if fetch name, item["name"] {
-						let arrayValue = name[resolvedItem];
+						let arrayValue[name] = resolvedItem;
 					} else {
-						if typeof arrayValue != "array" {
-							let arrayValue = [];
-						}
 						let arrayValue[] = resolvedItem;
 					}
 				}
