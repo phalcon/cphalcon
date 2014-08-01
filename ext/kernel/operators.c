@@ -254,7 +254,7 @@ long phalcon_get_intval(const zval *op) {
 			return (long) Z_DVAL_P(op);
 		case IS_STRING: {
 			long long_value;
-			double double_value;
+			double double_value = 0.0;
 			zend_uchar type;
 			
 			ASSUME(Z_STRVAL_P(op) != NULL);
