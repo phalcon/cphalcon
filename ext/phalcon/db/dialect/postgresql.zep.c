@@ -418,7 +418,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Postgresql, createView) {
 		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "The index 'sql' is required in the definition array", "phalcon/db/dialect/postgresql.zep", 263);
 		return;
 	}
-	zephir_array_fetch_string(&viewSql, definition, SL("sql"), PH_NOISY | PH_READONLY TSRMLS_CC);
+	zephir_array_fetch_string(&viewSql, definition, SL("sql"), PH_NOISY | PH_READONLY, "phalcon/db/dialect/postgresql.zep", 266 TSRMLS_CC);
 	if (zephir_is_true(schemaName)) {
 		ZEPHIR_INIT_VAR(view);
 		ZEPHIR_CONCAT_VSV(view, viewName, ".", schemaName);

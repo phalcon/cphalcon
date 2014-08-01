@@ -560,11 +560,11 @@ PHP_METHOD(Phalcon_Assets_Manager, output) {
 		if (Z_TYPE_P(options) == IS_ARRAY) {
 			if (zephir_array_isset_string(options, SS("sourceBasePath"))) {
 				ZEPHIR_OBS_VAR(sourceBasePath);
-				zephir_array_fetch_string(&sourceBasePath, options, SL("sourceBasePath"), PH_NOISY TSRMLS_CC);
+				zephir_array_fetch_string(&sourceBasePath, options, SL("sourceBasePath"), PH_NOISY, "phalcon/assets/manager.zep", 319 TSRMLS_CC);
 			}
 			if (zephir_array_isset_string(options, SS("targetBasePath"))) {
 				ZEPHIR_OBS_VAR(targetBasePath);
-				zephir_array_fetch_string(&targetBasePath, options, SL("targetBasePath"), PH_NOISY TSRMLS_CC);
+				zephir_array_fetch_string(&targetBasePath, options, SL("targetBasePath"), PH_NOISY, "phalcon/assets/manager.zep", 326 TSRMLS_CC);
 			}
 		}
 		ZEPHIR_CALL_METHOD(&collectionSourcePath, collection, "getsourcepath",  NULL);

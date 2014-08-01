@@ -107,10 +107,10 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Postgresql, connect) {
 	}
 	if (zephir_array_isset_string(descriptor, SS("password"))) {
 		ZEPHIR_OBS_VAR(_0);
-		zephir_array_fetch_string(&_0, descriptor, SL("password"), PH_NOISY TSRMLS_CC);
+		zephir_array_fetch_string(&_0, descriptor, SL("password"), PH_NOISY, "phalcon/db/adapter/pdo/postgresql.zep", 71 TSRMLS_CC);
 		_1 = Z_TYPE_P(_0) == IS_STRING;
 		if (_1) {
-			zephir_array_fetch_string(&_2, descriptor, SL("password"), PH_NOISY | PH_READONLY TSRMLS_CC);
+			zephir_array_fetch_string(&_2, descriptor, SL("password"), PH_NOISY | PH_READONLY, "phalcon/db/adapter/pdo/postgresql.zep", 71 TSRMLS_CC);
 			_1 = zephir_fast_strlen_ev(_2) == 0;
 		}
 		if (_1) {
@@ -182,13 +182,13 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Postgresql, describeColumns) {
 		array_init_size(definition, 2);
 		add_assoc_long_ex(definition, SS("bindType"), 2);
 		ZEPHIR_OBS_NVAR(columnType);
-		zephir_array_fetch_long(&columnType, field, 1, PH_NOISY TSRMLS_CC);
+		zephir_array_fetch_long(&columnType, field, 1, PH_NOISY, "phalcon/db/adapter/pdo/postgresql.zep", 116 TSRMLS_CC);
 		ZEPHIR_OBS_NVAR(charSize);
-		zephir_array_fetch_long(&charSize, field, 2, PH_NOISY TSRMLS_CC);
+		zephir_array_fetch_long(&charSize, field, 2, PH_NOISY, "phalcon/db/adapter/pdo/postgresql.zep", 117 TSRMLS_CC);
 		ZEPHIR_OBS_NVAR(numericSize);
-		zephir_array_fetch_long(&numericSize, field, 3, PH_NOISY TSRMLS_CC);
+		zephir_array_fetch_long(&numericSize, field, 3, PH_NOISY, "phalcon/db/adapter/pdo/postgresql.zep", 118 TSRMLS_CC);
 		ZEPHIR_OBS_NVAR(numericScale);
-		zephir_array_fetch_long(&numericScale, field, 4, PH_NOISY TSRMLS_CC);
+		zephir_array_fetch_long(&numericScale, field, 4, PH_NOISY, "phalcon/db/adapter/pdo/postgresql.zep", 119 TSRMLS_CC);
 		while (1) {
 			if (zephir_memnstr_str(columnType, SL("smallint(1)"), "phalcon/db/adapter/pdo/postgresql.zep", 126)) {
 				ZEPHIR_INIT_NVAR(_3);
@@ -306,19 +306,19 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Postgresql, describeColumns) {
 		} else {
 			zephir_array_update_string(&definition, SL("after"), &oldColumn, PH_COPY | PH_SEPARATE);
 		}
-		zephir_array_fetch_long(&_10, field, 6, PH_NOISY | PH_READONLY TSRMLS_CC);
+		zephir_array_fetch_long(&_10, field, 6, PH_NOISY | PH_READONLY, "phalcon/db/adapter/pdo/postgresql.zep", 256 TSRMLS_CC);
 		if (ZEPHIR_IS_STRING(_10, "PRI")) {
 			zephir_array_update_string(&definition, SL("primary"), &ZEPHIR_GLOBAL(global_true), PH_COPY | PH_SEPARATE);
 		}
-		zephir_array_fetch_long(&_11, field, 5, PH_NOISY | PH_READONLY TSRMLS_CC);
+		zephir_array_fetch_long(&_11, field, 5, PH_NOISY | PH_READONLY, "phalcon/db/adapter/pdo/postgresql.zep", 263 TSRMLS_CC);
 		if (ZEPHIR_IS_STRING(_11, "NO")) {
 			zephir_array_update_string(&definition, SL("notNull"), &ZEPHIR_GLOBAL(global_true), PH_COPY | PH_SEPARATE);
 		}
-		zephir_array_fetch_long(&_12, field, 7, PH_NOISY | PH_READONLY TSRMLS_CC);
+		zephir_array_fetch_long(&_12, field, 7, PH_NOISY | PH_READONLY, "phalcon/db/adapter/pdo/postgresql.zep", 270 TSRMLS_CC);
 		if (ZEPHIR_IS_STRING(_12, "auto_increment")) {
 			zephir_array_update_string(&definition, SL("autoIncrement"), &ZEPHIR_GLOBAL(global_true), PH_COPY | PH_SEPARATE);
 		}
-		zephir_array_fetch_long(&columnName, field, 0, PH_NOISY | PH_READONLY TSRMLS_CC);
+		zephir_array_fetch_long(&columnName, field, 0, PH_NOISY | PH_READONLY, "phalcon/db/adapter/pdo/postgresql.zep", 277 TSRMLS_CC);
 		ZEPHIR_INIT_LNVAR(_13);
 		object_init_ex(_13, phalcon_db_column_ce);
 		ZEPHIR_CALL_METHOD(NULL, _13, "__construct", &_14, columnName, definition);

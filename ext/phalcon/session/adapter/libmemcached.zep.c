@@ -118,13 +118,13 @@ PHP_METHOD(Phalcon_Session_Adapter_Libmemcached, __construct) {
 		return;
 	}
 	ZEPHIR_OBS_VAR(servers);
-	zephir_array_fetch_string(&servers, options, SL("servers"), PH_NOISY TSRMLS_CC);
+	zephir_array_fetch_string(&servers, options, SL("servers"), PH_NOISY, "phalcon/session/adapter/libmemcached.zep", 71 TSRMLS_CC);
 	if (!(zephir_array_isset_string(options, SS("client")))) {
 		ZEPHIR_INIT_VAR(client);
 		ZVAL_NULL(client);
 	} else {
 		ZEPHIR_OBS_NVAR(client);
-		zephir_array_fetch_string(&client, options, SL("client"), PH_NOISY TSRMLS_CC);
+		zephir_array_fetch_string(&client, options, SL("client"), PH_NOISY, "phalcon/session/adapter/libmemcached.zep", 76 TSRMLS_CC);
 	}
 	ZEPHIR_OBS_VAR(lifetime);
 	if (zephir_array_isset_string_fetch(&lifetime, options, SS("lifetime"), 0 TSRMLS_CC)) {
@@ -140,7 +140,7 @@ PHP_METHOD(Phalcon_Session_Adapter_Libmemcached, __construct) {
 		ZVAL_NULL(prefix);
 	} else {
 		ZEPHIR_OBS_NVAR(prefix);
-		zephir_array_fetch_string(&prefix, options, SL("prefix"), PH_NOISY TSRMLS_CC);
+		zephir_array_fetch_string(&prefix, options, SL("prefix"), PH_NOISY, "phalcon/session/adapter/libmemcached.zep", 88 TSRMLS_CC);
 	}
 	ZEPHIR_INIT_VAR(_1);
 	object_init_ex(_1, phalcon_cache_backend_libmemcached_ce);

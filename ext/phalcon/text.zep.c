@@ -157,7 +157,7 @@ PHP_METHOD(Phalcon_Text, increment) {
 		ZEPHIR_INIT_BNVAR(number);
 		ZVAL_LONG(number, 1);
 	}
-	zephir_array_fetch_long(&_0, parts, 0, PH_NOISY | PH_READONLY TSRMLS_CC);
+	zephir_array_fetch_long(&_0, parts, 0, PH_NOISY | PH_READONLY, "phalcon/text.zep", 98 TSRMLS_CC);
 	ZEPHIR_CONCAT_VVV(return_value, _0, separator, number);
 	RETURN_MM();
 
@@ -285,7 +285,7 @@ PHP_METHOD(Phalcon_Text, random) {
 		ZVAL_LONG(&_1, end);
 		ZEPHIR_CALL_FUNCTION(&_2, "mt_rand", &_8, &_0, &_1);
 		zephir_check_call_status();
-		zephir_array_fetch(&_7, pool, _2, PH_NOISY | PH_READONLY TSRMLS_CC);
+		zephir_array_fetch(&_7, pool, _2, PH_NOISY | PH_READONLY, "phalcon/text.zep", 139 TSRMLS_CC);
 		zephir_concat_self(&str, _7 TSRMLS_CC);
 	}
 	RETURN_CCTOR(str);

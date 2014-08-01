@@ -671,7 +671,7 @@ PHP_METHOD(Phalcon_Http_Response, redirect) {
 		ZVAL_STRING(message, "Redirect", 1);
 	} else {
 		ZEPHIR_OBS_NVAR(message);
-		zephir_array_fetch_long(&message, messages, statusCode, PH_NOISY TSRMLS_CC);
+		zephir_array_fetch_long(&message, messages, statusCode, PH_NOISY, "phalcon/http/response.zep", 399 TSRMLS_CC);
 	}
 	ZEPHIR_INIT_NVAR(_5);
 	ZVAL_LONG(_5, statusCode);

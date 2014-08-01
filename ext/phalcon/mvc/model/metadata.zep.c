@@ -319,7 +319,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, readMetaData) {
 		zephir_check_call_status();
 	}
 	_2 = zephir_fetch_nproperty_this(this_ptr, SL("_metaData"), PH_NOISY_CC);
-	zephir_array_fetch(&_3, _2, key, PH_NOISY | PH_READONLY TSRMLS_CC);
+	zephir_array_fetch(&_3, _2, key, PH_NOISY | PH_READONLY, "phalcon/mvc/model/metadata.zep", 261 TSRMLS_CC);
 	RETURN_CTOR(_3);
 
 }
@@ -363,13 +363,13 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, readMetaDataIndex) {
 		ZEPHIR_CALL_METHOD(NULL, this_ptr, "_initialize", NULL, model, key, source, schema);
 		zephir_check_call_status();
 		_2 = zephir_fetch_nproperty_this(this_ptr, SL("_metaData"), PH_NOISY_CC);
-		zephir_array_fetch(&_3, _2, key, PH_NOISY | PH_READONLY TSRMLS_CC);
-		zephir_array_fetch_long(&_4, _3, index, PH_NOISY | PH_READONLY TSRMLS_CC);
+		zephir_array_fetch(&_3, _2, key, PH_NOISY | PH_READONLY, "phalcon/mvc/model/metadata.zep", 289 TSRMLS_CC);
+		zephir_array_fetch_long(&_4, _3, index, PH_NOISY | PH_READONLY, "phalcon/mvc/model/metadata.zep", 289 TSRMLS_CC);
 		RETURN_CTOR(_4);
 	}
 	_2 = zephir_fetch_nproperty_this(this_ptr, SL("_metaData"), PH_NOISY_CC);
-	zephir_array_fetch(&_3, _2, key, PH_NOISY | PH_READONLY TSRMLS_CC);
-	zephir_array_fetch_long(&_4, _3, index, PH_NOISY | PH_READONLY TSRMLS_CC);
+	zephir_array_fetch(&_3, _2, key, PH_NOISY | PH_READONLY, "phalcon/mvc/model/metadata.zep", 292 TSRMLS_CC);
+	zephir_array_fetch_long(&_4, _3, index, PH_NOISY | PH_READONLY, "phalcon/mvc/model/metadata.zep", 292 TSRMLS_CC);
 	RETURN_CTOR(_4);
 
 }
@@ -464,7 +464,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, readColumnMap) {
 		zephir_check_call_status();
 		_1 = zephir_fetch_nproperty_this(this_ptr, SL("_columnMap"), PH_NOISY_CC);
 		ZEPHIR_OBS_NVAR(data);
-		zephir_array_fetch(&data, _1, keyName, PH_NOISY TSRMLS_CC);
+		zephir_array_fetch(&data, _1, keyName, PH_NOISY, "phalcon/mvc/model/metadata.zep", 346 TSRMLS_CC);
 	}
 	RETURN_CCTOR(data);
 
@@ -504,9 +504,9 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, readColumnMapIndex) {
 		zephir_check_call_status();
 		_1 = zephir_fetch_nproperty_this(this_ptr, SL("_columnMap"), PH_NOISY_CC);
 		ZEPHIR_OBS_NVAR(columnMapModel);
-		zephir_array_fetch(&columnMapModel, _1, keyName, PH_NOISY TSRMLS_CC);
+		zephir_array_fetch(&columnMapModel, _1, keyName, PH_NOISY, "phalcon/mvc/model/metadata.zep", 370 TSRMLS_CC);
 	}
-	zephir_array_fetch_long(&_2, columnMapModel, index, PH_NOISY | PH_READONLY TSRMLS_CC);
+	zephir_array_fetch_long(&_2, columnMapModel, index, PH_NOISY | PH_READONLY, "phalcon/mvc/model/metadata.zep", 373 TSRMLS_CC);
 	RETURN_CTOR(_2);
 
 }
@@ -1047,7 +1047,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, hasAttribute) {
 	} else {
 		ZEPHIR_CALL_METHOD(&metaData, this_ptr, "readmetadata", NULL, model);
 		zephir_check_call_status();
-		zephir_array_fetch_long(&_0, metaData, 4, PH_NOISY | PH_READONLY TSRMLS_CC);
+		zephir_array_fetch_long(&_0, metaData, 4, PH_NOISY | PH_READONLY, "phalcon/mvc/model/metadata.zep", 663 TSRMLS_CC);
 		RETURN_MM_BOOL(zephir_array_isset(_0, attribute));
 	}
 	RETURN_MM_BOOL(0);

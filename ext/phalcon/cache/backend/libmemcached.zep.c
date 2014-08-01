@@ -173,7 +173,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Libmemcached, _connect) {
 		return;
 	}
 	ZEPHIR_OBS_VAR(client);
-	zephir_array_fetch_string(&client, options, SL("client"), PH_NOISY TSRMLS_CC);
+	zephir_array_fetch_string(&client, options, SL("client"), PH_NOISY, "phalcon/cache/backend/libmemcached.zep", 111 TSRMLS_CC);
 	if (Z_TYPE_P(client) == IS_ARRAY) {
 		ZEPHIR_CALL_METHOD(NULL, memcache, "setoptions", NULL, client);
 		zephir_check_call_status();

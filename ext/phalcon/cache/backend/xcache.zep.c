@@ -241,7 +241,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Xcache, save) {
 			return;
 		}
 		ZEPHIR_OBS_VAR(specialKey);
-		zephir_array_fetch_string(&specialKey, options, SL("statsKey"), PH_NOISY TSRMLS_CC);
+		zephir_array_fetch_string(&specialKey, options, SL("statsKey"), PH_NOISY, "phalcon/cache/backend/xcache.zep", 167 TSRMLS_CC);
 		ZEPHIR_CALL_FUNCTION(&keys, "xcache_get", NULL, specialKey);
 		zephir_check_call_status();
 		if (Z_TYPE_P(keys) != IS_ARRAY) {
@@ -329,7 +329,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Xcache, queryKeys) {
 		return;
 	}
 	ZEPHIR_OBS_VAR(specialKey);
-	zephir_array_fetch_string(&specialKey, options, SL("statsKey"), PH_NOISY TSRMLS_CC);
+	zephir_array_fetch_string(&specialKey, options, SL("statsKey"), PH_NOISY, "phalcon/cache/backend/xcache.zep", 230 TSRMLS_CC);
 	ZEPHIR_INIT_VAR(retval);
 	array_init(retval);
 	ZEPHIR_CALL_FUNCTION(&keys, "xcache_get", NULL, specialKey);

@@ -127,7 +127,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Redis, __construct) {
 	}
 	_1 = !zephir_array_isset_string(options, SS("statsKey"));
 	if (!(_1)) {
-		zephir_array_fetch_string(&_2, options, SL("statsKey"), PH_NOISY | PH_READONLY TSRMLS_CC);
+		zephir_array_fetch_string(&_2, options, SL("statsKey"), PH_NOISY | PH_READONLY, "phalcon/cache/backend/redis.zep", 83 TSRMLS_CC);
 		_1 = ZEPHIR_IS_EMPTY(_2);
 	}
 	if (_1) {
@@ -353,7 +353,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Redis, save) {
 		return;
 	}
 	ZEPHIR_OBS_VAR(specialKey);
-	zephir_array_fetch_string(&specialKey, options, SL("statsKey"), PH_NOISY TSRMLS_CC);
+	zephir_array_fetch_string(&specialKey, options, SL("statsKey"), PH_NOISY, "phalcon/cache/backend/redis.zep", 239 TSRMLS_CC);
 	ZEPHIR_CALL_METHOD(NULL, redis, "sadd", NULL, specialKey, prefixedKey);
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(&isBuffering, frontend, "isbuffering",  NULL);
@@ -407,7 +407,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Redis, delete) {
 		return;
 	}
 	ZEPHIR_OBS_VAR(specialKey);
-	zephir_array_fetch_string(&specialKey, options, SL("statsKey"), PH_NOISY TSRMLS_CC);
+	zephir_array_fetch_string(&specialKey, options, SL("statsKey"), PH_NOISY, "phalcon/cache/backend/redis.zep", 281 TSRMLS_CC);
 	ZEPHIR_CALL_METHOD(NULL, redis, "srem", NULL, specialKey, prefixedKey);
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(NULL, redis, "delete", NULL, lastKey);
@@ -453,7 +453,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Redis, queryKeys) {
 		return;
 	}
 	ZEPHIR_OBS_VAR(specialKey);
-	zephir_array_fetch_string(&specialKey, options, SL("statsKey"), PH_NOISY TSRMLS_CC);
+	zephir_array_fetch_string(&specialKey, options, SL("statsKey"), PH_NOISY, "phalcon/cache/backend/redis.zep", 314 TSRMLS_CC);
 	ZEPHIR_CALL_METHOD(&keys, redis, "smembers", NULL, specialKey);
 	zephir_check_call_status();
 	if (Z_TYPE_P(keys) == IS_ARRAY) {
@@ -655,7 +655,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Redis, flush) {
 		return;
 	}
 	ZEPHIR_OBS_VAR(specialKey);
-	zephir_array_fetch_string(&specialKey, options, SL("statsKey"), PH_NOISY TSRMLS_CC);
+	zephir_array_fetch_string(&specialKey, options, SL("statsKey"), PH_NOISY, "phalcon/cache/backend/redis.zep", 446 TSRMLS_CC);
 	ZEPHIR_OBS_VAR(redis);
 	zephir_read_property_this(&redis, this_ptr, SL("_redis"), PH_NOISY_CC);
 	if (Z_TYPE_P(redis) != IS_OBJECT) {

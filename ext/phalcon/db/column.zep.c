@@ -534,15 +534,15 @@ PHP_METHOD(Phalcon_Db_Column, __set_state) {
 		zephir_array_update_string(&definition, SL("size"), &size, PH_COPY | PH_SEPARATE);
 	}
 	if (zephir_array_isset_string_fetch(&scale, data, SS("_scale"), 1 TSRMLS_CC)) {
-		zephir_array_fetch_string(&_0, definition, SL("type"), PH_NOISY | PH_READONLY TSRMLS_CC);
+		zephir_array_fetch_string(&_0, definition, SL("type"), PH_NOISY | PH_READONLY, "phalcon/db/column.zep", 438 TSRMLS_CC);
 		_1 = ZEPHIR_IS_LONG(_0, 0);
 		if (!(_1)) {
-			zephir_array_fetch_string(&_2, definition, SL("type"), PH_NOISY | PH_READONLY TSRMLS_CC);
+			zephir_array_fetch_string(&_2, definition, SL("type"), PH_NOISY | PH_READONLY, "phalcon/db/column.zep", 438 TSRMLS_CC);
 			_1 = ZEPHIR_IS_LONG(_2, 7);
 		}
 		_3 = _1;
 		if (!(_3)) {
-			zephir_array_fetch_string(&_4, definition, SL("type"), PH_NOISY | PH_READONLY TSRMLS_CC);
+			zephir_array_fetch_string(&_4, definition, SL("type"), PH_NOISY | PH_READONLY, "phalcon/db/column.zep", 438 TSRMLS_CC);
 			_3 = ZEPHIR_IS_LONG(_4, 3);
 		}
 		if (_3) {

@@ -756,7 +756,7 @@ int zephir_array_update_string_string(zval **arr, const char *index, uint index_
 int zephir_array_update_long(zval **arr, unsigned long index, zval **value, int flags ZEPHIR_DEBUG_PARAMS){
 
 	if (Z_TYPE_PP(arr) != IS_ARRAY) {
-		zend_error(E_WARNING, "Cannot use a scalar value as an array");
+		zend_error(E_WARNING, "Cannot use a scalar value as an array in %s on line %d", file, line);
 		return FAILURE;
 	}
 
@@ -795,7 +795,7 @@ int zephir_array_update_long(zval **arr, unsigned long index, zval **value, int 
  * @warning @c *return_value should be either @c NULL (preferred) or point to not initialized memory; if @c *return_value points to a valid variable, mmemory leak is possible
  * @note @c index will be handled as follows: @c NULL is treated as an empty string, @c double values are cast to @c integer, @c bool or @c resource are treated as @c integer
  */
-int zephir_array_fetch(zval **return_value, zval *arr, zval *index, int flags TSRMLS_DC){
+int zephir_array_fetch(zval **return_value, zval *arr, zval *index, int flags ZEPHIR_DEBUG_PARAMS TSRMLS_DC){
 
 	zval **zv;
 	HashTable *ht;
@@ -830,7 +830,7 @@ int zephir_array_fetch(zval **return_value, zval *arr, zval *index, int flags TS
 
 			default:
 				if ((flags & PH_NOISY) == PH_NOISY) {
-					zend_error(E_WARNING, "Illegal offset type");
+					zend_error(E_WARNING, "Illegal offset type in %s on line %d", file, line);
 				}
 				result = FAILURE;
 				break;
@@ -846,9 +846,9 @@ int zephir_array_fetch(zval **return_value, zval *arr, zval *index, int flags TS
 
 		if ((flags & PH_NOISY) == PH_NOISY) {
 			if (sidx == NULL) {
-				zend_error(E_NOTICE, "Undefined index: %ld", uidx);
+				zend_error(E_NOTICE, "Undefined index: %ld in %s on line %d", uidx, file, line);
 			} else {
-				zend_error(E_NOTICE, "Undefined index: %s", sidx);
+				zend_error(E_NOTICE, "Undefined index: %s in %s on line %d", sidx, file, line);
 			}
 		}
 	}
@@ -920,7 +920,7 @@ int zephir_array_fetch_quick_string(zval **return_value, zval *arr, const char *
  *
  * The function is a wrapper over @c zephir_array_fetch_quick_string()
  */
-int zephir_array_fetch_string(zval **return_value, zval *arr, const char *index, uint index_length, int flags TSRMLS_DC){
+int zephir_array_fetch_string(zval **return_value, zval *arr, const char *index, uint index_length, int flags ZEPHIR_DEBUG_PARAMS TSRMLS_DC){
 
 	return zephir_array_fetch_quick_string(return_value, arr, index, index_length + 1, zend_inline_hash_func(index, index_length + 1), flags TSRMLS_CC);
 }
@@ -938,7 +938,7 @@ int zephir_array_fetch_string(zval **return_value, zval *arr, const char *index,
  * @throw @c E_NOTICE if @c index does not exist and @c silent = @c PH_NOISY
  * @warning @c *return_value should be either @c NULL (preferred) or point to not initialized memory; if @c *return_value points to a valid variable, mmemory leak is possible
  */
-int zephir_array_fetch_long(zval **return_value, zval *arr, unsigned long index, int flags TSRMLS_DC){
+int zephir_array_fetch_long(zval **return_value, zval *arr, unsigned long index, int flags ZEPHIR_DEBUG_PARAMS TSRMLS_DC){
 
 	zval **zv;
 
@@ -1117,8 +1117,8 @@ void zephir_array_merge_recursive_n(zval **a1, zval *a2 TSRMLS_DC)
 		if (!zephir_array_isset(*a1, &key) || Z_TYPE_PP(value) != IS_ARRAY) {
 			zephir_array_update_zval(a1, &key, value, PH_COPY | PH_SEPARATE);
 		} else {
-			zephir_array_fetch(&tmp1, *a1, &key, PH_NOISY TSRMLS_CC);
-			zephir_array_fetch(&tmp2, a2, &key, PH_NOISY TSRMLS_CC);
+			zephir_array_fetch(&tmp1, *a1, &key, PH_NOISY ZEPHIR_DEBUG_PARAMS_DUMMY TSRMLS_CC);
+			zephir_array_fetch(&tmp2, a2, &key, PH_NOISY ZEPHIR_DEBUG_PARAMS_DUMMY TSRMLS_CC);
 			zephir_array_merge_recursive_n(&tmp1, tmp2 TSRMLS_CC);
 			zval_ptr_dtor(&tmp1);
 			zval_ptr_dtor(&tmp2);

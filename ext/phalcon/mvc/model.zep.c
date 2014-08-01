@@ -1403,7 +1403,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _exists) {
 	ZEPHIR_CONCAT_SVSV(_8, "SELECT COUNT(*) \"rowcount\" FROM ", _6, " WHERE ", uniqueKey);
 	ZEPHIR_CALL_METHOD(&num, connection, "fetchone", NULL, _8, ZEPHIR_GLOBAL(global_null), uniqueParams, uniqueTypes);
 	zephir_check_call_status();
-	zephir_array_fetch_string(&_9, num, SL("rowcount"), PH_NOISY | PH_READONLY TSRMLS_CC);
+	zephir_array_fetch_string(&_9, num, SL("rowcount"), PH_NOISY | PH_READONLY, "phalcon/mvc/model.zep", 997 TSRMLS_CC);
 	if (zephir_is_true(_9)) {
 		ZEPHIR_INIT_ZVAL_NREF(_10);
 		ZVAL_LONG(_10, 0);
@@ -2082,7 +2082,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _checkForeignKeysRestrict) {
 							ZEPHIR_GET_HVALUE(field, _7);
 							ZEPHIR_OBS_NVAR(value);
 							zephir_fetch_property_zval(&value, this_ptr, field, PH_SILENT_CC);
-							zephir_array_fetch(&_8, referencedFields, position, PH_NOISY | PH_READONLY TSRMLS_CC);
+							zephir_array_fetch(&_8, referencedFields, position, PH_NOISY | PH_READONLY, "phalcon/mvc/model.zep", 1472 TSRMLS_CC);
 							ZEPHIR_INIT_LNVAR(_9);
 							ZEPHIR_CONCAT_SVSV(_9, "[", _8, "] = ?", position);
 							zephir_array_append(&conditions, _9, PH_SEPARATE);
@@ -2210,7 +2210,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _checkForeignKeysReverseCascade) {
 							ZEPHIR_GET_HVALUE(field, _7);
 							ZEPHIR_OBS_NVAR(value);
 							zephir_fetch_property_zval(&value, this_ptr, field, PH_SILENT_CC);
-							zephir_array_fetch(&_8, referencedFields, position, PH_NOISY | PH_READONLY TSRMLS_CC);
+							zephir_array_fetch(&_8, referencedFields, position, PH_NOISY | PH_READONLY, "phalcon/mvc/model.zep", 1598 TSRMLS_CC);
 							ZEPHIR_INIT_LNVAR(_9);
 							ZEPHIR_CONCAT_SVSV(_9, "[", _8, "] = ?", position);
 							zephir_array_append(&conditions, _9, PH_SEPARATE);
@@ -2310,7 +2310,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _checkForeignKeysReverseRestrict) {
 							ZEPHIR_GET_HVALUE(field, _5);
 							ZEPHIR_OBS_NVAR(value);
 							zephir_fetch_property_zval(&value, this_ptr, field, PH_SILENT_CC);
-							zephir_array_fetch(&_6, referencedFields, position, PH_NOISY | PH_READONLY TSRMLS_CC);
+							zephir_array_fetch(&_6, referencedFields, position, PH_NOISY | PH_READONLY, "phalcon/mvc/model.zep", 1707 TSRMLS_CC);
 							ZEPHIR_INIT_LNVAR(_7);
 							ZEPHIR_CONCAT_SVSV(_7, "[", _6, "] = ?", position);
 							zephir_array_append(&conditions, _7, PH_SEPARATE);
@@ -4853,7 +4853,7 @@ PHP_METHOD(Phalcon_Mvc_Model, getChangedFields) {
 			zephir_array_append(&changed, name, PH_SEPARATE);
 			continue;
 		}
-		zephir_array_fetch(&_4, snapshot, name, PH_NOISY | PH_READONLY TSRMLS_CC);
+		zephir_array_fetch(&_4, snapshot, name, PH_NOISY | PH_READONLY, "phalcon/mvc/model.zep", 3853 TSRMLS_CC);
 		if (!ZEPHIR_IS_EQUAL(value, _4)) {
 			zephir_array_append(&changed, name, PH_SEPARATE);
 			continue;

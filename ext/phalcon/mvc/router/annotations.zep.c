@@ -261,7 +261,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Annotations, handle) {
 				ZEPHIR_GET_HVALUE(scope, _3);
 				if (Z_TYPE_P(scope) == IS_ARRAY) {
 					ZEPHIR_OBS_NVAR(prefix);
-					zephir_array_fetch_long(&prefix, scope, 0, PH_NOISY TSRMLS_CC);
+					zephir_array_fetch_long(&prefix, scope, 0, PH_NOISY, "phalcon/mvc/router/annotations.zep", 127 TSRMLS_CC);
 					if (Z_TYPE_P(prefix) == IS_STRING) {
 						if (zephir_start_with(realUri, prefix, 0)) {
 							continue;
@@ -281,7 +281,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Annotations, handle) {
 						zephir_check_call_status();
 					}
 					ZEPHIR_OBS_NVAR(handler);
-					zephir_array_fetch_long(&handler, scope, 1, PH_NOISY TSRMLS_CC);
+					zephir_array_fetch_long(&handler, scope, 1, PH_NOISY, "phalcon/mvc/router/annotations.zep", 148 TSRMLS_CC);
 					if (zephir_memnstr_str(handler, SL("\\"), "phalcon/mvc/router/annotations.zep", 150)) {
 						ZEPHIR_INIT_NVAR(controllerName);
 						zephir_get_class_ns(controllerName, handler, 0 TSRMLS_CC);

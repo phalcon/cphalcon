@@ -203,7 +203,7 @@ PHP_METHOD(Phalcon_Mvc_Collection_Manager, getCustomEventsManager) {
 		ZEPHIR_INIT_VAR(className);
 		zephir_get_class(className, model, 1 TSRMLS_CC);
 		if (zephir_array_isset(customEventsManager, className)) {
-			zephir_array_fetch(&_0, customEventsManager, className, PH_NOISY | PH_READONLY TSRMLS_CC);
+			zephir_array_fetch(&_0, customEventsManager, className, PH_NOISY | PH_READONLY, "phalcon/mvc/collection/manager.zep", 122 TSRMLS_CC);
 			RETURN_CTOR(_0);
 		}
 	}
@@ -434,7 +434,7 @@ PHP_METHOD(Phalcon_Mvc_Collection_Manager, getConnection) {
 		zephir_get_class(entityName, model, 0 TSRMLS_CC);
 		if (zephir_array_isset(connectionService, entityName)) {
 			ZEPHIR_OBS_NVAR(service);
-			zephir_array_fetch(&service, connectionService, entityName, PH_NOISY TSRMLS_CC);
+			zephir_array_fetch(&service, connectionService, entityName, PH_NOISY, "phalcon/mvc/collection/manager.zep", 266 TSRMLS_CC);
 		}
 	}
 	ZEPHIR_OBS_VAR(dependencyInjector);

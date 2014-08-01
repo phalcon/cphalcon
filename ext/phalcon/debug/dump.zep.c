@@ -437,9 +437,9 @@ PHP_METHOD(Phalcon_Debug_Dump, output) {
 					continue;
 				}
 				ZEPHIR_OBS_NVAR(key);
-				zephir_array_fetch_string(&key, attr, SL("key"), PH_NOISY TSRMLS_CC);
+				zephir_array_fetch_string(&key, attr, SL("key"), PH_NOISY, "phalcon/debug/dump.zep", 184 TSRMLS_CC);
 				ZEPHIR_OBS_NVAR(value);
-				zephir_array_fetch_string(&value, attr, SL("value"), PH_NOISY TSRMLS_CC);
+				zephir_array_fetch_string(&value, attr, SL("value"), PH_NOISY, "phalcon/debug/dump.zep", 185 TSRMLS_CC);
 				if (!(zephir_is_true(key))) {
 					continue;
 				}
@@ -457,7 +457,7 @@ PHP_METHOD(Phalcon_Debug_Dump, output) {
 				if (zephir_array_isset_long(key, 1)) {
 					ZEPHIR_INIT_NVAR(type);
 					ZVAL_STRING(type, "private", 1);
-					zephir_array_fetch_long(&_30, key, 1, PH_NOISY | PH_READONLY TSRMLS_CC);
+					zephir_array_fetch_long(&_30, key, 1, PH_NOISY | PH_READONLY, "phalcon/debug/dump.zep", 196 TSRMLS_CC);
 					if (ZEPHIR_IS_STRING(_30, "*")) {
 						ZEPHIR_INIT_NVAR(type);
 						ZVAL_STRING(type, "protected", 1);

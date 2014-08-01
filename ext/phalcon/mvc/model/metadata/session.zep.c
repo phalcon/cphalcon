@@ -124,7 +124,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Session, read) {
 	ZEPHIR_INIT_VAR(prefixKey);
 	ZEPHIR_CONCAT_SV(prefixKey, "$PMM$", _0);
 	if (zephir_array_isset(session, prefixKey)) {
-		zephir_array_fetch(&_1, session, prefixKey, PH_NOISY | PH_READONLY TSRMLS_CC);
+		zephir_array_fetch(&_1, session, prefixKey, PH_NOISY | PH_READONLY, "phalcon/mvc/model/metadata/session.zep", 70 TSRMLS_CC);
 		if (zephir_array_isset_fetch(&metaData, _1, key, 1 TSRMLS_CC)) {
 			RETURN_CTOR(metaData);
 		}

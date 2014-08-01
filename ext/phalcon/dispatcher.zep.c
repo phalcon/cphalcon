@@ -450,7 +450,7 @@ PHP_METHOD(Phalcon_Dispatcher, getParam) {
 	zephir_read_property_this(&params, this_ptr, SL("_params"), PH_NOISY_CC);
 	if (zephir_array_isset(params, param)) {
 		ZEPHIR_OBS_VAR(paramValue);
-		zephir_array_fetch(&paramValue, params, param, PH_NOISY TSRMLS_CC);
+		zephir_array_fetch(&paramValue, params, param, PH_NOISY, "phalcon/dispatcher.zep", 280 TSRMLS_CC);
 		if (Z_TYPE_P(filters) != IS_NULL) {
 			ZEPHIR_OBS_VAR(dependencyInjector);
 			zephir_read_property_this(&dependencyInjector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);

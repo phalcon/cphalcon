@@ -472,13 +472,13 @@ PHP_METHOD(Phalcon_Mvc_Micro, mount) {
 				return;
 			}
 			ZEPHIR_OBS_NVAR(methods);
-			zephir_array_fetch_long(&methods, handler, 0, PH_NOISY TSRMLS_CC);
+			zephir_array_fetch_long(&methods, handler, 0, PH_NOISY, "phalcon/mvc/micro.zep", 407 TSRMLS_CC);
 			ZEPHIR_OBS_NVAR(pattern);
-			zephir_array_fetch_long(&pattern, handler, 1, PH_NOISY TSRMLS_CC);
+			zephir_array_fetch_long(&pattern, handler, 1, PH_NOISY, "phalcon/mvc/micro.zep", 408 TSRMLS_CC);
 			ZEPHIR_OBS_NVAR(subHandler);
-			zephir_array_fetch_long(&subHandler, handler, 2, PH_NOISY TSRMLS_CC);
+			zephir_array_fetch_long(&subHandler, handler, 2, PH_NOISY, "phalcon/mvc/micro.zep", 409 TSRMLS_CC);
 			ZEPHIR_OBS_NVAR(name);
-			zephir_array_fetch_long(&name, handler, 3, PH_NOISY TSRMLS_CC);
+			zephir_array_fetch_long(&name, handler, 3, PH_NOISY, "phalcon/mvc/micro.zep", 410 TSRMLS_CC);
 			ZEPHIR_INIT_NVAR(realHandler);
 			array_init_size(realHandler, 3);
 			zephir_array_fast_append(realHandler, lazyHandler);
