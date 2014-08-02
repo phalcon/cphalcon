@@ -14,7 +14,7 @@
 		<testsuite name="stable">
 			<!--<file>unit-tests/AclTest.php</file>-->
 			<!--<file>unit-tests/AnnotationsAdaptersTest.php</file>-->
-			<!--<file>unit-tests/AnnotationsTest.php</file>-->
+			<file>unit-tests/AnnotationsTest.php</file>
 			<file>unit-tests/ApplicationMvcTest.php</file>
 			<!--<file>unit-tests/AssetsTest.php</file>-->
 			<!--<file>unit-tests/BeanstalkTest.php</file>-->
@@ -37,7 +37,7 @@
 			<file>unit-tests/DispatcherMvcTest.php</file>
 			<file>unit-tests/DiTest.php</file>
 			<file>unit-tests/EventsTest.php</file>
-			<file>unit-tests/FormsTest.php</file>
+			<!--<file>unit-tests/FormsTest.php</file>-->
 			<!--<file>unit-tests/ImageTest.php</file>-->
 			<file>unit-tests/InitTest.php</file>
 			<file>unit-tests/LoaderTest.php</file>
@@ -75,7 +75,7 @@
 			<!--<file>unit-tests/ModelsValidatorsTest.php</file>-->
 			<!--<file>unit-tests/PaginatorTest.php</file>-->
 			<!--<file>unit-tests/RequestTest.php</file>-->
-			<!--<file>unit-tests/ResponseTest.php</file>-->
+			<file>unit-tests/ResponseTest.php</file>
 			<file>unit-tests/RouterCliTest.php</file>
 			<!--<file>unit-tests/RouterMvcAnnotationsTest.php</file>-->
 			<!--<file>unit-tests/RouterMvcTest.php</file>-->
@@ -87,9 +87,6 @@
 			<!--<file>unit-tests/TranslateTest.php</file>-->
 			<!--<file>unit-tests/UtilsSlugTest.php</file>-->
 			<file>unit-tests/ValidationTest.php</file>
-			<!--<file>unit-tests/vendor/example/other/VousTest.php</file>-->
-			<!--<file>unit-tests/vendor/example/test/LeTest.php</file>-->
-			<!--<file>unit-tests/vendor/example/test/MoiTest.php</file>-->
 			<!--<file>unit-tests/ViewCacheTest.php</file>-->
 			<file>unit-tests/ViewEnginesTest.php</file>
 			<!--<file>unit-tests/ViewEnginesVoltTest.php</file>-->
