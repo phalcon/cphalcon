@@ -288,6 +288,7 @@
 #include "phalcon/paginator/exception.zep.h"
 #include "phalcon/queue/beanstalk.zep.h"
 #include "phalcon/queue/beanstalk/job.zep.h"
+#include "phalcon/registry.zep.h"
 #include "phalcon/security.zep.h"
 #include "phalcon/security/exception.zep.h"
 #include "phalcon/session.zep.h"

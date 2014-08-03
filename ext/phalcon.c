@@ -316,6 +316,7 @@ zend_class_entry *phalcon_paginator_adapter_querybuilder_ce;
 zend_class_entry *phalcon_paginator_exception_ce;
 zend_class_entry *phalcon_queue_beanstalk_ce;
 zend_class_entry *phalcon_queue_beanstalk_job_ce;
+zend_class_entry *phalcon_registry_ce;
 zend_class_entry *phalcon_security_ce;
 zend_class_entry *phalcon_security_exception_ce;
 zend_class_entry *phalcon_session_adapter_files_ce;
@@ -808,6 +809,7 @@ static PHP_MINIT_FUNCTION(phalcon)
 	ZEPHIR_INIT(Phalcon_Paginator_Exception);
 	ZEPHIR_INIT(Phalcon_Queue_Beanstalk);
 	ZEPHIR_INIT(Phalcon_Queue_Beanstalk_Job);
+	ZEPHIR_INIT(Phalcon_Registry);
 	ZEPHIR_INIT(Phalcon_Security);
 	ZEPHIR_INIT(Phalcon_Security_Exception);
 	ZEPHIR_INIT(Phalcon_Session);

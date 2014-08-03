@@ -286,6 +286,7 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/paginator/exception.zep.c
 	phalcon/queue/beanstalk.zep.c
 	phalcon/queue/beanstalk/job.zep.c
+	phalcon/registry.zep.c
 	phalcon/security.zep.c
 	phalcon/security/exception.zep.c
 	phalcon/session.zep.c
