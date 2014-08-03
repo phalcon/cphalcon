@@ -449,16 +449,20 @@ PHP_METHOD(Phalcon_Forms_Element, getAttribute) {
  */
 PHP_METHOD(Phalcon_Forms_Element, setAttributes) {
 
-	zval *attributes;
+	zval *attributes_param = NULL;
+	zval *attributes = NULL;
 
-	zephir_fetch_params(0, 1, 0, &attributes);
+	zephir_fetch_params(0, 1, 0, &attributes_param);
 
-
-
-	if (Z_TYPE_P(attributes) != IS_ARRAY) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_forms_exception_ce, "Parameter 'attributes' must be an array", "phalcon/forms/element.zep", 304);
-		return;
+	if (unlikely(Z_TYPE_P(attributes_param) != IS_ARRAY)) {
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'attributes' must be an array") TSRMLS_CC);
+		RETURN_NULL();
 	}
+
+		attributes = attributes_param;
+
+
+
 	zephir_update_property_this(this_ptr, SL("_attributes"), attributes TSRMLS_CC);
 	RETURN_THISW();
 
@@ -515,7 +519,7 @@ PHP_METHOD(Phalcon_Forms_Element, setUserOption) {
  */
 PHP_METHOD(Phalcon_Forms_Element, getUserOption) {
 
-	zval *option, *defaultValue = NULL, *value, *options;
+	zval *option, *defaultValue = NULL, *value, *_0;
 
 	zephir_fetch_params(0, 1, 1, &option, &defaultValue);
 
@@ -524,8 +528,8 @@ PHP_METHOD(Phalcon_Forms_Element, getUserOption) {
 	}
 
 
-	options = zephir_fetch_nproperty_this(this_ptr, SL("_options"), PH_NOISY_CC);
-	if (zephir_array_isset_fetch(&value, options, option, 1 TSRMLS_CC)) {
+	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_options"), PH_NOISY_CC);
+	if (zephir_array_isset_fetch(&value, _0, option, 1 TSRMLS_CC)) {
 		RETURN_CTORW(value);
 	}
 	RETURN_CCTORW(defaultValue);

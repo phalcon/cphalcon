@@ -558,7 +558,9 @@ class Form extends \Phalcon\Di\Injectable implements \Countable, \Iterator
 		var element;
 
 		if fetch element, this->_elements[name] {
-			element->setAttributes(attributes);
+			if typeof attributes == "array" {
+				element->setAttributes(attributes);
+			}
 			return element->label();
 		}
 

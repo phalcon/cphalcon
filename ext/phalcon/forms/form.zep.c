@@ -784,8 +784,8 @@ PHP_METHOD(Phalcon_Forms_Form, label) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
 	zval *attributes = NULL;
-	zval *name_param = NULL, *attributes_param = NULL, *element, *_0, *_1;
-	zval *name = NULL, *_2;
+	zval *name_param = NULL, *attributes_param = NULL, *element, *_0, *_1, *_2;
+	zval *name = NULL, *_3;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 1, &name_param, &attributes_param);
@@ -812,19 +812,23 @@ PHP_METHOD(Phalcon_Forms_Form, label) {
 	ZEPHIR_OBS_VAR(element);
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_elements"), PH_NOISY_CC);
 	if (zephir_array_isset_fetch(&element, _0, name, 0 TSRMLS_CC)) {
-		ZEPHIR_CALL_METHOD(NULL, element, "setattributes", NULL, attributes);
-		zephir_check_call_status();
+		ZEPHIR_INIT_VAR(_1);
+		zephir_gettype(_1, attributes TSRMLS_CC);
+		if (ZEPHIR_IS_STRING(_1, "array")) {
+			ZEPHIR_CALL_METHOD(NULL, element, "setattributes", NULL, attributes);
+			zephir_check_call_status();
+		}
 		ZEPHIR_RETURN_CALL_METHOD(element, "label", NULL);
 		zephir_check_call_status();
 		RETURN_MM();
 	}
-	ZEPHIR_INIT_VAR(_1);
-	object_init_ex(_1, phalcon_forms_exception_ce);
 	ZEPHIR_INIT_VAR(_2);
-	ZEPHIR_CONCAT_SVS(_2, "Element with ID=", name, " is not part of the form");
-	ZEPHIR_CALL_METHOD(NULL, _1, "__construct", NULL, _2);
+	object_init_ex(_2, phalcon_forms_exception_ce);
+	ZEPHIR_INIT_VAR(_3);
+	ZEPHIR_CONCAT_SVS(_3, "Element with ID=", name, " is not part of the form");
+	ZEPHIR_CALL_METHOD(NULL, _2, "__construct", NULL, _3);
 	zephir_check_call_status();
-	zephir_throw_exception_debug(_1, "phalcon/forms/form.zep", 565 TSRMLS_CC);
+	zephir_throw_exception_debug(_2, "phalcon/forms/form.zep", 567 TSRMLS_CC);
 	ZEPHIR_MM_RESTORE();
 	return;
 
@@ -867,7 +871,7 @@ PHP_METHOD(Phalcon_Forms_Form, getLabel) {
 		ZEPHIR_CONCAT_SVS(_2, "Element with ID=", name, " is not part of the form");
 		ZEPHIR_CALL_METHOD(NULL, _1, "__construct", NULL, _2);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(_1, "phalcon/forms/form.zep", 579 TSRMLS_CC);
+		zephir_throw_exception_debug(_1, "phalcon/forms/form.zep", 581 TSRMLS_CC);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}

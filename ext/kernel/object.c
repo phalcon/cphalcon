@@ -1451,6 +1451,16 @@ static int zephir_update_static_property_ex(zend_class_entry *scope, const char 
 	zval **property;
 	zend_class_entry *old_scope = EG(scope);
 
+	/**
+	 * We have to protect super globals to avoid them make converted to references
+	 */
+	if (value == ZEPHIR_GLOBAL(global_null)) {
+		ALLOC_ZVAL(value);
+		Z_UNSET_ISREF_P(value);
+		Z_SET_REFCOUNT_P(value, 0);
+		ZVAL_NULL(value);
+	}
+
 	EG(scope) = scope;
 #if PHP_VERSION_ID < 50400
 	property = zend_std_get_static_property(scope, name, name_length, 0 TSRMLS_CC);

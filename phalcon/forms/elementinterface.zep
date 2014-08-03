@@ -138,7 +138,7 @@ interface ElementInterface
 	 * @param array attributes
 	 * @return Phalcon\Forms\ElementInterface
 	 */
-	public function setAttributes(attributes);
+	public function setAttributes(array! attributes);
 
 	/**
 	 * Returns the default attributes for the element

@@ -22,6 +22,7 @@ use
 	Phalcon\Forms\Form,
 	Phalcon\Forms\Element\Text,
 	Phalcon\Forms\Element\Select,
+	Phalcon\Forms\Element\Radio,
 	Phalcon\Validation\Validator\PresenceOf,
 	Phalcon\Validation\Validator\StringLength,
 	Phalcon\Validation\Validator\Regex;
@@ -166,7 +167,7 @@ class FormsTest extends PHPUnit_Framework_TestCase
 		$element1 = new Text("name");
 		$element1->setAttributes(array('class' => 'big-input'));
 
-		$element2 = new \Phalcon\Forms\Element\Radio('radio');
+		$element2 = new Radio('radio');
 		$element2->setAttributes(array('value' => 0));
 
 		$this->assertEquals('<input type="text" id="name" name="name" class="big-input" />', $element1->render());

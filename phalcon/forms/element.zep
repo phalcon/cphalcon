@@ -298,11 +298,8 @@ abstract class Element
 	 * @param array attributes
 	 * @return Phalcon\Forms\ElementInterface
 	 */
-	public function setAttributes(attributes) -> <ElementInterface>
+	public function setAttributes(array! attributes) -> <ElementInterface>
 	{
-		if typeof attributes != "array" {
-			throw new Exception("Parameter 'attributes' must be an array");
-		}
 		let this->_attributes = attributes;
 		return this;
 	}
@@ -344,9 +341,8 @@ abstract class Element
 	 */
 	public function getUserOption(option, defaultValue=null)
 	{
-		var value, options;
-		let options = this->_options;
-		if fetch value, options[option] {
+		var value;
+		if fetch value, this->_options[option] {
 			return value;
 		}
 		return defaultValue;
