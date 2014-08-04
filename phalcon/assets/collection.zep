@@ -70,7 +70,7 @@ class Collection implements \Countable, \Iterator
 	 * @param array attributes
 	 * @return Phalcon\Assets\Collection
 	 */
-	public function addCss(string! path, var local = false, boolean filter = false, attributes = null) -> <\Phalcon\Assets\Collection>
+	public function addCss(string! path, var local = true, boolean filter = false, attributes = null) -> <\Phalcon\Assets\Collection>
 	{
 		var collectionLocal, collectionAttributes;
 
@@ -78,7 +78,7 @@ class Collection implements \Countable, \Iterator
 			let filter = true;
 		}
 
-		if typeof local == "bool" {
+		if typeof local == "boolean" {
 			let collectionLocal = local;
 		} else {
 			let collectionLocal = this->_local;
@@ -104,7 +104,7 @@ class Collection implements \Countable, \Iterator
 	 * @param array attributes
 	 * @return Phalcon\Assets\Collection
 	 */
-	public function addJs(string! path, boolean local = false, boolean filter = false, attributes = null) -> <\Phalcon\Assets\Collection>
+	public function addJs(string! path, boolean local = true, boolean filter = false, attributes = null) -> <\Phalcon\Assets\Collection>
 	{
 		var collectionLocal, collectionAttributes;
 
@@ -112,7 +112,7 @@ class Collection implements \Countable, \Iterator
 			let filter = true;
 		}
 
-		if typeof local == "bool" {
+		if typeof local == "boolean" {
 			let collectionLocal = local;
 		} else {
 			let collectionLocal = this->_local;

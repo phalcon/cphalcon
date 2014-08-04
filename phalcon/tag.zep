@@ -1129,7 +1129,7 @@ class Tag
 			let params = parameters;
 		}
 
-		if typeof local != "bool" {
+		if typeof local != "boolean" {
 			let local = false;
 		}
 
@@ -1207,7 +1207,7 @@ class Tag
 			let params = parameters;
 		}
 
-		if typeof local != "bool" {
+		if typeof local != "boolean" {
 			let local = false;
 		}
 

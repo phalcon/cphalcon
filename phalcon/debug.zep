@@ -237,7 +237,7 @@ class Debug
 			/**
 			 * Boolean variables are represented as "true"/"false"
 			 */
-			if typeof variable == "bool" {
+			if typeof variable == "boolean" {
 				if variable {
 					return "true";
 				} else {
