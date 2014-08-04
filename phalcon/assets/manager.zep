@@ -272,7 +272,7 @@ class Manager
 	public function output(<\Phalcon\Assets\Collection> collection, callback, type)
 	{
 		var output, resources, filters, prefix, sourceBasePath = null,
-			targetBasePath, options, collectionSourcePath, completeSourcePath,
+			targetBasePath = null, options, collectionSourcePath, completeSourcePath,
 			collectionTargetPath, completeTargetPath, filteredJoinedContent, join,
 			$resource, filterNeeded, local, sourcePath, targetPath, path, prefixedPath,
 			attributes, parameters, html, useImplicitOutput, content, mustFilter,
@@ -315,16 +315,12 @@ class Manager
 				/**
 				 * The source base path is a global location where all resources are located
 				 */
-				if isset options["sourceBasePath"] {
-					let sourceBasePath = options["sourceBasePath"];
-				}
+				fetch sourceBasePath, options["sourceBasePath"];
 
 				/**
 				 * The target base path is a global location where all resources are written
 				 */
-				if isset options["targetBasePath"] {
-					let targetBasePath = options["targetBasePath"];
-				}
+				fetch targetBasePath, options["targetBasePath"];
 			}
 
 			/**
@@ -530,24 +526,24 @@ class Manager
 						/**
 						 * Calls the method 'filter' which must return a filtered version of the content
 						 */
-						let filteredContent = filter->filter(content);
-
-						/**
-						 * Update the joined filtered content
-						 */
-						if join == true {
-							if type == typeCss {
-								if filteredJoinedContent==null {
-									let filteredJoinedContent = filteredContent;
-								} else {
-									let filteredJoinedContent .= filteredContent;
-								}
+						let filteredContent = filter->filter(content),
+							content = filteredContent;
+					}
+					/**
+					 * Update the joined filtered content
+					 */
+					if join == true {
+						if type == typeCss {
+							if filteredJoinedContent == null {
+								let filteredJoinedContent = filteredContent;
 							} else {
-								if filteredJoinedContent==null {
-									let filteredJoinedContent = filteredContent . ";";
-								} else {
-									let filteredJoinedContent .= filteredContent. ";";
-								}
+								let filteredJoinedContent .= filteredContent;
+							}
+						} else {
+							if filteredJoinedContent == null {
+								let filteredJoinedContent = filteredContent . ";";
+							} else {
+								let filteredJoinedContent .= filteredContent. ";";
 							}
 						}
 					}
@@ -560,7 +556,7 @@ class Manager
 						if filteredJoinedContent == null {
 							let filteredJoinedContent = content;
 						} else {
-							let filteredContent .= content;
+							let filteredJoinedContent .= content;
 						}
 					} else {
 						let filteredContent = content;

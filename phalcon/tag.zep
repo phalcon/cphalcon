@@ -1130,7 +1130,7 @@ class Tag
 		}
 
 		if typeof local != "boolean" {
-			let local = false;
+			let local = true;
 		}
 
 		if isset params[1] {
@@ -1208,7 +1208,7 @@ class Tag
 		}
 
 		if typeof local != "boolean" {
-			let local = false;
+			let local = true;
 		}
 
 		if isset params[1] {
